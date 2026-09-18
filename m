@@ -1,149 +1,80 @@
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EACC3C9429
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 06:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1FB3630B2;
+	Fri, 18 Sep 2026 07:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789712952; cv=none; b=V2gA7lu1rrLR9UuPfktqxcGwJqG2rXDTkBswEGgr3krR4QwvWlnxVNZnsLEH0xHToCTeO33Q++pB+gpHTmXGzDhcI2oVlciaLPknoyGsCHJTnkUqaPN2VmtlfkYdeYRt+CZEQxwWgcfGVOxGYMQR5vW6CDDePI6arWdM9YfvbJ4=
+	t=1789715805; cv=none; b=azOjqRzoqPP/MqZ8psH/VO8AqrejNd/tYZ+LNm/0wQCiTGuF2Y4Gz+ssmi38Rz0KmIQXyLc/8z67mmYCFffvWFpWcoFqbwzV6a39hmHf5sr4TvhRJXebfxKImbvqv7dH9niii+Fo4OgFc6l0mi79vYE2/8nyTycG7dlDIQ8yruU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789712952; c=relaxed/simple;
-	bh=IXxwrwD5J6kw0G5HuCrAdAHFviTbBTD+k0rEeIFo9MM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DEIhaFasT3ToeLSH5nNyv7uxmk/mnXoEYO7nvhZRb9wz04wHQeNWi/WK7eIAitAEqN3EOfAhJSKy4TK6OyptQ/FIH5lCSkj6rsRzwd0F9pE1zoFFEbzCsMIBeTIWpnDyICbLaifrX0iPEV8GdyhXhnQ4UdMUsfK1UwjhHvrh59k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B7dz8qVk; arc=none smtp.client-ip=74.125.225.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B7dz8qVk"
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-48583cb7d44so41507f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 23:29:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789712950; x=1790317750; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=L5aHukpvvvkvbLRkEITYHb7XYf4xpc3gscX/ilSIH04=;
-        b=B7dz8qVkTjrO0ln/N3cJbEw17zrYYVOuGzSc4M0RuMiRlXfdKfNlKCLho+EY61lDWY
-         effvGF1IVHC9hRvjYvW59FxTI8CvBL9nwvB549u37nsK2MlLuRHb07omj9TI2Bf9Dbxh
-         z71ELV4o8eq30HsrRlpXMetWSOUkRFs4pFDo0mKSsT75vGTI34buAKUBX21BoC8yCBXs
-         +1GG1xCd4YG+RCVEreRKL1wwkk+f7v8H2YM9VKXzPdB9XZvf15Bzc/t4xqByA+0OXQxe
-         IbH1G2TrTxv6hzkvXSmZs+J1zyZk8PbDVnGsBZXW6oFBm89PDq7bIWAFLEMWUnEGbBfE
-         X06Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789712950; x=1790317750;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=L5aHukpvvvkvbLRkEITYHb7XYf4xpc3gscX/ilSIH04=;
-        b=er6C7J9msC/cWP3Zu/XnZDIf4TnJvRxIOPUqDDDzZAHz1q6Z9OIpF5P5VQKArGa+eg
-         vItPP1r3Vh2bf+0sMcDa39HlzvklP+JipD3OKyVmR+qG/xUExHCEQFbqI+/Z+1QgDTMf
-         jHy6GT6N+3XauzAShssJxWdFlMrPmCzKS55Ewxan0LBGDclDf+IxL8XQEf5CergMX5RX
-         jxMd9Mxae3ooTMgAwiVF5Qkf9flID8fL1SNPiG12VIW11P203V3QlfLywkMkdxxK2pAR
-         9TcIH/iosybzWU3K9vueP+BsT9vQkpTGGcMQXB2xdy8msO8JUBL/J36GYjGeS+InUfCv
-         8bbw==
-X-Forwarded-Encrypted: i=1; AKwUvBxd+GkFpikqh255Nf9+wKkZy91/X45ayZ2Sx/uaimJU3u/ukzCcz5+tPm6pIWGmlTMyE1VwgvkmOjw=@vger.kernel.org
-X-Gm-Message-State: AFuF++nmksHNJSovLi+Ie3AN3UcDOhwng+jN+GKzb3j1peE5us5yZYqN
-	GL2H0iuEHdlPFtBfPkN3NfF0u1RmgEpB+OK44O9ZFGKZYD0RGcgs0gsO
-X-Gm-Gg: AYBFou3A1Z+3BeD/mfnb/UrZQo5PS2siYJHC2SDkjRAx6Lk/px0hqXhU467hHHzRh/J
-	87aAiQzve38n3alwgdFrc2L4aXFAopO8Xx8Za77N8eU3E5g/mjBwN8KAM7JZ+lCpAsNp7jo0WX4
-	YecRsHy5c0h3fBbXtSLrHFq248cL54YdNEglXWK2x4xer/cFIJ9dQ8XGElwIYDPIGEg3jMrsVXL
-	DbT8mWp9o/vVyGyt2hq2TfCEUX/t/uoNGLxAFWfLyLcIQTP8hvLsNc2AugGmLhqV1kI/UWdUZ22
-	U3fURi0RBhc0gUhmCm/Q6gf1+7R8xSdw7JgT0SkYHt696xrujgMK4Jez4rgae4PE3N1m+Zn/wiK
-	cE9FjFUJsreSl9co0QYdnGR4di/NNlJW22i2U8iWyfLLH/1FtY3oSXAHfMV5wgRnQFP5BAeyM/O
-	JuGeOyAxAU5D47ar6T0hXusm73GCA1IjUXEb3y9PNvEySPLGZGQTyvpEKxn3RJNs5B/e1Xss4zE
-	0DPXqJgUZLO3xfB2qfDYA==
-X-Received: by 2002:a05:600c:1c13:b0:49e:7186:f36e with SMTP id 5b1f17b1804b1-49fc7dc1e75mr10618175e9.1.1789712949429;
-        Thu, 17 Sep 2026 23:29:09 -0700 (PDT)
-Received: from lima-kdev.local ([85.100.66.184])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc585920fsm79786905e9.4.2026.09.17.23.29.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 23:29:08 -0700 (PDT)
-From: Kayra Cizmeci <kayracizmeci@gmail.com>
-To: kayracizmeci@gmail.com
-Cc: arighi@nvidia.com,
-	bsegall@google.com,
-	christian.loehle@arm.com,
-	corbet@lwn.net,
-	dietmar.eggemann@arm.com,
-	juri.lelli@redhat.com,
-	kprateek.nayak@amd.com,
-	leitao@debian.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	ltrager@nvidia.com,
-	mgorman@suse.de,
-	mingo@redhat.com,
-	pauld@redhat.com,
-	peterz@infradead.org,
-	rdunlap@infradead.org,
-	rostedt@goodmis.org,
-	skhan@linuxfoundation.org,
-	srikar@linux.ibm.com,
-	sshegde@linux.ibm.com,
-	vincent.guittot@linaro.org,
-	vschneid@redhat.com,
-	vsethi@nvidia.com,
-	will@kernel.org
-Subject: Re: [PATCH 1/2] sched/fair: Honor asymmetric SMT priority in idle selection
-Date: Fri, 18 Sep 2026 09:28:52 +0300
-Message-ID: <20260918062852.77446-1-kayracizmeci@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260917165515.17479-1-kayracizmeci@gmail.com>
-References: <20260917165515.17479-1-kayracizmeci@gmail.com>
+	s=arc-20240116; t=1789715805; c=relaxed/simple;
+	bh=LiM7zkLpUX7MIBOG7kJrUoQaNQaMFXdSWvG3PwItrhE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A0tFgVxPMTQmJGE6eHyoVNx6XyQCLNLXN0bZqvXWKsnhsdlysGyhx7Mi+dr6bJO6zspKj3trxOl6/lmLb8wIRizmLmG3eG+E4fNnV/26v6Vsd3LdX61As9RIewOMS5GKywNsxTDknZ+UXmGOBewKt7i33ua/iyPUNmFUGX9+YzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 619B168C4E; Fri, 18 Sep 2026 09:16:34 +0200 (CEST)
+Date: Fri, 18 Sep 2026 09:16:34 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Yu Kuai <yukuai@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Josef Bacik <josef@toxicpanda.com>,
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Song Liu <song@kernel.org>, Li Nan <magiclinan@didiglobal.com>,
+	Xiao Ni <xiao@kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Yu Kuai <yukuai@fygo.io>,
+	Christoph Hellwig <hch@lst.de>, Nilay Shroff <nilay@linux.ibm.com>,
+	Tao Cui <cuitao@kylinos.cn>, linux-block@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-bcache@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-raid@vger.kernel.org,
+	gfs2@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, llvm@lists.linux.dev
+Subject: dm review needed, was: Re: [PATCH v3 2/3] blk-cgroup: store blkcg
+ in bio instead of blkg
+Message-ID: <20260918071634.GA10884@lst.de>
+References: <20260918041744.1526924-1-yukuai@kernel.org> <20260918041744.1526924-3-yukuai@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260918041744.1526924-3-yukuai@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
+On Fri, Sep 18, 2026 at 12:17:43PM +0800, Yu Kuai wrote:
+>  static inline void dm_bio_record(struct dm_bio_details *bd, struct bio *bio)
+>  {
+>  	bd->bi_bdev = bio->bi_bdev;
+> -	bd->bi_flags = bio->bi_flags;
+> +	/*
+> +	 * Restoring BIO_BLKG_REF would not recreate its associated reference.
+> +	 */
+> +	bd->bi_flags = bio->bi_flags & ~(1U << BIO_BLKG_REF);
 
-> Hi Andrea,
-
-> Hope I ain't got anything wrong, I'm a bit sick.
-
-
-> The sched_smt_active() check on select_idle_smt_cpu seems to be redundant on here.
-
-> We could remove this
-> By moving the check on select_idle_smt_cpu() to goto block and
-> adding one check before the select_idle_smt_cpu() on select_task_rq_fair(). And just calling
-> select_idle_smt_cpu() on here.
-
-> I also have a question, do we need select_idle_smt() call on here? If yes then why? I was really confused while reading.
-
-> Thanks,
-> Kayra :_:
-
-After I don't know how much times of reading the same functions, I finally understand.
-Because of has_idle_core is false, we search if there are any idle SMP's on 
-any of the cores.
-
-I normally was going to send this alot earlier, but I fall asleep after
-realizing this.
-
-Also now, I don't think we need to remove the checks for one place. It complicates things,
-when I tried.
-
-I also booted the patch, it did not worked on me since I just have a regular SMT2.
-So, that was the waited behavior.
-
-So, here's this:
-Tested-by: Kayra Cizmeci <kayracizmeci@gmail.com>
-
-Annnddddddddddddddddddddddddddddddd....
-
-This: 
-Reviewed-by: Kayra Cizmeci <kayracizmeci@gmail.com>
-
-Thanks,
-Kayra :-)
-
-
-
-
-
-
-
+But do we need to restore the reference?  I have to admit that
+this surrounding code is very confusing and I would really like
+to have the dm maintainers look over it.
