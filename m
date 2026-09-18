@@ -1,246 +1,137 @@
-Received: from mail-ej2-f31.google.com (mail-ej2-f31.google.com [74.125.228.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC69502543
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 16:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.159
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789747449; cv=pass; b=BF1RiFpRHLSmTCLPiwhN2DbuxA5bIlIenSlQeRIjH2xHBHPj/OUOZuataP6ZMtC/7QZVakZStzwMNCN0Lzid5Wl3htQUmlxrmusQofht6gqgMM5AKJXIEtnUnYPGovDRnbSjHhWho4eJlxGGz/Drey3hRRe4VC/aw5PkBeMaRCI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789747449; c=relaxed/simple;
-	bh=e8E1Sd+Sz6mdjj4gnYZyTv8EBELZRQrTF6yHFbOuTR8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kg5c0zq7l1s9zaaqGXJSa5t35vQzSiMe6sjd4Kb6Zf0tRUtCluhFVbGRyR0XW9kkOyQbPiIRiWQY5aAGmxfgMRMrdJY1HsZuvMB3SBKtGPPee6qaMNqcxKITskuSA9SaIBR+IAqiYJI17PpnLDcAcyOz7wKNY0nYZPwQwvMWdv4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oOktmTOZ; arc=pass smtp.client-ip=74.125.228.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D07533D512;
+	Fri, 18 Sep 2026 16:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.147.86
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789747482; cv=none; b=NwYFaXNwQr079cHx8TQOTwOLsg65G9ROITATDufOdmytga3A5GbERwE1HixuEpZCio40kQzl2qk1FZo3E09Pib61pTkZLNWeR9/PpTmH+Fj0cxznwJMRgNo1y6zcTHz5IojfYHtE1tsLF00D9Sfcl7nqm67UJULtpXa1yJhvVQ8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789747482; c=relaxed/simple;
+	bh=51g3UiLKuZWC9PyMufAfpqPt9Y6edxCPWQ0wUSLjpJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QhH3JiFkuz7UCt1hRumKICGxw558I97F8viecK1ahFnpJAXdyqw/mB/F52dJEVdF3IsN57vnPHUiWLTLsem1tFogCybljqVgAdvlcu1szuUcOtJdgHd1GUf6ElNeV7j+lqwpQW0DPD73tPNldWQ4yHp5/L28vlI3O83ZrwrSWao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=IHfsqH0i; arc=none smtp.client-ip=148.163.147.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oOktmTOZ"
-Received: by mail-ej2-f31.google.com with SMTP id a640c23a62f3a-c29703cb796so130183566b.2
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 09:04:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789747445; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EXE0xbCUq5Bwt6MDzWjC6WqN5wkVC5jOCVfX7x5wZma7Lemvn/vcCcYq41S0zYPzmD
-         nvz4EHhHf+/NPLOuhKuSz6NOtYbXm7gO8QJghMngwLNTUH4qc5kUBtDCCKKDegVEurDO
-         MtJLQEKjIfiy7lJCKdvE7tV+sot2KOnrA9NMEbvNmG+039EoMyJELyQzyC4yXiZ6ZwoE
-         F4UuJkgFfj0AyZ5GZMDCvwPzpRBpxc9sokTHvne0lvd66HWErO46+KtKpuzn9ECqci5m
-         SBQOszh3QGap2lUHJ+9uA4Pyxrxos1AxHYYyfQHeI3qwh/MvotSKvchKfHBxvTgtGbAt
-         O6Vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ppT3r9H6i+luukHF53KqdAzjj96gufCZfRFaRDgHG+g=;
-        fh=KRKF34QrmmCdRc5hfaidSYaFDC8TQlAECt4oDm4LZ5Q=;
-        b=b5bR6YP6+7VUUyfJpUk1owpIsDVif/b3bfkoTXDfvaG4i5Qk7tqeYymsVfA/Y7pJOx
-         3ojIRL+t1mj69/9v+B+o4dwM9BLPpb4zHuGwgAqLVxXAsNwhVe+KfLWnvSSXjXikRriU
-         vEQQXFF3ALMkCfWkDJf9p0KO68IlO+T5slxcF88pz98sxnYnB6VAxhXbIU+jeWc18h5M
-         B1h0pmjciZdcj5HhTtNg+sXHYH681urbBF0j97CqWMKhFZlCtRjKJ5T/oeEid1RQXZ8p
-         hniiNNWU1kia49Wg5Eg+XW2WvNI9egoWfYeui9uI2ckGldmWadGfuGyUUdJIlYEWMdHl
-         oVcg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1789747445; x=1790352245; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ppT3r9H6i+luukHF53KqdAzjj96gufCZfRFaRDgHG+g=;
-        b=oOktmTOZDFag8SiSHgHc9TTeZATW/5c7ki/GvpG1KeeA9GtX9+w5d+/wDeXMRr4Riw
-         HgApXlLtPIeHT3Voh8mYi2IFYX8cMdNgdWwCCT0Q7BPwVrKEVchdMSobnR45LmmjILd9
-         L3Dq4DBhS1IboOqmqOJ5mrENGZT46cghimykEE1dd9EYgRMZjs/lK3de+GJw78CteGpe
-         yWWvpwIw8m3XunL7WrFa6peg02ElzE5pOJFk7uFy7Z6CPxxKwkOdJfgfN1dTP0Z7z/kD
-         P2PBw6nu1sK+AhhA8nuQAWyh4yf2zK3BnAaAGXI4yXXPQfGclVepZ0rNKodWTAyNUYJr
-         I6tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789747445; x=1790352245;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ppT3r9H6i+luukHF53KqdAzjj96gufCZfRFaRDgHG+g=;
-        b=u/EaP/6fHiBRMInQjxMGb08oK/UEB4kdnn7OFYecjZh0+kWpiIwEZLj1t8Db8Nxczx
-         TUuQkWdG1ZGkxT4AFnWH5ZQ3Uvv5RS2gkzgrfaUNdoFlP9Gaszh/ciTOCuh4WdLWLfVH
-         SWyamQsbmVnB+5/ntGb9iZMhEY7z7Wd7FZZmHbvMqj2Nvm9WJUoUekdlfVlvcCAwADkz
-         zxKFlR9cdaOJlrQA+FIlH4HMhB3vybuH06zm/z4hCa0sG4e/kmxBpA4S2RN6FAoxKiAd
-         ll+fG2ksm8j7YXD6SxCj6d1XmLEY6Xv8oWVDwRM7WYs7kvUwSR1O9vyirCdu/17YbMYx
-         ZA1g==
-X-Forwarded-Encrypted: i=1; AKwUvByxLte4y9NHB1fS8ZeRqJsM9h0+wEAIbVSvIsIE0jCRDJTR3WnNjP5qwsEVBqBJMejn9Dcg065mcWs=@vger.kernel.org
-X-Gm-Message-State: AFuF++lpbprpFssv6oYdufe2eZ/ppGObR9tWRL2zDcjR7pjJkMofynO6
-	+H1rHTxR7xM79XvWWTCW2wtfm130X9Hz+3J/ema08txcpKtQUn7hT6lAQ2ZYPIRC0K5eNqq2ETY
-	f8OiyoAVFxR8yjxp0/svA262XPLecCC47Ymr5xxXYxA==
-X-Gm-Gg: AYBFou1M30BZSNagT9FZNNkaIxphdec9CkMs5nB6qry1CvWMwC2EHFkrVHZ6DYcnZOx
-	MOkoqKOGOXT2+a9OgEV2/Hvcaj1NPlqTO4Gmx1IhGZn5aqkVhG2Kqsdp30TVPh2qQsRpucT+pJD
-	ZAGWyKVqRKdfH6TgBn7QZM+htRDjwDV1ehtKoLuMtbKT7p3dXRcYp2cXhRRRXxpHkF4EYfHqWZV
-	2ron9byPri3vI/yL/K8Qp0LSdmWtZxoqtmVS7DaJGyXGyJFqa/8M1RAA+1uekcBu3woqpt6+TcK
-	Emf7T8s8OnwYCAP6whqYrB/P94VIcnR+E1HVUytVrQp5Fb2+ciDKJwJ3lGnKtVqtrTj+0J/39UF
-	3P5ON4eY/z5TH9obUAomIAuo=
-X-Received: by 2002:a17:907:6d18:b0:c25:1b4f:6d95 with SMTP id
- a640c23a62f3a-c2a15846860mr322061066b.6.1789747445182; Fri, 18 Sep 2026
- 09:04:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="IHfsqH0i"
+Received: from pps.filterd (m0148663.ppops.net [127.0.0.1])
+	by mx0a-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68IDNBXQ515911;
+	Fri, 18 Sep 2026 16:03:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps0720; bh=uc4FCppFKvSYMEFUJD+GdMcIgx
+	fJPxqNRU0X+NKpVX8=; b=IHfsqH0ij+X+9h6dvxnKG+ln+4UgfkXSOrbSG2AMVN
+	3sAGXfDLckP+TodrXje4alDDMWqYZuWX9mY2/kKVIQNp8Lf7gvusxAbtarGjP7e3
+	nE46s84zQGcdMeD0F+i9pODg/yXV0R6XK5FaZbeuQDPNTf4F7gI/v4J/i5UIyInj
+	+zMM88w2fFRPSSTCkHdKcJCP25XMHdWw3GtwcqY9tQqPsMnsteWLS043RECtiu7+
+	9dT3MLQlm6zj3ihi3vAxuPSRHxj+ZTGXkiJZb5qTE6R3CVXbfbH/FM0/0gaYCDKE
+	odEEvTaWp4+bJik5jc7FoNK7I5XHRwE/YruFWbpr+img==
+Received: from p1lg14878.it.hpe.com (p1lg14878.it.hpe.com [16.230.97.204])
+	by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 4gs4bkbj1q-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 18 Sep 2026 16:03:12 +0000 (GMT)
+Received: from p1lg14886.dc01.its.hpecorp.net (unknown [10.119.18.237])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by p1lg14878.it.hpe.com (Postfix) with ESMTPS id 2BE6DD2E3;
+	Fri, 18 Sep 2026 16:03:10 +0000 (UTC)
+Received: from HPE-5CG20646DK.localdomain (unknown [16.231.227.36])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTPS id E6C9280AA61;
+	Fri, 18 Sep 2026 16:03:04 +0000 (UTC)
+Date: Fri, 18 Sep 2026 11:03:00 -0500
+From: Kyle Meyer <kyle.meyer@hpe.com>
+To: Michal Hocko <mhocko@suse.com>,
+        "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: akpm@linux-foundation.org, corbet@lwn.net, linmiaohe@huawei.com,
+        shuah@kernel.org, tony.luck@intel.com, jane.chu@oracle.com,
+        jiaqiyan@google.com, Liam.Howlett@oracle.com, bp@alien8.de,
+        hannes@cmpxchg.org, jack@suse.cz, joel.granados@kernel.org,
+        laoar.shao@gmail.com, lorenzo.stoakes@oracle.com,
+        mclapinski@google.com, nao.horiguchi@gmail.com, osalvador@suse.de,
+        rafael.j.wysocki@intel.com, rppt@kernel.org, russ.anderson@hpe.com,
+        shawn.fan@intel.com, surenb@google.com, vbabka@suse.cz,
+        linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v3] mm/memory-failure: Support disabling soft offline for
+ HugeTLB pages
+Message-ID: <aq1gtOOUqU1-RJJu@hpe.com>
+References: <aqiIEkrc6aDBOqRg@hpe.com>
+ <aqkCbgHmMGxI_GLG@tiehlicka>
+ <aqmGd0GGUCkbZpkZ@hpe.com>
+ <aqpYxAktjexhaMGc@tiehlicka>
+ <ad36cd54-7319-4bb4-bf8f-9fcc7b009158@kernel.org>
+ <aqqXbwglwYTyTuUG@tiehlicka>
+ <36480c86-fc59-4387-91a4-cad839f502f2@kernel.org>
+ <aqqdlndHq9vHeX8s@tiehlicka>
+ <67b63b36-82c9-45d4-8dd3-1bec2823a123@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260917140707.3807229-1-arighi@nvidia.com> <20260917140707.3807229-3-arighi@nvidia.com>
- <97c99014-d488-4468-896a-decf55636fa5@linux.ibm.com>
-In-Reply-To: <97c99014-d488-4468-896a-decf55636fa5@linux.ibm.com>
-From: Vincent Guittot <vincent.guittot@linaro.org>
-Date: Fri, 18 Sep 2026 18:03:53 +0200
-X-Gm-Features: AcwNN1USB5p2YVPGgPCgBjy8koye-M1_CjYA522mynrjae0MUkzSe9gahiKJVgo
-Message-ID: <CAKfTPtD6i7BMpfnj4pEPJMMOSXyMWL63YDX00d+jRTn0x+ot7A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] sched/topology: Add asymmetric SMT packing override
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: Andrea Righi <arighi@nvidia.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Christian Loehle <christian.loehle@arm.com>, Srikar Dronamraju <srikar@linux.ibm.com>, 
-	Phil Auld <pauld@redhat.com>, Breno Leitao <leitao@debian.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Lee Trager <ltrager@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67b63b36-82c9-45d4-8dd3-1bec2823a123@kernel.org>
+X-Proofpoint-GUID: L_WdTr3DFK_IidRpPlCXthNiuHl9BS72
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE4MDIyOSBTYWx0ZWRfX6ClIMWsv6mB4
+ 0IlWT184tZaynkzSZIDoNoAERHmTUSCeSWT2G9DqDmAPWikkEJHU7Z+OCK8WjidX8Tiyh8hpvlw
+ lKCwvXrpUS4ES7gMjdNHX3dLER0LLD4=
+X-Authority-Analysis: v=2.4 cv=EvhHPicA c=1 sm=1 tr=0 ts=6aad60c0 cx=c_pps
+ a=UObrlqRbTUrrdMEdGJ+KZA==:117 a=UObrlqRbTUrrdMEdGJ+KZA==:17
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=gQcMVamqm3wCPoSYhaRC:22 a=6_mrDcixewTG61oOsKN3:22 a=RfWlH6W0a2UdQScw0pgA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: L_WdTr3DFK_IidRpPlCXthNiuHl9BS72
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE4MDIyOSBTYWx0ZWRfX3Q0UtYojvFKu
+ 3/JDEpX/5OkGU3VRG+md1cX5CgLjCC94TPLncGqJLs73047ibKMKLQPBDZ5i/WqWvhAkdWbnn/W
+ ZVEppZupoRXP1uUhtBcyQnOhEnhotct8Wgu+2kew7fd+WS627izPZKIkFIvXRhUx+JHE6SM0CPj
+ uSdlHm/QaKrlX23yGf2d7hQW6mu/x6TOkwGOOhw3AeYC3NQZPNbEbGdIpR84ISXLxLfqtqGWubo
+ XIeEycNeUpkkOsXfYZbkL4KBKH7y/UH+3D0btomS9BAXq7sYko+BxUHc+ieZdkyIJgApL/W6Ssd
+ 2sug4u2chH3zdAP2QKIZpQLTW7DMqM+Riuo36V3c38q2lhelThRXpensQbEUaM9bUYC6l9pPetd
+ N2/N4mA+n5OydnDCvJjB9m0CSrUFBvwPOti+oQ9RtzHfUCjERQeo1Xddenp9+Z0UqUSXay7BFjM
+ DRiMhlch8smkwEXvt8A==
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-18_04,2026-09-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 adultscore=0 malwarescore=0 spamscore=0 phishscore=0
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609180229
 
-On Fri, 18 Sept 2026 at 16:15, Shrikanth Hegde <sshegde@linux.ibm.com> wrote:
->
-> Hi Andrea,
->
-> On 9/17/26 7:35 PM, Andrea Righi wrote:
-> > Architectures can use SD_ASYM_PACKING to describe preferred CPU ordering
-> > at the SMT scheduling domain. Some systems benefit from the same policy,
-> > but their firmware cannot currently describe the preference. Inferring
-> > it from the CPU model would embed a platform-specific policy in the
-> > kernel.
-> >
-> > Add the sched_smt_asym_packing boot option to override SD_ASYM_PACKING
-> > at the SMT level. Accept auto, on and off. Auto preserves the
-> > architecture-provided topology and is also the default when the option
-> > is absent. On and off force the flag without changing asymmetric packing
-> > at higher topology levels.
-> >
-> > Apply the override centrally to domains with SD_SHARE_CPUCAPACITY so it
-> > also covers architectures with custom SMT topology callbacks, including
-> > powerpc. When forced on, priority remains defined by
-> > arch_asym_cpu_priority(). The weak default prefers lower-numbered
-> > logical CPUs, while architecture overrides remain authoritative.
-> > Siblings with equal priorities remain unordered.
-> >
->
-> Wasn't this a temporary solution you wanted until the firmware changes are
-> sorted out? or something changed in between?
->
-> If yes, could you please capture that in changelog or in comment.
->
-> > Signed-off-by: Andrea Righi <arighi@nvidia.com>
-> > ---
-> >   .../admin-guide/kernel-parameters.txt         | 11 +++++
-> >   kernel/sched/topology.c                       | 49 +++++++++++++++++++
-> >   2 files changed, 60 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 33cd30996e47e..36c3b2e563441 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -6799,6 +6799,17 @@ Kernel parameters
-> >                       solution to mutex-based priority inversion.
-> >                       Format: <bool>
-> >
-> > +     sched_smt_asym_packing= [KNL,SMP]
-> > +                     Override asymmetric packing at the SMT scheduling domain.
-> > +                     Format: { auto | on | off }
-> > +                     auto: Preserve the architecture default. This is the
-> > +                     default when the option is omitted.
+On Wed, Sep 16, 2026 at 04:30:46PM +0200, David Hildenbrand (Arm) wrote:
+> On 9/16/26 15:45, Michal Hocko wrote:
+> > On Wed 16-09-26 15:28:01, David Hildenbrand wrote:
+> >> On 9/16/26 15:19, Michal Hocko wrote:
+> >>>
+> >>> Yes, no dispute on that. But we have HW poisoning for exactly that
+> >>> purpose, no?
+> >>
+> >> Well, that tells you that the page content is effectively gone and should be
+> >> tried to be recovered / migrated away. Unless I am messing up terminology here.
+> > 
+> > Maybe it is me messing up the terminology...
+> > But I guess we have established that whether soft offlining is being
+> > abused or not, excluding hugetlb through a configuration is just a wrong
+> > thing to do.
+> 
+> Yes, it's odd that you wouldn't want to evacuate hugetlb but everything else.
 
-AFAICT "auto" equals nothing added in the command line so why is it needed ?
+Thanks for the feedback, Michal and David.
 
-> > +                     on: Force asymmetric packing at the SMT scheduling domain.
-> > +                     Idle CPU selection prefers siblings with a higher
-> > +                     architecture-defined priority. Siblings with equal
-> > +                     priorities remain unordered.
-> > +                     off: Ignore SMT sibling priorities.
+I'll drop this series.
 
-Is this for debugging purposes?
+It sounds like the consensus is to keep soft offline behavior the same across
+page types.
 
-only the sched_smt_asym_packing=on is really useful to force
-asym_packing when firmware doesn't provide the info
-
-> > +
->
-> Wasn't this option/parameter to come from arch specific file?
->
-> Isn't it going to be confusing for archs which don't benefit from asym packing at SMT,
-> but now there is kernel parameter to say on.
->
-> >       sched_verbose   [KNL,EARLY] Enables verbose scheduler debug messages.
-> >
-> >       schedstats=     [KNL,X86] Enable or disable scheduled statistics.
-> > diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-> > index 0248227d983a7..cdfcecf673fd7 100644
-> > --- a/kernel/sched/topology.c
-> > +++ b/kernel/sched/topology.c
-> > @@ -32,6 +32,46 @@ static int __init sched_debug_setup(char *str)
-> >   }
-> >   early_param("sched_verbose", sched_debug_setup);
-> >
-> > +#ifdef CONFIG_SCHED_SMT
-> > +enum sched_smt_asym_packing_mode {
-> > +     SCHED_SMT_ASYM_PACKING_AUTO,
-> > +     SCHED_SMT_ASYM_PACKING_ON,
-> > +     SCHED_SMT_ASYM_PACKING_OFF,
-> > +     SCHED_SMT_ASYM_PACKING_NR,
-> > +};
-> > +
-> > +static enum sched_smt_asym_packing_mode sched_smt_asym_packing __read_mostly =
-> > +     SCHED_SMT_ASYM_PACKING_AUTO;
-> > +
-> > +static const char * const sched_smt_asym_packing_modes[SCHED_SMT_ASYM_PACKING_NR] = {
-> > +     [SCHED_SMT_ASYM_PACKING_AUTO]   = "auto",
-> > +     [SCHED_SMT_ASYM_PACKING_ON]     = "on",
-> > +     [SCHED_SMT_ASYM_PACKING_OFF]    = "off",
-> > +};
-> > +
-> > +static int __init sched_smt_asym_packing_parse(const char *str)
-> > +{
-> > +     for (int mode = 0; mode < SCHED_SMT_ASYM_PACKING_NR; mode++) {
-> > +             if (!strcmp(str, sched_smt_asym_packing_modes[mode]))
-> > +                     return mode;
-> > +     }
-> > +
-> > +     return -EINVAL;
-> > +}
-> > +
-> > +static int __init setup_sched_smt_asym_packing(char *str)
-> > +{
-> > +     int mode = sched_smt_asym_packing_parse(str);
-> > +
-> > +     if (mode < 0)
-> > +             return 0;
-> > +
-> > +     sched_smt_asym_packing = mode;
-> > +     return 1;
-> > +}
-> > +__setup("sched_smt_asym_packing=", setup_sched_smt_asym_packing);
-> > +#endif
-> > +
-> >   static inline bool sched_debug(void)
-> >   {
-> >       return sched_debug_verbose;
-> > @@ -1950,6 +1990,15 @@ sd_init(struct sched_domain_topology_level *tl,
-> >       if (WARN_ONCE(sd_flags & ~TOPOLOGY_SD_FLAGS,
-> >                     "wrong sd_flags in topology description\n"))
-> >               sd_flags &= TOPOLOGY_SD_FLAGS;
-> > +#ifdef CONFIG_SCHED_SMT
-> > +     if (sd_flags & SD_SHARE_CPUCAPACITY) {
-> > +             if (sched_smt_asym_packing == SCHED_SMT_ASYM_PACKING_ON)
-> > +                     sd_flags |= SD_ASYM_PACKING;
-> > +             else if (sched_smt_asym_packing ==
-> > +                      SCHED_SMT_ASYM_PACKING_OFF)
-> > +                     sd_flags &= ~SD_ASYM_PACKING;
-> > +     }
-> > +#endif
-> >       sd_flags |= asym_cpu_capacity_classify(sd_span, cpu_map);
-> >
-> >       *sd = (struct sched_domain){
->
+Thanks,
+Kyle Meyer
