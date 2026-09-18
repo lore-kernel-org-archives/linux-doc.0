@@ -1,90 +1,218 @@
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42BF522689;
-	Fri, 18 Sep 2026 18:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24786522693
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 18:25:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789755936; cv=none; b=crGadNLp2sbf2ozp3dCyuE/VUO5JjSxyuO/23P4ZUEPyxXZYAybxd9nlw5WQToC1B0H0Hb8UyBvbfP34AjmPiz/G5F8zfgxEi5WePrsTaiLAeQ9po45SDtVceK0nfiLd+4UP0/0BoiBzbRbqwenf0syOhWZWiLIfOtiRsHOrI64=
+	t=1789755937; cv=none; b=ShVtqUfx0BwgS/6LOwEgNvIp72fOVV0m0i8WU+/EhRkjt/ykQwBTjJOe7Onow5oY6jMVLZab6pM3xiF8/TpDYxoH99a9AUfDvBIAmPJNsOIIVkhk4SaCmtzzXptKTQs9HGUQya/XAR61bo5BQ8gTxfv5pT4LhvrWJ1mlp+lPGB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789755936; c=relaxed/simple;
-	bh=UZAysP57nG66NYxw8Fzy9+rXvJVyMOkOsT3sKfsu+RE=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Subject; b=YcEpIbv/qoUJ/3p4QRzqoZS29BhdUY/mCyby8JQwCv9eQousb+DgeJl0Uux4rW6fZ1EjaBHqKXg72MTtHb96Rm9ckfGDwLww5r9LaJMpVU5jlYckYKd9QvPhbfpNghRwVNou/M/mjjXzdp0ab6fOnr1eI10j94k1ilv26IUQjKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=b3tlnCmF; arc=none smtp.client-ip=204.191.154.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
+	s=arc-20240116; t=1789755937; c=relaxed/simple;
+	bh=R9dGmC+v2bw7NAh5ww8FtZ986UH1u92ISE+NGE6Rr5s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Myi6bHDmb84H3Nb1EMCMgmwXI07JqyiYcD5Py0DwOjG0OA+8dtHYP1HamnB8dzuuctD/TK4yn6gbXf7YaitJ/gqNeygjSHGRpSqaUeQ8VReDjO1ZeX17EG6Gbq78dR9wUvja2cPUoY6tz0G+5CkvaFt98kbgitzeP9QD50enSYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BuDhUrlx; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="b3tlnCmF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=AYAzVP/8f8Otb2PCzWFEmkBr82oGzj3BYT7jfwM6D3U=; b=b3tlnCmFMy+rn6Z8ytScOTSJLh
-	VoMg/px+h/5RcvrIBShYg4emqzl/iSzEpUeGPk6kD3cVzqoONFrL8e9aGiAXmvIZdu+eyf46YbXlX
-	YNVtd+SKyOaKRCk1E8c5HTsOo1YQ7sT6LojpDeSaMwKg7pYA3y0zdoWwMOuRIsIAMXarZcnqFZX63
-	a1TPmVGdteTzf8U02YBpscdW6Ea6cDXWEFP/jPxHBrt4iVxPHJUZ4l//EFec9R1z4wn2XazgxjSKy
-	EYn1VAxl6GBy4K07T2IkhN6tU89vT0Vnqrel3nAnIubRCb63mmCijvdTNGmXTAa2+7F+oFaVidO99
-	ApHlYtXw==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1x7dH6-0000000CrEc-2a01;
-	Fri, 18 Sep 2026 12:25:29 -0600
-Message-ID: <6e4f0c2f-eae8-4cd5-9c10-9b9a59941d2f@deltatee.com>
-Date: Fri, 18 Sep 2026 12:25:01 -0600
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BuDhUrlx"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2dd77300825so11319315ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 11:25:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789755934; x=1790360734; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=s2CKXsU1UIOkbMCPUX3VEuk4lYZb15gx+txcbf/aJKQ=;
+        b=BuDhUrlxhnKebOyxuOHfj0fzA4OdpGJp11GULD0VVXcPu3aVt1licKZgF/rwY+ewJC
+         WUMX7fGpTcsjjU3gmtm/dH9hmk77t1Tpl+CjfSSIJiUdBEZRmAigflBnSgQYtbWOLI1A
+         CtDmqYFyK7e8L28Xjg0AMFWhUiHzycvFeQLugBIEHcb/Bbyglpjer3CNQIR1v0lUPsW3
+         med8s7ToVe3xsl59BYWaAUVZPUlTuNeZ12r3vsHJNnX1/tDsH+5xQHMOpdd2nYSYbCHl
+         WCogODA9FYSMc6I1cjBpw6zUgsAuP0MBKO+lpJYPa/nSpsB3OHngeKVmVvxIPSUCXkO6
+         hp/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789755934; x=1790360734;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=s2CKXsU1UIOkbMCPUX3VEuk4lYZb15gx+txcbf/aJKQ=;
+        b=M7W6z/v4yugdvllaTWgB/c96+9A68j5jkSYQC3hwIoHAd6lnnURQUaHhaa8GRbAk/N
+         JZUDsOJb8x9k31fXhcsniJ2FekNDpgvkTXR3dVvvd1YyDm9h/hgiN8c1cqYNJms7ywN0
+         W72zBV6IgWJ1+bk+X7jLgUaRrzP0OxBS+m+vBfVjNQzDsxM0nYTTrJmXoZ12xzRJPGQP
+         9bVZ2aEWJDR2Io14gfGQp0zCYlBXtLrSzPDAUEZzOUGbk/oZhHtsXDY7D2FHJBmtKWD6
+         MOKt1WoJisipA8yuLTV7c4/8JpBWmROfmuIxOZK6rCo3ASwguWk0YsyfM6WYRCB+zrcD
+         /tVw==
+X-Forwarded-Encrypted: i=1; AKwUvBw428Pq/L47xAeKpJKlsI1hCvX+21irLbuKMqNEmIq+NzamsBz7h+sni7cMLASzxXll+DltGmagXH8=@vger.kernel.org
+X-Gm-Message-State: AFuF++mHkzvBDjYhgcmO0FhkxOELgyhdnVJa+4ot7Dcy1LhrmFDWoM0P
+	SthHuvUZjS6PIKrT5J6TGKMXMhnqDImS4OmHnX8HnpnNx92NPnWrXrQY
+X-Gm-Gg: AYBFou3Lp8lqtbyl8v1H67/qdpiyWByM6ThhkLuchEx2c35AuwzjiOIxjjqeO30lqhF
+	fT6sg1GIFe3RBiCAt6rico+kkA1hPy0qa2qI438vmZFIgtTP/1CXUqRaCG+NtTNFr6AXvRbwVBD
+	YJ2b+PUEQ9MVs9ZobEVEngmz8UuCNpUJL8ZEz0KIRHPc05PCxpkt5Z06oHk30PhSFmJ9MwTzZ5b
+	CCsHPzRIDdKhhr1oqhF5aC6UruqJGXpSOEHiECBp5vCqVMQyFLU4LyXBQdZQMVDs6aul8pmxg4G
+	U/PV2EOshqO5vaBCBjCKoeLoqJ+o6m6F6kPX3O7z/tQEt6pkgtn3KBgfqq6kByH8oip2novXin+
+	1dFI4Vusc31CMnJ9q6iIm3ssTTMW8d88scOQQRhxkV8bOJqaaYKAr75Zysytm/d4EGFYdxzvNTt
+	sfqTtKi3HmoAADEg4b0J0ovH11jyiiV9cuOtoxWMvHSuBrugQ6KxmsDuMQRCXA5G66bDtqAEyz1
+	FUlMat27r+xZwhl9QK4bYyTTW26emOFb2F89g1dWpoAYsqUvGgWooKbjllU6Rfriz55iilAyWeu
+	CqstbZ7S
+X-Received: by 2002:a17:902:8496:b0:2dd:c053:a6f6 with SMTP id d9443c01a7336-2ddc053a766mr7512155ad.40.1789755934291;
+        Fri, 18 Sep 2026 11:25:34 -0700 (PDT)
+Received: from DESKTOP-G3E0OSP.localdomain ([58.224.60.243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc16b49casm871895ad.7.2026.09.18.11.25.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 11:25:33 -0700 (PDT)
+From: Jinseob Kim <kimjinseob88@gmail.com>
+To: jic23@kernel.org,
+	linux-iio@vger.kernel.org
+Cc: dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andriy.shevchenko@intel.com,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
+	joshua.crofts1@gmail.com,
+	u.kleine-koenig@baylibre.com,
+	julianbraha@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v10 2/8] Documentation: iio: add Open Sensor Fusion driver overview
+Date: Sat, 19 Sep 2026 03:24:40 +0900
+Message-ID: <9fdbc924bf3387a4d33d1258ea21ac33abef65bb.1789753020.git.kimjinseob88@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1789753020.git.kimjinseob88@gmail.com>
+References: <cover.1789753020.git.kimjinseob88@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Chaitanya Kulkarni <kch@nvidia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jens Axboe
- <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
- Ankit Agrawal <ankita@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Randy Dunlap <rdunlap@infradead.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, iommu@lists.linux.dev,
- Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-rdma@vger.kernel.org, kvm@vger.kernel.org, Matt Evans <matt@ozlabs.org>
-References: <20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com>
- <20260914-fix-p2p-acs-v4-0-v6-1-5ef07ec9ef06@nvidia.com>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20260914-fix-p2p-acs-v4-0-v6-1-5ef07ec9ef06@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: leon@kernel.org, bhelgaas@google.com, kch@nvidia.com, gregkh@linuxfoundation.org, axboe@kernel.dk, alex@shazbot.org, ankita@nvidia.com, jgg@ziepe.ca, corbet@lwn.net, skhan@linuxfoundation.org, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, rdunlap@infradead.org, sumit.semwal@linaro.org, christian.koenig@amd.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, iommu@lists.linux.dev, tdave@nvidia.com, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org, kvm@vger.kernel.org, matt@ozlabs.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Level: 
-Subject: Re: [PATCH v6 01/18] PCI/P2PDMA: Document pdev->p2pdma lifetime rules
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Transfer-Encoding: 8bit
 
+Document the supported OSF receiver profile, runtime sensor discovery,
+IIO channel units, scale validation and session lifetime.
 
+Link the project-maintained fixed wire specification instead of
+duplicating its layouts and compatibility policy. Explain host IIO
+timestamps and the explicit rebind needed after a changed inventory.
 
-On 2026-09-14 05:22, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> pdev->p2pdma is normally accessed through provider-owned references, but
-> pci_p2pmem_find_many() and the p2pmem sysfs attributes may race with driver
-> unbind.
-> 
-> Document initialization, teardown, and how the release grace period
-> protects both the P2PDMA state and its optional allocation pool.
-> 
-> Cc: Alex Williamson <alex@shazbot.org>
-> Cc: Matt Evans <matt@ozlabs.org>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-Reads correct to me.
+Assisted-by: LLM
+Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
+---
+ Documentation/iio/index.rst              |  1 +
+ Documentation/iio/open-sensor-fusion.rst | 77 ++++++++++++++++++++++++
+ MAINTAINERS                              |  1 +
+ 3 files changed, 79 insertions(+)
+ create mode 100644 Documentation/iio/open-sensor-fusion.rst
 
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+index b02b879b053a..c2b7963348fd 100644
+--- a/Documentation/iio/index.rst
++++ b/Documentation/iio/index.rst
+@@ -40,4 +40,5 @@ Industrial I/O Kernel Drivers
+    adxl345
+    bno055
+    ep93xx_adc
++   open-sensor-fusion
+    opt4060
+diff --git a/Documentation/iio/open-sensor-fusion.rst b/Documentation/iio/open-sensor-fusion.rst
+new file mode 100644
+index 000000000000..03ab36aca5f8
+--- /dev/null
++++ b/Documentation/iio/open-sensor-fusion.rst
+@@ -0,0 +1,77 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++Open Sensor Fusion
++==================
++
++Open Sensor Fusion is a sensor aggregation hub interface. The Linux IIO driver
++receives device-to-host frames over UART and discovers sensor channels from
++capability reports. Device Tree describes the hub using the
++``opensensorfusion,osf`` compatible; individual sensors are discovered at
++runtime. See the binding in
++``Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml``.
++
++The OSF Device-to-Host 0.0 specification is maintained by the Open Sensor Fusion
++project. The canonical specification_ defines the wire layout, compatibility
++rules, reserved fields and physical units. This document describes the Linux
++receiver profile and its mapping to IIO.
++
++.. _specification: https://github.com/opensensorfusion/opensensorfusion-protocol/blob/ca9cdea1ae550c2b4d6f29f87877adae99470744/spec/osf-d2h-0.0.md
++
++Supported receive profile
++-------------------------
++
++The driver supports the fixed OSF0 frame layout with protocol major version 0.
++Compatible minor versions use the same known message layouts. The decoder
++requires exact lengths for known messages, validates CRC and bounds before
++interpreting payloads, and tolerates reserved padding. Unsupported majors and
++unknown message types are ignored. Unsupported capability entries are skipped
++individually. A CRC-valid application rejection consumes the complete frame;
++an invalid frame candidate is resynchronized without trusting its payload length.
++
++The receive path handles sensor samples, complete capability reports and
++device status. Its limits are 4096 bytes per frame and 16 supported sensor
++descriptors. These are implementation limits, not protocol-wide maxima.
++
++IIO mapping
++-----------
++
++The supported sensor classes map to:
++
++* accelerometer: ``IIO_ACCEL`` X/Y/Z, in m/s^2;
++* gyroscope: ``IIO_ANGL_VEL`` X/Y/Z, in rad/s;
++* magnetometer: ``IIO_MAGN`` X/Y/Z, in gauss;
++* temperature: ``IIO_TEMP``, in millidegrees Celsius.
++
++Each registered channel exposes signed ``RAW`` data and descriptor-derived
++``SCALE``. Multiplying RAW by SCALE gives a value in the channel's IIO unit.
++Buffered samples use signed 32-bit values with native CPU endianness. Active
++channels are packed into the scan, with initialized padding before an optional
++64-bit timestamp.
++
++Discovery and session lifetime
++------------------------------
++
++The driver validates all supported descriptors before registering IIO devices.
++An empty or entirely unsupported initial report leaves discovery open for a
++later supported report. Supported descriptors must advertise a nonzero scale.
++A sample's channel count, format and scale must match its registered descriptor
++before it can update the latest RAW cache or be published to a buffer. A
++rejected sample preserves previously accepted data.
++
++Repeated reports are compared by sensor type and index, independently of entry
++order. Reserved padding, advisory flags and unsupported additions do not change
++the supported inventory. A supported key appearing or disappearing, or a
++change in its channel count, format or scale, faults the bound session.
++
++After a session fault, new cache updates and buffer publication stop, and
++direct RAW reads fail. Existing IIO devices remain until driver teardown.
++An equivalent report does not clear the fault; explicit unbind/rebind starts
++fresh discovery. No fault-specific userspace ABI is exposed.
++
++Timestamps
++----------
++
++Buffered samples use the selected IIO host clock when they are pushed into
++the buffer. The device timestamp is not correlated with that clock and is not
++used as the IIO buffer timestamp. Device timestamp or sequence discontinuities
++alone do not start a new host session.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9463b8111d52..26b9b2862724 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20515,6 +20515,7 @@ OPEN SENSOR FUSION
+ M:	Jinseob Kim <kimjinseob88@gmail.com>
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml
++F:	Documentation/iio/open-sensor-fusion.rst
+ K:	opensensorfusion
+ 
+ OPENCOMPUTE PTP CLOCK DRIVER
+-- 
+2.43.0
+
