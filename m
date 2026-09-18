@@ -1,76 +1,81 @@
-Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D07533D512;
-	Fri, 18 Sep 2026 16:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.147.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820AA5111B7
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 16:07:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789747482; cv=none; b=NwYFaXNwQr079cHx8TQOTwOLsg65G9ROITATDufOdmytga3A5GbERwE1HixuEpZCio40kQzl2qk1FZo3E09Pib61pTkZLNWeR9/PpTmH+Fj0cxznwJMRgNo1y6zcTHz5IojfYHtE1tsLF00D9Sfcl7nqm67UJULtpXa1yJhvVQ8=
+	t=1789747631; cv=none; b=TPPNECRYe/2/OTuXSbJQG81vgMxYcSa/xNBjQ4HQ74jDedt9WWkrWUqgce9NJ+kYPuadWJhuZUGNkN8WI8rSjxfnBsWbVQIkJgFMpfvGbomIIsTaKLOST1FQso6KsnSMw7aKFYN+oxGCaH9Gyo5QSMqWwcFevVoUCE8JMTPXLkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789747482; c=relaxed/simple;
-	bh=51g3UiLKuZWC9PyMufAfpqPt9Y6edxCPWQ0wUSLjpJ0=;
+	s=arc-20240116; t=1789747631; c=relaxed/simple;
+	bh=+fXFt1wmuGm36I/6m2mLaabGRHYph3PCUFE2O+zRlTA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QhH3JiFkuz7UCt1hRumKICGxw558I97F8viecK1ahFnpJAXdyqw/mB/F52dJEVdF3IsN57vnPHUiWLTLsem1tFogCybljqVgAdvlcu1szuUcOtJdgHd1GUf6ElNeV7j+lqwpQW0DPD73tPNldWQ4yHp5/L28vlI3O83ZrwrSWao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com; spf=pass smtp.mailfrom=hpe.com; dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b=IHfsqH0i; arc=none smtp.client-ip=148.163.147.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hpe.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hpe.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HxQ/3hU9/O1u5CZpmMGfYUpPOBS3KP9sVod8kWS9j4TjR7VTXtvxLljUCwP/ivDRofLt5efirBsTMrubEfJdpoWDwKhjsVBt9oFfvHVVcPcypKHAjoAbZztKPe/SvRaQ1Go+L6TlBnGBSu2m8WvArE3dL/x9+7iUx4wevXKb+dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oMz9yvFz; arc=none smtp.client-ip=74.125.228.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hpe.com header.i=@hpe.com header.b="IHfsqH0i"
-Received: from pps.filterd (m0148663.ppops.net [127.0.0.1])
-	by mx0a-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68IDNBXQ515911;
-	Fri, 18 Sep 2026 16:03:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pps0720; bh=uc4FCppFKvSYMEFUJD+GdMcIgx
-	fJPxqNRU0X+NKpVX8=; b=IHfsqH0ij+X+9h6dvxnKG+ln+4UgfkXSOrbSG2AMVN
-	3sAGXfDLckP+TodrXje4alDDMWqYZuWX9mY2/kKVIQNp8Lf7gvusxAbtarGjP7e3
-	nE46s84zQGcdMeD0F+i9pODg/yXV0R6XK5FaZbeuQDPNTf4F7gI/v4J/i5UIyInj
-	+zMM88w2fFRPSSTCkHdKcJCP25XMHdWw3GtwcqY9tQqPsMnsteWLS043RECtiu7+
-	9dT3MLQlm6zj3ihi3vAxuPSRHxj+ZTGXkiJZb5qTE6R3CVXbfbH/FM0/0gaYCDKE
-	odEEvTaWp4+bJik5jc7FoNK7I5XHRwE/YruFWbpr+img==
-Received: from p1lg14878.it.hpe.com (p1lg14878.it.hpe.com [16.230.97.204])
-	by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 4gs4bkbj1q-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 18 Sep 2026 16:03:12 +0000 (GMT)
-Received: from p1lg14886.dc01.its.hpecorp.net (unknown [10.119.18.237])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by p1lg14878.it.hpe.com (Postfix) with ESMTPS id 2BE6DD2E3;
-	Fri, 18 Sep 2026 16:03:10 +0000 (UTC)
-Received: from HPE-5CG20646DK.localdomain (unknown [16.231.227.36])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by p1lg14886.dc01.its.hpecorp.net (Postfix) with ESMTPS id E6C9280AA61;
-	Fri, 18 Sep 2026 16:03:04 +0000 (UTC)
-Date: Fri, 18 Sep 2026 11:03:00 -0500
-From: Kyle Meyer <kyle.meyer@hpe.com>
-To: Michal Hocko <mhocko@suse.com>,
-        "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: akpm@linux-foundation.org, corbet@lwn.net, linmiaohe@huawei.com,
-        shuah@kernel.org, tony.luck@intel.com, jane.chu@oracle.com,
-        jiaqiyan@google.com, Liam.Howlett@oracle.com, bp@alien8.de,
-        hannes@cmpxchg.org, jack@suse.cz, joel.granados@kernel.org,
-        laoar.shao@gmail.com, lorenzo.stoakes@oracle.com,
-        mclapinski@google.com, nao.horiguchi@gmail.com, osalvador@suse.de,
-        rafael.j.wysocki@intel.com, rppt@kernel.org, russ.anderson@hpe.com,
-        shawn.fan@intel.com, surenb@google.com, vbabka@suse.cz,
-        linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3] mm/memory-failure: Support disabling soft offline for
- HugeTLB pages
-Message-ID: <aq1gtOOUqU1-RJJu@hpe.com>
-References: <aqiIEkrc6aDBOqRg@hpe.com>
- <aqkCbgHmMGxI_GLG@tiehlicka>
- <aqmGd0GGUCkbZpkZ@hpe.com>
- <aqpYxAktjexhaMGc@tiehlicka>
- <ad36cd54-7319-4bb4-bf8f-9fcc7b009158@kernel.org>
- <aqqXbwglwYTyTuUG@tiehlicka>
- <36480c86-fc59-4387-91a4-cad839f502f2@kernel.org>
- <aqqdlndHq9vHeX8s@tiehlicka>
- <67b63b36-82c9-45d4-8dd3-1bec2823a123@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oMz9yvFz"
+Received: by mail-pz2-f43.google.com with SMTP id 41be03b00d2f7-cc1cea34ef4so928827a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 09:07:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789747630; x=1790352430; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=+a91oW+XEpT6uwd1XGhqfpSXASpWO0V95HM9oxBjsHU=;
+        b=oMz9yvFzVJohjoZAp+3wAr4UODJZWG7XDCY6QTsLxsQMUPcI6fb5KI6L508ICcRQEY
+         wEAOxHpqxQrDEoNX5pYCniZ3pEp8tkQ5kbMBTtlRBFbj4gdGD0K7Punxoq5Og2DlLKBQ
+         WhzGR7PP7FOy/OOqTMoUCsklyCtN261Tcchk0rtquY5REReuy6OSQ4g7cnkc0yjH2ton
+         hiI5KrRfQxToUfYWlZ68BQVah39K0TFbAi2NdG9ty7scEd1b4yqeQ4Q604hVi5XGqV6F
+         n5PFEePLChw1MFUb9CHiVdzPcBVbHLwrIN3CBZiIXE9ORpFbQMSP3XFgxxT8RuNFfhwY
+         a80w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789747630; x=1790352430;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+a91oW+XEpT6uwd1XGhqfpSXASpWO0V95HM9oxBjsHU=;
+        b=P3YA9BXPSUDX1p5ZLTCvc73+Z9wDROgY+/A2xNAvsITSRKnDX4WWoArNeo56AZOR10
+         3MvRu3OK7+1ooWhgUUrZy97t3tv312lEPgUrcY1DgeiXynLWOCMUARtWfzhJGaaxurRw
+         ELLYR2i2z0Y4QE8rlGCcIedw/C8fJ3tQrFYWaMRV2ZhL56l8yLEbZPI+Mzqv3HDPPGEU
+         k+68keguKRMmJrPVtBgcvEeV/i8np5RvKEu6IkHvJyAtfkei436T93EDyRmRczTYMe1G
+         MdDXEd1ZnW9uX4ERW/EQpknDIRtJr5AQPBP/Lj1+lKYpJDbEu9wyIfOxLrrgmhJYR6X6
+         OeqQ==
+X-Forwarded-Encrypted: i=1; AKwUvByCEhGRSx+hmJnx5vDN7YFnXN5EiWk/pRcLT45tQRUMT0jYbKr3gGQBumHVEGSrGkmI0fLW8v+IDT0=@vger.kernel.org
+X-Gm-Message-State: AFuF++nbb7C7XJ39gQbs4HOd5yQ1vQ1wL28CB4Iy5Aqff9sNKmKviM8z
+	XuOYaLXfWEoK1JrX58XOKmB8KRz6gd1mUHEbrqE9qf4hWWjykJDGLwQ9
+X-Gm-Gg: AYBFou1DQjTFH8xFShbVikMcHRWAepmSUZoclPv/Ci5IH+rcLYbF2YZubDX/7KVb5Zx
+	kSyaKw8PxLN1fdlkQED8yOBISqoN5JFlLqHKtRCCCDRAoJJ+oX6HqxVroLxWkfJ+Rr8JNpN7hPr
+	0eCX0v0T+rhtEtfxnn+FuhBa9W1iCMXZX8QeWewoK17HwiF/kU+SKni5Kzycq3PAocHA+JkjG0b
+	kcWUNOnuji+RZ6woPZQFp5f1tE++Iy162vhaUK1ml0ZXaPBU5hsUL2wt93WPo78jHX2q7Z3i8PT
+	t/GbZ9fib0uqAdc912+gxJ96FC9RkvVZ4eZFeo9m9znOLA7tLPgz7rtL7mZj8jU+TuA0PJ0ULyF
+	cZDeLE08vL3bvObw+A5Q46zuBVbOlIwHzLdsot70ZdrEKP0hhCZJwcMP2gq1rMZfZy5PPU2DakK
+	kyvUhOwouhnQX0fQuthlXJBHYzG5gm0BMIOuUjrXVswi8BqHNhKxEezq+tQtdGY9DsSUjI4TdIx
+	lfxzzYGermK
+X-Received: by 2002:a17:90b:28c6:b0:39e:6a82:afd2 with SMTP id 98e67ed59e1d1-39e6a82bbccmr686160a91.36.1789747629623;
+        Fri, 18 Sep 2026 09:07:09 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c32da4960sm39043eec.0.2026.09.18.09.07.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 09:07:09 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 18 Sep 2026 09:07:07 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Quchaosheng <quchaosheng000406@163.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] hwmon: vexpress: point the DT binding reference at
+ the schema
+Message-ID: <93b9a44c-d595-4ba3-afc6-eb6abf0c17c2@roeck-us.net>
+References: <20260917115818.540344-1-quchaosheng000406@163.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,59 +84,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <67b63b36-82c9-45d4-8dd3-1bec2823a123@kernel.org>
-X-Proofpoint-GUID: L_WdTr3DFK_IidRpPlCXthNiuHl9BS72
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE4MDIyOSBTYWx0ZWRfX6ClIMWsv6mB4
- 0IlWT184tZaynkzSZIDoNoAERHmTUSCeSWT2G9DqDmAPWikkEJHU7Z+OCK8WjidX8Tiyh8hpvlw
- lKCwvXrpUS4ES7gMjdNHX3dLER0LLD4=
-X-Authority-Analysis: v=2.4 cv=EvhHPicA c=1 sm=1 tr=0 ts=6aad60c0 cx=c_pps
- a=UObrlqRbTUrrdMEdGJ+KZA==:117 a=UObrlqRbTUrrdMEdGJ+KZA==:17
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gQcMVamqm3wCPoSYhaRC:22 a=6_mrDcixewTG61oOsKN3:22 a=RfWlH6W0a2UdQScw0pgA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: L_WdTr3DFK_IidRpPlCXthNiuHl9BS72
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE4MDIyOSBTYWx0ZWRfX3Q0UtYojvFKu
- 3/JDEpX/5OkGU3VRG+md1cX5CgLjCC94TPLncGqJLs73047ibKMKLQPBDZ5i/WqWvhAkdWbnn/W
- ZVEppZupoRXP1uUhtBcyQnOhEnhotct8Wgu+2kew7fd+WS627izPZKIkFIvXRhUx+JHE6SM0CPj
- uSdlHm/QaKrlX23yGf2d7hQW6mu/x6TOkwGOOhw3AeYC3NQZPNbEbGdIpR84ISXLxLfqtqGWubo
- XIeEycNeUpkkOsXfYZbkL4KBKH7y/UH+3D0btomS9BAXq7sYko+BxUHc+ieZdkyIJgApL/W6Ssd
- 2sug4u2chH3zdAP2QKIZpQLTW7DMqM+Riuo36V3c38q2lhelThRXpensQbEUaM9bUYC6l9pPetd
- N2/N4mA+n5OydnDCvJjB9m0CSrUFBvwPOti+oQ9RtzHfUCjERQeo1Xddenp9+Z0UqUSXay7BFjM
- DRiMhlch8smkwEXvt8A==
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-18_04,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 malwarescore=0 spamscore=0 phishscore=0
- lowpriorityscore=0 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609180229
+In-Reply-To: <20260917115818.540344-1-quchaosheng000406@163.com>
 
-On Wed, Sep 16, 2026 at 04:30:46PM +0200, David Hildenbrand (Arm) wrote:
-> On 9/16/26 15:45, Michal Hocko wrote:
-> > On Wed 16-09-26 15:28:01, David Hildenbrand wrote:
-> >> On 9/16/26 15:19, Michal Hocko wrote:
-> >>>
-> >>> Yes, no dispute on that. But we have HW poisoning for exactly that
-> >>> purpose, no?
-> >>
-> >> Well, that tells you that the page content is effectively gone and should be
-> >> tried to be recovered / migrated away. Unless I am messing up terminology here.
-> > 
-> > Maybe it is me messing up the terminology...
-> > But I guess we have established that whether soft offlining is being
-> > abused or not, excluding hugetlb through a configuration is just a wrong
-> > thing to do.
+On Thu, Sep 17, 2026 at 07:58:17PM +0800, Quchaosheng wrote:
+> Documentation/hwmon/vexpress.rst points at
+> Documentation/devicetree/bindings/hwmon/vexpress.txt for the device tree
+> binding of the arm,vexpress-volt, -amp, -temp, -power and -energy sensors.
 > 
-> Yes, it's odd that you wouldn't want to evacuate hugetlb but everything else.
+> That file only restates the compatibles and the label property, which the
+> arm/vexpress-config.yaml schema describes now. Point the reference there.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Quchaosheng <quchaosheng000406@163.com>
 
-Thanks for the feedback, Michal and David.
-
-I'll drop this series.
-
-It sounds like the consensus is to keep soft offline behavior the same across
-page types.
+Applied.
 
 Thanks,
-Kyle Meyer
+Guenter
