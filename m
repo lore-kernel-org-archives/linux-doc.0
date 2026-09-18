@@ -1,370 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C375502D44;
-	Fri, 18 Sep 2026 18:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86B2494811;
+	Fri, 18 Sep 2026 19:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789757367; cv=none; b=rbw4rDvr2PPK0/SZGkLfG4qAiwCIAGdp8stR+xm9YzhglltG7CsRDxfYnObeUz3wfQ/43fWPBzhKE2036blAzLR3HtbM4GO8NaB/jOgGRgvtXVNjdotZiqd2hwwB/CUU7VZLjN1K/yzjcvEFF1c7KiDws/3iGntZwFlj7fMxUcs=
+	t=1789758881; cv=none; b=nt2QB8jKV2gn7TnUcGlqcEMal0yb59ioW9Pj9hFhhIZ+JdfXIu3KafRNQRdh6ls3QLxO0tyyOprinSjL3BzanQjXQYoqpSNZVoB8VAITNkKncvFn4XmlEe0Ov68z7wrKhLAr1jH7vYzwTLOv2M5Bc3CtZlt+af/m1M0uFMASQy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789757367; c=relaxed/simple;
-	bh=hJ61B8b61TzVK2aFvc1CIkWDiRJ6cUS/H0I64tZq06w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=RmFnrQPFLfhfpSjlWZS3SAtWrp/GHXmOwMKRKesEYLsfr3W+LCLaPRccZPRqu3aZh14IBkzjgnXsvdkYyMr+H/adYQPQEl7VByVyIoirjwb/yukptGFY9t9YYUDVIF5IgXD1mpFAioSneFC6jUuBmOqs1NEnOUIdZ2K/hGhmBs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YuFxYvgz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789758881; c=relaxed/simple;
+	bh=1jzcMguIKA5Is93mmoKDoFmH31Cg2L7H6JApxy7LOZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FCdFY6acYTgj1Jr1EvadShGEJD0E1DNtQFOHVVfqBFVNWev4eeil81zNEV5i4P6QxjgvQKjBw2JtjYeys1dcLxex2bi+UKM8AY6+oVsBPgQ04qXBxcFQHtRnB43G5Nr8RUU0ExEXscpmZTse+mlNBUTEsL+eCZnb2ZRnjvcOgHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=iBvlivrQ; arc=none smtp.client-ip=212.42.244.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YuFxYvgz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E53211F000FF;
-	Fri, 18 Sep 2026 18:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789757353;
-	bh=+YjGVXkvvWrv64RKhh2Ovbep417GN5lNtlx2Grs+mP0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=YuFxYvgzPYhdduBLAORJLPUdjvearnmMp/fan5nWo+/eh3i1rmVcE2+8bsxFqWAZB
-	 KT1QRxXloP9WcCBp5VHvkzeaxyBVcEXaFVs8L7px5wEmCFVd4DRuTzSePmsvx/QZsH
-	 557qUC/xYhUq1LcRg2M8cvXcIBStQBlD2TmDm3UAxhu50WlfYNC7YwKuHpTKgyWpQO
-	 SwelWz7E13KCSFTM8WqUr7mEmspD1XuBqCRdIX7HQx/MI0C2cE4G3XwIUqT7vjqFZj
-	 WHVl2SMv2LHLxANBnVl5BVIOC5Zpn68h5xB4xDXglbxHvWtTBpjqoUM+JJU+8Qixol
-	 s6YDhozh+VXUw==
-Date: Fri, 18 Sep 2026 13:49:11 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v8 01/12] PCI: liveupdate: Set up FLB handler for the PCI
- core
-Message-ID: <20260918184911.GA1172993@bhelgaas>
+	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="iBvlivrQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
+	t=1789758868; bh=1jzcMguIKA5Is93mmoKDoFmH31Cg2L7H6JApxy7LOZY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iBvlivrQxoQVIHimQxNZwvRd0auQnJ2cPYzcf290Gf4rAfq8fQ2otWjes9JeDDVOp
+	 9COorSKA8vsE3iFyF1sfG/9oTUzSzrP53FcBlUVHjsNLG9T+7V+4dQ3hfkHI7fTIVm
+	 593kNAFWpPYrvZM/jUo3fNC9lYRinwYFoQEPX4mvgebtHcg+q0/jtPkBOqmycudB5h
+	 lvIMmcnbp2bzPo2XZvx7ZrQ7jQ1t22IlI2k7ztxPumNk/OSxuesoeZCK/V7PWxcyih
+	 T2d17vKvLAtj149Sa0VK3IjL7v6HgkKxjM2do6f5PI+WEYP/REwe6UuFcKm3AGm/bC
+	 anYFuFsiSaK5w==
+Received: from [212.42.244.78] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
+	(envelope-from <n.schier@fritz.com>)
+	id 6aad8d94-0449-7f0000032729-7f000001b58c-1
+	for <multiple-recipients>; Fri, 18 Sep 2026 21:14:28 +0200
+Received: from mail-auth.fritz.com (unknown [212.42.244.78])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Fri, 18 Sep 2026 21:14:28 +0200 (CEST)
+Date: Fri, 18 Sep 2026 21:14:27 +0200
+From: Nicolas Schier <n.schier@fritz.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Alexey Gladkov <legion@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 04/20] kbuild: do not sort nm output where the order
+ is irrelevant
+Message-ID: <20260918-scrupulous-squirrel-from-nibiru-f017b4@l-nschier-aarch64>
+References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
+ <20260917-build-speedup-v3-4-9ecf4163ff36@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aqyKVkIH58DK0EZO@google.com>
+In-Reply-To: <20260917-build-speedup-v3-4-9ecf4163ff36@kernel.org>
+Organization: FRITZ! Technology GmbH
+x-ms-reactions: disallow
+X-purgate-ID: 149429::1789758868-39FD9965-1B3E940B/0/0
+X-purgate-type: clean
+X-purgate-size: 2955
+X-Notice: Whitelisted
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-pfmilter: host: postfix-mx-01  mail-id: AB603A07F0  external: no
 
-On Fri, Sep 18, 2026 at 12:48:22AM +0000, David Matlack wrote:
-> On 2026-09-16 06:50 PM, Bjorn Helgaas wrote:
-> > On Fri, Sep 11, 2026 at 04:44:02PM +0000, David Matlack wrote:
-> > > On 2026-09-10 06:48 PM, Bjorn Helgaas wrote:
-> > > > On Tue, Jul 28, 2026 at 10:09:55PM +0000, David Matlack wrote:
-> > > > > Set up a File-Lifecycle-Bound (FLB) handler for the PCI core to enable
-> > > > > it to participate in the preservation of PCI devices across Live Update.
-> > > > > Essentially, this commit enables the PCI core to allocate a struct
-> > > > > (struct pci_ser) and preserve it across a Live Update whenever at least
-> > > > > one device is preserved.
-> > > > 
-> > > > I assume pci_ser is the state the PCI core needs to preserve across
-> > > > kexec so the new kernel's enumeration doesn't interrupt the device
-> > > > operation.  And that whatever state the endpoint drivers need to
-> > > > adopt/inherit the device in the new kernel is managed without any help
-> > > > from the PCI core?
-> > > 
-> > > Yes.
-> > > 
-> > > > > Preserving PCI devices across Live Update is built on top of the Live
-> > > > > Update Orchestrator's (LUO) support for file preservation. Drivers are
-> > > > > expected to expose a file to userspace to represent a single PCI device
-> > > > > and support preservation of that file. This is intended primarily to
-> > > > > support preservation of PCI devices bound to VFIO drivers.
-> > > > 
-> > > > Where do drivers expose this file?  sysfs?  I guess it's a file per
-> > > > preserved device?  Thinking like a driver writer, I'm expecting a hint
-> > > > about how to expose this file (should also be in the file doc somehere
-> > > > if it's not already).
-> > > 
-> > > There is no requirement about how drivers do this from the PCI core
-> > > perspective. For all intents and purposes, the VFIO PCI variant drivers
-> > > are the only drivers that are going to be supported in the next 1-2
-> > > years. They expose a misc character device for each file.
-> > 
-> > If this file isn't relevant to the PCI core, maybe we don't need to
-> > mention it here.  It doesn't seem like it motivates this patch.
-> > 
-> > > > > This commit enables drivers to register their liveupdate_file_handler
-> > > > > with the PCI core so that the PCI core can do its own tracking and
-> > > > > enforcement of which devices are preserved.
-> > > > > 
-> > > > >   pci_liveupdate_register_flb(driver_file_handler);
-> > > > >   pci_liveupdate_unregister_flb(driver_file_handler);
-> > > > 
-> > > > So a driver calls pci_liveupdate_register_flb() once, then
-> > > > pci_liveupdate_preserve() once for each device it wants preserved?
-> > > 
-> > > Yes
-> > > 
-> > > > > When the first file (with a handler registered with the PCI core) is
-> > > > > preserved, the PCI core will be notified to allocate its tracking struct
-> > > > > (pci_ser).
-> > > > 
-> > > > The passive voice here makes the actors a bit obscure.  I guess a
-> > > > LIVEUPDATE_SESSION_PRESERVE_FD ioctl on some per-device file kicks
-> > > > this off?
-> > > 
-> > > Yes. (And I will reduce the passive voice in the next version.)
-> > > 
-> > > > I guess the pci_ser allocation is in
-> > > > pci_liveupdate_flb_ops.preserve(), i.e., pci_flb_preserve()?
-> > > 
-> > > Yes.
-> > > 
-> > > > So the PCI core tracker (pci_ser) isn't actually allocated at the time
-> > > > of pci_liveupdate_register_flb(); it's allocated on the first
-> > > > LIVEUPDATE_SESSION_PRESERVE_FD ioctl for a driver that has called
-> > > > pci_liveupdate_register_flb()?
-> > > 
-> > > Yes. The first device that gets preserved triggers the allocation of
-> > > struct pci_ser. And the last device that gets unpreserved (preservation
-> > > cancelled) triggers the freeing of struct pci_ser.
-> > > 
-> > > > IIUC the call tree for that ioctl looks something like this:
-> > > > 
-> > > >   <driver>
-> > > >     pci_liveupdate_register_flb
-> > > >       liveupdate_register_flb(fh, &pci_liveupdate_flb)
-> > > > 
-> > > >   luo_session_ioctl
-> > > >     op = &luo_session_ioctl_ops[...]
-> > > >     op->execute                               # eg luo_session_preserve_fd()
-> > > >       luo_session_preserve_fd
-> > > >         luo_preserve_file
-> > > >           luo_flb_file_preserve
-> > > >             luo_flb_file_preserve_one
-> > > >               if (outgoing_count == 0)        # only for first FLB device
-> > > >                 flb->ops->preserve            # eg pci_flb_preserve()
-> > > >                   pci_flb_preserve
-> > > >                     ser = kho_alloc_preserve  <-- alloc pci_ser
-> > > >                 outgoing.count = 1
-> > > >           fh->ops->preserve                   # something not included here
-> > 
-> > So IIUC this part of the path looks like this, which answers my
-> > question below about ordering of pci_ser and
-> > pci_liveupdate_preserve():
-> > 
-> >               fh->ops->preserve                   # eg vfio_pci_liveupdate_preserve()
-> >                 vfio_pci_liveupdate_preserve
-> >                   pci_liveupdate_preserve
-> >                     pci_liveupdate_preserve_device
-> >                       dev_ser = pci_flb_alloc_dev_ser  <-- alloc per-dev PCI core serialized state
-> >                       dev_ser->bdf = pci_dev_id(dev)
-> > 
-> > > > Seems like kind of an awkward way to allocate pci_ser.  Couldn't it be
-> > > > allocated on the first call to pci_liveupdate_register_flb()?  That
-> > > > would be a lot easier for driver writers to trace through.
-> > > 
-> > > I agree the LUO FLB API is a bit awkward, but this is how it works.
-> > > 
-> > > If we allocated it during pci_liveupdate_register_flb() we would then
-> > > need to stash it in a global variable to hand-off the LUO later. Despite
-> > > the awkwardness of FLBs, it is useful to avoid globals and have LUO
-> > > management the lifetime.
-> > 
-> > It seems like pci_ser is a singleton by design, so a global variable
-> > doesn't sound like it would be terrible to me.
-> > 
-> > > > > When the last file is unpreserved (i.e. preservation
-> > > > > cancelled) the PCI core will be notified to free struct pci_ser.
-> > > > 
-> > > > There's a lot going on behind "PCI core will be notified".  I assume
-> > > > these refer to the first-time behavior of luo_flb_file_preserve_one()
-> > > > and last-time behavior of liveupdate_flb_put_outgoing(), which is
-> > > > honestly kind of hard to suss out.
-> > 
-> > Could we say something specific and PCI-related here, to help connect
-> > the dots?  Most of these paths are outside the PCI core.
-> > 
-> > IIUC luo_session essentially has a refcount (outgoing.count)
-> > incremented by each LIVEUPDATE_SESSION_PRESERVE_FD ioctl, and the 0->1
-> > transition in luo_flb_file_preserve_one() ends up calling
-> > pci_flb_preserve(), where pci_ser is allocated.
-> > 
-> > And the refcount is decremented by luo_flb_file_unpreserve() (in a
-> > luo_session .release() function), where the 1->0 transition in
-> > liveupdate_flb_put_outgoing() calls pci_flb_unpreserve() where pci_ser
-> > is deallocated.
-> > 
-> > That gets into a lot of detail, probably too much for a commit log.
-> > Maybe mentioning the function names by which the PCI core is notified
-> > to alloc/free pci_ser would be enough of a bread crumb.
-> > 
-> > > > This series doesn't include a caller of pci_liveupdate_preserve() (or
-> > > > pci_liveupdate_register_flb()), so I can't figure out the ordering.
-> > > > Obviously pci_liveupdate_register_flb() must be first.
-> > > 
-> > > In every version of this patch series I have sent I included a link to
-> > > the vfio-pci driver changes that build on top of this, rebased that
-> > > series on top of this one, uploaded it to my GitHub, and included a link
-> > > in the cover letter. Here is the relevant section from the v8 cover
-> > > letter:
-> > > 
-> > > . This series was tested in conjunction with v5 of the VFIO PCI driver
-> > > . series:
-> > > .
-> > > .   https://lore.kernel.org/kvm/20260714151505.3466855-1-vipinsh@google.com/
-> > > .
-> > > . The full set of patches used for testing can be found on GitHub.
-> > > .
-> > > .   https://github.com/dmatlack/linux/tree/liveupdate/pci/base/v8-with-vfio
-> > > 
-> > > 
-> > > > I first thought pci_liveupdate_preserve() would be called via the
-> > > > fh->ops->preserve() in the luo_session_preserve_fd() ioctl path, but
-> > > > it's not.  pci_liveupdate_preserve() is intended for the driver to
-> > > > call it directly.  But it looks like it has to be called *after* the
-> > > > ioctl?  Obviously I'm confused :)
-> > > 
-> > > It is called by the driver during it's fh->ops->preserve() callback. In
-> > > other words, it is called during the ioctl by the driver.
-> > 
-> > I think the updated call tree above shows the connection?
+On Thu, Sep 17, 2026 at 05:06:14PM +0100, Lorenzo Stoakes (ARM) wrote:
+> Unless instructed otherwise, nm sorts by name.
 > 
-> Yes the call tree you added above is correct. Here is an attempt at the
-> complete picture that I plan to include in the kernel-doc in v9:
+> There are places where this is unnecessary - an invocation from
+> scripts/sorttable every vmlinux link, scripts/check-function-names.sh run
+> after every vmlinux.o link, and the x86 VOFFSET and ZOFFSET listings
+> between vmlinux and bzImage.
 > 
->  * Call Flow
->  * ---------
->  *
->  * ::
->  *
->  *   # Driver initialization
->  *   pci_liveupdate_register_flb(fh)
->  *
->  *   # Userspace: ioctl(LIVEUPDATE_SESSION_PRESERVE_FD, devfd)
->  *   luo_preserve_file()
->  *     luo_flb_file_preserve()
->  *       luo_flb_file_preserve_one()      # first preserved file only
->  *         pci_flb_preserve()             # alloc and preserve struct pci_ser
->  *     fh->ops->preserve()                # driver callback
->  *       pci_liveupdate_preserve(dev)     # record this device in struct pci_ser
->  *
->  *   # Userspace: preservation cancelled or session torn down
->  *   luo_file_unpreserve_files()
->  *     luo_flb_file_unpreserve()
->  *       liveupdate_flb_put_outgoing()    # last unpreserved file only
->  *         pci_flb_unpreserve()           # free struct pci_ser
->  *
->  *   # ---------------- kexec ----------------
->  *
->  *   # New kernel: PCI enumeration
->  *   pci_setup_device()
->  *     pci_liveupdate_setup_device()
->  *       liveupdate_flb_get_incoming()
->  *         luo_flb_retrieve_one()         # first request only
->  *           pci_flb_retrieve()           # previous kernel's struct pci_ser
->  *
->  *   # Userspace: ioctl(LIVEUPDATE_SESSION_FINISH)
->  *   luo_file_finish_one()
->  *     fh->ops->finish()                  # driver callback
->  *       pci_liveupdate_finish(dev)       # release this device's pci_dev_ser
->  *     luo_flb_file_finish()
->  *       liveupdate_flb_put_incoming()    # last incoming file only
->  *         pci_flb_finish()               # free struct pci_ser
->  *
+> Both GNU nm and llvm-nm accept the same '-p' parameter to disable sorting
+> in these instances, so use that to prevent this unnecessary work.
 > 
-> And here is an updated commit message that I hope explains everything more
-> clearly:
+> Each nm run on its own, x86-64, median of 5:
 > 
->  PCI: liveupdate: Set up FLB handler for the PCI core
+>                              GNU nm 2.47              llvm-nm 22
+>                           before  after   delta    before  after   delta
+>   defconfig
+>   sorttable, nm -S vmlinux 0.080s 0.039s -0.041s   0.265s 0.113s -0.152s
+>   check-function-names.sh  0.072s 0.033s -0.039s   0.244s 0.102s -0.142s
+>   VOFFSET                  0.077s 0.034s -0.043s   0.261s 0.113s -0.148s
+>   ZOFFSET                  0.007s 0.005s -0.002s   0.005s 0.005s  0.000s
+>   TOTAL                                  -0.125s                 -0.442s
 > 
->  Set up a File-Lifecycle-Bound (FLB) handler so that the PCI core can
->  preserve its own state across a Live Update kexec.
+>   allmodconfig
+>   sorttable, nm -S vmlinux 0.156s 0.063s -0.093s   0.539s 0.223s -0.316s
+>   check-function-names.sh  0.149s 0.054s -0.095s   0.537s 0.217s -0.320s
+>   VOFFSET                  0.146s 0.052s -0.094s   0.524s 0.221s -0.303s
+>   ZOFFSET                  0.007s 0.005s -0.002s   0.006s 0.004s -0.002s
+>   TOTAL                                  -0.284s                 -0.941s
 > 
->  Preserving a PCI device across kexec requires preserving two independent
->  sets of state:
+> llvm-nm appears to be a lot slower than GNU nm, so these builds naturally
+> improve the most.
 > 
->   - Driver state, e.g. everything vfio-pci needs so that userspace can
->     keep using the device in the new kernel. The driver preserves this
->     itself and the PCI core is not involved.
+> The four run one after another in the serial tail of every build that links
+> vmlinux so impact kernel builds directly.
 > 
->   - PCI core state, e.g. which devices are preserved, so that the new
->     kernel knows not to disturb them while they are still running and
->     doing DMA. That is what this commit adds, serialized into struct
->     pci_ser.
+> In an allmodconfig the decompressor is built in parallel while the modules,
+> so only the two before the vmlinux link contribute to build time.
 > 
->  Userspace, not the kernel, decides which devices are preserved, and it
->  does so through the Live Update Orchestrator's (LUO) support for file
->  preservation: a driver exposes a file that represents a single PCI
->  device, and userspace preserves that device with
->  ioctl(LIVEUPDATE_SESSION_PRESERVE_FD) on that file. Binding preservation
->  to a file gives it proper lifecycle management, e.g. the preservation is
->  undone if userspace cancels it or goes away. How a driver exposes that
->  file is up to the driver and invisible to the PCI core (vfio-pci variant
->  drivers, the first intended use-case, use their per-device cdev).
+> The build outputs remain unchanged.
 > 
->  LUO only knows that a file was preserved; it does not know that the
+> Whole build, 128-thread Threadripper 9980X, best of N runs:
+> 
+>                                           before    after     delta
+>                                         ---------------------------------
+>   x86 defconfig, touch mm/vma.c, gcc        9.7s     9.5s    -0.18s (-2%)
+>   x86 defconfig, touch mm/vma.c, clang      9.3s     9.0s    -0.27s (-3%)
+>   x86 defconfig, clean, gcc                30.3s    30.1s    -0.16s (-1%)
+>   x86 defconfig, clean, clang              31.7s    31.2s    -0.55s (-2%)
+>   x86 allmodconfig, touch mm/vma.c, clang  36.4s    35.8s    -0.67s (-2%)
+> 
+> Assisted-by: LLM
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  arch/x86/boot/Makefile            | 2 +-
+>  arch/x86/boot/compressed/Makefile | 2 +-
+>  scripts/check-function-names.sh   | 3 ++-
+>  scripts/link-vmlinux.sh           | 2 +-
+>  4 files changed, 5 insertions(+), 4 deletions(-)
+> 
 
-s/the/it/
+Thanks!
 
->  represents a PCI device, or which one. Bridging that gap, drivers
->  register their liveupdate_file_handler with the PCI core:
-> 
->    pci_liveupdate_register_flb(driver_file_handler);
->    pci_liveupdate_unregister_flb(driver_file_handler);
-> 
->  LUO then refcounts the PCI core's FLB against the files preserved by
->  that handler, and that refcount drives the lifetime of struct pci_ser:
-> 
->   - On the first preserved file, luo_flb_file_preserve_one() calls
->     pci_flb_preserve(), which allocates struct pci_ser and preserves it
->     with KHO.
-> 
->   - On the last unpreserved file (i.e. preservation cancelled),
->     liveupdate_flb_put_outgoing() calls pci_flb_unpreserve(), which
->     unpreserves and frees struct pci_ser.
-> 
->   - In the next kernel, pci_flb_retrieve() hands the PCI core the struct
->     pci_ser built by the previous kernel, whenever the PCI core asks for
->     it (e.g. during enumeration), and pci_flb_finish() frees it once the
->     PCI core is done with it.
-> 
->  So the flow for preserving a device, once a driver has registered, looks
->  like this:
-> 
->    ioctl(LIVEUPDATE_SESSION_PRESERVE_FD)
->      luo_session_preserve_fd()
->        luo_preserve_file()
->          luo_flb_file_preserve()
->            luo_flb_file_preserve_one()  # only on the first preserved file
->              pci_flb_preserve()         # alloc + KHO-preserve pci_ser
->          fh->ops->preserve()            # driver callback, e.g. vfio-pci
-> 
->  Note that struct pci_ser is deliberately not allocated when a driver
->  calls pci_liveupdate_register_flb(). A driver can be loaded for the
->  lifetime of the machine without ever preserving a device, and there is
->  no reason to allocate memory and hand it to the next kernel in that
->  case. Letting LUO own the lifetime also means the PCI core does not have
->  to duplicate LUO's refcounting and unwind logic for preservation
->  failures, session aborts and fd close, and the incoming side
->  (retrieve/finish) comes from the same object rather than requiring a
->  separate KHO FDT entry owned by the PCI core.
-> 
->  Note: This commit only allocates struct pci_ser and preserves it across
->  Live Update. A subsequent commit adds pci_liveupdate_preserve(), the API
->  drivers call from their fh->ops->preserve() callback to tell the PCI
->  core exactly which devices are being preserved.
-> 
->  Note: There is no reason to check for kho_is_enabled() since it can be
->  assumed to return true. If KHO was not enabled then Live Update would
->  not be enabled and these routines would never run.
+Reviewed-by: Nicolas Schier <n.schier@fritz.com>
 
-Beautiful, thanks for your patience :)
+-- 
+Nicolas
