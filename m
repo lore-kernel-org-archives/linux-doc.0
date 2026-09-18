@@ -1,128 +1,103 @@
-Received: from e234-50.smtp-out.ap-northeast-1.amazonses.com (e234-50.smtp-out.ap-northeast-1.amazonses.com [23.251.234.50])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411B930566D;
-	Fri, 18 Sep 2026 10:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.251.234.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4440E22538F;
+	Fri, 18 Sep 2026 10:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789726243; cv=none; b=E5tha/0tm0UXvvD2uzu/BA+yLC+LU15YNoKelY3EkB2i/RGh5LDnj/ea2+003mfu5q57DL73/cysk7RvghFPnMKy9jR180mHlf/dYJXUjZWKYOFIvDve8xN2Tz28vZqhZj03L5vkRUdi/CVVI+pGHedV23AaBXsAsLdDKAStR5A=
+	t=1789726861; cv=none; b=YYby3KJi91v+wRadkS4TWIUmuv88F3jA1qVBMwh/EVlgc9pq2qY6iPdPmBWRMEfPnA+CO6nhVL7LHPfCnzW3sX2GrjAniTSfkQZ0E5GLtyUfqKG3caEfR6JcbWoe+hMrdrCKk5pb31GDi6cgH15tQxQ+/GYSSibvyVkHoczN3Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789726243; c=relaxed/simple;
-	bh=3k0woI/2Pe49Zy+kpvH7k3E8P11LFDlzapFiXAfYPJg=;
-	h=References:In-Reply-To:From:To:Cc:Subject:Message-ID:Date:
-	 MIME-Version:Content-Type; b=p2AZctmL3mlF+5BloCS03kYSEs8FwTDxKATObSRRtBRJZjOHBuA55O7QmHxqIpX1Q6MOfdKA2c+2+VI96y6a9kH1tBejGupjuKKs5w10UXqM5XzKtuW8v5dHZuFPFzwrK+BSNmGBFDrQJbiVQ5KrAOmGCdwL6m7WpxG12Z4Tatw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fqwqf.xyz; spf=pass smtp.mailfrom=send.fqwqf.xyz; dkim=pass (1024-bit key) header.d=fqwqf.xyz header.i=@fqwqf.xyz header.b=sadRIJUP; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=ZrV3vPHm; arc=none smtp.client-ip=23.251.234.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fqwqf.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=send.fqwqf.xyz
+	s=arc-20240116; t=1789726861; c=relaxed/simple;
+	bh=BAVjxI/sPlbNfC2L8bo/HavZU0mb4/zUP+cUEWUy5LM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d1iYnfVLz7mXkMUApQFBiXizE8KyC7sPTVQ4szLPjwcoNRtzS+ED/o6+Czy2IDkXLOu5Y5k0C1LNQodxBwE33d+nM2Ww0fOGc+1odH9z5nTABmzb0AhL0UmsQMOag6hsg9K44sy3JFAAFTHb1MXru1hQLHuTWQrlFec9l/Qoqko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=oOO60XwY; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fqwqf.xyz header.i=@fqwqf.xyz header.b="sadRIJUP";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="ZrV3vPHm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
-	d=fqwqf.xyz; t=1789726236;
-	h=References:In-Reply-To:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
-	bh=3k0woI/2Pe49Zy+kpvH7k3E8P11LFDlzapFiXAfYPJg=;
-	b=sadRIJUPGaNBwXEF4Y9g2pekeWtieOJsxIPnwcOu3zMmnEOdisJcMZM3fronz/e0
-	RHY/8vmeW+9F8WHdzbRzT/I24cLulQgskeHpBvT+CHfc9naM2rx83sqi55ObM0XhooV
-	3jwmjVaW/d8xZQk67F0WLB9fC+s3a8DaXZJWOkJU=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=zh4gjftm6etwoq6afzugpky45synznly; d=amazonses.com; t=1789726236;
-	h=References:In-Reply-To:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
-	bh=3k0woI/2Pe49Zy+kpvH7k3E8P11LFDlzapFiXAfYPJg=;
-	b=ZrV3vPHmBoRF8ofVNfovRfpsd6mPmBQDMdXTPoSPMoIrDblW3mh4F9e+3MvcN4O7
-	LlnOuvYN5RGMDf4tzDoIdv7uaDs+/YSfciTN5U5Jyks3gudyfUo5IsnTuTdG7Pt6P4U
-	7DzEsQpvgpCxG+/Bhv/rQpmwu1hwwDe+KOA1GFG0=
-User-Agent: Mozilla Thunderbird
-References: <20260609-send-upstream-v4-0-b843d5e6ced3@chromium.org>
-Content-Language: en-US
-In-Reply-To: <20260609-send-upstream-v4-0-b843d5e6ced3@chromium.org>
-From: fQwQf <fqwqf@fqwqf.xyz>
-To: jingyliang@chromium.org, jikos@kernel.org, bentiss@kernel.org, 
-	corbet@lwn.net, broonie@kernel.org, rostedt@goodmis.org, 
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 
-	dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	hbarnor@chromium.org, tfiga@chromium.org, jaschultz@microsoft.com, 
-	dmanti@microsoft.com, acz@semihalf.com
-Subject: Re: [PATCH v4 00/11] Add spi-hid transport driver
-Message-ID: <010601a0b3ff1cf6-944e2ad5-0ad1-49d4-9e89-c8ab03bbc62c-000000@ap-northeast-1.amazonses.com>
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Sep 2026 10:10:35 +0000
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="oOO60XwY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=/ZQNv34Ek5Ax6QYdQ7WcoxvzXPWjuzfsPGdEUkXflEs=; b=oOO60XwY8ERyAwZK1S5h0ToTPQ
+	OWwppHptar6tur502/2Wg9/RCn2+pTXEtbIxFfHSEZlVoELlME73jhYQbNgjqZXZLZlskIwr4BRLo
+	4KhTvT+ONt5E5DYomWH9sCloKyIcNdSH+jcmjU8hT4oxN+3cPP3FToHvfwgCedBhWkNh93FuDuebg
+	LSCa4XpTARiqYS5ebFHkY+qrfq04Jev8uQkMm22bxOdXL6rKAblbLD/pGi5gzHlrNVhf8kjDvSZ2a
+	DiR2HyXULTC0Etm/1SxcycLYuX1tHXwQnnjP8oldLyI2EF+MMok6nX92fsb8cD8KxXPWvDBGHbwPS
+	JquZVzOw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1x7Vi1-006eOU-1G;
+	Fri, 18 Sep 2026 10:20:45 +0000
+Date: Fri, 18 Sep 2026 03:20:39 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, kernel-team@meta.com
+Subject: Re: [PATCH 3/3] mm: kmemleak: raise min_unref_scans to 3 for verbose
+ auto-scan
+Message-ID: <aq0PcQ-S5i8CWqr1@gmail.com>
+References: <20260917-b4-kmemleak-doc-v1-0-84fde6d1f749@debian.org>
+ <20260917-b4-kmemleak-doc-v1-3-84fde6d1f749@debian.org>
+ <20260917150443.a872ea0fd692503c53b2b773@linux-foundation.org>
+ <aq0ChSUFw2n6lXIQ@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Feedback-ID: :1.ap-northeast-1.6BGMgStFQE7EJYq5syaCRzdneEHVt/+DAaGDrqUmDs9QLO4/SllUBZ3fHvnZ8rcAX/3IjUyTRgi5JFZsWrikFHwlPJqCkqEMlxDFM4JXh+ycxH/J5Tudg5bGdz6h4331g1L1EFsGR8kuYNfGLsrxz4Nym4YXoPcZxeVkrHry4Zx21n8vEVLEjc7s+OCM8PU9:1.ap-northeast-1.DTXDV/V9GPBWozcllKo8innbNB2qs2O/3F8XZSzd9ZM=:AmazonSES
-X-SES-Outgoing: 2026.09.18-23.251.234.50
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aq0ChSUFw2n6lXIQ@arm.com>
+X-Debian-User: leitao
 
-Hi Jingyuan,
+On Fri, Sep 18, 2026 at 10:21:09AM +0100, Catalin Marinas wrote:
+> On Thu, Sep 17, 2026 at 03:04:43PM -0700, Andrew Morton wrote:
+> > On Thu, 17 Sep 2026 06:47:37 -0700 Breno Leitao <leitao@debian.org> wrote:
+> >
+> > > CONFIG_DEBUG_KMEMLEAK_VERBOSE sends every report to the console, so a
+> > > transient false positive there is broadcast to whatever collects the
+> > > kernel log rather than sitting in the debugfs file until someone looks.
+> > > That asymmetry justifies being more conservative than the general case.
+> > >
+> > > Require one more consecutive unreferenced scan before reporting. The
+> > > only cost is that a genuine leak is reported one scan interval later
+> > > (600s by default); the value stays writable at run time through the
+> > > module parameter.
+> > >
+> > > Kernels without CONFIG_DEBUG_KMEMLEAK_VERBOSE keep reporting on the
+> > > first unreferenced scan.
+> > >
+> > > I've been running constant upstream kernel with
+> > > CONFIG_DEBUG_KMEMLEAK_VERBOSE set, and I am still seeing some rare false
+> > > positive, that goes away with min_unref_scans=3, so, making it the
+> > > default based on my heuristic.
+> >
+> > I'm guessing going from 2 to 3 reduces the false-positive reporting
+> > rate, but they're still possible.
+> >
+> > It all sounds rather rubbery.  Why do these false positives occur,
+> > anyway?  Are we papering over a fundamental problem by filtering out
+> > its user-visible effects?
+>
+> The fundamental problem is that we can't do a stop-machine for the
+> kmemleak scanning. When scanning takes tens of seconds, pointers may
+> move around memory or registers on other CPUs, so kmemleak could miss
+> them. It's all probabilistic, hoping that we won't hit the same object
+> two or three times in a row, 10min apart (for lack of better ideas). We
+> have other heuristics like checksumming but they don't seem to be
+> sufficient when testing on a large scale.
 
+In fact, in my investigation there's only a single use case where I
+actually see this false positive, which go away with this new approch.
 
-> This series picks up the spi-hid driver work originally =
-started by
-> Microsoft. The patch breakdown has been modified and the =
-implementation
-> has been refactored to address upstream feedback and =
-testing issues. We
-> are submitting this as a new series while keeping the =
-original sign-off
-> chain to reflect the history.
-
-
-I am working on Linux support for the Surface Laptop 7 (13.8-inch, =
-Snapdragon X series), whose touchpad is a HID-over-SPI device behind a =
-Qualcomm GENI QSPI controller. I noticed that v4 (June 9) is the
-latest revision of this series and has so far only seen automated review =
-feedback, so I would like to coordinate before preparing any upstream =
-submission of my own.
-
-Current state on my side:
-
-- I have a working =
-touchpad using a downstream Qualcomm GENI QSPI +=C2=A0 spi-hid stack =
-(originally from scuggo's x1e-nixos work, imported=C2=A0 via ELLX-Kernel). =
-My local adaptations move the transport to spi-mem and add framing, =
-response matching, and DMA/error-path=C2=A0 hardening.
-- Normal touchpad use works on my machine. The latest hardening currently =
-has only build and software-test coverage; I have not validated s.
-2. The SL7 adds a different transport requirement (quad-SPI via GENI, =
-through spi-mem) on topuspend/resume, and I have not yet run your v4 series=
- on this hardware.
-
-I believe our work may complement each other in two =
-ways:
-
-1. The automated review of the series raised DMA cacheline-alignment=
- concerns for SPI transfer buffers and unchecked reset return values in the=
- init/resume paths. Both overlap with the hardening I have been doing =
-downstream, and I would be glad to contribute fixes there.
-2. The SL7 adds a different transport requirement (quad-SPI via GENI, =
-through spi-mem) on top of the same HID-over-SPI protocol, which looks like=
- a natural fit for your generic driver rather than a standalone one.
-
-Questions:
-
-- What tree or series do you recommend working against? Is v4 =
-still your current baseline, or do you have a newer development branch?
-- Would adding the SL7 quad-SPI transport requirements to your generic =
-driver be the preferred upstream approach? Is anyone already working on =
-this?
-- Are you waiting on maintainer review before a v5? A second hardware=
- platform may help move things along, and I am happy to provide testing on =
-SL7.
-
-I am also tracing the downstream provenance of the Qualcomm QSPI code=
- with the original authors to ensure a clean sign-off chain; I appreciate =
-that this series handles its own history the same way.
-
-Happy to share technical details or a preliminary diff if useful.
-
-I'm not subscribed to the lists; please keep me in CC.
-
-Best regards,
-Jizhou Tong
+And I have a very solidy test setup where linux-next is deployed daily
+and run for 24 hours, until the next kernel replaces it. This is on real
+hardware with some basic workloads, so, in fact the false positive
+(given the design above) is quite low.
