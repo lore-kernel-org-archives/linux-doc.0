@@ -1,322 +1,179 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189D8331EB2
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 17:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83BC3E49EE;
+	Fri, 18 Sep 2026 18:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789752755; cv=none; b=imteTGkjKs1xL7O+nAtQ2oR2Sj7/M09ijswlklUUolitbWV/AA3TICws2odwlRmuvg/MTQidnBGbm5edXpgB/6XqsrIxNmKST0tFCsELdKBWPVYRI+OI13rlF28EYk0LbRjZDNXD02qdSxSfMvdmULu1lBGqXJLWbdsW7h66Q8U=
+	t=1789754462; cv=none; b=llx2VLncML3fW6lHybkNVJq99Hz9X/hKieHbS6P1rdOT3NscwPopvQEHGrQ/EBeYiAJns4s+lSRLd7QiFirBU/5HH5rdNP1VHuQXHaZRApLf5nuH681CQ+aFNoJqxv073itMneMpQerTCL5jazrIFIurnriOpKTJCqSpzBL6mvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789752755; c=relaxed/simple;
-	bh=pMGpEi39BEyUo6zCUXVX6ESUaX/7PwRrk/NnMo1pLNs=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=ZgGabDPaYhrVxnWQQvo4z7Viao718zlamzoXpoFBXUljOWnZjxcMl434aQpJnVY8vpk5i716O+v3KbX5JDOkz/yiA358MpP1w7zwLDoPimKrtK3JAIQTUBvr5l0HijtZOL5lrLdwMM6VPfDW7vltvC9kTXpTw8doEnNKWlL4A0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=conchuod.ie; spf=pass smtp.mailfrom=conchuod.ie; dkim=pass (2048-bit key) header.d=conchuod.ie header.i=@conchuod.ie header.b=VNnXktVs; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=conchuod.ie
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=conchuod.ie
+	s=arc-20240116; t=1789754462; c=relaxed/simple;
+	bh=rJyMtUJox/zyLLceCJ+E/9zig5jRcd6wrkw+gkeFTVk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N1fS3SIA/uh+U/zW18qcMjjMHHpq0LUCqH1j2fqqzd08UYL274rYMddUYLDBsomjnd6H97Ae/KTcOj/wSQvTRN7oIpe42iP9LZ9+ezoCrcE0kiz6PmPsg2TvWrAR332ZVRJp44ixjwXc1gD/B3l2tb/K6Cj+ciVb1l0KcAhXiYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ah27XptP; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=conchuod.ie header.i=@conchuod.ie header.b="VNnXktVs"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e83a388f8so6706515e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 10:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=conchuod.ie; s=google; t=1789752741; x=1790357541; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :references:in-reply-to:user-agent:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Dvc/pEW/BAh9vZt3yE6d0wx7vktxXFNO+yS8WEG5HPw=;
-        b=VNnXktVsLAt3T1Ig0Mc9AiO9oe9bxAvbbIusYEESyFok61YQrsa5bwmH1AmobaSOFo
-         lyk3NsL8p4FwB0aAquyTQFa0010XaWHF5/+GnHrEsbLqGF/Z7TszslYoJ/Y8lr1zxUKw
-         FzKfChLwCojPe1HzC+iXJI5LfDsouGc5xiQg/u+dZ81keSrrfMt70JWlx9GVQQEA93yo
-         efRrHQno5csmwCsIBJ2KthiW4Y+d2l7+UNghADAzbBxx7fvkSLrM2qfzT5wg1mP5f+7C
-         /8m4JA5L/YJQhraWj1rpCI0wd2n/eZCCqTL7Pxe++3ybQIRcLy3I2yoOP6pQK5mCvIIL
-         k1AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789752741; x=1790357541;
-        h=content-transfer-encoding:content-type:mime-version:message-id
-         :references:in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Dvc/pEW/BAh9vZt3yE6d0wx7vktxXFNO+yS8WEG5HPw=;
-        b=CZeYKNBHpQrUkLkhKYmhWzwecynwyibe9ssjTGdxEebUMdvwAhys0JobwmH/g4xkQc
-         ZfjHNYe8N99JpNwumxBqdZLmjQ96wUNe2YDnFRpuiDxB8XJAHgi9hxftyWg2KgiRFnnX
-         7VoNK8eCr6Q+HdIKsTarMBVv1XLpYSDxHl/W2JIQo9+78c2l8rtPVPGjGAo6tyjpL6OH
-         5pbdGHeYLs1sHZxEDwnyteZA3P9cnjPk+jvYJkyx+Daccb5JEjFTP4H6vt16z3k681+H
-         e+HkmbQT+6g7LG+X5nwet88K/QrhKiSLOtpEd8o5i3YVWE37ERH2ukxOv5voutAyRRkO
-         klLQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxVO5djv8Y6r8lshxdqUnhK1oBBQnBTW98zXoVaaJTx5JNEx3caDKp1sNqOOpv55E4Mf47aWA0B5n4=@vger.kernel.org
-X-Gm-Message-State: AFuF++nRNfYzp7bXs8lnCC7uMXwkTPi2mRXsJH25KtsBH853/3ixHEpY
-	h+H0j/bwn8Z4e5QDSEu19pmRqr031o74XvxdN52GFv9gzbLJHb6Hz39s+V8eeQ3sSFy7FYj0btK
-	JF+g0l+s=
-X-Gm-Gg: AYBFou2F4mJalDtnbq8NBG3kuQfzyu0Nz9//sP8qkvWF52QHPBaTynfb2QDGPhSo4vt
-	2TwXM6LKHv3XDkJb7EhGqNyNbVO9+XBIVKs3F4pKmZzGZP3j7K3eGIIvsl57szWk0rgyrPBo9Df
-	9LoAaaFxO4lCn/vPAwTwtGWu6sHjf9y4VfTCb3fXvIZQXVp3Vm29+SHdaoezhiAbidGsCNshyZc
-	LyB/Sv8HeSUgD4VQ9ij9l/NTGnmmqtAE5fAmR5nwu2AoYqdI7Rg1YzlH+CaB1j/Z4x/SlkrXRHo
-	ySuWP9yYyk3XlbcmxUzBPu0uq5xHpNp66ArEU1/yqyJGJyptFU4Btvi6ybMZMttwIFRNSnKekdl
-	DcZnuhSKO3sUwZutaOsbTNMPb631GHoRgyZNg7TvuWqYMYhFrI4jRK+8SXfGDRgAe/nC3zUgWsC
-	mXiFgOc3xsUyR9SZs8CDMUVgZ4VYRVOXPrAaic2U48v0rTdtwrOoK3b/JFCMfaOX4rqmf7hZBQL
-	jR5OdCVdxz4qeB7JZs9TcZEXfr82BXzPpS1M30sQgwEPsxZsnI=
-X-Received: by 2002:a17:906:9f87:b0:c24:b11a:470f with SMTP id a640c23a62f3a-c2a152e3212mr337280966b.0.1789752251335;
-        Fri, 18 Sep 2026 10:24:11 -0700 (PDT)
-Received: from ehlo.thunderbird.net (ip-077-020-009-205.vkd66.pools.vodafone-ip.de. [77.20.9.205])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a358868e1sm331666b.47.2026.09.18.10.24.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Sep 2026 10:24:10 -0700 (PDT)
-Date: Fri, 18 Sep 2026 19:24:05 +0200
-From: Conor <mail@conchuod.ie>
-To: Guenter Roeck <linux@roeck-us.net>, Colin Huang <u8813345@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-CC: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, colin.huang2@amd.com,
- linux-doc@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v6_2/2=5D_hwmon=3A_=28pmbus/tda38740=29?=
- =?US-ASCII?Q?_Add_driver_for_Infineon_TDA38740/TDA38725?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <dbd0a721-898b-4524-a0cd-c9751fd4bd68@roeck-us.net>
-References: <20260918-add-tda38740-and-tda38725-v6-0-a8b11018d850@gmail.com> <20260918-add-tda38740-and-tda38725-v6-2-a8b11018d850@gmail.com> <dbd0a721-898b-4524-a0cd-c9751fd4bd68@roeck-us.net>
-Message-ID: <2646A11E-8D13-4587-8027-1370E0007F36@conchuod.ie>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ah27XptP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=uW1VwXS9fnIR2k80j0oeOq/Eg+v68xwf0YIr/GHAino=; b=ah27XptPg/UpFLncJ2jfdOhvuY
+	S8VC3yxm6tvsaUu3uqutjN+mHpnnpZdDkT/s9QKcz64kM72p+CAXPI8QCZonnwxcAi7B8D/YHq8O0
+	dv0L36H9PSG2i56YRA0v7O9vjGO3079Q3N7CNBreE6vqJdeGgUkfSDhGXHWIcbjl84DqZZ2GWt8Uj
+	H2Zer9PzYvCDoVUqGoTHlk0AEF85SWrm8L/3yEXl4YxO5pFXFGEhPimv7YYy0lpjgafUJpmxBttTo
+	cJTsJW/LbtjM1OTB9lRQG5bTECs38ILBvqqOZSqnRvqXdnJbK1TvB2w1aq0XgmeVNpIsd6g8ezrN1
+	qbGffjlw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x7ctK-0000000FF51-2Tyj;
+	Fri, 18 Sep 2026 18:00:54 +0000
+Message-ID: <8d635404-f85f-48fa-817a-88d3c1ecd344@infradead.org>
+Date: Fri, 18 Sep 2026 11:00:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 5/5] NFS: add a key type that reveals the namespace
+ .nfs keyring serial
+To: Chuck Lever <cel@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
+ Anna Schumaker <anna@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Christian Brauner <brauner@kernel.org>, David Howells <dhowells@redhat.com>,
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nfs@vger.kernel.org, keyrings@vger.kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
+ <20260918-nfs-mtls-identity-v1-5-197e568d78a7@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260918-nfs-mtls-identity-v1-5-197e568d78a7@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
+On 9/18/26 7:05 AM, Chuck Lever wrote:
+> The per-namespace .nfs keyring is linked into no keyring that
+> userspace possesses, so a tool that provisions x509 credentials, or a
+> mount helper that searches for them, cannot reach it. Every keyring
+> operation from userspace takes a serial, and nothing hands this one
+> out.
+> 
+> Register an "nfs_keyring" key type whose request_key handler runs in
+> the caller's context, without an upcall, and instantiates the key
+> with the serial of the caller's namespace .nfs keyring. Userspace
+> reads the serial with one request_key() and one keyctl_read().
+> 
+> A keyring search runs before the handler does, and a task keeps its
+> session keyring across setns(). The type carries KEY_TYPE_NET_DOMAIN
+> so a key instantiated in one namespace does not answer a request from
+> another. Its preparse accepts no payload but the caller's own serial,
+> so a key planted by add_key() cannot misdirect a later request.
+> 
+> Register the type after register_pernet_subsys() has installed
+> nfs_net_id, and unregister it before the per-namespace state goes
+> away. unregister_key_type() waits for in-flight request_key() calls
+> to drain, so the handler never runs against a freed struct nfs_net.
+> 
+> Signed-off-by: Chuck Lever <cel@kernel.org>
+> ---
+>  Documentation/filesystems/nfs/index.rst   |  1 +
+>  Documentation/filesystems/nfs/keyring.rst | 67 ++++++++++++++++++++++
+>  fs/nfs/inode.c                            | 94 ++++++++++++++++++++++++++++++-
+>  3 files changed, 161 insertions(+), 1 deletion(-)
+> 
 
-On 18 September 2026 17:02:38 GMT+02:00, Guenter Roeck <linux@roeck-us=2En=
-et> wrote:
->On 9/18/26 03:23, Colin Huang wrote:
->> Add a PMBus driver for Infineon TDA38740 and TDA38725
->> single-voltage synchronous buck regulators=2E
->>=20
->> Signed-off-by: Colin Huang <u8813345@gmail=2Ecom>
->
->For my reference (waiting for DT patch approval):
->
->Reviewed-by: Guenter Roeck <linux@roeck-us=2Enet>
+This might be a locale thing, but using serial as a noun here seems
+awkward to me.  Is this like "serial number" with the "number" omitted?
 
-I'm on holiday and only have my phone, and cannot find the binding patch t=
-o reply to=2E
-I found it on lore and it looks okay=2E
+Serial as a noun usually means a publication in a series (TV, comics, etc.).
 
-Cheers,
-Conor=20
+Or is this some special security-related usage of the word serial?
 
->
->> ---
->>   Documentation/hwmon/index=2Erst    |  1 +
->>   Documentation/hwmon/tda38740=2Erst | 65 +++++++++++++++++++++++++++++=
-+++++++++++
->>   drivers/hwmon/pmbus/Kconfig      |  9 ++++++
->>   drivers/hwmon/pmbus/Makefile     |  1 +
->>   drivers/hwmon/pmbus/tda38740=2Ec   | 64 +++++++++++++++++++++++++++++=
-++++++++++
->>   5 files changed, 140 insertions(+)
->>=20
->> diff --git a/Documentation/hwmon/index=2Erst b/Documentation/hwmon/inde=
-x=2Erst
->> index f07977a20271=2E=2Eaeff87b3d46d 100644
->> --- a/Documentation/hwmon/index=2Erst
->> +++ b/Documentation/hwmon/index=2Erst
->> @@ -265,6 +265,7 @@ Hardware Monitoring Kernel Drivers
->>      sy7636a-hwmon
->>      tc654
->>      tc74
->> +   tda38740
->>      thmc50
->>      tmp102
->>      tmp103
->> diff --git a/Documentation/hwmon/tda38740=2Erst b/Documentation/hwmon/t=
-da38740=2Erst
->> new file mode 100644
->> index 000000000000=2E=2E55ce12f14914
->> --- /dev/null
->> +++ b/Documentation/hwmon/tda38740=2Erst
->> @@ -0,0 +1,65 @@
->> +=2E=2E SPDX-License-Identifier: GPL-2=2E0-only
->> +
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +Kernel driver tda38740
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +
->> +Supported chips:
->> +  * Infineon TDA38740
->> +  * Infineon TDA38725
->> +
->> +    Prefix: 'tda38740'
->> +
->> +    Addresses scanned: -
->> +
->> +    Datasheet:
->> +      https://www=2Einfineon=2Ecom/row/public/documents/24/49/infineon=
--tda38740-tda38725-datasheet-en=2Epdf
->> +
->> +Author: Colin Huang <u8813345@gmail=2Ecom>
->> +
->> +Description
->> +-----------
->> +
->> +The TDA38740 and TDA38725 are single-output synchronous buck regulator=
-s with a
->> +PMBus interface=2E They expose basic voltage, current, power and tempe=
-rature
->> +telemetry through the standard PMBus hwmon interfaces=2E
->> +
->> +Sysfs entries
->> +-------------
->> +
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->> +curr1_alarm		Input current alarm
->> +curr1_input		Measured input current
->> +curr1_label		"iin"
->> +
->> +curr2_crit		Critical maximum output current
->> +curr2_crit_alarm	Output current critical high alarm
->> +curr2_input		Measured output current
->> +curr2_label		"iout"
->> +
->> +in1_crit		Critical maximum input voltage
->> +in1_crit_alarm		Input voltage critical high alarm
->> +in1_input		Measured input voltage
->> +in1_label		"vin"
->> +
->> +in2_crit		Critical maximum output voltage
->> +in2_crit_alarm		Output voltage critical high alarm
->> +in2_input		Measured output voltage
->> +in2_label		"vout"
->> +in2_lcrit		Critical minimum output voltage
->> +in2_lcrit_alarm		Output voltage critical low alarm
->> +
->> +power1_alarm		Input power alarm
->> +power1_input		Measured input power
->> +power1_label		"pin"
->> +
->> +power2_input		Measured output power
->> +power2_label		"pout"
->> +
->> +temp1_crit		Critical high temperature
->> +temp1_crit_alarm	Chip temperature critical high alarm
->> +temp1_input		Measured temperature
->> +temp1_max		Maximum temperature
->> +temp1_max_alarm		Chip temperature high alarm
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
->> +
->> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
->> index bcfdc4ce4c10=2E=2Ee4ca80dd0574 100644
->> --- a/drivers/hwmon/pmbus/Kconfig
->> +++ b/drivers/hwmon/pmbus/Kconfig
->> @@ -763,6 +763,15 @@ config SENSORS_TDA38640_REGULATOR
->>   	  If you say yes here you get regulator support for Infineon
->>   	  TDA38640 as regulator=2E
->>   +config SENSORS_TDA38740
->> +	tristate "Infineon TDA38725/TDA38740"
->> +	help
->> +	  If you say yes here you get hardware monitoring support for Infineo=
-n
->> +	  TDA38725 and TDA38740=2E
->> +
->> +	  This driver can also be built as a module=2E If so, the module will
->> +	  be called tda38740=2E
->> +
->>   config SENSORS_TPS25990
->>   	tristate "TI TPS25990"
->>   	help
->> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefil=
-e
->> index e288fe72a437=2E=2Eeb06d47816fd 100644
->> --- a/drivers/hwmon/pmbus/Makefile
->> +++ b/drivers/hwmon/pmbus/Makefile
->> @@ -70,6 +70,7 @@ obj-$(CONFIG_SENSORS_STEF48H28)	+=3D stef48h28=2Eo
->>   obj-$(CONFIG_SENSORS_SQ24860)	+=3D sq24860=2Eo
->>   obj-$(CONFIG_SENSORS_STPDDC60)	+=3D stpddc60=2Eo
->>   obj-$(CONFIG_SENSORS_TDA38640)	+=3D tda38640=2Eo
->> +obj-$(CONFIG_SENSORS_TDA38740)	+=3D tda38740=2Eo
->>   obj-$(CONFIG_SENSORS_TPS25990)	+=3D tps25990=2Eo
->>   obj-$(CONFIG_SENSORS_TPS40422)	+=3D tps40422=2Eo
->>   obj-$(CONFIG_SENSORS_TPS53679)	+=3D tps53679=2Eo
->> diff --git a/drivers/hwmon/pmbus/tda38740=2Ec b/drivers/hwmon/pmbus/tda=
-38740=2Ec
->> new file mode 100644
->> index 000000000000=2E=2E067de07ba9fb
->> --- /dev/null
->> +++ b/drivers/hwmon/pmbus/tda38740=2Ec
->> @@ -0,0 +1,64 @@
->> +// SPDX-License-Identifier: GPL-2=2E0+
->> +/*
->> + * Hardware monitoring driver for Infineon TDA38725/TDA38740
->> + *
->> + * Copyright (c) 2023 9elements GmbH
->> + *
->> + */
->> +
->> +#include <linux/err=2Eh>
->> +#include <linux/i2c=2Eh>
->> +#include <linux/init=2Eh>
->> +#include <linux/kernel=2Eh>
->> +#include <linux/module=2Eh>
->> +#include "pmbus=2Eh"
->> +
->> +static struct pmbus_driver_info tda38740_info =3D {
->> +	=2Epages =3D 1,
->> +	=2Eformat[PSC_VOLTAGE_IN] =3D linear,
->> +	=2Eformat[PSC_VOLTAGE_OUT] =3D linear,
->> +	=2Eformat[PSC_CURRENT_OUT] =3D linear,
->> +	=2Eformat[PSC_CURRENT_IN] =3D linear,
->> +	=2Eformat[PSC_POWER] =3D linear,
->> +	=2Eformat[PSC_TEMPERATURE] =3D linear,
->> +	=2Efunc[0] =3D PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
->> +	    | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
->> +	    | PMBUS_HAVE_IIN
->> +	    | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
->> +	    | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
->> +	    | PMBUS_HAVE_POUT | PMBUS_HAVE_PIN,
->> +};
->> +
->> +static int tda38740_probe(struct i2c_client *client)
->> +{
->> +	return pmbus_do_probe(client, &tda38740_info);
->> +}
->> +
->> +static const struct i2c_device_id tda38740_id[] =3D {
->> +	{ =2Ename =3D "tda38725"},
->> +	{ =2Ename =3D "tda38740"},
->> +	{}
->> +};
->> +MODULE_DEVICE_TABLE(i2c, tda38740_id);
->> +
->> +static const struct of_device_id tda38740_of_match[] =3D {
->> +	{ =2Ecompatible =3D "infineon,tda38725"},
->> +	{ =2Ecompatible =3D "infineon,tda38740"},
->> +	{}
->> +};
->> +MODULE_DEVICE_TABLE(of, tda38740_of_match);
->> +
->> +static struct i2c_driver tda38740_driver =3D {
->> +	=2Edriver =3D {
->> +		=2Ename =3D "tda38740",
->> +		=2Eof_match_table =3D tda38740_of_match,
->> +	},
->> +	=2Eprobe =3D tda38740_probe,
->> +	=2Eid_table =3D tda38740_id,
->> +};
->> +
->> +module_i2c_driver(tda38740_driver);
->> +
->> +MODULE_DESCRIPTION("PMBus driver for Infineon TDA38725/TDA38740");
->> +MODULE_LICENSE("GPL");
->> +MODULE_IMPORT_NS("PMBUS");
->>=20
->
+> diff --git a/Documentation/filesystems/nfs/keyring.rst b/Documentation/filesystems/nfs/keyring.rst
+> new file mode 100644
+> index 000000000000..5b3d3d0f5f91
+> --- /dev/null
+> +++ b/Documentation/filesystems/nfs/keyring.rst
+> @@ -0,0 +1,67 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +====================================
+> +The per-namespace NFS client keyring
+> +====================================
+> +
+> +The NFS client holds one keyring, named ".nfs", per network
+> +namespace. An xprtsec=mtls mount presents the client certificate and
+> +private key named by its cert_serial= and privkey_serial= mount
+> +options, and the handshake links the mount's namespace .nfs keyring
+> +into tlshd before tlshd reads those keys. Keys placed on the .nfs
+> +keyring therefore need not grant user read permission: tlshd reaches
+> +them as a possessor, and a tlshd in another network namespace never
+> +possesses them.
+> +
+> +The keyring is owned by global root, with KEY_POS_ALL and KEY_USR_ALL
+> +less SETATTR. It is not charged to any quota. Keys added to it by
+> +userspace are charged to the user that adds them.
+> +
+> +Finding the keyring serial
+> +==========================
+> +
+> +The .nfs keyring is not linked into any keyring that userspace
+> +possesses, so a serial is the only way to name it. The NFS client
+> +registers a key type, "nfs_keyring", whose sole purpose is to hand
+> +that serial out. Its request_key handler runs in the caller's context
+> +and does not upcall to /sbin/request-key.
+> +
+> +To obtain the serial, request a key of type "nfs_keyring" with the
+> +description ".nfs" and read its payload::
+> +
+> +	id=$(keyctl request2 nfs_keyring .nfs "" @s)
+> +	serial=$(keyctl print $id)
+> +
+> +The contract of the key type is:
+> +
+> + * The description is the string ".nfs". Any other description is
+> +   rejected with EINVAL before a key is allocated.
+> +
+> + * The callout info must be present. request_key() with a NULL
+> +   callout_info never invokes a handler and returns ENOKEY when no
+> +   matching key exists, so use request_key() with an empty string, or
+> +   ``keyctl request2`` rather than ``keyctl request``. The content of
+> +   the callout info is ignored.
+> +
+> + * The payload is the keyring serial as decimal ASCII digits with no
+> +   terminating NUL. The return value of keyctl_read() gives the
+> +   length; a buffer of 12 bytes is sufficient.
+> +
+> + * add_key() with this type accepts only that payload. A key carrying
+> +   any other value is rejected with EINVAL, so a key found in the
+> +   caller's keyrings always holds the serial of the caller's namespace.
+> +
+> + * The key type carries KEY_TYPE_NET_DOMAIN. A key instantiated in one
+> +   network namespace does not answer a request made in another, so a
+> +   process that keeps its session keyring across setns() receives the
+> +   serial of the namespace it is in at the time of the request.
+> +
+> +The serial is not a secret. The keyring's own permissions decide what
+> +a caller can do with it.
+> +
+> +Provisioning credentials
+> +========================
+> +
+> +Add the client certificate and private key to the .nfs keyring as
+> +keys that grant no user read permission, then pass their serials as
+> +cert_serial= and privkey_serial= mount options.
+
+thanks.
+-- 
+~Randy
+
