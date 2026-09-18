@@ -1,467 +1,261 @@
-Received: from mail-pj2-f42.google.com (mail-pj2-f42.google.com [74.125.227.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012047.outbound.protection.outlook.com [40.93.195.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A962052843D
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 18:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789755965; cv=none; b=sMmaKvqwg73I14Ii7lg/MkR2TAt29yw/Pr3OVrpK83Ef2ql2E+nqFQBdrK8dmBzTUkcNAftf0+UEFB958LnTWZZldEDR6oAJOCDdi96CznyVpUCkfTTcEmA0eNfxzcQG6mbJf21eU/TvbgBMBKBnhfoGzD1Ort5dLBVQgXdtVKU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789755965; c=relaxed/simple;
-	bh=uP2zYyrVNhxR0F5wRNx8VTP3WfC+4MKI0Hisfj+rKY4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fE1mFCIjIgcPx7TZjTV5NQkWe0V2d7nltU6tk67fqhAAyrZeGEi7f4p265BRba4yc5LS6sfWAwLCIpwTA1PO6uSthBPSiatiA+I5Ks9rijbM2d5jPb6X3LH3mYZRi7dqHqxx+uBVUz5wHV7JsKPexr2RvrvvVx44NE8kI1uxPxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rfw6TOSM; arc=none smtp.client-ip=74.125.227.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9865226B1;
+	Fri, 18 Sep 2026 18:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789756090; cv=fail; b=mq3btY9Gsviv76PzV97IFS6hv7nae/KHhP1pvI+R16YH5jaYUDSKVhEblJtckFiUeeXyqu4gbffqCowRdB/0DN0GaBL9Vb96Z049LmIffebPgWd9cEeHCdFeyEbic5dCsCgjcHPhHYgKlPFzVnQi/F/wyC5OJ7NEGFqDni/2LJg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789756090; c=relaxed/simple;
+	bh=vaLbJq0ZA2wLTiXnBHZu/fPtoBnAIkOMThrjQ0lQL2o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=JyROmGEs9PTsKGYmHXedOZ7fru+/ljZJ+z1sBD4pNKEAlPIPUBsHVI4CtWSFtEhqWbwDi4luQotXE2+WepFmMi0CLJW4iUY7iDwnNslvYe93XZi1C6Pi131psGyf5yDYkO4cYRL6V7NhiTrnKrhnPmFc1FhVZCv+elDRbnq9S+0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WpmGtoDi; arc=fail smtp.client-ip=40.93.195.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rfw6TOSM"
-Received: by mail-pj2-f42.google.com with SMTP id d9443c01a7336-2ddb4475ec5so2736965ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 11:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789755962; x=1790360762; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ezND/MR9Dspsyc6ymR2jshkitQWvrthe2sHCr5Ma1SU=;
-        b=rfw6TOSMZuuXMW2e7aVbmmH85ZFE5l77LhTMd7wt9kxS9aZyId9DjLgDnBhID45giq
-         u6qgWmuGm38PEfTdGqrbEzYn5V4R3BiNUe7UvjfoaJN2wEO6lwEBYacMvLFcnIE8y7hl
-         AiPZbe9U/gJVvjCcxW7a5Jghz+A/5AKzsfy2hyg4IjhPjRRXIIEawODmlQw8kpEsJk1K
-         h1KYwkJdynHYOxq72IKNnD6x8VnfJCdunAQRv62yk/4glpPpQrXFyLBHFpoRLFzSMLJq
-         wLYricIJe2tHIrRJz4Z2UzxizRVpsj5NNlGztPxODOiSyhB5Qcs3TpBGqAtAKEcDdBin
-         O3Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789755962; x=1790360762;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ezND/MR9Dspsyc6ymR2jshkitQWvrthe2sHCr5Ma1SU=;
-        b=MQ6c+twPhGs9Ii6YHBmi8xm+cf6LIIkEBbIZoLIOGy4X6h1ib264gntJVYUlorvWgz
-         C26lt0Kq8ptmUr0ucl+8Yx7hTCUI3m649CDenOMMY4q+MpqmwsHtmUU9eCUIvUeW7c1W
-         u0S7ENGkfaaackfplJghgGa1SK1oU4P/62N4Asmnla6FZWSlo52xmZuIlq6nI1VCBvLK
-         SSLgDPVTHwhmEXPEqqFxOsK33uZUfMppUj1X5S5A8O4VNJDoi6iCWjUgHQC2G5E4l1OA
-         SqSmRDAokjW2c/cyo93wCwrvCUbZL998jsvhlyTIIRIiFaarNWNLPx5n6Ui1fAx7+H8r
-         +k3A==
-X-Forwarded-Encrypted: i=1; AKwUvBytjUMiXJYb2Ytm/X91h5iSk66o8Ffdl2psutaraXWlg4xRsPQ5vVg75W2bK8FGxRpDZcmF5mQAvgM=@vger.kernel.org
-X-Gm-Message-State: AFuF++k3jmgI76iHb25YDioeljykUSbpTVZhWpUxsvyARC3/RrlE+9Wn
-	EG7iP96Wf0HVvxWNKLvzs7LY2AkaPupN+8qYJoByyPPZys3Rc3Zg2EeA
-X-Gm-Gg: AYBFou1PcXuhKzoFwg8T9qo+28AEVoXxESlL+ozMsz4/mQcKVuER3CMpNtghK+MP7qy
-	D4zJLy86EsORcaWu8+TA9udwdSt+rqDUWQnfyKTK+OXjPik0TWzqF2BErotJwMHueuJ+L1lDO1Z
-	gEoeA9PWw011wrN+RR3SUU81RGb4QFQSyUwjDtcouuE4iSAoshEHprNRQ406BtIq1MZyVB/btDh
-	biziZBSIbaY+wjcYRXWT9cjdd92EKYLso591p/dIg6Y40eELyluYMv18v0K9cqlh11aFfBbbbSc
-	GEvm77ZDRJmShgCwZBkXvRg96J0B9E16D3iRcYo3KnSYcyc5y3d45aF1XP2uSykqEETv1In13eH
-	Uc4mRYJFG+mEDY7031T/uKUWq94/2NMQ24ADv8WUApsDOFQoECWrtETWBqMxLG0ixqf3yc9lQ7i
-	uEOppp9+gkDw5dauF+UlZRxDiwQla4zAEE7m3Khz4hxgDMZYVdmzt9glXsPDkNr3xCHlRNbgtjX
-	kLwBURtHrfeEU8Ub1Vq4U4uOoy7sKwwQgE1QAmOOXpkeGSLTlb5vZLaoCdFYycVWN5/XSmJ0GLF
-	XVi0nNJECPYsHq7haE4=
-X-Received: by 2002:a17:902:d487:b0:2dd:c053:b9c9 with SMTP id d9443c01a7336-2ddc053bab9mr8915495ad.26.1789755961647;
-        Fri, 18 Sep 2026 11:26:01 -0700 (PDT)
-Received: from DESKTOP-G3E0OSP.localdomain ([58.224.60.243])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc16b49casm871895ad.7.2026.09.18.11.25.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 11:26:00 -0700 (PDT)
-From: Jinseob Kim <kimjinseob88@gmail.com>
-To: jic23@kernel.org,
-	linux-iio@vger.kernel.org
-Cc: dlechner@baylibre.com,
-	nuno.sa@analog.com,
-	andriy.shevchenko@intel.com,
-	linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org,
-	joshua.crofts1@gmail.com,
-	u.kleine-koenig@baylibre.com,
-	julianbraha@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v10 8/8] iio: osf: add IIO KUnit tests
-Date: Sat, 19 Sep 2026 03:24:46 +0900
-Message-ID: <59251baa5b1f53a72ac7a09afc334398e2e84db7.1789753020.git.kimjinseob88@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1789753020.git.kimjinseob88@gmail.com>
-References: <cover.1789753020.git.kimjinseob88@gmail.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WpmGtoDi"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KyfpnWVc90juc5lTeoJxJCo2R34hs2utgGhff4TSiu5MmJdXY8hwZ7scZk8cJmu+5c9W000kcY2VGNXRNiaX0mOx3SBVjEyecLv3fksiUWuM5JdkI6Vu+p59AXvmOiJLYgwp9l37B95vAdxbpzB7SF8llLkbL4mBoMk64mQ5wE6/hPncHvT1fdzybDMU2njVVswv0W+B6yF67/+jfwUpcYaNLlTanb2BZ2ID9QzOXGDjjl6B1mN8/cpZ4n1oseyezPF+mn4Yieo4hysbFOvfklqghN4iTWzA5kknfuBdGcHhwF7QAK2uzRas0efoe0iwSL0M9CMEnKtULcW2eOMtJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E1r7Wu+u7QD18w+zhMxjbCjrga2U/rjLupqBNB8s7yU=;
+ b=diGLY8JComRrGZLdkGYTITS3S4sAyI1vj8bp3DgceHz/FM/sF8oOiUXytmTJ9M4wo6e6CH37ZvYj+5TGJoBZ1Pr7WzJA3WuSpQZHL2L7NmoRUecjJDWP90Rx95V0oFyPmO/QjRS3DrriAXxXMxOBHWnjfYdKCyAmghMPlprFw0kVpd5nkQnwA/SHAQp0rxMyCO7uRXcefdvQPg43faUSGGtjkr9+fz50xOzJssBHyg9zbhtI1ZRIUucRQYislYnLF0BrAxKPXeppbkOrycK4yB7uRsajIR5+wsNFIJYBxUGCH00ea3VcnHiK5Wg8+hjhd/q4B644VDTw2JwkILrIVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E1r7Wu+u7QD18w+zhMxjbCjrga2U/rjLupqBNB8s7yU=;
+ b=WpmGtoDiZUbkeVnxBs9K1ATeSfjY+lueZ/Ile1y9KAaruX2znp2DfKZbD/3uCOjY66/EqM3Z5D13KEmPwf5ebYEF3EahawMyHIZz9aGmyygV/MazMdU3riv+TzGTtLlKY+w+TwOLU+IC7Jt76eFt9o1DNqV/finSE/Ma8hXVLlY8dsigqTefLj9l4v4dqwBImFnynjh26DXWLQ/7yZjoO6q7O5shfomjQObTCApwTmyMuWVVWfodXblUS2FcSQ9PIezVdzFep9o7Ey4aT1l2eYJPDMv3GpGU/92+E1xNI8S6HqQYUCwrr0X9Lc/l+ruEJiEnP85lhwjOACqo1HYNtQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB4827.namprd12.prod.outlook.com (2603:10b6:5:1d6::14)
+ by SA1PR12MB9471.namprd12.prod.outlook.com (2603:10b6:806:458::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Fri, 18 Sep
+ 2026 18:28:00 +0000
+Received: from DM6PR12MB4827.namprd12.prod.outlook.com
+ ([fe80::6261:3040:864b:159c]) by DM6PR12MB4827.namprd12.prod.outlook.com
+ ([fe80::6261:3040:864b:159c%7]) with mapi id 15.21.0428.008; Fri, 18 Sep 2026
+ 18:27:59 +0000
+Date: Fri, 18 Sep 2026 20:27:52 +0200
+From: Andrea Righi <arighi@nvidia.com>
+To: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Christian Loehle <christian.loehle@arm.com>,
+	Srikar Dronamraju <srikar@linux.ibm.com>,
+	Phil Auld <pauld@redhat.com>, Breno Leitao <leitao@debian.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Lee Trager <ltrager@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 2/2] sched/topology: Add asymmetric SMT packing override
+Message-ID: <aq2CqGXjH_lrZVnS@gpd4>
+References: <20260917140707.3807229-1-arighi@nvidia.com>
+ <20260917140707.3807229-3-arighi@nvidia.com>
+ <97c99014-d488-4468-896a-decf55636fa5@linux.ibm.com>
+ <CAKfTPtD6i7BMpfnj4pEPJMMOSXyMWL63YDX00d+jRTn0x+ot7A@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKfTPtD6i7BMpfnj4pEPJMMOSXyMWL63YDX00d+jRTn0x+ot7A@mail.gmail.com>
+X-ClientProxiedBy: MI1PEPF000008CD.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:298:1::43b) To DM6PR12MB4827.namprd12.prod.outlook.com
+ (2603:10b6:5:1d6::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4827:EE_|SA1PR12MB9471:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e98c20e-6162-4b03-0875-08df15b29156
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|23010399003|22082099003|18002099003|3023799007|4143699003|56012099006|10067099003|5023799004|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	tGJH59C/KO43iK2TTzo5yUiStwp5Yjq8CH0dlnOWxTERiGKvCGWmAeuTJdPYeWp3E6XI//ApUC9lAZteZB7IETZPUjOHhcdmsNQCAm6lEUIT9GNAnz63v5w8ucCFDzGVaXcXP452DiBrIM4wt0IUpL5SIHZjZzW7C9MzIn79YuiGFkn/LtTCyd/fvgsWT7zOXY5QKfLrZ6FRjPdUlQmYhlCeZScGrD72wzxEbl1SmNj7xwKJAD1fBIpO/EEcu69/DQtrR3hzpa5XzB1d6V6ypCs+zrQmCZkCuPeYOlFbC2Oh+yGh9+0XE/t7kkqSEsKZ3aYeIt607keHgrt/xtETp15IYb44Z/PPB4YmglYQ1hT06k4ant6BDUxwYpEwAhuRnVcqIUHOc96UjrCW1j376DE1/TMtXCp83Y3cNYxkPDc1yN9ZwOh67GI5Lyv0a4ffJbkCXPQ12Py2MCg1ZkRMhyG8zYbGJ6eh0zPmK/Y6HpDbewGPJ2rlQ/bEsPlvgfA81trmfiKB7ENj1Cxl8SOX+zV4/JplDaJNcYYQFqPIKutgyjF07me/kxxB+I4EOEn+8d35iWZOuWK4qJJ/MydqiSsSgjWrAtpoZs0Xe+OhXhtSKoh/wf7bm7eOJujdXwjfKSe3r4AKn0bukg89dcW6FCfkpTftEvrmASgVpDoGPME=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4827.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(23010399003)(22082099003)(18002099003)(3023799007)(4143699003)(56012099006)(10067099003)(5023799004)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?z9FDbQO+JdvVTg5u8UuPU/gMGK5VnMP9wLLLPWnBw3EMfbsflMEmlHrYgFSY?=
+ =?us-ascii?Q?0Edpw92FgifGKFUzzVVTfRBUFd/tniZmkBk1Sta+e5HOX2bYn6twTLoJOBxG?=
+ =?us-ascii?Q?nfC85J+L40FyPZ7GMeo/oNivpMCuoXLk7ZJDG45uzSWdPG8B4TrYEjng9aL/?=
+ =?us-ascii?Q?pc7co2t8h4MUEmBU4PY0ubYqPflE9Bg3jFDUVb9SnzS2P15+4eXJenIO18du?=
+ =?us-ascii?Q?cU6BEKFwxPYzTGKfJao/xyc72RoP7wDOdF0T0OL7Y0h5OT4T6e6BY58vWZme?=
+ =?us-ascii?Q?HoZjFvQ+iuR9v7uupUrcXqFSQgxA5QORVBoUgCpx1ctFFM6Z6gOKhmHG5Bny?=
+ =?us-ascii?Q?YqvGIIdwiLyO7T6ANHbtZsNGFnJN4maj+qSZsNFAkV+G1ExlX2G88/5tF6/D?=
+ =?us-ascii?Q?A+LFewSQVqgvvnTrTe4Ne3nFzL+tLmcURttZViHEmSd3v3drY2JytV/EmRc3?=
+ =?us-ascii?Q?GFBeU2qngRDHyiE8+SCw7cdWIx2AvsBqdnrkuYESjW4+wSgVGTCjtToEwgDh?=
+ =?us-ascii?Q?s2lpb5/ejX95DkJNCLkumkzBXKaM/qhaqq7zqRRYa7E1KgE3yOLNkl1tHVYz?=
+ =?us-ascii?Q?qki6u/Col3ygMoxX8hQliz3LC1rMdKH+m4Z1Fxkme1htYkJ4nfOZHH1Uims0?=
+ =?us-ascii?Q?wY4Ey5hL3PKAmu/0BVgeMqviMhvQquMRGDJVCmeumHDzrxaNriKmqe6I4QNb?=
+ =?us-ascii?Q?ETIe68RQHjHwQpJ3LDuSwI/e668JoogrJ9jJT+QND0UYzY/xsu1EsUKoIQjq?=
+ =?us-ascii?Q?lkqli/yIRxdcUKO49JeJXOUeYyEy/kabZ3n+yrMcCx4Y/6m69Nm47KewufU2?=
+ =?us-ascii?Q?DXgPVuKfJQOabdGgh7pi/82RU1ZK5TVyNyDsLOJWyaemvW6Dd2hbFYqOCDmk?=
+ =?us-ascii?Q?uzf5g9oPuK68W5sfiQezZI2KzVE4GL+Ut7jJrxJDRd5t8hc5kvgk5lrQWwPs?=
+ =?us-ascii?Q?C9YZlRX0ajHzfZR83KlzSRuUt4cgNjWuB46ZcmTNhg+/jj+2ELsedKqOgX/a?=
+ =?us-ascii?Q?G6Rs7J0RXhgPVKpl/pVEgYS/qIS9FvDff82B0noseay4EaBQQNHkoztVi21K?=
+ =?us-ascii?Q?4u4WsfrdoOGo9+N2P9CyuJr2YpLhRi2D6/ZE0UbXgWUqqsygjQ1rr1FoAjbF?=
+ =?us-ascii?Q?BoegKkvYx/896hQnOphm3NGLRkdHW5XO4KS9rRfxMPMIsUCkPRSZ+bU9W5wB?=
+ =?us-ascii?Q?xfUBi0wGqSPTkTBl7O96bZEcPbBOm+MQREJMNHoGNcnMfsXfhdq/W8sjySgg?=
+ =?us-ascii?Q?3eCb9xqWdFomJC93p6ycfJb1uG280cpFelBTyhJLDszttopR1OXaAA5CEFbB?=
+ =?us-ascii?Q?QA5C6lkrSfXkFYjBNv+PjlYls3FyG2qob60Vj1+8YDzuqmzmtNIBQYqDw3cr?=
+ =?us-ascii?Q?QFZRtuCuXPbGF0moW0na7ob/OogE9EwErhQExbCwcLe7Jp8yihQw7SWIMyCl?=
+ =?us-ascii?Q?t7YYxOtPiWVrcJ3NlUopLve5/69ehw1kfozlca/0tLmMLGryvP9V09/QpMrN?=
+ =?us-ascii?Q?xqyzvivMHz8Kp8e33mfsG0R9w7Neb3KKpa72JknZ2iYVsgXVpj6S+3gHilWs?=
+ =?us-ascii?Q?vBqOdkhftMDT+5a6JWTatA3Y1yRqnGuwBWznwx3l0BE6nbfn9BCalcgtl2pD?=
+ =?us-ascii?Q?e3MckMy2Bu/0ra3l69ubYllaSvnIkqeEHB4lHYPyz84InZrkjITsCdzLBaxq?=
+ =?us-ascii?Q?Lu2EA0dhFW+J+z+ksv1Lz58GXp841ySeTLv/xW3zoyetIldXTBgsfNemK70c?=
+ =?us-ascii?Q?SZwwvap5Xw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e98c20e-6162-4b03-0875-08df15b29156
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4827.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 18:27:59.8204
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5LD/VX9VSA0qwxWY7jYgUbspSwWoIjCpPhIOifBDpiaZsVbWmuUmJ0pZDC/7TOGhB2bPAThNAtAIheX3g2SGYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9471
 
-Add the existing IIO active-scan packing and buffer producer lifetime
-tests. Extend the test build wiring and help text to cover both suites.
+Hi Vincent,
 
-This changes no production source. The complete series retains the
-production behavior of the combined-driver revision, with CRC
-terminology clarified.
+On Fri, Sep 18, 2026 at 06:03:53PM +0200, Vincent Guittot wrote:
+...
+> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > > index 33cd30996e47e..36c3b2e563441 100644
+> > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > @@ -6799,6 +6799,17 @@ Kernel parameters
+> > >                       solution to mutex-based priority inversion.
+> > >                       Format: <bool>
+> > >
+> > > +     sched_smt_asym_packing= [KNL,SMP]
+> > > +                     Override asymmetric packing at the SMT scheduling domain.
+> > > +                     Format: { auto | on | off }
+> > > +                     auto: Preserve the architecture default. This is the
+> > > +                     default when the option is omitted.
+> 
+> AFAICT "auto" equals nothing added in the command line so why is it needed ?
 
-Assisted-by: LLM
-Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
----
- drivers/iio/opensensorfusion/Kconfig        |   2 +-
- drivers/iio/opensensorfusion/Makefile       |   2 +-
- drivers/iio/opensensorfusion/osf_iio_test.c | 325 ++++++++++++++++++++
- 3 files changed, 327 insertions(+), 2 deletions(-)
- create mode 100644 drivers/iio/opensensorfusion/osf_iio_test.c
+Right, auto is redundant. Omitting the parameter already preserves the topology
+provided by the architecture or firmware.
 
-diff --git a/drivers/iio/opensensorfusion/Kconfig b/drivers/iio/opensensorfusion/Kconfig
-index 316f33be1327..b4a2cde9645e 100644
---- a/drivers/iio/opensensorfusion/Kconfig
-+++ b/drivers/iio/opensensorfusion/Kconfig
-@@ -20,7 +20,7 @@ config OPEN_SENSOR_FUSION_KUNIT_TEST
- 	default KUNIT_ALL_TESTS
- 	help
- 	  Build focused unit tests for the Open Sensor Fusion core sample
--	  acceptance, direct-read cache, and capability/session handling. The tests
-+	  acceptance, direct-read cache, and IIO buffer paths. The tests
- 	  exercise accepted, ignored, and rejected sample handling without
- 	  exposing additional production interfaces.
- 
-diff --git a/drivers/iio/opensensorfusion/Makefile b/drivers/iio/opensensorfusion/Makefile
-index c2f5ba065a62..6a28b14cae1f 100644
---- a/drivers/iio/opensensorfusion/Makefile
-+++ b/drivers/iio/opensensorfusion/Makefile
-@@ -4,4 +4,4 @@ obj-$(CONFIG_OPEN_SENSOR_FUSION) += open-sensor-fusion.o
- 
- open-sensor-fusion-y := osf_core.o osf_iio.o osf_protocol.o osf_serdev.o \
- 			 osf_stream.o
--open-sensor-fusion-$(CONFIG_OPEN_SENSOR_FUSION_KUNIT_TEST) += osf_core_test.o
-+open-sensor-fusion-$(CONFIG_OPEN_SENSOR_FUSION_KUNIT_TEST) += osf_core_test.o osf_iio_test.o
-diff --git a/drivers/iio/opensensorfusion/osf_iio_test.c b/drivers/iio/opensensorfusion/osf_iio_test.c
-new file mode 100644
-index 000000000000..63d3ca1af329
---- /dev/null
-+++ b/drivers/iio/opensensorfusion/osf_iio_test.c
-@@ -0,0 +1,325 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <kunit/device.h>
-+#include <kunit/test.h>
-+
-+#include <linux/bitmap.h>
-+#include <linux/completion.h>
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/iio/buffer.h>
-+#include <linux/iio/buffer_impl.h>
-+#include <linux/iio/iio.h>
-+#include <linux/kthread.h>
-+#include <linux/string.h>
-+
-+#include "osf_core.h"
-+#include "osf_iio.h"
-+
-+static noinline void osf_test_poison_stack(void)
-+{
-+	u8 bytes[1024];
-+
-+	memset(bytes, 0xa5, sizeof(bytes));
-+	barrier_data(bytes);
-+}
-+
-+static void osf_iio_check_scan(struct kunit *test, struct iio_dev *indio_dev,
-+			       const s32 *values, unsigned int channels,
-+			       unsigned int mask, bool ts)
-+{
-+	struct iio_buffer *buffer = indio_dev->buffer;
-+	unsigned int data_bytes = hweight32(mask) * sizeof(s32);
-+	unsigned int ts_offset = ALIGN(data_bytes, 8);
-+	unsigned int scan_bytes = ts ? ts_offset + 8 : data_bytes;
-+	unsigned int offset = 0;
-+	u8 scan[24] __aligned(8);
-+	s64 before, after, timestamp;
-+	int ret;
-+
-+	bitmap_zero((unsigned long *)buffer->scan_mask, iio_get_masklength(indio_dev));
-+	for (unsigned int i = 0; i < channels; i++)
-+		if (mask & BIT(i))
-+			set_bit(i, (unsigned long *)buffer->scan_mask);
-+	buffer->scan_timestamp = ts;
-+	ret = iio_update_buffers(indio_dev, buffer, NULL);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	kunit_info(test, "device=%s mask=%u ts=%u bytes=%u\n",
-+		   indio_dev->name, mask, ts, scan_bytes);
-+	memset(scan, 0xa5, sizeof(scan));
-+	before = iio_get_time_ns(indio_dev);
-+	osf_test_poison_stack();
-+	ret = osf_iio_push_sample(indio_dev, values, channels);
-+	after = iio_get_time_ns(indio_dev);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, buffer->bytes_per_datum, scan_bytes);
-+	ret = iio_pop_from_buffer(buffer, scan);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	if (ret)
-+		goto disable;
-+
-+	for (unsigned int i = 0; i < channels; i++) {
-+		if (!(mask & BIT(i)))
-+			continue;
-+		KUNIT_EXPECT_MEMEQ(test, scan + offset, &values[i], sizeof(s32));
-+		offset += sizeof(s32);
-+	}
-+	if (ts) {
-+		for (unsigned int i = data_bytes; i < ts_offset; i++)
-+			KUNIT_EXPECT_EQ(test, scan[i], (u8)0);
-+		memcpy(&timestamp, scan + ts_offset, sizeof(timestamp));
-+		KUNIT_EXPECT_GE(test, timestamp, before);
-+		KUNIT_EXPECT_LE(test, timestamp, after);
-+	}
-+	/* Neither kfifo nor the producer may write outside the consumer stride. */
-+	for (unsigned int i = scan_bytes; i < sizeof(scan); i++)
-+		KUNIT_EXPECT_EQ(test, scan[i], (u8)0xa5);
-+
-+disable:
-+	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, NULL, buffer), 0);
-+}
-+
-+/* Protect timestamp alignment holes and every supported scan layout. */
-+static void osf_iio_scan_bytes_test(struct kunit *test)
-+{
-+	static const u16 types[] = {
-+		OSF_SENSOR_ACCELEROMETER, OSF_SENSOR_GYROSCOPE,
-+		OSF_SENSOR_MAGNETOMETER, OSF_SENSOR_TEMPERATURE,
-+	};
-+	const s32 values[] = { 101, -202, 303 };
-+	struct osf_capability_entry entry = {
-+		.sample_format = OSF_SAMPLE_FORMAT_S32,
-+		.scale_nano = 1000000,
-+	};
-+	struct osf_device *osf;
-+	struct device *dev;
-+
-+	dev = kunit_device_register(test, "osf-iio");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+	osf = kunit_kzalloc(test, sizeof(*osf), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, osf);
-+	osf_core_init(osf, dev);
-+
-+	for (unsigned int t = 0; t < ARRAY_SIZE(types); t++) {
-+		unsigned int channels = t == 3 ? 1 : 3;
-+		struct iio_dev *indio_dev;
-+		int ret;
-+
-+		entry.sensor_type = types[t];
-+		entry.channel_count = channels;
-+		ret = osf_iio_register_sensor(dev, &entry, osf, &indio_dev);
-+		KUNIT_ASSERT_EQ(test, ret, 0);
-+		for (unsigned int mask = 1; mask < BIT(channels); mask++)
-+			for (unsigned int ts = 0; ts < 2; ts++)
-+				osf_iio_check_scan(test, indio_dev, values, channels, mask, ts);
-+		osf_iio_unregister_sensor(indio_dev);
-+	}
-+}
-+
-+struct osf_iio_race {
-+	struct iio_buffer_access_funcs access;
-+	const struct iio_buffer_access_funcs *original;
-+	struct iio_dev *indio_dev;
-+	struct completion entered;
-+	struct completion release;
-+	struct completion config_started;
-+	struct completion config_done;
-+	atomic_t block_store;
-+	atomic_t stores;
-+	atomic_t disabled;
-+	atomic_t bad_store;
-+	int enable_error;
-+	int disable_error;
-+	int config_result;
-+	bool unregister;
-+};
-+
-+static struct osf_iio_race *osf_iio_race_from_buffer(struct iio_buffer *buffer)
-+{
-+	return container_of(buffer->access, struct osf_iio_race, access);
-+}
-+
-+static int osf_iio_test_store(struct iio_buffer *buffer, const void *data)
-+{
-+	struct osf_iio_race *race = osf_iio_race_from_buffer(buffer);
-+
-+	if (atomic_xchg(&race->block_store, 0)) {
-+		complete(&race->entered);
-+		if (!wait_for_completion_timeout(&race->release, 5 * HZ))
-+			return -ETIMEDOUT;
-+	}
-+	if (atomic_read(&race->disabled))
-+		atomic_inc(&race->bad_store);
-+	atomic_inc(&race->stores);
-+	return race->original->store_to(buffer, data);
-+}
-+
-+static int osf_iio_test_enable(struct iio_buffer *buffer, struct iio_dev *indio_dev)
-+{
-+	struct osf_iio_race *race = osf_iio_race_from_buffer(buffer);
-+
-+	if (race->enable_error)
-+		return race->enable_error;
-+	atomic_set(&race->disabled, 0);
-+	return 0;
-+}
-+
-+static int osf_iio_test_disable(struct iio_buffer *buffer, struct iio_dev *indio_dev)
-+{
-+	struct osf_iio_race *race = osf_iio_race_from_buffer(buffer);
-+
-+	atomic_set(&race->disabled, 1);
-+	return race->disable_error;
-+}
-+
-+static int osf_iio_test_producer(void *data)
-+{
-+	struct osf_iio_race *race = data;
-+	const s32 values[] = { 101, -202, 303 };
-+
-+	while (!kthread_should_stop()) {
-+		osf_iio_push_sample(race->indio_dev, values, ARRAY_SIZE(values));
-+		cond_resched();
-+	}
-+	return 0;
-+}
-+
-+static int osf_iio_test_configure(void *data)
-+{
-+	struct osf_iio_race *race = data;
-+
-+	complete(&race->config_started);
-+	if (race->unregister) {
-+		osf_iio_unregister_sensor(race->indio_dev);
-+		race->config_result = 0;
-+	} else {
-+		race->config_result = iio_update_buffers(race->indio_dev, NULL,
-+							 race->indio_dev->buffer);
-+	}
-+	complete(&race->config_done);
-+	while (!kthread_should_stop())
-+		msleep(20);
-+	return 0;
-+}
-+
-+static void osf_iio_expect_quiesce(struct kunit *test, struct osf_iio_race *race)
-+{
-+	struct task_struct *config;
-+	unsigned long waited;
-+
-+	config = kthread_run(osf_iio_test_configure, race, "osf-cfg-test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
-+	KUNIT_EXPECT_NE(test, wait_for_completion_timeout(&race->config_started, HZ), 0UL);
-+	waited = wait_for_completion_timeout(&race->config_done, msecs_to_jiffies(20));
-+	KUNIT_EXPECT_EQ(test, waited, 0UL);
-+	complete(&race->release);
-+	KUNIT_EXPECT_NE(test, wait_for_completion_timeout(&race->config_done, HZ), 0UL);
-+	kthread_stop(config);
-+	KUNIT_EXPECT_EQ(test, race->config_result, 0);
-+}
-+
-+/* Run real IIO configuration and kfifo code against an independent producer. */
-+static void osf_iio_buffer_lifetime_test(struct kunit *test)
-+{
-+	struct osf_capability_entry entry = {
-+		.sensor_type = OSF_SENSOR_ACCELEROMETER,
-+		.channel_count = 3,
-+		.sample_format = OSF_SAMPLE_FORMAT_S32,
-+		.scale_nano = 1000000,
-+	};
-+	const s32 values[] = { 101, -202, 303 };
-+	struct task_struct *producer;
-+	struct osf_iio_race *race;
-+	struct osf_device *osf;
-+	struct iio_dev *indio_dev;
-+	struct iio_buffer *buffer;
-+	struct device *dev;
-+	int stores, ret;
-+
-+	dev = kunit_device_register(test, "osf-race");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+	osf = kunit_kzalloc(test, sizeof(*osf), GFP_KERNEL);
-+	race = kunit_kzalloc(test, sizeof(*race), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, osf);
-+	KUNIT_ASSERT_NOT_NULL(test, race);
-+	osf_core_init(osf, dev);
-+	ret = osf_iio_register_sensor(dev, &entry, osf, &indio_dev);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	buffer = indio_dev->buffer;
-+	race->indio_dev = indio_dev;
-+	race->original = buffer->access;
-+	race->access = *buffer->access;
-+	race->access.store_to = osf_iio_test_store;
-+	race->access.enable = osf_iio_test_enable;
-+	race->access.disable = osf_iio_test_disable;
-+	buffer->access = &race->access;
-+	init_completion(&race->entered);
-+	init_completion(&race->release);
-+	init_completion(&race->config_started);
-+	init_completion(&race->config_done);
-+	atomic_set(&race->disabled, 1);
-+	set_bit(0, (unsigned long *)buffer->scan_mask);
-+	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, buffer, NULL), 0);
-+
-+	atomic_set(&race->block_store, 1);
-+	producer = kthread_run(osf_iio_test_producer, race, "osf-rx-test");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, producer);
-+	KUNIT_EXPECT_NE(test, wait_for_completion_timeout(&race->entered, HZ), 0UL);
-+	osf_iio_expect_quiesce(test, race);
-+
-+	for (unsigned int i = 0; i < 100; i++) {
-+		bitmap_zero((unsigned long *)buffer->scan_mask, iio_get_masklength(indio_dev));
-+		*(unsigned long *)buffer->scan_mask = (i % 7) + 1;
-+		buffer->scan_timestamp = i & 1;
-+		KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, buffer, NULL), 0);
-+		cond_resched();
-+		KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, NULL, buffer), 0);
-+	}
-+
-+	race->enable_error = -EIO;
-+	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, buffer, NULL), -EIO);
-+	stores = atomic_read(&race->stores);
-+	KUNIT_EXPECT_EQ(test, osf_iio_push_sample(indio_dev, values, 3), 0);
-+	KUNIT_EXPECT_EQ(test, atomic_read(&race->stores), stores);
-+	race->enable_error = 0;
-+	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, buffer, NULL), 0);
-+	race->disable_error = -EIO;
-+	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, NULL, buffer), -EIO);
-+	stores = atomic_read(&race->stores);
-+	KUNIT_EXPECT_EQ(test, osf_iio_push_sample(indio_dev, values, 3), 0);
-+	KUNIT_EXPECT_EQ(test, atomic_read(&race->stores), stores);
-+	race->disable_error = 0;
-+
-+	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, buffer, NULL), 0);
-+	/* Retain ownership while testing unregister against an admitted push. */
-+	get_device(&indio_dev->dev);
-+	reinit_completion(&race->entered);
-+	reinit_completion(&race->release);
-+	reinit_completion(&race->config_started);
-+	reinit_completion(&race->config_done);
-+	atomic_set(&race->block_store, 1);
-+	KUNIT_EXPECT_NE(test, wait_for_completion_timeout(&race->entered, HZ), 0UL);
-+	race->unregister = true;
-+	osf_iio_expect_quiesce(test, race);
-+	kthread_stop(producer);
-+	KUNIT_EXPECT_EQ(test, atomic_read(&race->bad_store), 0);
-+	KUNIT_EXPECT_GT(test, atomic_read(&race->stores), 0);
-+	buffer->access = race->original;
-+	put_device(&indio_dev->dev);
-+}
-+
-+static struct kunit_case osf_iio_test_cases[] = {
-+	KUNIT_CASE(osf_iio_scan_bytes_test),
-+	KUNIT_CASE(osf_iio_buffer_lifetime_test),
-+	{ }
-+};
-+
-+static struct kunit_suite osf_iio_test_suite = {
-+	.name = "osf-iio",
-+	.test_cases = osf_iio_test_cases,
-+};
-+
-+kunit_test_suite(osf_iio_test_suite);
-+
-+MODULE_LICENSE("GPL");
--- 
-2.43.0
+> 
+> > > +                     on: Force asymmetric packing at the SMT scheduling domain.
+> > > +                     Idle CPU selection prefers siblings with a higher
+> > > +                     architecture-defined priority. Siblings with equal
+> > > +                     priorities remain unordered.
+> > > +                     off: Ignore SMT sibling priorities.
+> 
+> Is this for debugging purposes?
 
+Yes, that was the intent, but I don't have a concrete use case that justifies
+exposing it.
+
+> 
+> only the sched_smt_asym_packing=on is really useful to force
+> asym_packing when firmware doesn't provide the info
+
+Agreed. I'll simplify the interface to an explicit force option for systems
+whose firmware can't describe the SMT preference.
+
+Thanks,
+-Andrea
+
+> 
+> > > +
+> >
+> > Wasn't this option/parameter to come from arch specific file?
+> >
+> > Isn't it going to be confusing for archs which don't benefit from asym packing at SMT,
+> > but now there is kernel parameter to say on.
+> >
+> > >       sched_verbose   [KNL,EARLY] Enables verbose scheduler debug messages.
+> > >
+> > >       schedstats=     [KNL,X86] Enable or disable scheduled statistics.
+> > > diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+> > > index 0248227d983a7..cdfcecf673fd7 100644
+> > > --- a/kernel/sched/topology.c
+> > > +++ b/kernel/sched/topology.c
+> > > @@ -32,6 +32,46 @@ static int __init sched_debug_setup(char *str)
+> > >   }
+> > >   early_param("sched_verbose", sched_debug_setup);
+> > >
+> > > +#ifdef CONFIG_SCHED_SMT
+> > > +enum sched_smt_asym_packing_mode {
+> > > +     SCHED_SMT_ASYM_PACKING_AUTO,
+> > > +     SCHED_SMT_ASYM_PACKING_ON,
+> > > +     SCHED_SMT_ASYM_PACKING_OFF,
+> > > +     SCHED_SMT_ASYM_PACKING_NR,
+> > > +};
+> > > +
+> > > +static enum sched_smt_asym_packing_mode sched_smt_asym_packing __read_mostly =
+> > > +     SCHED_SMT_ASYM_PACKING_AUTO;
+> > > +
+> > > +static const char * const sched_smt_asym_packing_modes[SCHED_SMT_ASYM_PACKING_NR] = {
+> > > +     [SCHED_SMT_ASYM_PACKING_AUTO]   = "auto",
+> > > +     [SCHED_SMT_ASYM_PACKING_ON]     = "on",
+> > > +     [SCHED_SMT_ASYM_PACKING_OFF]    = "off",
+> > > +};
+> > > +
+> > > +static int __init sched_smt_asym_packing_parse(const char *str)
+> > > +{
+> > > +     for (int mode = 0; mode < SCHED_SMT_ASYM_PACKING_NR; mode++) {
+> > > +             if (!strcmp(str, sched_smt_asym_packing_modes[mode]))
+> > > +                     return mode;
+> > > +     }
+> > > +
+> > > +     return -EINVAL;
+> > > +}
+> > > +
+> > > +static int __init setup_sched_smt_asym_packing(char *str)
+> > > +{
+> > > +     int mode = sched_smt_asym_packing_parse(str);
+> > > +
+> > > +     if (mode < 0)
+> > > +             return 0;
+> > > +
+> > > +     sched_smt_asym_packing = mode;
+> > > +     return 1;
+> > > +}
+> > > +__setup("sched_smt_asym_packing=", setup_sched_smt_asym_packing);
+> > > +#endif
+> > > +
+> > >   static inline bool sched_debug(void)
+> > >   {
+> > >       return sched_debug_verbose;
+> > > @@ -1950,6 +1990,15 @@ sd_init(struct sched_domain_topology_level *tl,
+> > >       if (WARN_ONCE(sd_flags & ~TOPOLOGY_SD_FLAGS,
+> > >                     "wrong sd_flags in topology description\n"))
+> > >               sd_flags &= TOPOLOGY_SD_FLAGS;
+> > > +#ifdef CONFIG_SCHED_SMT
+> > > +     if (sd_flags & SD_SHARE_CPUCAPACITY) {
+> > > +             if (sched_smt_asym_packing == SCHED_SMT_ASYM_PACKING_ON)
+> > > +                     sd_flags |= SD_ASYM_PACKING;
+> > > +             else if (sched_smt_asym_packing ==
+> > > +                      SCHED_SMT_ASYM_PACKING_OFF)
+> > > +                     sd_flags &= ~SD_ASYM_PACKING;
+> > > +     }
+> > > +#endif
+> > >       sd_flags |= asym_cpu_capacity_classify(sd_span, cpu_map);
+> > >
+> > >       *sd = (struct sched_domain){
+> >
