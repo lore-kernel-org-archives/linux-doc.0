@@ -1,225 +1,231 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f37.google.com (mail-qv2-f37.google.com [74.125.230.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715C33BFAEB;
-	Fri, 18 Sep 2026 02:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789698585; cv=none; b=VS6oDG5emjTTizhcSowoU7yTTLss1lm6CYqqU+KaFVzGQs4TeeUJNm+V1ckvpLZAhMsHpSvWYwH0AR52W/qMrslsdl/EoxOTCKuOpSGbMah1aIjuB13xMsvau8zBdzyfNhmwoeZuWZFYM4SdFCkBnsvpEU1fuiOE//H+5dv3OEw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789698585; c=relaxed/simple;
-	bh=zr6RZjqy8zkfck/Pdh/SCIhM1e3d18vR1boWvALaMiA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ALesK0gG8O1NK9BtxfC4gme2ctV6XKet6bbZz17U53CPwfHelV3jowQoLgNLimNDyuccrNghTJ12y8yIwBMxj60AsJLU3D2Y6Q/bcEPWEp2pRzSOwzeswMZ4f8vi83Npdafyy5dfbKeFFcQ3BlltX8LQ66uoKPZzcca9JdZoxeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ITubRvvc; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA053D75BE
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 03:05:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.165
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789700745; cv=pass; b=TYD4ZUir4VKGR7YbIUZlQxMoilAHJQr54H2rf0HM0ZaY6XghFVQWwdoc6xbEhUrz06988cFjKUwTlMwleoDF/zeWkYLH83pirTRgCzc4g17RMcuSCGETyDuUs3dcUSKPZAdhEWZmXwvzPrWNPoLpe2xlFkDh4hKUEN1bib40fm8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789700745; c=relaxed/simple;
+	bh=N38wJ84hpW+KR88805c12LeXPbAQBzP4kHjDaLJHCnw=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MjwTnqgX5Jo/dArJXxFRNzqr+2P1jqHR9QYmvsTQnFoAo+6HI7Et1rYSzYEp1M+y8jCXXU6MLPCLWMWUfs8ygAhtDb5AdbsRgKHyEkdpwDkCDL8R0o4feymHv4i7GXwA2mi5YURrRX2GcDw4kKxsK3Z5ZtA29Pdmve68sJ1BdCE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dYJn5rFx; arc=pass smtp.client-ip=74.125.230.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ITubRvvc"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A94C41F000FF;
-	Fri, 18 Sep 2026 02:29:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789698573;
-	bh=g9YcUG3szeoayvwUqM/cv8sctvahn3Ihcoi9jbjGOnk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ITubRvvc3F/vvkNNV3easTtv4kW2t5sTGcQTrFimYGHRTwrI36hleEBj04p+G4rD+
-	 NamNYIZiDAoFX0JrbXdOJ6jo1MW4JQvtJnZely7Mw/DeVKHz4e/H85J6KnkgRoEc5I
-	 cLgsJVPAcMhvkwd6xKrLPl8G7InF+UXtNbbg8ngK7txU/xCUsC+I9gO05MwuE3doN2
-	 /gdrMcCm4IwXBvGjSc4UnL+t92rx9lkE502wmrjLTerz13U0wjK5mG4QN8XgBagAGv
-	 EMbNmlXejAvA43Xb6vzKXOfltB7g1Z9/tWbDe2iu9Z8WZCKSMHvXSmuAd1wqPLTC/4
-	 Z4KrVoDpwIZWQ==
-Date: Fri, 18 Sep 2026 05:29:29 +0300
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Andrew Halaney <andrew@amutable.com>
-Cc: Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	David Howells <dhowells@redhat.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, dm-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-	fsverity@lists.linux.dev, linux-doc@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
-Message-ID: <aqyiCavj3xeNqyAo@kernel.org>
-References: <20260914-ajhalaney-dmverity-key-identifier-v1-0-01922dc1366a@amutable.com>
- <20260914-ajhalaney-dmverity-key-identifier-v1-1-01922dc1366a@amutable.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dYJn5rFx"
+Received: by mail-qv2-f37.google.com with SMTP id 6a1803df08f44-91235f46716so3272196d6.1
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 20:05:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789700735; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qXEci3YCU3J7oRZL6Y/vU39/8iYtnaAoxDhN5NueBqI7k2uEH+HaiUHb0vUIT7QSUM
+         FCKa8YPjhb/6StG0k8XYoTa7F/oQMBBKa4W/BejuxJDVNlkoJ7Y3msMt1Env7clQDSV4
+         HMmljf7alZK1YSNm180lx7aZcbo3wmTTOA/AnBVjSk2WAckNStkRDB1fnOxIBxLIGMpH
+         BX4vD9XytmvRa/yYnnJgqonX3eNMuHbAA4CqG58tKJ8/kvKGBERyus6ck3WPOd0JEsBh
+         8DJ2R5ax47v94fBDQb4q0idLjMYgo+csqr80mSNQWmdCqqX7OVRKqSvcqOV1pVaXNaTN
+         zwSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=8oNy2HuXVWsVzCazMXbHxpcJNwqU+Nw1U6v/odAHiSA=;
+        fh=ljI6RKfnAv2oyWZbAHSEF2q3ARULcE9qhJanrX5F3wM=;
+        b=MZHL5yqo1MSU8yoEtZcbNY6n29ZK59BCs6zP46k/qzi8o03+OOxN62tQbGhmTOyfUc
+         yz57r4jeyVUtdZjPaASfpZUAdYzehqJGTZTIHdZVJ9o8toVUvce/8oEOZxTyUYSu4/C6
+         i1dPbpFqctb8qOXhv2N3tX4jou4RqtW6mP98dFOEnsUuAmh8UdD+akyJxCrXTCu36gba
+         kQ+GLrjkijat49piqJswV+dK21yVg6+uLmKulP7yDBGVmYT297t4+yQcY/ib30avBh+f
+         55yfvzEsP1WWh1XEpo0vmGeag31+Fs+yTzRCEwq2RfnpI4esVt3YQPMdFDRs9QhpjlW9
+         wA+w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789700735; x=1790305535; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8oNy2HuXVWsVzCazMXbHxpcJNwqU+Nw1U6v/odAHiSA=;
+        b=dYJn5rFxL/nlsS6bvM77FMjg18LOAXizST+v2p1FPWXGiScLFlKEKcaJbeyRI1dBU9
+         wMx16vrIrHLveQuPMG6SVkdjos7tCHK0F6uusewU0XRKna9KbVFPEYIKCrPcwhINl7Dt
+         ZpWnxLQ2FphWD7GSpCBF1ul/rF4/MLYQc7IR4JPZrwFBuk6obkkzGmOvKnd8a0HbXj7h
+         wGS+fsSw13enR5fKoLlPVFaTry+5H90FS3jjaK7y2bAgV4HWW3+do5eEyITaxkUZ0pir
+         Fe9qxWgNQ7SfMIh3YHn0Zipb+wn7hYGWSVaH1zDTkq1Id+M6aRAg3amXA5pWoYrYAisT
+         Gvqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789700735; x=1790305535;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8oNy2HuXVWsVzCazMXbHxpcJNwqU+Nw1U6v/odAHiSA=;
+        b=BB5438YQ+yJCn+naDsM8BgGrl+wcKzbGkF5mYVLFGiPaUZU1wxc6HPpx/u74kmaj1B
+         2UUb2pIA/Xi9gYyhWTFIec5q456ZZB/QJtBZf5d8aTDDkJjaDk3q9nocO1EjPValttsP
+         EeoOK28l62tcn+BCVsDkMMJezw3Fujg/oL0AM1qt1pAEb3brBEvEd7Yrf708XvCQKLVi
+         QXlnaVp/k5kXlAhaX1wrJE7i3lo2oPAgabPQ+JFzkXuE1QrlxX/Dsbibx2ZIywDyIXaN
+         zrbwqZq/UTOVfLmPZVUIK52GV5lj1IDEWg0s1W2+NUL+K5W4hBh4XiKPRaM+QiOFDjYw
+         7CHA==
+X-Forwarded-Encrypted: i=1; AKwUvBwWlbguWqvv70wwJf7G4+G8Y2yFpzIXO/OLCAVqnq6ufAwa5I52041XUuqmwRhr1lJav0o77liSz9Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++lx6soyZkVipqHGWMv5LB1AptWc4lzLzXTj1TrCmOmUVigfomCy
+	GubZW4gDtN+ItTyoaa2iAxYkFSCpQ142gnOGun+uxM1wLy/3P50lK1YAvEPzMkwyZXU9q+6sje8
+	+dovwYAKTmxA+0s+Lz0SLR+3Tx0FsXJwmaVKLSER1
+X-Gm-Gg: AYBFou22GzGQCAMRMeysuvcRjhrthiS0NgGQY2+DJcWi8H5pLVMxCnUi2F9Kcm6qlvk
+	1B8G2+/gKNyfXVmSEB52cX9IILedOSPSRFtz96xY9vjcImrwj9DNH8cgBN1N3UTdQu6ZF1EOJe4
+	1UDyKn5U9/aSdkUHrYryM8MePny7DSMBRMf1pkLNQiYcge9mMnmYjj945pftXE44Rb1SLYgeekA
+	wvm+z97r2tCXX9kS1QASUyrwxhATzdAzUTIHCBZA5UULNwKJnCRZ4l42Gkc1zlMZNqCDbPBkYix
+	tJJwrY1b50Wr/LNWBHXXDEOXBI1kuZ9clWCtLOwfvtnS+/T4RaQhMYbzn4b84+TY2yzcluDbpM6
+	gLDwOh6LP9w==
+X-Received: by 2002:a05:6214:570f:b0:912:517b:911 with SMTP id
+ 6a1803df08f44-91254cd050emr18449906d6.48.1789700734463; Thu, 17 Sep 2026
+ 20:05:34 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 17 Sep 2026 20:05:33 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 17 Sep 2026 20:05:33 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <20260916201307.5618114cbac4af52d98aecfa@linux-foundation.org>
+References: <20260916-hugetlb-subpool-always-track-used-v3-0-38aae9b5ccdd@google.com>
+ <20260916201307.5618114cbac4af52d98aecfa@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260914-ajhalaney-dmverity-key-identifier-v1-1-01922dc1366a@amutable.com>
+Date: Thu, 17 Sep 2026 20:05:33 -0700
+X-Gm-Features: AcwNN1VMr0mS5JSTeCSWpRPDQdqCHdO4zh_QkNZo0USni7iz5fls9MH4L-TCxPM
+Message-ID: <CAEvNRgExZM4ixMfrF_FMw2CTn6JqRX8s=cy0_-x5ypLxvQQuMQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Fix HugeTLB subpool used_hpages tracking
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, Alex Shi <alexs@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>, 
+	Hongxiang Lou <louhongxiang@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Michal Hocko <mhocko@kernel.org>, Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Nhat Pham <nphamcs@gmail.com>, Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
+	Vlastimil Babka <vbabka@kernel.org>, Wupeng Ma <mawupeng1@huawei.com>, 
+	Yanteng Si <si.yanteng@linux.dev>, Naoya Horiguchi <nao.horiguchi@gmail.com>, fvdl@google.com, 
+	jthoughton@google.com, rientjes@google.com, vannapurve@google.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 14, 2026 at 11:41:42AM -0500, Andrew Halaney wrote:
-> The .dm-verity keyring is not linked into any process keyring, so
-> request_key() and KEYCTL_SEARCH cannot find it. Userspace has to scrape
-> /proc/keys for the serial to use.
-> 
-> That's not great, one could put in a bogus description containing
-> a newline to confuse userspace further. For example, thanks to AI
-> models, which I run as root but you could show off as any old user:
-> 
->     # DESC=$'.dm-verity: 1\n0badf00d I--Q---     1 perm 082f0000     0     0 keyring   .dm-verity'
->     # k=$(echo -n "1234567" | keyctl padd user "$DESC" @s)
->     # keyctl setperm "$k" 0x3f010001
-> 
->     # cat /proc/keys | grep dm-verity
->     10402023 I------     2 perm 082f0000     0     0 keyring   .dm-verity: empty
->     12e0bee6 I--Q---     1 perm 3f010001     0     0 user      .dm-verity: 1
->     0badf00d I--Q---     1 perm 082f0000     0     0 keyring   .dm-verity: 7
-> 
-> 0x0badf00d is not a keyring, it is the text inside our user's key
-> description. Telling the two apart needs a KEYCTL_DESCRIBE per row
-> which is annoying to do. i.e.:
-> 
->     # keyctl rdescribe 0x10402023
->     keyring;0;0;082f0000;.dm-verity
->     # keyctl rdescribe 0x0badf00d
->     keyctl_describe: Required key not available
-> 
-> Let's just give it a well known identifier, i.e.:
-> 
->     # keyctl rdescribe -10
->     keyring;0;0;082f0000;.dm-verity
-> 
-> This is exactly what
-> commit 264d8fd2794f ("bpf, keys: Add a bpf keyring for program signature validation")
-> did, and was the inspiration for this commit minus the spinlock bits
-> required due to dm-verity being a module.
+Andrew Morton <akpm@linux-foundation.org> writes:
 
-This is great for discussion but what we want for the commit message
-is just motivation and resolution.
+> On Wed, 16 Sep 2026 16:39:00 -0700 Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org> wrote:
+>
+>> HugeTLB subpools currently only track used pages (used_hpages) when a
+>> maximum size limit (max_hpages) is configured on the mount.
+>>
+>> ...
+>>
+>> This series addresses three problem areas resulting from untracked usage
+>> and asymmetric error handling:
+>
+> These are rather serious-sounding problems.
+>
+> I'm seeing Fixes: for 10-year-old patches, for one last year and one
+> this year.  The fourth patch doesn't identify what to fix.
+>
+> So if downstream people (-stable maintainers, others) follow our
+> recommendations, some kernels will get two of these patches, other
+> kernel versions will get three and some lucky kernels might get all
+> four.  Are you confident that the patches can be split apart in this
+> fashion and still produce a good result?  After all, we're sending
+> downstream some patch combinations which we didn't test.
+>
+> Also, can you speculate about why these things took so long to
+> discover?
+>
 
-I don't think we need all this just to say that /proc/keys in a racy
-query mechanism for production, which is an issue for dm-verity, given
-that nothing else is available.
+I wouldn't have noticed these if Sashiko didn't point out these
+pre-existing issues while I was trying to refactor alloc_hugetlb_folio()
+in the earlier patch series.
 
-And secondly special keys are meant for implicit keyrings so isn't
-that all there's to it?
+Here are my guesses:
 
+> 1. False restoration and premature subpool freeing (Patch 1):
+>     + Global reservations (resv_huge_pages) are not decremented when
+>       reservations are released, depleting available huge pages host-wide.
 
-> 
-> Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> Signed-off-by: Andrew Halaney <andrew@amutable.com>
-> ---
->  drivers/md/dm-verity-verify-sig.c |  3 +++
->  include/linux/key.h               |  1 +
->  include/uapi/linux/keyctl.h       |  1 +
->  security/keys/process_keys.c      | 33 +++++++++++++++++++++++++++++++++
->  4 files changed, 38 insertions(+)
-> 
-> diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
-> index b2b55c41e2cb..da509dcdd7e5 100644
-> --- a/drivers/md/dm-verity-verify-sig.c
-> +++ b/drivers/md/dm-verity-verify-sig.c
-> @@ -189,11 +189,14 @@ int __init dm_verity_verify_sig_init(void)
->  	    keyring_restrict(make_key_ref(dm_verity_keyring, true), NULL, NULL))
->  		panic("dm-verity can't seal keyring\n");
->  
-> +	key_register_dm_verity_keyring(dm_verity_keyring);
-> +
->  	return 0;
->  }
->  
->  void dm_verity_verify_sig_exit(void)
->  {
-> +	key_register_dm_verity_keyring(NULL);
->  	key_revoke(dm_verity_keyring);
->  	key_put(dm_verity_keyring);
->  }
-> diff --git a/include/linux/key.h b/include/linux/key.h
-> index bd10fe45819d..ae8d3314fd93 100644
-> --- a/include/linux/key.h
-> +++ b/include/linux/key.h
-> @@ -441,6 +441,7 @@ extern int keyring_restrict(key_ref_t keyring, const char *type,
->  			    const char *restriction);
->  
->  extern void key_register_bpf_keyring(struct key *keyring);
-> +extern void key_register_dm_verity_keyring(struct key *keyring);
->  
->  extern struct key *key_lookup(key_serial_t id);
->  
-> diff --git a/include/uapi/linux/keyctl.h b/include/uapi/linux/keyctl.h
-> index fa85b9760391..75923941f1b3 100644
-> --- a/include/uapi/linux/keyctl.h
-> +++ b/include/uapi/linux/keyctl.h
-> @@ -25,6 +25,7 @@
->  #define KEY_SPEC_REQKEY_AUTH_KEY	-7	/* - key ID for assumed request_key auth key */
->  #define KEY_SPEC_REQUESTOR_KEYRING	-8	/* - key ID for request_key() dest keyring */
->  #define KEY_SPEC_BPF_KEYRING		-9	/* - key ID for the BPF-specific keyring */
-> +#define KEY_SPEC_DM_VERITY_KEYRING	-10	/* - key ID for the .dm-verity keyring */
->  
->  /* request-key default keyrings */
->  #define KEY_REQKEY_DEFL_NO_CHANGE		-1
-> diff --git a/security/keys/process_keys.c b/security/keys/process_keys.c
-> index 44358388e395..dba3df41638b 100644
-> --- a/security/keys/process_keys.c
-> +++ b/security/keys/process_keys.c
-> @@ -25,6 +25,10 @@ static DEFINE_MUTEX(key_session_mutex);
->  /* BPF keyring reachable through KEY_SPEC_BPF_KEYRING */
->  static struct key *bpf_keyring __ro_after_init;
->  
-> +/* dm-verity keyring reachable through KEY_SPEC_DM_VERITY_KEYRING */
-> +static struct key *dm_verity_keyring;
-> +static DEFINE_SPINLOCK(dm_verity_keyring_lock);
-> +
->  /* The root user's tracking struct */
->  struct key_user root_key_user = {
->  	.usage		= REFCOUNT_INIT(3),
-> @@ -607,6 +611,24 @@ void key_register_bpf_keyring(struct key *keyring)
->  	bpf_keyring = keyring;
->  }
->  
-> +/**
-> + * key_register_dm_verity_keyring - Publish the keyring for KEY_SPEC_DM_VERITY_KEYRING
-> + * @keyring: The keyring to publish, or NULL to withdraw it
-> + *
-> + * Make @keyring reachable by userspace through the KEY_SPEC_DM_VERITY_KEYRING
-> + * special key ID, so that provisioning it does not require scraping its
-> + * serial out of /proc/keys first. dm-verity can be unloaded as a module
-> + * and the keyring deregistered, as such serialize access with
-> + * dm_verity_keyring_lock.
-> + */
-> +void key_register_dm_verity_keyring(struct key *keyring)
-> +{
-> +	spin_lock(&dm_verity_keyring_lock);
-> +	dm_verity_keyring = keyring;
-> +	spin_unlock(&dm_verity_keyring_lock);
-> +}
-> +EXPORT_SYMBOL_GPL(key_register_dm_verity_keyring);
-> +
->  /*
->   * Look up a key ID given us by userspace with a given permissions mask to get
->   * the key it refers to.
-> @@ -766,6 +788,17 @@ key_ref_t lookup_user_key(key_serial_t id, unsigned long lflags,
->  		key_ref = make_key_ref(key, 0);
->  		break;
->  
-> +	case KEY_SPEC_DM_VERITY_KEYRING:
-> +		spin_lock(&dm_verity_keyring_lock);
-> +		key = dm_verity_keyring;
-> +		if (key)
-> +			__key_get(key);
-> +		spin_unlock(&dm_verity_keyring_lock);
-> +		if (!key)
-> +			goto error;
-> +		key_ref = make_key_ref(key, 0);
-> +		break;
-> +
->  	default:
->  		key_ref = ERR_PTR(-EINVAL);
->  		if (id < 1)
-> 
-> -- 
-> 2.55.0
-> 
+This requires min_size to be requested and NOT max_size, and it needs
+an awkward partial truncation of the file.
 
-BR, Jarkko
+>     + On unmount, subpool_is_free() checks (rsv_hpages == min_hpages).
+>       Because of the false reservation restoration, this evaluates to true,
+>       freeing the subpool while folios are still active in the page cache
+>       and causing a use-after-free when they are later released.
+>       (See Patch 1 for a detailed step-by-step trace.)
+
+Unmounting masks the issue, because when the subpool is freed,
+spool->rsv_hpages gets returned to the global hstate, restoring the
+global state. The use-after-free doesn't actually happen unless a folio
+outlives the subpool (not common), since free_huge_folio() is the one
+that uses after the subpool is freed.
+
+> 2. Reservation rollback races and underflow (Patches 2 & 4):
+>     + On hugetlb_acct_memory() failure in hugetlb_reserve_pages(), the
+>       error path manually calculates rollbacks using local variables.
+>       This is race-prone when concurrent threads interact with the
+>       subpool, risking reservation leaks or counter underflows.
+
+I didn't reproduce the race here that could mess up global state, and
+races probably hid this. I guess the messing up could go both ways so
+perhaps on a machine with heavy load, future races offset the old error?
+
+>     + On region_add() failure, prematurely releasing global reservations
+>       forces error cleanup to attempt fresh allocations that can fail
+>       under memory pressure.
+
+I didn't write a reproducer for this one, but it's an edge case (memory
+pressure causing huge page allocations to fail) of an edge case (OOM on
+trying to allocate an entry for the resv_map). It might occur together
+if the host is completely out of memory, but I think in that case people
+worry more about the system OOM than fixing a HugeTLB bug.
+
+> 3. Subpool usage leak on allocation failure (Patch 3):
+>     + In alloc_hugetlb_folio(), when folio allocation fails and
+>       gbl_chg == 1, the cleanup path skips hugepage_subpool_put_pages(),
+>       permanently leaking used_hpages.
+
+This is a failure path, which probably isn't executed that often. The
+reproducer created a very small mount and was specially written to
+trigger this edge case.
+
+Overall, I was also second guessing myself: perhaps it was never the
+intent to manage reservations by tracking used_hpages throughout, but in
+09a95e29cb30 ("mm/hugetlb: optimize minimum size (min_size) accounting")
+Mike noted that min size accounting "does not take into account used
+pages within the filesystem", and the patch added a check for
+used_hpages. Based on that, and the _original_ code documentation below:
+
+	long used_hpages;	/* Used count against maximum, includes */
+				/* both allocated and reserved pages. */
+
+I think the original intent was for used_hpages to track both allocated
+and reserved pages, and patch 1 restores the original intent, and also
+simplifies the logic in many places.
+
+> Ho hum, complicated.  Let's at least slap a Fixes: on [4/4].  My
+> trillion-dollar sidekick suggests a9e443086489 ("hugetlb: disable
+> region_add file_region coalescing").
+>
+
+Your trillion-dollar sidekick got the right patch but the wrong hash :)
+
+Fixes: 0db9d74ed884 ("hugetlb: disable region_add file_region coalescing")
+
+I'll also reply to the last patch with the above. If there are no
+further revisions required, could you please add the above tag in for
+me?
+
+> Our other little friend is talking to us:
+> 	https://sashiko.dev/#/patchset/20260916-hugetlb-subpool-always-track-used-v3-0-38aae9b5ccdd@google.com
+>
+> I'd like to queue this up promptly because it fixes things.  But let's
+> seek additional review input and argue with Sashiko before taking that
+> step.
+
+I'll copy Sashiko's comments onto this patch series in replies. :)
