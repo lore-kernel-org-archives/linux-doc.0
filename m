@@ -1,156 +1,184 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021072.outbound.protection.outlook.com [52.101.100.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A914FE2FB
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 15:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789745170; cv=none; b=I6oKyjxi0bf1BoRunLbYJQhMBTxSrMoO0+7lHEDFmfQh0k7KW8kjicZpCm2f6K6Nggs3lylEGLwTmyq6eiVoHknQb0bXdVF0o2MFmV5RlT1pCsIfqtAaQm0s1UPgaCMwLpcJ2y/ec/5+bK/EztEcvTi5Nqu1QBMSmFws8AEgt0k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789745170; c=relaxed/simple;
-	bh=S4BbbDlFMvSPl2ab6YtXb/KsV0JNn8z1b6pr9Asc0Ds=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JhnxYPWmQskkLSYLCmSTQH44nkz+QFuXE3v4XchGiHPuvHWtRxvwu4qOEiXqN5gTO7aad4j0VKOMw5EvrjJYCvxog0v/ilS+gia12HnAQUBgyW10nT2efplF1msOiwynrBoWwby9QBJiZc5XlCUdprMZ95bTpCnEqj2bJDOGzgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=srIiNcV1; arc=none smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="srIiNcV1"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c2953a01240so138097666b.0
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 08:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789745166; x=1790349966; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=S4BbbDlFMvSPl2ab6YtXb/KsV0JNn8z1b6pr9Asc0Ds=;
-        b=srIiNcV1+31jY3wY5Zs5IYPLeYz9lw0Ixf6yqZAcU9auUHyoYPk44X+k+GgwoMw1eg
-         KFHwAdkBYIbhjwTAnejc/qh0YmrOgBXIzJc9/0h2jo9OCStsX49YsYPfzstwawsr0l0L
-         jJ/th+JYr6zLIWgymC+2fkJdbMtsVqkNHLgD6GalEYkZcWeZAFI8v7bGm10fycOTUwhX
-         L7lSqs2QI7oJprUuQfgM5Z+aGdcsGlB9fWCrvQ/Qsco/dZi4tZCwQlxvYYCJ3tZ+2lsc
-         WpTWMF/7u55nBfg8RP1jWklCf8G9J2rmM3BtfVMPpbpiyCPLQIbXzqb65WD/q6PSSUa1
-         B1Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789745166; x=1790349966;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=S4BbbDlFMvSPl2ab6YtXb/KsV0JNn8z1b6pr9Asc0Ds=;
-        b=dZKEqElurRPAaOLR6GszmN7qY9Sx+gBT8JYLMz+qwdMEycGrSRDHqfqn2m+f/LcgiJ
-         o+jcMb0SyNmugoQ+9mAFHzY6g+W46DcLegt2Zoq1ts4sL3VUFj0Vh6OosfGmj1jy05sh
-         x0uyZNPYUE2ql13Ynh0l/RNUJY2VWUfTep2hW36kzJbi7o8FbUSOb7broacKIYKTuiIZ
-         tT7W+Q5nZ2jgpc//rug37Xe5Iub1fVhzQzPwAVsTzAB60cFSUERw/2bHfoLky96abU0N
-         hMGTyzte0a09VJ76M5EMh12opo26is4YYEit6VnkzTd8YPfVDywjq31u69C6Wl+rP1ge
-         ejcA==
-X-Forwarded-Encrypted: i=1; AKwUvByZmf4DSv2MlvbeIdzTYBHwyxLjPsm8LwYazWayrd3d4R6XMjDy6u2gLlFF3AuFrhFuJtBHk0rZlyY=@vger.kernel.org
-X-Gm-Message-State: AFuF++kbw+n9HiiYsfBtlZKWHoKuqKnFKQGBQGy5JEBTL5YxtxiGGSQj
-	v+W3O7i/tvi4GI1VoopbUfZ4pvg96/61k6kkdK7FxyuPJbdEvS5bInC7
-X-Gm-Gg: AYBFou27KRjXrgcm3lNUt/21cfKRiB4fpxW2QnWMhdIq8EBbog0Rm4MIM8XSzTd92a0
-	Vi0/V1145VdSzL1BBnhMEdsDCfgCEFwtbmCi2BtLujfFMTwW11aW/HspIg7BLudRnsqOcF+clBa
-	eJlipdTjWNE1EnTbTDe1tlfvpKaqvIVOhuogIpT7gD8wKmLj29qXoMLyG4O1kCooI0GQ4OLNNZR
-	TN9M8XjmHKijHsvWkOx3bhWox0WOhRbMVSbHnsFzn6H3kq1iYrgq8DelKcGl66WVdEObKL6ydgx
-	+o3NlGB59D5VeWUdJ/QusqrfXLrJPE8KRb9QZGs4E3cQkeE1u9idXP7+/lHxpUGFZ3AhtJ50qAl
-	lRp67iWWCoM7t2APwSTpeoZlJwtd4SMbytbK6lqOI5YsCw2lO+zHzRG6K7OVM+BIieZfSB+509W
-	ZjVi7qwFhkN7L2vy7Svdeiijk+JXUYmoyyfb0MjwKB/TqviOF+yQJpqo1+O8q6JGvxWtPzrROR1
-	ldpEBcS8JleTCnCnSHk3J3eN3SUQUdp+9lrWao7CL83md2viUNqyjcTFeLywmCAmLeORg4D20Ft
-	6V6wMw==
-X-Received: by 2002:a05:6402:a0d7:b0:69c:6547:518b with SMTP id 4fb4d7f45d1cf-6aa577f4a28mr1746463a12.12.1789745165596;
-        Fri, 18 Sep 2026 08:26:05 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aa67c6d71fsm35507a12.2.2026.09.18.08.26.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 08:26:05 -0700 (PDT)
-Message-ID: <9fc012985151b1b79b5d6e3f16738397ac9f837f.camel@gmail.com>
-Subject: Re: [PATCH v2 0/6] iio: adc: ade9000: add ADE9430 support
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Antoniu Miclaus <antoniu.miclaus@analog.com>, Nuno =?ISO-8859-1?Q?S=E1?=
-	 <nuno.sa@analog.com>, Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron	 <jic23@kernel.org>, David Lechner
- <dlechner@baylibre.com>, Rob Herring	 <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley	 <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan	 <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Marcelo Schmitt
- <marcelo.schmitt@analog.com>, Joshua Crofts <joshua.crofts1@gmail.com>,
- Radu Sabau	 <radu.sabau@analog.com>, Salih Erim <salih.erim@amd.com>,
- Jishnu Prakash	 <jishnu.prakash@oss.qualcomm.com>, Jakub Szczudlo
- <jakubszczudlo40@gmail.com>, 	linux-iio@vger.kernel.org, linux@analog.com,
- devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Date: Fri, 18 Sep 2026 16:27:30 +0100
-In-Reply-To: <20260918073537.1572-1-antoniu.miclaus@analog.com>
-References: <20260918073537.1572-1-antoniu.miclaus@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C64503BCB;
+	Fri, 18 Sep 2026 15:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789746257; cv=fail; b=R+WdzQU/opPWiD4bzgf7zuPp/Pq9VvoFAdm1+clncIpmqrue7l7IIOWZk36nBlLWKTMg2ZzSLJgF9DvTVfkGuPAoBexuS1QqmtJuY9YFXKzfVcLxMTTkpDNjVNriBKa4DVCiUKzjgQb3mDOPJezNF5g145B1nPQ2ioLHOiyhlUs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789746257; c=relaxed/simple;
+	bh=dcN+qnDLI/wBS+UK5TZ8A2iCW8xjQlDpK353mEW0Tp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=YBp+Bvp5KwtR0AVBMbrhziSEPeT+uwUD3PmnQv/IRXpEGnWU0RpOWfJUfGhFGCayeHBsUK1IKf0Gl0GEpKNTO806B+eNGlFJUVmRMZijQjTTJu+q3J8dZvcBA3HWk1V44KU8n6fSqSVNKqJ6UP20nTgfcLMkNzWEOYlynl5vilw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.100.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lpE0G4UXCu/uJrsxmij+ISV55KR4eIuMofvRJ/kRFcraN2nF4Xx516QWSRazLxmfDzhFpmjGHHm/9069HQ0gOohxjBn0csJJXVWcL8FqGy1AglKv3jlnsKfKj/qbNscvafwmgdW66IG1CI8FRuZydsFkxHtZLrMnA/GpvTkELJw2eKtea4CCiU4JxCmDb4Dtbh0omZ0RrM67vXisddHhMzl/6RuCiahtkAuoCxH4cGhMj5b2QzetwkTASFuOADnfIqp9Qq5AlTelH5kqt+NzzhybGvYT+7HtqpJUx36CZuauJA/cFce35jvhkOJoSoR5Ugd89EotBzN0B402rExFQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=APNEUdWFcLdZMIaIxMndyzxJZd/tdxdGGgaeDY36WoY=;
+ b=bEGo5MwFzyc4v/tXohLVafrnt2+aXyDZLT4s0e4UHKAQ23C6GRqyTZ+T7gJ2OSBZi+XmiBWsRUu23RJMdMCvsjXME/Aje21MKRAxXHz0fNU1FVOJ+9F5wPykv65qbnYkb2a2kTVhPQurJjAnQziosptyZxwo+Ztg8vhZ5ziuUoBrKsfhzCPMM6HCOa4wfJ2gYtLgCfuCeF1QkXvZgDir6Kkc+jcN+40wRkwXRFpMAzzLPZz/dbFXxOGCVzIQ/9H8FRGDoPjU+TehFhwd4KGN0USN4h/4l7gZi8o/804rW9fEUeCeBb1G9QUJ3NdlJ9XOp7AJGn/IYKLKSmsjFZN4eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
+ by LO9P123MB7964.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:3e3::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Fri, 18 Sep
+ 2026 15:44:09 +0000
+Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0428.011; Fri, 18 Sep 2026
+ 15:44:09 +0000
+Date: Fri, 18 Sep 2026 11:44:05 -0400
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>, 
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] module: fix up documentation for add_taint() and
+ add_taint_module()
+Message-ID: <k7pmsxqohlkatvwhd4bngycdlegc4d7ss4gj7ghanajga5zsms@ixjphhjwqbue>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <20260914-bind_taint-v4-2-eadf8a090903@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260914-bind_taint-v4-2-eadf8a090903@linuxfoundation.org>
+X-ClientProxiedBy: BN0PR03CA0015.namprd03.prod.outlook.com
+ (2603:10b6:408:e6::20) To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:183::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|LO9P123MB7964:EE_
+X-MS-Office365-Filtering-Correlation-Id: caae861a-cb6a-486a-b7de-08df159bae06
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|6133799003|4143699003|22082099003|10067099003|56012099006|18002099003|27256017;
+X-Microsoft-Antispam-Message-Info:
+	U/ngbM+fNTf4WZnRAG/cFvTUVQs6gAXmzcOUw0yY0jtXiUb4s6CCV4b6z4XYWB71cdGmMZGDYiPbgKolmnjBQAgxWHsRgZ/H/ZVaHB/8I6vasaNx+ogzbUjkynH7NuaGFDjqhkwm+eon/mj0BXa/X7A9xhBjZbBz8V3neWJNbz1etTk4Ot2Mdykb44sGMQpGKQF114vG0fjjEXyjeKgHQOQ2dEUfE+JVtkN/SSDVQccohy3VBy88tBrAe5qR/8YXBBy0bpss3nmGEjps3yPgmdbuqs8lR38PWC6nLGQmHH3eLgluryc63e0F4mt8G7OAoLWWf+/1jMND+ZKQ1NuZlSiZBGer4AVlpwBWlto/43Q96oOcOa/rB3y5cF57XzTfwnrLQWmarxgILaJHk1wiJyStEGRj5y1JbNb8rVU+VdIM3BNWcMnRcD8HgRR5CSkFfevuW07oPz9U5fAVmsm06GuMsSs3gUzRE1dI0H0F6UckdrSVT4tXztSA5vHME1hqyl0TxKhHJ9vTPssOtnrpc+AL28BYbkVkSIf/HiKDZnlq057Sa/mb9GEBr1rSgN9RKyS7x2uFDe4V2IHEf5jfSs5gHEmsAEJWuyeXNruDZBJ11Xs8jPl3TgS0q+6Cbmtbw1qLB0MEKMwCdSTvzHBL5a8fFX24Sqi7MdtZVe0Kjzx2v1E0mXlAXq+/yK4VRq9x1le9bGk/r+Wf21EJKlnRDA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(6133799003)(4143699003)(22082099003)(10067099003)(56012099006)(18002099003)(27256017);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TWRkZTlJcHdBUVRSRHVuV2NZTThrTk5NTVd0SVBaZW5SZWJKZDRES1BXRnh0?=
+ =?utf-8?B?OVdHazJieTFyMzBGVkNHTWFVSlFoMkR5ZDVBQnR5dUpxV1lSU2FqQkIwQk0z?=
+ =?utf-8?B?R24vWWx6WXBKQjBweEpvcU1sYm1CeVJod1FTL0VMMm9SZTJObEtoTmJPbWJN?=
+ =?utf-8?B?U0tieXN6Qzlma3I1ZUpIdDBReVNsNTNRVzNFWmJ6UHVwalRXbWY5dXNpMFB1?=
+ =?utf-8?B?QlVpcWgrakhxN3c0alJoK09pT21MWlVpZ3VSMnBoYVJQMjZRTmgwZU12elhL?=
+ =?utf-8?B?VEJZQVNDYjhnQjVhRE16TWxxVGpnQkdXQk90bW1KWDgwbU9QUlMrQ3BPclVY?=
+ =?utf-8?B?dUNYNXZGdlUrQ3l5MStGSXhZbXErakpuRFdXbFR1T0kyK05OK1NJZDJ5dGQ2?=
+ =?utf-8?B?WTBFT1NNdGp6RGZRMFZWODhNV3hiOFAwY2R0alk1VTh3dXAzc0k4REc2L1Fn?=
+ =?utf-8?B?VjVlR2xNWHc4d3N4RGJsR21xV1pta3VzcHdVRGF1ckwwUWJpcFBNdU9UU3BX?=
+ =?utf-8?B?SmJWUllkeDNIQUtsR0JYQlA0ZGJGRkFnTjV3anI5MFJtZWtlWlRrTVZnYnE2?=
+ =?utf-8?B?T21yeHlKWDBvaXcwVXlpWTFHNzljTHpuV015L0hRRFNIZStmb1F6aC8zTXRG?=
+ =?utf-8?B?QjdrYXQyRTNTNk1vMTQ0Z3pyWlFJc3dTTStCQzBFTGptS215Y1ZVOTJ3VG5y?=
+ =?utf-8?B?TlZZZlFGeEdKM0FPSWdjMU44MG9RZnQ1clErWVRNRlF3c3J4Y3BLWVVBMTgv?=
+ =?utf-8?B?aXNJZ0pSR0ZzOGpiaWZONEI3bnlEZ2lqdW9QaVZpYnRxbjV3R3ZTUktvM09L?=
+ =?utf-8?B?SHJUd0IwbTE1OVcvNkJoWkdyRm9SK3U1Z1ZQM1hid25VRkhtWldjMXV0UUNo?=
+ =?utf-8?B?SUNIcHNVakFORTR1Y3crVk1CT091UVhkdXZSck1jR1IxYytyQnIwT1p3c3l4?=
+ =?utf-8?B?WUJUejUyTVFmc0creFpiK0xYNDVLalR1OVAveENoblpSc29tM1dQekwwVHht?=
+ =?utf-8?B?NVdaLzFBd1pVK3ZLYUtrOWlZSHc3L0pGNklpdEpJZVk2cTZ6VmxJZHg5d1JD?=
+ =?utf-8?B?Sjhvai9KaG11SHY1YktoSTYzdUpCNnBmUzh2SFV3MU81NUZ2ZWlhZHdCK2M3?=
+ =?utf-8?B?M01veUF0YTFUdmkwZEFFMGpnRjFUTFl5N3l6QmlJUUt1REJ2NStqa2w0TGg4?=
+ =?utf-8?B?bUpxWGF3b3JkSUdZcG1SdG40Q0x3QVZxbHlBODhwOVNqc2drR1dxWkIra3V1?=
+ =?utf-8?B?amdKZU9HZ0JIdmtUTW9lQ084Zk9OQ1BVYkpPLzNWZGdodG4vTUxkVmY1T2Vy?=
+ =?utf-8?B?VTJkUHJBLzE5TXNHL3R5Y1htU0JRdjZEbk9MZ3pBRzFUbFBGVFgrditJdU9U?=
+ =?utf-8?B?UnBtYmZkZ2FtYzhieWR6RkJCM3lEQjE4Rk1XNWdUaDJVaWMyTWc5b013VmZt?=
+ =?utf-8?B?QkNhdFl0RUNUcnlzZ3JKOWxSa01WRG1kMVpXdjZUSFBUWjQrNDFBRnRtUzdm?=
+ =?utf-8?B?amVoeUxEVWkyamZJamUyRXNzT3FIdzZoQndBSnl4Zmo3NlplTkVOby9kV00x?=
+ =?utf-8?B?M2QvTjdLMThWY2tzOGhWbnJaZ3REbGNlbVEwb1pLaVBjZzBEUzNGQlV6VzJB?=
+ =?utf-8?B?RXM1dVRZdHpHNFBLditpaTFSQk56MUZDZ2N2SlVMVUc0OVh6Y0U5U0FjUkhS?=
+ =?utf-8?B?d1puV0s5MG9NQmxlOCttME80SU1QRWYwTnpsdDBDN3JyRTNMam5uSGhGaFg2?=
+ =?utf-8?B?NXZGL21QT3dmQTRheTM5aVZNVHFsMlBMMHMxTG5MelNHTmdUbjNqTEttazZy?=
+ =?utf-8?B?SFowMW5NZ2xJclh1MUJOWXB6ZEhGbVVGbHRtQ2pTSWoxSERHd2I2c0ZUMjdS?=
+ =?utf-8?B?a2lqZXhXd1dHaVlMbzBFRm04QmtmSGhOQ1M4dmtsNVd6aGM3ZW8wRC9Kcllp?=
+ =?utf-8?B?TEJmcUI3RWVaYk1PY29ocldsVTJ3ZFE5QitiaGorWHhzV3BDazgwLzVDcDU2?=
+ =?utf-8?B?VGoxdGVXM1V1UldyT2x3djJWWndFL01INTJrb2o1UEowaW04RnIyZHVvUUFE?=
+ =?utf-8?B?OUlMZXVjbzFHR1hwSWRuNGlxWVMrVU5TTWdHNG83Q05RdkV3Szg0SGZGQzcv?=
+ =?utf-8?B?TTN4Nk5lS0xwVEN2NmtIMGNuczQ3RjVhRmJtS0FRakxoK0I4TkhPUUNsR1pB?=
+ =?utf-8?B?ZHlnQmhIRElhTS83VU5mQXo4MVE1dnVBME9OYkR1Mit6aVpWZE9nandROWVF?=
+ =?utf-8?B?dUJUVkR5bUp1cStqRVJpMllaMEpib0hXVFZucE9oc0kzZzJBZzBKTk1VUjVr?=
+ =?utf-8?B?djlZTGJyNzRURHZUL1IrVUF4d2QxUTcycGVPZUs5bnhlNit5VGdnQT09?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: caae861a-cb6a-486a-b7de-08df159bae06
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 15:44:09.4820
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P9FwN7Cf9BCRVlvjhwpdUe570gPyc2QWncyaDZuG5DB0AOtPezpYkhkfXmsUQcLvlNyh43dgSP3CNvNI5XRX3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO9P123MB7964
 
-On Fri, 2026-09-18 at 10:35 +0300, Antoniu Miclaus wrote:
-> The ADE9430 is a polyphase energy metering device from the same family as
-> the ADE9000. It is register-compatible with the ADE9000 but omits the
-> on-chip dip/swell detection and has no on-chip digital integrator; it
-> relies on an external analog integrator for Rogowski coil current sensors=
-.
->=20
-> This series adds ADE9430 support to the existing ade9000 driver, reusing
-> the dip/swell-less channel table introduced for the ADE9078 and adding a
-> matching chip_info for the ADE9430 full-scale codes. A precursor patch
-> gates the DICOEFF register write behind a has_digital_integrator chip_inf=
-o
-> flag so it is skipped on parts without an on-chip digital integrator.
->=20
-> Patches 1 and 2 are standalone fixes carried with this series. Patch 1
-> corrects the ADE9000 full-scale RMS/PCF codes to the same family-A values
-> the ADE9430 uses. Patch 2 fixes the DIPC event never being handled or
-> cleared, found by the sashiko review of v1. Both carry Fixes: tags and ca=
-n
-> be applied independently of the rest of the series.
->=20
-> Changes in v2:
-> - new patch: fix the DIPC event never being handled or cleared, found by
-> =C2=A0 the sashiko review of v1 (patch 2).
-> - new precursor patch: gate the DICOEFF write behind a has_digital_integr=
-ator
-> =C2=A0 chip_info flag, split out of the ADE9430 support patch.
-> - reuse ade9078_channels for the ADE9430 instead of adding a duplicate
-> =C2=A0 channel table.
-> - reword the documentation intro to "The supported parts are..." so it do=
-es
-> =C2=A0 not need updating for each new part.
->=20
-> v1:
-> https://lore.kernel.org/linux-iio/20260907101623.8730-1-antoniu.miclaus@a=
-nalog.com/
->=20
-> Antoniu Miclaus (6):
-> =C2=A0 iio: adc: ade9000: fix ADE9000 full-scale RMS and PCF codes
-> =C2=A0 iio: adc: ade9000: fix DIPC event never being handled or cleared
-> =C2=A0 dt-bindings: iio: adc: adi,ade9000: add adi,ade9430 compatible
-> =C2=A0 iio: adc: ade9000: gate the DICOEFF write behind a chip_info flag
-> =C2=A0 iio: adc: ade9000: add support for ADE9430
-> =C2=A0 docs: iio: ade9000: document ADE9430 support
->=20
-> =C2=A0.../bindings/iio/adc/adi,ade9000.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 22 ++++++-----
-> =C2=A0Documentation/iio/ade9000.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 36 +++++++++=
---------
-> =C2=A0drivers/iio/adc/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0drivers/iio/adc/ade9000.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 39 ++++++++++++++++---
-> =C2=A04 files changed, 67 insertions(+), 31 deletions(-)
->=20
->=20
-> base-commit: edb91bc566576f6664a3efbad6bd4205aa1d5259
+On Mon, Sep 14, 2026 at 04:30:32PM +0200, Greg Kroah-Hartman wrote:
+> When add_taint_module() was added, the documentation for it was copied
+> directly from add_taint().  But that documentation was a bit wrong
+> (wrong variable name, and misleading boolean reference.)  Fix up both
+> functions to have the correct documentation for how to use the
+> lockdep_ok parameter to these functions.
+> 
+> Reported-by: Petr Pavlu <petr.pavlu@suse.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  kernel/module/main.c | 5 +++--
+>  kernel/panic.c       | 5 +++--
+>  2 files changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index 444d990c9983..369794876c3e 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -197,8 +197,9 @@ static inline int strong_try_module_get(struct module *mod)
+>   * @flag: one of the TAINT_* constants.
+>   * @lockdep_ok: whether lock debugging is still OK.
+>   *
+> - * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+> - * some noteworthy-but-not-corrupting cases, it can be set to true.
+> + * If something bad has gone wrong, you'll want
+> + * @lockdep_ok = LOCKDEP_NOW_UNRELIABLE, but for some
+> + * noteworthy-but-not-corrupting cases, it can be set to LOCKDEP_STILL_OK.
+>   */
+>  void add_taint_module(struct module *mod, unsigned flag,
+>  		      enum lockdep_ok lockdep_ok)
+> diff --git a/kernel/panic.c b/kernel/panic.c
+> index 213725b612aa..892045d8409e 100644
+> --- a/kernel/panic.c
+> +++ b/kernel/panic.c
+> @@ -948,8 +948,9 @@ unsigned long get_taint(void)
+>   * @flag: one of the TAINT_* constants.
+>   * @lockdep_ok: whether lock debugging is still OK.
+>   *
+> - * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
+> - * some notewortht-but-not-corrupting cases, it can be set to true.
+> + * If something bad has gone wrong, you'll want
+> + * @lockdep_ok = LOCKDEP_NOW_UNRELIABLE, but for some
+> + * noteworthy-but-not-corrupting cases, it can be set to LOCKDEP_STILL_OK.
+>   */
+>  void add_taint(unsigned flag, enum lockdep_ok lockdep_ok)
+>  {
+> 
+> -- 
+> 2.55.0
+> 
 
-LGTM
+Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
 
-Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+-- 
+Aaron Tomlin
