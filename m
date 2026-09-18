@@ -1,144 +1,209 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6B545D908;
-	Fri, 18 Sep 2026 05:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291D2485945
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 05:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789710074; cv=none; b=GBV96ukPQaQ532ioWlYAtOAw2Mmg7g7p6zVrFGIoFf453s9vgKt+IwtHAQFMJ37NqnL53gnIP2gZhFTtHyRmzjW3dOUI4zSA/3vgP9nX4GGs6iorIaXaKPE3fTPgV+eO0sKI56dDx3swfaoOVL8zU3F/xtRjg6Qe1wEzaoQJlbM=
+	t=1789710776; cv=none; b=F7//wsKCpCvgLZcbr4LkRFBZB3lRDA1hx0VfBrFlP/Kghl/aVHgl5GnvKtCzzBar6CF94pyORLIhqhEmOe8RKXhJPJpIAoqedJ+KcsxngxZZtABhlaD/mDAZROhUjMj0u8y2DMRp3sh+E8sydX6gFCyq0S2ldLxQuXUdJmB00kE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789710074; c=relaxed/simple;
-	bh=q81s4VRJ10fHWXZi7mqz8BJjAODdW6bRd9tOdGWEU3k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFKx73Uk0Ct8yuow5xNB8V8bfxsWBmMIXhxIdjZfbWprXjiyMGmfkyo2Vkf1rMlDiV5EfmQjCRE2PLD6FyU/ASkaSZo1xKC3NiQVoEEXstOQQg0gmSS5UsE+1ZBrqMiDiFd5k2hYJGzH/smQFU6ITd/A69VoBdxuwUrpx7Lz2Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mm2MU//K; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789710776; c=relaxed/simple;
+	bh=V99jLj2gEYsH462fTqhUwsqP0GqMQkk41b67V5dynz0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=cew8uqL0VC+yJppy+LUc/UBdnxNjOnqEXY8Ig2/VNtUUO/3Vwk5s9dF9msqe/n4+bmVGLQoaNjnJnXO/b63LswpjR3crlhQ1mEbCsAIuLmHkceGcsEcqrCKtPRge+MXUFbqByB0qT1liyMddxEntq5Hs6tVGGx9Rc3IbeOcxh8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LH1/Yndx; arc=none smtp.client-ip=74.125.228.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mm2MU//K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20B0C1F000FF;
-	Fri, 18 Sep 2026 05:41:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789710071;
-	bh=nHd6+0HC/1nPCk+6Tm6Uyj6WwdTzSmqKCRyfLZwz4Js=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Mm2MU//KnClCqSqTzNYerNrxjAq+FvG29dS83BnDmwvFqi3DX6rp174BcDccwAzMy
-	 CnDZJF5NO67EZaqviRLLQizWwNt++tMwZVUv6rve6qhUHE5KkbcL7yoUn4QMwtcMb+
-	 J7/I7DzTEVhddYQS1Hf8p5zoYucUAfWC6iMMd2cy6jJCHzuhcBimIpmeEeeEDGZ/aI
-	 PaAGna5sA0SeZs/ylvheVEeDvmDFnUgqPDcFN5VSGJlo2kXwXfR3QccNRJvloa7vW2
-	 xbeQjifYIbf4BE3igjVi0tGeJsmSDJeZdq55shnuTsF5lSqMT3vJqwEtY1mLnH5c51
-	 AI80yPMRfMhAQ==
-Date: Thu, 17 Sep 2026 22:40:58 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3 11/20] kbuild: avoid re-running compiler and linker
- probes
-Message-ID: <20260918054058.GA384222@ax162>
-References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
- <20260917-build-speedup-v3-11-9ecf4163ff36@kernel.org>
- <202609171154.BEA5134F7@keescook>
- <20260918012119.GC1585590@ax162>
- <202609172130.3DF0D66@keescook>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LH1/Yndx"
+Received: by mail-pz2-f43.google.com with SMTP id 41be03b00d2f7-cc1cea4bfb6so118513a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 22:52:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789710773; x=1790315573; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=RoqQBX0V764x0A/v/amZwGuN9suY1fEbdmSCiYW1k5w=;
+        b=LH1/YndxdKdTqJTRoOSlt0kiCmgEVtwTVWQ2dNzfDSEY9XCp7y4XkQQsRQsO5sGLdv
+         u4MsRZUs9PrK9+cdV4t88JtvJCAHyKi7lNtx55zWSiC5jvb5+vGABqO1ZZumgYbJtFfJ
+         hY4c6wdKEssCOyGYKh06SJaa/wuFCT8ZXM07tBmeEZ8bfCdXgVdRoxZk4hnY9hIbiwDQ
+         KzveBiurcVwDtjShw5SNupSOCA/2HmuyCAD/Gc8sxGi23g7IZ1kBi4MTd8At3tM73xaK
+         AAeJV9jgE6XlxjBVIofS387c2mof0UM1QiHLKWeCk3NUhc00RRKMxAcZyHpxohn3BaN7
+         XU9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789710773; x=1790315573;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RoqQBX0V764x0A/v/amZwGuN9suY1fEbdmSCiYW1k5w=;
+        b=tMn7TO2KQCxhhm/l872lbmhPPVZjFfNXFOL7Iy5V5pp7guwNFxxMBYPK6jpptvP6Tn
+         U7IrhJXfkss8Wp9kc3n5JN1qjEzwhW1dT1O20TkZH2sIPuYeS7rdrt0HiWyAQryRvzW3
+         BVEVEnfJVn5Z8tp9nx1c9VWgKWrBQrduESMDL+S2nbTNTRP1ZilfJBNDLfvik9LZxmwI
+         b6GgHF9X7VCys39b4hHhYzkf/CEfVpq4ze7aMMOke7qHsTe9rIhUL2FcI181dAaPyS/x
+         1nuOhBgiceVrq0Tj/4spIs0Bg70wyescKF34gk//lpzThqWF9/pdqeRW+5pYcb6EN5lW
+         g/VA==
+X-Forwarded-Encrypted: i=1; AKwUvBwf2pFWAR/RV+R4n/K3EHHUX/2qV6wYY8JH9xorLCHZjDbsueT1wMdQ8RnOV9upbKhnMJ97HMAlSMQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++lGh7Xyg4UGMudn+wZrrqSL2wThEsJ/45WiGBh5TFtLto1lMyu/
+	c5tE6+St7HYjLcS3FEQCDiyzCUoLvqE1dvqH4WNxIcFya2QdZ9J46Y9j
+X-Gm-Gg: AYBFou2lZU+O6mRXpv4VrzHBs0qUcza9s3Y5hrvQI0+G+waiQMPQ6rSUxkwEVIK05cI
+	we7A8E6PdTxrySwO291h9yOsB0NJTaecMCb0ZlDs2jo+CVb6Xb2zwpZrz7LUXD7dJMJ9EFjpGcQ
+	QNkljE3i/Nxhf0y8xbToLQmvlE6bXdrLYFKPIsWMInVT1eRnuTWWnIAfYq8q+lxFLThXFiaJaqI
+	57HQzEbn5P//jPPr0/TGrBUeO1nFo8n/nI8eeczLxlASbAyctqSiH+IhlLUYvw7Vo9gchx6fTsB
+	zzQLAZkfNX4F43Hel5ftHz5ki5SI/dd5hF/iBt4Swmy2OUWECKsdJNYc94aOXoZE6jWr4oDNMTH
+	CuUSYAtUO8xecAbKBTNbiJRm4zeLaxcHcyDOadVRVKn6DDLnF5ifc4haMkQVDq8PBur/t/BXjSZ
+	iwGJ+h0w7k8qedeZHqD3Ev+6ZPwnBtojtiQMdy9+MHbG6GSsKFnu668Up95um2x+jl9tKxyNRvE
+	CyFUvYE1cf7gvvSdLIiQ5G1kw==
+X-Received: by 2002:a05:6a21:9e0f:b0:3dd:85a8:caca with SMTP id adf61e73a8af0-3dd8c47d1c6mr2792351637.33.1789710773192;
+        Thu, 17 Sep 2026 22:52:53 -0700 (PDT)
+Received: from localhost ([13.93.150.60])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c28721895sm1518873eec.13.2026.09.17.22.52.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Sep 2026 22:52:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202609172130.3DF0D66@keescook>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 18 Sep 2026 05:52:50 +0000
+Message-Id: <DLI7IPF4DIYX.3BAFFWR52DHUY@gmail.com>
+Subject: Re: [PATCH net-next v2 2/2] selftests: net: test untracked NA
+ recovery of FAILED neighbors
+From: "Lawrence Lee" <lfqlee314@gmail.com>
+To: <netdev-bot+sashiko@kernel.org>
+Cc: <dsahern@kernel.org>, <idosch@nvidia.com>, <davem@davemloft.net>,
+ <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+ <horms@kernel.org>, <rdunlap@infradead.org>, <netdev@vger.kernel.org>,
+ <aajith@arista.com>, <roopa@nvidia.com>, <jhpark1013@gmail.com>,
+ <corbet@lwn.net>, <skhan@linuxfoundation.org>, <shuah@kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <alex.aring@gmail.com>,
+ <linux-wpan@vger.kernel.org>, <linux-bluetooth@vger.kernel.org>
+X-Mailer: aerc 0.17.0
+References: <3f33052571409614b953a3dc7778114c51c43669.1789448374.git.lfqlee314@gmail.com> <178966456270.22033.8952247046783062389@kernel.org>
+In-Reply-To: <178966456270.22033.8952247046783062389@kernel.org>
 
-On Thu, Sep 17, 2026 at 09:44:24PM -0700, Kees Cook wrote:
-> On Thu, Sep 17, 2026 at 06:21:19PM -0700, Nathan Chancellor wrote:
-> > While we could certainly try to cook something like this up, we could
-> > also avoid the split across two files by just defining the flags in
-> > Kconfig directly and using them in the Makefile through their symbol,
-> > like we already do for -Wimplicit-fallthrough. For example, instead of
-> > 
-> >   config CC_HAS_STRICT_FLEX_ARRAYS
-> >       def_bool $(cc-option,-fstrict-flex-arrays=3)
-> > 
-> >   KBUILD_CFLAGS += $(if $(CONFIG_CC_HAS_STRICT_FLEX_ARRAYS),-fstrict-flex-arrays=3)
-> > 
-> > We would just do
-> > 
-> >   config CC_STRICT_FLEX_ARRAYS
-> >       string
-> >       default "-fstrict-flex-arrays=3" if $(cc-option,-fstrict-flex-arrays=3)
-> > 
-> >   KBUILD_CFLAGS += $(CONFIG_CC_STRICT_FLEX_ARRAYS)
-> > 
-> > While we still get the duplication (and we could look at getting rid of
-> > it with your cc-option-str idea or whatever), it is at least contained
-> > to the same location, so out of sync issues should be much rarer. I do
-> > diff Kconfigs so this might make certain issues with checks a little bit
-> > more obvious if something changes on the compiler side.
-> 
-> Yeah, and note that cc-option-bit already exists. It's just a weird name
-> is all and there isn't an ld-option-bit.
+> [Severity: Low]
+> Should verify_ndisc() also check the link-layer address that the
+> advertisement carried?
+>
+> The seed in test_unsolicited_na_common() deliberately creates the entry
+> without one:
+>
+> 	${IP_ROUTER} neigh replace "${HOST_ADDR}" dev "${ROUTER_INTF}" \
+> 		nud failed extern_learn
+>
+> while the recovery path in net/ipv6/ndisc.c:ndisc_recv_na() pulls the tar=
+get
+> link-layer address out of the options and passes it down:
+>
+> 	lladdr =3D ndisc_opt_addr_data(ndopts.nd_opts_tgt_lladdr, dev);
+> 	...
+> 	__ndisc_update(dev, neigh, lladdr,
+> 		       new_state, update_flags, neigh_failed,
+> 		       NDISC_NEIGHBOUR_ADVERTISEMENT, &ndopts);
+>
+> Since the only assertions here are the state substring and extern_learn,
+> would a change that moves FAILED -> STALE but installs no lladdr, or an
+> incorrect one, still report OK?  Comparing the resulting lladdr against t=
+he
+> host veth MAC would close that gap.
+>
+I will update the tests to verify the lladdr
 
-Ah, I see. I worry that the current cc-option-bit is not sufficient for
-all options that we may want to test because it uses '-E' to stop after
-preprocessing (whereas some options may need to get to code generation
-to be validated properly) and it does not use $(CLANG_FLAGS) to properly
-set the target (so we might not get consistent results). I wonder if we
-would be better off refactoring cc-option-bit into cc-option-str that
-shares most of the machinery of cc-option. Then we could just add
-ld-option-str.
 
-> As for naming conventions, I think "CC_OPT_" would be a good prefix. And
-> this works today with no change:
-> 
-> config CC_OPT_STRICT_FLEX_ARRAYS
-> 	string
-> 	default "$(cc-option-bit,-fstrict-flex-arrays=3)"
+> [Severity: Low]
+> Can this switch actually isolate the mode 2 in-prefix gate?
+>
+> Moving HOST_ADDR from 2000:20::2 to 2000:21::2 changes the source address=
+ of
+> the advertisement, its target address, and the key of the seeded neighbou=
+r
+> entry all at once, while the router keeps 2000:20::1/64.
+>
+> The advertisement under test comes from addrconf_dad_completed(), and
+> ndisc_send_na() uses the same address for both fields when it is local:
+>
+> net/ipv6/ndisc.c:ndisc_send_na() {
+> 	ifp =3D ipv6_get_ifaddr(dev_net(dev), solicited_addr, dev, 1);
+> 	if (ifp) {
+> 		src_addr =3D solicited_addr;
+> 	...
+> 		.target =3D *solicited_addr,
+> }
+>
+> so saddr =3D=3D target for every packet this test generates.  The kernel =
+gate is
+> source based:
+>
+> net/ipv6/ndisc.c:accept_untracked_na() {
+> 	case 2:
+> 		return !!ipv6_chk_prefix(saddr, idev->dev);
+> }
+>
+> and Documentation/networking/ip-sysctl.rst describes mode 2 in terms of "=
+the
+> source IP address".  Would a change that tested msg->target instead of sa=
+ddr
+> leave both new mode 2 rows green?  Keeping HOST_ADDR fixed and instead
+> varying the prefix configured on the router side would exercise the gate
+> without also moving the target and the entry key.
+>
+Will update the tests to cover one source address outside the prefix and=20
+one inside.
 
-This does look pretty nice.
+> [Severity: Medium]
+> The comment says "add a delay to ensure neighbour processing is done", bu=
+t
+> link_up, start_tcpdump and verify_ndisc run back to back with no sleep an=
+d no
+> retry.  Where is the delay?
+>
+> start_tcpdump() blocks on:
+>
+> 	${IP_ROUTER_EXEC} timeout 15s \
+> 		tcpdump --immediate-mode -tpni ${ROUTER_INTF} -c 1 \
+> 		"icmp6 && icmp6[0] =3D=3D 136 && src ${HOST_ADDR}"
+>
+> but the AF_PACKET tap that satisfies -c 1 is fed from ptype_all delivery =
+in
+> __netif_receive_skb_core(), which runs ahead of the state change the test
+> looks at:
+>
+> ipv6_rcv() -> icmpv6_rcv() -> ndisc_recv_na() -> __ndisc_update() ->
+> neigh_update()
+>
+> Does tcpdump exiting really order against that update, given verify_ndisc=
+()
+> takes a single un-retried snapshot of ip neigh show?
+>
+> There is a second effect for the new rows.  In the four expect-FAILED=20
+> cases:
+>
+> 	test_unsolicited_na_combination 0 0 1 failed
+> 	test_unsolicited_na_combination 0 1 0 failed
+> 	test_unsolicited_na_combination 1 1 1 failed
+> 	test_unsolicited_na_combination 0 2 1 failed 0
+>
+> the expected value FAILED is exactly the state the entry was seeded with,=
+ so
+> "still FAILED" and "the advertisement was never processed" look identical=
+.
+> Would a bounded poll for the expected state, or an explicit settle, make
+> these rows able to distinguish the two?
+>
+> Related question on ordering of the capture: tcpdump is started after
+> link_up, so can the single unsolicited advertisement emitted at DAD
+> completion be missed if the fork and exec are slow?  In that case timeout
+> exits 124 while set -e is in effect inside start_tcpdump, which aborts th=
+e
+> whole script rather than failing one row.  Would arming the capture befor=
+e
+> link_up avoid that?
+>
+Will change the tests to start the capture prior to bringing up the host=20
+side
 
-> (do we need "def_string" now?)
-
-def_string would certainly make these even nicer.
-
--- 
-Cheers,
-Nathan
