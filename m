@@ -1,142 +1,109 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D34B328B56;
-	Fri, 18 Sep 2026 19:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F422931F8;
+	Fri, 18 Sep 2026 19:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789759669; cv=none; b=Eu0wOoA1enMpNmFtW/jX6a603fSPiFjQYIamqwx44i0kxyxSotx4MSYPBzPuoS2/yJO2qbKD1YcY8RKyZF8DE8At7QYEsMyt48aeKbL+qUrB848K4WS9FvLt+WNjgNV5wt683CZNC8lQk489jaVihnpEE1Uzqk9N8qHukcfsClU=
+	t=1789760415; cv=none; b=LI46YPoahelWrWmba8QHofrdepQyJjLcxFUKq8rfx3WZBdnPO2iO59sy7IWVdx948M050ocMP1PI0JKTkl1DTIeP0IpiSXFm6BzkGAYgceOMOoBTQNUtIBGQOLVzJXXrMK/IKUb75e7DTlft/I97nVEpHLo917qJWDoUC0WtqHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789759669; c=relaxed/simple;
-	bh=xc9TLOdz9Shm4TKmH/6pS1wap/ev01S/nSMVw3cWtfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eSLzqN7kKkNl1TMyZ6sKGyCPn5QUjRPKhNtR3jhJwukkGWOypTdhYSom1NZS7Hs1MsSeFDQQJXmg7bYLF4bNkT2sfGh03L6tx4D97APZfafaz6gGyHfyXTZvrSjo4ihReJN1eTPiaFmCsULqj0Aa5dZ+llvcESCgKYhyGp+ifHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=pa5ZU1ud; arc=none smtp.client-ip=212.42.244.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
+	s=arc-20240116; t=1789760415; c=relaxed/simple;
+	bh=Kk3ar4q45siHy1y0rPnYfhOrE+vVoxmAnZK8w5kMOiw=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Subject; b=OTFQ6+aomGsXsOr0YIeRK9gExMd6+vr68CB3LyY8kbzuULJy/YDm0jOZIax1tqlhA1Nu/6K7OH3lsAGmBcXnzTPrkXxKbHVxNW4Y0WBMIWIiqvERF8SD4wfaApwdXfaTeEe+LPjSKKM+o0P9DKa9zpCH1dhriPa5A7bT7BohzLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=p1hFKb1F; arc=none smtp.client-ip=204.191.154.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="pa5ZU1ud"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
-	t=1789759661; bh=xc9TLOdz9Shm4TKmH/6pS1wap/ev01S/nSMVw3cWtfg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pa5ZU1udssDZ876Yy4o4IBichzZhOR7QEhjKH6E5ZP2IahZ2K/0W4pdO7vIJ1A67B
-	 sN8QwI7QAqroUzatF/Q7twY+IVVg5NlKTTx+QhN91UdJxk/cCd7LNrD/HoQRCdKpm3
-	 5o1BJlm50C8/qTKTo4bx7wDWWJ0ZpIYpSkxnnzV86DnQ7STHP4CciKh5eVXV/vaGqy
-	 ycFLa4r6L3ZXuyu2Ks56AWocHYwiKR90SpVfuvRUKI21YoCoZoDNX/TQkFSBUErGmT
-	 raLS6ipTgDZNBeO2QHtF+LVJTB0OoKhExntepvKWlTVwpv6dWg/+RNVqh1UcABk2/M
-	 AUfyXKl3m9DbA==
-Received: from [212.42.244.78] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
-	(envelope-from <n.schier@fritz.com>)
-	id 6aad90ad-03cd-7f0000032729-7f000001a22e-1
-	for <multiple-recipients>; Fri, 18 Sep 2026 21:27:41 +0200
-Received: from mail-auth.fritz.com (unknown [212.42.244.78])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Fri, 18 Sep 2026 21:27:41 +0200 (CEST)
-Date: Fri, 18 Sep 2026 21:27:39 +0200
-From: Nicolas Schier <n.schier@fritz.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3 05/20] kbuild: only emit vmlinux relocations when
- required
-Message-ID: <20260918-rustling-coati-of-poetry-dcc9d9@l-nschier-aarch64>
-References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
- <20260917-build-speedup-v3-5-9ecf4163ff36@kernel.org>
+	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="p1hFKb1F"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=lQAIrUFP3+D+tD4U17DzHrKkOc11Ho5y+ORRcF4NPXs=; b=p1hFKb1F/D9iIDg6hNHtr8GiM2
+	l37aQ39NUCI6IRV6cw9gskBQm2rzWzmoVGB1A1sSt6dz5QZVE29rnly2O4sra+jAVtX5GubBbhzIT
+	estioaTW7b42lemwzxUqTkaexKwqWBQXacYsSjVZzNvKbOFT+MjWkLM0OirZSxU2f7sT+NKmqaUfV
+	o2SyHTECs+cKETwfqStVBNeQngTXT/DtkXdqEV9Mma6d2VcU0eUSuvkbsuX6aqp80gMFjKciNXgwC
+	YI36SyWZbHBozXXE9/fXLmwHKXHr3dGHRBoTkxESWTCrljgEUe7uToA9S6ifHB5P/eblW6xIUFZVM
+	uH56LcFg==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1x7eRN-0000000CrxC-0gtG;
+	Fri, 18 Sep 2026 13:40:10 -0600
+Message-ID: <19bee27e-17d7-4b67-b796-ca5bb44e8de7@deltatee.com>
+Date: Fri, 18 Sep 2026 13:39:55 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260917-build-speedup-v3-5-9ecf4163ff36@kernel.org>
-Organization: FRITZ! Technology GmbH
-x-ms-reactions: disallow
-X-purgate-ID: 149429::1789759661-32FE3EE1-8C64E93D/0/0
-X-purgate-type: clean
-X-purgate-size: 1573
-X-Notice: Whitelisted
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
-X-pfmilter: host: postfix-mx-03  mail-id: 482D3A0494  external: no
+User-Agent: Mozilla Thunderbird
+To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jens Axboe
+ <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+ Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-rdma@vger.kernel.org, kvm@vger.kernel.org
+References: <20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com>
+ <20260914-fix-p2p-acs-v4-0-v6-3-5ef07ec9ef06@nvidia.com>
+Content-Language: en-CA
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <20260914-fix-p2p-acs-v4-0-v6-3-5ef07ec9ef06@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: leon@kernel.org, bhelgaas@google.com, kch@nvidia.com, gregkh@linuxfoundation.org, axboe@kernel.dk, alex@shazbot.org, ankita@nvidia.com, jgg@ziepe.ca, corbet@lwn.net, skhan@linuxfoundation.org, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, rdunlap@infradead.org, sumit.semwal@linaro.org, christian.koenig@amd.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, iommu@lists.linux.dev, tdave@nvidia.com, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org, kvm@vger.kernel.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Level: 
+Subject: Re: [PATCH v6 03/18] PCI/P2PDMA: Derive routing from directional ACS
+ controls
+X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 
-On Thu, Sep 17, 2026 at 05:06:15PM +0100, Lorenzo Stoakes (ARM) wrote:
-> A kernel build consists of more than one linking pass on vmlinux.o and
-> vmlinux, at minimum two, and with CONFIG_KALLSYMS and BTF enabled on x86-64
-> for example there are 5 such stages.
-> 
-> For architectures that build their own relocation tables (x86, riscv, mips,
-> s390), vmlinux is linked with the --emit-relocs parameter specified.
-> 
-> However, this is only required on the final vmlinux link.
-> 
-> Symbol tables of trial links preceding it don't need it because they
-> already check that System.map matches kallsyms symbols on each build.
-> 
-> GNU ld is slow at emitting relocation tables, so this results in a
-> reduction in build time.
-> 
-> Whole build, 128-thread Threadripper 9980X, best of N runs:
-> 
->                                          before   after     delta
->                                          -------------------------------
->   x86 defconfig, touch mm/vma.c, gcc        9.5s     9.1s    -0.42s (-4%)
->   x86 defconfig, clean, gcc                30.1s    29.5s    -0.59s (-2%)
->   x86 allmodconfig, touch mm/vma.c, gcc    37.2s    35.8s     -1.4s (-4%)
-> 
-> Note that this has little impact on LLVM ld which performs this operation
-> more efficiently.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  Makefile                | 2 +-
->  scripts/link-vmlinux.sh | 5 +++++
->  2 files changed, 6 insertions(+), 1 deletion(-)
-> 
-}
 
-Reviewed-by: Nicolas Schier <n.schier@fritz.com>
 
--- 
-Nicolas
+On 2026-09-14 05:22, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> pci_bridge_has_acs_redir() treats Request and Completion Redirect as
+> interchangeable. On asymmetric fabrics, a control for only the reverse TLP
+> direction can unnecessarily force P2PDMA through the host bridge.
+> 
+> Evaluate Request Redirect for client Requests and Completion Redirect for
+> provider read Completions. Continue treating enabled Egress Control
+> conservatively as a Request redirect.
+> 
+> Fixes: 52916982af48 ("PCI/P2PDMA: Support peer-to-peer memory")
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+
+Core patch seems fine, minus one minor point below:
+
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+
+> @@ -1132,10 +1173,10 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+>  /**
+>   * pci_p2pdma_map_type - Determine the mapping type for P2PDMA transfers
+>   * @provider: P2PDMA provider structure
+> - * @dev: Target device for the transfer
+> + * @dev: Client device that initiates the transfer
+>   *
+>   * Determines how peer-to-peer DMA transfers should be mapped between
+> - * the provider and the target device. The mapping type indicates whether
+> + * the provider and the client device. The mapping type indicates whether
+>   * the transfer can be done directly through PCI switches or must go
+>   * through the host bridge.
+>   */
+> 
+
+This hunk does not seem like it belongs in this patch.
