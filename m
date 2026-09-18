@@ -1,46 +1,60 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 209203A2E39;
-	Fri, 18 Sep 2026 09:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C43D175A74;
+	Fri, 18 Sep 2026 09:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789723324; cv=none; b=GzjsqOn7eQ613Uf9FEJQDtE/RJoCS8IeDwDStnujBviyBpnk8n+g5y0MXYtLAEHr66o4oXXT4Bg2I9YHgGNiVIgHuC1fseBRt3jvQ2vNKuI0dHiZCbooOxhfcaTA2wBDIMRWfondb/G52XRFnMo+bXFYKqZo0w0xSqsSlSMqHpg=
+	t=1789723894; cv=none; b=rjo+dIrT2R3c/C8FLgrThqS3lAplJo8UX/BgEtAf2DT+qZ0SH7uYHmG7EmHUxRvxBkk+gFGjKPHL/tEtChm37lBkJmglusGTAjfpBxOHE7zR1XzN7bNGlRa7pRcv8AX4V9gbDrFSuzsawdbtLtLSSgurG29TAyWkaWqOcGoWH3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789723324; c=relaxed/simple;
-	bh=YXbg8h3QX0LMadHGqUmPe0199Ik27wuAwoICustn92g=;
+	s=arc-20240116; t=1789723894; c=relaxed/simple;
+	bh=3SDdD0NJSU0xAATGfwgHh+/wHcM1MvUbHeRyTyK6n6A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hDX817pRSZh5LcemBJjRCsGSy4EBxr2myPjl+FgHdSCoovggaodDG49C3x7u+PgcXEe23RYxDovMXHVcTTP+Ga1eUK++MMibxKGN95jBbUM0QL3V8PW3hDoDLEZGCkKEXUIxcudoWTKLpPvSbfDgXcl+ywhexTL+Kh0btImzEuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=CRc6En4o; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="CRc6En4o"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D97D0168F;
-	Fri, 18 Sep 2026 02:21:58 -0700 (PDT)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2D1193FAF5;
-	Fri, 18 Sep 2026 02:22:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789723322; bh=YXbg8h3QX0LMadHGqUmPe0199Ik27wuAwoICustn92g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CRc6En4owgRirjVFVR4Xi7k4EH/UqS925SavcyEn6s2SVlrryWaSnc0wN8NoROyWW
-	 y76nl7qrmR2OakFBMRGC0llWAeFBqZZr0fHquU3/J6n1gNaRDrJBOMG/aqFoIVJ7S1
-	 fhtNVUhWRtl2QTEcq/Wn9m/1AbLWsqQ8QMRSETPw=
-Date: Fri, 18 Sep 2026 10:21:58 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=XSTq+8C74ZLMyWvcVUauMxEWWnEJ1eRDyfGfi/8H1bQGuPLU1ClKPe4xkeWseN2QQQdtLtXv2XxJJIdIMqzVUNaGMSi0FRqSR+kGIY9ZPheWXAmUUuyGpqGzlbngjEfPlA2s00BPNxdZ3l9ig9pie9aclOYoNYJvdsT9KU45hxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 6547168C4E; Fri, 18 Sep 2026 11:31:24 +0200 (CEST)
+Date: Fri, 18 Sep 2026 11:31:23 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: yu kuai <yukuai@fygo.io>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Josef Bacik <josef@toxicpanda.com>, Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Coly Li <colyli@fygo.io>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Song Liu <song@kernel.org>, Li Nan <magiclinan@didiglobal.com>,
+	Xiao Ni <xiao@kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH 3/3] mm: kmemleak: raise min_unref_scans to 3 for verbose
- auto-scan
-Message-ID: <aq0Ctvzr4V4zjF0k@arm.com>
-References: <20260917-b4-kmemleak-doc-v1-0-84fde6d1f749@debian.org>
- <20260917-b4-kmemleak-doc-v1-3-84fde6d1f749@debian.org>
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Barry Song <baohua@kernel.org>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Nilay Shroff <nilay@linux.ibm.com>, Tao Cui <cuitao@kylinos.cn>,
+	linux-block@vger.kernel.org, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-bcache@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-raid@vger.kernel.org, gfs2@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	llvm@lists.linux.dev
+Subject: Re: dm review needed, was: Re: [PATCH v3 2/3] blk-cgroup: store
+ blkcg in bio instead of blkg
+Message-ID: <20260918093123.GA13158@lst.de>
+References: <20260918041744.1526924-1-yukuai@kernel.org> <20260918041744.1526924-3-yukuai@kernel.org> <20260918071634.GA10884@lst.de> <daf4ba77-4c25-4993-900d-ee1fe713d9b6@fygo.io>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,29 +63,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260917-b4-kmemleak-doc-v1-3-84fde6d1f749@debian.org>
+In-Reply-To: <daf4ba77-4c25-4993-900d-ee1fe713d9b6@fygo.io>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Thu, Sep 17, 2026 at 06:47:37AM -0700, Breno Leitao wrote:
-> CONFIG_DEBUG_KMEMLEAK_VERBOSE sends every report to the console, so a
-> transient false positive there is broadcast to whatever collects the
-> kernel log rather than sitting in the debugfs file until someone looks.
-> That asymmetry justifies being more conservative than the general case.
+On Fri, Sep 18, 2026 at 05:19:53PM +0800, yu kuai wrote:
+> So I think we don't need to restore the reference, BTW, there is another approach to
+> avoid such problem in blk-throttle I don't take for now:
 > 
-> Require one more consecutive unreferenced scan before reporting. The
-> only cost is that a genuine leak is reported one scan interval later
-> (600s by default); the value stays writable at run time through the
-> module parameter.
-> 
-> Kernels without CONFIG_DEBUG_KMEMLEAK_VERBOSE keep reporting on the
-> first unreferenced scan.
-> 
-> I've been running constant upstream kernel with
-> CONFIG_DEBUG_KMEMLEAK_VERBOSE set, and I am still seeing some rare false
-> positive, that goes away with min_unref_scans=3, so, making it the
-> default based on my heuristic.
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+> For bio entering blk-throttle, we can clear the new flag and blkg reference directly
+> after the bio is throttled and before this bio is issuing to disk, because bio will
+> not enter blk-throttle in the completion path. And since blk-throttle is the only rq_qos
+> policy that can be enabled for bio-based disk, then dm_bio_record() will never see a
+> bio with the new flag set.
 
-Until someone comes up with a better idea to reduce the false positives,
+That sounds much better, thanks!
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
