@@ -1,56 +1,56 @@
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21618522F17
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 20:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5C3344021
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 20:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789762021; cv=none; b=acfOFpmlU39JA9LzTQZA1fBpSn6TNgnRZKo8zekov8A1LyZzE/0oNsk+GkTnRlu9oK9EHGbnRwaESb/WWqM7z10DdLmqifhrMdKXjo+7yPEyF/IzFP0jFJSR3pBLjFjkJtoz3Fq/5FmEBQKpgHA4xSTrG500K5jOOAyyUKSl4x4=
+	t=1789762023; cv=none; b=qByXAVqMH5oxjullffW4mxN0cy3y3CSOa2O9k6HD0UZMZMK1f337bYAgb88YJqGx576360jKfmjtoQJtOWEvvmWbP3LjxYIVN3VqfR+3Zcn37ZJR4TgmRIpQdYebUI2BLWoyQt3tyrO7XZh/hawFRdSNZ4evXxI6G22TGRA7Psg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789762021; c=relaxed/simple;
-	bh=zWFlXN9OGp6An+xWtdjWA3hJp9SS26McmEz7RkrDzIE=;
+	s=arc-20240116; t=1789762023; c=relaxed/simple;
+	bh=ZD3KS7DBDYWBFB8hwoUBxQdCUMdHz+nSMWic4WvQWYM=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=mwuasAAH/oskOhRXdzj5WwrFVTAPPRkfUJ1e8i9L6tAt7TwuFTBpRv/fnW/IVxKuL9hLGPmK4KXyv2rCD4rgOHh+AzVGr99Xw9FCgqiQGYnVuhsI/QTUsqja3MByd1spzpdl5/vAPg7HOcNmYCATVIX/OUipBTjwUmLX3F6qyk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H/eTdbBU; arc=none smtp.client-ip=209.85.214.200
+	 To:Cc:Content-Type; b=AVBCc6BZVinaOEwy4jVmMX0iS9hCngvtq6vsLaSpITWp7kcuFf4MnHItdPXC2yeAD9YDLInzgjD+3j6y99S/mQhZoPNtWHY2L79c8Pggoz4Wm/yHctmz542F7VAO18uTnGAaQXscT3craDvuXbQOEJJjNwjGBzksSj7RRb7eQto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QfXpPuns; arc=none smtp.client-ip=209.85.214.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H/eTdbBU"
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2dd753a52bbso20144705ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 13:06:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QfXpPuns"
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2ce7dfd33ffso14183845ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 13:07:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789762018; x=1790366818; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789762020; x=1790366820; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YSbW92ll6VraodQnupXl7opG78OubPyViHFwv8TLCbk=;
-        b=H/eTdbBUmfWlqe61AyyzifkSwCAmCcIkJj5ZmPeNuSMpClCwIvvnw47aY00gvl0CvI
-         Ect9G8CTrp59iBGHunk3B1eGT/pveoHTNRGb7BA5Q2UJYP1euPeu8cXUmpQk3x3+Pyfn
-         S5QBMBKQe+2NYjJ18jfWxmLGKA8KL85r8wtY7O/5cEhVqG9CHm5qKCYQC5y+In5oEIpF
-         +N0dqq6RZF5W7BAAf3/Qf103ZSmmJItMlsy/HnZdClD2Hb4WRRxWh8uoTTO6m+4F2nQJ
-         Rpa+h6iqWIzE5GzIGLCZoTNhbEcK4QZXWD7QAyPkRjkvg6c9goDMVlaoA8QYncwLWvqE
-         owRA==
+        bh=NNhCAqWpdqP/8unoyYkwhtURYEVhgOr7+m0jRabjXBA=;
+        b=QfXpPuns7rVxUs9VwLxWw7dyYHSvyA4jEmRwe2O0qTylnn8K5rP/k8KuGUXfFp0U88
+         Q+Rfym1UjXfnRN1BsQA+t9MbYLj/K2Y9GSw8g/EPz1Kq4NkMb97aBK5NHaRPIcB5pbQo
+         lTCkTsVCBVcBYNX9wRxpZpKc2avO+YWN0ZrEDL8HLXoXUR/DGp0OLD2QdU8QEO6EE+Gt
+         1ApyeNV1AS1nUWvUfPNdGJVsfEwqcfnpJ/dvFX/lpPl9Cwu0nqmyTf4+wd3U9yhJkSVu
+         GKqYcLdN4Js/X42r3dR/sYBhmVqN7JPVvbb8FYmsrKaCF+m/aBQYB6bGijt9+RscYzj2
+         tkXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789762018; x=1790366818;
+        d=1e100.net; s=20260707; t=1789762020; x=1790366820;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YSbW92ll6VraodQnupXl7opG78OubPyViHFwv8TLCbk=;
-        b=zQYBBbFeZp+FTE1TDJW3bw2YxcxRJfRcitvKfN8hfKkZhvdS+DPZNVAEoqXDWnDlhh
-         jWcLjuejsAyKiBifwByrCLfxSvUdEi1nZxzAL+mT05Kx402MX74TqN4CUvsAUKXOmSSP
-         A9zwGliKrom3oZxygmSYj2tTN9aFAQJAwvsWCNF7X8oEmOxs/SAyEKVoq/RHIonUaeiH
-         QxGzVLEm/hbeFZPeGLKjBrHlwANwJC6u8/mXlY1MJDkp8B4btdi4rF7oqAmTS9VHtsda
-         T6Zu7sBxRGlFcPydAaeGF0xTbSqSonZr23BlJekQnUvXeQCKimpHb6RUEAExi4NxLxuO
-         6mAQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwC0zRIhVGcXHbSeU4bGNxOON9BsCRSy9k8U3DQPKdbUXnCAybm3Dng7LkxxY9KYuFAXrRp5ciBy3w=@vger.kernel.org
-X-Gm-Message-State: AFuF++n/g9szMNxkxQJFqOPhbzlLb9DBE8sT+g3hSsa7ULkflKwPYeMD
-	9diYZqNc7WqY5rbTlxgx6Bw8PuU0KGYmGqZ1zo9by5ScymRFWynwf1h1dkjHs1fvBSkQpC5yk3u
-	tQETX4+X8ke9aYA==
-X-Received: from pgbcn9.prod.google.com ([2002:a05:6a02:a89:b0:cc1:be9e:35ef])
+        bh=NNhCAqWpdqP/8unoyYkwhtURYEVhgOr7+m0jRabjXBA=;
+        b=rKilFjQ/clacjH+Gtr9tM0VcXfo7QLH7MtYltl+SCZRu9+8oQJog09mCU22zTsYusI
+         QrKutfGPHpCNO23R4DTNm7cBaCvWz+rcMc71XkDEPgFvuxRz6rnVTEFRaSpwmwpzz2Ul
+         d5zD8gOMC+Bcqk5r9hp54PzYoWdhoTrBm55vmGJf17aX9iy623cEaMr7IsPesXKzBdLL
+         6xAZjQA+EAVqGhd3RQyz46SnoZqfCie/gB1hPI9OI6pbqTh1pf6Uaqk5ggAQoSVtXNdl
+         XwO3Vb9ShLUqzOpqZCXpBbnC5nF/SZq64wBT3BtVk107CwzD3UMMdH0LhBsTIuKBH509
+         MATw==
+X-Forwarded-Encrypted: i=1; AKwUvByB0GVZUKLrpeXTfM8e0yIPp98rycmivgiMcPKqPD0+BrP8OtjoGyxqNmChn/bNQMlyroWNfaWL2RU=@vger.kernel.org
+X-Gm-Message-State: AFuF++ncjKv/aH/Mng3YhY3XVyFFkfGGe1CNSU+gnlUvkffVHFbIdSdp
+	mN1UziKkN52pfoyMmiKqiG5DCnky4t7r2XG4wq4SCA1pthBkRiIGEKbmrNloa9DJMws2kiMo5yj
+	fMuE/0APY3uV02A==
+X-Received: from plec5.prod.google.com ([2002:a17:902:f305:b0:2dd:2f59:daa8])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:4b28:b0:2dd:c100:a5e7 with SMTP id d9443c01a7336-2ddc100a6e5mr8872815ad.59.1789762018048;
- Fri, 18 Sep 2026 13:06:58 -0700 (PDT)
-Date: Fri, 18 Sep 2026 20:06:31 +0000
+ 2002:a17:903:9cf:b0:2dd:c053:e662 with SMTP id d9443c01a7336-2ddc053e6aemr12608265ad.40.1789762019617;
+ Fri, 18 Sep 2026 13:06:59 -0700 (PDT)
+Date: Fri, 18 Sep 2026 20:06:33 +0000
 In-Reply-To: <20260918200640.887030-1-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,9 +60,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260918200640.887030-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
-Message-ID: <20260918200640.887030-6-dmatlack@google.com>
-Subject: [PATCH v9 05/13] PCI: liveupdate: Auto-preserve upstream bridges
- across Live Update
+Message-ID: <20260918200640.887030-8-dmatlack@google.com>
+Subject: [PATCH v9 07/13] PCI: Refactor matching logic for pci_dev_acs_ops
 From: David Matlack <dmatlack@google.com>
 To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org
@@ -79,315 +78,135 @@ Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.
 	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 
-When a PCI device is preserved across a Live Update, all of its upstream
-bridges up to the root port must also be preserved. This enables the PCI
-core and any drivers bound to the bridges to manage bridges correctly
-across a Live Update.
+Refactor the logic to match devices to pci_dev_acs_ops by factoring out
+the device matching loop into its own routine, pci_dev_acs_ops_get().
+This eliminates duplicate code between pci_dev_specific_enable_acs() and
+pci_dev_specific_disable_acs_redir(), and will also be used in a
+subsequent commit to check if a device requires device-specific
+enable_acs() during a Live Update.
 
-Notably, this will be used in subsequent commits to ensure that
-preserved devices can continue performing memory transactions without a
-disruption or change in routing.
+No functional change intended.
 
-To preserve bridges, the PCI core tracks the number of downstream
-devices preserved under each bridge using a reference count in struct
-pci_dev_ser. This allows a bridge to remain preserved until all its
-downstream preserved devices are unpreserved or finish their
-participation in the Live Update.
-
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 Reviewed-by: Pranjal Shrivastava <praan@google.com>
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
 Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- drivers/pci/liveupdate.c    | 125 +++++++++++++++++++++++++++---------
- include/linux/kho/abi/pci.h |   5 +-
- include/linux/pci.h         |   3 +
- 3 files changed, 99 insertions(+), 34 deletions(-)
+ drivers/pci/quirks.c | 51 ++++++++++++++++++--------------------------
+ 1 file changed, 21 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
-index ec8db86ed66d..825df024eec4 100644
---- a/drivers/pci/liveupdate.c
-+++ b/drivers/pci/liveupdate.c
-@@ -122,7 +122,6 @@
-  * preserved. These may be relaxed in the future:
-  *
-  *  * The device cannot be a Virtual Function (VF).
-- *  * The device cannot be behind a PCI-to-PCI bridge.
-  *
-  * Driver Binding
-  * ==============
-@@ -137,6 +136,18 @@
-  * bound to the correct driver. The PCI core does not protect against a device
-  * getting preserved by driver A in the outgoing kernel and then getting bound
-  * to driver B in the incoming kernel.
-+ *
-+ * PCI-to-PCI Bridges
-+ * ==================
-+ *
-+ * Any PCI-to-PCI bridges upstream of a preserved device are automatically
-+ * preserved when the device is preserved. The PCI core keeps track of the
-+ * number of downstream devices that are preserved under a bridge so that the
-+ * bridge is only unpreserved once all downstream devices are unpreserved.
-+ *
-+ * This enables the PCI core and any drivers bound to the bridge to participate
-+ * in the Live Update so that preserved endpoints can continue issuing memory
-+ * transactions during the Live Update.
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index de9bbccda21f..7aee30734303 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -5377,9 +5377,6 @@ static void pci_quirk_enable_intel_rp_mpc_acs(struct pci_dev *dev)
   */
- 
- #define pr_fmt(fmt) "PCI: liveupdate: " fmt
-@@ -407,55 +418,84 @@ static struct pci_dev_ser *pci_flb_alloc_dev_ser(struct pci_flb_outgoing *outgoi
- 	return dev_ser;
- }
- 
--static void pci_liveupdate_unpreserve_device(struct pci_flb_outgoing *outgoing,
--					     struct pci_dev *dev)
-+static int pci_liveupdate_unpreserve_device(struct pci_flb_outgoing *outgoing,
-+					    struct pci_dev *dev)
+ static int pci_quirk_enable_intel_pch_acs(struct pci_dev *dev)
  {
- 	struct pci_dev_ser *dev_ser = dev->liveupdate.outgoing;
+-	if (!pci_quirk_intel_pch_acs_match(dev))
+-		return -ENOTTY;
+-
+ 	if (pci_quirk_enable_intel_lpc_acs(dev)) {
+ 		pci_warn(dev, "Failed to enable Intel PCH ACS quirk\n");
+ 		return 0;
+@@ -5399,9 +5396,6 @@ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
+ 	int pos;
+ 	u32 cap, ctrl;
  
- 	if (!dev_ser) {
- 		pci_warn(dev, "Cannot unpreserve device that is not preserved\n");
--		return;
-+		return -EINVAL;
+-	if (!pci_quirk_intel_spt_pch_acs_match(dev))
+-		return -ENOTTY;
+-
+ 	pos = dev->acs_cap;
+ 	if (!pos)
+ 		return -ENOTTY;
+@@ -5429,9 +5423,6 @@ static int pci_quirk_disable_intel_spt_pch_acs_redir(struct pci_dev *dev)
+ 	int pos;
+ 	u32 cap, ctrl;
+ 
+-	if (!pci_quirk_intel_spt_pch_acs_match(dev))
+-		return -ENOTTY;
+-
+ 	pos = dev->acs_cap;
+ 	if (!pos)
+ 		return -ENOTTY;
+@@ -5451,56 +5442,56 @@ static int pci_quirk_disable_intel_spt_pch_acs_redir(struct pci_dev *dev)
+ static const struct pci_dev_acs_ops {
+ 	u16 vendor;
+ 	u16 device;
++	bool (*match)(struct pci_dev *dev);
+ 	int (*enable_acs)(struct pci_dev *dev);
+ 	int (*disable_acs_redir)(struct pci_dev *dev);
+ } pci_dev_acs_ops[] = {
+ 	{ PCI_VENDOR_ID_INTEL, PCI_ANY_ID,
++	    .match = pci_quirk_intel_pch_acs_match,
+ 	    .enable_acs = pci_quirk_enable_intel_pch_acs,
+ 	},
+ 	{ PCI_VENDOR_ID_INTEL, PCI_ANY_ID,
++	    .match = pci_quirk_intel_spt_pch_acs_match,
+ 	    .enable_acs = pci_quirk_enable_intel_spt_pch_acs,
+ 	    .disable_acs_redir = pci_quirk_disable_intel_spt_pch_acs_redir,
+ 	},
+ };
+ 
+-int pci_dev_specific_enable_acs(struct pci_dev *dev)
++static const struct pci_dev_acs_ops *pci_dev_acs_ops_get(struct pci_dev *dev)
+ {
+ 	const struct pci_dev_acs_ops *p;
+-	int i, ret;
++	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(pci_dev_acs_ops); i++) {
+ 		p = &pci_dev_acs_ops[i];
+ 		if ((p->vendor == dev->vendor ||
+ 		     p->vendor == (u16)PCI_ANY_ID) &&
+ 		    (p->device == dev->device ||
+-		     p->device == (u16)PCI_ANY_ID) &&
+-		    p->enable_acs) {
+-			ret = p->enable_acs(dev);
+-			if (ret >= 0)
+-				return ret;
++		     p->device == (u16)PCI_ANY_ID)) {
++			if (!p->match || p->match(dev))
++				return p;
+ 		}
  	}
  
-+	if (!dev_ser->refcount) {
-+		pci_WARN(dev, 1, "Preserved device has a 0 refcount!\n");
-+		return -EINVAL;
-+	}
-+
-+	if (--dev_ser->refcount)
-+		return 0;
-+
- 	pci_info(dev, "Device will no longer be preserved across next Live Update\n");
- 	outgoing->ser->nr_devices--;
- 	memset(dev_ser, 0, sizeof(*dev_ser));
- 	dev->liveupdate.outgoing = NULL;
-+	return 0;
++	return NULL;
 +}
 +
-+static void pci_liveupdate_unpreserve_path(struct pci_flb_outgoing *outgoing,
-+					   struct pci_dev *dev,
-+					   struct pci_dev *end)
++int pci_dev_specific_enable_acs(struct pci_dev *dev)
 +{
-+	for_each_pci_dev_in_path(dev) {
-+		if (dev == end)
-+			break;
++	const struct pci_dev_acs_ops *p = pci_dev_acs_ops_get(dev);
 +
-+		if (pci_liveupdate_unpreserve_device(outgoing, dev))
-+			return;
-+	}
- }
- 
- static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing,
- 					  struct pci_dev *dev)
- {
--	struct pci_dev_ser *dev_ser;
--
- 	if (dev->is_virtfn) {
- 		pci_warn(dev, "Cannot preserve Virtual Functions\n");
- 		return -EINVAL;
- 	}
- 
--	if (dev->liveupdate.outgoing) {
-+	/*
-+	 * Endpoint devices should not be preserved more than once.
-+	 * Bridges are preserved once for every downstream device that
-+	 * is preserved.
-+	 */
-+	if (dev->liveupdate.outgoing && !dev->subordinate) {
- 		pci_warn(dev, "Device is already preserved\n");
- 		return -EBUSY;
- 	}
- 
--	if (!pci_is_root_bus(dev->bus)) {
--		pci_warn(dev, "Cannot preserve devices behind bridges\n");
-+	if (dev->liveupdate.outgoing && !dev->liveupdate.outgoing->refcount) {
-+		pci_WARN(dev, 1, "Preserved device with 0 refcount!\n");
- 		return -EINVAL;
- 	}
- 
--	dev_ser = pci_flb_alloc_dev_ser(outgoing);
--	if (IS_ERR(dev_ser))
--		return PTR_ERR(dev_ser);
-+	if (!dev->liveupdate.outgoing) {
-+		struct pci_dev_ser *dev_ser;
- 
--	pci_info(dev, "Device will be preserved across next Live Update\n");
--	outgoing->ser->nr_devices++;
--	outgoing->ser->devices = kho_block_set_head_pa(&outgoing->block_set);
-+		dev_ser = pci_flb_alloc_dev_ser(outgoing);
-+		if (IS_ERR(dev_ser))
-+			return PTR_ERR(dev_ser);
- 
--	dev_ser->domain = pci_domain_nr(dev->bus);
--	dev_ser->bdf = pci_dev_id(dev);
--	dev_ser->refcount++;
-+		pci_info(dev, "Device will be preserved across next Live Update\n");
-+		outgoing->ser->nr_devices++;
-+		outgoing->ser->devices = kho_block_set_head_pa(&outgoing->block_set);
++	if (p && p->enable_acs)
++		return p->enable_acs(dev);
 +
-+		dev_ser->domain = pci_domain_nr(dev->bus);
-+		dev_ser->bdf = pci_dev_id(dev);
-+		dev->liveupdate.outgoing = dev_ser;
-+	}
- 
--	dev->liveupdate.outgoing = dev_ser;
-+	dev->liveupdate.outgoing->refcount++;
- 	return 0;
+ 	return -ENOTTY;
  }
  
-@@ -468,12 +508,16 @@ static int pci_liveupdate_preserve_device(struct pci_flb_outgoing *outgoing,
-  * pci_liveupdate_preserve() from their struct liveupdate_file_handler
-  * preserve() callback to ensure the outgoing struct pci_ser is already set up.
-  *
-+ * pci_liveupdate_preserve() automatically preserves all bridges upstream of
-+ * @dev.
-+ *
-  * Returns: 0 on success, <0 on failure.
-  */
- int pci_liveupdate_preserve(struct pci_dev *dev)
+ int pci_dev_specific_disable_acs_redir(struct pci_dev *dev)
  {
- 	struct pci_flb_outgoing *outgoing = NULL;
--	int ret;
-+	struct pci_dev *start = dev;
-+	int ret = -ENODEV;
+-	const struct pci_dev_acs_ops *p;
+-	int i, ret;
++	const struct pci_dev_acs_ops *p = pci_dev_acs_ops_get(dev);
  
- 	guard(rwsem_write)(&pci_liveupdate.rwsem);
+-	for (i = 0; i < ARRAY_SIZE(pci_dev_acs_ops); i++) {
+-		p = &pci_dev_acs_ops[i];
+-		if ((p->vendor == dev->vendor ||
+-		     p->vendor == (u16)PCI_ANY_ID) &&
+-		    (p->device == dev->device ||
+-		     p->device == (u16)PCI_ANY_ID) &&
+-		    p->disable_acs_redir) {
+-			ret = p->disable_acs_redir(dev);
+-			if (ret >= 0)
+-				return ret;
+-		}
+-	}
++	if (p && p->disable_acs_redir)
++		return p->disable_acs_redir(dev);
  
-@@ -481,7 +525,13 @@ int pci_liveupdate_preserve(struct pci_dev *dev)
- 	if (IS_ERR(outgoing))
- 		return PTR_ERR(outgoing);
- 
--	ret = pci_liveupdate_preserve_device(outgoing, dev);
-+	for_each_pci_dev_in_path(dev) {
-+		ret = pci_liveupdate_preserve_device(outgoing, dev);
-+		if (ret) {
-+			pci_liveupdate_unpreserve_path(outgoing, start, dev);
-+			break;
-+		}
-+	}
- 
- 	pci_liveupdate_flb_put_outgoing();
- 	return ret;
-@@ -497,6 +547,9 @@ EXPORT_SYMBOL_GPL(pci_liveupdate_preserve);
-  * pci_liveupdate_unpreserve() from their struct liveupdate_file_handler
-  * unpreserve() callback to ensure the outgoing struct pci_ser is already set
-  * up.
-+ *
-+ * pci_liveupdate_unpreserve() automatically unpreserves all bridges upstream of
-+ * @dev.
-  */
- void pci_liveupdate_unpreserve(struct pci_dev *dev)
- {
-@@ -510,7 +563,7 @@ void pci_liveupdate_unpreserve(struct pci_dev *dev)
- 		return;
- 	}
- 
--	pci_liveupdate_unpreserve_device(outgoing, dev);
-+	pci_liveupdate_unpreserve_path(outgoing, dev, /*end=*/NULL);
- 	pci_liveupdate_flb_put_outgoing();
+ 	return -ENOTTY;
  }
- EXPORT_SYMBOL_GPL(pci_liveupdate_unpreserve);
-@@ -600,28 +653,30 @@ void pci_liveupdate_cleanup_device(struct pci_dev *dev)
- 		pci_WARN(dev, 1, "Destroying incoming-preserved device!\n");
- }
- 
--static void pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *dev)
-+static int pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *dev)
- {
- 	if (!dev->liveupdate.incoming) {
- 		pci_warn(dev, "Cannot finish preserving an unpreserved device\n");
--		return;
-+		return -EINVAL;
- 	}
- 
--	if (dev->liveupdate.incoming->refcount != 1) {
--		pci_WARN(dev, 1, "Preserved device has a corrupted refcount!\n");
--		return;
-+	if (!dev->liveupdate.incoming->refcount) {
-+		pci_WARN(dev, 1, "Preserved device has a 0 refcount!\n");
-+		return -EINVAL;
- 	}
- 
- 	/*
--	 * Drop the refcount so this device does not get treated as an incoming
--	 * device again, e.g. in case pci_liveupdate_setup_device() gets called
--	 * again because the device is hot-plugged.
-+	 * Decrement the refcount so this device does not get treated as an
-+	 * incoming device again, e.g. in case pci_liveupdate_setup_device()
-+	 * gets called again because the device is hot-plugged.
- 	 */
--	dev->liveupdate.incoming->refcount = 0;
-+	if (--dev->liveupdate.incoming->refcount)
-+		return 0;
- 
- 	pci_info(dev, "Device is finished participating in Live Update\n");
- 	dev->liveupdate.incoming = NULL;
- 	ser->nr_devices--;
-+	return 0;
- }
- 
- /**
-@@ -633,6 +688,8 @@ static void pci_liveupdate_finish_device(struct pci_ser *ser, struct pci_dev *de
-  * Update. Drivers must call pci_liveupdate_finish() from their struct
-  * liveupdate_file_handler finish() callback to ensure the incoming struct
-  * pci_ser is allocated.
-+ *
-+ * pci_liveupdate_finish() automatically finishes all bridges upstream of @dev.
-  */
- void pci_liveupdate_finish(struct pci_dev *dev)
- {
-@@ -646,7 +703,11 @@ void pci_liveupdate_finish(struct pci_dev *dev)
- 		return;
- 	}
- 
--	pci_liveupdate_finish_device(incoming->ser, dev);
-+	for_each_pci_dev_in_path(dev) {
-+		if (pci_liveupdate_finish_device(incoming->ser, dev))
-+			break;
-+	}
-+
- 	pci_liveupdate_flb_put_incoming();
- }
- EXPORT_SYMBOL_GPL(pci_liveupdate_finish);
-diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
-index 4096e3cd3324..9485ed73c351 100644
---- a/include/linux/kho/abi/pci.h
-+++ b/include/linux/kho/abi/pci.h
-@@ -24,7 +24,7 @@
-  */
- 
- #define PCI_LUO_FLB_COMPATIBLE "pci"
--#define PCI_LUO_FLB_VERSION 1
-+#define PCI_LUO_FLB_VERSION 2
- 
- /**
-  * struct pci_dev_ser - Serialized state about a single PCI device.
-@@ -33,7 +33,8 @@
-  * @bdf: The device's PCI bus, device, and function number.
-  * @refcount: Reference count used by the PCI core to keep track of whether it
-  *            is done using a device's struct pci_dev_ser. The value of the
-- *            refcount is equal to 1 when the struct pci_dev_ser is in use, and
-+ *            refcount is equal to the number of preserved devices at or below
-+ *            it in the PCI hierarchy when the struct pci_dev_ser is in use, and
-  *            0 otherwise.
-  */
- struct pci_dev_ser {
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 76abe884e3dc..b35ac263c451 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -836,6 +836,9 @@ static inline struct pci_dev *pci_upstream_bridge(struct pci_dev *dev)
- 	return dev->bus->self;
- }
- 
-+#define for_each_pci_dev_in_path(dev) \
-+	for (; dev; dev = pci_upstream_bridge(dev))
-+
- #ifdef CONFIG_PCI_MSI
- static inline bool pci_dev_msi_enabled(struct pci_dev *pci_dev)
- {
 -- 
 2.55.0.1082.g2b9226bbc0-goog
 
