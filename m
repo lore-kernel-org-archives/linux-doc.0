@@ -1,112 +1,225 @@
-Received: from gentwo.org (gentwo.org [62.72.0.81])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F883ABD8C;
-	Fri, 18 Sep 2026 02:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.72.0.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715C33BFAEB;
+	Fri, 18 Sep 2026 02:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789697224; cv=none; b=h1lYgNlGdY+rKkmJCt33YuTRX3c4eCQSbY1GuR02o73eqZqxyFiu6+2fpNneUqu+4q/aZgLTkqOZHgQLJwYczizardmPXJQ7t4mS6WzeHgVAG24mTApAa3mBdz/kRKDAjWR0a2eiJA1kTcQixEDWHlOi8mR3drfT1Ew6Z6QfuVU=
+	t=1789698585; cv=none; b=VS6oDG5emjTTizhcSowoU7yTTLss1lm6CYqqU+KaFVzGQs4TeeUJNm+V1ckvpLZAhMsHpSvWYwH0AR52W/qMrslsdl/EoxOTCKuOpSGbMah1aIjuB13xMsvau8zBdzyfNhmwoeZuWZFYM4SdFCkBnsvpEU1fuiOE//H+5dv3OEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789697224; c=relaxed/simple;
-	bh=5trEPETXWgkc3/MRScNf9ISoobtfIhcHGDWAjwwavgw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KxPtZyqfmmvgVQOiVzM3gnEX8hVKnUZjXxUkaPWrPOQOzgKFrfPbwA+eBaRpyNI7nqo0JZkQaa29m0sfQomg6gz0HkTGGXrG2g7oQJSRrTvfSu6ndLWH91jPeEAKSuDSTZMKXwtvz+WAot3NOTsNt0jRcNZiXbxYRkYNzeV9vFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=aUn92JrE; arc=none smtp.client-ip=62.72.0.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentwo.org
+	s=arc-20240116; t=1789698585; c=relaxed/simple;
+	bh=zr6RZjqy8zkfck/Pdh/SCIhM1e3d18vR1boWvALaMiA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ALesK0gG8O1NK9BtxfC4gme2ctV6XKet6bbZz17U53CPwfHelV3jowQoLgNLimNDyuccrNghTJ12y8yIwBMxj60AsJLU3D2Y6Q/bcEPWEp2pRzSOwzeswMZ4f8vi83Npdafyy5dfbKeFFcQ3BlltX8LQ66uoKPZzcca9JdZoxeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ITubRvvc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="aUn92JrE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gentwo.org;
-	s=default; t=1789677806;
-	bh=5trEPETXWgkc3/MRScNf9ISoobtfIhcHGDWAjwwavgw=;
-	h=From:Subject:Date:To:Cc:From;
-	b=aUn92JrEzdoKGsZQxqlkZU+FQzKBY+vK+BAIVwJbI1uaFzwiuHaZT54YtCYc9lEI9
-	 p7AU8Kh6Immqj+g9umuCWAHpl8cNCSR6pskkWbht1eNRhdh4yJIY/7R2oodtlKsGOj
-	 Vqsjjfx0Thut161DPUNHNH1sBd2CHWkUXRJ1xM9k=
-Received: from sut02sys-r112.scc-lab.amperecomputing.com (localhost [127.0.0.1])
-	by gentwo.org (Postfix) with ESMTPS id B07C6401E1;
-	Thu, 17 Sep 2026 13:43:25 -0700 (PDT)
-From: "Shubhang Kaushik (Ampere)" <sh@gentwo.org>
-Subject: [RFC PATCH v2 0/2] sched: Document WF_SYNC wakeup placement
- semantics
-Date: Thu, 17 Sep 2026 13:43:23 -0700
-Message-Id: <20260917-sched-wf-sync-doc-v2-0-6d1f107c0596@gentwo.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ITubRvvc"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A94C41F000FF;
+	Fri, 18 Sep 2026 02:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789698573;
+	bh=g9YcUG3szeoayvwUqM/cv8sctvahn3Ihcoi9jbjGOnk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ITubRvvc3F/vvkNNV3easTtv4kW2t5sTGcQTrFimYGHRTwrI36hleEBj04p+G4rD+
+	 NamNYIZiDAoFX0JrbXdOJ6jo1MW4JQvtJnZely7Mw/DeVKHz4e/H85J6KnkgRoEc5I
+	 cLgsJVPAcMhvkwd6xKrLPl8G7InF+UXtNbbg8ngK7txU/xCUsC+I9gO05MwuE3doN2
+	 /gdrMcCm4IwXBvGjSc4UnL+t92rx9lkE502wmrjLTerz13U0wjK5mG4QN8XgBagAGv
+	 EMbNmlXejAvA43Xb6vzKXOfltB7g1Z9/tWbDe2iu9Z8WZCKSMHvXSmuAd1wqPLTC/4
+	 Z4KrVoDpwIZWQ==
+Date: Fri, 18 Sep 2026 05:29:29 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Andrew Halaney <andrew@amutable.com>
+Cc: Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	David Howells <dhowells@redhat.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, dm-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+	fsverity@lists.linux.dev, linux-doc@vger.kernel.org,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
+Message-ID: <aqyiCavj3xeNqyAo@kernel.org>
+References: <20260914-ajhalaney-dmverity-key-identifier-v1-0-01922dc1366a@amutable.com>
+ <20260914-ajhalaney-dmverity-key-identifier-v1-1-01922dc1366a@amutable.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOtQrGoC/22NQQ6DIBBFr2Jm3WmUYIWuvEfjosKMsoEGjNYY7
- l5q0l2X7yX//QMSRUcJ7tUBkVaXXPAFxKUCMz/9ROhsYRC1uNVKSExmJosbY9q9QRsMkhajZNK
- q4w7K7hWJ3ftsPobCs0tLiPt5sTZf+6u1f2prgzWy0prsKCVz20/kly1cQ5xgyDl/ALK/p4GzA
- AAA
-X-Change-ID: 20260824-sched-wf-sync-doc-e92b4fe987f7
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- K Prateek Nayak <kprateek.nayak@amd.com>, 
- Shubhang Kaushik <shubhang@os.amperecomputing.com>, 
- Shrikanth Hegde <sshegde@linux.ibm.com>, 
- Madadi Vineeth Reddy <vineethr@linux.ibm.com>, 
- Christopher Lameter <clameter@amperecomputing.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- "Shubhang Kaushik (Ampere)" <sh@gentwo.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789677805; l=1705;
- i=sh@gentwo.org; s=20251010; h=from:subject:message-id;
- bh=5trEPETXWgkc3/MRScNf9ISoobtfIhcHGDWAjwwavgw=;
- b=RbuKqmXzo5FAxp0b1GXEVUcb6fdy9m9d5i1SQnHMf6YWwKluVuRq3YEcY4xOK413oTbpvlHTK
- IkuXctLUJbBC3fyn+bu4c7ZPXFGS9HmaxWD3rFWJ1BLiPqEbrRZGsvZ
-X-Developer-Key: i=sh@gentwo.org; a=ed25519;
- pk=jc8YIRvxPSyJaBRe5y+a4N0RXKBUEcAh8+OFhlROXPY=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260914-ajhalaney-dmverity-key-identifier-v1-1-01922dc1366a@amutable.com>
 
-WF_SYNC is passed by synchronous waitqueue wakeup helpers when the
-caller expects the waker to schedule away soon. Its fair class semantics
-are not documented.
+On Mon, Sep 14, 2026 at 11:41:42AM -0500, Andrew Halaney wrote:
+> The .dm-verity keyring is not linked into any process keyring, so
+> request_key() and KEYCTL_SEARCH cannot find it. Userspace has to scrape
+> /proc/keys for the serial to use.
+> 
+> That's not great, one could put in a bogus description containing
+> a newline to confuse userspace further. For example, thanks to AI
+> models, which I run as root but you could show off as any old user:
+> 
+>     # DESC=$'.dm-verity: 1\n0badf00d I--Q---     1 perm 082f0000     0     0 keyring   .dm-verity'
+>     # k=$(echo -n "1234567" | keyctl padd user "$DESC" @s)
+>     # keyctl setperm "$k" 0x3f010001
+> 
+>     # cat /proc/keys | grep dm-verity
+>     10402023 I------     2 perm 082f0000     0     0 keyring   .dm-verity: empty
+>     12e0bee6 I--Q---     1 perm 3f010001     0     0 user      .dm-verity: 1
+>     0badf00d I--Q---     1 perm 082f0000     0     0 keyring   .dm-verity: 7
+> 
+> 0x0badf00d is not a keyring, it is the text inside our user's key
+> description. Telling the two apart needs a KEYCTL_DESCRIBE per row
+> which is annoying to do. i.e.:
+> 
+>     # keyctl rdescribe 0x10402023
+>     keyring;0;0;082f0000;.dm-verity
+>     # keyctl rdescribe 0x0badf00d
+>     keyctl_describe: Required key not available
+> 
+> Let's just give it a well known identifier, i.e.:
+> 
+>     # keyctl rdescribe -10
+>     keyring;0;0;082f0000;.dm-verity
+> 
+> This is exactly what
+> commit 264d8fd2794f ("bpf, keys: Add a bpf keyring for program signature validation")
+> did, and was the inspiration for this commit minus the spinlock bits
+> required due to dm-verity being a module.
 
-In particular, the waitqueue API comments state that a synchronous wakee
-will not be migrated to another CPU. This is not guaranteed by the
-current wakeup path.
+This is great for discussion but what we want for the commit message
+is just motivation and resolution.
 
-Document the current fair class WF_SYNC semantics and correct the stale
-waitqueue API comments. WF_SYNC is a non-binding hint that can influence
-placement and preemption, but does not guarantee CPU locality, avoidance
-of migration, or immediate wakee preemption.
+I don't think we need all this just to say that /proc/keys in a racy
+query mechanism for production, which is an issue for dm-verity, given
+that nothing else is available.
 
-This series does not change scheduler behavior or define a stronger
-WF_SYNC placement policy.
+And secondly special keys are meant for implicit keyrings so isn't
+that all there's to it?
 
-Signed-off-by: Shubhang Kaushik (Ampere) <sh@gentwo.org>
----
-Changes in v2:
-  - Describe stable WF_SYNC semantics rather than scheduler implementation flow.
-  - Remove helper names, predicates, and CPU-selection details.
-  - Clarify custom wake function handling and WF_SYNC placement and
-    preemption limitations.
 
-Link to v1: https://lore.kernel.org/r/20260825-sched-wf-sync-doc-v1-0-f899edb44ff5@gentwo.org
+> 
+> Suggested-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Signed-off-by: Andrew Halaney <andrew@amutable.com>
+> ---
+>  drivers/md/dm-verity-verify-sig.c |  3 +++
+>  include/linux/key.h               |  1 +
+>  include/uapi/linux/keyctl.h       |  1 +
+>  security/keys/process_keys.c      | 33 +++++++++++++++++++++++++++++++++
+>  4 files changed, 38 insertions(+)
+> 
+> diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
+> index b2b55c41e2cb..da509dcdd7e5 100644
+> --- a/drivers/md/dm-verity-verify-sig.c
+> +++ b/drivers/md/dm-verity-verify-sig.c
+> @@ -189,11 +189,14 @@ int __init dm_verity_verify_sig_init(void)
+>  	    keyring_restrict(make_key_ref(dm_verity_keyring, true), NULL, NULL))
+>  		panic("dm-verity can't seal keyring\n");
+>  
+> +	key_register_dm_verity_keyring(dm_verity_keyring);
+> +
+>  	return 0;
+>  }
+>  
+>  void dm_verity_verify_sig_exit(void)
+>  {
+> +	key_register_dm_verity_keyring(NULL);
+>  	key_revoke(dm_verity_keyring);
+>  	key_put(dm_verity_keyring);
+>  }
+> diff --git a/include/linux/key.h b/include/linux/key.h
+> index bd10fe45819d..ae8d3314fd93 100644
+> --- a/include/linux/key.h
+> +++ b/include/linux/key.h
+> @@ -441,6 +441,7 @@ extern int keyring_restrict(key_ref_t keyring, const char *type,
+>  			    const char *restriction);
+>  
+>  extern void key_register_bpf_keyring(struct key *keyring);
+> +extern void key_register_dm_verity_keyring(struct key *keyring);
+>  
+>  extern struct key *key_lookup(key_serial_t id);
+>  
+> diff --git a/include/uapi/linux/keyctl.h b/include/uapi/linux/keyctl.h
+> index fa85b9760391..75923941f1b3 100644
+> --- a/include/uapi/linux/keyctl.h
+> +++ b/include/uapi/linux/keyctl.h
+> @@ -25,6 +25,7 @@
+>  #define KEY_SPEC_REQKEY_AUTH_KEY	-7	/* - key ID for assumed request_key auth key */
+>  #define KEY_SPEC_REQUESTOR_KEYRING	-8	/* - key ID for request_key() dest keyring */
+>  #define KEY_SPEC_BPF_KEYRING		-9	/* - key ID for the BPF-specific keyring */
+> +#define KEY_SPEC_DM_VERITY_KEYRING	-10	/* - key ID for the .dm-verity keyring */
+>  
+>  /* request-key default keyrings */
+>  #define KEY_REQKEY_DEFL_NO_CHANGE		-1
+> diff --git a/security/keys/process_keys.c b/security/keys/process_keys.c
+> index 44358388e395..dba3df41638b 100644
+> --- a/security/keys/process_keys.c
+> +++ b/security/keys/process_keys.c
+> @@ -25,6 +25,10 @@ static DEFINE_MUTEX(key_session_mutex);
+>  /* BPF keyring reachable through KEY_SPEC_BPF_KEYRING */
+>  static struct key *bpf_keyring __ro_after_init;
+>  
+> +/* dm-verity keyring reachable through KEY_SPEC_DM_VERITY_KEYRING */
+> +static struct key *dm_verity_keyring;
+> +static DEFINE_SPINLOCK(dm_verity_keyring_lock);
+> +
+>  /* The root user's tracking struct */
+>  struct key_user root_key_user = {
+>  	.usage		= REFCOUNT_INIT(3),
+> @@ -607,6 +611,24 @@ void key_register_bpf_keyring(struct key *keyring)
+>  	bpf_keyring = keyring;
+>  }
+>  
+> +/**
+> + * key_register_dm_verity_keyring - Publish the keyring for KEY_SPEC_DM_VERITY_KEYRING
+> + * @keyring: The keyring to publish, or NULL to withdraw it
+> + *
+> + * Make @keyring reachable by userspace through the KEY_SPEC_DM_VERITY_KEYRING
+> + * special key ID, so that provisioning it does not require scraping its
+> + * serial out of /proc/keys first. dm-verity can be unloaded as a module
+> + * and the keyring deregistered, as such serialize access with
+> + * dm_verity_keyring_lock.
+> + */
+> +void key_register_dm_verity_keyring(struct key *keyring)
+> +{
+> +	spin_lock(&dm_verity_keyring_lock);
+> +	dm_verity_keyring = keyring;
+> +	spin_unlock(&dm_verity_keyring_lock);
+> +}
+> +EXPORT_SYMBOL_GPL(key_register_dm_verity_keyring);
+> +
+>  /*
+>   * Look up a key ID given us by userspace with a given permissions mask to get
+>   * the key it refers to.
+> @@ -766,6 +788,17 @@ key_ref_t lookup_user_key(key_serial_t id, unsigned long lflags,
+>  		key_ref = make_key_ref(key, 0);
+>  		break;
+>  
+> +	case KEY_SPEC_DM_VERITY_KEYRING:
+> +		spin_lock(&dm_verity_keyring_lock);
+> +		key = dm_verity_keyring;
+> +		if (key)
+> +			__key_get(key);
+> +		spin_unlock(&dm_verity_keyring_lock);
+> +		if (!key)
+> +			goto error;
+> +		key_ref = make_key_ref(key, 0);
+> +		break;
+> +
+>  	default:
+>  		key_ref = ERR_PTR(-EINVAL);
+>  		if (id < 1)
+> 
+> -- 
+> 2.55.0
+> 
 
----
-Shubhang Kaushik (Ampere) (2):
-      sched: Document WF_SYNC wakeup placement semantics
-      sched/wait: Clarify WF_SYNC wakeup semantics
-
- Documentation/scheduler/index.rst               |  1 +
- Documentation/scheduler/sched-wake-affinity.rst | 67 +++++++++++++++++++++++++
- kernel/sched/wait.c                             | 30 +++++------
- 3 files changed, 84 insertions(+), 14 deletions(-)
----
-base-commit: b5a051f6b840d48f159166ef073d3021989bfb50
-change-id: 20260824-sched-wf-sync-doc-e92b4fe987f7
-
-Best regards,
--- 
-Shubhang Kaushik (Ampere) <sh@gentwo.org>
-
+BR, Jarkko
