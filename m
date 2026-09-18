@@ -1,91 +1,254 @@
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3E335E956;
-	Fri, 18 Sep 2026 20:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB73361964
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 20:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789761601; cv=none; b=gxmnZerjEWLcNSrBDAEnlRm8aikLN4LoMLtTqXF9+JVLni7x+H0xgNZuGmnHW7uzcvNkAhWon2LGYPA1btg8Z2er+9GzqP7G3Tsjf5fiE+Alv4idm8l+OaJFBIYy7My3d/ep3TT+OqQENKnWQkVZLqcBuWeTaUM8m2qS01WENOY=
+	t=1789762016; cv=none; b=BTn7iOGSXQqNGJKZtpTd5vDgrw816OrBXuBItGCTfIhVMtPQh7cmuyLp3L89I3Le+9xh+Dy5TiQ9xFQxGCCKfkayduDOt/81IcTHQ8KclkGqdSq2Cu+5PrmDDziPn3SVIWpcHIFyS/B5axkBXD6l+suefH0V7GX4QCtgQ/n/2b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789761601; c=relaxed/simple;
-	bh=ujkhGy2FSYAIasmOkN8vs+uHhKJMbQlyvbnsVAWbj1o=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Subject; b=IKzrhETNZm4Id2TBQ2+vdXFmAhy8b4lD3Ijd2as9QzU+nElmDRICochwDeUUPxTomKA5Vp2OuUJhPn53cRZayk1b8NR0mMZn76nmPJAxC+iElqQ2CFixUjUxQrOLcOoW59UavlLsEKQVRmUule42wpuRs49zkr98pfHdnZKQEgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=W/ONbTcH; arc=none smtp.client-ip=204.191.154.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
+	s=arc-20240116; t=1789762016; c=relaxed/simple;
+	bh=Zsz2XBty4DrUzkYE28zuU0zxv8Tp8KjlGL3dp3Cgt/M=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=UbNOc6qq1g5XC7v040AAJ23edRAVShYCF0LWcaNnToTDxfi0fxAqxiUzvmsejWXccV8cO1FnbztIcHVu2OBYow1CIMl1n6TzolKfN0Dj8wxA0w/k2OZunGeTuTm8Zbgh3LZwDWhg21fo5eoNew7m3+REefuykAsJ3lH6qMinnBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gz89pMwJ; arc=none smtp.client-ip=209.85.214.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="W/ONbTcH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=cmiry3JcpazZ6l/PDBYrf3Gg/OWOS79zaTVf2b02IB0=; b=W/ONbTcHvbbIcERFDBy5V9+fz8
-	ClXKlqhfI9/+PEX5UPZD/o9kNZB2xeLc6zsCCTmVEebXhBjHQB1VHAH3gZOcPOirQCS5xTtaH0f5y
-	s0JCpmFhn7hlwfUnwEhUXZMND0d06IpSnuXzm8j86ZILMwQr8gCPbjPiwyNNd/0T4UK7TSQzEcPNC
-	5aqkcHGEO3iirTALpNPzRsqeyqDK7uUa2nahHS2hhtAH2q05KmkruKKkOSr1EwNbW/d6ezacx2EXb
-	kuJwha3ZRhs0SHbPVT9LjGFOUI6TCSn71LmSJBR0L8gAurJAb3h9zxd1NU58TeZwTWpyag9nqPIUW
-	MSa9+CMQ==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1x7ekV-0000000Cs4I-1zVG;
-	Fri, 18 Sep 2026 13:59:56 -0600
-Message-ID: <1384e37c-d4d4-41d7-8d74-c4e60f52c9d7@deltatee.com>
-Date: Fri, 18 Sep 2026 13:59:54 -0600
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gz89pMwJ"
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2cc73f47bdcso18947425ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 13:06:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789762014; x=1790366814; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=q9dgEgtpibtgILH/mmPgortIM28q3qh0q2cfvPFa8qo=;
+        b=gz89pMwJ9olKhepHykTJoh07aQ4pPzDCATWpBD2l6YbEU9unwCZn0eKLemuuSFhmPy
+         bbEFMwZqpGaiofnAAbna/r7Kj/+pC5aEX2Om7tVbvQbzw6mb8i6DVcO0VwR6rmIVfbNa
+         BYQg0z/LQNktfb0M7G7zqGNovjf+JHFNLO56YGD7ynz+P3zO3A1JYAx7yXsy1KdA7o87
+         5Jg1FHPx0yKqLY5Vne1khJTIF4j+at6OzzOd0bW+MhTrGkNiS8ZQpkvGwGbWV7o5L5cq
+         sKS0qXHn5D0S9QOwsvmWTdpJ8X9abhasjQCB8nDVvSTy+cxDLAaXm+Pi8vCv9t+5LhqX
+         yjTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789762014; x=1790366814;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=q9dgEgtpibtgILH/mmPgortIM28q3qh0q2cfvPFa8qo=;
+        b=fqv532qcORSjTnTVxNu2FZTETVSMAzErI6JJv/0NzNEaug4CNUSrprBKYhs/Rc768V
+         tKQQ/imIyY5/dTJ5WEmTzMxdXRGLPUemOcpIeUlUyfiMrxrsVR5USa3bEcHqgBUaDtXG
+         Tka/PMBFxWINFIoTE1VuewVJLSdi8NsB+TVcgcABpbB2GhycsGRA5trmRCP9PJBuLMM6
+         aw1YrFEU3wafLhs07JiMxmSq7VbETwjVNT9M7TuTzuxjpwUi+qadlaGxzxcaO6xVpI/5
+         mIJZTUoWFuBYScJ8xc8LmwU9QCzuMTvV4Z33DULY4NEIwXeANKq5pls9AnJ8mD5IUf18
+         96BQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxNzaq/P8Ajui7LoMNXuUDp3+8Dz1668WydG9k4bvK6zK5mpiCdMlmDX6eRQ84rWNYxy17y16rQy/c=@vger.kernel.org
+X-Gm-Message-State: AFuF++nFZjcOwfBTw8vYQgyxDhoZky26S2Afs3luqnJQJzgp5V6V1LHD
+	pzC4hO3nIOvpJ8Fag4wzC+xAdnFgwBZKsLBZ3XFoBXQagIpTsK/igQtDj92Ex6gtQ7u1ChBYhmN
+	4Cuk1QLVCraqhFA==
+X-Received: from plrp17.prod.google.com ([2002:a17:902:b091:b0:2db:1a39:c145])
+ (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:903:fa5:b0:2dd:c053:82f1 with SMTP id d9443c01a7336-2ddc053841bmr11711945ad.40.1789762013609;
+ Fri, 18 Sep 2026 13:06:53 -0700 (PDT)
+Date: Fri, 18 Sep 2026 20:06:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Chaitanya Kulkarni <kch@nvidia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jens Axboe
- <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
- Ankit Agrawal <ankita@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Randy Dunlap <rdunlap@infradead.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, iommu@lists.linux.dev,
- Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-rdma@vger.kernel.org, kvm@vger.kernel.org
-References: <20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com>
- <20260914-fix-p2p-acs-v4-0-v6-4-5ef07ec9ef06@nvidia.com>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20260914-fix-p2p-acs-v4-0-v6-4-5ef07ec9ef06@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: leon@kernel.org, bhelgaas@google.com, kch@nvidia.com, gregkh@linuxfoundation.org, axboe@kernel.dk, alex@shazbot.org, ankita@nvidia.com, jgg@ziepe.ca, corbet@lwn.net, skhan@linuxfoundation.org, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, rdunlap@infradead.org, sumit.semwal@linaro.org, christian.koenig@amd.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, iommu@lists.linux.dev, tdave@nvidia.com, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org, kvm@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Level: 
-Subject: Re: [PATCH v6 04/18] PCI: Reject unreadable ACS controls in isolation
- checks
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
+Message-ID: <20260918200640.887030-1-dmatlack@google.com>
+Subject: [PATCH v9 00/13] PCI: liveupdate: PCI core support for Live Update
+From: David Matlack <dmatlack@google.com>
+To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
+	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
+	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+
+This series can be found on GitHub:
+
+  https://github.com/dmatlack/linux/tree/liveupdate/pci/base/v9
+
+This series introduces support in the PCI core for Live Update, enabling
+drivers to preserve PCI devices across a kexec-based kernel update
+without interrupting the device. This functionality is critical for
+minimizing downtime in environments where PCI devices (e.g., those
+assigned to VMs via VFIO) must continue operating or maintain state
+across a host kernel upgrade.
+
+Specifically, this series allows preserved PCI devices to perform
+uninterrupted memory transactions (DMA) targeting system memory
+(specifically, preserved memfds) across a Live Update. These devices can
+be behind a bridge but must not be VFs. Support for P2P and VF
+preservation will be addressed in future series.
+
+Series Overview
+---------------
+
+This series implements the following to support PCI device preservation
+across Live Update:
+
+  1. Set up a File-Lifecycle-Bound (FLB) handler to track and preserve
+     PCI-specific state (struct pci_ser) across Live Update using Kexec
+     Handover (KHO).
+
+  2. Add APIs for drivers to register devices for preservation
+     (outgoing) and for the PCI core to identify preserved devices
+     during enumeration (incoming)
+
+  3. Automatically preserve all upstream bridges for any preserved
+     endpoint. Use reference counting to ensure bridges remain preserved
+     as long as any downstream device is preserved.
+
+  4. Guarantee that preserved devices retain the same RequesterID (bus,
+     device, function) for the duration of their preservation by
+     inheriting secondary bus numbers, subordinate bus numbers, and ARI
+     Forwarding Enable on preserved bridges.
+
+  5. Guarantee that memory transactions to/from preserved devices are
+     routed consistently by inheriting Access Control Services (ACS)
+     flags across a Live Update, from the endpoint up to the root port.
+
+  6. Modify the PCI shutdown path to avoid disabling bus mastering on
+     preserved devices, thereby allowing preserved devices to perform
+     uninterrupted during kexec for Live Update.
+
+  7. Provide comprehensive documentation for the FLB API, device
+     tracking mechanisms, and the division of responsibilities between
+     the PCI core, drivers, and userspace.
+
+Merge Plan
+----------
+
+This series will be merged through liveupdate.git, matching the
+agreed-upon tree in the MAINTAINERS entry for PCI LIVE UPDATE.
+
+Testing
+-------
+
+This series was tested in conjunction with v5 of the VFIO PCI driver
+series:
+
+  https://lore.kernel.org/kvm/20260714151505.3466855-1-vipinsh@google.com/
+
+The full set of patches used for testing can be found on GitHub.
+
+  https://github.com/dmatlack/linux/tree/liveupdate/pci/base/v9-with-vfio
+
+Testing was performed using the new VFIO selftests:
+
+  - vfio_pci_liveupdate_uapi_test
+  - vfio_pci_liveupdate_kexec_test
+
+Both tests were run in a QEMU-based VM environment (using a single
+virtio-net PCIe device connected to a root port to exercise bridge
+support) and on bare metal using an Intel EMR server with 8x Intel DSA
+PCIe devices and 1x NVMe device.
+
+Future Work
+-----------
+
+Following this series, we expect to make further improvements to the PCI
+core support for Live Update:
+
+  - Allow P2P across Live Update by avoiding resizing or moving
+    preserved device BARs and preserving all upstream bridge windows.
+
+  - Support preserving Virtual Functions by preserving SR-IOV
+    configuration on PFs and enumerating VFs after Live Update.
+
+Changelog
+---------
+
+v9:
+ - Simplify pci_liveupdate_preserve_bus_numbers() to always return true
+   if a device was preserved and drop pci_liveupdate_scan_bridge_end()
+   (Bjorn)
+ - Add pci_liveupdate_refuse_bus_numbers() to determine when it is safe
+   for the PCI core to assign bus numbers to unconfigured bridges. This
+   required moving "Auto-preserve upstream bridges across Live Update"
+   before "Preserve bus numbers during Live Update" (Bjorn)
+ - Add "PCI: Save and restore the ACS Control register" so that the ACS
+   Control register is handled by the normal save/restore path (Bjorn)
+ - Rename struct pci_liveupdate::was_preserved to was_incoming, to
+   disambiguate incoming from outgoing preservation (me)
+ - Log unfinished preserved devices from the incoming FLB rather than
+   by walking struct pci_dev (Sashiko)
+ - Document that state handed over by the previous kernel is trusted,
+   and panic in pci_flb_retrieve() where failures are detected rather
+   than unwinding into a caller that panics anyway (Sashiko)
+ - Fall back to programming ACS from scratch when a preserved device has
+   no ACS save buffer, since there is nowhere to record the adopted
+   controls and they would be lost by the first reset (Sashiko)
+ - Drop Reviewed-by tags from "Preserve bus numbers during Live Update"
+   and "Adopt ACS controls in incoming preserved devices", both of which
+   changed materially since v8
+ - Extend commit messages and kernel-doc comments to make the FLB code
+   flow more clear (Bjorn)
+ - Address various spelling, formatting, and stylistic issues (Bjorn)
+
+v8: https://lore.kernel.org/linux-pci/20260728221007.2098560-1-dmatlack@google.com/
+v7: https://lore.kernel.org/linux-pci/20260710212616.1351130-1-dmatlack@google.com/
+v6: https://lore.kernel.org/linux-pci/20260522202410.3104264-1-dmatlack@google.com/
+v5: https://lore.kernel.org/linux-pci/20260512184846.119396-1-dmatlack@google.com/
+v4: https://lore.kernel.org/linux-pci/20260423212316.3431746-1-dmatlack@google.com/
+v3: https://lore.kernel.org/kvm/20260323235817.1960573-1-dmatlack@google.com/
+v2: https://lore.kernel.org/kvm/20260129212510.967611-1-dmatlack@google.com/
+v1: https://lore.kernel.org/kvm/20251126193608.2678510-1-dmatlack@google.com/
+rfc: https://lore.kernel.org/kvm/20251018000713.677779-1-vipinsh@google.com/
 
 
+David Matlack (13):
+  PCI: liveupdate: Set up FLB handler for the PCI core
+  PCI: liveupdate: Track outgoing preserved PCI devices
+  PCI: liveupdate: Track incoming preserved PCI devices
+  PCI: liveupdate: Document driver binding responsibilities
+  PCI: liveupdate: Auto-preserve upstream bridges across Live Update
+  PCI: liveupdate: Preserve bus numbers during Live Update
+  PCI: Refactor matching logic for pci_dev_acs_ops
+  PCI: Save and restore the ACS Control register
+  PCI: liveupdate: Adopt ACS controls in incoming preserved devices
+  PCI: liveupdate: Adopt ARI Forwarding Enable on preserved bridges
+  PCI: liveupdate: Freeze preservation status during shutdown
+  PCI: liveupdate: Do not disable bus mastering on preserved devices
+    during kexec
+  Documentation: PCI: Add documentation for Live Update
 
-On 2026-09-14 05:22, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> pci_acs_flags_enabled() and the Intel SPT PCH quirk use ACS registers
-> without checking config-space read errors. A failed read may leave control
-> state indeterminate yet allow the device to satisfy requested isolation
-> controls.
-> 
-> Return false when either ACS capability or control state cannot be read.
-> An unknown state cannot prove isolation.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+ Documentation/PCI/index.rst                   |    1 +
+ Documentation/PCI/liveupdate.rst              |   35 +
+ .../admin-guide/kernel-parameters.txt         |    7 +-
+ Documentation/core-api/liveupdate.rst         |    5 +
+ MAINTAINERS                                   |   15 +
+ drivers/pci/Kconfig                           |   15 +
+ drivers/pci/Makefile                          |    1 +
+ drivers/pci/liveupdate.c                      | 1015 +++++++++++++++++
+ drivers/pci/liveupdate.h                      |   62 +
+ drivers/pci/pci-driver.c                      |    9 +-
+ drivers/pci/pci.c                             |   79 +-
+ drivers/pci/pci.h                             |    5 +
+ drivers/pci/probe.c                           |   16 +-
+ drivers/pci/quirks.c                          |   58 +-
+ include/linux/kho/abi/pci.h                   |   66 ++
+ include/linux/pci.h                           |    7 +
+ include/linux/pci_liveupdate.h                |   72 ++
+ 17 files changed, 1429 insertions(+), 39 deletions(-)
+ create mode 100644 Documentation/PCI/liveupdate.rst
+ create mode 100644 drivers/pci/liveupdate.c
+ create mode 100644 drivers/pci/liveupdate.h
+ create mode 100644 include/linux/kho/abi/pci.h
+ create mode 100644 include/linux/pci_liveupdate.h
 
-Looks good to me.
 
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+base-commit: 945d61765894dda2f0344de50cb1ade2e51b66fd
+-- 
+2.55.0.1082.g2b9226bbc0-goog
+
