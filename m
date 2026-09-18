@@ -1,65 +1,65 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pj2-f35.google.com (mail-pj2-f35.google.com [74.125.227.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0994E526AA5
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 18:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29EF527590
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 18:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789755945; cv=none; b=PxVwswk/r6hEzsbqIKkuTU6PVAmzVJlnWpCAi8STEtY6ub2UJv8qbSfuuz31sjgmyUvGcdlh+eWu1LDNJnLpMu9FvfTm1Jr9uMlM0PvtIjrj2/uOmeRXhNMZcczh3nSBd35kgGFxNaUydC06YHxdTXT5Rk/rvf7DJ9rdH5G9Nd4=
+	t=1789755950; cv=none; b=SPlcC7fQ9O43JFaz6sUwl1C1lhvImoSHtEJR4u6RypvoOI8R32tCC3jo+fL0H1Gmf6Kwj8ztG5aBV9NAr8uBOE8ulkIbq0q6tjlPOIt+QnXnOVtWe3o+3vowGap5Fco5kJp7CS0GaPkY1IllVGapDg0hu2JmG8Z9RhWx9Nr8Qmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789755945; c=relaxed/simple;
-	bh=MjMcqz6xoV0VSqRppIZ2oRmAw1qJ2BDvFPFFe5vuq00=;
+	s=arc-20240116; t=1789755950; c=relaxed/simple;
+	bh=UenmADVUAUDfeXZXbonm0hu1Jl7PjlTML8crQpyheZU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ADIaMPDGa4Um7vyFShItm90jtYCit5RNFPQ/Y3Kkbfy8wT/cDurM+jh7EnW8HUuc7hjxqIQA7EZ1QmlP/ASZW+f+hJz9vrv6hlfRzx8j5toYj1H7CR+ILDudMPm8xwoJhjaS+NoXCzub73+NsgZIdBS0waY4JuEkVOMACOz3r7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OIX551gT; arc=none smtp.client-ip=74.125.227.141
+	 MIME-Version; b=Gg2qhl6eFT2h6f/NWEHkRH1tTSyS3dv00pnWxnmPZ+Ank8SEq/GYy6GOf6ZI6VJ5/OJv8rmS6D9jqJ2cxC482YKJvMy8NHJYYv+mrimR2Nf+ABBlw6eT4rVlmQAk/n6AGGttuDIgzoq/7P30Wm9r2HdbWEwFAY4R4+riW410nDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K3ojjENb; arc=none smtp.client-ip=74.125.227.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OIX551gT"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2dd4b43b20bso8088935ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 11:25:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K3ojjENb"
+Received: by mail-pj2-f35.google.com with SMTP id d9443c01a7336-2dd77300825so11322095ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 11:25:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789755943; x=1790360743; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789755948; x=1790360748; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=FW5+Vpv4nV1ZrPbbHCVgHohBuMbLnRMFYjUMGwx4I18=;
-        b=OIX551gTwrPFFYz8JuScT1o+oFgUoUYuf6tTdArmXpicvRVvxrOcU5Fr7ce2Spjh2s
-         xWQLOFV2EQn4pDkNEbBujCM7yHnM6VFDNS2PsN9SjopD/lEl/t9FFZ+O3DUjlz4s7Miv
-         TNxlIRytXtFDt8mrkDAIsJzCwXQ5yRm8Sgbi6WAXfmCmQKPdYMeTSip49+dTl20se+8X
-         PTDKE7/ObExqui7x5VCU2wToQWoAUe/s4yZA7bqsm6hekWo9Ny1OsaV9MHd3m26+1aC6
-         KoRQI3WMAAhKxBxP1lst9Z+8nVNABgNoSXRwWjNzz4a9hHaJaIDrVtcYlE6IgU45QWuQ
-         DVew==
+        bh=3lkqG4yWnBqwjVGs0AZjcoYifhcHekb9XrWlB8YylUU=;
+        b=K3ojjENbD4gUIm4Q42E4dtn5rdGIqDQzx6NO1ADXSkvtRFXYuYCag6ST+GGANlBOoG
+         vTL8Zv6zQpGYiGLW4KuwMwdhYY1fc5c+5CALygBo+tI1JycU16+0jRZu19I0RWjH9ZQq
+         jccajotsaKxo9pn9/v/uDgvNbeoKNBHtrbazqDhUINkUH6ecVk59yQbTif1v/FVBifsb
+         GNaFTQgD5r9NILi0Dv+fpzkuhEsVZ36qZeTGmIi1pSJjyBQRZtYOr4Le50kk9cgB+HpM
+         g9DkV6ZiUCvkL49ZAa/5PW+kDNYCRMy594I/ToPdnMmldswRrLJ69gRWeDkpIwdkfbLG
+         gPLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789755943; x=1790360743;
+        d=1e100.net; s=20260707; t=1789755948; x=1790360748;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FW5+Vpv4nV1ZrPbbHCVgHohBuMbLnRMFYjUMGwx4I18=;
-        b=WBEJN/ITo35DqP/nS+F7cYphkEm1ofIloj/ryzwagOIZ7lBt++fWhKGvSVIoWDQt3C
-         EaQOEh7IYo6gjI0qqwda3RHK6WmFYlhcXXJ4gPpE1xHoVCW4BZtYpFeRc4oJueh7PXN0
-         PtBglTWWaJ4UCYZeagUJzYuvIlXy7lGVZurxgZ6bBA9Q41M8di39u3x391XHm+trBM/8
-         Lj1o+8ca22CIb05K2AWyztKk1O4K9BvHXkC8tJeebXDujZ4yZqNI/Csxtju9SIKK4i/G
-         O7huKsSVd0dcdoS1xXo8e8V4M1YjD54i9X3C2h3+uUEvr+oyAwuae+XLYaBF8ovaY+YK
-         QzJg==
-X-Forwarded-Encrypted: i=1; AKwUvBz85cNbLdAhlvWvFP5x6h3lpYEj1NMi09fhBMdytq1b8CSm4b5xbobrAYdgVqw1V3UVo9Kb5LEwMt4=@vger.kernel.org
-X-Gm-Message-State: AFuF++mXFrcHT0eFhDtTBkH5TtUQ3L7ieznrrBe+AOjBGoatZEnl934i
-	fnvo31FW/2znP/PPg7gEY3HXqx8k9Di2HS0H2x6ioIFlDedOFQRGaw4N
-X-Gm-Gg: AYBFou2XYVEPZwdj3H7q4bm2bmbVpB5u5XLY0pN0azlSBmPELMuV1hAVBaZeWLCIvL3
-	/ZmzEW/ohvgAc3S4BZwGbSDZ/DBNjsCg/9xW8XCgKY79cBLQAGL9o8F3Fd0+EaODZAj34a060AR
-	6VrtilmklMv/E97FxYS+nYXuXS2PyP3ZNwf7aOwOIsiXC0KBkmo5yPCzIwQOhX6PQKwpFhlzAFm
-	sNLj8SLQ81713S5lKloM6oJyWnyTYDSc+pbc0MDE97m8Dt0pBZNbN4pblyA2RMSW85ztmOAX+Te
-	1EzF0HWWVgrZSc/w6DdfJkiA5A44IAGeXR1biiP//AxrpCcz9XTIO4nvahmFGBYSqzq+1sCh1dA
-	A85L1A+Qacv3OMB/KgIWUFpLYDVlCdXJoi3Y7zyeBaep6A9bkHysQhIQfaMBiieoKJuIEPjB8Hc
-	c3u/dfMx0LreK1nEFQbIBvurAgzN94sIThJ4EVRIce4Yri0DnTcBasS2ewq1WgarutfeJCTYi4C
-	I3aCIoI8R1OL4hEfh4wlfpO+mDERLFB7QkfaBiOwLgCY/+I/DoZ8INmdGkS0BC8wpcm735H4E8c
-	oGi7kExK
-X-Received: by 2002:a17:902:f705:b0:2dd:ad74:ac34 with SMTP id d9443c01a7336-2ddb1bbeb4bmr69721235ad.29.1789755943296;
-        Fri, 18 Sep 2026 11:25:43 -0700 (PDT)
+        bh=3lkqG4yWnBqwjVGs0AZjcoYifhcHekb9XrWlB8YylUU=;
+        b=nwz5l6DXa7MRk76jmPWx2GglRjaclxoT9LekVC6e3ADupUyQsYB9PtrE7w/vV66I8V
+         lF4T3T+xigBmaTfEhkXHctYNrrT9KVALKdg0fgyqZ3Tep31R/ZTRmLHev2glj6R0vfGi
+         k4i3sSdv/rTz6Ngv6+DNkd47WUvU0XWSl3zcm0ExtcJj+8HRvbC1aUdBoEMoOGTGqXzh
+         fL6+EHkZ/SEuJHUpB35VozPK0f16+5aWMEmmeMFIJPCF8KNncStXS4m7PkYWU24GKy38
+         lGWdSriPfV6d6ls0A8EgSDPBf3Y8w/tGkc7ZLWWZ3YxrHCmm7Pa8hJ/2baUPaqEz/QCX
+         Hnuw==
+X-Forwarded-Encrypted: i=1; AKwUvBzczpQ/BUgfiq7+eegKjrQfxkz5FrR3IViWGwR5/Lfc2IoD8GR/RMMV9caDAmBxraSMzkqge9Jk5Sg=@vger.kernel.org
+X-Gm-Message-State: AFuF++l0HNn/sZRyNNPWLIhUQqN4g6rn1hW1Dlqos6bVhaV7970UiLi2
+	8W8SvdPqAL1RflCy5sX0Ncxofwj8kZd32FT05/wIjIq8FRP7ChjJjXp/
+X-Gm-Gg: AYBFou3/6qK4YNLJ8O6szuEBnGso6RO8QojmqixpT4CgdoMhBJm1K/IQaiS7VTj79Sk
+	R/ZjOA0Ps9mz//GdXFxnipS33oghmH1TNPS1bOin4uTopVqZy7U9F86/3rvylT7FY69JvQKlReg
+	OdX5f3O6tbg//oxjnpkp6Vgjz4XJZwvILpF1Z//9G0eW0ItylOgmgA4HwSKVZKRKnCn2flPRN6e
+	1FAaRoY4wpVCLdDkS/NIbIvqnps1sjgPfXv4hVVUwsMN8XszT6ntEgxWCqg5ZumlMVyoO2Vk/i1
+	hd4KUpxKLM0GEgGIWCp7AwTpTCeAwc+DHK+pSLEiX71MeDxr2M2+ffpWO0998Et0KgBf5dgvQfR
+	qVPgclu/MSdedZErgp/bWSz++cQjddFTkONzwYfQhdv86I32X/N57gbHLFpBhA0YuUz/oPqzwL4
+	cbk117qm8KMlDN49Y0mbYkJOV5s6sQyl47M572Mj2BQbrt6cZnYhcvLpLrA/LnjMbiMxH0ORrZG
+	g8uAUj3oMy631i9KEEn+5aezoc1wYFQawTYIKYRUxQx17DrWbas2rxqA3qQptBwGknoS9Cg2OEY
+	cN61CWcQ
+X-Received: by 2002:a17:903:b87:b0:2dd:ad73:c93c with SMTP id d9443c01a7336-2ddb1bed468mr73811075ad.29.1789755947743;
+        Fri, 18 Sep 2026 11:25:47 -0700 (PDT)
 Received: from DESKTOP-G3E0OSP.localdomain ([58.224.60.243])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc16b49casm871895ad.7.2026.09.18.11.25.40
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc16b49casm871895ad.7.2026.09.18.11.25.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 11:25:42 -0700 (PDT)
+        Fri, 18 Sep 2026 11:25:47 -0700 (PDT)
 From: Jinseob Kim <kimjinseob88@gmail.com>
 To: jic23@kernel.org,
 	linux-iio@vger.kernel.org
@@ -78,9 +78,9 @@ Cc: dlechner@baylibre.com,
 	corbet@lwn.net,
 	skhan@linuxfoundation.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v10 4/8] iio: osf: add validated stream parser
-Date: Sat, 19 Sep 2026 03:24:42 +0900
-Message-ID: <e9d1f8f8d69b76797d617965f263df97b2b586e0.1789753020.git.kimjinseob88@gmail.com>
+Subject: [PATCH v10 5/8] iio: osf: add UART transport and core receive path
+Date: Sat, 19 Sep 2026 03:24:43 +0900
+Message-ID: <5eaeefa79fc2ba956bf34f691c0dc65592e5c4c8.1789753020.git.kimjinseob88@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1789753020.git.kimjinseob88@gmail.com>
 References: <cover.1789753020.git.kimjinseob88@gmail.com>
@@ -92,339 +92,396 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a UART byte-stream parser for Open Sensor Fusion frames.
+Connect the stream parser to a serdev receiver and add core frame dispatch
+with an owned device-status cache. Preserve the distinction between
+unvalidated candidates and validated application rejections, so
+malformed status payloads do not cause byte-wise resynchronization.
 
-The parser searches for the OSF0 wire magic, keeps partial frames
-buffered, checks header length and payload bounds, and passes complete
-candidate frames to a registered frame callback.
+Open and configure the UART before enabling the supply. A managed release
+action closes and drains the receive producer before resetting the parser
+and disabling a successfully enabled supply.
 
-Candidates rejected before validation drop only the current head
-byte before resynchronizing, so a corrupted unvalidated payload length
-cannot make the parser skip later valid frames. CRC-valid validated
-frames are consumed in full and classified as handled, ignored, or
-rejected.
-
-Use a direct callback member with an opaque context and keep explicit
-statistics for validated outcomes and framing failures.
+This transport base processes device-status frames and ignores message
+types without an application handler. It does not register IIO sensor
+devices. The following patch adds capability discovery and sample
+publication to IIO, including the publication gate and IIO teardown.
 
 Assisted-by: LLM
 Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
 ---
- MAINTAINERS                               |   1 +
- drivers/iio/opensensorfusion/osf_stream.c | 231 ++++++++++++++++++++++
- drivers/iio/opensensorfusion/osf_stream.h |  53 +++++
- 3 files changed, 285 insertions(+)
- create mode 100644 drivers/iio/opensensorfusion/osf_stream.c
- create mode 100644 drivers/iio/opensensorfusion/osf_stream.h
+ MAINTAINERS                               |   3 +-
+ drivers/iio/Kconfig                       |   1 +
+ drivers/iio/Makefile                      |   1 +
+ drivers/iio/opensensorfusion/Kconfig      |  12 ++
+ drivers/iio/opensensorfusion/Makefile     |   5 +
+ drivers/iio/opensensorfusion/osf_core.c   | 101 +++++++++++++++
+ drivers/iio/opensensorfusion/osf_core.h   |  29 +++++
+ drivers/iio/opensensorfusion/osf_serdev.c | 143 ++++++++++++++++++++++
+ 8 files changed, 293 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/iio/opensensorfusion/Kconfig
+ create mode 100644 drivers/iio/opensensorfusion/Makefile
+ create mode 100644 drivers/iio/opensensorfusion/osf_core.c
+ create mode 100644 drivers/iio/opensensorfusion/osf_core.h
+ create mode 100644 drivers/iio/opensensorfusion/osf_serdev.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index bf56918efc00..bad05db854cf 100644
+index bad05db854cf..fbbf5f06f1a5 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -20517,6 +20517,7 @@ S:	Maintained
+@@ -20516,8 +20516,7 @@ M:	Jinseob Kim <kimjinseob88@gmail.com>
+ S:	Maintained
  F:	Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml
  F:	Documentation/iio/open-sensor-fusion.rst
- F:	drivers/iio/opensensorfusion/osf_protocol.*
-+F:	drivers/iio/opensensorfusion/osf_stream.*
+-F:	drivers/iio/opensensorfusion/osf_protocol.*
+-F:	drivers/iio/opensensorfusion/osf_stream.*
++F:	drivers/iio/opensensorfusion/
  K:	opensensorfusion
  
  OPENCOMPUTE PTP CLOCK DRIVER
-diff --git a/drivers/iio/opensensorfusion/osf_stream.c b/drivers/iio/opensensorfusion/osf_stream.c
+diff --git a/drivers/iio/Kconfig b/drivers/iio/Kconfig
+index 652557a5b851..89bb5b65c761 100644
+--- a/drivers/iio/Kconfig
++++ b/drivers/iio/Kconfig
+@@ -102,6 +102,7 @@ source "drivers/iio/light/Kconfig"
+ source "drivers/iio/magnetometer/Kconfig"
+ source "drivers/iio/multiplexer/Kconfig"
+ source "drivers/iio/orientation/Kconfig"
++source "drivers/iio/opensensorfusion/Kconfig"
+ source "drivers/iio/test/Kconfig"
+ if IIO_TRIGGER
+    source "drivers/iio/trigger/Kconfig"
+diff --git a/drivers/iio/Makefile b/drivers/iio/Makefile
+index f03a4100c800..a51c4446ee09 100644
+--- a/drivers/iio/Makefile
++++ b/drivers/iio/Makefile
+@@ -38,6 +38,7 @@ obj-y += light/
+ obj-y += magnetometer/
+ obj-y += multiplexer/
+ obj-y += orientation/
++obj-y += opensensorfusion/
+ obj-y += position/
+ obj-y += potentiometer/
+ obj-y += potentiostat/
+diff --git a/drivers/iio/opensensorfusion/Kconfig b/drivers/iio/opensensorfusion/Kconfig
 new file mode 100644
-index 000000000000..e262415e69b7
+index 000000000000..fa25ad24bef6
 --- /dev/null
-+++ b/drivers/iio/opensensorfusion/osf_stream.c
-@@ -0,0 +1,231 @@
++++ b/drivers/iio/opensensorfusion/Kconfig
+@@ -0,0 +1,12 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++config OPEN_SENSOR_FUSION
++	tristate "Open Sensor Fusion UART receiver"
++	depends on SERIAL_DEV_BUS
++	select CRC32
++	help
++	  Build the Open Sensor Fusion UART receive path.
++
++	  The driver receives and validates OSF protocol frames over a serdev
++	  UART and caches device status reported by the sensor hub.
++	  Message types without an application handler are ignored.
+diff --git a/drivers/iio/opensensorfusion/Makefile b/drivers/iio/opensensorfusion/Makefile
+new file mode 100644
+index 000000000000..940c82eddc2e
+--- /dev/null
++++ b/drivers/iio/opensensorfusion/Makefile
+@@ -0,0 +1,5 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++obj-$(CONFIG_OPEN_SENSOR_FUSION) += open-sensor-fusion.o
++
++open-sensor-fusion-y := osf_core.o osf_protocol.o osf_serdev.o osf_stream.o
+diff --git a/drivers/iio/opensensorfusion/osf_core.c b/drivers/iio/opensensorfusion/osf_core.c
+new file mode 100644
+index 000000000000..e6812cef4d8c
+--- /dev/null
++++ b/drivers/iio/opensensorfusion/osf_core.c
+@@ -0,0 +1,101 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +
++#include <linux/device.h>
 +#include <linux/errno.h>
-+#include <linux/minmax.h>
-+#include <linux/string.h>
 +#include <linux/types.h>
-+#include <linux/unaligned.h>
 +
-+#include "osf_protocol.h"
++#include "osf_core.h"
 +#include "osf_stream.h"
 +
-+#define OSF_STREAM_MAGIC_LEN	sizeof(__le32)
-+#define OSF_STREAM_MAX_PAYLOAD_LEN				\
-+	(OSF_STREAM_MAX_FRAME_LEN - OSF_FRAME_HEADER_LEN - OSF_FRAME_CRC_LEN)
++#define OSF_RESERVED_MSG_FIRST		0x7f00
++#define OSF_RESERVED_MSG_LAST		0x7fff
++#define OSF_VENDOR_PRIVATE_FIRST	0x8000
 +
-+static void osf_stream_discard(struct osf_stream *stream, size_t count)
++void osf_core_init(struct osf_device *osf, struct device *dev)
 +{
-+	if (count >= stream->len) {
-+		stream->len = 0;
-+		return;
-+	}
-+
-+	memmove(stream->buf, stream->buf + count, stream->len - count);
-+	stream->len -= count;
++	*osf = (struct osf_device) {
++		.dev = dev,
++	};
 +}
 +
-+static void osf_stream_drop_invalid_head(struct osf_stream *stream)
++static int osf_core_handle_device_status(struct osf_device *osf,
++					 const struct osf_frame *frame)
 +{
-+	osf_stream_discard(stream, 1);
-+}
-+
-+static bool osf_stream_magic_prefix_match(const u8 *buf, size_t len)
-+{
-+	for (size_t i = 0; i < len; i++) {
-+		if (buf[i] != (u8)(OSF_FRAME_MAGIC >> (i * 8)))
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
-+static size_t osf_stream_discard_to_magic(struct osf_stream *stream)
-+{
-+	size_t old_len = stream->len;
-+	size_t keep_len;
-+
-+	for (size_t i = 0; i + OSF_STREAM_MAGIC_LEN <= stream->len; i++) {
-+		if (get_unaligned_le32(stream->buf + i) == OSF_FRAME_MAGIC) {
-+			if (i)
-+				osf_stream_discard(stream, i);
-+			return i;
-+		}
-+	}
-+
-+	/*
-+	 * Keep a final 1-3 byte OSF_FRAME_MAGIC prefix so a magic split
-+	 * across receive_buf() calls can be completed by the next chunk.
-+	 */
-+	keep_len = min(stream->len, OSF_STREAM_MAGIC_LEN - 1);
-+	while (keep_len) {
-+		size_t offset = stream->len - keep_len;
-+
-+		if (osf_stream_magic_prefix_match(stream->buf + offset, keep_len)) {
-+			if (offset)
-+				osf_stream_discard(stream, offset);
-+			return offset;
-+		}
-+		keep_len--;
-+	}
-+
-+	stream->len = 0;
-+	return old_len;
-+}
-+
-+static int osf_stream_process(struct osf_stream *stream)
-+{
-+	size_t discarded;
-+	size_t frame_len;
-+	u32 payload_len;
-+	int frame_result;
-+	int first_err = 0;
-+
-+	while (stream->len) {
-+		discarded = osf_stream_discard_to_magic(stream);
-+		if (discarded) {
-+			stream->stats.bad_magic_resyncs++;
-+			stream->stats.dropped_bytes += discarded;
-+			if (!first_err)
-+				first_err = -EPROTO;
-+		}
-+
-+		if (!stream->len)
-+			break;
-+
-+		if (stream->len < OSF_FRAME_HEADER_LEN)
-+			break;
-+
-+		if (get_unaligned_le16(stream->buf + 6) != OSF_FRAME_HEADER_LEN) {
-+			stream->stats.dropped_bytes++;
-+			osf_stream_drop_invalid_head(stream);
-+			if (!first_err)
-+				first_err = -EPROTO;
-+			continue;
-+		}
-+
-+		payload_len = get_unaligned_le32(stream->buf + 10);
-+		if (payload_len > OSF_STREAM_MAX_PAYLOAD_LEN) {
-+			stream->stats.dropped_bytes++;
-+			osf_stream_drop_invalid_head(stream);
-+			if (!first_err)
-+				first_err = -EMSGSIZE;
-+			continue;
-+		}
-+
-+		frame_len = OSF_FRAME_HEADER_LEN + payload_len + OSF_FRAME_CRC_LEN;
-+		if (stream->len < frame_len)
-+			break;
-+
-+		frame_result = stream->receive_frame(stream->frame_context,
-+						     stream->buf, frame_len);
-+		if (frame_result < 0) {
-+			if (frame_result == -EBADMSG)
-+				stream->stats.bad_crc_frames++;
-+
-+			/*
-+			 * Decoding failed before the frame was validated;
-+			 * payload_len is still untrusted. Drop only the current
-+			 * head and resynchronize.
-+			 */
-+			stream->stats.dropped_bytes++;
-+			osf_stream_drop_invalid_head(stream);
-+			if (!first_err)
-+				first_err = frame_result;
-+			continue;
-+		}
-+
-+		/* Count exactly one outcome for every validated frame. */
-+		stream->stats.validated_frames++;
-+		switch (frame_result) {
-+		case OSF_STREAM_FRAME_HANDLED:
-+			stream->stats.handled_frames++;
-+			break;
-+		case OSF_STREAM_FRAME_IGNORED:
-+			stream->stats.ignored_frames++;
-+			break;
-+		case OSF_STREAM_FRAME_REJECTED:
-+			stream->stats.rejected_frames++;
-+			break;
-+		default:
-+			/*
-+			 * Preserve the validated boundary without scanning the
-+			 * payload for another magic value.
-+			 */
-+			stream->stats.rejected_frames++;
-+			if (!first_err)
-+				first_err = -EPROTO;
-+			break;
-+		}
-+		osf_stream_discard(stream, frame_len);
-+	}
-+
-+	return first_err;
-+}
-+
-+void osf_stream_init(struct osf_stream *stream,
-+		     int (*receive_frame)(void *context, const u8 *buf,
-+					  size_t len),
-+		     void *frame_context)
-+{
-+	if (!stream)
-+		return;
-+
-+	stream->receive_frame = receive_frame;
-+	stream->frame_context = frame_context;
-+	stream->len = 0;
-+	memset(&stream->stats, 0, sizeof(stream->stats));
-+}
-+
-+void osf_stream_reset(struct osf_stream *stream)
-+{
-+	if (!stream)
-+		return;
-+
-+	stream->len = 0;
-+	memset(&stream->stats, 0, sizeof(stream->stats));
-+}
-+
-+int osf_stream_receive_bytes(struct osf_stream *stream,
-+			     const u8 *buf, size_t len)
-+{
-+	size_t copy_len;
-+	size_t space;
-+	int first_err = 0;
++	struct osf_device_status status;
 +	int ret;
 +
-+	if (!stream || !stream->receive_frame || (!buf && len))
-+		return -EINVAL;
-+
-+	if (!len)
-+		return osf_stream_process(stream);
-+
-+	/*
-+	 * Continue processing this receive_buf() chunk after recoverable
-+	 * framing errors so later valid frames do not wait for another callback.
-+	 * first_err retains the first diagnostic return, while the serdev
-+	 * callback reports the full byte count consumed. Every validated
-+	 * callback result is consumed in full by osf_stream_process().
-+	 */
-+	while (len) {
-+		space = OSF_STREAM_MAX_FRAME_LEN - stream->len;
-+		if (!space) {
-+			stream->stats.dropped_bytes++;
-+			osf_stream_discard(stream, 1);
-+			if (!first_err)
-+				first_err = -EMSGSIZE;
-+			continue;
-+		}
-+
-+		copy_len = min(len, space);
-+		memcpy(stream->buf + stream->len, buf, copy_len);
-+		stream->len += copy_len;
-+		buf += copy_len;
-+		len -= copy_len;
-+
-+		ret = osf_stream_process(stream);
-+		if (ret && !first_err)
-+			first_err = ret;
++	ret = osf_protocol_decode_device_status(frame, &status);
++	if (ret) {
++		dev_warn_ratelimited(osf->dev,
++				     "rejecting malformed device status: %d\n",
++				     ret);
++		return ret;
 +	}
 +
-+	return first_err;
++	osf->status_cache = (struct osf_status_cache) {
++		.uptime_s = status.uptime_s,
++		.status_flags = status.status_flags,
++		.error_flags = status.error_flags,
++		.dropped_frames = status.dropped_frames,
++		.sequence = frame->sequence,
++		.valid = true,
++	};
++	osf->last_sequence = frame->sequence;
++
++	return OSF_STREAM_FRAME_HANDLED;
 +}
-diff --git a/drivers/iio/opensensorfusion/osf_stream.h b/drivers/iio/opensensorfusion/osf_stream.h
++
++int osf_core_receive_frame(struct osf_device *osf, const u8 *buf, size_t len)
++{
++	struct osf_frame frame;
++	size_t frame_len;
++	int ret;
++
++	ret = osf_protocol_decode_frame(buf, len, &frame, &frame_len);
++	if (ret)
++		return ret;
++
++	if (frame_len != len)
++		return -EMSGSIZE;
++
++	if (frame.protocol_major != OSF_PROTOCOL_MAJOR) {
++		dev_dbg_ratelimited(osf->dev,
++				    "ignoring unsupported protocol major %u\n",
++				    frame.protocol_major);
++		return OSF_STREAM_FRAME_IGNORED;
++	}
++
++	switch (frame.message_type) {
++	case OSF_MSG_DEVICE_STATUS:
++		ret = osf_core_handle_device_status(osf, &frame);
++		break;
++	default:
++		if (frame.message_type >= OSF_RESERVED_MSG_FIRST &&
++		    frame.message_type <= OSF_RESERVED_MSG_LAST) {
++			dev_dbg_ratelimited(osf->dev,
++					    "ignoring reserved message type %#x\n",
++					    frame.message_type);
++			return OSF_STREAM_FRAME_IGNORED;
++		}
++		if (frame.message_type >= OSF_VENDOR_PRIVATE_FIRST) {
++			dev_dbg_ratelimited(osf->dev,
++					    "ignoring vendor message type %#x\n",
++					    frame.message_type);
++			return OSF_STREAM_FRAME_IGNORED;
++		}
++
++		dev_dbg_ratelimited(osf->dev,
++				    "ignoring unsupported message type %#x\n",
++				    frame.message_type);
++		return OSF_STREAM_FRAME_IGNORED;
++	}
++
++	/*
++	 * Handler failures are validated application rejections. Keep the
++	 * trusted frame boundary and let the stream consume the complete frame.
++	 */
++	if (ret < 0)
++		return OSF_STREAM_FRAME_REJECTED;
++
++	return ret;
++}
+diff --git a/drivers/iio/opensensorfusion/osf_core.h b/drivers/iio/opensensorfusion/osf_core.h
 new file mode 100644
-index 000000000000..9087533b2d04
+index 000000000000..7095e3f967fc
 --- /dev/null
-+++ b/drivers/iio/opensensorfusion/osf_stream.h
-@@ -0,0 +1,53 @@
++++ b/drivers/iio/opensensorfusion/osf_core.h
+@@ -0,0 +1,29 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _OSF_STREAM_H
-+#define _OSF_STREAM_H
++#ifndef _OSF_CORE_H
++#define _OSF_CORE_H
 +
 +#include <linux/types.h>
 +
-+#define OSF_STREAM_MAX_FRAME_LEN	4096
++#include "osf_protocol.h"
 +
-+/**
-+ * enum osf_stream_frame_result - validated frame callback result
-+ * @OSF_STREAM_FRAME_HANDLED: frame was processed successfully
-+ * @OSF_STREAM_FRAME_IGNORED: frame was valid but unsupported or ignored
-+ * @OSF_STREAM_FRAME_REJECTED: validated application processing failed
-+ *
-+ * A frame callback returns a negative errno only when a candidate could not
-+ * be validated and the parser may perform one-byte resynchronization.
-+ * Every nonnegative result must be one of these values. Such a result means
-+ * the CRC-valid frame boundary is trusted, so the parser must consume the
-+ * full frame.
-+ */
-+enum osf_stream_frame_result {
-+	OSF_STREAM_FRAME_HANDLED,
-+	OSF_STREAM_FRAME_IGNORED,
-+	OSF_STREAM_FRAME_REJECTED,
++struct device;
++
++struct osf_status_cache {
++	u32 uptime_s;
++	u32 status_flags;
++	u32 error_flags;
++	u32 dropped_frames;
++	u64 sequence;
++	bool valid;
 +};
 +
-+struct osf_stream_stats {
-+	u64 validated_frames;
-+	u64 handled_frames;
-+	u64 ignored_frames;
-+	u64 rejected_frames;
-+	u64 bad_magic_resyncs;
-+	u64 bad_crc_frames;
-+	u64 dropped_bytes;
++struct osf_device {
++	struct device *dev;
++	struct osf_status_cache status_cache;
++	u64 last_sequence;
 +};
 +
-+struct osf_stream {
-+	int (*receive_frame)(void *context, const u8 *buf, size_t len);
-+	void *frame_context;
-+	u8 buf[OSF_STREAM_MAX_FRAME_LEN];
-+	size_t len;
-+	struct osf_stream_stats stats;
-+};
-+
-+void osf_stream_init(struct osf_stream *stream,
-+		     int (*receive_frame)(void *context, const u8 *buf,
-+					  size_t len),
-+		     void *frame_context);
-+void osf_stream_reset(struct osf_stream *stream);
-+int osf_stream_receive_bytes(struct osf_stream *stream,
-+			     const u8 *buf, size_t len);
++void osf_core_init(struct osf_device *osf, struct device *dev);
++int osf_core_receive_frame(struct osf_device *osf, const u8 *buf, size_t len);
 +
 +#endif
+diff --git a/drivers/iio/opensensorfusion/osf_serdev.c b/drivers/iio/opensensorfusion/osf_serdev.c
+new file mode 100644
+index 000000000000..8a747c01ff9d
+--- /dev/null
++++ b/drivers/iio/opensensorfusion/osf_serdev.c
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/cleanup.h>
++#include <linux/device-id/of.h>
++#include <linux/device.h>
++#include <linux/err.h>
++#include <linux/errno.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/regulator/consumer.h>
++#include <linux/serdev.h>
++#include <linux/slab.h>
++#include <linux/types.h>
++
++#include "osf_core.h"
++#include "osf_stream.h"
++
++#define OSF_SERDEV_BAUD		115200
++
++struct osf_serdev {
++	struct serdev_device *serdev;
++	struct regulator *vcc;
++	bool vcc_enabled;
++	struct osf_device osf;
++	struct osf_stream stream;
++	/* Protects the parser and all RX counters. */
++	struct mutex rx_lock;
++};
++
++static int osf_serdev_receive_frame(void *context, const u8 *buf, size_t len)
++{
++	struct osf_device *osf = context;
++
++	return osf_core_receive_frame(osf, buf, len);
++}
++
++static size_t osf_serdev_receive_buf(struct serdev_device *serdev,
++				     const u8 *buf, size_t count)
++{
++	struct osf_serdev *osf_uart = serdev_device_get_drvdata(serdev);
++	const struct osf_stream_stats *stats;
++	u64 validated_before;
++	int ret;
++
++	guard(mutex)(&osf_uart->rx_lock);
++	validated_before = osf_uart->stream.stats.validated_frames;
++	ret = osf_stream_receive_bytes(&osf_uart->stream, buf, count);
++	stats = &osf_uart->stream.stats;
++
++	if (ret || stats->validated_frames != validated_before)
++		dev_dbg_ratelimited(&serdev->dev,
++				    "rx count=%zu validated=%llu handled=%llu ignored=%llu rejected=%llu bad_magic=%llu bad_crc=%llu dropped=%llu ret=%d\n",
++				    count, stats->validated_frames,
++				    stats->handled_frames, stats->ignored_frames,
++				    stats->rejected_frames,
++				    stats->bad_magic_resyncs,
++				    stats->bad_crc_frames,
++				    stats->dropped_bytes, ret);
++
++	return count;
++}
++
++static const struct serdev_device_ops osf_serdev_ops = {
++	.receive_buf = osf_serdev_receive_buf,
++};
++
++static void osf_serdev_release(void *data)
++{
++	struct osf_serdev *osf_uart = data;
++
++	/* The TTY controller drains RX work on close; hold no RX lock. */
++	serdev_device_close(osf_uart->serdev);
++	osf_stream_reset(&osf_uart->stream);
++	if (osf_uart->vcc_enabled)
++		regulator_disable(osf_uart->vcc);
++}
++
++static int osf_serdev_probe(struct serdev_device *serdev)
++{
++	struct device *dev = &serdev->dev;
++	struct osf_serdev *osf_uart;
++	unsigned int baudrate;
++	int ret;
++
++	osf_uart = devm_kzalloc(dev, sizeof(*osf_uart), GFP_KERNEL);
++	if (!osf_uart)
++		return -ENOMEM;
++
++	osf_uart->vcc = devm_regulator_get(dev, "vcc");
++	if (IS_ERR(osf_uart->vcc))
++		return dev_err_probe(dev, PTR_ERR(osf_uart->vcc),
++				     "failed to get vcc regulator\n");
++
++	mutex_init(&osf_uart->rx_lock);
++	osf_uart->serdev = serdev;
++	osf_core_init(&osf_uart->osf, dev);
++	osf_stream_init(&osf_uart->stream, osf_serdev_receive_frame,
++			&osf_uart->osf);
++
++	serdev_device_set_drvdata(serdev, osf_uart);
++	serdev_device_set_client_ops(serdev, &osf_serdev_ops);
++
++	ret = serdev_device_open(serdev);
++	if (ret)
++		return ret;
++
++	ret = devm_add_action_or_reset(dev, osf_serdev_release, osf_uart);
++	if (ret)
++		return ret;
++
++	baudrate = serdev_device_set_baudrate(serdev, OSF_SERDEV_BAUD);
++	if (baudrate != OSF_SERDEV_BAUD)
++		/* Keep accepting controller rounding after reporting the mismatch. */
++		dev_warn_probe(dev, -EINVAL, "requested %u baud, controller set %u\n",
++			       OSF_SERDEV_BAUD, baudrate);
++
++	serdev_device_set_flow_control(serdev, false);
++
++	ret = regulator_enable(osf_uart->vcc);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to enable vcc regulator\n");
++	osf_uart->vcc_enabled = true;
++
++	return 0;
++}
++
++static const struct of_device_id osf_serdev_of_match[] = {
++	{ .compatible = "opensensorfusion,osf" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, osf_serdev_of_match);
++
++static struct serdev_device_driver osf_serdev_driver = {
++	.probe = osf_serdev_probe,
++	.driver = {
++		.name = "open-sensor-fusion-uart",
++		.of_match_table = osf_serdev_of_match,
++	},
++};
++module_serdev_device_driver(osf_serdev_driver);
++
++MODULE_DESCRIPTION("Open Sensor Fusion UART receiver");
++MODULE_LICENSE("GPL");
 -- 
 2.43.0
 
