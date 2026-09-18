@@ -1,193 +1,353 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D5E282F0C
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 08:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC864052D5;
+	Fri, 18 Sep 2026 08:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789720880; cv=none; b=WNmeNzvQHzp8zORYftzXJccJcGjpGe8zsusd2FwaJqcXLjEBvA3qdZQPxN7VOf6pu1ALRRu5dJmlIYK371tHDAmJ6dAbojtefpHyJE7aEobI6t9cGgAb86Uq6i+okUae5LqYsEEnzSAeRzS+o7NqlTLin5rjGyuKplSBnhKQiP4=
+	t=1789721654; cv=none; b=lAAQ7Z8ZlgfymIPhlYEtSYxU1QUeoks7tASlQEWquQGbklU4wRW8p18rf4CjGomfZiR3Ywl+Dh9+fhmtW1h0anx4yhyxa/20zRaD+325SlI48nazxWdRbVAnj2bxegU8yUUO4KOcqc1OafNYW8RemGlTqkdlAjcpGbGYbHwxabQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789720880; c=relaxed/simple;
-	bh=cKMdC3Knc018ust5Oawrm7rJamFu3163yoo/EBNe9pg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nZFRFMZG+31O2jC1UNDAm7Y6x+o3rFwDk02io4kwv8Y4TQSx2md0UeW1njnDfAdi/uIZj7x0eo4PR/AP//G6zDdIJF7/46K9CT3fzixp7q7Y9BJ9UXZapKWaqEIhcFiJaWQyOjNOKyqMa4ZSMrvf+vLg3/mmNmL/dmSM+0DvY2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EtHOMhXz; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789721654; c=relaxed/simple;
+	bh=r4CY+G42WiwuyLzYzLu2owW/EFmLx2vvck8FT8JXxh8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=t2g5sm9045C0mDE9MQG9JAuRXE47joXNjAC+kjy78WG1GVbHUTGE70Jpe/TYPUUxY2GVXdfzEMWql5FSsAFNmYn2rqBndg0ErfgwhIbnTwXQ/SL3IwgTBB3xFPR7WT1pmhpee63JVF6ndH8bms+H6kWnpkAnebvIJSjU1lq+5k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XsSv2yPh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EtHOMhXz"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-39b31b4281eso506418a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 01:41:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789720878; x=1790325678; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VTbNaeeT4nGpdtG9r4mO3gpUBEuw4FJbJhqWWjich0c=;
-        b=EtHOMhXz6mH9DuEaAkFXAPM4dJERDO7iNPuvIuWp4kFOGqwVOrqih/Eb6KxAM/N7kq
-         bUkWctKB6UCGpnfRlet4/q48nvjEkm+Xrc4JGYnM1Zj7H6xorheu4jpEtUf14nBAudHB
-         h8+L3rpjOgKMkpEfgxw9HgcVo9nAlI9Xi4n1YcabwiIbW1O/cESh4XMW6W6Ay3/RdJRP
-         yiTAUtFWeKS+/fKKwdfu2xROuB3YJpV274wRtzo+Uy+UfKWLpdA4OdLQ71H0t0l1+XfP
-         Tfawn5YU4H15zTUl4NQPRnTmPAkyZwnaAmWxuqTe0HpyF5730ma8g17kAV4kzu3GjMOy
-         b0vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789720878; x=1790325678;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VTbNaeeT4nGpdtG9r4mO3gpUBEuw4FJbJhqWWjich0c=;
-        b=e9a8yEjgog3zGF179T77qqF/nhU3mZMfWC3/8VA67hEUafgnnfsSPjD5gG6T+4N8p5
-         +acNk+bayqxknLr82l83J0JsNePM/8XSMF49i5sqlHD1UCMevF9+FVo5utvun17uau1p
-         XMHUdST6fDw9QdV6BE9Ku5iF0VkgvrFxBI1Vs1lsn5mSgEcUOgc5XMZZXeQgKB3IgxFk
-         qiVKoBzxAwYGIdX+Qws+BapNXRGxnSC5yReXIT+4DJgalUcJhWPUbS6fAuVWlQbCx6Rw
-         SZK5WjkpCxg05OuMPsOdQRlXRTVGUqxVsDXDCISUjYmrrFfV9oq+u8Kc4lXRZOty5Nj8
-         +AUw==
-X-Forwarded-Encrypted: i=1; AKwUvByjBsfFkIXcCzS56rYNwhF4EDTGWjICW+g/nTu/HzvSZeds0+yESUdb/8vrFgeOh5qNFjLV7U9z2uc=@vger.kernel.org
-X-Gm-Message-State: AFuF++m+TAJz2lC4ZV+oleQM66CuxgufV5+IQ5Dp3chspZ6M1maUIZvi
-	pLEIY2eN4d4odKbHb+Uhzyue8QH9ur9rYDTNuxEca7TO0tq3UkY0XdOc
-X-Gm-Gg: AYBFou3iwqkjs62RP/kPAkGzCBUSZYPhYyXIQzDUls4CffsAO+Nv/T+WGR1mQJs1NIu
-	cVdXfSrmWR4tGj8UbK+NlGG4lYJ/RD2R7T1rewFZZmGgJz5QdsoNs3Vs/DoX7Y+9sBujGKLDZl/
-	y/6ERpdJ6Bl4swMhUI2P8vPLXXfIMAfGeeUw8qVM8y1INE+PLyni6yD6UqAziu6GSCr+w9duJa2
-	aTaOG6GwpN8xTuqLiNCz1lYBoakQwmCC3haGBt0J467XKBvCver0EShdn6T7gH4cmFl+qmelNxY
-	XCUB9IVeEtcL7bqFE+mVvndCG4bT/k2VybIrToMuiWjxBpAy035WltzBJ4g08Cr49lVVARhHuFr
-	6X8P/O9xImSIHjZQse7S3eE3Z6JWa9qtWVt9uT4rhkcdUJwYaehNShk26VJOSOwNGWKCoYhlqWt
-	5ASI0Owbg8Lf2/IaY2Ca5Jg0G1yPivjVLVkPoBMCc334yH+hiZQzQOU58qrVTYE7aqzisK6I0V2
-	oVj/E3Y58utVzJsSq0cftQAKFLtYzholrtrye65eUS9K8P5Jue3gxDPK00Wkm9O0VxNs7h8zql0
-	GQ==
-X-Received: by 2002:a17:90b:5287:b0:39e:3285:b776 with SMTP id 98e67ed59e1d1-39e54cb9c71mr4316549a91.7.1789720878593;
-        Fri, 18 Sep 2026 01:41:18 -0700 (PDT)
-Received: from cs00-MS-7C09.. (2001-b400-e35f-d966-bfea-f724-5ada-7374.emome-ip6.hinet.net. [2001:b400:e35f:d966:bfea:f724:5ada:7374])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e5a50d332sm2093716a91.9.2026.09.18.01.41.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 01:41:18 -0700 (PDT)
-From: hsyemail2@gmail.com
-X-Google-Original-From: syhuang3@nuvoton.com
-To: Guenter Roeck <linux@roeck-us.net>,
-	linux-hwmon@vger.kernel.org
-Cc: Sheng-Yuan Huang <syhuang3@nuvoton.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/2] hwmon: (lm75) Add support for Nuvoton NCT7715
-Date: Fri, 18 Sep 2026 16:40:41 +0800
-Message-ID: <20260918084042.19541-3-syhuang3@nuvoton.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260918084042.19541-1-syhuang3@nuvoton.com>
-References: <20260918084042.19541-1-syhuang3@nuvoton.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XsSv2yPh"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8064EC2BCF5;
+	Fri, 18 Sep 2026 08:54:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1789721653;
+	bh=r4CY+G42WiwuyLzYzLu2owW/EFmLx2vvck8FT8JXxh8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=XsSv2yPht3vXmhPx5bMC1JjvsfbAS5cvjXdPMHtt00LXKy+XWkkJmN6Kub/aBcnou
+	 AF7SHrlDuxhKKLvIDFpKdkXBAgLw0mXxVYtLlLyUR+HWbUElLEvzwlhDThpnV7eJIA
+	 K4TkeVXL/wUlZ1kakM18DZSH5oo/ms2LHPNBrx6KBDDszz9Q1uhzpUDGujbPPTSe/7
+	 qB3th514H/czohzTrDGNemD3RNMIuCVggivdiXiTRYs46pgRyRp7FXDPhmi8CD8eqH
+	 d5D0lWA9xKma55vzIW9yWAKb/2/iz8ecOEjjzZOPuzkU1zAdeluOxaZoO7ZXKCAX3k
+	 DPnbnwmis1d1A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60005C88E75;
+	Fri, 18 Sep 2026 08:54:13 +0000 (UTC)
+From: Jingxiang Zeng via B4 Relay <devnull+linuszeng.tencent.com@kernel.org>
+Date: Fri, 18 Sep 2026 16:53:41 +0800
+Subject: [PATCH 1/6] mm: page_counter: add page_counter_protection struct
+ and init API
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260918-descriptive-name-v1-1-dfcfdd91b456@tencent.com>
+References: <20260918-descriptive-name-v1-0-dfcfdd91b456@tencent.com>
+In-Reply-To: <20260918-descriptive-name-v1-0-dfcfdd91b456@tencent.com>
+To: Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
+ Natalie Vock <nat@pixelcluster.dev>, Tejun Heo <tj@kernel.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Oscar Salvador <osalvador@suse.de>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Jingxiang Zeng <jingxiangzeng.cas@gmail.com>, cgroups@vger.kernel.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ Jingxiang Zeng <linuszeng@tencent.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789721651; l=10506;
+ i=linuszeng@tencent.com; s=20260909; h=from:subject:message-id;
+ bh=XbEGRKxxHK1Nrej2GHdMz4TmIbAR4XKSXg/71ifM2nY=;
+ b=eXC22pAC/5CqXJJBYbY6x3pyJLlR37S08bG7Uza31/gbk0+xAbjfenzgW5Db3JdnXD7fDNQE/
+ pwrNFCppoGjBfsJI3HuKBNVQEJpdQj4W3RDIpVbknjGs00cWt713CVZ
+X-Developer-Key: i=linuszeng@tencent.com; a=ed25519;
+ pk=6K54xRzYIRWqatrAPy86M4E0MsI92BVJBhXwz5NdC74=
+X-Endpoint-Received: by B4 Relay for linuszeng@tencent.com/20260909 with
+ auth_id=1017
+X-Original-From: Jingxiang Zeng <linuszeng@tencent.com>
+Reply-To: linuszeng@tencent.com
 
-From: Sheng-Yuan Huang <syhuang3@nuvoton.com>
+From: Jingxiang Zeng <linuszeng@tencent.com>
 
-The Nuvoton NCT7715 is compatible with the LM75 temperature and
-limit register layout. Its 16-bit configuration register shares the
-TMP112 configuration layout.
+Hierarchical protection (memory.min/memory.low) is only used by the
+memory page counter and by dmem pools; swap/memsw, kmem, tcpmem and
+hugetlb counters never participate in it, yet every struct page_counter
+carries the full protection state.
 
-Signed-off-by: Sheng-Yuan Huang <syhuang3@nuvoton.com>
+Add struct page_counter_protection to hold that state and link it to
+struct page_counter through a ->prot pointer, NULL when protection is
+not supported.  page_counter_init() loses its protection_support
+argument and the new page_counter_init_protection() attaches the
+context; track_protection() tests ->prot instead of the flag.
+Protection stays enabled only on the cgroup v2 hierarchy, matching the
+previous page_counter_init(..., memcg_on_dfl) behaviour, and the root
+memcg keeps it unconditionally.
+
+Order the new structure by access frequency: parent, min, low and the
+four usage counters are what propagate_protected_usage() touches on
+every charge and uncharge, once per level, so they come first and share
+a cache line - both embedders place the structure at a cache line
+boundary, at offset 384 in struct mem_cgroup and 192 in the dmem pool
+state.  emin and elow are only recomputed during reclaim and read by
+the protection checks, so they go last.
+
+struct page_counter still carries the old protection fields at this
+point, so nothing shrinks yet: they are migrated onto the new structure
+in the next commit and removed in the one after that.
+
+The dmem pool allocator points its counter at the embedded protection
+context, and the pool fix-up path in get_cg_pool_locked() links
+prot->parent the same way it links cnt.parent, so pools created
+bottom-up do not lose hierarchical protection.
+
+No functional change.
+
+Signed-off-by: Jingxiang Zeng <linuszeng@tencent.com>
 ---
-v4:
-- Correct NCT7715 conversion-rate initialization during probe.
+ include/linux/memcontrol.h   |  7 +++++
+ include/linux/page_counter.h | 72 ++++++++++++++++++++++++++++++++++++++++----
+ kernel/cgroup/dmem.c         |  9 ++++--
+ mm/hugetlb_cgroup.c          |  4 +--
+ mm/memcontrol.c              | 21 ++++++++-----
+ mm/page_counter.c            |  2 +-
+ 6 files changed, 95 insertions(+), 20 deletions(-)
 
-v3:
-- Reuse the existing TMP112 handling for NCT7715 configuration,
-  update intervals, and alarms.
-
-v2:
-- Use the standard SMBus word representation for the NCT7715
-  configuration register, removing the NCT7715-specific byte swapping
-  and updating its configuration masks accordingly.
-
- Documentation/hwmon/lm75.rst |  6 ++++++
- drivers/hwmon/lm75.c         | 18 ++++++++++++++++++
- 2 files changed, 24 insertions(+)
-
-diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
-index ca46754e028b..fac0b8f29ddc 100644
---- a/Documentation/hwmon/lm75.rst
-+++ b/Documentation/hwmon/lm75.rst
-@@ -150,6 +150,12 @@ Supported chips:
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index 46bf724cae7a..5936f497aea6 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -199,6 +199,13 @@ struct mem_cgroup {
+ 	/* Accounted resources */
+ 	struct page_counter memory;		/* Both v1 & v2 */
  
-                https://ams.com/documents/20143/36005/AS6200_DS000449_4-00.pdf
++	/*
++	 * Hierarchical memory.min/memory.low protection tracking for the
++	 * memory page counter. swap/memsw, kmem and tcpmem counters do not
++	 * support protection and have no such context.
++	 */
++	struct page_counter_protection memory_prot;
++
+ 	union {
+ 		struct page_counter swap;	/* v2 only */
+ 		struct page_counter memsw;	/* v1 only */
+diff --git a/include/linux/page_counter.h b/include/linux/page_counter.h
+index 07b7cb12249c..5020e62aacb4 100644
+--- a/include/linux/page_counter.h
++++ b/include/linux/page_counter.h
+@@ -7,6 +7,45 @@
+ #include <linux/limits.h>
+ #include <asm/page.h>
  
-+  * Nuvoton NCT7715
++/*
++ * Hierarchical protection (memory.min / memory.low) tracking.
++ *
++ * Only the memory page counter (and dmem pools) participate in protection.
++ * swap/memsw, kmem and tcpmem page counters never do, so the protection
++ * fields are kept out of struct page_counter in this separate structure to
++ * save space in the common case. struct page_counter links to it via ->prot,
++ * which is NULL for counters without protection support.
++ */
++struct page_counter_protection {
++	/*
++	 * Fields up to and including children_low_usage are read and
++	 * updated by propagate_protected_usage() on every charge and
++	 * uncharge, once per level of the hierarchy.  Keep them together
++	 * so that they share a cache line: both embedders (struct
++	 * mem_cgroup and the dmem pool state) place this structure at a
++	 * cache line boundary.
++	 */
++	struct page_counter_protection *parent;
 +
-+    Prefix: 'nct7715'
++	unsigned long min;
++	unsigned long low;
 +
-+    Addresses scanned: none
++	/* memory.min and memory.low usage tracking */
++	atomic_long_t min_usage;
++	atomic_long_t low_usage;
++	atomic_long_t children_min_usage;
++	atomic_long_t children_low_usage;
 +
- Author: Frodo Looijaard <frodol@dds.nl>
++	/*
++	 * Effective values, recomputed by
++	 * page_counter_calculate_protection() during reclaim and read by
++	 * the mem_cgroup and dmem protection checks.  Not touched by the
++	 * charge path.
++	 */
++	unsigned long emin;
++	unsigned long elow;
++};
++
+ struct page_counter {
+ 	/*
+ 	 * Make sure 'usage' does not share cacheline with any other field in
+@@ -41,6 +80,12 @@ struct page_counter {
+ 	unsigned long high;
+ 	unsigned long max;
+ 	struct page_counter *parent;
++
++	/*
++	 * Hierarchical protection context, NULL for counters that do not
++	 * support memory.min/memory.low (swap, memsw, kmem, tcpmem, ...).
++	 */
++	struct page_counter_protection *prot;
+ } ____cacheline_internodealigned_in_smp;
  
- Description
-diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
-index 2d2d752aeac9..6b482f688c9f 100644
---- a/drivers/hwmon/lm75.c
-+++ b/drivers/hwmon/lm75.c
-@@ -39,6 +39,7 @@ enum lm75_type {		/* keep sorted in alphabetical order */
- 	max6626,
- 	max31725,
- 	mcp980x,
-+	nct7715,
- 	p3t1750,
- 	p3t1755,
- 	pct2075,
-@@ -259,6 +260,16 @@ static const struct lm75_params device_params[] = {
- 		.sample_times = (unsigned int []){ 30, 60, 120, 240 },
- 		.resolutions = (u8 []) {9, 10, 11, 12 },
- 	},
-+	[nct7715] = {
-+		.config_reg_16bits = true,
-+		.set_mask = 0x8060,	/* 12-bit mode, 4 samples / second */
-+		.clr_mask = 0xc080,	/* no one-shot mode, clear conversion rate */
-+		.default_resolution = 12,
-+		.default_sample_time = 250,
-+		.num_sample_times = 4,
-+		.sample_times = (unsigned int []){ 125, 250, 1000, 4000 },
-+		.alarm = true,
-+	},
- 	[tmp100] = {
- 		.set_mask = 3 << 5,	/* 12-bit mode */
- 		.clr_mask = 1 << 7,	/* not one-shot mode */
-@@ -417,6 +428,7 @@ static int lm75_read(struct device *dev, enum hwmon_sensor_types type,
- 		if (attr == hwmon_temp_alarm) {
- 			switch (data->kind) {
- 			case as6200:
-+			case nct7715:
- 			case tmp112:
- 				*val = !!(regval & BIT(13)) == !!(regval & BIT(2));
- 				break;
-@@ -486,6 +498,7 @@ static int lm75_update_interval(struct device *dev, long val)
- 		if (data->params->resolutions)
- 			data->resolution = data->params->resolutions[index];
- 		break;
-+	case nct7715:
- 	case tmp112:
- 	case as6200:
- 		err = regmap_update_bits(data->regmap, LM75_REG_CONF,
-@@ -848,6 +861,7 @@ static const struct i2c_device_id lm75_i2c_ids[] = {
- 	{ .name = "max31725", .driver_data = max31725 },
- 	{ .name = "max31726", .driver_data = max31725 },
- 	{ .name = "mcp980x", .driver_data = mcp980x },
-+	{ .name = "nct7715", .driver_data = nct7715 },
- 	{ .name = "p3t1750", .driver_data = p3t1750 },
- 	{ .name = "p3t1755", .driver_data = p3t1755 },
- 	{ .name = "pct2075", .driver_data = pct2075 },
-@@ -972,6 +986,10 @@ static const struct of_device_id lm75_of_match[] = {
- 		.compatible = "nxp,pct2075",
- 		.data = (void *)pct2075
- 	},
-+	{
-+		.compatible = "nuvoton,nct7715",
-+		.data = (void *)nct7715
-+	},
- 	{
- 		.compatible = "st,stds75",
- 		.data = (void *)stds75
+ #if BITS_PER_LONG == 32
+@@ -49,18 +94,33 @@ struct page_counter {
+ #define PAGE_COUNTER_MAX (LONG_MAX / PAGE_SIZE)
+ #endif
+ 
+-/*
+- * Protection is supported only for the first counter (with id 0).
+- */
+ static inline void page_counter_init(struct page_counter *counter,
+-				     struct page_counter *parent,
+-				     bool protection_support)
++				     struct page_counter *parent)
+ {
+ 	counter->usage = (atomic_long_t)ATOMIC_LONG_INIT(0);
+ 	counter->max = PAGE_COUNTER_MAX;
+ 	counter->parent = parent;
+-	counter->protection_support = protection_support;
+ 	counter->track_failcnt = false;
++	counter->prot = NULL;
++}
++
++/*
++ * Enable hierarchical protection (memory.min/memory.low) on @counter.
++ * @prot and @parent are the protection contexts of @counter and its
++ * parent page counter respectively. Only the memory page counter (and
++ * dmem pools) call this.
++ *
++ * The remaining members of @prot (emin, elow and the usage counters) are
++ * expected to be zero already, so @prot must come from zeroed memory.
++ */
++static inline void page_counter_init_protection(struct page_counter *counter,
++						struct page_counter_protection *prot,
++						struct page_counter_protection *parent)
++{
++	counter->prot = prot;
++	prot->parent = parent;
++	prot->min = 0;
++	prot->low = 0;
+ }
+ 
+ static inline unsigned long page_counter_read(struct page_counter *counter)
+diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
+index 4683f3d68022..a4bac0d5ac3b 100644
+--- a/kernel/cgroup/dmem.c
++++ b/kernel/cgroup/dmem.c
+@@ -88,6 +88,7 @@ struct dmem_cgroup_pool_state {
+ 	struct rcu_head rcu;
+ 
+ 	struct page_counter cnt;
++	struct page_counter_protection prot;
+ 	struct dmem_cgroup_pool_state *parent;
+ 
+ 	refcount_t ref;
+@@ -426,8 +427,9 @@ alloc_pool_single(struct dmemcg_state *dmemcs, struct dmem_cgroup_region *region
+ 	if (parent)
+ 		ppool = find_cg_pool_locked(parent, region);
+ 
+-	page_counter_init(&pool->cnt,
+-			  ppool ? &ppool->cnt : NULL, true);
++	page_counter_init(&pool->cnt, ppool ? &ppool->cnt : NULL);
++	page_counter_init_protection(&pool->cnt, &pool->prot,
++				     ppool ? &ppool->prot : NULL);
+ 	reset_all_resource_limits(pool);
+ 	refcount_set(&pool->ref, 1);
+ 	kref_get(&region->ref);
+@@ -480,8 +482,9 @@ get_cg_pool_locked(struct dmemcg_state *dmemcs, struct dmem_cgroup_region *regio
+ 		/* ppool was created if it didn't exist by above loop. */
+ 		ppool = find_cg_pool_locked(pp, region);
+ 
+-		/* Fix up parent links, mark as inited. */
++		/* Fix up parent links (counter and protection), mark as inited. */
+ 		pool->cnt.parent = &ppool->cnt;
++		pool->prot.parent = &ppool->prot;
+ 		if (ppool && !pool->parent) {
+ 			pool->parent = ppool;
+ 			dmemcg_pool_get(ppool);
+diff --git a/mm/hugetlb_cgroup.c b/mm/hugetlb_cgroup.c
+index ecb6e0b7819a..7fdae504cfc6 100644
+--- a/mm/hugetlb_cgroup.c
++++ b/mm/hugetlb_cgroup.c
+@@ -108,8 +108,8 @@ static void hugetlb_cgroup_init(struct hugetlb_cgroup *h_cgroup,
+ 		fault = hugetlb_cgroup_counter_from_cgroup(h_cgroup, idx);
+ 		rsvd = hugetlb_cgroup_counter_from_cgroup_rsvd(h_cgroup, idx);
+ 
+-		page_counter_init(fault, fault_parent, false);
+-		page_counter_init(rsvd, rsvd_parent, false);
++		page_counter_init(fault, fault_parent);
++		page_counter_init(rsvd, rsvd_parent);
+ 
+ 		if (!cgroup_subsys_on_dfl(hugetlb_cgrp_subsys)) {
+ 			fault->track_failcnt = true;
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 791e536efaeb..94c538ea3cb5 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -4296,25 +4296,30 @@ mem_cgroup_css_alloc(struct cgroup_subsys_state *parent_css)
+ #endif
+ 	page_counter_set_high(&memcg->swap, PAGE_COUNTER_MAX);
+ 	if (parent) {
+-		page_counter_init(&memcg->memory, &parent->memory, memcg_on_dfl);
+-		page_counter_init(&memcg->swap, &parent->swap, false);
++		page_counter_init(&memcg->memory, &parent->memory);
++		if (memcg_on_dfl)
++			page_counter_init_protection(&memcg->memory, &memcg->memory_prot,
++						     &parent->memory_prot);
++		page_counter_init(&memcg->swap, &parent->swap);
+ #ifdef CONFIG_MEMCG_V1
+ 		WRITE_ONCE(memcg->swappiness, mem_cgroup_swappiness(parent));
+ 		memcg->memory.track_failcnt = !memcg_on_dfl;
+ 		memcg->memsw.track_failcnt = !memcg_on_dfl;
+ 		WRITE_ONCE(memcg->oom_kill_disable, READ_ONCE(parent->oom_kill_disable));
+-		page_counter_init(&memcg->kmem, &parent->kmem, false);
+-		page_counter_init(&memcg->tcpmem, &parent->tcpmem, false);
++		page_counter_init(&memcg->kmem, &parent->kmem);
++		page_counter_init(&memcg->tcpmem, &parent->tcpmem);
+ 		memcg->tcpmem.track_failcnt = !memcg_on_dfl;
+ #endif
+ 	} else {
+ 		init_memcg_stats();
+ 		init_memcg_events();
+-		page_counter_init(&memcg->memory, NULL, true);
+-		page_counter_init(&memcg->swap, NULL, false);
++		page_counter_init(&memcg->memory, NULL);
++		page_counter_init_protection(&memcg->memory, &memcg->memory_prot,
++					     NULL);
++		page_counter_init(&memcg->swap, NULL);
+ #ifdef CONFIG_MEMCG_V1
+-		page_counter_init(&memcg->kmem, NULL, false);
+-		page_counter_init(&memcg->tcpmem, NULL, false);
++		page_counter_init(&memcg->kmem, NULL);
++		page_counter_init(&memcg->tcpmem, NULL);
+ #endif
+ 		root_mem_cgroup = memcg;
+ 		return &memcg->css;
+diff --git a/mm/page_counter.c b/mm/page_counter.c
+index 98322803941a..aa1f9a9a314f 100644
+--- a/mm/page_counter.c
++++ b/mm/page_counter.c
+@@ -16,7 +16,7 @@
+ 
+ static bool track_protection(struct page_counter *c)
+ {
+-	return c->protection_support;
++	return c->prot != NULL;
+ }
+ 
+ static void propagate_protected_usage(struct page_counter *c,
+
 -- 
-2.43.0
+2.43.7
+
 
