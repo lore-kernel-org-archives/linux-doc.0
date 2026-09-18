@@ -1,184 +1,306 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021072.outbound.protection.outlook.com [52.101.100.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C64503BCB;
-	Fri, 18 Sep 2026 15:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9936A4F3ED4
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 15:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789746257; cv=fail; b=R+WdzQU/opPWiD4bzgf7zuPp/Pq9VvoFAdm1+clncIpmqrue7l7IIOWZk36nBlLWKTMg2ZzSLJgF9DvTVfkGuPAoBexuS1QqmtJuY9YFXKzfVcLxMTTkpDNjVNriBKa4DVCiUKzjgQb3mDOPJezNF5g145B1nPQ2ioLHOiyhlUs=
+	t=1789747114; cv=pass; b=ZCCZhUAjNG/YESPvWtwBfI0lKX6Bm/P4+/zZ5fGi9zsRMDhaBFLxDbdkyXEXBW+pDgrYMleK/5Sp72+gLN1rtQl/xTRxC9/XqrkwVFyXFCxtnRiJdOIgmxCbpXxEfSKgVoHpg4KSaAFxIz8V4jxjv+a7CqBlkijKyboTPl8tLAU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789746257; c=relaxed/simple;
-	bh=dcN+qnDLI/wBS+UK5TZ8A2iCW8xjQlDpK353mEW0Tp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YBp+Bvp5KwtR0AVBMbrhziSEPeT+uwUD3PmnQv/IRXpEGnWU0RpOWfJUfGhFGCayeHBsUK1IKf0Gl0GEpKNTO806B+eNGlFJUVmRMZijQjTTJu+q3J8dZvcBA3HWk1V44KU8n6fSqSVNKqJ6UP20nTgfcLMkNzWEOYlynl5vilw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.100.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lpE0G4UXCu/uJrsxmij+ISV55KR4eIuMofvRJ/kRFcraN2nF4Xx516QWSRazLxmfDzhFpmjGHHm/9069HQ0gOohxjBn0csJJXVWcL8FqGy1AglKv3jlnsKfKj/qbNscvafwmgdW66IG1CI8FRuZydsFkxHtZLrMnA/GpvTkELJw2eKtea4CCiU4JxCmDb4Dtbh0omZ0RrM67vXisddHhMzl/6RuCiahtkAuoCxH4cGhMj5b2QzetwkTASFuOADnfIqp9Qq5AlTelH5kqt+NzzhybGvYT+7HtqpJUx36CZuauJA/cFce35jvhkOJoSoR5Ugd89EotBzN0B402rExFQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=APNEUdWFcLdZMIaIxMndyzxJZd/tdxdGGgaeDY36WoY=;
- b=bEGo5MwFzyc4v/tXohLVafrnt2+aXyDZLT4s0e4UHKAQ23C6GRqyTZ+T7gJ2OSBZi+XmiBWsRUu23RJMdMCvsjXME/Aje21MKRAxXHz0fNU1FVOJ+9F5wPykv65qbnYkb2a2kTVhPQurJjAnQziosptyZxwo+Ztg8vhZ5ziuUoBrKsfhzCPMM6HCOa4wfJ2gYtLgCfuCeF1QkXvZgDir6Kkc+jcN+40wRkwXRFpMAzzLPZz/dbFXxOGCVzIQ/9H8FRGDoPjU+TehFhwd4KGN0USN4h/4l7gZi8o/804rW9fEUeCeBb1G9QUJ3NdlJ9XOp7AJGn/IYKLKSmsjFZN4eQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
- by LO9P123MB7964.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:3e3::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Fri, 18 Sep
- 2026 15:44:09 +0000
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0428.011; Fri, 18 Sep 2026
- 15:44:09 +0000
-Date: Fri, 18 Sep 2026 11:44:05 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>, 
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] module: fix up documentation for add_taint() and
- add_taint_module()
-Message-ID: <k7pmsxqohlkatvwhd4bngycdlegc4d7ss4gj7ghanajga5zsms@ixjphhjwqbue>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
- <20260914-bind_taint-v4-2-eadf8a090903@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260914-bind_taint-v4-2-eadf8a090903@linuxfoundation.org>
-X-ClientProxiedBy: BN0PR03CA0015.namprd03.prod.outlook.com
- (2603:10b6:408:e6::20) To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:183::5)
+	s=arc-20240116; t=1789747114; c=relaxed/simple;
+	bh=AzF/BNQ7RIcuXs/Va13t9WQbgmTvpVxCmCAovciey/I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f0H7pQ3YxkAsOGP1wahbKfiIcjgvxdO3P6dKtfRnJ2uc1wbn5IR2ZHuocmO+VThpFKLrle62DbiullCF7M6R7LsGUiibSUQOTdf3RiWZ3zoYfZQEbCmvHrq0e/Gq95yD7uxqdyERSOX/uKuGaHloGZalDKhwI/0vdUOGw7sMUAw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DMWQZyk9; arc=pass smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DMWQZyk9"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f9f0b20so149538466b.3
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 08:58:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789747110; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qAOLRsY6h8kQaCN7ACIpKtgvvWqXSkJs6l/i3RWtFSPShk+NqUDchoZjZYAqAQodri
+         bu1Q2AsgDiVrznWcR/9irk7IE7rAGBOoNSqfTWPmk5zg1k4sjS5312fg7EhJntJJnTV4
+         F7sRPSbNRAW6y4pm7DbStI60nhkOGMkioYVj8qGN9jc6phIHw7YU1/QcSfLYW9eoNnq9
+         wJJ1BQQYGzoHRVQDi2fCRGM2BvtSzSNYBDhAdkqJEOT82uXSHzH9JIeCRHuU71usuNM6
+         NYyIlKGl1eQDmVmaIObovLQE/0gh6/JUWusHB2ddvG3hlSg1BDxqJVH2GhXWT2UjX1kE
+         ASSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=y42X9+7LyLcCK+Af5Fjqf9gTdz/QZrAInZikBHre8gg=;
+        fh=lZas8ZKjeVJM69yVzK4sMBbfresdr/3db/U6JPo2xmY=;
+        b=jcwAFAGznDfir5p6BekfcBG4vN/LrfimtBpf4frKixETdLm8+OMwnsvwlhuqPiYmw6
+         i0/Oka97qyfhcCdC8BCNDnp4AlcVwdzCrR8GuG5uLAIAX1Rs7Oh/dcHS85LjvyHF0yTz
+         +OZwHknTPP6JdXzWn/YB5tKv8bFrn8+J/gv5zSrRCeCrjTcMRf+kDDNXiIBdXIyE6rtd
+         1+OsJ469oE3OVhJcEdzneX7BeA98CnNkO/j7XX6V23VdS3EVQyvEXaDkxDTjmfFhQ/sf
+         fpXHPPM080KuXVL4csnKDijin06Y4du7Dihhf/c1ujkg1+xf4RRsnzL/OhPEAuKz9oXK
+         fl2w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1789747110; x=1790351910; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y42X9+7LyLcCK+Af5Fjqf9gTdz/QZrAInZikBHre8gg=;
+        b=DMWQZyk9Z6tKjJ261i3bD03dczqhgOV6AIWihMQOcB8Xfbjl7OwrPZfsc1KNgsDFeX
+         t+afJfH5kyXuqvYZWLB30aWkxIjYlLEKAbgG/eV8U7APHJWv1sIWoCU2T5FPVTHlpdZ5
+         99QXaZPQZONER30xShQOIcGOUZNvpGXHzaBSdC42tqqSNOR2nYOBsAFG4FMlkURYN7Pb
+         NJYf/d7K8FtBu/i4R0a4hrlxIbNd+xrbVJJS4y50AarN+XdMpEKrZbZrRroGPQQnJqBm
+         F8MLgSXNyhpZ9FbwJOJfObBRriezri0TjAHOAoxmj/teWYCX1L7RZoGZZP7K0Z9n/rzj
+         lx4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789747110; x=1790351910;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=y42X9+7LyLcCK+Af5Fjqf9gTdz/QZrAInZikBHre8gg=;
+        b=Mq4sX6be65YIjaUuJd+xvUsW68d8GtQof6qV3EZ/rx7jFNB008Xvmi5Gqnhwyajqkn
+         w9HPh1GI2burQNZBS67IMerKQNaO9jbvw4UeaHz6M6co3IpIU9LurQWm1Nn8SkVUCaw+
+         nx/0A7Y2Ns7+rT6+DRcP566ouH42GumaxfSwWlAv7x6puMT89+RzpRpm7Y+iSRJesMB1
+         J0febgnTaRBZp4nzRa0h6cWThiIN1AdOmUU2L9LSyRj8OQTmuL/RTCZb3dsjYid0IYHp
+         c4Y71kkpdhYrrygkM2+scdOCQD3GeL0khmMgGPvBrPJOR896ng3lchDVOPjKQaYS1nwW
+         NbzQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy0hfjbN7/9fzrBx3lzDTBIKL3cb+NjqS0Bju1wVVXZlF3NClqutbMz1Wr1jDKGFExZWMJxuVjqU50=@vger.kernel.org
+X-Gm-Message-State: AFuF++nxucTs4si+IbNoigx3m6ozCCnox3by2eOfV0JWRHwUmTRkwCCq
+	/V37XKo6MnSjHcToZOXwivQIy37G/NIFWdTl3VARM0ckW+i27WZ/WRJl3iqzJs4TrvuNnKhBbUZ
+	mDIzHFiRgluy4DCwiWCXsMmJYOuIvQ5570VMLbAmIzw==
+X-Gm-Gg: AYBFou23yjtygCmdT4dfJiRbTkVzo/iuPf9MlXtQGCTA3WmjwtG02woDsRhcRj4Yg79
+	hFjlzuz3+JCC2tuDZw0ON2R9O9LIvg/PWWCXsFSQ3UAZ0N+6Al3Ag9EbhyEdIb3xLMdm09TEe+0
+	MTRTNOOgDSdsu+AGEDTqzw63BNgEYDxXxgFYNiwbqXWyZVoOIj74aePzzL8WsPWUsm+KPkScJTn
+	b9hXCyXXVyX93Yk6iFLmyFWlzP6unkFDxpxs4UNzx6f3zll2658NfXXVKnrVUJJgaRVqaDsIJuJ
+	rlU+zSftJNM2ye4xztsjUVNHODLF/z/wvhKfbVh6i1tywxkket+qawe+Z75JeexHNRCNb6aTgvx
+	9I28hFfYZ2lMoSFoECCBd+vU=
+X-Received: by 2002:a17:907:9813:b0:c29:f5d8:9c71 with SMTP id
+ a640c23a62f3a-c2a15812476mr292824166b.32.1789747109774; Fri, 18 Sep 2026
+ 08:58:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|LO9P123MB7964:EE_
-X-MS-Office365-Filtering-Correlation-Id: caae861a-cb6a-486a-b7de-08df159bae06
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|6133799003|4143699003|22082099003|10067099003|56012099006|18002099003|27256017;
-X-Microsoft-Antispam-Message-Info:
-	U/ngbM+fNTf4WZnRAG/cFvTUVQs6gAXmzcOUw0yY0jtXiUb4s6CCV4b6z4XYWB71cdGmMZGDYiPbgKolmnjBQAgxWHsRgZ/H/ZVaHB/8I6vasaNx+ogzbUjkynH7NuaGFDjqhkwm+eon/mj0BXa/X7A9xhBjZbBz8V3neWJNbz1etTk4Ot2Mdykb44sGMQpGKQF114vG0fjjEXyjeKgHQOQ2dEUfE+JVtkN/SSDVQccohy3VBy88tBrAe5qR/8YXBBy0bpss3nmGEjps3yPgmdbuqs8lR38PWC6nLGQmHH3eLgluryc63e0F4mt8G7OAoLWWf+/1jMND+ZKQ1NuZlSiZBGer4AVlpwBWlto/43Q96oOcOa/rB3y5cF57XzTfwnrLQWmarxgILaJHk1wiJyStEGRj5y1JbNb8rVU+VdIM3BNWcMnRcD8HgRR5CSkFfevuW07oPz9U5fAVmsm06GuMsSs3gUzRE1dI0H0F6UckdrSVT4tXztSA5vHME1hqyl0TxKhHJ9vTPssOtnrpc+AL28BYbkVkSIf/HiKDZnlq057Sa/mb9GEBr1rSgN9RKyS7x2uFDe4V2IHEf5jfSs5gHEmsAEJWuyeXNruDZBJ11Xs8jPl3TgS0q+6Cbmtbw1qLB0MEKMwCdSTvzHBL5a8fFX24Sqi7MdtZVe0Kjzx2v1E0mXlAXq+/yK4VRq9x1le9bGk/r+Wf21EJKlnRDA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(6133799003)(4143699003)(22082099003)(10067099003)(56012099006)(18002099003)(27256017);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TWRkZTlJcHdBUVRSRHVuV2NZTThrTk5NTVd0SVBaZW5SZWJKZDRES1BXRnh0?=
- =?utf-8?B?OVdHazJieTFyMzBGVkNHTWFVSlFoMkR5ZDVBQnR5dUpxV1lSU2FqQkIwQk0z?=
- =?utf-8?B?R24vWWx6WXBKQjBweEpvcU1sYm1CeVJod1FTL0VMMm9SZTJObEtoTmJPbWJN?=
- =?utf-8?B?U0tieXN6Qzlma3I1ZUpIdDBReVNsNTNRVzNFWmJ6UHVwalRXbWY5dXNpMFB1?=
- =?utf-8?B?QlVpcWgrakhxN3c0alJoK09pT21MWlVpZ3VSMnBoYVJQMjZRTmgwZU12elhL?=
- =?utf-8?B?VEJZQVNDYjhnQjVhRE16TWxxVGpnQkdXQk90bW1KWDgwbU9QUlMrQ3BPclVY?=
- =?utf-8?B?dUNYNXZGdlUrQ3l5MStGSXhZbXErakpuRFdXbFR1T0kyK05OK1NJZDJ5dGQ2?=
- =?utf-8?B?WTBFT1NNdGp6RGZRMFZWODhNV3hiOFAwY2R0alk1VTh3dXAzc0k4REc2L1Fn?=
- =?utf-8?B?VjVlR2xNWHc4d3N4RGJsR21xV1pta3VzcHdVRGF1ckwwUWJpcFBNdU9UU3BX?=
- =?utf-8?B?SmJWUllkeDNIQUtsR0JYQlA0ZGJGRkFnTjV3anI5MFJtZWtlWlRrTVZnYnE2?=
- =?utf-8?B?T21yeHlKWDBvaXcwVXlpWTFHNzljTHpuV015L0hRRFNIZStmb1F6aC8zTXRG?=
- =?utf-8?B?QjdrYXQyRTNTNk1vMTQ0Z3pyWlFJc3dTTStCQzBFTGptS215Y1ZVOTJ3VG5y?=
- =?utf-8?B?TlZZZlFGeEdKM0FPSWdjMU44MG9RZnQ1clErWVRNRlF3c3J4Y3BLWVVBMTgv?=
- =?utf-8?B?aXNJZ0pSR0ZzOGpiaWZONEI3bnlEZ2lqdW9QaVZpYnRxbjV3R3ZTUktvM09L?=
- =?utf-8?B?SHJUd0IwbTE1OVcvNkJoWkdyRm9SK3U1Z1ZQM1hid25VRkhtWldjMXV0UUNo?=
- =?utf-8?B?SUNIcHNVakFORTR1Y3crVk1CT091UVhkdXZSck1jR1IxYytyQnIwT1p3c3l4?=
- =?utf-8?B?WUJUejUyTVFmc0creFpiK0xYNDVLalR1OVAveENoblpSc29tM1dQekwwVHht?=
- =?utf-8?B?NVdaLzFBd1pVK3ZLYUtrOWlZSHc3L0pGNklpdEpJZVk2cTZ6VmxJZHg5d1JD?=
- =?utf-8?B?Sjhvai9KaG11SHY1YktoSTYzdUpCNnBmUzh2SFV3MU81NUZ2ZWlhZHdCK2M3?=
- =?utf-8?B?M01veUF0YTFUdmkwZEFFMGpnRjFUTFl5N3l6QmlJUUt1REJ2NStqa2w0TGg4?=
- =?utf-8?B?bUpxWGF3b3JkSUdZcG1SdG40Q0x3QVZxbHlBODhwOVNqc2drR1dxWkIra3V1?=
- =?utf-8?B?amdKZU9HZ0JIdmtUTW9lQ084Zk9OQ1BVYkpPLzNWZGdodG4vTUxkVmY1T2Vy?=
- =?utf-8?B?VTJkUHJBLzE5TXNHL3R5Y1htU0JRdjZEbk9MZ3pBRzFUbFBGVFgrditJdU9U?=
- =?utf-8?B?UnBtYmZkZ2FtYzhieWR6RkJCM3lEQjE4Rk1XNWdUaDJVaWMyTWc5b013VmZt?=
- =?utf-8?B?QkNhdFl0RUNUcnlzZ3JKOWxSa01WRG1kMVpXdjZUSFBUWjQrNDFBRnRtUzdm?=
- =?utf-8?B?amVoeUxEVWkyamZJamUyRXNzT3FIdzZoQndBSnl4Zmo3NlplTkVOby9kV00x?=
- =?utf-8?B?M2QvTjdLMThWY2tzOGhWbnJaZ3REbGNlbVEwb1pLaVBjZzBEUzNGQlV6VzJB?=
- =?utf-8?B?RXM1dVRZdHpHNFBLditpaTFSQk56MUZDZ2N2SlVMVUc0OVh6Y0U5U0FjUkhS?=
- =?utf-8?B?d1puV0s5MG9NQmxlOCttME80SU1QRWYwTnpsdDBDN3JyRTNMam5uSGhGaFg2?=
- =?utf-8?B?NXZGL21QT3dmQTRheTM5aVZNVHFsMlBMMHMxTG5MelNHTmdUbjNqTEttazZy?=
- =?utf-8?B?SFowMW5NZ2xJclh1MUJOWXB6ZEhGbVVGbHRtQ2pTSWoxSERHd2I2c0ZUMjdS?=
- =?utf-8?B?a2lqZXhXd1dHaVlMbzBFRm04QmtmSGhOQ1M4dmtsNVd6aGM3ZW8wRC9Kcllp?=
- =?utf-8?B?TEJmcUI3RWVaYk1PY29ocldsVTJ3ZFE5QitiaGorWHhzV3BDazgwLzVDcDU2?=
- =?utf-8?B?VGoxdGVXM1V1UldyT2x3djJWWndFL01INTJrb2o1UEowaW04RnIyZHVvUUFE?=
- =?utf-8?B?OUlMZXVjbzFHR1hwSWRuNGlxWVMrVU5TTWdHNG83Q05RdkV3Szg0SGZGQzcv?=
- =?utf-8?B?TTN4Nk5lS0xwVEN2NmtIMGNuczQ3RjVhRmJtS0FRakxoK0I4TkhPUUNsR1pB?=
- =?utf-8?B?ZHlnQmhIRElhTS83VU5mQXo4MVE1dnVBME9OYkR1Mit6aVpWZE9nandROWVF?=
- =?utf-8?B?dUJUVkR5bUp1cStqRVJpMllaMEpib0hXVFZucE9oc0kzZzJBZzBKTk1VUjVr?=
- =?utf-8?B?djlZTGJyNzRURHZUL1IrVUF4d2QxUTcycGVPZUs5bnhlNit5VGdnQT09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: caae861a-cb6a-486a-b7de-08df159bae06
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 15:44:09.4820
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P9FwN7Cf9BCRVlvjhwpdUe570gPyc2QWncyaDZuG5DB0AOtPezpYkhkfXmsUQcLvlNyh43dgSP3CNvNI5XRX3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO9P123MB7964
+References: <20260917140707.3807229-1-arighi@nvidia.com> <20260917140707.3807229-2-arighi@nvidia.com>
+In-Reply-To: <20260917140707.3807229-2-arighi@nvidia.com>
+From: Vincent Guittot <vincent.guittot@linaro.org>
+Date: Fri, 18 Sep 2026 17:58:17 +0200
+X-Gm-Features: AcwNN1Vt0IfO0HK__f28wKscCa1yq1Ie4GWMEpburg_ccDIGb0uvVB_j-52mBJg
+Message-ID: <CAKfTPtDBcN5=++vTmcqkCqxdemeDFFVu54vy0Omh2Ui7LNwLTQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] sched/fair: Honor asymmetric SMT priority in idle selection
+To: Andrea Righi <arighi@nvidia.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Will Deacon <will@kernel.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Christian Loehle <christian.loehle@arm.com>, Srikar Dronamraju <srikar@linux.ibm.com>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>, Phil Auld <pauld@redhat.com>, 
+	Breno Leitao <leitao@debian.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Lee Trager <ltrager@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 14, 2026 at 04:30:32PM +0200, Greg Kroah-Hartman wrote:
-> When add_taint_module() was added, the documentation for it was copied
-> directly from add_taint().  But that documentation was a bit wrong
-> (wrong variable name, and misleading boolean reference.)  Fix up both
-> functions to have the correct documentation for how to use the
-> lockdep_ok parameter to these functions.
-> 
-> Reported-by: Petr Pavlu <petr.pavlu@suse.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Thu, 17 Sept 2026 at 16:08, Andrea Righi <arighi@nvidia.com> wrote:
+>
+> POWER7 uses SD_ASYM_PACKING at the shared-capacity SMT level to order
+> hardware threads, and NVIDIA Olympus benefits from the same policy. Idle
+> CPU selection does not consult that order, so a task can wake on an
+> arbitrary sibling and remain there until load balancing corrects the
+> placement. On these systems, that initial choice can prevent the core
+> from entering its preferred lower-thread resource mode and cause a large
+> and persistent performance loss.
+>
+> When idle selection finds an available CPU in an SMT core, choose the
+> highest-priority available sibling. On SMT2 Olympus this only changes
+> selection on fully idle cores. A partially idle core has only one
+> available CPU. On wider SMT systems such as POWER7, it also fills
+> available siblings in priority order while the core is partially busy.
+>
+> Apply the preference to idle-core and idle-CPU scans,
+> asymmetric-capacity scans, target, previous, recently-used CPU fast
+> paths and the slow path. Inspect the lowest scheduling domain directly,
+> but require both CPUs to share its span because isolcpus can split
+> hardware siblings across scheduling domains.
+>
+> Keep physical-core capacity selection independent from SMT sibling
+> ordering. SD_ASYM_CPUCAPACITY first selects among cores with different
+> maximum capacities, then SD_ASYM_PACKING selects the preferred available
+> sibling inside the chosen core, whose siblings continue to share equal
+> capacity.
+>
+> Reviewed-by: Srikar Dronamraju <srikar@linux.ibm.com>
+> Reviewed-by: K Prateek Nayak <kprateek.nayak@amd.com>
+> Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
+> Signed-off-by: Andrea Righi <arighi@nvidia.com>
+
+Reviewed-by: Vincent Guittot <vincent.guittot@linaro.org>
+
+
 > ---
->  kernel/module/main.c | 5 +++--
->  kernel/panic.c       | 5 +++--
->  2 files changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index 444d990c9983..369794876c3e 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -197,8 +197,9 @@ static inline int strong_try_module_get(struct module *mod)
->   * @flag: one of the TAINT_* constants.
->   * @lockdep_ok: whether lock debugging is still OK.
->   *
-> - * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
-> - * some noteworthy-but-not-corrupting cases, it can be set to true.
-> + * If something bad has gone wrong, you'll want
-> + * @lockdep_ok = LOCKDEP_NOW_UNRELIABLE, but for some
-> + * noteworthy-but-not-corrupting cases, it can be set to LOCKDEP_STILL_OK.
->   */
->  void add_taint_module(struct module *mod, unsigned flag,
->  		      enum lockdep_ok lockdep_ok)
-> diff --git a/kernel/panic.c b/kernel/panic.c
-> index 213725b612aa..892045d8409e 100644
-> --- a/kernel/panic.c
-> +++ b/kernel/panic.c
-> @@ -948,8 +948,9 @@ unsigned long get_taint(void)
->   * @flag: one of the TAINT_* constants.
->   * @lockdep_ok: whether lock debugging is still OK.
->   *
-> - * If something bad has gone wrong, you'll want @lockdebug_ok = false, but for
-> - * some notewortht-but-not-corrupting cases, it can be set to true.
-> + * If something bad has gone wrong, you'll want
-> + * @lockdep_ok = LOCKDEP_NOW_UNRELIABLE, but for some
-> + * noteworthy-but-not-corrupting cases, it can be set to LOCKDEP_STILL_OK.
->   */
->  void add_taint(unsigned flag, enum lockdep_ok lockdep_ok)
->  {
-> 
-> -- 
+>  kernel/sched/fair.c | 85 ++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 68 insertions(+), 17 deletions(-)
+>
+> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+> index 4d0b94465d19e..8e6dc3a657cca 100644
+> --- a/kernel/sched/fair.c
+> +++ b/kernel/sched/fair.c
+> @@ -8598,6 +8598,35 @@ static inline bool test_idle_cores(int cpu)
+>         return false;
+>  }
+>
+> +/*
+> + * Redirect a CPU to a higher-priority available sibling in its SMT domain,
+> + * subject to task affinity.
+> + */
+> +static inline int select_idle_smt_cpu(struct task_struct *p, int cpu)
+> +{
+> +       struct sched_domain *sd;
+> +       int best = cpu;
+> +       int sibling;
+> +
+> +       if (!sched_smt_active())
+> +               return cpu;
+> +
+> +       sd = rcu_dereference_all(cpu_rq(cpu)->sd);
+> +       if (!sd || !(sd->flags & SD_SHARE_CPUCAPACITY) ||
+> +           !(sd->flags & SD_ASYM_PACKING))
+> +               return cpu;
+> +
+> +       for_each_cpu_and(sibling, sched_domain_span(sd), p->cpus_ptr) {
+> +               if (sibling == best || !choose_idle_cpu(sibling, p))
+> +                       continue;
+> +
+> +               if (sched_asym_prefer(sibling, best))
+> +                       best = sibling;
+> +       }
+> +
+> +       return best;
+> +}
+> +
+>  /*
+>   * Scans the local SMT mask to see if the entire core is idle, and records this
+>   * information in sd_balance_shared->has_idle_cores.
+> @@ -8982,7 +9011,7 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+>
+>         if (choose_idle_cpu(target, p) &&
+>             asym_fits_cpu(task_util, util_min, util_max, target))
+> -               return target;
+> +               goto select_smt_priority;
+>
+>         /*
+>          * If the previous CPU is cache affine and idle, don't be stupid:
+> @@ -8992,8 +9021,10 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+>             asym_fits_cpu(task_util, util_min, util_max, prev)) {
+>
+>                 if (!static_branch_unlikely(&sched_cluster_active) ||
+> -                   cpus_share_resources(prev, target))
+> -                       return prev;
+> +                   cpus_share_resources(prev, target)) {
+> +                       target = prev;
+> +                       goto select_smt_priority;
+> +               }
+>
+>                 prev_aff = prev;
+>         }
+> @@ -9011,7 +9042,8 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+>             prev == smp_processor_id() &&
+>             this_rq()->nr_running <= 1 &&
+>             asym_fits_cpu(task_util, util_min, util_max, prev)) {
+> -               return prev;
+> +               target = prev;
+> +               goto select_smt_priority;
+>         }
+>
+>         /* Check a recently used CPU as a potential idle candidate: */
+> @@ -9025,8 +9057,10 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+>             asym_fits_cpu(task_util, util_min, util_max, recent_used_cpu)) {
+>
+>                 if (!static_branch_unlikely(&sched_cluster_active) ||
+> -                   cpus_share_resources(recent_used_cpu, target))
+> -                       return recent_used_cpu;
+> +                   cpus_share_resources(recent_used_cpu, target)) {
+> +                       target = recent_used_cpu;
+> +                       goto select_smt_priority;
+> +               }
+>
+>         } else {
+>                 recent_used_cpu = -1;
+> @@ -9048,7 +9082,11 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+>                  */
+>                 if (sd) {
+>                         i = select_idle_capacity(p, sd, target);
+> -                       return ((unsigned)i < nr_cpumask_bits) ? i : target;
+> +                       if ((unsigned int)i < nr_cpumask_bits) {
+> +                               target = i;
+> +                               goto select_smt_priority;
+> +                       }
+> +                       return target;
+>                 }
+>         }
+>
+> @@ -9061,14 +9099,18 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+>
+>                 if (!has_idle_core && cpus_share_cache(prev, target)) {
+>                         i = select_idle_smt(p, sd, prev);
+> -                       if ((unsigned int)i < nr_cpumask_bits)
+> -                               return i;
+> +                       if ((unsigned int)i < nr_cpumask_bits) {
+> +                               target = i;
+> +                               goto select_smt_priority;
+> +                       }
+>                 }
+>         }
+>
+>         i = select_idle_cpu(p, sd, has_idle_core, target);
+> -       if ((unsigned)i < nr_cpumask_bits)
+> -               return i;
+> +       if ((unsigned int)i < nr_cpumask_bits) {
+> +               target = i;
+> +               goto select_smt_priority;
+> +       }
+>
+>         /*
+>          * For cluster machines which have lower sharing cache like L2 or
+> @@ -9076,12 +9118,19 @@ static int select_idle_sibling(struct task_struct *p, int prev, int target)
+>          * first. But prev_cpu or recent_used_cpu may also be a good candidate,
+>          * use them if possible when no idle CPU found in select_idle_cpu().
+>          */
+> -       if ((unsigned int)prev_aff < nr_cpumask_bits)
+> -               return prev_aff;
+> -       if ((unsigned int)recent_used_cpu < nr_cpumask_bits)
+> -               return recent_used_cpu;
+> +       if ((unsigned int)prev_aff < nr_cpumask_bits) {
+> +               target = prev_aff;
+> +               goto select_smt_priority;
+> +       }
+> +       if ((unsigned int)recent_used_cpu < nr_cpumask_bits) {
+> +               target = recent_used_cpu;
+> +               goto select_smt_priority;
+> +       }
+>
+>         return target;
+> +
+> +select_smt_priority:
+> +       return select_idle_smt_cpu(p, target);
+>  }
+>
+>  /**
+> @@ -9758,8 +9807,10 @@ select_task_rq_fair(struct task_struct *p, int prev_cpu, int wake_flags)
+>         }
+>
+>         /* Slow path */
+> -       if (unlikely(sd))
+> -               return sched_balance_find_dst_cpu(sd, p, cpu, prev_cpu, sd_flag);
+> +       if (unlikely(sd)) {
+> +               new_cpu = sched_balance_find_dst_cpu(sd, p, cpu, prev_cpu, sd_flag);
+> +               return select_idle_smt_cpu(p, new_cpu);
+> +       }
+>
+>         /* Fast path */
+>         if (wake_flags & WF_TTWU)
+> --
 > 2.55.0
-> 
-
-Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
-
--- 
-Aaron Tomlin
+>
