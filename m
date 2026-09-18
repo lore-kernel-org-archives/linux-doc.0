@@ -1,143 +1,110 @@
-Received: from mail-oo2-f40.google.com (mail-oo2-f40.google.com [74.125.231.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6DB5172C3
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 17:21:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D004FDA76;
+	Fri, 18 Sep 2026 17:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789752107; cv=none; b=aVBxeUVoi946Y3JE/exl8JxRxJA9IZ0l4k80/g5XvLMmRO8V7PdCrIJKk4RRnARGO3WIRHGP3A2oHfrvTrU4zERzONlzB+K1FLeU/2eWlnjG61nav7B6yNooPmwtnbVOmASNZEr6eaNXv7XTE7DPEDrBT1YCmL1XKlAXe8N4B/A=
+	t=1789752457; cv=none; b=estObZhX8jdZRvdCv1UCc1FBzKaL0lDdqR6axPaVdAEPAMTT4HF1cHUUeAIhxcbKzWP/gxESQ2VCxT2HjX3kb+U6yQcPpWlZuBhGe1+u65FuMwXY4eTn4xbnEsFyRAHkx51mAVGQXc2bDPw8uIXHOLO1EukL7nG5jVz0ACucVWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789752107; c=relaxed/simple;
-	bh=de5x0Zxo6F6d2MB0yVScP1sFcZZJFeuVMt4yQvyoVlA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eOu83QhXmesf0IGkEyFPPKZ/aWvvvm4DSNY888oUrqNL27sfkEBNRwoAup1sYFtfY/Gh9um/430MsQCeKQQPHlhA01eumGqZqoXlMNXG1HghEsguONAQEODdleB4YwcKAywHyJVTHcWCFS+5ueOoTbXPIgA5HYJHx7Zrs1DswME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com; spf=pass smtp.mailfrom=hammerspace.com; dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b=aLVCpAYL; arc=none smtp.client-ip=74.125.231.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
+	s=arc-20240116; t=1789752457; c=relaxed/simple;
+	bh=ZgMfgnNMTTAB7ij0Uen4FKMNSu6zr7dq79w3r1uj5DQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dairw/HrSB18BaBrDOK7TMnioRbro0jmu1tETDsbfxLvMorLfhlCHuHrqEN1XKwef/3iyCD/JMIXNcwO2yRh0rRdK9ivgU+ws2sAHjdlowRVu+G0acJtoqVNd1GPouIDzk8IyNZpoJQZLAzYfzvLrm7oaSAbt4FUURst5lJnW50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nZmMHzoC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b="aLVCpAYL"
-Received: by mail-oo2-f40.google.com with SMTP id 006d021491bc7-6b1ae6f5fc5so494595eaf.0
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 10:21:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hammerspace.com; s=google; t=1789752099; x=1790356899; darn=vger.kernel.org;
-        h=content-type:mime-version:references:in-reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BBKlhw0dOEOei2lTcRYxlQw5MM/EKQhWFk5pNENBOIA=;
-        b=aLVCpAYLsiWMtfVrSXcyzAKiRQIZD8WXF3wSqmprCpJtpl70Entfq7wa2yHy4+K6Uy
-         tGrOa4LLvUp5X9YtZz8bhWCm6RF+LxSfIr6/+9FCWttMd10LbpJhMtuxIg1VvLmeRfcX
-         WIz3tXF49p0uraQhpq5jfZhBhrOyAS13e7LmEmzTmq7OVDf79k90oQADr3CvVCWKUJQr
-         pobHkxMoXRqWoGl3yEF7Huk+wTawViIXeRoFHryYGQdLpQgyQcraGu+oRg1wHVo30aB5
-         vqy35MNNRxnLbRhTP+uZTRjmFly1sUTn1JbcyDYkqTH9E0wSRcJU3kTUcvRk9QqrKQqD
-         iiOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789752099; x=1790356899;
-        h=content-type:mime-version:references:in-reply-to:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BBKlhw0dOEOei2lTcRYxlQw5MM/EKQhWFk5pNENBOIA=;
-        b=oIdoEaOJ7EaGK7R1pMXgYLpoY8W1mSMMTYbd/brXPBp2maSAUPO2O7kXUo0/Aurpvh
-         GgS6E1G4lUYxycDXMnQik/uIq41f1l7/D52Pe5tbU6Z451wu5PtGwqEU2sljjtU6raYY
-         NqheD1E9riZMzoP+KffF6HBEfJLjfGoB75Wp3AgnywrN5KVjkHBmrzOMLNLn6mFLufW5
-         XH4UE3TMzlubhQN47WBo0W9If+5OYINU3h5/hI4yHXrTJU5dI1jnSoWb29wUQ2cN7dhp
-         pCjM1EsxsLeyOZDHHoGXY09smHscHmQzUUK+I0qkAcPYQj5cIRffXAkZPdhnXjEYUWwA
-         1Egg==
-X-Forwarded-Encrypted: i=1; AKwUvBwyBoMBlt/pJNJLH1bVSMTXzt1y29J3EXBqSXRzHsRT7rlURl08kp7AvOI6MqzKMldEFPmkbIY3M0M=@vger.kernel.org
-X-Gm-Message-State: AFuF++kI73DvxMcwMsAu1DrLIKu24vXCxY998duK7YhMW6/0n4WrJ80G
-	p4mvafF7QExPVDFaQtY0RsNAK0QgoQJQtwOr1bZsRQEFHc7oBi6PssyezEIhi+W7SSA=
-X-Gm-Gg: AYBFou2A8ny28FBS07GH+hv4ObLPMFHKQ/kNGz6GT4pvj3lzDNX53OHeaSnR1dAGte1
-	WPUUOyciuDUIvfdXE5todv6FNbh2z7S43PKEq+KpeRAvGVenYectovA5QL0+R9bHciluE6ArOZL
-	JT1uvOimlSj3v5FYHp0jrnyVGrQZ9jRuuXBBQdAMhj6BXbmz4ec/1PJa3bisYJ+Wf03WgJzfW+/
-	qx3cLzlt37aLAbi4GiTZnU2AD8bOIerA0L4rlL8AoVC5+SkgYbeI3Tol5Xs98dp41cuKQXpRhQx
-	GNurnJLBbDYLdQghnfdNn6w4Qip8ERfPMWqh2CKGE1+th+SXSSzVLQ2kztwD9lycZEwXfmYyqNO
-	QFYNHxOod2opkpm63RKIS6DSrcdizon6tIF/Gfl7HI0WwpYh/EVngO5vDvyDmo6b+m1r0S+GHm3
-	PjfovAMzqQ2lzApO38/uUUCGWpY7J7wKWfXQs0jHa1QCH7dQIdPKkSj315bJihN9G+2bpl5NI7t
-	OQaw3Tq/7JVplpkcDo=
-X-Received: by 2002:a05:6820:a284:20b0:6cd:3fdb:fa6a with SMTP id 006d021491bc7-6cd3fdbfe8dmr158239eaf.85.1789752099254;
-        Fri, 18 Sep 2026 10:21:39 -0700 (PDT)
-Received: from [192.168.254.51] ([66.97.168.37])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-48739852afasm1477855fac.7.2026.09.18.10.21.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 10:21:37 -0700 (PDT)
-From: Benjamin Coddington <ben.coddington@hammerspace.com>
-X-Google-Original-From: Benjamin Coddington <bcodding@hammerspace.com>
-To: Chuck Lever <cel@kernel.org>
-Cc: Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- Christian Brauner <brauner@kernel.org>, David Howells <dhowells@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nfs@vger.kernel.org,
- keyrings@vger.kernel.org, kernel-tls-handshake@lists.linux.dev,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC 0/5] NFS: isolate mTLS client credentials by network
- namespace
-Date: Fri, 18 Sep 2026 13:21:34 -0400
-X-Mailer: MailMate (2.0r6272)
-Message-ID: <2FBF57B6-FBB6-498F-A1F4-695D52EB89E9@hammerspace.com>
-In-Reply-To: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
-References: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nZmMHzoC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3AB21F00898;
+	Fri, 18 Sep 2026 17:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789752454;
+	bh=5sOwLbsuSvuF6ePII3dRbbexDhRaUiT2qlW2RUmkzBk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nZmMHzoCublLE0IEK9aHlvlhqE2xLByUWguh+3EqUuN7nBMN6wefu5bJW7NsVI8oo
+	 8cuRfa+t9Y3H9nyGcurlDLAY4ePQ6iB4sPUHg9xbYuB6d5/K8xq5on5u9J9FaPJn9Q
+	 febXPuvZSHNtnT99lN8PelpDzpS5m6r2HuKfDEeA=
+Date: Fri, 18 Sep 2026 18:25:38 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026091850-geriatric-overfull-3370@gregkh>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
 
-On 18 Sep 2026, at 10:05, Chuck Lever wrote:
+On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
+> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
+> > The ability to add and remove devices from a driver through the sysfs
+> > "bind" and "unbind" files was created all those decades ago as a way
+> > that kernel developers can iterate faster, and provide a debugging way
+> > for users to attempt to add a new device to a driver without having to
+> > rebuild their kernel.
+> >
+> > This api over the years has been abused and recently come under a major
+> > fuzzing "attack" through tools like syzbot which decided that it would
+> > attempt to just randomly bind any driver to any type of device, causing
+> > loads of unneeded errors and pointless kernel patches to be generated by
+> > unsuspecting new developers.
+> >
+> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+> > will be set on the driver if the bind/unbind sysfs files are ever
+> > written to.  This lets kernel developers "know" that a user is
+> > attempting to do something that is not normal, and as such, if the
+> > kernel breaks they get to keep the shiny pieces laying around on the
+> > floor.
+> >
+> > The flag is 'Y' which was unused, and can remembered as the user is
+> > "yeeting" the device being operated on here (thrown with force without
+> > regard for the thing being thrown).
+> >
+> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+> > as many times crashes/oops/warnings/failures happen within the callback,
+> > and the taint flag needs to be there to show what was being attempted.
+> > If it were to be set after the callback happens, the oops report would
+> > not properly reflect what foolishness was being attempted.
+> >
+> > Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+> > the tool from hitting bind/unbind, should be run with panic_on_taint
+> > enabled so that they fall over and don't continue on, thinking that they
+> > actually found a real issue.
+> >
+> > Userspace operations that rely on the bind/unbind files
+> 
+> I agree that this should be avoided.
+> 
+> But I also think the biggest offender really is driver_override. Specifically,
+> on a hot-pluggable bus a driver must be complient with the device driver
+> lifecycle rules and hence shouldn't break on bind/unbind. I think it would be
+> nice to not taint the kernel for such busses, and only taint on driver_override,
+> as I think we'd still want the bug reports for such cases.
+> 
+> But I think this is fine to leave for a follow-up.
 
-> An xprtsec=mtls mount names its client certificate and private key
-> by keyring serial, and tlshd reads those keys with its own
-> credentials. Each key therefore has to grant user read permission,
-> and any tlshd on the host that learns a serial can read it. Nothing
-> separates one network namespace's credentials from another's.
->
-> This series makes the network namespace the isolation domain. The
-> RFC thread asked whether the user or mount namespace is the better
-> binding. tlshd services the handshake socket of one network
-> namespace, so that is the namespace it already lives in.
->
->   https://lore.kernel.org/linux-nfs/20260602154740.49861-1-cel@kernel.org/
->
-> The keyring is held in struct nfs_net rather than found by name,
-> because /proc/keys is not namespace scoped. Its serial travels with
-> each handshake instead (patches 3-4), and tlshd's possession of that
-> keyring is what lets a provisioned key grant no user read permission
-> at all. Both ends of the link exist today, in tls_handshake_accept()
-> and in tlshd. The handshake genetlink ABI and the cert_serial= and
-> privkey_serial= mount options do not change.
->
-> Still open is how userspace names the kernel-held keyring. Patch 5
-> prototypes a request_key type handled in the kernel and tagged
-> KEY_TYPE_NET_DOMAIN. A keyctl modeled on KEYCTL_GET_PERSISTENT, or a
-> read-only attribute on the netns-tagged nfs_client sysfs kobject,
-> would do the same job if the keyrings maintainers prefer one. Keys
-> that userspace adds are quota-charged by user namespace while the
-> keyring lives in nfs_net. Confirmation that this is sane when the
-> two boundaries differ would be welcome.
->
-> nfstlskey, the provisioning tool that consumes the key type, is
-> merged in https://github.com/oracle/ktls-utils/ .
->
-> Tested on one Fedora VM acting as both NFS client and NFSD, with
-> tlshd from ktls-utils 1.4.0: NFSv4.2 mounts with xprtsec=tls, with
-> xprtsec=mtls using the identity in tlshd.conf, and with xprtsec=mtls
-> using serials that nfstlskey provisioned.
+Yeah, let's see how this goes, thanks for the review!
 
-I think this is the old upcall/namespace problem that's never been generally
-solved (as far as I know).  Here's a shameless plug to potentially revive
-the original "key agent" concept which solves this in a general way.
-
-The idea is - user space processes (tlshd) register themselves as key-agents
-that can satisfy request-key.  A key agent represents itself as a key-type,
-and the appropriate key agent is consulted for request-key if the calling
-process has that agent's key in its keyrings.
-
-Otherwise, this solution looks good - but without a general solution to this
-problem, other folks building on keyrings will keep trying to solve this
-problem.
-
-Ben
-
+greg k-h
