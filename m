@@ -1,152 +1,298 @@
-Received: from mail-qv2-f20.google.com (mail-qv2-f20.google.com [74.125.230.148])
+Received: from mail-yw1-f228.google.com (mail-yw1-f228.google.com [209.85.128.228])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B21239B971
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 03:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.148
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789701706; cv=pass; b=nqxuMreSgvf8QOLEiXKncEGE9uzzZWBOVsMhTZ2DcEFx/n7OtueNMhiTjgPd860dGCgWGKhcuf3LtoiTPrYKIzMBWQIVibBmdRQjJDEnnlyRoFqgy9acLmeY2LtPtTvnIfYn0IwuTYrnHE4jgDrweaKp8b5tUg3fOReQSF4EWZ0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789701706; c=relaxed/simple;
-	bh=rmTCDex/Z766FtnBu7Ba4CV3FoVdwmvovlkUigV94mw=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h+jTR0fNPfLlHCbmRIey9SRLbnwsKV0fsRGfM7kh+pVgRZVtritcHxlDoc6VdL93Ee7jaTL+9IwjdjT/qd8tnSSLjL7qbHe23dVyuzBqKrkNORWUAiyTFPKw/14XlXhbjBnt//H23r2g7vYoyGgbMyh+saI1NLEYCg+SMydnRJI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k0QJYxs6; arc=pass smtp.client-ip=74.125.230.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F019039793C
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 03:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.228
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789701850; cv=none; b=ZmEXpt3AZSLggV1IKybrp0vTbspc+X1R/WvF5rageE1kyjKXiefIMw3q+AD/KKRQ/dUKwTyCRfqm3AcQr3uGQDvx00grWNQNi10t+i3sjIEAlU6e1uiWrUszXYCCvS/Uh4FsVm1TU8/3oEpgUvp/n6BzOmweZeJ+ivr/vK0SwB4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789701850; c=relaxed/simple;
+	bh=QTzMtI9YEsnii+PwPeHSaDCvO4acpPBk/Ffl1EWWCqw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bpJC8zIOXcvxvcLz25XDUquEE8tFZL7XmUtgbQfWEVW84nHSzS68MfQAxltlZ/7lVqTjtQnAkYIufTRlfjOmA0a/xCr4Cgvge5G1W6wPwo1MzW+yxUTx23XExg5yGefFjLfJoGfq5PAV6aRYt5XTZto9Gsqd17IaRtrORtDriKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=D1W7RulU; arc=none smtp.client-ip=209.85.128.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k0QJYxs6"
-Received: by mail-qv2-f20.google.com with SMTP id 6a1803df08f44-90cdfc9b6e4so3553716d6.3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 20:21:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789701704; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iNTEIaiHjrpwXAN38q9sJWnuRM0nuU0VHUGzQ4KGDzmcQui7zQbfNgHCWRVamk226c
-         n9RS5wjUNsvq0uxOhOvbCY3jsFQJyyJ78+n7K+Jb5XN1kWZVmmv46gW+m/jx35KW/Nyg
-         ZPGzrZ7uCzjBe47pGCKKnyc7mpqHJgnRlPXcJ056K1Z9zSgxva+keXLKaO8H5EQ6in8X
-         r3A2nSAO/dYT5sm02znE8E9gvjCoiqj3LHv0RvMWGiKuDV6DLTEhO1l2q4dvljWCLESw
-         jVY29ZoD3LNVC8NjmwZhpXfX4ekw6K+r6lp1YUdh29FwlU8b6NMUiTbjoeWEQX5Qzc0Y
-         6Q1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=AKLDi2InWGreAxz5T4V5Lg4sL/lYAuzfpcW1EZWy0TQ=;
-        fh=gyth3zFzg5lnTP1nCmEX9KgrWyUqLU0XMKIBV9hgwTY=;
-        b=PJcIlnd8/1P1O92PsIzg8SM9ySOa74B7J7dFFBlgtdFywu1T8KrilasanGmoc+lOlG
-         BJUvZeH9cyYTdfCujng/8Qj3zcgPD2EW2BzqD5fJrrSufrqksEkuJJKyeg5uX8P90t8V
-         YiqX9tru9B0eSqOkD2zSDK0yqtcVgjc29piVayy4g8kRyfvYgpTD3pPsYrx1XT9DMDRG
-         xQvpATOhoXI/Agevwpxn+8UWhnMXdL1qZnSmce0EXs8l6ag4wnmEH/x8TnryGzFdhm/b
-         ZY9V5i5gonoCVqzIi6zAqF7DWSb6TadV8v9VeZE8cvhv6laeK5RNgDVdMQTmJ5GYd6po
-         8FZQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789701704; x=1790306504; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AKLDi2InWGreAxz5T4V5Lg4sL/lYAuzfpcW1EZWy0TQ=;
-        b=k0QJYxs6KuzAjvp9mY+SBJKxff1R2KzdiUnWvh1kxAlAbqsJAMq3PJybQDLhDqKqnZ
-         8rDeQOqi3l1B/WPwN6C/8R/VMd6kcpXGsC9IcEX2RF/Y4C+KwA3DJd7WenAvBAGkc7NP
-         MUZEdOqb1VBz7dSpOQ/EeybiMDfpwPT9LwsQu2sUV4ciyd98WeuwWQx1k26/ZBrwoS/J
-         6GMFnvWvBMjCW7LQwc5UJBkwh1drAnZuAwKqWvEYbuKGGpIUgWpiV3DhT1PlkYRu1ES5
-         E6Fy01MPxuPGApNVDAWhX2WRCHUGGP7r9HR2N1YvD/i+IPogvozPnBOrH5jwoIQUTLZj
-         nAJg==
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="D1W7RulU"
+Received: by mail-yw1-f228.google.com with SMTP id 00721157ae682-8200b55dc47so89537b3.3
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 20:24:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789701704; x=1790306504;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AKLDi2InWGreAxz5T4V5Lg4sL/lYAuzfpcW1EZWy0TQ=;
-        b=qeNmlDCdxSSR0dUt/NcRfQY/KE53QTpZVsn8Vmc7ra0a2FVuMSC+WLv6D6VKaj+Mx7
-         HeLPw1Y6c/BPlbsDS5FEBL5T5ysv3MQRj1s7EzZfuuXV1gSYcqYQhamAj0Gz0Ws52pxK
-         xqKrc+knqIE1X33OhqYD76NF9kdgBn53Q/5sYSH7Hfgdi6q6gqIW9uH9Gy0TV+hXCNaA
-         B6Q+/fw0NYUIocBQiN3L56gnV1eOvMcqnDOkTRk/6Lki84/DZklOmxT0u6uUZHF3T3a1
-         YITQ3XKyclWHv2Ue/Cq8RQ8ky0xh46vGqvaLVfOguA6nPJxtV3x/wtk0OaOfCRNUv86y
-         rVAw==
-X-Forwarded-Encrypted: i=1; AKwUvBzfa0Uv415R79JshlvaUQvmy3fcuDanvvV4AcTsooxR3vopOO4zfJAUQxlHi0ASejW09mXiKfQcO9Q=@vger.kernel.org
-X-Gm-Message-State: AFuF++mBgKsKk0Iljvg6mxJ5l4XGC3+ue21ymHeiPb4NamPWrMfJwY7X
-	NqIpyNS5n7xQ9vKGo1MSXSHxiLKXlXl1Od4m0pfvvFMAA8mxmWhf1q69wKlLhnvn1c0x4/GKpvw
-	AGPHXLxK7xhRD8UR4vkMOAxL6cyRBKFPEwxkaRqUZ
-X-Gm-Gg: AYBFou1KmWNZvBBzM1NC91JOdJM8KwWo6yCzc6B2qVvG+xi2HsyaFwEwwUiA0rKrEQY
-	dMJhf4jyQxtAdVxhkMII86X5qA8CgzWm1oTZDXvdRcu0qN8y8yZC9O2CUyiNCvfw11QjEUG84lC
-	4kvhKOSTL9AZ3FzO21EJZYIRxYGByR732fVqajQTFQcXV9Q5UOhbF7alaM6kko6XaMv/wPYOY1U
-	SlPeytDTXDtRGlZpvuBI095hopDVnjf/oPSyVTnW85CTLBSal9ADbxmMUSskscnAFzICmCeauES
-	HXLxzUZ++aoSrTeocwwOPIfkdPTyRqYl8bWxGZCie+csRNkoJ5eQqsZawdIKi9UHgZHCiOPBmLz
-	MlK/inqQIRkM=
-X-Received: by 2002:a05:6214:2f03:b0:8f0:d59d:78d2 with SMTP id
- 6a1803df08f44-91254b085edmr20535346d6.5.1789701703240; Thu, 17 Sep 2026
- 20:21:43 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 17 Sep 2026 20:21:42 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 17 Sep 2026 20:21:42 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20260916201307.5618114cbac4af52d98aecfa@linux-foundation.org>
-References: <20260916-hugetlb-subpool-always-track-used-v3-0-38aae9b5ccdd@google.com>
- <20260916201307.5618114cbac4af52d98aecfa@linux-foundation.org>
+        d=1e100.net; s=20260707; t=1789701846; x=1790306646;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tnONXfQx/9h7zHNJDatQkoJufUH7FHyJCmrmE5FF3nA=;
+        b=wj57khO5LJIDz/hkJgoRNwf+3Cy2ZayYAPPsf3xw5eyi+guH9wNgjKF37n8se9cVL7
+         c+KJlCRg8HmCBh3vfeA9WDGpeVLzAAB6i3XdlxU+m94YNZMBJWmnRQMMDAjZp7NgGSVj
+         AlRKPX8DWAgDI5f0F75hJfiTzBZifxQ37IPoRSaHarCM4fMwqnHN0eLQxZ5m6iMM/JS4
+         kW+3omUtpQtuvU31TDCWN6IKVgoF7AlGZzZB28mBKc8DzcSjHi7/Op6lWZ824+ciKU8S
+         WEmoC2BHrFeHz3Wk5KQJjgf6N+BfJ6O0EpndIXoKqIkJdTCyhD6+UfCgjCEHAya7lTRi
+         tKtg==
+X-Forwarded-Encrypted: i=1; AKwUvBy4iMPysIMSoc/2s3WAoOcdI+vKCK2xsMBea21hFepx1xyd5WickytPk31AMojmwMZeabrAE1leXeU=@vger.kernel.org
+X-Gm-Message-State: AFuF++ms+t3jNX2rTuBLv4EivFri/GkEZVMJECXSvk43Kiv5r6RE3eEI
+	5gjnS7vMx8WR2is5KNxxaQoyPgVs6+EFg95kM01CYhma9WV6b9BKSHcVYcbBNC0KS4IQQ+S1l2Z
+	LI4FKMfXDcSDEcl1cf7Y24jWUmNksEu7It2Wm1f7FArptzQjphPSLUgyRv5whS8cPFqjxEs1heh
+	uPHoXiIvjhxVXlactMQZfOvbGuyp4Nj7OMIkKUsFtPQN3UApTjwd5nOOAGjys/njGSwx1X4NBtF
+	/duyqxB3VHh
+X-Gm-Gg: AYBFou1TNjyWamWmDoPsJbaOIXFuyWQ9KxewrW/dX210HGIs+x1jrTJL4vG07FVcHC+
+	P/EuDLD8TEf9777fdQ7ZSpc04GtK9wIv70wYKggC27ekzGdBJz1KeJMmOmrdD/hyDxssJ6RRKE0
+	1Qh9qLa3E4BXj7mdsIrJLBH9TsNYtghh/AhXZk7As6MpyPnnClGv/g+9/oQAjbaxCeUxsPpU35y
+	rox6I0zSiv6R6WCHT3YDxq9tY+zMktD+A1ub2XKrr8N2dh2HcduLWXl7K/VtehEbF+I+PXLph2+
+	TZ9wc/D7O0oog81NNG1fo9E0aerIC36JPxOxhM2b37ycC5x82nXMr/zrJ87dNFBabnffW9BBoYv
+	qle+PsinLEC3XT1RILocjyHLG1t2P0s/MZMsD4Xgp/VPqpZBhAVo8g5jRboI5ewABUoShagtKO9
+	e88NxBE8VvwHPB09sCfIuk6za/DpI6hA1X
+X-Received: by 2002:a05:690c:4002:b0:873:5c6b:a30c with SMTP id 00721157ae682-897379db7fbmr3155007b3.58.1789701846194;
+        Thu, 17 Sep 2026 20:24:06 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-29.dlp.protect.broadcom.com. [144.49.247.29])
+        by smtp-relay.gmail.com with ESMTPS id 00721157ae682-897e2f5262bsm32977b3.1.2026.09.17.20.24.04
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 17 Sep 2026 20:24:06 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-5b5f157bab5so164241e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 17 Sep 2026 20:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1789701843; x=1790306643; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tnONXfQx/9h7zHNJDatQkoJufUH7FHyJCmrmE5FF3nA=;
+        b=D1W7RulUIwBGk//iPt/2QCX8ME082D+udbQzYadho0ZP/KvuRIVButwWs3evrj85Nd
+         twDTzUBQQxTYxSYil1kWyDZBd/G9qkxdJCa51cy8fH/1IL/p8U9qWu7m5V5qmacz/USq
+         cW8rQDlbODz3IVcztOTZHV5HxFSdLDmgnO0+E=
+X-Forwarded-Encrypted: i=1; AKwUvBzsbjl+Fs2bzZlBXY88V9oGqrIc2TM2GfuKYSpsRpWNwyIUdqwAG5rPbv3sOCYWnMDEHhkxJHvBo60=@vger.kernel.org
+X-Received: by 2002:a05:6512:3ba3:b0:5b8:bc5e:d118 with SMTP id 2adb3069b0e04-5b8c1986aeamr235854e87.66.1789701843370;
+        Thu, 17 Sep 2026 20:24:03 -0700 (PDT)
+X-Received: by 2002:a05:6512:3ba3:b0:5b8:bc5e:d118 with SMTP id
+ 2adb3069b0e04-5b8c1986aeamr235845e87.66.1789701842954; Thu, 17 Sep 2026
+ 20:24:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 17 Sep 2026 20:21:42 -0700
-X-Gm-Features: AcwNN1UmZTajHstBlVwK_8w-qiRF_BNJfwUwN_LNEwXV7xnF5kJXV5qm-KLh0ag
-Message-ID: <CAEvNRgGDOG03=faAE_ZA1aHQ7Za8gShUUd=h+J0xZ2f2FaWF0Q@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Fix HugeTLB subpool used_hpages tracking
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, Alex Shi <alexs@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Hongxiang Lou <louhongxiang@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Michal Hocko <mhocko@kernel.org>, Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Nhat Pham <nphamcs@gmail.com>, Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Wupeng Ma <mawupeng1@huawei.com>, 
-	Yanteng Si <si.yanteng@linux.dev>, Naoya Horiguchi <nao.horiguchi@gmail.com>, fvdl@google.com, 
-	jthoughton@google.com, rientjes@google.com, vannapurve@google.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	stable@vger.kernel.org
+References: <cover.1788414671.git.zack.rusin@broadcom.com> <7487011dfb95aadda9515b22a5852680df1982c5.1788414671.git.zack.rusin@broadcom.com>
+ <aquttpMVKX8e6zGB@pathway.suse.cz>
+In-Reply-To: <aquttpMVKX8e6zGB@pathway.suse.cz>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Thu, 17 Sep 2026 23:23:49 -0400
+X-Gm-Features: AcwNN1UbbvzheDkuAbTIJB-wv3-UyGyD0BDcZCvagFWxgsOb2LvxtBfe6D-Qesg
+Message-ID: <CABQX2QPJVg-dZB9f4ydRU_5W7nyWwVCQtDoRGoe1+9cA7wyUDw@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] x86/vmware: Run panic diagnostics before kdump by default
+To: Petr Mladek <pmladek@suse.com>
+Cc: Borislav Petkov <bp@alien8.de>, Ajay Kaher <ajay.kaher@broadcom.com>, 
+	Alexey Makhalov <alexey.makhalov@broadcom.com>, x86@kernel.org, 
+	Joel Granados <joel.granados@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, 
+	virtualization@lists.linux.dev, bcm-kernel-feedback-list@broadcom.com, 
+	linux-kernel@vger.kernel.org, John Ogness <john.ogness@linutronix.de>, 
+	Steven Rostedt <rostedt@goodmis.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, Bo Gan <bo.gan@broadcom.com>, 
+	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org, "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000a5fc73065bb96e1d"
+
+--000000000000a5fc73065bb96e1d
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Andrew Morton <akpm@linux-foundation.org> writes:
-
+On Thu, Sep 17, 2026 at 5:07=E2=80=AFAM Petr Mladek <pmladek@suse.com> wrot=
+e:
 >
-> [...snip...]
+> Adding Guilherme G. Piccoli into Cc.
 >
-
-Missed out replying to this!
-
-> So if downstream people (-stable maintainers, others) follow our
-> recommendations, some kernels will get two of these patches, other
-> kernel versions will get three and some lucky kernels might get all
-> four.  Are you confident that the patches can be split apart in this
-> fashion and still produce a good result?
-
-Would it be better to add Fixes tags such that if one patch is applied,
-all 4 are applied? How do I set that up?
-
-Patch 1 is kind of a fundamental fix in subpool accounting, which allows
-other fixes/simplifications in different places.
-
-> After all, we're sending
-> downstream some patch combinations which we didn't test.
+> On Tue 2026-09-08 14:07:16, Zack Rusin wrote:
+> > The core panic path enters a loaded crash kernel before running kmsg
+> > dumpers, so the VMware logger cannot preserve the panic in the host log=
+.
+> > Set crash_kexec_post_notifiers during VMware platform setup. setup_arch=
+()
+> > runs before ordinary core parameters are parsed, so an explicit
+> > crash_kexec_post_notifiers=3D0 still overrides this default. The 0644
+> > parameter also remains writable at runtime.
+> >
+> > VMware exposes no capability bit for this behavior, so the default chan=
+ges
+> > for every VMware guest. Running the logger first adds work to the panic
+> > path and can reduce kdump reliability.
 >
-
-I think patches 2, 3, 4 would kind of depend on 1. Without 1, the others
-would probably do the wrong thing.
-
-Or would it be better to just squash all into 1 patch?
-
-Each patch does fix a different part, and also I didn't want too big a
-patch, which would make it hard to review.
-
-In terms of bisecting, even with patch 1, the bugs fixed in patches 2, 3
-and 4 would still be buggy.
-
+> AFAIK, the quality of the notifiers is varying. Running all notifiers
+> might reduce the kdump reliability even more.
 >
-> [...snip...]
+> I do not like much the hack with crash_kexec_post_notifiers. It is
+> an all or nothing option.
 >
+> Also it was introduced as a quick hack so that users could decide
+> what is more important for them. But it is not longer a "user"
+> decision when some platforms enforce the ordering because they
+> depend on the notifier.
+>
+> panic() is problematic and it is about compromises. And we need
+> to balance what is important, what is safe, and what is optional.
+> This is why I suggested to introduce more notifiers some time ago,
+> see https://lore.kernel.org/lkml/YfPxvzSzDLjO5ldp@alley/
+>
+> Guillermo implemented this, see
+> https://lore.kernel.org/all/20220427224924.592546-1-gpiccoli@igalia.com/
+> But it has stalled because it touched too many subsystems and it was
+> hard to get an agreement.
+>
+> Maybe, we should start with something simple, and introduce
+> one more panic notifier as a start. It might be called either:
+>
+>   + "panic_hypervisor_list" because "crash_kexec_post_notifiers =3D true"
+>     seems to be primary set on hypervisors.
+>
+> But I would rather make it more generic and call it
+>
+>   + panic_pre_crash_kexec or panic_pre_kdump because there might be
+>     more notifiers which are either 100% safe and useful or are worth
+>     the risk before calling crash dump.
+>
+> We could put there x86/vmware notifiers as a start. And we could later
+> move there other important notifiers.
+>
+> How does that sound, please?
+
+afaict that sounds good. Keeping it to one new list and one client
+should make it manageable to review (which is my biggest worry :) ).
+
+As so the implementation: I'll drop VMware's
+crash_kexec_post_notifiers default and start with one generic
+panic_pre_kdump_list, with only the VMware log sender on it. The
+structured crash-report hypercall (REPORTGUESTCRASH) can terminate the
+VM, so it stays late and remains suppressed when a crash kernel is
+loaded. Log transfer is still controlled by
+kernel.vmware_record_panic_msg, with encrypted guests defaulting to
+off.
+
+I think that without that default though, x86 oops_end() can enter
+crash_kexec(regs) before reaching panic(), for example with
+panic_on_oops=3D1. To cover that path too, I'd call the chain from
+__crash_kexec() after the image check and register capture, under the
+existing kexec lock. A second call in vpanic(), immediately before
+kmsg_dump_desc(), would cover the fallback path. And I think a
+set-once guard would prevent duplicate or recursive dispatch.
+
+That leaves CPU-stop and ordinary notifier ordering unchanged. The
+logger would read the kmsg buffer directly, without invoking the other
+dumpers, and would need to tolerate NMI context and other CPUs still
+running. I'll keep the crash-core call in a separate patch for kdump
+review, leaving other clients for follow-ups.
+
+Does that sound good to you?
+
+z
+
+--000000000000a5fc73065bb96e1d
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
+SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
+uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
+s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
+SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
+QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
+fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
+iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
+3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
+91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
+06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
+b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
+VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIP6m
+uYCiia3ORHyqPmaSAdKPjfLBQQ4P4lHomezD1Dh3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI2MDkxODAzMjQwM1owXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAIJoiqN+pGBweUn+Tw/Bk02/2LuL0p2H5SVE0c/c
+RackBtK7eGpsWfY80ejZOxPsrOcCSNd/PwPLAHfTDFrBV4eeRsKSIvXnYo9Rd/s/WXtvfnj7aksD
+arOk+coO3+mc6qBHRSeQ6/JJJOxBkavp6QdrvJVDF9/hryFuMHaIZEOC/Jg6b8zCMv696KHqI2LH
+Gsw5+z4jBn/co22kaB8CqYvlWWSzvqpHK6QJp9ZHtGfVqoROyKfvWGMv02z54jwmscT6p60Ru2IY
+XN1CMthKyOmV+cLZzJv5XVGDiy0i7AoAH+aGU8BWVmKulTEcWBlUd8zX/E1WsuK+yNMAGGEGDcU=
+--000000000000a5fc73065bb96e1d--
