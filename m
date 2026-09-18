@@ -1,337 +1,129 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B94A4F96C1
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 15:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA394FDA68;
+	Fri, 18 Sep 2026 15:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789743764; cv=none; b=oQnB5MKnmvlH4IvbUaY5rW/FSywu9D3UwiPLI/gm672SPmxJ+DjA4HpTmhFv4a646BxeZkBs7pry6rJlQdW3i1eKy1rh4/30LABvfFTjIVl+SaLqiIeLSyzuK/JX976KYQfo0I5qi5fcSYhVI8UpiHrI6dZC3sgwAk5ToBRAYbc=
+	t=1789744559; cv=none; b=PwC5L0m5NzcgEoXRd1cEygV59aHUMMbCU+NJLB55eu9k1GKOv6CxMK8anTvuC6tZk+VQkCiHL/wfi+CZ8mzJw4AtBiu2TQ92FGNExnGAsKLFvx0fLdCvbffLSaOzAJz9bQe/zz5xKDxGbhtBky6gve4VanPanObGrrU9gfpdRs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789743764; c=relaxed/simple;
-	bh=ITubyCmQ0IqICURrqkJRPxQa8V5YyjerEjVQzcuewrM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=msSk/vSVyY3DPRGd0rIti7NF6EcQhLXx2ekY61sNqfYPFP/zjSdYREMptWWZQ3w2BDU7zn/F1dDgZIEdTanWO+7J6nZffKGA4TPK70Nd4xh/Y8GbHeaoHtddAoT4UactAGiq+CxOUMI0GjCio7aCRv4aCR0NifDoY63mmrg1hJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FHmETVqr; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789744559; c=relaxed/simple;
+	bh=UfTLgGlcDO389mCAtzhYb8eUPKLIBO/8OmDx/Bf0eiw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=AGM2REMR6uxQnRbduW8g2Svdmq46aC+KZzjvh3ekQGLTcsFVn5qfGqELWMB6uoQWNMruLU5DNlmwJIuGBAV5/jKpgnrfMBzTBJ16XwaCS30fCS/u7j2pTeOkJMKU1/9TI5XHMDxYe6Q+xAmmDvADjkqlMKXiizIyPmtyADPCT5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J18fAPvX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FHmETVqr"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747f05ffdso6484315ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 08:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789743761; x=1790348561; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LhCDu1m9RcDMKABHVNVaAnRdFOqbBkAGLFS2ulG6C8Y=;
-        b=FHmETVqrApRdb6PN/F/bhE9hB4pgzneIIj78BHwu1wyIUjRhf7QcuZwT7/JzcbT5c4
-         Z4W1IZ1Jy/ZFtAbvpbqWeVLfydmWb37okgZ6YSgo9rmVhtdIbiNKZIhUZOACn10DT5uv
-         ICvNLxRra+HRkCtoPiVix4zJoPCoShGXsNefmbeKmba3nvpPY+4K4/uMW3LpGSl+p726
-         /bmWImkrpYnpo/s6JhLWa3s7yDsAJreX3hz8qIB48J5YDwSpDjZs5zUyp3B6kgALJZZ0
-         JYdYwT8wCIc5DfPCtspUkNHT44mS9MLhiRIo9qLEsbrGJxoJ5GwcFAu4fCZw6Ttd2wWP
-         d3BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789743761; x=1790348561;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=LhCDu1m9RcDMKABHVNVaAnRdFOqbBkAGLFS2ulG6C8Y=;
-        b=f3GT0neowWqbltwfdz5O7xHcWAUA9Y+IZAxI15Ql5QfG6wotySzpW1Es3SZJ0W8rqm
-         3PiLkqZYI+EIEScszL6P0Y15J49U5jgV7H1pOwiu6xwsYo9JONQxFHfvePPAk5g7Bo+F
-         JE0WAiqeJo9pYOiOQkxjK9QvIKj0bnMz6KBLuCvhgXbRXnczk+6uyXEQ8YWky9g10mm/
-         2QhuimXfAFvBho+rWbqO3NOuFjmtMJ7WvzMkJKk1R4bty90IsQ2YkUhkM3qNlKmGmlcL
-         HSYup8g/tGAkF92PfWd/93W3Z9jngwfX3taQ4fw8vJQF5J5X0iIrXWIZodHIge6TFI6m
-         L/DA==
-X-Forwarded-Encrypted: i=1; AKwUvBx81bruDK4Wh2dE2gh5vQqpWwdyAtcqgC3tCW9aIBbYkuVmLHmOK1Ahb4xLnE8ScFpTWf19ihifQGA=@vger.kernel.org
-X-Gm-Message-State: AFuF++mNKguaxDK+dS+WzpSFMAzu29ZcJ5Qsl77CDPaQ4egh6JGKPbml
-	x1lfJY9EB+SOv0EyD9QM69WVOvdr2BD2mB91h7p7teHquewh0JDv3BIU
-X-Gm-Gg: AYBFou32F/Q/mevpq0MSzc8IwKdNYArGYZqCCkGDardju0/6YzhEZOVQcaqIxkBuS8Z
-	JUKqQHo0iqPAOiITXRj2GqEmn5R5dTOeDhHwaxPPVZbNHFiAZ+Bf+7QRAgeeEsMZIyDMP/1VX0+
-	muh3k2VfcaNbJae71T8s4ByjfSuucrpjnRYsF3h/zxNo+mCDxIKvL+yVFVhoYJknXg73Lk6Vnk6
-	wuM6sjL7cF/b6l4YLDiODDATjY0+qUqbj6SjEyfljpR/y+Hq76tnNWSDHaii/Ca1B+JzS9OvedD
-	DGVUafGLbVBppKQ06t+6GvSpGLryD0N0LA/KfS8eSFFuiUJmoXdZ/bOkgLBbJx8kgo96/699FDN
-	5ADmFelMjza1PqhhxlY599jCWZJNq8TuNBvsBkhVwJ6TUK7IshZwhvrAcLwVArXlVPYksFmO6Q+
-	3jd7IsDO+kgTBLkzBmok6OR4Qj5RC+QPIpW7FDUTlWO2JuaGC+0R3U/9PPHfTaiNtAhbdpjJI8t
-	ILPsk2YlAuLGqSAE1vJU63J4C/dByy3wHz8sT7O6zhD2/cqaBnoTYpAjTs=
-X-Received: by 2002:a17:902:c945:b0:2dd:ad74:ac26 with SMTP id d9443c01a7336-2ddb1b9a0fcmr61272835ad.24.1789743760748;
-        Fri, 18 Sep 2026 08:02:40 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddb73db1c5sm9960585ad.4.2026.09.18.08.02.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Sep 2026 08:02:39 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <dbd0a721-898b-4524-a0cd-c9751fd4bd68@roeck-us.net>
-Date: Fri, 18 Sep 2026 08:02:38 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J18fAPvX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91D001F00898;
+	Fri, 18 Sep 2026 15:15:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789744556;
+	bh=o9OjELzOfnEXe/aV35HyOAn/5z/gkwl3afGuJPIOTAo=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=J18fAPvXrmnVpkYAnRWamd5ziIU6ZpeBXScpnWdh/Dni6hxEDtUbD3Rwo5oIW8keY
+	 0Kk7N6ina5Mt5mUBzc/ScwaZOWZdbWmFiVMQ6w7guALTy28CfGcqK+jvnrbzpHPLJn
+	 ei4kM7CpG+KNhUso4dd7Cv75J8dYtLvv0tPOwvOOuK2Hoc5haHuMwJD8a1vQJ8AlxI
+	 dK59oN2xjhE/F6mFaMleeMsrfYJvKUeikkl0TzATcZ13YTo84sXDtA9Kd003gRBOJO
+	 3R0qiE2R1LUt5OIjVkSvaYJsET8oTDvgUg7rPCLyhVgg1fgTNqWtRTfJymhy4BuXY6
+	 1FpBbPDY8uZVQ==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id A7316F40066;
+	Fri, 18 Sep 2026 11:15:54 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Fri, 18 Sep 2026 11:15:54 -0400
+X-ME-Sender: <xms:qlWtaseO_erFY3v5ZN6Yni5ZizEiVPku9oQJ1MR5uH6i_HgwXQjlNw>
+    <xme:qlWtapBoP-lWVaH5x8p2_zbbMMKEENgijDodfyqM5gELx4VHu4pI3e-60gkJh9Hij
+    vFroCc-qj2wpSS4f79zYLmfpGQSzA1iKUQEThWv-02fFp4twsIxk4yQ>
+X-ME-Proxy-Cause: dmFkZTFyeyeW4YTKL8BGfOlidQaMKIe0Y/lxcWtKiU1uxUhGtjbzNhVAnPES35mJw04iGI
+    6Y5KV/Gbrs+krGKQLolsszzJlze9yuEotfINiUh15oh6n5J4HCRBfSJ/eKMxYdDZQgzYq5
+    zXjdLUN1h+4glEqgEEmDWisv5k77BxsyoEe6cbiphpjxr1RnenF4T6BBYsQftoE4u2bLet
+    MJtNSerLdkRbMz8cm0jpQ38G78EVitrZxMsAEYVp/e/LEMqnsr/7unSbHKoX+1Js1xEqwt
+    t1/nR5P5Polw+qXMnF8qhaJBSD479TDjm89i6S3OB10jRlACPG/F7/vX2GM+wpWZ9x2zat
+    vBzltsWkc9BATM86G0sCGC/Qa/3o6/4p0YP+6LMq69tVR2ByBZprj3ajYk/Q3aOLn2Xgwp
+    Zv687ctvA7j5e7OqUzK+edRsrxUnLyA3Yg2y54QzcwKHBArjeVTrZQEtvsaSuixR8Hfvio
+    Ab9lrk81DlXpwCmS1w8i0bcEKTLUKXrTNnEuVDn6cFHud2ExplQ2SyE6puSB/a7YqcpWCe
+    O1dtQQ9a1JZBkwqY7/qTtoYD3FBC4FiJiQGm1Va0ITlLru/bID9biYllGoxNCxJNCs7nlQ
+    3GM195d4PfAXBLLwXyNbfe/RU2U1zfSBOMMPhNc/fS15LmSDGmCzo0JQnwpQ
+X-ME-Proxy: <xmx:qlWtapVv6-rR43qj2JRhOY-TPtmy1xQHWFTLscjBKPqCpuNss0G3cQ>
+    <xmx:qlWtauc3rBzJcBZdYmy5HlFY7kBBm3P1rTimhjxeuLm4nEh54JhSdQ>
+    <xmx:qlWtat-fzf1BY5UhIoLAh2zBUp6bzD4HGHiTvOk37STAPB7jtyDNYg>
+    <xmx:qlWtatm6xm0-W98UfAOBnblUNOxezBk-26X4NAIvRYcY23UtBLy89Q>
+    <xmx:qlWtamhrnMCLq7AMwh9RVIUDLPuAECF177t45MDfk1LFdvqifpG4WrnQ>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 7D640780075; Fri, 18 Sep 2026 11:15:54 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] hwmon: (pmbus/tda38740) Add driver for Infineon
- TDA38740/TDA38725
-To: Colin Huang <u8813345@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, colin.huang2@amd.com, linux-doc@vger.kernel.org
-References: <20260918-add-tda38740-and-tda38725-v6-0-a8b11018d850@gmail.com>
- <20260918-add-tda38740-and-tda38725-v6-2-a8b11018d850@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
- oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
- VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
- 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
- onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
- DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
- rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
- WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
- qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
- 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
- qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
- H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
- njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
- dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
- j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
- scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
- zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
- RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
- F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
- FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260918-add-tda38740-and-tda38725-v6-2-a8b11018d850@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ThreadId: Ak1fuKNIJ_kR
+Date: Fri, 18 Sep 2026 11:15:27 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Hannes Reinecke" <hare@suse.de>, "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "David Howells" <dhowells@redhat.com>, "Sagi Grimberg" <sagi@grimberg.me>
+Cc: linux-nfs@vger.kernel.org, keyrings@vger.kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Message-Id: <81bade19-10d6-4fc7-9a57-eef85afe76cf@app.fastmail.com>
+In-Reply-To: <bbc4ff6f-aa38-4862-96fe-518c3b4df4d6@suse.de>
+References: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
+ <20260918-nfs-mtls-identity-v1-2-197e568d78a7@kernel.org>
+ <bbc4ff6f-aa38-4862-96fe-518c3b4df4d6@suse.de>
+Subject: Re: [PATCH RFC 2/5] NFS: allocate the .nfs keyring per network namespace
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 9/18/26 03:23, Colin Huang wrote:
-> Add a PMBus driver for Infineon TDA38740 and TDA38725
-> single-voltage synchronous buck regulators.
-> 
-> Signed-off-by: Colin Huang <u8813345@gmail.com>
 
-For my reference (waiting for DT patch approval):
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+On Fri, Sep 18, 2026, at 10:44 AM, Hannes Reinecke wrote:
+> On 9/18/26 4:05 PM, Chuck Lever wrote:
+>> Commit 87268f7a4f1f ("nfs: create a kernel keyring") allocates one
+>> .nfs keyring at module load, and nothing in the NFS client reads it.
+>> One module-wide keyring also cannot isolate x.509 credentials
+>> between network namespaces. Each tlshd instance services the
+>> handshake socket of one network namespace, so a credential
+>> provisioned for that namespace's mounts has to be reachable by that
+>> tlshd and by no other.
+>> 
+>> Allocate one .nfs keyring per network namespace in nfs_net_init()
+>> and release it in nfs_net_exit(). tlshd finds a keyring by name
+>> through /proc/keys, which is not namespace scoped, so each handshake
+>> request has to carry the keyring serial instead. Allocate the
+>> keyring under a kernel credential rather than that of the task
+>> creating the namespace, so an LSM labels every namespace's keyring
+>> the same way.
 
-> ---
->   Documentation/hwmon/index.rst    |  1 +
->   Documentation/hwmon/tda38740.rst | 65 ++++++++++++++++++++++++++++++++++++++++
->   drivers/hwmon/pmbus/Kconfig      |  9 ++++++
->   drivers/hwmon/pmbus/Makefile     |  1 +
->   drivers/hwmon/pmbus/tda38740.c   | 64 +++++++++++++++++++++++++++++++++++++++
->   5 files changed, 140 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index f07977a20271..aeff87b3d46d 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -265,6 +265,7 @@ Hardware Monitoring Kernel Drivers
->      sy7636a-hwmon
->      tc654
->      tc74
-> +   tda38740
->      thmc50
->      tmp102
->      tmp103
-> diff --git a/Documentation/hwmon/tda38740.rst b/Documentation/hwmon/tda38740.rst
-> new file mode 100644
-> index 000000000000..55ce12f14914
-> --- /dev/null
-> +++ b/Documentation/hwmon/tda38740.rst
-> @@ -0,0 +1,65 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +====================================
-> +Kernel driver tda38740
-> +====================================
-> +
-> +Supported chips:
-> +  * Infineon TDA38740
-> +  * Infineon TDA38725
-> +
-> +    Prefix: 'tda38740'
-> +
-> +    Addresses scanned: -
-> +
-> +    Datasheet:
-> +      https://www.infineon.com/row/public/documents/24/49/infineon-tda38740-tda38725-datasheet-en.pdf
-> +
-> +Author: Colin Huang <u8813345@gmail.com>
-> +
-> +Description
-> +-----------
-> +
-> +The TDA38740 and TDA38725 are single-output synchronous buck regulators with a
-> +PMBus interface. They expose basic voltage, current, power and temperature
-> +telemetry through the standard PMBus hwmon interfaces.
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +======================= =======================================================
-> +curr1_alarm		Input current alarm
-> +curr1_input		Measured input current
-> +curr1_label		"iin"
-> +
-> +curr2_crit		Critical maximum output current
-> +curr2_crit_alarm	Output current critical high alarm
-> +curr2_input		Measured output current
-> +curr2_label		"iout"
-> +
-> +in1_crit		Critical maximum input voltage
-> +in1_crit_alarm		Input voltage critical high alarm
-> +in1_input		Measured input voltage
-> +in1_label		"vin"
-> +
-> +in2_crit		Critical maximum output voltage
-> +in2_crit_alarm		Output voltage critical high alarm
-> +in2_input		Measured output voltage
-> +in2_label		"vout"
-> +in2_lcrit		Critical minimum output voltage
-> +in2_lcrit_alarm		Output voltage critical low alarm
-> +
-> +power1_alarm		Input power alarm
-> +power1_input		Measured input power
-> +power1_label		"pin"
-> +
-> +power2_input		Measured output power
-> +power2_label		"pout"
-> +
-> +temp1_crit		Critical high temperature
-> +temp1_crit_alarm	Chip temperature critical high alarm
-> +temp1_input		Measured temperature
-> +temp1_max		Maximum temperature
-> +temp1_max_alarm		Chip temperature high alarm
-> +======================= =======================================================
-> +
-> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> index bcfdc4ce4c10..e4ca80dd0574 100644
-> --- a/drivers/hwmon/pmbus/Kconfig
-> +++ b/drivers/hwmon/pmbus/Kconfig
-> @@ -763,6 +763,15 @@ config SENSORS_TDA38640_REGULATOR
->   	  If you say yes here you get regulator support for Infineon
->   	  TDA38640 as regulator.
->   
-> +config SENSORS_TDA38740
-> +	tristate "Infineon TDA38725/TDA38740"
-> +	help
-> +	  If you say yes here you get hardware monitoring support for Infineon
-> +	  TDA38725 and TDA38740.
-> +
-> +	  This driver can also be built as a module. If so, the module will
-> +	  be called tda38740.
-> +
->   config SENSORS_TPS25990
->   	tristate "TI TPS25990"
->   	help
-> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> index e288fe72a437..eb06d47816fd 100644
-> --- a/drivers/hwmon/pmbus/Makefile
-> +++ b/drivers/hwmon/pmbus/Makefile
-> @@ -70,6 +70,7 @@ obj-$(CONFIG_SENSORS_STEF48H28)	+= stef48h28.o
->   obj-$(CONFIG_SENSORS_SQ24860)	+= sq24860.o
->   obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
->   obj-$(CONFIG_SENSORS_TDA38640)	+= tda38640.o
-> +obj-$(CONFIG_SENSORS_TDA38740)	+= tda38740.o
->   obj-$(CONFIG_SENSORS_TPS25990)	+= tps25990.o
->   obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
->   obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
-> diff --git a/drivers/hwmon/pmbus/tda38740.c b/drivers/hwmon/pmbus/tda38740.c
-> new file mode 100644
-> index 000000000000..067de07ba9fb
-> --- /dev/null
-> +++ b/drivers/hwmon/pmbus/tda38740.c
-> @@ -0,0 +1,64 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Hardware monitoring driver for Infineon TDA38725/TDA38740
-> + *
-> + * Copyright (c) 2023 9elements GmbH
-> + *
-> + */
-> +
-> +#include <linux/err.h>
-> +#include <linux/i2c.h>
-> +#include <linux/init.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include "pmbus.h"
-> +
-> +static struct pmbus_driver_info tda38740_info = {
-> +	.pages = 1,
-> +	.format[PSC_VOLTAGE_IN] = linear,
-> +	.format[PSC_VOLTAGE_OUT] = linear,
-> +	.format[PSC_CURRENT_OUT] = linear,
-> +	.format[PSC_CURRENT_IN] = linear,
-> +	.format[PSC_POWER] = linear,
-> +	.format[PSC_TEMPERATURE] = linear,
-> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
-> +	    | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
-> +	    | PMBUS_HAVE_IIN
-> +	    | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-> +	    | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
-> +	    | PMBUS_HAVE_POUT | PMBUS_HAVE_PIN,
-> +};
-> +
-> +static int tda38740_probe(struct i2c_client *client)
-> +{
-> +	return pmbus_do_probe(client, &tda38740_info);
-> +}
-> +
-> +static const struct i2c_device_id tda38740_id[] = {
-> +	{ .name = "tda38725"},
-> +	{ .name = "tda38740"},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, tda38740_id);
-> +
-> +static const struct of_device_id tda38740_of_match[] = {
-> +	{ .compatible = "infineon,tda38725"},
-> +	{ .compatible = "infineon,tda38740"},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, tda38740_of_match);
-> +
-> +static struct i2c_driver tda38740_driver = {
-> +	.driver = {
-> +		.name = "tda38740",
-> +		.of_match_table = tda38740_of_match,
-> +	},
-> +	.probe = tda38740_probe,
-> +	.id_table = tda38740_id,
-> +};
-> +
-> +module_i2c_driver(tda38740_driver);
-> +
-> +MODULE_DESCRIPTION("PMBus driver for Infineon TDA38725/TDA38740");
-> +MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS("PMBUS");
-> 
+> Curiously enough, I had been pondering a similar issue.
+> Thing is, when running within a container (eg a docker one) access
+> access to /proc/keys might be restricted, and from what I've
+> gathered each container gets its own, _empty_ keyring.
+> (certainly an empty session keyring ...).
+> So I wonder what'll happen with the predefined keyrings (like the
+> .nvme keyring); one possibility is surely to make them network
+> namespace aware.
+> But the alternative approach I'm exploring is to allow each container
+> to create its own (.nvme) keyring; that would have the advantage of
+> being more flexible and we wouldn't need to rely on 'magic' names.
 
+IMO we need to hear from the folks who have deep keyring expertise
+to understand what is most flexible and most idiomatic. I'm certainly
+not expert enough to make those calls.
+
+It would be great if tlshd's NVMe and NFS/NFSD keyring support
+behaved consistently with each other, but perhaps that's just my
+compulsion for symmetry talking.
+
+I'm willing to take a look at patches, if you have any.
+
+
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
