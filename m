@@ -1,110 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D004FDA76;
-	Fri, 18 Sep 2026 17:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5A451C04A
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 17:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789752457; cv=none; b=estObZhX8jdZRvdCv1UCc1FBzKaL0lDdqR6axPaVdAEPAMTT4HF1cHUUeAIhxcbKzWP/gxESQ2VCxT2HjX3kb+U6yQcPpWlZuBhGe1+u65FuMwXY4eTn4xbnEsFyRAHkx51mAVGQXc2bDPw8uIXHOLO1EukL7nG5jVz0ACucVWs=
+	t=1789752625; cv=none; b=WmH8Jdsd+fceuFAFCelxmAkq/LhEpkc+x8+8BsjiD6Lwn6S5H2Lkat+bJhUaMsW6ZoSz50cGauvVx88VzMc+OO1h1Q3dxG6aNa+8Whhh/HZDVR/qm0EoAPoTG4MOldKO7i5oh0nZzYfKy3qae23gDkCd7VnzJhbzMQgMCBfanLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789752457; c=relaxed/simple;
-	bh=ZgMfgnNMTTAB7ij0Uen4FKMNSu6zr7dq79w3r1uj5DQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dairw/HrSB18BaBrDOK7TMnioRbro0jmu1tETDsbfxLvMorLfhlCHuHrqEN1XKwef/3iyCD/JMIXNcwO2yRh0rRdK9ivgU+ws2sAHjdlowRVu+G0acJtoqVNd1GPouIDzk8IyNZpoJQZLAzYfzvLrm7oaSAbt4FUURst5lJnW50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nZmMHzoC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789752625; c=relaxed/simple;
+	bh=Cm2NMQCx89UMDVtgN8FqczOwNiBlbCdE5NyxRoG5AiE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LDgmXC7B5U3+EccihfOA7qKKDe/1R6jgMPUbL1czxJeSWm7eLS4roAun6/Jvw2VT4eaGj3SliC9zAlKQTcA5wafVQyFMg9J2dFpPddfpCQJnhkOY9ah1VoejOiEqHkDQMt1EH1htf6KwYVuTKbq3Bj02YCDlU4Bq/rfive6Ya70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NFOWlQK7; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nZmMHzoC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3AB21F00898;
-	Fri, 18 Sep 2026 17:27:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789752454;
-	bh=5sOwLbsuSvuF6ePII3dRbbexDhRaUiT2qlW2RUmkzBk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nZmMHzoCublLE0IEK9aHlvlhqE2xLByUWguh+3EqUuN7nBMN6wefu5bJW7NsVI8oo
-	 8cuRfa+t9Y3H9nyGcurlDLAY4ePQ6iB4sPUHg9xbYuB6d5/K8xq5on5u9J9FaPJn9Q
-	 febXPuvZSHNtnT99lN8PelpDzpS5m6r2HuKfDEeA=
-Date: Fri, 18 Sep 2026 18:25:38 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Bradley Morgan <brads@mainlining.org>,
-	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <2026091850-geriatric-overfull-3370@gregkh>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
- <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NFOWlQK7"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d8fbef5018so12999455ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 10:30:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789752620; x=1790357420; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DCaqfjYXY7u/ZFZD8Iz49PhiKKj9ZbiaFOLNIBWhhNc=;
+        b=NFOWlQK7vBkjNjwnyeHcXQxDpKntE45isQMurUu+tHXSnFTWbhUin5mS7MlsDCx5NM
+         97Xfhk+LpofgqW6H7NUR2vA0rnhjv07Qf6wP2dqRajCnKFdc+E7bh1k1vWqfWCI/Jwco
+         nnz6Q20M34AP6pe7gGAqTBUmC5/i2sIebxQtE0BtPTWpY8MaLuFfb35/a/rh/MO/WGmt
+         AmtUvA7+7iLT0zQWCnQbiu8LhxnVNez5xxxGuKbVoDTfoKfmHpi68DBkOWvNqWaQOPd/
+         FiwitUZiAyqWC7iHgx+RFOWttPUZxHqClz1mE+NL2ezd2ng0lGsIQwf6UBuksYe2QfA+
+         /KgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789752620; x=1790357420;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DCaqfjYXY7u/ZFZD8Iz49PhiKKj9ZbiaFOLNIBWhhNc=;
+        b=x+PIvWvDoh3fh8/8f2wX/BhxG3vtTclcZkNyw3tdUPoS4Og2kLSBT58oevXVdRvdaq
+         aV2Kwi7ZmCMkys8OpXLR6UQOLXS7Hc7PFOAnfQIP+4yEciMxyrgv+L7sA9DFLwS/AKh3
+         exBNxIxcQrC6hSvaalipjX65tx9q3YGkL97u38GOqLj7VagRXxTOySCUYbh+u8WGhWKw
+         QKvvt6l63c+RNMOYCQsKRQpeD477+eHY6dBoeO7XnNpd2EeVFz6H6uQDdgpvDgAfLlF0
+         HANLJg5QMBtUj7+AnZxyZ45MVo46wSyeoOv/RFOudocG2ozHh9j1K++8PN/10ZajQazr
+         p0CQ==
+X-Forwarded-Encrypted: i=1; AKwUvBybbbig7okwA3BzBuGIafJg1BQ69SbQ9s+mb3lVn7nkc7wGred3olu3sbc6MkkFRF+RrLHjRMtO7Jc=@vger.kernel.org
+X-Gm-Message-State: AFuF++kuELYetrxK1HskaorEn1VJvQQ2nJdGWoeNrY1vMkWdnK0y9ZAJ
+	83VCBXMo/hkKBxKrhwYzcYnCUrzKK6edVPSEmgHur8A7V6GQfRN0SqtC
+X-Gm-Gg: AYBFou26fAkIwil//avt1UvOtl3Z6dtBNunUyH1/vYvev8fhddIBn0v1x84I9aVKVeB
+	cSxzDIKnCRjOa4x2TyhphXvhaS+KNV1DNctTpx6n0HNgHf8ILYEUovJ4F/FbrwoGqeyxtlxxXPG
+	LKCSf6Vd6nLlZnFcD3KP0Riie7fPUihtAHpSzRNe7+/IcYHQkScW2lyZd02gROVrrTfCHg02Egh
+	kaWj2EuzRCUDIoKCt/c4k2l/iEeDP631rmEhqsfcnsYoUVjMHX6x0OHHIuZgA8RVOfv5GP1CFiE
+	OXgSkMzxchThO/a5FPOUS1XMXveCcKWxQ3gd9sySylNKAN2iSpebuz0DSlDwlGUtZj4I5KtfBBJ
+	kzYyFgvLF3iREy28bZLfvmoSZ0InZY9KF74DOJT5UpWiHYlpBPmf8Pi3BkDrjSY66xjgadBGYZb
+	rlIs/g2qrs6op718Qo0rIM3RkjDGxi0lbR03JByUDnjzPkIYp3la7m2a15QqBcNr6MeAfyPKuzg
+	663bKfdfFXOuEYGzeBZfgf6x00tD/CguuJne6DFXbazhCwX
+X-Received: by 2002:a17:902:ebcb:b0:2dd:c054:1981 with SMTP id d9443c01a7336-2ddc0541cd8mr9489675ad.38.1789752620130;
+        Fri, 18 Sep 2026 10:30:20 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17c4d58sm183265ad.58.2026.09.18.10.30.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Sep 2026 10:30:18 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <3a107337-8e2c-45b2-8847-6b4fb7b0405e@roeck-us.net>
+Date: Fri, 18 Sep 2026 10:30:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] hwmon: (pmbus/tda38740) Add driver for Infineon
+ TDA38740/TDA38725
+To: Conor <mail@conchuod.ie>, Colin Huang <u8813345@gmail.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, colin.huang2@amd.com, linux-doc@vger.kernel.org
+References: <20260918-add-tda38740-and-tda38725-v6-0-a8b11018d850@gmail.com>
+ <20260918-add-tda38740-and-tda38725-v6-2-a8b11018d850@gmail.com>
+ <dbd0a721-898b-4524-a0cd-c9751fd4bd68@roeck-us.net>
+ <2646A11E-8D13-4587-8027-1370E0007F36@conchuod.ie>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <2646A11E-8D13-4587-8027-1370E0007F36@conchuod.ie>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
-> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
-> > The ability to add and remove devices from a driver through the sysfs
-> > "bind" and "unbind" files was created all those decades ago as a way
-> > that kernel developers can iterate faster, and provide a debugging way
-> > for users to attempt to add a new device to a driver without having to
-> > rebuild their kernel.
-> >
-> > This api over the years has been abused and recently come under a major
-> > fuzzing "attack" through tools like syzbot which decided that it would
-> > attempt to just randomly bind any driver to any type of device, causing
-> > loads of unneeded errors and pointless kernel patches to be generated by
-> > unsuspecting new developers.
-> >
-> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-> > will be set on the driver if the bind/unbind sysfs files are ever
-> > written to.  This lets kernel developers "know" that a user is
-> > attempting to do something that is not normal, and as such, if the
-> > kernel breaks they get to keep the shiny pieces laying around on the
-> > floor.
-> >
-> > The flag is 'Y' which was unused, and can remembered as the user is
-> > "yeeting" the device being operated on here (thrown with force without
-> > regard for the thing being thrown).
-> >
-> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-> > as many times crashes/oops/warnings/failures happen within the callback,
-> > and the taint flag needs to be there to show what was being attempted.
-> > If it were to be set after the callback happens, the oops report would
-> > not properly reflect what foolishness was being attempted.
-> >
-> > Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
-> > the tool from hitting bind/unbind, should be run with panic_on_taint
-> > enabled so that they fall over and don't continue on, thinking that they
-> > actually found a real issue.
-> >
-> > Userspace operations that rely on the bind/unbind files
+On 9/18/26 10:24, Conor wrote:
 > 
-> I agree that this should be avoided.
 > 
-> But I also think the biggest offender really is driver_override. Specifically,
-> on a hot-pluggable bus a driver must be complient with the device driver
-> lifecycle rules and hence shouldn't break on bind/unbind. I think it would be
-> nice to not taint the kernel for such busses, and only taint on driver_override,
-> as I think we'd still want the bug reports for such cases.
+> On 18 September 2026 17:02:38 GMT+02:00, Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 9/18/26 03:23, Colin Huang wrote:
+>>> Add a PMBus driver for Infineon TDA38740 and TDA38725
+>>> single-voltage synchronous buck regulators.
+>>>
+>>> Signed-off-by: Colin Huang <u8813345@gmail.com>
+>>
+>> For my reference (waiting for DT patch approval):
+>>
+>> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 > 
-> But I think this is fine to leave for a follow-up.
+> I'm on holiday and only have my phone, and cannot find the binding patch to reply to.
+> I found it on lore and it looks okay.
+> 
 
-Yeah, let's see how this goes, thanks for the review!
+Hi Conor,
 
-greg k-h
+it was copied to "Conor Dooley <conor+dt@kernel.org>". Is that the wrong address ?
+
+Thanks,
+Guenter
+
