@@ -1,147 +1,138 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12F337E300;
-	Fri, 18 Sep 2026 13:56:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A423A873C;
+	Fri, 18 Sep 2026 14:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789739783; cv=none; b=MTpqqNHEVOm6dh4a5O4N+u+gajhxK91GcjrZDrEB6IWKkSTuE0iAw6zL4pN6LJpq678pZkv6AsqflvvoYdAPR91jr/Da/JopD46RFxq3BaeohrhnJHxiiXuEwlMBjdBkKn8qr38Df4LZP1UTeSJE6Y6w4aK33tvcNP8Ysox6KAA=
+	t=1789740335; cv=none; b=p+cJdR9qYE6+J7kWip0xVYX1zvKmMpghCkOY23nN37uXxL9YN895sWqM8zd4FmU60CuJwjqFRu40F6DuFblHHUxLCDLQI8I0k/dkmvEWQ6UiCBu+u4MS1FuItsY/v0R8/j3mDqRAEA7A/h5qPuGp3HJ6eLXcPYUwEv8zvuGnHfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789739783; c=relaxed/simple;
-	bh=cUSLIxcX1bk3qYNVJ5l9prXJ06yW8o5yz0p0t49QLH0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PI43WM6iZ5ZSaeBym8ihasxDTEMopgQZbws83qQnQUp/AekFB3IDPZKwiGK/PMfhU0qF/L1OR/NtyIms6gC6xWqwIScR46HwFX1TAnRh6Td+2AY9MA/JH0qlmRtuBY1cYTy/ORZ+bS7pwsUg5gXmngL51Q52n3aLm5my+JPE3i8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=rOMt3O3c; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1789740335; c=relaxed/simple;
+	bh=Bcwy+E6Oi4b2berfQyScAitGGyv5fqsNPnDcrsX0nZM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=T4gwm4YC2PNDJsWhBHPazH4JrRtxBeG0YR2U2sh8KJb3xg9eJsk17lSSSoEISxFY+vqZiIf5ksVgnSQ4tYNwFb5UecDEcvQh+1vlGsecNDxP1b4U2sq8JjFFLwJpgDt99Ai4FwhW2LIXFMRFjM7rahX8RIP4vEsYpwKh6PNPNns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LnTkSueR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="rOMt3O3c"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68IDVW9j3708576;
-	Fri, 18 Sep 2026 13:55:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=6G+4dE
-	4cMS6MV+wifqFoZWtP9LfKTFKwf+NdL9fiYVg=; b=rOMt3O3c70Oe+gZKmylKe+
-	aYsGbULQGEmPRJ7TfZAr5YPElbyHh93+KLunbOXrO31bBAEOBQnTp6jtbJnNXoMS
-	r6TWaR+kJ1tV8MC2lusNce/kh5VN6vW4+zRjB9wTuvwmUVhsJEdN+wYJlZdpJhd+
-	0+AEvFTvCy4+QottyRQ+fv/zdkzgltM0Q7e33uT0tkIPIXfJH0N3nD5qIw0qaYZx
-	MKZ0b+zht/26x03EAVGvIE4gBBG4w8APfF1VwnZjG3WCd59kqsCwn8BHus674Gft
-	+WjyA8cz9bDsY1nWoMzcpnWH/s0pLNKBQAmU1imvac4jxKPCWVu9ipCzThzBp4Kw
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gmxdqre9h-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 18 Sep 2026 13:55:44 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68IDOCVZ695835;
-	Fri, 18 Sep 2026 13:55:43 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gra3fepdq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Sep 2026 13:55:43 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68IDtfQn44040468
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 18 Sep 2026 13:55:41 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7245B20043;
-	Fri, 18 Sep 2026 13:55:41 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3B3DC20040;
-	Fri, 18 Sep 2026 13:55:37 +0000 (GMT)
-Received: from [9.39.18.35] (unknown [9.39.18.35])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 18 Sep 2026 13:55:37 +0000 (GMT)
-Message-ID: <1a0997c8-844c-48b8-8a66-47bfae752a09@linux.ibm.com>
-Date: Fri, 18 Sep 2026 19:25:36 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LnTkSueR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98B6E1F000FF;
+	Fri, 18 Sep 2026 14:05:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789740333;
+	bh=6poMYmfx2QCRu6OebYOQVuSs9AtiKnZz0sS56fkFvHI=;
+	h=From:Subject:Date:To:Cc;
+	b=LnTkSueRiZtJazx9N12EVScAkE9TOYSRbcSMyLVtqpVFDomLjrkXKXqwB51ooB/PY
+	 3S/rIV6sXHh9BIGOF2ENXBrt8MMuZ0jqF0AZcLmv0dNG2vEzXGELqH6+KYrJftn4g/
+	 AJY6HNrBn5LMYacAIc1Foua767Uj4lnFab/uw9EbL8TSacpKoVQ7CuzeCjYGJFOfqB
+	 +86sqi0a1TCwapaLe2NMt4zB2fif8PR9kvkNqoutUsey0ZTv/S+M+B2lsfp7ajtHql
+	 ntw0XJR0K5Dn3XC3S10Vi6r9XANmBNimsML2zVtzf1ehBi8JDy9S7k0LMpzO2NfZus
+	 EarewJPihl3sw==
+From: Chuck Lever <cel@kernel.org>
+Subject: [PATCH RFC 0/5] NFS: isolate mTLS client credentials by network
+ namespace
+Date: Fri, 18 Sep 2026 10:05:15 -0400
+Message-Id: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/2] sched: Document WF_SYNC wakeup placement
- semantics
-To: Peter Zijlstra <peterz@infradead.org>,
-        "Shubhang Kaushik (Ampere)" <sh@gentwo.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
-        Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
-        K Prateek Nayak <kprateek.nayak@amd.com>,
-        Shubhang Kaushik <shubhang@os.amperecomputing.com>,
-        Madadi Vineeth Reddy <vineethr@linux.ibm.com>,
-        Christopher Lameter <clameter@amperecomputing.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260917-sched-wf-sync-doc-v2-0-6d1f107c0596@gentwo.org>
- <20260917-sched-wf-sync-doc-v2-1-6d1f107c0596@gentwo.org>
- <20260918113349.GM776954@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <20260918113349.GM776954@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE4MDE5MiBTYWx0ZWRfXyPni4C+ozXnM
- qmUxgnFPlWH8E3bK+/DvZLSPNAyXE9xXG5myetatKrIYVdYTnCnnVQbWLOWNzrBN2MCsBz+srVv
- eV3zOT3ORGAIP1z1siuPJTXEAmaVlGa+hLgM324ImVNLIK4ZlFhHBgWY0m+KBZGnG19Vj//6WTK
- IEEaBP6aRSnJpJ3yfPZgnsjA/AglnpWdyODlclobJkd7Q/Ou8Jqm7CZUvmE06DdW4XRB7galgN2
- 2Yq5Ps8uzCO/TEmUtHCVf8f2G975cf2epmcOfkhJqlTfoP62BobwkGflJ00WLbn7kc9QzxAsCA0
- zxbZzAshjs3XEdzXnAXOBXpfepBflJRXe5G5vNqlnUFG6NwVquqyl331R1SsV8/gOI9MgaLKtNS
- /xYaIqUhLJpRWgkiWyeqJ8ORpdXv7YSzlTlyfkTNyV5glko2nEoFTlEGeeBSyoEekBRmwys+SVl
- K69KWgJLz/NE1L42+0A==
-X-Proofpoint-GUID: gZ4syxm7viqt3LIhchWmRh8BIL-DXoeL
-X-Authority-Analysis: v=2.4 cv=DobDa2/+ c=1 sm=1 tr=0 ts=6aad42e1 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=PuvxfXWCAAAA:8 a=Stw8hEXxhGw3wwcJXJoA:9 a=QEXdDO2ut3YA:10
- a=uAr15Ul7AJ1q7o2wzYQp:22
-X-Proofpoint-ORIG-GUID: -74rJNWyHWjJNgydmV5sIPhzJBQJD17v
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE4MDE5MiBTYWx0ZWRfX3l4EUixD2VJI
- BrYys871kPwDcI8xGCPQVvmZHjql/5jJ1ed+4DkeyV6ekMN6DQlC4PVpR1jNYKVM23dRPts4PL+
- YW9W4NwmV+QrvTZsMw3vSoWQAOsf05U=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-18_04,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 priorityscore=1501 suspectscore=0 impostorscore=0
- spamscore=0 clxscore=1011 adultscore=0 bulkscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609180192
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMywrCMBBFf6XM2kBSQ31sBT/ArbhI0okdsalkR
+ lFK/91El+dw75mBMRMy7JsZMr6IaUoFzKqBMLh0RUV9YWh12+md2agUWY1y5+IxCclHaRuMjV1
+ c220P5ffIGOn9a57hdDzA5S/56W8YpNbqzDtG5bNLYahqdCyYYVm+WtrzkZMAAAA=
+X-Change-ID: 20260917-nfs-mtls-identity-04c14f6f348d
+To: Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Christian Brauner <brauner@kernel.org>, David Howells <dhowells@redhat.com>, 
+ Sagi Grimberg <sagi@grimberg.me>
+Cc: linux-nfs@vger.kernel.org, keyrings@vger.kernel.org, 
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Chuck Lever <cel@kernel.org>
+X-Mailer: b4 0.16-dev-da966
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3117; i=cel@kernel.org;
+ h=from:subject:message-id; bh=Bcwy+E6Oi4b2berfQyScAitGGyv5fqsNPnDcrsX0nZM=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqrUUh2otE4UaTM/4UNJvbzhYbfEh/zl+1BjUur
+ mLLDfM8QIWJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCaq1FIQAKCRAzarMzb2Z/
+ l1VBEACkGjBjcvS+UuHhBY7gD+YJfo1EWWJzk9olQk61PsAcxYmhEg93mXosFxeiQr8dn7UfaMA
+ e2Xp4qNzcDoqNC0PbeYZQ+B5w0dDp744+PEewcdazX8ToJ7+6PuHVvgUe5cKnml4Uiht0BFLGgQ
+ BSu6qhPSsVsgBhP2gvN/AyeusuO/rY/eWeliyR22W2oLdGhfdw++4gTfSeh44a2afzMVXdGJwjM
+ i7AVXGvWAu7D5ksVCm5/hj8cLzuVH/wLQ/XXsHXf2hW6o4lVwIadS086XiOVCJSa6Y6u9D45Pyh
+ Dpsy5P7UzAsqE8ZlyibJKfsMP6oTYj6SZicbaNvK40j/lse0ZbhK1kYs+AjsnVsk3E2pxBk80+/
+ T/3MEguppu8cK2jO5oYTSK3hrTmtENwne/iAtgJjQusILaEmDwGgBtqRYEi5JCQnA466nQXHeUW
+ Tw1uP7x44w3GBUbGrqyazMnMjs1Fc6GKtAIfEPINPqypOQeD1IbtO8cDRD9ro8iW9k9XhmI+egX
+ uWWH9cviVl1g/Y1QCZgq9TQPB/r9fUvd00PpvDwacWzo9rnCBCLaQoTIT6PN9jcGngeRrRq7Fmb
+ G9nNZfALfFdoqSQE3C/HWGzRRxYfed+ojzNt6gb2AHtrO1pez8lbHkezd20x3Y9cNZc/WwWvj6G
+ ktgK8+0efSBKggA==
+X-Developer-Key: i=cel@kernel.org; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-Hi Peter,
+An xprtsec=mtls mount names its client certificate and private key
+by keyring serial, and tlshd reads those keys with its own
+credentials. Each key therefore has to grant user read permission,
+and any tlshd on the host that learns a serial can read it. Nothing
+separates one network namespace's credentials from another's.
 
-On 9/18/26 5:03 PM, Peter Zijlstra wrote:
-> On Thu, Sep 17, 2026 at 01:43:24PM -0700, Shubhang Kaushik (Ampere) wrote:
->> WF_SYNC is supplied by callers that expect the waker to schedule away
->> soon. The fair scheduler can use it as a placement and preemption hint,
->> but its semantics are not documented.
->>
->> Document the stable fair-class WF_SYNC semantics. WF_SYNC is advisory:
->> it can influence placement and preemption, but does not guarantee CPU
->> locality, avoidance of migration, or immediate wakee preemption.
->>
->> This documents existing behavior only. It does not establish a new
->> WF_SYNC placement policy.
->>
->> Signed-off-by: Shubhang Kaushik (Ampere) <sh@gentwo.org>
-> 
-> *groan*, why not just a comment that goes with WF_SYNC? All this
-> documentation stuff is a dumping ground for bitrot.
+This series makes the network namespace the isolation domain. The
+RFC thread asked whether the user or mount namespace is the better
+binding. tlshd services the handshake socket of one network
+namespace, so that is the namespace it already lives in.
 
-I suggested to document this since there were atleast 4 proposals around
-modifications of WF_SYNC and it was very confusing.
+  https://lore.kernel.org/linux-nfs/20260602154740.49861-1-cel@kernel.org/
 
-Did you get a chance to look at below abuse of the sync api?
-https://lore.kernel.org/all/20260714013940.4068189-4-srikar@linux.ibm.com/
+The keyring is held in struct nfs_net rather than found by name,
+because /proc/keys is not namespace scoped. Its serial travels with
+each handshake instead (patches 3-4), and tlshd's possession of that
+keyring is what lets a provisioned key grant no user read permission
+at all. Both ends of the link exist today, in tls_handshake_accept()
+and in tlshd. The handshake genetlink ABI and the cert_serial= and
+privkey_serial= mount options do not change.
 
-For that reason, I think either document/comment around what's the expectation
-will help. Either scheduler need to account of all usecases of even when users of
-SYNC misbehave or such callsites must be fixed and SYNC behavior can be kept minimum.
+Still open is how userspace names the kernel-held keyring. Patch 5
+prototypes a request_key type handled in the kernel and tagged
+KEY_TYPE_NET_DOMAIN. A keyctl modeled on KEYCTL_GET_PERSISTENT, or a
+read-only attribute on the netns-tagged nfs_client sysfs kobject,
+would do the same job if the keyrings maintainers prefer one. Keys
+that userspace adds are quota-charged by user namespace while the
+keyring lives in nfs_net. Confirmation that this is sane when the
+two boundaries differ would be welcome.
+
+nfstlskey, the provisioning tool that consumes the key type, is
+merged in https://github.com/oracle/ktls-utils/ .
+
+Tested on one Fedora VM acting as both NFS client and NFSD, with
+tlshd from ktls-utils 1.4.0: NFSv4.2 mounts with xprtsec=tls, with
+xprtsec=mtls using the identity in tlshd.conf, and with xprtsec=mtls
+using serials that nfstlskey provisioned.
+
+---
+Chuck Lever (5):
+      NFS: name the init_nfs_fs() error labels
+      NFS: allocate the .nfs keyring per network namespace
+      SUNRPC: pass a keyring serial to the TLS handshake
+      NFS: name the namespace .nfs keyring in the x509 handshake
+      NFS: add a key type that reveals the namespace .nfs keyring serial
+
+ Documentation/filesystems/nfs/index.rst   |   1 +
+ Documentation/filesystems/nfs/keyring.rst |  67 ++++++++++
+ fs/nfs/client.c                           |   9 +-
+ fs/nfs/fs_context.c                       |   1 +
+ fs/nfs/inode.c                            | 209 ++++++++++++++++++++++--------
+ fs/nfs/netns.h                            |   9 ++
+ fs/nfs/nfs3client.c                       |   1 +
+ fs/nfs/nfs4client.c                       |   1 +
+ include/linux/sunrpc/xprt.h               |   1 +
+ net/sunrpc/xprtsock.c                     |   1 +
+ 10 files changed, 244 insertions(+), 56 deletions(-)
+---
+base-commit: df2908090cda368b01ff43709f51890076c56157
+change-id: 20260917-nfs-mtls-identity-04c14f6f348d
+
+Best regards,
+--  
+Chuck Lever <cel@kernel.org>
+
