@@ -1,53 +1,65 @@
-Received: from mta0.migadu.com (out-79.mta0.migadu.com [91.218.175.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FAB27FB18
-	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 10:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.79
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6204B404B;
+	Fri, 18 Sep 2026 11:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789727075; cv=none; b=OX8b2U3/UT2A3ZHLr4JqF9/T6hBRU/ONnLdYWE5+6tVcyhiRdHcfN3i1kRkhJ+hEv0aweII8KiIH0WJ9RDr9bJlAmy/m3cvQ+7Y4SOf3xR49lHmHDLeYc5rMq40dlDpIi1fInCwwKQKRG5Id2njo9YsR/rS+MZl6n2D04ht5Qjo=
+	t=1789730571; cv=none; b=H33ttwhlhxmIc1m+KrGyIViRdQs7mAD9GyiaXUxouAvic47QtjiGfIkU+g+EdiXYULXMEPdnaLjMFv5SQJLYnt4ajHKno/tB/rNdnfbv2HIwVcUOPZWNXLCxe60EeLcACarkPDV6yuU5iACRUbD4v1VRylx3yNHF0OpfV5UKl1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789727075; c=relaxed/simple;
-	bh=J45Y1ObSy/eJBhcSeTA5XpHzBDid6XYZQmAy94wszCg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qu+o32p39Zjs1zLZQiaymy92GE3+XJq4fikd3ICbqJk2BsVAedQ7+Rdh5P9QCUj7COye+AJD0wEyGHpHqawgJVDVQI4rK28LsFQkGZyLMdh3hO5FbjFX1lBObSQrfsX4bN27ZIPAw0Hue79GNmCxj7WJVz3DUmDxjkWLC4SfSrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EUZWBpPL; arc=none smtp.client-ip=91.218.175.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1789730571; c=relaxed/simple;
+	bh=lB8pI3aAX82jRNszu1ULQwVPDUuZXUT8Mywi4kxLbdg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NoYwUDDR0TnLHY0wjzi5rbDaw6ZWbqnbPHwqu72le/tA6lzR+AG8pTc42TrwEbT7Jg14SXvJBjtjTQoFjBrdiNoe8T2TcKgCgmrpXbV/BH7azLNvcZsbCOJzAnrHqvxnH8f2/sl1pOrCcTsnTmmvjaipZ7gXFqyr6f9GUEF1GmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=rlWQkHg1; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EUZWBpPL"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=J45Y1ObSy/eJBhcSeTA5XpHzBDid6XYZQmAy94wszCg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789727071; v=1; x=1790331871;
- b=EUZWBpPLap2Zq2wEJLWGFF8tiY6xuFKhuNP65atENvfuX2JOS5twZuAG3RrLrNi1XBytYh7p
- iufruDSHQ3pnlOiXbrp13qAvxC377TCozFNwdMDUV8Dr1ZrZIIl2IqXg96ac5c5uhoozr9rSCrP
- 8EkPDpriOWSCWb7iCcENQVFk=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 05f701c3f01e40bb;
-	Fri, 18 Sep 2026 10:24:31 +0000
-X-Mizu-Trace-ID: 05f701c3f01e40bb
-X-Migadu-Flow: FLOW_OUT
-From: Guopeng Zhang <guopeng.zhang@linux.dev>
-To: Tejun Heo <tj@kernel.org>,
-	Waiman Long <longman@redhat.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Ridong Chen <ridong.chen@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="rlWQkHg1"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CFB01596;
+	Fri, 18 Sep 2026 04:22:45 -0700 (PDT)
+Received: from a081061.blr.arm.com (a081061.arm.com [10.164.19.84])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0EA7A3F882;
+	Fri, 18 Sep 2026 04:22:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789730568; bh=lB8pI3aAX82jRNszu1ULQwVPDUuZXUT8Mywi4kxLbdg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rlWQkHg1rqpdpV6cfmR9MxmsZh97dvZBzuHAKukp+VEo0hbTTNovcfD3YOXDyE0BR
+	 +TwT4ePXSN4IZvb4diTZ2hZImbD4e8PLADNNNm+zRsRPoPvcwvuWMJ+ATdjv0s8zBh
+	 iqefnTrOFXECfh4KOdjxpu1JzCbeGyBMG7cgtNSI=
+From: Sarthak Sharma <sarthak.sharma@arm.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Shuah Khan <shuah@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	cgroups@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Peter Xu <peterx@redhat.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <npache@redhat.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Muhammad Usama Anjum <usama.anjum@arm.com>,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Guopeng Zhang <zhangguopeng@kylinos.cn>
-Subject: [PATCH 2/2] docs: cgroup-v2: Describe effective CPUs of partition roots
-Date: Fri, 18 Sep 2026 18:23:59 +0800
-Message-ID: <20260918102359.71826-3-guopeng.zhang@linux.dev>
+	Sarthak Sharma <sarthak.sharma@arm.com>
+Subject: [PATCH v11 0/6] selftests/mm: separate GUP microbenchmarking from functional testing
+Date: Fri, 18 Sep 2026 16:52:28 +0530
+Message-ID: <20260918112234.195857-1-sarthak.sharma@arm.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260918102359.71826-1-guopeng.zhang@linux.dev>
-References: <20260918102359.71826-1-guopeng.zhang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,63 +68,196 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Guopeng Zhang <zhangguopeng@kylinos.cn>
+gup_test.c currently serves two separate purposes: benchmarking
+(GUP_FAST_BENCHMARK, PIN_FAST_BENCHMARK and PIN_LONGTERM_BENCHMARK) and
+functional testing (GUP_BASIC_TEST, PIN_BASIC_TEST and
+DUMP_USER_PAGES_TEST). Keeping both in one program makes the functional
+tests harder to run and report individually, while run_vmtests.sh has to
+invoke the program repeatedly with different options.
 
-The cpuset.cpus.effective description says that the effective CPUs are
-granted by the parent and are normally a subset of cpuset.cpus. This
-does not always hold for a valid non-root partition root. Its effective
-CPUs are the active CPUs in cpuset.cpus.exclusive.effective after CPUs
-assigned to valid child partition roots are removed.
+Separate these roles into tools/mm/gup_bench for benchmarking and
+tools/testing/selftests/mm/gup for functional testing. Move the shared
+file and hugepage helpers to tools/lib/mm/ so both programs can use them
+without duplicating the implementation.
 
-If cpuset.cpus.exclusive differs from cpuset.cpus, the effective CPUs
-may therefore be outside cpuset.cpus. Remote partitions also do not
-necessarily get their CPUs from their immediate parent.
+Patch 1 makes read_file(), write_file(), read_num(), write_num() and
+write_num_ignore_einval() return errors to their callers instead of
+exiting. It also makes read_num() reject negative and malformed values
+and updates the existing callers to handle failures.
 
-Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
+Patch 2 moves these file helpers from vm_util.c to tools/lib/mm/. It keeps
+them available to the mm selftests through vm_util.h and adjusts the
+selftests build accordingly.
+
+Patch 3 moves hugepage_settings.[ch] from selftests/mm to tools/lib/mm/.
+It also removes its kselftest dependency while preserving TAP-compatible
+diagnostics for selftest users.
+
+Patch 4 moves the existing gup_test implementation from selftests/mm to
+tools/mm as gup_bench. This keeps the code movement separate from the
+subsequent changes and makes it easier to review.
+
+Patch 5 removes the functional test modes and kselftest dependency from
+gup_bench. When run without arguments, it performs one GUP_FAST benchmark
+using the existing defaults instead of running the whole matrix. Other
+benchmark configurations can be selected through command-line options.
+
+Patch 6 adds a new harness-based GUP selftest. It covers THP, non-THP and
+HugeTLB mappings across private/shared and read/write variants. For each
+variant, it tests get_user_pages(), get_user_pages_fast(),
+pin_user_pages(), pin_user_pages_fast() and long-term pinning modes
+using four batch sizes. The HugeTLB variants share a one-time setup of
+two hugeTLB pages.
+
+Changes in v11:
+- Rename NR_HUGE_PAGES to NR_HUGETLB_PAGES
+- Address style comments in gup.c
+
+Changes in v10:
+- Use anonymous mappings instead of /dev/zero backed ones
+- Use two HugeTLB pages in GUP selftest
+- Remove dump_page() description from mm/Kconfig
+- Check effective UID before running gup_bench
+
+Changes in v9:
+- Handle read_num() and write_num() calls in hugetlb-soft-offline.c
+- Require GUP tests to pin all requested pages
+- Setup HugeTLB pages after prerequisite checks, choose the count
+  using a 256 MiB target and skip variants when setup fails
+
+Changes in v8:
+- Add a comment to clarify read_num() input validation
+- Remove duplicate exit code in gup_bench
+- Drop DUMP_USER_PAGES_TEST coverage from gup
+- Update Documentation and Kconfig
+
+Changes in v7:
+- Rebase onto mm-unstable
+- Address feedback from Mike and Sashiko
+- Make read_file() return 0 on success and tighten read_num() parsing
+- Move write_num_ignore_einval() with the shared file helpers
+- Keep the existing gup_bench argument parsing and avoid unrelated checks
+- Set up 128 HugeTLB pages once for all HugeTLB selftest variants
+
+Changes in v6:
+- Rebase onto v7.2-rc5
+- Address feedback from David, Mark, John, Dev and Sashiko
+- Keep the shared file helpers silent and let callers report errors
+- Move the existing gup_test into tools/mm before changing its behaviour
+- Report ioctl failures from gup_bench worker threads
+- Remove the default benchmark matrix and run one default benchmark instead
+- Add the new harness-based functional selftest in a separate final patch
+- Drop the unrelated thp_swap_allocator_test .gitignore change
+
+Changes in v5:
+- Rebase onto v7.2-rc3
+- Address feedback from Mike, John, Dev and Sashiko
+- Make file helper diagnostics TAP-compatible
+- Validate read_num() input and propagate errors while restoring shared
+  memory limits
+- Preserve build bisectability for the x86 protection_keys test
+- Preserve HugeTLB diagnostics using TAP-compatible printf() output
+- Validate the remaining numeric arguments accepted by gup_bench
+
+Changes in v4:
+- Address review feedback from Mike and Sashiko
+- Add a preparatory patch so shared file helpers return errors instead of exiting
+- Reduce include churn by keeping shared helpers exposed through vm_util.h
+- Preserve HugeTLB diagnostics and restore HugeTLB state more carefully
+- Fix selftests/mm build details after moving helpers to tools/lib/mm
+- Tighten gup_bench argument handling and gup_test setup/sparse-dump coverage
+
+Changes in v3:
+- Address v2 feedback from Sashiko
+- Add shared file_utils helpers under tools/lib/mm
+- Move hugepage_settings out of selftests and into tools/lib/mm
+- Convert gup_bench to use the shared tools/lib/mm helpers
+- Guard against invalid thread counts in gup_bench
+- Handle thread-array allocation failure cleanly in gup_bench
+- Restore HugeTLB settings on setup failure in gup_test
+- Add sparse DUMP_USER_PAGES_TEST coverage for pages 0, 19 and 0x1000
+
+Changes in v2:
+- Address v1 feedback from Sashiko
+- Add fast and long-term GUP/PUP coverage
+- Sweep nr_pages_per_call over 1, 512, 123 and all pages
+- Call madvise(MADV_NOHUGEPAGE) in non-THP variants
+- Use 256 MB for HugeTLB fixtures
+- Restore HugeTLB settings from fixture teardown
+- Report nr_pages_per_call for each iteration
+- Update the pin_user_pages unit-testing documentation
+
+Previous versions:
+v10: lore.kernel.org/all/20260911110950.200240-1-sarthak.sharma@arm.com/
+v9: lore.kernel.org/all/20260904123631.198697-1-sarthak.sharma@arm.com/
+v8: lore.kernel.org/all/20260831042101.18085-1-sarthak.sharma@arm.com/
+v7: lore.kernel.org/all/20260813181230.483746-1-sarthak.sharma@arm.com/
+v6: lore.kernel.org/all/20260730140825.238130-1-sarthak.sharma@arm.com/
+v5: lore.kernel.org/all/20260716123226.197736-1-sarthak.sharma@arm.com/
+v4: lore.kernel.org/all/20260527142432.230127-1-sarthak.sharma@arm.com/
+v3: lore.kernel.org/all/20260521111801.173019-1-sarthak.sharma@arm.com/
+v2: lore.kernel.org/all/20260519120506.184512-1-sarthak.sharma@arm.com/
+v1: lore.kernel.org/all/20260515084840.174652-1-sarthak.sharma@arm.com/
+
 ---
- Documentation/admin-guide/cgroup-v2.rst | 29 ++++++++++++++++---------
- 1 file changed, 19 insertions(+), 10 deletions(-)
+Sarthak Sharma (6):
+  selftests/mm: make file helpers return errors
+  tools/lib/mm: add shared file helpers
+  tools/lib/mm: move hugepage_settings out of selftests
+  tools/mm: move gup_test from selftests/mm to tools/mm
+  tools/mm: make gup_bench a benchmark only tool
+  selftests/mm: add a GUP selftest
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 272e9f2432bd..49ce8deb4115 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2505,16 +2505,25 @@ Cpuset Interface Files
- 	A read-only multiple values file which exists on all
- 	cpuset-enabled cgroups.
- 
--	It lists the onlined CPUs that are actually granted to this
--	cgroup by its parent.  These CPUs are allowed to be used by
--	tasks within the current cgroup.
--
--	If "cpuset.cpus" is empty, the "cpuset.cpus.effective" file shows
--	all the CPUs from the parent cgroup that can be available to
--	be used by this cgroup.  Otherwise, it should be a subset of
--	"cpuset.cpus" unless none of the CPUs listed in "cpuset.cpus"
--	can be granted.  In this case, it will be treated just like an
--	empty "cpuset.cpus".
-+	It lists the active CPUs available to tasks in this cgroup.
-+
-+	For a cgroup that is not a valid partition root, an empty
-+	"cpuset.cpus" makes "cpuset.cpus.effective" show all CPUs
-+	available from the parent cgroup.  Otherwise, it is a subset
-+	of "cpuset.cpus" unless none of the requested CPUs can be
-+	granted.  In that case, it is treated like an empty
-+	"cpuset.cpus".
-+
-+	For a valid non-root partition root, "cpuset.cpus.effective" contains
-+	the active CPUs from "cpuset.cpus.exclusive.effective" except
-+	those granted to valid child partition roots.  If
-+	"cpuset.cpus.exclusive" is set to a value different from
-+	"cpuset.cpus", the effective CPUs need not be a subset of
-+	"cpuset.cpus".  For example, if CPUs 2-5 are active,
-+	available, and not assigned to a valid child partition root,
-+	a partition root with "cpuset.cpus" set to "0-3" and
-+	"cpuset.cpus.exclusive" set to "2-5" has "2-5" in
-+	"cpuset.cpus.effective".
- 
- 	Its value will be affected by CPU hotplug events.
- 
+ Documentation/core-api/pin_user_pages.rst     |   9 -
+ MAINTAINERS                                   |   4 +-
+ mm/Kconfig                                    |  19 +-
+ tools/lib/mm/file_utils.c                     | 106 +++++++
+ tools/lib/mm/file_utils.h                     |  13 +
+ .../selftests => lib}/mm/hugepage_settings.c  | 109 ++++++--
+ .../selftests => lib}/mm/hugepage_settings.h  |   0
+ tools/mm/.gitignore                           |   1 +
+ tools/mm/Makefile                             |  11 +-
+ .../mm/gup_test.c => mm/gup_bench.c}          | 190 ++++++-------
+ tools/testing/selftests/mm/Makefile           |  15 +-
+ tools/testing/selftests/mm/compaction_test.c  |   2 +-
+ tools/testing/selftests/mm/cow.c              |   1 -
+ .../selftests/mm/folio_split_race_test.c      |   1 -
+ tools/testing/selftests/mm/guard-regions.c    |   1 -
+ tools/testing/selftests/mm/gup.c              | 262 ++++++++++++++++++
+ tools/testing/selftests/mm/gup_longterm.c     |   1 -
+ tools/testing/selftests/mm/hmm-tests.c        |   6 +-
+ tools/testing/selftests/mm/hugetlb-madvise.c  |   1 -
+ tools/testing/selftests/mm/hugetlb-mmap.c     |   1 -
+ tools/testing/selftests/mm/hugetlb-mremap.c   |   1 -
+ tools/testing/selftests/mm/hugetlb-shm.c      |   1 -
+ .../selftests/mm/hugetlb-soft-offline.c       |  18 +-
+ tools/testing/selftests/mm/hugetlb_dio.c      |   1 -
+ .../selftests/mm/hugetlb_fault_after_madv.c   |   1 -
+ .../selftests/mm/hugetlb_madv_vs_map.c        |   1 -
+ tools/testing/selftests/mm/khugepaged.c       |  15 +-
+ tools/testing/selftests/mm/ksm_tests.c        |   1 -
+ tools/testing/selftests/mm/migration.c        |   2 +-
+ tools/testing/selftests/mm/pagemap_ioctl.c    |   1 -
+ .../testing/selftests/mm/prctl_thp_disable.c  |   1 -
+ tools/testing/selftests/mm/protection_keys.c  |   2 +-
+ tools/testing/selftests/mm/run_vmtests.sh     |  37 +--
+ tools/testing/selftests/mm/soft-dirty.c       |   1 -
+ .../selftests/mm/split_huge_page_test.c       |   6 +-
+ tools/testing/selftests/mm/thuge-gen.c        |   1 -
+ tools/testing/selftests/mm/transhuge-stress.c |   1 -
+ tools/testing/selftests/mm/uffd-common.h      |   1 -
+ tools/testing/selftests/mm/uffd-wp-mremap.c   |   2 +-
+ .../selftests/mm/va_high_addr_switch.c        |   1 -
+ tools/testing/selftests/mm/vm_util.c          | 121 +++-----
+ tools/testing/selftests/mm/vm_util.h          |   8 +-
+ 42 files changed, 649 insertions(+), 328 deletions(-)
+ create mode 100644 tools/lib/mm/file_utils.c
+ create mode 100644 tools/lib/mm/file_utils.h
+ rename tools/{testing/selftests => lib}/mm/hugepage_settings.c (87%)
+ rename tools/{testing/selftests => lib}/mm/hugepage_settings.h (100%)
+ rename tools/{testing/selftests/mm/gup_test.c => mm/gup_bench.c} (50%)
+ create mode 100644 tools/testing/selftests/mm/gup.c
+
 -- 
-2.43.0
+2.53.0
 
