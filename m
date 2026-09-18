@@ -1,334 +1,148 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39EB397691;
-	Fri, 18 Sep 2026 14:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770403D3D18;
+	Fri, 18 Sep 2026 14:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789742720; cv=none; b=VHlLDpjpR6qkxUQxNVEu40czVi1sZxs3CX1IxrljgthEfNlV1lkoRTBY20qszwPsVSfNQdIzXJWditYTP0K8FFSkklriSvPS7TC412fZgRePRGSM44IINxqryZOkdxfCfn8seCCeXyDI5td85y2Rpl2Hjg7X9GRZpH5miC+wkl8=
+	t=1789743145; cv=none; b=fP9CQFdJWoJjRUjbe9sW61zH5EMaWD0wvgoCyLPTeNzOzsiEro+cRx7LYIt0pDqF0+XAn0+aEpMVLq1G3/Bd1ZY6cUDp9NRPuO14C6AzknyJOKFB4nLcgC5kNGmfokwHiKMseniikfCVHwZMNUbhqqUu1Z6neH8GRMvK4otHSBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789742720; c=relaxed/simple;
-	bh=rGTov9lEabDQJI6s0tqmkKQoMdfh7wPxKbbumW0fPwM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lLlnAbxhPaV+WxIshY2sw/ofmf+7mA4zZPkuNF/H8FkZf4tgsiUjh+eD7HHCya4c/Cx10rjdDMriklDbkPgZKLiDKD352t8QHs/vTikAEtR6qmiYDO969lub6iRSloWVlqKHwGzzCtdDRQ9QPQ2jLozV4f+RlRC1l0GtFWaPoHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q+vDJ55Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mffIaaZD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bqrgQVLA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k1xV1d6y; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1789743145; c=relaxed/simple;
+	bh=ZUS4Rt9Ulh1BtKnfnvSM6fZYI2e27Id65l3CaHQRwRc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m1DqBzHWJrRe6koSekJgToBKSkrVVsfC/ZC3pJl8oFCWEd3Yuyqn9Hfei/PR4TfjDq9eSvxc52Y0pwxMI/I5nf7PWGzjDzibqDXVSjxC7qhb2/gfyqLrEg7iIESdn+3gGxoAJMCUbvCVgYRVD+9KHUIehrNoj7kIGAgo/NF2MBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=YjbHyEEw; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q+vDJ55Y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mffIaaZD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bqrgQVLA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k1xV1d6y"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BE64221BDC;
-	Fri, 18 Sep 2026 14:45:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789742711; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ouZbQb+FG4WGxOgRLBY+fRM/c3UqtSaByCtCgTRHDGs=;
-	b=Q+vDJ55YNjOd4xRkTSct8mvIAIz286//DXSG52djhT3qT7nRMhB9qKcEYXF34kRSi+Or0G
-	H5si3xlhbO40PgsXusH8ZLQmRhsoMaVtoq+gUMMC/slPHdpWUHa0D5Zv96+ecmS/xAT9r4
-	hdPhh3RHzep87R6CaOmyfnxKZRWSbA4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789742711;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ouZbQb+FG4WGxOgRLBY+fRM/c3UqtSaByCtCgTRHDGs=;
-	b=mffIaaZDJcrfOHt6v5pYWxkUBw1NmqyBOaZHLvsVVUJsR0c2wFfk72or23kyIl/wwA9MHQ
-	YkVomXfDNMbydIDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789742707; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ouZbQb+FG4WGxOgRLBY+fRM/c3UqtSaByCtCgTRHDGs=;
-	b=bqrgQVLAfoGoh/zKY4bQi6Izfi+HO/zEIBNZHWIzo8P+T5OKdS+Sh7N549D5gMsVvalr1O
-	e0FFYe60G3wif6UONY9raOPUZSqOHttd2TAjpABdK+Efd3uMOoBEawNwNwgTYpselsmc52
-	Ox6HauardNJ3i9ys5P5/G0MYAgz6XN0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789742707;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ouZbQb+FG4WGxOgRLBY+fRM/c3UqtSaByCtCgTRHDGs=;
-	b=k1xV1d6yvCtfFIzYLk86SicjuUHtiaF6YLf+Te52QyTIbU5lD1ehHaOjguztxsIfiw4G7O
-	L0cdKinsoPwFBDBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3031D133CF;
-	Fri, 18 Sep 2026 14:45:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CsW5AXNOrWqUDwAAD6G6ig
-	(envelope-from <hare@suse.de>); Fri, 18 Sep 2026 14:45:07 +0000
-Message-ID: <bbc4ff6f-aa38-4862-96fe-518c3b4df4d6@suse.de>
-Date: Fri, 18 Sep 2026 16:44:50 +0200
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="YjbHyEEw"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68IDVmg31394124;
+	Fri, 18 Sep 2026 14:52:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=kzXsOjzQlzYJxLubOtll4Q274VQG+A5hN+K1izuHs
+	KU=; b=YjbHyEEwlVAY5lNIlvtqSnLsgvr1AG0Ohdtx2Dh89WOPMu2txt1r/PWcW
+	s5wVwyUVhRmj9Hkbw69aqPrWhbCD3FZWwIIP7T8+iHEahnRpN6bCEW4rxzq6JhZR
+	Eg5qClstBNUxAv/Tqp8XF8NOj7uLDDO62qWkFigcaEJAkzO5PA8dCtQgdZeuGw0T
+	z01fZS6nwbpJoi0ZRsGQDCYfmnBN8s3/fb+ItKSyVY8Pd7I7u8F5U71eXyV1KuoO
+	fhv0Qh0pIr8Q+ccXVyHNGHu4XAgR2h7luhCHLy9A3pEqWN220olAZvZtR7sDUZzu
+	kbnIeXhiMI479IfDqkDcJZfFVtGzQ==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gmxf5grbh-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 18 Sep 2026 14:51:58 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68IDNxqc739495;
+	Fri, 18 Sep 2026 14:51:57 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gs56q8j4m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Sep 2026 14:51:57 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68IEprI139780670
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 18 Sep 2026 14:51:53 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 966DA2004D;
+	Fri, 18 Sep 2026 14:51:53 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 658C820043;
+	Fri, 18 Sep 2026 14:51:53 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.87.85.9])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with SMTP;
+	Fri, 18 Sep 2026 14:51:53 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
+	id 42364160D6F; Fri, 18 Sep 2026 16:51:53 +0200 (CEST)
+From: Eric Farman <farman@linux.ibm.com>
+To: Tony Krowiak <akrowiak@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+        Eric Farman <farman@linux.ibm.com>
+Subject: [PATCH] Documentation: Add missing KVM s390 crypto attributes
+Date: Fri, 18 Sep 2026 16:51:51 +0200
+Message-ID: <20260918145151.2116991-1-farman@linux.ibm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 2/5] NFS: allocate the .nfs keyring per network
- namespace
-To: Chuck Lever <cel@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
- Anna Schumaker <anna@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Christian Brauner
- <brauner@kernel.org>, David Howells <dhowells@redhat.com>,
- Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nfs@vger.kernel.org, keyrings@vger.kernel.org,
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
- <20260918-nfs-mtls-identity-v1-2-197e568d78a7@kernel.org>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20260918-nfs-mtls-identity-v1-2-197e568d78a7@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: O2fzhYu2FJRur6clFrYwVjak_BMcpHBT
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE4MDIwNyBTYWx0ZWRfX/qA8POljyuM+
+ lMjHEYTAtJB4P8lfb+8Qnvat7B8GfOHVWfl24YJ694heoLatr5e8PzK9MPDIC7Z3e09xft8MNIT
+ PPDqyV/pigVOBBk96slPMwDdQQLlhqc=
+X-Authority-Analysis: v=2.4 cv=cvgOAF4i c=1 sm=1 tr=0 ts=6aad5015 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8 a=I0NS5xvgDdluT5zVreoA:9
+X-Proofpoint-ORIG-GUID: QrMUBs7GeTC9YuqjkOj4oyE4kOtCB2dg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE4MDIwNyBTYWx0ZWRfX2nZDx7+3kHhl
+ AdY08J8uh6JdKwGPOQ9IWEIZUJAcE+wregdc9dXhdqSEv7iJRxq1quVmW5ODWCUN4owITjMjikd
+ GhGZdBp8RGGySI54+NoeOAO9YU1UsmynYqU/F2bsvXeCEc6jhp4KRjcIv1+snJj7e+d45ySC+1O
+ ZtWbRelj0IN1UHzifH2OCr/bxMW/DdkeDew+xMAJZjnHTvsCAED29xyCv1610zV+Qqa0OKP7rwj
+ aWiSRIb/reWLGXdqp+BTxGMkPb3cTPPKds/s37f9g+Ep7uQlUWRZzUKqZtkS3yYNnWEjiAEBk6B
+ E/n8UaBnapfUCxyzNNoS8njsrhlIIjhxxzhNXUjwIUOYFcSmGI2FfCKhJRwL/gcU0cjREouV75r
+ O93jMm/i2v8xiGaQ/MBlClzItHAhbQ7ZBttGXwa61KXHsUlTYs7Z/3yoHkB1c7Lhah41JuaTo24
+ MaGvZdXyJfisKJFUmqw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-18_04,2026-09-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 clxscore=1011 priorityscore=1501
+ suspectscore=0 bulkscore=0 impostorscore=0 phishscore=0 spamscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609180207
 
-On 9/18/26 4:05 PM, Chuck Lever wrote:
-> Commit 87268f7a4f1f ("nfs: create a kernel keyring") allocates one
-> .nfs keyring at module load, and nothing in the NFS client reads it.
-> One module-wide keyring also cannot isolate x.509 credentials
-> between network namespaces. Each tlshd instance services the
-> handshake socket of one network namespace, so a credential
-> provisioned for that namespace's mounts has to be reachable by that
-> tlshd and by no other.
-> 
-> Allocate one .nfs keyring per network namespace in nfs_net_init()
-> and release it in nfs_net_exit(). tlshd finds a keyring by name
-> through /proc/keys, which is not namespace scoped, so each handshake
-> request has to carry the keyring serial instead. Allocate the
-> keyring under a kernel credential rather than that of the task
-> creating the namespace, so an LSM labels every namespace's keyring
-> the same way.
-> 
-> Signed-off-by: Chuck Lever <cel@kernel.org>
-> ---
->   fs/nfs/inode.c | 81 +++++++++++++++++++++++++++++++---------------------------
->   fs/nfs/netns.h |  2 ++
->   2 files changed, 46 insertions(+), 37 deletions(-)
-> 
-> diff --git a/fs/nfs/inode.c b/fs/nfs/inode.c
-> index 832923be43a9..bd327fbb12d8 100644
-> --- a/fs/nfs/inode.c
-> +++ b/fs/nfs/inode.c
-> @@ -2641,11 +2641,50 @@ static int nfsiod_start(void)
->   unsigned int nfs_net_id;
->   EXPORT_SYMBOL_GPL(nfs_net_id);
->   
-> +#ifdef CONFIG_KEYS
-> +static int nfs_init_keyring(struct nfs_net *nn)
-> +{
-> +	struct cred *cred;
-> +	struct key *keyring;
-> +
-> +	cred = prepare_kernel_cred(&init_task);
-> +	if (!cred)
-> +		return -ENOMEM;
-> +	keyring = keyring_alloc(".nfs", GLOBAL_ROOT_UID, GLOBAL_ROOT_GID, cred,
-> +				(KEY_POS_ALL & ~KEY_POS_SETATTR) |
-> +				(KEY_USR_ALL & ~KEY_USR_SETATTR),
-> +				KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
-> +	put_cred(cred);
-> +	if (IS_ERR(keyring))
-> +		return PTR_ERR(keyring);
-> +	nn->nfs_keyring = keyring;
-> +	return 0;
-> +}
-> +
-> +static void nfs_exit_keyring(struct nfs_net *nn)
-> +{
-> +	key_put(nn->nfs_keyring);
-> +}
-> +#else
-> +static inline int nfs_init_keyring(struct nfs_net *nn)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void nfs_exit_keyring(struct nfs_net *nn)
-> +{
-> +}
-> +#endif /* CONFIG_KEYS */
-> +
->   static int nfs_net_init(struct net *net)
->   {
->   	struct nfs_net *nn = net_generic(net, nfs_net_id);
->   	int err;
->   
-> +	err = nfs_init_keyring(nn);
-> +	if (err)
-> +		return err;
-> +
->   	nfs_clients_init(net);
->   
->   	if (!rpc_proc_register(net, &nn->rpcstats)) {
-> @@ -2663,14 +2702,18 @@ static int nfs_net_init(struct net *net)
->   	rpc_proc_unregister(net, "nfs");
->   err_proc_rpc:
->   	nfs_clients_exit(net);
-> +	nfs_exit_keyring(nn);
->   	return err;
->   }
->   
->   static void nfs_net_exit(struct net *net)
->   {
-> +	struct nfs_net *nn = net_generic(net, nfs_net_id);
-> +
->   	rpc_proc_unregister(net, "nfs");
->   	nfs_fs_proc_net_exit(net);
->   	nfs_clients_exit(net);
-> +	nfs_exit_keyring(nn);
->   }
->   
->   static struct pernet_operations nfs_net_ops = {
-> @@ -2680,35 +2723,6 @@ static struct pernet_operations nfs_net_ops = {
->   	.size = sizeof(struct nfs_net),
->   };
->   
-> -#ifdef CONFIG_KEYS
-> -static struct key *nfs_keyring;
-> -
-> -static int __init nfs_init_keyring(void)
-> -{
-> -	nfs_keyring = keyring_alloc(".nfs",
-> -			     GLOBAL_ROOT_UID, GLOBAL_ROOT_GID,
-> -			     current_cred(),
-> -			     (KEY_POS_ALL & ~KEY_POS_SETATTR) |
-> -			     (KEY_USR_ALL & ~KEY_USR_SETATTR),
-> -			     KEY_ALLOC_NOT_IN_QUOTA, NULL, NULL);
-> -	return PTR_ERR_OR_ZERO(nfs_keyring);
-> -}
-> -
-> -static void nfs_exit_keyring(void)
-> -{
-> -	key_put(nfs_keyring);
-> -}
-> -#else
-> -static inline int nfs_init_keyring(void)
-> -{
-> -	return 0;
-> -}
-> -
-> -static inline void nfs_exit_keyring(void)
-> -{
-> -}
-> -#endif /* CONFIG_KEYS */
-> -
->   /*
->    * Initialize NFS
->    */
-> @@ -2716,13 +2730,9 @@ static int __init init_nfs_fs(void)
->   {
->   	int err;
->   
-> -	err = nfs_init_keyring();
-> -	if (err)
-> -		return err;
-> -
->   	err = nfs_sysfs_init();
->   	if (err < 0)
-> -		goto err_keyring;
-> +		return err;
->   
->   	err = register_pernet_subsys(&nfs_net_ops);
->   	if (err < 0)
-> @@ -2779,8 +2789,6 @@ static int __init init_nfs_fs(void)
->   	unregister_pernet_subsys(&nfs_net_ops);
->   err_sysfs:
->   	nfs_sysfs_exit();
-> -err_keyring:
-> -	nfs_exit_keyring();
->   	return err;
->   }
->   
-> @@ -2796,7 +2804,6 @@ static void __exit exit_nfs_fs(void)
->   	nfs_fs_proc_exit();
->   	nfsiod_stop();
->   	nfs_sysfs_exit();
-> -	nfs_exit_keyring();
->   }
->   
->   /* Not quite true; I just maintain it */
-> diff --git a/fs/nfs/netns.h b/fs/nfs/netns.h
-> index 36658579100d..da0854510404 100644
-> --- a/fs/nfs/netns.h
-> +++ b/fs/nfs/netns.h
-> @@ -16,6 +16,7 @@ struct bl_dev_msg {
->   	uint32_t major, minor;
->   };
->   
-> +struct key;
->   struct nfs_netns_client;
->   
->   struct nfs_net {
-> @@ -36,6 +37,7 @@ struct nfs_net {
->   #endif /* CONFIG_NFS_V4 */
->   	struct nfs_netns_client *nfs_client;
->   	spinlock_t nfs_client_lock;
-> +	struct key *nfs_keyring;
->   	ktime_t boot_time;
->   	struct rpc_stat rpcstats;
->   #ifdef CONFIG_PROC_FS
-> 
-Curiously enough, I had been pondering a similar issue.
-Thing is, when running within a container (eg a docker one) access
-access to /proc/keys might be restricted, and from what I've
-gathered each container gets its own, _empty_ keyring.
-(certainly an empty session keyring ...).
-So I wonder what'll happen with the predefined keyrings (like the
-.nvme keyring); one possibility is surely to make them network
-namespace aware.
-But the alternative approach I'm exploring is to allow each container
-to create its own (.nvme) keyring; that would have the advantage of
-being more flexible and we wouldn't need to rely on 'magic' names.
+Device attributes to enable/disable the AP interpretive execution
+support for crypto were added to KVM several years ago, but they
+weren't added to the documentation itself.
 
-Hmm?
+Fixes: 37940fb0b6a2 ("KVM: s390: device attrs to enable/disable AP interp=
+retation")
+Signed-off-by: Eric Farman <farman@linux.ibm.com>
+---
+ Documentation/virt/kvm/devices/vm.rst | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Cheers,
+diff --git a/Documentation/virt/kvm/devices/vm.rst b/Documentation/virt/k=
+vm/devices/vm.rst
+index a4d39fa1b083..78e63eb9994e 100644
+--- a/Documentation/virt/kvm/devices/vm.rst
++++ b/Documentation/virt/kvm/devices/vm.rst
+@@ -280,6 +280,24 @@ Allows user space to disable dea key wrapping, clear=
+ing the wrapping key.
+ :Parameters: none
+ :Returns:    0
+=20
++4.5. ATTRIBUTE: KVM_S390_VM_CRYPTO_ENABLE_APIE (w/o)
++-------------------------------------------------------
++
++Allows user space to enable AP interpretive execution.
++
++:Parameters: none
++:Returns:    0 for success
++	     -EOPNOTSUPP if AP instructions not available for guest
++
++4.6. ATTRIBUTE: KVM_S390_VM_CRYPTO_DISABLE_APIE (w/o)
++-------------------------------------------------------
++
++Allows user space to disable AP interpretive execution.
++
++:Parameters: none
++:Returns:    0 for success
++	     -EOPNOTSUPP if AP instructions not available for guest
++
+ 5. GROUP: KVM_S390_VM_MIGRATION
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+=20
+--=20
+2.53.0
 
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
