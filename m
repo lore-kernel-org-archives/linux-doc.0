@@ -1,162 +1,151 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f42.google.com (mail-yx2-f42.google.com [74.125.224.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95723D3CEF;
-	Fri, 18 Sep 2026 19:54:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABDC522F13
+	for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 19:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789761273; cv=none; b=M7TGXoDmwlGmiskbtg/PoYVa/fr4zPGFPoSGWjNmdSuS2u3JYcR9y5/CuSx3pTgCInjVQrhQDtOFtdHgEuVctktxhqmDvpzLUcML1zLKigO9vp50bQBTg0sIL8/m/igx28fwxUOpwJY5+BV2ZNjWvqmHX6wqanz9/UND8A+9NbI=
+	t=1789761591; cv=none; b=R+Axm08chPjN0Z8CnmJ1CF44Qi+qdbWwhGGpBrJOO8MHoOaep1aQLGO7tICXa88pAEgxV5A4VO9d7juBjcchfHJBrJD2TlIRXm8aMQ6xLRo65bu7PgprS4Slw3gUFyIlqKZrDB3EVLpTljs5FUBrbiZk7rPvwPTYPDR6wQh1U/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789761273; c=relaxed/simple;
-	bh=JKkgIua3kpizh32NNqU1zVU4J9KvaFpPPrVmLN48emc=;
+	s=arc-20240116; t=1789761591; c=relaxed/simple;
+	bh=Jv9PmI2tuRQ6a0mGkf94vkgPMQlOdZGeXzjl16O8i00=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lqs3kEQl4VGtM5iuh0z7t1EGY9lfOGVbBzEULQctsb/C5NdBBP57MPALwdqLEhftrMr14MZyRpKgYV9hXYQVNoS1+4HxnY/ALQULAiE0BZ+dPB1s9UvRcXDqfTy8tP1xQ8choNjyXTNZcmnujb9O376H/F2yYCRsbNsp0VoohNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=Y3Haz+T+; arc=none smtp.client-ip=212.42.244.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=uLEfyGeFdnm7JySBzuTXvRE63tQV9hoKtkseaWzXJQfb6Mn4hDQAKZ56ad46qlfnV1caQ4LqLr4j4cPBsMFO1PYjntWJk/s6/rbeHsS8+N7fVXi27CDobaWxjByOP0JwCgrJ6ZA8cE7ipE+eHwrbGIwqyU9TZdzZT36jdUrSc/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b=ch2e604T; arc=none smtp.client-ip=74.125.224.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="Y3Haz+T+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
-	t=1789761269; bh=JKkgIua3kpizh32NNqU1zVU4J9KvaFpPPrVmLN48emc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y3Haz+T+fPTF6wAuhVZOXAxXZs67ULnV0g8BUG/DktxFVFrFAEr9eqX03SQrnV+vT
-	 YZueGMLvfoe2AYpfP6aT9j2htVca0pIvRKlNddMMoHijDk+es3NOe66e0B/y/xSUpL
-	 /ilOPtZp6TpJDHcJ8o5kk36gU04zB8RfdXt/gLj8a75Ty00NmsGG52Y/fUwxxpHzAI
-	 /y2MRARUAhBeHzAHGfdXPJAklS2kpSf0phtNA0dGkDpFupKcxzbmLraYa7mL+oS91w
-	 GvwQapwwZ1bNu6Kl1f6DPnr1MEwIZIclBDxMRjA/cxhzUAML+Cqv/JshxhDN/h/s9T
-	 KtJb3aIuDhn8w==
-Received: from [212.42.244.78] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
-	(envelope-from <n.schier@fritz.com>)
-	id 6aad96f4-03cd-7f0000032729-7f000001ad04-1
-	for <multiple-recipients>; Fri, 18 Sep 2026 21:54:28 +0200
-Received: from mail-auth.fritz.com (unknown [212.42.244.78])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Fri, 18 Sep 2026 21:54:28 +0200 (CEST)
-Date: Fri, 18 Sep 2026 21:54:27 +0200
-From: Nicolas Schier <n.schier@fritz.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Alexey Gladkov <legion@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3 10/20] kbuild: move the toolchain checks into
- init/Kconfig.toolchain
-Message-ID: <20260918-athletic-agile-echidna-114f16@l-nschier-aarch64>
-References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
- <20260917-build-speedup-v3-10-9ecf4163ff36@kernel.org>
- <202609171149.6454DC6@keescook>
- <20260918010729.GB1585590@ax162>
- <aq1MG8I1BsUUDFkx@gremlin>
+	dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b="ch2e604T"
+Received: by mail-yx2-f42.google.com with SMTP id 956f58d0204a3-671825f6fccso1014244d50.2
+        for <linux-doc@vger.kernel.org>; Fri, 18 Sep 2026 12:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amutable-com.20251104.gappssmtp.com; s=20251104; t=1789761587; x=1790366387; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jFiXSu2V4pZ+QeomBn1c5HcWy5gtnzTo7Z55CduAixo=;
+        b=ch2e604TIxvi8hLh6mLXV0Kd6bTBiZI6iola+whhEHBQ/gRtNMLO9+O8h75SUTlcSD
+         ct4Fq4vTT/VWzsVFSc3o1K507n3fGuVDlzN1p1N7Lkdt1Oewd4iWhDCX9oexGV0yw1Uf
+         x2xfQyWszMMyEtpwNcapqacbwvHOBZrrOHwghHYVKP+FpxGbDBAq6+cwPnqMOmdXT/Wp
+         RmREmPUaX2sGnpVAZP5EJ1ONwPxNa2rNIQ/a9maVbyLwwsluXGxl9TM9z9D6C+ZEnGU5
+         8BEMTctHx5RvzLgo9Lu01MauixY+qjScYIhLTGc4EVl9uKr4tRuCeerFP6EutvGdfkxX
+         Sdmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789761587; x=1790366387;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jFiXSu2V4pZ+QeomBn1c5HcWy5gtnzTo7Z55CduAixo=;
+        b=TFVFZT5AXKkTwN8MfvN+9jXZcSQ2y90mj1skuSXyhZHd3eFMcGkqjcQgf7KQYZgugu
+         Y4G+9nTZ4DrN5cGE/vniPeFkpaqZqQ/SIIzHAwtmre7t97TgsWPxLXlzYXe/w8wIKnMT
+         TGffQ+7MSgZctWDYG2Ys/CpJQB8CoAKMKndcxgh6cuYdmgwTEnFeg/VaUCnjNI3wXOho
+         bDTDclQnzHufoOKMdP6fNL42EaFvpEUkQxU6YKs6mKNJMwURa8eiIxd6axFIFEtsBroe
+         DHbMwuVBpQkJX7meo8NJiw0zWeIh2WCM+btCSuJ5i0jWjn9ZnzubBjwnHorzbihTnfvd
+         sqWg==
+X-Forwarded-Encrypted: i=1; AKwUvBy46gTv1rKZI5DgTejPg89Ir/XtcFlzqEsvYfdxg/iwi4a41aQDwRq0oEdKhhjdJNwas4+NmwYjWY4=@vger.kernel.org
+X-Gm-Message-State: AFuF++nLsv86FSbvG8XmeLiAF3cSPRXsd51wg4sFvaaJNJBBJQFq1iGL
+	qC1gw9VoFyxRBygSNHB7r1zpPrXYkHHngvE57J+OEls+XoHphWRTmNF0N3FWtLqzmkh7
+X-Gm-Gg: AYBFou1KwDirNmb0vCwjwgVhy2iSViVXUv3lGhDAU3kH+9QXt1DNwzdWvsRIjuJHXUi
+	I6xdmLwpIeqKcEJ+T2FwnaXQzT0RZlFRO/509sP0/2GyWuXhgizrUAPIDPlKrMGR93M4EanC34a
+	8vlysA/e+UfqWVVV5ac9rRiKUlO/QBhc75uxq891kT5fHEFkxnVzt76xw6wvIRq8k055Y9mc5Gh
+	7ZuqNBrjn/GH/fGWOM67BknjTED/axUVTKS1blIySIJ1bUPZKMQTxIJBvEC61cqIMuMwfG78qbL
+	CjIksQzHn5FGlgcQQbJLzShJ3iHgARsvkfge2BRHTo5SOgO1QXEglIJPIR2no1ByxBUoZ6X7qBW
+	BTjZWaX3Iro/qCeCQUPjRh5sXTtRu0An9wlBwel5d5NQdQl0jbrN8IhWZy3ioFZxnUdS+bGrEFa
+	KoiFbKpTe/gyDIAI2vleiMjMcI6H1J+7AenHMD12wvASdPYlYQpibWNU7WUsbjsA/a2cK5K8FeX
+	sitqgF8sK8Mssyq77WBsnyUFaLTl0lrNzesQOqV+h4qIrPo3DCB0g==
+X-Received: by 2002:a05:690e:e89:b0:671:4d46:8d5a with SMTP id 956f58d0204a3-6717fcee54emr1347891d50.41.1789761587246;
+        Fri, 18 Sep 2026 12:59:47 -0700 (PDT)
+Received: from toolbx (104-53-165-62.lightspeed.stlsmo.sbcglobal.net. [104.53.165.62])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-672990ab5desm406523d50.8.2026.09.18.12.59.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 12:59:46 -0700 (PDT)
+Date: Fri, 18 Sep 2026 14:59:49 -0500
+From: Andrew Halaney <andrew@amutable.com>
+To: David Howells <dhowells@redhat.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>, Alasdair Kergon <agk@redhat.com>, 
+	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
+	Benjamin Marzinski <bmarzins@redhat.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	keyrings@vger.kernel.org, linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
+	fsverity@lists.linux.dev, linux-doc@vger.kernel.org, 
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
+Message-ID: <aq2VxlttdlTNlHo6@toolbx>
+References: <aqyiCavj3xeNqyAo@kernel.org>
+ <20260914-ajhalaney-dmverity-key-identifier-v1-0-01922dc1366a@amutable.com>
+ <20260914-ajhalaney-dmverity-key-identifier-v1-1-01922dc1366a@amutable.com>
+ <715249.1789718726@warthog.procyon.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <aq1MG8I1BsUUDFkx@gremlin>
-Organization: FRITZ! Technology GmbH
-x-ms-reactions: disallow
-X-purgate-ID: 149429::1789761268-177ACEE1-09F10706/0/0
-X-purgate-type: clean
-X-purgate-size: 2499
-X-Notice: Whitelisted
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
-X-pfmilter: host: postfix-mx-03  mail-id: EE9C1A02D1  external: no
+In-Reply-To: <715249.1789718726@warthog.procyon.org.uk>
 
-On Fri, Sep 18, 2026 at 03:35:57PM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Thu, Sep 17, 2026 at 06:07:29PM -0700, Nathan Chancellor wrote:
-> > On Thu, Sep 17, 2026 at 11:53:13AM -0700, Kees Cook wrote:
-> > > On Thu, Sep 17, 2026 at 05:06:20PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > > > Move them into their own file, sourced from the top of init/Kconfig=
-, so
-> > > > that the next commit can add to them without growing init/Kconfig f=
-urther.
-> > > >
-> > > > No functional change.
-> > > >
-> > > > Assisted-by: LLM
-> > > > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > > > ---
-> > > >  init/Kconfig           | 197 +------------------------------------=
------------
-> > > >  init/Kconfig.toolchain | 198 +++++++++++++++++++++++++++++++++++++=
-++++++++++++
-> > > >  2 files changed, 199 insertions(+), 196 deletions(-)
-> > >
-> > > Yeah, totally right to move to a separate file. I think, however, I
-> > > would prefer this wasn't in init/ though. Kbuild uses scripts/ as its
-> > > Makefile.$topic dumping ground, and Kconfig.include also lives there.=
- To
-> > > me, this new file should be scripts/Kconfig.toolchain instead. And
-> > > arguably, this should be included by the top-level Kconfig rather than
-> > > init/Kconfig...
-> > >
-> > > I defer to kbuild folks, though.
-> >
-> > We talked about this previously:
-> >
-> >   https://lore.kernel.org/aqPW1FsBVYHSWl1r@gremlin/
-> >
-> > I do feel like scripts/ is a better location given that these are really
-> > things internal to Kbuild but I also see where Lorenzo is coming from
-> > that scripts/ is a little weird for this to live for discoverability,
-> > especially if we want people to put checks here instead of in a Makefile
-> > directly. To be honest, it would be kind of nice to separate the Kbuild
-> > parts of scripts into their own directory to make it clear what Kbuild
-> > uses versus what users/contributors should use but that is obviously too
-> > big of a project to tackle as a prerequisite for this.
->=20
-> Yeah it just seemed really weird/surprising to me (in the sense of
-> 'principle of least surprise') to put that in scripts/ and it doesn't seem
-> that traditionally anything else like this lives there.
->=20
-> But if you guys feel strongly enough I can put it there.
->=20
-> And agreed probably a 'third place' is the right way, but probably not
-> right as part of this series :)
+On Fri, Sep 18, 2026 at 09:05:26AM +0100, David Howells wrote:
+> Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> 
+> > This is great for discussion but what we want for the commit message
+> > is just motivation and resolution.
+> 
+> Actually, I think it's useful that Andrew wrote up the issues in the commit
+> message - and I think it shows part of the motivation.  The 'writing a fake
+> /proc/keys line in the description' is something I hadn't considered.
 
-yeah, then I'd also slightly favor scripts/ for now.
+I'll defer to what you all want in the message here, I found it valuable
+but I trend on the side of overly verbose admittedly!
 
-Kind regards,
-Nicolas
+> 
+> > I don't think we need all this just to say that /proc/keys in a racy
+> > query mechanism for production, which is an issue for dm-verity, given
+> > that nothing else is available.
+> 
+> I think at some point, we will need a system call to search all for all
+> accessible keys matching certain criteria by actually walking the key
+> database.  The problem there is that there may be multiple hits, so we may
+> need something like:
+> 
+> 	int count = find_key(key_serial_t start_id,
+> 			     const char *type, const char *desc_prefix,
+> 			     key_serial_t *results, size_t results_size,
+> 			     unsigned int flags);
+> 
+> Allowing you to do:
+> 
+> 	key_serial_t dm_key;
+> 	int n = find_key(0, "keyring", ".dm_verity", &dm_key, 1,
+> 			 FIND_KEY_EXACT_DESC);
+> 
+> This wouldn't be as fast as a direct lookup since it would have to walk the
+> key tree, doing name comparisons and perm checks on each key of the type.
+> 
+> > And secondly special keys are meant for implicit keyrings so isn't
+> > that all there's to it?
+> 
+> I have no particular objection to setting aside a block of negative key IDs
+> for special keyrings that need to be accessed a lot - though I would make
+> common reg/unreg functions that take the ID to be registered and, say, set the
+> block at -257..-512.  Moving the BFP keyring to -257 and DM to -258.
+
+To be clear are you suggesting I do that for v2 here? Happy to make the
+change and add some reuse to the registration functions, etc. I'm
+guessing its fine to change the bpf id since its still only in -next?
+
+The only awkward bit with making that more generic is that dm-verity
+isn't __ro_after_init since its coming from a module possibly, and
+because of the module usage I also protected it with a spinlock in case
+someone's accessing it while you unload the module. Could just use one
+spinlock for the whole generic array, and drop the __ro_after_init I
+suppose.
+
+Let me know if I'm not following properly!
+
+Thanks,
+Andrew
