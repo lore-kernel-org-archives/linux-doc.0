@@ -1,127 +1,333 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f2.google.com (mail-pj2-f2.google.com [74.125.227.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66628281503
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 07:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354993EA66
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 08:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789802647; cv=none; b=c6xu5xf5KqCKGxXL0oNJi1QsPhXritjTq9v8Prb7kgUbnnZUn6HEDo36D7lIBZ52xaTde6/yXC8KkV1xCzLYwkf6NGVM3RwPHbOB1MWc/3/nb5v2FA7sfFvlDWyWuDW0O4SyVXWKRh35p5XbSAAqkCEWl1I8qIclGb/EwSJESaE=
+	t=1789807020; cv=none; b=ZrtCK+LDkG5JzdBAWJtZsPyY2AQGSijiB2D3MuyKlv+rKzpmpr0DfRUt4ipXVywig7uEWdScqtxGimSNtuEVKrDiFZC5lNu2E6CIkuy6Xnpalu7bQOdvrBKsgbql6SD6vQebNsbpGC4YwrwiYF0hDqoKGf7ndvkTX7upNAP84oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789802647; c=relaxed/simple;
-	bh=CcwKFo/x3d7KIrwrdSc6FIvo/aUmSvp1opSXGURZ5hk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Eb6Q/ODxmqJf1l2u40Q6IzwTycCal1MowfeGyaB7VH4ATl9kGOH63sEuEw6iX2wcOnisCTabgxIEaHSG7C6tsLmhGhKskdVPOEDwbqllRvaR6X+hmcsJ8q6/ZFVN0LvLFw2hxtjEDXD+FrY1eCNcLmJr/hZThT/xl2W5GmN7HaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UL7fUD1R; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789807020; c=relaxed/simple;
+	bh=r3q3ONwfauxjYPmu1SXSETbq7TkFFnBp/YS9QQ9DLTw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=expN+yp1A1j6IhdsP462UaZ2Ck/yBDJmHSOYYonwfO/vzTMXIXCUdcMKp2Zt40LMtA11h/8MFIz1ckkl1CCU8H6qcBgo+cizrM/Wm7IDRy7cj6IYLmucRGKS2w3xhEXNzYL1LKbOMHekSvEuKfEADTCa1ZCS80iEJNNJ2F4S9WI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FCNfuNEE; arc=none smtp.client-ip=74.125.227.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UL7fUD1R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 029591F000FF
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 07:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789802646;
-	bh=CcwKFo/x3d7KIrwrdSc6FIvo/aUmSvp1opSXGURZ5hk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=UL7fUD1R+LFfRdNyW3BYbQT13vuIzvV9VwxPU0lGVypZMMtFBwv8hMGA3f6+g2jXc
-	 FSMv7385C4wyeX31P82/p8Vlsqz0rbOTA/FwhmYef7KLB2CqBkic40zrVshI6+7iKb
-	 /8PLo5AiSkgoXdsC+XuO5IC92XdJaQVs1ffGGXfl55qM53lVC47M9hlEsTtFwxmj4j
-	 /No8o+O4Bb4IJ9QUh3IZsORNIlcw62NrjY0wS1Vz0LPicbigMk1SWE9LG9DB6tfDEH
-	 KAd6OZYR2KzufTieJL2FIDnOKJxNuBN+7dIryv3mm8+96VrfroaeZ4II1SPsJ1TkAa
-	 6E4CmL3ENNGrg==
-Received: by mail-yx2-f42.google.com with SMTP id 956f58d0204a3-6729c4030f0so252977d50.2
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 00:24:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByok+PnR1vyturfj57fYGkN9GzHYYXr6QpqhJ9Em/wAGcgIl7SuZ0raD+eGMfh32bhfUc64GKCl/lM=@vger.kernel.org
-X-Gm-Message-State: AFuF++k1SAdtYxlIAVSVPXBE7WUPLus/3k48w2fZkX1TpE9vdwL8CMEy
-	NNsl7VqpA3eTobchqnm0oymh0bVwdgLtXty3tqLKrcVE9QFHa2xeoT38jvQYXgGU/nTf9efA9Al
-	1zfEA0KCFka0M2hC4Xo4LhP/k8rnrbFu+LXIKBU48zw==
-X-Received: by 2002:a05:690e:4504:10b0:66b:14e5:d226 with SMTP id
- 956f58d0204a3-6717fcca387mr1086959d50.34.1789802645443; Sat, 19 Sep 2026
- 00:24:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FCNfuNEE"
+Received: by mail-pj2-f2.google.com with SMTP id 98e67ed59e1d1-39b2ad83680so619803a91.1
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 01:36:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789807018; x=1790411818; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NpbGjR9E3S+VQ56UjZg8lJY0xXEMUmDHZy58TWvJq/s=;
+        b=FCNfuNEExCKE5k2vq54KIYdwlFzwlndvcCooIBvafmBYRC4gsX4nYJ53UckHt428Mh
+         HNgIXTmlii55k7DeJ8OJSDFz1ipqzpzNqW0XPRe7Fi4Iu7AkeleePt5KT0SoWuxwUEl+
+         W/j6pj7cnDjU/KhuE7uOERUakQ4xHYeP317lnGQj72K6r5j7tz/1MgOTlA7HdI4uZTa6
+         DAfUL+JO5z3FMet7Sahzz2tsnFOkTRA9nzSnscpJnDNl9KhJaTqxRrxPAs/+UysTmU6n
+         AByStYvAGg6VnJtX8bqjAuQawuU4Gg4N3HNcy38g1qHK+Sb48taTUz+OvZr+D2iCTahR
+         j9hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789807018; x=1790411818;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=NpbGjR9E3S+VQ56UjZg8lJY0xXEMUmDHZy58TWvJq/s=;
+        b=GhQfjfRUccbbndSQG5tPibKmGe7blyiOl/QK73J1Y4GNabMkVtK6iNpolb7/9lkCbW
+         Gv7q1O2gvHgZhvkAm667dOdnnrWX7Cke543aOa44GIAtkrkQT6MztSW1Cr7+UFmfY/XU
+         /o82nIqWR0xBGji27GNBQUVGyZp3Ghd3RYmAlH81stw5oe9StgshE40ZfPXvT8YytsDB
+         AA7jQxnCzYHyhuiGozLiV+uASRZCHjVvIBKs6eua6ZzabOYzqZqI+uDtTXtbsaCZuGl8
+         HlFD6DAx5QxwUH5g1f+610S+IFJt+1KWnW3IpA/Owj+ZQ/Ba9cSWIH5YMpGMbmeWGV6N
+         cpMw==
+X-Forwarded-Encrypted: i=1; AKwUvBwKU7WcHkH1Z5DwBCPm6h0+bDm/8qW6R8PxQ7E1YCgXTWZi96ixSGKZ2hWtyS/QqiUPT0AJ3KY5Bv8=@vger.kernel.org
+X-Gm-Message-State: AFuF++mLT425CcI1J4z6PHu76/BegfXQxgmHiI3ZeRbIZsIG6/x8fULS
+	9p3EPE/QWQP0TqzsUZ59JM2jvz019lPR0DdrPvpOkL7OUUYc/6PmPyUa
+X-Gm-Gg: AYBFou1RfAbWTDTwUyEp4GjxIhW8aFmZJLdrU2Eiq7h2oh0yfQplhW8KljgYqJxf7cl
+	YBr/ChldI7DdtCkk8jMaPUbwVkEb5VOKX62Q97FNOsYhZ1SYl2H1Lm0MqRJOi0YGLLMhBdK+f2f
+	BAjOVy4wm7UZ/gOXM7u25XJHhkzZS3gJ+Iczh3wKt9aUlA+ZMzDMrbufZcY3o02j08Eor89R7mG
+	b1VR5yeeUBWC0kgQoRLgNg9utUlYovsbRIePJF0PusZDGo03MxObkbnz+S+xEJ7xQTxVYLPUgTZ
+	xm1E071WhFd7RrghYse4J/haYHJiPmD8T9eW6iX61H4RRfD0hYVdHzUnrV9+S/MJxeWbdweqZ/L
+	ZSYXHVJTx3T4nArtLOj+vCO4qiTvbMIk21lBVuUUF2bsYlvMtj7p+OW8NNAK3yWx6d1ZFNiCeK2
+	8MFG8uW1MKWOAK5IfzJ1FxGqnYf718TcuTzOZqtAyNuemec27WyXYdhXE6BXtvarIEICSbIIU+R
+	5pNggAIva4P500KHNuaBipt6AcTjBF29PNMdDysM7VjRy3EjZcdkpcCVN0Xcb7nqthiywkDfyrE
+	rLoZ1s1Qsl0lYKrKhe7Ml8S+Req4h7/KrYT3LGve9xquKRouQgJ9jJvE9ShjNkUT
+X-Received: by 2002:a17:90b:4c46:b0:366:3517:1aa2 with SMTP id 98e67ed59e1d1-39e54922644mr13476570a91.0.1789807018405;
+        Sat, 19 Sep 2026 01:36:58 -0700 (PDT)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c3311a111sm3920735eec.6.2026.09.19.01.36.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 01:36:58 -0700 (PDT)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andres Salomon <dilinger@queued.net>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-input@vger.kernel.org
+Cc: Hans-Christian Egtvedt <hans-christian.egtvedt@atmel.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] Input: gpio_mouse - remove driver that has never been used in the kernel
+Date: Sat, 19 Sep 2026 01:36:40 -0700
+Message-ID: <20260919083655.586922-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <CAMgjq7AHRzBsbmGOx0s=TQFBwcn=DEU1naR443sO6x+pJd6hAg@mail.gmail.com>
- <aqBT_35E-eSoN_zj@cmpxchg.org> <CAKEwX=N4aaq_oD2agTUNrUNXhaYGeQ9vxu+dywFvEFgWFi4uQg@mail.gmail.com>
- <CAMgjq7AfNBUpMamcv29JFzpX=7ApNYVLtPjWT4Sm8cXjSLYL9g@mail.gmail.com> <aqU81l1oqGItb-0C@cmpxchg.org>
-In-Reply-To: <aqU81l1oqGItb-0C@cmpxchg.org>
-From: Chris Li <chrisl@kernel.org>
-Date: Sat, 19 Sep 2026 02:23:53 -0500
-X-Gmail-Original-Message-ID: <CACePvbWLHAT5DjC=HidzN10XF5_cnkpxXXDR_yfEJjTY_uDvDQ@mail.gmail.com>
-X-Gm-Features: AcwNN1Ugv2uKjDvI3UlN6yWV2c11EGmbN_5p9iXtBCp6zavSXduB5hlfoQJWQ5A
-Message-ID: <CACePvbWLHAT5DjC=HidzN10XF5_cnkpxXXDR_yfEJjTY_uDvDQ@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Kairui Song <ryncsn@gmail.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 12, 2026 at 6:52=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org=
-> wrote:
->
-> >
-> > Is the limit, the heuristic exists only to make "a seriously wild
-> > allocation fail" (as documented). But on a vswap-only machine,
-> > reasonable allocations fail. Common swap devices, zram, or xswap don't
-> > have this problem. One could argue that the size there is just an
-> > optimistic guess, the compression ratio is not controllable. But that
-> > heuristic is a guess by design, and a plausible number serves it fine.
-> > "Unlimited" seems break that.
->
-> That cuts both ways, though. If the configured compression space is
-> large and compression ratio is poor, it lets through allocations that
-> can be considered "seriously wild" for this machine.
->
-> It's a filter. I wouldn't say that letting things through is evidence
-> that it's working.
->
-> Since compression space is backed by memory, it still makes sense to
-> me to reference this heuristic to RAM. Cut it off at 2xRAM or 3xRAM
-> tops if compression space is available.
+The gpio_mouse driver was added in 2007, but it has never been
+referenced by any platform data or DTS files in the kernel, and it does
+not support ACPI probing. Therefore, it has clearly never been used by
+any users of unmodified mainline Linux. Remove it.
 
-What is this "compression space"? Isn't it just a swap entry allocated
-by vswap or xswap?
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+---
+ .../driver-api/gpio/drivers-on-gpio.rst       |   5 -
+ drivers/input/mouse/Kconfig                   |  15 --
+ drivers/input/mouse/Makefile                  |   1 -
+ drivers/input/mouse/gpio_mouse.c              | 170 ------------------
+ 4 files changed, 191 deletions(-)
+ delete mode 100644 drivers/input/mouse/gpio_mouse.c
 
-For our deployment, we only compress about 7-10% of the system memory
-before performance starts to suffer. The feedback loop will scale it
-back. I am very curious do you have actual work load to swap out 100%
-of the RAM. I find that very hard to imagine on servers with huge
-amounts of memory. I would love to learn more about your swap fault
-latency history in those cases.
+diff --git a/Documentation/driver-api/gpio/drivers-on-gpio.rst b/Documentation/driver-api/gpio/drivers-on-gpio.rst
+index 95572d2a94ce..e386d909bc08 100644
+--- a/Documentation/driver-api/gpio/drivers-on-gpio.rst
++++ b/Documentation/driver-api/gpio/drivers-on-gpio.rst
+@@ -21,11 +21,6 @@ hardware descriptions such as device tree or ACPI:
+   GPIO line cannot generate interrupts, so it needs to be periodically polled
+   by a timer.
+ 
+-- gpio_mouse: drivers/input/mouse/gpio_mouse.c is used to provide a mouse with
+-  up to three buttons by simply using GPIOs and no mouse port. You can cut the
+-  mouse cable and connect the wires to GPIO lines or solder a mouse connector
+-  to the lines for a more permanent solution of this type.
+-
+ - gpio-beeper: drivers/input/misc/gpio-beeper.c is used to provide a beep from
+   an external speaker connected to a GPIO line. (If the beep is controlled by
+   off/on, for an actual PWM waveform, see pwm-gpio below.)
+diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
+index 074130d88953..5f2466c08b9a 100644
+--- a/drivers/input/mouse/Kconfig
++++ b/drivers/input/mouse/Kconfig
+@@ -332,21 +332,6 @@ config MOUSE_VSXXXAA
+ 	  described in the source file). This driver also works with the
+ 	  digitizer (VSXXX-AB) DEC produced.
+ 
+-config MOUSE_GPIO
+-	tristate "GPIO mouse"
+-	depends on GPIOLIB || COMPILE_TEST
+-	help
+-	  This driver simulates a mouse on GPIO lines of various CPUs (and some
+-	  other chips).
+-
+-	  Say Y here if your device has buttons or a simple joystick connected
+-	  directly to GPIO lines. Your board-specific setup logic must also
+-	  provide a platform device and platform data saying which GPIOs are
+-	  used.
+-
+-	  To compile this driver as a module, choose M here: the
+-	  module will be called gpio_mouse.
+-
+ config MOUSE_MAPLE
+ 	tristate "Maple mouse (for the Dreamcast)"
+ 	depends on MAPLE
+diff --git a/drivers/input/mouse/Makefile b/drivers/input/mouse/Makefile
+index ed40f141691e..52c0a99853b0 100644
+--- a/drivers/input/mouse/Makefile
++++ b/drivers/input/mouse/Makefile
+@@ -11,7 +11,6 @@ obj-$(CONFIG_MOUSE_ATARI)		+= atarimouse.o
+ obj-$(CONFIG_MOUSE_BCM5974)		+= bcm5974.o
+ obj-$(CONFIG_MOUSE_CYAPA)		+= cyapatp.o
+ obj-$(CONFIG_MOUSE_ELAN_I2C)		+= elan_i2c.o
+-obj-$(CONFIG_MOUSE_GPIO)		+= gpio_mouse.o
+ obj-$(CONFIG_MOUSE_MAPLE)		+= maplemouse.o
+ obj-$(CONFIG_MOUSE_PS2)			+= psmouse.o
+ obj-$(CONFIG_MOUSE_RISCPC)		+= rpcmouse.o
+diff --git a/drivers/input/mouse/gpio_mouse.c b/drivers/input/mouse/gpio_mouse.c
+deleted file mode 100644
+index 18ccbd45004a..000000000000
+--- a/drivers/input/mouse/gpio_mouse.c
++++ /dev/null
+@@ -1,170 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Driver for simulating a mouse on GPIO lines.
+- *
+- * Copyright (C) 2007 Atmel Corporation
+- * Copyright (C) 2017 Linus Walleij <linus.walleij@linaro.org>
+- */
+-
+-#include <linux/module.h>
+-#include <linux/platform_device.h>
+-#include <linux/input.h>
+-#include <linux/gpio/consumer.h>
+-#include <linux/property.h>
+-#include <linux/of.h>
+-
+-/**
+- * struct gpio_mouse
+- * @scan_ms: the scan interval in milliseconds.
+- * @up: GPIO line for up value.
+- * @down: GPIO line for down value.
+- * @left: GPIO line for left value.
+- * @right: GPIO line for right value.
+- * @bleft: GPIO line for left button.
+- * @bmiddle: GPIO line for middle button.
+- * @bright: GPIO line for right button.
+- *
+- * This struct must be added to the platform_device in the board code.
+- * It is used by the gpio_mouse driver to setup GPIO lines and to
+- * calculate mouse movement.
+- */
+-struct gpio_mouse {
+-	u32 scan_ms;
+-	struct gpio_desc *up;
+-	struct gpio_desc *down;
+-	struct gpio_desc *left;
+-	struct gpio_desc *right;
+-	struct gpio_desc *bleft;
+-	struct gpio_desc *bmiddle;
+-	struct gpio_desc *bright;
+-};
+-
+-/*
+- * Timer function which is run every scan_ms ms when the device is opened.
+- * The dev input variable is set to the input_dev pointer.
+- */
+-static void gpio_mouse_scan(struct input_dev *input)
+-{
+-	struct gpio_mouse *gpio = input_get_drvdata(input);
+-	int x, y;
+-
+-	if (gpio->bleft)
+-		input_report_key(input, BTN_LEFT,
+-				 gpiod_get_value(gpio->bleft));
+-	if (gpio->bmiddle)
+-		input_report_key(input, BTN_MIDDLE,
+-				 gpiod_get_value(gpio->bmiddle));
+-	if (gpio->bright)
+-		input_report_key(input, BTN_RIGHT,
+-				 gpiod_get_value(gpio->bright));
+-
+-	x = gpiod_get_value(gpio->right) - gpiod_get_value(gpio->left);
+-	y = gpiod_get_value(gpio->down) - gpiod_get_value(gpio->up);
+-
+-	input_report_rel(input, REL_X, x);
+-	input_report_rel(input, REL_Y, y);
+-	input_sync(input);
+-}
+-
+-static int gpio_mouse_probe(struct platform_device *pdev)
+-{
+-	struct device *dev = &pdev->dev;
+-	struct gpio_mouse *gmouse;
+-	struct input_dev *input;
+-	int error;
+-
+-	gmouse = devm_kzalloc(dev, sizeof(*gmouse), GFP_KERNEL);
+-	if (!gmouse)
+-		return -ENOMEM;
+-
+-	/* Assign some default scanning time */
+-	error = device_property_read_u32(dev, "scan-interval-ms",
+-					 &gmouse->scan_ms);
+-	if (error || gmouse->scan_ms == 0) {
+-		dev_warn(dev, "invalid scan time, set to 50 ms\n");
+-		gmouse->scan_ms = 50;
+-	}
+-
+-	gmouse->up = devm_gpiod_get(dev, "up", GPIOD_IN);
+-	if (IS_ERR(gmouse->up))
+-		return PTR_ERR(gmouse->up);
+-	gmouse->down = devm_gpiod_get(dev, "down", GPIOD_IN);
+-	if (IS_ERR(gmouse->down))
+-		return PTR_ERR(gmouse->down);
+-	gmouse->left = devm_gpiod_get(dev, "left", GPIOD_IN);
+-	if (IS_ERR(gmouse->left))
+-		return PTR_ERR(gmouse->left);
+-	gmouse->right = devm_gpiod_get(dev, "right", GPIOD_IN);
+-	if (IS_ERR(gmouse->right))
+-		return PTR_ERR(gmouse->right);
+-
+-	gmouse->bleft = devm_gpiod_get_optional(dev, "button-left", GPIOD_IN);
+-	if (IS_ERR(gmouse->bleft))
+-		return PTR_ERR(gmouse->bleft);
+-	gmouse->bmiddle = devm_gpiod_get_optional(dev, "button-middle",
+-						  GPIOD_IN);
+-	if (IS_ERR(gmouse->bmiddle))
+-		return PTR_ERR(gmouse->bmiddle);
+-	gmouse->bright = devm_gpiod_get_optional(dev, "button-right",
+-						 GPIOD_IN);
+-	if (IS_ERR(gmouse->bright))
+-		return PTR_ERR(gmouse->bright);
+-
+-	input = devm_input_allocate_device(dev);
+-	if (!input)
+-		return -ENOMEM;
+-
+-	input->name = pdev->name;
+-	input->id.bustype = BUS_HOST;
+-
+-	input_set_drvdata(input, gmouse);
+-
+-	input_set_capability(input, EV_REL, REL_X);
+-	input_set_capability(input, EV_REL, REL_Y);
+-	if (gmouse->bleft)
+-		input_set_capability(input, EV_KEY, BTN_LEFT);
+-	if (gmouse->bmiddle)
+-		input_set_capability(input, EV_KEY, BTN_MIDDLE);
+-	if (gmouse->bright)
+-		input_set_capability(input, EV_KEY, BTN_RIGHT);
+-
+-	error = input_setup_polling(input, gpio_mouse_scan);
+-	if (error)
+-		return error;
+-
+-	input_set_poll_interval(input, gmouse->scan_ms);
+-
+-	error = input_register_device(input);
+-	if (error) {
+-		dev_err(dev, "could not register input device\n");
+-		return error;
+-	}
+-
+-	dev_dbg(dev, "%d ms scan time, buttons: %s%s%s\n",
+-		gmouse->scan_ms,
+-		gmouse->bleft ? "" : "left ",
+-		gmouse->bmiddle ? "" : "middle ",
+-		gmouse->bright ? "" : "right");
+-
+-	return 0;
+-}
+-
+-static const struct of_device_id gpio_mouse_of_match[] = {
+-	{ .compatible = "gpio-mouse", },
+-	{ },
+-};
+-MODULE_DEVICE_TABLE(of, gpio_mouse_of_match);
+-
+-static struct platform_driver gpio_mouse_device_driver = {
+-	.probe		= gpio_mouse_probe,
+-	.driver		= {
+-		.name	= "gpio_mouse",
+-		.of_match_table = gpio_mouse_of_match,
+-	}
+-};
+-module_platform_driver(gpio_mouse_device_driver);
+-
+-MODULE_AUTHOR("Hans-Christian Egtvedt <egtvedt@samfundet.no>");
+-MODULE_DESCRIPTION("GPIO mouse driver");
+-MODULE_LICENSE("GPL");
+-MODULE_ALIAS("platform:gpio_mouse"); /* work with hotplug and coldplug */
+-- 
+2.43.0
 
-8PB discussed in other threads seems way too excessive.
-
-> That all being said, I've laid out implications and concerns around
-> limiting compression space in this thread, too. Collecting pros and
-> cons is fine, but if you bring up cons for the unlimited case, it's
-> fair to ask that you engage with cons brought up on the limited case,
-> too, so that we can weigh the tradeoffs.
-
-I think having a kernel config with a default that works for most
-cases is good enough; maybe add a commandline to override it.. e.g.
-200% RAM. If you worry about overflow, you can set yours to MAX which
-is ridiculously big. I don't understand why you force others aren't
-allowed to set a reasonable default. I do want to have a reasonable
-default config. It should be configurable.
-
-Chris
