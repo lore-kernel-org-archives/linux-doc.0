@@ -1,155 +1,118 @@
-Received: from mail-qk2-f42.google.com (mail-qk2-f42.google.com [74.125.230.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E8233B6F8
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 16:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CD5363089;
+	Sat, 19 Sep 2026 16:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789834096; cv=none; b=k9CARgMpGvVp48oM223l+FEC0D19Maz1/JRicOm3QbtgySKJNdEVGpipe8yxa8giW0MbhTsEOEJRZ82c7IhdhuZ1+D3GB9oAU7vpJ1DgxTCi+CEA+s2ibKJ5w/TmwXVg4EN6TMrn4/yvu5FD+qRkxuQijxjAAnSMAhK2oluKbA8=
+	t=1789835005; cv=none; b=LQrAF+haoxGtetQnoQGujje92JvkGLnUuK6iZ92YUvYpaDPuc3+D7g/xd96y/TQ2wIQnfwFhOLWlOH/TG6uxjTjbt9n9L9UTmDom5SWuWACnsQuXvwwui9lpoqGmtEDWrbyxu5AFMhgz0AtSvp08k4RqlY6bKLkAHu4uGTc1FtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789834096; c=relaxed/simple;
-	bh=EI5XLXPHTu/1vw3/pA66slomIjIqbs5I6JK37l78UKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J/aC0xc+Apz01Q05OoloNoqzMcDhgJiq2WA6rYf/wq0NUa88WHDeCkIVH6VYT6Ik6tjOEhTEMCOETp9/2pZlz4KmqoY6ifFCRKnYjw1uplDcBezmY6p6AqZxQUu+ckOrZZrD0Nj5v/lOfm2XP5xpSPZU5zJJPAJGx79Of+OBqGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=krq+7ktc; arc=none smtp.client-ip=74.125.230.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1789835005; c=relaxed/simple;
+	bh=rCfku23NV4rHOcA4C6xP0o0XxycvahRnuUmJxepMU10=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=cDE1KA3IBfW2R0o99p8uptIX4cvz3x0BFjx+rwOVO6U/3WcSNLKpTV3Emt0ueX5Wkbfwp/w8/ugHnjVgRW5HwYWNgKYpt+d7FXBujykzTIPn7p/CB8xeafkIIh12jsSIYbeSsXSYAem8WtUwqYL9i39GZlTiGozbS/8BbdKddVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DP6wtNOV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="krq+7ktc"
-Received: by mail-qk2-f42.google.com with SMTP id af79cd13be357-93be29bb454so159246585a.1
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 09:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1789834094; x=1790438894; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=v1ENvgPhr2wkBzngQIEflRDSjK2asd8jt545To7DKdg=;
-        b=krq+7ktcJcLLxzPRR2XcRReeNPXnRQBlfY9D40yyZ1PoX6XqQrfVMQRq28NOhZu6nQ
-         FxAEeEKHKoKC17VcAaJzcjBbqe6O4vOuJ7EmwhUAST8h+1YtrJjvUmcDNxetxKfQXa3X
-         biLGbSMuG+EL7fNpdY70fn8l27CkAwtKZKtMEJTgUEeDSHuleryxJYC8naTW+CAeE7py
-         jgow3/h5bieabnxtLl83h0WUXlYGVAycLao0fowUOk+1c6R8mtiaUAipg7MHO7ycoN1S
-         DvRzj24bu4eKH+2TDkG3BUy8mGeRiAXTsCSpBPbQZtHZh7aD+fBOImapVUPz9QPYHpYP
-         ZUQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789834094; x=1790438894;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v1ENvgPhr2wkBzngQIEflRDSjK2asd8jt545To7DKdg=;
-        b=HQJsBZE0GpDbz07oWUQ/h5TqgererLZSLiTcnKkjtVh3neKRLO45A+gODjnjXDyw3F
-         ClhQ/87g9cvRBoi4IYhuRPbPEeQboiRU6q3B+fptgftnk3Ue2G5hyeEy8ABOs7FRX0Gm
-         gtvIIIwpvVnvfwNu0GXbpfPLwm3BWn6f2h6dm4zOsoTQ2rAC2l7jMSfYbvqEIpCcj2o/
-         i5c4j8SYIEfap5O7lK/1jMm3sXtdkXB6xyw+0JFTDOGTTBwthUFWZeUw1m33zgUfXLa2
-         7MOnqvxnWB88r1yW2PDTrKhezMSPQzmM7nryjYf7iqFDpXkqDeL9twceuxh8DAKO3ACo
-         wrmw==
-X-Forwarded-Encrypted: i=1; AKwUvByBedt+jfGSqgNLix9+frsJeLOBC5HbxCHXqmc7XZaJXFd4Jd46WxVzd0n88B8xDplCJz9iHJu2u9I=@vger.kernel.org
-X-Gm-Message-State: AFuF++mBgLtQs54Iu2EZQEDjpatH16mcPko8RNpkrgKlZNE5MJxhdYUB
-	8vSO4OfhzQesf0CdhOOtnLssh9R4KOz7ZIRmDvzXOm+gX6hJDlULqLkKmTV/XtgBbHc=
-X-Gm-Gg: AYBFou220F8MlK3O+GAR6BSa8sgkrT51x9Ub7tu1acgKYQY5AI1iqK+bdV4nc9D/10j
-	8NQq1tq+k3unCAF92mV0kMxFjKsOkysKaRBrNy9O2C1h2bNgJ74nmSPJB3WLphoRumNo/bk7KMf
-	p9ghFW5V0xKbHChiKaifFar8v9C2TAa5/D/jfe7E25NyJOrIW6Ip+eljQRq4pCxi8eC9Of4iCGp
-	dhYOOyq6/H/otVU9PhDSfBEddc0W0hsjNwpGFc8JF/6ATdc59nUIlsCRt2W9uEO5UVs3aTsTEzd
-	qeoajYMFouORU2ITlXTHhRzD6e8MDXQASpll6JbDjdZjpHNV/JxEmjA+vMcAm6yMb+L728DmfhG
-	XOynRshjwijgT2xxkIYRFwnkD31OVLyblBKm45e2r4bdXeJvXQr8QR1OJrbgu7wAjfaWTa+gB47
-	WUHoFmV3EIP6JwwF80QiA1z6rQrwKfscK9JrjC0JfjbhFgD8eqZHFrhTg6t6RTpVRy1S3Vat7Ba
-	5UGA4dwJaCXIUVHbvFDQqk/BznIPUYMtwNKtIAbiq7p2zXzfep1RKA=
-X-Received: by 2002:a05:620a:371e:b0:939:10dd:9c01 with SMTP id af79cd13be357-93bf5731121mr233734485a.38.1789834094077;
-        Sat, 19 Sep 2026 09:08:14 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93bedb05a2esm213660485a.33.2026.09.19.09.08.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 09:08:13 -0700 (PDT)
-Date: Sat, 19 Sep 2026 12:08:11 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Chris Li <chrisl@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, 
-	Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Rik van Riel <riel@surriel.com>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel team <kernel-team@meta.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <aqJXx2vtbKaRLt3x@fedora>
- <aqLi6cIjD2wJwk0B@cmpxchg.org>
- <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DP6wtNOV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A6271F00898;
+	Sat, 19 Sep 2026 16:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789835003;
+	bh=C4lRm3RTYNV9mhdEEDcZuzTAV6oSYrE2Pr2mgjuhYUs=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=DP6wtNOViiARae2q4SCrhAyAjFH8KgPwEw8WLAjQbJOmdm/ox8AuLydIJPBO14wzF
+	 HFAChnG/jXzQrTMR5ZK6knAFEquuyvHrYDZAwcFqYUvi1EjMCI+X5rzt6VY5ZL/iHG
+	 0z1aQ23qMJldHrWn9H92GNf/ye+WhPPjhGW20uydqgrUskzcrrmCuDSoVhP46a2LZh
+	 HHBa8M1cx6qDFj4tXSRS6F9xeEjIhmvnHd8Y27NoBO76AWVxuIK516mD/JsaprktZ3
+	 MW3uhHSmeYwS9+x6syOn5B9fjrZRnMchpUbr/cu7/vdqI/FfxOlPWDC10YfPkZPNJ1
+	 pADuEyXzxvOww==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 3CD09F40066;
+	Sat, 19 Sep 2026 12:23:22 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Sat, 19 Sep 2026 12:23:22 -0400
+X-ME-Sender: <xms:-rauao4lVNwNJfYCW_uP-vocWLYXA57nbVKefMKFSueq83qGmQNR0g>
+    <xme:-rauaktlCAjPoyAVKnoGlmCs-uiF8aJELr9aOxjX_GfQZ0u0oAvLRmMqOMEtIsfjr
+    I6OklI6iYn2IlD3A2gCrUwiQ2TN2N5EtY9AsFQS7-M5cvesT_tPGIK1>
+X-ME-Proxy-Cause: dmFkZTEthDnEnTNzGgkWQatgFds47X3LBSfUEYm0c0ZV4go8jNCGUPTrclDhUI/156RFd1
+    /El8fx5I9rXFPLoY0rOdO+CyvUB20WNDyuUvNd2rs4whvxrwYkFwqFWAmZgOmYRfacooGf
+    Hsno+CrK28XrP4pQiCXO6I6fHLBpX/OBZF+5vqlcEnKmpro4D07Z2TnxgKtKoOSx/EeJDk
+    Glh7d3bJXB4TtCB4mrfUOOjA1WR4nLQRvqMBgn54Es+OSfZ189mocfqS/A9z+Kd5oWwiwW
+    86mNzGJRzE9jVo6E5PFLeFEEOUwbtSi/ySCoXWBN2XGCZ3xIfVvCq4ajWkUJmBxFEmQimT
+    yC+8CFFp++nh1Gpgkl715haFfzOTVJ/BzvU8Gx+DnRZCcTYqkgydL48eoVhKA/T5FilLjA
+    Dlt7oirURHzjF0M82ZLTxtGLHyauKFB/8HnR8JfpLOvtcGwV5uM34/lP0Sq+0vVf69FBq+
+    maWUY544pdxmFhCrzgofqT+an5vcltd5DUBUZMUVergbT/Ys4m587z0p2E4/sMF0MPt8Za
+    GU8LWqsNyXiXI/Ds6McbcCRBFCGuIEnCV9pp+L3pjJJPEXC7iiQJrtRFC+udc9dhm+nkQa
+    zbeHlIr8F7p0/KKumF2T33Ufu5AYehf5+PnQLasaD8Sbf+3/hPH8b3AkzhXA
+X-ME-Proxy: <xmx:-rauakSPik5hohjS6WVR9oHq5r_BBrZPo3dvSwBB-finccobpzOMRQ>
+    <xmx:-rauamrvN3Uo0LBKIxAWvTdijVNQPYe3GQ23koadj-FULtE5n7XeJg>
+    <xmx:-rauaqZ07v50s4_DfQGFKTF3emwXKCRee_eK2NpO97SdwAHO-gFQiw>
+    <xmx:-rauapQdYCHkzEQghnYFCbsUHPZJVlE3gM29Y4e4-3NHaZQmIXRwqQ>
+    <xmx:-rauagd3AzYaAnJtbeI88yDbi6C35PSvLiLIFpVbc0bNx1vNO-i5QQpW>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 1A66E780070; Sat, 19 Sep 2026 12:23:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+X-ThreadId: Ak1fuKNIJ_kR
+Date: Sat, 19 Sep 2026 12:22:53 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Hannes Reinecke" <hare@suse.de>
+Cc: "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "David Howells" <dhowells@redhat.com>, "Sagi Grimberg" <sagi@grimberg.me>,
+ linux-nfs@vger.kernel.org, keyrings@vger.kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Message-Id: <ebaeb3c9-839c-4ad7-8573-baa68e8c64d0@slotpi15m67>
+In-Reply-To: <bbc4ff6f-aa38-4862-96fe-518c3b4df4d6@suse.de>
+References: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
+ <20260918-nfs-mtls-identity-v1-2-197e568d78a7@kernel.org>
+ <bbc4ff6f-aa38-4862-96fe-518c3b4df4d6@suse.de>
+Subject: Re: [PATCH RFC 2/5] NFS: allocate the .nfs keyring per network namespace
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Sat, Sep 19, 2026 at 03:45:03AM -0500, Chris Li wrote:
-> 
-> I found this new concept of "compression space" very confusing to me.
-> Can you explain the swap behavior and problem using only normal memory
-> usage reduction and latency without introducing a new term or new
-> metrics?
-> 
-> The normal user doesn't even know what compression space is, let alone
-> what makes it transparent.
->
+On 9/18/26 10:44 AM, Hannes Reinecke wrote:
+> Thing is, when running within a container (eg a docker one) access
+> access to /proc/keys might be restricted, and from what I've
+> gathered each container gets its own, _empty_ keyring.
+> (certainly an empty session keyring ...).
 
-Sure they do - it's the amount of memory consumed by compressed data,
-including the metadata associated with it.
+IMO, neither one affects patch 5. The key type has its own request_key
+handler, so construct_key() calls it in the requesting task's context.
+There's no upcall, no /proc/keys. It reports the .nfs keyring of
+current->nsproxy->net_ns, and KEY_TYPE_NET_DOMAIN keeps a key
+instantiated in one netns from answering another. An empty session
+keyring is a fine destination, and with no session keyring at all
+look_up_user_keyrings() creates a per-user-namespace one on demand.
 
-converting Johannes statement to diagram:
+What does break is add_key() into the .nfs keyring from a container
+with its own user namespace. Patch 2 allocates it owned by global
+root with no OTH permissions, so a root mapped to a non-zero kuid
+gets EACCES. A netns-only container (Docker's default) works end to
+end. NFS is not FS_USERNS_MOUNT either, so whoever mounts on behalf
+of a user-ns container can provision the keyring too. If a
+netns-owned keyring is wanted anyway, patch 2 can allocate it with
+net->user_ns->owner instead of GLOBAL_ROOT_UID. I'd like the
+keyrings folks to weigh in on that, please.
 
->> Compression space is not a separate resource. It's page tables,
->> backing pages, and swap descriptors. It's just MEMORY. 
-
-                          Page Data (PD)
-  [page tables][                uncompressed page                  ]
-
-
-                        Compressed Data (CD)
-  [      recovered space     ][pte][swap meta data][compressed page]
-                              |                                    |
-                              |---------compression space----------|
-
-
-                        Memory Pre-Compression
- |[  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ]|
+Regarding the idea of letting each container create its own keyring,
+the kernel still has to learn which keyring to link into tlshd for a
+handshake, and the serial number in the handshake request already
+carries that. The per-namespace allocation decides only who creates
+the keyring and who owns it, not how it is named on the wire.
 
 
-			Memory Post-Compression
- |[CD][CD][CD][CD][CD][CD][CD][CD]-------- free space ------------|
-   ^----------------------------^
-         Compression Space
-
-
-It's actually really confusing to represent this space as a traditional
-swap device - built on the assumption of a pre-defined size limit - when
-that size limit has already been defined (the memory itself).
-
-Baking any kind of pre-defined limit *into the infrastructure* (whether for
-an optimization or ease of implementation) is what requires users to know
-what compression space is.
-
-Even using memory capacity at boot as a limit is wrong - hotplug exists.
-
-> Why does the user need to care about compression space again?
-
-They shouldn't need to, that's very much the point.
-
-~Gregory
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
