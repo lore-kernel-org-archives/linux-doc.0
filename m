@@ -1,80 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79991395D8B;
-	Sat, 19 Sep 2026 23:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C81C39BFE7;
+	Sat, 19 Sep 2026 23:51:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789860612; cv=none; b=JgJKAxooeuZ41YUlND5FRKjBSpZPNQHDZ3TMlT9SN8tjqwkDj/RS7+j/kesIaP85fOcbdxBRjRbt1iRZe5DQS0t1te8J6KzBgJCWwP2yJCqzeD/YmWT0ThDxH4oBSMlieBXVvvbjfXibDv6RoOCKVusBnmeVcq09nNIOn5HJnZQ=
+	t=1789861879; cv=none; b=Ihv/eJcZqnEOd+KFmV8uZ7OD/n3/s6Cqhi2OcOrW5QYNqkzamMa59b9clW5pU9Yn1XV5hso9yhlghRusS6y58wOSgJ2ApZlFE0d8+zAu+LpPm8lQw1HkDWWFw2/qYOEOS4s+Y9oIVskVv0zVCjbLF9cGzyZrWALvhRrJl7C/HLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789860612; c=relaxed/simple;
-	bh=3hQctuO59Dt7EOs6uUIvxDIVa3eiBi/3JK8RPJ9YT90=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rVUtm5hZqhqhxb45NL8J+HcTA9vPi4/5OZ1am+JMp/1hW1U0PmTybDN2jHXtkcnpRo9p/ukaFPwfaHcx+dothVnhCwgStBZx/mfnMUXYA8EmrSbtsuHgxR6pGf3r9R1EhJ7B/s/A0PXP14ruKyyD6Vpgvb17YErf8WIlbZpTpLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CNMbDMC1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789861879; c=relaxed/simple;
+	bh=ExTM/prwA3uW9N45/RsK39KUDUvYh6aNfsLS3lJaLbQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=VYTkdGeJ3FTt98QB9APofJWb4iArBqxHRt/+23KSeOWNnkE/fE1cA/NAVQNKlnPuLFLWHRY6g3kMkXqjf7wkGd655oXO0cXwr0JVpLNjzr+l5DSETphy59NW5/AZbQLMbftnDyChqBjSu/fXA72lYw5qo+lON2YHP50amkoMKcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LrQPHQhE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CNMbDMC1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 819CF1F000FF;
-	Sat, 19 Sep 2026 23:30:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LrQPHQhE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3F6B1F000FF;
+	Sat, 19 Sep 2026 23:51:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789860611;
-	bh=gm0oE85PoetXaG9kJFCrsJSqdCRfiSelk9Kq+1ydbT0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=CNMbDMC1ZhcJzl0b151mRU6oMZbUUfjoRhbsv09wFoMdOpTqZsGYwpEHmN6Yb7WIT
-	 Aapj4DbnbATjmkTntg/vX17iFP8wc2ZaKaNLuqA2mfn1pH561rB2b+l8HS+2arJMq6
-	 wUlWlSsTepSPINvwaQuVGrq/aQ++E/4eB5PHLHzI/uTmUqtIWvNQdRE2PyyXam3TBi
-	 Fi0k/EoheJuQRVJ3KVwn6sSz6vokFjZxYJfel83am/ld6BAbuzBfUg/W2TjpzAPe4X
-	 VEzP22FLs4Jq00sTylJUMdJxqttLexRPFaUUELdnjITYep7PYJMMjoh8ETulfIdfpu
-	 TZpZg1t5Vko7Q==
-Date: Sat, 19 Sep 2026 16:30:09 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "illusion.wang" <illusion.wang@nebula-matrix.com>
-Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
- sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
- corbet@lwn.net, horms@kernel.org, linux-doc@vger.kernel.org,
- pabeni@redhat.com, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
- edumazet@google.com, enelsonmoore@gmail.com, skhan@linuxfoundation.org,
- hkallweit1@gmail.com, linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH v28 net-next 03/10] net/nebula-matrix: add channel layer
-Message-ID: <20260919163009.7ee9f339@kernel.org>
-In-Reply-To: <20260914123429.56596-4-illusion.wang@nebula-matrix.com>
-References: <20260914123429.56596-1-illusion.wang@nebula-matrix.com>
-	<20260914123429.56596-4-illusion.wang@nebula-matrix.com>
+	s=k20260515; t=1789861876;
+	bh=9H7cYUaxyrKSHFuxlcv2NgJmh8jNY00jYHElKTKyXQY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=LrQPHQhEvpow53gTH+Eafz+TsOsLnkIFrfjIYgzVEFdTFayZ3HlG7em4b+8qHc5vD
+	 DsjyT+8ux6FjC24dIGZpZHk7vTw5YRAge/OzNc2YP9jTERTXz/JxdnkosGBCaqzvPz
+	 /sMuLYLTotHi2D5citxfHHXMZmUQAD1EOlkGEuccXqU/Sd7Bj4p0xUC8rPe54kU56G
+	 6x3QnuTVebybksIgifjJ2fOOqQa3BSu2053RTtwnBPxIY/ly8d54P08lfBxxfb5rPg
+	 8P/Yw8RcGdflG5Hv/v3EdkpNklEKuj1EogMwzZLvy4I1llx8RxVJAZ4QoYMvW3iq6B
+	 O+KLt+d3ICoZw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93BC6392447F;
+	Sat, 19 Sep 2026 23:50:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v28 net-next 00/10] nbl driver for Nebulamatrix NICs
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178986180913.1496100.6448081038233123934.git-patchwork-notify@kernel.org>
+Date: Sat, 19 Sep 2026 23:50:09 +0000
+References: <20260914123429.56596-1-illusion.wang@nebula-matrix.com>
+In-Reply-To: <20260914123429.56596-1-illusion.wang@nebula-matrix.com>
+To: illusion.wang <illusion.wang@nebula-matrix.com>
+Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+ sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
+ corbet@lwn.net, kuba@kernel.org, horms@kernel.org, linux-doc@vger.kernel.org,
+ pabeni@redhat.com, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
+ edumazet@google.com, enelsonmoore@gmail.com, skhan@linuxfoundation.org,
+ hkallweit1@gmail.com, linux-kernel@vger.kernel.org
 
-On Mon, 14 Sep 2026 20:34:17 +0800 illusion.wang wrote:
-> +static u32 nbl_common_calc_hash_key(void *key, u32 key_size, u32 bucket_size)
-> +{
-> +	u32 hash;
-> +
-> +	if (bucket_size == 0 || bucket_size == 1)
-> +		return 0;
-> +
-> +	hash = jhash(key, key_size, 0);
-> +
-> +	/* Use bitmask if bucket_size is a power of 2 */
-> +	if ((bucket_size & (bucket_size - 1)) == 0)
-> +		return hash & (bucket_size - 1);
-> +	return hash % bucket_size;
-> +}
+Hello:
 
-I asked you to remove the hash table implementation, I think you only
-removed the hashing function. You should probably use Xarray here.
-Maybe rhashtable, but I don't really see why.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-I will apply the first 2 patches to make the series a little shorter.
-Please don't take that as an invitation to add more patches to the
-series.
+On Mon, 14 Sep 2026 20:34:14 +0800 you wrote:
+> From: illusion wang <illusion.wang@nebula-matrix.com>
+> 
+> This patch series represents the first phase. We plan to integrate it in
+> two phases: the first phase covers mailbox and chip configuration,
+> while the second phase involves net dev configuration.
+> Together, they will provide basic PF-based Ethernet port transmission and
+> reception capabilities.
+> 
+> [...]
 
-Also, if you have a good LLM you can try these prompts:
-https://github.com/kuba-moo/ai-prompts/blob/main/driver-upstreaming-prompts.md
-to generate the code for you. I used them with Opus 5 recently and
-the patches it produced only needed minor modifications. The split
-was excellent.
+Here is the summary with links:
+  - [v28,net-next,01/10] net/nebula-matrix: add minimum nbl build framework
+    https://git.kernel.org/netdev/net-next/c/cffde9e49e86
+  - [v28,net-next,02/10] net/nebula-matrix: add core driver architecture and HW layer initialization
+    https://git.kernel.org/netdev/net-next/c/825e6d230163
+  - [v28,net-next,03/10] net/nebula-matrix: add channel layer
+    (no matching commit)
+  - [v28,net-next,04/10] net/nebula-matrix: add common resource implementation
+    (no matching commit)
+  - [v28,net-next,05/10] net/nebula-matrix: add intr resource implementation
+    (no matching commit)
+  - [v28,net-next,06/10] net/nebula-matrix: add chip-wide hardware init/deinit implementation
+    (no matching commit)
+  - [v28,net-next,07/10] net/nebula-matrix: dispatch: add control-level routing core infrastructure
+    (no matching commit)
+  - [v28,net-next,08/10] net/nebula-matrix: dispatch: implement channel RPC framework and serialize hardware ops
+    (no matching commit)
+  - [v28,net-next,09/10] net/nebula-matrix: add common/ctrl dev init/remove operation
+    (no matching commit)
+  - [v28,net-next,10/10] net/nebula-matrix: add common dev start/stop operation
+    (no matching commit)
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
