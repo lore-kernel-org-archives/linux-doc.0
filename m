@@ -1,94 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DD72F691D;
-	Sat, 19 Sep 2026 13:31:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014D32D7DC6;
+	Sat, 19 Sep 2026 14:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789824698; cv=none; b=ZMg5nGvYAeUljODDPXcXwBpKpHtPVWQsfcPqsdbZIJHISjWgVDie2JeQ1yuMjoOQaDBkJaUHgogqofnJ+hAwSwtQ93J6edcFY7HirY5VQmRlN9c4CjU2Wp4TvMdP1VG8F9GQjtq/v2TaFmkS1PFgUdjj9z/5Febz8i23j5OWkPY=
+	t=1789828703; cv=none; b=PjuXzUq/YHSaIIXMegpc8azZL6mc001xhXFsN5K3AU8+DZ64qS+NNSOcIFVybqWKezLW/aVpGM+bun5Hp+T3Th0oa78MBtGSfLQBYOPw1elY7sDgiua/rAIY7TgkwF3lKWDxfF1k2kA8YeTM3MtUk1asI1R0t4HyUY1fIJdtIcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789824698; c=relaxed/simple;
-	bh=uiuuTERZGcy4ko3mNXucZBk1RKFtye2kgYm6hagJsng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qRosL8MjMC6JnqqlykKShizTz0Dmmjfj18wkTFWXmFCbWEJkF+WcmlZi1FfaF0eQQQSPmF+PirbmZD/H6Spufr2QxViEQwcaF0MXsqDla63ET+8ytl9UjM3pojoBqqUr4yI34/PvLXrTt3d1tXSD74ty6LTgaRj06bRuz1osMQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QO3Y2XsE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789828703; c=relaxed/simple;
+	bh=ZG/lbqdTzFGaQFxKi4UzQSfafZtlh1LxnqaiYUObSFA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=diWqH153o87iBYMJJt7BMUT/VLc83wOT9ixBSclUT4Q/7dphAR4nZfc47yzytbBhh856JvoEuz2KQLOqQbV58qNbtIjo/DPPwS+CLO7EQIrVlwgUwQRv7SLarW8pBqhZTaELu6NAcoFHnmNx6pRWvne3/vDOa5XncP8ClEL51SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=heTMxLEe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QO3Y2XsE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46CF41F000FF;
-	Sat, 19 Sep 2026 13:31:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="heTMxLEe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C26C1F000FF;
+	Sat, 19 Sep 2026 14:38:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789824697;
-	bh=LRxkL+FNxgiZNVxZ1edJUWhUkP0aSqg5kr3XlruhiC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QO3Y2XsEPGiSzCvLFdPBPK4Z3MfogKpXSSlnRO/Y7+i4SIEzJAhRAK1FEt8aS4wuW
-	 NVcbTYOmIxXOPI09HqJiLNEjwv1U362YGxd+T0qDY30SYcNfjz7rN3r/O1bvNtNfAh
-	 49ebuXswm4/ol9whV47iYP+7DPtAmDX2MIRPaDjhC+5Xva64V57DKQf6IRoQka0Rh6
-	 QibKjBxAkVoX90Am6LsWqxITR1nzhv7V5KAEjfLkAT+sPVPZXftHkAoKEojaYaMNHr
-	 nOKorKOhVpPBljLVdYLIQrY08YumNrqRnpSbxGNay9ZsBWK/jOEmIglNsqBFxFu+xs
-	 3EeTtBNRaHaxg==
-Date: Sat, 19 Sep 2026 14:31:28 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Julian Braha <julianbraha@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, Nauman Sabir <officialnaumansabir@gmail.com>, 
-	Tejun Heo <tj@kernel.org>, Nicolas Pitre <nico@fluxnic.net>, 
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Matthew Maurer <mmaurer@google.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Jones <andrew.jones@linux.dev>, 
-	Graham Roff <grahamr@qti.qualcomm.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, "Borislav Petkov (AMD)" <bp@alien8.de>, 
-	Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 0/3] kconfig: Introduce cc-option-str
-Message-ID: <aq6OPchSSrgXhicS@gremlin>
-References: <20260919005923.i.879-kees@kernel.org>
- <20260919012508.GA3573999@ax162>
+	s=k20260515; t=1789828701;
+	bh=Ye5WbKjKFgkqarhBNRF073Cdbb5tflcWG8IEwR1LEuk=;
+	h=From:To:Cc:Subject:Date;
+	b=heTMxLEeMBgy0w7Wxjh+VA34+suUXXAMK1aIMFooksiCr0ru0Z6Ait3WeidESrT23
+	 1UmvPqBKhvt7LwqRvsMA1DqJtJ53DsmmXsVABZNjQz9lkz3FTN5lg8q5XY1+TiwAiU
+	 Qz59ugb/oOKRQ65QG10XzypTM7k/iMNnwsmVmSb15sqWvQ64trs7IJA7J/kE9T1JQx
+	 D2+nVNEMiGFGMvMRRg7nK24zeMHsQL2uuTc2GseSNvY2JiN7zQ9c4ZksSPCiP4KVNF
+	 NdX+U9xWLuNNz/psGU0z2nJRDzrshoZPeJmSEChw/e6VXSOoGQyrZfoc6wkT6XKFvy
+	 WryK7B15Eitvw==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH 0/2] tracing: Override trace_instance parameter
+Date: Sat, 19 Sep 2026 23:38:16 +0900
+Message-ID: <178982869661.289221.2143320719673148321.stgit@devnote2>
+X-Mailer: git-send-email 2.43.0
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260919012508.GA3573999@ax162>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 18, 2026 at 06:25:08PM -0700, Nathan Chancellor wrote:
-> On Fri, Sep 18, 2026 at 05:59:24PM -0700, Kees Cook wrote:
-> > Hi,
-> >
-> > While reviewing the recent build speedup series[1], it became clear
-> > that we needed a general solution in kconfig to avoid repeating detected
-> > toolchain options. Implement cc-option-str and ld-option-str, and while
-> > at it, create "def_string" and friends to match "def_bool".
-> >
-> > -Kees
-> >
-> > [1] https://lore.kernel.org/all/20260918054058.GA384222@ax162/
-> >
-> > Kees Cook (3):
-> >   kconfig: Add "def_string", "def_int" and "def_hex"
-> >   kconfig: Replace "cc-option-bit" with "cc-option-str"
-> >   kconfig: Add "ld-option-str"
->
-> Thanks, exactly what I had in mind. This seems reasonable to me and
-> passes my basic testing. I will let folks chime in for a few days then
-> apply this to kbuild-next so that Lorenzo can use it as part of the
-> speed up series.
+Hi,
 
-Agreed, I will base my local v4 on it and send that (obviously once I've
-gone through review commentary etc.) once things have settled and rebase
-the series on kbuild-next!
+This changes the trace_instance= kernel parameter to be overriden
+by latter parameters. Currently if the user specifies the same
+name trace_instance at boot time, the later one is skipped.
+However, this does not allow user to override the trace_instance
+setting via bootloader if user specifies the default trace_instance
+in the bootconfig, because the bootconfig parameter is prepend to
+the kernel cmdline. (IOW, the bootconfig expects kernel parameters
+are LAST_WIN policy.)
 
-since I sent v3 on thurs I'll likely aim for weds/thurs next week for v4
-but I'll wait until this series is in place before I do it obviously! :)
+To fix this issue, the [1/2] splits the command line parsing loop
+and trace instance initialization loop. The parser checks the
+overlap of the trace instance name and override by the later one
+if those have the same name.
 
->
-> --
-> Cheers,
-> Nathan
+This series also have a test set as [2/2], which is based on
+ftrace boottime test patchset [1], which is currently on
+probes/core branch.
+
+(Steve, can you review the boottime test series too? I think we
+should have this kind of test anyway, and is nicer to have one in
+the kernel tree.)
+
+[1] https://lore.kernel.org/all/178649540853.438282.4271870161169100680.stgit@devnote2/
+
+Thank you,
+
+---
+
+Masami Hiramatsu (Google) (2):
+      tracing: Override the same name trace_instance= by latter one
+      selftests/ftrace: Add test case for overriding trace_instance parameter
+
+
+ Documentation/admin-guide/kernel-parameters.txt    |    7 +
+ Documentation/trace/debugging.rst                  |   15 ++
+ kernel/trace/trace.c                               |  127 +++++++++++++++-----
+ .../cmdline-07-trace-instance-override.bconf       |    2 
+ .../cmdline-07-trace-instance-override.cmdline     |    1 
+ .../tests/cmdline-07-trace-instance-override.sh    |   56 +++++++++
+ 6 files changed, 174 insertions(+), 34 deletions(-)
+ create mode 100644 tools/testing/selftests/ftrace/boottime/bootconfigs/cmdline-07-trace-instance-override.bconf
+ create mode 100644 tools/testing/selftests/ftrace/boottime/cmdlines/cmdline-07-trace-instance-override.cmdline
+ create mode 100644 tools/testing/selftests/ftrace/boottime/tests/cmdline-07-trace-instance-override.sh
 
 --
-Cheers, Lorenzo
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
