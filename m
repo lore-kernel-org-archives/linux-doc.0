@@ -1,394 +1,145 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119C62F1FE4
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 15:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B037B33A014;
+	Sat, 19 Sep 2026 15:47:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789832101; cv=none; b=rrBOEXBPRAFJ9cJ9LTi6jCDqMsaVPqxQourm1zNYOJUIT/HfzsQwCRkU+kwN4UNjr4U9eFS7R4seeBsSfBJN0AA/UpUg3iU6cglhZt1NixBKvaF+BlxkLyO4IkmVmIDyouwMu1ugsHs9lG+MptOdInFUl/DQlxOOb+HYFbosWGw=
+	t=1789832849; cv=none; b=cUkti3NfbqidkduTLzLqKKOEvO1Ko2uf2lEh/yOg4oq51sKbvcTCSBHXKCksdDMo1OoTh9DHxMirJ3nRX1y9P+xb7xzzpuc3sSMPKZjBBrkdYzwZOWNSEyeRqQGZt6IsCjOPpDNVV902Ks2aHLmaN92c7EqSYJdEYPPMhONlIQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789832101; c=relaxed/simple;
-	bh=r8uZ6cbMPFCpPEsjD4R5PSBJwGAVgcajYlWqKZANcWc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b19V+49q5SQ9kIg9ZEG7ydDJSzIgLir61pjznhrYwPGyDWYqqVwKxXfQ1N3vaIAj7xaFPo3CFKIjMpX9FR61d5f81GdbU/jrkjBsomN980X/FgDh8U4GMnlJ6YhY9ei4r3xE1x37YicRTeJkE6cJ46GK5g0XL0afa/7VVaB61rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dEAx5wbF; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789832849; c=relaxed/simple;
+	bh=aQwBW/J4ZINdvadr0XdeF7bmZtIw6fMwqTv8ouYq5ns=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=teLyOUNyxTU5HBXljRjL4l+SaVbB3x60etIyijZyFWaQVosGvJaXq68k+vVAgN+bKPef+t3Veb2UoIaXriq1mDsFN9iKfcd3Gp9onx9gh8xEUd5DFySLQg8v5sEqFCcza1RGWDsIYTYGqjzxN6uCoLqmF0rgh2FpHqspIc/krUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AiVVo1Zy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dEAx5wbF"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccead2aecso8168945e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 08:34:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789832097; x=1790436897; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rnmxa+I/y/WovjQwepcy66tvkG9fBv5IMAXIabUtoDI=;
-        b=dEAx5wbF4JzZfer7o16byIqDW1qOtDJkVca4zWjuC/OFkdz26pbFLEjQt6f2qcx3kq
-         q5pGJWHqcVefVu7kIxJ/8nEPdVJyw+fIJO+tucZDvDehyhNvJDIATRRbg3ylsQmi4eAQ
-         I16vG4a/6nNAP+oIx+hMM6w0/wYtu/heTmD9FJurBzAmdB/R2SWEBLqL/FRZ4mp2QAGd
-         gfITX6ZN0RBixqGNBQylM2/N7RTzKeCnz6f4LM0DMqog99vDQ/X/zNohB0vgJILhUO4A
-         3dLXigmV2eTE6jGKZOLoOW0o+8dklAUQ8HAgGdStpDhz5MoyjJhHiJjt16wHs/82APNz
-         bNtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789832097; x=1790436897;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=rnmxa+I/y/WovjQwepcy66tvkG9fBv5IMAXIabUtoDI=;
-        b=aDiB/ZWAb5xb+tt6j9G5lYQ2OiEtDAm/gUeWR/phoYL46k9bi7veuw3x7CGE2jQYYz
-         +hhlo7aPRW5CEG4wNXFLLxQs4+7bqIyRmddwK/kr/NWTyCLWoiFWaAjw9DZHOaHBR7HQ
-         f9HmFEqvvZzt12YE0uPRYdmzP2mPWZvcdyN79T4qupvkq9D94bIXrU341eotK4/anft5
-         kdvKzBE/aepu7knnBwksin4EuEYlkp+qKB7o5rjadVTqCLEjd65F6b9Pq7UCKB85JJCC
-         2HLWbDoKeJOQIamBi0e/h4R5sJ/IJizdhxSxiePONGq2DqgDCNkVwCSAdumOdo7k3hBi
-         RPeg==
-X-Forwarded-Encrypted: i=1; AKwUvBxdHZ5bdOXrXk/H8YmisVS5lBngkAaowz2kGyh5QagLNEjVuxoSXJgVZlyX8tve5FLiesfx3CvksSU=@vger.kernel.org
-X-Gm-Message-State: AFuF++kxsrrzmEiynzWNcn1P4B4JDaFvBO2G/ZLrXDw+9cf0MZYBKLCT
-	a/qV0FqjvBcaZciipUn8jYddEl7FIaURd8gXKJMIF515FJ8RqADTTTXp
-X-Gm-Gg: AYBFou3tfzFbS1WrDD9IOKcyxDTdmKfOS/a8ZYoviRg2CoYsaIhsxVAgZXw9pdsSnKO
-	vTwVA2vYttf2F8WL5NVJ3N8PSjQyNT3aUOlDTcAvT4y4RmLqMl6w+z17XxNOzsFYM6KSjnqkV0x
-	Mbaqk7ZpH0kPFx5vk27VfsZ6uDUVDNld3VEJZq6zSUaebdRY7Vb5vGh1nkmaHLws3LzOCbedf9+
-	kLD63/auW3Xkf+v4qzK8oHovRZNMfwdn8WS/11JgfusrpyXr3EGidqRWtEButdOsV9dhRUYXfft
-	g2ieqvWFWFjmWeHDL1U87mofOz51Ynk8ys+tBStzYas8mc3jfvE037ahrz4kMQfashYXzuQV9dH
-	e0m9OoKChJfSTNCXS2lqyog4S6cSHMJHacJTM3lkDWRDo/hTkjp87mzRP33Ikg4Zy0kuevySIl2
-	DfKW0HY9OTWFvoFD71A4UR9ZAnRZwQWAR19BEfkZYrdZvEJ7r1/cStEugLAuvFjbvrn7myJpt9S
-	FZTYnfKIRl7hcZP96nXkUTi3nPEV3DT+CMAY2ZDbYwnqHMFf2Ojj9GzBFDDWBvuOQiIgl0+FtLC
-	Fg==
-X-Received: by 2002:a05:600c:3588:b0:49c:d26a:cf70 with SMTP id 5b1f17b1804b1-49fcc3772bamr70227405e9.15.1789832096898;
-        Sat, 19 Sep 2026 08:34:56 -0700 (PDT)
-Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48724422790sm7066857f8f.5.2026.09.19.08.34.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 19 Sep 2026 08:34:56 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <cdebaad4-00c2-4b80-b688-0f5a723d6009@gmail.com>
-Date: Sat, 19 Sep 2026 16:34:54 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AiVVo1Zy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08BFE1F00898;
+	Sat, 19 Sep 2026 15:47:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789832847;
+	bh=mODAfFhrA/MwRkrgaakjZKRIyNrtunWJQx8N1zGq8SE=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=AiVVo1Zyfo3O7oZ9prZcnoQpuCM4Fq5bSXnUEbchPY5TelE+fucj8a2sb9FMfKTw0
+	 PeJmC6f2Y3oXhwmiuOu8RRJ6qiJYhI3CpbuuOa4oYSjnanbuMZ/0WHiuBhLlxMQjzE
+	 gjs3V1QsFFzpBvAW6CKhI1TAj9ZZDAMLY4l7pG2eNOlcN8CfE6F5UkIFEGuhCVMVJu
+	 lDP6kQFNW7QWT7EVfEvaCo6agVNgRb4fJTWHTyqnxzB2YVyGrrvhpm1PtSVmB6hmVy
+	 EqdaMHSqMTbroC6atNWqXWrTO1ehmDMPmH2/K/R51yv+sa3ptrg3WXcIiChpqwrNZ1
+	 gsAmjyQTrdBQw==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 1626FF40066;
+	Sat, 19 Sep 2026 11:47:26 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Sat, 19 Sep 2026 11:47:26 -0400
+X-ME-Sender: <xms:ja6uahvGbAPIicBSV5zgxL03tCk3pzMJeZgSto4sdetuBsrClWyCdw>
+    <xme:ja6ualRvvxXHzDIdaEiI52K5S7M41AhSeOEMI3UU6KS5zKX7pXHXWm4887bNr9XBX
+    h2bRK-9eHcUUzN38-B7v4uxl49987E1eUJev1wbUrnc9u80hta547Cc>
+X-ME-Proxy-Cause: dmFkZTGoh0mOmlRrlZ5GwR88ixO4iXB664+VWrJRNYFNenTomUqh+UiXgCxhBQgewE69EB
+    u+/YkKFO1As/lBVEJQ451JM1sJvyf1ZvBzhi6FFto0bGxVVjmt8302FLdCZoxuRgPq95L2
+    4Lz4W/F+AOfdw82DwB29GbOWs2pBeMqjccVYEfOkScn6BBf+d2HCztV5Fx5tqN4XdKRvef
+    DZ5VuZ4jgE23hRhCEh5SBuUpl9JDPZ/SXptnYbKRqVsIVHcxQ7oKIL3veMptizQ3NqJ4/h
+    WVxDebWTiRtsueNzSp0U5+Zc+T/OrkOHqdOUbbSkERiRLpnJgQCF5AaqAnYwexW/3eYJF2
+    +JTnHJvoGIUoRQaJ0nzCX02A1fA8p7b2gnbVnuep0NII67zSuLvx77btmtQgCyAVTZvCku
+    jAnWjaYolVyzXVBnikdhzMUNpy8S+SrMftnN3N1Iu3LMIl/5y0quD+Pv2xTEmgbnZuDPRV
+    sKx66SVYI8wNgck06AxkyYofiYBDYjWCMmZ4Ia0SESHmvChl21HrDltylwJq6cYtx7WQSK
+    /ya1VEKKWwoLcArdP2CpmzJyNEJRYp3DMygppBhXzfcCCf/p7vX8YnwPR7iCctvNLYCbB1
+    dreR9yw6xq0jO3w7Tv+6cnFfRhmEnTmGKwvN8TQtPy/qG1P2zOs3veZD8U3A
+X-ME-Proxy: <xmx:jq6uaskhqz_lp97X450jwcAa9l9PKee_kK4-Y4HHNAYyiEss6I40tg>
+    <xmx:jq6uagvQVcyGjyIw_uQFixL_fUW3vr3CybcQsk3u7HQgZ2yN5QETTw>
+    <xmx:jq6uajO_46CUtCEOlBI-hb32rBETMT0SzAPeZ-CgGYhPoAoJdQdz8g>
+    <xmx:jq6uap2Jx3fKJ8fy77h2DqyusiNqzMSnIK460QGA2Lm82RQtVvcoAA>
+    <xmx:jq6uatyMaFF4JCAcizmCeCGW7zUFcBLEn4dOyEZ1yWeUA0Vu8ZcHjXom>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id DD94D780070; Sat, 19 Sep 2026 11:47:25 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] kconfig: Add "def_string", "def_int" and "def_hex"
-To: Kees Cook <kees@kernel.org>, Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Nicolas Pitre <nico@fluxnic.net>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Andrew Jones <andrew.jones@linux.dev>, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- Vegard Nossum <vegard.nossum@oracle.com>,
- Nauman Sabir <officialnaumansabir@gmail.com>, Tejun Heo <tj@kernel.org>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Matthew Maurer <mmaurer@google.com>, Graham Roff <grahamr@qti.qualcomm.com>,
- Miguel Ojeda <ojeda@kernel.org>, "Borislav Petkov (AMD)" <bp@alien8.de>,
- Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, conor.dooley@microchip.com
-References: <20260919005923.i.879-kees@kernel.org>
- <20260919005929.4077729-1-kees@kernel.org>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260919005929.4077729-1-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: Atqj05nf2p3o
+Date: Sat, 19 Sep 2026 11:46:57 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Benjamin Coddington" <ben.coddington@hammerspace.com>
+Cc: "Trond Myklebust" <trondmy@kernel.org>,
+ "Anna Schumaker" <anna@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "David Howells" <dhowells@redhat.com>, "Sagi Grimberg" <sagi@grimberg.me>,
+ linux-nfs@vger.kernel.org, keyrings@vger.kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Message-Id: <5a2b6bac-bcdc-479d-a8ae-8b670f78d80b@app.fastmail.com>
+In-Reply-To: <2FBF57B6-FBB6-498F-A1F4-695D52EB89E9@hammerspace.com>
+References: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
+ <2FBF57B6-FBB6-498F-A1F4-695D52EB89E9@hammerspace.com>
+Subject: Re: [PATCH RFC 0/5] NFS: isolate mTLS client credentials by network namespace
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-Hi Kees,
 
-On 9/19/26 01:59, Kees Cook wrote:
-> Kconfig has offered "def_bool" and "def_tristate" as a shorthand for a
-> type definition plus a default since before the git era, but has never
-> offered the equivalent for the other three types. Conor Dooley ran into
 
-CC'd Conor.
+On Fri, Sep 18, 2026, at 1:21 PM, Benjamin Coddington wrote:
+> On 18 Sep 2026, at 10:05, Chuck Lever wrote:
+>
+>> An xprtsec=mtls mount names its client certificate and private key
+>> by keyring serial, and tlshd reads those keys with its own
+>> credentials. Each key therefore has to grant user read permission,
+>> and any tlshd on the host that learns a serial can read it. Nothing
+>> separates one network namespace's credentials from another's.
+>>
+>> This series makes the network namespace the isolation domain. The
+>> RFC thread asked whether the user or mount namespace is the better
+>> binding. tlshd services the handshake socket of one network
+>> namespace, so that is the namespace it already lives in.
+>>
+>>   https://lore.kernel.org/linux-nfs/20260602154740.49861-1-cel@kernel.org/
+>>
+>> The keyring is held in struct nfs_net rather than found by name,
+>> because /proc/keys is not namespace scoped. Its serial travels with
+>> each handshake instead (patches 3-4), and tlshd's possession of that
+>> keyring is what lets a provisioned key grant no user read permission
+>> at all. Both ends of the link exist today, in tls_handshake_accept()
+>> and in tlshd. The handshake genetlink ABI and the cert_serial= and
+>> privkey_serial= mount options do not change.
+>>
+>> Still open is how userspace names the kernel-held keyring. Patch 5
+>> prototypes a request_key type handled in the kernel and tagged
+>> KEY_TYPE_NET_DOMAIN. A keyctl modeled on KEYCTL_GET_PERSISTENT, or a
+>> read-only attribute on the netns-tagged nfs_client sysfs kobject,
+>> would do the same job if the keyrings maintainers prefer one. Keys
+>> that userspace adds are quota-charged by user namespace while the
+>> keyring lives in nfs_net. Confirmation that this is sane when the
+>> two boundaries differ would be welcome.
+>>
+>> nfstlskey, the provisioning tool that consumes the key type, is
+>> merged in https://github.com/oracle/ktls-utils/ .
+>>
+>> Tested on one Fedora VM acting as both NFS client and NFSD, with
+>> tlshd from ktls-utils 1.4.0: NFSv4.2 mounts with xprtsec=tls, with
+>> xprtsec=mtls using the identity in tlshd.conf, and with xprtsec=mtls
+>> using serials that nfstlskey provisioned.
+>
+> I think this is the old upcall/namespace problem that's never been generally
+> solved (as far as I know).  Here's a shameless plug to potentially revive
+> the original "key agent" concept which solves this in a general way.
+>
+> The idea is - user space processes (tlshd) register themselves as key-agents
+> that can satisfy request-key.  A key agent represents itself as a key-type,
+> and the appropriate key agent is consulted for request-key if the calling
+> process has that agent's key in its keyrings.
+>
+> Otherwise, this solution looks good - but without a general solution to this
+> problem, other folks building on keyrings will keep trying to solve this
+> problem.
 
-> this gap[1] when fixing a symbol that had been given the wrong type:
-> 
->   Unfortunately, there is no such thing as "def_string", but in this
->   case we can use "default" to propagate the value of ...
-> 
-> Nothing in the grammar requires the restriction. The rule that consumes
-> a default is already type agnostic. Add the three missing types. No
-> changes are needed to existing diagnostics. E.g. declaring a symbol
-> "bool" and then assigning it with "def_string" still reports
-> 
->   warning: ignoring type redefinition of 'CONFLICT' from 'bool' to 'string'
+Thanks for having a look! Your idea sounds a lot like how tlshd uses
+netlink.
 
-I like this change, as the Kconfiglib implementation of Kconfig used by
-Zephyr already extended the language to add this [1], so it unifies the
-ecosystem a bit.
-
-But... I must say that I think def_bool / def_tristate is possibly the
-worst part of the language. First, because the condition only applies
-to a part of the statement (unintuitive). For example:
-
-  def_bool 'y' if X
-
-the X condition here only applies to the value of y, but not to the type
-declaration of bool. Besides hurting readability, I can imagine a user
-making a mistake by attempting something like this:
-
-  def_bool 'y' if X
-  def_tristate 'y' if !X
-
-thinking that they're making the type conditional. Of course, the
-interpreter warns if this is attempted, so you won't actually find any
-of these in the tree.
-
-The second problem, is that since the order of defaults matters and
-conditions can shadow each other, def_<type> makes it harder for users
-to get defaults right. In the past, I've seen several config options
-with bugged defaults due to 'default' + 'def_<type>' [2][3][4].
-
-Yet, all this adds for users, is avoiding typing four letters: "ault".
-
-But since this def_bool / def_tristate is already used *everywhere*
-throughout the tree, I don't think it's realistic to remove it, and
-would be better to support the other types.
-
-> 
-> Added tests for the types.
-> 
-> Build tested ARCH=x86_64 with GCC 16.2.0. Tests pass with "make testconfig".
-> 
-> Link: https://lore.kernel.org/all/20230111104848.2088516-1-conor.dooley@microchip.com/ [1]
-> Assisted-by: LLM
-> Signed-off-by: Kees Cook <kees@kernel.org>
-
-Tested-by: Julian Braha <julianbraha@gmail.com>
-Reviewed-by: Julian Braha <julianbraha@gmail.com>
-
-> ---
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nicolas Schier <nsc@kernel.org>
-> Cc: Julian Braha <julianbraha@gmail.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Nicolas Pitre <nico@fluxnic.net>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Andrew Jones <andrew.jones@linux.dev>
-> Cc: <linux-kbuild@vger.kernel.org>
-> Cc: <linux-doc@vger.kernel.org>
-> ---
->  scripts/kconfig/tests/def_type/Kconfig        | 28 +++++++++++++++++++
->  scripts/kconfig/tests/def_type/guard_n.config |  1 +
->  scripts/kconfig/tests/def_type/guard_y.config |  1 +
->  scripts/kconfig/tests/def_type/__init__.py    | 18 ++++++++++++
->  .../kconfig/tests/def_type/expected_guard_n   |  9 ++++++
->  .../kconfig/tests/def_type/expected_guard_y   | 11 ++++++++
->  scripts/kconfig/kconfig-sym-check.pl          |  2 +-
->  scripts/kconfig/lexer.l                       |  3 ++
->  scripts/kconfig/parser.y                      |  6 ++++
->  Documentation/kbuild/kconfig-language.rst     | 13 ++++++++-
->  10 files changed, 90 insertions(+), 2 deletions(-)
->  create mode 100644 scripts/kconfig/tests/def_type/Kconfig
->  create mode 100644 scripts/kconfig/tests/def_type/guard_n.config
->  create mode 100644 scripts/kconfig/tests/def_type/guard_y.config
->  create mode 100644 scripts/kconfig/tests/def_type/__init__.py
->  create mode 100644 scripts/kconfig/tests/def_type/expected_guard_n
->  create mode 100644 scripts/kconfig/tests/def_type/expected_guard_y
-> 
-> diff --git a/scripts/kconfig/tests/def_type/Kconfig b/scripts/kconfig/tests/def_type/Kconfig
-> new file mode 100644
-> index 000000000000..fbee37a63179
-> --- /dev/null
-> +++ b/scripts/kconfig/tests/def_type/Kconfig
-> @@ -0,0 +1,28 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# The def_<type> shorthands: a type definition plus a default value.
-> +
-> +config MODULES
-> +	bool "Enable loadable module support"
-> +	modules
-> +	default y
-> +
-> +config GUARD
-> +	bool "Guard symbol"
-> +
-> +config DEF_BOOL
-> +	def_bool GUARD
-> +
-> +config DEF_TRISTATE
-> +	def_tristate m if GUARD
-> +
-> +config DEF_STRING
-> +	def_string "guarded" if GUARD
-> +	default "fallback"
-> +
-> +config DEF_INT
-> +	def_int 64 if GUARD
-> +	default 32
-> +
-> +config DEF_HEX
-> +	def_hex 0xdead if GUARD
-> +	default 0x0
-> diff --git a/scripts/kconfig/tests/def_type/guard_n.config b/scripts/kconfig/tests/def_type/guard_n.config
-> new file mode 100644
-> index 000000000000..ed9ad6c1a2d4
-> --- /dev/null
-> +++ b/scripts/kconfig/tests/def_type/guard_n.config
-> @@ -0,0 +1 @@
-> +# CONFIG_GUARD is not set
-> diff --git a/scripts/kconfig/tests/def_type/guard_y.config b/scripts/kconfig/tests/def_type/guard_y.config
-> new file mode 100644
-> index 000000000000..afe35b084542
-> --- /dev/null
-> +++ b/scripts/kconfig/tests/def_type/guard_y.config
-> @@ -0,0 +1 @@
-> +CONFIG_GUARD=y
-> diff --git a/scripts/kconfig/tests/def_type/__init__.py b/scripts/kconfig/tests/def_type/__init__.py
-> new file mode 100644
-> index 000000000000..1ebaf5da07c8
-> --- /dev/null
-> +++ b/scripts/kconfig/tests/def_type/__init__.py
-> @@ -0,0 +1,18 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +"""
-> +Set a symbol's type and its default value in one line.
-> +
-> +"def_bool", "def_tristate", "def_string", "def_int" and "def_hex" are
-> +shorthand for a type definition plus a "default" property.  Check that
-> +each one sets the type, and that an "if" on the shorthand does not
-> +disturb the usual default cascade: the shorthand is only the first arm
-> +of the list, so a later "default" still applies when its condition is
-> +not met.
-> +"""
-> +
-> +def test(conf):
-> +    assert conf.olddefconfig(dot_config='guard_y.config') == 0
-> +    assert conf.config_matches('expected_guard_y')
-> +
-> +    assert conf.olddefconfig(dot_config='guard_n.config') == 0
-> +    assert conf.config_matches('expected_guard_n')
-> diff --git a/scripts/kconfig/tests/def_type/expected_guard_n b/scripts/kconfig/tests/def_type/expected_guard_n
-> new file mode 100644
-> index 000000000000..14719720a8b9
-> --- /dev/null
-> +++ b/scripts/kconfig/tests/def_type/expected_guard_n
-> @@ -0,0 +1,9 @@
-> +#
-> +# Automatically generated file; DO NOT EDIT.
-> +# Main menu
-> +#
-> +CONFIG_MODULES=y
-> +# CONFIG_GUARD is not set
-> +CONFIG_DEF_STRING="fallback"
-> +CONFIG_DEF_INT=32
-> +CONFIG_DEF_HEX=0x0
-> diff --git a/scripts/kconfig/tests/def_type/expected_guard_y b/scripts/kconfig/tests/def_type/expected_guard_y
-> new file mode 100644
-> index 000000000000..b2844072d0b8
-> --- /dev/null
-> +++ b/scripts/kconfig/tests/def_type/expected_guard_y
-> @@ -0,0 +1,11 @@
-> +#
-> +# Automatically generated file; DO NOT EDIT.
-> +# Main menu
-> +#
-> +CONFIG_MODULES=y
-> +CONFIG_GUARD=y
-> +CONFIG_DEF_BOOL=y
-> +CONFIG_DEF_TRISTATE=m
-> +CONFIG_DEF_STRING="guarded"
-> +CONFIG_DEF_INT=64
-> +CONFIG_DEF_HEX=0xdead
-
-The added test is great.
-
-> diff --git a/scripts/kconfig/kconfig-sym-check.pl b/scripts/kconfig/kconfig-sym-check.pl
-> index daa5285fdefc..c8dd07f8b27c 100755
-> --- a/scripts/kconfig/kconfig-sym-check.pl
-> +++ b/scripts/kconfig/kconfig-sym-check.pl
-> @@ -90,7 +90,7 @@ foreach my $file (@files) {
->  			next;
->  		}
->  
-> -		if (/^\s*(default|def_bool|def_tristate|select|depends\s+on|imply|visible\s+if|range|if|bool|tristate|int|hex|string|prompt)\s+(.+)\s*$/) {
-> +		if (/^\s*(default|def_bool|def_tristate|def_string|def_int|def_hex|select|depends\s+on|imply|visible\s+if|range|if|bool|tristate|int|hex|string|prompt)\s+(.+)\s*$/) {
->  			my $s = $2;
->  			$s =~ s/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'//g;
->  			$s =~ s/#.*//;
-> diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
-> index a6155422b4a6..1fa521199d4a 100644
-> --- a/scripts/kconfig/lexer.l
-> +++ b/scripts/kconfig/lexer.l
-> @@ -105,6 +105,9 @@ n	[A-Za-z0-9_-]
->  "comment"		return T_COMMENT;
->  "config"		return T_CONFIG;
->  "def_bool"		return T_DEF_BOOL;
-> +"def_hex"		return T_DEF_HEX;
-> +"def_int"		return T_DEF_INT;
-> +"def_string"		return T_DEF_STRING;
->  "def_tristate"		return T_DEF_TRISTATE;
->  "default"		return T_DEFAULT;
->  "depends"		return T_DEPENDS;
-> diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-> index 5fb6f07b6ad2..2174baf2b3fd 100644
-> --- a/scripts/kconfig/parser.y
-> +++ b/scripts/kconfig/parser.y
-> @@ -53,6 +53,9 @@ struct menu *current_menu, *current_entry, *current_choice;
->  %token T_CONFIG
->  %token T_DEFAULT
->  %token T_DEF_BOOL
-> +%token T_DEF_HEX
-> +%token T_DEF_INT
-> +%token T_DEF_STRING
->  %token T_DEF_TRISTATE
->  %token T_DEPENDS
->  %token T_ENDCHOICE
-> @@ -309,6 +312,9 @@ type:
->  default:
->  	  T_DEFAULT		{ $$ = S_UNKNOWN; }
->  	| T_DEF_BOOL		{ $$ = S_BOOLEAN; }
-> +	| T_DEF_HEX		{ $$ = S_HEX; }
-> +	| T_DEF_INT		{ $$ = S_INT; }
-> +	| T_DEF_STRING		{ $$ = S_STRING; }
->  	| T_DEF_TRISTATE	{ $$ = S_TRISTATE; }
->  
->  /* if entry */
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index d9338407c1c6..00402d43e0dc 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -113,11 +113,22 @@ applicable everywhere (see syntax).
->  
->  - type definition + default value::
->  
-> -	"def_bool"/"def_tristate" <expr> ["if" <expr>]
-> +	"def_bool" <expr> ["if" <expr>]
-> +	"def_tristate" <expr> ["if" <expr>]
-> +	"def_string" <expr> ["if" <expr>]
-> +	"def_int" <expr> ["if" <expr>]
-> +	"def_hex" <expr> ["if" <expr>]
->  
->    This is a shorthand notation for a type definition plus a value.
->    Optionally dependencies for this default value can be added with "if".
->  
-> +  The shorthand supplies the type once, and is otherwise an ordinary
-> +  default: it is the first entry of the list described above, so any
-> +  further "default" entries still apply when its "if" is not met. Since
-> +  that leaves the type definition inside one arm of a list, spelling the
-> +  type out on its own line reads better for a symbol with several
-> +  defaults.
-> +
->  - dependencies: "depends on" <expr> ["if" <expr>]
->  
->    This defines a dependency for this menu entry. If multiple
-
-[1] https://docs.zephyrproject.org/latest/build/kconfig/extensions.html
-[2]
-https://lore.kernel.org/all/20260405161545.161006-1-julianbraha@gmail.com/
-[3]
-https://lore.kernel.org/all/20260322220125.1380776-1-julianbraha@gmail.com/
-[4]
-https://lore.kernel.org/linux-s390/20260512174336.907050-1-julianbraha@gmail.com/
-
-- Julian Braha
+-- 
+Chuck Lever (Come to NFS bake-a-thon! https://nfsv4bat.org)
