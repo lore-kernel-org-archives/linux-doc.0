@@ -1,333 +1,316 @@
-Received: from mail-pj2-f2.google.com (mail-pj2-f2.google.com [74.125.227.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354993EA66
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 08:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B7D3AD52D
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 08:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789807020; cv=none; b=ZrtCK+LDkG5JzdBAWJtZsPyY2AQGSijiB2D3MuyKlv+rKzpmpr0DfRUt4ipXVywig7uEWdScqtxGimSNtuEVKrDiFZC5lNu2E6CIkuy6Xnpalu7bQOdvrBKsgbql6SD6vQebNsbpGC4YwrwiYF0hDqoKGf7ndvkTX7upNAP84oI=
+	t=1789807521; cv=none; b=JNStr5mjQlLFaEwnr3J10KiKHUBjRnPW36dOB7Kj7HvYwqp7qcEfLzd2DTSG90hnq70FGiPxt8CAhPkfCaSGArRbtU7FCUWzQeJ/NKPBiJdZ4YX/gC+QqrKNjtI1AJfxtVwbsIWkVzYaYpbv/29XR5K58i4JK0oLmXMTo9qWekI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789807020; c=relaxed/simple;
-	bh=r3q3ONwfauxjYPmu1SXSETbq7TkFFnBp/YS9QQ9DLTw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=expN+yp1A1j6IhdsP462UaZ2Ck/yBDJmHSOYYonwfO/vzTMXIXCUdcMKp2Zt40LMtA11h/8MFIz1ckkl1CCU8H6qcBgo+cizrM/Wm7IDRy7cj6IYLmucRGKS2w3xhEXNzYL1LKbOMHekSvEuKfEADTCa1ZCS80iEJNNJ2F4S9WI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FCNfuNEE; arc=none smtp.client-ip=74.125.227.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789807521; c=relaxed/simple;
+	bh=l+x5WCLLD0K04uu+nBOntOn1LVxd/nVcQpDlvHSC54o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sq+ULi0uYxlY0F6tbVorSALvB4pPssZ4lIRm4xGE1frad5gkIZOA+2FkG7BQAj9NTyfcOnyN4Je2PjYu0W50IjSj20OVvv9wfIJB8E+QmRQQrHNoDFPrxHPQYFh3QcjkxPvEZHq6YPvPmCXFzfHXfQ0xTGIDiryya/XWu/RJYe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A68R2BYz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FCNfuNEE"
-Received: by mail-pj2-f2.google.com with SMTP id 98e67ed59e1d1-39b2ad83680so619803a91.1
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 01:36:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789807018; x=1790411818; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NpbGjR9E3S+VQ56UjZg8lJY0xXEMUmDHZy58TWvJq/s=;
-        b=FCNfuNEExCKE5k2vq54KIYdwlFzwlndvcCooIBvafmBYRC4gsX4nYJ53UckHt428Mh
-         HNgIXTmlii55k7DeJ8OJSDFz1ipqzpzNqW0XPRe7Fi4Iu7AkeleePt5KT0SoWuxwUEl+
-         W/j6pj7cnDjU/KhuE7uOERUakQ4xHYeP317lnGQj72K6r5j7tz/1MgOTlA7HdI4uZTa6
-         DAfUL+JO5z3FMet7Sahzz2tsnFOkTRA9nzSnscpJnDNl9KhJaTqxRrxPAs/+UysTmU6n
-         AByStYvAGg6VnJtX8bqjAuQawuU4Gg4N3HNcy38g1qHK+Sb48taTUz+OvZr+D2iCTahR
-         j9hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789807018; x=1790411818;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NpbGjR9E3S+VQ56UjZg8lJY0xXEMUmDHZy58TWvJq/s=;
-        b=GhQfjfRUccbbndSQG5tPibKmGe7blyiOl/QK73J1Y4GNabMkVtK6iNpolb7/9lkCbW
-         Gv7q1O2gvHgZhvkAm667dOdnnrWX7Cke543aOa44GIAtkrkQT6MztSW1Cr7+UFmfY/XU
-         /o82nIqWR0xBGji27GNBQUVGyZp3Ghd3RYmAlH81stw5oe9StgshE40ZfPXvT8YytsDB
-         AA7jQxnCzYHyhuiGozLiV+uASRZCHjVvIBKs6eua6ZzabOYzqZqI+uDtTXtbsaCZuGl8
-         HlFD6DAx5QxwUH5g1f+610S+IFJt+1KWnW3IpA/Owj+ZQ/Ba9cSWIH5YMpGMbmeWGV6N
-         cpMw==
-X-Forwarded-Encrypted: i=1; AKwUvBwKU7WcHkH1Z5DwBCPm6h0+bDm/8qW6R8PxQ7E1YCgXTWZi96ixSGKZ2hWtyS/QqiUPT0AJ3KY5Bv8=@vger.kernel.org
-X-Gm-Message-State: AFuF++mLT425CcI1J4z6PHu76/BegfXQxgmHiI3ZeRbIZsIG6/x8fULS
-	9p3EPE/QWQP0TqzsUZ59JM2jvz019lPR0DdrPvpOkL7OUUYc/6PmPyUa
-X-Gm-Gg: AYBFou1RfAbWTDTwUyEp4GjxIhW8aFmZJLdrU2Eiq7h2oh0yfQplhW8KljgYqJxf7cl
-	YBr/ChldI7DdtCkk8jMaPUbwVkEb5VOKX62Q97FNOsYhZ1SYl2H1Lm0MqRJOi0YGLLMhBdK+f2f
-	BAjOVy4wm7UZ/gOXM7u25XJHhkzZS3gJ+Iczh3wKt9aUlA+ZMzDMrbufZcY3o02j08Eor89R7mG
-	b1VR5yeeUBWC0kgQoRLgNg9utUlYovsbRIePJF0PusZDGo03MxObkbnz+S+xEJ7xQTxVYLPUgTZ
-	xm1E071WhFd7RrghYse4J/haYHJiPmD8T9eW6iX61H4RRfD0hYVdHzUnrV9+S/MJxeWbdweqZ/L
-	ZSYXHVJTx3T4nArtLOj+vCO4qiTvbMIk21lBVuUUF2bsYlvMtj7p+OW8NNAK3yWx6d1ZFNiCeK2
-	8MFG8uW1MKWOAK5IfzJ1FxGqnYf718TcuTzOZqtAyNuemec27WyXYdhXE6BXtvarIEICSbIIU+R
-	5pNggAIva4P500KHNuaBipt6AcTjBF29PNMdDysM7VjRy3EjZcdkpcCVN0Xcb7nqthiywkDfyrE
-	rLoZ1s1Qsl0lYKrKhe7Ml8S+Req4h7/KrYT3LGve9xquKRouQgJ9jJvE9ShjNkUT
-X-Received: by 2002:a17:90b:4c46:b0:366:3517:1aa2 with SMTP id 98e67ed59e1d1-39e54922644mr13476570a91.0.1789807018405;
-        Sat, 19 Sep 2026 01:36:58 -0700 (PDT)
-Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c3311a111sm3920735eec.6.2026.09.19.01.36.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 01:36:58 -0700 (PDT)
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andres Salomon <dilinger@queued.net>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-input@vger.kernel.org
-Cc: Hans-Christian Egtvedt <hans-christian.egtvedt@atmel.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] Input: gpio_mouse - remove driver that has never been used in the kernel
-Date: Sat, 19 Sep 2026 01:36:40 -0700
-Message-ID: <20260919083655.586922-1-enelsonmoore@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A68R2BYz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99FD01F000FF
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 08:45:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789807517;
+	bh=nRAOCdD7CM/ufO6rn26d3KJoJhB/ZPshvT6Y3xlQiRE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=A68R2BYzG0ARFfgXWQsIPqx8KcSadlX0CSMhxlpZBDvA3zdKQwi89+I/zDfUqGApE
+	 UcGym7KwXm447C5aB5gErlKaOM1y6qTRHAhmSPRktBgUI8Guf6pow0MSaAhmcgmZ06
+	 RTiEKFbcLHOPndbzqS2blG/v8ZfD7RuWOFHtvRS6DjIFhlCJ4Sx6urjTUnvB/MzTYz
+	 WnkEZkwpX41NJ3nVmJ7D6klvbL9AQvLtnAmBx2+f/fzN4cqWSD27bff5HeSNyR7wD7
+	 d6wlwiqz+HaUWsAHSTI53NKgwO6kuTXGCGKnV4pmH1tYwEU/6Q47R7PIun+iphOrmc
+	 ja2gB2fDRdhXA==
+Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4aae314aso1195744d50.3
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 01:45:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzbAlu5lTEc6jXSI1blcLBJlVik+vQzcRwmR9Lepfhyo0usYQT/xr/FPCA/eS6pM8c6tUGUkzQGm00=@vger.kernel.org
+X-Gm-Message-State: AFuF++lwz2cb848JWoA2gPrM6QqSH/z/kw6MeLtVyqUwd+NYQlCawVMK
+	B8bGU0d4Mb1Jk+I0fiEnVGQaUdCYjsKJv/nYWEYSz00LPJmOgQJyy3Cw/SOYKKzve03icLLXkf+
+	MafXaPTwgB5x8aupNjk8IdBcvxDkMSBHSlaJTLSvLJw==
+X-Received: by 2002:a05:690e:134f:b0:671:70d1:d6cf with SMTP id
+ 956f58d0204a3-6717fdf88camr1241019d50.65.1789807516526; Sat, 19 Sep 2026
+ 01:45:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org>
+In-Reply-To: <aqLi6cIjD2wJwk0B@cmpxchg.org>
+From: Chris Li <chrisl@kernel.org>
+Date: Sat, 19 Sep 2026 03:45:03 -0500
+X-Gmail-Original-Message-ID: <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+X-Gm-Features: AcwNN1WSLyMhlFxNJHsYTCCD0ttIzwGTm48gSwEkZRKgP4Dxnf1FT7qjZCZg9Rg
+Message-ID: <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, 
+	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The gpio_mouse driver was added in 2007, but it has never been
-referenced by any platform data or DTS files in the kernel, and it does
-not support ACPI probing. Therefore, it has clearly never been used by
-any users of unmodified mainline Linux. Remove it.
+On Thu, Sep 10, 2026 at 12:03=E2=80=AFPM Johannes Weiner <hannes@cmpxchg.or=
+g> wrote:
+>
+> [This reply was not LLM-generated.]
 
-Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
----
- .../driver-api/gpio/drivers-on-gpio.rst       |   5 -
- drivers/input/mouse/Kconfig                   |  15 --
- drivers/input/mouse/Makefile                  |   1 -
- drivers/input/mouse/gpio_mouse.c              | 170 ------------------
- 4 files changed, 191 deletions(-)
- delete mode 100644 drivers/input/mouse/gpio_mouse.c
+Why does it matter?
 
-diff --git a/Documentation/driver-api/gpio/drivers-on-gpio.rst b/Documentation/driver-api/gpio/drivers-on-gpio.rst
-index 95572d2a94ce..e386d909bc08 100644
---- a/Documentation/driver-api/gpio/drivers-on-gpio.rst
-+++ b/Documentation/driver-api/gpio/drivers-on-gpio.rst
-@@ -21,11 +21,6 @@ hardware descriptions such as device tree or ACPI:
-   GPIO line cannot generate interrupts, so it needs to be periodically polled
-   by a timer.
- 
--- gpio_mouse: drivers/input/mouse/gpio_mouse.c is used to provide a mouse with
--  up to three buttons by simply using GPIOs and no mouse port. You can cut the
--  mouse cable and connect the wires to GPIO lines or solder a mouse connector
--  to the lines for a more permanent solution of this type.
--
- - gpio-beeper: drivers/input/misc/gpio-beeper.c is used to provide a beep from
-   an external speaker connected to a GPIO line. (If the beep is controlled by
-   off/on, for an actual PWM waveform, see pwm-gpio below.)
-diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
-index 074130d88953..5f2466c08b9a 100644
---- a/drivers/input/mouse/Kconfig
-+++ b/drivers/input/mouse/Kconfig
-@@ -332,21 +332,6 @@ config MOUSE_VSXXXAA
- 	  described in the source file). This driver also works with the
- 	  digitizer (VSXXX-AB) DEC produced.
- 
--config MOUSE_GPIO
--	tristate "GPIO mouse"
--	depends on GPIOLIB || COMPILE_TEST
--	help
--	  This driver simulates a mouse on GPIO lines of various CPUs (and some
--	  other chips).
--
--	  Say Y here if your device has buttons or a simple joystick connected
--	  directly to GPIO lines. Your board-specific setup logic must also
--	  provide a platform device and platform data saying which GPIOs are
--	  used.
--
--	  To compile this driver as a module, choose M here: the
--	  module will be called gpio_mouse.
--
- config MOUSE_MAPLE
- 	tristate "Maple mouse (for the Dreamcast)"
- 	depends on MAPLE
-diff --git a/drivers/input/mouse/Makefile b/drivers/input/mouse/Makefile
-index ed40f141691e..52c0a99853b0 100644
---- a/drivers/input/mouse/Makefile
-+++ b/drivers/input/mouse/Makefile
-@@ -11,7 +11,6 @@ obj-$(CONFIG_MOUSE_ATARI)		+= atarimouse.o
- obj-$(CONFIG_MOUSE_BCM5974)		+= bcm5974.o
- obj-$(CONFIG_MOUSE_CYAPA)		+= cyapatp.o
- obj-$(CONFIG_MOUSE_ELAN_I2C)		+= elan_i2c.o
--obj-$(CONFIG_MOUSE_GPIO)		+= gpio_mouse.o
- obj-$(CONFIG_MOUSE_MAPLE)		+= maplemouse.o
- obj-$(CONFIG_MOUSE_PS2)			+= psmouse.o
- obj-$(CONFIG_MOUSE_RISCPC)		+= rpcmouse.o
-diff --git a/drivers/input/mouse/gpio_mouse.c b/drivers/input/mouse/gpio_mouse.c
-deleted file mode 100644
-index 18ccbd45004a..000000000000
---- a/drivers/input/mouse/gpio_mouse.c
-+++ /dev/null
-@@ -1,170 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * Driver for simulating a mouse on GPIO lines.
-- *
-- * Copyright (C) 2007 Atmel Corporation
-- * Copyright (C) 2017 Linus Walleij <linus.walleij@linaro.org>
-- */
--
--#include <linux/module.h>
--#include <linux/platform_device.h>
--#include <linux/input.h>
--#include <linux/gpio/consumer.h>
--#include <linux/property.h>
--#include <linux/of.h>
--
--/**
-- * struct gpio_mouse
-- * @scan_ms: the scan interval in milliseconds.
-- * @up: GPIO line for up value.
-- * @down: GPIO line for down value.
-- * @left: GPIO line for left value.
-- * @right: GPIO line for right value.
-- * @bleft: GPIO line for left button.
-- * @bmiddle: GPIO line for middle button.
-- * @bright: GPIO line for right button.
-- *
-- * This struct must be added to the platform_device in the board code.
-- * It is used by the gpio_mouse driver to setup GPIO lines and to
-- * calculate mouse movement.
-- */
--struct gpio_mouse {
--	u32 scan_ms;
--	struct gpio_desc *up;
--	struct gpio_desc *down;
--	struct gpio_desc *left;
--	struct gpio_desc *right;
--	struct gpio_desc *bleft;
--	struct gpio_desc *bmiddle;
--	struct gpio_desc *bright;
--};
--
--/*
-- * Timer function which is run every scan_ms ms when the device is opened.
-- * The dev input variable is set to the input_dev pointer.
-- */
--static void gpio_mouse_scan(struct input_dev *input)
--{
--	struct gpio_mouse *gpio = input_get_drvdata(input);
--	int x, y;
--
--	if (gpio->bleft)
--		input_report_key(input, BTN_LEFT,
--				 gpiod_get_value(gpio->bleft));
--	if (gpio->bmiddle)
--		input_report_key(input, BTN_MIDDLE,
--				 gpiod_get_value(gpio->bmiddle));
--	if (gpio->bright)
--		input_report_key(input, BTN_RIGHT,
--				 gpiod_get_value(gpio->bright));
--
--	x = gpiod_get_value(gpio->right) - gpiod_get_value(gpio->left);
--	y = gpiod_get_value(gpio->down) - gpiod_get_value(gpio->up);
--
--	input_report_rel(input, REL_X, x);
--	input_report_rel(input, REL_Y, y);
--	input_sync(input);
--}
--
--static int gpio_mouse_probe(struct platform_device *pdev)
--{
--	struct device *dev = &pdev->dev;
--	struct gpio_mouse *gmouse;
--	struct input_dev *input;
--	int error;
--
--	gmouse = devm_kzalloc(dev, sizeof(*gmouse), GFP_KERNEL);
--	if (!gmouse)
--		return -ENOMEM;
--
--	/* Assign some default scanning time */
--	error = device_property_read_u32(dev, "scan-interval-ms",
--					 &gmouse->scan_ms);
--	if (error || gmouse->scan_ms == 0) {
--		dev_warn(dev, "invalid scan time, set to 50 ms\n");
--		gmouse->scan_ms = 50;
--	}
--
--	gmouse->up = devm_gpiod_get(dev, "up", GPIOD_IN);
--	if (IS_ERR(gmouse->up))
--		return PTR_ERR(gmouse->up);
--	gmouse->down = devm_gpiod_get(dev, "down", GPIOD_IN);
--	if (IS_ERR(gmouse->down))
--		return PTR_ERR(gmouse->down);
--	gmouse->left = devm_gpiod_get(dev, "left", GPIOD_IN);
--	if (IS_ERR(gmouse->left))
--		return PTR_ERR(gmouse->left);
--	gmouse->right = devm_gpiod_get(dev, "right", GPIOD_IN);
--	if (IS_ERR(gmouse->right))
--		return PTR_ERR(gmouse->right);
--
--	gmouse->bleft = devm_gpiod_get_optional(dev, "button-left", GPIOD_IN);
--	if (IS_ERR(gmouse->bleft))
--		return PTR_ERR(gmouse->bleft);
--	gmouse->bmiddle = devm_gpiod_get_optional(dev, "button-middle",
--						  GPIOD_IN);
--	if (IS_ERR(gmouse->bmiddle))
--		return PTR_ERR(gmouse->bmiddle);
--	gmouse->bright = devm_gpiod_get_optional(dev, "button-right",
--						 GPIOD_IN);
--	if (IS_ERR(gmouse->bright))
--		return PTR_ERR(gmouse->bright);
--
--	input = devm_input_allocate_device(dev);
--	if (!input)
--		return -ENOMEM;
--
--	input->name = pdev->name;
--	input->id.bustype = BUS_HOST;
--
--	input_set_drvdata(input, gmouse);
--
--	input_set_capability(input, EV_REL, REL_X);
--	input_set_capability(input, EV_REL, REL_Y);
--	if (gmouse->bleft)
--		input_set_capability(input, EV_KEY, BTN_LEFT);
--	if (gmouse->bmiddle)
--		input_set_capability(input, EV_KEY, BTN_MIDDLE);
--	if (gmouse->bright)
--		input_set_capability(input, EV_KEY, BTN_RIGHT);
--
--	error = input_setup_polling(input, gpio_mouse_scan);
--	if (error)
--		return error;
--
--	input_set_poll_interval(input, gmouse->scan_ms);
--
--	error = input_register_device(input);
--	if (error) {
--		dev_err(dev, "could not register input device\n");
--		return error;
--	}
--
--	dev_dbg(dev, "%d ms scan time, buttons: %s%s%s\n",
--		gmouse->scan_ms,
--		gmouse->bleft ? "" : "left ",
--		gmouse->bmiddle ? "" : "middle ",
--		gmouse->bright ? "" : "right");
--
--	return 0;
--}
--
--static const struct of_device_id gpio_mouse_of_match[] = {
--	{ .compatible = "gpio-mouse", },
--	{ },
--};
--MODULE_DEVICE_TABLE(of, gpio_mouse_of_match);
--
--static struct platform_driver gpio_mouse_device_driver = {
--	.probe		= gpio_mouse_probe,
--	.driver		= {
--		.name	= "gpio_mouse",
--		.of_match_table = gpio_mouse_of_match,
--	}
--};
--module_platform_driver(gpio_mouse_device_driver);
--
--MODULE_AUTHOR("Hans-Christian Egtvedt <egtvedt@samfundet.no>");
--MODULE_DESCRIPTION("GPIO mouse driver");
--MODULE_LICENSE("GPL");
--MODULE_ALIAS("platform:gpio_mouse"); /* work with hotplug and coldplug */
--- 
-2.43.0
+>
+> On Thu, Sep 10, 2026 at 03:09:59PM +0800, Baoquan He wrote:
+> > Hi Nhat,
+> >
+> > On 09/04/26 at 02:14pm, Nhat Pham wrote:
+> > .....snip...
+> > > Now, on xswap. Baoquan's working on a series [15] that covers some of=
+ the
+> > > same ground, and the VM_SPARSE cluster_info idea in it is genuinely g=
+ood.
+> > > I've been reviewing that lineage since July [16] and I'd like whateve=
+r
+> > > lands to end up with the best parts of both. From my perspective the
+> > > differences are:
+> > >
+> > > 1. Userspace knobs. xswap asks the admin for a size (a percent of RAM=
+) plus
+> > >    a per-device limit to tune afterwards. I'm not aware of any use ca=
+se
+> > >    that needs those, and I don't think users have a good way to answe=
+r the
+> > >    question anyway - sizing swap for compressed memory depends on mem=
+ory
+> > >    size, workload, and compression ratio all at once. That's precisel=
+y the
+> > >    provisioning problem vswap exists to remove. The kernel should be =
+as
+> > >    transparent and dynamic as possible here, and not add knobs unless
+> > >    there's a use case for them.
+> > >
+> > > 2. Writeback support. Writeback is core functionality for zswap, not =
+an
+> > >    add-on, and a design needs to account for it from the start. This =
+came
+> > >    up before, in the discussion around Chris' ghost swapfile RFC [17]=
+: for
+> > >    a solution here to be acceptable, it has to work with the primary
+> > >    usecase and support disk writeback. Without it, whatever zswap won=
+'t
+> > >    take (incompressible pages especially) has nowhere to go, and cold
+> > >    compressed data can never leave RAM.
+> > >
+> > > 3. Cgroup charging behavior. vswap/xswap shouldn't be charged against=
+ the
+> > >    swap usage counter. It's fundamentally a different resource from
+> > >    physical swapfile space, and memory.swap.* should read 0 when noth=
+ing is
+> > >    on disk [18]. I made the longer argument for this in [19].
+> > >
+> > > 4. Data structure (xarray vs sparse vmalloc array). Even with xarray,=
+ vswap
+> > >    is already on par with or beating baseline. I like the sparse arra=
+y
+> > >    idea, but why are we landing an optimization before the feature it=
+self,
+> > >    without any A/B data showing the difference matters?
+> >
+> >
+> > Thanks for laying this out, and for the honest push to converge. Let me
+> > be equally direct about the ordering: I think the xswap base should lan=
+d
+> > first, and the things vswap demonstrates -  writeback, rmap lookup, the
+> > charging semantics, later THP -- should be built on top of it. Because
+> > it is the foundation that keeps the swap core simpler, and the first th=
+ing
+> > to merge should be the one that doesn't have to be redone.
+> >
+> > The VM_SPARSE array is not an optimization to bolt on later; it is a
+> > structural choice, and the code reflects it. In vswap, the cluster
+> > metadata lives in a dynamically-allocated xarray.
+> >
+> > struct swap_cluster_info_dynamic {
+> >         struct swap_cluster_info ci;
+> >         unsigned int index;             /* for cluster_index() */
+> >         struct rcu_head rcu;
+> >         atomic_long_t *virtual_table;   /* Backing pointers for vswap s=
+lots */
+> > };
+> >
+> > To support dynamic growth and shrink, vswap stores its cluster metadata
+> > in an xarray, and that forces two things the plain swap_cluster_info[]
+> > array never needed:
+> >
+> > 1. Every cluster has to carry an extra index and an rcu_head =E2=80=94
+> > 24 bytes per cluster =E2=80=94 purely so the xarray can locate it and f=
+ree
+> > it safely.
+> > 2. To keep that bookkeeping from leaking into the normal-swap code, the
+> > cluster had to be wrapped in a container, swap_cluster_info_dynamic,
+> > so the xarray holds a pointer to the wrapper instead of an inline
+> > array element.
+> >
+> > So in vswap, every cluster access in the shared hot path has to answer
+> > "is this a vswap device?" and take a separate branch:
+> >
+> > - swap_is_vswap() is checked in 36 places across page_io.c, swapfile.c,
+> >   zswap.c and swap.h;
+> > - __swap_offset_to_cluster() branches into xa_load() for vswap vs the
+> >   flat array otherwise, and the xarray path can return NULL (a cluster
+> >   can be torn down);
+> > - __swap_cluster_lock() branches into __vswap_cluster_lock(), which
+> >   wraps every access in rcu_read_lock() and a CLUSTER_FLAG_DEAD check,
+> >   plus kfree_rcu()/container_of()/rcu_head plumbing for node lifetime.
 
+I dislike those code paths in vswap as well.
+
+>
+> Well to state the obvious: the reason it does all that is to make the
+> compression space transparent to the user.
+
+I found this new concept of "compression space" very confusing to me.
+Can you explain the swap behavior and problem using only normal memory
+usage reduction and latency without introducing a new term or new
+metrics?
+
+The normal user doesn't even know what compression space is, let alone
+what makes it transparent.
+
+>
+> The user can answer a simple boolean question: whether they want
+> compression or not. And it will work on tiny machines, on humongous
+
+In my mind, swap trades RSS memory reduction for increased latency
+when accessing the swapped-out data.
+Whether the memory reduction is by compression or by writing to a hard
+drive is an implementation detail. It has different characteristics.
+
+When we have "compressed space" for zswap, should we also have "ssd
+space" for data store in ssd and "hdd space" for data stored on HDD?
+They has different IO accessing latencies.
+
+> machines, and everything in between. That's a simple policy question
+> with a clear answer.
+>
+> What you're doing, asking the user for a static size, is much more
+> difficult and has usability issues.
+>
+> You're comparing implementations that don't accomplish the same thing.
+>
+> The problem we're trying to solve is implementing a clean compression
+> space abstraction. I'm arguing that vswap does, and xswap does not.
+
+I feel that you are arguing a conceptual construct you define. Can you
+explain the difference using external measurable metrics? For example
+in this workload, using vswap, the user sees workload latency as X,
+throughput as Y, and memory usage as Z. Using xswap, the user sees a
+different X1, Y1, Z1. Then we can reason why X, Y, Z is better or
+worse than X1, Y1, Z1.
+
+My simpler brain just doesn't see why this new compression space matters.
+
+> While they're both using parts of the swap device code to implement a
+> compression space, xswap actually PRESENTS IT TO THE USER as a swap
+> device, and then makes optimizations BASED ON BAKED IN LIMITATIONS.
+>
+> But a conventional, statically sized swap device is a bad abstraction
+> for the compression space. Here is why:
+>
+> In conventional swap space, one memory page translates to one swap
+> page. Compression space doesn't act this way: a memory page can
+> consume anything between a few bytes to a full page in compression
+> space. It depends on memory contents and compression algorithm. So
+> right off the bat, this is a hard question to answer at the host level
+> which could run all kinds of workloads.
+>
+> In conventional swap space, the resource consumed is a different
+> one. You're offloading memory by consuming disk space. This eats into
+> the space available to the filesystem, which is totally unrelated.
+> Asking the user for this tradeoff is a legitimate policy question.
+>
+> Compression space is not a separate resource. It's page tables,
+> backing pages, and swap descriptors. It's just MEMORY. There isn't a
+> size tradeoff, because moving pages from memory space into compression
+> space DOES NOT CONSUME A NEW RESOURCE. It's still just memory. All you
+> need for containment already exists: rlimits, OOM killer, cgroup
+> memory controls.
+
+Why does the user need to care about compression space again?
+
+> By making this a user-visible virtual swap device, you're sending
+> users down the wrong path. You're asking them to set a new limit on a
+> resource that's already limited by other means. You're framing the
+> question as conventional swap which behaves completely differently.
+
+The user cares how much memory it can save and what performance price
+to pay for it.
+Why does the user need to care about compression space again? We've
+used zswap/ZRAM and other swap mechanisms for a long time without ever
+hearing about "compression space". Why now?
+
+Again what exactly does compression space do that can't be explained
+by external metrics e.g. memory saved and the performance penalty on
+access?
+
+Please help me understand.
+
+Chris
+
+>
+> If you ask them "how much swap space", they WILL reference this to
+> available RAM capacity. Maybe half of ram, maybe twice the RAM.
+>
+> But when compression space is referenced to RAM, it's trivial to fill
+> it up with zeroed pages or easily compressible data LONG BEFORE the
+> process or container would hit any of its MEMORY limits.
+>
+> This creates an artificial resource shortages. It forces a competition
+> where there shouldn't be one. And then you need new controls to manage
+> a competition that doesn't have to exist.
+>
+> Like I said before, including compression space (which is memory) in
+> memory.swap.* (which is for disk space) is not going to be acceptable
+> from the cgroup side. We can talk about that if you want.
+>
+> But asking the user questions they shouldn't have to answer, or
+> already answered elsewhere, is weak interface design. Allowing, let
+> alone encouraging, answers that create a whole new host of
+> organizational issues is outright bad interface design.
+>
+> So if you want to compare implementations, you first have to actually
+> implement the same thing:
+>
+> Stop asking user "how large". Let compression space expand towards
+> existing memory limits, such that it doesn't create an awkward and
+> artificial new resource competition.
+>
+> Then we can compare implementations.
+>
+> If the optimizations still apply under those constraints, great.
+>
+> Until then, there is little point in discussing differences that, by
+> your own admission, have little to no impact on real world performance.
+>
