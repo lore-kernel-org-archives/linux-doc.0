@@ -1,85 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C9A3AAF65;
-	Sat, 19 Sep 2026 01:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B4D27AC57;
+	Sat, 19 Sep 2026 01:14:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789780039; cv=none; b=A+rhS95dyOGQS4ZqiaYJ5Ir6RPn+DpcWV9uG36E2i8NO/daM6O2B3Au+/aMen+LOwko9PZAwcdv3hAcvXt3uQKeluWw5zZ2I7RcDU6XSXi05DEOqnTJDp5fSbm16StmpwJAFa3a0YFcqKReJ/ofF6Khd2BBiplHLlB6yPHSet6E=
+	t=1789780466; cv=none; b=JIL5SYgC0XJpcXTgF23lyqZzjdIXGUdTlzvSOWYdRWXpSWmD69tpt6Fm/liInIB+oqg2gywMo+zjuzumoRnsgWLt28uEAFZmG+6xlROv0cqAqtMoeDoY4+fU232RK9HBLtYzcIclrkRcV+BNVu4CMnJdROZHX5K7zjVLKpl1O2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789780039; c=relaxed/simple;
-	bh=5oNs9PI8NLa0Dd8AKOjBrnydgdrAbQsvVrK1J57eKP4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qsxtk0Gc1UWZ3HbpKuHkfzskQtefsvXEkx8Ir9CbLcnAs9o2GSgbE02dXJIdJn2cfu7rD2jxlDEZe3OlN/Rt2WT+Be8FAbUP0oawOq/EiwDIAS2QOb5TRHgxCWxZn7HwENgscQ7QBHCnvdrcOAJaCC+Kq6GSSJocjrm8OWddm7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqY6X/wg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789780466; c=relaxed/simple;
+	bh=plGbdbehTitQph8PfjL4EU6xReU3ILvw6sBrO0FSP4A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Dqrej0iSEuEW3pi8BPlIIHkioCZlismiIWNayPoYB0/X58MXcuo3Gca/Ox+35IveQfZ5ZxExLo050mjfpzYnoNny3O/gHFjpAyD1SeUOMkzmprug6WZ49Gnac6z5GinTz/gFLmfJ/r/ELmDyac0e9ULh9c8QXrwdYo+3b8Oi3YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kxDGZTwE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqY6X/wg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D18E21F00898;
-	Sat, 19 Sep 2026 01:07:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kxDGZTwE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2FD81F0089C;
+	Sat, 19 Sep 2026 01:14:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789780031;
-	bh=54z5SHlzrtBebb/X3YpRpc4JfK56SguCLPAt7r3wZ0s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=DqY6X/wgf0ZvI/qmkkkq9008FZOOCDULO9vS7BK1OVjEmpBq1O6JjpH4ziCEq0bNu
-	 Ppik+IosP5jIqP98FvLJBLVFTGMRFlzLGb+YuVUdIU+NHUQk2obZheMTB8sTgB9XQc
-	 HvZOTereYSkhF/hRriYf00wDHLTlXYaSTSBf/7bMRVxuaD+z4Z0GR7+YLQM8LePxZK
-	 g6Br32OKZ/YvToD9FbX431FwVqze0AkzkMfseiaRoqSqR98GuPJRnlrsCltIgZVYk6
-	 qRkVygyRYk4f9H/wFXZRAmHZaWL1auJsOJIUgK8hZ0gM8yF0gRfe1dygrfWn07r/y2
-	 S82iN4am91sNg==
-Date: Fri, 18 Sep 2026 18:07:09 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Daniel Golle <daniel@makrotopia.org>
-Cc: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Andrew Lunn
- <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Subject: Re: [PATCH net-next v16 0/6] net: dsa: mxl862xx: devlink flash and
- rescue
-Message-ID: <20260918180709.2fe12c2c@kernel.org>
-In-Reply-To: <cover.1789477568.git.daniel@makrotopia.org>
-References: <cover.1789477568.git.daniel@makrotopia.org>
+	s=k20260515; t=1789780450;
+	bh=tnIaLQ3JqTQKlYGtXSLMaRVuIin07S/F5Nx3QIjWklQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=kxDGZTwEGf9tZXHKoo33HR25OFplfNJzLDIV3rhFyXGYcY3iRNIlODbu9vrVZvDjN
+	 Q8IBGdAUFqEaQTxABojuEBUmjZVVWzJgiV+x3QyA+2RVzwz4NVUOMB5Cx2zo4kX/In
+	 tT+IMIVdJB8UWLj+W0mleq+jT9OqQMnF5A6f13V1NaHDKjfh2KSqXe6T5BJZAoJAeJ
+	 PyjKaIjQKTFMGfzM5CLK3NBcBNzCgHCeneZsvnN78vtpv+WxQVoSsj0vVq+0kW0l4X
+	 s58LWScaOZtQeXvuGT/gtaEe4Q+zCW12zczo+lDYq4k3Q8mlWzta3gCPk6qhxaWJW5
+	 4uLCvu2X6p1ZA==
+From: SJ Park <sj@kernel.org>
+To: 
+Cc: SJ Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v2 5/7] Docs/mm/damon/design: document damos quota goal complement flag
+Date: Fri, 18 Sep 2026 18:13:54 -0700
+Message-ID: <20260919011359.88921-6-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260919011359.88921-1-sj@kernel.org>
+References: <20260919011359.88921-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 15 Sep 2026 14:09:03 +0100 Daniel Golle wrote:
-> This series adds "devlink dev flash" and "devlink dev info" support to
-> the MaxLinear MxL862xx DSA driver, and makes a switch stuck in its
-> MCUboot loader recoverable through the same path.
-> 
-> The switch is flashed over the loader's clause-22 SMDIO download
-> interface after the firmware API has rebooted it into MCUboot, and the
-> driver reinitialises through a deferred detach and re-probe once the
-> new image runs. A switch found in MCUboot at probe registers in a
-> reduced rescue mode with firmware version 0.0.0, so the same flash flow
-> recovers it; an interrupted download is drained in the background
-> first. The deferred re-probe comes from a new driver-core helper,
-> device_schedule_reprobe(), since a driver-owned work item cannot
-> survive a racing rmmod, nor give up its detach once the core has
-> blocked probing for a shutdown. fwupd's devlink plugin carries the
-> matching quirks [17].
-> 
-> Patch 3 is a driver-core change and patch 4 does not link without it,
-> so the series needs a driver-core ack before net-next can take it.
-> 
-> Tested on an MxL86252C switch of the BananaPi R4 Pro 8X: an upgrade
-> through fwupd; a reboot issued while a flash was running, which waits
-> for the transfer to finish; a host crash mid-transfer, whose wedged
-> download the background drain recovered; and a power cut mid-transfer,
-> after which the loader came up ready and fwupd flashed the switch from
-> 0.0.0 back to a released firmware.
+Update DAMON design document for the newly added damos quota goal metric
+value complement flag.
 
-Having the "rescue mode" which only allows flashing a better / working
-FW is fairly common these days. Did you consider driving the operation
-more from user space. Let the user devlink reload into flashing mode,
-and devlink reload back into normal operation mode?
+Signed-off-by: SJ Park <sj@kernel.org>
+---
+ Documentation/mm/damon/design.rst | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index e82390e77a70a..c82be80738c45 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -702,10 +702,10 @@ There are two such tuning algorithms that users can select as they need.
+   that the zero quota is a valid quota, and therefore ``qt_exceeds`` :ref:`stat
+   <damon_design_damos_stat>` will keep increasing in this case.
+ 
+-The goal can be specified with five parameters, namely ``target_metric``,
+-``target_value``, ``current_value``, ``nid`` and ``path``.  The auto-tuning
+-mechanism tries to make ``current_value`` of ``target_metric`` be same to
+-``target_value``.
++The goal can be specified with six parameters, namely ``target_metric``,
++``complement``, ``target_value``, ``current_value``, ``nid`` and ``path``.  The
++auto-tuning mechanism tries to make ``current_value`` of ``complement``-ed
++``target_metric`` be same to ``target_value``.
+ 
+ - ``user_input``: User-provided value.  Users could use any metric that they
+   has interest in for the value.  Use space main workload's latency or
+@@ -733,6 +733,11 @@ mechanism tries to make ``current_value`` of ``target_metric`` be same to
+ - ``hugepage_mem_bp``: Total huge page to total used memory ratio in bp
+   (1/10,000).
+ 
++``complement`` is a boolean parameter that determines whether to use
++complemented value of the target metric.  For example, if ``complement`` is set
++and target metric is ``active_mem_bp``, it is effectively same to
++``inactive_mem_bp``.
++
+ ``nid`` is optionally required for ``node_mem_used_bp``, ``node_mem_free_bp``,
+ ``node_memcg_used_bp``, ``node_memcg_free_bp`` and ``node_eligible_mem_bp`` to
+ point the specific NUMA node.
+-- 
+2.47.3
