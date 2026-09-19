@@ -1,76 +1,94 @@
-Received: from mta0.migadu.com (out-114.mta0.migadu.com [91.218.175.114])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D189619B5A3
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 12:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DD72F691D;
+	Sat, 19 Sep 2026 13:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789821572; cv=none; b=k3cl+EGlJ5m5JNAKg+BvjBljQGXfOr4zcInSksuZOVWAnv52O42CmhqhGRx9EhVFMyKUJ4gfXHUbtBlUvMb6zpYn08OJvjS3901XnLT0k6E77q2mj/iCCSs247XO6S8PJcCosEFkHpmH0aIMrEf2MMlT005OYbPCD/629BGKxqY=
+	t=1789824698; cv=none; b=ZMg5nGvYAeUljODDPXcXwBpKpHtPVWQsfcPqsdbZIJHISjWgVDie2JeQ1yuMjoOQaDBkJaUHgogqofnJ+hAwSwtQ93J6edcFY7HirY5VQmRlN9c4CjU2Wp4TvMdP1VG8F9GQjtq/v2TaFmkS1PFgUdjj9z/5Febz8i23j5OWkPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789821572; c=relaxed/simple;
-	bh=63TAU/20trh3z6ZWmLlRWwzB6HR6yfQpshRqu4iyzzs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DxBqYhszIadiaDJCsPO3nNSOS/uer8CqgU1qz1O+B5PH7BspqJEOtDPR4OHipNX7bZa9/ghQWKZsYs7lxPmuCnEAnB6HGNY3tdtMcgMis+B0jLO5Vr5FS+m9W4sTn9aWYsMCZjGKRbMcNOcuRIvXJuFYl4Hq5awJuLlsoT6qQSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qOfDw3Bl; arc=none smtp.client-ip=91.218.175.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1789824698; c=relaxed/simple;
+	bh=uiuuTERZGcy4ko3mNXucZBk1RKFtye2kgYm6hagJsng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qRosL8MjMC6JnqqlykKShizTz0Dmmjfj18wkTFWXmFCbWEJkF+WcmlZi1FfaF0eQQQSPmF+PirbmZD/H6Spufr2QxViEQwcaF0MXsqDla63ET+8ytl9UjM3pojoBqqUr4yI34/PvLXrTt3d1tXSD74ty6LTgaRj06bRuz1osMQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QO3Y2XsE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qOfDw3Bl"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=63TAU/20trh3z6ZWmLlRWwzB6HR6yfQpshRqu4iyzzs=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789821568; v=1; x=1790426368;
- b=qOfDw3BlczAkXfz2mWdfl+FxMdP/P7ZIPxFaZaK4WoVPnecQV5RrQx/g+8weJunVvfeonNJJ
- uQlzmJxL6PV8UEblrpMB3HtcKsXkQcMqXvPPmfuFise2RtUpDmss56ValftnitEhYs53DjLCoNZ
- dHZF7bM8ZAGsM0Q62endyb7o=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 39ea79bec7641d4d;
-	Sat, 19 Sep 2026 12:39:18 +0000
-X-Mizu-Trace-ID: 39ea79bec7641d4d
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <f38bce8f-ee47-40aa-a215-e2e605d17c91@linux.dev>
-Date: Sat, 19 Sep 2026 20:39:07 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QO3Y2XsE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46CF41F000FF;
+	Sat, 19 Sep 2026 13:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789824697;
+	bh=LRxkL+FNxgiZNVxZ1edJUWhUkP0aSqg5kr3XlruhiC8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QO3Y2XsEPGiSzCvLFdPBPK4Z3MfogKpXSSlnRO/Y7+i4SIEzJAhRAK1FEt8aS4wuW
+	 NVcbTYOmIxXOPI09HqJiLNEjwv1U362YGxd+T0qDY30SYcNfjz7rN3r/O1bvNtNfAh
+	 49ebuXswm4/ol9whV47iYP+7DPtAmDX2MIRPaDjhC+5Xva64V57DKQf6IRoQka0Rh6
+	 QibKjBxAkVoX90Am6LsWqxITR1nzhv7V5KAEjfLkAT+sPVPZXftHkAoKEojaYaMNHr
+	 nOKorKOhVpPBljLVdYLIQrY08YumNrqRnpSbxGNay9ZsBWK/jOEmIglNsqBFxFu+xs
+	 3EeTtBNRaHaxg==
+Date: Sat, 19 Sep 2026 14:31:28 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Kees Cook <kees@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Julian Braha <julianbraha@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Vegard Nossum <vegard.nossum@oracle.com>, Nauman Sabir <officialnaumansabir@gmail.com>, 
+	Tejun Heo <tj@kernel.org>, Nicolas Pitre <nico@fluxnic.net>, 
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, Matthew Maurer <mmaurer@google.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andrew Jones <andrew.jones@linux.dev>, 
+	Graham Roff <grahamr@qti.qualcomm.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, "Borislav Petkov (AMD)" <bp@alien8.de>, 
+	Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 0/3] kconfig: Introduce cc-option-str
+Message-ID: <aq6OPchSSrgXhicS@gremlin>
+References: <20260919005923.i.879-kees@kernel.org>
+ <20260919012508.GA3573999@ax162>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/10] Docs/mm/damon/design: clarify bp is basis point
-To: SJ Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, David Hildenbrand
- <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Mike Rapoport <rppt@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
- damon@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org
-References: <20260917142210.90829-1-sj@kernel.org>
- <20260917142210.90829-11-sj@kernel.org>
-Content-Language: en-US
-From: Zenghui Yu <zenghui.yu@linux.dev>
-In-Reply-To: <20260917142210.90829-11-sj@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260919012508.GA3573999@ax162>
 
-On 9/17/26 10:22 PM, SJ Park wrote:
-> DAMON design document uses "bp" for "basis point" in multiple places.
-> Because it is not clearly mentioned, it is difficult to understand what
-> "bp" stands for.  Add the clarification.
+On Fri, Sep 18, 2026 at 06:25:08PM -0700, Nathan Chancellor wrote:
+> On Fri, Sep 18, 2026 at 05:59:24PM -0700, Kees Cook wrote:
+> > Hi,
+> >
+> > While reviewing the recent build speedup series[1], it became clear
+> > that we needed a general solution in kconfig to avoid repeating detected
+> > toolchain options. Implement cc-option-str and ld-option-str, and while
+> > at it, create "def_string" and friends to match "def_bool".
+> >
+> > -Kees
+> >
+> > [1] https://lore.kernel.org/all/20260918054058.GA384222@ax162/
+> >
+> > Kees Cook (3):
+> >   kconfig: Add "def_string", "def_int" and "def_hex"
+> >   kconfig: Replace "cc-option-bit" with "cc-option-str"
+> >   kconfig: Add "ld-option-str"
+>
+> Thanks, exactly what I had in mind. This seems reasonable to me and
+> passes my basic testing. I will let folks chime in for a few days then
+> apply this to kbuild-next so that Lorenzo can use it as part of the
+> speed up series.
 
-Exactly ;-)  I had such confusion when I was reading the doc.
+Agreed, I will base my local v4 on it and send that (obviously once I've
+gone through review commentary etc.) once things have settled and rebase
+the series on kbuild-next!
 
-> 
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Closes: https://lore.kernel.org/107dc6ba-697e-4b25-ba3e-8ce2499cac9a@infradead.org
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: SJ Park <sj@kernel.org>
+since I sent v3 on thurs I'll likely aim for weds/thurs next week for v4
+but I'll wait until this series is in place before I do it obviously! :)
 
-Acked-by: Zenghui Yu (Huawei) <zenghui.yu@linux.dev>
+>
+> --
+> Cheers,
+> Nathan
 
-Thanks,
-Zenghui
+--
+Cheers, Lorenzo
