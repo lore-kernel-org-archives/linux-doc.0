@@ -1,171 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F022FB0B2;
-	Sat, 19 Sep 2026 00:27:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8BB346E43;
+	Sat, 19 Sep 2026 00:51:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789777643; cv=none; b=E6JuAnUUtMSyZ0a2lTCn/YW9UG4ez5UOMcYljweBL6+hMVGaLrk0Ub/0qxGmx1Tvo8QTe+KHiq3WhWm2M9Z81XKf4rdlTfPtN3bRm2KkNzcoz0KbfFUwsHN5vvK7B7+RUrYuasI/08Jq/iUMlrfvjcet+sHBCXkWYuxSx39iQMg=
+	t=1789779090; cv=none; b=JqGa+vfnGjEr71fyja7ewwlCXKp6SV9gI6078yDmzuG4RStb26ihCb/nLE2GWXLoBJoM4ti+oyRdDsluSaGL7dqp8uaL9U487WRT8l1hpAjwJDdyB1QDdwG+szsyy/vSC1ExMVtwa5fy4mJLLQ7LrFNxhrVW44yHXZDI291jU/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789777643; c=relaxed/simple;
-	bh=Ffmeyw/SPMfMbYv80UoW0wOQOLJ9Q4s9W1oHBGqZKKE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qZLghqbxolvVagGQrHkvF8IOTfYTs7ftnMz3/MYPO3gfOPxReMZIqAx7ywysGi/vfZ23GxXEypc1/GAWExRzZ5NBtsJd4XfpXr7XnMxYWtt85RDXmQS0GI804ZJoPTauIBQ61p5BDeVELDthvSGif+iPVsJDE82vXHcTyiu3K54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CeiHRseJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789779090; c=relaxed/simple;
+	bh=G+wFUjo25RFkmsrTR1YarOUQE52i+bs36dIgjjrnS1Q=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=TgJS3H3HFzsbu2r6Al45jb/imAUHJAK+XhGvZZUrQOfzsKXfP6qBYvLGvpxD6BDODhynGkyn3U2kSLBuMUBa9GlS8R0q05DylGb95ZNdCeT/PjNvqWojTg4XIwt1lEKhdvRqP3hnJ76tD8/KXYdrKj3UwhqkMtCkpQJT1m6YAlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aWVEiYoe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CeiHRseJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEA701F008A2;
-	Sat, 19 Sep 2026 00:27:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aWVEiYoe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D1161F00899;
+	Sat, 19 Sep 2026 00:51:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789777634;
-	bh=9FN4BkBagpzfC5hM9xQO15OCTyyaEJmLpO1l+R0PMG4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=CeiHRseJ3Hg+/q60unvAYvL88rbAkTOPtytt8zoVERR+CXgOvC3sgx0DImlDYUaMt
-	 H/CTMcnM0unYqTBBIobNOFGRT5Qiv5p4zNtcJPxTIGRSa/RrCVCfw44wD5ahEaNmjm
-	 zQY8y17Vr6stjgpmwxtrpHo/oON/Tobafy1QJJAW2bu/qUcLS5g4X1rPInbUWYnsyA
-	 G2rEF/Y0HSbtiVDomPgJKW9VRlsTuBi4IISiLIz5W1E1IQfB4O+cbSfINbeVAOtMcz
-	 UWes5SOMbwJMb5X0DjBKMwQFZ2Ux7vqhG+eRO/BSoNynF+C8wdt2byFXimE+F2Tb8y
-	 29IOU+k3pk5SA==
-From: Kees Cook <kees@kernel.org>
-To: Bill Wendling <morbo@google.com>
-Cc: Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	nikitash.mariiaw@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 9/9] docs: core-api: Document the seq_buf API
-Date: Fri, 18 Sep 2026 17:27:07 -0700
-Message-Id: <20260919002714.4060307-9-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260919002658.stay.929-kees@kernel.org>
-References: <20260919002658.stay.929-kees@kernel.org>
+	s=k20260515; t=1789779084;
+	bh=gvUYYJLE4mMcSYyKX9DSK63VqyOeWByjSiDHmZOkEJY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=aWVEiYoedOl1VKIg0QSNY5/upXnyOnqi+ITdNGFheEPntAmOlPJnHMR03BbfV2hTf
+	 ia6MsQb/X1ep9b9+vVtCVPVNrBh8wElpfdH0l73f6SrBVQFMX4oNIQGbinI9OUlGJ/
+	 lMvbYdy8jdqzl35EnKwFw/9u5FlrpMgrbNRdWkjFoUYqeEI7uiWNfViptMIouZxtIA
+	 QnqwoE7GqimRT5yhQkpaUjTRtNp5Yr+jLkgGAVeGioGi88qyHG4RqXuIfvvAukSfr0
+	 vm++R8r5qkuPvhgAYMbNF6J8GYb2XQ2LU4MCtcdXVvWfDJga6xZM7nuc950oUBLQ7C
+	 XmioQfxRVj/Rw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93B303811978;
+	Sat, 19 Sep 2026 00:50:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3731; i=kees@kernel.org; h=from:subject; bh=Ffmeyw/SPMfMbYv80UoW0wOQOLJ9Q4s9W1oHBGqZKKE=; b=owGbwMvMwCVmps19z/KJym7G02pJDFlrr9169+lsv3fss/zGzomWD2/3uJv0F0/da7PYvZjRm WVefLtARykLgxgXg6yYIkuQnXuci8fb9nD3uYowc1iZQIYwcHEKwET+OzL89/QzvpU2IYL/BvvU gvcqTZH7WzLeNC7aITLtRbllvx4XLyPDMp/F/d3iyaqJUu6VhbmPf3bYh9twhHeHbdqr/b/7xgc OAA==
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 net-next] net: phy: factor out legacy PHY fixup support
+ and
+ make it always built-in
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178977901714.1211687.9118031635858398394.git-patchwork-notify@kernel.org>
+Date: Sat, 19 Sep 2026 00:50:17 +0000
+References: <2d722b84-a263-400b-ac91-bf37125eb85b@gmail.com>
+In-Reply-To: <2d722b84-a263-400b-ac91-bf37125eb85b@gmail.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: andrew@lunn.ch, linux@armlinux.org.uk, pabeni@redhat.com, kuba@kernel.org,
+ davem@davemloft.net, edumazet@google.com, andrew+netdev@lunn.ch,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
 
-The kernel-doc in include/linux/seq_buf.h and lib/seq_buf.c documents
-the seq_buf interface, but no .rst file pulls either of them in, so none
-of it reaches the generated documentation.
+Hello:
 
-Add the missing kernel-doc for seq_buf_clear() and seq_buf_init(), and a
-Sequence Buffers section to the kernel API documentation. The static
-internal helper seq_buf_can_fit() is left out. Additionally fix
-seq_buf_hex_dump() indentation to avoid the reported Sphinx error:
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-  ERROR: Unexpected indentation.
-  WARNING: Block quote ends without a blank line; unexpected unindent.
+On Wed, 16 Sep 2026 08:05:22 +0200 you wrote:
+> PHY fixup registration is used from platform code in init phase only.
+> Let's move the PHY fixup code from the modular part of phylib to the
+> always built-in part of phylib. This allows to annotate the fixup
+> registration as __init. No caller uses the return code of PHY fixup
+> registration, therefore change related functions to return void.
+> 
+> phy_needs_fixup() and phy_scan_fixups() wouldn't have to be moved to
+> the built-in part of phylib. But doing so allows to fully factor out
+> legacy fixup support into its own source code file, and make struct
+> phy_fixup and phy_fixup_list strictly private to phy_fixup.c.
+> 
+> [...]
 
-Verified with "make SPHINXDIRS=core-api htmldocs", which rendered
-happily into core-api/kernel-api.html.
+Here is the summary with links:
+  - [v2,net-next] net: phy: factor out legacy PHY fixup support and make it always built-in
+    https://git.kernel.org/netdev/net-next/c/f619d5003ff4
 
-Assisted-by: LLM
-Co-developed-by: Bill Wendling <morbo@google.com>
-Signed-off-by: Bill Wendling <morbo@google.com>
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: <linux-doc@vger.kernel.org>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>
----
- Documentation/core-api/kernel-api.rst |  9 +++++++++
- include/linux/seq_buf.h               | 12 ++++++++++++
- lib/seq_buf.c                         | 13 +++++++------
- 3 files changed, 28 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index 4c4a57c1c094..f5a0aedbbb48 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -96,6 +96,15 @@ Error Pointers
- .. kernel-doc:: include/linux/err.h
-    :internal:
- 
-+Sequence Buffers
-+----------------
-+
-+.. kernel-doc:: include/linux/seq_buf.h
-+   :internal:
-+
-+.. kernel-doc:: lib/seq_buf.c
-+   :no-identifiers: seq_buf_can_fit
-+
- Sorting
- -------
- 
-diff --git a/include/linux/seq_buf.h b/include/linux/seq_buf.h
-index 89d847d40626..416a8b67b9ad 100644
---- a/include/linux/seq_buf.h
-+++ b/include/linux/seq_buf.h
-@@ -31,6 +31,10 @@ struct seq_buf {
- 		.size = SIZE,				\
- 	}
- 
-+/**
-+ * seq_buf_clear - reset the seq_buf to be read / appended from the beginning
-+ * @s: the seq_buf handle
-+ */
- static inline void seq_buf_clear(struct seq_buf *s)
- {
- 	s->len = 0;
-@@ -38,6 +42,14 @@ static inline void seq_buf_clear(struct seq_buf *s)
- 		s->buffer[0] = '\0';
- }
- 
-+/**
-+ * seq_buf_init - initialize a seq_buf
-+ * @s: the seq_buf handle
-+ * @buf: pointer to the buffer
-+ * @size: total size of @buf
-+ *
-+ * The contents of the buffer are ignored.
-+ */
- static inline void
- seq_buf_init(struct seq_buf *s, char *buf, unsigned int size)
- {
-diff --git a/lib/seq_buf.c b/lib/seq_buf.c
-index 7e3bf837da01..1c86eae9e188 100644
---- a/lib/seq_buf.c
-+++ b/lib/seq_buf.c
-@@ -407,12 +407,13 @@ int seq_buf_to_user(struct seq_buf *s, char __user *ubuf, size_t start, int cnt)
-  *
-  * Function is an analogue of print_hex_dump() and thus has similar interface.
-  *
-- * linebuf size is maximal length for one line.
-- * 32 * 3 - maximum bytes per line, each printed into 2 chars + 1 for
-- *	separating space
-- * 2 - spaces separating hex dump and ASCII representation
-- * 32 - ASCII representation
-- * 1 - terminating '\0'
-+ * linebuf size is maximal length for one line::
-+ *
-+ *	32 * 3 - maximum bytes per line, each printed into 2 chars + 1 for
-+ *		 separating space
-+ *	2 - spaces separating hex dump and ASCII representation
-+ *	32 - ASCII representation
-+ *	1 - terminating '\0'
-  *
-  * Returns: zero on success, -1 on overflow.
-  */
+You are awesome, thank you!
 -- 
-2.34.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
