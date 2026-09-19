@@ -1,167 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-208.mta1.migadu.com [95.215.58.208])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B69634B1A5
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 19:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F173368291
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 20:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789844562; cv=none; b=Mx3Jv1k/4kTPLZIQxClLjBkipP7Z35oN3hzGjIifuskB2cwLEtd+bk0F7HClmbxtxnEl3YciiHGAJCZfw4021RCQeZ+JkLNnEqi1/ob1wi+V7w1fZS0vozNnV3EZ5fHjZVoezPhA743WUNswyJcfccm6XTMq5biGCGiqicLGL2U=
+	t=1789851382; cv=none; b=XqC8v5qMlSKJhdpmpR2ScWMVCUgDA59zH1d+FNlLCbYEINztgQ45tw24nPZWMTrkI0kpbZ1QsFWvBncqE92nqfEngZ1fTvjXD/3nGi+BhHHhQN8p/XE0eRPVOPyORRAbcG/pby6rhNY1pZuuRBEvClhqO69IYOC3ZSIT+HcxVG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789844562; c=relaxed/simple;
-	bh=hxKoGUuV75+YHy6uYW3H4vYzBx2fImiHDgzErBPHlPo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T+yllGGxsxC5xqymOz6tVRPi1cJzRogqFVwtbA05CV447a4WZ/gwhCXNPj58cJAJsyZrKDFiUlv0jn7R01OulJ6hs+tb8Q7h3Wg7V/V9TSgSgd9ohzem3uFt7JhhxEMEbJDoePWixBrcd3DdBaUCpodLVcjFLP3i3UBpp9at9qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QhBAzf8N; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789851382; c=relaxed/simple;
+	bh=s7RTzfD2xYB6sexrdh1AVzvq6TnKbTUcVa0J8zWjqLw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=XjgupiS4FPSVYhu8/IHbvN/OxhxnKfp7aj9OC7GNr8pNFechVJ5Bwa2LgDsH5t79Lcx4qWxXAig4t0R4/sqVUkNsFJj0EH2xMoMzupVDq6Rq3OprKq2I9hHvObn/lkNYq7rNOWDcT85Tc+87uVgOQDLQ2YbuRh5V7RNuJjGZtzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cressey.dev; spf=pass smtp.mailfrom=cressey.dev; dkim=pass (2048-bit key) header.d=cressey.dev header.i=@cressey.dev header.b=F7Xoy6R9; arc=none smtp.client-ip=95.215.58.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cressey.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cressey.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QhBAzf8N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E37691F00899
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 19:02:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789844560;
-	bh=Pdt+VykzrSdAH3Ihk6G7KeWETmDZjvYwTDnvxuPWWYc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=QhBAzf8N19RbHfkJJFkLAi6GKJQe9xtfwOqEiSyCPguIu7PdBAy6YlDNqTG0ocXdD
-	 sQAvUXyBSFbvWNFijRms8G2fVMk232HMUGPHOKn4LcAHoTl1p4O76ZaEC/vH5ZhmMh
-	 owoqBQaRhUJcEzXLsQEuDwDoN10AXlN98bmHxD3QXCPLBggRC2bVZxWpUmgxttHLYt
-	 kUs9UxQ87g96VLgK4jHCZ4wI/5FPu/OK/+YaqHW6eChA0Y8RfRqMclszlRxKqz9Cjl
-	 7UmEywcFvtoXxERewT+08rEmrtgPEg4jFd538sE6N/28uJxqIj6qHwW4qdCH8cl/Oz
-	 UPiC37NWvjYEg==
-Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e4ab20a33so1773319d50.1
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 12:02:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByCkVKWFTvKVdc9U6YWiR2hgNdZTscFWSXKyaEXfRbPR0bTOZ95PEzy1oaka2In2mPnoW07toz9puY=@vger.kernel.org
-X-Gm-Message-State: AFuF++lAKzKAVzO+hOqziQAXZAgnUBcsyyk3iLk1A8VPe6ykR8tv8zNT
-	QTsH07PfwyRVOzuPsskY1FlOI85vMiQPojNGP4VaNf6llWvmhEtMYHhByCZ530Zyx94ZX2XvGm1
-	mWqZf9Qaogho+eq2977JAhsop86qfeoLe9Gx2BP3o4A==
-X-Received: by 2002:a05:690e:418c:b0:672:99e0:ebf1 with SMTP id
- 956f58d0204a3-67299e0efe2mr784209d50.137.1789844560242; Sat, 19 Sep 2026
- 12:02:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cressey.dev header.i=@cressey.dev header.b="F7Xoy6R9"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=s7RTzfD2xYB6sexrdh1AVzvq6TnKbTUcVa0J8zWjqLw=;
+ c=simple/simple; d=cressey.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789851376; v=1; x=1790456176;
+ b=F7Xoy6R9Utd2dzi4IJfdlBJapA6STWy0j3NcE2b+2AOGOCnfxzBSb3+9+UCEP/wPDYf8igt8
+ JjubFrinDkdBfSSC/u4fsP+codZArnB3rO4mMOuOLV7EXlnUrFYOv0zs90jGV1YPljOhjobfI3t
+ oAZpT3vfw6cuDS8fyzl6/9P4prAw+TfkMlnTB8LdC30/rjvxMCqiSlCo/xJSfsYwQNUGSI9OWPP
+ dagzOjBYTx49I83fAFletSy4jsk+TwFB7rJwaz+Tpqiu+HSNpVIdEu29EnskZvlPxbXi0cFU0Xk
+ ta0SMfi1SPVw2a12bXXhVzE1jkCaBPVu3EtnHXHEPeYUg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 9ba522a53f9c0f58;
+	Sat, 19 Sep 2026 20:56:16 +0000
+X-Mizu-Trace-ID: 9ba522a53f9c0f58
+X-Migadu-Flow: FLOW_OUT
+From: Ben Cressey <ben@cressey.dev>
+Date: Sat, 19 Sep 2026 20:56:10 +0000
+Subject: [PATCH] PCI: Add ID@path device format for pci= parameters
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org> <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
- <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
-In-Reply-To: <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
-From: Chris Li <chrisl@kernel.org>
-Date: Sat, 19 Sep 2026 09:02:28 -1000
-X-Gmail-Original-Message-ID: <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
-X-Gm-Features: AcwNN1XjloUiBKubGVavEZ51xBIrMqQYV_VtL3A0tpER26tTv3nQ8ltxbACyHsc
-Message-ID: <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Gregory Price <gourry@gourry.net>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260919-pci-idpath-selector-v1-1-5881de83f248@cressey.dev>
+X-B4-Tracking: v=1; b=H4sIAOn2rmoC/22NSw7CIBCGr9LMWtKWGC1exbgYxqmgDZChPpKmd
+ xfq1uX3PxfILJ4znJoFhF8++xgK9LsGyGG4sfLXwqA7fehMb1QiX6SEs1OZJ6Y5itLD/ogDjmw
+ 0QWkm4dF/ttXz5cf5ae8lXKdqwmJmZQUDuSpNqaX4jvJgaTfrzwus6xeduGhJrgAAAA==
+X-Change-ID: 20260919-pci-idpath-selector-2847a8afe92c
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Logan Gunthorpe <logang@deltatee.com>, Alex Williamson <alex@shazbot.org>, 
+ Wei Wang <wei.w.wang@hotmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ "Anthony Vardaro (Anthropic)" <me@anthonyvardaro.com>, 
+ Ben Cressey <ben@cressey.dev>
+X-Mailer: b4 0.15.2
 
-On Sat, Sep 19, 2026 at 6:08=E2=80=AFAM Gregory Price <gourry@gourry.net> w=
-rote:
->
-> On Sat, Sep 19, 2026 at 03:45:03AM -0500, Chris Li wrote:
-> >
-> > I found this new concept of "compression space" very confusing to me.
-> > Can you explain the swap behavior and problem using only normal memory
-> > usage reduction and latency without introducing a new term or new
-> > metrics?
-> >
-> > The normal user doesn't even know what compression space is, let alone
-> > what makes it transparent.
-> >
->
-> Sure they do - it's the amount of memory consumed by compressed data,
-> including the metadata associated with it.
->
-> converting Johannes statement to diagram:
->
-> >> Compression space is not a separate resource. It's page tables,
-> >> backing pages, and swap descriptors. It's just MEMORY.
->
->                           Page Data (PD)
->   [page tables][                uncompressed page                  ]
->
->
->                         Compressed Data (CD)
->   [      recovered space     ][pte][swap meta data][compressed page]
->                               |                                    |
->                               |---------compression space----------|
->
->
->                         Memory Pre-Compression
->  |[  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ]|
->
->
->                         Memory Post-Compression
->  |[CD][CD][CD][CD][CD][CD][CD][CD]-------- free space ------------|
->    ^----------------------------^
->          Compression Space
+The <pci_dev> grammar shared by pci=resource_alignment=,
+pci=disable_acs_redir= and pci=config_acs= names a device either by
+address, with an optional path, or by ID. When one command line serves
+more than one platform, neither form limits an entry to the intended
+device: an address applies to whatever occupies it on each platform, and
+an ID applies to every instance, such as all Downstream Ports of a
+switch rather than the one that needs different ACS settings.
 
-Thanks for the explanation. So the compression space is just the
-actual data store backing the zswap/xswap/zram.
+Accept pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>, where
+<path> is the address format, and match only when both halves match. An
+entry written for one platform is then inert on another where that
+address holds a different device. For example,
 
-> It's actually really confusing to represent this space as a traditional
-> swap device - built on the assumption of a pre-defined size limit - when
-> that size limit has already been defined (the memory itself).
+  pci=config_acs=xx111x1@pci:10b5:8749@0000:80:02.0/00.0/08.0
 
-First of all, the traditional swap counter has a very well-defined
-meaning. It is the size of the memory that, when accessed, requires a
-page fault. A page fault adds significant latency to memory access
-compared to access without one. Whether the memory is backed by SSD or
-compressed RAM, this is an invariant of that definition. If you change
-the behavior by not charging to swap when swapping out to compressed
-memory, it will break our deployment, causing many OMGs. Kairui also
-mentioned that this will break their usage as well.
+configures ACS on the Downstream Port at that path only if it is a
+PEX 8749 port, and matches nothing on a system where 0000:80:02.0 leads
+to some other device.
 
-Therefore, I must push back on this. Please don't change the swap
-counter charging behavior due to the risk of SLO violations for users.
-This is a user-visible behavior change.
+The path goes last since pci_dev_str_match_path() consumes up to the
+next ';'. The <order>@ and <flags>@ prefixes of resource_alignment and
+config_acs are stripped before pci_dev_str_match() is called, so the
+callers are unchanged.
 
-Secondly, I notice that you are reasoning from the memory usage
-aspect. That is a different usage requirement angle than the SLO
-violations. Maybe we need a separate counter to track actual memory
-usage, regardless of compression status.
+Reviewed-by: Anthony Vardaro (Anthropic) <me@anthonyvardaro.com>
+Signed-off-by: Ben Cressey <ben@cressey.dev>
+Assisted-by: LLM
+---
+This touches pci_dev_str_match(), as does 3/6 of Wei Wang's "PCI: Add
+support for ACS Enhanced Capability" series, currently at v9:
+https://lore.kernel.org/r/SI2PR01MB4393F337A792CB3258C2E073DCB62@SI2PR01MB4393.apcprd01.prod.exchangelabs.com
+On current -rc this patch applies as is. If it is applied after that
+3/6, the early return for a path that does not match needs to become
+"ret = 0; goto out;" so the shared exit still checks and skips the
+delimiter. I can respin on that base if preferred.
 
-Let's figure out a way to make your usage case work as well, not at
-the cost of breaking existing usage requirements from an SLO violation
-perspective.
+A pci:<IDs> entry with three or five fields is accepted by the existing
+sscanf() and so bypasses the @<path> check; that predates this patch and
+is rejected once that same 3/6, "PCI: Consolidate delimiter handling
+into pci_dev_str_match()", is applied.
 
-> Baking any kind of pre-defined limit *into the infrastructure* (whether f=
-or
-> an optimization or ease of implementation) is what requires users to know
-> what compression space is.
->
-> Even using memory capacity at boot as a limit is wrong - hotplug exists.
+A backport of this change to a 6.18.y based tree was tested on two
+server models from different vendors, both with PCIe switches whose
+downstream ports share one vendor and device ID, and one boot of each
+machine was examined with one command line that held config_acs entries
+in the new form for both models. On each machine only the ports named
+by its own entries were configured, and the bits those entries set read
+back as requested, while the ports with the same vendor and device ID
+at a path that only the other model's entries name were not configured.
+---
+ Documentation/admin-guide/kernel-parameters.txt | 10 +++++++++-
+ drivers/pci/pci.c                               | 18 ++++++++++++++++++
+ 2 files changed, 27 insertions(+), 1 deletion(-)
 
-This reinforces the point that viewing things through the lens of
-"compression space" is confusing and muddy. That is not my mental
-model. I want to add support for your usage case as well. Please
-clearly specify what user usage you want, what the expected outcome
-is, and why you want that.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 33cd30996e47e..3e4c618427a27 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5042,6 +5042,7 @@ Kernel parameters
+ 
+ 				[<domain>:]<bus>:<dev>.<func>[/<dev>.<func>]*
+ 				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
++				pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>
+ 
+ 				Note: the first format specifies a PCI
+ 				bus/device/function address which may change
+@@ -5056,7 +5057,14 @@ Kernel parameters
+ 				renumbering issues).  The second format
+ 				selects devices using IDs from the
+ 				configuration space which may match multiple
+-				devices in the system.
++				devices in the system.  The third format
++				combines the first two: the device must
++				match the IDs and also be at the address
++				given by <path>, which takes the first
++				format.  This allows an entry written for a
++				device on one system to have no effect on
++				another system where the same address is
++				occupied by a different device.
+ 
+ 		earlydump	dump PCI config space before the kernel
+ 				changes anything
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index b2879a6be5f80..ebce05e604b88 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -343,6 +343,7 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
+  *
+  *   [<domain>:]<bus>:<device>.<func>[/<device>.<func>]*
+  *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
++ *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>
+  *
+  * The first format specifies a PCI bus/device/function address which
+  * may change if new hardware is inserted, if motherboard firmware changes,
+@@ -359,6 +360,12 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
+  * legacy reasons and convenience so users don't have to specify
+  * FFFFFFFFs on the command line.)
+  *
++ * The third format combines the first two: the device must match the IDs
++ * and also be at the address given by <path>, which takes the first
++ * format.  This allows a parameter written for a device at a known
++ * address on one system to have no effect on another system where that
++ * address is occupied by a different device.
++ *
+  * Returns 1 if the string matches the device, 0 if it does not and
+  * a negative error code if the string cannot be parsed.
+  */
+@@ -385,6 +392,17 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
+ 
+ 		p += count;
+ 
++		/* Third format: the device must also be at <path> */
++		if (*p == '@') {
++			ret = pci_dev_str_match_path(dev, p + 1, &p);
++			if (ret < 0)
++				return ret;
++			if (!ret) {
++				*endptr = p;
++				return 0;
++			}
++		}
++
+ 		if ((!vendor || vendor == dev->vendor) &&
+ 		    (!device || device == dev->device) &&
+ 		    (!subsystem_vendor ||
 
->
-> > Why does the user need to care about compression space again?
->
-> They shouldn't need to, that's very much the point.
+---
+base-commit: fd73f4a6659897191fa0d40695fe370925dd3780
+change-id: 20260919-pci-idpath-selector-2847a8afe92c
 
-Great, Sounds like I can safely bypass it.
-
-Chris
