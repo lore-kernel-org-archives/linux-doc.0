@@ -1,150 +1,167 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A3835B650
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 18:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B69634B1A5
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 19:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789843372; cv=none; b=VznN7/I6ilu0gZ2NLJrw62l/c3+3/RMK5qxyL5pKcoyCNVsefBJU/+Rp65tB+FXVYM0ALf3YmmhkhjSUFK47hjYCh6lyrZnfvo9Q/psnSeE5O2wc0QQpKP+p1GuSI0DgkNdaqDpb3/zGw3D/RjpF4uy2/yR4hXMvkr6r0TWVnNY=
+	t=1789844562; cv=none; b=Mx3Jv1k/4kTPLZIQxClLjBkipP7Z35oN3hzGjIifuskB2cwLEtd+bk0F7HClmbxtxnEl3YciiHGAJCZfw4021RCQeZ+JkLNnEqi1/ob1wi+V7w1fZS0vozNnV3EZ5fHjZVoezPhA743WUNswyJcfccm6XTMq5biGCGiqicLGL2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789843372; c=relaxed/simple;
-	bh=L0cJg8bEa3JcDAFMwgJ+PXyC/ThA9AhiO5G7soyuk4Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IfUSh1eXYOWAcLfBHY3ERGXWzAuhJG2ZxIaiHpLgAqzxl7VUkxt6XWqrN1BuHKjHA26My9jBWQpSsLKqhBeK/UsGxc13Z/qBHBOfJBsH5uxATJvOpsxCMiy4IO4k+li+1mIyFrZVLqgM37LZP3WWPLMiuyHoZp0RksSOoSpJicA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L+rhnWa9; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789844562; c=relaxed/simple;
+	bh=hxKoGUuV75+YHy6uYW3H4vYzBx2fImiHDgzErBPHlPo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T+yllGGxsxC5xqymOz6tVRPi1cJzRogqFVwtbA05CV447a4WZ/gwhCXNPj58cJAJsyZrKDFiUlv0jn7R01OulJ6hs+tb8Q7h3Wg7V/V9TSgSgd9ohzem3uFt7JhhxEMEbJDoePWixBrcd3DdBaUCpodLVcjFLP3i3UBpp9at9qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QhBAzf8N; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L+rhnWa9"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccead2aecso8507915e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 11:42:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789843368; x=1790448168; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EUaG58XyyXj2IYGxruqsBjrWu0FDpmLYKW3X9EM+9DM=;
-        b=L+rhnWa9nQG2h6Uso3aXhrUb1+pFdsXRFDMx5XcAo69q9fXnDxwpUAnp67jjx05WOh
-         UlHlMf0RCkzMdqFJJyX15kVA7PDcV2cDKzmhkkO3id15YNJF8a3BVbLTlGsK/XPtQM29
-         065odsPEekw6UhF8ik+AQ9gQfRZ/kObO4TrxSbY5+hcsn2cCh3iA11HoNAznCt3ea5HY
-         Fv82E4PjgXTB/1vEy1hauB5j7z+9KyIHJvrA0aEP3zEcl69oTsyDYBZWrNnz+Ggvb/th
-         SYtRL3+ZnGtvfXPzXi81+71BDGhMs0KnxACyG2QGoegKiUDa6P+tUSBBVGabEodUxRWn
-         D/lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789843368; x=1790448168;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EUaG58XyyXj2IYGxruqsBjrWu0FDpmLYKW3X9EM+9DM=;
-        b=KcjwawLO1Ik8itabSmEslM2/yf2UawFUacUspJjsvsIgnBnJdGDu/WO2NTEeOeA6li
-         Vic3bBF2OCMhqx/HA5EUr2UxcJUnzRhhJorM6GubZvznwDdtO5jffDJEisrJVO7bnGj9
-         IXW2g/q9lOSHEofYX1c0jzzZtz44kwJ2kTxhmMOLTI8+vNuJ67imXFHdT0VBIaPomB6T
-         LpYTsYRTc+YwhVSwRqjyi50J6HSM5eb/wImkgMiGLMVmQWKz34e5BoH5jBQQT33/9LqI
-         uv/rz8tRYROUHk/xPTYOyhMNSCJz/IzRsaePgQtJnpGMqsZSS8WSo+X2nHDlXHX7x+hz
-         AsVw==
-X-Forwarded-Encrypted: i=1; AKwUvBxVUX3USraX3uxpIyl+iLaavsYydhFAkA2HpYYd8mHLKj84neVdGgfbndpNaGWRqy6ivSNPK45gwic=@vger.kernel.org
-X-Gm-Message-State: AFuF++kt/O/jreFzTtpA4CZbjm2dDmZKlNmRQuaUbkdHt4cuqANWDWcw
-	Ra3oxmJkNhlbQDe8l6TBZ8V88SKfM+pyaxz0Vlo51kGId1JSK+59Vw50
-X-Gm-Gg: AYBFou2QQW21+7alpIequiyW//U2vT36+WHL3YsVGJWewTFVTYFApmTDJVz7IF/Rfe1
-	gDLxOXsc1w5B10DH7VUuHJDHNyjUaJP0Rsn/uDCeE3Pm2Pc6iCF1gTH5d6UGen80is0ONj2t08P
-	gBvWhyTOFsiipr9OjBbvHaoRqzTrmDBpVco7ol0oZJnQyzpkAckQUhB+rum12vD+utQU7/5mtBZ
-	4h+38n3LJuC5nfWspPIKtxOMmPrfu3fhc3XqzziOcY5nSeYpJshDkUI21RGrEdTRp9Uvp+Sp6Dq
-	JFCoolPIz2DCQhf2l3GSBfnPbtyco+cMJX4kS0WqS2c01J+oDDfgjyOkXcwUAg5BVLsM4nzExCX
-	1J0HAXjoxv1wGwnhdtfAU3f/RqsZ097znqni9KZdXoplqmP/InETv4nq8vB0UaiPookjf4ZRes0
-	9hegRKApMi1+Kw70jVC/XYIb0cLrgROy0Ek56nB2J+oe+HyWXePta0GmXyyGwbjdR3tYvzlf6IG
-	No00qnV0AnVXAe2f/akf10dJjWD
-X-Received: by 2002:a05:600c:4505:b0:49a:a101:4157 with SMTP id 5b1f17b1804b1-49fc56db92fmr86686385e9.7.1789843367901;
-        Sat, 19 Sep 2026 11:42:47 -0700 (PDT)
-Received: from [192.168.1.13] ([185.69.144.71])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd07cca6sm91087395e9.11.2026.09.19.11.42.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 19 Sep 2026 11:42:47 -0700 (PDT)
-Message-ID: <8427de42-2cdf-4acb-a439-d7c99cd249ca@gmail.com>
-Date: Sat, 19 Sep 2026 19:42:43 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QhBAzf8N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E37691F00899
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 19:02:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789844560;
+	bh=Pdt+VykzrSdAH3Ihk6G7KeWETmDZjvYwTDnvxuPWWYc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=QhBAzf8N19RbHfkJJFkLAi6GKJQe9xtfwOqEiSyCPguIu7PdBAy6YlDNqTG0ocXdD
+	 sQAvUXyBSFbvWNFijRms8G2fVMk232HMUGPHOKn4LcAHoTl1p4O76ZaEC/vH5ZhmMh
+	 owoqBQaRhUJcEzXLsQEuDwDoN10AXlN98bmHxD3QXCPLBggRC2bVZxWpUmgxttHLYt
+	 kUs9UxQ87g96VLgK4jHCZ4wI/5FPu/OK/+YaqHW6eChA0Y8RfRqMclszlRxKqz9Cjl
+	 7UmEywcFvtoXxERewT+08rEmrtgPEg4jFd538sE6N/28uJxqIj6qHwW4qdCH8cl/Oz
+	 UPiC37NWvjYEg==
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e4ab20a33so1773319d50.1
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 12:02:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByCkVKWFTvKVdc9U6YWiR2hgNdZTscFWSXKyaEXfRbPR0bTOZ95PEzy1oaka2In2mPnoW07toz9puY=@vger.kernel.org
+X-Gm-Message-State: AFuF++lAKzKAVzO+hOqziQAXZAgnUBcsyyk3iLk1A8VPe6ykR8tv8zNT
+	QTsH07PfwyRVOzuPsskY1FlOI85vMiQPojNGP4VaNf6llWvmhEtMYHhByCZ530Zyx94ZX2XvGm1
+	mWqZf9Qaogho+eq2977JAhsop86qfeoLe9Gx2BP3o4A==
+X-Received: by 2002:a05:690e:418c:b0:672:99e0:ebf1 with SMTP id
+ 956f58d0204a3-67299e0efe2mr784209d50.137.1789844560242; Sat, 19 Sep 2026
+ 12:02:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/11] Add spi-hid transport driver
-To: fQwQf <fqwqf@fqwqf.xyz>, jingyliang@chromium.org, jikos@kernel.org,
- bentiss@kernel.org, corbet@lwn.net, broonie@kernel.org, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- dmitry.torokhov@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- hbarnor@chromium.org, tfiga@chromium.org, jaschultz@microsoft.com,
- dmanti@microsoft.com, acz@semihalf.com
-References: <20260609-send-upstream-v4-0-b843d5e6ced3@chromium.org>
- <010601a0b3ff1cf6-944e2ad5-0ad1-49d4-9e89-c8ab03bbc62c-000000@ap-northeast-1.amazonses.com>
-Content-Language: en-US
-From: Dale Whinham <daleyo@gmail.com>
-In-Reply-To: <010601a0b3ff1cf6-944e2ad5-0ad1-49d4-9e89-c8ab03bbc62c-000000@ap-northeast-1.amazonses.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org> <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+ <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
+In-Reply-To: <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
+From: Chris Li <chrisl@kernel.org>
+Date: Sat, 19 Sep 2026 09:02:28 -1000
+X-Gmail-Original-Message-ID: <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+X-Gm-Features: AcwNN1XjloUiBKubGVavEZ51xBIrMqQYV_VtL3A0tpER26tTv3nQ8ltxbACyHsc
+Message-ID: <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Gregory Price <gourry@gourry.net>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>, 
+	Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 18/09/2026 11:10, fQwQf wrote:
-> Hi Jingyuan,
-> 
-> 
->> This series picks up the spi-hid driver work originally started by
->> Microsoft. The patch breakdown has been modified and the implementation
->> has been refactored to address upstream feedback and testing issues. We
->> are submitting this as a new series while keeping the original sign-off
->> chain to reflect the history.
-> 
-> 
-> I am working on Linux support for the Surface Laptop 7 (13.8-inch, Snapdragon X series), whose touchpad is a HID-over-SPI device behind a Qualcomm GENI QSPI controller. I noticed that v4 (June 9) is the
-> latest revision of this series and has so far only seen automated review feedback, so I would like to coordinate before preparing any upstream submission of my own.
-> 
-> Current state on my side:
-> 
-> - I have a working touchpad using a downstream Qualcomm GENI QSPI +  spi-hid stack (originally from scuggo's x1e-nixos work, imported  via ELLX-Kernel). My local adaptations move the transport to spi-mem and add framing, response matching, and DMA/error-path  hardening.
-> - Normal touchpad use works on my machine. The latest hardening currently has only build and software-test coverage; I have not validated s.
-> 2. The SL7 adds a different transport requirement (quad-SPI via GENI, through spi-mem) on topuspend/resume, and I have not yet run your v4 series on this hardware.
-> 
-> I believe our work may complement each other in two ways:
-> 
-> 1. The automated review of the series raised DMA cacheline-alignment concerns for SPI transfer buffers and unchecked reset return values in the init/resume paths. Both overlap with the hardening I have been doing downstream, and I would be glad to contribute fixes there.
-> 2. The SL7 adds a different transport requirement (quad-SPI via GENI, through spi-mem) on top of the same HID-over-SPI protocol, which looks like a natural fit for your generic driver rather than a standalone one.
-> 
-> Questions:
-> 
-> - What tree or series do you recommend working against? Is v4 still your current baseline, or do you have a newer development branch?
-> - Would adding the SL7 quad-SPI transport requirements to your generic driver be the preferred upstream approach? Is anyone already working on this?
-> - Are you waiting on maintainer review before a v5? A second hardware platform may help move things along, and I am happy to provide testing on SL7.
-> 
-> I am also tracing the downstream provenance of the Qualcomm QSPI code with the original authors to ensure a clean sign-off chain; I appreciate that this series handles its own history the same way.
-> 
-> Happy to share technical details or a preliminary diff if useful.
-> 
-> I'm not subscribed to the lists; please keep me in CC.
-> 
-> Best regards,
-> Jizhou Tong
+On Sat, Sep 19, 2026 at 6:08=E2=80=AFAM Gregory Price <gourry@gourry.net> w=
+rote:
+>
+> On Sat, Sep 19, 2026 at 03:45:03AM -0500, Chris Li wrote:
+> >
+> > I found this new concept of "compression space" very confusing to me.
+> > Can you explain the swap behavior and problem using only normal memory
+> > usage reduction and latency without introducing a new term or new
+> > metrics?
+> >
+> > The normal user doesn't even know what compression space is, let alone
+> > what makes it transparent.
+> >
+>
+> Sure they do - it's the amount of memory consumed by compressed data,
+> including the metadata associated with it.
+>
+> converting Johannes statement to diagram:
+>
+> >> Compression space is not a separate resource. It's page tables,
+> >> backing pages, and swap descriptors. It's just MEMORY.
+>
+>                           Page Data (PD)
+>   [page tables][                uncompressed page                  ]
+>
+>
+>                         Compressed Data (CD)
+>   [      recovered space     ][pte][swap meta data][compressed page]
+>                               |                                    |
+>                               |---------compression space----------|
+>
+>
+>                         Memory Pre-Compression
+>  |[  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ]|
+>
+>
+>                         Memory Post-Compression
+>  |[CD][CD][CD][CD][CD][CD][CD][CD]-------- free space ------------|
+>    ^----------------------------^
+>          Compression Space
 
-Hi Jizhou, Jingyuan,
+Thanks for the explanation. So the compression space is just the
+actual data store backing the zswap/xswap/zram.
 
-I am working on Surface Pro 11 aka. Denali, Snapdragon X1E80100.
+> It's actually really confusing to represent this space as a traditional
+> swap device - built on the assumption of a pre-defined size limit - when
+> that size limit has already been defined (the memory itself).
 
-This series (v4) has enabled successful bringup of touchscreen and pen 
-on the SP11, which also uses QSPI via GENI.
+First of all, the traditional swap counter has a very well-defined
+meaning. It is the size of the memory that, when accessed, requires a
+page fault. A page fault adds significant latency to memory access
+compared to access without one. Whether the memory is backed by SSD or
+compressed RAM, this is an invariant of that definition. If you change
+the behavior by not charging to swap when swapping out to compressed
+memory, it will break our deployment, causing many OMGs. Kairui also
+mentioned that this will break their usage as well.
 
-There is some updated SL7 QSPI 'glue' code at 
-https://github.com/orvitpng/nix1e that reworked the original scuggo nix 
-flake code to work on top of Jingyuan's updated spi-hid series.
+Therefore, I must push back on this. Please don't change the swap
+counter charging behavior due to the risk of SLO violations for users.
+This is a user-visible behavior change.
 
-With that + some extra pieces to wire it into the Denali devicetree, 
-this series is working well here.
+Secondly, I notice that you are reasoning from the memory usage
+aspect. That is a different usage requirement angle than the SLO
+violations. Maybe we need a separate counter to track actual memory
+usage, regardless of compression status.
 
-I'm keen to help move things along as the tablet functionality is a key 
-feature of the Surface Pro - please feel free to CC me on further 
-discussions.
+Let's figure out a way to make your usage case work as well, not at
+the cost of breaking existing usage requirements from an SLO violation
+perspective.
 
-Tested-by: Dale Whinham <daleyo@gmail.com>
+> Baking any kind of pre-defined limit *into the infrastructure* (whether f=
+or
+> an optimization or ease of implementation) is what requires users to know
+> what compression space is.
+>
+> Even using memory capacity at boot as a limit is wrong - hotplug exists.
+
+This reinforces the point that viewing things through the lens of
+"compression space" is confusing and muddy. That is not my mental
+model. I want to add support for your usage case as well. Please
+clearly specify what user usage you want, what the expected outcome
+is, and why you want that.
+
+>
+> > Why does the user need to care about compression space again?
+>
+> They shouldn't need to, that's very much the point.
+
+Great, Sounds like I can safely bypass it.
+
+Chris
