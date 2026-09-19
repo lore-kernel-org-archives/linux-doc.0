@@ -1,160 +1,156 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75F3344DB7;
-	Sat, 19 Sep 2026 14:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546593101C2;
+	Sat, 19 Sep 2026 14:40:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789828723; cv=none; b=rYjc4OR/BlzC952CCuoShru45zk235ta3U1DVbZUavEGbVa83UuyRQReGUkFfcKf86lGYwTq4kzCwTFA4OKxRVte9cJfemRyHDmvGTvlH+E3SCQ8GyCocfX0Nw22W/gjrDBjR2QW02PDeCpt3xUJwErwmEjWeaZV1KIW6U2M2Dg=
+	t=1789828810; cv=none; b=N87aYBb3ifDKnMtSBQkPj8C4kCTxymw9H1WnubGdnthMrp4y78rHmhXE8tclfp3/94jtTB9slg2xmT7M7HrmyDjS6+ZR+T3+orX1GtkiY78B/B2NPgnID1IyhjlNPhIYi88mekOQ9rYYCkUIauGXEmv9CPozSME3PKM4/4UdJns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789828723; c=relaxed/simple;
-	bh=0sTUHdTBguf9D+ODJqdIL5b6eL2ZzSqEDwWf8Ns29CY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QzXqhW5tS2qTsJ8VDrHKgs8JuFc4zkALSiHXnjwPaO345rd6xCDGVl3+CouNtXoe1Zvojjg0rUSKQyq9GUDQB6Ts5HpkcszTUVGhtyspFNDemO+n4FPfwGk4b7ZaaVJgd4g0H71a9tffF48+0fkOFEUMD+gVxgUqV3G2q+QnjUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eiVEdh/z; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789828810; c=relaxed/simple;
+	bh=5+wsLqNiz1ftRnY/1v6UHJknDM2g9naN/MHmlwTljBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eZOKpz8QVv/zTgMT+O+t7jT3zAxjUrLcBhCwL20gFwlMUf7oNpXyyS43VSQB1Gt7XSIkcT9Z3X9Cz0IQ3uFyepGXqD5bdZCrikOuE21sc57SoXcd/SHWRPs1K5qs/CH38n+NY9FOr9b8KhlXfJsL/yvVO30vET2B98smRJzkSd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bmle4uSt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eiVEdh/z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 327E11F000FF;
-	Sat, 19 Sep 2026 14:38:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bmle4uSt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9816A1F000FF;
+	Sat, 19 Sep 2026 14:39:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789828721;
-	bh=b7dMkdKwVdOPUbRXbSR/ZpGWRKdnGU2o7/s4+tCrt7E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=eiVEdh/z+DIpaYbhrF/Sf96pO066THwbfh3exO7y6wf9CvboZaTpuRsJcQoAsZje+
-	 EwscWzfRg0/jrBO4Ey2G8SmLpEaaFw/MKP04Tjeoo8M5+nSAZhYffTv5LgKktvr1WH
-	 wLQb0fF+BLMCQAcI+7b0b7gdk4QE6hxoLxcoZbEFrWuU5YFrphzrQBfm8nYfHUvumv
-	 eqXneLzfMmbOBz25nd/9Gt18iHULw7xN2tj3rHFK2gz6oInmBWfo4iasoQSbsmKNXx
-	 ukyjSuie9mpbrVxXHdquQ2h0ZiHisy4wtr1+gihTMidmTxGyNowjs9JYlZSfVaJBkU
-	 XMrp3lwlD/o9Q==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Shuah Khan <shuah@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH 2/2] selftests/ftrace: Add test case for overriding trace_instance parameter
-Date: Sat, 19 Sep 2026 23:38:36 +0900
-Message-ID: <178982871684.289221.11881705926508561494.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <178982869661.289221.2143320719673148321.stgit@devnote2>
-References: <178982869661.289221.2143320719673148321.stgit@devnote2>
-User-Agent: StGit/0.19
+	s=k20260515; t=1789828808;
+	bh=wjlxL5aZkP+VxdLu3dOkGnCdnF8bXwL4sZrwxhwgEoI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bmle4uStbjC80tnxl/vjfpvmYYVkjjgMRY8+5/8q3PJtzA+t0bmdendomXHO0ws9H
+	 U7AkZ01hXjF9UNEcQJjw7O9/G4ZVuIuTmE9nQZ3vbmzWCvaO165TT83I/rtJG67Uk8
+	 ZFOFQWbnJPaWf/uRXVtzgN/37w3mP1J0r/35iCXOcKYjsonGbQyJWBByqZl7EDsn8A
+	 AoQzM7VokTP4qPCH98a+dd0vu239lXSc8hrSG3iX73m64ZC18rGxk7qnPGd28l/Jyx
+	 Wc2TmR6JoQ+w2Nml9DQH/pX6LYALY6ZyyxX+/DvfhQiCD1q+q2+EZx1en4Sr/c+Iwd
+	 Sv6mRmehV0F6A==
+Date: Sat, 19 Sep 2026 15:39:53 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <n.schier@fritz.com>, Kees Cook <kees@kernel.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3 01/20] kbuild: do not allocate .modinfo in vmlinux
+Message-ID: <aq6QwzcyvKp3CB0F@gremlin>
+References: <20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org>
+ <20260917-build-speedup-v3-1-9ecf4163ff36@kernel.org>
+ <202609170950.480F90A28@keescook>
+ <20260918005142.GA1585590@ax162>
+ <20260918-meek-spectral-nightingale-53d88d@l-nschier-aarch64>
+ <20260918214445.GA3589065@ax162>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260918214445.GA3589065@ax162>
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On Fri, Sep 18, 2026 at 02:44:45PM -0700, Nathan Chancellor wrote:
+> On Fri, Sep 18, 2026 at 07:09:30PM +0200, Nicolas Schier wrote:
+> > Yes, thanks.  Looks good to me and I think it's a good idea to apply
+> > that patch first.
+> >
+> > for Nathans patch:  Reviewed-by: Nicolas Schier <n.schier@fritz.com>
+>
+> Thanks, I have pushed this to kbuild-next-speedups as
+>
+>   36d4a11b56aa ("kbuild: Remove alignment on .modinfo section")
+>
+> which Lorenzo can base on. I have also tentatively included the patches
 
-Add a boot-time tracing test case to verify that specifying multiple
-trace_instance= parameters with the same instance name overrides earlier
-definitions:
+Ack, will rebase future revisions on this patch.
 
-   - Verifies that a kernel command-line trace_instance= parameter
-     overrides an earlier trace instance defined via bootconfig
-     (kernel.trace_instance).
-   - Verifies that a latter kernel command-line trace_instance=
-     parameter overrides an earlier trace_instance= on the same
-     command line.
-   - Confirms that the overridden instance has its previous events
-     disabled, new events enabled, and flags (such as traceoff)
-     properly applied.
+> that are basically ready in my eyes based on consensus and review so far
+> for initial build testing. I do see some comments on some of those
+> patches though, so I will hold off on fully applying them until the next
+> revision. If there are any other changes that we should consider taking
+> quickly on the next revision, please feel free to point them out, it is
+> a bit hard to follow these threads sometimes :)
 
-Assisted-by: Antigravity:gemini-3.8-flash
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
----
- .../cmdline-07-trace-instance-override.bconf       |    2 +
- .../cmdline-07-trace-instance-override.cmdline     |    1 
- .../tests/cmdline-07-trace-instance-override.sh    |   56 ++++++++++++++++++++
- 3 files changed, 59 insertions(+)
- create mode 100644 tools/testing/selftests/ftrace/boottime/bootconfigs/cmdline-07-trace-instance-override.bconf
- create mode 100644 tools/testing/selftests/ftrace/boottime/cmdlines/cmdline-07-trace-instance-override.cmdline
- create mode 100644 tools/testing/selftests/ftrace/boottime/tests/cmdline-07-trace-instance-override.sh
+Thanks :)
 
-diff --git a/tools/testing/selftests/ftrace/boottime/bootconfigs/cmdline-07-trace-instance-override.bconf b/tools/testing/selftests/ftrace/boottime/bootconfigs/cmdline-07-trace-instance-override.bconf
-new file mode 100644
-index 000000000000..2551da39f722
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/boottime/bootconfigs/cmdline-07-trace-instance-override.bconf
-@@ -0,0 +1,2 @@
-+kernel.trace_instance = "foo,sched:sched_switch"
-+
-diff --git a/tools/testing/selftests/ftrace/boottime/cmdlines/cmdline-07-trace-instance-override.cmdline b/tools/testing/selftests/ftrace/boottime/cmdlines/cmdline-07-trace-instance-override.cmdline
-new file mode 100644
-index 000000000000..1953eb5d6f80
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/boottime/cmdlines/cmdline-07-trace-instance-override.cmdline
-@@ -0,0 +1 @@
-+trace_instance=foo^traceoff,sched:sched_waking trace_instance=bar,sched:sched_switch trace_instance=bar^traceoff,irq:irq_handler_entry
-diff --git a/tools/testing/selftests/ftrace/boottime/tests/cmdline-07-trace-instance-override.sh b/tools/testing/selftests/ftrace/boottime/tests/cmdline-07-trace-instance-override.sh
-new file mode 100644
-index 000000000000..a13b7deb6735
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/boottime/tests/cmdline-07-trace-instance-override.sh
-@@ -0,0 +1,56 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2026, Google LLC.
-+# Check trace_instance= override with bootconfig and kernel command-line
-+TRACEDIR="/sys/kernel/tracing"
-+
-+if [ -f /proc/bootconfig ] && grep -q "dump_bconf" /proc/cmdline 2>/dev/null; then
-+	echo "=== /proc/bootconfig ==="
-+	cat /proc/bootconfig
-+	echo "========================"
-+fi
-+
-+check_instance() {
-+	instance="$1"
-+	old_event="$2"
-+	new_event="$3"
-+
-+	if [ ! -d "$TRACEDIR/instances/$instance" ]; then
-+		echo "FAIL: trace instance $instance does not exist"
-+		exit 1
-+	fi
-+
-+	if [ -f "$TRACEDIR/instances/$instance/events/$old_event/enable" ]; then
-+		ENABLE=$(cat "$TRACEDIR/instances/$instance/events/$old_event/enable")
-+		if [ "$ENABLE" = "1" ]; then
-+			echo "FAIL: overridden event $old_event is still enabled in instance $instance"
-+			exit 1
-+		fi
-+	fi
-+
-+	if [ ! -d "$TRACEDIR/instances/$instance/events/$new_event" ]; then
-+		echo "FAIL: event $new_event does not exist in instance $instance"
-+		exit 1
-+	fi
-+
-+	ENABLE=$(cat "$TRACEDIR/instances/$instance/events/$new_event/enable")
-+	if [ "$ENABLE" != "1" ]; then
-+		echo "FAIL: event $new_event is not enabled in instance $instance ($ENABLE)"
-+		exit 1
-+	fi
-+
-+	TRACING_ON=$(cat "$TRACEDIR/instances/$instance/tracing_on")
-+	if [ "$TRACING_ON" != "0" ]; then
-+		echo "FAIL: tracing_on is not 0 in instance $instance ($TRACING_ON)"
-+		exit 1
-+	fi
-+}
-+
-+# Test 1: bootconfig trace_instance overridden by cmdline parameter
-+check_instance "foo" "sched/sched_switch" "sched/sched_waking"
-+
-+# Test 2: cmdline trace_instance overridden by subsequent cmdline parameter
-+check_instance "bar" "sched/sched_switch" "irq/irq_handler_entry"
-+
-+echo "PASS: cmdline-07-trace-instance-override"
-+exit 0
+>
+> [1]: https://git.kernel.org/kbuild/l/kbuild-next-speedups
+>
+> > [ Lorenzo's patch, updated by Nathan ]
+> > [...]
+> > > diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+> > > index 6833b517cacb..95b523fe4f9e 100644
+> > > --- a/scripts/Makefile.vmlinux
+> > > +++ b/scripts/Makefile.vmlinux
+> >
+> > [...]
+> > > @@ -103,10 +100,7 @@ vmlinux: vmlinux.unstripped FORCE
+> > >  # ---------------------------------------------------------------------------
+> > >
+> > >  quiet_cmd_modules_builtin_modinfo = GEN     $@
+> > > -      cmd_modules_builtin_modinfo = $(cmd_objcopy); \
+> > > -                                    chmod -x $@
+> > > -
+> > > -OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
+> > > +      cmd_modules_builtin_modinfo = $(OBJCOPY) -O binary -j .modinfo --dump-section .modinfo=$@ $< /dev/null
+> >
+> > By shifting from "$(cmd_objcopy)" to "$(OBJCOPY) + args",
+> > $(OBJCOPYFLAGS) is dropped.  It this by intention?
+>
+> I am not sure it matters in this case since I don't think there are
+> global OBJCOPYFLAGS, I only see instances that come from specific rules
+> but I might be missing something.
 
+OBJCOPYFLAGS is exported from the top level Makefile:
+
+655:export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
+
+And is set by various arches e.g.:
+
+arch/csky/Makefile
+2:OBJCOPYFLAGS		:=-O binary
+
+arch/mips/Makefile
+348:OBJCOPYFLAGS		+= --remove-section=.reginfo
+
+arch/openrisc/Makefile
+20:OBJCOPYFLAGS    := -O binary -R .note -R .comment -S
+
+arch/sh/Makefile
+79:OBJCOPYFLAGS	:= -O binary -R .note -R .note.gnu.build-id -R .comment \
+		   -R .stab -R .stabstr -S
+
+arch/s390/Makefile
+123:OBJCOPYFLAGS	:= -O binary
+
+And none of this should impact .modinfo, and if it did it'd be broken as then
+.modinfo would be different for one arch and not the others.
+
+>
+> --
+> Cheers,
+> Nathan
+
+--
+Cheers, Lorenzo
