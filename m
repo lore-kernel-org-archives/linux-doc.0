@@ -1,136 +1,121 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f7.google.com (mail-qv2-f7.google.com [74.125.230.135])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25DB035DA65;
-	Sat, 19 Sep 2026 22:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789858296; cv=none; b=O53ujbJv4dYCopaTg87c6dAnfGLiH7SFvRRrHW6r1VxlGzi96YkaiL5t1yxNCjSiRBC6P80IxZdk5ySX9ku/666FC9A8NnWSxPJmwQ63g1bx/ewgFwg+pw368hsywTc+W0kxBZP/pvS+cW9ucEHtg80D//eDMUvUABXubRR6gYY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789858296; c=relaxed/simple;
-	bh=f8d7sITBlX746VHdplJawn77x/S/0Xqzqh3iLiQlXkA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LrQnIUbEs0amP3BrvfoGnW9T2AE/E37kTIdL+Jk3Ja+uLZDHUNQjHVDfJduedTFuVOE91T4MssaAey1YYwOa8/GpBAbYx4CYFseK0uuQ38rXDtEDORItQz8gr0pJOf7txTgBglBte0t1M3HBn3teX4NYuDEfuq3rbzqp9i+XsjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=PzXLo/Nq; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB5135DA65
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 22:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.135
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789858621; cv=pass; b=s7PQwJpGBUpHvbrtmFEvsWgCKLBJOKK/5Dr0trl+NrBxvEltdxtvLbv3zO309rAJSzl481G2LqiT88HEQ8OjCFESn35bzNa0q9hkJ/45Rlz3Cz4cCquIm6uwKSorMpNhg6KYGA97+WvJHShkpSRxayJVXSOcfxVZeUrYlGHFOls=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789858621; c=relaxed/simple;
+	bh=jd+AFs1UozMzUYo/4ng/l7WLWjUZGS/WRbp1bu41oew=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qfCrhBGhQGjrwZ6GMOQ3IXS0HgD/kOf93OGSuSLnVeUuD35Zm/oYYvM3D0nuz26AxNuTFH4/25O86pQzc37Q/hjpFzm0Z5b+IleQGkrBu/qngrmNWjeX+MBIWIYOByTMcbshEN1VScY2sEWKCWeay4KqVLdjWO4a4MHP6eQam/g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j6tpTM9h; arc=pass smtp.client-ip=74.125.230.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="PzXLo/Nq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
-	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID; bh=f8d7sITBlX746VHdplJawn77x/S/0Xqzqh3iLiQlXkA=; b=PzXLo/
-	Nq6WzlrF+qYH+2ZM3LrsL+0tC1/ZVEXWSS6dkqg6eOpjgbjglyC4ZN+c9tf7o80oY+0IKP5G12fSB
-	U2kKzzGJxDF3AYZfscMUGwRmSVrHKPwHIwgNLru6wacqk8AGgDg5YuF0BsEHElM0nsQSQh8SRosvo
-	RXkaFlgBwU3Q72Zap4DnAEwOqLMd0efJuArtBecrNMzI2nF864X+XrrKFCZIa2Qlv3cwHTrDofx8V
-	7k5pCylGInTLI4RvgeS6jOM9/RskcxQn/UMc2E+56DG48n4bge5648QYrpDftYLQl42k5TggJSiyq
-	GhgmA9FWVd7ldDoqfhdHbX7wyYCA==;
-Received: from [2601:18c:8100:a0e0:5a47:caff:fe78:8708]
-	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.5)
-	(envelope-from <riel@surriel.com>)
-	id 1x83sj-0000000CNrZ-2Nmi;
-	Sat, 19 Sep 2026 22:50:05 +0000
-Message-ID: <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
-Subject: Re: Path forward for Virtualized Swap?
-From: Rik van Riel <riel@surriel.com>
-To: Chris Li <chrisl@kernel.org>
-Cc: Baoquan He <baoquan.he@linux.dev>, Shakeel Butt
- <shakeel.butt@linux.dev>,  Nhat Pham <nphamcs@gmail.com>, Kairui Song
- <kasong@tencent.com>, Johannes Weiner <hannes@cmpxchg.org>,  Michal Hocko
- <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed
- <yosry@kernel.org>,  David Hildenbrand	 <david@kernel.org>, Muchun Song
- <muchun.song@linux.dev>, Kemeng Shi	 <shikemeng@huaweicloud.com>, Barry
- Song <baohua@kernel.org>, YoungJun Park	 <youngjun.park@lge.com>, Chengming
- Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)"	
- <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka
- (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
- =?UTF-8?Q?Baghdasaryan=EF=BF=BC?=	 <surenb@google.com>, Qi Zheng
- <qi.zheng@linux.dev>, Axel Rasmussen	 <axelrasmussen@google.com>, Yuanchu
- Xie <yuanchu@google.com>, Wei Xu	 <weixugc@google.com>, Gregory Price
- <gourry@gourry.net>, Wenchao Hao	 <haowenchao22@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Hugh Dickins	 <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Tejun Heo	 <tj@kernel.org>, Michal
- =?ISO-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel
- team	 <kernel-team@meta.com>, Linux Memory Management List
- <linux-mm@kvack.org>,  Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, "open
- list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
- <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Kairui Song <ryncsn@gmail.com>,  Joshua Hahn <joshua.hahnjy@gmail.com>
-Date: Sat, 19 Sep 2026 18:50:03 -0400
-In-Reply-To: <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
-References: 
-	<CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
-	 <aqJXx2vtbKaRLt3x@fedora> <aqLZ5TVDAqEbIeMN@linux.dev>
-	 <aqP81aqNbwAbs2P0@fedora> <aqQrPLPXHXiuKup0@linux.dev>
-	 <aqjcFb6MFNiA6n4V@fedora> <aqjpYHbZ14A8xRtK@fedora>
-	 <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
-	 <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
-	 <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
- eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
- Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
- lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
- dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
- mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
- gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
- r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
- WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
- 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
- Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
- +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
- g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
- KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
- fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
- 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
- G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
- okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
- TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
- cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
- omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
- QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
- c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j6tpTM9h"
+Received: by mail-qv2-f7.google.com with SMTP id 6a1803df08f44-90ccffc2654so18178226d6.1
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 15:56:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789858619; cv=none;
+        d=google.com; s=arc-20260327;
+        b=WZlJmO4pLFYiV2VxfLx7O9PyzDV/DMGPO0T3ctUwFp1R/P5daeBfS5ooxzvZBIJjSg
+         +WCJUxDVd65L3I66LkSyvQjGJPbogzlfXzsBwwWEmlBQ6S9jq91lQHuoDF1co37mLaNU
+         Ame2Y5nH3jnshwGzlOBC1NhEWud4Wx1hUZENVfXXsZcv1GBwtRYGe9EypeJhCWYg6wq3
+         Z4IObqlR3QAH937U5hGCOI9nMv9HKU6ak4jFjPCJA/XLewkFKb+misLRa2BxULCDtCG/
+         b53Mm+g8NrRzaxLAuF4LV0qJacVEuqfMx8eOAPM9OF+yMoY8WDNiYqyDC9zSNhDf0m7f
+         9PSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jd+AFs1UozMzUYo/4ng/l7WLWjUZGS/WRbp1bu41oew=;
+        fh=EJD9i+u4OH5UAP9de6P+g8c1GrwXG1vzDTcLTl7GDCk=;
+        b=dISPTJiDsg64Yz6haFjn5rB9TRjX/fJZuC2FCpTG5JCBL1LxIWijpDWJQaM2u4KW3y
+         2YBOLhigcZQHgD4ntxQBDnDMt2jemqZlJTSfhDlrDZgWucXhfov2Wz0RmMno6xNFly6j
+         i2rsCw2JQDwgnUH+ZzNMP4J+E80GI6q5jUNllm23ompswsZ2cHCmXrOPSZxvgdDhDTIv
+         /QCeCLwHRXbb6KU0ffKR4HQtMp6zKF2AGFnZCNFyQ2GQ9YDgk2Iza0yZFvvV9KkC3/eR
+         hfvQMbPU4dYqO5du2CjUxtxa/eDTJR/Dx9/vY/VuvohW++IYnB2P/CBn3yahSQrnCVkd
+         wTDw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789858619; x=1790463419; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jd+AFs1UozMzUYo/4ng/l7WLWjUZGS/WRbp1bu41oew=;
+        b=j6tpTM9hr10a2RPAGTMtAcM4/SNR8y3DjbHafkmdQqQlu1A3EnOnV65QhwwfL7iGxZ
+         74KN6GhrbnBXSVJ8bR+UKeJW9+unZ7ma/ug81g968yyGtFU2DcxX3LaoEcwjnVMAGbwu
+         b5TFTsc80Q9vbHeAqGwu2Urar+nRNuOobpJyipO2nqMEBR5hCqK4Sk5fQrIiy1dKMihv
+         3nMcJzDs23HdKXUgqFr43bkJEFGyFYuZZI7VJAJb0HGmSazQL5ZVfzjhic3/hJQMbsvZ
+         02J7qhTqD1mA7ZQfQ0qPEM9+iWJ/Ev1Rc789BaH+ey/ea4e1zv63RDbRgmtOjVCr1fkV
+         qWtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789858619; x=1790463419;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jd+AFs1UozMzUYo/4ng/l7WLWjUZGS/WRbp1bu41oew=;
+        b=Ua27XVf+rSW1Ip1hdLHD7jtJ+m4Y1dAY7/dufPIfE3C9urbf96g+ejFxjUnS8wAYUf
+         sp5KdV8/BVLfo2dXzBYS12GxdxysDzKeIk8VGEM8AFpzdEWVqvWA14luGi6TQqBd9DMa
+         DC71fRyRQVD9rYLQUniV73q40VoCnduXcpfo0//1ua67DsiMKC/6j5oNiAEfavhW+UwS
+         uhQYsV4tFCi3n2IyWs68EKKa3BE4pIFNqmHrlHwzdi4umCpG17Aqw84GPhwQltlibWUZ
+         vJO1EAe28Dt8pGCmcGlvftGYK3ngfIkH2V5fEHr9neSe/P6fp3Y/qQrnj0O+4HL3u35h
+         gnYw==
+X-Forwarded-Encrypted: i=1; AKwUvBxo8n83BqUC1xwFvlWjupAsU34FOs+Uuk/U2QrzPXxqmo0OhOK8WmjvTH4vM5GRaOPyiXI3+tbwXQ8=@vger.kernel.org
+X-Gm-Message-State: AFuF++k4qQrdbm85DlteEOlY/DUjqWAj9mvTGiMU3RHgaoErM9OrhvsD
+	KJiPGwXdm9gRUUf7or9kMiDjvuXz0RFt1ZIthZni2KX83D8KCpabbB7+1O7Bx/ZAcqu6iEiG3uy
+	j85jyirOXH0PDNNGc3nCctGzc+UJ2yWDFxC8j09Q=
+X-Gm-Gg: AYBFou3kn2pLmNjQtpEsA+MGDwBJu/MqmI+m87YDroCLKNUdDn6WGTd0MemvaJUL4q+
+	Bi8g7nmUXtnBR844gaqpgZpY3mWk/ArgveYGG3DysBBGGOLBOSXHq7mnl+Fvs/n8YYD3Ru6+2Sc
+	uTlZvt6mj2FcLdBDDiqQioq9y791fa7nnEocJxNMj0/Cf+4b5VuQ9FXeW9vBdz9UzLgaaPBNgNq
+	Dn1jVSnCuGm+snOHH/s7lpOd/h++anBHALc0+6eCT00x2orku7OkzIGI+ohU+615u8W1+3mYPtp
+	QAzYp6Z04xKigp68SAA8cP+RyivnBEZcPo1k1ERQNLC/vIXNeRGGcgynOs9BDMrX48UMvqSseXZ
+	lvPhRGNeZdPipNHDGOc1X0sY9v4a3UXOyv5yEjs+k
+X-Received: by 2002:ad4:5748:0:b0:912:517b:40fa with SMTP id
+ 6a1803df08f44-912a801bee5mr35579356d6.44.1789858618635; Sat, 19 Sep 2026
+ 15:56:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260919083655.586922-1-enelsonmoore@gmail.com> <CAD++jLmuuLXpWsiZAFEA-QWZsB_6qcaM3PomhtKhHFHbzse5iw@mail.gmail.com>
+In-Reply-To: <CAD++jLmuuLXpWsiZAFEA-QWZsB_6qcaM3PomhtKhHFHbzse5iw@mail.gmail.com>
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Date: Sat, 19 Sep 2026 15:56:48 -0700
+X-Gm-Features: AcwNN1UGTDJgGcyXU7D2JaYejEQlWEe1KXFmg-_RTnPu_ebNdg98jhIE48FePPQ
+Message-ID: <CADkSEUigNMbUi88zOCcLkTNduYk_z-k5bushv3nUAL7vGdCdEQ@mail.gmail.com>
+Subject: Re: [PATCH] Input: gpio_mouse - remove driver that has never been
+ used in the kernel
+To: Linus Walleij <linusw@kernel.org>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andres Salomon <dilinger@queued.net>, 
+	Bjorn Helgaas <bhelgaas@google.com>, linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-input@vger.kernel.org, 
+	Hans-Christian Egtvedt <hans-christian.egtvedt@atmel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2026-09-19 at 11:21 -1000, Chris Li wrote:
-> On Sat, Sep 19, 2026 at 6:16=E2=80=AFAM Rik van Riel <riel@surriel.com>
-> wrote:
-> >=20
->=20
-> > However, I believe we do need to take care that
-> > whatever design we go with is actually able to
-> > support the end user functionality we want.
->=20
-> Agree. I want to add that we should support new functionality without
-> sacrificing existing user functionality.
->=20
-That means things need to work both for users
-who want to configure a zswap size, and for
-those who do not.
+Hi, Linus,
 
-The cgroup memory.swap.max is an existing
-interface that does that on a per cgroup
-basis for swap, though in practice the=C2=A0
-limit mostly seems to be set to 0 (no swap),
-or to max (no limit).
+On Sat, Sep 19, 2026 at 5:12=E2=80=AFAM Linus Walleij <linusw@kernel.org> w=
+rote:
+> Why though? It is fully modernized and probably has a value
+> for people like "makers" who just want to connect an oldschool
+> mouse to their random Raspberry Pi.
 
-memory.zswap.max does the same on the zswap
-side, again mostly 0 or max are used.
+You're right. The driver is so small, too.
 
-Are you saying you rely on having something
-like that at the system level, too?
+> I think it's better if we focus on removing code that is just
+> using platform devices and hacks and is hopeless
+> to maintain. For example the OLPC...
 
---=20
-All Rights Reversed.
+That's a good idea. I've started working on a patch to remove OLPC
+support - at least 6500 lines of code and I'm not even done yet!
+
+Ethan
