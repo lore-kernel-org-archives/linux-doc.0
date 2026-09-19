@@ -1,82 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-114.mta0.migadu.com [91.218.175.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C997639EF20
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 12:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D189619B5A3
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 12:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789819942; cv=none; b=aPl/9b1gwLe+HkHIeeaVhLWtujcpkOQQydtxZCAuP5D03M5sVjC8lr6nofkYFln6TGJq64jtV0O1MAuAa94+/dV5mYFuuvsWFNRmu3KF2x1AMtOGqZ9hCXd6L6yfZ/qmlWfIiyeae53P6lPFWbKTK4jKo/VA1lLCLEY13I9eiR8=
+	t=1789821572; cv=none; b=k3cl+EGlJ5m5JNAKg+BvjBljQGXfOr4zcInSksuZOVWAnv52O42CmhqhGRx9EhVFMyKUJ4gfXHUbtBlUvMb6zpYn08OJvjS3901XnLT0k6E77q2mj/iCCSs247XO6S8PJcCosEFkHpmH0aIMrEf2MMlT005OYbPCD/629BGKxqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789819942; c=relaxed/simple;
-	bh=/dP6Foxr2cz/VRSoJWfh8xjp9pExqYsiAGiqghEOIt4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UnTAOjhQPBmtxr1jXcwddH/C6waKreBZt0vz0uzkvSt3o00G+r2cOmJXRQKuNolebohjQoIyG3mKxKH+gUG0xxNxM+TzZIgozn3/IxMYb0bnGrTlltaEPGS827dY6D0lWW7hhfDnm1nlrRgzXyO2d+yiQOFbb8lTzUgIcGNRfl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b1/cMQpc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789821572; c=relaxed/simple;
+	bh=63TAU/20trh3z6ZWmLlRWwzB6HR6yfQpshRqu4iyzzs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DxBqYhszIadiaDJCsPO3nNSOS/uer8CqgU1qz1O+B5PH7BspqJEOtDPR4OHipNX7bZa9/ghQWKZsYs7lxPmuCnEAnB6HGNY3tdtMcgMis+B0jLO5Vr5FS+m9W4sTn9aWYsMCZjGKRbMcNOcuRIvXJuFYl4Hq5awJuLlsoT6qQSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qOfDw3Bl; arc=none smtp.client-ip=91.218.175.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b1/cMQpc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17A2E1F00898
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 12:12:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789819939;
-	bh=/dP6Foxr2cz/VRSoJWfh8xjp9pExqYsiAGiqghEOIt4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=b1/cMQpcJhsKytJuM7JEgbI4KeqNnmBBLuDK879+NBS/Nh2o3m0mMqrYeZJk/C2C+
-	 lZRiFM9yIqrGcfpMY/sihNgO5tXvF5Fk2WmI/Mz/U/fbQHj1S317FFiAon8W3aPY3h
-	 uY5iIJthzfA6r8pFZIdTcKkXxfVsLKKIzs6V2EbxrPIIs9emjhHSHoUoi9PhgP4gy/
-	 QuOFuGauxiRiAHB86al3r3TxUwuPGeNRM3f+dmQfhAhDBoS8Znr/sclOkza3XODS5v
-	 PCrJiVXOmeAeXuinPi5clzMDvIk6YZgxFbKUyz6o0596BF+OGcPblxq2h/xS2oICuA
-	 0M4R+s1e2zncQ==
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f17452so1354790e87.3
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 05:12:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBy9WZggjsk78lAgkQYEyzh/hBbCz0BCaxlKmVTs5SkcQFmea/0ygbVNlHBkS7D8dy3XTX2bfKQCLk0=@vger.kernel.org
-X-Gm-Message-State: AFuF++lw/fKyd/X4Y2HryIAIUxXpW9T9nlBwTjv4IQXM5jbQr8rPgFx+
-	7H9vtwrwO67g392cRZyvb/u/TfD8J7kkxRuNzYvVyMN3Cxvl+xBDdHGrQfccDn6sjQKPQK5D9xT
-	ygecR+DvCN5tHKS8MLi5kPFAyTLBB3YA=
-X-Received: by 2002:a05:6512:641c:b0:5b8:c225:80cc with SMTP id
- 2adb3069b0e04-5b8c22581cdmr1498495e87.34.1789819937701; Sat, 19 Sep 2026
- 05:12:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qOfDw3Bl"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=63TAU/20trh3z6ZWmLlRWwzB6HR6yfQpshRqu4iyzzs=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789821568; v=1; x=1790426368;
+ b=qOfDw3BlczAkXfz2mWdfl+FxMdP/P7ZIPxFaZaK4WoVPnecQV5RrQx/g+8weJunVvfeonNJJ
+ uQlzmJxL6PV8UEblrpMB3HtcKsXkQcMqXvPPmfuFise2RtUpDmss56ValftnitEhYs53DjLCoNZ
+ dHZF7bM8ZAGsM0Q62endyb7o=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 39ea79bec7641d4d;
+	Sat, 19 Sep 2026 12:39:18 +0000
+X-Mizu-Trace-ID: 39ea79bec7641d4d
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <f38bce8f-ee47-40aa-a215-e2e605d17c91@linux.dev>
+Date: Sat, 19 Sep 2026 20:39:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260919083655.586922-1-enelsonmoore@gmail.com>
-In-Reply-To: <20260919083655.586922-1-enelsonmoore@gmail.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Sat, 19 Sep 2026 14:12:05 +0200
-X-Gmail-Original-Message-ID: <CAD++jLmuuLXpWsiZAFEA-QWZsB_6qcaM3PomhtKhHFHbzse5iw@mail.gmail.com>
-X-Gm-Features: AcwNN1WcbEa5s45pl8xKokl0F87v5ydLmBxQXHepFYy0K13mjtIq3kJABiaLKa8
-Message-ID: <CAD++jLmuuLXpWsiZAFEA-QWZsB_6qcaM3PomhtKhHFHbzse5iw@mail.gmail.com>
-Subject: Re: [PATCH] Input: gpio_mouse - remove driver that has never been
- used in the kernel
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andres Salomon <dilinger@queued.net>, 
-	Bjorn Helgaas <bhelgaas@google.com>, linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-input@vger.kernel.org, 
-	Hans-Christian Egtvedt <hans-christian.egtvedt@atmel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/10] Docs/mm/damon/design: clarify bp is basis point
+To: SJ Park <sj@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, David Hildenbrand
+ <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>,
+ Mike Rapoport <rppt@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+ damon@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20260917142210.90829-1-sj@kernel.org>
+ <20260917142210.90829-11-sj@kernel.org>
+Content-Language: en-US
+From: Zenghui Yu <zenghui.yu@linux.dev>
+In-Reply-To: <20260917142210.90829-11-sj@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Sep 19, 2026 at 10:37=E2=80=AFAM Ethan Nelson-Moore
-<enelsonmoore@gmail.com> wrote:
+On 9/17/26 10:22 PM, SJ Park wrote:
+> DAMON design document uses "bp" for "basis point" in multiple places.
+> Because it is not clearly mentioned, it is difficult to understand what
+> "bp" stands for.  Add the clarification.
 
-> The gpio_mouse driver was added in 2007, but it has never been
-> referenced by any platform data or DTS files in the kernel, and it does
-> not support ACPI probing. Therefore, it has clearly never been used by
-> any users of unmodified mainline Linux. Remove it.
->
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Exactly ;-)  I had such confusion when I was reading the doc.
 
-Why though? It is fully modernized and probably has a value
-for people like "makers" who just want to connect an oldschool
-mouse to their random Raspberry Pi.
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Closes: https://lore.kernel.org/107dc6ba-697e-4b25-ba3e-8ce2499cac9a@infradead.org
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: SJ Park <sj@kernel.org>
 
-I think it's better if we focus on removing code that is just
-using platform devices and hacks and is hopeless
-to maintain. For example the OLPC...
+Acked-by: Zenghui Yu (Huawei) <zenghui.yu@linux.dev>
 
-Yours,
-Linus Walleij
+Thanks,
+Zenghui
