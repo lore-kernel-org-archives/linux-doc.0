@@ -1,190 +1,114 @@
-Received: from mta1.migadu.com (out-208.mta1.migadu.com [95.215.58.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F173368291
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 20:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E8C2BE7DC
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 21:22:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789851382; cv=none; b=XqC8v5qMlSKJhdpmpR2ScWMVCUgDA59zH1d+FNlLCbYEINztgQ45tw24nPZWMTrkI0kpbZ1QsFWvBncqE92nqfEngZ1fTvjXD/3nGi+BhHHhQN8p/XE0eRPVOPyORRAbcG/pby6rhNY1pZuuRBEvClhqO69IYOC3ZSIT+HcxVG8=
+	t=1789852932; cv=none; b=dYmbw4GTm0D32OFgFmxGhNPWVeUk5N2ekO2a1uMR9PYyd6uX2vicxtbzKbcLWfw5K0IS9/3nnVSHh6/KHTcwFuJ/o3RiXt7dlPLXaLlQAn24tOghflDvh4POXbm8bDJ+HUEqbZNugBY5atcw4IJLt2Uq4i1gowH8/F2DJSswLZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789851382; c=relaxed/simple;
-	bh=s7RTzfD2xYB6sexrdh1AVzvq6TnKbTUcVa0J8zWjqLw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=XjgupiS4FPSVYhu8/IHbvN/OxhxnKfp7aj9OC7GNr8pNFechVJ5Bwa2LgDsH5t79Lcx4qWxXAig4t0R4/sqVUkNsFJj0EH2xMoMzupVDq6Rq3OprKq2I9hHvObn/lkNYq7rNOWDcT85Tc+87uVgOQDLQ2YbuRh5V7RNuJjGZtzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cressey.dev; spf=pass smtp.mailfrom=cressey.dev; dkim=pass (2048-bit key) header.d=cressey.dev header.i=@cressey.dev header.b=F7Xoy6R9; arc=none smtp.client-ip=95.215.58.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cressey.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cressey.dev
+	s=arc-20240116; t=1789852932; c=relaxed/simple;
+	bh=9KE5aURhmFeQqffPNpopHGYL3hq2scKvdY2jkmvGLyo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EfnCFN9oRneP8lqYbtpUUWR+tOfDHSR1LmGl3AzMfhbUeX9sGoukTW+YYZ0lilnyQ0Iv9na7YwU02C3PomN2bESDacgetJh9wDVUMvjgPf6+r3FpZms2/LODuwEtetS8Njx1Nm/OQLskVq78syxgku4vn5mBW1kPL0Hx5pX0GNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dvxvYiL3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cressey.dev header.i=@cressey.dev header.b="F7Xoy6R9"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=s7RTzfD2xYB6sexrdh1AVzvq6TnKbTUcVa0J8zWjqLw=;
- c=simple/simple; d=cressey.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789851376; v=1; x=1790456176;
- b=F7Xoy6R9Utd2dzi4IJfdlBJapA6STWy0j3NcE2b+2AOGOCnfxzBSb3+9+UCEP/wPDYf8igt8
- JjubFrinDkdBfSSC/u4fsP+codZArnB3rO4mMOuOLV7EXlnUrFYOv0zs90jGV1YPljOhjobfI3t
- oAZpT3vfw6cuDS8fyzl6/9P4prAw+TfkMlnTB8LdC30/rjvxMCqiSlCo/xJSfsYwQNUGSI9OWPP
- dagzOjBYTx49I83fAFletSy4jsk+TwFB7rJwaz+Tpqiu+HSNpVIdEu29EnskZvlPxbXi0cFU0Xk
- ta0SMfi1SPVw2a12bXXhVzE1jkCaBPVu3EtnHXHEPeYUg==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 9ba522a53f9c0f58;
-	Sat, 19 Sep 2026 20:56:16 +0000
-X-Mizu-Trace-ID: 9ba522a53f9c0f58
-X-Migadu-Flow: FLOW_OUT
-From: Ben Cressey <ben@cressey.dev>
-Date: Sat, 19 Sep 2026 20:56:10 +0000
-Subject: [PATCH] PCI: Add ID@path device format for pci= parameters
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dvxvYiL3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 519B01F0089E
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 21:22:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789852931;
+	bh=9KE5aURhmFeQqffPNpopHGYL3hq2scKvdY2jkmvGLyo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=dvxvYiL3h4r8ovEqY5Mh4f6NhdN7+bguAVTX4+urpf3GoZamkP+ErBEtKFU4bHQmN
+	 H68Wtp6494+yz30jy/m5d/RagA2pKfWwJkhqA7emGBXMdCN2ZrErMQhbcwngaZpAE5
+	 Q8vwzHr8pmXA7IIVBZXC/U05n4OxzxVbxq/4AEBYKJcGv21tMp4NC7VWPsAkM2DZQ4
+	 nRU+TKvcRokByfRcQddCmKVnGVAxA2MPHZnugbTe2PQjpV/u1CNfDmFUJfe8stKdW+
+	 Dewl9VykVXDI6pXLrW5sA7fWZVAW7SMzPc22GVHslUWFFbF0bCks4NqF+9nAStVy18
+	 qmCnUcgEbkYhw==
+Received: by mail-yx2-f43.google.com with SMTP id 00721157ae682-895eaf30817so19249647b3.0
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 14:22:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBw/lPnj5FROYw0LP2+RPXx+v0Sz1T2I6oHA9ZQAV7kLtAccPyBQQFuuo6dI8l/yItoVzB3kSX97nzk=@vger.kernel.org
+X-Gm-Message-State: AFuF++l2Ya6eS6HtLsq6Ap+ZSk0hB6q4QFCjFwseVhlNyoHseCltsNAb
+	gvFTFCk93kxkCIlJzUk2M0M8ngUIN919/hglMwsJyoaRZCD01temqkciFCP9wuCi8VH+3osaJoG
+	hw/EnpiZ1uLt6ga+IwNSsqzYZV2wfP0oyU84OVfBt4Q==
+X-Received: by 2002:a05:690e:4888:10b0:66f:c1bc:87ef with SMTP id
+ 956f58d0204a3-6717fde9f96mr1259997d50.72.1789852930667; Sat, 19 Sep 2026
+ 14:22:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260919-pci-idpath-selector-v1-1-5881de83f248@cressey.dev>
-X-B4-Tracking: v=1; b=H4sIAOn2rmoC/22NSw7CIBCGr9LMWtKWGC1exbgYxqmgDZChPpKmd
- xfq1uX3PxfILJ4znJoFhF8++xgK9LsGyGG4sfLXwqA7fehMb1QiX6SEs1OZJ6Y5itLD/ogDjmw
- 0QWkm4dF/ttXz5cf5ae8lXKdqwmJmZQUDuSpNqaX4jvJgaTfrzwus6xeduGhJrgAAAA==
-X-Change-ID: 20260919-pci-idpath-selector-2847a8afe92c
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pci@vger.kernel.org, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Logan Gunthorpe <logang@deltatee.com>, Alex Williamson <alex@shazbot.org>, 
- Wei Wang <wei.w.wang@hotmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
- "Anthony Vardaro (Anthropic)" <me@anthonyvardaro.com>, 
- Ben Cressey <ben@cressey.dev>
-X-Mailer: b4 0.15.2
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora> <aqLZ5TVDAqEbIeMN@linux.dev> <aqP81aqNbwAbs2P0@fedora>
+ <aqQrPLPXHXiuKup0@linux.dev> <aqjcFb6MFNiA6n4V@fedora> <aqjpYHbZ14A8xRtK@fedora>
+ <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com> <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
+In-Reply-To: <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Sat, 19 Sep 2026 11:21:59 -1000
+X-Gmail-Original-Message-ID: <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
+X-Gm-Features: AcwNN1V3fN8BiarqwCTVlFEX0OtGz4WToCWoAzNrsMF1T-3gjKneuvYzb3JnUKQ
+Message-ID: <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Rik van Riel <riel@surriel.com>
+Cc: Baoquan He <baoquan.he@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The <pci_dev> grammar shared by pci=resource_alignment=,
-pci=disable_acs_redir= and pci=config_acs= names a device either by
-address, with an optional path, or by ID. When one command line serves
-more than one platform, neither form limits an entry to the intended
-device: an address applies to whatever occupies it on each platform, and
-an ID applies to every instance, such as all Downstream Ports of a
-switch rather than the one that needs different ACS settings.
+On Sat, Sep 19, 2026 at 6:16=E2=80=AFAM Rik van Riel <riel@surriel.com> wro=
+te:
+>
+> On Sat, 2026-09-19 at 01:55 -0500, Chris Li wrote:
+> >
+> > We don't have to address all issues in one series. I actually advise
+> > against lump too many patches into one series.
+> >
+> There are two things here.
+>
+> I totally agree that we can merge things piecemeal,
+> and not aim for perfection at the start.
 
-Accept pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>, where
-<path> is the address format, and match only when both halves match. An
-entry written for one platform is then inert on another where that
-address holds a different device. For example,
+Agree.
 
-  pci=config_acs=xx111x1@pci:10b5:8749@0000:80:02.0/00.0/08.0
+> However, I believe we do need to take care that
+> whatever design we go with is actually able to
+> support the end user functionality we want.
 
-configures ACS on the Downstream Port at that path only if it is a
-PEX 8749 port, and matches nothing on a system where 0000:80:02.0 leads
-to some other device.
+Agree. I want to add that we should support new functionality without
+sacrificing existing user functionality.
 
-The path goes last since pci_dev_str_match_path() consumes up to the
-next ';'. The <order>@ and <flags>@ prefixes of resource_alignment and
-config_acs are stripped before pci_dev_str_match() is called, so the
-callers are unchanged.
+> We have to make sure that the path we pick does
+> allow us to very easily add the user visible
+> functionality that people need.
 
-Reviewed-by: Anthony Vardaro (Anthropic) <me@anthonyvardaro.com>
-Signed-off-by: Ben Cressey <ben@cressey.dev>
-Assisted-by: LLM
----
-This touches pci_dev_str_match(), as does 3/6 of Wei Wang's "PCI: Add
-support for ACS Enhanced Capability" series, currently at v9:
-https://lore.kernel.org/r/SI2PR01MB4393F337A792CB3258C2E073DCB62@SI2PR01MB4393.apcprd01.prod.exchangelabs.com
-On current -rc this patch applies as is. If it is applied after that
-3/6, the early return for a path that does not match needs to become
-"ret = 0; goto out;" so the shared exit still checks and skips the
-delimiter. I can respin on that base if preferred.
+Agree.
 
-A pci:<IDs> entry with three or five fields is accepted by the existing
-sscanf() and so bypasses the @<path> check; that predates this patch and
-is rejected once that same 3/6, "PCI: Consolidate delimiter handling
-into pci_dev_str_match()", is applied.
+> We can always swap out technical details behind
+> the scenes later, but user interfaces are supposed
+> to be stable.
 
-A backport of this change to a 6.18.y based tree was tested on two
-server models from different vendors, both with PCIe switches whose
-downstream ports share one vendor and device ID, and one boot of each
-machine was examined with one command line that held config_acs entries
-in the new form for both models. On each machine only the ports named
-by its own entries were configured, and the bits those entries set read
-back as requested, while the ports with the same vendor and device ID
-at a path that only the other model's entries name were not configured.
----
- Documentation/admin-guide/kernel-parameters.txt | 10 +++++++++-
- drivers/pci/pci.c                               | 18 ++++++++++++++++++
- 2 files changed, 27 insertions(+), 1 deletion(-)
+I think we agree on all aspects.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 33cd30996e47e..3e4c618427a27 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5042,6 +5042,7 @@ Kernel parameters
- 
- 				[<domain>:]<bus>:<dev>.<func>[/<dev>.<func>]*
- 				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-+				pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>
- 
- 				Note: the first format specifies a PCI
- 				bus/device/function address which may change
-@@ -5056,7 +5057,14 @@ Kernel parameters
- 				renumbering issues).  The second format
- 				selects devices using IDs from the
- 				configuration space which may match multiple
--				devices in the system.
-+				devices in the system.  The third format
-+				combines the first two: the device must
-+				match the IDs and also be at the address
-+				given by <path>, which takes the first
-+				format.  This allows an entry written for a
-+				device on one system to have no effect on
-+				another system where the same address is
-+				occupied by a different device.
- 
- 		earlydump	dump PCI config space before the kernel
- 				changes anything
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index b2879a6be5f80..ebce05e604b88 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -343,6 +343,7 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
-  *
-  *   [<domain>:]<bus>:<device>.<func>[/<device>.<func>]*
-  *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-+ *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>
-  *
-  * The first format specifies a PCI bus/device/function address which
-  * may change if new hardware is inserted, if motherboard firmware changes,
-@@ -359,6 +360,12 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
-  * legacy reasons and convenience so users don't have to specify
-  * FFFFFFFFs on the command line.)
-  *
-+ * The third format combines the first two: the device must match the IDs
-+ * and also be at the address given by <path>, which takes the first
-+ * format.  This allows a parameter written for a device at a known
-+ * address on one system to have no effect on another system where that
-+ * address is occupied by a different device.
-+ *
-  * Returns 1 if the string matches the device, 0 if it does not and
-  * a negative error code if the string cannot be parsed.
-  */
-@@ -385,6 +392,17 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
- 
- 		p += count;
- 
-+		/* Third format: the device must also be at <path> */
-+		if (*p == '@') {
-+			ret = pci_dev_str_match_path(dev, p + 1, &p);
-+			if (ret < 0)
-+				return ret;
-+			if (!ret) {
-+				*endptr = p;
-+				return 0;
-+			}
-+		}
-+
- 		if ((!vendor || vendor == dev->vendor) &&
- 		    (!device || device == dev->device) &&
- 		    (!subsystem_vendor ||
-
----
-base-commit: fd73f4a6659897191fa0d40695fe370925dd3780
-change-id: 20260919-pci-idpath-selector-2847a8afe92c
-
+Chris
