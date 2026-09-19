@@ -1,83 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8BB346E43;
-	Sat, 19 Sep 2026 00:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7B83806DC;
+	Sat, 19 Sep 2026 00:59:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789779090; cv=none; b=JqGa+vfnGjEr71fyja7ewwlCXKp6SV9gI6078yDmzuG4RStb26ihCb/nLE2GWXLoBJoM4ti+oyRdDsluSaGL7dqp8uaL9U487WRT8l1hpAjwJDdyB1QDdwG+szsyy/vSC1ExMVtwa5fy4mJLLQ7LrFNxhrVW44yHXZDI291jU/4=
+	t=1789779581; cv=none; b=mXkg0enVTI1R3Z4kIiwk22xbNMI0qvwQejBnRu9iLJjlq4NEgV3mM5xYHisvIcsWJxw2NiaD5EXjary+2kX33TCmaJmJzWQnYk3RklZL0S22qHnuhYj8Xhkxs3RDGT2d/ei07P5XEaMWPyw5jqYhFNeN9khToShZZgzQQozluUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789779090; c=relaxed/simple;
-	bh=G+wFUjo25RFkmsrTR1YarOUQE52i+bs36dIgjjrnS1Q=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=TgJS3H3HFzsbu2r6Al45jb/imAUHJAK+XhGvZZUrQOfzsKXfP6qBYvLGvpxD6BDODhynGkyn3U2kSLBuMUBa9GlS8R0q05DylGb95ZNdCeT/PjNvqWojTg4XIwt1lEKhdvRqP3hnJ76tD8/KXYdrKj3UwhqkMtCkpQJT1m6YAlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aWVEiYoe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789779581; c=relaxed/simple;
+	bh=eu5cC5hsQtuqPMz9ghuKSaLN3ZLQM4LRaDY9aV9jFkc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=b9l7qhm+cbevBelt7AzPXndWYEbuxTDK3660RqticIdZ90Br6Q0qOyAZTXLD+fEz6jVXjVnpHuX9yDFWvLxrg7ooM8eT7YuQMBQv/Vouua8GHG4CO8ExIX1PbluoWyzqBItOlqrA6SNPaJjJlSCBDBo2EwMEBOw1uiSVkO5vRs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R//6FYQY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aWVEiYoe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D1161F00899;
-	Sat, 19 Sep 2026 00:51:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R//6FYQY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02C511F000FF;
+	Sat, 19 Sep 2026 00:59:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789779084;
-	bh=gvUYYJLE4mMcSYyKX9DSK63VqyOeWByjSiDHmZOkEJY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=aWVEiYoedOl1VKIg0QSNY5/upXnyOnqi+ITdNGFheEPntAmOlPJnHMR03BbfV2hTf
-	 ia6MsQb/X1ep9b9+vVtCVPVNrBh8wElpfdH0l73f6SrBVQFMX4oNIQGbinI9OUlGJ/
-	 lMvbYdy8jdqzl35EnKwFw/9u5FlrpMgrbNRdWkjFoUYqeEI7uiWNfViptMIouZxtIA
-	 QnqwoE7GqimRT5yhQkpaUjTRtNp5Yr+jLkgGAVeGioGi88qyHG4RqXuIfvvAukSfr0
-	 vm++R8r5qkuPvhgAYMbNF6J8GYb2XQ2LU4MCtcdXVvWfDJga6xZM7nuc950oUBLQ7C
-	 XmioQfxRVj/Rw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93B303811978;
-	Sat, 19 Sep 2026 00:50:18 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1789779570;
+	bh=uHbS51LoJCRi9l4gNc0TA4xcVJbkNwyTjzx9x0MYIKQ=;
+	h=From:To:Cc:Subject:Date;
+	b=R//6FYQYDsTqhwrKRzX3VwHjDLksxk6g11jmO2RN+ayNWzoh5LuTRS7OSVuKO7BDk
+	 WDQ+FRujUp5XmyR99OggdSmmKTcT5ZolBnYhX4Tx2wQBqcMkaNPVLxieK8AqWB160l
+	 IBtuuPUg4ndMvaPmRnEsbPrRNm21E0JQtpI92f8fJSFaN2sh0Z5SKu2ahOZVs1L6Jq
+	 gsaiIRK7xiMmLAHGVV3sTKxke6f5E5kQaBDkThzxBSRrJAtf0UhgsQpLUAkVyYTPyO
+	 XAfn4aSIJ7zxwl06cVfgnAeHD4AI1mvOnJB6e6tihPOCZ5novUXv/TlRN/sU+YrlJm
+	 /3cD5ryod0GsQ==
+From: Kees Cook <kees@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Kees Cook <kees@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	Julian Braha <julianbraha@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Nauman Sabir <officialnaumansabir@gmail.com>,
+	Tejun Heo <tj@kernel.org>,
+	Nicolas Pitre <nico@fluxnic.net>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+	Matthew Maurer <mmaurer@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Andrew Jones <andrew.jones@linux.dev>,
+	Graham Roff <grahamr@qti.qualcomm.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Gary Guo <gary@garyguo.net>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH 0/3] kconfig: Introduce cc-option-str
+Date: Fri, 18 Sep 2026 17:59:24 -0700
+Message-Id: <20260919005923.i.879-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1662; i=kees@kernel.org; h=from:subject:message-id; bh=eu5cC5hsQtuqPMz9ghuKSaLN3ZLQM4LRaDY9aV9jFkc=; b=owGbwMvMwCVmps19z/KJym7G02pJDFlr7+VNtNxlHXGT3X63071nea8O93+auWbFz4PBKTmKD 9cq/zLY1VHKwiDGxSArpsgSZOce5+Lxtj3cfa4izBxWJpAhDFycAjAR/VxGhiXzH5c9iq5JuWTc c1GoXKPpVkTCWh2buY0quVOKljz0v8fwh2NVgssC7ek9p9iEd03ZVc4w62HgoZf+UxamfJ3+Iqz SlAUA
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 net-next] net: phy: factor out legacy PHY fixup support
- and
- make it always built-in
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178977901714.1211687.9118031635858398394.git-patchwork-notify@kernel.org>
-Date: Sat, 19 Sep 2026 00:50:17 +0000
-References: <2d722b84-a263-400b-ac91-bf37125eb85b@gmail.com>
-In-Reply-To: <2d722b84-a263-400b-ac91-bf37125eb85b@gmail.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: andrew@lunn.ch, linux@armlinux.org.uk, pabeni@redhat.com, kuba@kernel.org,
- davem@davemloft.net, edumazet@google.com, andrew+netdev@lunn.ch,
- horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
 
-Hello:
+Hi,
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+While reviewing the recent build speedup series[1], it became clear
+that we needed a general solution in kconfig to avoid repeating detected
+toolchain options. Implement cc-option-str and ld-option-str, and while
+at it, create "def_string" and friends to match "def_bool".
 
-On Wed, 16 Sep 2026 08:05:22 +0200 you wrote:
-> PHY fixup registration is used from platform code in init phase only.
-> Let's move the PHY fixup code from the modular part of phylib to the
-> always built-in part of phylib. This allows to annotate the fixup
-> registration as __init. No caller uses the return code of PHY fixup
-> registration, therefore change related functions to return void.
-> 
-> phy_needs_fixup() and phy_scan_fixups() wouldn't have to be moved to
-> the built-in part of phylib. But doing so allows to fully factor out
-> legacy fixup support into its own source code file, and make struct
-> phy_fixup and phy_fixup_list strictly private to phy_fixup.c.
-> 
-> [...]
+-Kees
 
-Here is the summary with links:
-  - [v2,net-next] net: phy: factor out legacy PHY fixup support and make it always built-in
-    https://git.kernel.org/netdev/net-next/c/f619d5003ff4
+[1] https://lore.kernel.org/all/20260918054058.GA384222@ax162/
 
-You are awesome, thank you!
+Kees Cook (3):
+  kconfig: Add "def_string", "def_int" and "def_hex"
+  kconfig: Replace "cc-option-bit" with "cc-option-str"
+  kconfig: Add "ld-option-str"
+
+ scripts/kconfig/tests/def_type/Kconfig        | 28 ++++++++++++++++++
+ scripts/kconfig/tests/def_type/guard_n.config |  1 +
+ scripts/kconfig/tests/def_type/guard_y.config |  1 +
+ scripts/kconfig/tests/def_type/__init__.py    | 18 ++++++++++++
+ .../kconfig/tests/def_type/expected_guard_n   |  9 ++++++
+ .../kconfig/tests/def_type/expected_guard_y   | 11 +++++++
+ scripts/Kconfig.include                       | 29 +++++++++++++++----
+ scripts/kconfig/kconfig-sym-check.pl          |  2 +-
+ scripts/kconfig/lexer.l                       |  3 ++
+ scripts/kconfig/parser.y                      |  6 ++++
+ Documentation/kbuild/kconfig-language.rst     | 13 ++++++++-
+ 11 files changed, 114 insertions(+), 7 deletions(-)
+ create mode 100644 scripts/kconfig/tests/def_type/Kconfig
+ create mode 100644 scripts/kconfig/tests/def_type/guard_n.config
+ create mode 100644 scripts/kconfig/tests/def_type/guard_y.config
+ create mode 100644 scripts/kconfig/tests/def_type/__init__.py
+ create mode 100644 scripts/kconfig/tests/def_type/expected_guard_n
+ create mode 100644 scripts/kconfig/tests/def_type/expected_guard_y
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.34.1
 
