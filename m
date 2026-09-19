@@ -1,316 +1,244 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B7D3AD52D
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 08:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82BA380FC3
+	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 08:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789807521; cv=none; b=JNStr5mjQlLFaEwnr3J10KiKHUBjRnPW36dOB7Kj7HvYwqp7qcEfLzd2DTSG90hnq70FGiPxt8CAhPkfCaSGArRbtU7FCUWzQeJ/NKPBiJdZ4YX/gC+QqrKNjtI1AJfxtVwbsIWkVzYaYpbv/29XR5K58i4JK0oLmXMTo9qWekI=
+	t=1789808061; cv=none; b=k705MMqlv8fwaThnM+z7FUOmsNAFuD4EH9/G5vz1pEcNL/PMRTHfpmJt2RwkkWWoRpQMz5sQvdiix98xXuqWRteHGB+9JmQADniFR9kauy2sP/WuLyA/uxNtJX3j3qdDiBHUWja//m+DMFqIJS2NCJlOj37Cwb5SgyLlmsfAdjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789807521; c=relaxed/simple;
-	bh=l+x5WCLLD0K04uu+nBOntOn1LVxd/nVcQpDlvHSC54o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sq+ULi0uYxlY0F6tbVorSALvB4pPssZ4lIRm4xGE1frad5gkIZOA+2FkG7BQAj9NTyfcOnyN4Je2PjYu0W50IjSj20OVvv9wfIJB8E+QmRQQrHNoDFPrxHPQYFh3QcjkxPvEZHq6YPvPmCXFzfHXfQ0xTGIDiryya/XWu/RJYe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A68R2BYz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789808061; c=relaxed/simple;
+	bh=c34bA274rDOkL+YzQsrkmI4B6CAXTcZ3HUERhawzQJ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WBCMdrVs2LK5UM5Pjj+EWbO9g/tUPE+ySbHnCBoZnc9TBeLza4+W48LsIQoEmLBf9TVQzskDP46ZJ2yXsQLKmoQgk7xpqEf6MSsB7k3D5M4g4XbchETIxAwon+mG2lDuV437Lqw93dSshRd4j9+lSI8tz4qlTXDLZSqWf5FAFmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L2UJKo3O; arc=none smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A68R2BYz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99FD01F000FF
-	for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 08:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789807517;
-	bh=nRAOCdD7CM/ufO6rn26d3KJoJhB/ZPshvT6Y3xlQiRE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=A68R2BYzG0ARFfgXWQsIPqx8KcSadlX0CSMhxlpZBDvA3zdKQwi89+I/zDfUqGApE
-	 UcGym7KwXm447C5aB5gErlKaOM1y6qTRHAhmSPRktBgUI8Guf6pow0MSaAhmcgmZ06
-	 RTiEKFbcLHOPndbzqS2blG/v8ZfD7RuWOFHtvRS6DjIFhlCJ4Sx6urjTUnvB/MzTYz
-	 WnkEZkwpX41NJ3nVmJ7D6klvbL9AQvLtnAmBx2+f/fzN4cqWSD27bff5HeSNyR7wD7
-	 d6wlwiqz+HaUWsAHSTI53NKgwO6kuTXGCGKnV4pmH1tYwEU/6Q47R7PIun+iphOrmc
-	 ja2gB2fDRdhXA==
-Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4aae314aso1195744d50.3
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 01:45:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzbAlu5lTEc6jXSI1blcLBJlVik+vQzcRwmR9Lepfhyo0usYQT/xr/FPCA/eS6pM8c6tUGUkzQGm00=@vger.kernel.org
-X-Gm-Message-State: AFuF++lwz2cb848JWoA2gPrM6QqSH/z/kw6MeLtVyqUwd+NYQlCawVMK
-	B8bGU0d4Mb1Jk+I0fiEnVGQaUdCYjsKJv/nYWEYSz00LPJmOgQJyy3Cw/SOYKKzve03icLLXkf+
-	MafXaPTwgB5x8aupNjk8IdBcvxDkMSBHSlaJTLSvLJw==
-X-Received: by 2002:a05:690e:134f:b0:671:70d1:d6cf with SMTP id
- 956f58d0204a3-6717fdf88camr1241019d50.65.1789807516526; Sat, 19 Sep 2026
- 01:45:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L2UJKo3O"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f56039dso203040866b.3
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 01:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789808058; x=1790412858; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OfnLSG5yNDxYZ/H/GH7hb4ofWQcWDQyvGNAStGIjNUk=;
+        b=L2UJKo3O29Tqp2YumXyJcVzLYPMS968qcO/z7RE5EonqHqLUKjOnT0vHssRS6inAye
+         wOZXNiP7K+I9b5pZe32k6SxpIwhjA+qOvYlMSqpvizmhsNVS9qpTGumCWubbyRcM4SSh
+         fmEesHCvkXWhBKsUnllF3EsW9kFwYKC69nNhu2/lKPGML7e32I3/OGKToj/xKBoA8Hl9
+         8Gc5j0IS5w+buvO8vJ64tntBGInvjz3qZPga0Y7t2mOV2S1hBIaoHnaLeC3ZlyGolfJ9
+         zed6kYhcJoYO7KZZS9seF4ickvxbzC3xgJgrwUlA+6CyaTvY4HH2499OgT+G88YNxkat
+         8rdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789808058; x=1790412858;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OfnLSG5yNDxYZ/H/GH7hb4ofWQcWDQyvGNAStGIjNUk=;
+        b=w8oPUl0JnrlpCpVBWymf8kEajjp8B2SqAjEdDiYV7wMJWZGpzZOmNOxEX9sNjGgV/I
+         P68bSZj0rnyvhrre0tgeHOrQV+GjhZIU9as5u77bq9LMtKOcsC6iD6dDhp62tGUk8c8R
+         6wKbhNbNmDJmi1LIFMHPOeZuDTFUmyqDH/KfLss1vQu8zl5yeJSY374yfotBJeHcKnTp
+         bmoF2hSJDVIUfAT/Un2bxr+hjK67DXfp7gANtnSTO3GcySbST6Md7tLD9C8fUq196reC
+         SMm8jBVs3PhU24rMiteM25rEzuB1nKc81bkhXSUiQIb0RBi7CWwShlFcD7qA2clgPDHB
+         Jh0Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwe/6Ir9iLLeaoJAUrkApt6noBdMcyspSOqUGILLjvx2LeHyW63fleyZFeHDyCM8Gs59rY3HYMcLZw=@vger.kernel.org
+X-Gm-Message-State: AFuF++ltTKwDoe1wJAYU9Jmh756Vm09gWLoY5Yk/l0ficYPzzRnO3dIX
+	Y1iAsy5s5exmmMrylP1TWB3OX2K5Mz/nTJythc0nUPp+MEhn7MPWnkZ1
+X-Gm-Gg: AYBFou02SveM1UOZmSotqhdb8XjhiN+IibNF1MFNN9QaMWPwuV52UnSkNYiS4YhNbkW
+	NEsdh7pW35iYj2bpWZ43CGYkj6RWFNdASeTV8fbaBQSs4oWC2An+97uABfKn4Vq8/V6N2MJc8TT
+	jfunN3gjnjg2fD/PETegu9ToCR0UWcIMx96EE/cDPfNFRHo7+6yOn+dMB0L4uQLDhlA2VFsQ5hE
+	V0JqosAVuQu/TJ1kwd1EyLR5a4WGgC6Ael1hq3ins+Rgusk/17L5VPKyp1XWD0LRi+F5SjOd7zJ
+	XMI31yvXMUQyCcMBNuv4+ge4Dck9aTVkJp5N5P+vkYGtz5WKJ/jZ2JiaIE9EnHz/6aW1eCY+vlF
+	3pw6pwc5ftLv8Gaaknl2tHqs2GFWR8krCnlm00jcvtFJePtV1AmSmKoIFRCmGiFeDGmfWUJIlku
+	Gx4c19Sh1tewmXY/XqBZVC6BxPZfa3WF+cCmelDxFxWEHkG1gcrtM0CTFdtv/LYtNjJgzJ3f/io
+	xB5ErSv+nCsiL4i138ipDl4GG/TVHl+biLfedMxXwHSQMop9TeujoOq+c3KFfzBG2SKYPuzJXgK
+	jVgSo6hJdt0Ons+MF+ig
+X-Received: by 2002:a17:906:6a1c:b0:c29:6184:5e13 with SMTP id a640c23a62f3a-c2a15cd5b73mr428764966b.40.1789808057658;
+        Sat, 19 Sep 2026 01:54:17 -0700 (PDT)
+Received: from localhost.localdomain (83-233-130-25.cust.bredband2.com. [83.233.130.25])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a3572d4d5sm64731766b.33.2026.09.19.01.54.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 01:54:17 -0700 (PDT)
+From: Yongzhao Chen <yongzhao.derek@gmail.com>
+To: netdev@vger.kernel.org
+Cc: andrew@lunn.ch,
+	olteanv@gmail.com,
+	florian.fainelli@broadcom.com,
+	jonas.gorski@gmail.com,
+	woojung.huh@microchip.com,
+	UNGLinuxDriver@microchip.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux@armlinux.org.uk,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC net-next] net: dsa: pass PHY flags when connecting shared ports
+Date: Sat, 19 Sep 2026 10:54:06 +0200
+Message-ID: <20260919085406.1395-1-yongzhao.derek@gmail.com>
+X-Mailer: git-send-email 2.45.2.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org>
-In-Reply-To: <aqLi6cIjD2wJwk0B@cmpxchg.org>
-From: Chris Li <chrisl@kernel.org>
-Date: Sat, 19 Sep 2026 03:45:03 -0500
-X-Gmail-Original-Message-ID: <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
-X-Gm-Features: AcwNN1WSLyMhlFxNJHsYTCCD0ttIzwGTm48gSwEkZRKgP4Dxnf1FT7qjZCZg9Rg
-Message-ID: <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, 
-	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 10, 2026 at 12:03=E2=80=AFPM Johannes Weiner <hannes@cmpxchg.or=
-g> wrote:
->
-> [This reply was not LLM-generated.]
+DSA calls get_phy_flags() when attaching user-port PHYs, but passes zero
+when connecting shared (CPU and DSA) ports. Shared ports backed by PHYs
+can also need switch-specific initialization data. The motivating case is
+qca8k PHY-to-PHY CPU-port support carried by OpenWrt, where the internal
+PHY driver needs the switch revision. That support is absent from this
+net-next baseline.
 
-Why does it matter?
+Call the existing callback before connecting shared-port PHYs and document
+its expanded scope. Drivers without the callback continue to pass zero.
+Preserve the existing PHY connection error handling.
 
->
-> On Thu, Sep 10, 2026 at 03:09:59PM +0800, Baoquan He wrote:
-> > Hi Nhat,
-> >
-> > On 09/04/26 at 02:14pm, Nhat Pham wrote:
-> > .....snip...
-> > > Now, on xswap. Baoquan's working on a series [15] that covers some of=
- the
-> > > same ground, and the VM_SPARSE cluster_info idea in it is genuinely g=
-ood.
-> > > I've been reviewing that lineage since July [16] and I'd like whateve=
-r
-> > > lands to end up with the best parts of both. From my perspective the
-> > > differences are:
-> > >
-> > > 1. Userspace knobs. xswap asks the admin for a size (a percent of RAM=
-) plus
-> > >    a per-device limit to tune afterwards. I'm not aware of any use ca=
-se
-> > >    that needs those, and I don't think users have a good way to answe=
-r the
-> > >    question anyway - sizing swap for compressed memory depends on mem=
-ory
-> > >    size, workload, and compression ratio all at once. That's precisel=
-y the
-> > >    provisioning problem vswap exists to remove. The kernel should be =
-as
-> > >    transparent and dynamic as possible here, and not add knobs unless
-> > >    there's a use case for them.
-> > >
-> > > 2. Writeback support. Writeback is core functionality for zswap, not =
-an
-> > >    add-on, and a design needs to account for it from the start. This =
-came
-> > >    up before, in the discussion around Chris' ghost swapfile RFC [17]=
-: for
-> > >    a solution here to be acceptable, it has to work with the primary
-> > >    usecase and support disk writeback. Without it, whatever zswap won=
-'t
-> > >    take (incompressible pages especially) has nowhere to go, and cold
-> > >    compressed data can never leave RAM.
-> > >
-> > > 3. Cgroup charging behavior. vswap/xswap shouldn't be charged against=
- the
-> > >    swap usage counter. It's fundamentally a different resource from
-> > >    physical swapfile space, and memory.swap.* should read 0 when noth=
-ing is
-> > >    on disk [18]. I made the longer argument for this in [19].
-> > >
-> > > 4. Data structure (xarray vs sparse vmalloc array). Even with xarray,=
- vswap
-> > >    is already on par with or beating baseline. I like the sparse arra=
-y
-> > >    idea, but why are we landing an optimization before the feature it=
-self,
-> > >    without any A/B data showing the difference matters?
-> >
-> >
-> > Thanks for laying this out, and for the honest push to converge. Let me
-> > be equally direct about the ordering: I think the xswap base should lan=
-d
-> > first, and the things vswap demonstrates -  writeback, rmap lookup, the
-> > charging semantics, later THP -- should be built on top of it. Because
-> > it is the foundation that keeps the swap core simpler, and the first th=
-ing
-> > to merge should be the one that doesn't have to be redone.
-> >
-> > The VM_SPARSE array is not an optimization to bolt on later; it is a
-> > structural choice, and the code reflects it. In vswap, the cluster
-> > metadata lives in a dynamically-allocated xarray.
-> >
-> > struct swap_cluster_info_dynamic {
-> >         struct swap_cluster_info ci;
-> >         unsigned int index;             /* for cluster_index() */
-> >         struct rcu_head rcu;
-> >         atomic_long_t *virtual_table;   /* Backing pointers for vswap s=
-lots */
-> > };
-> >
-> > To support dynamic growth and shrink, vswap stores its cluster metadata
-> > in an xarray, and that forces two things the plain swap_cluster_info[]
-> > array never needed:
-> >
-> > 1. Every cluster has to carry an extra index and an rcu_head =E2=80=94
-> > 24 bytes per cluster =E2=80=94 purely so the xarray can locate it and f=
-ree
-> > it safely.
-> > 2. To keep that bookkeeping from leaking into the normal-swap code, the
-> > cluster had to be wrapped in a container, swap_cluster_info_dynamic,
-> > so the xarray holds a pointer to the wrapper instead of an inline
-> > array element.
-> >
-> > So in vswap, every cluster access in the shared hot path has to answer
-> > "is this a vswap device?" and take a separate branch:
-> >
-> > - swap_is_vswap() is checked in 36 places across page_io.c, swapfile.c,
-> >   zswap.c and swap.h;
-> > - __swap_offset_to_cluster() branches into xa_load() for vswap vs the
-> >   flat array otherwise, and the xarray path can return NULL (a cluster
-> >   can be torn down);
-> > - __swap_cluster_lock() branches into __vswap_cluster_lock(), which
-> >   wraps every access in rcu_read_lock() and a CLUSTER_FLAG_DEAD check,
-> >   plus kfree_rcu()/container_of()/rcu_head plumbing for node lifetime.
+Make bcm_sf2 and ksz88xx return zero for non-user ports. This avoids newly
+passing their PHY power-management and erratum flags to shared ports,
+while retaining their existing user-port values.
 
-I dislike those code paths in vswap as well.
+Link: https://github.com/openwrt/openwrt/pull/25225
+Assisted-by: LLM
+Signed-off-by: Yongzhao Chen <yongzhao.derek@gmail.com>
+---
+This RFC proposes using get_phy_flags() for PHY-backed shared DSA ports,
+with bcm_sf2 and ksz88xx guards to preserve their existing behavior.
+The callback already carries switch-specific initialization data to PHYs;
+the shared-port path should provide it before PHY initialization too.
 
->
-> Well to state the obvious: the reason it does all that is to make the
-> compression space transparent to the user.
+The use case comes from qca8k PHY-to-PHY CPU-port support carried by
+OpenWrt. That support is absent from this net-next baseline. The downstream
+PHY driver needs the switch revision and a flag for a QCA8337 CPU-link
+SmartSpeed quirk. This patch covers the generic flag propagation and
+compatibility guards; the PHY-to-PHY support and quirk are outside its
+scope. The complete RA74 fix would need those changes as well.
 
-I found this new concept of "compression space" very confusing to me.
-Can you explain the swap behavior and problem using only normal memory
-usage reduction and latency without introducing a new term or new
-metrics?
+Reusing the callback keeps one interface for switch-to-PHY information.
+The guards make bcm_sf2 and ksz88xx return zero for non-user ports,
+preserving their previous contribution on those paths. They do not clear
+flags already held by the PHY. qca8k continues to supply its revision for
+internal PHYs. The pinned tree has no other callback implementations.
 
-The normal user doesn't even know what compression space is, let alone
-what makes it transparent.
+The patch is based on net-next
+26ee8cd69d46a14b37ba5e512084fe80d730127a. Validation:
 
->
-> The user can answer a simple boolean question: whether they want
-> compression or not. And it will work on tiny machines, on humongous
+- Four fresh x86_64 builds compare baseline and candidate allyesconfig
+  and allmodconfig with GCC 13.3.0, W=1 and KCFLAGS=-Wno-error. All builds
+  produce vmlinux, bzImage and every expected module: 66 for allyesconfig
+  and 11,173 for allmodconfig. Paired configurations are byte-identical;
+  source, configuration and toolchain checks remain stable throughout.
+  Complete warning/note comparisons, including repetition counts and
+  compiler targets, show no new code diagnostics. Allmodconfig matches
+  exactly. Allyesconfig differs only by four baseline make clock-skew
+  diagnostics. Their two empty module lists were checked, and full-target
+  replays reached stable dependencies with no new diagnostics. Raw logs
+  and the review are retained. The default CONFIG_WERROR=y builds had
+  stopped on warnings reproduced in the unpatched baseline: all 48 and
+  12 initial error diagnostics, respectively. The common -Wno-error
+  setting enables the complete comparison; these are not warning-free
+  builds. Earlier affected-object COMPILE_TEST/W=1 builds also passed.
+- A standalone C harness compiles actual DSA and driver function bodies
+  with stubbed PHY/phylink operations under ASan/UBSan. All 52 cases pass,
+  covering BCM/KSZ compatibility, qca8k revision propagation, all flag
+  bits, callback arguments and call count, missing callbacks, and
+  attachment errors. Removing either guard or disabling propagation
+  makes the corresponding assertion fail. Earlier compiled-function
+  checks also cover the OpenWrt 6.12 and 6.18 adaptations.
+- Runtime testing used an OpenWrt 6.18 image on Redmi AX5400 (RA74), with
+  the PHY-to-PHY support and QCA quirk. It passed sysupgrade and warm
+  reboots, a physical 20-second power cycle, WAN/LAN DHCP, wired traffic
+  and LAN VLAN isolation. These results cover the combined downstream
+  changes. This net-next patch has not been runtime-tested on hardware;
+  BCM SF2 and KSZ hardware have not been tested.
 
-In my mind, swap trades RSS memory reduction for increased latency
-when accessing the swapped-out data.
-Whether the memory reduction is by compression or by writing to a hard
-drive is an implementation detail. It has different characteristics.
+Codex assisted with the implementation, test harnesses and draft text.
+The work addressed OpenWrt PR 25225 review, preserving other drivers'
+behavior and preparing the generic change for upstream discussion.
+Gemini 3.8 Flash, through agy, reviewed the design and an earlier draft.
+The paired whole-tree build experiment was completed after those reviews.
 
-When we have "compressed space" for zswap, should we also have "ssd
-space" for data store in ssd and "hdd space" for data stored on HDD?
-They has different IO accessing latencies.
+ Documentation/networking/dsa/dsa.rst | 2 ++
+ drivers/net/dsa/bcm_sf2.c            | 4 ++++
+ drivers/net/dsa/microchip/ksz8.c     | 4 ++++
+ net/dsa/port.c                       | 6 +++++-
+ 4 files changed, 15 insertions(+), 1 deletion(-)
 
-> machines, and everything in between. That's a simple policy question
-> with a clear answer.
->
-> What you're doing, asking the user for a static size, is much more
-> difficult and has usability issues.
->
-> You're comparing implementations that don't accomplish the same thing.
->
-> The problem we're trying to solve is implementing a clean compression
-> space abstraction. I'm arguing that vswap does, and xswap does not.
+diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/networking/dsa/dsa.rst
+index 42a99f5df..9bb7a8f75 100644
+--- a/Documentation/networking/dsa/dsa.rst
++++ b/Documentation/networking/dsa/dsa.rst
+@@ -668,6 +668,8 @@ PHY devices and link management
+   on its own (e.g.: coming from switch memory mapped registers), this function
+   should return a 32-bit bitmask of "flags" that is private between the switch
+   driver and the Ethernet PHY driver in ``drivers/net/phy/\*``.
++  It is called when connecting PHYs for user, CPU and DSA ports. Drivers
++  should return zero for ports that do not need switch-specific PHY flags.
+ 
+ - ``phy_read``: Function invoked by the DSA user MDIO bus when attempting to read
+   the switch port MDIO registers. If unavailable, return 0xffff for each read.
+diff --git a/drivers/net/dsa/bcm_sf2.c b/drivers/net/dsa/bcm_sf2.c
+index 9e5713015..f516fc396 100644
+--- a/drivers/net/dsa/bcm_sf2.c
++++ b/drivers/net/dsa/bcm_sf2.c
+@@ -709,6 +709,10 @@ static u32 bcm_sf2_sw_get_phy_flags(struct dsa_switch *ds, int port)
+ {
+ 	struct bcm_sf2_priv *priv = bcm_sf2_to_priv(ds);
+ 
++	/* Shared ports previously received no PHY flags. */
++	if (!dsa_is_user_port(ds, port))
++		return 0;
++
+ 	/* The BCM7xxx PHY driver expects to find the integrated PHY revision
+ 	 * in bits 15:8 and the patch level in bits 7:0 which is exactly what
+ 	 * the REG_PHY_REVISION register layout is.
+diff --git a/drivers/net/dsa/microchip/ksz8.c b/drivers/net/dsa/microchip/ksz8.c
+index 941ae9f66..d284c199f 100644
+--- a/drivers/net/dsa/microchip/ksz8.c
++++ b/drivers/net/dsa/microchip/ksz8.c
+@@ -2953,6 +2953,10 @@ static u32 ksz88xx_get_phy_flags(struct dsa_switch *ds, int port)
+ {
+ 	struct ksz_device *dev = ds->priv;
+ 
++	/* Shared ports previously received no PHY flags. */
++	if (!dsa_is_user_port(ds, port))
++		return 0;
++
+ 	switch (dev->chip_id) {
+ 	case KSZ88X3_CHIP_ID:
+ 		/* Silicon Errata Sheet (DS80000830A):
+diff --git a/net/dsa/port.c b/net/dsa/port.c
+index 1f5536c0d..4db7e6f9c 100644
+--- a/net/dsa/port.c
++++ b/net/dsa/port.c
+@@ -1666,6 +1666,7 @@ static int dsa_shared_port_phylink_register(struct dsa_port *dp)
+ {
+ 	struct dsa_switch *ds = dp->ds;
+ 	struct device_node *port_dn = dp->dn;
++	u32 phy_flags = 0;
+ 	int err;
+ 
+ 	dp->pl_config.dev = ds->dev;
+@@ -1675,7 +1676,10 @@ static int dsa_shared_port_phylink_register(struct dsa_port *dp)
+ 	if (err)
+ 		return err;
+ 
+-	err = phylink_of_phy_connect(dp->pl, port_dn, 0);
++	if (ds->ops->get_phy_flags)
++		phy_flags = ds->ops->get_phy_flags(ds, dp->index);
++
++	err = phylink_of_phy_connect(dp->pl, port_dn, phy_flags);
+ 	if (err && err != -ENODEV) {
+ 		pr_err("could not attach to PHY: %d\n", err);
+ 		goto err_phy_connect;
 
-I feel that you are arguing a conceptual construct you define. Can you
-explain the difference using external measurable metrics? For example
-in this workload, using vswap, the user sees workload latency as X,
-throughput as Y, and memory usage as Z. Using xswap, the user sees a
-different X1, Y1, Z1. Then we can reason why X, Y, Z is better or
-worse than X1, Y1, Z1.
+base-commit: 26ee8cd69d46a14b37ba5e512084fe80d730127a
+-- 
+2.43.0
 
-My simpler brain just doesn't see why this new compression space matters.
-
-> While they're both using parts of the swap device code to implement a
-> compression space, xswap actually PRESENTS IT TO THE USER as a swap
-> device, and then makes optimizations BASED ON BAKED IN LIMITATIONS.
->
-> But a conventional, statically sized swap device is a bad abstraction
-> for the compression space. Here is why:
->
-> In conventional swap space, one memory page translates to one swap
-> page. Compression space doesn't act this way: a memory page can
-> consume anything between a few bytes to a full page in compression
-> space. It depends on memory contents and compression algorithm. So
-> right off the bat, this is a hard question to answer at the host level
-> which could run all kinds of workloads.
->
-> In conventional swap space, the resource consumed is a different
-> one. You're offloading memory by consuming disk space. This eats into
-> the space available to the filesystem, which is totally unrelated.
-> Asking the user for this tradeoff is a legitimate policy question.
->
-> Compression space is not a separate resource. It's page tables,
-> backing pages, and swap descriptors. It's just MEMORY. There isn't a
-> size tradeoff, because moving pages from memory space into compression
-> space DOES NOT CONSUME A NEW RESOURCE. It's still just memory. All you
-> need for containment already exists: rlimits, OOM killer, cgroup
-> memory controls.
-
-Why does the user need to care about compression space again?
-
-> By making this a user-visible virtual swap device, you're sending
-> users down the wrong path. You're asking them to set a new limit on a
-> resource that's already limited by other means. You're framing the
-> question as conventional swap which behaves completely differently.
-
-The user cares how much memory it can save and what performance price
-to pay for it.
-Why does the user need to care about compression space again? We've
-used zswap/ZRAM and other swap mechanisms for a long time without ever
-hearing about "compression space". Why now?
-
-Again what exactly does compression space do that can't be explained
-by external metrics e.g. memory saved and the performance penalty on
-access?
-
-Please help me understand.
-
-Chris
-
->
-> If you ask them "how much swap space", they WILL reference this to
-> available RAM capacity. Maybe half of ram, maybe twice the RAM.
->
-> But when compression space is referenced to RAM, it's trivial to fill
-> it up with zeroed pages or easily compressible data LONG BEFORE the
-> process or container would hit any of its MEMORY limits.
->
-> This creates an artificial resource shortages. It forces a competition
-> where there shouldn't be one. And then you need new controls to manage
-> a competition that doesn't have to exist.
->
-> Like I said before, including compression space (which is memory) in
-> memory.swap.* (which is for disk space) is not going to be acceptable
-> from the cgroup side. We can talk about that if you want.
->
-> But asking the user questions they shouldn't have to answer, or
-> already answered elsewhere, is weak interface design. Allowing, let
-> alone encouraging, answers that create a whole new host of
-> organizational issues is outright bad interface design.
->
-> So if you want to compare implementations, you first have to actually
-> implement the same thing:
->
-> Stop asking user "how large". Let compression space expand towards
-> existing memory limits, such that it doesn't create an awkward and
-> artificial new resource competition.
->
-> Then we can compare implementations.
->
-> If the optimizations still apply under those constraints, great.
->
-> Until then, there is little point in discussing differences that, by
-> your own admission, have little to no impact on real world performance.
->
