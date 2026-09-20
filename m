@@ -1,95 +1,96 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43594350A0F
-	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 04:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E0D320A37
+	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 05:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789878189; cv=pass; b=idxHuW11F6G+w+DH/brd6pf07H8zesZnFaQOJMRNluji/jQOCagE3BC6zKU+2xbjT5ak0nZMfclL76S0zNglUd1ZobsT5HQ2XQdDFCRQOIwSrnl8D7isfjK4HidtYBlDsldveBkQ/3Q3luL60SOR1C0ZG80z4BZ0ishWf8PLw+0=
+	t=1789880876; cv=pass; b=lxsTtgtVTK9F+8oCv2m9Nj2hwDh3n+RbK0NGtnaqO33qrlRYmNgFNg/YwH3KqtlCNJjjOKFvBKm8xbNWvY925p/S5guVwbuoJbX1/KzQqrvYR+LN0aCLWjOjEV/ja0/lBqEYXwPEsMb54N25f4jJOfKi+STpVWPHWChZaw8BgmI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789878189; c=relaxed/simple;
-	bh=AA68aMrswykmX+faf9hL7AMVgYZ0rqnpXfsUi4nLrBM=;
+	s=arc-20240116; t=1789880876; c=relaxed/simple;
+	bh=QaJj5JYhkBPuDLPQR/gb1zAbQaSADrcpJNx0ES+yagQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IjnER5RMmUFKrgfF0T38CX+nm3+t6U34RSzID86FAr6+1lJvAL49dIZIP5NN5RneMcCWp8An3NYpHzOzqjc0ne4rkaEMy5tf2DQzn5BRNIFVhigD5bb6vLNRD5Evoknyxzy5Fx0ff64uV+33+huJcYsdMJ8JIkQR1m6q0UXgejI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W/dl1CPN; arc=pass smtp.client-ip=74.125.227.140
+	 To:Cc:Content-Type; b=Z3QW6bdSaV4gOBrjoLoh1nC+NYsRuHX7KWAqhdZF/uZ5yw0St196dQ8ITVbXj93/0VukV8Ruyje93M4/B5YogWX74khnuMxccwB6WB+E6uP+PZDSfdtamfWv4f/E2Wq5jdu46tEZt3OlLf4i+OX2vnqAxONXd6Zgm82gTkiSVk8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MSQZ/ahk; arc=pass smtp.client-ip=74.125.228.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W/dl1CPN"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747ec6185so12038165ad.0
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 21:23:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789878188; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MSQZ/ahk"
+Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc50b9e8a45so1106580a12.2
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 22:07:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789880864; cv=none;
         d=google.com; s=arc-20260327;
-        b=sGiWAZ+ItmiEnWR2QJz6NoRqzjaH8bAmIA+SorFXsrWIEWce2Z5fQ4tZE/RdcdwK8i
-         b1ulJuQQ0sLsm6UFh4ojPttE3OBGkg7PpvrW/V5ltCTL8SRDseVduSM3DATzypqW1rzZ
-         8WEaqCd/r48bS+l7CBgHEjJVgR4EU/4gKFcD7RewkW+NyxZj6O0BMaSqH80N0SW0sdM9
-         BR1aSI2WWbeV40szSJNpyG1sHP8LUOiz+auJYHN7ofiLfSNEuXY69pLpqFAnNaIlbHCI
-         cbid0VxfaWsSk6KopqmWSEa6hMRDTJm2FcASpHuLluhEZJt1/Vz4MoOI2dubXZt0E0We
-         rgFA==
+        b=Ia7ym/mCO7P0pOMRsCEnge9+jSkohMSAuxTBwSD+LfQCNbtI8Ep/VAWhzK5YAiPue8
+         43QVs7ZNj8NvK3Zmvi+VIXKyPdvdzYITtQHvQnIJmaGSXnSx6tI6pijZqisxxLeZuYw+
+         vkJKx9OHSunQ6CiGmZqS7JreXDX0EcmJ4zOqf6P6S3SsNyTu7YFdlBroH3XFbGbn7U2n
+         mHVFMJJ9tZKPByH+CYzsKvMCS2gAJALOmEaoXXNUq9HYn/MpWikYPZjerCASlMU8y+Nj
+         +Vz842+JbHhNacx/7MwqLBI6vcVuXWngyqGvLnu1mUggbzUtFE96TMPqOg/BlLyHxPM9
+         7CMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=CAqXU4QnYGB1y+rl3e3B29iEETQt0S+AEjq312CuHLI=;
-        fh=G1u+Q+WcbG3KGtgslrdzJAZohSxexbEKAjIz0HlW9wQ=;
-        b=VKThl/VnhrBsTrJmwT/U7ywEiD24ndKbe/wjAzXjszHd7kysBw/k8PUiNKXqf20gLN
-         kPXLd1O7YVzwIReu18Sgl/t7oBbGR7H2NRuQVikL3gXKWRqQBEtkHMbBK8s9EajSk2N+
-         NMxVDtwD0xxpEFQ2Ls0+rgXv1NYiVVsEo3CfmXQHndMJdquiAOUz4Fa1GXYA56LASAXw
-         G0RUf+LvPrEI31cNKUfNaP+wariSYs1G/KeV2hpYCOU+uNR6V9Fsg2yITmf2P6Jy9DUd
-         OWSpj8nUtY/EmmD8YYzvH8PWSZ4aH2FxuOQ3TyjsyhAuv27WJMgqrRvOXmT6JssJu/pd
-         GZPg==;
+        bh=U6C9kt+gHXWdJyXge6Vk6ZyaRdfBxhReV3mO2TSEXmQ=;
+        fh=4W+Qz6y/RDpAfiX820dsis9wonIxyHGpZhXG/wceQPY=;
+        b=GkbYMSHhltENypxWVCQQpeTEVoaQKb953wbB4Tr0NUGQvxZyXBGTFPDYaJfhHGDNM+
+         ankh4y0gwH3jNZMSLNVpPmb7rILho5hDPhj0d2XZ9brd/QXK5I59/+JcDAU+Ma0SzVI3
+         u+S47N9DT4cMuZZ8ADstwUCPCM+09wRPymObVjoaTskH3zbJFeVKKNp7wVyNEZNMRfbQ
+         guPqESt0agR5Gie8U1YCSmbp5FOVLOWwh84lIQ2ef9prsd79oODMyDVJoR/KKPOh+IYU
+         lfwA1YKnMX7WpwBdDdxMC99lzrrZe/gZ/I7ntyZsabTy+/fhAyF/3cWOVsr/PrILp3XO
+         0f7A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789878188; x=1790482988; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789880864; x=1790485664; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=CAqXU4QnYGB1y+rl3e3B29iEETQt0S+AEjq312CuHLI=;
-        b=W/dl1CPNEowRGf3nXAA45lGXiL+KQ2ugCE38ruHDEMLcYVVQPpQzXcuqDFD8LwpYqx
-         L7TJKTCvDRnzusRUkblgZHoeNDscG1CNN+4ijSWJ40OrId1h9TLKeSiUaeqYYHaXDiw8
-         u7mlSY14AH4OoiLQJBnDOTFbVQdHhBHsplvfA77JVicBXc6JJj9vClQ2yExMSjRMBGcN
-         FTcSmii9uep5OxF9os7/m4eCF7ADQ9QHBNTEoJ6gVCr3srDQuooKYyEl1KkzT6Q0ZFSj
-         IfJnDmZnJa4qkS8kfB936vR/JVVUyf1KZPBFy5ZW54JA3H+kEInMT1pEHhuQTQqXnL9U
-         CmFQ==
+        bh=U6C9kt+gHXWdJyXge6Vk6ZyaRdfBxhReV3mO2TSEXmQ=;
+        b=MSQZ/ahkGI5PglAj1K/ePpDthkOJrViQ+iJOVBl6GHMHbqclXJSXT5ReoXihqau1Tu
+         ffuzm6gPjU5kKXxDZUn5lgG7QOEk2kHMA3EPye36YX60uGhTGSzMVYyA079TDqBAR1QT
+         E+DIg3kV2BapN0v5j9iET2O/ZdZBdgis+J5vIls8pAZk/y1irjdprfxFDLOHcWSuJRSn
+         +rK9Tq6edV1AbFAtKat1s1INg/nWSMOoBkLn71u0198ZNk6YmdpqCa7Ud8quwAZP3gSk
+         cjsrEGqwFoU0grOCUrirq6smHlVBZLVPT6c9tPWQR5PqVDT7aZwFHjm4TOpCOLqxVDDT
+         U5Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789878188; x=1790482988;
+        d=1e100.net; s=20260707; t=1789880864; x=1790485664;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CAqXU4QnYGB1y+rl3e3B29iEETQt0S+AEjq312CuHLI=;
-        b=BfT0U/rra1ejoePidHTBbgy10vgQr4BZ7MkM+/1B7ZlYZIETVuqVDe15iCTDQa04eb
-         P0po2MkkSNBWVMs85ZQZPIgE47oHhzm8LIDOZbWTpTP0ystwUyEZdxoRXGkntTs3m0gG
-         5kFAIQi1owaKE8q8XsOE7cWphMvzsGoDnUdsPQx9kX721REMbfegdLRmyoOcz3m8xWdE
-         FHkzKhrHEttTgZpsC0s9/7SXw2w5J/4ZvfTw9i3BfRGkwjDgtJZEBAHOLTZTrCuanTE7
-         MeP37QAS952/whaDiH55Z+L20/g5XhvId1oG88PoBgOfcVKjBuFGSEGO7WVxOhO0+BTe
-         HV0A==
-X-Forwarded-Encrypted: i=1; AKwUvBzu0+G4GKuILGcu/k23qg691feNKsySz8f00lNFl9WEoHmk7i1Uz6kZdCM03Srqb8z9/itsPQhZguI=@vger.kernel.org
-X-Gm-Message-State: AFuF++lw2Ls2TuqjEiHjYlD5nH5U26YxeAOAM1tj2/Uy50dCoxcVspeV
-	j1s+IT4QGl/8n6F20e9Nh8aY5zFBwndO4BPcl2aFKI4LTEC+KC9/GUEhYwLFp2ScV5TVWMgfYCZ
-	RKaEhs9g+7KYkGxowiBXibKegD9cPElA=
-X-Gm-Gg: AYBFou1HfQfKmf/nXpVJbwX2/NHJ+65KkyOOBiHlux418js/S9yligG/JZkxwHwbSBK
-	xZlDnq2xnm1aqWnkt3iVUaqDoUNSMsXJI0a7+IwjDrv6kP0MDTQAGjY9lmfTFjxHo0xLJfBclzv
-	lzeDsIEUk7cWmGtnZplqwnty3dMjaD2vMyDgp9cxutA2ubrAUc/vyPui7TRJSHzF/gyOd46n4GS
-	ixyxwk8UgxJyeFfmM3cxdqA+HfTTZvB7Gi8EL2W3ylv+cJVEotc7qnJmDPdJK3xDBpro2dcvEWB
-	drI7V1SRG+ySX0VLqtqwpdRbCjXd1XYNNe5mqiK90GkZiUv+6jI9BuiObOrPyR18TkI8uf0tjUt
-	0Q1tEYVP1qu+SsXEc6GGotrsxWv6GYXWgL6a+lOOP
-X-Received: by 2002:a17:903:2349:b0:2dd:c100:424e with SMTP id
- d9443c01a7336-2ddc10044e2mr49362715ad.50.1789878187454; Sat, 19 Sep 2026
- 21:23:07 -0700 (PDT)
+        bh=U6C9kt+gHXWdJyXge6Vk6ZyaRdfBxhReV3mO2TSEXmQ=;
+        b=2gtgzMxVDC1kYMo8MrwE6F4RihX9i9Tyh6PEvkmhuVGBPYioEMep46vTt26yvf8yYd
+         D3A3Hrt601Pkx9yqcTCDsWIxByZmqk8O7cdgBS1WmBS8H7gR5yH3nB+4MDuEv+5bjd4N
+         qYVm4+b+EEC05vbvN0CvP3G60K0SC5y10VvZv2f7cR3LSEQtMJ1u4jqbvQQ/PYuLF9tA
+         C/CfGMnz0Fqi+dPFL2cShDk6TPLcYDrWd03zkqnikY5DkBkVnSQnityRt9fRav8Z3IOG
+         KK4w45Evp9pUXERnOdqhLlc6SsiO6ZVayS6mi+bE1/RtqSbZroAr5o6TAHoPm1jcR8/w
+         urgQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwfylR+FN8NF8NNR+NSp1Ow5jrBMrbLJn/NiexGAjfYxKmDQsQomC6yZY+WwOI4Ji1NqBRWlTFT/JM=@vger.kernel.org
+X-Gm-Message-State: AFuF++l3em+1MYWn7xV9vyXz14Gy58T8sdEZZVh7JOS0eTwzWWe6okGz
+	0hv34Vuc/dOK42OS7tcIOWMPKlTMDmRTjNTOM2qEPVv4nOrp0L9FsTNV+HPhN3W5dtpuGZWHnMu
+	Pyw+isUkWlE00/1rtRu7FLioIVRqCgsE=
+X-Gm-Gg: AYBFou0a5rgknR+Y4x1JfUIs0aexLyUUOxEyhSYUkVcEMU59sfB+7/lTszJ4ChA95kY
+	CUpNiYLwmqS6rHeed0mGO3/goSN/aJ127/SLugaN66p2EHpAuZX3WXNMGFS9RZZe+tLuLeMK/LE
+	sCG4CoZJdW1k1ElQGGfU2NFLk0CzcjZ4v0nekEoMEQy5snGFwzAQlm5QfW9iQCFidnJXeYWrejQ
+	Q/fH5HT/nsMe7X+WKNrMuOmGbCJhpPKNQzzCqZQNO3N7pY7M1Gl3yqFN4VVf5H1u7mtzRTbz3sj
+	oqJkLJW/FFInzyeGyrvFHxStZI7XfysXfjjYhLB+u+qhGkHZF/Iod89Fqx1kXFWMKo0Fjcmy1v6
+	3j6SuBmD/JRWTTDdUQyt0kpXE5KEg+XCy7SiU6A66
+X-Received: by 2002:a05:6a21:6816:b0:3c4:2b8b:e88f with SMTP id
+ adf61e73a8af0-3dd8c2aa039mr10246601637.5.1789880863717; Sat, 19 Sep 2026
+ 22:07:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1789753020.git.kimjinseob88@gmail.com> <20260920030512.50f4f988@jic23-hlaptop>
-In-Reply-To: <20260920030512.50f4f988@jic23-hlaptop>
+References: <cover.1789753020.git.kimjinseob88@gmail.com> <c88d0ced0bff5cf29e765cd2c280ce3c10c50988.1789753020.git.kimjinseob88@gmail.com>
+ <20260920030352.62526119@jic23-hlaptop> <CALMSewLa+UF6khnZDNC+kPJz7EXx9PtCud75UE28_4sZb6CSsg@mail.gmail.com>
+In-Reply-To: <CALMSewLa+UF6khnZDNC+kPJz7EXx9PtCud75UE28_4sZb6CSsg@mail.gmail.com>
 From: Kim Jinseob <kimjinseob88@gmail.com>
-Date: Sun, 20 Sep 2026 13:22:58 +0900
-X-Gm-Features: AcwNN1VuWoGeMmwFK8SO3q72J6yDJn0kccWHOWzv4mbLn2uAKQlLLK8lfaxPlsY
-Message-ID: <CALMSewJ4ATy9eZ_GrHs-+Q+9yosiwhu3rtQUfxAbzOmR4R9cNQ@mail.gmail.com>
-Subject: Re: [PATCH v10 0/8] iio: add Open Sensor Fusion UART support
+Date: Sun, 20 Sep 2026 14:07:34 +0900
+X-Gm-Features: AcwNN1XuZeiKlusDu9rx3lFcCwS2fu8tJ90eGFmwQpKEH98FniqZCZx2Y61iD3k
+Message-ID: <CALMSewLE7OOc1jEUnpd82axp6DZKBxZW5bBMLa03EfjzFuaFdw@mail.gmail.com>
+Subject: Re: [PATCH v10 6/8] iio: osf: add IIO devices from capability reports
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
 	andriy.shevchenko@intel.com, linux-kernel@vger.kernel.org, 
@@ -100,145 +101,433 @@ Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-> Any reason not to push it one level deeper and put it under IMUs?
-> I'm not that keen to grow the top level menu for this as all the
-> other entries are about type of sensor, not one specific sensor.
+> Using an extra lock is one solution I suppose to the risk
+> of this racing with the buffer tear down and the problems
+> around active_scan_mask being freed. Could you use
+>
+>     if (iio_device_try_claim_buffer_mode(indio_dev))
+>
+> and later a release on that to achieve the same result?
 
-Yes, I agree that adding an Open Sensor Fusion entry at the IIO top
-level is not ideal.
+I looked into this against the current IIO core and tested the relevant pat=
+hs.
 
-My hesitation with putting it under imu/ is that Open Sensor Fusion is
-not intended to be an IMU. The current Linux profile exposes
-accelerometer, gyroscope, magnetometer and temperature data, but the
-hardware/firmware architecture is a general sensor hub and fusion
-device. Other OSF hardware variants can aggregate sources such as
-pressure sensors, GNSS/RTK-GNSS, motor encoders and LiDAR in addition
-to inertial sensors.
+iio_device_try_claim_buffer_mode() does hold the IIO mode lock, and
+iio_update_buffers() takes the same lock, so it would serialize normal
+buffer reconfiguration.
 
-Would drivers/iio/common/opensensorfusion/ be a better fit?
+However, the unregister path does not hold that mode lock while
+disabling/deactivating the buffers, and that path can free
+active_scan_mask. Because the OSF receive path can still have an
+admitted buffer push at that point, the mode claim alone does not
+appear to provide the same lifetime guarantee as the existing private
+lock.
 
-There are already sensor-hub/common implementations such as the
-ChromeOS EC sensors and Samsung SSP sensor hub under
-drivers/iio/common/.
-
-That would avoid growing the IIO top-level menu without classifying
-the device itself as an IMU.
+I therefore kept the private lock for now. I also reran the
+disable/unregister race coverage with KASAN and lockdep enabled; those
+tests pass without diagnostics.
 
 Thanks,
+
 Jinseob
 
-2026=EB=85=84 9=EC=9B=94 20=EC=9D=BC (=EC=9D=BC) =EC=98=A4=EC=A0=84 11:05, =
-Jonathan Cameron <jic23@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+2026=EB=85=84 9=EC=9B=94 20=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 1:20, K=
+im Jinseob <kimjinseob88@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> On Sat, 19 Sep 2026 03:24:38 +0900
-> Jinseob Kim <kimjinseob88@gmail.com> wrote:
+> > Using an extra lock is one solution I suppose to the risk
+> > of this racing with the buffer tear down and the problems
+> > around active_scan_mask being freed. Could you use
+> >
+> >     if (iio_device_try_claim_buffer_mode(indio_dev))
+> >
+> > and later a release on that to achieve the same result?
+> >
+> > Only the ade9000 is doing similar at the moment so would need
+> > some testing to make sure no lock inversions occur in general
+> > but given you don't take any other locks in here it should be fine.
 >
-> > Specification status: OSF-D2H 0.0 spec-1 has completed project technica=
-l
-> > stability review, has been adopted by the project owner, and is publish=
-ed
-> > as a fixed specification.
+> I think that should be a better fit here. I'll test replacing the
+> private buffer lock and active flag with
+> iio_device_try_claim_buffer_mode() , iio_device_release_buffer_mode(),
+> including the existing buffer disable/unregister race coverage and
+> lockdep checks.
+>
+> If that confirms the expected serialization against buffer
+> reconfiguration, I'll use that approach in the next revision.
+>
+> Thanks,
+>
+> Jinseob
+>
+> 2026=EB=85=84 9=EC=9B=94 20=EC=9D=BC (=EC=9D=BC) =EC=98=A4=EC=A0=84 11:03=
+, Jonathan Cameron <jic23@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 > >
-> > Canonical specification:
-> > https://github.com/opensensorfusion/opensensorfusion-protocol/blob/ca9c=
-dea1ae550c2b4d6f29f87877adae99470744/spec/osf-d2h-0.0.md
+> > On Sat, 19 Sep 2026 03:24:44 +0900
+> > Jinseob Kim <kimjinseob88@gmail.com> wrote:
 > >
-> > Errata process:
-> > https://github.com/opensensorfusion/opensensorfusion-protocol/blob/ca9c=
-dea1ae550c2b4d6f29f87877adae99470744/errata/README.md
+> > > Register IIO devices from supported capability descriptors and expose
+> > > signed raw samples, descriptor scales and software buffers. Keep earl=
+y
+> > > capabilities owned by the core until UART and supply setup is complet=
+e,
+> > > and unregister children after the receive producer has stopped.
+> > >
+> > > Validate nonzero descriptor scales and sample/descriptor equality, le=
+ave
+> > > discovery open after empty or unsupported inventories, and compare
+> > > repeated descriptors independently of order. Fault a bound session if=
+ a
+> > > descriptor changes meaning, gating cache and buffer publication toget=
+her.
+> > >
+> > > Add initialized active-scan packing and buffer producer quiescence. T=
+he
+> > > production implementation is now complete; subsequent patches only ad=
+d
+> > > the existing core and IIO KUnit suites and their build wiring.
 > >
-> > Current adoption/publication record:
-> > https://github.com/opensensorfusion/opensensorfusion-protocol/blob/0cab=
-ccf63ac01d0eb82dd9882739ff58eed4a76c/reviews/publication-record-20260918.md
+> > No need to talk about what other patches do and that a series is functi=
+onally
+> > complete in a patch. If you want to do it, under the --- so it doesn't =
+end
+> > up in the git log.
 > >
-> > The specification was frozen before adoption/publication, so its embedd=
-ed
-> > status snapshot is intentionally historical. The dated publication reco=
-rd
-> > above establishes the current adopted/public state. This is project rev=
-iew
-> > and adoption, not an external maintainer approval.
+> > >
+> > > Assisted-by: LLM
+> > > Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
 > >
-> > This series adds the Open Sensor Fusion UART receive path and IIO devic=
-es
-> > discovered from capability reports. It exposes accelerometer, gyroscope=
+> > A few things inline.  Biggest one is a question (I'm not sure) on
+> > whether you can use a claim on buffered mode (which will hold it in tha=
+t
+> > if it succeeds until released) is sufficient to replace the extra lock =
+you
+> > have to block that transition.
+> >
+> > Thanks,
+> >
+> > Jonathan
+> >
+> >
+> >
+> > > diff --git a/drivers/iio/opensensorfusion/osf_iio.c b/drivers/iio/ope=
+nsensorfusion/osf_iio.c
+> > > new file mode 100644
+> > > index 000000000000..f4011b8fae14
+> > > --- /dev/null
+> > > +++ b/drivers/iio/opensensorfusion/osf_iio.c
+> > ...
+> >
+> > > +
+> > > +struct osf_iio_scan_3axis {
+> > > +     s32 values[3];
+> > > +     u32 padding;
+> > No needed unless you explicitly write into padding for some reason.
+> > C rules add it anyway and then we don't need to make sure it remains
+> > correct if this structure changes in future.
+> > > +     aligned_s64 timestamp;
+> > > +};
+> > > +
+> > > +struct osf_iio_scan_1axis {
+> > > +     s32 value;
+> > > +     u32 padding;
+> > As above, unneeded.
+> > > +     aligned_s64 timestamp;
+> > > +};
+> >
+> > Given I think these are only used in one place, moving them to there wo=
+uld
+> > avoid need for named structure types.
+> >
+> > > +
+> > > +#define OSF_MOD_CHAN(_type, _mod, _idx)                             =
+ \
+> > > +     {                                                              =
+ \
+> > > +             .type =3D (_type),                                     =
+   \
+> > > +             .modified =3D 1,                                       =
+   \
+> > > +             .channel2 =3D (_mod),                                  =
+   \
+> > > +             .info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW),        =
+   \
+> > > +             .info_mask_shared_by_type =3D BIT(IIO_CHAN_INFO_SCALE),=
+   \
+> > > +             .scan_index =3D (_idx),                                =
+   \
+> > > +             .scan_type =3D {                                       =
+   \
+> > > +                     .sign =3D 's',                                 =
+   \
+> > > +                     .realbits =3D 32,                              =
+   \
+> > > +                     .storagebits =3D 32,                           =
+   \
+> > > +                     .endianness =3D IIO_CPU,                       =
+   \
+> > > +             },                                                     =
+ \
+> > > +     }
+> > > +
+> > > +#define OSF_CHAN(_type, _idx)                                       =
+ \
+> >
+> > Given this is not much used, you could use the IIO_NO_MOD modifier as a=
+ gate
+> > on setting .modified =3D (_mod !=3D IIO_NO_MOD) ? 1 : 0,
+> > and have just one macro.
+> >
+> > > +     {                                                              =
+ \
+> > > +             .type =3D (_type),                                     =
+   \
+> > > +             .info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW),        =
+   \
+> > > +             .info_mask_shared_by_type =3D BIT(IIO_CHAN_INFO_SCALE),=
+   \
+> > > +             .scan_index =3D (_idx),                                =
+   \
+> > > +             .scan_type =3D {                                       =
+   \
+> > > +                     .sign =3D 's',                                 =
+   \
+> > > +                     .realbits =3D 32,                              =
+   \
+> > > +                     .storagebits =3D 32,                           =
+   \
+> > > +                     .endianness =3D IIO_CPU,                       =
+   \
+> > > +             },                                                     =
+ \
+> > > +     }
+> > > +
+> > > +static const struct iio_chan_spec osf_accel_channels[] =3D {
+> > > +     OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_X, 0),
+> > > +     OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_Y, 1),
+> > > +     OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_Z, 2),
+> > > +     IIO_CHAN_SOFT_TIMESTAMP(3),
+> > > +};
+> > > +
+> > > +static const struct iio_chan_spec osf_gyro_channels[] =3D {
+> > > +     OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_X, 0),
+> > > +     OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_Y, 1),
+> > > +     OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_Z, 2),
+> > > +     IIO_CHAN_SOFT_TIMESTAMP(3),
+> > > +};
+> > > +
+> > > +static const struct iio_chan_spec osf_mag_channels[] =3D {
+> > > +     OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_X, 0),
+> > > +     OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_Y, 1),
+> > > +     OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_Z, 2),
+> > > +     IIO_CHAN_SOFT_TIMESTAMP(3),
+> > > +};
+> > > +
+> > > +static const struct iio_chan_spec osf_temp_channels[] =3D {
+> > > +     OSF_CHAN(IIO_TEMP, 0),
+> > > +     IIO_CHAN_SOFT_TIMESTAMP(1),
+> > > +};
+> > > +
+> > > +static const struct osf_iio_sensor_spec osf_iio_sensor_specs[] =3D {
+> > > +     {
+> > > +             .sensor_type =3D OSF_SENSOR_ACCELEROMETER,
+> > > +             .channel_count =3D 3,
+> > > +             .name =3D "osf-accel",
+> > > +             .channels =3D osf_accel_channels,
+> > > +             .num_channels =3D ARRAY_SIZE(osf_accel_channels),
+> > > +     },
+> > > +     {
+> > > +             .sensor_type =3D OSF_SENSOR_GYROSCOPE,
+> > > +             .channel_count =3D 3,
+> > > +             .name =3D "osf-gyro",
+> > > +             .channels =3D osf_gyro_channels,
+> > > +             .num_channels =3D ARRAY_SIZE(osf_gyro_channels),
+> > > +     },
+> > > +     {
+> > > +             .sensor_type =3D OSF_SENSOR_MAGNETOMETER,
+> > > +             .channel_count =3D 3,
+> > > +             .name =3D "osf-magn",
+> > > +             .channels =3D osf_mag_channels,
+> > > +             .num_channels =3D ARRAY_SIZE(osf_mag_channels),
+> > > +     },
+> > > +     {
+> > > +             .sensor_type =3D OSF_SENSOR_TEMPERATURE,
+> > > +             .channel_count =3D 1,
+> > > +             .name =3D "osf-temp",
+> > > +             .channels =3D osf_temp_channels,
+> > > +             .num_channels =3D ARRAY_SIZE(osf_temp_channels),
+> > > +     },
+> > > +};
+> > > +
+> > > +static const struct osf_iio_sensor_spec *
+> > > +osf_iio_find_sensor_spec(u16 sensor_type, u16 channel_count)
+> > > +{
+> > > +     for (unsigned int i =3D 0; i < ARRAY_SIZE(osf_iio_sensor_specs)=
+; i++) {
+> > > +             if (osf_iio_sensor_specs[i].sensor_type =3D=3D sensor_t=
+ype &&
+> > > +                 osf_iio_sensor_specs[i].channel_count =3D=3D channe=
+l_count)
+> > > +                     return &osf_iio_sensor_specs[i];
+> > > +     }
+> > > +
+> > > +     return NULL;
+> > > +}
+> > > +
+> > > +bool osf_iio_sensor_supported(u16 sensor_type, u16 channel_count)
+> > > +{
+> > > +     if (osf_iio_find_sensor_spec(sensor_type, channel_count))
+> > > +             return true;
+> > > +
+> > > +     return false
+> >
+> >         return osf_iio_find_sensor_spec(sensor_type, channel_count) !=
+=3D NULL;
+> >
+> > > +}
+> >
+> > > +
+> > > +static int osf_iio_buffer_postenable(struct iio_dev *indio_dev)
+> > > +{
+> > > +     struct osf_iio_state *state =3D iio_priv(indio_dev);
+> > > +
+> > > +     guard(mutex)(&state->buffer_lock);
+> >
+> > These transistions are already guarded by the core, so see the question=
+ later
+> > on whether you can just claim buffered mode in the data handler
+> > to avoid the need for this. That might not work but the way you did
+> > this got me thinking about a more general solution to the problem.
+> >
+> > > +     state->buffer_active =3D true;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int osf_iio_buffer_predisable(struct iio_dev *indio_dev)
+> > > +{
+> > > +     struct osf_iio_state *state =3D iio_priv(indio_dev);
+> > > +
+> > > +     /* Wait for the current push before the IIO core changes its bu=
+ffers. */
+> > > +     guard(mutex)(&state->buffer_lock);
+> > > +     state->buffer_active =3D false;
+> > > +
+> > > +     return 0;
+> > > +}
+> >
+> >
+> > > +
+> > > +int osf_iio_push_sample(struct iio_dev *indio_dev, const s32 *values=
 ,
-> > magnetometer and temperature data through RAW/SCALE and buffered scans.
-> > Device Tree describes the sensor hub; its individual streams are discov=
-ered
-> > at runtime.
+> > > +                     u16 channel_count)
+> > > +{
+> > > +     struct osf_iio_state *state =3D iio_priv(indio_dev);
+> > > +     s64 timestamp;
+> > > +
+> > > +     if (channel_count !=3D state->spec->channel_count)
+> > > +             return -EPROTO;
+> > > +
+> > > +     guard(mutex)(&state->buffer_lock);
 > >
-> > The receiver validates supported descriptors and sample scales, keeps
-> > discovery open after empty or unsupported initial inventories, and chec=
-ks
-> > repeated inventories before allowing new data to use registered metadat=
-a.
-> > A supported descriptor changing meaning faults the session until an
-> > explicit teardown and rebind. Existing v9 cache, scan-layout and buffer
-> > lifetime fixes are retained.
+> > Using an extra lock is one solution I suppose to the risk
+> > of this racing with the buffer tear down and the problems
+> > around active_scan_mask being freed. Could you use
 > >
-> > Based on Jonathan Cameron's IIO testing branch:
-> > 69fa76f0af3414cc189c3b0b807cb59e327ecc00
+> >         if (iio_device_try_claim_buffer_mode(indio_dev))
+> > and later a release on that to achieve the same result?
 > >
-> > Changes since v9:
-> > - Publish and reference the reviewed/adopted OSF-D2H 0.0 specification,
-> >   errata process and dated publication evidence.
-> > - Tolerate reserved padding, validate descriptor/sample scales, keep
-> >   discovery open after empty/unsupported reports, and compare repeated
-> >   capability reports.
-> > - Fail closed on changed descriptor meaning instead of publishing data
-> >   with stale metadata.
-> > - Add focused KUnit coverage for these lifecycle and validation cases.
-> > - Use managed UART/IIO/power teardown and dev_warn_probe() for the
-> >   controller baud-rate warning, addressing Andy's probe-path feedback.
-> > - Split the former combined UART/core/IIO driver patch into transport/c=
-ore,
-> >   IIO registration, core KUnit, and IIO KUnit patches following review.
-> > - Use validated/unvalidated terminology for framing/CRC results through=
-out
-> >   the stream/core/transport code, tests and diagnostics. CRC detects
-> >   accidental corruption; it does not provide cryptographic authenticati=
-on.
+> > Only the ade9000 is doing similar at the moment so would need
+> > some testing to make sure no lock inversions occur in general
+> > but given you don't take any other locks in here it should be fine.
 > >
-> > Prior validation on the identical source tree:
-> > identical source tree evidence reused; no builds rerun for DCO packagin=
-g.
-> > - All eight intermediate apply/config/relevant builds.
-> > - Independent transport/core and IIO module link/MODPOST.
-> > - GCC/Clang W=3D1 vmlinux and modules.
-> > - GCC and Clang KUnit: core 16 + IIO 2, all 18 pass in each run.
-> > - Core-only intermediate KUnit: all 16 pass.
-> > - ARM64 Image, selected OSF module and Pi4 DTB.
-> > - Targeted DT binding/style and IIO documentation.
 > >
-> > The terminology-only diff was verified mechanically. Wire semantics and
-> > data-path behavior are unchanged; the receive diagnostic key is validat=
-ed=3D.
-> > Hardware testing was not repeated for this terminology revision or this
-> > post-DCO packaging audit; previous hardware evidence remains historical=
-.
+> > > +     if (!state->buffer_active || !iio_buffer_enabled(indio_dev))
+> > > +             return 0;
+> > > +
+> > > +     timestamp =3D iio_get_time_ns(indio_dev);
+> > > +
+> > > +     switch (channel_count) {
+> > > +     case 1: {
+> > > +             struct osf_iio_scan_1axis scan =3D {
+> > > +                     .value =3D values[0],
+> > > +             };
+> > As suggested above, this structure type is only used locally here. So
+> > make the definition local as well.
+> >                 struct {
+> >                         s32 value;
+> >                         aligned_s64 timestamp;
+> >                 } scan =3D { };
 > >
-> > Human DCO is complete. No email has been sent.
+> > > +
+> > > +             return iio_push_to_buffers_with_ts(indio_dev, &scan,
+> > > +                                                sizeof(scan), timest=
+amp);
+> > > +     }
+> > > +     case 3: {
+> > > +             struct osf_iio_scan_3axis scan =3D {
+> > > +                     .values =3D { },
 > >
-> > Jinseob Kim (8):
-> >   dt-bindings: iio: add Open Sensor Fusion device
-> >   Documentation: iio: add Open Sensor Fusion driver overview
-> >   iio: osf: add protocol decoding
-> >   iio: osf: add validated stream parser
-> >   iio: osf: add UART transport and core receive path
-> >   iio: osf: add IIO devices from capability reports
-> >   iio: osf: add core KUnit tests
-> >   iio: osf: add IIO KUnit tests
+> > Setting values doesn't add anything useful as =3D { }
+> > zeros the whole structure (including any holes - they kernel is
+> > built with specific compiler options to ensure that last bit
+> > as it wasn't required in older c specs).
 > >
-> >  .../bindings/iio/opensensorfusion,osf.yaml    |   52 +
-> >  .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
-> >  Documentation/iio/index.rst                   |    1 +
-> >  Documentation/iio/open-sensor-fusion.rst      |   77 ++
-> >  MAINTAINERS                                   |    8 +
-> >  drivers/iio/Kconfig                           |    1 +
-> >  drivers/iio/Makefile                          |    1 +
-> >  drivers/iio/opensensorfusion/Kconfig          |   27 +
-> Any reason not to push it one level deeper and put it under IMUs?
-> I'm not that keen to grow the top level menu for this as all the
-> other entries are about type of sensor, not one specific sensor.
->
+> > > +             };
+> > > +             unsigned int channel, index =3D 0;
+> >
+> > Please split declarations that assign and ones that don't on to separat=
+e lines.
+> > Ends up a little more readable.
+> >                 unsigned int index =3D 0;
+> >                 unsigned int channel;
+> >
+> > > +
+> > > +             /* Pack the active channels; unused storage remains ini=
+tialized. */
+> > > +             for_each_set_bit(channel, indio_dev->active_scan_mask, =
+channel_count)
+> > > +                     scan.values[index++] =3D values[channel];
+> > > +
+> > > +             return iio_push_to_buffers_with_ts(indio_dev, &scan,
+> > > +                                                sizeof(scan), timest=
+amp);
+> > > +     }
+> > > +     default:
+> > > +             return -EPROTO;
+> > > +     }
+> > > +}
+> >
+> > > diff --git a/drivers/iio/opensensorfusion/osf_serdev.c b/drivers/iio/=
+opensensorfusion/osf_serdev.c
+> > > index 8a747c01ff9d..3d5e90d83967 100644
+> > > --- a/drivers/iio/opensensorfusion/osf_serdev.c
+> > > +++ b/drivers/iio/opensensorfusion/osf_serdev.c
+> > > @@ -23,7 +23,7 @@ struct osf_serdev {
+> > >       bool vcc_enabled;
+> > >       struct osf_device osf;
+> > >       struct osf_stream stream;
+> > > -     /* Protects the parser and all RX counters. */
+> > > +     /* Protects the parser, all RX counters, and the registration g=
+ate. */
+> > >       struct mutex rx_lock;
+> >
+> > Just name it 'lock' given it has scope beyond rx.  Do that in earlier p=
+atch
+> > though rather than changing it here.
+> >
+> > >  };
+> >
+> > >
+> > > @@ -139,5 +144,5 @@ static struct serdev_device_driver osf_serdev_dri=
+ver =3D {
+> > >  };
+> > >  module_serdev_device_driver(osf_serdev_driver);
+> > >
+> > > -MODULE_DESCRIPTION("Open Sensor Fusion UART receiver");
+> > > +MODULE_DESCRIPTION("Open Sensor Fusion IIO driver");
+> >
+> > Just have that being slightly missleading in earlier patch to reduce ch=
+urn here.
+> >
+> > >  MODULE_LICENSE("GPL");
+> >
