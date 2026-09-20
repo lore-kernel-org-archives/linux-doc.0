@@ -1,533 +1,373 @@
-Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E0D320A37
-	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 05:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789880876; cv=pass; b=lxsTtgtVTK9F+8oCv2m9Nj2hwDh3n+RbK0NGtnaqO33qrlRYmNgFNg/YwH3KqtlCNJjjOKFvBKm8xbNWvY925p/S5guVwbuoJbX1/KzQqrvYR+LN0aCLWjOjEV/ja0/lBqEYXwPEsMb54N25f4jJOfKi+STpVWPHWChZaw8BgmI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789880876; c=relaxed/simple;
-	bh=QaJj5JYhkBPuDLPQR/gb1zAbQaSADrcpJNx0ES+yagQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z3QW6bdSaV4gOBrjoLoh1nC+NYsRuHX7KWAqhdZF/uZ5yw0St196dQ8ITVbXj93/0VukV8Ruyje93M4/B5YogWX74khnuMxccwB6WB+E6uP+PZDSfdtamfWv4f/E2Wq5jdu46tEZt3OlLf4i+OX2vnqAxONXd6Zgm82gTkiSVk8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MSQZ/ahk; arc=pass smtp.client-ip=74.125.228.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E682D3D9DC8;
+	Sun, 20 Sep 2026 06:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789885411; cv=none; b=Z+tLck/ZUEv+kmei2Ee/xTZWY8WZL0/C7srAmM6rzdG6Dq1636AUJabiU05HwWxFPma2R61VzqSmUx7/keb99ghN504vBkHXrjBIED8GnIP5UfrwyjpoWRakhA04kAl69gIxt3BmuZ6i1Iqo2z7FVSBmbRMxqDj5njQ4wfuJpKk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789885411; c=relaxed/simple;
+	bh=sJO9lQZ4/Q6Mok3iszyshajIU+4BflgauPr7goHmX2g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JH7e7ak0Cvg635rxbvFVKv7iTdysSZ6jaM5EJS0UPom7ESiSu3KznY5queV2/6iyMPx/OomneyDs5/c863iXb1WeFOPRunkIXl5609WMHeh2H9HjRJrdG5ML/9cTzgA34hqa/WQ35TbtF/6ccLiym9Zd7623wFBOYgDSo02Jn90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Xt0J7QVS; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MSQZ/ahk"
-Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc50b9e8a45so1106580a12.2
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 22:07:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789880864; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ia7ym/mCO7P0pOMRsCEnge9+jSkohMSAuxTBwSD+LfQCNbtI8Ep/VAWhzK5YAiPue8
-         43QVs7ZNj8NvK3Zmvi+VIXKyPdvdzYITtQHvQnIJmaGSXnSx6tI6pijZqisxxLeZuYw+
-         vkJKx9OHSunQ6CiGmZqS7JreXDX0EcmJ4zOqf6P6S3SsNyTu7YFdlBroH3XFbGbn7U2n
-         mHVFMJJ9tZKPByH+CYzsKvMCS2gAJALOmEaoXXNUq9HYn/MpWikYPZjerCASlMU8y+Nj
-         +Vz842+JbHhNacx/7MwqLBI6vcVuXWngyqGvLnu1mUggbzUtFE96TMPqOg/BlLyHxPM9
-         7CMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=U6C9kt+gHXWdJyXge6Vk6ZyaRdfBxhReV3mO2TSEXmQ=;
-        fh=4W+Qz6y/RDpAfiX820dsis9wonIxyHGpZhXG/wceQPY=;
-        b=GkbYMSHhltENypxWVCQQpeTEVoaQKb953wbB4Tr0NUGQvxZyXBGTFPDYaJfhHGDNM+
-         ankh4y0gwH3jNZMSLNVpPmb7rILho5hDPhj0d2XZ9brd/QXK5I59/+JcDAU+Ma0SzVI3
-         u+S47N9DT4cMuZZ8ADstwUCPCM+09wRPymObVjoaTskH3zbJFeVKKNp7wVyNEZNMRfbQ
-         guPqESt0agR5Gie8U1YCSmbp5FOVLOWwh84lIQ2ef9prsd79oODMyDVJoR/KKPOh+IYU
-         lfwA1YKnMX7WpwBdDdxMC99lzrrZe/gZ/I7ntyZsabTy+/fhAyF/3cWOVsr/PrILp3XO
-         0f7A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789880864; x=1790485664; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=U6C9kt+gHXWdJyXge6Vk6ZyaRdfBxhReV3mO2TSEXmQ=;
-        b=MSQZ/ahkGI5PglAj1K/ePpDthkOJrViQ+iJOVBl6GHMHbqclXJSXT5ReoXihqau1Tu
-         ffuzm6gPjU5kKXxDZUn5lgG7QOEk2kHMA3EPye36YX60uGhTGSzMVYyA079TDqBAR1QT
-         E+DIg3kV2BapN0v5j9iET2O/ZdZBdgis+J5vIls8pAZk/y1irjdprfxFDLOHcWSuJRSn
-         +rK9Tq6edV1AbFAtKat1s1INg/nWSMOoBkLn71u0198ZNk6YmdpqCa7Ud8quwAZP3gSk
-         cjsrEGqwFoU0grOCUrirq6smHlVBZLVPT6c9tPWQR5PqVDT7aZwFHjm4TOpCOLqxVDDT
-         U5Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789880864; x=1790485664;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=U6C9kt+gHXWdJyXge6Vk6ZyaRdfBxhReV3mO2TSEXmQ=;
-        b=2gtgzMxVDC1kYMo8MrwE6F4RihX9i9Tyh6PEvkmhuVGBPYioEMep46vTt26yvf8yYd
-         D3A3Hrt601Pkx9yqcTCDsWIxByZmqk8O7cdgBS1WmBS8H7gR5yH3nB+4MDuEv+5bjd4N
-         qYVm4+b+EEC05vbvN0CvP3G60K0SC5y10VvZv2f7cR3LSEQtMJ1u4jqbvQQ/PYuLF9tA
-         C/CfGMnz0Fqi+dPFL2cShDk6TPLcYDrWd03zkqnikY5DkBkVnSQnityRt9fRav8Z3IOG
-         KK4w45Evp9pUXERnOdqhLlc6SsiO6ZVayS6mi+bE1/RtqSbZroAr5o6TAHoPm1jcR8/w
-         urgQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwfylR+FN8NF8NNR+NSp1Ow5jrBMrbLJn/NiexGAjfYxKmDQsQomC6yZY+WwOI4Ji1NqBRWlTFT/JM=@vger.kernel.org
-X-Gm-Message-State: AFuF++l3em+1MYWn7xV9vyXz14Gy58T8sdEZZVh7JOS0eTwzWWe6okGz
-	0hv34Vuc/dOK42OS7tcIOWMPKlTMDmRTjNTOM2qEPVv4nOrp0L9FsTNV+HPhN3W5dtpuGZWHnMu
-	Pyw+isUkWlE00/1rtRu7FLioIVRqCgsE=
-X-Gm-Gg: AYBFou0a5rgknR+Y4x1JfUIs0aexLyUUOxEyhSYUkVcEMU59sfB+7/lTszJ4ChA95kY
-	CUpNiYLwmqS6rHeed0mGO3/goSN/aJ127/SLugaN66p2EHpAuZX3WXNMGFS9RZZe+tLuLeMK/LE
-	sCG4CoZJdW1k1ElQGGfU2NFLk0CzcjZ4v0nekEoMEQy5snGFwzAQlm5QfW9iQCFidnJXeYWrejQ
-	Q/fH5HT/nsMe7X+WKNrMuOmGbCJhpPKNQzzCqZQNO3N7pY7M1Gl3yqFN4VVf5H1u7mtzRTbz3sj
-	oqJkLJW/FFInzyeGyrvFHxStZI7XfysXfjjYhLB+u+qhGkHZF/Iod89Fqx1kXFWMKo0Fjcmy1v6
-	3j6SuBmD/JRWTTDdUQyt0kpXE5KEg+XCy7SiU6A66
-X-Received: by 2002:a05:6a21:6816:b0:3c4:2b8b:e88f with SMTP id
- adf61e73a8af0-3dd8c2aa039mr10246601637.5.1789880863717; Sat, 19 Sep 2026
- 22:07:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Xt0J7QVS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=jD
+	A0153HZVxYP06owGcB219WmufMyyvpQZruDFFuloU=; b=Xt0J7QVSJR6BVddOHd
+	qKdi6J7avDMosbqr+GHNwn6g1lSsPADUilLSjfyoa8WQktSpxIib1VkDpq1EOk6i
+	HVPEiO/E1KUWB9MlXTnch9UQoOTscBLHJPJWhCDAaHLUc/Y8Nh17cLdh9Ff1wMoG
+	Z5klcgJi23SRWCO+CTBeoDoI0=
+Received: from debian.lenovo.com (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wBX5l+oe69q2VvwBg--.62082S2;
+	Sun, 20 Sep 2026 14:22:32 +0800 (CST)
+From: Kean Ren <rh_king@163.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kean Ren <rh_king@163.com>
+Subject: [PATCH 1/1] hwmon: (spd5118) support write protected devices
+Date: Sun, 20 Sep 2026 14:22:24 +0800
+Message-ID: <20260920062230.2437291-1-rh_king@163.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1789753020.git.kimjinseob88@gmail.com> <c88d0ced0bff5cf29e765cd2c280ce3c10c50988.1789753020.git.kimjinseob88@gmail.com>
- <20260920030352.62526119@jic23-hlaptop> <CALMSewLa+UF6khnZDNC+kPJz7EXx9PtCud75UE28_4sZb6CSsg@mail.gmail.com>
-In-Reply-To: <CALMSewLa+UF6khnZDNC+kPJz7EXx9PtCud75UE28_4sZb6CSsg@mail.gmail.com>
-From: Kim Jinseob <kimjinseob88@gmail.com>
-Date: Sun, 20 Sep 2026 14:07:34 +0900
-X-Gm-Features: AcwNN1XuZeiKlusDu9rx3lFcCwS2fu8tJ90eGFmwQpKEH98FniqZCZx2Y61iD3k
-Message-ID: <CALMSewLE7OOc1jEUnpd82axp6DZKBxZW5bBMLa03EfjzFuaFdw@mail.gmail.com>
-Subject: Re: [PATCH v10 6/8] iio: osf: add IIO devices from capability reports
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andriy.shevchenko@intel.com, linux-kernel@vger.kernel.org, 
-	rdunlap@infradead.org, joshua.crofts1@gmail.com, u.kleine-koenig@baylibre.com, 
-	julianbraha@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, devicetree@vger.kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBX5l+oe69q2VvwBg--.62082S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3ur15ZFWxuw1fKFWrZry7Wrg_yoWkZFWfpF
+	WUGFW3trsrtr43u3yDtF4vga45Kr1Iy3yay348K3sYvFn8Kryv9Fy5XFW0vas5Ar93Kay8
+	Cw4DtayUCw4UJrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUrHUfUUUUU=
+X-CM-SenderInfo: 5ukbyxlqj6il2tof0z/xtbC+wmPPmqve6nQUgAA3W
 
-> Using an extra lock is one solution I suppose to the risk
-> of this racing with the buffer tear down and the problems
-> around active_scan_mask being freed. Could you use
->
->     if (iio_device_try_claim_buffer_mode(indio_dev))
->
-> and later a release on that to achieve the same result?
+Some systems do not allow writes to SPD devices. On the i801 SMBus
+controller family this happens when the BIOS sets SPD Write Disable, in
+which case the controller refuses writes to addresses 0x50-0x57; other
+platforms may enforce the same in firmware. There is no way for the driver
+to query this.
 
-I looked into this against the current IIO core and tested the relevant pat=
-hs.
+spd5118 assumes that it can write to the device, which does not hold on
+such systems:
 
-iio_device_try_claim_buffer_mode() does hold the IIO mode lock, and
-iio_update_buffers() takes the same lock, so it would serialize normal
-buffer reconfiguration.
+  - writes to the hwmon attributes always fail with -ENXIO
+  - the temperature sensor disable in spd5118_suspend() fails silently
+  - spd5118_resume() fails in regcache_sync(), and the system reports
 
-However, the unregister path does not hold that mode lock while
-disabling/deactivating the buffers, and that path can free
-active_scan_mask. Because the OSF receive path can still have an
-admitted buffer push at that point, the mode claim alone does not
-appear to provide the same lifetime guarantee as the existing private
-lock.
+  spd5118 0-0050: Failed to write b = 0: -6
+  spd5118 0-0050: PM: failed to resume async: error -6
 
-I therefore kept the private lock for now. I also reran the
-disable/unregister race coverage with KASAN and lockdep enabled; those
-tests pass without diagnostics.
+Register 0xb in that message is the page selector register, which regmap
+writes back from its cache at the end of regcache_sync(). The write of the
+saved configuration register before that fails as well, but the cache code
+does not report that error.
 
-Thanks,
+Detect write protection once at probe time by writing the page selector
+register back with the value just read from it. This is a no-op on a device
+which accepts writes, and it fails if writes are blocked.
 
-Jinseob
+If writes are not possible, run the device read-only: drop the register
+cache so that regcache_sync() cannot attempt any write, skip the writes in
+the suspend and resume callbacks, and make the writable attributes read
+only. Alarm attributes are read only already; stop clearing a latched
+status from them, since that requires a write, and report the condition as
+the device presents it.
 
-2026=EB=85=84 9=EC=9B=94 20=EC=9D=BC (=EC=9D=BC) =EC=98=A4=ED=9B=84 1:20, K=
-im Jinseob <kimjinseob88@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> > Using an extra lock is one solution I suppose to the risk
-> > of this racing with the buffer tear down and the problems
-> > around active_scan_mask being freed. Could you use
-> >
-> >     if (iio_device_try_claim_buffer_mode(indio_dev))
-> >
-> > and later a release on that to achieve the same result?
-> >
-> > Only the ade9000 is doing similar at the moment so would need
-> > some testing to make sure no lock inversions occur in general
-> > but given you don't take any other locks in here it should be fine.
->
-> I think that should be a better fit here. I'll test replacing the
-> private buffer lock and active flag with
-> iio_device_try_claim_buffer_mode() , iio_device_release_buffer_mode(),
-> including the existing buffer disable/unregister race coverage and
-> lockdep checks.
->
-> If that confirms the expected serialization against buffer
-> reconfiguration, I'll use that approach in the next revision.
->
-> Thanks,
->
-> Jinseob
->
-> 2026=EB=85=84 9=EC=9B=94 20=EC=9D=BC (=EC=9D=BC) =EC=98=A4=EC=A0=84 11:03=
-, Jonathan Cameron <jic23@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-> >
-> > On Sat, 19 Sep 2026 03:24:44 +0900
-> > Jinseob Kim <kimjinseob88@gmail.com> wrote:
-> >
-> > > Register IIO devices from supported capability descriptors and expose
-> > > signed raw samples, descriptor scales and software buffers. Keep earl=
-y
-> > > capabilities owned by the core until UART and supply setup is complet=
-e,
-> > > and unregister children after the receive producer has stopped.
-> > >
-> > > Validate nonzero descriptor scales and sample/descriptor equality, le=
-ave
-> > > discovery open after empty or unsupported inventories, and compare
-> > > repeated descriptors independently of order. Fault a bound session if=
- a
-> > > descriptor changes meaning, gating cache and buffer publication toget=
-her.
-> > >
-> > > Add initialized active-scan packing and buffer producer quiescence. T=
-he
-> > > production implementation is now complete; subsequent patches only ad=
-d
-> > > the existing core and IIO KUnit suites and their build wiring.
-> >
-> > No need to talk about what other patches do and that a series is functi=
-onally
-> > complete in a patch. If you want to do it, under the --- so it doesn't =
-end
-> > up in the git log.
-> >
-> > >
-> > > Assisted-by: LLM
-> > > Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
-> >
-> > A few things inline.  Biggest one is a question (I'm not sure) on
-> > whether you can use a claim on buffered mode (which will hold it in tha=
-t
-> > if it succeeds until released) is sufficient to replace the extra lock =
-you
-> > have to block that transition.
-> >
-> > Thanks,
-> >
-> > Jonathan
-> >
-> >
-> >
-> > > diff --git a/drivers/iio/opensensorfusion/osf_iio.c b/drivers/iio/ope=
-nsensorfusion/osf_iio.c
-> > > new file mode 100644
-> > > index 000000000000..f4011b8fae14
-> > > --- /dev/null
-> > > +++ b/drivers/iio/opensensorfusion/osf_iio.c
-> > ...
-> >
-> > > +
-> > > +struct osf_iio_scan_3axis {
-> > > +     s32 values[3];
-> > > +     u32 padding;
-> > No needed unless you explicitly write into padding for some reason.
-> > C rules add it anyway and then we don't need to make sure it remains
-> > correct if this structure changes in future.
-> > > +     aligned_s64 timestamp;
-> > > +};
-> > > +
-> > > +struct osf_iio_scan_1axis {
-> > > +     s32 value;
-> > > +     u32 padding;
-> > As above, unneeded.
-> > > +     aligned_s64 timestamp;
-> > > +};
-> >
-> > Given I think these are only used in one place, moving them to there wo=
-uld
-> > avoid need for named structure types.
-> >
-> > > +
-> > > +#define OSF_MOD_CHAN(_type, _mod, _idx)                             =
- \
-> > > +     {                                                              =
- \
-> > > +             .type =3D (_type),                                     =
-   \
-> > > +             .modified =3D 1,                                       =
-   \
-> > > +             .channel2 =3D (_mod),                                  =
-   \
-> > > +             .info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW),        =
-   \
-> > > +             .info_mask_shared_by_type =3D BIT(IIO_CHAN_INFO_SCALE),=
-   \
-> > > +             .scan_index =3D (_idx),                                =
-   \
-> > > +             .scan_type =3D {                                       =
-   \
-> > > +                     .sign =3D 's',                                 =
-   \
-> > > +                     .realbits =3D 32,                              =
-   \
-> > > +                     .storagebits =3D 32,                           =
-   \
-> > > +                     .endianness =3D IIO_CPU,                       =
-   \
-> > > +             },                                                     =
- \
-> > > +     }
-> > > +
-> > > +#define OSF_CHAN(_type, _idx)                                       =
- \
-> >
-> > Given this is not much used, you could use the IIO_NO_MOD modifier as a=
- gate
-> > on setting .modified =3D (_mod !=3D IIO_NO_MOD) ? 1 : 0,
-> > and have just one macro.
-> >
-> > > +     {                                                              =
- \
-> > > +             .type =3D (_type),                                     =
-   \
-> > > +             .info_mask_separate =3D BIT(IIO_CHAN_INFO_RAW),        =
-   \
-> > > +             .info_mask_shared_by_type =3D BIT(IIO_CHAN_INFO_SCALE),=
-   \
-> > > +             .scan_index =3D (_idx),                                =
-   \
-> > > +             .scan_type =3D {                                       =
-   \
-> > > +                     .sign =3D 's',                                 =
-   \
-> > > +                     .realbits =3D 32,                              =
-   \
-> > > +                     .storagebits =3D 32,                           =
-   \
-> > > +                     .endianness =3D IIO_CPU,                       =
-   \
-> > > +             },                                                     =
- \
-> > > +     }
-> > > +
-> > > +static const struct iio_chan_spec osf_accel_channels[] =3D {
-> > > +     OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_X, 0),
-> > > +     OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_Y, 1),
-> > > +     OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_Z, 2),
-> > > +     IIO_CHAN_SOFT_TIMESTAMP(3),
-> > > +};
-> > > +
-> > > +static const struct iio_chan_spec osf_gyro_channels[] =3D {
-> > > +     OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_X, 0),
-> > > +     OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_Y, 1),
-> > > +     OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_Z, 2),
-> > > +     IIO_CHAN_SOFT_TIMESTAMP(3),
-> > > +};
-> > > +
-> > > +static const struct iio_chan_spec osf_mag_channels[] =3D {
-> > > +     OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_X, 0),
-> > > +     OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_Y, 1),
-> > > +     OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_Z, 2),
-> > > +     IIO_CHAN_SOFT_TIMESTAMP(3),
-> > > +};
-> > > +
-> > > +static const struct iio_chan_spec osf_temp_channels[] =3D {
-> > > +     OSF_CHAN(IIO_TEMP, 0),
-> > > +     IIO_CHAN_SOFT_TIMESTAMP(1),
-> > > +};
-> > > +
-> > > +static const struct osf_iio_sensor_spec osf_iio_sensor_specs[] =3D {
-> > > +     {
-> > > +             .sensor_type =3D OSF_SENSOR_ACCELEROMETER,
-> > > +             .channel_count =3D 3,
-> > > +             .name =3D "osf-accel",
-> > > +             .channels =3D osf_accel_channels,
-> > > +             .num_channels =3D ARRAY_SIZE(osf_accel_channels),
-> > > +     },
-> > > +     {
-> > > +             .sensor_type =3D OSF_SENSOR_GYROSCOPE,
-> > > +             .channel_count =3D 3,
-> > > +             .name =3D "osf-gyro",
-> > > +             .channels =3D osf_gyro_channels,
-> > > +             .num_channels =3D ARRAY_SIZE(osf_gyro_channels),
-> > > +     },
-> > > +     {
-> > > +             .sensor_type =3D OSF_SENSOR_MAGNETOMETER,
-> > > +             .channel_count =3D 3,
-> > > +             .name =3D "osf-magn",
-> > > +             .channels =3D osf_mag_channels,
-> > > +             .num_channels =3D ARRAY_SIZE(osf_mag_channels),
-> > > +     },
-> > > +     {
-> > > +             .sensor_type =3D OSF_SENSOR_TEMPERATURE,
-> > > +             .channel_count =3D 1,
-> > > +             .name =3D "osf-temp",
-> > > +             .channels =3D osf_temp_channels,
-> > > +             .num_channels =3D ARRAY_SIZE(osf_temp_channels),
-> > > +     },
-> > > +};
-> > > +
-> > > +static const struct osf_iio_sensor_spec *
-> > > +osf_iio_find_sensor_spec(u16 sensor_type, u16 channel_count)
-> > > +{
-> > > +     for (unsigned int i =3D 0; i < ARRAY_SIZE(osf_iio_sensor_specs)=
-; i++) {
-> > > +             if (osf_iio_sensor_specs[i].sensor_type =3D=3D sensor_t=
-ype &&
-> > > +                 osf_iio_sensor_specs[i].channel_count =3D=3D channe=
-l_count)
-> > > +                     return &osf_iio_sensor_specs[i];
-> > > +     }
-> > > +
-> > > +     return NULL;
-> > > +}
-> > > +
-> > > +bool osf_iio_sensor_supported(u16 sensor_type, u16 channel_count)
-> > > +{
-> > > +     if (osf_iio_find_sensor_spec(sensor_type, channel_count))
-> > > +             return true;
-> > > +
-> > > +     return false
-> >
-> >         return osf_iio_find_sensor_spec(sensor_type, channel_count) !=
-=3D NULL;
-> >
-> > > +}
-> >
-> > > +
-> > > +static int osf_iio_buffer_postenable(struct iio_dev *indio_dev)
-> > > +{
-> > > +     struct osf_iio_state *state =3D iio_priv(indio_dev);
-> > > +
-> > > +     guard(mutex)(&state->buffer_lock);
-> >
-> > These transistions are already guarded by the core, so see the question=
- later
-> > on whether you can just claim buffered mode in the data handler
-> > to avoid the need for this. That might not work but the way you did
-> > this got me thinking about a more general solution to the problem.
-> >
-> > > +     state->buffer_active =3D true;
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int osf_iio_buffer_predisable(struct iio_dev *indio_dev)
-> > > +{
-> > > +     struct osf_iio_state *state =3D iio_priv(indio_dev);
-> > > +
-> > > +     /* Wait for the current push before the IIO core changes its bu=
-ffers. */
-> > > +     guard(mutex)(&state->buffer_lock);
-> > > +     state->buffer_active =3D false;
-> > > +
-> > > +     return 0;
-> > > +}
-> >
-> >
-> > > +
-> > > +int osf_iio_push_sample(struct iio_dev *indio_dev, const s32 *values=
-,
-> > > +                     u16 channel_count)
-> > > +{
-> > > +     struct osf_iio_state *state =3D iio_priv(indio_dev);
-> > > +     s64 timestamp;
-> > > +
-> > > +     if (channel_count !=3D state->spec->channel_count)
-> > > +             return -EPROTO;
-> > > +
-> > > +     guard(mutex)(&state->buffer_lock);
-> >
-> > Using an extra lock is one solution I suppose to the risk
-> > of this racing with the buffer tear down and the problems
-> > around active_scan_mask being freed. Could you use
-> >
-> >         if (iio_device_try_claim_buffer_mode(indio_dev))
-> > and later a release on that to achieve the same result?
-> >
-> > Only the ade9000 is doing similar at the moment so would need
-> > some testing to make sure no lock inversions occur in general
-> > but given you don't take any other locks in here it should be fine.
-> >
-> >
-> > > +     if (!state->buffer_active || !iio_buffer_enabled(indio_dev))
-> > > +             return 0;
-> > > +
-> > > +     timestamp =3D iio_get_time_ns(indio_dev);
-> > > +
-> > > +     switch (channel_count) {
-> > > +     case 1: {
-> > > +             struct osf_iio_scan_1axis scan =3D {
-> > > +                     .value =3D values[0],
-> > > +             };
-> > As suggested above, this structure type is only used locally here. So
-> > make the definition local as well.
-> >                 struct {
-> >                         s32 value;
-> >                         aligned_s64 timestamp;
-> >                 } scan =3D { };
-> >
-> > > +
-> > > +             return iio_push_to_buffers_with_ts(indio_dev, &scan,
-> > > +                                                sizeof(scan), timest=
-amp);
-> > > +     }
-> > > +     case 3: {
-> > > +             struct osf_iio_scan_3axis scan =3D {
-> > > +                     .values =3D { },
-> >
-> > Setting values doesn't add anything useful as =3D { }
-> > zeros the whole structure (including any holes - they kernel is
-> > built with specific compiler options to ensure that last bit
-> > as it wasn't required in older c specs).
-> >
-> > > +             };
-> > > +             unsigned int channel, index =3D 0;
-> >
-> > Please split declarations that assign and ones that don't on to separat=
-e lines.
-> > Ends up a little more readable.
-> >                 unsigned int index =3D 0;
-> >                 unsigned int channel;
-> >
-> > > +
-> > > +             /* Pack the active channels; unused storage remains ini=
-tialized. */
-> > > +             for_each_set_bit(channel, indio_dev->active_scan_mask, =
-channel_count)
-> > > +                     scan.values[index++] =3D values[channel];
-> > > +
-> > > +             return iio_push_to_buffers_with_ts(indio_dev, &scan,
-> > > +                                                sizeof(scan), timest=
-amp);
-> > > +     }
-> > > +     default:
-> > > +             return -EPROTO;
-> > > +     }
-> > > +}
-> >
-> > > diff --git a/drivers/iio/opensensorfusion/osf_serdev.c b/drivers/iio/=
-opensensorfusion/osf_serdev.c
-> > > index 8a747c01ff9d..3d5e90d83967 100644
-> > > --- a/drivers/iio/opensensorfusion/osf_serdev.c
-> > > +++ b/drivers/iio/opensensorfusion/osf_serdev.c
-> > > @@ -23,7 +23,7 @@ struct osf_serdev {
-> > >       bool vcc_enabled;
-> > >       struct osf_device osf;
-> > >       struct osf_stream stream;
-> > > -     /* Protects the parser and all RX counters. */
-> > > +     /* Protects the parser, all RX counters, and the registration g=
-ate. */
-> > >       struct mutex rx_lock;
-> >
-> > Just name it 'lock' given it has scope beyond rx.  Do that in earlier p=
-atch
-> > though rather than changing it here.
-> >
-> > >  };
-> >
-> > >
-> > > @@ -139,5 +144,5 @@ static struct serdev_device_driver osf_serdev_dri=
-ver =3D {
-> > >  };
-> > >  module_serdev_device_driver(osf_serdev_driver);
-> > >
-> > > -MODULE_DESCRIPTION("Open Sensor Fusion UART receiver");
-> > > +MODULE_DESCRIPTION("Open Sensor Fusion IIO driver");
-> >
-> > Just have that being slightly missleading in earlier patch to reduce ch=
-urn here.
-> >
-> > >  MODULE_LICENSE("GPL");
-> >
+Reading the SPD NVRAM beyond the first page requires switching pages, which
+is itself a write. Restrict the 'eeprom' attribute to the page which can be
+read in that case, instead of returning errors for the accessible part.
+
+The temperature sensor remains fully usable; only its configuration
+becomes read-only. Document that, and leave the shared regmap
+configuration alone by selecting a separate one without a register
+cache.
+
+Signed-off-by: Kean Ren <rh_king@163.com>
+---
+ Documentation/hwmon/spd5118.rst |  10 ++++
+ drivers/hwmon/spd5118.c         | 110 +++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 108 insertions(+), 12 deletions(-)
+
+diff --git a/Documentation/hwmon/spd5118.rst b/Documentation/hwmon/spd5118.rst
+index ef7338f46575..dc5a464372d7 100644
+--- a/Documentation/hwmon/spd5118.rst
++++ b/Documentation/hwmon/spd5118.rst
+@@ -54,6 +54,12 @@ temp1_crit_alarm	Temperature critical alarm
+ Alarm attributes are sticky until read and will be cleared afterwards
+ unless the alarm condition still applies.
+ 
++If the chip cannot be written to, for example because the SMBus controller has
++SPD Write Disable set or because the firmware protects the SPD, the driver runs
++the chip read-only. The writable attributes listed above are read-only then, and
++latched alarm conditions are reported as presented by the chip because clearing
++them requires a write.
++
+ 
+ SPD (Serial Presence Detect) support
+ ------------------------------------
+@@ -61,3 +67,7 @@ SPD (Serial Presence Detect) support
+ The driver also supports reading the SPD NVRAM on SPD5118 compatible chips.
+ SPD data is available from the 'eeprom' binary attribute file attached to the
+ chip's I2C device.
++
++On write protected chips only the first SPD page can be read, because selecting
++another page requires a write. The 'eeprom' attribute is limited to that page in
++this case.
+diff --git a/drivers/hwmon/spd5118.c b/drivers/hwmon/spd5118.c
+index 9724cf70b61d..0f70f28b92f7 100644
+--- a/drivers/hwmon/spd5118.c
++++ b/drivers/hwmon/spd5118.c
+@@ -76,6 +76,7 @@ static const unsigned short normal_i2c[] = {
+ struct spd5118_data {
+ 	struct regmap *regmap;
+ 	struct mutex nvmem_lock;
++	bool write_protected;
+ };
+ 
+ /* hwmon */
+@@ -129,8 +130,9 @@ static int spd5118_read_temp(struct regmap *regmap, u32 attr, long *val)
+ 	return 0;
+ }
+ 
+-static int spd5118_read_alarm(struct regmap *regmap, u32 attr, long *val)
++static int spd5118_read_alarm(struct spd5118_data *data, u32 attr, long *val)
+ {
++	struct regmap *regmap = data->regmap;
+ 	unsigned int mask, regval;
+ 	int err;
+ 
+@@ -155,7 +157,12 @@ static int spd5118_read_alarm(struct regmap *regmap, u32 attr, long *val)
+ 	if (err < 0)
+ 		return err;
+ 	*val = !!(regval & mask);
+-	if (*val)
++	/*
++	 * Clearing a latched alarm condition requires a register write. If the
++	 * device is write protected, leave the status bit alone and report the
++	 * condition as the device presents it.
++	 */
++	if (*val && !data->write_protected)
+ 		return regmap_write(regmap, SPD5118_REG_TEMP_CLR, mask);
+ 	return 0;
+ }
+@@ -175,7 +182,8 @@ static int spd5118_read_enable(struct regmap *regmap, long *val)
+ static int spd5118_read(struct device *dev, enum hwmon_sensor_types type,
+ 			u32 attr, int channel, long *val)
+ {
+-	struct regmap *regmap = dev_get_drvdata(dev);
++	struct spd5118_data *data = dev_get_drvdata(dev);
++	struct regmap *regmap = data->regmap;
+ 
+ 	if (type != hwmon_temp)
+ 		return -EOPNOTSUPP;
+@@ -191,7 +199,7 @@ static int spd5118_read(struct device *dev, enum hwmon_sensor_types type,
+ 	case hwmon_temp_min_alarm:
+ 	case hwmon_temp_crit_alarm:
+ 	case hwmon_temp_lcrit_alarm:
+-		return spd5118_read_alarm(regmap, attr, val);
++		return spd5118_read_alarm(data, attr, val);
+ 	case hwmon_temp_enable:
+ 		return spd5118_read_enable(regmap, val);
+ 	default:
+@@ -257,7 +265,8 @@ static int spd5118_temp_write(struct regmap *regmap, u32 attr, long val)
+ static int spd5118_write(struct device *dev, enum hwmon_sensor_types type,
+ 			 u32 attr, int channel, long val)
+ {
+-	struct regmap *regmap = dev_get_drvdata(dev);
++	struct spd5118_data *data = dev_get_drvdata(dev);
++	struct regmap *regmap = data->regmap;
+ 
+ 	switch (type) {
+ 	case hwmon_temp:
+@@ -270,6 +279,8 @@ static int spd5118_write(struct device *dev, enum hwmon_sensor_types type,
+ static umode_t spd5118_is_visible(const void *_data, enum hwmon_sensor_types type,
+ 				  u32 attr, int channel)
+ {
++	const struct spd5118_data *data = _data;
++
+ 	if (type != hwmon_temp)
+ 		return 0;
+ 
+@@ -281,7 +292,7 @@ static umode_t spd5118_is_visible(const void *_data, enum hwmon_sensor_types typ
+ 	case hwmon_temp_lcrit:
+ 	case hwmon_temp_crit:
+ 	case hwmon_temp_enable:
+-		return 0644;
++		return data->write_protected ? 0444 : 0644;
+ 	case hwmon_temp_min_alarm:
+ 	case hwmon_temp_max_alarm:
+ 	case hwmon_temp_crit_alarm:
+@@ -401,6 +412,14 @@ static int spd5118_nvmem_init(struct device *dev, struct spd5118_data *data)
+ 	};
+ 	struct nvmem_device *nvmem;
+ 
++	/*
++	 * Selecting another SPD page writes the page selector register, which
++	 * fails if the device is write protected, so only the currently
++	 * selected page is readable then. Do not advertise the others.
++	 */
++	if (data->write_protected)
++		nvmem_config.size = SPD5118_PAGE_SIZE;
++
+ 	nvmem = devm_nvmem_register(dev, &nvmem_config);
+ 	return PTR_ERR_OR_ZERO(nvmem);
+ }
+@@ -465,6 +484,24 @@ static const struct regmap_config spd5118_regmap8_config = {
+ 	.num_ranges = ARRAY_SIZE(spd5118_i2c_regmap_range_cfg),
+ };
+ 
++/*
++ * Variant for write protected devices. Since no write can succeed, there is
++ * nothing to cache and nothing to restore on resume; dropping the cache also
++ * keeps regcache_sync() from attempting writes, which would otherwise make the
++ * system fail to resume.
++ */
++static const struct regmap_config spd5118_regmap8_ro_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = 0x7ff,
++	.writeable_reg = spd5118_writeable_reg,
++	.volatile_reg = spd5118_volatile_reg,
++	.cache_type = REGCACHE_NONE,
++
++	.ranges = spd5118_i2c_regmap_range_cfg,
++	.num_ranges = ARRAY_SIZE(spd5118_i2c_regmap_range_cfg),
++};
++
+ /*
+  * SPD5118 2-byte register address format (JESD300-5, Tables 7 & 20):
+  *   Byte 1 (on wire first):  MemReg | BlkAddr[0] | Address[5:0]
+@@ -493,6 +530,15 @@ static int spd5118_suspend(struct device *dev)
+ 	u32 regval;
+ 	int err;
+ 
++	/*
++	 * Disabling the temperature sensor means writing to the device, and
++	 * syncing back the register cache on resume means writing as well.
++	 * Neither is possible if the device is write protected, so leave the
++	 * device alone in that case.
++	 */
++	if (data->write_protected)
++		return 0;
++
+ 	/*
+ 	 * Make sure the configuration register in the regmap cache is current
+ 	 * before bypassing it.
+@@ -517,13 +563,18 @@ static int spd5118_resume(struct device *dev)
+ 	struct spd5118_data *data = dev_get_drvdata(dev);
+ 	struct regmap *regmap = data->regmap;
+ 
++	/* Nothing was changed on suspend, and writes are not possible */
++	if (data->write_protected)
++		return 0;
++
+ 	regcache_cache_only(regmap, false);
+ 	return regcache_sync(regmap);
+ }
+ 
+ static DEFINE_SIMPLE_DEV_PM_OPS(spd5118_pm_ops, spd5118_suspend, spd5118_resume);
+ 
+-static int spd5118_common_probe(struct device *dev, struct regmap *regmap)
++static int spd5118_common_probe(struct device *dev, struct regmap *regmap,
++				bool write_protected)
+ {
+ 	unsigned int capability, revision, vendor, bank;
+ 	struct spd5118_data *data;
+@@ -554,6 +605,7 @@ static int spd5118_common_probe(struct device *dev, struct regmap *regmap)
+ 		return -ENODEV;
+ 
+ 	data->regmap = regmap;
++	data->write_protected = write_protected;
+ 	mutex_init(&data->nvmem_lock);
+ 	dev_set_drvdata(dev, data);
+ 
+@@ -565,7 +617,7 @@ static int spd5118_common_probe(struct device *dev, struct regmap *regmap)
+ 	}
+ 
+ 	hwmon_dev = devm_hwmon_device_register_with_info(dev, "spd5118",
+-							 regmap, &spd5118_chip_info,
++							 data, &spd5118_chip_info,
+ 							 NULL);
+ 	if (IS_ERR(hwmon_dev))
+ 		return PTR_ERR(hwmon_dev);
+@@ -681,21 +733,51 @@ static int spd5118_i2c_init(struct i2c_client *client)
+ 	return 0;
+ }
+ 
++/*
++ * Writes to SPD devices can be blocked, either by the SMBus controller (SPD
++ * Write Disable, as set by the BIOS on many systems) or by firmware. There is
++ * no generic way to query this, so probe for it by writing the page selector
++ * register back with the value just read from it. That is a no-op on a device
++ * which supports writes.
++ */
++static bool spd5118_write_protected(struct i2c_client *client, int mode)
++{
++	int err;
++
++	err = i2c_smbus_write_byte_data(client, SPD5118_REG_I2C_LEGACY_MODE, mode);
++	if (err >= 0)
++		return false;
++
++	dev_info(&client->dev,
++		 "SPD writes are blocked (%d), sensor will be read-only\n", err);
++	return true;
++}
++
+ static int spd5118_i2c_probe(struct i2c_client *client)
+ {
++	const struct regmap_config *config = &spd5118_regmap8_config;
+ 	struct device *dev = &client->dev;
+ 	struct regmap *regmap;
+-	int err;
++	int err, mode;
++	bool write_protected;
+ 
+ 	err = spd5118_i2c_init(client);
+ 	if (err)
+ 		return err;
+ 
+-	regmap = devm_regmap_init_i2c(client, &spd5118_regmap8_config);
++	mode = i2c_smbus_read_byte_data(client, SPD5118_REG_I2C_LEGACY_MODE);
++	if (mode < 0)
++		return mode;
++
++	write_protected = spd5118_write_protected(client, mode);
++	if (write_protected)
++		config = &spd5118_regmap8_ro_config;
++
++	regmap = devm_regmap_init_i2c(client, config);
+ 	if (IS_ERR(regmap))
+ 		return dev_err_probe(dev, PTR_ERR(regmap), "regmap init failed\n");
+ 
+-	return spd5118_common_probe(dev, regmap);
++	return spd5118_common_probe(dev, regmap, write_protected);
+ }
+ 
+ static const struct i2c_device_id spd5118_i2c_id[] = {
+@@ -743,7 +825,11 @@ static int spd5118_i3c_probe(struct i3c_device *i3cdev)
+ 	if (regval[0] != 0x51 || regval[1] != 0x18)
+ 		return -ENODEV;
+ 
+-	return spd5118_common_probe(dev, regmap);
++	/*
++	 * SPD Write Disable is an SMBus controller feature and does not apply
++	 * to I3C transfers.
++	 */
++	return spd5118_common_probe(dev, regmap, false);
+ }
+ 
+ static struct i3c_driver spd5118_i3c_driver = {
+-- 
+2.53.0
+
