@@ -1,286 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCC6136351;
-	Sun, 20 Sep 2026 01:40:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDEA3403EE
+	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 01:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789868417; cv=none; b=u4xkD1v57kD4jDFecPmGRobfxa1oKpyCJHkebwJq3TD2xKDW3j7WN+ZrsWQrT+kLjPDJDQRhUbiT0X7s25aNkfiLsNH07t1u2tR/0BXltrRfIPyjbDhrAIg4Fy8Fd2qC3zpGaN+hrKp63gQiePD8yNUkwRAU5Ii5ig3Q5UMB7gs=
+	t=1789869195; cv=none; b=Rx40hUGnGqYofkRRCj/BLUOD8NxI1LX4X5AK4KKeaCqhrDeOu/GG6Rhxa7gQJOG0gC8qu6RiRrg7hxlkmUghnz+Vc+c2JTflCg6SoGsQ/1VgsUw2K+J/GHmkakJSPc7eXz8H1cd3JzdsQMVALSWw07bvo6jPQRIJsKS5tiMjYX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789868417; c=relaxed/simple;
-	bh=xUcEWe049ke4KcavZ4gwPrM7iE6GiRw9jdweB9FUhes=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VO0HAPwyGfyguVbi+92PKmepF4Ta92mwYr81G4A0sqhwcb+biaXlJbvR4QRmAIfoDpJU9iesI/Tz6YXdcHzsat1hNz92y9MvRRPdHu3zXqA90lnIfeOJYKNbO+2nMiesQa7XzheICb0fgqVWqxn/cwsJc/xVCEMJztRH7bC/NvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aF6IwBGO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789869195; c=relaxed/simple;
+	bh=CNs2E+qGO/+zrUl6drj1OWrYKFws96jmgTMzhakpZVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cXgR6sUmFDi2of+BmvOB9M8nXK7ucanZlbe43+LydHXK9LdfUW1Fx8tXc3OMmTDT4hPI7yWBPADKDAy0bmFu/lVx/jx9+Qt4jXzGZUuH3W/kU0XGnSPbWKFQByisqZJj3USCuGpX3Wurtb40u4fScplzbAscq+ZYqXygOMUfITk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=t+brCQIh; arc=none smtp.client-ip=74.125.230.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aF6IwBGO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B50231F000FF;
-	Sun, 20 Sep 2026 01:40:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789868416;
-	bh=bXeR4YyKo+THSV6BScARSO4BJ6RlNj/xo4JGfjxdJhg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=aF6IwBGOUxdCMKV+NAHknZGk8SMT2rYIR+Vby4EhP5dFycvLcqWGmslb5JDzgiPXC
-	 ePWbVoXdYzO7t8R5NpGdoKqd6m4m4ak56+rj2lUvFLC9TD+tRsmbjMoDrmoBRMGz6S
-	 DiGEQA8MCI9IKFwN08jEdZhw+kjJbELUVRYLxbzQSCwZfCPKTL+Qlw3Kgw+a6viZp0
-	 vDdYSFzR7RAUQ6IWxCfkf4RnKfAnoaYw3JzmztQNef3UXlvHoP+TqLyQ94mQnuaoLw
-	 25T5lg5W3UZhG8GChscGxDq6tfJRVs98DMHdX3SrTruhiVOfSc46pPksaObiDt+kRM
-	 JWYWZcom+I9GA==
-Date: Sun, 20 Sep 2026 02:40:08 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jinseob Kim <kimjinseob88@gmail.com>
-Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
- andriy.shevchenko@intel.com, linux-kernel@vger.kernel.org,
- rdunlap@infradead.org, joshua.crofts1@gmail.com,
- u.kleine-koenig@baylibre.com, julianbraha@gmail.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 5/8] iio: osf: add UART transport and core receive
- path
-Message-ID: <20260920024008.369c21f1@jic23-hlaptop>
-In-Reply-To: <5eaeefa79fc2ba956bf34f691c0dc65592e5c4c8.1789753020.git.kimjinseob88@gmail.com>
-References: <cover.1789753020.git.kimjinseob88@gmail.com>
-	<5eaeefa79fc2ba956bf34f691c0dc65592e5c4c8.1789753020.git.kimjinseob88@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="t+brCQIh"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-90cdfbd3208so19402116d6.2
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 18:53:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1789869193; x=1790473993; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3IyWi76YFd5k6sT6Wel/JshxFvWpuBbjBUhku/DcG8Y=;
+        b=t+brCQIhIf9oq2CfCLZb1EBKwtMgyN5Bq8cx90tuIXlNI4bBv7WMP1zwHQLMo+S5pm
+         1aVFrqPYQXnRchsLGBrw6B3vsQqQN1ynKuEu7MBuxw8fqk9bGJiOFZznWZE6BC0ms+XT
+         oedfr7MaAOJFWXOlmrPTqXFVXbgFhXXzgDA4nYhJseR8NvPB5qKWaX3DrgbpLGD/5XLO
+         GUyLJsb1pZ4xfFn7zsl/qln9eaD+d1x9hCD8+2iwA1X4LMx0dVQZoAsM4MywaRfWvCBj
+         sUfdnxS0dpe8LiegjaNF/Amr1bJMEyjK5KP0ANEPtO0AyZc8bBEr2RMuNcD91gs4tqY7
+         ATWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789869193; x=1790473993;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=3IyWi76YFd5k6sT6Wel/JshxFvWpuBbjBUhku/DcG8Y=;
+        b=p43eoee5qe3I8gbzYatx2cD1HLIBUu2iQ+qO2EkUnqRlJCDGvgMAOdENdPCCrgIzir
+         99Vo7Xv95+PLZvCx/YkGRc+9vgv+lN1rGSz/PpCNFN+tu0cIsx/l99zUW3XKZTkg6nVQ
+         XrNCJMwks8F58lmTSRDbuhq8APMvMKbXLa/s8fhT7qtgQrwqtNGv+m50GoDvJ0+dtBUH
+         QSqw6MuoAEJGKfwJkWMLUVUB9eV9oTE+CoP8UldEQfuJpkytdvyOyOitb+VG0s/yLA/9
+         V5yNuJgEYwVHM8Up4qVblt/jjCgaRbp7qg57/G9APmLuT0/GS4gOkKefw4XXE1EyWl0c
+         O7gg==
+X-Forwarded-Encrypted: i=1; AKwUvBzL0iL+056m++mso0wFSwcfpZiDxMk+vRytAl9BNOv4MgSkPBLYWeAa6PjXqwCr0eXcUqufYfIjGwA=@vger.kernel.org
+X-Gm-Message-State: AFuF++nLYcZGHPCC+NbsMNdszbt/t5uAjha69Qz9VmtbMJZzWgRjI0m1
+	/G7zyffFaxrYDCvPHjR5IAQc+RNJrDSowAb72ZkSxO4XdfTbmouFqDn38qgpVZAISnk=
+X-Gm-Gg: AYBFou1tdEM5WdAQnCPWuu+nV7ihTsCAn4Vv5jUfF4MZDHzg7+22UZZr/nvCi+qyCE5
+	RKdAo4S/3sJ27fVduH+rCqZQh78PUu4aN3A/PXJ803g1wB1ptcdYPXFsSZYEDikiJRdMpjH8gv+
+	IHBJkPkzrarq73gfUQWg3cdIWTq1GpdHFxfOwyJVTEni+gv9LwSrrnzbICMDu6Z1RX2O1sqpc92
+	6CkBmuEcgMKd4OargK1/EtpEvXF3KLamSjIqnOPJQyEdYTAqSCUCEmL/SzApafaEmA95D6GEUXA
+	JS5OTXfIuVhzpjZAhwPROwlwRxGiarPwUNkNyPHBYMstIeLg4fXyAQZMqhtZDuv6jla25mtGsFg
+	PJ7ArwJrVqBFiKt4Ar1qJKJuVzHUUNXYx0FYDTeXAXuAnahc6aKm/kkrArBe1hU51/KTu3B0qu+
+	9iu1Mcfy0MBlj5tAb1czHAv3jNaMpuSmbTCU+S2DSReojIrzAb1l8nQXFWtEzUcNWwWQhh4axq4
+	bjuQ0Ba/1BwpzsLBLwNetygvahUq5GGunEdaSq2hjteG8mmSwsDeDU=
+X-Received: by 2002:ad4:5948:0:b0:910:4da6:8354 with SMTP id 6a1803df08f44-9129c780d08mr44342896d6.17.1789869193050;
+        Sat, 19 Sep 2026 18:53:13 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91260a9a305sm32833856d6.37.2026.09.19.18.53.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 18:53:12 -0700 (PDT)
+Date: Sat, 19 Sep 2026 21:53:10 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Chris Li <chrisl@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Rik van Riel <riel@surriel.com>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel team <kernel-team@meta.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora>
+ <aqLi6cIjD2wJwk0B@cmpxchg.org>
+ <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+ <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
+ <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
 
-On Sat, 19 Sep 2026 03:24:43 +0900
-Jinseob Kim <kimjinseob88@gmail.com> wrote:
-
-> Connect the stream parser to a serdev receiver and add core frame dispatch
-> with an owned device-status cache. Preserve the distinction between
-> unvalidated candidates and validated application rejections, so
-> malformed status payloads do not cause byte-wise resynchronization.
+On Sat, Sep 19, 2026 at 09:02:28AM -1000, Chris Li wrote:
+> On Sat, Sep 19, 2026 at 6:08 AM Gregory Price <gourry@gourry.net> wrote:
+> >
+> >                         Memory Post-Compression
+> >  |[CD][CD][CD][CD][CD][CD][CD][CD]-------- free space ------------|
+> >    ^----------------------------^
+> >          Compression Space
 > 
-> Open and configure the UART before enabling the supply. A managed release
-> action closes and drains the receive producer before resetting the parser
-> and disabling a successfully enabled supply.
+> Thanks for the explanation. So the compression space is just the
+> actual data store backing the zswap/xswap/zram.
+
+No.  That is not what I said.
+
+I said 
+
+   It's the *amount* of memory consumed by compressed data,
+         including the metadata associated with it.
+
+I do not know how to be clearer than this. It is an amount of memory.
+
+It is not the memory itself or an abstraction to describe how much
+memory, it is literally the active amount of consumption - a number.
+
+> Maybe we need a separate counter to track actual memory usage,
+> regardless of compression status.
+
+the separate counter is... the existing memory and zswap counters.
+
+> I want to add support for your usage case as well. Please clearly
+> specify what user usage you want, what the expected outcome
+> is, and why you want that.
 > 
-> This transport base processes device-status frames and ignores message
-> types without an application handler. It does not register IIO sensor
-> devices. The following patch adds capability discovery and sample
-> publication to IIO, including the publication gate and IIO teardown.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
-One question for Uwe if they see it about whether device-id/of.h should
-be included or we can assume it for serial drivers.
 
-Otherwise, just a couple of minor things inline.
+I want:
 
-Thanks,
+  1) zswap on machines with no swapfile
 
-Jonathan
+  2) without being asked "how big?" - there is no number I can give
+     that stays correct, and
 
-> ---
->  MAINTAINERS                               |   3 +-
->  drivers/iio/Kconfig                       |   1 +
->  drivers/iio/Makefile                      |   1 +
->  drivers/iio/opensensorfusion/Kconfig      |  12 ++
->  drivers/iio/opensensorfusion/Makefile     |   5 +
->  drivers/iio/opensensorfusion/osf_core.c   | 101 +++++++++++++++
->  drivers/iio/opensensorfusion/osf_core.h   |  29 +++++
->  drivers/iio/opensensorfusion/osf_serdev.c | 143 ++++++++++++++++++++++
->  8 files changed, 293 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/iio/opensensorfusion/Kconfig
->  create mode 100644 drivers/iio/opensensorfusion/Makefile
->  create mode 100644 drivers/iio/opensensorfusion/osf_core.c
->  create mode 100644 drivers/iio/opensensorfusion/osf_core.h
->  create mode 100644 drivers/iio/opensensorfusion/osf_serdev.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index bad05db854cf..fbbf5f06f1a5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20516,8 +20516,7 @@ M:	Jinseob Kim <kimjinseob88@gmail.com>
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/iio/opensensorfusion,osf.yaml
->  F:	Documentation/iio/open-sensor-fusion.rst
-> -F:	drivers/iio/opensensorfusion/osf_protocol.*
-> -F:	drivers/iio/opensensorfusion/osf_stream.*
-> +F:	drivers/iio/opensensorfusion/
+  3) the bound should be the memory limit that already exists,
+     not a number guessed at boot that hotplug invalidates or
+     guessed at swapon time that different workloads invalidate.
 
-Push that back to earlier patches.
+This requires decoupling swap *file* accounting from zswap accounting.
 
->  K:	opensensorfusion
-
-> diff --git a/drivers/iio/opensensorfusion/osf_core.c b/drivers/iio/opensensorfusion/osf_core.c
-> new file mode 100644
-> index 000000000000..e6812cef4d8c
-> --- /dev/null
-> +++ b/drivers/iio/opensensorfusion/osf_core.c
-> @@ -0,0 +1,101 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/device.h>
-> +#include <linux/errno.h>
-> +#include <linux/types.h>
-> +
-> +#include "osf_core.h"
-> +#include "osf_stream.h"
-> +
-> +#define OSF_RESERVED_MSG_FIRST		0x7f00
-> +#define OSF_RESERVED_MSG_LAST		0x7fff
-> +#define OSF_VENDOR_PRIVATE_FIRST	0x8000
-> +
-> +void osf_core_init(struct osf_device *osf, struct device *dev)
-> +{
-> +	*osf = (struct osf_device) {
-> +		.dev = dev,
-> +	};
-> +}
-Unless this gets a lot more complex in later patches, I'd drop
-the helper.
-
-
-> +int osf_core_receive_frame(struct osf_device *osf, const u8 *buf, size_t len)
-> +{
-> +	struct osf_frame frame;
-> +	size_t frame_len;
-> +	int ret;
-> +
-> +	ret = osf_protocol_decode_frame(buf, len, &frame, &frame_len);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (frame_len != len)
-> +		return -EMSGSIZE;
-> +
-> +	if (frame.protocol_major != OSF_PROTOCOL_MAJOR) {
-> +		dev_dbg_ratelimited(osf->dev,
-> +				    "ignoring unsupported protocol major %u\n",
-> +				    frame.protocol_major);
-> +		return OSF_STREAM_FRAME_IGNORED;
-> +	}
-> +
-> +	switch (frame.message_type) {
-> +	case OSF_MSG_DEVICE_STATUS:
-> +		ret = osf_core_handle_device_status(osf, &frame);
-> +		break;
-> +	default:
-> +		if (frame.message_type >= OSF_RESERVED_MSG_FIRST &&
-> +		    frame.message_type <= OSF_RESERVED_MSG_LAST) {
-> +			dev_dbg_ratelimited(osf->dev,
-> +					    "ignoring reserved message type %#x\n",
-> +					    frame.message_type);
-> +			return OSF_STREAM_FRAME_IGNORED;
-> +		}
-> +		if (frame.message_type >= OSF_VENDOR_PRIVATE_FIRST) {
-> +			dev_dbg_ratelimited(osf->dev,
-> +					    "ignoring vendor message type %#x\n",
-> +					    frame.message_type);
-> +			return OSF_STREAM_FRAME_IGNORED;
-> +		}
-> +
-> +		dev_dbg_ratelimited(osf->dev,
-> +				    "ignoring unsupported message type %#x\n",
-> +				    frame.message_type);
-> +		return OSF_STREAM_FRAME_IGNORED;
-> +	}
-> +
-> +	/*
-> +	 * Handler failures are validated application rejections. Keep the
-> +	 * trusted frame boundary and let the stream consume the complete frame.
-> +	 */
-> +	if (ret < 0)
-> +		return OSF_STREAM_FRAME_REJECTED;
-
-I think there is only one path to this.  Move the comment and check up there
-+ the return.
-
-Then we never leave the switch statement without returning so this last
-chunk isn't needed.
-
-> +
-> +	return ret;
-> +}
-
-> diff --git a/drivers/iio/opensensorfusion/osf_serdev.c b/drivers/iio/opensensorfusion/osf_serdev.c
-> new file mode 100644
-> index 000000000000..8a747c01ff9d
-> --- /dev/null
-> +++ b/drivers/iio/opensensorfusion/osf_serdev.c
-> @@ -0,0 +1,143 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/cleanup.h>
-> +#include <linux/device-id/of.h>
-
-Curious that in all the recent tidying up of this stuff serdev.h
-didn't include this one.  Uwe, if you see this, was that intentional?
-
-Doesn't matter though as if it is something that gets tidied up later
-then this driver will get covered with any others.
-
-> +#include <linux/device.h>
-> +#include <linux/err.h>
-> +#include <linux/errno.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/serdev.h>
-> +#include <linux/slab.h>
-> +#include <linux/types.h>
-
-> +static int osf_serdev_probe(struct serdev_device *serdev)
-> +{
-> +	struct device *dev = &serdev->dev;
-> +	struct osf_serdev *osf_uart;
-> +	unsigned int baudrate;
-> +	int ret;
-> +
-> +	osf_uart = devm_kzalloc(dev, sizeof(*osf_uart), GFP_KERNEL);
-> +	if (!osf_uart)
-> +		return -ENOMEM;
-> +
-> +	osf_uart->vcc = devm_regulator_get(dev, "vcc");
-> +	if (IS_ERR(osf_uart->vcc))
-> +		return dev_err_probe(dev, PTR_ERR(osf_uart->vcc),
-> +				     "failed to get vcc regulator\n");
-> +
-> +	mutex_init(&osf_uart->rx_lock);
-
-Can we use devm_mutex_init() here. It doesn't bring huge advantage
-but it is a cheap win for some debugging cases.
-
-
-> +	osf_uart->serdev = serdev;
-> +	osf_core_init(&osf_uart->osf, dev);
-> +	osf_stream_init(&osf_uart->stream, osf_serdev_receive_frame,
-> +			&osf_uart->osf);
-> +
-> +	serdev_device_set_drvdata(serdev, osf_uart);
-> +	serdev_device_set_client_ops(serdev, &osf_serdev_ops);
-> +
-> +	ret = serdev_device_open(serdev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_add_action_or_reset(dev, osf_serdev_release, osf_uart);
-> +	if (ret)
-> +		return ret;
-> +
-> +	baudrate = serdev_device_set_baudrate(serdev, OSF_SERDEV_BAUD);
-> +	if (baudrate != OSF_SERDEV_BAUD)
-> +		/* Keep accepting controller rounding after reporting the mismatch. */
-> +		dev_warn_probe(dev, -EINVAL, "requested %u baud, controller set %u\n",
-> +			       OSF_SERDEV_BAUD, baudrate);
-> +
-> +	serdev_device_set_flow_control(serdev, false);
-> +
-> +	ret = regulator_enable(osf_uart->vcc);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to enable vcc regulator\n");
-> +	osf_uart->vcc_enabled = true;
-> +
-> +	return 0;
-> +}
-
-
+~Gregory
