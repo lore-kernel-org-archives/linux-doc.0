@@ -1,481 +1,214 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F79470EB2;
-	Sun, 20 Sep 2026 16:47:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CC0390999;
+	Sun, 20 Sep 2026 17:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789922882; cv=none; b=SskTFiqWuCg1Xo2ReZyeWzdf0vuznJQdSHKXzA4fVqarRHsqsMS9Bp1vIUQyYV1HBc4c3bGBXC+ewd9pbDLwjUW8x+LSkz26/TCkwNtPN9WCZ0ZOf2aQ4DfkSbClbHChHsyDMu2MD1RvxiRUD4+7grEHmvpXMjbQxhXKC0FAwtg=
+	t=1789923936; cv=none; b=o1obNkbyx7NWy4HPrRmD5ZfMZcn5t/jyJL9bnT9s/iOpN8jSmiQOLa6cmDCn35uSYWdaYvzGH5B2AIpy7OhylMNWD9S1FrKFBNmiJW0nrxwuFrrXRV85aHcauhj+tg8TOhLLkNpu057mdy6ykYlBR2VWPbjeVb7TF/FWYbRYfR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789922882; c=relaxed/simple;
-	bh=dCJeVwCJtGyq4KQEHLn4KnvG5N+7aQ2twoboc80YdMA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i/GOw/xTKn93BfORns+TmyYkk3u0jub2f0T2C35bXzwa46u9382Ey4yRedVdJGmVdjzNa7tYKFtV6X1Zfb6nmGIWaMeP1Z0Mep8QVZVGd2oD56yxUdzFgPShFIfvJz68ZZu53IrmWa87I5dVgnU+3thFERDWequw/vO5WdmHH9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=qbV0cJzY; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1789923936; c=relaxed/simple;
+	bh=9P7MYbhwh6wUyemh89f7DQ1SvlHWQbSD47gloWfxPVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cAhjrkA0nEyDd3UQrgnojTcmS4Z+bKdIMVsKEZ9f4L7YqaVnfzFuZcvIr0+JWCqBTzPOwXATsN+RRUVD2aZKjQa/Tp93nwF2IIUEBkAg7CHXZwLJY4oRmo8zim4LuJ3BXhuHVqv6mslbgmTkkCrmN53eGpX3xqx/SacKetIpoWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mMmt9SpK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="qbV0cJzY"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 25FCAC5146A;
-	Sun, 20 Sep 2026 16:48:44 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 61EF76033F;
-	Sun, 20 Sep 2026 16:47:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 61589103290A3;
-	Sun, 20 Sep 2026 18:47:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1789922877; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ye84wnF/Z0HFxmfZYw5UmurkxYZNKHfK7ubDzp+PuhU=;
-	b=qbV0cJzYk/BZr+Wk9xag4PQkqQGKyUvucsq+cTzI+tRvILtwcgwAvVTiv8kbBVINsyWFKH
-	pZs5LXulMoqS4DYRFqGUpYK7dWwkPdlql4//Ximn2P52PIKgtPbEyeYJVpHT9tcJ5yQa60
-	kZ7XXR439U7ycdXV6GZx6SQwZhP3Ko2clTaUNON5fV9NuHYYuXbm5DfeN8y5lnvK5crL9n
-	zw6PN1rrYh6hZUD5Cerbw6SJzQVF4tcLZtosxIvPJl6HZzXd4TmKIB4AKeXgn2cEtnfZPy
-	bvhj0JJT4r0nVzGrrklnhljaBTDwdu4jmBmPiEeON+no3VK1sOt6Eqy5i74nyg==
-From: "Maxime Chevallier (Netdev Foundation)" <maxime.chevallier@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Jakub Kicinski <kuba@kernel.org>,
-	davem@davemloft.net,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: "Maxime Chevallier (Netdev Foundation)" <maxime.chevallier@bootlin.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	thomas.petazzoni@bootlin.com,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next 3/3] selftests: drv-net: pause: Validate pause autoneg interactions with link autoneg
-Date: Sun, 20 Sep 2026 18:47:31 +0200
-Message-ID: <20260920164732.349744-6-maxime.chevallier@bootlin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260920164732.349744-1-maxime.chevallier@bootlin.com>
-References: <20260920164732.349744-1-maxime.chevallier@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mMmt9SpK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1CCE1F000FF;
+	Sun, 20 Sep 2026 17:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789923935;
+	bh=haIzO1pAdV2cZZ2DvzEIWMRl+VDNhX2rc5xrz7+7Cg4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=mMmt9SpKBo0taBktUC2s2PqtSXvK/gOW9pcdPe8nyJj4HNJKjnWISm8RYURorlEPP
+	 LBYjSujAJNGfKYl9bG0lwgwqbck7M1t6Y++4NWnpaXKPB037bl0LJASrAP87PoubnN
+	 8SjmYrIFU8BOsMRQsPff9IYRlUWKX9lZSkwVreHeE44IR82PhmB3Ef5hKEBeGpGS+n
+	 0+rkVODgdWQ+8RrTspBlPLy4bAQslVyin0DK7J7jLekd8j02rScouGi8/LWGgCuh3f
+	 NT/5OWzTdE4WJVpv6Wa5/kmC4CPXgXQv/IklkQuWoko4pOz/ukXTqGAmTV/0yaqVPg
+	 tdT9IFZRnS3bQ==
+Date: Sun, 20 Sep 2026 18:05:24 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Kim Jinseob <kimjinseob88@gmail.com>
+Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
+ andriy.shevchenko@intel.com, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org, joshua.crofts1@gmail.com,
+ u.kleine-koenig@baylibre.com, julianbraha@gmail.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v10 0/8] iio: add Open Sensor Fusion UART support
+Message-ID: <20260920180524.6b18d644@jic23-hlaptop>
+In-Reply-To: <CALMSewJ4ATy9eZ_GrHs-+Q+9yosiwhu3rtQUfxAbzOmR4R9cNQ@mail.gmail.com>
+References: <cover.1789753020.git.kimjinseob88@gmail.com>
+	<20260920030512.50f4f988@jic23-hlaptop>
+	<CALMSewJ4ATy9eZ_GrHs-+Q+9yosiwhu3rtQUfxAbzOmR4R9cNQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Pause autonegotiation happens with the link partner using the same words
-as the link negotiation, used for speed and duplex exchanges. However,
-pause and link autonegotiation can be separately toggled :
+On Sun, 20 Sep 2026 13:22:58 +0900
+Kim Jinseob <kimjinseob88@gmail.com> wrote:
 
-ethtool -s eth0 autoneg on # Enable link negotiation
-ethtool -A eth0 autoneg on # Enable Pause negotiation
+> > Any reason not to push it one level deeper and put it under IMUs?
+> > I'm not that keen to grow the top level menu for this as all the
+> > other entries are about type of sensor, not one specific sensor. =20
+>=20
+> Yes, I agree that adding an Open Sensor Fusion entry at the IIO top
+> level is not ideal.
+>=20
+> My hesitation with putting it under imu/ is that Open Sensor Fusion is
+> not intended to be an IMU. The current Linux profile exposes
+> accelerometer, gyroscope, magnetometer and temperature data, but the
+> hardware/firmware architecture is a general sensor hub and fusion
+> device. Other OSF hardware variants can aggregate sources such as
+> pressure sensors, GNSS/RTK-GNSS, motor encoders and LiDAR in addition
+> to inertial sensors.
+>=20
+> Would drivers/iio/common/opensensorfusion/ be a better fit?
+>=20
+> There are already sensor-hub/common implementations such as the
+> ChromeOS EC sensors and Samsung SSP sensor hub under
+> drivers/iio/common/.
+>=20
+> That would avoid growing the IIO top-level menu without classifying
+> the device itself as an IMU.
 
-Pause can't be negotiated if the link autoneg isn't enabled.
+Lets just start a new directory (maybe move some others later) for
+sensorhubs.  Common is meant for library type modules rather than
+this purpose.  Often those are parts of sensorhubs.
 
-Pause autoneg and link autoneg settings must not interfere with one
-another when user is configuring them :
- - If Pause autoneg is on, it must stay on when link autoneg is disabled
-   (even though Pause won't actually be negotiated)
- - If Pause autoneg is off, it must stay off when link autoneg is
-   enabled
-
-Introduce a set of tests to verify that pause and link autoneg are
-behaving correctly, in particular that the user intent is correctly
-cached when toggling link autoneg.
-
-Signed-off-by: Maxime Chevallier (Netdev Foundation) <maxime.chevallier@bootlin.com>
----
- .../drivers/net/hw/lib/py/__init__.py         |   2 +-
- .../testing/selftests/drivers/net/hw/pause.py | 284 ++++++++++++++++++
- .../selftests/drivers/net/lib/py/__init__.py  |   4 +-
- .../selftests/drivers/net/lib/py/ethtool.py   |  14 +
- 4 files changed, 301 insertions(+), 3 deletions(-)
-
-diff --git a/tools/testing/selftests/drivers/net/hw/lib/py/__init__.py b/tools/testing/selftests/drivers/net/hw/lib/py/__init__.py
-index b23f53bcd3b0..958af4beef38 100644
---- a/tools/testing/selftests/drivers/net/hw/lib/py/__init__.py
-+++ b/tools/testing/selftests/drivers/net/hw/lib/py/__init__.py
-@@ -34,7 +34,7 @@ try:
-     from drivers.net.lib.py import GenerateTraffic, Remote, Iperf3Runner
-     from drivers.net.lib.py import NetDrvEnv, NetDrvEpEnv, NetDrvContEnv
-     from drivers.net.lib.py import ethtool_ret, onoff, wait_for_link, wait_for_aneg, \
--        controllable_lp, require_controllable_lp, \
-+        controllable_lp, require_controllable_lp, require_link_autoneg, \
-         forced_link_settings
- 
-     __all__ = ["NetNS", "NetNSEnter", "NetdevSimDev", "UserNetNS",
-diff --git a/tools/testing/selftests/drivers/net/hw/pause.py b/tools/testing/selftests/drivers/net/hw/pause.py
-index e291c7d8583e..2358d41a7412 100755
---- a/tools/testing/selftests/drivers/net/hw/pause.py
-+++ b/tools/testing/selftests/drivers/net/hw/pause.py
-@@ -30,6 +30,7 @@ from lib.py import (
-     ksft_variants,
-     onoff,
-     require_controllable_lp,
-+    require_link_autoneg,
-     wait_for_aneg,
-     wait_for_link,
- )
-@@ -242,6 +243,23 @@ def get_peer_pause_lp_advertising(cfg) -> tuple[int, list[str]]:
-         ksft_pr(f"Warning: {cfg.remote_ifname} does not report the LP's advertising")
-         return errno.EOPNOTSUPP, None
- 
-+def require_pause_supported_anyof(cfg, linkmodes) -> None:
-+    """ Checks if the local device supports pause at all, by looking at the
-+        supported bitfield. Raises a skip it's not supported.
-+
-+        :param cfg: test config
-+    """
-+    ret, _ = get_local_pauseparams(cfg)
-+    if ret != 0:
-+        raise KsftSkipEx("device doesn't allow getting pauseparams")
-+
-+    _, pause_support = get_local_pause_supported(cfg)
-+    for lm in linkmodes:
-+        if lm in pause_support:
-+            return
-+
-+    raise KsftSkipEx(f"Local device doesn't support any of {linkmodes}")
-+
- def require_pause_supported_allof(cfg, linkmodes) -> None:
-     """ Checks if the local device supports the passed linkmodes
- 
-@@ -285,6 +303,51 @@ def require_peer_pause_supported_allof(cfg, linkmodes) -> None:
-         if lm not in pause_support:
-             raise KsftSkipEx(f"Remote device doesn't support {lm}")
- 
-+def supported_pauseparams(cfg) -> tuple[int, int]:
-+    """ The rx/tx params covering every mode the local device supports """
-+    _, pause_support = get_local_pause_supported(cfg)
-+    if "Pause" in pause_support:
-+        return 1, 1
-+    if "Asym_Pause" in pause_support:
-+        return 0, 1
-+
-+    raise KsftSkipEx("Local device doesn't support pause")
-+
-+def set_local_pause_autoneg(cfg, aneg) -> int:
-+    """ Enable or disable pause autoneg """
-+    ret, _ = ethtool_ret(f"-A {cfg.ifname} autoneg {onoff(aneg)}",
-+                         is_get=False)
-+    return ret
-+
-+def check_local_pauseparams(cfg, aneg, rx, tx) -> None:
-+    """ Validates that the pauseparams reported from ethtool -a are
-+        exactly the 3 passed parameters.
-+    """
-+    ret, params = get_local_pauseparams(cfg)
-+    ksft_eq(ret, 0)
-+    if ret != 0:
-+        return
-+
-+    ksft_eq(params["autonegotiate"], bool(aneg), "pause autoneg")
-+    ksft_eq(params["rx"], bool(rx), "rx pause")
-+    ksft_eq(params["tx"], bool(tx), "tx pause")
-+
-+def check_local_advertising(cfg, linkmodes) -> None:
-+    """ Verify that the local device advertises exactly the pause modes
-+        passed as parameters
-+    """
-+    _, adv = get_local_pause_advertising(cfg)
-+    ksft_eq(adv, linkmodes, "advertised pause modes")
-+
-+def check_local_lp_advertising(cfg, linkmodes) -> None:
-+    """ Verify that the local device reports exactly the lp_advertised pause
-+        modes passed as parameters
-+    """
-+
-+    ret, adv = get_local_pause_lp_advertising(cfg)
-+    if ret == 0:
-+        ksft_eq(adv, linkmodes, "link partner advertised pause modes")
-+
- def expect_pauseparams_set(ret, linkmodes, supported, note) -> None:
-     """ Whether ethtool -A had to work or to be refused, given what the local
-         device supports
-@@ -674,6 +737,223 @@ def pause_aneg_resolution(cfg, settings) -> None:
-         ksft_eq(remote_pauseparams["negotiated"]["rx"], expected_lp_rx)
-         ksft_eq(remote_pauseparams["negotiated"]["tx"], expected_lp_tx)
- 
-+# Pause autoneg enable/disable vs advertised linkmodes
-+@ksft_disruptive
-+def pause_autoneg_state_adv(cfg) -> None:
-+    """Validate that toggling pause advertising changes the advertised linkmodes
-+
-+    When disabling pause autoneg, we enforce the pause params based on what user
-+    asks, instead of relying on the negociation process (which may not be what
-+    the user asked for). In forced pause settings, we don't advertise pause and
-+    asym_pause bits.
-+
-+    Failing this test means that .set_pauseparam in the MAC driver doesn't
-+    forward to the PHY (in charge of advertising these bits) that we are in
-+    fixed pause mode.
-+    """
-+
-+    require_pause_supported_anyof(cfg, ["Pause", "Asym_Pause"])
-+    require_controllable_lp(cfg)
-+    pause_setup(cfg)
-+
-+    set_peer_pauseparams(cfg, True, True, True)
-+    ksft_eq(wait_for_aneg(cfg), True)
-+
-+    rx, tx = supported_pauseparams(cfg)
-+
-+    # Enable all possible pauseparams with pause autoneg
-+    ret = set_local_pauseparams(cfg, rx, tx, True)
-+    ksft_eq(ret, 0)
-+    ksft_eq(wait_for_aneg(cfg), True)
-+
-+    # Make sure we advertise them
-+    ret, adv = get_local_pause_advertising(cfg)
-+    ksft_eq(ret, 0)
-+    ksft_eq(adv, pause_to_linkmodes(rx, tx))
-+
-+    # Disable pause autoneg
-+    ret = set_local_pauseparams(cfg, rx, tx, False)
-+    ksft_eq(ret, 0)
-+
-+    # This may trigger a link renegociation
-+    ksft_eq(wait_for_aneg(cfg), True)
-+
-+    # We shouldn't be advertising anything anymore
-+    ret, adv = get_local_pause_advertising(cfg)
-+    ksft_eq(ret, 0)
-+    ksft_eq(adv, [])
-+
-+    # Validate on the LP that we aren't advertising anything
-+    ret, adv = get_peer_pause_lp_advertising(cfg)
-+    if ret == errno.EOPNOTSUPP:
-+        return
-+
-+    ksft_eq(ret, 0)
-+    ksft_eq(adv, [])
-+
-+# Pause autoneg : Negotiated pause params vs fixed pause params
-+@ksft_disruptive
-+def pause_autoneg_state_params(cfg) -> None:
-+    """Validate the pause params when transitioning between fixed pause
-+       params and negotiated ones. The goal is to make sure that user
-+       intent on the RX and TX pause params are stored when user decides
-+       to use negotiated parameters instead. The main gotcha lies on the
-+       fact that when pause autoneg is used, the autoneg result may differ
-+       from the user intent.
-+
-+    Failing this test means the MAC driver is overwriting the user intent
-+    when switching to forced pause.
-+    """
-+
-+    require_pause_supported_allof(cfg, ["Pause", "Asym_Pause"])
-+    require_controllable_lp(cfg)
-+    require_peer_pause_supported_allof(cfg, ["Pause"])
-+    require_link_autoneg(cfg)
-+    pause_setup(cfg)
-+
-+    # Set peer user intent to RX on TX on, with Pause autoneg on
-+    set_peer_pauseparams(cfg, 1, 1, True)
-+    ksft_eq(wait_for_aneg(cfg), True)
-+
-+    # Set the local intent to RX on TX off with pause autoneg
-+    ksft_eq(set_local_pauseparams(cfg, 1, 0, True), 0)
-+    ksft_eq(wait_for_aneg(cfg), True)
-+
-+    check_local_pauseparams(cfg, True, 1, 0)
-+    # Peer advertisiong Pause + Asym and us advertising Pause means we are
-+    # actually using RX on TX on here, which is different than the intent.
-+    check_local_advertising(cfg, ["Pause", "Asym_Pause"])
-+    check_local_lp_advertising(cfg, ["Pause"])
-+
-+    # Disable pause autoneg
-+    ksft_eq(set_local_pause_autoneg(cfg, False), 0)
-+    ksft_eq(wait_for_aneg(cfg), True)
-+
-+    # The pauseparams must still be what we configured before, and not the
-+    # previously negotiated ones
-+    check_local_pauseparams(cfg, False, 1, 0)
-+
-+    # Re-enable autoneg
-+    ksft_eq(set_local_pause_autoneg(cfg, True), 0)
-+    ksft_eq(wait_for_aneg(cfg), True)
-+
-+    check_local_pauseparams(cfg, True, 1, 0)
-+    # We must be advertising our intent again, and not RX on TX on, which would
-+    # be "Pause" only.
-+    check_local_advertising(cfg, ["Pause", "Asym_Pause"])
-+    check_local_lp_advertising(cfg, ["Pause"])
-+
-+# Pause autoneg vs Link autoneg
-+
-+@ksft_disruptive
-+def pause_autoneg_off_while_link_autoneg_on(cfg) -> None:
-+    """ Validate that when link autoneg is on but pause autoneg is off, we do
-+        not use negotiated pause parameters.
-+
-+        - Skip if pause not supported.
-+
-+        - Requirements :
-+        - Link partner: link up, link autoneg on, pause autoneg on,
-+          pause tx and rx on
-+        - Local device starting conditions : link on, link autoneg on,
-+          pause autoneg on, pause tx <on if supported> rx <on if supported>
-+
-+        Failing this test means the MAC driver incorrectly accounts for the
-+        negotiated pause parameters even with pause aneg off, likely due to
-+        confusion between link autoneg and pause autoneg.
-+    """
-+    require_pause_supported_anyof(cfg, ["Pause", "Asym_Pause"])
-+    require_controllable_lp(cfg)
-+    require_peer_pause_supported_allof(cfg, ["Pause"])
-+    require_link_autoneg(cfg)
-+    pause_setup(cfg)
-+
-+    rx, tx = supported_pauseparams(cfg)
-+
-+    # Enable pause autoneg with all the locally supported modes enabled
-+    set_peer_pauseparams(cfg, 1, 1, True)
-+    ksft_eq(set_local_pauseparams(cfg, rx, tx, True), 0)
-+    ksft_eq(wait_for_aneg(cfg), True)
-+
-+    # Disable Pause autoneg
-+    ksft_eq(set_local_pauseparams(cfg, rx, tx, False), 0)
-+    ksft_eq(wait_for_aneg(cfg), True)
-+    # Pause autoneg must read "disabled"
-+    check_local_pauseparams(cfg, False, rx, tx)
-+
-+    set_peer_pauseparams(cfg, 0, 0, True)
-+    ksft_eq(wait_for_aneg(cfg, link_drop=True), True)
-+
-+    ip(f"link set {cfg.remote_ifname} down", host=cfg.remote)
-+    ip(f"link set {cfg.remote_ifname} up", host=cfg.remote)
-+    ksft_eq(wait_for_aneg(cfg, link_drop=True), True)
-+
-+    # Pause autoneg must still be off even after a link renegotiation
-+    check_local_pauseparams(cfg, False, rx, tx)
-+
-+@ksft_disruptive
-+def pause_autoneg_link_autoneg(cfg) -> None:
-+    """Validate pause autoneg and link autoneg interactions. The link autoneg's
-+       admin status (i.e. do we autoneg link parameters or force them) must not
-+       impact the pause autoneg status. While link autoneg is disabled, we don't
-+       negotiate the pause params, however we must keep pause autoneg on as this
-+       is the user intent. When link autoneg is re-enabled, pause params must be
-+       derived from the negotiation.
-+
-+    Both ends are forced at the speed and duplex the link runs at. A link that
-+    does not come back forced is a skip, not a verdict: 1000BASE-T resolves
-+    master/slave through autoneg and rarely links without it.
-+    """
-+
-+    require_pause_supported_anyof(cfg, ["Pause", "Asym_Pause"])
-+    require_controllable_lp(cfg)
-+    require_peer_pause_supported_allof(cfg, ["Pause"])
-+    require_link_autoneg(cfg)
-+    pause_setup(cfg)
-+
-+    rx, tx = supported_pauseparams(cfg)
-+    adv = pause_to_linkmodes(rx, tx)
-+
-+    # Enable all possible pause modes and autoneg
-+    set_peer_pauseparams(cfg, 1, 1, True)
-+    ksft_eq(set_local_pauseparams(cfg, rx, tx, True), 0)
-+    ksft_eq(wait_for_aneg(cfg), True)
-+
-+    check_local_pauseparams(cfg, True, rx, tx)
-+    check_local_advertising(cfg, adv)
-+    check_local_lp_advertising(cfg, ["Pause"])
-+
-+    # Disable link autoneg, at the speed and duplex the link runs at
-+    forced = forced_link_settings(cfg)
-+    if not forced:
-+        raise KsftSkipEx("Can't tell what to force the link at")
-+
-+    ret, _ = ethtool_ret(f"-s {cfg.remote_ifname} autoneg off {forced}",
-+                         is_get=False, host=cfg.remote)
-+    if ret != 0:
-+        raise KsftSkipEx(f"Can't force the peer's link at {forced}")
-+
-+    ret, _ = ethtool_ret(f"-s {cfg.ifname} autoneg off {forced}",
-+                         is_get=False)
-+    if ret != 0:
-+        raise KsftSkipEx(f"Can't force the link at {forced}")
-+
-+    if not wait_for_aneg(cfg):
-+        raise KsftSkipEx(f"No link when forced at {forced}")
-+
-+    # We must have pause autoneg still enabled, even if we don't negotiate pause
-+    check_local_pauseparams(cfg, True, rx, tx)
-+
-+    # Re-enable autoneg
-+    ethtool(f"-s {cfg.remote_ifname} autoneg on", host=cfg.remote)
-+    ethtool(f"-s {cfg.ifname} autoneg on")
-+    ksft_eq(wait_for_aneg(cfg), True)
-+
-+    # Pause autoneg must still be on
-+    check_local_pauseparams(cfg, True, rx, tx)
-+    check_local_advertising(cfg, adv)
-+    check_local_lp_advertising(cfg, ["Pause"])
-+
- def main() -> None:
-     """ The hardware pause tests, on the interface the env names """
-     with NetDrvEpEnv(__file__, nsim_test=False) as cfg:
-@@ -681,6 +961,10 @@ def main() -> None:
-         ksft_run([pause_test_support,
-                   pause_advertising_test,
-                   pause_aneg_resolution,
-+                  pause_autoneg_state_adv,
-+                  pause_autoneg_state_params,
-+                  pause_autoneg_off_while_link_autoneg_on,
-+                  pause_autoneg_link_autoneg,
-                   ],
-                  args=(cfg, ))
-     ksft_exit()
-diff --git a/tools/testing/selftests/drivers/net/lib/py/__init__.py b/tools/testing/selftests/drivers/net/lib/py/__init__.py
-index 0486405c5c70..ad0ba71b725a 100644
---- a/tools/testing/selftests/drivers/net/lib/py/__init__.py
-+++ b/tools/testing/selftests/drivers/net/lib/py/__init__.py
-@@ -51,13 +51,13 @@ try:
-     from .load import GenerateTraffic, Iperf3Runner
-     from .remote import Remote
-     from .ethtool import ethtool_ret, onoff, wait_for_link, wait_for_aneg, \
--        controllable_lp, require_controllable_lp, \
-+        controllable_lp, require_controllable_lp, require_link_autoneg, \
-         forced_link_settings
- 
-     __all__ += ["NetDrvEnv", "NetDrvEpEnv", "NetDrvContEnv", "GenerateTraffic",
-                 "Remote", "Iperf3Runner",
-                 "ethtool_ret", "onoff", "wait_for_link", "wait_for_aneg", "controllable_lp", "require_controllable_lp",
--                "forced_link_settings"]
-+                "require_link_autoneg", "forced_link_settings"]
- except ModuleNotFoundError as e:
-     print("Failed importing `net` library from kernel sources")
-     print(str(e))
-diff --git a/tools/testing/selftests/drivers/net/lib/py/ethtool.py b/tools/testing/selftests/drivers/net/lib/py/ethtool.py
-index 43e197ac12e5..00d6805ee942 100644
---- a/tools/testing/selftests/drivers/net/lib/py/ethtool.py
-+++ b/tools/testing/selftests/drivers/net/lib/py/ethtool.py
-@@ -175,6 +175,20 @@ def require_controllable_lp(cfg) -> None:
-     if not controllable_lp(cfg):
-         raise KsftSkipEx(f"{cfg.remote_ifname} is not directly connected to {cfg.ifname}")
- 
-+def require_link_autoneg(cfg) -> None:
-+    """ Skip if local or remote don't support link autoneg
-+
-+    :param cfg: test config
-+    """
-+    # Does local device support link aneg
-+    if not ethtool(f"{cfg.ifname}", json=True)[0]["supports-auto-negotiation"]:
-+        raise KsftSkipEx(f"{cfg.ifname} doesn't support link autoneg")
-+
-+    # Does remote device support link aneg
-+    if not ethtool(f"{cfg.remote_ifname}",
-+                   json=True, host=cfg.remote)[0]["supports-auto-negotiation"]:
-+        raise KsftSkipEx(f"Remote {cfg.remote_ifname} doesn't support link autoneg")
-+
- def forced_link_settings(cfg) -> str:
-     """ Returns a string to pass to ethtool -s with speed/duplex corresponding
-         to the current settings.
--- 
-2.55.0
+So how about
+driver/iio/sensorhubs/osf/
+?
+>=20
+> Thanks,
+> Jinseob
+>=20
+> 2026=EB=85=84 9=EC=9B=94 20=EC=9D=BC (=EC=9D=BC) =EC=98=A4=EC=A0=84 11:05=
+, Jonathan Cameron <jic23@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+> >
+> > On Sat, 19 Sep 2026 03:24:38 +0900
+> > Jinseob Kim <kimjinseob88@gmail.com> wrote:
+> > =20
+> > > Specification status: OSF-D2H 0.0 spec-1 has completed project techni=
+cal
+> > > stability review, has been adopted by the project owner, and is publi=
+shed
+> > > as a fixed specification.
+> > >
+> > > Canonical specification:
+> > > https://github.com/opensensorfusion/opensensorfusion-protocol/blob/ca=
+9cdea1ae550c2b4d6f29f87877adae99470744/spec/osf-d2h-0.0.md
+> > >
+> > > Errata process:
+> > > https://github.com/opensensorfusion/opensensorfusion-protocol/blob/ca=
+9cdea1ae550c2b4d6f29f87877adae99470744/errata/README.md
+> > >
+> > > Current adoption/publication record:
+> > > https://github.com/opensensorfusion/opensensorfusion-protocol/blob/0c=
+abccf63ac01d0eb82dd9882739ff58eed4a76c/reviews/publication-record-20260918.=
+md
+> > >
+> > > The specification was frozen before adoption/publication, so its embe=
+dded
+> > > status snapshot is intentionally historical. The dated publication re=
+cord
+> > > above establishes the current adopted/public state. This is project r=
+eview
+> > > and adoption, not an external maintainer approval.
+> > >
+> > > This series adds the Open Sensor Fusion UART receive path and IIO dev=
+ices
+> > > discovered from capability reports. It exposes accelerometer, gyrosco=
+pe,
+> > > magnetometer and temperature data through RAW/SCALE and buffered scan=
+s.
+> > > Device Tree describes the sensor hub; its individual streams are disc=
+overed
+> > > at runtime.
+> > >
+> > > The receiver validates supported descriptors and sample scales, keeps
+> > > discovery open after empty or unsupported initial inventories, and ch=
+ecks
+> > > repeated inventories before allowing new data to use registered metad=
+ata.
+> > > A supported descriptor changing meaning faults the session until an
+> > > explicit teardown and rebind. Existing v9 cache, scan-layout and buff=
+er
+> > > lifetime fixes are retained.
+> > >
+> > > Based on Jonathan Cameron's IIO testing branch:
+> > > 69fa76f0af3414cc189c3b0b807cb59e327ecc00
+> > >
+> > > Changes since v9:
+> > > - Publish and reference the reviewed/adopted OSF-D2H 0.0 specificatio=
+n,
+> > >   errata process and dated publication evidence.
+> > > - Tolerate reserved padding, validate descriptor/sample scales, keep
+> > >   discovery open after empty/unsupported reports, and compare repeated
+> > >   capability reports.
+> > > - Fail closed on changed descriptor meaning instead of publishing data
+> > >   with stale metadata.
+> > > - Add focused KUnit coverage for these lifecycle and validation cases.
+> > > - Use managed UART/IIO/power teardown and dev_warn_probe() for the
+> > >   controller baud-rate warning, addressing Andy's probe-path feedback.
+> > > - Split the former combined UART/core/IIO driver patch into transport=
+/core,
+> > >   IIO registration, core KUnit, and IIO KUnit patches following revie=
+w.
+> > > - Use validated/unvalidated terminology for framing/CRC results throu=
+ghout
+> > >   the stream/core/transport code, tests and diagnostics. CRC detects
+> > >   accidental corruption; it does not provide cryptographic authentica=
+tion.
+> > >
+> > > Prior validation on the identical source tree:
+> > > identical source tree evidence reused; no builds rerun for DCO packag=
+ing.
+> > > - All eight intermediate apply/config/relevant builds.
+> > > - Independent transport/core and IIO module link/MODPOST.
+> > > - GCC/Clang W=3D1 vmlinux and modules.
+> > > - GCC and Clang KUnit: core 16 + IIO 2, all 18 pass in each run.
+> > > - Core-only intermediate KUnit: all 16 pass.
+> > > - ARM64 Image, selected OSF module and Pi4 DTB.
+> > > - Targeted DT binding/style and IIO documentation.
+> > >
+> > > The terminology-only diff was verified mechanically. Wire semantics a=
+nd
+> > > data-path behavior are unchanged; the receive diagnostic key is valid=
+ated=3D.
+> > > Hardware testing was not repeated for this terminology revision or th=
+is
+> > > post-DCO packaging audit; previous hardware evidence remains historic=
+al.
+> > >
+> > > Human DCO is complete. No email has been sent.
+> > >
+> > > Jinseob Kim (8):
+> > >   dt-bindings: iio: add Open Sensor Fusion device
+> > >   Documentation: iio: add Open Sensor Fusion driver overview
+> > >   iio: osf: add protocol decoding
+> > >   iio: osf: add validated stream parser
+> > >   iio: osf: add UART transport and core receive path
+> > >   iio: osf: add IIO devices from capability reports
+> > >   iio: osf: add core KUnit tests
+> > >   iio: osf: add IIO KUnit tests
+> > >
+> > >  .../bindings/iio/opensensorfusion,osf.yaml    |   52 +
+> > >  .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+> > >  Documentation/iio/index.rst                   |    1 +
+> > >  Documentation/iio/open-sensor-fusion.rst      |   77 ++
+> > >  MAINTAINERS                                   |    8 +
+> > >  drivers/iio/Kconfig                           |    1 +
+> > >  drivers/iio/Makefile                          |    1 +
+> > >  drivers/iio/opensensorfusion/Kconfig          |   27 + =20
+> > Any reason not to push it one level deeper and put it under IMUs?
+> > I'm not that keen to grow the top level menu for this as all the
+> > other entries are about type of sensor, not one specific sensor.
+> > =20
 
