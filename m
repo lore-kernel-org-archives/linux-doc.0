@@ -1,128 +1,111 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m1973182.qiye.163.com (mail-m1973182.qiye.163.com [220.197.31.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2083B71C4
-	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 02:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64AF3C2BB0;
+	Sun, 20 Sep 2026 03:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.82
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789871497; cv=none; b=X85PzgTWG4p8Bs/t36tZOLDPE/wTXgwTXJwHJwbj0f9w/qyA5oh1yfMnYnuvs5a00SdWBaEsTDL0pOktvj/fbNl46XpWe4XVEV64z7yX5qxcuETgKERJKRor65UDrefvyXab638+CKRrQSvEL383MOVw3URhtwdKOL7jLS8LfA8=
+	t=1789874825; cv=none; b=F3ZzAIyG7QBceQIVqvTA+ijuNIF5hu0VQRfszl5Idd8AObbX7dKONzZz2QH+iH9rwGv0v+L9VkfAH8uqmRDKPJtkZVOUmd6EHcsfQ5nYK0Bv0IH9P1kZBfofvOd/PXF4EHpTOSWtUGoA4iu0ZfI/WHH1TziXYP5HjRMpbPt5hNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789871497; c=relaxed/simple;
-	bh=ta4KGzvy3+Q0Ym3V/maRaZ1/VI/KlL2UlxoFdTcXU1Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Lh15hUO/ps8AwOhnA1EcFdA9qUNpXiMe/zlid34I0mEIQp8ABz9ipvIpT2d8L7+miNzl4QhXsCieNdXm/b04zXUW3xT08yWBUjTaH8p0/vMghfA0QWPTpd9yUKLJd8UlAeeMsIEvc6b64DAdrPmahu63/HIshoiSWNy8NSDScqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UGPuMQSs; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UGPuMQSs"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cebad4afso1362736a12.0
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 19:31:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789871487; x=1790476287; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ucMEt/HYfCdI1ngc+n5yPNtAEmxJEE4zo8QA8w8ZEKw=;
-        b=UGPuMQSsreT6lBtWeBuTpUX9bU1+4SwI/FPnkNxAYCpaNy7qbgDlkD3ttM7VoiQ1Hi
-         VSu82Vyd2bxCfUBc6290nfbHSRoKjz1MmFSLfPgJ+qes6rflu0gidjcJbDoezY+t/xV4
-         75KtSBLozerZyNQyk0+PE9dkpM2FpoQPONqL9NPrFDNQ44ZBkOt8bRQksVMyJ5bG4sWT
-         23stq58ffGVeei01+EB10p5SAA2ZzXlpjtoBgl6+3Nn77GVTDK8ELMFeQa7SSnW7nOkF
-         jAoNNsRP1ahoiC9yf71cZlEcHOX4HGRIUPDElXe8KXlmpD8BRUmGgtdMEvDnGKQBKrVD
-         2OwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789871487; x=1790476287;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ucMEt/HYfCdI1ngc+n5yPNtAEmxJEE4zo8QA8w8ZEKw=;
-        b=gz/36mtQSRxyXjjNjgv9E0pDL1q9JuNjpZWW8Qf+Y61HjUTWM3Iy7SXnl9o+qSvTE+
-         rce1PPzGqDY3cmXlmIMSO1kYzEk1yIfUnMG8cTLwUm73XLXrxQo1l8Khr1UDQFJLlb4Q
-         26JkixoMhKMKSA2dq6i4Vsl1RP3B5Dz2bZW3SFjliA8VQf1DvFzIlwvNV+lCVUuGxg8U
-         K5FN6EhvwoUHKcOx2xh8AEn3cE2sRfSsHVN5upGMbUv/X08EGcsk5wG2jJWULe7C/5PP
-         4aCgrw8KScbQogSpgamC2E2fLMbU7nIeNLmHT2xtL1IHulL/N83yLfif5wo+7mWaNpH+
-         wrgQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw3+4/FBI5iYBeY4sjze17EFcQYUmSJ4agJtBe9QpmGPh/VYo9TtSkKS+FVg/7GR5hns15cY8j6Usk=@vger.kernel.org
-X-Gm-Message-State: AFuF++lipmeK6c93bvUtFmlV8DcZ5nkz/4xQAEVZz8hpW0SqKbm6DkhM
-	SUTjVLO6wUzrdi1wjKvnRNY5R1S/rbglYJHkBeB6pstEAMrM7N9g2IM=
-X-Gm-Gg: AYBFou30ZahWp5B6Vh8TnA519Eb1xFP9xLrCtQq8seVLLk0QdQXQm9IUswQFA14tGew
-	FBf0jmWfFL7Ks+lNDFWHukBGSnAizu8qm613DQaRmGtKIf6Xsn3X7Ts7oBVHc7P7QljqNUJ+IhY
-	imDY3VAhrc6xvIKgOWKZ7NUXVIAyPqmkAV4CMuiEEROMu5gE7grltcDiYovMJtMsSJj7KMjIbqE
-	6RGDmuVdtUCpzCrCbKrea0sIpyCgpd9vnzdpO727p11Eogx+SK/nIrdsj6VRRcq25jHYnHcjcnv
-	IJpMf1yePkEV9QO/n89KQiBQy1FjSyk13hvqru4jmF/h8Qm2ztKCJ8qSH5hr4s4Z06yvijQZpWE
-	NGGJ1iqE6wtSzO6OXFy+rzq/d06U6hhSSDxjg9LmQYbo1hcHjgkqp6HdhKYhgvjFVKkeqbXO4nB
-	4ylGBnfKCkCCLarI+0N0KdlBOpl/NJRC9g+pIt/z/tIEv1ZxuJjvbRGf7mhkbumazBsXJCB7WPR
-	sYfXv9CW002/+ZfhQfP4khP1EOedryVw3AQiQ==
-X-Received: by 2002:a05:6a20:2586:b0:3dd:85a8:4c66 with SMTP id adf61e73a8af0-3dd8c5db1e1mr10707714637.45.1789871487313;
-        Sat, 19 Sep 2026 19:31:27 -0700 (PDT)
-Received: from ydg-Zenbook-14-UM3406GA ([2001:2d8:7f00:8c85:36d8:54a:e0bc:3e5e])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc72aee03efsm1481341a12.24.2026.09.19.19.31.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 19:31:26 -0700 (PDT)
-From: Donggeun Yoo <donggeunyoo.kernel@gmail.com>
-To: SJ Park <sj@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	donggeunyoo.kernel@gmail.com,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 3/3] Docs/admin-guide/mm/damon/usage: document the temporal tuner's quota limit
-Date: Sun, 20 Sep 2026 11:31:11 +0900
-Message-ID: <20260920023111.2466265-4-donggeunyoo.kernel@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260920023111.2466265-1-donggeunyoo.kernel@gmail.com>
-References: <20260920023111.2466265-1-donggeunyoo.kernel@gmail.com>
+	s=arc-20240116; t=1789874825; c=relaxed/simple;
+	bh=4vFYmCzdRJ6CGiU+FHTthwBZRfUP1kzd6SL1k4iiUTs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ubEw4GgupR8VM5okO90SU/W3BXySQ6zZO5n0ccVMYecWbXTyIEAnG2vdSvWya2WmpKpwm8QiO7w+lRm1kDw26mt4G23SAKIrQf+i4fTNcOBkFlFQdU0d7TxwBZKm6JrL4ON4jHIUEHLax3ag65Y+eU7c/45DyJbUpFEVGWvpUAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=220.197.31.82
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
+Received: from [192.168.0.59] (unknown [218.94.118.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 1f4881c20;
+	Sun, 20 Sep 2026 10:11:10 +0800 (GMT+08:00)
+Message-ID: <99a94068-ab37-47c0-878c-7c1ada5204b2@easystack.cn>
+Date: Sun, 20 Sep 2026 10:11:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
+ filtering
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260907082620.2083838-1-zhen.ni@easystack.cn>
+ <79548641-25f3-4ec3-a549-782fad168962@kernel.org>
+ <6e8bfb0d-d595-4e6b-9536-0323ada57e25@easystack.cn>
+ <b8e23456-00af-4097-a769-210a087d2b90@kernel.org>
+ <22D1EC4B-FBCB-421E-B8DA-345B5F3505FB@nvidia.com>
+ <d8d34e16-57fa-48b7-93a9-afbf4b950ce6@easystack.cn>
+ <98ca914b-4722-448d-b5a4-7f095d0ca433@kernel.org> <aqPmlw8WYW9HSzIV@gremlin>
+From: "zhen.ni" <zhen.ni@easystack.cn>
+In-Reply-To: <aqPmlw8WYW9HSzIV@gremlin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa0bc94e7a60229kunm9a1984bc79d8c
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZQ09IVklJQ0JPSR8dSB9JQ1YVFA
+	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
+	lPT09IVUpLS1VKQktLWQY+
 
-The temporal goal tuner converts the size quota into basis points in an
-unsigned long, so a quotas/bytes above ULONG_MAX / 10000 does not fit,
-and is handled as if no size quota were set.  On 32-bit that is 429496
-bytes, well below the "echo $((1024*1024*1024)) > quotas/bytes" this
-document instructs.  addr_unit does not raise the limit, though a larger
-unit does make it harder to reach.
 
-Note both in the goal_tuner description.
 
-Signed-off-by: Donggeun Yoo <donggeunyoo.kernel@gmail.com>
----
- Documentation/admin-guide/mm/damon/usage.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+在 2026/9/11 19:32, Lorenzo Stoakes (ARM) 写道:
+> On Fri, Sep 11, 2026 at 01:06:46PM +0200, David Hildenbrand (Arm) wrote:
+>> On 9/11/26 09:58, zhen.ni wrote:
+>>>
+>>>
+>>> 在 2026/9/9 23:54, Zi Yan 写道:
+>>>> On 9 Sep 2026, at 6:28, David Hildenbrand (Arm) wrote:
+>>>>
+>>>>>
+>>>>> Because it results in less kernel code  :)
+>>>>>
+>>>>> And less kernel code is good. Unless unavoidable.
+>>>>
+>>>> An alternative is to add BPF hooks like bpf_iter to do the filtering
+>>>> and by default, when no BPF program is attached, everything is printed.
+>>>>
+>>>>
+>>>
+>>> I’ve also thought about a similar approach—perhaps a new bpf_iter type
+>>> that could iterate over all pages by PFN. The advantage would be that
+>>> you can fully customize what you want to print and what you want to
+>>> filter. However, doing so would require refactoring the entire
+>>> page_owner, and I’m not sure whether it’s worth pursuing in this
+>>> direction.I’d also like to hear everyone’s thoughts on this.
+>>
+>> Certainly better than having more and more manual filters added to the code base.
+> 
+> Agreed.
+> 
+> bpf seems the ideal fit here I think?
+> 
+> Means that those who want this information can get it and those who don't are
+> unaffected.
+> 
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index ba47255448564..ea7443b307826 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -455,6 +455,13 @@ the background design of the feature and the name of the selectable algorithms.
- Refer to :ref:`goals directory <sysfs_schemes_quota_goals>` for the goals
- setup.
- 
-+The ``temporal`` algorithm converts the size quota into basis points, so it
-+cannot represent a ``bytes`` value larger than 429496 on 32-bit kernels, or
-+1844674407370955 on 64-bit ones.  Larger values are handled as if no size
-+quota were set.  :ref:`addr_unit <damon_design_addr_unit>` does not raise the
-+limit, but it does make the limit harder to reach: with a larger unit, the
-+same amount of memory is written to ``bytes`` as a smaller number.
-+
- You can set the action-failed memory quota charging ratio by writing the
- numerator and the denominator for the ratio to ``fail_charge_num`` and
- ``fail_charge_denom`` files, respectively.  Reading those files will return the
--- 
-2.53.0
+I have prototyped page_owner bpf_iter and confirmed it is a viable and
+valuable direction:
 
+1.Most parameter parsing is offloaded to the existing BPF verifier,
+keeping the page_owner kernel-side logic simple.
+
+2.Filtering and printing are delegated to the BPF program, providing
+greater flexibility and enabling more complex composite filtering.
+
+I plan to further refine this patch series, but it will likely be
+submitted as a separate series, as it represents a different direction.
+
+
+Thanks,
+Zhen
