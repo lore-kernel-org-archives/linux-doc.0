@@ -1,38 +1,38 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CAE390999
-	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 16:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72138470115;
+	Sun, 20 Sep 2026 16:47:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789922876; cv=none; b=JedSJz+LpiuOApf90y0Jt/mIRZA9nQdjRiPjcSWujgPFPtMy3nwAxKhQM33zBEVSCuxVpzXCAbY/UyghHd65IkT7hLla4Q8Br1DGualRD5Kmle+Em7d6K2AYeh3qA6ACEu1V6HuEVljVUoz8sHRMjyBa2YmYL27sfnwaAlfwAVs=
+	t=1789922879; cv=none; b=q1ptCyKoNKRo2lUbstyjmQOQOBBja9r49tdjVIcZk3mJxEPQ9mHM7Zrcu4VhfFUYyD6rvWN1e7PgJtI4ffRQXRlhr2BtCbAKkMJUtyofpv2PR6Uc+Hn+YyJYfqgCrx9gYNab9Tz9eNl7wLmgK456A8+gDP0YNszHflSHtN3XcoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789922876; c=relaxed/simple;
+	s=arc-20240116; t=1789922879; c=relaxed/simple;
 	bh=7CAMaNNal2labRdl0vE066aF1rMOIE01uCfEmYPftSA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LEpe+XD9k1zS5Kq/lLMbREFFIPsGrtfS9rNwdQ5c1QHQNI6bFo94vlVNAPtEenFapmhRfqGFCyJVXXjBlafU6ZAbqfXEgudj2IBFh65ynguebxMpZJKChqaT7FJ0BHRrkTn8j96DvrRLqujncLhTTh+MXyyOEGQb10RtZq3MjBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oDxQPDNJ; arc=none smtp.client-ip=185.246.85.4
+	 MIME-Version; b=GX3dIvxyXn5K5zP8lgG/azxgGodlH4/T9tsU9rvshWtxl70CzP3TZA7m2ojxlHwTRzra8sSGa003Jg+y00Jz8coQBn3Zq/1B5j4dcnk6gBRPwOHCQK33gafiZH1QVLfBo5YdZYyLqLNaznWD2jmbstPSJQR1VrMY7v4K0IL6qRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=tIPyofj7; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oDxQPDNJ"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="tIPyofj7"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B090A4E4092C;
-	Sun, 20 Sep 2026 16:47:52 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 56465C5CD5C;
+	Sun, 20 Sep 2026 16:48:35 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7C43F6033F;
-	Sun, 20 Sep 2026 16:47:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 78CD2103290A5;
-	Sun, 20 Sep 2026 18:47:48 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8FD366033F;
+	Sun, 20 Sep 2026 16:47:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 30A7D103290A7;
+	Sun, 20 Sep 2026 18:47:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1789922870; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1789922868; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
 	bh=oNW4Miw3pDWhqdr2xavtmbzEWYItmw7DKF88Z5NqGVQ=;
-	b=oDxQPDNJYtEUntdrIJM5WqDoQdYggvDnilUAIFjvaFdK8s3tHSEVxmdzWItbE+L3c6nkd+
-	v74XWWVxLR0LlSHogvOdDjMYEqwDKGmwKT2F1LF1zPolt5eufVEG6ER6V1cbQeeKTEQPKr
-	zOCTSCUNUlX3r+vJtAdLLzB00evtXenPobZwnWvL4extHH8QRtI9pjBAvG0obLvEreTqd3
-	coMTyTJ+mGEyK3wyPC14LTS4ODLhuAT/xiJspEN6Vs5CZbZeOIjCjGzKSryQtZ5HQkWBAB
-	8GtoCX/lYV3eyXgXNY8m0MpXFfr3CRpvkIwcnTv/9/kBFNFWOC5eoTRoX57G/w==
+	b=tIPyofj7I6s7VLp+ZNNxj7hQ5IHaVG6kIkfhABJuIG3+AvDCSO+X6ALG8tShYkWVeq0CWI
+	LznjwAeZKFwMU59d6+ws2taCsXh1qcJR3pYVBJocRAY7RGtgypHzJUqkCtfyCX0eGroBrJ
+	dKDJg0fo0WEDaZsPRTIDsuHgivNOUjP3PDPJ9IYheSzFIkqW3rWt98aW4pDyYdELStPG8h
+	N8cxTqJY+HU2OlzwSQNPhyJLV2EY8qHJ/qHLt8XN7WV2mroBTpIlFd9fpsDl3thsrXxYPf
+	bB7OgkTzWiBjVq5UFIcTzMrNGNB/41LKZf15BQjn1wl2UA59Utkb1CBRlQZBxg==
 From: "Maxime Chevallier (Netdev Foundation)" <maxime.chevallier@bootlin.com>
 To: Andrew Lunn <andrew@lunn.ch>,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -52,9 +52,9 @@ Cc: "Maxime Chevallier (Netdev Foundation)" <maxime.chevallier@bootlin.com>,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH net-next 2/3] selftests: drv-net: pause: Validate the pause autonegotiation with a partner
-Date: Sun, 20 Sep 2026 18:47:29 +0200
-Message-ID: <20260920164732.349744-4-maxime.chevallier@bootlin.com>
+Subject: [PATCH net-next 2/3] selftests: drv-net: pause: tests against a controllable link partner
+Date: Sun, 20 Sep 2026 18:47:28 +0200
+Message-ID: <20260920164732.349744-3-maxime.chevallier@bootlin.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260920164732.349744-1-maxime.chevallier@bootlin.com>
 References: <20260920164732.349744-1-maxime.chevallier@bootlin.com>
