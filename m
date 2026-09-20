@@ -1,445 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA2C1F3B8A;
-	Sun, 20 Sep 2026 02:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC64C3B0587;
+	Sun, 20 Sep 2026 02:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789870691; cv=none; b=H5OOtlRRa+Ir+1KUjHZd+KU7Gql1K1gw32zNmtWFSToO4r3r601oLatXKYDoma3a2rcL/kG/mmmFR6XysBradKfVx5cJsVu1GwIFRje6Hq/EPQ8WuS2gHnzcwEx9hE+AHvDKSuyWQm6o0l7cmFaLFi6T9j39TuCqoASkbOHCt9o=
+	t=1789870860; cv=none; b=hnUTQK+gqO/g0GglUoTQz+oXpUVh17pBb7riX36VAFo7hqY6h74YpuLi/Mf2elpJATzqTHKEvcjh9+sVRGdyJoHFGl6qTA/aPNCxhLpFch0atfcERC/JzSRAWfuLhwBhIi3VI+AVFwlflLvwdTyavhHm6o2QPOoVMCaYGhzhGjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789870691; c=relaxed/simple;
-	bh=oo78RpNfiXwJn7r46jiNKS6yIJyDb+MQNVxkmov69Wc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NQyrx+dRj4ztaIMIRHUzwBRwMqinPUaDisYtOYVwW1zJiDT6O2LktlwaCTy9iyDLEOINdSVIosS310j1nSJTspcLK8UoFbtblnAc9ojCOx5NL36eZbxSe+zddF8tffNFN3NlIyH+VI9mThksX2xvm9WMUx/uli5hGpspDj/NHHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MfVFWnZ+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789870860; c=relaxed/simple;
+	bh=v2tFFUZacAIDE07ELsxx+Z022t6A/gmR+6MWb1i2Yy0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A4mieQOI/UxVwcEFxObajV/N2DeqrloVcXC0EIULt5DKYbLhGxTKXIZFiVGppVVXnCB36UoAHPnxYW4kR0a8F//eVF8An651rrd+zLYbpw3fOtgCpTubeW6jAP6CwyeRiUkQ39kl+kk354mzxhqNRBdwIuuCVidhjtFVmCsvovI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=iw1zHT3C; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MfVFWnZ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 796591F000FF;
-	Sun, 20 Sep 2026 02:18:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789870689;
-	bh=1a/vwBnGGSIRYfx7PP1aJOZeFIh+KqK6KRk7beFBFRU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=MfVFWnZ+ghJ3Yl9mgB9jziDDPYAcV2tY1OJX+/JicFP+ZvlHBKDI4pfV9o4BMBlmF
-	 WhkF08o1/sXYWBxN56mOnwA+AF26zinknmaFCvjf8Zwqsl9+XZwwHd+3/ymhJ6kmi/
-	 zJrSFNKdWCmCMHzI4bwQ5gi3dxKDdx4EjaJfy7YOpD0LcZOovFK3IjTcIssfBOej83
-	 709qjKzSIABKEUo9aLqZqdzWGj3RzZcNwLYiuLtyYr5SoIbgNvuF15nfrHnSEc96wu
-	 6mXAZmjydQo7jZ56+f3OIJbxl4cLVU8Iv6zlo/SZV9orVkTp5XLf59I4d/+PFp2nhB
-	 DiGQw6GNKyirA==
-Date: Sun, 20 Sep 2026 03:18:05 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jinseob Kim <kimjinseob88@gmail.com>
-Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
- andriy.shevchenko@intel.com, linux-kernel@vger.kernel.org,
- rdunlap@infradead.org, joshua.crofts1@gmail.com,
- u.kleine-koenig@baylibre.com, julianbraha@gmail.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 8/8] iio: osf: add IIO KUnit tests
-Message-ID: <20260920031805.1d5aa396@jic23-hlaptop>
-In-Reply-To: <59251baa5b1f53a72ac7a09afc334398e2e84db7.1789753020.git.kimjinseob88@gmail.com>
-References: <cover.1789753020.git.kimjinseob88@gmail.com>
-	<59251baa5b1f53a72ac7a09afc334398e2e84db7.1789753020.git.kimjinseob88@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="iw1zHT3C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=dJ
+	olkrAP2de5xkNFpX13adY2hQYvUnJwPkyjePIpKEY=; b=iw1zHT3C38Ekt6NKz4
+	3UGBZaAchNXc/SmWOoWS2B6YskI7vrLxWZuWPLeybdJbKppNEWE1PpUXUUurLtr/
+	scNlcDX9CGBieJdDw58FF4KefnuoArED3Pyk0QluYn0dr7LQUss4PCAne9WeyxWN
+	YrNER7KGk5Lt13df1H90bU/O4=
+Received: from chaosheng-ASUS-TUF-Gaming-F16-FX607JV-FX607JV.lan (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wB3U9PTQq9qg1hLBw--.56923S2;
+	Sun, 20 Sep 2026 10:20:05 +0800 (CST)
+From: Quchaosheng <quchaosheng000406@163.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	quchaosheng000406@163.com
+Subject: [PATCH 1/2] sched/doc: add a preemption model overview
+Date: Sun, 20 Sep 2026 10:20:02 +0800
+Message-ID: <20260920022003.1202546-1-quchaosheng000406@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wB3U9PTQq9qg1hLBw--.56923S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxKrWrKF47uF1rKrWkZFyDAwb_yoW3XryDpF
+	Z0qrWfXws3J340kryxAw18XryrZ3WxAa1xGrykJry5Awn8Xa4jyr4Utr1aqryUCr18ZFWF
+	qrs5X3y2kw1jyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piaiixUUUUU=
+X-CM-SenderInfo: xtxfxtprvkv0bjqqikiqw6il2tof0z/xtbDABZMwWqvQtZvGwAA3+
 
-On Sat, 19 Sep 2026 03:24:46 +0900
-Jinseob Kim <kimjinseob88@gmail.com> wrote:
+The scheduler documentation describes the individual scheduling classes
+and various tuning knobs, but there is nothing that describes the
+preemption models themselves.  The only place where they are documented
+is the kernel-parameters entry for "preempt=", which explains the boot
+time parameter but not the models it selects.
 
-> Add the existing IIO active-scan packing and buffer producer lifetime
-> tests. Extend the test build wiring and help text to cover both suites.
-> 
-> This changes no production source. The complete series retains the
-> production behavior of the combined-driver revision, with CRC
-> terminology clarified.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
+Add Documentation/scheduler/sched-preemption.rst, covering the four
+models, which of them can be selected at runtime, and the mechanism
+behind PREEMPT_LAZY.  The lazy model in particular is easy to
+misunderstand: a lazy reschedule does not send a cross-CPU reschedule
+IPI, so it is only committed on the return to user space or on the next
+tick.  That makes the tick an upper bound on lazy preemption latency,
+and it means the usual real-time latency tools, which wake a pinned
+task on its own CPU, do not exercise it at all.
 
-So there are a number of generic tests in here (using osf as a device)
-that we should probably be looking to pull out as independent self tests
-if we can.  Good to have them as something to build on though and
-there are of course some driver interactions that matter.
+Signed-off-by: Quchaosheng <quchaosheng000406@163.com>
+---
+ Documentation/scheduler/index.rst            |   1 +
+ Documentation/scheduler/sched-preemption.rst | 120 +++++++++++++++++++
+ 2 files changed, 121 insertions(+)
+ create mode 100644 Documentation/scheduler/sched-preemption.rst
 
-Anyhow, I'd like input from others on how they think we should ensure
-the coverage you have here is present but avoid duplication on a per
-driver basis (assuming others decide to also start putting together
-comprehensive self tests like you have done!).
-
-I'd like to find time to take a close look at these tests but
-it won't happen for a while as there is simply to much activity on
-the list + I'm travelling in the next few weeks (including Linux
-Plumbers in Prague in early October).  So it may be that we end
-up merging the driver ahead of these tests.
-
-Jonathan
-
-> ---
->  drivers/iio/opensensorfusion/Kconfig        |   2 +-
->  drivers/iio/opensensorfusion/Makefile       |   2 +-
->  drivers/iio/opensensorfusion/osf_iio_test.c | 325 ++++++++++++++++++++
->  3 files changed, 327 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/iio/opensensorfusion/osf_iio_test.c
-> 
-> diff --git a/drivers/iio/opensensorfusion/Kconfig b/drivers/iio/opensensorfusion/Kconfig
-> index 316f33be1327..b4a2cde9645e 100644
-> --- a/drivers/iio/opensensorfusion/Kconfig
-> +++ b/drivers/iio/opensensorfusion/Kconfig
-> @@ -20,7 +20,7 @@ config OPEN_SENSOR_FUSION_KUNIT_TEST
->  	default KUNIT_ALL_TESTS
->  	help
->  	  Build focused unit tests for the Open Sensor Fusion core sample
-> -	  acceptance, direct-read cache, and capability/session handling. The tests
-> +	  acceptance, direct-read cache, and IIO buffer paths. The tests
->  	  exercise accepted, ignored, and rejected sample handling without
->  	  exposing additional production interfaces.
->  
-> diff --git a/drivers/iio/opensensorfusion/Makefile b/drivers/iio/opensensorfusion/Makefile
-> index c2f5ba065a62..6a28b14cae1f 100644
-> --- a/drivers/iio/opensensorfusion/Makefile
-> +++ b/drivers/iio/opensensorfusion/Makefile
-> @@ -4,4 +4,4 @@ obj-$(CONFIG_OPEN_SENSOR_FUSION) += open-sensor-fusion.o
->  
->  open-sensor-fusion-y := osf_core.o osf_iio.o osf_protocol.o osf_serdev.o \
->  			 osf_stream.o
-> -open-sensor-fusion-$(CONFIG_OPEN_SENSOR_FUSION_KUNIT_TEST) += osf_core_test.o
-> +open-sensor-fusion-$(CONFIG_OPEN_SENSOR_FUSION_KUNIT_TEST) += osf_core_test.o osf_iio_test.o
-> diff --git a/drivers/iio/opensensorfusion/osf_iio_test.c b/drivers/iio/opensensorfusion/osf_iio_test.c
-> new file mode 100644
-> index 000000000000..63d3ca1af329
-> --- /dev/null
-> +++ b/drivers/iio/opensensorfusion/osf_iio_test.c
-> @@ -0,0 +1,325 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <kunit/device.h>
-> +#include <kunit/test.h>
-> +
-> +#include <linux/bitmap.h>
-> +#include <linux/completion.h>
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/iio/buffer.h>
-> +#include <linux/iio/buffer_impl.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/kthread.h>
-> +#include <linux/string.h>
-> +
-> +#include "osf_core.h"
-> +#include "osf_iio.h"
-> +
-> +static noinline void osf_test_poison_stack(void)
-> +{
-> +	u8 bytes[1024];
-> +
-> +	memset(bytes, 0xa5, sizeof(bytes));
-> +	barrier_data(bytes);
-> +}
-> +
-> +static void osf_iio_check_scan(struct kunit *test, struct iio_dev *indio_dev,
-> +			       const s32 *values, unsigned int channels,
-> +			       unsigned int mask, bool ts)
-> +{
-> +	struct iio_buffer *buffer = indio_dev->buffer;
-> +	unsigned int data_bytes = hweight32(mask) * sizeof(s32);
-> +	unsigned int ts_offset = ALIGN(data_bytes, 8);
-> +	unsigned int scan_bytes = ts ? ts_offset + 8 : data_bytes;
-> +	unsigned int offset = 0;
-> +	u8 scan[24] __aligned(8);
-> +	s64 before, after, timestamp;
-> +	int ret;
-> +
-> +	bitmap_zero((unsigned long *)buffer->scan_mask, iio_get_masklength(indio_dev));
-> +	for (unsigned int i = 0; i < channels; i++)
-> +		if (mask & BIT(i))
-> +			set_bit(i, (unsigned long *)buffer->scan_mask);
-> +	buffer->scan_timestamp = ts;
-> +	ret = iio_update_buffers(indio_dev, buffer, NULL);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	kunit_info(test, "device=%s mask=%u ts=%u bytes=%u\n",
-> +		   indio_dev->name, mask, ts, scan_bytes);
-> +	memset(scan, 0xa5, sizeof(scan));
-> +	before = iio_get_time_ns(indio_dev);
-> +	osf_test_poison_stack();
-> +	ret = osf_iio_push_sample(indio_dev, values, channels);
-> +	after = iio_get_time_ns(indio_dev);
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +	KUNIT_EXPECT_EQ(test, buffer->bytes_per_datum, scan_bytes);
-> +	ret = iio_pop_from_buffer(buffer, scan);
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +	if (ret)
-> +		goto disable;
-> +
-> +	for (unsigned int i = 0; i < channels; i++) {
-> +		if (!(mask & BIT(i)))
-> +			continue;
-> +		KUNIT_EXPECT_MEMEQ(test, scan + offset, &values[i], sizeof(s32));
-> +		offset += sizeof(s32);
-> +	}
-> +	if (ts) {
-> +		for (unsigned int i = data_bytes; i < ts_offset; i++)
-> +			KUNIT_EXPECT_EQ(test, scan[i], (u8)0);
-> +		memcpy(&timestamp, scan + ts_offset, sizeof(timestamp));
-> +		KUNIT_EXPECT_GE(test, timestamp, before);
-> +		KUNIT_EXPECT_LE(test, timestamp, after);
-> +	}
-> +	/* Neither kfifo nor the producer may write outside the consumer stride. */
-> +	for (unsigned int i = scan_bytes; i < sizeof(scan); i++)
-> +		KUNIT_EXPECT_EQ(test, scan[i], (u8)0xa5);
-> +
-> +disable:
-> +	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, NULL, buffer), 0);
-> +}
-> +
-> +/* Protect timestamp alignment holes and every supported scan layout. */
-> +static void osf_iio_scan_bytes_test(struct kunit *test)
-> +{
-> +	static const u16 types[] = {
-> +		OSF_SENSOR_ACCELEROMETER, OSF_SENSOR_GYROSCOPE,
-> +		OSF_SENSOR_MAGNETOMETER, OSF_SENSOR_TEMPERATURE,
-> +	};
-> +	const s32 values[] = { 101, -202, 303 };
-> +	struct osf_capability_entry entry = {
-> +		.sample_format = OSF_SAMPLE_FORMAT_S32,
-> +		.scale_nano = 1000000,
-> +	};
-> +	struct osf_device *osf;
-> +	struct device *dev;
-> +
-> +	dev = kunit_device_register(test, "osf-iio");
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-> +	osf = kunit_kzalloc(test, sizeof(*osf), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, osf);
-> +	osf_core_init(osf, dev);
-> +
-> +	for (unsigned int t = 0; t < ARRAY_SIZE(types); t++) {
-> +		unsigned int channels = t == 3 ? 1 : 3;
-> +		struct iio_dev *indio_dev;
-> +		int ret;
-> +
-> +		entry.sensor_type = types[t];
-> +		entry.channel_count = channels;
-> +		ret = osf_iio_register_sensor(dev, &entry, osf, &indio_dev);
-> +		KUNIT_ASSERT_EQ(test, ret, 0);
-> +		for (unsigned int mask = 1; mask < BIT(channels); mask++)
-> +			for (unsigned int ts = 0; ts < 2; ts++)
-> +				osf_iio_check_scan(test, indio_dev, values, channels, mask, ts);
-> +		osf_iio_unregister_sensor(indio_dev);
-> +	}
-> +}
-> +
-> +struct osf_iio_race {
-> +	struct iio_buffer_access_funcs access;
-> +	const struct iio_buffer_access_funcs *original;
-> +	struct iio_dev *indio_dev;
-> +	struct completion entered;
-> +	struct completion release;
-> +	struct completion config_started;
-> +	struct completion config_done;
-> +	atomic_t block_store;
-> +	atomic_t stores;
-> +	atomic_t disabled;
-> +	atomic_t bad_store;
-> +	int enable_error;
-> +	int disable_error;
-> +	int config_result;
-> +	bool unregister;
-> +};
-> +
-> +static struct osf_iio_race *osf_iio_race_from_buffer(struct iio_buffer *buffer)
-> +{
-> +	return container_of(buffer->access, struct osf_iio_race, access);
-> +}
-> +
-> +static int osf_iio_test_store(struct iio_buffer *buffer, const void *data)
-> +{
-> +	struct osf_iio_race *race = osf_iio_race_from_buffer(buffer);
-> +
-> +	if (atomic_xchg(&race->block_store, 0)) {
-> +		complete(&race->entered);
-> +		if (!wait_for_completion_timeout(&race->release, 5 * HZ))
-> +			return -ETIMEDOUT;
-> +	}
-> +	if (atomic_read(&race->disabled))
-> +		atomic_inc(&race->bad_store);
-> +	atomic_inc(&race->stores);
-> +	return race->original->store_to(buffer, data);
-> +}
-> +
-> +static int osf_iio_test_enable(struct iio_buffer *buffer, struct iio_dev *indio_dev)
-> +{
-> +	struct osf_iio_race *race = osf_iio_race_from_buffer(buffer);
-> +
-> +	if (race->enable_error)
-> +		return race->enable_error;
-> +	atomic_set(&race->disabled, 0);
-> +	return 0;
-> +}
-> +
-> +static int osf_iio_test_disable(struct iio_buffer *buffer, struct iio_dev *indio_dev)
-> +{
-> +	struct osf_iio_race *race = osf_iio_race_from_buffer(buffer);
-> +
-> +	atomic_set(&race->disabled, 1);
-> +	return race->disable_error;
-> +}
-> +
-> +static int osf_iio_test_producer(void *data)
-> +{
-> +	struct osf_iio_race *race = data;
-> +	const s32 values[] = { 101, -202, 303 };
-> +
-> +	while (!kthread_should_stop()) {
-> +		osf_iio_push_sample(race->indio_dev, values, ARRAY_SIZE(values));
-> +		cond_resched();
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int osf_iio_test_configure(void *data)
-> +{
-> +	struct osf_iio_race *race = data;
-> +
-> +	complete(&race->config_started);
-> +	if (race->unregister) {
-> +		osf_iio_unregister_sensor(race->indio_dev);
-> +		race->config_result = 0;
-> +	} else {
-> +		race->config_result = iio_update_buffers(race->indio_dev, NULL,
-> +							 race->indio_dev->buffer);
-> +	}
-> +	complete(&race->config_done);
-> +	while (!kthread_should_stop())
-> +		msleep(20);
-> +	return 0;
-> +}
-> +
-> +static void osf_iio_expect_quiesce(struct kunit *test, struct osf_iio_race *race)
-> +{
-> +	struct task_struct *config;
-> +	unsigned long waited;
-> +
-> +	config = kthread_run(osf_iio_test_configure, race, "osf-cfg-test");
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
-> +	KUNIT_EXPECT_NE(test, wait_for_completion_timeout(&race->config_started, HZ), 0UL);
-> +	waited = wait_for_completion_timeout(&race->config_done, msecs_to_jiffies(20));
-> +	KUNIT_EXPECT_EQ(test, waited, 0UL);
-> +	complete(&race->release);
-> +	KUNIT_EXPECT_NE(test, wait_for_completion_timeout(&race->config_done, HZ), 0UL);
-> +	kthread_stop(config);
-> +	KUNIT_EXPECT_EQ(test, race->config_result, 0);
-> +}
-> +
-> +/* Run real IIO configuration and kfifo code against an independent producer. */
-> +static void osf_iio_buffer_lifetime_test(struct kunit *test)
-> +{
-> +	struct osf_capability_entry entry = {
-> +		.sensor_type = OSF_SENSOR_ACCELEROMETER,
-> +		.channel_count = 3,
-> +		.sample_format = OSF_SAMPLE_FORMAT_S32,
-> +		.scale_nano = 1000000,
-> +	};
-> +	const s32 values[] = { 101, -202, 303 };
-> +	struct task_struct *producer;
-> +	struct osf_iio_race *race;
-> +	struct osf_device *osf;
-> +	struct iio_dev *indio_dev;
-> +	struct iio_buffer *buffer;
-> +	struct device *dev;
-> +	int stores, ret;
-> +
-> +	dev = kunit_device_register(test, "osf-race");
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-> +	osf = kunit_kzalloc(test, sizeof(*osf), GFP_KERNEL);
-> +	race = kunit_kzalloc(test, sizeof(*race), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, osf);
-> +	KUNIT_ASSERT_NOT_NULL(test, race);
-> +	osf_core_init(osf, dev);
-> +	ret = osf_iio_register_sensor(dev, &entry, osf, &indio_dev);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +	buffer = indio_dev->buffer;
-> +	race->indio_dev = indio_dev;
-> +	race->original = buffer->access;
-> +	race->access = *buffer->access;
-> +	race->access.store_to = osf_iio_test_store;
-> +	race->access.enable = osf_iio_test_enable;
-> +	race->access.disable = osf_iio_test_disable;
-> +	buffer->access = &race->access;
-> +	init_completion(&race->entered);
-> +	init_completion(&race->release);
-> +	init_completion(&race->config_started);
-> +	init_completion(&race->config_done);
-> +	atomic_set(&race->disabled, 1);
-> +	set_bit(0, (unsigned long *)buffer->scan_mask);
-> +	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, buffer, NULL), 0);
-> +
-> +	atomic_set(&race->block_store, 1);
-> +	producer = kthread_run(osf_iio_test_producer, race, "osf-rx-test");
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, producer);
-> +	KUNIT_EXPECT_NE(test, wait_for_completion_timeout(&race->entered, HZ), 0UL);
-> +	osf_iio_expect_quiesce(test, race);
-> +
-> +	for (unsigned int i = 0; i < 100; i++) {
-> +		bitmap_zero((unsigned long *)buffer->scan_mask, iio_get_masklength(indio_dev));
-> +		*(unsigned long *)buffer->scan_mask = (i % 7) + 1;
-> +		buffer->scan_timestamp = i & 1;
-> +		KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, buffer, NULL), 0);
-> +		cond_resched();
-> +		KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, NULL, buffer), 0);
-> +	}
-> +
-> +	race->enable_error = -EIO;
-> +	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, buffer, NULL), -EIO);
-> +	stores = atomic_read(&race->stores);
-> +	KUNIT_EXPECT_EQ(test, osf_iio_push_sample(indio_dev, values, 3), 0);
-> +	KUNIT_EXPECT_EQ(test, atomic_read(&race->stores), stores);
-> +	race->enable_error = 0;
-> +	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, buffer, NULL), 0);
-> +	race->disable_error = -EIO;
-> +	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, NULL, buffer), -EIO);
-> +	stores = atomic_read(&race->stores);
-> +	KUNIT_EXPECT_EQ(test, osf_iio_push_sample(indio_dev, values, 3), 0);
-> +	KUNIT_EXPECT_EQ(test, atomic_read(&race->stores), stores);
-> +	race->disable_error = 0;
-> +
-> +	KUNIT_EXPECT_EQ(test, iio_update_buffers(indio_dev, buffer, NULL), 0);
-> +	/* Retain ownership while testing unregister against an admitted push. */
-> +	get_device(&indio_dev->dev);
-> +	reinit_completion(&race->entered);
-> +	reinit_completion(&race->release);
-> +	reinit_completion(&race->config_started);
-> +	reinit_completion(&race->config_done);
-> +	atomic_set(&race->block_store, 1);
-> +	KUNIT_EXPECT_NE(test, wait_for_completion_timeout(&race->entered, HZ), 0UL);
-> +	race->unregister = true;
-> +	osf_iio_expect_quiesce(test, race);
-> +	kthread_stop(producer);
-> +	KUNIT_EXPECT_EQ(test, atomic_read(&race->bad_store), 0);
-> +	KUNIT_EXPECT_GT(test, atomic_read(&race->stores), 0);
-> +	buffer->access = race->original;
-> +	put_device(&indio_dev->dev);
-> +}
-> +
-> +static struct kunit_case osf_iio_test_cases[] = {
-> +	KUNIT_CASE(osf_iio_scan_bytes_test),
-> +	KUNIT_CASE(osf_iio_buffer_lifetime_test),
-> +	{ }
-> +};
-> +
-> +static struct kunit_suite osf_iio_test_suite = {
-> +	.name = "osf-iio",
-> +	.test_cases = osf_iio_test_cases,
-> +};
-> +
-> +kunit_test_suite(osf_iio_test_suite);
-> +
-> +MODULE_LICENSE("GPL");
+diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+index 17ce8d76befc..d6d75421756a 100644
+--- a/Documentation/scheduler/index.rst
++++ b/Documentation/scheduler/index.rst
+@@ -23,5 +23,6 @@ Scheduler
+     sched-stats
+     sched-ext
+     sched-debug
++    sched-preemption
+ 
+     text_files
+diff --git a/Documentation/scheduler/sched-preemption.rst b/Documentation/scheduler/sched-preemption.rst
+new file mode 100644
+index 000000000000..fc6fd89789cf
+--- /dev/null
++++ b/Documentation/scheduler/sched-preemption.rst
+@@ -0,0 +1,120 @@
++=====================
++Scheduler preemption
++=====================
++
++The kernel can be built to run kernel code either uninterruptibly, or with
++varying degrees of preemptibility.  These are the *preemption models*.
++
++When CONFIG_PREEMPT_DYNAMIC is enabled the preemption model can additionally
++be selected at boot time with the ``preempt=`` command line parameter, without
++rebuilding the kernel.  See
++Documentation/admin-guide/kernel-parameters.txt for the parameter itself.
++
++The models selectable at runtime are:
++
++	=========	====================================================
++	none		No preemption of kernel code other than at explicit
++			``cond_resched()`` / blocking points.
++	voluntary	As ``none``, plus ``might_sleep()`` sites.
++	full		Any section that is not explicitly preempt disabled
++			may be preempted at any time.  Tasks also yield
++			contended spinlocks.
++	lazy		As ``full``, except that a reschedule requested by
++			the fair scheduler does not interrupt the target
++			CPU.  It is committed at the next return to user
++			space or at the next tick, whichever comes first.
++	=========	====================================================
++
++Not every model is available on every kernel.  On a kernel that selects
++ARCH_HAS_PREEMPT_LAZY, only ``full`` and ``lazy`` are offered and ``none`` and
++``voluntary`` are rejected.  A PREEMPT_RT kernel likewise does not offer
++``none`` or ``voluntary``.
++
++The model that is actually active is reported in the boot log::
++
++	Dynamic Preempt: full
++
++PREEMPT_LAZY
++============
++
++``lazy`` is the interesting one, because its behaviour cannot be understood
++from the "can this be preempted" question alone.
++
++When a wakeup makes a running CFS task preemptible, the fair scheduler calls
++``resched_curr_lazy()``.  With the lazy model inactive that is just
++``resched_curr()``; with ``lazy`` active it sets ``TIF_NEED_RESCHED_LAZY``
++instead of ``TIF_NEED_RESCHED``.  The consequence is in ``__resched_curr()``:
++the cross-CPU reschedule IPI is only sent for ``TIF_NEED_RESCHED``.
++
++A lazy reschedule therefore does *not* interrupt the target CPU.  It is
++committed later, in one of two ways:
++
++1. On the next return to user mode.  ``__exit_to_user_mode_loop()`` treats
++   ``_TIF_NEED_RESCHED | _TIF_NEED_RESCHED_LAZY`` as a reschedule request, and
++   ``xfer_to_guest_mode_work()`` does the same for a vCPU returning to guest
++   mode.
++
++2. In ``scheduler_tick()``, which promotes a pending
++   ``TIF_NEED_RESCHED_LAZY`` to a full ``TIF_NEED_RESCHED`` once per tick.
++
++The tick is thus an upper bound on lazy preemption latency for CFS tasks: a
++runnable CFS task that has been passed over is picked up within one tick, not
++immediately.  The tick is guaranteed to run in the case that matters: while
++more than one CFS task is runnable on the CPU, ``sched_can_stop_tick()``
++refuses to stop the tick.  A lazy reschedule aimed at the idle task is promoted
++to a full one instead.
++
++That is the intended trade-off -- it avoids sending an IPI to every CPU that
++has a runnable CFS task -- and it is why ``lazy`` gives up latency in exchange
++for fewer inter-processor interrupts.
++
++The idle task is never delayed: ``__resched_curr()`` promotes a lazy
++reschedule to a full one when the target is the idle task.
++
++Only the fair scheduler issues lazy reschedules.  RT and deadline tasks are
++still preempted immediately.  ``lazy`` is therefore not a replacement for
++PREEMPT_RT; it is a way to keep most of the responsiveness of ``full`` while
++removing a large part of its IPI traffic.
++
++Debugging
++=========
++
++The scheduler debugfs directory provides ``/sys/kernel/debug/sched/preempt``,
++which lists the models that may be switched to; the active one is enclosed in
++parentheses::
++
++	# cat /sys/kernel/debug/sched/preempt
++	full (lazy)
++
++Writing a model name to the file switches to it.  A name that the kernel
++cannot select (either because the model is not built in, or because it is not
++available on this kernel) is rejected with EINVAL.  The ``preempt=``
++boot parameter rejects such a value as well, but only prints an ``unsupported
++mode`` warning and keeps the default model.
++
++Measuring
++=========
++
++Two things routinely trip people up when measuring preemption latency.
++
++First, the classic real-time latency tools do not exercise lazy preemption at
++all.  Lazy only applies to the fair class, so waking a SCHED_FIFO task takes
++``resched_curr()`` and preempts immediately, whichever model is active.  And
++when the woken task runs on the CPU the wakeup happens on, even a fair lazy
++reschedule is committed as soon as that CPU returns to user mode, which for an
++already runnable task is immediate.  For both reasons such workloads measure
++the same under ``lazy`` and ``full``.
++
++The difference only shows up when the woken task is *not* running on the CPU
++where the wakeup happens.  In that case the waker requests the reschedule, and
++under ``lazy`` that request is not turned into an IPI; the target CPU only
++notices at its next tick.  A measurement that cannot distinguish ``none`` from
++``full`` is usually not measuring the preemption model at all: in the absence
++of ``lazy``, the reschedule IPI is sent regardless of the model and provides a
++preemption point even on PREEMPT_NONE.
++
++Second, when driving cross-CPU wakeups from a periodic source, keep the wakeup
++period away from integer multiples of the tick.  A period that is phase-locked
++to the tick will hide (or invent) exactly the effect that is being measured.
++Add jitter to the wakeup period, and confirm the active model from the
++``Dynamic Preempt:`` line rather than assuming that ``preempt=`` took effect.
+-- 
+2.43.0
 
