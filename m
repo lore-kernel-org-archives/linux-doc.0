@@ -1,65 +1,66 @@
-Received: from mail-yx2-f22.google.com (mail-yx2-f22.google.com [74.125.224.150])
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC1C471CEB
-	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 19:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C736471CF0
+	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 19:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789933030; cv=none; b=I6qZXNbcb6rBvcJMRJnxQZzMpB/aVsfV2qLnZIZM2slGF9Gvg7C3itgPcIl03upULj5F9mCsllkWntzim2rghvXy/5e0h7XBLxZ2Mmq51dajMioJbVv2SsrimrIBw1fM/wkk9Snol/Ngn7vDLLmLRd1q1YgzJDQBQG8JnlmBFdg=
+	t=1789933036; cv=none; b=VgsJJwzYaEZgfHiP1cYFQEj6MHvQX+kHHRviImDqMhPRaaUx1Qk5JDPibjqgsyI2NlSwLrNTU3aX+PotZofU5QgJjhUgSGtTbdddA/sYrzvUwPmLUklqGffDvnDSL1cfaHMJJlqXnOBmSmT7Rx8luYpCq+2Dio/n7UZQuOmpot8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789933030; c=relaxed/simple;
-	bh=wQ3ou0OMG8Kvrev6k20Um/PDy/0+0e9DtH56kTKSrbo=;
+	s=arc-20240116; t=1789933036; c=relaxed/simple;
+	bh=T8oXswy3XoTqpRW/vQA18Qq9+aSSfigAkGNRtoi2I5g=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RKJE8KK6IZp6gTi07jnKms5WiTwNOuQtZArUfIC5KuYMcN8xShIs/YUg2NftYh8W+z3E/6W0iu5q91BTsZqusgNZBjZ6i4e3hU/1C5ZskpCId5WF42sud0BFcIJ3AOLxFdcYJdJTwi8ubZkXSper1kW8ZpEPRaJa/LfOF2adGJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=QAtDUqnm; arc=none smtp.client-ip=74.125.224.150
+	 MIME-Version; b=Bw2xPuwlfItwb7WBGNsSTYVI+jJij3LufPbueBzz1DbNwNEb9id3Pltqx2mPaHPGoZ92/QTCx5MsJX7Vq/Sj+Q38d0KCoA4ZoGxAz1rkpA3ZJy7AhlcToviD3PeWiDWyN/iXi+cO51HGr7wx6bimVVwknUHCQUQckJ2nY90x9MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=HOUu+Vp0; arc=none smtp.client-ip=74.125.224.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="QAtDUqnm"
-Received: by mail-yx2-f22.google.com with SMTP id 00721157ae682-85d4ddd1d91so15238087b3.1
-        for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 12:37:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="HOUu+Vp0"
+Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d43ac8d1dso14783917b3.3
+        for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 12:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1789933027; x=1790537827; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1789933033; x=1790537833; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=wVwJQFyVies0sN36ZwALD03xlxJgg7HjR5Oz9PMtlp0=;
-        b=QAtDUqnm1pdUpy0LvuTn7ixIxtXtoZSUO9RJdHF/Wu2wm+XYY+PwunsSpuz2RFWMlk
-         ZWA1l46JZBsV2Hy4a+iYd+Mb1yFmwOjYR5dMmzjDk0QjH+eoMYL4ZSpAOXjoYqKCnKTo
-         oHB+hpxwVtBu4J3oXU7JLd9Rw8Xl9x7TW9+fEyHCfBCiXLQrOAAXWposAEJF5fdE3sXS
-         GmkNx/yp1GJefQbF1vBDrNCd8IE/+L47FkiRL1nYjWE71OErHUbpet8Bs1OBuTTxdzHn
-         1o1HiShtVlApI9bUFovfd5GKK1oLBpw3h8AD07SY9q2VFzUJYOf4Sp5e+p3RFBBko2L4
-         zSvA==
+        bh=gjdNKKGx+yhFaJeCA90Rv+NyjnhIa6+HpCMo5c2ikFg=;
+        b=HOUu+Vp0735fEFj6WFuBc3/8Bl8xx4s56LwWXnpIn+UijKhMgpeHreuTa+MptlCCP7
+         3UIr4MAlrx0Tm/nDbAI251YE615eSqVkVHGDZS+8C/M4Yr1eaxwcdVIcFMzMOutnyuzn
+         mhSItGzRZfn0gPNzjgFvKlgpWisQ7ihkUCtpde75WLcRIqPo0lzd3g94OYrGYbIPll+Y
+         DvIFZyhZMdCpOJYIe8+2YdsmLbWD8cPu9YgRvUWx6Jihn/ubOCD6pdrXED+4wmTe6WzQ
+         L1PjnHtdpKo5IYThcoXy0OUNXm09FpyGZKVpQL62WXmWSKwbIlxU1z9A+Z3W6HBUhQOd
+         H8Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789933027; x=1790537827;
+        d=1e100.net; s=20260707; t=1789933033; x=1790537833;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=wVwJQFyVies0sN36ZwALD03xlxJgg7HjR5Oz9PMtlp0=;
-        b=Uh0Wj8Zven9xYKboqLyap8c0+LxttQ1usbNLYBglE+7NA+JiFdImyQ2m3CrTYaeN6H
-         GJzDlpphckV6VEkFvJmR0/ca5zf+11hG8XQXHUKgau66XBL9MqGiA2WZIpkVSY8wTtzq
-         2OMo5c/JEoeTs7Sm3rwXfecP36De0elTXJRtE2fyARhNhx8nJHhU1RHngOhP3Q7ObBve
-         GMEu3YRAcZwKN9GvEYe535bQeBJqwREe/EC3zv8nQo3iTAaXDAwQe876Wx+va6T2rp5k
-         B4oJ0vLVM8GGwQh/KeMFVSQnSPVnH5c+FHcDv8ftQgFjODT9r6cHXbB1g/xEkh2S6MRH
-         iGNg==
-X-Forwarded-Encrypted: i=1; AKwUvBy8nkajOKf3JEDlFUEYl72D9Gq8LTO6UTq0BTPyL7eRGao2JvUZUm04AYabNaulPpBKw9p0RgcUsGI=@vger.kernel.org
-X-Gm-Message-State: AFuF++lfl1B7nTDy3ehjVvm2Cribg6tEVdr0aU5lwRwzAkz4reYp9hlR
-	kkYBT5aCvNw/I8K695I3F4NcELHeBt+4lRq6a60QX6lNqrzKTsoXfF0Gl65X6xg4Km8=
-X-Gm-Gg: AYBFou1/EIXUwSg6pLMHRUuUwTKUVGEw5PUtLz3SBmWm8FNo+fhR7EPVpQynADEvrL5
-	0l7cTLrX5H7Y9rqHks4oWvco+LU7cihbLxyQacebiARaLGj18Vsq4Q7DIcmU29SlvDK4bj6UusK
-	oRA5O8uSzVXvP5dksQW8xXQPh/envve9I3IgaR0xdJQEw1pWu6jZY1IGTBLiPTKbBur9NoKfZWA
-	RAwqHFL2G0jnBUtDGh8vZS8EYBSB1xzfRNcHXC4jVlHRVbdseYJ/xVX1WcbWbVS5AZyfCdSFRMj
-	O1qmOTmXnzPUghEt6/dX7tEhBLOSpJi7WixbHrdcyHjfSMIG4mCeXD8qzZtETvli9IgXuczRRBd
-	6AEqATrZUPbsnvgyjGXfNiGmJvk0x3GG3dT02zc+TakcNciZ0lwUTbTrVmud5YC+l3KBHsqHxGU
-	8NXem/GBobo/LP2+uQwuPr5OftQ23nV9yMnZuM5MkAXgqwAcm7xEwve20oUOzxzq9R9nEOf9jxa
-	IzLGKWutct7UTsr1cMLn5WSybu2aAToQxBD+KmltF9bRbJUd7uD4+7j2mheOTV+DxiSB5jWwA5+
-	2indAbMIPmZimeV53Ok=
-X-Received: by 2002:a05:690c:89:b0:89a:63da:cbe1 with SMTP id 00721157ae682-89a63dacc8fmr20430637b3.39.1789933027324;
-        Sun, 20 Sep 2026 12:37:07 -0700 (PDT)
+        bh=gjdNKKGx+yhFaJeCA90Rv+NyjnhIa6+HpCMo5c2ikFg=;
+        b=o3kWJCoRQpTWm9pQ0z2TIS/1PquWNv+pwDeXIKpZV7yrNGk5wCL+52gTdU199xZSVq
+         7FNKnJ3VErKMj/3Jvri8sgzm+EamXXfFtKFu/nEIyciyJyT7HLTMgizaR3nBe1D4iTcv
+         pHG/j5twck95NHYYT8gQw+WqXXk8EorwxS63WFBVy6ytefiARupOt3bFH2fT+aQ9keTY
+         LSgiwbK5AZE3GrnWe0V9B4Q3quhJBcSUrYI6mGi9hNGm3fAqoZbS8s5vYZUPMPTaH0W7
+         3kP94zTnPCVKK8hk8dXBdp6F75+SaHL4ISG1RwigKqPP12uOtc9tdP+REx87QLuv649T
+         sx7A==
+X-Forwarded-Encrypted: i=1; AKwUvBw5rrxUU+9tWCcvUDRyzlRqaLuLHWfIfjYe/LKMPFPhYJ+eDM9vlXdLfNKVOq/5NUECN4Y/g3bLmKA=@vger.kernel.org
+X-Gm-Message-State: AFuF++kiT9sgO0b6r8jXV6nqsThKXOD3Bgj2KO0UydfyZsQA5COrbjUr
+	JICx1YlAKB3h7aA0bfo4zqOm0hGmDiCnisPbPHGAzEbTg1YQn6hjV7zVqehXIvoFAR/SuaCtVll
+	rnYJ+A1I=
+X-Gm-Gg: AYBFou1IIUjLKHeTiVZ/GdnWCRHtgLmE3/FlvTeqTgmgD5FgJX5K2Tfl2r/XNgCNpsj
+	x7L/yFsD8BSN06k5KK4+VNnJCZhjzC9SKR3Arr2KpMeliomnoUUSQmApb65TiWlxrnomr3o6s2o
+	6vzJ+xz5D9r/ItQ/8A4rCHwyAH54kwuWuqtL47cQZiMMbKROWIzp0QZjXoZW5CutTq4J8I/WYsO
+	8/w4LBjQpfj28/yDbVRmhiVUoOFSWWxxgdVVCFi0fMTNImZgw6QEIjZhenHo+EMP86WUWluv6yl
+	VE7MICowfBAHKdtP0jBGGlrwSU4XZjXAZMlxmLsiJJTi98zIq22C+2vrPikQ7LLQdgIPip4NaWQ
+	pBVs6M+2+wzNehhw3CPyyTeK3WDk39VbzRnU+xAt+ddhhb/+AypLMS7WmHHZOiPreNqVKu+4Z1t
+	VBZ/UfxWFANNzGK1aU5STyztt2+6dkZcF4xVDCkeojGBAtBQw6ZJPoTKFX403ppXI9vKM/9f5Ed
+	GfExTVjrZ8hvu07p0F4vzdWFvEQ71r5QMesoEEGka+gVfdCgiVqKWBGalJXzy+fAo8Dyk1iL6x0
+	V681P/guneA+X164bDI=
+X-Received: by 2002:a05:690c:9988:b0:89b:5551:4305 with SMTP id 00721157ae682-89b5560974dmr13921117b3.17.1789933033098;
+        Sun, 20 Sep 2026 12:37:13 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-89a47139db2sm18450487b3.26.2026.09.20.12.37.04
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-89a48aab042sm18596427b3.47.2026.09.20.12.37.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 12:37:06 -0700 (PDT)
+        Sun, 20 Sep 2026 12:37:12 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: linux-kselftest@vger.kernel.org,
 	legion@kernel.org,
@@ -137,9 +138,9 @@ To: linux-kselftest@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	vladimir.murzin@arm.com,
 	kas@kernel.org
-Subject: [RFC PATCH 02/46] KVM: arm64: Split demux_c15_{get,set}_val from userspace accessors
-Date: Sun, 20 Sep 2026 15:36:06 -0400
-Message-ID: <20260920193650.3373435-3-pasha.tatashin@soleen.com>
+Subject: [RFC PATCH 03/46] KVM: arm64: Split kvm_sys_reg_{get,set}_user from kernel accessors
+Date: Sun, 20 Sep 2026 15:36:07 -0400
+Message-ID: <20260920193650.3373435-4-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 In-Reply-To: <20260920193650.3373435-1-pasha.tatashin@soleen.com>
 References: <20260920193650.3373435-1-pasha.tatashin@soleen.com>
@@ -151,107 +152,293 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Factor demux_c15_get_val() and demux_c15_set_val() out of demux_c15_get()
-and demux_c15_set() so kernel callers can read and write demultiplexed
-coprocessor registers without going through userspace pointers.
+Factor __kvm_sys_reg_get() and __kvm_sys_reg_set() out of the userspace
+ioctl handlers and introduce struct sys_reg_index_sink so in-kernel
+callers can enumerate, read, and write architectural system registers
+via kvm_arm_get_sys_reg_indices(), kvm_arm_sys_reg_read(), and
+kvm_arm_sys_reg_write().
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- arch/arm64/kvm/sys_regs.c | 48 +++++++++++++++++++++++++++------------
- 1 file changed, 34 insertions(+), 14 deletions(-)
+ arch/arm64/kvm/sys_regs.c | 199 ++++++++++++++++++++++++++++++--------
+ arch/arm64/kvm/sys_regs.h |   4 +
+ 2 files changed, 160 insertions(+), 43 deletions(-)
 
 diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-index 44aae52c473d..b873ccf1ab14 100644
+index b873ccf1ab14..0049e460e5ad 100644
 --- a/arch/arm64/kvm/sys_regs.c
 +++ b/arch/arm64/kvm/sys_regs.c
-@@ -5496,10 +5496,9 @@ id_to_sys_reg_desc(struct kvm_vcpu *vcpu, u64 id,
- 	return r;
+@@ -5569,38 +5569,43 @@ static int demux_c15_set(struct kvm_vcpu *vcpu, u64 id, void __user *uaddr)
+ 	return demux_c15_set_val(vcpu, id, newval);
  }
  
--static int demux_c15_get(struct kvm_vcpu *vcpu, u64 id, void __user *uaddr)
-+static int demux_c15_get_val(struct kvm_vcpu *vcpu, u64 id, u32 *val)
+-static u64 kvm_one_reg_to_id(const struct kvm_one_reg *reg)
++static u64 kvm_one_reg_to_id(u64 reg_id)
  {
--	u32 val;
--	u32 __user *uval = uaddr;
-+	u32 idx;
- 
- 	/* Fail if we have unknown bits set. */
- 	if (id & ~(KVM_REG_ARCH_MASK|KVM_REG_SIZE_MASK|KVM_REG_ARM_COPROC_MASK
-@@ -5510,21 +5509,34 @@ static int demux_c15_get(struct kvm_vcpu *vcpu, u64 id, void __user *uaddr)
- 	case KVM_REG_ARM_DEMUX_ID_CCSIDR:
- 		if (KVM_REG_SIZE(id) != 4)
- 			return -ENOENT;
--		val = (id & KVM_REG_ARM_DEMUX_VAL_MASK)
-+		idx = (id & KVM_REG_ARM_DEMUX_VAL_MASK)
- 			>> KVM_REG_ARM_DEMUX_VAL_SHIFT;
--		if (val >= CSSELR_MAX)
-+		if (idx >= CSSELR_MAX)
- 			return -ENOENT;
- 
--		return put_user(get_ccsidr(vcpu, val), uval);
-+		*val = get_ccsidr(vcpu, idx);
-+		return 0;
+-	switch(reg->id) {
++	switch (reg_id) {
+ 	case KVM_REG_ARM_TIMER_CVAL:
+ 		return TO_ARM64_SYS_REG(CNTV_CVAL_EL0);
+ 	case KVM_REG_ARM_TIMER_CNT:
+ 		return TO_ARM64_SYS_REG(CNTVCT_EL0);
  	default:
- 		return -ENOENT;
+-		return reg->id;
++		return reg_id;
  	}
  }
  
--static int demux_c15_set(struct kvm_vcpu *vcpu, u64 id, void __user *uaddr)
-+static int demux_c15_get(struct kvm_vcpu *vcpu, u64 id, void __user *uaddr)
+-int kvm_sys_reg_get_user(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg,
+-			 const struct sys_reg_desc table[], unsigned int num)
++static int __kvm_sys_reg_get(struct kvm_vcpu *vcpu, u64 reg_id, u64 *val,
++			     const struct sys_reg_desc table[], unsigned int num)
  {
--	u32 val, newval;
- 	u32 __user *uval = uaddr;
-+	u32 val;
-+	int ret;
+-	u64 __user *uaddr = (u64 __user *)(unsigned long)reg->addr;
+ 	const struct sys_reg_desc *r;
+-	u64 id = kvm_one_reg_to_id(reg);
+-	u64 val;
+-	int ret;
++	u64 id = kvm_one_reg_to_id(reg_id);
+ 
+ 	r = id_to_sys_reg_desc(vcpu, id, table, num);
+ 	if (!r || sysreg_hidden(vcpu, r))
+ 		return -ENOENT;
+ 
+-	if (r->get_user) {
+-		ret = (r->get_user)(vcpu, r, &val);
+-	} else {
+-		val = __vcpu_sys_reg(vcpu, r->reg);
+-		ret = 0;
+-	}
++	if (r->get_user)
++		return (r->get_user)(vcpu, r, val);
 +
-+	ret = demux_c15_get_val(vcpu, id, &val);
-+	if (!ret)
-+		ret = put_user(val, uval);
-+
-+	return ret;
++	*val = __vcpu_sys_reg(vcpu, r->reg);
++	return 0;
 +}
 +
-+static int demux_c15_set_val(struct kvm_vcpu *vcpu, u64 id, u32 newval)
++int kvm_sys_reg_get_user(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg,
++			 const struct sys_reg_desc table[], unsigned int num)
 +{
-+	u32 idx;
++	u64 __user *uaddr = (u64 __user *)(unsigned long)reg->addr;
++	u64 val;
++	int ret;
  
- 	/* Fail if we have unknown bits set. */
- 	if (id & ~(KVM_REG_ARCH_MASK|KVM_REG_SIZE_MASK|KVM_REG_ARM_COPROC_MASK
-@@ -5535,20 +5547,28 @@ static int demux_c15_set(struct kvm_vcpu *vcpu, u64 id, void __user *uaddr)
- 	case KVM_REG_ARM_DEMUX_ID_CCSIDR:
- 		if (KVM_REG_SIZE(id) != 4)
- 			return -ENOENT;
--		val = (id & KVM_REG_ARM_DEMUX_VAL_MASK)
-+		idx = (id & KVM_REG_ARM_DEMUX_VAL_MASK)
- 			>> KVM_REG_ARM_DEMUX_VAL_SHIFT;
--		if (val >= CSSELR_MAX)
-+		if (idx >= CSSELR_MAX)
- 			return -ENOENT;
++	ret = __kvm_sys_reg_get(vcpu, reg->id, &val, table, num);
+ 	if (!ret)
+ 		ret = put_user(val, uaddr);
  
--		if (get_user(newval, uval))
--			return -EFAULT;
--
--		return set_ccsidr(vcpu, val, newval);
-+		return set_ccsidr(vcpu, idx, newval);
- 	default:
- 		return -ENOENT;
- 	}
+@@ -5618,17 +5623,11 @@ int kvm_arm_sys_reg_get_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg
+ 				    sys_reg_descs, ARRAY_SIZE(sys_reg_descs));
  }
  
-+static int demux_c15_set(struct kvm_vcpu *vcpu, u64 id, void __user *uaddr)
-+{
-+	u32 __user *uval = uaddr;
-+	u32 newval;
+-int kvm_sys_reg_set_user(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg,
+-			 const struct sys_reg_desc table[], unsigned int num)
++static int __kvm_sys_reg_set(struct kvm_vcpu *vcpu, u64 reg_id, u64 val,
++			     const struct sys_reg_desc table[], unsigned int num)
+ {
+-	u64 __user *uaddr = (u64 __user *)(unsigned long)reg->addr;
+ 	const struct sys_reg_desc *r;
+-	u64 id = kvm_one_reg_to_id(reg);
+-	u64 val;
+-	int ret;
+-
+-	if (get_user(val, uaddr))
+-		return -EFAULT;
++	u64 id = kvm_one_reg_to_id(reg_id);
+ 
+ 	r = id_to_sys_reg_desc(vcpu, id, table, num);
+ 	if (!r || sysreg_hidden(vcpu, r))
+@@ -5637,14 +5636,23 @@ int kvm_sys_reg_set_user(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg,
+ 	if (sysreg_user_write_ignore(vcpu, r))
+ 		return 0;
+ 
+-	if (r->set_user) {
+-		ret = (r->set_user)(vcpu, r, val);
+-	} else {
+-		__vcpu_assign_sys_reg(vcpu, r->reg, val);
+-		ret = 0;
+-	}
++	if (r->set_user)
++		return (r->set_user)(vcpu, r, val);
+ 
+-	return ret;
++	__vcpu_assign_sys_reg(vcpu, r->reg, val);
++	return 0;
++}
 +
-+	if (get_user(newval, uval))
++int kvm_sys_reg_set_user(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg,
++			 const struct sys_reg_desc table[], unsigned int num)
++{
++	u64 __user *uaddr = (u64 __user *)(unsigned long)reg->addr;
++	u64 val;
++
++	if (get_user(val, uaddr))
 +		return -EFAULT;
 +
-+	return demux_c15_set_val(vcpu, id, newval);
++	return __kvm_sys_reg_set(vcpu, reg->id, val, table, num);
+ }
+ 
+ int kvm_arm_sys_reg_set_reg(struct kvm_vcpu *vcpu, const struct kvm_one_reg *reg)
+@@ -5688,25 +5696,24 @@ static u64 sys_reg_to_index(const struct sys_reg_desc *reg)
+ 		(reg->Op2 << KVM_REG_ARM64_SYSREG_OP2_SHIFT));
+ }
+ 
+-static bool copy_reg_to_user(const struct sys_reg_desc *reg, u64 __user **uind)
++static u64 reg_to_user_idx(const struct sys_reg_desc *reg)
+ {
+-	u64 idx;
+-
+-	if (!*uind)
+-		return true;
+-
+ 	switch (reg_to_encoding(reg)) {
+ 	case SYS_CNTV_CVAL_EL0:
+-		idx = KVM_REG_ARM_TIMER_CVAL;
+-		break;
++		return KVM_REG_ARM_TIMER_CVAL;
+ 	case SYS_CNTVCT_EL0:
+-		idx = KVM_REG_ARM_TIMER_CNT;
+-		break;
++		return KVM_REG_ARM_TIMER_CNT;
+ 	default:
+-		idx = sys_reg_to_index(reg);
++		return sys_reg_to_index(reg);
+ 	}
++}
+ 
+-	if (put_user(idx, *uind))
++static bool copy_reg_to_user(const struct sys_reg_desc *reg, u64 __user **uind)
++{
++	if (!*uind)
++		return true;
++
++	if (put_user(reg_to_user_idx(reg), *uind))
+ 		return false;
+ 
+ 	(*uind)++;
+@@ -5986,3 +5993,109 @@ int __init kvm_sys_reg_table_init(void)
+ 
+ 	return ret;
+ }
++
++/* The GICv3 CPU interface sysregs, or NULL if the in-kernel GICv3 is unused. */
++static const struct sys_reg_desc *vcpu_gic_sysreg_table(struct kvm_vcpu *vcpu,
++							unsigned int *num)
++{
++	if (!irqchip_in_kernel(vcpu->kvm) ||
++	    vcpu->kvm->arch.vgic.vgic_model != KVM_DEV_TYPE_ARM_VGIC_V3)
++		return NULL;
++
++	return vgic_v3_get_sysreg_table(num);
 +}
 +
- static u64 kvm_one_reg_to_id(const struct kvm_one_reg *reg)
- {
- 	switch(reg->id) {
++static void collect_table_indices(struct kvm_vcpu *vcpu,
++				  const struct sys_reg_desc *table,
++				  unsigned int num, u64 **out, int *count)
++{
++	unsigned int i;
++
++	for (i = 0; i < num; i++) {
++		const struct sys_reg_desc *rd = &table[i];
++
++		if (!(rd->reg || rd->get_user) || sysreg_hidden(vcpu, rd))
++			continue;
++		if (*out)
++			*(*out)++ = reg_to_user_idx(rd);
++		(*count)++;
++	}
++}
++
++/*
++ * Enumerate every system register that kvm_arm_sys_reg_read() can return for
++ * @vcpu.  This is a superset of KVM_GET_REG_LIST: it also covers the GICv3 CPU
++ * interface table, which has no uAPI representation.  Pass a NULL @indices to
++ * query the number of entries the array needs to hold.
++ */
++int kvm_arm_get_sys_reg_indices(struct kvm_vcpu *vcpu, u64 *indices)
++{
++	const struct sys_reg_desc *gic_regs;
++	unsigned int sz = 0, i;
++	int count = 0;
++
++	collect_table_indices(vcpu, sys_reg_descs, ARRAY_SIZE(sys_reg_descs),
++			      &indices, &count);
++
++	gic_regs = vcpu_gic_sysreg_table(vcpu, &sz);
++	if (gic_regs)
++		collect_table_indices(vcpu, gic_regs, sz, &indices, &count);
++
++	for (i = 0; i < CSSELR_MAX; i++) {
++		if (indices)
++			*indices++ = KVM_REG_ARM64 | KVM_REG_SIZE_U32 |
++				     KVM_REG_ARM_DEMUX |
++				     KVM_REG_ARM_DEMUX_ID_CCSIDR | i;
++		count++;
++	}
++
++	return count;
++}
++
++int kvm_arm_sys_reg_read(struct kvm_vcpu *vcpu, u64 reg_id, u64 *val)
++{
++	const struct sys_reg_desc *gic_regs;
++	unsigned int sz = 0;
++	int ret;
++
++	if ((reg_id & KVM_REG_ARM_COPROC_MASK) == KVM_REG_ARM_DEMUX) {
++		u32 uval;
++
++		ret = demux_c15_get_val(vcpu, reg_id, &uval);
++		if (!ret)
++			*val = uval;
++		return ret;
++	}
++
++	ret = __kvm_sys_reg_get(vcpu, reg_id, val, sys_reg_descs,
++				ARRAY_SIZE(sys_reg_descs));
++	if (ret != -ENOENT)
++		return ret;
++
++	gic_regs = vcpu_gic_sysreg_table(vcpu, &sz);
++	if (!gic_regs)
++		return ret;
++
++	return __kvm_sys_reg_get(vcpu, reg_id, val, gic_regs, sz);
++}
++
++int kvm_arm_sys_reg_write(struct kvm_vcpu *vcpu, u64 reg_id, u64 val)
++{
++	const struct sys_reg_desc *gic_regs;
++	unsigned int sz = 0;
++	int ret;
++
++	if ((reg_id & KVM_REG_ARM_COPROC_MASK) == KVM_REG_ARM_DEMUX)
++		return demux_c15_set_val(vcpu, reg_id, (u32)val);
++
++	ret = __kvm_sys_reg_set(vcpu, reg_id, val, sys_reg_descs,
++				ARRAY_SIZE(sys_reg_descs));
++	if (ret != -ENOENT)
++		return ret;
++
++	gic_regs = vcpu_gic_sysreg_table(vcpu, &sz);
++	if (!gic_regs)
++		return ret;
++
++	return __kvm_sys_reg_set(vcpu, reg_id, val, gic_regs, sz);
++}
+diff --git a/arch/arm64/kvm/sys_regs.h b/arch/arm64/kvm/sys_regs.h
+index bd56a45abbf9..9837db99909b 100644
+--- a/arch/arm64/kvm/sys_regs.h
++++ b/arch/arm64/kvm/sys_regs.h
+@@ -292,4 +292,8 @@ int kvm_finalize_sys_regs(struct kvm_vcpu *vcpu);
+ 					      sys_reg_CRm(SYS_ ## r),	\
+ 					      sys_reg_Op2(SYS_ ## r))
+ 
++int kvm_arm_get_sys_reg_indices(struct kvm_vcpu *vcpu, u64 *indices);
++int kvm_arm_sys_reg_read(struct kvm_vcpu *vcpu, u64 reg_id, u64 *val);
++int kvm_arm_sys_reg_write(struct kvm_vcpu *vcpu, u64 reg_id, u64 val);
++
+ #endif /* __ARM64_KVM_SYS_REGS_LOCAL_H__ */
 -- 
 2.55.0.1082.g2b9226bbc0-goog
 
