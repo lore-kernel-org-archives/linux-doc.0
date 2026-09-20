@@ -1,96 +1,96 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+Received: from mail-pj2-f42.google.com (mail-pj2-f42.google.com [74.125.227.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FCF361952
-	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 04:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEC4350A0F
+	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 04:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789877533; cv=pass; b=tp7p3AKQh5hG2s+ImJXijpvQ0o7fpM3mY3Eh+EnKPbKHrriXNDj9LjgFNKowg36XhCKZkj+Yebzosv2lVpTlOT2crJkzjsj75ZDnzS/tZW6HXaSu3dYfeASwxuJi6MZNi1IWNGWil0IpGPAva2r3/WGv82WEwl51QLUYAwZydjc=
+	t=1789877585; cv=pass; b=Lc45mep1DvsSyQkrfonujNTxAno0z7aeXeQt0D40iS1U5DhsLMwXN1WJOojcc5bIE+bmz4ZKaOhgDAbO7qQPma5kY5wVLkqEyXXZ2U32FoJAxROR8v788JqLpzDLiO7KvvVvFHEz/CfwESNDbtnRfaxGDNhIKCytrdT4+mo6XeA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789877533; c=relaxed/simple;
-	bh=rwaqLd78gCCDxPhEWVmec1Qbp7cY3KIbWZB2b88z5ZQ=;
+	s=arc-20240116; t=1789877585; c=relaxed/simple;
+	bh=YnbfoGjlPz/vXewRAon37V0GQH2iNlW079+n72DtnPw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uYwc5G/x8mO47SwxgtbvCs9jo3i2wKV26O7f+TnLbtDJR2CGNBhV6r7XMgNDnTHVF+NDjptJ99U0dOTaq1v+/1ZpQt+i6umZJneb1wHIS+vMLWz7tuS2YmtAIpLMEs+RiCojJKH0evetVFhB6BXqS1UScprviEg+1jGopXtJuOk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AcbJ2Bmf; arc=pass smtp.client-ip=74.125.228.43
+	 To:Cc:Content-Type; b=r+yUxESoiPTikxMGvukdQg31/5WR58iPyGbAj1wW7Ywf8jEq/+9+9ZTten/ttEo7+O4AWLx8JzzwCVZBB6pMqnaoeSdy9hohviVcYEkEaCCoNMw9ijzTViwOsLrLY63VjLV/0OsEvnKRT3EzH4ZOnHHkUPyPuhSDAv6jv15ippw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UYtZjSgO; arc=pass smtp.client-ip=74.125.227.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AcbJ2Bmf"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469a34908so1857011b3a.0
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 21:12:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789877531; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UYtZjSgO"
+Received: by mail-pj2-f42.google.com with SMTP id 98e67ed59e1d1-398cb5615deso2314695a91.3
+        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 21:13:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789877583; cv=none;
         d=google.com; s=arc-20260327;
-        b=YhPDl1a0aZ6kPwYyltVg6ZLCXF1i2ys46J17oqzmCp2JocIPiWV4IVdntucl7Tt1KR
-         LPvoIx2GtzogWHaJUlg2DykLlPpwDm1XCm24bjG9vqIbXCvXZhH5Fq1JvVoTbHXlqiZd
-         LSelBn/X/NzHhgKudL2IbBft3RgbsF2TnT/uI+2TrVcTbB8zFjBPmrzMTyG0dODG7xYY
-         x+DVUDV3NqbeKpAQxDBtk314hSqxX/DcJ0Yo4/OyuwILBDJe9D6mWC+BLP+//bthb5QG
-         dJgL3fJzbacC6LG3yVheJvRmh4ktHvDVhCo8xaemzkVVp/Se1saWtxFZrzQ5tUunnvD4
-         NYRA==
+        b=aIyRsKQXIJ6qJh5WrMyWimY3vVhdUstg+dq6bbVc8r9X4IeBssT5GJdiz6qApUaBRi
+         ftkyEL1qFMyzQOe7xz8SscMj7D39X0ZKLN0nZVfJjDFEZlSMHJzw9Y4p23ZdsLzZkdiW
+         wGc21WWKl3ix+WrRG8Bt75Gt0r5/k64Ft9YN876Zzd/2sMmK/WqhA80fCsGZT0d2gooC
+         ilPNNn3/Jzr/KTpjqD0ylrO+wIW8HardMxxMZWcv2ysWgYuYhNwA2lAV/fCLWwveCnjT
+         BwGj21SzbFIWHTXYlvt0kwuLIjt7jhINwoWHjbA+X4qQDj9SYyI9qn25WCYV9G4OkbFM
+         pNgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=QlZH2LSeOeUh7PHf/pc7GdeXM+jtt8B7hsy70gSGj5A=;
-        fh=ZCB7asagFF4ORAlJI1RaCpd6LvyPGeDVeqGuC/wBoow=;
-        b=qJnxQeHsq/4U8M39fg5Vr80UU1v523OfrWpY6IXW1m0Z2ddf293m/pC7o27shxC830
-         G1+Vrwt9KwLwAAVxHnhMQQXQMWJoZ8vTSuF+4mqlNt+gKFwPAoSC8u5e1WTazNWU7mA/
-         63rZOGtCrp+pT6mo4+WmbUABoVxSBGhA8FCdzun/C8mCjPUBeMdgMvWuSrT7A55e2VdW
-         g28Tczj34dlkVK65/JyNgfmECKKDiIndjelW/opbYR0salwgoTNqUHgStz8mVWpI+D3l
-         rMKo8c7/LFdypw8VzBx2FJIvsaBZy+TbqZBh4juOE4e4VCaSVyIwygpKDEL9GP+jRWfO
-         qMEA==;
+        bh=lMBYWtgVXyvrDIrr8C1PhgNJhaQAaWgNpoxuhRqTf4E=;
+        fh=eT3MgDVHyyiHDogBh2Ib+vlsV5Pkc8xogDmdANnqeEI=;
+        b=aeQhFme6RPox9CuPyvl5hS9jVCZI7ssIwysangSCsRMkAECuvp03oypfhIODNq+6+X
+         9+e1MT41SFn6vVoCfYSjqLvMY0do1aDpl1RgKjLeQzHyLlkfGaDSeol2Ko5Rw0Y5xSPn
+         n4fVQ8hq87kjby2g0g1lANaf1J9fEFqf4cruH9mUCM9Z5BS+RPIJ8hBoCpa12hgPSng4
+         lKI0A0JKUhyq+UB9FnKZi6yj4Zsnp3K3O9+DbuKrA71Yl40D/kX8dhh5vWfc7x7JLSSa
+         YhH+JYefpnBL3jWRweyzhDYHS4DBwpdIUD825uzls1AXeRiRs5zKLNJqIWaiw9Eck6dw
+         fC1w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789877531; x=1790482331; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789877583; x=1790482383; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=QlZH2LSeOeUh7PHf/pc7GdeXM+jtt8B7hsy70gSGj5A=;
-        b=AcbJ2Bmf8Sz0U/Eo7z5xTOjBLxmx5X96wSNNRqzLiY0kia/Xqnx2wPPodwraHbMt8G
-         bWGFsB5ghcEbtuBCZJUSM3m7lXxtbT3Ini/p2UNsAGhDIz6e3Y1gf1Ar4u3M3Gi7q9Id
-         fzQ6KlELvgBaaZ8BcxZTIqdHdATvRotwAubeO28TeeORo7tIJYZqnB5Lx+9Fxgrtib5f
-         btN4QYWgYPb5k1A5CwD1jIdLGaXGadNGiPT3/JyFoXbODSvCnDYBS7ZJ2ILopjSfkCUW
-         YO7KI20PbuNUzFGCPKlyV831CFyramd8TsHuiMNXDbA10ggouU9AKNfIIeKHjar8wHg3
-         mupQ==
+        bh=lMBYWtgVXyvrDIrr8C1PhgNJhaQAaWgNpoxuhRqTf4E=;
+        b=UYtZjSgOb7tWjVBeUmKh94Ecz4mxJxMYlkMSojAc0SbuMaD9X/JbFHzze50OUNnDnT
+         VsP536xgyq9Y179EtZVUsXc6oFXJNYzmn9unqKsal/81JM1xltkCMkwW+PvWF5HmA/UF
+         fU3armDbeUKc6IKSxfH03JdciBAbVgY+J94E5Wx2fEhyn4E6LMlDigmnVVCuu4bvnHzl
+         BeQBWdKIsPksQVKFByO8Q9uFyFTM8KfgQSmugBVJPsMyanfLCqeeCXqMHz2+pDAt83ar
+         mDkn896cOq6ZbgShX2QkxH3q2Cr0bJiL08o7edTopFyXzEIc/5vOn9BKslRUm2YtaKnD
+         m+uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789877531; x=1790482331;
+        d=1e100.net; s=20260707; t=1789877583; x=1790482383;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QlZH2LSeOeUh7PHf/pc7GdeXM+jtt8B7hsy70gSGj5A=;
-        b=bMTTG7yDMLnwtasjUrPSAshzMkwvIFtr2Of1klf4CH80E9PxwVydVHcAMmflyo5UJ0
-         h/bFz98vOy/UBjoLcEPLfZ/DzcQJ8TB4McObj+0qmhIx7Z6PgNqY6J6yFkgjO7VSjStZ
-         fwXMftjwVC2MvyBkxlBJBMFwpmhcwWom4k/tXG2nqOCUkbDN1g9yFh0Npkch4X6RjBKg
-         F0cgXuOlZCKCZH/UGBExpru1tEtGmpvEnxLoQeknh4IO1HSUZuvAt4KO+zO88nmCsIG9
-         kuTRngz+ugicr/SXWHt6GIMXNGmsuEeyNYXGj1FtaM3EoVDim/vOHdWZNtwbmD/FWs/e
-         PsnQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx22jERDtWilXRfPi+QnT14ORoFDcIuv8Pp2xc2NMBkHvt0xdaS8aJFYBLPioPq0k3CcEiOYgImzHo=@vger.kernel.org
-X-Gm-Message-State: AFuF++nK/nN2lowl5ejMX2qoJZvx9ZtAgZkQkqBGK16fVbJ5yh3kBb9y
-	qq5LcTJRX874lk/JULn0iNZMPst3FBSLm9Ek++mszDn3CAU29JebtT1hNa7kDF95620LlgY+ZbY
-	UpBz1uI9mgyDoUPY8s5w7xC50awUg+KQ=
-X-Gm-Gg: AYBFou2XC81312orVufGRuQpBmArSGSqcM873wsuHUcHtK3pokIyL9G6f7l+dA2V+aE
-	xZwDwMuGXq5Vo2fPD764nXWtc1WLUaElGJoylymD5zl0lI21NXgL5rY0vA1Ov03133RME4dU7PF
-	XOvEYRfcHZylJXLz2OJgT6esKG21zI36d1ctu/fuwJ9Ov+tdBh6cjB4ZQpXLad+0/8ufCd9EqI9
-	jva7TcZ5sQPVhl4Dojs4MqcSE8BBO+yQ03mv1mIkE7vYaX+Key33dF3XHc0FNMrsMEMWtUqqLJQ
-	cDFJprSxNgppuIuDzVWIubJXqSKiEzV+WmiCpVa1+afmFRBbL3Mo3XyWyvZfj4Tx5APY14Ya3E5
-	wCNAqiU8K/uCPcsB8YHvZX/9aPM/+pHlDZojs8PG2
-X-Received: by 2002:a05:6a20:6a20:b0:3d2:2afa:d7d with SMTP id
- adf61e73a8af0-3dd8c52d98emr12640970637.18.1789877530888; Sat, 19 Sep 2026
- 21:12:10 -0700 (PDT)
+        bh=lMBYWtgVXyvrDIrr8C1PhgNJhaQAaWgNpoxuhRqTf4E=;
+        b=UQkZfHSLQlMEsV7zpgiX7J6G87Wgp8JScCRYJJUNj7d2xSwa2MKuI15R26TbjzEhqj
+         S5Tv/12paikn6irRSzs2XtJUrmKoMMnjToXWIJ2q3pFeYMFndeUUO1BW1X9hFZodC+FR
+         /JZdOdDZ/L7VAeF9NtQLMwbNjXtefg/CMMzgemIk1Rso4l3NZ036FyNcIGQUKPjPBdDK
+         FU9TRzejh+1jJr4pThpsntXiBeCPOzo0554O721PmRAyxdW0cmz16sxtxByYiO4cjVh7
+         7Ie+u65iSCEJxB1NgaSgSeQhLOaUdTO4rmJhDFTGDyHEM70EAOX9GvgKGdgfn0NIqe3b
+         xc+w==
+X-Forwarded-Encrypted: i=1; AKwUvBzbzpgOV/yg5ndp1VAC7ACrKtorLR+IG15YJsRkNOSFHb0TXiY6dPGdIebYeJlWTnyiVOHT+891jz8=@vger.kernel.org
+X-Gm-Message-State: AFuF++mvy/ih9052CIy+rvxgOdXKQaFnA2VBn3X43/8FbxAEhibuWMb5
+	dYBQr+kBSLVRNlgCRj72BA+i+TktYERn3FDj54oeUQLqXU+9uEQSTkvhF/xajS+IDItlMwsEMb/
+	LVP1i5rhOA3K6TNWm9OZS2tLqIpu8Sjk=
+X-Gm-Gg: AYBFou2WkXhSDL90i2TF9rJYgyhxNH7sNtTO3rrrieiJh3wSri+idWN0n5k7WK0OH67
+	ojPRPIdkYSb+B80pv5WaWaZEPC1QpqDhq1H+NST55tGVopMuL9LeU7cLxTHVDjt7I2r4lBYJonL
+	eh4vOh3Ra5HRwXCQ8bS1rNqaXczn6jDRfQZxf3Laozwcc2eMrgjv/RHiSR2kWnPAUgJ+GvT7Hdk
+	qlPjW9junpTX6EO8QzsyVkNqow52D7B6IKZ2MkFxkLwKF+9S52HlYk6Ii68L9oeBVghUoXr9Oy9
+	1Fx6ibq1EJS+tmZXUzHsrNBawuZzJ0YQWuE4HlGpt7uHdTN27JoYmbkqazX6LrA0bwH+3DsD7Oz
+	CF8GSxHvA1UrUFWmn6UgKmp9kRgjGi6GeQ5d0MPOG
+X-Received: by 2002:a17:90b:53c4:b0:39e:d2a:e2dc with SMTP id
+ 98e67ed59e1d1-39e54d1ea4dmr12330513a91.12.1789877583183; Sat, 19 Sep 2026
+ 21:13:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1789753020.git.kimjinseob88@gmail.com> <a00b004a7ac283e1d6e307421292757004f09e62.1789753020.git.kimjinseob88@gmail.com>
- <20260920022737.4403fc6d@jic23-hlaptop>
-In-Reply-To: <20260920022737.4403fc6d@jic23-hlaptop>
+References: <cover.1789753020.git.kimjinseob88@gmail.com> <e9d1f8f8d69b76797d617965f263df97b2b586e0.1789753020.git.kimjinseob88@gmail.com>
+ <20260920023057.71ef0eb5@jic23-hlaptop>
+In-Reply-To: <20260920023057.71ef0eb5@jic23-hlaptop>
 From: Kim Jinseob <kimjinseob88@gmail.com>
-Date: Sun, 20 Sep 2026 13:12:01 +0900
-X-Gm-Features: AcwNN1UU_ReN-pfK8MzdlfvZg5NTRSP-1VjnaEcQ45UD5XeGrgMYYEtFBppvb_8
-Message-ID: <CALMSewJD=hGTuVLEQHTRtO3oPZD0jCNqsCtjBYv29OKdqwcU3A@mail.gmail.com>
-Subject: Re: [PATCH v10 3/8] iio: osf: add protocol decoding
+Date: Sun, 20 Sep 2026 13:12:54 +0900
+X-Gm-Features: AcwNN1XJYd9uoJcaQ1q60GQ-gnIw90dguuHYkkkGbV7JngEnuOZEzR8A-Daiweo
+Message-ID: <CALMSew+LJjky+3uSSL3kByzpT-tkNmJTDurykNmH-nj9+zxCJw@mail.gmail.com>
+Subject: Re: [PATCH v10 4/8] iio: osf: add validated stream parser
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com, 
 	andriy.shevchenko@intel.com, linux-kernel@vger.kernel.org, 
@@ -101,226 +101,81 @@ Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-> The above fully assigns frame so I'd do similar to you have elsewhere
-> *frame =3D (struct osf_frame) {
-> .protocol_major =3D ...
-> ...
-> };
-> Both makes it more readable and makes it clear you aren't leaving
-> any existing data in place.
+> You could reorder these two functions and call stream_reset from
+> stream_init. Would make it clear what getting to a 'clean' state
+> means.
 
-Agreed. I'll change this to a designated initializer in the next revision.
-
-> I don't hugely mind as it's your code + spec to maintain but generally
-> for a spec with records like this I'd expect it to be possible to extend
-> the structure without it being a breaking spec change. As such
-> I'd kind of expect the check to be that the payload_len was at least
-> as big as expected len. Larger would be fine but we'd ignore anything
-> there.
-
-I'd prefer to keep the exact-length check for the existing OSF0
-message IDs. The fixed OSF0 specification deliberately keeps the
-baseline message layouts exact, with optional extensions using newly
-allocated message IDs rather than trailing data on an existing message
-ID.
-
-So I don't plan to change this to an at-least-length check in the next revi=
-sion.
-
-> Entirely correctly I think you don't do any checks or reads of reserved v=
-alues.
-> As such why copy them around? I'd just drop that field from your decoded
-> structures. Not a huge saving but why carry irrelevant data around!
-
-Agreed. I'll remove the reserved fields from the decoded structures.
-The reserved bytes will still be covered by the CRC and tolerated on
-receive, but they don't need to be propagated past the protocol
-decoder.
+Agreed. I'll move osf_stream_reset() before osf_stream_init() and use
+it from the init path in the next revision.
 
 Thanks,
+
 Jinseob
 
-2026=EB=85=84 9=EC=9B=94 20=EC=9D=BC (=EC=9D=BC) =EC=98=A4=EC=A0=84 10:27, =
+2026=EB=85=84 9=EC=9B=94 20=EC=9D=BC (=EC=9D=BC) =EC=98=A4=EC=A0=84 10:31, =
 Jonathan Cameron <jic23@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
 >
-> On Sat, 19 Sep 2026 03:24:41 +0900
+> On Sat, 19 Sep 2026 03:24:42 +0900
 > Jinseob Kim <kimjinseob88@gmail.com> wrote:
 >
-> > Add helpers for decoding Open Sensor Fusion frame headers and supported
-> > message payloads.
+> > Add a UART byte-stream parser for Open Sensor Fusion frames.
 > >
-> > Validate the fixed OSF0 envelope, payload bounds and CRC before exposin=
-g
-> > decoded frame contents. Require exact known payload lengths and decode
-> > capability entries structurally so the core can apply support policy.
-> > Tolerate reserved padding as required by the fixed protocol contract.
+> > The parser searches for the OSF0 wire magic, keeps partial frames
+> > buffered, checks header length and payload bounds, and passes complete
+> > candidate frames to a registered frame callback.
 > >
-> > Use explicit little-endian wire storage sizes and designated
-> > initializers for decoded output structures.
+> > Candidates rejected before validation drop only the current head
+> > byte before resynchronizing, so a corrupted unvalidated payload length
+> > cannot make the parser skip later valid frames. CRC-valid validated
+> > frames are consumed in full and classified as handled, ignored, or
+> > rejected.
+> >
+> > Use a direct callback member with an opaque context and keep explicit
+> > statistics for validated outcomes and framing failures.
 > >
 > > Assisted-by: LLM
 > > Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
-> Hi Jinseob
->
-> A few things inline. Some are about what I'd kind of expect from
-> how specs are often defined to leave a bit of flexibility and reduce
-> the need to update drivers for new stuff being added.
->
-> If you don't want to go that way I don't really mind.
->
-> Otherwise main thing here is why carry reserved data to next layer
-> given it is meant to be ignored. Drop it down here in the protocol decode=
-.
+> Just one trivial thing.
 >
 > Thanks,
 >
 > Jonathan
 >
-> > diff --git a/drivers/iio/opensensorfusion/osf_protocol.c b/drivers/iio/=
-opensensorfusion/osf_protocol.c
+>
+> > diff --git a/drivers/iio/opensensorfusion/osf_stream.c b/drivers/iio/op=
+ensensorfusion/osf_stream.c
 > > new file mode 100644
-> > index 000000000000..e0d7c7a9ebd7
+> > index 000000000000..e262415e69b7
 > > --- /dev/null
-> > +++ b/drivers/iio/opensensorfusion/osf_protocol.c
+> > +++ b/drivers/iio/opensensorfusion/osf_stream.c
 >
-> > +
-> > +int osf_protocol_decode_frame(const u8 *buf, size_t len,
-> > +                           struct osf_frame *frame, size_t *frame_len)
+>
+> > +void osf_stream_init(struct osf_stream *stream,
+> > +                  int (*receive_frame)(void *context, const u8 *buf,
+> > +                                       size_t len),
+> > +                  void *frame_context)
 > > +{
-> > +     u32 expected_crc;
-> > +     u32 actual_crc;
-> > +     u32 payload_len;
-> > +     size_t total_len;
+> > +     if (!stream)
+> > +             return;
 > > +
-> > +     if (!buf || !frame || !frame_len)
-> > +             return -EINVAL;
-> > +
-> > +     if (len < OSF_FRAME_MIN_LEN)
-> > +             return -EMSGSIZE;
-> > +
-> > +     if (get_unaligned_le32(buf) !=3D OSF_FRAME_MAGIC)
-> > +             return -EPROTO;
-> > +
-> > +     if (get_unaligned_le16(buf + 6) !=3D OSF_FRAME_HEADER_LEN)
-> > +             return -EPROTO;
-> > +
-> > +     payload_len =3D get_unaligned_le32(buf + 10);
-> > +     if (payload_len > len - OSF_FRAME_MIN_LEN)
-> > +             return -EMSGSIZE;
-> > +
-> > +     total_len =3D OSF_FRAME_HEADER_LEN + payload_len + OSF_FRAME_CRC_=
-LEN;
-> > +     expected_crc =3D osf_crc32_ieee(buf, OSF_FRAME_HEADER_LEN + paylo=
-ad_len);
-> > +     actual_crc =3D get_unaligned_le32(buf + OSF_FRAME_HEADER_LEN + pa=
-yload_len);
-> > +
-> > +     if (actual_crc !=3D expected_crc)
-> > +             return -EBADMSG;
-> > +
-> > +     frame->protocol_major =3D buf[4];
-> > +     frame->protocol_minor =3D buf[5];
-> > +     frame->message_type =3D get_unaligned_le16(buf + 8);
-> > +     frame->payload_len =3D payload_len;
-> > +     frame->sequence =3D get_unaligned_le64(buf + 14);
-> > +     frame->timestamp_us =3D get_unaligned_le64(buf + 22);
-> > +     frame->flags =3D get_unaligned_le32(buf + 30);
-> > +     frame->reserved =3D get_unaligned_le32(buf + 34);
->
-> As below. I'm not sure what benefit of keeping reserved around is.
->
-> > +     frame->payload =3D buf + OSF_FRAME_HEADER_LEN;
-> > +     frame->crc =3D actual_crc;
->
-> The above fully assigns frame so I'd do similar to you have elsewhere
->         *frame =3D (struct osf_frame) {
->                 .protocol_major =3D ...
-> ...
->         };
-> Both makes it more readable and makes it clear you aren't leaving
-> any existing data in place.
->
->
-> > +     *frame_len =3D total_len;
-> > +
-> > +     return 0;
-> > +}
->
-> > +
-> > +int osf_protocol_decode_capability_report(const struct osf_frame *fram=
-e,
-> > +                                       struct osf_capability_report *r=
-eport)
-> > +{
-> > +     u16 capability_count;
-> > +     size_t expected_len;
-> > +     const u8 *payload;
-> > +
-> > +     if (!frame || !report || !frame->payload)
-> > +             return -EINVAL;
-> > +
-> > +     if (frame->message_type !=3D OSF_MSG_CAPABILITY_REPORT)
-> > +             return -EPROTO;
-> > +
-> > +     if (frame->payload_len < OSF_CAP_REPORT_BASE_LEN)
-> > +             return -EMSGSIZE;
-> > +
-> > +     payload =3D frame->payload;
-> > +     capability_count =3D get_unaligned_le16(payload);
-> > +
-> > +     expected_len =3D OSF_CAP_REPORT_BASE_LEN +
-> > +                    capability_count * OSF_CAP_SENSOR_ENTRY_LEN;
-> > +     if (frame->payload_len !=3D expected_len)
->
-> I don't hugely mind as it's your code + spec to maintain but generally
-> for a spec with records like this I'd expect it to be possible to extend
-> the structure without it being a breaking spec change.   As such
-> I'd kind of expect the check to be that the payload_len was at least
-> as big as expected len. Larger would be fine but we'd ignore anything
-> there.
->
-> > +             return -EMSGSIZE;
-> > +
-> > +     *report =3D (struct osf_capability_report) {
-> > +             .capability_count =3D capability_count,
-> > +             .entries =3D payload + OSF_CAP_REPORT_BASE_LEN,
-> > +     };
-> > +
-> > +     return 0;
+> > +     stream->receive_frame =3D receive_frame;
+> > +     stream->frame_context =3D frame_context;
+> > +     stream->len =3D 0;
+> > +     memset(&stream->stats, 0, sizeof(stream->stats));
 > > +}
 > > +
-> > +int osf_protocol_decode_capability_entry(const struct osf_capability_r=
-eport
-> > +                                      *report, u16 index,
-> > +                                      struct osf_capability_entry *ent=
-ry)
+> > +void osf_stream_reset(struct osf_stream *stream)
 > > +{
-> > +     const u8 *payload;
+> > +     if (!stream)
+> > +             return;
 > > +
-> > +     if (!report || !report->entries || !entry)
-> > +             return -EINVAL;
-> > +
-> > +     if (index >=3D report->capability_count)
-> > +             return -ERANGE;
-> > +
-> > +     payload =3D report->entries + index * OSF_CAP_SENSOR_ENTRY_LEN;
-> > +     *entry =3D (struct osf_capability_entry) {
-> > +             .sensor_type =3D get_unaligned_le16(payload),
-> > +             .sensor_index =3D get_unaligned_le16(payload + 2),
-> > +             .channel_count =3D get_unaligned_le16(payload + 4),
-> > +             .sample_format =3D get_unaligned_le16(payload + 6),
-> > +             .scale_nano =3D get_unaligned_le32(payload + 8),
-> > +             .flags =3D get_unaligned_le32(payload + 12),
-> > +             .reserved =3D get_unaligned_le32(payload + 16),
->
-> Entirely correctly I think you don't do any checks or reads of reserved v=
-alues.
-> As such why copy them around?  I'd just drop that field from your decoded
-> structures.  Not a huge saving but why carry irrelevant data around!
->
-> Jonathan
->
-> > +     };
-> > +
-> > +     return 0;
+> > +     stream->len =3D 0;
+> > +     memset(&stream->stats, 0, sizeof(stream->stats));
 > > +}
+>
+> You could reorder these two functions and call stream_reset from
+> stream_init.  Would make it clear what getting to a 'clean' state
+> means.
+>
+>
+>
