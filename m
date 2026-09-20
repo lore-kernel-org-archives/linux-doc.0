@@ -1,151 +1,365 @@
-Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDEA3403EE
-	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 01:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA552139C9;
+	Sun, 20 Sep 2026 02:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789869195; cv=none; b=Rx40hUGnGqYofkRRCj/BLUOD8NxI1LX4X5AK4KKeaCqhrDeOu/GG6Rhxa7gQJOG0gC8qu6RiRrg7hxlkmUghnz+Vc+c2JTflCg6SoGsQ/1VgsUw2K+J/GHmkakJSPc7eXz8H1cd3JzdsQMVALSWw07bvo6jPQRIJsKS5tiMjYX8=
+	t=1789869840; cv=none; b=JglJo27SFZ8SJWz/OAygObpbTnCT2TLWUU7v3Qyk0PoPdZWTjMbmmBT8lniKteHzo0RMsgqTSmM8wKzt6vj28pOdD9y0tfhBqrYbaBz9nFZTMOlB/jhh7lNq4Qe0G+wOk36+t4ft+tmdkt47RtKMPyLd1vNbx0bSru001XTBZew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789869195; c=relaxed/simple;
-	bh=CNs2E+qGO/+zrUl6drj1OWrYKFws96jmgTMzhakpZVQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cXgR6sUmFDi2of+BmvOB9M8nXK7ucanZlbe43+LydHXK9LdfUW1Fx8tXc3OMmTDT4hPI7yWBPADKDAy0bmFu/lVx/jx9+Qt4jXzGZUuH3W/kU0XGnSPbWKFQByisqZJj3USCuGpX3Wurtb40u4fScplzbAscq+ZYqXygOMUfITk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=t+brCQIh; arc=none smtp.client-ip=74.125.230.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1789869840; c=relaxed/simple;
+	bh=PwVVYV4JEx/0Ve75abmdYMHHwrig3Ha1HpjqxDoEcWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PyOlGXE2ReTtQHoFYSn6bNgqdFApGcz+0pqCWdQIQP6sXN+oJeYULLLTPdJgIfWi7pXfNq3o+BVAijS2tYg2DcnaRYwcXPI7ET8TkqazO6XOk+RkyFQLnVonf/UTsmY4p4/+WLSgvTblsbd2LjGwKB/PdSMZ5hTeQTgWfyDzCIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GAq/C/R0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="t+brCQIh"
-Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-90cdfbd3208so19402116d6.2
-        for <linux-doc@vger.kernel.org>; Sat, 19 Sep 2026 18:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1789869193; x=1790473993; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3IyWi76YFd5k6sT6Wel/JshxFvWpuBbjBUhku/DcG8Y=;
-        b=t+brCQIhIf9oq2CfCLZb1EBKwtMgyN5Bq8cx90tuIXlNI4bBv7WMP1zwHQLMo+S5pm
-         1aVFrqPYQXnRchsLGBrw6B3vsQqQN1ynKuEu7MBuxw8fqk9bGJiOFZznWZE6BC0ms+XT
-         oedfr7MaAOJFWXOlmrPTqXFVXbgFhXXzgDA4nYhJseR8NvPB5qKWaX3DrgbpLGD/5XLO
-         GUyLJsb1pZ4xfFn7zsl/qln9eaD+d1x9hCD8+2iwA1X4LMx0dVQZoAsM4MywaRfWvCBj
-         sUfdnxS0dpe8LiegjaNF/Amr1bJMEyjK5KP0ANEPtO0AyZc8bBEr2RMuNcD91gs4tqY7
-         ATWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789869193; x=1790473993;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=3IyWi76YFd5k6sT6Wel/JshxFvWpuBbjBUhku/DcG8Y=;
-        b=p43eoee5qe3I8gbzYatx2cD1HLIBUu2iQ+qO2EkUnqRlJCDGvgMAOdENdPCCrgIzir
-         99Vo7Xv95+PLZvCx/YkGRc+9vgv+lN1rGSz/PpCNFN+tu0cIsx/l99zUW3XKZTkg6nVQ
-         XrNCJMwks8F58lmTSRDbuhq8APMvMKbXLa/s8fhT7qtgQrwqtNGv+m50GoDvJ0+dtBUH
-         QSqw6MuoAEJGKfwJkWMLUVUB9eV9oTE+CoP8UldEQfuJpkytdvyOyOitb+VG0s/yLA/9
-         V5yNuJgEYwVHM8Up4qVblt/jjCgaRbp7qg57/G9APmLuT0/GS4gOkKefw4XXE1EyWl0c
-         O7gg==
-X-Forwarded-Encrypted: i=1; AKwUvBzL0iL+056m++mso0wFSwcfpZiDxMk+vRytAl9BNOv4MgSkPBLYWeAa6PjXqwCr0eXcUqufYfIjGwA=@vger.kernel.org
-X-Gm-Message-State: AFuF++nLYcZGHPCC+NbsMNdszbt/t5uAjha69Qz9VmtbMJZzWgRjI0m1
-	/G7zyffFaxrYDCvPHjR5IAQc+RNJrDSowAb72ZkSxO4XdfTbmouFqDn38qgpVZAISnk=
-X-Gm-Gg: AYBFou1tdEM5WdAQnCPWuu+nV7ihTsCAn4Vv5jUfF4MZDHzg7+22UZZr/nvCi+qyCE5
-	RKdAo4S/3sJ27fVduH+rCqZQh78PUu4aN3A/PXJ803g1wB1ptcdYPXFsSZYEDikiJRdMpjH8gv+
-	IHBJkPkzrarq73gfUQWg3cdIWTq1GpdHFxfOwyJVTEni+gv9LwSrrnzbICMDu6Z1RX2O1sqpc92
-	6CkBmuEcgMKd4OargK1/EtpEvXF3KLamSjIqnOPJQyEdYTAqSCUCEmL/SzApafaEmA95D6GEUXA
-	JS5OTXfIuVhzpjZAhwPROwlwRxGiarPwUNkNyPHBYMstIeLg4fXyAQZMqhtZDuv6jla25mtGsFg
-	PJ7ArwJrVqBFiKt4Ar1qJKJuVzHUUNXYx0FYDTeXAXuAnahc6aKm/kkrArBe1hU51/KTu3B0qu+
-	9iu1Mcfy0MBlj5tAb1czHAv3jNaMpuSmbTCU+S2DSReojIrzAb1l8nQXFWtEzUcNWwWQhh4axq4
-	bjuQ0Ba/1BwpzsLBLwNetygvahUq5GGunEdaSq2hjteG8mmSwsDeDU=
-X-Received: by 2002:ad4:5948:0:b0:910:4da6:8354 with SMTP id 6a1803df08f44-9129c780d08mr44342896d6.17.1789869193050;
-        Sat, 19 Sep 2026 18:53:13 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91260a9a305sm32833856d6.37.2026.09.19.18.53.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 18:53:12 -0700 (PDT)
-Date: Sat, 19 Sep 2026 21:53:10 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Chris Li <chrisl@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, 
-	Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Rik van Riel <riel@surriel.com>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel team <kernel-team@meta.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F>
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <aqJXx2vtbKaRLt3x@fedora>
- <aqLi6cIjD2wJwk0B@cmpxchg.org>
- <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
- <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
- <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GAq/C/R0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A551F00893;
+	Sun, 20 Sep 2026 02:03:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789869838;
+	bh=X9N4VoDKYV4KaRtg0FDgOvzdsIFsiYYCVYCWida5uF0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=GAq/C/R07e438NhKogWpebxC5aBzem2qlBeArf+KtMUu9bADSfOk5wQjOu/2R+6Bz
+	 uiB3znfHvVNqZ73kx4iEo4W7p3t82gE30SnYg6Swwqe10w5NNhX5Mak4z3RoPoENUU
+	 rOL7glhq/mjfTgRsnY4QK9mOGIOX0IzfnTMSc3ywA+4liQ9Jmx/n7SKoB0kJLHMhtF
+	 6l3sHjWZpUUNbmlUANVFE0nOVYb9Bo82sZ78JBCT+Vy6GCyVQW6Mn8+LYwGZyYETaO
+	 xScFWAW1Ajz4aL03SXKeBOPBHQpCkrZ/FY4ZLDr5PNDl3rABewsvg45Ayew8PF+tsa
+	 EYJ2rR+8iwtGA==
+Date: Sun, 20 Sep 2026 03:03:52 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Jinseob Kim <kimjinseob88@gmail.com>
+Cc: linux-iio@vger.kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
+ andriy.shevchenko@intel.com, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org, joshua.crofts1@gmail.com,
+ u.kleine-koenig@baylibre.com, julianbraha@gmail.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v10 6/8] iio: osf: add IIO devices from capability
+ reports
+Message-ID: <20260920030352.62526119@jic23-hlaptop>
+In-Reply-To: <c88d0ced0bff5cf29e765cd2c280ce3c10c50988.1789753020.git.kimjinseob88@gmail.com>
+References: <cover.1789753020.git.kimjinseob88@gmail.com>
+	<c88d0ced0bff5cf29e765cd2c280ce3c10c50988.1789753020.git.kimjinseob88@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Sep 19, 2026 at 09:02:28AM -1000, Chris Li wrote:
-> On Sat, Sep 19, 2026 at 6:08 AM Gregory Price <gourry@gourry.net> wrote:
-> >
-> >                         Memory Post-Compression
-> >  |[CD][CD][CD][CD][CD][CD][CD][CD]-------- free space ------------|
-> >    ^----------------------------^
-> >          Compression Space
+On Sat, 19 Sep 2026 03:24:44 +0900
+Jinseob Kim <kimjinseob88@gmail.com> wrote:
+
+> Register IIO devices from supported capability descriptors and expose
+> signed raw samples, descriptor scales and software buffers. Keep early
+> capabilities owned by the core until UART and supply setup is complete,
+> and unregister children after the receive producer has stopped.
 > 
-> Thanks for the explanation. So the compression space is just the
-> actual data store backing the zswap/xswap/zram.
-
-No.  That is not what I said.
-
-I said 
-
-   It's the *amount* of memory consumed by compressed data,
-         including the metadata associated with it.
-
-I do not know how to be clearer than this. It is an amount of memory.
-
-It is not the memory itself or an abstraction to describe how much
-memory, it is literally the active amount of consumption - a number.
-
-> Maybe we need a separate counter to track actual memory usage,
-> regardless of compression status.
-
-the separate counter is... the existing memory and zswap counters.
-
-> I want to add support for your usage case as well. Please clearly
-> specify what user usage you want, what the expected outcome
-> is, and why you want that.
+> Validate nonzero descriptor scales and sample/descriptor equality, leave
+> discovery open after empty or unsupported inventories, and compare
+> repeated descriptors independently of order. Fault a bound session if a
+> descriptor changes meaning, gating cache and buffer publication together.
 > 
+> Add initialized active-scan packing and buffer producer quiescence. The
+> production implementation is now complete; subsequent patches only add
+> the existing core and IIO KUnit suites and their build wiring.
 
-I want:
+No need to talk about what other patches do and that a series is functionally
+complete in a patch. If you want to do it, under the --- so it doesn't end
+up in the git log.
 
-  1) zswap on machines with no swapfile
+> 
+> Assisted-by: LLM
+> Signed-off-by: Jinseob Kim <kimjinseob88@gmail.com>
 
-  2) without being asked "how big?" - there is no number I can give
-     that stays correct, and
+A few things inline.  Biggest one is a question (I'm not sure) on
+whether you can use a claim on buffered mode (which will hold it in that
+if it succeeds until released) is sufficient to replace the extra lock you
+have to block that transition. 
 
-  3) the bound should be the memory limit that already exists,
-     not a number guessed at boot that hotplug invalidates or
-     guessed at swapon time that different workloads invalidate.
+Thanks,
 
-This requires decoupling swap *file* accounting from zswap accounting.
+Jonathan
 
-~Gregory
+
+
+> diff --git a/drivers/iio/opensensorfusion/osf_iio.c b/drivers/iio/opensensorfusion/osf_iio.c
+> new file mode 100644
+> index 000000000000..f4011b8fae14
+> --- /dev/null
+> +++ b/drivers/iio/opensensorfusion/osf_iio.c
+...
+
+> +
+> +struct osf_iio_scan_3axis {
+> +	s32 values[3];
+> +	u32 padding;
+No needed unless you explicitly write into padding for some reason.
+C rules add it anyway and then we don't need to make sure it remains
+correct if this structure changes in future.
+> +	aligned_s64 timestamp;
+> +};
+> +
+> +struct osf_iio_scan_1axis {
+> +	s32 value;
+> +	u32 padding;
+As above, unneeded.
+> +	aligned_s64 timestamp;
+> +};
+
+Given I think these are only used in one place, moving them to there would
+avoid need for named structure types.
+
+> +
+> +#define OSF_MOD_CHAN(_type, _mod, _idx)				\
+> +	{								\
+> +		.type = (_type),					\
+> +		.modified = 1,						\
+> +		.channel2 = (_mod),					\
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),		\
+> +		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE),	\
+> +		.scan_index = (_idx),					\
+> +		.scan_type = {						\
+> +			.sign = 's',					\
+> +			.realbits = 32,					\
+> +			.storagebits = 32,				\
+> +			.endianness = IIO_CPU,				\
+> +		},							\
+> +	}
+> +
+> +#define OSF_CHAN(_type, _idx)					\
+
+Given this is not much used, you could use the IIO_NO_MOD modifier as a gate
+on setting .modified = (_mod != IIO_NO_MOD) ? 1 : 0,
+and have just one macro.
+
+> +	{								\
+> +		.type = (_type),					\
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),		\
+> +		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE),	\
+> +		.scan_index = (_idx),					\
+> +		.scan_type = {						\
+> +			.sign = 's',					\
+> +			.realbits = 32,					\
+> +			.storagebits = 32,				\
+> +			.endianness = IIO_CPU,				\
+> +		},							\
+> +	}
+> +
+> +static const struct iio_chan_spec osf_accel_channels[] = {
+> +	OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_X, 0),
+> +	OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_Y, 1),
+> +	OSF_MOD_CHAN(IIO_ACCEL, IIO_MOD_Z, 2),
+> +	IIO_CHAN_SOFT_TIMESTAMP(3),
+> +};
+> +
+> +static const struct iio_chan_spec osf_gyro_channels[] = {
+> +	OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_X, 0),
+> +	OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_Y, 1),
+> +	OSF_MOD_CHAN(IIO_ANGL_VEL, IIO_MOD_Z, 2),
+> +	IIO_CHAN_SOFT_TIMESTAMP(3),
+> +};
+> +
+> +static const struct iio_chan_spec osf_mag_channels[] = {
+> +	OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_X, 0),
+> +	OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_Y, 1),
+> +	OSF_MOD_CHAN(IIO_MAGN, IIO_MOD_Z, 2),
+> +	IIO_CHAN_SOFT_TIMESTAMP(3),
+> +};
+> +
+> +static const struct iio_chan_spec osf_temp_channels[] = {
+> +	OSF_CHAN(IIO_TEMP, 0),
+> +	IIO_CHAN_SOFT_TIMESTAMP(1),
+> +};
+> +
+> +static const struct osf_iio_sensor_spec osf_iio_sensor_specs[] = {
+> +	{
+> +		.sensor_type = OSF_SENSOR_ACCELEROMETER,
+> +		.channel_count = 3,
+> +		.name = "osf-accel",
+> +		.channels = osf_accel_channels,
+> +		.num_channels = ARRAY_SIZE(osf_accel_channels),
+> +	},
+> +	{
+> +		.sensor_type = OSF_SENSOR_GYROSCOPE,
+> +		.channel_count = 3,
+> +		.name = "osf-gyro",
+> +		.channels = osf_gyro_channels,
+> +		.num_channels = ARRAY_SIZE(osf_gyro_channels),
+> +	},
+> +	{
+> +		.sensor_type = OSF_SENSOR_MAGNETOMETER,
+> +		.channel_count = 3,
+> +		.name = "osf-magn",
+> +		.channels = osf_mag_channels,
+> +		.num_channels = ARRAY_SIZE(osf_mag_channels),
+> +	},
+> +	{
+> +		.sensor_type = OSF_SENSOR_TEMPERATURE,
+> +		.channel_count = 1,
+> +		.name = "osf-temp",
+> +		.channels = osf_temp_channels,
+> +		.num_channels = ARRAY_SIZE(osf_temp_channels),
+> +	},
+> +};
+> +
+> +static const struct osf_iio_sensor_spec *
+> +osf_iio_find_sensor_spec(u16 sensor_type, u16 channel_count)
+> +{
+> +	for (unsigned int i = 0; i < ARRAY_SIZE(osf_iio_sensor_specs); i++) {
+> +		if (osf_iio_sensor_specs[i].sensor_type == sensor_type &&
+> +		    osf_iio_sensor_specs[i].channel_count == channel_count)
+> +			return &osf_iio_sensor_specs[i];
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +bool osf_iio_sensor_supported(u16 sensor_type, u16 channel_count)
+> +{
+> +	if (osf_iio_find_sensor_spec(sensor_type, channel_count))
+> +		return true;
+> +
+> +	return false
+
+	return osf_iio_find_sensor_spec(sensor_type, channel_count) != NULL;
+
+> +}
+
+> +
+> +static int osf_iio_buffer_postenable(struct iio_dev *indio_dev)
+> +{
+> +	struct osf_iio_state *state = iio_priv(indio_dev);
+> +
+> +	guard(mutex)(&state->buffer_lock);
+
+These transistions are already guarded by the core, so see the question later
+on whether you can just claim buffered mode in the data handler
+to avoid the need for this. That might not work but the way you did
+this got me thinking about a more general solution to the problem.
+
+> +	state->buffer_active = true;
+> +
+> +	return 0;
+> +}
+> +
+> +static int osf_iio_buffer_predisable(struct iio_dev *indio_dev)
+> +{
+> +	struct osf_iio_state *state = iio_priv(indio_dev);
+> +
+> +	/* Wait for the current push before the IIO core changes its buffers. */
+> +	guard(mutex)(&state->buffer_lock);
+> +	state->buffer_active = false;
+> +
+> +	return 0;
+> +}
+
+
+> +
+> +int osf_iio_push_sample(struct iio_dev *indio_dev, const s32 *values,
+> +			u16 channel_count)
+> +{
+> +	struct osf_iio_state *state = iio_priv(indio_dev);
+> +	s64 timestamp;
+> +
+> +	if (channel_count != state->spec->channel_count)
+> +		return -EPROTO;
+> +
+> +	guard(mutex)(&state->buffer_lock);
+
+Using an extra lock is one solution I suppose to the risk
+of this racing with the buffer tear down and the problems
+around active_scan_mask being freed. Could you use
+
+	if (iio_device_try_claim_buffer_mode(indio_dev))
+and later a release on that to achieve the same result?
+
+Only the ade9000 is doing similar at the moment so would need
+some testing to make sure no lock inversions occur in general
+but given you don't take any other locks in here it should be fine.
+
+
+> +	if (!state->buffer_active || !iio_buffer_enabled(indio_dev))
+> +		return 0;
+> +
+> +	timestamp = iio_get_time_ns(indio_dev);
+> +
+> +	switch (channel_count) {
+> +	case 1: {
+> +		struct osf_iio_scan_1axis scan = {
+> +			.value = values[0],
+> +		};
+As suggested above, this structure type is only used locally here. So
+make the definition local as well.
+		struct {
+			s32 value;
+			aligned_s64 timestamp;
+		} scan = { };
+
+> +
+> +		return iio_push_to_buffers_with_ts(indio_dev, &scan,
+> +						   sizeof(scan), timestamp);
+> +	}
+> +	case 3: {
+> +		struct osf_iio_scan_3axis scan = {
+> +			.values = { },
+
+Setting values doesn't add anything useful as = { } 
+zeros the whole structure (including any holes - they kernel is
+built with specific compiler options to ensure that last bit
+as it wasn't required in older c specs).
+
+> +		};
+> +		unsigned int channel, index = 0;
+
+Please split declarations that assign and ones that don't on to separate lines.
+Ends up a little more readable.
+		unsigned int index = 0;
+		unsigned int channel;
+
+> +
+> +		/* Pack the active channels; unused storage remains initialized. */
+> +		for_each_set_bit(channel, indio_dev->active_scan_mask, channel_count)
+> +			scan.values[index++] = values[channel];
+> +
+> +		return iio_push_to_buffers_with_ts(indio_dev, &scan,
+> +						   sizeof(scan), timestamp);
+> +	}
+> +	default:
+> +		return -EPROTO;
+> +	}
+> +}
+
+> diff --git a/drivers/iio/opensensorfusion/osf_serdev.c b/drivers/iio/opensensorfusion/osf_serdev.c
+> index 8a747c01ff9d..3d5e90d83967 100644
+> --- a/drivers/iio/opensensorfusion/osf_serdev.c
+> +++ b/drivers/iio/opensensorfusion/osf_serdev.c
+> @@ -23,7 +23,7 @@ struct osf_serdev {
+>  	bool vcc_enabled;
+>  	struct osf_device osf;
+>  	struct osf_stream stream;
+> -	/* Protects the parser and all RX counters. */
+> +	/* Protects the parser, all RX counters, and the registration gate. */
+>  	struct mutex rx_lock;
+
+Just name it 'lock' given it has scope beyond rx.  Do that in earlier patch
+though rather than changing it here.
+
+>  };
+
+>  
+> @@ -139,5 +144,5 @@ static struct serdev_device_driver osf_serdev_driver = {
+>  };
+>  module_serdev_device_driver(osf_serdev_driver);
+>  
+> -MODULE_DESCRIPTION("Open Sensor Fusion UART receiver");
+> +MODULE_DESCRIPTION("Open Sensor Fusion IIO driver");
+
+Just have that being slightly missleading in earlier patch to reduce churn here.
+
+>  MODULE_LICENSE("GPL");
+
