@@ -1,65 +1,65 @@
-Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
+Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2867B471429
-	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 19:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDED3E022B
+	for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 19:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789933048; cv=none; b=owNnoIxcmGfrEqJfDZKKL1JPGF/jXyvieduGCr4IHnJh/t5REsJXFAcucK5IO3YS3Ll/FW2TQvGXhqRsp5vGyv4G27WW9lLKdPF4x3vIrJBRCGztz1s98eVy9B8DGjcXObrHsTvsUkknp0Uh/CuOz73Pq499R9qBAB2ieDJj6jE=
+	t=1789933053; cv=none; b=Zbu9oi+VGEt6r8jodJxcwlTWUfDAEDZaHFt1B8PEvp/dCF68AOoENV+VsgCpyufR7rOXnLucsqhiVu9XTsKUK7Dk9tzWmXAt0kcb5MlASy6hCt4Vp8pem778pEH8seLOKBr8aik3ipxrWUIOmz/75Wa2rSPNNNtptoIimOehSX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789933048; c=relaxed/simple;
-	bh=tNdsG5SbEQaMh+AeZRyqzF7Pg2wKp2d/X/KDLhjUmzI=;
+	s=arc-20240116; t=1789933053; c=relaxed/simple;
+	bh=xr/NZJKBK6CUnL1RnXkkMJeJUXfe0jmUB3ZL22elyF4=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YO7RyCDtALVKrGDzI8mv/Ac8IqmvQ9GpOi6K9TJHzkqzMaQ3RG2HjJmPLWSom3QuB2SJu0io30WlsWAea9aFL3zRVA49np18RkjcWyeO7II3V3gNd+hIDk748sTD22Jvcrlf5xj90Mcef8pFKIdPDJcIkRTRNyBB6bxp7asu23I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=j+rHEc4A; arc=none smtp.client-ip=74.125.224.171
+	 MIME-Version; b=WZ7ZF2bmN8wyijP2Qe2rkd06wSkk5J/G5GD23tMKs64b+Un5qaPPZ1D6fOCZdyp1eGupeNiq+CXejdjDfMIXmiSHqQmt/3+1aMub1/fR6W6RKcntsy5XOWjzAIn3PF4JJwrZT0MymH0nQ+rhnxpO6Y/0Rg+hYduNKeLM+pEt73k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=SOBbeJIM; arc=none smtp.client-ip=74.125.224.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="j+rHEc4A"
-Received: by mail-yx2-f43.google.com with SMTP id 00721157ae682-85d43f9b120so19437947b3.3
-        for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 12:37:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="SOBbeJIM"
+Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4aae3149so1690802d50.2
+        for <linux-doc@vger.kernel.org>; Sun, 20 Sep 2026 12:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1789933045; x=1790537845; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1789933050; x=1790537850; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=i5nAPiFxyuCO/MgJOwL1aiw4E3m2Ng0EpjBlpOl2sok=;
-        b=j+rHEc4A845kUWAKEHXpfU0mapZtHJj5JkKQ0/8gLscv/LRIH4K2Y2VUSbGNSrdI9i
-         AhYYIFCzxS8L6NqFAN7sqE/8mE6qrz9XuesCWfVqgOm/7IQXfJx23kDVLMRb3IJ7HsOB
-         w0AwMWZiRusHDl0dZZuiKN2NTk/LqBhXgS69oa46vbatF6yIEl0cyjSV3R/yooFx1rvi
-         qhsp8DxqBmhRPEulA/w95VfFnGxDj+vtnwuD7t0Epr28s30ZwxcQaT0+i9x4bL7rc+jH
-         Ail+w9R1O72EWO/y6joYUSd1g4TlT4TaJDxOuqAZb/fMsKF58IpL2cIFtwavFsl4aQ7X
-         /9gA==
+        bh=qTv8uFL1FYxhccWvDyiinfq9K+eUMO7fyy31bgvC6E4=;
+        b=SOBbeJIMCs38dv8ZImJY+/7eltfI47qWOWzjYQxzXxAdJlAv2v/CCIDUatv+1nqw3c
+         hYSbqJliDWfpOL9Igd56oFok7OvotwogIUTZ60Opz/cuqCRWDSG89RZ8V94Oa9nxKrEk
+         oisxF1VcLEp8aQSIx/YAhRABu9FnA1gKzIgUIhkYijeZl4FB+23WSEumOdcyJxgaAZf5
+         zuba/cQuvFK4PZetvfUYfNB5BG4Y5OXfqehUeOz4HqVIy6JxMZT6UL6AAJRwUKk/O/2m
+         1TK3J3fvo8FDuVlHM2vsFvNJarglOrI1XWtKsM/Xt3VM8jZ8ih2S43qvO1/Xxiiclp9e
+         aQHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789933045; x=1790537845;
+        d=1e100.net; s=20260707; t=1789933050; x=1790537850;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=i5nAPiFxyuCO/MgJOwL1aiw4E3m2Ng0EpjBlpOl2sok=;
-        b=dG39HVlKXcnI628Vry9K0eSetJhr2rqjNX8A+6hgzRvJQ3GIIjEWwk8+z8JKyg5unY
-         JJ2EccaMytM2E0PEh4T4QCJUC6oNLQFoBrtFwRsmNFKi6tJdBX3Tqtay0qP1yGwh/Fph
-         3/IIkANak737QYOeo7zD9PyUlbLSOHLATSDEZjZXuZjB96aUqtjQ2ZAipFsCchKNoq7Q
-         UjTtR//IaYoHBFTVXl8WG9Yq4a3/i8mR1v2K2zdDMcAvigjtG5KfzSEXOiVjXnQAgjBn
-         NyVwlQ7SUqy3eSb7pN6cN0wXnv/vSQRAZ4t6f3TLehpKUD0E17W+NpcZttpsfobD8emi
-         T7xQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwv+DbYhHcLmbZLPSBRsNZeXVR0gVEybTQqHB5bz4S6ipbkfELVNGRSFXF63b4bUj+iuj02+uAFX8w=@vger.kernel.org
-X-Gm-Message-State: AFuF++mUDqmOfJwzFcbTbyF+EbaNCv5RWyWU1B69+22Zxt282nBXs12B
-	Trv9y3VrxUbbWcR7gmCFNxC5+5wAd5xoh86bK5QIfmaszDCICF29sLD5vX2gvO3c960=
-X-Gm-Gg: AYBFou1X0bkx0xgT2SQJ2etQeGAzeMaB9026+Cqd9BQUKlIF+QnaIeNicxyGV0U/eCZ
-	q6YtS025rEFZv6RkvnHtUatgYiITBXTMjvc7bqY7EVs7P3+yr70PaC8fxA9FlL8Hp4nqlINeKLh
-	dD7ZKLE0ihpYRYb+qmj0G5RWAsNdavzi0kRcPydiekhp3UDZoYztzpClf9Q9kMaMTQf+VkMzKhx
-	pzgEPVTw4f6qqDcYaizajJ8RVzmUxQ2YXCino0vp2mgacoCC7YWquim2zyZ9Y9Qs830Z/Q6a7N7
-	VK9AW0pexmDjaEsfCjtOegmSBEIGprtKwu3U9QhHSMAe4QKNcWh6djnKmCZRfjKdLZRekXv4zxx
-	hz5X3b78LiW8aDvFh+9xco0/oBXnCGX3eN+rxWkPju5uxkVFpbnNX5/FEfxZEqM7gyrS1xxbJQ1
-	H9v86QHQaadXYEgp5s6U3pKaMvWfoRmyGMHk3ziCou4v9bUgcMImKiy12vjQorVPpKQZ7TJhInO
-	iIkff3MHU2MPtNJDIpT/+1w06QLXJyu0JiHHCsZVceo3OdMOkXKtu9W5qCmUOHOQN6AQ/SRleMd
-	bcuFTd7Y/oDuJ/JfDbY=
-X-Received: by 2002:a05:690c:e297:20b0:870:f53:4edd with SMTP id 00721157ae682-897305168b0mr18683667b3.7.1789933044691;
-        Sun, 20 Sep 2026 12:37:24 -0700 (PDT)
+        bh=qTv8uFL1FYxhccWvDyiinfq9K+eUMO7fyy31bgvC6E4=;
+        b=aC1bR/WPdV7Qh9a/vRmW2UKQzXyJ1FQ239Jol+aa1NLma+KrCYhANp90p0NStV+dMd
+         lZ8NxXIerbEHHbKiHj4OBBmV8JNivIG3JVrxdQ2Tbeanv/xdviKOKlJevxfhAIl4farU
+         4r8UZB8CMLTTYUd+qW831r36cDDxOSQnxSS6cPCw5EbbcfEWMIrQl39N1U4S/2DgMGYw
+         1qqTxbg7mYD7460YV6Ev4HRSA3sHZzg3uM79KS+1H5zaIRoadVIefwZExynCOZd8NjFH
+         m6h56WWEdXVjmSTECVPiutZMCY5IqLzP2HCokkNaWRRC+m7Dzar7qo+gpKcSDkikhDr7
+         UHjQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwJCN8Z6D5SX+MUjt8Cdzh7+RDKvXUTo8zMPLaQuN/LEMG5ZDGrWcyHWQ+/h6c4RxkddN0jQ7fuxKQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++lRngSDUkK7tZLtOlNB/dz2PulGZJBUCsaXAracZc4OxBAKgcwh
+	nfFAoLFCVQmnEgKHbUZwZ8NSB0X7qRhrP+WGKVplVKrxsj5ZVshRBDQNyaM7df2/qGI=
+X-Gm-Gg: AYBFou3fWlnoEvfhLM5rx1Z/mqzTyKyjGqzPKJtLR2jBx8L/nk4xNreJutPyTYh82WX
+	7M9BhVEuhCz1sYnXs6T23rNUWK8X/F/w7Q3SmlFkuBd65ha8VWAgTrDJRG9nvCGci7dWo/DvaOV
+	UAmt9CwJXhsceEeMkAUySGT7vLy7eMMq5GUuB88mSYA1IBLke5gxJYzWVwcaUZZB2MWS0N+/h/Y
+	0a8TAx32glECyXws7ZcbxdAF9nExYIt3kt5to/at+3u9LR2Tb5NXY0kUhIsLoFQpBbNWxBCPuGv
+	Vtl/t2DrU05plTQuw2HJ7npOkeCxDove+SF5vjD1F9aGg1B8He7piW5kLaesZeQ5RQGxJUA6jtY
+	g69ksY7oTsGjbWKpv2bhxO8r5bE9cdNXyLrJfS16zh1x3pEqi+HGGXZUnljhB1wXgTERGEHlA2T
+	p0Xa3BfLVgqcni/SVMB/c3Qc7r4s1y+62pmvwjlVytygS8rmQQhekUv0GjqwAyGtsMo8n8/86ne
+	klHOTeZLakjfTYFgEAgkryuLlT2KN5etGCHp+VaiIN9WLk3jQrEfz8ISuVSXgRzAtCLqREl0Ehg
+	uoyAi8gOjQMt6toqe7jO
+X-Received: by 2002:a05:690e:134b:b0:671:70d1:d6e5 with SMTP id 956f58d0204a3-6717fe597a3mr2639510d50.87.1789933049997;
+        Sun, 20 Sep 2026 12:37:29 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-89a48aab042sm18597427b3.47.2026.09.20.12.37.22
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67298f64c7esm2656294d50.2.2026.09.20.12.37.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 12:37:24 -0700 (PDT)
+        Sun, 20 Sep 2026 12:37:29 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: linux-kselftest@vger.kernel.org,
 	legion@kernel.org,
@@ -137,9 +137,9 @@ To: linux-kselftest@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	vladimir.murzin@arm.com,
 	kas@kernel.org
-Subject: [RFC PATCH 05/46] arm64: mm: Add trans_pgd_map_range() support
-Date: Sun, 20 Sep 2026 15:36:09 -0400
-Message-ID: <20260920193650.3373435-6-pasha.tatashin@soleen.com>
+Subject: [RFC PATCH 06/46] x86/smp: Skip offline CPUs for REBOOT_VECTOR in native_stop_other_cpus()
+Date: Sun, 20 Sep 2026 15:36:10 -0400
+Message-ID: <20260920193650.3373435-7-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 In-Reply-To: <20260920193650.3373435-1-pasha.tatashin@soleen.com>
 References: <20260920193650.3373435-1-pasha.tatashin@soleen.com>
@@ -151,120 +151,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce trans_pgd_map_range() to allow mapping arbitrary physical
-memory ranges into transitional page tables.
+In native_stop_other_cpus(), cpus_stop_mask is initialized to
+cpu_online_mask minus the calling CPU. However,
+apic_send_IPI_allbutself(REBOOT_VECTOR) uses the APIC broadcast
+shorthand when enabled, which delivers the IPI to all physical APICs
+including offline CPUs.
 
-This helper allocates intermediate translation levels (P4D, PUD, PMD,
-and PTE) on demand using the trans_pgd allocator, enabling precise
-virtual-to-physical address mappings in transitional contexts such as
-isolated execution environments.
-
-Add comprehensive kernel documentation detailing the isolated page
-table mappings: Caretaker text/rodata (ROX), writable data (RW),
-stacks (RW), and preserved buffers without cloning the direct map.
+Use __apic_send_IPI_mask(&cpus_stop_mask, REBOOT_VECTOR) so that
+REBOOT_VECTOR is sent only to the target online CPUs in
+cpus_stop_mask.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- arch/arm64/include/asm/trans_pgd.h |  4 ++
- arch/arm64/mm/trans_pgd.c          | 70 ++++++++++++++++++++++++++++++
- 2 files changed, 74 insertions(+)
+ arch/x86/kernel/smp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/include/asm/trans_pgd.h b/arch/arm64/include/asm/trans_pgd.h
-index 033d400a4ea4..1e17ae145b0c 100644
---- a/arch/arm64/include/asm/trans_pgd.h
-+++ b/arch/arm64/include/asm/trans_pgd.h
-@@ -30,6 +30,10 @@ struct trans_pgd_info {
- int trans_pgd_create_copy(struct trans_pgd_info *info, pgd_t **trans_pgd,
- 			  unsigned long start, unsigned long end);
+diff --git a/arch/x86/kernel/smp.c b/arch/x86/kernel/smp.c
+index 985103cab16c..2449d15c6667 100644
+--- a/arch/x86/kernel/smp.c
++++ b/arch/x86/kernel/smp.c
+@@ -192,7 +192,7 @@ static void native_stop_other_cpus(int wait)
+ 	cpumask_clear_cpu(this_cpu, &cpus_stop_mask);
  
-+int trans_pgd_map_range(struct trans_pgd_info *info, pgd_t *trans_pgd,
-+			phys_addr_t pa, unsigned long va, size_t size,
-+			pgprot_t prot);
-+
- int trans_pgd_idmap_page(struct trans_pgd_info *info, phys_addr_t *trans_ttbr0,
- 			 unsigned long *t0sz, void *page);
+ 	if (!cpumask_empty(&cpus_stop_mask)) {
+-		apic_send_IPI_allbutself(REBOOT_VECTOR);
++		__apic_send_IPI_mask(&cpus_stop_mask, REBOOT_VECTOR);
  
-diff --git a/arch/arm64/mm/trans_pgd.c b/arch/arm64/mm/trans_pgd.c
-index cca9706a875c..f0a55d4270cc 100644
---- a/arch/arm64/mm/trans_pgd.c
-+++ b/arch/arm64/mm/trans_pgd.c
-@@ -200,6 +200,76 @@ int trans_pgd_create_copy(struct trans_pgd_info *info, pgd_t **dst_pgdp,
- 	return rc;
- }
- 
-+/**
-+ * trans_pgd_map_range - Map a physical address range into a transition page table
-+ * @info: Transition page table allocation info containing the page allocator
-+ * @trans_pgd: Root transition page table pointer
-+ * @pa: Physical address to map
-+ * @va: Virtual address to map to
-+ * @size: Size of the range to map in bytes (page-aligned)
-+ * @prot: Page protection attributes (e.g. PAGE_KERNEL, PAGE_KERNEL_ROX)
-+ *
-+ * Populates the page table hierarchy (P4D, PUD, PMD, PTE) allocating new
-+ * intermediate tables using info->trans_alloc_page() as needed. Used by
-+ * liveupdate Caretaker to construct isolated page tables.
-+ *
-+ * Return: 0 on success, -ENOMEM on allocation failure.
-+ */
-+int trans_pgd_map_range(struct trans_pgd_info *info, pgd_t *trans_pgd,
-+			phys_addr_t pa, unsigned long va, size_t size,
-+			pgprot_t prot)
-+{
-+	unsigned long end = va + size;
-+	unsigned long addr = va;
-+
-+	while (addr < end) {
-+		pgd_t *pgdp = pgd_offset_pgd(trans_pgd, addr);
-+		p4d_t *p4dp;
-+		pud_t *pudp;
-+		pmd_t *pmdp;
-+		pte_t *ptep;
-+
-+		if (pgd_none(READ_ONCE(*pgdp))) {
-+			p4dp = trans_alloc(info);
-+			if (!p4dp)
-+				return -ENOMEM;
-+			pgd_populate(&init_mm, pgdp, p4dp);
-+		}
-+		p4dp = p4d_offset(pgdp, addr);
-+
-+		if (p4d_none(READ_ONCE(*p4dp))) {
-+			pudp = trans_alloc(info);
-+			if (!pudp)
-+				return -ENOMEM;
-+			p4d_populate(&init_mm, p4dp, pudp);
-+		}
-+		pudp = pud_offset(p4dp, addr);
-+
-+		if (pud_none(READ_ONCE(*pudp))) {
-+			pmdp = trans_alloc(info);
-+			if (!pmdp)
-+				return -ENOMEM;
-+			pud_populate(&init_mm, pudp, pmdp);
-+		}
-+		pmdp = pmd_offset(pudp, addr);
-+
-+		if (pmd_none(READ_ONCE(*pmdp))) {
-+			ptep = trans_alloc(info);
-+			if (!ptep)
-+				return -ENOMEM;
-+			pmd_populate_kernel(&init_mm, pmdp, ptep);
-+		}
-+		ptep = pte_offset_kernel(pmdp, addr);
-+
-+		set_pte(ptep, pfn_pte(PHYS_PFN(pa), prot));
-+
-+		addr += PAGE_SIZE;
-+		pa += PAGE_SIZE;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * The page we want to idmap may be outside the range covered by VA_BITS that
-  * can be built using the kernel's p?d_populate() helpers. As a one off, for a
+ 		/*
+ 		 * Don't wait longer than a second for IPI completion. The
 -- 
 2.55.0.1082.g2b9226bbc0-goog
 
