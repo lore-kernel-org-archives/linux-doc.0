@@ -1,111 +1,110 @@
-Received: from mail-m1973182.qiye.163.com (mail-m1973182.qiye.163.com [220.197.31.82])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64AF3C2BB0;
-	Sun, 20 Sep 2026 03:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F393290BA;
+	Sun, 20 Sep 2026 03:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789874825; cv=none; b=F3ZzAIyG7QBceQIVqvTA+ijuNIF5hu0VQRfszl5Idd8AObbX7dKONzZz2QH+iH9rwGv0v+L9VkfAH8uqmRDKPJtkZVOUmd6EHcsfQ5nYK0Bv0IH9P1kZBfofvOd/PXF4EHpTOSWtUGoA4iu0ZfI/WHH1TziXYP5HjRMpbPt5hNg=
+	t=1789875615; cv=none; b=odfVkvuCrDR+679XczkPvRp7YD8HOFLto2M7tgDXNo+Cm6FDKs3W3rT2nCikAskdPX383I7ZBX2rbRiLpabR4iiRWvONG+lS4yiu2n5AHadHDvx3rtjiIpKEqVyM7QXRO8+gd6luF9s9blXKIN5CO98UNZ/aiJFPGKQTpkuATzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789874825; c=relaxed/simple;
-	bh=4vFYmCzdRJ6CGiU+FHTthwBZRfUP1kzd6SL1k4iiUTs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ubEw4GgupR8VM5okO90SU/W3BXySQ6zZO5n0ccVMYecWbXTyIEAnG2vdSvWya2WmpKpwm8QiO7w+lRm1kDw26mt4G23SAKIrQf+i4fTNcOBkFlFQdU0d7TxwBZKm6JrL4ON4jHIUEHLax3ag65Y+eU7c/45DyJbUpFEVGWvpUAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=220.197.31.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
-Received: from [192.168.0.59] (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1f4881c20;
-	Sun, 20 Sep 2026 10:11:10 +0800 (GMT+08:00)
-Message-ID: <99a94068-ab37-47c0-878c-7c1ada5204b2@easystack.cn>
-Date: Sun, 20 Sep 2026 10:11:10 +0800
+	s=arc-20240116; t=1789875615; c=relaxed/simple;
+	bh=qwQk9vtqP0VEut62xsZiVVfIbhewJRdN+j4R/s+JLp8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tu/7TKlzQZLu1YOSIRQ46yizlkhJK0l+Z4baqzrbAbXwqVhVP9YfoERzKJ87laX3xUVedjJJCNuxDJmDxdG6Lvi2d7yse9XcbS3wX2kAlYHLmbaWpR8IZaNecRmGPStRkwGTVapLQrlNPBHiWm5zOHoF+ui2Fd08YfH5/yYflrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S4RRHl9S; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S4RRHl9S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3878C1F000FF;
+	Sun, 20 Sep 2026 03:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789875614;
+	bh=L8A0Eu4Tzsml4qtZgCltb1eRTxyA/6ITE9mC3679vTM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=S4RRHl9SI1RgcnsjFgXzDPcD60W0VLRt9fnQ9fDZR0Ui2b89B8Ua9GHXwHXrE3B6p
+	 0ugCHbRUE3XTObO9Tpt2rqq5qsI9wBk6kDYOaQYgY0tdhyKrBwdODse33bfKiQPr4T
+	 yAi34aOOdhIgNNFVYFYf5uuj7VmR8q7XtgBF8tCVkHJ1ae4DfwMSivOsNGb96n+HgD
+	 jiryUoHQ1Zz8cC9PJ1g44z9aYgqMD+sM74XcKX58WC4uEq6hh2kn7hafyiCcHACLs6
+	 W7+7zaG22aofq7p8ngm9+xGv1NkGq6u2fGXeXRfSoiKJ+RjFfGKpg5o/fb0324AaE0
+	 ieE7TUCmaBJJg==
+Date: Sat, 19 Sep 2026 20:40:13 -0700
+From: Kees Cook <kees@kernel.org>
+To: Julian Braha <julianbraha@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Nicolas Pitre <nico@fluxnic.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Andrew Jones <andrew.jones@linux.dev>, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Nauman Sabir <officialnaumansabir@gmail.com>,
+	Tejun Heo <tj@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Matthew Maurer <mmaurer@google.com>,
+	Graham Roff <grahamr@qti.qualcomm.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Gary Guo <gary@garyguo.net>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	conor.dooley@microchip.com
+Subject: Re: [PATCH 1/3] kconfig: Add "def_string", "def_int" and "def_hex"
+Message-ID: <202609191431.C3BCBCD@keescook>
+References: <20260919005923.i.879-kees@kernel.org>
+ <20260919005929.4077729-1-kees@kernel.org>
+ <cdebaad4-00c2-4b80-b688-0f5a723d6009@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
- filtering
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Zi Yan <ziy@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260907082620.2083838-1-zhen.ni@easystack.cn>
- <79548641-25f3-4ec3-a549-782fad168962@kernel.org>
- <6e8bfb0d-d595-4e6b-9536-0323ada57e25@easystack.cn>
- <b8e23456-00af-4097-a769-210a087d2b90@kernel.org>
- <22D1EC4B-FBCB-421E-B8DA-345B5F3505FB@nvidia.com>
- <d8d34e16-57fa-48b7-93a9-afbf4b950ce6@easystack.cn>
- <98ca914b-4722-448d-b5a4-7f095d0ca433@kernel.org> <aqPmlw8WYW9HSzIV@gremlin>
-From: "zhen.ni" <zhen.ni@easystack.cn>
-In-Reply-To: <aqPmlw8WYW9HSzIV@gremlin>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0bc94e7a60229kunm9a1984bc79d8c
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZQ09IVklJQ0JPSR8dSB9JQ1YVFA
-	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
-	lPT09IVUpLS1VKQktLWQY+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cdebaad4-00c2-4b80-b688-0f5a723d6009@gmail.com>
 
-
-
-在 2026/9/11 19:32, Lorenzo Stoakes (ARM) 写道:
-> On Fri, Sep 11, 2026 at 01:06:46PM +0200, David Hildenbrand (Arm) wrote:
->> On 9/11/26 09:58, zhen.ni wrote:
->>>
->>>
->>> 在 2026/9/9 23:54, Zi Yan 写道:
->>>> On 9 Sep 2026, at 6:28, David Hildenbrand (Arm) wrote:
->>>>
->>>>>
->>>>> Because it results in less kernel code  :)
->>>>>
->>>>> And less kernel code is good. Unless unavoidable.
->>>>
->>>> An alternative is to add BPF hooks like bpf_iter to do the filtering
->>>> and by default, when no BPF program is attached, everything is printed.
->>>>
->>>>
->>>
->>> I’ve also thought about a similar approach—perhaps a new bpf_iter type
->>> that could iterate over all pages by PFN. The advantage would be that
->>> you can fully customize what you want to print and what you want to
->>> filter. However, doing so would require refactoring the entire
->>> page_owner, and I’m not sure whether it’s worth pursuing in this
->>> direction.I’d also like to hear everyone’s thoughts on this.
->>
->> Certainly better than having more and more manual filters added to the code base.
+On Sat, Sep 19, 2026 at 04:34:54PM +0100, Julian Braha wrote:
+> On 9/19/26 01:59, Kees Cook wrote:
+> [...]
+> the X condition here only applies to the value of y, but not to the type
+> declaration of bool. Besides hurting readability, I can imagine a user
+> making a mistake by attempting something like this:
 > 
-> Agreed.
+>   def_bool 'y' if X
+>   def_tristate 'y' if !X
 > 
-> bpf seems the ideal fit here I think?
+> thinking that they're making the type conditional. Of course, the
+> interpreter warns if this is attempted, so you won't actually find any
+> of these in the tree.
+
+Yeah, _this_ case is warned on, so no real issue there.
+
+> The second problem, is that since the order of defaults matters and
+> conditions can shadow each other, def_<type> makes it harder for users
+> to get defaults right. In the past, I've seen several config options
+> with bugged defaults due to 'default' + 'def_<type>' [2][3][4].
+
+This is the one I, too, got worried about. From your example:
+
+ config GUEST_STATE_BUFFER_TEST
+-	def_tristate n
++	def_tristate KUNIT_ALL_TESTS
+ 	prompt "Enable Guest State Buffer unit tests"
+ 	depends on KUNIT
+ 	depends on KVM_BOOK3S_HV_POSSIBLE
+-	default KUNIT_ALL_TESTS
+ 	help
+
+Is there a way to detect this state? (I assume as a follow-up; it's a
+general problem.)
+
+> > Signed-off-by: Kees Cook <kees@kernel.org>
 > 
-> Means that those who want this information can get it and those who don't are
-> unaffected.
-> 
+> Tested-by: Julian Braha <julianbraha@gmail.com>
+> Reviewed-by: Julian Braha <julianbraha@gmail.com>
 
-I have prototyped page_owner bpf_iter and confirmed it is a viable and
-valuable direction:
+Thanks!
 
-1.Most parameter parsing is offloaded to the existing BPF verifier,
-keeping the page_owner kernel-side logic simple.
-
-2.Filtering and printing are delegated to the BPF program, providing
-greater flexibility and enabling more complex composite filtering.
-
-I plan to further refine this patch series, but it will likely be
-submitted as a separate series, as it represents a different direction.
-
-
-Thanks,
-Zhen
+-- 
+Kees Cook
