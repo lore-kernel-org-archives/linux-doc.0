@@ -1,73 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889A64B0C9E;
-	Mon, 21 Sep 2026 15:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41A34B5CAC
+	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 15:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790003314; cv=none; b=eE47HBjilpclI9x+Sn9nZcUGZG27Ba8acJs/3MMxv0fQtB4rS/RRfndRWFZ9KYuK72FP/GAut3LL5YXwJtE0AIQdP5sDKAzigRNVjfUm+7+QUgSR6owupC/jMzwESBR/xSr9kXUlhaDsU30jMfKUXQSHhniTrH7ZJnuPgqhdzuU=
+	t=1790003817; cv=none; b=s3eaERAdurzEcVzrIRH8uOoWagNv5Jryq2+B0h+PsnlyybiF4vfY07y9VfIKO1LbiLUw+97cPmiXbRU7oN09aCD4DLb2FzuZklEWvYvhqx/FJuJgNNohLg1vmTEvXowo6535HI3ETAgkaOIBPqh6q5mJ0p0GriHqjwp5kikYgLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790003314; c=relaxed/simple;
-	bh=kzDnc5lvItBUDngVmmupbIrY+jhCddiSWbaRwsT4lfU=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=brcKdhCOsv4fp82GZaVHU0VBlSQ4DBV6y61hfolD2nVTNDi7HRBZ8EpqiLCVj5ox1PZF3OJ0uYrINAkqH2lC3p2wLZfr8NgD0GxCCzNJY0VrfzbOGfcyN8T4RbAdFRo0Bu+TyMo49pJhTpKugWWh0yxVZDBwhGfFuId8lDXTHkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZb+4j4+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790003817; c=relaxed/simple;
+	bh=btmsrMp6ZT1BNi7RwicFG5ia2RT35kS11G26E2R65RI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NQKslj4/hmriUhSMQGF/x9mLyE0/L/E3xvIh6MsClhP5ZzV2eUmDNX7YENbZS9K4u+0NOYJDdpPYy7l75nSBwCJZJjQY6ijw30Tz5ViEDzPwTlxW7VwMNF3gvczlkyGc4LfhizE2kMWuBmC9M+lzDKbtFCiO6B4RBaoMNE3WAss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gsv5SvNc; arc=none smtp.client-ip=74.125.228.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZb+4j4+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 922D21F000FF;
-	Mon, 21 Sep 2026 15:08:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790003313;
-	bh=9TmjMGDTZLmhGHy1jeBXvh1rXJH717aBKG34mJksDgE=;
-	h=Date:From:To:Subject:In-Reply-To:References:Cc;
-	b=aZb+4j4+OEWOE4VyDKl4afl8agNHzGeV4p+zI+BQvAX0/I8owT1oRDJw2glrNe72y
-	 DQzbASxzCYYsmB8hlA9196jbLcM89nSmWVSYU7v1zBocI8GAYTE2PEXv3UUQsUoY/G
-	 VLrZNq4TrzYGFvxMntWnki2G9GV+R7A/bI9Vho9DdX8rWEYe4HWGTNsuMsR9QW5b5O
-	 RkyhjjbdUKVhNtTrBUOROUGRuD2pqYCo/ISyQ9V7trih7T3dgM8/YdxPg6Gk83TBa5
-	 hmDuUlJyr3+/Su5WAh6+6t4L20vNOfPSzMswtVQTTSAka2FzjOXQT6zdq/MfQvDA63
-	 j8qAwZZ+VAgjQ==
-Message-ID: <77aa7ff935567f8f6e8a0f74fd276b95@kernel.org>
-Date: Mon, 21 Sep 2026 15:08:29 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 04/19] drm/bridge: panel: move all code to
- drm_panel.c
-In-Reply-To: <20260916-drm-bridge-every-panel-v3-4-83afb4f1a707@bootlin.com>
-References: <20260916-drm-bridge-every-panel-v3-4-83afb4f1a707@bootlin.com>
-Cc: asahi@lists.linux.dev, dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, "Albert
- Esteve" <aesteve@redhat.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Anusha
- Srivatsa" <asrivats@redhat.com>, "David Airlie" <airlied@gmail.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Fabio Estevam" <festevam@gmail.com>, "Frank
- Li" <Frank.Li@nxp.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Ian Ray" <ian.ray@gehealthcare.com>, "Inki
- Dae" <inki.dae@samsung.com>, "Jagan Teki" <jagan@amarulasolutions.com>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jessica Zhang" <jesszhan0024@gmail.com>, "Jonas
- Karlman" <jonas@kwiboo.se>, "Jonathan Corbet" <corbet@lwn.net>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Laurentiu Palcu" <laurentiu.palcu@oss.nxp.com>, "Linus
- Walleij" <linusw@kernel.org>, "Lucas Stach" <l.stach@pengutronix.de>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marek Szyprowski" <m.szyprowski@samsung.com>, "Maxime
- Ripard" <mripard@kernel.org>, "Neil Armstrong" <neil.armstrong@linaro.org>, "Paul
- Cercueil" <paul@crapouillou.net>, "Paul Kocialkowski" <paulk@sys-base.io>, "Pengutronix
- Kernel Team" <kernel@pengutronix.de>, "Randy Dunlap" <rdunlap@infradead.org>, "Robert
- Foss" <rfoss@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Sean
- Paul" <sean@poorly.run>, "Shuah Khan" <skhan@linuxfoundation.org>, "Simona
- Vetter" <simona@ffwll.ch>, "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>, "Thomas
- Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gsv5SvNc"
+Received: by mail-pz2-f41.google.com with SMTP id d2e1a72fcca58-85469e211a0so3450123b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 08:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790003815; x=1790608615; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DrpGKqIUkLFawAwAJ6T5iyyW+Mbq35mI1r9oJC3ubjA=;
+        b=Gsv5SvNc3udEak8jwB8FeYVWdWaqy/aay5ShKJkiMtg7dgfnXhWKyS/x9mmisNKdNJ
+         zC62/crv6yTsmQQR6AxoUxJ8Oi0pg2GXPur83bfU4kUZtXwqwTIQkNm1ph1W3SbHIodE
+         p574YS5oyMiWYGYYjx3I4PM95ly8nfYqyQt5FilDDyGZR/t/OQB0KfFfV+bedIm0juxk
+         kkUTofiJ6n1EKP9D8mufAjKZl+0X98BhZ4vg+ebTFvBO+vlEyodH8C2gDlirrt0AueJP
+         nmofaNVDrotJ2D73E9JkCMMpO1CeC28c8k/YhI/LG/sWUA+cX0WXXrAox34iH5AS/3PL
+         PsKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790003815; x=1790608615;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DrpGKqIUkLFawAwAJ6T5iyyW+Mbq35mI1r9oJC3ubjA=;
+        b=FiSqDRPhB60dS2y0bkDeGaQxschnDq2Lknh87DZmW/nUYNlMuy21YOSffOYINGsQmt
+         kKipl7g1n1zin3yzh32Xf4Iyiye31jJUIHc4cbrIoIhRPxWCLQbNRxVZbrS7AtzMObnt
+         PeFxMEm12smYhnBXPZZERef8GtTVkQxrJ4hjw7srS4AWFfkaJnkrMsVjeXNeqGXTX6Bz
+         5NabIBCVmL7HFXMo27TgEZMpBQxWh5HHaceLVDprDVkt3NSFdwwep6Nfo0ocgs0dP0Kb
+         s/TNynupMdytxu9A47RI3UuS12SeJGjaZ2ht2YPsJQ5UT1vdJTPihPTGytHzv8/hRud5
+         UUYg==
+X-Forwarded-Encrypted: i=1; AKwUvBzgfm5McAUYqYHNAtLDd364OlM/g/pTmelAPW1qtkq2VgoU9PjRiKYIpaUfN5iTSgj+kTfiYaITSWc=@vger.kernel.org
+X-Gm-Message-State: AFuF++nZo6tOR/l8xCYPYCIXcORaCQPALsLVpItCmUor2omPgfcFEMfU
+	EnTFknAherDnxcjkVsLx/VDpVRgO3mei6ZSY2GW36zhqlbJjUWH7ZH3S
+X-Gm-Gg: AYBFou0cUEnmVsfrgmEBsTo6u64MoGO+W/KLYd6lZ2oH0Jb3oYLFJvBpJc6j6b81EuQ
+	Sz5yQeHdGhChjUikpZMl/z8/+556epCvFveTDxrCx5WEixErVRS31SnKvgjtsHZCm6isb7Rrj88
+	v58lltu4F2NxnyWCS4g5gPvUHH/5FW4o1ebsAfcOXubsAhib8VSidLZjDg/SWhH/qgcydirlz3C
+	oECkESijJ/jUyRuKBbMu9ctJAvc3V8t6c41sjI7INVJZatTtpa7EhjGHn4oa26p/DwjID62ptmF
+	dmPtYAy0Rg+O26HhSO8IkzJ7t88KnWD+y4TnHSGZOfD0/w8KFxVARJhYw41LccrBEvXgMTVIYPs
+	nDTa28k1pn5TWhE49IBuU4GEOWP25wj4v+sLYBrSuu9O0UqorfHqm6lrD+mLLVs2R2kymADB5Pw
+	jxhdrD9WNeD3/UBnVYiihXz+/Hrxv2SIrwX2EsAzW0uRwCbJ9qb2Q98srmPY0q6PJueBtpX4d3e
+	ErV/B9PEEJC
+X-Received: by 2002:a05:6a00:ad08:b0:874:706d:857b with SMTP id d2e1a72fcca58-874de9fd734mr15109225b3a.35.1790003815225;
+        Mon, 21 Sep 2026 08:16:55 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-877a95eceb2sm3431796b3a.24.2026.09.21.08.16.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 08:16:54 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 21 Sep 2026 08:16:53 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Petar Stepanovic <pstepanovic@axiado.com>
+Cc: Akhila Kavi <akavi@axiado.com>,
+	Prasad Bolisetty <pbolisetty@axiado.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Tzu-Hao Wei <twei@axiado.com>,
+	Karthikeyan Mitran <kmitran@axiado.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-doc@vger.kernel.org, openbmc@lists.ozlabs.org
+Subject: Re: [PATCH v3 2/2] hwmon: add Axiado AX3000 and AX3005 PWM fan
+ controller driver
+Message-ID: <d9dfa12a-0999-4425-ba83-aacd48eea1ea@roeck-us.net>
+References: <20260921-axiado-ax3000-pwm-fan-v3-0-3def8b6ffec9@axiado.com>
+ <20260921-axiado-ax3000-pwm-fan-v3-2-3def8b6ffec9@axiado.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260921-axiado-ax3000-pwm-fan-v3-2-3def8b6ffec9@axiado.com>
 
-On Wed, 16 Sep 2026 15:45:28 +0200, Luca Ceresoli wrote:
-> Work is in progress for every drm_panel to embed a drm_bridge, replacing
-> the panel_bridge entirely. However most of the panel_bridge code will be
-> reused for the drm_bridge embedded into the drm_panel, so just move the
-> code there.
+On Mon, Sep 21, 2026 at 12:23:56AM -0700, Petar Stepanovic wrote:
+> Add support for the PWM fan controller found on the Axiado AX3000 and
+> AX3005 SoCs.
 > 
+> The controller uses a hardware tachometer block and interrupt to measure
+> fan speed. Fan speed is controlled through a PWM signal supplied by an
+> external PWM controller.
 > 
-> [ ... ]
+> Register the controller with the hwmon subsystem and expose the standard
+> fan1_input and pwm1 attributes. The physical fan is represented by a fan
+> child node containing the PWM specifier and the optional
+> pulses-per-revolution property. If pulses-per-revolution is not specified,
+> the driver uses two pulses per revolution.
+> 
+> The driver was tested on AX3000 and AX3005 boards.
+> 
+> Signed-off-by: Petar Stepanovic <pstepanovic@axiado.com>
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Applied.
 
-Thanks!
-Maxime
+Thanks,
+Guenter
