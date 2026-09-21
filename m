@@ -1,262 +1,111 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264F8484235
-	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 14:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C23F4A0EE2;
+	Mon, 21 Sep 2026 14:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790000710; cv=none; b=EC2lgFN35nVxHAo0VrtymA86jsuOekuRpC3PYfPGdtZH02HRFzGElkWIJ9sEzdppcsYU85I+zfIiHjNENoHi4ZMElp5FfPFudfobUeobxjwpe1vjnmawyCWme5GHH3uVfHjFuLXeTzKG/Ebh6rTWu8nOFNNE68n6cfgGd4rJeq4=
+	t=1790001686; cv=none; b=hCA7JKgL7dxI1iB9PlzOazSy03rfSraXeFKCAZJflCxSOBMDQYtmK9RH+qnHE69WBhHwri4tJfi3+Exg8JCF54T6dKKqkNXIeRqcffMvKXvR3PDd18cR9fuMYNdQ4lqJy5pWm6HjIIf7DIzLNNS+uE+6C0AeUP0pjenIBPkVzxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790000710; c=relaxed/simple;
-	bh=s3SG6zYetHP+gsiYG6Z8nnzdp21ZZzns/HVc+qfBNpY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EeKzMTwd0JIIhTBVuQwInqWz0NojRUt/9KkqaUun4tOZr9MxtgtISpIcWBcS8U26zARVklBt/5CRa9i5ND/F+yu0OOfFtiU6/doLGbgrJ771+AEYPul09MujCgrh5uAHUm7h7mW60SSPwkzwXFvONHxn9sryXs9IfneizdfOrgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=oDEajCjk; arc=none smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1790001686; c=relaxed/simple;
+	bh=6CGx7zVA+L58eCa8NaOb43Ibvn6UrpF9zmAhX5T538k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BYq6QMxSJGqalmroocbxKeviTbE/mfMFOLh/6KXhluhkNjLdUkmwAFGsmtsF1HHNED3On8+P+5pTaciZZmhOL20sx7o7XfzIR7Wp/ZwI6AtAS+SvnewyCkDufzJrxjI8zgoEH7tVaBxqww1aypKxpDfzJMvJ+xjHj726hkes058=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=HdLW9ymA; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="oDEajCjk"
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 1DC243F5FF
-	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 14:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1790000698;
-	bh=QLEno9IoSGABXfyc+gs3/INLUq4rl6TSX3NFv/q902U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type;
-	b=oDEajCjkGYY4fCbMSvuLTjRrdp7FRGryYCfUwAluu3fpjdsKtmfRlo5zhVFmG6gsV
-	 0zCSpYt9AwrDnW6TRTYaQmo7LLz/J92dYSPkY6+HkLoAsf4GoNGzuZz8cBkt8tNcJf
-	 R692RG8iBMFgR+/4lpY9gUKdwnzptrGw3+p4yeGYDnLIbzzuNX1YCZJdU6h6wFlFvg
-	 va9wapeJY/PJuv+EgZ/V4SzRBqLzRTpmyaFDtPUBpD/V5OOqkQLHrNtpmZJtn3k/xU
-	 5ypPlyWx+BZ06dl1xijiNd3BFtfQBefOm+o26ZXTtYi0yeZlDnFuZMJ24QLthhFJ2n
-	 f2CJ0o9hI/YZn1P4UR1Lwe5R3tgNv4wnNg4ibDjuUG5yhZoYiBxRhuJB9/cztnDyFS
-	 39iDfcr17ui1qUQGfuQWAPTEXH2fenlDnkW331fU0hlgOMIOTmTC1ayJsMUyzpv/EI
-	 SaUkaGdkUJ4ZVWi933ARRop9562/Z3uXRJlcBN7TmcyInhj2zHaPk6iKkibLqfavop
-	 w0P1p7zaB2dg4YWsGBoTYFbVUW9HMCAtXFHRo7O+77hNBeXlYOE/ac4dTqL2fnojYD
-	 NGZyVHqfg+EsDmPBwHlorz3HsKfz9U9SsKAhHAKISQeFZzYLVWrMfEFAucT/XoZJmG
-	 rSXyWbChOjqFYnauwr9O1vf4=
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-49e661c6440so16921735e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 07:24:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790000697; x=1790605497;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QLEno9IoSGABXfyc+gs3/INLUq4rl6TSX3NFv/q902U=;
-        b=csqomhHqf+clmDBfGG1wP8Ej6L5rELRrwlhPNDa/Zba/+RW7WPTkfGK2Yx0IW5+RAL
-         YZ1W4Z1vipAEbu+j1o0BJxXX8lnLREK0NTEtzVYsfQogYZYeX8xluVcCuqE6NHcU13jM
-         HO2F7o4Y2jO0NcAoH1rjN4rKd/4MYULUtRcW0E7utW9EQJsIRCVGyy7nReEqZr3U8bNL
-         T0wszVWs9SMWUVeQRFKB0tFtaH3NHSWdmyu13eeDaiZY16/DNYoMGTnl9R/vrpa4s7c2
-         UKhg8Wb7zN0MEjB1+Hgpj/Jzq3d5mTNixEtFSceRkQRh9ws7BFnSPtOxXehJqm8jUW4z
-         PTIw==
-X-Gm-Message-State: AFuF++lrMSy7nddKdiaz2jOjRriV6JZ4u8ixUpiQUaDxLOYhbCDG0qVt
-	nahKOE/VSD3DIWSNpaqIu/UILhh/wcs5ZD9E84RuO5G5xsV5601k5Ooje4V8X+ZIyXlXgYdwa9B
-	9ocHx7C1vTSrD26NLMv6qYOw6JPaf3C0XhyunYAoYT7kT0CoDsGjhmmi2J4vnU7ZCLbKN05bmVJ
-	8pdQ==
-X-Gm-Gg: AYBFou3jRnpFpPTSVYyt/+lu4z/dQrwTsQj2hBMWlj4XiKEW1pOzVghke5GiW9gVc7W
-	bUVqDAd2p2zrBzxknuX3ELppvuu9yy5AQ5HUTqSv6l+/WmKcqkbNQ6IIvgvsugnxIfO66fVZqyl
-	36wnfagOzaJ1Zpx4d88eCC6smRZegOxu0CylTh4nGN9OCKGYDqqpwam8ra9zIAbL/pPYZxSckA5
-	fjCSWUFwdFZnlCGPokPYgTy86DUsdNGrMGMatR2knnVqR0GxGk4sikycdv07rkcgLbMlK5sBFmv
-	KUz8MGOp10+ZX0b40SiPhsSr5plK7Qutq689rV8uhB1yKMxeV4VTDCagqiV2yc39esQAfwTSL9T
-	fKCoQwKL1j9x5127tO12P9WVcW33xdIXZ+pJDf3/r3E5gz3K1nYilhxX4cXFYwLh6HrvJHa+BlI
-	O9Y4XckkCzLkeYx1uEdDAEdXM=
-X-Received: by 2002:a05:600c:4f09:b0:49e:8418:3858 with SMTP id 5b1f17b1804b1-49fc56b84c3mr149186435e9.9.1790000697385;
-        Mon, 21 Sep 2026 07:24:57 -0700 (PDT)
-X-Received: by 2002:a05:600c:4f09:b0:49e:8418:3858 with SMTP id 5b1f17b1804b1-49fc56b84c3mr149185895e9.9.1790000696811;
-        Mon, 21 Sep 2026 07:24:56 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1242:30e0:aec3:c221:8373:654c? ([2a02:908:1242:30e0:aec3:c221:8373:654c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc585920fsm622434405e9.4.2026.09.21.07.24.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 07:24:56 -0700 (PDT)
-Message-ID: <9d058591-466e-4c06-a820-b8ecc7d319a6@canonical.com>
-Date: Mon, 21 Sep 2026 16:24:53 +0200
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="HdLW9ymA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=vz6ig8BRPBVwJCqjuHXD5UgGHX45kboKMUHzdcfP0c0=; b=HdLW9ymAtaR/QoHJnbc/xctj+X
+	vLC6axC88Oof0X6bBC7oI+HtAK4V5+LVJTgJTXgkzns9NFSp+wZEMGj0Dip8AG8Yyv/R6Cx0cZCuu
+	jFOqI/lP5w3zqc/QvREMeb1kYunONbrUvEGDXR83GQu3aOgrKcq3HhNtYhf5T1h6KdouCkK1guBAz
+	24yzTSGrW74FPLXbpYZE//H913yCahQ043x7YNr73kNqu1ujqSnAENYsqgHnNv6e0tRd2U6OBFNKi
+	LtAIPGi8oaLW0EC7Z57crscy6OiwBk0y6xVixaOVhw0Mki4M9ajmlfbqkbjZc0Cmk5ZMbgwqdc9vT
+	qz80Jijw==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1x8fCO-002H76-2h;
+	Mon, 21 Sep 2026 14:40:53 +0000
+Date: Mon, 21 Sep 2026 07:40:46 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Andrea Righi <arighi@nvidia.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Will Deacon <will@kernel.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Christian Loehle <christian.loehle@arm.com>, Srikar Dronamraju <srikar@linux.ibm.com>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>, Phil Auld <pauld@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Lee Trager <ltrager@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/fair: Honor asymmetric SMT priority in idle
+ selection
+Message-ID: <arFBm0EzMcz1RI-l@gmail.com>
+References: <20260917140707.3807229-1-arighi@nvidia.com>
+ <20260917140707.3807229-2-arighi@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 01/11] riscv: Add B to hwcap and hwprobe
-To: Guodong Xu <guodong.xu@oss.qualcomm.com>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
- Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org,
- spacemit@lists.linux.dev, sophgo@lists.linux.dev,
- linux-kselftest@vger.kernel.org, Andy Chiu <tchiu@tenstorrent.com>,
- Florian Weimer <fweimer@redhat.com>,
- Peter Bergner <bergner@oss.tenstorrent.com>,
- Zihong Yao <zihong.plct@isrc.iscas.ac.cn>, Mark Harris <mark.hsj@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Andrew Jones <andrew.jones@oss.qualcomm.com>,
- Conor Dooley <conor.dooley@microchip.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
- Chen Wang <chen.wang@linux.dev>, Inochi Amaoto <inochiama@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>
-References: <20260920-rva23u64-hwprobe-v2-v8-0-5f14bc5c23d3@oss.qualcomm.com>
- <20260920-rva23u64-hwprobe-v2-v8-1-5f14bc5c23d3@oss.qualcomm.com>
-Content-Language: en-US
-From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-In-Reply-To: <20260920-rva23u64-hwprobe-v2-v8-1-5f14bc5c23d3@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917140707.3807229-2-arighi@nvidia.com>
+X-Debian-User: leitao
 
-On 9/20/26 09:18, Guodong Xu wrote:
-> From: Andrew Jones <andrew.jones@oss.qualcomm.com>
+On Thu, Sep 17, 2026 at 04:05:20PM +0200, Andrea Righi wrote:
+> POWER7 uses SD_ASYM_PACKING at the shared-capacity SMT level to order
+> hardware threads, and NVIDIA Olympus benefits from the same policy. Idle
+> CPU selection does not consult that order, so a task can wake on an
+> arbitrary sibling and remain there until load balancing corrects the
+> placement. On these systems, that initial choice can prevent the core
+> from entering its preferred lower-thread resource mode and cause a large
+> and persistent performance loss.
 > 
-> Add B to hwcap and ensure when B is present that Zba, Zbb, and Zbs
-> are all set. Also expose B via hwprobe (RISCV_HWPROBE_EXT_B in
-> RISCV_HWPROBE_KEY_IMA_EXT_1) so that userspace can probe B directly,
-> mirroring the F/D/C/V pattern where each is reported via both hwcap
-> and hwprobe.
+> When idle selection finds an available CPU in an SMT core, choose the
+> highest-priority available sibling. On SMT2 Olympus this only changes
+> selection on fully idle cores. A partially idle core has only one
+> available CPU. On wider SMT systems such as POWER7, it also fills
+> available siblings in priority order while the core is partially busy.
 > 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
-> [Add B to hwprobe]
-> Signed-off-by: Guodong Xu <guodong.xu@oss.qualcomm.com>
-> ---
-> v8: No change.
-> v7: No change.
-> v6: Rebase onto riscv/for-next: define RISCV_HWPROBE_EXT_B in the
->      _BITULL() style of commit 8da45c93dfa9.
-> v5: Collected Reviewed-by from Conor Dooley.
-> v4: No change.
-> v3:
-> - Indent the added hwprobe.rst entry to match the normalized style.
-> - Rebased onto v7.1-rc6: index isa2hwcap[] via RISCV_ISA_EXT_B to match the
->    macro-ization in commit 41337097f2823.
-> v2:
-> - Rebased to v7.1-rc2
-> - Add B to hwprobe (RISCV_HWPROBE_EXT_B at IMA_EXT_1 bit 6) and
->    document it in hwprobe.rst, so userspace can probe B directly.
-> ---
->   Documentation/arch/riscv/hwprobe.rst  | 4 ++++
->   arch/riscv/include/asm/hwcap.h        | 1 +
->   arch/riscv/include/uapi/asm/hwcap.h   | 1 +
->   arch/riscv/include/uapi/asm/hwprobe.h | 1 +
->   arch/riscv/kernel/cpufeature.c        | 8 ++++++++
->   arch/riscv/kernel/sys_hwprobe.c       | 1 +
->   6 files changed, 16 insertions(+)
+> Apply the preference to idle-core and idle-CPU scans,
+> asymmetric-capacity scans, target, previous, recently-used CPU fast
+> paths and the slow path. Inspect the lowest scheduling domain directly,
+> but require both CPUs to share its span because isolcpus can split
+> hardware siblings across scheduling domains.
 > 
-> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-> index bb1e0cbab36f0..69a3fc0a29b71 100644
-> --- a/Documentation/arch/riscv/hwprobe.rst
-> +++ b/Documentation/arch/riscv/hwprobe.rst
-> @@ -423,3 +423,7 @@ * :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_1`: A bitmask containing additional
->     * :c:macro:`RISCV_HWPROBE_EXT_ZA64RS`: The Za64rs extension is supported,
->       as defined in the RISC-V Profiles specification starting from commit
->       b1d80660 ("Updated to ratified state.")
-> +
-> +  * :c:macro:`RISCV_HWPROBE_EXT_B`: The B extension is supported, as defined
-> +    in version 1.0 of the Bit-Manipulation ISA extensions, and implies the
-> +    presence of the Zba, Zbb, and Zbs sub-extensions.
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-> index f8db798b2654b..6a693210b2519 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -11,6 +11,7 @@
->   #include <uapi/asm/hwcap.h>
->   
->   #define RISCV_ISA_EXT_A		('a' - 'a')
-> +#define RISCV_ISA_EXT_B		('b' - 'a')
->   #define RISCV_ISA_EXT_C		('c' - 'a')
->   #define RISCV_ISA_EXT_D		('d' - 'a')
->   #define RISCV_ISA_EXT_F		('f' - 'a')
-> diff --git a/arch/riscv/include/uapi/asm/hwcap.h b/arch/riscv/include/uapi/asm/hwcap.h
-> index c52bb7bbbabe9..96b7cf854e090 100644
-> --- a/arch/riscv/include/uapi/asm/hwcap.h
-> +++ b/arch/riscv/include/uapi/asm/hwcap.h
-> @@ -21,6 +21,7 @@
->   #define COMPAT_HWCAP_ISA_F	(1 << ('F' - 'A'))
->   #define COMPAT_HWCAP_ISA_D	(1 << ('D' - 'A'))
->   #define COMPAT_HWCAP_ISA_C	(1 << ('C' - 'A'))
-> +#define COMPAT_HWCAP_ISA_B	(1 << ('B' - 'A'))
->   #define COMPAT_HWCAP_ISA_V	(1 << ('V' - 'A'))
->   
->   #endif /* _UAPI_ASM_RISCV_HWCAP_H */
-> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-> index e6a394fbe7fce..9323feb7c3c81 100644
-> --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> @@ -122,6 +122,7 @@ struct riscv_hwprobe {
->   #define		RISCV_HWPROBE_EXT_ZICCIF	_BITULL(3)
->   #define		RISCV_HWPROBE_EXT_ZICCRSE	_BITULL(4)
->   #define		RISCV_HWPROBE_EXT_ZA64RS	_BITULL(5)
-> +#define		RISCV_HWPROBE_EXT_B		_BITULL(6)
->   
->   /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
->   
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> index 61d21f7148305..beb766420b5bc 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -484,6 +484,12 @@ static const unsigned int riscv_c_exts[] = {
->   	RISCV_ISA_EXT_ZCD,
->   };
->   
-> +static const unsigned int riscv_b_exts[] = {
-> +	RISCV_ISA_EXT_ZBA,
-> +	RISCV_ISA_EXT_ZBB,
-> +	RISCV_ISA_EXT_ZBS,
-> +};
-> +
->   /*
->    * The canonical order of ISA extension names in the ISA string is defined in
->    * Chapter 27 of the RISC-V Instruction Set Manual Volume I Unprivileged ISA
-> @@ -532,6 +538,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
->   	__RISCV_ISA_EXT_DATA_VALIDATE(d, RISCV_ISA_EXT_D, riscv_ext_d_validate),
->   	__RISCV_ISA_EXT_DATA(q, RISCV_ISA_EXT_Q),
->   	__RISCV_ISA_EXT_SUPERSET(c, RISCV_ISA_EXT_C, riscv_c_exts),
-> +	__RISCV_ISA_EXT_SUPERSET(b, RISCV_ISA_EXT_B, riscv_b_exts),
-
-Hello Guodong,
-
-The RISC-V Unpriviledged ISA specification has this description of 
-extension B:
-
-"The B standard extension comprises instructions provided by the Zba, 
-Zbb, and Zbs extensions."
-
-__RISCV_ISA_EXT_SUPERSET would imply that something else but 
-riscv_b_exts is in B. But such an extra seems not to exist.
-
-So shouldn't __RISCV_ISA_EXT_BUNDLE be used here? Some code further 
-change may be needed to set extension B if riscv_b_exts is fulfilled.
-
-Best regads
-
-Heinrich
-
->   	__RISCV_ISA_EXT_SUPERSET_VALIDATE(v, RISCV_ISA_EXT_V, riscv_v_exts,
->   					  riscv_ext_vector_float_validate),
->   	__RISCV_ISA_EXT_DATA(h, RISCV_ISA_EXT_H),
-> @@ -1161,6 +1168,7 @@ void __init riscv_fill_hwcap(void)
->   	isa2hwcap[RISCV_ISA_EXT_F] = COMPAT_HWCAP_ISA_F;
->   	isa2hwcap[RISCV_ISA_EXT_D] = COMPAT_HWCAP_ISA_D;
->   	isa2hwcap[RISCV_ISA_EXT_C] = COMPAT_HWCAP_ISA_C;
-> +	isa2hwcap[RISCV_ISA_EXT_B] = COMPAT_HWCAP_ISA_B;
->   	isa2hwcap[RISCV_ISA_EXT_V] = COMPAT_HWCAP_ISA_V;
->   
->   	if (!acpi_disabled) {
-> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-> index 7818e1d32622d..c03c6e08dd4d0 100644
-> --- a/arch/riscv/kernel/sys_hwprobe.c
-> +++ b/arch/riscv/kernel/sys_hwprobe.c
-> @@ -207,6 +207,7 @@ static void hwprobe_isa_ext1(struct riscv_hwprobe *pair,
->   		EXT_KEY(isainfo->isa, ZICCIF, pair->value, missing);
->   		EXT_KEY(isainfo->isa, ZICCRSE, pair->value, missing);
->   		EXT_KEY(isainfo->isa, ZA64RS, pair->value, missing);
-> +		EXT_KEY(isainfo->isa, B, pair->value, missing);
->   	}
->   
->   	/* Now turn off reporting features if any CPU is missing it. */
+> Keep physical-core capacity selection independent from SMT sibling
+> ordering. SD_ASYM_CPUCAPACITY first selects among cores with different
+> maximum capacities, then SD_ASYM_PACKING selects the preferred available
+> sibling inside the chosen core, whose siblings continue to share equal
+> capacity.
 > 
+> Reviewed-by: Srikar Dronamraju <srikar@linux.ibm.com>
+> Reviewed-by: K Prateek Nayak <kprateek.nayak@amd.com>
+> Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
+> Signed-off-by: Andrea Righi <arighi@nvidia.com>
 
+Tested-by: Breno Leitao <leitao@debian.org>
+
+I tested v6 on top of linux-next 20260918 with a KASAN + PROVE_LOCKING
+arm64 kernel and etst on my own 2-socket NVIDIA Olympus system (88 cores
+per socket, SMT2, 352 CPUs, 36 NUMA nodes).
+
+With sched_smt_asym_packing=on, SD_ASYM_PACKING appears on the SMT
+domain only; MC and NUMA are untouched, and the override is reapplied
+on every domain rebuild (~400 hotplug operations, including offlining
+and re-onlining all 176 second siblings). A task woken on the
+higher-numbered sibling is redirected to the lower-numbered one on
+800/800 wakeups, against 13/800 without the series. auto, off and an
+invalid value behave as documented. No WARN/BUG/KASAN/lockdep under
+stress-ng and perf bench sched.
+
+I did not measure throughput.
