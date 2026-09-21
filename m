@@ -1,142 +1,177 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE784CDDE6;
-	Mon, 21 Sep 2026 16:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324164E0B97
+	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 17:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790009183; cv=none; b=fntMOyv+Ee104R88lBGTZ8rzC+60BFHvzVnSW6b5Ljp3M0xCYBak4qpoRP9xitoFR6aGzISG4qSEcIofY4uZ2Nn+IPZ3HZBwi2f/KafOFGXaz83ocaczbIJJojJFV8B/yv0TqHNdTxqlpa31zrKQqW2wEXta61fIbvvx+Yj8UrQ=
+	t=1790010180; cv=none; b=PlRsLX2IKQweWK6kTSnWwZOAjCi2McEdhyj4BgffmwaDi/JD74SFuKrcK3jEmZk3n9KHmZsIs6UUHdOcAlvpsU2TXgjOuNHXKvCtfv1WCrPvgSIm40UkLt+J6EPa5SVRs1X53rCsq3mUGvcKCV0wKKq/QgSZ+xIljjYX9gJoCrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790009183; c=relaxed/simple;
-	bh=kL4CEDMA8FMuYyjEV8N5GomlHACJM5bczC87qdc9IMA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PgNDLUs6+OCf78TJSRc7FOm1hVofwLSCYYMZDYwCsFWpr/4uRnXvA5vmq0JB0ykJHTBwL9d3alDD/ISP+P5MQQ26wF+aI476FdW/bNlBdH4P8VsPyPGoPXF+Ua0D5tp12W4+HX1Zg6vf7W+vRETiYtvzRWvDrJQYU/XbbRIPKPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=g8vB+Dr1; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
+	s=arc-20240116; t=1790010180; c=relaxed/simple;
+	bh=0oQTC/1nit8xtttyPLngZa2mAS9b958j3IlvELrn/tI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OjjGEiSyVXCp7jKZc3QTXO8/acbmBwNDZDQAMvrci6g3n6dEL3jUTHSVkgoCV20O17arsQ0jHaJ7Jod0VXjIErSSnrF3TgMuYtsNKhjrku/7y1YkqkYNqSZdP1/A42u+ljPjVVKbhf0voSTPCgndEDUL7oMerUNxpWFQqfaQbJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=IVfebPCd; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="g8vB+Dr1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
-	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID; bh=zrXZhXeHCiziPKli3BDOjO0c3/5kNvHCXof2G6qqIq4=; b=g8vB+D
-	r1ZVtzugVo77DTqAvz/KTqoxoDNgaB2lGTinyee0pOW78RM0msN+6Ov7Ism32bQAJhW59xy2e0di1
-	Gf5fdaShuS2/oTWKyr/3S4sPYfFE5RDTEkjh8pxk50BpxC0IOAPVg6u2i6H4mSNOGzevTVBrRU6Gb
-	nKuoQ2F/l7OuOAIhvAtgUnbtZDKcveAJZH49c81i7iuBSvjem8a3ddr/BwoWqMsnslOdlOwcRCDGI
-	GtpEEvr45PFJ01JV8O+S54y01gbUYXneUrrndblzqElhfiR5qeJSyqSJN3pDmHvGN/QJx/3t5gZJT
-	KeZnB6BktLeoJtqRT7bAEGOYQFUw==;
-Received: from [2601:18c:8100:a0e0:5a47:caff:fe78:8708]
-	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.5)
-	(envelope-from <riel@surriel.com>)
-	id 1x8gzz-0000000D4jK-3vpf;
-	Mon, 21 Sep 2026 16:36:12 +0000
-Message-ID: <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
-Subject: Re: Path forward for Virtualized Swap?
-From: Rik van Riel <riel@surriel.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="IVfebPCd"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-52fa9c055b5so662111cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 10:02:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1790010178; x=1790614978; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zam1HuieMGo4IVtIDS9XVWJbvXE11Q3uTiDlxDLMxb4=;
+        b=IVfebPCdcxu7JEGtSeXhDXopipg/6dGmEihMBn6DRAhhLr93waBxOZpRz8WpFs/x6K
+         tS8FuLAnwSpudbK6M9LS9GCaXFtJ1XJwjcq6FDssRMGBWp8tFZ1wvMXipcSDn8lgurFd
+         p4c9oC2HiZTO3MIkFlDQIY+VeEQVkEksw1Rm1CdlS0FIJCE1m5UNcH0Kge9KgAn70p9x
+         VUpZl2V8ajpitWDr6M0kg3NPC3ZRnqDm8gm0JqsjgdvpoZg9JoPvxzjRtHqhNXI12ygp
+         w29whUsrb5bGAi7JO/lWjiyVBAZ2yMAFDNzZ0IqHE6Egp83TSzwEOEbRgTlbM+VxQqD3
+         D30A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790010178; x=1790614978;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=zam1HuieMGo4IVtIDS9XVWJbvXE11Q3uTiDlxDLMxb4=;
+        b=yID62meS5ujXgWRmgReQAnErUNUDRYnV5Tm8lWwV16OErkNlIfmzdBlKXPpLWDe6vH
+         Y8ofVNefARPWtYXGFnDS4PeDspwEaL4K/g3wTZv1i2fghkKdPTJ256+oP4UIuazeSqAS
+         eE5xwlVFKYwjJltmHrxdMa0N2PFBF/Hhl3mzCA9VlSpGhD3AVeLqNTSZXusgHU74tF40
+         p+69mP+A81yn6V0jpoU+YuhaoQX4mymwBmw3CnKmNTZRbFJfNfEJZozPTZxu6RYqiUy7
+         79Jjf9bAuM+HZBwBmMxPR42Idh+qlEaZ84ylXDq8AcfbVg5TIoYlsWyXPPj9mgTIEDly
+         Jngw==
+X-Forwarded-Encrypted: i=1; AKwUvByVzRLF9ejGCBVcSpAd66fkJfxrRPj+M6jrSLgMt0OGW1Hbwx5CIuRa5H3EW8vfL6DNSq6fVqJStE0=@vger.kernel.org
+X-Gm-Message-State: AFuF++kFE9BxibeKMGLasHm2fgwGHtjph2HWQO1ldzdz0rontCTNcQud
+	RGk3SKy4PzAvlXnyJIX3wFKSa5PHyh0ir/anxIN1hUGoZukOpmP1rYbBvL6Jboex/N4=
+X-Gm-Gg: AYBFou0KaRNzpUUyL4hofF+aKrvqMbED1lWySnzS910iUem0DROh1bBq0ZZWP1zSmJK
+	M8nRIySq3J+PcKs0ZazOfPVobZg59/d1OD98rN1zU5nYv/r1DGA4CfYhWjDo6TzixtH+5kEpLpf
+	KR+m/YWd2y/q2fnvJP/tae+WWv49F6WArtOceIVfaUxmEk10Mab+UdXSwkf1kht2xkxTmKPHEE4
+	yoVF+CHSTNfZG/GNSJYLc0pjS8UMQFmlDtcj6eZ4Qhnh74rl+USN3crKGjI3EHcw3028RvkYDfS
+	sjz7V0kx65n3yKN5zZsfhQbe/0ZLYi+qWrH8s1dEauBehAudOXQ2HpKGu6GtM9Exnl1nN00SoRC
+	dZa677vS1yVlCw6cOhXP76SZWKYBQbFG8UghDE1sQGvhRWoU9RrtKk8Izbh0BSCa8QtASqPP1AP
+	yH1u6BEbgcWXt89IrW/l9bOw+ezRfLevW/38EPhnnL9kNRLcsiLDpIdPVHKrB8npVkAEXWoQxs4
+	tLR4g8+7M13G2A3n2PQrv8=
+X-Received: by 2002:a05:622a:6110:b0:530:fbd3:2038 with SMTP id d75a77b69052e-532db89fda7mr2849411cf.26.1790010177750;
+        Mon, 21 Sep 2026 10:02:57 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F ([152.186.177.174])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532ae618698sm68095611cf.16.2026.09.21.10.02.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 10:02:57 -0700 (PDT)
+Date: Mon, 21 Sep 2026 13:02:10 -0400
+From: Gregory Price <gourry@gourry.net>
 To: Chris Li <chrisl@kernel.org>
-Cc: Gregory Price <gourry@gourry.net>, Johannes Weiner <hannes@cmpxchg.org>,
-  Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, Kairui
- Song <kasong@tencent.com>,  Michal Hocko <mhocko@kernel.org>, Roman
- Gushchin <roman.gushchin@linux.dev>, Shakeel Butt	
- <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, David Hildenbrand
-	 <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, Kemeng Shi	
- <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, YoungJun Park	
- <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>,
- "Lorenzo Stoakes (Oracle)"	 <ljs@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren =?UTF-8?Q?Baghdasaryan=EF=BF=BC?=	
- <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen	
- <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu	
- <weixugc@google.com>, Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet
-	 <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, Baolin Wang	
- <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, Michal
- =?ISO-8859-1?Q?Koutn=FD?=	 <mkoutny@suse.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Kunwu Chan	 <kunwu.chan@linux.dev>, Meta
- kernel team <kernel-team@meta.com>, Linux Memory Management List	
- <linux-mm@kvack.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, 	linux-doc@vger.kernel.org, "open
- list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
- <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Kairui Song <ryncsn@gmail.com>,  Joshua Hahn <joshua.hahnjy@gmail.com>
-Date: Mon, 21 Sep 2026 12:36:08 -0400
-In-Reply-To: <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
-References: 
-	<CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
-	 <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org>
-	 <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
-	 <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
-	 <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
-	 <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F>
-	 <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
-	 <e879ac65cb0940325736df7984c737edf1c6be94.camel@surriel.com>
-	 <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
- eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
- Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
- lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
- dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
- mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
- gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
- r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
- WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
- 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
- Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
- +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
- g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
- KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
- fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
- 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
- G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
- okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
- TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
- cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
- omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
- QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
- c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+Cc: Kairui Song <ryncsn@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arFe215hUcjLhvmS@gourry-fedora-PF4VCD3F>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora>
+ <aqLi6cIjD2wJwk0B@cmpxchg.org>
+ <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+ <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
+ <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+ <CAMgjq7CJBHkoZmg9oKNgGA8czL0djyBTCAkPz8ETm-tX=Qci4g@mail.gmail.com>
+ <arEotFqE7ZZoxMHd@gourry-fedora-PF4VCD3F>
+ <CACePvbXb1WLz=OAAzVawf3oc3+dE3Z7qfPdagQ2dYuf3OALc2g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACePvbXb1WLz=OAAzVawf3oc3+dE3Z7qfPdagQ2dYuf3OALc2g@mail.gmail.com>
 
-On Mon, 2026-09-21 at 06:31 -1000, Chris Li wrote:
->=20
-> Give me some real-world examples of people hitting this kind of
-> limit.
-> e.g. MAX(%)=C2=A0 > 100% and still have a usesable system. I suspect that
-> with 100% zswap usage, the system becomes unusable. Please show me a
-> real world case that proves me wrong.
->=20
+On Mon, Sep 21, 2026 at 06:32:56AM -1000, Chris Li wrote:
+> On Mon, Sep 21, 2026 at 3:27 AM Gregory Price <gourry@gourry.net> wrote:
+> >
+> > This would preserve the existing memory.swap semantics while allowing
+> > both backing resources to be constrained independently.
+> 
+> It sounds like you want memory.tiers have limit enforced.
+> 
+> I suppose it is possible. Again I want to see how people would
+> actually use this feature.
+> 
 
-Here's my desktop system right now. The amount
-of Zswapped is more than twice AnonPages, and
-the system stays perfectly usable.
+Possible, but arguably not needed. the swap and zswap counters already
+work for this existing interaction.
 
-$ grep -E '(Anon|Zswap|GPU|Swap)' /proc/meminfo=20
-SwapCached:       252340 kB
-SwapTotal:      41523604 kB
-SwapFree:        9802088 kB
-Zswap:           8812236 kB
-Zswapped:       24927876 kB
-AnonPages:      11615760 kB
-AnonHugePages:   1402880 kB
-GPUActive:      13112428 kB
-GPUReclaim:        95980 kB
+As I pointed to in my response to Rik, in every reasonable use of
+pswap+zswap the global swap counter is pointless.
 
-This is also an example where I cannot really
-predict how much zswap space I need, because
-that depends on what AI model is loaded,
-which drives the GPUActive number, as well
-as the number of browser tabs.
+So then pswap=swap and we're left with zswap and swap.
 
-The system is perfectly responsive.
+And I'm not convinced your reading of the swap counter as a limit on the
+*logical* memory allowed to be swapped out is actually accurate.
 
---=20
-All Rights Reversed.
+  memory.swap.current
+        The total amount of swap currently being used by the cgroup
+        and its descendants.
+
+  memory.swap.max
+        Swap usage hard limit.  If a cgroup's swap usage reaches this
+        limit, anonymous memory of the cgroup will not be swapped out.
+
+There is no documentation I can find that has ever documented these
+counters as "the amount of memory requiring a fault".  If you put a
+compression system in front of physical swap - the counters as-described
+would still be accurate, while your reading would be broken.
+
+"swap" here is highly implied to mean "storage" as opposed to memory,
+which is why "zswap" defines its limits in terms of memory.
+
+  memory.zswap.current
+        The total amount of memory consumed by the zswap compression
+        backend.
+
+  memory.zswap.max
+        Zswap usage hard limit. If a cgroup's zswap pool reaches this
+        limit, it will refuse to take any more stores before existing
+        entries fault back in or are written out to disk.
+
+If you're presently using swap.max to mean the "logical amount of memory
+allowed to be swapped" - then your usage does not meet the definition of
+the knob.  You need to justify that your use case cannot be expressed
+via memory.min/low controls:
+
+  memory.min
+        Hard memory protection.  If the memory usage of a cgroup
+        is within its effective min boundary, the cgroup's memory
+        won't be reclaimed under any conditions. If there is no
+        unprotected reclaimable memory available, OOM killer
+        is invoked. Above the effective min boundary (or
+        effective low boundary if it is higher), pages are reclaimed
+        proportionally to the overage, reducing reclaim pressure for
+        smaller overages.
+
+That's an SLO interface.  memory.swap is a provisioning interface.
+
+As it stands, I'm left viewing zswap's counter inclusion in swap as more
+of a bug than a feature - they account for different things (memory vs
+storage usage).
+
+~Gregory
+
