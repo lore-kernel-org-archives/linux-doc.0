@@ -1,158 +1,77 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from hal.phenome.org (hal.connected.by.freedominter.net [91.132.42.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFD444683D;
-	Mon, 21 Sep 2026 20:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500A3446853;
+	Mon, 21 Sep 2026 20:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.132.42.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790023047; cv=none; b=MHu5urq9mI1szkWpKFV9p1c4QR1qVAdoyDti1y2E0O2btvqIhzq6hfLK5jYWJjOOLw4G5r8FGXKr4iWsu1KSNrJa2AclAT9gB7jNgTOEs8xKCdU81stb8d4BgzejY0kb7TW7JQaqbkXEGdBTGlJmqaMHoyq5/lUP0EHmrK5B42k=
+	t=1790023047; cv=none; b=b/wQSNovDDxCMPDzI6v63UUQ8pYpM/AqMZgPCn/XkX3uKun58K4ecalO70dNOiph+IKhTiIvfOhVlhwHYBno2WPdorTGSSogAOgY63QdD4JRD3f28zbe29WJuM2O0BhnniwHlJPeilEVqNiXUd30zx5k7z60vwwpNc5mrzk5B0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790023047; c=relaxed/simple;
-	bh=W/mOa0T0f/2SO4j5UlmgBBx8+2NQZl75mcprKt5L5Kw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WX1dyzMTNYfLfed6KuhyMkG6PiEQxjhQLB0eiKGr1hytE/BeSPvwI9fZiLD7ZzT+pMvwKwltrJwzahj71hkQNKrZvLs6p4fZUtr3pvOrrvCmgQap02ATSTGav1WwgTCby8Dct+ZERtz1DacJa22wbIaETlUvORztA3F+iRfH6zk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=T7OqyNVK; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="T7OqyNVK"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hpZm15chyzMl0N;
-	Mon, 21 Sep 2026 22:37:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1790023041;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dH5lOSn31N5rmzucBtFSBAHqxTHDPEZFrYlyKlhTR7A=;
-	b=T7OqyNVKrvMu2Va7Vl+GJYIhH1SPd6TCRQ9CC7BcZtCzooll935LwEtDwI7ic4+e9ii8JB
-	gp3uz+ki31lQtxAlmMe6yJKpTsq8RIceqAgzOmk0M9pkkiVZnOI6a7qz+ab9zk162IjYhc
-	V1JDg/nVPW4TfQXl+owdDF+ojqk/LN44J4/Kz4SxhvtFj8Nn44+bCFHIkw19ANtYz1TpZy
-	YO9ej5JHNOFPRIasilM7L4dS4HkxCP/6vsmDSobx2SRQQeDfv1A8KM81FHYpP07UyrBIs9
-	Dvm5C7q/s7i/x4iRapadiF0dMWYKe/tksYMDLf9EKY8GNPlVaB444lXsjkXwyg==
-From: Marek Vasut <marek.vasut+renesas@mailbox.org>
-To: linux-pci@vger.kernel.org
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rob Herring <robh@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] PCI: rcar-gen4: Drop how to obtain platform firmware
-Date: Mon, 21 Sep 2026 22:36:46 +0200
-Message-ID: <20260921203716.73663-1-marek.vasut+renesas@mailbox.org>
+	bh=CxkuXt6IPD4NF7cqoA7ABvTHnpiatRh+Gm0caYgsL+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fBNUoq78XrVzpUjaYl/HTAFwTtMl0AVCBBbIe79bTvp69rZ12geHEIgwHxcwnauXUZ5L62TF0yXmDV0XjNEGk3rRj6qY/ASy6uieNud4UD4JDv5vNGCaMrkzDowhHR7vPwMKvJ+xtgDuAKbmvAbXp8MIR+OX7cnrNVrUpKHJpJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bern; spf=none smtp.mailfrom=hal.phenome.org; arc=none smtp.client-ip=91.132.42.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bern
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=hal.phenome.org
+Received: by hal.phenome.org (Postfix, from userid 0)
+	id 6CE14100267; Mon, 21 Sep 2026 22:27:11 +0200 (CEST)
+Date: Mon, 21 Sep 2026 22:27:11 +0200
+From: root <root@bern>
+To: Sabrina Dubroca <sd@queasysnail.net>
+Cc: Antony Antony <antony.antony@secunet.com>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>,
+	Jamal Hadi Salim <hadi@cyberus.ca>, Shuah Khan <shuah@kernel.org>,
+	netdev@vger.kernel.org, Yan Yan <evitayan@google.com>,
+	Tobias Brunner <tobias@strongswan.org>,
+	Florian Westphal <fw@strlen.de>, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH ipsec v2 1/6] xfrm: state: exact mark/mask match for
+ SPI-keyed control-plane SA lookups
+Message-ID: <arGTH94PM_oswTpF@bern>
+References: <migrate-state-fixes-v2-0-c3e2767f0d96@secunet.com>
+ <migrate-state-fixes-v2-1-c3e2767f0d96@secunet.com>
+ <arEw6qLcr_YEI8Wl@krikkit>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: f4692ff364f87b53fb5
-X-MBO-RS-META: gbznwhfut3za5iz3ihny9xfd5i56fys1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <arEw6qLcr_YEI8Wl@krikkit>
 
-Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires
-specific firmware downloading. The firmware is now available via
-linux-firmware.git repository, drop the documentation about how
-to obtain the firmware.
+On Mon, Sep 21, 2026 at 03:28:10PM +0200, Sabrina Dubroca wrote:
+> 2026-09-08, 08:48:45 +0200, Antony Antony wrote:
+> > Add __xfrm_state_lookup_exact(); wire it into DELSA/GETSA
+> 
+> On the "other proto" branch of xfrm_user_state_lookup(), we call
+> xfrm_state_lookup_byaddr() -> __xfrm_state_lookup_byaddr(), which
+> still does a "loose" mark match:
+> 
+> 		if ((mark & x->mark.m) != x->mark.v)
+> 			continue;
+> 
+> Is that ok?
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
----
-Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-pci@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
----
-V2: Drop the documentation and update the commit message
----
- Documentation/PCI/controller/index.rst        |  1 -
- .../PCI/controller/rcar-pcie-firmware.rst     | 32 -------------------
- MAINTAINERS                                   |  1 -
- 3 files changed, 34 deletions(-)
- delete mode 100644 Documentation/PCI/controller/rcar-pcie-firmware.rst
+I think so. I felt byaddr is not used and aslo since there is no unique spi
+if touch it dragons may wake up:) most used cases with SPI.
 
-diff --git a/Documentation/PCI/controller/index.rst b/Documentation/PCI/controller/index.rst
-index c15e2c9ac855a..096d1c3d9807a 100644
---- a/Documentation/PCI/controller/index.rst
-+++ b/Documentation/PCI/controller/index.rst
-@@ -8,4 +8,3 @@ PCI Native Host Bridge and Endpoint Drivers
-    :maxdepth: 2
- 
-    pci-controller-drivers
--   rcar-pcie-firmware
-diff --git a/Documentation/PCI/controller/rcar-pcie-firmware.rst b/Documentation/PCI/controller/rcar-pcie-firmware.rst
-deleted file mode 100644
-index 67d3bf66e3158..0000000000000
---- a/Documentation/PCI/controller/rcar-pcie-firmware.rst
-+++ /dev/null
-@@ -1,32 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0
--
--=================================================
--Firmware of PCIe controller for Renesas R-Car V4H
--=================================================
--
--Renesas R-Car V4H (r8a779g0) has a PCIe controller, requiring a specific
--firmware download during startup.
--
--However, Renesas currently cannot distribute the firmware free of charge.
--
--The firmware file "104_PCIe_fw_addr_data_ver1.05.txt" (note that the file name
--might be different between different datasheet revisions) can be found in the
--datasheet encoded as text, and as such, the file's content must be converted
--back to binary form. This can be achieved using the following example script:
--
--.. code-block:: sh
--
--	$ awk '/^\s*0x[0-9A-Fa-f]{4}\s+0x[0-9A-Fa-f]{4}/ { print substr($2,5,2) substr($2,3,2) }' \
--		104_PCIe_fw_addr_data_ver1.05.txt | \
--			xxd -p -r > rcar_gen4_pcie.bin
--
--Once the text content has been converted into a binary firmware file, verify
--its checksum as follows:
--
--.. code-block:: sh
--
--	$ sha1sum rcar_gen4_pcie.bin
--	1d0bd4b189b4eb009f5d564b1f93a79112994945  rcar_gen4_pcie.bin
--
--The resulting binary file called "rcar_gen4_pcie.bin" should be placed in the
--"/lib/firmware" directory before the driver runs.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 05215fcc18a57..f097e556dfc91 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21170,7 +21170,6 @@ M:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
- L:	linux-pci@vger.kernel.org
- L:	linux-renesas-soc@vger.kernel.org
- S:	Maintained
--F:	Documentation/PCI/controller/rcar-pcie-firmware.rst
- F:	Documentation/devicetree/bindings/pci/*rcar*
- F:	drivers/pci/controller/*rcar*
- F:	drivers/pci/controller/dwc/*rcar*
--- 
-2.53.0
 
+> That's the only thing I've noticed in the series.
+> 
+> 
+> I guess someone could claim that this patch changes behavior, but if a
+> user somewhere notices it, I think that would mean they were relying
+> on insertion order to delete/etc the right SA.
+
+yes that is a risk. I tried find use cases and got nowhere. 
+And concluded it was an oversight. Also note the
+cover letter, "policy" had similar change a while ago.
+No one complained yet?
