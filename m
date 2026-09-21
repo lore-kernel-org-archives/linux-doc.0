@@ -1,76 +1,92 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0108441D100;
-	Mon, 21 Sep 2026 21:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F232F501290;
+	Mon, 21 Sep 2026 21:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790025200; cv=none; b=MDDycKiiux2aZswRZsOMDDshZJZyTxcZ7Cqi+R/RY/G3CHj9ModblkCYk2JgeZH0DgNNWnsH0SVCrkHK+uqE1v+dSgt8rM0q71z/Ty5n+KQNQTyCf3dHpVa8zkGJM+7fQUU6bgojckwUmnhT16TpSokd7Je8W+LJCTaOOpLjCpc=
+	t=1790025599; cv=none; b=WyVsvtz+9FBp/ixmQS3KGY876R6hYMTbtNXphNikyyRMdTI+O6vcGt780BCdt+8JcATWorYBMODNd0BpKI9fOJ+YLgcQIEEVsbgprcPWV0IrzHikbmwzvjqQuGiwgzwaxiiBu9DjB6EP6NNZWBjoxtPYkOX/kikNaP4ZXeFPzBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790025200; c=relaxed/simple;
-	bh=vuxF0tT/4H/YrgJAF9NXDN2bm0i+QS0Nr4RNaPKvF6c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ia2DCvs/yiCNvQaEgeJ88LbNbWlrzKIaw4v7HYvGI3wV3iS80cj3Ho1YusQ+zR+/NZmkofakYhSesVcKPnVh94OUI22LejqMphRmJRzZ2cX/8w5EU/8+iv2juliuIp7kV5m3eKM5JmPaMrQ1NjpUbaZQXmzRuJaUnHZP6HmmD74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bojanowski.me; spf=pass smtp.mailfrom=bojanowski.me; dkim=pass (2048-bit key) header.d=bojanowski.me header.i=@bojanowski.me header.b=x4O8Gvt0; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bojanowski.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bojanowski.me
+	s=arc-20240116; t=1790025599; c=relaxed/simple;
+	bh=pVFVNpryK/50omAZCNkcvjfe5nFPxxjWqY4zKIS+Wco=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Subject; b=eQm8JtdEPGsZ/eMSa1ZK4vI3BVhsdakB6+C5CskiDr35W9xD8Oi0ESayWUYXSYBj0fFDOlAjM44WS7TxISJpE0rB6uKU+nna8/m5DPCFxOfZB5XSzzeEbFBU4yQfr+qgedL0iZXrgYmIBRSw61RsQNegVt0Qytnwhsr0QRJ0dlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=ErRE0zur; arc=none smtp.client-ip=204.191.154.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bojanowski.me header.i=@bojanowski.me header.b="x4O8Gvt0"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hpbYR5WcdzMlK6;
-	Mon, 21 Sep 2026 23:13:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bojanowski.me;
-	s=MBO0001; t=1790025195;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=a45yGg271L92VcG3Hi31wCGLy3re1FRWuPnSJk8yCtA=;
-	b=x4O8Gvt0thau175s0vOQZcqAqpk+3EJxEgK09+aWVNp64wbkFP1w8hg0H3DbUk+fykXKFW
-	DizMNyZoyVO7Dr28VQ+KMNhFGHY9kvXu3TLElpN+jCumtRWCb2DNTXpIbRTm9QiBO5u4rg
-	1pK3jr1UiG0pbGqOuoZKkrFc0u+LZ+FEwCvlrbRomiMewJI9QzXM78WkRyUpxBaTlPLocP
-	zJwEK+pDYXczQnzR55GT5oQTDtk8VuS9aluliK9y9TQzstR9+YmI811Kqcm1yQ1Pc2Zk2s
-	VmiHuNuqqcfmKKdanKdiKwQbi2Yts3GArR51H82ScJ887ZTwrpSo1pug4+YrpA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of tomasz@bojanowski.me designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=tomasz@bojanowski.me
-From: Tomasz Bojanowski <tomasz@bojanowski.me>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (nct6683) Add MSI B850M to list of tested boards
-Date: Mon, 21 Sep 2026 23:13:04 +0200
-Message-ID: <20260921211304.74729-1-tomasz@bojanowski.me>
+	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="ErRE0zur"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=g1ST6U2BpQn/s3D8UpgYd2KCtTjj3ldN0h2dyB/bZ1Q=; b=ErRE0zursoMY+UMyjDwlvee3Ni
+	KA0G6w/m3ydbimYpQQUck96YqgySKBEOmHmVTKRDnOSBjXwLk823Iyzn19FH5wIRNyOd8lHCcCOKF
+	P4e0/xf7B99zvFBls/UtyMwxWMPlkopEgNqDz2HBzZ+BN0XiC2bQLmA9ey2luseNU9pagmqqvcRBg
+	X5WL28iC9i3rfIjgzKuHTOMbAZBQXwEdIErvGXDZfX/f15ftDFp1bId1GIvg6+M9qgvuceibqnwk3
+	gV7hSE5AohGjlJ+NEsDquVHADVHT9YX5Kzbjm+P60e79A2ZT0irlax3JIJfDcRd7sn2BOJDrjfqsg
+	6x4VUOpQ==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1x8lQX-0000000F5FQ-0Kc5;
+	Mon, 21 Sep 2026 15:19:54 -0600
+Message-ID: <9e868c06-be53-436c-a78d-790ed2b91c3e@deltatee.com>
+Date: Mon, 21 Sep 2026 15:19:40 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4hpbYR5WcdzMlK6
+User-Agent: Mozilla Thunderbird
+To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jens Axboe
+ <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+ Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-rdma@vger.kernel.org, kvm@vger.kernel.org
+References: <20260920-fix-p2p-acs-v4-0-v7-0-ca0828ab697c@nvidia.com>
+ <20260920-fix-p2p-acs-v4-0-v7-11-ca0828ab697c@nvidia.com>
+Content-Language: en-CA
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <20260920-fix-p2p-acs-v4-0-v7-11-ca0828ab697c@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: leon@kernel.org, bhelgaas@google.com, kch@nvidia.com, gregkh@linuxfoundation.org, axboe@kernel.dk, alex@shazbot.org, ankita@nvidia.com, jgg@ziepe.ca, corbet@lwn.net, skhan@linuxfoundation.org, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, rdunlap@infradead.org, sumit.semwal@linaro.org, christian.koenig@amd.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, iommu@lists.linux.dev, tdave@nvidia.com, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org, kvm@vger.kernel.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Level: 
+Subject: Re: [PATCH v7 11/19] PCI/P2PDMA: Log detailed ACS routing diagnostics
+X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 
-Tested on MSI MAG B850M MORTAR WIFI with NCT6687D EC firmware version
-0.0 build 03/10/25. The driver loads without force=1 and reports
-voltages, fan speeds and temperatures.
 
-Signed-off-by: Tomasz Bojanowski <tomasz@bojanowski.me>
----
- Documentation/hwmon/nct6683.rst | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/hwmon/nct6683.rst b/Documentation/hwmon/nct6683.rst
-index 45eec9dd3..1af148b92 100644
---- a/Documentation/hwmon/nct6683.rst
-+++ b/Documentation/hwmon/nct6683.rst
-@@ -69,4 +69,5 @@ ASRock Z590 Taichi		NCT6686D EC firmware version 1.0 build 01/25/21
- MSI B550			NCT6687D EC firmware version 1.0 build 05/07/20
- MSI X670-P			NCT6687D EC firmware version 0.0 build 09/27/22
- MSI X870E			NCT6687D EC firmware version 0.0 build 11/13/24
-+MSI B850M			NCT6687D EC firmware version 0.0 build 03/10/25
- ===============================	===============================================
--- 
-2.55.0
+On 2026-09-20 05:41, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> When P2PDMA rejects a mapping, existing warnings identify only the final
+> ACS or host-bridge result. They omit topology, live controls, divergence
+> ports, cache state, and intermediate routing decisions.
+> 
+> Emit debug-level messages for verbose calculations and cache lookups.
+> Report both paths, decoded ACS controls, directional decisions, host
+> fallback, and the final mapping. This keeps incidental unsupported probes
+> quiet while allowing the diagnostics to be enabled when needed.
+> 
+> Tested-by: Tushar Dave <tdave@nvidia.com>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
+Looks good to me:
+
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
