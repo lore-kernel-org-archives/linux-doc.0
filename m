@@ -1,77 +1,138 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-245.mta0.migadu.com [91.218.175.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B398C2EEE67;
-	Mon, 21 Sep 2026 05:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0C637205D
+	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 06:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789969640; cv=none; b=WZc4hTLcLEyxeYiQinjGhLdgpN7WrnqOPDqp0lLIkAMLVr5wtjmmHABdE9HHhoBYJJT9xoRk8mvDsU6ziP8CJSo+2h5tbEEUd2J3ap0t3Yf07ND72eshlSqf0fS529CiicXwzVWPXTqgcDZAcMzTW3GrlBx6Gb5rekUBU93+/hY=
+	t=1789972725; cv=none; b=QG0ZUAlIR1pELKwCW0cgE0xrPpfCqWuU652xwPByk2+gWFk1RU+nTlkkIE+cflJ6Gz3+mn8teviBwRyZPCqzg8ytrJLZ+wfICUuyx7EQz7soLe2ZmwMtrcy+/aUKMyh3jPXhq/l+oYrGbTIlz8fMUBwvoyY0FIsmIHK++yxkgEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789969640; c=relaxed/simple;
-	bh=V/Vug2RlqixkFaXTypOw+VY47ihsootWxD/0hfxVxG0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=h/IcbpuPa9Fg6RbWxkViVgxWobKXLfcjssY+pbJyUkA/6aKfbf2ZZeyc3bS7Zt0AcYqW6J253qBom1gBLvc0WEi2NdfznONPeOjb7c6KWSLBh7hKEaE3j2nalZvpZBAyqvOsUnWbYBlvlz9mKb/wnDhf9Su6lxn9trI7k0MxbiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OhVQZOe9; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1789972725; c=relaxed/simple;
+	bh=eCQoMNXNnHawS/dODP70/YAqXxck9fKoWjcvs4Kbv1I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZA1RpCrWdmp0DDffk1rwwDjOBzyRNLi1KkXl4Y//3IcGvC9SYMAzo5lPq0OdjEqk6ye7AYw7AHb8riEpDPiSzYKRwbVBuySnD1Oy64MkCIZAxs4N5YavvkT9UkFDGRUVnvMB3JbDJh8Yi/wSbMYMnaksMWSeuOwcegT6FszqtVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=l5tSEPwC; arc=none smtp.client-ip=91.218.175.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OhVQZOe9"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 523F24090F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1789969632; bh=YOCb5PDIZfjavIu8Tn/O03ibiuTI3hY3aKhvJg4NzvM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OhVQZOe9NlvwmNG5si3VbkPxTHjUQ2XGFOyi55xRKmhKsOfCFXdYlqwemAKdsPtwl
-	 K1HN6AVKn/k8/QyR9KZqWBH/IpQzUPyQGQumHm1OXm98som5weK4YEYxE8f++s66IN
-	 EdofZEAtLMgG/hM9goU43T0lwFPXuScwuaLLtDZKSV/sTqij55u5lxsjTVnqM2usFF
-	 JA2AIyQOuqLX1WUKfRyqfqZDta1QCLOLhW/4PapV+paBgiyeGiHtEWrYqAuy9jokhG
-	 vosZp4cWrMRytHXoWrZy2L8RZf/HAwC7jlMbtoWkMWLe5qHv4KsFUT/VGvdZijCgla
-	 d9+Nx+MwZz68g==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 523F24090F;
-	Mon, 21 Sep 2026 05:47:11 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Osman Ahmadzai <osmanahmadxai@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] README: add a reST version with clickable documentation
- links
-In-Reply-To: <20260921050038.76985-1-osmanahmadxai@gmail.com>
-References: <20260921050038.76985-1-osmanahmadxai@gmail.com>
-Date: Sun, 20 Sep 2026 23:47:08 -0600
-Message-ID: <87o6dryx43.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="l5tSEPwC"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=eCQoMNXNnHawS/dODP70/YAqXxck9fKoWjcvs4Kbv1I=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789972721; v=1; x=1790577521;
+ b=l5tSEPwCJxTl6TvHz51A5z8Q4PfgTPbpTi4LiS8bzb8KmZZo77lGiKfazIEViAHhA3poLNqV
+ TZhiOrLPJVueOAtOLL0ZBP4q1SIfDrEE8axwyRN41nYDUXy4dD2gaxfxfON/gVNY0qcL8Ie9yD2
+ gTo2B7us7Sj30993S8LMW1KA=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id a4d8cef4eba2cd67;
+	Mon, 21 Sep 2026 06:38:41 +0000
+X-Mizu-Trace-ID: a4d8cef4eba2cd67
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <8ecbc327-cd54-439c-8493-78ceb11645bb@linux.dev>
+Date: Mon, 21 Sep 2026 14:38:35 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] docs: cgroup-v2: Describe effective CPUs of partition
+ roots
+To: Guopeng Zhang <guopeng.zhang@linux.dev>, Tejun Heo <tj@kernel.org>,
+ Waiman Long <longman@redhat.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Guopeng Zhang <zhangguopeng@kylinos.cn>
+References: <20260918102359.71826-1-guopeng.zhang@linux.dev>
+ <20260918102359.71826-3-guopeng.zhang@linux.dev>
+From: Ridong Chen <ridong.chen@linux.dev>
+In-Reply-To: <20260918102359.71826-3-guopeng.zhang@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Osman Ahmadzai <osmanahmadxai@gmail.com> writes:
 
-> The README points at some sixty files in the tree, but it has no
-> extension, so it shows up as plain text and none of those paths can be
-> followed.  You have to go and find each one by hand.
->
-> Add README.rst with the same content, wrapping each path in an anonymous
-> reST reference.  The link text is the path itself, so the file reads the
-> same as it does now.  Anonymous because a handful of the paths are listed
-> twice and named targets would collide.
->
-> README itself is left alone - checkpatch.pl and get_maintainer.pl both
-> look for a file called README to find the top of the tree, and the
-> Makefile points at it too, so renaming would mean touching all three.
->
-> Signed-off-by: Osman Ahmadzai <osmanahmadxai@gmail.com>
 
-Creating a second file with duplicated content isn't really going to
-help...they'll be out of sync within one release cycle.  Better to have
-a single file and use a symlink (or else to simply rename it and fix the
-other files as well).  Or, perhaps best yet, see if it can be integrated
-with Documentation/index.rst.
+On 9/18/2026 6:23 PM, Guopeng Zhang wrote:
+> From: Guopeng Zhang <zhangguopeng@kylinos.cn>
+> 
+> The cpuset.cpus.effective description says that the effective CPUs are
+> granted by the parent and are normally a subset of cpuset.cpus. This
+> does not always hold for a valid non-root partition root. Its effective
+> CPUs are the active CPUs in cpuset.cpus.exclusive.effective after CPUs
+> assigned to valid child partition roots are removed.
+> 
+> If cpuset.cpus.exclusive differs from cpuset.cpus, the effective CPUs
+> may therefore be outside cpuset.cpus. Remote partitions also do not
+> necessarily get their CPUs from their immediate parent.
+> 
+> Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
+> ---
+>   Documentation/admin-guide/cgroup-v2.rst | 29 ++++++++++++++++---------
+>   1 file changed, 19 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 272e9f2432bd..49ce8deb4115 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -2505,16 +2505,25 @@ Cpuset Interface Files
+>   	A read-only multiple values file which exists on all
+>   	cpuset-enabled cgroups.
+>   
+> -	It lists the onlined CPUs that are actually granted to this
+> -	cgroup by its parent.  These CPUs are allowed to be used by
+> -	tasks within the current cgroup.
+> -
+> -	If "cpuset.cpus" is empty, the "cpuset.cpus.effective" file shows
+> -	all the CPUs from the parent cgroup that can be available to
+> -	be used by this cgroup.  Otherwise, it should be a subset of
+> -	"cpuset.cpus" unless none of the CPUs listed in "cpuset.cpus"
+> -	can be granted.  In this case, it will be treated just like an
+> -	empty "cpuset.cpus".
+> +	It lists the active CPUs available to tasks in this cgroup.
+> +
+> +	For a cgroup that is not a valid partition root, an empty
+> +	"cpuset.cpus" makes "cpuset.cpus.effective" show all CPUs
+> +	available from the parent cgroup.  Otherwise, it is a subset
+> +	of "cpuset.cpus" unless none of the requested CPUs can be
+> +	granted.  In that case, it is treated like an empty
+> +	"cpuset.cpus".
+> +
+> +	For a valid non-root partition root, "cpuset.cpus.effective" contains
+> +	the active CPUs from "cpuset.cpus.exclusive.effective" except
+> +	those granted to valid child partition roots.  If
+> +	"cpuset.cpus.exclusive" is set to a value different from
+> +	"cpuset.cpus", the effective CPUs need not be a subset of
+> +	"cpuset.cpus".  For example, if CPUs 2-5 are active,
+> +	available, and not assigned to a valid child partition root,
+> +	a partition root with "cpuset.cpus" set to "0-3" and
+> +	"cpuset.cpus.exclusive" set to "2-5" has "2-5" in
+> +	"cpuset.cpus.effective".
+>   
+>   	Its value will be affected by CPU hotplug events.
+>   
 
-Thanks,
+Hi Guopeng,
 
-jon
+Thank you for your effort.
+
+May I suggest adding a simple diagram to help clarify the relationship? 
+Similarly, could you add a simple diagram to illustrate the relationship? 
+Something like:
+
+```
+   A(cpu,memory) - B(memory) - C()
+                             \ D()
+```
+
+I mean adding one diagram for the valid root case and another for the others 
+(member / invalid root), so it becomes easier to see how they differ. What do 
+you think?
+
+-- 
+Best regards
+Ridong
+
