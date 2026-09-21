@@ -1,152 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7C04A0929;
-	Mon, 21 Sep 2026 14:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30224A3F3E;
+	Mon, 21 Sep 2026 14:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789999554; cv=none; b=LJ/EzATviVlBlRbciUHOsBzrz/m4bk/qy2rxrmgBAJ8n/Q3NkbyJ3lDwThLNanGMBfefliaExaHg+zfuvbF3UyTb+2HtgZpjsQNljjm31n+FIdD77DGAhNTSnNraoKpMoZ8UXdIqC2jPxJHT3c4AEtMOLFlb4VRVlrfLtPJ7fiY=
+	t=1789999690; cv=none; b=FqkZRU1vzvXswmqPihtXKza4+ZasL8aqekwAoCsgsTwEOxtlPiE6NrqNGXkx5VZpGFtpMNusv+IjTwfBgNcU8uRV9CzviI2JHVWhd+4mtoTdw5ba1ngHGxy9TZMapmMP85U0KLzNhSlii8y/ZH2gp3tEjM978S1r9/KYHpiUmCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789999554; c=relaxed/simple;
-	bh=LItPg0eEICI8licPO1z3Hy7+q6MSXIvcWWOYjosZBio=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j0thoj9HybI9JVzZQa9Yp/LQQwvkEhk7SfJCrNbh9vfnzvTnZ/miTL+PvPsn15O8VRy/LItz4rsvvJ2BFed+9emFSbAFQAGfuNvQtG1ZpYAEEFdbJyQz0JnlbMoQ04Lg7++K4aFeNHbD1+worYCrco9XiZENol8fo4twvLfYo9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R2JSulfR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789999690; c=relaxed/simple;
+	bh=dQKhyetorp3O0zMecw8HeSSyTSsG1o6Nduy8reJfJA0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SX5DydgRaErPzcAoqPtpHKhTU5OyI8iD51T4s9cdCKalZeLpX9l4tp66V5ve8gMIz3TJE4DRhx/Xgkq57OPBYrb50petT8OTeNqUeIVjotDEOU0+eTcAixHDiZivdlrflnfqIaAwS3DVi2kebWZ1nfvW4hdsXTFl7FfesWiJeoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=YfKsUvZ7; arc=none smtp.client-ip=96.67.55.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R2JSulfR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE4001F000FF;
-	Mon, 21 Sep 2026 14:05:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789999553;
-	bh=LItPg0eEICI8licPO1z3Hy7+q6MSXIvcWWOYjosZBio=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R2JSulfRRKgDq4nWYVx/wIl9Lk3SBwlo74AheX2WFPr9LmiHUdQD371FGOawu1ayx
-	 1fov8PWMy0WOGRmQcskYgxZbJk35Tc5V7ux+XrFi4gSBZZGAvJBe2cCFYnG8UQPF42
-	 YXwi24ZQSEppcHTJI1jeGhhs+HQAhBDKTtRrZkVKjHluGrJPJOj9cPZjTsKqAB/Tvr
-	 87EOuvi/P9sN43dlUwvDL2CSpwkyz5FdnjjK2kgrZjTrOTApEU3eVFvoZyZ4SXbId+
-	 G/Nj72pOen1eumCXhi5oR3Xg6vDHRyeYQ5Slwdil1v1QqYwZoqeNaSKVci4EGpUnhG
-	 WSoq5DaspTNkg==
-Date: Mon, 21 Sep 2026 15:05:42 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 13/21] modpost: emit module descriptors as assembly
-Message-ID: <arE5dDlwgEJxvjKn@gremlin>
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
- <20260914-build-speedup-v2-13-39817ec5db23@kernel.org>
- <95baacfb-d8d9-4d2f-bc89-592df6f6f8e3@suse.com>
- <arEZrFmXeCO4hZpP@gremlin>
- <2b27bb4b-47e3-45ed-a26a-4b9de2b20542@suse.com>
- <arEnCzzQa9XDd4LT@gremlin>
- <58605613-8a43-40e7-a00a-b0d09f089ec8@suse.com>
+	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="YfKsUvZ7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
+	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID; bh=dQKhyetorp3O0zMecw8HeSSyTSsG1o6Nduy8reJfJA0=; b=YfKsUv
+	Z7vQOifpSbfpVDG6WmMIRNoZUDazqcEysy5ysSFw2WzPKzd7IIL8e9EnVtfxT7wrOQ7+8pSoFvTdp
+	1GWhwdGFlHRhTyr0q1n7ut3Jx+hEUpFpUOmOd3mQsyX/OSFWyJMgd7ps5SyZ/ddFmr/nF8BAxCjcP
+	/6Cvc/ffdCjnl1VvJJJSjm9VBnQcOX0YFerpWPn9YI1ByLcCEm3NvsuYYdbP0IpW2Y3NcbKqIa9yG
+	bDF6DaUNWWeUCQwS4Reukr2+F8+KXqbr0tOtlzuxPbznOFeIwT0FFi/zW6HBnhYA02DERg67u47g8
+	/Xua+T4Tt3SZ42W2rsiXfhzsM56A==;
+Received: from [2601:18c:8100:a0e0:5a47:caff:fe78:8708]
+	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.5)
+	(envelope-from <riel@surriel.com>)
+	id 1x8efN-0000000D2M9-0cKp;
+	Mon, 21 Sep 2026 14:06:45 +0000
+Message-ID: <8aaf1f8101c9e45514af442aaf1969e3aafec4d0.camel@surriel.com>
+Subject: Re: Path forward for Virtualized Swap?
+From: Rik van Riel <riel@surriel.com>
+To: Chris Li <chrisl@kernel.org>, Gregory Price <gourry@gourry.net>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>,
+  Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, Michal
+ Hocko <mhocko@kernel.org>,  Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+ David Hildenbrand	 <david@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ Kemeng Shi	 <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>,
+ YoungJun Park	 <youngjun.park@lge.com>, Chengming Zhou
+ <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)"	 <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)"
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
+ =?UTF-8?Q?Baghdasaryan=EF=BF=BC?=	 <surenb@google.com>, Qi Zheng
+ <qi.zheng@linux.dev>, Axel Rasmussen	 <axelrasmussen@google.com>, Yuanchu
+ Xie <yuanchu@google.com>, Wei Xu	 <weixugc@google.com>, Wenchao Hao
+ <haowenchao22@gmail.com>, Jonathan Corbet	 <corbet@lwn.net>, Hugh Dickins
+ <hughd@google.com>, Baolin Wang	 <baolin.wang@linux.alibaba.com>, Tejun Heo
+ <tj@kernel.org>, Michal =?ISO-8859-1?Q?Koutn=FD?=	 <mkoutny@suse.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan	 <kunwu.chan@linux.dev>,
+ Meta kernel team <kernel-team@meta.com>, Linux Memory Management List	
+ <linux-mm@kvack.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, 	linux-doc@vger.kernel.org, "open
+ list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
+ <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Kairui Song <ryncsn@gmail.com>,  Joshua Hahn <joshua.hahnjy@gmail.com>
+Date: Mon, 21 Sep 2026 10:06:44 -0400
+In-Reply-To: <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
+References: 
+	<CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+	 <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org>
+	 <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+	 <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
+	 <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+	 <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F>
+	 <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
+Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
+ keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
+ eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
+ Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
+ lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
+ dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
+ mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
+ gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
+ r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
+ WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
+ 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
+ Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
+ +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
+ g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
+ KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
+ fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
+ 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
+ G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
+ okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
+ TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
+ cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
+ omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
+ QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
+ c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <58605613-8a43-40e7-a00a-b0d09f089ec8@suse.com>
 
-On Mon, Sep 21, 2026 at 03:50:06PM +0200, Petr Pavlu wrote:
-> On 9/21/26 2:48 PM, Lorenzo Stoakes (ARM) wrote:
-> > On Mon, Sep 21, 2026 at 02:36:30PM +0200, Petr Pavlu wrote:
-> >> On 9/21/26 1:57 PM, Lorenzo Stoakes (ARM) wrote:
-> >>> (note there's a v3 see [0])
-> >>>
-> >>> [0]: https://lore.kernel.org/linux-kbuild/20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org/
-> >>
-> >> Thanks, I missed it.
-> >>
-> >>> On Mon, Sep 21, 2026 at 01:25:09PM +0200, Petr Pavlu wrote:
-> >>>> On 9/14/26 11:22 AM, Lorenzo Stoakes (ARM) wrote:
-> >>>>> The sections were confirmed to be byte-for-byte identical to the C version
-> >>>>> produced - each of .modinfo, .gnu.linkonce.this_module, __ksymtab*,
-> >>>>> __ksymtab_strings, __kcrctab*, __kflagstab*, __versions,
-> >>>>> __version_ext_crcs, __version_ext_names and their relocations - for all
-> >>>>> 8,135 modules of a clang allmodconfig build with CONFIG_COMPILE_TEST off
-> >>>>> and CONFIG_MODVERSIONS, CONFIG_EXTENDED_MODVERSIONS and
-> >>>>> CONFIG_MODULE_SRCVERSION_ALL on, and for a sample built with gcc.
-> >>>>
-> >>>> Lowering the data to assembly loses debug information for __this_module,
-> >>>> specifically that it has type `struct module`. It might be worth
-> >>>
-> >>> No, it keeps it - every module includes linux/module.h, and the extern
-> >>> declaration of __this_module carries the type, so all of the stuff gdb
-> >>> needs (e.g. ptype, p & field access), DWARF etc. is all there in the same
-> >>> way as with .mod.c.
-> >>>
-> >>> Have confirmed locally.
-> >>
-> >> An extern declaration alone shouldn't cause its name and type to be
-> >> included in debug information. They should appear only when the variable
-> >> is referenced by some code.
-> >
-> > Ack yeah sorry my mistake, I had the LLM check that and should have known
-> > better than to trust it without reviewing what it said (as I have done for
-> > the most part for everything in this series).
-> >
-> >>
-> >> Testing with a simple module that previously referenced __this_module
-> >> only in .mod.c and in no other file, such as lib/test_module.c, shows
-> >> that the .ko no longer contains debug information for this variable.
-> >>
-> >> I've verified this behavior with GCC 16 and Clang 19.
-> >
-> > Ack confirmed locally.
-> >
-> > Can put a fix in module-common.c.
-> >
-> > The LLM came up with a reference as an alternative:
-> >
-> > static struct module *const __this_module_dbg __used __section(".discard.this_module") = &__this_module;
-> >
-> > Would that work? Or should we go with your original suggestion? -
-> >
-> > __weak __section(".discard.this_module") struct module __this_module;
->
-> With GCC, the LLM's suggestion produces debug information for both
-> __this_module_dbg and __this_module. However, Clang only generates debug
-> information for __this_module_dbg, so it is not quite what is needed.
+On Sun, 2026-09-20 at 23:43 -1000, Chris Li wrote:
+> On Sat, Sep 19, 2026 at 3:53=E2=80=AFPM Gregory Price <gourry@gourry.net>
+> wrote:
+>=20
+> >=20
+> > I want:
+>=20
+> >=20
+> > =C2=A0 1) zswap on machines with no swapfile
+> >=20
+> > =C2=A0 2) without being asked "how big?" - there is no number I can giv=
+e
+> > =C2=A0=C2=A0=C2=A0=C2=A0 that stays correct, and
+>=20
+> Because you can't answer a question, we have to bend over backwards
+> for you? That does not make sense.
 
-Ack will go with your suggestion then, thanks! Will be applied to v4.
+There are millions of users for who the system
+should just work, without having to first answer
+your questions.
 
-I am aiming for ~midweek for sending that that out to give people a chance to
-respond and because it'll be based on other pending commits that need a bit of
-time before they're in-tree.
+Their use case is legitimate.
 
-I have added you to the cc-list so you should get mailed when I send it out!
-
-Thanks for the feedback :)
-
->
-> --
-> Thanks,
-> Petr
-
---
-Cheers, Lorenzo
+--=20
+All Rights Reversed.
