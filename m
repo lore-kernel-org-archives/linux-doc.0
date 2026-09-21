@@ -1,554 +1,153 @@
-Received: from mail-wm2-f10.google.com (mail-wm2-f10.google.com [74.125.225.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from tpecef21.compal.com (exmail3.compal.com [59.120.207.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD98F3AEF4C
-	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 07:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4833B6C18;
+	Mon, 21 Sep 2026 07:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789974381; cv=none; b=R/mwnjDp/gp315CM56vd3i0tK+bpA+JVuYHzWgAZxmGaKL4/LB4zIObhZxb/nwp5r2rxwCAPFNM14FZhMyuuar1Xsgz23i0rQviAsIVs7pZ3aRxrY5VOynXmj30APIuKF4eZN/Eq+zqwCnRbrI/Lj3h1CjW6Mm0tHghQfoi4hJ8=
+	t=1789975305; cv=none; b=IIB+PM5seG3LqfYqFVzaEKwloeEDvwuwd0R8aGjZhqCERghYG4gDjH7BEov7k52laCxGfLwLeeZpjzKwJuA1qCgy+NMy8Piz6xymwiESuMqBed0gLe4RRvfTkkrAZFT8kxTFcybzfFIQuLdNpJE3aG796EuPU8qwnYsYUUJFEwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789974381; c=relaxed/simple;
-	bh=PGXKNJGV8MJCq5TfdRhmoMqrV5wj5z98tOVMmGAAc9U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GOO9xRmABL0u0OEV6LbcjO/5YP6fTLJXRMVU0NIbrWy+BZZwvFME7LA1aUcnIFBDj2GyizNkC6itccE7008ruVKn3onHSMBe3hnPcdFD81y57r4rWhRM2uZsfAaxWF1s15jBLwffhYWbW/WROlPhTrzydzQDEQ/BLv8KFKEJPr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M3V2LBu4; arc=none smtp.client-ip=74.125.225.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M3V2LBu4"
-Received: by mail-wm2-f10.google.com with SMTP id 5b1f17b1804b1-49b963f51f6so11826515e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 00:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789974376; x=1790579176; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bnc4LUOH3Pg+su+FetLY1fkeIBJPToCClVl8WwLBch4=;
-        b=M3V2LBu4qj9c7wnD8ab5Zs/6b8dhRKTVs7Y5d5FXdEmbPU1w+XhOczD0macM4nTmBT
-         pQISuFKgI3++a28gq5zB1Ox08zIUrBg1Xc2+hYfOqDQsAlNMUmqHCPwEUljwOGR8eEJk
-         KltCIQa2SA9BV7M/qOpWey36eykiabZWPxYRGcddnMHr7B8+EKw/eiVIPQ/82wV7t/ax
-         fI4i+4iZyxc12aORBNYBhVjMDzKJ+gw1HVjAJTbGc11nU2pu5M+rteWVp0JHGehvfndm
-         4sFx2IwuZ7d+7w4MO+GwOGl52092MlBuJJpI81V/TYJOF2p1jyTbTLfsAo9IduSZqRCp
-         SNfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789974376; x=1790579176;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bnc4LUOH3Pg+su+FetLY1fkeIBJPToCClVl8WwLBch4=;
-        b=OFYbdh7PyA3jSKNjD/p+ZmAdTRf2HzK/zyQl3Saf7J8gvr2ySwGVjlZtD9lUPqvA5m
-         t89vMogYUjPg+7OUf5Hi6GHNTgH9tWO2HuyLTom4dxrrhJZvM9wYU0llUlFYHtoCJT8H
-         p5zs2w9rcKvPao/ZZEKWPv8m42Jzz9wgHRUwz85PpbsRyY5Wi7BDzT5M0SJABPtOCs9t
-         7Zvt4U9x9kNBLLga0J4UXoP2plzfJ71t+E36O7MPHL/Qu06lxPvNCPfFEkPoKZ4CHpn5
-         g4l+vRmg2FHB2upHjXyokvMqfzQsllggSR2Ifa1vPZoKkciC+CqLDCBNQ1APSYyNxexH
-         2WjA==
-X-Gm-Message-State: AFuF++k1iIlb25G1fdy1OefNzWwD41UATPOBKzAC+CqmbxyB0hyyMJoc
-	ETfPB/fFK3SPGsrb0nA8EBbFg3P2paOCapelVw2cOxK+PVme5yxpF09j
-X-Gm-Gg: AYBFou3OKqrA/VGIurXU38oSvmzHpknljta26Q2iMaG6bR5suIMaPXZtu2HckfjGOI6
-	V7XWuYxYP8LtXH17bJ888R0m40ClNI3/EhBlwLOSk4lXXINSV8ng1KfCS0avowuwAS7MMmLlOF2
-	p9ahsYADgrUU5RyJYek2Was2vWD/bPphbLtsHbkfxxXIrsmFLQzDJnVi4g/si4fKAvSh2Y0Ip7v
-	cWaTbGazp41pyGWj1E9UdLCVz8AV3cTumi4di/szz+ReKDHtVXQ5pvzJn19GkYOEXSvfkoK7Lxz
-	sDPAUU5QtPezgTEuHvBHMJUKaQ+QbTc3ndbbx12HkawuOWH8t018UejQGjKG7wMJ5LKgHGp/sJn
-	ZsE/uEHUelZOaQFnqeRH2EzTUwR6LpaNhPlUJm7p4etapJxRhPMiaDeyk1lX1PiayYFbct4qfvc
-	Zrnwr/sqQYqcNbftxFb+zVwh+IzxrbNh4utErFrE1035aebZL6B5/jhZQfSReIrJDOPU2CJoRVi
-	ZSzlnOPs4gb57UcWm4HI5hS5sVOZ46NSZrjVYOM9mrCg/Z93pBPpFspZ6+yqOAjSFKmFHJlmBLO
-	5Sl0/c0=
-X-Received: by 2002:a05:600c:3b05:b0:49c:fa21:e746 with SMTP id 5b1f17b1804b1-49fc57570c8mr123090825e9.28.1789974375638;
-        Mon, 21 Sep 2026 00:06:15 -0700 (PDT)
-Received: from localhost.localdomain (ip-185-191-117-140.009.ptr.cherryservers.net. [185.191.117.140])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd03fe55sm243356725e9.2.2026.09.21.00.06.09
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 21 Sep 2026 00:06:13 -0700 (PDT)
-From: Osman Ahmadzai <osmanahmadxai@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nathan@kernel.org,
-	nsc@kernel.org,
-	apw@canonical.com,
-	joe@perches.com,
-	tglx@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-kbuild@vger.kernel.org,
-	linux-spdx@vger.kernel.org,
-	Osman Ahmadzai <osmanahmadxai@gmail.com>
-Subject: [PATCH v2] README: rename to README.rst and make the doc references links
-Date: Mon, 21 Sep 2026 11:35:56 +0430
-Message-ID: <20260921070556.6909-1-osmanahmadxai@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260921050038.76985-1-osmanahmadxai@gmail.com>
-References: <20260921050038.76985-1-osmanahmadxai@gmail.com>
+	s=arc-20240116; t=1789975305; c=relaxed/simple;
+	bh=ivf16bA8eVGk4xRiswVz/tEyGrtwzJybER8q/jQMd/o=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Tt2YNGnfNmRMYbzU5273JZXI8gKBucwv0AATxHrWR9t7c/OIX4qvJBGmq55mlkXr2hWCTKNCbyIIxsAWUYzkW2rRO6azQwroV8XRmaBzYuqmmvmtVDJoPvt/DQcqe+qI42R0TzMcxzOFFBXTgaleH8+7i+sSVsBJbCeqdXk+yk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
+X-UUID: f73913d8b58a11f1b2470fb4f881575f-20260921
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:d82ddee4-53ac-4d45-a6ca-46c49b1fd8f9,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:7f1ae54,CLOUDID:f188aaed-7edf-4da5-bbbc-f6fed3d7a34c,B
+	ulkID:nil,BulkQuantity:0,SF:80|81|82|83|102|110|111|836|865|888|898,TC:-5,
+	Content:0|15|50|99,EDM:-3,IP:nil,URL:99|1,File:130,RT:0,Bulk:nil,QS:nil,BE
+	C:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f73913d8b58a11f1b2470fb4f881575f-20260921
+Received: from sdmg12.sdbg.compal.com [(10.113.168.10)] by tpecef21.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1155679316; Mon, 21 Sep 2026 15:06:28 +0800
+X-UUID: f59cd0d2b58a11f1a9f9c99e036204b4-20260921
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:9d68b3eb-ecc8-47bc-86e0-148128b0111c,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:1413f33e-2015-4ac0-848c-dd56b04f9b18,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
+	898,TC:-5,Content:0|15|50|99,EDM:-3,IP:nil,URL:99|1,File:130,RT:0,Bulk:nil
+	,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:
+	0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f59cd0d2b58a11f1a9f9c99e036204b4-20260921
+Received: from sdbmbx12.tpe.compalcomm.com [(10.113.2.136)] by sdmg12.sdbg.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES256-SHA 256/256)
+	with ESMTP id 33028743; Mon, 21 Sep 2026 15:06:25 +0800
+Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
+ SDBMBX12.tpe.compalcomm.com (10.113.2.136) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.2.2562.43;
+ Mon, 21 Sep 2026 15:06:23 +0800
+Received: from SDBMBX13.tpe.compalcomm.com ([fe80::d3a3:2665:d306:e36a]) by
+ SDBMBX13.tpe.compalcomm.com ([fe80::d3a3:2665:d306:e36a%11]) with mapi id
+ 15.02.2562.043; Mon, 21 Sep 2026 15:06:23 +0800
+From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: Loic Poulain <loic.poulain@oss.qualcomm.com>, Sergey Ryazanov
+	<ryazanov.s.a@gmail.com>, Johannes Berg <johannes@sipsolutions.net>, "Andrew
+ Lunn" <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Wen-Zhi
+ Huang <wen-zhi.huang@mediatek.com>, Shi-Wei Yeh <shi-wei.yeh@mediatek.com>,
+	"Minano Tseng" <Minano.tseng@mediatek.com>, Matthias Brugger
+	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, "Simon Horman" <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	"Yu. Robert (GSM)" <robert_yu@compal.com>, "Chang. Jeff (GSM)"
+	<Jeff_Chang@compal.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: RE: [External Mail] Re: [PATCH v8 1/6] net: wwan: t9xx: Add PCIe core
+Thread-Topic: [External Mail] Re: [PATCH v8 1/6] net: wwan: t9xx: Add PCIe
+ core
+Thread-Index: AQHdSJJBQFFxpFYlr0WIdtg0cV9n2bbYnPye
+Date: Mon, 21 Sep 2026 07:06:23 +0000
+Message-ID: <690e3d6d04ba47efba2b4cda7b18e42e@compal.com>
+References: <20260914-t9xx_driver_v1-v8-0-5206c2e6bea0@compal.com>
+	<20260914-t9xx_driver_v1-v8-1-5206c2e6bea0@compal.com>,<20260919165434.08d026a8@kernel.org>
+In-Reply-To: <20260919165434.08d026a8@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-30210.003
+x-tm-as-result: No-10--18.348800-8.000000
+x-tmase-matchedrid: zwpC2WOSP9Uuv++HU7VXryRFbfQbCufdN0X64jGy2dbsEpKlvft9qnHR
+	BdVJXEE0Q9AIZswE7Im8sf/3lUadtLxENwJ2UvCEGG92L3YEEC5ILH3fawhH7DQHeAZCLtjENrZ
+	e+GlFOmnuq1DMO5F4aWrxeeoq6G+ydcaBsQNmVY6HSpOq1C5m8F0iRWBzvhn/Ge0TacJImEMR41
+	St/qTSiI8fvsGG1r6CjGPUz3XtE9EWmVwQ4nb0sCbE4NyCMIorMjLMwAKwNtI+P0BFWEUq1Em6z
+	KX/LJcmL6i+4hIrtWii5iIVX8OUW/zdToSelMHyDH4m2ujwCtt+rvFZ7FWrXG30LxWftKfhr54J
+	Ix46I6T3t3pfLmJRU9vIAMT/07OiB73xunbyKrpX9HM7P8GE6Q==
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--18.348800-8.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-30210.003
+x-tm-snts-smtp: 04D8DC24E44A8B3D5A0BC88503CDD9415739087981A51077E7CBB44370D133782000:8
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The README points at some sixty files in the tree, but it has no
-extension, so it shows up as plain text and none of those paths can be
-followed.  You have to go and find each one by hand.
-
-The content has always been reStructuredText - it uses reST section
-syntax for its headings - so give it the extension to match, and wrap
-each in-tree reference in an anonymous hyperlink whose link text is the
-path itself.  The rendered text is byte-for-byte what it was before; only
-the markup is new.  Anonymous because a handful of the paths are listed
-twice and named targets would collide.
-
-checkpatch.pl and get_maintainer.pl both test for a file called README to
-find the top of the tree, and the Makefile points readers at ./README, so
-those are updated in step.  scripts/spdxexclude lists the file as having
-no copyrightable content; only its path changes there.
-
-Signed-off-by: Osman Ahmadzai <osmanahmadxai@gmail.com>
----
-v2: Dropped the second file - you are right, two copies would be out of
-    sync within a release.  This renames instead, so there is one copy of
-    the content, and updates the four places that referred to the old
-    name.  I went with the rename rather than the symlink because it
-    leaves nothing pointing at a name that no longer describes the file,
-    and the fixups turned out to be one line each.
-
-    I did look at folding it into Documentation/index.rst, and it looks
-    like a bigger change than this one rather than an alternative to it.
-    The README names 55 documents; only 12 of them appear in the
-    index.rst toctrees today, the other 43 being reachable only by
-    descending into process/index.rst, subsystem-apis.rst and the rest.
-    So integrating means either pulling those 43 into index.rst or
-    dropping them, and that is an editorial call about material that
-    landed in b9a565b3e4d8 last November rather than a presentation fix.
-    I would rather not make it as a side effect of this patch.
-
-    If you do want it, what I had in mind is a short "where to start"
-    section near the top of index.rst - one entry per kind of reader,
-    pointing at the existing index documents (process/index.rst for new
-    developers, subsystem-apis.rst for internals, admin-guide/index.rst
-    for administrators, and so on) rather than repeating the individual
-    paths.  Around forty lines, and automarkup turns every path in it
-    into a link with no markup needed.  The README would then shrink to a
-    pointer at the documentation.  Say the word and I will send it as its
-    own patch.
-
- Makefile                  |   4 +-
- README                    | 168 -------------------------------------
- README.rst                | 170 ++++++++++++++++++++++++++++++++++++++
- scripts/checkpatch.pl     |   2 +-
- scripts/get_maintainer.pl |   2 +-
- scripts/spdxexclude       |   2 +-
- 6 files changed, 175 insertions(+), 173 deletions(-)
- delete mode 100644 README
- create mode 100644 README.rst
-
-diff --git a/Makefile b/Makefile
-index 751a08643..4f97e8515 100644
---- a/Makefile
-+++ b/Makefile
-@@ -7,7 +7,7 @@ NAME = Baby Opossum Posse
- 
- # *DOCUMENTATION*
- # To see a list of typical targets execute "make help"
--# More info can be located in ./README
-+# More info can be located in ./README.rst
- # Comments in this file are targeted only to the developer, do not
- # expect to learn how to build the kernel reading this file.
- 
-@@ -1981,7 +1981,7 @@ help:
- 		)
- 	@echo  ''
- 	@echo  'Execute "make" or "make all" to build all targets marked with [*] '
--	@echo  'For further info see the ./README file'
-+	@echo  'For further info see the ./README.rst file'
- 
- 
- help-board-dirs := $(addprefix help-,$(board-dirs))
-diff --git a/README b/README
-deleted file mode 100644
-index 010c58722..000000000
---- a/README
-+++ /dev/null
-@@ -1,168 +0,0 @@
--Linux kernel
--============
--
--The Linux kernel is the core of any Linux operating system. It manages hardware,
--system resources, and provides the fundamental services for all other software.
--
--Quick Start
-------------
--
--* Report a bug: See Documentation/admin-guide/reporting-issues.rst
--* Get the latest kernel: https://kernel.org
--* Build the kernel: See Documentation/admin-guide/quickly-build-trimmed-linux.rst
--* Join the community: https://lore.kernel.org/
--
--Essential Documentation
-------------------------
--
--All users should be familiar with:
--
--* Building requirements: Documentation/process/changes.rst
--* Code of Conduct: Documentation/process/code-of-conduct.rst
--* License: See COPYING
--
--Documentation can be built with make htmldocs or viewed online at:
--https://www.kernel.org/doc/html/latest/
--
--
--Who Are You?
--============
--
--Find your role below:
--
--* New Kernel Developer: Getting started with kernel development
--* Academic Researcher: Studying kernel internals and architecture
--* Security Expert: Hardening and vulnerability analysis
--* Backport/Maintenance Engineer: Maintaining stable kernels
--* System Administrator: Configuring and troubleshooting
--* Maintainer: Leading subsystems and reviewing patches
--* Hardware Vendor: Writing drivers for new hardware
--* Distribution Maintainer: Packaging kernels for distros
--* AI Coding Assistant: LLMs and AI-powered development tools
--
--
--For Specific Users
--==================
--
--New Kernel Developer
----------------------
--
--Welcome! Start your kernel development journey here:
--
--* Getting Started: Documentation/process/development-process.rst
--* Your First Patch: Documentation/process/submitting-patches.rst
--* Coding Style: Documentation/process/coding-style.rst
--* Build System: Documentation/kbuild/index.rst
--* Development Tools: Documentation/dev-tools/index.rst
--* Kernel Hacking Guide: Documentation/kernel-hacking/hacking.rst
--* Core APIs: Documentation/core-api/index.rst
--
--Academic Researcher
---------------------
--
--Explore the kernel's architecture and internals:
--
--* Researcher Guidelines: Documentation/process/researcher-guidelines.rst
--* Memory Management: Documentation/mm/index.rst
--* Scheduler: Documentation/scheduler/index.rst
--* Networking Stack: Documentation/networking/index.rst
--* Filesystems: Documentation/filesystems/index.rst
--* RCU (Read-Copy Update): Documentation/RCU/index.rst
--* Locking Primitives: Documentation/locking/index.rst
--* Power Management: Documentation/power/index.rst
--
--Security Expert
-----------------
--
--Security documentation and hardening guides:
--
--* Security Documentation: Documentation/security/index.rst
--* LSM Development: Documentation/security/lsm-development.rst
--* Self Protection: Documentation/security/self-protection.rst
--* Reporting Vulnerabilities: Documentation/process/security-bugs.rst
--* CVE Procedures: Documentation/process/cve.rst
--* Embargoed Hardware Issues: Documentation/process/embargoed-hardware-issues.rst
--* Security Features: Documentation/userspace-api/seccomp_filter.rst
--
--Backport/Maintenance Engineer
-------------------------------
--
--Maintain and stabilize kernel versions:
--
--* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
--* Backporting Guide: Documentation/process/backporting.rst
--* Applying Patches: Documentation/process/applying-patches.rst
--* Subsystem Profile: Documentation/maintainer/maintainer-entry-profile.rst
--* Git for Maintainers: Documentation/maintainer/configure-git.rst
--
--System Administrator
----------------------
--
--Configure, tune, and troubleshoot Linux systems:
--
--* Admin Guide: Documentation/admin-guide/index.rst
--* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
--* Sysctl Tuning: Documentation/admin-guide/sysctl/index.rst
--* Tracing/Debugging: Documentation/trace/index.rst
--* Performance Security: Documentation/admin-guide/perf-security.rst
--* Hardware Monitoring: Documentation/hwmon/index.rst
--
--Maintainer
------------
--
--Lead kernel subsystems and manage contributions:
--
--* Maintainer Handbook: Documentation/maintainer/index.rst
--* Pull Requests: Documentation/maintainer/pull-requests.rst
--* Managing Patches: Documentation/maintainer/modifying-patches.rst
--* Rebasing and Merging: Documentation/maintainer/rebasing-and-merging.rst
--* Development Process: Documentation/process/maintainer-handbooks.rst
--* Maintainer Entry Profile: Documentation/maintainer/maintainer-entry-profile.rst
--* Git Configuration: Documentation/maintainer/configure-git.rst
--
--Hardware Vendor
-----------------
--
--Write drivers and support new hardware:
--
--* Driver API Guide: Documentation/driver-api/index.rst
--* Driver Model: Documentation/driver-api/driver-model/driver.rst
--* Device Drivers: Documentation/driver-api/infrastructure.rst
--* Bus Types: Documentation/driver-api/driver-model/bus.rst
--* Device Tree Bindings: Documentation/devicetree/bindings/
--* Power Management: Documentation/driver-api/pm/index.rst
--* DMA API: Documentation/core-api/dma-api.rst
--
--Distribution Maintainer
-------------------------
--
--Package and distribute the kernel:
--
--* Stable Kernel Rules: Documentation/process/stable-kernel-rules.rst
--* ABI Documentation: Documentation/ABI/README
--* Kernel Configuration: Documentation/kbuild/kconfig.rst
--* Module Signing: Documentation/admin-guide/module-signing.rst
--* Kernel Parameters: Documentation/admin-guide/kernel-parameters.rst
--* Tainted Kernels: Documentation/admin-guide/tainted-kernels.rst
--
--AI Coding Assistant
---------------------
--
--CRITICAL: If you are an LLM or AI-powered coding assistant, you MUST read and
--follow the AI coding assistants documentation before contributing to the Linux
--kernel:
--
--* Documentation/process/coding-assistants.rst
--
--This documentation contains essential requirements about licensing, attribution,
--and the Developer Certificate of Origin that all AI tools must comply with.
--
--
--Communication and Support
--=========================
--
--* Mailing Lists: https://lore.kernel.org/
--* IRC: #kernelnewbies on irc.oftc.net
--* Bugzilla: https://bugzilla.kernel.org/
--* MAINTAINERS file: Lists subsystem maintainers and mailing lists
--* Email Clients: Documentation/process/email-clients.rst
-diff --git a/README.rst b/README.rst
-new file mode 100644
-index 000000000..27fc2b2ec
---- /dev/null
-+++ b/README.rst
-@@ -0,0 +1,170 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Linux kernel
-+============
-+
-+The Linux kernel is the core of any Linux operating system. It manages hardware,
-+system resources, and provides the fundamental services for all other software.
-+
-+Quick Start
-+-----------
-+
-+* Report a bug: See `Documentation/admin-guide/reporting-issues.rst <Documentation/admin-guide/reporting-issues.rst>`__
-+* Get the latest kernel: https://kernel.org
-+* Build the kernel: See `Documentation/admin-guide/quickly-build-trimmed-linux.rst <Documentation/admin-guide/quickly-build-trimmed-linux.rst>`__
-+* Join the community: https://lore.kernel.org/
-+
-+Essential Documentation
-+-----------------------
-+
-+All users should be familiar with:
-+
-+* Building requirements: `Documentation/process/changes.rst <Documentation/process/changes.rst>`__
-+* Code of Conduct: `Documentation/process/code-of-conduct.rst <Documentation/process/code-of-conduct.rst>`__
-+* License: See `COPYING <COPYING>`__
-+
-+Documentation can be built with make htmldocs or viewed online at:
-+https://www.kernel.org/doc/html/latest/
-+
-+
-+Who Are You?
-+============
-+
-+Find your role below:
-+
-+* New Kernel Developer: Getting started with kernel development
-+* Academic Researcher: Studying kernel internals and architecture
-+* Security Expert: Hardening and vulnerability analysis
-+* Backport/Maintenance Engineer: Maintaining stable kernels
-+* System Administrator: Configuring and troubleshooting
-+* Maintainer: Leading subsystems and reviewing patches
-+* Hardware Vendor: Writing drivers for new hardware
-+* Distribution Maintainer: Packaging kernels for distros
-+* AI Coding Assistant: LLMs and AI-powered development tools
-+
-+
-+For Specific Users
-+==================
-+
-+New Kernel Developer
-+--------------------
-+
-+Welcome! Start your kernel development journey here:
-+
-+* Getting Started: `Documentation/process/development-process.rst <Documentation/process/development-process.rst>`__
-+* Your First Patch: `Documentation/process/submitting-patches.rst <Documentation/process/submitting-patches.rst>`__
-+* Coding Style: `Documentation/process/coding-style.rst <Documentation/process/coding-style.rst>`__
-+* Build System: `Documentation/kbuild/index.rst <Documentation/kbuild/index.rst>`__
-+* Development Tools: `Documentation/dev-tools/index.rst <Documentation/dev-tools/index.rst>`__
-+* Kernel Hacking Guide: `Documentation/kernel-hacking/hacking.rst <Documentation/kernel-hacking/hacking.rst>`__
-+* Core APIs: `Documentation/core-api/index.rst <Documentation/core-api/index.rst>`__
-+
-+Academic Researcher
-+-------------------
-+
-+Explore the kernel's architecture and internals:
-+
-+* Researcher Guidelines: `Documentation/process/researcher-guidelines.rst <Documentation/process/researcher-guidelines.rst>`__
-+* Memory Management: `Documentation/mm/index.rst <Documentation/mm/index.rst>`__
-+* Scheduler: `Documentation/scheduler/index.rst <Documentation/scheduler/index.rst>`__
-+* Networking Stack: `Documentation/networking/index.rst <Documentation/networking/index.rst>`__
-+* Filesystems: `Documentation/filesystems/index.rst <Documentation/filesystems/index.rst>`__
-+* RCU (Read-Copy Update): `Documentation/RCU/index.rst <Documentation/RCU/index.rst>`__
-+* Locking Primitives: `Documentation/locking/index.rst <Documentation/locking/index.rst>`__
-+* Power Management: `Documentation/power/index.rst <Documentation/power/index.rst>`__
-+
-+Security Expert
-+---------------
-+
-+Security documentation and hardening guides:
-+
-+* Security Documentation: `Documentation/security/index.rst <Documentation/security/index.rst>`__
-+* LSM Development: `Documentation/security/lsm-development.rst <Documentation/security/lsm-development.rst>`__
-+* Self Protection: `Documentation/security/self-protection.rst <Documentation/security/self-protection.rst>`__
-+* Reporting Vulnerabilities: `Documentation/process/security-bugs.rst <Documentation/process/security-bugs.rst>`__
-+* CVE Procedures: `Documentation/process/cve.rst <Documentation/process/cve.rst>`__
-+* Embargoed Hardware Issues: `Documentation/process/embargoed-hardware-issues.rst <Documentation/process/embargoed-hardware-issues.rst>`__
-+* Security Features: `Documentation/userspace-api/seccomp_filter.rst <Documentation/userspace-api/seccomp_filter.rst>`__
-+
-+Backport/Maintenance Engineer
-+-----------------------------
-+
-+Maintain and stabilize kernel versions:
-+
-+* Stable Kernel Rules: `Documentation/process/stable-kernel-rules.rst <Documentation/process/stable-kernel-rules.rst>`__
-+* Backporting Guide: `Documentation/process/backporting.rst <Documentation/process/backporting.rst>`__
-+* Applying Patches: `Documentation/process/applying-patches.rst <Documentation/process/applying-patches.rst>`__
-+* Subsystem Profile: `Documentation/maintainer/maintainer-entry-profile.rst <Documentation/maintainer/maintainer-entry-profile.rst>`__
-+* Git for Maintainers: `Documentation/maintainer/configure-git.rst <Documentation/maintainer/configure-git.rst>`__
-+
-+System Administrator
-+--------------------
-+
-+Configure, tune, and troubleshoot Linux systems:
-+
-+* Admin Guide: `Documentation/admin-guide/index.rst <Documentation/admin-guide/index.rst>`__
-+* Kernel Parameters: `Documentation/admin-guide/kernel-parameters.rst <Documentation/admin-guide/kernel-parameters.rst>`__
-+* Sysctl Tuning: `Documentation/admin-guide/sysctl/index.rst <Documentation/admin-guide/sysctl/index.rst>`__
-+* Tracing/Debugging: `Documentation/trace/index.rst <Documentation/trace/index.rst>`__
-+* Performance Security: `Documentation/admin-guide/perf-security.rst <Documentation/admin-guide/perf-security.rst>`__
-+* Hardware Monitoring: `Documentation/hwmon/index.rst <Documentation/hwmon/index.rst>`__
-+
-+Maintainer
-+----------
-+
-+Lead kernel subsystems and manage contributions:
-+
-+* Maintainer Handbook: `Documentation/maintainer/index.rst <Documentation/maintainer/index.rst>`__
-+* Pull Requests: `Documentation/maintainer/pull-requests.rst <Documentation/maintainer/pull-requests.rst>`__
-+* Managing Patches: `Documentation/maintainer/modifying-patches.rst <Documentation/maintainer/modifying-patches.rst>`__
-+* Rebasing and Merging: `Documentation/maintainer/rebasing-and-merging.rst <Documentation/maintainer/rebasing-and-merging.rst>`__
-+* Development Process: `Documentation/process/maintainer-handbooks.rst <Documentation/process/maintainer-handbooks.rst>`__
-+* Maintainer Entry Profile: `Documentation/maintainer/maintainer-entry-profile.rst <Documentation/maintainer/maintainer-entry-profile.rst>`__
-+* Git Configuration: `Documentation/maintainer/configure-git.rst <Documentation/maintainer/configure-git.rst>`__
-+
-+Hardware Vendor
-+---------------
-+
-+Write drivers and support new hardware:
-+
-+* Driver API Guide: `Documentation/driver-api/index.rst <Documentation/driver-api/index.rst>`__
-+* Driver Model: `Documentation/driver-api/driver-model/driver.rst <Documentation/driver-api/driver-model/driver.rst>`__
-+* Device Drivers: `Documentation/driver-api/infrastructure.rst <Documentation/driver-api/infrastructure.rst>`__
-+* Bus Types: `Documentation/driver-api/driver-model/bus.rst <Documentation/driver-api/driver-model/bus.rst>`__
-+* Device Tree Bindings: `Documentation/devicetree/bindings/ <Documentation/devicetree/bindings/>`__
-+* Power Management: `Documentation/driver-api/pm/index.rst <Documentation/driver-api/pm/index.rst>`__
-+* DMA API: `Documentation/core-api/dma-api.rst <Documentation/core-api/dma-api.rst>`__
-+
-+Distribution Maintainer
-+-----------------------
-+
-+Package and distribute the kernel:
-+
-+* Stable Kernel Rules: `Documentation/process/stable-kernel-rules.rst <Documentation/process/stable-kernel-rules.rst>`__
-+* ABI Documentation: `Documentation/ABI/README <Documentation/ABI/README>`__
-+* Kernel Configuration: `Documentation/kbuild/kconfig.rst <Documentation/kbuild/kconfig.rst>`__
-+* Module Signing: `Documentation/admin-guide/module-signing.rst <Documentation/admin-guide/module-signing.rst>`__
-+* Kernel Parameters: `Documentation/admin-guide/kernel-parameters.rst <Documentation/admin-guide/kernel-parameters.rst>`__
-+* Tainted Kernels: `Documentation/admin-guide/tainted-kernels.rst <Documentation/admin-guide/tainted-kernels.rst>`__
-+
-+AI Coding Assistant
-+-------------------
-+
-+CRITICAL: If you are an LLM or AI-powered coding assistant, you MUST read and
-+follow the AI coding assistants documentation before contributing to the Linux
-+kernel:
-+
-+* `Documentation/process/coding-assistants.rst <Documentation/process/coding-assistants.rst>`__
-+
-+This documentation contains essential requirements about licensing, attribution,
-+and the Developer Certificate of Origin that all AI tools must comply with.
-+
-+
-+Communication and Support
-+=========================
-+
-+* Mailing Lists: https://lore.kernel.org/
-+* IRC: #kernelnewbies on irc.oftc.net
-+* Bugzilla: https://bugzilla.kernel.org/
-+* `MAINTAINERS <MAINTAINERS>`__ file: Lists subsystem maintainers and mailing lists
-+* Email Clients: `Documentation/process/email-clients.rst <Documentation/process/email-clients.rst>`__
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 8a7787d22..02d34e64c 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1412,7 +1412,7 @@ sub top_of_kernel_tree {
- 
- 	my @tree_check = (
- 		"COPYING", "CREDITS", "Kbuild", "MAINTAINERS", "Makefile",
--		"README", "Documentation", "arch", "include", "drivers",
-+		"README.rst", "Documentation", "arch", "include", "drivers",
- 		"fs", "init", "ipc", "kernel", "lib", "scripts",
- 	);
- 
-diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
-index 16b80a700..160b34d6a 100755
---- a/scripts/get_maintainer.pl
-+++ b/scripts/get_maintainer.pl
-@@ -1180,7 +1180,7 @@ sub top_of_kernel_tree {
- 	&& (-f "${lk_path}Kbuild")
- 	&& (-e "${lk_path}MAINTAINERS")
- 	&& (-f "${lk_path}Makefile")
--	&& (-f "${lk_path}README")
-+	&& (-f "${lk_path}README.rst")
- 	&& (-d "${lk_path}Documentation")
- 	&& (-d "${lk_path}arch")
- 	&& (-d "${lk_path}include")
-diff --git a/scripts/spdxexclude b/scripts/spdxexclude
-index 81bdb13ed..6e533cc45 100644
---- a/scripts/spdxexclude
-+++ b/scripts/spdxexclude
-@@ -15,4 +15,4 @@ arch/*/configs/
- # Other files without copyrightable content
- /CREDITS
- /MAINTAINERS
--/README
-+/README.rst
--- 
-2.50.1 (Apple Git-155)
-
+T24gU3VuLCAyMCBTZXAgMjAyNiAwNzo1NDowMCArMDgwMCBKYWt1YiBLaWNpbnNraSB3cm90ZToN
+Cg0KPiA+ICtzdHJ1Y3QgbXRrX2Rldl9vcHMgew0KPiA+ICsgICAgIHUzMiAoKmdldF9kZXZfc3Rh
+dGUpKHN0cnVjdCBtdGtfbWRfZGV2ICptZGV2KTsNClsuLi5dDQo+ID4gKyAgICAgaW50ICgqc2Vu
+ZF9kZXZfZXZ0KShzdHJ1Y3QgbXRrX21kX2RldiAqbWRldiwgdTMyIGRldl9ldnQpOw0KPiA+ICt9
+Ow0KPg0KPiBQbGVhc2UgcmVtb3ZlIHRoZSBhYnN0cmFjdGlvbnMgd2hpY2ggYXJlIG5vdCBuZWNl
+c3NhcnkgaW4gdGhlIGluaXRpYWwNCj4gdmVyc2lvbiBvZiB0aGUgZHJpdmVyLiBJZiB5b3UgaGF2
+ZSBhY2Nlc3MgdG8gYSBnb29kIExMTSB0aGVzZSBwcm9tcHRzDQo+IHdpbGwgcHJvYmFibHkgZG8g
+YSBiZXR0ZXIgam9iIHByZXBhcmluZyB0aGUgcGF0Y2hlcyB0aGFuIHlvdToNCj4NCj4gaHR0cHM6
+Ly9naXRodWIuY29tL2t1YmEtbW9vL2FpLXByb21wdHMvYmxvYi9tYWluL2RyaXZlci11cHN0cmVh
+bWluZy1wcm9tcHRzLm1kDQoNCldpbGwgZml4IGluIHY5LiAgc3RydWN0IG10a19kZXZfb3BzIGhh
+cyBvbmUgaW1wbGVtZW50YXRpb24sIHBjaV9od19vcHMsDQpyZWFjaGVkIHRocm91Z2ggbmluZSBw
+YXNzLXRocm91Z2ggaW5saW5lcyBpbiBtdGtfZGV2Lmg7IGJvdGggZ28gYXdheSBhbmQNCnRoZSBQ
+Q0llIGZ1bmN0aW9ucyBhcmUgY2FsbGVkIGRpcmVjdGx5LiAgU2FtZSB0cmVhdG1lbnQgZm9yDQpj
+bGRtYV9kcnZfb3BzIGFuZCBtdGtfY3RybF9oaWZfb3BzLCBhbHNvIHNpbmdsZS1pbXBsZW1lbnRh
+dGlvbiwgZm9yIHRoZQ0KbXRrX3Q5eHgua28vbXRrX3Q5eHhfcGNpZS5rbyBzcGxpdCwgd2hpY2gg
+ZHJvcHMgbmluZSBFWFBPUlRfU1lNQk9MX0dQTCgpcw0KYW5kIG10a19kZXYuYywgYW5kIGZvciB0
+aGUgdGhyZWUgX205eHggZmlsZXMsIHdoaWNoIHBhcmFtZXRlcmlzZSBhIHNpbmdsZQ0Kc3RydWN0
+IG10a19wY2lfZGV2X2NmZyBzaGFyZWQgYnkgYm90aCBQQ0kgSURzLiAgcG9ydF9vcHMgc3RheXM6
+IHR3bw0KaW1wbGVtZW50YXRpb25zIGhlcmUsIHRocmVlIHdpdGggdGhlIGZvbGxvdy11cCB3b3Jr
+LiAgV2UgY2hlY2tlZCB0aGUNCndob2xlIG91dC1vZi10cmVlIHRyZWUsIG5vdCBqdXN0IHRoaXMg
+c2VyaWVzIC0gbm9uZSBvZiB0aGUgcmVtb3ZlZCBvbmVzDQpnYWlucyBhIHNlY29uZCBpbXBsZW1l
+bnRhdGlvbiBsYXRlci4NCg0KVHdvIHF1ZXN0aW9ucyBvbiB0aGUgcHJvbXB0cyBkb2N1bWVudC4N
+Cg0KQXJlIHRoZSBmb2xsb3dpbmcgaGFyZCByZXF1aXJlbWVudHMgdGhlIHNlcmllcyBoYXMgdG8g
+bWVldCwgb3IgdGFyZ2V0cw0KZm9yIHRoZSB0b29sPw0KDQogLSBsaW5lIDQ0OiAiSWRlYWwgcGF0
+Y2hlcyBhcmUgYmV0d2VlbiAyMDAgYW5kIDcwMCBMb0MgKGFkZGVkICsNCiAgIHJlbW92ZWQsIG5v
+dCBjb3VudGluZyBjb250ZXh0KS4iDQogLSBsaW5lIDQ2OiAiQXZvaWQgc2VyaWVzIGxhcmdlciB0
+aGFuIDIuNWsgTG9DLiBUaGUgZmlyc3Qgc2VyaWVzIGlzDQogICB1c3VhbGx5IGxhcmdlciwgYnV0
+IG11c3Qgbm90IGV4Y2VlZCA0ayBMb0MuIg0KIC0gbGluZXMgNTctNTg6ICJTZXJpZXMgMSBzaG91
+bGQgYWltIHRvIGFkZCB0aGUgc2ltcGxlc3QgcG9zc2libGUNCiAgIHZlcnNpb24gb2YgdGhlIGRy
+aXZlciB3aGljaCBub25ldGhlbGVzcyBjYW4gc2VuZCBhbmQgcmVjZWl2ZSBhDQogICB0cml2aWFs
+IChubyBvZmZsb2FkcykgcGFja2V0LiINCiAtIGxpbmUgMTE3OiAiQXZvaWQgdGhlIHVzZSBvZiBt
+YW5hZ2VkIEFQSXMgKGBgZGV2bV9gYCwgYGBwY2ltX2BgKS4iDQoNCk9uIHRoZSBwYWNrZXQgb25l
+OiB0aGlzIHNlcmllcyBjYXJyaWVzIG5vIG5ldGRldiBiZWNhdXNlIGFuIGVhcmxpZXINCnJldmll
+dyBmb3VuZCB0aGUgZHJpdmVyIHRvbyBsYXJnZSB0byBzdWJtaXQgYXQgb25jZSwgc28gdGhlIG5l
+dHdvcmsNCmZ1bmN0aW9uYWxpdHkgd2FzIHNwbGl0IGludG8gZm9sbG93LXVwIHNlcmllcy4NCg0K
+VGhlIGRvY3VtZW50IGFsc28gYXNrcyBmb3Igbm8gZGVmZW5zaXZlIGNoZWNrcyAobGluZXMgMTE5
+LTEyMCkgYW5kIGZldw0KY29kZSBjb21tZW50cyAobGluZSAxMjQpLiAgVGhhdCBydW5zIGFnYWlu
+c3QgdGhlIGRpcmVjdGlvbiBvZiB0aGUgQUkgcmV2aWV3DQp3ZSBoYXZlIGJlZW4gZ2V0dGluZywg
+d2hlcmUgYm90aCBoYXZlIGJlZW4gZ3Jvd2luZy4gIElzIHRoZSBjdXJyZW50DQpkaXJlY3Rpb24g
+c3RpbGwgZmluZT8NCg0KVGhhbmtzLA0KSmFjaw0KICAgIA==
