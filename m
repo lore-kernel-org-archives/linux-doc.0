@@ -1,90 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F80145198F
-	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 08:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 429C546D2B5;
+	Mon, 21 Sep 2026 09:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789980672; cv=none; b=ovHTLumaKmkn9SMTAo0+bxF5c4/OWXihu6+t411g6sTvoa16yOAOKOX4UCSzdESPkOw3fSYMcixXffcjbT9MzEa2Garbj+A1Vi/iaRUJc2Jl6g8G/fjEfKSsoUKu+uIbX0j5zeCIdxbuiY426TLvO3+ofvSPsDt/NGU1sZy05PU=
+	t=1789981491; cv=none; b=ekfqZwkMY6hiD8Gh/aUsCTXl0ro5jpdWik/NCcUEv9gdSg3mRMAv9pRvGLaEmJqqFNJp7FmNKcMYMPQ9Qm2AbZu+ePvZdKXBdDAY8WNaojwzTau+GnOMeuV5lwgf4ComBoJYzq9rDOALAFUyniAk58CBIPB5dWxZekEWl1V4e3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789980672; c=relaxed/simple;
-	bh=sdZW/G8qTawlI/Os8mwlWWAIJQkgOz0cUTS2dlNUP1U=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ESz/U83DSDRtNy2TS5nUq+hA4tjNEPLppzDe59UXe7lRSVlpJ3IBJtGNQ8pnFiNCPfrigDB4uWCmi5q+zAv9Ys3AYYmzlGR8l9agBbHYISsEfECCM52lhMV34s2KQI11LJhZhWan6kuFbEGHaRirvmyH8IAxC8MnF0PvRAXVSWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MXqYUPvK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789981491; c=relaxed/simple;
+	bh=8XfMkOskSZJ52LZ+fWsCnR6GpWD08w36joEyxV2mlIM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eR5pD2u0FQCsipFFJpYacjvo3xKSQEUe3PFopJ48zZmTpqomeDSQT6mBXWwjtS7lZA7fJ40QIDLXBFl/J+1Jy9LxAQhoxu5EwTVn8hPtghDeBvlsGh9EfsCwT4EcbF6+mbTVMXC7dkjC204ieiXzCLTj3nFgdM6wDYhuOH9Kqnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=t/8RLcX1; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MXqYUPvK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C131F0089A
-	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 08:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789980670;
-	bh=sdZW/G8qTawlI/Os8mwlWWAIJQkgOz0cUTS2dlNUP1U=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=MXqYUPvKAgR085cW94Z8DHy54J+3pL3X/exQadl6PU7Q85Xr02cOgZXBL4dtF3w1e
-	 mod5y+70xA3azeolPBOOAlPQwFLe/4yRmh1hSryThYizd0+PK+lnii51zRkZPts/dv
-	 wBrFEj1hBdsDVeqF1rodhCTIKVpS12G0cn/cNnQ1lbzA6OgBIiHTChsq/xQmraG3xk
-	 0bt7SRQfualzAPJrMjUvzrNUngxWZsVtXqCHThXui1eyShNWFdUh2Yb0zyailFookS
-	 FRjcR8f+cRKVNQtzkqVJLD1BS+Z1cVHZLVCJdKXd+8+Abe0x7QgiK6Vnnrxc88l8Av
-	 4kJXUz7kyjprg==
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a2ff176d5eso23513901fa.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 01:51:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBz1UAWdUrFaxPjJGdhhRfgJTBrcWXYGltaIM6dUq4uq62mW8AGpwU2Z15gszpPt2sfpoYKqr2rcLWM=@vger.kernel.org
-X-Gm-Message-State: AFuF++l3Dm3GF2pphyyWQLnzWNpfjSyEcn/AXbRF2xfFeUyQ7fDn54Zg
-	0ke00DkgD4jeZa+WEsQRqLAtX1Isfe2UNkt57H3KdZLh82JXMH8tep+axGr3jfjRQ6TzDkiF14+
-	zV/7DHTtfZ0uhPFsWxB5O1uhDCQGnVeaoT0hh0Mw1Qw==
-X-Received: by 2002:a2e:be86:0:b0:3a5:f6e2:47d2 with SMTP id
- 38308e7fff4ca-3a5fc10f251mr22211991fa.29.1789980668654; Mon, 21 Sep 2026
- 01:51:08 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 21 Sep 2026 04:51:06 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 21 Sep 2026 04:51:06 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <CAD++jLmuuLXpWsiZAFEA-QWZsB_6qcaM3PomhtKhHFHbzse5iw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="t/8RLcX1"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F14C51D13;
+	Mon, 21 Sep 2026 02:04:44 -0700 (PDT)
+Received: from [192.168.178.6] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8826F3F86F;
+	Mon, 21 Sep 2026 02:04:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789981488; bh=8XfMkOskSZJ52LZ+fWsCnR6GpWD08w36joEyxV2mlIM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=t/8RLcX1Cyg7pKGg7/0DSnPFnDmu0we8JLdWSt+4WIVCIglvEF8hdf4Swz5EEVwzC
+	 7UQf3srwRW5s5ZBr/m9Pf4qvjKgbyuDSn7B9E36qoDTPCIdHgPoR77gvrqo6xn7zvH
+	 hUNBFqa9tgRX/ZAkJSBMsLxdVY3Z+JIHunUYrWak=
+Message-ID: <75f23add-e27c-4749-8495-d29388b6ca56@arm.com>
+Date: Mon, 21 Sep 2026 11:04:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260919083655.586922-1-enelsonmoore@gmail.com> <CAD++jLmuuLXpWsiZAFEA-QWZsB_6qcaM3PomhtKhHFHbzse5iw@mail.gmail.com>
-Date: Mon, 21 Sep 2026 04:51:06 -0400
-X-Gmail-Original-Message-ID: <CAMRc=Me3-cFQr2kqHyPHYx63Aht3kK2Y0-h0--WjeZGpbsGDFA@mail.gmail.com>
-X-Gm-Features: AcwNN1WueoBLY3SSKN39I0nyHfXknArX0yblXzJ6NPhctoeMb5IuaBrvm_4Jo9o
-Message-ID: <CAMRc=Me3-cFQr2kqHyPHYx63Aht3kK2Y0-h0--WjeZGpbsGDFA@mail.gmail.com>
-Subject: Re: [PATCH] Input: gpio_mouse - remove driver that has never been
- used in the kernel
-To: Linus Walleij <linusw@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andres Salomon <dilinger@queued.net>, 
-	Bjorn Helgaas <bhelgaas@google.com>, linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-input@vger.kernel.org, 
-	Hans-Christian Egtvedt <hans-christian.egtvedt@atmel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/2] sched: Enable preferred SMT siblings on NVIDIA
+ Olympus
+To: Andrea Righi <arighi@nvidia.com>, Ingo Molnar <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>, Will Deacon <will@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>,
+ Christian Loehle <christian.loehle@arm.com>,
+ Srikar Dronamraju <srikar@linux.ibm.com>,
+ Shrikanth Hegde <sshegde@linux.ibm.com>, Phil Auld <pauld@redhat.com>,
+ Breno Leitao <leitao@debian.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Lee Trager <ltrager@nvidia.com>,
+ Vikram Sethi <vsethi@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260917140707.3807229-1-arighi@nvidia.com>
+Content-Language: en-GB
+From: Dietmar Eggemann <dietmar.eggemann@arm.com>
+In-Reply-To: <20260917140707.3807229-1-arighi@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 19 Sep 2026 14:12:05 +0200, Linus Walleij <linusw@kernel.org> said:
-> On Sat, Sep 19, 2026 at 10:37=E2=80=AFAM Ethan Nelson-Moore
-> <enelsonmoore@gmail.com> wrote:
->
->> The gpio_mouse driver was added in 2007, but it has never been
->> referenced by any platform data or DTS files in the kernel, and it does
->> not support ACPI probing. Therefore, it has clearly never been used by
->> any users of unmodified mainline Linux. Remove it.
->>
->> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
->
-> Why though? It is fully modernized and probably has a value
-> for people like "makers" who just want to connect an oldschool
-> mouse to their random Raspberry Pi.
->
-> I think it's better if we focus on removing code that is just
-> using platform devices and hacks and is hopeless
-> to maintain. For example the OLPC...
->
+On 17.09.26 16:05, Andrea Righi wrote:
 
-Agreed. I support removing drivers tied to specific architectures that were
-also removed but this is very generic and may see some use.
+[...]
 
-Bart
+> The first patch teaches the fair scheduler's idle-selection paths to honor
+> SD_ASYM_PACKING at the shared-capacity SMT level. The scheduler first selects a
+> candidate CPU and core according to its existing placement and capacity rules,
+> then chooses the highest-priority available sibling within that core. This also
+> completes the existing POWER7 SD_ASYM_PACKING behavior by applying its
+> hardware-thread ordering during idle selection.
+> 
+> Olympus firmware does not currently provide an interface to describe the
+> preferred SMT sibling. Adding such a firmware or ACPI interface will take time
+> and will not help systems with existing firmware. At the same time, inferring
+> this policy from MIDR would encode a platform-specific decision in the kernel
+> and make it harder to replace with a proper firmware ABI.
+> 
+> The second patch therefore adds the sched_smt_asym_packing= boot option. Using
+> sched_smt_asym_packing=on explicitly opts the SMT scheduling domain into
+> SD_ASYM_PACKING without requiring architecture-specific detection. Priority
+> remains defined by arch_asym_cpu_priority(). The weak default orders siblings by
+> -cpu, consistently selecting the lowest-numbered available logical CPU.
+> Architecture overrides remain authoritative, so siblings assigned equal
+> priorities remain unordered. The default auto mode preserves
+> architecture-provided topology policy, including the existing powerpc behavior,
+> while off provides an explicit override to disable SMT asymmetric packing.
+> 
+> On Olympus, PE0 and PE1 have equal steady-state capacity; this preference does
+> not identify a faster PE. The lower-numbered logical CPU is used only as a
+> canonical choice when both siblings are available. Consistently selecting the
+> same sibling avoids alternating the active PE across wakeups, lets the other
+> sibling remain idle for longer, and allows more cores to remain in, or return
+> to, full-resource single-thread mode.
+
+So I think that Power7 and other SMT machines won't ever turn
+'sched_smt_asym_packing' on then.
+As we have seen in https://lore.kernel.org/r/aqSEB2N_NQbBVab6@gpd4 this
+code will only benefit NVIDIAs Spatial SMT, i.e. dynamically
+partitioning a physical core, rather than conventional SMT where two
+threads opportunistically compete for most of the same machinery.
+
+IIUC on Spatial SMT, placing the workload on PE0 is beneficial because
+even if interrupts and other per-CPU housekeeping activities have to be
+handled by PE0 next to the benchmark tasks, the main thing is that PE0
+stays in full-resource single-thread mode (PE1 stays idle).
+> 
+> The v6 series was tested on a two-node Vera system using 88-thread
+> single-precision GEMM workloads on the 88 physical cores of NUMA node 0, with
+> sched_smt_asym_packing=on and the workloads allowed to choose either sibling of
+> every core. Each result covers five runs.
+> 
+> Two BLAS implementations were tested: OpenBLAS, an open-source BLAS library that
+> provides a publicly reproducible benchmark, and NVIDIA Performance Libraries
+> (NVPL), NVIDIA's optimized BLAS implementation.
+> 
+> OpenBLAS was evaluated using benchmark/sgemm.goto with an M=N=K=16384
+> single-precision GEMM. NVPL was evaluated using benchblas with the same matrix
+> dimensions, non-transposed inputs, alpha=1 and beta=0. The numbers below are the
+> mean and standard deviation from five runs.
+
+So I assume that you have 88 consistently running benchmark threads and
+in case your new code let them run more likely on PE0 instead PE1 you
+see this throughput increase.
+
+> OpenBLAS throughput increased from 7.11876 +/- 0.06734 TFLOP/s on the baseline
+> kernel to 7.34669 +/- 0.01936 TFLOP/s with this series (+3.20%). NVPL throughput
+> increased from 9.64742 +/- 0.17311 TFLOP/s to 10.29695 +/- 0.01786 TFLOP/s
+> (+6.73%).
+
+I assume further that NVPL has the same benchmark task model, maybe with
+a couple of sleep/wakeups in between?
+
+[...]
