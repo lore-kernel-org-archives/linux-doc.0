@@ -1,96 +1,185 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mailrelay-egress16.pub.mailoutpod3-cph3.one.com (mailrelay-egress16.pub.mailoutpod3-cph3.one.com [46.30.212.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685AA48595A;
-	Mon, 21 Sep 2026 11:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C64476060
+	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 11:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.212.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789990411; cv=none; b=Sn7YH69pTqmhypdMcQ6tU5S5MzLfjHmg+f7fSFggqbrfetzzFxW8ugutbT/hOY0PDbFosUXoEVNc8Rm72tknt3EgJVsYO1mvwOnYtfIE45mG3VvGC0a4cygN/VMKEZHbQin1t2XYeFMOt3sE3R0sSRHbSlTTq/kZ+jnmmwhNaz0=
+	t=1789990643; cv=none; b=enWZuLDSlwj53FO5wAeK4LRbPqwNmvPT0p6zZiymW4dz5YZyU61TCDdSw+Vy7PY8cbia72mtesLerg131gRIO1ffCW3EMWQkQ6Cupnz2ePgLdMc06y5s7G99Or4DyFqPkmVgBiOHQvEU4uwnyXKgC4gwl+WHqZ9GpFtDS3pIK5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789990411; c=relaxed/simple;
-	bh=PTv6yjJz/RBdtUjegKYV4mz2D35sdvnVKeYdXjsOobo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ddnhOf9H9w1ffIj0FkA20CPHCvlKMt4JodP6w8qcxr5HH8OUnBOlsJ4xbhuil+9dBrpAwFb3yxuiRUPym7kjmDd2zEDc3LlxRBRWTO4SZ7q93m8HlyZ3t+nCv7Wv95cQMpDPtsxW/RgtM+of+yGu0UQDkCeohy169rnGvMk5svU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pgVfGaPp; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Kzwv0Fmo; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1789990643; c=relaxed/simple;
+	bh=LdM4mY9Nz0zcvD+YALzhKs/jO+4E95E5COO3p26ClF4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pW1ewqXYZsd/0gwP+c6F8Hkwk+6/FCaOT54MT/00ug3kCeB7UV+L96YHa0QRKoD5/x9Oh8iNVMAk73US8u/xpkhGzyCdf61vnRKPfYCoX+S2bQABSkJWzrp2hlmASOx80zTPf94oCiEDVQ12MX0OOlpLHZbWm3UV63jbUFjoAXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embetrix.com; spf=none smtp.mailfrom=embetrix.com; dkim=pass (2048-bit key) header.d=embetrix.com header.i=@embetrix.com header.b=cdwoRbpl; dkim=permerror (0-bit key) header.d=embetrix.com header.i=@embetrix.com header.b=UvuQ778N; arc=none smtp.client-ip=46.30.212.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embetrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=embetrix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pgVfGaPp";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Kzwv0Fmo"
-Date: Mon, 21 Sep 2026 13:33:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1789990407;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+TScYKL6o5mTsctdhmCMr4Nk4MqaIFlhlNjejMRnwJo=;
-	b=pgVfGaPpyfeLl7RwP83UFQL5b55dQc/U/VqfkSPs1guLUcjdk/gR1+ymyyULtIWxcBfwAH
-	KIjiUv9qegIr81GmuFZl8GTzqHZ8/fXb0f4Q/WsIMg8IdYzkc+7VOyOB3ed/lTevZzu4bt
-	s6S+7WBwGK+0ZnkURo/TpGLlj5tVTFQuEbmm/cmJ1Uo0rTYmidin2EISu+PY2ADBRq8q2C
-	1y+SsyqY3lj7Id1bldlCHUq0x4gWxoepWwJde0+fP85YNUPMSqQ8H1/ThfW5enTQkqHFZs
-	rbJpgdj0TFkIESQBl2kls9U1uRaZEgcsQqY+XPZKmBc8mFishNev9W8njl0GQQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1789990407;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+TScYKL6o5mTsctdhmCMr4Nk4MqaIFlhlNjejMRnwJo=;
-	b=Kzwv0FmocymOoDneKc/Nd1G/PtK3h1+Psmif8LiEZyYJsOeniKIgO9yNJiNNBY3Xg84NKV
-	/Kg/b9AmsRnPU6DQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Quchaosheng <quchaosheng000406@163.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] docs: kernel-parameters: fix a truncated sentence
- for preempt=lazy
-Message-ID: <20260921113326.MTXJ89aP@linutronix.de>
-References: <20260920022003.1202546-1-quchaosheng000406@163.com>
- <20260920022003.1202546-2-quchaosheng000406@163.com>
+	dkim=pass (2048-bit key) header.d=embetrix.com header.i=@embetrix.com header.b="cdwoRbpl";
+	dkim=permerror (0-bit key) header.d=embetrix.com header.i=@embetrix.com header.b="UvuQ778N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1789990568; x=1790595368;
+	d=embetrix.com; s=rsa1;
+	h=content-transfer-encoding:content-type:in-reply-to:from:references:cc:to:
+	 subject:mime-version:date:message-id:from;
+	bh=9J5dZMdZm/gGQtb0P7U3KP1/b4Bcm8tjmsLOfVuk8/c=;
+	b=cdwoRbplKWvHICnileGfxB+eTjKQJxiVwukZAvfs+474kMJIrgeaYLFPc5LGV7+YxU9iC/0pkYjIF
+	 LLvxXV+m7LwE9OKTn5wZRhNS94Q+NuOxoW1M3CDGhePMBTnzzgwo9o/pPlm6VpHkEqLCAfNPrV+/jY
+	 g1e5vPtFASSDbOfEt3C891y6ADj2wX6JpBLrR6im7NqVb12iC+vhRPzqquXjtFA9YumRnn/SaB2YUg
+	 f17D4TB0evQE++0UYUFZgT/GHmmAeajPbklYPBEf31VqWg2MdFZHgKDso5riZmfAxtRsMRCcGaa2Sg
+	 nu6zgq68ygQcE+qAmjXiZrjE1YcbpoA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1789990568; x=1790595368;
+	d=embetrix.com; s=ed1;
+	h=content-transfer-encoding:content-type:in-reply-to:from:references:cc:to:
+	 subject:mime-version:date:message-id:from;
+	bh=9J5dZMdZm/gGQtb0P7U3KP1/b4Bcm8tjmsLOfVuk8/c=;
+	b=UvuQ778NPc00MPNTyAKhEUbQ5LBo2ysscpbi2nSi3lGDmMbGdNK11JYRH5VjQEbxY7Pt0iD6hTbI1
+	 I0ccpOMDg==
+X-HalOne-ID: a2218365-b5b0-11f1-81da-df8125a0c701
+Received: from [192.168.1.130] (unknown [160.178.122.52])
+	by mailrelay5.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
+	id a2218365-b5b0-11f1-81da-df8125a0c701;
+	Mon, 21 Sep 2026 11:36:07 +0000 (UTC)
+Message-ID: <97f8d660-a523-4011-ba15-6f708cb1b589@embetrix.com>
+Date: Mon, 21 Sep 2026 12:36:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260920022003.1202546-2-quchaosheng000406@163.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dm-verity: add DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE
+To: Mikulas Patocka <mpatocka@redhat.com>
+Cc: snitzer@kernel.org, agk@redhat.com, bmarzins@redhat.com,
+ dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org, corbet@lwn.net,
+ linux-doc@vger.kernel.org
+References: <20260907171939.355472-1-ayoub.zaki@embetrix.com>
+ <a37a63f2-e45d-4e51-0c2d-bd19cca5fe88@redhat.com>
+Content-Language: en-US
+From: Ayoub Zaki <ayoub.zaki@embetrix.com>
+In-Reply-To: <a37a63f2-e45d-4e51-0c2d-bd19cca5fe88@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2026-09-20 10:20:03 [+0800], Quchaosheng wrote:
-> The "lazy" entry ends with:
-> 
->   One preemption is when the task returns to user space.
-> 
-> which is not a sentence.  It is a leftover from shortening "One such
-> preemption is when the task returns to user space."  Add the missing
-> word back.
-> 
-> Fixes: f66e4a996582 ("sched/core: Update kernel boot parameters for LAZY preempt.")
-> Signed-off-by: Quchaosheng <quchaosheng000406@163.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 33cd30996e47..6c1bfba180a2 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5453,8 +5453,8 @@ Kernel parameters
->  			lazy - Scheduler controlled. Similar to full but instead
->  			       of preempting the task immediately, the task gets
->  			       one HZ tick time to yield itself before the
-> -			       preemption will be forced. One preemption is when the
-> -			       task returns to user space.
-> +			       preemption will be forced. One such preemption is
-> +			       when the task returns to user space.
+Hi,
 
-I think if you do "preemption point" the sentence becomes English again.
 
->  
->  	print-fatal-signals=
->  			[KNL] debug: print fatal signals
+On 9/21/26 11:46, Mikulas Patocka wrote:
+> Hi
+> 
+> The argument can be turned off even with your patch - by specifying
+> dm_verity.require_signatures=0 on the kernel command line (read-only
+> module parameters can be modified on the command line during boot).
+> 
+> I'd like to know what kind of security problem does this patch try to
+> solve. If the attacker can tamper with the kernel command line, he can
+> already gain root (i.e. by using init=/bin/bash).
+> 
+> Mikulas
 
-Sebastian
+Thanks for reviewing.
+I should have highlighted the change to bool_enable_only: with 
+CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE=y it rejects attempts to 
+clear require_signatures, including from the command line.
+I followed the existing CONFIG_MODULE_SIG_FORCE and module.sig_enforce 
+implementation.
+My intention is to make signature enforcement a build-time policy rather 
+than depend on boot configuration.
+I fully agree with your point and that this patch alone does not protect 
+against arbitrary command-line tampering.
+
+If required I can clarify the scope in a v2 ?
+
+> 
+> 
+> On Mon, 7 Sep 2026, Ayoub Zaki wrote:
+> 
+>> Add DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE Kconfig option.  When enabled,
+>> dm-verity always requires a valid root hash signature: require_signatures
+>> defaults to true and can no longer be cleared on the command line.  When
+>> disabled, the existing require_signatures module parameter controls
+>> enforcement.
+>>
+>> Signed-off-by: Ayoub Zaki <ayoub.zaki@embetrix.com>
+>> ---
+>>   Documentation/admin-guide/device-mapper/verity.rst |  5 +++++
+>>   drivers/md/Kconfig                                 | 14 ++++++++++++++
+>>   drivers/md/dm-verity-verify-sig.c                  |  4 ++--
+>>   3 files changed, 21 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/device-mapper/verity.rst b/Documentation/admin-guide/device-mapper/verity.rst
+>> index eb9475d7e196..bb48c001aeac 100644
+>> --- a/Documentation/admin-guide/device-mapper/verity.rst
+>> +++ b/Documentation/admin-guide/device-mapper/verity.rst
+>> @@ -163,6 +163,11 @@ root_hash_sig_key_desc <key_description>
+>>       also gain new certificates at run time if they are signed by a certificate
+>>       already in the secondary trusted keyring.
+>>   
+>> +    Whether a signature is required for every dm-verity device is controlled by
+>> +    the dm_verity.require_signatures parameter which defaults to off. Setting
+>> +    DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE makes it default to on in which case it
+>> +    can no longer be turned off.
+>> +
+>>   try_verify_in_tasklet
+>>       If verity hashes are in cache and the IO size does not exceed the limit,
+>>       verify data blocks in bottom half instead of workqueue. This option can
+>> diff --git a/drivers/md/Kconfig b/drivers/md/Kconfig
+>> index df27c7d066d2..59098d1f4534 100644
+>> --- a/drivers/md/Kconfig
+>> +++ b/drivers/md/Kconfig
+>> @@ -610,6 +610,20 @@ config DM_VERITY_VERIFY_ROOTHASH_SIG_PLATFORM_KEYRING
+>>   
+>>   	  If unsure, say N.
+>>   
+>> +config DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE
+>> +	bool "Require dm-verity root hash signature verification"
+>> +	depends on DM_VERITY_VERIFY_ROOTHASH_SIG
+>> +	help
+>> +	  Reject dm-verity devices that are created without a valid root hash
+>> +	  signature.  Without this, whether a signature is required is decided
+>> +	  at boot time by the dm_verity.require_signatures parameter which
+>> +	  defaults to off.
+>> +
+>> +	  Enabling this makes that parameter default to on and it can then no
+>> +	  longer be turned off.
+>> +
+>> +	  If unsure, say N.
+>> +
+>>   config DM_VERITY_FEC
+>>   	bool "Verity forward error correction support"
+>>   	depends on DM_VERITY
+>> diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
+>> index b2b55c41e2cb..aadcf5e4a47c 100644
+>> --- a/drivers/md/dm-verity-verify-sig.c
+>> +++ b/drivers/md/dm-verity-verify-sig.c
+>> @@ -21,8 +21,8 @@ static bool dm_verity_keyring_unsealed __ro_after_init;
+>>   module_param_named(keyring_unsealed, dm_verity_keyring_unsealed, bool, 0444);
+>>   MODULE_PARM_DESC(keyring_unsealed, "Leave the dm-verity keyring unsealed");
+>>   
+>> -static bool require_signatures;
+>> -module_param(require_signatures, bool, 0444);
+>> +static bool require_signatures = IS_ENABLED(CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE);
+>> +module_param(require_signatures, bool_enable_only, 0444);
+>>   MODULE_PARM_DESC(require_signatures,
+>>   		"Verify the roothash of dm-verity hash tree");
+>>   
+>>
+>> base-commit: df2908090cda368b01ff43709f51890076c56157
+>> -- 
+>> 2.43.0
+>>
+> 
+
+Mit freundlichen Grüßen / Kind regards
+
+-- 
+Ayoub Zaki
+Embedded Systems Consultant
+
+Vaihinger Straße 2/1
+D-71634 Ludwigsburg
+
+Email    : ayoub.zaki@embetrix.com
+Homepage : https://embetrix.com
+
+
