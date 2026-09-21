@@ -1,288 +1,166 @@
-Received: from mail-pj2-f18.google.com (mail-pj2-f18.google.com [74.125.227.146])
+Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAADC489FA0
-	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 11:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EAD48CD5B
+	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 11:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789989414; cv=none; b=RDbsWIawq5fyNIcGbw9f1aqDtpYk/kEP7TZQmVajsMFHBVWFAttFUV7SjCp6mSQSKj5ZmkdJrRbUQaY05hkLkr/yt8TiX3lD8AqyMXuVpo6TCb0UdWal8WRjatdYfwCZrAO4mnCOE4RLBQyrFkpwbOXfRtdwnAI+QK6su9p8ikI=
+	t=1789989437; cv=none; b=nOStMr8qhPP/7T/KbtqZEBuBhxNpOSKCiqvnGOTqIiuXSE9tgq8GPYgm4SOZTbsFFPKoTz9zUbmcDLI4ysppuanyE9SaDwzCLkoPbH7jENyAKmwtkbqUwPkfdvgGYo+L8QPODyiL9FIVLP6vczTGekV1xV41WUdALqquF2AWaiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789989414; c=relaxed/simple;
-	bh=6j/r9yvub7FH1ktXyNHoVKCJiNGlNg0k7LU+GyyCF9o=;
+	s=arc-20240116; t=1789989437; c=relaxed/simple;
+	bh=ynnB93uRRMFm5MeLrvG8YOly/C5erKJyFzwadvMCU78=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T8iWJDI7j/674LUQOrBvVQbh4+FlCGyLwLPtBxvmJprV9ks6esi5nE/OixXeyDNiRygh0AmHTMcYqBnoPECVC69UhXCmZcqmdLBrmH3xgF5Q1paTPaak4qsJ8G+jHmnoTeVAoJNKL9YPRfQH2vzGpynlKD0T6Ge6owOO8cNEskU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=AhdgyaWm; arc=none smtp.client-ip=74.125.227.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	 MIME-Version:Content-Type; b=tJTF4oMDwTQ/JnD41J6uJ+DPUzzXGxoAw02UGxc+XT+3blFbkzr/iDpHulFMq3YKdkKSacRemFRBjeoBUkKCcA4HnunKpUVMogPeYVEX+LCsrbpfXROI4jZADe/JSl6NJKkuKYraxks1BjSUMTJ8Ob3Uss4FiVsWLXO4IIJsP1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com; spf=pass smtp.mailfrom=hammerspace.com; dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b=OeVHCE/4; arc=none smtp.client-ip=74.125.231.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hammerspace.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hammerspace.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="AhdgyaWm"
-Received: by mail-pj2-f18.google.com with SMTP id d9443c01a7336-2db22383fe8so17538625ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 04:16:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=hammerspace.com header.i=@hammerspace.com header.b="OeVHCE/4"
+Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-466ccdd76a9so2501049fac.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 04:17:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1789989411; x=1790594211; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=slvqYs+iaXZQUFiWP3raPQ3MYOooTUinSrFApU/wWdw=;
-        b=AhdgyaWm8UkNABHKDWFTlNX2IN/lX1KTX3OCuASLm23yMrhtHPNFfgCi1GjFNjSHgo
-         A90Yin1LZlYloPz5zikdtFLNObXT+C98pPryLlQkZevfXDy9NgDTZn05cZxuvbyvLf0k
-         rUgVALDeB8Gti5pJZGKEHtLSOfIpdRTrF8LUfiNjP3I+vnQ6La/hXRAj8TJyJPs97rVL
-         KgG2yUPBURITG9LPU2xTWmlLf1me+2pLrsYuV1QNYvK4QFMTmye0+66ngOmq/Y7qI0AL
-         ksQXqyDQpX8ScwphU4WLvnXU3OqIFalINLVT/LAs8P8/wXxTgm5y0Mc8nJ+SGaUyyK7Y
-         m4tA==
+        d=hammerspace.com; s=google; t=1789989434; x=1790594234; darn=vger.kernel.org;
+        h=content-type:mime-version:references:in-reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oFZAXGGRVdUcw8Z+HbfAgS1Po8zavpuqYE8I7GH9OYY=;
+        b=OeVHCE/44f64CBJemBAiL6V0NXnT+2k2G6FuqpPJ2NvL3jn/OzHBy3zmigLebeF3ws
+         VTKWnS5+dt/JPdWDYy94Jr5K5lI5I8dQ/RewOkjcGsh6JziE6HLvcii9zeJbsxNeNwOu
+         A6a2IDjYJvlmArYTS/aJ9gRC7R8DHHKV3fEwHggvZfrIQkEzKFeMdaXWcBKO+Ez0CEd2
+         zslOObRQPygzT3dIyYFfy1Vt9rqFaGA5RdcQHK7t/UhHN8E0guQvyT0tUCrCbDXRveuu
+         1pj9lJAah1Bz1tAFGqlxe/DNU3s41rLTkNkreqkC6u97XBqBCFjZlevHfgMKx7oOrV6t
+         TkWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789989411; x=1790594211;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=slvqYs+iaXZQUFiWP3raPQ3MYOooTUinSrFApU/wWdw=;
-        b=n/sUMN2A22Pe6Z4G8Q9SpcrOQXh/VRxhiglgPPbZV+FqchhfXalEw5FLM3zRZFnBnJ
-         +S0EenzqtWetxzyNlIEmTsNZVuxWApuPloNcJZO6XcwQtiiFqffikz8HL1hcb+UzYIQb
-         hha1dK5GHqwY4+m1bAqINC7XYBX2c6u4PdreUOL4p2lZjqeGHLwrc1ZI2eZ4mosB35r0
-         ClappzTUmI9L2zfWVVjk50aaUpUW/9UR9bdJEocjLbfiJ08WXMYbNMTID8hE++oYC1xk
-         xyFrg4C6ktJA0aFcvXoGi9DMGpnylpK4IwzMPwt7cSBpBWcrXEDI4I/94DFTXkehJmSI
-         SLAA==
-X-Forwarded-Encrypted: i=1; AKwUvBzcjq6djD2kbEW8CeBzUgiDFqJ567np5cWYZ6IH46C9OGntnCWguQP4l4iniEP/wlUaAbunZyPXYcc=@vger.kernel.org
-X-Gm-Message-State: AFuF++kcSI3WqCnMD9HsdTGF5Gd+BvekRr+sGIoCanR6OFvbElxq0ApZ
-	eKW2ANRSK3G5AY1iSONa2a6Ui50On+k68oj/OUxnz3k+bEhuyqBcGfJYwktmPqIKgXQ=
-X-Gm-Gg: AYBFou0gQ3o50EwPNe3g15Q/RbQAQoVMXsiyOLpL8C93GbBV8cYLL2yz2LUrJE02iAv
-	a0lm1XuxX3PktbewxKqz1vO/jLmiQNQUscYbhxY+0s67m1vCv7S/7dELhcSv+APz6Jqj/l7AIlz
-	rMV5Kg0IJJ4YsmXUK0+fOBoqxDJWK4QysQ9IFvxppEn28gfo3SlCTS9E7NekkK0St0q/e1CMbWL
-	kjc2gnylD1L/98BUuQkJgZPNX5tyAglh+BtmC7itbWYlboRq8LU5cYK7h71GzeaICzFes6zEuHs
-	8q8S9zal/a6NpZ0nFv3jc+pqv1ZcJbJc7T3zAM2wnzxsIlb5ghgbzSNx/Mk91WAS7LmO9J5+7Nl
-	Xw23/m/jKjfdMB8ZYogxLdvMxv7XLX1pkZ1Y9dfeth9qltw3tLX7D9sGRgTbicPwHvsZODaAONU
-	CZLQoy2G8uWc2L1NEkvx9oN3/uMExwV7ppPxbrAHBCBMZ8sRSu7pCYwHI2jf5R+ZBnwR/Seg+S/
-	imViEen4k+vwEg3CesP4zrFvpuI8wldnk0rqyuYAaBeXw==
-X-Received: by 2002:a17:902:d2cb:b0:2df:45f7:6386 with SMTP id d9443c01a7336-2df45f76498mr38924045ad.15.1789989410710;
-        Mon, 21 Sep 2026 04:16:50 -0700 (PDT)
-Received: from FJ7FR2JRQ3.bytedance.net ([240e:694:e20:401::8])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17ba651sm31831125ad.53.2026.09.21.04.16.26
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 21 Sep 2026 04:16:50 -0700 (PDT)
-From: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-To: Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>,
-	Conor Dooley <conor@kernel.org>,
-	Anup Patel <anup@brainfault.org>
-Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Yunhui Cui <cuiyunhui@bytedance.com>,
-	Atish Patra <atish.patra@linux.dev>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	Will Deacon <will@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Yuanzhu <yuanzhu@bytedance.com>,
-	Yicong Yang <yang.yicong@picoheart.com>,
-	Susheng Yang <yang.susheng@zte.com.cn>,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-Subject: [PATCH v10 RESEND 3/9] riscv: sse: mask events during shutdown and kexec
-Date: Mon, 21 Sep 2026 19:15:00 +0800
-Message-ID: <03472b45125793a768f3e5bbc168f167e673d4cc.1789974241.git.zhangzhanpeng.jasper@bytedance.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1789974241.git.zhangzhanpeng.jasper@bytedance.com>
-References: <cover.1789974241.git.zhangzhanpeng.jasper@bytedance.com>
+        d=1e100.net; s=20260707; t=1789989434; x=1790594234;
+        h=content-type:mime-version:references:in-reply-to:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oFZAXGGRVdUcw8Z+HbfAgS1Po8zavpuqYE8I7GH9OYY=;
+        b=ERhrfcrfe4VaEOLa43OTE4Jnrt5unIPj7pPiEuwysZMH86BtB7MxgpTmNuEmiNldp6
+         Wf0uuxpo2deieJXoSKbcfOqxXbCRiw8L429XwRKZpJtQp7ScsFoQbh48SxOi3Fjtg4U8
+         OSFZaJQzH+gVrmbaT1Mlb3YekyYhu3oav7OiOrWk5IU+GaZ1iuiVu+3e98OJKwHBrX+A
+         29Ji8dFbfZJ96BebOyA0rWLOB4MdsUSK+m+OSqGCp5dIGo0W3vydGW1kpUC/hEGXJqeL
+         bYgeGCxhy6VMnQHosGBtx2J3lPwQQpIzTK8TPRjcaylSatIt5FEOPz8EFWzxaEYJ+8VI
+         qjjg==
+X-Forwarded-Encrypted: i=1; AKwUvByU0srlJAABCl37A9XoHmutLpsqN+/zYBngdDqFbQTzRZ/eG3gPLos/cIEpSyHygdoqU5p2i6oQ0Js=@vger.kernel.org
+X-Gm-Message-State: AFuF++mDFUVBK7WktvPXHVsBMwQoHogJkBuq/yMSZ6ekJzG5GbPiACr/
+	64XUQ4+vz0V/HHcyyiXqRj6DD1NBau2B039VdVgDlgAXvFgP5bFmzKwAWD2mMOEOXdM=
+X-Gm-Gg: AYBFou2iKgU4p6ZkPcCqT2fbtTw00tpmLxBOX6EGaR6tMJ4XfZ4gRdDJDr+Jq28WxOQ
+	W0PiwGjp28UeBuwVYuGQXqyDVlDiGAPg6Z5c395fuVAmQ3e4bOepFjDLAeGRQgBW5jy0SBqLB9c
+	p6E7MZjModynXzEAHZD2uKAytOJMB85vCDWTE/iT2knv/B0D4WnFCkdsSIe46yaRN4RcbZWn2IK
+	ipYY6zg+rp/W0pBMGrU/Bjy/XkwC/TbHZWKfVbCASSQkt4sGcJbCrQyw5rEp7fdUwMV6ff9B+TT
+	kuLPtpK4o6COp65SCMYFkQBZ4M2wB/FZTZvAONiU/T6gi0Ep76Ol19+XUXDvEO+0jAoW0qefSbS
+	sIyZXX+nT/c0OdfrBnx0lorgYCJDa28jKYekPtnNSUyTW5pFVmlxoOauc1gvyPqFIk3XvV1TIC0
+	7Uwstjx/AwZFsgbwItMSrb4MY6J0I0LSM3NwMQMcSJTa5OZJrCeyeGF9AdVYvinjB81Chz7QKoN
+	hnwyOMG7f7gRzaSHA==
+X-Received: by 2002:a05:6871:64a:b0:465:fdf:bd44 with SMTP id 586e51a60fabf-486e574f446mr8866000fac.14.1789989434138;
+        Mon, 21 Sep 2026 04:17:14 -0700 (PDT)
+Received: from [192.168.254.51] ([66.97.168.37])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-48820f30ce7sm7756232fac.3.2026.09.21.04.17.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 04:17:13 -0700 (PDT)
+From: Benjamin Coddington <ben.coddington@hammerspace.com>
+X-Google-Original-From: Benjamin Coddington <bcodding@hammerspace.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Benjamin Coddington <ben.coddington@hammerspace.com>,
+ Chuck Lever <cel@kernel.org>, Trond Myklebust <trondmy@kernel.org>,
+ Anna Schumaker <anna@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Christian Brauner <brauner@kernel.org>,
+ David Howells <dhowells@redhat.com>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nfs@vger.kernel.org, keyrings@vger.kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC 0/5] NFS: isolate mTLS client credentials by network
+ namespace
+Date: Mon, 21 Sep 2026 07:17:10 -0400
+X-Mailer: MailMate (2.0r6272)
+Message-ID: <FF0D8D15-2520-4B42-AED4-4FAB4D461D70@hammerspace.com>
+In-Reply-To: <5a7830fd-7823-476b-84aa-3b01ca81ccdf@suse.de>
+References: <20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org>
+ <2FBF57B6-FBB6-498F-A1F4-695D52EB89E9@hammerspace.com>
+ <5a7830fd-7823-476b-84aa-3b01ca81ccdf@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-SSE delivery is independent of normal S-mode interrupts. Firmware may also
-retain an event registration until Linux explicitly unregisters it. A hart
-must therefore stop accepting SSE events before Linux stops servicing the
-registered handler.
+On 21 Sep 2026, at 4:45, Hannes Reinecke wrote:
 
-Mask SSE on the local hart before panic stop, CPU stop, restart, poweroff,
-and crash shutdown paths. This prevents firmware from entering Linux-owned
-handler state after the corresponding CPU or kernel context is no longer
-valid.
+> On 9/18/26 7:21 PM, Benjamin Coddington wrote:
+>> On 18 Sep 2026, at 10:05, Chuck Lever wrote:
+>>
+>>> An xprtsec=mtls mount names its client certificate and private key
+>>> by keyring serial, and tlshd reads those keys with its own
+>>> credentials. Each key therefore has to grant user read permission,
+>>> and any tlshd on the host that learns a serial can read it. Nothing
+>>> separates one network namespace's credentials from another's.
+>>>
+>>> This series makes the network namespace the isolation domain. The
+>>> RFC thread asked whether the user or mount namespace is the better
+>>> binding. tlshd services the handshake socket of one network
+>>> namespace, so that is the namespace it already lives in.
+>>>
+>>>    https://lore.kernel.org/linux-nfs/20260602154740.49861-1-cel@kernel.org/
+>>>
+>>> The keyring is held in struct nfs_net rather than found by name,
+>>> because /proc/keys is not namespace scoped. Its serial travels with
+>>> each handshake instead (patches 3-4), and tlshd's possession of that
+>>> keyring is what lets a provisioned key grant no user read permission
+>>> at all. Both ends of the link exist today, in tls_handshake_accept()
+>>> and in tlshd. The handshake genetlink ABI and the cert_serial= and
+>>> privkey_serial= mount options do not change.
+>>>
+>>> Still open is how userspace names the kernel-held keyring. Patch 5
+>>> prototypes a request_key type handled in the kernel and tagged
+>>> KEY_TYPE_NET_DOMAIN. A keyctl modeled on KEYCTL_GET_PERSISTENT, or a
+>>> read-only attribute on the netns-tagged nfs_client sysfs kobject,
+>>> would do the same job if the keyrings maintainers prefer one. Keys
+>>> that userspace adds are quota-charged by user namespace while the
+>>> keyring lives in nfs_net. Confirmation that this is sane when the
+>>> two boundaries differ would be welcome.
+>>>
+>>> nfstlskey, the provisioning tool that consumes the key type, is
+>>> merged in https://github.com/oracle/ktls-utils/ .
+>>>
+>>> Tested on one Fedora VM acting as both NFS client and NFSD, with
+>>> tlshd from ktls-utils 1.4.0: NFSv4.2 mounts with xprtsec=tls, with
+>>> xprtsec=mtls using the identity in tlshd.conf, and with xprtsec=mtls
+>>> using serials that nfstlskey provisioned.
+>>
+>> I think this is the old upcall/namespace problem that's never been generally
+>> solved (as far as I know).  Here's a shameless plug to potentially revive
+>> the original "key agent" concept which solves this in a general way.
+>>
+>> The idea is - user space processes (tlshd) register themselves as key-agents
+>> that can satisfy request-key.  A key agent represents itself as a key-type,
+>> and the appropriate key agent is consulted for request-key if the calling
+>> process has that agent's key in its keyrings.
+>>
+>> Otherwise, this solution looks good - but without a general solution to this
+>> problem, other folks building on keyrings will keep trying to solve this
+>> problem.
+>>
+> Not sure. Basic problem with the 'upcall' mechanism is that it needs to
+> execute a userspace program by the time of the upcall.
+> And that (trivially) requires
+> a) a usable userspace to be present
+> and
+> b) the correct program to be be available
 
-A crash kernel cannot identify or take ownership of registrations
-inherited from the crashed kernel. Reject a later normal kexec while such
-SSE state may still exist, rather than transferring unknown firmware state
-to another kernel.
+Yes..
 
-Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
----
- arch/riscv/kernel/machine_kexec.c | 11 +++++++++++
- arch/riscv/kernel/reset.c         | 18 ++++++++++++++++++
- arch/riscv/kernel/smp.c           | 17 +++++++++++++++++
- 3 files changed, 46 insertions(+)
+The key agent worked similarly to tlshd - it wasn't the old request-key
+upcall mech.  In fact, tlshd and its netlink interface could easily be
+adapted into this key-agent-as-a-key.
 
-diff --git a/arch/riscv/kernel/machine_kexec.c b/arch/riscv/kernel/machine_kexec.c
-index 738df176ff6f..24e7affae70b 100644
---- a/arch/riscv/kernel/machine_kexec.c
-+++ b/arch/riscv/kernel/machine_kexec.c
-@@ -14,10 +14,13 @@
- #include <asm/set_memory.h>	/* For set_memory_x() */
- #include <linux/compiler.h>	/* For unreachable() */
- #include <linux/cpu.h>		/* For cpu_down() */
-+#include <linux/crash_dump.h>
- #include <linux/reboot.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
- 
-+#include <asm/sse.h>
-+
- /*
-  * machine_kexec_prepare - Initialize kexec
-  *
-@@ -36,6 +39,13 @@ machine_kexec_prepare(struct kimage *image)
- 	unsigned int control_code_buffer_sz = 0;
- 	int i = 0;
- 
-+	/* A crash kernel cannot tear down registrations inherited from firmware. */
-+	if (is_kdump_kernel() && image->type != KEXEC_TYPE_CRASH &&
-+	    riscv_sse_available()) {
-+		pr_err("Normal kexec from a crash kernel is unsupported with SSE\n");
-+		return -EOPNOTSUPP;
-+	}
-+
- 	/* Find the Flattened Device Tree and save its physical address */
- 	for (i = 0; i < image->nr_segments; i++) {
- 		if (image->segment[i].memsz <= sizeof(fdt))
-@@ -127,6 +137,7 @@ void
- machine_crash_shutdown(struct pt_regs *regs)
- {
- 	local_irq_disable();
-+	riscv_sse_mask_current_hart();
- 
- 	/* shutdown non-crashing cpus */
- 	crash_smp_send_stop();
-diff --git a/arch/riscv/kernel/reset.c b/arch/riscv/kernel/reset.c
-index 14eb08a6db85..fdab37e7ae52 100644
---- a/arch/riscv/kernel/reset.c
-+++ b/arch/riscv/kernel/reset.c
-@@ -6,6 +6,20 @@
- #include <linux/efi.h>
- #include <linux/reboot.h>
- #include <linux/pm.h>
-+#include <linux/smp.h>
-+
-+#include <asm/sse.h>
-+
-+#ifndef CONFIG_SMP
-+void __noreturn panic_smp_self_stop(void)
-+{
-+	riscv_sse_mask_current_hart();
-+	local_irq_disable();
-+
-+	for (;;)
-+		cpu_relax();
-+}
-+#endif
- 
- static void __noreturn default_power_off(void)
- {
-@@ -18,6 +32,8 @@ EXPORT_SYMBOL(pm_power_off);
- 
- void machine_restart(char *cmd)
- {
-+	riscv_sse_mask_current_hart();
-+
- 	/*
- 	 * UpdateCapsule() depends on the system being reset via ResetSystem().
- 	 */
-@@ -30,12 +46,14 @@ void machine_restart(char *cmd)
- 
- void machine_halt(void)
- {
-+	riscv_sse_mask_current_hart();
- 	do_kernel_power_off();
- 	default_power_off();
- }
- 
- void machine_power_off(void)
- {
-+	riscv_sse_mask_current_hart();
- 	do_kernel_power_off();
- 	default_power_off();
- }
-diff --git a/arch/riscv/kernel/smp.c b/arch/riscv/kernel/smp.c
-index fa66f9c97d74..7f0d4e7332f1 100644
---- a/arch/riscv/kernel/smp.c
-+++ b/arch/riscv/kernel/smp.c
-@@ -23,10 +23,13 @@
- #include <linux/irq.h>
- #include <linux/irq_work.h>
- #include <linux/nmi.h>
-+#include <linux/panic.h>
- 
- #include <asm/tlbflush.h>
- #include <asm/cacheflush.h>
- #include <asm/cpu_ops.h>
-+#include <asm/sbi.h>
-+#include <asm/sse.h>
- 
- enum ipi_message_type {
- 	IPI_RESCHEDULE,
-@@ -79,8 +82,18 @@ int riscv_hartid_to_cpuid(unsigned long hartid)
- 	return -ENOENT;
- }
- 
-+void __noreturn panic_smp_self_stop(void)
-+{
-+	riscv_sse_mask_current_hart();
-+	local_irq_disable();
-+
-+	for (;;)
-+		cpu_relax();
-+}
-+
- static void ipi_stop(void)
- {
-+	riscv_sse_mask_current_hart();
- 	set_cpu_online(smp_processor_id(), false);
- 	while (1)
- 		wait_for_interrupt();
-@@ -91,6 +104,7 @@ static atomic_t waiting_for_crash_ipi = ATOMIC_INIT(0);
- 
- static inline void ipi_cpu_crash_stop(unsigned int cpu, struct pt_regs *regs)
- {
-+	riscv_sse_mask_current_hart();
- 	crash_save_cpu(regs, cpu);
- 
- 	atomic_dec(&waiting_for_crash_ipi);
-@@ -254,6 +268,8 @@ void smp_send_stop(void)
- {
- 	unsigned long timeout;
- 
-+	riscv_sse_mask_current_hart();
-+
- 	if (num_online_cpus() > 1) {
- 		cpumask_t mask;
- 
-@@ -301,6 +317,7 @@ void crash_smp_send_stop(void)
- 		return;
- 
- 	cpus_stopped = 1;
-+	riscv_sse_mask_current_hart();
- 
- 	/*
- 	 * If this cpu is the only one alive at this point in time, online or
--- 
-2.50.1 (Apple Git-155)
+Its a trade-off that allows you to route the upcall via how keys are
+linked in the calling process, rather than by some defined-in-code domain
+like "same network namespace".
 
+Ben
