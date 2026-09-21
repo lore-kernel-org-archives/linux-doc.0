@@ -1,233 +1,232 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA7F44F578
-	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 08:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C281EE7B7
+	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 08:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789979028; cv=none; b=E1O9YBtAvxssP9/Zos5vNX5Hdt1LLi19Kc7MRFCcb0M5OYq/0qCvi0nN/eRosBvd2azZLBeDcHdZDHQaZs2Jf6TBqI2rnBCeG7afXOkqYf3LDD8os5QEoGI1gr50ECkD7XG6xC3zavVgKl1ooHweRMyCWc5QH3jhscBgO1g7mPE=
+	t=1789979529; cv=none; b=ui9O+PK0+X89ZF4xE83JQ7PT6JEyHUL/wd3TXqs9Q1U/7Finv9CA4KTYQqlIp8VQtc3RZS4eCXv10QUhhcKsxNu+VGMvUgSZ1NMEeNnZGG9N9QEpIYoCmOoikfcU9dIWKiFOPH0dVLeXG9cWbNLbjGItAkc0OpUz0chQ1E3o6cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789979028; c=relaxed/simple;
-	bh=xcjHNliDAAlJxE4i6y1GMT1/Vnv55RTh/tAGPwCPNZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nfrJvmYagfdMOprqWrsdK/2tnurbJ124WEt8onExRY3auJvA+k5jhXbAOJrbcYsDobn4qrsqa8npQnMwD5PrbAZ9RrM4MQQJUz0D8Nphnk7rU3OGIzPc8+75bufnsiePBWTiCBkVvX5GnYidiBxtIgkwgerA3GiWKMIwb1hMbSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YWpyFxvt; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1789979529; c=relaxed/simple;
+	bh=860756huuxTsYaOV05Q1CFeg29UL1jF6ZrsU6euO+3g=;
+	h=Message-ID:Date:MIME-Version:From:To:Subject:Content-Type; b=dSTjdl2C39ouLRlQ78X6hfIsbpD0l/PWvgqO1Is5ExKFnTML6g3yE1HUreW2v+y+rF1hkgjuWRl7gkRRvnWXTYa8fzS5AX9fX0raCL/GbAuImrbJmCLSlexIaOFTyLNnCjAM859q5lxwLT29wxMZ3OIh2FC8+LnghDaAAJMZ3ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dLFtWiKn; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YWpyFxvt"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d3931so19629815e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 01:23:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dLFtWiKn"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85469b35611so1705492b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 01:32:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1789979023; x=1790583823; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qVkcwRd6JhJoKhW863CUio5f3wgxadePOqahgAJN2pE=;
-        b=YWpyFxvt+sELjAun0bQuqBXm0ssS+SSbEx5MFDuBqjuD0DjG+FSBzgNpqc0rOVh4lv
-         XWvkEDjHZgo/j1WVTz3/GofRm0W56ltr8/DHzjsGi+Abv7rEfyYHG1+IS/nYV+VIgbfQ
-         awFclJA3unplq8WWbtMvEitZynvsYp+D/e3qiZZfCEMv2JE26HkeFQeGqDFOI0EdPb7f
-         GbnQ/gEkac1JX3ghQqLOGdJPyBeJCgmdu5E4FD4vBrPsYPENvUuuoj3egc1QqcxVfeMu
-         kTbncY3EspFn5ip0b1ZMW17KFC59RKG+9Tfraop8V0Ljk/B0FQoCL62oRsulLNJqGhMr
-         HF5Q==
+        d=gmail.com; s=20251104; t=1789979527; x=1790584327; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:subject:to:content-language
+         :from:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4j/DdDm9e1GlBGFZ0GjXGiaS1V0xkGBQyaHHJnud4q0=;
+        b=dLFtWiKn/ZIeCWyYnnqPefNxPNcCwdO11YjIdSF3WVSUYoQuMye3nH5402aY0A47oC
+         qPWLXXT9z7LbReTrA6OEMOTAAvDx2DeHJwEdetT74mo0mbbGRQtey04IyfL+0qCtl8vN
+         zJung6mDP6ilWc3zbGpI7wCPnbiySFVQghZ19i547EopUG828S/dBzek/9ogsARk9Fl6
+         7gMJwexrxBm4C8g7dkR5r/svPf2qFoCdjOWzrRyfn+s4dfYb8ZTcL3WLtGevA5HHyaNe
+         aZvcjECovkelsUMiCG0K+uZTHMKc0ihakdYbzuODHVj9C0A2ts+JCRVG4gBDPmukxVY6
+         BvTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789979023; x=1790583823;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=qVkcwRd6JhJoKhW863CUio5f3wgxadePOqahgAJN2pE=;
-        b=qQ5fD1QZ6ekEZ/GmhSRPKmkimakM2dcR/2nwQkTXkZu0B+h8YMo7wBacq+jiF5EVW8
-         0CM2nlvpXKkd6TCpA6vPMK1rYnSVyxkZjIwRkU3CmjT6K0QEx4Y2PzcXwJBwhMStV6GA
-         QvZ8lNpkfby4P0dOf+GqbLkCRsKbtLJ6+0rhIkqWOYVUCt0fxlmkTadgYGvkZIeddPa/
-         6k1StxtbpiuescHcrSxQUI5H9o8CpJkHOF8YNsS4UCXIl4UJaFjnvZvmIdgI6mnGr8MX
-         4UNZ47My5jXoajTm69rVwQ+oF1PQHE7/Hu33Lmowq1BuTgSxWjlzLUIBAYe2/junE5w6
-         UGkQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz7JECKgUxPthhwHnXn+1PU2V2ZiOhtCBNHyxUFO++Wn8aTBSlwOdVL92YY1EV+QOKhtVwOpb9h+W8=@vger.kernel.org
-X-Gm-Message-State: AFuF++l4maADK+NWQm0HpbvdYrMkcg2Fa5y8BK3y2gaYXvM1+VZNItp4
-	7SXyl7AvbdBvj3a3VK3wSQqBup42es2EC+EF8DDIBWfBE1ya9tKX74JFzut7yQmupPc=
-X-Gm-Gg: AYBFou3IPXondgPo9jBKwsqyqWSfgACwe1jSvU+W12fTflr1Ff1sbGnk8D1f5t+l4i5
-	3/Zdk6dNISxTIpB9Lsc1A/L8ukTqdyAkcqIaWH5vEovsfjv115sktvoIBuAryTovTNf4NgDw1cy
-	VRctXBO8CPZKVD4WOjjDvQzbm+arliRqwnJ7OE9F/s4Jpf71+nt7ICZW8aSgTmisgqM3OI3J7Pe
-	7Fc7AZFwEsfkflSZmVpx6UFgwk+VICzjnUSnp/fbCgGFHb6GUIVrLYrZ5o8BU85CTDwOx2oo5kO
-	DJ77Ua0veKrp+ctRSjHUsJ2C3JMo2iA9869UXrR3Pvnc95EBMZtvaTvtjuDOGXM9jWRNx8klBV6
-	L6AssCMr0h/Jqd+NuHH54+MO1PG9UlSVFG8qutQxV/aNFg9TCrPmCtinJiI2XHY/FQLghRYPyr3
-	Z9+6R6HpK8WoqcBcxW/nm4OZK8khi1dBUnPlDdJBtY7b9ptjyUghzfd+R/nYRraAuCqxR4KRwIf
-	Q==
-X-Received: by 2002:a05:600c:4e14:b0:49e:7cfc:a9b7 with SMTP id 5b1f17b1804b1-49fc5735f17mr121597825e9.18.1789979023335;
-        Mon, 21 Sep 2026 01:23:43 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc585920fsm582435985e9.4.2026.09.21.01.23.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 01:23:42 -0700 (PDT)
-Date: Mon, 21 Sep 2026 10:23:40 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>, x86@kernel.org,
-	Joel Granados <joel.granados@kernel.org>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	John Ogness <john.ogness@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Kees Cook <kees@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Dave Young <ruirui.yang@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Bo Gan <bo.gan@broadcom.com>,
-	Brennan Lamoreaux <brennan.lamoreaux@broadcom.com>,
-	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	Stephen Brennan <stephen.s.brennan@oracle.com>
-Subject: Re: [PATCH v1 4/4] x86/vmware: Run panic diagnostics before kdump by
- default
-Message-ID: <arDpjCVbUFcdwq1A@pathway.suse.cz>
-References: <cover.1788414671.git.zack.rusin@broadcom.com>
- <7487011dfb95aadda9515b22a5852680df1982c5.1788414671.git.zack.rusin@broadcom.com>
- <aquttpMVKX8e6zGB@pathway.suse.cz>
- <CABQX2QPJVg-dZB9f4ydRU_5W7nyWwVCQtDoRGoe1+9cA7wyUDw@mail.gmail.com>
- <bc0bdd14-5e6a-0676-cd04-14fb0bb93cd5@igalia.com>
- <CABQX2QMDNHcKotEa_t9Y37L+uHhV-CfqSR2vcRpNT1c2O9C_2Q@mail.gmail.com>
+        d=1e100.net; s=20260707; t=1789979527; x=1790584327;
+        h=content-transfer-encoding:content-type:subject:to:content-language
+         :from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4j/DdDm9e1GlBGFZ0GjXGiaS1V0xkGBQyaHHJnud4q0=;
+        b=S4nHwjWXpoxMA1F8yP2Yj70SV8HNV2jlHrdZaV5HYo9eFJ6sQWXoM+aw1ZF//gwUbT
+         UBER1XgBJsCahiglJ7F7pQeqKWThsroZgXKVejxVNURMIhyN1RksR7z5kNi7G+621zc/
+         eCDJiGuUu2EEsNAyqqGCFEn4BlXIC8hkFaXQRX7HE7L6HrGA3MfCwXSS0d6/KH4N0rUZ
+         EJZII3X8dMQ4H8YQ/uKXdVWqaRdB0FBrR5HoVh4bNS5/2h2730SFAzhPeegf/BDC62pV
+         pnIpd8LYXjNHn2YBIWW4xF9VOr4pImKh2mgCxc6zYvEGKKUGMn8Lc1k5c3JCSzFLgXFK
+         H7bA==
+X-Gm-Message-State: AFuF++lsfCWbGFqnc9eg3svzw3jWLCHGYfczQl63psTAHznepZ0FBzug
+	XM0iCgeUYu0jc+S5mKg154DvgCyGMLeKovuaWlXuHX/bum3AM7NUDyNHyxygog==
+X-Gm-Gg: AYBFou2mhSYllFIS+qlUAuzmzQMBNHWsjzBF8sj3CQoRA1KRrq86Ryub+nLC7zCf+tf
+	euaa2SYFUfZezlKbOxY6pFUuI3Sy3Zba6iN3/bLhqs8jntZ357m5A28lUSl2JIC0aMLicVRHjGo
+	jr7LYpOEcsHE/khWwn0c3+/I8EVOZWjRSvN2Q89RIkcjKCWOEFf3LcFrrE2Nvc6OIkUNlo1lm1V
+	CC+FwxaBOZmQOLD2xfRn+rII9eUJADzXVcgriNly10n2YBVzzku7a9BJAv27YxItG+2wPocaXZQ
+	XwZR0FTbLBS3gQ17KcmvoKhE/bcRCer0DHKhm1pvNBq/N41T4xNdZLQtTEpQGSdINvzxcLUx7aB
+	gdUpmhzdJANHWTCDYdPaM/2co0ATCr3LGRmCD+t4JhKHYIRZYLrbzc/YNx26IwRbMgHAqVRsC5Z
+	wM2x1BGTo9hmM4EiBHGieCUL6lRxrz9hnmy1iR0m2odHNFaBP5BioGTog4XuOFEyXdPkNC8MYys
+	z9GIMVEJqBOUaiRgA4I
+X-Received: by 2002:a05:6a20:7f8a:b0:3d2:89db:1688 with SMTP id adf61e73a8af0-3dd8c3d3adcmr16220244637.2.1789979526562;
+        Mon, 21 Sep 2026 01:32:06 -0700 (PDT)
+Received: from [198.18.0.1] (104.194.78.75.16clouds.com. [104.194.78.75])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c331d55cfsm22005475eec.30.2026.09.21.01.32.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Sep 2026 01:32:06 -0700 (PDT)
+Message-ID: <47c04ef4-814e-4055-88ce-8cc9057f9c04@gmail.com>
+Date: Mon, 21 Sep 2026 16:32:02 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABQX2QMDNHcKotEa_t9Y37L+uHhV-CfqSR2vcRpNT1c2O9C_2Q@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+From: Alex Shi <seakeel@gmail.com>
+Content-Language: en-US
+To: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>
+Subject: [GIT PULL] Chinese-docs changes for v7.4
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri 2026-09-18 19:00:13, Zack Rusin wrote:
-> On Fri, Sep 18, 2026 at 10:26 AM Guilherme G. Piccoli
-> <gpiccoli@igalia.com> wrote:
-> >
-> > Hi Petr, Zack - thanks for CCing me!
-> > Some comments below:
-> 
-> Hi, Guilherme.
-> 
-> Thanks for looking at this and for adding Stephen. I'll keep you both copied.
-> 
-> > On 18/09/2026 00:23, Zack Rusin wrote:
-> > >> [...]
-> > >> Maybe, we should start with something simple, and introduce
-> > >> one more panic notifier as a start. It might be called either:
-> > >>
-> > >>   + "panic_hypervisor_list" because "crash_kexec_post_notifiers = true"
-> > >>     seems to be primary set on hypervisors.
-> > >>
-> > >> But I would rather make it more generic and call it
-> > >>
-> > >>   + panic_pre_crash_kexec or panic_pre_kdump because there might be
-> > >>     more notifiers which are either 100% safe and useful or are worth
-> > >>     the risk before calling crash dump.
-> > >>
-> > >> We could put there x86/vmware notifiers as a start. And we could later
-> > >> move there other important notifiers.
-> > >>
-> > >> How does that sound, please?
-> > >
-> >
-> > It's a good idea, IMO. We could start with this, Zach commented some
-> > implementation details below...and after it gets merged, we could move
-> > other hypervisors that currently set "crash_kexec_post_notifiers" to
-> > this list and eventually, unexport this symbol. We should avoid having
-> > code forcing this parameter, as Petr said, many notifiers are executed
-> > if that is set.
-> 
-> Agreed. The v2 I'm working on drops VMware's assignment to
-> crash_kexec_post_notifiers and leaves the existing setting unchanged.
-> 
-> > (I'm CCing Stephen Brennan here, I recall he had problems with this
-> > being auto-set, we talked about that in the panic notifiers big
-> > discussions in the past heh)
-> >
-> > The only thing I'd like to suggest: I think we should have a parameter
-> > that disables running this list, which would be the opposite of
-> > "crash_kexec_post_notifiers".
-> >
-> > I would implement it as something like: "postpone_pre_kexec_notifiers"
-> > or something like that. The parameter would basically "move" this list
-> > execution to the same time as the current notifiers, gating them to
-> > "crash_kexec_post_notifiers". This way, we'd allow users to debug kexec
-> > failures maybe related to the "early" notifiers. WDYT?
-> 
-> I'm happy to add that as a separate patch if Petr agrees. With it set,
-> the new list would follow ordinary panic-notifier ordering relative to
-> kdump: it would run before a successful transition only when
-> crash_kexec_post_notifiers is also set. If panic reaches the late
-> site, the list would remain eligible to run there. I'd keep that site
-> after sys_info() and before the kmsg dumpers so the log includes the
-> additional notifier and panic_print output available at that point.
-> 
-> I've called it panic_pre_kdump_postpone after the list, but I'm fine
-> with whatever name you and Petr prefer.
+The following changes since commit 322695d64f868da8d1091ea93c7c8f47bcc41220:
 
-I do not have strong opinion whether we need the new parameter. It is rather
-a call for kexec/crash_dump maintainers.
+   docs: ioctl: fix stale NVMe registry entry and note N conflict 
+(2026-09-15 13:44:43 -0600)
 
-But if we added it, we should make it clear that it is intended for
-debugging of kexec/crash_dump failures. And that it might prevent
-correct handling of the crash on hypervisors side.
+are available in the Git repository at:
 
-> > > [...]
-> > > I think that without that default though, x86 oops_end() can enter
-> > > crash_kexec(regs) before reaching panic(), for example with
-> > > panic_on_oops=1. To cover that path too, I'd call the chain from
-> > > __crash_kexec() after the image check and register capture, under the
-> > > existing kexec lock. A second call in vpanic(), immediately before
-> > > kmsg_dump_desc(), would cover the fallback path. And I think a
-> > > set-once guard would prevent duplicate or recursive dispatch.
-> > >
-> >
-> > Regarding this, 2 things:
-> >
-> > a) I think you could change kexec_should_crash() to "return 0" also in
-> > case the new list is set to run, the same is done currently for
-> > "crash_kexec_post_notifiers". Makes sense?
+   git@gitolite.kernel.org:pub/scm/linux/kernel/git/alexs/linux.git 
+tags/Chinese-docs-7.4
 
-Honestly, it does not make sense to me ;-) My understanding is
-that the new list would allow to run kexec/crash_dump a safe
-way under a hypervisor. So, it should be safe to do it
-directly in oops_end().
+for you to fetch changes up to 2dc934836234303798c818467c4fe8d254ffc4ab:
 
-> I'd prefer to leave kexec_should_crash() unchanged. The direct oops
-> path supplies the exception registers to crash_kexec(regs), while
-> routing it through panic() would capture later state instead. In my
-> early v2 tests, the vmcores from the direct-oops path retain the
-> original fault registers in the crash notes. Some crash callers, for
-> example uv_nmi_kdump(), also bypass kexec_should_crash(). Calling the
-> chain from __crash_kexec() after register capture covers those paths
-> without changing their routing, and the shared once-only guard
-> prevents duplicate or recursive dispatch.
+   docs/zh_CN: link to Chinese applying-patches translation (2026-09-21 
+15:27:30 +0800)
 
-Makes sense to me.
+----------------------------------------------------------------
+Chinese translation docs for 7.4
 
-> > b) Well, does this whole panic diag thing you're implementing here aims
-> > only at x86 guests ? Or would it be possible to run, for example, arm64
-> > guests? Asking this because in x86 and some other architectures (but not
-> > arm64[0]), it's possible to override machine_crash_shutdown() handler,
-> > and run things prior to a kexec. Take a look on how Hyper-V does that on
-> > arch/x86 - this could be just what you need, except if you plan to have
-> > it for all architectures heh
-> 
-> I'd like to support arm64 guests in the near future, but I figured
-> especially for review sake to limit our client in this series to x86.
-> So I prefer the common chain Petr proposed: as the thread you linked
-> shows, arm64 deliberately has no such override, and the chain gives
-> other clients a place to migrate away from forcing
-> crash_kexec_post_notifiers.
+Update the Chinese translation subtree for the 7.4 release cycle:
 
-Sounds good to me. Let's start simple. ;-)
+- Refine docs/zh_TW for improved Traditional Chinese phrasing and 
+terminology.
+- Adding/synchronize doc changes across DAMON, networking, and other 
+sections.
 
-Best Regards,
-Petr
+Tested with 'make htmldocs'.
+
+Signed-off-by: Alex Shi <alexs@kernel.org>
+
+----------------------------------------------------------------
+Chen-Yu Yeh (16):
+       docs/zh_TW: process: localize terminology in 7.AdvancedTopics.rst
+       docs/zh_TW: process: localize terminology in 1.Intro.rst
+       docs/zh_TW: process: localize terminology in 
+code-of-conduct-interpretation.rst
+       docs/zh_TW: process: localize terminology in license-rules.rst
+       docs/zh_TW: process: localize terminology in email-clients.rst
+       docs/zh_TW: process: localize terminology in programming-language.rst
+       docs/zh_TW: process: localize terminology in coding-style.rst
+       docs/zh_TW: process: localize terminology in stable-kernel-rules.rst
+       docs/zh_TW: process: localize terminology in 5.Posting.rst
+       docs/zh_TW: process: localize terminology in 2.Process.rst
+       docs/zh_TW: process: localize terminology in howto.rst
+       docs/zh_TW: process: localize terminology in 
+embargoed-hardware-issues.rst
+       docs/zh_TW: process: localize terminology in submitting-patches.rst
+       docs/zh_TW: process: localize terminology in 8.Conclusion.rst
+       docs/zh_TW: process: localize terminology in index.rst
+       docs/zh_TW: Add a glossary for Traditional Chinese translations
+
+Doehyun Baek (7):
+       docs/zh_CN: update DAMON design translation
+       docs/zh_CN: add DAMON_STAT usage translation
+       docs/zh_CN: update DAMON index translation
+       docs/zh_CN: update DAMON start translation
+       docs/zh_CN: update DAMON usage translation
+       docs/zh_CN: update DAMON reclaim translation
+       docs/zh_CN: update DAMON LRU sort translation
+
+Siwei Chen (5):
+       docs/zh_CN: Add networking team documentation Chinese translation
+       docs/zh_CN: Add NIC SR-IOV APIs Chinese translation
+       docs/zh_CN: Add Softnet Driver Issues Chinese translation
+       docs/zh_CN: Add ipv6 Chinese translation
+       docs/zh_CN: Add LSM/SELinux secid Chinese translation
+
+Weijie Yuan (2):
+       docs/zh_CN: add process/applying-patches Chinese translation
+       docs/zh_CN: link to Chinese applying-patches translation
+
+  Documentation/translations/zh_CN/admin-guide/README.rst 
+      |   2 +-
+  Documentation/translations/zh_CN/admin-guide/mm/damon/index.rst 
+      |  15 ++--
+  Documentation/translations/zh_CN/admin-guide/mm/damon/lru_sort.rst 
+      |  68 ++++++++++++++++-
+  Documentation/translations/zh_CN/admin-guide/mm/damon/reclaim.rst 
+      |  82 ++++++++++++++++++++-
+  Documentation/translations/zh_CN/admin-guide/mm/damon/start.rst 
+      |  63 +++++++++++++---
+  Documentation/translations/zh_CN/admin-guide/mm/damon/stat.rst 
+      |  94 +++++++++++++++++++++++
+  Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst 
+      | 523 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------------------
+  Documentation/translations/zh_CN/mm/damon/design.rst 
+      | 667 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------
+  Documentation/translations/zh_CN/networking/driver.rst 
+      | 138 ++++++++++++++++++++++++++++++++++
+  Documentation/translations/zh_CN/networking/index.rst 
+      |  10 +--
+  Documentation/translations/zh_CN/networking/ipv6.rst 
+      |  76 +++++++++++++++++++
+  Documentation/translations/zh_CN/networking/secid.rst 
+      |  24 ++++++
+  Documentation/translations/zh_CN/networking/sriov.rst 
+      |  34 +++++++++
+  Documentation/translations/zh_CN/networking/team.rst 
+      |  16 ++++
+  Documentation/translations/zh_CN/process/applying-patches.rst 
+      | 390 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Documentation/translations/zh_CN/process/howto.rst 
+      |   2 +-
+  Documentation/translations/zh_CN/process/index.rst 
+      |   2 +-
+  Documentation/translations/zh_TW/glossary.rst 
+      | 168 ++++++++++++++++++++++++++++++++++++++++++
+  Documentation/translations/zh_TW/index.rst 
+      |   5 +-
+  Documentation/translations/zh_TW/process/1.Intro.rst 
+      | 235 +++++++++++++++++++++++++++++-----------------------------
+  Documentation/translations/zh_TW/process/2.Process.rst 
+      | 325 
++++++++++++++++++++++++++++++++++++++++-----------------------------------------
+  Documentation/translations/zh_TW/process/5.Posting.rst 
+      | 235 +++++++++++++++++++++++++++++++++-------------------------
+  Documentation/translations/zh_TW/process/7.AdvancedTopics.rst 
+      | 110 +++++++++++++--------------
+  Documentation/translations/zh_TW/process/8.Conclusion.rst 
+      |  58 ++++++++-------
+  Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst | 162 ++++++++++++++++++++++++++++------------
+  Documentation/translations/zh_TW/process/coding-style.rst 
+      | 614 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------------------------------------------
+  Documentation/translations/zh_TW/process/email-clients.rst 
+      | 185 ++++++++++++++++++++++++----------------------
+  Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst 
+      | 209 ++++++++++++++++++++++++++++++----------------------
+  Documentation/translations/zh_TW/process/howto.rst 
+      | 344 
++++++++++++++++++++++++++++++++++++++++++++------------------------------------------
+  Documentation/translations/zh_TW/process/index.rst 
+      |  99 +++++++++++++++++++++----
+  Documentation/translations/zh_TW/process/license-rules.rst 
+      | 203 ++++++++++++++++++++++++++------------------------
+  Documentation/translations/zh_TW/process/programming-language.rst 
+      |  98 +++++++++++-------------
+  Documentation/translations/zh_TW/process/stable-kernel-rules.rst 
+      | 256 +++++++++++++++++++++++++++++++++++++++++++++++++++------------
+  Documentation/translations/zh_TW/process/submitting-patches.rst 
+      | 556 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------------------------
+  34 files changed, 4282 insertions(+), 1786 deletions(-)
+  create mode 100644 
+Documentation/translations/zh_CN/admin-guide/mm/damon/stat.rst
+  create mode 100644 Documentation/translations/zh_CN/networking/driver.rst
+  create mode 100644 Documentation/translations/zh_CN/networking/ipv6.rst
+  create mode 100644 Documentation/translations/zh_CN/networking/secid.rst
+  create mode 100644 Documentation/translations/zh_CN/networking/sriov.rst
+  create mode 100644 Documentation/translations/zh_CN/networking/team.rst
+  create mode 100644 
+Documentation/translations/zh_CN/process/applying-patches.rst
+  create mode 100644 Documentation/translations/zh_TW/glossary.rst
