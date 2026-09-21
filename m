@@ -1,134 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9854A48F024;
-	Mon, 21 Sep 2026 12:49:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4D849B1F8
+	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 12:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789994954; cv=none; b=T5SOWWm+g6Gs5MoyQwd3DsY3Remg+oIzR3SkOnUg9A/bNrIXbPfstC8vKatKyUSq1b0mJp998GfUMyNfSgd75L2RG4fx4xo0ycMZzZqGHzk5dIYxhhsRrivm/0DwmvyXTUuR+S+7lCi2+jsYNwl1rHz0dfXKaLFfNd8mqULZ810=
+	t=1789995187; cv=none; b=kInc4bkR6mhIJKOpOxU5RQOb875whJyj46GSZYT8qT82SepO0bbfH54n+mAM5VGZjcQLDdT/3Qg3Fi2ZCF5oMsoN2zOZtwhVO7Xs+ehaoLOXIb+m18YBQNTRvCQ+QENUz7t7D6Xr5tjgigW8q0pqcY80pU8Ku5WdZT0Rouq1mQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789994954; c=relaxed/simple;
-	bh=jExRX4G5OIZIjwoiUOBNVln0eNxdFkmvZs010Fu3Un0=;
+	s=arc-20240116; t=1789995187; c=relaxed/simple;
+	bh=qeUCWpsUPbHHM5IIG7RF8FHuHvdD0eOD/zFOkfdQrYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TR3stX5w5vbCdloWaVqwlYKRoeDYFy9NX0EgOmv0hjQ5OxVeQsCyuseNwBKg9r3J384yn3Bl61UO5BexKWIubMgJYs6KH1JgZtSRRTkkpvr45il0QCpAczMX560K23Bk0wm8L/GjgAIPpYkQIuvo0Bb7dbKSnuQ6L/HkW998+FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CYZuZoBS; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=CtBzPsqbjeK25M+pLLjorQWryaXsfaN8paisJ1uQaJZvM4EB3yzDBwODcg5VSjCgut/oW59D+UOcdQzpXgjWkTA6Ghbu0MsdZIkWSNBcaNxzn2iKpk72X0mDrbgf2GpBLsQvaTU8akylGL+2/pnzwhAQ+WTlZDvSHMPdX4dns4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=fBaQ6FPL; arc=none smtp.client-ip=74.125.230.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CYZuZoBS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27C9B1F000FF;
-	Mon, 21 Sep 2026 12:48:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789994951;
-	bh=jExRX4G5OIZIjwoiUOBNVln0eNxdFkmvZs010Fu3Un0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CYZuZoBSJafqz1gUdp9RzqB0IKQ+dGBhAKDxXduLxsehFa3rE/j7EwJk6mle0ok2S
-	 Kn2XKnlXlvc3M6Nkpk0J+ERuWqkHl3XjoR0AByqpMedzdifr/tERuEMOci5ntShoY0
-	 3BB6RqN0IBpdZ6In9mYJSndT9jm3ItxyBjkB2Bk61tsbkX2eUJaDIJuZnF1StwBNFd
-	 ekjNCgH2frChTpdzEIuOFt157B109FY9aD3KbpoaVJIEgrkXBSKpA1ixhaL2hjPlX3
-	 J+ML1u7s3cOiw6Hi6lg1BdAOYcCvaE9THduolTNeortqDnodKZHo9g8Iq5ttNwhQvH
-	 sfLBOM3SiOd6g==
-Date: Mon, 21 Sep 2026 13:48:56 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 13/21] modpost: emit module descriptors as assembly
-Message-ID: <arEnCzzQa9XDd4LT@gremlin>
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
- <20260914-build-speedup-v2-13-39817ec5db23@kernel.org>
- <95baacfb-d8d9-4d2f-bc89-592df6f6f8e3@suse.com>
- <arEZrFmXeCO4hZpP@gremlin>
- <2b27bb4b-47e3-45ed-a26a-4b9de2b20542@suse.com>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="fBaQ6FPL"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-90cdfcbe208so37480306d6.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 05:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1789995185; x=1790599985; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Jdk8bFx0tKHj9Yl5yPuBwHegOpkKYh3D6iyI0OsSHvo=;
+        b=fBaQ6FPLrsis2sQg/MQTL21JZNv+KF1s2lpMc3WLk8mupnzw7vw3dOXpboNWUd2JFO
+         hVYq6Zo7oD/ZxUonGGXzp9Wu0qaH7WG/oBBIWdL3wvePWoqmP7cb2sueyzvAGWVsMJo1
+         Yk3gL2Y/cGrjs+LRMGfWMlokO+d9wsLeXqgaHqWv1lw/7INCWA4LAGFQWfLYNq+a0hLs
+         r7ivypwfYSZUmLEgsSFlN0gK01xMxN5UT7wC3MqtqpYuAyAPVElLg6rAdSPgQmk/gIi2
+         /dj/OsMoF+viZ/XOEzdpDmCRlwbvLcWW65KztY92+OMyp3kTuO12BIKeJXYqulsX7YQT
+         GTgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789995185; x=1790599985;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Jdk8bFx0tKHj9Yl5yPuBwHegOpkKYh3D6iyI0OsSHvo=;
+        b=zxoS12CYxQgsa1uxGq0mvU/YbdpMulVwQBo+DDk+ZqZkY3Jjht2/U75KMYqwGv+KVQ
+         PIytRt6END0w9/YdHaKiA/M+ji0QLAtYg9odI40+SUEwKM0v0LmpIX6QOMzt1GCPaR+W
+         kUusrDU0Pv9KIBxtqKcsdBM9jfIQ5yi/RRUrvTqY+SSqFe9TuEf2Dp6TrYBvlN6NPSDU
+         UDjotoznGXmpcd99Gey42nkSAhYev1YVcmVg3tA4NO0eRSSyYgR1GdeeH/wY3Y/ycGV4
+         cXzeEgGMRK6wiedyd/ZVODrloPnUaQX/274HL6GxrGwUIERgVWtpq8TXEr62FGDXpVit
+         zXAQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxlcr9/v8Z+Q/X0SObRHxSxajlBD2cvFYtxK6AWenXwms6ASQadd0Ko/gUCKhAKC7M7t/NNA3tMKCA=@vger.kernel.org
+X-Gm-Message-State: AFuF++li4K67oiPBDKulzdGHGIBD2c3Mn2FaPnUjjLCKQaqDMc4bCD7S
+	aWjBBf3a/JzHMOQp+aGAoeB5m35KVjd/71u80yFeFCg6KBIkIM2y1VYfaDKAwixevrw=
+X-Gm-Gg: AYBFou27Hs5MddL2vJC2XfoL2GESxSlqCDRYz6a48Dm60j7/iPNBoMjWpBy40T50Wu2
+	OcVCdq9FSSpPNTguyObHC3VEOA4xCCgoceJcv4xM1yso2T07V/rVdP134WlGDcgbjYl/umerVe4
+	4uyzbF6RdaeOzLMT41DhcL2x2RSQqRgfYzch5aOesToHobyPieGq1eYsvxrJnigrRROosruYKQ8
+	e6qQOYRI4zScrY78npLUnzqmTaIfa3/89OZ97HdXMOlyP085gcUIRvKwGN3AVNr600z0v0O29bt
+	I7ZBrWARLdZHBFtFXslT7mbTQdte03C40be0Q9P6PPcQ1cdVtdvj/UBfKKiN6llrjGWSAUnwlGv
+	3PeYwYctNiuFNVxjVjZPNmK+P6SQHNZxZrvRKHHanJKOj3dtHZpXl0i93hljoikt0W6DFtpE0JZ
+	6tjNuMhQlKE/aRC9AwrV+yzyQZ2qkGLGjJWPpCG0rd6+EeXJ+Y1RQpcb1wxAy3PHopPYMFHlSuy
+	EYIxk6Ul9KVBQIsqubWs8HUMjRJuwk/1BzFeQdQm7s5V5C7/rYD3ik=
+X-Received: by 2002:a05:6214:5990:b0:912:517b:20e9 with SMTP id 6a1803df08f44-913fc969610mr4155346d6.49.1789995184825;
+        Mon, 21 Sep 2026 05:53:04 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91260a6267csm68171296d6.25.2026.09.21.05.53.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 05:53:04 -0700 (PDT)
+Date: Mon, 21 Sep 2026 08:53:02 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Chris Li <chrisl@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Rik van Riel <riel@surriel.com>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel team <kernel-team@meta.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arEVDBlfsUYKK004@gourry-fedora-PF4VCD3F>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora>
+ <aqLi6cIjD2wJwk0B@cmpxchg.org>
+ <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+ <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
+ <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+ <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F>
+ <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2b27bb4b-47e3-45ed-a26a-4b9de2b20542@suse.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
 
-On Mon, Sep 21, 2026 at 02:36:30PM +0200, Petr Pavlu wrote:
-> On 9/21/26 1:57 PM, Lorenzo Stoakes (ARM) wrote:
-> > (note there's a v3 see [0])
-> >
-> > [0]: https://lore.kernel.org/linux-kbuild/20260917-build-speedup-v3-0-9ecf4163ff36@kernel.org/
->
-> Thanks, I missed it.
->
-> > On Mon, Sep 21, 2026 at 01:25:09PM +0200, Petr Pavlu wrote:
-> >> On 9/14/26 11:22 AM, Lorenzo Stoakes (ARM) wrote:
-> >>> The sections were confirmed to be byte-for-byte identical to the C version
-> >>> produced - each of .modinfo, .gnu.linkonce.this_module, __ksymtab*,
-> >>> __ksymtab_strings, __kcrctab*, __kflagstab*, __versions,
-> >>> __version_ext_crcs, __version_ext_names and their relocations - for all
-> >>> 8,135 modules of a clang allmodconfig build with CONFIG_COMPILE_TEST off
-> >>> and CONFIG_MODVERSIONS, CONFIG_EXTENDED_MODVERSIONS and
-> >>> CONFIG_MODULE_SRCVERSION_ALL on, and for a sample built with gcc.
-> >>
-> >> Lowering the data to assembly loses debug information for __this_module,
-> >> specifically that it has type `struct module`. It might be worth
-> >
-> > No, it keeps it - every module includes linux/module.h, and the extern
-> > declaration of __this_module carries the type, so all of the stuff gdb
-> > needs (e.g. ptype, p & field access), DWARF etc. is all there in the same
-> > way as with .mod.c.
-> >
-> > Have confirmed locally.
->
-> An extern declaration alone shouldn't cause its name and type to be
-> included in debug information. They should appear only when the variable
-> is referenced by some code.
+On Sun, Sep 20, 2026 at 11:43:59PM -1000, Chris Li wrote:
+> On Sat, Sep 19, 2026 at 3:53 PM Gregory Price <gourry@gourry.net> wrote:
+> 
+> Let's start with the real question: on your fleet what is the max % of
+> zswap memory compared to total RAM?
+> 
 
-Ack yeah sorry my mistake, I had the LLM check that and should have known
-better than to trust it without reviewing what it said (as I have done for
-the most part for everything in this series).
+You're asking me to predict the future.  Any number I give you today
+will be wrong 3 seconds from now.
 
->
-> Testing with a simple module that previously referenced __this_module
-> only in .mod.c and in no other file, such as lib/test_module.c, shows
-> that the .ko no longer contains debug information for this variable.
->
-> I've verified this behavior with GCC 16 and Clang 19.
+You can't know the compressibility of memory until after you compress
+it, and requiring a user to predict the future by forcing them to limit
+the total amount of workload compressibility does not scale with the
+number of workloads of variable compressibility of data.
 
-Ack confirmed locally.
+That should tell you that your model of reasoning about this issue is
+ill-suited to address the problem.
 
-Can put a fix in module-common.c.
-
-The LLM came up with a reference as an alternative:
-
-static struct module *const __this_module_dbg __used __section(".discard.this_module") = &__this_module;
-
-Would that work? Or should we go with your original suggestion? -
-
-__weak __section(".discard.this_module") struct module __this_module;
-
->
-> --
-> Cheers,
-> Petr
-
---
-Cheers, Lorenzo
+~Gregory
