@@ -1,133 +1,172 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 429C546D2B5;
-	Mon, 21 Sep 2026 09:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FCA3559C9;
+	Mon, 21 Sep 2026 09:09:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789981491; cv=none; b=ekfqZwkMY6hiD8Gh/aUsCTXl0ro5jpdWik/NCcUEv9gdSg3mRMAv9pRvGLaEmJqqFNJp7FmNKcMYMPQ9Qm2AbZu+ePvZdKXBdDAY8WNaojwzTau+GnOMeuV5lwgf4ComBoJYzq9rDOALAFUyniAk58CBIPB5dWxZekEWl1V4e3U=
+	t=1789981791; cv=none; b=fcdq/9XgnAPDt+pzVEgMkHZ0/A0SV38HjcurBzZcDOhBJ7A3D+IVHAmrhNi3hHPIVVJQDBOc4M5Uk/iKxFfFqi7lXnVbqHUoNaO0Q50HyOupcVLan28GBZYYQqpZW422oF4OI/YVvCY25oU5OjrtNsNsGksrp6H9rCLMDUgg4Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789981491; c=relaxed/simple;
-	bh=8XfMkOskSZJ52LZ+fWsCnR6GpWD08w36joEyxV2mlIM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eR5pD2u0FQCsipFFJpYacjvo3xKSQEUe3PFopJ48zZmTpqomeDSQT6mBXWwjtS7lZA7fJ40QIDLXBFl/J+1Jy9LxAQhoxu5EwTVn8hPtghDeBvlsGh9EfsCwT4EcbF6+mbTVMXC7dkjC204ieiXzCLTj3nFgdM6wDYhuOH9Kqnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=t/8RLcX1; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789981791; c=relaxed/simple;
+	bh=FC6rts5iX6PaZKgWQE7XgVzD5qhzb6gjc9SVjg94fYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=adh8b/6nCEZQn+rG/gAXAzDABxJz1NrGGHCePW763nXX8N57/l8jYVnbIZ9weIIWMaDbsBSbVH+s+4Jt3jIiX8sNJ5AlynEWjbsf9gT4UDOIXXOR7mYVG8bG92q2ybCpJeO7lV7QVvU/mvpEwBvezAXFCFlJdnWGLlbOfxy5NYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=TivbOJ0x; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QxvR08KG; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BekFBb33; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=SQOZgQni; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="t/8RLcX1"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F14C51D13;
-	Mon, 21 Sep 2026 02:04:44 -0700 (PDT)
-Received: from [192.168.178.6] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8826F3F86F;
-	Mon, 21 Sep 2026 02:04:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789981488; bh=8XfMkOskSZJ52LZ+fWsCnR6GpWD08w36joEyxV2mlIM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t/8RLcX1Cyg7pKGg7/0DSnPFnDmu0we8JLdWSt+4WIVCIglvEF8hdf4Swz5EEVwzC
-	 7UQf3srwRW5s5ZBr/m9Pf4qvjKgbyuDSn7B9E36qoDTPCIdHgPoR77gvrqo6xn7zvH
-	 hUNBFqa9tgRX/ZAkJSBMsLxdVY3Z+JIHunUYrWak=
-Message-ID: <75f23add-e27c-4749-8495-d29388b6ca56@arm.com>
-Date: Mon, 21 Sep 2026 11:04:42 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="TivbOJ0x";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QxvR08KG";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BekFBb33";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="SQOZgQni"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A831C21C08;
+	Mon, 21 Sep 2026 09:09:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789981783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xY2KVLq9cSio0ys71LWr26a1j0slOLo8q2lgLNgE7eA=;
+	b=TivbOJ0xLarVQlX7APgMEzjQ2v0Trpg4SUl2qKjXYSiIl2WxBxt+PDcRXaqhJujqYNqqI8
+	5RDbnZZ6u7LEN+obFVOWr+7xC9rNUeqFDkJZaq04XasCAbRtDjib841D98cnG5avUmwQJq
+	D9olWmOjuTEyjx5Pspf+fzT7eR5eQY8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789981783;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xY2KVLq9cSio0ys71LWr26a1j0slOLo8q2lgLNgE7eA=;
+	b=QxvR08KGtM8e/F7baxet1kARWnjSswjCRIvSRtOYFsxKUvteNg5j90wIYykOTFbx2ssXtC
+	mNdsmVyOn5jtl7Dg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=BekFBb33;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=SQOZgQni
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1789981779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xY2KVLq9cSio0ys71LWr26a1j0slOLo8q2lgLNgE7eA=;
+	b=BekFBb33+vx+/z8+853w54PLCLdYe226PPKSpyYsX8QpEg+lxlE2HBVFKhlvkIJUn5hOyZ
+	VN2zPMEdWKBmc0Gf3dBWJvbYsPiieaZIebSZGhcuNd++Bo2jAVA8u3C4F2bCsbKV70oVDj
+	OCva0qHkm/p6urQcmuGy7BqqlCjrJoA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1789981779;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xY2KVLq9cSio0ys71LWr26a1j0slOLo8q2lgLNgE7eA=;
+	b=SQOZgQniCIkCyTwSYIC+qxhaAdsD3T79daKP+irTMTdcvR7yCzVoGt4d3a7WUxFMOfUikP
+	EogHHrSUB9Xg0ZBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7E39B1368D;
+	Mon, 21 Sep 2026 09:09:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vTB/FlP0sGojZAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 21 Sep 2026 09:09:39 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 0C63CA13D5; Mon, 21 Sep 2026 11:09:39 +0200 (CEST)
+Date: Mon, 21 Sep 2026 11:09:39 +0200
+From: Jan Kara <jack@suse.cz>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: Theodore Ts'o <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Zhang Yi <yi.zhang@huawei.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-ext4@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ext4, doc: remove unnecessary bracket
+Message-ID: <qxtwbujylatoi7vl2lyngg4n557to6rdafpk45hzlnjxnx5ezp@lcdaur46z3vu>
+References: <20260916104251.296148-3-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/2] sched: Enable preferred SMT siblings on NVIDIA
- Olympus
-To: Andrea Righi <arighi@nvidia.com>, Ingo Molnar <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>, Will Deacon <will@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>,
- Christian Loehle <christian.loehle@arm.com>,
- Srikar Dronamraju <srikar@linux.ibm.com>,
- Shrikanth Hegde <sshegde@linux.ibm.com>, Phil Auld <pauld@redhat.com>,
- Breno Leitao <leitao@debian.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Lee Trager <ltrager@nvidia.com>,
- Vikram Sethi <vsethi@nvidia.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260917140707.3807229-1-arighi@nvidia.com>
-Content-Language: en-GB
-From: Dietmar Eggemann <dietmar.eggemann@arm.com>
-In-Reply-To: <20260917140707.3807229-1-arighi@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260916104251.296148-3-manuelebnerli@mailbox.org>
+X-Spam-Score: -2.51
+X-Rspamd-Queue-Id: A831C21C08
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[mit.edu,dilger.ca,linux.alibaba.com,suse.cz,linux.ibm.com,gmail.com,huawei.com,lwn.net,linuxfoundation.org,infradead.org,vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,infradead.org:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email]
+X-Spam-Flag: NO
 
-On 17.09.26 16:05, Andrea Righi wrote:
-
-[...]
-
-> The first patch teaches the fair scheduler's idle-selection paths to honor
-> SD_ASYM_PACKING at the shared-capacity SMT level. The scheduler first selects a
-> candidate CPU and core according to its existing placement and capacity rules,
-> then chooses the highest-priority available sibling within that core. This also
-> completes the existing POWER7 SD_ASYM_PACKING behavior by applying its
-> hardware-thread ordering during idle selection.
+On Wed 16-09-26 12:42:52, Manuel Ebner wrote:
+> Fix sentence structure to improve readability
 > 
-> Olympus firmware does not currently provide an interface to describe the
-> preferred SMT sibling. Adding such a firmware or ACPI interface will take time
-> and will not help systems with existing firmware. At the same time, inferring
-> this policy from MIDR would encode a platform-specific decision in the kernel
-> and make it harder to replace with a proper firmware ABI.
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> CC: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> @Jan Kara, is the reviewed-tag ok even though I changed the patch?
+
+Well, it doesn't seem to have changed substantially so sure, you can keep
+it in such cases.
+
+								Honza
+
 > 
-> The second patch therefore adds the sched_smt_asym_packing= boot option. Using
-> sched_smt_asym_packing=on explicitly opts the SMT scheduling domain into
-> SD_ASYM_PACKING without requiring architecture-specific detection. Priority
-> remains defined by arch_asym_cpu_priority(). The weak default orders siblings by
-> -cpu, consistently selecting the lowest-numbered available logical CPU.
-> Architecture overrides remain authoritative, so siblings assigned equal
-> priorities remain unordered. The default auto mode preserves
-> architecture-provided topology policy, including the existing powerpc behavior,
-> while off provides an explicit override to disable SMT asymmetric packing.
+> [v2]
+>  Incorporate Randys suggestion.
 > 
-> On Olympus, PE0 and PE1 have equal steady-state capacity; this preference does
-> not identify a faster PE. The lower-numbered logical CPU is used only as a
-> canonical choice when both siblings are available. Consistently selecting the
-> same sibling avoids alternating the active PE across wakeups, lets the other
-> sibling remain idle for longer, and allows more cores to remain in, or return
-> to, full-resource single-thread mode.
-
-So I think that Power7 and other SMT machines won't ever turn
-'sched_smt_asym_packing' on then.
-As we have seen in https://lore.kernel.org/r/aqSEB2N_NQbBVab6@gpd4 this
-code will only benefit NVIDIAs Spatial SMT, i.e. dynamically
-partitioning a physical core, rather than conventional SMT where two
-threads opportunistically compete for most of the same machinery.
-
-IIUC on Spatial SMT, placing the workload on PE0 is beneficial because
-even if interrupts and other per-CPU housekeeping activities have to be
-handled by PE0 next to the benchmark tasks, the main thing is that PE0
-stays in full-resource single-thread mode (PE1 stays idle).
+> [v1]
+>  https://lore.kernel.org/all/20260902143254.702971-2-manuelebnerli@mailbox.org/
+> ---
+>  Documentation/filesystems/ext4/directory.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> The v6 series was tested on a two-node Vera system using 88-thread
-> single-precision GEMM workloads on the 88 physical cores of NUMA node 0, with
-> sched_smt_asym_packing=on and the workloads allowed to choose either sibling of
-> every core. Each result covers five runs.
+> diff --git a/Documentation/filesystems/ext4/directory.rst b/Documentation/filesystems/ext4/directory.rst
+> index 9b003a4d4..6d8021309 100644
+> --- a/Documentation/filesystems/ext4/directory.rst
+> +++ b/Documentation/filesystems/ext4/directory.rst
+> @@ -429,7 +429,7 @@ block (precisely the length of one dx_entry) are used to store a
+>  ``count`` entries in the dx_root/dx_node structures are adjusted as
+>  necessary to fit the dx_tail into the block. If there is no space for
+>  the dx_tail, the user is notified to run e2fsck -D to rebuild the
+> -directory index (which will ensure that there's space for the checksum.
+> +directory index, which will ensure that there's space for the checksum.
+>  The dx_tail structure is 8 bytes long and looks like this:
+>  
+>  .. list-table::
+> -- 
+> 2.55.0
 > 
-> Two BLAS implementations were tested: OpenBLAS, an open-source BLAS library that
-> provides a publicly reproducible benchmark, and NVIDIA Performance Libraries
-> (NVPL), NVIDIA's optimized BLAS implementation.
-> 
-> OpenBLAS was evaluated using benchmark/sgemm.goto with an M=N=K=16384
-> single-precision GEMM. NVPL was evaluated using benchblas with the same matrix
-> dimensions, non-transposed inputs, alpha=1 and beta=0. The numbers below are the
-> mean and standard deviation from five runs.
-
-So I assume that you have 88 consistently running benchmark threads and
-in case your new code let them run more likely on PE0 instead PE1 you
-see this throughput increase.
-
-> OpenBLAS throughput increased from 7.11876 +/- 0.06734 TFLOP/s on the baseline
-> kernel to 7.34669 +/- 0.01936 TFLOP/s with this series (+3.20%). NVPL throughput
-> increased from 9.64742 +/- 0.17311 TFLOP/s to 10.29695 +/- 0.01786 TFLOP/s
-> (+6.73%).
-
-I assume further that NVPL has the same benchmark task model, maybe with
-a couple of sleep/wakeups in between?
-
-[...]
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
