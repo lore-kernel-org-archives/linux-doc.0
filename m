@@ -1,571 +1,375 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9C2483BD9
-	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 11:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C323048EC93;
+	Mon, 21 Sep 2026 11:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789989928; cv=none; b=lNqyy+3gwJxa36nGQ+RiWnVFX/N1U9THS8GUZ8D2Q1lBoArGFSqJpp4oeMn4sdL08jShl7xdcmD5SRi8yvSvazLDPdC2cElccYktH5RLnvMYZfwQ52wFxM9x921Q/mpR7eonVoab8wtHxMe9LTmsOEorLy10umsZASAaKObGKd4=
+	t=1789990259; cv=none; b=VE1ql7GlvLyccwKr/Ra2KWWTAcZt29BYI5pd0c4vG28ax4dsd9aXV64aJZQe6nLHQioYhdkGY0MTYWf1SRihqoREuRBcBVqLdiMd1jnguXAKU63QqQiwVOVFA75YW2Y2b0+/5VZmlAoxfnoSYuB3ldUkNFlcjbHHenP5xAMR2QE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789989928; c=relaxed/simple;
-	bh=vL7H9bUFob8ldX6kiSUwQbR/mxtlpznZdS9IX5wHg4g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bImbBj6xrbPdExbKA8Iv4xd+2kg31QUi6/zPyMeDnRreJDED0MaBba5+GCMHFuN2sVbK3a+y3EnzOyZ5HsWDWaFq36G+tZLOe+vQwKVa37zA1Zq1ulbM34t8ock9aEtt0t11cZnKX3+VnsNT8nIAU5jemSB9TKkwA6AIOyKvUMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Vhw7aLhr; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1789990259; c=relaxed/simple;
+	bh=9uD6m1QMrum8kNgyQzmjuzlc5qVbTY+Wz5mVGTuoBt8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GBWuXwEnViXa6OedpBBLAnK7X282gS6FjAgPm5J5Xx0sG2jGRhdmlH96syqvyPBINEd6svCC+sOnyfMN0Ll4VpH1F9i41Qe01Hf/2egXhqWSZD856/WaYkjirtc2/vuoLnaUqtsKPISth69CblipEmZlmbGpDusOJKnSxpEOOkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Gcjioh47; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pJJLpWuI; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Vhw7aLhr"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b91369d18so21074395e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 04:25:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1789989912; x=1790594712; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kLlCULrw1v/vSqZnviB/Cu2fC1Y7qRZoJjKlQFtW/cc=;
-        b=Vhw7aLhr2hs5mUDvFtaiWafzn0SQAB1KRD3UcypFgjyciceWezvD3sAcaZGlpKQf6W
-         1Pkq0qMMKHYM5Rd2B08kzj+uihssv08doCjawZjeQluEFwn+egW/I5Bx/1xkA0HW+f+X
-         vz39sSyQ+YoStFTF/niNt3RR3eGt9q/kamO/OBff7CdspOx1OC07psQyi2ANOQ/hk4Qu
-         IYXDiJ2YW9IVbqOOYm4EGJHnIxDaezKxS9oDyHdnKSsWxCDjNXdag62eGIuOUJQQOV8B
-         oaipJI8lf17IzDe+9hOp2CWXSS0kHWR+gCvGw0TzZd5MPj541wzj/ilXlfAsnpQ//tSC
-         U/iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789989912; x=1790594712;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kLlCULrw1v/vSqZnviB/Cu2fC1Y7qRZoJjKlQFtW/cc=;
-        b=WEfFiCrDNZ+y7iczoZ3rmrJiqNDvotq28bWYgnJlosj7N9SI0/uhAeXf4g2BAjJucf
-         1kE210E+OUsKXyQ9WIZPtOYlkg1GbKUCbxKhDVagLlOLlwKGwsaQtkdO8C0hFtypXnj1
-         G9BLTsOfT4N1VvuW1ONX24qJlHIU+ySRh1ma8qvqTiO7UsXi4mMk4H1nKsOJAEIREKTv
-         QIFtXJT1dpuHSyxwCA9J9Msn5ydifZWCt9AfmEknSh+ZdoZdd7FzNZFuehlBMe6F324P
-         tThxU+j+7LmeRMIStYYJV63n5esYORH37Z9tE3AbH05QMNI5hwSizaN7AshQCZpSPAXu
-         ZIcw==
-X-Forwarded-Encrypted: i=1; AKwUvBxbewOPELwAwzDDNTfY4+OCvRlypE6tt3XPTXf1EWVR4/qvr9NRm4RUBuZoj5SnQHQJJG0CrL07lis=@vger.kernel.org
-X-Gm-Message-State: AFuF++kszeTPmKRsUOb/nUkHo0P0XE1pkWUJavbFAyhKfWDSXH+id3Kt
-	mgjcxfRxFO4iozLELkdZhEK8h1gaOdvo/rodoC+f06mDBpyvtflK9fn8ulWJ9WoBcl0=
-X-Gm-Gg: AYBFou2siIOlRBFEHLd7dXWDF32SZ8Ac4Ns7zBMSvZLU+BlxJli2xze2iPMEKHegdFd
-	h07dHTiIKvrD/772ubFSCm4g7nfOcXnpz2eipcsyHQt/3rxRK27eUcuTV7/CTE2HYDwjYrJqdVo
-	R9XpVmswYCT1MVoTrRVgRa0um7oX+j1Q7E6H07y9UK6XxONL9AsQVdDj8f/V6sHWSTAlzfM8InU
-	a2RDVo096dmg4vCp7VHRzvgjQnvtj9ajHGFYnXHvOHmQe+SpUiktAFZvpM6D4TPQZKnPviQWoth
-	UZJ1qsD5M5kpai1/aNwf0BHy/ZbnjGQhg+UP7VyecABUwbql8EkRKACWjUzatcZ9nj+sq3vDRKD
-	tOJFVKj69ls2R4GMYnw7Tq/gRQhlfrPQEkdETfRJ6sheCn8A542EZiRAB7gZ/U/zB9oJC7cHcxb
-	Ua55pZvyu6+tciuXdf6dZlX27uL8x8fLfa6N0uHx80ZKAaOzqTISWoSm50SrlaNxuzynzweZySP
-	uYjYCb3I9y+AxklSKJ7daZq8mPtU5tFRnJC
-X-Received: by 2002:a05:600c:4f44:b0:49f:ce73:7a9 with SMTP id 5b1f17b1804b1-49fce730888mr97408375e9.34.1789989911838;
-        Mon, 21 Sep 2026 04:25:11 -0700 (PDT)
-Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fd757e97esm7376075e9.8.2026.09.21.04.25.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 04:25:11 -0700 (PDT)
-Message-ID: <95baacfb-d8d9-4d2f-bc89-592df6f6f8e3@suse.com>
-Date: Mon, 21 Sep 2026 13:25:09 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Gcjioh47";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pJJLpWuI"
+Date: Mon, 21 Sep 2026 13:30:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1789990252;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vqDX8xLvebhZEuLKrDsOW36y6bdIhUzabRWLj6Vht3c=;
+	b=Gcjioh47v1+20lpKBXIC9L03cjG00G3CeuWj5mf2gl4x8FAHmcOsiDillj/D8o/jd2oVlS
+	KM3QoGuTSjegRnzW+vdQVp4azRIwsHiDKF2HJNqpICVR2zUfIS3gozGtBr+TKiIT/8OHqY
+	CZxONNd1XMCx/dBwJxwWOpNHiMxVj6pmWqZKuJuv2A1l8X2Ov0q9j1qn/hsapwpTFW2rd0
+	hzu8VyRaFNvnX446WhmKnT6EANU7L6yfaIo5uopHKHg+M8UsNMQzqjwfjnaprr7sPN/p+B
+	3Ux3IYH2CmXsIlwFbz9nu5g648CP6gisthLc8QxOHCEBYFDSc0OKiJOShYp6IA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1789990252;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vqDX8xLvebhZEuLKrDsOW36y6bdIhUzabRWLj6Vht3c=;
+	b=pJJLpWuIOcUBMA7tUxM88GG6ZGipkBDZoPzIgKOdrY+VSRKBAu9ehVucq5pPpsTXP9qZeu
+	uHBXHk6XZqrmcvCA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Quchaosheng <quchaosheng000406@163.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] sched/doc: add a preemption model overview
+Message-ID: <20260921113050.lwG9IphF@linutronix.de>
+References: <20260920022003.1202546-1-quchaosheng000406@163.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/21] modpost: emit module descriptors as assembly
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Ard Biesheuvel <ardb@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
- <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
- linux-hardening@vger.kernel.org
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
- <20260914-build-speedup-v2-13-39817ec5db23@kernel.org>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260914-build-speedup-v2-13-39817ec5db23@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260920022003.1202546-1-quchaosheng000406@163.com>
 
-On 9/14/26 11:22 AM, Lorenzo Stoakes (ARM) wrote:
-> modpost generates a descriptor for every module in the form of a
-> <module>.mod.c file with .modinfo strings, the __this_module descriptor,
-> exported symbol tables and (with CONFIG_MODVERSIONS set), the CRC of
-> imported symbols.
-> 
-> These files are compiled like any other kernel C file with all of the
-> -include preamble, as well as including linux/module.h, header dependencies
-> generated by fixdep of a few hundred headers, an objtool run and if LTO is
-> being performed, a link is performed to generate native code.
+On 2026-09-20 10:20:02 [+0800], Quchaosheng wrote:
+> The scheduler documentation describes the individual scheduling classes
+> and various tuning knobs, but there is nothing that describes the
+> preemption models themselves.  The only place where they are documented
+> is the kernel-parameters entry for "preempt=3D", which explains the boot
+> time parameter but not the models it selects.
+>=20
+> Add Documentation/scheduler/sched-preemption.rst, covering the four
+> models, which of them can be selected at runtime, and the mechanism
+> behind PREEMPT_LAZY.  The lazy model in particular is easy to
+> misunderstand: a lazy reschedule does not send a cross-CPU reschedule
+> IPI, so it is only committed on the return to user space or on the next
+> tick.  That makes the tick an upper bound on lazy preemption latency,
+> and it means the usual real-time latency tools, which wake a pinned
+> task on its own CPU, do not exercise it at all.
+>=20
+> Signed-off-by: Quchaosheng <quchaosheng000406@163.com>
+> ---
+>  Documentation/scheduler/index.rst            |   1 +
+>  Documentation/scheduler/sched-preemption.rst | 120 +++++++++++++++++++
+>  2 files changed, 121 insertions(+)
+>  create mode 100644 Documentation/scheduler/sched-preemption.rst
+>=20
+> diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/=
+index.rst
+> index 17ce8d76befc..d6d75421756a 100644
+> --- a/Documentation/scheduler/index.rst
+> +++ b/Documentation/scheduler/index.rst
+> @@ -23,5 +23,6 @@ Scheduler
+>      sched-stats
+>      sched-ext
+>      sched-debug
+> +    sched-preemption
+> =20
+>      text_files
+> diff --git a/Documentation/scheduler/sched-preemption.rst b/Documentation=
+/scheduler/sched-preemption.rst
+> new file mode 100644
+> index 000000000000..fc6fd89789cf
+> --- /dev/null
+> +++ b/Documentation/scheduler/sched-preemption.rst
+> @@ -0,0 +1,120 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Scheduler preemption
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The kernel can be built to run kernel code either uninterruptibly, or wi=
+th
+> +varying degrees of preemptibility.  These are the *preemption models*.
 
-As a side note, I'm currently working on cleaning up what linux/module.h
-includes. This was also originally motivated by an effort to reduce the
-compilation time of .mod.c files, though cleaning up that header makes
-sense in general, since it is the most explicitly included file in the
-kernel.
-
-> 
-> On an x86-64 allmodconfig build 11,189 *.mod.c files are built, each
-> taking ~0.24s of CPU time to compile, and module finalisation as a whole
-> 6,300 CPU seconds, or 64 seconds of wall time when run over 128 threads.
-> 
-> It also generates ~1.3 GiB of *.mod.o.cmd files that every subsequent build
-> has to read back.
-> 
-> Avoid all this by emitting the descriptors as assembly instead.
-> 
-> The layout required (size and alignment of struct module, struct
-> modversion_info, the module's name offsets, init, and exit fields and
-> whether the architecture uses PREL32 ksymtab references) can all be derived
-> from scripts/mod/module-offsets.h.
-> 
-> The fields of __this_module are emitted in offset order rather than
-> declaration order, as CONFIG_RANDSTRUCT shuffles struct module so the name,
-> init and exit fields can land anywhere.
-> 
-> An assembly file avoids all of the issues previously mentioned so this
-> conversion results in a very significant performance win on kernel build.
-> 
-> As a consequence of this change, since module-offsets.c includes
-> linux/module.h, scripts/mod is now built after the generated headers in
-> prepare0, rather than before.
-> 
-> Also update .gitignore and make clean to handle .mod.S files, but keep
-> .mod.c files there to ensure that users do not end up with untracked
-> changes/dirty trees after the change takes effect.
-> 
-> The sections were confirmed to be byte-for-byte identical to the C version
-> produced - each of .modinfo, .gnu.linkonce.this_module, __ksymtab*,
-> __ksymtab_strings, __kcrctab*, __kflagstab*, __versions,
-> __version_ext_crcs, __version_ext_names and their relocations - for all
-> 8,135 modules of a clang allmodconfig build with CONFIG_COMPILE_TEST off
-> and CONFIG_MODVERSIONS, CONFIG_EXTENDED_MODVERSIONS and
-> CONFIG_MODULE_SRCVERSION_ALL on, and for a sample built with gcc.
-
-Lowering the data to assembly loses debug information for __this_module,
-specifically that it has type `struct module`. It might be worth
-restoring that information in same way. A small hack would be to add
-something like the following to scripts/module-common.c:
-
-__weak __section(".discard.this_module") struct module __this_module;
-
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 01a37ec872b9..75e9effdf02c 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -20,10 +20,14 @@ __modfinal: $(modules:%.o=%.ko)
->  modname = $(notdir $(@:.mod.o=))
->  part-of-module = y
->  GCOV_PROFILE := n
-> -ccflags-remove-y := $(CC_FLAGS_CFI)
->  
-> -%.mod.o: %.mod.c FORCE
-> -	$(call if_changed_rule,cc_o_c)
-> +# modpost lays the <module>.mod.S out completely (write_mod_S_file()), so it
-> +# needs only the assembler and no dependency tracking.
-> +quiet_cmd_as_mod_o = AS [M]  $@
-> +      cmd_as_mod_o = $(CC) $(_a_flags) $(modkern_aflags) -c -o $@ $<
-> +
-> +%.mod.o: %.mod.S FORCE
-> +	$(call if_changed,as_mod_o)
->  
->  .module-common.o: $(srctree)/scripts/module-common.c FORCE
->  	$(call if_changed_rule,cc_o_c)
-
-If the <module>.mod.S files are fully self-contained and do not even use
-something like KBUILD_MODNAME, would it be possible to name them
-<module>.mod.s and skip the C preprocessor as well?
-
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 0fd43c8a89ea..b4550b545330 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -2191,30 +2042,483 @@ static void write_vmlinux_export_c_file(struct module *mod)
->  	free(buf.p);
->  }
->  
-> -/* do sanity checks, and generate *.mod.c file */
-> -static void write_mod_c_file(struct module *mod)
-> +#if MOD_SIZEOF_LONG == 8
-> +#define MOD_PTR_DIRECTIVE	".quad"
-> +#else
-> +#define MOD_PTR_DIRECTIVE	".long"
-> +#endif
-> +
-> +/* See KSYM_FUNC() in include/linux/export-internal.h. */
-> +#if MOD_FUNC_PLABEL
-> +#define MOD_FUNC_PREFIX		"P%"
-> +#else
-> +#define MOD_FUNC_PREFIX		""
-> +#endif
-> +
-> +/* See __KSYM_ALIGN in include/linux/export-internal.h. */
-> +#if MOD_PREL32_RELOCATIONS || MOD_SIZEOF_LONG == 4
-> +#define KSYM_ALIGN		4
-> +#else
-> +#define KSYM_ALIGN		8
-> +#endif
-> +
-> +/* Append the body of an assembler string literal, escaped as needed. */
-> +static void buf_escaped(struct buffer *buf, const char *str)
-> +{
-> +	unsigned char chr;
-> +
-> +	while ((chr = *str++)) {
-> +		if (chr == '"' || chr == '\\')
-> +			buf_printf(buf, "\\%c", chr);
-> +		else if (isprint(chr))
-> +			buf_printf(buf, "%c", chr);
-> +		else
-> +			buf_printf(buf, "\\%03o", chr);
-> +	}
-> +}
-> +
-> +static void buf_asciz(struct buffer *buf, const char *str)
->  {
-> -	struct buffer buf = { };
-> -	struct module_alias *alias, *next;
-> -	char fname[PATH_MAX];
-> -	int ret;
-> +	buf_printf(buf, "\t.asciz \"");
-> +	buf_escaped(buf, str);
-> +	buf_printf(buf, "\"\n");
-> +}
->  
-> -	add_header(&buf, mod);
-> -	add_exported_symbols(&buf, mod);
-> -	add_versions(&buf, mod);
-> -	add_extended_versions(&buf, mod);
-> -	add_depends(&buf, mod);
-> +/* The equivalent of MODULE_INFO(tag, info). */
-> +static void add_asm_modinfo(struct buffer *buf, const char *tag,
-> +			    const char *info)
-> +{
-> +	buf_printf(buf, "\t.section .modinfo,\"a\",%%progbits\n");
-> +	buf_printf(buf, "\t.asciz \"%s=", tag);
-> +	buf_escaped(buf, info);
-> +	buf_printf(buf, "\"\n");
-> +}
->  
-> -	buf_printf(&buf, "\n");
-> +/* See __KSYM_REF() in include/linux/export-internal.h. */
-> +static void add_asm_ksym_ref(struct buffer *buf, const char *prefix,
-> +			     const char *sym)
-> +{
-> +#if MOD_PREL32_RELOCATIONS
-> +	buf_printf(buf, "\t.long %s%s - .\n", prefix, sym);
-> +#else
-> +	buf_printf(buf, "\t" MOD_PTR_DIRECTIVE " %s%s\n", prefix, sym);
-> +#endif
-> +}
-> +
-> +/* The name and namespace strings a ksymtab entry refers to. */
-> +static void add_asm_kstrtab(struct buffer *buf, const struct symbol *sym)
-> +{
-> +	buf_printf(buf, "\t.section \"__ksymtab_strings\",\"aMS\",%%progbits,1\n");
-> +	buf_printf(buf, "__kstrtab_%s:\n", sym->name);
-> +	buf_asciz(buf, sym->name);
-> +	buf_printf(buf, "__kstrtabns_%s:\n", sym->name);
-> +	buf_asciz(buf, sym->namespace);
-> +	buf_printf(buf, "\t.previous\n");
-> +}
-> +
-> +/* The equivalent of SYMBOL_FLAGS(). */
-> +static void add_asm_kflagstab(struct buffer *buf, const struct symbol *sym)
-> +{
-> +	buf_printf(buf, "\t.section \"___kflagstab+%s\", \"a\"\n", sym->name);
-> +	buf_printf(buf, "__flags_%s:\n", sym->name);
-> +	buf_printf(buf, "\t.byte 0x%02x\n", get_symbol_flags(sym));
-> +	buf_printf(buf, "\t.previous\n");
-> +}
-> +
-> +/* The equivalent of KSYMTAB_FUNC()/KSYMTAB_DATA(). */
-> +static void add_asm_ksymtab(struct buffer *buf, const struct symbol *sym)
-> +{
-> +	const char *name = sym->name;
-> +
-> +	add_asm_kstrtab(buf, sym);
-> +
-> +	buf_printf(buf, "\t.section \"___ksymtab+%s\", \"a\"\n", name);
-> +	buf_printf(buf, "\t.balign %d\n", KSYM_ALIGN);
-> +	buf_printf(buf, "__ksymtab_%s:\n", name);
-> +	add_asm_ksym_ref(buf, sym->is_func ? MOD_FUNC_PREFIX : "", name);
-> +	add_asm_ksym_ref(buf, "__kstrtab_", name);
-> +	add_asm_ksym_ref(buf, "__kstrtabns_", name);
-> +	buf_printf(buf, "\t.previous\n");
-> +
-> +	add_asm_kflagstab(buf, sym);
-> +}
-> +
-> +/* The equivalent of SYMBOL_CRC(). */
-> +static void add_asm_crc(struct buffer *buf, const struct symbol *sym)
-> +{
-> +	buf_printf(buf, "\t.section \"___kcrctab+%s\",\"a\"\n", sym->name);
-> +	buf_printf(buf, "\t.balign 4\n");
-> +	buf_printf(buf, "__crc_%s:\n", sym->name);
-> +	buf_printf(buf, "\t.long 0x%08x\n", sym->crc);
-> +	buf_printf(buf, "\t.previous\n");
-> +}
-
-It would be good to avoid duplicating these symbol-related
-implementations in include/linux/export-internal.h and
-scripts/mod/modpost.c. Perhaps .vmlinux.export.c could also be lowered
-to assembly, so the implementation in include/linux/export-internal.h
-can be removed and scripts/mod/modpost.c becomes the only source of
-truth.
+  These preemption models apply only to the kernel - a user-space task is
+  always preempted by the scheduler regardless of the selected model.
 
 > +
-> +static bool export_is_kept(const struct symbol *sym)
-> +{
-> +	return !trim_unused_exports || sym->used;
-> +}
-> +
-> +/* Record the CRCs of the exported symbols. */
-> +static void add_asm_crcs(struct buffer *buf, struct module *mod)
-> +{
-> +	struct symbol *sym;
-> +
-> +	list_for_each_entry(sym, &mod->exported_symbols, list) {
-> +		if (!export_is_kept(sym))
-> +			continue;
-> +
-> +		if (!sym->crc_valid)
-> +			mod_warn(mod, "EXPORT symbol '%s' version generation failed, symbol will not be versioned.\n"
-> +				 "Is '%s' prototyped in <asm/asm-prototypes.h>?\n",
-> +				 sym->name, sym->name);
-> +		add_asm_crc(buf, sym);
-> +	}
-> +}
-> +
-> +static void add_asm_exported_symbols(struct buffer *buf, struct module *mod)
-> +{
-> +	struct symbol *sym;
-> +
-> +	list_for_each_entry(sym, &mod->exported_symbols, list) {
-> +		if (export_is_kept(sym))
-> +			add_asm_ksymtab(buf, sym);
-> +	}
-> +
-> +	if (modversions)
-> +		add_asm_crcs(buf, mod);
-> +}
+> +When CONFIG_PREEMPT_DYNAMIC is enabled the preemption model can addition=
+ally
+> +be selected at boot time with the ``preempt=3D`` command line parameter,=
+ without
+> +rebuilding the kernel.  See
+> +Documentation/admin-guide/kernel-parameters.txt for the parameter itself.
 
-Nit: This could be kept shorter as a single function, similarly to how
-the original C version was implemented solely as add_exported_symbols().
-
-static void add_asm_exported_symbols(struct buffer *buf, struct module *mod)
-{
-	struct symbol *sym;
-
-	list_for_each_entry(sym, &mod->exported_symbols, list) {
-		if (trim_unused_exports && !sym->used)
-			continue;
-
-		add_asm_ksymtab(buf, sym);
-
-		if (!modversions)
-			continue;
-
-		if (!sym->crc_valid)
-			mod_warn(mod, "EXPORT symbol '%s' version generation failed, symbol will not be versioned.\n"
-				 "Is '%s' prototyped in <asm/asm-prototypes.h>?\n",
-				 sym->name, sym->name);
-		add_asm_crc(buf, sym);
-	}
-}
-
-> +/*
-> + * An unresolved symbol without a module is not versioned; one without a CRC
-> + * cannot be, so warn about it.
-> + */
-> +static bool skip_unversioned(struct module *mod, const struct symbol *sym)
-> +{
-> +	if (!sym->module)
-> +		return true;
-> +	if (sym->crc_valid)
-> +		return false;
-> +
-> +	mod_warn(mod, "symbol '%s' has no CRC!\n", sym->name);
-> +	return true;
-> +}
-> +
-> +/* One struct modversion_info: the CRC, then the name padded to the end. */
-> +static void add_asm_version(struct buffer *buf, const struct symbol *sym)
-> +{
-> +	buf_printf(buf, "\t" MOD_PTR_DIRECTIVE " 0x%08x\n", sym->crc);
-> +	buf_printf(buf, "\t.ascii \"%s\"\n", sym->name);
-> +	buf_printf(buf, "\t.skip %zu\n", MOD_SIZEOF_struct_modversion_info -
-> +		   MOD_OFF_modversion_info_name - strlen(sym->name));
-> +}
-> +
-> +/*
-> + * The equivalent of:
-> + *
-> + *	static const struct modversion_info ____versions[]
-> + *	__used __section("__versions") = { { crc, "name" }, ... };
-> + *
-> + * for unresolved symbols.
-> + */
-> +static void add_asm_versions(struct buffer *buf, struct module *mod)
-> +{
-> +	struct symbol *sym;
-> +
-> +	if (!basic_modversions)
-> +		return;
-> +
-> +	buf_printf(buf, "\n\t.section __versions,\"a\",%%progbits\n");
-> +	buf_printf(buf, "\t.balign %d\n", MOD_ALIGNOF_struct_modversion_info);
-> +	list_for_each_entry(sym, &mod->unresolved_symbols, list) {
-> +		if (skip_unversioned(mod, sym))
-> +			continue;
-> +
-> +		if (strlen(sym->name) >= MOD_NAME_LEN) {
-> +			/* Only the extended table can hold it. */
-> +			if (extended_modversions)
-> +				continue;
-> +
-> +			mod_error(mod, "too long symbol '%s'\n", sym->name);
-> +			break;
-> +		}
-> +
-> +		add_asm_version(buf, sym);
-> +	}
-> +}
-> +
-> +static void add_asm_version_ext_crcs(struct buffer *buf, struct module *mod)
-> +{
-> +	struct symbol *sym;
-> +
-> +	buf_printf(buf, "\n\t.section __version_ext_crcs,\"a\",%%progbits\n");
-> +	buf_printf(buf, "\t.balign 4\n");
-> +	list_for_each_entry(sym, &mod->unresolved_symbols, list) {
-> +		if (skip_unversioned(mod, sym))
-> +			continue;
-> +
-> +		buf_printf(buf, "\t.long 0x%08x\n", sym->crc);
-> +	}
-> +}
-> +
-> +/*
-> + * A symbol without a CRC was warned about with the CRCs, and is skipped here
-> + * too so that the names line up with them.
-> + */
-> +static void add_asm_version_ext_names(struct buffer *buf, struct module *mod)
-> +{
-> +	struct symbol *sym;
-> +
-> +	buf_printf(buf, "\t.section __version_ext_names,\"a\",%%progbits\n");
-> +	list_for_each_entry(sym, &mod->unresolved_symbols, list) {
-> +		if (!sym->module || !sym->crc_valid)
-> +			continue;
-> +
-> +		buf_asciz(buf, sym->name);
-> +	}
-> +	/* The terminator of the string literal this used to be. */
-> +	buf_printf(buf, "\t.byte 0\n");
-
-This is ok since the conversion aims to be byte-identical. In the
-future, I believe the extra NUL byte should be removed and
-elf_validity_cache_index_versions() also be updated to report when
-__version_ext_names contains more names than there are CRCs in
-__version_ext_crcs.
-
-> +}
-> +
-> +/*
-> + * The equivalent of:
-> + *	static const u32 ____version_ext_crcs[] __section("__version_ext_crcs") = { crc, ... };
-> + *	static const char ____version_ext_names[] __section("__version_ext_names") = "name\0" ...;
-> + *
-> + * for unresolved symbols.
-> + */
-> +static void add_asm_extended_versions(struct buffer *buf, struct module *mod)
-> +{
-> +	if (!extended_modversions)
-> +		return;
-> +
-> +	add_asm_version_ext_crcs(buf, mod);
-> +	add_asm_version_ext_names(buf, mod);
-> +}
-
-Nit: add_asm_version_ext_crcs() and add_asm_version_ext_names() are both
-fairly short and are called only from add_asm_extended_versions(), so
-I think they could be inlined into that function. This would be similar
-to the original implementation, which does all the work in
-add_extended_versions().
+  Additionally the preemption model can be inspected and changed via the
+  /sys/kernel/debug/sched/preempt file (which is available for debugging
+  purposes and may change).
 
 > +
-> +/* Clear ->seen of the modules that own symbols this one needs. */
-> +static void clear_seen_dependencies(struct module *mod)
-> +{
-> +	struct symbol *sym;
+> +The models selectable at runtime are:
 > +
-> +	list_for_each_entry(sym, &mod->unresolved_symbols, list) {
-> +		if (sym->module)
-> +			sym->module->seen = sym->module->is_vmlinux;
-> +	}
-> +}
-> +
-> +/* The modules this one depends on, each once, comma separated. */
-> +static void collect_dependencies(struct module *mod, struct buffer *deps)
-> +{
-> +	struct symbol *sym;
-> +	bool first = true;
-> +
-> +	clear_seen_dependencies(mod);
-> +
-> +	list_for_each_entry(sym, &mod->unresolved_symbols, list) {
-> +		struct module *owner = sym->module;
-> +
-> +		if (!owner || owner->seen)
-> +			continue;
-> +
-> +		owner->seen = true;
-> +		buf_printf(deps, "%s%s", first ? "" : ",",
-> +			   get_basename(owner->name));
-> +		first = false;
-> +	}
-> +	buf_write(deps, "", 1);
-> +}
-> +
-> +static void add_asm_depends(struct buffer *buf, struct module *mod)
-> +{
-> +	struct buffer deps = { };
-> +
-> +	collect_dependencies(mod, &deps);
-> +	buf_printf(buf, "\n");
-> +	add_asm_modinfo(buf, "depends", deps.p);
-> +	free(deps.p);
-> +}
+> +	=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +	none		No preemption of kernel code other than at explicit
+> +			``cond_resched()`` / blocking points.
+> +	voluntary	As ``none``, plus ``might_sleep()`` sites.
+> +	full		Any section that is not explicitly preempt disabled
+> +			may be preempted at any time.  Tasks also yield
+> +			contended spinlocks.
 
-Nit: Same here. I think this would be more straightforward if
-collect_dependencies() and clear_seen_dependencies() were inlined into
-add_asm_depends(), matching the original add_depends().
+What does "Tasks also yield contended spinlocks" mean?
 
--- 
-Thanks,
-Petr
+> +	lazy		As ``full``, except that a reschedule requested by
+> +			the fair scheduler does not interrupt the target
+> +			CPU.  It is committed at the next return to user
+> +			space or at the next tick, whichever comes first.
+
+  Same as ``full` except that the scheduling request is delayed until the
+  return to user space or the next tick, whichever comes first. This delay
+  does not apply to real-time tasks.
+
+
+> +	=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Not every model is available on every kernel.  On a kernel that selects
+> +ARCH_HAS_PREEMPT_LAZY, only ``full`` and ``lazy`` are offered and ``none=
+`` and
+> +``voluntary`` are rejected.  A PREEMPT_RT kernel likewise does not offer
+> +``none`` or ``voluntary``.
+
+I would rephrase it to
+  On an architecture, that provides support lazy-preempt, only =E2=80=A6
+
+and maybe=20
+  A PREEMPT_RT kernel offers always ``full`` and ``lazy`` if provided by
+  the architecture.
+
+> +The model that is actually active is reported in the boot log::
+> +
+> +	Dynamic Preempt: full
+> +
+> +PREEMPT_LAZY
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +``lazy`` is the interesting one, because its behaviour cannot be underst=
+ood
+> +from the "can this be preempted" question alone.
+> +
+> +When a wakeup makes a running CFS task preemptible, the fair scheduler c=
+alls
+> +``resched_curr_lazy()``.  With the lazy model inactive that is just
+> +``resched_curr()``; with ``lazy`` active it sets ``TIF_NEED_RESCHED_LAZY=
+``
+> +instead of ``TIF_NEED_RESCHED``.  The consequence is in ``__resched_curr=
+()``:
+> +the cross-CPU reschedule IPI is only sent for ``TIF_NEED_RESCHED``.
+> +
+
+This is a technical description of the code. From a bird's eye view:
+
+  The scheduler becomes a wake up request for a task and marks it
+  immediately as eligible for running. If there is an idle CPU which is
+  suitable then it will move the task there. Otherwise the scheduler must
+  decide which task to preempt. Once a decision has been made, the task,
+  that needs to be removed from the CPU, gets a "NEED RESCHED" flag set.
+  In tracing this is visible in the "need-resched" column and is denoted
+  by a ``N`` for "NEED_RESCHED" or ``l`` for "NEED_RESCHED_LAZY" request.
+  The next step for kernel is to honour this scheduling request.=20
+  A task executing in userland can always be preempted. A task executing
+  in kernel can only be preempted when it is safe to do so.
+ =20
+  - No Forced Preemption
+    Code paths with loops have often a "cond_resched()" function which
+    performs scheduling.
+ =20
+  - Voluntary Kernel Preemption
+    Same as in the previous model and additionally functions, which are
+    known that they may block and schedule, have also such a
+    "cond_resched()".
+ =20
+  - Preemptible Kernel
+    The previously mention "cond_resched()" mechanics is not involved.
+    Instead the kernel tracks preemptiblity and schedules after a
+    scheduling request (NEED_RESCHED) once possible.
+ =20
+  - Scheduler controlled preemption model
+    Same as in the previous model except that the default scheduling
+    request is "NEED_RESCHED_LAZY". This scheduling request is not
+    honoured immediately, even if possible, but delayed until the task is
+    returning back to userland (allowing running to completion).
+    This "NEED_RESCHED_LAZY" scheduling request will be turned into a
+    "NEED_RESCHED" request on the next HZ tick should the task not
+    schedule on its own before that. This is denoted in the tracing output
+    by a "B".
+    Real-time tasks use always the "NEED_RESCHED" mechanism to avoid any
+    delays.
+
+Wouldn't this do the job?
+
+> +A lazy reschedule therefore does *not* interrupt the target CPU.  It is
+> +committed later, in one of two ways:
+> +
+> +1. On the next return to user mode.  ``__exit_to_user_mode_loop()`` trea=
+ts
+> +   ``_TIF_NEED_RESCHED | _TIF_NEED_RESCHED_LAZY`` as a reschedule reques=
+t, and
+> +   ``xfer_to_guest_mode_work()`` does the same for a vCPU returning to g=
+uest
+> +   mode.
+> +
+> +2. In ``scheduler_tick()``, which promotes a pending
+> +   ``TIF_NEED_RESCHED_LAZY`` to a full ``TIF_NEED_RESCHED`` once per tic=
+k.
+> +
+> +The tick is thus an upper bound on lazy preemption latency for CFS tasks=
+: a
+> +runnable CFS task that has been passed over is picked up within one tick=
+, not
+> +immediately.  The tick is guaranteed to run in the case that matters: wh=
+ile
+> +more than one CFS task is runnable on the CPU, ``sched_can_stop_tick()``
+> +refuses to stop the tick.  A lazy reschedule aimed at the idle task is p=
+romoted
+> +to a full one instead.
+
+This is an implementation detail I think.
+
+> +That is the intended trade-off -- it avoids sending an IPI to every CPU =
+that
+> +has a runnable CFS task -- and it is why ``lazy`` gives up latency in ex=
+change
+> +for fewer inter-processor interrupts.
+
+Maybe I miss the point but a wakeup never sends an IPI to every CPU. It
+only sends one to the CPU which should run task in a cross-CPU wake-up.
+
+> +The idle task is never delayed: ``__resched_curr()`` promotes a lazy
+> +reschedule to a full one when the target is the idle task.
+
+You never explained what an idle task and this is not visible in ps
+either. Also an implementation detail.
+
+> +Only the fair scheduler issues lazy reschedules.  RT and deadline tasks =
+are
+> +still preempted immediately.  ``lazy`` is therefore not a replacement for
+> +PREEMPT_RT; it is a way to keep most of the responsiveness of ``full`` w=
+hile
+> +removing a large part of its IPI traffic.
+
+Not sure it is the IPI traffic. Of course the IPI is absent on cross-CPU
+wake-ups. The main point however is to allow "run-to-completion" for the
+task. By pushing a scheduling request to the point where it returns to
+userland, the "in-kernel-work" has been done. That means all locks have
+been dropped so another task will not ask for a mutex which is held by
+preempted task. Also it will not write-back cache hot memory which needs
+to be dragged back once it schedules back-in.
+
+> +
+> +Debugging
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The scheduler debugfs directory provides ``/sys/kernel/debug/sched/preem=
+pt``,
+> +which lists the models that may be switched to; the active one is enclos=
+ed in
+> +parentheses::
+> +
+> +	# cat /sys/kernel/debug/sched/preempt
+> +	full (lazy)
+> +
+> +Writing a model name to the file switches to it.  A name that the kernel
+> +cannot select (either because the model is not built in, or because it i=
+s not
+> +available on this kernel) is rejected with EINVAL.  The ``preempt=3D``
+> +boot parameter rejects such a value as well, but only prints an ``unsupp=
+orted
+> +mode`` warning and keeps the default model.
+
+I added a small point upstairs, you have a bit more here, not sure what
+to do about here. Reading and writing is sort of obvious.
+
+> +Measuring
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Two things routinely trip people up when measuring preemption latency.
+> +
+> +First, the classic real-time latency tools do not exercise lazy preempti=
+on at
+> +all.  Lazy only applies to the fair class, so waking a SCHED_FIFO task t=
+akes
+> +``resched_curr()`` and preempts immediately, whichever model is active. =
+ And
+
+The scheduling request happens immediately for SCHED_FIFO, yes. But
+preemption does not happen immediately on NONE for instance.
+
+> +when the woken task runs on the CPU the wakeup happens on, even a fair l=
+azy
+> +reschedule is committed as soon as that CPU returns to user mode, which =
+for an
+> +already runnable task is immediate.  For both reasons such workloads mea=
+sure
+> +the same under ``lazy`` and ``full``.
+
+I don't comprehend that one.
+
+> +
+> +The difference only shows up when the woken task is *not* running on the=
+ CPU
+> +where the wakeup happens.  In that case the waker requests the reschedul=
+e, and
+> +under ``lazy`` that request is not turned into an IPI; the target CPU on=
+ly
+> +notices at its next tick.  A measurement that cannot distinguish ``none`=
+` from
+> +``full`` is usually not measuring the preemption model at all: in the ab=
+sence
+> +of ``lazy``, the reschedule IPI is sent regardless of the model and prov=
+ides a
+> +preemption point even on PREEMPT_NONE.
+
+This is a detail that could be mentioned. However, despite a wakeup (as
+of try_to_wake_up()) the scheduler can decide to keep the current task
+on CPU (because it did not consume enough of its time slice) and not
+schedule the runnable SCHED_OTHER task immediately. There is no
+requirement that a freshly woke up task must be scheduled right away.
+
+> +
+> +Second, when driving cross-CPU wakeups from a periodic source, keep the =
+wakeup
+> +period away from integer multiples of the tick.  A period that is phase-=
+locked
+> +to the tick will hide (or invent) exactly the effect that is being measu=
+red.
+> +Add jitter to the wakeup period, and confirm the active model from the
+> +``Dynamic Preempt:`` line rather than assuming that ``preempt=3D`` took =
+effect.
+
+If you do timer-based wake ups for SCHED_OTHER tasks you also have the
+"slack" value. Also you can have jitter from preemption or interrupts
+disabled regions.
+
+Sebastian
