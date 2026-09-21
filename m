@@ -1,75 +1,73 @@
-Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
+Received: from mail-ua2-f12.google.com (mail-ua2-f12.google.com [74.125.226.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D2B49B5A4
-	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 13:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB68749E133
+	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 13:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.226.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789996143; cv=none; b=VMQrLdIjJqHlKOZZJ1nkBwz+Pm/sC9u1hxv0jts8FNxB0jlTUhjmSnfAa7Mc/dgq7eKr4sG9Ci1k3TwHIP1m+TEcfhFyPzKLjeAMgRtizrE1XMQAJrV3WcKzK6diA4eIGpFj99GdeL8GD6vUtnApc0ITpEzU8GZgHUoY+fseX/Q=
+	t=1789997164; cv=none; b=Q+4UgbIHtomW1mrVl+j0Qg4xlnzj8hNVBtirSH8gwJF4+YWCkfmfa8kHNAeaLuKFCuM1muZnmrIE/q/UF6h8YbsLEjRTPZP3l3w+GhbE7Xo1lhbzJqzad4ZKq/1oetFdjjvsjuIhM9w+T6ax2IxDGs93meRW+i4xh7SRJNxrZuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789996143; c=relaxed/simple;
-	bh=7iRzAcHHARKyQ+ATaMDpW4DruCrP6jplXNxnuj7OqwM=;
+	s=arc-20240116; t=1789997164; c=relaxed/simple;
+	bh=jI7O6dwFsIzcl16MuxgQK+8Hj3EPC7adm8Q/IYAxJFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B0B+CiiYeI9FhT2T/rzfwZcTYfFsVOQfGUmRdKwmjk4XnX3MEBU0phuymfgbOvSD4dEYTbkfEiLKxODof94OAnqtxjfFW/yBG7zFK2kmDpM1ghH+YPZUxeF5yP187gALUDFo/cwYMBjDHqLsOxU2CBgOXWTCeORtm4ytACvmI58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=OVbP23qH; arc=none smtp.client-ip=74.125.224.141
+	 Content-Type:Content-Disposition:In-Reply-To; b=LkSR1HuHgGk17XqvkFKLyc7VWQ8MqEfjImfAIdbVFY+dHWxQzumivx9a5qpZUb1I27TDC4h4DuQXwNcvwPi/fU6Z2oPAd1O/sat1VadROaXElDpU65CtI7qVtAxLdjMtiVo1Qw49aNf5n6uIH3DEMUrAUL3/xcqCtpQV+GRdZco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Zor1pBXj; arc=none smtp.client-ip=74.125.226.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="OVbP23qH"
-Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-6713d20d375so2486968d50.0
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 06:09:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Zor1pBXj"
+Received: by mail-ua2-f12.google.com with SMTP id a1e0cc1a2514c-97e7dba0631so760730241.3
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 06:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1789996141; x=1790600941; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/I4CnabOFJ3V+cBV+khghf4ltJkhcHX6gZAKyxfIiuU=;
-        b=OVbP23qHxpA1f0E25xNKG0Utb4qY1pci7lNk1dz9kSCfiFs84khz7O89QkedKxGdF/
-         0BgGqFlTDcjyoq1EhB62Hs1JbrYZYD8S5vHBJOhauPNXuaX1nb3pv3wtsBQTIyaxKlHH
-         W5RPLjfQVDytPLMyAVNbHYDlUMwBER/D7KO1XAs4nvgPFc7AW8QN2S5fU7XQBgbrQklV
-         mea3UtzB/mAP5ERVg1OpKwyibQEtCEHIyAnlL9kblIObxvClWKjATxcupqTIfL8HDbgJ
-         DArpRHVstouE13CeyOaGnHw7CHAQLXfCxKjIZToSseuODn/RSEXWdw31uTLaznBIBhdH
-         ujIQ==
+        d=ziepe.ca; s=google; t=1789997161; x=1790601961; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Jdn4c9lGyFJE/+rps4rYYBXSqoAaBa5j8WwP9obCXz4=;
+        b=Zor1pBXjDbKiTRgFvCoqbxooDZ/aS+qhPnELwmJDlHbmi+nwYbHEPDq+Mg9vOvmwDZ
+         1m96lyt3HxKl6kWfbEm6P8Nid4V4DUseluczVlybjZIlaEDYrCLuF5BThxoD+SodbCc1
+         7mPYkNT0EO8/X2WmG8MxRnnu7Y3spcid8I8CGmQw+ZBiibvrIwjkDLx4V2fcue+a7V9O
+         RAHgba8Fwr2GmPO6rby6+8j05RQhYtm8uK0uGKu1ITUu0ygscZ4Zx6rksc/iMCwLmNGW
+         kdy1UmBUUl1kSslVKYnOP3ojS+ggUEmIVHQJGng31mjKpk8ROI1CF0bJD0hmc4Yw5rZ4
+         cs3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789996141; x=1790600941;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=/I4CnabOFJ3V+cBV+khghf4ltJkhcHX6gZAKyxfIiuU=;
-        b=k8/f4qHrjLyLlh1QhtqF9zMUUXXvZB0Jc60AzsWzhTJXU+KtEO5b5gdz3of8IET6iq
-         WfJKIGb7K7iZATkAkHZMdUv0sLIfpt1rcWzYjbT+yEDa5goHhQ6e/VXviX5BOLagbWYt
-         O9WEMCi+zTfnabiWXItbcLOBaflAUMhqpB/PBatZfC30GXYEwJYNZD02AIyalujs18bQ
-         fmYIWuK1f4qU6KQxb/w3dHfQ1KN+Im8CTq7PdLKehwQG5rZ3JJRTAxSNeZkFM6wuuo/s
-         QwW9DPWs84rTbDrqo+yc8EckdAL3D9ll8viPEcTHmZJvEZtw/UroGjXYxaUIgKeLy8sb
-         fpQA==
-X-Forwarded-Encrypted: i=1; AKwUvBzwMdhSKqmTlr7UPuqOy5Z8IAP2didm0wnSOt4Xq1/5YAHVAnjvME4NldstktvnGKROjhNzQwBOGlc=@vger.kernel.org
-X-Gm-Message-State: AFuF++kijD/+c0hwmsCChxH5VYS14z+hrqdjXDALGJUYvxnso1hEZwLH
-	a3y8S1zrrdj8QjzPF4h75LTOLMnKxDBIc1TSNY1ocZHKN4514upemJNgFtkGwp2WbGGt56SuquO
-	P2Q/W
-X-Gm-Gg: AYBFou3wtcrGLhTelkyJXgrlsOMyR2CcUHtatHIHMaqC5zCqLB+k/Wfm04K3sjcVmX9
-	cOWLIksUu+qd5NKcL5fEf8czyghlAfTfyVIJNN0ikuPhpN2dcHr0cX9aXWoVBhe9+zBjO3ksMqL
-	lZ8izkKgSixu1sHyWa+oga/MecU+TGefdoOc48yNig13bo2vHoMVTOvNTfa7IOOKEkf4oLK8y3Z
-	RcPGkRB+IXfZx+UNyuQXgkEysHqQ45sOd8A19E8661LQycSsNFhfnKE/sSYJpR/5C51HAxg54bR
-	SfSDglM3RBOerpPwIQ2fejS+t4IR8otj5PLxSDlEZfQ40LD/b14vvU/9+LPhNPgnw17D/eUZxds
-	qLuZzPz4jr5JlvgplHp9dDcfmsGbaeYxbZzzkBWnrNceeClFx7LrOwhw0hBK3xKcFq6ND/WxUNp
-	v7tANKGOO5TCnTryWoNjrx55+MPD77xuORapZNHx7m7OaTTTMAGH2jNopxt14KrpfJHOqYGKxcr
-	+ByAUoUi4QgpuOYq0Bvf9RUjiCNFQKetY4yesn+nWMQxr2RUQnY0MMd
-X-Received: by 2002:a05:690e:11ca:b0:672:a52c:db25 with SMTP id 956f58d0204a3-672a52ce30bmr1843524d50.109.1789996140490;
-        Mon, 21 Sep 2026 06:09:00 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789997161; x=1790601961;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Jdn4c9lGyFJE/+rps4rYYBXSqoAaBa5j8WwP9obCXz4=;
+        b=fJqP/cnxjDwV7EpGk2RIu9yfMi1wXzdflnX6MolxrnDdWsO8cLKbNOhY7CzZBt2Gcn
+         Gz8+zqIqAl8S7PZb/bgploBWbOlysRdVXJFdEtWEQfHcSF+pHmpZAUfcbSJy7xc+ZIg7
+         94TJ+WC6eAw2os6BVfK2OG6zuJQDk0zy09omQEB/I0qJSKluCl5QLtLHPbrtEjBzcAEh
+         ehI4LMawXGwEO1IcioTcj3xEpk9mVs/FBwmH3hM/k0Rg6syOCjYzUjnZ8DU6+pg4/2Gq
+         l5w7WMTGdSSirgdoJPqWynInesClUBeMksydC0flvb3wtJlVyVp3hvA3W2qUIuLY7BiK
+         xMgQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzZ3TdJ+NMqsqydUczEvAEwwgLtcATpxsYz2V/iLpaaSmD8cy4D/O+pdwi516fOiyzr4ArtzMCBvcI=@vger.kernel.org
+X-Gm-Message-State: AFuF++nv7NrmqXQmC0jOCNl/zAoClWMqCYQjTXTIKPBD7ehyMk7g+MUv
+	d2/P5Vx6FaI4KPU4EHRSlDHJK5nZmqYbSX3R8tJOFoeNMCJ0mS5l+MGT+OyeDeHW45c=
+X-Gm-Gg: AYBFou1kRm2I9Kkk4zCG7Typ016qrKJlBxaPdOg0BhdywnFXbFoBTk4mQBniGN5V6yv
+	B85W56CujZHoQ1In5WVEHKzm66FY06Mwzg7GMBhT3DXnhincQ1AKK3cXCGMYk9/TyUrVEOY6EQm
+	HsZ0kAIVu1fWF/G2Oon9zjzk8GCZMRdnFOB+gHuvjhi7mjnLFcN0LeO8mCu3888ld73uVVyH9pd
+	06CTsUjpjvsAEQmTjt+EP4h4/+RETNER9UQtV/oHeveT9IBkJNP+iXVhrR7L/tta1IlQvM1tOnz
+	YVXRrn1hYZCpySytgK/+rwekgFt707SNfxxkY0ZlyWgHq+XLZlhm6HIRV/mbkT3oJRCuzP4eBpw
+	O7zDQrmwdSMo+c6jHTRSB74OkNHLNZGTWqaJ16Zb5SHP4lGkOSX+0ul9/d9Uw0nUAcXpNdpKp/J
+	kicvbOPzWT3xy0g7JSxLVw5fiPt5EberZ6aqq31ULHTbeGnD0j/osVRr/S1dmsCf4lxp2NOhWk/
+	+qvCsPECcWejkD6IOx1mh2Szvs93seyocn1eiDCs0pCxaFhu7S7J8wd
+X-Received: by 2002:a05:6122:209e:b0:5c9:a491:641a with SMTP id 71dfb90a1353d-5c9b8a6c1afmr4625797e0c.4.1789997160437;
+        Mon, 21 Sep 2026 06:26:00 -0700 (PDT)
 Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91260aa1db7sm67720106d6.44.2026.09.21.06.08.59
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91260a60f21sm67324286d6.19.2026.09.21.06.25.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 06:08:59 -0700 (PDT)
+        Mon, 21 Sep 2026 06:25:59 -0700 (PDT)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1x8dlS-00000006Jlj-41LR;
-	Mon, 21 Sep 2026 10:08:58 -0300
-Date: Mon, 21 Sep 2026 10:08:58 -0300
+	id 1x8e1v-00000006Knm-1R2E;
+	Mon, 21 Sep 2026 10:25:59 -0300
+Date: Mon, 21 Sep 2026 10:25:59 -0300
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+To: Leon Romanovsky <leon@kernel.org>
 Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leon@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Logan Gunthorpe <logang@deltatee.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
@@ -80,133 +78,55 @@ Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 	"Joerg Roedel (AMD)" <joro@8bytes.org>,
 	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev, Tushar Dave <tdave@nvidia.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
-	kvm@vger.kernel.org
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org
 Subject: Re: [PATCH v6 18/18] RDMA/mlx5: Ask P2PDMA whether ATS takes a
  direct peer-to-peer route
-Message-ID: <20260921130858.GO11599@ziepe.ca>
+Message-ID: <20260921132559.GQ11599@ziepe.ca>
 References: <20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com>
  <20260914-fix-p2p-acs-v4-0-v6-18-5ef07ec9ef06@nvidia.com>
  <321890690ce83d1943b2f678bd9bee9b8c895b66.camel@linux.intel.com>
  <20260918121500.GV13683@unreal>
- <b517070d0b9236b03962fcba649faffcacda23eb.camel@linux.intel.com>
- <20260918170524.GH11599@ziepe.ca>
- <9656f2f9-2e39-4007-b065-3b763b53c6de@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9656f2f9-2e39-4007-b065-3b763b53c6de@amd.com>
+In-Reply-To: <20260918121500.GV13683@unreal>
 
-On Mon, Sep 21, 2026 at 08:43:49AM +0200, Christian König wrote:
-> On 9/18/26 19:05, Jason Gunthorpe wrote:
-> > On Fri, Sep 18, 2026 at 03:42:28PM +0200, Thomas Hellström wrote:
-> >>
-> >> 1) Xe attachment check if pci_p2pdma_distance() returns OK for the
-> >> path. Then Xe always sets up dma-addresses using dma_map_resource(). 
-> > 
-> > Open coding pci_p2pdma_distance() in drivers is a hack. Using
-> > dma_map_resource() like this was never "allowed".
-> > 
-> > We've fixed things so these hacks are not needed, the drivers need to
-> > move over to things like dma_buf_phys_vec_to_sgt() and the hmm helpers
-> > to use the DMA API correctly.
+On Fri, Sep 18, 2026 at 03:15:00PM +0300, Leon Romanovsky wrote:
+> > That is, a flag to tell the topology check that some transactions
+> > *will* take the host-bridge path due to IOVA being used, and that the
+> > computations including pci_p2pdma_distance() need to check whether that
+> > is possible (checking whitelist etc.) and return the corresponding
+> > THRU_HOST_BRIDGE mapping type. Translated transactions taking a short-
+> > cut using the bus-address would then be hidden from the driver.
 > 
-> That is a completely broken approach as well since it limits the
-> exported resources to addresses the CPU can reach.
+> The word *will* puzzles me. As I understand it, if your device has ATS
+> enabled all the time, it should always get THRU_HOST_BRIDGE.
 
-Yes, of course it does. The DMA API only works on phy_addr_t. If you
-have a struct p2pdma_provider * then you have a phys_addr_t for it.
+The P2P subsystem currently does not understand ATS, it assumes the
+device will use untranslated requests and makes the routing
+calculation accordingly.
 
-If the exporter knows it is working with a MMIO mapping on a PCI
-device it gets to acquire a p2pdma_provider and use the helper.
+If the device knows it will use ATS it should ask P2P for an ATS path,
+and P2P should only return THRU_HOST_BRIDGE or failure.
 
-None of this is suposed to solve your "resources the CPU cannot reach"
-problem, that has nothing to do with DMA API or P2P. It is not broken
-just because it doesn't solve every problem.
+The purpose of involving the P2P subsystem is to verify that the ACS
+flags for the ATS translated path are going to work. There are many ACS
+configurations where the fabric will hang :(
 
-> Christoph Hellwig is right that drivers should never use that stuff
-> directly, not even through that dma_buf_phys_vec_to_sgt() function.
-
-Hellwig's point was that the subsystem needs a mapping helper that
-goes from the subsystem address representation to the HW
-representation and hides these details from the drivers.
-
-Look at what he built in nvme around biovec.
-
-The dma_buf_phys_vec_to_sgt() is the dmabuf version of the same idea,
-the subystem provides the mapping helper. We can try to do better, but
-better is not making the exporters touch the mapping algorithm.
-
-Ultimately I want to see something in lib/ handle this with a
-non-scatterlist datastructure, but there is a huge gulf between where
-dmabuf is now and it being able to work with a non-scatterlist
-datastructure.
-
-Look, it is easy to complain you don't like how it looks, but this
-stuff is hard there are lots of competing concerns, if you have a
-better idea now is a good time to present it. Maybe if you look
-closely you will appreciate how much work has gone into even getting
-things this far.
-
-> >> It seems to me that a pci-device settable flag "ATS always enabled"
-> >> should be enough to fix both issues?
-> > 
-> > It should be be per-mapping to support the NIC workflow that isn't a
-> > global operation.
-> 
-> I just realized what you guys are doing and I'm not sure if the
-> Linux PCI subsystem should support such hacks at all.
-
-I don't know how to respond to that. It is spec complaint, it is
-shipping in enormous volumes, of course Linux needs to support the HW
-that exists.
-
-> Basically from the point of view of the TA the NIC has ATS enabled
-> all the time, but has a per request option to use translated
-> addresses directly without previously translating and caching them
-> using ATS, correct?
-
-Yep. Very few devices in the world can use ATS for every single
-operation. Many have this split operating model. Some even only use
-ATS for DMA flows that are faultable.
-
-Mostly the OS can't tell what the device is doing and doesn't
-care. The P2P routing is the main issue and we have hacked around it
-in our systems till now. Leon is trying to fix it. Thomas needs it
-fixed too for Xe. So what's the issue here?
-
-DMABUF needs to learn how to do interconnect specific behaviors. PCI
-is an interconnect, it has lots and lots of crazy rules. An
-importer/exporter that chooses to use PCI for their DMA should have a
-way to exchange PCI specific information.
-
-So should UALink and all the other zoo of options we have now. It
-cannot be completely generic and meet everyones needs.
-
-Can we focus on that instead of arguing if the PCI craziness should
-exist or not?
-
-> If yes than that is extremely questionable behavior, I'm not sure if
-> that is covered by the PCIe spec.
-
-Spec doesn't say anything about when a device has to translated vs
-untranslated. The ATS flags only say translated is allowed to be used.
-
-> ATS is meant to be an optimization which moves the TLB from the root
-> complex (TA) into the devices at the cost of TLB invalidation
-> complexity. But what you do here is abusing that functionality as
-> far as I can see.
-
-ATS is for alot more than that, and there is no abuse here.
+For something like mlx5 it is ideal if P2P chooses between ATS or !ATS
+based on what provides an optimal transfer. eg there is usually no
+reason to use ATS to access system memory for streaming (ie non cache
+hitting) transfers.
 
 Jason
