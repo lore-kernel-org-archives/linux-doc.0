@@ -1,144 +1,152 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808EC47534A
-	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 10:25:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B7648167A
+	for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 10:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789986349; cv=none; b=Wu2dhU7qqKXUhXg136pNEB0PIN9jlhmHgZ/Ie6Ks4zXUIMlF2pPp8Fn/jpTsSplItPiwpVX5Nrk8pm4hnmd9h1kL2zGlntMEW8KQFhkRzqmqhOFIApEBaHkVvVqJO1XQomtoop5XDKLXibDpyBnwhAZaJfDLT3p/WX/58QcF8hc=
+	t=1789987598; cv=none; b=MMWGmHWuGk0lKCwiPqyxC2Qb8Wk4irmBv5QJ7Kiyq3n6rafUN7/aLzkTwCFli/6uKb/gNYVl7rU53mQ8jjS0jCJC1SQuOwo+NGXS6/rb8mqZbF+7507XBxLeFn1Bi4tvH2/Q3frtVQ9BIt4zgVp6gc5AcaBVH2+tLA8ccvgtWJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789986349; c=relaxed/simple;
-	bh=jB61ulPo4+2OXOWbLsMqmY+bgBX8tMYEW3pXzpN0lAI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Cu1F+YEW7mfdJJG0zvlzTdOmDcdssj5p3BEAV4Iv9kJIP29OZlsIWTQN661vrAf1EhO6zYGHJbabNCGKOXRZjzuX+rG/nUVonPLYaGVZP130xrGlzMdFLlrbzS0K2ALSB0UBHKDKLjGRGQ9uFHzTz4RTfNHhkYNJ1nEu6f5i9mM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ElP/c9ue; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789987598; c=relaxed/simple;
+	bh=4ExNL/dyZRTZ8of8W7TIP229I6QEOWpteKGWbxZ72kY=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=DtJSA6fJLpLnsrVQD+b+7h0jpmOCncyI0rxynutrDIpLsB3XkC8FrUYLU/OlLkj5ZgN2LbelZqOi8JyrJf9VR4ykltAbDft/KM6Fodye7lmBae8fTg9W9+Sdy1104cgh+pV2ts9QmwaqsIV0QhCr6gd3ttymXfYlDkpjVkgk1Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ruk4pJNS; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ElP/c9ue"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b965f447cso23178615e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 03:25:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789986346; x=1790591146; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Q7p3QHD6gpRm3mxOZTPCZ9KfFr3tYnokBkqHdCAaLmw=;
-        b=ElP/c9ue+yJsk2teQtO4yB7NXhbYne+K+YJbGjHpt0JHuPq4vyDYfg4BQYdYRKoH1m
-         er8UQilLfbHdsDAuyOFeQC2fbx9ufYuejcVIZaehSOpUm5ye9oZmTSA+ucr8OtCXnQpQ
-         vpmYZDRNkoNXxZA0DZlwdS+SIQ6F8s6qWjUJiDSSzlhksi+WOZvKQ9gdBjJRBI6sLvya
-         mRbq7wrmbpDnGOFyuD6Hp5EtNtlnaHy0++bKjPKML0qNRqkH/iOR19W2GcoDQSxF8XR7
-         n2butbkgYkb5urKswsWLyXMQX0TeJi9JUNK5hm1Xs4aCwNVMj1cVkmxjRQ5Ymgb5fI7e
-         zmyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789986346; x=1790591146;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Q7p3QHD6gpRm3mxOZTPCZ9KfFr3tYnokBkqHdCAaLmw=;
-        b=oqVOZQWiVy5v9k9wGfVQ8+hm06mU/xS6m4IoYzmV5uSCIJbAmXrcDdzfnfRVfZa1ds
-         kCQeZcjHcv/Fi+1f82AQJiCjmNLzzxVOi5Uy9H+waPJ0tOYfirsWQMlGfZlukL2DhL01
-         jp7W2GydV/f/vcjIgb/4wOr5Ulbw9LhXt6g+O+JJo/a/l7v6SK2noWTzMN/rOyPF+yDL
-         rJTaJrLaWmJKWusgbsIi/FLdFQ48XDTgZ910j+qTZcZNz3JvZFLGjbpea3CPPQe8dJEW
-         n1yyaXaaakES5UuWqeoT6s/7ESs4QshE3FElpn9Msdgy2wgpc0WqfKcSm0fcWrSgqNwG
-         IktQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwFJZordHvgX3PQ2UpKQdzWJM4QGH3WfUt4utNYPLiTIrvM9no5vgCSQz8ZuDWcUWYzkpOzfImKUTE=@vger.kernel.org
-X-Gm-Message-State: AFuF++kLzvbQwtndw54DF0Ho53A55WU1rwU6Ny9gBdgVtvYIk/2uUi7N
-	OYorg/aYKRjDm1DSqBzYXVLkYVukvJg0lMF5ssbHJAaP+kcjV1BRFL3vCOXNntHPzOU=
-X-Gm-Gg: AYBFou1Dzn5UiioOpmYJbt20hyDEG2ttiOAfl+IERxa7m58oIQEDtOPt5F4axnSevnh
-	L0rkRZmgYlEToQ1TySORpgpNhwY+3pGNyKyzYfPXQY/Gz+FjF9aFKlhCRvRQd4whZhurq+MGi0n
-	EIx2VxvmrOG/Cau3We17IS2m3UGneetSbuVCjzePCjAdFSTwCFk+uLX3Slq4YFp0VpoLPa4eT1h
-	VDSXSEcbsj28bUG3rQDBUCryfmmD4LRbPLS/NsRPXyc5W3RU+VG2PIGbR+8gtvW0pswOE8gkDc9
-	HgCYQoFlOG5ETTscIry2XRy8lQmB4H0y7fd5+AEPx+unM2hy2IZKj07VAqfZtB0AE4VJHBhx87E
-	qD1P2h/xFJ2YEcRbf09qAv77nyGDYOTNsedQ8HeFGprVQqy1DBd2+JL4BWimu4Y8PoM694zJvgQ
-	DOBiGfAxtVBfA/hbzwsvrMWKNJAFUBpn6aUXTMnrn4023D/EnhbD3mCU2IrYgtm8wYPVz1DrLoY
-	M9nNoGh2N9AFgWq4vfNN6T77R2i/VAj5YYZK3qFqwbylKOXH734D3fA6euf1hW0/BM=
-X-Received: by 2002:a05:600c:4f8c:b0:49f:c18a:61c8 with SMTP id 5b1f17b1804b1-49fc573f858mr140670845e9.29.1789986345436;
-        Mon, 21 Sep 2026 03:25:45 -0700 (PDT)
-Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd068124sm213889965e9.3.2026.09.21.03.25.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 03:25:44 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <c3ed62e7-732c-40fe-ba1e-f820b9473cc9@gmail.com>
-Date: Mon, 21 Sep 2026 11:25:41 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ruk4pJNS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1789987594;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xOxCxi0et4Im0QZpiAibCfANf5oH7SZI/BNFkKL+4DA=;
+	b=Ruk4pJNS2sjSXUbYD6FYzvma9e93q5lnSC7OpzdQTJlv7byQJlXp/jsSg0INrJEZtDQNIB
+	/sLEt+yxPVX6YUyynAbjjYeJ0K2nBSbAc81pdHmHPIhyLuuXqSsQztgheoZvT00+QoNpFW
+	Cx55z98+NXFHwXsTd2aCGwYwt402yxM=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-252-q8y1uSteN0-oJqoYVBNtGA-1; Mon,
+ 21 Sep 2026 06:46:31 -0400
+X-MC-Unique: q8y1uSteN0-oJqoYVBNtGA-1
+X-Mimecast-MFC-AGG-ID: q8y1uSteN0-oJqoYVBNtGA_1789987590
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 723F518011E3;
+	Mon, 21 Sep 2026 10:46:29 +0000 (UTC)
+Received: from mpatocka-thinkpadx1carbongen12.rmtcz.csb (headnet03.pony-001.prod.iad2.dc.redhat.com [10.2.32.114])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DD3BA180056E;
+	Mon, 21 Sep 2026 10:46:26 +0000 (UTC)
+Date: Mon, 21 Sep 2026 12:46:24 +0200 (CEST)
+From: Mikulas Patocka <mpatocka@redhat.com>
+To: Ayoub Zaki <ayoub.zaki@embetrix.com>
+cc: snitzer@kernel.org, agk@redhat.com, bmarzins@redhat.com, 
+    dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org, corbet@lwn.net, 
+    linux-doc@vger.kernel.org
+Subject: Re: [PATCH] dm-verity: add DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE
+In-Reply-To: <20260907171939.355472-1-ayoub.zaki@embetrix.com>
+Message-ID: <a37a63f2-e45d-4e51-0c2d-bd19cca5fe88@redhat.com>
+References: <20260907171939.355472-1-ayoub.zaki@embetrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] kconfig: Add "def_string", "def_int" and "def_hex"
-To: Kees Cook <kees@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Masahiro Yamada
- <masahiroy@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Nicolas Pitre <nico@fluxnic.net>, Krzysztof Kozlowski <krzk@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Andrew Jones <andrew.jones@linux.dev>, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- Vegard Nossum <vegard.nossum@oracle.com>,
- Nauman Sabir <officialnaumansabir@gmail.com>, Tejun Heo <tj@kernel.org>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Matthew Maurer <mmaurer@google.com>, Graham Roff <grahamr@qti.qualcomm.com>,
- Miguel Ojeda <ojeda@kernel.org>, "Borislav Petkov (AMD)" <bp@alien8.de>,
- Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, conor.dooley@microchip.com
-References: <20260919005923.i.879-kees@kernel.org>
- <20260919005929.4077729-1-kees@kernel.org>
- <cdebaad4-00c2-4b80-b688-0f5a723d6009@gmail.com>
- <202609191431.C3BCBCD@keescook>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <202609191431.C3BCBCD@keescook>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On 9/20/26 04:40, Kees Cook wrote:
+Hi
 
->> The second problem, is that since the order of defaults matters and
->> conditions can shadow each other, def_<type> makes it harder for users
->> to get defaults right. In the past, I've seen several config options
->> with bugged defaults due to 'default' + 'def_<type>' [2][3][4].
+The argument can be turned off even with your patch - by specifying 
+dm_verity.require_signatures=0 on the kernel command line (read-only 
+module parameters can be modified on the command line during boot).
+
+I'd like to know what kind of security problem does this patch try to 
+solve. If the attacker can tamper with the kernel command line, he can 
+already gain root (i.e. by using init=/bin/bash).
+
+Mikulas
+
+
+On Mon, 7 Sep 2026, Ayoub Zaki wrote:
+
+> Add DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE Kconfig option.  When enabled,
+> dm-verity always requires a valid root hash signature: require_signatures
+> defaults to true and can no longer be cleared on the command line.  When
+> disabled, the existing require_signatures module parameter controls
+> enforcement.
 > 
-> This is the one I, too, got worried about. From your example:
+> Signed-off-by: Ayoub Zaki <ayoub.zaki@embetrix.com>
+> ---
+>  Documentation/admin-guide/device-mapper/verity.rst |  5 +++++
+>  drivers/md/Kconfig                                 | 14 ++++++++++++++
+>  drivers/md/dm-verity-verify-sig.c                  |  4 ++--
+>  3 files changed, 21 insertions(+), 2 deletions(-)
 > 
->  config GUEST_STATE_BUFFER_TEST
-> -	def_tristate n
-> +	def_tristate KUNIT_ALL_TESTS
->  	prompt "Enable Guest State Buffer unit tests"
->  	depends on KUNIT
->  	depends on KVM_BOOK3S_HV_POSSIBLE
-> -	default KUNIT_ALL_TESTS
->  	help
+> diff --git a/Documentation/admin-guide/device-mapper/verity.rst b/Documentation/admin-guide/device-mapper/verity.rst
+> index eb9475d7e196..bb48c001aeac 100644
+> --- a/Documentation/admin-guide/device-mapper/verity.rst
+> +++ b/Documentation/admin-guide/device-mapper/verity.rst
+> @@ -163,6 +163,11 @@ root_hash_sig_key_desc <key_description>
+>      also gain new certificates at run time if they are signed by a certificate
+>      already in the secondary trusted keyring.
+>  
+> +    Whether a signature is required for every dm-verity device is controlled by
+> +    the dm_verity.require_signatures parameter which defaults to off. Setting
+> +    DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE makes it default to on in which case it
+> +    can no longer be turned off.
+> +
+>  try_verify_in_tasklet
+>      If verity hashes are in cache and the IO size does not exceed the limit,
+>      verify data blocks in bottom half instead of workqueue. This option can
+> diff --git a/drivers/md/Kconfig b/drivers/md/Kconfig
+> index df27c7d066d2..59098d1f4534 100644
+> --- a/drivers/md/Kconfig
+> +++ b/drivers/md/Kconfig
+> @@ -610,6 +610,20 @@ config DM_VERITY_VERIFY_ROOTHASH_SIG_PLATFORM_KEYRING
+>  
+>  	  If unsure, say N.
+>  
+> +config DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE
+> +	bool "Require dm-verity root hash signature verification"
+> +	depends on DM_VERITY_VERIFY_ROOTHASH_SIG
+> +	help
+> +	  Reject dm-verity devices that are created without a valid root hash
+> +	  signature.  Without this, whether a signature is required is decided
+> +	  at boot time by the dm_verity.require_signatures parameter which
+> +	  defaults to off.
+> +
+> +	  Enabling this makes that parameter default to on and it can then no
+> +	  longer be turned off.
+> +
+> +	  If unsure, say N.
+> +
+>  config DM_VERITY_FEC
+>  	bool "Verity forward error correction support"
+>  	depends on DM_VERITY
+> diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
+> index b2b55c41e2cb..aadcf5e4a47c 100644
+> --- a/drivers/md/dm-verity-verify-sig.c
+> +++ b/drivers/md/dm-verity-verify-sig.c
+> @@ -21,8 +21,8 @@ static bool dm_verity_keyring_unsealed __ro_after_init;
+>  module_param_named(keyring_unsealed, dm_verity_keyring_unsealed, bool, 0444);
+>  MODULE_PARM_DESC(keyring_unsealed, "Leave the dm-verity keyring unsealed");
+>  
+> -static bool require_signatures;
+> -module_param(require_signatures, bool, 0444);
+> +static bool require_signatures = IS_ENABLED(CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG_FORCE);
+> +module_param(require_signatures, bool_enable_only, 0444);
+>  MODULE_PARM_DESC(require_signatures,
+>  		"Verify the roothash of dm-verity hash tree");
+>  
 > 
-> Is there a way to detect this state? (I assume as a follow-up; it's a
-> general problem.)
+> base-commit: df2908090cda368b01ff43709f51890076c56157
+> -- 
+> 2.43.0
+> 
 
-Unfortunately there's no way to avoid some false alarms when checking
-these due to macros.
-
-Example:
-
-    config TUNE_CPU
-        string
-        depends on POWERPC64_CPU
-        default "-mtune=power10" if $(cc-option,-mtune=power10)
-        default "-mtune=power9"  if $(cc-option,-mtune=power9)
-        default "-mtune=power8"  if $(cc-option,-mtune=power8)
-
-These macros get evaluated during preprocessing, which is ahead of when
-the parse tree is finished and analysis can run.
-
-Though a check for it is included in kconfirm (if merged) [1], and I've
-also been thinking about making this part of an optional KCONFIG_LINT
-setting, where some false positives could be acceptable.
-
-[1]
-https://lore.kernel.org/all/20260727001623.2794156-1-julianbraha@gmail.com/
-
-- Julian Braha
