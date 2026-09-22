@@ -1,149 +1,89 @@
-Received: from mta1.migadu.com (out-216.mta1.migadu.com [95.215.58.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37981424D6A
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 09:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43CC456DF7;
+	Tue, 22 Sep 2026 09:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790068875; cv=none; b=KFX1bgFvhWIMVWwQaZ2QATz4nWfvAYFIALxwEtR5bBv3fOQnBdKlugKbxedECienlzr+K1r9k2Gg3H453gLthp4WqMUdce7QETj0sKCWAo82pxON36ClA3J3XKC4xOF7lZtO0S0lm8woAZNNPm7VjXLINw5YuBFD9iCs1/4RIrg=
+	t=1790069280; cv=none; b=RU6mh1GuIEarH8VWsNG+9+hN+T2O8RuoHKcWrrszvS3aU5soH7IJz8hUTFlkD8h3cUY3EmdSC9rmvwo3M7sFnsX8QLiUbU+TBEO0l2KgjaKdbm133zZU6fH4fmQM2y+EbCqRUQEZF5VM7s7E3NeFISih4m4mGb0NyHxLgTjTjXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790068875; c=relaxed/simple;
-	bh=tEqbYVDyKqM7Hc/fFzmDq51q6SiHClV2nLZaCnxNlr8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O0pYmhy6HTC2Og0kMymqR1RITULbrrmhekAVSF9w57MtD+kPeOReLJI2WRaDj2txD4jAPR9UUryW+Rh2mcm9deyflL4cumuBBtdr+QMxPjhKLJx/6/R51PWy4hXQtibpn2dNrisggulhRKenRz0Fen+LTmtFRUOx+GPl8KiO0sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mc1ldZZD; arc=none smtp.client-ip=95.215.58.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790069280; c=relaxed/simple;
+	bh=gS3AFki51Z44v57VCMt1yUS9ZPFvANxOrRZ4wXkAYmI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uhB7zD8x69ckrqfGITzcQqx5hDONamZXrUaWh0OuzXnHLEYmQlajYyI+F7yXJY8NPwWSkRXMMKg8b2kQHc2e4hyPzmcoX3RiA7zACba9CAGvGc6FOervze9fxJvkkJAFCmQfKYFxNGyFYSiw7Jz+0ROvLN+7dB3zfpbO/7gRs9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P93Y2JwM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mc1ldZZD"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=tEqbYVDyKqM7Hc/fFzmDq51q6SiHClV2nLZaCnxNlr8=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790068870; v=1; x=1790673670;
- b=mc1ldZZDc44AqAZtR4xJVX3zwXMf9ZXE/oJkCYzjBbbpLIeglL170zij8QhU75b86D5/sqyj
- O76U4xCqrwtD49JgwNCENqmXZMBpcr/4ndG26yp8UdHKw/oWiq6nihXODkjRevvKSexdz2FR5wA
- rRIPOtnGKDT5XZTaGHZGoXgc=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b325b4af7485a9b4;
-	Tue, 22 Sep 2026 09:21:10 +0000
-X-Mizu-Trace-ID: b325b4af7485a9b4
-X-Migadu-Flow: FLOW_OUT
-From: Guopeng Zhang <guopeng.zhang@linux.dev>
-To: Waiman Long <longman@redhat.com>,
-	Ridong Chen <ridong.chen@linux.dev>
-Cc: Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P93Y2JwM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 460301F000FF;
+	Tue, 22 Sep 2026 09:27:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790069279;
+	bh=koizuzCvTqcQymkCuZR6nRMdDkAOhPlxoac5NyN6ips=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=P93Y2JwMRUD+FjDX9JvlrJ4sdffhqSpMhQ3xyG2fMIU7w46V1TqTlurEZHFvSSmnp
+	 2eCbfQf/foqQ/lkHF+f7ldipUiwNNQN7Y6VjMqHQ9MMC12Ja10TNRz+PBB7dYo63HN
+	 1p45XqVVe6G71spiFanf/g1AOhtAq6jjqqf2EPcBv4PQIobYrP49/5M4kREllclt/X
+	 L5hwGCaBqXR9wDzE2cl68BHXQw4yQaN9tbvaZwd7fHT0B6gO8IZMywYJuK8wPdg+xf
+	 2ZFKuqemyBIUzzqWh1b1M3W+Dt4g4n1tpq/O+4GBRiuEtrGT7YOxV1miHkxHvRpX74
+	 sSTSkzvA+KpeQ==
+Date: Tue, 22 Sep 2026 12:27:54 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Logan Gunthorpe <logang@deltatee.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Guopeng Zhang <zhangguopeng@kylinos.cn>
-Subject: [PATCH v3 2/2] docs: cgroup-v2: Describe effective CPUs of partition roots
-Date: Tue, 22 Sep 2026 17:20:34 +0800
-Message-ID: <20260922092034.68840-3-guopeng.zhang@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260922092034.68840-1-guopeng.zhang@linux.dev>
-References: <20260922092034.68840-1-guopeng.zhang@linux.dev>
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [PATCH v7 15/19] PCI/P2PDMA: Document TLP-class routing
+Message-ID: <20260922092754.GC563127@unreal>
+References: <20260920-fix-p2p-acs-v4-0-v7-0-ca0828ab697c@nvidia.com>
+ <20260920-fix-p2p-acs-v4-0-v7-15-ca0828ab697c@nvidia.com>
+ <85bb90f0-5a02-4e35-9ed6-ad7e67c1c0d8@deltatee.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <85bb90f0-5a02-4e35-9ed6-ad7e67c1c0d8@deltatee.com>
 
-From: Guopeng Zhang <zhangguopeng@kylinos.cn>
+On Mon, Sep 21, 2026 at 04:16:56PM -0600, Logan Gunthorpe wrote:
+> 
+> 
+> On 2026-09-20 05:41, Leon Romanovsky wrote:
+> > +A path is bus addressable only where both directions route directly, so with
+> > +nothing enabled every class is.
+> 
+> I don't understand the sentence.
 
-The cpuset.cpus.effective description says that the effective CPUs are
-granted by the parent and are normally a subset of cpuset.cpus. This
-does not always hold for a valid non-root partition root. Its effective
-CPUs are the active CPUs in cpuset.cpus.exclusive.effective after CPUs
-assigned to valid child partition roots are removed.
+I tried to say that we need both Requests and Completions route
+directly.
 
-If cpuset.cpus.exclusive differs from cpuset.cpus, the effective CPUs
-may therefore be outside cpuset.cpus. Remote partitions also do not
-necessarily get their CPUs from their immediate parent.
+Claude suggested something like that:
+---------------------------------------------------------------------------
+Combining the two tables gives the mapping type: a class is bus addressable
+when its Request and its Completions both route directly, a blocked Request
+is not supported because Translation Blocking rejects the Address Type
+wherever the Request is addressed, and anything else goes through the host
+bridge. With no ACS control set anywhere, every class routes directly.
+---------------------------------------------------------------------------
 
-Suggested-by: Ridong Chen <ridong.chen@linux.dev>
-Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
-Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
----
- Documentation/admin-guide/cgroup-v2.rst | 59 ++++++++++++++++++++-----
- 1 file changed, 49 insertions(+), 10 deletions(-)
+Thanks
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 18a01ce4c334..8f7263eeed4d 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2505,16 +2505,55 @@ Cpuset Interface Files
- 	A read-only multiple values file which exists on all
- 	cpuset-enabled cgroups.
- 
--	It lists the onlined CPUs that are actually granted to this
--	cgroup by its parent.  These CPUs are allowed to be used by
--	tasks within the current cgroup.
--
--	If "cpuset.cpus" is empty, the "cpuset.cpus.effective" file shows
--	all the CPUs from the parent cgroup that can be available to
--	be used by this cgroup.  Otherwise, it should be a subset of
--	"cpuset.cpus" unless none of the CPUs listed in "cpuset.cpus"
--	can be granted.  In this case, it will be treated just like an
--	empty "cpuset.cpus".
-+	It lists the active CPUs available to tasks in this cgroup.
-+
-+	For a cgroup that is not a valid partition root, an empty
-+	"cpuset.cpus" makes "cpuset.cpus.effective" show all CPUs
-+	available from the parent cgroup. Otherwise, it is a subset
-+	of "cpuset.cpus" unless none of the requested CPUs can be
-+	granted. In that case, it is treated like an empty
-+	"cpuset.cpus".
-+
-+	For example::
-+
-+	  P (cpuset.cpus.effective=0-3)
-+	  |
-+	  +-- C0 (member):       cpuset.cpus=1-2
-+	  |                      cpuset.cpus.effective=1-2
-+	  +-- C1 (invalid root): cpuset.cpus=4-5
-+	  |                      cpuset.cpus.effective=0-3
-+	  \-- C2 (member):       cpuset.cpus=<empty>
-+	                         cpuset.cpus.effective=0-3
-+
-+	C0 gets CPUs 1-2 because they are available from P.
-+	None of C1's requested CPUs 4-5 are available from P, so C1 uses P's
-+	effective CPUs 0-3 instead.
-+	C2 has an empty "cpuset.cpus" and therefore also uses P's effective
-+	CPUs 0-3.
-+
-+	For a valid non-root partition root, "cpuset.cpus.effective" contains
-+	the active CPUs from "cpuset.cpus.exclusive.effective" except
-+	those granted to valid child partition roots. If
-+	"cpuset.cpus.exclusive" is set to a value different from
-+	"cpuset.cpus", the effective CPUs need not be a subset of
-+	"cpuset.cpus".
-+
-+	For example, if CPUs 2-5 are allocated to P for exclusive use,
-+	CPUs 2-4 are active, CPU 5 is offline, and none of CPUs 2-5 are
-+	assigned to a valid child partition root::
-+
-+	  top (root)
-+	  |
-+	  \-- P (valid partition root)
-+	      cpuset.cpus=0-3
-+	      cpuset.cpus.exclusive=2-5
-+	      cpuset.cpus.exclusive.effective=2-5
-+	      cpuset.cpus.effective=2-4
-+
-+	P has 2-5 in "cpuset.cpus.exclusive.effective", including the
-+	offline CPU 5. CPU 5 is excluded from "cpuset.cpus.effective",
-+	leaving 2-4. The result also shows that "cpuset.cpus.effective"
-+	need not be a subset of "cpuset.cpus", which is 0-3.
- 
- 	Its value will be affected by CPU hotplug events.
- 
--- 
-2.43.0
-
+> 
+> 
+> Logan
