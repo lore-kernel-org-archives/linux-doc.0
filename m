@@ -1,126 +1,167 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C8054A7CA
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 15:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253932E6CB8;
+	Tue, 22 Sep 2026 15:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790091985; cv=none; b=gJK2wI9L+qvjB4mCPcc93EMdypZnijIVFTJpLz1GZGEVFYaNfYbYgXdHxQnh9Kqy3CsabNt0nspagtrGxtVM+zgDyy19YrtF9QsI6uZGtdoo1Qst0AHX1gYEXqahCQtl027K40S3D4hyd2fZyvnrgxeqd2udeUuN4Mbg4jQRKT4=
+	t=1790092208; cv=none; b=aL+eETtRmlSbh7EOlDXw4rZw5pBhSb7bi6eUicsvRcODkhyW96e8rycRnJY4kXzqxO4CmkZK382Uq9yfU7//kYGGG7LPi0fJaPHac/0qNGY1+DzgTyRmd4+5jH/FWSCFW4O/DCqwkxYj2ckW05YcL4cmlju9DT5Q8eiV4a+9kA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790091985; c=relaxed/simple;
-	bh=e/G+x8EZ1Ezei3fqyde5MtjxhZdcvZ09vtY+lp4RtkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UfZ81YSpD4t0rp0JjaFk2udh704oyaytq7xLrtqCGuGC7WGTkfYXwX7XhwFgt5AZbnEb9QvIkSrVPes+TQEfpxrtMcuT3DP2L5iXk7RZxZjKA8n62uO9Sqv/Y0P4Wj9bB+jNcDMJi6g74wnh8pap/TpTDxjprwLrAxX4XOTT02k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=fWnluPAV; arc=none smtp.client-ip=74.125.224.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1790092208; c=relaxed/simple;
+	bh=/bkJu23UOULz3yPDYNr6BuLm3UrRrVgL3Ir6c9UiC8w=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Em36dJjp5E8+Me3b6rbsoHw6+MvQRmS/lXePE4na7kvn2HK3C1OZipIGbdcBpVBAt4bruXEdJvedftLGi794UhJyvhoxARLIwtc+3Bhc4bWB+6zmZD2hE3bRUB6Z1k//3CEocw+foLfQw7se2ZuXjzQ6p7YXcSELA6g6WIt9WcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=JAbyvQXS; arc=none smtp.client-ip=96.67.55.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="fWnluPAV"
-Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d43f9b119so1264527b3.2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 08:46:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1790091976; x=1790696776; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=e/G+x8EZ1Ezei3fqyde5MtjxhZdcvZ09vtY+lp4RtkI=;
-        b=fWnluPAV150JDAVRdWHGHXPZ1kEXrvrfEzQCYSe/UVNmni4cl19yNf0gZzLHTuvL08
-         kBGRA2tsCSTxLE4f1fKgNK60wt9PW0yQ23OrSq40J86+UuGF03/1fCx2fKRNamCRgOXn
-         XYlcaEEgKcDhCGJG+2hLB76ygbK1YXh+3oSYwoPEExEzMl9lk0JwxPWgNTKqYkb9UuIS
-         Y/p6UuxeMWd4JOo8GoRz6VYTjFxQ+pJHRQaqfQJLP3RU0cCh4cC7/GhgLAc2ZzniT/Vr
-         +lZxIbfgW7vrWab5DlmCwdobDU5fAR1DddDKUNJecRM4zGkRMMqON7Wt9v2TDqiFcLNW
-         aB2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790091976; x=1790696776;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=e/G+x8EZ1Ezei3fqyde5MtjxhZdcvZ09vtY+lp4RtkI=;
-        b=KEm0uF8VZOoiWpjdGffnShqqGSIslp5OQ1TIBamoPbfXajE52uQl/+EQDpM05c0dNw
-         0G/LvQyBQ6PAkzL7ErXMFUHmyd5zrlr9m8nkC+Gox/Fv+bdc9vnP8D1zlF2Lc4UjeMkV
-         Qqmrwt1F0fZCwKxTzMmG62P222+qUWZNjMw0l1zTJQxR9WXZdaAgZ8BZV71s2zm4E5DQ
-         nn3gCVw6jiNot9CbwsCiG8eoAM2UEPcUj7bBGZG1P2FEl8AzKl7eHjuTTgeeDhuc46BF
-         lRUhT14XesAWAGzpP37AzKp3ybzQQL6zgo0UZyH3/wNr7zjpUWnnuH76xa6hQYinzvHX
-         3q/A==
-X-Forwarded-Encrypted: i=1; AKwUvByLKEFE0N1RxHuIe2f53bakpwb+opcsSZ5NUeSniTVEYbjQMPLXTgIHf3qFT6jDab472u1UpcKLbiU=@vger.kernel.org
-X-Gm-Message-State: AFuF++lYA/7VW4cp832v/KfZs+5VqBZdl857Am9jUWAzHjxPc9E5N9IE
-	TgXRbbJjGNscCTMRkoi/HxId2Krxe+KprRcsRf3nuQhrTYPOYq6Dd4suaAzVsWoFzJU=
-X-Gm-Gg: AYBFou0uRbn6bGhFmoaegh0wgmJxWu1cGYiD05YB2WHqSD2A5A+Wg4EPBF97Nd1Ixgz
-	5q51aRxQpN74x6VmeWNYK1DZdrmo8jFlb05DbAZzpOocSYytDrIWgiTFic/3vsr0nMhrep3y8bH
-	EIgb7Dz6OSddWeMkizmqoVHGLmT5kGc0pxLS7soGIa3vS6TdTjKzr/DVh1X3brJAj/holoV2E0j
-	cKwF7MjjJDu5EQPxcotcQJHGF84wsnRC4jFbuaTYUQjjaWT6zeKN9Z3BxIGFvHDMv6jvDs1sAI9
-	rKqIaEpG4oGMIYhe+krIuvYXoGSJ7mSBJcGGgdPif8A+3oyrmulP6IWaYJnBM+dy7NdG6XoNvC/
-	gLHabTmL+1avlAHw43OQL4j7GagWW0GBcoa9x3lQLyREIzKuYSH2XnE7eaEDwtwQ0uEn+k3SJdB
-	s6zMVI87hsEPPLc90rAjqtUx2KVCjFa1gE4Bow2O/c+G5D8xKNy3F1cz6ZMwXe19fW0+by
-X-Received: by 2002:a05:690c:4990:b0:871:cdc:eaa5 with SMTP id 00721157ae682-8973041de06mr56957107b3.1.1790091975385;
-        Tue, 22 Sep 2026 08:46:15 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532e693f69bsm8080941cf.2.2026.09.22.08.46.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 08:46:14 -0700 (PDT)
-Date: Tue, 22 Sep 2026 11:46:13 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Chris Li <chrisl@kernel.org>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Nhat Pham <nphamcs@gmail.com>,
-	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Yosry Ahmed <yosry@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Barry Song <baohua@kernel.org>,
-	YoungJun Park <youngjun.park@lge.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>,
-	Wenchao Hao <haowenchao22@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kunwu Chan <kunwu.chan@linux.dev>,
-	Meta kernel team <kernel-team@meta.com>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org,
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>
+	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="JAbyvQXS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
+	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID; bh=6K3Ud4EKI3engeNS8qIUkp6OAKXd2y5YW5HabWOrebM=; b=JAbyvQ
+	XSsMgjn0TEho6JwbjAC+6MlhZm3WuAyVwsdbjj/BiRvbJSHeQjI3bYRbF+LZjdLLYapYp2Tm6yzfg
+	1Yr6nkIUwU3z4mpwAts4tEMORWUQF9JrNLKy160v6+9xBb83yzqa9/Yh/TtiYyLjAT5ZDRYOXzWpt
+	jpHhuA8UWbUXZ72zGeitYDGHuVD4jja4A/B2ZimNojNkNPgZl18cXb5SCt34DZsO8pC1W3ZLdvyIR
+	cQXBWRZ7u2ALckyB/ahi1boUpuRHzHH9Jt238N4XCnoFResgML5BRwDrLBuaYjb8Yo0LCLf9m9nDv
+	iUzFg5dH3p2uZo8/Bm5s4nz3m9MQ==;
+Received: from [2601:18c:8100:a0e0:5a47:caff:fe78:8708]
+	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.5)
+	(envelope-from <riel@surriel.com>)
+	id 1x92jp-00000001ofN-0kte;
+	Tue, 22 Sep 2026 15:48:57 +0000
+Message-ID: <02616d611c9e862afc6c8c3118b6be096756b3bb.camel@surriel.com>
 Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arKixeYuuUKye7bL@cmpxchg.org>
-References: <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
- <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
- <aqgMCIOFi0dKx_6L@fedora>
- <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
- <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
- <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
- <arKRdaNEaKvFOtMg@linux.dev>
- <CACePvbX7aM45SE9H0hg1_uXBt1i4W7Pgk+d33Z2sG5bj8cHudA@mail.gmail.com>
- <arKZpJDpsavixjPx@cmpxchg.org>
- <CACePvbUmVLVk=w1sJinBfKVYoXcO57A163RrXv7C_QLzM4yQZQ@mail.gmail.com>
+From: Rik van Riel <riel@surriel.com>
+To: Chris Li <chrisl@kernel.org>
+Cc: Gregory Price <gourry@gourry.net>, Johannes Weiner <hannes@cmpxchg.org>,
+  Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, Kairui
+ Song <kasong@tencent.com>,  Michal Hocko <mhocko@kernel.org>, Roman
+ Gushchin <roman.gushchin@linux.dev>, Shakeel Butt	
+ <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, David Hildenbrand
+	 <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, Kemeng Shi	
+ <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, YoungJun Park	
+ <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>,
+ "Lorenzo Stoakes (Oracle)"	 <ljs@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike
+ Rapoport <rppt@kernel.org>, Suren =?UTF-8?Q?Baghdasaryan=EF=BF=BC?=	
+ <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen	
+ <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu	
+ <weixugc@google.com>, Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet
+	 <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, Baolin Wang	
+ <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, Michal
+ =?ISO-8859-1?Q?Koutn=FD?=	 <mkoutny@suse.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Kunwu Chan	 <kunwu.chan@linux.dev>, Meta
+ kernel team <kernel-team@meta.com>, Linux Memory Management List	
+ <linux-mm@kvack.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, 	linux-doc@vger.kernel.org, "open
+ list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
+ <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Kairui Song <ryncsn@gmail.com>,  Joshua Hahn <joshua.hahnjy@gmail.com>
+Date: Tue, 22 Sep 2026 11:48:56 -0400
+In-Reply-To: <CACePvbW_-6M63_a7Cp+09dTmpHeMEdj9VDQZf8g8qoYKQD=wvw@mail.gmail.com>
+References: 
+	<CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+	 <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org>
+	 <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+	 <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
+	 <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+	 <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F>
+	 <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
+	 <e879ac65cb0940325736df7984c737edf1c6be94.camel@surriel.com>
+	 <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
+	 <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
+	 <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
+	 <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
+	 <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
+	 <a75b2eac4297ca6b238dde6f9246d2c1807b935f.camel@surriel.com>
+	 <CACePvbW_-6M63_a7Cp+09dTmpHeMEdj9VDQZf8g8qoYKQD=wvw@mail.gmail.com>
+Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
+ keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
+ eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
+ Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
+ lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
+ dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
+ mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
+ gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
+ r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
+ WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
+ 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
+ Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
+ +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
+ g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
+ KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
+ fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
+ 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
+ G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
+ okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
+ TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
+ cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
+ omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
+ QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
+ c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACePvbUmVLVk=w1sJinBfKVYoXcO57A163RrXv7C_QLzM4yQZQ@mail.gmail.com>
 
-On Tue, Sep 22, 2026 at 05:30:44AM -1000, Chris Li wrote:
-> In Chinese we have this saying: don't apply things to others that you
-> wouldn't want applied to yourself. Do you want to participate in a
-> technical meeting at 1 AM?
+On Tue, 2026-09-22 at 05:23 -1000, Chris Li wrote:
+>=20
+> > > > > > Zswap:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 8812236 kB
+> > > > > > Zswapped:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 24927876 kB
+>=20
 
-The only thing I would like less is having somebody else make that
-decision for me.
+> My original request was for the whole system: what percentage of the
+> total system RAM size has been swapped out to zswap.
+>=20
+24.9 GB out of 64 GB is 28%
+
+That is how much application memory was swapped out to zswap.
+
+12% is how much system memory is used by zswap.
+
+Those are two very different things, and it really is not
+clear to me which of the two you are talking about at what
+point in time.
+
+
+>  My observation is that, even with zswap, when 100% of
+> system RAM is swapped out, the application suffers greatly. There is
+> a
+> reason why we only have 7-10% system RAM swapped out.
+
+You mean for your specific workload, you do not
+want more than 5-8 GB out of 64GB to be swapped
+out?
+
+That is perfectly acceptable. You should be able
+to configure that.
+
+However, your configuration values are not a good
+default for my setup.
+
+I believe we need to set the default to something
+that accommodates a diverse range of desktop and
+mobile users.=C2=A0
+
+Most of those users do not know what they will need,=C2=A0
+but they will know to close a few browser tabs when=C2=A0
+things get slow.
+
+The companies running thousands of servers that
+are carefully managed, and which overwhelmingly
+have the same configuration values deployed to
+them are more than capable of setting the dozen
+or so config values their entire fleet might
+need.
+
+--=20
+All Rights Reversed.
