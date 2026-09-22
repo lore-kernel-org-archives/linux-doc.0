@@ -1,57 +1,57 @@
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51554492520
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 18:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568E332ED40
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 18:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790102432; cv=none; b=ove8q2QfDrWuWhdW3GJ8gV56IWe6YBzi0lkHJvd8LyFviG8FyEW0CI9CKcyEprfbcG1Nc8+K4XgwHPWmFV4JFHj9ftlIrqedOqlzP8b0j/gTzGH769LZgYQtfWkd/ssp71wc5ODdwhI7jtfgT2yWsWqJWEZ+IZMpGpDRXD3grGA=
+	t=1790102788; cv=none; b=mv2yp7FOD9rbqAwR+LjsAe1g2h/+dzVLuRSznGLufpHMtPYoSu7sEaBNA55ybjDvmcBVbRgJ0iuil4QP5e4J1XLQltiIKU1odJNEHXLbAQZQkuyBPpfwU5YnotYumEjXDfMnpEDNugP6B0fIjiG1dYkkHOuVw9a0JSzca760rMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790102432; c=relaxed/simple;
-	bh=ERtLhWAKheJkkB1jYfwWgoVSdNN2wmMgOYzp/tzF/bI=;
+	s=arc-20240116; t=1790102788; c=relaxed/simple;
+	bh=P2oNbUgzNKbPC97q99tgXWb/Iok5vLJAaFSYPNe8o2w=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tOz3Hsy21gmCD3utOLzTTqR4nrpXm3Kugb59nyHK6ay/+zpbIBSD9owlF7NeuDeu/z79orNp6RZw/uhz5A1z2SragxMJe8+wM5nY6c2TMxYDvYuFziWBMkLLhIsS6uVtxoZHNT1LqJc5Oa52fv2rvadbyopJiCsx81iix3K3+mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gDh54AWb; arc=none smtp.client-ip=209.85.210.197
+	 To:Cc:Content-Type; b=Vm+I9ECgKngeYCCnP9ty84BdDegHkmJdi/qPdetqgqjGMf0SXM14V1wAm60rMnzHqPWont6T13G8hDh0P2ERzDL5l7wP25iSgugj+98hqtMyoVVS4Cqd64K2bL5qArsvxM1UFbdPi2ucE3tyQJ8+qfyFEYjImdAX4+2F3gxCkYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ekHOAbi+; arc=none smtp.client-ip=209.85.215.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gDh54AWb"
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-854f274dd69so190598b3a.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 11:40:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ekHOAbi+"
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-ca8aee88725so229185a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 11:46:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790102431; x=1790707231; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790102779; x=1790707579; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=22qb4IkKc4A4y/WM6dRh1XUq626SL2Lh5OkUO2ttVr4=;
-        b=gDh54AWb42iXpIZrXmIZf09Q6OXRF0pMdfM4PXnUZ1AMAqtpsp2xwvbdZqMzmJ9zhv
-         fnOg5s2Ux7EC1z7EaCjgNFT0Evx+LV7/OVVdu/Rko1iRyrKudmddahovHgbDtDHef0Td
-         hjpKyHDVd2u+B3vxVExVNGJlvz5t3rfiC2ByeqdU9X8XpeUosZ9yCxD3vCK9fkYv/Yu7
-         v0q5cPWhSXeC5NU6TYOoVMLm6hxhHJe7bulqkdqJz2muo1W/nDD1hd1ZQsNpsoYyYy1Q
-         yJiRR1LlyUVrgqv7jzbSfuHQuGFG4bega/8tufhywMjG6sx84gfGV0KnK+BkNmJG763R
-         BcWg==
+        bh=wsMfNykkK/cvGUxGrrzkLoJGO5iJ1c5hJgEqfch5614=;
+        b=ekHOAbi+hrIDGP5HnGxwI2etEUQxYRj0wGvz6jB4CC1kT9eH9vNNf8T2qgXOkEoqoR
+         IEzRBccGesk15NkIaZcYmOqA6D3c3Z73qd8t9i139KEdv+3/OHGNL9x75IeoIuqBwN15
+         c2/ERCpg7DdDHfFNMo+MH8e/a73y5IfdB5xNHJY5sZqb7u5Ntn46Ts0sMS0xMbaa7noN
+         R/1E66trjXajolmZ2k6gm3Ytlhwuh5mM7nJ0ggNaOTx3erTglnC96+ZX3Sh2iGrRvVtn
+         h4nUdAkhIP8zbc2pzKbcMhVTInevuAv1zutv+pyUW1D5TYUeq0vdXOhpFMNR7uxKk6Kr
+         WQFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790102431; x=1790707231;
+        d=1e100.net; s=20260707; t=1790102779; x=1790707579;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=22qb4IkKc4A4y/WM6dRh1XUq626SL2Lh5OkUO2ttVr4=;
-        b=D8EAbZXC9uKyhWJAJNsrg2LT+tx4CYl/fIhIojWJl4xHMbfYBE2pGdIAL+ItX5RQ4Q
-         G4JUSl9zH3CFNCKJinJfmiBJBd7asBd/AMtEq3wk6YUj3WTTUFnvG3IaOz9M1WG5YLO1
-         PxGRM5T0Fri72GDIwg6M53lCcmadWMHuD+xsb6+uSAl/fBDkBQ7CLE+XFlk51tKKIbHq
-         xj4j8w8g+grewCSttWKCax4Jqsd5l/EwHXoZb/JIYD9IA0dGFPxrIfZCNQlTEyljEonH
-         LBYI/UQb4KDYMCmNm/AbkE3hFk8fdtvi29HrkK/0LTsuMcwG5czJo/oQUFN6FVSRHanD
-         1x5Q==
-X-Forwarded-Encrypted: i=1; AKwUvBy6I/FpfqtgL1yGUeGB93ZYv6DlEFHE3uYx1Hh4Ddz50KyAWSRc78tDipN1dL+Ott3lu0DvThHUp2w=@vger.kernel.org
-X-Gm-Message-State: AFuF++mbD8f/mNGI8Z+CFI4rbuK/Yb1RwFCScbwVx6U198JShjuHCcFw
-	JsFK8Xu3F1KFHfb+VAiwZ2tL7QXGvbg7meniuWS+6IiNVSMdQdGmEIIN1rNVxH5zgunwInPJr2J
-	Y0aubyw==
-X-Received: from pfbgd10.prod.google.com ([2002:a05:6a00:830a:b0:863:cabd:d30d])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4396:b0:878:3507:8d5e
- with SMTP id d2e1a72fcca58-87d1bfae6abmr510835b3a.37.1790102430559; Tue, 22
- Sep 2026 11:40:30 -0700 (PDT)
-Date: Tue, 22 Sep 2026 11:40:29 -0700
-In-Reply-To: <arK8-Hec3-5o4jYs@gremlin>
+        bh=wsMfNykkK/cvGUxGrrzkLoJGO5iJ1c5hJgEqfch5614=;
+        b=I3dHHALPI7jWArYjHTcpk5RdiL0+ANBJeBcTl0oqxz2oC0Vs7yzz+C89BYvEtr8E4J
+         SkhLBfsK/IcAmjycwHfgH5LGNAEDlD6OG8gSKxy1hhR1jHNiUOvSg812E1ujAyzfBcg/
+         usJgqZESsUXO6ZTqtIPFo/NaS3P6pJMQyVpzQhTNHjO9b2YkGzpfSPa4RlJJZ+RRoDMv
+         l43vUlxHIF78Q6S3FowUXakSjGfCwhKNiWGtF64FKsgv3cbnlMz4+skxbVmUc3F97XVC
+         EF1WliXglbKu9uG/GmXXK98Vn/zYjqQfKvEA6lUv9x/n1B8XF0Ew5f2bKcTJQhP8P/QE
+         HjLQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxOm4r6scwSd8BjPReEtm1W7VLnFcjlVyU9W/6RMtYl/vqLD+0GP25CaNvyaTrh7ZCoNSTCQHPHKdE=@vger.kernel.org
+X-Gm-Message-State: AFuF++kkzW6Owv+WghS1e4yMacj6ovn8MwNuI+QtsTR4kuliQaiGzwBR
+	yjrwdTGq5B4dnk5EmHvJtgSjeNKa5iUxrlw2QuaeyYC1GZUaWmteAOb3u7/JNUoLkB65tbXQ13N
+	tl6iEKw==
+X-Received: from pgdh8.prod.google.com ([2002:a05:6a02:5188:b0:cc5:1d7c:ddeb])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:1bc3:b0:3dd:a197:cf2a
+ with SMTP id adf61e73a8af0-3ddf82c4849mr289558637.78.1790102779162; Tue, 22
+ Sep 2026 11:46:19 -0700 (PDT)
+Date: Tue, 22 Sep 2026 11:46:18 -0700
+In-Reply-To: <arLJ4AbNN9Y_IUna@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,8 +61,8 @@ Mime-Version: 1.0
 References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org>
  <20260922-kvm-arm-prefault-v3-1-787bd3bc7e3f@kernel.org> <arKxjsxuO1F5ExrY@kernel.org>
  <arK5n9HrbZMCOHOt@google.com> <arK5ynpRi7VbY7Ek@gremlin> <arK8seJVT9wYgVCP@google.com>
- <arK8-Hec3-5o4jYs@gremlin>
-Message-ID: <arLLnYvkXSFr6f6u@google.com>
+ <arLD-eZ6dRvfZ52q@kernel.org> <arLJ4AbNN9Y_IUna@gremlin>
+Message-ID: <arLM-vJDoO7gQJXM@google.com>
 Subject: Re: [PATCH v3 01/14] KVM: Allow architectures to disallow pre-fault
 From: Sean Christopherson <seanjc@google.com>
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
@@ -81,54 +81,59 @@ Cc: Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
 Content-Type: text/plain; charset="us-ascii"
 
 On Tue, Sep 22, 2026, Lorenzo Stoakes (ARM) wrote:
-> On Tue, Sep 22, 2026 at 10:36:49AM -0700, Sean Christopherson wrote:
-> > On Tue, Sep 22, 2026, Lorenzo Stoakes (ARM) wrote:
-> > > On Tue, Sep 22, 2026 at 10:23:43AM -0700, Sean Christopherson wrote:
-> > > > Rather than have kvm_arch_vcpu_allow_pre_fault_memory(), what if we add a more
-> > > > generic kvm_is_vcpu_loadable()?  That way we don't need to worry as much about
-> > > > the return value, the connection to vcpu_load() is obvious, and we don't need to
-> > > > add another pre-check if future (or cleaned-up existing?) ioctls want to do
-> > > > vcpu_load() in common code.
+> On Tue, Sep 22, 2026 at 11:07:53AM -0700, Oliver Upton wrote:
+> > On Tue, Sep 22, 2026 at 10:36:49AM -0700, Sean Christopherson wrote:
+> > > On Tue, Sep 22, 2026, Lorenzo Stoakes (ARM) wrote:
+> > > > On Tue, Sep 22, 2026 at 10:23:43AM -0700, Sean Christopherson wrote:
+> > > > > Rather than have kvm_arch_vcpu_allow_pre_fault_memory(), what if we add a more
+> > > > > generic kvm_is_vcpu_loadable()?  That way we don't need to worry as much about
+> > > > > the return value, the connection to vcpu_load() is obvious, and we don't need to
+> > > > > add another pre-check if future (or cleaned-up existing?) ioctls want to do
+> > > > > vcpu_load() in common code.
+> > > >
+> > > > ...this is exactly what I started out with.
+> > > >
+> > > > But then you are in a pickle, because _really_ you need to do that check in
+> > > > vcpu_load(). Which is a void function. Which is called by every single
+> > > > architecture all over the place.
+> > > >
+> > > > So you'd have actually no way of signalling the error back.
+> > > >
+> > > > Of course those places are arch code and you could say 'arches should know
+> > > > better and if they call it it's fine not to call the arch 'can you load'
+> > > > function.
 > > >
-> > > ...this is exactly what I started out with.
-> > >
-> > > But then you are in a pickle, because _really_ you need to do that check in
-> > > vcpu_load(). Which is a void function. Which is called by every single
-> > > architecture all over the place.
-> > >
-> > > So you'd have actually no way of signalling the error back.
-> > >
-> > > Of course those places are arch code and you could say 'arches should know
-> > > better and if they call it it's fine not to call the arch 'can you load'
-> > > function.
+> > > Yes, that's my vote.  It'd be easy enough to clarify that "rule" with a comment
+> > > in linux/kvm_host.h.
 > >
-> > Yes, that's my vote.  It'd be easy enough to clarify that "rule" with a comment
-> > in linux/kvm_host.h.
-> 
-> I note you dodge the actually difficult question of what this wrapper function
-> would look like ;)
-
-Oh, I was thinking we wouldn't bother with a wrapper.  Because I agree that
-providing a complement to vcpu_load() would get all kinds of messy.  Though we
-could harden vcpu_load() with a WARN_ON_ONCE(), which in practice would prevent
-the vast majority of violations from making it to a final kernel release. 
-
-> > > Instead you can make the predicate 'don't prefault on a not-yet-initialised
-> > > vCPU' which is pretty sensible I think, have a specific place to put it and
-> > > all's well with the world.
+> > I feel like trying to make this generic will wind up under-documenting
+> > the single example we have with the pre fault ioctl. Putting the comment
+> > into a header practically guarantees that nobody will read it either.
 > >
-> > But look at it from an x86 perspective.  Pretty much everyone will look at this
-> > and expect:
-> >
-> >   bool kvm_arch_vcpu_allow_pre_fault_memory(struct kvm_vcpu *vcpu)
-> >   {
-> > 	return vcpu->kvm->arch.pre_fault_allowed;
-> >   }
-> 
-> I'm not sure I really get your point here at all? :)
-> 
-> Why would it matter what people who are too lazy to go check the implementation
-> assume about an arch hook?
+> > I'd favor doing something like below and sticking the comment inline in
+> > the ioctl handler. Unless I'm missing something blatantly obvious, I
+> > don't see why the x86 or s390 pre-conditions can't be tested early too.
 
-Because I don't hate the people that contribute to KVM, and want to make it as
-easy as possible for them to not make mistakes?
+Oh, they definitely can.  I'm a-ok with using kvm_arch_pre_fault_allowed() on
+s390 and x86, the only option I am against is adding kvm_arch_pre_fault_allowed()
+but then not using it on architectures that obviously perform that exact check.
+
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -3961,6 +3961,11 @@ bool __weak kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu)
+> >  	return false;
+> >  }
+> >
+> > +int __weak kvm_arch_pre_fault_allowed(struct kvm_vcpu *vcpu)
+> > +{
+> > +	return 0;
+> > +}
+
+There should be no need for a __weak placeholder since this code is guarded by
+CONFIG_KVM_GENERIC_PRE_FAULT_MEMORY=y.  I.e. force architectures to define the
+API.  I don't think it's a coincidence that all of arm64, s390, and x86 ended up
+with restrictions; pre-faulting is far from a simple operation.
+
+Actually, that's an argument for a dedicated kvm_arch_pre_fault_allowed() versus
+a generic kvm_is_vcpu_loadable(): it helps force future architectures to actually
+think about when exactly pre-faulting is safe.
