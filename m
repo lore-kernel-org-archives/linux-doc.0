@@ -1,152 +1,136 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m15592.qiye.163.com (mail-m15592.qiye.163.com [101.71.155.92])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C5053D9D4
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 12:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790080512; cv=pass; b=upylOGoquZzD6Xx0gPbz1rUe7827QNLn/E5sS2MIiRtcGf9cuneruQaFL0hOZvMPYp7PbaNjgAMSojIfNPrhTl5CkNsp8hlmLAp78adinfnYGtr+Wp2rQ8htdSZO2SpgalssR3FnblyndaZxPbO0y4rGzTtM0x7zPQCf/vFAYGM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790080512; c=relaxed/simple;
-	bh=ALQACn46SAuo6ABqMmWIs/jscEBUUZDaANiX89ENIH0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=Tuvt+YlKNNvlacDj/VVjJIa/Gp3eQH5tS6ezvCj9ek6lnos2KTrYp0NXVhf+gUYQlCR+Bf4Z21610NbCj4JLul4knHT+CDd+lJyWDMqY9dGuorA9Nc+q6FtjI6XpgzjRxAv1MxeVWkqMsub3OSVi89ZtZrU899hx4O8fCkBV5uc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k4p3m//6; arc=pass smtp.client-ip=74.125.224.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k4p3m//6"
-Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-67115162084so471396d50.2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 05:35:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790080510; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Zpy2PpSrf69LizrB1Z9gZgdc1lIQk98f3+GJII+1HJZE0y+F51Xv2fzFLgPVOzZv1i
-         D3WNPU4zMYuIgxCHXAApW4B4QGARQPFKYp5JTrulj4HqZz6CsDmZvfYV9+myKf7waNao
-         GcHaiWf7KW15rCjieDnm8aG8fjPzpiaeY1CmjMw5uBBCQgxkSCO1CZ4P23rjfxbZw9F2
-         uoPXTox5A3m8f5u27V0yNvCafFOTsjq//x0IyqyCQ4nui7PMq70VQbXdWyI4A1hTvlZh
-         L46/2HXFHbxNujn7s0lcyxt525eHW8rh4M7heY8Nhmr+BFVY00sO0XMkPfhOjl3DaGTB
-         8nAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=t43upwUK0feeI320sY22/K/H7Nx8XNjdpVO2i6jn6cI=;
-        fh=ZRwufeO/yZqXAsXoDvgg5XJ0eBwvAzuyziHZEdpJh+U=;
-        b=DU76qrhl70Ih9TCiBJQ922nK84xlIQrMCoXwX15QyBdsxNPak0JlTrW0jg8z4Ulgvl
-         TgrYEEhfhl0cgAqm8WxxYeAixMSWC79/oM87Ek/bbxDWwB4+6n0yhrIjXaCd/W3COmc1
-         q+QaEvs33Z4efRuKZ3i6sqCz08CVkKQkD4e+Z+AvBsE2S+hFpdCF0DYC0ksdP8ouPE4x
-         ihLRtgOj9E4YZkYthsV4jxQCzd0yUImx+Ih3h6w+1MiD3W9buab67NSiYAcyYaqGqyoo
-         x2Cr/MsB0pi9UXWqW/2Vt8d8mzVU7XdGdtN0EOwrvjiztbzHKpFXTNSrOut+04u1pWhS
-         xvlw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790080510; x=1790685310; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:to:subject:message-id:date
-         :from:in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=t43upwUK0feeI320sY22/K/H7Nx8XNjdpVO2i6jn6cI=;
-        b=k4p3m//6V0+Rbj6cPKa/V6v4U8qO8VAJYWkYDYjmAii0iyYKVYDTCllEp5+reHYaF8
-         oBtsGtuzBTkFROgMLRlYwqL37WEBuF8o6lXLe7pbR4IuQBB+VUKs0OuvA3/bkXeKQ4n3
-         thKV7waI5tPr5VfwdunzX6pzvbcZiMd8Ken0pQ++bgrz3R0tnjmJjkI2USd0le/jB35k
-         n2rBWtNm+Jv7N/kaeJRG+x0W2k4TklT7VBXgVK9zzm/PIEDPxxdnwoPxdY7Pqi0TdlCC
-         0jv2KOjO/guGEYMu3wFaFYGVmJuKFcqgH1D/tloMDQU4UBdA2QEsGuoYXcy4IhfxEP1h
-         5/CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790080510; x=1790685310;
-        h=content-transfer-encoding:content-type:to:subject:message-id:date
-         :from:in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=t43upwUK0feeI320sY22/K/H7Nx8XNjdpVO2i6jn6cI=;
-        b=kgSwrxZVC0io4htVKbTB2tnYyVt+mJQM4xZ6ywLKCwLkdtTUpebaEfWFUx1jPwav2d
-         DxUo5Huz8XEZ98VrRKiiPPic5k6TEQ/FF+dnDzyf7qoKVV2POduah/BpCrotkPPSYwHO
-         QsJ6w24u9c9o/NKhUxth+WXjqzYTn0emfXUbDTmH7MFOO4diThH/hGgpyzKjcf1NDLxB
-         lPSCaaGE7b39RDMYyPRx4IJ83/Pzjnq1r8g8aLsbKKzqvYR2NotVwZcMAoXdPEIA5s/0
-         gVY4dClOZ9HoT8EcL7qI06XzMIOgG3apTtJmf55kWFXKAkWz3BqSH5azAU7qNGeQqnqb
-         jqgQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwBGgc7cRLrfhb9YzqAtbD6bzVgxvrNAnbI9Te5wcEtunWFZuaRQrb1ndzkPHD2XyfuMVOweL76ns0=@vger.kernel.org
-X-Gm-Message-State: AFuF++m1JDuo791//ChA0YeHJVuKcJQ+CORRxu0o5XZXOY3XMn24MIyy
-	Zt2IWfXRfkpOxbBpMIdECapG60OsPiTPHtvT4UXFQocWfg40M6wW5kNl2k1GSOcbRRNc8beMdxg
-	lI54aDWk01ZqxlxYyWv9xIGI1HzKKq4o=
-X-Gm-Gg: AYBFou2ySfGaPnE5uN0D1Qj+qfHo3MEhP8CBtRzIkjTAGxmghtE3s55dTiWwiRh5ydp
-	zxTIqk4o6CXW5ZJLNJk/lAWPwJ2Iv8Rq1ZmJHyC4Jzbu43exP9PK5l0Xae9RG/QXjD/jmX5MGB8
-	5Ti/vTlQn9K+hie5JdIiBD6JABGnM+SV6Bbj8+3/MkmXVskJJuKwrAhK4kczXChKGYLYM61MzDN
-	6xxLMS9OA2CrYD3IOAHlSOxpNRc35P7vcRRtDmYJ+ktSQKduzyhgAY8fFbSfbTL7kw/XrogOY5y
-	RiNWc/mQ+A6kf3kc937dT2vhsFqGGdj0dSgyenNNkjylAW6nBfEJ9DU4
-X-Received: by 2002:a53:c847:0:b0:66d:14db:b5a4 with SMTP id
- 956f58d0204a3-67182e32973mr6312973d50.1.1790080509741; Tue, 22 Sep 2026
- 05:35:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B358542EE7;
+	Tue, 22 Sep 2026 12:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.92
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790080750; cv=none; b=pMC8SEakMn/kDq4H9ApoAxK8z1pm01AzxFXDw4Nz5CJIUaYFxb2sGfYWO64sPEUXSk/U5BB7nDJukyAhFwfCpnSv/AVGwrVqUnnc1kkNPvSuA+jWrHX7DlTa04XphT5ir69oplDo6cpbgeLT+bX2l78lkXoItkA0wfLvrYr5pbo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790080750; c=relaxed/simple;
+	bh=+hjTpQprf0Z8tlsaG+yPN+m4yjVcDMKXTcpEU/4pilI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t2h0r05THRgG9FEbRurifn3m4YMnum4w0cJJiRyHqrP+KS2JJFgxvMoa0UAT+oTJtikxFOy7Kn3SioPinCOYtQIarzXtf+1gfs09X1LO/0S8ORL/ope9WkHswjXgvBq4wgp1z28Gw6bmP9u5orSjz/g6DbyU/FHGKmwNzQ2eKdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=101.71.155.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
+Received: from [192.168.0.59] (unknown [218.94.118.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 1f642799d;
+	Tue, 22 Sep 2026 20:33:41 +0800 (GMT+08:00)
+Message-ID: <0894f68a-9cef-47ac-bf8e-86cb18b6cf67@easystack.cn>
+Date: Tue, 22 Sep 2026 20:33:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260922120330.127262-1-itai.handler@gmail.com>
-In-Reply-To: <20260922120330.127262-1-itai.handler@gmail.com>
-From: Itai Handler <itai.handler@gmail.com>
-Date: Tue, 22 Sep 2026 15:34:58 +0300
-X-Gm-Features: AclHuK9M1FiHPYW0MDamOqCGXrHsZodxWnPTe6_1DsJAstTJCmij7YJNysXMWIE
-Message-ID: <CAFpOueSSGssTvQ6q2q-piK4uzdaoUQBvtU4H_yjvN7hyfVa0uQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/1] dm-crypt: allow encryption sector size up to PAGE_SIZE
-To: Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, 
-	Mikulas Patocka <mpatocka@redhat.com>, Benjamin Marzinski <bmarzins@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, dm-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Milan Broz <gmazyland@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
+ filtering
+To: Zi Yan <ziy@nvidia.com>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ "David Hildenbrand (Arm)" <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260907082620.2083838-1-zhen.ni@easystack.cn>
+ <79548641-25f3-4ec3-a549-782fad168962@kernel.org>
+ <6e8bfb0d-d595-4e6b-9536-0323ada57e25@easystack.cn>
+ <b8e23456-00af-4097-a769-210a087d2b90@kernel.org>
+ <22D1EC4B-FBCB-421E-B8DA-345B5F3505FB@nvidia.com>
+ <d8d34e16-57fa-48b7-93a9-afbf4b950ce6@easystack.cn>
+ <98ca914b-4722-448d-b5a4-7f095d0ca433@kernel.org> <aqPmlw8WYW9HSzIV@gremlin>
+ <99a94068-ab37-47c0-878c-7c1ada5204b2@easystack.cn>
+ <8997BF57-2124-4F71-9CEE-6F7D31A15D87@nvidia.com>
+From: "zhen.ni" <zhen.ni@easystack.cn>
+In-Reply-To: <8997BF57-2124-4F71-9CEE-6F7D31A15D87@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa0c91b8cd90229kunm1cdcecd753db0
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaTR4eVktDSBpNHksZGUweHVYVFA
+	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVCQk
+	lOS1VKS0tVSkJLQlkG
 
-On Tue, Sep 22, 2026 at 3:04=E2=80=AFPM Itai Handler <itai.handler@gmail.co=
-m> wrote:
 
-> A patch doing that is posted:
->
->   https://lore.kernel.org/cryptsetup/20260922100554.28692-1-itai.handler@=
-gmail.com/
->
-> It is not merged yet.
 
-That cryptsetup patch has since been declined, four minutes after I sent
-this series. Correcting the record here rather than leaving the
-reference dangling:
+在 2026/9/22 00:25, Zi Yan 写道:
+> On 19 Sep 2026, at 22:11, zhen.ni wrote:
+> 
+>> 在 2026/9/11 19:32, Lorenzo Stoakes (ARM) 写道:
+>>> On Fri, Sep 11, 2026 at 01:06:46PM +0200, David Hildenbrand (Arm) wrote:
+>>>> On 9/11/26 09:58, zhen.ni wrote:
+>>>>>
+>>>>>
+>>>>> 在 2026/9/9 23:54, Zi Yan 写道:
+>>>>>> On 9 Sep 2026, at 6:28, David Hildenbrand (Arm) wrote:
+>>>>>>
+>>>>>>>
+>>>>>>> Because it results in less kernel code  :)
+>>>>>>>
+>>>>>>> And less kernel code is good. Unless unavoidable.
+>>>>>>
+>>>>>> An alternative is to add BPF hooks like bpf_iter to do the filtering
+>>>>>> and by default, when no BPF program is attached, everything is printed.
+>>>>>>
+>>>>>>
+>>>>>
+>>>>> I’ve also thought about a similar approach—perhaps a new bpf_iter type
+>>>>> that could iterate over all pages by PFN. The advantage would be that
+>>>>> you can fully customize what you want to print and what you want to
+>>>>> filter. However, doing so would require refactoring the entire
+>>>>> page_owner, and I’m not sure whether it’s worth pursuing in this
+>>>>> direction.I’d also like to hear everyone’s thoughts on this.
+>>>>
+>>>> Certainly better than having more and more manual filters added to the code base.
+>>>
+>>> Agreed.
+>>>
+>>> bpf seems the ideal fit here I think?
+>>>
+>>> Means that those who want this information can get it and those who don't are
+>>> unaffected.
+>>>
+>>
+>> I have prototyped page_owner bpf_iter and confirmed it is a viable and
+>> valuable direction:
+>>
+>> 1.Most parameter parsing is offloaded to the existing BPF verifier,
+>> keeping the page_owner kernel-side logic simple.
+>>
+>> 2.Filtering and printing are delegated to the BPF program, providing
+>> greater flexibility and enabling more complex composite filtering.
+> 
+> Without attaching a BPF program, page_owner could still print to
+> the console, right? Otherwise, it will break existing users without a
+> BPF program. You could add a hook to decide where to print the results.
+> 
 
-  https://lore.kernel.org/cryptsetup/d3823e0b-3387-4b3a-b5e8-a3d5f266308a@r=
-edhat.com/
+The existing console/debugfs path is untouched -- the BPF iterator is a
+new, opt-in channel that coexists with it. Without a program attached,
+page_owner behaves exactly as before.
 
-Ondrej Kozina's reasoning is that the missing upper bound in LUKS2
-header validation is deliberate: bounding it would stop an older
-cryptsetup from even dumping a header that a newer dm-crypt might
-support, and the corruption case is already covered by the LUKS2 header
-checksum. Both points are correct, and I have withdrawn the patch.
+>>
+>> I plan to further refine this patch series, but it will likely be
+>> submitted as a separate series, as it represents a different direction.
+>>
+>>
+>> Thanks,
+>> Zhen
+> 
+> 
+> Best Regards,
+> Yan, Zi
+> 
+> 
 
-It does not change the position of this one, and it is worth spelling
-out why:
-
-- cryptsetup caps the encryption sector size at 4096 on every path that
-  *writes* a LUKS header, and this patch does not touch that. No tool
-  creates a LUKS device above 4096, so the portability of what
-  cryptsetup produces is unchanged.
-
-- A LUKS header declaring more than 4096 can therefore only come from a
-  deliberate edit, and as Ondrej notes LUKS2 metadata does not protect
-  against deliberate harmful edits in general - changing 512 to 4096
-  breaks a device just as effectively.
-
-So the paragraph above should be read as: this is a case that requires
-hand-editing metadata, upstream cryptsetup considers guarding it the
-wrong trade-off, and I agree.
-
-Two remarks from that thread bear on this patch. Neither is an ack of
-it, but both are worth having in this thread:
-
-  "There may be support for larger sectors in future dm-crypt."
-
-  "Since dm-crypt constructor currently stops you from activating such
-   device (w/ sector_size > 4096), it's ok."
-
-That is, cryptsetup deliberately leaves this limit to the dm-crypt
-constructor. This patch keeps it exactly there. It only changes the
-limit from a fixed 4096 to PAGE_SIZE, which is the bound dm-verity
-already applies to its own block size.
-
-Itai
+Thanks,
+Zhen
