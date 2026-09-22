@@ -1,105 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A149552952;
-	Tue, 22 Sep 2026 17:13:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841B3577E30;
+	Tue, 22 Sep 2026 17:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790097186; cv=none; b=gnswduHMJ72QQQ212d2SB2/A8BzxAfq93Y9CH/2590+t/trwJh3wGd5BGVGAApaHYiw+3oJ3GyjrrShsshjRcFN4QBNfFjBXfRI+3VUVR4axkC7xIr2cu9lvjrQPoOPk6rN9ci1CfwMkNhk5jJwdx4OjD/S/u7fQSz7oPUDqy64=
+	t=1790097338; cv=none; b=spI5VncjVIQzOpIC4yNOALjw5PbGCM0GGXoK6fQcJ07cdGtZvRNDXnErc4Oo7MDLX3/A3O95SMykVu83VDHmihgid8cRSzqwYV3t2ziLip7rus0qKbxZpvtSGJuLbLGon6KAuKLDIO4NfNluv+4vEKL/2RL5lqJSbEQBEjCtPu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790097186; c=relaxed/simple;
-	bh=Rb3nQmcbLxvZugiL4VtH9ek43O+CYgD5gTfh7xpL2kc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TVBjSH24VrIepdmZKN+r9wv+qpCgSFM5PIVgq8jGt4cTh6sr/VmY6JXGD5LnnhAN8oXmhpjYDtGTXhbxANgsvoFvaRjiUK2/VX/gMmSbgaIyJ9AEOfNMPVN0K/Gzm44GFM6XpU3VscKo2TGg+QGrfKoITRAIQIWS5g3SqSR03zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SHY8IfxD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790097338; c=relaxed/simple;
+	bh=aIvSiXa3+TYx7bi3V5dw42Ue3KZMD0siULIfE/dvEQI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bY6wzv862CHB3Cdln40a/B3/JG3SxXtQhdn58M+tcrHJ2WKv36ewahjuG/ky9zVHmn1+C+PyJe+ZdoazWKLBaly0MK4qCrGG5viwRKMUnUrVdJZcNXqg9fL5rF7xTauR4mgX9BtSR66SsIrg308PbTKE+7oZ3prWrZANaO7jshg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=hqU0CByS; arc=none smtp.client-ip=96.67.55.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SHY8IfxD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CB7C1F000FF;
-	Tue, 22 Sep 2026 17:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790097185;
-	bh=Rb3nQmcbLxvZugiL4VtH9ek43O+CYgD5gTfh7xpL2kc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SHY8IfxDJV64fXq6J3vIAr785FWgO22jlfCwc3HIiE9OfjPAvHkP34tcUFte7KmyW
-	 QeJoFYYjeFjC5NE3SWf/B6vGHIgPL9zmV2YSfH1WjtSGMdgCcGBaoI31ccT5AMWste
-	 Ot96+MIsocgC602Rv2B5YM4rhIgEABqM2vAhppgbOSwDPBJarPlc93y0g1ufkbDker
-	 SPcPEhGCPVvqPNf9c0jY+9X9/7RtbaxDdz0JpF26MF4k9XkVj/ThjzcZncHu0mcweX
-	 D1jIff2nqWb3Ec0hbWFbVKaOCH/Bbqx5DCEL9Y+SEnEheb6YTmKQfwU/sbWR2MMGdt
-	 e0Y+DGOyOsQuQ==
-Date: Tue, 22 Sep 2026 18:13:00 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Conor <mail@conchuod.ie>, Colin Huang <u8813345@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	colin.huang2@amd.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] hwmon: (pmbus/tda38740) Add driver for Infineon
- TDA38740/TDA38725
-Message-ID: <20260922-pectin-backslid-9352303bb7c6@spud>
-References: <20260918-add-tda38740-and-tda38725-v6-0-a8b11018d850@gmail.com>
- <20260918-add-tda38740-and-tda38725-v6-2-a8b11018d850@gmail.com>
- <dbd0a721-898b-4524-a0cd-c9751fd4bd68@roeck-us.net>
- <2646A11E-8D13-4587-8027-1370E0007F36@conchuod.ie>
- <3a107337-8e2c-45b2-8847-6b4fb7b0405e@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="hqU0CByS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
+	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID; bh=aIvSiXa3+TYx7bi3V5dw42Ue3KZMD0siULIfE/dvEQI=; b=hqU0CB
+	ySEEvdprfEWb4xkQGlSn5w5HAV/81c1nWMKXoCFV55o1L37ZqwMu/yLZKBSdEWulJow0fgW1ASBzY
+	akE5fpIwK2d3Cm5JM6y0v9JOjic5dzKmjiu8B2tTMnwD+ANo53TYLzNHPueeDA2khb7BSrcIZNizZ
+	tVYFnVzuAMxjRvQKEl0PTqx8IsS8zAlRlk0pEishPQZnfVlkn3R3bYE8gAE2x7H1uZQBnpAzAj32o
+	sAQPZjjvtrjXzWcXej3uU34edcyi+cS1G5MWFUQmCnjZHQyMd2ZAcTrReEFqoovKkqMq68UMJdJ9z
+	aSPmsCJSow5ChZrzopeDLdjz5ITQ==;
+Received: from [2601:18c:8100:a0e0:5a47:caff:fe78:8708]
+	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.5)
+	(envelope-from <riel@surriel.com>)
+	id 1x944f-00000001udR-0YDT;
+	Tue, 22 Sep 2026 17:14:33 +0000
+Message-ID: <ad1c4de51f1fbbfc7345036af8f39fb450c1f3c7.camel@surriel.com>
+Subject: Re: Path forward for Virtualized Swap?
+From: Rik van Riel <riel@surriel.com>
+To: Chris Li <chrisl@kernel.org>, Gregory Price <gourry@gourry.net>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>,
+  Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, Michal
+ Hocko <mhocko@kernel.org>,  Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+ David Hildenbrand	 <david@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+ Kemeng Shi	 <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>,
+ YoungJun Park	 <youngjun.park@lge.com>, Chengming Zhou
+ <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)"	 <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)"
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
+ =?UTF-8?Q?Baghdasaryan=EF=BF=BC?=	 <surenb@google.com>, Qi Zheng
+ <qi.zheng@linux.dev>, Axel Rasmussen	 <axelrasmussen@google.com>, Yuanchu
+ Xie <yuanchu@google.com>, Wei Xu	 <weixugc@google.com>, Wenchao Hao
+ <haowenchao22@gmail.com>, Jonathan Corbet	 <corbet@lwn.net>, Hugh Dickins
+ <hughd@google.com>, Baolin Wang	 <baolin.wang@linux.alibaba.com>, Tejun Heo
+ <tj@kernel.org>, Michal =?ISO-8859-1?Q?Koutn=FD?=	 <mkoutny@suse.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan	 <kunwu.chan@linux.dev>,
+ Meta kernel team <kernel-team@meta.com>, Linux Memory Management List	
+ <linux-mm@kvack.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, 	linux-doc@vger.kernel.org, "open
+ list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
+ <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Kairui Song <ryncsn@gmail.com>,  Joshua Hahn <joshua.hahnjy@gmail.com>
+Date: Tue, 22 Sep 2026 13:14:31 -0400
+In-Reply-To: <CACePvbXG5kjZmRsdd0a4HfbnNa6w5s9b_1OCySbwvY+HuCqOVg@mail.gmail.com>
+References: 
+	<CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+	 <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org>
+	 <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+	 <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
+	 <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+	 <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F>
+	 <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
+	 <arEVDBlfsUYKK004@gourry-fedora-PF4VCD3F>
+	 <CACePvbXG5kjZmRsdd0a4HfbnNa6w5s9b_1OCySbwvY+HuCqOVg@mail.gmail.com>
+Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
+ keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
+ eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
+ Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
+ lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
+ dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
+ mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
+ gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
+ r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
+ WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
+ 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
+ Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
+ +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
+ g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
+ KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
+ fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
+ 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
+ G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
+ okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
+ TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
+ cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
+ omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
+ QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
+ c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cpqJA5S6VLdN78Gw"
-Content-Disposition: inline
-In-Reply-To: <3a107337-8e2c-45b2-8847-6b4fb7b0405e@roeck-us.net>
 
---cpqJA5S6VLdN78Gw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Sep 18, 2026 at 10:30:16AM -0700, Guenter Roeck wrote:
-> On 9/18/26 10:24, Conor wrote:
-> >=20
-> >=20
-> > On 18 September 2026 17:02:38 GMT+02:00, Guenter Roeck <linux@roeck-us.=
-net> wrote:
-> > > On 9/18/26 03:23, Colin Huang wrote:
-> > > > Add a PMBus driver for Infineon TDA38740 and TDA38725
-> > > > single-voltage synchronous buck regulators.
-> > > >=20
-> > > > Signed-off-by: Colin Huang <u8813345@gmail.com>
-> > >=20
-> > > For my reference (waiting for DT patch approval):
-> > >=20
-> > > Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-> >=20
-> > I'm on holiday and only have my phone, and cannot find the binding patc=
-h to reply to.
-> > I found it on lore and it looks okay.
-> >=20
+On Mon, 2026-09-21 at 06:11 -1000, Chris Li wrote:
+> On Mon, Sep 21, 2026 at 2:53=E2=80=AFAM Gregory Price <gourry@gourry.net>
+> wrote:
 >=20
-> Hi Conor,
+> >=20
+> > You can't know the compressibility of memory until after you
+> > compress
+> > it, and requiring a user to predict the future by forcing them to
+> > limit
+> > the total amount of workload compressibility does not scale with
+> > the
+> > number of workloads of variable compressibility of data.
 >=20
-> it was copied to "Conor Dooley <conor+dt@kernel.org>". Is that the wrong =
-address ?
+> You likely just need to pull a SQL query on your fleet to get that
+> number.
 
-Nah nothing wrong with the address, just the limitations of k9 mail when
-combined with the volume of mails I get.
+This feature is not being developed for just one
+user. It has to work for everybody.
 
---cpqJA5S6VLdN78Gw
-Content-Type: application/pgp-signature; name=signature.asc
+>=20
+> > That should tell you that your model of reasoning about this issue
+> > is
+> > ill-suited to address the problem.
+>=20
+> That is what I'm suspecting. Nobody in a sane mind would want to
+> zswap
+> 100% of the RAM and maintain reasonable SLO.
+>=20
+It could make a lot of sense to have some default
+limit upstream, that says the zswap pool is not
+allowed to take more than half of memory, because
+at that point the compressed content will be
+crowding other things out of memory.
 
------BEGIN PGP SIGNATURE-----
+That seems like the kind of limit that is large
+enough that very few people will run into it,=C2=A0
+while also being small enough to prevent actual
+corner case trouble.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCarK3HAAKCRB4tDGHoIJi
-0obXAQCdKDcHTJG5AcuDfg6f7evT6RLagLyTl8k2vNPWC5fQBwEAh2b7ZHs8BLFy
-koqCHqdbvoS8ueN4DOiA+2+5oEZXpQ8=
-=zvxl
------END PGP SIGNATURE-----
-
---cpqJA5S6VLdN78Gw--
+--=20
+All Rights Reversed.
