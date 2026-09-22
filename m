@@ -1,101 +1,124 @@
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-6.mta0.migadu.com [91.218.175.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DA854CF48;
-	Tue, 22 Sep 2026 15:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5363C548578
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 15:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.6
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790091858; cv=none; b=gZPkHSnXz28vhF6f6w9i8Xbe2TGX/coz58evPNLUsrvnA+vpgeXYx9ycpwspCZjWBQcUkQ1rXBNMoaAgPXuV6tDZ0LnfImY7OWjYFDK9WBF+pH+NgdbtNbF7NbUZN7U0tqqKKTe5cDURkWbCvtAvnumFNSSeyLiDHd6yOeKxpuo=
+	t=1790091963; cv=none; b=Sb59HU3D6+OKJCXA1J71Rr3xUdF5HLv9AVvFq5C5g9LRx/F5az4Se3Nxo3tcYVpfs4IWDrBu1hJT8/13L8/NNlGs670/WM+imZuXWmDq8CYWWkf3uLI6oHHxFAGC7PoIQ3vQSCF6J/bvzhhZ2aoy1DrJkzxypGf2wNt9yXfRF9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790091858; c=relaxed/simple;
-	bh=H2LQm10GMuQayO/rov7YPEEWZioZkR4PzepRTqfC9VI=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Subject; b=uc/W8YWWrntShBk4/4VyZFGm5oddWGSl+CUNQX+fZJeCsbckD+vN1iFc/qR6d3rEaAmLJFncsZ1+qxsjVESHcp+DTC00V4+ZtNmhLaHqppdMIy30zyBtJ8tydq3DkQrqlZlmSEfpIUyqaf27pfSdQSVIqTMMAoQg4gL9NoYF2NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=GSm4x/DT; arc=none smtp.client-ip=204.191.154.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
+	s=arc-20240116; t=1790091963; c=relaxed/simple;
+	bh=E4nsCeMhUyoyfA92nxYsi+1V5mplBSR6abTs7jkapTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m7vfqHf8h7iolDsU/HjQ5SJlH1wDV0puelveO5sEoh8mDvfIY+cHY2VD3NvZu7v8oL1xyWSqB4rADtCiGux3xKEXoUDud+3mcUZOMj3TjP4uprMz7m3yoAD1u5Jgabc+fGjUoeqFR/klILcgilfHQJcj8MkO1d0gNzt7JUkqK6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=j8Pd6TsC; arc=none smtp.client-ip=91.218.175.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="GSm4x/DT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
-	MIME-Version:Date:Message-ID:content-disposition;
-	bh=CWnSk7EHPwZAKsC2qnExgWJIw09V8t9KapKe+fGyacY=; b=GSm4x/DTZBhqYrTlypLXxe4dWy
-	9y0sKMPb064RvrGUTmasLfAtfG82W1NGKWo/+xT03P6Oh8PevDkvjUF+Chntkj38pPm6H5lSpW00n
-	14O4Dpzm0kR1kCBBt6AmxVZk4MZUVOwj5r2wnDpgZW8eoYS9DAM7xK79NREGkU6auzxdUBhjGuiJU
-	ijdiVxaHh9h2MKQWZntFWWZPJw+ThxEHQC72rUwJ+Nmhz3sNlRxYQuIQDNpuRwFiwZMJQ5hWueLbT
-	h4CWHqhJq+VkZA3OU+lTvTGaBB/oZn2MtwfwF77vBEpGxIfjjB8HIJOzz6yj/Om+EkgOwRsWHoW3c
-	3sCFOc9A==;
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
-	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <logang@deltatee.com>)
-	id 1x92fD-0000000FjgX-1I9v;
-	Tue, 22 Sep 2026 09:44:12 -0600
-Message-ID: <be735e17-0948-4940-a6c9-862466f986b3@deltatee.com>
-Date: Tue, 22 Sep 2026 09:43:56 -0600
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="j8Pd6TsC"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=E4nsCeMhUyoyfA92nxYsi+1V5mplBSR6abTs7jkapTk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790091955; v=1; x=1790696755;
+ b=j8Pd6TsCJrJcpukHfn+/ory5A8icclYSiGnK/2ongwQCQlkTubh56qmMQO4Y/GfppFqo+vfs
+ Cz5dOZ6fqnZoFIg6xFTbewHKZL2UTkAzhHLAHP1UM0XSL7SbaGyiqKMfg8mLJ2+gAJIZ/0a43ml
+ sRuIZIdtLkH2Xnz0b1Sz4szk=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id fbff1a32c447a0a9;
+	Tue, 22 Sep 2026 15:45:54 +0000
+X-Mizu-Trace-ID: fbff1a32c447a0a9
+X-Migadu-Flow: FLOW_OUT
+Date: Tue, 22 Sep 2026 08:45:49 -0700
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Chris Li <chrisl@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel team <kernel-team@meta.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arKgladcnmeTWUKb@linux.dev>
+References: <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+ <aqgMCIOFi0dKx_6L@fedora>
+ <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+ <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+ <arKRdaNEaKvFOtMg@linux.dev>
+ <CACePvbX7aM45SE9H0hg1_uXBt1i4W7Pgk+d33Z2sG5bj8cHudA@mail.gmail.com>
+ <arKZpJDpsavixjPx@cmpxchg.org>
+ <CACePvbUmVLVk=w1sJinBfKVYoXcO57A163RrXv7C_QLzM4yQZQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Chaitanya Kulkarni <kch@nvidia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jens Axboe
- <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
- Ankit Agrawal <ankita@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Randy Dunlap <rdunlap@infradead.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, iommu@lists.linux.dev,
- Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-rdma@vger.kernel.org, kvm@vger.kernel.org
-References: <20260920-fix-p2p-acs-v4-0-v7-0-ca0828ab697c@nvidia.com>
- <20260920-fix-p2p-acs-v4-0-v7-15-ca0828ab697c@nvidia.com>
- <85bb90f0-5a02-4e35-9ed6-ad7e67c1c0d8@deltatee.com>
- <20260922092754.GC563127@unreal>
-Content-Language: en-CA
-From: Logan Gunthorpe <logang@deltatee.com>
-In-Reply-To: <20260922092754.GC563127@unreal>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: leon@kernel.org, bhelgaas@google.com, kch@nvidia.com, gregkh@linuxfoundation.org, axboe@kernel.dk, alex@shazbot.org, ankita@nvidia.com, jgg@ziepe.ca, corbet@lwn.net, skhan@linuxfoundation.org, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, rdunlap@infradead.org, sumit.semwal@linaro.org, christian.koenig@amd.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, iommu@lists.linux.dev, tdave@nvidia.com, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org, kvm@vger.kernel.org
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Level: 
-Subject: Re: [PATCH v7 15/19] PCI/P2PDMA: Document TLP-class routing
-X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACePvbUmVLVk=w1sJinBfKVYoXcO57A163RrXv7C_QLzM4yQZQ@mail.gmail.com>
 
-
-
-On 2026-09-22 03:27, Leon Romanovsky wrote:
-> On Mon, Sep 21, 2026 at 04:16:56PM -0600, Logan Gunthorpe wrote:
->>
->>
->> On 2026-09-20 05:41, Leon Romanovsky wrote:
->>> +A path is bus addressable only where both directions route directly, so with
->>> +nothing enabled every class is.
->>
->> I don't understand the sentence.
+On Tue, Sep 22, 2026 at 05:30:44AM -1000, Chris Li wrote:
+> On Tue, Sep 22, 2026 at 5:07 AM Johannes Weiner <hannes@cmpxchg.org> wrote:
+> >
+> > On Tue, Sep 22, 2026 at 04:56:48AM -1000, Chris Li wrote:
+> > > On Tue, Sep 22, 2026 at 4:43 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+> > > >
+> > > > People can speak for themselves and suggest other time slots. You do not speak
+> > > > for anyone but yourself here. At this point this is derailing the conversation.
+> > > >
+> > >
+> > > I am expressing my opinion, freedom of speech. As you can see in the
+> > > previous discussion, Baoquan wasn't able to join that time slot. He is
+> > > a major shareholder in XSwap. I worry that alignment vswap vs xswap
+> > > without Baoquan is ineffective. That is my opinion.
+> >
+> > Actually, he said he is not sure if he can make it, and before Nhat
+> > could respond to that soft push you drew a hard line without actually
+> > proposing a workable alternative that made Nhat give up instead.
 > 
-> I tried to say that we need both Requests and Completions route
-> directly.
+> Please consider that it is 1AM in Beijing if I remember correctly. I
+> don't consider that is a workable and reasonable ask.
 > 
-> Claude suggested something like that:
-> ---------------------------------------------------------------------------
-> Combining the two tables gives the mapping type: a class is bus addressable
-> when its Request and its Completions both route directly, a blocked Request
-> is not supported because Translation Blocking rejects the Address Type
-> wherever the Request is addressed, and anything else goes through the host
-> bridge. With no ACS control set anywhere, every class routes directly.
-> ---------------------------------------------------------------------------
+> > So my free speech opinion is the same as Shakeel's: you're speaking
+> > for others and thereby derailing efforts to align on something.
+> 
+> I sympathize with asking Baoquan to join a meeting at midnight.
+> 
+> >
+> > We all want Baoquan in the room.
+> 
+> In Chinese we have this saying: don't apply things to others that you
+> wouldn't want applied to yourself. Do you want to participate in a
+> technical meeting at 1 AM?
 
-That's much more understandable. Thanks.
+Three emails in, you have rejected the proposed slot and proposed
+none, and your own conclusion was to drop the meeting and keep this on
+the list. That is not inclusiveness, it is a veto, and the outcome
+serves Baoquan and xswap worse than any hour of the day would have.
 
-Logan
+Baoquan said he was not sure he could make it. He is perfectly capable
+of declining himself, or of sending alternative timeslots to the list.
+You turned his "not sure" into a hard no on his behalf, then argued
+with everyone who pointed that out.
+
+Please reply with two or three specific windows in UTC that work for
+people not in US timezone. If they overlap with the other participants,
+we use one of them.
