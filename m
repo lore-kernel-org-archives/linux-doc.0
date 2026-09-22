@@ -1,67 +1,33 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302CC53D9E5
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 13:40:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E0D3F6C4D;
+	Tue, 22 Sep 2026 13:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790084409; cv=none; b=SF5/WfOWfEUmN/sxP71NqhnG0wL0Cu8YMGQ9LS59G+kHul81Me03Y/hpMYi+jxKGNykwV8htHmN+YXw1tseamU9CrNwIIADGJvPIEZvLe7bKRr/RZHB8HTfK5rXi4zcQU9EdZFAFpE0UPvInJg1V/r2EyAUEA4K4XyJwl/nb6iQ=
+	t=1790084700; cv=none; b=DOXQ4rpekhcawl/t8E22CvSu7iBzsB+A64B28VFiQxMcD1ytJtIAebDYkufDCS4k4rIRh1d+XTgz9BTTOjq+x+JFFyOXt7XNECkK/incndoX+6QR2qFPegUV9y+MOI0JZYH9UNNbIp00K6OpqhVuhLLaEvZpzJQPdimaVowI+sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790084409; c=relaxed/simple;
-	bh=DUEOh1yLTbnjKaiRVgHpJsP2PKjLs1lAERIDbW4fWng=;
+	s=arc-20240116; t=1790084700; c=relaxed/simple;
+	bh=Isi/XSz2XLB9elZLIuiT8+/gbeZBkYKpUNwCABDOIL8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qE7H3cBYWcJFh6e7imFfFwsQU12oKQc1pXfFCljuy/VperdsbE59S1tcoie0E2iVDYf0JMYjzEjRIHBKaPZxWi3J6wtPlrE0ZEWZXz0Bct1EL9CKlYkTFEJ3P5m3VC1MKp1UB0hUoIK998kzMT3humtbeNTAWYJg+vD5BjghZ/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=aJ1/+epY; arc=none smtp.client-ip=74.125.224.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 In-Reply-To:Content-Type; b=S4pZJoMXIyZ+mEbOnnPQNi3Xj9dSXmusNWnmKgG4VWQZTbj3/IdTzQZwj6GoRS190NPXJRmPcllmDqPvLrT17UT2Ge54uecO+6ENVKXbEGFAsZ9LyGA8+WAOEilIQNS/pNhE8m8r/WNMnrsTr96KSLFVYldRi0tOaodq7mG55hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A6by66Bt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="aJ1/+epY"
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-66c9995ca60so530798d50.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 06:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1790084404; x=1790689204; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MJCG2Sm0vsgw6siNu4vSpBKtOWqusCF2a7VkMLKoqYo=;
-        b=aJ1/+epYMfJQvJQHCsOZodxFAZwIgbEtidUR8HBTyCPcEjL4Ggl32cJsC8Pu3Fsf+4
-         VuUL4aMog1pyqjpg65LX1Q31QDKJojKuHbyyP3YjDfW7pTRdhpL2xSV77vWsLonAzQQm
-         cy6cODNpwEiY2fYFdtdytRqJQ458lRJTwTRtwe1gDm+6/KvWEEk2wWO7fV+hr/UkSNvK
-         Bxen9DVG48ChaR9UxONAz8DMDJJo2zLZk3i6dl/NDxcKksIUJMWXbYmfNoLxh+lgAZ4u
-         /JWDznYBExvRUxbasRDLOKg4rUu7CYSjfYOF2ZUJhG9fV23GHx3naMR9qlC+5wm9KZNz
-         jzIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790084404; x=1790689204;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MJCG2Sm0vsgw6siNu4vSpBKtOWqusCF2a7VkMLKoqYo=;
-        b=OM7Zpjlh3f2eM7To7PDuSi95gq9JOUxvwpyhXIciE3gZIkGPfizUFHnQcjPGrGaW7a
-         rqKtVIcPmHu8Xkj6I4JZrOn9llGz00Jz919HdNAy5Dk4uHw6hGB5BOIe/zXEthp70Z+P
-         acBRFNV9ytYulfcLaREsltw3IRTPJ6jUvImmMM7BZ6BtpnAplDrQUYUV1rNa4aVCYylt
-         IbFShcezpEbDS+Qf1LONgm8bJKfXV7PQvfaDqkyE9liLoBqmu11cegancCLqnaQs76sL
-         m1qfeu98EaBUWjulaNlys2m4k1C3/THFZfhydUbA/mnNG1/Mmuu0vR5IJANlPw9xu9l4
-         q7Vg==
-X-Forwarded-Encrypted: i=1; AKwUvBxvnNGTOmXAJjZvxgB0zb6ETE9vWmT0c5jZRabr7gM50cNch0G7eXFg84YN1FnYHvrvX1RUSI65nUQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++kGCxBWVELWiBC13kyQ+ugP/GTu6nuQGZ7ssk1Ccy7nUqrrpL9M
-	b/l6ljhl7dB17yp2w+ceQBDqIMoHe2F9qmUO61Ml+xfo5yEDH+kPrLBATNhVR0ueYOc=
-X-Gm-Gg: AYBFou2ewuZPycTF6aQsHdcpq3c1RBVRlEfN2G/RuJX349qFbit8QltMfuNHvW2C3V0
-	6bRWy0K6v30koNttLb55txqjzuINhp4kxPFxx/Nv5euQMA3BJt27vouAgZZCxGPjQDfmqTXERfC
-	PIBqzegk7lO/iN5xni7s5kfxJb3PgyP8gyoMmWoCrLLlCa6m95Cfxc5DZFUoVrf40ClABxf/G8f
-	U1wjUdHiX3T7OeGyY7sMpsER90cJ5XPdW2GVo9DT2phvsHdPyTPat3vGITEUM96Vs9voCvzzp7O
-	/jT83NpvbJKIef/2BBe6furJKjDRlGkGqwKyDXDIB+x5dHFjQpVUq9lujlDNdX3shgZDV1F0ZTP
-	jtLLfhtAXZe5kYKF19PN+ApaGoIFWaXfLoXL33F/dSbCV1WVVkGL7naVSgqH22dlrCggKAcKvp0
-	SgiCCtu1oxZAVZmPcUfx9ibtmAO/8Zy+hR23WsMhzEpNxEWDsUcT6UETTyfEWMm+68hb+XEi1M9
-	+mEa9tLp6Wr+ZRMrpM++owce27JZucvfXTxE6j7Nd28nFbl
-X-Received: by 2002:a05:690e:1382:b0:66e:5332:a911 with SMTP id 956f58d0204a3-672c299a828mr1382169d50.21.1790084403903;
-        Tue, 22 Sep 2026 06:40:03 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:bbcf:6512:c1f9:5b9e? ([2600:8803:e7e4:500:bbcf:6512:c1f9:5b9e])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-672c75bc43esm697539d50.6.2026.09.22.06.40.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 06:40:03 -0700 (PDT)
-Message-ID: <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
-Date: Tue, 22 Sep 2026 08:40:01 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A6by66Bt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D71F1F00893;
+	Tue, 22 Sep 2026 13:44:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790084699;
+	bh=tqTKHOB40XcCnMBIfF1XOtz8msytKJ8dl2VlRBxSVUo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=A6by66Btcq0oxxz6XeUnbBptKL6e7P+vKxTSRd8BiR1vXllfVIL1v8yZ/52/UBbbY
+	 eAeuXgtI67QiZjmag3TyE6JzFmm1WtUJkI3YZDtBbo0+V8tEOaPK5+Y8peTNt3kKhn
+	 TDdNcW/gaZUQ8qZIviAfUdAVZ3OdT27z+5hPOts2aH/KSViaGseor1uECKJvjYAeTf
+	 Sel3yL7Z+cX6B+iQf31Cn/yYU+7u3hvoeQ2z0MXaQS8i5RxA9x3xq+dsfhWdVoCIat
+	 t321ThOK0x8hwvJ6weWtwpF0M/tMmQBWLDVzFcdub4xhDOyM7K5ICt0TKlC1n8oZy+
+	 Bm9WFvk5XK+xA==
+Message-ID: <c80354c7-0153-4a82-a9a1-9e2fd2929449@kernel.org>
+Date: Tue, 22 Sep 2026 15:44:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,145 +35,171 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>,
- linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
- Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>
-References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
- <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org> <arIvG0nx4LXG9nlW@monoceros>
-From: David Lechner <dlechner@baylibre.com>
+Subject: Re: [PATCH v12 03/25] firmware: arm_scmi: Introduce protocol instance
+ notifiers
+To: Cristian Marussi <cristian.marussi@arm.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+ f.fainelli@gmail.com, vincent.guittot@linaro.org, etienne.carriere@st.com,
+ peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com, jic23@kernel.org,
+ elif.topuz@arm.com, lukasz.luba@arm.com, philip.radford@arm.com,
+ souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+ puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com,
+ Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+References: <20260920091928.2014972-1-cristian.marussi@arm.com>
+ <20260920091928.2014972-4-cristian.marussi@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-In-Reply-To: <arIvG0nx4LXG9nlW@monoceros>
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260920091928.2014972-4-cristian.marussi@arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 9/22/26 2:39 AM, Uwe Kleine-König wrote:
-> On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
->> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
->>> The ability to add and remove devices from a driver through the sysfs
->>> "bind" and "unbind" files was created all those decades ago as a way
->>> that kernel developers can iterate faster, and provide a debugging way
->>> for users to attempt to add a new device to a driver without having to
->>> rebuild their kernel.
->>>
->>> This api over the years has been abused and recently come under a major
->>> fuzzing "attack" through tools like syzbot which decided that it would
->>> attempt to just randomly bind any driver to any type of device, causing
->>> loads of unneeded errors and pointless kernel patches to be generated by
->>> unsuspecting new developers.
->>>
->>> Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
->>> will be set on the driver if the bind/unbind sysfs files are ever
->>> written to.  This lets kernel developers "know" that a user is
->>> attempting to do something that is not normal, and as such, if the
->>> kernel breaks they get to keep the shiny pieces laying around on the
->>> floor.
->>>
->>> The flag is 'Y' which was unused, and can remembered as the user is
->>> "yeeting" the device being operated on here (thrown with force without
->>> regard for the thing being thrown).
->>>
->>> Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
->>> as many times crashes/oops/warnings/failures happen within the callback,
->>> and the taint flag needs to be there to show what was being attempted.
->>> If it were to be set after the callback happens, the oops report would
->>> not properly reflect what foolishness was being attempted.
->>>
->>> Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
->>> the tool from hitting bind/unbind, should be run with panic_on_taint
->>> enabled so that they fall over and don't continue on, thinking that they
->>> actually found a real issue.
->>>
->>> Userspace operations that rely on the bind/unbind files
->>
->> I agree that this should be avoided.
->>
->> But I also think the biggest offender really is driver_override. Specifically,
->> on a hot-pluggable bus a driver must be complient with the device driver
->> lifecycle rules and hence shouldn't break on bind/unbind. I think it would be
->> nice to not taint the kernel for such busses, and only taint on driver_override,
->> as I think we'd still want the bug reports for such cases.
->>
->> But I think this is fine to leave for a follow-up.
-> 
-> I fully agree. I'm fine and support tainting on driver_override, but
-> bind/unbind are used occasionally in my bubble and I consider drivers
-> not handling that properly buggy.
+On 9/20/26 11:19, Cristian Marussi wrote:
+> SCMI Protocol notifications are typically used by SCMI drivers to detect
+> and react to particular conditions: this was the assumption and the classic
+> usage scenario upon which the SCMI notification framework was built.
 
-In the IIO subsystem, unbind/rebind is the de-facto way to reset a wedged
-chip.
+Was the paragraph supposed to start with "SCMI notifications" ? Because later
+you describe how some protocols might want to reuse the "existing SCMI
+Notifications machinery", and here you talk about the traditional usage.
 
-A few examples where other reset methods were reject in favor of unbind/bind:
-
-https://lore.kernel.org/linux-iio/20240727160216.2488ed29@jic23-huawei/
-
-	This needs documenting as it's custom ABI. Note that we don't often
-	accept custom ABI. Particularly not a hook that seems to reset the
-	device. If you want to do that, unbind and rebind the whole drive[r]
-	so we are in a known state etc.
-
-https://lore.kernel.org/linux-iio/20240720163440.03c713dc@jic23-huawei/
-
-	Firstly as stated below, we don't provide interfaces for this
-	because it's a heavy weight process that is most of the effort of
-	unbinding and rebinding the driver. So if you need to reset, do that.
-
-https://lore.kernel.org/linux-iio/20250505200609.54756520@jic23-huawei/
-
-	The solution is to run it once at driver bind. Similar to reset
-	below, if the usecase needs to re do it then unbinding and rebinding
-	the driver reflects the fact we are taking it effectively offline
-	for a while.
-
-
-> 
-> So please let's do
-> 
-> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-> index c51ad96d4de4..ce8fb14ea19a 100644
-> --- a/drivers/base/bus.c
-> +++ b/drivers/base/bus.c
-> @@ -242,7 +242,6 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
+> -	mutex_lock(&info->protocols_mtx);
+> -	pi = idr_find(&info->protocols, protocol_id);
+> +	scoped_guard(mutex, &info->protocols_mtx) {
+> +		pi = idr_find(&info->protocols, protocol_id);
+> +		if (pi) {
+> +			refcount_inc(&pi->users);
+> +		} else {
+> +			const struct scmi_protocol *proto;
 >  
->  	dev = bus_find_device_by_name(bus, NULL, buf);
->  	if (dev && dev->driver == drv) {
-> -		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
->  		device_driver_detach(dev);
->  		err = count;
+> -	if (pi) {
+> -		refcount_inc(&pi->users);
+> -	} else {
+> -		const struct scmi_protocol *proto;
+> +			/* Fails if protocol not registered on bus */
+> +			proto = scmi_protocol_get(protocol_id, &info->version);
+> +			if (!proto)
+> +				return ERR_PTR(-EPROBE_DEFER);
+>  
+> -		/* Fails if protocol not registered on bus */
+> -		proto = scmi_protocol_get(protocol_id, &info->version);
+> -		if (proto)
+>  			pi = scmi_alloc_init_protocol_instance(info, proto);
+> -		else
+> -			pi = ERR_PTR(-EPROBE_DEFER);
+> +			if (IS_ERR(pi))
+> +				return pi;
+> +
+> +			proto_notifier_nb = READ_ONCE(pi->pno.nb);
+> +		}
+> +	}
+> +
+> +	if (proto_notifier_nb) {
+> +		if (scmi_protocol_notifier_register(pi->handle, &pi->pno))
+> +			dev_warn(handle->dev,
+> +				 "Failed to register protocol notifier\n");
+
+
+	if (proto_notifier_nb &&
+	    scmi_protocol_notifier_register(pi->handle, &pi->pno))
+		dev_warn(handle->dev, ...)
+
+As we dropped the mutex, I assume somebody else could move ahead and
+refcount_inc(&pi->users) + return before the notifier was registered? Is that
+expected?
+
+
 >  	}
-> @@ -266,7 +265,6 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
+> -	mutex_unlock(&info->protocols_mtx);
 >  
->  	dev = bus_find_device_by_name(bus, NULL, buf);
->  	if (dev && driver_match_device(drv, dev)) {
-> -		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
->  		err = device_driver_attach(drv, dev);
->  		if (!err) {
->  			/* success */
-> @@ -513,6 +511,7 @@ static ssize_t driver_override_store(struct device *dev,
+>  	return pi;
+>  }
+> @@ -2366,13 +2398,35 @@ int scmi_protocol_acquire(const struct scmi_handle *handle, u8 protocol_id)
+>  void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
 >  {
->  	int ret;
+>  	struct scmi_info *info = handle_to_scmi_info(handle);
+> +	struct notifier_block *proto_notifier_nb = NULL;
+>  	struct scmi_protocol_instance *pi;
 >  
-> +	add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
->  	ret = __device_set_driver_override(dev, buf, count);
->  	if (ret)
->  		return ret;
-> 
-> (plus the needed documentation adaptions and maybe a rename
-> s/TAINT_FORCED_BIND/TAINT_DRIVER_OVERRIDE/).
-> 
-> Best regards
-> Uwe
+> -	mutex_lock(&info->protocols_mtx);
+> -	pi = idr_find(&info->protocols, protocol_id);
+> -	if (WARN_ON(!pi))
+> -		goto out;
+> +	scoped_guard(mutex, &info->protocols_mtx) {
+> +		pi = idr_find(&info->protocols, protocol_id);
+> +		if (WARN_ON(!pi))
+> +			return;
+>  
+> +		/*
+> +		 * If a protocol notifier was registered and this is the
+> +		 * last istance releasing the protocol, mark the notifier
 
+s/istance/instance/
+
+> +		 * for un-registration: note that the notifier itself counts
+> +		 * as one user, as for any other regular notification, so if a
+> +		 * protocol notifier is registered and there are only 2 users
+> +		 * active we can derive that this is the last protocol
+> +		 * instance de-registering.
+> +		 */
+> +		if (scmi_protocol_notifier_registered(&pi->pno) &&
+> +		    refcount_read(&pi->users) == 2)
+> +			proto_notifier_nb = READ_ONCE(pi->pno.nb);
+> +	}
+> +
+
+We drop the mutex now temporarily. What happens if another instance gets
+registered (incrementing &pi->users) just after we dropped the lock and
+unregister the notifier?
+
+Shouldn't we care about that or why is it ok?
+
+-- 
+Cheers,
+
+David
