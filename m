@@ -1,127 +1,117 @@
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F1C560ADD
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 17:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E83385D90;
+	Tue, 22 Sep 2026 17:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790098613; cv=none; b=myI5C0H/ArXBN6CWoxavENnTs3lwze0PF3ERPCqnsnsEOQgWNdF4h990yJ10G4HYuFdmaPPjnvzpP7sWZXPi3k5zsTmCUu36HIEtJxSWYiuhklKMe5UiAWYXrNKz+4yBoaoGzuMRI3kvPQEWPq+9QoKf4T80KSwJFURd/kvSMuE=
+	t=1790099153; cv=none; b=KXxGHGIufo/eipKovqUkN9J0nlPpqPs2WE40lAisIQpgrxvapdzvn1J5Kr2juhX2q4JQGVcxSX+gfA+RHuqzr7lz3tQG+vLey5Y04VNGFyuAfTwtgIAZMHRtqmrlBghcwkd5XJrJ+sLm5QQdyqhdtzBYcfWQ5OSai1fagtzNk+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790098613; c=relaxed/simple;
-	bh=pqfxOYdbk3G5uQ189p1pwNugqSafNpPZSMqnl+pMNDk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Viy0S4Gn9VrhV3IdCjzY/UJpLY0taBaVgQot1Y4A36e23rlfUlCGWb8sLg9Mf1QAIZDNZ2Hu1N/Rppkb1JhOh95og6QpoFu+Ke+CwJXhHa9Klvc9p85y+dGDP/qmqO8K2BOAb1nPvYlYwIlo/A9+wjHuClKt/++JTDIPP+kpCWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oM1ZLTAy; arc=none smtp.client-ip=209.85.214.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1790099153; c=relaxed/simple;
+	bh=+MBQr7Lq88vMwlqVg9Y0+7ZpoOh9i2ra2bsBZTG9yOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gFXuxmy7rNxnKUc+E+9zECbg7Losb3CVE37lBTPz6HXZTS6tVVoqgcWA748L2PfvEcugHvMVkBeF5TzKia84xUXI+4Vz48d5C8ZiTwuo45B35OxnULaSCR6/8d6R4vaBHA/134gX8mr1i+P3+8tmcLAOrrW5e4evDWloKmMX53Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LK/JYxRB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oM1ZLTAy"
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2d7443e0f0bso1364075ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 10:36:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790098611; x=1790703411; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gMBUcj03qoQAyG1GKCyEGFSnmBsF37yewOw9nu3IXkc=;
-        b=oM1ZLTAyP/iuDIrEN/1s/ssMc/qjOS4GrxyBzqHMVVERK2b3yj7f1Tyqc9F3udzJ/S
-         h7JBV0Z+qXLBd9KMzr0uhXevBPRDNSTDckL9Af+u99518jNLE3RsiuP9HN9twCvckg3y
-         /qlNsySx2Cm64UCewyIdM93WDi3UsNzXw0RHuGdgb+kvdzh0d5AtZq55ohB6Rqix/Bb7
-         qOf1EPwQNagvNnKVog9RgJrnzuyVJJ88V2vRLsznimq70j6+OHs62jP9kyp+bHiQNFJ/
-         PDWwIg3KSqj7aKgpHg2c/DEG9FZnF2wGnq5q5trQjcUc4t8XqEJAtajrmbuGfLkd8cRp
-         I/zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790098611; x=1790703411;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gMBUcj03qoQAyG1GKCyEGFSnmBsF37yewOw9nu3IXkc=;
-        b=YtLaIRocopuXEFjA7e/CU2bnrVfcGIEud1kSkzX1ktzF1yUUMh8Ot1XS0pALb8fpl6
-         ODKs1LfT49ZK49iyF4kE7NH7xqi3dDQzh+bEgEMUy2pGbHXkYkyQCnL0KSQxQhGjdLB7
-         prqpnH0s6S7yKplYkEzvkDUmBnoIN4U8c0qT+faoFZUU5jl+UvKb3a+UulcY4R4V1VFY
-         hOiaZGVdyoiA0u4t61WVGa5QSKuGuOn/F1vy0jceIsnCLrRB49UOCU4px6TTkgnbBn6e
-         dtOIFsIF9XPHyDor9rqDXV5KRslzG+9v2Crg55cBxx/57NF+SRETZpCV94luMh59eifE
-         YCdg==
-X-Forwarded-Encrypted: i=1; AKwUvBx6Q6u6Ft5+Kmxr/EKnJe1lBAoo3/WHvHCiBrkU5lt+2jQWLspCTJgMPAX5cxxAgJllJxwaHltK6S0=@vger.kernel.org
-X-Gm-Message-State: AFuF++lV2/hBJv8S090R38vGq+lrxBfe2NBIhTj+VOTS81kWTB7fDJ7Q
-	6eyQQpIhAeXJanyLXNn1XOS1mJVoYCd4RLIgFPLZC5wEGj6znxtHRnfwjp/UKkZ/zjJrnyRDSLC
-	v27S5sg==
-X-Received: from plhz10.prod.google.com ([2002:a17:902:d9ca:b0:2df:4a0d:5ac])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:4b27:b0:2dd:c100:a5d9
- with SMTP id d9443c01a7336-2df69df7453mr924125ad.45.1790098610429; Tue, 22
- Sep 2026 10:36:50 -0700 (PDT)
-Date: Tue, 22 Sep 2026 10:36:49 -0700
-In-Reply-To: <arK5ynpRi7VbY7Ek@gremlin>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LK/JYxRB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F38251F000FF;
+	Tue, 22 Sep 2026 17:45:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790099152;
+	bh=3XbNBEXalOL7wiFA7qwtlOxm81Xd6k8sewjrN0xUfqI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LK/JYxRBXLqT9oNDbHo0Vmb4Kvj0SOxpClLPhlDhoEDp990c2FuIfud12HQJuvoxi
+	 bDGECRYUfdSZP9gXhK4fXF614eddRmfhGFyn3I5yvyMc5JGtE8JWdEnqplwGl+30wp
+	 IgFFys8YWwUU/5cihbkrSBZb77Gp190OamEKXHrXLnzKxw4mjcFgUR4trsz+gvyhfm
+	 NkjzqhIVxzST0eRe/o24/p9M2Ef1ZchwIqf095j6f1qxLjBuNLY4oxTPM4672c12dP
+	 GifkY8ow2B/PzWEoKFKZ6UhhlpfkA0s204foNKtzVTN2L1kzD9wUQvZUXezjpuhwZz
+	 57kC61yAXm67A==
+Date: Tue, 22 Sep 2026 18:45:43 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Oliver Upton <oupton@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Mark Rutland <mark.rutland@arm.com>, 
+	Fuad Tabba <fuad.tabba@linux.dev>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
+	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Sean Christopherson <seanjc@google.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>, 
+	Wei-Lin Chang <weilin.chang@arm.com>
+Subject: Re: [PATCH v3 02/14] arm64: Add ESR fault helpers
+Message-ID: <arK8ZnBSFwmjizuk@gremlin>
+References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org>
+ <20260922-kvm-arm-prefault-v3-2-787bd3bc7e3f@kernel.org>
+ <arK0N7H1w-pcixba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org>
- <20260922-kvm-arm-prefault-v3-1-787bd3bc7e3f@kernel.org> <arKxjsxuO1F5ExrY@kernel.org>
- <arK5n9HrbZMCOHOt@google.com> <arK5ynpRi7VbY7Ek@gremlin>
-Message-ID: <arK8seJVT9wYgVCP@google.com>
-Subject: Re: [PATCH v3 01/14] KVM: Allow architectures to disallow pre-fault
-From: Sean Christopherson <seanjc@google.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Mark Rutland <mark.rutland@arm.com>, Fuad Tabba <fuad.tabba@linux.dev>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
-	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-	Leo Soares Passos <Leo.Bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <arK0N7H1w-pcixba@kernel.org>
 
-On Tue, Sep 22, 2026, Lorenzo Stoakes (ARM) wrote:
-> On Tue, Sep 22, 2026 at 10:23:43AM -0700, Sean Christopherson wrote:
-> > Rather than have kvm_arch_vcpu_allow_pre_fault_memory(), what if we add a more
-> > generic kvm_is_vcpu_loadable()?  That way we don't need to worry as much about
-> > the return value, the connection to vcpu_load() is obvious, and we don't need to
-> > add another pre-check if future (or cleaned-up existing?) ioctls want to do
-> > vcpu_load() in common code.
-> 
-> ...this is exactly what I started out with.
-> 
-> But then you are in a pickle, because _really_ you need to do that check in
-> vcpu_load(). Which is a void function. Which is called by every single
-> architecture all over the place.
-> 
-> So you'd have actually no way of signalling the error back.
-> 
-> Of course those places are arch code and you could say 'arches should know
-> better and if they call it it's fine not to call the arch 'can you load'
-> function.
+On Tue, Sep 22, 2026 at 10:00:39AM -0700, Oliver Upton wrote:
+> On Tue, Sep 22, 2026 at 03:17:56PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > Add helper functions which operate directly on an ESR value rather than
+> > trying to access the register itself.
+> >
+> > These mirror equivalent KVM vCPU wrappers in kvm_emulate.h and allow those
+> > wrappers and KVM's stage-2 fault handling to operate on a plain ESR value.
+> >
+> > This is needed to later generate a synthetic fault for the stage-2 page
+> > table pre-faulting mechanism.
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > ---
+> >  arch/arm64/include/asm/esr.h | 44 ++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 44 insertions(+)
+> >
+> > diff --git a/arch/arm64/include/asm/esr.h b/arch/arm64/include/asm/esr.h
+> > index f816f5d77f1a..9c0205983d9a 100644
+> > --- a/arch/arm64/include/asm/esr.h
+> > +++ b/arch/arm64/include/asm/esr.h
+> > @@ -437,6 +437,50 @@
+> >  #ifndef __ASSEMBLER__
+> >  #include <asm/types.h>
+> >
+> > +static __always_inline u8 esr_get_ec(unsigned long esr)
+> > +{
+> > +	return ESR_ELx_EC(esr);
+> > +}
+>
+> Why do we need to wrap the macro in an inline function?
 
-Yes, that's my vote.  It'd be easy enough to clarify that "rule" with a comment
-in linux/kvm_host.h.
+It seemed like a more consistent way of doing this but looking through the code
+ESR_ELx_EC() is referenced directly in quite a few places so will swap out.
 
-> But you're still stuck with the problem of where exactly you put this check.
-> 
-> So then do you put that check in a wrapper around it?
-> 
-> Instead you can make the predicate 'don't prefault on a not-yet-initialised
-> vCPU' which is pretty sensible I think, have a specific place to put it and
-> all's well with the world.
+>
+> > +static __always_inline bool esr_trap_is_iabt(unsigned long esr)
+> > +{
+> > +	return esr_get_ec(esr) == ESR_ELx_EC_IABT_LOW;
+> > +}
+> > +
+> > +static __always_inline bool esr_abt_is_s1ptw(unsigned long esr)
+> > +{
+> > +	return esr & ESR_ELx_S1PTW;
+> > +}
+>
+> This helper doesn't make a ton of sense outside of KVM, since
+> ESR_ELx.S1PTW is RES0 (not RAZ) outside of a stage-2 abort.
 
-But look at it from an x86 perspective.  Pretty much everyone will look at this
-and expect:
+OK, kvm_emulate.h better?
 
-  bool kvm_arch_vcpu_allow_pre_fault_memory(struct kvm_vcpu *vcpu)
-  {
-	return vcpu->kvm->arch.pre_fault_allowed;
-  }
+>
+> Thanks,
+> Oliver
 
-> > I'd also be tempted to say it can be a macro, not a __weak function.  E.g.
-> 
-> Yeah it can be many things but why would you want a macro if you could possibly
-> avoid it? :)
-
-Because it allows arch code to dererefence "struct kvm_vcpu" in kvm_host.h,
-i.e. allows "inlining" the check.
+--
+Cheers, Lorenzo
