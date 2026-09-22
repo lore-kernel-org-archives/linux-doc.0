@@ -1,32 +1,33 @@
-Received: from mta0.migadu.com (out-253.mta0.migadu.com [91.218.175.253])
+Received: from mta0.migadu.com (out-5.mta0.migadu.com [91.218.175.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AC82F0C46
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 03:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.253
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A313BBFD6
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 03:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790047341; cv=none; b=b8edEfNMy9fkyxvgYhyBBKwNimxaSu/QeY9cF+201dE9Txdi25lw6OPXzp/tEaw6n3Mg9WRYDgcguGQYd8EWKwDjbNp7zGYywrPD0dUYnnPN5AhpQjH0K/y2FyGGADhhsF95xSkEkvUg0XJl0PCbd3esm6qI10jKpIxp2blWSHE=
+	t=1790047346; cv=none; b=aLmD/pV/Y2Yd0SqRHXRX08jnYe3TT9LgdsOCmKFUlHkWSySlOKOlfuTGxy5h7+HWvXdRjbRlxQGsiztMg2DR15T4sBAd9S+gAJ8M0ShdHK4MPQT9Br8yP+UhPGE0w+SKdohbH0x34evoVOYLlHjtfvP+C6p5vo+ORKuzgyk7i48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790047341; c=relaxed/simple;
-	bh=D6xp+DQw2/JOLv/xyLpiYWzZgQK22tQnX4ABmanyYO8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VsV/w7WLjhi72lkcM5Up6CxO+TQKMAX+u2Ph6yhoqlqlFmtFH1ICxEIi3F3381uaYedv9zau4QoJR+Hqnk28QGVJG11wpw65DRq3SKYNRovJCuN6tfdTve/Sbw0KdaQ4DsVwsWTnOaXXrMA61hvK/FvOnO1g+aQb8Ls0c1W5DkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PpArhTp0; arc=none smtp.client-ip=91.218.175.253
+	s=arc-20240116; t=1790047346; c=relaxed/simple;
+	bh=pauak53psAXKLYl2w6xPdGBF4uRbBTPOApr/KH0j4F0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DVb7YljdYOM1I9bFolyrYAESPUhUWhtvCyiRGQvWgx04KVJAj+p2MvGI92ObcxLUh9e0hSnjD8+dpDmonfcP6amsmogO3RlaOP0XNXVmiai/3JE3KBlxiJ5Los2nMnNlAQLY25bYLxU9h+jycw1JTxHSYHTZmpfyj8K/htSRLSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=C49OkL7L; arc=none smtp.client-ip=91.218.175.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PpArhTp0"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="C49OkL7L"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=D6xp+DQw2/JOLv/xyLpiYWzZgQK22tQnX4ABmanyYO8=;
+DKIM-Signature: a=rsa-sha256; bh=pauak53psAXKLYl2w6xPdGBF4uRbBTPOApr/KH0j4F0=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790047337; v=1; x=1790652137;
- b=PpArhTp0zGXteX0eGj7GdprIMBe/qJfluR7VxfAO8MnEdXzqarPeiSrFppWaHOMBgtMgPW6v
- DdcpYGu8ZnswjcLwKCs+Rk9WP8GIAMK8CmUAIGlOLUQOIXqcjxy5iM8G5QbeeEVFEwOdFmjAi3r
- rjqagDhZGL7uUgySx6dp3Y2A=
+ t=1790047342; v=1; x=1790652142;
+ b=C49OkL7LFYddJEhZEUbvcbZ7weqRfBRST96EE5phGSn+Y4HpyVtwmBauz/6M93+u3U8P1zGx
+ jogztmXF0UczPe6VC6xW4KiqW/+z+3kkd03OdZEe+bjJDFhrZBLTdDWAL0fwciqPoVkPsx0LWKh
+ wvtSPaHaBstwm2iFC1DbVQ2s=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id de3b09413563fae3;
-	Tue, 22 Sep 2026 03:22:17 +0000
-X-Mizu-Trace-ID: de3b09413563fae3
+Received: by smtp.migadu.com with ESMTPS id ebad361c0570f0a0;
+	Tue, 22 Sep 2026 03:22:22 +0000
+X-Mizu-Trace-ID: ebad361c0570f0a0
 X-Migadu-Flow: FLOW_OUT
 From: Guopeng Zhang <guopeng.zhang@linux.dev>
 To: Waiman Long <longman@redhat.com>,
@@ -40,10 +41,12 @@ Cc: Tejun Heo <tj@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Guopeng Zhang <zhangguopeng@kylinos.cn>
-Subject: [PATCH v2 0/2] docs: cgroup-v2: Correct cpuset CPU descriptions
-Date: Tue, 22 Sep 2026 11:21:28 +0800
-Message-ID: <20260922032130.33777-1-guopeng.zhang@linux.dev>
+Subject: [PATCH v2 1/2] docs: cgroup-v2: Describe boot-isolated CPUs in cpuset.cpus.isolated
+Date: Tue, 22 Sep 2026 11:21:29 +0800
+Message-ID: <20260922032130.33777-2-guopeng.zhang@linux.dev>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260922032130.33777-1-guopeng.zhang@linux.dev>
+References: <20260922032130.33777-1-guopeng.zhang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,27 +57,37 @@ Content-Transfer-Encoding: 8bit
 
 From: Guopeng Zhang <zhangguopeng@kylinos.cn>
 
-The cpuset interface documentation says cpuset.cpus.isolated is empty
-unless an isolated partition exists, omitting CPUs isolated at boot with
-isolcpus=domain. Its cpuset.cpus.effective description also assumes CPUs
-come from the immediate parent and are normally a subset of
-cpuset.cpus, which is not always true for valid non-root partition roots.
+cpuset.cpus.isolated is documented as empty when no isolated partition
+exists. This is not true when CPUs are isolated at boot with
+isolcpus=domain. cpuset_init() adds those CPUs to the isolated mask,
+and isolcpus=<cpu-list> uses domain isolation by default. They remain
+listed after a partition using them is released.
 
-Update both descriptions to match the existing behavior.
+Document the boot-isolated CPUs as well.
 
-Changes since v1:
-- Reword the cpuset.cpus.isolated description as suggested, while
-  specifying the domain flag of isolcpus.
-- Add examples of the cpuset.cpus.effective relationship for member or
-  invalid partition roots and for valid partition roots.
-- Add the Suggested-by tags and the Reviewed-by tag.
+Suggested-by: Ridong Chen <ridong.chen@linux.dev>
+Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
+Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Guopeng Zhang (2):
-  docs: cgroup-v2: Describe boot-isolated CPUs in cpuset.cpus.isolated
-  docs: cgroup-v2: Describe effective CPUs of partition roots
-
- Documentation/admin-guide/cgroup-v2.rst | 59 ++++++++++++++++++++-----
- 1 file changed, 48 insertions(+), 11 deletions(-)
-
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 2ec582985b5b..18a01ce4c334 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2626,8 +2626,9 @@ Cpuset Interface Files
+ 	A read-only and root cgroup only multiple values file.
+ 
+ 	This file shows the set of all isolated CPUs used in existing
+-	isolated partitions. It will be empty if no isolated partition
+-	is created.
++	isolated partitions or isolated at boot time via the "domain"
++	flag of "isolcpus". The latter remain listed even after any
++	partition using them is released.
+ 
+   cpuset.cpus.partition
+ 	A read-write single value file which exists on non-root
 -- 
 2.43.0
+
