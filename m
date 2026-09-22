@@ -1,123 +1,140 @@
-Received: from mta0.migadu.com (out-228.mta0.migadu.com [91.218.175.228])
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2464F0552
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 15:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.228
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9934EBAE9
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 15:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790089473; cv=none; b=tFHv43ynpkx39RgkvsjheN/lU3aL5XlNMn62c5qWWrHd5tesp3WMd8gxwlxmhAcKLdKUp59TLH1ks5hRnf3CiJnYdtX96rZQn3J2fC9NHxdRd45IhmHMnyNvyll1dcFLgeKhkMEKUrWTZqOoYPZvXcaSM7357oWsX6kM+UqKgeU=
+	t=1790089647; cv=none; b=YKwJVf+SpyIyOzJBPYNzXUx1Ug32ZFG12T/5BHTopBWbHZrQYbmeT4ZtcXsLGKJiNJ/pRC65Wsb2Zd6gk3+fYnwhJxpvdWL96M3ZckT1/JCW0ci23avtjKq7V4qUiKaYNQbMChzgSbit6nY3g73Dd38HNzKbxheEUG2oabmq+7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790089473; c=relaxed/simple;
-	bh=JVqrVLbpqaV4yYWEGdvRO/b8euCJwpqA++3GCxL7hmE=;
+	s=arc-20240116; t=1790089647; c=relaxed/simple;
+	bh=pQRCqIxdRi9n3oOnIO+L9DGoF0+Af1vETamIPNHLiuA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jGHeTThVtXgIyxrABlvB9D7EXfGNS1APA/a4v5h0VSvFFlqxEhl+knx1q1qImEAjqO5YtbSZzEUOUhPxfS4+kVXPxsfyhx3YAi+n2AiFJOtKqay6rt70L0lLHewrb2qzgujCmR58lpVE9mpwh02EXdKu8XK5ykVP2QfppclnBuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VVbx5Oeq; arc=none smtp.client-ip=91.218.175.228
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=jZyq8NgNxWLwF1NnGow9+iJat5Nx9EvADLwdSx669Chme2kpPWTOhO4cOzv2jDxXenR/vnattuPAYk5GyGeeKAeeFHx2IuEzaEZ8XgZH/UJYSaJ2qbh5SsSMkg8Ii7N0776Zb1GFj9axgduIMVl8wPuECD1LoLrOxBEObBsbzaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=LRNyWPWk; arc=none smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VVbx5Oeq"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=JVqrVLbpqaV4yYWEGdvRO/b8euCJwpqA++3GCxL7hmE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790089461; v=1; x=1790694261;
- b=VVbx5Oeqqw2rNX+UPZrMlh5/OXQrdmaOg9k6E7EI0rnAhhG6bEBGAe4PdPUTYjOCbVIQ9fTz
- oeRzSmFTuUs18GPs+3dZSA992WFPrBaqMcDUU3/TFH03tkekH+y969PMiyYOy2OY54hhkTipTLL
- PMH2zPNoqv6jyYkbbN4Y6504=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 5ccb4c3c2135a73a;
-	Tue, 22 Sep 2026 15:04:21 +0000
-X-Mizu-Trace-ID: 5ccb4c3c2135a73a
-X-Migadu-Flow: FLOW_OUT
-Date: Tue, 22 Sep 2026 23:04:14 +0800
-From: Chen Yu <chen.yu@linux.dev>
-To: Babu Moger <babu.moger@amd.com>
-Cc: Chen Yu <yu.c.chen@intel.com>, tony.luck@intel.com,
-	reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
-	bp@alien8.de, ben.horgan@arm.com, corbet@lwn.net,
-	skhan@linuxfoundation.org, rdunlap@infradead.org, tglx@kernel.org,
-	mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
-	fenghuay@nvidia.com, akpm@linux-foundation.org, rppt@kernel.org,
-	dapeng1.mi@linux.intel.com, elver@google.com, jlayton@kernel.org,
-	enelsonmoore@gmail.com, kuba@kernel.org, ebiggers@kernel.org,
-	seanjc@google.com, peterz@infradead.org, chao.gao@intel.com,
-	jmattson@google.com, naveen@kernel.org,
-	ricardo.neri-calderon@linux.intel.com, tiala@microsoft.com,
-	chang.seok.bae@intel.com, prathyushi.nangia@amd.com,
-	kim.phillips@amd.com, elena.reshetova@intel.com,
-	darwi@linutronix.de, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v5 00/16] x86/resctrl: Add kernel-mode (e.g., PLZA)
- support to the resctrl subsystem
-Message-ID: <arKY7nyMuR7fjIon@three-body>
-References: <cover.1787772750.git.babu.moger@amd.com>
- <arCjBqclcfHBP8fH@chenyu-dev>
- <0729c208-b3d6-40cd-8316-185226838310@amd.com>
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="LRNyWPWk"
+Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-93910c9ff1cso1995085a.3
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 08:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg.org; s=google; t=1790089639; x=1790694439; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TzjZBDA5iUg3ko8RNpB6y9UNWK4AO1BnhWiKj7vnaJU=;
+        b=LRNyWPWkHOlp/fa83u/CnOO+rOYP6lmeYLURZsifJgVh7e0a9xQX9ebmmrJdxddqpI
+         IFlWiQIxNwJBn/2+QaxB5C44LKHBLKaNTI/YFZxi4u8fw+eH4LEeymEwtkf6Ph2MokmJ
+         vvo0cff9ZAPlKfwO1zo+6gpLDgtePtgEsgZOcKmJBwsZqR8udGvcv6JWlZqqjrDPOa6m
+         VUcLGER4qN40EIMy3FuvBp0x6is5U53mTfUY1wp1JtkXCQ9BpXWyIg14xrTYuLXtv3OF
+         Ru0Iv75DwfSZfkdXMsmijJzeSmxFUhFJKhN9AiAOwVSs0MM6m30mZ842EqQjwffONkT4
+         4syw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790089639; x=1790694439;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=TzjZBDA5iUg3ko8RNpB6y9UNWK4AO1BnhWiKj7vnaJU=;
+        b=QjLfGbNcRNmuCzlkpz/hRQnIJBYDsiQjXwtQpar3KMDUErgvjitOdon088uK3Yq6pe
+         q3BmBRnZTJAjjCQ/OMu/fL8ucVviLpRtx1Ji5dDRjlxcf2EnfaoWb416IxFVxdLEIlM3
+         5Sb7RrPzLK8Z8j1lSC8aH34oRfptb0mbQofxYmB7l7Y1TzGjgZ+mQXpnnQDGREjziuT/
+         cbyjyAX5a/qXT9avIfg2yHl5gmnUlTJIf67WSVgGKLKyvUOKa72uZmOV75Cuzmvvpyls
+         imjDaSQsJB/Vo/ClzixzwmXYoQCOdyDMvpRt8bxrWQ8W34LafGom70op0w05kavaTYr9
+         BE0Q==
+X-Forwarded-Encrypted: i=1; AKwUvByqQTntHqH8IFLalwCLeS5Cqg0yCGmcH7PFkD+ZQwBTV5q1KfqPJypYnpu2D4oacEuf6Rds3XKCmQ0=@vger.kernel.org
+X-Gm-Message-State: AFuF++kPfTRZPhtaeJwcJztv9PqznKDSg2PIGWGB9xJvdPRmiFW8pr4B
+	00xbTY/YB5Q/XIMmmR1G4ikDI7yUpO1Xvr7+WgDSjbPYK9XfYXk0JrpAq98o65D2CaM=
+X-Gm-Gg: AYBFou10iblbq6CLzMLtVrIapxCJYJuo2hWl/3xZohlqkrwUyTt/yn9mLEpVRM9LsjF
+	eSaDY4q/pIce7YkNgR6Drb5Qs/mhRG3ghWZRSajO8/GWDej9b+7fNdc/GU+0NQhbNAK14K5JgFT
+	wU5npEsVBCpwaFozKnOMPZyXN0/RovJ+aVphZtPNq+PAvBwAOKMnfG8Vokys6qeYoq/5g2gMONw
+	iOJogje5JFeHPgZNd5b9125PSJ1yAdbWFbpyAtVV9wtQL+M4F6OThpGMYgZ6P2azxT6Gtx1VD6I
+	LgCRd0KhbjvKN/yWsn/NoDsEvVWOfLeF30LVtsBAo7jimwZVg43aBoelrkHBaNWOIvckbPV2rBQ
+	hgBgOJ17hIrQwWnSF+8FiyDTkZHLRw/fFtbQv7c8M/oNypLGemaUKulagwtp1Urhd3iSphGa3HT
+	GLxUzXXJ6RGMMc06NA1Ak10AMdF26UhL/0SRA2c6S39xfvfcdUPsNHzpIrwPUPVXpGp6cg
+X-Received: by 2002:a05:620a:2608:b0:939:35e5:94ba with SMTP id af79cd13be357-93c15d59204mr577391485a.6.1790089638560;
+        Tue, 22 Sep 2026 08:07:18 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c1cf10929sm167536485a.6.2026.09.22.08.07.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 08:07:17 -0700 (PDT)
+Date: Tue, 22 Sep 2026 11:07:16 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Chris Li <chrisl@kernel.org>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Nhat Pham <nphamcs@gmail.com>,
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Yosry Ahmed <yosry@kernel.org>, Muchun Song <muchun.song@linux.dev>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Barry Song <baohua@kernel.org>,
+	YoungJun Park <youngjun.park@lge.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>,
+	Wenchao Hao <haowenchao22@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kunwu Chan <kunwu.chan@linux.dev>,
+	Meta kernel team <kernel-team@meta.com>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org,
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arKZpJDpsavixjPx@cmpxchg.org>
+References: <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+ <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org>
+ <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+ <aqgMCIOFi0dKx_6L@fedora>
+ <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+ <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+ <arKRdaNEaKvFOtMg@linux.dev>
+ <CACePvbX7aM45SE9H0hg1_uXBt1i4W7Pgk+d33Z2sG5bj8cHudA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0729c208-b3d6-40cd-8316-185226838310@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACePvbX7aM45SE9H0hg1_uXBt1i4W7Pgk+d33Z2sG5bj8cHudA@mail.gmail.com>
 
-Hi Babu,
+On Tue, Sep 22, 2026 at 04:56:48AM -1000, Chris Li wrote:
+> On Tue, Sep 22, 2026 at 4:43 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+> >
+> > People can speak for themselves and suggest other time slots. You do not speak
+> > for anyone but yourself here. At this point this is derailing the conversation.
+> >
+> 
+> I am expressing my opinion, freedom of speech. As you can see in the
+> previous discussion, Baoquan wasn't able to join that time slot. He is
+> a major shareholder in XSwap. I worry that alignment vswap vs xswap
+> without Baoquan is ineffective. That is my opinion.
 
-On Mon, Sep 21, 2026 at 02:27:45PM -0500, Babu Moger wrote:
-> 
-> Hi Chenyu,
-> 
-> On 9/20/26 22:22, Chen Yu wrote:
-> > Hi Babu,
-> > 
-> > On Wed, Aug 26, 2026 at 02:32:14PM -0500, Babu Moger wrote:
-> > > 
-> > > 
-> > >    # Create a CTRL_MON group and associate kernel-mode allocation with it.
-> > >    # mkdir ctrl1
-> > >    # echo "assign_global_enable_per_cpu:ctrl=assign;mon=inherit;group=ctrl1//" \
-> > >            > info/kernel_mode
-> > >    # cat info/kernel_mode
-> > >    inherit_user
-> > >    [assign_global_enable_per_cpu:ctrl=assign;mon=inherit;group=ctrl1//]
-> > > 
-> > >    # kmode_cpus and kmode_cpus_list are visible only on the associated group.
-> > >    # ls ctrl1/kmode_cpus*
-> > >    ctrl1/kmode_cpus  ctrl1/kmode_cpus_list
-> > > 
-> > 
-> > Just curious, would the other existing files like "tasks" be exposed under ctrl1?
-> > If this ctrl1 is used only for "kernel space" mode, would the schemata of ctrl1 be
-> > shared by all tasks in the system? That is to say, it seems that there is no need to
-> > expose "tasks" under ctrl1. Should we hide "tasks" for the kernel group? Please
-> > correct me if I misunderstood.
-> 
-> No, I don't think we should hide the tasks interface here. It provides the
-> option to use a group in a mixed mode.
-> 
-> # mkdir ctrl1
-> # cd ctrl1
-> # echo "1,2,3" > tasks
-> 
-> At this point, PIDs 1, 2, and 3 will use the schemata from ctrl1, regardless
-> of which CPU they are running on. They will use the same limits in both user
-> and kernel mode.
-> 
-> # echo "assign_global_enable_per_cpu:ctrl=assign;mon=inherit;group=ctrl1//"
-> \
->           > info/kernel_mode
-> 
-> After this, all CPUs in the system will use the schemata from ctrl1 while
-> running in kernel mode, including when executing on behalf of PIDs 1, 2, and
-> 3.
-> 
-> Essentially, this provides the flexibility to run in a mixed mode.
->
+Actually, he said he is not sure if he can make it, and before Nhat
+could respond to that soft push you drew a hard line without actually
+proposing a workable alternative that made Nhat give up instead.
 
-I see, a single group can be used both for regular resource control and global kernel resource
-control. Thanks for this explanation.
+So my free speech opinion is the same as Shakeel's: you're speaking
+for others and thereby derailing efforts to align on something.
 
-thanks,
-Chenyu 
+We all want Baoquan in the room.
