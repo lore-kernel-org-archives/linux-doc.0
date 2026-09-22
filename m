@@ -1,96 +1,153 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E94353E313;
-	Tue, 22 Sep 2026 13:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05535558207;
+	Tue, 22 Sep 2026 13:16:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790082579; cv=none; b=H9mCJO9Bl7E44XAhl8KQQ255pKRuyPZ6hptAoBIjsQBVZH6Cez+8+GQ8I8Ntia2fiHWhkv97xIR9PHjLTY1fTR3AhjV3xUV8mgMzCV1zWgxC7ON2SzOuHTpTyRDUAiChfvylV+cfzm2I3injNp+kVUX1gNLR1Bp9lYcyqPHa+ps=
+	t=1790082968; cv=none; b=od0vjX5mt6Jvumi+DdtD3GLaOYI4nxw8ajaUR8royW2euwVhG4uE5v+ZUfjeopS02abNP3IJ4K+DnzTOVVeoMnJFINmMsAGQtcWWCh86DaAPTQi/VvVyeE0hu9OC613eYw7RXkNKk3B+cCecBoz/z1Dtv32QNAvNkOoqekyI1HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790082579; c=relaxed/simple;
-	bh=AgYRKeGx6YrxHo5tLOfYUAdJiIfBFhEsQpTA/20bgCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EmCsgFVgTlNW0Lx7HUbYewalUroonFo1ztFGFVBlssabeCxOG+THkLsdIZE3+Y8GchhmM3dXNO5fQihxhQL8LGkoud+YbggHqdrktmPke4L+LNEUgilT48jMdyZvSy0KpzBrbNn8yM1ejhNEmOj3w8h+FzBMeBmEmGxDkAEh7G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MtUom7eB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790082968; c=relaxed/simple;
+	bh=rf2jxPL/tOIqv6yozLftHFt6g3h6WjQ39OaZrMek0iY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k79R0X6Vtf5Fofr7omP8p+OY0+1xzg/HCc8zXXKIKtN9ume595drlG2crUKtyZyXZpKoCPCoCkl0qWAPF2Zzn+ei5ibb+sBPkkHPYLWkKvryVSSCQJATBPIPC99DomHjsqsb07CVcgAC+VTkuZ3CQLUvn8d0VBFjP2dA5hsRwCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q/dBf3NT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MtUom7eB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 037D31F000FF;
-	Tue, 22 Sep 2026 13:09:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q/dBf3NT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDD861F000FF;
+	Tue, 22 Sep 2026 13:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790082578;
-	bh=AgYRKeGx6YrxHo5tLOfYUAdJiIfBFhEsQpTA/20bgCU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MtUom7eBTFRpDBmC5PC16C5qIL5Ywu9NH+SE0K9c1jgXsItXNIbsoXLlqLDE9nyLi
-	 fD7w9uOE4hQ6p5C3WrqxT9iCd0Ti9bY1Yp11pFK8cfEu4cnBoF7cmLzyf7YGb6puUL
-	 ACqI1nfguAjSKdnRWZ4sCh5yWXK6a8eUMMQdhCtTvyURYIw0gBPNcz4vv6YhkLixLP
-	 tucoL78ZEps4VrU6pRz+AsOmtwsdrdrlTDmZVX01Ew2uILwbH/zWwnPkDwKfCO6QOS
-	 DpTalaKpOS69IVpTTWiDFgWTYeUf916M1x0zOQ/73Ce0EJamJnVZsGD0S0GuuSE19p
-	 nfnZlw89sqKgA==
-Date: Tue, 22 Sep 2026 14:09:22 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alexey Gladkov <legion@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 13/21] modpost: emit module descriptors as assembly
-Message-ID: <arJ9QwpjQq5Z512z@gremlin>
-References: <20260914-build-speedup-v2-0-39817ec5db23@kernel.org>
- <20260914-build-speedup-v2-13-39817ec5db23@kernel.org>
- <95baacfb-d8d9-4d2f-bc89-592df6f6f8e3@suse.com>
- <arEZrFmXeCO4hZpP@gremlin>
+	s=k20260515; t=1790082966;
+	bh=CpoW39srNxONPYDDUz/TIq2+ZKIxJUqkkB951WdQmPQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Q/dBf3NT/Ww+wRcc5uIHgrhtruBIFGlacnFvR7ih8VMAa7hijobiF9dvVF7dhvzZl
+	 n39/4D1yuLsOy1Ul9HczA19TRaq0OArc3EocFRog4HWjQg46B93Jsnz1nVFzMJ4zNN
+	 ELWifKxNMlpGjDhfVWJ2HyvpFVRg3yFsj+h+VfwlDBPTFcnhF6kPqgwDXAO3WkEeG1
+	 ei10QNgeiD1sj5fFTk7IO75osGIsVO0jTCdukJ30XsTym+1VUSNjAnyy3B+RJKXhm9
+	 b3/iN7ikP8P4ZLatk5n9VpJzC1lCEd6+fobw95uX8hsZbBZ38q4WTrUu+zjnYXqIbz
+	 TLzAQpbyGxjlQ==
+Message-ID: <2135509e-2689-4258-ab00-011d47f4b172@kernel.org>
+Date: Tue, 22 Sep 2026 15:15:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <arEZrFmXeCO4hZpP@gremlin>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 02/25] firmware: arm_scmi: Allow registration of
+ unknown-size events/reports
+To: Cristian Marussi <cristian.marussi@arm.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+ f.fainelli@gmail.com, vincent.guittot@linaro.org, etienne.carriere@st.com,
+ peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com, jic23@kernel.org,
+ elif.topuz@arm.com, lukasz.luba@arm.com, philip.radford@arm.com,
+ souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+ puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com,
+ Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+References: <20260920091928.2014972-1-cristian.marussi@arm.com>
+ <20260920091928.2014972-3-cristian.marussi@arm.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260920091928.2014972-3-cristian.marussi@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 21, 2026 at 12:57:57PM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Mon, Sep 21, 2026 at 01:25:09PM +0200, Petr Pavlu wrote:
-> > If the <module>.mod.S files are fully self-contained and do not even use
-> > something like KBUILD_MODNAME, would it be possible to name them
-> > <module>.mod.s and skip the C preprocessor as well?
->
-> Ack will do for v4!
->
+On 9/20/26 11:19, Cristian Marussi wrote:
+> Allow protocols to register events with build-time unknown sizes: such
+> events can be declared zero-sized and let the core SCMI stack perform the
+> needed safe-net boundary checks based on the configured transport size.
 
-Unfortunately this broke because the build passes flags that are only
-meaningful to the preprocessor (esp. on an LLVM=1 build) and
--Qunused-arguments was removed from kbuild in commit 8d9acfce3332 ("kbuild:
-Stop using '-Qunused-arguments' with clang") purposefully.
+ok, so we have a maximum message size defined by the transport. We'll use that
+as payload size, and the report size just gets the additional ktime_t.
 
-And some flags are needed and others not so keeping track of which is which
-just for this is asking for things to be fragile/break, esp. on the rando
-arches.
 
-The win here isn't very much overall so I think I will revert this change
-for v4.
+>  	pd = scmi_allocate_registered_events_desc(ni, proto_id, ee->queue_sz,
+> @@ -807,7 +821,8 @@ int scmi_register_protocol_events(const struct scmi_handle *handle, u8 proto_id,
+>  		mutex_init(&r_evt->sources_mtx);
+>  
+>  		r_evt->report = devm_kzalloc(ni->handle->dev,
+> -					     evt->max_report_sz, GFP_KERNEL);
+> +					     evt->max_report_sz ?: max_report_sz,
 
-(All your other requests have already been applied for v4 :)
+Having two similarly named variables is a bit confusing. I wonder if you can
+somehow make it clearer in the latter case that it is the max_report_sz
+according to the transport.
 
---
-Cheers, Lorenzo
+> +					     GFP_KERNEL);
+>  		if (!r_evt->report)
+>  			return -ENOMEM;
+>  
+> diff --git a/drivers/firmware/arm_scmi/notify.h b/drivers/firmware/arm_scmi/notify.h
+> index f18f98c5ab3b..c2eb4844c7db 100644
+> --- a/drivers/firmware/arm_scmi/notify.h
+> +++ b/drivers/firmware/arm_scmi/notify.h
+> @@ -18,8 +18,12 @@
+>  /**
+>   * struct scmi_event  - Describes an event to be supported
+>   * @id: Event ID
+> - * @max_payld_sz: Max possible size for the payload of a notification message
+> - * @max_report_sz: Max possible size for the report of a notification message
+> + * @max_payld_sz: Max possible size for the payload of a notification message.
+> + *		  Set to zero to use the maximum payload size allowed by the
+> + *		  transport.
+
+"maximum payload size" is ph->hops->get_max_msg_size(ph) ? Should we call this
+"maximum message size" then?
+
+> + * @max_report_sz: Max possible size for the report of a notification message.
+> + *		   Set to zero to use the maximum payload size allowed by the
+> + *		   transport plus the additional ktime_t timestamp.
+
+Same here.
+
+-- 
+Cheers,
+
+David
