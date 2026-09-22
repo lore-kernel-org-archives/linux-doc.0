@@ -1,213 +1,210 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011039.outbound.protection.outlook.com [40.107.208.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0A03630AE;
-	Tue, 22 Sep 2026 15:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790089273; cv=none; b=kY8lBvVG2nSomtYM/rfg1H1X8RnXLHGgUne8v7ARU8xuKembQ+0oDEsbY7N8OQcDnkXo/w2rfeTl2X+zrS5kZykvBiK4BDDDtuBDu8QpgQHo+BQ+a41mTDSFArmKJzVH7xTimck/jK2uzZMDmUGnu9+Ce8n4C2NyM7PJvaCENaU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790089273; c=relaxed/simple;
-	bh=o9S72RBMdjKlGss9mb9QgY9VhBDc0Yamlp03VJXCTdA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dfqix9cZKrOnZezEcpReMMFBOOssS/UKFApCjG7F8HGM4kjwu6MP49HhAlE5LTe44r+JRfvUFbS91WOuxg+2UP7crA+xQIvpL3tEtOjxQshFvIAWaduvFyQSbobfpp+mmCl6wirFO5jBxo2ink125yRtwJ+eCOSf0cToECx2G2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=YQoRqlAT; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC7755C339;
+	Tue, 22 Sep 2026 15:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790089433; cv=fail; b=IaxKPLYbc8ZfGEP3myAmC5qKGPGWSCXJGviFtsByzo58bheNZYUU/pxk3uhpzuhKoW8CwFwhQ+IrU7nlykUZwormYefMro+Ih+Ywu/PCr0UE5Q6eWlgzDeeBrQRiKZN3iNolGLROEqbbAVHCMnoAdvgQM+Da+mCv676hpOf0Upo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790089433; c=relaxed/simple;
+	bh=igcInwgKn4PXnn2Cm8gxnqy2O5ESpaWZO6P+1f7aBFk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=T/eLh/sKdJdtRB7p3A4CpwtiCJDFn9UTpc6TtAWBrteWWiHtwkU/oqNVMzHrEgmHHMW4imfQZ5kcmlc5agBdFjtYs0IFE17Vq94mAESbtzXhO52MmayDOFrFaB/9dm1/U/z1J2qcsycDqdzFwFMoaN8sn0sThFIr3rUWHj57/14=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rER/w+IV; arc=fail smtp.client-ip=40.107.208.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="YQoRqlAT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
-	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID; bh=o9S72RBMdjKlGss9mb9QgY9VhBDc0Yamlp03VJXCTdA=; b=YQoRql
-	ATNRjzSo4tfzLdp8oYsJ0SvBo1KTkLRqt607qaRNIvZ2g5JQZuzVCCEgFUjtMz2VquD3wY+AMg03s
-	/pm4eJ6ErM513UHsfCnseVUbDT86OYiWIRa8h0P6NXg3+LAhEo6ylCVcwWFhzpbyIMTNRhFPWyeq0
-	hWBWdEjCNUkOW5W5/W59QZP7jZzWOwgOWWY5wAzg9ZF9054eS9BwWjP5HzWwQPqZH86424rLqk1kC
-	X7S97UVBAZ3mBmrQdELqnPf8Lx8zaldeifHz6Phqmos5P/hL8+biEoETKDmEMS9xUvaoV0FpR52yM
-	AmqO85Udz53r5fw7ZGrY40pSaY+w==;
-Received: from [2601:18c:8100:a0e0:5a47:caff:fe78:8708]
-	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.5)
-	(envelope-from <riel@surriel.com>)
-	id 1x91xb-00000001f8a-2YPQ;
-	Tue, 22 Sep 2026 14:59:07 +0000
-Message-ID: <a75b2eac4297ca6b238dde6f9246d2c1807b935f.camel@surriel.com>
-Subject: Re: Path forward for Virtualized Swap?
-From: Rik van Riel <riel@surriel.com>
-To: Chris Li <chrisl@kernel.org>
-Cc: Gregory Price <gourry@gourry.net>, Johannes Weiner <hannes@cmpxchg.org>,
-  Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, Kairui
- Song <kasong@tencent.com>,  Michal Hocko <mhocko@kernel.org>, Roman
- Gushchin <roman.gushchin@linux.dev>, Shakeel Butt	
- <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, David Hildenbrand
-	 <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, Kemeng Shi	
- <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, YoungJun Park	
- <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>,
- "Lorenzo Stoakes (Oracle)"	 <ljs@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren =?UTF-8?Q?Baghdasaryan=EF=BF=BC?=	
- <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen	
- <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu	
- <weixugc@google.com>, Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet
-	 <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, Baolin Wang	
- <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, Michal
- =?ISO-8859-1?Q?Koutn=FD?=	 <mkoutny@suse.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Kunwu Chan	 <kunwu.chan@linux.dev>, Meta
- kernel team <kernel-team@meta.com>, Linux Memory Management List	
- <linux-mm@kvack.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, 	linux-doc@vger.kernel.org, "open
- list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
- <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Kairui Song <ryncsn@gmail.com>,  Joshua Hahn <joshua.hahnjy@gmail.com>
-Date: Tue, 22 Sep 2026 10:59:05 -0400
-In-Reply-To: <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
-References: 
-	<CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
-	 <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org>
-	 <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
-	 <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
-	 <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
-	 <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F>
-	 <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
-	 <e879ac65cb0940325736df7984c737edf1c6be94.camel@surriel.com>
-	 <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
-	 <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
-	 <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
-	 <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
-	 <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
- eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
- Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
- lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
- dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
- mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
- gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
- r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
- WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
- 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
- Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
- +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
- g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
- KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
- fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
- 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
- G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
- okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
- TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
- cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
- omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
- QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
- c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rER/w+IV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IDIeJRUYvi/O7NSKpAzOqgoZyrxgI5C5/Dguy9fo1ZxzaMAue+paVI87SOriieIECw75qmnW610EJ6ooijYYg8hzSbbILlSAqpKZgZZ+o8wy0FAkrt4RhCuTPP3RMNAMIcDEEm5Bu4xQQklzDfDtqCJwftSGu6Tb9DISwgR36nsIhgO1NUJvWJxEz9FhSaoeIdtzXaHUO6RUBW3iZFEMZWyyy22C7aNS0TWPKUsa1bRxA9TuaxYv+RjqsSADaOqLm5tpATD6cavZrHpdchCupyc/zUa/aFH7L4i3keiIMYija0k6A2kzKqYE3Qlm40oe4OWG0nOBkbtFp3uajkrxJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=igcInwgKn4PXnn2Cm8gxnqy2O5ESpaWZO6P+1f7aBFk=;
+ b=ElsaipMNcjx3wv8ceYUcCOmRdO9uj9amhG0+myAOhGaGZLZlpPAWlaWZ/VNZm32C4xuFSgV3vPJQzCTzFyoiy9d/9wLygBIPwDrk9GGB849M/9yNzZa2SbEUsBoW6W1pZ5cwNPbonh+NBMzYWY5pxQjxN7AalDNvWxW/0ywoaSURGQtwF0Bna654DqPVUyf0nfwusNkhqqBeJoNAw8jCw578Aor67zXScnvIvZ1xHfHbuAcgGB/NHCWk/80xFnFY4z9mCE/xFruh1tG4AomG4NXo0cKQljThkLNhD0avTx9BxLhM0CyCqeLcq/3uHXhHCSrIeQT9AHFlakinA9v+YQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=igcInwgKn4PXnn2Cm8gxnqy2O5ESpaWZO6P+1f7aBFk=;
+ b=rER/w+IVleDirH3n9Q+yddlZkBgubDP30jIqkdxj70MHfhfJlVLFgUdzqrBPLeBEDpd6XzK1//2d9bUKYiQH5wbpwuwkR3CgZEPkx6k1RMmiaUZmuN6FT82ecBZTMv1mhxFyLXWbgj9uVAvnujdAatek8S5m+hTNVsg7XyYgBQ2QF1dks2Lig/qCE9vC7QSeFJgCXArIf84noLfn56+MDkvgy4ZINkC4Xf3REaTYd47+IAPCZrf7Gm5UDLdWKz0jmPTNQjkRcJY9OFwqlGTd9L9Jz14n1ftgk+tZVxiKTZcdBdt9qjaEmqMcNlcq0g5RK70XT7LqSTDu/7J+CvHOOw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by SA0PR12MB4366.namprd12.prod.outlook.com (2603:10b6:806:72::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.13; Tue, 22 Sep
+ 2026 15:03:46 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.014; Tue, 22 Sep 2026
+ 15:03:46 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "zhen.ni" <zhen.ni@easystack.cn>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ "David Hildenbrand (Arm)" <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
+ filtering
+Date: Tue, 22 Sep 2026 11:03:44 -0400
+X-Mailer: MailMate (3.0r7032)
+Message-ID: <D5BBFCA8-AE62-429A-B982-39D5B7629FF7@nvidia.com>
+In-Reply-To: <0894f68a-9cef-47ac-bf8e-86cb18b6cf67@easystack.cn>
+References: <20260907082620.2083838-1-zhen.ni@easystack.cn>
+ <79548641-25f3-4ec3-a549-782fad168962@kernel.org>
+ <6e8bfb0d-d595-4e6b-9536-0323ada57e25@easystack.cn>
+ <b8e23456-00af-4097-a769-210a087d2b90@kernel.org>
+ <22D1EC4B-FBCB-421E-B8DA-345B5F3505FB@nvidia.com>
+ <d8d34e16-57fa-48b7-93a9-afbf4b950ce6@easystack.cn>
+ <98ca914b-4722-448d-b5a4-7f095d0ca433@kernel.org> <aqPmlw8WYW9HSzIV@gremlin>
+ <99a94068-ab37-47c0-878c-7c1ada5204b2@easystack.cn>
+ <8997BF57-2124-4F71-9CEE-6F7D31A15D87@nvidia.com>
+ <0894f68a-9cef-47ac-bf8e-86cb18b6cf67@easystack.cn>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+Content-Transfer-Encoding: 8bit
+X-MS-Reactions: disallow
+X-ClientProxiedBy: MN2PR22CA0006.namprd22.prod.outlook.com
+ (2603:10b6:208:238::11) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SA0PR12MB4366:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee089420-7c5a-4b56-49bc-08df18bab32c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|4143699003|10067099003|5023799004|11063799006|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	zjKpeEE9e6aJThiWxbWuiW5ooSFYUu+t0+vhIbn+oRK38EMVJPpV+sOJudIbe5cWownTR4ZCtzZSF2pMvxXsAskFg+q6BL513NiLiH+YZ8jNETBXkykrfc1Rq9R6+yDFxWZdy4RRlKOXtmOHSiAeROjZItzgHieLU/jGtFiqIDPdX/C6h9RP208jru6Ri3tv5w8m58/CGlEh7U2H0K1xBv+0QB/cfT9Y138pMXmomSERVX6NX4Cv425JEXis0ccU/629H7VU//Hh65GhDn/mSuh9HKcG30pSpklQ/sYHBwdni38/GL9dsQgVJU/IPP6dF32ffe+uTZgz//GzVgmBAywl45iKu7++1xA7q9+tjHBAZ80hdwJ29P65xx8VCV0Op9pTEswlV4FJt2LZBnIWOsc4pBInmmYesCAHX584v1XbwMr7qgwtF3QjMpdPM2elKYrgLhEQ0CYLwcLKCbf8/4UcrClM3VJMB53nqFbEFLNfCP9DjG5sJtJzgpDvA7uQ7+ZhDWVtaumWWVOvX2FEAjQVmwLHrCofVsAG0/8iI/caF1A1gady2bY5eofa3Ib56MOsj7aPVc02uiS/qmgbbd06WxRk0xDNSZSCQjY6Hz0ZJZgIhD6G97XXPQYPW3YCzDLxn2fjUdTKwVokzlWBpIABUJWmA+dSgVaTj6nMnlk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(4143699003)(10067099003)(5023799004)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T1FORzJ3Mk9VZ05WeUZ3Vkw3ZEpNeVNjSStXQnY1TGxHb2NyNjVzc3YwUmt1?=
+ =?utf-8?B?M2x0RnF6U0E2aWFjeDJXV2xrejRIeVdIS00wekE4NVpTSWNUS2xCb3VodTRv?=
+ =?utf-8?B?aEVjcUg4V0lWOGhlUjJwUHpVUTNhb1YraVRodzk1bGhpWHVoU3E5OEw3cDlz?=
+ =?utf-8?B?NWNtQTkwcXR2WFhubFVGQ0ZJc0QyR0JEQkFJUFMxajIybXdMZlozbUE3MC9E?=
+ =?utf-8?B?azVvd3lXY2dGNWJTdHpwVW50NEtEZS9RbTAyVHVqTDEvOHNQUVJnbndJSzFu?=
+ =?utf-8?B?eVJuVWZFcHBlTGpQUlZhcW9TRXlTR3drb1o2VDFtcVZZRGQrdEdQWXhIY0lJ?=
+ =?utf-8?B?RmJQWGtjSGxvRkxwZ2VGN0ZZa1laaDBRRWQvNHZHQUJsaVk1VE1JNWJQRHo3?=
+ =?utf-8?B?bDBwMmlnSlJjWEtCeVZKMzJGQUg2M1FPRlVhNlhjUitWRjBuL0t5bE9zK1hJ?=
+ =?utf-8?B?YWpoWFNrZGNJQWptWHZxMFJOd0RqaThnTjlpU2pQRUc4Mm85ak41VzRHc1NQ?=
+ =?utf-8?B?YlRvYVFiM1p3a0tOb1RybjlZU1pqMDZvcGNBQ3p6UldMOXZpYmtLUzhrdzE3?=
+ =?utf-8?B?ajlOTXpOY3dyV0RSVC9RSTJ3bXpnSXdWdVpUcUR1bXdjb2d6dU51K0toK2c1?=
+ =?utf-8?B?aVBheHFhdkpCOHc2alZFZmtaN2NCNVc3OHRieWcvQm9qU0t5ZXpZRmZ2NURT?=
+ =?utf-8?B?S1B1d01qMTIvRjJwL2JYNHBaVHpRdy9sbVgvWTNPdDY3VlkyN0ptekpVZkJV?=
+ =?utf-8?B?SmxmY2FjSDcxb0thUVM1OVQwNTh2RktHeU1Qcyt6NlpNNy9KMDBVUzdOU3Ir?=
+ =?utf-8?B?UVVkTGl6YlRMaGhlN2I5RXhvUy81bzFkbmVTNFJITTllOVB5YzBpcW1tTkE5?=
+ =?utf-8?B?ZlRpWGg0eCtBVEgxcE5mWm5zbzkwRmluZzFrckhKMW1USkpKNE5ZWDhOUmhV?=
+ =?utf-8?B?dW41V25YMWtUN3BxdXMyR0w2ZmRTYk9wQmV4cnBLNnprWENCeGVPOVNQVTF3?=
+ =?utf-8?B?N0RlbGYzQ0M2Y1VFcDBWTnlnMHdvTG9MZ3ZEb25WN0h0d2w4ZzJ0Wkp4dExS?=
+ =?utf-8?B?bWlUZmFRMHc5bkduTUlja05lYmtsNDVrMjk2NW9jSUtvVHVCbDVSSGpNN3dk?=
+ =?utf-8?B?MlBGbmk5SWV5UEdIY2xUbG9ieUJ2UlMwMzBVbzhUZFJkZHl3ZnRKaWRNZFhn?=
+ =?utf-8?B?dnRRMDY0MExiSDg4YmhJUUdUek5qWEJTSUJnckk2N3VKTWtTV05ETEVva0ti?=
+ =?utf-8?B?UzV4cFRmclRRWmh5L2xDYmhiL1BBS2lOdFBTKy9Uam8rMkl0NHJZN0c1alN6?=
+ =?utf-8?B?RmtmbEVjOGRJSUw5QnJhZFQ4NzJNcXVWb3luSUN3bTFaeU1PZTNZVk5OVUh4?=
+ =?utf-8?B?Y2s4b1NabFUycThGWlhxeWVMVHYvMitYMXVJc2RLNklMRjRzMWZFVzZvVnln?=
+ =?utf-8?B?VFhKVkFNWmZhRTlSS2lSL3YwMGU1c1FYK3lGUTgrRG5IU0NRcG56SkVPQTMv?=
+ =?utf-8?B?a09FbmRnZ2FVOHhIY1pFR2R6T1B4SzBhOGhiQ2xuZk02N2J5aGJiVkt2cVND?=
+ =?utf-8?B?ZGNBRU1manlZelk3YWkwSTN2NEI5V3FaT1hIcCtuYkRJendianNkaHVIOGVz?=
+ =?utf-8?B?ZGlab3Z1cUxpKy9vYlFSU0NFOGgxMmFjUlFUbDh6OUxWcDBCVnFEM040TW1t?=
+ =?utf-8?B?U0ExcFd6bEdKa0tzNU04SDJmSEl5UzBQRE9aZ2Z4ZkMyL2d0LzVRRkxGOWlP?=
+ =?utf-8?B?Z2FhYTdlK0dqemtIZ1JBenlZOVpiK3JXMkQ0VVh1YVJ2MmFKRjJ4Wkl0bXhE?=
+ =?utf-8?B?dkt0dVlSanZ2a0RyUktibVV6aHFseU9yeTlSS0l3eWttZ3ZRbVU1N1g3MGpG?=
+ =?utf-8?B?MTM0SXJWRzE5R1RHcUhtTlFDdXkzOFJQM0g2TzNDV081TjAzSXlaWElSV2Nr?=
+ =?utf-8?B?akhFOTRLSTR2NDIvUUFqT2VtYk1nMFhRUmVVM0pZOTlZbkNlb1ZDeWpQNWZH?=
+ =?utf-8?B?aEtmQWpPWHFwZXZQSkJBbmZJVVAzbFFLMS9ISk1NWXA2WHZiZkhyalJHcTlz?=
+ =?utf-8?B?OTFUYXB1aUVUSnlMMXRXVUZZY3hYYm1PdDNHYlRzdTZRT3lWVkRLSkwySHY1?=
+ =?utf-8?B?Ti9LTDhEZHdpUmk2RnN6VnZmMmV3MmVlSjlMdGMyempsTXIwdzMyNWdwY1Ar?=
+ =?utf-8?B?VDZzbUtvci90c1pLdEQyaHpScDRQa0o5eUZyNDZlWWswbHZVTFFOMWcwVW5N?=
+ =?utf-8?B?enFHeEIwclUvYzBEZzJzMkREQjZaQitKK1lxbUdVNFNESGhjQ2srR29RSDgx?=
+ =?utf-8?B?Vm9LTzMvcGloaGZoY1h5MlFRUVQ4MG55RWZwRnlOUEU1bzR3UGZtQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee089420-7c5a-4b56-49bc-08df18bab32c
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 15:03:46.1308
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zii16ReWkjRHt55bmoOzpWxM8AfelFc2+DdtMxfxJ4omDBmEgAY3igjCrBQbrNOs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4366
 
-On Tue, 2026-09-22 at 03:32 -1000, Chris Li wrote:
-> On Mon, Sep 21, 2026 at 8:53=E2=80=AFAM Rik van Riel <riel@surriel.com>
-> wrote:
-> >=20
-> > On Mon, 2026-09-21 at 08:10 -1000, Chris Li wrote:
-> > > On Mon, Sep 21, 2026 at 6:40=E2=80=AFAM Rik van Riel <riel@surriel.co=
-m>
-> > > wrote:
-> > > >=20
-> > > > On Mon, 2026-09-21 at 06:31 -1000, Chris Li wrote:
-> > > > >=20
-> > > > > Give me some real-world examples of people hitting this kind
-> > > > > of
-> > > > > limit.
-> > > > > e.g. MAX(%)=C2=A0 > 100% and still have a usesable system. I
-> > > > > suspect
-> > > > > that
-> > > > > with 100% zswap usage, the system becomes unusable. Please
-> > > > > show
-> > > > > me a
-> > > > > real world case that proves me wrong.
-> > > > >=20
-> > > >=20
-> > > > Here's my desktop system right now. The amount
-> > > > of Zswapped is more than twice AnonPages, and
-> > > > the system stays perfectly usable.
-> > > >=20
-> > > > $ grep -E '(Anon|Zswap|GPU|Swap)' /proc/meminfo
-> > > > SwapCached:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 252340 kB
-> > > > SwapTotal:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 41523604 kB
-> > > > SwapFree:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 9802088 kB
-> > > > Zswap:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-8812236 kB
-> > > > Zswapped:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 24927876 kB
-> > > > AnonPages:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 11615760 kB
-> > > > AnonHugePages:=C2=A0=C2=A0 1402880 kB
-> > > > GPUActive:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 13112428 kB
-> > > > GPUReclaim:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 95980 kB
-> > > >=20
-> > > > This is also an example where I cannot really
-> > > > predict how much zswap space I need, because
-> > > > that depends on what AI model is loaded,
-> > > > which drives the GPUActive number, as well
-> > > > as the number of browser tabs.
-> > > >=20
-> > > > The system is perfectly responsive.
-> > >=20
-> > > Great, that is getting somewhere. We are talking about actual
-> > > usage.
-> > > I
-> > > really appreciate that.
-> > >=20
-> > > May I ask what the total amount of memory (RAM) in your system
-> > > is?
-> > >=20
-> > > I am not asking zswap compare to ANA memory. I want to get the %
-> > > of
-> > > the total RAM.
-> > > I assume your desktop has more than 8G of RAM, right?
-> >=20
-> > Right now it has 64GB of memory.
->=20
-> That is exactly my point. You are running 1/8 =3D 12.5% system ram.
->=20
+On 22 Sep 2026, at 8:33, zhen.ni wrote:
 
-> My point is that, I haven't seen a case where the application is
-> still
-> usable with a reasonable SLO when 100% of RAM is zswapped out.
+> 在 2026/9/22 00:25, Zi Yan 写道:
+>> On 19 Sep 2026, at 22:11, zhen.ni wrote:
+>>
+>>> 在 2026/9/11 19:32, Lorenzo Stoakes (ARM) 写道:
+>>>> On Fri, Sep 11, 2026 at 01:06:46PM +0200, David Hildenbrand (Arm) wrote:
+>>>>> On 9/11/26 09:58, zhen.ni wrote:
+>>>>>>
+>>>>>>
+>>>>>> 在 2026/9/9 23:54, Zi Yan 写道:
+>>>>>>> On 9 Sep 2026, at 6:28, David Hildenbrand (Arm) wrote:
+>>>>>>>
+>>>>>>>>
+>>>>>>>> Because it results in less kernel code  :)
+>>>>>>>>
+>>>>>>>> And less kernel code is good. Unless unavoidable.
+>>>>>>>
+>>>>>>> An alternative is to add BPF hooks like bpf_iter to do the filtering
+>>>>>>> and by default, when no BPF program is attached, everything is printed.
+>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>> I’ve also thought about a similar approach—perhaps a new bpf_iter type
+>>>>>> that could iterate over all pages by PFN. The advantage would be that
+>>>>>> you can fully customize what you want to print and what you want to
+>>>>>> filter. However, doing so would require refactoring the entire
+>>>>>> page_owner, and I’m not sure whether it’s worth pursuing in this
+>>>>>> direction.I’d also like to hear everyone’s thoughts on this.
+>>>>>
+>>>>> Certainly better than having more and more manual filters added to the code base.
+>>>>
+>>>> Agreed.
+>>>>
+>>>> bpf seems the ideal fit here I think?
+>>>>
+>>>> Means that those who want this information can get it and those who don't are
+>>>> unaffected.
+>>>>
+>>>
+>>> I have prototyped page_owner bpf_iter and confirmed it is a viable and
+>>> valuable direction:
+>>>
+>>> 1.Most parameter parsing is offloaded to the existing BPF verifier,
+>>> keeping the page_owner kernel-side logic simple.
+>>>
+>>> 2.Filtering and printing are delegated to the BPF program, providing
+>>> greater flexibility and enabling more complex composite filtering.
+>>
+>> Without attaching a BPF program, page_owner could still print to
+>> the console, right? Otherwise, it will break existing users without a
+>> BPF program. You could add a hook to decide where to print the results.
+>>
+>
+> The existing console/debugfs path is untouched -- the BPF iterator is a
+> new, opt-in channel that coexists with it. Without a program attached,
+> page_owner behaves exactly as before.
 
-In my numbers above, the applications have 11.6GB
-AnonPages, and 25GB Zswap.
+Sounds great. Thank you for the confirmation.
 
-That is about 68% of anon memory stored in zswap. Not 8%.
-
-Out of (anon + zswap), zswap takes up 43%
-
-Can we at least agree on the observed numbers?
-> >=20
-
-> > hen the amount needed to fit a workload
-> > does not have a positive correlation with
-> > the amount of system memory?
->=20
-> It absolutely has a positive correlation with % of the system memory
-> based on my experience. The % of memory swap out has a very positive
-> correlation with the thrashing on the application.
-
-The applications thrash much harder once zswap flows
-over onto disk! Out of all the swap options available,
-zswap is the fastest, lowest latency one.
-
-Forcing things out to disk "because too much zswap
-is slow" could just slow things down further.
-
-Now, there is probably some upper bound where
-the zswap pool itself starts to hurt performance
-because it's crowding the applications out of
-memory, but that could be quite large.
-
---=20
-All Rights Reversed.
+Best Regards,
+Yan, Zi
