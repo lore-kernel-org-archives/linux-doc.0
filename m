@@ -1,311 +1,301 @@
-Received: from mta0.migadu.com (out-246.mta0.migadu.com [91.218.175.246])
+Received: from mail-qk2-f20.google.com (mail-qk2-f20.google.com [74.125.230.212])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E104751AFCD
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 21:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60BA4F55B8
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 22:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790113673; cv=none; b=CjNM5GLkULdSq3VrFEky9ABHTg2NLxMC2NYsgSA0+bq2VIVKR/7TxEngWroEV/+nVL44B8rY+Umu4vNzCwwLAU/pu0JQ9dV7Zqj1YKrZENUJh6aX4izKdiryc//2aXerEi2zx0HgTJ5nk1w5Od7KseZLiBzs6+BMMWNaTGBS0UQ=
+	t=1790114714; cv=none; b=k4/E0U6GOC1r7H1EaSuoimUjj92TYqr/u33stUil2A+C3xo2aMH8yuODnbRfAcyZVyU7hDPlU4ZdcQCj7bNbPbRipzldL+5KX/Fvg0lPNhZL/ApNEp/9gM8gik5rtuHab6vjIJQPMbuw/hNDy0TkdLCAcKlLCHyZafEwMje28Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790113673; c=relaxed/simple;
-	bh=j978S3kujL0t2IzwtfW4gW4OFjeQsDQ4dfVPJMp9cw0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BiLBYdLe2qk27vXOuIKQvWgzzOJ4BaAG8l08JTpCFCulrFiP0yBDXQ4D27c0sXSiJFNoIGNr/t4kxrfwk1FdVnOGdFY6v+QOQg0EYZcKvcQidzWGuU4/oI6NVE4bqti5GTpiR49btcL+R6swNBIMBvSuiScl68Bk7ybPYkKcXh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mvujhRK3; arc=none smtp.client-ip=91.218.175.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790114714; c=relaxed/simple;
+	bh=RRH1Vy+Zp/3SPkBGo9aHf3zXVNOp+j6j9mQwfJznZmI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sk/cinIXiBtAu8oPNFOUrXSOn5Ha3Mwl3dNCOf1HzgTu9V9bVQtP1zRjLegvYdoyPrNPKBNhHOhBQ+JuL+eAIbB9IUaHpXVyCJSnml0AkD/6wuIsX6x/mBUOZH1ARH64zpsz16L0nkUZbWsrobVyaumZ1vii3LrB1GIp+eBbwQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=qyAeO4Im; arc=none smtp.client-ip=74.125.230.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mvujhRK3"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=j978S3kujL0t2IzwtfW4gW4OFjeQsDQ4dfVPJMp9cw0=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790113658; v=1; x=1790718458;
- b=mvujhRK3HPNWh5jZ1O6mWbwgc5ofxed21gj77WTukikBzLL5PMkjFm9ZNtoKhhu+ze6BQWY9
- S62VL/gheKaPl6qzTKvUmIpaGRvnG4+/Yk5aA9180TL2mN1+7ZAiTJkXbJDW9pMpJjimd9oazka
- 4AbRgZbCIhZWTlIX8GqCS3dA=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id dcd07712fee43c99;
-	Tue, 22 Sep 2026 21:47:38 +0000
-X-Mizu-Trace-ID: dcd07712fee43c99
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <4e893390-ac53-4c50-b2b4-50d415ff3d1f@linux.dev>
-Date: Tue, 22 Sep 2026 14:47:31 -0700
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="qyAeO4Im"
+Received: by mail-qk2-f20.google.com with SMTP id af79cd13be357-939656ff6d9so33841885a.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 15:05:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1790114700; x=1790719500; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=anrpgiCeXWmBr1az5PEHzf4nylW2QouLqia/wBZNbT4=;
+        b=qyAeO4ImlxQWHWrY3rOI+d0jNqWFqqyELQ56tlRiHnq25pIvKuTEJrR3OrKTFcd4FP
+         IBWytxk9SOvSacV53yQXEJxrCz7JFBDHXXmbeZzXj0EB/0NOWsfpSVn6yoXESESrC7en
+         dWDirDwk2QkTXluyyhV/DpGjnVcz/j2jc1v8BpLdtDbcf5sjhv0PBXWkeMqUn2k3Taqh
+         Br/RM3e48CnC2TjK95UIB1Un9r7oOaUxLLkos8lL9ixrdl11BIKHZKIuPajT92vSGr1Q
+         qIAPWwqVvLVWxLDUlYny2dsxjQOz/CXVwD1OBKCicazpUsOUeEuMWOX7N+ZjO7LVxQvN
+         v/GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790114700; x=1790719500;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=anrpgiCeXWmBr1az5PEHzf4nylW2QouLqia/wBZNbT4=;
+        b=z21vlfll4yKWkdQuV4Kk9e77sTyCltCWhT5fRRoXMYE4YNXkttM5dyEu6LwfsuQF45
+         s2ogjspAspcZ6gMeM1nN1ij3q/dj6AqKTsEKl4JyVMmHXtlSkgippDalz0brEx1p3Gp5
+         sX47ogaro6K6qAJxmPGhAGRFnQe49HBulHSuBpmvYqD6kthcDT6no1TxuW8Q7OrszzGP
+         KvqZgRscpvjFXTgC2Yw0l9bOQhXQ1P/KmptCbkGwGT6z8OCOIbyfo1IattxC0I39St3d
+         +BRI82XTfDkYowoYHQvYxywB4GIo44wK3cnla6KuHVIbF8WmyQnuFqm9dP5NtSczBOgR
+         VA2w==
+X-Forwarded-Encrypted: i=1; AKwUvBzsHue63oqrtmskrv1Obr5aAY8tJjnIYBheH9kwop6B+2rmWWRKcIIMF18buLcRJL5HUXwUFnUO1W4=@vger.kernel.org
+X-Gm-Message-State: AFuF++lW8DCWf+mPkKBROjM0cubDPgzsZEXKyN3S/A7ZpbXh/nuNRoRe
+	nfsdxIDSD/uO4wIk1tXWS0f2N9NmnORwe7WZoXPEniIZTj+DlOzHJ9XELcMpb9kzlpk=
+X-Gm-Gg: AYBFou3Gy2bQFvDhMwQg2LDGYvkB4RdZ3IXQWBytVX5I1cZlC6fQVAXwEKNHmmxpS3/
+	00AynXE5uokbOeJh3KKmINfkkPIu9XiYLufrwIuGHvjmFs2+eAb3UXZcOaW3i0k7wXs3ikL01KW
+	J9ZyPG0qm88gEsyMJWDdtS3tuoALba7buPeVFh9VBFYogl/XcPW+ycPPF43ww2yBXldfUdxWBbv
+	Ys4xsh99p6y4MJybRxj5OO/IUAvTqeDmndv2va7m2zXfkGPc+BJTH0wu2ZbJPGMQvTc5R9gw4Ij
+	lPAuSdlJcCWgNGClRfhbSUbOpkV3pPeYkcFgksMIJiWsAer+Pw50ZvM5ZB6mx+UWWydvWrjVV8b
+	tw43A7/LRXOyBUv6teBfPlQ954G1TSWlZlbwX3XJDCl6FgjzvCBeZ7RM35ZqMltUqwoAe5xUfR6
+	6bMS2JRN3VA7+ayhHtYp11yqs3IDnQm4e+mPFMXA7F81mvm/TuANWw9/XPzrtCz8n9KSf2KVzJd
+	G8sFzowjRhUazBGpxb00oKYQ88U8zKJET52L7atzfy181jP3gFz7B4=
+X-Received: by 2002:a05:620a:4890:b0:939:a1cc:f234 with SMTP id af79cd13be357-93c2509dec2mr122764985a.5.1790114700080;
+        Tue, 22 Sep 2026 15:05:00 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c284a1cd9sm4296985a.39.2026.09.22.15.04.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 15:04:59 -0700 (PDT)
+Date: Tue, 22 Sep 2026 18:04:56 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Arun George/Arun George <arun.george@samsung.com>
+Cc: linux-mm@kvack.org, Zhigang.Luo@amd.com, balbirs@nvidia.com, 
+	brendan.jackman@linux.dev, yuzenghui@huawei.com, apopple@nvidia.com, alucerop@amd.com, 
+	matthew.brost@intel.com, akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, djbw@kernel.org, 
+	vishal.l.verma@intel.com, dave.jiang@intel.com, alison.schofield@intel.com, 
+	osandov@osandov.com, jannh@google.com, pfalcato@suse.de, jackmanb@google.com, 
+	hannes@cmpxchg.org, ziy@nvidia.com, pbonzini@redhat.com, osalvador@suse.de, 
+	joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, ying.huang@linux.alibaba.com, 
+	kasong@tencent.com, qi.zheng@linux.dev, shakeel.butt@linux.dev, baohua@kernel.org, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, yury.norov@gmail.com, 
+	linux@rasmusvillemoes.dk, longman@redhat.com, ridong.chen@linux.dev, tj@kernel.org, 
+	mkoutny@suse.com, sj@kernel.org, jgg@ziepe.ca, jhubbard@nvidia.com, 
+	peterx@redhat.com, baolin.wang@linux.alibaba.com, npache@redhat.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, lance.yang@linux.dev, usama.arif@linux.dev, 
+	xu.xin16@zte.com.cn, chengming.zhou@linux.dev, roman.gushchin@linux.dev, 
+	muchun.song@linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	driver-core@lists.linux.dev, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org, kvm@vger.kernel.org, 
+	cgroups@vger.kernel.org, damon@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com, hokyoon.lee@samsung.com, wj28.lee@samsung.com, 
+	gost.dev@samsung.com, vikash.k5@samsung.com, d.bueso@samsung.com
+Subject: Re: [PATCH v5 00/36] Private Memory NUMA Nodes
+Message-ID: <arL2eTRaDeR3DCQx@gourry-fedora-PF4VCD3F>
+References: <CGME20260720193443epcas5p167fa7d8490edfb4d8c0aa6a259db058f@epcas5p1.samsung.com>
+ <20260720193431.3841992-1-gourry@gourry.net>
+ <963815509.21784796303385.JavaMail.epsvc@epcpadp1new>
+ <amJGUuBZ2857QjDB@gourry-fedora-PF4VCD3F>
+ <360067785.01790071202608.JavaMail.epsvc@epcpadp1new>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 00/13] PCI: liveupdate: PCI core support for Live
- Update
-To: David Matlack <dmatlack@google.com>, kexec@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
- Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
- David Rientjes <rientjes@google.com>,
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
- Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
- Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pranjal Shrivastava <praan@google.com>, Pratyush Yadav
- <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>,
- William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
- "yanjun.zhu@linux.dev" <yanjun.zhu@linux.dev>
-References: <20260918200640.887030-1-dmatlack@google.com>
- <079e343d-c6a6-4430-b900-25918197bfad@linux.dev>
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <079e343d-c6a6-4430-b900-25918197bfad@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <360067785.01790071202608.JavaMail.epsvc@epcpadp1new>
 
-
-在 2026/9/22 11:54, Zhu Yanjun 写道:
-> 在 2026/9/18 13:06, David Matlack 写道:
->> This series can be found on GitHub:
->>
->>    https://github.com/dmatlack/linux/tree/liveupdate/pci/base/v9
->>
->> This series introduces support in the PCI core for Live Update, enabling
->> drivers to preserve PCI devices across a kexec-based kernel update
->> without interrupting the device. This functionality is critical for
->> minimizing downtime in environments where PCI devices (e.g., those
->> assigned to VMs via VFIO) must continue operating or maintain state
->> across a host kernel upgrade.
->>
->> Specifically, this series allows preserved PCI devices to perform
->> uninterrupted memory transactions (DMA) targeting system memory
->> (specifically, preserved memfds) across a Live Update. These devices can
->> be behind a bridge but must not be VFs. Support for P2P and VF
->> preservation will be addressed in future series.
->>
->> Series Overview
->> ---------------
->>
->> This series implements the following to support PCI device preservation
->> across Live Update:
->>
->>    1. Set up a File-Lifecycle-Bound (FLB) handler to track and preserve
->>       PCI-specific state (struct pci_ser) across Live Update using Kexec
->>       Handover (KHO).
->>
->>    2. Add APIs for drivers to register devices for preservation
->>       (outgoing) and for the PCI core to identify preserved devices
->>       during enumeration (incoming)
->>
->>    3. Automatically preserve all upstream bridges for any preserved
->>       endpoint. Use reference counting to ensure bridges remain 
->> preserved
->>       as long as any downstream device is preserved.
->>
->>    4. Guarantee that preserved devices retain the same RequesterID (bus,
->>       device, function) for the duration of their preservation by
->>       inheriting secondary bus numbers, subordinate bus numbers, and ARI
->>       Forwarding Enable on preserved bridges.
->>
->>    5. Guarantee that memory transactions to/from preserved devices are
->>       routed consistently by inheriting Access Control Services (ACS)
->>       flags across a Live Update, from the endpoint up to the root port.
->>
->>    6. Modify the PCI shutdown path to avoid disabling bus mastering on
->>       preserved devices, thereby allowing preserved devices to perform
->>       uninterrupted during kexec for Live Update.
->>
->>    7. Provide comprehensive documentation for the FLB API, device
->>       tracking mechanisms, and the division of responsibilities between
->>       the PCI core, drivers, and userspace.
->>
->> Merge Plan
->> ----------
->>
->> This series will be merged through liveupdate.git, matching the
->> agreed-upon tree in the MAINTAINERS entry for PCI LIVE UPDATE.
->>
->> Testing
->> -------
->>
->> This series was tested in conjunction with v5 of the VFIO PCI driver
->> series:
->>
->> https://lore.kernel.org/kvm/20260714151505.3466855-1-vipinsh@google.com/
->>
->> The full set of patches used for testing can be found on GitHub.
->>
->> https://github.com/dmatlack/linux/tree/liveupdate/pci/base/v9-with-vfio
->>
->> Testing was performed using the new VFIO selftests:
->>
->>    - vfio_pci_liveupdate_uapi_test
->>    - vfio_pci_liveupdate_kexec_test
+On Tue, Sep 22, 2026 at 03:27:44PM +0530, Arun George/Arun George wrote:
+> Hi Gregory,
+> 
+> Thanks for sharing the working branch.
+> 
+> Some of us at Samsung are testing the series (both v4 & v5) on a 
+> compression capable CXL expander and are observing encouraging results.
 >
-> With this vfio_pci_liveupdate_kexec_test based on this patchset v9, I 
-> have made tests in my local kvm. It worked as expected.
->
-> Yanjun Zhu
 
-The test result with vfio_pci_liveupdate_kexec_test is as below.
+This is really cool, thank you so much for spending the cycles to test.
 
+I'm working on getting a v6 out soon.  Glad to see the progress!
 
-1.
-insmod 
-/lib/modules/7.3.0-rc1-dmabuf+/kernel/drivers/iommu/iommufd/iommufd.ko
-insmod /lib/modules/7.3.0-rc1-dmabuf+/kernel/drivers/vfio/vfio.ko
-insmod 
-/lib/modules/7.3.0-rc1-dmabuf+/kernel/drivers/vfio/vfio_iommu_type1.ko
-insmod 
-/lib/modules/7.3.0-rc1-dmabuf+/kernel/drivers/vfio/pci/vfio-pci-core.ko
-insmod /lib/modules/7.3.0-rc1-dmabuf+/kernel/drivers/vfio/pci/vfio-pci.ko
-+ echo "vfio-pci" > /sys/bus/pci/devices/0000:00:04.0/driver_override
-+ echo "0000:00:04.0" > /sys/bus/pci/drivers/vfio-pci/bind
-Preserving device in session
-Preserving memfd of size 0x40100000 in session
-# [STAGE 1] Forking persistent child to hold sessions...
-# [STAGE 1] Child PID: 1214. Resources are pinned.
-# [STAGE 1] You may now perform kexec reboot.
+> Good things first! We feel that the isolation using private nodes and 
+> the capability selection using NODE_PRIVATE_CAP_* work functionally well 
+> for the compressed memory use cases.
+> 
+> On improvement points, we observed much higher 'page_faults', 
+> 'allocation_stalls' etc. which contributed to the higher tail latencies 
+> in some tests. I hope these are already part of the optimization plans. 
+> The higher latencies might have resulted from the write_protection 
+> applied to the private node, I believe.
+> 
 
-2. kexec reboot
+Yes, this is expected, and I think there are questions about how it
+should be optimized both in a provisioning sense and a software sense.
 
-3.
-insmod 
-/lib/modules/7.3.0-rc1-dmabuf+/kernel/drivers/iommu/iommufd/iommufd.ko
-insmod /lib/modules/7.3.0-rc1-dmabuf+/kernel/drivers/vfio/vfio.ko
-insmod 
-/lib/modules/7.3.0-rc1-dmabuf+/kernel/drivers/vfio/vfio_iommu_type1.ko
-insmod 
-/lib/modules/7.3.0-rc1-dmabuf+/kernel/drivers/vfio/pci/vfio-pci-core.ko
-insmod /lib/modules/7.3.0-rc1-dmabuf+/kernel/drivers/vfio/pci/vfio-pci.ko
-+ echo "vfio-pci" > /sys/bus/pci/devices/0000:00:04.0/driver_override
-+ echo "0000:00:04.0" > /sys/bus/pci/drivers/vfio-pci/bind
-Retrieving memfd from LUO
-Finishing the session before retrieving the device (should fail)
-Retrieving the device FD from LUO
-Finishing the session before binding to iommufd (should fail)
-Binding the device to an iommufd and setting it up
-Finishing the session
+For example, exposing a full memory expander as 100% compressible may
+not make sense - given that this could many a lot of memory.  I have
+some data that shows it may make more sense to split a memory expander
+into two regions to better fit the compressible region to meet the
+actual capacity the cold-tail is capable of consuming.
 
-Yanjun Zhu
+On the software side there may be some ability to adjust this at
+runtime with hotplug instead of requiring a reboot, but I think that
+needs to be experimented with.
 
->
->>
->> Both tests were run in a QEMU-based VM environment (using a single
->> virtio-net PCIe device connected to a root port to exercise bridge
->> support) and on bare metal using an Intel EMR server with 8x Intel DSA
->> PCIe devices and 1x NVMe device.
->>
->> Future Work
->> -----------
->>
->> Following this series, we expect to make further improvements to the PCI
->> core support for Live Update:
->>
->>    - Allow P2P across Live Update by avoiding resizing or moving
->>      preserved device BARs and preserving all upstream bridge windows.
->>
->>    - Support preserving Virtual Functions by preserving SR-IOV
->>      configuration on PFs and enumerating VFs after Live Update.
->>
->> Changelog
->> ---------
->>
->> v9:
->>   - Simplify pci_liveupdate_preserve_bus_numbers() to always return true
->>     if a device was preserved and drop pci_liveupdate_scan_bridge_end()
->>     (Bjorn)
->>   - Add pci_liveupdate_refuse_bus_numbers() to determine when it is safe
->>     for the PCI core to assign bus numbers to unconfigured bridges. This
->>     required moving "Auto-preserve upstream bridges across Live Update"
->>     before "Preserve bus numbers during Live Update" (Bjorn)
->>   - Add "PCI: Save and restore the ACS Control register" so that the ACS
->>     Control register is handled by the normal save/restore path (Bjorn)
->>   - Rename struct pci_liveupdate::was_preserved to was_incoming, to
->>     disambiguate incoming from outgoing preservation (me)
->>   - Log unfinished preserved devices from the incoming FLB rather than
->>     by walking struct pci_dev (Sashiko)
->>   - Document that state handed over by the previous kernel is trusted,
->>     and panic in pci_flb_retrieve() where failures are detected rather
->>     than unwinding into a caller that panics anyway (Sashiko)
->>   - Fall back to programming ACS from scratch when a preserved device 
->> has
->>     no ACS save buffer, since there is nowhere to record the adopted
->>     controls and they would be lost by the first reset (Sashiko)
->>   - Drop Reviewed-by tags from "Preserve bus numbers during Live Update"
->>     and "Adopt ACS controls in incoming preserved devices", both of 
->> which
->>     changed materially since v8
->>   - Extend commit messages and kernel-doc comments to make the FLB code
->>     flow more clear (Bjorn)
->>   - Address various spelling, formatting, and stylistic issues (Bjorn)
->>
->> v8: 
->> https://lore.kernel.org/linux-pci/20260728221007.2098560-1-dmatlack@google.com/
->> v7: 
->> https://lore.kernel.org/linux-pci/20260710212616.1351130-1-dmatlack@google.com/
->> v6: 
->> https://lore.kernel.org/linux-pci/20260522202410.3104264-1-dmatlack@google.com/
->> v5: 
->> https://lore.kernel.org/linux-pci/20260512184846.119396-1-dmatlack@google.com/
->> v4: 
->> https://lore.kernel.org/linux-pci/20260423212316.3431746-1-dmatlack@google.com/
->> v3: 
->> https://lore.kernel.org/kvm/20260323235817.1960573-1-dmatlack@google.com/
->> v2: 
->> https://lore.kernel.org/kvm/20260129212510.967611-1-dmatlack@google.com/
->> v1: 
->> https://lore.kernel.org/kvm/20251126193608.2678510-1-dmatlack@google.com/
->> rfc: 
->> https://lore.kernel.org/kvm/20251018000713.677779-1-vipinsh@google.com/
->>
->>
->> David Matlack (13):
->>    PCI: liveupdate: Set up FLB handler for the PCI core
->>    PCI: liveupdate: Track outgoing preserved PCI devices
->>    PCI: liveupdate: Track incoming preserved PCI devices
->>    PCI: liveupdate: Document driver binding responsibilities
->>    PCI: liveupdate: Auto-preserve upstream bridges across Live Update
->>    PCI: liveupdate: Preserve bus numbers during Live Update
->>    PCI: Refactor matching logic for pci_dev_acs_ops
->>    PCI: Save and restore the ACS Control register
->>    PCI: liveupdate: Adopt ACS controls in incoming preserved devices
->>    PCI: liveupdate: Adopt ARI Forwarding Enable on preserved bridges
->>    PCI: liveupdate: Freeze preservation status during shutdown
->>    PCI: liveupdate: Do not disable bus mastering on preserved devices
->>      during kexec
->>    Documentation: PCI: Add documentation for Live Update
->>
->>   Documentation/PCI/index.rst                   |    1 +
->>   Documentation/PCI/liveupdate.rst              |   35 +
->>   .../admin-guide/kernel-parameters.txt         |    7 +-
->>   Documentation/core-api/liveupdate.rst         |    5 +
->>   MAINTAINERS                                   |   15 +
->>   drivers/pci/Kconfig                           |   15 +
->>   drivers/pci/Makefile                          |    1 +
->>   drivers/pci/liveupdate.c                      | 1015 +++++++++++++++++
->>   drivers/pci/liveupdate.h                      |   62 +
->>   drivers/pci/pci-driver.c                      |    9 +-
->>   drivers/pci/pci.c                             |   79 +-
->>   drivers/pci/pci.h                             |    5 +
->>   drivers/pci/probe.c                           |   16 +-
->>   drivers/pci/quirks.c                          |   58 +-
->>   include/linux/kho/abi/pci.h                   |   66 ++
->>   include/linux/pci.h                           |    7 +
->>   include/linux/pci_liveupdate.h                |   72 ++
->>   17 files changed, 1429 insertions(+), 39 deletions(-)
->>   create mode 100644 Documentation/PCI/liveupdate.rst
->>   create mode 100644 drivers/pci/liveupdate.c
->>   create mode 100644 drivers/pci/liveupdate.h
->>   create mode 100644 include/linux/kho/abi/pci.h
->>   create mode 100644 include/linux/pci_liveupdate.h
->>
->>
->> base-commit: 945d61765894dda2f0344de50cb1ade2e51b66fd
->
--- 
-Best Regards,
-Yanjun.Zhu
+> On the tools side, we used MLC and Taobench for the tests.
+> 
 
+Great! I also have some TaoBench and fio results i'm looking to share,
+glad to have some additional peer review using Tao.
+
+> Note that our intention for this phase of experiments was to test only 
+> the 'private node' layer based isolation, and not the cram and below 
+> layers for the compressed memory. Therefore we did not enable/utilize 
+> the compression capability in the hardware for these set of experiments 
+> (enabling compression would require the cram level ballooning/memory 
+> shrinking and cxl level interfacing driver to the compression device). 
+> That would be different set of experiments where we would be testing the 
+> cram balloon shrinkers and our alternate algorithms (upstream targeted). 
+> So cram and below layers were used only for enumeration of private node 
+> regions for these tests and not for the run-time memory shrinkers.
+> 
+
+Agreed, i'm looking forward to getting past the isolation bits and get
+more focused on the compression implementation details.
+
+> ======= Test Methodology ==============
+> 
+> We explored these 3 cases:
+> 
+>     1) (Baseline – existing CXL infra):  DRAM 16GB + CXL 32GB. Here we 
+> used the existing CXL driver infra to enable the device. No private node 
+> is involved. And compression is disabled on device.
+> 
+>     2) (private node in default write protected path): DRAM 16GB + CXL 
+> Private Node 32GB. Here private node infra is used to enable the device. 
+> And compression is disabled on device.
+> 
+>     3) (private node with no write protection): DRAM 16GB + CXL Private 
+> Node 32GB. Here private node infra is used to enable the device without 
+> the write protection/fencing enabled. Compression is disabled on device. 
+> We could not complete these runs as they resulted in kernel panics. 
+> Guess the code path is not stable yet for this (We had hoped that case 1 
+> and case 3 results would be similar). We also observed some unmovable 
+> page warnings logs in 'dmesg' before crash (might be related to the 
+> panic). Adding the log snippets at the end.
+> 
+
+Very similar to my test setup, seems like good signal we are of similar
+mind on the use case.  (For readers: there was no coordination here).
+
+I personally did not test private-node without write protection,
+although it makes sense to test the throughput of a demotion-only
+node as a baseline.  Smart.
+
+My guess is there was probably a reclaim throughput issue, or there may
+have been a bug in the v4/v5 code.  I will look at adding some pressure
+tests to my suite that test demotion-only explicitly.
+
+> ========= Results summary ===================
+> 
+> Private (CRAM) node performance is lower compared to a normal CXL memory 
+> allocation path. VM stats shows more page_faults and allocation_stalls 
+> on the private node case. Could it be the allocator waits for migration 
+> path to demote pages to private node? Or the actual hot pages in dram 
+> got demoted to private node to make space during overwrites? We will try 
+> further analysis on this.
+> 
+
+- allocator waits for migration?
+  
+  Yes.  And worse, once the node is full, migration will fail and you'll
+  swap directly from the top tier and reduce your reclaim behavior on
+  the lower node.  It becomes very important to push proactive reclaim
+  on a demotion-only tier to ensure there is sufficient headroom to
+  receive demotions in the future, since direct-reclaim basically never
+  targets a lower-tier on the first pass.
+
+  There's a big discussion about whether tiered systems need to invert
+  their reclaim behavior (reclaim from the lowest node first to find
+  progress there, then do demotion - rather than the other way around).
+
+- Hot pages in dram 
+
+  Also yes.  The comparison to make isn't only against a raw CXL node,
+  but also against Zswap or Zram or Swap.  How does the workload fair
+  on a system with 16GB RAM and 32GB Zswap/Swap?
+
+  This is important context.
+
+> ========== MLC Experiments ====================
+> 
+> CMD:
+>    $./mlc --loaded_latency -j0 -c0 -b1g -k1-15 -W5 -r
+> 
+> Experiment Results:
+> 
+> 1. (Baseline) DRAM 16GB + CXL 32GB
+> 
+> Inject  Latency Bandwidth
+> Delay   (ns)    MB/sec
+> ================
+>   00000  686.18   40137.5
+>   00002  686.69   40124.0
+>   00008  709.74   40362.7
+...
+> 2. (private node in default write protected path)
+>      DRAM 16GB + CXL Private Node(Uncompressed) 32GB
+> 
+> Inject  Latency Bandwidth
+> Delay   (ns)    MB/sec
+> ================
+>   00000  320.09   12186.2
+>   00002  543.42   22726.1
+>   00008  482.11   28385.2
+...
+> Takeaway: Our MLC tests show a trade-off between the two configurations. 
+> During low inject delay, the private Node is faster. But when inject 
+> delay goes high, the baseline shows better latency. Could it be the TLB 
+> cache effects?
+> 
+
+These latency results suggest to me that the memory being tested was
+always DRAM, though the initial memory fault would have been CXL.
+
+i.e. even if the memory was faulted directly onto the node via
+mempolicy, the very first write to it would have caused promotion.
+
+If you dropped the write protection you'd probably see it equals the
+baseline.
+
+The bandwidth numbers support this.  Higher stall, but faster latency
+means the migration was more beneficial for latency than letting the
+memory sit on CXL.
+
+Neat.  I'm not sure these results are particularly useful in describing
+how a workload would react.
+
+> --------------------------------------------------------------------
+> Case 3 dmesg log snippet:
+> 
+> [   82.525741] page: refcount:1 mapcount:0 mapping:0000000000000000 
+> index:0x0 pfn:0x5f5800
+> [   82.525753] flags: 
+> 0x17ffffc0002000(reserved|node=0|zone=2|lastcpupid=0x1fffff)
+> [   82.525762] raw: 0017ffffc0002000 ffefc85717d60008 ffefc85717d60008 
+> 0000000000000000
+> [   82.525764] raw: 0000000000000000 0000000000000000 00000001ffffffff 
+> 0000000000000000
+> [   82.525766] page dumped because: unmovable page
+> ..............
+> 
+
+Was this memory hotplugged via cram.c or did you replicate the code and
+hotplug it another way?  If so, did you hotplug it as ZONE_NORMAL or
+ZONE_MOVABLE?
+
+For a compressed tier, it must always be hotplugged as ZONE_MOVABLE,
+without exception, because otherwise it can allow a GUP pin or kernel
+allocation that would eventually become permanently stuck there - and by
+definition of a compression tier must be 100% movable memory.
+
+~Gregory
