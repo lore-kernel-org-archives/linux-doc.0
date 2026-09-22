@@ -1,42 +1,42 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD922D6E64;
-	Tue, 22 Sep 2026 07:06:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7864F30C1;
+	Tue, 22 Sep 2026 07:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790060811; cv=none; b=or+ob1/1II8mIwYxHOZ9r0rd7retIpHaQi130gguWgN4rJ15SdAiFuZA4682YNlACRHC7NG71Bcmy6z8PuB9pr/4vVEm24LOOrUV0GbkdVlrySpUUrIIlh7aWvGiVi3UXXsYZo/ZpMgRetvlcR5kvDqn7YuCB+X/NgLV9kScs3U=
+	t=1790060828; cv=none; b=MfACKt42CexIuHiwl+DxK7b2TbwxYhADVVfWQtORHsPINKl7KEbft5tqwsJGKsPIxZM3yvkMam3pSGfgB2gy4ik4myoC68xmJdrTJYqzTTSVuL9n0tixr7rL525/FM9oV9Afl3rfpJkyF60L7AjekwIlNjw2sM7gz4b1UpYGiZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790060811; c=relaxed/simple;
-	bh=8gHBrfUpuxlzN8RzPMywN52CN2og3obj5+67Nm9J6xo=;
+	s=arc-20240116; t=1790060828; c=relaxed/simple;
+	bh=c0p2lXoFYXsW4S/YekiSdYU1ewx7gAxopyP2B03FLo4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jEi9njVDOTpzkHEiSIigMb191uiWGJTENjikLLTQqGW00yYZL1LAwusGAX3bk65RfbYi1SH6ZNLzVq2WHXrMP8S3zFRwM7m2gM5/bHmRLkAChC+cfDimwcALlwTmPDX82Rnu12WR+dpOqh7TRyZo2NIKIqpxjDSqKTCpjMvkVqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=N8IA7UN+; arc=none smtp.client-ip=117.135.210.5
+	 MIME-Version; b=gf7d+XNhWYl6S5KBn3afDkbYm2f9qDz+a5sx+fXveRshsOl7D4iJj5ahVTfu+SWXg5ukIlBjVZfgZhngucLL/bvG94zJaqXIb8erqJ5m5fwVuGAa/u0xg6XoZbUx6uYCHv31fbtOGcv7jmLzEKiIbolyW3cZzEVBAzc8zLfL1zU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Ww/K3iLi; arc=none smtp.client-ip=220.197.31.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="N8IA7UN+"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Ww/K3iLi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=65
-	2+tJNbWYlknjwriR8X/YtNO7E4f2P6OvwJy7vpsFA=; b=N8IA7UN+OPDZPai0CU
-	m6bM0TFT2mQ7R2MRRZcnH1Px8IghzN2VW8wCUeuGYTNADtkWfqAmTFJwjzrweIrn
-	LRnt6lhBRMLwBST6btcjy16OmvLupN2Idtvh21BaaEy20iYhxKi9SjWyYOhiy8Qs
-	CdhjE+p1czoQrOf4kOWiMDXLI=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=c0
+	p2lXoFYXsW4S/YekiSdYU1ewx7gAxopyP2B03FLo4=; b=Ww/K3iLiq6isLjzkuA
+	Bc1w/vQrW9p745o8/p+MCTHh/nneQhBDDWHGcbCN7Ipen10LzOzwhQH+eBcdy3RJ
+	5F9XE4Mlxfcgfl+vrRdPWvJOuAlRfiPZNj2AKghukjnpqkt1cXyyx5uPQ/0O/mvO
+	+Oep+pisZ2jgKD4JrhUMs8j8Q=
 Received: from chaosheng-ASUS-TUF-Gaming-F16-FX607JV-FX607JV.lan (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wD3V8v1KLJqX01EAA--.19969S2;
-	Tue, 22 Sep 2026 15:06:30 +0800 (CST)
+	by gzsmtp4 (Coremail) with SMTP id PygvCgDnTVH0KLJqbxULAw--.34964S2;
+	Tue, 22 Sep 2026 15:06:29 +0800 (CST)
 From: Quchaosheng <quchaosheng000406@163.com>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	quchaosheng000406@163.com
-Subject: Re: [PATCH 2/2] docs: kernel-parameters: fix a truncated sentence for preempt=lazy
-Date: Tue, 22 Sep 2026 15:06:20 +0800
-Message-ID: <20260922070620.70180-1-quchaosheng000406@163.com>
+Subject: Re: [PATCH 1/2] sched/doc: add a preemption model overview
+Date: Tue, 22 Sep 2026 15:06:19 +0800
+Message-ID: <20260922070619.70145-1-quchaosheng000406@163.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260921113326.MTXJ89aP@linutronix.de>
-References: <20260921113326.MTXJ89aP@linutronix.de>
+In-Reply-To: <20260921113050.lwG9IphF@linutronix.de>
+References: <20260921113050.lwG9IphF@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,22 +44,41 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3V8v1KLJqX01EAA--.19969S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjfUjUDJDUUUU
-X-CM-SenderInfo: xtxfxtprvkv0bjqqikiqw6il2tof0z/xtbC5BaOBGqyKPbqMAAA3k
+X-CM-TRANSID:PygvCgDnTVH0KLJqbxULAw--.34964S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw47JF1ktw4xJryxAFW7CFg_yoW8GF1Dpa
+	yYg3ZrGrsrZ3yIkw1vyr17GFyFyws5Jr45Kryrt34jy3yYgrn7trs8tay2kFZruFWfur4a
+	vFWUWa9xA3Z0yaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUrpnQUUUUU=
+X-CM-SenderInfo: xtxfxtprvkv0bjqqikiqw6il2tof0z/xtbC-xWOBGqyKPVYFwAA3q
 
-On 2026-09-21 11:33:26 [+0200], Sebastian Andrzej Siewior wrote:
+Sebastian,
 
-> I think if you do "preemption point" the sentence becomes English again.
+Thanks for going through it that closely. You found real errors, not just
+wording, so here is what I am doing with each.
 
-You are right, and it is a better fix than mine. "One preemption is when
-the task returns to user space" becomes:
+The "Measuring" section is wrong and comes out entirely. A wakeup does not
+send an IPI to every CPU with a runnable CFS task; it targets one CPU. The
+rest of that section reasons from that false premise, so there is nothing
+in it worth keeping. Your point that a freshly woken SCHED_OTHER task is
+not required to run immediately, and that timer slack and preemption or
+interrupt disabled regions add their own jitter, was the useful content
+and I did not have it.
 
-  One such preemption point is when the task returns to user space.
+The rationale is also wrong. I wrote that lazy exists to cut IPI traffic;
+the point is run-to-completion, so that in-kernel work finishes before the
+switch and no lock is held across it. I will use your wording for the
+model table, including the part about real-time tasks not being delayed.
 
-I will use that if I resend. Holding the patch with the other one in the
-series for now.
+The tick promotion and the idle-task case are implementation details and
+go, and so does the debugfs section, for the reason you gave.
+
+That leaves the four models, runtime selection, the note that this applies
+to kernel code only, and /sys/kernel/debug/sched/preempt as another way to
+see and change the model.
+
+Both patches are held. If what is left is too thin to be worth a file,
+say so and I will drop the series rather than post a trimmed version of
+something you did not think should exist.
 
 Quchaosheng
 
