@@ -1,39 +1,26 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+Received: from mail-m12797.qiye.163.com (mail-m12797.qiye.163.com [115.236.127.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C935423E94;
-	Tue, 22 Sep 2026 08:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1B83EBF16;
+	Tue, 22 Sep 2026 08:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790067158; cv=none; b=h+fKpJpicn7UWSk78DUpvZCA1o2EnHI5UHCDBmnchOif8JTV8J2YpyWpB6OII69dyg2LT43hP+hizqeqAHsowJfxXmOg9/5K8P5WR2212U33dI2h2EurtRyxYvCrrOA3mcFgI5UzT8o1530IX/Uqm0AXnFyaojz8SFiUCXQ89Hs=
+	t=1790067491; cv=none; b=DBlV5SmIw6zKroIwt3VlK7iEDQVxcxPahXcwV6/f+Yz9sVdKCbgTOXK/Fh+w9soF1yk9peVm3uprGDHBLu9S0MJpTuYIXP/QyZKmkEbHnts9r4f/ugkd1KLwSNC5ZbqdTC7X3EmmjyMX3OOYZys2/hraNpb4i3QcRj0KCz7uMBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790067158; c=relaxed/simple;
-	bh=zvI+8GSETn7LNlbozl86U4Ok7dRLxjq4JpmI16q0F54=;
+	s=arc-20240116; t=1790067491; c=relaxed/simple;
+	bh=RieBGaHaU4UNSLyYrCNfirmsir995WrGiAlhBti2/qU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hkix63N4X+QViCal8yN2QAhLpdMAEHZhHBIkfGUBLTPu2ZVnZJ5MLTBbWyJ6TUoaw2Sv4FkdCoO0HfXaV+12mC8CF+G1vL/TVcUHywaXJJ4oWEz6yKvRBIU3bgh03eKI45nRxMMhkuk2/EnAf/a1OPR7xPZrgH5XkHM5tL5o2H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=pass (2048-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=GYGFi7Cf; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	 In-Reply-To:Content-Type; b=DbiehfOcyYzXa6HJ8DSs9uKCqttCe1DWPh2+7KdkY2LI5/DJeUBk+IiRePD+PkmGHRJR+4J7rjUoOAJiO1kyKpnl5VdrAalv68rd+x12C571viWw8jBA6qHYC2KlE4Atav5msVxBK664QztaRIqLHETcpFdboxI8VAUEJ8avbek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=TNR/0Sot; arc=none smtp.client-ip=115.236.127.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="GYGFi7Cf"
-Received: from [133.11.54.183] (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 68M8p4AY014493
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 22 Sep 2026 17:51:04 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=aSkso6VTuE1j2eIC6Omi4Exf0hrumTUhbwJQCS8v0Jk=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-ID:To:Subject:Date;
-        s=rs20250326; t=1790067065; v=1;
-        b=GYGFi7CfxySCHkGNYbviQhaWOIu1Icg3BpQNl8WTUTnxz6bpbIpzI/2GnR3wN+5C
-         /+NmBvMA6MgnGbzs3tydcuW8Joxi4k8evpn9t9aeX+GsspiZG8s3KAyzq4wQWZ9p
-         4pi4AkOg+S0lMC8DVWBSyu03KE3H6d+fhYpu3/ovlHVKtNzFYHIbX242v6ARhL4P
-         nuajrFOV+CvPgjNvzkEDCsQfQgY+Oj61G8zWDMJGWmdzCfp/7HzoNBELyQsAyDMY
-         I/W6QKkNfvvgU2nVb90KvmRugT+HS7wpKpX1ex1jGX3DymUno/Fcx7STsKXcXHms
-         tMDWY7Hnfy1e/O7ACYz74w==
-Message-ID: <67b1a5dd-372e-4548-a44d-ea77f38ea07f@rsg.ci.i.u-tokyo.ac.jp>
-Date: Tue, 22 Sep 2026 17:51:03 +0900
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="TNR/0Sot"
+Received: from [172.16.12.74] (unknown [61.154.14.86])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4eb536cd9;
+	Tue, 22 Sep 2026 16:57:55 +0800 (GMT+08:00)
+Message-ID: <3bfb61d5-333d-4005-ad3b-2e8179c0e45e@rock-chips.com>
+Date: Tue, 22 Sep 2026 16:57:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,106 +28,105 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 09/21] KVM: arm64: PMU: Recreate events after MDCR_EL2
- changes
-To: Oliver Upton <oupton@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu
- <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Steffen Eiden <seiden@linux.ibm.com>,
-        Andrew Jones <andrew.jones@oss.qualcomm.com>,
-        Fuad Tabba <fuad.tabba@linux.dev>, Mark Rutland <mark.rutland@arm.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Shannon Zhao <shannon.zhao@linaro.org>,
-        Randy Dunlap
- <rdunlap@infradead.org>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-References: <20260920-hybrid-v11-0-03618771b0e1@rsg.ci.i.u-tokyo.ac.jp>
- <20260920-hybrid-v11-9-03618771b0e1@rsg.ci.i.u-tokyo.ac.jp>
- <arImQ6SG7s1k9uJk@kernel.org>
+Subject: Re: [PATCH v3 19/19] drm/bridge: analogix_dp: don't create a
+ panel_bridge
+To: Heiko Stuebner <heiko@sntech.de>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>,
+ Paul Kocialkowski <paulk@sys-base.io>, Linus Walleij <linusw@kernel.org>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Sean Paul <sean@poorly.run>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Albert Esteve <aesteve@redhat.com>, Anusha Srivatsa
+ <asrivats@redhat.com>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, asahi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org
+References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
+ <975a4d45-9a61-4858-b498-8bc0a1e44746@rock-chips.com>
+ <DLLOZYM6YWJ3.6Q0LRD1WABGW@bootlin.com> <1889588.TLkxdtWsSY@phil>
 Content-Language: en-US
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <arImQ6SG7s1k9uJk@kernel.org>
+From: Damon Ding <damon.ding@rock-chips.com>
+In-Reply-To: <1889588.TLkxdtWsSY@phil>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa0c856048703a8kunm13843dd282f85
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCTRhCVksYHh5IT0IaGRhKTlYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlNSlVKTk9VSk9VQ01ZV1kWGg8SFR0UWUFZT0tIVUJCSU
+	5KVUpLS1VKQktCWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=TNR/0SotamoVdJUJEBCwZjRW5KZCgNHWIy7B4TOS3SPVjThz6kkpecEQfCBm1hET0QLLrXnQiPdxL1/ZgQBcxH6Fgs4gwH89bNW1b35Mip8zJ7P9QGBceDdbWh0z3SX9ZKl3hyUCylvmgOVFto0lOSx+M5/QgWBF7muvoV2pXBE=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=3BVvMws54RIF3ziE5nORoR5QOkw6Rpw6m98i1VFobSo=;
+	h=date:mime-version:subject:message-id:from;
 
-On 2026/09/22 15:54, Oliver Upton wrote:
-> On Sun, Sep 20, 2026 at 08:15:50PM +0900, Akihiko Odaki wrote:
->> +void kvm_pmu_apply_mdcr(struct kvm_vcpu *vcpu, u64 old, u64 val)
->> +{
->> +	u64 changed = old ^ val;
->> +
->> +	/*
->> +	 * HPMN determines which counters HPMD and HLP apply to. Changes to
->> +	 * these fields require new perf event filters and sample periods.
->> +	 */
->> +	if (changed & (MDCR_EL2_HPMN | MDCR_EL2_HPMD | MDCR_EL2_HLP))
->> +		kvm_pmu_request_recreate(vcpu);
->> +	else if (changed & MDCR_EL2_HPME)
->> +		kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
->> +}
->> +
+Hi Heiko,
+
+On 9/22/2026 4:22 PM, Heiko Stuebner wrote:
+> Hi Luca,
 > 
-> Urgh... I'm not a fan of this. Can you just modify kvm_vcpu_reload_pmu()
-> to discard all backing perf events and recompute them only for enabled
-> PMCs? We set KVM_REQ_RELOAD_PMU pretty rarely.
+> Am Dienstag, 22. September 2026, 10:12:41 Mitteleuropäische Sommerzeit schrieb Luca Ceresoli:
+>> On Mon Sep 21, 2026 at 5:07 AM CEST, Damon Ding wrote:
+>>> On 9/16/2026 9:45 PM, Luca Ceresoli wrote:
 > 
->>   	__vcpu_rmw_sys_reg(vcpu, PMOVSSET_EL0, &=, mask);
->>   	__vcpu_rmw_sys_reg(vcpu, PMINTENSET_EL1, &=, mask);
->> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
->> index 75624725adf1..7dd2cafce247 100644
->> --- a/arch/arm64/kvm/sys_regs.c
->> +++ b/arch/arm64/kvm/sys_regs.c
->> @@ -3114,17 +3114,22 @@ static bool access_mdcr(struct kvm_vcpu *vcpu,
->>   	}
->>   
->>   	__vcpu_assign_sys_reg(vcpu, MDCR_EL2, val);
->> -
->> -	/*
->> -	 * Request a reload of the PMU to enable/disable the counters
->> -	 * affected by HPME.
->> -	 */
->> -	if ((old ^ val) & MDCR_EL2_HPME)
->> -		kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
->> +	kvm_pmu_apply_mdcr(vcpu, old, val);
->>   
->>   	return true;
->>   }
+> [...]
 > 
->> +static int set_mdcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
->> +		    u64 val)
->> +{
->> +	u64 old = __vcpu_sys_reg(vcpu, MDCR_EL2);
->> +
->> +	__vcpu_assign_sys_reg(vcpu, MDCR_EL2, val);
->> +	kvm_pmu_apply_mdcr(vcpu, old, val);
->> +
->> +	return 0;
->> +}
->> +
+>>>> @@ -163,18 +161,6 @@ static int exynos_dp_probe(struct platform_device *pdev)
+>>>>    	 */
+>>>>    	platform_set_drvdata(pdev, dp);
+>>>>
+>>>> -	/* This is for the backward compatibility. */
+>>>> -	np = of_parse_phandle(dev->of_node, "panel", 0);
+>>>> -	if (np) {
+>>>> -		dp->plat_data.panel = of_drm_find_panel(np);
+>>>> -
+>>>> -		of_node_put(np);
+>>>> -		if (IS_ERR(dp->plat_data.panel))
+>>>> -			return PTR_ERR(dp->plat_data.panel);
+>>>> -
+>>>> -		goto out;
+>>>> -	}
+>>>> -
+>>>
+>>> TIP: In my WIP v3 patch series, I use of_drm_find_panel() together with
+>>> devm_drm_panel_bridge_add() to maintain this backward compatibility. But
+>>> I also think this old approach should be deprecated now. Shall we add
+>>> some notes in the commit message to mention the deprecation of this method?
+>>
+>> What is the "WIP v3" series exactly? Do you have a link (to v2 in case v3
+>> is not yet public)?
 > 
-> Just keep the old ^ new test inline for access_mdcr() and set the
-> request unconditionally from set_mdcr(). In the usual case
-> KVM_REQ_RELOAD_PMU is already set on a vCPU that userspace is restoring.
+> https://lore.kernel.org/linux-rockchip/20260804081717.741404-1-damon.ding@rock-chips.com/
+> is the series in question.
+> 
+> 
 
-Hi Oliver,
+Sorry for the confusion. I was discussing another separate series in 
+this thread, which caused misunderstanding. I mentioned earlier that I 
+will try to post its v3 update within this week.[0]
 
-Thanks for the feedback. I'll make both changes for v2.
+Best regards,
+Damon
 
-I originally tried to preserve existing behavior and keep things 
-consistent, but I agree that simplicity is much better here given how 
-rarely KVM_REQ_RELOAD_PMU is set.
-
-Regards,
-Akihiko Odaki
+[0] 
+https://lore.kernel.org/all/57f57f40-87ec-47a2-a8b9-cc8b1adc3b8f@rock-chips.com/
