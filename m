@@ -1,106 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E46C5187E1
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 13:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302CC53D9E5
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 13:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790084332; cv=none; b=OH0u3NdUF5UonJzYm5SFQq0D3y+q4Jf1bbg0fg1kznTa3ei61cQK9eNGevaJu/PqJjFq4SWYqpBcX1mLyL7GhXlLk4TDfqxXQpmN3J6VytqHvqJOiOHUHX0XNI+C1nzMgZd9yZD77uWufPWFhFltcikd3WYoxNA85uwXC7k/l08=
+	t=1790084409; cv=none; b=SF5/WfOWfEUmN/sxP71NqhnG0wL0Cu8YMGQ9LS59G+kHul81Me03Y/hpMYi+jxKGNykwV8htHmN+YXw1tseamU9CrNwIIADGJvPIEZvLe7bKRr/RZHB8HTfK5rXi4zcQU9EdZFAFpE0UPvInJg1V/r2EyAUEA4K4XyJwl/nb6iQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790084332; c=relaxed/simple;
-	bh=/a/f7Jh/MiC/swvVwqUhEXfqYE86b5oqe+3Ff4G++VE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fUm7vb5bs03esqjubr2xW5v7cpss4OlVKt/6QDO+13idrxdjTdIzQgRd11gi4twfNX4uqONuWDDEM70UnPExZXAT7xiATusKiDJfM2UwqIAPQb5HIqaacwTY0tMXiLyVnkQjf7lWqy5AYvkOEC4Wi71dTktSdHnZEHAvv8foOk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LgHLZOsa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790084409; c=relaxed/simple;
+	bh=DUEOh1yLTbnjKaiRVgHpJsP2PKjLs1lAERIDbW4fWng=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qE7H3cBYWcJFh6e7imFfFwsQU12oKQc1pXfFCljuy/VperdsbE59S1tcoie0E2iVDYf0JMYjzEjRIHBKaPZxWi3J6wtPlrE0ZEWZXz0Bct1EL9CKlYkTFEJ3P5m3VC1MKp1UB0hUoIK998kzMT3humtbeNTAWYJg+vD5BjghZ/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=aJ1/+epY; arc=none smtp.client-ip=74.125.224.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LgHLZOsa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFD431F0092B
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 13:38:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790084331;
-	bh=/a/f7Jh/MiC/swvVwqUhEXfqYE86b5oqe+3Ff4G++VE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=LgHLZOsaiLR6vEnfNUlQTY6oZ9lvgEVB+v1NKXB/7X4n71pwqtLIrApTSiD7ySt7S
-	 HyLboP0B3gSKrpbNLp/+DPYLQXPZgIU6Ll1vfcQAusS8E8NtWyerjL6tgSbQgSItT/
-	 zOqiJYMTe8O/M9LtX5D3mTo+SOV917k7m6JLtiJck4QLNWTOpao7KN2sUUmA03IqGr
-	 a+l8rch10YaCJPB2e0Zzk8f5oorNcgMbz47E0UM68z5IWhrkPjPm4VkhNceNXsDuWw
-	 jRcKi6pdnWQteSxiKx3FG7TdgBsDcrhFvBqVKTSnIfBDeWT3iJ6o140rLWVMCCwfju
-	 6PSOxO9vrgInA==
-Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4aa8d882so4517227d50.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 06:38:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByFdY8D0wftlpZWDvXB8OOW/un7XlTIkiCCVxiiMt4eb6kjekVCR9AbpaqpPAiXs/iINKaeA0R/7Fk=@vger.kernel.org
-X-Gm-Message-State: AFuF++k4sPb++kwd5p8HJytDXNN5JlT4Q3Y/YQb8gZU56R0A7iL7ThG3
-	8FBZZB+KMEggJPhwgzIiCx6T1LW22dwusQ/M22ZWQKIetQ5fCru7yVfqVV0hcfDcH/BgJE7hQxD
-	5QxV4nbanrWt48BX0i3Hs3l1QKGY2wJREnwAms6Jtsg==
-X-Received: by 2002:a05:690e:a4e:b0:66e:542c:cb48 with SMTP id
- 956f58d0204a3-6717fd907d8mr5090744d50.48.1790084330182; Tue, 22 Sep 2026
- 06:38:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="aJ1/+epY"
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-66c9995ca60so530798d50.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 06:40:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1790084404; x=1790689204; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MJCG2Sm0vsgw6siNu4vSpBKtOWqusCF2a7VkMLKoqYo=;
+        b=aJ1/+epYMfJQvJQHCsOZodxFAZwIgbEtidUR8HBTyCPcEjL4Ggl32cJsC8Pu3Fsf+4
+         VuUL4aMog1pyqjpg65LX1Q31QDKJojKuHbyyP3YjDfW7pTRdhpL2xSV77vWsLonAzQQm
+         cy6cODNpwEiY2fYFdtdytRqJQ458lRJTwTRtwe1gDm+6/KvWEEk2wWO7fV+hr/UkSNvK
+         Bxen9DVG48ChaR9UxONAz8DMDJJo2zLZk3i6dl/NDxcKksIUJMWXbYmfNoLxh+lgAZ4u
+         /JWDznYBExvRUxbasRDLOKg4rUu7CYSjfYOF2ZUJhG9fV23GHx3naMR9qlC+5wm9KZNz
+         jzIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790084404; x=1790689204;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MJCG2Sm0vsgw6siNu4vSpBKtOWqusCF2a7VkMLKoqYo=;
+        b=OM7Zpjlh3f2eM7To7PDuSi95gq9JOUxvwpyhXIciE3gZIkGPfizUFHnQcjPGrGaW7a
+         rqKtVIcPmHu8Xkj6I4JZrOn9llGz00Jz919HdNAy5Dk4uHw6hGB5BOIe/zXEthp70Z+P
+         acBRFNV9ytYulfcLaREsltw3IRTPJ6jUvImmMM7BZ6BtpnAplDrQUYUV1rNa4aVCYylt
+         IbFShcezpEbDS+Qf1LONgm8bJKfXV7PQvfaDqkyE9liLoBqmu11cegancCLqnaQs76sL
+         m1qfeu98EaBUWjulaNlys2m4k1C3/THFZfhydUbA/mnNG1/Mmuu0vR5IJANlPw9xu9l4
+         q7Vg==
+X-Forwarded-Encrypted: i=1; AKwUvBxvnNGTOmXAJjZvxgB0zb6ETE9vWmT0c5jZRabr7gM50cNch0G7eXFg84YN1FnYHvrvX1RUSI65nUQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++kGCxBWVELWiBC13kyQ+ugP/GTu6nuQGZ7ssk1Ccy7nUqrrpL9M
+	b/l6ljhl7dB17yp2w+ceQBDqIMoHe2F9qmUO61Ml+xfo5yEDH+kPrLBATNhVR0ueYOc=
+X-Gm-Gg: AYBFou2ewuZPycTF6aQsHdcpq3c1RBVRlEfN2G/RuJX349qFbit8QltMfuNHvW2C3V0
+	6bRWy0K6v30koNttLb55txqjzuINhp4kxPFxx/Nv5euQMA3BJt27vouAgZZCxGPjQDfmqTXERfC
+	PIBqzegk7lO/iN5xni7s5kfxJb3PgyP8gyoMmWoCrLLlCa6m95Cfxc5DZFUoVrf40ClABxf/G8f
+	U1wjUdHiX3T7OeGyY7sMpsER90cJ5XPdW2GVo9DT2phvsHdPyTPat3vGITEUM96Vs9voCvzzp7O
+	/jT83NpvbJKIef/2BBe6furJKjDRlGkGqwKyDXDIB+x5dHFjQpVUq9lujlDNdX3shgZDV1F0ZTP
+	jtLLfhtAXZe5kYKF19PN+ApaGoIFWaXfLoXL33F/dSbCV1WVVkGL7naVSgqH22dlrCggKAcKvp0
+	SgiCCtu1oxZAVZmPcUfx9ibtmAO/8Zy+hR23WsMhzEpNxEWDsUcT6UETTyfEWMm+68hb+XEi1M9
+	+mEa9tLp6Wr+ZRMrpM++owce27JZucvfXTxE6j7Nd28nFbl
+X-Received: by 2002:a05:690e:1382:b0:66e:5332:a911 with SMTP id 956f58d0204a3-672c299a828mr1382169d50.21.1790084403903;
+        Tue, 22 Sep 2026 06:40:03 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:bbcf:6512:c1f9:5b9e? ([2600:8803:e7e4:500:bbcf:6512:c1f9:5b9e])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-672c75bc43esm697539d50.6.2026.09.22.06.40.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Sep 2026 06:40:03 -0700 (PDT)
+Message-ID: <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+Date: Tue, 22 Sep 2026 08:40:01 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org> <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
- <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org> <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
- <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
- <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
- <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
-In-Reply-To: <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Tue, 22 Sep 2026 03:38:38 -1000
-X-Gmail-Original-Message-ID: <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
-X-Gm-Features: AcwNN1WgbakYkTh0yR3GKDNbi3ffYcCIIuJkVAws7zFs7ymxySYDN4SZgg1CLuk
-Message-ID: <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>,
+ linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+ Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org> <arIvG0nx4LXG9nlW@monoceros>
+From: David Lechner <dlechner@baylibre.com>
+Content-Language: en-US
+In-Reply-To: <arIvG0nx4LXG9nlW@monoceros>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 21, 2026 at 8:56=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
->
-> On Fri, Sep 18, 2026 at 11:50=E2=80=AFPM Chris Li <chrisl@kernel.org> wro=
-te:
-> > No that time slot is too late for Asia developers. I don't think we
-> > should use that time slot for swap alignment.
-> >
-> > We should find a time slot more friendly to Asia.
->
-> Any time slot would have that kind of problem. We're spread out across
-> the globe.
->
-> Let's just use a standardized time slot we have for MM alignment sessions=
-.
+On 9/22/26 2:39 AM, Uwe Kleine-König wrote:
+> On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
+>> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
+>>> The ability to add and remove devices from a driver through the sysfs
+>>> "bind" and "unbind" files was created all those decades ago as a way
+>>> that kernel developers can iterate faster, and provide a debugging way
+>>> for users to attempt to add a new device to a driver without having to
+>>> rebuild their kernel.
+>>>
+>>> This api over the years has been abused and recently come under a major
+>>> fuzzing "attack" through tools like syzbot which decided that it would
+>>> attempt to just randomly bind any driver to any type of device, causing
+>>> loads of unneeded errors and pointless kernel patches to be generated by
+>>> unsuspecting new developers.
+>>>
+>>> Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+>>> will be set on the driver if the bind/unbind sysfs files are ever
+>>> written to.  This lets kernel developers "know" that a user is
+>>> attempting to do something that is not normal, and as such, if the
+>>> kernel breaks they get to keep the shiny pieces laying around on the
+>>> floor.
+>>>
+>>> The flag is 'Y' which was unused, and can remembered as the user is
+>>> "yeeting" the device being operated on here (thrown with force without
+>>> regard for the thing being thrown).
+>>>
+>>> Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+>>> as many times crashes/oops/warnings/failures happen within the callback,
+>>> and the taint flag needs to be there to show what was being attempted.
+>>> If it were to be set after the callback happens, the oops report would
+>>> not properly reflect what foolishness was being attempted.
+>>>
+>>> Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+>>> the tool from hitting bind/unbind, should be run with panic_on_taint
+>>> enabled so that they fall over and don't continue on, thinking that they
+>>> actually found a real issue.
+>>>
+>>> Userspace operations that rely on the bind/unbind files
+>>
+>> I agree that this should be avoided.
+>>
+>> But I also think the biggest offender really is driver_override. Specifically,
+>> on a hot-pluggable bus a driver must be complient with the device driver
+>> lifecycle rules and hence shouldn't break on bind/unbind. I think it would be
+>> nice to not taint the kernel for such busses, and only taint on driver_override,
+>> as I think we'd still want the bug reports for such cases.
+>>
+>> But I think this is fine to leave for a follow-up.
+> 
+> I fully agree. I'm fine and support tainting on driver_override, but
+> bind/unbind are used occasionally in my bubble and I consider drivers
+> not handling that properly buggy.
 
-There are more swap maintainers in Asia than in the US + Europe, at
-least based on the maintainer file. Please be more inclusive. If the
-alignment is done without key stakeholders, it miss the point.
+In the IIO subsystem, unbind/rebind is the de-facto way to reset a wedged
+chip.
 
-Sigh, we can't even align on a time slot.
+A few examples where other reset methods were reject in favor of unbind/bind:
 
-In that case, let's keep discussing on the mailing list. At least it
-is accessible to every one.
+https://lore.kernel.org/linux-iio/20240727160216.2488ed29@jic23-huawei/
 
-Chris
+	This needs documenting as it's custom ABI. Note that we don't often
+	accept custom ABI. Particularly not a hook that seems to reset the
+	device. If you want to do that, unbind and rebind the whole drive[r]
+	so we are in a known state etc.
+
+https://lore.kernel.org/linux-iio/20240720163440.03c713dc@jic23-huawei/
+
+	Firstly as stated below, we don't provide interfaces for this
+	because it's a heavy weight process that is most of the effort of
+	unbinding and rebinding the driver. So if you need to reset, do that.
+
+https://lore.kernel.org/linux-iio/20250505200609.54756520@jic23-huawei/
+
+	The solution is to run it once at driver bind. Similar to reset
+	below, if the usecase needs to re do it then unbinding and rebinding
+	the driver reflects the fact we are taking it effectively offline
+	for a while.
+
+
+> 
+> So please let's do
+> 
+> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+> index c51ad96d4de4..ce8fb14ea19a 100644
+> --- a/drivers/base/bus.c
+> +++ b/drivers/base/bus.c
+> @@ -242,7 +242,6 @@ static ssize_t unbind_store(struct device_driver *drv, const char *buf,
+>  
+>  	dev = bus_find_device_by_name(bus, NULL, buf);
+>  	if (dev && dev->driver == drv) {
+> -		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+>  		device_driver_detach(dev);
+>  		err = count;
+>  	}
+> @@ -266,7 +265,6 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
+>  
+>  	dev = bus_find_device_by_name(bus, NULL, buf);
+>  	if (dev && driver_match_device(drv, dev)) {
+> -		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+>  		err = device_driver_attach(drv, dev);
+>  		if (!err) {
+>  			/* success */
+> @@ -513,6 +511,7 @@ static ssize_t driver_override_store(struct device *dev,
+>  {
+>  	int ret;
+>  
+> +	add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+>  	ret = __device_set_driver_override(dev, buf, count);
+>  	if (ret)
+>  		return ret;
+> 
+> (plus the needed documentation adaptions and maybe a rename
+> s/TAINT_FORCED_BIND/TAINT_DRIVER_OVERRIDE/).
+> 
+> Best regards
+> Uwe
+
