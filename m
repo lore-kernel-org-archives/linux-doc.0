@@ -1,63 +1,63 @@
 Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DDB559C8A
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 14:28:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A266559C9D
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 14:28:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790087333; cv=none; b=Of8gbEKBzgCQ7TALmeFVnIW21m9JLT4x6y/id8NLwWK8+IBtbNvwVEhy/n9K2N2KfZ0CQbK+SOyETSPfMkae11XJ4MxT9Ib8wrJerjKuHdld0qZVjczUSimvO2XLEF8c614OYLh7PsvpaC4pqolDVZoyFt0Ek8DyI9br5/Rl09M=
+	t=1790087335; cv=none; b=Cre0lIRi2C370btOhjb+D09vTsbuMoeXxekCeU+4hqJ97UGnqI7YVChZEt+9nlN2S4cvs/xDLrSiG04TQmSharU9eYjLbFbfbY/1IciFL+iG/MXAtMa6bxBa/IAuMSaC3igwb+1dpg3mUr5eEWlF2BrMcrnuNgyjeECIe2CCowc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790087333; c=relaxed/simple;
-	bh=vmXda7q3sDpJEX8AFmmpa4DPRcImaRBMRm6OQHAWGGE=;
+	s=arc-20240116; t=1790087335; c=relaxed/simple;
+	bh=tJr42xaDAVSaWnaqwzCH0FtQxeXXRL2IL2eoB7zaOd4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NXy2upTkd9ehlzXRbTfNjgM0yDQfLDInOmFtW39j0ShVz0zsCvM2Vj1+Ixp8To+4niPsZC1Vq8rockBufumbM8rKNmNQ4oQhdy0p2YKsrEoyIWchyWBZBQcYt/97M84fId1nzU7RB/LYtV0Ctmv5yaMa7Z5o8vo6QxwhLtjf9Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VijQ3XL8; arc=none smtp.client-ip=74.125.229.205
+	 MIME-Version; b=T2+f0LIYXV9vw0TGqKM5oFzLBu+z4Tz3v8prON1+20xSNDVotSpyUtyr5WkBD90ZkL7EHw9zYFBclaknRE2Z73omFA6NQQPPvgW5LYFXpkCVCj1S1zEpXoTiVYp+G8Z1T5FAN+7YupasflxFK0XE9kFk1urr0YNY7b60vSQQUj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QeT9iphd; arc=none smtp.client-ip=74.125.229.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VijQ3XL8"
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8c9954ccbso2563053e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 07:28:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QeT9iphd"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8d6489419so414382e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 07:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790087330; x=1790692130; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790087331; x=1790692131; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=tCnqW3uWQK4vADqWc0y/sNw0Dm5EpPQnotxldEeM2YU=;
-        b=VijQ3XL8mcNzlFTQCPeDqWlpAWFBrdyBLIiesM/qzOa/uiameADm5DzLR49ACYIN27
-         w3ysbVpjEBSUX8ZXwH3ccjFzObRtXLANTGHvVwJ4kDPGAX5+Xy3tyJ++uJ6k97PptoSW
-         tEIAkUrg657+mfUuSxRFNAqvbOLRkw2TwOvuhBCIufALBg9LJHLdCKv8+EXY5UBQljtb
-         RIKrj+KdfVVhmx2q1bxH0Y6sz6xF+6TvkOZNkJDhaTeKv2JITQpHkXseSYEjTa//06wh
-         0tODbO1HYl7B4zXwtEipB/SLDni+3RcfDrGIzYO7jozKH3kvnHtfcp1yxKWxHlHWLJ6y
-         RikA==
+        bh=2Qq4F7XD5vHunZiMcFmCR76nTufbFhGNTmnh/jlQeSI=;
+        b=QeT9iphdsGBTEjSRj6o38WonfURX+A85mBtAUf0ecaPDLPD3ZRw0mVrn/2VpCs6sRY
+         Ag0h12weq+0t0lPb2ltP0z1xLum4L5pzK5lQhY+CnF1PS3z5yvU7gbxD46FU4hyj3D9a
+         NP509ife4ghbv0J9BsMl6ar0v7U0TCGg8guzPXHgcau46DHeigIIEcUrbZJEDuoofQYD
+         NIUgvy1qbrO862avQWH+a0flHl7lSd7TBjv7sk5DVEGyxOfJjrSCXjPE+X/sgaRUFCed
+         pU7gjy9ykOlRoduhTXBFHaqFPiOm6HUCFPv6/4XArDzJ7j+Y3U2S0eebuDo/I/RPlcWc
+         xodg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790087330; x=1790692130;
+        d=1e100.net; s=20260707; t=1790087331; x=1790692131;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tCnqW3uWQK4vADqWc0y/sNw0Dm5EpPQnotxldEeM2YU=;
-        b=rP3GbIywhcN9MJWI9TPVTX4pLQQTDd7YFfIRoexzzAXHOvvAtE8K7Xnw0o8cgnNXSH
-         uB2//W29YSLuW3rxbiyeWT1vOLAYaFtPVFS/I8G5HV3izelkDeRHGS538eQh+X+FnR0B
-         O6wSoyJiKVmqe40hFpnjS8zeSeFoS+9D9ysNYlytjDxmLRPRo0H+3+sn0iKwriOkE75E
-         DfA0vTfgWUxkIyG6iwHHUBPrkZJtvTJyjwRpTp4DLCpMMkr8yiMAeQwGIoiV02Xbp1Dt
-         MS/E9YkoOi7X1TpSPdx8GjHJyuteEww7PzwZXq2sqXvVwVy0sgtZRWDwnIRE63aw7s1B
-         zbvw==
-X-Gm-Message-State: AFuF++lBCjQe+OwD9lIm4lsNls1E3z9B6bSTGilHmNtdMbXMIkW4QKlX
-	Ds/cQ846yHKZlDbR9ZsGFqEW08PTpZxZoEPnL+B7d7vJh6j0NA/jP1in
-X-Gm-Gg: AYBFou2xwOZrAc/jr9NWDuaboSHxevDZkf29VYB6hQ7hYp9G1bdgiD0Q30FcPr0MlHd
-	Ap3ty5MrifnAzbFj2cwGxJ+FYglos80oxv7cPCKd5gkcFzkt+3G2W2looHORfTRnTMHq53tSKEh
-	Lng5LEcpr+JHhZra0uD2hWRUrbeO/knSZhH1rSkekm0PEQLqDcyWf6/i7rjjfuQfaxmQxH+D63C
-	GuoBfCfMOXrziWx9tQ3u6FgDwZfPRf+Nw/nvqp1L7HDPAqbeqyPWIM+whGcH6LAHhy1cBLQFp4j
-	C7DBvZkkeytCR17b1nFeYeQ41tRWXlqimK9ac0aq0LMj9cHuYwbWnhPilcO7gFR2uRDT/uPc4Vf
-	/k1QAIddhDeW5F4E2333DHnYLFB4/Fr/ChfB+X5LJh/d4nuJnEy58y/gYpdN2pFltvKUCjcH+lf
-	k/Nebb3eQWSHrugD4i2ved1jTC7CWnmNOdPvgHA3Nur231WWlm2t4Hm87GAjzxpTsoVwCOK8Oj6
-	AE6ZMX5k9TeRiStMpvG5lkvGtGwQgWwf7bPa8QL
-X-Received: by 2002:a05:6512:3b2a:b0:5b6:1a81:1c8d with SMTP id 2adb3069b0e04-5b8c197976cmr4302647e87.66.1790087328717;
-        Tue, 22 Sep 2026 07:28:48 -0700 (PDT)
+        bh=2Qq4F7XD5vHunZiMcFmCR76nTufbFhGNTmnh/jlQeSI=;
+        b=RZccLjhn0l8aDcwlEx5vRVHpHVUwmYz8yll14cwQyXysq+9oMma0W5usQ4hZVpqKdi
+         H+RgsuEadijk7loWdzC5uY8TsVBVLUSwDZJ//WPPDuYT5LTezWmlWmjKj7Zh9nAoxlj+
+         ujjrjpdddZDIx597i6RcK93+vXlgZiBnVPKFF49U6pBPaDGKapQ9uQ//nW7fmj8oqfPl
+         izVa1nAISVYXkN8gRl+IqP514AS4u10k9TmytoWN7a+nZ1pelV7yjeYDj+/TtOjhwrOY
+         6XhLxapZjJFg9PNyK5o9aexPESCZxUWoLNi6o80h2EjwKSq7GT5CrVuaTl6aV2S8zfzX
+         ppwQ==
+X-Gm-Message-State: AFuF++nSRxVm3LXdFJOUfYiXvLe2LDy9Ca8Q2ohZ6gHcgRgMOhZSPRgS
+	luBhLBuIvqzwhYY8ZdZIvCWv+Axvv4mPEMTo5eVoDHv+C/FWg9p3mI+I
+X-Gm-Gg: AYBFou17iob7vLX11s6fCmyq8KKBkfs5aMNVBvEEuZnA893YFsseiAmvjmDBEu0AG5B
+	3d+qsW2xGQsCYMHJ9eTzaBebEUhkd1U9EMuhKtevJHGcqddS/1vKWW76Q4w7Qha8vQ0q5qYutKk
+	6uG9Us0OBvwj3W0UVgyWFahjF/zHv+W5eV7Ks7wcKgiOmJl0LucbtRKJcoAvx5ogLYV8ygqqYyo
+	U4hKM4EO8O2Gh3HLPmswsBKilSHmSzNimQcHCRNGoHXQMpDxD+4PVLPa1JOJrJBuz2pEf9Hp9g0
+	oz8/mcwdyPYVngVQKrOUlj4pCvxzytM4Sb8L2THMErRywpBu38r1S0sbn9eIpSypKvEXxZ6XVsz
+	w7jSs9r4AkGLnm77i6Z8R05+5BBoFUiE35jljr44XZI51zr0GsI9DLSYBlMGYweC8nSrFcnCyiI
+	0MBz59KWCEIWVzAi/+rLD8OG4tQFg2qag0qodxiLi5PDMNymMEsnE+QP5TvLbsBl3fqKOnxydup
+	vh7jbdMv7h4+LgNCxH52QLBW5YQWWvg0I0fs45/jw==
+X-Received: by 2002:a05:6512:b89:b0:5b4:a836:13fd with SMTP id 2adb3069b0e04-5b8c180b471mr4899616e87.22.1790087331133;
+        Tue, 22 Sep 2026 07:28:51 -0700 (PDT)
 Received: from fedora-tap.advaoptical.com ([82.166.23.19])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d46d2064sm589691e87.24.2026.09.22.07.28.46
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d46d2064sm589691e87.24.2026.09.22.07.28.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 07:28:48 -0700 (PDT)
+        Tue, 22 Sep 2026 07:28:50 -0700 (PDT)
 From: Sagi Maimon <maimon.sagi@gmail.com>
 To: Richard Cochran <richardcochran@gmail.com>,
 	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
@@ -75,11 +75,10 @@ To: Richard Cochran <richardcochran@gmail.com>,
 	netdev@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sagi Maimon <maimon.sagi@gmail.com>,
-	netdev-bot+sashiko@kernel.org
-Subject: [PATCH net-next 6/9] ptp: ocp: report fw.cpld with an empty value until the USERCODE is read
-Date: Tue, 22 Sep 2026 17:28:26 +0300
-Message-ID: <20260922142829.57740-7-maimon.sagi@gmail.com>
+	Sagi Maimon <maimon.sagi@gmail.com>
+Subject: [PATCH net-next 7/9] ptp: ocp: drop only the USERCODE when flashing, and drop it before erasing
+Date: Tue, 22 Sep 2026 17:28:27 +0300
+Message-ID: <20260922142829.57740-8-maimon.sagi@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20260922142829.57740-1-maimon.sagi@gmail.com>
 References: <20260922142829.57740-1-maimon.sagi@gmail.com>
@@ -91,55 +90,145 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The fw.cpld running version was published as the literal string "unknown"
-before the USERCODE had been read, which contradicts both the changelog
-and the .rst entry describing it as the USERCODE formatted as 0x%08x, and
-is not a version anyone can use.
+Two problems with where adva_x1_cpld_flash() invalidated the cached CPLD
+identity.
 
-The string was there because naming the component is what lets
-"devlink dev flash ... component fw.cpld" through, and a part left holding
-a bad image answers neither READ_ID nor READ_USERCODE - gating the
-component on the read would make exactly that state unrecoverable.
+It ran after the erase *wait* returned, so an ACKed ERASE whose wait then
+failed skipped it: the erase is running in the part at that point, but
+cpld.id and the fw.cpld USERCODE kept describing the image that is being
+destroyed, and cpld_id_tried stayed set so nothing re-read them for the
+rest of the binding.  Do it before the ERASE is issued instead.
 
-An empty value gives both: devlink_info_version_put() invokes its
-version_cb, which is what devlink_flash_component_get() collects names
-with, before returning early on an empty value, so the component stays
-flashable while no version attribute is emitted.
+It also cleared cpld_id, which is the Lattice IDCODE - a property of the
+silicon that erasing the configuration flash cannot change.  Dropping it
+on a failed update only hid information that was still correct, and made
+recovery depend on a re-read that may not succeed.  Leave it alone.
 
-Suggested-by: netdev-bot+sashiko@kernel.org
+The documentation said the identification is read "again after a
+successful CPLD update", which was never what the code did; describe what
+is actually dropped and restored.  While there, note the size check and
+the state the part is left in when an update fails part-way.
+
 Fixes: a4b7c15aa78f ("ptp: ocp: add TAP CPLD flashing via devlink")
 Signed-off-by: Sagi Maimon <maimon.sagi@gmail.com>
 ---
- drivers/ptp/ptp_ocp.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ Documentation/ABI/testing/sysfs-timecard     |  8 +++---
+ Documentation/networking/devlink/ptp_ocp.rst | 28 +++++++++++++-------
+ drivers/ptp/ptp_ocp.c                        | 25 ++++++++++-------
+ 3 files changed, 37 insertions(+), 24 deletions(-)
 
+diff --git a/Documentation/ABI/testing/sysfs-timecard b/Documentation/ABI/testing/sysfs-timecard
+index 4ba45c6ee4a3..569ab668a225 100644
+--- a/Documentation/ABI/testing/sysfs-timecard
++++ b/Documentation/ABI/testing/sysfs-timecard
+@@ -31,10 +31,10 @@ Description:	(RO, root only) The flags set in the status register of the
+ 
+ 		A read arbitrates for the shared I2C bus and reprograms the
+ 		on-card mux, so it is restricted to root.  The Lattice device
+-		ID of the CPLD is read by the driver shortly after probe,
+-		and again after a successful CPLD update, and reported from
+-		that cached value as the fixed "cpld.id" version by
+-		devlink dev info.
++		ID of the CPLD is read by the driver shortly after probe and
++		reported from that cached value as the fixed "cpld.id"
++		version by devlink dev info.  It identifies the silicon, so a
++		CPLD update does not change it.
+ 
+ 		New CPLD firmware is programmed with devlink dev flash,
+ 		selecting the "fw.cpld" component; see
+diff --git a/Documentation/networking/devlink/ptp_ocp.rst b/Documentation/networking/devlink/ptp_ocp.rst
+index f94b759d9cd6..249ca63eebf6 100644
+--- a/Documentation/networking/devlink/ptp_ocp.rst
++++ b/Documentation/networking/devlink/ptp_ocp.rst
+@@ -32,14 +32,17 @@ The ``ptp_ocp`` driver reports the following versions
+        carrying that CPLD.  Reading it claims the shared I2C bus and
+        reprograms the on-card mux, so the driver does that from its own
+        worker and reports the cached value here; the version is omitted
+-       until that read has succeeded.  The read is made once per binding
+-       and again after a successful CPLD update.
++       until that read has succeeded.  The IDCODE identifies the silicon,
++       so it is not affected by a CPLD update.
+    * - ``fw.cpld``
+      - running
+      - USERCODE of the image programmed into the TAP CPLD, formatted as
+        ``0x%08x``.  Read together with ``cpld.id`` and reported the same
+-       way.  This is the component name to pass to ``devlink dev flash``
+-       to update the CPLD.
++       way; it is dropped when an update erases the part and reported
++       again once the new image has been read back.  This is the
++       component name to pass to ``devlink dev flash`` to update the
++       CPLD, and the name is reported even while the value is not, so a
++       part left holding a bad image can still be reflashed.
+ 
+ Flash update
+ ============
+@@ -59,12 +62,17 @@ selected with the component name.
+      - The configuration flash of the TAP CPLD on ADVA TimeCard X1 boards,
+        programmed over I2C with the MachXO3 in-system programming commands
+        and activated with a REFRESH, so the new image runs immediately.
+-       The image is the raw configuration bitstream.  The only check the
+-       driver makes is that its length is a non-zero multiple of the
+-       16-byte page size, so a container such as ``.jed`` has to be
+-       converted first rather than passed through - one whose length
+-       happens to be a multiple of 16 would be programmed as if it were
+-       a bitstream.
++       The image is the raw configuration bitstream.  The driver checks
++       only that its length is a non-zero multiple of the 16-byte page
++       size and that it is not larger than the part takes, so a container
++       such as ``.jed`` has to be converted first rather than passed
++       through - one whose length happens to be a multiple of 16 would be
++       programmed as if it were a bitstream.
++
++       The erase clears the configuration flash before the first page is
++       written, so any failure from that point on - including an abort on
++       a fatal signal - leaves the CPLD unconfigured until a valid image
++       is written.  The component stays available for that.
+ 
+ Programming the CPLD claims the shared I2C bus for the whole cycle, so
+ reads of the card's EEPROM block until it completes.  Progress is reported
 diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
-index e10f6b5149c9..4ce86df6e196 100644
+index 4ce86df6e196..0d6d0c02882c 100644
 --- a/drivers/ptp/ptp_ocp.c
 +++ b/drivers/ptp/ptp_ocp.c
-@@ -2264,15 +2264,20 @@ ptp_ocp_devlink_info_get(struct devlink *devlink, struct devlink_info_req *req,
- 		/* The flashable component.  Naming it here is what lets
- 		 * "devlink dev flash ... component fw.cpld" through, as the
- 		 * core matches the name against the versions reported here,
--		 * so it is reported for every board that has the part and not
-+		 * so it is named for every board that has the part and not
- 		 * only once its USERCODE has been read: a part left holding a
- 		 * bad image answers neither, and gating the component on the
- 		 * read would make that state unrecoverable.
-+		 *
-+		 * An empty value still registers the name with the core -
-+		 * devlink_info_version_put() runs its version_cb before the
-+		 * empty-value early-out - while emitting no version attribute,
-+		 * so nothing is published until the USERCODE has been read.
- 		 */
- 		if (smp_load_acquire(&bp->cpld_usercode_ok))
- 			sprintf(buf, "0x%08x", READ_ONCE(bp->cpld_usercode));
- 		else
--			strscpy(buf, "unknown", sizeof(buf));
-+			buf[0] = '\0';
- 		err = devlink_info_version_running_put_ext(req, "fw.cpld", buf,
- 							   ver_type);
- 		if (err)
+@@ -5043,6 +5043,21 @@ static int adva_x1_cpld_flash(struct ptp_ocp *bp, struct devlink *devlink,
+ 		goto exit_config;
+ 	}
+ 
++	/* Once the erase is issued the image is gone whatever happens next -
++	 * an ACKed ERASE runs in the part even if the wait for it fails - so
++	 * stop reporting the USERCODE before sending it rather than after
++	 * the whole sequence has succeeded.
++	 *
++	 * cpld.id is left alone: it is the Lattice IDCODE, a property of the
++	 * silicon that erasing the configuration flash cannot change, so
++	 * dropping it on a failed update only hid information that was still
++	 * correct.  Written under cpld_lock, which adva_x1_cpld_read_id()
++	 * also holds across its own bookkeeping.
++	 */
++	WRITE_ONCE(bp->cpld_usercode_ok, false);
++	WRITE_ONCE(bp->cpld_id_tried, false);
++	bp->cpld_id_attempts = 0;
++
+ 	devlink_flash_update_status_notify(devlink, "Erasing",
+ 					   ADVA_CPLD_COMPONENT, 0, 0);
+ 	err = adva_x1_cpld_write(bp, CPLD_CMD_ERASE);
+@@ -5051,16 +5066,6 @@ static int adva_x1_cpld_flash(struct ptp_ocp *bp, struct devlink *devlink,
+ 	if (err)
+ 		goto exit_config;
+ 
+-	/* The old image is gone from here on, so stop reporting its
+-	 * identity even if the rest of the sequence fails.  Written under
+-	 * cpld_lock, which adva_x1_cpld_read_id() also holds across its own
+-	 * bookkeeping, so the worker cannot resurrect any of it.
+-	 */
+-	WRITE_ONCE(bp->cpld_id, 0);
+-	WRITE_ONCE(bp->cpld_usercode_ok, false);
+-	WRITE_ONCE(bp->cpld_id_tried, false);
+-	bp->cpld_id_attempts = 0;
+-
+ 	err = adva_x1_cpld_write(bp, CPLD_CMD_RESET_ADDR);
+ 	if (err)
+ 		goto exit_config;
 -- 
 2.47.0
 
