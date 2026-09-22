@@ -1,134 +1,131 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D11A5448A3;
-	Tue, 22 Sep 2026 12:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C072E8DEC;
+	Tue, 22 Sep 2026 12:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790081420; cv=none; b=u3JOi7OIJ2kLkcRVYgsTgcAFBN3Ysu2LXxk35/Gb4+EcBsVt/Dj5T5KKh7uXqoDlvFXhC0apJQ6OiUdbgQEfC8h31P/jUGpIjQ6SJihZ9Ku76TyyQRCfw79E7GfFv0sjrFx5KbWk+DqBwMJ82pkUJMiICAH6T1e7Qks5g488fQ8=
+	t=1790081538; cv=none; b=g328Iw13v5aLX9z/Wr2c2cdSZsW2i7XosqPpNf9/d0MaTt0mEjwOnEglqFtbuVKERKEmx0Q+CAYI/0kiJY1c2Ijh3XftYaRPFfeZ4wKFn41vCQazmYIWtqb5zln0tXzvG1Q6tjOATrBL77ooTGdMtbbXf5hTTl9N9t5U1Kgt0N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790081420; c=relaxed/simple;
-	bh=3GHTJrgcGpWkQfsap4SwWOsGxwKhu+V/arurGwl6nIU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rfx2OmWaYsik9sYCgBfulzi25O0M4sIDb6Cy2r3oYIMcqW9or2rp06cP+uIf955zhIfpf7QQk6MW1rgzs85ZvwIotwH+XhNbFN0T1150BdRS7IDvit1QyGi/QRacrhU9TztaJNm/bm9/rkkm0jL16tZKLiz+c7JgviTQjy4t0ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SMWmOhVc; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1790081538; c=relaxed/simple;
+	bh=dKFwer8asIo2ww6qdmBz5IYEoRE1svuaIGly3239UFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QQsujB7Kr6ooA0U7/EL6pMgNvWZE5KPZIh9TZ5r5SUOnyuI9uqOF3PkCud+qTstDcLTRiJ2RQymPU6MlK7QiBtZ3NoRFIumCVOGZRYaur6vL28LdQB/RHMojtqvAQTUrFf3094fiWUo1uirdD7vwMLpje7Zvi+vIqaBVsnoXWnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ScPnuTaA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SMWmOhVc"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id D7190C5CD71;
-	Tue, 22 Sep 2026 12:51:01 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 20F0160580;
-	Tue, 22 Sep 2026 12:50:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 645F4103289FC;
-	Tue, 22 Sep 2026 14:49:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1790081409; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=Pp7mzsLIsbavEPfem5dhuoLyc27UEuONp1Ueoff5SSI=;
-	b=SMWmOhVcC5GkK+X8WZA70hvKKa1Ea1wfG8B8tKZVFCR7esnlKTgnDlY00+AKd/7poPloHR
-	lR4szN4Oz0HMmVM7SP1/j32iV/h2Uq917H6w8dkEjAohMivLHrGDR8Fw+6fUzrnnKNxdjQ
-	4xhNMo2FEdhN08NkltOWX+XkLxiMMc7ufK5UWQhsAdd6lR3tGFmyCoD2TZgRrFK+0I1xcn
-	TURJ6ab/JM9OX1x7Ch01AlIaPajCgUzc6U1MwPCAnwjSMPy8y4AEVW2IeKXCqscj2IIPXj
-	vEq7eaXP0k8jH2rJO/Cw8oKlRfsmb2MZuRrwyqrTY9XcfRn6NR8FbuDvLmERog==
-Message-ID: <033fc935-c37a-4b0f-8b79-68248e45da8f@bootlin.com>
-Date: Tue, 22 Sep 2026 14:49:57 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ScPnuTaA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C7401F000FF;
+	Tue, 22 Sep 2026 12:52:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790081536;
+	bh=zwXB7IJjlaB8/LFgWGY2W9SyVRX56trli9CAewYqEk0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ScPnuTaAx+eHTBSVHGS81l0qJF871mpilRUw6iIOhoIedfp2tpP2WU8Dh5G37I61R
+	 XAz51OaoK7pxeDsk48QlwqEDREYfvLbwKcyFXf4YyE9n1tNZNiNyTq29RD+skOcX5y
+	 GHmYmvcfgUPm9Dp2mwY4PUGp+inda2N5/bJoBgZ2fKH7CoF+Kh46/NFwQCGYNkz1kv
+	 9zRitwCSfYrfMsfvybQRxZOYESPsv3ev+RfpqEutx8cppFTaMFohlNIiuBsERqKJ8o
+	 Ui/vSKE1Ia74snqxS7sBefQi9n+pE89jtO4VfAo86yH0XD6Ehb2Qpx239KVoVNcSQ3
+	 mgN3kKjvYDm3g==
+Date: Tue, 22 Sep 2026 13:52:07 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Fuad Tabba <tabba@google.com>, Joey Gouly <joey.gouly@arm.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
+	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+	Leo Soares Passos <Leo.Bras@arm.com>
+Subject: Re: [PATCH v2 00/13] KVM: arm64: Add KVM_PRE_FAULT_MEMORY support
+Message-ID: <arJ1BDEzY5CANjjB@gremlin>
+References: <20260914-kvm-arm-prefault-v2-0-26fb47f74b73@kernel.org>
+ <yq5abj9p38vq.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v16 00/12] net: pcs: Introduce support for fwnode
- PCS
-To: "Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Philipp Zabel <p.zabel@pengutronix.de>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- llvm@lists.linux.dev, Coia Prant <coiaprant@gmail.com>
-References: <20260916235200.20712-1-ansuelsmth@gmail.com>
- <20260921135933.7e8857ba@kernel.org>
- <CA+_ehUwy9RUKCCHDnqoED3AMVnErgGr9RCrCR4ceg5QONq1wOQ@mail.gmail.com>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <CA+_ehUwy9RUKCCHDnqoED3AMVnErgGr9RCrCR4ceg5QONq1wOQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <yq5abj9p38vq.fsf@kernel.org>
 
-Hi,
+On Tue, Sep 22, 2026 at 03:28:33PM +0530, Aneesh Kumar K.V wrote:
+> > This is because pKVM instantiates vCPUs upon run,
+> >
+>
+> Can pKVM instantiate the hyp vCPU during pre-faulting ?
 
-On 9/22/26 12:12, Christian Marangi (Ansuel) wrote:
-> Il giorno lun 21 set 2026 alle ore 22:59 Jakub Kicinski
-> <kuba@kernel.org> ha scritto:
->>
->> On Thu, 17 Sep 2026 01:51:26 +0200 Christian Marangi wrote:
->>> This series introduce a most awaited feature that is correctly
->>> provide PCS with fwnode without having to use specific export symbol
->>> and additional handling of PCS in phylink.
->>>
->>> At times there were 2 different implementation (this and the one
->>> from Sean) but Sean agreed that this can be picked and used in favor
->>> of his implementation as long as his case with race condition is
->>> correctly handled.
->>
->> Looks like the review for one of the patches failed so it won't be
->> emailed out:
->> https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260916235200.20712-2-ansuelsmth@gmail.com
->>
->> Are all of the issues invalid?
-> 
-> Only one is relevant, but expected.
-> 
-> The remark on the fwnode patch are invalid. The driver is expected
-> to return those error as probe defer is not supported.
-> (a notifier and late attach/detach is used to align to phylink logic)
-> 
-> For the specific Airoha PCS driver it's really speculation from the AI
-> but HW doesn't work as described by AI.
-> 
-> The only real comment that is valid is about the alternative way
-> to give supported interface with the .get_capabilites OP.
-> 
-> This is currently not supported as there isn't any user and it will
-> be implemented as soon as there will be one. It's really to limit
-> the patch delta of this change and to progress further.
-> 
-> Maybe FIXME might be suitable?
-> 
->>
->> Once the AI review is cleared, some human will have to review this
->> and vouch for you as a maintainer. Better still be your co-maintainer.
-> 
-> I think some revision ago there was Andrew that reviewed some code.
-> Anyway thank a lot for checking this once in a while, I feel it's a pretty
-> important change but I understand it's complex to handle as it does
-> introduce a whole new subsystem.
+It would be an unusual and unexpected thing to do - suddenly a pre-fault
+operation is initialising a vCPU explicitly for pKVM.
 
-I'm attending a Rust training until thursday, I'll see if I can squeeze in some
-time to re-test on mvpp2 :(
+A caller is not going to reasonably expect this and might treat a failure to
+pre-alloc as fine to carry on whereas in fact it was a failure to initailised a
+pKVM vCPU.
 
-There're a few series pending for rockchip and S32 on stmmac that deal with
-PCS support and their PCS handle. It would be nice to have some stmmac glue
-maintainers that are using complex PCS to help with maintainance or at least
-testing, maybe Coia can help with the tests ?
+It'd also require significant changes to how pKVM is set up, right now it's
+hardcoded to be done unconditionally at run via kvm_arch_vcpu_run_pid_change()
+-> pkvm_create_hyp_vcpu(), so all that would have to change and be checked and
+tested and... that'd be really out of scope I think :)
 
-Maxime
+And pre-faulting really makes most sense BEFORE you run a VM. It doesn't make so
+much sense mid-run.
 
+But more fundamentally, the stage 2 page tables, as I understand it, are owned
+by pKVM and so aren't really available to be pre-faulted.
 
+Maybe unprotected-under-pKVM VMs but then it's questionable as to how useful
+that would be given that it would be confusing to users vs. how it works for
+other VMs.
+
+So in general, no I don't think it's a good idea.
+
+And even if we wanted to pursue some version of this, it's _definitely_ out
+of scope for the initial pre-faulting bring-up series.
+
+>
+>
+> > but pre-faulting is  typically performed before a vCPU is run.  It would be confusing and
+> > inconsistent to error out on non-running vCPUs but to pre-fault running
+> > ones.
+>
+>
+> I use KVM pre-faulting when transitioning pages from shared to private
+
+You mean you'd prefer to use? Or you are using it on another arch?
+
+> with CoCo guest. This ensures that a trusted device can DMA to private
+> memory before the guest accesses it.
+
+Hm what do you mean by private memory?
+
+I see:
+
+#ifndef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
+{
+	return false;
+}
+#endif
+
+And only x86 selects KVM_GENERIC_MEMORY_ATTRIBUTES?
+
+Do you mean something else?
+
+Or are you saying we should match x86? I don't think we have the same
+semantics as them, I don't think there's an equivalent for us, and of
+course no private memory in the sense of the predicate above.
+
+In any case I think anything wanting to add additional functionality to
+pre-faulting would have to be a follow-up anyway.
+
+>
+> -aneesh
+
+--
+Cheers, Lorenzo
