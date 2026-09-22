@@ -1,70 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f11.google.com (mail-pj2-f11.google.com [74.125.227.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C0B3D3CE2;
-	Tue, 22 Sep 2026 04:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BECB38A725
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 04:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790050442; cv=none; b=YsLeSnOcSezApqerv8u+mmhM52KpVBOZUquR4JnQFRbfBK9jdtBlvw/BfEhFg+xhDcjXXYvCpWeF3H9KmzfhxCseTyX/7bCgmAt07UURWhJ/lF8FLZ0rJ9Q3YsAKT2Tx4uRErW3DTHIWxqFaYx3jOyjp1Osl8qc5NjlEo5nb6hE=
+	t=1790050586; cv=none; b=KAUJCvxYJrWz0yMJ/BAhtlFfSbjmA+A8FrMMLt0Wdw8isKVQPJohAkEylsuC/7RpazXwYbNM07ivxRLmCYXfhQBjXhnAI7ekbpYFprDII6Ewp8rt9hCbI7C0FpR1qu7MB/WmuPe5gE9AafppT2EjCCpkoRvamepfokeubnr1OAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790050442; c=relaxed/simple;
-	bh=thROVI5oeFdauobN5reuRsogOQP6boITRtrDJcLge1o=;
+	s=arc-20240116; t=1790050586; c=relaxed/simple;
+	bh=JDLbvCKUB+a+IDR0laoJE09QGbcCCmet6VJT4AONztI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o5MALiFBW0UK3R3GnTKAZQu4Psmj1WmSbBfvHZn4OL6w4UAJcO8/co9RkjBVBybN47jzqL7mP9DzD9CtDiuLJI4xBhFWkGjCK9f9AVMcGWGnn7Bzp5+N7RYdtdt5rDVcAT+fZ6tGqGMc6sTIEGXZczAzoBXMyIg6DRKXlzvmyH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNK1gNgS; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=AR2tqpvOsVb8Tob6ALPSZb4fTb7FJSgiwM55nXa5f1h/PFmNfxGPWElOZiCAgMcM5I5gXlro9pWaS5EQon4tLFe87eTzN3D4Ss3SVnlxoHgr0hrogwWFXWbGZqjkbEOXpNnCg5Y4BoR/vyA9yMrZx50HK8E8CbeAEyr+m9k0SPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qbWgsdWy; arc=none smtp.client-ip=74.125.227.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNK1gNgS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 477B01F000FF;
-	Tue, 22 Sep 2026 04:13:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790050440;
-	bh=3JhbkvL+0f8gvXye8KGOOiOlIpLpto8LiGmguIZMevY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=lNK1gNgShJJpusLlZPOmjVBfk/yMx/e4K7M/fOX449kJiCAMPuoIP0wPz99MYiEPk
-	 moidshyK8kQSZv4gEJRA0Pglkggl8AXaRI0oTuz6P/YUWZfwhRv3EUs0GPyRU9oD0m
-	 DPlnk9bJmyB1bKQzY9a5yXfJEZpedncnBnPic6OTPA4IOIqeGLYtMKlummlBXb/apz
-	 4XWA9rdTaHLORV4+DmBLyct59dfMpLSbNsx7Nv77bTjg5dSwhXQOoY7wM8ceFqXwFw
-	 QMwyRjlT7mGCTtVnRT9/RwXWri9F/XB/SIJLX0NjGZIjSKApwSf6ITh9Xm8iX0XsQh
-	 rOyCMTm7zwOCA==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Alexander Graf <graf@amazon.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qbWgsdWy"
+Received: by mail-pj2-f11.google.com with SMTP id 98e67ed59e1d1-398a384b5f7so2214674a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 21:16:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790050583; x=1790655383; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JDLbvCKUB+a+IDR0laoJE09QGbcCCmet6VJT4AONztI=;
+        b=qbWgsdWy4wdLIEntA0/FpNsZf7horCJWmJzWBillIAs0GNxkhMLlgvtcqJOfsqP1ws
+         Ng/wonxycsF2AqEW3RyNeklKNgPvdiCOC0wbLjzW/qAa+hOvVPhprZcKvZDrpkQbIEd1
+         PaR8KMFKjE3Nruixg4Lz4i/TxjIz73YN01CYbAC4efeboklUI7kSWoH4mp8mOTqYT0FC
+         fXuHHp6NnkCA+wgOViuzh8WF8Dqk3OdsJeLQnlIeVZ10z/RmuWQ2REFZYvm6xCFxoRKY
+         RqxUhWWK8VvKp3nmjYU9Q/tkXcDNplAeKAbNIUbSyfn7bCc8LmQfDrEkLWQtEPOXNE5B
+         KuiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790050583; x=1790655383;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JDLbvCKUB+a+IDR0laoJE09QGbcCCmet6VJT4AONztI=;
+        b=NFthpenr2ELu8p2bVgjf8U1wS3+fXnVNwsTBAYKS35nbl07wVCR4XYYauVS9uL/gXh
+         iCfk92r5z9On0dsRY15ISBIkjTw9Xhh95BG4uP8G37N+XtpFkcHn05Od9GjKElTk+pfU
+         uDT7zACL4KXAY/t0VlicqW0NpJcii/RHIx6Z6dzddKAqmtmBRWJjWgCozvWqL6TBZeQE
+         KdB2qbrEc/V8+Xh4rOeZ8a+NFUkjk7tkx2L+97H+2CMjpGwKwi1iqkA9qgoZsfcLyWhU
+         NvpCJefKvh6tlD9tYFGXQEMikltE7qJj1U8aSYFCeYS/Yi9N1qFWiUmopqSGUasVWRnV
+         gVeA==
+X-Forwarded-Encrypted: i=1; AKwUvBzFHhrUS1tD1/+9OjX259KZMN5NqmhH+Dcj5uXW4ywtEKrDmoTt1zudyhspqlovXpXbkyWi0NA1vzc=@vger.kernel.org
+X-Gm-Message-State: AFuF++l+OIz6/16fkR6GPAm1JvD1T4gKtY7DLhFcEqVQ+iDRxrzTfIso
+	s8jI5oCPlbZV0nIpCNHS26BB5TV4wfJ76/gyhGf3yP5t0diLSZw+U4a5
+X-Gm-Gg: AYBFou2vGndsLJSVQHu4K9i8+ZFqJiJVXcvAKpeikFnYAUEB6ciqSQ57LOEm/yTMJ2l
+	CBdADoj1GjCXQO6PbJkpdxq2O7DrD/0Iws+pb3CEYDRLKrfrPBWs3riEY6V7sYF2i0DFtSJNLip
+	N4wigNReiKEdx8DAJgrATrMxGJ+6ZtmcuHfop+YeDCPUEArvgg9j3HXaKatJOmdctPcd3wmOMfo
+	ygXJzfh3cbutSsFx+prJo1bsnARdD30qaum46Xx2RjWtE/1kUGC09Emoj3QOlqTpdgR1z31WaC5
+	ca58ri3J1DsqVEC6wguNYTLcqMHMjFiNWNifRU3KCYfeZKsk4+5PTeUe9XS31IUgL8HugxUakj8
+	gHctkRLFgbEQVvqLg5QfkrSZFzJMUh/g22LqQ0hVV/W+43hrfoY9pxgHAupxX3Vp1RpYbcZ4Fvc
+	9iTJ2l6ca+L1WA8nRLhAjiz/QHRPA7sxf5NKvrRz6wpq5HL4RlR48lEr4CjYQp8UbZlCxIQj4kk
+	LvPTnOD+0TKhijnHIyS3qbYwCUT3qF0xaOY
+X-Received: by 2002:a17:90b:56c5:b0:39d:f95d:bd08 with SMTP id 98e67ed59e1d1-39e55008a3amr25857593a91.14.1790050583196;
+        Mon, 21 Sep 2026 21:16:23 -0700 (PDT)
+Received: from nzzhao-ThinkCentre-M760t.mioffice.cn ([43.224.245.179])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0674d65d4sm2204031a91.15.2026.09.21.21.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 21:16:22 -0700 (PDT)
+From: Nanzhe Zhao <nzzhao.sigma@gmail.com>
+X-Google-Original-From: Nanzhe Zhao <zhaonanzhe@xiaomi.com>
+To: Zi Yan <ziy@nvidia.com>
+Cc: David Hildenbrand <david@kernel.org>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
 	Lorenzo Stoakes <ljs@kernel.org>,
 	"Liam R. Howlett" <liam@infradead.org>,
 	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
 	Suren Baghdasaryan <surenb@google.com>,
 	Michal Hocko <mhocko@suse.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Baoquan He <baoquan.he@linux.dev>
-Cc: x86@kernel.org,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Kairui Song <kasong@tencent.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ian Rogers <irogers@google.com>,
+	Jan Kara <jack@suse.cz>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	Alex Markuze <amarkuze@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
 	kexec@lists.infradead.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Adrian Hunter <adrian.hunter@intel.com>,
 	linux-mm@kvack.org,
-	linux-efi@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Subject: [PATCH v3 4/4] kho: rename kho_scratch= commandline parameter to kho_bootmem=
-Date: Tue, 22 Sep 2026 06:13:16 +0200
-Message-ID: <20260922041321.233986-5-pratyush@kernel.org>
-X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
-In-Reply-To: <20260922041321.233986-1-pratyush@kernel.org>
-References: <20260922041321.233986-1-pratyush@kernel.org>
+	Hongbo Li <hongbohbli@tencent.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Chunhai Guo <guochunhai@vivo.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Tal Zussman <tz2294@columbia.edu>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Yue Hu <zbestahu@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>,
+	Minchan Kim <minchan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	x86@kernel.org,
+	ceph-devel@vger.kernel.org,
+	Eric Biggers <ebiggers@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Wei Xu <weixugc@google.com>,
+	xen-devel@lists.xenproject.org,
+	Gao Xiang <xiang@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Byungchul Park <byungchul@sk.com>,
+	James Clark <james.clark@linaro.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	linux-fscrypt@vger.kernel.org,
+	Borislav Petkov <bp@alien8.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-mtd@lists.infradead.org,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Juergen Gross <jgross@suse.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	linux-nfs@vger.kernel.org,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	linux-kernel@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-perf-users@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org,
+	Trond Myklebust <trondmy@kernel.org>,
+	Chao Yu <chao@kernel.org>,
+	Daeho Jeong <daeho43@gmail.com>
+Subject: Re: [PATCH v5 00/17] Remove PG_private by using page/folio->private checks instead
+Date: Tue, 22 Sep 2026 12:16:00 +0800
+Message-ID: <20260922041600.1240429-1-zhaonanzhe@xiaomi.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260920-remove-pg_private-v5-0-bb68b6a21869@nvidia.com>
+References: <20260920-remove-pg_private-v5-0-bb68b6a21869@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,76 +169,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Pratyush Yadav (Google)" <pratyush@kernel.org>
+Hi Zi Yan,
 
-KHO now no longer uses "scratch" to describe the memory areas passed by
-previous kernel. Instead, it calls them boot memory, or bootmem in
-short. Rename the kho_scratch= commandline parameter to reflect this
-terminology change.
+Thanks for the series. The cleanup is a nice help for the f2fs
+large-folio work -- it removes the page-based private-flag plumbing that
+my series would otherwise have to carry itself.
 
-Signed-off-by: Pratyush Yadav (Google) <pratyush@kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- Documentation/admin-guide/mm/kho.rst            | 4 ++--
- kernel/liveupdate/kexec_handover.c              | 6 +++---
- 3 files changed, 6 insertions(+), 6 deletions(-)
+My large-folio series v2 [1] can be rebased on top of this series. The
+only overlap is the PAGE_PRIVATE_* flag helpers, which I can re-express
+on top of the F2FS_FOLIO_PRIVATE_* names while keeping the
+f2fs_folio_state indirection.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6132fa73382a..8a42a924f133 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3031,7 +3031,7 @@ Kernel parameters
- 			"0" | "off" | "n" - kexec handover is disabled
- 			"1" | "on" | "y" - kexec handover is enabled
- 
--	kho_scratch=	[KEXEC,EARLY]
-+	kho_bootmem=	[KEXEC,EARLY]
- 			Format: ll[KMG],mm[KMG],nn[KMG] | nn%
- 
- 			Defines the size of the KHO boot memory region. The
-diff --git a/Documentation/admin-guide/mm/kho.rst b/Documentation/admin-guide/mm/kho.rst
-index a6a09b693413..902d171a780a 100644
---- a/Documentation/admin-guide/mm/kho.rst
-+++ b/Documentation/admin-guide/mm/kho.rst
-@@ -20,8 +20,8 @@ need to enable if you would like to preserve their respective state across
- kexec.
- 
- To use KHO, please boot the kernel with the ``kho=on`` command line
--parameter. You may use ``kho_scratch`` parameter to define size of the
--boot memory regions. For example ``kho_scratch=16M,512M,256M`` will reserve a
-+parameter. You may use ``kho_bootmem`` parameter to define size of the
-+boot memory regions. For example ``kho_bootmem=16M,512M,256M`` will reserve a
- 16 MiB low memory bootmem area, a 512 MiB global bootmem region, and 256 MiB
- per NUMA node bootmem regions on boot.
- 
-diff --git a/kernel/liveupdate/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
-index fe4b76ff5a2c..7018e25e4eda 100644
---- a/kernel/liveupdate/kexec_handover.c
-+++ b/kernel/liveupdate/kexec_handover.c
-@@ -671,12 +671,12 @@ unsigned int kho_bootmem_cnt;
-  * The bootmem areas are scaled by default as percent of memory allocated from
-  * memblock. A user can override the scale with command line parameter:
-  *
-- * kho_scratch=N%
-+ * kho_bootmem=N%
-  *
-  * It is also possible to explicitly define size for a lowmem, a global and
-  * per-node bootmem areas:
-  *
-- * kho_scratch=l[KMG],n[KMG],m[KMG]
-+ * kho_bootmem=l[KMG],n[KMG],m[KMG]
-  *
-  * The explicit size definition takes precedence over scale definition.
-  */
-@@ -751,7 +751,7 @@ static int __init kho_parse_bootmem_size(char *p)
- 
- 	return 0;
- }
--early_param("kho_scratch", kho_parse_bootmem_size);
-+early_param("kho_bootmem", kho_parse_bootmem_size);
- 
- static void __init bootmem_size_update(void)
- {
--- 
-2.55.0.1082.g2b9226bbc0-goog
+Jaegeuk, do you have a preference on the ordering here? My personal
+suggestion would be to review and merge this series first, and I'll
+rebase on top of it.
 
+[1] https://lore.kernel.org/linux-f2fs-devel/20260915041909.2903887-1-zhaonanzhe@xiaomi.com/
+
+Thanks,
+Nanzhe
