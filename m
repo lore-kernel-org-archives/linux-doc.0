@@ -1,52 +1,67 @@
-Received: from mta1.migadu.com (out-210.mta1.migadu.com [95.215.58.210])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181783C584E
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 03:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED54C1D4606;
+	Tue, 22 Sep 2026 04:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790047350; cv=none; b=JJOb0OjDTrVs4bpUNhKIOW9B6e9a3ghDHVYIkf1EnzCWyU+z/s4cMAWUuYA7GD+ziatLE2KBVvoMNMSlWki1wETAxmYUaiXCdbhyhjFdKHihQ7vREMKDNwS7iYLlIB1JymhmtUsNwZH9lfF6d4FbHJPGs4f1082YQZVtKtUJAEk=
+	t=1790050421; cv=none; b=ETneagJz1eXhdTpoveIOOQRrrgHNZ6smNvkIONluWFaRzvGFEy+vIweu7+yg91WRJ7DYZypPSEjg8jrDBAeOwqhR6NjQiqUOGTPxRX0z/Y2Nttr3XKk/1okKX+BiOT1j3frrvWS0h5/KCVVcg+V751UaOrFzryyHrDDpxTRT5Ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790047350; c=relaxed/simple;
-	bh=7JPshgisP/gZKt07zp73sn2ZgmhMnlsFZ1jh2Bjoutk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FxbFXEtHs8tojvwcXEta7fBef79y6WF03zc5NumI5Q7Qa7v5UU2bxWVNkYXPAKhZf/K2j4tlNbfIWjwIR27ipUUur762rENGzWehaKvtrO8haR78W4fvGRUAh6YZp0M4EGL7qOsugp4J7jUU4gjVqAm3SCZAq0bpX6NHy4aznF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qbeh/PYn; arc=none smtp.client-ip=95.215.58.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790050421; c=relaxed/simple;
+	bh=OB4UmSRw0mSQ33AIr3nLsBuBq5YInvI32uewwW0vicQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=soX9HL4MES0/2YW3B1fExWCxQtkbUw3/NwbVMBCNeneyg30y2g4IqLC5Bm8ixiDX+PaRJXPp8ZLlgcyyarB5oY+m/oHe3WjDCB/wFm/zcNXeTsFWGuAfyzvAEVC6n9Z4d7LYci1rj79xmTUmzkDa4qJtwYp4XQaDRyegaQWs+sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UIKqt4PE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qbeh/PYn"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=7JPshgisP/gZKt07zp73sn2ZgmhMnlsFZ1jh2Bjoutk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790047347; v=1; x=1790652147;
- b=qbeh/PYneXt/Z16/KO0X49SzL25xMr46LzdcaT+zpPhASXEJOiIhm/yJhpw8JvqkqwoJwodG
- 8TU1arKIF5Z2jo0jK7N4ykUxoJHyaXg6Qs9aEcWxTQ8JHtkEjjN3fWcvdvHZW4e3PtO51Gj7PCk
- SI95588ILYb0kQY/zla9e1tg=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 0ca956a7054bf7e0;
-	Tue, 22 Sep 2026 03:22:26 +0000
-X-Mizu-Trace-ID: 0ca956a7054bf7e0
-X-Migadu-Flow: FLOW_OUT
-From: Guopeng Zhang <guopeng.zhang@linux.dev>
-To: Waiman Long <longman@redhat.com>,
-	Ridong Chen <ridong.chen@linux.dev>
-Cc: Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UIKqt4PE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A081F000FF;
+	Tue, 22 Sep 2026 04:13:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790050418;
+	bh=JtaSAfNZWJ/23JZX4TX1si8kmJS1+YCVEwp8EWMG/RM=;
+	h=From:To:Cc:Subject:Date;
+	b=UIKqt4PEYrcADAfd+X2Wgtg6yh6AcL9MgOaTuTIKnSsq4LFg5XqQR2zHe9a/ZbAZv
+	 m+enA1NTkG0SjCXRCFXP0rEzr26MhL5V9/DlyS0N9M+dbPcNkfjfbI6qxWLrV3AGcQ
+	 F3m14qPPRKSTGOHRe1Wc348dK9bu5BEQLL4QGi7fNaC0EKz/MHjyOpaPM+j4PY7CD9
+	 dEZsxjewEOy7CriZpl8V2yde9l7wtfE+/It8Xuw7X2Fq7zl34avEJRhdc/imcFaBc7
+	 zT0GYqf/8DrAL++a16JNCp3QcZJ1dBhofzrgoQP5HvM3CLTXkUKuncZvjrzY4x/kWh
+	 BaKemxUoYJoOQ==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	cgroups@vger.kernel.org,
+	Mike Rapoport <rppt@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baoquan He <baoquan.he@linux.dev>
+Cc: x86@kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Guopeng Zhang <zhangguopeng@kylinos.cn>
-Subject: [PATCH v2 2/2] docs: cgroup-v2: Describe effective CPUs of partition roots
-Date: Tue, 22 Sep 2026 11:21:30 +0800
-Message-ID: <20260922032130.33777-3-guopeng.zhang@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260922032130.33777-1-guopeng.zhang@linux.dev>
-References: <20260922032130.33777-1-guopeng.zhang@linux.dev>
+	kexec@lists.infradead.org,
+	linux-mm@kvack.org,
+	linux-efi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Subject: [PATCH v3 0/4] kho: rename "scratch" to "bootmem"
+Date: Tue, 22 Sep 2026 06:13:12 +0200
+Message-ID: <20260922041321.233986-1-pratyush@kernel.org>
+X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,91 +70,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Guopeng Zhang <zhangguopeng@kylinos.cn>
+From: "Pratyush Yadav (Google)" <pratyush@kernel.org>
 
-The cpuset.cpus.effective description says that the effective CPUs are
-granted by the parent and are normally a subset of cpuset.cpus. This
-does not always hold for a valid non-root partition root. Its effective
-CPUs are the active CPUs in cpuset.cpus.exclusive.effective after CPUs
-assigned to valid child partition roots are removed.
+The term "KHO scratch" is vague and overloaded. It does not accurately
+describe what the memory is for. This was discussed previously at [0].
+The conclusion was to rename "KHO scratch" to "KHO bootmem", since this
+is memory passed by the previous kernel for early boot allocations.
 
-If cpuset.cpus.exclusive differs from cpuset.cpus, the effective CPUs
-may therefore be outside cpuset.cpus. Remote partitions also do not
-necessarily get their CPUs from their immediate parent.
+In addition, memblock does not care about the provenance of the memory.
+It cares more about how it should use it. Use MEMBLOCK_KHO_NOPRSRV,
+instead of MEMBLOCK_KHO_SCRATCH, to describe this memory to memblock.
 
-Suggested-by: Ridong Chen <ridong.chen@linux.dev>
-Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
----
- Documentation/admin-guide/cgroup-v2.rst | 56 ++++++++++++++++++++-----
- 1 file changed, 46 insertions(+), 10 deletions(-)
+This series does the renames. It also gets rid of a redundant Kconfig.
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 18a01ce4c334..d21bbae3312a 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2505,16 +2505,52 @@ Cpuset Interface Files
- 	A read-only multiple values file which exists on all
- 	cpuset-enabled cgroups.
- 
--	It lists the onlined CPUs that are actually granted to this
--	cgroup by its parent.  These CPUs are allowed to be used by
--	tasks within the current cgroup.
--
--	If "cpuset.cpus" is empty, the "cpuset.cpus.effective" file shows
--	all the CPUs from the parent cgroup that can be available to
--	be used by this cgroup.  Otherwise, it should be a subset of
--	"cpuset.cpus" unless none of the CPUs listed in "cpuset.cpus"
--	can be granted.  In this case, it will be treated just like an
--	empty "cpuset.cpus".
-+	It lists the active CPUs available to tasks in this cgroup.
-+
-+	For a cgroup that is not a valid partition root, an empty
-+	"cpuset.cpus" makes "cpuset.cpus.effective" show all CPUs
-+	available from the parent cgroup. Otherwise, it is a subset
-+	of "cpuset.cpus" unless none of the requested CPUs can be
-+	granted. In that case, it is treated like an empty
-+	"cpuset.cpus".
-+
-+	For example::
-+
-+	  P (cpuset.cpus.effective=0-3)
-+	  |
-+	  +-- C0 (member):       cpuset.cpus=1-2
-+	  |                      cpuset.cpus.effective=1-2
-+	  +-- C1 (invalid root): cpuset.cpus=4-5
-+	  |                      cpuset.cpus.effective=0-3
-+	  \-- C2 (member):       cpuset.cpus=<empty>
-+	                         cpuset.cpus.effective=0-3
-+
-+	C0 gets CPUs 1-2 because they are available from P.
-+	None of C1's requested CPUs 4-5 are available from P, so C1 uses P's
-+	effective CPUs 0-3 instead.
-+	C2 has an empty "cpuset.cpus" and therefore also uses P's effective
-+	CPUs 0-3.
-+
-+	For a valid non-root partition root, "cpuset.cpus.effective" contains
-+	the active CPUs from "cpuset.cpus.exclusive.effective" except
-+	those granted to valid child partition roots. If
-+	"cpuset.cpus.exclusive" is set to a value different from
-+	"cpuset.cpus", the effective CPUs need not be a subset of
-+	"cpuset.cpus".
-+
-+	For example, if CPUs 2-5 are active, available, and not assigned
-+	to a valid child partition root::
-+
-+	  top (root)
-+	  |
-+	  \-- P (valid partition root)
-+	      cpuset.cpus=0-3
-+	      cpuset.cpus.exclusive=2-5
-+	      cpuset.cpus.exclusive.effective=2-5
-+	      cpuset.cpus.effective=2-5
-+
-+	P has 2-5 in "cpuset.cpus.effective" even though its
-+	"cpuset.cpus" is 0-3.
- 
- 	Its value will be affected by CPU hotplug events.
- 
+While the diffstat is big and scary, most of the changes are mechanical.
+The most interesting functional change is in patch 4.
+
+This series touches a lot of files across a lot of trees. But since all
+of that is purely KHO-related code, I would like to collect ACKs from
+the maintainers and take it via the liveupdate tree.
+
+Ideally we should queue it in liveupdate/next early in the v7.4 cycle
+since it will cause a lot of conflicts with other patches throughout the
+KHO tree.
+
+[0] https://lore.kernel.org/kexec/agHGOxSnP_VraH1M@kernel.org/T/#u
+
+Changes in v3:
+- Fixup some typos and update some leftover comments still referring to
+  "scratch".
+- Update early_init_dt_check_kho() to use bootmem instead of scratch.
+
+Changes in v2:
+- Rebase on latest liveupdate/next.
+
+Pratyush Yadav (Google) (4):
+  memblock: get rid of CONFIG_MEMBLOCK_KHO_SCRATCH
+  memblock: rename KHO_SCRATCH to KHO_NOPRSRV
+  kho: rename KHO scratch to KHO bootmem
+  kho: rename kho_scratch= commandline parameter to kho_bootmem=
+
+ .../admin-guide/kernel-parameters.txt         |  15 +-
+ Documentation/admin-guide/mm/kho.rst          |  18 +-
+ Documentation/core-api/kho/index.rst          |  36 +-
+ arch/x86/boot/compressed/kaslr.c              |  12 +-
+ arch/x86/include/uapi/asm/setup_data.h        |   4 +-
+ arch/x86/kernel/e820.c                        |  11 +-
+ arch/x86/kernel/kexec-bzimage64.c             |   6 +-
+ arch/x86/kernel/setup.c                       |   2 +-
+ arch/x86/realmode/init.c                      |   2 +-
+ drivers/firmware/efi/efi-init.c               |   6 +-
+ drivers/of/fdt.c                              |   8 +-
+ drivers/of/kexec.c                            |  16 +-
+ include/asm-generic/kexec_handover.h          |   2 +-
+ include/linux/kexec.h                         |   2 +-
+ include/linux/kexec_handover.h                |  16 +-
+ include/linux/memblock.h                      |  30 +-
+ kernel/kexec_file.c                           |   4 +-
+ kernel/liveupdate/Kconfig                     |   1 -
+ kernel/liveupdate/kexec_handover.c            | 340 +++++++++---------
+ kernel/liveupdate/kexec_handover_debugfs.c    |  24 +-
+ kernel/liveupdate/kexec_handover_internal.h   |   4 +-
+ mm/Kconfig                                    |   4 -
+ mm/memblock.c                                 |  56 +--
+ mm/memfd_luo.c                                |   3 +-
+ mm/mm_init.c                                  |   6 +-
+ tools/testing/memblock/internal.h             |   2 +-
+ 26 files changed, 313 insertions(+), 317 deletions(-)
+
+
+base-commit: db3db4c33a1cf89a201ad1a11c63f503b248ee32
 -- 
-2.43.0
+2.55.0.1082.g2b9226bbc0-goog
 
