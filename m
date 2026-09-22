@@ -1,152 +1,261 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFE45275AB;
-	Tue, 22 Sep 2026 11:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E53C53D9D3
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 12:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790077772; cv=none; b=MZBbZNrR7vALmgJhnXb2pmZirTuHrYV3V5M26F8AsQ3y9+SqZ5DUqqiG46q0zuFjJSP3eroPmFqwEApxwXSVOIvmznEEeu9bCyZkeSOBVvca+NGA3f/01dJKuGdNCWTmdjUImsfuZz7RITfLVNHQaVnL0BwGGfbjfHNlX5UUGY4=
+	t=1790078656; cv=none; b=OWP+XCzW1/INqa7Ir8Lv5cpk6SVG65qrPNa89ct3Nujz7gqWWvICTJniqYOZQpnfPbBSJRx7VAz6WC9GtuBoDNeGRg0hHmJl+noSpBUR9Fwdi1FX8NNXy7KP0HdO6yMZgMOIG2/IdzfYz9OxPCiLkH5LDFbg0S6hkF2u6E4KBwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790077772; c=relaxed/simple;
-	bh=kPZbvQJojUz56uz5x2Xkq5TaowtSZU433spfKSmwdZE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T1+xIlOKwva5XefvONzc5y4P8iyWZxukSlT4RHrK/eZFrh6RUbcDKjln2i6//btQ45h8rbi6LXA7QRlVyULZzCpCIqxxzpSsDo2Nekb7yfrUnWZ96i/5XYtl5JvAlb/Wdwvki9+AwUnL/s3uDG3eT0OU1HngSQv6mY6g5lq/x78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=qgyzve1n; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1790078656; c=relaxed/simple;
+	bh=v22sBIzYdVl9buaoLnuNOFzN2VDCCr/DjOQhVovMXGs=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=hxQJ3Y2PhRUWnZCfRXwwme4lYs0taGYUgB3Gr95/uSNgfVN3D3rJCTID9yqU2Ad5sUJwnx9Ii5kIyyCQy4498+kuLxDeoOCPvw7Iy/LXuGaGSDRkybn6NQm3gZ7r55U2O+CWyDeRvDe3XEXD5tDfsOc7WqPkeus/gNo2SGBpu8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4T+HWbi; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="qgyzve1n"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68MBZWdI343496;
-	Tue, 22 Sep 2026 11:49:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=OlQdGT
-	d5/teWfKx6IZe2I3T2vvhzZmjui1+3FOLy4RE=; b=qgyzve1nZ4OJJTgOkt/EXP
-	fXMWkC3pQ4Z4h53l5pKyj4BauY0fwWyhEhZ41JgB4q2x1AJDOmQ9gCKmZpX6CrMp
-	wrlbXf6GpEqC7KQE5J10y9JCZ6nXiS0UqfrXeq7EQUTxg6vkB1ySMoZAVlw9n33c
-	vhys3HRuDnoIvaHKkyy/MNrOKRCGbXUlR3aLZ9pZKIbuvsu6Au1cXnUCLRSU8xGi
-	b6UxW2ngmRgU+pDQE2TobrNzr5mU+yDyr6G1RrJeU6WGDv4Gqwgc5/seVU6t7OOB
-	BBxZH6V5o7KThN39FWXBh3I2BOMbjgU5ny6lT2sP7JnK5vApKDIiPjaUmEf5pYWQ
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gskdv57kx-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 22 Sep 2026 11:49:18 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68MBWZD62794786;
-	Tue, 22 Sep 2026 11:49:18 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gt67gsjp6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 22 Sep 2026 11:49:18 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68MBnHTa64422350
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 22 Sep 2026 11:49:17 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9FC0758055;
-	Tue, 22 Sep 2026 11:49:17 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A508E5804B;
-	Tue, 22 Sep 2026 11:49:15 +0000 (GMT)
-Received: from [9.61.66.235] (unknown [9.61.66.235])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 22 Sep 2026 11:49:15 +0000 (GMT)
-Message-ID: <2569f9f9-451d-4e66-be71-d0514fa93864@linux.ibm.com>
-Date: Tue, 22 Sep 2026 07:49:15 -0400
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4T+HWbi"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49fbc3db5fbso947795e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 05:04:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790078652; x=1790683452; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qml2PbOBMg4u6d68pHNR0xGKGyBdB48smU89SM0opl8=;
+        b=W4T+HWbiXmsW4PQ4bQ95yRPUHD0BfCClSSMhVTDaRhcf4AhiJq7y2u6HDyYiLYhZ5Z
+         Mq/LDtX59WKdOd/TEZv8YTee1PfgeV7QeTdDvd4SMHP8rlJqKLmCvH4Os0hX20bzrGBS
+         vKI0DyNJD+IuGotCcrOPLeEbCntZH66kgmnbkWhv3JLNxh9paH6L3m+QMLRf5T/gP1aS
+         T4xAOS9m+OmwW0KIx3pwRl/MhKdKQ2QxskppmNaJ6+Z2C6LVo4uvw943b9IwQau2OE9/
+         e7EyBFLiFgeN4+imKxT+QntDKE86fp8JB5QlykiSbd2WwdLNu824j1oY6wj9pgNTaeQR
+         rqHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790078652; x=1790683452;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=qml2PbOBMg4u6d68pHNR0xGKGyBdB48smU89SM0opl8=;
+        b=JGtuEyKPO7ravq8LBzkKnhQpuLnSEpAAuKzcnV+kcl1+J4UBItOv18EsKSxBJfvJAz
+         hzOxwHSn37P6SiwHYMXDUQE5xvDFLfombEAPw//P2uaTLQpOcIHZBtbZYY2jCS9+LcBe
+         Z9Xpv/nR1D5jpPB6FWuQk0PeJOvdrqNDoakjhX7ZDP7B6NBcLqbIGNnETDRBEu+c43CX
+         tE+10n73MJrfqjuQZxgY5oGYmRlY2O+FbqGsD9TJyqhrYyaWp4Gn73vlxbTh4uPNB837
+         lO3c5b/Z9lKdi9pAPiMtm17F42sf6IDxPnOA1q/B5TpoMSLy6qlO6KNaPABHZHyrqmJZ
+         Hk2g==
+X-Forwarded-Encrypted: i=1; AKwUvBwfXs/CJIkTKzqHOXvW/T8IPwqNIJssMKYP5E81FJQGfAZQUDiU/7OxSh8rY+2VRJOCrGwJR+WSjQM=@vger.kernel.org
+X-Gm-Message-State: AFuF++nOiMdcWJp+giEzFMTi6l10cc/P+s6AGbLJKrz4nxguueFDOzOV
+	05oi31ouR1Ga7G1SgyQiKpqxwS50HtqVj3fLEi6rtaDCMo7yjdBxHwOF
+X-Gm-Gg: AYBFou0twU4IIexSl6IKf99ThZ6QbvRbsek47C/c9Py75sl8KjFmgysON62iVKCzA0I
+	9fQw0oXRAjzoLYmsCd0/WPDDlzNP3fm9tJFZWgJKSec3DxlwkOpx/elEKGDt0ggCglW2SEkVcn+
+	lEJBPSTE4udd1idc1yF8rhFQjgcvfI4rbKBMxGrdfMdF8Gzng8IwJHaw+aNJTOIA6KNDwiFAApl
+	KoO/mWLT17hOpOV0B2FNgBznHHSPigOfTSy668x3Xx8LVt0/UhfBxsAB1Q8zhXCUmowSsMS4jfO
+	DAfAneUkbgS16nUFzwVJ2cm9BIjHUd9Li/JFJeR0VD2hDkVl107eU2/cj6BhxArl7J6Q9VnUTsq
+	VQU2YMiQfkCG6kiLcxBZIpxbbwfF3eIktkoBRw8b3IReHhTfQrdPtsqUxHF6aynakx1V3L2fH7N
+	IkEsK/1ZHU64vdm0+DmuTOk5aeCOmAXh1VYv1ewDDRUIshN74BV4Ucq7jAkLDDT2b0jZidYFJ0p
+	ksS8VW3Uag9D2whT2Q=
+X-Received: by 2002:a05:600c:35c2:b0:49d:1da4:511b with SMTP id 5b1f17b1804b1-49fc7dd94c0mr206347865e9.1.1790078652203;
+        Tue, 22 Sep 2026 05:04:12 -0700 (PDT)
+Received: from L-P-ITAIH2-L-RF.rf.local ([193.169.70.108])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fdab0c240sm32469425e9.4.2026.09.22.05.04.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 05:04:11 -0700 (PDT)
+From: Itai Handler <itai.handler@gmail.com>
+To: Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	dm-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Milan Broz <gmazyland@gmail.com>
+Subject: [PATCH v2 0/1] dm-crypt: allow encryption sector size up to PAGE_SIZE
+Date: Tue, 22 Sep 2026 15:03:29 +0300
+Message-Id: <20260922120330.127262-1-itai.handler@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Add missing KVM s390 crypto attributes
-To: Eric Farman <farman@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org
-References: <20260918145151.2116991-1-farman@linux.ibm.com>
-Content-Language: en-US
-From: Anthony Krowiak <akrowiak@linux.ibm.com>
-In-Reply-To: <20260918145151.2116991-1-farman@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: pZmCBxNtzt_PIldQCJigl5ttS2hPmwyI
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIyMDE2NyBTYWx0ZWRfX8DW9ITZNVezP
- q4LE6GVXLQ/DRyXj+sVq/vF5llbWNSgnuQCwytMXz5HAsFWkM+9lg1xW9KeO3v+JN+nQvdrb1j4
- doqLtzmUgdrhO9XuAwRHDAcTqKQg79o=
-X-Authority-Analysis: v=2.4 cv=FLiOVOos c=1 sm=1 tr=0 ts=6ab26b3f cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
- a=d3y8_kawna_tOOV282gA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: UkMdUKLfUJwX3wPyHW6TAwvMXBT0ukNh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIyMDE2NyBTYWx0ZWRfXz9FcZ1yqGTgH
- qT6RfenlnCywdM8WwbzcbS461Euz4Womypp/AYna76GMSo3EaPnHB/lEPMRlrocmtfoHdMKvkO+
- PQpcnQL6zipczIXc/91n0BmtvlyjoGMfXHYGCSTLhydMZd1MxonYeexjG8RoClhDayC50isFJPU
- cpYdKgw01Zznl1ePZb+VB/x+cM5s6XVBIxZSuIhG5Uh/RF4HRyvQreNeS4VHN7E9xgj1zbwI+u5
- 2ENzTRYttsA0DA0vtEj8+KNpK2UlCBzsu3alUR41laCeq2yvYBM5/8wxQ/aPheU/jr41kai7U9E
- zdoyZ4eK2nt1gq/q1iHTT5IX+N1/iaFsbdvI/zjj3ExB4M8r9QrTVYt+rP3S/HmrQau/xKaPjNw
- orIONwDWuOV/Dy2oHIe7DULKZnyq/Ak/JcG2KIFr9IUwE/Cv2qLyrIvjEM29cIlvIYS0p3RrtNY
- 0jPcPsHXba0t+cw6Kvg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-22_01,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 phishscore=0 spamscore=0 clxscore=1011
- suspectscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609220167
+Content-Transfer-Encoding: 8bit
 
+dm-crypt caps the "sector_size:" option at 4096 bytes.  This raises the
+cap to min(PAGE_SIZE, BLK_MAX_BLOCK_SIZE), so that a kernel with a
+larger page size can use a larger encryption unit.
 
+dm-verity already bounds its data block size exactly this way -
+verity_ctr() rejects "num > PAGE_SIZE" - so this is the bound dm targets
+already use, not a new kind of limit.  Nothing changes where PAGE_SIZE
+is 4096, the default stays 512 bytes, and no table that loads today
+stops loading.
 
-On 9/18/26 10:51 AM, Eric Farman wrote:
-> Device attributes to enable/disable the AP interpretive execution
-> support for crypto were added to KVM several years ago, but they
-> weren't added to the documentation itself.
->
-> Fixes: 37940fb0b6a2 ("KVM: s390: device attrs to enable/disable AP interpretation")
-> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+This is v2 of
 
-Reviewed-by: Anthony Krowiak <akrowiak@linux.ibm.com>
+  https://lore.kernel.org/dm-devel/CAFpOueRBb9y_Fgb3-c6_eFTKZR9DoAXZmxqqx0UH1Yb2rbV0RQ@mail.gmail.com/
 
-> ---
->   Documentation/virt/kvm/devices/vm.rst | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
->
-> diff --git a/Documentation/virt/kvm/devices/vm.rst b/Documentation/virt/kvm/devices/vm.rst
-> index a4d39fa1b083..78e63eb9994e 100644
-> --- a/Documentation/virt/kvm/devices/vm.rst
-> +++ b/Documentation/virt/kvm/devices/vm.rst
-> @@ -280,6 +280,24 @@ Allows user space to disable dea key wrapping, clearing the wrapping key.
->   :Parameters: none
->   :Returns:    0
->   
-> +4.5. ATTRIBUTE: KVM_S390_VM_CRYPTO_ENABLE_APIE (w/o)
-> +-------------------------------------------------------
-> +
-> +Allows user space to enable AP interpretive execution.
-> +
-> +:Parameters: none
-> +:Returns:    0 for success
-> +	     -EOPNOTSUPP if AP instructions not available for guest
-> +
-> +4.6. ATTRIBUTE: KVM_S390_VM_CRYPTO_DISABLE_APIE (w/o)
-> +-------------------------------------------------------
-> +
-> +Allows user space to disable AP interpretive execution.
-> +
-> +:Parameters: none
-> +:Returns:    0 for success
-> +	     -EOPNOTSUPP if AP instructions not available for guest
-> +
->   5. GROUP: KVM_S390_VM_MIGRATION
->   ===============================
->   
+which was NACKed in 2021.  Below is what was objected to and what this
+version does about it.
+
+1. "4096 is the smallest page size all platforms support; with a larger
+   sector the device cannot be activated on a platform with a smaller
+   page size, and LUKS is portable by definition." (Milan)
+
+   Agreed, and nothing here changes that for LUKS.  Portability is a
+   property of the on-disk format, so it belongs to the format layer:
+   cryptsetup caps LUKS at 4096 on every path that writes a header, and
+   that is untouched.  What this patch changes is the plain dm-crypt
+   mapping, which has no on-disk metadata and no portability contract.
+
+   See "Userspace" below for the one place where that split needed
+   tightening, and for what is already posted.
+
+2. "Such a patch MUST increase dm-crypt minor version." (Milan)
+
+   Done, 1.29.0 -> 1.30.0.
+
+3. "It doesn't come with any understanding of all the nuanced reasons
+   for 4096." (Mike)
+
+   Fair.  The 4096 was two unrelated constraints in one number:
+
+   a) the portability rule above, which belongs to the format layer;
+
+   b) an implementation limit of dm-crypt itself: crypt_convert_block_*()
+      passes one sector to the crypto API as a single scatterlist entry
+      built from one bio_vec, bio_iter_iovec() never returns more than
+      PAGE_SIZE bytes, and crypt_alloc_buffer() may fall back to order-0
+      pages for the write bounce buffer.  That limit is PAGE_SIZE, not
+      4096.  The patch states this in a comment next to the new bound.
+      Letting one sector span several vectors would lift it further,
+      but that is separate work.
+
+   BLK_MAX_BLOCK_SIZE is in the bound because crypt_io_hints() announces
+   sector_size as the logical block size and blk_validate_limits()
+   refuses anything above that cap.  It does not lower the limit on any
+   configuration that exists today - it is 64K only with transparent
+   hugepages enabled, and the only architectures with a larger PAGE_SIZE
+   (hexagon and ppc44x, both 256K) cannot enable them - so the effective
+   bound is PAGE_SIZE.  It is there so dm-crypt cannot announce a block
+   size the block layer would reject if that ever changes.  Happy to
+   drop it and cap at PAGE_SIZE alone if you prefer.
+
+4. "The numbers are from a proprietary driver and from tcrypt, which
+   says nothing about dm-crypt." (Milan)
+
+   The numbers below are dm-crypt throughput measured with in-tree
+   drivers.
+
+5. "No random access numbers; write amplification will hurt small I/O."
+   (Milan)
+
+   It will, in the same way a filesystem block larger than the I/O size
+   does.  Nothing changes unless it is asked for.  Random access numbers
+   are included below.
+
+What has changed since 2021
+---------------------------
+
+"4096 is the smallest page size all platforms support" was also the
+block layer's position in 2021.  It is not any more: 47dd67532303
+("block/bdev: lift block size restrictions to 64k", v6.15) raised the
+block size limit to 64K on the grounds that blocksizes larger than
+PAGE_SIZE are now supported.  dm-crypt's 4096 predates that.
+
+This patch is deliberately more conservative than the block layer now
+allows, because of (3b) above: it does not go past PAGE_SIZE.
+
+Numbers
+-------
+
+arm64, 64K pages, qce (in-tree Qualcomm crypto engine), plain dm-crypt
+with capi:qcom-xts(aes)-plain64 over a 1 GiB ramdisk, fio with 1 MiB
+blocks, --direct=1 --iodepth=4 --ioengine=libaio, MB/s:
+
+  sector_size   seq read   rand read   seq write   rand write
+        4096        13.3        22.8        27.2         24
+       65536       581         582         586          588
+
+arm64 Cortex-A53, 64K pages, xts-aes-ce (CPU crypto extensions), plain
+dm-crypt over a Samsung 970 EVO NVMe, fio with 64 KiB blocks,
+--direct=1 --num_jobs=32, MB/s:
+
+  sector_size   rand read   rand write
+        4096         966          841
+       65536        1054          983
+
+This only helps where a crypto request carries a large fixed cost, that
+is with drivers offloading to hardware over DMA: a 64 KiB sector
+replaces sixteen descriptor setups and DMA round trips with one.  A CPU
+cipher has no such cost and gains little, as the second table shows.
+
+Userspace
+---------
+
+LUKS portability is enforced by cryptsetup, and every path that writes a
+LUKS header caps the encryption sector size at 4096.  No LUKS device can
+be created with a larger sector however new the kernel is.
+
+One gap is worth stating plainly rather than leaving to be found.  LUKS2
+header *validation* never bounded that field: hdr_validate_crypt_segment()
+only requires it to be non-zero and 512-aligned.  A header declaring
+65536 is therefore accepted as valid today, and is refused only because
+dm-crypt refuses the sector size.  On a 64K-page kernel with this patch
+such a header would activate.  It is a header no cryptsetup has ever
+written - it takes metadata corruption or a third-party writer to
+produce one - but the check belongs in the format layer either way.  A
+patch doing that is posted:
+
+  https://lore.kernel.org/cryptsetup/20260922100554.28692-1-itai.handler@gmail.com/
+
+It is not merged yet.  It is independent of this patch in both
+directions: it is a correct fix for cryptsetup on today's kernels, and
+this patch does not depend on it to be correct for plain mappings.
+
+A second cryptsetup change, lifting the cap for plain mappings only and
+gating it on dm-crypt 1.30.0, will follow once the target version here
+is final.  LUKS stays at 4096 in it.
+
+Testing
+-------
+
+Built for x86_64 and for arm64 with 4K and with 64K pages.  A temporary
+BUILD_BUG_ON confirmed the new bound is 4096 on x86_64, so the patch is
+a no-op there, and 65536 on arm64 with 64K pages.
+
+Booted under qemu-system-aarch64 and loaded a crypt table over /dev/ram0
+with dmsetup, reading back what the kernel recorded:
+
+  sector_size:  v1.29.0        this patch, 4K   this patch, 64K
+                 (4K and 64K)
+       4096     ok, 4096        ok, 4096         ok, 4096
+       8192     EINVAL          EINVAL           ok, 8192
+      65536     EINVAL          EINVAL           ok, 65536
+      69632     ok, 4096 (!)    EINVAL           EINVAL
+
+v1.29.0 behaves the same on both page sizes, which is the point: 8192 is
+refused today even where the page size would allow it.
+
+The last row is the %hu truncation described in the patch - 69632 wraps
+to 4096, the table loads, and the device announces a 4096-byte logical
+block size.  logical_block_size in sysfs followed the recorded sector
+size in every accepted case.
+
+Exercised on arm64 with a 64K page granule: plain dm-crypt with
+sector_size 65536 over NVMe, block level round trip, fio random
+read/write with crc32c verification, and a filesystem round trip on the
+mapped device, with KASAN, lockdep and kmemleak enabled.  sector_size
+512 and 4096 were run alongside as a regression check.
+
+Itai Handler (1):
+  dm-crypt: allow encryption sector size up to PAGE_SIZE
+
+ .../admin-guide/device-mapper/dm-crypt.rst    |  8 ++++-
+ drivers/md/dm-crypt.c                         | 30 +++++++++++++++----
+ 2 files changed, 31 insertions(+), 7 deletions(-)
+
+base-commit: 704340f1cd0dcef829eb62f5b48ae95a2ce17bdf
+-- 
+2.34.1
 
