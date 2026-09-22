@@ -1,248 +1,269 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-158.mta0.migadu.com [91.218.175.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F102486B99;
-	Tue, 22 Sep 2026 18:35:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EAC4908DC
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 18:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790102117; cv=none; b=BLl4dxEWMVVjhGtYwlhHqxJYkdc2N1kDcTXpP1dGGj/dPTueruMd9L+ldYza6NVu7KwVO3j94wY04hAaTgHKsj6N+ipjR4YEzI5VpScZ0KUqor9LTnS5fK8Rzw4msx2CTIy3kXTFERzrul7ueeSol8xR6cjMuGYlZNlM9TzfwZ8=
+	t=1790102205; cv=none; b=ATDcr5UeW3ANybalXfou8BWhFwUYro69hovEa1wnDGt+VubXt+JnWwLNw6OoteszExQ40uN3AUXZ8OUjedRQsK6yzmxY1MTWtq8nUsZFCpezq07FCnseXy7sVUpIEPkc/gZ3NqKBSg5sLOJ54j9sZEt0l0AEP2aDSkS4xuh2ob4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790102117; c=relaxed/simple;
-	bh=IVlpFEDWfSAfJLkX+yFwnPAe6E+OntAzgc8fkBaOFsE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qU35ubY+JB0a/rYJ2yOqVUecyCwnkGYJjsPJ6TGkEsGBxOJ/tk73UbmFrE07mLw7T8O/DYKiKtbC9pAtC6/t0kSn0NpO+xgRG6bvpJr8WNWmUQSrxvBFyyPpT6Jel7EJiOb1r2R9bMgVCKMnAfcuV5ghuKj/YQVby+3a8DAImag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gS7H4VV1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790102205; c=relaxed/simple;
+	bh=/+76OAMwYnGkbf/lDqubqIo1lwcC6f4Jt7YNkLvU34s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YZpGRRO8Nmnj5XmBbOIsK2w9dWIw5vHkOLFhcZpEnvaStXDy4p3g9q9PA96dlMId8c8E1YhVVMxWznbkyRS89po2mGNR05NdQA3WkuUSKzfbMCaznKvfizam3IR6759WRV8vBTsu6CxFeMccU61TVyPbMfm4VGAvepyXrUZI/d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=flGXvE7V; arc=none smtp.client-ip=91.218.175.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gS7H4VV1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 575E61F000FF;
-	Tue, 22 Sep 2026 18:35:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790102115;
-	bh=V2Wnj5RPep/Gg6xTG2yJLcOcZWZlxZ40baoPjkIZDiI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gS7H4VV15RsjyjT0PbQmFK2HFd32m/D7+DDeNvMhGVYWksjlGofm/M9HiqrSYX2TV
-	 JRovjuYETfq/88zMYxw4w0+Ki1klGj7H3zpzdqFXuHvyNThugWFqn4kkcqIOYIToaj
-	 AhUe4m3XXJ+IViD1k6FmV92REZDTseLIXQcPqYgsEUzILWmpAU/Sx+Gxykl/j2i3hB
-	 30uM1juMZRb0rsJQelVrYbEYU5iJiDW38igpw9qFtHwS3jWGj+maui80P5nNtG9ltK
-	 wWQpTzIrNHeMBWh7k9HUGaocCddJsWYub0pLTqGBMZU/LE9w+YLPUVSRtWVXqvFRHA
-	 smLpJQLrdrPGg==
-Date: Tue, 22 Sep 2026 19:35:06 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Oliver Upton <oupton@kernel.org>
-Cc: Sean Christopherson <seanjc@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Mark Rutland <mark.rutland@arm.com>, Fuad Tabba <fuad.tabba@linux.dev>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
-	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-	Leo Soares Passos <Leo.Bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>
-Subject: Re: [PATCH v3 01/14] KVM: Allow architectures to disallow pre-fault
-Message-ID: <arLJ4AbNN9Y_IUna@gremlin>
-References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org>
- <20260922-kvm-arm-prefault-v3-1-787bd3bc7e3f@kernel.org>
- <arKxjsxuO1F5ExrY@kernel.org>
- <arK5n9HrbZMCOHOt@google.com>
- <arK5ynpRi7VbY7Ek@gremlin>
- <arK8seJVT9wYgVCP@google.com>
- <arLD-eZ6dRvfZ52q@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="flGXvE7V"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=/+76OAMwYnGkbf/lDqubqIo1lwcC6f4Jt7YNkLvU34s=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790102201; v=1; x=1790707001;
+ b=flGXvE7VCIjGANdUnXI9zsDeZtMHNiktx5mCBs2azYvmB2JnZ5PkzfP0XlKZZmv7jlUPrqno
+ q4BK7jturHL43yxyPq2S1Kb3FbXkr6X1kbnzwZYYwY6Q8CK3aPEdq9SN3f1P+WmFda/DvmytRZn
+ 8qngDUEynY+NxvTdP6Cyiq4M=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 4506db173dfa046a;
+	Tue, 22 Sep 2026 18:36:30 +0000
+X-Mizu-Trace-ID: 4506db173dfa046a
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <2e88b92a-d3f2-41f7-bdbe-11fd71690606@linux.dev>
+Date: Tue, 22 Sep 2026 11:36:24 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <arLD-eZ6dRvfZ52q@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/13] PCI: liveupdate: PCI core support for Live
+ Update
+To: David Matlack <dmatlack@google.com>, kexec@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
+ Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+ David Rientjes <rientjes@google.com>,
+ Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+ Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+ Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pranjal Shrivastava <praan@google.com>, Pratyush Yadav
+ <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>,
+ William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
+ "yanjun.zhu@linux.dev" <yanjun.zhu@linux.dev>
+References: <20260918200640.887030-1-dmatlack@google.com>
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <20260918200640.887030-1-dmatlack@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 22, 2026 at 11:07:53AM -0700, Oliver Upton wrote:
-> On Tue, Sep 22, 2026 at 10:36:49AM -0700, Sean Christopherson wrote:
-> > On Tue, Sep 22, 2026, Lorenzo Stoakes (ARM) wrote:
-> > > On Tue, Sep 22, 2026 at 10:23:43AM -0700, Sean Christopherson wrote:
-> > > > Rather than have kvm_arch_vcpu_allow_pre_fault_memory(), what if we add a more
-> > > > generic kvm_is_vcpu_loadable()?  That way we don't need to worry as much about
-> > > > the return value, the connection to vcpu_load() is obvious, and we don't need to
-> > > > add another pre-check if future (or cleaned-up existing?) ioctls want to do
-> > > > vcpu_load() in common code.
-> > >
-> > > ...this is exactly what I started out with.
-> > >
-> > > But then you are in a pickle, because _really_ you need to do that check in
-> > > vcpu_load(). Which is a void function. Which is called by every single
-> > > architecture all over the place.
-> > >
-> > > So you'd have actually no way of signalling the error back.
-> > >
-> > > Of course those places are arch code and you could say 'arches should know
-> > > better and if they call it it's fine not to call the arch 'can you load'
-> > > function.
-> >
-> > Yes, that's my vote.  It'd be easy enough to clarify that "rule" with a comment
-> > in linux/kvm_host.h.
->
-> I feel like trying to make this generic will wind up under-documenting
-> the single example we have with the pre fault ioctl. Putting the comment
-> into a header practically guarantees that nobody will read it either.
->
-> I'd favor doing something like below and sticking the comment inline in
-> the ioctl handler. Unless I'm missing something blatantly obvious, I
-> don't see why the x86 or s390 pre-conditions can't be tested early too.
->
-> But I don't care enough to bikeshed this any further.
+在 2026/9/18 13:06, David Matlack 写道:
+> This series can be found on GitHub:
+> 
+>    https://github.com/dmatlack/linux/tree/liveupdate/pci/base/v9
+> 
+> This series introduces support in the PCI core for Live Update, enabling
+> drivers to preserve PCI devices across a kexec-based kernel update
+> without interrupting the device. This functionality is critical for
+> minimizing downtime in environments where PCI devices (e.g., those
+> assigned to VMs via VFIO) must continue operating or maintain state
+> across a host kernel upgrade.
+> 
+> Specifically, this series allows preserved PCI devices to perform
+> uninterrupted memory transactions (DMA) targeting system memory
+> (specifically, preserved memfds) across a Live Update. These devices can
+> be behind a bridge but must not be VFs. Support for P2P and VF
+> preservation will be addressed in future series.
+> 
+> Series Overview
+> ---------------
+> 
+> This series implements the following to support PCI device preservation
+> across Live Update:
+> 
+>    1. Set up a File-Lifecycle-Bound (FLB) handler to track and preserve
+>       PCI-specific state (struct pci_ser) across Live Update using Kexec
+>       Handover (KHO).
+> 
+>    2. Add APIs for drivers to register devices for preservation
+>       (outgoing) and for the PCI core to identify preserved devices
+>       during enumeration (incoming)
+> 
+>    3. Automatically preserve all upstream bridges for any preserved
+>       endpoint. Use reference counting to ensure bridges remain preserved
+>       as long as any downstream device is preserved.
+> 
+>    4. Guarantee that preserved devices retain the same RequesterID (bus,
+>       device, function) for the duration of their preservation by
+>       inheriting secondary bus numbers, subordinate bus numbers, and ARI
+>       Forwarding Enable on preserved bridges.
+> 
+>    5. Guarantee that memory transactions to/from preserved devices are
+>       routed consistently by inheriting Access Control Services (ACS)
+>       flags across a Live Update, from the endpoint up to the root port.
+> 
+>    6. Modify the PCI shutdown path to avoid disabling bus mastering on
+>       preserved devices, thereby allowing preserved devices to perform
+>       uninterrupted during kexec for Live Update.
+> 
+>    7. Provide comprehensive documentation for the FLB API, device
+>       tracking mechanisms, and the division of responsibilities between
+>       the PCI core, drivers, and userspace.
+> 
+> Merge Plan
+> ----------
+> 
+> This series will be merged through liveupdate.git, matching the
+> agreed-upon tree in the MAINTAINERS entry for PCI LIVE UPDATE.
+> 
+> Testing
+> -------
+> 
+> This series was tested in conjunction with v5 of the VFIO PCI driver
+> series:
+> 
+>    https://lore.kernel.org/kvm/20260714151505.3466855-1-vipinsh@google.com/
+> 
+> The full set of patches used for testing can be found on GitHub.
+> 
+>    https://github.com/dmatlack/linux/tree/liveupdate/pci/base/v9-with-vfio
+> 
+> Testing was performed using the new VFIO selftests:
+> 
+>    - vfio_pci_liveupdate_uapi_test
+>    - vfio_pci_liveupdate_kexec_test
+> 
+> Both tests were run in a QEMU-based VM environment (using a single
+> virtio-net PCIe device connected to a root port to exercise bridge
+> support) and on bare metal using an Intel EMR server with 8x Intel DSA
+> PCIe devices and 1x NVMe device.
+> 
+> Future Work
+> -----------
+> 
+> Following this series, we expect to make further improvements to the PCI
+> core support for Live Update:
+> 
+>    - Allow P2P across Live Update by avoiding resizing or moving
+>      preserved device BARs and preserving all upstream bridge windows.
+> 
+>    - Support preserving Virtual Functions by preserving SR-IOV
+>      configuration on PFs and enumerating VFs after Live Update.
 
-Haha yup :) this is eminately bikesheddable territory.
+Preserving the PCIe topology, bus numbers, ACS, and Bus Mastering across 
+kexec is a foundational step for minimizing downtime.
 
->
-> Thanks,
-> Oliver
+As we look toward complete end-to-end support for DMA preservation 
+across Live Update—especially for VFIO device passthrough and dma-buf 
+sharing scenarios—IOMMU table/domain preservation becomes crucial to 
+prevent IOMMU page faults when devices continue performing DMA during kexec.
 
-I'm fine with the below if x86/s390 people are.
+I would like to ask about the current status and roadmap regarding IOMMU
+Live Update / KHO (Kexec Handover) support:
 
-The inline comment is a cheeky trick that should help clarify intent (I think
-perhaps Sean that's what you meant re: people assuming it would check some local
-state?)
+Is there an ongoing effort or RFC series for IOMMU handover / page-table
+preservation currently in development or under discussion?
 
-Anyway if people think that's sane I can do on respin and we can settle on the
-lovely shade of purple or whatever the shed looks like now ;)
+How is the coordination between the PCI core Live Update mechanisms and
+the IOMMU subsystem being envisioned for preserving IOVA mappings (e.g.,
+restoring domains or handing over root tables)?
 
->
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index 8b080804bc90..396e64875fe7 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -1852,6 +1852,14 @@ static int kvm_arm_vcpu_set_events(struct kvm_vcpu *vcpu,
->  	return __kvm_arm_vcpu_set_events(vcpu, events);
->  }
->
-> +int kvm_arch_pre_fault_allowed(struct kvm_vcpu *vcpu)
-> +{
-> +	if (!kvm_vcpu_initialized(vcpu))
-> +		return -ENOEXEC;
-> +
-> +	return 0;
-> +}
-> +
->  long kvm_arch_vcpu_ioctl(struct file *filp,
->  			 unsigned int ioctl, unsigned long arg)
->  {
-> diff --git a/arch/s390/kvm/s390/s390.c b/arch/s390/kvm/s390/s390.c
-> index 5c73f43782a7..47fe032444f4 100644
-> --- a/arch/s390/kvm/s390/s390.c
-> +++ b/arch/s390/kvm/s390/s390.c
-> @@ -5784,6 +5784,14 @@ void kvm_arch_commit_memory_region(struct kvm *kvm, struct kvm_memory_slot *old,
->  	s390_kvm_mmu_commit_memory_region(kvm, old, new, change);
->  }
->
-> +int kvm_arch_pre_fault_allowed(struct kvm_vcpu *vcpu)
-> +{
-> +	if (kvm_is_ucontrol(vcpu->kvm))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * kvm_arch_vcpu_pre_fault_memory() -- pre-fault and link gmap dat tables
->   * @vcpu: the vcpu that shall appear to have generated the fault-in.
-> @@ -5810,9 +5818,6 @@ long kvm_arch_vcpu_pre_fault_memory(struct kvm_vcpu *vcpu, struct kvm_pre_fault_
->  	gpa_t end;
->  	int rc;
->
-> -	if (kvm_is_ucontrol(vcpu->kvm))
-> -		return -EINVAL;
-> -
->  	rc = kvm_s390_faultin_gfn(vcpu, NULL, &f);
->  	if (rc == PGM_ADDRESSING)
->  		return -ENOENT;
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 064ecc33b926..c35fd2868c20 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -5086,6 +5086,14 @@ static int kvm_tdp_page_prefault(struct kvm_vcpu *vcpu, gpa_t gpa,
->  	}
->  }
->
-> +int kvm_arch_pre_fault_allowed(struct kvm_vcpu *vcpu)
-> +{
-> +	if (!vcpu->kvm->arch.pre_fault_allowed)
-> +		return -EOPNOTSUPP;
-> +
-> +	return 0;
-> +}
-> +
->  long kvm_arch_vcpu_pre_fault_memory(struct kvm_vcpu *vcpu,
->  				    struct kvm_pre_fault_memory *range)
->  {
-> @@ -5095,9 +5103,6 @@ long kvm_arch_vcpu_pre_fault_memory(struct kvm_vcpu *vcpu,
->  	u64 end;
->  	int r;
->
-> -	if (!vcpu->kvm->arch.pre_fault_allowed)
-> -		return -EOPNOTSUPP;
-> -
->  	if (kvm_is_gfn_alias(vcpu->kvm, gpa_to_gfn(range->gpa)))
->  		return -EINVAL;
->
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 03bfc92864b6..bff842548c04 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -1693,6 +1693,7 @@ int kvm_arch_vcpu_should_kick(struct kvm_vcpu *vcpu);
->  bool kvm_arch_dy_runnable(struct kvm_vcpu *vcpu);
->  bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
->  bool kvm_arch_vcpu_preempted_in_kernel(struct kvm_vcpu *vcpu);
-> +int kvm_arch_pre_fault_allowed(struct kvm_vcpu *vcpu);
->  void kvm_arch_pre_destroy_vm(struct kvm *kvm);
->  void kvm_arch_create_vm_debugfs(struct kvm *kvm);
->
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 65eb26a0520d..07f2ce7a3cb3 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -3961,6 +3961,11 @@ bool __weak kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu)
->  	return false;
->  }
->
-> +int __weak kvm_arch_pre_fault_allowed(struct kvm_vcpu *vcpu)
-> +{
-> +	return 0;
-> +}
-> +
->  void kvm_vcpu_on_spin(struct kvm_vcpu *me, bool yield_to_kernel_mode)
->  {
->  	int nr_vcpus, start, i, idx, yielded;
-> @@ -4353,7 +4358,7 @@ static int kvm_vcpu_ioctl_get_stats_fd(struct kvm_vcpu *vcpu)
->  static int kvm_vcpu_pre_fault_memory(struct kvm_vcpu *vcpu,
->  				     struct kvm_pre_fault_memory *range)
->  {
-> -	int idx;
-> +	int idx, ret;
->  	long r;
->  	u64 full_size;
->
-> @@ -4365,6 +4370,14 @@ static int kvm_vcpu_pre_fault_memory(struct kvm_vcpu *vcpu,
->  	    range->gpa + range->size <= range->gpa)
->  		return -EINVAL;
->
-> +	/*
-> +	 * Certain architectures (e.g. arm64) need to reject the ioctl 'early'
-> +	 * before vcpu_load().
-> +	 */
-> +	ret = kvm_arch_pre_fault_allowed(vcpu);
-> +	if (ret)
-> +		return ret;
-> +
->  	vcpu_load(vcpu);
->  	idx = srcu_read_lock(&vcpu->kvm->srcu);
->
-> Thanks,
-> Oliver
+Any pointers to active discussion threads, RFCs, or future plans 
+regarding IOMMU participation in Live Update would be greatly appreciated.
 
---
-Cheers, Lorenzo
+Thanks,
+
+Yanjun Zhu
+
+> 
+> Changelog
+> ---------
+> 
+> v9:
+>   - Simplify pci_liveupdate_preserve_bus_numbers() to always return true
+>     if a device was preserved and drop pci_liveupdate_scan_bridge_end()
+>     (Bjorn)
+>   - Add pci_liveupdate_refuse_bus_numbers() to determine when it is safe
+>     for the PCI core to assign bus numbers to unconfigured bridges. This
+>     required moving "Auto-preserve upstream bridges across Live Update"
+>     before "Preserve bus numbers during Live Update" (Bjorn)
+>   - Add "PCI: Save and restore the ACS Control register" so that the ACS
+>     Control register is handled by the normal save/restore path (Bjorn)
+>   - Rename struct pci_liveupdate::was_preserved to was_incoming, to
+>     disambiguate incoming from outgoing preservation (me)
+>   - Log unfinished preserved devices from the incoming FLB rather than
+>     by walking struct pci_dev (Sashiko)
+>   - Document that state handed over by the previous kernel is trusted,
+>     and panic in pci_flb_retrieve() where failures are detected rather
+>     than unwinding into a caller that panics anyway (Sashiko)
+>   - Fall back to programming ACS from scratch when a preserved device has
+>     no ACS save buffer, since there is nowhere to record the adopted
+>     controls and they would be lost by the first reset (Sashiko)
+>   - Drop Reviewed-by tags from "Preserve bus numbers during Live Update"
+>     and "Adopt ACS controls in incoming preserved devices", both of which
+>     changed materially since v8
+>   - Extend commit messages and kernel-doc comments to make the FLB code
+>     flow more clear (Bjorn)
+>   - Address various spelling, formatting, and stylistic issues (Bjorn)
+> 
+> v8: https://lore.kernel.org/linux-pci/20260728221007.2098560-1-dmatlack@google.com/
+> v7: https://lore.kernel.org/linux-pci/20260710212616.1351130-1-dmatlack@google.com/
+> v6: https://lore.kernel.org/linux-pci/20260522202410.3104264-1-dmatlack@google.com/
+> v5: https://lore.kernel.org/linux-pci/20260512184846.119396-1-dmatlack@google.com/
+> v4: https://lore.kernel.org/linux-pci/20260423212316.3431746-1-dmatlack@google.com/
+> v3: https://lore.kernel.org/kvm/20260323235817.1960573-1-dmatlack@google.com/
+> v2: https://lore.kernel.org/kvm/20260129212510.967611-1-dmatlack@google.com/
+> v1: https://lore.kernel.org/kvm/20251126193608.2678510-1-dmatlack@google.com/
+> rfc: https://lore.kernel.org/kvm/20251018000713.677779-1-vipinsh@google.com/
+> 
+> 
+> David Matlack (13):
+>    PCI: liveupdate: Set up FLB handler for the PCI core
+>    PCI: liveupdate: Track outgoing preserved PCI devices
+>    PCI: liveupdate: Track incoming preserved PCI devices
+>    PCI: liveupdate: Document driver binding responsibilities
+>    PCI: liveupdate: Auto-preserve upstream bridges across Live Update
+>    PCI: liveupdate: Preserve bus numbers during Live Update
+>    PCI: Refactor matching logic for pci_dev_acs_ops
+>    PCI: Save and restore the ACS Control register
+>    PCI: liveupdate: Adopt ACS controls in incoming preserved devices
+>    PCI: liveupdate: Adopt ARI Forwarding Enable on preserved bridges
+>    PCI: liveupdate: Freeze preservation status during shutdown
+>    PCI: liveupdate: Do not disable bus mastering on preserved devices
+>      during kexec
+>    Documentation: PCI: Add documentation for Live Update
+> 
+>   Documentation/PCI/index.rst                   |    1 +
+>   Documentation/PCI/liveupdate.rst              |   35 +
+>   .../admin-guide/kernel-parameters.txt         |    7 +-
+>   Documentation/core-api/liveupdate.rst         |    5 +
+>   MAINTAINERS                                   |   15 +
+>   drivers/pci/Kconfig                           |   15 +
+>   drivers/pci/Makefile                          |    1 +
+>   drivers/pci/liveupdate.c                      | 1015 +++++++++++++++++
+>   drivers/pci/liveupdate.h                      |   62 +
+>   drivers/pci/pci-driver.c                      |    9 +-
+>   drivers/pci/pci.c                             |   79 +-
+>   drivers/pci/pci.h                             |    5 +
+>   drivers/pci/probe.c                           |   16 +-
+>   drivers/pci/quirks.c                          |   58 +-
+>   include/linux/kho/abi/pci.h                   |   66 ++
+>   include/linux/pci.h                           |    7 +
+>   include/linux/pci_liveupdate.h                |   72 ++
+>   17 files changed, 1429 insertions(+), 39 deletions(-)
+>   create mode 100644 Documentation/PCI/liveupdate.rst
+>   create mode 100644 drivers/pci/liveupdate.c
+>   create mode 100644 drivers/pci/liveupdate.h
+>   create mode 100644 include/linux/kho/abi/pci.h
+>   create mode 100644 include/linux/pci_liveupdate.h
+> 
+> 
+> base-commit: 945d61765894dda2f0344de50cb1ade2e51b66fd
+
