@@ -1,153 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f5.google.com (mail-ej2-f5.google.com [74.125.228.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05535558207;
-	Tue, 22 Sep 2026 13:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790082968; cv=none; b=od0vjX5mt6Jvumi+DdtD3GLaOYI4nxw8ajaUR8royW2euwVhG4uE5v+ZUfjeopS02abNP3IJ4K+DnzTOVVeoMnJFINmMsAGQtcWWCh86DaAPTQi/VvVyeE0hu9OC613eYw7RXkNKk3B+cCecBoz/z1Dtv32QNAvNkOoqekyI1HY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790082968; c=relaxed/simple;
-	bh=rf2jxPL/tOIqv6yozLftHFt6g3h6WjQ39OaZrMek0iY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k79R0X6Vtf5Fofr7omP8p+OY0+1xzg/HCc8zXXKIKtN9ume595drlG2crUKtyZyXZpKoCPCoCkl0qWAPF2Zzn+ei5ibb+sBPkkHPYLWkKvryVSSCQJATBPIPC99DomHjsqsb07CVcgAC+VTkuZ3CQLUvn8d0VBFjP2dA5hsRwCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q/dBf3NT; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B6E550DCE
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 13:26:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.133
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790083600; cv=pass; b=HXM0EAsGMbOJfMjK1EzLTIPWEBLVMgMfgzg6LWSsHDqGXe3mpLDmm6OZm5qBj1R59SbxlqXlLRg79CKrJVusR09dbpx1MxQby9l09i/Rpc+E5vbIxUFJM8aWG93j/93uh/9t0ixdfXtFLjFClwlfSNNfdS2Eo2+k9o012wIpkSM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790083600; c=relaxed/simple;
+	bh=ofxcWs5wvUKXDp1OvqNuIaoTkk52/+tItoWNT6uQhGU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H/YLQ0fyx5U7RxJpSTRdH98qrgX/gAMbSY0eK5GAhHUUxFh6/6Etc2pcY+3W9zy4KZApRV844W7K8n0IrFCFtA4I3kvLaxLqF57FQB3TTS2eqlrwvflfGn58Vcd7I7E6yp++MavrdYt+X3av8N/+7Cf4Ej6v0bFw9/Uih1uKQOg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k7QG8UfG; arc=pass smtp.client-ip=74.125.228.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q/dBf3NT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDD861F000FF;
-	Tue, 22 Sep 2026 13:16:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790082966;
-	bh=CpoW39srNxONPYDDUz/TIq2+ZKIxJUqkkB951WdQmPQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Q/dBf3NT/Ww+wRcc5uIHgrhtruBIFGlacnFvR7ih8VMAa7hijobiF9dvVF7dhvzZl
-	 n39/4D1yuLsOy1Ul9HczA19TRaq0OArc3EocFRog4HWjQg46B93Jsnz1nVFzMJ4zNN
-	 ELWifKxNMlpGjDhfVWJ2HyvpFVRg3yFsj+h+VfwlDBPTFcnhF6kPqgwDXAO3WkEeG1
-	 ei10QNgeiD1sj5fFTk7IO75osGIsVO0jTCdukJ30XsTym+1VUSNjAnyy3B+RJKXhm9
-	 b3/iN7ikP8P4ZLatk5n9VpJzC1lCEd6+fobw95uX8hsZbBZ38q4WTrUu+zjnYXqIbz
-	 TLzAQpbyGxjlQ==
-Message-ID: <2135509e-2689-4258-ab00-011d47f4b172@kernel.org>
-Date: Tue, 22 Sep 2026 15:15:55 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k7QG8UfG"
+Received: by mail-ej2-f5.google.com with SMTP id a640c23a62f3a-c2950c25486so346237066b.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 06:26:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790083596; cv=none;
+        d=google.com; s=arc-20260327;
+        b=R4H151uEi02I2eCItxETXIub4oJUvNnf7evFa+/TCRhCTasekXxgSMEOGBtMkWVlUM
+         tsLgcSEiHlKwIyqnA1hfsn+3DaC0e5NmHW7RO/JNNdBkKDUSnkeKrqVLbT+cwi4nBb/F
+         WKZywfocaXIErKZvs19CiEVJr2yQmHGe9uPWCSwwHvamTg3CgB95wLN20k+xGXsyavEN
+         k6lo0EqmQSyekVGHEr/3Wwb7WTMzD3GhLgzW/ckvanS7cZQti+0Vmf8cX3VWwt/EpcQS
+         nh4aqKj/+o1g/EryJkkZTSfD9Pw0G6J70qsC6V51Vj/9gZl0xb4SKZOCVp4pAl/fqBeS
+         eD2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ofxcWs5wvUKXDp1OvqNuIaoTkk52/+tItoWNT6uQhGU=;
+        fh=ZxyOxpiTdaBKPcvkFTdDORpv9cwzowZT9hQR2+Gs3FY=;
+        b=XY9PrOLKQPpPznctnD3wUInYBZwjzIfqukvgOAAarl4PvxOyMehvtDLwQFBluLQ/qB
+         EFP7ezMHjKqpgF1TouL436Fl16k149R2ASrj79poCS2Jx+ZKNRedQuhs7cGegix5VG3o
+         e60oq9sKRBFktlh4ye+5JJ+kas5bQctRsdKYS/QbNwfeE8WVOIwLGcIv3tHVjKH/K5UW
+         pJdmLLXmGI4/bV/d9zPtJnRd1CXaebElNJOuZDzDsWGLfV000giNoisyvij7+9TYVhQi
+         LKEMRD0xVYEVuWkXRpU6tVqVSIDYc+PQcI91kbX9/pn3TXvrgSXrcQz6CVHF45KKY8Jy
+         pVBA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790083596; x=1790688396; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ofxcWs5wvUKXDp1OvqNuIaoTkk52/+tItoWNT6uQhGU=;
+        b=k7QG8UfGL/xP5ISOf4kC+7AALJAldDYhkiDW+EjNQKPVre7w3pFTtuQx+F+/KMLY+B
+         YQmhjQkIYSLCNZ1JXYpF9virZ98xE1C/ssWGcowtGqjvaPoLhucfgT53NF68R6LqfkR2
+         nUcDirZ3oSzhh5OOSp1WrpuA5v9W1BB4FhLutTyYulsKBFPQKlxNoBNncxDSnAwE0g8I
+         epzOsk4jHMYeYjTrgSOqjCbUOiXAIHVrs/Mne5wM2BpEPM9Lu4Ab/vUJGhKJDdndxiTm
+         4GdLNe48KukkU+J5NHIAhpHK7spOdXzUrbNJo8Rje2uNNTU3sdmbD7Gqvx5pfc64tw5y
+         hSMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790083596; x=1790688396;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ofxcWs5wvUKXDp1OvqNuIaoTkk52/+tItoWNT6uQhGU=;
+        b=dWjVrVCMXLubzUGUm2J8ZLrMN5/0O/o0qkeR51HfsuAuV+1ioafHSanDmr6FzmuiRQ
+         KY7X+DbRaSspFltdQW9fvGjOMHP4+BbmuQfVTdiwhQXns+EVYiuLjqRyUkqhjWuqIBxy
+         exfJpv0v1OxzWQL+HYjSyaazQcANuWSlja9ZYipQ3s2CCEXdG0/4G/bNOBXWhnB52G8L
+         dHSjWJo08VW49r+R263ngdXbYLWZpQrn91zdWqGg3uxncrn5WUeAHNO22qSzDQs3XN/Z
+         gbAFqVVjBydbg/TmSA6L8h7QYwcFqJ8lucim4X7cyAlXRlPIIag8xefKHdxyDmSGRR1n
+         eo1w==
+X-Forwarded-Encrypted: i=1; AKwUvBzHFnAiG4soVAVZJCoQdD1whQ8cCD4LxqjczvHDXY82gt6MaqsjEBIRm5JVfrDHt+Ud0M86CCr5EFM=@vger.kernel.org
+X-Gm-Message-State: AFuF++mxwDWepgdx/bGQZWj257aLT8f6mgEd+bdHD3WwGxN9qb9ETwn6
+	QQzbCQFPQJLGD7HYb4pwvCE3mAyvYe3gH9M7gP/KQkQpLR8OfLl2owB6mDie3eJEuW/a4xQItrG
+	sKxu3A1/ZgHSTHIweXJmq5KfA0t1GY/8=
+X-Gm-Gg: AYBFou3buIPbL59ON6TP105uecYqnCk9IQak6TDazR23WwjBf4g+6auJ3OxGn/MN1U+
+	ycCald2GsQy6PJeRnErCTn/pGlqHWjkVHW00qK+aBT8QK/foasvmlC3WJiwb6GhZzB1ApubanKE
+	GsCTIMxjNPS7l2Vu8Zaa1b/qGGM8IATSYcAzezxJhcSTEOeMg5K6N6uIqE9EcogP4u3/4UG1o0N
+	WoF8x/zE5ImxCYGIVMSERd968d/c2Q+i3w7kljSmCHAQk10mFktbtrrwc+WmzjKeFQCE13ozjgC
+	yDsZYVLhrm2FGyXqGhup6qyhfHCCv3R8LXHUjHwR2RkSCBPKkNewTD8lYw==
+X-Received: by 2002:a17:907:962a:b0:c25:6c9a:88bc with SMTP id
+ a640c23a62f3a-c2a156ed781mr1064393666b.19.1790083595818; Tue, 22 Sep 2026
+ 06:26:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 02/25] firmware: arm_scmi: Allow registration of
- unknown-size events/reports
-To: Cristian Marussi <cristian.marussi@arm.com>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: sudeep.holla@kernel.org, james.quinlan@broadcom.com,
- f.fainelli@gmail.com, vincent.guittot@linaro.org, etienne.carriere@st.com,
- peng.fan@oss.nxp.com, michal.simek@amd.com, d-gole@ti.com, jic23@kernel.org,
- elif.topuz@arm.com, lukasz.luba@arm.com, philip.radford@arm.com,
- souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
- puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com,
- Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-References: <20260920091928.2014972-1-cristian.marussi@arm.com>
- <20260920091928.2014972-3-cristian.marussi@arm.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260920091928.2014972-3-cristian.marussi@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260916235200.20712-1-ansuelsmth@gmail.com> <20260921135933.7e8857ba@kernel.org>
+ <CA+_ehUwy9RUKCCHDnqoED3AMVnErgGr9RCrCR4ceg5QONq1wOQ@mail.gmail.com> <033fc935-c37a-4b0f-8b79-68248e45da8f@bootlin.com>
+In-Reply-To: <033fc935-c37a-4b0f-8b79-68248e45da8f@bootlin.com>
+From: Coia Prant <coiaprant@gmail.com>
+Date: Tue, 22 Sep 2026 21:26:23 +0800
+X-Gm-Features: AcwNN1Ur2tt8b16s6pIVEQsDoiyvx1gOYWr_ba3DyTwWp74e1eP8TDNhMjUzs84
+Message-ID: <CALj3r0gyfggFP-T+yXM2P=ooyQMk0AUfnpxtArk5ioU+wMNrxw@mail.gmail.com>
+Subject: Re: [PATCH net-next v16 00/12] net: pcs: Introduce support for fwnode PCS
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: "Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/20/26 11:19, Cristian Marussi wrote:
-> Allow protocols to register events with build-time unknown sizes: such
-> events can be declared zero-sized and let the core SCMI stack perform the
-> needed safe-net boundary checks based on the configured transport size.
+Maxime Chevallier <maxime.chevallier@bootlin.com> =E4=BA=8E2026=E5=B9=B49=
+=E6=9C=8822=E6=97=A5=E5=91=A8=E4=BA=8C 20:50=E5=86=99=E9=81=93=EF=BC=9A
+>
+> I'm attending a Rust training until thursday, I'll see if I can squeeze i=
+n some
+> time to re-test on mvpp2 :(
+>
+> There're a few series pending for rockchip and S32 on stmmac that deal wi=
+th
+> PCS support and their PCS handle. It would be nice to have some stmmac gl=
+ue
+> maintainers that are using complex PCS to help with maintainance or at le=
+ast
+> testing, maybe Coia can help with the tests ?
+>
+> Maxime
 
-ok, so we have a maximum message size defined by the transport. We'll use that
-as payload size, and the report size just gets the additional ktime_t.
+Hi Maxime,
 
+Thanks for thinking of me. I should be upfront about where I am though.
 
->  	pd = scmi_allocate_registered_events_desc(ni, proto_id, ee->queue_sz,
-> @@ -807,7 +821,8 @@ int scmi_register_protocol_events(const struct scmi_handle *handle, u8 proto_id,
->  		mutex_init(&r_evt->sources_mtx);
->  
->  		r_evt->report = devm_kzalloc(ni->handle->dev,
-> -					     evt->max_report_sz, GFP_KERNEL);
-> +					     evt->max_report_sz ?: max_report_sz,
+My focus this cycle is landing the RK3568 XPCS glue before the next
+merge window so it lands in the next LTS, and so downstreams like
+OpenWrt and ImmortalWrt don't have to carry a backport.
 
-Having two similarly named variables is a bit confusing. I wonder if you can
-somehow make it clearer in the latter case that it is the max_report_sz
-according to the transport.
+On testing Christian's series: my current glue goes from
+ethernet-pcs-mii@N up to the XPCS platform device and hands the virtual
+MDIO bus to xpcs_create_mdiodev(). Christian's series changes how the
+PCS is looked up, so testing it now would mean restructuring the
+Rockchip glue and rewriting the binding, and I can't fit that into this
+cycle on top of the initial merge.
 
-> +					     GFP_KERNEL);
->  		if (!r_evt->report)
->  			return -ENOMEM;
->  
-> diff --git a/drivers/firmware/arm_scmi/notify.h b/drivers/firmware/arm_scmi/notify.h
-> index f18f98c5ab3b..c2eb4844c7db 100644
-> --- a/drivers/firmware/arm_scmi/notify.h
-> +++ b/drivers/firmware/arm_scmi/notify.h
-> @@ -18,8 +18,12 @@
->  /**
->   * struct scmi_event  - Describes an event to be supported
->   * @id: Event ID
-> - * @max_payld_sz: Max possible size for the payload of a notification message
-> - * @max_report_sz: Max possible size for the report of a notification message
-> + * @max_payld_sz: Max possible size for the payload of a notification message.
-> + *		  Set to zero to use the maximum payload size allowed by the
-> + *		  transport.
+Once my glue is in and the lookup story has settled, I'll be glad to
+rebase and test =E2=80=94 and convert to xlate if that turns out to be the
+direction. I'd like to use xlate long-term, the timing just doesn't
+work for this window.
 
-"maximum payload size" is ph->hops->get_max_msg_size(ph) ? Should we call this
-"maximum message size" then?
+On maintenance: I'm a student and fairly new to this, so I can't take
+on the PCS subsystem as a whole. What I can commit to is helping where
+I have the bandwidth: testing when I can, and sharing some of the load
+on the XPCS glue layer (pcs-xpcs-plat and the platform glue drivers),
+plus a bit of pcs-xpcs work. If there are stmmac glue maintainers who
+can help cover the rest, that would be very welcome.
 
-> + * @max_report_sz: Max possible size for the report of a notification message.
-> + *		   Set to zero to use the maximum payload size allowed by the
-> + *		   transport plus the additional ktime_t timestamp.
-
-Same here.
-
--- 
-Cheers,
-
-David
+Thanks,
+Coia
