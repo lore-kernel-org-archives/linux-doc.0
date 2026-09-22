@@ -1,24 +1,40 @@
-Received: from mail-m15592.qiye.163.com (mail-m15592.qiye.163.com [101.71.155.92])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B358542EE7;
-	Tue, 22 Sep 2026 12:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D11A5448A3;
+	Tue, 22 Sep 2026 12:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790080750; cv=none; b=pMC8SEakMn/kDq4H9ApoAxK8z1pm01AzxFXDw4Nz5CJIUaYFxb2sGfYWO64sPEUXSk/U5BB7nDJukyAhFwfCpnSv/AVGwrVqUnnc1kkNPvSuA+jWrHX7DlTa04XphT5ir69oplDo6cpbgeLT+bX2l78lkXoItkA0wfLvrYr5pbo=
+	t=1790081420; cv=none; b=u3JOi7OIJ2kLkcRVYgsTgcAFBN3Ysu2LXxk35/Gb4+EcBsVt/Dj5T5KKh7uXqoDlvFXhC0apJQ6OiUdbgQEfC8h31P/jUGpIjQ6SJihZ9Ku76TyyQRCfw79E7GfFv0sjrFx5KbWk+DqBwMJ82pkUJMiICAH6T1e7Qks5g488fQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790080750; c=relaxed/simple;
-	bh=+hjTpQprf0Z8tlsaG+yPN+m4yjVcDMKXTcpEU/4pilI=;
+	s=arc-20240116; t=1790081420; c=relaxed/simple;
+	bh=3GHTJrgcGpWkQfsap4SwWOsGxwKhu+V/arurGwl6nIU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=t2h0r05THRgG9FEbRurifn3m4YMnum4w0cJJiRyHqrP+KS2JJFgxvMoa0UAT+oTJtikxFOy7Kn3SioPinCOYtQIarzXtf+1gfs09X1LO/0S8ORL/ope9WkHswjXgvBq4wgp1z28Gw6bmP9u5orSjz/g6DbyU/FHGKmwNzQ2eKdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn; spf=pass smtp.mailfrom=easystack.cn; arc=none smtp.client-ip=101.71.155.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=easystack.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=easystack.cn
-Received: from [192.168.0.59] (unknown [218.94.118.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 1f642799d;
-	Tue, 22 Sep 2026 20:33:41 +0800 (GMT+08:00)
-Message-ID: <0894f68a-9cef-47ac-bf8e-86cb18b6cf67@easystack.cn>
-Date: Tue, 22 Sep 2026 20:33:40 +0800
+	 In-Reply-To:Content-Type; b=Rfx2OmWaYsik9sYCgBfulzi25O0M4sIDb6Cy2r3oYIMcqW9or2rp06cP+uIf955zhIfpf7QQk6MW1rgzs85ZvwIotwH+XhNbFN0T1150BdRS7IDvit1QyGi/QRacrhU9TztaJNm/bm9/rkkm0jL16tZKLiz+c7JgviTQjy4t0ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SMWmOhVc; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SMWmOhVc"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id D7190C5CD71;
+	Tue, 22 Sep 2026 12:51:01 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 20F0160580;
+	Tue, 22 Sep 2026 12:50:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 645F4103289FC;
+	Tue, 22 Sep 2026 14:49:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790081409; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=Pp7mzsLIsbavEPfem5dhuoLyc27UEuONp1Ueoff5SSI=;
+	b=SMWmOhVcC5GkK+X8WZA70hvKKa1Ea1wfG8B8tKZVFCR7esnlKTgnDlY00+AKd/7poPloHR
+	lR4szN4Oz0HMmVM7SP1/j32iV/h2Uq917H6w8dkEjAohMivLHrGDR8Fw+6fUzrnnKNxdjQ
+	4xhNMo2FEdhN08NkltOWX+XkLxiMMc7ufK5UWQhsAdd6lR3tGFmyCoD2TZgRrFK+0I1xcn
+	TURJ6ab/JM9OX1x7Ch01AlIaPajCgUzc6U1MwPCAnwjSMPy8y4AEVW2IeKXCqscj2IIPXj
+	vEq7eaXP0k8jH2rJO/Cw8oKlRfsmb2MZuRrwyqrTY9XcfRn6NR8FbuDvLmERog==
+Message-ID: <033fc935-c37a-4b0f-8b79-68248e45da8f@bootlin.com>
+Date: Tue, 22 Sep 2026 14:49:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -26,111 +42,93 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] mm/page_owner: Add PID/TGID/COMM and cgroup
- filtering
-To: Zi Yan <ziy@nvidia.com>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- "David Hildenbrand (Arm)" <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R . Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+Subject: Re: [PATCH net-next v16 00/12] net: pcs: Introduce support for fwnode
+ PCS
+To: "Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
  Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260907082620.2083838-1-zhen.ni@easystack.cn>
- <79548641-25f3-4ec3-a549-782fad168962@kernel.org>
- <6e8bfb0d-d595-4e6b-9536-0323ada57e25@easystack.cn>
- <b8e23456-00af-4097-a769-210a087d2b90@kernel.org>
- <22D1EC4B-FBCB-421E-B8DA-345B5F3505FB@nvidia.com>
- <d8d34e16-57fa-48b7-93a9-afbf4b950ce6@easystack.cn>
- <98ca914b-4722-448d-b5a4-7f095d0ca433@kernel.org> <aqPmlw8WYW9HSzIV@gremlin>
- <99a94068-ab37-47c0-878c-7c1ada5204b2@easystack.cn>
- <8997BF57-2124-4F71-9CEE-6F7D31A15D87@nvidia.com>
-From: "zhen.ni" <zhen.ni@easystack.cn>
-In-Reply-To: <8997BF57-2124-4F71-9CEE-6F7D31A15D87@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0c91b8cd90229kunm1cdcecd753db0
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFJQjdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaTR4eVktDSBpNHksZGUweHVYVFA
-	kWGhdVGRETFhoSFyQUDg9ZV1kYEgtZQVlJSkNVQk9VSkpDVUJLWVdZFhoPEhUdFFlBWU9LSFVCQk
-	lOS1VKS0tVSkJLQlkG
+ Randy Dunlap <rdunlap@infradead.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ llvm@lists.linux.dev, Coia Prant <coiaprant@gmail.com>
+References: <20260916235200.20712-1-ansuelsmth@gmail.com>
+ <20260921135933.7e8857ba@kernel.org>
+ <CA+_ehUwy9RUKCCHDnqoED3AMVnErgGr9RCrCR4ceg5QONq1wOQ@mail.gmail.com>
+Content-Language: en-US
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <CA+_ehUwy9RUKCCHDnqoED3AMVnErgGr9RCrCR4ceg5QONq1wOQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
+Hi,
 
-
-在 2026/9/22 00:25, Zi Yan 写道:
-> On 19 Sep 2026, at 22:11, zhen.ni wrote:
-> 
->> 在 2026/9/11 19:32, Lorenzo Stoakes (ARM) 写道:
->>> On Fri, Sep 11, 2026 at 01:06:46PM +0200, David Hildenbrand (Arm) wrote:
->>>> On 9/11/26 09:58, zhen.ni wrote:
->>>>>
->>>>>
->>>>> 在 2026/9/9 23:54, Zi Yan 写道:
->>>>>> On 9 Sep 2026, at 6:28, David Hildenbrand (Arm) wrote:
->>>>>>
->>>>>>>
->>>>>>> Because it results in less kernel code  :)
->>>>>>>
->>>>>>> And less kernel code is good. Unless unavoidable.
->>>>>>
->>>>>> An alternative is to add BPF hooks like bpf_iter to do the filtering
->>>>>> and by default, when no BPF program is attached, everything is printed.
->>>>>>
->>>>>>
->>>>>
->>>>> I’ve also thought about a similar approach—perhaps a new bpf_iter type
->>>>> that could iterate over all pages by PFN. The advantage would be that
->>>>> you can fully customize what you want to print and what you want to
->>>>> filter. However, doing so would require refactoring the entire
->>>>> page_owner, and I’m not sure whether it’s worth pursuing in this
->>>>> direction.I’d also like to hear everyone’s thoughts on this.
->>>>
->>>> Certainly better than having more and more manual filters added to the code base.
+On 9/22/26 12:12, Christian Marangi (Ansuel) wrote:
+> Il giorno lun 21 set 2026 alle ore 22:59 Jakub Kicinski
+> <kuba@kernel.org> ha scritto:
+>>
+>> On Thu, 17 Sep 2026 01:51:26 +0200 Christian Marangi wrote:
+>>> This series introduce a most awaited feature that is correctly
+>>> provide PCS with fwnode without having to use specific export symbol
+>>> and additional handling of PCS in phylink.
 >>>
->>> Agreed.
->>>
->>> bpf seems the ideal fit here I think?
->>>
->>> Means that those who want this information can get it and those who don't are
->>> unaffected.
->>>
+>>> At times there were 2 different implementation (this and the one
+>>> from Sean) but Sean agreed that this can be picked and used in favor
+>>> of his implementation as long as his case with race condition is
+>>> correctly handled.
 >>
->> I have prototyped page_owner bpf_iter and confirmed it is a viable and
->> valuable direction:
+>> Looks like the review for one of the patches failed so it won't be
+>> emailed out:
+>> https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260916235200.20712-2-ansuelsmth@gmail.com
 >>
->> 1.Most parameter parsing is offloaded to the existing BPF verifier,
->> keeping the page_owner kernel-side logic simple.
->>
->> 2.Filtering and printing are delegated to the BPF program, providing
->> greater flexibility and enabling more complex composite filtering.
+>> Are all of the issues invalid?
 > 
-> Without attaching a BPF program, page_owner could still print to
-> the console, right? Otherwise, it will break existing users without a
-> BPF program. You could add a hook to decide where to print the results.
+> Only one is relevant, but expected.
 > 
+> The remark on the fwnode patch are invalid. The driver is expected
+> to return those error as probe defer is not supported.
+> (a notifier and late attach/detach is used to align to phylink logic)
+> 
+> For the specific Airoha PCS driver it's really speculation from the AI
+> but HW doesn't work as described by AI.
+> 
+> The only real comment that is valid is about the alternative way
+> to give supported interface with the .get_capabilites OP.
+> 
+> This is currently not supported as there isn't any user and it will
+> be implemented as soon as there will be one. It's really to limit
+> the patch delta of this change and to progress further.
+> 
+> Maybe FIXME might be suitable?
+> 
+>>
+>> Once the AI review is cleared, some human will have to review this
+>> and vouch for you as a maintainer. Better still be your co-maintainer.
+> 
+> I think some revision ago there was Andrew that reviewed some code.
+> Anyway thank a lot for checking this once in a while, I feel it's a pretty
+> important change but I understand it's complex to handle as it does
+> introduce a whole new subsystem.
 
-The existing console/debugfs path is untouched -- the BPF iterator is a
-new, opt-in channel that coexists with it. Without a program attached,
-page_owner behaves exactly as before.
+I'm attending a Rust training until thursday, I'll see if I can squeeze in some
+time to re-test on mvpp2 :(
 
->>
->> I plan to further refine this patch series, but it will likely be
->> submitted as a separate series, as it represents a different direction.
->>
->>
->> Thanks,
->> Zhen
-> 
-> 
-> Best Regards,
-> Yan, Zi
-> 
-> 
+There're a few series pending for rockchip and S32 on stmmac that deal with
+PCS support and their PCS handle. It would be nice to have some stmmac glue
+maintainers that are using complex PCS to help with maintainance or at least
+testing, maybe Coia can help with the tests ?
 
-Thanks,
-Zhen
+Maxime
+
+
