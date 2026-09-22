@@ -1,63 +1,63 @@
 Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF19D5505D1
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 14:28:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B96559305
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 14:28:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790087327; cv=none; b=rFCdwAuChLhHutYiE4EAVpt4ccyRbbRidpB3DoZRbUgdS4ghdFlxdocYOoZx4oMhr+li9MKLpnFZecXDIVAS/qSzP0+os+CJN6ZL53nQvhU4C1Ybua41UNOZgNKYp4ul0IMQngwRTqIqjSx9GDFF9NaLJMwcZDa1MWGN+bxPFL8=
+	t=1790087331; cv=none; b=JQx97znObWhhG3trKngSBY946hN3VCOXxzUD5L7NZ5URcyX9SqgwX+rcmkmfhyzYHUmKP/spqFjsW2r+XolwuPgSW+7UqsuxNPIu8K0BQdsUFfsXBRrVv2aekCs/ofowL9Cjm0rA8F46eWEFhWuiRV+3hQmeRgAxKMUWYUQr9PE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790087327; c=relaxed/simple;
-	bh=xIgy530ICC4m3NkKuadi/zzirqDT04Q8w/kPC5TSRsM=;
+	s=arc-20240116; t=1790087331; c=relaxed/simple;
+	bh=XA55q142D8aRkadxqfCagWbQvXMi9cPh2wIUiWNw0Sw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q/PZyNo0yWxIrkavo5SSP79UITV5b7H/AkmgehQFOcXd1so5gqXgJ55mEe/XYAo/MbA8VpIysFH7LIgAOZjBxm/ElQaeRpL7bvInvPeesPIWwhsfw8Y31RrYyQK2Qx+gYIQG7YpRmoxdLJiwJUxb5FeeU9EBowjLafIRMoq4mHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WAhbLqQ0; arc=none smtp.client-ip=74.125.229.204
+	 MIME-Version; b=cxiyS8nNM3LEmlDRFrTBH82V5mAQYh/8mPmmOMfTdh/8G0sNuEeM4f+LAxvbvn0rn926+x2qkLrS1v8R73wHsNkY2Tyay51TU4qg3qc27cm4dUbOMttPMVx5JpzHa5dV9F8XzeyENdCQOWA4wzksL0l9kUsXb4y5J0PUlaSOzyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FmSMFL1F; arc=none smtp.client-ip=74.125.229.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WAhbLqQ0"
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f1e419so1606591e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 07:28:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FmSMFL1F"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f13d7aso5913833e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 07:28:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790087324; x=1790692124; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790087327; x=1790692127; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8Qx6sfb6upNLcj5IsqKTL87bc3YDUS09h8egDr62oaQ=;
-        b=WAhbLqQ0L0Lm2DdQD8jamZaGUYd4uJJ+iAyP6l4/XSjA7qxCRLIm4joOjNbhKRojx0
-         2EccsASsw8d33gwRDvxXsFj3VnPP988EOM6nGS9p5bIwZ4kdNziuv/fGZXXD+BDVFSYO
-         1yw7MvB1oVHdymO+dcNC0vesmJE9V3jvXMoUNvPBM4oB2ZKBdfuHjwVAlkKBgU8w6p0D
-         zIsgIh7AUHcZE5TItwMxKMJa1AaaZmJPI0k9Ycahcgf1f4UXoVgmmBus78nJqP7fGvzB
-         xYvYCgGrrYgaVyG4f8ydWm575BBzu9ftL0pLEl2mEc9MpmmbFvNu6JCdRJ1AbDF5lBZz
-         Rqrw==
+        bh=Np0pzXK9nCSAZ/EqFO5RnAzXdV1OHTysVqZnz2yyn3g=;
+        b=FmSMFL1FoGwl+TLSh8/4uDlQzap6oEjQOh1Z/XAEZDsQSbWlk3P4MDLTZ7IzKrsv02
+         WVRJjnj6lheSfNIYw7+xfShqspXWVdwOwj4ab1y28KccfuwxATOqRmhB5UfD5TTLw/NB
+         d0xQJdwgFG9lQROLugG9gAxpN4DaoCsEyfSXEbx919I1J7Xhb3mAqrXoC0p8XhGuufWq
+         4z4EOw1t2yhKVbPx2LzXLZsbfXESCRfzISSvDlZLboo0mTHN453KAhwixPPbxCu0I8en
+         7ewzbdwJakEGxNTR+ItcSPHWTzQmedf/fhPih4dvwIVm5YYbfu1fqyaaI2qthxkegI5X
+         JOOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790087324; x=1790692124;
+        d=1e100.net; s=20260707; t=1790087327; x=1790692127;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8Qx6sfb6upNLcj5IsqKTL87bc3YDUS09h8egDr62oaQ=;
-        b=njXxkkTwpoYXmH0U55N+/61R5GhsiXfWBTIai66YEQP+lR7NZfAXsn+cvycP9m0/kF
-         n8gEcuqQHlB1kL1MQmav2OluL6KhZKo1Yq9QxqzA/XUto2ymrKyv/bEYOqss2iw1eGad
-         Gud8ZAxWlVQjR2Sn8K2HzkpdRQF41NXqPK1lo9D0TPc4o3dtAw+SABXjbR4qPe6g560z
-         hXenIMmCFPaoVWxMHU+LYndW/CM8ZnwusLC9JpqiwNfTooG9GGBhHWSM3DQlADM6GuM6
-         696JnpzZIU1npunQF3yAU5dFhBLwbxfrIgMYSqKT0cRCyKyIF/iinEBcXFFZgaG7UnHm
-         OeCg==
-X-Gm-Message-State: AFuF++n7THFptlSnpW+rqfpF+YDy/M5zE0gguWCfrLRg9xIQSK1diP0l
-	+34z6kZKjAPNQBlTuMK//V+Br9vcW0n7rxCGcbXpXEzuitNXPH9SpZcj
-X-Gm-Gg: AYBFou184N6rCXlsIWKtesED0rUDAdpG/BBWFACCmtfWhvHJh1/3mGm8wcMbVb9/OoL
-	oWNDcyqSt3V5iaigkOJEezxv5Y4mxd136BxIcyUSeQdBN3PqGS6FmHJgU87v03GdM5sEAGusYoS
-	t0pCCoau8kniYF5s33YrW1aOmi74nprPoyvnQH2PuNaZlI5k1dMFEPD7WYS82RpfjHy8H0EH/HL
-	SMv8ngiHkhk1ZF/OfwP76Nr6QBmooQfiV6VRd7zfcWJX4IevX34WlODpmHXVCLd9WfLR7Csfvb4
-	IezJOmPxqe7GkOd6V4LzrENz/W8rLQOS2Z+IKu2mm7wU5MaqpAVk83rZCLrOOhFJ82L+efkfQGC
-	X4PijO04en195hk0q9ua4rzloXINY6L1Lij3fgtu4F04fWabz+8GfaFTCaztRyVaaHULUDEmF4E
-	Jr60jFGR5Lm7ivu6qbmPr/tXzBbG//MHT6r8KGVLGs0Naj5C8hjNQ7N/7usvxf/Sdrb+NLClC29
-	6RRMxnupHZ+FIbr3iNsY7IHQQ+BbTZp2ojT30wv7w==
-X-Received: by 2002:a05:6512:23a9:b0:5b4:ac27:8f76 with SMTP id 2adb3069b0e04-5b8d28fe7e6mr1013908e87.7.1790087323448;
-        Tue, 22 Sep 2026 07:28:43 -0700 (PDT)
+        bh=Np0pzXK9nCSAZ/EqFO5RnAzXdV1OHTysVqZnz2yyn3g=;
+        b=vFyumlYam1yTOf0ck+ob1NpO5eBcQUJ4NRP9qBN+N3MJb1IgDEWLG3a8Y/eb4P3pAM
+         vOXmQr7NPmUPrBxvbqnOBQA2TI65IY3eokZ/dJPbZq1Ke0AiX2XOuwSxIlaUq7cwFlXY
+         dvY+RpblIjiozw3s/KTgSd4XLkvslD/CBBH0AhoXqKPUysrs5GM2JasXaKYZvQ7lWnVs
+         nwzWcPz0zF0VRWeXn67Lr2/GUktTZeUY/IUs7hVibawtwqat7CJwwj7kS0/NqBbjh0hh
+         /P30J7TMr2Ty/pzBrsHDWUJ83uH36+aefIfGY501e+m80oRWUuVKHbxVBuIVx5+0dilq
+         L7jg==
+X-Gm-Message-State: AFuF++n2w6hvd4ZP3q4Rk15LCqdKE2OGu3cPNS0oUBMSH1MXKNkdIZb+
+	Lu6u2JEmQZ8WqviwbWpaEsQd+XWByitHvZisfM+Cn7Wy8GIs2eBL3sH0
+X-Gm-Gg: AYBFou1SiXBdhXE3AQPVybC5YI3KTe3FXCp5WZ34t8LRaQKE+UKOAAnUjfTbcz1+rGg
+	rqcp+KuB6xz60GSXA0LTelwdZDw6FdBNpH5QqTWcWrfeYh0SyNP4E0gA4HvEN4AGPF+czYKLMx1
+	f+m/ymnbMYZh2GsHAxXZF/1RC97E9rgVtt/XhBr5Ca87lrVHTn5CSaHQdDzzXMUli4KbfwD9Xcm
+	2xQeM4zUHhXedkU+GPo0P9xNImcXCk8QtY3SHD+JcMC6KE9GDpbK1NhBISSk0mmiJnASR9wXgM4
+	s6s3Y6mEsaAo+IhhaJ+2svonXhAWCUUY7Co9ZM1hDU6pLsX49TzSbcX4lk7i5ncSEOw9TbtWX58
+	9nyrbYfBSOkeBiVnu1SFNaTaHqR0xUp0T7kYEJeUQLwCIf/M+K7FZU5+C+Q6eDyCCH1gAgzvWsn
+	mOEefAOW9FiKdsXoQ2x2R/tEefLE/eUG8xdSsD623nILNb1vZ4YuwkUJAvGCiXZYotYXTkJrJ8H
+	iAotVP61lYzlrllkkEW3R+t+6wP6LR3vV3Q4G9a
+X-Received: by 2002:a05:6512:3a8e:b0:5b2:a967:c0bf with SMTP id 2adb3069b0e04-5b8c17f5f54mr4811816e87.10.1790087325948;
+        Tue, 22 Sep 2026 07:28:45 -0700 (PDT)
 Received: from fedora-tap.advaoptical.com ([82.166.23.19])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d46d2064sm589691e87.24.2026.09.22.07.28.41
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d46d2064sm589691e87.24.2026.09.22.07.28.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 07:28:43 -0700 (PDT)
+        Tue, 22 Sep 2026 07:28:45 -0700 (PDT)
 From: Sagi Maimon <maimon.sagi@gmail.com>
 To: Richard Cochran <richardcochran@gmail.com>,
 	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
@@ -76,9 +76,9 @@ To: Richard Cochran <richardcochran@gmail.com>,
 Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Sagi Maimon <maimon.sagi@gmail.com>
-Subject: [PATCH net-next 4/9] ptp: ocp: forget a CPLD i2c adapter number that no longer resolves
-Date: Tue, 22 Sep 2026 17:28:24 +0300
-Message-ID: <20260922142829.57740-5-maimon.sagi@gmail.com>
+Subject: [PATCH net-next 5/9] ptp: ocp: correct the CPLD bookkeeping comments and the flash progress
+Date: Tue, 22 Sep 2026 17:28:25 +0300
+Message-ID: <20260922142829.57740-6-maimon.sagi@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20260922142829.57740-1-maimon.sagi@gmail.com>
 References: <20260922142829.57740-1-maimon.sagi@gmail.com>
@@ -90,93 +90,112 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-adva_x1_bus_claim() returned -ENODEV when i2c_get_adapter() found nothing
-for the cached number but left the number in place, so
-adva_x1_cache_i2c_adap() kept bailing out on its first test and never
-resolved the adapter again.  The comment on the parent check claimed a bad
-number is forgotten and looked up again on the next sweep; that only held
-for a mismatched adapter, not for one that had gone away.
+The struct ptp_ocp member comments overstate the locking.
+cpld_i2c_adap_nr was documented as "Under cpld_adap_lock" and cpld_id_tried
+as "under cpld_lock", but every reader takes neither: the design is that
+the writers are serialised while readers may see a stale value and
+re-validate it - adva_x1_bus_claim() re-checks the adapter's parent, and a
+stale cpld_id_tried only costs one extra attempt.  Describe that instead.
 
-Factor the invalidation out and use it on both paths.
+Pair the stores of cpld_id_tried with those unlocked readers using
+WRITE_ONCE() rather than plain stores.
 
-Re-arm the one-shot identification when a new adapter is cached as well: a
-different adapter may answer where the previous one did not, and leaving
-cpld_id_tried set kept cpld.id absent for the rest of the binding.
+The flash progress notification reported the offset of the page that had
+just been written rather than the number of bytes written, so it was one
+page behind and never reached fw->size from inside the loop.
+
+No functional change beyond the reported progress value.
 
 Fixes: 3b815e29966f ("ptp: ocp: add TAP CPLD access for ADVA TimeCard X1")
+Fixes: a4b7c15aa78f ("ptp: ocp: add TAP CPLD flashing via devlink")
 Signed-off-by: Sagi Maimon <maimon.sagi@gmail.com>
 ---
- drivers/ptp/ptp_ocp.c | 35 ++++++++++++++++++++++++++++++-----
- 1 file changed, 30 insertions(+), 5 deletions(-)
+ drivers/ptp/ptp_ocp.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
-index feb61355078a..45313143b6f7 100644
+index 45313143b6f7..e10f6b5149c9 100644
 --- a/drivers/ptp/ptp_ocp.c
 +++ b/drivers/ptp/ptp_ocp.c
-@@ -4574,6 +4574,19 @@ static int adva_x1_i2c_adap_match(struct device *dev, const void *data)
-  * both the notifier and a single lookup here can miss the same adapter.
-  * Retrying costs a short klist walk per tick until one of them succeeds.
-  */
-+/*
-+ * Forget the cached adapter number so the next sweep resolves it again.
-+ * @nr < 0 forgets whatever is cached; otherwise only that number, so a
-+ * caller that raced the notifier cannot clear a newer one.
-+ */
-+static void adva_x1_forget_i2c_adap(struct ptp_ocp *bp, int nr)
-+{
-+	scoped_guard(spinlock, &bp->cpld_adap_lock) {
-+		if (nr < 0 || bp->cpld_i2c_adap_nr == nr)
-+			bp->cpld_i2c_adap_nr = -1;
-+	}
-+}
-+
- static void adva_x1_cache_i2c_adap(struct ptp_ocp *bp)
- {
- 	struct device *child;
-@@ -4598,6 +4611,15 @@ static void adva_x1_cache_i2c_adap(struct ptp_ocp *bp)
- 			bp->cpld_i2c_adap_nr = i2c_verify_adapter(child)->nr;
- 	}
- 
-+	/* A different adapter may answer differently, so let the one-shot
-+	 * identification run again rather than leaving cpld.id absent for
-+	 * the rest of the binding.
+@@ -428,9 +428,12 @@ struct ptp_ocp {
+ 	/* adva_x1 CPLD I2C (internal use only) */
+ 	/* serialises CPLD operations */
+ 	struct mutex		cpld_lock;
+-	/* guards cpld_i2c_adap_nr against the bus notifier */
++	/* serialises the cpld_i2c_adap_nr writers against each other */
+ 	spinlock_t		cpld_adap_lock;
+-	/* I2C adapter nr; -1 if absent.  Under cpld_adap_lock */
++	/* I2C adapter nr, -1 if absent.  Writers hold cpld_adap_lock;
++	 * readers take no lock and re-validate what they got, since the
++	 * number can be recycled - see adva_x1_bus_claim().
 +	 */
-+	scoped_guard(mutex, &bp->cpld_lock) {
-+		bp->cpld_id_tried = false;
-+		bp->cpld_id_attempts = 0;
-+	}
-+
- 	put_device(child);
- }
- 
-@@ -4614,8 +4636,14 @@ static int adva_x1_bus_claim(struct ptp_ocp *bp)
- 	lockdep_assert_held(&bp->cpld_lock);
- 
- 	adap = i2c_get_adapter(READ_ONCE(bp->cpld_i2c_adap_nr));
--	if (!adap)
-+	if (!adap) {
-+		/* The adapter behind the cached number is gone.  Forget it,
-+		 * or adva_x1_cache_i2c_adap() keeps bailing out on its first
-+		 * test and never resolves the adapter again.
-+		 */
-+		adva_x1_forget_i2c_adap(bp, -1);
- 		return -ENODEV;
-+	}
- 
- 	/* The number is freed before the notifier clears it, so it can
- 	 * already be another adapter's.  Check this is still ours, and drop
-@@ -4623,10 +4651,7 @@ static int adva_x1_bus_claim(struct ptp_ocp *bp)
- 	 * way, where forgetting it lets the worker look the adapter up again.
+ 	int			cpld_i2c_adap_nr;
+ 	/* claimed adapter; valid under cpld_lock */
+ 	struct i2c_adapter	*cpld_adap;
+@@ -442,9 +445,12 @@ struct ptp_ocp {
+ 	u32			cpld_usercode;
+ 	/* cpld_usercode has been read since the last flash */
+ 	bool			cpld_usercode_ok;
+-	/* one-shot ID read finished, successfully or not; under cpld_lock */
++	/* one-shot ID read finished, successfully or not.  Written under
++	 * cpld_lock; the worker reads it unlocked, where a stale value only
++	 * costs one extra attempt.
++	 */
+ 	bool			cpld_id_tried;
+-	/* failed ID read attempts so far; under cpld_lock */
++	/* failed ID read attempts so far; cpld_lock */
+ 	unsigned int		cpld_id_attempts;
+ 	/* x1 TAP CPLD present */
+ 	bool			has_cpld;
+@@ -4616,7 +4622,7 @@ static void adva_x1_cache_i2c_adap(struct ptp_ocp *bp)
+ 	 * the rest of the binding.
  	 */
- 	if (!bp->i2c_ctrl || adap->dev.parent != &bp->i2c_ctrl->dev) {
--		scoped_guard(spinlock, &bp->cpld_adap_lock) {
--			if (bp->cpld_i2c_adap_nr == adap->nr)
--				bp->cpld_i2c_adap_nr = -1;
--		}
-+		adva_x1_forget_i2c_adap(bp, adap->nr);
- 		i2c_put_adapter(adap);
- 		return -ENODEV;
+ 	scoped_guard(mutex, &bp->cpld_lock) {
+-		bp->cpld_id_tried = false;
++		WRITE_ONCE(bp->cpld_id_tried, false);
+ 		bp->cpld_id_attempts = 0;
  	}
+ 
+@@ -4900,7 +4906,7 @@ static int adva_x1_cpld_read_id(struct ptp_ocp *bp)
+ 	 * worker that had already finished reading.
+ 	 */
+ 	if (!ret || ++bp->cpld_id_attempts >= CPLD_ID_MAX_ATTEMPTS)
+-		bp->cpld_id_tried = true;
++		WRITE_ONCE(bp->cpld_id_tried, true);
+ 	mutex_unlock(&bp->cpld_lock);
+ 	if (ret)
+ 		dev_dbg(&bp->pdev->dev,
+@@ -5047,7 +5053,7 @@ static int adva_x1_cpld_flash(struct ptp_ocp *bp, struct devlink *devlink,
+ 	 */
+ 	WRITE_ONCE(bp->cpld_id, 0);
+ 	WRITE_ONCE(bp->cpld_usercode_ok, false);
+-	bp->cpld_id_tried = false;
++	WRITE_ONCE(bp->cpld_id_tried, false);
+ 	bp->cpld_id_attempts = 0;
+ 
+ 	err = adva_x1_cpld_write(bp, CPLD_CMD_RESET_ADDR);
+@@ -5056,6 +5062,7 @@ static int adva_x1_cpld_flash(struct ptp_ocp *bp, struct devlink *devlink,
+ 
+ 	for (offset = 0; offset < fw->size; offset += CPLD_PAGE_SIZE) {
+ 		u8 args[3 + CPLD_PAGE_SIZE] = { 0x00, 0x00, 0x01 };
++		size_t done;
+ 
+ 		/* The loop holds cpld_lock and the i2c root lock for the
+ 		 * whole image, so give a dying task a way out.  The part is
+@@ -5075,11 +5082,12 @@ static int adva_x1_cpld_flash(struct ptp_ocp *bp, struct devlink *devlink,
+ 		if (err)
+ 			goto exit_config;
+ 
++		done = offset + CPLD_PAGE_SIZE;
+ 		if (!(offset % (CPLD_PAGE_SIZE * 64)))
+ 			devlink_flash_update_status_notify(devlink,
+ 							   "Programming",
+ 							   ADVA_CPLD_COMPONENT,
+-							   offset, fw->size);
++							   done, fw->size);
+ 	}
+ 	devlink_flash_update_status_notify(devlink, "Programming",
+ 					   ADVA_CPLD_COMPONENT,
 -- 
 2.47.0
 
