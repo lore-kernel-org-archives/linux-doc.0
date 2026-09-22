@@ -1,372 +1,80 @@
-Received: from mail-vs2-f28.google.com (mail-vs2-f28.google.com [74.125.227.28])
+Received: from mta0.migadu.com (out-253.mta0.migadu.com [91.218.175.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2389139182A
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 03:13:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68AC82F0C46
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 03:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.253
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790046825; cv=none; b=GWwjDj6501+njGUHYAs4AesJBejYY1koxq5ILeln/PqMaIvsdFY/sX6iD6h3V9sccTqjmE98X5yZj/asZNQZNUF6fYXioZ7MCEYJ8JGvsxKjbZbEEdlh7yUDDCoUtL8JEaJEz3kB7bfn863LQzsmZxQIc8z0jSDeXUd07Lo0THE=
+	t=1790047341; cv=none; b=b8edEfNMy9fkyxvgYhyBBKwNimxaSu/QeY9cF+201dE9Txdi25lw6OPXzp/tEaw6n3Mg9WRYDgcguGQYd8EWKwDjbNp7zGYywrPD0dUYnnPN5AhpQjH0K/y2FyGGADhhsF95xSkEkvUg0XJl0PCbd3esm6qI10jKpIxp2blWSHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790046825; c=relaxed/simple;
-	bh=NE66QqnfDKqO10vAoq+ImB4gABto2DaSsKGJx/t4nNQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=G1kD95Qlya6dQJLu7Sb+tKwHCU5YrC9YCZm7m6TxvcWOm7YW8OqfRoRFJqLSYfbN/FpPNoyP3NwF+5/blxHN/KF3Pv6vXmEdPaxZ/0p1votZImecBANti2Gog8zRQPhzoHjuyT/kMpev9TsIdSYmrDFSQx9lHja80AaxVGUUrOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T/YTjqnA; arc=none smtp.client-ip=74.125.227.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790047341; c=relaxed/simple;
+	bh=D6xp+DQw2/JOLv/xyLpiYWzZgQK22tQnX4ABmanyYO8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VsV/w7WLjhi72lkcM5Up6CxO+TQKMAX+u2Ph6yhoqlqlFmtFH1ICxEIi3F3381uaYedv9zau4QoJR+Hqnk28QGVJG11wpw65DRq3SKYNRovJCuN6tfdTve/Sbw0KdaQ4DsVwsWTnOaXXrMA61hvK/FvOnO1g+aQb8Ls0c1W5DkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PpArhTp0; arc=none smtp.client-ip=91.218.175.253
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T/YTjqnA"
-Received: by mail-vs2-f28.google.com with SMTP id 71dfb90a1353d-5c9031e714dso1398283e0c.3
-        for <linux-doc@vger.kernel.org>; Mon, 21 Sep 2026 20:13:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790046821; x=1790651621; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DVphescif9413gAFehJPiS4YSGmutVNaaWXwPWvrAh0=;
-        b=T/YTjqnAftT6ui6fVdlHkDPEK3MHEO+M+he+LjKnmLVFqa2hePT+5nmMMJXppQEvAF
-         3SvAJ3nkaj0LpXqCi7AGSA174ipsBGkoOnkIVhbVNDVE6QGiFviVEtmrfARY38QkzdOg
-         tqL8Q8dQrLGFV5LiaQ+3OSxoYX5TiEiAs+CqWYIi3iARwbRNmmd94zEnhCPx5HgVHM94
-         iXI4fg0Ra333Kh4/uB95JvG4dHWhE3+O7OM0CuUrdfyJGdiTWCHqffT8g8plWe5POzim
-         eNbOtgGHLYGIOcyLqyDIMB1pQzZucC4Xs0MbpvtQbwynzc+iv0X9SYcGEoe7A7BrOWPz
-         HKDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790046821; x=1790651621;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DVphescif9413gAFehJPiS4YSGmutVNaaWXwPWvrAh0=;
-        b=sX21bJ73N+1SHYTkHVvo0aNp5A6UaLjesoiT2pXD8MBGMes0jpHVpRnZt2Te6P3pWq
-         9cPcaysB4Pi9FwWOAkIS1VbFsYt3xKTPBdIr8bnDtvE3kTCuMHMJ6Sajh0K6kQPT0jhe
-         X8bByJofr/RtdDYx3ea+oxiNoW2qL12OpcCECYaAHgbLQKuNqteMqBxtBetP9Isk85Yk
-         3yPxf3Y87edQF4H4fAWshKibuplUkNhf2lOU8DpKEG0fItmMBz3X0hLCK2SLRXtA5qpM
-         hyi9Hz1jujhgLu2AfZcUG83mH9RzBx7uoXqbtXkqIoVFQKejiX7i9XDOst8DK6etplyF
-         PQoA==
-X-Forwarded-Encrypted: i=1; AKwUvBwXm0ttFTZTHf2eWwMhMvvwScWAeeonKe8/WgvXcPiZoO654j33DC3Mu4BsALrJOQzgS+V6oZTGf0Q=@vger.kernel.org
-X-Gm-Message-State: AFuF++mVpHQOuWsFOTdecP+GvQFkwUOA0KK8/0mntpgVmxCW9yi9c9ly
-	jV2i73LZEZFoAJNj7I95y/3D3Fj9r71NlVUmJYNNSMEcIurCVfnUtYYp
-X-Gm-Gg: AYBFou1WvkqpkRjDnuYzHCOvJYzjeh4hCf/HrnF+nCSALL6x4Yw6VI/7Uv9ujCOPNfs
-	3lR9sBrYRgeLp4qKQpj00Ogi4uQZB4UBtbQaSpM0c8rss7DrC0s5hMhtvfykK7fwJj1o9fp8Upt
-	MxSNaUboYOWh/Khwpd7mMHhLyV2I64/rtFsaRNiXhEluSfgb1r/L3it9QewCskX3sez64ObVfee
-	7eF3x1BFbXObnjilA3hRXP/KoGVE3Ey+vxH+TRTX9/r0Qm7eAaNj0OPGSAMvmR83gJkJPmt05bC
-	+DI4UgepS6phANY1G2lz+eJSMgUo2eEY5DPvkh8J6iJaqXmjgoDFZuCetMGv58Ssj8Iiw5few5w
-	KEgcFfMx2xnstBwrdrfUlmzMDqHsgEV2FFRTcIIf7n1oZMbBbPaUoT75CcBKBLLUx0kJJtE5tcs
-	7eI8rfe+aIZXYH1/N3wafJMrrRY6uLM39J7RXeO+s/SULfTby+4KeOzuOyzTYXk0wobPSkBz4Ao
-	ntDLEAykTFD
-X-Received: by 2002:a05:6102:370c:b0:7a2:2a4c:606a with SMTP id ada2fe7eead31-7a55c882211mr6793506137.15.1790046820735;
-        Mon, 21 Sep 2026 20:13:40 -0700 (PDT)
-Received: from pop-os.. ([2804:7f0:9f80:982a:5b62:d86d:1b89:3f00])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9850d67a68fsm427226241.8.2026.09.21.20.13.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 20:13:40 -0700 (PDT)
-From: vinihsr <vinicius.m1821@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PpArhTp0"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=D6xp+DQw2/JOLv/xyLpiYWzZgQK22tQnX4ABmanyYO8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790047337; v=1; x=1790652137;
+ b=PpArhTp0zGXteX0eGj7GdprIMBe/qJfluR7VxfAO8MnEdXzqarPeiSrFppWaHOMBgtMgPW6v
+ DdcpYGu8ZnswjcLwKCs+Rk9WP8GIAMK8CmUAIGlOLUQOIXqcjxy5iM8G5QbeeEVFEwOdFmjAi3r
+ rjqagDhZGL7uUgySx6dp3Y2A=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id de3b09413563fae3;
+	Tue, 22 Sep 2026 03:22:17 +0000
+X-Mizu-Trace-ID: de3b09413563fae3
+X-Migadu-Flow: FLOW_OUT
+From: Guopeng Zhang <guopeng.zhang@linux.dev>
+To: Waiman Long <longman@redhat.com>,
+	Ridong Chen <ridong.chen@linux.dev>
+Cc: Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	cgroups@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Vinicius Henrique <vinicius.m1821@gmail.com>
-Subject: [PATCH v2] docs: translations: pt_BR: translate threat-model.rst
-Date: Tue, 22 Sep 2026 00:12:47 -0300
-Message-Id: <20260922031247.182335-1-vinicius.m1821@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Guopeng Zhang <zhangguopeng@kylinos.cn>
+Subject: [PATCH v2 0/2] docs: cgroup-v2: Correct cpuset CPU descriptions
+Date: Tue, 22 Sep 2026 11:21:28 +0800
+Message-ID: <20260922032130.33777-1-guopeng.zhang@linux.dev>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate threat-model.rst into Brazilian Portuguese,
-maintaining consistency with original formatting rules for v2.
-And add it to the pt_BR process documentation index.
+From: Guopeng Zhang <zhangguopeng@kylinos.cn>
 
-Assisted-by: LLM
+The cpuset interface documentation says cpuset.cpus.isolated is empty
+unless an isolated partition exists, omitting CPUs isolated at boot with
+isolcpus=domain. Its cpuset.cpus.effective description also assumes CPUs
+come from the immediate parent and are normally a subset of
+cpuset.cpus, which is not always true for valid non-root partition roots.
 
-Signed-off-by: vinihsr <vinicius.m1821@gmail.com>
----
- .../translations/pt_BR/process/index.rst      |   1 +
- .../pt_BR/process/threat-model.rst            | 257 ++++++++++++++++++
- 2 files changed, 258 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/threat-model.rst
+Update both descriptions to match the existing behavior.
 
-diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-index 2c63d82bf..d99985f57 100644
---- a/Documentation/translations/pt_BR/process/index.rst
-+++ b/Documentation/translations/pt_BR/process/index.rst
-@@ -78,6 +78,7 @@ gerenciamento de bugs e vulnerabilidades.
-    :maxdepth: 1
- 
-    Falhas de segurança <security-bugs>
-+   Modelos de ameaças do kernel do Linux <threat-model>
-    Problemas de hardware sob embargo <embargoed-hardware-issues>
-    CVEs <cve>
- 
-diff --git a/Documentation/translations/pt_BR/process/threat-model.rst b/Documentation/translations/pt_BR/process/threat-model.rst
-new file mode 100644
-index 000000000..5e59e6f11
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/threat-model.rst
-@@ -0,0 +1,257 @@
-+O modelo de ameaças do kernel do Linux
-+======================================
-+
-+Existem muitas suposições sobre o que o kernel protege e o que não protege.
-+Essas suposições tendem a causar confusão nos relatórios de bugs
-+(:doc:`relacionados à segurança <security-bugs>` vs :doc:`não relacionados à
-+segurança <../../../admin-guide/reporting-issues>`), e podem complicar a
-+aplicação das medidas de segurança quando as responsabilidades por certos
-+limites não estão claras entre o kernel, as distribuições, os administradores e
-+os usuários.
-+
-+Este documento tenta esclarecer as responsabilidades do kernel neste domínio.
-+
-+As responsabilidades do kernel
-+------------------------------
-+
-+O kernel abstrai o acesso aos recursos de hardware locais e a sistemas remotos
-+de forma a permitir que múltiplos usuários locais obtenham uma parcela justa dos
-+recursos disponíveis concedidos a eles e, quando o hardware subjacente permitir,
-+atribuir um nível de confidencialidade às suas comunicações e aos dados que
-+estão processando ou armazenando.
-+
-+O kernel presume que o hardware subjacente se comporta de acordo com suas
-+especificações. Isso inclui a integridade do conjunto de instruções da CPU, a
-+transparência da unidade de previsão de desvios e das unidades de cache, a
-+consistência da Unidade de Gerenciamento de Memória (MMU), o isolamento de
-+periféricos com capacidade de DMA (por exemplo, via IOMMU), transições de estado
-+nos controladores, intervalos de valores lidos dos registradores, o respeito às
-+limitações de hardware documentadas, etc.
-+
-+Quando o hardware não consegue manter o isolamento especificado (por exemplo,
-+falhas na CPU, canais laterais, resposta do hardware a entradas inesperadas), o
-+kernel geralmente tenta implementar medidas de mitigação razoáveis. Trata-se de
-+medidas de melhor esforço destinadas a reduzir a superfície de ataque ou elevar
-+o custo de um ataque dentro dos limites dos recursos do hardware; elas não
-+constituem uma garantia de segurança fornecida pelo kernel.
-+
-+Os usuários sempre realizam suas atividades sob a autoridade de um administrador
-+capaz de conceder ou negar vários tipos de permissões que podem afetar a forma
-+como os usuários se beneficiam dos recursos disponíveis ou o nível de
-+confidencialidade de suas atividades. Os administradores também podem delegar
-+todas ou parte de suas próprias permissões a alguns usuários, particularmente
-+por meio de capacidades (capabilities), mas não apenas. Tudo isso é realizado
-+por meio de configuração (sysctl, permissões do sistema de arquivos, etc.).
-+
-+O kernel do Linux aplica um determinado conjunto de configurações padrão que
-+correspondem ao seu modelo de ameaças. As distribuições têm seu próprio modelo
-+de ameaças e vêm com suas próprias predefinições de configuração, as quais o
-+administrador pode ter que ajustar para melhor atender às suas expectativas
-+(flexibilizar ou restringir).
-+
-+Por padrão, o kernel do Linux garante as seguintes proteções ao ser executado em
-+processadores comuns que possuem níveis de privilégio e unidades de
-+gerenciamento de memória:
-+
-+* **Isolamento baseado no usuário**: um usuário sem privilégios pode restringir
-+  o acesso aos seus próprios dados por parte de outros usuários sem privilégios
-+  que estejam executando no mesmo sistema. Isso inclui:
-+
-+  * dados armazenados, por meio de permissões do sistema de arquivos
-+  * dados na memória (as páginas não são acessíveis, por padrão, a outros
-+    usuários)
-+  * atividade do processo (o ptrace não é permitido a outros usuários)
-+  * comunicação entre processos (outros usuários não podem observar os dados
-+    trocados por meio de unix domain sockets ou outros mecanismos de IPC).
-+  * comunicações de rede dentro do mesmo sistema ou com outros sistemas
-+
-+* **Proteção baseada em capacidades**:
-+
-+  * usuários que não possuam capacidades elevadas (incluindo, mas não se
-+    limitando a CAP_SYS_ADMIN) não podem alterar a configuração, a memória nem o
-+    estado do kernel, modificar a visão de outros usuários sobre o layout do
-+    sistema de arquivos, conceder a qualquer usuário capacidades que ele não
-+    possua, nem afetar a disponibilidade do sistema (desligamento,
-+    reinicialização, pânico, travamento ou tornar o sistema irresponsivo por
-+    esgotamento ilimitado de recursos).
-+  * usuários que não possuam a capacidade ``CAP_NET_ADMIN`` não podem alterar a
-+    configuração de rede, interceptar nem falsificar comunicações de rede de
-+    outros usuários ou sistemas.
-+  * usuários que não possuam ``CAP_SYS_PTRACE`` não podem observar as atividades
-+    dos processos de outros usuários.
-+
-+Quando ``CONFIG_USER_NS`` está definido, o kernel também permite que usuários
-+sem privilégios criem seu próprio namespace de usuário, no qual possuem todas as
-+capacidades, mas com algumas restrições (eles não podem realizar ações que
-+tenham impacto no namespace de usuário inicial, como alterar a hora, carregar
-+módulos ou montar dispositivos de bloco). Consulte ``user_namespaces(7)`` para
-+obter mais detalhes; as possibilidades dos namespaces de usuário não são
-+abordadas neste documento.
-+
-+O kernel também oferece diversos recursos de solução de problemas e depuração,
-+os quais podem constituir vetores de ataque quando caem em mãos erradas. Embora
-+alguns deles tenham sido projetados para serem acessíveis a usuários locais
-+comuns com baixo risco (por exemplo, logs do kernel via ``/dev/kmsg``), alguns
-+exporiam informações suficientes para representar um risco na maioria dos casos,
-+e a decisão de expô-los é de responsabilidade do administrador (eventos perf,
-+rastreamentos), e outros não foram projetados para serem acessados por usuários
-+sem privilégios (por exemplo, debugfs). O acesso a esses recursos por um usuário
-+que tenha recebido permissão explícita de um administrador não constitui uma
-+violação de segurança.
-+
-+Bugs que permitem violar os princípios acima constituem brechas de segurança.
-+No entanto, bugs que permitem uma violação somente após outra já ter sido
-+alcançada são apenas pontos fracos. O kernel aplica uma série de medidas de
-+autoproteção cujo objetivo é evitar que um limite de segurança seja ultrapassado
-+quando certas classes de bugs são encontradas, mas uma falha nessas proteções
-+adicionais não constitui, por si só, uma vulnerabilidade.
-+
-+Quais classes de problemas não são consideradas vulnerabilidades
-+----------------------------------------------------------------
-+
-+No modelo de ameaças do kernel do Linux, as seguintes classes de problemas
-+**NÃO** são consideradas vulnerabilidades do kernel do Linux. No entanto,
-+quando se acredita que o kernel poderia ser melhor, eles devem ser relatados,
-+para que possam ser analisados e corrigidos sempre que razoavelmente possível,
-+mas serão tratados como qualquer bug comum:
-+
-+* **Configuração**:
-+
-+  * kernels desatualizados e, particularmente, ramos em fim de vida útil estão
-+    fora do escopo do modelo de ameaças do kernel: os administradores são
-+    responsáveis por manter seus sistemas atualizados. Para que um bug seja
-+    qualificado como uma vulnerabilidade, deve ser demonstrado que ele afeta
-+    versões mantidas ativamente.
-+
-+  * nível de compilação: alterações na configuração do kernel que estejam
-+    explicitamente documentadas como redutoras do nível de segurança (por
-+    exemplo, ``CONFIG_NOMMU``), ou destinadas apenas a desenvolvedores.
-+
-+  * nível do sistema operacional: alterações nos parâmetros da linha de comando,
-+    sysctls, permissões do sistema de arquivos, capacidades do usuário, e
-+    exposição de interfaces privilegiadas que aumentem explicitamente a
-+    exposição, seja oferecendo acesso não padrão a usuários sem privilégios,
-+    seja reduzindo a capacidade do kernel de aplicar algumas proteções ou
-+    medidas de mitigação. Exemplo: acesso de gravação ao procfs ou ao debugfs.
-+
-+  * problemas acionados apenas ao usar recursos destinados ao desenvolvimento ou
-+    depuração (por exemplo, LOCKDEP, KASAN, FAULT_INJECTION): sabe-se que esses
-+    recursos introduzem sobrecarga e instabilidade potencial e não se destinam
-+    ao uso em produção.
-+
-+  * problemas que afetam drivers expostos sob CONFIG_STAGING, bem como recursos
-+    marcados como EXPERIMENTAL na configuração.
-+
-+  * carregamento de módulos explicitamente inseguros/quebrados/staging
-+    e, de modo geral, qualquer uso de subsistema marcado como experimental ou
-+    não destinado ao uso em produção.
-+
-+  * execução de módulos fora da árvore ou bifurcações não oficiais do kernel;
-+    esses casos devem ser relatados ao fornecedor relevante.
-+
-+* **Excesso de privilégios iniciais**:
-+
-+  * ações realizadas por um usuário que já possui os privilégios necessários
-+    para executar essa ação ou modificar esse estado (por exemplo,
-+    ``CAP_SYS_ADMIN``, ``CAP_NET_ADMIN``, ``CAP_SYS_RAWIO``, ``CAP_SYS_MODULE``,
-+    sem que nenhum outro limite seja ultrapassado).
-+
-+  * ações realizadas no namespace do usuário que não contornam as restrições
-+    impostas ao usuário inicial (por exemplo, uso de ptrace, envio de sinais,
-+    uso de recursos, acesso a FS/dispositivo/sysctl/memória, vínculo de rede,
-+    configuração do sistema/rede, etc.).
-+
-+  * qualquer ação realizada pelo usuário root no namespace inicial (por exemplo,
-+    um oops do kernel ao gravar em um dispositivo privilegiado).
-+
-+* **Fora do uso em produção**:
-+
-+  Isso abrange ataques teóricos/probabilísticos que dependem de condições de
-+  laboratório com ruído zero no sistema, ou aqueles que exigem um número
-+  irrealista de tentativas (por exemplo, bilhões de tentativas) que seriam
-+  detectadas pelo monitoramento padrão do sistema muito antes do sucesso,
-+  tais como:
-+
-+  * previsão de números aleatórios que só funciona em um ambiente totalmente
-+    silencioso (como ID de IP, portas TCP ou números de sequência que só podem
-+    ser adivinhados em laboratório).
-+
-+  * observação de atividades e vazamentos de informações com base em abordagens
-+    probabilísticas que são suscetíveis a ruído de medição e não são
-+    realisticamente reproduzíveis em um sistema de produção.
-+
-+  * problemas que só podem ser desencadeados por ataques intensos (por exemplo,
-+    força bruta) cujo impacto no sistema torna improvável ou impossível
-+    permanecerem indetectáveis antes de serem bem-sucedidos (por exemplo,
-+    consumir toda a memória antes de ter sucesso).
-+
-+  * problemas observados apenas em simuladores de desenvolvimento, emuladores ou
-+    combinações que não existem em sistemas reais no momento do relato
-+    (problemas envolvendo dezenas de milhões de threads, dezenas de milhares de
-+    CPUs, frequências de CPU irrealistas, tamanhos de RAM ou capacidades de
-+    disco, velocidades de rede).
-+
-+  * bem como problemas que podem ser acionados a um custo que é ordens de
-+    magnitude superior aos benefícios esperados (por exemplo, um emulador de
-+    teclado totalmente funcional apenas para recuperar 7 bytes não inicializados
-+    em uma estrutura, ou um método de força bruta envolvendo milhões de
-+    tentativas de conexão para adivinhar um número de porta).
-+
-+* **Falhas de fortificação (hardening)**:
-+
-+  * capacidade de contornar algumas das medidas de fortificação do kernel sem um
-+    caminho de exploração demonstrável (por exemplo, contorno de ASLR,
-+    sincronização de eventos ou sondagem sem consequências demonstráveis).
-+    Trata-se apenas de pontos fracos, não de vulnerabilidades.
-+
-+  * falta de verificações de argumentos e falha ao relatar certos erros sem
-+    consequências imediatas.
-+
-+* **Vazamentos aleatórios de informações**:
-+
-+  Isso diz respeito a vazamentos de pequenas partes de dados que simplesmente
-+  estão presentes e que não podem ser escolhidas pelo invasor, ou que enfrentam
-+  restrições de acesso:
-+
-+  * preenchimento (padding) de estruturas relatado por chamadas de sistema ou
-+    outras interfaces.
-+
-+  * identificadores, dados parciais, strings não terminadas relatadas em
-+    mensagens de erro.
-+
-+  * vazamentos de endereços/ponteiros de memória do kernel não constituem um
-+    vetor imediatamente explorável e não são vulnerabilidades, embora devam ser
-+    relatados e corrigidos.
-+
-+* **Dispositivos e mídias em não conformidade**:
-+
-+  Os drivers são implementados com base em uma especificação. Quando um
-+  dispositivo ou mídia de armazenamento viola a especificação para a qual o seu
-+  driver foi escrito, o mau comportamento resultante é um bug comum a ser
-+  corrigido, não uma vulnerabilidade, a menos que o driver esteja
-+  especificamente documentado como sendo fortalecido contra entradas hostis. Os
-+  seguintes casos, portanto, não são considerados vulnerabilidades:
-+
-+  * bugs desencadeados pela montagem de uma imagem de sistema de arquivos
-+    corrompida ou criada de forma maliciosa: a montagem de um dispositivo de
-+    bloco é uma operação privilegiada (veja acima), e o administrador é
-+    responsável pela mídia que ele monta. Isso inclui problemas que são
-+    resolvidos, mitigados ou detectados pela execução de uma verificação de
-+    consistência do sistema de arquivos (fsck) na imagem antes da montagem.
-+
-+  * bugs cuja reprodução requer modificação de hardware ou emulação,
-+    incluindo dispositivos USB falsos que se passam por outros, ou
-+    dispositivos que relatam valores fora dos seus limites documentados.
-+
-+* **Acesso físico**:
-+
-+  Problemas que exigem acesso físico à máquina, modificação de hardware ou o uso
-+  de hardware especializado (por exemplo, analisadores lógicos, ferramentas de
-+  ataque DMA via PCI-E/Thunderbolt) estão fora do escopo, a menos que o sistema
-+  esteja explicitamente configurado com tecnologias destinadas a defender contra
-+  tais ataques (por exemplo, IOMMU).
-+
-+* **Regressões funcionais e de desempenho**:
-+
-+  Qualquer problema que possa ser mitigado pela definição de permissões e
-+  limites adequados não se qualifica como uma vulnerabilidade.
+Changes since v1:
+- Reword the cpuset.cpus.isolated description as suggested, while
+  specifying the domain flag of isolcpus.
+- Add examples of the cpuset.cpus.effective relationship for member or
+  invalid partition roots and for valid partition roots.
+- Add the Suggested-by tags and the Reviewed-by tag.
+
+Guopeng Zhang (2):
+  docs: cgroup-v2: Describe boot-isolated CPUs in cpuset.cpus.isolated
+  docs: cgroup-v2: Describe effective CPUs of partition roots
+
+ Documentation/admin-guide/cgroup-v2.rst | 59 ++++++++++++++++++++-----
+ 1 file changed, 48 insertions(+), 11 deletions(-)
+
 -- 
-2.34.1
-
+2.43.0
