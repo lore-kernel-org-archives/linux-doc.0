@@ -1,139 +1,157 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A2C41D110
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 17:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790099693; cv=pass; b=frU55AaigdFGURskC8svP+YIKbeLaU8xRCuv+iXTz7BOwGG7Nk41eyqsVc1G/rdWp30ejxTByTucjCfMWImuWG7A8cZnBudTIrDwwx7VPLLJ83rOHmKinBmNOI9LBZFNoXiqPYdZ+KetVI9qMi85JC4ES8CBPXwXYkyawR9aYXQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790099693; c=relaxed/simple;
-	bh=vCKS13b9L1ieft7U9s9r3sFPnYyRl2ROpAv1bNkHIlg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iIkaRw+bQmBg7/BwNJPGukM4tptUqs7uOWhsJW3UIVcpslkQokpr5BkFw88jdvlYYek9eA0OWqQsahKjZTLZW5yamU/KF1UjZRcCxmgesgGlV0lt2l9NMKgt3nnSDhFWlhRyDASFtCiJ7ZlIS1gV4X4WZrMMoQoBU0punlC1Xnw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WvOsGxFs; arc=pass smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F65A3E51C6;
+	Tue, 22 Sep 2026 18:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790100118; cv=none; b=Te6rU1I8b6Vd5OnUdjqLoQFQ++o9hKP5h/cOnbHlTrDY+ydGCxTgodH2HweFeFBuYuHxEk90FS8Q0AeFOiMib9jpRSwEF+YjBV4X/SOuphmvgS+8eQeX5qicq4hITJlVaUQuXGNvp5nLZjNq3cLYYAi1yWlvz7jePjyIUDAwQ3Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790100118; c=relaxed/simple;
+	bh=6gafUH01UEnEOFZ/RPOfxlqwmZj2EPGoGIHEuVJ2b30=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ieZK1rKS1GEFW+9R9kwc1tU7YRu/oUxdx/Blc2xOGwyvT0iQpX3UVOlPUPpsaRJs90jsz7nQPSTifIASayCvuzf6uvhzE+HPa8jF8D7nTKPwxZipVKsq+N7ZWUYS9DFEqSswHtq79/3lr19X5pCI+0Glcx4lkNTRx9L+tG3hHrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTFAgg2F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WvOsGxFs"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-484366874b0so133607f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 10:54:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790099691; cv=none;
-        d=google.com; s=arc-20260327;
-        b=j8TWZMOVpdnVEu1Z4zIHioGubec4HQOYRlpveoFwtLJEQzyYdHaNUs127zQUQXPqvD
-         TPOw7C6dGXW2miMuG0mjP0g+wCAVmAQrrjaPhrSgsDFdxW+2m+DFMazT62IhoUKOsGQj
-         oNVWzgBUXpiCSmmwmJCl8kDh1lb2ok7z0/OwJxQPaAg1ZJZ3VAOKea0Bw8zD2Kmtm9Ux
-         buI435R3e+lTysIVmen2u7M48YmbWhQYGEgYPX7Wmbs5zenwGrCHIZruzUBFkMT2Sqy5
-         LFX8rIzAH8J/j+V9ak7H0BlqKqhZA83FGh9NE4z6Bn9IVhETAz4ldtd/+RgvGWygFYWZ
-         MjqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vCKS13b9L1ieft7U9s9r3sFPnYyRl2ROpAv1bNkHIlg=;
-        fh=UlWBlTb6PEa/huI09w9p4oCv/HzJHb66fBDf4q9uE6c=;
-        b=hp/Aa9OioW4e5Cb+5OCgiVdKF2h/dLe2QFQMQluDoUCTHVTXcOOCDv5scp2aTQZmIx
-         C2vCxJgaVfYFchr0orjGxfg1pZktEV9ZiUQ9CYRQKIxONzSwPPG5QW6n1kHuFuoMJga6
-         b3eOrAioMlEfW10WvYQXGiTsIELqArO19aSA65cG3gQoU18KE0qhvQm0XkzDVDrbLFrY
-         +qSbl065fZ3Uh2u4xYpzMD+wdTAaduyypV96MHs90PO3VAYfo1SLCsxq3Wq4FY531PLp
-         1NJBtHDnNM43bWfJkM4FlHWrjsaOYrKlHPrSIIIhBzJRmB8FnsGILu3E/sAz/JSX+FV5
-         j7Ww==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790099691; x=1790704491; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vCKS13b9L1ieft7U9s9r3sFPnYyRl2ROpAv1bNkHIlg=;
-        b=WvOsGxFsgJVCXhWCniB1+1/fUPjCCoob1j2KIT5KSLgafnkGlqAumAOIkqNN5K0Oje
-         4WChBV7Ygz0z0SlMQrwUQcZkKC6LwqgRgpKEUJ7KUFA3dPCKOo7sOesofTM3mNDW/8In
-         OkyX6f+EIY08ieRYBsAr+bCIjfRK9rwM1FwAg5Zwkmf/4QZqoMVxhYRHGxnZbwjFf7IF
-         A0DU621cRSLkt3Dunu5Fk7VoJFbiUcPMetHIIq5zkiBBKgWNp+WSHt8PPPtwe1fcKT7a
-         AjgsJ/febG9jVdkg4MB/ZGYyoNBQ64yuqYX2B9izEYj9Za4Qfqeih2cLp13s9rlNI2/K
-         dbaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790099691; x=1790704491;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vCKS13b9L1ieft7U9s9r3sFPnYyRl2ROpAv1bNkHIlg=;
-        b=dFUoZ8agVmOdoUpdixX/Hgbsvo9nF/+jgZiWEuPLHRCtYb4bLV26nFuwDpRjt3EBWM
-         /GQphNkiOvohX33igVd/QNEJDX4m/zvqbjkA1Z23ytSDJ5D+h0TSsLvmeuTRFWFkpNiK
-         Od5bBmB09lSw/jWAhJo4xsEb1qNiy43G0eTwhXqQjAgZGzQ+7yYYiYzA+DYZjQqYubsT
-         ZOvLN5WKYpuOLxEqK0RiPnTFJsF4t0dLJbGuF0ZaL8i/fRkT3g1Agh/AzxC1evxNelXo
-         RE72Xo8N/vT64gqCEUYXOrmXQn9jfFpgEHHvQT96NDpLC3yA3cqQ+rG8bdQH113xN3z5
-         /h9A==
-X-Forwarded-Encrypted: i=1; AKwUvBzPSvhffVGKcKlwRlOp5Wl21K1l1SJLt6eMUqyPo+F1CEIr5J+ociazZ0j3SUvbw7qer3pSxyUADwQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++kH7+8g850R4yNPrAt3jTuIL91BxPsnt/X2+cFtkQe38Tgi+dmO
-	jmO+/kafefiyrNf1ifyOwLMuVyXgp2+KZAZ52blpu3WmEV8qgAJnhqKzRpuvCKStK5axTn5u8me
-	6iacT12ActtmgpW3G/C+W+ukRRF+FTxg=
-X-Gm-Gg: AYBFou0tAR41zr2nAOf5m06o9zbpAUWV5OHT74uwL7aETwcWg41TjDRg1lhtrlaoFov
-	nUZFqsJPE6SK9/+16oiiUFVizyDkC3zASDcWUw4bp45R5Vk1h7um+HgjGmg11RGHq3jDJdO76l5
-	zu6WuYjgqJXX9FSuWr5O+bt3uoSpFhMre74dDKvAKur9XT8FgPFMLuLturAqReM7IX20sVTWc6E
-	L1DaJwDbbAzYSxt+Rc6EDZirEfhZ3H8tHrWZWm7BhPaGVCmaDArvULdxDEh0zx29qCFYdM8kBV0
-	wHuKaVH+CR93L/GgyQOCop02ZFLgEMdGrB1VgNsZN+vsI5eHTKp8uBoRVdgCf/IUzqF8oyUA5sg
-	eLGN3XH8rZDmKDcqLlwxgfg==
-X-Received: by 2002:a5d:64e8:0:b0:487:40a:5ba8 with SMTP id
- ffacd0b85a97d-4886704c06dmr682814f8f.15.1790099690760; Tue, 22 Sep 2026
- 10:54:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTFAgg2F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C74781F000FF;
+	Tue, 22 Sep 2026 18:01:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790100116;
+	bh=XYSOqVERmoLufYUc+VgdIGa26F88+bWdDgX4ohmoDow=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cTFAgg2FOfaMX2m8EsEsOewd3kmF8o+nqmZIgHsg1+9dfNvjg7UsJBnBr7cQLe1gc
+	 NRZa7rq/dJvOZbE4iJ8qwH9xFN5HvTNU602lYu19aCdlJ8/ZK8eFBFvjLwON208EmW
+	 XDFJRh666HOdgBM4mCysh18oZxVAtffvfijp+CEreSklJcAeStfU5ZVdmz/W+G1cMw
+	 tvX2+GxoohyHrtHGMZv+Cxrry+VZhichA61P71tzJM/TfaD+SUPE5zsm6ygKShkw1+
+	 aQtV+4k7suG2DbR/RXLPSqzlhNoXCFydrrlCIBti5D3+SZI3a/BwrfTF6KEv229og0
+	 k/Vt3CWjh0zuQ==
+Date: Tue, 22 Sep 2026 19:01:48 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Oliver Upton <oupton@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Mark Rutland <mark.rutland@arm.com>, Fuad Tabba <fuad.tabba@linux.dev>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
+	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+	Leo Soares Passos <Leo.Bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>
+Subject: Re: [PATCH v3 01/14] KVM: Allow architectures to disallow pre-fault
+Message-ID: <arK8-Hec3-5o4jYs@gremlin>
+References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org>
+ <20260922-kvm-arm-prefault-v3-1-787bd3bc7e3f@kernel.org>
+ <arKxjsxuO1F5ExrY@kernel.org>
+ <arK5n9HrbZMCOHOt@google.com>
+ <arK5ynpRi7VbY7Ek@gremlin>
+ <arK8seJVT9wYgVCP@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <aqJXx2vtbKaRLt3x@fedora> <aqLZ5TVDAqEbIeMN@linux.dev> <aqP81aqNbwAbs2P0@fedora>
- <aqQrPLPXHXiuKup0@linux.dev> <aqjcFb6MFNiA6n4V@fedora> <aqjpYHbZ14A8xRtK@fedora>
- <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
- <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
- <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
- <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com> <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
-In-Reply-To: <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 22 Sep 2026 10:54:39 -0700
-X-Gm-Features: AclHuK8GLbQTZvdEds8LwHBLJi1-Hgl2pSvGmQlVhhpHqGOi40_tcpI9Kqsywu0
-Message-ID: <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Chris Li <chrisl@kernel.org>
-Cc: Rik van Riel <riel@surriel.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <arK8seJVT9wYgVCP@google.com>
 
-On Sun, Sep 20, 2026 at 5:13=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote:
+On Tue, Sep 22, 2026 at 10:36:49AM -0700, Sean Christopherson wrote:
+> On Tue, Sep 22, 2026, Lorenzo Stoakes (ARM) wrote:
+> > On Tue, Sep 22, 2026 at 10:23:43AM -0700, Sean Christopherson wrote:
+> > > Rather than have kvm_arch_vcpu_allow_pre_fault_memory(), what if we add a more
+> > > generic kvm_is_vcpu_loadable()?  That way we don't need to worry as much about
+> > > the return value, the connection to vcpu_load() is obvious, and we don't need to
+> > > add another pre-check if future (or cleaned-up existing?) ioctls want to do
+> > > vcpu_load() in common code.
+> >
+> > ...this is exactly what I started out with.
+> >
+> > But then you are in a pickle, because _really_ you need to do that check in
+> > vcpu_load(). Which is a void function. Which is called by every single
+> > architecture all over the place.
+> >
+> > So you'd have actually no way of signalling the error back.
+> >
+> > Of course those places are arch code and you could say 'arches should know
+> > better and if they call it it's fine not to call the arch 'can you load'
+> > function.
 >
-> That is not what I have in mind. The example I have in mind is that
-> zswap is charged to swap counters. Changing that behavior will break
-> our current deployment and that of many other. Kairui give some
-> example as well. That behavior should not change.
+> Yes, that's my vote.  It'd be easy enough to clarify that "rule" with a comment
+> in linux/kvm_host.h.
 
-We already have a knob to select vswap. Users can turn it off
-initially, and/or update their software to handle the transition
-based on this knob.
+I note you dodge the actually difficult question of what this wrapper function
+would look like ;)
 
-Otherwise, you'd never be able to introduce any behavior into the
-kernel. Hugetlb accounting/charging is a new behavior, and there were
-softwares written before that assumed hugetlb usage is not charged. If
-it's not a good argument to block the implementation of hugetlb
-accounting then, it's not a good argument now.
+So maybe like:
+
+static int kvm_vcpu_load(struct kvm_vcpu *vcpu)
+{
+	int err;
+
+	err = kvm_arch_allow_vcpu_load(vcpu);
+	if (err)
+		return err;
+
+	vcpu_load(vcpu);
+	return 0;
+}
+
+?
+
+And I do like that you'd actually gate the right thing, I feel you on that,
+obviously since this kind of predicate is what I started out with.
+
+But I'm also looking to do the smallest possible thing here that fits the series
+and doesn't preface it with a 'change how core kvm does something'.
+
+But if Oliver/Marc feel this is viable then sure can go with it.
+
+(Also naming is hard, kvm_vcpu_load()? do_vcpu_load()? maybe_vcpu_load()?
+checked_vcpu_load()? vcpu_load_checked()? :P)
+
+>
+> > But you're still stuck with the problem of where exactly you put this check.
+> >
+> > So then do you put that check in a wrapper around it?
+> >
+> > Instead you can make the predicate 'don't prefault on a not-yet-initialised
+> > vCPU' which is pretty sensible I think, have a specific place to put it and
+> > all's well with the world.
+>
+> But look at it from an x86 perspective.  Pretty much everyone will look at this
+> and expect:
+>
+>   bool kvm_arch_vcpu_allow_pre_fault_memory(struct kvm_vcpu *vcpu)
+>   {
+> 	return vcpu->kvm->arch.pre_fault_allowed;
+>   }
+
+I'm not sure I really get your point here at all? :)
+
+Why would it matter what people who are too lazy to go check the implementation
+assume about an arch hook?
+
+>
+> > > I'd also be tempted to say it can be a macro, not a __weak function.  E.g.
+> >
+> > Yeah it can be many things but why would you want a macro if you could possibly
+> > avoid it? :)
+>
+> Because it allows arch code to dererefence "struct kvm_vcpu" in kvm_host.h,
+> i.e. allows "inlining" the check.
+
+Yeah I mean, micro-optimising a path run on a costly startup operation seems a
+little unnecessary? :)
+
+It seems the convention is __weak but I'm not going to die on this hill.
+
+(C type safety is something of a myth but I do prefer to try to have what
+little protection it offers when possible :)
+
+--
+Cheers, Lorenzo
