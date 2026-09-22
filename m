@@ -1,84 +1,194 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7864F30C1;
-	Tue, 22 Sep 2026 07:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBBE3264F9;
+	Tue, 22 Sep 2026 07:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790060828; cv=none; b=MfACKt42CexIuHiwl+DxK7b2TbwxYhADVVfWQtORHsPINKl7KEbft5tqwsJGKsPIxZM3yvkMam3pSGfgB2gy4ik4myoC68xmJdrTJYqzTTSVuL9n0tixr7rL525/FM9oV9Afl3rfpJkyF60L7AjekwIlNjw2sM7gz4b1UpYGiZM=
+	t=1790060962; cv=none; b=jL7vD6XobfEDvXjvNinf88jfzcDS3ZgZTAFsuIUm6/0inxglAod6P1vpJfnV/901yVmppUs9SanYb8MchW/ZdKYHmzzAZPdg99DrvwwNplh0tSR2iHj5joXq8omwwl5tI9KnmMb98LerqsaMjDrrIqT2E8rE529jC6W8xfBkfT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790060828; c=relaxed/simple;
-	bh=c0p2lXoFYXsW4S/YekiSdYU1ewx7gAxopyP2B03FLo4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gf7d+XNhWYl6S5KBn3afDkbYm2f9qDz+a5sx+fXveRshsOl7D4iJj5ahVTfu+SWXg5ukIlBjVZfgZhngucLL/bvG94zJaqXIb8erqJ5m5fwVuGAa/u0xg6XoZbUx6uYCHv31fbtOGcv7jmLzEKiIbolyW3cZzEVBAzc8zLfL1zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Ww/K3iLi; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1790060962; c=relaxed/simple;
+	bh=dyQq9qBcjkWcwHbXOdqLh4IhchHguR89SAmcoDQjIlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C/KwirLS1h+gI7+Z/cCV4i4wLiWIsH2go7AlS292bFTVFEj4bxBVLPQMc0AQ80ozk46jhnSr1h9LhwasXvLKANJUHStRMKkxLA/n5DXlW+jkc8CKEQKyY2llNEXBQ+ie/bXR+raG9AewWsa4maebthzyGOhCV5Zm47ZgaDtPmb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=emxS0O2u; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Ww/K3iLi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=c0
-	p2lXoFYXsW4S/YekiSdYU1ewx7gAxopyP2B03FLo4=; b=Ww/K3iLiq6isLjzkuA
-	Bc1w/vQrW9p745o8/p+MCTHh/nneQhBDDWHGcbCN7Ipen10LzOzwhQH+eBcdy3RJ
-	5F9XE4Mlxfcgfl+vrRdPWvJOuAlRfiPZNj2AKghukjnpqkt1cXyyx5uPQ/0O/mvO
-	+Oep+pisZ2jgKD4JrhUMs8j8Q=
-Received: from chaosheng-ASUS-TUF-Gaming-F16-FX607JV-FX607JV.lan (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgDnTVH0KLJqbxULAw--.34964S2;
-	Tue, 22 Sep 2026 15:06:29 +0800 (CST)
-From: Quchaosheng <quchaosheng000406@163.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	quchaosheng000406@163.com
-Subject: Re: [PATCH 1/2] sched/doc: add a preemption model overview
-Date: Tue, 22 Sep 2026 15:06:19 +0800
-Message-ID: <20260922070619.70145-1-quchaosheng000406@163.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260921113050.lwG9IphF@linutronix.de>
-References: <20260921113050.lwG9IphF@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="emxS0O2u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB211F000FF;
+	Tue, 22 Sep 2026 07:09:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790060960;
+	bh=DIWesvw9U8QZO9lMo1ZcRByJChbnPxGPEhvF31Eh9cc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=emxS0O2u3PqWdi1jxmKO79TQV2n0TKPHh+cGGQ9B9SKgyx6zrLI0Msuo4CTimSkOa
+	 kf0us14AGJsMEygCyMjqX4njWubYMOBLD/uEk0J1s9Gjt+grOwrOzF55EObQCKmXzH
+	 WES0gzewSNafYx5zurM1T56noD+gHuVwUdfFj1b5KSsWD9L0GetMdXsE+THl5/rEGZ
+	 xa+FfuetJ5ztYrMpbSpnWXurZMLEkYzsQahgVxb4b58AYGfOILObQnAOGHWv7vITTj
+	 sMbIJfy+WPl2WK/bw7sMOQYgq8wkmDodM3wE6YcFWXl4ywieKPy3zu2P6tCDiAiAIt
+	 z2YdS1e84J1Qw==
+Date: Tue, 22 Sep 2026 09:09:17 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jessica Zhang <jesszhan0024@gmail.com>, 
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Linus Walleij <linusw@kernel.org>, Inki Dae <inki.dae@samsung.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Albert Esteve <aesteve@redhat.com>, Anusha Srivatsa <asrivats@redhat.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+	Ian Ray <ian.ray@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v3 12/19] drm/mcde: dsi: don't create a panel_bridge
+Message-ID: <arInho2bsfJiCgjV@houat>
+References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
+ <20260916-drm-bridge-every-panel-v3-12-83afb4f1a707@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgDnTVH0KLJqbxULAw--.34964S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw47JF1ktw4xJryxAFW7CFg_yoW8GF1Dpa
-	yYg3ZrGrsrZ3yIkw1vyr17GFyFyws5Jr45Kryrt34jy3yYgrn7trs8tay2kFZruFWfur4a
-	vFWUWa9xA3Z0yaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0JUrpnQUUUUU=
-X-CM-SenderInfo: xtxfxtprvkv0bjqqikiqw6il2tof0z/xtbC-xWOBGqyKPVYFwAA3q
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ivxpm4gz74yd66ki"
+Content-Disposition: inline
+In-Reply-To: <20260916-drm-bridge-every-panel-v3-12-83afb4f1a707@bootlin.com>
 
-Sebastian,
 
-Thanks for going through it that closely. You found real errors, not just
-wording, so here is what I am doing with each.
+--ivxpm4gz74yd66ki
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 12/19] drm/mcde: dsi: don't create a panel_bridge
+MIME-Version: 1.0
 
-The "Measuring" section is wrong and comes out entirely. A wakeup does not
-send an IPI to every CPU with a runnable CFS task; it targets one CPU. The
-rest of that section reasons from that false premise, so there is nothing
-in it worth keeping. Your point that a freshly woken SCHED_OTHER task is
-not required to run immediately, and that timer slack and preemption or
-interrupt disabled regions add their own jitter, was the useful content
-and I did not have it.
+On Wed, Sep 16, 2026 at 03:45:36PM +0200, Luca Ceresoli wrote:
+> Now a panel_bridge is automatically created for every drm_panel and the
+> panel-bridge API is just a deprecated wrapper to access it.
+>=20
+> Update and simplify the code by just getting a reference to the
+> already-existing bridge using of_drm_find_and_get_bridge().
+>=20
+> Also keep the "connected to non-panel bridge (unsupported)\n" error logic
+> by using the drm_bridge_is_panel() function.
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> ---
+>  drivers/gpu/drm/mcde/Kconfig    |  1 -
+>  drivers/gpu/drm/mcde/mcde_dsi.c | 41 +++++++++--------------------------=
+------
+>  2 files changed, 9 insertions(+), 33 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/mcde/Kconfig b/drivers/gpu/drm/mcde/Kconfig
+> index 6ebfb930cbfa..81e7d3796c06 100644
+> --- a/drivers/gpu/drm/mcde/Kconfig
+> +++ b/drivers/gpu/drm/mcde/Kconfig
+> @@ -10,7 +10,6 @@ config DRM_MCDE
+>  	select DRM_MIPI_DSI
+>  	select DRM_BRIDGE
+>  	select DRM_PANEL
+> -	select DRM_PANEL_BRIDGE
+>  	select DRM_KMS_HELPER
+>  	select DRM_GEM_DMA_HELPER
+>  	help
+> diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_=
+dsi.c
+> index 77cf253a2152..daac8d67913d 100644
+> --- a/drivers/gpu/drm/mcde/mcde_dsi.c
+> +++ b/drivers/gpu/drm/mcde/mcde_dsi.c
+> @@ -37,7 +37,6 @@ struct mcde_dsi {
+>  	struct device *dev;
+>  	struct mcde *mcde;
+>  	struct drm_bridge bridge;
+> -	struct drm_panel *panel;
+>  	struct mipi_dsi_host dsi_host;
+>  	struct mipi_dsi_device *mdsi;
+>  	const struct drm_display_mode *mode;
+> @@ -1074,7 +1073,6 @@ static int mcde_dsi_bind(struct device *dev, struct=
+ device *master,
+>  	struct drm_device *drm =3D data;
+>  	struct mcde *mcde =3D to_mcde(drm);
+>  	struct mcde_dsi *d =3D dev_get_drvdata(dev);
+> -	struct drm_panel *panel =3D NULL;
+>  	struct drm_bridge *bridge __free(drm_bridge_put) =3D NULL;
+> =20
+>  	if (!of_get_available_child_count(dev->of_node)) {
+> @@ -1102,40 +1100,21 @@ static int mcde_dsi_bind(struct device *dev, stru=
+ct device *master,
+> =20
+>  	/* Look for a panel as a child to this node */
+>  	for_each_available_child_of_node_scoped(dev->of_node, child) {
+> -		panel =3D of_drm_find_panel(child);
+> -		if (IS_ERR(panel)) {
+> -			dev_err(dev, "failed to find panel try bridge (%ld)\n",
+> -				PTR_ERR(panel));
+> -			panel =3D NULL;
+> -
+> -			bridge =3D of_drm_find_and_get_bridge(child);
+> -			if (!bridge) {
+> -				dev_err(dev, "failed to find bridge\n");
+> -				return -EINVAL;
+> -			}
+> +		bridge =3D of_drm_find_and_get_bridge(child);
+> +		if (!bridge) {
+> +			dev_err(dev, "failed to find bridge\n");
+> +			return -EINVAL;
+>  		}
+> =20
+> -		if (panel || bridge)
+> -			break;
+> +		break;
+>  	}
+> -	if (panel) {
+> -		bridge =3D drm_panel_bridge_add_typed(panel,
+> -						    DRM_MODE_CONNECTOR_DSI);
+> -		drm_panel_put(panel);
+> -		if (IS_ERR(bridge)) {
+> -			dev_err(dev, "error adding panel bridge\n");
+> -			return PTR_ERR(bridge);
+> -		}
+> -		drm_bridge_get(bridge);
+> -		dev_info(dev, "connected to panel\n");
+> -		d->panel =3D panel;
+> -	} else if (bridge) {
+> +	if (!bridge) {
+> +		dev_err(dev, "no bridge\n");
+> +		return -ENODEV;
+> +	} else if (!drm_bridge_is_panel(bridge)) {
+>  		/* TODO: AV8100 HDMI encoder goes here for example */
+>  		dev_info(dev, "connected to non-panel bridge (unsupported)\n");
+>  		return -ENODEV;
 
-The rationale is also wrong. I wrote that lazy exists to cut IPI traffic;
-the point is run-to-completion, so that in-kernel work finishes before the
-switch and no lock is held across it. I will use your wording for the
-model table, including the part about real-time tasks not being delayed.
+I wonder if we still need that branch. Every panel is a bridge now, and
+it looks like we don't have any specific panel handling in this driver,
+so I guess it supports bridges already?
 
-The tick promotion and the idle-task case are implementation details and
-go, and so does the debugfs section, for the reason you gave.
+Linus, do you know why this condition was here in the first place?
 
-That leaves the four models, runtime selection, the note that this applies
-to kernel code only, and /sys/kernel/debug/sched/preempt as another way to
-see and change the model.
+Maxime
 
-Both patches are held. If what is left is too thin to be worth a file,
-say so and I will drop the series rather than post a trimmed version of
-something you did not think should exist.
+--ivxpm4gz74yd66ki
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Quchaosheng
+-----BEGIN PGP SIGNATURE-----
 
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCarIpmAAKCRAnX84Zoj2+
+dtjPAX4+J2ZR1yr2hmD3nVeJMvI8smwXK4y9hbFXhRPgKc1nywpXnsHpCTglFoIb
+qmbzuh0Bf1cHYt864QzBTzUfI+t/PJ9gbmGcYD7bX6+4GvcQhqZOW5GIw6Txx9Yy
+eOSqlKXvWg==
+=xo8g
+-----END PGP SIGNATURE-----
+
+--ivxpm4gz74yd66ki--
