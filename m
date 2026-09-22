@@ -1,162 +1,170 @@
-Received: from mta0.migadu.com (out-128.mta0.migadu.com [91.218.175.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525B63F9264
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 06:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1C32FF672;
+	Tue, 22 Sep 2026 06:43:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790058994; cv=none; b=Vhy6Fx+Li/ceRY/mqfMSQ7EfIjAypUpzMBa+qvYMpNc33Da8tl1rTtyG3aqfi5ZF6Yk2P/CwRXj4wGcNUuwQrgE4Ci8FqjvMcT3FVNARDbfJGb2Yic4EKzTIEv0IOFNYaZmq2UhQVyKmWJudei5H2o9ZXMtxCnMykqOp+pTMY1s=
+	t=1790059401; cv=none; b=uXMocVp/Cs9OqwayN5jADKtOGZnbFl37KhmasEUrCM5w+81n3a3EoDogGAtUq5P+vLHNw1cFqdVGoO03p45RcnrFRF54rYVj18lpWtZj+iipunyQQPvRI0uPVB18AMuK1IphzDhqr9BcDpMOH8pYhTPxqFtYZ6pCn+1qDHvmfdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790058994; c=relaxed/simple;
-	bh=2f7N2wQwoMIPRLsH1dBFNiI3hoXRzjdhR248lSeQPa8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tyRaDcwC8Z6NIkABTFBkIqIivxDR+qHqcgd6u6d/0w1/6C3FiTzhZFUxi3PLhNcxOh1NrKnrR4Uh+xmsm/edX4AMp6ogb8Ild1tIDGa8YF5iSJD0klI0dThKn/KwIImntakpI/sJbTd/5/4JcT3VY6kCgSBgyoBrZtIPSe4OFow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rDvdBQFb; arc=none smtp.client-ip=91.218.175.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790059401; c=relaxed/simple;
+	bh=/JTvVwAa8wp2p8UY5azd/n4TXS07TMF1QBglfodrLWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RezzVq71dMSk9cyenjhdD3fMNT7nn56CRxdvtg+yx/J1HJFEtaJz1kE0Lws6odVKEikjppT5GShFpB7pVxFpxR9XTcvHcL9P+way8MSNJQSSwBZ66idr8PGSpVER1YDckL3r2utM3M65yVsuo5BTho5nR+Uwrw9aj6DByntlW9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MdX9Ya7V; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rDvdBQFb"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=2f7N2wQwoMIPRLsH1dBFNiI3hoXRzjdhR248lSeQPa8=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790058984; v=1; x=1790663784;
- b=rDvdBQFbTDT991qzJsV2LWCnEUPuksgiuz7ZK4u7HDd2Ir5eDXToCD/O12gEc4FHZnLiPOKf
- EwnZZBjykgyMq7KShs3IkR+/I13QwCHQj8kRZN34PbbV0P56Y2EW3Dmrcga4TFVYLCbDL/DoQti
- uKk64cEa6yphnBNpo9kfR2DQ=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 306e80ec8b0aeb44;
-	Tue, 22 Sep 2026 06:36:24 +0000
-X-Mizu-Trace-ID: 306e80ec8b0aeb44
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <4c5c4ec8-ef44-47d7-99b5-355b5ffdfcf9@linux.dev>
-Date: Tue, 22 Sep 2026 14:36:16 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MdX9Ya7V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 537431F000FF;
+	Tue, 22 Sep 2026 06:43:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790059399;
+	bh=ZNn+S45uuHSM1MevwqL8L/OLU6cXbDvK1jrtFFoJQRo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MdX9Ya7V1NXVARco19qfnbcVEbNm56zISiZkNG3b9akDoeSs0/EYgTd7QCnlnaoa6
+	 j2PV5pmtakJaak1Co1gKLHuRiQlcvuwsQVoRCQbgks6IvTtVgn5Ypxr4Iu5PrPl4IA
+	 Yf1e8Snkoq3cpLt6pTMAUx7tdUM6zilk6a/UUJ2ClgIao2M5/Wb7me08izuBgK/1Ar
+	 kwpLRIdauWOmK9foRBd5P1ZbFjUQcVNcqytK16X+JIl4Pf6Xkg75w+lZFanHIgdaFK
+	 +kL6xFN42h9oNj9HCgbS9x9NuXH6tolh7CmaQg6Vd8tWkKZB02d1OZutpNm+t8BUfG
+	 ITmBh1WGyx0Kw==
+Date: Mon, 21 Sep 2026 23:43:18 -0700
+From: Oliver Upton <oupton@kernel.org>
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Andrew Jones <andrew.jones@oss.qualcomm.com>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shannon Zhao <shannon.zhao@linaro.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v11 08/21] Revert "KVM: arm64: PMU: Reload when resetting"
+Message-ID: <arIjhlqqzt4AKTOr@kernel.org>
+References: <20260920-hybrid-v11-0-03618771b0e1@rsg.ci.i.u-tokyo.ac.jp>
+ <20260920-hybrid-v11-8-03618771b0e1@rsg.ci.i.u-tokyo.ac.jp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] docs: cgroup-v2: Describe effective CPUs of
- partition roots
-To: Guopeng Zhang <guopeng.zhang@linux.dev>, Waiman Long <longman@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Guopeng Zhang <zhangguopeng@kylinos.cn>
-References: <20260922032130.33777-1-guopeng.zhang@linux.dev>
- <20260922032130.33777-3-guopeng.zhang@linux.dev>
-From: Ridong Chen <ridong.chen@linux.dev>
-In-Reply-To: <20260922032130.33777-3-guopeng.zhang@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260920-hybrid-v11-8-03618771b0e1@rsg.ci.i.u-tokyo.ac.jp>
 
+Hi Akihiko,
 
+On Sun, Sep 20, 2026 at 08:15:49PM +0900, Akihiko Odaki wrote:
+> This reverts commit fe53538069bb4f625bc8734103ba044a83138fea.
+> 
+> Restore PMU event teardown before system-register reset so existing
+> perf events cannot retain configuration from the previous run. All
+> counters are disabled by the reset PMCR_EL0 and MDCR_EL2 values, so
+> reset does not need to request a PMU reload.
 
-On 9/22/2026 11:21 AM, Guopeng Zhang wrote:
-> From: Guopeng Zhang <zhangguopeng@kylinos.cn>
-> 
-> The cpuset.cpus.effective description says that the effective CPUs are
-> granted by the parent and are normally a subset of cpuset.cpus. This
-> does not always hold for a valid non-root partition root. Its effective
-> CPUs are the active CPUs in cpuset.cpus.exclusive.effective after CPUs
-> assigned to valid child partition roots are removed.
-> 
-> If cpuset.cpus.exclusive differs from cpuset.cpus, the effective CPUs
-> may therefore be outside cpuset.cpus. Remote partitions also do not
-> necessarily get their CPUs from their immediate parent.
-> 
-> Suggested-by: Ridong Chen <ridong.chen@linux.dev>
-> Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
+Sorry, I'm not following the intent here. KVM_REQ_RELOAD_PMU should
+already be discarding + recomputing perf events based on the state of
+the vPMU. What's the problem?
+
+Thanks,
+Oliver
+
+> Assisted-by: Codex:gpt-6-astra
+> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
 > ---
->   Documentation/admin-guide/cgroup-v2.rst | 56 ++++++++++++++++++++-----
->   1 file changed, 46 insertions(+), 10 deletions(-)
+>  arch/arm64/kvm/pmu-emul.c | 14 ++++++++++++++
+>  arch/arm64/kvm/reset.c    |  3 +++
+>  arch/arm64/kvm/sys_regs.c |  3 ---
+>  include/kvm/arm_pmu.h     |  2 ++
+>  4 files changed, 19 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 18a01ce4c334..d21bbae3312a 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -2505,16 +2505,52 @@ Cpuset Interface Files
->   	A read-only multiple values file which exists on all
->   	cpuset-enabled cgroups.
->   
-> -	It lists the onlined CPUs that are actually granted to this
-> -	cgroup by its parent.  These CPUs are allowed to be used by
-> -	tasks within the current cgroup.
+> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
+> index a5ccb6ae44d5..14fcdbdb4587 100644
+> --- a/arch/arm64/kvm/pmu-emul.c
+> +++ b/arch/arm64/kvm/pmu-emul.c
+> @@ -258,6 +258,20 @@ void kvm_pmu_vcpu_init(struct kvm_vcpu *vcpu)
+>  		pmu->pmc[i].idx = i;
+>  }
+>  
+> +/**
+> + * kvm_pmu_vcpu_reset - reset pmu state for cpu
+> + * @vcpu: The vcpu pointer
+> + *
+> + */
+> +void kvm_pmu_vcpu_reset(struct kvm_vcpu *vcpu)
+> +{
+> +	unsigned long mask = kvm_pmu_implemented_counter_mask(vcpu);
+> +	int i;
+> +
+> +	for_each_set_bit(i, &mask, 32)
+> +		kvm_pmu_stop_counter(kvm_vcpu_idx_to_pmc(vcpu, i));
+> +}
+> +
+>  /**
+>   * kvm_pmu_vcpu_destroy - free perf event of PMU for cpu
+>   * @vcpu: The vcpu pointer
+> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+> index 10eb7249aa9e..adcb460a5287 100644
+> --- a/arch/arm64/kvm/reset.c
+> +++ b/arch/arm64/kvm/reset.c
+> @@ -185,6 +185,9 @@ void kvm_reset_vcpu(struct kvm_vcpu *vcpu)
+>  	vcpu->arch.reset_state.reset = false;
+>  	spin_unlock(&vcpu->arch.mp_state_lock);
+>  
+> +	/* Reset PMU outside of the non-preemptible section */
+> +	kvm_pmu_vcpu_reset(vcpu);
+> +
+>  	preempt_disable();
+>  	loaded = (vcpu->cpu != -1);
+>  	if (loaded)
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 1481dd5c99a8..75624725adf1 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -5388,9 +5388,6 @@ void kvm_reset_sys_regs(struct kvm_vcpu *vcpu)
+>  	}
+>  
+>  	set_bit(KVM_ARCH_FLAG_ID_REGS_INITIALIZED, &kvm->arch.flags);
 > -
-> -	If "cpuset.cpus" is empty, the "cpuset.cpus.effective" file shows
-> -	all the CPUs from the parent cgroup that can be available to
-> -	be used by this cgroup.  Otherwise, it should be a subset of
-> -	"cpuset.cpus" unless none of the CPUs listed in "cpuset.cpus"
-> -	can be granted.  In this case, it will be treated just like an
-> -	empty "cpuset.cpus".
-> +	It lists the active CPUs available to tasks in this cgroup.
-> +
-> +	For a cgroup that is not a valid partition root, an empty
-> +	"cpuset.cpus" makes "cpuset.cpus.effective" show all CPUs
-> +	available from the parent cgroup. Otherwise, it is a subset
-> +	of "cpuset.cpus" unless none of the requested CPUs can be
-> +	granted. In that case, it is treated like an empty
-> +	"cpuset.cpus".
-> +
-> +	For example::
-> +
-> +	  P (cpuset.cpus.effective=0-3)
-> +	  |
-> +	  +-- C0 (member):       cpuset.cpus=1-2
-> +	  |                      cpuset.cpus.effective=1-2
-> +	  +-- C1 (invalid root): cpuset.cpus=4-5
-> +	  |                      cpuset.cpus.effective=0-3
-> +	  \-- C2 (member):       cpuset.cpus=<empty>
-> +	                         cpuset.cpus.effective=0-3
-> +
-
-That is clear. Thanks.
-
-> +	C0 gets CPUs 1-2 because they are available from P.
-> +	None of C1's requested CPUs 4-5 are available from P, so C1 uses P's
-> +	effective CPUs 0-3 instead.
-> +	C2 has an empty "cpuset.cpus" and therefore also uses P's effective
-> +	CPUs 0-3.
-> +
-> +	For a valid non-root partition root, "cpuset.cpus.effective" contains
-> +	the active CPUs from "cpuset.cpus.exclusive.effective" except
-> +	those granted to valid child partition roots. If
-> +	"cpuset.cpus.exclusive" is set to a value different from
-> +	"cpuset.cpus", the effective CPUs need not be a subset of
-> +	"cpuset.cpus".
-> +
-> +	For example, if CPUs 2-5 are active, available, and not assigned
-> +	to a valid child partition root::
-> +
-> +	  top (root)
-> +	  |
-> +	  \-- P (valid partition root)
-> +	      cpuset.cpus=0-3
-> +	      cpuset.cpus.exclusive=2-5
-> +	      cpuset.cpus.exclusive.effective=2-5
-> +	      cpuset.cpus.effective=2-5
-> +
-> +	P has 2-5 in "cpuset.cpus.effective" even though its
-> +	"cpuset.cpus" is 0-3.
->   
->   	Its value will be affected by CPU hotplug events.
->   
-
-I would suggest offering an example where "cpuset.cpus.effective" differs from 
-"cpuset.cpus.exclusive.effective", meaning that 
-"cpuset.cpus.exclusive.effective" contains offline CPUs. This would make it much 
-clearer that "cpuset.cpus.effective" does not contain offline CPUs.
-
-With that, feel free to add:
-
-Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
-
-Thanks.
-
--- 
-Best regards
-Ridong
-
+> -	if (kvm_vcpu_has_pmu(vcpu))
+> -		kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
+>  }
+>  
+>  /**
+> diff --git a/include/kvm/arm_pmu.h b/include/kvm/arm_pmu.h
+> index 6b4a118d17ca..51f5e4ca3326 100644
+> --- a/include/kvm/arm_pmu.h
+> +++ b/include/kvm/arm_pmu.h
+> @@ -48,6 +48,7 @@ u64 kvm_pmu_implemented_counter_mask(struct kvm_vcpu *vcpu);
+>  u64 kvm_pmu_accessible_counter_mask(struct kvm_vcpu *vcpu);
+>  u64 kvm_pmu_get_pmceid(struct kvm_vcpu *vcpu, bool pmceid1);
+>  void kvm_pmu_vcpu_init(struct kvm_vcpu *vcpu);
+> +void kvm_pmu_vcpu_reset(struct kvm_vcpu *vcpu);
+>  void kvm_pmu_vcpu_destroy(struct kvm_vcpu *vcpu);
+>  void kvm_pmu_reprogram_counter_mask(struct kvm_vcpu *vcpu, u64 val);
+>  void kvm_pmu_flush_hwstate(struct kvm_vcpu *vcpu);
+> @@ -125,6 +126,7 @@ static inline u64 kvm_pmu_accessible_counter_mask(struct kvm_vcpu *vcpu)
+>  	return 0;
+>  }
+>  static inline void kvm_pmu_vcpu_init(struct kvm_vcpu *vcpu) {}
+> +static inline void kvm_pmu_vcpu_reset(struct kvm_vcpu *vcpu) {}
+>  static inline void kvm_pmu_vcpu_destroy(struct kvm_vcpu *vcpu) {}
+>  static inline void kvm_pmu_reprogram_counter_mask(struct kvm_vcpu *vcpu, u64 val) {}
+>  static inline void kvm_pmu_flush_hwstate(struct kvm_vcpu *vcpu) {}
+> 
+> -- 
+> 2.55.0
+> 
