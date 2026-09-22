@@ -1,214 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEDA54F391B;
-	Tue, 22 Sep 2026 14:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9FB54281D
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 14:28:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790087229; cv=none; b=kLof6iSdoCVHxlEpwpdjrd6uG+jfEj8GZDM82Pj67vb3/K9idDHmuhKHAVWwthk50VX1JLSUgeuIF/x+FZt7udn/bI8sjE5mth84anz6UcXA67A0IWJuZ1lJr/sVm7n9rNKEK+ZBWeTnFe16gZ/20hkaY4BU1jTHZbgDJGLiCT8=
+	t=1790087317; cv=none; b=PvJYHPcqFLHsznYbjNQyfuZm8N+3kbdG1JmhRNOTSdy6YWGWZwxXNC58QyDxNQmcXSuasYghtJ3Te4YRwTwKrdyuEIRCNECw8Vu7tC0pVkO58LWkBvkA3xtsDRYkOF0CSZlTwpj8E33yJjobBhutXX5DTpzSnvAdWY6ZWR2MKgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790087229; c=relaxed/simple;
-	bh=oW1pJRQnRgSl6wxKhscSM9KdCKWSZpH9pzzrsXbdVhQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YGtF63SIqbuyWiwyYcIEMv5ePA/CDbMsjnqsY1+NcBYCd3BNGXInFtd7+uXjaBQuDbrf9VDuhxv4p9E+clwvvDG2GU3ynGtEVyoQy67VwJuAFaXNKDzLQg3h56itoXwxkg768do21pxhJXuA/UzRqZgzfagKRmaDonXnsJtnlIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rsdna0yX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790087317; c=relaxed/simple;
+	bh=mMUtEEojzt9J8y96cs3e6JAjp06vfiuaPVxbmzHBeZE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iX/bXxF9ba+47n8Jc3C6dE2hraZPJ5dAbzoW8610Nf/MqF7BOyTGeVfY/My4YeIhuL+sdKD4/AyhFuZ7YNnsCYi+WaqdQo4ZX4DDOJ5ivfCPRBSB3/3LNu0hHuDEbOI6iTFZ3Ypuo2NAncznvgdL/7a72MfqfbGDp0HTw39xYL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kYEibxN7; arc=none smtp.client-ip=74.125.229.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rsdna0yX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DEE21F000FF;
-	Tue, 22 Sep 2026 14:27:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790087227;
-	bh=XJEL2Hm1vrdb6vMcqZseArACQHb75K/NoVu74tGPz+g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Rsdna0yXsjKvBSzuthMoCSnDu2jjoQf+l1qOm4qgITDB6a2BUcBKPtwC+70FFu+20
-	 uwhXwuWgh742TWvlJe+ml677jWpT20vg969DYMFWuG+hzKFutgD0Hup3AsIlzCrFfw
-	 PoeFR6LbBVTOIZpSm6+Q/om6pqsczH3bkLkVKuwvg01eJQcR3r+B1BeznFtoIYQ5xj
-	 w9T8SXPGv7SKjq1hXkoZCf5XX/IlPr8kaLdv3/FkctDtjJFEqSdwyAG9N6WtNdrLib
-	 qncToIC8KGgXQm27vIOgF57ncJx8MR9bfogklv6cJ1/3a0zmS/sQ6NDblPNSJT+EFZ
-	 Ctyb1MY0Trv2g==
-Date: Tue, 22 Sep 2026 15:26:58 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Fuad Tabba <tabba@google.com>, Joey Gouly <joey.gouly@arm.com>, 
-	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
-	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
-	Leo Soares Passos <Leo.Bras@arm.com>
-Subject: Re: [PATCH v2 00/13] KVM: arm64: Add KVM_PRE_FAULT_MEMORY support
-Message-ID: <arKPnPBZFqvFQlTO@gremlin>
-References: <20260914-kvm-arm-prefault-v2-0-26fb47f74b73@kernel.org>
- <yq5abj9p38vq.fsf@kernel.org>
- <arJ1BDEzY5CANjjB@gremlin>
- <yq5a8q4t305j.fsf@kernel.org>
- <arKB2imOcg4MhXMF@gremlin>
- <yq5a5wzx2wny.fsf@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kYEibxN7"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f15cfdso3917948e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 07:28:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790087314; x=1790692114; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JLJfF6hhwT/ytTs8DqMt8dJw/Qx7jiDljUxbYquadd4=;
+        b=kYEibxN7VS/1rqlySqbPxRIIt0hsjjgqdM+AUhXpO1r7VmHbJuS3LcSBcAuG/e7vzV
+         kpUoyOSJFh9XZbuQ+z4zyv6KcaOPZ7VLuijCAk5f3/lddNdS4YT5cqtPe79Rz5C+33yi
+         cSXX2NXM7CYD9/FZNi3j/Hj+s8r0ZnJVmHb6g0Z3hIkTVRfOlKBOe7DgZyvLufKPTguq
+         B0xy+5E2Oh7IwxIXgs0u4VXESj++4N528S4l//ICkGUPhW9cK4d/9oSdIUFXK6YXFwZW
+         XillEo2EeuP29Qxl08r4ayd+RK8tQdr3sH6FNf1cq3RkpmhpQNVkLBco383nxRTusiia
+         piXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790087314; x=1790692114;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JLJfF6hhwT/ytTs8DqMt8dJw/Qx7jiDljUxbYquadd4=;
+        b=y1IhGy66I2OoB1jr869NUw1e6RTyyACqPTwkYS6x5owmekiWP2kUOr4D7Upy5NWZW2
+         uK8A/E4qSCH2L8S5WRBgmOuj8nzefKCwxLogTFQEQ2/GACe1lFYvJiaN1gZOQU/ZT26N
+         OO9z+z3BFKhZFgzBHocievq05BqNMZU1ETiI3xqlkV5ov6Ba1pJGgwOuBTmt6ZceNRlu
+         QS/G+LAtWfFmW4bpoc3tDK9Fg3T3sD3MBZzucOjTkNti+V+z20Rypgip4ILSC/EQ8CIL
+         9zyF3NTC7vuf5aIIwuHlsUNBDEEVSN8PdkpP16AuT+9x2jJe/lnS8vqzZGmCV90ct1FT
+         ixGw==
+X-Gm-Message-State: AFuF++lE6ZNL8uuXu0+fFc/F/gKUKy5CHvD+YJA/WqRYB6R+jvc0HJHF
+	Iyqdbl0r6UviL+Rx+0N2q+Z8MHDftn2s1+I3a/JfsEbhNR0XeYBM/OWNaALnayGA
+X-Gm-Gg: AYBFou0R/LslChsOvWizs60AIwwftVPQjPs75Ikg2ImxqDnW4n5kvOHynrv9ji0HVJu
+	rKesjAdx8PGqm8ZPc2WdqAGBQHy8sFzOTfq5qdwjurNCX55+a2dfRV+V4+SXGDrEtkgAEXtJzae
+	IPJ7NNdotuYsk/uF5b1GdLGwb3+8cah19FJbLurrFdGxPYim6SrIwPqLK+xZQpRpm97uxpBMbLv
+	4Oj3hyyhIcOYJXvkQ13o0HMFhaHv+2klAYMdE0ce1ToL6Qr0TJw19HwJFjRrv3E6ZkP6+9mw+Z1
+	ZDPAFNorgDAlxmlYEBAXgZoEUHHKQiQ0USWlUh+jxXRj+TUzDimA3a3YELc8vKVGQp3wJ385hjK
+	mSRBd2DXiNeGBHN0KRk10HoItyLGKiB1bvgUbNC5hYoAJQF4VQqstH8uGMCNl0knJ4bpDxymrC/
+	vBiRG2HIPVZ2xJOvQ3h18JkBSosxoHS/lnq+N363Ony0cAKZ7psuqsCbvUg7NSyei87G84VGSTx
+	j+WyLg+DJurO3RIWskEg93iYJZ0WrcZtJIVDqOd
+X-Received: by 2002:ac2:4e11:0:b0:5b8:99b1:4884 with SMTP id 2adb3069b0e04-5b8c1836e53mr3902709e87.40.1790087313390;
+        Tue, 22 Sep 2026 07:28:33 -0700 (PDT)
+Received: from fedora-tap.advaoptical.com ([82.166.23.19])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d46d2064sm589691e87.24.2026.09.22.07.28.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 07:28:32 -0700 (PDT)
+From: Sagi Maimon <maimon.sagi@gmail.com>
+To: Richard Cochran <richardcochran@gmail.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	netdev@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sagi Maimon <maimon.sagi@gmail.com>
+Subject: [PATCH net-next 0/9] ptp: ocp: TAP CPLD follow-up fixes
+Date: Tue, 22 Sep 2026 17:28:20 +0300
+Message-ID: <20260922142829.57740-1-maimon.sagi@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq5a5wzx2wny.fsf@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 22, 2026 at 07:52:25PM +0530, Aneesh Kumar K.V wrote:
-> "Lorenzo Stoakes (ARM)" <ljs@kernel.org> writes:
->
-> > On Tue, Sep 22, 2026 at 06:37:04PM +0530, Aneesh Kumar K.V wrote:
-> >> "Lorenzo Stoakes (ARM)" <ljs@kernel.org> writes:
-> >>
-> >> > On Tue, Sep 22, 2026 at 03:28:33PM +0530, Aneesh Kumar K.V wrote:
-> >> >> > This is because pKVM instantiates vCPUs upon run,
-> >> >> >
-> >> >>
-> >> >> Can pKVM instantiate the hyp vCPU during pre-faulting ?
-> >> >
-> >> > It would be an unusual and unexpected thing to do - suddenly a pre-fault
-> >> > operation is initialising a vCPU explicitly for pKVM.
-> >> >
-> >> > A caller is not going to reasonably expect this and might treat a failure to
-> >> > pre-alloc as fine to carry on whereas in fact it was a failure to initailised a
-> >> > pKVM vCPU.
-> >> >
-> >> > It'd also require significant changes to how pKVM is set up, right now it's
-> >> > hardcoded to be done unconditionally at run via kvm_arch_vcpu_run_pid_change()
-> >> > -> pkvm_create_hyp_vcpu(), so all that would have to change and be checked and
-> >> > tested and... that'd be really out of scope I think :)
-> >> >
-> >> > And pre-faulting really makes most sense BEFORE you run a VM. It doesn't make so
-> >> > much sense mid-run.
-> >> >
-> >> > But more fundamentally, the stage 2 page tables, as I understand it, are owned
-> >> > by pKVM and so aren't really available to be pre-faulted.
-> >> >
-> >> > Maybe unprotected-under-pKVM VMs but then it's questionable as to how useful
-> >> > that would be given that it would be confusing to users vs. how it works for
-> >> > other VMs.
-> >> >
-> >> > So in general, no I don't think it's a good idea.
-> >> >
-> >> > And even if we wanted to pursue some version of this, it's _definitely_ out
-> >> > of scope for the initial pre-faulting bring-up series.
-> >> >
-> >> >>
-> >> >>
-> >> >> > but pre-faulting is  typically performed before a vCPU is run.  It would be confusing and
-> >> >> > inconsistent to error out on non-running vCPUs but to pre-fault running
-> >> >> > ones.
-> >> >>
-> >> >>
-> >> >> I use KVM pre-faulting when transitioning pages from shared to private
-> >> >
-> >> > You mean you'd prefer to use? Or you are using it on another arch?
-> >> >
-> >> >> with CoCo guest. This ensures that a trusted device can DMA to private
-> >> >> memory before the guest accesses it.
-> >> >
-> >> > Hm what do you mean by private memory?
-> >> >
-> >> > I see:
-> >> >
-> >> > #ifndef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
-> >> > static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-> >> > {
-> >> > 	return false;
-> >> > }
-> >> > #endif
-> >> >
-> >> > And only x86 selects KVM_GENERIC_MEMORY_ATTRIBUTES?
-> >> >
-> >> > Do you mean something else?
-> >> >
-> >>
-> >> I am using this with ARM CCA-DA, based on the patch series from Jack Thomson <jackabt.amazon@gmail.com>.
-> >>
-> >> https://gitlab.arm.com/linux-arm/kvmtool-cca/-/commit/80e7aad61c5639de2f0cb4a5525dad0c96156428
-> >>
-> >> We do this while the VM is running.
-> >
-> > Right, that's a non-mainline kernel I guess? Which presumably implements private memory.
-> >
-> > Jack himself experienced a panic with his pKVM code, so the code you're using is
-> > not upstreamable, unfortunately. And he'd already shelved pKVM support AFAICT.
-> >
-> > And reviewers pointed out actually implementing the pKVM stuff properly would be
-> > quite involved, even if you wanted to do that (hence follow-up).
-> >
-> > Also you end up stuck with the same problems as I mentioned above - you can't
-> > sanely bring the vCPU pre-run, so now you have extremely weird behaviour - only
-> > pre-faults if vCPU initialised, running, and unprotected pKVM.
-> >
->
-> IIUC, pkvm_pgtable_stage2_map() only uses the hyp vCPU's pKVM memcache
-> (&vcpu->vcpu.arch.pkvm_memcache). I agree that this does not need to be
-> addressed in this series. However, there is also a desire to keep the CCA
-> and pKVM code paths similar by using helpers such as kvm_vm_is_protected().
-> Since an RMM can create a stage-2 mapping without a REC (vCPU), rejecting
-> pre-faulting for all protected VM configurations may be incorrect. I can
-> handle this in my series though.
+Follow-up to the automated review of the TAP CPLD series, as Jakub asked
+for on the v15 posting.  Nothing here changes what the driver puts on the
+I2C wire: the ISP command sequence, the frame contents and the arbitration
+timing are untouched.
 
-Ack, understood. Feel free to cc- me on that when you send it out!
+Patches 1-5 answer the review of 3/4.  Patch 1 is the one with real
+runtime behaviour to it: the CPLD identification read shared
+ptp_ocp_sync_work() with the 1 Hz in-sync poller, and a claim that has to
+wait for the MicroBlaze can occupy that work item for seconds, delaying
+the dpll change notification and stalling the cancel_delayed_work_sync()
+that ptp_ocp_remove() - also the .shutdown handler - starts with.  Patch 2
+is the point the review rated High: the hand-back can fail, and the driver
+would then cache and publish whatever answered on the TMC segment as the
+board serial and id.
 
->
-> I also want to point out that there are use cases for pre-faulting while
-> the VM is running.
+Patches 6-9 answer the review of 4/4.  Three of them remove ways the
+driver could report success, or keep reporting an identity, when the part
+had not done what was asked:
 
-Ack yeah understood! And it does support that fine :)
+ - a latched FAILED made every later flash of a part that had failed once
+   return -EIO at the enable step, before reaching the ERASE and REFRESH
+   that would recover it (patch 8);
+ - the post-REFRESH predicate was already satisfied by the state SET_DONE
+   leaves behind, so a REFRESH that was ACKed but never latched passed it
+   with the old image still running (patch 9);
+ - the cached identity was dropped after the erase *wait* rather than
+   before the erase was issued, and it dropped cpld.id too, which is the
+   silicon IDCODE and cannot change (patch 7).
 
-I added further reasoning about pKVM in the cover/commit msg in the respin
-([0]) so hopefully that helps clarify from that sid eof things.
+Patch 6 stops publishing the string "unknown" as a devlink running
+version.  The review pointed out that devlink_info_version_put() invokes
+its version_cb before the empty-value early-out, so an empty value still
+registers the component name for devlink_flash_component_get() - which is
+what a placeholder was needed for - while emitting no version attribute.
+
+Tested on an ADVA TimeCard X1: the CPLD programs and activates as before
+with the whole series applied, so the two checks that decide whether an
+operation is believed - ENAB after EN_CFG_TP in patch 8, and ENAB clear
+after REFRESH in patch 9 - agree with the part.  Patches 2-4 sit on the
+hand-back timeout and adapter-lookup failure paths, which do not trigger
+in normal operation; the hand-back measures about 670 ms against its 2 s
+budget.
+
+v15: https://lore.kernel.org/netdev/20260916153242.157171-1-sagi.maimon@adtran.com/T/#u
 
 
->
-> >
-> > Protected pKVM support is a whole other layer of complexity and it's not obvious
-> > that you're really achieving what pre-fault is supposed to.
-> >
-> > In any case Oliver literally just asked me to _simplify_ weird edge cases for
-> > this series :) so I am not sure something like that is going to be accepted.
-> >
-> > Are you sure you're actually running in pKVM mode btw? CCA doesn't AFAICT? In
-> > which case this series _should_ work fine for you.
-> >
->
->
-> It is not pKVM; it runs in Realm mode.
+Sagi Maimon (9):
+  ptp: ocp: move the CPLD identification read off the sync worker
+  ptp: ocp: do not cache EEPROM content after a failed TMC bus hand-back
+  ptp: ocp: hand the TMC bus back once on an acquire timeout
+  ptp: ocp: forget a CPLD i2c adapter number that no longer resolves
+  ptp: ocp: correct the CPLD bookkeeping comments and the flash progress
+  ptp: ocp: report fw.cpld with an empty value until the USERCODE is
+    read
+  ptp: ocp: drop only the USERCODE when flashing, and drop it before
+    erasing
+  ptp: ocp: tolerate a latched FAILED when entering configuration mode
+  ptp: ocp: confirm the CPLD really left configuration mode after
+    REFRESH
 
-Ack yeah, then the series should hopefully work for you.
+ Documentation/ABI/testing/sysfs-timecard     |   8 +-
+ Documentation/networking/devlink/ptp_ocp.rst |  28 ++-
+ drivers/ptp/ptp_ocp.c                        | 188 +++++++++++++++----
+ 3 files changed, 170 insertions(+), 54 deletions(-)
 
-If you could test it and report any issues I'd be grateful! Thanks :)
 
->
-> >
-> > Anyway, if we really do need to add something for pKVM it needs to be a follow
-> > up. Let's get the basics working first :)
-> >
->
-> sure.
+base-commit: 10cfa109c880092df32e396647b4afdca9be8350
+-- 
+2.47.0
 
-Thanks!
-
->
-> > (Note that kvmtool will need to be updated to retry pre-fault on -EAGAIN, -EINTR
-> >  as this series can, albeit unlikely, return -EAGAIN.)
-> >
->
-> I will check this when I rebase my kernel onto this series.
-
-OK cool, let me know if you hit any issues.
-
->
-> -aneesh
-
---
-Cheers, Lorenzo
-
-[0]: https://lore.kernel.org/kvmarm/20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org/T/#t
