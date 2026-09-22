@@ -1,63 +1,63 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D858A5505EA
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 14:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495005540BF
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 14:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790087322; cv=none; b=iPldQJGcp7PGtmuqvZ8vofhdJnchUPS/MbtWXiJaaI5WYY1M4zmv6dDxoPX0WCBF/QSwwoWOhRffcR8Zv/cZI3ffYJGBVMMDfysm8EGTKmpsvHgDbFZyKEvoPY+7HPptgDe7/O6VxLbALc9o7gHze48hDXQxX9JpclCxMfymXrk=
+	t=1790087325; cv=none; b=f7BxNfk8DdyOUYln/N0dD9HubetD8R1re5DVIXoJdREOzRtp90RhhRlpYKzEgRUDAPmXuoNGNEaNjP5BxIFLW6i6VVLKK4Kx2Ii6W6vNjt78kJFETGHKghGGZha8H2nPTkHW6QPwLs3JN90j8wCfc8voMw6N7HTpcLfvVBSqjTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790087322; c=relaxed/simple;
-	bh=3F8nzkClo9hFmLBqeL2ZwX2gzhcKOqj11Tya8k4rmUQ=;
+	s=arc-20240116; t=1790087325; c=relaxed/simple;
+	bh=SVtzUg4Eb+h//swwQumGXMTtjoutlA+uq+ys1ApPWSc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mr0j9zaGX8/bLHhNGkCSuBoudxptY20GgNaUYsImLAScheStHzRA9VCOn0FDv77rd5ey7lk7y8nBoK1109k3G0DG1UqGBla52U8glT1+ANSjYZcwZOFD7tIaeiFRhRjONQ94tgjknEGxDY25LPMJTp/uvLQI0Nk/tH13UB9qHYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOQtrtKW; arc=none smtp.client-ip=209.85.167.45
+	 MIME-Version; b=PZZ5aYdJEKxQB88ss86GvRpKd7TJUSaDd7Z2iEm2w+Z7KQzLagOdE5e2G4Veg6AzFzs3pMYkuzxBZqRUM7YYc10v8gyA0GzbtEawqgHoPfdbZct0Nupr42pExRA4sSEXVdztlCb6pBfnkt3gCcL6bYOmzL8MsPvEPR2bfkDhDF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bdB02Ipb; arc=none smtp.client-ip=74.125.229.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOQtrtKW"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5b5f21afe8cso1076679e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 07:28:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bdB02Ipb"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f1801fso4229357e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 07:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790087319; x=1790692119; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790087321; x=1790692121; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1u3pLUA5u42iB7wAAx0Pnvzg/CHC2JIBmGTUfYO84VU=;
-        b=LOQtrtKWExY/0366Fz0+GMQF0E61usIS5K2vvYbqS1Hv9I2zJF5ed84jTSnL3I7CVk
-         EtBi/Vs3OVAr4MI9jTCnwedPBboFdGur08gdqsMx4rVslIAp2bUz5meyv1rhVdBJ55W8
-         Swt1fLqvAuwh3kw/Cil0ZIh/+WSydtiywbdlKtB2qjm1sdx3kEYAp4DEwrRKXjEBzajA
-         sVkQixYACIuEN2+4F2Ptr4LCh/XbTVHo5jC3B7n1b3qTkc8l6T7hm5BkFeonw1ve1rlD
-         EAuLoZfsfDMxAmPYenNwQFoBBQBXBnSqXcvfnun+UiTypJcJEcWwfsL/2Pa9co17xIEl
-         UDlg==
+        bh=C2cIcFD9n/tIhle0FL6VW14T8JQcamu6z/X7FWTdDmM=;
+        b=bdB02IpbBAv4XESwKAcJhUt9dgcHa2erpxr9NqcM1HXuWC5Uzyt+Kidg3uKs4LwkYq
+         8IJVUfJ+7WJRtirgB7oeAQ2xn5xFPJgocGqpERQjaEGcr7cNFVGMRq1gopkUaxBr0eK/
+         dO2AjVfBEWrtDyo1bAX2i9x95oCspoZ2J26BcJ1eoAtfZZw4yLZP1S4jQyElMH+IwKvf
+         24BJhV5Xw+yCEnRYvTmIk/sWWD5Syp7aCYs0/IGYzPqPTPOpvwT4Yt14ZqT5USp6SSta
+         AT449txM9XKTszVDeIPq8q7pKLGm6cCQ9FKo9Na2XXwtsFuyOIkcwjEoPJ2V3BNkaC8I
+         Mj/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790087319; x=1790692119;
+        d=1e100.net; s=20260707; t=1790087321; x=1790692121;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1u3pLUA5u42iB7wAAx0Pnvzg/CHC2JIBmGTUfYO84VU=;
-        b=pg4DsYIijXy/tfCs9ZWRPOFAIQBVLDXPBmQkKI7+01rpywj1p9SY2kNbAUxsZTrmXf
-         7C/tJbknC7TdD3gOP9NtPOwUvHliq5a2cXVe3TK+mSHOSg1kwYLfB8/0xDyl+puTU9VU
-         U/USl92bbnFElwndwQfKGd7vfydARHQcNZHXaDwA7jsL2jheRHfvq5q9uxvx3LoFr7jw
-         WGwAm6AzRKUIqNUF3oHr5fX973YwRG1giCBk20fI99nSUzfWrogAWQlZyVo7CEm4MJ9w
-         VJPBdHZdvkHIGFnGzx7UvWXBj95Cr3Z76gN7IfzX8YtTG5FNq9HeCYtICPMp0xwQvg4K
-         mgkg==
-X-Gm-Message-State: AFuF++k3Vo7WmCuLSFHvQlALdzHGtwBvnX9IT9BTfKlbLU2ikeXWCMRg
-	kuCVKDkFeNo4mqssKdJcjBtf+FAkgVkbVxCIkMyZZ+vFUCU/DM81KQkd
-X-Gm-Gg: AYBFou02pJY7kT5ZrucpXj72h3eQZt9zqGN2aJ4Icx9dbSYfPcYnE6AiPDfPaQbKAdG
-	YnBT1Ijs3gJV0lwtYUcyny3bIQKacjXK7k1WvmO3pVGGTJjMNBck/+/SoD95kBdnGmF4Xwa5G41
-	gVEluP8k4Q+yPcQsCDhEmKOJ29UOT9zmwEIeJEezQiFFRoFDEmz/g/dDN4aUgV4Hy7+Nc5HfEWF
-	z4G7ZL/hDlGPykfHizWJb5T/ZQZhvr7WKOAYMS9hkwOugTdElndTVpfRpqhTZXdl803NiyxIkXz
-	+Aes3G6ojy3ugjaQCHU4m6QNHdOO7yhL1VApD7QBECWqB5bcuMSTz9xQ9peeRplqnEQojst/sMr
-	dHIzU6wz7RZXLjLxpGRVWfdbXTDUtIisNA/QqTW4MtML+c9ILdG2oFaPQIiDMxpHr1HAvqunIYZ
-	Mn0K2VFPqYPq+jCK75+2q52qwooqo7ITR5pEL+w2nW7ZLTZCqF+dnUWUE3Stg+CXNRj17wMlpOp
-	a/KH+1K9ukZ/hi3rGUFnxxYjMu72uWf0k+DzqS8JQt2wQkFNSU=
-X-Received: by 2002:ac2:514b:0:b0:5b6:1aee:95f7 with SMTP id 2adb3069b0e04-5b8d2961643mr658169e87.43.1790087318520;
-        Tue, 22 Sep 2026 07:28:38 -0700 (PDT)
+        bh=C2cIcFD9n/tIhle0FL6VW14T8JQcamu6z/X7FWTdDmM=;
+        b=WfXwLmPg+Jssb7Ely89x3lq4JXhUjF/+u2PQOUWERf0+VFVtH2zIaN5ElH8AY0sxjc
+         M5tzpGMNrN9GmaL8I1jiCpVfPvNIM2GVvAgZ6yR3b4ihYvc5VH1pDiqrhtXQkYvJLhA4
+         M/VXQDMJAc4EdJVyMOZVvbGsF25ygWyQOCstzNRClOKEZ//gejYTSDmfmDdKxjOmgarH
+         Owv1P3YCuVZg59dWgRnNnAxv4/yWf36BLh208RscoV8aoDAtY0gz41bTogZeJ/jafIOF
+         thYGnImtYBszdtHaPNqyCHSy9sWolYXklUxhbmfKC1/SFsHm4Z5a/71yDEL5BxOLQvl3
+         FEow==
+X-Gm-Message-State: AFuF++luHia6Jkb9+Dp3OJNfZP91v6Nsixn5wQjprr/03GZbn5Xwd0do
+	SQT8OVU8d90FM+seXQ9F23PahaSfBAIRxMKlwgyZffM6+YsqMw8wwofq
+X-Gm-Gg: AYBFou2yZV2zjJkyV5zYSygiSu+cSS+WfSRdMrHAc/Ctg+Nx6+gFtpoHg03EMs0/YgG
+	fsgWmcwpjvW7ZTIEO9AQMh0atohXQhMlGnRFZ+zhvYTCTrIChJepqciZhZ0oRP7AioGT+xy86Ld
+	VYxpU38EvGKKHn1h5z7thSuogISBJGb9j/fAvLQBRAN+O0+EtQWKlemsBvGM527QHnCHmecNdd8
+	7GaeD3IZoVGKVfv/jcZ/s5DsOlq0PNO+ty0urK84pBURmiywzyVmlzcvsIB1suJEYWf31jjgseL
+	QYH2Lqcd0ZK53wmv0M6L92m1jUfTqQT0N4Oy+T31jwo+eZqz8NWVH90L6nBPkxQ4VJmFXsnldIk
+	yIMNM8uUoOQzkeVHrtl6408IwG/kDWtpHV0qfSFGpbWzCjc6nrrKFMTv71WCzonR7mKIwghYxkm
+	aKTRBVQrILSr+7Vdv2C5ZFPSeVlcsnaQ8xXGwD5qamSIft7q8bX24RhIwEPQ4Ckn2faMug7acM1
+	f1bDWkRCHMG/Df4Jd4pcWPmO3eYdIkEapp0/dhm
+X-Received: by 2002:a05:6512:1329:b0:5b4:adb1:b25b with SMTP id 2adb3069b0e04-5b8c17f1feamr4505886e87.14.1790087321044;
+        Tue, 22 Sep 2026 07:28:41 -0700 (PDT)
 Received: from fedora-tap.advaoptical.com ([82.166.23.19])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d46d2064sm589691e87.24.2026.09.22.07.28.36
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d46d2064sm589691e87.24.2026.09.22.07.28.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 07:28:38 -0700 (PDT)
+        Tue, 22 Sep 2026 07:28:40 -0700 (PDT)
 From: Sagi Maimon <maimon.sagi@gmail.com>
 To: Richard Cochran <richardcochran@gmail.com>,
 	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
@@ -76,9 +76,9 @@ To: Richard Cochran <richardcochran@gmail.com>,
 Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Sagi Maimon <maimon.sagi@gmail.com>
-Subject: [PATCH net-next 2/9] ptp: ocp: do not cache EEPROM content after a failed TMC bus hand-back
-Date: Tue, 22 Sep 2026 17:28:22 +0300
-Message-ID: <20260922142829.57740-3-maimon.sagi@gmail.com>
+Subject: [PATCH net-next 3/9] ptp: ocp: hand the TMC bus back once on an acquire timeout
+Date: Tue, 22 Sep 2026 17:28:23 +0300
+Message-ID: <20260922142829.57740-4-maimon.sagi@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20260922142829.57740-1-maimon.sagi@gmail.com>
 References: <20260922142829.57740-1-maimon.sagi@gmail.com>
@@ -90,93 +90,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-adva_x1_bus_release() drops the i2c root adapter lock whatever
-adva_x1_mblaze_release() returned.  That is deliberate - holding the lock
-after the firmware failed to take the segment back would stall every other
-user of the controller with no way to recover it - but it means the errno
-reaches only the CPLD operation that held the claim, while the next
-transfer on that adapter may still be routed to the TMC bus.
+adva_x1_mblaze_acquire() ran the hand-back itself before returning
+-ETIMEDOUT, and adva_x1_bus_claim() then called adva_x1_bus_release() for
+the same error, which runs it again.
 
-ptp_ocp_read_eeprom() is reachable from the unprivileged
-DEVLINK_CMD_INFO_GET path and stores what it reads without validating it,
-so in that window it can latch whatever answers 0x50/0x58 on the TMC
-segment as bp->serial and bp->board_id and then publish them.
+Both write MBLAZE_RELEASE and poll for the grant to drop for up to
+MBLAZE_RETRIES * MBLAZE_RETRY_US, and both run with the i2c root adapter
+lock held, so a single failed claim could hold the shared controller for
+half as long again and log "TMC bus still granted after release" twice for
+one failure.
 
-Record that the routing is unknown when the hand-back times out and skip
-the EEPROM read while it is, rather than caching a value that was never
-read from the EEPROMs.  A later claim that the firmware grants proves the
-handshake is working again and clears it.
-
-This does not fence the at24 and nvmem sysfs paths, which do not go
-through the driver; it only stops the driver publishing the result.
+Leave it to the release path, which the claim already calls.
 
 Fixes: 3b815e29966f ("ptp: ocp: add TAP CPLD access for ADVA TimeCard X1")
 Signed-off-by: Sagi Maimon <maimon.sagi@gmail.com>
 ---
- drivers/ptp/ptp_ocp.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ drivers/ptp/ptp_ocp.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
-index 4a58bcc14648..510083dc750a 100644
+index 510083dc750a..feb61355078a 100644
 --- a/drivers/ptp/ptp_ocp.c
 +++ b/drivers/ptp/ptp_ocp.c
-@@ -448,6 +448,8 @@ struct ptp_ocp {
- 	unsigned int		cpld_id_attempts;
- 	/* x1 TAP CPLD present */
- 	bool			has_cpld;
-+	/* the TMC segment was never handed back; routing is unknown */
-+	bool			cpld_bus_stuck;
- 	/* EN_CFG_TP issued but not yet REFRESH'd */
- 	bool			cpld_in_config_mode;
- };
-@@ -2022,6 +2024,18 @@ ptp_ocp_read_eeprom(struct ptp_ocp *bp)
- 	if (!bp->i2c_ctrl)
- 		return;
+@@ -4526,10 +4526,6 @@ static int adva_x1_mblaze_acquire(struct ptp_ocp *bp)
+ 			return 0;
+ 	}
  
-+	/* A hand-back that timed out leaves the controller possibly still
-+	 * routed to the TMC segment.  Reading now would latch whatever
-+	 * answers 0x50/0x58 there as the serial and board id, and those are
-+	 * published over the unprivileged devlink info path, so refuse
-+	 * rather than cache something that was never read from the EEPROMs.
-+	 */
-+	if (READ_ONCE(bp->cpld_bus_stuck)) {
-+		dev_dbg(&bp->pdev->dev,
-+			"skipping EEPROM read, TMC bus routing unknown\n");
-+		return;
-+	}
-+
- 	tag = NULL;
- 	nvmem = NULL;
- 
-@@ -4537,6 +4551,8 @@ static int adva_x1_bus_release(struct ptp_ocp *bp)
- 		return 0;
- 
- 	err = adva_x1_mblaze_release(bp);
-+	if (err)
-+		WRITE_ONCE(bp->cpld_bus_stuck, true);
- 	bp->cpld_adap = NULL;
- 	kfree(bp->cpld_buf);
- 	bp->cpld_buf = NULL;
-@@ -4632,10 +4648,17 @@ static int adva_x1_bus_claim(struct ptp_ocp *bp)
- 	bp->cpld_adap = adap;
- 
- 	ret = adva_x1_mblaze_acquire(bp);
--	if (ret)
-+	if (ret) {
- 		adva_x1_bus_release(bp);	/* keeps the acquire error */
-+		return ret;
-+	}
- 
--	return ret;
-+	/* The firmware granted the segment, so it is answering the handshake
-+	 * again and the routing is known once more.
-+	 */
-+	WRITE_ONCE(bp->cpld_bus_stuck, false);
-+
-+	return 0;
+-	/* Drop the request we gave up on.  Any error from the hand-back is
+-	 * subsumed by the -ETIMEDOUT we are already returning.
+-	 */
+-	adva_x1_mblaze_release(bp);
+ 	return -ETIMEDOUT;
  }
  
- /* Select a mux channel, or deselect all with ch < 0 - the power-on state.
+@@ -4647,6 +4643,12 @@ static int adva_x1_bus_claim(struct ptp_ocp *bp)
+ 	i2c_lock_bus(adap, I2C_LOCK_ROOT_ADAPTER);
+ 	bp->cpld_adap = adap;
+ 
++	/* adva_x1_bus_release() runs the hand-back, so the acquire path does
++	 * not do it itself: both poll for the grant to drop for up to
++	 * MBLAZE_RETRIES * MBLAZE_RETRY_US with the adapter lock held, and
++	 * doing it twice only holds the shared controller for longer and
++	 * logs the same failure twice.
++	 */
+ 	ret = adva_x1_mblaze_acquire(bp);
+ 	if (ret) {
+ 		adva_x1_bus_release(bp);	/* keeps the acquire error */
 -- 
 2.47.0
 
