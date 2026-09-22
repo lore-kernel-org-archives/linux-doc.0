@@ -1,188 +1,275 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E3F4E73D7
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 07:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E104F4FD78C;
+	Tue, 22 Sep 2026 07:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790061048; cv=none; b=A3vO0MDSPeBp2I1WfqT6gdriZAZKra+9vXWKJS5t0II8/1c8uoMzwjZbIbMquahQa7nch+P1baBNLSIkgTUr2rPGinvgNetQXuikYg1oH0CTRqm+iqfYcZnUSWgOzfVFa4DHfOgeXx3PTuyCDshk9wLk9JYbJomdJcnIKtD3OC0=
+	t=1790061108; cv=none; b=I1u/EcjojbPcXx3O9pkkeaPqfxFH78+bXQmrMhGH7cCIPJIp4ay4Wta+QNgOP7h8pvpcGy2KYLigbWtp3jp+HNGIrGodSi+bw84ehZzFa/tGa1L6ew0ibmyNyTaYffA28nID8OpdRuRRTsf1xX53MbWw/u7gJVZEQRSAaO73qJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790061048; c=relaxed/simple;
-	bh=JeXul2Nkf2zeS2OWaaoOg5njiRzZPTKUOP2PjjDjokQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N/YLwmyvjhJymnzZDFLfw3JIPRm2HAmf6kVgdciT8OcxYMEebu1ypcHa2BwTMsm5iUtBKx+wfuhHSU0HdydJBKeICqQ83SKcnnsfz2tnzkQjDXzE1MQKlGxqs1YYpgWb9afn8ntRwbU2Dvxj2Vb84BI57x0LbnyJQZHODUTalRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sdTPOEdm; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790061108; c=relaxed/simple;
+	bh=yPiXXWI+hAFjLv0PMpHnzjXO7hwE+RuJHXZnmqx/Wh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nOtwdHr8xl3TEADgUgClknBZ6eLfz/QO9LEjMxaPee/4Hfza9UdYVG/caVX+FpTxJSAbDic2fvjl1tUQfS2YRmCpQ2CXzKA2Il30M6txHdADEVLSoI3hYFpq+Te0uYp+LET1aDy7OUz1P7HWYF8P3w41LBX1ev9CaPaxfGKH82A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MgrBn9UP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sdTPOEdm"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396cccbba92so3388439a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 00:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790061046; x=1790665846; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fM25rpREpN0YJ4vGmgefvM6EGacbAogSR9saanUz1wI=;
-        b=sdTPOEdmJXwieL/77+UQ5ZopnJVY8eQ0VbwKBd42xXAxXLTxn2xTYQVnWxnlv+6hqT
-         IA+Mo5NUhqX95i1TSjolIymQh0ErsvyY524YmOXfToegh7Vi6zoGjeAWDN+1AqdikQ9n
-         3dWFm8++MfBftbgcwdOYspdJcpWwPNw9f5GSSMH5hFqxyuGcWjdeaRQkVjAvhgkaqpMb
-         8JubUW3fyaVu+fndevBZuwVwyg6xLgaQKP1JeNtkqJnKyuU04XcP5gzcymUafxfgtrPG
-         rkaOt7IzFSiHRsEplM6gvhDMcierdgdoGWStAh4KyXZSv09Yn7SGr2tua18MqTC9/D68
-         mf1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790061046; x=1790665846;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fM25rpREpN0YJ4vGmgefvM6EGacbAogSR9saanUz1wI=;
-        b=KXFdAi3JtI7/DTzAXT1EMIYfSflttrTveey8AnmD1MwKrnUW3iQJvryWeY910D/OAN
-         LPAA5VGpAUnJ64PXiw7zfKNoTYdoosZVvUClfERO8p/88mTts+tL+WaNmohB8bQ+3ywy
-         BHFET1WwRbMJenDapVNYAn9ACzOlDbTqBGea/voRCLyGMsFvpi9u4FtmFo3TqcYRsZVu
-         kDutEqOUawsvwQBN2uVj/0FmU/ODMDz40fO1nADC8cJrmdpw4jej1zS7DpMnAopInjVP
-         xN7ZJSRryLqK8YvTKtjuMCmk4gHRN3wpGhgPFrEm43DnWU0yjAmq9GZ1RYMKl774kKHr
-         JWWw==
-X-Forwarded-Encrypted: i=1; AKwUvBxyvoS985Nz566gXBk+hubUQP1KVqC02BBn6D+n9y0kaNYr07c6PQOFi2gbv6ECJ/s67qjZaqZ3DWU=@vger.kernel.org
-X-Gm-Message-State: AFuF++lnmjznUYlY+/qf7dv/B3zDH083Hh6P+RpLFlQsHWnhR4z507Cn
-	u/ny6sihEBA40083XDW7FLVQpEbW/Fdi4jcaGF8dELOZNe3LgtPtJis8
-X-Gm-Gg: AYBFou2QtWEfTBpGLfndQ5Fdh4XnuLeV21l4zHD/Cg402Hr5gX9kYfo4ci6acH57LWp
-	iw87V0jOprT5khP+AIrnM4YxlOknvy1XwneXSc+iLJP9cVwxwKGGZXY/ku+yWEmJnBYEmn41trj
-	KamWmj5wwRNxCVVOfiOs26S9dS0GJy0ZumoSzW0p6lntihakR12dHoQYOz1D5hWv8cPasMxFtbe
-	M8OjEhQrfPzEhnxZKWe8WstobdTEK0QzpuDfxkFbGbmYOikBQCVnk4yLemUcWiCh516UOAQ9WDJ
-	VDvpAnwouy+L+yzCMCQod4CoRB5GLyhRfn1JlrqEiulQge6hMmkrG3Eetd+wPIxsijnjGM5F2Bt
-	pN3csF5iLUe3qJ38TrgELcBd7EI/QG7R5crelw4WbaFqMUXz1D5y+cWiXtzKS4LDYL9lffJOIuh
-	0gp9JUlIF/A/tmE8nyWe6vzQhGG70pMH6y74U3XPvZO924WwJENNPyqVm+35mYyfLnuhtfwH6wh
-	jFukChiuzIMCh6Isw==
-X-Received: by 2002:a17:90b:58d0:b0:3a0:4668:4cb0 with SMTP id 98e67ed59e1d1-3a07322a5bfmr239358a91.47.1790061045855;
-        Tue, 22 Sep 2026 00:10:45 -0700 (PDT)
-Received: from kernel.tail6741c6.ts.net ([185.220.238.42])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a067409854sm3079414a91.7.2026.09.22.00.10.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 00:10:45 -0700 (PDT)
-From: Kunwu Chan <kunwu.chan@gmail.com>
-To: stern@rowland.harvard.edu,
-	parri.andrea@gmail.com,
-	will@kernel.org,
-	peterz@infradead.org,
-	boqun@kernel.org,
-	npiggin@gmail.com,
-	dhowells@redhat.com,
-	j.alglave@ucl.ac.uk,
-	luc.maranget@inria.fr,
-	paulmck@kernel.org,
-	corbet@lwn.net,
-	mingo@redhat.com,
-	dave@stgolabs.net,
-	josh@joshtriplett.org,
-	frederic@kernel.org,
-	neeraj.upadhyay@kernel.org,
-	urezki@gmail.com
-Cc: akiyks@gmail.com,
-	dlustig@nvidia.com,
-	joelagnelf@nvidia.com,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	longman@redhat.com,
-	rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev,
-	kunwu.chan@gmail.com,
-	include@grrlz.net,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	lkmm@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	rcu@vger.kernel.org,
-	lianux.mm@gmail.com
-Subject: [RFC/WIP PATCH 4/4] Documentation/litmus-tests: add hazptr acquire-before-scan test
-Date: Tue, 22 Sep 2026 15:09:50 +0800
-Message-ID: <20260922070950.4173245-5-kunwu.chan@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260922070950.4173245-1-kunwu.chan@gmail.com>
-References: <20260922070950.4173245-1-kunwu.chan@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MgrBn9UP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 098311F000FF;
+	Tue, 22 Sep 2026 07:11:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790061106;
+	bh=4KLMG7LWk0+A+uvrmJ78op/X5X6IpAwrk4iXchNk6nE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MgrBn9UPljxQNdik8LXXL9muQ9ay4WcJ6YzghmIufSEbC5kd8VyZKOmmJB7A1fKW6
+	 1Ia05SBqETsNvSzREePrYvOaaVm9JvJIvg2gmYGbiGtnj47/TTCQfCME3NyoBUSwyT
+	 ocjy7FjMuGZW7m9QaJ5S7PZHQEmqaJCoOIE6frn5ASMwiKQ9Zi7Z7I9tm447J+tjPG
+	 pezZ8LhNow7r3/L7gJLlfQ6F7ND79e+UAkUEbeAdbIb6k9bgt3bQc8t7uP9UVJ0Ui4
+	 wAk7WEWVyBYMNms7yUshQ9o4EVuS8hVA4Fz4My3yTtaT5iKatoietEWtIfpykt2QHh
+	 mlBErA/VcUG2Q==
+Date: Tue, 22 Sep 2026 00:11:44 -0700
+From: Oliver Upton <oupton@kernel.org>
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Andrew Jones <andrew.jones@oss.qualcomm.com>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shannon Zhao <shannon.zhao@linaro.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v11 20/21] KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
+Message-ID: <arIqMO-f8X0gCzjA@kernel.org>
+References: <20260920-hybrid-v11-0-03618771b0e1@rsg.ci.i.u-tokyo.ac.jp>
+ <20260920-hybrid-v11-20-03618771b0e1@rsg.ci.i.u-tokyo.ac.jp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260920-hybrid-v11-20-03618771b0e1@rsg.ci.i.u-tokyo.ac.jp>
 
-Add an LKMM test for the hazard-pointer publication protocol used
-by the lockdep conversion.
+On Sun, Sep 20, 2026 at 08:16:01PM +0900, Akihiko Odaki wrote:
+> Introduce the KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY attribute to
+> create a "fixed-counters-only" PMU.
+> 
+> Much like KVM_ARM_VCPU_PMU_V3_IRQ and other read-write attributes, this
+> attribute provides a getter that facilitates kernel and userspace
+> debugging/testing.
+> 
+> Allow strict PMUv3 vCPUs to initialize the PMU after selecting
+> fixed-counters-only mode, without selecting a VM-wide hardware PMU.
+> 
+> Assisted-by: Codex:gpt-5.6-sol
+> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+> ---
+>  Documentation/virt/kvm/api.rst          |  8 +++++--
+>  Documentation/virt/kvm/devices/vcpu.rst | 42 ++++++++++++++++++++++++++-------
+>  arch/arm64/include/uapi/asm/kvm.h       |  1 +
+>  arch/arm64/kvm/pmu-emul.c               | 34 ++++++++++++++++++++++----
+>  tools/arch/arm64/include/uapi/asm/kvm.h |  1 +
+>  5 files changed, 71 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 1a90598901c5..a6aef405ef87 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -3531,9 +3531,13 @@ Possible features:
+>  
+>  	    * Userspace must explicitly select a PMU implementation before
+>  	      initializing the PMU or configuring a PMU event filter
+> +	      (KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY also satisfies the
+> +	      initialization requirement; event filtering remains unavailable
+> +	      in that mode)
+>  
+> -	    * If the PMU implements FEAT_PMUv3p4, PMMIR_EL1.SLOTS provides the
+> -	      hardware value of the underlying implementation
+> +	    * If a hardware PMU is selected and implements FEAT_PMUv3p4,
+> +	      PMMIR_EL1.SLOTS provides its hardware value. In fixed-counters-only
+> +	      mode, PMMIR_EL1 reads as zero
+>  
+>  	    * Writes to PMCR_EL0.N via KVM_SET_ONE_REG are ignored
+>  
+> diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+> index a3f20a4ee4b1..41f6d708ff43 100644
+> --- a/Documentation/virt/kvm/devices/vcpu.rst
+> +++ b/Documentation/virt/kvm/devices/vcpu.rst
+> @@ -53,9 +53,9 @@ Returns:
+>  	 =======  ======================================================
+>  	 -EEXIST  Interrupt number already used
+>  	 -ENODEV  PMUv3 not supported or GIC not initialized
+> -	 -ENXIO   PMUv3 not supported, missing VCPU feature, missing
+> -                  hardware PMU, or interrupt number not set (non-GICv5
+> -                  guests, only)
+> +	 -ENXIO   PMUv3 not supported, missing VCPU feature,
+> +		  neither hardware PMU nor FIXED_COUNTERS_ONLY selected,
+> +		  or interrupt number not set (non-GICv5 guests only)
+>  	 -EBUSY   PMUv3 already initialized
+>  	 =======  ======================================================
+>  
+> @@ -64,7 +64,8 @@ virtual GIC implementation, this must be done after initializing the in-kernel
+>  irqchip.
+>  
+>  When the KVM_ARM_VCPU_PMU_V3_STRICT vCPU feature is enabled this must be done
+> -after selecting a hardware PMU.
+> +after selecting a hardware PMU or enabling
+> +KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY.
+>  
+>  1.3 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_FILTER
+>  -----------------------------------------
+> @@ -78,7 +79,8 @@ after selecting a hardware PMU.
+>  	 -ENODEV  PMUv3 not supported or GIC not initialized
+>  	 -ENXIO   PMUv3 not properly configured or in-kernel irqchip not
+>  	 	  configured as required prior to calling this attribute
+> -	 -EBUSY   PMUv3 already initialized or a VCPU has already run
+> +	 -EBUSY   PMUv3 already initialized, a VCPU has already run or
+> +		  FIXED_COUNTERS_ONLY has already been set
+>  	 -EINVAL  Invalid filter range
+>  	 =======  ======================================================
+>  
+> @@ -123,14 +125,14 @@ after selecting a hardware PMU.
+>  
+>  :Returns:
+>  
+> -	 =======  ====================================================
+> +	 =======  ===========================================================
+>  	 -EBUSY   PMUv3 already initialized, a VCPU has already run or
+> -                  an event filter has already been set
+> +                  an event filter or FIXED_COUNTERS_ONLY has already been set
+>  	 -EFAULT  Error accessing the PMU identifier
+>  	 -ENXIO   PMU not found
+>  	 -ENODEV  PMUv3 not supported or GIC not initialized
+>  	 -ENOMEM  Could not allocate memory
+> -	 =======  ====================================================
+> +	 =======  ===========================================================
+>  
+>  Request that the VCPU uses the specified hardware PMU when creating guest events
+>  for the purpose of PMU emulation. The PMU identifier can be read from the "type"
+> @@ -172,6 +174,30 @@ explicitly selected, or the number of counters is out of range for the
+>  selected PMU. Selecting a new PMU cancels the effect of setting this
+>  attribute.
+>  
+> +1.6 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
+> +------------------------------------------------------
+> +
+> +:Parameters: no additional parameter in kvm_device_attr.addr
+> +
+> +:Returns:
+> +
+> +	 =======  ==================================================
+> +	 -EBUSY   PMUv3 already initialized, a VCPU has already run,
+> +		  an event filter has already been set or
+> +		  a hardware PMU has already been specified
+> +	 -ENXIO   Attempted to get before setting
+> +	 -ENODEV  Attempted to set while PMUv3 not supported
+> +	 =======  ==================================================
+> +
+> +If set, KVM emulates PMUv3 without programmable event counters.
+> +
+> +With KVM_ARM_VCPU_PMU_V3_STRICT, enabling this attribute satisfies the
+> +PMU selection requirement for KVM_ARM_VCPU_PMU_V3_INIT.
+> +
+> +When this attribute is enabled, the vCPU can run on any physical CPU
+> +that has a PMU, regardless of the underlying implementation. This
+> +attribute is VM-scoped.
+> +
+>  2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
+>  =================================
+>  
+> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+> index 65ee09bd1463..7a6a0af14f5a 100644
+> --- a/arch/arm64/include/uapi/asm/kvm.h
+> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> @@ -453,6 +453,7 @@ struct kvm_vgic_v5_ist {
+>  #define   KVM_ARM_VCPU_PMU_V3_FILTER		2
+>  #define   KVM_ARM_VCPU_PMU_V3_SET_PMU		3
+>  #define   KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS	4
+> +#define   KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY	5
+>  #define KVM_ARM_VCPU_TIMER_CTRL		1
+>  #define   KVM_ARM_VCPU_TIMER_IRQ_VTIMER		0
+>  #define   KVM_ARM_VCPU_TIMER_IRQ_PTIMER		1
+> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
+> index 9c1e2f3e41db..ebb648eabdc6 100644
+> --- a/arch/arm64/kvm/pmu-emul.c
+> +++ b/arch/arm64/kvm/pmu-emul.c
+> @@ -1017,8 +1017,8 @@ int kvm_arm_pmu_v3_enable(struct kvm_vcpu *vcpu)
+>  
+>  static int kvm_arm_pmu_v3_init(struct kvm_vcpu *vcpu)
+>  {
+> -	/* Only possible when using KVM_ARM_VCPU_PMU_V3_STRICT */
+> -	if (!vcpu->kvm->arch.arm_pmu)
+> +	/* Strict PMUv3 requires a hardware PMU or fixed-counters-only mode. */
+> +	if (!vcpu->kvm->arch.arm_pmu && !kvm_pmu_fixed_counters_only(vcpu->kvm))
+>  		return -ENXIO;
+>  
+>  	if (irqchip_in_kernel(vcpu->kvm)) {
+> @@ -1153,8 +1153,8 @@ int kvm_arm_set_default_pmu(struct kvm *kvm)
+>  	 * affines the VMM to a particular cluster of cores.
+>  	 *
+>  	 * In any case, userspace should just do the sane thing and use the UAPI
+> -	 * to select a PMU type directly. But, be wary of the baggage being
+> -	 * carried here.
+> +	 * to select a PMU type directly, or request fixed-counters-only
+> +	 * emulation. But, be wary of the baggage being carried here.
+>  	 */
+>  	struct arm_pmu *arm_pmu = kvm_pmu_probe_armpmu(raw_smp_processor_id());
+>  
+> @@ -1179,11 +1179,13 @@ static int kvm_arm_pmu_v3_set_pmu(struct kvm_vcpu *vcpu, int pmu_id)
+>  		arm_pmu = entry->arm_pmu;
+>  		if (arm_pmu->pmu.type == pmu_id) {
+>  			if (kvm_vm_has_ran_once(kvm) ||
+> +			    kvm_pmu_fixed_counters_only(kvm) ||
+>  			    (kvm->arch.pmu_filter && kvm->arch.arm_pmu != arm_pmu)) {
+>  				ret = -EBUSY;
+>  				break;
+>  			}
+>  
+> +			set_bit(KVM_ARCH_FLAG_PMU_V3_EXPLICIT, &kvm->arch.flags);
+>  			kvm_arm_set_pmu(kvm, arm_pmu);
+>  			cpumask_copy(kvm->arch.supported_cpus, &arm_pmu->supported_cpus);
+>  
+> @@ -1205,6 +1207,22 @@ static int kvm_arm_pmu_v3_set_pmu(struct kvm_vcpu *vcpu, int pmu_id)
+>  	return ret;
+>  }
+>  
+> +static int kvm_arm_pmu_v3_set_pmu_fixed_counters_only(struct kvm_vcpu *vcpu)
+> +{
+> +	struct kvm *kvm = vcpu->kvm;
+> +
+> +	lockdep_assert_held(&kvm->arch.config_lock);
+> +
+> +	if (kvm_vm_has_ran_once(kvm) || kvm->arch.pmu_filter ||
+> +	    test_bit(KVM_ARCH_FLAG_PMU_V3_EXPLICIT, &kvm->arch.flags))
+> +		return -EBUSY;
+> +
+> +	set_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &kvm->arch.flags);
+> +	kvm->arch.nr_pmu_counters = 0;
+> +
+> +	return 0;
+> +}
+> +
 
-The test checks that the reclaimer cannot miss a reader hazard
-pointer publication while the reader still observes the
-pre-unpublish pointer.  The smp_mb() pair provides the required
-ordering.
+I'd rather that FIXED_COUNTERS_ONLY depend on the KVM_ARM_VCPU_PMU_V3_STRICT
+feature flag. The expectation of that flag is that userspace specifies a
+backing PMU implementation; your FIXED_COUNTERS_ONLY could just be seen
+as one such PMU implementation.
 
-Models the resolved-publication case; the in-flight wildcard window
-is covered by the two-phase wildcard scan of the v3 implementation.
-
-Verified with herd7: Never 0 6.
-
-Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
----
- .../hazptr/hazptr-acquire-before-scan.litmus  | 49 +++++++++++++++++++
- 1 file changed, 49 insertions(+)
- create mode 100644 Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus
-
-diff --git a/Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus b/Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus
-new file mode 100644
-index 000000000000..19df97f1c3b2
---- /dev/null
-+++ b/Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus
-@@ -0,0 +1,49 @@
-+C hazptr-acquire-before-scan
-+
-+(*
-+ * Result: Never
-+ *
-+ * The reclaimer unpublishes the pointer, executes smp_mb(), then
-+ * scans the hazard-pointer slot.  The reader publishes the
-+ * protected address, executes smp_mb(), then loads the pointer.
-+ *
-+ * The smp_mb() pair forbids the reclaimer from missing the
-+ * publication while the reader still observes the pre-unpublish
-+ * pointer.
-+ *
-+ * This is the publication protocol used by the lockdep
-+ * is_dynamic_key()/lockdep_unregister_key() conversion.
-+ *
-+ * Models the resolved-publication case; the in-flight wildcard
-+ * window is covered by the two-phase wildcard scan of the v3
-+ * implementation.
-+ *)
-+
-+{
-+int ptr = 1;	(* 1: points to the object, 0: unpublished. *)
-+int hp = 0;	(* Hazard-pointer slot: 0: empty, 1: holds the addr. *)
-+int data = 1;	(* Object payload; 0: reclaimed. *)
-+}
-+
-+P0(int *ptr, int *hp, int *data)
-+{
-+	int r0;
-+
-+	WRITE_ONCE(*ptr, 0);	/* Store A: unpublish. */
-+	smp_mb();
-+	r0 = READ_ONCE(*hp);	/* Load B: scan. */
-+	WRITE_ONCE(*data, 0);	/* Reclaim. */
-+}
-+
-+P1(int *ptr, int *hp, int *data)
-+{
-+	int r0;
-+	int r1;
-+
-+	WRITE_ONCE(*hp, 1);	/* Store B: publish. */
-+	smp_mb();
-+	r0 = READ_ONCE(*ptr);	/* Load A: load pointer. */
-+	r1 = READ_ONCE(*data);	/* Access object. */
-+}
-+
-+exists (0:r0=0 /\ 1:r0=1)
--- 
-2.43.0
-
+Thanks,
+Oliver
+ 
