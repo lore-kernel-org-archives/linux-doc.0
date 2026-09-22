@@ -1,61 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0243B6C05;
-	Tue, 22 Sep 2026 17:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251CD244687
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 17:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790096442; cv=none; b=PnSorcY8FbYaMoRCzZNzksosu9opPrgrEf4RCxLqKjNSDEBuKVXcHSzZEB0n+SV7kLmF9lNcCREWNZoe2edmZBi+zctDaTD9uBppfzGdvuBugVxHoi9SjcZzs+iJq/THleFezqAKYtHlMoIRvER10RnO6vwOaR1J90Akfx37lOg=
+	t=1790096875; cv=none; b=rFB5QiGlq862Vm6Xp67tMvwb+z7+z+NlG34JBUKfKG+cET4v6tyy2vVmj51zLiEO3/RmrJN+5//JncU65ORKE0N5I+YrDb53hwfmEuRcb0e/Cnv6gmpixtGGN1VFL4503ubqOfKFuI1iZTRx2JrpKb/dqWNEMsAaVdsnMKcb+X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790096442; c=relaxed/simple;
-	bh=ZVRuV82A6/ljE98vEtRHUH8fUzmVc+sAaacbYE2YZ9M=;
+	s=arc-20240116; t=1790096875; c=relaxed/simple;
+	bh=/x8p3xF5ileb+D00UF4eBYRkSBEOrUPpsYMUbqmm4x4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hIOCe+NdhQi3FccyXlAMyi1pCzDanV39V2hwRi2GFVr3wp3E7me7ZF71EVwFpZ5b+5jJPtYRqiKaKpXCjyEf6KtHj3Gv0oRjJ5AeEtjXYrPGajXrvQXgzBpMKwmD5tUlND70bsqJZ+uaFTANDEIpNRWAgBqAas2Z0P7tjuCPuQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LqXZGXqa; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=YkqDNhAdYUzU6LZaoRlYgy7+vp0j88qOS7t3I6HnAFJv5jbe4NrmQcaF8MKVx5mKhJb89XruEWh9eFaS+ftUT7KVbFQ/5gSfs3EjljPAniz39yWpw6uYEMqFQKiW1R8ibNDa/Lp6/H7jFC59yMjFZXGScKPehHd+N1VJvyDVQpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a7binD37; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LqXZGXqa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A19C1F000FF;
-	Tue, 22 Sep 2026 17:00:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790096441;
-	bh=hkbIO/3RlJRJKqUI/kyd3ndy8/wZKmkrLF5NZLtKMhQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LqXZGXqaLjkFDIzwFlI6q+vkKAq7m+BINOi+28VgGxjClWFshGQKzhz4+WWMNM/e9
-	 mcXzP7/bvMPsccb2QzoQbvn1n0f3Ira82z1K2dyKZDCtDJ/xca+1go4QTyq9ADhMPl
-	 e646ubQDlz/zDQbWD9USzL3Xpx1xrL5hbyaBp+Iz1E9xrcVDORckiM6yYKgcQ6aqLF
-	 ESXQ76Y0oHmS0OQNemfiKS+E9eKbW+L6ZiHFOLZu0DLgMCHxF8GGgGFRZBEtEKUlNJ
-	 rpIGinEZTrGGSC9sajOcY54fHK/T//JTs9FVjP2HW7t2xUcgivJgiv/RvfNJO0O2Lw
-	 lq/i2er5dMtBg==
-Date: Tue, 22 Sep 2026 10:00:39 -0700
-From: Oliver Upton <oupton@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Jack Thomson <jackabt@amazon.com>,
-	Jack Thomson <jackabt.amazon@gmail.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Vincent Donnefort <vdonnefort@google.com>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Leo Soares Passos <Leo.Bras@arm.com>,
-	Wei-Lin Chang <weilin.chang@arm.com>
-Subject: Re: [PATCH v3 02/14] arm64: Add ESR fault helpers
-Message-ID: <arK0N7H1w-pcixba@kernel.org>
-References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org>
- <20260922-kvm-arm-prefault-v3-2-787bd3bc7e3f@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a7binD37"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d8fbef5018so881625ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 10:07:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790096873; x=1790701673; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=0L+7e+cU3VWegVLLOjh3YpblpIX75X+DIyXyAmlh6g8=;
+        b=a7binD376UIRTFXh3GjTf0NWpm/o3hLASw5o7kGQFuq9LVlRFukCiYd3OU72lkRSVE
+         /nXCD0IW3gQYxhoGa9e1hMj/C+lork985sSZic4NWTHmeVo1syUPT9B5HGNUqnuKG1yj
+         2zuyzy+NdTqt1p4AHuIKhbbSjBTQ9I1vOOTFULhukZ2PMbUPUX8kiLZ/UlLOp/RiYd59
+         V+R4qUbmUqB3zqp34qQV8BOwvZr7qI9VTR0UOtancKMr4EYIZbps+XWzbn9KTGk3T+8o
+         h4AafsHdnaO4woVAM96fnkOnrRgJGjDXm6IHMV6bWmpAuF65LuiMChhA9fu4ELau5V7+
+         hStg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790096873; x=1790701673;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0L+7e+cU3VWegVLLOjh3YpblpIX75X+DIyXyAmlh6g8=;
+        b=0ShKUtWdF9XcauC0M2e5wfX65VewdSPx80vrvUavhjwD2WzWjvoQyNbtXIqYVC/7yC
+         F1xg6EKjbaHXEpYDCZfMn91LbtacpA5a5w3Ho/fsRDyuSDA8QfbsSudR/Awg5udTPSWF
+         XS0uobv2QHCFhFvpVJaNXQj04nn4c9GxwGhEawLteHa5N/eiOy4e6JQzmLrtzxyroofN
+         LrCOhq5zEzpdknpzjWtw+X//nh7d6+xtGHJ1eidOm/InNeV12dTn12wMnadD1x9QBuNg
+         khYe2i83rklZXfQuVKberx8ss/m4SZm9Bk9KAEsn1PZKwgiSLOJxmn8TiaLuluO3aMbu
+         9hxw==
+X-Forwarded-Encrypted: i=1; AKwUvByfV1VLOQgKWmXu92TfcnSCSMZfEEMtyLYiAkvUwiApfAT9xc/QhMDJeSY6SAzyO3TZaV5HEnW7uTE=@vger.kernel.org
+X-Gm-Message-State: AFuF++ndMpn+3StF807WU56y2/aT1IIzJY3Qp5T4uzoSGw+x2xYZfW2H
+	7kmQwUKtu2gQgX9r2FYe17ArDh4NAYu1QERTc80kaVRI9EyCxUPsaLnN
+X-Gm-Gg: AYBFou3wLHqpwrSWr5HuzXf9Gs3GKc9He1m+U1/AHNTCzXZNPhccMT1CYzVpfuGMAcW
+	t8ts2eHLRmpPp2j3lqLPVRV86QZDdidOrWGdUZ5tZtTyLkePc7w+L02Z+RAzKUWVf8a65LMT3Vr
+	n0f3dnF5+v8G0HXL0stNsKdIq6bf4lbjRm0QttroPEOQdsc/BJs0n/qYdZRz3LJT1jf96Dvi61u
+	SB0RGa5Zem2nQB/vV7cpIlesxNCGC7tzlvoYFwdUNTy9537C0Rxxrw4vN7q36LH5DiVSsvxkv4S
+	W6JEJgW22OH1HxwZBjHVMgMlPj8kqhCgSd8fLvseX6HYGOuJLBeoXoDkDVC76FEXz1cA/swAC2K
+	U94hA9uZXABXO5lZMz0Fi9x3QkBYOM0/LJVohOBjp8je31Xk6BjDBJ56rOZSQ5Q6cPhH/J8j8Xb
+	+93iqx9Rz7Ia1ihO4IbSRu+piB2JvE1bny0hdYBgYHgD99TJ1IgxVcvHXsosmXW1jGAm6jrLajn
+	2hc4aAbBfXA
+X-Received: by 2002:a17:902:f693:b0:2dd:b20b:76c8 with SMTP id d9443c01a7336-2df69d3aae3mr371675ad.16.1790096873290;
+        Tue, 22 Sep 2026 10:07:53 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df5d057f55sm13556195ad.73.2026.09.22.10.07.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 10:07:52 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 22 Sep 2026 10:07:51 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Tomasz Bojanowski <tomasz@bojanowski.me>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (nct6683) Add MSI B850M to list of tested boards
+Message-ID: <fdea3ade-8cc0-42d9-9daf-b50d578a7be0@roeck-us.net>
+References: <20260921211304.74729-1-tomasz@bojanowski.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,52 +77,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260922-kvm-arm-prefault-v3-2-787bd3bc7e3f@kernel.org>
+In-Reply-To: <20260921211304.74729-1-tomasz@bojanowski.me>
 
-On Tue, Sep 22, 2026 at 03:17:56PM +0100, Lorenzo Stoakes (ARM) wrote:
-> Add helper functions which operate directly on an ESR value rather than
-> trying to access the register itself.
+On Mon, Sep 21, 2026 at 11:13:04PM +0200, Tomasz Bojanowski wrote:
+> Tested on MSI MAG B850M MORTAR WIFI with NCT6687D EC firmware version
+> 0.0 build 03/10/25. The driver loads without force=1 and reports
+> voltages, fan speeds and temperatures.
 > 
-> These mirror equivalent KVM vCPU wrappers in kvm_emulate.h and allow those
-> wrappers and KVM's stage-2 fault handling to operate on a plain ESR value.
-> 
-> This is needed to later generate a synthetic fault for the stage-2 page
-> table pre-faulting mechanism.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  arch/arm64/include/asm/esr.h | 44 ++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 44 insertions(+)
-> 
-> diff --git a/arch/arm64/include/asm/esr.h b/arch/arm64/include/asm/esr.h
-> index f816f5d77f1a..9c0205983d9a 100644
-> --- a/arch/arm64/include/asm/esr.h
-> +++ b/arch/arm64/include/asm/esr.h
-> @@ -437,6 +437,50 @@
->  #ifndef __ASSEMBLER__
->  #include <asm/types.h>
->  
-> +static __always_inline u8 esr_get_ec(unsigned long esr)
-> +{
-> +	return ESR_ELx_EC(esr);
-> +}
+> Signed-off-by: Tomasz Bojanowski <tomasz@bojanowski.me>
 
-Why do we need to wrap the macro in an inline function?
-
-> +static __always_inline bool esr_trap_is_iabt(unsigned long esr)
-> +{
-> +	return esr_get_ec(esr) == ESR_ELx_EC_IABT_LOW;
-> +}
-> +
-> +static __always_inline bool esr_abt_is_s1ptw(unsigned long esr)
-> +{
-> +	return esr & ESR_ELx_S1PTW;
-> +}
-
-This helper doesn't make a ton of sense outside of KVM, since
-ESR_ELx.S1PTW is RES0 (not RAZ) outside of a stage-2 abort.
+Applied.
 
 Thanks,
-Oliver
+Guenter
