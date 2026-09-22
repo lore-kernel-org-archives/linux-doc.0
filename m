@@ -1,456 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4154141A575;
-	Tue, 22 Sep 2026 08:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2500043C043;
+	Tue, 22 Sep 2026 08:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790065709; cv=none; b=UqAKWQEvGIUgH6BlyEO/oaS5pQQbpf1bIqChmve68dVSrSn10A/KZIqwj2ucLbq6x+k2jWZ8FevINxioVZqnHnnUmuMnbyxNkW7TqUMoh7E/wypDPHa0AgTO7bCL+fzkMSN7ckmVoUSECmXH4SqYzrz6C6DHhAc9Y+RhXski5YM=
+	t=1790065926; cv=none; b=uYjKSs/8Jf+dr2TL9uksngEsXOVuOarc9QV0WDvdF08BX0xVbS+itzzLX+2EeMZxX5poc0o8hrjAR+NYRy/pywn71J0y8GE24/qpGvwu517wxExaYn81qYXb1tBPrdLvuS7OXgTA466HeSwEaN8UnIVgh6gR09wm9exvYejMMuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790065709; c=relaxed/simple;
-	bh=ESCK5KvZWFJ/oAOUPofQdFgVGnvKhsNdZIR/ndVTtv4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n0xbnpJ0WdlFHNfMH+yxI2TwPcr8DmxqyJECiM2mo5WalA/QSRWM1yBPmz9iZlymY/r5fjxeOZ1eUB9MAx3tq+ygSwf0VDBpKRE7xVnoW0xkW8WmG8wTLHOZfG3y5222skI/NElTOKhA5s6JG3ginHpJyhavKHRU7yVCj3NbV6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D2Q71rue; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790065926; c=relaxed/simple;
+	bh=yel+Y5OeV/AyONm8qT3l/yT2HVqRmCiVNN1vENnh6gM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UOBiv/f5qHenxCL+DiZib/N/UA4NgyItfTY3uneeHuCuV6t2cmfsuU/ZreHCYgZGHwUhTrK5Ss+g8DPO47xT22GqAMkDups0Hek4GYZ2A3drxoRyeHCnWLXa2TIGJHpFV5rRqTrCU1qO38k9xg7lkvIIdli0Jb9jgG4e9z0X57c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=jlmM0Xq/; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D2Q71rue"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34FD71F00898;
-	Tue, 22 Sep 2026 08:28:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790065708;
-	bh=VkmPg61FiN9Xz1SlzPL2ssBRgPtSlOLIACv5olyx/rw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=D2Q71rueC45lfwVRazVvwEwobm4xMVKPuzxsn7+Vhc253m2QX8toPDrJONZfMiHXb
-	 G+aZ0JQdybtb+cseMjAuiuUfve/nuoJcsTkCB5/1NJcew7jIB5QxehC354V05y3BcY
-	 xCYQR5NzVNiLNSQOHiY0eYpzWPE22ImEZlb++XD4WAnE+B611oM4gu8SA+bST4Nhv8
-	 cdU3CO0vI/kUtIPjy1Y+K5+4kWAQ8WS/wAo1g19LPuNpLelbH0o9U34bziTlkgw9QS
-	 ZbegI8Am35OHyZULFAYUGlFPzoSw0xPe/yG7gNNHNu8eOlUpialv3cvjt03kYgN7dr
-	 OmnUD8LflZeqA==
-Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 36B05F40066;
-	Tue, 22 Sep 2026 04:28:26 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-08.internal (MEProxy); Tue, 22 Sep 2026 04:28:26 -0400
-X-ME-Sender: <xms:KjyyavBAtxx0S7EMYys24_Q27Won9NIjUFATi9IBcQVNDT6jkxvu-w>
-    <xme:KjyyaofcK7lRb3h-bnSI-AkDCPpt54UxO3EfHoFCOdfjflaMf1WztQCmeBBKwnOjE
-    sBUeLcYGYijdm6t_QBWewUXapdVFFppuOsxEx02PQLG6TKBps818T0>
-X-ME-Received: <xmr:Kjyyauz6Q7a-BqUZ_Yh68XFuiM8X5aC109tej4jVPzJzKFlZw_GEi5sMUJ-FItPVdya4qgBmigc478jyeaBZSpIBOLB6xV1nZvt2VPpEYGq5EtptuKWwX16G>
-X-ME-Proxy-Cause: dmFkZTGQ4uUrDEXwf3C7PVrBLcIs38XJYKDUf/eHC5CcL7qCyZEQZTQc7EmiwbQXMikcVs
-    0kwNj+AkKR2dq3OSokVIGEpJ4cQWFWX7ZAodLUB1MV0dMGmmpZM8OZnuTt5tIgNIPk1olb
-    wlqIAtbiox1nfXJbx0VdWD3YTvEeJYlKhUViQzmayt0gpt02inVCzVd/OxL0e+0qmn1aD4
-    tEzi2pCI0+jQFy/RZUuQTbzwGZMA0TW5zr6qWiBsecRvd2ErwEuKXG5eSJplxXEBFSI8dC
-    AnX10O91yf+TYX3NZmw7JCtF6LA8Rzu71kBGfhrMDSvUqOr5lc1Uq5aXghmuRDL/ASUnDT
-    n1yRy60YQQatCcH8t+/oSdigbf7Ka9PC+IVUI1BzjUpOfKEmOI/OZ+2kkkc62iAZel+Nl7
-    XjF00zGMLOSFbCV1OcAbRIAY0MFFxcHXyJpzrIFNBGG8T+p+n3nQB1JJ8mQwEzD95i5W0/
-    k4s3SN/QCD39/UWTFf3y95ugbZYpiVh5hrzsr7zjDGUo6l4sns9U2CZpxkQxGG+vOix5cB
-    BiqNus6cqKQV7xEpGvod/F1fnJilG8vJhFjSUmnE89YNpApysioAOroOBwHFjqjlPVbqiQ
-    wAhwxilzpaam5xczZus+p+J9Bcb5H3s5Ed4bUp2z4N5/I+RBrB+3rzhWAZUA
-X-ME-Proxy: <xmx:Kjyyau9hoscJV4tazHLYRBbmr21re4iflc--guYkKztmRBLo4dAJvQ>
-    <xmx:KjyyagnVYtF1hHs5OGoj_mhHUv9TKPwY60Yilte1WRDN0ZeBUBhbEA>
-    <xmx:KjyyaooHhy8ef5Kiw_-MzoGsDbgxOD171yC8x7edn22kp67f6GtHqQ>
-    <xmx:Kjyyak965b_vGE7KqCoRHYg0UcB0F6taRQGjzwG7YvO8rQ0sQJhGjg>
-    <xmx:KjyyajOD-BQ1OOoOguSiY44EBEn50X86SZLbuFXgaErpTxmcYsczafA9>
-Feedback-ID: i8dbe485b:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 22 Sep 2026 04:28:25 -0400 (EDT)
-Date: Tue, 22 Sep 2026 10:28:24 +0200
-From: Boqun Feng <boqun@kernel.org>
-To: Kunwu Chan <kunwu.chan@gmail.com>
-Cc: stern@rowland.harvard.edu, parri.andrea@gmail.com, will@kernel.org,
-	peterz@infradead.org, npiggin@gmail.com, dhowells@redhat.com,
-	j.alglave@ucl.ac.uk, luc.maranget@inria.fr, paulmck@kernel.org,
-	corbet@lwn.net, mingo@redhat.com, dave@stgolabs.net,
-	josh@joshtriplett.org, frederic@kernel.org,
-	neeraj.upadhyay@kernel.org, urezki@gmail.com, akiyks@gmail.com,
-	dlustig@nvidia.com, joelagnelf@nvidia.com,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	longman@redhat.com, rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, include@grrlz.net,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	lkmm@lists.linux.dev, linux-doc@vger.kernel.org,
-	rcu@vger.kernel.org, lianux.mm@gmail.com
-Subject: Re: [RFC/WIP PATCH 1/4] hazptr: add shared-scan kthread
-Message-ID: <arI8KNUjYNFBwKf8@MacBook-0RXW5>
-References: <20260922070950.4173245-1-kunwu.chan@gmail.com>
- <20260922070950.4173245-2-kunwu.chan@gmail.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="jlmM0Xq/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=ug
+	akWYgqFTy9hncCii5MOyfniW4YObHyDkAqm2Qj3t0=; b=jlmM0Xq/dlqcg9TSyV
+	jYgRzBSqZkjjTVtFRR/jpEGlmaVdoAnbOnVOENO3fVSmgOj5VbSm1ZVbf3hv9Bdv
+	01MF6bNLp/RLOizOX1q+orsWOrTd6S34GlyfICujD0uO5tkGEc74YrDcBvrcFfkQ
+	I/en2xS0JUW4JBPF/Drv1Upww=
+Received: from chaosheng-ASUS-TUF-Gaming-F16-FX607JV-FX607JV.lan (unknown [])
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wD3137OPLJqg7FaAA--.45299S2;
+	Tue, 22 Sep 2026 16:31:11 +0800 (CST)
+From: Quchaosheng <quchaosheng000406@163.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	quchaosheng000406@163.com
+Subject: [PATCH v2 1/2] sched/doc: add a preemption model overview
+Date: Tue, 22 Sep 2026 16:31:00 +0800
+Message-ID: <20260922083101.99685-1-quchaosheng000406@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260922070950.4173245-2-kunwu.chan@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3137OPLJqg7FaAA--.45299S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxKrW7XFyxAFWkGw4fGF4xtFb_yoWxXw4Dpr
+	Z0qrWftws3J348KryxZw1xXryrZ397JF4ftryktry5Awn0qr1jyr1Utr12qFyUCr1Fva4a
+	vrs5X3y2kr10y3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pim9aDUUUUU=
+X-CM-SenderInfo: xtxfxtprvkv0bjqqikiqw6il2tof0z/xtbDABCKAGqyPNA4rgAA34
 
-On Tue, Sep 22, 2026 at 03:09:47PM +0800, Kunwu Chan wrote:
-> Batch concurrent hazptr_synchronize() callers into a shared scan
-> cycle, avoiding redundant scans of the per-CPU slots.
-> 
-> Queue waiters to a kthread and let each scan cycle make one pass
-> over all CPUs.  Each waiter tracks per-CPU progress for both
-> wildcard generations, allowing multiple waiters to share the same
-> scan.
-> 
-> Flip the wildcard before scanning.  New acquires then use the new
-> generation, so the old-generation mask makes forward progress even
-> under a steady stream of readers.  Waiters that remain blocked are
-> retried after a short delay.
-> 
-> Fall back to the existing direct two-phase scan if the scan kthread
-> is unavailable or waiter state cannot be allocated.
-> 
-> Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
-> ---
->  kernel/hazptr.c | 274 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 274 insertions(+)
-> 
-> diff --git a/kernel/hazptr.c b/kernel/hazptr.c
-> index d3d1050d92cf..ce553a61b119 100644
-> --- a/kernel/hazptr.c
-> +++ b/kernel/hazptr.c
-> @@ -12,6 +12,10 @@
->  #include <linux/mutex.h>
->  #include <linux/list.h>
->  #include <linux/export.h>
-> +#include <linux/completion.h>
-> +#include <linux/kthread.h>
-> +#include <linux/slab.h>
-> +#include <linux/swait.h>
->  
->  /*
->   * The current hazard pointer wildcard. Flips between 1UL and 2UL to guarantee
-> @@ -209,12 +213,251 @@ void hazptr_scan_period(void *addr, void *scan_wildcard)
->  	}
->  }
->  
-> +/*
-> + * Batch hazptr_synchronize() callers through a shared scan kthread.
-> + */
-> +
-> +struct hazptr_waiter {
-> +	struct list_head node;
-> +	void *addr;
-> +	struct completion done;
-> +	/*
-> +	 * Per-wildcard-generation progress masks.  A CPU bit is
-> +	 * cleared when the scan observes neither @addr nor that
-> +	 * generation's wildcard on the CPU.
-> +	 */
-> +	unsigned long *cpu_mask;	/* 2 * BITS_TO_LONGS(nr_cpu_ids) */
+The scheduler documentation describes the individual scheduling classes
+and various tuning knobs, but there is nothing that describes the
+preemption models themselves.  The only place where they are documented
+is the kernel-parameters entry for "preempt=", which explains the boot
+time parameter but not the models it selects.
 
-This would requires allocation during hazptr_synchronize() and I would
-like to avoid that (it's going to introduce a "allocating memory to free
-memory" case).
+Add Documentation/scheduler/sched-preemption.rst, covering the four
+models, how a scheduling request is honoured under each of them, and
+which of them can be selected at runtime.
 
-Mathieu brought up a useful data structure for the scan: A Bloom filter:
+The overview follows the scheduling request: a wakeup makes a task
+runnable, the scheduler decides what has to leave the CPU and sets
+TIF_NEED_RESCHED or TIF_NEED_RESCHED_LAZY on it, and the preemption model
+decides where that request is honoured.
 
-	https://en.wikipedia.org/wiki/Bloom_filter
+Assisted-by: LLM
+Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Quchaosheng <quchaosheng000406@163.com>
+---
 
-, which is basically a bitmap set + k hash functions. Let's say we have
-a struct bloom_filter (you can still with a page as the bitmap and k=3)
-and put it in hazptr_scan_state. Then the scan would become:
+Changes in v2:
+- Rewrite the overview around the scheduling request instead of walking
+  through resched_curr_lazy() and scheduler_tick().  Sebastian asked for the
+  bird's-eye view; the code-level walkthrough was not an overview.
+- Drop the measurement section.  It claimed lazy exists to avoid an IPI to
+  every CPU with a runnable CFS task, which is wrong: a cross-CPU wakeup
+  targets one CPU.  The point of lazy is run-to-completion, so that in-kernel
+  work finishes and every lock is dropped before the CPU is given up.
+- Drop the "tasks also yield contended spinlocks" wording from the model
+  table; that belongs in kernel-parameters.txt, where it already is.
+- Fold the debugfs file into the section on selecting the model at runtime
+  instead of giving it a section of its own.
+ Documentation/scheduler/index.rst            |  1 +
+ Documentation/scheduler/sched-preemption.rst | 84 ++++++++++++++++++++
+ 2 files changed, 85 insertions(+)
+ create mode 100644 Documentation/scheduler/sched-preemption.rst
 
-	bloom_filter_clear(); // <- reset the bloom filer.
+diff --git a/Documentation/scheduler/index.rst b/Documentation/scheduler/index.rst
+index 17ce8d76befc..d6d75421756a 100644
+--- a/Documentation/scheduler/index.rst
++++ b/Documentation/scheduler/index.rst
+@@ -23,5 +23,6 @@ Scheduler
+     sched-stats
+     sched-ext
+     sched-debug
++    sched-preemption
+ 
+     text_files
+diff --git a/Documentation/scheduler/sched-preemption.rst b/Documentation/scheduler/sched-preemption.rst
+new file mode 100644
+index 000000000000..e40c4f5f7476
+--- /dev/null
++++ b/Documentation/scheduler/sched-preemption.rst
+@@ -0,0 +1,84 @@
++=====================
++Scheduler preemption
++=====================
++
++The kernel can be built to run kernel code either uninterruptibly, or with
++varying degrees of preemptibility.  These are the *preemption models*.
++They apply to kernel code only: a task running in user space is always
++preempted by the scheduler, whichever model is selected.
++
++When CONFIG_PREEMPT_DYNAMIC is enabled the preemption model can additionally
++be selected at boot time with the ``preempt=`` command line parameter, without
++rebuilding the kernel.  See
++Documentation/admin-guide/kernel-parameters.txt for the parameter itself.
++The active model can also be read and changed through
++/sys/kernel/debug/sched/preempt, which exists for debugging purposes and may
++change.
++
++The models selectable at runtime are:
++
++	=========	====================================================
++	none		No preemption of kernel code other than at explicit
++			``cond_resched()`` / blocking points.
++	voluntary	As ``none``, plus ``might_sleep()`` sites.
++	full		Any section that is not explicitly preempt disabled
++			may be preempted at any time.
++	lazy		As ``full``, except that the scheduling request is
++			delayed until the return to user space or the next
++			tick, whichever comes first.  This delay does not
++			apply to real-time tasks.
++	=========	====================================================
++
++Not every model is available on every kernel.  An architecture that provides
++lazy-preempt support offers only ``full`` and ``lazy``, and ``none`` and
++``voluntary`` are rejected there.  A PREEMPT_RT kernel always offers ``full``,
++and ``lazy`` as well if the architecture provides it.
++
++The model that is actually active is reported in the boot log::
++
++	Dynamic Preempt: full
++
++Honouring a scheduling request
++==============================
++
++A wakeup makes a task runnable, and the scheduler then decides whether it
++should run.  If there is an idle CPU which is suitable then the task is moved
++there.  Otherwise the scheduler has to decide which task to preempt, and the
++task that has to leave the CPU gets a reschedule flag.  In the tracing output
++this is the ``need-resched`` column, ``N`` for TIF_NEED_RESCHED and ``l`` for
++TIF_NEED_RESCHED_LAZY.
++
++The kernel then has to honour that request.  A task executing in user space
++can always be preempted; a task executing in kernel space can only be
++preempted where it is safe to do so, and how that is decided is what
++separates the models:
++
++``none``
++	Code paths with long loops contain explicit ``cond_resched()`` calls,
++	which perform the scheduling.
++
++``voluntary``
++	As ``none``, and functions which are known to be able to block gain
++	such a call as well.
++
++``full``
++	Explicit preemption points are no longer involved.  The kernel tracks
++	whether it may be preempted and schedules once the request can be
++	honoured.
++
++``lazy``
++	As ``full``, with one difference: the request the fair scheduler sets
++	is TIF_NEED_RESCHED_LAZY, which is not honoured immediately even where
++	it could be.  It is delayed until the task returns to user space, so
++	that the in-kernel work runs to completion and every lock has been
++	dropped before the CPU is given up.  If the task has not scheduled on
++	its own by then, the request is turned into a full TIF_NEED_RESCHED on
++	the next HZ tick; this is visible as ``B`` in the ``need-resched``
++	column.
++
++Real-time tasks always use TIF_NEED_RESCHED, so the delay above does not
++apply to them.  ``lazy`` is therefore not a replacement for PREEMPT_RT: it
++keeps most of the responsiveness of ``full`` for SCHED_NORMAL tasks while
++letting them run to completion, which avoids leaving a lock behind that
++another task will immediately ask for, and avoids pushing cache-hot data out
++that would have to be pulled back in.
+-- 
+2.43.0
 
-	for_each_possible_cpu()
-          hlist_for_each_entry(b, &list->head, overflow_node) {
-	    bloom_filter_set(*b->slot.addr);
-	    // ^ add the hazptr_acquire() adress into the bloom filter
-	  }
-	
-	list_for_each_entry(w, &hazptr_scan.scanning, node) {
-	  if (!bloom_filter_contains(w->addr)) {
-	    list_move(&w->node, &done);
-	  }
-	}
-
-Of course, there are some additional handling or optimizaiton we can do
-with the per-CPU slot and wildcard, but this is the idea. It also makes 
-a potential call_hazptr() work.
-
-Willing to give it a try?
-
-Regards,
-Boqun
-
-> +};
-> +
-> +/* Return waiter @w's progress mask for wildcard generation @gen. */
-> +static unsigned long *hazptr_waiter_mask(struct hazptr_waiter *w, int gen)
-> +{
-> +	return w->cpu_mask + gen * BITS_TO_LONGS(nr_cpu_ids);
-> +}
-> +
-> +struct hazptr_scan_state {
-> +	struct task_struct *kthread;
-> +	struct swait_queue_head wq;
-> +	bool wakeup;
-> +	struct mutex lock;
-> +	struct list_head pending;
-> +	struct list_head scanning;	/* kthread only */
-> +};
-> +static struct hazptr_scan_state hazptr_scan;
-> +
-> +/*
-> + * Check a CPU's overflow lists.  A backup slot can hold a wildcard
-> + * because __hazptr_acquire() writes the wildcard to any slot,
-> + * including backup slots from hazptr_chain_backup_slot().
-> + *
-> + * @addr:     address the waiter is waiting on
-> + * @old_wc:   wildcard value of the pre-flip generation
-> + * @new_wc:   wildcard value of the post-flip generation
-> + * @has_old:  set if any overflow slot holds @old_wc
-> + * @has_new:  set if any overflow slot holds @new_wc
-> + *
-> + * Returns true if @addr is present.
-> + */
-> +static bool hazptr_ovf_list_blocked(int cpu, void *addr,
-> +				    void *old_wc, void *new_wc,
-> +				    bool *has_old, bool *has_new)
-> +{
-> +	struct hazptr_overflow_list_flip *ovf = per_cpu_ptr(&percpu_overflow_list_flip, cpu);
-> +	bool found_addr = false;
-> +	int i;
-> +
-> +	for (i = 0; i < 2; i++) {
-> +		struct hazptr_overflow_list *list = &ovf->array[i];
-> +		struct hazptr_backup_slot *b;
-> +		unsigned long flags;
-> +
-> +		raw_spin_lock_irqsave(&list->lock, flags);
-> +		hlist_for_each_entry(b, &list->head, overflow_node) {
-> +			/* Pairs with smp_store_release in hazptr_release(). */
-> +			void *val = smp_load_acquire(&b->slot.addr);
-> +
-> +			if (val == addr)
-> +				found_addr = true;
-> +			else if (val == old_wc)
-> +				*has_old = true;
-> +			else if (val == new_wc)
-> +				*has_new = true;
-> +		}
-> +		raw_spin_unlock_irqrestore(&list->lock, flags);
-> +	}
-> +	return found_addr;
-> +}
-> +
-> +/*
-> + * Move pending waiters to ->scanning, flip the wildcard, then make
-> + * one pass over all CPUs.  Clear per-waiter bits for CPUs that no
-> + * longer hold the waiter address or the corresponding wildcard.
-> + *
-> + * After the flip, new acquires use the new wildcard.  The old
-> + * generation therefore makes forward progress and is fully cleared
-> + * after enough scan cycles.
-> + */
-> +static void hazptr_scan_do_cycle(void)
-> +{
-> +	void *old_wc, *new_wc;
-> +	unsigned int old_idx, new_idx;
-> +	int cpu;
-> +	struct hazptr_waiter *w, *n;
-> +	LIST_HEAD(done);
-> +
-> +	mutex_lock(&hazptr_wildcard_lock);
-> +
-> +	mutex_lock(&hazptr_scan.lock);
-> +	list_splice_tail_init(&hazptr_scan.pending, &hazptr_scan.scanning);
-> +	mutex_unlock(&hazptr_scan.lock);
-> +
-> +	if (list_empty(&hazptr_scan.scanning)) {
-> +		mutex_unlock(&hazptr_wildcard_lock);
-> +		return;
-> +	}
-> +
-> +	old_wc = READ_ONCE(hazptr_wildcard);
-> +	new_wc = flip_wildcard(old_wc);
-> +	WRITE_ONCE(hazptr_wildcard, new_wc);
-> +	old_idx = (unsigned long)old_wc - 1;
-> +	new_idx = 1 - old_idx;
-> +
-> +	/*
-> +	 * One pass over all CPUs for the per-CPU slots, checking
-> +	 * overflow lists for the remaining waiters.
-> +	 */
-> +	for_each_possible_cpu(cpu) {
-> +		struct hazptr_percpu_slots *slots = per_cpu_ptr(&hazptr_percpu_slots, cpu);
-> +		void *vals[NR_HAZPTR_PERCPU_SLOTS];
-> +		bool has_old = false, has_new = false;
-> +		unsigned int idx;
-> +
-> +		for (idx = 0; idx < NR_HAZPTR_PERCPU_SLOTS; idx++) {
-> +			/* Pairs with smp_store_release in hazptr_release(). */
-> +			vals[idx] = smp_load_acquire(&slots->items[idx].slot.addr);
-> +			if (vals[idx] == old_wc)
-> +				has_old = true;
-> +			else if (vals[idx] == new_wc)
-> +				has_new = true;
-> +		}
-> +
-> +		list_for_each_entry(w, &hazptr_scan.scanning, node) {
-> +			bool has_addr = false;
-> +
-> +			if (!test_bit(cpu, hazptr_waiter_mask(w, old_idx)) &&
-> +			    !test_bit(cpu, hazptr_waiter_mask(w, new_idx)))
-> +				continue;	/* Both bits already clear. */
-> +			for (idx = 0; idx < NR_HAZPTR_PERCPU_SLOTS; idx++) {
-> +				if (vals[idx] == w->addr) {
-> +					has_addr = true;
-> +					break;
-> +				}
-> +			}
-> +			if (!has_addr)
-> +				has_addr = hazptr_ovf_list_blocked(cpu, w->addr,
-> +					old_wc, new_wc, &has_old, &has_new);
-> +			if (has_addr)
-> +				continue;
-> +			if (!has_old)
-> +				__clear_bit(cpu, hazptr_waiter_mask(w, old_idx));
-> +			if (!has_new)
-> +				__clear_bit(cpu, hazptr_waiter_mask(w, new_idx));
-> +		}
-> +	}
-> +
-> +	mutex_unlock(&hazptr_wildcard_lock);
-> +
-> +	/* Complete waiters whose masks are both empty. */
-> +	list_for_each_entry_safe(w, n, &hazptr_scan.scanning, node) {
-> +		if (bitmap_empty(hazptr_waiter_mask(w, 0), nr_cpu_ids) &&
-> +		    bitmap_empty(hazptr_waiter_mask(w, 1), nr_cpu_ids))
-> +			list_move(&w->node, &done);
-> +	}
-> +
-> +	list_for_each_entry_safe(w, n, &done, node) {
-> +		list_del_init(&w->node);
-> +		complete(&w->done);
-> +	}
-> +}
-> +
-> +/*
-> + * Shared scan kthread for hazptr_synchronize() waiters.
-> + */
-> +static int hazptr_scan_kthread(void *unused)
-> +{
-> +	for (;;) {
-> +		bool idle;
-> +
-> +		swait_event_idle_exclusive(hazptr_scan.wq,
-> +					   READ_ONCE(hazptr_scan.wakeup));
-> +
-> +		hazptr_scan_do_cycle();
-> +
-> +		mutex_lock(&hazptr_scan.lock);
-> +		idle = list_empty(&hazptr_scan.pending) &&
-> +		      list_empty(&hazptr_scan.scanning);
-> +		if (idle)
-> +			WRITE_ONCE(hazptr_scan.wakeup, false);
-> +		mutex_unlock(&hazptr_scan.lock);
-> +
-> +		if (idle)
-> +			continue;
-> +		/* Waiters still blocked: retry after a polling delay. */
-> +		schedule_timeout_idle(1);
-> +	}
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Queue @addr for scan-thread processing, then sleep until the scan
-> + * thread observes that @addr is no longer held by any hazard pointer.
-> + * Returns false if the waiter masks cannot be allocated, in which
-> + * case the caller falls back to the direct scan.
-> + */
-> +static bool hazptr_synchronize_queued(void *addr)
-> +{
-> +	struct hazptr_waiter waiter = {
-> +		.addr = addr,
-> +	};
-> +	unsigned long *masks;
-> +	unsigned int mask_longs = BITS_TO_LONGS(nr_cpu_ids);
-> +
-> +	masks = kcalloc(2, mask_longs * sizeof(unsigned long), GFP_KERNEL);
-> +	if (!masks)
-> +		return false;
-> +	bitmap_fill(masks, nr_cpu_ids);
-> +	bitmap_fill(masks + mask_longs, nr_cpu_ids);
-> +	waiter.cpu_mask = masks;
-> +
-> +	init_completion(&waiter.done);
-> +	INIT_LIST_HEAD(&waiter.node);
-> +
-> +	/* Enqueue and wake the scan kthread. */
-> +	mutex_lock(&hazptr_scan.lock);
-> +	list_add_tail(&waiter.node, &hazptr_scan.pending);
-> +	if (!READ_ONCE(hazptr_scan.wakeup)) {
-> +		WRITE_ONCE(hazptr_scan.wakeup, true);
-> +		swake_up_one(&hazptr_scan.wq);
-> +	}
-> +	mutex_unlock(&hazptr_scan.lock);
-> +
-> +	/* Sleep until the scan thread completes this waiter. */
-> +	wait_for_completion(&waiter.done);
-> +	kfree(masks);
-> +	return true;
-> +}
-> +
->  /*
->   * hazptr_synchronize: Wait until @addr is released from all slots.
->   *
->   * Wait to observe that each slot contains a value that differs from
->   * @addr before returning.
->   * Should be called from preemptible context.
-> + *
-> + * If the scan kthread is running, the caller is queued and the scan
-> + * thread performs the work, allowing multiple concurrent callers to
-> + * share a single scan cycle.  Otherwise, the existing direct
-> + * two-phase scan is used as a fallback.
->   */
->  void hazptr_synchronize(void *addr)
->  {
-> @@ -235,6 +478,13 @@ void hazptr_synchronize(void *addr)
->  	/* Memory ordering: Store A before Load B. */
->  	smp_mb();
->  
-> +	/* Use the scan thread if available. */
-> +	/* Pairs with smp_store_release in hazptr_scan_init(). */
-> +	if (smp_load_acquire(&hazptr_scan.kthread) &&
-> +	    hazptr_synchronize_queued(addr))
-> +		return;
-> +
-> +	/* Fallback: direct two-phase wildcard scan. */
->  	guard(mutex)(&hazptr_wildcard_lock);
->  	scan_wildcard = flip_wildcard(hazptr_wildcard);
->  	hazptr_scan_period(addr, scan_wildcard);
-> @@ -282,3 +532,27 @@ void __init hazptr_init(void)
->  		}
->  	}
->  }
-> +
-> +/*
-> + * Initialize the scan kthread.  On failure falls back to the direct
-> + * scan (busy-wait) path at synchronize time.
-> + * core_initcall ensures the scheduler is ready before kthread_run.
-> + */
-> +static int __init hazptr_scan_init(void)
-> +{
-> +	struct task_struct *t;
-> +
-> +	init_swait_queue_head(&hazptr_scan.wq);
-> +	mutex_init(&hazptr_scan.lock);
-> +	INIT_LIST_HEAD(&hazptr_scan.pending);
-> +	INIT_LIST_HEAD(&hazptr_scan.scanning);
-> +
-> +	t = kthread_run(hazptr_scan_kthread, NULL, "hazptr_scan");
-> +	if (!IS_ERR(t))
-> +		/* Pairs with smp_load_acquire in hazptr_synchronize(). */
-> +		smp_store_release(&hazptr_scan.kthread, t);
-> +	else
-> +		pr_warn("hazptr: scan thread failed, using direct scan\n");
-> +	return 0;
-> +}
-> +core_initcall(hazptr_scan_init);
-> -- 
-> 2.43.0
-> 
