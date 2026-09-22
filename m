@@ -1,155 +1,170 @@
-Received: from mail-ej2-f5.google.com (mail-ej2-f5.google.com [74.125.228.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B6E550DCE
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 13:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.133
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790083600; cv=pass; b=HXM0EAsGMbOJfMjK1EzLTIPWEBLVMgMfgzg6LWSsHDqGXe3mpLDmm6OZm5qBj1R59SbxlqXlLRg79CKrJVusR09dbpx1MxQby9l09i/Rpc+E5vbIxUFJM8aWG93j/93uh/9t0ixdfXtFLjFClwlfSNNfdS2Eo2+k9o012wIpkSM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790083600; c=relaxed/simple;
-	bh=ofxcWs5wvUKXDp1OvqNuIaoTkk52/+tItoWNT6uQhGU=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B083552939
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 13:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790083979; cv=none; b=GjAfDfTGbYM+TXgjMQVrLsxJpmsXvVEbJ1SgqDsuBz0asyDBuqzWnlda+rZRv6hQsRvbVqQ8fKv9OA/td12AguWDJCmURNvL2TYnWamXnmtxN6WZNW4/ywm82FjqswBgnBTpWzoaCiT8qaQe5OxB+JyBpIPZknakkv/3hdSuTK0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790083979; c=relaxed/simple;
+	bh=XBoYOklnPu88vK9RRRj6IwCCmmnuin6PxsANDQvC58Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H/YLQ0fyx5U7RxJpSTRdH98qrgX/gAMbSY0eK5GAhHUUxFh6/6Etc2pcY+3W9zy4KZApRV844W7K8n0IrFCFtA4I3kvLaxLqF57FQB3TTS2eqlrwvflfGn58Vcd7I7E6yp++MavrdYt+X3av8N/+7Cf4Ej6v0bFw9/Uih1uKQOg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k7QG8UfG; arc=pass smtp.client-ip=74.125.228.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=Qe8AhYsEfU+kBQuPsh4dDTiGFQFXXOxXHm4O9wf5z+JssK7TkpN0jdpkfR7usH3Y/8qIjnasW0Uyiypv7X/3YNTiMZGn1k0efUyFkxgoxS/nvKbiUl0Ux0ZqhC0coFzrGl4+dg1nvsZub0ym0weZynbxRee8+4s0Ri6bLUkfcNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WzAFrZBX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k7QG8UfG"
-Received: by mail-ej2-f5.google.com with SMTP id a640c23a62f3a-c2950c25486so346237066b.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 06:26:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790083596; cv=none;
-        d=google.com; s=arc-20260327;
-        b=R4H151uEi02I2eCItxETXIub4oJUvNnf7evFa+/TCRhCTasekXxgSMEOGBtMkWVlUM
-         tsLgcSEiHlKwIyqnA1hfsn+3DaC0e5NmHW7RO/JNNdBkKDUSnkeKrqVLbT+cwi4nBb/F
-         WKZywfocaXIErKZvs19CiEVJr2yQmHGe9uPWCSwwHvamTg3CgB95wLN20k+xGXsyavEN
-         k6lo0EqmQSyekVGHEr/3Wwb7WTMzD3GhLgzW/ckvanS7cZQti+0Vmf8cX3VWwt/EpcQS
-         nh4aqKj/+o1g/EryJkkZTSfD9Pw0G6J70qsC6V51Vj/9gZl0xb4SKZOCVp4pAl/fqBeS
-         eD2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ofxcWs5wvUKXDp1OvqNuIaoTkk52/+tItoWNT6uQhGU=;
-        fh=ZxyOxpiTdaBKPcvkFTdDORpv9cwzowZT9hQR2+Gs3FY=;
-        b=XY9PrOLKQPpPznctnD3wUInYBZwjzIfqukvgOAAarl4PvxOyMehvtDLwQFBluLQ/qB
-         EFP7ezMHjKqpgF1TouL436Fl16k149R2ASrj79poCS2Jx+ZKNRedQuhs7cGegix5VG3o
-         e60oq9sKRBFktlh4ye+5JJ+kas5bQctRsdKYS/QbNwfeE8WVOIwLGcIv3tHVjKH/K5UW
-         pJdmLLXmGI4/bV/d9zPtJnRd1CXaebElNJOuZDzDsWGLfV000giNoisyvij7+9TYVhQi
-         LKEMRD0xVYEVuWkXRpU6tVqVSIDYc+PQcI91kbX9/pn3TXvrgSXrcQz6CVHF45KKY8Jy
-         pVBA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790083596; x=1790688396; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ofxcWs5wvUKXDp1OvqNuIaoTkk52/+tItoWNT6uQhGU=;
-        b=k7QG8UfGL/xP5ISOf4kC+7AALJAldDYhkiDW+EjNQKPVre7w3pFTtuQx+F+/KMLY+B
-         YQmhjQkIYSLCNZ1JXYpF9virZ98xE1C/ssWGcowtGqjvaPoLhucfgT53NF68R6LqfkR2
-         nUcDirZ3oSzhh5OOSp1WrpuA5v9W1BB4FhLutTyYulsKBFPQKlxNoBNncxDSnAwE0g8I
-         epzOsk4jHMYeYjTrgSOqjCbUOiXAIHVrs/Mne5wM2BpEPM9Lu4Ab/vUJGhKJDdndxiTm
-         4GdLNe48KukkU+J5NHIAhpHK7spOdXzUrbNJo8Rje2uNNTU3sdmbD7Gqvx5pfc64tw5y
-         hSMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790083596; x=1790688396;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ofxcWs5wvUKXDp1OvqNuIaoTkk52/+tItoWNT6uQhGU=;
-        b=dWjVrVCMXLubzUGUm2J8ZLrMN5/0O/o0qkeR51HfsuAuV+1ioafHSanDmr6FzmuiRQ
-         KY7X+DbRaSspFltdQW9fvGjOMHP4+BbmuQfVTdiwhQXns+EVYiuLjqRyUkqhjWuqIBxy
-         exfJpv0v1OxzWQL+HYjSyaazQcANuWSlja9ZYipQ3s2CCEXdG0/4G/bNOBXWhnB52G8L
-         dHSjWJo08VW49r+R263ngdXbYLWZpQrn91zdWqGg3uxncrn5WUeAHNO22qSzDQs3XN/Z
-         gbAFqVVjBydbg/TmSA6L8h7QYwcFqJ8lucim4X7cyAlXRlPIIag8xefKHdxyDmSGRR1n
-         eo1w==
-X-Forwarded-Encrypted: i=1; AKwUvBzHFnAiG4soVAVZJCoQdD1whQ8cCD4LxqjczvHDXY82gt6MaqsjEBIRm5JVfrDHt+Ud0M86CCr5EFM=@vger.kernel.org
-X-Gm-Message-State: AFuF++mxwDWepgdx/bGQZWj257aLT8f6mgEd+bdHD3WwGxN9qb9ETwn6
-	QQzbCQFPQJLGD7HYb4pwvCE3mAyvYe3gH9M7gP/KQkQpLR8OfLl2owB6mDie3eJEuW/a4xQItrG
-	sKxu3A1/ZgHSTHIweXJmq5KfA0t1GY/8=
-X-Gm-Gg: AYBFou3buIPbL59ON6TP105uecYqnCk9IQak6TDazR23WwjBf4g+6auJ3OxGn/MN1U+
-	ycCald2GsQy6PJeRnErCTn/pGlqHWjkVHW00qK+aBT8QK/foasvmlC3WJiwb6GhZzB1ApubanKE
-	GsCTIMxjNPS7l2Vu8Zaa1b/qGGM8IATSYcAzezxJhcSTEOeMg5K6N6uIqE9EcogP4u3/4UG1o0N
-	WoF8x/zE5ImxCYGIVMSERd968d/c2Q+i3w7kljSmCHAQk10mFktbtrrwc+WmzjKeFQCE13ozjgC
-	yDsZYVLhrm2FGyXqGhup6qyhfHCCv3R8LXHUjHwR2RkSCBPKkNewTD8lYw==
-X-Received: by 2002:a17:907:962a:b0:c25:6c9a:88bc with SMTP id
- a640c23a62f3a-c2a156ed781mr1064393666b.19.1790083595818; Tue, 22 Sep 2026
- 06:26:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WzAFrZBX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EDAF1F0089D
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 13:32:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790083978;
+	bh=dkPNz2P0GmPt8JTDqC/+9M8S8tUg25zEaPhZ23h9wAU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=WzAFrZBXg83teHsHs49VwKuyRYYM22InVF4ndW5H/uH3yZfkji79H37lp2CBbu2H6
+	 ZyaQArGps5zl0xcN2du4FK4hD7cKVcBhrY1nWSBgYOxuGFi2boQSOC5bBlu6z8PLdf
+	 rrxcVnjK6KUwkoELKhi+Nnzco/ByAlOGVkeI8hEH4CKKNaEkRSCNOGm8FFl2LmVgI5
+	 zRX5PhIgraeAoTyLtts+emGKF9S5H/gBVB5Znu21iawQ8ZZPWQ9oRoMOWR4Z8625gV
+	 tTK1AGdbbXhHWb8RsghwUFkthf2GJPHoJOaJfsMQqkjUM/myJm4fGkfAhJlzzuXNdl
+	 ygPITm3kzH5/w==
+Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4ab19125so4147854d50.2
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 06:32:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzzY3uUZV71jQVEqjgDq2K6Q+eVYGccx2NvhBFUYuxgGteYOeGcAbuskWWzEMwLI0FMkqwmKweicvU=@vger.kernel.org
+X-Gm-Message-State: AFuF++mJ2siRLMowfVTcUoZYynQm/GIHiVSO+ofg16bYITNah/eiSH4R
+	TgCENwbolpvyuddy4w0J/1kLcXu7UV3+b0lbcRqzt2y8RzYIh/PO/UpVDCADstEReh0Sfxp5mNP
+	ArnGvgn89DZ3CWDrUB8VqbuJiRy4vuq6sf5I9TTi80A==
+X-Received: by 2002:a05:690e:1286:b0:672:9d86:1f74 with SMTP id
+ 956f58d0204a3-6729d862a68mr4177975d50.86.1790083977249; Tue, 22 Sep 2026
+ 06:32:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260916235200.20712-1-ansuelsmth@gmail.com> <20260921135933.7e8857ba@kernel.org>
- <CA+_ehUwy9RUKCCHDnqoED3AMVnErgGr9RCrCR4ceg5QONq1wOQ@mail.gmail.com> <033fc935-c37a-4b0f-8b79-68248e45da8f@bootlin.com>
-In-Reply-To: <033fc935-c37a-4b0f-8b79-68248e45da8f@bootlin.com>
-From: Coia Prant <coiaprant@gmail.com>
-Date: Tue, 22 Sep 2026 21:26:23 +0800
-X-Gm-Features: AcwNN1Ur2tt8b16s6pIVEQsDoiyvx1gOYWr_ba3DyTwWp74e1eP8TDNhMjUzs84
-Message-ID: <CALj3r0gyfggFP-T+yXM2P=ooyQMk0AUfnpxtArk5ioU+wMNrxw@mail.gmail.com>
-Subject: Re: [PATCH net-next v16 00/12] net: pcs: Introduce support for fwnode PCS
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: "Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org> <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+ <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F> <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+ <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F> <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
+ <e879ac65cb0940325736df7984c737edf1c6be94.camel@surriel.com>
+ <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
+ <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
+ <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com> <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
+In-Reply-To: <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Tue, 22 Sep 2026 03:32:44 -1000
+X-Gmail-Original-Message-ID: <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
+X-Gm-Features: AcwNN1WGUeHiJik3SyidgEFV10ZwS6Bq5wQ8ITt0Pl7xiFx154xhR_QV0CV8YP0
+Message-ID: <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Rik van Riel <riel@surriel.com>
+Cc: Gregory Price <gourry@gourry.net>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, 
+	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Maxime Chevallier <maxime.chevallier@bootlin.com> =E4=BA=8E2026=E5=B9=B49=
-=E6=9C=8822=E6=97=A5=E5=91=A8=E4=BA=8C 20:50=E5=86=99=E9=81=93=EF=BC=9A
+On Mon, Sep 21, 2026 at 8:53=E2=80=AFAM Rik van Riel <riel@surriel.com> wro=
+te:
 >
-> I'm attending a Rust training until thursday, I'll see if I can squeeze i=
-n some
-> time to re-test on mvpp2 :(
+> On Mon, 2026-09-21 at 08:10 -1000, Chris Li wrote:
+> > On Mon, Sep 21, 2026 at 6:40=E2=80=AFAM Rik van Riel <riel@surriel.com>
+> > wrote:
+> > >
+> > > On Mon, 2026-09-21 at 06:31 -1000, Chris Li wrote:
+> > > >
+> > > > Give me some real-world examples of people hitting this kind of
+> > > > limit.
+> > > > e.g. MAX(%)  > 100% and still have a usesable system. I suspect
+> > > > that
+> > > > with 100% zswap usage, the system becomes unusable. Please show
+> > > > me a
+> > > > real world case that proves me wrong.
+> > > >
+> > >
+> > > Here's my desktop system right now. The amount
+> > > of Zswapped is more than twice AnonPages, and
+> > > the system stays perfectly usable.
+> > >
+> > > $ grep -E '(Anon|Zswap|GPU|Swap)' /proc/meminfo
+> > > SwapCached:       252340 kB
+> > > SwapTotal:      41523604 kB
+> > > SwapFree:        9802088 kB
+> > > Zswap:           8812236 kB
+> > > Zswapped:       24927876 kB
+> > > AnonPages:      11615760 kB
+> > > AnonHugePages:   1402880 kB
+> > > GPUActive:      13112428 kB
+> > > GPUReclaim:        95980 kB
+> > >
+> > > This is also an example where I cannot really
+> > > predict how much zswap space I need, because
+> > > that depends on what AI model is loaded,
+> > > which drives the GPUActive number, as well
+> > > as the number of browser tabs.
+> > >
+> > > The system is perfectly responsive.
+> >
+> > Great, that is getting somewhere. We are talking about actual usage.
+> > I
+> > really appreciate that.
+> >
+> > May I ask what the total amount of memory (RAM) in your system is?
+> >
+> > I am not asking zswap compare to ANA memory. I want to get the % of
+> > the total RAM.
+> > I assume your desktop has more than 8G of RAM, right?
 >
-> There're a few series pending for rockchip and S32 on stmmac that deal wi=
-th
-> PCS support and their PCS handle. It would be nice to have some stmmac gl=
-ue
-> maintainers that are using complex PCS to help with maintainance or at le=
-ast
-> testing, maybe Coia can help with the tests ?
+> Right now it has 64GB of memory.
+
+That is exactly my point. You are running 1/8 =3D 12.5% system ram.
+
+> However, if I were running with 48GB, I would
+> need MORE zswap space, while if I were running
+> with 96GB, I would need less zswap space.
+
+My claim is that, if you run 64GB zswap out, with 64GB RAM, your
+application will have >=3D50% swap out. It is unusable. The swapped-out
+application will likely slow to snail or crash way before that.
+
 >
-> Maxime
+> How can people be expected to figure out how
+> much zswap space their system will need,
 
-Hi Maxime,
+My point is that, I haven't seen a case where the application is still
+usable with a reasonable SLO when 100% of RAM is zswapped out. The
+example you just provided also correlates with my observation. In a
+real workload, nobody in their right mind would want to zswap 100% of
+RAM out and expect a reasonable SLO. You are running at 12%.
 
-Thanks for thinking of me. I should be upfront about where I am though.
+> when the amount needed to fit a workload
+> does not have a positive correlation with
+> the amount of system memory?
 
-My focus this cycle is landing the RK3568 XPCS glue before the next
-merge window so it lands in the next LTS, and so downstreams like
-OpenWrt and ImmortalWrt don't have to carry a backport.
+It absolutely has a positive correlation with % of the system memory
+based on my experience. The % of memory swap out has a very positive
+correlation with the thrashing on the application. You have not shown
+any data point for a system with 100% RAM swap out. I am not aware of
+anybody using 100% zswap out. So please educate me with the real data
+points. I am curious how the system and application behave at that
+point. I have done many swap stress tests in the past while develping
+the swap stack. At 100% you will run into all kinds of OOM thrashing
+issues.
 
-On testing Christian's series: my current glue goes from
-ethernet-pcs-mii@N up to the XPCS platform device and hands the virtual
-MDIO bus to xpcs_create_mdiodev(). Christian's series changes how the
-PCS is looked up, so testing it now would mean restructuring the
-Rockchip glue and rewriting the binding, and I can't fit that into this
-cycle on top of the initial merge.
-
-Once my glue is in and the lookup story has settled, I'll be glad to
-rebase and test =E2=80=94 and convert to xlate if that turns out to be the
-direction. I'd like to use xlate long-term, the timing just doesn't
-work for this window.
-
-On maintenance: I'm a student and fairly new to this, so I can't take
-on the PCS subsystem as a whole. What I can commit to is helping where
-I have the bandwidth: testing when I can, and sharing some of the load
-on the XPCS glue layer (pcs-xpcs-plat and the platform glue drivers),
-plus a bit of pcs-xpcs work. If there are stmmac glue maintainers who
-can help cover the rest, that would be very welcome.
-
-Thanks,
-Coia
+Chris
