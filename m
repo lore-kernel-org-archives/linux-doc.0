@@ -1,92 +1,139 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77452431A5C
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 17:48:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790099324; cv=none; b=bLrW2eilWLGmfZb9eHbYhriH1jnazrhP7NG29RLoJJKQ6b3a8gjIZ+xxyuhjoC9sfCzlEeFeCaoiucS271XaVmRXN82tFeqrAeQiDl3TePQMuu/vYCKsonjslRJUNkf1o540PihfgxD4cg1W35U3zGO/cJwq3Uw0qcUX2o5INVA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790099324; c=relaxed/simple;
-	bh=DYBLTmQm3d8z7Y/mvDX8uCAkuTIvawyenJwLpzlaAvk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iOBkKawhciB8IiJQ8Wsh2S4LAxYyNjnESWTgIV9nr/lZOHJSTEmZT6LVvAkIRIXhuzB9WRLxgmz/K3NizC5NjNYY2fQ0q/ci1w2MmX3W2IZeuR8niQQC/RoIavXL6lEoyvnT7DCd1vEYJF4ovNcMXgdS6nGzFX/9vOhoqNDblY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QGeRgXkj; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A2C41D110
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 17:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790099693; cv=pass; b=frU55AaigdFGURskC8svP+YIKbeLaU8xRCuv+iXTz7BOwGG7Nk41eyqsVc1G/rdWp30ejxTByTucjCfMWImuWG7A8cZnBudTIrDwwx7VPLLJ83rOHmKinBmNOI9LBZFNoXiqPYdZ+KetVI9qMi85JC4ES8CBPXwXYkyawR9aYXQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790099693; c=relaxed/simple;
+	bh=vCKS13b9L1ieft7U9s9r3sFPnYyRl2ROpAv1bNkHIlg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iIkaRw+bQmBg7/BwNJPGukM4tptUqs7uOWhsJW3UIVcpslkQokpr5BkFw88jdvlYYek9eA0OWqQsahKjZTLZW5yamU/KF1UjZRcCxmgesgGlV0lt2l9NMKgt3nnSDhFWlhRyDASFtCiJ7ZlIS1gV4X4WZrMMoQoBU0punlC1Xnw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WvOsGxFs; arc=pass smtp.client-ip=74.125.225.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QGeRgXkj"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e4b11so276595e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 10:48:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WvOsGxFs"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-484366874b0so133607f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 10:54:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790099691; cv=none;
+        d=google.com; s=arc-20260327;
+        b=j8TWZMOVpdnVEu1Z4zIHioGubec4HQOYRlpveoFwtLJEQzyYdHaNUs127zQUQXPqvD
+         TPOw7C6dGXW2miMuG0mjP0g+wCAVmAQrrjaPhrSgsDFdxW+2m+DFMazT62IhoUKOsGQj
+         oNVWzgBUXpiCSmmwmJCl8kDh1lb2ok7z0/OwJxQPaAg1ZJZ3VAOKea0Bw8zD2Kmtm9Ux
+         buI435R3e+lTysIVmen2u7M48YmbWhQYGEgYPX7Wmbs5zenwGrCHIZruzUBFkMT2Sqy5
+         LFX8rIzAH8J/j+V9ak7H0BlqKqhZA83FGh9NE4z6Bn9IVhETAz4ldtd/+RgvGWygFYWZ
+         MjqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vCKS13b9L1ieft7U9s9r3sFPnYyRl2ROpAv1bNkHIlg=;
+        fh=UlWBlTb6PEa/huI09w9p4oCv/HzJHb66fBDf4q9uE6c=;
+        b=hp/Aa9OioW4e5Cb+5OCgiVdKF2h/dLe2QFQMQluDoUCTHVTXcOOCDv5scp2aTQZmIx
+         C2vCxJgaVfYFchr0orjGxfg1pZktEV9ZiUQ9CYRQKIxONzSwPPG5QW6n1kHuFuoMJga6
+         b3eOrAioMlEfW10WvYQXGiTsIELqArO19aSA65cG3gQoU18KE0qhvQm0XkzDVDrbLFrY
+         +qSbl065fZ3Uh2u4xYpzMD+wdTAaduyypV96MHs90PO3VAYfo1SLCsxq3Wq4FY531PLp
+         1NJBtHDnNM43bWfJkM4FlHWrjsaOYrKlHPrSIIIhBzJRmB8FnsGILu3E/sAz/JSX+FV5
+         j7Ww==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790099322; x=1790704122; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DYBLTmQm3d8z7Y/mvDX8uCAkuTIvawyenJwLpzlaAvk=;
-        b=QGeRgXkjJSf4vNpWFf+kqqUnLruePfWJtR4rrcATqKKvjvNCW8PvluQnmcHoC83Dze
-         OFu+x5RcjTf78ZDs2ydJv1U6K0Jop1kWruVC9Ej1ailh4IMGhDQFfKjhwP5RFMOe9vtA
-         oF6VXaA5CsJ+xlsLrNBzb9zQR8Be2CZrgZE7T4EBCTaSIbOplf/e/TgudmZXKWzFBSjD
-         j+Ey5QzFji7OdvTO4zWLT9yBjDIFWCRVHWlW84oZZHakyVJy2QKj/DgrXTzeoDcL+nOa
-         nKUE7DGW+yLCSB6USKC0LFNClHd4uNbiuFNAtDbavP1V1q7Eo/VMzyUPkGwiu4kyj1dL
-         wv+w==
+        d=gmail.com; s=20251104; t=1790099691; x=1790704491; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vCKS13b9L1ieft7U9s9r3sFPnYyRl2ROpAv1bNkHIlg=;
+        b=WvOsGxFsgJVCXhWCniB1+1/fUPjCCoob1j2KIT5KSLgafnkGlqAumAOIkqNN5K0Oje
+         4WChBV7Ygz0z0SlMQrwUQcZkKC6LwqgRgpKEUJ7KUFA3dPCKOo7sOesofTM3mNDW/8In
+         OkyX6f+EIY08ieRYBsAr+bCIjfRK9rwM1FwAg5Zwkmf/4QZqoMVxhYRHGxnZbwjFf7IF
+         A0DU621cRSLkt3Dunu5Fk7VoJFbiUcPMetHIIq5zkiBBKgWNp+WSHt8PPPtwe1fcKT7a
+         AjgsJ/febG9jVdkg4MB/ZGYyoNBQ64yuqYX2B9izEYj9Za4Qfqeih2cLp13s9rlNI2/K
+         dbaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790099322; x=1790704122;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DYBLTmQm3d8z7Y/mvDX8uCAkuTIvawyenJwLpzlaAvk=;
-        b=dkIIDhSZPXsfXSPcgLba6u1Ah9CGfFuWk255Yev3OnjiCWh6EXg+9vb9oka5HNypoO
-         aZG9S28eUi69tEQAK1PY/oZZu+CiLuxCfVf7pZcbiETE6fAGGpLdykwXK1dAujECXPbA
-         3U2aug4LI4mWDQP/L7R0LcPCGwZc5+7eOINOsXgJjOcyNplGXzq5SSE3aqPaz6/5Ul+4
-         f7WoVyETiaU3M7Pi0iy5WoFeSWyArVxW+23MbPjOExwb3BGG/5c1BBIxAYeIj1bbVWOx
-         Yj1EVn1hB2SAl7sB6yOGkiEqzsYj4iJeLJUINtScuEm/puw566lr0Mxq1Z+5YBGJrX4E
-         FEpA==
-X-Forwarded-Encrypted: i=1; AKwUvBwyK9eGeqUAjmvzDHZnfWPb9ypDmfjc5QIX7f+0BhCReV1lKmP3ZArGMbZ1c+jxvY33+J4m8j/t+ug=@vger.kernel.org
-X-Gm-Message-State: AFuF++mpj9w+mwEJtCrvyZT3it80l8Jk81QpyYNnaMo4lp5Cv0rA9wfm
-	plFzE2iF5tRPyfUd5c7kYRyHohDFaXD4XJ6dwwwlXl730gO27na7aZoN
-X-Gm-Gg: AYBFou30jrvGTVsM2QLO6dFSAPpjMFZba4sMmDpUNceY5V4GNCT7fTIObreqY11nUJD
-	kIrZIfjwMfX4y0l9DdJTQVJfRJ1gf3TczaRoayFxgvHO1JNxhov8hMSTfO+g00rw0B04e+c5E9d
-	QiC9OdiV8iI5X4wIOjpmXt1jXD4+esIaK+mLwGtKyiWpb/Vl0ovv4JBCNyLVjRH8O/G2m+yn3MC
-	qvSjvMVJENxnBp/RGqZuo9ckRne4NMFVmPdZRdx7idBIEiWMbJ23zz7hjiDfIFgYzXN28QCfzGE
-	m97o4VTGGhg5FAL8SdRPp77Y3VjTfcF1wftrdBCt/Mh9DxjtpovVTVfE0O7oUmAyJMaNGNGK+ua
-	SYz/CuGcimRtvZwg/ICvYj/TYS7S1S290DrVz3O6aMprMD73jzqUaA8ir4in+j+5nfoll5NACNN
-	atWhkGEBMoZV1qVxuIZt7qT0H1wL7raS7+sU0VSIjUrwyMxSWZM5p9+J8/nDFmobw5spSMexLjJ
-	rnr5+ljgl7iC8mpFE4=
-X-Received: by 2002:a05:600c:548d:b0:49e:816a:9bae with SMTP id 5b1f17b1804b1-49fc58500e5mr215554545e9.28.1790099321368;
-        Tue, 22 Sep 2026 10:48:41 -0700 (PDT)
-Received: from christian-ThinkPad-T470.. ([2a03:4460:170d:5700:2232:eeab:adbe:6c40])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fdaaf97e2sm36382125e9.2.2026.09.22.10.48.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 10:48:40 -0700 (PDT)
-From: Christian Melendez <chrismelnu@gmail.com>
-To: Jonas Gorski <jonas.gorski@gmail.com>
-Cc: =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= <noltari@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: b53.rst: is the 5325/5365 "no tagging support" section still accurate?
-Date: Tue, 22 Sep 2026 19:48:01 +0200
-Message-Id: <20260922174801.261426-1-chrismelnu@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <CAOiHx=mJZKk9dT93am0o58Th+yPo2aGj6T4aFWkyeQphPwu4YA@mail.gmail.com>
-References: <CAOiHx=mJZKk9dT93am0o58Th+yPo2aGj6T4aFWkyeQphPwu4YA@mail.gmail.com>
+        d=1e100.net; s=20260707; t=1790099691; x=1790704491;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vCKS13b9L1ieft7U9s9r3sFPnYyRl2ROpAv1bNkHIlg=;
+        b=dFUoZ8agVmOdoUpdixX/Hgbsvo9nF/+jgZiWEuPLHRCtYb4bLV26nFuwDpRjt3EBWM
+         /GQphNkiOvohX33igVd/QNEJDX4m/zvqbjkA1Z23ytSDJ5D+h0TSsLvmeuTRFWFkpNiK
+         Od5bBmB09lSw/jWAhJo4xsEb1qNiy43G0eTwhXqQjAgZGzQ+7yYYiYzA+DYZjQqYubsT
+         ZOvLN5WKYpuOLxEqK0RiPnTFJsF4t0dLJbGuF0ZaL8i/fRkT3g1Agh/AzxC1evxNelXo
+         RE72Xo8N/vT64gqCEUYXOrmXQn9jfFpgEHHvQT96NDpLC3yA3cqQ+rG8bdQH113xN3z5
+         /h9A==
+X-Forwarded-Encrypted: i=1; AKwUvBzPSvhffVGKcKlwRlOp5Wl21K1l1SJLt6eMUqyPo+F1CEIr5J+ociazZ0j3SUvbw7qer3pSxyUADwQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++kH7+8g850R4yNPrAt3jTuIL91BxPsnt/X2+cFtkQe38Tgi+dmO
+	jmO+/kafefiyrNf1ifyOwLMuVyXgp2+KZAZ52blpu3WmEV8qgAJnhqKzRpuvCKStK5axTn5u8me
+	6iacT12ActtmgpW3G/C+W+ukRRF+FTxg=
+X-Gm-Gg: AYBFou0tAR41zr2nAOf5m06o9zbpAUWV5OHT74uwL7aETwcWg41TjDRg1lhtrlaoFov
+	nUZFqsJPE6SK9/+16oiiUFVizyDkC3zASDcWUw4bp45R5Vk1h7um+HgjGmg11RGHq3jDJdO76l5
+	zu6WuYjgqJXX9FSuWr5O+bt3uoSpFhMre74dDKvAKur9XT8FgPFMLuLturAqReM7IX20sVTWc6E
+	L1DaJwDbbAzYSxt+Rc6EDZirEfhZ3H8tHrWZWm7BhPaGVCmaDArvULdxDEh0zx29qCFYdM8kBV0
+	wHuKaVH+CR93L/GgyQOCop02ZFLgEMdGrB1VgNsZN+vsI5eHTKp8uBoRVdgCf/IUzqF8oyUA5sg
+	eLGN3XH8rZDmKDcqLlwxgfg==
+X-Received: by 2002:a5d:64e8:0:b0:487:40a:5ba8 with SMTP id
+ ffacd0b85a97d-4886704c06dmr682814f8f.15.1790099690760; Tue, 22 Sep 2026
+ 10:54:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora> <aqLZ5TVDAqEbIeMN@linux.dev> <aqP81aqNbwAbs2P0@fedora>
+ <aqQrPLPXHXiuKup0@linux.dev> <aqjcFb6MFNiA6n4V@fedora> <aqjpYHbZ14A8xRtK@fedora>
+ <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
+ <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
+ <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
+ <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com> <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
+In-Reply-To: <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 22 Sep 2026 10:54:39 -0700
+X-Gm-Features: AclHuK8GLbQTZvdEds8LwHBLJi1-Hgl2pSvGmQlVhhpHqGOi40_tcpI9Kqsywu0
+Message-ID: <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Chris Li <chrisl@kernel.org>
+Cc: Rik van Riel <riel@surriel.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jonas,
+On Sun, Sep 20, 2026 at 5:13=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote:
+>
+> That is not what I have in mind. The example I have in mind is that
+> zswap is charged to swap counters. Changing that behavior will break
+> our current deployment and that of many other. Kairui give some
+> example as well. That behavior should not change.
 
-Thanks for confirming!
+We already have a knob to select vswap. Users can turn it off
+initially, and/or update their software to handle the transition
+based on this knob.
 
-Quick follow-up on the "configuration examples look horribly outdated"
-part. Once 5325/5365 move to the tagging-supported section, the single
-port/bridge/gateway examples further down only apply to 539x/531x5. Were
-those outdated specifically for 5325/5365, or wrong in general?
-
-Best regards,
-Christian
+Otherwise, you'd never be able to introduce any behavior into the
+kernel. Hugetlb accounting/charging is a new behavior, and there were
+softwares written before that assumed hugetlb usage is not charged. If
+it's not a good argument to block the implementation of hugetlb
+accounting then, it's not a good argument now.
