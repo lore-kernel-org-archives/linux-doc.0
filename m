@@ -1,238 +1,415 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender5-op-o12.zoho.com (sender5-op-o12.zoho.com [165.173.182.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C1B53ECFC
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 12:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790078661; cv=none; b=mzmkzsdAScgiB/oraCAWcYL7iY97/JkM3MyrmVloju2ilR5Ieafijg8RABoyon01IPuxNzzv+pg17LER/2gk4RZHfcAy/1gwvQWN+CnG3m/KnJU4GmIQ0NPToOjlCh6/JmcHl6NwO/lPCegeHttFdvFqpXj+vLMHNIGFj5OTsdI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790078661; c=relaxed/simple;
-	bh=QCsvfQrSkWjLowRc3y9Ttb88/geE361R+uvwZVVvJYI=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KFterJu1KyOuCf395t3M9DAw42usTFcqT07LMslLdgfBaduu0oz45hBR7R90g5sWZpbDMek9UgXbYR6Wot9a+xxTt1EFsdkqaUeeLHbb/YOMCr4HhognUsGJm5BlT3jnfmY5QEqsgQEKL3QwhRIGsCtVtgvXt1UkcIMKYvyVX7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sQ9Ekith; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB3953F6A1;
+	Tue, 22 Sep 2026 12:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790079266; cv=pass; b=Wn98PgzNaWZ6A8aCzPRJXziJcMsS48BdwSHmIhismkZya9c3s//KPOEVS0PK0SggDkfhR2ZZqDPVk1+aLDHrsBNMDqk1F26cMHm0naztAZPWPMB3x7oJHVWAF1XaW1uTn/tlB/xkxqSFJgh+4wfKEtXOG22sqlKn4Zjgc3IdMog=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790079266; c=relaxed/simple;
+	bh=ItC/WOIGz/+9Z3DRvJiptzUh/E+i6CU4Zl51qimby8I=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=DTBTM9+NFHy/HXUr7/ampli1+fb827BvTTnxkFO9JJgaJX/zi+kssDaDpuyxyabiN/oPbyv0oShbVQ3++4NFwB6ltnp8hEnBV0o8Gs23phXxazBTQ+IV3YODUCLv9xWjnZEUUMwc5M5832KZXwgoSwrHqIQ4dAtEgU6ouXX3m+E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=TJtcbljO; arc=pass smtp.client-ip=165.173.182.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sQ9Ekith"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49d0726cdbcso2211285e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 05:04:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790078658; x=1790683458; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=++m38Aaq2XMveWLm1TyY2Eu7VcfzPn1RmXlweEV+1QE=;
-        b=sQ9EkithlsxOQ1DJX6CSV9NKzA+NmY4GuO/b3ZNvWh9Rj6ebgx6VzOAKwUNhkJFAgZ
-         tPggGBNnrM+sTqerHgKzu24ghFBlwLDZNTjX1U9ZgpWF9nU7TE/tDEHKk2L5UT5eNa2X
-         /Eeemw+buc71BiEMLKy1YS/MsEhwiTIuBGbUx14lR1AzN6hjkAbaolXWvKomgNwVDe8i
-         PP7JzhxthC+j3ZjaNvKyYqT8KpZQ3bQaKVYH+9uou/p8Neneu49aQhbabYkl91a/CKrt
-         eHw8y8mmQFmGg66QUsxlF5c5ZftSCy7z2AEaESu/JaxEgvFEonMi2Js5foxWQHLmVmqT
-         Oqmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790078658; x=1790683458;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=++m38Aaq2XMveWLm1TyY2Eu7VcfzPn1RmXlweEV+1QE=;
-        b=oo9+DAikv6edG1Ej7nqk6vKHbgXvwgbRIEmMKHypMdsU6ZzKR/b8MQtYtEAs8EI0po
-         rdKuDs7V7QMK4eF6PD1urXcLTBMNTuBXHgJHFjePm4wG7Pcz9NG4YvRJTNU3o0Pivtja
-         npx6tChoouhgF2zloxeciF1Jv+RU1YneJ4coxd+y740MRXWuKzBdFRAeVkBOClFlu7EW
-         b2NpVHEMPZqkohk8L76ezyeeexwnRq2/epFj2cI9st0wyDOJIXBXntzwDnVrzJZVsGCQ
-         gZwXw1zccrYz32Rf2GUszUyLCq0yliw2IV5tfua/xkybWBxYhYuUNV6/YdglIOmHJZPg
-         h51A==
-X-Forwarded-Encrypted: i=1; AKwUvBxa1JQZOOUxsw1VyUaIMEmhI2sMs7aiBD2mrZRk8FeqPKrq6y4n4j+LwtzD/Uf4tBnVlXeW15zNy6c=@vger.kernel.org
-X-Gm-Message-State: AFuF++kDfqQ3c2mjkP4yk4TWli30haWboNl1azc/hhZiPg7MbeGItXVl
-	rwdZTRf0nUW8OdIj+c9H2zGFjub4UNsBjIkLJZapwC5/UWr5MH2G0bG+
-X-Gm-Gg: AYBFou06IuX4bKOB2N1FQxmmEmC+t15yXrGD6LWN0/L8H2hTViG2PdMh0R9/K2l13zJ
-	iYYQ/Z6ygTW2H447WfzKXdcrZQCTpT+nUZMfGfkCgCZX7hGFb8DvnMhnjCo7PWsVhA75jkqHqS2
-	AGDAttQQYRSGdvjBtoAvGeMeIBAaXN+O84ypReF4majUkd7qZ0G+8Hygmge1fOkqNYRH6jUy6H3
-	FDlzZi6lKtub86/NliYqSBqoKY/cGvk46Vj+3HaHRquFsB6n8KyTw/CQoCuooyVFYb268ohNBKA
-	vCOkr65LoxupCw2rGR91c0Y6V/gcQ9lukJ9Z+wjqiqumPOpbKlX7QVEgsXHf0ZFqWvfYGxnhYPS
-	b9qt5lcy0kffnwtDIJqI49+hG1WM9jh76VvAWgmK4c88QltStAI1fAQF9VZjCXg8g3dJlQPR1N5
-	hULyh6rjiI9geJsus/k+RFifvmvRodavCXh1xljuB9HQsi5mZlkTFCcb+TEZY06V3ZuQkyQ+6DR
-	ULw95+3jG/OgfgLmlw=
-X-Received: by 2002:a05:600c:1c13:b0:49e:7186:f36e with SMTP id 5b1f17b1804b1-49fc7dc1e75mr220807915e9.1.1790078657621;
-        Tue, 22 Sep 2026 05:04:17 -0700 (PDT)
-Received: from L-P-ITAIH2-L-RF.rf.local ([193.169.70.108])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fdab0c240sm32469425e9.4.2026.09.22.05.04.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 05:04:17 -0700 (PDT)
-From: Itai Handler <itai.handler@gmail.com>
-To: Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	dm-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Milan Broz <gmazyland@gmail.com>
-Subject: [PATCH v2 1/1] dm-crypt: allow encryption sector size up to PAGE_SIZE
-Date: Tue, 22 Sep 2026 15:03:30 +0300
-Message-Id: <20260922120330.127262-2-itai.handler@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260922120330.127262-1-itai.handler@gmail.com>
-References: <20260922120330.127262-1-itai.handler@gmail.com>
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="TJtcbljO"
+ARC-Seal: i=1; a=rsa-sha256; t=1790079237; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=aTMtecq66GEbcSCJHh2uXnbs8RncIRCPlu6sgeDhTp5NQi7uunVp9dgEiCBwX7W2crajtP4dk3M5Z3S10T5r4GY7TUqIUW8wvTeIY8eLUkXdcOb3D4l5Ydj7siqMjUSeOHFK8Vc1BvAdk9IVSJcu2GqJw/J0njoUEfUXI/q9cFE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1790079237; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=WTY8umljDuBBQA9Lw88PYGLNFht5h0rDj1fQi8NtK3k=; 
+	b=h/+6zhxo6NmS0f5qHrWw3sYOuxdogUt4U3lBLpplAyQiwiOlOYGYUrYAjJuuqMZ6JwWpNqFGZKe8L2gGtbPciKKtU70ZcKFuTQEqEX4+yLDtagJh6cdGxm9Z1VYPCjrzpEY+sp1nXnnFKMb+0G1muIF07Otzlj+atAyD9qVSmo4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790079237;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+	bh=WTY8umljDuBBQA9Lw88PYGLNFht5h0rDj1fQi8NtK3k=;
+	b=TJtcbljOf5P6HGrM94SI31/BbSwrsrcBg+zV0gV4jEcJ5q1PHzThJJ9IKzbmRnEC
+	hqW5AT3ITyjLSeJA5l/C7ZJk97ns1/+XYTZ/nnjsenHuz5qp4nC5QchGlikybYhxZVA
+	5YfVDrR6bz4y9MjNaCRwvIhhIK4/Fg9khvgmDLTOUNiWYQ3AnHZfZUpdCWXSDKHVLCf
+	OHbdsjahG/QZf3CuUuJUubAzeTe3AecVchXgCx5XvlfFlyM1K+90cTcqb2QCm7pBBi+
+	MA+vVwwDoPC+MA4JiUbxOhPeQlIim51hUMEwvIpqRPMqRkypTmAJFqhHzfo8MlCaNw6
+	Ggognhxwhw==
+Received: by smtp.zohomail.com with SMTPS id 1790079234890282.0810227676957;
+	Tue, 22 Sep 2026 05:13:54 -0700 (PDT)
+Message-ID: <93454a754b630da3cca593f76bb03123b0fe4995.camel@rong.moe>
+Subject: Re: [PATCH v6 04/12] leds: trigger: Add offloaded() callback and
+ provide trigger_may_offload attribute
+From: Rong Zhang <i@rong.moe>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
+ <linux@weissschuh.net>,  Benson Leung <bleung@chromium.org>, Guenter Roeck
+ <groeck@chromium.org>, Marek =?ISO-8859-1?Q?Beh=FAn?=	 <kabel@kernel.org>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark"	
+ <derekjohn.clark@gmail.com>, Hans de Goede <hansg@kernel.org>, Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Ike Panhc
+ <ikepanhc@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski
+ <kuba@kernel.org>, Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar
+ <vsankar@lenovo.com>, 	linux-leds@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ chrome-platform@lists.linux.dev, 	platform-driver-x86@vger.kernel.org
+In-Reply-To: <20260922103224.GD2730113@google.com>
+References: <20260902-leds-trigger-hw-changed-v6-0-55693cd78877@rong.moe>
+	 <20260902-leds-trigger-hw-changed-v6-4-55693cd78877@rong.moe>
+	 <20260910150535.GG1051768@google.com>
+	 <cdecf33094742331552a4b86d43673cdf1590bf2.camel@rong.moe>
+	 <20260922103224.GD2730113@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 22 Sep 2026 20:08:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Evolution 3.56.2-10+b1 
+X-ZohoMailClient: External
 
-The "sector_size:<bytes>" option is capped at 4096 bytes, the smallest
-PAGE_SIZE of any supported architecture.  A kernel with a larger
-PAGE_SIZE can use a larger encryption unit, which turns several crypto
-requests per page into a single one.
+Hi Lee,
 
-That only pays off when a request carries a large fixed cost, which is
-the case for drivers that offload to hardware over DMA: setting the
-transfer up dominates, so doing it once per 64 KiB instead of sixteen
-times is worth a lot.  On an arm64 64K-page system driving the in-tree
-qce driver, dm-crypt throughput rose from 13-27 MB/s to about 580 MB/s
-when the encryption sector size was raised from 4096 to 65536.  A CPU
-cipher has no such fixed cost and gains little: 9-16% measured with
-xts-aes-ce on NVMe.
-
-Raise the cap to min(PAGE_SIZE, BLK_MAX_BLOCK_SIZE).  dm-verity already
-bounds its data block size the same way, rejecting "num > PAGE_SIZE" in
-verity_ctr(), so this is the bound dm targets already use rather than a
-new kind of limit.
-
-PAGE_SIZE is the ceiling of the current conversion path: a sector is
-passed to the crypto API as a single scatterlist entry, bio_iter_iovec()
-never returns more than PAGE_SIZE bytes, and crypt_alloc_buffer() may
-fall back to order-0 pages for the write bounce buffer.
-
-BLK_MAX_BLOCK_SIZE is the block layer's own cap on the logical block
-size that crypt_io_hints() announces.  It does not lower the limit
-today - it is 64K only when transparent hugepages are enabled, and no
-architecture that can enable them has a PAGE_SIZE above 64K, while
-without them it is PAGE_SIZE - so the effective bound is PAGE_SIZE.  It
-is in the expression so that this target cannot announce a block size
-blk_validate_limits() would reject should that ever change.
-
-Widen sector_size to unsigned int so that it can hold 65536.  That also
-makes the option reject values that %hu silently truncated: an argument
-of 69632 currently wraps to 4096 and is accepted as a 4096-byte sector.
-
-Apart from that, every table accepted before is still accepted.  The
-larger sizes are opt-in - the default stays 512 bytes - and nothing
-changes at all where PAGE_SIZE is 4096.  A mapping above 4096 bytes can
-only be activated where PAGE_SIZE allows, so it is not suitable for
-portable on-disk formats such as LUKS.  Bump the target version so that
-userspace can detect the new limit.
-
-Assisted-by: LLM
-Signed-off-by: Itai Handler <itai.handler@gmail.com>
----
- .../admin-guide/device-mapper/dm-crypt.rst    |  8 ++++-
- drivers/md/dm-crypt.c                         | 30 +++++++++++++++----
- 2 files changed, 31 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/admin-guide/device-mapper/dm-crypt.rst b/Documentation/admin-guide/device-mapper/dm-crypt.rst
-index 4467f6d..250da7e 100644
---- a/Documentation/admin-guide/device-mapper/dm-crypt.rst
-+++ b/Documentation/admin-guide/device-mapper/dm-crypt.rst
-@@ -153,9 +153,15 @@ integrity_key_size:<bytes>
- 
- sector_size:<bytes>
-     Use <bytes> as the encryption unit instead of 512 bytes sectors.
--    This option can be in range 512 - 4096 bytes and must be power of two.
-+    This option can be in range 512 - PAGE_SIZE bytes, with an upper bound
-+    of 65536, and must be power of two.
-     Virtual device will announce this size as a minimal IO and logical sector.
- 
-+    An encryption unit larger than 4096 bytes can only be used on a system
-+    whose PAGE_SIZE is at least that large, so such a mapping is not
-+    portable across architectures and is unsuitable for portable on-disk
-+    formats such as LUKS.
+On Tue, 2026-09-22 at 11:32 +0100, Lee Jones wrote:
+> On Fri, 11 Sep 2026, Rong Zhang wrote:
+>=20
+> > Hi Lee,
+> >=20
+> > Thanks for your review.
+> >=20
+> > On Thu, 2026-09-10 at 16:05 +0100, Lee Jones wrote:
+> > > On Wed, 02 Sep 2026, Rong Zhang wrote:
+> > >=20
+> > > > There are multiple triggers implementing hardware control. However,=
+ the
+> > > > LED trigger core doesn't really know the hardware control (offloade=
+d)
+> > > > state since the coordination is done directly between the trigger a=
+nd
+> > > > the LED driver. It can only assume private triggers as offloaded an=
+d
+> > > > generic ones as not offloaded.
+> > > >=20
+> > > > Add an offloaded() callback so that triggers can report their offlo=
+aded
+> > > > states to the LED trigger core. When unimplemented, it defaults to =
+true
+> > > > for private triggers and false for generic ones to keep the current
+> > > > behavior unchanged.
+> > > >=20
+> > > > With that, provide a new attribute "trigger_may_offload", so that
+> > > > userspace can determine:
+> > > >=20
+> > > > - if the LED device supports hardware control (supported =3D> visib=
+le)
+> > > > - which trigger is the hardware control trigger selected by the LED
+> > > >   device
+> > > > - if the trigger is selected ("<foo_trigger>")
+> > > > - if the trigger is offloaded ("[foo_trigger]")
+> > > >=20
+> > > > Note: the documentation describes the attribute as "returning a lis=
+t"
+> > > > despite the LED core currently only supports one hardware control
+> > > > trigger per LED device. This is intentional to make the attribute
+> > > > extensible in the future without breaking userspace.
+> > > >=20
+> > > > Acked-by: Ike Panhc <ikepanhc@gmail.com>
+> > > > Signed-off-by: Rong Zhang <i@rong.moe>
+> > > > ---
+> > > > Changes in v6:
+> > > > - Update Date: and KernelVersion: for the document of
+> > > >   /sys/class/leds/<led>/trigger_may_offload
+> > > >=20
+> > > > Changes in v3:
+> > > > - Rearrange the series so that the code using the offloaded() callb=
+ack is
+> > > >   introduced before the driver implementation (thanks Thomas Wei=C3=
+=9Fschuh)
+> > > > - Reword documentation (ditto)
+> > > > - Adopt guard() and lockdep (ditto)
+> > > > - Adopt __led_trigger_is_hw_controlled() from newly-integrated PATC=
+H 1
+> > > > ---
+> > > >  Documentation/ABI/testing/sysfs-class-led | 22 +++++++++++++++++++=
++++
+> > > >  Documentation/leds/leds-class.rst         | 20 +++++++++++++++++++=
 +
- iv_large_sectors
-    IV generators will use sector number counted in <sector_size> units
-    instead of default 512 bytes sectors.
-diff --git a/drivers/md/dm-crypt.c b/drivers/md/dm-crypt.c
-index 9e170de..0f087c5 100644
---- a/drivers/md/dm-crypt.c
-+++ b/drivers/md/dm-crypt.c
-@@ -182,7 +182,7 @@ struct crypt_config {
- 	} iv_gen_private;
- 	u64 iv_offset;
- 	unsigned int iv_size;
--	unsigned short sector_size;
-+	unsigned int sector_size;
- 	unsigned char sector_shift;
- 
- 	union {
-@@ -241,6 +241,24 @@ struct crypt_config {
- #define MAX_TAG_SIZE	480
- #define POOL_ENTRY_SIZE	512
- 
-+/*
-+ * Largest encryption sector size that can be requested with the
-+ * "sector_size:<bytes>" option.
-+ *
-+ * A sector is handed to the crypto API as a single scatterlist entry, so it
-+ * has to be covered by one bio_vec.  bio_iter_iovec() never returns more than
-+ * PAGE_SIZE bytes, and crypt_alloc_buffer() may fall back to order-0 pages
-+ * for the write bounce buffer, so PAGE_SIZE is the ceiling.
-+ *
-+ * crypt_io_hints() announces the sector size as the logical block size, which
-+ * the block layer caps at BLK_MAX_BLOCK_SIZE.  That cap is never below
-+ * PAGE_SIZE in any configuration today, so it does not lower the limit; take
-+ * the minimum anyway so that this target cannot announce a block size
-+ * blk_validate_limits() would reject.
-+ */
-+#define DM_CRYPT_MAX_SECTOR_SIZE	min_t(unsigned int, PAGE_SIZE, \
-+					      BLK_MAX_BLOCK_SIZE)
-+
- static DEFINE_SPINLOCK(dm_crypt_clients_lock);
- static unsigned int dm_crypt_clients_n;
- static volatile unsigned long dm_crypt_pages_per_client;
-@@ -3134,9 +3152,9 @@ static int crypt_ctr_optional(struct dm_target *ti, unsigned int argc, char **ar
- 			}
- 			cc->key_mac_size = val;
- 			set_bit(CRYPT_KEY_MAC_SIZE_SET, &cc->cipher_flags);
--		} else if (sscanf(opt_string, "sector_size:%hu%c", &cc->sector_size, &dummy) == 1) {
-+		} else if (sscanf(opt_string, "sector_size:%u%c", &cc->sector_size, &dummy) == 1) {
- 			if (cc->sector_size < (1 << SECTOR_SHIFT) ||
--			    cc->sector_size > 4096 ||
-+			    cc->sector_size > DM_CRYPT_MAX_SECTOR_SIZE ||
- 			    (cc->sector_size & (cc->sector_size - 1))) {
- 				ti->error = "Invalid feature value for sector_size";
- 				return -EINVAL;
-@@ -3556,7 +3574,7 @@ static void crypt_status(struct dm_target *ti, status_type_t type,
- 			if (cc->used_tag_size)
- 				DMEMIT(" integrity:%u:%s", cc->used_tag_size, cc->cipher_auth);
- 			if (cc->sector_size != (1 << SECTOR_SHIFT))
--				DMEMIT(" sector_size:%d", cc->sector_size);
-+				DMEMIT(" sector_size:%u", cc->sector_size);
- 			if (test_bit(CRYPT_IV_LARGE_SECTORS, &cc->cipher_flags))
- 				DMEMIT(" iv_large_sectors");
- 			if (test_bit(CRYPT_KEY_MAC_SIZE_SET, &cc->cipher_flags))
-@@ -3582,7 +3600,7 @@ static void crypt_status(struct dm_target *ti, status_type_t type,
- 			DMEMIT(",integrity_tag_size=%u,cipher_auth=%s",
- 			       cc->used_tag_size, cc->cipher_auth);
- 		if (cc->sector_size != (1 << SECTOR_SHIFT))
--			DMEMIT(",sector_size=%d", cc->sector_size);
-+			DMEMIT(",sector_size=%u", cc->sector_size);
- 		if (cc->cipher_string)
- 			DMEMIT(",cipher_string=%s", cc->cipher_string);
- 
-@@ -3700,7 +3718,7 @@ static void crypt_io_hints(struct dm_target *ti, struct queue_limits *limits)
- 
- static struct target_type crypt_target = {
- 	.name   = "crypt",
--	.version = {1, 29, 0},
-+	.version = {1, 30, 0},
- 	.module = THIS_MODULE,
- 	.ctr    = crypt_ctr,
- 	.dtr    = crypt_dtr,
--- 
-2.34.1
+> > > >  drivers/leds/led-class.c                  | 22 +++++++++++++++++++=
++++
+> > > >  drivers/leds/led-triggers.c               | 30 +++++++++++++++++++=
++++++++++++
+> > > >  drivers/leds/leds.h                       |  2 ++
+> > > >  include/linux/leds.h                      |  1 +
+> > > >  6 files changed, 97 insertions(+)
+> > > >=20
+> > > > diff --git a/Documentation/ABI/testing/sysfs-class-led b/Documentat=
+ion/ABI/testing/sysfs-class-led
+> > > > index d4c918cc11a1..e3605fc55fa8 100644
+> > > > --- a/Documentation/ABI/testing/sysfs-class-led
+> > > > +++ b/Documentation/ABI/testing/sysfs-class-led
+> > > > @@ -78,6 +78,28 @@ Description:
+> > > >  		(which would often be configured in the device tree for the
+> > > >  		hardware).
+> > > > =20
+> > > > +What:		/sys/class/leds/<led>/trigger_may_offload
+> > >=20
+> > > *_to_hw?
+> >=20
+> > ACK.
+> >=20
+> > >=20
+> > > > +Date:		September 2026
+> > > > +KernelVersion:	7.4
+> > > > +Contact:	linux-leds@vger.kernel.org
+> > > > +Description:
+> > > > +		Names and states of triggers that may be offloaded to hardware.
+> > > > +		Such triggers are also called "hardware control trigger" in some
+> > > > +		context.
+> > > > +
+> > > > +		Only exists when the LED supports trigger offload.
+> > > > +
+> > > > +		Reading this file returns a list of triggers that are capable to
+> > > > +		be offloaded. The optional brackets around the trigger name
+> > > > +		indicate the state of the current trigger:
+> > > > +
+> > > > +		- `foo_trigger`: the trigger is not selected.
+> > > > +		- `<foo_trigger>`: the trigger is selected, but falls back to
+> > > > +		  software blink for some reason (e.g., incompatible trigger
+> > > > +		  parameters)
+> > > > +		- `[foo_trigger]`: the trigger is selected and offloaded to
+> > > > +		  hardware.
+> > > > +
+> > > >  What:		/sys/class/leds/<led>/inverted
+> > > >  Date:		January 2011
+> > > >  KernelVersion:	2.6.38
+> > > > diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds=
+/leds-class.rst
+> > > > index 3913966cfdac..2d41a6db602c 100644
+> > > > --- a/Documentation/leds/leds-class.rst
+> > > > +++ b/Documentation/leds/leds-class.rst
+> > > > @@ -242,6 +242,9 @@ ops and needs to declare specific support for t=
+he supported triggers.
+> > > > =20
+> > > >  With hw control we refer to the LED driven by hardware.
+> > > > =20
+> > > > +A sysfs attribute `trigger_may_offload` is provided for userspace =
+to
+> > > > +query supported triggers and their states.
+> > > > +
+> > > >  LED driver must define the following value to support hw control:
+> > > > =20
+> > > >      - hw_control_trigger:
+> > > > @@ -298,6 +301,15 @@ LED driver must implement the following API to=
+ support hw control:
+> > > >                  Returns a pointer to a struct device or NULL if no=
+thing
+> > > >                  is currently attached.
+> > > > =20
+> > > > +LED trigger should implement the following API to indicate hw cont=
+rol:
+> > > > +    - offloaded:
+> > >=20
+> > > hw_offloaded?
+> >=20
+> > ACK.
+> >=20
+> > >=20
+> > > > +                return a boolean indicating if the trigger is curr=
+ently
+> > > > +                offloaded to hardware.
+> > > > +
+> > > > +                If a trigger doesn't implement this callback, the =
+default
+> > > > +                value will be true for private triggers and false =
+for generic
+> > > > +                ones.
+> > > > +
+> > > >  LED driver can activate additional modes by default to workaround =
+the
+> > > >  impossibility of supporting each different mode on the supported t=
+rigger.
+> > > >  Examples are hardcoding the blink speed to a set interval, enable =
+special
+> > > > @@ -311,6 +323,14 @@ the end use hw_control_set to activate hw cont=
+rol.
+> > > >  A trigger can use hw_control_get to check if a LED is already in h=
+w control
+> > > >  and init their flags.
+> > > > =20
+> > > > +Alternatively, a private trigger can be implemented along with the=
+ LED driver if
+> > > > +the LED's hardware control doesn't fit any generic trigger. To ass=
+ociate the
+> > > > +private trigger with the LED classdev, their `trigger_type` must b=
+e the same. To
+> > > > +declare that the private trigger provides hardware control for the=
+ associated
+> > > > +LED classdev, set the `hw_control_trigger` string to the trigger's=
+ name. Since
+> > > > +both the LED classdev and the private trigger are in the same LED =
+driver, it's
+> > > > +not necessary for them to coordinate via `hw_control_*` callbacks.
+> > > > +
+> > > >  When the LED is in hw control, no software blink is possible and d=
+oing so
+> > > >  will effectively disable hw control.
+> > > > =20
+> > > > diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> > > > index 39cc2f3ea63f..7e571bd1de5b 100644
+> > > > --- a/drivers/leds/led-class.c
+> > > > +++ b/drivers/leds/led-class.c
+> > > > @@ -96,8 +96,30 @@ static const struct bin_attribute *const led_tri=
+gger_bin_attrs[] =3D {
+> > > >  	&bin_attr_trigger,
+> > > >  	NULL,
+> > > >  };
+> > > > +
+> > > > +static DEVICE_ATTR_RO(trigger_may_offload);
+> > > > +static struct attribute *led_trigger_attrs[] =3D {
+> > > > +	&dev_attr_trigger_may_offload.attr,
+> > > > +	NULL
+> > > > +};
+> > > > +
+> > > > +static umode_t led_trigger_is_visible(struct kobject *kobj,
+> > >=20
+> > > Why doesn't all of this live in the triggers file as well?
+> >=20
+> > The current revision only exports trigger_may_offload() to coordinate t=
+he
+> > two files (led-class.c and led-trigger.c).
+> >=20
+> > If we had to move led_trigger_is_visible() into led-triggers.c, the
+> > trigger_may_offload and led_trigger_attrs must be moved as well. Due to
+> > the movement, we would have to export led_trigger_attrs and
+> > led_trigger_is_visible() to fill led_trigger_group.
+> >=20
+> > in short, moving led_trigger_is_visible() requires exporting more
+> > symbols.
+> >=20
+> > To make things tidier, how about moving led_trigger_group and
+> > led_trigger_bin_attrs into led-triggers.c as well? In this manner we on=
+ly
+> > need to export led_trigger_group, and the #ifdef block here is
+> > eliminated. What do you think?
+>=20
+> Sounds sensible.
 
+Thanks for you opinion. I've taken that approach in v7 and sent it out.
+See
+https://lore.kernel.org/all/20260921-leds-trigger-hw-changed-v7-0-fe3cdb6de=
+c51@rong.moe/
+
+>=20
+> > >=20
+> > > > +				      struct attribute *attr,
+> > > > +				      int idx)
+> > > > +{
+> > > > +	struct device *dev =3D kobj_to_dev(kobj);
+> > > > +	struct led_classdev *led_cdev =3D dev_get_drvdata(dev);
+> > > > +
+> > > > +	if (attr =3D=3D &dev_attr_trigger_may_offload.attr)
+> > > > +		return led_cdev->hw_control_trigger ? attr->mode : 0;
+> > > > +
+> > > > +	return attr->mode;
+> > > > +}
+> > > > +
+> > > >  static const struct attribute_group led_trigger_group =3D {
+> > > >  	.bin_attrs =3D led_trigger_bin_attrs,
+> > > > +	.attrs =3D led_trigger_attrs,
+> > > > +	.is_visible =3D led_trigger_is_visible,
+> > > >  };
+> > > >  #endif
+> > > > =20
+> > > > diff --git a/drivers/leds/led-triggers.c b/drivers/leds/led-trigger=
+s.c
+> > > > index 804a04b326c4..de17a8bbb4d4 100644
+> > > > --- a/drivers/leds/led-triggers.c
+> > > > +++ b/drivers/leds/led-triggers.c
+> > > > @@ -42,6 +42,10 @@ static bool __led_trigger_is_hw_controlled(struc=
+t led_classdev *led_cdev)
+> > > >  	if (!led_cdev->trigger)
+> > > >  		return false;
+> > > > =20
+> > > > +	if (led_cdev->trigger->offloaded)
+> > > > +		return led_cdev->trigger->offloaded(led_cdev);
+> > > > +
+> > > > +	/* Otherwise assume private triggers as always offloaded. */
+> > >=20
+> > > s/as/are/
+> >=20
+> > ACK.
+> >=20
+> > >=20
+> > > >  	return led_cdev->trigger->trigger_type;
+> > > >  }
+> > > > =20
+> > > > @@ -341,6 +345,32 @@ void led_trigger_set_default(struct led_classd=
+ev *led_cdev)
+> > > >  }
+> > > >  EXPORT_SYMBOL_GPL(led_trigger_set_default);
+> > > > =20
+> > > > +ssize_t trigger_may_offload_show(struct device *dev,
+> > > > +				 struct device_attribute *attr, char *buf)
+> > > > +{
+> > > > +	struct led_classdev *led_cdev =3D dev_get_drvdata(dev);
+> > > > +	struct led_trigger *trig;
+> > > > +	bool hit, offloaded;
+> > > > +	int len;
+> > > > +
+> > > > +	guard(mutex)(&led_cdev->led_access);
+> > > > +	guard(rwsem_read)(&led_cdev->trigger_lock);
+> > > > +
+> > > > +	trig =3D led_cdev->trigger;
+> > > > +
+> > > > +	offloaded =3D __led_trigger_is_hw_controlled(led_cdev);
+> > > > +	hit =3D offloaded || (trig && !strcmp(led_cdev->hw_control_trigge=
+r, trig->name));
+> > > > +
+> > > > +	/* [offloaded] <active_but_not_offloaded> inactive */
+> > >=20
+> > > Why do they have to live in different 'containers'?
+> >=20
+> > The comment might be somewhat misleading...
+> >=20
+> > An LED device can never have an offloaded trigger and an active-but-not=
+-
+> > offloaded trigger at the same time. The comment just demonstrates how t=
+he
+> > output might look like.
+> >=20
+> > The output is multiplexed to help userspace determine two things in one
+> > read:
+> >=20
+> > - The name of the LED device's hardware control trigger
+> > - The state of the said trigger
+> >=20
+> > That being said, if the complexity is undesired, it's OK to convert the
+> > attribute into a dumb one that only returns the plain name of the
+> > hardware control trigger. In this manner we will need to provide an
+> > additional attribute to expose the offloaded state. This can be achieve=
+d
+> > by adopting the attribute "offloaded" from netdev into led-triggers.c.
+> > What do you think?
+>=20
+> My job is just to make you think about the problem.  I have no strong
+> opinion one way or the other.  You are currently the expert of the code
+> you are engineering.  What do YOU think?
+
+After some careful considerations,=C2=A0I believe there is no use case when
+userspace software needs to check if a trigger is active but not
+offloaded. Therefore, I've removed the <active_but_not_offloaded>
+container in v7. IOW, a trigger will be wrapped in a [offloaded]
+container only when it's active and offloaded,=C2=A0otherwise it remains ba=
+re.
+In this manner, userspace software can parse
+/sys/class/leds/<led>/trigger_may_offload_to_hw in the same way as
+/sys/class/leds/<led>/trigger.
+
+Thanks,
+Rong
