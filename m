@@ -1,204 +1,163 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+Received: from mail-lr2-f35.google.com (mail-lr2-f35.google.com [74.125.230.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF12572672
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 17:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790097397; cv=none; b=ls21q31MCoplzYFXIJZJ5t19gPv8crbCWrZXTNndqoY8j1OMOVBXx4/ubLIGmEM8kDnakY3dbkV8i5Rl4bInvtTpZSUoclX4EV299GCQXQiTR1BHbFBSCPmBbqaDtcL7nP621e/31HOHOvb6iNdiZOUk1M7C3tid1aPlN5WyIzw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790097397; c=relaxed/simple;
-	bh=F9wrWhleKxmtzDbWxesfxqdYHneA06HebFTlC/eppXw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nS4W9OZQD5aY/whiXMve1xzjzajnLJrFHc0A/nr0mN2ZaCjL6Atgw+7bqdOQo2K2L8A0dYMixSmZq/DO0tYu9qYSF1pRAYx94+zm/XhgLpC1AujUvW8nhfEoW/gLFe45Jw9nxywzMVLb0NZ93ungt4lQy/074juuDrP+N7BjKto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=ZH4Xw0K8; arc=none smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBCE337475B
+	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 17:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.99
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790097707; cv=pass; b=tkBLQi7ZFnJw7o5gO7+bNkfIRHGk5FmlBO4xPrGg22w95V0jNrnDuSoe0suQEEC+61uh1hE0XC624yGrxN0cotH1UqdwqKqMjvp/Tf821uAftWTgW5AtT1U9UBdoFP8UMdXJzixXcIw7NBd4oPPO+WLXd936BHVteNUCH8lpRJY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790097707; c=relaxed/simple;
+	bh=DGo9MXIlX67r2Cpop8xwlzz7tKrHnevRykdbKRTrSVo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X0DzjP0Pqi1m/CBQRiAXOtb97csOO1VPgR81s+dVqkje7BpwEZgsHi9eePGs6o90558AhD4OGT4DIUYD2JmCEebcCQA10Rnv46UvFoTdVlAxf3zBIAqUrTQcAP6pCg2obj/ALMJQ516G2Ww8k9TfN2HFkSgTIPhKISEM2HCQI+g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FM9MkeZH; arc=pass smtp.client-ip=74.125.230.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="ZH4Xw0K8"
-Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-939656ff6d9so11739885a.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 10:16:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FM9MkeZH"
+Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a5e548cd7dso161141fa.3
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 10:21:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790097704; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FztHTL9MVWfJCr34O3ZAI/DnXYdydspp/ylzhaDczwCjoswA87qjL/8nOcziM+59gJ
+         YT8C8AyhyPIwYnHBtCPXaVYDPX/TxbX5KhaM3Y3mGXzb/SuvqVIxdQJKNj3dAd8MQSjr
+         1r6UOKGUhiwJOh/tMg908isVtcC2m6EPJi2L2qYbj5EN5kiApG/4mfD/uQek9ISZyJlp
+         boyg8GotuSAs8XqnhBIThEDo8GuNtHMmNnhOUYornkPQCedF8s26ITnvq+ce3Jp8GKuA
+         ZU7ZbTwNXAZJUNNBbbsA3hQQclZ5X0H5NyFMPtgklJSOqRSGEu7VBKjCuWfLm+8tSC1f
+         Aakg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DGo9MXIlX67r2Cpop8xwlzz7tKrHnevRykdbKRTrSVo=;
+        fh=hZVB/k2pyTtxqpzNEcDGg+2LSMd5S6RmmarF1nsKbOo=;
+        b=nQPfaYWtIEkx7cQEM+6RgdkmYMPwt1NGzlNuryC6ifdQmL1ltPr9ZBBkZi6+8dqKRu
+         2bROcQSiWCgg0EzxAwFfrdKgsk00cnrZ81LrUC1s1KtxmMAA8IU0oI/YQUkKpp/IoYmF
+         2oMx52DxdG7JDwxmzVyK/DIGFSQ4/hCF8eaPaOVdcf9N1Zha0/i+elMG+nRQtcRALaTe
+         FxtuIqV7GfOUiDHOu7XFRBEV6qSE1IcnfbxtT8hZ8x9TN8fbKQO4v3mb1OU0lszJX4Rh
+         n/5wVzQUJGjQEZMyJYP1YJud7F2V7sPdazP2Yele6bXy3O2LwPpER0mr+tHp6678ML72
+         OkHA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1790097393; x=1790702193; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CJkQfQB3a9RKvj8bM5CBOZYh4CkWNCRPcTCANcgJj3I=;
-        b=ZH4Xw0K8TWVxEt3LU5a0ZAvXnrqs2hWG2jpFUDzLLuhJS/3K5FQMz0vOuMG3EvZySY
-         7B9YNXNP9msgSJau3yceZbUWsl5YRuMfKoM44vSwLV8HiCkZfEibnCrTXQ6KAlwwsLOL
-         hplsjEvjHkBozKr9K7rlA9BeoIRqaIUdPFxxndrSpQr10abL7O/kh57mu4vvqALKx4KA
-         PO8gnGJ7e/9zok1lRs2Qsu8hu+L3JzuL999xZJ2NMBB5jcS+UE5kd4JaLOblFYWwPct8
-         wgD0PpGsvuyDyU98SvCudgBYnX8B1CtH5GX7szzLRcswZtW8b4FYcQIWAw/ClEIuZk2s
-         2n3g==
+        d=gmail.com; s=20251104; t=1790097704; x=1790702504; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DGo9MXIlX67r2Cpop8xwlzz7tKrHnevRykdbKRTrSVo=;
+        b=FM9MkeZHeBILypPfVgoyjNcBUMLCsBwc5Kz+oCuC4T+iPZG3ymQT7bV1tf6r7CfAa7
+         lrzsZHUcbw7+Cp+T1e+Pn5wdqcklOw2XgtjZIPnDU8bx7alyIJIS9GSgnTmFc9H0+H5M
+         gbJLWe2YommDcSTBvlvc+UN+j5422CWhMWhUV/n7S/kvgGRTbfsPYR6X2u/RefuFRbs4
+         /iudxRQBLwjpzkDBhWV/Fi30zX/zLvOp+z+hpvdF/U0p5tJ2lAKEUcwBWNYxZe9XGWMP
+         zlnWqBsemOcmAsIHjtUrHkTLcetDqhaIgw6DUj3UViCLP13td0UYg7Baj9gDbeqdOCsb
+         h44A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790097393; x=1790702193;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=CJkQfQB3a9RKvj8bM5CBOZYh4CkWNCRPcTCANcgJj3I=;
-        b=EpCKSvlulswAg0o8v8LU54eSNIchjB73qjK9SogLb3L12WsEVSFSxnqzh8W4XRv2nO
-         aGRjlhRAMvzUD+yZaGI8NdQaYiSfnP9/5GIhn81i4RA/Io/2XbOp/sTN0M62nWjdxOih
-         e+JIqqBxrPw22+iMfjfvgwTCn5BQ6l2Gl78eTRL0gRrvQQi9hFx6peUO4JkaK8kNfY/N
-         N2/VFpG1ZuFDvbjDMJUrj4MghJ7ALl7tb76mu4x2RgecFEKwSbBLfFjJHTD7LMgVBDO/
-         5bFJAV3NIhCqWOicxEnUre0I4+oQja56xdBfbq0NtFRtjimANMYHRpJ49RFEkxMgn6VY
-         ZACw==
-X-Forwarded-Encrypted: i=1; AKwUvBwthLn8nxrLtp5J8rUr8FikG+dHTw7Xj6k+5sfx+AVP7DTqQ3c/ryeGU6b68QUO6+hpOXBwF/CwgRs=@vger.kernel.org
-X-Gm-Message-State: AFuF++lTrusVOiCQpErxep7lPLavsOO19ZINHMlbDOy8fBaZMez2mh/1
-	ljj/rYWp2BBhvBV7EwvkMPz5NEVNTK0z7rD+HsYxPe7KMA49m2ChaRNKe10Q46czFD0=
-X-Gm-Gg: AYBFou1ZYLMC5c5VtI0ErONOoJN1bCV5HWTsddQvbfr20f47f38fCpN6kS30XaBwmuY
-	tYi0Qs0DO+bXTUffGM3SsEbG/JGHXeeAJdcYbUIBrbSFAA1r9vBou12AVnSVyO1/rbX7cR+cbEZ
-	8p/JJcJPy0oiRxmxiI0P9wXc1VOlqnNjXDZ0T77vIey3Kae0cimdKq7lXuAaZ/lOyHcGhqJDrcG
-	VfXcCMW39M6WxND0whXrxk6PCelktN003Ryj8F9AwahD6KLIwceYZQhJd6WsipdIPuwZGBBW6Pf
-	7zfn2QDZ2JAZDOydtu//TCmik2Ahy2/mrQRMvgtYCm6ORXp41J7EZp1trCj67R8kXAw8f91YZcU
-	CDwT0vBR4ctEv8mbVZ16DDLBaWQf32TavJWizzCX8nJv4SFz6t0X2uDBrIdyBjfqDyLhKqtx//C
-	fWkZxSDd4nC/O/BGfgGaszsk38vsPc+NTaePgn4THm6u6f/CwsHP6NcVn/Y8pE4MZJhg==
-X-Received: by 2002:a05:620a:2993:b0:93b:c22a:e98a with SMTP id af79cd13be357-93c2509e62cmr13040785a.2.1790097393108;
-        Tue, 22 Sep 2026 10:16:33 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c24756838sm24592485a.1.2026.09.22.10.16.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 10:16:32 -0700 (PDT)
-Date: Tue, 22 Sep 2026 13:16:23 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Chris Li <chrisl@kernel.org>
-Cc: Gregory Price <gourry@gourry.net>, Baoquan He <baoquan.he@linux.dev>,
-	Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Yosry Ahmed <yosry@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Barry Song <baohua@kernel.org>,
-	YoungJun Park <youngjun.park@lge.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Rik van Riel <riel@surriel.com>,
-	Wenchao Hao <haowenchao22@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kunwu Chan <kunwu.chan@linux.dev>,
-	Meta kernel team <kernel-team@meta.com>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org,
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kairui Song <ryncsn@gmail.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arK350ZCTJpVtctk@cmpxchg.org>
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <aqJXx2vtbKaRLt3x@fedora>
- <aqLi6cIjD2wJwk0B@cmpxchg.org>
- <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
- <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
- <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+        d=1e100.net; s=20260707; t=1790097704; x=1790702504;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DGo9MXIlX67r2Cpop8xwlzz7tKrHnevRykdbKRTrSVo=;
+        b=l8dxnyWsl2OhDjnTlxPuOeStZ6wz3A7V1emHj2XKhrfGKiVkS/JRWXjhnqozQzde1S
+         Dn9V//V7p/dstRsNm1xJX/6faxSxh3usGVhv7fdK4sHMdpwCzJ1na21quHDIOZdiHYME
+         H6Ry1+bi9OLzEQWdUteNtchTlAWKQvTh03REOjvYtxPFPN83NMtOytp/nPu3e6etiOzv
+         7/o9k2W9FlxoBx/aRdxL7+0Pp3sVtmexOafRjwDzWDIO5Pu2D0sbiQy06rmdOk4s9/4S
+         hbC0CY4bZkAu/x8rfbPVBHuZr5zKQx9eJe2kWd53cgiJg1vI6gWcJZr+Tg2A/Jdor3zf
+         qE1g==
+X-Forwarded-Encrypted: i=1; AKwUvBzwjUzYkFsqXaazXARDkz2/S90a5Mz7i/y4pigG/GB7UVJjnpKb3Hv3gZC4wzD6AkWF+SmGDb1sGac=@vger.kernel.org
+X-Gm-Message-State: AFuF++kPY1TlH3mtvvROxOt1i1rk1LEezsj0j8VLWmRf49kqJ8WTLFdm
+	wnzWkfiKyUib/XJUShPRy8zgVy1gAR7RYWAWJvE2uMni0UVJOF9pYyyxzsLjAgbUWuRzxKCk/WL
+	efTRiCDBuOckjnR1Do/Lq/jFRoK2Cds8=
+X-Gm-Gg: AYBFou12vtI/vOSJPlf1DHiqUa6qkwXuziLmCUx4MZWEHPCX4IRs7ujr27cFrAyCNH/
+	MDjgbys036Md5A+5Qmv9KR9/L72uewqsCxtp1/R5Fai05z4/y0hKJnmAC+0hoTd6onrUACXcNNc
+	IV9qSRs0gSjOSDIYEkJo7ek3+npScSQ5KTysSUCbZnYlvhHm5RBCHf6cj0QhKaxqrmF+1YAkBh9
+	W08Ieh6FDuWmkACaxjCnyhUQzoME1KdTSItKDeVe+ZEatKzNrrgoO7wz5nLbqQaNZpsju1AWOJS
+	IDK6ATKADa0XuH0sKCEellId4Hz3oBXGbNiXsj7fwt5BEWlaR9W3ryQ99SqxgoWwsN/Jv5ff5KA
+	eGg+YdDB8q0o=
+X-Received: by 2002:a2e:a550:0:b0:3a4:850c:5900 with SMTP id
+ 38308e7fff4ca-3a5fbef79e8mr29852861fa.11.1790097703647; Tue, 22 Sep 2026
+ 10:21:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org> <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+ <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F> <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+ <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F> <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
+ <arEVDBlfsUYKK004@gourry-fedora-PF4VCD3F> <CACePvbXG5kjZmRsdd0a4HfbnNa6w5s9b_1OCySbwvY+HuCqOVg@mail.gmail.com>
+ <ad1c4de51f1fbbfc7345036af8f39fb450c1f3c7.camel@surriel.com>
+In-Reply-To: <ad1c4de51f1fbbfc7345036af8f39fb450c1f3c7.camel@surriel.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 22 Sep 2026 10:21:29 -0700
+X-Gm-Features: AcwNN1XXWGuPHcmN1XUaSbD201MO3zoYy8czrwaKOr1UiYnCbEj6IM0vycSKfC0
+Message-ID: <CAKEwX=NKC=N-YaiwZK7HPM4MfX-7JG_KeHukS0+vjHqMZTV4dA@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Rik van Riel <riel@surriel.com>
+Cc: Chris Li <chrisl@kernel.org>, Gregory Price <gourry@gourry.net>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 19, 2026 at 09:02:28AM -1000, Chris Li wrote:
-> On Sat, Sep 19, 2026 at 6:08 AM Gregory Price <gourry@gourry.net> wrote:
+On Tue, Sep 22, 2026 at 10:15=E2=80=AFAM Rik van Riel <riel@surriel.com> wr=
+ote:
+>
+> On Mon, 2026-09-21 at 06:11 -1000, Chris Li wrote:
+> > On Mon, Sep 21, 2026 at 2:53=E2=80=AFAM Gregory Price <gourry@gourry.ne=
+t>
+> > wrote:
 > >
-> > On Sat, Sep 19, 2026 at 03:45:03AM -0500, Chris Li wrote:
 > > >
-> > > I found this new concept of "compression space" very confusing to me.
-> > > Can you explain the swap behavior and problem using only normal memory
-> > > usage reduction and latency without introducing a new term or new
-> > > metrics?
-> > >
-> > > The normal user doesn't even know what compression space is, let alone
-> > > what makes it transparent.
-> > >
+> > > You can't know the compressibility of memory until after you
+> > > compress
+> > > it, and requiring a user to predict the future by forcing them to
+> > > limit
+> > > the total amount of workload compressibility does not scale with
+> > > the
+> > > number of workloads of variable compressibility of data.
 > >
-> > Sure they do - it's the amount of memory consumed by compressed data,
-> > including the metadata associated with it.
+> > You likely just need to pull a SQL query on your fleet to get that
+> > number.
+>
+> This feature is not being developed for just one
+> user. It has to work for everybody.
+>
 > >
-> > converting Johannes statement to diagram:
+> > > That should tell you that your model of reasoning about this issue
+> > > is
+> > > ill-suited to address the problem.
 > >
-> > >> Compression space is not a separate resource. It's page tables,
-> > >> backing pages, and swap descriptors. It's just MEMORY.
+> > That is what I'm suspecting. Nobody in a sane mind would want to
+> > zswap
+> > 100% of the RAM and maintain reasonable SLO.
 > >
-> >                           Page Data (PD)
-> >   [page tables][                uncompressed page                  ]
-> >
-> >
-> >                         Compressed Data (CD)
-> >   [      recovered space     ][pte][swap meta data][compressed page]
-> >                               |                                    |
-> >                               |---------compression space----------|
-> >
-> >
-> >                         Memory Pre-Compression
-> >  |[  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ][  PD  ]|
-> >
-> >
-> >                         Memory Post-Compression
-> >  |[CD][CD][CD][CD][CD][CD][CD][CD]-------- free space ------------|
-> >    ^----------------------------^
-> >          Compression Space
-> 
-> Thanks for the explanation. So the compression space is just the
-> actual data store backing the zswap/xswap/zram.
+> It could make a lot of sense to have some default
+> limit upstream, that says the zswap pool is not
+> allowed to take more than half of memory, because
+> at that point the compressed content will be
+> crowding other things out of memory.
 
-It's actually the pre-compression side I was referring to. The address
-space that vswap/xswap map.
-
-If you artificially hard limit this *address space*, you are making
-assumptions about (1) compression ratio and (2) how much non-residency
-the workload can tolerate. You might well get real workloads hitting
-that limit while you'd still have the ability to store more.
-
-Add pressure-driven writeback in the mix, and now even compression
-ratio assumptions are not useful: The stuff in zswap compresses a
-certain way and the stuff that was written back is out of memory
-completely.
-
-Yet it's all mapped by that same address space.
-
-How could anyone pick an informed size limit for this space?
-
-How many setups hard-limit the process virtual address space to 2xRAM?
-Nobody. They limit the physical memory required to back it. That's the
-only thing that actually matters.
-
-> > It's actually really confusing to represent this space as a traditional
-> > swap device - built on the assumption of a pre-defined size limit - when
-> > that size limit has already been defined (the memory itself).
-> 
-> First of all, the traditional swap counter has a very well-defined
-> meaning. It is the size of the memory that, when accessed, requires a
-> page fault.
-
-That's 100% wrong.
-
-First of all, it wouldn't work because you can still take page faults
-on the filesystem.
-
-Second, this is absolutely not their intended purpose. They are to
-control access to a physically limited swapfile on disk. Because it is
-a discrete, separate resource from memory. That's the whole reason why
-memory and swap controls were split in cgroup2. I designed this.
-
-What you're talking about is residency guarantees. This is what
-memory.min and memory.low are for.
+I actually am skeptical of gating zswap usage (both pre- and
+post-compression), but I would like to note that for post-compression
+size, we already have that knob for zswap, default to 20% of physical
+RAM.
