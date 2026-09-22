@@ -1,36 +1,39 @@
-Received: from mta1.migadu.com (out-23.mta1.migadu.com [95.215.58.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9694B34F24A
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 09:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A8B52D2D6;
+	Tue, 22 Sep 2026 09:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790068295; cv=none; b=iuiCRc/H5mzQ1p4zBB/wp9CmALvgf72Sp/zjXYiahKYWWDaGT7JOoZpgSJLpm3GZULTDnj7l4FoI5+oCHIFHSDuE7ku70tm9ZoLo8QqOQtwCTqCVh2tGk+EfzUtTsD+5L7wS66eZq49xyQur7wBXCYuMD06S+9sq3iD1+M1HPUk=
+	t=1790068499; cv=none; b=DeANVsjoLYVnLyrrYwYM+TT6NhXJ9Ao/6uBhI2l86xF7xJjEwn9OINDo4fxwOlfRraSePAOlooA6Xs775S+uyYAwJT99z3bHR+TjHVw1UmeMPbPre+xI1YjpP4lvAOWiRn7dpXEWkzY+K0W0aG0Pwvki9CcPpybzKxNDEMbCO/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790068295; c=relaxed/simple;
-	bh=J6YClhL09U96Pnf/dUgZ0SMNmNLWiuOji0oJGF3hLrI=;
+	s=arc-20240116; t=1790068499; c=relaxed/simple;
+	bh=eEC+vMrtdNvqtTE2iVXtcrgWXjMqf0Mo+dgesmgS96o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B+wwsqYP3rq/6Xoqat5AplQsN1PCulNShvXSb63mdZq8Z23BKvjwYP2kOcMLfwQOevEdHH49eS4m5b2Uyn77OPZ/kDqyBF4ZhIDkOyYF5QZO6mJuCkjvKq/b0wfoe2dkgms6ltX6jWhN2D1m33HJbOG3rWWb92snXHJb5gzaWAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MdEmDhRn; arc=none smtp.client-ip=95.215.58.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=Z+g+eQyDPuC/fkOG65P1Y0Qv3End7vDhFUBKtHB4rmxxlNGwv0HMZPEek7kr6BMP3xUeY34FpBT7XB3ZL8yHo134UWIgW4cYgqQ9law5hoUSbJiD1g3hF0R1+sMRBf4WiJUDyjQRxPoBiefbelo6sz/T6XOiGn9H2X2MX/GuLXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=pass (2048-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=r18MYRiH; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MdEmDhRn"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=J6YClhL09U96Pnf/dUgZ0SMNmNLWiuOji0oJGF3hLrI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790068289; v=1; x=1790673089;
- b=MdEmDhRnZGQV8mKtPN1fhjMjux2o8FqUL+T6mC372OSHbtNBfycij/bO9WavinmeAtK4lM8+
- QEpTC+R/MyHPz3r7BKSRGYuGxEzzjXSa9TAGPxi21pb9Y2nfA4YVF7ucHj51Y4paPC9Rax1ElwQ
- tn8rIOGXiNn2GxiD7qQfbuCk=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2d28f15bda6b7b45;
-	Tue, 22 Sep 2026 09:11:29 +0000
-X-Mizu-Trace-ID: 2d28f15bda6b7b45
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <19cb10f4-66c2-443f-aa11-6f43c0233b92@linux.dev>
-Date: Tue, 22 Sep 2026 17:11:15 +0800
+	dkim=pass (2048-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="r18MYRiH"
+Received: from [133.11.54.183] (h183.csg.ci.i.u-tokyo.ac.jp [133.11.54.183])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 68M9DR7H021356
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 22 Sep 2026 18:13:27 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=qWdukw8Lwo5D178NeO++XInMp2aCtmIcsueteb32N9I=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=From:Message-ID:To:Subject:Date;
+        s=rs20250326; t=1790068407; v=1;
+        b=r18MYRiHmKiGcRo1ZPIgYuDx5mT4Drk6ugS5wVEuTfrZQkbGInaUGH+XIPh/w69U
+         EaZH2vvrBWmoDHnWpbISp25FtvQA2v0gjQ5yon66dc1n3QEib6WWio7l4+4L7FEv
+         DXKAd/bZ53zq5YqBBzHqZPhMypM/YuZpMZLe69B9n87ojxufmhNquUSW+GtAzRUz
+         DVeO5038q+phoXydYDcRNPXK/KEmg7rhveGLZ0Xx6uV7GcRz/ZsMTG11Vibs+A9D
+         L/owohAYoUw2rEZrcuw9ml3lcEy++eoq9besVkLLO/rmSspTSt1Kt7GqlRbzLvo+
+         C/E2ZOEmuixnNMsre8OiWw==
+Message-ID: <b9c1b996-2c01-4889-8f93-154ceb58c529@rsg.ci.i.u-tokyo.ac.jp>
+Date: Tue, 22 Sep 2026 18:13:26 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,123 +41,255 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] docs: cgroup-v2: Describe effective CPUs of
- partition roots
-To: Ridong Chen <ridong.chen@linux.dev>, Waiman Long <longman@redhat.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Guopeng Zhang <zhangguopeng@kylinos.cn>
-References: <20260922032130.33777-1-guopeng.zhang@linux.dev>
- <20260922032130.33777-3-guopeng.zhang@linux.dev>
- <4c5c4ec8-ef44-47d7-99b5-355b5ffdfcf9@linux.dev>
+Subject: Re: [PATCH v11 20/21] KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
+To: Oliver Upton <oupton@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu
+ <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+        Yury Norov <yury.norov@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Steffen Eiden <seiden@linux.ibm.com>,
+        Andrew Jones <andrew.jones@oss.qualcomm.com>,
+        Fuad Tabba <fuad.tabba@linux.dev>, Mark Rutland <mark.rutland@arm.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Shannon Zhao <shannon.zhao@linaro.org>,
+        Randy Dunlap
+ <rdunlap@infradead.org>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+References: <20260920-hybrid-v11-0-03618771b0e1@rsg.ci.i.u-tokyo.ac.jp>
+ <20260920-hybrid-v11-20-03618771b0e1@rsg.ci.i.u-tokyo.ac.jp>
+ <arIqMO-f8X0gCzjA@kernel.org>
 Content-Language: en-US
-From: Guopeng Zhang <guopeng.zhang@linux.dev>
-In-Reply-To: <4c5c4ec8-ef44-47d7-99b5-355b5ffdfcf9@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <arIqMO-f8X0gCzjA@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-
-在 2026/9/22 14:36, Ridong Chen 写道:
-> 
-> 
-> On 9/22/2026 11:21 AM, Guopeng Zhang wrote:
->> From: Guopeng Zhang <zhangguopeng@kylinos.cn>
+On 2026/09/22 16:11, Oliver Upton wrote:
+> On Sun, Sep 20, 2026 at 08:16:01PM +0900, Akihiko Odaki wrote:
+>> Introduce the KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY attribute to
+>> create a "fixed-counters-only" PMU.
 >>
->> The cpuset.cpus.effective description says that the effective CPUs are
->> granted by the parent and are normally a subset of cpuset.cpus. This
->> does not always hold for a valid non-root partition root. Its effective
->> CPUs are the active CPUs in cpuset.cpus.exclusive.effective after CPUs
->> assigned to valid child partition roots are removed.
+>> Much like KVM_ARM_VCPU_PMU_V3_IRQ and other read-write attributes, this
+>> attribute provides a getter that facilitates kernel and userspace
+>> debugging/testing.
 >>
->> If cpuset.cpus.exclusive differs from cpuset.cpus, the effective CPUs
->> may therefore be outside cpuset.cpus. Remote partitions also do not
->> necessarily get their CPUs from their immediate parent.
+>> Allow strict PMUv3 vCPUs to initialize the PMU after selecting
+>> fixed-counters-only mode, without selecting a VM-wide hardware PMU.
 >>
->> Suggested-by: Ridong Chen <ridong.chen@linux.dev>
->> Signed-off-by: Guopeng Zhang <zhangguopeng@kylinos.cn>
+>> Assisted-by: Codex:gpt-5.6-sol
+>> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
 >> ---
->>   Documentation/admin-guide/cgroup-v2.rst | 56 ++++++++++++++++++++-----
->>   1 file changed, 46 insertions(+), 10 deletions(-)
+>>   Documentation/virt/kvm/api.rst          |  8 +++++--
+>>   Documentation/virt/kvm/devices/vcpu.rst | 42 ++++++++++++++++++++++++++-------
+>>   arch/arm64/include/uapi/asm/kvm.h       |  1 +
+>>   arch/arm64/kvm/pmu-emul.c               | 34 ++++++++++++++++++++++----
+>>   tools/arch/arm64/include/uapi/asm/kvm.h |  1 +
+>>   5 files changed, 71 insertions(+), 15 deletions(-)
 >>
->> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
->> index 18a01ce4c334..d21bbae3312a 100644
->> --- a/Documentation/admin-guide/cgroup-v2.rst
->> +++ b/Documentation/admin-guide/cgroup-v2.rst
->> @@ -2505,16 +2505,52 @@ Cpuset Interface Files
->>       A read-only multiple values file which exists on all
->>       cpuset-enabled cgroups.
->>   -    It lists the onlined CPUs that are actually granted to this
->> -    cgroup by its parent.  These CPUs are allowed to be used by
->> -    tasks within the current cgroup.
->> -
->> -    If "cpuset.cpus" is empty, the "cpuset.cpus.effective" file shows
->> -    all the CPUs from the parent cgroup that can be available to
->> -    be used by this cgroup.  Otherwise, it should be a subset of
->> -    "cpuset.cpus" unless none of the CPUs listed in "cpuset.cpus"
->> -    can be granted.  In this case, it will be treated just like an
->> -    empty "cpuset.cpus".
->> +    It lists the active CPUs available to tasks in this cgroup.
+>> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+>> index 1a90598901c5..a6aef405ef87 100644
+>> --- a/Documentation/virt/kvm/api.rst
+>> +++ b/Documentation/virt/kvm/api.rst
+>> @@ -3531,9 +3531,13 @@ Possible features:
+>>   
+>>   	    * Userspace must explicitly select a PMU implementation before
+>>   	      initializing the PMU or configuring a PMU event filter
+>> +	      (KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY also satisfies the
+>> +	      initialization requirement; event filtering remains unavailable
+>> +	      in that mode)
+>>   
+>> -	    * If the PMU implements FEAT_PMUv3p4, PMMIR_EL1.SLOTS provides the
+>> -	      hardware value of the underlying implementation
+>> +	    * If a hardware PMU is selected and implements FEAT_PMUv3p4,
+>> +	      PMMIR_EL1.SLOTS provides its hardware value. In fixed-counters-only
+>> +	      mode, PMMIR_EL1 reads as zero
+>>   
+>>   	    * Writes to PMCR_EL0.N via KVM_SET_ONE_REG are ignored
+>>   
+>> diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+>> index a3f20a4ee4b1..41f6d708ff43 100644
+>> --- a/Documentation/virt/kvm/devices/vcpu.rst
+>> +++ b/Documentation/virt/kvm/devices/vcpu.rst
+>> @@ -53,9 +53,9 @@ Returns:
+>>   	 =======  ======================================================
+>>   	 -EEXIST  Interrupt number already used
+>>   	 -ENODEV  PMUv3 not supported or GIC not initialized
+>> -	 -ENXIO   PMUv3 not supported, missing VCPU feature, missing
+>> -                  hardware PMU, or interrupt number not set (non-GICv5
+>> -                  guests, only)
+>> +	 -ENXIO   PMUv3 not supported, missing VCPU feature,
+>> +		  neither hardware PMU nor FIXED_COUNTERS_ONLY selected,
+>> +		  or interrupt number not set (non-GICv5 guests only)
+>>   	 -EBUSY   PMUv3 already initialized
+>>   	 =======  ======================================================
+>>   
+>> @@ -64,7 +64,8 @@ virtual GIC implementation, this must be done after initializing the in-kernel
+>>   irqchip.
+>>   
+>>   When the KVM_ARM_VCPU_PMU_V3_STRICT vCPU feature is enabled this must be done
+>> -after selecting a hardware PMU.
+>> +after selecting a hardware PMU or enabling
+>> +KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY.
+>>   
+>>   1.3 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_FILTER
+>>   -----------------------------------------
+>> @@ -78,7 +79,8 @@ after selecting a hardware PMU.
+>>   	 -ENODEV  PMUv3 not supported or GIC not initialized
+>>   	 -ENXIO   PMUv3 not properly configured or in-kernel irqchip not
+>>   	 	  configured as required prior to calling this attribute
+>> -	 -EBUSY   PMUv3 already initialized or a VCPU has already run
+>> +	 -EBUSY   PMUv3 already initialized, a VCPU has already run or
+>> +		  FIXED_COUNTERS_ONLY has already been set
+>>   	 -EINVAL  Invalid filter range
+>>   	 =======  ======================================================
+>>   
+>> @@ -123,14 +125,14 @@ after selecting a hardware PMU.
+>>   
+>>   :Returns:
+>>   
+>> -	 =======  ====================================================
+>> +	 =======  ===========================================================
+>>   	 -EBUSY   PMUv3 already initialized, a VCPU has already run or
+>> -                  an event filter has already been set
+>> +                  an event filter or FIXED_COUNTERS_ONLY has already been set
+>>   	 -EFAULT  Error accessing the PMU identifier
+>>   	 -ENXIO   PMU not found
+>>   	 -ENODEV  PMUv3 not supported or GIC not initialized
+>>   	 -ENOMEM  Could not allocate memory
+>> -	 =======  ====================================================
+>> +	 =======  ===========================================================
+>>   
+>>   Request that the VCPU uses the specified hardware PMU when creating guest events
+>>   for the purpose of PMU emulation. The PMU identifier can be read from the "type"
+>> @@ -172,6 +174,30 @@ explicitly selected, or the number of counters is out of range for the
+>>   selected PMU. Selecting a new PMU cancels the effect of setting this
+>>   attribute.
+>>   
+>> +1.6 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
+>> +------------------------------------------------------
 >> +
->> +    For a cgroup that is not a valid partition root, an empty
->> +    "cpuset.cpus" makes "cpuset.cpus.effective" show all CPUs
->> +    available from the parent cgroup. Otherwise, it is a subset
->> +    of "cpuset.cpus" unless none of the requested CPUs can be
->> +    granted. In that case, it is treated like an empty
->> +    "cpuset.cpus".
+>> +:Parameters: no additional parameter in kvm_device_attr.addr
 >> +
->> +    For example::
+>> +:Returns:
 >> +
->> +      P (cpuset.cpus.effective=0-3)
->> +      |
->> +      +-- C0 (member):       cpuset.cpus=1-2
->> +      |                      cpuset.cpus.effective=1-2
->> +      +-- C1 (invalid root): cpuset.cpus=4-5
->> +      |                      cpuset.cpus.effective=0-3
->> +      \-- C2 (member):       cpuset.cpus=<empty>
->> +                             cpuset.cpus.effective=0-3
+>> +	 =======  ==================================================
+>> +	 -EBUSY   PMUv3 already initialized, a VCPU has already run,
+>> +		  an event filter has already been set or
+>> +		  a hardware PMU has already been specified
+>> +	 -ENXIO   Attempted to get before setting
+>> +	 -ENODEV  Attempted to set while PMUv3 not supported
+>> +	 =======  ==================================================
+>> +
+>> +If set, KVM emulates PMUv3 without programmable event counters.
+>> +
+>> +With KVM_ARM_VCPU_PMU_V3_STRICT, enabling this attribute satisfies the
+>> +PMU selection requirement for KVM_ARM_VCPU_PMU_V3_INIT.
+>> +
+>> +When this attribute is enabled, the vCPU can run on any physical CPU
+>> +that has a PMU, regardless of the underlying implementation. This
+>> +attribute is VM-scoped.
+>> +
+>>   2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
+>>   =================================
+>>   
+>> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+>> index 65ee09bd1463..7a6a0af14f5a 100644
+>> --- a/arch/arm64/include/uapi/asm/kvm.h
+>> +++ b/arch/arm64/include/uapi/asm/kvm.h
+>> @@ -453,6 +453,7 @@ struct kvm_vgic_v5_ist {
+>>   #define   KVM_ARM_VCPU_PMU_V3_FILTER		2
+>>   #define   KVM_ARM_VCPU_PMU_V3_SET_PMU		3
+>>   #define   KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS	4
+>> +#define   KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY	5
+>>   #define KVM_ARM_VCPU_TIMER_CTRL		1
+>>   #define   KVM_ARM_VCPU_TIMER_IRQ_VTIMER		0
+>>   #define   KVM_ARM_VCPU_TIMER_IRQ_PTIMER		1
+>> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
+>> index 9c1e2f3e41db..ebb648eabdc6 100644
+>> --- a/arch/arm64/kvm/pmu-emul.c
+>> +++ b/arch/arm64/kvm/pmu-emul.c
+>> @@ -1017,8 +1017,8 @@ int kvm_arm_pmu_v3_enable(struct kvm_vcpu *vcpu)
+>>   
+>>   static int kvm_arm_pmu_v3_init(struct kvm_vcpu *vcpu)
+>>   {
+>> -	/* Only possible when using KVM_ARM_VCPU_PMU_V3_STRICT */
+>> -	if (!vcpu->kvm->arch.arm_pmu)
+>> +	/* Strict PMUv3 requires a hardware PMU or fixed-counters-only mode. */
+>> +	if (!vcpu->kvm->arch.arm_pmu && !kvm_pmu_fixed_counters_only(vcpu->kvm))
+>>   		return -ENXIO;
+>>   
+>>   	if (irqchip_in_kernel(vcpu->kvm)) {
+>> @@ -1153,8 +1153,8 @@ int kvm_arm_set_default_pmu(struct kvm *kvm)
+>>   	 * affines the VMM to a particular cluster of cores.
+>>   	 *
+>>   	 * In any case, userspace should just do the sane thing and use the UAPI
+>> -	 * to select a PMU type directly. But, be wary of the baggage being
+>> -	 * carried here.
+>> +	 * to select a PMU type directly, or request fixed-counters-only
+>> +	 * emulation. But, be wary of the baggage being carried here.
+>>   	 */
+>>   	struct arm_pmu *arm_pmu = kvm_pmu_probe_armpmu(raw_smp_processor_id());
+>>   
+>> @@ -1179,11 +1179,13 @@ static int kvm_arm_pmu_v3_set_pmu(struct kvm_vcpu *vcpu, int pmu_id)
+>>   		arm_pmu = entry->arm_pmu;
+>>   		if (arm_pmu->pmu.type == pmu_id) {
+>>   			if (kvm_vm_has_ran_once(kvm) ||
+>> +			    kvm_pmu_fixed_counters_only(kvm) ||
+>>   			    (kvm->arch.pmu_filter && kvm->arch.arm_pmu != arm_pmu)) {
+>>   				ret = -EBUSY;
+>>   				break;
+>>   			}
+>>   
+>> +			set_bit(KVM_ARCH_FLAG_PMU_V3_EXPLICIT, &kvm->arch.flags);
+>>   			kvm_arm_set_pmu(kvm, arm_pmu);
+>>   			cpumask_copy(kvm->arch.supported_cpus, &arm_pmu->supported_cpus);
+>>   
+>> @@ -1205,6 +1207,22 @@ static int kvm_arm_pmu_v3_set_pmu(struct kvm_vcpu *vcpu, int pmu_id)
+>>   	return ret;
+>>   }
+>>   
+>> +static int kvm_arm_pmu_v3_set_pmu_fixed_counters_only(struct kvm_vcpu *vcpu)
+>> +{
+>> +	struct kvm *kvm = vcpu->kvm;
+>> +
+>> +	lockdep_assert_held(&kvm->arch.config_lock);
+>> +
+>> +	if (kvm_vm_has_ran_once(kvm) || kvm->arch.pmu_filter ||
+>> +	    test_bit(KVM_ARCH_FLAG_PMU_V3_EXPLICIT, &kvm->arch.flags))
+>> +		return -EBUSY;
+>> +
+>> +	set_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &kvm->arch.flags);
+>> +	kvm->arch.nr_pmu_counters = 0;
+>> +
+>> +	return 0;
+>> +}
 >> +
 > 
-> That is clear. Thanks.
-> 
->> +    C0 gets CPUs 1-2 because they are available from P.
->> +    None of C1's requested CPUs 4-5 are available from P, so C1 uses P's
->> +    effective CPUs 0-3 instead.
->> +    C2 has an empty "cpuset.cpus" and therefore also uses P's effective
->> +    CPUs 0-3.
->> +
->> +    For a valid non-root partition root, "cpuset.cpus.effective" contains
->> +    the active CPUs from "cpuset.cpus.exclusive.effective" except
->> +    those granted to valid child partition roots. If
->> +    "cpuset.cpus.exclusive" is set to a value different from
->> +    "cpuset.cpus", the effective CPUs need not be a subset of
->> +    "cpuset.cpus".
->> +
->> +    For example, if CPUs 2-5 are active, available, and not assigned
->> +    to a valid child partition root::
->> +
->> +      top (root)
->> +      |
->> +      \-- P (valid partition root)
->> +          cpuset.cpus=0-3
->> +          cpuset.cpus.exclusive=2-5
->> +          cpuset.cpus.exclusive.effective=2-5
->> +          cpuset.cpus.effective=2-5
->> +
->> +    P has 2-5 in "cpuset.cpus.effective" even though its
->> +    "cpuset.cpus" is 0-3.
->>         Its value will be affected by CPU hotplug events.
->>   
-> 
-> I would suggest offering an example where "cpuset.cpus.effective" differs from "cpuset.cpus.exclusive.effective", meaning that "cpuset.cpus.exclusive.effective" contains offline CPUs. This would make it much clearer that "cpuset.cpus.effective" does not contain offline CPUs.
-> 
-> With that, feel free to add:
-> 
-> Reviewed-by: Ridong Chen <ridong.chen@linux.dev>
-> 
-Thanks for the suggestion. I'll update the example in v3 to cover the offline CPU case and add your Reviewed-by.
+> I'd rather that FIXED_COUNTERS_ONLY depend on the KVM_ARM_VCPU_PMU_V3_STRICT
+> feature flag. The expectation of that flag is that userspace specifies a
+> backing PMU implementation; your FIXED_COUNTERS_ONLY could just be seen
+> as one such PMU implementation.
 
-Thanks,
-Guopeng
+Hi Oliver,
+
+Agreed. That will make the kernel code simpler by removing the need to 
+track explicit hardware PMU selection separately with 
+KVM_ARCH_FLAG_PMU_V3_EXPLICIT, since STRICT does not select a default 
+PMU. Hopefully, it will also make maintaining the code a bit easier by 
+reducing possible configuration combinations and encourage userspace to 
+use STRICT.
+
+I'll make this change for v2.
+
+Regards,
+Akihiko Odaki
