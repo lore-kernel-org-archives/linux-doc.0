@@ -1,145 +1,101 @@
-Received: from mail-ua2-f12.google.com (mail-ua2-f12.google.com [74.125.226.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FFF560AA0
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 15:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.226.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DA854CF48;
+	Tue, 22 Sep 2026 15:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=204.191.154.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790091837; cv=none; b=nyBl9TIbHhd9clCMbplDtzbbx2Ro+F/hbltAf22g5FKmb1i1VtsaUMbc3ffJr+3IzwlVf6SVpn/8Wg7sKhFaJ4cf3WdkGijuV6bXIjUzEXqEY05si5iaLe5olRs6u1hQey25O7ZY8Hqx+P7tjjMOeWc+PvVWV9LVK/GC38/Za40=
+	t=1790091858; cv=none; b=gZPkHSnXz28vhF6f6w9i8Xbe2TGX/coz58evPNLUsrvnA+vpgeXYx9ycpwspCZjWBQcUkQ1rXBNMoaAgPXuV6tDZ0LnfImY7OWjYFDK9WBF+pH+NgdbtNbF7NbUZN7U0tqqKKTe5cDURkWbCvtAvnumFNSSeyLiDHd6yOeKxpuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790091837; c=relaxed/simple;
-	bh=hchzYvXQvWRzwu0eETo6eP63WqkiRtXrdlRjjzPyl40=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MRTUmCF1tm2F/EmEbe5kn8i8pw9GUvy5VIg10gtMZM8iBkvMolMXxul2moqGpaNRn1d8sU0zoUCnezhMsPqAhZr5IZMKmXwckeH8gyxJ6OJMm62GuQ3u8G2XSHHmTfADYCr6JVLqeHVZsvYzAuXOujQYzwciz/0VrlHKRjZQLdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=IPm2bJqg; arc=none smtp.client-ip=74.125.226.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1790091858; c=relaxed/simple;
+	bh=H2LQm10GMuQayO/rov7YPEEWZioZkR4PzepRTqfC9VI=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Subject; b=uc/W8YWWrntShBk4/4VyZFGm5oddWGSl+CUNQX+fZJeCsbckD+vN1iFc/qR6d3rEaAmLJFncsZ1+qxsjVESHcp+DTC00V4+ZtNmhLaHqppdMIy30zyBtJ8tydq3DkQrqlZlmSEfpIUyqaf27pfSdQSVIqTMMAoQg4gL9NoYF2NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com; spf=pass smtp.mailfrom=deltatee.com; dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b=GSm4x/DT; arc=none smtp.client-ip=204.191.154.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="IPm2bJqg"
-Received: by mail-ua2-f12.google.com with SMTP id a1e0cc1a2514c-97eaa1155fdso1290533241.2
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 08:43:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg.org; s=google; t=1790091823; x=1790696623; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hchzYvXQvWRzwu0eETo6eP63WqkiRtXrdlRjjzPyl40=;
-        b=IPm2bJqgan2bGO6w8DvJ0QU3bLlbkLxPRj584Y9iKd6/FPisDWNUfhsAbfveWrhE+U
-         5p5e32HG0eCBn4dsR5Vifb+H6U1lEGFJCeUcrjoMPkRxsCGFe1I6riK+4tTbE5FD1uDo
-         LEDSbE8mKxo3Uzy4VR8aYngoGRDvpCLs67ZasrXTBunR/mqIknlRNErG/OYfJf42b6ug
-         av6yz/2ituu2QdpocnO6LzOHTsMzDfF7V3VwP/Zax4FSrsP8KFJK+BEsuJlpNxm9pvD/
-         j1BSDdBkNHN7VmfxVTkBErrJbSoyXa287vmZNi9ONOKHmpqtysk65aww5mhvuZ+htApm
-         si9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790091823; x=1790696623;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hchzYvXQvWRzwu0eETo6eP63WqkiRtXrdlRjjzPyl40=;
-        b=u2wELRhorr4QBACK6iHZj/5zn+wCdOAExbL9C673+UTGZjQYm5lhjyi4nWqHi9iUOB
-         v1FyQ5sM4AQfZq4c/jykNJw+/zaHJ0NKnufrv/NoUAf+HUvBRy+eBogToaHny2bYEFJc
-         nkqNO++U0uQ99TmYEkTbr+9FFbibEN12ZzcHsQtgV5M6t1C5K+SRSlmaAlwp7GAZw4sD
-         IeeGsfL4qdns3cMQTqdHrQsYphaB3C+TA4GfSeZbTIlM+dpXzWmQN0WUCMvzhuWxep33
-         EDt0w+4y2ri2i4K34TJwC/MzeWsOtu8bMR/d9S2lFBnWuRGQGuc9KuROOOWUWIE3JvBV
-         YNsQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwr6dyJqLAtLO4/7Y03M6dl70Z/1ZAXsb9+L+Ohd5pgoBhsdIyWEuF4GJCxpDCoi1H84PxLK/FT460=@vger.kernel.org
-X-Gm-Message-State: AFuF++nibvoa6VL0vdKlNG1FZtaSJCBW+iDfheS6gwYbUDi7Q8poyTWd
-	HqzYt3boLTf/N6AA+6KNrXipG/eRIfiv0nKHISeBTqtGQMrHWDsI4LS0co1WjLY7SmA=
-X-Gm-Gg: AYBFou0A7VAwHRND9uhKx1GqOsmB1RnVPpEG/NVCx19ELqLYTKFMle+v6sfx4Bw6Hmb
-	Ly7IA6jqsztECBPqgwgsQ6UNffol+77mDoP2Iruz/fCw3Xs3FL/BZPbkxNbubNs2XI0FB+R2l2N
-	zIEJASDPQDUB6lfileFotZNKk3c6isQAslpfnRlZux+HBbYm6GHA2F3NFpke7W+uGTvEMtQ1hBT
-	VHCLraoZ1bDKTs+D3MuKFOeRSpOjj8Ym+zVHyrBI90ZzbWwCSpoKrXVMbWLjRAyh3IlNb+X2OJ1
-	BXgUGFWMtn/yNGLQFSx4bW1Sfer91LyFMdvoMGw1EgI85mYM/hhlSEdhEccOQSdMt676R5rUEcO
-	JYHmcCM9TfgqCo7BC5yE3G/wl38bMvvS7Wpv04xgEZS/aArFzwTppaXPuhZk0BaOxham1FrPpg2
-	Wyuc72XtE0LBcD3I8m3bono5Wp4iwuv4exxYPIWjtBwUwDgzoBW24r8OcB/gnVUUG9xnhR
-X-Received: by 2002:a05:6102:81cb:b0:7a7:3485:3386 with SMTP id ada2fe7eead31-7a734854c44mr4067281137.24.1790091823401;
-        Tue, 22 Sep 2026 08:43:43 -0700 (PDT)
-Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-914024f12c3sm19388516d6.36.2026.09.22.08.43.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 08:43:42 -0700 (PDT)
-Date: Tue, 22 Sep 2026 11:43:39 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Chris Li <chrisl@kernel.org>
-Cc: Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>,
-	Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>,
-	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Yosry Ahmed <yosry@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Barry Song <baohua@kernel.org>,
-	YoungJun Park <youngjun.park@lge.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Wenchao Hao <haowenchao22@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kunwu Chan <kunwu.chan@linux.dev>,
-	Meta kernel team <kernel-team@meta.com>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org,
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kairui Song <ryncsn@gmail.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arKiK06mfWTw9I9a@cmpxchg.org>
-References: <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F>
- <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
- <e879ac65cb0940325736df7984c737edf1c6be94.camel@surriel.com>
- <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
- <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
- <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
- <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
- <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
- <a75b2eac4297ca6b238dde6f9246d2c1807b935f.camel@surriel.com>
- <CACePvbW_-6M63_a7Cp+09dTmpHeMEdj9VDQZf8g8qoYKQD=wvw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=deltatee.com header.i=@deltatee.com header.b="GSm4x/DT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=CWnSk7EHPwZAKsC2qnExgWJIw09V8t9KapKe+fGyacY=; b=GSm4x/DTZBhqYrTlypLXxe4dWy
+	9y0sKMPb064RvrGUTmasLfAtfG82W1NGKWo/+xT03P6Oh8PevDkvjUF+Chntkj38pPm6H5lSpW00n
+	14O4Dpzm0kR1kCBBt6AmxVZk4MZUVOwj5r2wnDpgZW8eoYS9DAM7xK79NREGkU6auzxdUBhjGuiJU
+	ijdiVxaHh9h2MKQWZntFWWZPJw+ThxEHQC72rUwJ+Nmhz3sNlRxYQuIQDNpuRwFiwZMJQ5hWueLbT
+	h4CWHqhJq+VkZA3OU+lTvTGaBB/oZn2MtwfwF77vBEpGxIfjjB8HIJOzz6yj/Om+EkgOwRsWHoW3c
+	3sCFOc9A==;
+Received: from guinness.priv.deltatee.com ([172.16.1.162])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1x92fD-0000000FjgX-1I9v;
+	Tue, 22 Sep 2026 09:44:12 -0600
+Message-ID: <be735e17-0948-4940-a6c9-862466f986b3@deltatee.com>
+Date: Tue, 22 Sep 2026 09:43:56 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACePvbW_-6M63_a7Cp+09dTmpHeMEdj9VDQZf8g8qoYKQD=wvw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jens Axboe
+ <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+ Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-rdma@vger.kernel.org, kvm@vger.kernel.org
+References: <20260920-fix-p2p-acs-v4-0-v7-0-ca0828ab697c@nvidia.com>
+ <20260920-fix-p2p-acs-v4-0-v7-15-ca0828ab697c@nvidia.com>
+ <85bb90f0-5a02-4e35-9ed6-ad7e67c1c0d8@deltatee.com>
+ <20260922092754.GC563127@unreal>
+Content-Language: en-CA
+From: Logan Gunthorpe <logang@deltatee.com>
+In-Reply-To: <20260922092754.GC563127@unreal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 172.16.1.162
+X-SA-Exim-Rcpt-To: leon@kernel.org, bhelgaas@google.com, kch@nvidia.com, gregkh@linuxfoundation.org, axboe@kernel.dk, alex@shazbot.org, ankita@nvidia.com, jgg@ziepe.ca, corbet@lwn.net, skhan@linuxfoundation.org, joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, rdunlap@infradead.org, sumit.semwal@linaro.org, christian.koenig@amd.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, iommu@lists.linux.dev, tdave@nvidia.com, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org, kvm@vger.kernel.org
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Level: 
+Subject: Re: [PATCH v7 15/19] PCI/P2PDMA: Document TLP-class routing
+X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 
-On Tue, Sep 22, 2026 at 05:23:31AM -1000, Chris Li wrote:
-> In my experiment, 100% is already way above that bound, which is why
-> I'm curious about your data point. How do you run and test your system
-> at 100%? Please correct me if I am wrong, but it looks like you
-> haven't.
 
-You're conflating machine size with workingset residency.
 
-Rik showed an example where the compressed set was twice as large as
-the anon set, and it worked fine. And why is that surprising?
+On 2026-09-22 03:27, Leon Romanovsky wrote:
+> On Mon, Sep 21, 2026 at 04:16:56PM -0600, Logan Gunthorpe wrote:
+>>
+>>
+>> On 2026-09-20 05:41, Leon Romanovsky wrote:
+>>> +A path is bus addressable only where both directions route directly, so with
+>>> +nothing enabled every class is.
+>>
+>> I don't understand the sentence.
+> 
+> I tried to say that we need both Requests and Completions route
+> directly.
+> 
+> Claude suggested something like that:
+> ---------------------------------------------------------------------------
+> Combining the two tables gives the mapping type: a class is bus addressable
+> when its Request and its Completions both route directly, a blocked Request
+> is not supported because Translation Blocking rejects the Address Type
+> wherever the Request is addressed, and anything else goes through the host
+> bridge. With no ACS control set anywhere, every class routes directly.
+> ---------------------------------------------------------------------------
 
-We know many applications have long tails of cold pages. Idle tmpfs
-files and shmem segments. Things that get rarely used. memcache style
-workloads have a small, hot index and a huge data segment with poor
-access locality. Even if large parts of it are in compressed space
-that's better than storage fetches.
+That's much more understandable. Thanks.
 
-Your "this will thrash after 7-10%" is an average based on common
-workingsets that are actually hot. It doesn't mean there aren't cases
-that benefit from much higher overcommit.
-
-Why even get into this? Why even try to find some universal limit on
-something that just costs memory anyway, when memory containment is
-already a solved problem?
+Logan
