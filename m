@@ -1,120 +1,146 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C06559CA6
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 15:31:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E6755C312;
+	Tue, 22 Sep 2026 15:31:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790091064; cv=none; b=Y0wWhejVJ1Vp+xvexsY7mc2W3IlAKkpKZDZs8m/8XKgbjB68DvBZiDhfHpkyqGbUElB1GtMRUd1tMQmyk228eybYvtgAi5QdWq+lRaPq5b3wXNovCHaelQ0a/h8SS5QU8TOwqNfOm9oJ3kb9/m4Y0Hy+J+6IBF+2J5Pri4jyx1E=
+	t=1790091091; cv=none; b=eydvb8VjEs9Uur6DiQznYL9pJbJx2XMCBNuCAbHU/yvl1S8L4wBoCh+qZ613Ltusxt6ZQLOo9f8eY+YqilUetkhK9kjfNGN2JRInRg7GdxW1Ze8i4jvBc4a/qaPO5oIQbZsu6WbuwSfAEhhIg/wSawlWBIdgEmIoYO/MEKpwRdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790091064; c=relaxed/simple;
-	bh=WjK1rso8gurasV2KREJhuQVyxlazrxmPZ7mJelduaeY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IeKhxEyu+ydAb2KXekmD52x2vc9zHfIiSjQaAKjGchkZdOeVQ2MdSVgk2pDy1Dl6qhsa0besuwsOdbnBsfzDNwVor+iVMLauvzbqGGpXvU8aASLCQbOD21h4ftPwMsL1e9vq40PHT+3CWX5mybxou3kyzLqy7VaYz1Gybz7FW4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cxoYO/hf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790091091; c=relaxed/simple;
+	bh=NALfkOxOZukdaM9bPf10hwBO/x1kAs+vxmEyMf4s694=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GaZYUXX7pLzOKkV97cKsyoTrGWhkL96dOJR5Z+TdCfJtnOp/DDZ06gzxhoAqf6xX+f/e8KH9ydEWNoBCvspeerSfyfccGMYCcDR2DLFshMuFBFys2sBJxfMz1M9ZTFvT8djzeNSp4oDgHYJKzugYRZN5M6h9WX+Tc51KgAbMsuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oxgbajWA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cxoYO/hf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF7F11F0089D
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 15:31:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oxgbajWA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 971F71F00893;
+	Tue, 22 Sep 2026 15:31:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790091062;
-	bh=WjK1rso8gurasV2KREJhuQVyxlazrxmPZ7mJelduaeY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=cxoYO/hfDuXSHTQ5Dxnl6SmOSX9U+dJ8slNR5avEpnawT5V6HZgPy75HhzBKpPA3y
-	 sEnpDu9LA3p1Y5Fo70ao5AblIJ3yeM0YOpwYLJfabK2kx3pyyE3yWKywSroUWJAxKO
-	 pcv+htWoFQfi3RRwddJtUZzvx0Z5hBps2kELz5DJxflcrmDkffWZbe0SkJGAY8Z3Vv
-	 RUvt0WHXx2juTBnv70nRp375ScuCb8+zFLghqhZkQ09fYjfG5I9pIbrVKFwXH3hjxJ
-	 zs0YIGJt3oA7eaBNknm1vmxsJX6mdqU/LNIbNPfN7jsmvY0vdh9G7RNqIowWJgGEwc
-	 QOKGOa9WUsTlQ==
-Received: by mail-yx2-f43.google.com with SMTP id 956f58d0204a3-670fee39d73so4537448d50.3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 08:31:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByBwd6OkCydxpboauV7NPJ5pot5VovnI/JuA8sNyWZr1M7X8MDYyNJnVKdjOzBakyvFkTfUkvrY7ng=@vger.kernel.org
-X-Gm-Message-State: AFuF++kujXCgcBUfN2hlda13hn3UNkDYlYAlQac+3AAh4A/781oy1hQP
-	lR3dv9WvazmTIc4ekUarKjy2pa9y3Prrj6RfDkHFMPG8ACbEL5XyxJ1FuYMBc7YdoUMWcZpw8Yx
-	m6bI2npVvmHoWNtCZqIBHiSlkyGq46YjdeHTtuZn6wg==
-X-Received: by 2002:a05:690e:191b:b0:66f:c1bc:4036 with SMTP id
- 956f58d0204a3-6717fe635efmr5296462d50.99.1790091061887; Tue, 22 Sep 2026
- 08:31:01 -0700 (PDT)
+	s=k20260515; t=1790091090;
+	bh=VFYj6sjedfWGEBuGl++9heS9zoD83sYWZIxoZFH52Mw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oxgbajWAx+ewgz3EYGgJPYtZfNNrVy2jiDvlrL0XB6QieOmgNe9oJ8tWYTAmWkd4E
+	 40O1bShYyuGwabzOZg2yryGvTCOWVoLErNmP15TezU6CcK1+IP50a2puK4iDmaw6R3
+	 PCwUfPw/jYwdSq8HtaOBJAU/3KQvk7VOfDVSLU+W6MZTQuGVG14os2s8QuaTXuRpZy
+	 c1E7BQMp5Oh5V6N9yXEOXRU2Ns8Xz5BjaAREZfd68p1jzII0svn4YeEB6D4D+XgUXP
+	 mn6RKCk0xuOhAtFCkmd48wAcJ6k5w8jrTIJhK2olCjTjtXsHqi1z/Ac++TcJ8CKg7E
+	 LVSLUkJaZCs2w==
+Date: Tue, 22 Sep 2026 15:31:25 +0000
+From: Jaegeuk Kim <jaegeuk@kernel.org>
+To: Nanzhe Zhao <nzzhao.sigma@gmail.com>
+Cc: Zi Yan <ziy@nvidia.com>, Qi Zheng <qi.zheng@linux.dev>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Alistair Popple <apopple@nvidia.com>, ceph-devel@vger.kernel.org,
+	Eric Biggers <ebiggers@kernel.org>, xen-devel@lists.xenproject.org,
+	Gregory Price <gourry@gourry.net>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	linux-fscrypt@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	linux-kernel@vger.kernel.org, Nico Pache <nico.pache@linux.dev>,
+	linux-perf-users@vger.kernel.org,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>, linux-fsdevel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Hongbo Li <hongbohbli@tencent.com>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Byungchul Park <byungchul@sk.com>,
+	linux-trace-kernel@vger.kernel.org,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Barry Song <baohua@kernel.org>, Kairui Song <kasong@tencent.com>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Muchun Song <muchun.song@linux.dev>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Minchan Kim <minchan@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+	Thomas Gleixner <tglx@kernel.org>, Anna Schumaker <anna@kernel.org>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Alex Markuze <amarkuze@redhat.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	linux-mtd@lists.infradead.org, Chunhai Guo <guochunhai@vivo.com>,
+	Jonathan Corbet <corbet@lwn.net>, Dev Jain <dev.jain@arm.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Gao Xiang <xiang@kernel.org>, Wei Xu <weixugc@google.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	James Clark <james.clark@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Tal Zussman <tz2294@columbia.edu>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Oscar Salvador <osalvador@suse.de>, linux-nfs@vger.kernel.org,
+	linux-mm@kvack.org, linux-erofs@lists.ozlabs.org,
+	Mike Rapoport <rppt@kernel.org>, Ian Rogers <irogers@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jan Kara <jack@suse.cz>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Dave Young <ruirui.yang@linux.dev>,
+	Yuanchu Xie <yuanchu@google.com>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Yue Hu <zbestahu@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>, Richard Weinberger <richard@nod.at>,
+	x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Usama Arif <usama.arif@linux.dev>,
+	Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Namhyung Kim <namhyung@kernel.org>, Juergen Gross <jgross@suse.com>,
+	kexec@lists.infradead.org, Adrian Hunter <adrian.hunter@intel.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [f2fs-dev] [PATCH v5 00/17] Remove PG_private by using
+ page/folio->private checks instead
+Message-ID: <arKfTXizFeTeKYDx@google.com>
+References: <20260920-remove-pg_private-v5-0-bb68b6a21869@nvidia.com>
+ <20260922041600.1240429-1-zhaonanzhe@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
- <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org> <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
- <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
- <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
- <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
- <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
- <arKRdaNEaKvFOtMg@linux.dev> <CACePvbX7aM45SE9H0hg1_uXBt1i4W7Pgk+d33Z2sG5bj8cHudA@mail.gmail.com>
- <arKZpJDpsavixjPx@cmpxchg.org>
-In-Reply-To: <arKZpJDpsavixjPx@cmpxchg.org>
-From: Chris Li <chrisl@kernel.org>
-Date: Tue, 22 Sep 2026 05:30:44 -1000
-X-Gmail-Original-Message-ID: <CACePvbUmVLVk=w1sJinBfKVYoXcO57A163RrXv7C_QLzM4yQZQ@mail.gmail.com>
-X-Gm-Features: AcwNN1UR9s99Z2X-MSlUitUJloq4Rfa7jHbZFSt53b5lYV5PDEZumwr42GjBDY0
-Message-ID: <CACePvbUmVLVk=w1sJinBfKVYoXcO57A163RrXv7C_QLzM4yQZQ@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260922041600.1240429-1-zhaonanzhe@xiaomi.com>
 
-On Tue, Sep 22, 2026 at 5:07=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org=
-> wrote:
->
-> On Tue, Sep 22, 2026 at 04:56:48AM -1000, Chris Li wrote:
-> > On Tue, Sep 22, 2026 at 4:43=E2=80=AFAM Shakeel Butt <shakeel.butt@linu=
-x.dev> wrote:
-> > >
-> > > People can speak for themselves and suggest other time slots. You do =
-not speak
-> > > for anyone but yourself here. At this point this is derailing the con=
-versation.
-> > >
-> >
-> > I am expressing my opinion, freedom of speech. As you can see in the
-> > previous discussion, Baoquan wasn't able to join that time slot. He is
-> > a major shareholder in XSwap. I worry that alignment vswap vs xswap
-> > without Baoquan is ineffective. That is my opinion.
->
-> Actually, he said he is not sure if he can make it, and before Nhat
-> could respond to that soft push you drew a hard line without actually
-> proposing a workable alternative that made Nhat give up instead.
+On 09/22, Nanzhe Zhao wrote:
+> Hi Zi Yan,
+> 
+> Thanks for the series. The cleanup is a nice help for the f2fs
+> large-folio work -- it removes the page-based private-flag plumbing that
+> my series would otherwise have to carry itself.
+> 
+> My large-folio series v2 [1] can be rebased on top of this series. The
+> only overlap is the PAGE_PRIVATE_* flag helpers, which I can re-express
+> on top of the F2FS_FOLIO_PRIVATE_* names while keeping the
+> f2fs_folio_state indirection.
+> 
+> Jaegeuk, do you have a preference on the ordering here? My personal
+> suggestion would be to review and merge this series first, and I'll
+> rebase on top of it.
 
-Please consider that it is 1AM in Beijing if I remember correctly. I
-don't consider that is a workable and reasonable ask.
+Let's keep working on the f2fs tree, since we should not merge this in my tree.
+Later, we'd need to prepare how to address the merge conflict.
 
-> So my free speech opinion is the same as Shakeel's: you're speaking
-> for others and thereby derailing efforts to align on something.
-
-I sympathize with asking Baoquan to join a meeting at midnight.
-
->
-> We all want Baoquan in the room.
-
-In Chinese we have this saying: don't apply things to others that you
-wouldn't want applied to yourself. Do you want to participate in a
-technical meeting at 1 AM?
-
-Chris
+> 
+> [1] https://lore.kernel.org/linux-f2fs-devel/20260915041909.2903887-1-zhaonanzhe@xiaomi.com/
+> 
+> Thanks,
+> Nanzhe
+> 
+> 
+> _______________________________________________
+> Linux-f2fs-devel mailing list
+> Linux-f2fs-devel@lists.sourceforge.net
+> https://lists.sourceforge.net/lists/listinfo/linux-f2fs-devel
