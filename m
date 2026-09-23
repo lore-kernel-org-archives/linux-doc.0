@@ -1,288 +1,99 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5015542ECF
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 16:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790180643; cv=pass; b=XU/4x/PwjuUCXHIvuxKRAf0VfLP1IrcgdgO7F4d50Zu6U/Vz2zTHS7Gxt8V939/5Wovs3HE3epgqDHv+ldASNJQema0NdWULg5VFoLeTbzifD23CH8omBxvjozMwNQ7Nwo92Ciqer3IW0kF2yoBUs6ZmZQEWGgmH5hO8dccK0WQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790180643; c=relaxed/simple;
-	bh=2Oteq2LQAfmMQohvmzQdfax4JBAWgMtdwlOqmBNmox8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fqE1BHGIzgGfq+Wq3c4wf1J3JVNxH6kHPHIetdrPiNUWB9eYc28VQubYUEwsaxxjEHvqto4/oiD9NOffentkpW3cf4+XCUUYK+88Ir7I79CYx2sxtu7lwTRc7Q5Bau5QLlf++LiwuDxX63r8DtlquuB49taGkjbb3Q+H8YxoHao=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WEd/4zx7; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CC340927D
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 16:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790180765; cv=none; b=LdciAcVpdg65PVkCKDArtjbv7BZo6WLjVrrIoozca/kKUzdkwgzYWus0D9bL//asDK2UYQXonO6Shxcv56TULIkLrRqccAq/3WQVVIGkDFCDM0bogIytutKk3lzC1TH5l7SKxDfEV36E3HrzqYm9mz5PXtYX79+HzVozneefn4I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790180765; c=relaxed/simple;
+	bh=IERVJGWJw6rjuNqJPjAiHeD3JZ40QlI7AQ6brGOD1uM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rZArIf1n8mVwmlwWdsutZFOTeq+E+ouomfKUd9M/rKnMJ82VJekdwtpSMlKBJXgVMUvjUuJEBQyoB80pnK8UzFM/YlAzj4Xo6+CibS1w8BSJVRXchsF+Gdbd2HLp8HBicEW2ejXNWWNHU4Sit3Gr5rrJ0vaqeBhxAVlU0dEvU6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hWlBMQAI; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WEd/4zx7"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-530e8c6fb80so276911cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 09:23:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790180637; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sMu3JkUakJtWkKMk3f0o820fYxjwcAliJocIHlV9WZrC5Ropo5mhP+l7zsyUMcXGlO
-         YLH6nqTEy7tFG/c2Qo4Lcl1R/DiFBXelooMXsEUk3O59ruZanA8rLX4R9gwQroaV3aqV
-         U11q4EtZOq6FHYI+ZHtQMwLWt167DSTzqSUHX1sDFLZ3or9I5DcW94cX6eh1LD2ztLcH
-         a5B2q+bSOC5vdDX2JT1R1Yrxo0n24/nEXqbNqFwrZBwdIos6ODfcs3mwmU/kw5Ikb2aW
-         SCM7b3AdeWx1s2LmDLehTBp3PUGf+L7dB4sZ+VbGkzCx3M82jG/s5LYt4RqdOZkWW2dm
-         gZ0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3FzOqkymgnKp+HaLHwhofGZjaEcw2lbzuDYsddlgiEM=;
-        fh=lnaTxaMbAFuLoPsHAoX5AKXI8REHDGa1Sgs9n9DvgSw=;
-        b=SHSJIe/cumDNYa/uhA4C5kIzEQj205UJvTvotczsF12qBxupZ/lHvLmMsE4jqdgByk
-         E3vED74vI/0bkavt7g8a8wZP2Uz/1gB73F3rtIqsU50GM2oEoxbX0M+f8GzeTjTJgLz9
-         sjVU4JQkDGdsvfCat5KgMR+mb3bgsQyEfZCh8ly6BWPLkJbgt4bOOx40a5bb/78suFyT
-         sAqlSVgUPjEkAlou1WMBiB+rMvAKkQoGrUQbmIWC/HKzPOk9N4UHFqe8/ilALFmmlrJ7
-         fRkE+1J7l8IJa1r49SOcTRmGbxEFi8ymWrTtWbaFapn8YydVH0yeQQyLpxhg8o6gdMa/
-         0oXw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790180637; x=1790785437; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3FzOqkymgnKp+HaLHwhofGZjaEcw2lbzuDYsddlgiEM=;
-        b=WEd/4zx7Jaw6N2UvE9ErsDRPD2W5F8+AuDISUgXBRyBoK9r3OWGBweIAd8Z/UpZzKH
-         p05za8XzaClAZW0REIguKzHb6Mxk1fy/wRxHFqwg4CfxETMqi1r41NObDpo6bjY0UfKs
-         Jyu4Po4SIkpeEBrcoPTQ5EK/lNGPcMVFGXgDnxUpUNjw9ZS+EFtfCGF/4BEtwtQiu07P
-         oyksd3surmOtyTiMVQzbuT2zgiB+VpgdJUB//IdsXOUSubfFgtpwt4uMdYFkhPGsaa91
-         StwUEYOtRyaHQXj4MdOBzhoLCYsqD+D2lAdGKqOpAnNG1gun5Gx3CL0lLu2mkVa/r81B
-         VwQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790180637; x=1790785437;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3FzOqkymgnKp+HaLHwhofGZjaEcw2lbzuDYsddlgiEM=;
-        b=BMIo8iZAKlcaPkPZ3xVsO+9ey+KzcZj8TxkONQBnz5wr2gNByzDchL7n27CrFE4faB
-         QnyDjWGVSvYAxfvSQ+SKwaMu5vJSne38I4OaM7JRlFqm3VrjO+FWsbyga2LVnIUXRRX1
-         YasffiZnsQHd2sOzwkwi4KN6AKVHrn+Coy2Y6aF5u2HtywvVcHiJznOUbRDiiyW3tMF0
-         lLFmwYyNjZ1xwUzzMr7I6V7qvDLai3bwdjSjFfgEo93LbCu60ivTnFInHNx5fzqD0NgR
-         M75F99N6zzj/1NW8cu5RzXx1lbkCJnlZKEzlZC8hn97BrkpVE7Rm9Bhd4sWEiACgtbcs
-         9aBA==
-X-Forwarded-Encrypted: i=1; AKwUvBwM25r51HiB0lQ9alFUc5osS0A3GnSxCvGd8MbaLKYg2RZfte/YZ+tiS4C9Oi8KzlYY7B7BPka3bAw=@vger.kernel.org
-X-Gm-Message-State: AFuF++mXilrRX5rHRmUXQQE0w8u5RiiMrhEMWzWmtsDCmqvCEHAeAqRD
-	yqU25f2LigH8koK0a6jKbjB92YZFeqRkC4mIilJG1bgK9K2m52+NFFkhGEBH2wIQIGq/5Eb7mI0
-	fGbUOvSKkI9tQcqwpzZpZcvT+kjrdnvv/VrteT+ah
-X-Gm-Gg: AYBFou1rCTMlH+7wtfblut2xiVURjq0gllMAK2FqR/watJTLxQqmW8TH/nwkGgd15mH
-	sQV78Ne4VXuPi41XRTrG6DQFD6GQi+WvRbeEiUCSM1CkHs/tXWSOehZK27igGYzcZRcyCh9uM1/
-	5PKM/WbCJM83s148It1PogpnpjeVtB2wczWeJ17ndkGBvEqHb5srciKWC0mgEKT0fA5clI8W8pc
-	NEbuTN8ZHpipdUiHOFhc3aifyzJYUQ6QveI0SfR4taLGYc9Rz2Ens6/aRWQwQB+ZpDADysE3YU9
-	C6iBX8S2t++VzdcC5UukmA1q0pXcochoQ2Swt09Ua6lSAGEPAuCeXGbPwlXtHyTakUK6Qeh5gR6
-	uYpNNFXXvWw==
-X-Received: by 2002:a05:622a:609:b0:531:282:6560 with SMTP id
- d75a77b69052e-532f9d4a86emr439391cf.15.1790180636277; Wed, 23 Sep 2026
- 09:23:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hWlBMQAI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790180763; x=1821716763;
+  h=date:from:to:cc:subject:message-id;
+  bh=IERVJGWJw6rjuNqJPjAiHeD3JZ40QlI7AQ6brGOD1uM=;
+  b=hWlBMQAI5LdpFe23yzF6th3hcdfdU11Gqw99U6qd1JyOe18eQ8bWphCi
+   ip3WKkCq9m4T6Ag/Pv6okUXQca/63V+ju6T+ElJZM+iA4mZbhgrsKeqIy
+   inL/wNvXWsX7Emcwm+t1MYm0jMSV9Ye2LoZC3wQKsn6PCucd0cBfNh4Y2
+   xA06pJ+gNKakVF3MVDmdtNKwTUokxQ1A31T4ywyDA7Uo0yMU11JzCaoqh
+   Jcuc8GdjXcQEjj8fLe63SPNwcVE8Q/RHIaEd70YzuIeGVPvHtTUrIVJ8Z
+   tUn+jkxl0lJdVkoJ7HFefkATFZK1Yh0p4VflffoKn96c5SUOkziExH57J
+   A==;
+X-CSE-ConnectionGUID: udCJtuBgT4ib6mYZE7HvXw==
+X-CSE-MsgGUID: /ZscPbr1QXG8+S35WxTMiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="101482550"
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="101482550"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 09:26:02 -0700
+X-CSE-ConnectionGUID: RcYOQzwwQ6Gz6kFCMALDGg==
+X-CSE-MsgGUID: OBzMDx92RD+u5GFrA0FEAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="281743556"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2026 09:26:01 -0700
+Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9PnC-000000000k5-44gC;
+	Wed, 23 Sep 2026 16:25:58 +0000
+Date: Wed, 23 Sep 2026 18:25:46 +0200
+From: kernel test robot <lkp@intel.com>
+To: Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <christianvanbrauner@gmail.com>,
+ Jan Kara <jack@suse.cz>, Seth Forshee <sforshee@kernel.org>,
+ linux-doc@vger.kernel.org
+Subject: [brauner-vfs:vfs-7.4.idmap 26/28] htmldocs:
+ Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis
+ start-string without end-string. [docutils]
+Message-ID: <202609231806.ILZP6Fy0-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-3-4583d8a23bca@kernel.org>
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-3-4583d8a23bca@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 23 Sep 2026 09:23:45 -0700
-X-Gm-Features: AcwNN1U-1rGp6GFHFrF0qqhOHTzivX5krrdmfBch0hMHABT_yaCwm6D93D-Dyz8
-Message-ID: <CAJuCfpE0WCr1Kp=+4EVJB7UdbH22HuCouOEtGMNCL+a8TnCQPQ@mail.gmail.com>
-Subject: Re: [PATCH v3 03/40] mm/vma: introduce and use vma_[flags_]can_merge()
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
-	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 17, 2026 at 9:24=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.o=
-rg> wrote:
->
-> Replace the open-coded VMA_SPECIAL_FLAGS check in the VMA merge logic wit=
-h
-> two new functions vma_flags_can_merge() and vma_can_merge() and update th=
-e
-> merge logic to use the former.
->
-> This abstracts the check and expresses it in terms of the desired behavio=
-ur
-> rather than an arbitrary and confusing VMA flag.
->
-> This also lays the groundwork for making further improvements in VMA flag
-> usage.
->
-> Also update the userland VMA tests to reflect the change.
->
-> No functional change intended.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs-7.4.idmap
+head:   0f30047dc83fe18fe0b0766134e9c1a67a09a431
+commit: 025756ee7b476241270dd8ccbe17cc4c473800fa [26/28] fs: port mnt_idmap() and file_mnt_idmap() to const mnt_idmap
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260923/202609231806.ILZP6Fy0-lkp@intel.com/reproduce)
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609231806.ILZP6Fy0-lkp@intel.com/
 
-> ---
->  include/linux/mm.h              | 21 +++++++++++++++++++++
->  mm/vma.c                        | 19 +++++++++++--------
->  tools/testing/vma/include/dup.h |  5 +++++
->  3 files changed, 37 insertions(+), 8 deletions(-)
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 969594074fd2..68250ece4219 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -1612,6 +1612,27 @@ static inline bool vma_is_shared_maywrite(const st=
-ruct vm_area_struct *vma)
->         return is_shared_maywrite(&vma->flags);
->  }
->
-> +/**
-> + * vma_flags_can_merge() - Do the specified VMA flags permit the VMA to =
-be
-> + * merged with another?
-> + * @flags: The VMA flags to test.
-> + * Returns: true if the flags permit merging, false otherwise.
-> + */
-> +static inline bool vma_flags_can_merge(const vma_flags_t *flags)
-> +{
-> +       return !vma_flags_test_any_mask(flags, VMA_SPECIAL_FLAGS);
-> +}
-> +
-> +/**
-> + * vma_can_merge() - Do @vma's flags permit it to be merged with another=
- VMA?
-> + * @vma: The VMA to test.
-> + * Returns: true if the flags permit merging, otherwise false.
-> + */
-> +static inline bool vma_can_merge(const struct vm_area_struct *vma)
-> +{
-> +       return vma_flags_can_merge(&vma->flags);
-> +}
-> +
->  /**
->   * vma_kernel_pagesize - Default page size granularity for this VMA.
->   * @vma: The user mapping.
-> diff --git a/mm/vma.c b/mm/vma.c
-> index 4b74b48c29b7..05d2c676672e 100644
-> --- a/mm/vma.c
-> +++ b/mm/vma.c
-> @@ -924,13 +924,14 @@ static __must_check struct vm_area_struct *vma_merg=
-e_existing_range(
->
->         vmg->state =3D VMA_MERGE_NOMERGE;
->
-> +       if (!vma_flags_can_merge(&vmg->vma_flags))
-> +               return NULL;
->         /*
-> -        * If a special mapping or if the range being modified is neither=
- at the
-> -        * furthermost left or right side of the VMA, then we have no cha=
-nce of
-> -        * merging and should abort.
-> +        * If the range being modified is neither at the furthermost left=
- or
-> +        * right side of the VMA, then we have no chance of merging and s=
-hould
-> +        * abort.
->          */
-> -       if (vma_flags_test_any_mask(&vmg->vma_flags, VMA_SPECIAL_FLAGS) |=
-|
-> -           (!left_side && !right_side))
-> +       if (!left_side && !right_side)
->                 return NULL;
->
->         if (left_side)
-> @@ -1152,9 +1153,11 @@ struct vm_area_struct *vma_merge_new_range(struct =
-vma_merge_struct *vmg)
->
->         vmg->state =3D VMA_MERGE_NOMERGE;
->
-> -       /* Special VMAs are unmergeable, also if no prev/next. */
-> -       if (vma_flags_test_any_mask(&vmg->vma_flags, VMA_SPECIAL_FLAGS) |=
-|
-> -           (!prev && !next))
-> +       if (!vma_flags_can_merge(&vmg->vma_flags))
-> +               return NULL;
-> +
-> +       /* VMAs with no prev/next are unmergeable. */
-> +       if (!prev && !next)
->                 return NULL;
->
->         can_merge_left =3D can_vma_merge_left(vmg);
-> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/=
-dup.h
-> index 16c09dac59d9..2fd422789717 100644
-> --- a/tools/testing/vma/include/dup.h
-> +++ b/tools/testing/vma/include/dup.h
-> @@ -1647,3 +1647,8 @@ static inline bool file_is_dev_zero(const struct fi=
-le *file)
->  {
->         return file && file->f_op =3D=3D &zero_fops;
->  }
-> +
-> +static inline bool vma_flags_can_merge(const vma_flags_t *flags)
-> +{
-> +       return !vma_flags_test_any_mask(flags, VMA_SPECIAL_FLAGS);
-> +}
->
-> --
-> 2.55.0
->
+All warnings (new ones prefixed by >>):
+
+   Ring Design
+   ----------- [docutils]
+   WARNING: ./include/linux/jbd2.h:523 struct member 'h_invalid' not described in 'jbd2_journal_handle'
+   WARNING: ./include/linux/jbd2.h:523 struct member 'h_invalid' not described in 'jbd2_journal_handle'
+>> Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis start-string without end-string. [docutils]
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'power_module' not described in 'amdgpu_display_manager'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'hdmi_frl_status_polling_wq' not described in 'amdgpu_display_manager'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'hdmi_frl_status_polling_delay_ms' not described in 'amdgpu_display_manager'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'boot_time_crc_info' not described in 'amdgpu_display_manager'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 Excess struct member 'dm_boot_time_crc_info' description in 'amdgpu_display_manager' (did you mean one of: 'boot_time_crc_info')
+
+
+vim +1417 Documentation/filesystems/porting.rst
+
+  1416	
+> 1417	All struct mnt_idmap pointers handed to filesystems are const now.
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
