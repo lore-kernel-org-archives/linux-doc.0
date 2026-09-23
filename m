@@ -1,183 +1,84 @@
-Received: from mta0.migadu.com (out-156.mta0.migadu.com [91.218.175.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5C0472F67
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 08:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACC33BCD01
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 08:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790153015; cv=none; b=rSblImJQSpwD7DdBjwnHISln8znlSav499T5ImwynR98fxJL+yjre/UKi0noUMFgGWeFC2sHQ0P9gk9ECQuEXTGiZuom+8vL0m9GswkQhSMHEuPyJitgOpR3erZ/9yyLLuNnGXr6mSVn9nJpqwshpHsywLswaIwmfbuI6cN9l/g=
+	t=1790153094; cv=none; b=KqSNJUUeqcPyqod4aFHHaZcuF20yqYseyF2HjvYq4UpBy2mZ61HUAi1hEZd2bf7JLOB9dGOvV4U0pVHskRXjj7n8ciF1YBEqlfWMAQCSovQhvM2jpNv6M/OvSLVAaxXyS6gveqZwYeq+8/TUhXWbCTiuoXoDDJHrIHM0WBrnzSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790153015; c=relaxed/simple;
-	bh=99+UKhu23KDHlR6Muc20Ly3uTrswjM+UPnqZD8Rdr68=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GgPLBbSobQ7ruBl0C0tSpE006dqK5/cnaJT9xB91JFXzEoFEuizx+SzsKK2yRHDlvDH7MAG0WSS+Z1UA+MUriBS7fGP37093ynVqqA59fNFhYc5nbDGgFFqatfa49CKrTBVN9Pp6Gaz61an2L/lSXzjV8J6jhSQKfSEoWEA6cJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MXSkb2Dp; arc=none smtp.client-ip=91.218.175.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790153094; c=relaxed/simple;
+	bh=svEDuMs4Fq7x5PmYDa0zWn1N3FhZjQQBcwcHV3yyOJo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=b7I57RfQZCFF3zZkZykdyH3RIGH0nkzO5wCRdsWbmEakCi+F9WsgUwUeQwSsAPfmV4E+q5HaUASWg7fKv4xT8Q6pdkFaRctW/sDZA35qzwey0jHf8zsGUSHWj9KFyq7umJwLh1BWaV3EZnu4S1SjWVPdPIwm0RuDU71R7ZZ51jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FMGKyxc8; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MXSkb2Dp"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=99+UKhu23KDHlR6Muc20Ly3uTrswjM+UPnqZD8Rdr68=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790153004; v=1; x=1790757804;
- b=MXSkb2DpclhOBsFPPNOlk7p7Q+fP/OJU25EHZdH6R7uu1CUXGTPOe7gA2aSznMPd5exGUhkg
- DdrO3WZAhRx0tnIfOfHn6zlnAr5LcJOcca74Ol5KsNdsny7aRsBHhg2Jvq/wzzd7baAJ61BnWQ5
- GM2W5Uf1FiRwZd5z2cDu0Qr0=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id c8a1201785675537;
-	Wed, 23 Sep 2026 08:43:18 +0000
-X-Mizu-Trace-ID: c8a1201785675537
-X-Migadu-Flow: FLOW_OUT
-From: Lance Yang <lance.yang@linux.dev>
-To: ljs@kernel.org
-Cc: akpm@linux-foundation.org,
-	david@kernel.org,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	liam@infradead.org,
-	nico.pache@linux.dev,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	baohua@kernel.org,
-	lance.yang@linux.dev,
-	usama.arif@linux.dev,
-	kas@kernel.org,
-	guoren@kernel.org,
-	bcain@kernel.org,
-	geert@linux-m68k.org,
-	dinguyen@kernel.org,
-	schuster.simon@siemens-energy.com,
-	jonas@southpole.se,
-	stefan.kristiansson@saunalahti.fi,
-	shorne@gmail.com,
-	dalias@libc.org,
-	glaubitz@physik.fu-berlin.de,
-	pjw@kernel.org,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr,
-	linux@armlinux.org.uk,
-	vgupta@kernel.org,
-	monstr@monstr.eu,
-	chris@zankel.net,
-	jcmvbkbc@gmail.com,
-	will@kernel.org,
-	aneesh.kumar@kernel.org,
-	npiggin@gmail.com,
-	peterz@infradead.org,
-	davem@davemloft.net,
-	andreas@gaisler.com,
-	richard.henderson@linaro.org,
-	mattst88@gmail.com,
-	linmag7@gmail.com,
-	catalin.marinas@arm.com,
-	mark.rutland@arm.com,
-	chenhuacai@kernel.org,
-	kernel@xen0n.name,
-	tsbogend@alpha.franken.de,
-	James.Bottomley@HansenPartnership.com,
-	deller@gmx.de,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	chleroy@kernel.org,
-	hca@linux.ibm.com,
-	gor@linux.ibm.com,
-	agordeev@linux.ibm.com,
-	borntraeger@linux.ibm.com,
-	svens@linux.ibm.com,
-	richard@nod.at,
-	anton.ivanov@cambridgegreys.com,
-	johannes@sipsolutions.net,
-	tglx@kernel.org,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	arnd@arndb.de,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	jgg@ziepe.ca,
-	jhubbard@nvidia.com,
-	peterx@redhat.com,
-	ysato@users.sourceforge.jp,
-	shakeel.butt@linux.dev,
-	corbet@lwn.net,
-	rdunlap@infradead.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-openrisc@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arch@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-alpha@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-s390@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	hughd@google.com,
-	qi.zheng@linux.dev,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 05/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for arc, microblaze, xtensa
-Date: Wed, 23 Sep 2026 16:43:11 +0800
-Message-ID: <20260923084311.15570-1-lance.yang@linux.dev>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20260922-rcu-pagetable-freeing-v4-5-fe1ad1f1e303@kernel.org>
-References: <20260922-rcu-pagetable-freeing-v4-5-fe1ad1f1e303@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FMGKyxc8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790153091; x=1821689091;
+  h=date:from:to:cc:subject:message-id;
+  bh=svEDuMs4Fq7x5PmYDa0zWn1N3FhZjQQBcwcHV3yyOJo=;
+  b=FMGKyxc8DDD+EvPG3iHadtT/ssrf4oEQCu7sWeY8lWwgoUmLqNxoQ7Nj
+   C7ySirxNxQFTfXLQImLCGJ3C1Upy+4dhAh08LyHe4sMzAkmcFYa2pmJR+
+   HXTfk/U9/f9wadq/nin8SB4UPEyvcZ8xH5P/DRu6nufJOfeQdFXgdHY8w
+   2yYqGdTN06Gy92Uc6heto/IDKl3VFdZFw7nmvTjVlSoNCoxOGi76VWTnO
+   K9PsiDiyYLLTKXS5c24QZJQtjcdKP/iXSDdM7KtOIHm9I1+0ZkdwediCQ
+   l+N50aLHjwMkS4mzTEIdoJv9fQ4/KFjpFZmNGvn8SlcmFR3coDPnkY13c
+   g==;
+X-CSE-ConnectionGUID: qjGV45j8QZyyYFvy3pAMvw==
+X-CSE-MsgGUID: c/ScJvWLShyPro/Hwt/Fww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="78379810"
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="78379810"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 01:44:50 -0700
+X-CSE-ConnectionGUID: q1xedm8tSLutPvAMQPQv3g==
+X-CSE-MsgGUID: l1PXRyVeRrqJALjQOKsp2w==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 23 Sep 2026 01:44:49 -0700
+Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9Ias-000000000at-2sXM;
+	Wed, 23 Sep 2026 08:44:46 +0000
+Date: Wed, 23 Sep 2026 10:43:58 +0200
+From: kernel test robot <lkp@intel.com>
+To: Dominik Kaszewski <dominik.kaszewski@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Chenyu Chen <chen-yu.chen@amd.com>, linux-doc@vger.kernel.org
+Subject: [drm-amdgpu:drm-amdgpu-next 47/114] Warning:
+ drivers/gpu/drm/amd/amdgpu/../display/dc/dc_memory_pool.c:1 This comment
+ starts with '/**', but isn't a kernel-doc comment. Refer to
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202609231020.wPkQLbDG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
+tree:   https://gitlab.freedesktop.org/drm/amdgpu/kernel drm-amdgpu-next
+head:   cf48bd0a46279f4607956cb17c71bda96ee802e3
+commit: 6f74688d7e2377e253671d36acd63a988186216b [47/114] drm/amd/display: Add lock-free memory pool
+config: riscv-randconfig-2001-20260923 (https://download.01.org/0day-ci/archive/20260923/202609231020.wPkQLbDG-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231020.wPkQLbDG-lkp@intel.com/reproduce)
 
-On Tue, Sep 22, 2026 at 04:35:36PM +0100, Lorenzo Stoakes (ARM) wrote:
->Each of these architectures directly free page tables without routing these
->changes through tlb_remove_ptdesc().
->
->The use of tlb_remove_ptdesc() is required for
->CONFIG_MMU_GATHER_RCU_TABLE_FREE to correctly free page tables under RCU,
->so simply update these architectures to use these functions.
->
->Since none of the architectures share page tables or do anything unusual,
->nothing complicated is required here.
->
->Therefore this is simply a mechanical change - convert __pud_free_tlb(),
->__pmd_free_tlb() and __pte_free_tlb() to use tlb_remove_ptdesc() as
->required.
->
->At the point this is in place, all mmu_gather page table freeing is
->performed under RCU, and thus MMU_GATHER_RCU_TABLE_FREE is selected for
->each architecture.
->
->Note that CONFIG_MMU_GATHER_RCU_TABLE_FREE is dependent on CONFIG_MMU for
->xtensa to reflect the fact that nommu does not implement page table
->gathering.
->
->This forms part of an overall effort to switch every architecture to this
->mode.
->
->Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
->Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->---
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609231020.wPkQLbDG-lkp@intel.com/
 
-Right, the old frees already end up in pagetable_dtor_free(). With
-tlb_remove_ptdesc(), the same cleanup happens after an RCU grace period.
+All warnings (new ones prefixed by >>):
 
-Makes sense to me, feel free to add:
+>> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/dc_memory_pool.c:1 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Copyright (C) Advanced Micro Devices, Inc. All rights reserved.
 
-Acked-by: Lance Yang <lance.yang@linux.dev>
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
