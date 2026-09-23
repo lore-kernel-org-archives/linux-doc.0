@@ -1,246 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6343569F1F;
-	Wed, 23 Sep 2026 19:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF0B3E638D;
+	Wed, 23 Sep 2026 19:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790191271; cv=none; b=Ti3f9hU6vR0mLIP56rworNxhnbVr9WWiRd985R77ZTOebTCMhO/3Gj6QA2DewxOK++7hPkmyLivmH+Utf2zZgUmT7eAiqmbvI4fkNyx2vnb3tM/503HB3to5MXvJVzL0eVbBLdJk38fNpPCvrQqCYDFI7Q9yEKIy8hydlrj9sGM=
+	t=1790193223; cv=none; b=JblDoRQh+ARDiU041mKZ7aL+MBnS2LsB5a0PA6k+MLlYzsJ838nf2vwkVPFSaE1Rw9nSQisguwLPX9o/fLcPdqzeAd9uRnI/io6e71f4JA1hHnm57UBnNcgagtIfME7asnIY6mW7MdizWv7Nb0yqzrUSr1jIcmU9eXHFVMMajZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790191271; c=relaxed/simple;
-	bh=JyB88lU8D8plLkT8atp1POiJmxbZ97970p8UnhC5dIY=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=e3K+pUhI3if/QL7Kfsrh9cO+PcJ9NEdwulD7tpJZ/nvISA55TigSR5d1rKM5m6EFeuCdlT6Gz8X8I3XmrVhVq+XxgUct+bD79WY39vzkfdMQZ17ZYlUmALcaA1mUgrbvOhJNp3glFS62d3KQu1n83b2tZM9VAoIcViFxnkyvjxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XODkItKQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790193223; c=relaxed/simple;
+	bh=CM4RPslRpDHAccWd1h0BIog68Ey+FO5Ok8wB4F0pq+8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=UFD6576KlwxoR2ckOlGDZfpQOY1/kL5qNCJTPDZWT+u2EcO7Et72+UIofwhJrCrj8yi/1pccpTbdYLNTiSs2d3kJk3NuPGPMaot/8IR7KZSrCSXkWas4i1Zg7EKVza8lLwjJVr+yGnNsy5Hz9aqSNTM9RQ30a2lomIxOScx7oBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=eE9WCS2o; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XODkItKQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CFA21F00893;
-	Wed, 23 Sep 2026 19:21:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790191269;
-	bh=MvAguG7XJjS5iXlWWMhU76RJL95W7uHcHbawUFlVNyE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=XODkItKQaAOYarTSRjvSHqTRRZDng4evF9SQnTCxxfKxvXVwlGXwlNvA2xO+PZvMA
-	 9rg234UN9nnIZV6CT+cpxITrLHKJApSUMzE1pdNzCMnHr7jx8JZcJ90fozg9LKEnAV
-	 O1bppkT07sCdBQ/GCEdQa4GcGMRkoiHrwVaCO1uW2x8AtCPa/yGMr/hCzeXyVKIvW9
-	 ULlSzSErYp7xykehvOJzQEtDjc79zbWmVioe6qxQ7S2SQ1t7F15olxROeaqEVSstIq
-	 rsYOu9VbkP6/uX95VJjQFiFZwG7ouOrBrzObnBzQiGsDsKHspgORIsz2MqWWxxmx7N
-	 l3D/qPPmKcPIw==
-Subject: Re: [PATCH net-next v2 6/6] selftests/vsock: test the netns assign
- privilege checks
-From: netdev-bot+sashiko@kernel.org
-To: bobbyeshleman@gmail.com
-Cc: sgarzare@redhat.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, stefanha@redhat.com, mst@redhat.com,
- jasowangio@gmail.com, xuanzhuo@linux.alibaba.com, eperezma@redhat.com,
- shuah@kernel.org, rdunlap@infradead.org, donald.hunter@gmail.com,
- virtualization@lists.linux.dev, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org,
- linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com,
- sdf.kernel@gmail.com, bobbyeshleman@meta.com
-Date: Wed, 23 Sep 2026 19:21:07 +0000
-Message-ID: <179019126776.2160803.16648507383433583043@kernel.org>
-In-Reply-To: <20260921-vsock-guest-ns-v2-6-693bd78fde9e@meta.com>
-References: <20260921-vsock-guest-ns-v2-6-693bd78fde9e@meta.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="eE9WCS2o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF0D01F000FF;
+	Wed, 23 Sep 2026 19:53:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1790193214;
+	bh=p4edf0YYCmWA79RL5zC8Xmz8p09vaatBemczrDrD/n0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=eE9WCS2ousaSTQemTQ4AA1ZkY9n6f+r4xISLZALK3AMHEPFEmixpwYev88YxZLXeN
+	 CHmB0H3Bw3SM8Ql9Z+14bUyIFrP0hgQ5aVwbxlPcF2pYaWAyJOWebDVlGCFrkFZrGM
+	 ck3P7oheu0DSTRvd14VSbm/sP0AV2Mko/VrdoIFk=
+Date: Wed, 23 Sep 2026 12:53:31 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, Baolin
+ Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
+ <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>, Ryan Roberts
+ <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+ <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
+ <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Guo Ren
+ <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster
+ <schuster.simon@siemens-energy.com>, Jonas Bonn <jonas@southpole.se>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne
+ <shorne@gmail.com>, Rich Felker <dalias@libc.org>, John Paul Adrian
+ Glaubitz <glaubitz@physik.fu-berlin.de>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Russell King <linux@armlinux.org.uk>,
+ Vineet Gupta <vgupta@kernel.org>, Michal Simek <monstr@monstr.eu>, Chris
+ Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, Will Deacon
+ <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick
+ Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ "David S. Miller" <davem@davemloft.net>, Andreas Larsson
+ <andreas@gaisler.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Mark Rutland
+ <mark.rutland@arm.com>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
+ <kernel@xen0n.name>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge
+ Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
+ Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
+ <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
+ <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov
+ <anton.ivanov@cambridgegreys.com>, Johannes Berg
+ <johannes@sipsolutions.net>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jason Gunthorpe
+ <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
+ <peterx@redhat.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, Shakeel
+ Butt <shakeel.butt@linux.dev>, Jonathan Corbet <corbet@lwn.net>, Randy
+ Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-openrisc@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-snps-arc@lists.infradead.org, linux-arch@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-alpha@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org, linux-um@lists.infradead.org, Hugh Dickins
+ <hughd@google.com>, Qi Zheng <qi.zheng@linux.dev>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 01/12] mm/khugepaged: deposit a newly allocated page
+ table on collapse
+Message-Id: <20260923125331.882dfeb1f43d284b146a4633@linux-foundation.org>
+In-Reply-To: <arN7q5nHz7iebA_e@gremlin>
+References: <20260922-rcu-pagetable-freeing-v4-0-fe1ad1f1e303@kernel.org>
+	<20260922-rcu-pagetable-freeing-v4-1-fe1ad1f1e303@kernel.org>
+	<arN7q5nHz7iebA_e@gremlin>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+On Wed, 23 Sep 2026 08:14:01 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+> Andrew - would it be possible to make one quick fix up below?
+> 
+> Fixup is here:
+> 
+> -		if (!pgtable)
+> -			goto out_nolock;
+> +		if (!pgtable) {
+> +			result = SCAN_ALLOC_HUGE_PAGE_FAIL;
+> +			goto out_nolock;
+> +		}
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+--- a/mm/khugepaged.c~mm-khugepaged-deposit-a-newly-allocated-page-table-on-collapse-fix
++++ a/mm/khugepaged.c
+@@ -1329,8 +1329,10 @@ static enum scan_result collapse_huge_pa
+ 
+ 	if (is_pmd_order(order)) {
+ 		pgtable = alloc_deposit_pte(mm);
+-		if (!pgtable)
++		if (!pgtable) {
++			result = SCAN_ALLOC_HUGE_PAGE_FAIL;
+ 			goto out_nolock;
++		}
+ 	}
+ 
+ 	mmap_read_lock(mm);
+_
 
-- [Medium] Both new selftests
-  (`test_ns_guest_assign_g2h_netns_no_cap_net_admin_fails`,…
-- [Low] The two new shared-VM tests omit the `vm_reset_g2h()` cleanup
-  that every other ns_guest_assign_g2h_netns_* test in USE_SHARED_VM…
-
---
-
-selftests/vsock: test the netns assign privilege checks
-
-Adds two vmtest.sh cases that attempt VSOCK_CMD_DEV_NETNS_SET without
-CAP_NET_ADMIN and from an unprivileged user namespace, and enables
-CONFIG_USER_NS in the vsock selftest config.
-
-> diff --git a/tools/testing/selftests/vsock/vmtest.sh b/tools/testing/selftests/vsock/vmtest.sh
-> index e94cc2fd90ccd..4f42bcdac3f6c 100755
-> --- a/tools/testing/selftests/vsock/vmtest.sh
-> +++ b/tools/testing/selftests/vsock/vmtest.sh
-
-[ ... ]
-
-> @@ -187,6 +195,8 @@ readonly TEST_DESCS=(
->  	ns_guest_assign_g2h_netns_host_connect_ok
->  	ns_guest_assign_g2h_netns_reset_on_ns_delete_ok
->  	ns_guest_assign_g2h_netns_old_conn_send_fails
-> +	ns_guest_assign_g2h_netns_no_cap_net_admin_fails
-> +	ns_guest_assign_g2h_netns_unpriv_user_ns_fails
->  )
->  readonly NS_MODES=("local" "global")
-
-[Severity: Low]
-Both new tests are added to USE_SHARED_VM but neither calls
-vm_reset_g2h() on any exit path, unlike every other
-ns_guest_assign_g2h_netns_* test in that list.
-
-Should these follow the sibling pattern?  If the privilege check under
-test is broken, the assign succeeds and the guest's single g2h device is
-left owned by the transient namespace created by unshare, while the
-harness moves on to the next test in the same VM.
-
-The kernel does restore this by itself once that namespace is reaped:
-
-net/vmw_vsock/af_vsock.c:vsock_g2h_net_reset() {
-	if (likely(rcu_access_pointer(vsock_g2h_net) != net))
-		return;
-
-	mutex_lock(&vsock_register_mutex);
-	if (rcu_access_pointer(vsock_g2h_net) == net)
-		rcu_assign_pointer(vsock_g2h_net, &init_net);
-	...
-}
-
-registered as .pre_exit in vsock_pernet_ops, and the next test's
-vm_ns_assign_g2h() overwrites the pointer anyway.  The residual window is
-the asynchronous teardown that ..._reset_on_ns_delete_ok already documents
-("the namespace itself is dismantled from a workqueue, so the device does
-not come back the same instant").  Since the new tests are appended last
-in TEST_NAMES and USE_SHARED_VM, a default run is unaffected; this only
-shows up with selective or reordered invocation.
-
-[ ... ]
-
-> @@ -1832,6 +1842,48 @@ test_ns_guest_assign_g2h_netns_reset_on_ns_delete_ok() {
->  	return "${KSFT_PASS}"
->  }
->  
-> +test_ns_guest_assign_g2h_netns_no_cap_net_admin_fails() {
-> +	local cmd="unshare -n setpriv --bounding-set=-net_admin"
-> +	local rc
-> +
-> +	vm_ssh "init_ns" -- "${cmd}" python3 /root/ynl/cli.py --no-schema \
-> +		--spec /root/ynl/vsock.yaml --do dev-netns-set &>/dev/null
-> +	rc=$?
-> +
-> +	if [[ "${rc}" -eq 0 ]]; then
-> +		log_host "assign unexpectedly succeeded without CAP_NET_ADMIN"
-> +		return "${KSFT_FAIL}"
-> +	fi
-> +
-> +	return "${KSFT_PASS}"
-> +}
-
-[Severity: Medium]
-Can this test pass without the capability check ever being reached?  The
-only assertion is rc -eq 0 => FAIL, output is discarded with &>/dev/null,
-and there is no positive control, so any nonzero status reads as
-KSFT_PASS.
-
-A few concrete sources of a nonzero status that are not -EPERM:
-
-net/vmw_vsock/af_vsock.c:vsock_nl_dev_netns_set_doit() {
-	int err = vsock_g2h_net_assign(genl_info_net(info));
-
-	if (err == -ENODEV)
-		NL_SET_ERR_MSG(info->extack,
-			       "no guest-to-host transport is loaded");
-	else if (err == -EOPNOTSUPP)
-	...
-}
-
-and cli.py collapses all of those to the same status as -EPERM:
-
-tools/net/ynl/pyynl/cli.py:main() {
-    except NlError as e:
-        print(e)
-        sys.exit(1)
-}
-
-vm_ssh() also returns ssh's own status, so a transport failure (255) or a
-remote shell failure (127, e.g. an installed util-linux that does not
-accept setpriv --bounding-set=-net_admin) is indistinguishable from the
-expected refusal.  A python-side failure such as a missing
-/root/ynl/vsock.yaml exits 1 too.
-
-Would it be worth asserting the privileged case succeeds first?  The file
-already has the helper the sibling tests use as a precondition:
-
-vm_ns_assign_g2h() {
-	local ns=$1
-	local nspid=$2
-
-	vm_ns_exec "${ns}" "${nspid}" "python3 /root/ynl/cli.py --no-schema \
-		--spec /root/ynl/vsock.yaml --do dev-netns-set"
-}
-
-On the changelog note "ynl's cli.py does not report the errno": is that
-accurate?  NlError.__str__() in tools/net/ynl/pyynl/lib/ynl.py does:
-
-        msg += os.strerror(self.error)
-
-so the error string is printed and the test could match "Operation not
-permitted" instead of sending everything to /dev/null.
-
-> +
-> +test_ns_guest_assign_g2h_netns_unpriv_user_ns_fails() {
-> +	local unpriv_uid=65534
-> +	local unpriv
-> +	local rc
-> +
-> +	unpriv="setpriv --reuid=${unpriv_uid} --regid=${unpriv_uid}"
-> +	unpriv="${unpriv} --clear-groups"
-> +
-> +	if ! vm_ssh "init_ns" -- "${unpriv} unshare -U true"; then
-> +		log_host "unprivileged user namespaces unavailable, skipping"
-> +		return "${KSFT_SKIP}"
-> +	fi
-> +
-> +	vm_ssh "init_ns" -- "${unpriv} unshare -Urn" \
-> +		python3 /root/ynl/cli.py --no-schema \
-> +		--spec /root/ynl/vsock.yaml --do dev-netns-set &>/dev/null
-> +	rc=$?
-> +
-> +	if [[ "${rc}" -eq 0 ]]; then
-> +		log_host "assign unexpectedly succeeded for unprivileged user"
-> +		return "${KSFT_FAIL}"
-> +	fi
-> +
-> +	return "${KSFT_PASS}"
-> +}
-
-[Severity: Medium]
-Same rc != 0 => KSFT_PASS inference here, plus the availability probe is
-not the command being measured:
-
-	probe:    ${unpriv} unshare -U true
-	measured: ${unpriv} unshare -Urn python3 /root/ynl/cli.py ...
-
-If the extra -r/-n setup or the python startup under uid 65534 fails, the
-result is KSFT_PASS rather than KSFT_SKIP or KSFT_FAIL, and the child user
-namespace never actually holds CAP_NET_ADMIN, which is the condition the
-commit message says is being tested:
-
-    the other confirms that CAP_NET_ADMIN in an unprivileged user ns
-    alone is insufficient.
-
-Would checking the reported error string, or asserting the privileged
-assign works in the same test, make these two cases fail if
-GENL_ADMIN_PERM is ever dropped from VSOCK_CMD_DEV_NETNS_SET?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260921-vsock-guest-ns-v2-0-693bd78fde9e%40meta.com
