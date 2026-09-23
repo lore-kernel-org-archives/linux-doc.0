@@ -1,348 +1,221 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511A33E765A;
-	Wed, 23 Sep 2026 17:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D99C3F4DC2
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 17:26:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790184182; cv=none; b=pRdZ0QyEsJ55ZnVy0gfHVqEq3E6LQgEmkYtjE0hlCxJ6a1Li+kBzZQ+ZzrBvE7MMDA++Ki6gEVKrX38CSVdFphXrzdyDW0dmA+yG7LbLvbPXDKR4rC3AUMAjUWPLEsYFVAAY//SFblftV1sfelhvYqP8+pb1UKtYuURvCY2ZFaU=
+	t=1790184394; cv=none; b=nQjEbpSRG20pkn2kBQ8uRsb3C7o9r7HAkMDkSDsd73XzmIdTT8XmM0G9zrDexyQKHJW/5W4gY8geRZHROkVEl4CXV6mCNDNDxh6sPzXPvE8A/gAHcqW1YXvbuAAap0vWE/ADDyjROQbTD/ndskT/BQglHFWnKph4NPeMBsndYy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790184182; c=relaxed/simple;
-	bh=1zmsc9ZHF8+CoyT22YKQnfv42K05Raj82AafGLUVoSU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EWkh55CVFzRpWePuAGod207nqTMkTL84zB8yvmcEBDP64zArc4YD58xLx0n13lfIhLSG8OGlL4tbBUpsjwzRr3LGm0HEOmUBo+CkMrJEXyIxRtS0xlVuUnPOTfdVm5QUZbCFBXEVUZLsUpwMxQUBS6FQvQkwCAO2gfET8WykR38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HjH3hQsw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790184394; c=relaxed/simple;
+	bh=s5/ANrnAU4dEafBlRbm72OwWvhG9DOKchuohcmHXkXI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pm3ksRUxuq1taXS+zwNvahYgOc2UgaxV6RoPAXi5qVerAurK4+qivNniQyvREyj1gc7N/AsUGKIHXCjFu11Arx2pFm5ZJsFPmg78ciK7e4/HyoW84tcyb/TjwftHWTTw/e0vzZInUq9P/yfQNrjUwR++ZHvOCAXEJ6B1RrnGMkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K4RKYw5Q; arc=none smtp.client-ip=74.125.229.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HjH3hQsw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6C4D1F000FF;
-	Wed, 23 Sep 2026 17:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790184181;
-	bh=7TYGk1JizHGrlBrKc7yi6wYeMXYeC/fB2mICtyHAjKk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=HjH3hQswPOEhNyh+0EJsK+8lvQLgcr3wY90IiS4ycWSZkKP4z3Hz+F195NNzsn+5H
-	 DOCkRcOHx0XQmfWCxL0x2y7voJVSjw3iitplwzqupe10mATAJ94nar2ZrZLegTO4JS
-	 ETtXjajIE2KLsZcE7sBFgxZBdNXyA1Ui0aXWQOwgkE1w/tZITBr7PoBhDuwFP74eUc
-	 WozytBVTBGoOUfLjCdhu0GJ4gkB/LxwycdUHuH4s++EAWyVpU4ahOzUm5ZmQo5G+RK
-	 1kvSqlb7dOOveB0AuROR0K/Kr/FbInyTO+eq9TdAUubQQtYWoivr4mLpirXiuhGEUN
-	 uOG9C8cUl0w/A==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Wed, 23 Sep 2026 18:18:11 +0100
-Subject: [PATCH v4 22/22] kbuild: compress the kernel with pigz if
- available
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K4RKYw5Q"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b899413537so1627897e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 10:26:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790184390; x=1790789190; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8iDfKiTdrpXplViiKJrQEoO3nFWUHXMki5lh4/edWQY=;
+        b=K4RKYw5QenHKgKay8IMYbc7xDcXkGAIqQiYCmbws+MQ3SW0mGLVY+bYPrTtcNceLgk
+         SiGHHVZsISYaex9l0SKBhCuCwtv4ShE1THqtHM+QMYjp0e63AsWjPGiJjkduAU/8ANV2
+         jej4smiFApfct+h9reiCC5J/uKUkNV7WtQvcltYhBt+eyiNhhc96WKcOD6fGBIjfTfJA
+         Dn5azcnwjseumcnKpb6sHtKFClBbSJdIQibzMvc9b9IRQ6fbO6JQxKhzjgTbCToDVsMS
+         zUikwAZshQ9l1QUixw1gCkEAP1Q6+heZFn5sU9pKf9zSoUbArtUFCBdY8x28QffWZxnY
+         5Q3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790184390; x=1790789190;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=8iDfKiTdrpXplViiKJrQEoO3nFWUHXMki5lh4/edWQY=;
+        b=u5mtBGEcx6y59DWmur5wKXKufrvbissVhXN1F/T15hpIUweU/AKfYEOoBopNrMLr0j
+         erKHkXTR+vP6FEGZ0rrtww8Y02FTDVu5L9cTkViNCFEc/6VxypBe7fPiCd9julQlhU3C
+         unqBC3eXiTogR9VHmCKAKomtw1To5ZnS0QceJLUPnF1IeY62xAhJ3GB8TqJuG0XcNxLY
+         pLSZB6f29iAaQSNXXlEpkg58BWRKY3EZE6Ijh2/tJ0Ru/LdQh0Evbclo92bnf/YUt7g0
+         R0FBiuVrCZ0fHGHsu1sLH3edoCCve2H5mEMkk1PoI06S9z7cW+alYlSsCAR5b6AlZ6+7
+         973g==
+X-Forwarded-Encrypted: i=1; AKwUvBxWPNEXduJCC5MEAs4lK0Ap+ofDnFbEf8BPVZjIoGDyivrLlo2ElhPCALzZ162sjl3nqKVsZNaUv9Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++krzBVqGDwu+uisKStQEprazoNQY+FF31IvvMcJKJO4BDxR104Z
+	ONsGGtp5F/mFbLkerhKBAeDpLFYYDgfdhSV02KuUUvg/TOXa1NDu6QLH
+X-Gm-Gg: AYBFou2kO3VIE2p4dqA5SZZLSX/ts4ldyop6zX7FeddMXwxTx+YFAhTiG8/rgy0dS0N
+	N8okgGsnj+qIkhdygb5OLzgask0y2fbhcbQmBOee10/g5dob3cDZJoOlTPjS8guRb54a0Tl0ssV
+	vjCyyUsJyBqScavBtXVBg/wF0HT9a6mqR4rMOXI0mvA1xQzKTIC5LORc0xWCeX/tNiuaxDI2th+
+	U1AZkmGL+3QCy+dL69aLIa+Fzr623Bnyl5r7gdzbIwWZSG2EI4PEJHep8XSe20/mOQ1J720cAG8
+	/6+63inI+Xr6eyTHiyDlCMjfnLOZCzpgMaI+UvZHTgvsIih2cJnql9QnGP2BZNN+w7RdqeQXlJG
+	MTKobVRbiDcAYN7zjCBKjbxQn4nz1ZNGVsdoNLZMFvFas6nL6HniGTiYXSsWjYZVATG06Ci2d4r
+	/mc5cCkKm6pRDy993SOGyzONdJdoTa4p8yV9+cwzl4Igs4oS5dr998lz7pE+74Wxqx/RNSS8umK
+	9oh8SiHCxN+FDojIqcQN/AhILSz
+X-Received: by 2002:ac2:5696:0:b0:5b6:183b:d20b with SMTP id 2adb3069b0e04-5b8d89c2a97mr1393127e87.50.1790184389706;
+        Wed, 23 Sep 2026 10:26:29 -0700 (PDT)
+Received: from localhost (sol-eduroam-pathost130.ki.se. [130.237.96.130])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d85787b0sm784443e87.16.2026.09.23.10.26.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 10:26:28 -0700 (PDT)
+Date: Wed, 23 Sep 2026 19:26:27 +0200
+From: Klara Modin <klarasmodin@gmail.com>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Chris Li <chrisl@kernel.org>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <kasong@tencent.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arQHTTeLIsmw5NiJ@parmesan.int.kasm.eu>
+References: <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
+ <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
+ <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
+ <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
+ <arKbXe1Qe-FDCTMM@gourry-fedora-PF4VCD3F>
+ <CACePvbWW4avTV2WB6iRU+LN5zqkMTg3UhBrq41R0iw91-7Ni0g@mail.gmail.com>
+ <5a7ad159b2fabf377b7e1fc4248c433287ac11fb.camel@surriel.com>
+ <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
+ <arO0RCCE3Woh_I_z@parmesan.int.kasm.eu>
+ <CAKEwX=Mw8DsieAeEK=Wjb2d2o=wxEN3QOoOR153u7Ki28003gw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260923-build-speedup-v4-22-73128809a4a4@kernel.org>
-References: <20260923-build-speedup-v4-0-73128809a4a4@kernel.org>
-In-Reply-To: <20260923-build-speedup-v4-0-73128809a4a4@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Ard Biesheuvel <ardb@kernel.org>, 
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
- Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, linux-riscv@lists.infradead.org, 
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, 
- linux-hardening@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
- Manuel Ebner <manuelebnerli@mailbox.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10892; i=ljs@kernel.org;
- h=from:subject:message-id; bh=1zmsc9ZHF8+CoyT22YKQnfv42K05Raj82AafGLUVoSU=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLK2cF5V+qM6cZ+XtAW/Br/evglRvqvu6e0zclxt91O6Y
- amPfU9PRykLgxgXg6yYIsvzL+L7g0TC5nVe8HeDmcPKBDKEgYtTACbyi5vhv+d/B+Uu/+nK57e4
- nd2/yvm3zewtAVnVk7TF4gzeHOM+JcnwP/6o3UdeXaZzG7hDLTxuVGcyNE/nLWEp03YunaVyTfg
- kPwA=
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKEwX=Mw8DsieAeEK=Wjb2d2o=wxEN3QOoOR153u7Ki28003gw@mail.gmail.com>
 
-The gzip step of a kernel build is very lengthy, especially for larger
-builds such as allmodconfig.
+On 2026-09-23 08:43:41 -0700, Nhat Pham wrote:
+> On Wed, Sep 23, 2026 at 5:52 AM Klara Modin <klarasmodin@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > On 2026-09-22 21:10:53 -1000, Chris Li wrote:
+> > > On Tue, Sep 22, 2026 at 5:53 AM Rik van Riel <riel@surriel.com> wrote:
+> > > >
+> > > > On Tue, 2026-09-22 at 05:43 -1000, Chris Li wrote:
+> > > > > On Tue, Sep 22, 2026 at 5:20 AM Gregory Price <gourry@gourry.net>
+> > > > > wrote:
+> > > > > >
+> > > > > > On Tue, Sep 22, 2026 at 03:32:44AM -1000, Chris Li wrote:
+> > > > > > > > Right now it has 64GB of memory.
+> > > > > > >
+> > > > > > > That is exactly my point. You are running 1/8 = 12.5% system ram.
+> > > > > > >
+> > > > > >
+> > > > > > Chris you are missing the point
+> > > > > >
+> > > > > > Zswap:           8812236 kB
+> > > > > > Zswapped:       24927876 kB
+> > > > >
+> > > > > I am well aware of the point. The 7%-10% data I provided is before
+> > > > > compression. After compression, the real saving is about 1.5% - 2%.
+> > > > >
+> > > > Here I'm at 28% without any issues, with room for
+> > > > more.
+> > >
+> > > 28% is one thing, 100% is a difference beast completely. If you
+> > > haven't tried it, don't assume 100% will behave the same as 28%. There
+> > > is a point where too much zswap makes the system unusable. It is hard
+> > > to pinpoint the exact upper boundary. However, figuring out the upper
+> > > bound larger than that exact boundary is not hard at all. I haven't
+> > > seen any one can use 100% system RAM sized memory swap out to zswap.
+> > > If you have a data point showing what that system with 100% swap to
+> > > zswap looks like, please share it.
+> > >
+> >
+> > Chiming in as more of a user perspective.
+> >
+> > On my 4 GiB BPI-F3, I can reach more than 10:1 compression ratio on
+> > zswap during some parts when building GCC 17 snapshots. E.g:
+> >
+> > MemTotal:        3966864 kB
+> > SwapCached:        31872 kB
+> > SwapTotal:      16777212 kB
+> > SwapFree:       16638128 kB
+> > Zswap:            280140 kB
+> > Zswapped:        2859840 kB
+> > AnonPages:       2927376 kB
+> > AnonHugePages:   1409024 kB
+> >
+> > While this is 72 % rather than the 100 % you asked for, I think this
+> > shows that what size a potential limit on the uncompressed size of zswap
+> > is suitable heavily depends on the workload.
 
-gzip itself cannot be run in parallel, however an alternative tool exists
-that can, providing the same feature set as gzip itself - pigz - which
-works as a drop-in replacement.
+Just for completeness, here is later during the second stage of the GCC
+17 build:
 
-On a 128-core Threadripper, gzip -9 of a 36 MiB x86-64 vmlinux.bin takes
-1.6s, and with pigz it takes 0.09s, so the performance increase is
-significant.
+MemTotal:        3966864 kB
+SwapCached:       100488 kB
+SwapTotal:      16777212 kB
+SwapFree:       16500688 kB
+Zswap:            371128 kB
+Zswapped:        3995796 kB
+AnonPages:       2792748 kB
+AnonHugePages:   1026048 kB
 
-Therefore introduce the KPGZIP build variable which specifies the
-compressor to use for the kernel image and default it to pigz if available,
-or KGZIP otherwise (which itself defaults to gzip).
+And we are past 100 % of MemTotal.
 
-Modules, packaging and the embedded kernel configuration (CONFIG_IKCONFIG)
-continue to use KGZIP which defaults to a single-threaded gzip instance.
+> >
+> > I have been using vswap consistently on all my machines since about
+> > August, and I have also tried one or two versions of xswap (but the
+> > current lack of writeback makes it inconvenient for me). I really
+> > appreciate the work being put in to decouple zswap from needing a
+> > physical swap device to work.
+> >
+> > > >
+> > > > > You are not listening. The boundary was set due to feedback from the
+> > > > > application SLO. Those are real deployments not imaginary usage.
+> > > > > Please respect the user.
+> > > > >
+> > > > Different users need different things.
+> > > >
+> > > > The kernel needs to be able to accommodate all of them.
+> > > >
+> > > > The kernel default should accommodate the people who
+> > > > are least capable of configuring their systems.
+> > > >
+> > > > Hyperscalers can set their own defaults across their
+> > > > fleets. They know how to adjust settings.
+> > >
+> > > They can use a safe value, e.g., 100% of RAM. Let the people who know
+> > > exactly what they want to swap configure the boundary they want.
+> >
+> > My personal preference would be for a default uncapped (or very high,
+> > and I don't think 100 % of RAM is high) limit on the uncompressed data
+> > which is backed by zswap, since that would mean one less knob to tune.
+> >
+> 
+> Thanks for the data, and for the testing. Please let me know if you
+> have any requests or encounter any problems :)
 
-Module compression is run in parallel by make, so pigz offers no benefit
-there, packaging sits outside the build and the embedded configuration is
-too small to matter.
+Thanks for the good work!
 
-pigz is executed using scripts/jobserver-exec, which reserves the job slots
-make has free - necessary, as otherwise pigz would just grab unbounded
-CPUs.
-
-The kernel image compression step is always performed at the end of the
-build so should typically have all job slots available.
-
-pigz always provides byte-for-byte identical output across runs regardless
-of thread count, but pigz and gzip are not guaranteed to generate the same
-binary output, so reproducible builds must use the same tools consistently.
-
-Also update Documentation/kbuild/kbuild.rst to describe KPGZIP and
-Documentation/process/changes.rst to list the optional pigz dependency.
-
-While there, add entries for the other compressor programs.
-
-Finally, update scripts/ver_linux to include the pigz version there.
-
-Every x86 build ends with the compression of vmlinux.bin, 36MB for
-defconfig and over 200MB for allmodconfig, no-op builds are unchanged.
-
-Whole build, 128-thread Threadripper 9980X, best of N runs:
-
-                                         before   after     delta
-                                         -------------------------------
-  x86 defconfig, touch mm/vma.c, gcc        7.7s     6.0s     -1.7s (-22%)
-  x86 defconfig, touch mm/vma.c, clang      6.9s     5.4s     -1.5s (-21%)
-  x86 defconfig, clean, gcc                28.2s    26.3s     -1.8s (-6%)
-  x86 defconfig, clean, clang              28.7s    27.2s     -1.5s (-5%)
-  x86 allmodconfig, touch mm/vma.c, gcc    23.7s    15.4s     -8.3s (-35%)
-  x86 allmodconfig, touch mm/vma.c, clang  22.5s    15.6s     -7.0s (-31%)
-  x86 allmodconfig, clean, gcc            294.1s   278.6s     -15.5s (-5%)
-  x86 allmodconfig, clean, clang          283.9s   266.8s     -17.1s (-6%)
-
-Suggested-by: Kees Cook <kees@kernel.org>
-Link: https://zlib.net/pigz/
-Assisted-by: LLM
-Reviewed-by: Manuel Ebner <manuelebnerli@mailbox.org>
-Reviewed-by: Kees Cook <kees@kernel.org>
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- Documentation/kbuild/kbuild.rst   | 17 +++++++++++++++++
- Documentation/process/changes.rst |  8 ++++++++
- Makefile                          |  5 ++++-
- kernel/Makefile                   |  6 +++++-
- scripts/Makefile.lib              |  4 ++--
- scripts/jobserver-exec            |  3 ++-
- scripts/ver_linux                 |  1 +
- tools/lib/python/jobserver.py     | 13 +++++++++++++
- 8 files changed, 52 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 5a9013bacfb7..e71a692a559a 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -110,6 +110,23 @@ HOSTLDLIBS
- ----------
- Additional libraries to link against when building host programs.
- 
-+KGZIP
-+-----
-+The gzip program used for compressed modules, packaging and the embedded
-+kernel configuration. Defaults to gzip.
-+
-+KPGZIP
-+------
-+The gzip program used for the compressed kernel image. Defaults to pigz (a
-+parallel implementation of gzip), run under scripts/jobserver-exec so that it
-+uses the job slots make has free, if pigz is installed, otherwise to
-+``KGZIP``. Set ``KPGZIP=`` on the make command line to use another program.
-+
-+KBZIP2, KLZOP, LZMA, LZ4, XZ, ZSTD
-+----------------------------------
-+The compressor programs for the other formats. Each defaults to the program
-+of the same name.
-+
- .. _userkbuildflags:
- 
- USERCFLAGS
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 0aa232b117b5..28f2ca63318e 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -55,6 +55,7 @@ nfs-utils              1.0.5            showmount --version
- openssl & libcrypto    1.0.0            openssl version
- pahole                 1.26             pahole --version
- pcmciautils            004              pccardctl -V
-+pigz (optional)        2.4              pigz --version
- PPP                    2.4.0            pppd --version
- procps                 3.2.0            ps --version
- Python                 3.9.x            python3 --version
-@@ -206,6 +207,13 @@ GNU AWK
- GNU AWK is needed if you want kernel builds to generate address range data for
- builtin modules (CONFIG_BUILTIN_MODULE_RANGES).
- 
-+pigz (optional)
-+---------------
-+
-+pigz is a parallel implementation of gzip. If it is installed the compressed
-+kernel image is produced with it rather than with gzip, see ``KPGZIP`` in
-+Documentation/kbuild/kbuild.rst.
-+
- System utilities
- ****************
- 
-diff --git a/Makefile b/Makefile
-index f0502b02408f..ba71483f7f14 100644
---- a/Makefile
-+++ b/Makefile
-@@ -568,6 +568,9 @@ LZMA		= lzma
- LZ4		= lz4
- XZ		= xz
- ZSTD		= zstd
-+# The kernel image is compressed with pigz, on the job slots make has free,
-+# if it is installed. Everything else uses KGZIP.
-+KPGZIP		:= $(if $(shell command -v pigz 2>/dev/null),$(PYTHON3) $(abs_srctree)/scripts/jobserver-exec pigz -p %PARALLELISM%,$(KGZIP))
- TAR		= tar
- 
- CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
-@@ -648,7 +651,7 @@ export RUSTC RUSTDOC RUSTFMT RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN LLVM_
- export HOSTRUSTC KBUILD_HOSTRUSTFLAGS
- export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL
- export PERL PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
--export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD TAR
-+export KGZIP KPGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD TAR
- export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS KBUILD_PROCMACROLDFLAGS LDFLAGS_MODULE
- export KBUILD_USERCFLAGS KBUILD_USERLDFLAGS
- 
-diff --git a/kernel/Makefile b/kernel/Makefile
-index 1e1a31673577..c64c82c96b40 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -153,9 +153,13 @@ obj-$(CONFIG_SCF_TORTURE_TEST) += scftorture.o
- 
- $(obj)/configs.o: $(obj)/config_data.gz
- 
-+# .config is small, so it is compressed with gzip rather than the image compressor.
-+quiet_cmd_gzip_config = GZIP    $@
-+      cmd_gzip_config = cat $(real-prereqs) | $(KGZIP) -n -f -9 > $@
-+
- targets += config_data config_data.gz
- $(obj)/config_data.gz: $(obj)/config_data FORCE
--	$(call if_changed,gzip)
-+	$(call if_changed,gzip_config)
- 
- filechk_cat = cat $<
- 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 2f447bc25e7b..8936925d4d50 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -332,11 +332,11 @@ quiet_cmd_ar = AR      $@
- quiet_cmd_objcopy = OBJCOPY $@
- cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
- 
--# Gzip
-+# Gzip, for the kernel image
- # ---------------------------------------------------------------------------
- 
- quiet_cmd_gzip = GZIP    $@
--      cmd_gzip = cat $(real-prereqs) | $(KGZIP) -n -f -9 > $@
-+      cmd_gzip = cat $(real-prereqs) | $(KPGZIP) -n -f -9 > $@
- 
- # Bzip2
- # ---------------------------------------------------------------------------
-diff --git a/scripts/jobserver-exec b/scripts/jobserver-exec
-index 21b319e6c9a5..89119acb1b9e 100755
---- a/scripts/jobserver-exec
-+++ b/scripts/jobserver-exec
-@@ -4,7 +4,8 @@
- """
- Determines how many parallel tasks "make" is expecting, as it is
- not exposed via any special variables, reserves them all, runs a subprocess
--with PARALLELISM environment variable set, and releases the jobs back again.
-+with PARALLELISM environment variable set and any %PARALLELISM% in its
-+arguments replaced by the count, and releases the jobs back again.
- 
- See:
-     https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
-diff --git a/scripts/ver_linux b/scripts/ver_linux
-index 00bdaf30d590..e06d7c650710 100755
---- a/scripts/ver_linux
-+++ b/scripts/ver_linux
-@@ -57,6 +57,7 @@ BEGIN {
- 	printversion("pahole", version("pahole --version"))
- 	printversion("Pcmcia-cs", version("cardmgr -V"))
- 	printversion("pcmciautils", version("pccardctl -V"))
-+	printversion("pigz", version("pigz --version"))
- 	printversion("PPP", version("pppd --version"))
- 	printversion("procps", version("ps --version"))
- 	printversion("Python", version("python3 -V"))
-diff --git a/tools/lib/python/jobserver.py b/tools/lib/python/jobserver.py
-index 0b1ffdf9f7a3..7e94635bf7d9 100755
---- a/tools/lib/python/jobserver.py
-+++ b/tools/lib/python/jobserver.py
-@@ -29,6 +29,10 @@ $claim child to do the actual work.
- The end goal here is to keep the total number of build tasks under the
- limit established by the initial ``make -j$n_proc`` call.
- 
-+A command that takes its thread count on the command line rather than from
-+the environment can use the ``%PARALLELISM%`` token in its arguments, which
-+is replaced by the count, or by 1 when there is no jobserver.
-+
- See:
-     https://www.gnu.org/software/make/manual/html_node/POSIX-Jobserver.html#POSIX-Jobserver
- """
-@@ -38,6 +42,8 @@ import os
- import subprocess
- import sys
- 
-+PARALLELISM_TOKEN = "%PARALLELISM%"
-+
- def warn(text, *args):
-     print(f'WARNING: {text}', *args, file = sys.stderr)
- 
-@@ -182,6 +188,9 @@ class JobserverExec:
-         Run a command setting PARALLELISM env variable to the number of
-         available job slots (claim) + 1, e.g. it will reserve claim slots
-         to do the actual build work, plus one to monitor its children.
-+
-+        Any %PARALLELISM% in the command's arguments is replaced by the same
-+        number, or by 1 when there is no jobserver.
-         """
-         self.open()             # Ensure that self.claim is set
- 
-@@ -192,4 +201,8 @@ class JobserverExec:
-         if self.claim:
-             os.environ["PARALLELISM"] = str(self.claim)
- 
-+        if not isinstance(cmd, str):
-+            parallelism = str(self.claim or 1)
-+            cmd = [arg.replace(PARALLELISM_TOKEN, parallelism) for arg in cmd]
-+
-         return subprocess.call(cmd, *args, **pwargs)
-
--- 
-2.55.0
-
+> 
+> And yes, I completely agree with you. We're having a very backward
+> conversation. The default should ALWAYS be less hassle for userspace.
+> Ergo, as transparent as possible.
+> 
+> Exposing priority, sizing, etc. is *adding work* to userspace. That's
+> the position that needs justification, not the other way around.
