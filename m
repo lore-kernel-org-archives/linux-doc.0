@@ -1,47 +1,45 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381F217B50A;
-	Wed, 23 Sep 2026 02:50:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5512EEB3;
+	Wed, 23 Sep 2026 02:50:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790131808; cv=none; b=uVPeEBuE4puat5sAVR6MYXWjhtjKglF6YEqlRUpSFnHPBBkJ7vJVOArChV5HSR7nFXzkVs9MAjCrI2CUkw5ww0YUzaUNm8LuevqFR8qpDQdO/cmZ7+YfJRS61TE+qMG29+KhChIKw0xaFVzyLzsJEq+/xuHyc9ovnotQZMBUoqA=
+	t=1790131825; cv=none; b=Lm05wNQ6tdBbnYXIiaf+n+x2r7Rn2bUTehU/glmvKRsDhyHpOAm5IwKj091zfW7PriaoFwx/IfoIHUg/WDkJprkuIRXpKupAq72/Lv1FlpX2Zofgsw/GS/Q8pgwDz+LGDalrnR9/g0HAmLbOeG9cxoLH1UVvk4g/I8nFmyv0wcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790131808; c=relaxed/simple;
-	bh=IJjp6TJfH8b3kg8FpdNc7AAR/T8yrD2piXCxkjCZAWg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=koYYuu70X5TPmohUYevj1u/6/v1GLNsSSDQFDKvRSkWCj/YbqREzrbp7O1+3Mwck55TvdcpsOnI8z0D8Zig4hKulUxDXjNC3QuieWDtu850fyzFk1J5BxFgYnf/I/1Wt5hszMB0Qyb7bFOULY182NtY2SfwWgK55o5dLvamIWhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZTaZJGms; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1790131825; c=relaxed/simple;
+	bh=3XHGou/JY5m26ieWaVO+buMJPmus+vVUwzyzXFaWBt4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LfWiU5NtsfSlxgdqiHNVYPhlUWw8jGxfwFJbn6TqABsFQAKB4L96uMt/gOAStqJG9Y+F850r3nCQDopsNZjPjZL+2T67BWNkEHUmy6pg8ZwqNl/JjYUMUObal6A74JJpmaCXqtnB4cy3JfIDCoqcJF/sP0OzuuXyqre8jEP14bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GxMaExPc; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZTaZJGms"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GxMaExPc"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
 	Content-ID:Content-Description:In-Reply-To:References;
-	bh=orrn+NdoCFzU23emXEq7tOhnV7XAniUCodDT+yO/cJk=; b=ZTaZJGms71Z3F9Vujt3b/I/wZi
-	g+bpybjjeBWFY+hdMrjAZ9KnhBQaEit6jJDrgZdNYiGn8oIwBVrgY/kfVRZSc+FheIaq3yj0wK+Vi
-	rptIJFhZb2T3sMsaxZfgFqee9qCcYYgrJcMvWIm/aIwEc2MRu2NgjM14Rpptf9DkU7lPXGcAxvx5C
-	gblb0qaC2MyJYFq4xDuICNluccM5k0Prn7dVkF94WbNpDU5eHEq+Z9ZBIvuWb93+0lmolstabSUqK
-	FBkAp1ITTR/cV/iau0/W8v1KYzzZPoVjzaRkCq3g7BK6scf/YiNjDO2P3B7CxG0KlkHzRNJlDgbFC
-	RvUjtErA==;
+	bh=+Y6h4pmvxoRdp3LLl2017wWzYpEXuN168o4EoOSoHyg=; b=GxMaExPcF59YBF2el+/btzWzE/
+	oQGN3uiieAjH+igq6tT4+p2nA9qnxMpyhS2zcJE8LUg10CYgZfizbmWDUNXn15BjN+C0GvgvZIdQn
+	9ZMA/uXHwhqGgUZY1RNhSTV/VgonppapASKee+4voEKVhvLs/zDPHDIvMpZ30U++EkYDp5qkW4DMB
+	BCFUP8i91lePriFKGzeku+YuF8arx1XsZu5EghkKWYsH/b6wRz/VZLPKVIxLvG/wuRPBhMCdK9IlD
+	c6WMDvoH6d0F2163b+NHBnhjypFbecwZGD37zc81TPdrHl0H6U7lPQ9e8nl4I/xpncsJrRazUeqwF
+	97kAHBbQ==;
 Received: from [50.53.43.113] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9D3W-00000006zGN-23ep;
-	Wed, 23 Sep 2026 02:49:58 +0000
+	id 1x9D3q-00000006zMW-2ZmK;
+	Wed, 23 Sep 2026 02:50:18 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	platform-driver-x86@vger.kernel.org,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	linux-pci@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH] docs: ABI: sysfs-class-firmware-attributes: use literal blocks for console commands
-Date: Tue, 22 Sep 2026 19:49:56 -0700
-Message-ID: <20260923024957.845198-1-rdunlap@infradead.org>
+Subject: [PATCH] docs: ABI: sysfs-driver-xdata: use literal blocks for console commands
+Date: Tue, 22 Sep 2026 19:50:18 -0700
+Message-ID: <20260923025018.848769-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -49,61 +47,67 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Use a literal block for console I/O so that the lines aren't merged
 together in the produced output.
 
-Also correct some punctuation.
-
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: Hans de Goede <hansg@kernel.org>
-Cc: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Cc: platform-driver-x86@vger.kernel.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-pci@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Shuah Khan <skhan@linuxfoundation.org>
 Cc: linux-doc@vger.kernel.org
 
- Documentation/ABI/testing/sysfs-class-firmware-attributes |   21 +++++-----
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ Documentation/ABI/testing/sysfs-driver-xdata |   20 +++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
---- linux-next-20260921.orig/Documentation/ABI/testing/sysfs-class-firmware-attributes
-+++ linux-next-20260921/Documentation/ABI/testing/sysfs-class-firmware-attributes
-@@ -397,22 +397,25 @@ Description:
- 		unlimited attributes.
+--- linux-next-20260921.orig/Documentation/ABI/testing/sysfs-driver-xdata
++++ linux-next-20260921/Documentation/ABI/testing/sysfs-driver-xdata
+@@ -9,15 +9,19 @@ Description:	Allows the user to enable t
  
- 		Read the attribute to check what save mode is enabled (single or bulk).
--		E.g:
--		# cat /sys/class/firmware-attributes/thinklmi/attributes/save_settings
--		single
-+		E.g::
+ 		Write y/1/on to enable, n/0/off to disable
+ 
+-		Usage e.g.
++		Usage e.g.::
 +
-+		  # cat /sys/class/firmware-attributes/thinklmi/attributes/save_settings
-+		  single
- 
- 		Write the attribute with 'bulk' to enable bulk save mode.
--		Write the attribute with 'single' to enable saving, after every attribute set.
-+		Write the attribute with 'single' to enable saving after every attribute set.
- 		The default setting is single mode.
--		E.g:
--		# echo bulk > /sys/class/firmware-attributes/thinklmi/attributes/save_settings
-+		E.g::
+ 		 echo 1 > /sys/class/misc/dw-xdata-pcie.<device>/write
+-		or
 +
-+		  # echo bulk > /sys/class/firmware-attributes/thinklmi/attributes/save_settings
- 
- 		When in bulk mode write 'save' to trigger a save of all currently modified attributes.
--		Note, once a save has been triggered, in bulk mode, attributes can no longer be set and
-+		Note, once a save has been triggered in bulk mode, attributes can no longer be set and
- 		will return a permissions error. This is to prevent users hitting the 48+ save limitation
- 		(which requires entering the BIOS to clear the error condition)
--		E.g:
--		# echo save > /sys/class/firmware-attributes/thinklmi/attributes/save_settings
-+		E.g::
++		or::
 +
-+		  # echo save > /sys/class/firmware-attributes/thinklmi/attributes/save_settings
+ 		 echo 0 > /sys/class/misc/dw-xdata-pcie.<device>/write
  
- What:		/sys/class/firmware-attributes/*/attributes/debug_cmd
- Date:		July 2021
+ 		The user can read the current PCIe link throughput generated
+ 		through this generator in MB/s.
+ 
+-		Usage e.g.
++		Usage e.g.::
++
+ 		 cat /sys/class/misc/dw-xdata-pcie.<device>/write
+ 		 204
+ 
+@@ -34,15 +38,19 @@ Description:	Allows the user to enable t
+ 
+ 		Write y/1/on to enable, n/0/off to disable
+ 
+-		Usage e.g.
++		Usage e.g.::
++
+ 		 echo 1 > /sys/class/misc/dw-xdata-pcie.<device>/read
+-		or
++
++		or::
++
+ 		 echo 0 > /sys/class/misc/dw-xdata-pcie.<device>/read
+ 
+ 		The user can read the current PCIe link throughput generated
+ 		through this generator in MB/s.
+ 
+-		Usage e.g.
++		Usage e.g.::
++
+ 		 cat /sys/class/misc/dw-xdata-pcie.<device>/read
+ 		 199
+ 
