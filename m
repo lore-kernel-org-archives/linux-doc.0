@@ -1,229 +1,157 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B396E5452A1
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 15:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A85857D209
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 15:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790177338; cv=none; b=arquGLsETQenatVYvDpVPzjLcmJJT72W+PoE4lRuzHwlly8uk8OxBoMU2u3E+PGxbeOJmeuip1NS3huMgaaXzdzMeESqaF7hWCr4uwrc1Rfnb7QFXoj036CMvMORPCvWeJO15KgmCWNfaE1bFYf9tKSNSzwuDcyBW/tIq+mYOQE=
+	t=1790177536; cv=none; b=mY9awYHITXa14K/lMLSj6gOYCxzfLlt83XgCAs8U5obKwB+IW9r7WiupbT4iItj9lpaFFZIZpttNjaXQmnDWtIEQKvMj+pMGaELJA8CODF4XSpylWn6uKlSTFN6Ed9LRXRbjOc4Njnxz6AjYz3rUOAVSZqj5TSgQ1kuIwnjjt4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790177338; c=relaxed/simple;
-	bh=Ow/b0VBOduzDdhNQXSHxF+1EHuPjcAUN36VvLIo88zA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ROrrQqieMfG0qji7r9c+ZaWmBDBiJSUz0UNGrYyrA/BNaRRWgZLW/+TvvI/QZxy4pemQ8IdX9occUaSIgFFqCOzTnTttlKseKDXUNBAKsruc3KDcfASqLoUKtEOOkC/Ym4gALJ2wTQYnzr+2hRWE0G/nO96KtqrdpGSLL+0oG54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vy35l7pc; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790177536; c=relaxed/simple;
+	bh=85dX9Lf/sfXcN1Tyse46Ek5ZypzCkU8iMrFONRu4zwA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=sNCCXT+MJSjrYdv8r6JtA3Z1JonIqA0deIjVYGUr5Dhp8F2XCxRLr72mxgC9kzwuFQ4OY92DSgnQnusDU6LakE8rC0mYOED93hp0KRX4g8mHd3UKNgnXodMGD/Yz97FUM3eEemNonIZajqOxj3kbHyXaWFZYlfIiYaEvhHf4zWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lCkmUh7x; arc=none smtp.client-ip=209.85.216.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vy35l7pc"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b91369d18so7368755e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 08:28:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lCkmUh7x"
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-398dc3d8f0fso1836524a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 08:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790177329; x=1790782129; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xX3eRNAQXTB3zUx5ZFPBygn1MGVMvYVvsxUYdBFoBtg=;
-        b=Vy35l7pcNRm8UGncisZrg1O4FXHGyYWPeC+jItZV04uY2l7kfpClWz8khW6g0tWBY6
-         HU2WHrnbKV2fk8S8Es1mqcZ1RClyEa5X4rK0zYI7Orbnr9WAyUb6AeuD/csJGrbUn1uW
-         TAd00GuxqWOKr/7sKqGehgz7wGItCEqr+jAT3OOJAO4VDZoRPIGrQCn6JA0li9EypqW0
-         uZP0UZ/j50B86oVPWjCaDc/kcW4du+0smHKuwCRfRK+/qwMAYUfGfQR5XLll7XkiVVd8
-         2FUjvniTmPH/PQdnxqbPIh6Q8Br7/qRBhqKqqo/IgJHhTxt+o88CTaHuvZypFlPgAfcE
-         sMLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790177329; x=1790782129;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1790177529; x=1790782329; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xX3eRNAQXTB3zUx5ZFPBygn1MGVMvYVvsxUYdBFoBtg=;
-        b=Nc6r0pWXJpdmhqr4ze5cnDi/7bIXHqscIfiW6rgXAQUtBrHHNo90FxFSYUwKolEV0Z
-         TRiPQctSV1MaXrRMGj/QHUBn/XXqfBbBa0cWy2EuFNWXzSvyU+3jaX7qusJ7Ahw7IEgn
-         yt2hmgazU/t+cSKtihF5WQl04yNDlMZYWTp7SoxkhTw7WG4M6imxEUdL5jDgH191NHXd
-         IKkwEsrontyhwr0znghLuTv2mpTd+0juFd27VepWz813G6E/3Zp+YbA1ocWnI5MFldPH
-         Uf/0XojPdYz/sP4786Ap9UHdehM+UR3mU/Cg7eLJYvHeeDKnB3qjtWYCxJB6hCzEoJ2t
-         nJTA==
-X-Forwarded-Encrypted: i=1; AKwUvByWIscFqes+N5jF+vmcMxsMxK24DSeEDrs3dctzp9/M/8HDbtYb4WGF3Xqahlbjv/oatIa/Ina+RqY=@vger.kernel.org
-X-Gm-Message-State: AFuF++movZDJIHncyuAhE/s2/RTcEtkZ06iQifb6eyY+UrDCMjuSxVWS
-	J7Vgnx/NKHZRM7BDUVqww9OoPdxhfsvlZLKWWrWMyyfuKpup5mJpsYR4
-X-Gm-Gg: AYBFou0vIjRELveVco9HxmdKd2O/bpHlZw86UOguXQ4cWOuSj8eJyaaQADBDwhOoEhj
-	j5j7MavokgzrW/wnQqq1hxGG1doSbNlQZNkVSig6S2B9uGlk8wNjEK3Bj9/8DSsYsAqdcXyKU+T
-	eO+RrtwdH5wo9b4QlJ3SxSnM5dHN9ACymjFH19+KXI8hsdHTBtRczGNa3rrqaSVMg143F6ZboTi
-	xPPaMfL/4xcl7BHxyR7yM3SLYhP7x4m/nJ5v92ldmmA8m8i9/w93LErHTYkPkWIxEnqP/+K5c1E
-	vFMSoyF0UZ88zIQglwjEN1f58fz4rCGYIpD7+candKV+J+BIqtIUfjBVQaKhpFVxse5vjpLhgu+
-	kLN7LawOZYONBQoQQ4hTkBleqagE1RGnABiPDf9vsqOPR1p8yVaJ+cLN6wd9oOTK1pyqQ7yBXfV
-	mF1NOdYRf/rywVPYef5Ji0O6hrvyQvVErbyBlQJ7Yu8Nc91IwgghiAj1/nAKwFLr5fZpy9qOr1P
-	uRm90sWvJmRkjq+d6URLGKUAcKrbGC1pEo=
-X-Received: by 2002:a05:600c:46d1:b0:49d:15b9:2a2a with SMTP id 5b1f17b1804b1-49fdefffe1fmr44920755e9.10.1790177328585;
-        Wed, 23 Sep 2026 08:28:48 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fde1c159esm94134555e9.4.2026.09.23.08.28.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 08:28:47 -0700 (PDT)
-Date: Wed, 23 Sep 2026 16:28:46 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Itai Handler <itai.handler@gmail.com>
-Cc: Mikulas Patocka <mpatocka@redhat.com>, Eric Biggers
- <ebiggers@kernel.org>, Milan Broz <gmazyland@gmail.com>, Alasdair Kergon
- <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Benjamin Marzinski
- <bmarzins@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- dm-devel@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/1] dm-crypt: allow encryption sector size up to
- PAGE_SIZE
-Message-ID: <20260923162846.0d198104@pumpkin>
-In-Reply-To: <20260923113903.901245-1-itai.handler@gmail.com>
-References: <20260922120330.127262-1-itai.handler@gmail.com>
-	<20260922213457.GA3536981@google.com>
-	<CAFpOueSjekxhjEosQGiZ9BiDh5tFOqBPX5w_2PVsrcN6pO+dHw@mail.gmail.com>
-	<9a6c20da-4da9-4a8d-a6d4-f18900228bf6@redhat.com>
-	<20260923113903.901245-1-itai.handler@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        bh=3B1pltCyt8uMcbScgeyNeCyno46cKnz3EXyCIHLNjo8=;
+        b=lCkmUh7x1kv9NQcEhQdix2f2i1/BtnuSfWcMAzuxMdtTdEU6S4ukp3+pMjdmwkD58P
+         AX1UgQiXyQyQGGt+fl/aNmqWWr0EkvrpXBltZbOxebd5IvEBakNi44HaYe1/0ERSUzoW
+         2vykKhbZ7KDbZawJZjWPIU5ea5hXD/yogWzOyM7wehwFNjXnrV8f38Cog3JyQyGRUI/h
+         fPXTBHxE3jE8jlH9tfhIGs3MVLrwFeRPxir0ncm9IukFp047lQGchDqOhtm9ao9/SU/g
+         z5XF9x6glmTDPEyshwYVvG4We2CeHWdNXyjzhYrFGOtWWpt74BS5M75wuWgKSbA7E4vm
+         4hVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790177529; x=1790782329;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3B1pltCyt8uMcbScgeyNeCyno46cKnz3EXyCIHLNjo8=;
+        b=DCsyyLJM0OengI/+kXeqt8MnGxJ5+ISpoqP3WsbOH8vBtTD+99rpC/65lNXdFDN+2Z
+         JWFFSFFPxCZwZf4nCa/LFYcGiYLCl3bcL6c9lZf+E0avBXqTszij6DwMCN+6kaIoq7y+
+         uR5tdqOrO1tA8N3Ge99rotY0afHu+wXRKx+JsLl8ZWoq0jSg9oVfVbaCcziaJ0Ux//p8
+         qByYFPNq8cVGuNix/pb3XWYgHY+Ibzvodobna7To83m9WU0l94/M0TZrvVOITdrUYbhw
+         uSTSuEAejsoE30OVBGaWzacvRxtATsOtH6kd8QuziyAEj8SoX34rSrwstlBRgYXqe9xb
+         bgyw==
+X-Forwarded-Encrypted: i=1; AKwUvBy/W7rywZZaCzbFJBjY7Rycp+dyI6cki9yNtZvOTr1O5TRFRRNr4caLa7qYhrH9zFX4MJBmKjCezFQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++kjbjexGD6M+HqilOj0BQa5Ff8mP+iy7t+yNcLTpHXsBZQi2uVw
+	u1AU2hZO/OnFTFFg12CsM09KwbqBqHwxhX+SRZp5q+D+kFbfSk9nDuXz6n8H3HTz/lP2VALNEZi
+	7E22AnA==
+X-Received: from pgvn10.prod.google.com ([2002:a65:63ca:0:b0:cc4:5907:21e9])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:314c:b0:39e:6c68:fd8d
+ with SMTP id 98e67ed59e1d1-3a07e5da863mr1820942a91.34.1790177529298; Wed, 23
+ Sep 2026 08:32:09 -0700 (PDT)
+Date: Wed, 23 Sep 2026 08:32:08 -0700
+In-Reply-To: <20260923091555.GX776954@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <179005108298.388919.4535333252892590932.stgit@devnote2>
+ <179005110742.388919.1509641807739909065.stgit@devnote2> <20260923091555.GX776954@noisy.programming.kicks-ass.net>
+Message-ID: <arPw-N3HF3ehNGTQ@google.com>
+Subject: Re: [PATCH v17 02/13] perf/x86, KVM: Prevent host debug register leak
+ into guest OS on NMI
+From: Sean Christopherson <seanjc@google.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ingo Molnar <mingo@kernel.org>, Jinchao Wang <wangjinchao600@gmail.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, x86@kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, 23 Sep 2026 14:39:03 +0300
-Itai Handler <itai.handler@gmail.com> wrote:
+On Wed, Sep 23, 2026, Peter Zijlstra wrote:
+> On Tue, Sep 22, 2026 at 01:25:07PM +0900, Masami Hiramatsu (Google) wrote:
+> > diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
+> > index f846c15f21ca..0473a5c95856 100644
+> > --- a/arch/x86/kernel/hw_breakpoint.c
+> > +++ b/arch/x86/kernel/hw_breakpoint.c
+> > @@ -102,6 +102,9 @@ int arch_install_hw_breakpoint(struct perf_event *bp)
+> >  
+> >  	lockdep_assert_irqs_disabled();
+> >  
+> > +	if (perf_guest_in_guest())
+> 
+> That naming is hilariously bad :-)
 
-> On Wed, 23 Sep 2026, Mikulas Patocka wrote:
-> > There is one important problem - the SSDs and HDDs today have 4k hardware
-> > sector size.
-> >
-> > If you use 64k encryption sectors, the disk may write only a part of the
-> > 64k sector during power failure. When you attempt to read and decrypt such
-> > a sector, you get garbage.
-> >
-> > This is not a problem for XTS or ECB, but it is problem for CBC and most
-> > other encryption modes. So, the patch should reject using larger sectors
-> > with cipher modes other than XTS and ECB.  
-> 
-> The mechanism is real and I am not disputing it. What I would like to
-> put to you is that it is not new, that this patch does not change it,
-> and that documenting it fits what dm-crypt already does better than a
-> new restriction would.
-> 
-> A torn sector is possible today
-> -------------------------------
-> 
-> Consumer NVMe are generally shipped with 512-byte logical blocks and
-> stay that way in use. Installing Linux does not change it: partitioning
-> and mkfs work inside the logical blocks the drive already exposes.
-> Changing the block size is a separate low-level operation - nvme format
-> with a different LBA format - which is destructive, which no installer
-> performs, and which a drive may not offer at all.
+Indeed.  It's also misleading and confusing, because it's really checking for
+"in KVM's core run loop", whereas the goal of perf_guest_state() returns a
+non-zero value if and only if the IRQ/NMI really did occur while the guest was
+active (I say "the goal" because it's imperfect due to architectural limitations,
+but the goal is purely to detect guest PMIs).
 
-And you really better do 4k aligned 4k writes.
-Otherwise performance and device lifetime are likely to suffer badly.
+Ugh, and routing this through perf was my suggestion[*]:
 
-David
+  : If we decide this is how to fix arch_install_hw_breakpoint() clobbering DRs from
+  : NMI context, I would rather have more generic flag to tell perf that KVM is about
+  : to enter the guest, e.g. so that we don't have to separately solve the same problem
+  : for other perf events:
 
-> 
-> The machine I am writing from is one: a Samsung PM981a carrying a
-> complete Ubuntu install - GPT, EFI partition, /boot, and the rest of the
-> drive as LUKS over dm-crypt with LVM and ext4 on top - and it still
-> reports logical_block_size = physical_block_size = 512, with no
-> atomic_write_* attributes at all. The dm-crypt device on it reports a
-> 512-byte logical block too.
-> 
-> The atomic write unit follows that format.
-> nvme_configure_atomic_write() takes it from NAWUPF, and where the
-> namespace does not advertise one the unit is a single logical block;
-> controller-level AWUPF is explicitly ignored. So on that drive the
-> guaranteed atomic unit is 512 bytes, not 4096.
-> 
-> Which means dm-crypt already permits, and has permitted for as long as
-> sector_size has existed, exactly the situation the restriction is meant
-> to prevent: a 4096-byte encryption sector spans eight device writes
-> there, with seven places to tear, in any cipher mode including CBC.
-> 
-> What this patch changes is the maximum size. It does not change what
-> any mode does when a sector is torn, and it does not make a torn sector
-> possible where it was not before.
-> 
-> What a tear costs
-> -----------------
-> 
->   XTS, ECB     each cipher block is independent, so the sector decrypts
->                to a mixture of old and new plaintext - what a torn write
->                gives on an unencrypted device
->   CBC          P_i = D(C_i) ^ C_(i-1), so exactly one block, the one
->                whose predecessor is on the other side of the tear,
->                decrypts to garbage; the rest is old or new data
->   AEAD         authentication fails and the read returns an error rather
->                than data, which is the loudest and arguably the best of
->                these outcomes
->   diffusers    the whole sector decrypts to garbage; in practice only
->                reachable by writing a table by hand, since BITLK uses
->                512 or 4096
-> 
-> My view is that all of these are acceptable, because a sector whose
-> write was not atomic is lost data in every one of them. The filesystem
-> above cannot rely on a partially written block whatever comes back from
-> it; the cipher mode decides whether the loss looks like stale data,
-> like one corrupt block, or like an I/O error. It does not decide whether
-> the data survived, because it did not.
-> 
-> Documenting it
-> --------------
-> 
-> So I would rather say this plainly in
-> Documentation/admin-guide/device-mapper/dm-crypt.rst than refuse
-> configurations:
-> 
->     An encryption sector larger than the unit the underlying device
->     writes atomically can be torn by a power failure, leaving part of
->     the sector written and part not. This is already possible with a
->     4096 byte sector on a device whose atomic write unit is 512 bytes,
->     which is the common case; a larger sector widens the window. With
->     XTS and ECB the torn sector decrypts to a mixture of old and new
->     data, as a torn write does on an unencrypted device. With chaining
->     modes the block at the tear also decrypts to garbage, and with the
->     wide-block diffusers the whole sector does. Use a large sector only
->     where losing a sector to a power failure is acceptable.
-> 
-> Reworded however you prefer, and I will send it as part of v3.
-> 
-> Rejecting modes above 4096 would be a new restriction on a hazard that
-> already exists below 4096, and it would have to be revisited for every
-> mode added later. It would also read oddly to a user who meets it as
-> "use ECB instead", ECB being tear-tolerant but not something anyone
-> should choose for disk encryption.
-> 
-> For what it is worth I do not think many people would meet it either
-> way: cryptsetup has defaulted to xts-plain64 for plain mode, LUKS1 and
-> LUKS2 for years - plain-mode, luks1-mode and luks2-keyslot-cipher in its
-> configure.ac - so almost anyone asking for a large sector is on XTS
-> already.
-> 
-> If it turns out to matter
-> -------------------------
-> 
-> If experience shows this does need enforcing, the version worth having
-> is not a mode allow-list against a constant but a comparison against
-> what the device actually advertises: refuse a sector larger than
-> queue_atomic_write_unit_max_bytes() for modes that cannot absorb a tear.
-> That plumbing exists, and you enabled DM_TARGET_ATOMIC_WRITES for
-> dm-crypt yourself last year.
-> 
-> It cannot go in now, because on drives like the one above it would also
-> refuse 4096 and break existing tables, so it needs a deprecation path
-> rather than a one-line check. That seems to me a better use of the
-> effort than freezing 4096 into the code as though it were a safe size,
-> and I am happy to work on it as a follow-up.
-> 
-> v3 will carry the documentation above, and the two changes I already owe
-> this thread: dropping the dm-verity comparison, which does not apply to
-> a writable target as Milan pointed out, and dropping QCE as the stated
-> motivation, which Eric was right about.
-> 
-> Thanks,
-> Itai
-> 
+After seeing the code, that feels like a pretty stupid suggestion.  Though in my
+defense, I was thinking of a per-CPU flag as opposed to a new callback.  Anyways,
+I don't think we should key off IN_GUEST_MODE and EXITING_GUEST_MODE because they
+are very much an arch-specific, KVM-internal concept.
 
+What I was trying to say by "more generic flag" is that I would prefer not to have
+a super specific cpu_dr_in_guest.  I'm not opposed to have a dedicated flag (though
+if we can avoid one, that would be lovely).  The biggest problem I see with adding
+a generic flag is how to make it precise enough to be useful, without end up with a
+confusing name.  E.g. "guest_state_loaded" is terrible because KVM keeps some guest
+state loaded even when the task is scheduled out.
+
+And to Peter's point below, is arch_install_hw_breakpoint() even the right place
+to handle this?  It seems like KGDB itself should be handling this, at which point
+maybe we just do something like this?  Then we can provide nop stubs when KGDB
+support is disabled.
+
+diff --git arch/x86/kvm/x86.c arch/x86/kvm/x86.c
+index 1705e7be46ec..42fa4dc44cbc 100644
+--- arch/x86/kvm/x86.c
++++ arch/x86/kvm/x86.c
+@@ -8273,6 +8273,8 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+ 
+        kvm_load_xfeatures(vcpu, true);
+ 
++       kgdb_arch_enter_guest();
++
+        if (unlikely(vcpu->arch.switch_db_regs &&
+                     !(vcpu->arch.switch_db_regs & KVM_DEBUGREG_AUTO_SWITCH))) {
+                set_debugreg(DR7_FIXED_1, 7);
+@@ -8365,6 +8367,8 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+        if (hw_breakpoint_active())
+                hw_breakpoint_restore();
+ 
++       kgdb_arch_exit_guest();
++
+        vcpu->arch.last_vmentry_cpu = vcpu->cpu;
+        vcpu->arch.last_guest_tsc = kvm_read_l1_tsc(vcpu, rdtsc());
+ 
+[*] https://lore.kernel.org/all/aqgGRKOE138ePqmX@google.com
+
+> > +		return -EBUSY;
+> > +
+> >  	for (i = 0; i < HBP_NUM; i++) {
+> >  		struct perf_event **slot = this_cpu_ptr(&bp_per_reg[i]);
+> >  
+> 
+> Note how the other -EBUSY return is a WARN. Why is silently not doing
+> anything not a WARN in this case?
+
+Probably because the WARN would trigger anytime KGDB's NMI craziness happens to
+hit a vCPU, i.e. isn't a kernel bug.
