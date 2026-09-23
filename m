@@ -1,139 +1,264 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-155.mta0.migadu.com [91.218.175.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C88355813
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B71644C4FB
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790148032; cv=none; b=bMv6Ln95IWz6BckQle7v42ykJQeizi5Dp8FJ6T8QyMrGzWi1hSK/a5ZGR6+PHcT6Z+7XAg8UXdZBFcBh+hnvmbMPOBkb9YvVsWhFtuvLFlFe7aXBLKf3ANsD9ky3xiij6tfKFlPs96nbZjxn7ZCKFKxtyWiKmY3hJRwZ8Wk+MF4=
+	t=1790148261; cv=none; b=HYBqVdYQTB5OcaZ6OZcfEE+7xSSHoSHUkyu7yhVETrsL0WnCfRJNbzOhBqVe8NqLp4Nf1IPnoKDqpxFmyw6/b5kjgsqm4OK6QPSy70ojjGtIecQkaAsv288YMXVkMY4pTp6aSKTppV4wJSOJuNZQ6FkvGOHhBK9dY6BtDhEFsEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790148032; c=relaxed/simple;
-	bh=nLS1n8qV6eC9W4rvdxBSwAmsHoTxZonjQLzxFgw28Wo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NbkGZdukWkMwKqylkxTXFULfO/FMRF05qdfnBLJhZI+/qId1V1KNebNoSqhEX/JVt3Mt3X+lHj8kan+yL6otblztAVIgTXlb9uR/KLlVOUQ7hz6MUPi0P1jE9gCuauapufF0YqxiwOoh+ko84tI6LU2L8qEHiy9jtkl42cdNdhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UguBxu4m; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790148261; c=relaxed/simple;
+	bh=jtYR83JV3L8wH6uuzBN56BU8b17HKc/GBiTiWGypKto=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SF162utGtWxxs8znYXg+B5h0aL/owa+NHSOkLd0GCleTbTUGIJL2XeWzJOkKXghv/KfzgULzEEj2IIGdnKrYFeCd9OmtrDot2pd8i5o55ooWCNHt3wjgVwvVv283b4v3KCOsxBGqza42Gh9F9e1iFDparpVP4tUu02GXuFh/7vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=b5u9IaFV; arc=none smtp.client-ip=91.218.175.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UguBxu4m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2891F00903
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:20:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790148030;
-	bh=nLS1n8qV6eC9W4rvdxBSwAmsHoTxZonjQLzxFgw28Wo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=UguBxu4mwJWYSrWKx4bzSAfl6n/EYHutzXXLv6onceqt9w1Km/iiVb/srT0FUSS3N
-	 ZlBe8al3MoCZHCXXUmLZRGHqOkWcH4YF986CCdhw7DHmWj+AVGuu0Bm8MTO4I8W+Xs
-	 LVaglygw6aT21BY7iqKZ3TB+Blqn5Tf9HXWiYeKHcDjvXA7hfU5PuPfIX2/IraV4Kg
-	 a8eesWwn9H+7T7iIsfawE9eRlxnNpiDIHo8uiQcgHMW7CYGtgkZGHVwMkAoVPZlpTr
-	 Y1Gm8i8UJwngCs0OXbxok+thnuNz7iI3uoRywcP+T4XXWwH1lmTbRws5mX9yfdUDiM
-	 9v134bJUlxv0g==
-Received: by mail-yx2-f16.google.com with SMTP id 956f58d0204a3-66e56a1fe83so559265d50.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 00:20:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwrpws5PP5zg7wJd1HmyourtkkrFfreLNqAngvgIzrNZy0d01jHNt4v4v2D4DvGzJWyLR40oL9IOvE=@vger.kernel.org
-X-Gm-Message-State: AFuF++mffNQEH5wiYXYHH/p97pQRPsAwyzvIMWM83HxtvVV5jMjlGGC5
-	jfNQZOX6OKHEucRVOToQr3+HV4Jzw1/ArZ4piTYbnwWcHBiuDN2OITHO5en07yKdfiW58qP8alz
-	bHU33RJtg90ibbsgjoPyGRJlrWq/r/aa8PF0mo3jLlA==
-X-Received: by 2002:a05:690e:bc8:b0:672:9f72:7c04 with SMTP id
- 956f58d0204a3-672d5a1405bmr755720d50.102.1790148029577; Wed, 23 Sep 2026
- 00:20:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="b5u9IaFV"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=jtYR83JV3L8wH6uuzBN56BU8b17HKc/GBiTiWGypKto=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790148256; v=1; x=1790753056;
+ b=b5u9IaFVYjQwt53EK22Xmtmkc2r/sNuI0IEKlPMpczhCzheGOiv024f7twtLvQ75DHRGBiQD
+ ZdC4PEbC2WPTRG5pPrmCg9RRtsgeBJbyDlVxkJ6xgkYgvEOibxKUzQ8almwJGN0mVUjqOMnTjaP
+ DyXeShSWnXg8vEdqATfvqXY0=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 37f5cbda674b2a55;
+	Wed, 23 Sep 2026 07:24:07 +0000
+X-Mizu-Trace-ID: 37f5cbda674b2a55
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org,
+	akpm@linux-foundation.org
+Cc: david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	guoren@kernel.org,
+	bcain@kernel.org,
+	geert@linux-m68k.org,
+	dinguyen@kernel.org,
+	schuster.simon@siemens-energy.com,
+	jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi,
+	shorne@gmail.com,
+	dalias@libc.org,
+	glaubitz@physik.fu-berlin.de,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	linux@armlinux.org.uk,
+	vgupta@kernel.org,
+	monstr@monstr.eu,
+	chris@zankel.net,
+	jcmvbkbc@gmail.com,
+	will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	davem@davemloft.net,
+	andreas@gaisler.com,
+	richard.henderson@linaro.org,
+	mattst88@gmail.com,
+	linmag7@gmail.com,
+	catalin.marinas@arm.com,
+	mark.rutland@arm.com,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	tsbogend@alpha.franken.de,
+	James.Bottomley@hansenpartnership.com,
+	deller@gmx.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	chleroy@kernel.org,
+	hca@linux.ibm.com,
+	gor@linux.ibm.com,
+	agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com,
+	svens@linux.ibm.com,
+	richard@nod.at,
+	anton.ivanov@cambridgegreys.com,
+	johannes@sipsolutions.net,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	arnd@arndb.de,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	ysato@users.sourceforge.jp,
+	shakeel.butt@linux.dev,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arch@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	hughd@google.com,
+	qi.zheng@linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 01/12] mm/khugepaged: deposit a newly allocated page table on collapse
+Date: Wed, 23 Sep 2026 15:24:00 +0800
+Message-ID: <20260923072400.3028-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <arN7q5nHz7iebA_e@gremlin>
+References: <arN7q5nHz7iebA_e@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org> <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
- <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F> <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
- <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F> <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
- <arEVDBlfsUYKK004@gourry-fedora-PF4VCD3F> <CACePvbXG5kjZmRsdd0a4HfbnNa6w5s9b_1OCySbwvY+HuCqOVg@mail.gmail.com>
- <ad1c4de51f1fbbfc7345036af8f39fb450c1f3c7.camel@surriel.com> <CAKEwX=NKC=N-YaiwZK7HPM4MfX-7JG_KeHukS0+vjHqMZTV4dA@mail.gmail.com>
-In-Reply-To: <CAKEwX=NKC=N-YaiwZK7HPM4MfX-7JG_KeHukS0+vjHqMZTV4dA@mail.gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Tue, 22 Sep 2026 21:20:16 -1000
-X-Gmail-Original-Message-ID: <CACePvbUijn+9poYGFL0kiA+ADAxLULcmuVpfx3=9UbbRemyjRw@mail.gmail.com>
-X-Gm-Features: AcwNN1XNF8jCOBxQkoAP5mypVrfmU5thuNYjjY3TJ8Y1KZCkSFtYtgfK_yupyfs
-Message-ID: <CACePvbUijn+9poYGFL0kiA+ADAxLULcmuVpfx3=9UbbRemyjRw@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 22, 2026 at 7:21=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
+
+On Wed, Sep 23, 2026 at 08:14:01AM +0100, Lorenzo Stoakes (ARM) wrote:
+>Andrew - would it be possible to make one quick fix up below?
 >
-> On Tue, Sep 22, 2026 at 10:15=E2=80=AFAM Rik van Riel <riel@surriel.com> =
-wrote:
-> >
-> > On Mon, 2026-09-21 at 06:11 -1000, Chris Li wrote:
-> > > On Mon, Sep 21, 2026 at 2:53=E2=80=AFAM Gregory Price <gourry@gourry.=
-net>
-> > > wrote:
-> > >
-> > > >
-> > > > You can't know the compressibility of memory until after you
-> > > > compress
-> > > > it, and requiring a user to predict the future by forcing them to
-> > > > limit
-> > > > the total amount of workload compressibility does not scale with
-> > > > the
-> > > > number of workloads of variable compressibility of data.
-> > >
-> > > You likely just need to pull a SQL query on your fleet to get that
-> > > number.
-> >
-> > This feature is not being developed for just one
-> > user. It has to work for everybody.
-> >
-> > >
-> > > > That should tell you that your model of reasoning about this issue
-> > > > is
-> > > > ill-suited to address the problem.
-> > >
-> > > That is what I'm suspecting. Nobody in a sane mind would want to
-> > > zswap
-> > > 100% of the RAM and maintain reasonable SLO.
-> > >
-> > It could make a lot of sense to have some default
-> > limit upstream, that says the zswap pool is not
-> > allowed to take more than half of memory, because
-> > at that point the compressed content will be
-> > crowding other things out of memory.
+>On Tue, Sep 22, 2026 at 04:35:32PM +0100, Lorenzo Stoakes (ARM) wrote:
+>> collapse_huge_page() deposits a PTE page table on PMD collapse in order
+>> that it can be utilised for subsequent split operations, meaning that those
+>> operations do not need to perform an allocation (as they are in a context
+>> where it might be unwise).
+>>
+>> However the PTE page table which is deposited is the one which is currently
+>> mapped by the PMD entry that is in the process of being collapsed.
+>>
+>> Once deposited, the PTE page table may be used in a split of any other
+>> unrelated PMD entry.
+>>
+>> This is currently not an issue as this operation is performed with VMA/mmap
+>> write lock + anon rmap locks held, so ordinary page table walkers will
+>> never accidentally end up walking the wrong thing, and GUP-fast is
+>> protected by an IPI via tlb_remove_table_sync_one().
+>>
+>> However, the series to which this commit belongs implements RCU-safe page
+>> table traversal, at which point this becomes problematic.
+>>
+>> This can be resolved by using pte_offset_map_lock() which gates on a PTE
+>> PTL and a pmd_same() check, but lockless walks are unsafe as things stand.
+>>
+>> Resolve this by simply allocating a new, zeroed, PTE page table to deposit
+>> at the point of collapse.
+>>
+>> This path is already costly and an allocation has already been performed
+>> for the huge folio, so this allocation is statistical noise in terms of
+>> performance and memory usage at this point.
+>>
+>> With this PTE page table deposited, RCU-free the existing PTE page table
+>> so it is safe for page table walkers to traverse within a grace period.
+>>
+>> This also brings this deposit case in line with all other page table
+>> deposit logic which deposit a fresh page table.
+>>
+>> Additionally, this was the only place in the kernel that displaced a page
+>> table like this, so eliminating it also helps consistency.
+>>
+>> An edge case for deposit exists for powerpc and its hash-based MMU - it
+>> stores hash slot data in deposited page tables and zeroes them on withdraw,
+>> so a zeroed deposited page table works correctly for it.
+>>
+>> Since khugepaged runs as a kernel thread, do a little dance in
+>> alloc_deposit_pte() to correctly charge the allocation.
+>>
+>> This is already done for the folio allocation via alloc_charge_folio() but
+>> no such wrapper exists for a page table allocation.
+>>
+>> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>> ---
+>>  mm/khugepaged.c | 32 ++++++++++++++++++++++++++++++--
+>>  1 file changed, 30 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>> index f49a6710933b..dab421f8233e 100644
+>> --- a/mm/khugepaged.c
+>> +++ b/mm/khugepaged.c
+>> @@ -1278,6 +1278,23 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
+>>  	return SCAN_SUCCEED;
+>>  }
+>>
+>> +static pgtable_t alloc_deposit_pte(struct mm_struct *mm)
+>> +{
+>> +	/*
+>> +	 * khugepaged is run from a kernel thread, so need to manually set the
+>> +	 * correct memcg so the allocation gets charged correctly.
+>> +	 */
+>> +	struct mem_cgroup *memcg = get_mem_cgroup_from_mm(mm);
+>> +	struct mem_cgroup *old_memcg = set_active_memcg(memcg);
+>> +	pgtable_t pgtable;
+>> +
+>> +	pgtable = pte_alloc_one(mm);
+>> +
+>> +	set_active_memcg(old_memcg);
+>> +	mem_cgroup_put(memcg);
+>> +	return pgtable;
+>> +}
+>> +
+>>  /*
+>>   * collapse_huge_page() expects the mmap_lock to be unlocked before entering and
+>>   * will always return with the lock unlocked, to avoid holding the mmap_lock
+>> @@ -1293,7 +1310,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
+>>  	LIST_HEAD(compound_pagelist);
+>>  	pmd_t *pmd, _pmd;
+>>  	pte_t *pte = NULL;
+>> -	pgtable_t pgtable;
+>> +	pgtable_t pgtable = NULL;
+>>  	struct folio *folio;
+>>  	spinlock_t *pmd_ptl, *pte_ptl;
+>>  	enum scan_result result = SCAN_FAIL;
+>> @@ -1310,6 +1327,12 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
+>>  		goto out_nolock;
+>>  	}
+>>
+>> +	if (is_pmd_order(order)) {
+>> +		pgtable = alloc_deposit_pte(mm);
+>> +		if (!pgtable)
+>> +			goto out_nolock;
 >
-> I actually am skeptical of gating zswap usage (both pre- and
+>Fixup is here:
+>
+>-		if (!pgtable)
+>-			goto out_nolock;
+>+		if (!pgtable) {
+>+			result = SCAN_ALLOC_HUGE_PAGE_FAIL;
+>+			goto out_nolock;
+>+		}
+>
+>Thanks!
 
-Isn't there a zswap limit some thing like that? In our deployment we
-have limits for memory + swap as well as page fault latency to detect
-SLO issues. There is a feedback loop.
+With that applied,
 
-> post-compression), but I would like to note that for post-compression
-> size, we already have that knob for zswap, default to 20% of physical
-> RAM.
-
-I think swapping too much to zswap does not make sense. e.g. 100% of
-system RAM. That is my point. It is not a value you cannot determine.
-We can find an universal answer with a safe margin if we want. That is
-my point: it's not a value you can't determine. We can find the answer
-with a safe margin if we choose to. If you don't want to, then that is
-a different story.
-
-Chris
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
