@@ -1,162 +1,205 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D253F23DF;
-	Wed, 23 Sep 2026 21:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F884766B3
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 21:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790198281; cv=none; b=GzVSW5zBy91wv0lCAlruGpV1yMVHxlsplyDuVR4xP5LjE8SB6P46VfxwdRSVr7uhNUGxPOR5GP2ZEh5P98yutEd4u4FIcetgm1XBqa6BpimhRNBrRyKJmxVmykWJj7XneuN02D+OsNwfHLmd5jJRAlSt61kUJR1jBLxV7dohLoU=
+	t=1790200756; cv=none; b=XL5E4wgJ7IDW1mWZelDDSM6SkRi8AEm+fWrMv0konERUEmCrvhwwjW8hq+cFpcjSJsW0N6hqPVjDxC5GfCypNpaBILSO7ouJvJQtTQ4ALGd9XFMITXobLEzl6FF5n1pvPWL0fx9ZkZC53BOo+bcQh56z+JjxyS/Asq0+pKONu18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790198281; c=relaxed/simple;
-	bh=6N6wbwHRUjuPLhXPo+/Z6YohLZpy6gk4Vf2BBjSB+nU=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WaQA997H4D1OwHfsLouiRIwVilhSa8+dsy3o6fPJW1QeVxEWVIXZp/P3wly4sAIP8/QVqSIq2dcnwJq5BzoKs5SqxFPunmaaLbkvQmcM9XYvoIl7K78Tbu6aiggwH0EvX/Ai9zoqVSHtTkdMwfGWQfjhS2xrvyjKQoSAOOB/w2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GboHwgPJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790200756; c=relaxed/simple;
+	bh=8RGeXtjXxObOBlh27DtryI+xEEeTDaHvX+2W2+vTgIQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=snyAtl8HidbzZfujbfO4jWsBWNkILJ7HJvr8D7s+u/DYIrzvOntN+RaG3GJRueA+pBEGIK9LlK4G6FdZgE2e0p26//4+pmxjbsccrm/RtiSgV5xTRNpzsZ4j9F9238fr7Y8vxwui5csFBZPDrDjmKPsLbJXsyLaU2/giQTCfqHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OVaHzNiK; arc=none smtp.client-ip=74.125.228.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GboHwgPJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 892AB1F000FF;
-	Wed, 23 Sep 2026 21:17:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790198273;
-	bh=4Szv5469VQix35nfvNo8j5NGVQ29K0ZwUurSLIe4Ew0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=GboHwgPJ0rYZySJGBLnrmBSkXENxS+Hkxa8iltDeXnRXWlv/XTp942rfQutXXoHOz
-	 yT8Qf3l0pmqdZWvCsQuGx2LxDHOxdIMIjWdR6iRcNPEl4/4DwQDzTB4V5OMb0nrtY+
-	 zgyNyEstTkayiEIXWipE0O9KTHrlcbGqxZ9DE+a14Vm8kTUOTzrR5onqJSTuUMMHON
-	 Bsrq/CYav1hro2U0ObCe0qocu6vpjQWvadvEwQN4Bpl5nX3BQBQukv5Cc4h6o/MofV
-	 8P1dG9pinoprkma9UXiiEjnGbBAriLJXnH7eHH7EHh1tF7RuyWJqtT4zhLO/6/Vud4
-	 SZEMDmzODPZ+w==
-Subject:
- Re: [PATCH 1/2] Documentation: dsa: b53: fix stale tagging-support section
-From: netdev-bot+sashiko@kernel.org
-To: chrismelnu@gmail.com
-Cc: florian.fainelli@broadcom.com, jonas.gorski@gmail.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Wed, 23 Sep 2026 21:17:52 +0000
-Message-ID: <179019827202.2160803.3779708917982788607@kernel.org>
-In-Reply-To: <20260922211439.369917-1-chrismelnu@gmail.com>
-References: <20260922211439.369917-1-chrismelnu@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OVaHzNiK"
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a9ba73bee8so1216327a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 14:59:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790200753; x=1790805553; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=25b6rXxcvDVFluQ29z+eb44YMWbVsajT92YPOJsFwDw=;
+        b=OVaHzNiKBqx/cr/Ll3JDJZ7dYL3Fn+7fMw4pizbJCd9e3P40Sj0XPMLtiS8YLUCxsf
+         /9+X3fr5DoXx8vCjvQSK/L3M10gdbQe+dnXTCyNDIOxmnvfPBnpVLKmJSLuly1qDNlcl
+         o1mZJav7Fm6NxxbCDbOVPWIaWv/P1sFvsLlEAayLut3ZyWi6kpWFaRWCCSh7FqaVcJum
+         lihbTEfqe/g265nj6v38zxEuHNz7LLuTvES2CpLeo4JDKx+yc1r0U2hQA7aPdXsiruDA
+         p05nESDNvkzAHiLJoo4I0m6ZxSl9YAAfDXfDexdWg2pyWkKCDHsmPZTTrGC7Jd2XxOsL
+         1uHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790200753; x=1790805553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=25b6rXxcvDVFluQ29z+eb44YMWbVsajT92YPOJsFwDw=;
+        b=fxamKUmbpwh2uyubltTri8HhihxSBJYQnGZFrPlqdVQaMlDvyn4I09YWaEZAy8T65n
+         fpp4rZC1xJd26OsAeCObCqM5Q2PV6pS18JL7/NXIPD/PlhfXn+0JHoFXSNF8m/8GmGsL
+         grWhZTpokpR0IHK6V/Jeo5wqUUn2kA9UHVI+HxM3eAlGBeN9WohCGXj6G/xPzWHrhRP0
+         KgfHuUxX8A/pgmBlhB7ENmZzEn5u5u1t0kL2pfiFoaGh7zsKHblRe2SfhiNa1D8yvkLq
+         2XkhE6PjbYJaAj++INWMldQLUmXpB8402V5nwPm1oIyRmIEJ/Sf89KJVv8Ibrq5doURk
+         hDIA==
+X-Forwarded-Encrypted: i=1; AKwUvByn3NoXbig4mB+NLEahiu6Dk3C4vxvwUY5vO88RB/OmYpZnLl7whFa7o4JAvvOZR9yQx5RmdNU8NvU=@vger.kernel.org
+X-Gm-Message-State: AFuF++lCsd09XY+EYhyST5JJsCkOzd8yB+7+MR1i1Mq6q222K3MF1+zC
+	VxXWgoCq2Bx5DJ2axnSmNojxiR/r4YXG0No5/pcRSA/7tCu7Hm1yWvoF
+X-Gm-Gg: AYBFou1bceiu2HQNAOTZmAm6c4xro2Yk7XQZhda0GKC7x3HDXSVTBUbpLLtwNgEutpO
+	dC/zhuI/ZB+rJEvJeMhDr4U//ZP29G6GJxAqMMl6Ou2CpBdKr5xuJLw4DEteViXtI7ctrf4sGV5
+	pGr9ftRy4LhZrdznVBAgrsvqkJVEBp19es1Uv9EoXZrdEWGcOUd9Aw7naQeRGql0HtI2nVKa0m4
+	0yrUgEj0Im2Zie+KZ3I6fxvCmeqf4srPwegjbEPGn6gi8HfjJNsJIFuSl/+y3JTT9P2A+Sgh9U4
+	izo+HWukQBzj1+IBfkpTkzPoaTVz/tCLI33rUNNvLwF0V7BzZvBGqP8O8I0H+IPCy0kplZZKOHH
+	ZZbgRwxJAxLHmVrlPNM5OML0puMTyL1SdnXlP1TwP41n8mutwxDyb5i0vRGbphat3dR+iyVEv+m
+	G5ZlZlsSlDhfoVavpjHDMU5J/ustGOUxvlYrANR+MGtv0w1Ku8aUNkZ6A2vhXk6yf6V1I4yprC8
+	yN+c2YCq63bRP59YOYwwgDCMDNDNrjb4w7DNAltICEYdM+PV7lh+7qu1eyTUJiQ/1YDAJuxus8i
+	vnuoRroIujcGxu4JMUtd
+X-Received: by 2002:a17:907:6a11:b0:c25:f7db:4beb with SMTP id a640c23a62f3a-c2ac236053emr38359966b.17.1790200753378;
+        Wed, 23 Sep 2026 14:59:13 -0700 (PDT)
+Received: from localhost.localdomain (83-233-130-25.cust.bredband2.com. [83.233.130.25])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae6dcf0dsm197647666b.61.2026.09.23.14.59.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 14:59:12 -0700 (PDT)
+From: Yongzhao Chen <yongzhao.derek@gmail.com>
+To: netdev@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jonas Gorski <jonas.gorski@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Woojung Huh <woojung.huh@microchip.com>,
+	UNGLinuxDriver@microchip.com,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	Ziyang Huang <hzyitc@outlook.com>
+Subject: [RFC PATCH net-next v3 0/5] net: dsa: qca8k: add a QCA8337 CPU PHY consumer
+Date: Wed, 23 Sep 2026 23:58:52 +0200
+Message-ID: <20260923215858.1653-1-yongzhao.derek@gmail.com>
+X-Mailer: git-send-email 2.45.2.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+The qca83xx PHY driver is already in net-next. This series allows
+passing PHY flags on DSA shared ports and adds support for a QCA8337
+internal CPU PHY. It implements CPU port selection, serializes MAC state
+across global MTU updates, and proposes disabling SmartSpeed prior to
+CPU PHY resets.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+The first patch extends the DSA core interface; the qca8k patches
+provide its concrete user. No board-name matching or board-specific DT
+properties are introduced.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+The minimal topology uses a single CPU link: a conduit PHY connects over
+MDI to QCA8337 PHY4 on switch port 5, with each endpoint having its own
+phy-handle. A reduced devicetree fixture based on Redmi AX5400 wiring
+passed dtc and validation against the complete net-next schema set. This
+is a binding fixture rather than a bootable board description. Because
+the pinned base tree lacks the IPQ5018 Ethernet MAC driver and RA74
+board support, this series has not been boot-tested on RA74 under pure
+net-next.
 
-- [Medium] The patch deletes the whole "Configuration without tagging
-  support" section of Documentation/networking/dsa/b53.rst, including…
+On one RA74 board, diagnostic boot logs showed PHY4 advertising
+1000BASE-T full duplex after generic config_aneg() succeeded, but a
+later read found the advertisement missing. No intervening write was
+found through the instrumented Clause 22 BMCR/CTRL1000 path; other paths
+were not excluded. The exact trigger remains unknown. Clearing
+SmartSpeed before the initial reset preserved the 1 Gb/s internal link
+during the tested boot sequence. Runtime testing did not establish
+late-peer causality, a broken pair, or successful fallback to 100 Mb/s.
 
---
+Two scope questions remain for this RFC:
 
-Documentation: dsa: b53: fix stale tagging-support section
+1. Internal CPU port selection currently falls back to ports 1 through 5
+   only on QCA8337. Dedicated ports 0 and 6 retain priority on all
+   models, including mixed CPU port descriptions. AR8327 documentation
+   describes per-port headers and destination bitmaps, but I have not
+   established its internal CPU link behavior. Should this fallback
+   remain limited to QCA8337, or can maintainers confirm the same support
+   for QCA8327?
 
-This commit moves the 5325/5365 note into the tagging-supported section of
-b53.rst, because b53_get_tag_protocol() gives them
-DSA_TAG_PROTO_BRCM_LEGACY_FCS. It also deletes the whole "Configuration
-without tagging support" section, including its single port, bridge and
-gateway VLAN examples, on the grounds that it no longer applies to any b53
-switch.
+2. The proposed SmartSpeed policy applies to QCA8337 internal CPU PHYs.
+   SmartSpeed is the hardware downshift feature, so disabling it removes
+   that fallback behavior. Current hardware evidence is limited to PHY4
+   on a single RA74 board. Is the internal CPU link role sufficient
+   justification for this policy, or should the quirk be scoped more
+   narrowly?
 
-Link: https://patch.msgid.link/CAOiHx==_ixY-VNWX=XxqCFoJvE-80i+r2y6SNnxwQe9uZQJL6w@mail.gmail.com
+Changes since v2:
+- Patch 2 uses reg_mutex across the MTU pause, frame-size write, and
+  state restoration. Variable declarations now follow reverse
+  Christmas-tree order. This patch precedes topology support so MTU
+  protection is in place when internal CPU ports become available.
+- Patch 3 adds internal CPU port fallback while retaining port 0 and 6
+  priority, leaving QCA8327 support as an explicit RFC question.
+- Patch 4 masks the revision before setting the CPU PHY flag, clarifies
+  SmartSpeed downshift behavior, and drops the delayed-conduit causal
+  claim.
+- Patch 5 clarifies reset and config_aneg ordering along with hardware
+  evidence limits, keeping generic config_aneg.
 
-> diff --git a/Documentation/networking/dsa/b53.rst b/Documentation/networking/dsa/b53.rst
-> index 1cb3ff648f889..b67864b2d3144 100644
-> --- a/Documentation/networking/dsa/b53.rst
-> +++ b/Documentation/networking/dsa/b53.rst
+This series depends on the separate net patch "net: dsa: qca8k:
+propagate MDIO errors":
+https://lore.kernel.org/netdev/20260923215748.1336-1-yongzhao.derek@gmail.com/
 
-[ ... ]
+Testing:
+Fault injection against the actual MDIO/PHY functions and kernel polling
+macros covered busy-read errors, timeouts and successful transactions.
+The old polling code reproduced false success on read error; the fixed
+path blocked SmartSpeed writes and initial/resume resets. Tests with
+mocked hardware also covered flag scope, CPU-port selection and
+MDIO-to-MTU error handling.
 
-> @@ -35,149 +32,7 @@ Configuration with tagging support
->  The tagging based configuration is desired. It is not specific to the b53
->  DSA driver and will work like all DSA drivers which supports tagging.
->  
-> -See :ref:`dsa-tagged-configuration`.
-> -
-> -Configuration without tagging support
-> --------------------------------------
-> -
-> -Older models (5325, 5365) support a different tag format that is not supported
-> -yet. 539x and 531x5 require managed mode and some special handling, which is
-> -also not yet supported. The tagging support is disabled in these cases and the
-> -switch need a different configuration.
-> -
-> -The configuration slightly differ from the :ref:`dsa-vlan-configuration`.
-> -
-> -The b53 tags the CPU port in all VLANs, since otherwise any PVID untagged
-> -VLAN programming would basically change the CPU port's default PVID and make
-> -it untagged, undesirable.
+The changed qca8k-8xxx.o built with W=1 for x86_64 and ARM64 under
+allyesconfig and allmodconfig, with no compiler diagnostics. Unchanged
+qca8k-common.o and MTU locking retain the earlier build and concurrency
+test results. Hardware tests used downstream RA74 firmware. This
+revision has no full kernel image/modules build, pure net-next RA74 boot
+or hardware lockdep run.
 
-[Severity: Medium]
+Original RFC:
+https://lore.kernel.org/netdev/20260919085406.1395-1-yongzhao.derek@gmail.com/
 
-The commit message says:
+v2:
+https://lore.kernel.org/netdev/20260922202653.1153-1-yongzhao.derek@gmail.com/
 
-  "The section and its config examples no longer apply to any b53 switch,
-  so remove them."
+Base: net-next 8830e65ed46de41f849eefb8ba227d4852c460f6.
+Local prerequisite: 3ba847ea54227f704ee3b04f95d4b52d4e22d483.
 
-Is that accurate? In drivers/net/dsa/b53/b53_common.c,
-b53_get_tag_protocol() still falls back to DSA_TAG_PROTO_NONE for every
-chip family. This check runs before any per-model tag selection:
+Yongzhao Chen (4):
+  net: dsa: pass PHY flags when connecting shared ports
+  net: dsa: qca8k: serialize CPU MAC pause during MTU changes
+  net: dsa: qca8k: flag QCA8337 internal CPU PHYs for SmartSpeed
+  net: phy: qca83xx: disable SmartSpeed before resetting CPU PHYs
 
-	if (!b53_can_enable_brcm_tags(ds, port, mprot)) {
-		dev->tag_protocol = DSA_TAG_PROTO_NONE;
-		goto out;
-	}
+Ziyang Huang (1):
+  net: dsa: qca8k: support QCA8337 internal PHY CPU links
 
-b53_can_enable_brcm_tags() returns false in two cases. The first is when
-the CPU port is not 5, 7 or 8, which b53_possible_cpu_port() enforces. The
-second is when the switch is stacked behind a Broadcom-tagging conduit:
-
-	case DSA_TAG_PROTO_BRCM:
-	case DSA_TAG_PROTO_BRCM_PREPEND:
-		dev_warn(ds->dev,
-			 "Port %d is stacked to Broadcom tag switch\n", port);
-		ret = false;
-
-In that mode the driver still behaves the way the removed text describes.
-b53_vlan_port_needs_forced_tagged() keeps the CPU port tagged in all VLANs:
-
-	return dev->tag_protocol == DSA_TAG_PROTO_NONE && dsa_is_cpu_port(ds, port);
-
-and b53_vlan_setup() does this:
-
-	ds->untag_bridge_pvid = dev->tag_protocol == DSA_TAG_PROTO_NONE;
-
-After this patch, b53.rst only points to dsa-tagged-configuration. It no
-longer mentions the untagged mode or links to dsa-vlan-configuration.
-Boards whose CPU port is not 5/7/8 and cascaded Broadcom switches can
-still end up in that mode.
-
-Would it be better to keep this section and change the stated reason?
-Tagging is disabled because of CPU port placement or stacking, not
-because of the chip model (5325/5365/539x/531x5).
-
-The follow-up patch in this series, "MAINTAINERS: add missing entry for
-b53.rst", only adds an F: line and doesn't restore this content.
-
-[ ... ]
-
-> +Older models (5325, 5365) use a different, legacy tag format, but tagging
-> +is supported.
-
-[ ... ]
-
-> +See :ref:`dsa-tagged-configuration`.
+ Documentation/networking/dsa/dsa.rst |  2 +
+ MAINTAINERS                          |  1 +
+ drivers/net/dsa/bcm_sf2.c            |  4 ++
+ drivers/net/dsa/microchip/ksz8.c     |  4 ++
+ drivers/net/dsa/qca/qca8k-8xxx.c     | 39 +++++++++-----
+ drivers/net/dsa/qca/qca8k-common.c   | 79 ++++++++++++++++++++++------
+ drivers/net/phy/qcom/qca83xx.c       | 32 +++++++++--
+ include/linux/qca83xx.h              | 11 ++++
+ net/dsa/port.c                       |  6 ++-
+ 9 files changed, 145 insertions(+), 33 deletions(-)
+ create mode 100644 include/linux/qca83xx.h
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260922211439.369917-1-chrismelnu%40gmail.com
+2.43.0
+
