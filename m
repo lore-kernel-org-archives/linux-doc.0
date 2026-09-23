@@ -1,482 +1,101 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9BFD423E9E
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 17:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE9A420E89
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 17:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790185684; cv=none; b=IOX8wXh75gzMpvM+tCpCtIcVBVMsrzD6sRgQCy4cxcEpW5V79dstMIEovdhQCMziTkUWv3RfWzdHqzL+3XoOzspH1xh8Osvv9+NJql9UpD1YnWemfocX2T3DyokwiM/s2dOqvaCRlD3inWgk37qHnzEb3tECEkJzjfm+x6VsL10=
+	t=1790185778; cv=none; b=S52t1bq5YcpElTeW2lR1HeWQMhdD/ikWS//AMg/e1zA5IIKR328mXtlKBxK2xMLceJxAwnTsdyNxVGSZl3T40dhE7HkMsIGRXyDgVLpU1nSB/TNq438r2YAetZ98/XQEv6O/aG4M4CD6puX+Fuv3FHDe9Y6bYIXQxaBd4FypJbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790185684; c=relaxed/simple;
-	bh=kGdswbKWUnh/5oiqXUgwaChvMJJR5rTLM1IBnURhykg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UxuwKlmE0utbKDKobQvcaEuvtUWJzOZfhmcLLnLuMCZw5JR7nDbHXsiuwSlt2xQ4rKyL9CetqDjVFdeq2ybuhgBnWs0SZrgWetfkRl3Mu1DZcUOqe/lT0XRJ+uh4+kNcVkfx6tDk8vvfW01tlzwbcax9nqKkJ2i+Efd5ycxhnTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PDkaNtHs; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1790185778; c=relaxed/simple;
+	bh=b0qrLZrXHcjxaMdguIqby07pC/TpQhegHwKy5tJHNHA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=fiuZlpLpVPjfGNOUgaHa9EuYPg4VnVNnk0b1GWVnOlWivOnIClYziF6HAmrsX2wlZS6492Tnv6RVCKJzQG4xz4qNha6rvk9vawJuZruT6K6ym9yhu1LYgIjeop1CHgSejv6jsQm+uSII7G8qjWbWRnoQTWAKXWVGiZuNmsxwNK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RWaan63S; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PDkaNtHs"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccc09d65so911427a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 10:48:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RWaan63S"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4d04d740cso659952a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 10:49:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1790185681; x=1790790481; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TuS/hiw82xHN2Jmis0MyKFIEJvuWhPa9iLIYrihg8LE=;
-        b=PDkaNtHsSOG3mCBnsXa5/kMXYCJxUhVRQ7/ca3BcE3zeZcBdPf+S/6f5zXIl9ywnaA
-         0Q2jG7z5f0ECVg3NeVxzqSrDQkuXftVSAWVE9F6Yfde6DbsmvY38IXl2XzB3ApDu6wfq
-         dU3i5rAFfh7BSAsnnMoZO4IyXZ/F/slhwdRSw=
+        d=gmail.com; s=20251104; t=1790185775; x=1790790575; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=b0qrLZrXHcjxaMdguIqby07pC/TpQhegHwKy5tJHNHA=;
+        b=RWaan63S3XBEf34onYxukqlDJ74B6rL/lbo4PsN/sDumTwMMfjCMq4PyeVSdY8PiN+
+         OGeiCDbzWk8O/y0HJW2nF/AuxjwrCc2nrC1Ig03c2FMQi0BTq3RniXwuzREoFY1+mHlR
+         CSlVKYeZwVo/zPSbfLBLgf8ubdiURu7aJTqVsVDHjdMLWqBCWmDtu2CrMBnQjjrmMM9f
+         tc5TFAscc65Ndsgcq9k53aRY869HVBGU4g76GyOIxt86Dmx6Jk9l59oNNwUvb4gwZjN9
+         Sy9QLGhWMyK6IkEgacSPsoRHjV0WEkg091LffqoLBRodv0z+y2K9g0AjvWh4g/i6jIeU
+         tXzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790185681; x=1790790481;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TuS/hiw82xHN2Jmis0MyKFIEJvuWhPa9iLIYrihg8LE=;
-        b=K1wTF8Yu+N3HR0yRzxEYKeSOdv+4TAvELO7YL8h6g5jE0rfIG0/qRX36PN/0dCEHz/
-         FRUMz1ffUIqFXv4a1oZZqOPN7OPBlVcED4K7rjl0Yi3S4RQixY4kGUyKPD62jatllTIP
-         tLXw5s6/vy/lYYs2sSrZFYhjFHcbgqcGczHPxaYRbTIhqwPhmWfIwzvyK0g0wZIiLtq7
-         zPAlJcdQHhkh1v+rgPJgvA4WV+2DxOqgIHEA8Yy3WJGZCFbH3V7i3IpbfotgKnQfBc9Q
-         hu+VtI5Nkzf6Qjvv0c9eEC81t9zT/HDWooN/4/9Oc2K3a07smDgGg95tniSGsX0B21d2
-         gnyg==
-X-Gm-Message-State: AFuF++nguEt0H30/XbHe8cC64zfSfMW01yUMFGet7z3DPZMbeM5M2G9v
-	8+H5+ial8k9FkTv3gleWNvqrVj14ULJwsgmDMJxf6SDFGwFn/hxdqo3oEW1AxcOPDA==
-X-Gm-Gg: AYBFou0+2sBiiniCno6ZiDUclbQUkjJbwZH55YGveB/nIHgIH6cYVnx4sXQY1cKnRjj
-	E97iYgR4KIgALyWzUnL1UmBZWsoPNlW8vA6E08edoOyoVKeoaeW/aC2P3LBgpx9lyRLHSl6B33/
-	kC32tZ3XJnIJtfJSE4LfEV8LrTxytg5BU/HFhM2m6YhPRXrpVJ1Du9bgTSV8wDIN9F2HGrNYJJu
-	EC5POKForCkMsjsDXGV1JMTxBBV0iiwGv7NRD5thUVdXboaIvPHTDyQQWEMNAcA1Ub2uA+MUMcU
-	ZJbX9kB9kLSOeGZkx0V6l5Z53MqE1A7EvEsJZfIbzQvOJuwqykjRtBEUZyYr7r1u/WIojgc0Bqo
-	5WlYnYQ8TqhR+WU+fOjmaFIwCHNbCEBTPjXrwsH4FkRIYschB5li02W31kG5s2F5VQJbTW8QPK4
-	pJlh4CN9dl/97vRMNHPZJX4mg8AQ5g6MKsZfNA1T74fZSErwblsPTMN1kLKteulsj+aUbEX4XWj
-	9NiRNn6tCc0IovfhnT1yfyUvW+wBTlxrR9K5F1DvNhivWTm
-X-Received: by 2002:a17:90b:520f:b0:39e:4c7e:f040 with SMTP id 98e67ed59e1d1-3a07e583271mr3102837a91.29.1790185681194;
-        Wed, 23 Sep 2026 10:48:01 -0700 (PDT)
-Received: from localhost ([2a00:79e0:2e7c:8:642b:a4c2:7ea5:5668])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-3a0976c8f8dsm151602a91.12.2026.09.23.10.47.56
+        d=1e100.net; s=20260707; t=1790185775; x=1790790575;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b0qrLZrXHcjxaMdguIqby07pC/TpQhegHwKy5tJHNHA=;
+        b=OkLRGm9w8cmW/3q2oGLB34ry9jpDXH1pMWgxw1DCmi+VotVTWSV9S07uS7FJSdv6SZ
+         fMtfyF2+tnLcuubG83D2yQMJfPi8WY027DAaxyeq9HYQisC6mpyPNTPnD257O/DOZiqC
+         BeqrgNZ+oLnQWgPmjwJwBYHLYvbt+EtAdM1iohAS/RfL1qViZcM1LNXlqXj6hc2ApIm6
+         6zmD9AbPQMzJk1EHvql0R7WgEhMH2z/K65ieyPfcTZk+dPKaHJnndbKwJIZ78RL78qNj
+         3NNmS7Cz3NRdT5WOuzQfUZO0jZarWK0Mw7DvsLRfpa+BqrZsbwIoJbxL9QYmvO1dGmIW
+         Ujkw==
+X-Forwarded-Encrypted: i=1; AKwUvBwAJfSSELuXXKVGMEelDWJYKdYE2hhlN1PgV8w11SDnO8Hmx02vjpxTCkLRsEN54hJKDQhynhrxngk=@vger.kernel.org
+X-Gm-Message-State: AFuF++mSieUuWX+MLrvHr5A9HBkh7+Zn0t6FUii8GsPAUwF1oudTU8Vu
+	5LA3bcW5TeLysFSPl0vFFH9OcD/8IuJWsk8UnOoO9ltnfbj8Pww1TfGj
+X-Gm-Gg: AYBFou3RzW3U9PKfn7Ag6Oe+P1qtOBJZ8kZ5VK1PSkVNepgWbEVQ9mpGb3GtnDfiqPm
+	jtlgNnK2mFky7c7h4WsFQOgxJy5p2/dnyvbgtNl9m4cyWbhGqLELIoo3cE4h99SL2jumBNCSoSc
+	eLV37zaG5p8ywh8KKiT52ec22KsAl9U3p2ty35owTtloUHIX1SsGzHVhYy+XDQENx0zoaU9oxgT
+	k6TqbNUwReElff4A4iKqThAWWz6/p0H8GsCDAMiCYzthm4Y0VgSP5l++NZBmAupXoJRX6rkDzwG
+	fYL7EdfzSZYoD/UNOSXcJyYDsf+rVZYQLzaJb0MkM+Hc4EbLGioGUxTCQM8Px1tlF+0L/Anf3bz
+	306eC/SO+mqDIvFzS6oYoUWIoBiALcDB2ADWjDlbwGXQ2m/KSvoBRaTLVasQgJWdzunPy1aQ0ti
+	3bTC7eQRhxhhwjvZ+yFMEfaI+yM0Qu0DwcMytwGpaVJK/LQBkev5680LAutEERfR+qh76H44Y+B
+	C4ECV/6YmPON6i8GHYv+/ycHaMxFkDUIDm9
+X-Received: by 2002:a17:90b:1cc5:b0:3a0:9640:8036 with SMTP id 98e67ed59e1d1-3a09640858dmr258738a91.6.1790185775461;
+        Wed, 23 Sep 2026 10:49:35 -0700 (PDT)
+Received: from localhost ([13.93.150.60])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a081274d7fsm2065754a91.2.2026.09.23.10.49.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Sep 2026 10:47:57 -0700 (PDT)
-From: Brian Norris <briannorris@chromium.org>
-To: "Rafael J . Wysocki" <rafael@kernel.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Ulf Hansson <ulfh@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Doug Anderson <dianders@chromium.org>,
-	linux-kernel@vger.kernel.org,
-	Brian Norris <briannorris@chromium.org>
-Subject: [PATCH v2 8/8] PM: runtime: Add Example Driver Patterns section
-Date: Wed, 23 Sep 2026 10:40:32 -0700
-Message-ID: <20260923104031.v2.8.I75ceea7b1afd016e08922e47b82e6eb36de144fe@changeid>
-X-Mailer: git-send-email 2.56.0.rc1.310.g51773c2048-goog
-In-Reply-To: <20260923174711.1283986-1-briannorris@chromium.org>
-References: <20260923174711.1283986-1-briannorris@chromium.org>
+        Wed, 23 Sep 2026 10:49:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 23 Sep 2026 17:49:33 +0000
+Message-Id: <DLMVW6Z8IU9P.31OHF60Q6YCWP@gmail.com>
+Subject: Re: [PATCH net-next v4 2/2] selftests: net: test untracked NA
+ recovery of FAILED neighbors
+From: "Lawrence Lee" <lfqlee314@gmail.com>
+To: "Ido Schimmel" <idosch@nvidia.com>
+Cc: "David Ahern" <dsahern@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Simon
+ Horman" <horms@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
+ <netdev@vger.kernel.org>, "Arun Ajith S" <aajith@arista.com>, "Roopa
+ Prabhu" <roopa@nvidia.com>, "Jaehee Park" <jhpark1013@gmail.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Shuah
+ Khan" <shuah@kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.17.0
+References: <cover.1790127207.git.lfqlee314@gmail.com>
+ <ce40008682ed26ab039168a5fcb515eff8d30c3a.1790127207.git.lfqlee314@gmail.com> <20260923083633.GA2626135@shredder>
+In-Reply-To: <20260923083633.GA2626135@shredder>
 
-The runtime PM API surface is pretty large, but there are a few common
-patterns that many drivers should follow. Add some illustrative
-examples, to help guide the most common audience for runtime PM docs --
-driver writers.
+On Wed Sep 23, 2026 at 8:36 AM UTC, Ido Schimmel wrote:
+> You shouldn't have added a Fixes tag. Backporting this patch to older
+> kernels will make the test fail. Wait for feedback from Jakub / Paolo
+> before posting v5. They might agree to strip it before applying.
+>
 
-Signed-off-by: Brian Norris <briannorris@chromium.org>
----
-
-Changes in v2:
- * Add appropriate teardown to "Probe with Hardware Powered Off"
-   Example, as the remove() + power-off behavior is subtle here, and
-   easy to get wrong
-
- Documentation/power/runtime_pm.rst | 367 ++++++++++++++++++++++++++++-
- 1 file changed, 366 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/power/runtime_pm.rst b/Documentation/power/runtime_pm.rst
-index 7bb64d793cdd..3a615d2de103 100644
---- a/Documentation/power/runtime_pm.rst
-+++ b/Documentation/power/runtime_pm.rst
-@@ -641,7 +641,9 @@ The implementation is well suited for asynchronous use in interrupt contexts.
- However such use inevitably involves races, because the PM core can't
- synchronize ->runtime_suspend() callbacks with the arrival of I/O requests.
- This synchronization must be handled by the driver, using its private lock.
--Here is a schematic pseudo-code example::
-+Here is a schematic pseudo-code example:
-+
-+.. code-block:: c
- 
- 	foo_read_or_write(struct foo_priv *foo, void *data)
- 	{
-@@ -707,3 +709,366 @@ pm_runtime_autosuspend_expiration() from within the ->runtime_suspend()
- callback while holding its private lock.  If the function returns a nonzero
- value then the delay has not yet expired and the callback should return
- -EAGAIN.
-+
-+.. _Section 10:
-+
-+10. Example Driver Patterns
-+===========================
-+
-+The runtime PM API is large and complex, but most device drivers follow a small
-+set of canonical patterns when interacting with runtime PM. This section
-+illustrates standard patterns for device probing, performing I/O, and handling
-+interrupts.
-+
-+Probe and Initialization
-+------------------------
-+
-+Basic Probe
-+~~~~~~~~~~~
-+
-+A driver that powers on its hardware during probe and does not use autosuspend
-+can initialize runtime PM using device-managed helpers:
-+
-+.. code-block:: c
-+
-+	static int foo_probe(struct platform_device *pdev)
-+	{
-+		struct device *dev = &pdev->dev;
-+		struct foo_priv *priv;
-+		int ret;
-+
-+		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+		if (!priv)
-+			return -ENOMEM;
-+
-+		/* Power on and initialize hardware registers... */
-+
-+		/*
-+		 * The code above left hardware powered on and operational, so
-+		 * tell the PM core that the device is active before enabling
-+		 * runtime PM.
-+		 */
-+		pm_runtime_set_active(dev);
-+
-+		ret = devm_pm_runtime_enable(dev);
-+		if (ret)
-+			return ret;
-+
-+		/*
-+		 * Alternatively, the above two calls can be combined into:
-+		 * ret = devm_pm_runtime_set_active_enabled(dev);
-+		 * if (ret)
-+		 *     return ret;
-+		 */
-+
-+		/*
-+		 * Upon successful return from ->probe(), the driver core
-+		 * automatically executes pm_request_idle(dev), allowing the
-+		 * device to suspend asynchronously if its usage counter is zero.
-+		 */
-+		return 0;
-+	}
-+
-+Probe with Hardware Powered Off
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Many drivers prefer to keep hardware powered off or in low power until
-+actually needed, avoiding duplicate power sequencing logic between ->probe()
-+and ->runtime_resume(). Because the initial runtime PM state of a device is
-+suspended by default, the driver can enable runtime PM directly and rely on
-+pm_runtime_resume_and_get() to trigger the ->runtime_resume() callback when
-+probe needs to access hardware:
-+
-+.. code-block:: c
-+
-+	static int foo_runtime_suspend(struct device *dev)
-+	{
-+		struct foo_priv *priv = dev_get_drvdata(dev);
-+
-+		clk_disable_unprepare(priv->clk);
-+		regulator_disable(priv->supply);
-+
-+		return 0;
-+	}
-+
-+	static int foo_runtime_resume(struct device *dev)
-+	{
-+		struct foo_priv *priv = dev_get_drvdata(dev);
-+		int ret;
-+
-+		ret = regulator_enable(priv->supply);
-+		if (ret)
-+			return ret;
-+
-+		ret = clk_prepare_enable(priv->clk);
-+		if (ret) {
-+			regulator_disable(priv->supply);
-+			return ret;
-+		}
-+
-+		return 0;
-+	}
-+
-+	static int foo_probe(struct platform_device *pdev)
-+	{
-+		struct device *dev = &pdev->dev;
-+		struct foo_priv *priv;
-+		int ret;
-+
-+		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+		if (!priv)
-+			return -ENOMEM;
-+
-+		platform_set_drvdata(pdev, priv);
-+
-+		/* Acquire regulators, clocks, GPIOs, and register map... */
-+
-+		/*
-+		 * Hardware starts powered off. The default state is
-+		 * RPM_SUSPENDED, so no need for:
-+		 * pm_runtime_set_suspended(dev);
-+		 */
-+
-+		pm_runtime_enable(dev);
-+
-+		/*
-+		 * Power on the device via ->runtime_resume() to verify device
-+		 * ID or perform initial hardware configuration.
-+		 */
-+		ret = pm_runtime_resume_and_get(dev);
-+		if (ret < 0)
-+			goto err_pm_disable;
-+
-+		ret = foo_verify_hardware_id(priv);
-+		if (ret) {
-+			pm_runtime_put_sync(dev);
-+			goto err_pm_disable;
-+		}
-+
-+		/*
-+		 * Drop the usage counter, allowing ->runtime_suspend() to
-+		 * power off the device until an I/O request arrives.
-+		 */
-+		pm_runtime_put(dev);
-+
-+		return 0;
-+
-+	err_pm_disable:
-+		pm_runtime_disable(dev);
-+		return ret;
-+	}
-+
-+	static void foo_remove(struct platform_device *pdev)
-+	{
-+		struct device *dev = &pdev->dev;
-+
-+		pm_runtime_disable(dev);
-+		if (!pm_runtime_status_suspended(dev))
-+			foo_runtime_suspend(dev);
-+	}
-+
-+Note that this pattern requires ``CONFIG_PM``. When ``CONFIG_PM`` is
-+disabled, pm_runtime_resume_and_get() returns 0 without calling
-+->runtime_resume(), leaving hardware unpowered. Drivers using this pattern
-+should typically depend on ``CONFIG_PM``.
-+
-+Drivers using this pattern should also ensure that hardware is powered off
-+cleanly upon driver unbind. If the device was still active when detached (for
-+example, if user space configured ``/sys/devices/.../power/control`` to
-+``on``, or if an operation was ongoing), the ->remove() callback disables
-+runtime PM, checks whether the device is not yet suspended using
-+pm_runtime_status_suspended(), and manually invokes foo_runtime_suspend().
-+
-+Autosuspend Probe
-+~~~~~~~~~~~~~~~~~
-+
-+If the driver uses autosuspend, it configures the autosuspend delay and enables
-+autosuspend before enabling runtime PM:
-+
-+.. code-block:: c
-+
-+	static int foo_probe(struct platform_device *pdev)
-+	{
-+		struct device *dev = &pdev->dev;
-+		struct foo_priv *priv;
-+		int ret;
-+
-+		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+		if (!priv)
-+			return -ENOMEM;
-+
-+		/* Power on and initialize hardware registers... */
-+
-+		/* Set autosuspend delay (e.g. 2000 ms) and enable autosuspend */
-+		pm_runtime_set_autosuspend_delay(dev, 2000);
-+		pm_runtime_use_autosuspend(dev);
-+
-+		pm_runtime_set_active(dev);
-+
-+		/*
-+		 * Update last busy timestamp so the driver core's post-probe
-+		 * pm_request_idle() respects the autosuspend delay.
-+		 */
-+		pm_runtime_mark_last_busy(dev);
-+
-+		/*
-+		 * devm_pm_runtime_enable() ensures that pm_runtime_disable()
-+		 * and pm_runtime_dont_use_autosuspend() are called upon driver
-+		 * unbind.
-+		 */
-+		ret = devm_pm_runtime_enable(dev);
-+		if (ret)
-+			return ret;
-+
-+		return 0;
-+	}
-+
-+Performing I/O Operations
-+-------------------------
-+
-+Before accessing hardware registers or initiating I/O transfers, drivers must
-+ensure the device is active by calling pm_runtime_resume_and_get() or similar.
-+
-+Basic I/O
-+~~~~~~~~~
-+
-+For devices without autosuspend, work completion is signaled with
-+pm_runtime_put(), which drops the usage counter and queues an asynchronous idle
-+check once the counter reaches zero:
-+
-+.. code-block:: c
-+
-+	int foo_do_transfer(struct foo_priv *priv, void *buf, size_t count)
-+	{
-+		int ret;
-+
-+		ret = pm_runtime_resume_and_get(priv->dev);
-+		if (ret < 0)
-+			return ret;
-+
-+		/* Access hardware registers or perform data transfer... */
-+		ret = foo_hardware_transfer(priv, buf, count);
-+
-+		/*
-+		 * Drop usage counter and request asynchronous idle check (and
-+		 * suspend, if possible).
-+		 */
-+		pm_runtime_put(priv->dev);
-+
-+		return ret;
-+	}
-+
-+Autosuspend I/O
-+~~~~~~~~~~~~~~~
-+
-+For devices using autosuspend, work completion is signaled with
-+pm_runtime_put_autosuspend(), which drops the usage counter and defers
-+suspension until the autosuspend delay expires:
-+
-+.. code-block:: c
-+
-+	int foo_do_transfer(struct foo_priv *priv, void *buf, size_t count)
-+	{
-+		int ret;
-+
-+		ret = pm_runtime_resume_and_get(priv->dev);
-+		if (ret < 0)
-+			return ret;
-+
-+		/* Access hardware registers or perform data transfer... */
-+		ret = foo_hardware_transfer(priv, buf, count);
-+
-+		/*
-+		 * Drop the usage counter and schedule an autosuspend once
-+		 * the delay expires. Note that pm_runtime_put_autosuspend()
-+		 * updates the last-access timestamp automatically.
-+		 */
-+		pm_runtime_put_autosuspend(priv->dev);
-+
-+		return ret;
-+	}
-+
-+Synchronous Completion
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+When immediate suspension is desired -- such as before unregistering a
-+device or during shutdown -- synchronous put helpers can be used instead of
-+their asynchronous counterparts. Which helper to use depends on whether
-+autosuspend is configured:
-+
-+* For non-autosuspend devices, use pm_runtime_put_sync().
-+* For devices that use autosuspend, use pm_runtime_put_sync_suspend(), which
-+  ignores any configured autosuspend delay and forces immediate suspension.
-+
-+However, note several important caveats when relying on synchronous runtime
-+PM helpers for power-down:
-+
-+* **Parents and Suppliers**: While the target device itself is suspended
-+  synchronously, the PM core handles idle notifications for parents and
-+  device link suppliers asynchronously. As a result, parent devices or
-+  power domain suppliers are not guaranteed to be powered off when the
-+  function returns.
-+* **User Policy ("Forbidden")**: Runtime PM helpers respect system policy.
-+  If user space has set ``/sys/devices/.../power/control`` to ``on``
-+  (pm_runtime_forbid()), the PM core holds an extra reference on the
-+  device, meaning dropping the driver's usage counter will not trigger a
-+  suspend.
-+
-+Because of these constraints, synchronous put helpers may not be suitable
-+when a driver functionally requires hardware to be powered off
-+synchronously (for example, to perform a hardware reset or power cycle).
-+Such requirements may necessitate other methods, such as disabling runtime
-+PM with pm_runtime_disable() and explicitly executing the hardware
-+power-down sequence.
-+
-+Interrupt Handling with Conditional Get
-+---------------------------------------
-+
-+Interrupt handlers (especially in atomic or hardirq context) cannot typically
-+invoke pm_runtime_resume_and_get(), because runtime-resume may sleep. Moreover,
-+if an interrupt arrives while the device is suspended or transitioning to low
-+power (e.g., on a shared interrupt line or spurious wakeups), attempting to
-+read hardware registers could trigger a bus fault or system hang.
-+
-+To handle this safely, drivers can conditionally acquire a runtime PM reference
-+using pm_runtime_get_if_in_use() or pm_runtime_get_if_active():
-+
-+.. code-block:: c
-+
-+	static irqreturn_t foo_irq_handler(int irq, void *dev_id)
-+	{
-+		struct foo_priv *priv = dev_id;
-+		irqreturn_t ret = IRQ_NONE;
-+
-+		/*
-+		 * Check if the device is active before reading hardware
-+		 * registers. If the device is suspended, this interrupt
-+		 * cannot belong to us (or was already serviced).
-+		 *
-+		 * Note that this also will drop interrupts while runtime PM is
-+		 * disabled.
-+		 */
-+		if (pm_runtime_get_if_active(priv->dev) <= 0)
-+			return IRQ_NONE;
-+
-+		/* Hardware is active and usage count is incremented */
-+		if (foo_has_pending_irq(priv)) {
-+			foo_service_irq(priv);
-+			ret = IRQ_HANDLED;
-+		}
-+
-+		/*
-+		 * Release the reference acquired by pm_runtime_get_if_active().
-+		 * For autosuspend devices, use pm_runtime_put_autosuspend();
-+		 * for non-autosuspend devices, use pm_runtime_put().
-+		 */
-+		pm_runtime_put_autosuspend(priv->dev);
-+
-+		return ret;
-+	}
-+
-+Both pm_runtime_get_if_in_use() and pm_runtime_get_if_active() are safe to use
-+from an interrupt routine. One example where a device might be active but not
-+"in use" is if autosuspend is used. A device will stay active for a while with
-+no users. If interrupts should still be serviced for a device in this state,
-+pm_runtime_get_if_active() should be used.
--- 
-2.56.0.rc1.310.g51773c2048-goog
-
+That's my mistake, I added it in response to Sashiko review feedback on=20
+v3 but thought it was just for documentation purposes, I didn't realize=20
+the tag would cause it to get backported since I only submitted to=20
+net-next. Sorry about that, will wait to hear from Jakub/Paolo before=20
+sending any new versions.
