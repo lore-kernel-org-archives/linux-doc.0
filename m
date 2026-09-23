@@ -1,121 +1,138 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63002440A26;
-	Wed, 23 Sep 2026 10:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mta0.migadu.com (out-247.mta0.migadu.com [91.218.175.247])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97E8248F64
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 11:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790160978; cv=none; b=EBq+6s+OttukxznpwBf+sEaufEIP45GPvlogzPySpWf8B/A7iyyV8HqTVoDTL3YfcehSuGup6g6a4cxwoSC5zeQqYH47B7/2MUWYjJMuL1RVNxzpUhY695xVSyTYwJkLOKIGa1m6CZzycTeM/LvxOEqpYseln+pas4H6+bpoXO0=
+	t=1790161557; cv=none; b=PHWpDxgtVr8KYb3yXmEs6F9VYmZ3U5ohCH96gg/4eAA5khM3oWbJ0Qw9BB/0Hb99R1DCbCS0LPBu9CNH3uCjPhcM+0XrcAYfMiZDg8AmmUUiMthnSxsP9wMuZUlzf/70oLpR2tlLJ3np3/C2qaW/EXk9170JtgRzGA01/qLkDQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790160978; c=relaxed/simple;
-	bh=s5eK6czV54tLMgQyspEsKT5FhzSt1Pt79xGUDPqztro=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GQCMg37a2XD9wBKMXhF0p3WI0puCE9Z0OHNA0IJW/20EmQQvR4ejX3PdhCO3X5hGXmgmZ3/yE9RuqZ2AeRyBCKZl+3ecj+DJ5Ki6DmzerGFKCGn92098qF5JaWwAYaFF0OcQWlTzRifI3hkKl2qs3NCk6hYlPZKTt9thYUg9mqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=LogV7v5u; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1790161557; c=relaxed/simple;
+	bh=kHep/UoJdFlSFtMOk5eTsBvsgTZFrj+duqNAdJba03Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GMK1r9zBiKPZvMa2USTAPgewlC8mn+0OOed12gEWNedUt5ShirR+MbhdgvtNjAh5z3Yl92NJmHncDY3R2tHvyVsmuD/ZdtQGAzTzSQ9a2dt3mC1cobIUQx9m4hPo0GAmwDaY8LxAfoI2SpiGetc7LdvceayfNRdPyleVUONaixw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UXarCcHo; arc=none smtp.client-ip=91.218.175.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="LogV7v5u"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E97BF143D;
-	Wed, 23 Sep 2026 03:56:03 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 047343F86C;
-	Wed, 23 Sep 2026 03:56:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790160967; bh=s5eK6czV54tLMgQyspEsKT5FhzSt1Pt79xGUDPqztro=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LogV7v5ul2kJACpBHby8srql67OXX0Bled1I/EPPVwAmKpYNSZLzGG8ySoD5aiAqb
-	 z8+RgMj8cMWr4Pz2TESQ5GlrSOcy/prdB3nggxKbZkvpFNJLKUt7KD6SYEbTQptlAs
-	 Rr0b9Xa0retjD23OCp/6aqD0SFUfPj8MEmIOOIfo=
-Date: Wed, 23 Sep 2026 11:55:49 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
-	lukasz.luba@arm.com, philip.radford@arm.com,
-	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
-	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Subject: Re: [PATCH v12 02/25] firmware: arm_scmi: Allow registration of
- unknown-size events/reports
-Message-ID: <arOv8aLJaRQjhkaF@pluto>
-References: <20260920091928.2014972-1-cristian.marussi@arm.com>
- <20260920091928.2014972-3-cristian.marussi@arm.com>
- <2135509e-2689-4258-ab00-011d47f4b172@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UXarCcHo"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=kHep/UoJdFlSFtMOk5eTsBvsgTZFrj+duqNAdJba03Y=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790161545; v=1; x=1790766345;
+ b=UXarCcHoAaZK6KM8Xc9YqQ/OQNjmJ6SYJVQSZ7gR87mpqSH0exoKTq8YlW3JNOTaCCU+5B51
+ OzIH5YocwNfOkryOCyUqvNinlTQ0Pa91SMp+LOWM1lxj0mwl5UTxbLF+Qs2fK6e+X1+fO9ddAxQ
+ TkzKWqFKpYqAluvTerar57oE=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 6a1daa1bd792e7e6;
+	Wed, 23 Sep 2026 11:05:44 +0000
+X-Mizu-Trace-ID: 6a1daa1bd792e7e6
+X-Migadu-Flow: FLOW_OUT
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b8c42da963so5322e87.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 04:05:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByNyjdQMj6wsEmQiCNg95t1c0W6wM4AoFTaPr7d5TbBurebwNzZcLRcBmoc53w0yvcHxplk8YjBOAw=@vger.kernel.org
+X-Gm-Message-State: AFuF++netSOt0xOY4XSosJtYGL7alhVlMgh2b2cit/p3qDr83dNT6v4/
+	aQo2vlfw50z3ibyayZuoGmR5Yocg/45s7HsIDoY6a4a6C7PHL9XUSLIgJ0Km+4ihMJSq9SUN8PU
+	EdrHqVkWj4gHN6r3iGLZYD916IJJCqJBrT3sC9ICv
+X-Received: by 2002:ac2:4c54:0:b0:5b8:cc2e:2fe6 with SMTP id
+ 2adb3069b0e04-5b8d915cbe7mr97644e87.5.1790161539952; Wed, 23 Sep 2026
+ 04:05:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2135509e-2689-4258-ab00-011d47f4b172@kernel.org>
+References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org> <20260922-kvm-arm-prefault-v3-8-787bd3bc7e3f@kernel.org>
+In-Reply-To: <20260922-kvm-arm-prefault-v3-8-787bd3bc7e3f@kernel.org>
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Wed, 23 Sep 2026 12:05:03 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTwSRAGe4iP2E2V=b+baQ_GRYpYoNzJSft385m9E5RvEMg@mail.gmail.com>
+X-Gm-Features: AcwNN1Xp8lA6R1poRNOfE-88mv5Px32o87Y3m3XsUHw9H9Pq7uMPdjPzqDpKw3o
+Message-ID: <CA+EHjTwSRAGe4iP2E2V=b+baQ_GRYpYoNzJSft385m9E5RvEMg@mail.gmail.com>
+Subject: Re: [PATCH v3 08/14] KVM: arm64: Propagate EHWPOISON in kvm_s2_fault_pin_pfn()
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Mark Rutland <mark.rutland@arm.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
+	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Sean Christopherson <seanjc@google.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>, 
+	Wei-Lin Chang <weilin.chang@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 22, 2026 at 03:15:55PM +0200, David Hildenbrand (Arm) wrote:
-> On 9/20/26 11:19, Cristian Marussi wrote:
-> > Allow protocols to register events with build-time unknown sizes: such
-> > events can be declared zero-sized and let the core SCMI stack perform the
-> > needed safe-net boundary checks based on the configured transport size.
-> 
-> ok, so we have a maximum message size defined by the transport. We'll use that
-> as payload size, and the report size just gets the additional ktime_t.
-> 
-> 
-> >  	pd = scmi_allocate_registered_events_desc(ni, proto_id, ee->queue_sz,
-> > @@ -807,7 +821,8 @@ int scmi_register_protocol_events(const struct scmi_handle *handle, u8 proto_id,
-> >  		mutex_init(&r_evt->sources_mtx);
-> >  
-> >  		r_evt->report = devm_kzalloc(ni->handle->dev,
-> > -					     evt->max_report_sz, GFP_KERNEL);
-> > +					     evt->max_report_sz ?: max_report_sz,
-> 
-> Having two similarly named variables is a bit confusing. I wonder if you can
-> somehow make it clearer in the latter case that it is the max_report_sz
-> according to the transport.
-
-Ok I'll do.
-
-> 
-> > +					     GFP_KERNEL);
-> >  		if (!r_evt->report)
-> >  			return -ENOMEM;
-> >  
-> > diff --git a/drivers/firmware/arm_scmi/notify.h b/drivers/firmware/arm_scmi/notify.h
-> > index f18f98c5ab3b..c2eb4844c7db 100644
-> > --- a/drivers/firmware/arm_scmi/notify.h
-> > +++ b/drivers/firmware/arm_scmi/notify.h
-> > @@ -18,8 +18,12 @@
-> >  /**
-> >   * struct scmi_event  - Describes an event to be supported
-> >   * @id: Event ID
-> > - * @max_payld_sz: Max possible size for the payload of a notification message
-> > - * @max_report_sz: Max possible size for the report of a notification message
-> > + * @max_payld_sz: Max possible size for the payload of a notification message.
-> > + *		  Set to zero to use the maximum payload size allowed by the
-> > + *		  transport.
-> 
-> "maximum payload size" is ph->hops->get_max_msg_size(ph) ? Should we call this
-> "maximum message size" then?
+On Tue, 22 Sept 2026 at 15:19, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
 >
-Ok 
-> > + * @max_report_sz: Max possible size for the report of a notification message.
-> > + *		   Set to zero to use the maximum payload size allowed by the
-> > + *		   transport plus the additional ktime_t timestamp.
-> 
-> Same here.
+> Currently kvm_s2_fault_pin_pfn() handles a poisoned page directly by
+> sending a SIGBUS signal itself.
 >
- 
-Ok
+> This is an odd place to do it, the caller should decide what to do with
+> errors, so move the handling to the sole caller, user_mem_abort().
+>
+> This lays the foundation for stage 2 pre-faulting which, arising from a
+> synthetic fault, should not send a signal.
+>
+> In order to do so, check to see if user_mem_abort()'s caller has set result
+> - i.e. whether it wants to be informed about the outcome of the fault
+> handling.
+>
+> If it does, then it is implied that it should handle the -EHWPOISON error
+> itself. This is the case for pre-faulting.
+>
+> Otherwise this is real hardware, so send the signal.
+>
+> No functional change intended.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Thanks,
-Cristian
+Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
 
-> -- 
-> Cheers,
-> 
-> David
+Cheers,
+/fuad
+
+> ---
+>  arch/arm64/kvm/mmu.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+>
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index 221ea069f9bb..2576b967d20e 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -2016,10 +2016,8 @@ static int kvm_s2_fault_pin_pfn(const struct kvm_s2_fault_desc *s2fd,
+>                                       kvm_s2_fault_is_write(s2fd) ? FOLL_WRITE : 0,
+>                                       &s2vi->map_writable, &s2vi->page);
+>         if (unlikely(is_error_noslot_pfn(s2vi->pfn))) {
+> -               if (s2vi->pfn == KVM_PFN_ERR_HWPOISON) {
+> -                       kvm_send_hwpoison_signal(s2fd->hva, __ffs(s2vi->vma_pagesize));
+> -                       return 0;
+> -               }
+> +               if (s2vi->pfn == KVM_PFN_ERR_HWPOISON)
+> +                       return -EHWPOISON;
+>                 return -EFAULT;
+>         }
+>
+> @@ -2261,6 +2259,13 @@ static int user_mem_abort(const struct kvm_s2_fault_desc *s2fd,
+>          * get block mapping for device MMIO region.
+>          */
+>         ret = kvm_s2_fault_pin_pfn(s2fd, &s2vi);
+> +       if (ret == -EHWPOISON) {
+> +               /* If result is specified, let the caller handle this. */
+> +               if (result)
+> +                       return -EHWPOISON;
+> +               kvm_send_hwpoison_signal(s2fd->hva, __ffs(s2vi.vma_pagesize));
+> +               return 0;
+> +       }
+>         if (ret != 1)
+>                 return ret;
+>
+>
+> --
+> 2.55.0
+>
