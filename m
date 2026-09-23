@@ -1,198 +1,165 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11020142.outbound.protection.outlook.com [52.101.201.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9783B1A6803
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 20:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6C356E067;
+	Wed, 23 Sep 2026 20:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.142
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790195930; cv=pass; b=fMxhwuBfRawN0tBkB6HO34nN+MG93mAmV0zP8G23u9JbzngRNr4RS2JFhA93WVp19Q8RmNCW3+2pnyF2bkL27ht0xqSJWs0MmmGl0/gdsMsLbPvkayrJmToetRnfgqqJrL5MtzusAEau35vdGB96jWJq9y1x+ak6mX6uo8YT1G0=
+	t=1790196667; cv=fail; b=KjxE35GqzAmOyLKObmVioyF99RSjJ7nCPhzhUXaF+dolfmXlY4VH8mFaivfCD9i8Lxv96zLbTHH/5Y+6Dc8GqfnedT+CVCVqqrPPJBfZBqgUQGdwnUFGlg8NGRJTZdZZNox4VFxt/NjOifve2CkjB0R0yieOOZWFcRhvU+0K2vo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790195930; c=relaxed/simple;
-	bh=1323NqL3CnlUce5XBrIJSLy43Ws8JZBp7hMlzmPHrRc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u/Waf/dsWnneCSUrWU7tPgzD6ngkonM+imWdbnz8DmQEIJf4UYr0WfW7/gJ+NTaURo2X1hYsrEUjoP7ClT8knwZ5yfAaAGu+eDdoePxX9giw3uNSNl/+a2dK/VNLLc+QLU9oPB+ypY+ytMTD9c2U0EjG0JF2LfPCM2IALKgTE5g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UTK9jh5A; arc=pass smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1790196667; c=relaxed/simple;
+	bh=irM/a+9wZBPefeUtGt2BTB6HzQuwD+vPCBzxOoU2YDs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=X4kFqBtgNnbS1Hfm3BKtCAU2wOhiv6VqsN0Fc/huyASpLMQ8ObQVc8wARGsaSlBZDy0LptyAFMCYAF1IvFicw+VhpIZ1aTcQNGLFtRoRTUGixSnGGc0jc+rkSdmHOhHKR3zgyGdoZQVgu2rhSpy6jvrrX31nzEKRQ6jQQozLL68=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=R0UyrwZ3; arc=fail smtp.client-ip=52.101.201.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=rambus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UTK9jh5A"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2d3b445a84fso4875ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 13:38:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790195917; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ceuIjhrpVx4Mp2G1usIwyGPCtBc6swQCI8f9jMp6becNDA+Ynf1cuHcQ/SuvStJogj
-         Ma3JGiJH5Kd9TQ1d5jqmL5zh+o3mJ7ZndNPxJqhhxsSf1M2Ekdr4Qyyn9tSpAcpbKO5D
-         RzywPn2LuSeMsmKZRF9GhtUI+ECBA/rm1jtSyl/tEXXeDn8Z4BRpmHuYhtOqWfqV/Jhu
-         CQ9vQgRaDe3sPk5zKCoUPdm7GN3iF6uSyY1scv3SFYFo8VK/FSPvWGcu3grWS4iXmeM4
-         aI+QTtBb5Sglp6ExfobS9sbcnl/NkeqbZNYMoytOJL0+xjtZj9nFQhyFTYUrmXB32awn
-         zcWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=J915CxCyoQiRvBpeSoeKGmPezPQTdfg1IocPf7kC9Cw=;
-        fh=/tFEyWXgewdZYsE4pIKIyzqri9VJpGKuS7Pq0cmHhJs=;
-        b=TIc4s5CXjsX7r6+4YL0jEoVLKOLmrPkVTruGyQsQRDBOtqSkoJiI+rZZVUYdNSWzj0
-         N768ulCe2Hie2hIH67N4V12aKKdhjQJ303YBNc/B0TprL0IyyKRNf0mq3L0hJ6BC0VYT
-         1HerEUFlvs4V64VAyP4mkFZDOjbBjBp0dB36Z8jq4XH2DCKirVNR+W8jczx8nENvlqHx
-         pXLQnmW+UU7MSc0JbrrVy8Fr99hdBG4+FgYK0JwAm3k3xA6wu8/PQVGs2BlUNUpbfMxp
-         KxOlV24JfYRX28ItR8v25pJM/apSnhbgOZcv4xQV6MQKInPgImwYbMqyZtRufYensHMw
-         IZ5g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790195917; x=1790800717; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=J915CxCyoQiRvBpeSoeKGmPezPQTdfg1IocPf7kC9Cw=;
-        b=UTK9jh5AVVPYAgpwE98Cq9VszKtqOjO+4QCEih0/J4NpXCRWlSJkfsCe+vtjnlDbHG
-         69baWXT6tHwAlZUtTDrb0ednkMLW9EazC9un0TgODObSjX1m1bDrOoruD1+Qp5GkiJ57
-         BEx42dvy0cFvkDs+5EToZCljzI0uv/yHO1YWJxKEFEDXVco+Wqy9mfifTwRE3gCzQyd2
-         TWjES3E8euDKKfC98Tt9NVFz/DIUjuT0s6YGKaRfjaMx73+GTZhHWO2xWqkPlOIfBir6
-         AkEmVGx8sKXkY/rfSg8SV6nQVsdapJOEHDAw+SniHjszsJ3FLI0OIq+khZshgZ4kJcIv
-         p3pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790195917; x=1790800717;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=J915CxCyoQiRvBpeSoeKGmPezPQTdfg1IocPf7kC9Cw=;
-        b=0rDl/GGZntnwgioiny1L2G2oxwelq+tzO8gKl0Zhq3V9C9xMHXLLHPKpN3TfgXY7Ba
-         tKKsJsafyOZZ6XGUqh2w8yJY1gqcF6leRI5TW2i9jbxRHjXuwlxv8nGSseeDGMSFVJLz
-         vTNjNDKjikFb1Qf8nIKjo59EAKWLlDpE4biYr7l3Bc+DI4BYavITx6dZWW9WB544IuYk
-         pjlEGCvawMurMflFi2INL4ZBFPMKuK1Rg+k0sfy3vX+NstyBCng0flf/NLMyfPDtHDcn
-         kY59l34VIIzbrfC7sofyc2jGZiJkji3qlI4Q4n6jEoXeTTuMXFTbiIQAlwSEi1eNkxfm
-         5NGw==
-X-Forwarded-Encrypted: i=1; AKwUvBwQ3zv/KqCTPheFNt4hhlLg4WCUaDQkS7UYVtuHFyktBRrigMLb33FdIr4lKhwYwLBjicUZNa39GqM=@vger.kernel.org
-X-Gm-Message-State: AFuF++k62b4+NLDdN2JM7w87jKCUxnynDQebz3Y2Yt4iA8TUmMU1Woku
-	0XuX3BX07eEsenvYe2MPp5VFcfnIcuf8biZUY00zDWds0CYtOGp3X/9qAe2mJVairXuwPfBGBjS
-	4m+3MU8y7pUJ+jpKiDTpL647ixU/jRtBoM3TwOx78
-X-Gm-Gg: AYBFou0cxWVLF5yI6c1hd97YgPN/FFceBa4+oO441yBEVlPClSM1o/5kTkUH/T6OcOu
-	d2BlBWKxoISwkyGSaO1newHHmPMS3skWpu8HvNrXi1EjyQj9o4Tp+wpc4Rz0QWFAxtvceCRL2BA
-	cQGq3+vxD3tQ5DWI3SChPo+Pkvnpl+H2RJAxRRsBd3iijh7m7izkh/s7ndX7bnb4FMaO2m3sMIf
-	ckrg8NMh3t/LJ8ZQhfO3Mqn9fmPbDbF4ZsNLIKrlbmbx5JJpziDIR8ELi/HbrXfMT1X7geDTCBe
-	XkLnvG8fLnDJA/gWlSRSd6zSxnGdk+PnGui/vY2Me4SMyMm6S8mMJopzbGFeO6RL/RsfhLdWOaK
-	4brNTxag7jQ==
-X-Received: by 2002:a17:903:3546:b0:2d5:db3d:1a43 with SMTP id
- d9443c01a7336-2df7b543459mr2096965ad.16.1790195916082; Wed, 23 Sep 2026
- 13:38:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b="R0UyrwZ3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CL4Nepd+qLhBtqbr8PcKSeH8QQ7db+kQbM3xzN4wVZM+rPd1oKgXH3cC7MzFuNrFEWUeOqsLgCfeNolulPrjk3F8fNksfhtl24AEjJ/YQA7aDBR0kguGJvAUiEWEdqH4UM+si/TC+7BVF3nZo+Urs0xQseddcSYH640pluxUAOakyzI3M7g5JqyewFuUazhrVq0wgKXoHQ3NsgyuXpsHtEwvCr/2EXhXhjlJPFhyHELO0inTfzsh211QYQo7iwXqbbtliPCukhJYYEH/M0fijhHmedb+SWTy6AQi6Lz+eddoINJ8kr2Uz06/7HiusKl6lvdM2g+bc0OFcucGJ/qW9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RbYlQhT4Aq9TWP2c6LFyxCybJnqxPnaUrNzfPZdEuPc=;
+ b=GW7JCHOLdLUnL7pBW+MNjZgsObZSGPuEYgMj0N6ptmoSQkz5TyNSDEPPbkr42cFW7vzTy8al7mc4NKTuDeFh9nGMXd1UfUfCRM5vE5eX9nyh1rrRkzMaMeA0yf3Fc3QSw6uReAaQbeoInc74Rjkv+R2b8reYRAemUYz2eLjZBb8qZJXt4SCq7oVkTnu6bDKSZR0XuV+KyVoW3lZ+mySPA3jRc8auusuBYdM5I/rwhoGzd8MV1k1y4vDiFyQ/3+IDZKXVJ61bakOj3plx8qu+yue1YVLawrAQC9eZ0vvgCxkFgN8PfNlTZK2ISWB3i8o2bISODL6qBrFjHx3J1oaIsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=rambus.com; dmarc=pass action=none header.from=rambus.com;
+ dkim=pass header.d=rambus.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RbYlQhT4Aq9TWP2c6LFyxCybJnqxPnaUrNzfPZdEuPc=;
+ b=R0UyrwZ3DXDke70gm/cAcKAOu/5JoSXw/jKwQB1peleaf+ZeK5P2dy60LGMgoPR1p4aOHO+0qMbVGZJ9inRhqTwdgL73RHqy5ocG7/cZmWINCUgYiEuRsHXNlmhT/s6U4deybvuc8qYp7HzO4L12loac9fXhZBQWi8BAcan6NvID9vLhsAZ5026zEgR10AXqKdWqshm3iPMFA930COfZvbFA57hjGzB9d8yEAhvz4KbYI+ljNf+7A/YRGKC+SEdZm0RrWfv/EkKX6q3q/fSyZjEw2+F75bVekyga7N8TyICQkhF3Fiapgkj2+8QgeQLRbj4uDnS8gLgdPy7UeqjNTQ==
+Received: from LV8PR04MB9006.namprd04.prod.outlook.com (2603:10b6:408:186::11)
+ by LV8PR04MB9241.namprd04.prod.outlook.com (2603:10b6:408:259::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Wed, 23 Sep
+ 2026 20:50:55 +0000
+Received: from LV8PR04MB9006.namprd04.prod.outlook.com
+ ([fe80::3e2f:2514:159c:85b2]) by LV8PR04MB9006.namprd04.prod.outlook.com
+ ([fe80::3e2f:2514:159c:85b2%3]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
+ 20:50:55 +0000
+From: "Ousherovitch, Alex" <aousherovitch@rambus.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Palmer Dabbelt
+	<palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Rob Herring
+	<robh@kernel.org>, "Krishnamoorthy, Saravanakrishnan"
+	<skrishnamoorthy@rambus.com>, Shuah Khan <shuah@kernel.org>, Alexandre Ghiti
+	<alex@ghiti.fr>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"Wittenauer, Joel" <Joel.Wittenauer@cryptography.com>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, Shuah
+ Khan <skhan@linuxfoundation.org>, "Nguyen, Thi" <thin@rambus.com>
+Subject: RE: [PATCH v5 04/19] crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
+Thread-Topic: [PATCH v5 04/19] crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
+Thread-Index: AQHdRvg30t1+45dAjEm+KmT5OENVbLbbsCeAgAD8JwA=
+Date: Wed, 23 Sep 2026 20:50:55 +0000
+Message-ID:
+ <LV8PR04MB9006374FD8621EBF3C7E7F6CD7822@LV8PR04MB9006.namprd04.prod.outlook.com>
+References: <20260917225929.2494111-1-aousherovitch@rambus.com>
+ <20260917225929.2494111-5-aousherovitch@rambus.com>
+ <arNn_fjy4jamSitO@gondor.apana.org.au>
+In-Reply-To: <arNn_fjy4jamSitO@gondor.apana.org.au>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=rambus.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV8PR04MB9006:EE_|LV8PR04MB9241:EE_
+x-ms-office365-filtering-correlation-id: 3f8a87bf-f1d1-4ecd-2227-08df19b45d1f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|38070700021|11063799006|56012099006|4143699003|10067099003|18002099003|22082099003;
+x-microsoft-antispam-message-info:
+ hEJ2pw3lF5CpG9i9AXhEm8k6qFDlTehmxpCb7OUxnHjUyBwZmuyRywaZIOlt30BP8iAwXPNaxluzsPMra5qvW21p+Hp/NolPU00gF4QNuRWBTeweOCQ8UbikEWL92lWF3CfUh9w6kq2EefQZeiw6exjtRU7GlGchWo9UUCPoGTGx2LGNKp6hXEK80LlNSh2Xc0Jepa9L6jSKilRMZOLkjZIRXG1u2vxCVB4Q5gRyVKc5DNbnE9Kk2kVCZF5pNfOnJp6hERrXvwaHTV1X6xBSADDXyvLJrBR4KgdY6onkQliBKH+qCxONvGnCjKABlCHumKTQOrjp46XOCNaTKChtNIRw4RG0FDOUNNQXSMN3a5+qPvkWGUzGOOJNv4pOkSS+HBUD0+VVUqsEmZmBGb6Q3H0vRyixeoAPj6woL7f96DxLhlz25TLAlWXVQksM55nL9E60Gtm0g+R7yfM0r0Bu0pjolDPVK+8IUudZSvoni8CVxpsTVlAUuytRkmUR3qCmE5qo/kRUDrxiHkcyEsBt2L+uKmKh5P5AhCd7ht6luN+Ers7pyLOFv7oQFJ4poZVxYxW29Es7NVp8CIgyBf/MVueBazBhIu8+g+U8fS1QwbiXroQrYxo9m4FPABfbNTS+gufDLvPn1dxHyDiwsYyOkWEKhyL8m//cgIoqCjw2l1gGFvIUBRTNGRLXEsk9vpby6q2O26uIRjahdJ1sRSEEZznjAV3EYdNifvyzhVAVa5g=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR04MB9006.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(38070700021)(11063799006)(56012099006)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?JOkNtSddroB9sKuxWMQXu6MySCvAQ2aDINDQDIoNVt5DcDV16vfYYNHtAKhV?=
+ =?us-ascii?Q?1yYCkHbF3sAvU/Po8kZA+dgkyjpwJLu4Dtun4mQpmTbUI7A3cgo1ogtRvtMd?=
+ =?us-ascii?Q?qrp1H/jaftF4OBL9vCnfGz2luwmqCaOmnQE9i0lnUcK0x8ehF5C6Yvk5d4ni?=
+ =?us-ascii?Q?8iYtaaEOQlvTFui4H1aYNUVYRnLalckiYVC4q6xFqypBLyUriCu8kmb0HasQ?=
+ =?us-ascii?Q?2VOI+NSbfZJ9Q0J3NjmeV6D6UvkWTGxJ61cbWTrC8N12AXqcCAdc8Tj/UHFj?=
+ =?us-ascii?Q?zcu338yNU+YoRI/g+itg7IIAh7Xw6MaVNeHsAeemjaVOLKBI3hEQlV3S+1F/?=
+ =?us-ascii?Q?0DdrcgHynEsWT/U0Z5noUBTrl3MwJNLg/VkWWyXs6vQefiWH9G6Nmh3bw+SO?=
+ =?us-ascii?Q?WbeUCoDtBDmVXcTOvIRJSs/gBma6c9znkIqsiXIns8LrYhVa8cuewbb2gLjX?=
+ =?us-ascii?Q?LiF6INCP/nksKWY4NjaHSTWw+8NGtYQ7c71lbJU5wlhjsokECWIp6J3220Kj?=
+ =?us-ascii?Q?pn96ab2Ut4epcpPeFQ1zdAxcq1WH4/xV+h2LZ+LN+uCmFen+2Pz73YjwB9Tg?=
+ =?us-ascii?Q?izCLEc9/7NOVBPqiQ61MXtlTPPoiOqTHsrYA9dBuRvC9yQ6rFvkcpddaJbyi?=
+ =?us-ascii?Q?MZWIgdwPwW0RC9zDQQY31IlS1qA/EbWvldMwJMrifTMPDVLuwvrLkFsSpWfc?=
+ =?us-ascii?Q?UiHWBehiJm2HHEC16lm88LHAsLBp3i1ddrHRLUVzqJpDyvWYbVpjN51HbxZM?=
+ =?us-ascii?Q?3Uyi7kmCTC/D5GKbKxbjDmQMeutVKk2cL39mO1bQPYGsolVMO+zweQHlIsVd?=
+ =?us-ascii?Q?0neijWscnECtmm/g5Cu930URsBO/ogrbOTjlNWFVS1lxqh/3gOnVkYBhmo/g?=
+ =?us-ascii?Q?Ca4jSdnYKUB+tXbLBg7VrgipZBA2KRUSDI/VNl8ReVq1qkrC0ZhTUYB7V+x/?=
+ =?us-ascii?Q?PPTA48GiKA46dJhRNY94IfW2Zt7g4Oo1+oK78AncYuZak3Uw849AMjUJ9kr+?=
+ =?us-ascii?Q?i1SY8lNqKKygPKfKW5uNalmvTBTSiMWBNP/koQAVjoLs6mv5iRdC09pcJfm4?=
+ =?us-ascii?Q?h3TPIRRs7s5i3gjYOwG0kiQatYmarGi5erkLP1HW2ZbWSNzFm8O3u2ZePtgG?=
+ =?us-ascii?Q?4kg5888CjxI0NL/r5XT7jHjx+8C31hFVoGMNrs8nXlpxjnRy1oufeqIs+5ll?=
+ =?us-ascii?Q?PDl1mjK4uRcEQDa77P1g0tFw4dCW39WEpv9qBeiCpYxBlO+sByyY8HCHICDi?=
+ =?us-ascii?Q?DAvZT2KFPjMSsqXoI0v0HQcPICFmMILL/Eas6Y8SAs1v7gtlYqDy8d4uJCLD?=
+ =?us-ascii?Q?MfzUFo8B6vIwZ/V3YfnREx8V6jpUrtye7riZiFSAuzWNBbZjtZUsSXmYefdD?=
+ =?us-ascii?Q?MnXIIRJvy1/+g+l3v86dbKcRHZ3YfelWD1nCGAeS8xNxxdNzq7pwwF7UXNqH?=
+ =?us-ascii?Q?Gd8u2Xl0gCe5x0QkG6pKLAh3b3c0p6jM4OQWbw/T7EKfBCooVU4+0cbSfK4H?=
+ =?us-ascii?Q?vsV405Ixw380fpzLL+vK7d/CxFRxoJ4SYvI1gFjF7+Vrxo1jPeC0c+xxQycU?=
+ =?us-ascii?Q?huaWXCEbQEzqYD9gfCyDkMeBE3yGbWM+BCoC7+S2bI6P8gyF1N8aPuU9YT6y?=
+ =?us-ascii?Q?0q6z757jzSroXd7swG0U9rNsN/4qAfSWhQAHzIwXNx1hdRYcIsyi+1LB3abw?=
+ =?us-ascii?Q?2BCD+hPlCITPF3V18Ei6B3r2mA4/L3chD9Mzf3EtkL8cxg53MKDV5DyNBA1s?=
+ =?us-ascii?Q?z3i9Z8fjQQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260923090429.2026529-1-stian@itx.no>
-In-Reply-To: <20260923090429.2026529-1-stian@itx.no>
-From: Ian Rogers <irogers@google.com>
-Date: Wed, 23 Sep 2026 13:38:22 -0700
-X-Gm-Features: AclHuK9IEgUm7kI4_piSGvTKV7diZ2jvf8wc2SM-hRRU78_gdW8Ka0g33Qc7YwM
-Message-ID: <CAP-5=fW4bzmy5_6a-8YucOy7JGKg+izRbq+7TaOGKV5aG0oYcw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 0/3] perf: sparc64 user regs and stack dump, with
- arch hooks
-To: Stian Halseth <stian@itx.no>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Andreas Larsson <andreas@gaisler.com>, "David S. Miller" <davem@davemloft.net>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Magnus Lindholm <linmag7@gmail.com>, 
-	linux-perf-users@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: rambus.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR04MB9006.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f8a87bf-f1d1-4ecd-2227-08df19b45d1f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2026 20:50:55.6655
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EBPMC5B0wd+HyIGhH4S694BMr424WdIYZvJqDfPtsDRugB/joEzQBxj4NzCXWBEBNUJRmeFqznZV/3nR8FrMxo6FRdI7xOqUydnVO4/IY4Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR04MB9241
 
-On Wed, Sep 23, 2026 at 2:04=E2=80=AFAM Stian Halseth <stian@itx.no> wrote:
->
-> This adds HAVE_PERF_REGS and HAVE_PERF_USER_STACK_DUMP to sparc64, so
-> that perf record --call-graph dwarf and elfutils' eu-stackprof work
-> there.
->
-> Two things about the user stack dump do not fit in arch code. The
-> sampled register window's %l/%i registers, which hold the frame pointer
-> and return address the unwinder starts from, stay in the register file
-> until a window spills. The kernel already flushes them wherever it
-> exposes user stack memory (perf_callchain_user(), ptrace), but the stack
-> dump has no arch entry point where that could happen. And a 64-bit
-> sparc stack pointer is biased by 2047, so a dump that starts at the
-> register value begins 2047 bytes below the frame, and is empty when that
-> page has never been touched.
->
-> Patch 1 therefore adds two hooks in the style of perf_arch_misc_flags(),
-> both no-ops by default. Patch 2 is the sparc64 implementation and their
-> user. Patch 3 teaches tools/perf the sparc registers and DWARF unwinding
-> from the dump. The matching elfutils changes are attached to the
-> tracking issue:
->
->   https://github.com/sparclinux/issues/issues/99
->
-> Tested on an UltraSPARC T4-1 on 7.3-rc4: register values check out
-> against known contents, --call-graph dwarf unwinds correctly for both
-> cycles and cpu-clock, as does eu-stackprof, and perf stat/record/record
-> -g are unchanged. Starting the dump at the stack's actual address
-> matters in practice: with the dump at the biased register value, 94% of
-> the user samples of xz -T4 had an empty stack dump; with this series,
-> none do.
->
-> Changes since v2:
-> - Patch 1: add perf_arch_user_stack_pointer(), so an arch can start the
->   dump at the stack's actual address (sashiko review).
-> - Patch 2: drop %g0 from the uapi, as trap entry does not save it; the
->   PC takes its slot, as on mips and loongarch (sashiko review).
-> - Patch 2: start the dump at %sp + 2047 for a 64-bit stack (sashiko
->   review).
-> - Patch 3: follow both, and comment the max_dwarf_reg adjustment (Ian).
->   Drop the memcpy() change to memory_read(), which the unbiased dump
->   start makes unnecessary.
->
-> v2: https://lore.kernel.org/all/20260922201507.1719668-1-stian@itx.no/
-> v1: https://lore.kernel.org/all/20260922135653.1622301-1-stian@itx.no/
->
-> Stian Halseth (3):
->   perf/core: Let an arch prepare and locate the user stack dump
->   sparc64: Support PERF_SAMPLE_REGS_USER and PERF_SAMPLE_STACK_USER
->   perf tools: Support sparc user register samples and dwarf unwinding
+On Wed, Sep 23, 2026 at 03:47:41PM +1000, Herbert Xu wrote:
+> Why did you set the NO_FALLBACK flag? This is only meant to be used
+> by very specific cases such as s390.
 
-For the series:
+Being async, these algs get NEED_FALLBACK forced by ahash_prepare_alg()
+unless NO_FALLBACK is set, so crypto_ahash_init_tfm() tries to allocate a
+same-name synchronous REQ_VIRT provider -- which doesn't work here:
 
-Reviewed-by: Ian Rogers <irogers@google.com>
+- shake128/256, cshake, kmac and poly1305 have no matching provider
+  registered in this tree, so the allocation fails and the transform can't
+  be created at all. NO_FALLBACK is required to instantiate them.
 
-Thanks!
-Ian
+- sha2, sha3 and sm3 do have a software provider, so the transform loads,
+  but the auto-fallback can't stand in for the hardware on the streaming
+  path: our exported state is the opaque HW save/restore checkpoint, not
+  the canonical state, so a multi-part export/import round-trip through the
+  fallback misinterprets it (and for SHA-2/SHA-3 the statesize exceeds
+  HASH_MAX_STATESIZE, so ahash_do_req_chain() returns -ENOSYS). A one-shot
+  digest could still use the software provider, but a fallback that only
+  covers one-shot and corrupts streaming isn't usable.
 
->  .../features/perf/perf-regs/arch-support.txt  |  2 +-
->  .../perf/perf-stackdump/arch-support.txt      |  2 +-
->  arch/sparc/Kconfig                            |  2 +
->  arch/sparc/include/asm/perf_event.h           |  5 ++
->  arch/sparc/include/uapi/asm/perf_regs.h       | 34 +++++++++
->  arch/sparc/kernel/Makefile                    |  2 +-
->  arch/sparc/kernel/perf_regs.c                 | 74 +++++++++++++++++++
->  include/linux/perf_event.h                    | 11 +++
->  kernel/events/core.c                          |  2 +
->  kernel/events/internal.h                      |  2 +-
->  tools/arch/sparc/include/uapi/asm/perf_regs.h | 34 +++++++++
->  tools/perf/arch/sparc/include/perf_regs.h     | 18 +++++
->  tools/perf/check-headers.sh                   |  1 +
->  tools/perf/util/dwarf-regs-arch/Build         |  1 +
->  .../util/dwarf-regs-arch/dwarf-regs-sparc.c   | 12 +++
->  tools/perf/util/dwarf-regs.c                  |  4 +
->  tools/perf/util/include/dwarf-regs.h          |  1 +
->  tools/perf/util/perf-regs-arch/Build          |  1 +
->  .../util/perf-regs-arch/perf_regs_sparc.c     | 67 +++++++++++++++++
->  tools/perf/util/perf_regs.c                   | 18 +++++
->  tools/perf/util/perf_regs.h                   |  5 ++
->  tools/perf/util/unwind-libdw.c                | 37 ++++++++++
->  22 files changed, 331 insertions(+), 4 deletions(-)
->  create mode 100644 arch/sparc/include/uapi/asm/perf_regs.h
->  create mode 100644 arch/sparc/kernel/perf_regs.c
->  create mode 100644 tools/arch/sparc/include/uapi/asm/perf_regs.h
->  create mode 100644 tools/perf/arch/sparc/include/perf_regs.h
->  create mode 100644 tools/perf/util/dwarf-regs-arch/dwarf-regs-sparc.c
->  create mode 100644 tools/perf/util/perf-regs-arch/perf_regs_sparc.c
->
-> --
-> 2.55.0
->
+Same flag as s390, same underlying reason -- no generic transform can stand
+in for the hardware -- though the obstruction differs: protected keys
+there, opaque (and for SHA-2/SHA-3 oversized) HW state here.
+
+Thanks,
+Alex
