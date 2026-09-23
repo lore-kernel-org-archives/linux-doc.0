@@ -1,308 +1,173 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A4653FD54
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 14:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790175404; cv=pass; b=mwrq1I2m98mNH2QwgCuIh4kaK207iF/Eknpnz00IzK1dB9tPdQkdmmqL4qelQdIVhWEJdWGgBc3ZUnoW2HrEelOhoO3nSbb8Gt0SO9CYNy61NwG4AzqZL+utKwqb8po/pySbP4koCVMR0I4KV6eHKHtXLuQYI6uxDOnTgQdDxmw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790175404; c=relaxed/simple;
-	bh=KWjxpkS56vBdoY1mfq+LJ82QCdfp9oGXt1PZy19JPY4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=otuRpcKDIiiXc+31bjGWfGsCF52KvknmrOX5K6QPydDX28GOB0uTbYAooFePIqBOB4MsZZo+xYKUqRX+C3L4exJLboSJvl3CYn8BokleJdOpltonY7Nz0KxYW5+wleq5rV2OvZGgatiJA9/kUt8SdoLiLI3UfZlIHBw7cQlHYCM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iejodJny; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=dyaw9YhE; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 218A44963CA;
+	Wed, 23 Sep 2026 15:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790175835; cv=none; b=GDU+AzVYoSc/zr8UatzovuLwfIKa/ZuHW42NP+xBhFSeglX+QIlKkcPLklpJzxdghbq2PAueRrksGTI6Hcm5SGeuPTyQRNJceyJnnT0g77dSW/hBbmDIshMdOjLZuRrysLgtUhfhzTgh3sKsVZ/CXAHLRdRGGpDRWRkfUCTm/Sk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790175835; c=relaxed/simple;
+	bh=0/Lj5CUiANscmDe5noqB4vYNxkuMu46O/4p4y5g+oM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bQdhBm+wcXOyDbGZHvyT6PDTI2sNv3IRYIoHMcK/d6o5yH6aFFOGZcU16fsNdzh7sCSbLS162zt7JsrCBgCMUEuOYSWYig0msNg4XW9Xp524c1lgOqNgJT80To/VFW3jEZI6vt4X9V896nm5wVJ/wx45f7mv1Pzqzi06n3a7KpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=mlj83BjI; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iejodJny";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="dyaw9YhE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790175401;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mgl2fzrtLyoiFrBfNonxZVX3GZjaxX+KyLU7gYeHtiE=;
-	b=iejodJnyID9u5TOT5LXICNL8o9nPiJ8LbMUyj41jD4U+qdRGIlqS5nZTZO4WOj0i6Agg6G
-	hGoEDUpV2jJ653Nnsh8YkC/CMtk6X+2TCChMbL0aS2Eu6r77snzF2wcaiIN+UGdEuW3NKa
-	MCmAF8V/wbSU3Vdkc1yfdu7pV75uu5U=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-662-U7gCLiNVMSeTDy4bOF8ewQ-1; Wed, 23 Sep 2026 10:56:40 -0400
-X-MC-Unique: U7gCLiNVMSeTDy4bOF8ewQ-1
-X-Mimecast-MFC-AGG-ID: U7gCLiNVMSeTDy4bOF8ewQ_1790175399
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-49e745d5dabso9821545e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:56:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790175398; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YBcxRgX3azuB6tB7U85wxRzXCoZr6+doWSeYrY/aTa2hzZL4/CPGq5xHf1YuTTd26/
-         oF5C3U52nb6bxmbpp1Kq5iatjwPiGWwsRfwJLQL4N8u4AWtCA1FfiwTp/K6OCR9LtidH
-         StxAxdPJxSkc95aAcc1Vzdr758hpl+9XmS+3diaXEiNa7cYcx3mRuuE/EHGv9qaIg2Rg
-         6ZkXzARNTGh959ahSdaJzt0B1kF9LbGnMTEsodwm4S6zFgdXZBae52xHTU/FDQ8c4xfi
-         kIjX26eq7Oy2+RQw0FV0vY0ZxtXLw05OEM9C6OXxI7Fskx6UEZ8QrNF1u2VVcnfA8r6E
-         Xp4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Mgl2fzrtLyoiFrBfNonxZVX3GZjaxX+KyLU7gYeHtiE=;
-        fh=flxub5ejidbkwLBHU07UP/G0jpmUhqV31wT1Oq+i1rY=;
-        b=nVML/kr1USLqmBxfkkyNJ4qcIzhMmVZ0H2Ewban0spkptJOOC7J0ncGWUlJYL/J+2D
-         k9oxMPAt4rJJqNm7lZikRGUXmB0jN2ZOgIPmyoQcPyQUNJD9+gK7uEg6OuBb1D6CaNQ2
-         HJTX/IW3FCkCcfIked2avOpW8SSzWflZQ/VwpDqUp4n+MpKbkT3vhGYSjhP0ylHeceZ/
-         BR4uoloaG411rf08kmsy2x6DU+mCLxdqWqBWHE4SPL5GlK01RSWUM52P+dRaDyTpKKrS
-         /nDWe25mmW9aTY9FLijaN573J9XJI9LJ+Ed+q0J5q6WFNFGJSTECYVZyTVPfONXQ7wOy
-         TewA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1790175398; x=1790780198; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Mgl2fzrtLyoiFrBfNonxZVX3GZjaxX+KyLU7gYeHtiE=;
-        b=dyaw9YhENt05h9pW/Q6M+sAqbYxPgldaMTjD8WUSm24b62Iy4kvuBPhDolyOhvBtmq
-         o9MWhSL2Hi0eCVZ4aqKHacuZoIbINN/XY2CM30SLPKRc1NZOKYNaz4nKqbG9NyoCowz0
-         WJfYoPtqiwVPEWmUhXKyj7p/huHrsH2gzzcvoInveruyaggmLDp702anEuMZsDgx37qo
-         2nAA+RPSB4a3yhBCXPBWHUV2X7VaRELPT5ERs3ksJL1nHxALLtC3d60cQio34E+RhnPL
-         A+CKjSh3SlbzhGXHEMXzXArzAqXpoobn3p3oO6Q+jvdmXbCXE7cJVsui8NrlCocr8Fka
-         NaNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790175398; x=1790780198;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Mgl2fzrtLyoiFrBfNonxZVX3GZjaxX+KyLU7gYeHtiE=;
-        b=O0OvhnE4HJWGeiL40hWO5nMb3Wl+OdEihW/5aSkZpBvqcmFFIo/yFBzha7nQL/kles
-         tIDrRmjmCm6NorfM8CAgvvCyHF4lpr+a0Y/O3B/pCYmpMJbW2j2c7n/GfKdMTy0YvKsN
-         JV/p+V91CvGw8Uz0Hjjn9ftcsaNubmaGGf6QludINvNC7EQNmQlUwTXD6HoHlEqlCR08
-         Wgw1BnEzRRS2gVJ163zm/wtmycEZFd+O1VGz7h2oFH4vbhXqsXJMkYn7454X3Z+zOhPA
-         aZbwHAD+GgbP4WT7DjgGxdWwwOV5F56CZeYIeHAWvQg7L3mFqbcFD9tA0xcHHTZI/Sel
-         wfHw==
-X-Forwarded-Encrypted: i=1; AKwUvBxYHLObdXSyPKAhcArW9Ubigniz7HVcF7sPtp+KryL2pfwVnepEXh5LsNMrfzH+jG12+0E+d/pPCQI=@vger.kernel.org
-X-Gm-Message-State: AFuF++nYFDxjVQ+nMrBEm3TJRKZqja6wfJ1KajSlcp0F7V1YPvYsOuio
-	xAQ7qhykFyA73pHseKPvbWoSkj/eppJaXGZLPHeGBYyOWlatGx3e5JJALjZXVaLx3gHk2XmJtmz
-	hykd/gXZ9aWO//dLWZWopY+ighaLLzVB8uWx7QEvYC1yk1qmrPWxsWkmsgcYwMgeBAkrCIKHeI6
-	JihTB87N/tnQIsUyTdbIZU8q8IOYI3lKtzB6hY
-X-Gm-Gg: AYBFou1rNPuDJCD48lq3tsRjSmMmtz0z0YMrMY8ID2QWBy0m5Eseg55Jrf+GEQQS2fq
-	cNwnquHa8jpGav1Yeypfzx/KfER8lpqgPz3gLXyZuOH2OglWShKjdZmFWFhTq+epJUc0I99CUTS
-	504Co+vjPOYwF19FO7h2ay+KFrGuyeHALG++tBDnk0pnAiEylQ+sZRFlWUdEzn84t3SHF1vm68+
-	o75vEmL8Z8TgpDlDw==
-X-Received: by 2002:a05:600c:3b21:b0:49f:bd3c:bc25 with SMTP id 5b1f17b1804b1-49fdf25486bmr41518155e9.32.1790175398659;
-        Wed, 23 Sep 2026 07:56:38 -0700 (PDT)
-X-Received: by 2002:a05:600c:3b21:b0:49f:bd3c:bc25 with SMTP id
- 5b1f17b1804b1-49fdf25486bmr41517685e9.32.1790175398258; Wed, 23 Sep 2026
- 07:56:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="mlj83BjI"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C412C1570;
+	Wed, 23 Sep 2026 08:03:46 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C95553F86F;
+	Wed, 23 Sep 2026 08:03:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790175830; bh=0/Lj5CUiANscmDe5noqB4vYNxkuMu46O/4p4y5g+oM8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mlj83BjIHBZYjSrBtJmqIr+9CLtBC7UmNQlFU8rEIHE/TUvAVxz8URr5clFDN5JhL
+	 Eqzi1JZ36x6RqiJ/O+SNUS02F4fDI4y1KcltMRlvOovoWnQYuFkTlLI9Qf9pXLSIan
+	 dT5QpURCYu+VIG7cFsGk47C8C5k5+fkYRNVQbU1A=
+Date: Wed, 23 Sep 2026 16:03:42 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	d-gole@ti.com, jic23@kernel.org, elif.topuz@arm.com,
+	lukasz.luba@arm.com, philip.radford@arm.com,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com,
+	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Subject: Re: [PATCH v12 03/25] firmware: arm_scmi: Introduce protocol
+ instance notifiers
+Message-ID: <arPqThLW7jjbLRJO@pluto>
+References: <20260920091928.2014972-1-cristian.marussi@arm.com>
+ <20260920091928.2014972-4-cristian.marussi@arm.com>
+ <c80354c7-0153-4a82-a9a1-9e2fd2929449@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260902200547.184734-1-jtaubepe@redhat.com> <20260902200547.184734-8-jtaubepe@redhat.com>
- <ab97f32b-31dd-4975-a8b2-b445110ae3a9@suse.de>
-In-Reply-To: <ab97f32b-31dd-4975-a8b2-b445110ae3a9@suse.de>
-From: Jesse Taube <jtaubepe@redhat.com>
-Date: Wed, 23 Sep 2026 10:56:27 -0400
-X-Gm-Features: AclHuK-DXEgf8h50oy37YCFQPiuZykx03xaAenYlWJQtQSO7dJcvZ7KWpU5nfJA
-Message-ID: <CADRr4bePoiDnWX_XrMWtQe=1g4Yrw1_dK86EV2k9XZR0HnL+UQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] nvme: fcloop: Add set_marginal_rport to sysfs
-To: Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, 
-	GR-QLogic-Storage-Upstream@marvell.com, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, John Meneghini <jmeneghi@redhat.com>, 
-	Bryan Gurney <bgurney@redhat.com>, Chris Leech <cleech@redhat.com>, 
-	"Ewan D . Milne" <emilne@redhat.com>, shinichiro.kawasaki@wdc.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c80354c7-0153-4a82-a9a1-9e2fd2929449@kernel.org>
 
-On Mon, Sep 21, 2026 at 10:03=E2=80=AFAM Hannes Reinecke <hare@suse.de> wro=
-te:
+On Tue, Sep 22, 2026 at 03:44:48PM +0200, David Hildenbrand (Arm) wrote:
+> On 9/20/26 11:19, Cristian Marussi wrote:
+> > SCMI Protocol notifications are typically used by SCMI drivers to detect
+> > and react to particular conditions: this was the assumption and the classic
+> > usage scenario upon which the SCMI notification framework was built.
+> 
+> Was the paragraph supposed to start with "SCMI notifications" ? Because later
+> you describe how some protocols might want to reuse the "existing SCMI
+> Notifications machinery", and here you talk about the traditional usage.
+
+Indeed.
+
+> 
+> > -	mutex_lock(&info->protocols_mtx);
+> > -	pi = idr_find(&info->protocols, protocol_id);
+> > +	scoped_guard(mutex, &info->protocols_mtx) {
+> > +		pi = idr_find(&info->protocols, protocol_id);
+> > +		if (pi) {
+> > +			refcount_inc(&pi->users);
+> > +		} else {
+> > +			const struct scmi_protocol *proto;
+> >  
+> > -	if (pi) {
+> > -		refcount_inc(&pi->users);
+> > -	} else {
+> > -		const struct scmi_protocol *proto;
+> > +			/* Fails if protocol not registered on bus */
+> > +			proto = scmi_protocol_get(protocol_id, &info->version);
+> > +			if (!proto)
+> > +				return ERR_PTR(-EPROBE_DEFER);
+> >  
+> > -		/* Fails if protocol not registered on bus */
+> > -		proto = scmi_protocol_get(protocol_id, &info->version);
+> > -		if (proto)
+> >  			pi = scmi_alloc_init_protocol_instance(info, proto);
+> > -		else
+> > -			pi = ERR_PTR(-EPROBE_DEFER);
+> > +			if (IS_ERR(pi))
+> > +				return pi;
+> > +
+> > +			proto_notifier_nb = READ_ONCE(pi->pno.nb);
+> > +		}
+> > +	}
+> > +
+> > +	if (proto_notifier_nb) {
+> > +		if (scmi_protocol_notifier_register(pi->handle, &pi->pno))
+> > +			dev_warn(handle->dev,
+> > +				 "Failed to register protocol notifier\n");
+> 
+> 
+> 	if (proto_notifier_nb &&
+> 	    scmi_protocol_notifier_register(pi->handle, &pi->pno))
+> 		dev_warn(handle->dev, ...)
+> 
+> As we dropped the mutex, I assume somebody else could move ahead and
+> refcount_inc(&pi->users) + return before the notifier was registered? Is that
+> expected?
 >
-> On 9/2/26 10:05 PM, Jesse Taube wrote:
-> > To allow testing of multipath failover, add a sysfs attribute to set a
-> > remote port as marginal. This will allow the fcloop LLDD to set the
-> > marginal flag on a remote port, simulating a marginal link.
-> >
-> > Example:
-> > Turn on marginal for a remote port matching wwnn and wwpn:
-> > `echo 'wwnn=3D0x200000109b5f2956,wwpn=3D0x100000109b5f2956,marginal=3D1=
-' >
-> > /sys/class/fcloop/ctl/set_marginal_rport`
-> >
-> > Turn off marginal for a remote port matching wwnn and wwpn:
-> > `echo 'wwnn=3D0x200000109b5f2956,wwpn=3D0x100000109b5f2956,marginal=3D0=
-' >
-> > /sys/class/fcloop/ctl/set_marginal_rport`
-> >
-> > Suggested-by: John Meneghini <jmeneghi@redhat.com>
-> > Signed-off-by: Jesse Taube <jtaubepe@redhat.com>
-> > V10 -> V1:
-> >   - New patch
-> > V1 -> V2:
-> >   - Fix reference count leak in error path
-> > ---
-> >   drivers/nvme/target/fcloop.c | 50 +++++++++++++++++++++++++++++++++++=
-+
-> >   1 file changed, 50 insertions(+)
-> >
-> > diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.=
-c
-> > index b63af3b643a6..9977c2a71bd5 100644
-> > --- a/drivers/nvme/target/fcloop.c
-> > +++ b/drivers/nvme/target/fcloop.c
-> > @@ -6,6 +6,7 @@
-> >   #include <linux/module.h>
-> >   #include <linux/parser.h>
-> >   #include <uapi/scsi/fc/fc_fs.h>
-> > +#include <uapi/scsi/fc/fc_els.h>
-> >
-> >   #include "../host/nvme.h"
-> >   #include "../target/nvmet.h"
-> > @@ -21,6 +22,7 @@ enum {
-> >       NVMF_OPT_FCADDR         =3D 1 << 3,
-> >       NVMF_OPT_LPWWNN         =3D 1 << 4,
-> >       NVMF_OPT_LPWWPN         =3D 1 << 5,
-> > +     NVMF_OPT_MARGINAL       =3D 1 << 6,
-> >   };
-> >
-> >   struct fcloop_ctrl_options {
-> > @@ -31,6 +33,7 @@ struct fcloop_ctrl_options {
-> >       u32                     fcaddr;
-> >       u64                     lpwwnn;
-> >       u64                     lpwwpn;
-> > +     u32                     marginal;
-> >   };
-> >
-> >   static const match_table_t opt_tokens =3D {
-> > @@ -40,6 +43,7 @@ static const match_table_t opt_tokens =3D {
-> >       { NVMF_OPT_FCADDR,      "fcaddr=3D%x"     },
-> >       { NVMF_OPT_LPWWNN,      "lpwwnn=3D%s"     },
-> >       { NVMF_OPT_LPWWPN,      "lpwwpn=3D%s"     },
-> > +     { NVMF_OPT_MARGINAL,    "marginal=3D%d"   },
-> >       { NVMF_OPT_ERR,         NULL            }
-> >   };
-> >
-> > @@ -120,6 +124,13 @@ fcloop_parse_options(struct fcloop_ctrl_options *o=
-pts,
-> >                       }
-> >                       opts->lpwwpn =3D token64;
-> >                       break;
-> > +             case NVMF_OPT_MARGINAL:
-> > +                     if (match_int(args, &token)) {
-> > +                             ret =3D -EINVAL;
-> > +                             goto out_free_options;
-> > +                     }
-> > +                     opts->marginal =3D token;
-> > +                     break;
-> >               default:
-> >                       pr_warn("unknown parameter or missing value '%s'\=
-n", p);
-> >                       ret =3D -EINVAL;
-> > @@ -199,6 +210,9 @@ fcloop_parse_nm_options(struct device *dev, u64 *nn=
-ame, u64 *pname,
-> >
-> >   #define TGTPORT_OPTS        (NVMF_OPT_WWNN | NVMF_OPT_WWPN)
-> >
-> > +#define MARGINAL_OPTS        (NVMF_OPT_WWNN | NVMF_OPT_WWPN | \
-> > +                      NVMF_OPT_MARGINAL)
-> > +
-> >
-> >   static DEFINE_SPINLOCK(fcloop_lock);
-> >   static LIST_HEAD(fcloop_lports);
-> > @@ -1663,6 +1677,40 @@ fcloop_set_cmd_drop(struct device *dev, struct d=
-evice_attribute *attr,
-> >       return count;
-> >   }
-> >
-> > +static ssize_t
-> > +fcloop_set_marginal_rport(struct device *dev, struct device_attribute =
-*attr,
-> > +             const char *buf, size_t count)
-> > +{
-> > +     struct fcloop_nport *nport;
-> > +     struct fcloop_ctrl_options opts =3D {};
-> > +     unsigned long flags;
-> > +     int ret;
-> > +
-> > +     ret =3D fcloop_parse_options(&opts, buf);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     /* everything there ? */
-> > +     if ((opts.mask & MARGINAL_OPTS) !=3D MARGINAL_OPTS)
-> > +             return -EINVAL;
-> > +
-> > +     nport =3D fcloop_nport_lookup(opts.wwnn, opts.wwpn);
-> > +     if (!nport)
-> > +             return -ENOENT;
-> > +
-> > +     spin_lock_irqsave(&fcloop_lock, flags);
-> > +     if (!nport->rport || !nport->rport->remoteport) {
-> > +             spin_unlock_irqrestore(&fcloop_lock, flags);
-> > +             fcloop_nport_put(nport);
-> > +             return -ENOENT;
-> > +     }
-> > +
-> > +     nvme_fc_set_remoteport_fpin(nport->rport->remoteport, opts.margin=
-al);
-> > +     spin_unlock_irqrestore(&fcloop_lock, flags);
-> > +     fcloop_nport_put(nport);
-> > +
-> > +     return count;
-> > +}
-> >
-> >   static DEVICE_ATTR(add_local_port, 0200, NULL, fcloop_create_local_po=
-rt);
-> >   static DEVICE_ATTR(del_local_port, 0200, NULL, fcloop_delete_local_po=
-rt);
-> > @@ -1671,6 +1719,7 @@ static DEVICE_ATTR(del_remote_port, 0200, NULL, f=
-cloop_delete_remote_port);
-> >   static DEVICE_ATTR(add_target_port, 0200, NULL, fcloop_create_target_=
-port);
-> >   static DEVICE_ATTR(del_target_port, 0200, NULL, fcloop_delete_target_=
-port);
-> >   static DEVICE_ATTR(set_cmd_drop, 0200, NULL, fcloop_set_cmd_drop);
-> > +static DEVICE_ATTR(set_marginal_rport, 0200, NULL, fcloop_set_marginal=
-_rport);
-> >
-> >   static struct attribute *fcloop_dev_attrs[] =3D {
-> >       &dev_attr_add_local_port.attr,
-> > @@ -1680,6 +1729,7 @@ static struct attribute *fcloop_dev_attrs[] =3D {
-> >       &dev_attr_add_target_port.attr,
-> >       &dev_attr_del_target_port.attr,
-> >       &dev_attr_set_cmd_drop.attr,
-> > +     &dev_attr_set_marginal_rport.attr,
-> >       NULL
-> >   };
-> >
-> Please don't make it a fabrics option.
 
-What do you mean by fabrics option? How should I fix this?
+It is more of a problem on the release path...in fact...these limit
+condition are an open residual issues...
+ 
+> 
+> >  	}
+> > -	mutex_unlock(&info->protocols_mtx);
+> >  
+> >  	return pi;
+> >  }
+> > @@ -2366,13 +2398,35 @@ int scmi_protocol_acquire(const struct scmi_handle *handle, u8 protocol_id)
+> >  void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+> >  {
+> >  	struct scmi_info *info = handle_to_scmi_info(handle);
+> > +	struct notifier_block *proto_notifier_nb = NULL;
+> >  	struct scmi_protocol_instance *pi;
+> >  
+> > -	mutex_lock(&info->protocols_mtx);
+> > -	pi = idr_find(&info->protocols, protocol_id);
+> > -	if (WARN_ON(!pi))
+> > -		goto out;
+> > +	scoped_guard(mutex, &info->protocols_mtx) {
+> > +		pi = idr_find(&info->protocols, protocol_id);
+> > +		if (WARN_ON(!pi))
+> > +			return;
+> >  
+> > +		/*
+> > +		 * If a protocol notifier was registered and this is the
+> > +		 * last istance releasing the protocol, mark the notifier
+> 
+> s/istance/instance/
+> 
+> > +		 * for un-registration: note that the notifier itself counts
+> > +		 * as one user, as for any other regular notification, so if a
+> > +		 * protocol notifier is registered and there are only 2 users
+> > +		 * active we can derive that this is the last protocol
+> > +		 * instance de-registering.
+> > +		 */
+> > +		if (scmi_protocol_notifier_registered(&pi->pno) &&
+> > +		    refcount_read(&pi->users) == 2)
+> > +			proto_notifier_nb = READ_ONCE(pi->pno.nb);
+> > +	}
+> > +
+> 
+> We drop the mutex now temporarily. What happens if another instance gets
+> registered (incrementing &pi->users) just after we dropped the lock and
+> unregister the notifier?
+> 
+> Shouldn't we care about that or why is it ok?
+
+I'll try a slight different approach for this...till now I was looking for the
+least possible invasive ways of dealing with the fact that the core SCMI mechanisms
+were NOT originally designed to deal with in-protocol users but just with
+external SCMI drivers...
 
 Thanks,
-Jesse Taube
-
-> Setting is via sysfs is
-> sufficient seeing it's for testing only.
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
->
-
+Cristian
