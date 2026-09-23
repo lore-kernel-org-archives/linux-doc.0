@@ -1,80 +1,116 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FBA4CCDC0
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 14:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8448F52B1FE
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 14:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790172692; cv=none; b=mnK9wREVmRqVsgSBSiCLaU3eawQl4JRYwojlO45Y6261Z15G3sON/3ZREpD9HzJLqENRTfohM/sy1cK6edTmgFZUphPJcTCcXXfyH9BE1tTeK1bAsXVHS4GlWSwWRNzCmPioUZ7gl+IGP58aaRYv7OCUIy+6eGMcPuYWCwCCbwY=
+	t=1790172712; cv=none; b=liB0tOnSKAQzPKbMTS6WitnQFb6ROUj98BYFRHUb8q/GvJO6O8ekWoF+fXZo+x36l281SXm31OzmEDuuw9VklVDVrv9k60wtrvO6d6Oik4soj7E7Htk8TQ2hUMsseY/WyuL7oJFal72ugGEEK50QJy6WMMAoR5jI5T1psmlXeq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790172692; c=relaxed/simple;
-	bh=69jidcAtM1YFZanlNL98DsZwBlPwfCk4+ebC9+KWGIA=;
+	s=arc-20240116; t=1790172712; c=relaxed/simple;
+	bh=LGkkGMO9TERbEvKb8FRwlBQ0y/VcZh7QYYRvUrUUVgI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fry3m1rESQfme6Dgf5dNcRhdzzIuhCfW7mOuvQegD+Mwo48Owt0u6acRqFIWriojRpuAznBHE3I5acz2LNDIYcrzbGzuAw90ZJS9a3uoVI7rOmGYQ5x1SZ1kyhWAH7G7Urn4RIybXWbEXGKJIn7f4/gualWaxvh54YJHrlKK46s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c9vukZgD; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gz5s/HpXu0xzgpSRLfgpOdUr1e7e0Quvnxl5yVwaVMCzxgpdyV84Votl41QqGx1X9S2sbFFrhJeIObf4GyXg+ulkBwzOIwsQjKWB3zZDKkiE53nvsgQTzP1zgZWTlExwTSqqkeI6pli9UqvaYEegqPcikwW1OnuHHsu3Pk6RCd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b=PXIaWXRp; arc=none smtp.client-ip=74.125.224.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c9vukZgD"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d3920so6413115e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:11:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cmpxchg.org header.i=@cmpxchg.org header.b="PXIaWXRp"
+Received: by mail-yx2-f43.google.com with SMTP id 00721157ae682-85d43f9b120so13154487b3.3
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790172689; x=1790777489; darn=vger.kernel.org;
+        d=cmpxchg.org; s=google; t=1790172708; x=1790777508; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Eb/HgMl+NhiWb/6B9RK+EF0vsqiiLDmd1MrEvTDfOeI=;
-        b=c9vukZgD7bG+5KAUmdlUypL1Ln7wHpu+I38fGp78DzMGngiOSFQptLJyVkkvV9mJw2
-         z8flpUpHj1exGih+i50bYpEApHMcquWINa60kdC2xNSiJOsNqFhmrxa3s0C6YOpJO/PK
-         oB9VUu5lEYgSWq2L5nxrLoVtcIgEbJ68Fa9U6uYe0SC3IL9fDuMSWHC1il/eWWxK9nS8
-         B+9d/C1yeYpD1EWydVjDlRDW5f0gNE5V+07epl2B2cx4/rOhPmuW70BLSkCgS0WkwtLr
-         NVXb5W1hr6A65bAv/dSqU6ZpgLkHZjbotlxrOINHXsFZ2gFW0h0YYOpCEg42MCCzj9/7
-         0X5g==
+        bh=f7LX2hgCSw8Eo3VcIXgLYrzvPbWMXRZn6yDRkmN7Gj0=;
+        b=PXIaWXRpfdMN1dWxL76T7IGNzWwT1jFAoAeoqw4qgOcsevgKXY6Xu5LIS9/4fHhptH
+         hz3NaQI6+AHCLwfAaRMyyVxPdQT9PvoAJB135dna7knuRHzS34RsUuISpAsk/adV6eDi
+         mOibJWB8ODVC2Vet9ZQKUbV4Ghzm17vCkPVWLjNm0S/KIKkWA4aNaBjV5x2uB+wGLoNE
+         1CHOdYdgCVPbbmN2f+AjW91W/79lChW3pFCLkbsypCxenmLkNyoJwmQ2PFbVFIlvYNIp
+         p6tvEx2DZOFJ31aPqamHnyvF4GRXoS8hrmlD6fIl42WxeOR2t5dso3yvtlipv8hDjG8p
+         eJBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790172689; x=1790777489;
+        d=1e100.net; s=20260707; t=1790172708; x=1790777508;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Eb/HgMl+NhiWb/6B9RK+EF0vsqiiLDmd1MrEvTDfOeI=;
-        b=VcOPdNPKJDpCrr7DhcMO8xb9V+c+BXlYxUttSPQW/372KLIyTBiI/0NTIhn/s1T20R
-         IXPyU1zDM7IBCkQa6WunwT7mbQqF0QYIdwJEiNTo4rTJyxOBi/ZS/E9+hCYw0USahg8y
-         LcyTwNk6/NTHETd3q0M4Jh4G6ZLTm5QISsPgQ+zEBcvyFVPzBk0RysgcjN3COl2W30KD
-         drq8C5HdGbWo9Eo2K//r9hT/S3tsHrD7zgLX/+X+t0+ilKLErKXhDWzE/afISVIVUFlk
-         cNQf/DAgAGv+Qk+vXpgKoBwv+FavPfzxk0etiUQKScUSyQT044/1DdUwIWzEC9qVhbZo
-         N8AA==
-X-Forwarded-Encrypted: i=1; AKwUvBytL+lVGP2QPrKalxD68kewRk9DO6IobysdRKXV/h5bGEGeNYN1upDBTVu+NE68YiU/eJjF/18VmBw=@vger.kernel.org
-X-Gm-Message-State: AFuF++nZcApjOAt/ecI018vWaaCRZN5GVAKbqSu3JE5lRYPV5nNf2A+2
-	KpeyYeaADyLok9KbukKLVDYj8hnSV6uzIajyjYZKyYZyIyTrBIPhQHa6b0HSj4vFaOGt6a/sPgh
-	FB1f8+fo0
-X-Gm-Gg: AYBFou1wcfO8+0Q+EktoePnIgIOciWkWWkbs1Vs+3in+kftfd5yIt66/fUM4ZdqTGPZ
-	5jsubDzmRYZQjxnyvBFe7b/wXgtx9CpjUl0VRskc4TFFbda54soWpPpH/pSk+hmfKTyPYeojwL2
-	R7SqrzzkTwcpAQujqmjmdiTXcfZxOwNT7oGjfjtXf+H/n31JfJav6fY5+R01b8mzSpdS4+08uvz
-	BgelhKMMLe6mBDjE4KO4g3OLmg7fJzu7EYtgLkpBxDnwks0uwsCX+EICwz3i5i+iE0u0P0ymQ71
-	Z+xGAVQrTYyNnoyld0tf9VcuDaZvrZMd5SHDDSt9XV1Ujw0goFuiOuV3Xq45Ft5qpYGlQVTG9zt
-	EUm7+KTu6LEiltDzmVF1XQVrKHRaxUq5wAm5/rcoLMZeSJwGpkwI6KJ0j7ZqA5+Mf2JpoD+M+14
-	Z9I/Oq6PSVh/1+quEGACRmxY4D42lHUC5JnJAzsDAPgNCMaG83JeGiWsdrWm/VGBlmo1ltgmrLA
-	pB8jmww03Dmqm4ck1dQ+xZPlQQ3iA==
-X-Received: by 2002:a05:600c:1908:b0:49e:8184:f63b with SMTP id 5b1f17b1804b1-49fdf12a2c6mr35858125e9.16.1790172688081;
-        Wed, 23 Sep 2026 07:11:28 -0700 (PDT)
-Received: from google.com ([2a00:79e0:288a:8:c20f:9e7a:eeee:1b06])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fde1a0e00sm68608725e9.10.2026.09.23.07.11.27
+        bh=f7LX2hgCSw8Eo3VcIXgLYrzvPbWMXRZn6yDRkmN7Gj0=;
+        b=vl71jdtoqiIHL9c5ErWtSJUG6p+FRvEGRTnirno+C+2bqeqxlfZkxYNNSbXpMBdn7e
+         pgmTfNOKbV+1a+zVEQCkeRHWtWdmTlX2bi4A0uxLrlUMBjqhKdIFJ+AyePVls5v5JvQZ
+         VSLU+0BAogYewD6lX41wNJq3v9n7b1qxCnBIF1gv1IgxirBcJ+/bb/kHAiesuTh94tOk
+         l/vFGZuVzQ/qCCA6sdGIHw4jvctCinAQyEqRuDCZriagwjznGQ5Jky/PaCF5Jf2YMFHT
+         xdF0uBzZq1/dVAKzfaNLn3e+p8RrbqgNWwvYEth7js6OUBd/Kz1kPj9IZWXLaMz83eNT
+         CXSA==
+X-Forwarded-Encrypted: i=1; AKwUvBy12cMnPafuvCcbnuztys64QSTF1sRZz6VN8dYu9nXvApWbCLsh34lK4acz+CG4mLlTGORH5yHAFXk=@vger.kernel.org
+X-Gm-Message-State: AFuF++klnxxUZVM0l36iuwaxQEdr1/PESukUpaJoD+AqWpmANxHELSQI
+	k+r4bFqDMxNs7GDN0OxTH4TbAXNQI7eIHBT3dFFQVtf59TaZN3iz+Puo19tUmGo4aeo=
+X-Gm-Gg: AYBFou0eY7xfys8FanBHgXggXbrzBJMYEMlJBE99XaJCT0KYEx1ICgSbO2JwFhp9NPM
+	AmMlCmnLIf1erUSowAFITdS2wQE8FnrLcoPKO6Xr8SMdjjkG5IYYGaAUy4VGs6943Ww9rtCosQV
+	xtIIh6gpnwuEiYHFgYkUEu5pa54iNddupbMu9h3pmEF40B5lqDrxvX/UeLWyPMjWhTJyP2n+SQn
+	XsC9qo9sMEhnSkFn+wMr65tGx0oTmecg+iVcEV5LS7/gEp8yAt5q6Ornsa4OWm6pN0hSG4DhYhb
+	b/tTEpGD9JPJWGGUSHruNsVBH5eN8hIrjyq+jYRxNpka2q2/XJPGFF2OYaPPiFNcfsVhaKgEwoV
+	IWjiCDEiPqCcQQTPPY3S9uq403OdOVocKTMJJ5wwFjUGq2E+qwDTOK+wQb3dxg2M7J9cxXf7Rqg
+	0jILHZaLK90M4889hZXdJIcfVt5nu5bK0S8XmfPB56KOzNXTFEYZakJ1DmU+oxF9Y/MSKZ14x4n
+	gR/sNQ=
+X-Received: by 2002:a05:690c:5705:b0:89a:63da:faaa with SMTP id 00721157ae682-8a45c8372f3mr11122287b3.101.1790172708255;
+        Wed, 23 Sep 2026 07:11:48 -0700 (PDT)
+Received: from localhost ([2603:7001:f100:500:365a:60ff:fe62:ff29])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532eb3396f6sm20644991cf.19.2026.09.23.07.11.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 07:11:27 -0700 (PDT)
-Date: Wed, 23 Sep 2026 16:11:21 +0200
-From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: Christopher Lusk <clusk@northecho.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
+        Wed, 23 Sep 2026 07:11:47 -0700 (PDT)
+Date: Wed, 23 Sep 2026 10:11:43 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Chris Li <chrisl@kernel.org>
+Cc: Nhat Pham <nphamcs@gmail.com>, Rik van Riel <riel@surriel.com>,
+	Gregory Price <gourry@gourry.net>,
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <kasong@tencent.com>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Yosry Ahmed <yosry@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Barry Song <baohua@kernel.org>,
+	YoungJun Park <youngjun.park@lge.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Wenchao Hao <haowenchao22@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: landlock: clarify TTY signal scoping
-Message-ID: <arPeCRLPD3WxStgU@google.com>
-References: <20260916152336.1589383-1-clusk@northecho.dev>
- <aqq3yY8SKIBGUZ8v@google.com>
- <20260923.oyohBie1Jeen@digikod.net>
+	Kunwu Chan <kunwu.chan@linux.dev>,
+	Meta kernel team <kernel-team@meta.com>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org,
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kairui Song <ryncsn@gmail.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arPeH5MPDaD95aDp@cmpxchg.org>
+References: <e879ac65cb0940325736df7984c737edf1c6be94.camel@surriel.com>
+ <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
+ <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
+ <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
+ <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
+ <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
+ <a75b2eac4297ca6b238dde6f9246d2c1807b935f.camel@surriel.com>
+ <CACePvbW_-6M63_a7Cp+09dTmpHeMEdj9VDQZf8g8qoYKQD=wvw@mail.gmail.com>
+ <CAKEwX=NrN7-u7gnGvWX3qfHaBQcN6FKsFP-4-k76F=sxM1LJqg@mail.gmail.com>
+ <CACePvbVuFULQVvi4UOrvKaJ-5kdWWU5iJH20gH-9nZ-6ZbEqMQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,99 +120,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260923.oyohBie1Jeen@digikod.net>
+In-Reply-To: <CACePvbVuFULQVvi4UOrvKaJ-5kdWWU5iJH20gH-9nZ-6ZbEqMQ@mail.gmail.com>
 
-On Wed, Sep 23, 2026 at 12:14:01PM +0200, Mickaël Salaün wrote:
-> This looks good, much simpler.  Could you please send the (new) test
-> with the v3 of this series?
+On Tue, Sep 22, 2026 at 09:37:48PM -1000, Chris Li wrote:
+> On Tue, Sep 22, 2026 at 7:33 AM Nhat Pham <nphamcs@gmail.com> wrote:
+> >
+> > On Tue, Sep 22, 2026 at 8:23 AM Chris Li <chrisl@kernel.org> wrote:
+> > >
+> > > On Tue, Sep 22, 2026 at 4:59 AM Rik van Riel <riel@surriel.com> wrote:
+> > >
+> > > Yes, I can agree on what you observed. You are using anon + zswap on
+> > > that app alone. That is not what I originally asked.
+> > >
+> > > My original request was for the whole system: what percentage of the
+> > > total system RAM size has been swapped out to zswap.
+> > >
+> > > Because when you have 100% of zswap out, it will likely trigger
+> > > different kernel code path on allocating memory. You might suffer
+> > > global memory pressure you did not observe in the single app memory
+> > > pressure case.
+> >
+> > What does this 100% figure refer to? Pre- or post- compression size? I
+> > legitimately cannot tell.
 > 
-> On Wed, Sep 16, 2026 at 05:37:45PM +0200, Günther Noack wrote:
-> > On Wed, Sep 16, 2026 at 11:23:36AM -0400, Christopher Lusk wrote:
-> > > The LANDLOCK_SCOPE_SIGNAL documentation does not describe how TTY-driven
-> > > signals interact with signal scoping.  Holding a PTY master file descriptor
-> > > is a separate capability: its holder can cause the TTY layer to signal
-> > > processes running under that terminal, even across a Landlock domain
-> > > boundary.
-> > > 
-> > > Add a concise clarification to the userspace API guide and the UAPI header.
-> > > This records the capability boundary identified during review of the
-> > > TIOCSIG discussion without enumerating individual TTY signal paths.
-> > > 
-> > > The documentation text and changelog were drafted with assistance from
-> > > Codex (gpt-5.6-sol).
-> > > 
-> > > The userspace API documentation builds successfully with the kernel-pinned
-> > > Sphinx dependencies.  The patch introduces no new warnings; the existing
-> > > missing-graphviz and undefined-label warnings are unchanged.
-> > 
-> > Minor nit: Last two paragraphs of the commit message would have been
-> > fine to drop for conciseness (the Assisted-by line already lists Codex
-> > and the other paragraph talks about things that didn't change).
-> > 
-> > But really just very minor, and probably not worth changing unless we
-> > unexpectedly need a V3.
-> > 
-> > > 
-> > > Link: https://lore.kernel.org/r/aqqJAZfG9FC7PgMW@google.com
-> > > Suggested-by: Günther Noack <gnoack@google.com>
-> > > Assisted-by: Codex:gpt-5.6-sol
-> > > Signed-off-by: Christopher Lusk <clusk@northecho.dev>
-> > > ---
-> > >  Documentation/userspace-api/landlock.rst | 3 +++
-> > >  include/uapi/linux/landlock.h            | 2 ++
-> > >  2 files changed, 5 insertions(+)
-> > > 
-> > > diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-> > > index 84cb7bf6b3ed..33a514ebc615 100644
-> > > --- a/Documentation/userspace-api/landlock.rst
-> > > +++ b/Documentation/userspace-api/landlock.rst
-> > > @@ -430,6 +430,9 @@ The operations which can be scoped are:
-> > >      This limits the sending of signals to target processes which run within the
-> > >      same or a nested Landlock domain.
-> > >  
-> > > +    Holding a PTY master FD still grants the capability to issue signals through
-> > > +    that PTY to the processes running under that terminal.
-> 
-> It would be more complete to quickly explain that a master TTY FD should
-> be considered at least as privileged as the processes using/trusting the
-> slave side.  See
-> https://lore.kernel.org/all/20260923.eehieph7UaX1@digikod.net/
-> 
-> So, this paragraph should really be short.
-> 
-> > > +
-> > >  ``LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET``
-> > >      This limits the set of abstract :manpage:`unix(7)` sockets to which we can
-> > >      :manpage:`connect(2)` to socket addresses which were created by a process in
-> > > diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-> > > index cceda3b3b961..6485af37dd25 100644
-> > > --- a/include/uapi/linux/landlock.h
-> > > +++ b/include/uapi/linux/landlock.h
-> > > @@ -501,6 +501,8 @@ struct landlock_net_port_attr {
-> > >   *   related Landlock domain (e.g., a parent domain or a non-sandboxed process).
-> > >   * - %LANDLOCK_SCOPE_SIGNAL: Restrict a sandboxed process from sending a signal
-> > >   *   to another process outside the domain.
-> > > + *   Holding a PTY master FD still grants the capability to issue signals
-> > > + *   through that PTY to the processes running under that terminal.
-> 
-> What about rewording the LANDLOCK_SCOPE_SIGNAL description to say that
-> it is about signaling *arbitrary* processes (which is not the case with
-> the TTY master FD)?  This way we would not have to specifically re-talk
-> about the TTY case.
+> The 100% I mentioned above refers to the pre-compression size. See my
+> previous email in this thread for details. I have been asking for a
+> max(%) number in your fleet for more than six emails now.
 
-In "Restrict a sandboxed process from sending a signal to another process
-outside the domain", I think it is already implicit that this applies
-to all (arbitrary) processes.
+Because people keep telling you that it's immaterial. The job of the
+compression layer is to make pages smaller. It has no business
+deciding what is "too much", what is "too hot". That's the job of
+reclaim and OOM killing. That's the job of cgroup residency controls,
+of things like MGLRU's min_ttl.
 
-How about this:
+You have absolutely no way of knowing what a safe threshold is for
+every usecase now and in the future.
 
-   Restrict a sandboxed process from sending a signal to another
-   process outside the domain, unless it is done through a controlled
-   indirection mechanism (e.g. a PTY master FD).
+The argument isn't we need a bigger limit. And I refuse to haggle with
+you over what the precise value should be.
 
-I think it's worth mentioning the PTY explicitly here.  This is the
-interface description for what these LANDLOCK_* constants mean, and
-for documentation clarity, it would be good to be specific about the
-cases that we know.
-
-—Günther
+The argument is a to use an xarray and keep making pages smaller while
+the policy layers deem it reasonable to do so.
