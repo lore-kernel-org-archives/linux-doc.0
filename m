@@ -1,77 +1,177 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-113.mta0.migadu.com [91.218.175.113])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0707471CE7;
-	Wed, 23 Sep 2026 08:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCC741A4EE
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 08:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790153515; cv=none; b=UeDtlubT216cLcboxGuHVay5WRhH+vc+k/IorgYvL9HEPFPJYwKHFS9BZxRY1y3omfE/UpMqZjo/5614yYZtSmxn9e1goZ5fZL7tWSR30Ep5msU51WpkXodjDT58gXRb6XhUHCsSYDSB9imXtGrS+LDaXD/ebO8KR8jL8qOv2G8=
+	t=1790153674; cv=none; b=p2jlVtDf3sRJQEv2oBKr+pdsEBs5e23XJmIpttcEyOOhQ8UW7W1SIf6gITdXKaW9rsNtV8SQiD1VMGBbBNfqQ3WJ5vxK32Gd7CQykz4SfxgDOWxmcrkvWUfj/Bb+XqlZXl/UHjjgHwKfqiwdTCBf/Xy7PnYk5FOFZ50AYG68rk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790153515; c=relaxed/simple;
-	bh=e8BHkedST5IvMG8ydmkWCUz5sx/Tld0fVuGig1pKfak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tQ1OsPZO5q4GBs6xPqAZy8rjcdwLmDNEKdfkHsjlifFV0X3jMS04j19muT8ht484C/Wa3W1D4vbbzhY5Esqxe//nmxXSKp64ZGZEDn64WeDX5rJbClA408yXQJhqiq5xPSOp2e5cZVCO6uQn11o1au/uQHASNe0YCrQefJnJ/vQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qQ68kLs4; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1790153674; c=relaxed/simple;
+	bh=mKKXd8n2HOhU5Q0gLVPMEbhCsXKgHbRUMQtENSwBdyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OwNDdhtWJqDvDgfGnrsdGTQRMvUYwmdMPVxgDkk+9EGzZNVUsdBsc1oGc/cQ+959mPiiyZQRFF717v2VKo/a8mMmMgjS2YDqAhnzq9sZm5HMTE9lO7NzhJRYGronqTQcd1DVQ6/Ygm6efSqmN287Ey5RxkxQRH2OKm2HQfP6BYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=q2U6Ii9j; arc=none smtp.client-ip=91.218.175.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qQ68kLs4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Zhc+rBydMoTCVYj/UX3EYHmmMl8lLx0CKlWHb9p0Occ=; b=qQ68kLs4+03ouBN6dYWL0IKdKr
-	CE4g2/QKcVLDtevwYbe9FLJGfOeW7VS0wIXCU7bdiowtMHW2Nma9Lr1DpIJuTITY/EzZhjFvEgSzI
-	IX9ssJOaHTLxfDSRWyuWL1IRvxH1EwAjM9FXLE4xZRTgX7HwgeYGRZmwURbO6880f6kftSZEZBvJh
-	4PDZfjfsLAGZn5qr2pWwmRL/5HF1/v2bTxDEjn/D28F9zk6a4PWTmfm2pgU4mWoT7MtKVRQuAk3Vs
-	uzG8sqXn/EVyoTxSh29UIn+8PICGLE0wmNCx3jLBRC5c98WXJhIZGQuf6XLrdCeYouBcHltqofCbF
-	z/CrInLg==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1x9IhY-0000000EXz8-0dbJ;
-	Wed, 23 Sep 2026 08:51:41 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 2A086300478; Wed, 23 Sep 2026 10:51:39 +0200 (CEST)
-Date: Wed, 23 Sep 2026 10:51:39 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, x86@kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Subject: Re: [PATCH v17 02/13] perf/x86, KVM: Prevent host debug register
- leak into guest OS on NMI
-Message-ID: <20260923085139.GV776954@noisy.programming.kicks-ass.net>
-References: <179005108298.388919.4535333252892590932.stgit@devnote2>
- <179005110742.388919.1509641807739909065.stgit@devnote2>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="q2U6Ii9j"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=mKKXd8n2HOhU5Q0gLVPMEbhCsXKgHbRUMQtENSwBdyw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790153663; v=1; x=1790758463;
+ b=q2U6Ii9jHxSmnMAb4/cJhp2lT+EetHSthVFGr+IV6LfUtkJK0bakdOYZvX9SnC+nxE4nWfpr
+ Y5haYi1VXFhIcYYcbfjd5rEqSeYKNxWue9RK/G0fIdQjlrRNS51B9/8e9/3CCIDp6MJgNfssiVE
+ Hv9ADu5lvnKiZ7iVTksdEBbw=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c56b50517945abbe;
+	Wed, 23 Sep 2026 08:54:20 +0000
+X-Mizu-Trace-ID: c56b50517945abbe
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	guoren@kernel.org,
+	bcain@kernel.org,
+	geert@linux-m68k.org,
+	dinguyen@kernel.org,
+	schuster.simon@siemens-energy.com,
+	jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi,
+	shorne@gmail.com,
+	dalias@libc.org,
+	glaubitz@physik.fu-berlin.de,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	linux@armlinux.org.uk,
+	vgupta@kernel.org,
+	monstr@monstr.eu,
+	chris@zankel.net,
+	jcmvbkbc@gmail.com,
+	will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	davem@davemloft.net,
+	andreas@gaisler.com,
+	richard.henderson@linaro.org,
+	mattst88@gmail.com,
+	linmag7@gmail.com,
+	catalin.marinas@arm.com,
+	mark.rutland@arm.com,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	tsbogend@alpha.franken.de,
+	James.Bottomley@HansenPartnership.com,
+	deller@gmx.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	chleroy@kernel.org,
+	hca@linux.ibm.com,
+	gor@linux.ibm.com,
+	agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com,
+	svens@linux.ibm.com,
+	richard@nod.at,
+	anton.ivanov@cambridgegreys.com,
+	johannes@sipsolutions.net,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	arnd@arndb.de,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	ysato@users.sourceforge.jp,
+	shakeel.butt@linux.dev,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arch@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	hughd@google.com,
+	qi.zheng@linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 06/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for sparc64
+Date: Wed, 23 Sep 2026 16:54:14 +0800
+Message-ID: <20260923085414.17309-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20260922-rcu-pagetable-freeing-v4-6-fe1ad1f1e303@kernel.org>
+References: <20260922-rcu-pagetable-freeing-v4-6-fe1ad1f1e303@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179005110742.388919.1509641807739909065.stgit@devnote2>
-
-On Tue, Sep 22, 2026 at 01:25:07PM +0900, Masami Hiramatsu (Google) wrote:
-> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> 
-> When KVM enters a guest OS, host hardware breakpoints are disabled
-> before running the guest. However, an NMI can occur while executing
-> in guest mode or during guest transition, where
-> arch_install_hw_breakpoint() can be invoked from NMI context.
-
-How? AFAICT perf doesn't do that. arch_install_hw_breakpoint() is called
-through pmu::add() which is strictly IPI context.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
+On Tue, Sep 22, 2026 at 04:35:37PM +0100, Lorenzo Stoakes (ARM) wrote:
+>Commit 4a0100f7546f ("sparc64: use RCU page table freeing") enabled
+>CONFIG_MMU_GATHER_RCU_TABLE_FREE for SMP sparc64 architectures, expressly
+>for GUP-fast page table walkers.
+>
+>Naturally, UP systems do not have to worry about concurrent GUP fast
+>operations.
+>
+>However, CONFIG_PREEMPT_RCU is also available even on a UP system, so a
+>future pure-RCU page table walker requires MMU_GATHER_RCU_TABLE_FREE to be
+>enabled on UP, even if concurrent GUP fast is not possible there.
+>
+>To enable future pure-RCU page table walkers, enable
+>MMU_GATHER_RCU_TABLE_FREE unconditionally.
+>
+>With this change, it is no longer necessary to have !CONFIG_SMP
+>pgtable_free_tlb(), so also remove this now dead code.
+>
+>This forms part of an overall effort to switch every architecture to this
+>mode.
+>
+>Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+>Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>---
+
+Also ran page-table teardown stress on qemu-system-sparc64 (sun4u, UP).
+That ran cleanly too ;) Feel free to add:
+
+Tested-by: Lance Yang <lance.yang@linux.dev>
+Acked-by: Lance Yang <lance.yang@linux.dev>
