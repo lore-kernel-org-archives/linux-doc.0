@@ -1,195 +1,103 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63B85304DD
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 14:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790173881; cv=pass; b=KAG9xeuArpOeONbGm6gpCn1xipDYs0S9vD9qNF6eeUAgyy6jWEBT7qHNDVB15lowjjgfoh+p23hG1gUAF9LVOoH7fVaTXkXUarBR12VvfhafNP6LjcRryDjrorLvlNgSeAwCkrHOY3UMLmBBsxRAsjJMZdF6hH/cGLmYXZOxUCU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790173881; c=relaxed/simple;
-	bh=3IRQTfCkVu29EAhzhIq8HL8xV9bhN+vmwTvfaTzW1hg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dcut0GmMaSpOgMshmciqm1Le6UtetwibGP3NMEgtgsVmGI2nIDZpI/5JxQXmvWucfYv65oozEUIjpRpn8qVysjkk4cO3ifUiYZHxtqekThA1mu5HM3OIi54GCND9KgpKkFLJhtrxBmy1oQEpy8VmZHZUF/808WDjmdg5j5xYQM8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C+1Ohl3z; arc=pass smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B186C51DAEC
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 14:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790173998; cv=none; b=SRxs5BQqepfxLE4FD1X1pk0jxWJAyA7c7QOSXpdeEMjC9i5pNeYajpc67tsHsmXyMyLFSDkQOqbikaLb7+aDQj5inn85h2C6fUbu7tYj24gBg66oOy5UFgSb+EKPbC/TV25Gg+D2ZYQBc84AY/PLje+DSKbTtx0r++xnccroa40=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790173998; c=relaxed/simple;
+	bh=9SziFnm+aShDkRNqNWK4TN1HFS1h14/qWjFuIX4GFYA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=liFfxrPaJpYEWDzzFle5O9vwBRjCNb5qbaRh4ACBlO78EsAArSQusPPQcZY46N6LPqEE5L54NUtmabo2dvmsHk+GpsDN3CRrsRcK1yqmsDD/PRrXTF9FTrihixVTceJ5pHvTROdI9Q5GW+42m0VE1Vj7GAlvRyX4faBSdqwiJGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G4djl8C3; arc=none smtp.client-ip=209.85.210.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C+1Ohl3z"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-532e9ad9a1eso208461cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:31:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790173876; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gNCM0Cp/8xJZDXHN0lPSeIbRR2qXe14vuhdttaPUnU0XiUWZ1MgwgIMxurOpBMXvLX
-         e6kGt6msLvM3yaoqPqtc6pSQNX63MaV67qQfksjAsWyEPSg1h3hmbqHb7GXdVdxVatxx
-         J52rveGgNdXC3L+z07FDzn3lZUvJgH0OIjh5kUXVGitKZx1N5jeQFlWVBaPkROnGkSSA
-         DjXt8LTzXHl0nDGnTZJEZIHXGF6InKcErIz+u7L5NsFkxKiljVKL5sfhb+KfBeOCDRj1
-         GgB5u5zj66ztDOndUEQFFXc4gXyZoFK6aj195pvC2X5M/PpI3/6ewbRgm9mezPn8MV6L
-         KHKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3IRQTfCkVu29EAhzhIq8HL8xV9bhN+vmwTvfaTzW1hg=;
-        fh=Uij2K9nBrzzdbQnexOYc/lIpNQaOv1Xxq83QYbcri1w=;
-        b=hY/iZRPVJkNXjOJv/UZ5D8miEDoE6XKxWP/giCSFq1HonFAdpZf3W8Gnyn5qY0TnAE
-         jb0fK/PorxksAvv6bSpN+wmLzujipd1z338PbDmMZ8avp2MaRtF25dDARFsfjxFvDKjj
-         tWIQ9giskFTxRxiuShGBntPAZxe8hfeJGXH/X8BTOHHWK0zNlcoRvnJ91N3cWxUd+Bgx
-         t5kp7OPrgIuMhKEuWYi2tSXVQZRIs5QB/Ug9PgrfzgbopwyJNNY3QsSbA1w2ZPEohArw
-         JOV4+y7q4xbew8nJ16gfycUgnHskhT4ZiKc9GB7U0K7PRCaQHrqagguvY1P5ZPnHcefl
-         x/nw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G4djl8C3"
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-8679cfe5019so1170278b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:33:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790173876; x=1790778676; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3IRQTfCkVu29EAhzhIq8HL8xV9bhN+vmwTvfaTzW1hg=;
-        b=C+1Ohl3zbsMrjh1dB/zOjZD8WctelSpuD7HSjz83HtCzxAu2uQCdrvdk6mQA/qDmED
-         XPmCruc/0qesoh5ZaUY/8kYU55YuQDkrL+NWB4/GzBktzO6vR8i1QACk+3pme9wnGQCn
-         VZQmjl8KrY0HTHromA139b+tgbWQilZ3lTmZ8bgk7A7cwz+FVWfgOIYzhOmTDxAQ89K+
-         VZ5tGKKWdn2SxsyXoo0ZRNPy/7aL5Z2Tdfk7aj0pDU/c4b+4zxQCe6XqJRfIBBmHEG8r
-         fY+QEIfNks1XUT2d6WUeW6MkoHO+EYXflKlYvUF0fbOWU0DbvpsKlrTvHc30tBgH/z4n
-         u9Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790173876; x=1790778676;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1790173996; x=1790778796; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3IRQTfCkVu29EAhzhIq8HL8xV9bhN+vmwTvfaTzW1hg=;
-        b=imHUZlyzc8pdJQ+CYGMcrJbM/icERKRyzD8Dhru/6NO9p+4zQpdYdH5ifF0Q5TScvC
-         JHx0wM47DDZWaNWm1l8BzeZXV6GdSYLhzD/vE8UP+cN3gm7e5Vq2Fr/dn17RYI5aqrBR
-         DGt54A0kl2ABt1Ak+SnbtZim+oMnfyj+cqzPtNDlpQFmdXYFI564zYHk8eXgRfMgPx2m
-         1w6z1XB69L1EFWrYGMOr5WAgWoRr/5FKuhSTQmR5CjJvfumsilgW17wwJhBkJ3MgBVJ5
-         bTVDt4cJsY+9Sc7FIiRMY9EsDbEQXwcRAQHl3WjeEdu0rjDEdQ4jlk+kQ6so8q3QfLNx
-         Iztw==
-X-Forwarded-Encrypted: i=1; AKwUvBycYMUbD62XHLQzAU/YI83x+Mq76ZRU093tMCkOU3pfVHWcdI9FOLdY2Mgf5yTlzi/c6L51jvR13PE=@vger.kernel.org
-X-Gm-Message-State: AFuF++kVbvDtof8Lze1e804v9c28oFcuSPJqE0DcVVURb9Skpyu9oZ00
-	Xntix8Bgt2FdFppI/kTy0ohs2pvc8KkTtYTvdZ4Lyno11jP+7cgTLPrM/KSIe2WDD/wLSTqtDFr
-	SWfHnWrzZTPrIKCQrCNt6xmsHsIUVOBhTqi8TX9zp
-X-Gm-Gg: AYBFou0nfdD2DACYYFV0RMhH22BT+LwKLR9z4mCZca7ludqfgHnOqTfdW233qJKGB4B
-	jeYmrU5Z6cISXzpFoKPvmQXtwz4pDdFHFu98wF3nHT5bZsIq1INTQGtTCuCrb1duz342WcAIddD
-	/X4XY1X6r5CyLBIpummZRjJb4MJ2Vskp0DYPBu2sSQGnqz4CsX5KROjNjzApAgfQHyNWy63hLHu
-	scQcV7JTJkf27PLSFitSET/3yAtqV12fFJjgIPm7jFJnetN9SpLRBR+c0P73TtCmV2GujM852gV
-	RmdoB4tMSB1f6ZO0pO7vc8XLV/5AlMml3bDwztcuse9Hh+9B6QC2jeHGvvRGxyjk7t0z6QmVwAM
-	PX6L8PIF2WA==
-X-Received: by 2002:a05:622a:260e:b0:532:9d15:2e5a with SMTP id
- d75a77b69052e-532ede89b29mr14598791cf.1.1790173874906; Wed, 23 Sep 2026
- 07:31:14 -0700 (PDT)
+        bh=AX/aeWxWgB/GKGsHNXt+UF87Ro0pQpzXrq2csA576lg=;
+        b=G4djl8C3qxRTsRmvPNo5MOrfBBswMKCGB6TDoGTiEKAlra62ktjDTE69fVMNHfDiRB
+         6nwEsCtA47lYdmfdQC8e/d13TBE0tfs3znkzlWpxNNfwzchICxPfyhqaHKU87a9weD2J
+         NRXNDMBr1teRUBUiubml1aNnXs93x+joWSp7oOxW7B0LqvvEAaYiklk2u7rWX7fgRy5U
+         X9IWtepwDWlJe+kBfbHziUx4RFhKzQiSVXt2OVG57BQ9rXGa2EUTl5CnRiQWp82kEAyg
+         o6FYT3jccLBqcl51Hb+ZvnlUj74dDlA1EgIRNsqpxwUzVIVXMfvuYFiPQ2cLWiu1/nBH
+         n8Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790173996; x=1790778796;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AX/aeWxWgB/GKGsHNXt+UF87Ro0pQpzXrq2csA576lg=;
+        b=gts9+Qw7JicOh9Sb7pqQODf3aVVZO5kUoix99UFyS+UQyt4jV1OCKOyeo0thckH8S3
+         cJdzgxB/MjsNnZwq2D2EstNI5t/B0+fYmGQH1lU/REHqQnXi90DznV+2kruyblEXngLI
+         kzo6LIepR4gLnMV32eeypd0H4sL2bry9N6KafINRNbVSrrMy+MLMtAMToiX1EsIBQZhw
+         NgatPgk4ipD49Itn0EwYs14CSzTE8IjVVQH1AXCBwxnLZPRQ/GPgGA5U8Lc3pPo5Pm8f
+         H0ydS3KgBA381+fH+HoqEDL0TQWrrEhagI1yzCSlFIUW0/MwcVgwdQhDapXP5nj7McyB
+         EVuA==
+X-Forwarded-Encrypted: i=1; AKwUvBwj3hd1bnmg4HxGDFRGVJymcqrIRXfAEu0jojOfXca1T4aIcyQBdOYSusVovje30pWtPlBOqJU7jIA=@vger.kernel.org
+X-Gm-Message-State: AFuF++m60sWRJmR5S5c8ZvZyslc5UkVeUa6UV7Vx8+SwuQF1gfM1U+HD
+	qT63GAM6CahJQuoHqog73DJt650I4i8KKOZCvrGeJPTeHj2klhKmY4s6yN9NaPoCQTdlVcGpFq/
+	M3L20pw==
+X-Received: from pfet15.prod.google.com ([2002:aa7:938f:0:b0:87b:94d4:77a2])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3319:b0:87c:e44e:5683
+ with SMTP id d2e1a72fcca58-87d1a4b357amr2446190b3a.23.1790173995748; Wed, 23
+ Sep 2026 07:33:15 -0700 (PDT)
+Date: Wed, 23 Sep 2026 07:33:15 -0700
+In-Reply-To: <20260923085139.GV776954@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
- <20260914180811.057cba8fcc48d6e0b53a2683@linux-foundation.org>
- <0b064fe6-ddb3-4f26-a1f2-2e9dd88d590f@kernel.org> <CAJuCfpFBichJH4OcmSHTb1rOuQBT6k5pXeua9_KgpWjDBKvsYw@mail.gmail.com>
- <aq6kzpK7wPl3iFGe@gremlin> <aq6lW9FvL69QeA9H@gremlin> <arOCPN02xB7mykju@gremlin>
- <b007cd0f-29ef-457a-8e44-63ab26f3bcd0@kernel.org>
-In-Reply-To: <b007cd0f-29ef-457a-8e44-63ab26f3bcd0@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 23 Sep 2026 07:31:02 -0700
-X-Gm-Features: AclHuK_ZGTwaB8ygIyiOyIIeQNRzbEtns-G_Cds8CuZ4q61CHw7YMjTifucik0o
-Message-ID: <CAJuCfpHL=dHjT=O4S88ZBvT1DyodAtCL9QTryepzs3EMwoECDQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/40] mm: make VMA flag semantics explicit, eliminate VM_SPECIAL
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
-	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <179005108298.388919.4535333252892590932.stgit@devnote2>
+ <179005110742.388919.1509641807739909065.stgit@devnote2> <20260923085139.GV776954@noisy.programming.kicks-ass.net>
+Message-ID: <arPjK1-PVp_UqAsQ@google.com>
+Subject: Re: [PATCH v17 02/13] perf/x86, KVM: Prevent host debug register leak
+ into guest OS on NMI
+From: Sean Christopherson <seanjc@google.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ingo Molnar <mingo@kernel.org>, Jinchao Wang <wangjinchao600@gmail.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, x86@kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Sep 23, 2026 at 1:40=E2=80=AFAM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 9/23/26 10:13, Lorenzo Stoakes (ARM) wrote:
-> > On Sat, Sep 19, 2026 at 04:09:13PM +0100, Lorenzo Stoakes (ARM) wrote:
-> >> On Sat, Sep 19, 2026 at 04:05:57PM +0100, Lorenzo Stoakes (ARM) wrote:
-> >>>
-> >>> Thanks guys!
-> >>
-> >> Note v3 has been posted to fix a stupid bug in 1/40 + attack some very=
- trivial
-> >> sashiko stuff
-> >>
-> >> https://lore.kernel.org/linux-mm/20260917-b4-mmap-prepare-vma-flag-san=
-ify-v3-0-4583d8a23bca@kernel.org/
-> >
-> > Just a gentle nudge on this :)
-> >
-> > If you guys or anybody else has some time it'd be appreciated! (obv. th=
-e v3 as
-> > linked above not this v2!)
-> >
-> > I know the series seems intimidating but most of the commits are very s=
-mall and
-> > it's been in -next for a while.
->
-> Busy with too many other things sorry. Its time will come.
+On Wed, Sep 23, 2026, Peter Zijlstra wrote:
+> On Tue, Sep 22, 2026 at 01:25:07PM +0900, Masami Hiramatsu (Google) wrote:
+> > From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > 
+> > When KVM enters a guest OS, host hardware breakpoints are disabled
+> > before running the guest. However, an NMI can occur while executing
+> > in guest mode or during guest transition, where
+> > arch_install_hw_breakpoint() can be invoked from NMI context.
+> 
+> How? AFAICT perf doesn't do that. arch_install_hw_breakpoint() is called
+> through pmu::add() which is strictly IPI context.
 
-Had to take care of the pile of bugs but I'm on it now.
+I assume it's:
 
->
-> --
-> Cheers,
->
-> David
+  kgdb_nmi_handler()
+  |
+  -> kgdb_nmicallin()
+     |
+     -> kgdb_cpu_enter()
+        |
+        -> arch_kgdb_ops.correct_hw_break()
+           |
+           -> kgdb_correct_hw_break()
+              |
+              -> arch_install_hw_breakpoint()
