@@ -1,218 +1,195 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7934C46982D
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 12:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149264F93AA
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 12:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790167429; cv=none; b=VHu6RZUYJ6xO7AXYU4BVA1LKkx5H9+XvzsRv6Djn4XCuxB5rdnf52b0kU9/1MT7LSCZ1tSkowH0dDuKVL0KSh5GQ5oRKCfZrmHNibqk2rPHa0ibEV+Y0546yxGSamTyXLB22Wzj/Ff+/dIiEKIanJD/1y3gcUYWF/NEwLHOow6A=
+	t=1790167950; cv=none; b=gjijUiYLvQ8PKmQxI5yOaGAnJZmV+/gBQqGypnUw+Y4p7pqLZYsfOMVKxFctY3JZLo5Umv0l/UTqhtJILiU8UxrwsCKL+B+5jEN3s1ym36MmInPm1i5dJUnTIHvcCi706cXUElo0rYC31fWNRQ0vKsDSrhzhafvw5SvQE62ctvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790167429; c=relaxed/simple;
-	bh=TVA04EV44Oj2OXp98xnYIpQ8NDcjxBWT9Zql/1cXkhk=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=l9IHHx+RdXYH22JqIubd/ajwfpsOoC86WjWi21UlUrW5jbVaXAYryVtFinkjy8MO+oSWBTR9UC/cuD7djaZzfAS4C6Lx9w66MNfLeU4Aoa570jzgS3pzqBBUJO5mts2TGxaWMJG5afpznJ9xTrb+D91/kXY1KDeBwo8Wy8AL61E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PSv7T8oI; arc=none smtp.client-ip=74.125.225.141
+	s=arc-20240116; t=1790167950; c=relaxed/simple;
+	bh=WAI2SPpJ8puZMu37X97Tb+6oxDR/Qi6/9yk8IhH1Rz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RbCihFKNyOz6AXw/ixV/cLH7yILVz0jFeFrl29ITyJk1NQhUJnhFEWsw3TLaPyx8C6JCxBHZsWoos2U/WXofMiGDNgIFcHxOOTgDDWf3a5ty/ReA+VG6GpFOXQKe/etJnxsk8fcd6Y51D+A3ZSHZDpZ1xc92isi5+VFQj9LxzsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1cVActw; arc=none smtp.client-ip=74.125.229.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PSv7T8oI"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e71974de4so388665e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 05:43:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1cVActw"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8b402f4e3so827206e87.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 05:52:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790167426; x=1790772226; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=mPIC8JpwGyS02wRODpKkFe2yJaEF35AMEk5CxjzMb3g=;
-        b=PSv7T8oIQ+BID2DGDRvZQb5qEUkbJhyfpP9KYQPP4ebP4IA6CN2wNoaQE+RNd1+4oc
-         ycDsHCagPf61mcPCMgSyv11BczQ6CB0jGcx7HD0CDIN0x5HV7ntP9Wx3OtFqhNSh2R3n
-         PsT9dGUBXecUwmhQamaPgorU1c2vnk/f0PbWJa00wxKW9fNFzNK6PIX5Bu0HTJhCkOyn
-         xGbRqatGLnFFM9SeY/9+qkMWJW801HmTWCPmPLX2RdiSyTlAQRX+8Iu2fLRIHBUwnuRl
-         ZioiOSfUXHPbI9d3bytQP2fPPdt1p6das64PBrlB7YEHKy7SHZrliwjPINfJxlGkxRl+
-         TKYw==
+        d=gmail.com; s=20251104; t=1790167946; x=1790772746; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=sm7vKUqKVBNM8fpsiqdcEcneUTHOJiE76zYrPR0ilCY=;
+        b=K1cVActwFcDsjZT//i/mfB8v9KJpJvYseaGPk2FkC0KjxU4b6RsEf3COWAlP1RTDQz
+         smMge2qR22zCmc82xCqreoXQNJuubsLmJojOhzn+4q2TTaH1W3r+kiOmmj9LkJdOtedl
+         e1INrx411WVKfLmfX8HqBMZBIf2xMfABZLi/HeV9NtdGWKWg9hTtnU+sqcVDI3b4r96+
+         Cx7X7pvKVAyceoszelTcEvknJk4wbSbBJ7luYz7aQkBD6zHS9tdQB9+CmW66UeEEN5gI
+         3GAtcY6tGHOS2FCgh8tyeRwIM7R4HMSu4w5F5ZMXz045xynvmftA85L4mS6NdYKbcZLZ
+         Z1vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790167426; x=1790772226;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=mPIC8JpwGyS02wRODpKkFe2yJaEF35AMEk5CxjzMb3g=;
-        b=lkxRKmHoEwNB6j+MszGdBG4SorP8EmQVqnWPPKhnTFqyNzNx+J5QnmWBNJ38+8TwOr
-         cD52AVEbRfdN7iw77Dmu2Y3oN/Ozkn8+aLvNlmzwMelzBGk1oRrrmTCRc6MmtZ4k55cR
-         y+rIleOsPIl+wcA6FxbMH/jk0Hs6BOK01aQVTz19X2n7CFLw2gmtMbDlJz/EafrH6FFZ
-         gIN4yz5FgZNtIey3Ug8InSb6s7cAv+ZZv90rPe0MWt82o6/SSuj57pwhjZrfQApnyXn1
-         F9mj6kxeixUTanCelIiTquGGcb/t700yqwyFrSMOro+OHVCwceUmPi2O77EtGz7BI5g5
-         KMGg==
-X-Forwarded-Encrypted: i=1; AKwUvBw+XMcrZ+J404AiD9fhOjkFoYWF9NXHOI+w8iCO2jIxOCmX7D3OwhbnH8MCfpo6JmxOvZkzncZlOAQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++m86PWQ+xUzJ4wwl0G6Op/zHl7ssJLDtTSbv33v/7VGmbDloMNv
-	vJ9PXTI5AAPM5XCfOgy41dQqCw2K5O0j53OkpvkGY2y95O9Wik+mvE8G
-X-Gm-Gg: AYBFou1K771lujtIj5Hjl0b3bkIXSCZMWXA2v+SwZ+Z8XpzYa4S50o8TMpEpSOhbJhU
-	xBtB9PgzUxk/MDS3IU7foYcvtfMFvTsqzoMmSWZlww01KfEekXNrubDdR8VBLhAHClU2pmEC7Aj
-	KfMCGwp02e1WR3YR+eU4VDD4w0c2IzQ3S1HKBe3CAI6/ntpRQBXemfomN7NH5ytDb+YtxsjhZyt
-	3i/7KwM/X5g0ur3JmF92sOt5O2UuV8RhpxE40SDQmLqkTzQl9IzQvi0RBUJ3mtJKGo2HUCI96XT
-	6wt2lZX04sgAHJWlwtYRWBXQUMrfpKBz3ZXUzAinjzO/urifAfcsq4n3OyyySsWv/ebHkkyACQ+
-	dzAklyaKnkM+/NZoBZq9EBQ9U7yExLzP2Rsz0GjogR3CcDfq2u1iPjcCY3Huyvat4ugaTuCVqEB
-	rz9RZorYnfGue8WyiRak6wbuafGZeFOKmflFVJb04YKqlMs7UHO4y3lfefS6eut7Dcz3+ilBax4
-	y6xl8JR/USI9dnSHYo=
-X-Received: by 2002:a05:600c:4fcc:b0:49c:f9b8:bae0 with SMTP id 5b1f17b1804b1-49fdf13cf49mr34079185e9.2.1790167425362;
-        Wed, 23 Sep 2026 05:43:45 -0700 (PDT)
-Received: from L-P-ITAIH2-L-RF.rf.local ([193.169.70.108])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fde1893d5sm88986845e9.4.2026.09.23.05.43.43
+        d=1e100.net; s=20260707; t=1790167946; x=1790772746;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=sm7vKUqKVBNM8fpsiqdcEcneUTHOJiE76zYrPR0ilCY=;
+        b=j23NvhFkT/+In1lkK5MGl3gaVXnq73GdBXRA6Tu5zt+wZbKnz72fqxW2HdgzFQ3Z9+
+         7rYtxXUqPY4I3TjZ1bGhM11aCka/hjrG0FUqHHJzDLA2AFgW/cqYYksxrmDMS75IYJCx
+         48vOL+am3oBHbnkycP4+G2jp2VMc5qS/a2Wy3z/5bt94MJMGkMHX64lTfO3umgvtnFYE
+         JyW8MwofRAsZpc5CnAJPOR+cJzXY4+TVozyUs8bNmOjSdZzJA/ABFftweULoTlz+iI8I
+         DBjr62FXtWAGNyboS0PDP9lo7gXaoco/p9sjiN/BEvfWjZEwebGBl0XreCWeg9RjOy7N
+         rkHw==
+X-Forwarded-Encrypted: i=1; AKwUvBw8ycpkYUf0Ap5xJznaFIGQmq+MgaXwxnK4MdpNf9YwxkreP8+vhc9FYNDr8U9ZTY3X+5ULGxFrx2U=@vger.kernel.org
+X-Gm-Message-State: AFuF++mD0K5c8zZY1BAjEg/4KXA7MWoqZqqZV154yhiaK3ucH5JqqCjh
+	IXbtqDPlWcfD5t1cMr2Q1WSM/CernZH9iT82d7vUDFrznmhZd3Vnq7yk
+X-Gm-Gg: AYBFou1PmchT0enk4DT10DKTzuxEWcKx5H+6i1VjLOj7ClJQUQUDCfsA83VMzZsImYZ
+	HzGKHfM5d3kXyxyt5ClRk8Q4ICp3dU+vZtL29CI+zQ8SCl2RAv6ZUhGzCryRYfc0x3BosEmq9Cw
+	AIx3QIfTmoVLmmLDXwoQlOy3GPij2fUucJlwmH5j3KcCSY9DD1A/6a3JYjIjsVsuPzuFuwui/gf
+	4huP3VsGKEruK8dnH1zzuz6arJtHoonY/M4GUfRuiY0u23BYaQT0h48xTyAroziQ/0xLEZA+jnZ
+	uV0y7wKIlD2kJp4V7c3D1wky3OGkgeSEDdIGELjTVXmc/JYdszcH3ZSUdk3evOZom2qIoqDnPm2
+	CQKzqPVJP7suA7/mOZbPub1V2OuehxxUjKk690/VYNlO5ocm97Kvc3C0CYE8RZkxK2Vo9+jHgSf
+	aiPEVw1PHtMDwnH/WZ5A0BkulsYpASZZQo76S9ecpr5pDicyuB5AO6muO3zKJp8cF2+ed2r2sGJ
+	IbZxoeLsyGJIbNKW+vRwr/d6hgN
+X-Received: by 2002:a05:6512:b22:b0:5b0:113d:8ae5 with SMTP id 2adb3069b0e04-5b8d895fe88mr1057730e87.10.1790167945480;
+        Wed, 23 Sep 2026 05:52:25 -0700 (PDT)
+Received: from localhost (sol-eduroam-pathost130.ki.se. [130.237.96.130])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d85956c0sm567280e87.78.2026.09.23.05.52.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 05:43:44 -0700 (PDT)
-From: Itai Handler <itai.handler@gmail.com>
-To: Mikulas Patocka <mpatocka@redhat.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Milan Broz <gmazyland@gmail.com>,
-	Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	dm-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/1] dm-crypt: allow encryption sector size up to PAGE_SIZE
-Date: Wed, 23 Sep 2026 15:43:17 +0300
-Message-Id: <20260923124317.912154-1-itai.handler@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <947ecfba-353b-753e-53d1-30d894822401@redhat.com>
-References: <20260922120330.127262-1-itai.handler@gmail.com> <9a6c20da-4da9-4a8d-a6d4-f18900228bf6@redhat.com> <947ecfba-353b-753e-53d1-30d894822401@redhat.com>
+        Wed, 23 Sep 2026 05:52:24 -0700 (PDT)
+Date: Wed, 23 Sep 2026 14:52:22 +0200
+From: Klara Modin <klarasmodin@gmail.com>
+To: Chris Li <chrisl@kernel.org>
+Cc: Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, 
+	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arO0RCCE3Woh_I_z@parmesan.int.kasm.eu>
+References: <e879ac65cb0940325736df7984c737edf1c6be94.camel@surriel.com>
+ <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
+ <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
+ <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
+ <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
+ <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
+ <arKbXe1Qe-FDCTMM@gourry-fedora-PF4VCD3F>
+ <CACePvbWW4avTV2WB6iRU+LN5zqkMTg3UhBrq41R0iw91-7Ni0g@mail.gmail.com>
+ <5a7ad159b2fabf377b7e1fc4248c433287ac11fb.camel@surriel.com>
+ <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
 
-On Wed, 23 Sep 2026, Mikulas Patocka wrote:
-> I did some benchmarking some times ago - and all the SSDs that I tested
-> had worse IOPS for sub-4k writes than for 4k-aligned writes. This means
-> that the SSDs have 4k sectors internally and do read-modify-write cycle
-> for sub-4k writes.
->
-> The SSDs have remapping table that maps logical blocks to locations in the
-> flash chips - and RAM is expensive, so I doubt that any SSD vendor would
-> put 8 times more RAM on the SSD in order to map 512-byte sectors
-> individually.
+Hi,
 
-I accept the measurement and what you conclude from it about the mapping
-table. A drive that is slower for sub-4k writes is doing
-read-modify-write, and a 4k mapping granularity is the obvious reason.
+On 2026-09-22 21:10:53 -1000, Chris Li wrote:
+> On Tue, Sep 22, 2026 at 5:53 AM Rik van Riel <riel@surriel.com> wrote:
+> >
+> > On Tue, 2026-09-22 at 05:43 -1000, Chris Li wrote:
+> > > On Tue, Sep 22, 2026 at 5:20 AM Gregory Price <gourry@gourry.net>
+> > > wrote:
+> > > >
+> > > > On Tue, Sep 22, 2026 at 03:32:44AM -1000, Chris Li wrote:
+> > > > > > Right now it has 64GB of memory.
+> > > > >
+> > > > > That is exactly my point. You are running 1/8 = 12.5% system ram.
+> > > > >
+> > > >
+> > > > Chris you are missing the point
+> > > >
+> > > > Zswap:           8812236 kB
+> > > > Zswapped:       24927876 kB
+> > >
+> > > I am well aware of the point. The 7%-10% data I provided is before
+> > > compression. After compression, the real saving is about 1.5% - 2%.
+> > >
+> > Here I'm at 28% without any issues, with room for
+> > more.
+> 
+> 28% is one thing, 100% is a difference beast completely. If you
+> haven't tried it, don't assume 100% will behave the same as 28%. There
+> is a point where too much zswap makes the system unusable. It is hard
+> to pinpoint the exact upper boundary. However, figuring out the upper
+> bound larger than that exact boundary is not hard at all. I haven't
+> seen any one can use 100% system RAM sized memory swap out to zswap.
+> If you have a data point showing what that system with 100% swap to
+> zswap looks like, please share it.
+> 
 
-What I do not think follows is that a 4k write is therefore atomic
-across a power failure. Those are two different properties:
+Chiming in as more of a user perspective.
 
- - the mapping granularity determines how much has to be rewritten for a
-   partial update, which is what the IOPS measurement shows;
+On my 4 GiB BPI-F3, I can reach more than 10:1 compression ratio on
+zswap during some parts when building GCC 17 snapshots. E.g:
 
- - atomicity across power loss depends on whether the commit is
-   all-or-nothing - whether the NAND program can be interrupted part way
-   through a page, and whether the mapping update itself survives.
-   Without power-loss protection there is nothing holding either up, and
-   consumer drives do not have it.
+MemTotal:        3966864 kB
+SwapCached:        31872 kB
+SwapTotal:      16777212 kB
+SwapFree:       16638128 kB
+Zswap:            280140 kB
+Zswapped:        2859840 kB
+AnonPages:       2927376 kB
+AnonHugePages:   1409024 kB
 
-That is what AWUPF and NAWUPF exist to express, and it is why the value
-is advertised separately rather than derived from the geometry.
+While this is 72 % rather than the 100 % you asked for, I think this
+shows that what size a potential limit on the uncompressed size of zswap
+is suitable heavily depends on the workload.
 
-The kernel takes that position too, and more firmly than I had been
-arguing. nvme_configure_atomic_write() accepts only NAWUPF, explicitly
-ignores controller-level AWUPF, and where neither is advertised falls
-back to a single logical block. Then in nvme_update_disk_info():
+I have been using vswap consistently on all my machines since about
+August, and I have also tried one or two versions of xswap (but the
+current lack of writeback makes it inconvenient for me). I really
+appreciate the work being put in to decouple zswap from needing a
+physical swap device to work.
 
-	/*
-	 * Linux filesystems assume writing a single physical block is
-	 * an atomic operation. Hence limit the physical block size to the
-	 * value of the Atomic Write Unit Power Fail parameter.
-	 */
-	lim->logical_block_size = bs;
-	lim->physical_block_size = min(phys_bs, atomic_bs);
+> >
+> > > You are not listening. The boundary was set due to feedback from the
+> > > application SLO. Those are real deployments not imaginary usage.
+> > > Please respect the user.
+> > >
+> > Different users need different things.
+> >
+> > The kernel needs to be able to accommodate all of them.
+> >
+> > The kernel default should accommodate the people who
+> > are least capable of configuring their systems.
+> >
+> > Hyperscalers can set their own defaults across their
+> > fleets. They know how to adjust settings.
+> 
+> They can use a safe value, e.g., 100% of RAM. Let the people who know
+> exactly what they want to swap configure the boundary they want.
 
-So the block layer will not even report a 4096-byte physical block
-unless the drive advertised that it can write 4096 bytes atomically,
-specifically so that nothing above it draws the conclusion we are being
-asked to draw here. On the drive in front of me that yields
-physical_block_size = 512 - the kernel declining to infer atomicity from
-geometry, rather than the drive being unusual.
+My personal preference would be for a default uncapped (or very high,
+and I don't think 100 % of RAM is high) limit on the uncompressed data
+which is backed by zswap, since that would mean one less knob to tune.
 
-The empirical work agrees: the FAST'13 power-fault study found shorn
-writes - partial writes inside a single page - along with metadata
-corruption and worse, on most of the consumer devices tested. Whatever
-the mapping granularity was on those drives, 4k writes were not atomic
-on them.
+> 
+> Chris
 
-So my difficulty is not that 4096 is too small a limit. It is that 4096
-is not a boundary between safe and unsafe: below it there is no
-guarantee either, unless the drive advertises one, and few do.
-
-What this patch does, and does not do
--------------------------------------
-
-It raises the maximum sector size. It does not change what any cipher
-mode does when a sector is torn, and it does not make a torn sector
-possible where it was not possible before - a 4096-byte sector on a
-drive that advertises no atomic write unit already spans eight of them.
-
-What a tear costs, in full, so that nothing here is hidden:
-
-  XTS, ECB     each cipher block is independent, so the sector decrypts
-               to a mixture of old and new plaintext - what a torn write
-               gives on an unencrypted device
-  CBC          P_i = D(C_i) ^ C_(i-1), so exactly one block, the one
-               whose predecessor is on the other side of the tear,
-               decrypts to garbage; the rest is old or new data
-  AEAD         authentication fails and the read returns an error rather
-               than data
-  diffusers    the whole sector decrypts to garbage; in practice only
-               reachable by writing a table by hand, since BITLK uses
-               512 or 4096
-
-A sector whose write was not atomic is lost data in all of these. The
-filesystem above cannot rely on a partially written block whatever comes
-back from it. The cipher mode decides what the loss looks like - stale
-data, one corrupt block, or an I/O error - not whether the data
-survived, because it did not.
-
-So I would rather document it than refuse configurations, in
-Documentation/admin-guide/device-mapper/dm-crypt.rst:
-
-    An encryption sector larger than the unit the underlying device
-    writes atomically can be torn by a power failure, leaving part of
-    the sector written and part not. Unless the device advertises an
-    atomic write unit, that unit is a single logical block, so this is
-    already possible at 4096 bytes; a larger sector widens the window.
-    With XTS and ECB the torn sector decrypts to a mixture of old and
-    new data, as a torn write does on an unencrypted device. With
-    chaining modes the block at the tear also decrypts to garbage, and
-    with the wide-block diffusers the whole sector does. Use a large
-    sector only where losing a sector to a power failure is acceptable.
-
-Reworded however you like, and I will put it in v3.
-
-If enforcement is wanted later, the version worth having is a comparison
-against what the device advertises rather than against a constant:
-refuse a sector larger than queue_atomic_write_unit_max_bytes() for
-modes that cannot absorb a tear. That cannot land as it stands, because
-with NAWUPF unset it would also refuse 4096 and break existing tables,
-so it needs a deprecation path rather than a one-line check. You enabled
-DM_TARGET_ATOMIC_WRITES for dm-crypt last year, so the plumbing is
-there, and I am happy to work on it separately.
-
-Hardcoding 4096 seems to me to give up the guarantee the block layer is
-careful not to give, while looking like it provides one - and to do it
-for a combination almost nobody uses, since cryptsetup has defaulted to
-xts-plain64 for plain mode, LUKS1 and LUKS2 for years.
-
-I realise I am pushing back on a maintainer here, and I will not keep
-doing it indefinitely. But I would rather make the case once, properly,
-than change the patch while believing the line is drawn in the wrong
-place.
-
-v3 will carry the documentation above and the two changes I already owe
-this thread: dropping the dm-verity comparison, which does not apply to
-a writable target as Milan pointed out, and dropping QCE as the stated
-motivation, which Eric was right about.
-
-Thanks,
-Itai
+Regards,
+Klara Modin
