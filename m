@@ -1,163 +1,175 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11022127.outbound.protection.outlook.com [52.101.48.127])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8203B2D14;
-	Wed, 23 Sep 2026 17:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.127
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790185376; cv=fail; b=FDaxNT3w26WkQbuE69vOBu6c0t90GXKdHZxHJwi9TfB2n8ca/fshOr78sRHi/3JC4Le6yV/szzuKv7BJPNxGdam6J1+8En/XJo5N2O9Nz4pNOo4DZS2+PUHd8kKyQhKvR5sIcKYTP6FxwEfY2Vyt3eHIRgFvQ2SsEQv3tPUhhSw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790185376; c=relaxed/simple;
-	bh=vhd488LrxN3h7wyb7hXsw6U7Jo5LfgVIRQ30TKqdN2U=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=hs4AO+LGJixqECwzzEYYFgvnQXjdZ4DZWNqUeV3JA7MXQdZTV0yHzVVX4pkkvyCZ89eR48TkwFLyUfFeeWmH7Ub8DoNLG+zn7H6Xsb8OH9cUAhNB/l+icqnzWjt6a0vs2zFjtysjOWO464NoukPIN2Z1eJ3igaY5DN/KCQZSe6Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=fhoLWvEN; arc=fail smtp.client-ip=52.101.48.127
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=rambus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E7040DB53
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 17:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790185653; cv=none; b=XftFetd0hb4PMkuIaIeRnm0NZhHIBCJu3P1l+oql3kMsSzVLvereMKp4oCaQguZcp+Si8lowpTaWiNRFfAJmtLbepCyPKEKrQjMM4FEaH+FN0SLOrbRTUzGexG/xp3su5uTOqfQUS+U+dA0UduW7GUuFnpwJI95NsdkUICkMvA4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790185653; c=relaxed/simple;
+	bh=xeTF7AbUJiyZKStDfbV1ta/s+4wX0IuJsAkaOhCG2eg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pObgdHdmN+FKuyejbYvcUwKw1sVjoq6DgIgHWaPeHczNWAZ6ZmdNVixN0D6jG0UZ5OjPcBgP3wAS5OXQhrQU4CX7shaDCbfoMo1I/MHlVLbfVXdIc59Roeh6w/Wl0ZybJYb2OV/so/bHsJFfILX9zUvn6mtGthoSZcR2OtX5FpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=KQKjBPF+; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b="fhoLWvEN"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EHLuSVHjJKmTU1JpjmwBo6SX1PKzljhLtzbfAgIvoeKTcnk1B6ZkOh8zDvGMvFF9kn2I12zsg5PFu8d1w8+oKaqBsvSao22H5B2HWwf2GyAzbj4+GbMABBsZaUSvuJ2SivHtf+6d4/nzqXBMVgM14aJzJb2xo9A3k59jm7xL9kjJKNkfEGEKsR0ykZJpk2iDgJOmUsKD6Hw7a1g3QjwBMBy+a5RvIL6A80wo8pHgncHhakd15v4Qs1GC2Ix6RvKr0FmXjH7BhKlqVWt14akIAp/AddwAalNzSaAEZ+YD0JDhsGZuMThq9E5AQVdchkSbVwOYoSKezp/ougUIqy/Sng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vhd488LrxN3h7wyb7hXsw6U7Jo5LfgVIRQ30TKqdN2U=;
- b=XHpGcrGGFU12ZVI6QDIUgRLjH2Z5W+ONcI4krHzl2DhSp0Tsqpu+1Sv4cKr7R7MXGxwBUMups4TxGHNr2fLg7kZbkjBJ7AK5+JHwVms/beG+HTHBYPhJReyJ7HFnRBm8rgzBJI4zXbJR+R0uNSHMoCyvnYJzhSMIvkmhfvBrDzy+m3LnAeX0U9NmWio4PMASX+p+2k2ekvmBbND2JFwirjDHbL7q/Jn8GWcNjzMlbkdlQM5bTlomKwFrSknFfEee4FwGrE45MBzZH4IQAgCfQVgssa6+UZ6BGI7kwiy+pJ+o5Lp/hvYz7GUXRVqmM6eVe4js/1eew5vet1qOXIVhcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=rambus.com; dmarc=pass action=none header.from=rambus.com;
- dkim=pass header.d=rambus.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vhd488LrxN3h7wyb7hXsw6U7Jo5LfgVIRQ30TKqdN2U=;
- b=fhoLWvENDyyaYeC3GOhxS9fF1ESvOe8fF6b7fjntA4z4OdPCTdBGUAbOwFfQyJTuVpoUtZaJB2gQj8Yu58/Adgb8k/GfJNkfV2qBZaoLWDEG0qhvGPdWjbC5z5WoR7D44+jxcBtcEHYezWi4GowgbTieTWCjskWc9jICg6b/LxZnXmwtHh/A6V9vidhlt/f9rz2845Uq1tRFFL0u8MQ2v9pQjVkl1GuP6yqH+rQbh9VoOLkMRQLYH/qXzBxITdCVueF18QGMpzrwhudM+EZtnjfBZdlQA2qxLC4VZfNvrWrpE254cU25L5JatuglxHr/zUU5dZf7HErnMgKO9BZxGQ==
-Received: from LV8PR04MB9006.namprd04.prod.outlook.com (2603:10b6:408:186::11)
- by LV2PR04MB994231.namprd04.prod.outlook.com (2603:10b6:408:41a::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.17; Wed, 23 Sep
- 2026 17:42:52 +0000
-Received: from LV8PR04MB9006.namprd04.prod.outlook.com
- ([fe80::3e2f:2514:159c:85b2]) by LV8PR04MB9006.namprd04.prod.outlook.com
- ([fe80::3e2f:2514:159c:85b2%3]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
- 17:42:52 +0000
-From: "Ousherovitch, Alex" <aousherovitch@rambus.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Palmer Dabbelt
-	<palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Rob Herring
-	<robh@kernel.org>, "Krishnamoorthy, Saravanakrishnan"
-	<skrishnamoorthy@rambus.com>, Shuah Khan <shuah@kernel.org>, Alexandre Ghiti
-	<alex@ghiti.fr>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Wittenauer, Joel" <Joel.Wittenauer@cryptography.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, Shuah
- Khan <skhan@linuxfoundation.org>, "Nguyen, Thi" <thin@rambus.com>
-Subject: RE: [PATCH v5 00/19] crypto: cmh - add Rambus CryptoManager Hub
- driver
-Thread-Topic: [PATCH v5 00/19] crypto: cmh - add Rambus CryptoManager Hub
- driver
-Thread-Index: AQHdRvg424EW0KLhSEqDYKZZxF3uXLbbsHSAgADHPeA=
-Date: Wed, 23 Sep 2026 17:42:51 +0000
-Message-ID:
- <LV8PR04MB9006E60F2527002AF2B2F42BD7822@LV8PR04MB9006.namprd04.prod.outlook.com>
-References: <20260917225929.2494111-1-aousherovitch@rambus.com>
- <arNoPcxJqrE7BwK9@gondor.apana.org.au>
-In-Reply-To: <arNoPcxJqrE7BwK9@gondor.apana.org.au>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=rambus.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV8PR04MB9006:EE_|LV2PR04MB994231:EE_
-x-ms-office365-filtering-correlation-id: c582dab9-6a8e-460c-c97e-08df199a1799
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|10067099003|11063799006|22082099003|18002099003|56012099006|4143699003|38070700021;
-x-microsoft-antispam-message-info:
- 0xf2NhohMc5s+hBeuREXD2dD2kshaB9WtNJNoJd2BNNJvx63KEPDOL1htgFXEA3n1Moxz6DkYdsZHAqlXGyFLGTUNbJSsWSxs/mLkiLxgupZnFQK6OR5Ak+MFXRI7nn2GtGGYCSAsdrbQ9To0wFMD7MxHNpJ5WI9bYX9Z5utmpchH5hILM4if0Os2XOfZz5xiAbjdyPRpafiCG74qz6A/88f2aXGmpQqXYBYO0ON48v3RVF9d3asXIGezdJd+ZX3BUL7yFXm/lq4lrnpJHup4gNnqKymtPxYPcpRY4CuTvfkdfB160ISRA2zvPpExGXZo+zOd0HNU0dOInjN+t8AU4qqkGoJl3QA5op1faWAqJfE/UlLiqf+/SVDAJMihcILs3sJDLXHihTmPhsb/+mp/klV04YPMpC8zdOMMKRFhWL8j40PvEbwwHSjPWZ7JNEdUSC0iYzlaKb8kxEGCllrQrbBn0/rXs/vJ2TnM4PITR26Bm0UV4jq2sedGXtiaSZAefdkAospXQMvyfuKxJMTdnbnR6jzIov2ZWjsAteC30jkNxaBfcmQ/mGZBG9NVlp/67CWyLDCqoNQslS53J4twD6FMZwfmlT0yJGsu+euRa1qUHzH51AEHnVs7VL+DyfNZB3SYePHy9h/BIdOMH45OXIgn7SjCbhggKXj4BzizL4=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR04MB9006.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(10067099003)(11063799006)(22082099003)(18002099003)(56012099006)(4143699003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?s2qDllrrr09iV05TSFz9lSA/NxVB4uzqAcZHa8lUFexnajkhRJCgXtcn8uYv?=
- =?us-ascii?Q?oTOTaRsbtNgsXgLpEO0018jcvnN2hX6QiUiV7YW0YPFcHU4z40+ncBrtjO/K?=
- =?us-ascii?Q?ue8Ehyrqh4V5Isw+bF8qDFJp4rDUZaulvPLLS+fkNgdegExRgRIE57xD/F9w?=
- =?us-ascii?Q?/4S64Lvb03hY8CbhC9mmv20ek2R6/YJMn86VPr/IEhkfrtZ5BYrrD3hbYtTt?=
- =?us-ascii?Q?FcfJ2qv/BHExrfjQYu7dcZy3wnPwkM7+wFP30Lx/hKpXeHmG1ecsO+GV/tNJ?=
- =?us-ascii?Q?42XYovDf//2+ve2TEdhBnXeFaXYdPtgcJ1LYW8FkD1O1e4ilhZyHt219Kl41?=
- =?us-ascii?Q?YhFfvzSX1cytyPsx5TXlPoyF6bYXqd+vrsfKr3Pm+IiGQy+iwUf4kRozSynC?=
- =?us-ascii?Q?Sr40/m9dcOICYaQjhsfTf4zWdaytyW2usp4yOurPI9JMg5p6z8FtojH42jNf?=
- =?us-ascii?Q?7qqkUxpsPyW+VSfr4c9Hqf+vwHhvnvW+VBuoHR4SXrDx69cO7rgp7p1ZWtjA?=
- =?us-ascii?Q?1rQXWw2ClYo5nTQx7WIdYh19KLx7x16Ht5jDiIxs24LuRmX6uegBMapXuwX4?=
- =?us-ascii?Q?E8fHoA5sQel3YrSg0tXFTU0PkEpTCeON31lH+p+9asGPbEjQvKXscMl2Sfil?=
- =?us-ascii?Q?pstXvzOWFPoKBSiAXFYM7mpzgNMqVT7RphPETZDmxYIPWDk4aZz1IY3hdv/S?=
- =?us-ascii?Q?Mj3JEqjKCF8+sYHOQVc/KVaK8rCxfjeYHtvAJDeui0r1MYE0E/S8OJV5iB/b?=
- =?us-ascii?Q?776gJTc1RiqGN3BcOY+OuW8xI1tIL5QZvMyoPybB3vPX7+Ug7AYggkfTyTNc?=
- =?us-ascii?Q?ArDauicuhFr+Jl8Xi2AWUAy648Q9SW6+aEimtGZsAMCWiSUGKvXSnVJPfvX1?=
- =?us-ascii?Q?bJoeLYqS16r3zaYndz1pkbeC8EL1DESvPLvkz/kTJiibrUW7JrcMdVhyNNex?=
- =?us-ascii?Q?51Uxlfw0gz0toUsQb4m/SHXEGfAbwg5smn8DQhXMDWEFrlx6AaORn54am5IF?=
- =?us-ascii?Q?Hofe/vmPFqPgQqVHD+7ZM15bAMa2TrFEEYCDI7+GRgT8z49oyehEMHVlISGs?=
- =?us-ascii?Q?oULrOaAkc6SjsCRJWiF80h8lNr0CXdfi5UjvMcIgzmVNS6V3M57QMWQGovwi?=
- =?us-ascii?Q?y68pXWU95UCJKxYsaUd/CzjNkAv30ro1UpcXxx1wytXMtu3XQS3GhiYv+hwR?=
- =?us-ascii?Q?cKknlDD2Rn31ELPhnhbpHKlVuUYGIJ1xrif9ZWGTW8EsqIPByDJvc6cxdfRB?=
- =?us-ascii?Q?/faoOuOq0y8LTh23E5wbVBda8sRQk8CJ4dLwVawUktcifpKGi5Nzj6WU/dYL?=
- =?us-ascii?Q?fUCEARuuorkzSunMfeoCguFIrWWM6QI3lx5Em4nmyRtleATWzIvaJClOpYHI?=
- =?us-ascii?Q?zSFe12xqK1zeNT16j1lF6NzlDWhMLKDwQTntnhvSsKxxIzGhKqDaL6E58uLz?=
- =?us-ascii?Q?3dwz8P9WelqM/IEhFQLPC8soDs2d65tvPmtZqi/ETxXH3ZPdBwvhk5AlQz6k?=
- =?us-ascii?Q?dmubd/fs8RWOTSZoPPh9YDSKjEBGNQ9F7DkHBZi9+c5w71AO/kpy3ThsHM7o?=
- =?us-ascii?Q?U3HdaoJTlMSbfWJEK7bbXRCKo6NZataZaSAlqwGL0Cqsh+SvOy3tCxfYbDEN?=
- =?us-ascii?Q?PWEPHp36CjGbDRGIYOfm4FtNncqhlaJwAAQYY4A5LwjOBmhWmIT0arctMX+P?=
- =?us-ascii?Q?sGD97FIqngLhgASCqvYnnuhxgps/nSsPnRoBxS9NxmJSE7q4tGTNAINO5Yq1?=
- =?us-ascii?Q?EmbnR9CGLw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KQKjBPF+"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccd5cf03so955937a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 10:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1790185651; x=1790790451; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3Ys+TDlQiXSK2w0rIaULx8EXuHW6K3TaTzQSB501wZs=;
+        b=KQKjBPF+VtYiN0XVsxrYuBMMfdyL0s4muYq4EmmhH2q84ijg45c4GTPoGzh9A4PHor
+         /J3uYC5EuExvXfpp8dvSAbjWgvk++MEU4Xq/jRSDck7YZie24oDvGnodBJk+O7cn2waL
+         ADb8TOJlwAtDQwZeNFsS3boUsnBHz/aDTiMfU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790185651; x=1790790451;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3Ys+TDlQiXSK2w0rIaULx8EXuHW6K3TaTzQSB501wZs=;
+        b=RqH0ouQI4JC0sb0VPBWsXOdGmNpPIiJmN2/Tll9cfaYWER/nOyDDhD2sHb67hw/Lpb
+         Q5cOFBW11skAMq0P5UII3h8LxW4QnMjRKraPgL3JU1sffc+kOPOcprRQf0jQunCMuV8J
+         h2CvyqG8lSnAfBrirJL3x2J9vjhaAp0k7Z+Qv1qY47ULbjte0KfJSdBiTj8INmoLLXa2
+         6uGzqvLV3eA+EAoiO6UICpFz8FL061XbYHVrbegvl9VOViMaZnkVYI2x7xYr96ZnX+SO
+         sixjw6eQEmGkcpQ5EB11IwxkcqkjMbmvRC7tDx4Ay42ktz8RGnYia0tTnbyVUcQrH4on
+         YBbg==
+X-Gm-Message-State: AFuF++lcMKzLwnMiinADafLnEMrW5e1ioYZQblEfdNMwTEO6OmFwlshc
+	kmW3D/LjYr5L4V6snngc6H292IKVcI/68Nhzakt+kGH97mJNMhOgA9BCf/7Cw8zaW+Qlg4WVlY2
+	tnzY=
+X-Gm-Gg: AYBFou0b02PPZ52yzIfGQBF2jVTtgpAeUFDZ0748Tu0qccanmsflbkFY4q+x0lzFade
+	TNMVEuTiN9bsFOkplpSVhiQf/YABcUcmIUMuuYTw3IbnH7ycKDJMY/sS/Y+rXbLsY+1RK0mj3g9
+	yPYMpHczaI3PFp13HyIQ3zmJR0GZyLMtRSSoivXVnB7C4ktaXtgxWozUTp8yZ1wt92KZWVsRr8w
+	pguOfAt6cmYmDTjWTerV7tB1gTgCGE1teZ0u4IHJyZwzopbkxTKDO4a79Y0Uq1HeyV32vIqvBg+
+	koP2bKIzLSwmrARdi771LqunEqRfTJDakUf/UH7mZtqtacQ/dC7cpDt++SDa2h/PHcuxA/mWUa4
+	MnbeYG7ieuMYkZDB5KJoYdQsDpjby43Bp6RZjUCUOvZS64s9KTUa3AFcTU79cxXx3KBIygEYLiS
+	0hImgLLVVT6tMay0amezM6aITdpLXfAWOJ9LcvWcENXjGcHFYP3Ju+eRvDspC2caQ67pzNFWDIO
+	SNNFl2916CV6EYq2Nf3a2HSCnB4MSdcVUqkL9mrYJMiaYat
+X-Received: by 2002:a17:90b:1dcf:b0:39e:6c69:f479 with SMTP id 98e67ed59e1d1-3a07e74a090mr3526315a91.56.1790185651372;
+        Wed, 23 Sep 2026 10:47:31 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e7c:8:642b:a4c2:7ea5:5668])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-3a097663e1dsm157934a91.7.2026.09.23.10.47.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2026 10:47:29 -0700 (PDT)
+From: Brian Norris <briannorris@chromium.org>
+To: "Rafael J . Wysocki" <rafael@kernel.org>
+Cc: linux-doc@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Ulf Hansson <ulfh@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Doug Anderson <dianders@chromium.org>,
+	linux-kernel@vger.kernel.org,
+	Brian Norris <briannorris@chromium.org>
+Subject: [PATCH v2 0/8] PM: runtime: Overhaul kerneldoc, runtime_pm.rst docs
+Date: Wed, 23 Sep 2026 10:40:24 -0700
+Message-ID: <20260923174711.1283986-1-briannorris@chromium.org>
+X-Mailer: git-send-email 2.56.0.rc1.310.g51773c2048-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: rambus.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR04MB9006.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c582dab9-6a8e-460c-c97e-08df199a1799
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2026 17:42:52.0950
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Oxj1wM/mcVF3RTbSKO584bjL2h67ljcjiowW+28D73EU2MC4TXPIqJp8d2m7ryuRxzOfvhO1OM4HJwGbV7gfC9IeJybaBB3EWnjOpJQNTZ4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR04MB994231
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 23, 2026 at 03:48:45PM +1000, Herbert Xu wrote:
-> Please check the Sashiko review, it is not happy with your patches:
-> https://sashiko.dev/#/patchset/20260917225929.2494111-1-aousherovitch%40r=
-ambus.com
+The runtime PM documentation could use some improvements and additions,
+to help guide people less familiar with the main runtime PM concepts and
+its internal implementation details.
 
-Thanks, we went through the whole Sashiko list. A number of the findings ar=
-e
-false positives against this tree -- e.g. the dt-bindings "unsatisfiable
-compatible"/"missing example" items are the eip93 idiom Conor asked us to
-follow, "kzalloc_obj undefined" is a real slab.h macro, and most of the
-"unprivileged AF_ALG OOM" DoS class isn't reachable because AF_ALG bind is
-closed for KERN_DRIVER_ONLY|ASYNC algorithms on this kernel.
+Find version 1 of this series here:
+https://lore.kernel.org/all/20260904212000.4167880-1-briannorris@chromium.org/
 
-The substantive ones we did address for the next reroll: the MAC/hash
-.import() accounting symmetry (incl. a poly1305 counter underflow), several
-DMA-unmap-of-address-0 guards on PQC/KIC error paths, lost-interrupt orderi=
-ng
-in the ring handler, a wedged-mailbox -EIO path, and the MAC finup
-idempotency fixes. A residual class around async-cancel DMA teardown is
-called out explicitly rather than papered over. Details will be in the v6
-changelog.
+The first part of that series has already been applied. For the
+remaining work:
 
-Thanks,
-Alex
+ - Formatting and clarity improvements.
+
+ - Clarifying core concepts in the Introduction. (Pretty much all new
+   readers I encounter have a hard time with the difference between
+   "enabled", "allowed", and "active".)
+
+ - Adding Example driver patterns -- because the API is so large and
+   complicated, it can help to try to walk people through standard
+   practices, and what everything means in context.
+
+I tried to keep some of the larger changes toward the end, to hopefully
+make it easier to rework or reject them while cherry-picking some of the
+easier stuff from the first part of the series.
+
+Feel free to add suggestions! Within reason, I'm open to tackling more
+here, as I think many people have many valid perspectives on exactly why
+and how the docs do or don't serve people well today. Or I can tackle
+less, if you think some of my choices are not improvements.
+
+Some possible follow-ups I'm toying with:
+
+ * Slimming down the API might be better than heavily documenting it. A
+   smaller API is a more digestible API.
+
+   My only concrete next step: drop __pm_runtime_put_autosuspend(). Its
+   last user is nearly gone:
+   https://lore.kernel.org/all/20260806-smmu-rpm-v4-1-8183d007331c@oss.qualcomm.com/
+
+   I could also see deprecating one of
+   pm_runtime_put_sync{,_suspend,_autosuspend}(). They all do slightly
+   different things, but I'm not sure every difference is actually fully
+   intentional (or at least, not necessary).
+
+ * Tweaking some of the behavior on pm_runtime_barrier(). Today, it's
+   very asymmetric, as it prefers resume. But I believe there may be
+   value in making it flush (not just cancel) pending suspend too. That
+   may be in a future proposal; for now, I just try to make its
+   asymmetry more clear in the docs.
+
+ * Sand down some more rough edges on return codes. For example, it's
+   very difficult to get any useful meaning out of pm_runtime_put_sync()
+   return codes. There's a high chance that anyone trying to treat
+   return codes as errors is inviting bugs. (Is -EAGAIN a failure?)
+
+   Of course, the answer there is not "document it better" -- we can
+   make it easier to use.
+
+ * Adjust the way devm_pm_runtime_enable() works, specifically for
+   remove()/teardown. Currently, this is very hard to use correctly --
+   some common driver patterns may assume that a device will tear down
+   while RPM_SUSPENDED; but that's not actually guaranteed. Notably,
+   this makes some of the "Examples" section fairly tricky/subtle.
+
+Regards,
+Brian
+
+Changes in v2:
+ * Major rework on Introduction section, especially regarding "enabled"
+   and "active"
+ * Add appropriate teardown to "Probe with Hardware Powered Off"
+   Example, as the remove() + power-off behavior is subtle here, and
+   easy to get wrong
+ * Drop changes that are already applied
+ * Add a few new fix patches, noticed while reviewing the rest
+ * Move Introduction patch near the end of the series, as it is a likely
+   target for further discussion and modification.
+ * Correct Ulf's email address
+ * CC linux-doc
+
+Brian Norris (8):
+  PM: runtime: Correct pm_runtime_autosuspend_expiration() doc
+  PM: runtime: More kerneldoc formatting
+  PM: runtime: Misc improvements to runtime_pm.rst
+  PM: runtime: Add "Section" hyperlinks
+  PM: runtime: Clarify ->runtime_idle() callback return value handling
+  PM: runtime: Clarify driver callback expectations and structure
+    Section 2
+  PM: runtime: Expand introduction with core concepts and structure
+  PM: runtime: Add Example Driver Patterns section
+
+ Documentation/power/runtime_pm.rst | 568 ++++++++++++++++++++++++++---
+ drivers/base/power/runtime.c       |   8 +-
+ 2 files changed, 525 insertions(+), 51 deletions(-)
+
+-- 
+2.56.0.rc1.310.g51773c2048-goog
+
