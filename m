@@ -1,187 +1,168 @@
-Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
+Received: from mail-dy2-f37.google.com (mail-dy2-f37.google.com [74.125.229.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F42F345CCD
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 01:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D90355F5C
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 01:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790126441; cv=none; b=AA+jwpJbTTHkywMZQvJ2beh28OcO/dcFj0H/vhy6aEq4XfIvJi+Jx98yHCMzb0ZdoOuKIUJToC7t9A2TNM9stWT71SmaA2t0vFO/3yGGu1lSl+eSGb+nmEUaOOJLhMIMlzePk2AFtRk8ewn2CQuB7EESGV4w56KXFYqLcblXmYg=
+	t=1790127265; cv=none; b=K5kXTOh48/QoMW53oeLf5Q8CBD+HwG5c/JQ2OGBUZyExi2cIsb2LPZHMassfZuE6O7DrLppvK3+Gc8jScCf1RSZKSQmF3qYDayT00sqM/14Ny6omX7gc34O9qHxxNLBkrHWkT8iWK3zApiIpEOXiIu3pbhAtN/J8zA4jTuJVSKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790126441; c=relaxed/simple;
-	bh=I81iv3lczUS3G6IPpI6uKZ4DjFCsc5VGR7jHPqYVRgs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=ot54fGUhm11P7yIo5nJrf4bENySQymz8p0TOe2UWiV0d3MCWEJwx0VdLxQ1G4GB6y+4fwRO1nfp3L/3wlN4T9Lbjzmu8Il6wDJv52RCQdTCrXe7w9g/w5VSS81kopskQvYB5U1FXGDuizrqLkMPGZTjcMyKs9GTqDKXFOnCfWng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BuDUsr2i; arc=none smtp.client-ip=74.125.229.43
+	s=arc-20240116; t=1790127265; c=relaxed/simple;
+	bh=ugmAhbs6oMjp3OviN9LQ5OBH686SEbQva6aoybI6BDE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a3S7vYdhi/CYMyrjk60bjOPYtZEYsBTmccAgsoUkBGlnDpI0NcvPaRozkEztQCqkVfgm+udAu7atN/eD98EO+ctbjygGRRvuyre9pwtd2vhKFy+pMs63UHpoJGfz4ve63MbNG+qU7MEFRY30yCzgkmZRqpmu9HPpmu5Hjf76d7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tkclhhw6; arc=none smtp.client-ip=74.125.229.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BuDUsr2i"
-Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-328664d3421so229242eec.3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 18:20:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tkclhhw6"
+Received: by mail-dy2-f37.google.com with SMTP id 5a478bee46e88-328664b752eso230793eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 18:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790126438; x=1790731238; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=bexp4Cp8y+5hA37h2dF2gaOO9AQzqDKE3dHgoAsDxks=;
-        b=BuDUsr2iFSI6goqLTQcNUXI2wUY6rHleI30cULIc5XYxmWUBbSLBePQgdhl02a0qfE
-         kefcvMTi5XTKPoANKdSykYk+0aPfMfkNLRc89wFh1FkoBB7Oeoq3VumV11NAYFlABqZe
-         N9ykxm/lA0jy0WDfFlE0OdVQcZpkqt4IjFfQEG0XhvjzZJjfe2mK6vMArZHwg+eQpRd0
-         qiXpnrtJr2+n3suEOQ4ad1cC38ZkpOZWe+roXDBJO/71sUrTFm4I11FJkpLWSX/6M+E+
-         t0FRdbeChzmmoqRcutl0ha0MyZybBvSh8opSEUcPFjOjANGi2tu2HLkZPyqI1WmUvSs6
-         PbYw==
+        d=gmail.com; s=20251104; t=1790127263; x=1790732063; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mwrcShD/rz6glD7xEGDzsItFm3WX/CRluaOkSrFZHL4=;
+        b=Tkclhhw6xoGXqzMrn3hl0q7FKz77qy8PxC8jbmrczAeDTUAGji2rxjCMLM/3ettbA5
+         SNp4xHil7eNksffCh5yrTa0kCHPyInOrcpidL2dcpk5I436lsu2C+HUWcYjMJBGL7yth
+         lu1sp0H20riWoYINWtJUGIoBgwhQ60LmJUoiB84srd+CH++rKUBWZKIX4cKJBH759PFu
+         RGokvQKEoQrFLcYIEjPndiMpNfKnJqEDMpsX1q45nR2qT7AXHsUXLe7/6D7RgkAG/PCI
+         3A9xUFNvX27aLWAQ0oEYe7Wo5x6NRCAYggRA4G0NHNiY/aTfDjAKJhRbWhEvrLYOCOFl
+         X4WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790126438; x=1790731238;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bexp4Cp8y+5hA37h2dF2gaOO9AQzqDKE3dHgoAsDxks=;
-        b=Ufl8o0g9z15VmC0Dees75pR6xdT5VuRqz+K/ysWARLbKeGewr7ritZeP+olAtXMsBG
-         UvxxzrEAzwRVVnlu/PyIlP+wxsSOuvgituCUOfsF5DgL62VQT9AYdk1hEZIZX4wJEfgS
-         dE2WTxROdgv3QhzMjs17m7k4+ljX3VDzyebuhsNNayA7MznvAhJtCdIF4qjaJbvGYn8Z
-         fnSdVyccTZ9ly7oa2fzoP94B356ytKxIYqdmuJZrLq1HpsFE3wAq9fY+R1tORv1o4wuv
-         6HdPp80TUgDHpKsXbZuzQW2q3bVewh/YLmSMEHoYoSB9AfbLEm2JjUlcov8ytg7H4Ixt
-         Z5LA==
-X-Forwarded-Encrypted: i=1; AKwUvBzjWwsNtKODxaTZIVzEl64Bwxz7NvN3R181czJfrYqRjn69EtcDYYyTMzY7WjqGgQCld0PTMp2CVEU=@vger.kernel.org
-X-Gm-Message-State: AFuF++mTEvCkkAoNTHkivfvrAtpeQwgehJQbiyXUKI8qw8HeY5QaBG9j
-	OBhuZEIxf0YDmbmqsfM2RBBNvyJ9EhqqWWVM5ufBqBTUAz0B61dlBBen
-X-Gm-Gg: AYBFou07JgGPIu0bWiODOqzpfIoHMC0tsV2OvMWeAQV41ijm1y0lfqNzHtYpdsKQGh4
-	OI9wj3iPacIPxEkqb25ZJGT+RkVi/7oRjKgZwltxlfjwxSydGcs9oH9Y+u92ZrnLdjC/hrUrmdL
-	aYIZ8P3O28/goUWrwh5wyzsDpxzVuA+BMWbXMRrcoAfZA7OyX51+o2eXeQZvLRd0fQWtNWaHZoL
-	Hd4shjNzNizeqFGMIMOlXBJoZhDOePlvlcV+3JVR4BKwzDTjwoYJiGhz9A09ydodDdcGEdkd0zy
-	pHL7SFTpralumqDA8KM62y2HSmWKpb4o3WIrxPdxAX1rZ2rEeZKAGbtKQaVvocF+9j/sghquelT
-	X7AmTAOqczLkeBizeMRhKAjps1UrF5pqHX5O9RmKQJS/ebZVnfPccC3q77ASnAspSUjUh6s5yZc
-	XllMS+KJ3WMI+LTpHYJDflhhZYsX/nxQ48jg0H2n+RdgmK7dWv1+P/ggJFiY+h+jVDzyJDtWP3M
-	pjqcOha3xKaujK/bO3SQJR7+g==
-X-Received: by 2002:a05:693c:60cd:b0:33b:e306:2e27 with SMTP id 5a478bee46e88-33ea3eb055bmr1139528eec.5.1790126437786;
-        Tue, 22 Sep 2026 18:20:37 -0700 (PDT)
-Received: from localhost ([13.93.150.60])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33e96f47d52sm1953755eec.28.2026.09.22.18.20.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 18:20:37 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790127263; x=1790732063;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mwrcShD/rz6glD7xEGDzsItFm3WX/CRluaOkSrFZHL4=;
+        b=c/Cmwgmsb9Su4UzZTN5RAVZxIZoXom6J6lG8Sxc9TR5+VH6LLdQk08EmXowLBqCMEg
+         zkPEgfV+xGfBFy0x9v18Deb171AGyScF6zb6oktLl0WaLVGryUvZFK4MDvh7gy24gXaX
+         S8D6FZ4CqQc+Hgj6Btxpfq4vQJ/Na/3VlDmnLGiNwihNhGdTrIe2n1iwR2YvyuRpWdoV
+         9ZjhrboPdv8aXV9zCPIb0SfL8MxFW5/F5vEmARWWZ+/0Px9RpR6FbdWt+4nbUhOGLjSi
+         u0Sdpy1XuLN7OJhvMGktfbGpBJYtU9hmMgAJE28DZSeNCCnHnO8UwFkwKIIHE3R4WdHo
+         jSMg==
+X-Forwarded-Encrypted: i=1; AKwUvBx9khXIbpKDSl/i4xbyIgEgdD81PMIwD+OpqURrrHoZOKhAjG4RMGRmeZbB60BsvB8AhUJLhebLRfQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++nsPLb52A1qyK6IOohWBGE0b3SRuCoxkhJ7rko/W5C5BEPn6L2f
+	kxNJrE2xuq9Kni/f5PrUQt2iC11UvBsCYWNPLdoQ6g4AoI2MFP4dDDO+
+X-Gm-Gg: AYBFou0iamNhVDgRWbYFksAcporwoEhFg10QPhlvQqj8bVWDrnO9tBgiK7sIFtTy+ni
+	fkxlJnRglh8jIEZ5IhI++isWg/+LVDD8yJrDwoQaykdgnx6ppkHOm+hiJaGUZ7QkKOkKFW7Am8v
+	qA5XSeIoQXIBCBJNIhwkR38uqp3x+5opQ866ef/YyicWSOBCfNXHC/AAAAS29KoCmFZb8M5UBGa
+	0M6qAmUC/6S6GUDTwVdwRSrJBP/eJWshzMeYriTxgZ6jsZYGlye5YVUTBDGSweSHTzBtDYG5Ofg
+	nxmlsqmbLsCRgekVxvmFevKyU2Izv7/nkTx2cWwoj0T6ae+3hCJjnDrAw8SU99my00Lppe8agPi
+	FyxknWCDhzG7k/Bw4pFtdg9lWBq+XcUm2xQrsQKCr8WcWKByymxaP4ED9AXuao79mf6XH5DFCMk
+	/LUjP2lOILK5kuOgJ7EcGLjAJA+1ggqSgFpAuR1Rw+ig16vthwhWn0t2RdOkA5BsueU6Is7Kpvm
+	AhxleIlzKr4iVV6rZt7OyOyVGZo7tTQeZPO0Q15Mk1IT3GRDM/MZGS3K3PnYLFZpIxF4P0umWdX
+	8NDFfuzwA/2/n6AM+RWLnQ==
+X-Received: by 2002:a05:7300:4712:b0:328:3cce:4b3b with SMTP id 5a478bee46e88-33e8ba86f85mr929139eec.4.1790127262679;
+        Tue, 22 Sep 2026 18:34:22 -0700 (PDT)
+Received: from lawlee-vm0.d4y3nv5wwgfelhhopdxv1tqjld.dx.internal.cloudapp.net ([13.93.150.60])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33e96f47d52sm2013520eec.28.2026.09.22.18.34.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 18:34:22 -0700 (PDT)
+From: Lawrence Lee <lfqlee314@gmail.com>
+To: David Ahern <dsahern@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Simon Horman <horms@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	netdev@vger.kernel.org,
+	Arun Ajith S <aajith@arista.com>,
+	Roopa Prabhu <roopa@nvidia.com>,
+	Jaehee Park <jhpark1013@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v4 0/2] ipv6: update NUD_FAILED neighbors from NA messages
+Date: Wed, 23 Sep 2026 01:34:17 +0000
+Message-ID: <cover.1790127207.git.lfqlee314@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 23 Sep 2026 01:20:35 +0000
-Message-Id: <DLMAUZF2EY4Z.2FZ7BR3O62LAS@gmail.com>
-Cc: <dsahern@kernel.org>, <idosch@nvidia.com>, <davem@davemloft.net>,
- <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
- <horms@kernel.org>, <rdunlap@infradead.org>, <netdev@vger.kernel.org>,
- <aajith@arista.com>, <roopa@nvidia.com>, <jhpark1013@gmail.com>,
- <corbet@lwn.net>, <skhan@linuxfoundation.org>, <shuah@kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next v3 2/2] selftests: net: test untracked NA
- recovery of FAILED neighbors
-From: "Lawrence Lee" <lfqlee314@gmail.com>
-To: <netdev-bot+sashiko@kernel.org>
-X-Mailer: aerc 0.17.0
-References: <7285b55a1e29d2f04de4e3fe1e723a9724e0377e.1789734885.git.lfqlee314@gmail.com> <179011668031.2160803.1030111847497325728@kernel.org>
-In-Reply-To: <179011668031.2160803.1030111847497325728@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue Sep 22, 2026 at 10:38 PM UTC,  wrote:
-> [Severity: Low]
-> tcpdump is now a background child, and cleanup_tcpdump() is the only plac=
-e
-> that kills and reaps it. Can that child be left running when the script
-> leaves through a path that never reaches cleanup()?
->
-> cleanup_tcpdump() is reached only from cleanup(), which runs at the tail =
-of
-> test_unsolicited_na_combination() after log_test() returns:
->
-> 	log_test "${rc}" 0 "${test_msg[*]}"
-> 	cleanup
->
-> log_test() can exit first when the script is run with -p or -P and the
-> operator answers 'q':
->
-> 	if [ "${PAUSE}" =3D "yes" ]; then
-> 		echo
-> 		echo "hit enter to continue, 'q' to quit"
-> 		read a
-> 		[ "$a" =3D "q" ] && exit 1
-> 	fi
->
-> setup() also runs under set -e, so a failing sysctl there (for example
-> accept_untracked_na=3D2 on a kernel without mode 2) exits the shell direc=
-tly.
-> There is no trap cleanup EXIT INT TERM anywhere in the file, so in those
-> cases the two namespaces from setup_ns and both mktemp files are left
-> behind, and if the failure happens between start_tcpdump() and
-> wait_tcpdump() (for instance the new slowwait 5 grep for "listening on"
-> timing out, or host_link_up failing) a live timeout 15s tcpdump keeps a
-> packet socket and a netns reference until its own timeout expires.
->
-> Would adding a trap that calls cleanup on EXIT, INT and TERM be reasonabl=
-e
-> here?
->
+Neighbor Advertisements for existing NUD_FAILED entries are currently
+ignored. This can leave a first-hop router with an unusable neighbor after
+the host becomes reachable and announces itself, particularly when
+forwarding is offloaded away from the kernel and traffic destined to the
+FAILED neighbor is unable to trigger the kernel's normal neighbor
+resolution process.
 
-I would lean towards no, since tcpdump already times out on its own and=20
-any orphaned tempfiles or netns are a pre-existing issue. No change=20
-planned.
+Allowing neighbor entries to be updated from NAs already received by the
+kernel is preferable since it creates less work compared to periodically
+probing FAILED neighbors (e.g. using NTF_EXT_MANAGED).
 
-> [Severity: Low]
-> This isn't a problem introduced by this patch, but the absent-entry branc=
-h
-> of verify_ndisc() still discards the exit status of ip neigh show and onl=
-y
-> tests that the output is empty. If the command itself fails, is the empty
-> output then reported as a pass without the neighbour table ever having be=
-en
-> read? The same pattern is present in the baseline version of the function=
-,
-> so this is pre-existing; the new expected_state branch fails closed. Woul=
-d
-> checking the exit status of the query in the else branch be worth folding
-> in while this function is being touched?
->
+Extend accept_untracked_na to treat FAILED entries like absent entries.
+Require a target link-layer address, IPv6 forwarding, and acceptance by the
+sysctl, including its source-prefix check in mode 2. Recover the entry only
+to STALE, including for solicited NAs, to maintain parity with handling of
+non-existent neighbor cache entries.
 
-Pre-existing issue, will leave as-is
+Patch #1 implements the behavior and updates RFC 9131-related comments and
+accept_untracked_na documentation.
 
-> [Severity: Medium]
-> The new rc=3D$? capture also repairs a reporting bug that existed before =
-this
-> patch. In the baseline the sequence was:
->
-> 	test_unsolicited_na_common $1 $2 $3
-> 	test_msg=3D("test_unsolicited_na: "
-> 		"drop_unsolicited_na=3D$1 "
-> 		"accept_untracked_na=3D$2 "
-> 		"forwarding=3D$3")
-> 	log_test $? 0 "${test_msg[*]}"
->
-> The array assignment between the helper call and log_test sets $? to 0
-> (none of the assigned words contain a command substitution), so log_test
-> always received 0 and all eight existing combinations reported OK no matt=
-er
-> what verify_ndisc returned. Capturing rc immediately after
-> test_unsolicited_na_common() changes the pass/fail semantics of those eig=
-ht
-> pre-existing cases so they can now actually fail.
->
-> The changelog describes only the new FAILED-neighbour coverage and does n=
-ot
-> mention that the existing reporting was broken, and there is no Fixes: ta=
-g
-> (git blame points the log_test $? line at f9a2fb73318eb).
->
-> Would it make sense to split this into its own patch with a Fixes: tag, s=
-o
-> it can be applied and backported independently of the new mode 2 and
-> FAILED-state coverage, which needs kernel features not present in older
-> trees?
->
+Patch #2 extends ndisc_unsolicited_na_test.sh to cover FAILED-entry
+recovery and each acceptance gate, including in-prefix and out-of-prefix
+mode 2.
 
-An entirely new patch submission seems like overkill for this. I'll=20
-update the commit message to mention this change and add the Fixes tag.
+Thanks to Ido Schimmel for feedback on the original RFC.
 
-pw-bot: changes-requested
+---
+v4:
+- Add Ido Schimmel's Reviewed-by tag to patch #1.
+- Add a Fixes tag and document the selftest return-code fix in patch #2.
 
+v3:
+- Cite RFC 4861 section 7.3.3 when describing FAILED entries.
+- Simplify the FAILED-entry path as suggested by Ido Schimmel.
+- Drop the NDISC callback and 6LoWPAN changes. The existing 6LoWPAN
+  override-only behavior also applies to INCOMPLETE entries and is left
+  unchanged.
+- Restore the existing rt6_clean_tohost() source-address behavior. The
+  source-versus-target behavior applies to all neighbor states and is left
+  unchanged.
+- Verify the link-layer address learned during recovery in selftests.
+- Keep the NA source, target, and neighbor key fixed while varying the
+  router prefix in the mode 2 selftest cases.
+- Arm packet capture in selftest before starting host DAD and wait for
+  capture readiness and receive completion.
+https://lore.kernel.org/r/cover.1789734885.git.lfqlee314@gmail.com
+
+v2:
+- Full implementation of logic to update FAILED entries to STALE.
+- Update the RFC 9131-related comments and sysctl documentation.
+- Add selftests to verify state changes only when the accept_untracked_na
+  setting is enabled.
+https://lore.kernel.org/r/cover.1789448374.git.lfqlee314@gmail.com
+
+v1 (RFC):
+https://lore.kernel.org/r/20260813233344.445265-1-lfqlee314@gmail.com
+
+Testing:
+- x86_64 allyesconfig build with W=1
+- Sparse on net/ipv6/ndisc.c
+- tools/testing/selftests/net/ndisc_unsolicited_na_test.sh: 14 passed
+- Local NIPA checks: all 45 checks passed
+- Sashiko local review completed
+
+Lawrence Lee (2):
+  ipv6: update NUD_FAILED neighbors from NA messages
+  selftests: net: test untracked NA recovery of FAILED neighbors
+
+ Documentation/networking/ip-sysctl.rst        |  28 +--
+ net/ipv6/ndisc.c                              |  47 +++--
+ .../net/ndisc_unsolicited_na_test.sh          | 195 ++++++++++++++----
+ 3 files changed, 201 insertions(+), 69 deletions(-)
+
+
+base-commit: ee05ecfe2cea997d4c8cb1c3af01406104a15a80
+-- 
+2.43.0
