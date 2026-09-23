@@ -1,103 +1,183 @@
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+Received: from mail-wr2-f42.google.com (mail-wr2-f42.google.com [74.125.225.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B186C51DAEC
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 14:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E8E497B76
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 14:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790173998; cv=none; b=SRxs5BQqepfxLE4FD1X1pk0jxWJAyA7c7QOSXpdeEMjC9i5pNeYajpc67tsHsmXyMyLFSDkQOqbikaLb7+aDQj5inn85h2C6fUbu7tYj24gBg66oOy5UFgSb+EKPbC/TV25Gg+D2ZYQBc84AY/PLje+DSKbTtx0r++xnccroa40=
+	t=1790174104; cv=none; b=Ed31U0/6W1+IMj03SA+7hD+KkgOuDY74jjOZdlZH/C6mDSsiaTUQYvI0ryJGy8EPiddHnBO37x8iXS4/jbF1g5SeBjnvFyPmsiTK42W6M/o0ic3+ca19jEsJDg4+mHtUf4HH7B5lCstGAlB+Wwhiu7aXKgxcmT63d5Rd0q+8yIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790173998; c=relaxed/simple;
-	bh=9SziFnm+aShDkRNqNWK4TN1HFS1h14/qWjFuIX4GFYA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=liFfxrPaJpYEWDzzFle5O9vwBRjCNb5qbaRh4ACBlO78EsAArSQusPPQcZY46N6LPqEE5L54NUtmabo2dvmsHk+GpsDN3CRrsRcK1yqmsDD/PRrXTF9FTrihixVTceJ5pHvTROdI9Q5GW+42m0VE1Vj7GAlvRyX4faBSdqwiJGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G4djl8C3; arc=none smtp.client-ip=209.85.210.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1790174104; c=relaxed/simple;
+	bh=5uIlNa4xAoXh/sFqM7AmbWsWqOhs2eV3y5IK8rYjWoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kpPVTgCyHrxjuEa9nZ8MYuEpD9qhJDL7mmYLWi2YiecYLFHH0Nuy9NLcxzgvwkcitQ9HZNjPUfMRHz6x+WibGhqzvKjWBfWKM0omDBdt0VgwIaH0ZQzvvKm8KVkLuB/bb6OGt9dRJbHViZlvDgRuq/GyEm4+Pf4xYcCilXl/Z5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bhCZj666; arc=none smtp.client-ip=74.125.225.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G4djl8C3"
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-8679cfe5019so1170278b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:33:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bhCZj666"
+Received: by mail-wr2-f42.google.com with SMTP id ffacd0b85a97d-482f6351832so651611f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:35:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790173996; x=1790778796; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AX/aeWxWgB/GKGsHNXt+UF87Ro0pQpzXrq2csA576lg=;
-        b=G4djl8C3qxRTsRmvPNo5MOrfBBswMKCGB6TDoGTiEKAlra62ktjDTE69fVMNHfDiRB
-         6nwEsCtA47lYdmfdQC8e/d13TBE0tfs3znkzlWpxNNfwzchICxPfyhqaHKU87a9weD2J
-         NRXNDMBr1teRUBUiubml1aNnXs93x+joWSp7oOxW7B0LqvvEAaYiklk2u7rWX7fgRy5U
-         X9IWtepwDWlJe+kBfbHziUx4RFhKzQiSVXt2OVG57BQ9rXGa2EUTl5CnRiQWp82kEAyg
-         o6FYT3jccLBqcl51Hb+ZvnlUj74dDlA1EgIRNsqpxwUzVIVXMfvuYFiPQ2cLWiu1/nBH
-         n8Jw==
+        d=gmail.com; s=20251104; t=1790174101; x=1790778901; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CxuB9ejzTC3o9hFwevWHCxu5Fr62XzfQUzmljnivqK4=;
+        b=bhCZj6661fV3XPzCS7tqELrBJYuhlYKT7FgVnHnY3obiteRy0IgKRks/WwbfW15uiF
+         DJkux1hmPK3xUKyN+wuLA4qPzIsL9Gr//m3S0DOXeSwSGNsOZs9Qawebyb+KFR+CQofW
+         SPlRjj6uqPgGz/OzGU9iRVd4OT6mLdD83Bov2vgStdGfHL3a0XA6ufFuk+q3BbaMgMa6
+         Dru+955Up4LHuovuPbHstZwZoMXPoj43PQQ7fMfWySMLTnk+SewULYWn4mO03vZ37Nn/
+         yQOkprEeYEpzbr0KUgs1zOXsNVihl3rQ786/CK4gUJ4Cy54wjvR+IB448meAWvXwtnYv
+         WvEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790173996; x=1790778796;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AX/aeWxWgB/GKGsHNXt+UF87Ro0pQpzXrq2csA576lg=;
-        b=gts9+Qw7JicOh9Sb7pqQODf3aVVZO5kUoix99UFyS+UQyt4jV1OCKOyeo0thckH8S3
-         cJdzgxB/MjsNnZwq2D2EstNI5t/B0+fYmGQH1lU/REHqQnXi90DznV+2kruyblEXngLI
-         kzo6LIepR4gLnMV32eeypd0H4sL2bry9N6KafINRNbVSrrMy+MLMtAMToiX1EsIBQZhw
-         NgatPgk4ipD49Itn0EwYs14CSzTE8IjVVQH1AXCBwxnLZPRQ/GPgGA5U8Lc3pPo5Pm8f
-         H0ydS3KgBA381+fH+HoqEDL0TQWrrEhagI1yzCSlFIUW0/MwcVgwdQhDapXP5nj7McyB
-         EVuA==
-X-Forwarded-Encrypted: i=1; AKwUvBwj3hd1bnmg4HxGDFRGVJymcqrIRXfAEu0jojOfXca1T4aIcyQBdOYSusVovje30pWtPlBOqJU7jIA=@vger.kernel.org
-X-Gm-Message-State: AFuF++m60sWRJmR5S5c8ZvZyslc5UkVeUa6UV7Vx8+SwuQF1gfM1U+HD
-	qT63GAM6CahJQuoHqog73DJt650I4i8KKOZCvrGeJPTeHj2klhKmY4s6yN9NaPoCQTdlVcGpFq/
-	M3L20pw==
-X-Received: from pfet15.prod.google.com ([2002:aa7:938f:0:b0:87b:94d4:77a2])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3319:b0:87c:e44e:5683
- with SMTP id d2e1a72fcca58-87d1a4b357amr2446190b3a.23.1790173995748; Wed, 23
- Sep 2026 07:33:15 -0700 (PDT)
-Date: Wed, 23 Sep 2026 07:33:15 -0700
-In-Reply-To: <20260923085139.GV776954@noisy.programming.kicks-ass.net>
+        d=1e100.net; s=20260707; t=1790174101; x=1790778901;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CxuB9ejzTC3o9hFwevWHCxu5Fr62XzfQUzmljnivqK4=;
+        b=UGD0W5bSAiHOg/gX9uiOWKvQb6SVNwywHD2WjELa5IvxxBixOogAQff+85Jy6sz4Vx
+         BgQ+hvqvl/9xDNFETOsCQESvK4dZgJj770HLfXjJ/UasfafNYTq2sSqRHLZRbi63Cgyu
+         DDzjHf6fh7wz4R8tu9XvBdX4E0cBwel2Y+lPi9sCiYosl/xL1byR5vVqZOWABrfDD6Td
+         3buxQTox1IYY335kbIc23QuIjqZwCzKTAbMsSaAM30jFrX/M0eg0bhr5aPd2l7rVbFhn
+         s3lYbM3DGJjMlW3KDfKvXCtJcUvx6/ozJ6cx1TFjYx5VgT1IePlSRUh+IHSglvnCjZxD
+         E9Xw==
+X-Forwarded-Encrypted: i=1; AKwUvByhyRQ6wtL0i/PDc/aW+9CIlX+V0OKwcP9zdPZzrTzTF3tWd+BigIvrKmibPiykx26AUwRfh2/B8hg=@vger.kernel.org
+X-Gm-Message-State: AFuF++ksSimTmPOj8aUm5hW+Fvz3FjOF8ZTJJpGCEa/YgBTluOcFD38R
+	cfuoBIDCrPenxwAZQmevtZUN9QYoWYpnI14s7+P0rwCIfgJkmmxOuVf+
+X-Gm-Gg: AYBFou0Fi+aAs0F9Bfdt6f36DrSs1s0qMnE65fyokc7lSn0+CLY8uW89Lktkq95PWyc
+	mWlLrprt14emF/3Dax9fvFdOAnRjkkBb5+iLIEPM+p2MWz4rCGSfH3oH/IqZYV209qDAP5pq9Dh
+	ulKU++1TuEXHqs9QpW9hP1VSOon96Po27/GRLGT7lo8mfAKltCDGByAX8T571713f2iVqijpPrC
+	h5Mn2EdxaghOjZkkKUWzr1anCCHgTst1ba/gkJawm9ieHVsOWS+adSThIPsy3mBh33L87UXqFK9
+	yZDLobcL3p+jMrk/r23YrwX7vT2dtm5ywSFun5uUJBZmwdeJMKYBKnaaEfiZCjCilhfmazAiNdK
+	gFr8Gp8sSpgdWG9yf3xwSNxxD0A/Mqw1P7CNJUQ3mbYOBxNKMWVZOV07HZpUVVEeXW5zSsAy45a
+	lrjkdaWurJAzmNA4hKBHmthbYZnj0UgPOVD5y8AyJoLqM4rCzVQI+5r8z7m0Swvj4PeN3XkjHWs
+	qK8YTypQGiHIJ9+qpJRpAhS/0VLfUOjZtUC7W0GMnxw64i4ylkL9JqP9tmHEbYZAbTuBQwkA+HU
+	derZCVrKGA5tatZtNScp
+X-Received: by 2002:a05:6000:703:b0:486:e901:e59 with SMTP id ffacd0b85a97d-48867093c7bmr5013070f8f.31.1790174100524;
+        Wed, 23 Sep 2026 07:35:00 -0700 (PDT)
+Received: from KASONG-MC4 (11.pool90-167-203.static.orange.es. [90.167.203.11])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48868779472sm7703114f8f.23.2026.09.23.07.34.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 07:34:59 -0700 (PDT)
+Date: Wed, 23 Sep 2026 16:34:54 +0200
+From: Kairui Song <ryncsn@gmail.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: Chris Li <chrisl@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arPhtkrM-khhmgnN@KASONG-MC4>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora>
+ <aqLi6cIjD2wJwk0B@cmpxchg.org>
+ <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+ <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
+ <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+ <CAMgjq7CJBHkoZmg9oKNgGA8czL0djyBTCAkPz8ETm-tX=Qci4g@mail.gmail.com>
+ <arEotFqE7ZZoxMHd@gourry-fedora-PF4VCD3F>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <179005108298.388919.4535333252892590932.stgit@devnote2>
- <179005110742.388919.1509641807739909065.stgit@devnote2> <20260923085139.GV776954@noisy.programming.kicks-ass.net>
-Message-ID: <arPjK1-PVp_UqAsQ@google.com>
-Subject: Re: [PATCH v17 02/13] perf/x86, KVM: Prevent host debug register leak
- into guest OS on NMI
-From: Sean Christopherson <seanjc@google.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Ingo Molnar <mingo@kernel.org>, Jinchao Wang <wangjinchao600@gmail.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	"H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, x86@kernel.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <arEotFqE7ZZoxMHd@gourry-fedora-PF4VCD3F>
 
-On Wed, Sep 23, 2026, Peter Zijlstra wrote:
-> On Tue, Sep 22, 2026 at 01:25:07PM +0900, Masami Hiramatsu (Google) wrote:
-> > From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On Mon, Sep 21, 2026 at 09:27:01AM +0100, Gregory Price wrote:
+> On Mon, Sep 21, 2026 at 12:01:18PM +0200, Kairui Song wrote:
+> > > First of all, the traditional swap counter has a very well-defined
+> > > meaning. It is the size of the memory that, when accessed, requires a
+> > > page fault. A page fault adds significant latency to memory access
 > > 
-> > When KVM enters a guest OS, host hardware breakpoints are disabled
-> > before running the guest. However, an NMI can occur while executing
-> > in guest mode or during guest transition, where
-> > arch_install_hw_breakpoint() can be invoked from NMI context.
+> > Yeah I agree on this. Swap just about makes resources not directly
+> > accessible by the CPU act as RAM, whether that is storage on disk,
+> > compressed memory, or a network resource, all accessed through a page
+> > fault. I hope we won't make this fuzzy in the future by introducing
+> > too many magics.
 > 
-> How? AFAICT perf doesn't do that. arch_install_hw_breakpoint() is called
-> through pmu::add() which is strictly IPI context.
+> Hm.  The counters are already fuzzy - the accounting is already doing
+> two different jobs.
+> 
+> Suppose we want to allow 24GB of logically swapped memory, backed by up
+> to 8GB of compressed RAM at a 3:1 ratio, but permit only 4GB of physical
+> swap.
+> 
+> Today we have:
+>   memory.swap.max  = ?     /* logical memory requiring a fault */
+>   memory.zswap.max = 8 GB  /* RAM consumed by compressed data */
+> 
+> If memory.swap.max is 4 GB, zswap stops after 4 GB of logical pages,
+> despite consuming only 1.33GB of RAM.
+> 
+> If memory.swap.max is 24 GB, zswap may reach 8GB of memory consumption,
+> but the cgroup may also consume up to 24GB of physical swap instead of
+> the desired 4GB limit.
 
-I assume it's:
+Hmm, I mean, this sound a limitation of the zswap.max and not swap.max,
+swap.max is doing a prefect job here limiting the logically swapped
+out memory.
 
-  kgdb_nmi_handler()
-  |
-  -> kgdb_nmicallin()
-     |
-     -> kgdb_cpu_enter()
-        |
-        -> arch_kgdb_ops.correct_hw_break()
-           |
-           -> kgdb_correct_hw_break()
-              |
-              -> arch_install_hw_breakpoint()
+> 
+> memory.swap.max is simply overloaded - there is no way for us to express
+> both limits.
+
+Limitation of physical layer is some swap tiering issue I believe. We
+don't have swap tiering at the moment, so we can't do that, right?
+
+With tiering limit setting swap.max = 24G seems totally fine here.
+
+> Could we preserve the existing swap semantics and add a physical swap
+> counter instead?
+> 
+>   memory.swap.max  = 24GB  /* logical swapped memory */
+>   memory.zswap.max =  8GB  /* compressed RAM limit */
+>   memory.pswap.max =  4GB  /* physical storage limit */
+> 
+> These limits would be independent and compose naturally.
+> 
+> For a zswap-only workload where we care about RAM consumption but cannot
+> predict the compression ratio:
+> 
+>   memory.swap.max  = max
+>   memory.zswap.max = 8GB
+>   memory.pswap.max = 0
+> 
+> For a workload that performs poorly after more than 7GB of its logical
+> memory requires swap faults:
+> 
+>   memory.swap.max  = 7GB   /* workload-specific latency/SLO limit */
+>   memory.zswap.max = 8GB   /* uniform compressed-RAM allowance */
+>   memory.pswap.max = 0     /* zswap only */
+> 
+> In short:
+> 
+>   memory.swap   = logical swap       - workload/SLO limit
+>   memory.pswap  = physical swap      - storage limit
+>   memory.zswap  = compressed memory  - RAM limit
+> 
+> This would preserve the existing memory.swap semantics while allowing
+> both backing resources to be constrained independently.
+
+Yeah, this part seems better, but a pswap vs zswap still seems maybe
+too specific for one single usage? Or too board to be over rided. :)
+A actual tiering limit seems better to me.
