@@ -1,305 +1,326 @@
-Received: from smtp-42a8.mail.infomaniak.ch (smtp-42a8.mail.infomaniak.ch [84.16.66.168])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871A251D536
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 16:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.168
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790180073; cv=none; b=PfE7P5LSthAVaLMJkyXc9okklVLaXHJ1bW0nGpV8IK2+IpU6VglKd6A+vj6gB/PEZzLVdTYiPTsXnwuScamTF73Xtrq4NgNsxvwb9cJW+SRs8NgJjqScNRS5OBPo1Rrt3GzenWr1iDTmpb7pMXokvpDwZVz0pI7R69bNF6OSY7I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790180073; c=relaxed/simple;
-	bh=o+lnkeQINKOx1FMGfJoPJvIdUjvWx2rDpqbnJIYqQB0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M3u0BdAnD4hq2tZ479HIuhR06zG6lHi+fVn6I2IoJKFwdZitTLfie6Qo8ZUQ5TANhE8u+WkP0VjCYqBWuZZeV8YQkvVYlozcDcjKC4wAWxSPAWzi2xF5LG2dJOjk6WvFqC/6+EWl7V34b2y0uloOcJxnNDMfpeqnn6NbLJtGAOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=G7uQOJwh; arc=none smtp.client-ip=84.16.66.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3596C3A380F
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 16:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790180189; cv=pass; b=CBvKOoDm8/pqux+6RgkRAy2rXNtX/bsM+F8DVA6Oz6XgJSGPMMvWInxQG91OnNoKumeNC75GVIQ4P8y31zpoq8SApcfck2QpKuu4kYN111tf19UQJF764yB6bRqia6ZBuAzXOmu5YwHouNCqfyQ5HulAbLaYs+maRFv9XCdwTcc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790180189; c=relaxed/simple;
+	bh=IgFBZ0ZgrljS0uGrRjUXNBEdLyByc1A6yRVAR2zjdZQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BVrpRjlmKCm/L8PGkArFIA+2E/XYhiLfZlmWioEvm/C8A56XRgspnb/s+aw2AY9SJjeifmjBgSWEa8gINJ9XlFg43cCdo8SHwtRUqZPbU1uvQ0c/QyvSuXaVXSnUOSGQ33xu65b+3oNauCxbWPEwTEh75TYETPMSfVVLfOvrCLI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O99ZLeHu; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=DcUAfx37; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="G7uQOJwh"
-Received: from smtp-4-0001.mail.infomaniak.ch (unknown [IPv6:2001:1600:7:10::a6c])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hqhqm0jv3z18cd;
-	Wed, 23 Sep 2026 18:14:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1790180067;
-	bh=Zz5S3FJbOhv3TWXlUV7w7svivks5vbTStg1jsi/EPOU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=G7uQOJwh9oPRJ7cyksfAHd88TFlDoSMK2UYPt0/hoAcdOf+Ltsqp3+fCHOFblC7Fi
-	 P4wxSMx209og0ySqX0P+92Ek0cv4wVLxcUiweDJvFG2exAso1pY6j8PHLrGNGb05y7
-	 V14k57CNGURWq6/WsBBKLohR4712Q7mCXTRTbJLM=
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4hqhqh0w3pzl4W;
-	Wed, 23 Sep 2026 18:14:24 +0200 (CEST)
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: stable@vger.kernel.org
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	=?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	John Johansen <john.johansen@canonical.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Kentaro Takeda <takedakn@nttdata.co.jp>,
-	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jann Horn <jannh@google.com>,
-	Kees Cook <keescook@chromium.org>,
-	Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 5.15.y v2] selftests/landlock: Add tests for whiteout object creation
-Date: Wed, 23 Sep 2026 18:14:15 +0200
-Message-ID: <aee05236ad5600be7fc35c089b345eadf6bcaba8.1790169454.git.mic@digikod.net>
-In-Reply-To: <2026-09-18-daily-reply-0003-re-landlock-whiteout-5-15@kernel.org>
-References: <2026-09-18-daily-reply-0003-re-landlock-whiteout-5-15@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O99ZLeHu";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="DcUAfx37"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790180186;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8lwL4K1D0LmNyg6j112+oM7NzQaxc/i6AC7mkZYZafE=;
+	b=O99ZLeHurq41nmGtnCAcA/mRTkGpn63HhXPSZqyN/1a2eecz9syJHpkc5RMaur+44eo1Ef
+	Z0jTcaBCgB4xmuLiVx4jLeJdQXa+1MvOff14Y5cAFi3X2Xn90w4S7aHCc4Fmv5PSQJELc6
+	HL8zhmNNld+tn0xrrGomzwZQzbpz/Ac=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-528-cO34NsOkN5OuMFN1DEPV4g-1; Wed, 23 Sep 2026 12:16:23 -0400
+X-MC-Unique: cO34NsOkN5OuMFN1DEPV4g-1
+X-Mimecast-MFC-AGG-ID: cO34NsOkN5OuMFN1DEPV4g_1790180182
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-49e76a80fe5so12152895e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 09:16:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790180182; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ofpgnhs2eVzcrZ8IgofQr/r6lmhXrufDgZ8g6vO/eBNTbN5B1fDWZkvbheGwexV6RW
+         z6RGRI5987vuAfVmkTdGf2DddJbTC6kK9vBXTJD8IhEpzMGYqGeMMpBX3qDPYp1vHW6J
+         sd48N4zpK6LVMJy7XyFhfeYUXH3bu0K6p7zDTqsKL/XlfmBR1G5ZQpsec0Jqyf2OB+md
+         CBPxf7ZqXoF+6qSraOS1Sv7/aLlEMn9+Us5D196xZeIH0HtFAhBN41/jufznq0wr62+w
+         KiPcVSJEnPBLJKYV8nmov0R0NQFM8llUiPD7zRyZu6tWVfqVcYo5ylS1ktbwj/XGzbQF
+         eKSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8lwL4K1D0LmNyg6j112+oM7NzQaxc/i6AC7mkZYZafE=;
+        fh=rKxAVxQNNBOZWVvJMBKg84zHu+Tk/wF0bF55P5LKu/g=;
+        b=c4ltyYLaPlNw9JWW4Wuwx+lckMKOfc/vzreG0eUdbZhe6kEF8xGII3+4vJ43xXS818
+         GSQ0Fowx1I1MTfsr3I+ZIBmnFdBVgPjNc9BtiAGsadLsGXllNJ/vcZOXhxWhN1BYjM2L
+         Lh8DKzPXxiBzl2WDM/z21UggfQ9dXhB9uZ1rKRstcmZcaz52L6s8K8gZ5cUNUkdPXnnV
+         4ripQrIAmYUpJqAhAvXUNP010QmjnWV865iYCgHfUhKzbmgpoD6hhMlCz1lsGLPIK/tO
+         vVAWw4PCpVKqYpxleHcgLfxUdOgNfTEwxNmJXxQ3BbqBe+kT6JrD43WYzccpUIUllBqq
+         vE1w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1790180182; x=1790784982; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8lwL4K1D0LmNyg6j112+oM7NzQaxc/i6AC7mkZYZafE=;
+        b=DcUAfx37pclwncupI3fDIhT4GD0u9fKNkMcasbZabFwnp34BT1xzOfO5lZcnN4ezZS
+         TgvuDmqxCiLwu35HFXtDQsqlZoAMIyU2ye4PmdtZSQc374lAJdhxBOVnUHw0SUHiRroW
+         f8+/L7OLtttw4wJrTGN0vHejoD2gz1lIjQzsrVNbtbvBe7IKGFbu+IRWZGh8kKqvrZeI
+         niHvHOLH2Ux2UlSmVNBT+nin8qTWjQ0ydUwxYW1VBR6Lzvs6sjGHoklRkiZN8q7z+3db
+         qCY7B1Omqms7k2spLd1ZrGvOIPndnVgrYjUIsgiORvKOK6ihAl0PXgZKrUAd5V9l7oFG
+         W1pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790180182; x=1790784982;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8lwL4K1D0LmNyg6j112+oM7NzQaxc/i6AC7mkZYZafE=;
+        b=xpIZ5CVULeAQSu//z07zzBzbXOlgrZyb0A5hacRMQFGXNlJfXHKQ/xH6Rf9rLgI0+5
+         Dy8O3e69onUEvfbl4Dj1iaNNf74NHzNRRqVBo1wq3mNE3xpDD7GVSAwx340c6PubUCUF
+         rl/yCCUSIcbMb6pzEzQVfxyKLObtT2EgojQ3ZxChM664OD2G+wjSGP9Et79qe3AxFB94
+         rm4HBfOFxKhaEUaEfdRpaYE4+TnYbxt+w2Kc/6Xx/xR+L+jMhqzF/GhWWs7yDzrz+I28
+         UhAVXVfPi/d43NExntv7amfhrIhu2swsi0rwhc+sgnFIdnfjck3eUONkfs21lcNX/56P
+         ewgA==
+X-Forwarded-Encrypted: i=1; AKwUvBzfH9tIpaUDD/QoIrEPQ4kQcTPj0J3l1lIcGU4B7w2+Qa2Bfzq3ml8C3LVzxF/3QxbcQBogufaeiEI=@vger.kernel.org
+X-Gm-Message-State: AFuF++lk4zNt+ILzIWa1APwge6Sa14NUZIvhUZanSphikYGl7q0qPJSe
+	KmirNdaq83jKzgH+loNqubk3DiK0aK69bdpHyLE/7RUvfajm2nYEmhqHRHqI4l9P3CaEk5fk9Io
+	il5O7SIwvDtDaEjK5AG2BmKQ010ejx7o7+xAUzx+JZGumF2JUgcDlQzEvh2jTejgDr7YEvk+tH4
+	3YPubofp+w6nzc+PK3hV7j9MS3Nju9tUET3S2m
+X-Gm-Gg: AYBFou1UbhAiNIWuOaFq7lRmaIDB4LxNsnj+GaZVdIHrQ6UI9JM8bUmc9Y2+27acd9o
+	2LoIqq0gS6nBk2BMYW2VmZzwHxjDPJMGnKImkFaEHafqZTzYkq1fpY2YIsxPthLzLX6raqYXHsi
+	2/UcZbVzqLRj+2bVY4PFrNlWfd5qeo7BrqtyUKJFfjpmPu61W4RNFuTgXgZom7cVIPNVRcTeHuY
+	7z5LelFcHH7A+/XVA==
+X-Received: by 2002:a05:600c:8b11:b0:49f:ce72:e931 with SMTP id 5b1f17b1804b1-49fdf252adfmr50312625e9.35.1790180182293;
+        Wed, 23 Sep 2026 09:16:22 -0700 (PDT)
+X-Received: by 2002:a05:600c:8b11:b0:49f:ce72:e931 with SMTP id
+ 5b1f17b1804b1-49fdf252adfmr50311885e9.35.1790180181802; Wed, 23 Sep 2026
+ 09:16:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+References: <20260902200547.184734-1-jtaubepe@redhat.com> <20260902200547.184734-8-jtaubepe@redhat.com>
+ <ab97f32b-31dd-4975-a8b2-b445110ae3a9@suse.de> <CADRr4bePoiDnWX_XrMWtQe=1g4Yrw1_dK86EV2k9XZR0HnL+UQ@mail.gmail.com>
+ <d4879e78-2735-4f86-beab-8aa319e9162c@suse.de>
+In-Reply-To: <d4879e78-2735-4f86-beab-8aa319e9162c@suse.de>
+From: Jesse Taube <jtaubepe@redhat.com>
+Date: Wed, 23 Sep 2026 12:16:10 -0400
+X-Gm-Features: AclHuK_OOO2Lx5nkFexAXjVTognXDMI5Nb3PQa0tcoQZ7jw26Edo1LYB-gBX5kg
+Message-ID: <CADRr4bcSvLwzfSiV0LTxnhZR7oo3F1b2XEo+wwqi668Gr2BBQA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] nvme: fcloop: Add set_marginal_rport to sysfs
+To: Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, Justin Tee <justin.tee@broadcom.com>, 
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, 
+	GR-QLogic-Storage-Upstream@marvell.com, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, John Meneghini <jmeneghi@redhat.com>, 
+	Bryan Gurney <bgurney@redhat.com>, Chris Leech <cleech@redhat.com>, 
+	"Ewan D . Milne" <emilne@redhat.com>, shinichiro.kawasaki@wdc.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Günther Noack <gnoack@google.com>
-
-[ Upstream commit ee890889b30b22f9a21636061def7a04e4f89380 ]
-
-Add tests to check that whiteout object creation is guarded by
-LANDLOCK_ACCESS_FS_MAKE_REG, in the cases where these are created from
-userspace:
-
-* Conventional creation with mknod()
-* Linking or renaming an existing whiteout object
-* renameat2() with RENAME_WHITEOUT,
-  which creates a new whiteout object in the source location
-* renameat2() with RENAME_EXCHANGE,
-  with one of the renamed objects being a whiteout object
-
-Signed-off-by: Günther Noack <gnoack@google.com>
-Link: https://patch.msgid.link/20260813093157.1436894-4-gnoack@google.com
-[mic: Update commit message as requested]
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-[mic: Backport: add enforce_fs() and the missing s3 fixture paths, and
-adapt tests to ABI 1 without REFER]
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
----
-
-Changes since v1:
-https://patch.msgid.link/88432dfe86f2aaa9ae499587fd7acff9d34a338b.1789655723.git.mic@digikod.net
-- Add a guarded RENAME_WHITEOUT fallback for glibc versions before 2.28.
----
- tools/testing/selftests/landlock/fs_test.c | 154 +++++++++++++++++++++
- 1 file changed, 154 insertions(+)
-
-diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
-index 47fc4392f412..c33f00c499d3 100644
---- a/tools/testing/selftests/landlock/fs_test.c
-+++ b/tools/testing/selftests/landlock/fs_test.c
-@@ -36,6 +36,10 @@ int renameat2(int olddirfd, const char *oldpath, int newdirfd,
- #define RENAME_EXCHANGE (1 << 1)
- #endif
- 
-+#ifndef RENAME_WHITEOUT
-+#define RENAME_WHITEOUT (1 << 2)
-+#endif
-+
- #define TMP_DIR "tmp"
- #define BINARY_PATH "./true"
- 
-@@ -62,6 +66,8 @@ static const char dir_s3d1[] = TMP_DIR "/s3d1";
- /* dir_s3d2 is a mount point. */
- static const char dir_s3d2[] = TMP_DIR "/s3d1/s3d2";
- static const char dir_s3d3[] = TMP_DIR "/s3d1/s3d2/s3d3";
-+static const char file1_s3d3[] = TMP_DIR "/s3d1/s3d2/s3d3/f1";
-+static const char file2_s3d3[] = TMP_DIR "/s3d1/s3d2/s3d3/f2";
- 
- /*
-  * layout1 hierarchy:
-@@ -249,6 +255,7 @@ static void create_layout1(struct __test_metadata *const _metadata)
- 	clear_cap(_metadata, CAP_SYS_ADMIN);
- 
- 	ASSERT_EQ(0, mkdir(dir_s3d3, 0700));
-+	create_file(_metadata, file1_s3d3);
- }
- 
- static void remove_layout1(struct __test_metadata *const _metadata)
-@@ -265,6 +272,8 @@ static void remove_layout1(struct __test_metadata *const _metadata)
- 	EXPECT_EQ(0, remove_path(file1_s2d2));
- 	EXPECT_EQ(0, remove_path(file1_s2d1));
- 
-+	EXPECT_EQ(0, remove_path(file2_s3d3));
-+	EXPECT_EQ(0, remove_path(file1_s3d3));
- 	EXPECT_EQ(0, remove_path(dir_s3d3));
- 	set_cap(_metadata, CAP_SYS_ADMIN);
- 	umount(dir_s3d2);
-@@ -595,6 +604,27 @@ static void enforce_ruleset(struct __test_metadata *const _metadata,
- 	}
- }
- 
-+static void enforce_fs(struct __test_metadata *const _metadata,
-+		       const __u64 access_fs, const struct rule rules[])
-+{
-+	int ruleset_fd;
-+
-+	if (rules) {
-+		ruleset_fd = create_ruleset(_metadata, access_fs, rules);
-+	} else {
-+		const struct landlock_ruleset_attr ruleset_attr = {
-+			.handled_access_fs = access_fs,
-+		};
-+
-+		ruleset_fd = landlock_create_ruleset(&ruleset_attr,
-+						     sizeof(ruleset_attr), 0);
-+		ASSERT_LE(0, ruleset_fd);
-+	}
-+
-+	enforce_ruleset(_metadata, ruleset_fd);
-+	EXPECT_EQ(0, close(ruleset_fd));
-+}
-+
- TEST_F_FORK(layout1, proc_nsfs)
+On Wed, Sep 23, 2026 at 11:34=E2=80=AFAM Hannes Reinecke <hare@suse.de> wro=
+te:
+>
+> On 9/23/26 4:56 PM, Jesse Taube wrote:
+> > On Mon, Sep 21, 2026 at 10:03=E2=80=AFAM Hannes Reinecke <hare@suse.de>=
+ wrote:
+> >>
+> >> On 9/2/26 10:05 PM, Jesse Taube wrote:
+> >>> To allow testing of multipath failover, add a sysfs attribute to set =
+a
+> >>> remote port as marginal. This will allow the fcloop LLDD to set the
+> >>> marginal flag on a remote port, simulating a marginal link.
+> >>>
+> >>> Example:
+> >>> Turn on marginal for a remote port matching wwnn and wwpn:
+> >>> `echo 'wwnn=3D0x200000109b5f2956,wwpn=3D0x100000109b5f2956,marginal=
+=3D1' >
+> >>> /sys/class/fcloop/ctl/set_marginal_rport`
+> >>>
+> >>> Turn off marginal for a remote port matching wwnn and wwpn:
+> >>> `echo 'wwnn=3D0x200000109b5f2956,wwpn=3D0x100000109b5f2956,marginal=
+=3D0' >
+> >>> /sys/class/fcloop/ctl/set_marginal_rport`
+> >>>
+> >>> Suggested-by: John Meneghini <jmeneghi@redhat.com>
+> >>> Signed-off-by: Jesse Taube <jtaubepe@redhat.com>
+> >>> V10 -> V1:
+> >>>    - New patch
+> >>> V1 -> V2:
+> >>>    - Fix reference count leak in error path
+> >>> ---
+> >>>    drivers/nvme/target/fcloop.c | 50 ++++++++++++++++++++++++++++++++=
+++++
+> >>>    1 file changed, 50 insertions(+)
+> >>>
+> >>> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloo=
+p.c
+> >>> index b63af3b643a6..9977c2a71bd5 100644
+> >>> --- a/drivers/nvme/target/fcloop.c
+> >>> +++ b/drivers/nvme/target/fcloop.c
+> >>> @@ -6,6 +6,7 @@
+> >>>    #include <linux/module.h>
+> >>>    #include <linux/parser.h>
+> >>>    #include <uapi/scsi/fc/fc_fs.h>
+> >>> +#include <uapi/scsi/fc/fc_els.h>
+> >>>
+> >>>    #include "../host/nvme.h"
+> >>>    #include "../target/nvmet.h"
+> >>> @@ -21,6 +22,7 @@ enum {
+> >>>        NVMF_OPT_FCADDR         =3D 1 << 3,
+> >>>        NVMF_OPT_LPWWNN         =3D 1 << 4,
+> >>>        NVMF_OPT_LPWWPN         =3D 1 << 5,
+> >>> +     NVMF_OPT_MARGINAL       =3D 1 << 6,
+> >>>    };
+> >>>
+> >>>    struct fcloop_ctrl_options {
+> >>> @@ -31,6 +33,7 @@ struct fcloop_ctrl_options {
+> >>>        u32                     fcaddr;
+> >>>        u64                     lpwwnn;
+> >>>        u64                     lpwwpn;
+> >>> +     u32                     marginal;
+> >>>    };
+> >>>
+> >>>    static const match_table_t opt_tokens =3D {
+> >>> @@ -40,6 +43,7 @@ static const match_table_t opt_tokens =3D {
+> >>>        { NVMF_OPT_FCADDR,      "fcaddr=3D%x"     },
+> >>>        { NVMF_OPT_LPWWNN,      "lpwwnn=3D%s"     },
+> >>>        { NVMF_OPT_LPWWPN,      "lpwwpn=3D%s"     },
+> >>> +     { NVMF_OPT_MARGINAL,    "marginal=3D%d"   },
+> >>>        { NVMF_OPT_ERR,         NULL            }
+> >>>    };
+> >>>
+> >>> @@ -120,6 +124,13 @@ fcloop_parse_options(struct fcloop_ctrl_options =
+*opts,
+> >>>                        }
+> >>>                        opts->lpwwpn =3D token64;
+> >>>                        break;
+> >>> +             case NVMF_OPT_MARGINAL:
+> >>> +                     if (match_int(args, &token)) {
+> >>> +                             ret =3D -EINVAL;
+> >>> +                             goto out_free_options;
+> >>> +                     }
+> >>> +                     opts->marginal =3D token;
+> >>> +                     break;
+> >>>                default:
+> >>>                        pr_warn("unknown parameter or missing value '%=
+s'\n", p);
+> >>>                        ret =3D -EINVAL;
+> >>> @@ -199,6 +210,9 @@ fcloop_parse_nm_options(struct device *dev, u64 *=
+nname, u64 *pname,
+> >>>
+> >>>    #define TGTPORT_OPTS        (NVMF_OPT_WWNN | NVMF_OPT_WWPN)
+> >>>
+> >>> +#define MARGINAL_OPTS        (NVMF_OPT_WWNN | NVMF_OPT_WWPN | \
+> >>> +                      NVMF_OPT_MARGINAL)
+> >>> +
+> >>>
+> >>>    static DEFINE_SPINLOCK(fcloop_lock);
+> >>>    static LIST_HEAD(fcloop_lports);
+> >>> @@ -1663,6 +1677,40 @@ fcloop_set_cmd_drop(struct device *dev, struct=
+ device_attribute *attr,
+> >>>        return count;
+> >>>    }
+> >>>
+> >>> +static ssize_t
+> >>> +fcloop_set_marginal_rport(struct device *dev, struct device_attribut=
+e *attr,
+> >>> +             const char *buf, size_t count)
+> >>> +{
+> >>> +     struct fcloop_nport *nport;
+> >>> +     struct fcloop_ctrl_options opts =3D {};
+> >>> +     unsigned long flags;
+> >>> +     int ret;
+> >>> +
+> >>> +     ret =3D fcloop_parse_options(&opts, buf);
+> >>> +     if (ret)
+> >>> +             return ret;
+> >>> +
+> >>> +     /* everything there ? */
+> >>> +     if ((opts.mask & MARGINAL_OPTS) !=3D MARGINAL_OPTS)
+> >>> +             return -EINVAL;
+> >>> +
+> >>> +     nport =3D fcloop_nport_lookup(opts.wwnn, opts.wwpn);
+> >>> +     if (!nport)
+> >>> +             return -ENOENT;
+> >>> +
+> >>> +     spin_lock_irqsave(&fcloop_lock, flags);
+> >>> +     if (!nport->rport || !nport->rport->remoteport) {
+> >>> +             spin_unlock_irqrestore(&fcloop_lock, flags);
+> >>> +             fcloop_nport_put(nport);
+> >>> +             return -ENOENT;
+> >>> +     }
+> >>> +
+> >>> +     nvme_fc_set_remoteport_fpin(nport->rport->remoteport, opts.marg=
+inal);
+> >>> +     spin_unlock_irqrestore(&fcloop_lock, flags);
+> >>> +     fcloop_nport_put(nport);
+> >>> +
+> >>> +     return count;
+> >>> +}
+> >>>
+> >>>    static DEVICE_ATTR(add_local_port, 0200, NULL, fcloop_create_local=
+_port);
+> >>>    static DEVICE_ATTR(del_local_port, 0200, NULL, fcloop_delete_local=
+_port);
+> >>> @@ -1671,6 +1719,7 @@ static DEVICE_ATTR(del_remote_port, 0200, NULL,=
+ fcloop_delete_remote_port);
+> >>>    static DEVICE_ATTR(add_target_port, 0200, NULL, fcloop_create_targ=
+et_port);
+> >>>    static DEVICE_ATTR(del_target_port, 0200, NULL, fcloop_delete_targ=
+et_port);
+> >>>    static DEVICE_ATTR(set_cmd_drop, 0200, NULL, fcloop_set_cmd_drop);
+> >>> +static DEVICE_ATTR(set_marginal_rport, 0200, NULL, fcloop_set_margin=
+al_rport);
+> >>>
+> >>>    static struct attribute *fcloop_dev_attrs[] =3D {
+> >>>        &dev_attr_add_local_port.attr,
+> >>> @@ -1680,6 +1729,7 @@ static struct attribute *fcloop_dev_attrs[] =3D=
  {
- 	const struct rule rules[] = {
-@@ -1941,6 +1971,118 @@ TEST_F_FORK(layout1, rename_file)
- 			       RENAME_EXCHANGE));
- }
- 
-+TEST_F_FORK(layout1, rename_whiteout_denied)
-+{
-+	/* The affected file is a FIFO. */
-+	ASSERT_EQ(0, unlink(file1_s3d3));
-+	ASSERT_EQ(0, mknod(file1_s3d3, S_IFIFO | 0600, 0));
-+
-+	/* Deny MAKE_REG, but allow MAKE_FIFO. */
-+	enforce_fs(_metadata, LANDLOCK_ACCESS_FS_MAKE_REG, NULL);
-+
-+	/*
-+	 * Try to rename a file with RENAME_WHITEOUT.
-+	 * file1_s3d3 is in dir_s3d2 (tmpfs), so it supports RENAME_WHITEOUT.
-+	 * Denied, because whiteout creation is guarded with MAKE_REG.
-+	 */
-+	EXPECT_EQ(-1, renameat2(AT_FDCWD, file1_s3d3, AT_FDCWD, file2_s3d3,
-+				RENAME_WHITEOUT));
-+	EXPECT_EQ(EACCES, errno);
-+}
-+
-+static bool is_whiteout(const char *const path)
-+{
-+	struct stat st;
-+
-+	if (stat(path, &st) == -1)
-+		return false;
-+
-+	return S_ISCHR(st.st_mode) && st.st_rdev == makedev(0, 0);
-+}
-+
-+static bool is_fifo(const char *const path)
-+{
-+	struct stat st;
-+
-+	return stat(path, &st) == 0 && S_ISFIFO(st.st_mode);
-+}
-+
-+TEST_F_FORK(layout1, rename_whiteout_allowed)
-+{
-+	const struct rule rules[] = {
-+		{
-+			.path = dir_s3d3,
-+			.access = LANDLOCK_ACCESS_FS_MAKE_REG,
-+		},
-+		{},
-+	};
-+
-+	/* The affected file is a FIFO. */
-+	ASSERT_EQ(0, unlink(file1_s3d3));
-+	ASSERT_EQ(0, mknod(file1_s3d3, S_IFIFO | 0600, 0));
-+
-+	/* Allow MAKE_REG below dir_s3d3. */
-+	enforce_fs(_metadata, LANDLOCK_ACCESS_FS_MAKE_REG, rules);
-+
-+	/*
-+	 * Rename a file with RENAME_WHITEOUT within the same directory.
-+	 * Allowed, because MAKE_REG is granted for the whiteout object which
-+	 * gets created in the source location.
-+	 */
-+	EXPECT_EQ(0, renameat2(AT_FDCWD, file1_s3d3, AT_FDCWD, file2_s3d3,
-+			       RENAME_WHITEOUT));
-+
-+	/* A whiteout object took the place of the moved FIFO. */
-+	EXPECT_TRUE(is_whiteout(file1_s3d3));
-+	EXPECT_TRUE(is_fifo(file2_s3d3));
-+}
-+
-+TEST_F_FORK(layout1, rename_whiteout_exchange_denied)
-+{
-+	const char *const whiteout_s3d3 = file2_s3d3;
-+
-+	/* The exchanged files are a FIFO and an existing whiteout object. */
-+	ASSERT_EQ(0, unlink(file1_s3d3));
-+	ASSERT_EQ(0, mknod(file1_s3d3, S_IFIFO | 0600, 0));
-+	ASSERT_EQ(0, mknod(whiteout_s3d3, S_IFCHR | 0600, makedev(0, 0)));
-+
-+	/* Deny MAKE_REG, but allow MAKE_FIFO. */
-+	enforce_fs(_metadata, LANDLOCK_ACCESS_FS_MAKE_REG, NULL);
-+
-+	/* Exchanging the whiteout object is denied without MAKE_REG. */
-+	EXPECT_EQ(-1, renameat2(AT_FDCWD, file1_s3d3, AT_FDCWD, whiteout_s3d3,
-+				RENAME_EXCHANGE));
-+	EXPECT_EQ(EACCES, errno);
-+}
-+
-+TEST_F_FORK(layout1, rename_whiteout_exchange_allowed)
-+{
-+	const char *const whiteout_s3d3 = file2_s3d3;
-+	const struct rule rules[] = {
-+		{
-+			.path = dir_s3d3,
-+			.access = LANDLOCK_ACCESS_FS_MAKE_REG,
-+		},
-+		{},
-+	};
-+
-+	/* The exchanged files are a FIFO and an existing whiteout object. */
-+	ASSERT_EQ(0, unlink(file1_s3d3));
-+	ASSERT_EQ(0, mknod(file1_s3d3, S_IFIFO | 0600, 0));
-+	ASSERT_EQ(0, mknod(whiteout_s3d3, S_IFCHR | 0600, makedev(0, 0)));
-+
-+	/* Allow MAKE_REG below dir_s3d3. */
-+	enforce_fs(_metadata, LANDLOCK_ACCESS_FS_MAKE_REG, rules);
-+
-+	/* Exchanging the whiteout object is allowed with MAKE_REG. */
-+	EXPECT_EQ(0, renameat2(AT_FDCWD, file1_s3d3, AT_FDCWD, whiteout_s3d3,
-+			       RENAME_EXCHANGE));
-+
-+	/* The FIFO and the whiteout object swapped places. */
-+	EXPECT_TRUE(is_whiteout(file1_s3d3));
-+	EXPECT_TRUE(is_fifo(whiteout_s3d3));
-+}
-+
- TEST_F_FORK(layout1, rename_dir)
- {
- 	const struct rule rules[] = {
-@@ -2128,6 +2270,18 @@ TEST_F_FORK(layout1, make_char)
- 		       makedev(1, 3));
- }
- 
-+TEST_F_FORK(layout1, make_whiteout)
-+{
-+	/*
-+	 * Creates a whiteout object (creation guarded by MAKE_REG).
-+	 *
-+	 * Contrary to the other character devices, this does not require
-+	 * CAP_MKNOD, cf. vfs_mknod().
-+	 */
-+	test_make_file(_metadata, LANDLOCK_ACCESS_FS_MAKE_REG, S_IFCHR,
-+		       makedev(0, 0));
-+}
-+
- TEST_F_FORK(layout1, make_block)
- {
- 	/* Creates a /dev/loop0 device. */
+> >>>        &dev_attr_add_target_port.attr,
+> >>>        &dev_attr_del_target_port.attr,
+> >>>        &dev_attr_set_cmd_drop.attr,
+> >>> +     &dev_attr_set_marginal_rport.attr,
+> >>>        NULL
+> >>>    };
+> >>>
+> >> Please don't make it a fabrics option.
+> >
+> > What do you mean by fabrics option? How should I fix this?
+> >
+> Your patch does two things; one is to modify the parser in
+> fcloop_parse_options, and the other is to implement a new
+> sysfs rport attribute 'set_marginal_rport()'.
+> My suggestion is to drop the first part;
+
+You want to drop the parser?
+
+> we really should not start off
+> with a marginal port, rather only set ports to marginal during runtime.
+
+Yes it starts as not marginal and will only be set or unset
+with a write to `set_marginal_rport` during runtime.
+
+Thanks,
+Jesse Taube
+
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+>
+
