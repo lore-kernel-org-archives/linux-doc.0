@@ -1,137 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B0E414DDB;
-	Wed, 23 Sep 2026 22:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C62352C34
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 23:02:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790204022; cv=none; b=LH+Y4xcmW+y2Yw0bpVln596s3+WuPJe20pvPjRRZ5aaf6NByRcMvsa+axMApsc1sahI/tCM5sm36p22dwCX5fItbAdK6N9/Tb1sCVbPQGmk+gj+yF2K2wnZ8vDrU/gTwHTsUZoTfLn6Si7lHmUecHYCP+peLKZpb9XoZ7m+Vbyo=
+	t=1790204572; cv=none; b=jLMDU9P0gXQDSBrIy4Ag5w8YuhAZ5sq+A00FxrM66bvQW5+IhthY6dxS0yxq1OjMyFHIMzHQ8VB8YDpfdk8pMgO6/PFLR/D+lDdDj4jUEw4JxpUMHJh5ewYKssxv0thDM7pm0gsbGC8RdaTod4o7Xa/JkwCXIIMvrv/7LrLZOaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790204022; c=relaxed/simple;
-	bh=fwZSaqpmByB20i96UeW2mqdIG75USPYigGVMnEnWY2g=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=OzSZqg27PtUb7A3AptNI8YPe+kHIl+BjSCt3uN2/1v8nQivHoLCQXYpMxJf7JvSxm5y2BI/a2PMlELB7I6TeSwVQD+/5q8PLZ0DJrR1iWgXbNyXaHFuZeYNM0tXTWLqGUFoSMOwRw5ykBfGgHpjlDue3S+P9Ayv6TY8GCpwa/yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=scGfOW6F; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790204572; c=relaxed/simple;
+	bh=aDqfZ1ffOPHuAFlxQE32BvxlClrmIe0hd8jEibV3r+8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=H7lXL0rdQ3GCCnmuuDxGcIYpQ8ULg9vzcVItta7t45YFow8Qyps4omKozM9R+//isCt4FdnPK+FfDk8ysIeFrAl3SRWy89jLKqq712E5hX7VZf30RyA5WUje54voL5KUatKkH2aMXRijUpLNpFotBcM2IWDIUsNxRDnwcaj8kDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTzuiSLE; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="scGfOW6F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03D461F000FF;
-	Wed, 23 Sep 2026 22:53:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1790204021;
-	bh=ep7wns9wPyTqnmGHhjmbGEV+muuH/iLwEmgevdLFK+Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=scGfOW6FNrNiqxjD54xQajwaC+4WYqC6RG/88f1T+E4tqhorzFVBYXL1q9XvKZq/L
-	 EBTL5TAFO+L4muscbIneqi/sYK9xm73Aa56lde4wfrllpbydBzL/wWnM9xNyKrubd9
-	 sbmpz652ub/EEGRm8Lp6Vjcgd5QxMI1CtuS4ssq4=
-Date: Wed, 23 Sep 2026 15:53:39 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: Jason Baron <jbaron@akamai.com>, Shuah Khan <shuah@kernel.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Arnd Bergmann
- <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu
- <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen
- <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, Jonathan
- Corbet <corbet@net.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Pavel
- Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
- <rostedt@goodmis.org>, John Ogness <john.ogness@linutronix.de>, Sergey
- Senozhatsky <senozhatsky@chromium.org>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-pm@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
- Philipp Hahn <phahn-oss@avm.de>, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v11 00/38] dyndbg: Fix classmaps API for subsystems,
- query extensions, selftests
-Message-Id: <20260923155339.bdc677e8e688611bcf190ad9@linux-foundation.org>
-In-Reply-To: <20260923-dd-cmap-part2-clean-v11-0-9b6c217fdf2f@gmail.com>
-References: <20260923-dd-cmap-part2-clean-v11-0-9b6c217fdf2f@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTzuiSLE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790204572; x=1821740572;
+  h=date:from:to:cc:subject:message-id;
+  bh=aDqfZ1ffOPHuAFlxQE32BvxlClrmIe0hd8jEibV3r+8=;
+  b=OTzuiSLEo1DyOxuM42smBGXLt+QrmGA6vP1VNf93oRu8qkkU0Mq6B/J4
+   vpwPElCse2dOXJUXMwGXzdkM7yxYwpFYTrEEWhB2TS2z/ZiO5Hit+I+VU
+   B3KHwHl80w0JXlWx5cUCn2o2m9XNIJ4Eq7Vl4aKhNhmaQAHY3DWVf+kX5
+   5lBlyhOPLnf3Rjs/cQ7RYgQpVhZPqsPHaBx2oLUlBk5xHGXfbHgeBp1J9
+   cfYO4M3SuMDas5D/0lx7IOAFGHNhN9AHBlZiwkMpUNdQ6+ga/J1ixLaM1
+   WMaQFEGo/VSKOpur1N2/Czjmv5uEcGWHSck2AdErl9Ns300EVnY6eFwcv
+   g==;
+X-CSE-ConnectionGUID: XYm4X0wMQHK6mtkG71btzQ==
+X-CSE-MsgGUID: bUmm3Vk1QzOrjJk693dg3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="93454283"
+X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
+   d="scan'208";a="93454283"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 16:02:51 -0700
+X-CSE-ConnectionGUID: BReFdPeoQ9ea754pXSXS3Q==
+X-CSE-MsgGUID: eGvxwmyXRsCSSmarUDCMzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,119,1787036400"; 
+   d="scan'208";a="273998603"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 23 Sep 2026 16:02:49 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9VzC-00000000HvY-2c9Q;
+	Wed, 23 Sep 2026 23:02:46 +0000
+Date: Thu, 24 Sep 2026 07:02:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Feifei Xu <Feifei.Xu@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 817/8910] Warning:
+ drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:2448 This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer to
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202609240635.M2G0xdSh-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Wed, 23 Sep 2026 16:34:24 -0600 Jim Cromie <jim.cromie@gmail.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a8c591ed6b672915e0be57843f943a2a723aff40
+commit: 7b2e99877db54cf762994af9239d7fb908f96857 [817/8910] drm/amdgpu: add amdgpu_discovery_get_mem_reserved_region_by_id
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260924/202609240635.M2G0xdSh-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260924/202609240635.M2G0xdSh-lkp@intel.com/reproduce)
 
-> The drm subsystem has *lots* of debug statements, in 11 categories:
-> 
->  $> git grep '\w*_dbg' drivers/gpu/drm/ | wc
->    5663   30159  542864
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609240635.M2G0xdSh-lkp@intel.com/
 
-Methinks this regexp was overly promiscuous, but point taken.
+All warnings (new ones prefixed by >>):
 
->  $> git grep 'DRM_DEBUG\w*' drivers/gpu/drm/ | wc
->    2206   12834  202332
-> 
-> All of these are bit-tests on __drm_debug, exposed to users as
-> /sys/module/drm/parameters/debug. Many of these are done often;
-> vblank is done ~100/sec for some displays. Over the uptime of many
-> boxes, this is a lot of cpu cycles on bits that are almost always off.
+>> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:2448 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Query mem_reserved_info by region ID
 
-A __test_bit (or |) every 10ms sounds quite negligible?
-
-Especially if __drm_debug is __read_mostly.  Which it isn't, afaict. 
-Um, low-hanging fruit?
-
-> Dynamic-debug excels at replacing such tests with NOOPs (via static
-> keys). Classmaps was devised to bring that 0-off-cost to drm's
-> categories.
-> 
-> Classmaps-v1 went into the kernel in Sept 2022, in 2 chunks:
->   b7b4eebdba7b..6ea3bf466ac6    # core dyndbg changes
->   0406faf25fb1..ee7d633f2dfb    # drm adoption
-> 
-> Sadly DRM-CI found a regression during init with drm.debug=<initval>;
-> the static-keys underneath the drm-dbgs in drm.ko got enabled, but
-> those in drivers & helpers did not.
-> 
-> So in Feb 2023, it got pulled:
-> commit bb2ff6c27bc9 ("drm: Disable dynamic debug as broken")
-> 
-> Root Problem:
-> 
-> DECLARE_DYNDBG_CLASSMAP defined the classmap, but its repeated use in
-> both core and drivers violated a K&R rule "define once, refer
-> afterwards". This flaw resulted in a regression; with drm.debug=0xFF
-> boot arg, drm-core got enabled, but drivers/helpers did not.
-> 
-> This patchset replaces DECLARE_DYNDBG_CLASSMAP with:
-> - DYNAMIC_DEBUG_CLASSMAP_DEFINE (invoked once in the exporting module)
-> - DYNAMIC_DEBUG_CLASSMAP_USE (invoked repeatedly in drivers & helpers)
-> 
-> _DEFINE exports the classmap it creates (in drm.ko), and other modules
-> _USE the classmap. The _USE adds a record referencing the _DEFINEd (&
-> exported) classmap in a 2nd __dyndbg_class_users section.
-> 
-> At modprobe, dyndbg scans the new section after __dyndbg_class_maps,
-> follows the linkage to the _DEFINEr module, finds the (optional)
-> kernel-param controlling the classmap, examines its drm.debug=<initval>,
-> and applies it to the module being initialized.
-> 
-> To recapitulate the multi-module problem wo DRM involvement, we add:
-> 
-> - tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh:
->   Alters pr_debugs in builtins and test modules,
->   checks results against checksums of expected results
-> 
-> - lib/test_dynamic_debug.c & test_dynamic_debug_submod.c:
->   Builds parent & _submod modules with _DEFINE and _USE inside #if/#else
->   blocks, reproducing the 2-module scenario under selftests.
-
-So what I'm understanding is that this series presently has no effect
-upon DRM?
-
-What subsystems *does* it affect?
-
-Sashiko had quite a bit to say.  It hasn't quite completed at present.
-	https://sashiko.dev/#/patchset/20260923-dd-cmap-part2-clean-v11-0-9b6c217fdf2f@gmail.com
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
