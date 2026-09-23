@@ -1,104 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A1D3C1D4D;
-	Wed, 23 Sep 2026 10:15:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6D647FAF3;
+	Wed, 23 Sep 2026 10:30:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790158535; cv=none; b=n3vPYyNhUhx5njvEW4K9koNk8UmGWQc6tBsv9DovvijKw2khgj46IjyOIdVEa5oQj/tWL4u8m9/KIRJ7QDX/0767vYCvsITrIK4ZMXQaGm5enUpNaUetOa+1JOi0CqGmiCcRqaRJHmdf+eVtosLLBsDdRFNTwJskeklAenoUYCA=
+	t=1790159419; cv=none; b=TiAMJCHaiANN6aLwA3ebbiDM8avj5VKPstVD7nLqscJqyFYRvXxEuyHzwNe2NYrhZQLG0Rm64IjA5i/xUH8ocdQxpz1JYTcU10xt9lN57gC5Je9l5X6E5p3f2xBjI2pOReKGais5Yx9nd+tOhQKTXsVEklSeZ+gHsca57ga5n6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790158535; c=relaxed/simple;
-	bh=gZY0WC5GuA2NKx7eNcJuwSntEMh4sHKln3KfjzFkkBk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RoUYbRoHZJRnPBadS7MCVqB83TDMOecivgCfJT0AtI/d0E2ZQ7rh18TPg/t17TEWfNcMm1o+64hHeKXgcpp5WuDiWuJrURFPxWTa02vyVw8kOuznL9x5ELf4zUl4txGv29i9nXMQSidoaVtVjQqIX/lzEqr8BBNASn6Tt1AkRow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WXAMQy+E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790159419; c=relaxed/simple;
+	bh=4apTzgSnK41fmpqyWoxUgweK1yzL409akGVwvF+wtlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sx+Z04u6+rMaU7FjWnWOG5DlT3h8jO21Wd8CosnLU/MMZ8I3Te6aqvv80Mvs2gdLD3SnZeNHo2ouT0hMML5fvqX3SSTQ4iq0CGgo0ytTTzKojaz/uArntoObWpE+EfDHEPH3KSowUD41cPul/x7Od376I0QXxFY5S7nUukSDIqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=I+FgPbZ4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WXAMQy+E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1E7B1F000FF;
-	Wed, 23 Sep 2026 10:15:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790158519;
-	bh=E1gVvDIreHP8ao0G8tKQqDlYq/j2WrsMakNo62d+qXY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=WXAMQy+ECbR9upWSg5m7sfptdxReQTIJ+VcV8tEJtuZHBX5pPtdQQpUtBNHBp0Doc
-	 tzioFXHYc4MDnaTQjR0PajdwPQJJomUI1kHaClLcMCwHuDpXHcecx0ULs5i16aTTIh
-	 IUGraDUXbnGj8gkxEIIxNRnKzw4keHrB3w/lRqMQgj07CVgVhT5vw8b9AtDU2Lp28g
-	 IP1JqzstB5ADjIPJFGYhQf8kSUKkKDYL1OjaCG2EyknvacasEJa0xvaUOmCYhpOtYg
-	 jguxHJo2h2mFKHLUqNcHypdy6g9MhMFgJVtFlE2wCxm4NSIWdjcXJeMXKIgP+wYjIo
-	 w68cHUpPMmaew==
-From: SJ Park <sj@kernel.org>
-To: 
-Cc: SJ Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="I+FgPbZ4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEBA41F000FF;
+	Wed, 23 Sep 2026 10:29:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790159399;
+	bh=6mPB5sAXT6Vhv1gBFH2na4lrNkRozl/FMt/dP7OxjRk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=I+FgPbZ4GvlC7BewOKRNZweanpyegBPw+Z7yAFipreUI0p/iDWPygp288TTzg9fNW
+	 wG6Yil8IMbspsRFI6ZRrV4LujFy4JyuBlEph2Ub330vypNF3BGsVDnezRyMqqWWtxx
+	 NYdOIla4kATkpDlNoDD//vIXw3e1SpHRXfpR7u/g=
+Date: Wed, 23 Sep 2026 12:29:56 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH v3 6/7] Docs/admin-guide/mm/damon/usage: update for quota goal complement file
-Date: Wed, 23 Sep 2026 03:14:51 -0700
-Message-ID: <20260923101454.5748-7-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260923101454.5748-1-sj@kernel.org>
-References: <20260923101454.5748-1-sj@kernel.org>
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026092348-victory-erased-0e5a@gregkh>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <arOfHEsGGglNse7T@monoceros>
 
-Update DAMON usage document for the newly added quota goal metric
-complement sysfs file.
+On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-K�nig wrote:
+> > No, drivers should NOT have to do that in their .probe() function,
+> > that's what we moved away from decades ago!  The match function should
+> > handle all of that for you, otherwise it's contant duplication
+> > everywhere that is unneeded.
+> 
+> Well then you have to accept that root can provoke a null pointer
+> exception (e.g. by forcing the pwm-tegra driver on a device) because at
+> least with today's platform bus match function such a match is ok.
 
-Signed-off-by: SJ Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+Agreed, yes, root can cause a crash and can do tons of horrible things
+much worse than this, that's not the issue.
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index ba4725544856..3d43954c7046 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -98,7 +98,8 @@ comma (",").
-     │ │ │ │ │ │ │     fail_charge_num,fail_charge_denom
-     │ │ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil
-     │ │ │ │ │ │ │ │ :ref:`goals <sysfs_schemes_quota_goals>`/nr_goals
--    │ │ │ │ │ │ │ │ │ 0/target_metric,target_value,current_value,nid,path
-+    │ │ │ │ │ │ │ │ │ 0/target_metric,complement,target_value,
-+    │ │ │ │ │ │ │ │ │  current_value,nid,path
-     │ │ │ │ │ │ │ :ref:`watermarks <sysfs_watermarks>`/metric,interval_us,high,mid,low
-     │ │ │ │ │ │ │ :ref:`{core_,ops_,}filters <sysfs_filters>`/nr_filters
-     │ │ │ │ │ │ │ │ 0/type,matching,allow,memcg_path,addr_start,addr_end,damon_target_idx,min,max
-@@ -492,12 +493,12 @@ number (``N``) to the file creates the number of child directories named ``0``
- to ``N-1``.  Each directory represents each goal and current achievement.
- Among the multiple feedback, the best one is used.
- 
--Each goal directory contains five files, namely ``target_metric``,
--``target_value``, ``current_value``, ``nid``, and ``path``.  Users can set and
--get the five parameters for the quota auto-tuning goals that specified on the
--:ref:`design doc <damon_design_damos_quotas_auto_tuning>` by writing to and
--reading from each of the files.  Because the kernel does not update
--``current_value``, reading it only makes sense when ``target_metric`` is
-+Each goal directory contains six files, namely ``target_metric``,
-+``complement``, ``target_value``, ``current_value``, ``nid``, and ``path``.
-+Users can set and get the six parameters for the quota auto-tuning goals that
-+specified on the :ref:`design doc <damon_design_damos_quotas_auto_tuning>` by
-+writing to and reading from each of the files.  Because the kernel does not
-+update ``current_value``, reading it only makes sense when ``target_metric`` is
- ``user_input``.  Note that users should further write
- ``commit_schemes_quota_goals`` to the ``state`` file of the :ref:`kdamond
- directory <sysfs_kdamond>` to pass the feedback to DAMON.
--- 
-2.47.3
+That's why this taint is there, to make it obvious that this is not a
+"real" bug at all.
+
+> > Please, learn from our history, don't make the same mistakes.
+> > 
+> > Now I might be convinced that driver_override is the way to go here, but
+> > it still feels really odd as again, bind/unbind was created as a driver
+> > debugging option only, it should NOT be a normal operation that any user
+> > should rely on.  The driver should "just work" properly instead, without
+> > requiring manual bind work, as that's not a good model at all.
+> 
+> I agree in principle, but (in my case wifi) drivers are buggy sometimes
+> (due to missing documentation and/or engineering effort) and being able
+> to rebind the driver instead of rebooting to get a working device again
+> is very useful.
+
+Fine, use it!  Just don't expect that to be "normal".
+
+> So yes, theoretically bind/unbind isn't needed, but theory and practise
+> differ in practise.
+
+Agreed, but again, don't rely on this as a "real" solution fo ranything.
+
+> OK, as a compromise: Let's keep the taint (after all that's not
+> destroying any functionality, just adding a hint for bug reports),
+> and make driver_override opt-in, which should close an attack surface
+> (mostly for fuzzers?) and so reduce the amount of bug reports instead of
+> marking a part of them as tainted only.
+
+How is that going to change anything?  Confused.
+
+greg k-h
