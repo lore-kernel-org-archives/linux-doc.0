@@ -1,209 +1,176 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16FE477E37;
-	Wed, 23 Sep 2026 09:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664B847F2C3;
+	Wed, 23 Sep 2026 09:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790154815; cv=none; b=FTdx4vN1mdkc/qJCC916+FtaqlUDpOApWIvDeAZ5uvcSz8pcZ5qdzem/noxyGlwcuY0jh21qtSLLU/HvRAK4pcvTeNUOg3qQ2fdeDVQ8btEVjHjLiMSeJWmokW6GOX1v3v2lC+D03TAlmPe8bP2ctupn/WW7uNw+Qd/baobE9SM=
+	t=1790154843; cv=none; b=D0Gjd4XkRF75KCcjIbbBscbyeJ5JMzD86/9OKFFSVMGHmE8DnKTnnl8eiLmoevFgMyfkLLHyIQNX2/LGCYfcuzdANIhqw96GT1DXhydX8uGKT32TgnDdJCbIWa0EnVYM1qZjlUG3Vb7O/Zqp+aV8FDLBFAOjDCKvj7jgY0y0/TE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790154815; c=relaxed/simple;
-	bh=TsIuNm5jFryvz4LLPwlBrr1EE8osp13D6JiRN6bqtQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BnNsAdK/ZU3WT7oIrDffEHcEG6pWxLvpOlASLf6i4lbWDFZcfd6kC93xT6pafs7W426TMX/S7zi0LdgpdZBrA37LxjPmQkVFKem7O1oIYzXPxs+O2wzsN1HzTvAm/wEhCDMBWrX+0kWNDUs5xP1ivXDVMwTwXttKB5AFTyh27O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hkPlCmYJ; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1790154843; c=relaxed/simple;
+	bh=9Yr2MFNNK5nBFfvpk7+o+C24KSiQonLlgZfINpWMu1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Sxe7gTu5a+WmZa1EN3b+CcRthWA2tQ3lP+wwK2qSk28nGgxqErIWgw+ppwsXMEWfgn33aRkWLNjX1l+hyQO/dSBIDxN2kxwjIIuwBqRYXLZriXzz0/SMoLfKVhAgeLaqgvdgNMTAjYPUm37Nwil35F1LRgYSzKM9ggz+nkDNy28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kWMCgiXL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hkPlCmYJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=JUBiUwkLuqf7ZmJwTiYj7Qrw6wUl0OXzxMNYxraTk/E=; b=hkPlCmYJFsdy/YK0RkiVRAqWXB
-	GzN0N/P1H7rVpbCKkSBKwCjJL9JoNKKJY176lqHON8IhJSZxww3F65ZRpxJQE24HF6Te/2Tz+4yL2
-	M9k7nLlCyGisi29RVxoORbnQc+uFsG1ZaxHxALW0vpiaw1HKkxiGTDVC5iJ36nz4TXWbZP4FsJ99B
-	q/Lnw50Z+ezeL8gfcCvTOs6oZC4ucrrS2TAD2PqpYvdS9D5f6TDYy9J2r5jOpMKTnouGZspPxaJvV
-	tHNZTq5BE7DsXbs/kdAAgWVxjyFyA9diGfIgFOu4s17B3zCYLaFCC5XQDgQkJiwRSS+SF5rvygQhl
-	tCTrfxgw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9J2X-0000000CW22-0qbV;
-	Wed, 23 Sep 2026 09:13:21 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 362833006DD; Wed, 23 Sep 2026 11:13:20 +0200 (CEST)
-Date: Wed, 23 Sep 2026 11:13:20 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, x86@kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Subject: Re: [PATCH v17 03/13] x86/hw_breakpoints: Make DR7 updates NMI safe
-Message-ID: <20260923091320.GW776954@noisy.programming.kicks-ass.net>
-References: <179005108298.388919.4535333252892590932.stgit@devnote2>
- <179005111951.388919.3131603399440492416.stgit@devnote2>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kWMCgiXL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72DD41F000FF;
+	Wed, 23 Sep 2026 09:13:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790154842;
+	bh=Z+j1lHJE5F3iMb8nSY99OQtjlVOCv/aNXLt1f/fnIwI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=kWMCgiXLIQ6wuVlwnnRx3lJKHDLxKLCH12IowjOX7efeQzZGOJawCaHUfqRK5YQRX
+	 eyw5xVCFRsKuaXNkT2f1HZDd8aaiBjUul7jvkwjO6j1afG61xfht5mCCPSKKp4Dhe9
+	 rzhiHvxgoP5JCx5uMMA6TbPPpBXNI0TvsBqy8ptvMlhuhl3LjdN19l8FOcusuHqGd6
+	 W/Lu00eio/hX6O8BOK5kdqlsJZJnYqJ8DQtyzzxsImYdJDJx13pZ4NSi9WHt1anikw
+	 dlxfFEX5t8FcpmSHMomNE+o4ZWePsDJ5WRA6GO3q2+DvMeaV13VT0Jhtfi25HVJqjf
+	 K7utRZ1UWwiog==
+Message-ID: <802d3999-95fe-4a09-89b4-d01b60f8e963@kernel.org>
+Date: Wed, 23 Sep 2026 11:13:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179005111951.388919.3131603399440492416.stgit@devnote2>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 11/12] mm: make userland page table freeing RCU-safe
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Nico Pache <nico.pache@linux.dev>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Brian Cain <bcain@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Dinh Nguyen
+ <dinguyen@kernel.org>, Simon Schuster <schuster.simon@siemens-energy.com>,
+ Jonas Bonn <jonas@southpole.se>,
+ Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+ Stafford Horne <shorne@gmail.com>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Russell King <linux@armlinux.org.uk>, Vineet Gupta <vgupta@kernel.org>,
+ Michal Simek <monstr@monstr.eu>, Chris Zankel <chris@zankel.net>,
+ Max Filippov <jcmvbkbc@gmail.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Mark Rutland <mark.rutland@arm.com>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Thomas Gleixner
+ <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-openrisc@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-snps-arc@lists.infradead.org, linux-arch@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-alpha@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+ Hugh Dickins <hughd@google.com>, Qi Zheng <qi.zheng@linux.dev>,
+ linux-doc@vger.kernel.org
+References: <20260922-rcu-pagetable-freeing-v4-0-fe1ad1f1e303@kernel.org>
+ <20260922-rcu-pagetable-freeing-v4-11-fe1ad1f1e303@kernel.org>
+ <72d1548a-a4ee-4832-b2ab-4bc82f1933f8@kernel.org> <arOWZCeV8FrkAvhK@gremlin>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <arOWZCeV8FrkAvhK@gremlin>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 22, 2026 at 01:25:19PM +0900, Masami Hiramatsu (Google) wrote:
-> From: Jinchao Wang <wangjinchao600@gmail.com>
+On 9/23/26 11:06, Lorenzo Stoakes (ARM) wrote:
+> On Wed, Sep 23, 2026 at 11:04:17AM +0200, David Hildenbrand (Arm) wrote:
+>> On 9/22/26 17:35, Lorenzo Stoakes (ARM) wrote:
+>>
+>> The patch subject confused me at first: that's not what the patch is doing, no?
+>> Previous patches did that, and now you're just removing the leftovers?
+>>
+>> Maybe I'm missing something that this patch does along the lines of teaching the
+>> code to be RCU-safe.
 > 
-> Hardware breakpoint installation and removal run with IRQs disabled, but
-> an NMI can still enter the same code through KGDB. The interrupted
-> operation and the NMI can consequently claim the same slot or overwrite
-> each other's DR7 state.
-> 
-> Claim and release per-CPU slots with cmpxchg. Update cpu_dr7 with
-> single-instruction per-CPU operations, and preserve hardware-first
-> disable and hardware-last enable ordering. Add a per-CPU sequence number
-> so interrupted DR7 writers and restore paths detect an NMI update and
-> retry from the latest shadow state.
+> It is the final piece that makes that the case, so I think it's OK to allow
+> oneself a nice subject line? No? :)
 
-Bah, KGDB.. Aren't there far more problems with that thing? 
+Just took me longer to figure out if I am missing something important.
 
+E.g.,
 
-> diff --git a/arch/x86/include/asm/debugreg.h b/arch/x86/include/asm/debugreg.h
-> index 854d82b88ff4..515d2d313d0c 100644
-> --- a/arch/x86/include/asm/debugreg.h
-> +++ b/arch/x86/include/asm/debugreg.h
-> @@ -18,6 +18,7 @@
->  #define DR7_FIXED_1	0x00000400
->  
->  DECLARE_PER_CPU(unsigned long, cpu_dr7);
-> +DECLARE_PER_CPU(unsigned int, cpu_dr7_seq);
+	"mm: remove unused RCU-unsafe user page table freeing"
 
-Would it make sense to:
+would have been clearer to me. Anyhow, just stumbled over it, I don't care too much.
 
-typedef struct {
-	unsigned long dr7;
-	unsigned int  seq;
-} dr7_save_t;
+-- 
+Cheers,
 
-
->  #ifndef CONFIG_PARAVIRT_XXL
->  /*
-> @@ -125,40 +126,69 @@ static __always_inline bool hw_breakpoint_active(void)
->  
->  extern void hw_breakpoint_restore(void);
->  
-> -static __always_inline unsigned long local_db_save(void)
-> +static __always_inline void local_db_save(unsigned long *dr7,
-> +					  unsigned int *dr7_seq)
-
-static __always_inline dr7_save_t local_db_save(void)
-
->  {
-
->  }
->  
-> -static __always_inline void local_db_restore(unsigned long dr7)
-> +static __always_inline void local_db_restore(unsigned long dr7,
-> +					     unsigned int dr7_seq)
-
-static __always_inline void local_db_restore(dr7_save_t dr7)
-
->  {
-
->  }
->  
->  #ifdef CONFIG_CPU_SUP_AMD
-
-> diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
-> index 0473a5c95856..901323ae7d6a 100644
-> --- a/arch/x86/kernel/hw_breakpoint.c
-> +++ b/arch/x86/kernel/hw_breakpoint.c
-
-> @@ -106,32 +108,25 @@ int arch_install_hw_breakpoint(struct perf_event *bp)
-
-> +	do {
-> +		seq = this_cpu_inc_return(cpu_dr7_seq);
-> +		this_cpu_write(cpu_debugreg[i], info->address);
-> +		barrier();
-> +		set_debugreg(info->address, i);
-> +		if (info->mask)
-> +			amd_set_dr_addr_mask(info->mask, i);
-> +		this_cpu_or(cpu_dr7, encode_dr7(i, info->len, info->type));
-> +		barrier();
-> +		set_debugreg(this_cpu_read(cpu_dr7) | DR7_FIXED_1, 7);
-> +		barrier();
-> +	} while (seq != this_cpu_read(cpu_dr7_seq));
->  
->  	return 0;
->  }
-> @@ -149,36 +144,34 @@ void arch_uninstall_hw_breakpoint(struct perf_event *bp)
-
-> +	do {
-> +		seq = this_cpu_inc_return(cpu_dr7_seq);
-> +		dr7 = this_cpu_read(cpu_dr7);
-
-You're inconsistent with the leading barrier(). 
-
-> +		dr7 &= ~__encode_dr7(i, info->len, info->type);
-> +		set_debugreg(dr7 | DR7_FIXED_1, 7);
-> +		if (info->mask)
-> +			amd_set_dr_addr_mask(0, i);
-> +		barrier();
-> +		this_cpu_and(cpu_dr7,
-> +			     ~__encode_dr7(i, info->len, info->type));
-> +		barrier();
-> +	} while (seq != this_cpu_read(cpu_dr7_seq));
-> +
-> +	WARN_ONCE(this_cpu_cmpxchg(bp_per_reg[i], bp, NULL) != bp,
-> +		  "Can't release breakpoint slot");
->  }
-
-These loops should be far more similar. Note how the top one does:
-
-	this_cpu_or(cpu_dr7, encode_dr7(...));
-	set_debugreg(this_cpu_read(cpu_dr7) | ..., 7);
-
-while the bottom one does:
-
-	dr7 &= ~encode_dr7(...)
-	set_debugreg(dr7 | ...);
-	this_cpu_and(cpu_dr7, ~encode_dr7(...));
-
-Why can't they both have the same shape and only one encode_dr7()
-instance?
-
-
-> @@ -486,12 +480,18 @@ void flush_ptrace_hw_breakpoint(struct task_struct *tsk)
->  
->  void hw_breakpoint_restore(void)
->  {
-> +	unsigned int seq;
-> +
-> +	do {
-> +		seq = this_cpu_inc_return(cpu_dr7_seq);
-
-no barrier().
-
-> +		set_debugreg(this_cpu_read(cpu_debugreg[0]), 0);
-> +		set_debugreg(this_cpu_read(cpu_debugreg[1]), 1);
-> +		set_debugreg(this_cpu_read(cpu_debugreg[2]), 2);
-> +		set_debugreg(this_cpu_read(cpu_debugreg[3]), 3);
-> +		set_debugreg(DR6_RESERVED, 6);
-> +		set_debugreg(this_cpu_read(cpu_dr7) | DR7_FIXED_1, 7);
-> +		barrier();
-> +	} while (seq != this_cpu_read(cpu_dr7_seq));
->  }
->  EXPORT_SYMBOL_FOR_KVM(hw_breakpoint_restore);
-
-I really can't say I'm a fan of this. Is KGDB really a thing?
+David
