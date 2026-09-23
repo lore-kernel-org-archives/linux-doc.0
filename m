@@ -1,247 +1,156 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120B83932F9
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 04:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790138444; cv=pass; b=mzUOegKI+TdzNzlrV0BQRluuIQooqJirqLSOX82c8vtxpUV2ORTjp7ePjxjSEmSRfDZ/xzat8RKedTBBQ5drE2syihkaAwxqkpIM4nk7hYEdQXmDIs2H6Y+E14KOoQ8JvbUlLHQobb/Hkfum9j18Qm9QbbEkObnSj6DYIug1sVo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790138444; c=relaxed/simple;
-	bh=DfwslUgXH9iUiGASTRA0OnW94V4DmVUUOxWiW01jeOg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EHzSYbBkFG3Ps0d9rj0fliApLZkZ0PHCt0e3soxmirq+G0oksJzv4sidOvdS6ecN1DsGwANh80DXgkpwckLTeh736uLNsdeAyMH6GOEZ2zvY7M7rc+ldoeALQa6z+ofOZtlKvf3Bl9PJ/zLqzhgpKPM5dCSaDO+CcYjsqLMIGAI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ma+vLV0T; arc=pass smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF553E765A
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 04:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790139383; cv=none; b=BD5AmJGxzY4oolXkjkmWTIiW2I2MUfWFmTI8F69g7egYgYNjZhw48btK16jT3W2ur2m+a0tLY+fHy83IYyyrmseJ+YbukDaUATC3tR++UCavcxQkY7zyEkfdzun1L6mTRTQcKzLkXQtuHG9fBff78EkpVxmBw6FRzfVR9KFZ4Es=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790139383; c=relaxed/simple;
+	bh=XiFSpop+KGxbUcWP8n6c2tXURjWzEe4pDG4YB8Ah2sk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aKz9SExZ4nNNtGQPszUWNvrWR0DGq6Q4vwtqerZMfnlLbzBbTQayS3KicmsIlZZveNR7+hJFS4zOlnz/rgxnPOvFyDGg/Yjorm2mhztgMF+zaewWXBvK/2wa1n29GZ+Rv4nr+oro0jO3MfrGJO5l1yPKd83s7eHTvz0vHwk0EDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sG7Tywyc; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ma+vLV0T"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d097b4939so2117765e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 21:40:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790138439; cv=none;
-        d=google.com; s=arc-20260327;
-        b=SjNbHNhBnm5x0HFdk5tGQsjvvNphq67eenMDnYTvRJvMOYxVrw68W6GZ/e9OFDnx+B
-         AciKUVIH+N8Vv4Qb2wAVOdG11gsjrgq+dvYUWtb1jV6pB909hAWLXkmnwoT7xEkzkyLX
-         zfAwRPZW8J7tZTjF0zxP2v5/aSu1Z3lnxi7AbJzhRHjmV9PKvYOJFOUFffPYJ/LMISyO
-         RQ5+OXjiRDcLzdA+PrCBRPHB69bur46BqjVFtXJ/uhztxBY0M6FOS8Fzl2q0KuvCyKhr
-         EfdgjQhddodwXACuYmf9vDXRupj1SNtcVD/tHZDgObdl+875JOLCBoGKiJ+72BpdybRd
-         wMBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3v8KouzydVZ2wFebRu1KMgQMureFqXEgF0puCqWitK4=;
-        fh=AVABWFB+3eMqUKxNtOQKKEhdLbAiMns08ETfhAkYh+Y=;
-        b=TZMMMVMzDcydZ7UXLM5bUgpmWgzyIznflRLWZ9v4BbF+Jxr0eHDdTqe1IfiWCjR0OY
-         9joaaMVwETHHxj2Q73XTo/bfLoMcZlTyXr24l8focgOW6zwfvKnlqsfA17g2R3Xx0qN9
-         dBe870NZtnUqAuqOJ866N7/HruRmyr4cDBod7wtOP5QtPRDIS5Q2tpq7o4OkpZ6Uar6a
-         +qZgYTh6KYNExfEr+MqsCs+J5Hcjo5wrZ0Ja2mPqyMya9rHOss6mWofPvhuRDm5CcPBx
-         u70RWD8t1cf9t966i3EINwrYEaDUdBP8/3Mc+s457ZmyFaatDQ+5lnOql/aXtmdkYU+T
-         Vn6w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sG7Tywyc"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8631d0023daso312731b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 21:56:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790138439; x=1790743239; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3v8KouzydVZ2wFebRu1KMgQMureFqXEgF0puCqWitK4=;
-        b=Ma+vLV0TuoWry0i8mVdWA/tHf/iTFMMvvQ65wn42+GXlWOaW3kiRewWZJI0+gCJmoR
-         7ylHevOKLYA43YeWy0g0/aEVf4736xnOq8jaC+wZVYIMUEpBuj/+8iBrU9FtHY417/S/
-         MRgg0lnYdhon4C4ifCuAg/+2fNUaLlEImSFehh7DIzkLRr4RxKcVV2psBC1ZZuidSl4d
-         4iH9CKwN/LKTccY84U4aRcBKMwAWy4lovF2p8sFn1PnDn23TPd3RJD0GJAr6lMHYcO5a
-         oPj8skzoX27FghRV154G8/B9eq2YR0fs0RzNRnLmRbztsaTrcqPaS93WifyheEiLAWWU
-         TZDQ==
+        d=gmail.com; s=20251104; t=1790139365; x=1790744165; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=o1SOesHNHdnwoiL8FAjnK92erd43AfuOxzvjh4ET6B0=;
+        b=sG7Tywycf0MvELghPdBzbwEFLfecjFUWGph5YbUJa6s+9FwZNMX7eCgzwjpDpjvzmG
+         emRk0bbKxjzNI4HQINInPG9IDzdVKiXbAqXRpgBVA7OLRKTzgoA+OEY87nC6epTI+3My
+         uGT7AWXVQTyCKEfFA7ljI+ZtDxByzJn3TyBsxwnVgnZ620YdnM/M3igGCXuIxHrKLeRU
+         hyl6hhuHGGvwjUrS0n1/bVjNbNW0/BHn0PxX2O3NOqM/hoaD15W+Z8WhEYIiX4sOFPiU
+         BH45yDwzuV8KefmvOfgvKnVxhsJ0XscfKHN7Yx6OnKKMoFmc7e6QPNOui8isXPoIN7Nh
+         Uoag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790138439; x=1790743239;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3v8KouzydVZ2wFebRu1KMgQMureFqXEgF0puCqWitK4=;
-        b=B8gbKSzDHyVE8YFcAoIDvCzpBv2Ynu5pC5WnDOzJ4BDhUpTaDOblDIr8GmxjVh52O5
-         xwywpKuZ7XbclocK8OX09B99XG1cIlMGkg8CAG2pGWyXV748h2cmk08HuJ4I8Th+o0ye
-         2FGJOA8n2S//b7RF5pX3lljcEnDFjrFkd5URrMRLn38CUNH01Op/reMmvBD9v6pWVOE1
-         qI/kkZU5lF9QZFXbpYpO8w/eYh283uXD9xtal8O3YXRHNVU+934IRNACcdYbL60TKLQz
-         +0p7RE8NhisIO45qNsFVS8g/UfxaWpiLIncTK+E+0+08s2SNYlm78NkkGTah50IfdJjw
-         KcYg==
-X-Forwarded-Encrypted: i=1; AKwUvBz8AjlyY7pPpb9frlgSgVfGb5tkaaMlE7n7unZ8/SI5nCu/O6Aqb8Ru3nCPT9ACDVRSqVQgxdzsNik=@vger.kernel.org
-X-Gm-Message-State: AFuF++l5M0uRfkA4wglTXcrr63ElNndTTA7lLf2eEfVqklL610o7KmJp
-	Nro6B3X7qpiqv7kBOQCSlEkgiXacsYC0DdsNwqOSuTmr1J1fVP/2H5YrLIlJzVQq5E4H5GQPJeu
-	TUXbrmjlL8Nbv27rYV/k30R5qPlLKc8I=
-X-Gm-Gg: AYBFou1KabdwIwJHjoKWliSBNUSHXUaz35ZI6O0rnsMVJi+ufagGFMm44E7a1uXfOx9
-	sVexl2L/jEE2YY5yBaA4XJzjCxOziT2YGIYKx9/Mh/CNq31fcjDD0wE2i5ej1sFSpxmqxalC/3m
-	jobdgvAJLp5bZ4rvkIoGkBET/kdrBjH+GiCCSeCsu6VwVi4SR/kGEpMHvaUABffWufUM46ZBuSy
-	L3wEulqGFa6fYGGQ95pMsGERtG0S/HHh1bTx+JUv6bLtiDw3dcUtk9fg4MsM/2BztW5NPxf+J/W
-	nryIZgfVDSYvSz6NDY46NgH6iKw52WGCnKzk0m7JYcx3LB04nQTS4V4D5yewLNtlAKqnMCntT7B
-	V1XAN5Kf9dU6p/A==
-X-Received: by 2002:a05:600c:4704:b0:49e:799e:c1c3 with SMTP id
- 5b1f17b1804b1-49fdf12d3dbmr12321785e9.17.1790138438843; Tue, 22 Sep 2026
- 21:40:38 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790139365; x=1790744165;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=o1SOesHNHdnwoiL8FAjnK92erd43AfuOxzvjh4ET6B0=;
+        b=FD7TGwhff0ONSBFNpk4RmdeFMY+EhHu6UrVjIu7Zc4qW6mMhZSJPHKRqHs5budsUTS
+         YiDiNYVuan4R0f9wKPrQpenZkjKm6QNZi7nfO10zcVGzI0u09Y19cqzXQ8v0GTF1ZZDh
+         h49w2eNQjj4BZEzELGMaVAD64mZRe8eOd5lkjLrg4URBoexqpjUwJHJiukLUTN3lcYys
+         bdqXVIq63r2SzJ5+lQ1LIY6qsCMgf35Z56DoiPAAUVcio8KENVKi1QfeSoNzbk4nl+vP
+         WnWCk63ZpyvNLKfiQ19wOzThKmagwN7ZuVIJe2KQvewJdfG4WJ7xss5Fil6UrqkGRdSP
+         LlrA==
+X-Forwarded-Encrypted: i=1; AKwUvBxwENSdSkafjBlcIP/9+DpJCTh+Z91gIqNxWAelaGWHEadWFsbzLxvEa/9LSwmtlzK/pZIS09NMGFo=@vger.kernel.org
+X-Gm-Message-State: AFuF++k3b/mMJJpWU+7URLh1w2yi1pDKO5i+E4J6P7ebskgLQLG25fxX
+	F7atG4h3IuodiOcsyrX/UHL9VHqsGVJo1wQrYuwMnG96YxRWbCCGOPqE
+X-Gm-Gg: AYBFou0gGQvikU0Khx+0j7ZOsBibhEXRFbgMba7vhwrAjgW98qx6Al0JZBfZkt3xwBe
+	f2KSODl8g0ZeCmZ81gXTlsp2hBmJeBteZoZtu6mIG3GPFhMKOzXYJCzXrktaMD6kB0d/y7DMx3B
+	BZoQ+opltWnBrJVp9aZpyEfCkXRjF0bPZHblaEfXaKYHquG+vfe8tpM/WlDq3NQkrCzMDJpTGhL
+	s/WU3aEFQZ3rBtt92o8GNFgCs0jaZNHgDHGv4O/x6M2IavjM39DaNvrw/CH2KgnpdNl4PdderKr
+	6ACxjcZ4RLHBlBAGfNbYAgtzHAN0E5PUyt2+vcCJu7ZpwDrqtynxjqpTZwTL9O5rEhK6y8f1IoJ
+	hBCAiPTcTBIzdHkaOMAJxUySB+bhzYOrBVKTZYyJAapRCnK9Sg6Adgw/OIm71UYrIm1zxt8y7dK
+	FiLUwGMkmDoqIVP8U35g7hK8efHYL6tIpgBatxwdVta1cwjm/qDFOQD/LO+OzQVjYNwznERmFnI
+	P4j
+X-Received: by 2002:a05:6a00:430d:b0:874:706d:9631 with SMTP id d2e1a72fcca58-87d1c9b91b2mr1467960b3a.35.1790139363769;
+        Tue, 22 Sep 2026 21:56:03 -0700 (PDT)
+Received: from localhost ([95.190.82.222])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87d1cec2d34sm664129b3a.14.2026.09.22.21.55.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 21:56:03 -0700 (PDT)
+From: Vladislav Zaharov <vladazaharova2018@gmail.com>
+To: dakr@kernel.org,
+	jhubbard@nvidia.com
+Cc: acourbot@nvidia.com,
+	aliceryhl@google.com,
+	ttabi@nvidia.com,
+	gary@garyguo.net,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Vladislav Zaharov <vladazaharova2018@gmail.com>
+Subject: [PATCH v5 0/3] gpu: nova-core: retain the GSP-RM log buffers
+Date: Wed, 23 Sep 2026 11:55:48 +0700
+Message-ID: <20260923045551.229259-1-vladazaharova2018@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260922070950.4173245-1-kunwu.chan@gmail.com>
- <20260922070950.4173245-4-kunwu.chan@gmail.com> <arI0bexTH7CL66Dc@MacBook-0RXW5>
-In-Reply-To: <arI0bexTH7CL66Dc@MacBook-0RXW5>
-From: KunWu Chan <kunwu.chan@gmail.com>
-Date: Wed, 23 Sep 2026 12:40:27 +0800
-X-Gm-Features: AclHuK_6rmoBk0Xrp8rz2DECfqwOHj3oChdP_Pi51R31FmxB0rmW3v9rvLOe0xk
-Message-ID: <CAN_Opa-B+ipfSyvzBCtJf7jbiKjBFT1i=-8y9LCj+dCiRh=Z_w@mail.gmail.com>
-Subject: Re: [RFC/WIP PATCH 3/4] rcuscale: add hazptr scale type
-To: Boqun Feng <boqun@kernel.org>
-Cc: stern@rowland.harvard.edu, parri.andrea@gmail.com, will@kernel.org, 
-	peterz@infradead.org, npiggin@gmail.com, dhowells@redhat.com, 
-	j.alglave@ucl.ac.uk, luc.maranget@inria.fr, paulmck@kernel.org, 
-	corbet@lwn.net, mingo@redhat.com, dave@stgolabs.net, josh@joshtriplett.org, 
-	frederic@kernel.org, neeraj.upadhyay@kernel.org, urezki@gmail.com, 
-	akiyks@gmail.com, dlustig@nvidia.com, joelagnelf@nvidia.com, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, longman@redhat.com, 
-	rostedt@goodmis.org, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, 
-	qiang.zhang@linux.dev, include@grrlz.net, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, lkmm@lists.linux.dev, linux-doc@vger.kernel.org, 
-	rcu@vger.kernel.org, lianux.mm@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 22, 2026 at 3:55=E2=80=AFPM Boqun Feng <boqun@kernel.org> wrote=
-:
->
-> On Tue, Sep 22, 2026 at 03:09:49PM +0800, Kunwu Chan wrote:
-> > Add hazptr reader and synchronize operations so that synchronize
-> > latency can be measured alongside RCU and SRCU.
-> >
-> > The read side acquires the hazard pointer in readlock() and holds
-> > it until readunlock(), matching the RCU/SRCU reader model.  The
-> > address of a static object serves as the synchronize target, which
-> > is stable and never reclaimed.  Both normal and expedited sync map
-> > to hazptr_synchronize(), since hazptr has no expedited concept.
-> >
-> > Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
-> > ---
-> >  kernel/rcu/rcuscale.c | 65 ++++++++++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 64 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/kernel/rcu/rcuscale.c b/kernel/rcu/rcuscale.c
-> > index 1097ec15879c..072ddf9526c3 100644
-> > --- a/kernel/rcu/rcuscale.c
-> > +++ b/kernel/rcu/rcuscale.c
-> > @@ -39,6 +39,7 @@
-> >  #include <linux/torture.h>
-> >  #include <linux/vmalloc.h>
-> >  #include <linux/rcupdate_trace.h>
-> > +#include <linux/hazptr.h>
-> >  #include <linux/sched/debug.h>
-> >
-> >  #include "rcu.h"
-> > @@ -418,6 +419,66 @@ static struct rcu_scale_ops tasks_tracing_ops =3D =
-{
-> >
-> >  #endif // #else // #ifdef CONFIG_TASKS_TRACE_RCU
-> >
-> > +#if IS_ENABLED(CONFIG_HAZPTR_TORTURE_TEST)
-> > +
-> > +static int hazptr_scale_obj; /* Stable, non-NULL, never reclaimed. */
->
-> You can probaly make hazptr_scale_obj an arrary, and let an updater
-> either randomly or round-robin select an object to wait, it'll reflect
-> better to a real world workload.
->
-> > +static void *hazptr_scale_ptr =3D &hazptr_scale_obj;
-> > +
-> > +struct hazptr_scale_state {
-> > +     struct hazptr_ctx ctx;
-> > +     void *addr;
-> > +};
-> > +static DEFINE_PER_CPU(struct hazptr_scale_state, hazptr_scale_state);
-> > +
-> > +static int hazptr_scale_read_lock(void)
-> > +{
-> > +     struct hazptr_scale_state *state =3D this_cpu_ptr(&hazptr_scale_s=
-tate);
-> > +
-> > +     preempt_disable();
->
-> I think you can drop the preempt_disable() and preempt_enable() below,
-> since the new hazptr_acquire()/hazptr_release() work without them (i.e.
-> the hazptr acquisition no longer requires preemption disable).
+The GSP-RM log buffers are exposed through debugfs, but the entries are
+owned by the Gpu that probe() builds, and the buffers themselves are DMA
+allocations that cannot outlive the device. They are therefore gone as
+soon as the GPU is unbound, and in particular as soon as probe() fails -
+which is the case todo.rst singled out, and the one where a GSP log is
+worth having.
 
-Thanks, Boqun. Both points make sense.
+Patch 1 gives the module data a DebugfsData that owns the debugfs root,
+replacing the static that held it. Patch 2 adds a gsp_keep_logs module
+parameter: when it is set, whatever the GSP wrote is copied into that
+same DebugfsData and exposed under a "retained" directory until the
+module is unloaded. Patch 3 drops the now completed task from todo.rst.
 
-I'll drop the explicit preempt_disable()/preempt_enable() and use an array =
-of
-objects with round-robin selection on the updater side.
+Changes since v4:
+ - no longer reset the pointer to the module data; debugfs_data() takes
+   the bound device and returns a reference tied to it, rather than an
+   Option<&'static> (Gary Guo)
+ - set the pointer from the module initializer, through the binding
+   pin-init makes for the initialized _debugfs field (Gary Guo). v4 said
+   pin-init gives no access to a pinned field there, which was wrong
+ - rebase onto current drm-rust-next
+ - reword comments that no longer matched the code, and use the current
+   Assisted-by format
 
-Thanks,
-Kunwu
+Testing was done on top of drm-rust-next with the TLV firmware images
+installed. On a GB203:
 
->
-> Regards,
-> Boqun
->
-> > +     state->addr =3D hazptr_acquire(&state->ctx, &hazptr_scale_ptr);
-> > +     return 0;
-> > +}
-> > +
-> > +static void hazptr_scale_read_unlock(int idx)
-> > +{
-> > +     struct hazptr_scale_state *state =3D this_cpu_ptr(&hazptr_scale_s=
-tate);
-> > +
-> > +     udelay(10);
-> > +     hazptr_release(&state->ctx, state->addr);
-> > +     preempt_enable();
-> > +}
-> > +
-> > +static unsigned long hazptr_scale_completed(void)
-> > +{
-> > +     return 0;
-> > +}
-> > +
-> > +static void hazptr_scale_sync(void)
-> > +{
-> > +     hazptr_synchronize(hazptr_scale_ptr);
-> > +}
-> > +
-> > +static void hazptr_scale_sync_exp(void)
-> > +{
-> > +     hazptr_synchronize(hazptr_scale_ptr);
-> > +}
-> > +
-> > +static struct rcu_scale_ops hazptr_scale_ops =3D {
-> > +     .ptype          =3D 0,
-> > +     .readlock       =3D hazptr_scale_read_lock,
-> > +     .readunlock     =3D hazptr_scale_read_unlock,
-> > +     .get_gp_seq     =3D hazptr_scale_completed,
-> > +     .gp_diff        =3D NULL,
-> > +     .sync           =3D hazptr_scale_sync,
-> > +     .exp_sync       =3D hazptr_scale_sync_exp,
-> > +     .name           =3D "hazptr",
-> > +};
-> > +
-> > +#define HAZPTR_SCALE_OPS &hazptr_scale_ops,
-> > +#else
-> > +#define HAZPTR_SCALE_OPS
-> > +#endif
-> > +
-> >  static unsigned long rcuscale_seq_diff(unsigned long new, unsigned lon=
-g old)
-> >  {
-> >       if (!cur_ops->gp_diff)
-> > @@ -1110,7 +1171,9 @@ rcu_scale_init(void)
-> >       long i;
-> >       long j;
-> >       static struct rcu_scale_ops *scale_ops[] =3D {
-> > -             &rcu_ops, &srcu_ops, &srcud_ops, TASKS_OPS TASKS_RUDE_OPS=
- TASKS_TRACING_OPS
-> > +             &rcu_ops, &srcu_ops, &srcud_ops,
-> > +             TASKS_OPS TASKS_RUDE_OPS TASKS_TRACING_OPS
-> > +             HAZPTR_SCALE_OPS
-> >       };
-> >
-> >       if (!torture_init_begin(scale_type, verbose))
-> > --
-> > 2.43.0
-> >
+  - with gsp_keep_logs unset, no "retained" directory is created and the
+    entries disappear on unbind, as before;
+  - with gsp_keep_logs=1, retained/<BDF>/{loginit,logintr,logrm} hold
+    the contents the live entries had, all 64 KiB of each readable;
+  - binding the GPU again recreates the live entries without disturbing
+    the copies, and unbinding it a second time replaces them, leaving
+    exactly one set behind;
+  - with a failure injected after the GSP has booted, probe() fails with
+    -EINVAL, the driver stays unbound, and the logs of that attempt are
+    still readable;
+  - with a failure injected into the Registration instead, the module
+    fails to load, leaves no debugfs directory behind, and the next load
+    comes up with its directory intact;
+  - the copies are released on module unload, and repeated load/unload
+    cycles leave nothing behind.
+
+The parameter does need a value: the Rust bool param ops do not set
+KERNEL_PARAM_OPS_FL_NOARG, so a bare gsp_keep_logs is refused, where the
+C bool would have taken it.
+
+No warnings, oopses or refcount complaints in dmesg throughout. Each
+patch builds on its own; built and checked with CLIPPY=1 and
+rustfmtcheck. checkpatch --strict is clean apart from the MAINTAINERS
+note for the new file, which is already covered by the existing
+"F: drivers/gpu/nova-core/" pattern.
+
+v4: https://lore.kernel.org/nova-gpu/20260913183734.134307-1-vladazaharova2018@gmail.com/
+v3: https://lore.kernel.org/nova-gpu/20260912071842.622696-1-vladazaharova2018@gmail.com/
+
+Vladislav Zaharov (3):
+  gpu: nova-core: move the debugfs root into the module data
+  gpu: nova-core: gsp: retain the GSP-RM log buffers after unbind
+  Documentation: nova: remove completed GSP log buffer task
+
+ Documentation/gpu/nova/core/todo.rst   |  12 --
+ drivers/gpu/nova-core/gsp.rs           | 100 ++--------
+ drivers/gpu/nova-core/gsp/logbuffer.rs | 247 +++++++++++++++++++++++++
+ drivers/gpu/nova-core/nova_core.rs     | 100 ++++++++--
+ 4 files changed, 347 insertions(+), 112 deletions(-)
+ create mode 100644 drivers/gpu/nova-core/gsp/logbuffer.rs
+
+
+base-commit: e1a9f41b896f0d57eb1165dd8a4c7446be6af638
+-- 
+2.55.0
+
