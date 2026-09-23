@@ -1,243 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5683E5A0E;
-	Wed, 23 Sep 2026 07:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58899455619
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790147666; cv=none; b=fSgef8xAuEUfIwllolwyt2Fy47fdf/D4b02ZsOQ9VDno9iOZfwFFfRogrS61GiuYxu4z5JaUCTi8LLJdaV1j33TT0YP7qbeL2Lzrf9Shr6GlIZcG/5Fm2eQ4gfc8d/wNICiFRiujPfMe7X3D7VwuU+3L1foKTcUr1Mi7S1h1ipE=
+	t=1790147837; cv=none; b=rbRO6xb/hlXgnE9WlR3s3m7ScONdHp+E2uqb97SjU232AuDCDop3vVtDCMlFA9jH04GYzBpcH9dYhX8uvVl4iWnCLTG+o5IyF5pL7SntGj6XLMXwEvj3iadftRoykcZDcGttv/71XaxLn3l3BFdxksH/qdaQwOgtDR44O+dIc0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790147666; c=relaxed/simple;
-	bh=CSVa/MCpQ9vQSzj78rrZ51fQNfZnk0K/GxWsuGQr/ZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LcguYiPHTt+1gLDWul9+r2t6kcgKNIb4T8ASt17JDFQI0fWqG/Bofv6a6aJLCXWm7zQmZNeF9KEFsOpsgaG0vuiHFo8d4ZX6f9WrRbuD0f+LqVXqEekUM/mfb/H3KX240Feae05CQHFoevB9Np6axj5jHgumt0aQFHtFIKatPEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LGAn7A/u; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790147837; c=relaxed/simple;
+	bh=D+232rAPUFAY970900su/sCsdSxvevGKQ55Kf8Cqu+8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IoWyZlHrMkvw9Ce1yUiTaLxMTQBduKSt5kSlpL6KCo8ZZG6F0IwTrAQ8VD09FhmqXGbI12veDOcIg+Oxefg3+9ALKoQJSntsxJhejg9vzsXOyIzcmLMA/Rn51y7Lj4R2UbsAa2vkx1boc5f7M+j2j3i5EcPhCkpPF94/mJRG8ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=daRdUgct; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LGAn7A/u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F5D21F000FF;
-	Wed, 23 Sep 2026 07:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790147665;
-	bh=eUbT4b8cpuhzpeO+5wvLG35IoWThWdBXchOpscPEUbo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LGAn7A/ufhqitMqo1pvJejNQDWdQFSBFm9O5wWGXBsgPApH8MsQd8GanjDi0vOklx
-	 JPgYDPGv92XgtwBRRfIxcfedlZc7mxw6avAAAZiYZAWCHR0kQGLCUYDlXWnt5v+Nih
-	 LrsMIAfrHao5oCPNM8rjGlCjqcZeY2jbCE7wVS3dd2Ur8Oq8OWK2URPvFmzGjgOGlU
-	 OE2f62zMcsXZqAtjnJkDBOw0xEMR4mVQwmtvwLDo9CW309HQIhS1xawhMcaQlXkyHd
-	 FYSeV6pMmios7JXgGp6FMQd67u3MhQvT3u9olACCz7hTHq7EBKXHgWba+J4ldFKNuc
-	 H9C4as6GwzkRg==
-Date: Wed, 23 Sep 2026 08:14:01 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett" <liam@infradead.org>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Guo Ren <guoren@kernel.org>, 
-	Brian Cain <bcain@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Simon Schuster <schuster.simon@siemens-energy.com>, 
-	Jonas Bonn <jonas@southpole.se>, Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, 
-	Stafford Horne <shorne@gmail.com>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Russell King <linux@armlinux.org.uk>, 
-	Vineet Gupta <vgupta@kernel.org>, Michal Simek <monstr@monstr.eu>, Chris Zankel <chris@zankel.net>, 
-	Max Filippov <jcmvbkbc@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Peter Zijlstra <peterz@infradead.org>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Richard Henderson <richard.henderson@linaro.org>, 
-	Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Helge Deller <deller@gmx.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Yoshinori Sato <ysato@users.sourceforge.jp>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
-	linux-openrisc@vger.kernel.org, linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org, linux-arch@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-alpha@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-s390@vger.kernel.org, linux-um@lists.infradead.org, Hugh Dickins <hughd@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 01/12] mm/khugepaged: deposit a newly allocated page
- table on collapse
-Message-ID: <arN7q5nHz7iebA_e@gremlin>
-References: <20260922-rcu-pagetable-freeing-v4-0-fe1ad1f1e303@kernel.org>
- <20260922-rcu-pagetable-freeing-v4-1-fe1ad1f1e303@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="daRdUgct"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790147833; x=1821683833;
+  h=date:from:to:cc:subject:message-id;
+  bh=D+232rAPUFAY970900su/sCsdSxvevGKQ55Kf8Cqu+8=;
+  b=daRdUgctob3AG0rmfLakwwCMouD+vF68Cuz3OdEsBe7TPQmQCGq78+g+
+   s341DTy4ebJFtGXcrFc6o8dlhfCJC6SlRVJLKonti75uNKqzCCl2eTckF
+   KphLyxNfUL2h1VY7CqxVd/5lxHcioraV4W7OKB3yxe67pnDntFnXaPP7h
+   n0XaazsItjffyo/eA0KYbH9qW5r9F4BDKwvQmshiqgy68Rair+63U5ELu
+   ioSfiwEdxO/NVRTv3yKE2dbm/x+oYqKwpNPwJ8yxNQ/ulTAjaJGbJvt6a
+   SWNDymN63Cqsn2/Epq9go9zYcbWFaMgIunhTQ3gcdPqiAmyC7Z9f0xnUW
+   g==;
+X-CSE-ConnectionGUID: gPdAhC28TeS9hGGfyl4rNQ==
+X-CSE-MsgGUID: cPW5DfluRIaigRIAvQPf9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="78367447"
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="78367447"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 00:17:10 -0700
+X-CSE-ConnectionGUID: cX743mNNSc21RLy7bIaAww==
+X-CSE-MsgGUID: w7skAU2bRp6sWO12y6H+bQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="299723891"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 23 Sep 2026 00:17:09 -0700
+Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9HE3-000000000Z1-0YYa;
+	Wed, 23 Sep 2026 07:17:07 +0000
+Date: Wed, 23 Sep 2026 09:17:01 +0200
+From: kernel test robot <lkp@intel.com>
+To: Petar Stepanovic <pstepanovic@axiado.com>
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
+ linux-doc@vger.kernel.org
+Subject: [groeck-staging:hwmon-next 67/69] htmldocs:
+ Documentation/hwmon/index.rst:19: WARNING: toctree contains reference to
+ nonexisting document 'hwmon/axiado-pwm-fan' [toc.not_readable]
+Message-ID: <202609230904.aIWyLsSt-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260922-rcu-pagetable-freeing-v4-1-fe1ad1f1e303@kernel.org>
 
-Andrew - would it be possible to make one quick fix up below?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+head:   bf92ea2a46120fd0809f24d39ad3482d0f20876b
+commit: 2d52742f408f7da7a76abed123f1a7b737eabc41 [67/69] hwmon: add Axiado AX3000 and AX3005 PWM fan controller driver
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260923/202609230904.aIWyLsSt-lkp@intel.com/reproduce)
 
-On Tue, Sep 22, 2026 at 04:35:32PM +0100, Lorenzo Stoakes (ARM) wrote:
-> collapse_huge_page() deposits a PTE page table on PMD collapse in order
-> that it can be utilised for subsequent split operations, meaning that those
-> operations do not need to perform an allocation (as they are in a context
-> where it might be unwise).
->
-> However the PTE page table which is deposited is the one which is currently
-> mapped by the PMD entry that is in the process of being collapsed.
->
-> Once deposited, the PTE page table may be used in a split of any other
-> unrelated PMD entry.
->
-> This is currently not an issue as this operation is performed with VMA/mmap
-> write lock + anon rmap locks held, so ordinary page table walkers will
-> never accidentally end up walking the wrong thing, and GUP-fast is
-> protected by an IPI via tlb_remove_table_sync_one().
->
-> However, the series to which this commit belongs implements RCU-safe page
-> table traversal, at which point this becomes problematic.
->
-> This can be resolved by using pte_offset_map_lock() which gates on a PTE
-> PTL and a pmd_same() check, but lockless walks are unsafe as things stand.
->
-> Resolve this by simply allocating a new, zeroed, PTE page table to deposit
-> at the point of collapse.
->
-> This path is already costly and an allocation has already been performed
-> for the huge folio, so this allocation is statistical noise in terms of
-> performance and memory usage at this point.
->
-> With this PTE page table deposited, RCU-free the existing PTE page table
-> so it is safe for page table walkers to traverse within a grace period.
->
-> This also brings this deposit case in line with all other page table
-> deposit logic which deposit a fresh page table.
->
-> Additionally, this was the only place in the kernel that displaced a page
-> table like this, so eliminating it also helps consistency.
->
-> An edge case for deposit exists for powerpc and its hash-based MMU - it
-> stores hash slot data in deposited page tables and zeroes them on withdraw,
-> so a zeroed deposited page table works correctly for it.
->
-> Since khugepaged runs as a kernel thread, do a little dance in
-> alloc_deposit_pte() to correctly charge the allocation.
->
-> This is already done for the folio allocation via alloc_charge_folio() but
-> no such wrapper exists for a page table allocation.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  mm/khugepaged.c | 32 ++++++++++++++++++++++++++++++--
->  1 file changed, 30 insertions(+), 2 deletions(-)
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index f49a6710933b..dab421f8233e 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -1278,6 +1278,23 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
->  	return SCAN_SUCCEED;
->  }
->
-> +static pgtable_t alloc_deposit_pte(struct mm_struct *mm)
-> +{
-> +	/*
-> +	 * khugepaged is run from a kernel thread, so need to manually set the
-> +	 * correct memcg so the allocation gets charged correctly.
-> +	 */
-> +	struct mem_cgroup *memcg = get_mem_cgroup_from_mm(mm);
-> +	struct mem_cgroup *old_memcg = set_active_memcg(memcg);
-> +	pgtable_t pgtable;
-> +
-> +	pgtable = pte_alloc_one(mm);
-> +
-> +	set_active_memcg(old_memcg);
-> +	mem_cgroup_put(memcg);
-> +	return pgtable;
-> +}
-> +
->  /*
->   * collapse_huge_page() expects the mmap_lock to be unlocked before entering and
->   * will always return with the lock unlocked, to avoid holding the mmap_lock
-> @@ -1293,7 +1310,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
->  	LIST_HEAD(compound_pagelist);
->  	pmd_t *pmd, _pmd;
->  	pte_t *pte = NULL;
-> -	pgtable_t pgtable;
-> +	pgtable_t pgtable = NULL;
->  	struct folio *folio;
->  	spinlock_t *pmd_ptl, *pte_ptl;
->  	enum scan_result result = SCAN_FAIL;
-> @@ -1310,6 +1327,12 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
->  		goto out_nolock;
->  	}
->
-> +	if (is_pmd_order(order)) {
-> +		pgtable = alloc_deposit_pte(mm);
-> +		if (!pgtable)
-> +			goto out_nolock;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609230904.aIWyLsSt-lkp@intel.com/
 
-Fixup is here:
+All warnings (new ones prefixed by >>):
 
--		if (!pgtable)
--			goto out_nolock;
-+		if (!pgtable) {
-+			result = SCAN_ALLOC_HUGE_PAGE_FAIL;
-+			goto out_nolock;
-+		}
+   Runtime Survivability
+   ===================== [docutils]
+>> Documentation/hwmon/index.rst:19: WARNING: toctree contains reference to nonexisting document 'hwmon/axiado-pwm-fan' [toc.not_readable]
+   Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
 
-Thanks!
 
-> +	}
-> +
->  	mmap_read_lock(mm);
->  	result = hugepage_vma_revalidate(mm, pmd_addr, /*expect_anon=*/ true,
->  					 &vma, cc, order);
-> @@ -1433,8 +1456,8 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
->  	spin_lock(pmd_ptl);
->  	VM_WARN_ON_ONCE(!pmd_none(*pmd));
->  	if (is_pmd_order(order)) {
-> -		pgtable = pmd_pgtable(_pmd);
->  		pgtable_trans_huge_deposit(mm, pmd, pgtable);
-> +		pgtable = NULL;
->  		map_anon_folio_pmd_nopf(folio, pmd, vma, pmd_addr);
->  	} else {
->  		/*
-> @@ -1453,6 +1476,9 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
->  	}
->  	spin_unlock(pmd_ptl);
->
-> +	if (is_pmd_order(order))
-> +		pte_free_defer(mm, pmd_pgtable(_pmd));
-> +
->  	folio = NULL;
->
->  	result = SCAN_SUCCEED;
-> @@ -1463,6 +1489,8 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
->  		anon_vma_unlock_write(vma->anon_vma);
->  	mmap_write_unlock(mm);
->  out_nolock:
-> +	if (pgtable)
-> +		pte_free(mm, pgtable);
->  	if (folio)
->  		folio_put(folio);
->  	trace_mm_collapse_huge_page(mm, result == SCAN_SUCCEED, result, order);
->
-> --
-> 2.55.0
->
+vim +19 Documentation/hwmon/index.rst
+
+7ebd8b66dd9e5a Mauro Carvalho Chehab 2019-04-17  18  
+7ebd8b66dd9e5a Mauro Carvalho Chehab 2019-04-17 @19  .. toctree::
+
+:::::: The code at line 19 was first introduced by commit
+:::::: 7ebd8b66dd9e5a0b65e5ee5e2b8e7ca382ec97b7 docs: hwmon: Add an index file and rename docs to *.rst
+
+:::::: TO: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+:::::: CC: Guenter Roeck <linux@roeck-us.net>
 
 --
-Cheers, Lorenzo
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
