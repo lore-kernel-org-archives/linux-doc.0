@@ -1,57 +1,57 @@
-Received: from mta0.migadu.com (out-247.mta0.migadu.com [91.218.175.247])
+Received: from mta1.migadu.com (out-36.mta1.migadu.com [95.215.58.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97E8248F64
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 11:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.247
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0974A0135
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 11:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790161557; cv=none; b=PHWpDxgtVr8KYb3yXmEs6F9VYmZ3U5ohCH96gg/4eAA5khM3oWbJ0Qw9BB/0Hb99R1DCbCS0LPBu9CNH3uCjPhcM+0XrcAYfMiZDg8AmmUUiMthnSxsP9wMuZUlzf/70oLpR2tlLJ3np3/C2qaW/EXk9170JtgRzGA01/qLkDQQ=
+	t=1790161697; cv=none; b=Vghpo1AADomRljL+l/5A3iOrkZTIXIHjwY5whPy0YUUfoOhfmeioBGE2ReT5KD40o+zZIEsoWPlfGR6csVJkUU7Tva3fDRarNT2aGA5enyBsnOhgWVt/tIsyVufwt2fwKEI1VrJ33QlMuKXNO3FpUn/JzK1KVlJSqIvc7zne5uM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790161557; c=relaxed/simple;
-	bh=kHep/UoJdFlSFtMOk5eTsBvsgTZFrj+duqNAdJba03Y=;
+	s=arc-20240116; t=1790161697; c=relaxed/simple;
+	bh=IOAKMmCBlI6Y5ADecDu+BXYPFKPVLUehlx/wlSNc7CU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GMK1r9zBiKPZvMa2USTAPgewlC8mn+0OOed12gEWNedUt5ShirR+MbhdgvtNjAh5z3Yl92NJmHncDY3R2tHvyVsmuD/ZdtQGAzTzSQ9a2dt3mC1cobIUQx9m4hPo0GAmwDaY8LxAfoI2SpiGetc7LdvceayfNRdPyleVUONaixw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UXarCcHo; arc=none smtp.client-ip=91.218.175.247
+	 To:Cc:Content-Type; b=dVlip6t4KMXvnzOiNX3nSc8xTMjd8rFn0MGWBF+cECRtz7OJ0bgXGworvIw8NffQzrQrQmRN9gHSgxh0qrvMUelR9qcCn7EqqB2vq45u0CBDXTsRFmq4hgBQHdAKHAcLORsh5W/lFJTFyow3dNa0W4OyMvE4ZRWHKtGcgIJe2w8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sMA7Z81l; arc=none smtp.client-ip=95.215.58.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UXarCcHo"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sMA7Z81l"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=kHep/UoJdFlSFtMOk5eTsBvsgTZFrj+duqNAdJba03Y=;
+DKIM-Signature: a=rsa-sha256; bh=IOAKMmCBlI6Y5ADecDu+BXYPFKPVLUehlx/wlSNc7CU=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790161545; v=1; x=1790766345;
- b=UXarCcHoAaZK6KM8Xc9YqQ/OQNjmJ6SYJVQSZ7gR87mpqSH0exoKTq8YlW3JNOTaCCU+5B51
- OzIH5YocwNfOkryOCyUqvNinlTQ0Pa91SMp+LOWM1lxj0mwl5UTxbLF+Qs2fK6e+X1+fO9ddAxQ
- TkzKWqFKpYqAluvTerar57oE=
+ t=1790161694; v=1; x=1790766494;
+ b=sMA7Z81ll7A33GBbRbD8avtyzEtZhqJ1xq3Wl6DmzE9okB28u9wwTqxfQIv+WTd2HkFf9XcL
+ AnxL+KSAYKvaCM77yV1LIUh9UXGywU4W1Pq0hL7fDHfKvkDfDDVpeHbvz/N3FBWR2zhFl/IZYfJ
+ B7JqfstjXvuF9q/dzH3HUZbc=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 6a1daa1bd792e7e6;
-	Wed, 23 Sep 2026 11:05:44 +0000
-X-Mizu-Trace-ID: 6a1daa1bd792e7e6
+Received: by smtp.migadu.com with ESMTPS id 04d341384fd02f0e;
+	Wed, 23 Sep 2026 11:08:13 +0000
+X-Mizu-Trace-ID: 04d341384fd02f0e
 X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b8c42da963so5322e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 04:05:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByNyjdQMj6wsEmQiCNg95t1c0W6wM4AoFTaPr7d5TbBurebwNzZcLRcBmoc53w0yvcHxplk8YjBOAw=@vger.kernel.org
-X-Gm-Message-State: AFuF++netSOt0xOY4XSosJtYGL7alhVlMgh2b2cit/p3qDr83dNT6v4/
-	aQo2vlfw50z3ibyayZuoGmR5Yocg/45s7HsIDoY6a4a6C7PHL9XUSLIgJ0Km+4ihMJSq9SUN8PU
-	EdrHqVkWj4gHN6r3iGLZYD916IJJCqJBrT3sC9ICv
-X-Received: by 2002:ac2:4c54:0:b0:5b8:cc2e:2fe6 with SMTP id
- 2adb3069b0e04-5b8d915cbe7mr97644e87.5.1790161539952; Wed, 23 Sep 2026
- 04:05:39 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b83c1421ecso4542e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 04:08:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBx2roI93DKp0MsTNYK+hFPqWH67jGsLaoNeE9GxBARRIMt92Ecm7pOtQOZfIbtUM3q+YyogkbRUAh8=@vger.kernel.org
+X-Gm-Message-State: AFuF++n25cQkSaPtKqm6UiOHTmUo3x5kNUYHj8d6ivcsXyOUPE1bAOUQ
+	fRDRyNS+i8u4I+SPCTaCTXNlDcxgYmwlNL6bdYGIjUHHkiIrxTsAjPKJ+O2kjyVi7X4/6zfYXKI
+	RDs1Cp3X5BlhTF3eOnVIjU3joVeR5bgozzTlvfPDH
+X-Received: by 2002:a05:6512:648a:b0:5b6:4ad:d6ba with SMTP id
+ 2adb3069b0e04-5b8d91673a2mr102638e87.15.1790161689001; Wed, 23 Sep 2026
+ 04:08:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org> <20260922-kvm-arm-prefault-v3-8-787bd3bc7e3f@kernel.org>
-In-Reply-To: <20260922-kvm-arm-prefault-v3-8-787bd3bc7e3f@kernel.org>
+References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org> <20260922-kvm-arm-prefault-v3-9-787bd3bc7e3f@kernel.org>
+In-Reply-To: <20260922-kvm-arm-prefault-v3-9-787bd3bc7e3f@kernel.org>
 From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Wed, 23 Sep 2026 12:05:03 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTwSRAGe4iP2E2V=b+baQ_GRYpYoNzJSft385m9E5RvEMg@mail.gmail.com>
-X-Gm-Features: AcwNN1Xp8lA6R1poRNOfE-88mv5Px32o87Y3m3XsUHw9H9Pq7uMPdjPzqDpKw3o
-Message-ID: <CA+EHjTwSRAGe4iP2E2V=b+baQ_GRYpYoNzJSft385m9E5RvEMg@mail.gmail.com>
-Subject: Re: [PATCH v3 08/14] KVM: arm64: Propagate EHWPOISON in kvm_s2_fault_pin_pfn()
+Date: Wed, 23 Sep 2026 12:07:32 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTzY6KFekqaUX4RLRyFmSkFhOeWDZE4LjBF6owdLM8oHhw@mail.gmail.com>
+X-Gm-Features: AcwNN1USJQu0cBxPqG4Fa3XJmPPBE73PzJ6UtD9si6PNBcHUySSR3TM9mD5mIUk
+Message-ID: <CA+EHjTzY6KFekqaUX4RLRyFmSkFhOeWDZE4LjBF6owdLM8oHhw@mail.gmail.com>
+Subject: Re: [PATCH v3 09/14] KVM: arm64: Pass walk flags to kvm_pgtable_get_leaf()
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
 	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
@@ -70,69 +70,28 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Tue, 22 Sept 2026 at 15:19, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
 >
-> Currently kvm_s2_fault_pin_pfn() handles a poisoned page directly by
-> sending a SIGBUS signal itself.
+> From: Jack Thomson <jackabt@amazon.com>
 >
-> This is an odd place to do it, the caller should decide what to do with
-> errors, so move the handling to the sole caller, user_mem_abort().
+> Allow callers of kvm_pgtable_get_leaf() to specify the page-table walk
+> flags, in preparation for performing walks under the MMU read lock.
 >
-> This lays the foundation for stage 2 pre-faulting which, arising from a
-> synthetic fault, should not send a signal.
+> Reading a stage-2 leaf while only holding the read lock requires
+> KVM_PGTABLE_WALK_SHARED: parallel faults (which also only hold the read
+> lock) can unlink table pages and free them via RCU, so the walker must
+> be inside an RCU read-side critical section, which the shared walk flag
+> provides via kvm_pgtable_walk_begin().
 >
-> In order to do so, check to see if user_mem_abort()'s caller has set result
-> - i.e. whether it wants to be informed about the outcome of the fault
-> handling.
->
-> If it does, then it is implied that it should handle the -EHWPOISON error
-> itself. This is the case for pre-faulting.
->
-> Otherwise this is real hardware, so send the signal.
+> All existing callers either hold the write lock, walk with interrupts
+> disabled, or run at hyp where shared walks are rejected; they keep the
+> current behaviour by passing no flags.
 >
 > No functional change intended.
 >
+> Signed-off-by: Jack Thomson <jackabt@amazon.com>
+> [ljs: fixup new kvm_pgtable_get_leaf() invocation]
 > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
 Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
 
 Cheers,
 /fuad
-
-> ---
->  arch/arm64/kvm/mmu.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index 221ea069f9bb..2576b967d20e 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -2016,10 +2016,8 @@ static int kvm_s2_fault_pin_pfn(const struct kvm_s2_fault_desc *s2fd,
->                                       kvm_s2_fault_is_write(s2fd) ? FOLL_WRITE : 0,
->                                       &s2vi->map_writable, &s2vi->page);
->         if (unlikely(is_error_noslot_pfn(s2vi->pfn))) {
-> -               if (s2vi->pfn == KVM_PFN_ERR_HWPOISON) {
-> -                       kvm_send_hwpoison_signal(s2fd->hva, __ffs(s2vi->vma_pagesize));
-> -                       return 0;
-> -               }
-> +               if (s2vi->pfn == KVM_PFN_ERR_HWPOISON)
-> +                       return -EHWPOISON;
->                 return -EFAULT;
->         }
->
-> @@ -2261,6 +2259,13 @@ static int user_mem_abort(const struct kvm_s2_fault_desc *s2fd,
->          * get block mapping for device MMIO region.
->          */
->         ret = kvm_s2_fault_pin_pfn(s2fd, &s2vi);
-> +       if (ret == -EHWPOISON) {
-> +               /* If result is specified, let the caller handle this. */
-> +               if (result)
-> +                       return -EHWPOISON;
-> +               kvm_send_hwpoison_signal(s2fd->hva, __ffs(s2vi.vma_pagesize));
-> +               return 0;
-> +       }
->         if (ret != 1)
->                 return ret;
->
->
-> --
-> 2.55.0
->
