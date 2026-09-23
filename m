@@ -1,103 +1,270 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D92D363C53;
-	Wed, 23 Sep 2026 01:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481CC3803D1
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 02:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790128533; cv=none; b=HwZrarpjtPF3yQbtAP+0pls8TcwXjooQZmMZZuQHGcfF97B3h4WUNAodsgWyuY6xWtsi6RKtGBqq7PvWPpIa1mpY5QFD0uze2viPSkYT51ttBn1E0ieXuF945xAORZCKZHus1NPNcoLbD0XiXKlDQBAfhvxoC4uRQf/KkElz9EY=
+	t=1790130293; cv=none; b=Kf7W9g7xAOgEZO0uBFuKqmg4ziFy5UQ4Rp7Ehbt6+xUnKVobdPsKz41xkaVkGGulL0HhqErNtskv3+KixT9+v23ehN4Va63nSmUNX2JwAORCEdk6v8lgRJf6nY9kDs7Hi5D5Lf0YZclZwd51LCuY1rsQBLYPolKm7JsCuApDB3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790128533; c=relaxed/simple;
-	bh=0iCFEQlm1p8Fr5jcnQVVzaPOt23XyT2joxzszaHHzOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KrBYWDA1kAQeD54OfQO0Yfw2UPo66Lw3Y65xnYiyMeq919l65bHYUSG9yTCYryIJJHJotJ68X2M/LKa+ETF4MVF9fKbAvmy3fnU25qS6JKuQkJUnBHOwZLRJXd8lz7+MI4NGU++J9dU8TK8e7Z5/jfdX+nlJLKxkLUfsuG+Nlhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d10FBC8J; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790130293; c=relaxed/simple;
+	bh=d3FVAdMqEDWFoCMHxuxCTxk+fOdRBfvFdCrMB1cIOo0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JNhbX1khfnQkp0ScgX9/2G0ccoX8Y84yYXT1ggs3U1PxXnQC/ZQ20Wdkh9zUQ9dPzRHqhu/Mpr/dI4ecMDAkaCITfWcsaIZcCkNTVmMbBli2w9CCL24tL6P0mQzt2FUSldD3r5VKe3HDq04Rlt5NpiiIaJgI9GRJmGusb23rxxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=S0JPaK8M; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d10FBC8J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B07411F000FF;
-	Wed, 23 Sep 2026 01:55:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790128532;
-	bh=X+dyIOnJDxtCFBSI269Uh2sL2tF0Fhcw4ura3+Ar5q8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=d10FBC8JthFkSm3LXDMRoCpjw96umUoAMYYErFFBLSJL7E3jKlvFC0h6b5GJNMF4O
-	 NJx3ExCevp48xoOTACLsO+Zyk+xoPbY7b040RB3Sv4dgKeJcJNvj8+hNqyPkSjvD2Z
-	 ar7Wc8rIHt0YpXGhmHK5YMQX0dqPFqMXOAz5xolcnkzCsoVC8JsIVMZcN5ZdswDiTE
-	 Q1sSKKyHepASa7KV9NreTCyDv17S6jFSeTCDdm1z9BIBV15t4enQyVsI7IraO+FfTh
-	 jtd6FAP1xtmEHYVe+hZ4wTR8SzUNr2prLZhQF4PpH8hY6BKL9zURfCrUFeiixz9046
-	 BCO283Zfna5oQ==
-Date: Wed, 23 Sep 2026 02:55:22 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Kees Cook
- <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH v10 04/17] iio: add IIO_FREQUENCY channel type
-Message-ID: <20260923025522.49b10c08@jic23-hlaptop>
-In-Reply-To: <bukynp5qvtqf5jgqnxzxesvt5vimm3i3lvqrwmffc7fecjnabx@rqyeho7v5cnn>
-References: <20260729-ad9910-iio-driver-v10-0-aa1f6167729e@analog.com>
-	<20260729-ad9910-iio-driver-v10-4-aa1f6167729e@analog.com>
-	<xevuqaudwm4hpnhbful263yx6r45liuch6yc7xjk2i7wly3oxo@xe2htu27rkl7>
-	<bukynp5qvtqf5jgqnxzxesvt5vimm3i3lvqrwmffc7fecjnabx@rqyeho7v5cnn>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="S0JPaK8M"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=d3FVAdMqEDWFoCMHxuxCTxk+fOdRBfvFdCrMB1cIOo0=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790130289; v=1; x=1790735089;
+ b=S0JPaK8MIhSPdzrFd8O1FHA5Cq5YKlsna0QvQevShHDdePyofPnQCE+Zb/236S+PypChHKQ5
+ mAVHx0J23LDUiW42n8G4cC7jaCEpJqFv6gXsG4J/TrSLU2n8QClX+Eriwk/uSt1rJRVSB6UvqVP
+ 5WHMMEJerJEviYHfmoMjgyPA=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id b86f8e4163d69484;
+	Wed, 23 Sep 2026 02:24:43 +0000
+X-Mizu-Trace-ID: b86f8e4163d69484
+X-Migadu-Flow: FLOW_OUT
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	nico.pache@linux.dev,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	usama.arif@linux.dev,
+	kas@kernel.org,
+	guoren@kernel.org,
+	bcain@kernel.org,
+	geert@linux-m68k.org,
+	dinguyen@kernel.org,
+	schuster.simon@siemens-energy.com,
+	jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi,
+	shorne@gmail.com,
+	dalias@libc.org,
+	glaubitz@physik.fu-berlin.de,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	linux@armlinux.org.uk,
+	vgupta@kernel.org,
+	monstr@monstr.eu,
+	chris@zankel.net,
+	jcmvbkbc@gmail.com,
+	will@kernel.org,
+	aneesh.kumar@kernel.org,
+	npiggin@gmail.com,
+	peterz@infradead.org,
+	davem@davemloft.net,
+	andreas@gaisler.com,
+	richard.henderson@linaro.org,
+	mattst88@gmail.com,
+	linmag7@gmail.com,
+	catalin.marinas@arm.com,
+	mark.rutland@arm.com,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	tsbogend@alpha.franken.de,
+	James.Bottomley@HansenPartnership.com,
+	deller@gmx.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	chleroy@kernel.org,
+	hca@linux.ibm.com,
+	gor@linux.ibm.com,
+	agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com,
+	svens@linux.ibm.com,
+	richard@nod.at,
+	anton.ivanov@cambridgegreys.com,
+	johannes@sipsolutions.net,
+	tglx@kernel.org,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	arnd@arndb.de,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jgg@ziepe.ca,
+	jhubbard@nvidia.com,
+	peterx@redhat.com,
+	ysato@users.sourceforge.jp,
+	shakeel.butt@linux.dev,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arch@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-alpha@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-s390@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	hughd@google.com,
+	qi.zheng@linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 01/12] mm/khugepaged: deposit a newly allocated page table on collapse
+Date: Wed, 23 Sep 2026 10:24:36 +0800
+Message-ID: <20260923022436.61930-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20260922-rcu-pagetable-freeing-v4-1-fe1ad1f1e303@kernel.org>
+References: <20260922-rcu-pagetable-freeing-v4-1-fe1ad1f1e303@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 22 Sep 2026 17:07:45 +0100
-Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
 
-> On 22/09/26 16:56, Rodrigo Alencar wrote:
-> > esOn 29/07/26 09:25, Rodrigo Alencar via B4 Relay wrote:  
-> > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > > 
-> > > Add IIO_FREQUENCY channel type to support Direct Digital Synthesizer (DDS)
-> > > devices that handles frequency values written directly to its buffered
-> > > interface.  
-> > 
-> > ...
-> >   
-> > > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > > ---
-> > >  drivers/iio/industrialio-core.c | 1 +
-> > >  include/uapi/linux/iio/types.h  | 1 +
-> > >  tools/iio/iio_event_monitor.c   | 2 ++
-> > >  3 files changed, 4 insertions(+)
-> > > 
-> > > diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
-> > > index bdf3d4c06331..a45277bc5d99 100644
-> > > --- a/drivers/iio/industrialio-core.c
-> > > +++ b/drivers/iio/industrialio-core.c
-> > > @@ -99,6 +99,7 @@ static const char * const iio_chan_type_name_spec[] = {
-> > >  	[IIO_ATTENTION] = "attention",
-> > >  	[IIO_ALTCURRENT] = "altcurrent",
-> > >  	[IIO_COVERAGE] = "coverage",
-> > > +	[IIO_FREQUENCY] = "frequency",  
-> > 
-> > Hi Jonathan,
-> > 
-> > Thanks for not giving up on this one! Taking a look at the testing branch,
-> > I think this line was dropped during the rebase (addressing a conflict)  
-Fixed up. Build test just running. Thanks!
+On Tue, Sep 22, 2026 at 04:35:32PM +0100, Lorenzo Stoakes (ARM) wrote:
+>collapse_huge_page() deposits a PTE page table on PMD collapse in order
+>that it can be utilised for subsequent split operations, meaning that those
+>operations do not need to perform an allocation (as they are in a context
+>where it might be unwise).
+>
+>However the PTE page table which is deposited is the one which is currently
+>mapped by the PMD entry that is in the process of being collapsed.
+>
+>Once deposited, the PTE page table may be used in a split of any other
+>unrelated PMD entry.
+>
+>This is currently not an issue as this operation is performed with VMA/mmap
+>write lock + anon rmap locks held, so ordinary page table walkers will
+>never accidentally end up walking the wrong thing, and GUP-fast is
+>protected by an IPI via tlb_remove_table_sync_one().
+>
+>However, the series to which this commit belongs implements RCU-safe page
+>table traversal, at which point this becomes problematic.
+>
+>This can be resolved by using pte_offset_map_lock() which gates on a PTE
+>PTL and a pmd_same() check, but lockless walks are unsafe as things stand.
+>
+>Resolve this by simply allocating a new, zeroed, PTE page table to deposit
+>at the point of collapse.
+>
+>This path is already costly and an allocation has already been performed
+>for the huge folio, so this allocation is statistical noise in terms of
+>performance and memory usage at this point.
+>
+>With this PTE page table deposited, RCU-free the existing PTE page table
+>so it is safe for page table walkers to traverse within a grace period.
+>
+>This also brings this deposit case in line with all other page table
+>deposit logic which deposit a fresh page table.
+>
+>Additionally, this was the only place in the kernel that displaced a page
+>table like this, so eliminating it also helps consistency.
+>
+>An edge case for deposit exists for powerpc and its hash-based MMU - it
+>stores hash slot data in deposited page tables and zeroes them on withdraw,
+>so a zeroed deposited page table works correctly for it.
+>
+>Since khugepaged runs as a kernel thread, do a little dance in
+>alloc_deposit_pte() to correctly charge the allocation.
+>
+>This is already done for the folio allocation via alloc_charge_folio() but
+>no such wrapper exists for a page table allocation.
+>
+>Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>---
+> mm/khugepaged.c | 32 ++++++++++++++++++++++++++++++--
+> 1 file changed, 30 insertions(+), 2 deletions(-)
+>
+>diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>index f49a6710933b..dab421f8233e 100644
+>--- a/mm/khugepaged.c
+>+++ b/mm/khugepaged.c
+>@@ -1278,6 +1278,23 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
+> 	return SCAN_SUCCEED;
+> }
 > 
-> btw, now that we are at this again, it crossed my mind...
-> Is it fine to have a channel named the same way an attribute may be named?
-> wonder if userspace tools could get confused.
-I don't think so as they should be dealing with the ordering of different things
-and we will always have a channel type before a modifier.
+>+static pgtable_t alloc_deposit_pte(struct mm_struct *mm)
+>+{
+>+	/*
+>+	 * khugepaged is run from a kernel thread, so need to manually set the
+>+	 * correct memcg so the allocation gets charged correctly.
+>+	 */
+>+	struct mem_cgroup *memcg = get_mem_cgroup_from_mm(mm);
+>+	struct mem_cgroup *old_memcg = set_active_memcg(memcg);
+>+	pgtable_t pgtable;
+>+
+>+	pgtable = pte_alloc_one(mm);
+>+
+>+	set_active_memcg(old_memcg);
+>+	mem_cgroup_put(memcg);
+>+	return pgtable;
+>+}
+>+
+> /*
+>  * collapse_huge_page() expects the mmap_lock to be unlocked before entering and
+>  * will always return with the lock unlocked, to avoid holding the mmap_lock
+>@@ -1293,7 +1310,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
+> 	LIST_HEAD(compound_pagelist);
+> 	pmd_t *pmd, _pmd;
+> 	pte_t *pte = NULL;
+>-	pgtable_t pgtable;
+>+	pgtable_t pgtable = NULL;
+> 	struct folio *folio;
+> 	spinlock_t *pmd_ptl, *pte_ptl;
+> 	enum scan_result result = SCAN_FAIL;
+>@@ -1310,6 +1327,12 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
+> 		goto out_nolock;
+> 	}
+> 
+>+	if (is_pmd_order(order)) {
+>+		pgtable = alloc_deposit_pte(mm);
+>+		if (!pgtable)
+>+			goto out_nolock;
 
-Jonathan
+One small thing: result is still SCAN_SUCCEED after alloc_charge_folio(),
 
->  
+	result = alloc_charge_folio(&folio, mm, cc, order);
+	if (result != SCAN_SUCCEED)
+		goto out_nolock;
 
+	if (folio_memcg_alloc_deferred(folio)) {
+		result = SCAN_ALLOC_HUGE_PAGE_FAIL;
+		goto out_nolock;
+	}
+
+	if (is_pmd_order(order)) {
+		pgtable = alloc_deposit_pte(mm);
+		if (!pgtable)
+			goto out_nolock;
+	}
+
+so if alloc_deposit_pte() fails, collapse_huge_page() returns success
+without installing a PMD.
+
+I see sashiko pointed that out too :)
+
+Cheers, Lance
