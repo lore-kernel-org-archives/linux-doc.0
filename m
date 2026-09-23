@@ -1,70 +1,70 @@
-Received: from mail-oo2-f40.google.com (mail-oo2-f40.google.com [74.125.231.168])
+Received: from mail-oi2-f43.google.com (mail-oi2-f43.google.com [74.125.231.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07FDF58496F
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 22:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3A1584973
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 22:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790202915; cv=none; b=ITDZuUrNa8vKMKuWipyCtFpDUB0nuHDsmOwlK/O3FKgwFlNtuNtb7PWQiF+Q1Gz+oK0hrVx3WYtZWpz/+C1HUkzHK8asjte1ntOTYZ4BUWGaQXcoVjoHTlYjTa1yFCmJ40PDZkX8L+JjwfAW4xCIr+fKytxjblCDM+Rfu2FaoHw=
+	t=1790202915; cv=none; b=ZjMHpMO9w+d6ompzX3/NufaxWjBNEWNdBgXGpXl6jfSq8RVxfdSeS62hfhs7VmwpXB4JBR79rousRPEFCDUlExAA4lRn0JEeXuP91nvI6XXEEXYCeHZ9GFVMkhW+VflcEj8M7flFbmmp1TjL1jddt3WmkmBuIguiQ4I5+8Olv/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790202915; c=relaxed/simple;
-	bh=9lUeEUf43O4OsPSjpghThL5idlm8fYFS7L4pUake46s=;
+	bh=PHoWIplF+5KumvZl2vjWPwHFDGEYzydpXULFGLWX+GU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HL1h08HyzTB4xDCCyPA/DLgRnszXz7eXxkam8PEUjPN4ajas6hIQVLK86H+3EbMDnv9E26AL5oeGaqR/+dcK5mbrkozR5EqoZ5QQNeMnCjpTQw0u2CTx0OcY4jGBVudq/WUGtSECyJNsWfLLv2QJvsLqWwD1xz3nOtb2xxa5SA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NwFD93dC; arc=none smtp.client-ip=74.125.231.168
+	 In-Reply-To:To:Cc; b=JHIyDnsPoJ+LpeHsfd+7wO2nh9rDePGcT/zlVX1r1LcoI8DzX5lbYH0mh8Fy5cAQrMfCQmCak3VZv2Kk2TY50va7ma9Kk3bGujlrP3Cf5CYjF9FYDIOyaf1D21VYf76nqijuw1chiDhXL/G04/mBuQU7PJaoEpbrFtNCeSd3sMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e3NilJ3x; arc=none smtp.client-ip=74.125.231.235
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NwFD93dC"
-Received: by mail-oo2-f40.google.com with SMTP id 006d021491bc7-6b1ae7089c0so867133eaf.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 15:35:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e3NilJ3x"
+Received: by mail-oi2-f43.google.com with SMTP id 46e09a7af769-7f4f0d37f93so1121855a34.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 15:35:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790202906; x=1790807706; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790202911; x=1790807711; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1bPsIBSH9RJdyH1mjOKDynlo2sUv0Ir7YundPy4tLUs=;
-        b=NwFD93dCK/l8XgLCrbsdE/6t5UbHtzrHNYyhUAXbp6ZauH8SPAGz41AosleGQyGf8R
-         8BxaakmShzQhm/nUjMVR6EnveYSDqtc/NopBUnX2diLtj15PFPFQEgnB4sXrIfT6mABg
-         OksLVbyk1nRYWPueH68RHNSRyz7VLKXdPah0Qc3YnN7u8xFSJjST2/kW+xzP1InlcWdD
-         BFQ3I8/bCzGhkOBgWdvcoSA3jximpMO8Npo1Dk/1YNhxvEFvO9+s1zEz1giicHXhGhsW
-         miKSrK0ZNn2dg6xfYa+J66Wf8ok+JLu5uhTuLyoOojZV0F062giJ2H6BC5swbCozqVzi
-         niZg==
+        bh=iEU8DzU4LKP6MP5zfWJjBY2eD90eHdHMK7FISxZUBG0=;
+        b=e3NilJ3xbyb/PEwpfWk1K8V4GMCtU9iHuarvkMD6BSq/xw1CLuL7Sa0PecrlaubRcV
+         gEH84jgCsdlC6fm1K3bPIznqCGdxDUakwJOacvUO+npr2oTeN5X6lc9Bh5hwLNLas0zh
+         WHzi3ODd9BSfuRBkGJGrlDa/RJJ12meP0WNSAL53QGZN7qXvS/Srb/baVrCPeUJf8m3r
+         5odELXXEIInNTIRNLmi2FN5nN0foQbHYHpTeu21R8wFLEgaS28dgjugPq6wPmJTPmshk
+         Xq/kqKZxUV/nVlyJxd365bQqMgF0/hnfCfMwhtkQzjaSyDxCLmpC3VxVXgReccwm5tby
+         7BwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790202906; x=1790807706;
+        d=1e100.net; s=20260707; t=1790202911; x=1790807711;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1bPsIBSH9RJdyH1mjOKDynlo2sUv0Ir7YundPy4tLUs=;
-        b=nQyQLPeFI15qUbzvjUfao8b5mwxKV7wwJf3Rcp0VFz8nYYLZra39bog1bJXagEhCxD
-         Eb0e9GGxVdxYxhrBLvowMds3hxrixpJMuw1f5CUqNV+m9qW270BnNOPdz7g5iQ4H5+r0
-         G1owGeNWTaTMG/JgmBUa+GtNoTD+x9cesVHkYXjvsca3Z0vPCPoGdUbQZSY8QLR8MAb3
-         77fXybtdAM4jKNMQijV5Ov2iEfsP6P0JuwYqt9tMLI5CsmrddE75C4Qn95FZb+CBIAEn
-         OX7GlFpUd6pY+M6eTltghgtLSuj0IWJFqPDz2Joia7GW4U/OGtSsFYjai4Vv+aP7J8xA
-         NSZw==
-X-Forwarded-Encrypted: i=1; AKwUvBzHczS8hN6umX8oOwOmZrM/xn8ukcTe+e8kCNAB8sfTHLZOg5YMyuUTRPYdyst71+Z5eRebCHf4im0=@vger.kernel.org
-X-Gm-Message-State: AFuF++kxYeMUuwCK6J9B1OIdxLg4RvMwexIJ0wuI3TeTEdAAZK1t057V
-	CUHDgpWLgfes/NYRsndiqpJ70ocbHEkVv2N+IW72olNFbmYGuI584tfD
-X-Gm-Gg: AYBFou00Fl4r3YHPHBMbi+YG3B9MiJoGszuvX2qeP2r3/HYaUG85ogx2fDrphpaC7BE
-	SN+RaKbhOOzM81ipAXhUKjTmJGuLu6HrcVKdmseiuR4AM1Q5oTygaeSUuyRdl1NIlPnHSi9A7en
-	1HzlPdKjAoqiHp2qyR4EYFJqqAL/Db30y54Qz09rD2tYvwo89VYcw/3RuF41H719zRKSSwHS8MO
-	hw8mTCph/9R+79ImfNLd9JlppLnS6jbXjSfp44l8XXRrR/59OmgVIHpeSF+lPLb35+PwIUDXQhL
-	e0tH6I5NP8xMBQg+Qqs3tm6HSlL7j1ABdsFYgp3xGkrHMOYUfOmhEaW3Shz3IT6Ekw5fgEs/8bj
-	DedoAkhSqXblW9GkMCx/pC3VvHJNm3i90ddbyYz9tIDMGivdrqqrTzshzmsd6p9yr86Ea94mKcf
-	qd9MvgoteQQpqBCGZuEVkDvMkCL6sf9W/LmaYo9pvS0frO/q90NgehqotgnabklUEETt/rb8ba5
-	UMSOUnvtT3ABrRbN62TuWEbcID/2Kcj06gq4Szsnht49tP++WBxM4TXOpslrGHkVpX0yk4G8BlC
-	NP1Tu/2tdyvJSUUZ7ps=
-X-Received: by 2002:a05:6820:178b:b0:6c1:d1af:dd8b with SMTP id 006d021491bc7-6d4412cc69cmr595245eaf.45.1790202905634;
-        Wed, 23 Sep 2026 15:35:05 -0700 (PDT)
+        bh=iEU8DzU4LKP6MP5zfWJjBY2eD90eHdHMK7FISxZUBG0=;
+        b=t37h2t76hWFG1A5klDssGgdKebSvjH4U5jrauRIZVNhfRSiGZJkErBOgyEPM3K8t8V
+         GIdUQc22PKWyzSs6Hm/YOFX1uIR8GqIRsWcCVJ8cUBitugn2rOMI8GE7b6yy+A5DCjHO
+         IFqJkZCdzdwRYl17BxrIXJViaWQIH8GLCBIbUwlhRMuU/cvATpa9xlTF3kK/mqCLCabO
+         rY4INKjbPITvcTJflSZqI6h4ewxdu8K0cqP/4k+RfgROzXF+F3HM1mi00+or4aGtv/GM
+         Lp/J5dil7FwUufJHo3TUCWfvf1VgUIkIY5AU7x2TAnF30hb+GW5AfSfLJvtgdppKm6tt
+         yCNQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwSsYv0DQ/35dZwu6QV7W0jrG2xZ1I8viS/eSuYVcFvKJ01N0tmxNB85YtuI8ycuXFtZ09UfeQoD6s=@vger.kernel.org
+X-Gm-Message-State: AFuF++kPA5UWk04b4UetXtTtDAw8ztgX/m/jahHcYlVIE/7VgMn+aEmT
+	j9NwmrPe+n0OcysLiRr8mRtfhpGA/f3U7S5Gw3GRpCxc+SrJXusxSNbH
+X-Gm-Gg: AYBFou1dvZgLHSKuSlyz1YZG4iIclfVCdJCkQ9ob7tXGSLO9jK5P+qFB8FbClxC17nA
+	8CgOLf4iz4Vv0Q7u0g3QUf6kdM5q/TUO8/Vn6vtM6/OipYgXnpe+bn5VZiDbpFNAs6aXGJJhZOj
+	iGAyo0ORv2bgyKCetOGGUhy5h6qWHUaGL5MsAcdUPAN0sZjifYcbLEWE5eeHcx3QLh5Kqb3bBM7
+	Sz6x2jGMPN/cqhZHdc377jnmkvAavc23eRQmqwZBYQHppFT0B6DMV+DXgFTdEqVCEiUHmckxVVJ
+	q/6GEPgAv/JyeA6UVczjfoDR0EexY/KfCKJ7ECqTaisVhNyGJ6T33Q77mgWPkXijQudH2synR4s
+	sE3uzeqxAINFhDlK9gXlUTHnRH1lri4pY6E6tmoDplzAil+KhlY8TvkoUBWOCJnLhsdn7a/WPhn
+	d94eDI/lmfw4pOfs5K+2M232vkoGIgcz2Q2WZ7GhNHm0ih3jP2NqzD/QB1+6fgX+UxNrzro/9Yt
+	91BYq1yWVMpHWYIL3qtHv0IzozYX9hMQOqcsmeTniptMIWLRYDfD33y/NEJC4rQDVoltz41LP/U
+	EuL4iZs6TWG2ErgMFIY=
+X-Received: by 2002:a05:6820:1f11:b0:6be:4eb3:e1be with SMTP id 006d021491bc7-6d43fe7221bmr682739eaf.39.1790202910732;
+        Wed, 23 Sep 2026 15:35:10 -0700 (PDT)
 Received: from [100.82.231.29] (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-491ee1ac486sm559401fac.16.2026.09.23.15.35.03
+        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-491ee1ac486sm559401fac.16.2026.09.23.15.35.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 15:35:05 -0700 (PDT)
+        Wed, 23 Sep 2026 15:35:09 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
-Date: Wed, 23 Sep 2026 16:34:36 -0600
-Subject: [PATCH v11 12/38] dyndbg: bump num-tokens in a query-cmd from 9 to
- 15
+Date: Wed, 23 Sep 2026 16:34:38 -0600
+Subject: [PATCH v11 14/38] dyndbg: Bind callsites and classmaps to
+ DDEBUG_MODNAME
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,7 +73,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260923-dd-cmap-part2-clean-v11-12-9b6c217fdf2f@gmail.com>
+Message-Id: <20260923-dd-cmap-part2-clean-v11-14-9b6c217fdf2f@gmail.com>
 References: <20260923-dd-cmap-part2-clean-v11-0-9b6c217fdf2f@gmail.com>
 In-Reply-To: <20260923-dd-cmap-part2-clean-v11-0-9b6c217fdf2f@gmail.com>
 To: Jason Baron <jbaron@akamai.com>, Shuah Khan <shuah@kernel.org>, 
@@ -100,75 +100,142 @@ Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
  linux-kbuild@vger.kernel.org, linux-pm@vger.kernel.org, 
  Jim Cromie <jim.cromie@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790202874; l=3086;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790202874; l=5456;
  i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=9lUeEUf43O4OsPSjpghThL5idlm8fYFS7L4pUake46s=;
- b=sbDzqlFisyDnbimrqXXl+C8tfRzl5ZiAIX3allVEEtSUoE7lRkljJy1fRdL0a1f+4wROKfFmU
- 6uazVVCMibgBDQY9764iVLv+SJBugUpQ8TuuSEcFAGbrHlkj0hj9gUZ
+ bh=PHoWIplF+5KumvZl2vjWPwHFDGEYzydpXULFGLWX+GU=;
+ b=LjYzw8LB+6ZB21y1mMCWFEMn/XAOgL43i4lFx863vkE7v0z325lnonpCcasvD71zJJpFrS42U
+ AX9WB85DgD+DgWvAaQU7P6zjMY5/w4G0hoNtK1VONpxpL4pCJa4wwW5
 X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
  pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
 
-Current MAXWORDS in ddebug_exec_query() is too small to accept a legal
-query-command using all 6 keywords.  We *need* 13, but this adds a few
-extra to allow certain errors to fail on subsequent, more meaningful
-grammar checks.
+Currently, dyndbg binds KBUILD_MODNAME directly into callsite and
+classmap declarator macros.
+
+For built-ins, KBUILD_MODNAME defaults to the basename of the source
+file. For many subsystems, this fragments what should be a single
+module into separate file basenames: kernel/power/ produces "main",
+"suspend", "hibernate", "snapshot", and "swap" when all should be
+"power". Conversely, multiple unrelated built-in files across the tree
+(init/main.c, kernel/power/main.c) all collide under "main".
+
+While consolidating these fragments into unified subsystem names is
+desirable for query targeting and classmaps, attempting a bulk heuristic
+renaming across Kbuild introduces broad churn and disrupts control file
+output across the kernel. Module naming should remain under explicit
+maintainer control instead.
+
+Define DDEBUG_MODNAME in include/linux/dynamic_debug.h guarded with
+#ifndef, defaulting cleanly to KBUILD_MODNAME. Bind DDEBUG_MODNAME into
+callsite and classmap declarator macros instead of hardcoding
+KBUILD_MODNAME.
+
+This establishes an opt-in hook allowing subsystem maintainers to
+consolidate their module fragments if desired (e.g. via
+ccflags-y += -DDDEBUG_MODNAME='"power"' in a subsystem Makefile)
+while preserving existing module-name invariants by default.
+
+What's Unchanged:
+- Default module names remain strictly identical to KBUILD_MODNAME.
+- Zero callsite memory overhead or layout changes in struct _ddebug.
+- dynamic_debug/control output remains unchanged across the tree.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c                                      |  2 +-
- tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh | 12 ++++++------
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ include/linux/dynamic_debug.h                      | 12 +++++++--
+ .../selftests/dynamic_debug/dyndbg_selftest.sh     | 29 +++++++++++-----------
+ 2 files changed, 25 insertions(+), 16 deletions(-)
 
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index a39144fd7c8c..a0723343e2a7 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -558,7 +558,7 @@ static int ddebug_exec_query(char *query_string, const char *modname)
- {
- 	struct flag_settings modifiers = {};
- 	struct ddebug_query query = {};
--#define MAXWORDS 9
-+#define MAXWORDS 15
- 	int nwords, nfound;
- 	char *words[MAXWORDS];
+diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
+index baf5c0853f45..85863e24ad13 100644
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -10,6 +10,14 @@
  
+ #define __DDEBUG_ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+ 
++/*
++ * DDEBUG_MODNAME: Subsystem/module name hook for callsites and classmaps.
++ * Defaults to KBUILD_MODNAME.
++ */
++#ifndef DDEBUG_MODNAME
++#define DDEBUG_MODNAME KBUILD_MODNAME
++#endif
++
+ /*
+  * An instance of this structure is created in a special
+  * ELF section at every dynamic debug callsite.  At runtime,
+@@ -121,7 +129,7 @@ struct ddebug_class_param {
+ 	static struct ddebug_class_map __aligned(8) __used		\
+ 		__section("__dyndbg_classes") _var = {			\
+ 		.mod = THIS_MODULE,					\
+-		.mod_name = KBUILD_MODNAME,				\
++		.mod_name = DDEBUG_MODNAME,				\
+ 		.base = _base,						\
+ 		.map_type = _maptype,					\
+ 		.class_names = _var##_classnames,			\
+@@ -160,7 +168,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
+ #define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)	\
+ 	static struct _ddebug  __aligned(8)			\
+ 	__section("__dyndbg") name = {				\
+-		.modname = KBUILD_MODNAME,			\
++		.modname = DDEBUG_MODNAME,			\
+ 		.function = __func__,				\
+ 		.filename = __FILE__,				\
+ 		.format = (fmt),				\
 diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-index 957e633ac555..50916583cb2b 100755
+index a7a554bffebf..c279c795867b 100755
 --- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
 +++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-@@ -319,8 +319,8 @@ function GOLDEN_RECORDS {
- #K= b9a397e807148d13ba07da7db7e69817 FT_grammar_errs.2
- #K= 5abefa504937a329f974504f1896e368 FT_grammar_errs.3
- #K= 1d94d0f239bf40bf51280caeab499de0 FT_grammar_errs.4
--#K= 135035c8a17ae100cc4ec954c4d75b2f FT_grammar_errs.5
--#K= a9cc14244f91a12d3174ad1314144a8e FT_grammar_errs.6
-+#K= 9a5e1c1856f1ebbe57a4afdfc4c9703a FT_grammar_errs.5
-+#K= b3809a6f9f643f049f1ef30827d4b001 FT_grammar_errs.6
- #K= 5d400aad1a7d71f548b6b81274d00a55 FT_grammar_errs.7
- #K= 61cd359b10f9051862d3745eda07a295 FT_grammar_errs.8
- #K= 567379f4f4d099f00f37d1469d9370bd FT_grammar_errs.9
-@@ -339,8 +339,8 @@ function GOLDEN_RECORDS {
- #K= 1f6fedfe222af475211b3bfc6d08bc63 FT_grammar_errs.22
- #K= c67dfeca97697b707acdd70672816dff FT_grammar_errs.23
- #K= 9574dbfdac063409b41a44e6251fbcd9 FT_grammar_errs.24
--#K= 644b81753949ac1285e38ac995eeba46 FT_grammar_errs.25
--#K= 1bf2a93a39961f40e0c2dd4c5e2edc6d FT_grammar_errs.26
-+#K= 3c694a0ee2cf3a1d39f2ca8a9f3b9094 FT_grammar_errs.25
-+#K= c23be05426c8727be833ff055944aa96 FT_grammar_errs.26
- #K= cdddf4ffd7fde3c12eb0c73770b872bf FT_grammar_errs.27
- #K= cdf7a2e2740ec007efbd29feda478420 FT_grammar_errs.28
- #K= f6650d69963cef433c50e1f2acb899fc FT_grammar_errs.29
-@@ -359,8 +359,8 @@ function GOLDEN_RECORDS {
- #K= 1a402ada248d0d50cec13a1af150ea33 FT_grammar_errs.42
- #K= 5b46a8eb0d74009462f74cf7553e3228 FT_grammar_errs.43
- #K= 546e440044828d86135dd63f1eb9ed17 FT_grammar_errs.44
--#K= 644b81753949ac1285e38ac995eeba46 FT_grammar_errs.45
--#K= 1bf2a93a39961f40e0c2dd4c5e2edc6d FT_grammar_errs.46
-+#K= 3c694a0ee2cf3a1d39f2ca8a9f3b9094 FT_grammar_errs.45
-+#K= 37b7ab754e579683a28ce086c470cdc9 FT_grammar_errs.46
- #K= 3e3acfb800cfb1bcb0cc07f33b75830a FT_grammar_errs.47
- #K= 42dc6cb4fe938bb82b64c82924ef28d8 FT_grammar_errs.48
- #K= cf9320d2188f5b48d508d610d95298b2 FT_grammar_errs.49
+@@ -260,34 +260,35 @@ function FT_grammar_errs {
+     ddcmd =_
+ }
+ 
+-# these queries run against the builtin module: params, and change
+-# flags.  The control file state-of-interest is found by path,
+-# kernel/params.c, to avoid module keyword entirely
++# these queries run against the builtin file: kernel/params.c, and change
++# flags.  The control file state-of-interest is found by path $f,
++# perfectly binding the stimulus scope to the observation slice.
+ function FT_basic_queries {
+     v_echo "${GREEN}# BASIC_TESTS ${NC}"
+     if [ $LACK_DD_BUILTIN -eq 1 ]; then
+-	echo "SKIP - test requires params, which is a builtin module"
++	echo "SKIP - test requires dynamic_debug built into kernel"
+ 	return
+     fi
++    local f='kernel/params.c'
+     ddcmd =_ # zero everything
+ 
+-    ddcmd "module params +mf" 'kernel/params.c'
+-    ddcmd "module params +l"  'kernel/params.c'
+-    ddcmd "module params -m"  'kernel/params.c'
+-    ddcmd "module params =_"  'kernel/params.c'
++    ddcmd "file $f +mf" "$f"
++    ddcmd "file $f +l"  "$f"
++    ddcmd "file $f -m"  "$f"
++    ddcmd "file $f =_"  "$f"
+ 
+     # multi-query commands split on ; on a single line
+-    ddcmd "module params +mf ; module params func parse_args +sl"  'kernel/params.c'
++    ddcmd "file $f +mf ; file $f func parse_args +sl" "$f"
+ 
+     # verify multi-cmd input, newline separated, with embedded comments
+     ddcmd =_ # reset before multiline query to capture full transition
+-    ddcmd "module params =_		# clear params
+-      module params +ml			# set flags
+-      module params func parse_args +fs # set other flags" \
+-	  'kernel/params.c'
++    ddcmd "file $f =_		# clear params
++      file $f +ml		# set flags
++      file $f func parse_args +fs # set other flags" \
++	  "$f"
+ 
+     # clear flags and verify
+-    ddcmd "module params =_"  'kernel/params.c'
++    ddcmd "file $f =_" "$f"
+ }
+ 
+ # Built-in Feature Tests (Can run on any CONFIG_DYNAMIC_DEBUG kernel, modular or monolithic)
 
 -- 
 2.55.0
