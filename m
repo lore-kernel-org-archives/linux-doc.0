@@ -1,195 +1,84 @@
-Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149264F93AA
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 12:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AB7329E55;
+	Wed, 23 Sep 2026 13:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790167950; cv=none; b=gjijUiYLvQ8PKmQxI5yOaGAnJZmV+/gBQqGypnUw+Y4p7pqLZYsfOMVKxFctY3JZLo5Umv0l/UTqhtJILiU8UxrwsCKL+B+5jEN3s1ym36MmInPm1i5dJUnTIHvcCi706cXUElo0rYC31fWNRQ0vKsDSrhzhafvw5SvQE62ctvs=
+	t=1790168418; cv=none; b=Fcny0xZLykJgT1PlVN5fMmzJGXw51t9iXp8Q4OOo1bDh7H7lYVfcVFQnbl87qFZQsoR6QKDAxX4zSL8DjQjuYQTD/A54U49P8XLjZnR8SZ+PVc6WiB9Zrl2oE7QWmtJEtaH271MNxYMdvhMny7uEA8A7uDx0w1Qe8tiliaxDPNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790167950; c=relaxed/simple;
-	bh=WAI2SPpJ8puZMu37X97Tb+6oxDR/Qi6/9yk8IhH1Rz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RbCihFKNyOz6AXw/ixV/cLH7yILVz0jFeFrl29ITyJk1NQhUJnhFEWsw3TLaPyx8C6JCxBHZsWoos2U/WXofMiGDNgIFcHxOOTgDDWf3a5ty/ReA+VG6GpFOXQKe/etJnxsk8fcd6Y51D+A3ZSHZDpZ1xc92isi5+VFQj9LxzsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1cVActw; arc=none smtp.client-ip=74.125.229.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790168418; c=relaxed/simple;
+	bh=Ruv7lvlH59PJHkZsRe0UxAono6K00Z1r+lBjRShEIbE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ckuFUf0kl0Z/YLw3kNvTzQUb/mqPZ7DMUrReGiT/a0x7vEHzmQS+rfk/h/7PvnsuZc4JGVH6Xho7t/CqGjOSU/Lgvn1cwmSAuvZGF08pF/B7JLkQGLV+0Iwan4LAAYsjGo5n8SXhjPe3oMDO4VE2iQmIh+Y7v2WSbvI+9kZoyjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GSejrNXc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1cVActw"
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8b402f4e3so827206e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 05:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790167946; x=1790772746; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sm7vKUqKVBNM8fpsiqdcEcneUTHOJiE76zYrPR0ilCY=;
-        b=K1cVActwFcDsjZT//i/mfB8v9KJpJvYseaGPk2FkC0KjxU4b6RsEf3COWAlP1RTDQz
-         smMge2qR22zCmc82xCqreoXQNJuubsLmJojOhzn+4q2TTaH1W3r+kiOmmj9LkJdOtedl
-         e1INrx411WVKfLmfX8HqBMZBIf2xMfABZLi/HeV9NtdGWKWg9hTtnU+sqcVDI3b4r96+
-         Cx7X7pvKVAyceoszelTcEvknJk4wbSbBJ7luYz7aQkBD6zHS9tdQB9+CmW66UeEEN5gI
-         3GAtcY6tGHOS2FCgh8tyeRwIM7R4HMSu4w5F5ZMXz045xynvmftA85L4mS6NdYKbcZLZ
-         Z1vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790167946; x=1790772746;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=sm7vKUqKVBNM8fpsiqdcEcneUTHOJiE76zYrPR0ilCY=;
-        b=j23NvhFkT/+In1lkK5MGl3gaVXnq73GdBXRA6Tu5zt+wZbKnz72fqxW2HdgzFQ3Z9+
-         7rYtxXUqPY4I3TjZ1bGhM11aCka/hjrG0FUqHHJzDLA2AFgW/cqYYksxrmDMS75IYJCx
-         48vOL+am3oBHbnkycP4+G2jp2VMc5qS/a2Wy3z/5bt94MJMGkMHX64lTfO3umgvtnFYE
-         JyW8MwofRAsZpc5CnAJPOR+cJzXY4+TVozyUs8bNmOjSdZzJA/ABFftweULoTlz+iI8I
-         DBjr62FXtWAGNyboS0PDP9lo7gXaoco/p9sjiN/BEvfWjZEwebGBl0XreCWeg9RjOy7N
-         rkHw==
-X-Forwarded-Encrypted: i=1; AKwUvBw8ycpkYUf0Ap5xJznaFIGQmq+MgaXwxnK4MdpNf9YwxkreP8+vhc9FYNDr8U9ZTY3X+5ULGxFrx2U=@vger.kernel.org
-X-Gm-Message-State: AFuF++mD0K5c8zZY1BAjEg/4KXA7MWoqZqqZV154yhiaK3ucH5JqqCjh
-	IXbtqDPlWcfD5t1cMr2Q1WSM/CernZH9iT82d7vUDFrznmhZd3Vnq7yk
-X-Gm-Gg: AYBFou1PmchT0enk4DT10DKTzuxEWcKx5H+6i1VjLOj7ClJQUQUDCfsA83VMzZsImYZ
-	HzGKHfM5d3kXyxyt5ClRk8Q4ICp3dU+vZtL29CI+zQ8SCl2RAv6ZUhGzCryRYfc0x3BosEmq9Cw
-	AIx3QIfTmoVLmmLDXwoQlOy3GPij2fUucJlwmH5j3KcCSY9DD1A/6a3JYjIjsVsuPzuFuwui/gf
-	4huP3VsGKEruK8dnH1zzuz6arJtHoonY/M4GUfRuiY0u23BYaQT0h48xTyAroziQ/0xLEZA+jnZ
-	uV0y7wKIlD2kJp4V7c3D1wky3OGkgeSEDdIGELjTVXmc/JYdszcH3ZSUdk3evOZom2qIoqDnPm2
-	CQKzqPVJP7suA7/mOZbPub1V2OuehxxUjKk690/VYNlO5ocm97Kvc3C0CYE8RZkxK2Vo9+jHgSf
-	aiPEVw1PHtMDwnH/WZ5A0BkulsYpASZZQo76S9ecpr5pDicyuB5AO6muO3zKJp8cF2+ed2r2sGJ
-	IbZxoeLsyGJIbNKW+vRwr/d6hgN
-X-Received: by 2002:a05:6512:b22:b0:5b0:113d:8ae5 with SMTP id 2adb3069b0e04-5b8d895fe88mr1057730e87.10.1790167945480;
-        Wed, 23 Sep 2026 05:52:25 -0700 (PDT)
-Received: from localhost (sol-eduroam-pathost130.ki.se. [130.237.96.130])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d85956c0sm567280e87.78.2026.09.23.05.52.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 05:52:24 -0700 (PDT)
-Date: Wed, 23 Sep 2026 14:52:22 +0200
-From: Klara Modin <klarasmodin@gmail.com>
-To: Chris Li <chrisl@kernel.org>
-Cc: Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, 
-	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arO0RCCE3Woh_I_z@parmesan.int.kasm.eu>
-References: <e879ac65cb0940325736df7984c737edf1c6be94.camel@surriel.com>
- <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
- <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
- <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
- <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
- <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
- <arKbXe1Qe-FDCTMM@gourry-fedora-PF4VCD3F>
- <CACePvbWW4avTV2WB6iRU+LN5zqkMTg3UhBrq41R0iw91-7Ni0g@mail.gmail.com>
- <5a7ad159b2fabf377b7e1fc4248c433287ac11fb.camel@surriel.com>
- <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GSejrNXc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B46E81F000FF;
+	Wed, 23 Sep 2026 13:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790168416;
+	bh=bygnlyduWNX9bGl+OAOhRpG2bzPfJz7Wo7gATpHhbZ0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=GSejrNXcWpOIhzmDIgz77w5u8mRJlnIHTcFuakWa+LN4RJ/GWzRCYCTlaKyEaF6qh
+	 PFH8GvS+RkCjHo3jXbZ85iR5PV3EJt52wNg798gUdjROejL9ssUTX6aNMzk/MHy2+U
+	 IzZ+xAtk2Ph9TZJ6mtcCLJV2GjYWOF2T0LmrddSAfa1Ug6MlPcTxwYcAg8ZS+pIn0x
+	 zb4NoK17FNt7tZcwSLyBA6ylQD9yDixwXpDn71N+jWgTXUG+WX30ry0KJ/HXt9yA4x
+	 DGDOAt+Oobz74m4tH66qILPGlbrizeNTrHE1A8RS+MZB4Y5sMBkw9/yBr0uIIA97qB
+	 ArMpJjI90PiAQ==
+From: Will Deacon <will@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Fuad Tabba <fuad.tabba@linux.dev>
+Cc: mark.rutland@arm.com,
+	kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	James Clark <james.clark@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] arm64/boot: Disable trapping of PMZR_EL0 writes to EL2
+Date: Wed, 23 Sep 2026 14:00:05 +0100
+Message-ID: <179016687079.3278822.12341361045842371613.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260922181430.3532371-1-fuad.tabba@linux.dev>
+References: <20260922181430.3532371-1-fuad.tabba@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
 
-Hi,
-
-On 2026-09-22 21:10:53 -1000, Chris Li wrote:
-> On Tue, Sep 22, 2026 at 5:53 AM Rik van Riel <riel@surriel.com> wrote:
-> >
-> > On Tue, 2026-09-22 at 05:43 -1000, Chris Li wrote:
-> > > On Tue, Sep 22, 2026 at 5:20 AM Gregory Price <gourry@gourry.net>
-> > > wrote:
-> > > >
-> > > > On Tue, Sep 22, 2026 at 03:32:44AM -1000, Chris Li wrote:
-> > > > > > Right now it has 64GB of memory.
-> > > > >
-> > > > > That is exactly my point. You are running 1/8 = 12.5% system ram.
-> > > > >
-> > > >
-> > > > Chris you are missing the point
-> > > >
-> > > > Zswap:           8812236 kB
-> > > > Zswapped:       24927876 kB
-> > >
-> > > I am well aware of the point. The 7%-10% data I provided is before
-> > > compression. After compression, the real saving is about 1.5% - 2%.
-> > >
-> > Here I'm at 28% without any issues, with room for
-> > more.
+On Tue, 22 Sep 2026 19:14:30 +0100, Fuad Tabba wrote:
+> __init_el2_fgt2() writes one mask to both HDFGRTR2_EL2 and HDFGWTR2_EL2.
+> PMZR_EL0 is write-only, so its trap bit, nPMZR_EL0, exists only in
+> HDFGWTR2_EL2 and is therefore never set: a PMZR_EL0 write from the host
+> traps to EL2, where the nVHE hypervisor has no handler and BUG()s. The
+> kernel never writes PMZR_EL0, but kernel.perf_user_access=1 has the PMU
+> driver set PMUSERENR_EL0.UEN for a task with a user-read event, so a
+> write from EL0 reaches the trap and takes the host down without a panic
+> message.
 > 
-> 28% is one thing, 100% is a difference beast completely. If you
-> haven't tried it, don't assume 100% will behave the same as 28%. There
-> is a point where too much zswap makes the system unusable. It is hard
-> to pinpoint the exact upper boundary. However, figuring out the upper
-> bound larger than that exact boundary is not hard at all. I haven't
-> seen any one can use 100% system RAM sized memory swap out to zswap.
-> If you have a data point showing what that system with 100% swap to
-> zswap looks like, please share it.
-> 
+> [...]
 
-Chiming in as more of a user perspective.
+Applied to arm64 (for-next/fixes), thanks!
 
-On my 4 GiB BPI-F3, I can reach more than 10:1 compression ratio on
-zswap during some parts when building GCC 17 snapshots. E.g:
+[1/1] arm64/boot: Disable trapping of PMZR_EL0 writes to EL2
+      https://git.kernel.org/arm64/c/2bc6b218717b
 
-MemTotal:        3966864 kB
-SwapCached:        31872 kB
-SwapTotal:      16777212 kB
-SwapFree:       16638128 kB
-Zswap:            280140 kB
-Zswapped:        2859840 kB
-AnonPages:       2927376 kB
-AnonHugePages:   1409024 kB
+Cheers,
+-- 
+Will
 
-While this is 72 % rather than the 100 % you asked for, I think this
-shows that what size a potential limit on the uncompressed size of zswap
-is suitable heavily depends on the workload.
-
-I have been using vswap consistently on all my machines since about
-August, and I have also tried one or two versions of xswap (but the
-current lack of writeback makes it inconvenient for me). I really
-appreciate the work being put in to decouple zswap from needing a
-physical swap device to work.
-
-> >
-> > > You are not listening. The boundary was set due to feedback from the
-> > > application SLO. Those are real deployments not imaginary usage.
-> > > Please respect the user.
-> > >
-> > Different users need different things.
-> >
-> > The kernel needs to be able to accommodate all of them.
-> >
-> > The kernel default should accommodate the people who
-> > are least capable of configuring their systems.
-> >
-> > Hyperscalers can set their own defaults across their
-> > fleets. They know how to adjust settings.
-> 
-> They can use a safe value, e.g., 100% of RAM. Let the people who know
-> exactly what they want to swap configure the boundary they want.
-
-My personal preference would be for a default uncapped (or very high,
-and I don't think 100 % of RAM is high) limit on the uncompressed data
-which is backed by zswap, since that would mean one less knob to tune.
-
-> 
-> Chris
-
-Regards,
-Klara Modin
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
