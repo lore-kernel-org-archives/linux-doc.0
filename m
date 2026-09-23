@@ -1,97 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-22.mta1.migadu.com [95.215.58.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58899455619
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0833F6C3E
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790147837; cv=none; b=rbRO6xb/hlXgnE9WlR3s3m7ScONdHp+E2uqb97SjU232AuDCDop3vVtDCMlFA9jH04GYzBpcH9dYhX8uvVl4iWnCLTG+o5IyF5pL7SntGj6XLMXwEvj3iadftRoykcZDcGttv/71XaxLn3l3BFdxksH/qdaQwOgtDR44O+dIc0c=
+	t=1790147925; cv=none; b=CoYT3PXiAiEv8cIaWFK4P05+fz5nGSEKHNsjis9DNhSkthDbDEJmdOotrceXRBD8Fonjk+4vkv1eDFBd7mJy7jaCLeYT2afWS1N3cQz4L+9XP+yjqhgeZ7sbT3EyEeiI4U1egSc7px1tslTCVNHMOT682uLB1j56cJN5M9kXa1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790147837; c=relaxed/simple;
-	bh=D+232rAPUFAY970900su/sCsdSxvevGKQ55Kf8Cqu+8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IoWyZlHrMkvw9Ce1yUiTaLxMTQBduKSt5kSlpL6KCo8ZZG6F0IwTrAQ8VD09FhmqXGbI12veDOcIg+Oxefg3+9ALKoQJSntsxJhejg9vzsXOyIzcmLMA/Rn51y7Lj4R2UbsAa2vkx1boc5f7M+j2j3i5EcPhCkpPF94/mJRG8ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=daRdUgct; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790147925; c=relaxed/simple;
+	bh=ftIfSiBGVQtCnPrtNG2sYlwb3kX4tGScpi67ufltGms=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ktDAJEoM8AZlrNSwwy7OEPQ5YNk3TPe/KTfIcAiOXKaahnqvUGYWts3WNaisffY3DVqjODgs6KUFfQS6+DTdYRMpnj1gMkkBrvHAD8YXTv9Ka3c2Zk3E3tWLbcq2VU/yiGUfuMbBcA5QE/+tWodWvZdXGCR8P2rrC5SuigDu6AE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QRHMUQ5/; arc=none smtp.client-ip=95.215.58.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="daRdUgct"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790147833; x=1821683833;
-  h=date:from:to:cc:subject:message-id;
-  bh=D+232rAPUFAY970900su/sCsdSxvevGKQ55Kf8Cqu+8=;
-  b=daRdUgctob3AG0rmfLakwwCMouD+vF68Cuz3OdEsBe7TPQmQCGq78+g+
-   s341DTy4ebJFtGXcrFc6o8dlhfCJC6SlRVJLKonti75uNKqzCCl2eTckF
-   KphLyxNfUL2h1VY7CqxVd/5lxHcioraV4W7OKB3yxe67pnDntFnXaPP7h
-   n0XaazsItjffyo/eA0KYbH9qW5r9F4BDKwvQmshiqgy68Rair+63U5ELu
-   ioSfiwEdxO/NVRTv3yKE2dbm/x+oYqKwpNPwJ8yxNQ/ulTAjaJGbJvt6a
-   SWNDymN63Cqsn2/Epq9go9zYcbWFaMgIunhTQ3gcdPqiAmyC7Z9f0xnUW
-   g==;
-X-CSE-ConnectionGUID: gPdAhC28TeS9hGGfyl4rNQ==
-X-CSE-MsgGUID: cPW5DfluRIaigRIAvQPf9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="78367447"
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="78367447"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 00:17:10 -0700
-X-CSE-ConnectionGUID: cX743mNNSc21RLy7bIaAww==
-X-CSE-MsgGUID: w7skAU2bRp6sWO12y6H+bQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="299723891"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Sep 2026 00:17:09 -0700
-Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x9HE3-000000000Z1-0YYa;
-	Wed, 23 Sep 2026 07:17:07 +0000
-Date: Wed, 23 Sep 2026 09:17:01 +0200
-From: kernel test robot <lkp@intel.com>
-To: Petar Stepanovic <pstepanovic@axiado.com>
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
- linux-doc@vger.kernel.org
-Subject: [groeck-staging:hwmon-next 67/69] htmldocs:
- Documentation/hwmon/index.rst:19: WARNING: toctree contains reference to
- nonexisting document 'hwmon/axiado-pwm-fan' [toc.not_readable]
-Message-ID: <202609230904.aIWyLsSt-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QRHMUQ5/"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=ftIfSiBGVQtCnPrtNG2sYlwb3kX4tGScpi67ufltGms=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790147921; v=1; x=1790752721;
+ b=QRHMUQ5/SN4auGZDZnChC5ZnLYsBS4CtTwn31bpF7ikzDoNdok5ZzIW9ao8wkxVksnunRvf/
+ FZCRPIHKLVHEGPTPbND5stTr/ATM099VowELqIV1CM0gVzkYDIlPqYaOAiTO5aq2X9qQpR77uLq
+ NdCQU9+2WWKyzbOmYZi/eYH4=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id a804e1edd13ff3f4;
+	Wed, 23 Sep 2026 07:18:38 +0000
+X-Mizu-Trace-ID: a804e1edd13ff3f4
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <8769d7a8-9442-4dbb-9828-01447e4320d1@linux.dev>
+Date: Wed, 23 Sep 2026 15:17:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for MMU
+ riscv
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: akpm@linux-foundation.org, david@kernel.org, ziy@nvidia.com,
+ baolin.wang@linux.alibaba.com, liam@infradead.org, nico.pache@linux.dev,
+ ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
+ usama.arif@linux.dev, kas@kernel.org, guoren@kernel.org, bcain@kernel.org,
+ geert@linux-m68k.org, dinguyen@kernel.org,
+ schuster.simon@siemens-energy.com, jonas@southpole.se,
+ stefan.kristiansson@saunalahti.fi, shorne@gmail.com, dalias@libc.org,
+ glaubitz@physik.fu-berlin.de, pjw@kernel.org, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, alex@ghiti.fr, linux@armlinux.org.uk,
+ vgupta@kernel.org, monstr@monstr.eu, chris@zankel.net, jcmvbkbc@gmail.com,
+ will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com,
+ peterz@infradead.org, davem@davemloft.net, andreas@gaisler.com,
+ richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com,
+ catalin.marinas@arm.com, mark.rutland@arm.com, chenhuacai@kernel.org,
+ kernel@xen0n.name, tsbogend@alpha.franken.de,
+ James.Bottomley@hansenpartnership.com, deller@gmx.de, maddy@linux.ibm.com,
+ mpe@ellerman.id.au, chleroy@kernel.org, hca@linux.ibm.com,
+ gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+ svens@linux.ibm.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
+ johannes@sipsolutions.net, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, arnd@arndb.de,
+ vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+ jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com,
+ ysato@users.sourceforge.jp, shakeel.butt@linux.dev, corbet@lwn.net,
+ rdunlap@infradead.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-alpha@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ linux-um@lists.infradead.org, hughd@google.com, qi.zheng@linux.dev,
+ linux-doc@vger.kernel.org
+References: <20260922-rcu-pagetable-freeing-v4-3-fe1ad1f1e303@kernel.org>
+ <20260923061551.84398-1-lance.yang@linux.dev> <arN6JBJixHUjX2CJ@gremlin>
+Content-Language: en-US
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <arN6JBJixHUjX2CJ@gremlin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-head:   bf92ea2a46120fd0809f24d39ad3482d0f20876b
-commit: 2d52742f408f7da7a76abed123f1a7b737eabc41 [67/69] hwmon: add Axiado AX3000 and AX3005 PWM fan controller driver
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260923/202609230904.aIWyLsSt-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609230904.aIWyLsSt-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Runtime Survivability
-   ===================== [docutils]
->> Documentation/hwmon/index.rst:19: WARNING: toctree contains reference to nonexisting document 'hwmon/axiado-pwm-fan' [toc.not_readable]
-   Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
 
 
-vim +19 Documentation/hwmon/index.rst
+On 2026/9/23 15:05, Lorenzo Stoakes (ARM) wrote:
+> On Wed, Sep 23, 2026 at 02:15:51PM +0800, Lance Yang wrote:
+>>
+>> On Tue, Sep 22, 2026 at 04:35:34PM +0100, Lorenzo Stoakes (ARM) wrote:
+>>> Currently riscv gates MMU_GATHER_RCU_TABLE_FREE on CONFIG_SMP and
+>>> CONFIG_MMU.
+>>>
+>>> Commit 69be3fb111e7 ("riscv: enable MMU_GATHER_RCU_TABLE_FREE for SMP &&
+>>> MMU") enabled CONFIG_MMU_GATHER_RCU_TABLE_FREE for CONFIG_SMP, CONFIG_MMU
+>>> riscv builds.
+>>>
+>>> This is expressly for the safety of GUP-fast walkers (CONFIG_HAVE_GUP_FAST
+>>> is enabled if CONFIG_MMU is enabled).
+>>>
+>>> Naturally a single core system does not encounter issues with software page
+>>> table walkers being correctly synchronised across cores, as there is only a
+>>> single core.
+>>>
+>>> However, CONFIG_PREEMPT_RCU is still available on a riscv UP system, so for
+>>> a future RCU-only page table walker, this guarantee is required to prevent
+>>> concurrent page table teardown.
+>>>
+>>> All page table freeing is already done via tlb_remove_ptdesc() so the
+>>> conditions of CONFIG_MMU_GATHER_RCU_TABLE_FREE are already met.
+>>>
+>>> This forms part of an overall effort to switch every architecture to this
+>>> mode.
+>>>
+>>> Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+>>> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>>> ---
+>>
+>> Yeah, for RISC-V, page-table freeing already goes through
+>> tlb_remove_ptdesc() :) Tested on QEMU, no issues seen :)
+>>
+>> Tested-by: Lance Yang <lance.yang@linux.dev>
+> 
+> Thanks! :)
 
-7ebd8b66dd9e5a Mauro Carvalho Chehab 2019-04-17  18  
-7ebd8b66dd9e5a Mauro Carvalho Chehab 2019-04-17 @19  .. toctree::
+Cheers!
 
-:::::: The code at line 19 was first introduced by commit
-:::::: 7ebd8b66dd9e5a0b65e5ee5e2b8e7ca382ec97b7 docs: hwmon: Add an index file and rename docs to *.rst
+> A cheeky A-b tag possible too? :P
 
-:::::: TO: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-:::::: CC: Guenter Roeck <linux@roeck-us.net>
+Sure thing! Here it is :D
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Acked-by: Lance Yang <lance.yang@linux.dev>
