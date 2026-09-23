@@ -1,165 +1,354 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11020142.outbound.protection.outlook.com [52.101.201.142])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6C356E067;
-	Wed, 23 Sep 2026 20:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.142
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790196667; cv=fail; b=KjxE35GqzAmOyLKObmVioyF99RSjJ7nCPhzhUXaF+dolfmXlY4VH8mFaivfCD9i8Lxv96zLbTHH/5Y+6Dc8GqfnedT+CVCVqqrPPJBfZBqgUQGdwnUFGlg8NGRJTZdZZNox4VFxt/NjOifve2CkjB0R0yieOOZWFcRhvU+0K2vo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790196667; c=relaxed/simple;
-	bh=irM/a+9wZBPefeUtGt2BTB6HzQuwD+vPCBzxOoU2YDs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=X4kFqBtgNnbS1Hfm3BKtCAU2wOhiv6VqsN0Fc/huyASpLMQ8ObQVc8wARGsaSlBZDy0LptyAFMCYAF1IvFicw+VhpIZ1aTcQNGLFtRoRTUGixSnGGc0jc+rkSdmHOhHKR3zgyGdoZQVgu2rhSpy6jvrrX31nzEKRQ6jQQozLL68=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=R0UyrwZ3; arc=fail smtp.client-ip=52.101.201.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=rambus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90FA56C656;
+	Wed, 23 Sep 2026 20:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790196798; cv=none; b=hPqCO1j7tgf3alI2Tpk+woz/NijoFEL00wu+R8U25qX3nqpmI+4nPitAA/SO1ymLe5WXFwDysU+jZts6KBm0DB3zQVv6poTteMZhKOLicQ9rSl1mMVAOW10ytROFVhfpqZydmPC77Bnryk0JrRyNr7eyMPYcka4fHz8tXjcBnpY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790196798; c=relaxed/simple;
+	bh=gvkBIwlpuKf2zbfq3IB5OsZdYhL4aha6MJt1jdnJmp0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bKNDD/J0h+Mvmget4iJHSgQFDIAvLtCyvmDtjK4SFtB9NTZ5FqNVkylfdz21++D+OoCrGhS2apRasnKEd0KE0+u6ibtNXZpwDkCm+PDrbJ/2rkfZTDQzMEFEBMREUlym1KG/xjZenjSmW4LkrhnIU/ixFNbfkY88jVPoy4h1RmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=VZ8o6pGj; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b="R0UyrwZ3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CL4Nepd+qLhBtqbr8PcKSeH8QQ7db+kQbM3xzN4wVZM+rPd1oKgXH3cC7MzFuNrFEWUeOqsLgCfeNolulPrjk3F8fNksfhtl24AEjJ/YQA7aDBR0kguGJvAUiEWEdqH4UM+si/TC+7BVF3nZo+Urs0xQseddcSYH640pluxUAOakyzI3M7g5JqyewFuUazhrVq0wgKXoHQ3NsgyuXpsHtEwvCr/2EXhXhjlJPFhyHELO0inTfzsh211QYQo7iwXqbbtliPCukhJYYEH/M0fijhHmedb+SWTy6AQi6Lz+eddoINJ8kr2Uz06/7HiusKl6lvdM2g+bc0OFcucGJ/qW9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RbYlQhT4Aq9TWP2c6LFyxCybJnqxPnaUrNzfPZdEuPc=;
- b=GW7JCHOLdLUnL7pBW+MNjZgsObZSGPuEYgMj0N6ptmoSQkz5TyNSDEPPbkr42cFW7vzTy8al7mc4NKTuDeFh9nGMXd1UfUfCRM5vE5eX9nyh1rrRkzMaMeA0yf3Fc3QSw6uReAaQbeoInc74Rjkv+R2b8reYRAemUYz2eLjZBb8qZJXt4SCq7oVkTnu6bDKSZR0XuV+KyVoW3lZ+mySPA3jRc8auusuBYdM5I/rwhoGzd8MV1k1y4vDiFyQ/3+IDZKXVJ61bakOj3plx8qu+yue1YVLawrAQC9eZ0vvgCxkFgN8PfNlTZK2ISWB3i8o2bISODL6qBrFjHx3J1oaIsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=rambus.com; dmarc=pass action=none header.from=rambus.com;
- dkim=pass header.d=rambus.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RbYlQhT4Aq9TWP2c6LFyxCybJnqxPnaUrNzfPZdEuPc=;
- b=R0UyrwZ3DXDke70gm/cAcKAOu/5JoSXw/jKwQB1peleaf+ZeK5P2dy60LGMgoPR1p4aOHO+0qMbVGZJ9inRhqTwdgL73RHqy5ocG7/cZmWINCUgYiEuRsHXNlmhT/s6U4deybvuc8qYp7HzO4L12loac9fXhZBQWi8BAcan6NvID9vLhsAZ5026zEgR10AXqKdWqshm3iPMFA930COfZvbFA57hjGzB9d8yEAhvz4KbYI+ljNf+7A/YRGKC+SEdZm0RrWfv/EkKX6q3q/fSyZjEw2+F75bVekyga7N8TyICQkhF3Fiapgkj2+8QgeQLRbj4uDnS8gLgdPy7UeqjNTQ==
-Received: from LV8PR04MB9006.namprd04.prod.outlook.com (2603:10b6:408:186::11)
- by LV8PR04MB9241.namprd04.prod.outlook.com (2603:10b6:408:259::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Wed, 23 Sep
- 2026 20:50:55 +0000
-Received: from LV8PR04MB9006.namprd04.prod.outlook.com
- ([fe80::3e2f:2514:159c:85b2]) by LV8PR04MB9006.namprd04.prod.outlook.com
- ([fe80::3e2f:2514:159c:85b2%3]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
- 20:50:55 +0000
-From: "Ousherovitch, Alex" <aousherovitch@rambus.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Palmer Dabbelt
-	<palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Rob Herring
-	<robh@kernel.org>, "Krishnamoorthy, Saravanakrishnan"
-	<skrishnamoorthy@rambus.com>, Shuah Khan <shuah@kernel.org>, Alexandre Ghiti
-	<alex@ghiti.fr>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Wittenauer, Joel" <Joel.Wittenauer@cryptography.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, Shuah
- Khan <skhan@linuxfoundation.org>, "Nguyen, Thi" <thin@rambus.com>
-Subject: RE: [PATCH v5 04/19] crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
-Thread-Topic: [PATCH v5 04/19] crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
-Thread-Index: AQHdRvg30t1+45dAjEm+KmT5OENVbLbbsCeAgAD8JwA=
-Date: Wed, 23 Sep 2026 20:50:55 +0000
-Message-ID:
- <LV8PR04MB9006374FD8621EBF3C7E7F6CD7822@LV8PR04MB9006.namprd04.prod.outlook.com>
-References: <20260917225929.2494111-1-aousherovitch@rambus.com>
- <20260917225929.2494111-5-aousherovitch@rambus.com>
- <arNn_fjy4jamSitO@gondor.apana.org.au>
-In-Reply-To: <arNn_fjy4jamSitO@gondor.apana.org.au>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=rambus.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV8PR04MB9006:EE_|LV8PR04MB9241:EE_
-x-ms-office365-filtering-correlation-id: 3f8a87bf-f1d1-4ecd-2227-08df19b45d1f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|23010399003|7416014|376014|1800799024|38070700021|11063799006|56012099006|4143699003|10067099003|18002099003|22082099003;
-x-microsoft-antispam-message-info:
- hEJ2pw3lF5CpG9i9AXhEm8k6qFDlTehmxpCb7OUxnHjUyBwZmuyRywaZIOlt30BP8iAwXPNaxluzsPMra5qvW21p+Hp/NolPU00gF4QNuRWBTeweOCQ8UbikEWL92lWF3CfUh9w6kq2EefQZeiw6exjtRU7GlGchWo9UUCPoGTGx2LGNKp6hXEK80LlNSh2Xc0Jepa9L6jSKilRMZOLkjZIRXG1u2vxCVB4Q5gRyVKc5DNbnE9Kk2kVCZF5pNfOnJp6hERrXvwaHTV1X6xBSADDXyvLJrBR4KgdY6onkQliBKH+qCxONvGnCjKABlCHumKTQOrjp46XOCNaTKChtNIRw4RG0FDOUNNQXSMN3a5+qPvkWGUzGOOJNv4pOkSS+HBUD0+VVUqsEmZmBGb6Q3H0vRyixeoAPj6woL7f96DxLhlz25TLAlWXVQksM55nL9E60Gtm0g+R7yfM0r0Bu0pjolDPVK+8IUudZSvoni8CVxpsTVlAUuytRkmUR3qCmE5qo/kRUDrxiHkcyEsBt2L+uKmKh5P5AhCd7ht6luN+Ers7pyLOFv7oQFJ4poZVxYxW29Es7NVp8CIgyBf/MVueBazBhIu8+g+U8fS1QwbiXroQrYxo9m4FPABfbNTS+gufDLvPn1dxHyDiwsYyOkWEKhyL8m//cgIoqCjw2l1gGFvIUBRTNGRLXEsk9vpby6q2O26uIRjahdJ1sRSEEZznjAV3EYdNifvyzhVAVa5g=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR04MB9006.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(1800799024)(38070700021)(11063799006)(56012099006)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?JOkNtSddroB9sKuxWMQXu6MySCvAQ2aDINDQDIoNVt5DcDV16vfYYNHtAKhV?=
- =?us-ascii?Q?1yYCkHbF3sAvU/Po8kZA+dgkyjpwJLu4Dtun4mQpmTbUI7A3cgo1ogtRvtMd?=
- =?us-ascii?Q?qrp1H/jaftF4OBL9vCnfGz2luwmqCaOmnQE9i0lnUcK0x8ehF5C6Yvk5d4ni?=
- =?us-ascii?Q?8iYtaaEOQlvTFui4H1aYNUVYRnLalckiYVC4q6xFqypBLyUriCu8kmb0HasQ?=
- =?us-ascii?Q?2VOI+NSbfZJ9Q0J3NjmeV6D6UvkWTGxJ61cbWTrC8N12AXqcCAdc8Tj/UHFj?=
- =?us-ascii?Q?zcu338yNU+YoRI/g+itg7IIAh7Xw6MaVNeHsAeemjaVOLKBI3hEQlV3S+1F/?=
- =?us-ascii?Q?0DdrcgHynEsWT/U0Z5noUBTrl3MwJNLg/VkWWyXs6vQefiWH9G6Nmh3bw+SO?=
- =?us-ascii?Q?WbeUCoDtBDmVXcTOvIRJSs/gBma6c9znkIqsiXIns8LrYhVa8cuewbb2gLjX?=
- =?us-ascii?Q?LiF6INCP/nksKWY4NjaHSTWw+8NGtYQ7c71lbJU5wlhjsokECWIp6J3220Kj?=
- =?us-ascii?Q?pn96ab2Ut4epcpPeFQ1zdAxcq1WH4/xV+h2LZ+LN+uCmFen+2Pz73YjwB9Tg?=
- =?us-ascii?Q?izCLEc9/7NOVBPqiQ61MXtlTPPoiOqTHsrYA9dBuRvC9yQ6rFvkcpddaJbyi?=
- =?us-ascii?Q?MZWIgdwPwW0RC9zDQQY31IlS1qA/EbWvldMwJMrifTMPDVLuwvrLkFsSpWfc?=
- =?us-ascii?Q?UiHWBehiJm2HHEC16lm88LHAsLBp3i1ddrHRLUVzqJpDyvWYbVpjN51HbxZM?=
- =?us-ascii?Q?3Uyi7kmCTC/D5GKbKxbjDmQMeutVKk2cL39mO1bQPYGsolVMO+zweQHlIsVd?=
- =?us-ascii?Q?0neijWscnECtmm/g5Cu930URsBO/ogrbOTjlNWFVS1lxqh/3gOnVkYBhmo/g?=
- =?us-ascii?Q?Ca4jSdnYKUB+tXbLBg7VrgipZBA2KRUSDI/VNl8ReVq1qkrC0ZhTUYB7V+x/?=
- =?us-ascii?Q?PPTA48GiKA46dJhRNY94IfW2Zt7g4Oo1+oK78AncYuZak3Uw849AMjUJ9kr+?=
- =?us-ascii?Q?i1SY8lNqKKygPKfKW5uNalmvTBTSiMWBNP/koQAVjoLs6mv5iRdC09pcJfm4?=
- =?us-ascii?Q?h3TPIRRs7s5i3gjYOwG0kiQatYmarGi5erkLP1HW2ZbWSNzFm8O3u2ZePtgG?=
- =?us-ascii?Q?4kg5888CjxI0NL/r5XT7jHjx+8C31hFVoGMNrs8nXlpxjnRy1oufeqIs+5ll?=
- =?us-ascii?Q?PDl1mjK4uRcEQDa77P1g0tFw4dCW39WEpv9qBeiCpYxBlO+sByyY8HCHICDi?=
- =?us-ascii?Q?DAvZT2KFPjMSsqXoI0v0HQcPICFmMILL/Eas6Y8SAs1v7gtlYqDy8d4uJCLD?=
- =?us-ascii?Q?MfzUFo8B6vIwZ/V3YfnREx8V6jpUrtye7riZiFSAuzWNBbZjtZUsSXmYefdD?=
- =?us-ascii?Q?MnXIIRJvy1/+g+l3v86dbKcRHZ3YfelWD1nCGAeS8xNxxdNzq7pwwF7UXNqH?=
- =?us-ascii?Q?Gd8u2Xl0gCe5x0QkG6pKLAh3b3c0p6jM4OQWbw/T7EKfBCooVU4+0cbSfK4H?=
- =?us-ascii?Q?vsV405Ixw380fpzLL+vK7d/CxFRxoJ4SYvI1gFjF7+Vrxo1jPeC0c+xxQycU?=
- =?us-ascii?Q?huaWXCEbQEzqYD9gfCyDkMeBE3yGbWM+BCoC7+S2bI6P8gyF1N8aPuU9YT6y?=
- =?us-ascii?Q?0q6z757jzSroXd7swG0U9rNsN/4qAfSWhQAHzIwXNx1hdRYcIsyi+1LB3abw?=
- =?us-ascii?Q?2BCD+hPlCITPF3V18Ei6B3r2mA4/L3chD9Mzf3EtkL8cxg53MKDV5DyNBA1s?=
- =?us-ascii?Q?z3i9Z8fjQQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="VZ8o6pGj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1790196748; x=1790801548; i=w_armin@gmx.de;
+	bh=v8NRrgHMXi8+HsQftD6fR7mora2ZqNyrd9EX2fSfU80=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=VZ8o6pGjjcB5UhJ8MrgLZkJotWK7iicMU/Fcpp7OiO5MOQSNakJ61LI7JcfTbIuY
+	 19njRFUe9Qs/RjoMR4gvr4qnX08KdnWiFx0i/HrqYjDgQbBUMHG2qw5X6DX+pEMKk
+	 nW12eEn1BJpN9Wh7Qk5a7dbT0597BiWqKDDgFUtVUPFLBOt7BSoMyK0pWsrFi8gXF
+	 MRT9rR/KGWcybe2b6CvzwUSKBD0//trKAJFkVq7IDYLerNdZXPdRHVDhcxd/5y/mf
+	 2j+cWLRjsjXQU3xeQV9xRH+0gwl50rHJyHwtPqaiWKwbjMqDbg/nKOcnjjM89csdZ
+	 z3fh3vCmcqM1oh7geg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N8GMk-1weq7v3pY0-015dxx; Wed, 23
+ Sep 2026 22:52:28 +0200
+Message-ID: <d87fab8e-4f2b-4436-adab-f26782adb474@gmx.de>
+Date: Wed, 23 Sep 2026 22:52:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: rambus.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR04MB9006.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f8a87bf-f1d1-4ecd-2227-08df19b45d1f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2026 20:50:55.6655
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EBPMC5B0wd+HyIGhH4S694BMr424WdIYZvJqDfPtsDRugB/joEzQBxj4NzCXWBEBNUJRmeFqznZV/3nR8FrMxo6FRdI7xOqUydnVO4/IY4Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR04MB9241
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Danilo Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>,
+ linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+ Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org> <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <2026092321-province-yearly-44aa@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Ie2HdETB86El3wsLqazN2n4+oLS3Buc1NZznJwFjnpf2VhVcNtQ
+ kQCWGqv5UMHAOcMwiFUO3COf18yzIoyFIVbhsl/9q/+SkIu+giboId/7Ob8fvpS936gsxNr
+ 9sEQo3xP+fe2U7HJo5VePgxdXIT6QdR3k63FcSFhWkfLmdngRw+RY2oVrrhgjTm3Ew0/mob
+ yAjKFykBdgMmq2JaxzZsA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:CfMAKQ81Gpc=;LKYnCDV2QlJxYk2G0ZhPnRKAfyc
+ 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
 
-On Wed, Sep 23, 2026 at 03:47:41PM +1000, Herbert Xu wrote:
-> Why did you set the NO_FALLBACK flag? This is only meant to be used
-> by very specific cases such as s390.
+Am 23.09.26 um 11:27 schrieb Greg Kroah-Hartman:
 
-Being async, these algs get NEED_FALLBACK forced by ahash_prepare_alg()
-unless NO_FALLBACK is set, so crypto_ahash_init_tfm() tries to allocate a
-same-name synchronous REQ_VIRT provider -- which doesn't work here:
+> On Tue, Sep 22, 2026 at 11:04:46PM +0200, Armin Wolf wrote:
+>> Am 22.09.26 um 15:40 schrieb David Lechner:
+>>
+>>> On 9/22/26 2:39 AM, Uwe Kleine-K=C3=B6nig wrote:
+>>>> On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
+>>>>> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
+>>>>>> The ability to add and remove devices from a driver through the sys=
+fs
+>>>>>> "bind" and "unbind" files was created all those decades ago as a wa=
+y
+>>>>>> that kernel developers can iterate faster, and provide a debugging =
+way
+>>>>>> for users to attempt to add a new device to a driver without having=
+ to
+>>>>>> rebuild their kernel.
+>>>>>>
+>>>>>> This api over the years has been abused and recently come under a m=
+ajor
+>>>>>> fuzzing "attack" through tools like syzbot which decided that it wo=
+uld
+>>>>>> attempt to just randomly bind any driver to any type of device, cau=
+sing
+>>>>>> loads of unneeded errors and pointless kernel patches to be generat=
+ed by
+>>>>>> unsuspecting new developers.
+>>>>>>
+>>>>>> Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, w=
+hich
+>>>>>> will be set on the driver if the bind/unbind sysfs files are ever
+>>>>>> written to.  This lets kernel developers "know" that a user is
+>>>>>> attempting to do something that is not normal, and as such, if the
+>>>>>> kernel breaks they get to keep the shiny pieces laying around on th=
+e
+>>>>>> floor.
+>>>>>>
+>>>>>> The flag is 'Y' which was unused, and can remembered as the user is
+>>>>>> "yeeting" the device being operated on here (thrown with force with=
+out
+>>>>>> regard for the thing being thrown).
+>>>>>>
+>>>>>> Note, the taint flag gets set _BEFORE_ the bind/unbind callback hap=
+pens,
+>>>>>> as many times crashes/oops/warnings/failures happen within the call=
+back,
+>>>>>> and the taint flag needs to be there to show what was being attempt=
+ed.
+>>>>>> If it were to be set after the callback happens, the oops report wo=
+uld
+>>>>>> not properly reflect what foolishness was being attempted.
+>>>>>>
+>>>>>> Fuzzing tools like syzbot, that doesn't have hand-crafted rules to =
+keep
+>>>>>> the tool from hitting bind/unbind, should be run with panic_on_tain=
+t
+>>>>>> enabled so that they fall over and don't continue on, thinking that=
+ they
+>>>>>> actually found a real issue.
+>>>>>>
+>>>>>> Userspace operations that rely on the bind/unbind files
+>>>>> I agree that this should be avoided.
+>>>>>
+>>>>> But I also think the biggest offender really is driver_override. Spe=
+cifically,
+>>>>> on a hot-pluggable bus a driver must be complient with the device dr=
+iver
+>>>>> lifecycle rules and hence shouldn't break on bind/unbind. I think it=
+ would be
+>>>>> nice to not taint the kernel for such busses, and only taint on driv=
+er_override,
+>>>>> as I think we'd still want the bug reports for such cases.
+>>>>>
+>>>>> But I think this is fine to leave for a follow-up.
+>>>> I fully agree. I'm fine and support tainting on driver_override, but
+>>>> bind/unbind are used occasionally in my bubble and I consider drivers
+>>>> not handling that properly buggy.
+>> I fully agree with this, drivers should correctly implement the lifecyc=
+le model
+>> and not just break when being unbound at a improper time. Drivers suffe=
+ring from
+>> this can easily break this way when unloading the associated kernel mod=
+ule, so this
+>> taint is no solution.
+> It's a "solution" in that it tells the developer "hey, the user did
+> something odd and unsupported".  rmmod is also not a normal operation,
+> there's no requirement that it actually work as it's usually a "best
+> effort" type of thing.
 
-- shake128/256, cshake, kmac and poly1305 have no matching provider
-  registered in this tree, so the allocation fails and the transform can't
-  be created at all. NO_FALLBACK is required to instantiate them.
+ From my perspective rmmod and friends are at least expected to not crash =
+the kernel.
 
-- sha2, sha3 and sm3 do have a software provider, so the transform loads,
-  but the auto-fallback can't stand in for the hardware on the streaming
-  path: our exported state is the opaque HW save/restore checkpoint, not
-  the canonical state, so a multi-part export/import round-trip through the
-  fallback misinterprets it (and for SHA-2/SHA-3 the statesize exceeds
-  HASH_MAX_STATESIZE, so ahash_do_req_chain() returns -ENOSYS). A one-shot
-  digest could still use the software provider, but a fallback that only
-  covers one-shot and corrupts streaming isn't usable.
+>>> In the IIO subsystem, unbind/rebind is the de-facto way to reset a wed=
+ged
+>>> chip.
+>>>
+>>> A few examples where other reset methods were reject in favor of unbin=
+d/bind:
+>>>
+>>> https://lore.kernel.org/linux-iio/20240727160216.2488ed29@jic23-huawei=
+/
+>>>
+>>> 	This needs documenting as it's custom ABI. Note that we don't often
+>>> 	accept custom ABI. Particularly not a hook that seems to reset the
+>>> 	device. If you want to do that, unbind and rebind the whole drive[r]
+>>> 	so we are in a known state etc.
+>>>
+>>> https://lore.kernel.org/linux-iio/20240720163440.03c713dc@jic23-huawei=
+/
+>>>
+>>> 	Firstly as stated below, we don't provide interfaces for this
+>>> 	because it's a heavy weight process that is most of the effort of
+>>> 	unbinding and rebinding the driver. So if you need to reset, do that.
+>>>
+>>> https://lore.kernel.org/linux-iio/20250505200609.54756520@jic23-huawei=
+/
+>>>
+>>> 	The solution is to run it once at driver bind. Similar to reset
+>>> 	below, if the usecase needs to re do it then unbinding and rebinding
+>>> 	the driver reflects the fact we are taking it effectively offline
+>>> 	for a while.
+>>>
+>> I also consider bind/unbind to be an official API to interact with devi=
+ces,
+>> so i want to use them in the future with the WMI subsystem.
+> Why?
 
-Same flag as s390, same underlying reason -- no generic transform can stand
-in for the hardware -- though the obstruction differs: protected keys
-there, opaque (and for SHA-2/SHA-3 oversized) HW state here.
+Netlink UAPI <-> generic driver <-> WMI device
+
+User will need to manually bind the generic driver (it really supports all=
+ WMI devices!) to
+a given WMI device, something that is only possible with bind/unbind.
+
+>> AFAIK the underlying reason for this series is that some drivers break =
+when
+>> being bound to unsupported devices. However IMHO drivers should verify =
+that
+>> they support a given device inside their .probe callback, and the assoc=
+iated
+>> bus should only match devices with drivers that explicitly claim suppor=
+t for
+>> those devices (ignoring driver_override).
+> No, drivers should NOT have to do that in their .probe() function,
+> that's what we moved away from decades ago!  The match function should
+> handle all of that for you, otherwise it's contant duplication
+> everywhere that is unneeded.
+>
+> Please, learn from our history, don't make the same mistakes.
+
+I meant with that, that drivers should be prepared that for example of_dev=
+ice_get_match_data()
+returns a NULL pointer. In Rust drivers would have to check for this anywa=
+y, so i see little
+reason why drivers written in C should skip this check and as a result bre=
+ak as soon as someone
+uses driver_override (or they are matched against a non-OF device).
+
+> Now I might be convinced that driver_override is the way to go here, but
+> it still feels really odd as again, bind/unbind was created as a driver
+> debugging option only, it should NOT be a normal operation that any user
+> should rely on.  The driver should "just work" properly instead, without
+> requiring manual bind work, as that's not a good model at all.
+>
+> thanks,
+>
+> greg k-h
+
+I understand your concerns, but IMHO it turned out that bind/unbind are us=
+eful
+outside of debugging. I agree that userspace using bind/unbind should not =
+be considered
+normal, but in my opinion its far from being suspicious. Manually unbindin=
+g a specific drivers
+in order to bind a generic driver is unusual, but understandable.
+
+I agree with you that driver_override should be the correct place for such=
+ a taint, because
+using driver_override indeed overrides the bus-specific matching logic and=
+ can therefore
+be dangerous.
 
 Thanks,
-Alex
+Armin Wolf
+
