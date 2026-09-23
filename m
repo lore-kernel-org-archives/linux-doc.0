@@ -1,88 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-212.mta0.migadu.com [91.218.175.212])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E903ABD96
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 11:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B454C499F0F
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 11:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790161850; cv=none; b=DwTgh5VjJNsAkXy0LwXxSNs+E/IPnq8HIkmb5rARtGXPk0EiZpXvDAjJMz4+Im/pDyaFWQrBoAJ75+Xx27xgvvDw3pX2og9CBGUvgCVIXe4r97M9sMGhFxtehII42cnM2kVdd9oDpRELrWIJJq8jsxpr8d1g60yOI+yoIP3u3hg=
+	t=1790162332; cv=none; b=GTgBBKVDxWhOT9mD86xVmjUu0C5I9l7VVC1GSoUPAdX1u8CU1PFE1TdqLNIf+bElry41h3mcuSP1VDMX/r0oWknD7/mdklZQlzOuQYuQkeFJwGG9R3JnYteT7men+TlsAaggWOYmleEFFbttWaovpKCCtr+1EXrtIi+lqDsTXqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790161850; c=relaxed/simple;
-	bh=tt4KBdEXWOMQ88MYqyly3boZmwek4FYHDFq49ZoFcQc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MYwU7NnM5N0W3qSA9hdLXEWF+jfQdPTVNybk6GQo8jA8jPvxvhKyOHW2xq+8/55MC1KMHc8+DmUJO5T3KqK2pA6EUEooSVillzugdosqDSIntwc+Tjzl1t6j9+IRoYKaGu/0yhs0NnKvytyq1zJKwlX0GnbjL/ddYhN7hgQKvr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJrLiFbx; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790162332; c=relaxed/simple;
+	bh=89HG7hn4Kzj5UE8Z7ANkfgcmDmkP7G7K3Oq+gIvcB8g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EbG+2YRs+AD8hx9p/GyTNJkAbaPqCIjdl4htfxQc9mofzgNy2sgCdrXYkR1y2fASvR2tKeQE2ZlrBDcRPyFnsn62DMLXvLboKjdIrOA8khFucIw4S+kkYa4eFNrBD8iCUB1d452CZCET3QeFZoALjyQsjZL93/J2mtzrU/hdz44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=oWFfUyCY; arc=none smtp.client-ip=91.218.175.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJrLiFbx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790161848; x=1821697848;
-  h=date:from:to:cc:subject:message-id;
-  bh=tt4KBdEXWOMQ88MYqyly3boZmwek4FYHDFq49ZoFcQc=;
-  b=eJrLiFbxaJNHMrMNLKg+GAsVQ6B6ghXh2mymrJlIzsnrApH/rwi4tvYG
-   J9XoZeZWpOSuSCqNlHS2stB7hWkLstbRI5fNIzUgPXh1+nLhrxqns9jja
-   k5bvfUtjNp5CLkx93FpcAkCGZLgxm2cXKkawhJL4N5s7PeZUhXW2erxr5
-   SpJf3ZAMZcNq2jeBn3IgAcdE1pXzwBXm1K/VUeHaImrIs6XLvi2fuONsq
-   hSEdd8XQ2+cMvcbmdxCjFtKSJQROzOAMkMKywYDcmaxcSmFDUkiM6kly/
-   1ofVt86Z4SGgFxp8EtYadPcwMUuvll4aJ8i1HC7eqetJ5hsklLCppJ1ZH
-   A==;
-X-CSE-ConnectionGUID: NE2YvIUaQOmmpP2dYsmhgQ==
-X-CSE-MsgGUID: JZrsI577SXi0/lIaVt1BOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="116367952"
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="116367952"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 04:10:47 -0700
-X-CSE-ConnectionGUID: v1GJUr6zT0WjRSAziGgkYg==
-X-CSE-MsgGUID: 33DscqJnSYOwgILm4h9Brw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="272756134"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Sep 2026 04:10:46 -0700
-Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x9Ks8-000000000cx-0XlG;
-	Wed, 23 Sep 2026 11:10:44 +0000
-Date: Wed, 23 Sep 2026 13:10:14 +0200
-From: kernel test robot <lkp@intel.com>
-To: "Alastair D'Silva" <alastair@d-silva.org>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: Warning: drivers/net/phy/ac300-phy.c:2 This comment starts
- with '/**', but isn't a kernel-doc comment. Refer to
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202609231302.L5QfwVqw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="oWFfUyCY"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=89HG7hn4Kzj5UE8Z7ANkfgcmDmkP7G7K3Oq+gIvcB8g=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790162328; v=1; x=1790767128;
+ b=oWFfUyCYrxOA2P8XqCb3C5QjOg9G0THTsSe6WqsdSWz0K7K1WngqaqFJ7CFY8u5wVi+adeDV
+ Ha00nalK7YCLT8rH6hkdyFuLiPI63jUu0OkP6NIaYGcB2rSxV+zoRrho6izSzdj9NhEhtSYP2AT
+ Hwg5Xaw9S0XipeSsK6OneEBI=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 2cc399eb43ebb725;
+	Wed, 23 Sep 2026 11:18:48 +0000
+X-Mizu-Trace-ID: 2cc399eb43ebb725
+X-Migadu-Flow: FLOW_OUT
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b778bdb5b8so4866e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 04:18:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBx61Skg8T0fgTZEMZbL+NX/WKW8JDaoUwx7USGfnH+uaGHoQFQAaIX6NDNFHXCkf90sywHsJPVYOXk=@vger.kernel.org
+X-Gm-Message-State: AFuF++lmHste17uzi7Ad90iOCiIwz49OE2K+pG143fl9LG8wn9ZOFMg3
+	GpqPY0JMDS/d9AhzhcnxMlidHxFF8NCl8TtZQpMpzPkfG5hISmnjob7+6aTkHxjzryv73R55VN3
+	uQiu5o/tyKX/Is6TFcx8OwLT5mYyxO1UVKKbVtUFV
+X-Received: by 2002:a05:6512:acd:b0:5b8:d049:c45f with SMTP id
+ 2adb3069b0e04-5b8d8853d0fmr127952e87.14.1790162326446; Wed, 23 Sep 2026
+ 04:18:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org> <20260922-kvm-arm-prefault-v3-10-787bd3bc7e3f@kernel.org>
+In-Reply-To: <20260922-kvm-arm-prefault-v3-10-787bd3bc7e3f@kernel.org>
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Wed, 23 Sep 2026 12:18:10 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTyCc=T+HkvWv1g2Fg3OxGaa1i8Hdv296ivPc94jQqZq9g@mail.gmail.com>
+X-Gm-Features: AcwNN1XC5SLsTqs8zqxJrWyrAoHwz-wo27sOUtBe-7VaIdl2y8EQBRd7i4qQqDs
+Message-ID: <CA+EHjTyCc=T+HkvWv1g2Fg3OxGaa1i8Hdv296ivPc94jQqZq9g@mail.gmail.com>
+Subject: Re: [PATCH v3 10/14] KVM: arm64: Implement KVM_PRE_FAULT_MEMORY
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Mark Rutland <mark.rutland@arm.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
+	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Sean Christopherson <seanjc@google.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>, 
+	Wei-Lin Chang <weilin.chang@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Alastair,
+Hi Lorenzo,
 
-First bad commit (maybe != root cause):
+On Tue, 22 Sep 2026 15:18:04 +0100, "Lorenzo Stoakes (ARM)"
+<ljs@kernel.org> wrote:
+[...]
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+[...]
+> +static long __pre_fault_s2(struct kvm_s2_mmu *mmu, struct kvm_vcpu *vcpu,
+> +                           gpa_t gpa, struct kvm_memory_slot *memslot, s8 level)
+[...]
+> +        if (is_gmem)
+> +                ret = gmem_abort(&s2fd, &result);
+> +        else
+> +                ret = user_mem_abort(&s2fd, &result);
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Alastair-D-Silva/dt-bindings-net-phy-Add-Allwinner-AC300-EPHY-binding/20260916-144116
-head:   6d0087c5c37fcf119011a936fef3fa18ce5d7686
-commit: 5c03e0fe215f96bf5b0511b77301f5dcca2adbf6 net: phy: Add Allwinner AC300 EPHY driver
-date:   7 days ago
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260923/202609231302.L5QfwVqw-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231302.L5QfwVqw-lkp@intel.com/reproduce)
+When kvm_gmem_get_pfn() fails, gmem_abort() calls
+kvm_prepare_memory_fault_exit() before returning, which on this path
+writes vcpu->run's exit_reason and memory_fault fields outside
+KVM_RUN. If that happens on a vCPU between its KVM_EXIT_MMIO and its
+next KVM_RUN, kvm_arch_vcpu_ioctl_run() reads KVM_EXIT_MEMORY_FAULT
+instead, skips kvm_handle_mmio_return(), and the guest repeats the
+access. Could gmem_abort() skip that exit when result is set?
+user_mem_abort() never writes kvm_run.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609231302.L5QfwVqw-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/net/phy/ac300-phy.c:2 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Driver for X-Powers AC300 Ethernet PHY
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+/fuad
