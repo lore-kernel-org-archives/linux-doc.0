@@ -1,134 +1,139 @@
-Received: from mta1.migadu.com (out-22.mta1.migadu.com [95.215.58.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0833F6C3E
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C88355813
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790147925; cv=none; b=CoYT3PXiAiEv8cIaWFK4P05+fz5nGSEKHNsjis9DNhSkthDbDEJmdOotrceXRBD8Fonjk+4vkv1eDFBd7mJy7jaCLeYT2afWS1N3cQz4L+9XP+yjqhgeZ7sbT3EyEeiI4U1egSc7px1tslTCVNHMOT682uLB1j56cJN5M9kXa1g=
+	t=1790148032; cv=none; b=bMv6Ln95IWz6BckQle7v42ykJQeizi5Dp8FJ6T8QyMrGzWi1hSK/a5ZGR6+PHcT6Z+7XAg8UXdZBFcBh+hnvmbMPOBkb9YvVsWhFtuvLFlFe7aXBLKf3ANsD9ky3xiij6tfKFlPs96nbZjxn7ZCKFKxtyWiKmY3hJRwZ8Wk+MF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790147925; c=relaxed/simple;
-	bh=ftIfSiBGVQtCnPrtNG2sYlwb3kX4tGScpi67ufltGms=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ktDAJEoM8AZlrNSwwy7OEPQ5YNk3TPe/KTfIcAiOXKaahnqvUGYWts3WNaisffY3DVqjODgs6KUFfQS6+DTdYRMpnj1gMkkBrvHAD8YXTv9Ka3c2Zk3E3tWLbcq2VU/yiGUfuMbBcA5QE/+tWodWvZdXGCR8P2rrC5SuigDu6AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QRHMUQ5/; arc=none smtp.client-ip=95.215.58.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790148032; c=relaxed/simple;
+	bh=nLS1n8qV6eC9W4rvdxBSwAmsHoTxZonjQLzxFgw28Wo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NbkGZdukWkMwKqylkxTXFULfO/FMRF05qdfnBLJhZI+/qId1V1KNebNoSqhEX/JVt3Mt3X+lHj8kan+yL6otblztAVIgTXlb9uR/KLlVOUQ7hz6MUPi0P1jE9gCuauapufF0YqxiwOoh+ko84tI6LU2L8qEHiy9jtkl42cdNdhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UguBxu4m; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QRHMUQ5/"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=ftIfSiBGVQtCnPrtNG2sYlwb3kX4tGScpi67ufltGms=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790147921; v=1; x=1790752721;
- b=QRHMUQ5/SN4auGZDZnChC5ZnLYsBS4CtTwn31bpF7ikzDoNdok5ZzIW9ao8wkxVksnunRvf/
- FZCRPIHKLVHEGPTPbND5stTr/ATM099VowELqIV1CM0gVzkYDIlPqYaOAiTO5aq2X9qQpR77uLq
- NdCQU9+2WWKyzbOmYZi/eYH4=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id a804e1edd13ff3f4;
-	Wed, 23 Sep 2026 07:18:38 +0000
-X-Mizu-Trace-ID: a804e1edd13ff3f4
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <8769d7a8-9442-4dbb-9828-01447e4320d1@linux.dev>
-Date: Wed, 23 Sep 2026 15:17:56 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UguBxu4m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2891F00903
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:20:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790148030;
+	bh=nLS1n8qV6eC9W4rvdxBSwAmsHoTxZonjQLzxFgw28Wo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=UguBxu4mwJWYSrWKx4bzSAfl6n/EYHutzXXLv6onceqt9w1Km/iiVb/srT0FUSS3N
+	 ZlBe8al3MoCZHCXXUmLZRGHqOkWcH4YF986CCdhw7DHmWj+AVGuu0Bm8MTO4I8W+Xs
+	 LVaglygw6aT21BY7iqKZ3TB+Blqn5Tf9HXWiYeKHcDjvXA7hfU5PuPfIX2/IraV4Kg
+	 a8eesWwn9H+7T7iIsfawE9eRlxnNpiDIHo8uiQcgHMW7CYGtgkZGHVwMkAoVPZlpTr
+	 Y1Gm8i8UJwngCs0OXbxok+thnuNz7iI3uoRywcP+T4XXWwH1lmTbRws5mX9yfdUDiM
+	 9v134bJUlxv0g==
+Received: by mail-yx2-f16.google.com with SMTP id 956f58d0204a3-66e56a1fe83so559265d50.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 00:20:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwrpws5PP5zg7wJd1HmyourtkkrFfreLNqAngvgIzrNZy0d01jHNt4v4v2D4DvGzJWyLR40oL9IOvE=@vger.kernel.org
+X-Gm-Message-State: AFuF++mffNQEH5wiYXYHH/p97pQRPsAwyzvIMWM83HxtvVV5jMjlGGC5
+	jfNQZOX6OKHEucRVOToQr3+HV4Jzw1/ArZ4piTYbnwWcHBiuDN2OITHO5en07yKdfiW58qP8alz
+	bHU33RJtg90ibbsgjoPyGRJlrWq/r/aa8PF0mo3jLlA==
+X-Received: by 2002:a05:690e:bc8:b0:672:9f72:7c04 with SMTP id
+ 956f58d0204a3-672d5a1405bmr755720d50.102.1790148029577; Wed, 23 Sep 2026
+ 00:20:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 03/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for MMU
- riscv
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: akpm@linux-foundation.org, david@kernel.org, ziy@nvidia.com,
- baolin.wang@linux.alibaba.com, liam@infradead.org, nico.pache@linux.dev,
- ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
- usama.arif@linux.dev, kas@kernel.org, guoren@kernel.org, bcain@kernel.org,
- geert@linux-m68k.org, dinguyen@kernel.org,
- schuster.simon@siemens-energy.com, jonas@southpole.se,
- stefan.kristiansson@saunalahti.fi, shorne@gmail.com, dalias@libc.org,
- glaubitz@physik.fu-berlin.de, pjw@kernel.org, palmer@dabbelt.com,
- aou@eecs.berkeley.edu, alex@ghiti.fr, linux@armlinux.org.uk,
- vgupta@kernel.org, monstr@monstr.eu, chris@zankel.net, jcmvbkbc@gmail.com,
- will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com,
- peterz@infradead.org, davem@davemloft.net, andreas@gaisler.com,
- richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com,
- catalin.marinas@arm.com, mark.rutland@arm.com, chenhuacai@kernel.org,
- kernel@xen0n.name, tsbogend@alpha.franken.de,
- James.Bottomley@hansenpartnership.com, deller@gmx.de, maddy@linux.ibm.com,
- mpe@ellerman.id.au, chleroy@kernel.org, hca@linux.ibm.com,
- gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
- svens@linux.ibm.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
- johannes@sipsolutions.net, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, arnd@arndb.de,
- vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com,
- ysato@users.sourceforge.jp, shakeel.butt@linux.dev, corbet@lwn.net,
- rdunlap@infradead.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org,
- linux-arch@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-alpha@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- linux-um@lists.infradead.org, hughd@google.com, qi.zheng@linux.dev,
- linux-doc@vger.kernel.org
-References: <20260922-rcu-pagetable-freeing-v4-3-fe1ad1f1e303@kernel.org>
- <20260923061551.84398-1-lance.yang@linux.dev> <arN6JBJixHUjX2CJ@gremlin>
-Content-Language: en-US
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <arN6JBJixHUjX2CJ@gremlin>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org> <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+ <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F> <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+ <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F> <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
+ <arEVDBlfsUYKK004@gourry-fedora-PF4VCD3F> <CACePvbXG5kjZmRsdd0a4HfbnNa6w5s9b_1OCySbwvY+HuCqOVg@mail.gmail.com>
+ <ad1c4de51f1fbbfc7345036af8f39fb450c1f3c7.camel@surriel.com> <CAKEwX=NKC=N-YaiwZK7HPM4MfX-7JG_KeHukS0+vjHqMZTV4dA@mail.gmail.com>
+In-Reply-To: <CAKEwX=NKC=N-YaiwZK7HPM4MfX-7JG_KeHukS0+vjHqMZTV4dA@mail.gmail.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Tue, 22 Sep 2026 21:20:16 -1000
+X-Gmail-Original-Message-ID: <CACePvbUijn+9poYGFL0kiA+ADAxLULcmuVpfx3=9UbbRemyjRw@mail.gmail.com>
+X-Gm-Features: AcwNN1XNF8jCOBxQkoAP5mypVrfmU5thuNYjjY3TJ8Y1KZCkSFtYtgfK_yupyfs
+Message-ID: <CACePvbUijn+9poYGFL0kiA+ADAxLULcmuVpfx3=9UbbRemyjRw@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Sep 22, 2026 at 7:21=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
+:
+>
+> On Tue, Sep 22, 2026 at 10:15=E2=80=AFAM Rik van Riel <riel@surriel.com> =
+wrote:
+> >
+> > On Mon, 2026-09-21 at 06:11 -1000, Chris Li wrote:
+> > > On Mon, Sep 21, 2026 at 2:53=E2=80=AFAM Gregory Price <gourry@gourry.=
+net>
+> > > wrote:
+> > >
+> > > >
+> > > > You can't know the compressibility of memory until after you
+> > > > compress
+> > > > it, and requiring a user to predict the future by forcing them to
+> > > > limit
+> > > > the total amount of workload compressibility does not scale with
+> > > > the
+> > > > number of workloads of variable compressibility of data.
+> > >
+> > > You likely just need to pull a SQL query on your fleet to get that
+> > > number.
+> >
+> > This feature is not being developed for just one
+> > user. It has to work for everybody.
+> >
+> > >
+> > > > That should tell you that your model of reasoning about this issue
+> > > > is
+> > > > ill-suited to address the problem.
+> > >
+> > > That is what I'm suspecting. Nobody in a sane mind would want to
+> > > zswap
+> > > 100% of the RAM and maintain reasonable SLO.
+> > >
+> > It could make a lot of sense to have some default
+> > limit upstream, that says the zswap pool is not
+> > allowed to take more than half of memory, because
+> > at that point the compressed content will be
+> > crowding other things out of memory.
+>
+> I actually am skeptical of gating zswap usage (both pre- and
 
+Isn't there a zswap limit some thing like that? In our deployment we
+have limits for memory + swap as well as page fault latency to detect
+SLO issues. There is a feedback loop.
 
-On 2026/9/23 15:05, Lorenzo Stoakes (ARM) wrote:
-> On Wed, Sep 23, 2026 at 02:15:51PM +0800, Lance Yang wrote:
->>
->> On Tue, Sep 22, 2026 at 04:35:34PM +0100, Lorenzo Stoakes (ARM) wrote:
->>> Currently riscv gates MMU_GATHER_RCU_TABLE_FREE on CONFIG_SMP and
->>> CONFIG_MMU.
->>>
->>> Commit 69be3fb111e7 ("riscv: enable MMU_GATHER_RCU_TABLE_FREE for SMP &&
->>> MMU") enabled CONFIG_MMU_GATHER_RCU_TABLE_FREE for CONFIG_SMP, CONFIG_MMU
->>> riscv builds.
->>>
->>> This is expressly for the safety of GUP-fast walkers (CONFIG_HAVE_GUP_FAST
->>> is enabled if CONFIG_MMU is enabled).
->>>
->>> Naturally a single core system does not encounter issues with software page
->>> table walkers being correctly synchronised across cores, as there is only a
->>> single core.
->>>
->>> However, CONFIG_PREEMPT_RCU is still available on a riscv UP system, so for
->>> a future RCU-only page table walker, this guarantee is required to prevent
->>> concurrent page table teardown.
->>>
->>> All page table freeing is already done via tlb_remove_ptdesc() so the
->>> conditions of CONFIG_MMU_GATHER_RCU_TABLE_FREE are already met.
->>>
->>> This forms part of an overall effort to switch every architecture to this
->>> mode.
->>>
->>> Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
->>> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->>> ---
->>
->> Yeah, for RISC-V, page-table freeing already goes through
->> tlb_remove_ptdesc() :) Tested on QEMU, no issues seen :)
->>
->> Tested-by: Lance Yang <lance.yang@linux.dev>
-> 
-> Thanks! :)
+> post-compression), but I would like to note that for post-compression
+> size, we already have that knob for zswap, default to 20% of physical
+> RAM.
 
-Cheers!
+I think swapping too much to zswap does not make sense. e.g. 100% of
+system RAM. That is my point. It is not a value you cannot determine.
+We can find an universal answer with a safe margin if we want. That is
+my point: it's not a value you can't determine. We can find the answer
+with a safe margin if we choose to. If you don't want to, then that is
+a different story.
 
-> A cheeky A-b tag possible too? :P
-
-Sure thing! Here it is :D
-
-Acked-by: Lance Yang <lance.yang@linux.dev>
+Chris
