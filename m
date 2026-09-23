@@ -1,146 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44841459AD7;
-	Wed, 23 Sep 2026 08:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790151382; cv=none; b=jgi8XQKP56xWDWfB9M9PBvSSq8T8zcPxik1ZwpDwLfpbfES2Kz/RS+6Pa3IThGTFN0ipvttEP2REzgwXMKIG1v7yHhcJvXyIiH9X64uXh78rg+gzGe1WIio1BjDRTZEfqmhYhQq7k3zXZHNVxh+Nsg3uDWU5v3zxFBfuupfgg5o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790151382; c=relaxed/simple;
-	bh=mnmMfZQXhaLK2sGi1RQKPnfNJurBtbDYIstu8vABIqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BOD3Ca8RGbapHenM2e+w2h2UdEzgVOjlN1nSIIr95C+6hORG6Ajm7o14MwXnneKxPYI84z97iOK+CtYBsCWPEDDaKqYLlwpt+G80lUEx9nkPiPD5YlEEEiicEwPg3WacxuF0nyRkAZh3ptCYTxgyjW9NJ/5CCDfQsoaGKFLelzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XWzv7yYP; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E6B3815E6
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 08:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790152327; cv=pass; b=CkBZO3T1IVT0mrx334Ct9d7MIMK/4oENiFPt+95VE1sNcxJGJw4saDppDT2EIa1CtlAtX8a488E9l1n5cHoyFRo3gKVG2EyfC0EFYQKufeUdx9r4wGgrTg76hrkh6BdzZagvMjICcjxNROtyDDPhRSVBcsW0xLYXnexdaL8S8sE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790152327; c=relaxed/simple;
+	bh=hLbf5wdEcfSfArgGglezKU7/4be8aZs+31yfBhWP598=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mMaWIqIbpR0Sm+PuL6Lclv5eBdei09khOrX+EkOxWBdqK7JMbOB9BPZgdEOxSmyE5+MEHq7LQ5wtH16re3jhkgkz8ns4yUvOiG1fuOXwHZ1XvhdS+PASTaHwVmnPngZyM90vUMu1qbQbmzkQM7LMNOEKb/OZUUxGKlPfVmE0GJA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NttemEvV; arc=pass smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XWzv7yYP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBFAF1F000FF;
-	Wed, 23 Sep 2026 08:15:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790151380;
-	bh=gkbaaSNAYtW2x8Ye+X/x3ROsO8U5+sLZrnhf7gfW0AU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XWzv7yYPoIuMX44YD8j0VCMsdDvMOX4ZVAIwX6BWM0BUqWc3RxIQZSbE4cGZBLrge
-	 gWLBh7F6BN09sSHOwzXLTPhMBdbgGZ6ISWHW4/1i53Zn5SSXa2PnleA4qBPK1HJpi/
-	 etoE+9oM5tkUI97Gx9MHEzowWO3SL5laHbhNb2bs+YqJnehf7FqQ+20aklCnDvyxBU
-	 dQufrR0quNaM8Nwo+uAfom4D3GQWDgMFE29WL99bcadsidF86S38WdLPg0fZu1yARz
-	 kesEf0L+KRr0RP7uSr/Fj7nY9fKSeYTI9jz8Iy6In6IVSX3cWmDThsfmnJAvkoqJYQ
-	 5vOTP2yUpOXvw==
-Date: Wed, 23 Sep 2026 09:15:57 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: akpm@linux-foundation.org, david@kernel.org, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, liam@infradead.org, nico.pache@linux.dev, ryan.roberts@arm.com, 
-	dev.jain@arm.com, baohua@kernel.org, usama.arif@linux.dev, kas@kernel.org, 
-	guoren@kernel.org, bcain@kernel.org, geert@linux-m68k.org, dinguyen@kernel.org, 
-	schuster.simon@siemens-energy.com, jonas@southpole.se, stefan.kristiansson@saunalahti.fi, 
-	shorne@gmail.com, dalias@libc.org, glaubitz@physik.fu-berlin.de, pjw@kernel.org, 
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, linux@armlinux.org.uk, 
-	vgupta@kernel.org, monstr@monstr.eu, chris@zankel.net, jcmvbkbc@gmail.com, 
-	will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com, peterz@infradead.org, 
-	davem@davemloft.net, andreas@gaisler.com, richard.henderson@linaro.org, 
-	mattst88@gmail.com, linmag7@gmail.com, catalin.marinas@arm.com, mark.rutland@arm.com, 
-	chenhuacai@kernel.org, kernel@xen0n.name, tsbogend@alpha.franken.de, 
-	James.Bottomley@hansenpartnership.com, deller@gmx.de, maddy@linux.ibm.com, mpe@ellerman.id.au, 
-	chleroy@kernel.org, hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com, 
-	borntraeger@linux.ibm.com, svens@linux.ibm.com, richard@nod.at, 
-	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net, tglx@kernel.org, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	arnd@arndb.de, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com, 
-	ysato@users.sourceforge.jp, shakeel.butt@linux.dev, corbet@lwn.net, rdunlap@infradead.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org, linux-arch@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-alpha@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-s390@vger.kernel.org, linux-um@lists.infradead.org, hughd@google.com, 
-	qi.zheng@linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 04/12] mm: enable MMU_GATHER_RCU_TABLE_FREE for MMU arm
-Message-ID: <arOKtMvZk_3tPJE-@gremlin>
-References: <20260922-rcu-pagetable-freeing-v4-4-fe1ad1f1e303@kernel.org>
- <20260923080523.9480-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NttemEvV"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb76ef19aso7629321cf.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 01:32:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790152321; cv=none;
+        d=google.com; s=arc-20260327;
+        b=D0LE7Umk2X94oWc0I1j4y2LAB2kt43rcDFrH8yCabRS/0C3yg4AMMAdXRatoLtrVgh
+         qY8ZjeyYzsNJ1FAc/xL2VQPD4AhbhQKKHJZXP6Zmq+8b/jzHj5uGgP25VrvTi+xLL1kV
+         Zho+JdSztmjDNwOEwK2/SeobnC2DxAMKq+JIPOdPPaEvKDa+w1iLGQk1IaAGbQHmUDmx
+         ZHBsRhd0YD16gktgG9BaYg4JZYIwt4dkJpXzNlcO6c8alPym2bsflxG2/015cWOACrZ+
+         9z3jtr3ulx43lSWgFQnfeakENoK55ceavppe7laYUwYovPLJmMqjZCW7EuVdPBedmHVo
+         cNvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=hLbf5wdEcfSfArgGglezKU7/4be8aZs+31yfBhWP598=;
+        fh=ras3bz9s1kNpJKhWV5ssSPZc9HB9bA7ABtlNl753KM0=;
+        b=g2R2ANGSaGLpHJVdXKKttYdgP3gpnE7U7LjefuGesySICDMqgZJuQqoMbenJTMKiop
+         7lnloiMzG1XWHBTbnBDx7w7uBN16Fq034kzZ38CNSF6+0+h3HExJeDsP5xfJBb10hshg
+         Q9rHv/bCJc08Y8qPSJZhluDfnuBQh6cd3o8UfSSoXEX4433NFWHK+UE4j/Roz6vC4ikl
+         RawGjkMIpKWsVyMHwnv57lQwv1hNMkDdeypPCkPIgt5Afm4xdh0yIEq606TZU68hd7tl
+         suelpfOhGI6iJmPLH+exELzdZmnaYWG2oVtpilzsxoobMSgoh6mwJRmyliDk+B/Jmubf
+         VOBw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790152321; x=1790757121; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hLbf5wdEcfSfArgGglezKU7/4be8aZs+31yfBhWP598=;
+        b=NttemEvVe7HFiC0/n/2XEDffB6Gz9Bwgh2IQ+eKH8YlZfzHQDCt97R0Pf0SBqu7J+B
+         x5TAnZ2nbcGlg5c0V8jzgCQ941hX/sSI0Fcq+hf76CdHB2R8f0ghVDmUecGAYgN+G5KO
+         ZKEEX86kmYGOxsXxn3cXgCwZAT/Vmw/BurKFRF8EdBV1qaw+UZVzYi5uFyUTcs83u4re
+         cqobkZO51m2W0kNcd5dWweVPDxm9Peqc98eG+dPHQB8MPGsIIrNJillu25v5nsarat3U
+         sjnWGQfyJKfCOj78G2xLuE+o7Uo0+OD8HxiyUUFok0zmvmcKNsERfHF8/jM15bBzsZWv
+         O1/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790152321; x=1790757121;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=hLbf5wdEcfSfArgGglezKU7/4be8aZs+31yfBhWP598=;
+        b=plQxnx3aZEo70cDLRPWjQl01T8C7l6w8HLsFMz7mXJk+zAJJRpgL0ELIufj1Gn0I8e
+         y9MHbO0Ug7pV6FL7neAocQV+fZhFP0JjKfjqIYXGNKEepqcp2X06wzpu3qLAx5D7n90v
+         /Bl2ATCiNGFYKSpGhrP4AbGjku6wkZ5PP8SAY2nqpXorIEujwKOHxerCGbGuP+SuJGsK
+         A69d4ASlA4OLrbyoJR5GYUM40NxnzEGuYlvlrNB3Fg6GPzV7UcNWIOgm1nx4hKw1E7+4
+         LfgzYTCGWyzGzMug5QbtBpN0rcpAvFcbnyEabyNhy/feaCJziI4hP9acPy1ZowXMI3Sh
+         FrAw==
+X-Forwarded-Encrypted: i=1; AKwUvBzNfzAY+N78OAYnkqhLws730L3CWQEcG1EdG5I+qt4+N3/pcWGMRWWyaKtmC1Bd9WU9k603Oot3mDs=@vger.kernel.org
+X-Gm-Message-State: AFuF++mdAO1kzB+Oz8bLGY6CZvuS0ALH1cy/FTSXc6+noBWVGpawZ4MS
+	t1KBDookE+7gt5zRpvzp/ge4DTWvAg0ua8OAknyKiJJYkr1+Mi7M61TqwhPuOmtBtywB0aVPg6g
+	81K0GIgsd4htdTB+Y47VFgFCWXDC2etI=
+X-Gm-Gg: AYBFou0T54Y8XxtydZFa74o+nRPbxJkGJSp/VBZT6cjc9Q/hqLk26FgSUy//qoYP2cw
+	1i5DdhMJ1x9Ozyt1KAfw0LyTo4ncWnBA+0xGlxAE6xVuBehz91/hjEAvBtzwQtFDhtg1h9RGxoR
+	53R7MjRF+3wzNHhvdQq+pYm3mQfn9KQHPxtWXT8IWrQJl1SmI5qZmrNdrUdBQL/uE3aY4FdtSxr
+	2UZ560+6GfnDGEEcOEKF5/wdLBC6uv1r1tYjRUWBXco4nV7w/eAhEbCcZW3DmH5bg09ebNMWh97
+	HDwL/3IjNFo0BRI6AKOpJ/FUOkLubM25Q1AtopyplAOhyw//4EbrEC+6t3hqVb3e
+X-Received: by 2002:a05:620a:6017:b0:93a:2d15:f84 with SMTP id
+ af79cd13be357-93c2511c2b1mr290767285a.33.1790152321118; Wed, 23 Sep 2026
+ 01:32:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260923080523.9480-1-lance.yang@linux.dev>
+References: <20260916235200.20712-1-ansuelsmth@gmail.com> <20260921135933.7e8857ba@kernel.org>
+ <CA+_ehUwy9RUKCCHDnqoED3AMVnErgGr9RCrCR4ceg5QONq1wOQ@mail.gmail.com> <20260922172514.7feb6e7c@kernel.org>
+In-Reply-To: <20260922172514.7feb6e7c@kernel.org>
+From: "Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>
+Date: Wed, 23 Sep 2026 10:31:49 +0200
+X-Gm-Features: AclHuK8jGec2XT5CWPXvYVvV1bFvl8hmA75zakqIakpr84shp0cAZGnoi6_G1Gs
+Message-ID: <CA+_ehUyFKZzd0uP4akgZxaLLJTwcvGGKz5ppCYsB++fn92Dn9w@mail.gmail.com>
+Subject: Re: [PATCH net-next v16 00/12] net: pcs: Introduce support for fwnode PCS
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 23, 2026 at 04:05:23PM +0800, Lance Yang wrote:
+Il giorno mer 23 set 2026 alle ore 02:25 Jakub Kicinski
+<kuba@kernel.org> ha scritto:
 >
-> On Tue, Sep 22, 2026 at 04:35:35PM +0100, Lorenzo Stoakes (ARM) wrote:
-> >Commit a0ad5496b2b3 ("arm: mm: enable HAVE_RCU_TABLE_FREE logic") enabled
-> >CONFIG_MMU_GATHER_RCU_TABLE_FREE (then named HAVE_RCU_TABLE_FREE) for SMP
-> >arm architectures with LPAE enabled.
+> On Tue, 22 Sep 2026 12:12:56 +0200 Christian Marangi (Ansuel) wrote:
+> > The remark on the fwnode patch are invalid. The driver is expected
+> > to return those error as probe defer is not supported.
+> > (a notifier and late attach/detach is used to align to phylink logic)
 > >
-> >Regardless of whether CONFIG_ARM_LPAE is enabled or not, the same page
-> >table freeing functions __pte_free_tlb() and __pmd_free_tlb() are used.
+> > For the specific Airoha PCS driver it's really speculation from the AI
+> > but HW doesn't work as described by AI.
 > >
-> >Non-LPAE PMD page tables are folded into the PGD and freed by
-> >pgd_free() (PGD freeing is not part of mmu_gather page table freeing in any
-> >case), so this is a noop in this case.
+> > The only real comment that is valid is about the alternative way
+> > to give supported interface with the .get_capabilites OP.
 > >
-> >Since commit 358d1c39c82a ("arm: convert various functions to use ptdescs")
-> >both LPAE and non-LPAE PTE page table freeing uses tlb_remove_ptdesc().
+> > This is currently not supported as there isn't any user and it will
+> > be implemented as soon as there will be one. It's really to limit
+> > the patch delta of this change and to progress further.
 > >
-> >Thus all page table freeing is performed under RCU with
-> >CONFIG_MMU_GATHER_RCU_TABLE_FREE enabled for LPAE and non-LPAE and thus it
-> >need not be gated on LPAE.
-> >
-> >A UP arm system can set CONFIG_PREEMPT_RCU, so a future pure RCU page
-> >table walker requires MMU_GATHER_RCU_TABLE_FREE to be enabled on UP as
-> >well, even if concurrent GUP fast is not possible there.
-> >
-> >Therefore, it is both safe and desirable to set
-> >CONFIG_MMU_GATHER_RCU_TABLE_FREE for all MMU arm architectures (nommu does
-> >not perform mmu_gather operations).
-> >
-> >This forms part of an overall effort to switch every architecture to this
-> >mode.
-> >
-> >Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> >Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> >---
+> > Maybe FIXME might be suitable?
 >
-> Tested under heavy page-table teardown load on qemu-system-arm,
-> with and without ARM_LPAE. No issues seen :D
->
-> Tested-by: Lance Yang <lance.yang@linux.dev>
->
-> Also, feel free to add:
->
-> Acked-by: Lance Yang <lance.yang@linux.dev>
+> FWIW no preference here, I defer to the human reviewer.
+> We can treat the AI review as a hint if human reviewer thinks the code
+> is fine as is.
 
-Thanks, much appreciated! :)
-
->
->
-> > arch/arm/Kconfig | 2 +-
-> > 1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> >diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-> >index 408aa58a2a5b..72b9afc6ae10 100644
-> >--- a/arch/arm/Kconfig
-> >+++ b/arch/arm/Kconfig
-> >@@ -134,7 +134,7 @@ config ARM
-> > 	select HAVE_PERF_REGS
-> > 	select HAVE_PERF_USER_STACK_DUMP
-> > 	select HAVE_POSIX_CPU_TIMERS_TASK_WORK
-> >-	select MMU_GATHER_RCU_TABLE_FREE if SMP && ARM_LPAE
-> >+	select MMU_GATHER_RCU_TABLE_FREE if MMU
-> > 	select HAVE_REGS_AND_STACK_ACCESS_API
-> > 	select HAVE_RSEQ
-> > 	select HAVE_RUST if CPU_LITTLE_ENDIAN && CPU_32v7 && !KASAN
-> >
-> >--
-> >2.55.0
-> >
-> >
-
---
-Cheers, Lorenzo
+Soo should I send v17 to fix AI that failed review?
+I think I didn't got this detail.
