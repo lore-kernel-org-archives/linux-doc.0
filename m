@@ -1,97 +1,88 @@
-Received: from mta1.migadu.com (out-36.mta1.migadu.com [95.215.58.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0974A0135
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 11:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E903ABD96
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 11:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790161697; cv=none; b=Vghpo1AADomRljL+l/5A3iOrkZTIXIHjwY5whPy0YUUfoOhfmeioBGE2ReT5KD40o+zZIEsoWPlfGR6csVJkUU7Tva3fDRarNT2aGA5enyBsnOhgWVt/tIsyVufwt2fwKEI1VrJ33QlMuKXNO3FpUn/JzK1KVlJSqIvc7zne5uM=
+	t=1790161850; cv=none; b=DwTgh5VjJNsAkXy0LwXxSNs+E/IPnq8HIkmb5rARtGXPk0EiZpXvDAjJMz4+Im/pDyaFWQrBoAJ75+Xx27xgvvDw3pX2og9CBGUvgCVIXe4r97M9sMGhFxtehII42cnM2kVdd9oDpRELrWIJJq8jsxpr8d1g60yOI+yoIP3u3hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790161697; c=relaxed/simple;
-	bh=IOAKMmCBlI6Y5ADecDu+BXYPFKPVLUehlx/wlSNc7CU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dVlip6t4KMXvnzOiNX3nSc8xTMjd8rFn0MGWBF+cECRtz7OJ0bgXGworvIw8NffQzrQrQmRN9gHSgxh0qrvMUelR9qcCn7EqqB2vq45u0CBDXTsRFmq4hgBQHdAKHAcLORsh5W/lFJTFyow3dNa0W4OyMvE4ZRWHKtGcgIJe2w8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sMA7Z81l; arc=none smtp.client-ip=95.215.58.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790161850; c=relaxed/simple;
+	bh=tt4KBdEXWOMQ88MYqyly3boZmwek4FYHDFq49ZoFcQc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MYwU7NnM5N0W3qSA9hdLXEWF+jfQdPTVNybk6GQo8jA8jPvxvhKyOHW2xq+8/55MC1KMHc8+DmUJO5T3KqK2pA6EUEooSVillzugdosqDSIntwc+Tjzl1t6j9+IRoYKaGu/0yhs0NnKvytyq1zJKwlX0GnbjL/ddYhN7hgQKvr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJrLiFbx; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sMA7Z81l"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=IOAKMmCBlI6Y5ADecDu+BXYPFKPVLUehlx/wlSNc7CU=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790161694; v=1; x=1790766494;
- b=sMA7Z81ll7A33GBbRbD8avtyzEtZhqJ1xq3Wl6DmzE9okB28u9wwTqxfQIv+WTd2HkFf9XcL
- AnxL+KSAYKvaCM77yV1LIUh9UXGywU4W1Pq0hL7fDHfKvkDfDDVpeHbvz/N3FBWR2zhFl/IZYfJ
- B7JqfstjXvuF9q/dzH3HUZbc=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 04d341384fd02f0e;
-	Wed, 23 Sep 2026 11:08:13 +0000
-X-Mizu-Trace-ID: 04d341384fd02f0e
-X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b83c1421ecso4542e87.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 04:08:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBx2roI93DKp0MsTNYK+hFPqWH67jGsLaoNeE9GxBARRIMt92Ecm7pOtQOZfIbtUM3q+YyogkbRUAh8=@vger.kernel.org
-X-Gm-Message-State: AFuF++n25cQkSaPtKqm6UiOHTmUo3x5kNUYHj8d6ivcsXyOUPE1bAOUQ
-	fRDRyNS+i8u4I+SPCTaCTXNlDcxgYmwlNL6bdYGIjUHHkiIrxTsAjPKJ+O2kjyVi7X4/6zfYXKI
-	RDs1Cp3X5BlhTF3eOnVIjU3joVeR5bgozzTlvfPDH
-X-Received: by 2002:a05:6512:648a:b0:5b6:4ad:d6ba with SMTP id
- 2adb3069b0e04-5b8d91673a2mr102638e87.15.1790161689001; Wed, 23 Sep 2026
- 04:08:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJrLiFbx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790161848; x=1821697848;
+  h=date:from:to:cc:subject:message-id;
+  bh=tt4KBdEXWOMQ88MYqyly3boZmwek4FYHDFq49ZoFcQc=;
+  b=eJrLiFbxaJNHMrMNLKg+GAsVQ6B6ghXh2mymrJlIzsnrApH/rwi4tvYG
+   J9XoZeZWpOSuSCqNlHS2stB7hWkLstbRI5fNIzUgPXh1+nLhrxqns9jja
+   k5bvfUtjNp5CLkx93FpcAkCGZLgxm2cXKkawhJL4N5s7PeZUhXW2erxr5
+   SpJf3ZAMZcNq2jeBn3IgAcdE1pXzwBXm1K/VUeHaImrIs6XLvi2fuONsq
+   hSEdd8XQ2+cMvcbmdxCjFtKSJQROzOAMkMKywYDcmaxcSmFDUkiM6kly/
+   1ofVt86Z4SGgFxp8EtYadPcwMUuvll4aJ8i1HC7eqetJ5hsklLCppJ1ZH
+   A==;
+X-CSE-ConnectionGUID: NE2YvIUaQOmmpP2dYsmhgQ==
+X-CSE-MsgGUID: JZrsI577SXi0/lIaVt1BOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="116367952"
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="116367952"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 04:10:47 -0700
+X-CSE-ConnectionGUID: v1GJUr6zT0WjRSAziGgkYg==
+X-CSE-MsgGUID: 33DscqJnSYOwgILm4h9Brw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="272756134"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 23 Sep 2026 04:10:46 -0700
+Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9Ks8-000000000cx-0XlG;
+	Wed, 23 Sep 2026 11:10:44 +0000
+Date: Wed, 23 Sep 2026 13:10:14 +0200
+From: kernel test robot <lkp@intel.com>
+To: "Alastair D'Silva" <alastair@d-silva.org>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: Warning: drivers/net/phy/ac300-phy.c:2 This comment starts
+ with '/**', but isn't a kernel-doc comment. Refer to
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202609231302.L5QfwVqw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260922-kvm-arm-prefault-v3-0-787bd3bc7e3f@kernel.org> <20260922-kvm-arm-prefault-v3-9-787bd3bc7e3f@kernel.org>
-In-Reply-To: <20260922-kvm-arm-prefault-v3-9-787bd3bc7e3f@kernel.org>
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Wed, 23 Sep 2026 12:07:32 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTzY6KFekqaUX4RLRyFmSkFhOeWDZE4LjBF6owdLM8oHhw@mail.gmail.com>
-X-Gm-Features: AcwNN1USJQu0cBxPqG4Fa3XJmPPBE73PzJ6UtD9si6PNBcHUySSR3TM9mD5mIUk
-Message-ID: <CA+EHjTzY6KFekqaUX4RLRyFmSkFhOeWDZE4LjBF6owdLM8oHhw@mail.gmail.com>
-Subject: Re: [PATCH v3 09/14] KVM: arm64: Pass walk flags to kvm_pgtable_get_leaf()
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Steffen Eiden <seiden@linux.ibm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Mark Rutland <mark.rutland@arm.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
-	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Sean Christopherson <seanjc@google.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>, 
-	Wei-Lin Chang <weilin.chang@arm.com>
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 22 Sept 2026 at 15:19, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
->
-> From: Jack Thomson <jackabt@amazon.com>
->
-> Allow callers of kvm_pgtable_get_leaf() to specify the page-table walk
-> flags, in preparation for performing walks under the MMU read lock.
->
-> Reading a stage-2 leaf while only holding the read lock requires
-> KVM_PGTABLE_WALK_SHARED: parallel faults (which also only hold the read
-> lock) can unlink table pages and free them via RCU, so the walker must
-> be inside an RCU read-side critical section, which the shared walk flag
-> provides via kvm_pgtable_walk_begin().
->
-> All existing callers either hold the write lock, walk with interrupts
-> disabled, or run at hyp where shared walks are rejected; they keep the
-> current behaviour by passing no flags.
->
-> No functional change intended.
->
-> Signed-off-by: Jack Thomson <jackabt@amazon.com>
-> [ljs: fixup new kvm_pgtable_get_leaf() invocation]
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Hi Alastair,
 
-Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
+First bad commit (maybe != root cause):
 
-Cheers,
-/fuad
+tree:   https://github.com/intel-lab-lkp/linux/commits/Alastair-D-Silva/dt-bindings-net-phy-Add-Allwinner-AC300-EPHY-binding/20260916-144116
+head:   6d0087c5c37fcf119011a936fef3fa18ce5d7686
+commit: 5c03e0fe215f96bf5b0511b77301f5dcca2adbf6 net: phy: Add Allwinner AC300 EPHY driver
+date:   7 days ago
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260923/202609231302.L5QfwVqw-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231302.L5QfwVqw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609231302.L5QfwVqw-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/net/phy/ac300-phy.c:2 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Driver for X-Powers AC300 Ethernet PHY
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
