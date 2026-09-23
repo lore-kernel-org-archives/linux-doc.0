@@ -1,111 +1,229 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A880C1DED42;
-	Wed, 23 Sep 2026 15:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B396E5452A1
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 15:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790177256; cv=none; b=OYAv4YjFZxm2E9+VS7Ux/CrBEHJT4Jxa/XFgs6O6f2YpyB4HTdp2b/jEuCt3oTUzE6ewkYkFtb/fYSs3EL4Vs6BoOQ37YoJYdCk9NhA0AdWqFIB+2y8PNi1nJXwRSJGj0kMg35FKIXUtGFcmE9VEfqqgqhxEelZTK93ww/KnXvY=
+	t=1790177338; cv=none; b=arquGLsETQenatVYvDpVPzjLcmJJT72W+PoE4lRuzHwlly8uk8OxBoMU2u3E+PGxbeOJmeuip1NS3huMgaaXzdzMeESqaF7hWCr4uwrc1Rfnb7QFXoj036CMvMORPCvWeJO15KgmCWNfaE1bFYf9tKSNSzwuDcyBW/tIq+mYOQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790177256; c=relaxed/simple;
-	bh=ZmeWKlO1uWXNiNx33YICOyZm9UbJ6iEopwmUDEtFAN0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jiKUBBZluNM2PYF99XyWqD+ZqfNsj24rBbG1NAxCQzohXd4t/Ta7samPSgjw2/m9R6KvOHchX1d3Pfr6lIP3IU+4k9t7m5QsAYmkqz8xPVRbd2PhAJbOzzDA7+QtKNXuzIa78WwXaLCC4Bd+74pXdwh5Z8lkeePls/GX8oi0Tj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jD6dvp/C; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790177338; c=relaxed/simple;
+	bh=Ow/b0VBOduzDdhNQXSHxF+1EHuPjcAUN36VvLIo88zA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ROrrQqieMfG0qji7r9c+ZaWmBDBiJSUz0UNGrYyrA/BNaRRWgZLW/+TvvI/QZxy4pemQ8IdX9occUaSIgFFqCOzTnTttlKseKDXUNBAKsruc3KDcfASqLoUKtEOOkC/Ym4gALJ2wTQYnzr+2hRWE0G/nO96KtqrdpGSLL+0oG54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vy35l7pc; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jD6dvp/C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C0101F000FF;
-	Wed, 23 Sep 2026 15:27:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790177249;
-	bh=gKsiXERWQlR6rp9onnZUafQe9FGJ1g3zTuAUGmAFbnw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jD6dvp/C6uPldzGalEI3E4WS2qhrxlqI6O4ZPYpP+Cu1fEJIXwq2aVH56QlV/0Jme
-	 7sVMJfV7GmC0UaYErRA3Ug9AttKuZvYvlsQY17faNDwX/lkhou7dZb9WozungbiWDz
-	 c6Ln4RVr1ZImU4ftMon4mL0cu2+sNuR5+WGrZbDxIne8ftEPl0rWNQNoESD17gNn5x
-	 rSw6+gklNudhQnayOR555AQLV/CIXpkwV80n5Da0lFN8nG6/pGbnsGF9ypbaLyW4TI
-	 mrNmts/WGWeqxESg7mwl57+hGxfZtUaYc/zmkVJBi7RGZE8+FW8Fy4YO1YhhcAoiO8
-	 BkxGgyOWPBHSQ==
-Date: Wed, 23 Sep 2026 17:27:26 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Jing Wu <realwujing@gmail.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Tejun Heo <tj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Shuah Khan <shuah@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Waiman Long <longman@redhat.com>, linux-kernel@vger.kernel.org,
-	rcu@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Qiliang Yuan <yuanql9@chinatelecom.cn>
-Subject: Re: [PATCH v4 00/11] Dynamic Housekeeping Management (DHM) via
- CPUSets
-Message-ID: <arPv3qvVi6ioCNe3@localhost.localdomain>
-References: <20260710-wujing-dhm-v4-0-2e912e5d9645@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vy35l7pc"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b91369d18so7368755e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 08:28:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790177329; x=1790782129; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xX3eRNAQXTB3zUx5ZFPBygn1MGVMvYVvsxUYdBFoBtg=;
+        b=Vy35l7pcNRm8UGncisZrg1O4FXHGyYWPeC+jItZV04uY2l7kfpClWz8khW6g0tWBY6
+         HU2WHrnbKV2fk8S8Es1mqcZ1RClyEa5X4rK0zYI7Orbnr9WAyUb6AeuD/csJGrbUn1uW
+         TAd00GuxqWOKr/7sKqGehgz7wGItCEqr+jAT3OOJAO4VDZoRPIGrQCn6JA0li9EypqW0
+         uZP0UZ/j50B86oVPWjCaDc/kcW4du+0smHKuwCRfRK+/qwMAYUfGfQR5XLll7XkiVVd8
+         2FUjvniTmPH/PQdnxqbPIh6Q8Br7/qRBhqKqqo/IgJHhTxt+o88CTaHuvZypFlPgAfcE
+         sMLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790177329; x=1790782129;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xX3eRNAQXTB3zUx5ZFPBygn1MGVMvYVvsxUYdBFoBtg=;
+        b=Nc6r0pWXJpdmhqr4ze5cnDi/7bIXHqscIfiW6rgXAQUtBrHHNo90FxFSYUwKolEV0Z
+         TRiPQctSV1MaXrRMGj/QHUBn/XXqfBbBa0cWy2EuFNWXzSvyU+3jaX7qusJ7Ahw7IEgn
+         yt2hmgazU/t+cSKtihF5WQl04yNDlMZYWTp7SoxkhTw7WG4M6imxEUdL5jDgH191NHXd
+         IKkwEsrontyhwr0znghLuTv2mpTd+0juFd27VepWz813G6E/3Zp+YbA1ocWnI5MFldPH
+         Uf/0XojPdYz/sP4786Ap9UHdehM+UR3mU/Cg7eLJYvHeeDKnB3qjtWYCxJB6hCzEoJ2t
+         nJTA==
+X-Forwarded-Encrypted: i=1; AKwUvByWIscFqes+N5jF+vmcMxsMxK24DSeEDrs3dctzp9/M/8HDbtYb4WGF3Xqahlbjv/oatIa/Ina+RqY=@vger.kernel.org
+X-Gm-Message-State: AFuF++movZDJIHncyuAhE/s2/RTcEtkZ06iQifb6eyY+UrDCMjuSxVWS
+	J7Vgnx/NKHZRM7BDUVqww9OoPdxhfsvlZLKWWrWMyyfuKpup5mJpsYR4
+X-Gm-Gg: AYBFou0vIjRELveVco9HxmdKd2O/bpHlZw86UOguXQ4cWOuSj8eJyaaQADBDwhOoEhj
+	j5j7MavokgzrW/wnQqq1hxGG1doSbNlQZNkVSig6S2B9uGlk8wNjEK3Bj9/8DSsYsAqdcXyKU+T
+	eO+RrtwdH5wo9b4QlJ3SxSnM5dHN9ACymjFH19+KXI8hsdHTBtRczGNa3rrqaSVMg143F6ZboTi
+	xPPaMfL/4xcl7BHxyR7yM3SLYhP7x4m/nJ5v92ldmmA8m8i9/w93LErHTYkPkWIxEnqP/+K5c1E
+	vFMSoyF0UZ88zIQglwjEN1f58fz4rCGYIpD7+candKV+J+BIqtIUfjBVQaKhpFVxse5vjpLhgu+
+	kLN7LawOZYONBQoQQ4hTkBleqagE1RGnABiPDf9vsqOPR1p8yVaJ+cLN6wd9oOTK1pyqQ7yBXfV
+	mF1NOdYRf/rywVPYef5Ji0O6hrvyQvVErbyBlQJ7Yu8Nc91IwgghiAj1/nAKwFLr5fZpy9qOr1P
+	uRm90sWvJmRkjq+d6URLGKUAcKrbGC1pEo=
+X-Received: by 2002:a05:600c:46d1:b0:49d:15b9:2a2a with SMTP id 5b1f17b1804b1-49fdefffe1fmr44920755e9.10.1790177328585;
+        Wed, 23 Sep 2026 08:28:48 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fde1c159esm94134555e9.4.2026.09.23.08.28.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 08:28:47 -0700 (PDT)
+Date: Wed, 23 Sep 2026 16:28:46 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Itai Handler <itai.handler@gmail.com>
+Cc: Mikulas Patocka <mpatocka@redhat.com>, Eric Biggers
+ <ebiggers@kernel.org>, Milan Broz <gmazyland@gmail.com>, Alasdair Kergon
+ <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Benjamin Marzinski
+ <bmarzins@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ dm-devel@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/1] dm-crypt: allow encryption sector size up to
+ PAGE_SIZE
+Message-ID: <20260923162846.0d198104@pumpkin>
+In-Reply-To: <20260923113903.901245-1-itai.handler@gmail.com>
+References: <20260922120330.127262-1-itai.handler@gmail.com>
+	<20260922213457.GA3536981@google.com>
+	<CAFpOueSjekxhjEosQGiZ9BiDh5tFOqBPX5w_2PVsrcN6pO+dHw@mail.gmail.com>
+	<9a6c20da-4da9-4a8d-a6d4-f18900228bf6@redhat.com>
+	<20260923113903.901245-1-itai.handler@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260710-wujing-dhm-v4-0-2e912e5d9645@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Le Fri, Jul 10, 2026 at 11:28:11AM +0800, Jing Wu a écrit :
-> This series introduces Dynamic Housekeeping Management (DHM) to the Linux
-> kernel, enabling runtime reconfiguration of kernel-noise housekeeping
-> (nohz_full tick suppression, RCU NOCB offloading, and managed IRQ
-> migration) through the existing cgroup v2 cpuset isolated partition
-> mechanism — no new kernel ABI required.
+On Wed, 23 Sep 2026 14:39:03 +0300
+Itai Handler <itai.handler@gmail.com> wrote:
+
+> On Wed, 23 Sep 2026, Mikulas Patocka wrote:
+> > There is one important problem - the SSDs and HDDs today have 4k hardware
+> > sector size.
+> >
+> > If you use 64k encryption sectors, the disk may write only a part of the
+> > 64k sector during power failure. When you attempt to read and decrypt such
+> > a sector, you get garbage.
+> >
+> > This is not a problem for XTS or ECB, but it is problem for CBC and most
+> > other encryption modes. So, the patch should reject using larger sectors
+> > with cipher modes other than XTS and ECB.  
 > 
-> When a cpuset partition is set to isolated mode, DHM cycles each CPU in
-> that partition offline, reconfigures the housekeeping masks (removing the
-> CPU from HK_TYPE_KERNEL_NOISE and related types), and brings it back
-> online.  The subsystems (tick/nohz, RCU NOCB, genirq) pick up the new
-> masks through their existing CPU hotplug callbacks.  Destroying the
-> partition reverses the cycle: each CPU is taken offline, restored to all
-> housekeeping masks, and brought back online.
+> The mechanism is real and I am not disputing it. What I would like to
+> put to you is that it is not new, that this patch does not change it,
+> and that documenting it fits what dm-crypt already does better than a
+> new restriction would.
 > 
-> Housekeeping cpumask pointers are RCU-protected to allow lock-free readers
-> during updates.  A global dhm_cycling_cpus mask suppresses transient
-> cpuset partition invalidation while CPUs are being cycled.
+> A torn sector is possible today
+> -------------------------------
 > 
-> This work is related to Waiman Long's [PATCH-next 00/23] series
-> (20260421030351.281436-1-longman@redhat.com), which also targets runtime
-> cpuset housekeeping control.  DHM's distinguishing feature is zero-boot-
-> parameter activation: nohz_full+nocb isolation can be achieved at runtime
-> without any boot-time nohz_full= or rcu_nocbs= parameters.
+> Consumer NVMe are generally shipped with 512-byte logical blocks and
+> stay that way in use. Installing Linux does not change it: partitioning
+> and mkfs work inside the logical blocks the drive already exposes.
+> Changing the block size is a separate low-level operation - nvme format
+> with a different LBA format - which is destructive, which no installer
+> performs, and which a drive may not offer at all.
+
+And you really better do 4k aligned 4k writes.
+Otherwise performance and device lifetime are likely to suffer badly.
+
+David
+
 > 
-> Signed-off-by: Jing Wu <realwujing@gmail.com>
-> Signed-off-by: Qiliang Yuan <yuanql9@chinatelecom.cn>
+> The machine I am writing from is one: a Samsung PM981a carrying a
+> complete Ubuntu install - GPT, EFI partition, /boot, and the rest of the
+> drive as LUKS over dm-crypt with LVM and ext4 on top - and it still
+> reports logical_block_size = physical_block_size = 512, with no
+> atomic_write_* attributes at all. The dm-crypt device on it reports a
+> 512-byte logical block too.
+> 
+> The atomic write unit follows that format.
+> nvme_configure_atomic_write() takes it from NAWUPF, and where the
+> namespace does not advertise one the unit is a single logical block;
+> controller-level AWUPF is explicitly ignored. So on that drive the
+> guaranteed atomic unit is 512 bytes, not 4096.
+> 
+> Which means dm-crypt already permits, and has permitted for as long as
+> sector_size has existed, exactly the situation the restriction is meant
+> to prevent: a 4096-byte encryption sector spans eight device writes
+> there, with seven places to tear, in any cipher mode including CBC.
+> 
+> What this patch changes is the maximum size. It does not change what
+> any mode does when a sector is torn, and it does not make a torn sector
+> possible where it was not before.
+> 
+> What a tear costs
+> -----------------
+> 
+>   XTS, ECB     each cipher block is independent, so the sector decrypts
+>                to a mixture of old and new plaintext - what a torn write
+>                gives on an unencrypted device
+>   CBC          P_i = D(C_i) ^ C_(i-1), so exactly one block, the one
+>                whose predecessor is on the other side of the tear,
+>                decrypts to garbage; the rest is old or new data
+>   AEAD         authentication fails and the read returns an error rather
+>                than data, which is the loudest and arguably the best of
+>                these outcomes
+>   diffusers    the whole sector decrypts to garbage; in practice only
+>                reachable by writing a table by hand, since BITLK uses
+>                512 or 4096
+> 
+> My view is that all of these are acceptable, because a sector whose
+> write was not atomic is lost data in every one of them. The filesystem
+> above cannot rely on a partially written block whatever comes back from
+> it; the cipher mode decides whether the loss looks like stale data,
+> like one corrupt block, or like an I/O error. It does not decide whether
+> the data survived, because it did not.
+> 
+> Documenting it
+> --------------
+> 
+> So I would rather say this plainly in
+> Documentation/admin-guide/device-mapper/dm-crypt.rst than refuse
+> configurations:
+> 
+>     An encryption sector larger than the unit the underlying device
+>     writes atomically can be torn by a power failure, leaving part of
+>     the sector written and part not. This is already possible with a
+>     4096 byte sector on a device whose atomic write unit is 512 bytes,
+>     which is the common case; a larger sector widens the window. With
+>     XTS and ECB the torn sector decrypts to a mixture of old and new
+>     data, as a torn write does on an unencrypted device. With chaining
+>     modes the block at the tear also decrypts to garbage, and with the
+>     wide-block diffusers the whole sector does. Use a large sector only
+>     where losing a sector to a power failure is acceptable.
+> 
+> Reworded however you prefer, and I will send it as part of v3.
+> 
+> Rejecting modes above 4096 would be a new restriction on a hazard that
+> already exists below 4096, and it would have to be revisited for every
+> mode added later. It would also read oddly to a user who meets it as
+> "use ECB instead", ECB being tear-tolerant but not something anyone
+> should choose for disk encryption.
+> 
+> For what it is worth I do not think many people would meet it either
+> way: cryptsetup has defaulted to xts-plain64 for plain mode, LUKS1 and
+> LUKS2 for years - plain-mode, luks1-mode and luks2-keyslot-cipher in its
+> configure.ac - so almost anyone asking for a large sector is on XTS
+> already.
+> 
+> If it turns out to matter
+> -------------------------
+> 
+> If experience shows this does need enforcing, the version worth having
+> is not a mode allow-list against a constant but a comparison against
+> what the device actually advertises: refuse a sector larger than
+> queue_atomic_write_unit_max_bytes() for modes that cannot absorb a tear.
+> That plumbing exists, and you enabled DM_TARGET_ATOMIC_WRITES for
+> dm-crypt yourself last year.
+> 
+> It cannot go in now, because on drives like the one above it would also
+> refuse 4096 and break existing tables, so it needs a deprecation path
+> rather than a one-line check. That seems to me a better use of the
+> effort than freezing 4096 into the code as though it were a safe size,
+> and I am happy to work on it as a follow-up.
+> 
+> v3 will carry the documentation above, and the two changes I already owe
+> this thread: dropping the dm-verity comparison, which does not apply to
+> a writable target as Milan pointed out, and dropping QCE as the stated
+> motivation, which Eric was right about.
+> 
+> Thanks,
+> Itai
+> 
 
-Sorry for the delay, I'm finally on it.
-
-One thing I would like to have is to make HK_TYPE_KERNEL_NOISE to always
-be a superset of HK_TYPE_DOMAIN. Ie: Cpuset's nohz_full should imply
-isolated domain partition. Or to put it another way: a nohz_full CPU should
-always run on isolated domains. If I could do it again, I would enforce
-the boot nohz_full= to always be a subset of isolcpus=domain. But we
-didn't know the possible usecase of it at the time.
-
-Thanks.
-
--- 
-Frederic Weisbecker
-SUSE Labs
