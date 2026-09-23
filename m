@@ -1,193 +1,125 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDD749892B
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 15:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAD85476C2
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 15:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.204
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790178012; cv=pass; b=N49G8d3UP/XNneMDSrPr6iPiW0Z0gk0zWX5HJPk8I7hZAlkCeVs94RKkwdzDGpixCzhhTAHoQQvMqRVpzMQUuSikeStyHE7PPVEg8d3zvzTER0j/qP7YiHTGLXADAr/jkOUPH4OHUV2jSOLN238kIn1qy0W8nkcONcLOOUje0hA=
+	t=1790178019; cv=pass; b=Z50zwk/uDsEi3CChbjF7RsTOvl3vDYTc4WMvU4KCs+NtKbZcBuF7krsiul8wi6mPWAXzhXXCZwMgH92QnP9VmxiGLgUa2tFss/t/hDn8CcV4m8is/55eprUPCoF9nh4X4ynCPeIYW9xHTd7Coxao+U2bP9YIiMm44v+TG/EFZjs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790178012; c=relaxed/simple;
-	bh=oRTF3Im1M+Uz/L6RRIk5YYuOIAwa1Ue8MbZXRrHJCXE=;
+	s=arc-20240116; t=1790178019; c=relaxed/simple;
+	bh=plBphVis8sYLOOrAsqWWkAJL0HO8LEBNGCFMlGRTMVw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LLlZSWRzOO1EW/ZlchAq4PPzxdgkLco9uINILVJNR77NUMfYWWFH8W9mfw2rl6KHm5rUhSx6ksvAw/GlaFnXNkbIxUk/mz1PnPAuFRH++pM0peuDWE6qNLdiupCuL/guiVKzWZJ4JLn1UOVkSEJa82jR8rVphLG7duEFzS3wIuI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K705h6J0; arc=pass smtp.client-ip=74.125.225.140
+	 To:Cc:Content-Type; b=u0WlAnxu+hZkxQJqXHGkd9TNeQKAp043Y0kwGNghvO40QWLkCWWY6zgebHbj7M0BtKzGXTJqvvsAMI/PdWYb4+IhiuKsgp+A9I50fKOMTh4LmFwhuKKoyEW1DmJYpQ7oBeHD6t2NJxlycYBqDRYW70LY16tTRtZdahjo5wJj+wQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cm2INPB/; arc=pass smtp.client-ip=74.125.231.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K705h6J0"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e66390995so6919605e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 08:40:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790178009; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cm2INPB/"
+Received: by mail-oi2-f12.google.com with SMTP id 46e09a7af769-7f4bdf2e95fso150479a34.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 08:40:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790178016; cv=none;
         d=google.com; s=arc-20260327;
-        b=MHr7TDNV59HSoUZaDtF7rjx+lzkvEaZ9m1Yac23hGPUS/gchCkGdxEWt3ScvSnHv9s
-         Wzt5t3V1Lxt+5+xxgZaqtptnCH0unmUtXlTdAI5y9so2SW6iiRMJMY8Y+fUaDA4ep0L1
-         F02F2x3pqaRl1qR1FAhWukAAGXSdk6CXZudHxMzE3NE/yhUwYsbQT/dR372T1cVKYZRX
-         Tvy9SXvIEM+F1aUH1R9FLpF9H5kAkirZbanm2IvC4pBDTmjz22fyzBJMI8R4RRBpqR+c
-         EPtQaQo5I/kghj0je/V1qDcebVb+BMwpxwwAfqWxKlM2ZcbJK6qBdCXjaFS/FPG8a5v4
-         V5bQ==
+        b=cpOMhKFE+O5+s1P8cn5bycjwVbj0GBauEU93TnbjPa7u6SBNY0XqtxVY8l9t6rCKrC
+         MqedEjYEQKOmVaeXrXCnC/ViU/c7eQAHucKKQC5n3iHzLi2pATAuG8Ob7VYPXaQamJvj
+         RhT+0z2WDU9Vwi8l4xZnniDvHuKIj2KxGTFeLtOnI2uT4TfOb9M3FMD8C7s8bKmcR4tV
+         LzBLXgvGqS10dqNZ4T5WfSDhGJntiRLS6a66lnVyDy9TOnuQ0VGZqP8zu8+ReLjO8jb2
+         +Z483FV05qZLXKCjC1amv9o7/zYWd3EaW9NuluPltWjAje9PeT5P98bWhHVP0LH7FTch
+         i8rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=oRTF3Im1M+Uz/L6RRIk5YYuOIAwa1Ue8MbZXRrHJCXE=;
-        fh=1laOwzmvNnwSBoocz/A8bS1e1C82RJqP6cJcFIgdUyA=;
-        b=DOXYMevampnpTMY8g2l7pHxmQ8wIIGxOLFh7/EZJ0OkwHCQYP2ETxobkqER7ntaxOM
-         2RDNCpz+o+o43ZGab1QmkwAQqAxzXuWUDKUNO1sEINRRACXhZ3cAS0ciG6HpygZZuzLH
-         KO1y9T3URtcqjyN2mg3u05zyMMGnH7yAEMJjv/xMdQO54Z7gKh6tjbSblt2pQfj1RUUq
-         vjaLSBQriJQ+qNclYKWqOLGy+MrQYSgES/GY7UlP08xeBJvMOTNJXrZh4gNxRbaNvC6z
-         zfyDv5ZixTvzDVkrAskrxWK2N44e7/bbPFK8oIRselVPnmi7cmEdIwAVD9OXx9FhfXGh
-         lP9A==;
+        bh=plBphVis8sYLOOrAsqWWkAJL0HO8LEBNGCFMlGRTMVw=;
+        fh=nTwu20bhj3fRJ1ZNjbTzIUfAXpLOiY0IRynFVcLCMoo=;
+        b=qSfL7gyV9DUuv2QypYckprUnVtiNGV42HuOZ9fcW1tzKE6eh74gNh6fWqfoRiKJgry
+         GoLM5NeVV7Q85xtwRCUfm00oRWosXMkvemrR0L3zQOtL5rr/Uil3KFGwpGYG6wn81Isp
+         Ta+1hwefSrfTRRiwk+DBFTWlYQTZUejKoB9791PMqT7YwBogrl9c6lQFd98bdZd6nSmu
+         9IVq93FEbVdbc875thYWRyc6xQ809bqEnkYA6fR3RT6QgiPWQRBREI5Tc9Dd9lkfWWsy
+         awGv9MesHpMQbEp/1nJwTb4RrxtKZbojtNtyBXnIuXJoTFH4KZHei9B3tvUzUvXgSbQr
+         WLJA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790178009; x=1790782809; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790178016; x=1790782816; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=oRTF3Im1M+Uz/L6RRIk5YYuOIAwa1Ue8MbZXRrHJCXE=;
-        b=K705h6J0PMgHOuxIzLtaakk50Ggqez6OUwBmnqx5qii2clr19ufvUQBm+UpxsuYk31
-         JkojYfZQUkvNXoRCFaSQMubgvEdPdcjREJJQ3FpUX8xwLgU8d/3+RNEv9xSF1F6vjAga
-         fgzDoexyOVw2sVIJgqIk6yH0oM66AGVlEXaMmGi4BN/SkMI94qL6FPDdCYDnuxIFnASC
-         OniyjjhzEo8gZBQ5QnzGIfYpQAZPfTSV1yIEyNg2mxi+DoHePUoZBENKOZwixtSqSbg3
-         OWzpeDLlKi3w/umHgRL0I4vKI4+qgcyiXZ3Aa2/v8QbKzk1CDEwisq6GabreOvQag3/c
-         ew+A==
+        bh=plBphVis8sYLOOrAsqWWkAJL0HO8LEBNGCFMlGRTMVw=;
+        b=cm2INPB/9rCqjGjznTx5zKWjrWfIWpnXs1FvzTdYqkVb88o7r5PsQtPn0uiuVPmnXC
+         MX+tQKC46Md0kIf/xSfql3JI8jk8bZGaudWm+a8OI+3n0x80ECOAUxLnbh7p4BymQ+1z
+         gGDM8DX+WamDE9uhQ13GCKBtV37b5dIVJh68fA7G1hIyak8/GH30PUmpcg8N8qzSuaJF
+         Hlsw4VRBcntF8kMTGrBbWpCl+d4UbAkmLzRdn3qJUIDIqH/nulpMI2ezM8OoUKZ4540a
+         w0l36sjehhvgGfijL8ne78bQImuJ3/DR1UVURKu1a0NYNGWDsySW8zpg1XkCX7ZPohuY
+         X0lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790178009; x=1790782809;
+        d=1e100.net; s=20260707; t=1790178016; x=1790782816;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oRTF3Im1M+Uz/L6RRIk5YYuOIAwa1Ue8MbZXRrHJCXE=;
-        b=zHI4opQETHxCYl5m1iDWe6GMagf2jYIjzs1nHYNVM9Hz2siiY6PqiVPknUPdwtloqa
-         4MzwfxPOL1LXip8i37o2eFcbP9NSBVA8JO9yv9YfKeBwaS56Pq1OI249RK8nRB8XDY9M
-         FdWZqL59lj1IrNhNomnecGxKL/MdbQ5PwXgoOqfN7n+ufMeQjnBp/WEDuRdnMCOd5wIs
-         pZK4jvq9VVq4csPJ9mVj30RsmUspUWgk/tB1SDq/va8rQ0DGbCOBMzwey4kpSfDVFEIb
-         GHD58Mz7y1HcLAbZ4HyMALGOKqiJ3QbaSqy5riTGuFziUaE5dHCFazuQjq7eILBxwAoJ
-         0NcA==
-X-Forwarded-Encrypted: i=1; AKwUvByhi7er29M2BilcbPf5iVmOKtAS6N41LbHP1SQ1Kn6fR6ks0nt7KcpfvAGOacj8gr43Jn/v0KilIuM=@vger.kernel.org
-X-Gm-Message-State: AFuF++kwk9QFBhi4GodCJI8AQ6IG+z9LZ5jO4jv0rmGlfZ9Om6u2uHHS
-	DfBLJ0/QQpGpVMgzgRW9Coqp9dLRoRjj743lJwyxVwEXjIeg7q66nuanEsWkuNrK2eoPT4AUtq1
-	s3GGFodzrLiyNchBOtLreJQVvXlndIno=
-X-Gm-Gg: AYBFou397ft0P0eoU/ps9Ra/z5j21BkZB5N0nEFvlHMB7J1u6tE1/Iy2acvVVFWWHvA
-	9uaJjQGWlc+926KmNgjvl92zRVrqCwHSS+qVKkzPhWT7X8ICTdIRd6oCB8Ba165+PCQkH8CTbA2
-	2FN4szEu3hf9BrrhAREVbc8gI9ohuE0+gUQMVEwi8QtwyNY+66332Gt0bXjxCpOvJ4w+a77Do+S
-	vqZhFU0xOCs03QlHrO7jxPh4sqXwWT8RbjuYO14ij4Av5Vb6spEzBBlu00nMf6EG+ykM8XHgzrO
-	G++hIZVEughc4DVT45a322wo6NyzibmBQNc4LNyeFu5FSXmdLrHs+s0Fau1jJcQU0CZrE4ax1jA
-	zV7reD9NjtjP0VZ0qat6WcQ==
-X-Received: by 2002:a05:600c:3b98:b0:49c:ffe3:2b3f with SMTP id
- 5b1f17b1804b1-49fdee0b045mr49105485e9.3.1790178008824; Wed, 23 Sep 2026
- 08:40:08 -0700 (PDT)
+        bh=plBphVis8sYLOOrAsqWWkAJL0HO8LEBNGCFMlGRTMVw=;
+        b=SjnigXX0dln60Rpg6JRbi0wSZTTQAp3mj5kkUUu20wfOlUXKwPc62kAaIy5qEnYG8r
+         gEg9pS0qqDVL9k9e7DZ9UGx89LUycoJ8Z11bUDT8MYN66SB9XKCFT81roTVIUICgPRxG
+         mICF7k5dGa4/nyBFhtKdg3piVEnz7iu2O3cVmVEQ4hMfazW2ntyqslyCjdaYDJsbe7hI
+         J/KMIl3t+CgZBw8L1s+FvCygP+lzeZ4yGW/O9ZQeYTwSpxEHUKYCiZWaIO12V6Wxa+pQ
+         f4W0iI+FzzD7vQO++T0Xzpsao3xMuVxXD7/GTZwX4RtJnFO4UrhphxmKfOSlK7P81INz
+         wWqw==
+X-Forwarded-Encrypted: i=1; AKwUvBz8xW8kHWLgONOWEUr1FYJ36Z1RflVXD0jkZZzNWM18M8v5YnL05rA01oSNgj0mvB8MN6atx20P5KE=@vger.kernel.org
+X-Gm-Message-State: AFuF++kW4w+w7vs59Ox8HY+qmceuCNXDKipEFb8l0eAJHuWKI2WR6VHW
+	qBQD1Xpmqb821Hvtf0XJUDDcEh9XcN4Jxmc66sfPHMBS+sU9++LejuRL1a/K+xGueSyL5VRgFt2
+	eQUX7FY1cEfCpS8tV2tB6Vm9Dun8w0hc=
+X-Gm-Gg: AYBFou2w6RWrKYwaGwYpuimM+6qXzAlcGm2ZzTv/yE8gdg3TfsgRW8l5Rq4v0MfYQiV
+	5bqDynBBmgx4faesigr2oaG6fvdECM8+2RafKy3GIegpDaHrtPUHOIO9zc/6EaqbDcWEOw28Tva
+	lz5nyg0atUZlFJJ8V/5YFupEWvDev1srS0GKBzww4x+9o9BfVzFAFU5bGxwtmMR3MElcD6f4z/Y
+	iVOiZ0FqXXfQd+EKmrpPLDKCbbtQ5+HT5HMb6xb8JC1X/XpcDI1Lfb+wDgJ+Dm6Ictr3CNyHC9M
+	p1fOIphuAxlAn7BKd5bv05nzqnzxFTFcfuUDqTcH0sEcV8itTB9GL4v1V3pyXO0DA2OjHWHJTNy
+	7Aoa3oQ==
+X-Received: by 2002:a05:6808:1a1b:b0:4c3:ef94:830e with SMTP id
+ 5614622812f47-4d5b9f9412bmr3726243b6e.3.1790178016141; Wed, 23 Sep 2026
+ 08:40:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
- <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org> <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
- <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F> <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
- <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F> <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
- <e879ac65cb0940325736df7984c737edf1c6be94.camel@surriel.com>
- <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
- <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
- <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
- <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
- <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
- <a75b2eac4297ca6b238dde6f9246d2c1807b935f.camel@surriel.com>
- <CACePvbW_-6M63_a7Cp+09dTmpHeMEdj9VDQZf8g8qoYKQD=wvw@mail.gmail.com>
- <CAKEwX=NrN7-u7gnGvWX3qfHaBQcN6FKsFP-4-k76F=sxM1LJqg@mail.gmail.com> <CACePvbVuFULQVvi4UOrvKaJ-5kdWWU5iJH20gH-9nZ-6ZbEqMQ@mail.gmail.com>
-In-Reply-To: <CACePvbVuFULQVvi4UOrvKaJ-5kdWWU5iJH20gH-9nZ-6ZbEqMQ@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 23 Sep 2026 08:39:57 -0700
-X-Gm-Features: AclHuK9yzZQ8knvLntjCBA5cf9Cy4ULZiHDGlI6Lczzxd1aMzXh7STrzunZTFqw
-Message-ID: <CAKEwX=NHikpXLJio+c92EVp=uSqPgS4_JFkWg-9smkGM=XTo4g@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Chris Li <chrisl@kernel.org>
-Cc: Rik van Riel <riel@surriel.com>, Gregory Price <gourry@gourry.net>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+References: <20260914-netcons_ratelimit-v3-0-8e81b789ab37@debian.org> <20260914-netcons_ratelimit-v3-5-8e81b789ab37@debian.org>
+In-Reply-To: <20260914-netcons_ratelimit-v3-5-8e81b789ab37@debian.org>
+From: Gustavo Luiz Duarte <gustavold@gmail.com>
+Date: Wed, 23 Sep 2026 16:40:02 +0100
+X-Gm-Features: AclHuK-eiR2fNKubYazj5gcFmudoFI1w_j91DvZRl7oxVpCmicGBPNhjY_7h0xQ
+Message-ID: <CAGSyskW+HsE6Bp=95EMF5rWqKtoUAFp6CjH8sAFs0gYywuALvA@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 5/5] docs: netconsole: document rate limit feature
+To: Breno Leitao <leitao@debian.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, paulmck@kernel.org, asantostc@gmail.com, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kernel-team@meta.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2026 at 12:38=E2=80=AFAM Chris Li <chrisl@kernel.org> wrote=
-:
->
-> On Tue, Sep 22, 2026 at 7:33=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wro=
-te:
-> >
-> > On Tue, Sep 22, 2026 at 8:23=E2=80=AFAM Chris Li <chrisl@kernel.org> wr=
+On Mon, Sep 14, 2026 at 1:11=E2=80=AFPM Breno Leitao <leitao@debian.org> wr=
 ote:
-> > >
-> > > On Tue, Sep 22, 2026 at 4:59=E2=80=AFAM Rik van Riel <riel@surriel.co=
-m> wrote:
-> > >
-> > > Yes, I can agree on what you observed. You are using anon + zswap on
-> > > that app alone. That is not what I originally asked.
-> > >
-> > > My original request was for the whole system: what percentage of the
-> > > total system RAM size has been swapped out to zswap.
-> > >
-> > > Because when you have 100% of zswap out, it will likely trigger
-> > > different kernel code path on allocating memory. You might suffer
-> > > global memory pressure you did not observe in the single app memory
-> > > pressure case.
-> >
-> > What does this 100% figure refer to? Pre- or post- compression size? I
-> > legitimately cannot tell.
 >
-> The 100% I mentioned above refers to the pre-compression size. See my
-> previous email in this thread for details. I have been asking for a
-> max(%) number in your fleet for more than six emails now. My point is
-> that 100% is not a usable metric. I suspect your deployment doesn't
-> have machine zswap even close to that amount. Glad to be proven wrong
-> with some real data points.
-
-My point is that it's an invented problem because of the interface you chos=
-e.
-
-My interface does not require setting any such number or cap from
-userspace perspective. The only cap is based internal
-implementation-driven.
-
-You're the one proposing an interface with static limit. You're the
-one who have to justify a) why we need that limit in the first place,
-because that's more work for userspace and b) why the default value
-makes sense.
-
+> Describe the per-target token bucket and the two configfs files that
+> drive it: ratelimit_interval_ms and ratelimit_burst.
 >
-> >
-> > "Trigger different kernel code path on allocating memory" what do you
-> > mean by this? This reads like you're referring to post-compression
-> > size, where one cgroup eats up the RAM of the host, affecting other
-> > tenants in that host. But putting a limit on the virtual device
-> > capacity limits the PRE-compression footprint. It is a very
-> > unpredictable way to prevent the effect you're referring to above,
-> > because compression ratio is unpredictable ahead of time.
+> Spell out the two properties that are not obvious from the file names.
+> The limit is accounted per message rather than per packet, so a message
+> split into several ncfrag packets is never truncated by the bucket
+> running dry halfway through.
 >
-> I mean triggering the direct reclaim path because zswap itself can't
-> allocate memory for the swap cache to serve the page fault.
+> List both files in the target parameter table too, and qualify the rule
+> underneath it. Only a disabled target can have its parameters updated,
+> these two aside.
 >
-> Chris
+> Note in the message ID section that a message the bucket discards never
+> reaches the counter, so those drops leave no gap in the IDs.
+>
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-Then it's out of memory...? If you couldn't zswap those pages then it
-would just OOM earlier?
-
-If those same pages are not in (z)swap you would have bigger
-footprint? I don't understand what's your concern here.
+Reviewed-by: Gustavo Luiz Duarte <gustavold@gmail.com>
