@@ -1,137 +1,187 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB842E0914;
-	Wed, 23 Sep 2026 00:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F42F345CCD
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 01:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790123297; cv=none; b=NbRsDLdzZAFNRa7rObyHNh0yc8uZ+7DSt9rwWybpvJgjjFmvZ1/gSB82oKSubZo/hKir1oUXk0YQEo/KpfqvoGILLJZM2hTu5pIb/7guZ6Z/bUovENXpnVl4ZLrlEVcaKW9MJdfnihl2rq1VyJeEuZW04j0jAwsZ0/X45rtX6RQ=
+	t=1790126441; cv=none; b=AA+jwpJbTTHkywMZQvJ2beh28OcO/dcFj0H/vhy6aEq4XfIvJi+Jx98yHCMzb0ZdoOuKIUJToC7t9A2TNM9stWT71SmaA2t0vFO/3yGGu1lSl+eSGb+nmEUaOOJLhMIMlzePk2AFtRk8ewn2CQuB7EESGV4w56KXFYqLcblXmYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790123297; c=relaxed/simple;
-	bh=e/8AUG/U+Kxf1s5zTCI9RybjwZNolay9RX9f+zXPy9E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jjuxpugz0WrccF7ORp6VEPbU/PlinQ1ULMn3LGo9wGab8cUmrB5MPx1ywLUhJ+mWRwYkJfH+jVaEc3fgXSfREOzWHMc4obSwjOu34iwwXAvkHUtMFDvnQqmPI9bsdmV8m88A5sdzIZwTtWY8TCCsPJ3n0BjcZ6PnR+JOWe+eklE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MQK7JvYj; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1790126441; c=relaxed/simple;
+	bh=I81iv3lczUS3G6IPpI6uKZ4DjFCsc5VGR7jHPqYVRgs=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=ot54fGUhm11P7yIo5nJrf4bENySQymz8p0TOe2UWiV0d3MCWEJwx0VdLxQ1G4GB6y+4fwRO1nfp3L/3wlN4T9Lbjzmu8Il6wDJv52RCQdTCrXe7w9g/w5VSS81kopskQvYB5U1FXGDuizrqLkMPGZTjcMyKs9GTqDKXFOnCfWng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BuDUsr2i; arc=none smtp.client-ip=74.125.229.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MQK7JvYj"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 1C0D840E0173;
-	Wed, 23 Sep 2026 00:28:13 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 2CL9VprPB2RT; Wed, 23 Sep 2026 00:28:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1790123283; bh=Aei0PnNzOTQ4gUUS/HiOefLQYuJlYg4D48KXdNRhLDU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MQK7JvYj3uTqo4iUnmytE6B5PDXhZoHcJ3o/w4h4dEhyK+MtCeOiu2G2pxo22Ydds
-	 yO56SIIGgm6XzZST5WFFu7gOeB2fZb4DaznqdN/85dtnA3jMfdSGUEQk8tYxkF64Fq
-	 NHBYNCotYo8eIEZQUf5UzDDXoD3QF8mgGHCS93ThPVcvnwfhQ0uEouyTgzvRoharKx
-	 OA+cwI9oy6qb0rPVAeBL5BRc7UqrsdMDSkUa9QHk8IR6ko52rdlKBS50K1iUnoYVN5
-	 +/XdhL/TckndyuB0WZQB4kTLRrYI9BlpVfqrcmabOl0brkPsDg66U8M+9oO0R/Smr4
-	 O7aGjmfiaVkDXLA1HSeHnFL2qmYHq4PTKFcNvrzLYFEbD2wtKhP3ACspeF4u3IEvOZ
-	 xjyBPOHI+H6jjKDnV0Ycem0FnkLcXVFm8QNb0d6/s7cR5TM6p5oBOgFqnrO9hKbYNf
-	 lFazQltkWOpOC1fIm6wy65dG53wFcrdj6pzDsF6btEHJflW+2afwzSA5pEsNU8IPop
-	 EtyaOCkvwj3n0x8BBaaJNjd7kMNzXbSfM6GuLA5A6nsF+BlBAPisVt/d1Lp4qapRGo
-	 3O5FPuJ6QMqrav1S8AFqxhESdv+FRYQ73VtM3vK3dc9DSrw6gLg8Z3POwVCvg452Ao
-	 gF0g9uZVEPi69dLu4GxxvA2Q=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6899640E015D;
-	Wed, 23 Sep 2026 00:27:43 +0000 (UTC)
-Date: Tue, 22 Sep 2026 17:27:40 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, x86@kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Subject: Re: [PATCH v17 01/13] x86/mce: Fix hardware debug register
- corruption on task migration
-Message-ID: <20260923002740.GAarMc_PJBsgo8Z-G9@fat_crate.local>
-References: <179005108298.388919.4535333252892590932.stgit@devnote2>
- <179005109564.388919.3937970081044095776.stgit@devnote2>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BuDUsr2i"
+Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-328664d3421so229242eec.3
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 18:20:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790126438; x=1790731238; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=bexp4Cp8y+5hA37h2dF2gaOO9AQzqDKE3dHgoAsDxks=;
+        b=BuDUsr2iFSI6goqLTQcNUXI2wUY6rHleI30cULIc5XYxmWUBbSLBePQgdhl02a0qfE
+         kefcvMTi5XTKPoANKdSykYk+0aPfMfkNLRc89wFh1FkoBB7Oeoq3VumV11NAYFlABqZe
+         N9ykxm/lA0jy0WDfFlE0OdVQcZpkqt4IjFfQEG0XhvjzZJjfe2mK6vMArZHwg+eQpRd0
+         qiXpnrtJr2+n3suEOQ4ad1cC38ZkpOZWe+roXDBJO/71sUrTFm4I11FJkpLWSX/6M+E+
+         t0FRdbeChzmmoqRcutl0ha0MyZybBvSh8opSEUcPFjOjANGi2tu2HLkZPyqI1WmUvSs6
+         PbYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790126438; x=1790731238;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bexp4Cp8y+5hA37h2dF2gaOO9AQzqDKE3dHgoAsDxks=;
+        b=Ufl8o0g9z15VmC0Dees75pR6xdT5VuRqz+K/ysWARLbKeGewr7ritZeP+olAtXMsBG
+         UvxxzrEAzwRVVnlu/PyIlP+wxsSOuvgituCUOfsF5DgL62VQT9AYdk1hEZIZX4wJEfgS
+         dE2WTxROdgv3QhzMjs17m7k4+ljX3VDzyebuhsNNayA7MznvAhJtCdIF4qjaJbvGYn8Z
+         fnSdVyccTZ9ly7oa2fzoP94B356ytKxIYqdmuJZrLq1HpsFE3wAq9fY+R1tORv1o4wuv
+         6HdPp80TUgDHpKsXbZuzQW2q3bVewh/YLmSMEHoYoSB9AfbLEm2JjUlcov8ytg7H4Ixt
+         Z5LA==
+X-Forwarded-Encrypted: i=1; AKwUvBzjWwsNtKODxaTZIVzEl64Bwxz7NvN3R181czJfrYqRjn69EtcDYYyTMzY7WjqGgQCld0PTMp2CVEU=@vger.kernel.org
+X-Gm-Message-State: AFuF++mTEvCkkAoNTHkivfvrAtpeQwgehJQbiyXUKI8qw8HeY5QaBG9j
+	OBhuZEIxf0YDmbmqsfM2RBBNvyJ9EhqqWWVM5ufBqBTUAz0B61dlBBen
+X-Gm-Gg: AYBFou07JgGPIu0bWiODOqzpfIoHMC0tsV2OvMWeAQV41ijm1y0lfqNzHtYpdsKQGh4
+	OI9wj3iPacIPxEkqb25ZJGT+RkVi/7oRjKgZwltxlfjwxSydGcs9oH9Y+u92ZrnLdjC/hrUrmdL
+	aYIZ8P3O28/goUWrwh5wyzsDpxzVuA+BMWbXMRrcoAfZA7OyX51+o2eXeQZvLRd0fQWtNWaHZoL
+	Hd4shjNzNizeqFGMIMOlXBJoZhDOePlvlcV+3JVR4BKwzDTjwoYJiGhz9A09ydodDdcGEdkd0zy
+	pHL7SFTpralumqDA8KM62y2HSmWKpb4o3WIrxPdxAX1rZ2rEeZKAGbtKQaVvocF+9j/sghquelT
+	X7AmTAOqczLkeBizeMRhKAjps1UrF5pqHX5O9RmKQJS/ebZVnfPccC3q77ASnAspSUjUh6s5yZc
+	XllMS+KJ3WMI+LTpHYJDflhhZYsX/nxQ48jg0H2n+RdgmK7dWv1+P/ggJFiY+h+jVDzyJDtWP3M
+	pjqcOha3xKaujK/bO3SQJR7+g==
+X-Received: by 2002:a05:693c:60cd:b0:33b:e306:2e27 with SMTP id 5a478bee46e88-33ea3eb055bmr1139528eec.5.1790126437786;
+        Tue, 22 Sep 2026 18:20:37 -0700 (PDT)
+Received: from localhost ([13.93.150.60])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33e96f47d52sm1953755eec.28.2026.09.22.18.20.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Sep 2026 18:20:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <179005109564.388919.3937970081044095776.stgit@devnote2>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 23 Sep 2026 01:20:35 +0000
+Message-Id: <DLMAUZF2EY4Z.2FZ7BR3O62LAS@gmail.com>
+Cc: <dsahern@kernel.org>, <idosch@nvidia.com>, <davem@davemloft.net>,
+ <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+ <horms@kernel.org>, <rdunlap@infradead.org>, <netdev@vger.kernel.org>,
+ <aajith@arista.com>, <roopa@nvidia.com>, <jhpark1013@gmail.com>,
+ <corbet@lwn.net>, <skhan@linuxfoundation.org>, <shuah@kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next v3 2/2] selftests: net: test untracked NA
+ recovery of FAILED neighbors
+From: "Lawrence Lee" <lfqlee314@gmail.com>
+To: <netdev-bot+sashiko@kernel.org>
+X-Mailer: aerc 0.17.0
+References: <7285b55a1e29d2f04de4e3fe1e723a9724e0377e.1789734885.git.lfqlee314@gmail.com> <179011668031.2160803.1030111847497325728@kernel.org>
+In-Reply-To: <179011668031.2160803.1030111847497325728@kernel.org>
 
-On Tue, Sep 22, 2026 at 01:24:55PM +0900, Masami Hiramatsu (Google) wrote:
-> From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> 
-> In exc_machine_check_user(), local_db_save() and local_db_restore() are
-> invoked in the outer entry stubs (DEFINE_IDTENTRY_MCE_USER,
-> DEFINE_FREDENTRY_MCE, and DEFINE_IDTENTRY_RAW), surrounding
-> exc_machine_check_user().
-> 
-> However, exc_machine_check_user() calls irqentry_exit_to_user_mode(),
-> which handles pending thread work and may schedule() if TIF_NEED_RESCHED
-> is set. If the task migrates to another CPU during schedule(),
-> local_db_restore() runs on the new CPU with the dr7 state saved from the
-> old CPU. This corrupts the new CPU's DR7 hardware debug register and
-> leaves the old CPU's DR7 disabled.
-> In short, local_db_save() and local_db_restore() pair must be run
-> on the same CPU.
-> 
-> To fix this, move local_db_save() and local_db_restore() inside
-> exc_machine_check_user() and exc_machine_check_kernel(). In
-> exc_machine_check_user(), DR7 is saved and restored strictly around
-> do_machine_check() to avoid schedule() during migration. In
-> exc_machine_check_kernel(), local_db_save() is called at the entry point
-> to prevent early memory accesses from triggering nested #DB exceptions,
-> and restored on all exits.
-> 
-> Fixes: cd840e424f27 ("x86/entry, mce: Disallow #DB during #MC")
-> Assisted-by: Antigravity:gemini-3.8-flash
+On Tue Sep 22, 2026 at 10:38 PM UTC,  wrote:
+> [Severity: Low]
+> tcpdump is now a background child, and cleanup_tcpdump() is the only plac=
+e
+> that kills and reaps it. Can that child be left running when the script
+> leaves through a path that never reaches cleanup()?
+>
+> cleanup_tcpdump() is reached only from cleanup(), which runs at the tail =
+of
+> test_unsolicited_na_combination() after log_test() returns:
+>
+> 	log_test "${rc}" 0 "${test_msg[*]}"
+> 	cleanup
+>
+> log_test() can exit first when the script is run with -p or -P and the
+> operator answers 'q':
+>
+> 	if [ "${PAUSE}" =3D "yes" ]; then
+> 		echo
+> 		echo "hit enter to continue, 'q' to quit"
+> 		read a
+> 		[ "$a" =3D "q" ] && exit 1
+> 	fi
+>
+> setup() also runs under set -e, so a failing sysctl there (for example
+> accept_untracked_na=3D2 on a kernel without mode 2) exits the shell direc=
+tly.
+> There is no trap cleanup EXIT INT TERM anywhere in the file, so in those
+> cases the two namespaces from setup_ns and both mktemp files are left
+> behind, and if the failure happens between start_tcpdump() and
+> wait_tcpdump() (for instance the new slowwait 5 grep for "listening on"
+> timing out, or host_link_up failing) a live timeout 15s tcpdump keeps a
+> packet socket and a netns reference until its own timeout expires.
+>
+> Would adding a trap that calls cleanup on EXIT, INT and TERM be reasonabl=
+e
+> here?
+>
 
-verify_tags: WARNING: Zapping LLM ads tag: ['Antigravity:gemini-3.8-flash'].
+I would lean towards no, since tcpdump already times out on its own and=20
+any orphaned tempfiles or netns are a pre-existing issue. No change=20
+planned.
 
-Needs to be:
+> [Severity: Low]
+> This isn't a problem introduced by this patch, but the absent-entry branc=
+h
+> of verify_ndisc() still discards the exit status of ip neigh show and onl=
+y
+> tests that the output is empty. If the command itself fails, is the empty
+> output then reported as a pass without the neighbour table ever having be=
+en
+> read? The same pattern is present in the baseline version of the function=
+,
+> so this is pre-existing; the new expected_state branch fails closed. Woul=
+d
+> checking the exit status of the query in the else branch be worth folding
+> in while this function is being touched?
+>
 
-Assisted-by: LLM
+Pre-existing issue, will leave as-is
 
-Please fix all your patches.
+> [Severity: Medium]
+> The new rc=3D$? capture also repairs a reporting bug that existed before =
+this
+> patch. In the baseline the sequence was:
+>
+> 	test_unsolicited_na_common $1 $2 $3
+> 	test_msg=3D("test_unsolicited_na: "
+> 		"drop_unsolicited_na=3D$1 "
+> 		"accept_untracked_na=3D$2 "
+> 		"forwarding=3D$3")
+> 	log_test $? 0 "${test_msg[*]}"
+>
+> The array assignment between the helper call and log_test sets $? to 0
+> (none of the assigned words contain a command substitution), so log_test
+> always received 0 and all eight existing combinations reported OK no matt=
+er
+> what verify_ndisc returned. Capturing rc immediately after
+> test_unsolicited_na_common() changes the pass/fail semantics of those eig=
+ht
+> pre-existing cases so they can now actually fail.
+>
+> The changelog describes only the new FAILED-neighbour coverage and does n=
+ot
+> mention that the existing reporting was broken, and there is no Fixes: ta=
+g
+> (git blame points the log_test $? line at f9a2fb73318eb).
+>
+> Would it make sense to split this into its own patch with a Fixes: tag, s=
+o
+> it can be applied and backported independently of the new mode 2 and
+> FAILED-state coverage, which needs kernel features not present in older
+> trees?
+>
 
-> Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> ---
-> Changes in v15:
->  - Move local_db_save() to the entry of exc_machine_check_kernel() and
->    restore it on early return from mce_check_crashing_cpu() to prevent
->    nested #DB on watched variables.
-> Changes in v14:
->  - Newly added.
-> ---
->  arch/x86/kernel/cpu/mce/core.c |   27 ++++++++++-----------------
->  1 file changed, 10 insertions(+), 17 deletions(-)
+An entirely new patch submission seems like overkill for this. I'll=20
+update the commit message to mention this change and add the Fixes tag.
 
-Yah, makes sense.
+pw-bot: changes-requested
 
-I'm thinking this needs to be CC:stable and I should take it in now.
-
-Peter?
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
