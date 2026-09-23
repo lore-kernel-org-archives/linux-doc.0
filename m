@@ -1,313 +1,847 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012063.outbound.protection.outlook.com [52.101.53.63])
+Received: from mx0b-0002e601.pphosted.com (mx0b-0002e601.pphosted.com [148.163.154.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04594490BEC;
-	Wed, 23 Sep 2026 20:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.63
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219AF53163A;
+	Wed, 23 Sep 2026 20:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.154.28
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790193988; cv=fail; b=f/FDKAxmnSDZb74efVi9+idnQgcfVLfaJ/GEAkutIPL4tf3iXsCn6Isb/lCiVX9v4m1/ouOgPV9KTu6h221xvaAAkd0Hlsh00wecdF3K4y67t5VNejQYpIz+qxDNTyFbaaY6ktD8b82wDdUsF47jDHDYp3guMDKVfxTVbrgeT6Q=
+	t=1790195187; cv=fail; b=N76i0zPmyqfQ8kfhXJbUqAHrjuYUz4BmYO8wDomyeQlhnf1UXRgK2UZOuaPt9+0FigLMa/WW82ytrCd6gfDsvi5cMJ1WQ70pfyf2jkyIrMX/aS30mlxoZcrPvSwAuQrzY6cCuNmCiNsnzaDKpy9zdqZhD0pJKktzfy+COgPUrIo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790193988; c=relaxed/simple;
-	bh=q5qZrTckJ4qgPIlXFtTq8lBMlTrtPrITY8paV2s1BwM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SzePv3J+AIShcatFn+tnvtSkMBHmo3vb3ARFjTs2i8pa5GuyBCEcxG2uI+pKQFPYqERal8iqTeGoOjuhfO74w71l3Rhio78bvCdLl0CrKsi2oY8vIXNuYftLEEM2OtgAW6kfMB7TAtK9v+44jJ3UK8QhJm/takzVCL64BhAX0h0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Gr//TUr1; arc=fail smtp.client-ip=52.101.53.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1790195187; c=relaxed/simple;
+	bh=BFRtm0fvf1XOxvmoQsDOFZ1r982STTp04uaBNWZZMLo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=AFvymsF6bTlaLfjx7agS2VqpGO7Do9sVEj2/mvwYMwKzjTg72p6p9+v9Z3aBz18wRdJmGdQcbCDwsvw4cQygrffjFKADiJO/rzKz4K2+FyZf19mL5LF4GNw/cmhSHKVd+sa8SaO91r/vevp+W5Nt3vEFbtDkxzDtBLpO1fLjQg0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=aRKNwS2V; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=xcnK1Du7; arc=fail smtp.client-ip=148.163.154.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Gr//TUr1"
+	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="aRKNwS2V";
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="xcnK1Du7"
+Received: from pps.filterd (m0374955.ppops.net [127.0.0.1])
+	by mx0b-0002e601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68NJkNVx2098294;
+	Wed, 23 Sep 2026 15:25:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	proofpoint-05-2026; bh=iNKcWAgleXOT0MJck0Uh4H8FyF2DkfI9zd1ciO+0X
+	QQ=; b=aRKNwS2VOvjj0TXYouqxZts69UNXrHUjgmA0T4bLSWxIzOTcYZgtLKPnW
+	35BncSimhIvdUD056tmW17MFMpRZoXwVaLpPjISVJ9HsStwek8gZ1QONRct4K5rR
+	579WC4nV6IMinQcFAJwCDBf5HQ/nyaDzAyH97o54Pn7fWRHuGug9Ah+QvdWX1rgx
+	M2HpzbstB2NG9MXXNXgf/4i01RVLlp0CQAS6cRgwBliTkvSV9GIiJB2joLxu7XuB
+	ue93avB6UH7cCtFiZq94umhpL1fvnEcBFJemGcONr58nTopx2GPGj0VD4PqeCCbE
+	EqQz4yXoNJKKzEtyydkcSFt0TfRug==
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010004.outbound.protection.outlook.com [52.101.201.4])
+	by mx0b-0002e601.pphosted.com (PPS) with ESMTPS id 4gv2ycydg1-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 23 Sep 2026 15:25:45 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lqGbFeO9DU6UDkplCSRBwnlShfZfw/Oak5GXwSkwXFVTpDBHHPX6LoNHTW2JeSC9aeV8GpF8a8dZjYvTnTzVn3fIFf3/fOpKHDdOsZOM67VHUhZExgsi7pAZ1SZ7+8O8kgxUjtZPYvxsxLblfbazpVrQD7+u2WW+UaEZvixYDLHQ9xsKd7OM0W68N8dbXXcLE8axY7/mD8k51f/JTVnkMHYcG8w9AaReaFerizU16v4ifIbVSZuvmecZ9hcoA0IDPyP+H9H1OfVEN8WHxqBBBk3denEYSu6GQ8Y351uQ4c6qjhw+5aRIY0e+rqK2oD9qHwYkdrPe2ozPgIujzVQQyQ==
+ b=HeNlfv9rWePaDPvhS+GdcUxFEywTxc9P0QZHFJ+NSC2D+1/Mgi0Rr7DZt4wbDibQwPTeYDvesRZaIVFsxn9fEHAJDPIuT88ZGSQSSCoLA46juQmQb6sRFLo+e9pUSSG+p12pRWg4cFx3/B9Hb8/ogrtB+A3Oqq9YXKAVrby4o3/ARuRmV1yCTpF4RaGAVJMaRMwGA4UfDkWWTcXmGJguCTzrWJt8PdVT5kJhPj2/YC/BMiPyCJgXrbuWiweHVMNgSMoQP90DvrivznX6J0UsUY3rJqOys8c0Tkj/SXByiIZ04RpIltGNdds05tsCFHvK7gXZVYEjSCgNph3JpwLWgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BOyNVeKRu/9wsHn8QCFYQsX3PWzgjdbOwqmDFBWtgG8=;
- b=nc0ORK+AwPAxjnpKvCN24EF8XNDZv5CX3sAqdP4JAcBak9fpdWBX1y0qzSVKc9FOXNtg36pOZmyMKZMNyYUXH3BfQPoXUG33DSi3pKHNV6ghRtx9V65JXNd/z3DYwYI6Y6L6id9jKjX0V4kbkrHZvsgWWF4A4IYXismO2E5mvSYnTvhBXHPjTgTUg4PX6oU6BLg1eUckzv53ECrJawLCRxuiz+vIIB8txA0T7lf2eQK8pkjsEdRo8wBYeLFHAH+au+U6ibp6I/8taakEwDtRrXf13yOJyd0c4/oQ2+0rt8PLp+qNlQ1fukvcQWUzcraXK3xvgDJoaJCErFguRDCggg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=iNKcWAgleXOT0MJck0Uh4H8FyF2DkfI9zd1ciO+0XQQ=;
+ b=XhNzh/Pb2JYLd77ArsF+D+ChReGcdkwiUFHTtgqtOnXdBUdxG4q9sWOzLR7ZNM1FMvcXsGBvVpz8pXQgLI891bwu9V4tEll/HuUo1y2iqGgTNcqIh7DsKmbI69rpIdDpU8fZVvl0vyWm/8Y5/3bm3OW39IRCC7nXSuuwy7VViHwLbLBFrVTDUqARGlgSFZvf3Vw9iydf2O4n5o2PuvhjwhWhUPtLh8JhD5y5Yp5lTzvl0Z1btrDrj3Jx0ZD29vHvplQUR5TGqhdjNTmZHHQARq+IqU+dcyFl00zr39ZifMbkJmjUcSaSGJw7JAkpbR2aVZpyK9BmjFvi2aPZNs+gZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=bgdev.pl smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BOyNVeKRu/9wsHn8QCFYQsX3PWzgjdbOwqmDFBWtgG8=;
- b=Gr//TUr1kHrdmE/sv4thV+efXiTji/kJB+eXcAooL0UNQ8FunYILxMxB7JbTPIR3Qt2CzAOzh0i404obLxy2Zhndjq6mhBBN/JMZE3ajaUNu6gPaj4C//d71NGThuOs4XgVux7NCp2Vg77Iu5vNOSLrzMVuJVX8M9/he6OZQ0Ke9RGxFB8MtVvQ8Bid1K5vPWFby9VopCftjDxu/W4svHrd60URXR/sKYUl1Cp/F3u34p2woc0yn1Vh+WsCrDikkrJ7NP8mLrDfBvAWgi3x+sPbY12kg2a1tmuwcQZhrxT4CfIJkUzVPPBPkCCE+CSSkYdbThGG7DDtNpC2y8pX57g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by LV0PR12MB549960.namprd12.prod.outlook.com (2603:10b6:408:3b6::8) with
+ bh=iNKcWAgleXOT0MJck0Uh4H8FyF2DkfI9zd1ciO+0XQQ=;
+ b=xcnK1Du7UiqNQubv/QsldSD33c6lH6BC5A1zrxnTZLHPilgfLv63SfWiIqXXNuzrwfMqIc6PY5QZMWrLL1SwCyoCZVTzt4FMPIbSvlCPWORKR/mx5EGo/ureyHF7MaYvu9YcFN6lMrev7L3LfUiKjhPjR4mMorqrvqiwF0hsvVU=
+Received: from SJ0PR03CA0118.namprd03.prod.outlook.com (2603:10b6:a03:333::33)
+ by DS0PR10MB6919.namprd10.prod.outlook.com (2603:10b6:8:11c::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.17; Wed, 23 Sep
- 2026 20:06:18 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
- 20:06:18 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 24/40] mm/mlock: eliminate weird VMA_IO_BIT abuse and
- simplify
-Date: Wed, 23 Sep 2026 16:06:14 -0400
-X-Mailer: MailMate (3.0r7032)
-Message-ID: <93672B94-BB0C-4713-8F8A-3619D81DB7BB@nvidia.com>
-In-Reply-To:
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-24-4583d8a23bca@kernel.org>
-References:
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-24-4583d8a23bca@kernel.org>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-MS-Reactions: disallow
-X-ClientProxiedBy: BL1PR13CA0323.namprd13.prod.outlook.com
- (2603:10b6:208:2c1::28) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+ 2026 20:25:25 +0000
+Received: from SJ5PEPF000001F0.namprd05.prod.outlook.com
+ (2603:10b6:a03:333:cafe::2d) by SJ0PR03CA0118.outlook.office365.com
+ (2603:10b6:a03:333::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.13 via Frontend Transport; Wed,
+ 23 Sep 2026 20:25:23 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 198.47.23.195) smtp.mailfrom=ti.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ SJ5PEPF000001F0.mail.protection.outlook.com (10.167.242.68) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.8 via Frontend Transport; Wed, 23 Sep 2026 20:25:23 +0000
+Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 23 Sep
+ 2026 15:25:03 -0500
+Received: from DLEE214.ent.ti.com (157.170.170.117) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 23 Sep
+ 2026 15:25:03 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE214.ent.ti.com
+ (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45 via Frontend
+ Transport; Wed, 23 Sep 2026 15:25:03 -0500
+Received: from [10.249.33.52] ([10.249.33.52])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 68NKP2wi2720053;
+	Wed, 23 Sep 2026 15:25:02 -0500
+Message-ID: <bb1bd3cb-972e-44f2-b4eb-e983baf2fa91@ti.com>
+Date: Wed, 23 Sep 2026 15:25:02 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 4/5] gpio: rpmsg: add generic rpmsg GPIO driver
+To: Shenwei Wang <shenwei.wang@oss.nxp.com>,
+        Linus Walleij
+	<linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Jonathan Corbet
+	<corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        "Frank
+ Li" <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>
+CC: Shuah Khan <skhan@linuxfoundation.org>, <linux-gpio@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+        <devicetree@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>,
+        <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-imx@nxp.com>, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
+        <b-padhi@ti.com>, Andrew Lunn <andrew@lunn.ch>,
+        Bartosz Golaszewski
+	<brgl@bgdev.pl>
+References: <20260923184255.299034-1-shenwei.wang@oss.nxp.com>
+ <20260923184255.299034-5-shenwei.wang@oss.nxp.com>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20260923184255.299034-5-shenwei.wang@oss.nxp.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|LV0PR12MB549960:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d67e920-10df-40a6-5309-08df19ae2126
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F0:EE_|DS0PR10MB6919:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10e42fbc-2ab5-4038-c379-08df19b0cbad
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|366016|376014|1800799024|10067099003|56012099006|11063799006|4143699003|3023799007|22082099003|18002099003;
+	BCL:0;ARA:13230040|82310400026|36860700016|1800799024|23010399003|7416014|376014|10067099003|4143699003|5023799004|3023799007|6133799003|18002099003|22082099003|56012099006|921020;
 X-Microsoft-Antispam-Message-Info:
-	ruHTBwpA285QO7xfQ3JaJyhxtvOsbInycmqsGfj8SUC2vxcKwLdFe8UZQpVa53EokHzBENA8me1zwnYvYMzNNbrm9yXBbsHODj6OCukQAJi1fnnhgOIqkNw2LAeGQgdcoQRCesmbjAVNvSN+BTwEq9Ia6MICyNkH6CUDkwvzcSpoX2kZBo7hj9Om5S3B5ozNCDICRcf5NPdfjaHjUoycaZMEmr5alBBvvAewKIibYOjJys0PrYmU/KZh7rizCgnifRA5yJ1IssDsL72RZMwBzR/PjPOx8N5YkbnQ4ZjatuwYZXlKzd5cOM6xbckUZdnSinlUZjKl9DUtALCfp5htPHt6IGfkA9stQFi4QIh3TYEY7Eo+YZdNuYFfDzBNKcNZopwHYsbtuImX5R3g8t9pJABHQdLkr93UHHQJYOEQvy7aON2XtqmpkjArXmvWGr4OrxpSFCws8DUuus2Jo8uUEH4Z6ZG4z38Q8hphyZKEITbXmSHRF7O/r2G+5XGToWniTIntaBG7YpEbcRRjkTv6ki7Lf2yl1zfYLoISCEwk9EJAtZ5yFgrymUbqsKYl/WbhGXeJ8wyJa3Tm2/NhRIDZIUefnM8t7d6Bjw9ePbrBAdvHY2Vg/fI8xFXfYjxWcf6eOuwyp/IjM/Nz81gFV1gVYBQr/lV4gfUqm7bfesNk+og=
+	Kgl/41K77bJUzIpwBcKVXpFsRrurLPAnO1wQYtiu2qvz5Lv6NGbETLkjSzK3SQnvDRQBSPD2U36n7OWh9vnqqduWg0ByjnAl4ameYeK/tZa/iK6H4KLd32lJG5vuOHDpDX2Jb7a+5g7PWuAs5qFaK4d041QDbfEpU+jyXHHrB1/Hj8nm7POBtJrtOFky4wb1WJnMbPx9ZqvrTgBUA0Pi61K/cGzyYbrqD+2h3I5kWJQoYanT/43I2kmB3nXilKv1MAWiUjIdOcTe9EstBhhUiTQ6UVbjVaFQNDuTC5W3seSOuBVrekG55GHJoG6LPuKf5iOhH/e41udsBafEa8aUzLmPxGHY9i+nGs1r+U/UP2b3saZPVhhJndmm0zOdBTuBdZT/NrUQ4jFGuLWiZJJoXl09Odm6GBYdm2XJ3FR85mIqS6jyuOPNyCebADvB2f154ZavDOUCdB2Ei30d4gvdOZ3lh5WLoitALHWYI+upXDVelZ+uXQ+tybq8/iOnE8x1nW8Ujib4lWLCJEjP9WBgRi0ycQe4CGWmMqd+S9kiWzl2KcJtxsZs1wpZlGO726axagR5FQSl8AX7MrWaviy9eVZRCbAdqHmZWS58nKnZCcHRJ8kqsrAyaGgcpDJOGiExTJf6MPsAG/C0OrgTykBP0DSBF3Xh6Vbt3422uDu5xSZYHfjw5MEaMUe5/pqik/Luz0dnuCwD3pjTUdgMzDZUALSg9gFnseGXbD/QSRK9KXLu1T+kYb77gz9JPyNPrUit
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(366016)(376014)(1800799024)(10067099003)(56012099006)(11063799006)(4143699003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(1800799024)(23010399003)(7416014)(376014)(10067099003)(4143699003)(5023799004)(3023799007)(6133799003)(18002099003)(22082099003)(56012099006)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ino+Wd+e2ukwsf8MskuuANxez24WHYwUiJHMMezH7BweN1ys/JiP5ndMwOe5?=
- =?us-ascii?Q?ZkRxIuH115P29KtErLdKHqL7uLDoydRvaikB0q3pVedXyrXrCKayLa0UHeOA?=
- =?us-ascii?Q?XDzUegrb2SVHG/jbLntrgx9gXygeSOBqRoE7pSd3q0wLgq1RwhR9hI3WNnHJ?=
- =?us-ascii?Q?aRzWrw2JOfyIaWl/zyMePvRqipdVYmLvoVuGm8AvgK/1LA12wa+pY2eugkBa?=
- =?us-ascii?Q?aDO79PXjBeh0iCpbhdB9PRX/Ypv7H+LQn8ZVKXfXFTaBQCDyG9upRTSLLiby?=
- =?us-ascii?Q?1FysjOcEh+cgFe5jwG9a6zyRvecV3v5y9ZuLHyBrSWeRk+bssna35Opvhhje?=
- =?us-ascii?Q?WyAdGpfGkFJanWb/oEIZeumdQsktnv7LtaZGRMNxeiFcaXce5gnvC8KdYeZR?=
- =?us-ascii?Q?t/clhKiJR8dJ3Wg7cElrGRmeOnwArnri6zj7Oa9mL2ib439ErDBasyeKeMwt?=
- =?us-ascii?Q?1whkoz+ow2fu5iLV7Xfqq0Gt8rCsGDTgX/6QHHCRoq8jOz2b4E2B7APAnCp4?=
- =?us-ascii?Q?fZuEtRUdCBiz8+/cxeDCLxW513WdL2mPa4a8RDZe0yCjg5OpEYpdH+r0RxPY?=
- =?us-ascii?Q?Ffi8jBr05xagfFLoOCuDJZtytZXVczNZCywyjhAIPN3WGMfs0DAxquLPA4G6?=
- =?us-ascii?Q?iLwMvIHOBzwjwSxxke/xQYkM9XPOpQXCYt07Cc0XhLwGvKPJEOe0+z3FE38C?=
- =?us-ascii?Q?wY4r2HWvfmCYF72h1J4jb1cAiGGAfSgTD0jBC726sY2X2PjO49D/sQNeXbwQ?=
- =?us-ascii?Q?yiCI6coM8FdtOZ1GsTM2loYd7C0qOfe+4pCcJQszruw6MQcPRrj9WWk2ZlJ+?=
- =?us-ascii?Q?WbcJc6hTll8EO1v+czlw7XBhRvYj34RJi4trc+zkgZhejBbheRVUeqnRYw2a?=
- =?us-ascii?Q?cFriYjHgQsCEw1l5fXlgzuV8pLZAK6qowhzEEukgBK5bvDN8WFqBGdpq4nOX?=
- =?us-ascii?Q?yWFsgplndMX/GH5qptGga0WhXDyA5FEW6/DgTqi+oMkg+MqIaERAS6QmaItN?=
- =?us-ascii?Q?g4vn0zBZsaZsFI0b05BiDlJ8gq2m/GfJVrrfHtDQI8+VapW+LrWhdu5QqblM?=
- =?us-ascii?Q?l8gSIQKsMlwXroSzJPLSSC5I177O+wQbpcYqfJYPwara9mQW3Co+YAOY/+L9?=
- =?us-ascii?Q?HTrKrlXR/9RBM2NBxaJPgZM+irr3eYPETFA1u/e2J0Yxw7sgcaNV5WJN4y1X?=
- =?us-ascii?Q?jExnedFEPP5KsXEgluPJeVOc8JrxjkVZnbHTaXeWcX6dOAAEQSv/T+VgP7ul?=
- =?us-ascii?Q?f4EyVmZ99G693hi0RLcoWcD+kE5Rj34G8NfQywsDLNYgbW+Zsgdn9mHgLqoZ?=
- =?us-ascii?Q?FuQmvu30qEehcLOaPOQEMKEyg/njWUdf551hnRtZwrPJiWRF3wNL8Xo6y2tS?=
- =?us-ascii?Q?cb7qeeI5gtMVJs0Gk6SMVVpyhLkZCJPNmPH24lD+tRiQYih01MnWK5pUUPWl?=
- =?us-ascii?Q?+OsY1NyRcfEoDwnd22W7eMwhe5AP0hvjwYcskKIU272v3XP1WCuwfBGbURPA?=
- =?us-ascii?Q?rHXhGMxio0BGKKYccbtiimHH3Pui4uy0lGUCdl27P/jVCAkx1QjyuH+TGenh?=
- =?us-ascii?Q?+WD8DsFyDHNZCBug+QoXB3Z3SXyWOetD8OaS/YfPogXXMfpzIdSeSJUeJOYx?=
- =?us-ascii?Q?zf7Ed6o1DKKneZeDSv7EainGlHp2Rnh15lz7F+Lfv3EsGyPwEB9h2uuRUQFT?=
- =?us-ascii?Q?gZUqIoQBzR3jTQ6+5QFCO5dIpSpnW0eiBnvmlRgfmKuw9szz?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d67e920-10df-40a6-5309-08df19ae2126
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 20:06:18.3971
+	5mrGxr7sG3mC9vYdnzHjrC0Jk4Llxei3Y/PibYuLG7Viq2To4BkHsgF8/wUhuZNuD3rbZuj8TPL1IRRwb0V8ppWZbDkP9/KpDHzFc0ZQ42nt80jPlGrKkUs+F5ZIe5cBbQwIW77x2OgKAOhNedDGeag3QizwvuvvF0cKGs5ZOT1qohm0WMva1WLUmGK66b4FO3jKNyNXeoyAh5FSO+rYVWXtr13kdbOAIpc6uco107AWxjKsFdkXzqVh86+FzyXG3ehMVa1QVmOtFObULeNhHcOBQV5FRJnjPhp/7QCKgiYbdxXL7FlnLot0lJC4r3h9gdD/lN2R3fVB1WkXjoLPtmCywd126DIJo3ROUBibN2EvTygwlHcZ4Z32gJhqadSqS/pWeikK06CthaAGrU0M3UmqUBYADlfzrBRY5z7cigqx4/3R4t3d7BPZZ6pusMfr
+X-Exchange-RoutingPolicyChecked:
+	kxOO9AdyiL8ncQyfduDvVHKtto2Bv0nxF/n2z2Ws9q5gZunCtHMDMH9K8fN9WlLUfexh/J0yU6JFC1a5VeGR45mTY7+Zu000wLKJhw+bwtjazLenmJwcYRz4Tva9EoXy9PZ7zKFXB9sPkpWQdD9HRWQdFjAXLdexG+sdMVtfyqnPMGTRVym2g8IJF46EizTJfMA1STIzQvMTZLP5ZgiobsT1JEVNXkDMaIMxWYk5b2/42Z9PnuUdKM7w3r6pfaP3xDPMJhLoaGgO41lFFZ7F6OPEdFSmc4PrnN2NRmPDrjIPDBA07ECq1HWMnfAF0O9oTWSjIF+nRR+qNow/1C8g7A==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 20:25:23.0746
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4Kh8g4LDR6xd/9h9xKMi2qXz2uqlRiQfuNDhZaM84x829j8oxvbA4SO7ahiv961E
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR12MB549960
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10e42fbc-2ab5-4038-c379-08df19b0cbad
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001F0.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6919
+X-Proofpoint-GUID: g1gQXKjRHkL_GLaJi4NYbEj1g8deBLk5
+X-Authority-Analysis: v=2.4 cv=WZKZ+EhX c=1 sm=1 tr=0 ts=6ab435c9 cx=c_pps
+ a=d9xwnOGIUB/89jyRF8/ldQ==:117 a=f+v6EHfkeJbVwR46tk4DMg==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
+ a=s63m1ICgrNkA:10 a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Z8NIEmU8O1QQgoT56wFK:22 a=fPAWb5peG099m5CrUpKH:22 a=8AirrxEcAAAA:8
+ a=UqOxO6_1QkCsCsi5RYkA:9 a=QEXdDO2ut3YA:10 a=ST-jHhOKWsTCqRlWije3:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDA4MSBTYWx0ZWRfXxOmapo7GHUZb
+ ULdlAJ9+TufCyD8T/MdIFiQ3n2y17Idl2Z0OmUzR56YiD8oai4nIg5tfdwis1iGTx11HY7DiJp3
+ U+IZdpgtiOH3UIbQPGHSbjF0o/TCk5KxesJMEGnBMKPRfC49hGIVDCgZFQ3Wj80nn1288/7jTG5
+ hXoCh99b0ktTFrcT/AHMWqPDTHFoCXbjsy3w+iQsYIz4LYA/NMg363YPQ2bU/whIc1fFcUxlkSD
+ F8wUatJvW5j281sykBsmvcCk1VWwF3Htoe0zvzc7k3wCjO2M0/87TQ/W7DF5DdDbITEIupmWcHX
+ h/FqGBu1wjN67XdelBy1FKme6P7m41k5jvTLw+raTDh/cL8ZqIAH7mbusAOIiyOS8rVSc1eyU56
+ LkkuT4Lf4svzWWxh4eIbyEKqWpHIhm7vZBPMNkBROWoyCT1KR9zavTMg6RsiMDDm/z0RY7ldLlH
+ R0JJ4DLw1KZcMdlU3WA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDA4MSBTYWx0ZWRfXyPkkWh4A1Xkw
+ TX5Ta9Rh3RjtatBW85vAcD73b2eaEvzC48SeJcEBO4T+7hsMwniAKUD7scl/A3ujRnRc7JewWGD
+ vZ6WN9gNWijqGlaMA+p6SgUhbOifjZY=
+X-Proofpoint-ORIG-GUID: g1gQXKjRHkL_GLaJi4NYbEj1g8deBLk5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-23_07,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 suspectscore=0 priorityscore=1501 impostorscore=0
+ malwarescore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609230081
 
-On 17 Sep 2026, at 12:22, Lorenzo Stoakes (ARM) wrote:
-
-> When performing mlock() or munlock() otherwise normal VMAs have VMA_IO_=
-BIT
-> solely to fix a race with migration which might otherwise double-count
-> mlock VMAs.
->
-> This is unnecessary - at the point of applying folio mlock state, wheth=
-er
-> setting or clearing PG_mlocked, we know whether or not we are locking.
->
-> Solve this in two ways - thread a boolean through the page table walk
-> indicating whether a lock or unlock is being performed, and run a locki=
-ng
-> walk with VMA_LOCKONFAULT_BIT set and VMA_LOCKED_BIT cleared.
->
-> This state never occurs otherwise, as VMA_LOCKONFAULT_BIT always implie=
-s
-> VMA_LOCKED_BIT. These are also always cleared together.
->
-> Then, update folio_add_lru_vma() and mlock_folio() to check only for
-> VMA_LOCKED_BIT, and update try_to_unmap_one() to check for VMA_LOCKED_M=
-ASK
-> instead.
->
-> Also remove the useless invocation of allow_mlock_munlock() which simpl=
-y
-> returns true if unlocking and instead rename it to allow_mlock() and on=
-ly
-> call it when locking.
->
-> Finally, with the other mlock abuse of VMA_IO_BIT addressed, update
-> mlock_vma_folio() and folio_add_lru_vma() to simply test for
-> VMA_LOCKED_BIT. munlock_vma_folio() tests VMA_LOCKED_MASK instead, as a=
-n
-> unmap racing with the locking walk must still munlock folios the walk h=
-as
-> already counted.
->
-> While here, also replace some deprecated VMA flag predicates.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+On 9/23/26 1:42 PM, Shenwei Wang wrote:
+> From: Shenwei Wang <shenwei.wang@nxp.com>
+> 
+> On an AMP platform, the system may include multiple processors:
+> 	- MCUs running an RTOS
+> 	- An MPU running Linux
+> 
+> These processors communicate via the RPMSG protocol.
+> The driver implements the standard GPIO interface, allowing
+> the Linux side to control GPIO controllers which reside in
+> the remote processor via RPMSG protocol.
+> 
+> Cc: Bartosz Golaszewski <brgl@bgdev.pl>
+> Cc: Andrew Lunn <andrew@lunn.ch>
+> Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
 > ---
->  mm/folio.c    |  2 +-
->  mm/internal.h | 10 +++++++---
->  mm/mlock.c    | 51 +++++++++++++++++++--------------------------------=
-
->  mm/rmap.c     |  4 +++-
->  4 files changed, 30 insertions(+), 37 deletions(-)
->
-> diff --git a/mm/folio.c b/mm/folio.c
-> index 47a437e0f7fd..35e242b48870 100644
-> --- a/mm/folio.c
-> +++ b/mm/folio.c
-> @@ -505,7 +505,7 @@ void folio_add_lru_vma(struct folio *folio, struct =
-vm_area_struct *vma)
->  {
->  	VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
->
-> -	if (unlikely((vma->vm_flags & (VM_LOCKED | VM_SPECIAL)) =3D=3D VM_LOC=
-KED))
-> +	if (vma_test(vma, VMA_LOCKED_BIT))
-
-I think it is worth documenting VMA_LOCKONFAULT_BIT alone means mlock in
-progress, like you did in munlock_vma_folio(). Just to keep the protocol
-explicit for all the readers.
-
->  		mlock_new_folio(folio);
->  	else
->  		folio_add_lru(folio);
-> diff --git a/mm/internal.h b/mm/internal.h
-> index b2c6c9435021..84aa3e6c8bac 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -971,8 +971,7 @@ void mlock_folio(struct folio *folio);
->  static inline void mlock_vma_folio(struct folio *folio,
->  				struct vm_area_struct *vma)
->  {
-> -	/* The VM_IO check prevents migration from double-counting during mlo=
-ck. */
-> -	if (unlikely((vma->vm_flags & (VM_LOCKED|VM_SPECIAL)) =3D=3D VM_LOCKE=
-D))
-> +	if (vma_test(vma, VMA_LOCKED_BIT))
-
-Ditto.
-
->  		mlock_folio(folio);
->  }
->
-> @@ -989,7 +988,12 @@ static inline void munlock_vma_folio(struct folio =
-*folio,
->  	 * always munlock the folio and page reclaim will correct it
->  	 * if it's wrong.
->  	 */
-> -	if (unlikely(vma->vm_flags & VM_LOCKED))
+>   drivers/gpio/Kconfig      |  17 ++
+>   drivers/gpio/Makefile     |   1 +
+>   drivers/gpio/gpio-rpmsg.c | 580 ++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 598 insertions(+)
+>   create mode 100644 drivers/gpio/gpio-rpmsg.c
+> 
+> diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+> index f03c05288376..9fb8ab4d3616 100644
+> --- a/drivers/gpio/Kconfig
+> +++ b/drivers/gpio/Kconfig
+> @@ -1954,6 +1954,23 @@ config GPIO_SODAVILLE
+>   
+>   endmenu
+>   
+> +menu "RPMSG GPIO drivers"
+> +	depends on RPMSG
+> +
+> +config GPIO_RPMSG
+> +	tristate "Generic RPMSG GPIO support"
+> +	depends on OF && REMOTEPROC
+> +	select GPIOLIB_IRQCHIP
+> +	default REMOTEPROC
+> +	help
+> +	  Say Y here to enable GPIO controllers exposed over an RPMSG
+> +	  communication channel to a remote processor. GPIO operations
+> +	  and interrupt configuration requests are forwarded to the
+> +	  remote side through RPMSG, allowing Linux to control GPIOs
+> +	  implemented by a remote firmware.
+> +
+> +endmenu
+> +
+>   menu "SPI GPIO expanders"
+>   	depends on SPI_MASTER
+>   
+> diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
+> index fa14581e3995..89d26f1aaf1c 100644
+> --- a/drivers/gpio/Makefile
+> +++ b/drivers/gpio/Makefile
+> @@ -159,6 +159,7 @@ obj-$(CONFIG_GPIO_RDC321X)		+= gpio-rdc321x.o
+>   obj-$(CONFIG_GPIO_REALTEK_OTTO)		+= gpio-realtek-otto.o
+>   obj-$(CONFIG_GPIO_REG)			+= gpio-reg.o
+>   obj-$(CONFIG_GPIO_ROCKCHIP)	+= gpio-rockchip.o
+> +obj-$(CONFIG_GPIO_RPMSG)		+= gpio-rpmsg.o
+>   obj-$(CONFIG_GPIO_RTD)			+= gpio-rtd.o
+>   obj-$(CONFIG_GPIO_RTD1625)		+= gpio-rtd1625.o
+>   obj-$(CONFIG_ARCH_SA1100)		+= gpio-sa1100.o
+> diff --git a/drivers/gpio/gpio-rpmsg.c b/drivers/gpio/gpio-rpmsg.c
+> new file mode 100644
+> index 000000000000..076af781f3bf
+> --- /dev/null
+> +++ b/drivers/gpio/gpio-rpmsg.c
+> @@ -0,0 +1,580 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright 2026 NXP
+> + *
+> + * The driver exports a standard gpiochip interface to control
+> + * the GPIO controllers via RPMSG on a remote processor.
+> + */
+> +
+> +#include <linux/completion.h>
+> +#include <linux/device.h>
+> +#include <linux/err.h>
+> +#include <linux/gpio/driver.h>
+> +#include <linux/init.h>
+> +#include <linux/irqdomain.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/remoteproc.h>
+> +#include <linux/rpmsg.h>
+> +#include <linux/virtio_gpio.h>
+> +
+> +#define GPIOS_PER_PORT_MAX		32
+> +#define RPMSG_TIMEOUT			1000
+> +
+> +/* GPIO Receive MSG Type */
+> +#define GPIO_RPMSG_REPLY	0
+> +#define GPIO_RPMSG_NOTIFY	1
+> +
+> +#define CHAN_NAME_PREFIX	"rpmsg-io-"
+> +#define GPIO_COMPAT_STR		"rpmsg-gpio"
+> +
+> +struct __packed rpmsg_gpio_response {
+> +	__u8 type;
+> +	union {
+> +		/* command reply */
+> +		struct {
+> +			__u8 status;
+> +			__u8 value;
+> +		};
+> +
+> +		/* interrupt notification */
+> +		__le16 line;
+> +	};
+> +};
+> +
+> +struct rpmsg_gpio_line {
+> +	u8 irq_shutdown;
+> +	u8 irq_unmask;
+> +	u8 irq_mask;
+> +	u32 irq_type;
+> +};
+> +
+> +struct rpmsg_gpio_port {
+> +	struct gpio_chip gc;
+> +	struct rpmsg_device *rpdev;
+> +	struct virtio_gpio_request *send_msg;
+> +	struct rpmsg_gpio_response *recv_msg;
+> +	struct completion cmd_complete;
+> +	struct mutex lock;
+> +	struct work_struct eoi_work;
+> +	DECLARE_BITMAP(pending_eoi, GPIOS_PER_PORT_MAX);
+> +	u32 ngpios;
+> +	u32 idx;
+> +	struct rpmsg_gpio_line lines[GPIOS_PER_PORT_MAX];
+> +};
+> +
+> +static int rpmsg_gpio_send_message(struct rpmsg_gpio_port *port)
+> +{
+> +	int ret;
+> +
+> +	reinit_completion(&port->cmd_complete);
+> +
+> +	ret = rpmsg_send(port->rpdev->ept, port->send_msg, sizeof(*port->send_msg));
+> +	if (ret) {
+> +		dev_err(&port->rpdev->dev, "rpmsg_send failed: cmd=%d ret=%d\n",
+> +			port->send_msg->type, ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = wait_for_completion_timeout(&port->cmd_complete,
+> +					  msecs_to_jiffies(RPMSG_TIMEOUT));
+> +	if (ret == 0) {
+> +		dev_err(&port->rpdev->dev, "rpmsg_send timeout! cmd=%d\n",
+> +			port->send_msg->type);
+> +		return -ETIMEDOUT;
+> +	}
+> +
+> +	if (port->recv_msg->status != VIRTIO_GPIO_STATUS_OK) {
+> +		dev_err(&port->rpdev->dev, "remote core replies an error: cmd=%d!\n",
+> +			port->send_msg->type);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct virtio_gpio_request *
+> +rpmsg_gpio_msg_prepare(struct rpmsg_gpio_port *port, u16 line, u16 cmd, u32 val)
+> +{
+> +	struct virtio_gpio_request *msg = port->send_msg;
+> +
+> +	msg->type = cpu_to_le16(cmd);
+> +	msg->gpio = cpu_to_le16(line);
+> +	msg->value = cpu_to_le32(val);
+> +
+> +	return msg;
+> +}
+> +
+> +static int rpmsg_gpio_get(struct gpio_chip *gc, unsigned int line)
+> +{
+> +	struct rpmsg_gpio_port *port = gpiochip_get_data(gc);
+> +	int ret;
+> +
+> +	guard(mutex)(&port->lock);
+> +
+> +	rpmsg_gpio_msg_prepare(port, line, VIRTIO_GPIO_MSG_GET_VALUE, 0);
+> +
+> +	ret = rpmsg_gpio_send_message(port);
+> +	return ret ? ret : port->recv_msg->value;
+> +}
+> +
+> +static int rpmsg_gpio_get_direction(struct gpio_chip *gc, unsigned int line)
+> +{
+> +	struct rpmsg_gpio_port *port = gpiochip_get_data(gc);
+> +	int ret;
+> +
+> +	guard(mutex)(&port->lock);
+> +
+> +	rpmsg_gpio_msg_prepare(port, line, VIRTIO_GPIO_MSG_GET_DIRECTION, 0);
+> +
+> +	ret = rpmsg_gpio_send_message(port);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (port->recv_msg->value) {
+> +	case VIRTIO_GPIO_DIRECTION_IN:
+> +		return GPIO_LINE_DIRECTION_IN;
+> +	case VIRTIO_GPIO_DIRECTION_OUT:
+> +		return GPIO_LINE_DIRECTION_OUT;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int rpmsg_gpio_direction_input(struct gpio_chip *gc, unsigned int line)
+> +{
+> +	struct rpmsg_gpio_port *port = gpiochip_get_data(gc);
+> +
+> +	guard(mutex)(&port->lock);
+> +
+> +	rpmsg_gpio_msg_prepare(port, line, VIRTIO_GPIO_MSG_SET_DIRECTION,
+> +			       VIRTIO_GPIO_DIRECTION_IN);
+> +
+> +	return rpmsg_gpio_send_message(port);
+> +}
+> +
+> +static int rpmsg_gpio_set(struct gpio_chip *gc, unsigned int line, int val)
+> +{
+> +	struct rpmsg_gpio_port *port = gpiochip_get_data(gc);
+> +
+> +	guard(mutex)(&port->lock);
+> +
+> +	rpmsg_gpio_msg_prepare(port, line, VIRTIO_GPIO_MSG_SET_VALUE, val);
+> +
+> +	return rpmsg_gpio_send_message(port);
+> +}
+> +
+> +static int rpmsg_gpio_direction_output(struct gpio_chip *gc, unsigned int line, int val)
+> +{
+> +	struct rpmsg_gpio_port *port = gpiochip_get_data(gc);
+> +	int ret;
+> +
+> +	guard(mutex)(&port->lock);
+> +
+> +	rpmsg_gpio_msg_prepare(port, line, VIRTIO_GPIO_MSG_SET_VALUE, val);
+> +	ret = rpmsg_gpio_send_message(port);
+> +	if (ret)
+> +		return ret;
+> +
+> +	rpmsg_gpio_msg_prepare(port, line, VIRTIO_GPIO_MSG_SET_DIRECTION,
+> +			       VIRTIO_GPIO_DIRECTION_OUT);
+> +	return rpmsg_gpio_send_message(port);
+> +}
+> +
+> +static int gpio_rpmsg_irq_set_type(struct irq_data *d, u32 type)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	u32 line = d->hwirq;
+> +
+> +	switch (type) {
+> +	case IRQ_TYPE_EDGE_RISING:
+> +		type = VIRTIO_GPIO_IRQ_TYPE_EDGE_RISING;
+> +		break;
+> +	case IRQ_TYPE_EDGE_FALLING:
+> +		type = VIRTIO_GPIO_IRQ_TYPE_EDGE_FALLING;
+> +		break;
+> +	case IRQ_TYPE_EDGE_BOTH:
+> +		type = VIRTIO_GPIO_IRQ_TYPE_EDGE_BOTH;
+> +		break;
+> +	case IRQ_TYPE_LEVEL_LOW:
+> +		type = VIRTIO_GPIO_IRQ_TYPE_LEVEL_LOW;
+> +		break;
+> +	case IRQ_TYPE_LEVEL_HIGH:
+> +		type = VIRTIO_GPIO_IRQ_TYPE_LEVEL_HIGH;
+> +		break;
+> +	default:
+> +		dev_err(&port->rpdev->dev, "unsupported irq type: %u\n", type);
+> +		return -EINVAL;
+> +	}
+> +
+> +	port->lines[line].irq_type = type;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * This unmask/mask function is invoked in two situations:
+> + *   - when an interrupt is being set up, and
+> + *   - after an interrupt has occurred.
+> + *
+> + * The GPIO driver does not access hardware registers directly.
+> + * Instead, it caches all relevant information locally, and then sends
+> + * the accumulated state to the remote system at this stage.
+> + */
+> +static void gpio_rpmsg_unmask_irq(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	u32 line = d->hwirq;
+> +
+> +	port->lines[line].irq_unmask = 1;
+> +}
+> +
+> +static void gpio_rpmsg_mask_irq(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	u32 line = d->hwirq;
+> +
 > +	/*
-> +	 * VMA_LOCKONFAULT_BIT alone marks an mlock walk in progress, see
-> +	 * mlock_vma_pages_range(). An unmap racing with the walk must still
-> +	 * munlock folios the walk has already counted.
+> +	 * When an interrupt occurs, the remote system masks the interrupt
+> +	 * and then sends a notification to Linux. After Linux processes
+> +	 * that notification, it sends an RPMsg command back to the remote
+> +	 * system to unmask the interrupt again.
 > +	 */
-> +	if (unlikely(vma_test_any_mask(vma, VMA_LOCKED_MASK)))
->  		munlock_folio(folio);
->  }
->
+> +	port->lines[line].irq_mask = 1;
+> +}
+> +
+> +static void gpio_rpmsg_irq_shutdown(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	u32 line = d->hwirq;
+> +
+> +	port->lines[line].irq_shutdown = 1;
+> +}
+> +
+> +static void gpio_rpmsg_eoi_irq(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +
+> +	set_bit(d->hwirq, port->pending_eoi);
+> +	schedule_work(&port->eoi_work);
+> +}
+> +
+> +static void gpio_rpmsg_irq_bus_lock(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +
+> +	mutex_lock(&port->lock);
+> +}
+> +
+> +static void gpio_rpmsg_irq_bus_sync_unlock(struct irq_data *d)
+> +{
+> +	struct rpmsg_gpio_port *port = irq_data_get_irq_chip_data(d);
+> +	u32 line = d->hwirq;
+> +
+> +	/*
+> +	 * For mask irq, do nothing here.
+> +	 * The remote system will mask interrupt after an interrupt occurs,
+> +	 * and then send a notification to Linux system. After Linux system
+> +	 * handles the notification, it sends an rpmsg back to the remote
+> +	 * system to unmask this interrupt again.
+> +	 */
+> +	if (port->lines[line].irq_mask && !port->lines[line].irq_unmask) {
+> +		port->lines[line].irq_mask = 0;
+> +		mutex_unlock(&port->lock);
+> +		return;
+> +	}
+> +
+> +	if (port->lines[line].irq_shutdown) {
+> +		rpmsg_gpio_msg_prepare(port, line, VIRTIO_GPIO_MSG_IRQ_TYPE,
+> +				       VIRTIO_GPIO_IRQ_TYPE_NONE);
+> +		port->lines[line].irq_shutdown = 0;
+> +	} else {
+> +		rpmsg_gpio_msg_prepare(port, line, VIRTIO_GPIO_MSG_IRQ_TYPE,
+> +				       port->lines[line].irq_type);
+> +
+> +		if (port->lines[line].irq_unmask)
+> +			port->lines[line].irq_unmask = 0;
+> +	}
+> +
+> +	rpmsg_gpio_send_message(port);
+> +	mutex_unlock(&port->lock);
+> +}
+> +
+> +static const struct irq_chip gpio_rpmsg_irq_chip = {
+> +	.name = "rpmsg-gpio",
+> +	.irq_mask = gpio_rpmsg_mask_irq,
+> +	.irq_unmask = gpio_rpmsg_unmask_irq,
+> +	.irq_eoi = gpio_rpmsg_eoi_irq,
+> +	.irq_set_type = gpio_rpmsg_irq_set_type,
+> +	.irq_shutdown = gpio_rpmsg_irq_shutdown,
+> +	.irq_bus_lock = gpio_rpmsg_irq_bus_lock,
+> +	.irq_bus_sync_unlock = gpio_rpmsg_irq_bus_sync_unlock,
+> +	.flags = IRQCHIP_IMMUTABLE,
+> +};
+> +
+> +static void gpio_rpmsg_eoi_work(struct work_struct *work)
+> +{
+> +	struct rpmsg_gpio_port *port =
+> +		container_of(work, struct rpmsg_gpio_port, eoi_work);
+> +	unsigned long pending[BITS_TO_LONGS(GPIOS_PER_PORT_MAX)];
+> +	unsigned int line;
+> +
+> +	guard(mutex)(&port->lock);
+> +
+> +	bitmap_copy(pending, port->pending_eoi, port->ngpios);
+> +	bitmap_zero(port->pending_eoi, port->ngpios);
+> +
+> +	for_each_set_bit(line, pending, port->ngpios) {
+> +		rpmsg_gpio_msg_prepare(port, line, VIRTIO_GPIO_MSG_IRQ_TYPE,
+> +				       port->lines[line].irq_type);
+> +
+> +		if (rpmsg_gpio_send_message(port))
+> +			dev_err(&port->rpdev->dev, "EOI error for line %u\n", line);
+> +	}
+> +}
+> +
+> +static int rpmsg_gpiochip_register(struct rpmsg_device *rpdev, u32 idx,
+> +				   struct device_node *np, const char *name)
+> +{
+> +	struct rpmsg_gpio_port *port;
+> +	struct gpio_irq_chip *girq;
+> +	struct gpio_chip *gc;
+> +	int ret;
+> +
+> +	port = devm_kzalloc(&rpdev->dev, sizeof(*port), GFP_KERNEL);
+> +	if (!port)
+> +		return -ENOMEM;
+> +
+> +	ret = devm_mutex_init(&rpdev->dev, &port->lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = of_property_read_u32(np, "ngpios", &port->ngpios);
+> +	if (ret || port->ngpios > GPIOS_PER_PORT_MAX)
+> +		port->ngpios = GPIOS_PER_PORT_MAX;
+> +
+> +	port->send_msg = devm_kzalloc(&rpdev->dev,
+> +				      sizeof(*port->send_msg),
+> +				      GFP_KERNEL);
+> +
+> +	port->recv_msg = devm_kzalloc(&rpdev->dev,
+> +				      sizeof(*port->recv_msg),
+> +				      GFP_KERNEL);
+> +	if (!port->send_msg || !port->recv_msg)
+> +		return -ENOMEM;
+> +
+> +	INIT_WORK(&port->eoi_work, gpio_rpmsg_eoi_work);
+> +	init_completion(&port->cmd_complete);
+> +	port->rpdev = rpdev;
+> +	port->idx = idx;
+> +
+> +	gc = &port->gc;
+> +	gc->owner = THIS_MODULE;
+> +	gc->parent = &rpdev->dev;
+> +	gc->fwnode = of_fwnode_handle(np);
+> +	gc->ngpio = port->ngpios;
+> +	gc->can_sleep = true;
+> +	gc->base = -1;
+> +	gc->label = devm_kasprintf(&rpdev->dev, GFP_KERNEL, "%s-gpio%d",
+> +				   name, port->idx);
+> +
+> +	gc->direction_input = rpmsg_gpio_direction_input;
+> +	gc->direction_output = rpmsg_gpio_direction_output;
+> +	gc->get_direction = rpmsg_gpio_get_direction;
+> +	gc->get = rpmsg_gpio_get;
+> +	gc->set = rpmsg_gpio_set;
+> +
+> +	girq = &gc->irq;
+> +	gpio_irq_chip_set_chip(girq, &gpio_rpmsg_irq_chip);
+> +	girq->parent_handler = NULL;
+> +	girq->num_parents = 0;
+> +	girq->parents = NULL;
+> +	girq->default_type = IRQ_TYPE_NONE;
+> +	girq->handler = handle_fasteoi_irq;
+> +
+> +	dev_set_drvdata(&rpdev->dev, port);
+> +
+> +	return devm_gpiochip_add_data(&rpdev->dev, gc, port);
+> +}
+> +
+> +static const char *rpmsg_get_rproc_node_name(struct rpmsg_device *rpdev)
+> +{
+> +	const char *name = NULL;
+> +	struct device_node *np;
+> +	struct rproc *rproc;
+> +
+> +	rproc = rproc_get_by_child(&rpdev->dev);
+> +	if (!rproc)
+> +		return NULL;
+> +
+> +	np = of_node_get(rproc->dev.of_node);
+> +	if (!np && rproc->dev.parent)
+> +		np = of_node_get(rproc->dev.parent->of_node);
+> +
+> +	if (np) {
+> +		name = devm_kstrdup(&rpdev->dev, np->name, GFP_KERNEL);
+> +		of_node_put(np);
+> +	}
+> +
+> +	return name;
+> +}
+> +
+> +static struct device_node *
+> +rpmsg_find_child_by_compat_reg(struct device_node *parent, const char *compat, u32 idx)
+> +{
+> +	struct device_node *child;
+> +	u32 reg;
+> +
+> +	for_each_available_child_of_node(parent, child) {
+> +		if (!of_device_is_compatible(child, compat))
+> +			continue;
+> +
+> +		if (of_property_read_u32(child, "reg", &reg))
+> +			continue;
+> +
+> +		if (reg == idx)
+> +			return child;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static struct device_node *
+> +rpmsg_get_gpio_ofnode(struct rpmsg_device *rpdev, const char *compat, u32 idx)
+> +{
+> +	struct device_node *np_chan, *np_rproc, *np_rpmsg;
+> +	struct rproc *rproc;
+> +
+> +	rproc = rproc_get_by_child(&rpdev->dev);
+> +	if (!rproc)
+> +		return NULL;
+> +
+> +	np_rproc = of_node_get(rproc->dev.of_node);
+> +	if (!np_rproc && rproc->dev.parent)
+> +		np_rproc = of_node_get(rproc->dev.parent->of_node);
+> +
+> +	if (!np_rproc)
+> +		return NULL;
+> +
+> +	np_rpmsg = of_get_child_by_name(np_rproc, "rpmsg");
+> +	of_node_put(np_rproc);
+> +	if (!np_rpmsg)
+> +		return NULL;
+> +
+> +	np_chan = rpmsg_find_child_by_compat_reg(np_rpmsg, compat, idx);
+> +	of_node_put(np_rpmsg);
+> +
+> +	return np_chan;
+> +}
+> +
+> +static int rpmsg_get_gpio_index(const char *name, const char *prefix)
+> +{
+> +	const char *p;
+> +	int base = 10;
+> +	int val;
+> +
+> +	if (!name)
+> +		return -EINVAL;
+> +
+> +	/* Ensure correct prefix */
+> +	if (!str_has_prefix(name, prefix))
+> +		return -EINVAL;
+> +
+> +	/* Find last '-' */
+> +	p = strrchr(name, '-');
+> +
+> +	if (!p || *(p + 1) == '\0')
+> +		return -EINVAL;
+> +
+> +	if (p[1] == '0' && (p[2] == 'x' || p[2] == 'X'))
+> +		base = 16;
+> +
+> +	if (kstrtoint(p + 1, base, &val))
+> +		return -EINVAL;
+> +
+> +	return val;
+> +}
+> +
+> +static int rpmsg_gpio_channel_callback(struct rpmsg_device *rpdev, void *data,
+> +				       int len, void *priv, u32 src)
+> +{
+> +	struct rpmsg_gpio_response *msg = data;
+> +	struct rpmsg_gpio_port *port = NULL;
+> +	u32 line;
+> +
+> +	port = dev_get_drvdata(&rpdev->dev);
+> +
+> +	if (!port) {
+> +		dev_err(&rpdev->dev, "port is null\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (msg->type == GPIO_RPMSG_REPLY) {
+> +		*port->recv_msg = *msg;
+> +		complete(&port->cmd_complete);
+> +	} else if (msg->type == GPIO_RPMSG_NOTIFY) {
+> +		line = le16_to_cpu(msg->line);
+> +		generic_handle_domain_irq_safe(port->gc.irq.domain, line);
+> +	} else {
+> +		dev_err(&rpdev->dev, "wrong message type (0x%x)\n", msg->type);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rpmsg_gpio_channel_probe(struct rpmsg_device *rpdev)
+> +{
+> +	struct device *dev = &rpdev->dev;
+> +	struct device_node *np;
+> +	const char *rproc_name;
+> +	int idx;
+> +
+> +	idx = rpmsg_get_gpio_index(rpdev->id.name, CHAN_NAME_PREFIX);
+> +	if (idx < 0)
+> +		return -EINVAL;
+> +
+> +	if (!dev->of_node) {
+> +		np = rpmsg_get_gpio_ofnode(rpdev, GPIO_COMPAT_STR, idx);
+> +		if (np) {
+> +			dev->of_node = np;
+> +			set_primary_fwnode(dev, of_fwnode_handle(np));
+> +			return -EPROBE_DEFER;
+> +		}
+> +	}
+> +
+> +	rproc_name = rpmsg_get_rproc_node_name(rpdev);
+> +
+> +	return rpmsg_gpiochip_register(rpdev, idx, dev->of_node, rproc_name);
 
-Why I am commenting in the middle of the series? Because I am taking
-a quiz given by LLM based on this series to get myself enough background
-knowledge to review this series. This mlock part came up at part E
-and I only have part F left before I can do the full review. :)
+Why split your probe function in half like this? Where do you draw the
+split line? Why not fetch rproc_name in the second half function, etc..
 
-Best Regards,
-Yan, Zi
+Should be one function.
+
+> +}
+> +
+> +static void rpmsg_gpio_channel_remove(struct rpmsg_device *rpdev)
+> +{
+> +	struct rpmsg_gpio_port *port = dev_get_drvdata(&rpdev->dev);
+> +
+> +	cancel_work_sync(&port->eoi_work);
+
+Init the work with devm_work_autocancel() and then you can drop the
+remove function.
+
+Andrew
+
+> +}
+> +
+> +static struct rpmsg_device_id rpmsg_gpio_channel_id_table[] = {
+> +	{ .name = CHAN_NAME_PREFIX },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(rpmsg, rpmsg_gpio_channel_id_table);
+> +
+> +static struct rpmsg_driver rpmsg_gpio_channel_client = {
+> +	.callback	= rpmsg_gpio_channel_callback,
+> +	.id_table	= rpmsg_gpio_channel_id_table,
+> +	.probe		= rpmsg_gpio_channel_probe,
+> +	.remove		= rpmsg_gpio_channel_remove,
+> +	.drv.name	= KBUILD_MODNAME,
+> +};
+> +module_rpmsg_driver(rpmsg_gpio_channel_client);
+> +
+> +MODULE_AUTHOR("Shenwei Wang <shenwei.wang@nxp.com>");
+> +MODULE_DESCRIPTION("generic rpmsg gpio driver");
+> +MODULE_LICENSE("GPL");
+
