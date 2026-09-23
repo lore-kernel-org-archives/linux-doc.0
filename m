@@ -1,99 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-252.mta0.migadu.com [91.218.175.252])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CC340927D
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 16:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0CB352037
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 16:30:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.252
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790180765; cv=none; b=LdciAcVpdg65PVkCKDArtjbv7BZo6WLjVrrIoozca/kKUzdkwgzYWus0D9bL//asDK2UYQXonO6Shxcv56TULIkLrRqccAq/3WQVVIGkDFCDM0bogIytutKk3lzC1TH5l7SKxDfEV36E3HrzqYm9mz5PXtYX79+HzVozneefn4I=
+	t=1790181048; cv=none; b=PUfOHFwZ7FRB9lj7xTA0mXkn6uwJ9KV/lv8Ij080//0JiIyqBjcxXHJ2n+mQxs9hTtzpsyUDiEcmGAJjz6aX1NcjtaxHihUCymVgme7VW2P1wlMqt7L+bY+PKbqkWYy/NA176iyFmB6Ipkv+5MzTN4w8DWl1ZzvZtu8JAlNJOoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790180765; c=relaxed/simple;
-	bh=IERVJGWJw6rjuNqJPjAiHeD3JZ40QlI7AQ6brGOD1uM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rZArIf1n8mVwmlwWdsutZFOTeq+E+ouomfKUd9M/rKnMJ82VJekdwtpSMlKBJXgVMUvjUuJEBQyoB80pnK8UzFM/YlAzj4Xo6+CibS1w8BSJVRXchsF+Gdbd2HLp8HBicEW2ejXNWWNHU4Sit3Gr5rrJ0vaqeBhxAVlU0dEvU6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hWlBMQAI; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790181048; c=relaxed/simple;
+	bh=syhg4Xh/gTAUQZORWpezw8Y96tkhKRENMCokWTcj1JM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JocCe7Jw6NjuGYZxghfsb+XwmsYuY7Y8GbGFhct7OT7hv9V1Pj1a2svVqHY9lruelKlb/NqwN+bYFDP0PFIxoZxokWMVy47gaaiNanUCIx+T9n2fiYRKG5QNCxjQkGnqtnvNOnXon2aH2M+MrOFT9qcUUu7oyj9/np5hVaH6hDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=e56fLXSO; arc=none smtp.client-ip=91.218.175.252
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hWlBMQAI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790180763; x=1821716763;
-  h=date:from:to:cc:subject:message-id;
-  bh=IERVJGWJw6rjuNqJPjAiHeD3JZ40QlI7AQ6brGOD1uM=;
-  b=hWlBMQAI5LdpFe23yzF6th3hcdfdU11Gqw99U6qd1JyOe18eQ8bWphCi
-   ip3WKkCq9m4T6Ag/Pv6okUXQca/63V+ju6T+ElJZM+iA4mZbhgrsKeqIy
-   inL/wNvXWsX7Emcwm+t1MYm0jMSV9Ye2LoZC3wQKsn6PCucd0cBfNh4Y2
-   xA06pJ+gNKakVF3MVDmdtNKwTUokxQ1A31T4ywyDA7Uo0yMU11JzCaoqh
-   Jcuc8GdjXcQEjj8fLe63SPNwcVE8Q/RHIaEd70YzuIeGVPvHtTUrIVJ8Z
-   tUn+jkxl0lJdVkoJ7HFefkATFZK1Yh0p4VflffoKn96c5SUOkziExH57J
-   A==;
-X-CSE-ConnectionGUID: udCJtuBgT4ib6mYZE7HvXw==
-X-CSE-MsgGUID: /ZscPbr1QXG8+S35WxTMiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="101482550"
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="101482550"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 09:26:02 -0700
-X-CSE-ConnectionGUID: RcYOQzwwQ6Gz6kFCMALDGg==
-X-CSE-MsgGUID: OBzMDx92RD+u5GFrA0FEAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
-   d="scan'208";a="281743556"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2026 09:26:01 -0700
-Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x9PnC-000000000k5-44gC;
-	Wed, 23 Sep 2026 16:25:58 +0000
-Date: Wed, 23 Sep 2026 18:25:46 +0200
-From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Christian Brauner <christianvanbrauner@gmail.com>,
- Jan Kara <jack@suse.cz>, Seth Forshee <sforshee@kernel.org>,
- linux-doc@vger.kernel.org
-Subject: [brauner-vfs:vfs-7.4.idmap 26/28] htmldocs:
- Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis
- start-string without end-string. [docutils]
-Message-ID: <202609231806.ILZP6Fy0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="e56fLXSO"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=syhg4Xh/gTAUQZORWpezw8Y96tkhKRENMCokWTcj1JM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790181043; v=1; x=1790785843;
+ b=e56fLXSO0dNEodGCADCluJC7/pc7/Ch7AsscjvuEp0s8yNT9ctnnFUcVNBfkKs/yvhXeZ4rj
+ oz+3SQnRv8I5zVPOixGqdMw7XDGU5t/zS1zlBWxqgk6IIDCS/AD/+IMr0lslwGcVvh6sM812+Cw
+ wCAYqfllMyxTL7UQSjRjjpjs=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id a4693e8db12b2407;
+	Wed, 23 Sep 2026 16:30:14 +0000
+X-Mizu-Trace-ID: a4693e8db12b2407
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 23 Sep 2026 09:30:12 -0700
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Chris Li <chrisl@kernel.org>
+Cc: Nhat Pham <nphamcs@gmail.com>, Rik van Riel <riel@surriel.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <kasong@tencent.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel team <kernel-team@meta.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arP8vXdJAL6ZJ1Os@linux.dev>
+References: <aqQrPLPXHXiuKup0@linux.dev>
+ <aqjcFb6MFNiA6n4V@fedora>
+ <aqjpYHbZ14A8xRtK@fedora>
+ <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
+ <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
+ <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
+ <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
+ <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
+ <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
+ <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs-7.4.idmap
-head:   0f30047dc83fe18fe0b0766134e9c1a67a09a431
-commit: 025756ee7b476241270dd8ccbe17cc4c473800fa [26/28] fs: port mnt_idmap() and file_mnt_idmap() to const mnt_idmap
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260923/202609231806.ILZP6Fy0-lkp@intel.com/reproduce)
+On Tue, Sep 22, 2026 at 09:44:37PM -1000, Chris Li wrote:
+> On Tue, Sep 22, 2026 at 7:54 AM Nhat Pham <nphamcs@gmail.com> wrote:
+> >
+> > On Sun, Sep 20, 2026 at 5:13 PM Chris Li <chrisl@kernel.org> wrote:
+> > >
+> > > That is not what I have in mind. The example I have in mind is that
+> > > zswap is charged to swap counters. Changing that behavior will break
+> > > our current deployment and that of many other. Kairui give some
+> > > example as well. That behavior should not change.
+> >
+> > We already have a knob to select vswap. Users can turn it off
+> > initially, and/or update their software to handle the transition
+> > based on this knob.
+> >
+> > Otherwise, you'd never be able to introduce any behavior into the
+> > kernel. Hugetlb accounting/charging is a new behavior, and there were
+> > softwares written before that assumed hugetlb usage is not charged. If
+> > it's not a good argument to block the implementation of hugetlb
+> > accounting then, it's not a good argument now.
+> 
+> My original intent is that 200% of RAM for zswap is too much.
+> 
+> It seems you are talking about a different topic: the vswap charging issue.
+> There is a golden rule that we should follow: don't break existing
+> users. At least with the same persistence, this rule should apply
+> universally.
+> In the swap tiers discussion, the UAPI was such a big deal that we
+> couldn't implement new UAPI. On the other hand here we argue for
+> liberally changing user-space visible behavior.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609231806.ILZP6Fy0-lkp@intel.com/
+Johannes has already answered this very clearly but let me talk about your other
+claim.
 
-All warnings (new ones prefixed by >>):
+> 
+> BTW, I already shared that changing swap counter charging will break
+> our and others' existing deployments.
 
-   Ring Design
-   ----------- [docutils]
-   WARNING: ./include/linux/jbd2.h:523 struct member 'h_invalid' not described in 'jbd2_journal_handle'
-   WARNING: ./include/linux/jbd2.h:523 struct member 'h_invalid' not described in 'jbd2_journal_handle'
->> Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis start-string without end-string. [docutils]
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'power_module' not described in 'amdgpu_display_manager'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'hdmi_frl_status_polling_wq' not described in 'amdgpu_display_manager'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'hdmi_frl_status_polling_delay_ms' not described in 'amdgpu_display_manager'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'boot_time_crc_info' not described in 'amdgpu_display_manager'
-   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 Excess struct member 'dm_boot_time_crc_info' description in 'amdgpu_display_manager' (did you mean one of: 'boot_time_crc_info')
+What do you mean here by "break our deployment"? We are talking about
+memory.swap usage and limits here. Google is still on v1 and using memsw
+usage and limit and I don't see how vswap is breaking memsw?
 
-
-vim +1417 Documentation/filesystems/porting.rst
-
-  1416	
-> 1417	All struct mnt_idmap pointers handed to filesystems are const now.
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Are you making these false claims just to derail the conversation?
