@@ -1,300 +1,308 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazolkn19012053.outbound.protection.outlook.com [52.103.66.53])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3C2535FA9;
-	Wed, 23 Sep 2026 14:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.66.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A4653FD54
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 14:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790175259; cv=fail; b=XSi4XMA/X1T/6snhr2kt0mj/gjPgDcwkl1WGRmplr/lS4BGC+h/P1IajX6XedxygF5etS1/loUajw/pUj0EfZgtmQaellZdq6Ew/DlIP6MPueD7UrRnDkQJ/UPgGqRaBHEY2yz9dZ9u7YQouktdOCl7+IiziO+G1nWEXRWaKfrE=
+	t=1790175404; cv=pass; b=mwrq1I2m98mNH2QwgCuIh4kaK207iF/Eknpnz00IzK1dB9tPdQkdmmqL4qelQdIVhWEJdWGgBc3ZUnoW2HrEelOhoO3nSbb8Gt0SO9CYNy61NwG4AzqZL+utKwqb8po/pySbP4koCVMR0I4KV6eHKHtXLuQYI6uxDOnTgQdDxmw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790175259; c=relaxed/simple;
-	bh=fC27qLSs+EiRgxp133ylVNdZewc2XJ1NDtmOjZCGkOc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jGmefeLWcNYAyqGZZBaLYMqaRfH7dQHZhBDFDvb5XCFYBS4h1AWpbFpPe1Yoda2PkkZm/11OT0dfEfYgfam8t+8F4EW3Aymjtw7VAi7OQD8Jn8o2ZthGfJQxJTzIeFFeX8gTjj7+nM47zE4HnqwC6DTzyArbk04nANuzMKJ3Wcg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=gdfdGZbX; arc=fail smtp.client-ip=52.103.66.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+	s=arc-20240116; t=1790175404; c=relaxed/simple;
+	bh=KWjxpkS56vBdoY1mfq+LJ82QCdfp9oGXt1PZy19JPY4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=otuRpcKDIiiXc+31bjGWfGsCF52KvknmrOX5K6QPydDX28GOB0uTbYAooFePIqBOB4MsZZo+xYKUqRX+C3L4exJLboSJvl3CYn8BokleJdOpltonY7Nz0KxYW5+wleq5rV2OvZGgatiJA9/kUt8SdoLiLI3UfZlIHBw7cQlHYCM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iejodJny; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=dyaw9YhE; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="gdfdGZbX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OZGydEyQVDS8hH1XvrUn1zWLCZsZ2MaUmfXKw1Xo+QEzOQfvNSnoVsur0eSK24gcM8EMEb1q8NvSBaFddD2UQfv5iCA6iGVjiRLevG6E3wDhTZ9T2RkZiUh2Cjsr9J764tfBOeROmITfSX5eBIBjInWqy6kkLCgqEZzfFF4xs9fKuZEBd8oNFqRlNVYbAd9xVEicshkLe+zA9/Fd0s9JsftrzATl9C6rbQq9hhrWsY4KjBDM0JFRvxExrh1EllWjhGtGb3kkdWXIx6nGE47nJr+pqON8E+xz0JRxT1QBuA7fGl8Gbs6g2hffgcWOwfOtIdv6i6Flevebqt15j04sdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+NSpbVfCuBalihmiP/gKQS2byNBr5sMglO0miwoy8cc=;
- b=bJwFqsonOfQ/2Pjzjd4tIjxWsZTH+zpaSgPcSxy1OeiV4mtBQg2Qq91au28KxwaIcdT2DqLixgrA6a5IyDiZ1hGELEioWSRA9W2d6V79H57eEj1G66cXMvLTQ8dAiKT2yKzQGUtmRj9TzTuBu5LsowAyRxqzJuRB8XTNR2ENOg3ohCiz3vIpkx/g4SBjQzJR7WlFzEnIUOiBbY6U4O/kKzX8go5CDetBi3l+XJ89LuZQQy3BZ2Qg7mm0XQl/ZkKC+Kjdj2qzDPE+yaDkOmuk6sMvIlzGJWKyD83pCx8yH9hRyI9Bw1Cbm2vw+N59Qusnz3HAA9g98A9FFRtzPrllCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+NSpbVfCuBalihmiP/gKQS2byNBr5sMglO0miwoy8cc=;
- b=gdfdGZbXJEjJe/zxM4bliXiaxjDVkuwFYwsg6auxS9ZbqlKHjDv2k+eANHdteZU8ozPVIH1awwZ8g7aZp5k6KmMfcWx5d1fr8dwLrWsb5zuh16SzwMiTwNGcjeZSyOUdqvFDgITYCHQbAv2t9Qs5ziJKsVJBnjxhbqIMGUODQF4b7v0eVVDFMyPU76XiDKTcZA+S9IIX/1DKBPCUeirJPIY1ZfjX3MDUqFz/ZghOw18A16txDoOSWyEWBDsdvNv6E2koVW+BsqhsCRJ2ju7FEQMwJmvzSRtTDvOn+vVLWWuk1MfMszzYqiHG3GoDIfjKJZikXqCrDr8mAK0vV/ZieQ==
-Received: from SI2PR01MB4393.apcprd01.prod.exchangelabs.com
- (2603:1096:4:1b0::7) by TY1PPFEE1627848.apcprd01.prod.exchangelabs.com
- (2603:1096:408::35c) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.13; Wed, 23 Sep
- 2026 14:54:11 +0000
-Received: from SI2PR01MB4393.apcprd01.prod.exchangelabs.com
- ([fe80::c735:fab8:6e3d:6d1c]) by SI2PR01MB4393.apcprd01.prod.exchangelabs.com
- ([fe80::c735:fab8:6e3d:6d1c%4]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
- 14:54:11 +0000
-Message-ID:
- <SI2PR01MB4393779B4E590C6D76FD12A3DC822@SI2PR01MB4393.apcprd01.prod.exchangelabs.com>
-Date: Wed, 23 Sep 2026 22:54:02 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] PCI: Add ID@path device format for pci= parameters
-To: Ben Cressey <ben@cressey.dev>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, Logan Gunthorpe <logang@deltatee.com>,
- Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- "Anthony Vardaro (Anthropic)" <me@anthonyvardaro.com>
-References: <20260919-pci-idpath-selector-v1-1-5881de83f248@cressey.dev>
-Content-Language: en-US
-From: Wei Wang <wei.w.wang@hotmail.com>
-In-Reply-To: <20260919-pci-idpath-selector-v1-1-5881de83f248@cressey.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-ClientProxiedBy: TYCP286CA0062.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:31a::7) To SI2PR01MB4393.apcprd01.prod.exchangelabs.com
- (2603:1096:4:1b0::7)
-X-Microsoft-Original-Message-ID:
- <f66960ad-24cc-464c-b1b2-0fecbb1ed79d@hotmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iejodJny";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="dyaw9YhE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790175401;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mgl2fzrtLyoiFrBfNonxZVX3GZjaxX+KyLU7gYeHtiE=;
+	b=iejodJnyID9u5TOT5LXICNL8o9nPiJ8LbMUyj41jD4U+qdRGIlqS5nZTZO4WOj0i6Agg6G
+	hGoEDUpV2jJ653Nnsh8YkC/CMtk6X+2TCChMbL0aS2Eu6r77snzF2wcaiIN+UGdEuW3NKa
+	MCmAF8V/wbSU3Vdkc1yfdu7pV75uu5U=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-662-U7gCLiNVMSeTDy4bOF8ewQ-1; Wed, 23 Sep 2026 10:56:40 -0400
+X-MC-Unique: U7gCLiNVMSeTDy4bOF8ewQ-1
+X-Mimecast-MFC-AGG-ID: U7gCLiNVMSeTDy4bOF8ewQ_1790175399
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-49e745d5dabso9821545e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:56:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790175398; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YBcxRgX3azuB6tB7U85wxRzXCoZr6+doWSeYrY/aTa2hzZL4/CPGq5xHf1YuTTd26/
+         oF5C3U52nb6bxmbpp1Kq5iatjwPiGWwsRfwJLQL4N8u4AWtCA1FfiwTp/K6OCR9LtidH
+         StxAxdPJxSkc95aAcc1Vzdr758hpl+9XmS+3diaXEiNa7cYcx3mRuuE/EHGv9qaIg2Rg
+         6ZkXzARNTGh959ahSdaJzt0B1kF9LbGnMTEsodwm4S6zFgdXZBae52xHTU/FDQ8c4xfi
+         kIjX26eq7Oy2+RQw0FV0vY0ZxtXLw05OEM9C6OXxI7Fskx6UEZ8QrNF1u2VVcnfA8r6E
+         Xp4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Mgl2fzrtLyoiFrBfNonxZVX3GZjaxX+KyLU7gYeHtiE=;
+        fh=flxub5ejidbkwLBHU07UP/G0jpmUhqV31wT1Oq+i1rY=;
+        b=nVML/kr1USLqmBxfkkyNJ4qcIzhMmVZ0H2Ewban0spkptJOOC7J0ncGWUlJYL/J+2D
+         k9oxMPAt4rJJqNm7lZikRGUXmB0jN2ZOgIPmyoQcPyQUNJD9+gK7uEg6OuBb1D6CaNQ2
+         HJTX/IW3FCkCcfIked2avOpW8SSzWflZQ/VwpDqUp4n+MpKbkT3vhGYSjhP0ylHeceZ/
+         BR4uoloaG411rf08kmsy2x6DU+mCLxdqWqBWHE4SPL5GlK01RSWUM52P+dRaDyTpKKrS
+         /nDWe25mmW9aTY9FLijaN573J9XJI9LJ+Ed+q0J5q6WFNFGJSTECYVZyTVPfONXQ7wOy
+         TewA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1790175398; x=1790780198; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Mgl2fzrtLyoiFrBfNonxZVX3GZjaxX+KyLU7gYeHtiE=;
+        b=dyaw9YhENt05h9pW/Q6M+sAqbYxPgldaMTjD8WUSm24b62Iy4kvuBPhDolyOhvBtmq
+         o9MWhSL2Hi0eCVZ4aqKHacuZoIbINN/XY2CM30SLPKRc1NZOKYNaz4nKqbG9NyoCowz0
+         WJfYoPtqiwVPEWmUhXKyj7p/huHrsH2gzzcvoInveruyaggmLDp702anEuMZsDgx37qo
+         2nAA+RPSB4a3yhBCXPBWHUV2X7VaRELPT5ERs3ksJL1nHxALLtC3d60cQio34E+RhnPL
+         A+CKjSh3SlbzhGXHEMXzXArzAqXpoobn3p3oO6Q+jvdmXbCXE7cJVsui8NrlCocr8Fka
+         NaNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790175398; x=1790780198;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Mgl2fzrtLyoiFrBfNonxZVX3GZjaxX+KyLU7gYeHtiE=;
+        b=O0OvhnE4HJWGeiL40hWO5nMb3Wl+OdEihW/5aSkZpBvqcmFFIo/yFBzha7nQL/kles
+         tIDrRmjmCm6NorfM8CAgvvCyHF4lpr+a0Y/O3B/pCYmpMJbW2j2c7n/GfKdMTy0YvKsN
+         JV/p+V91CvGw8Uz0Hjjn9ftcsaNubmaGGf6QludINvNC7EQNmQlUwTXD6HoHlEqlCR08
+         Wgw1BnEzRRS2gVJ163zm/wtmycEZFd+O1VGz7h2oFH4vbhXqsXJMkYn7454X3Z+zOhPA
+         aZbwHAD+GgbP4WT7DjgGxdWwwOV5F56CZeYIeHAWvQg7L3mFqbcFD9tA0xcHHTZI/Sel
+         wfHw==
+X-Forwarded-Encrypted: i=1; AKwUvBxYHLObdXSyPKAhcArW9Ubigniz7HVcF7sPtp+KryL2pfwVnepEXh5LsNMrfzH+jG12+0E+d/pPCQI=@vger.kernel.org
+X-Gm-Message-State: AFuF++nYFDxjVQ+nMrBEm3TJRKZqja6wfJ1KajSlcp0F7V1YPvYsOuio
+	xAQ7qhykFyA73pHseKPvbWoSkj/eppJaXGZLPHeGBYyOWlatGx3e5JJALjZXVaLx3gHk2XmJtmz
+	hykd/gXZ9aWO//dLWZWopY+ighaLLzVB8uWx7QEvYC1yk1qmrPWxsWkmsgcYwMgeBAkrCIKHeI6
+	JihTB87N/tnQIsUyTdbIZU8q8IOYI3lKtzB6hY
+X-Gm-Gg: AYBFou1rNPuDJCD48lq3tsRjSmMmtz0z0YMrMY8ID2QWBy0m5Eseg55Jrf+GEQQS2fq
+	cNwnquHa8jpGav1Yeypfzx/KfER8lpqgPz3gLXyZuOH2OglWShKjdZmFWFhTq+epJUc0I99CUTS
+	504Co+vjPOYwF19FO7h2ay+KFrGuyeHALG++tBDnk0pnAiEylQ+sZRFlWUdEzn84t3SHF1vm68+
+	o75vEmL8Z8TgpDlDw==
+X-Received: by 2002:a05:600c:3b21:b0:49f:bd3c:bc25 with SMTP id 5b1f17b1804b1-49fdf25486bmr41518155e9.32.1790175398659;
+        Wed, 23 Sep 2026 07:56:38 -0700 (PDT)
+X-Received: by 2002:a05:600c:3b21:b0:49f:bd3c:bc25 with SMTP id
+ 5b1f17b1804b1-49fdf25486bmr41517685e9.32.1790175398258; Wed, 23 Sep 2026
+ 07:56:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI2PR01MB4393:EE_|TY1PPFEE1627848:EE_
-X-MS-Office365-Filtering-Correlation-Id: 71430ab8-4764-4f68-9756-08df198285ed
-X-MS-Exchange-SLBlob-MailProps:
-	iS5pQZgsAQDZd5pLvsexcGXRgbvG27NW3QKMaH6PCjvUn1WiMwyttl8fRKQooUv9d60/7Znna4E6LrIB5jTyROYzgQEYSIra1XzSejgcCqXkwJxxnG7e7U5ZvuEV2mp+SOopO0iGs2lRcCXwa+yROOTJEQ+JgYDdOCgLlZVBZ+ngm8jgf5pxmyxaoD32yTz27cm0EgpQLdEc6KIa3peaxPSnFe3rfFZQcypPgAlvNeGvquTwn+bhtiaAKEanYBP2ekxdk+og0AEKmp0vFMU2qV3aJY/2wnOU66ItyXD6tIG6oOjCl95wshgEiEdA8EZ87LXCODqMkW5n+h9cqY92DIHzdNzcw5qFOfrYxawzAC3rM3HU3gI7FhqdnVGPdROWQQ4xR1377cR+DZom05wR52GlPjBkeOvVf7fu7gyW/A9GU943qe64XqjxMLa/Avcp/p0NmTAganB69AUk0jmC12o7JnH9sXttq+YdmRNYIN+zFUlGR9TlpFNKfFufELXGm5suDfCveX14p0Aik9AIhN6mN/uyqsp2hYK9lT7mOp6000ONZf+ebx5V0ONaPXf/U8IUR4M+IXpJ/ygfF66GoxA4ZRHMnbHEHCGEF97uCQ5w0IW7lSpQ+jdNHfxphr8AnIunhylaOKdd8Tql5OpFq7a5hq9PuFlqvb5XzBJqxfz23OW8Fc1bh7S6vZLAKKYfKHZxXwQbBVDoh00YpfhZtFIoGXLa5k+gwiTCuPMSDjw4Za6qmmy19IaTo15I3xCldeiy3S0MUUnKbFt8OO6V5UjXYAGlUKGd7QWFEFrQOqG/RJyBc1k+mjAFH1e9bRTr
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|15080799012|23021999003|37011999003|4140399003|7042599007|25010399006|12121999013|2604032031799003|41001999006|45011099003|6090799003|8060799015|5072599009|19110799012|52005399003|40105399003|1602099012|2607281247196008|10035399007|440099028|4302099013|3412199025;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Z0RQNE5KTkwzUG9DSk9SNWNFMVE5RGRUbDlvaUJFbkRnbE1TaGh6ZFNNTnFM?=
- =?utf-8?B?bi9ScjVSalAzaFZaT0QzSmE3dm9seEJZMkE2NlRqdUNQOUNjV1RFNlpqYWFG?=
- =?utf-8?B?YnY0QUk5YTl4TXBSZ2d5Q2ZzUmJLelZ0MmIrOGsxRnRMVUZtM25oV2VuUHoy?=
- =?utf-8?B?cWdDb1Bwcnk2cDJCcVRYVFovUXRKRmNRUGRqWndyL09RdDBnTGZqWFk2Smx6?=
- =?utf-8?B?TXFHbnpJSUJ0RG9NcHB5aUJ1VDJjRmRaK3crVUJScDYzQTFjbDlMenlOVlgr?=
- =?utf-8?B?bWFFQ2tKQ3JmZERFRUl5Rm9SdFpoQ0dURWlMZDdXck9UVmg2UnBSc1E0RzZo?=
- =?utf-8?B?alQxdXI0WUFNbWF0UVFhb09abGhpdEFzRS9aZUhuTy9QZjJzeVFYeFlMLzZq?=
- =?utf-8?B?aXNCaytPTjRxMDY4RElVdDYrcTYzYWFGSGpoRklWV1BsM2NUWmM3Wk80Z3Vv?=
- =?utf-8?B?L2RKWG4xZm04L0Y2NTJ2eVFtbld0b0I2MkE1OXhZVzBiL3RwTjFUeTRlT09m?=
- =?utf-8?B?dWJkeG5XeHdTMENPRTRpQ3RXSThVWXhLR0ZPbVdXYlNCMzdLVjUrM3RrbElt?=
- =?utf-8?B?UUM4S2FQUU4wUmgwV1MrYnlmTjd4djV5Y1BwZlJ3TkZZVmVVVFhIVlJzSzIv?=
- =?utf-8?B?K252Z3ZlMWRmRjk5czVYRjluVlFOOGZwUEE4UHJUV1czYXJVRjlvdXdldTFH?=
- =?utf-8?B?SDZKclFPMGJ4Z0MvM3IwSERPbHpEY2lJSWFHaWh2YUEwQ1FpcnR3Z0RlVzNk?=
- =?utf-8?B?V0JYSnlmL1VvZ2JFRUs3WEVRWGtHeDF2bEFxbXA1bTBSbjFDa3IxRG5aK1Zl?=
- =?utf-8?B?TnRFUWFKeURBVFZMVXBZeEVHeW5OTktTcEt1bTBLSC9jaUtDNDJCRWptbS9T?=
- =?utf-8?B?TmNOWC9sc0VHeStrVXFHUHpMNjZQQmhQVE1MZk9uWTk2VzRBemNJbjJ2Snlr?=
- =?utf-8?B?QU5qWjhHaVl6NzI0TUkyY085ZDZRdHlFWW04QXp3VzJQUXZyNFo1UUpKVXow?=
- =?utf-8?B?N0pjR1VRRURMZU92SjBvZHJmTlk4ZlpiRDR6b1dxenE1b1JzNXlwdjZlYnEx?=
- =?utf-8?B?eDVkN2hab1VMNHlKU3Y1Sk5LSzV4QTd1ZnlISHdMcUwvL3FJZUpVc1RLVEFj?=
- =?utf-8?B?M09lamF0d2huOFNTK0NTeFJmK1l2TElaRitrQ3RCQlBNckJzM2lQYmd2akZB?=
- =?utf-8?B?MlFpSVRtNWgrUVYrM0RpRVAyYi8yaWVPa1BiU0Z0aTJ2UDV3RDEzZWlpbUdh?=
- =?utf-8?B?MTU4UGYwU3BvK1VlRDJXbGRiaElVZmlLS2p4MjBRZmM0NzJKUEJyU3FwbWpk?=
- =?utf-8?B?UlpTdSs0UjZzakVudGhnVjBhRHFxZXNtTXE3TFNzS2tzdGxrcVVyeU40dVBq?=
- =?utf-8?B?TlhmcnBGTlY2dkZmbzY4NFFsY0tZbTdzUUZ5RnBOMndGZk00TlJ4aDc5UGRU?=
- =?utf-8?B?UXlnY1E1VkRvcUVzb2M0emFQekVlcHVJVzdvd3pCVTlhYXdIbXZHcTh4RFcv?=
- =?utf-8?B?Umt6RWl6RDZWSE9sdmlGanJLQTBmSXh1ZGw4d1p0NXRzNFB4cFFHYzlndGJl?=
- =?utf-8?Q?ANs/QE+FvTdg/xuELUA8sPv8E=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dDJpdFp1ZG1kUUZ0d29qNzRsUHJ6eEtFemdtVDdMZ1M0dVpVM3hDcXRjcXc2?=
- =?utf-8?B?UnpxS08rZUhreVJxdFlxbWtsSjZ1bDE4VnBZMzA3QzJsa0ptZFdJYVYwbHMx?=
- =?utf-8?B?UzhVSjBzbGVaZmxsRmhJajlZNERHa1I0elpRYThhOWZjb0FobmgxUHhSTTFQ?=
- =?utf-8?B?SDJQcXVtNHJmc2VJdVltY0U1aDNJYzduNlFMcjA5V0VZR1lCMFU0eVdFVllw?=
- =?utf-8?B?UG8yQTZjZy8zMmxMVHhSZUVqcmJLSFZKVmxoeC9sYUpib2dSQzBZdkNCMXox?=
- =?utf-8?B?VENsakJPcldmYXRhL1FyVHpveThEenQreVdoeGRDMkRHZG01OUFEWEs2U0N1?=
- =?utf-8?B?cWxmbG9GNE9UWEtLTzlGTUhFdGNXbkFBQng3WkZtc3FqUVQvcnVhSVpmTVJa?=
- =?utf-8?B?N3hmYjF1cUJ1aHFKbFl4clRLOXVMOVlsT1RTWXJFOEFodGhrc0w1ZndkbXl3?=
- =?utf-8?B?Vjg3QW1aYVd2SHNWdEJDUkFieEx1Wi9zMHY2WU5veTllaS81OTVKV2lDSDFo?=
- =?utf-8?B?enRoVXh1czdJWXdpM1FKVWVqNGROOHQybWRENGl3Zkh4eEJNemt1U0V2bHJ3?=
- =?utf-8?B?QnVuRklyZGZSeDl3VU5SeDlBWS9URHM1UnBaS25lVXRmNTVGWFZFa3R0RHFu?=
- =?utf-8?B?c21sbm1JdDJzK0FYYy80MkVZN2xIcWlPYlFjVUVPYTB2L09wYkhTL3pFdFFI?=
- =?utf-8?B?ajFKTTFMV2NLVjJNSlpsaXRxSkNxZWMvbEpmb3h4OEQyZW5XN255UzZQYzNp?=
- =?utf-8?B?Q3Z0QStkM0w3dE1qUkI1bVdyZUtONGtvbmkxYmVvK3NpVUc4QXdtdHNBT2JB?=
- =?utf-8?B?bjZwM3NBd1cwaVVPbVZHM2JscVZOUHQ3OEdNL3RLMEVnVGE5U0tiODVKSUFr?=
- =?utf-8?B?UFhVR1psSkhjS000WFdnYVM2UExvVzNZcHBvaUtVcWlmWmUzcWhsYjVXYXpD?=
- =?utf-8?B?ZVpSK0taWjBHWU4vYm5FWklVWW9KWUNjQ3V2QW9Ra3RSQjZTWW9kWklxVXJw?=
- =?utf-8?B?MFYzZTBueXpMWFVRYS9aUmVlK1NKckM4NWVXbDF0RGhlS3pMS1Q0VDU4bkNv?=
- =?utf-8?B?SUoxYTY0cU1aRE9GWVN3cjNwL1dYV0RYc0E5M2crN3pMdVJtSzdRdGZFc09R?=
- =?utf-8?B?T1drTExxZDVwZ2VhUTd1Y0lGMm1Jc0t5SWNoVmlYL0x4N1NFa1JJMGF1aUlO?=
- =?utf-8?B?N1l3NHo0T3FNcE41WDQ5Q0MyejRicC9XMXJ5WUprK3pFemduZ2Y3UU81U05M?=
- =?utf-8?B?UzhxeVQ5TS80R1lQZmlkNk1keTFoV3dMRXVieU0zU2xTOE8weURkMnc5UVhp?=
- =?utf-8?B?NkhOQmZ4Q2l2bHpobDRsdjFucVY1UGpXQTYrUXNRTzI2WUtTQThpZFRFejht?=
- =?utf-8?B?dlJZMXVLWWhmYW5KOEtjemdLOGJWSXBQZW0zSEhHRlN4VStBTTF1VG4rRWpB?=
- =?utf-8?B?eFY0RnZpcy9xVlBVS0NFNXI4TnA3OUtBN05ZeUZJMTEzU0xLdnVRS0U3Rmcz?=
- =?utf-8?B?cy8vV0RQTkhtM3VKa3dyOU95R0NFM2huNDVNODNmN1BBTUxrbVNXdTQxbDMv?=
- =?utf-8?B?cFBCeFl2akJxb1ViaGNzNXkrbU1HU0UwaFFhT3pVNlNyRGljREUyNVpGQU11?=
- =?utf-8?B?a2tzSEFqUGpJQXg5N1R0c0t5dmhQVkNZMzkrakhpNmpOd3lYd2k1MngxZjg3?=
- =?utf-8?B?M1hYblhhbzFPUzhTQVltUzhVMjBTM3RKejB1eGZiLytzbHJGbnlJU3Zucjhy?=
- =?utf-8?B?SWZFUDQ1alp0VHlNdk0vL3VCb094L1UxMXZycDYxUnRnNDZrSFJ2Q1pzNTYy?=
- =?utf-8?B?SzNFK3dNci9LaVpFbzM2eE01Qm01QjRsc2wya0F2ZmQ3Mk92M3BqUzA1bksv?=
- =?utf-8?Q?hQUWo5GMTwT8R?=
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-3e488.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 71430ab8-4764-4f68-9756-08df198285ed
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR01MB4393.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 14:54:11.1879
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PPFEE1627848
+References: <20260902200547.184734-1-jtaubepe@redhat.com> <20260902200547.184734-8-jtaubepe@redhat.com>
+ <ab97f32b-31dd-4975-a8b2-b445110ae3a9@suse.de>
+In-Reply-To: <ab97f32b-31dd-4975-a8b2-b445110ae3a9@suse.de>
+From: Jesse Taube <jtaubepe@redhat.com>
+Date: Wed, 23 Sep 2026 10:56:27 -0400
+X-Gm-Features: AclHuK-DXEgf8h50oy37YCFQPiuZykx03xaAenYlWJQtQSO7dJcvZ7KWpU5nfJA
+Message-ID: <CADRr4bePoiDnWX_XrMWtQe=1g4Yrw1_dK86EV2k9XZR0HnL+UQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] nvme: fcloop: Add set_marginal_rport to sysfs
+To: Hannes Reinecke <hare@suse.de>
+Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
+	Sagi Grimberg <sagi@grimberg.me>, Justin Tee <justin.tee@broadcom.com>, 
+	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, 
+	GR-QLogic-Storage-Upstream@marvell.com, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, John Meneghini <jmeneghi@redhat.com>, 
+	Bryan Gurney <bgurney@redhat.com>, Chris Leech <cleech@redhat.com>, 
+	"Ewan D . Milne" <emilne@redhat.com>, shinichiro.kawasaki@wdc.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/20/26 4:56 AM, Ben Cressey wrote:
-> The <pci_dev> grammar shared by pci=resource_alignment=,
-> pci=disable_acs_redir= and pci=config_acs= names a device either by
-> address, with an optional path, or by ID. When one command line serves
-> more than one platform, neither form limits an entry to the intended
-> device: an address applies to whatever occupies it on each platform, and
-> an ID applies to every instance, such as all Downstream Ports of a
-> switch rather than the one that needs different ACS settings.
-> 
-> Accept pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>, where
-> <path> is the address format, and match only when both halves match. An
-> entry written for one platform is then inert on another where that
-> address holds a different device. For example,
-> 
->    pci=config_acs=xx111x1@pci:10b5:8749@0000:80:02.0/00.0/08.0
-> 
-> configures ACS on the Downstream Port at that path only if it is a
-> PEX 8749 port, and matches nothing on a system where 0000:80:02.0 leads
-> to some other device.
-> 
-> The path goes last since pci_dev_str_match_path() consumes up to the
-> next ';'. The <order>@ and <flags>@ prefixes of resource_alignment and
-> config_acs are stripped before pci_dev_str_match() is called, so the
-> callers are unchanged.
-> 
-> Reviewed-by: Anthony Vardaro (Anthropic) <me@anthonyvardaro.com>
-> Signed-off-by: Ben Cressey <ben@cressey.dev>
-> Assisted-by: LLM
-> ---
-> This touches pci_dev_str_match(), as does 3/6 of Wei Wang's "PCI: Add
-> support for ACS Enhanced Capability" series, currently at v9:
-> https://lore.kernel.org/r/SI2PR01MB4393F337A792CB3258C2E073DCB62@SI2PR01MB4393.apcprd01.prod.exchangelabs.com
-> On current -rc this patch applies as is. If it is applied after that
-> 3/6, the early return for a path that does not match needs to become
-> "ret = 0; goto out;" so the shared exit still checks and skips the
-> delimiter. I can respin on that base if preferred.
-> 
-> A pci:<IDs> entry with three or five fields is accepted by the existing
-> sscanf() and so bypasses the @<path> check; that predates this patch and
-> is rejected once that same 3/6, "PCI: Consolidate delimiter handling
-> into pci_dev_str_match()", is applied.
-> 
-> A backport of this change to a 6.18.y based tree was tested on two
-> server models from different vendors, both with PCIe switches whose
-> downstream ports share one vendor and device ID, and one boot of each
-> machine was examined with one command line that held config_acs entries
-> in the new form for both models. On each machine only the ports named
-> by its own entries were configured, and the bits those entries set read
-> back as requested, while the ports with the same vendor and device ID
-> at a path that only the other model's entries name were not configured.
-> ---
->   Documentation/admin-guide/kernel-parameters.txt | 10 +++++++++-
->   drivers/pci/pci.c                               | 18 ++++++++++++++++++
->   2 files changed, 27 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 33cd30996e47e..3e4c618427a27 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5042,6 +5042,7 @@ Kernel parameters
->   
->   				[<domain>:]<bus>:<dev>.<func>[/<dev>.<func>]*
->   				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-> +				pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>
->   
->   				Note: the first format specifies a PCI
->   				bus/device/function address which may change
-> @@ -5056,7 +5057,14 @@ Kernel parameters
->   				renumbering issues).  The second format
->   				selects devices using IDs from the
->   				configuration space which may match multiple
-> -				devices in the system.
-> +				devices in the system.  The third format
-> +				combines the first two: the device must
-> +				match the IDs and also be at the address
-> +				given by <path>, which takes the first
-> +				format.  This allows an entry written for a
-> +				device on one system to have no effect on
-> +				another system where the same address is
-> +				occupied by a different device.
->   
->   		earlydump	dump PCI config space before the kernel
->   				changes anything
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index b2879a6be5f80..ebce05e604b88 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -343,6 +343,7 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
->    *
->    *   [<domain>:]<bus>:<device>.<func>[/<device>.<func>]*
->    *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-> + *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>
->    *
->    * The first format specifies a PCI bus/device/function address which
->    * may change if new hardware is inserted, if motherboard firmware changes,
-> @@ -359,6 +360,12 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
->    * legacy reasons and convenience so users don't have to specify
->    * FFFFFFFFs on the command line.)
->    *
-> + * The third format combines the first two: the device must match the IDs
-> + * and also be at the address given by <path>, which takes the first
-> + * format.  This allows a parameter written for a device at a known
-> + * address on one system to have no effect on another system where that
-> + * address is occupied by a different device.
-> + *
->    * Returns 1 if the string matches the device, 0 if it does not and
->    * a negative error code if the string cannot be parsed.
->    */
-> @@ -385,6 +392,17 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
->   
->   		p += count;
->   
-> +		/* Third format: the device must also be at <path> */
-> +		if (*p == '@') {
-> +			ret = pci_dev_str_match_path(dev, p + 1, &p);
-> +			if (ret < 0)
-> +				return ret;
-> +			if (!ret) {
-> +				*endptr = p;
-> +				return 0;
-> +			}
-> +		}
-> +
+On Mon, Sep 21, 2026 at 10:03=E2=80=AFAM Hannes Reinecke <hare@suse.de> wro=
+te:
+>
+> On 9/2/26 10:05 PM, Jesse Taube wrote:
+> > To allow testing of multipath failover, add a sysfs attribute to set a
+> > remote port as marginal. This will allow the fcloop LLDD to set the
+> > marginal flag on a remote port, simulating a marginal link.
+> >
+> > Example:
+> > Turn on marginal for a remote port matching wwnn and wwpn:
+> > `echo 'wwnn=3D0x200000109b5f2956,wwpn=3D0x100000109b5f2956,marginal=3D1=
+' >
+> > /sys/class/fcloop/ctl/set_marginal_rport`
+> >
+> > Turn off marginal for a remote port matching wwnn and wwpn:
+> > `echo 'wwnn=3D0x200000109b5f2956,wwpn=3D0x100000109b5f2956,marginal=3D0=
+' >
+> > /sys/class/fcloop/ctl/set_marginal_rport`
+> >
+> > Suggested-by: John Meneghini <jmeneghi@redhat.com>
+> > Signed-off-by: Jesse Taube <jtaubepe@redhat.com>
+> > V10 -> V1:
+> >   - New patch
+> > V1 -> V2:
+> >   - Fix reference count leak in error path
+> > ---
+> >   drivers/nvme/target/fcloop.c | 50 +++++++++++++++++++++++++++++++++++=
++
+> >   1 file changed, 50 insertions(+)
+> >
+> > diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.=
+c
+> > index b63af3b643a6..9977c2a71bd5 100644
+> > --- a/drivers/nvme/target/fcloop.c
+> > +++ b/drivers/nvme/target/fcloop.c
+> > @@ -6,6 +6,7 @@
+> >   #include <linux/module.h>
+> >   #include <linux/parser.h>
+> >   #include <uapi/scsi/fc/fc_fs.h>
+> > +#include <uapi/scsi/fc/fc_els.h>
+> >
+> >   #include "../host/nvme.h"
+> >   #include "../target/nvmet.h"
+> > @@ -21,6 +22,7 @@ enum {
+> >       NVMF_OPT_FCADDR         =3D 1 << 3,
+> >       NVMF_OPT_LPWWNN         =3D 1 << 4,
+> >       NVMF_OPT_LPWWPN         =3D 1 << 5,
+> > +     NVMF_OPT_MARGINAL       =3D 1 << 6,
+> >   };
+> >
+> >   struct fcloop_ctrl_options {
+> > @@ -31,6 +33,7 @@ struct fcloop_ctrl_options {
+> >       u32                     fcaddr;
+> >       u64                     lpwwnn;
+> >       u64                     lpwwpn;
+> > +     u32                     marginal;
+> >   };
+> >
+> >   static const match_table_t opt_tokens =3D {
+> > @@ -40,6 +43,7 @@ static const match_table_t opt_tokens =3D {
+> >       { NVMF_OPT_FCADDR,      "fcaddr=3D%x"     },
+> >       { NVMF_OPT_LPWWNN,      "lpwwnn=3D%s"     },
+> >       { NVMF_OPT_LPWWPN,      "lpwwpn=3D%s"     },
+> > +     { NVMF_OPT_MARGINAL,    "marginal=3D%d"   },
+> >       { NVMF_OPT_ERR,         NULL            }
+> >   };
+> >
+> > @@ -120,6 +124,13 @@ fcloop_parse_options(struct fcloop_ctrl_options *o=
+pts,
+> >                       }
+> >                       opts->lpwwpn =3D token64;
+> >                       break;
+> > +             case NVMF_OPT_MARGINAL:
+> > +                     if (match_int(args, &token)) {
+> > +                             ret =3D -EINVAL;
+> > +                             goto out_free_options;
+> > +                     }
+> > +                     opts->marginal =3D token;
+> > +                     break;
+> >               default:
+> >                       pr_warn("unknown parameter or missing value '%s'\=
+n", p);
+> >                       ret =3D -EINVAL;
+> > @@ -199,6 +210,9 @@ fcloop_parse_nm_options(struct device *dev, u64 *nn=
+ame, u64 *pname,
+> >
+> >   #define TGTPORT_OPTS        (NVMF_OPT_WWNN | NVMF_OPT_WWPN)
+> >
+> > +#define MARGINAL_OPTS        (NVMF_OPT_WWNN | NVMF_OPT_WWPN | \
+> > +                      NVMF_OPT_MARGINAL)
+> > +
+> >
+> >   static DEFINE_SPINLOCK(fcloop_lock);
+> >   static LIST_HEAD(fcloop_lports);
+> > @@ -1663,6 +1677,40 @@ fcloop_set_cmd_drop(struct device *dev, struct d=
+evice_attribute *attr,
+> >       return count;
+> >   }
+> >
+> > +static ssize_t
+> > +fcloop_set_marginal_rport(struct device *dev, struct device_attribute =
+*attr,
+> > +             const char *buf, size_t count)
+> > +{
+> > +     struct fcloop_nport *nport;
+> > +     struct fcloop_ctrl_options opts =3D {};
+> > +     unsigned long flags;
+> > +     int ret;
+> > +
+> > +     ret =3D fcloop_parse_options(&opts, buf);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     /* everything there ? */
+> > +     if ((opts.mask & MARGINAL_OPTS) !=3D MARGINAL_OPTS)
+> > +             return -EINVAL;
+> > +
+> > +     nport =3D fcloop_nport_lookup(opts.wwnn, opts.wwpn);
+> > +     if (!nport)
+> > +             return -ENOENT;
+> > +
+> > +     spin_lock_irqsave(&fcloop_lock, flags);
+> > +     if (!nport->rport || !nport->rport->remoteport) {
+> > +             spin_unlock_irqrestore(&fcloop_lock, flags);
+> > +             fcloop_nport_put(nport);
+> > +             return -ENOENT;
+> > +     }
+> > +
+> > +     nvme_fc_set_remoteport_fpin(nport->rport->remoteport, opts.margin=
+al);
+> > +     spin_unlock_irqrestore(&fcloop_lock, flags);
+> > +     fcloop_nport_put(nport);
+> > +
+> > +     return count;
+> > +}
+> >
+> >   static DEVICE_ATTR(add_local_port, 0200, NULL, fcloop_create_local_po=
+rt);
+> >   static DEVICE_ATTR(del_local_port, 0200, NULL, fcloop_delete_local_po=
+rt);
+> > @@ -1671,6 +1719,7 @@ static DEVICE_ATTR(del_remote_port, 0200, NULL, f=
+cloop_delete_remote_port);
+> >   static DEVICE_ATTR(add_target_port, 0200, NULL, fcloop_create_target_=
+port);
+> >   static DEVICE_ATTR(del_target_port, 0200, NULL, fcloop_delete_target_=
+port);
+> >   static DEVICE_ATTR(set_cmd_drop, 0200, NULL, fcloop_set_cmd_drop);
+> > +static DEVICE_ATTR(set_marginal_rport, 0200, NULL, fcloop_set_marginal=
+_rport);
+> >
+> >   static struct attribute *fcloop_dev_attrs[] =3D {
+> >       &dev_attr_add_local_port.attr,
+> > @@ -1680,6 +1729,7 @@ static struct attribute *fcloop_dev_attrs[] =3D {
+> >       &dev_attr_add_target_port.attr,
+> >       &dev_attr_del_target_port.attr,
+> >       &dev_attr_set_cmd_drop.attr,
+> > +     &dev_attr_set_marginal_rport.attr,
+> >       NULL
+> >   };
+> >
+> Please don't make it a fabrics option.
 
+What do you mean by fabrics option? How should I fix this?
 
-How about checking the path only for devices whose IDs match, i.e. moving
-this under the ID comparison below?
-That avoids walking the path (and its kmemdup_nul allocation) for devices that can't
-match anyway.
+Thanks,
+Jesse Taube
 
-Note that the devices whose IDs don't match would then no longer go through
-pci_dev_str_match_path(), which is what currently advances p past the
-path. So need to skip it explicitly, otherwise *endptr is left at
-'@' and the caller will stop parsing the remaining entries, e.g. adding
-
-else if (*p == '@') {
-     p = strchrnul(p, ';');
-}
-
-
->   		if ((!vendor || vendor == dev->vendor) &&
->   		    (!device || device == dev->device) &&
->   		    (!subsystem_vendor ||
-> 
-> ---
-> base-commit: fd73f4a6659897191fa0d40695fe370925dd3780
-> change-id: 20260919-pci-idpath-selector-2847a8afe92c
+> Setting is via sysfs is
+> sufficient seeing it's for testing only.
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+>
 
