@@ -1,160 +1,137 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C89351C10;
-	Wed, 23 Sep 2026 07:10:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436BF361974
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790147430; cv=none; b=TwyrOdsiLwce7yMS/MfrBaIBxPLBixKdiV1gvwvqyDMvvLcZnUYUBgu0mFdCqo8iarS7ZhT7CT5a/ZF5sCM3MnKOTnVHKod4XnzGJI8I0qJQRxjXYAyRm56q9oUS1zplbWsuFy1zOmX9t4FtNbNg8myktU/UZlIm7WEfcU5Ai88=
+	t=1790147468; cv=none; b=IjiJF31ZTnp7xjHZJM4YHVaxy3N6WzIQZLtDYgH3Drs0IJYClp4ETaNfdPs5e/XgNEJmYQg3ykgDoekEAi5e/W3+SyfHjphEe05yW45tXClNi9tkevdYByuD3zPS8RZqT31vK82bdvIKMX+jASyawaxzlasXlN3CEe1C6xEMUmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790147430; c=relaxed/simple;
-	bh=VTdI0rXHU7Plo8YxQMJKEND7jVUrNgvlc4MHG7bDktY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rrp+VevgG7UocEsZpb90qj3E+d4oSN6NlIJqrK4HwpOzKpvixHOTaJYAsZBbPW9CKF2BAexDigQ0LHVNmd1/DEDxe4Aotcw+BNg3ya4LFoFgMxxJTkM0I8x0seyOxL92xj12FsC8MobcB4rg3+9Dy3Gwf1FtzPM/3/W/EURurDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZktHXeeV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790147468; c=relaxed/simple;
+	bh=tMhv2qOhzG4jrkkzinGONLyAHB+FkZzKXBAXmbOVLII=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eDvg/sz/QOVxgB2jKRQso5AWrTkyTv5iA8aE8VzexyaF3J+dndgHlw3jNBe4HVL8uXMa9BWyrs79vQBIyt5BX929U4YDUEvnSzt3qsxP3E/RrI4M6GAfyu+kyzlB921HLEP/ssClWIF+if+jDOdAVzviPYsXY9ijoSvvGQnTsxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e4K7mJVk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZktHXeeV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AF7D1F00893;
-	Wed, 23 Sep 2026 07:10:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e4K7mJVk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B92B11F008BC
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 07:11:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790147422;
-	bh=t9RAe9ZjvGj6dYOYWWXV4UowTJ/0wUjk9Zi0mnvN1Ks=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZktHXeeVHUdVX84HQm0s5eTwxdjCgV+/1qk2ubVk78nV17YKtFkiFazEoAUDTsoXc
-	 M9HCiTHUQ7J69MHTAi4rLJyLVgYuyNbgSZJz+v4NLmOvNpB/bSTDv4lHPBz5Q4Gbdm
-	 cw1DRtF+qN9ZW+I8gS7aCogIW950qmkzAO26UzPGSnMSRMFt2p6bBCYM4H0oUIHroz
-	 jtcloLZ16zE9tgGKnollzIYQBpif6cPAzGzXl2ECvovYLZTpgksOX/6bxn4RAYnBNk
-	 G5I4qUhKiokal3pqf0QgZTJFeUKOfYndJa8L1dZhaKM+4yq8dKa2tMGYzCO83fHsqT
-	 OShYOOxxd3Q4Q==
-Date: Wed, 23 Sep 2026 08:09:58 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: akpm@linux-foundation.org, david@kernel.org, ziy@nvidia.com, 
-	baolin.wang@linux.alibaba.com, liam@infradead.org, nico.pache@linux.dev, ryan.roberts@arm.com, 
-	dev.jain@arm.com, baohua@kernel.org, usama.arif@linux.dev, kas@kernel.org, 
-	guoren@kernel.org, bcain@kernel.org, geert@linux-m68k.org, dinguyen@kernel.org, 
-	schuster.simon@siemens-energy.com, jonas@southpole.se, stefan.kristiansson@saunalahti.fi, 
-	shorne@gmail.com, dalias@libc.org, glaubitz@physik.fu-berlin.de, pjw@kernel.org, 
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, linux@armlinux.org.uk, 
-	vgupta@kernel.org, monstr@monstr.eu, chris@zankel.net, jcmvbkbc@gmail.com, 
-	will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com, peterz@infradead.org, 
-	davem@davemloft.net, andreas@gaisler.com, richard.henderson@linaro.org, 
-	mattst88@gmail.com, linmag7@gmail.com, catalin.marinas@arm.com, mark.rutland@arm.com, 
-	chenhuacai@kernel.org, kernel@xen0n.name, tsbogend@alpha.franken.de, 
-	James.Bottomley@hansenpartnership.com, deller@gmx.de, maddy@linux.ibm.com, mpe@ellerman.id.au, 
-	chleroy@kernel.org, hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com, 
-	borntraeger@linux.ibm.com, svens@linux.ibm.com, richard@nod.at, 
-	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net, tglx@kernel.org, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	arnd@arndb.de, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com, 
-	ysato@users.sourceforge.jp, shakeel.butt@linux.dev, corbet@lwn.net, rdunlap@infradead.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org, linux-arch@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-alpha@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-s390@vger.kernel.org, linux-um@lists.infradead.org, hughd@google.com, 
-	qi.zheng@linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 01/12] mm/khugepaged: deposit a newly allocated page
- table on collapse
-Message-ID: <arN6TnhWK0j61E3q@gremlin>
-References: <20260922-rcu-pagetable-freeing-v4-1-fe1ad1f1e303@kernel.org>
- <20260923022436.61930-1-lance.yang@linux.dev>
+	s=k20260515; t=1790147466;
+	bh=tftRg/27iV6vOu9wnOe9xdmjMcB/et17gUJyLajCKAk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=e4K7mJVkpkC1fa5WHn0jgNxeZgLiKbJ0V2NjaEG3qzCK5AyydHhTDbey8BS+/L11W
+	 /2S046vecEhv/E5OwuYr37Y8lSMs1597S2iq3IQ/oI552uwUefIem5Tr61+VzhHBXX
+	 CGbk5246ul8BR45uuZbPESGnbhx5cvZyFhIxpkywKDMvmuPBL6D4EkTQis96rJbyyx
+	 5aSM/icXeu7OwogW83YvJZe8jwGUcbuikeJ2plZxXoZOXUQ5bEqOXFwVeKuYokn2TJ
+	 LeRsbHsveLPQ1mfeIzgbE+giOj2h3y2bKpY9AQ8uLJdHaWgr5boSw5IMiA183DqQyY
+	 3y1PR8hT30oxw==
+Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d43f9b119so10258047b3.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 00:11:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBw7ti+mpI19klNdv4Tdqg85PNDxfZgqXUYT+I2ZntAjliT1m4XqhGAQ55FHDvTTGBmTiXsKfQknIfM=@vger.kernel.org
+X-Gm-Message-State: AFuF++mOcPZffX87jbGu8J/l+DVS/XJknn/3YWf4uNSYs9lNrRvcgiim
+	VBGQE2Bm0TJ8kXBte57PA1zzcbJIEGHRmi2bm1/6ehbFt3gpDWwAmIf1TgOOqZIeqPOQwM9cYo9
+	4DULOHcHSGSVHMZKz3uegSnPF9UE8ShkLXUQgLupjNw==
+X-Received: by 2002:a05:690e:b4a:b0:66f:c1be:3186 with SMTP id
+ 956f58d0204a3-672d59e6f9bmr769388d50.93.1790147466000; Wed, 23 Sep 2026
+ 00:11:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260923022436.61930-1-lance.yang@linux.dev>
+References: <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F> <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+ <aq8dja2-timYBwyB@gourry-fedora-PF4VCD3F> <CACePvbXudjxQ5vrrY4D1nOXKaFNQUn-tL+p3O0zfxtHXK99ojQ@mail.gmail.com>
+ <e879ac65cb0940325736df7984c737edf1c6be94.camel@surriel.com>
+ <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
+ <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
+ <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
+ <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
+ <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
+ <arKbXe1Qe-FDCTMM@gourry-fedora-PF4VCD3F> <CACePvbWW4avTV2WB6iRU+LN5zqkMTg3UhBrq41R0iw91-7Ni0g@mail.gmail.com>
+ <5a7ad159b2fabf377b7e1fc4248c433287ac11fb.camel@surriel.com>
+In-Reply-To: <5a7ad159b2fabf377b7e1fc4248c433287ac11fb.camel@surriel.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Tue, 22 Sep 2026 21:10:53 -1000
+X-Gmail-Original-Message-ID: <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
+X-Gm-Features: AcwNN1UwLMqYNrXn7OTzxPK_RQ9DWuqFMbs5fykDFtZyEsnuAKIyTcjTdWAUOSI
+Message-ID: <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Rik van Riel <riel@surriel.com>
+Cc: Gregory Price <gourry@gourry.net>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Nhat Pham <nphamcs@gmail.com>, 
+	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2026 at 10:24:36AM +0800, Lance Yang wrote:
-> > mm/khugepaged.c | 32 ++++++++++++++++++++++++++++++--
-> > 1 file changed, 30 insertions(+), 2 deletions(-)
+On Tue, Sep 22, 2026 at 5:53=E2=80=AFAM Rik van Riel <riel@surriel.com> wro=
+te:
+>
+> On Tue, 2026-09-22 at 05:43 -1000, Chris Li wrote:
+> > On Tue, Sep 22, 2026 at 5:20=E2=80=AFAM Gregory Price <gourry@gourry.ne=
+t>
+> > wrote:
+> > >
+> > > On Tue, Sep 22, 2026 at 03:32:44AM -1000, Chris Li wrote:
+> > > > > Right now it has 64GB of memory.
+> > > >
+> > > > That is exactly my point. You are running 1/8 =3D 12.5% system ram.
+> > > >
+> > >
+> > > Chris you are missing the point
+> > >
+> > > Zswap:           8812236 kB
+> > > Zswapped:       24927876 kB
 > >
-> >diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> >index f49a6710933b..dab421f8233e 100644
-> >--- a/mm/khugepaged.c
-> >+++ b/mm/khugepaged.c
-> >@@ -1278,6 +1278,23 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
-> > 	return SCAN_SUCCEED;
-> > }
+> > I am well aware of the point. The 7%-10% data I provided is before
+> > compression. After compression, the real saving is about 1.5% - 2%.
 > >
-> >+static pgtable_t alloc_deposit_pte(struct mm_struct *mm)
-> >+{
-> >+	/*
-> >+	 * khugepaged is run from a kernel thread, so need to manually set the
-> >+	 * correct memcg so the allocation gets charged correctly.
-> >+	 */
-> >+	struct mem_cgroup *memcg = get_mem_cgroup_from_mm(mm);
-> >+	struct mem_cgroup *old_memcg = set_active_memcg(memcg);
-> >+	pgtable_t pgtable;
-> >+
-> >+	pgtable = pte_alloc_one(mm);
-> >+
-> >+	set_active_memcg(old_memcg);
-> >+	mem_cgroup_put(memcg);
-> >+	return pgtable;
-> >+}
-> >+
-> > /*
-> >  * collapse_huge_page() expects the mmap_lock to be unlocked before entering and
-> >  * will always return with the lock unlocked, to avoid holding the mmap_lock
-> >@@ -1293,7 +1310,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
-> > 	LIST_HEAD(compound_pagelist);
-> > 	pmd_t *pmd, _pmd;
-> > 	pte_t *pte = NULL;
-> >-	pgtable_t pgtable;
-> >+	pgtable_t pgtable = NULL;
-> > 	struct folio *folio;
-> > 	spinlock_t *pmd_ptl, *pte_ptl;
-> > 	enum scan_result result = SCAN_FAIL;
-> >@@ -1310,6 +1327,12 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
-> > 		goto out_nolock;
-> > 	}
+> Here I'm at 28% without any issues, with room for
+> more.
+
+28% is one thing, 100% is a difference beast completely. If you
+haven't tried it, don't assume 100% will behave the same as 28%. There
+is a point where too much zswap makes the system unusable. It is hard
+to pinpoint the exact upper boundary. However, figuring out the upper
+bound larger than that exact boundary is not hard at all. I haven't
+seen any one can use 100% system RAM sized memory swap out to zswap.
+If you have a data point showing what that system with 100% swap to
+zswap looks like, please share it.
+
+>
+> > You are not listening. The boundary was set due to feedback from the
+> > application SLO. Those are real deployments not imaginary usage.
+> > Please respect the user.
 > >
-> >+	if (is_pmd_order(order)) {
-> >+		pgtable = alloc_deposit_pte(mm);
-> >+		if (!pgtable)
-> >+			goto out_nolock;
+> Different users need different things.
 >
-> One small thing: result is still SCAN_SUCCEED after alloc_charge_folio(),
+> The kernel needs to be able to accommodate all of them.
 >
-> 	result = alloc_charge_folio(&folio, mm, cc, order);
-> 	if (result != SCAN_SUCCEED)
-> 		goto out_nolock;
+> The kernel default should accommodate the people who
+> are least capable of configuring their systems.
 >
-> 	if (folio_memcg_alloc_deferred(folio)) {
-> 		result = SCAN_ALLOC_HUGE_PAGE_FAIL;
-> 		goto out_nolock;
-> 	}
->
-> 	if (is_pmd_order(order)) {
-> 		pgtable = alloc_deposit_pte(mm);
-> 		if (!pgtable)
-> 			goto out_nolock;
-> 	}
->
-> so if alloc_deposit_pte() fails, collapse_huge_page() returns success
-> without installing a PMD.
->
-> I see sashiko pointed that out too :)
->
-> Cheers, Lance
+> Hyperscalers can set their own defaults across their
+> fleets. They know how to adjust settings.
 
-Sigh ack yeah oops :) I think SCAN_ALLOC_HUGE_PAGE_FAIL is the closest though
-it's not allocating a huge page so much as the page table, but gets the correct
-MADV_COLLAPSE -ENOMEM back.
+They can use a safe value, e.g., 100% of RAM. Let the people who know
+exactly what they want to swap configure the boundary they want.
 
-(Another case of local AI review not catchign something btw! Sashiko does lean
-towards over-reporting/hallucinating but catches more)
-
-Will ask Andrew to update in reply to this patch as a quick thing rather than
-respin so quick, and fix up on any respin.
-
---
-Cheers, Lorenzo
+Chris
