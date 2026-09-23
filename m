@@ -1,132 +1,177 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82E9743BDB3;
-	Wed, 23 Sep 2026 06:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0719E415F2E
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 06:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790145442; cv=none; b=KVVnVs4HMFWWJGM0hIPFoDKCOKjDkQ4Dq0Hmr0h59DWuD977VqgIb7SiSVqL/CbVKxmmccoK5LH5KzZqaN/BgV0Xeu7KZFGALslpxSiK0USGtX8/MMBIVs4jaIHxYq0M67T8WoDbVfRjHYFSiyXBDhe6UvopbgD8h/gjgRIDGXw=
+	t=1790145901; cv=none; b=MXVRc9k9lqtlX3tgeE7J14sts0UXYUhSpaqsQB/Kyx4kC4t+Od76qBoN0oa4luI1/27EAbfaJDmQHo2wn/p4XFTmd9refCXKBLWJKlobkjEXM7MxYeHcM7SgUM9OhFQI8ulaC0zyXSDQ0wNI7hDReU/wC+Ndm+fJQwF7xggEZfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790145442; c=relaxed/simple;
-	bh=o4hG7piVOUQgAGaxVWLjt4d5r0pbx4AC/Tq7g2GLnac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XLU4FyNzGQnA6cQ7tf3xqqxo1psOMXmvn+ignExonBOXKo4LJbIcBDsDKMD1vORYsM+Vng4AfwcJkiLNVq8+SOGJoN+MIWaL4QW/Bh/9JPSeBkpzSksPpfM5hx6PRyNnrM7ykcCqmWV8FydrbJxLXyrHHwzoNPby2kTdgxpUf3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=sYX/4Ojf; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1790145901; c=relaxed/simple;
+	bh=U3Fe3GZkBaknJJQrEX2RpwW4P0WOBIbz21H+JhSeOuc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N4/+wx/9/daxPZz7JAY8BXCWZtOMq+klFLVdZ9ZkisNY+LTsHk5zHs+D6I4K2n7t5IuQtoUNVM6pqAf4wQFsvv2wuJhTAg8cDYsZUgUUhZtdkEmYYN+5ctBv9jEISlgMwzhF7FUzGxv7SjqD9OqSDg+p2yrEWkP+RcnN/5o6WmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KH+6SRSN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="sYX/4Ojf"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 33A5F1516;
-	Tue, 22 Sep 2026 23:37:12 -0700 (PDT)
-Received: from localhost (a085714.arm.com [10.164.19.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F0D453F86C;
-	Tue, 22 Sep 2026 23:37:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790145435; bh=o4hG7piVOUQgAGaxVWLjt4d5r0pbx4AC/Tq7g2GLnac=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sYX/4OjfLkbaAjPqf/UqqZ4gmpM6iQcIn8+LGG5oxSljlAeunNYcNxQTa9+dW+JlT
-	 PY3EsuxYwFI2XfdpFU8OXUB6HdSxRMe/jaG93jLLZtSa1LP61xzJf2NCOacuiFpdwM
-	 tDjnTuDPs+OrZqibBW6yS1Eh2kGE7u6la5KDo2xU=
-Date: Wed, 23 Sep 2026 12:07:12 +0530
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: Fuad Tabba <fuad.tabba@linux.dev>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>, 
-	James Clark <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Fuad Tabba <tabba@google.com>, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] arm64/boot: Disable trapping of PMZR_EL0 writes to EL2
-Message-ID: <x2yybbtclm2lv6shjrootdf466tsnxqrpvtd3s75jcxrlrv6hi@7swnsdxykxdc>
-References: <20260922181430.3532371-1-fuad.tabba@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KH+6SRSN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 804EF1F00901
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 06:44:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790145895;
+	bh=U3Fe3GZkBaknJJQrEX2RpwW4P0WOBIbz21H+JhSeOuc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=KH+6SRSNEvqMduDQyrAk1/m5V6SS0ddO7ePNHzpfLJs8HzeRvVSi0MYcTbY4ASQYX
+	 wpbI2WceWE2GFNraMR5MG8cOZPwg3dsaUpf2jzzvfRnW8RbzTJliBFcwM7aakKm/pa
+	 rDVBbrblG0sQAVQ1/QB1x7vYTpcyBqdPmO2tkufLwdnZkekzWJLQArwe3c8Z+LIlaR
+	 J3Au44TJJMbFiRsw9v00qM2/UtbkbXUriIjohRWxBxd24lKUprGOM5ozhLJh+z41WA
+	 auoSIMkEGV/BhM69FLPP/47DiQMJi5PEEqK+oNovw6q/Scd9wIfxSEegEY2whp0+wM
+	 8/5+3fw+fxJuw==
+Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-6713d20d375so557063d50.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 23:44:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzhvBxOezAtJKTe5FWzwTULSm7b5bzrzA09ZQJI0afDmHjCxygT/f2+stQpfCoA00VRt7AfOgKkb9M=@vger.kernel.org
+X-Gm-Message-State: AFuF++kGgyDxM8WY9HIdUv62dyEoEtdXfVDCRMRctkMtCCs/eutg8qBR
+	JG7MfWP20UX+dFpAWaNendA34TK/66rpulwfB8vp0hpRC/CAVqqiPxcagAi63Q00/k9pi9gPttJ
+	oqQjW/DglG0hogpbuFqgvp+GfoEzd9cfHBQPxzH1H9w==
+X-Received: by 2002:a05:690e:1909:b0:672:c9eb:4755 with SMTP id
+ 956f58d0204a3-672d5765c2bmr1091423d50.23.1790145894673; Tue, 22 Sep 2026
+ 23:44:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260922181430.3532371-1-fuad.tabba@linux.dev>
+References: <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+ <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+ <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+ <arKRdaNEaKvFOtMg@linux.dev> <CACePvbX7aM45SE9H0hg1_uXBt1i4W7Pgk+d33Z2sG5bj8cHudA@mail.gmail.com>
+ <arKZpJDpsavixjPx@cmpxchg.org> <CACePvbUmVLVk=w1sJinBfKVYoXcO57A163RrXv7C_QLzM4yQZQ@mail.gmail.com>
+ <arKgladcnmeTWUKb@linux.dev>
+In-Reply-To: <arKgladcnmeTWUKb@linux.dev>
+From: Chris Li <chrisl@kernel.org>
+Date: Tue, 22 Sep 2026 20:44:40 -1000
+X-Gmail-Original-Message-ID: <CACePvbUYhwSjOEXCM08Na_5bccOo6Oz-9BatRSPDO7R310YjaA@mail.gmail.com>
+X-Gm-Features: AcwNN1U76kw9ArcfhXgJlon_Ze0jFZEqulu20gcTSrQsz-WCh9osS09uot1Y_ic
+Message-ID: <CACePvbUYhwSjOEXCM08Na_5bccOo6Oz-9BatRSPDO7R310YjaA@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2026 at 07:14:30PM +0100, Fuad Tabba wrote:
-> __init_el2_fgt2() writes one mask to both HDFGRTR2_EL2 and HDFGWTR2_EL2.
-> PMZR_EL0 is write-only, so its trap bit, nPMZR_EL0, exists only in
-> HDFGWTR2_EL2 and is therefore never set: a PMZR_EL0 write from the host
-> traps to EL2, where the nVHE hypervisor has no handler and BUG()s. The
-> kernel never writes PMZR_EL0, but kernel.perf_user_access=1 has the PMU
-> driver set PMUSERENR_EL0.UEN for a task with a user-read event, so a
-> write from EL0 reaches the trap and takes the host down without a panic
-> message.
-> 
-> Accumulate the HDFGWTR2_EL2 bits separately, as __init_el2_fgt() already
-> does for HDFGWTR_EL2, and set nPMZR_EL0 with the other FEAT_PMUv3p9
-> bits.
-> 
-> Fixes: 858c7bfcb35e1 ("arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
+On Tue, Sep 22, 2026 at 5:46=E2=80=AFAM Shakeel Butt <shakeel.butt@linux.de=
+v> wrote:
+>
+> On Tue, Sep 22, 2026 at 05:30:44AM -1000, Chris Li wrote:
+> > On Tue, Sep 22, 2026 at 5:07=E2=80=AFAM Johannes Weiner <hannes@cmpxchg=
+.org> wrote:
+> > >
+> > > On Tue, Sep 22, 2026 at 04:56:48AM -1000, Chris Li wrote:
+> > > > On Tue, Sep 22, 2026 at 4:43=E2=80=AFAM Shakeel Butt <shakeel.butt@=
+linux.dev> wrote:
+> > > > >
+> > > > > People can speak for themselves and suggest other time slots. You=
+ do not speak
+> > > > > for anyone but yourself here. At this point this is derailing the=
+ conversation.
+> > > > >
+> > > >
+> > > > I am expressing my opinion, freedom of speech. As you can see in th=
+e
+> > > > previous discussion, Baoquan wasn't able to join that time slot. He=
+ is
+> > > > a major shareholder in XSwap. I worry that alignment vswap vs xswap
+> > > > without Baoquan is ineffective. That is my opinion.
+> > >
+> > > Actually, he said he is not sure if he can make it, and before Nhat
+> > > could respond to that soft push you drew a hard line without actually
+> > > proposing a workable alternative that made Nhat give up instead.
+> >
+> > Please consider that it is 1AM in Beijing if I remember correctly. I
+> > don't consider that is a workable and reasonable ask.
+> >
+> > > So my free speech opinion is the same as Shakeel's: you're speaking
+> > > for others and thereby derailing efforts to align on something.
+> >
+> > I sympathize with asking Baoquan to join a meeting at midnight.
+> >
+> > >
+> > > We all want Baoquan in the room.
+> >
+> > In Chinese we have this saying: don't apply things to others that you
+> > wouldn't want applied to yourself. Do you want to participate in a
+> > technical meeting at 1 AM?
+>
+> Three emails in, you have rejected the proposed slot and proposed
+> none, and your own conclusion was to drop the meeting and keep this on
+> the list. That is not inclusiveness, it is a veto, and the outcome
 
-Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+You skip an important step. I raised the concern that the time zone
+does not work for Asian developers; we should find a time zone
+friendly to Asia.
 
-> ---
-> Based on Linux 7.3-rc4 (93f51579e7df2).
-> 
->  Documentation/arch/arm64/booting.rst | 1 +
->  arch/arm64/include/asm/el2_setup.h   | 9 ++++++++-
->  2 files changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
-> index 13ef311dace83..3fea4b14ef7c2 100644
-> --- a/Documentation/arch/arm64/booting.rst
-> +++ b/Documentation/arch/arm64/booting.rst
-> @@ -465,6 +465,7 @@ Before jumping into the kernel, the following conditions must be met:
->      - HDFGWTR2_EL2.nPMICNTR_EL0 (bit 2) must be initialised to 0b1.
->      - HDFGWTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
->      - HDFGWTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
-> +    - HDFGWTR2_EL2.nPMZR_EL0 (bit 21) must be initialised to 0b1.
->  
->    For CPUs with SPE data source filtering (FEAT_SPE_FDS):
->  
-> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-> index aa8ec9df80243..87560d8b254e6 100644
-> --- a/arch/arm64/include/asm/el2_setup.h
-> +++ b/arch/arm64/include/asm/el2_setup.h
-> @@ -418,6 +418,7 @@
->  	b.lt	.Lskip_fgt2_\@
->  
->  	mov	x0, xzr
-> +	mov	x2, xzr
->  	mrs	x1, id_aa64dfr0_el1
->  	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMUVer_SHIFT, #4
->  	cmp	x1, #ID_AA64DFR0_EL1_PMUVer_V3P9
-> @@ -426,6 +427,11 @@
->  	orr	x0, x0, #HDFGRTR2_EL2_nPMICNTR_EL0
->  	orr	x0, x0, #HDFGRTR2_EL2_nPMICFILTR_EL0
->  	orr	x0, x0, #HDFGRTR2_EL2_nPMUACR_EL1
-> +	orr	x2, x2, #HDFGWTR2_EL2_nPMICNTR_EL0
-> +	orr	x2, x2, #HDFGWTR2_EL2_nPMICFILTR_EL0
-> +	orr	x2, x2, #HDFGWTR2_EL2_nPMUACR_EL1
-> +	/* PMZR_EL0 is write-only, so it has no read trap to disable */
-> +	orr	x2, x2, #HDFGWTR2_EL2_nPMZR_EL0
->  .Lskip_pmuv3p9_\@:
->  	/* If SPE is implemented, */
->  	__spe_vers_imp .Lskip_spefds_\@, ID_AA64DFR0_EL1_PMSVer_IMP, x1
-> @@ -436,10 +442,11 @@
->  	cbz	x1, .Lskip_spefds_\@
->  	/* disable traps of PMSDSFR to EL2. */
->  	orr	x0, x0, #HDFGRTR2_EL2_nPMSDSFR_EL1
-> +	orr	x2, x2, #HDFGWTR2_EL2_nPMSDSFR_EL1
->  
->  .Lskip_spefds_\@:
->  	msr_s   SYS_HDFGRTR2_EL2, x0
-> -	msr_s   SYS_HDFGWTR2_EL2, x0
-> +	msr_s   SYS_HDFGWTR2_EL2, x2
->  	msr_s   SYS_HFGRTR2_EL2, xzr
->  	msr_s   SYS_HFGWTR2_EL2, xzr
->  	msr_s   SYS_HFGITR2_EL2, xzr
-> 
-> base-commit: 93f51579e7df248780214094418f205253383cc5
-> -- 
-> 2.39.5
-> 
+Nhat still suggested the original time slot, disregarding my concern.
+Which implicitly exclude Baoquan from the discussion. That is the fact
+that you missed.
+
+Then I suggested using email discussion instead, because the key
+shareholder couldn't attend. There is no veto. I suggested the same
+approach Nhat suggested. If you call my suggestion a veto, Nhat veto
+first. Nhat issued the first veto. Mine was only a response to Nhat's
+insistence.
+
+> serves Baoquan and xswap worse than any hour of the day would have.
+
+Baoquan can't make it at 1AM. It is not a reasonable ask.
+
+> Baoquan said he was not sure he could make it. He is perfectly capable
+> of declining himself, or of sending alternative timeslots to the list.
+
+In Baoquan's own words:
+"About the meeting time. I am in UTC+8. If the meeting is before 23:00
+my time, I can join. If it is later than that, it is too late for me,
+and I can only discuss in the mailing list."
+
+He already made it very clear he will not be able to join that time
+slot. It is not a maybe. It is a 'can't'. His reply was very clear
+before you sent yours. I don't know what part of "not sure" you read
+from his email. What is your motivation for twisting this?
+
+Suggesting a 1 AM meeting without considering the time zone difference
+is an understandable mistake. Insisting on that time, as Nhat and you
+do, reveals more about you. Attacking me for point it out?
+
+> You turned his "not sure" into a hard no on his behalf, then argued
+> with everyone who pointed that out.
+
+It is a hard no. 1AM is not a reasonable ask in the first place. Even
+after I pointed out it is not Asia friendly, Nhat is still insisting
+on it. That was before I suggested we discuss it via email instead.
+Get your facts straight.
+
+Chris
+
+> Please reply with two or three specific windows in UTC that work for
+> people not in US timezone. If they overlap with the other participants,
+> we use one of them.
