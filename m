@@ -1,150 +1,133 @@
-Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [45.157.188.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653B5481224
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 10:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D42D48123A;
+	Wed, 23 Sep 2026 10:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790158468; cv=none; b=bhw3IFnrnq8T7TXxjhwOvZ3/IahQ4BTvoj4N6cXqABZwzDCIjp8C70UTeINPtM9x+QtUZBpsOeDoC6pNp4WX8kdE2a/3EwNRztixvUAIi6G/Uh9YS4ILVjnW+wfq06rMoWcoHaZhZhEcRPQm0VAjDX81N0gvKV4ngYxsMds4hlM=
+	t=1790158515; cv=none; b=aZ8L58Up+hyE/jYPwrgfU+gRWCNAI8BZujhOS8ofPBDnbIeX0veqqLALoXlFrNNrxe8dj4ZTxnDePKsh0L83Rh13t12zb9M4Uh7xDOZ91MbDcfVOdUrSm2LnM23qHigmCiKdypGPsKr3njvEzQdBuHPHFL8KYO8Eq0SPjXTNJ/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790158468; c=relaxed/simple;
-	bh=h1AWZRxSrpr2Ju7TwFdK+nHYJRjWltU7Ec14LNpAKVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R32BxG0UtavTVkNoWbuYlsjZGiLHjdX9pV3kFamoiwU7PnxU9in33e0GPpGwoJbOasrCAz+qLy5g6hP6CZzump0HMy78e0TeTE/xyZU5Pf16jOqDsLl2m+1sx3AWzohOrs6waGVtU6dOKjssyF6zabiFkaS5+Hk1hFxc9EmZPyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=1hdtkPw7; arc=none smtp.client-ip=45.157.188.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1790158515; c=relaxed/simple;
+	bh=QYBXXpYxLUomQnCVLG8q1SAG16cuVsrYUxaxVlrhx64=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Iv/P4raBXaNHdwYxcFrqP91BP6pHRr5tsQLdT5wz21C6nplt7Dp5XWmNiVDaBKFz8usDuS8B+rQ2ORIxPsQ1DvJzkbCAXCsIdasWy4PLDiaj16MzvMCZDeaQfA6A1njpADxyhsgtUDGPq6mpL6ASES3t3DqxBSXnEAd43PXdTrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RZkL4J40; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="1hdtkPw7"
-Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hqXqv2SSSzbm3;
-	Wed, 23 Sep 2026 12:14:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1790158443;
-	bh=SFOa6PXnvBCltv3PDeGTOt6gr++V0R18iCtkjLktUwU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=1hdtkPw7LjOjMNpTmsouoDpZKOhNYHgwH7jTNmRKoiy+vNUY4cyKE6wJ+IzUt8eif
-	 y7zmgJvFHUDPL7p4U9fWJqsRwAT8uLSNEBoPMSCT0PBT6AFjX/QXYDFHIEZHvV5sjm
-	 whH3F5uMft8pCQMRryu1smUuECKWVDZj+7M4eLzc=
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4hqXqt21f2zd3w;
-	Wed, 23 Sep 2026 12:14:02 +0200 (CEST)
-Date: Wed, 23 Sep 2026 12:14:01 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-Cc: Christopher Lusk <clusk@northecho.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: landlock: clarify TTY signal scoping
-Message-ID: <20260923.oyohBie1Jeen@digikod.net>
-References: <20260916152336.1589383-1-clusk@northecho.dev>
- <aqq3yY8SKIBGUZ8v@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RZkL4J40"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E3701F000FF;
+	Wed, 23 Sep 2026 10:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790158502;
+	bh=n2I0phNfS1GHR21q/jaUR6mt3UcxFaFBL1i6WHN29zk=;
+	h=From:To:Cc:Subject:Date;
+	b=RZkL4J40sAKB8oxLocTAgCS7qxCzP1aqm7k2O0R3kutq8qj10XEv6uinZXZAdL1lC
+	 zbs3ovBnGhalMg7MTU5VS3/KfyinJkVjCArcQMAqGQhzmJEQkTQxI3N2MP4FxTausV
+	 z5+J6PblR8fiEL2kDrJvcvC91LYK5Vfr75iG9axznnDjTQG3Eq50vZX/tKVaEqX+yB
+	 B8FzbSzRIBISuoNmTYd0eKMEslNcFeI92IY5/FmXUySaHwX3qV2ny4dRyqixXMPm/N
+	 /m10R9b0DsPDJwr7CnZ5EBeqD+zmyZTUA3ZiU5F8Rt20/afIeszbr1sdZEf++qbUv8
+	 +ca+3QM09puEg==
+From: SJ Park <sj@kernel.org>
+To: 
+Cc: SJ Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v3 0/7] mm/damon: introduce damos quota goal target metric complement flag
+Date: Wed, 23 Sep 2026 03:14:45 -0700
+Message-ID: <20260923101454.5748-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aqq3yY8SKIBGUZ8v@google.com>
-X-Infomaniak-Routing: alpha
 
-This looks good, much simpler.  Could you please send the (new) test
-with the v3 of this series?
+Aim-oriented DAMOS quota auto-tuning assumes the aggressiveness of the
+scheme (quota) and the quota goal metric are directly proportional.
+Depending on the scheme setup and usage, keeping the relationship can be
+challenging.
 
-On Wed, Sep 16, 2026 at 05:37:45PM +0200, Günther Noack wrote:
-> On Wed, Sep 16, 2026 at 11:23:36AM -0400, Christopher Lusk wrote:
-> > The LANDLOCK_SCOPE_SIGNAL documentation does not describe how TTY-driven
-> > signals interact with signal scoping.  Holding a PTY master file descriptor
-> > is a separate capability: its holder can cause the TTY layer to signal
-> > processes running under that terminal, even across a Landlock domain
-> > boundary.
-> > 
-> > Add a concise clarification to the userspace API guide and the UAPI header.
-> > This records the capability boundary identified during review of the
-> > TIOCSIG discussion without enumerating individual TTY signal paths.
-> > 
-> > The documentation text and changelog were drafted with assistance from
-> > Codex (gpt-5.6-sol).
-> > 
-> > The userspace API documentation builds successfully with the kernel-pinned
-> > Sphinx dependencies.  The patch introduces no new warnings; the existing
-> > missing-graphviz and undefined-label warnings are unchanged.
-> 
-> Minor nit: Last two paragraphs of the commit message would have been
-> fine to drop for conciseness (the Assisted-by line already lists Codex
-> and the other paragraph talks about things that didn't change).
-> 
-> But really just very minor, and probably not worth changing unless we
-> unexpectedly need a V3.
-> 
-> > 
-> > Link: https://lore.kernel.org/r/aqqJAZfG9FC7PgMW@google.com
-> > Suggested-by: Günther Noack <gnoack@google.com>
-> > Assisted-by: Codex:gpt-5.6-sol
-> > Signed-off-by: Christopher Lusk <clusk@northecho.dev>
-> > ---
-> >  Documentation/userspace-api/landlock.rst | 3 +++
-> >  include/uapi/linux/landlock.h            | 2 ++
-> >  2 files changed, 5 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-> > index 84cb7bf6b3ed..33a514ebc615 100644
-> > --- a/Documentation/userspace-api/landlock.rst
-> > +++ b/Documentation/userspace-api/landlock.rst
-> > @@ -430,6 +430,9 @@ The operations which can be scoped are:
-> >      This limits the sending of signals to target processes which run within the
-> >      same or a nested Landlock domain.
-> >  
-> > +    Holding a PTY master FD still grants the capability to issue signals through
-> > +    that PTY to the processes running under that terminal.
+For example, let's suppose a memory tiering approach for higher upper
+tier utilization.  One common idea for that (TPP) is utilizing two
+schemes, one for promotion and the other one for demotion.  The
+promotion scheme migrates hot pages from lower tier to upper tier,
+aiming for high utilization of the upper tier.  The demotion scheme
+migrates cold pages from upper tier to lower tier, aiming for head room
+free memory of the upper tier.  Both schemes and their goals are in
+direct proportion.  However, for this kind of use case, we need to
+implement two different goal metrics (per-node memory utilization and
+free memory ratio) while essentially the free memory ratio is just a
+complemented value of the utilization.
 
-It would be more complete to quickly explain that a master TTY FD should
-be considered at least as privileged as the processes using/trusting the
-slave side.  See
-https://lore.kernel.org/all/20260923.eehieph7UaX1@digikod.net/
+To avoid adding too many new metrics, we are adding metrics that turn
+out to be really needed for each found use case.  For example,
+some_mem_psi_us, node_eligible_mem_bp and hugepage_mem_bp don't have
+their complemented value version.  But it is not really difficult to
+expect use cases that their complemented version can be useful.  For
+example, hugepage_mem_bp use case may need a way to reduce the hugepage
+ratio.  That would require a complemented version of hugepage_mem_bp.
+Adding a new metric for each of such use cases could make the number of
+metrics unnecessarily high, and discourage flexible usages of DAMOS.
 
-So, this paragraph should really be short.
+Add a new flag, quota goal complement, to allow flexible tuning goal
+setup without unnecessarily increasing the number of metrics.  The flag
+specifies whether to use the complemented value of the given goal metric
+for the tuning.  For example, if the complement flag is set, the upper
+tier memory utilization ratio metric works the same as the free memory
+ratio metric for the tier.
 
-> > +
-> >  ``LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET``
-> >      This limits the set of abstract :manpage:`unix(7)` sockets to which we can
-> >      :manpage:`connect(2)` to socket addresses which were created by a process in
-> > diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-> > index cceda3b3b961..6485af37dd25 100644
-> > --- a/include/uapi/linux/landlock.h
-> > +++ b/include/uapi/linux/landlock.h
-> > @@ -501,6 +501,8 @@ struct landlock_net_port_attr {
-> >   *   related Landlock domain (e.g., a parent domain or a non-sandboxed process).
-> >   * - %LANDLOCK_SCOPE_SIGNAL: Restrict a sandboxed process from sending a signal
-> >   *   to another process outside the domain.
-> > + *   Holding a PTY master FD still grants the capability to issue signals
-> > + *   through that PTY to the processes running under that terminal.
+Changes from RFC v2
+- RFC v2: https://lore.kernel.org/20260919011359.88921-1-sj@kernel.org
+- Avoid quota goal value underflow for some_mem_psi.
+- Handle complement flag for psi goal with unset last_psi_total.
+- Pass complement argument to damos_new_quota_goal() from core and
+  core-kunit.
+- Explicitly document no-op complement behavior for user_input.
+Changes from RFC
+- RFC: https://lore.kernel.org/20260918142827.85303-1-sj@kernel.org
+- Avoid quota goal value underflow.
+- Fix usage doc for number of files in each goal directory.
+- Rebase to the latest mm-new.
 
-What about rewording the LANDLOCK_SCOPE_SIGNAL description to say that
-it is about signaling *arbitrary* processes (which is not the case with
-the TTY master FD)?  This way we would not have to specifically re-talk
-about the TTY case.
+SJ Park (7):
+  mm/damon/core: introduce damos_quota_goal->complement
+  mm/damon/core: add complement argument to damos_new_quota_goal()
+  mm/damon/sysfs-schemes: support quota goal complement flag
+  mm/damon/tests/core-kunit: test quota_goal->complement commit
+  Docs/mm/damon/design: document damos quota goal complement flag
+  Docs/admin-guide/mm/damon/usage: update for quota goal complement file
+  Docs/ABI/damon: update for quota goal metric complement sysfs file
 
-> >   */
-> >  /* clang-format off */
-> >  #define LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET		(1ULL << 0)
-> > -- 
-> > 2.55.0
-> > 
-> 
-> Reviewed-by: Günther Noack <gnoack@google.com>
-> 
-> Thank you very much for your contribution! :)
-> 
-> It ended up as a much smaller patch than we started out with, but the
-> real advancement lies in the understanding of the semantics and in the
-> double checking of these boundary conditions.  The LLM output was in
-> some cases a bit wordy ;-) but overall this was a good discovery and
-> useful discussion.
-> 
-> Thanks,
-> —Günther
-> 
+ .../ABI/testing/sysfs-kernel-mm-damon         |  6 ++++
+ Documentation/admin-guide/mm/damon/usage.rst  | 15 +++++----
+ Documentation/mm/damon/design.rst             | 15 ++++++---
+ include/linux/damon.h                         |  4 ++-
+ mm/damon/core.c                               | 33 ++++++++++++++++---
+ mm/damon/lru_sort.c                           |  5 +--
+ mm/damon/reclaim.c                            |  5 +--
+ mm/damon/sysfs-schemes.c                      | 30 +++++++++++++++++
+ mm/damon/tests/core-kunit.h                   |  3 ++
+ samples/damon/mtier.c                         |  2 +-
+ 10 files changed, 97 insertions(+), 21 deletions(-)
+
+
+base-commit: 976311048bbb3a9e455552281fb9927fe6e8f091
+-- 
+2.47.3
