@@ -1,98 +1,69 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871F7535FC8
-	for <linux-doc@vger.kernel.org>; Tue, 22 Sep 2026 23:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6208486329;
+	Wed, 23 Sep 2026 00:16:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790119858; cv=none; b=He8tzcNQB0pXBjDYyruUF/F6O+CAgkgo7ky1Kf/C+FK3w/maq6OQMoUaimeEusbb4ByjGjiAIKHAxnSXLlNj/usNW1FC9DADTRpyH6ODYKu3bT0wHjWdyJav00ONCt7L970cC5PNP0cENiClqs9GRJ7cK7SU1vNKNoVld7tlOSY=
+	t=1790122613; cv=none; b=FTQ5CeJaJZ49wYwX7AiEchQe0wOqyJPMV5YC0gMRZmfN7chLa7qY5ML3aOo9MYp4w8Otks9itaoc7Rptcfpz5G7k+sUaaS5F4MTp5h4L7SSRUOw2Qro48vnEx2KWvVnPdamJ1CXk3HPiS0BONQP3Lm7LlKqY464a5ouJAAf3aoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790119858; c=relaxed/simple;
-	bh=IGAKDJgi2dJx6WJK/BkSLxg7707mBJgxdKRPlFR4c3U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tynqTooE621i+KEpKqNjmRgQN5MqKzZSqjgauBvn0aXEaMghVXmBVvrvjWqBRkbQ7XUsuFiO/v+4vYNTkDinyCtvgf2D06d9XzykadoTs7TQlVw3awXOFB0hpOD9jdiYNpCnoOD2+lptS+w0gflKgXN1jUXb3V/NzNjXJPMcJCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P+gwHj4J; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790122613; c=relaxed/simple;
+	bh=PdJN38GtvBaVmtStM49iEIerdNIoUBgoWJhVeW1wEg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CaQCamHQqGZ9pYMYMP/Yl3lQJ99HA7WpUuRYhFhz/VcuGNuMBdO9w+NmV74P684xHsEwuhjI3nqjhFV+conjPeDzuQ9o2pRFIqOiZB3v0KehGjmiMHTJGHH0Z+OwO/Nf6DnGfzCHyH8KGi2GwqJGPih8O/Dq5K4bZcee3PQzzek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkcEgQuL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P+gwHj4J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790119855;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q5+YBN+Xt2oI+X9FvnLri1OubT6BbtyJ9+8TD+cFyTU=;
-	b=P+gwHj4JgtZLSVDD/hljHDriqlYnQ/foi2xt9J8l34s//M+aPGbEiMAaBuK9RLIGwUgEak
-	N1BKlcp5QiKS8x8zqTUIKcA+3DbF6VaxXWcRHYyi4W5MPLSQGfD35JH4x4wZlOsNg1nDi0
-	YuWQEO7xF7ssAoK0pOtxqmr4E6C/M6s=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-311-o3JUVDV5OMqaUhTNzsUouw-1; Tue,
- 22 Sep 2026 19:30:53 -0400
-X-MC-Unique: o3JUVDV5OMqaUhTNzsUouw-1
-X-Mimecast-MFC-AGG-ID: o3JUVDV5OMqaUhTNzsUouw_1790119851
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7836E1955F24;
-	Tue, 22 Sep 2026 23:30:50 +0000 (UTC)
-Received: from [100.91.18.181] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CD4811956095;
-	Tue, 22 Sep 2026 23:30:47 +0000 (UTC)
-Message-ID: <9fadb6a1-df92-4c8f-96f3-f5fdf43e68d4@redhat.com>
-Date: Tue, 22 Sep 2026 19:30:46 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkcEgQuL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392E21F000FF;
+	Wed, 23 Sep 2026 00:16:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790122611;
+	bh=PdJN38GtvBaVmtStM49iEIerdNIoUBgoWJhVeW1wEg8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=bkcEgQuLL16y8QC+0gdllTUn7AybM41Cii1cv/CnUKbr9A1UJuGfivJlOU8FECVkN
+	 q1j+nmZX2WTE5gXko0K3x/0C5OWrwzAfaxc4mYHRzNDhd7nEjMTnUpeiU2sAJ8NKDL
+	 qeLgCfywgLEZoJLoxFEJ/xiN+n8jZUMbOguDhySCHgRCzgN4mAAvSIafR6UPy3sLX+
+	 B4nU4jDD0CAKXD0jyUODimfhEGKiwCxLV/L5F9qW0sIdEnXXKdBn2p8OXgFZ0tEG3v
+	 KdXEx0GYxYEUyh9s+OYr2R5G1J0zR6ZSdn2CfNsbNoQ+8xbdnDxDAHja6xBOpaq444
+	 3M4f6BayQs7tQ==
+Date: Tue, 22 Sep 2026 17:16:50 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Austin, Alex (DCCG)" <alex.austin@amd.com>
+Cc: Konstantin Sinyuk <ksinyuk@kernel.org>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Francois Dugast
+ <francois.dugast@intel.com>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Ilia Levi <ilia.levi@intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, pieter.jansen-van-vuuren@amd.com, "Lucero
+ Palau, Alejandro" <alejandro.lucero-palau@amd.com>
+Subject: Re: [RFC PATCH 0/12] drm/fabric: vendor-neutral topology
+ infrastructure for scale-up accelerator interconnects
+Message-ID: <20260922171650.1003abc2@kernel.org>
+In-Reply-To: <21f4b63b-1aed-47ca-a766-dcce8fe55203@amd.com>
+References: <cover.1787552412.git.ksinyuk@kernel.org>
+	<21f4b63b-1aed-47ca-a766-dcce8fe55203@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] docs: cgroup-v2: Correct cpuset CPU descriptions
-To: Guopeng Zhang <guopeng.zhang@linux.dev>,
- Ridong Chen <ridong.chen@linux.dev>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Guopeng Zhang <zhangguopeng@kylinos.cn>
-References: <20260922092034.68840-1-guopeng.zhang@linux.dev>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260922092034.68840-1-guopeng.zhang@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 9/22/26 5:20 AM, Guopeng Zhang wrote:
-> From: Guopeng Zhang <zhangguopeng@kylinos.cn>
->
-> The cpuset interface documentation says cpuset.cpus.isolated is empty
-> unless an isolated partition exists, omitting CPUs isolated at boot with
-> isolcpus=domain. Its cpuset.cpus.effective description also assumes CPUs
-> come from the immediate parent and are normally a subset of
-> cpuset.cpus, which is not always true for valid non-root partition roots.
->
-> Update both descriptions to match the existing behavior.
->
-> Changes since v2:
-> - Update the valid partition root example to show that an offline CPU
->    can remain in cpuset.cpus.exclusive.effective while being excluded
->    from cpuset.cpus.effective.
-> - Add the Reviewed-by tag to patch 2.
-> - Patch 1 is unchanged.
->
-> Guopeng Zhang (2):
->    docs: cgroup-v2: Describe boot-isolated CPUs in cpuset.cpus.isolated
->    docs: cgroup-v2: Describe effective CPUs of partition roots
->
->   Documentation/admin-guide/cgroup-v2.rst | 62 ++++++++++++++++++++-----
->   1 file changed, 51 insertions(+), 11 deletions(-)
+On Tue, 22 Sep 2026 17:24:01 +0100 Austin, Alex (DCCG) wrote:
+> Sorry for jumping in late to this discussion. We have hardware that uses
+> UALoE (https://www.amd.com/en/products/rackscale-solutions/helios.html).
+> The suggestion from Jason is sensible: a new subsystem for fabrics and
+> reuse ethernet stuff from networking subsystem where possible. We would
+> like to continue discussing this -=C2=A0 Alejandro and I will be attending
+> Plumbers virtually.
 
-For the patch series,
-
-Reviewed-by: Waiman Long <longman@redhat.com>
-
+Please don't "reuse" any networking subsystem code without an ack from
+a networking maintainers.
