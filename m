@@ -1,249 +1,175 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D526B481AA0
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 12:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053A52EA173;
+	Wed, 23 Sep 2026 12:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790165520; cv=none; b=kMxtxQvodocKN1lxQ5sGgSd2ASWbZs5f3zy6nn4y8yxPIRfa4+/cKCHebmJ0FKzCzbRKL+W3IOyQZOC9CDpI4R6Nuo/F+gcsMJ7hxacfF/Y3WKpqWPoE/sGv4KA3Ka5euMsbeTAMABlNvQeyRLJISBaJdonPcB/5EMdoVTHjAzo=
+	t=1790166722; cv=none; b=ZdpG/nuXqmdZ7vGCovQ0Ngb+m6D9AWWN9hD3/5wJ8hYn3u6aZv/YMC+ajOpUZhMlMdAxE8ivNc3Zw6alz6G1gUsBIQ1mQJ02oXudwkc7ABvt1di/wUsiWvNVI0+/mQfy/bAON1x6A66y5ydrYIVibAC9AXteneie4JBYOHdBFRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790165520; c=relaxed/simple;
-	bh=P2mtw9GVAY2T2gTvi8dxKOiJYKSqx3tp1Lhkfn6w1rA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F8U/1eUofG008Fk59ngTigvXj0NGeXAPjFT2R2nF24IotjcmMokQo8IeYkrjcFb0Orw//Mn34FnLPniIHgxselnfyiTl70vfBDvtAYXzZV1tvWz8ir9d7dachC+xComyYNdyXjwJsk705If8olyV0DnR46Lngb8isTrUX0IYm+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=c1rkrzIy; arc=none smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1790166722; c=relaxed/simple;
+	bh=OHDkLReqjSmF6dXmmu4Wss8zFv8e2wXa/6zdpLoQRss=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=MrnH47lh/0G2V98+oTawYeaAO0eX2HmZ/U9DZsSV99W0tq1b2oc+u/Qe4hCl+JHKV0rr1hX2EaEFMbJZ9Z9JHwjCsC4VyyXH0hHtgIgVlWzC1wI7hTxC3mS+Hk5LcKYdf1iA5Y8nUG3xBBn0ogCWhW0lh5vjhJpC2uSTTEbRgLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=UK6FBHdU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ppHlYZ8V; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="c1rkrzIy"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb766bfd6so8398951cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 05:11:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1790165516; x=1790770316; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IPMTUmIFbMagr41QpNmtzeOVUfCnU5evjD/bYrUNYz4=;
-        b=c1rkrzIySQbU93CNbfS377LzIrTwyFhZZ/kb9CP0v8160GnMg28+csQfrAZPOt1MUC
-         wBWLygo1DVVMN1ua6QjIXtqJt8i+ynjqDbq7W5IRXKhzJR4OGbQiV+qyN2pASYbTx8Ul
-         yqdoP41p3wOP5Gx9mEqxNW3Nd2IIvoGZM3iPsukNyD60S/8IU4ty8O+7JL2/WbQn+oo5
-         rzIh2qiyA1XS4u3oDPe8x1UEFpXrJWomEIKihyhAT+qafgGAgy/ZBj858T/Y6k+7BhNE
-         w6ZC2wnBisdHB4Kn4E054g9jm4lJldY/vl81N/mlO/70GenAKpKx8ZmOUkvx2E74IIMJ
-         VV6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790165516; x=1790770316;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IPMTUmIFbMagr41QpNmtzeOVUfCnU5evjD/bYrUNYz4=;
-        b=ZtaBvH+SbzHhflZ7ElH/fJMPeiICit7EIFlwLDPC4OQV69Hktf2IUGZMQA4rZQXNLQ
-         Wg4B89VtBVRR5kh3HVBB1R7Iy/FX8wp/sSA6k9bToayGGEBcoDrfrODjYt65ANf80R5e
-         Gi6+GD6MAvg070eWmmu3lE8DxybbRZWtcvNp6Vk7+HwSL1udHChiak+/SRgap//3eZtP
-         UCuUZCwtC2L9PeYazUMxQmBICUiydwzoIrt3dcD67dlIFS8H3W5x2LJGvJ6Pj7zVgmn5
-         UgIuBvRITU4RqjskXPWS4QSMkdU0pLTbL0hsz+zJeoYAkYmPN0n6I4u14NG0SJggzBMd
-         /HOA==
-X-Forwarded-Encrypted: i=1; AKwUvBzCywkM0atbmnUzjj/wHVAP8sti53JdwgcPZ+ECcieYWHMVDPrCLGJssM+Td4fwV/W5R0m3UiBjnAM=@vger.kernel.org
-X-Gm-Message-State: AFuF++l2wYnUqIaOKfYBPrA2P/AVKvDC2MJvbfHLtTn00dbaQZsEuR1M
-	ibL83WWM70XMVrG2YAB23sui2V/Gwm+3Z/yltCHzRUZvWfT9jg+eMwAGGuvOzTxtZTo=
-X-Gm-Gg: AYBFou3QLvyJNzpFoRJhr1+pXpUI3M/zVKKI10adr9bDMShqFaQlcIHEsa8PaFmHyoM
-	zQpYvs2/2jj2ebGemXarIvjh2SKa4hDdoft25EL3+QpL1EyFog9HUMchvARTnsJElkxoHCGoVqY
-	/tGUvW7sMjGXZhlu1VFvGevtaPMddfEnhPi+28jETRnVMVR6YweaV43duGVTwxjE1j54qFmPapw
-	1bIokMpOyI5H5VFbQVgeyxaLVXc8uRpvaTfEJTQsXeYx2cHq6Gj/Ju/LjRePpC3ltfdqVUy1Leq
-	SUldvaD8JtvO2A0snrSm0YJw+yuTxkHwyUHRMWAnAGNaO0xnTuiAcomcBQ24CmVIwdb6RrToZjx
-	LlZdkimDv+jeCX8sqgQVcq3wKw5Oo/SpM6y5x14U7EVn9VcvLoD5koYTB0otX+dfU82cu4T7FyP
-	5k9dFnnY913G/h6C4OU16BXFvX2zeafRJc+cvp3HGFQnM9jN0VK9OTNA7monXW1pqxpRSMUpHGM
-	vg5bY3ZgpG73/CJC5eIM66dOK/t3ZWp1XMzfXvoT/wjwj45PWoVwXP2hU5t7my/+A==
-X-Received: by 2002:ac8:5cd1:0:b0:531:a6d:dafd with SMTP id d75a77b69052e-532eabb3c23mr38720741cf.7.1790165516357;
-        Wed, 23 Sep 2026 05:11:56 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532eaec166bsm18721651cf.4.2026.09.23.05.11.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 05:11:55 -0700 (PDT)
-Date: Wed, 23 Sep 2026 08:11:53 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Baoquan He <baoquan.he@linux.dev>
-Cc: Chris Li <chrisl@kernel.org>, Kairui Song <ryncsn@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arOtPQN5irtjXKh0@gourry-fedora-PF4VCD3F>
-References: <aqJXx2vtbKaRLt3x@fedora>
- <aqLi6cIjD2wJwk0B@cmpxchg.org>
- <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
- <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
- <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
- <CAMgjq7CJBHkoZmg9oKNgGA8czL0djyBTCAkPz8ETm-tX=Qci4g@mail.gmail.com>
- <arEotFqE7ZZoxMHd@gourry-fedora-PF4VCD3F>
- <CACePvbXb1WLz=OAAzVawf3oc3+dE3Z7qfPdagQ2dYuf3OALc2g@mail.gmail.com>
- <arFe215hUcjLhvmS@gourry-fedora-PF4VCD3F>
- <arOeYHEf9aO7AU5X@MiWiFi-R3L-srv>
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="UK6FBHdU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ppHlYZ8V"
+Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
+	by mailfout.stl.internal (Postfix) with ESMTP id 303371D0007F;
+	Wed, 23 Sep 2026 08:31:59 -0400 (EDT)
+Received: from stl-imap-02 ([10.204.2.93])
+  by stl-compute-04.internal (MEProxy); Wed, 23 Sep 2026 08:31:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1790166719;
+	 x=1790253119; bh=jDXUn17eWF2FJCQjh3KL/PSgYptSnJQP5HhHFDuMQzI=; b=
+	UK6FBHdUz+hPlebxc7cU3stxTfSCA9j5dQsr/t5PaCO2fCh9wzMyrjuQN6E+btpw
+	E8sHZGdkE82ay01yFDZmJpYX7knXtLNOC/VC2r+y8X0mGSOpVm7sFexqBBIawJBj
+	xU5C7Wt179lLNavJ6ao70RRgw4Je8lCKhyTzRVN8NDMqBZXNTM5imk9dxyE2sdse
+	oAbcZ9b7p/B+cOG8clwC3mgNVyyhSB7AH8kNxgN7E/dGjjFMP11ifnjtWgT6f450
+	cihLa+UYYFNPqX+jOrKJVTm5wdvTEHG4LOz/qyuSCekcodG/K5ljzCTyUYZ57iof
+	Hu2hl2+3EjqtIVjK2Fj7sw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790166719; x=
+	1790253119; bh=jDXUn17eWF2FJCQjh3KL/PSgYptSnJQP5HhHFDuMQzI=; b=p
+	pHlYZ8VNFXbzvLm9EHLnbgUs43MvHbA0Y1P2dezWcKYJz5JtC+4xpKBXaydF+oE6
+	gA04gxTXIChR7bXwCxZHxIVv5W1znu13CQbUEvGOQ6l0iGyAeHFmww8pOZM4W/2k
+	1B6AasVA79zXeOZkKQGYw/WLrgsP7Mpj9wxIDuQ9HwV3OPH+K9KoCnHjstTwiRyM
+	Rx3A6WhqunZvMXSm/QSBZc5R8wk1KO4SJsRkUYy4OggrgnVd3Wk9dGizJsTQX60l
+	Qx/mNpkrCJiMyXpDlMQabld3r3Rrmkv8uhMuv2uLHGOjLHraNXvtSH1zrxh3NawM
+	sEpH3j5ZTr7w135X5znHQ==
+X-ME-Sender: <xms:vsazalKMYYint3KhR1dZurR-KwVQXuqcVisL5dVNz6Atpjv-DCtOxw>
+    <xme:vsazar8-wQjd6PjO9NNcBXDQHEuPt2nHCV0xl93mA29sWPHrC3cYiY6osQTR-wmYR
+    hjkFC22C6IhLJ61BUYp6ILQgI-pSujy6LprLAazc9xAY7XTg7IvZvI>
+X-ME-Proxy-Cause: dmFkZTGVtdTIK/508IOgQoOWrA0Qx8WXTGemjRm6SbKY5aUPv57peLQzzE6A0/JoWyRXJB
+    upy29g3ypnFw4U2Dl3JKoy74jkJZ3jSbYCSUpuvbO7RwhW9YbgHHiMLZbhzpEcc09JMfOm
+    Uh2uN/pjqW+rIdmJxqVsWkEuFcgUGDwyqo3657F19TaWJR8D+qMesdtvJ3ytnDsqDYycr5
+    3UgiYqh6vwmJOl5mB1IgoDWcXNArLObi5Yo8r5LC/YTvuZvp2ESZcz6E/BFfwyuGfaaKK3
+    GiDORkhXOvMBRAngsoW1zZi14xnm+SEj/g5Xo3XwubVfBcwFX6Jxclvv3u+tifYlbJe9Dx
+    l21o0T/iY3mk3arc2W9uGSXRhcVQAqdmHUj6DEilTQERANOce8nQzPUjNSXtM2UeKDFwVn
+    VFDn0hpZNvxVHFT08RVDPfBuQyDKxsr78sGtaDl8T3SsSPKl94dvn8J53imkCnRbKr2iOy
+    LDWMJTRu8OqO20YzLeOLVN/Vjm3j26vY8Ls/cP9YnTl608SJlDOuZ8r8rzbe/e9Z3u6bdq
+    6lXbf2s6Q29Qsji4AxhFs8567vZt4WUocOoM6rn6qieQDELN7AyIH9NUd5xGta3fWNFs+H
+    vcVw+9id4b24zypWODwmnMoRAz6D98qJj740GyAozTLJsOJWdpRZVH/oVDzw
+X-ME-Proxy: <xmx:vsazamEdaLdjVVPORBTTTSzLgOpHtu0j8l6oZkmE0XLOc0w0RMp_ng>
+    <xmx:vsazasRdsuKj4zLl22RDSUbUTqhnPtgiS3R9VrlNja3gOlARu2nwbg>
+    <xmx:vsazakY0YLAUcMtEtMMh1SRT2iFkMV0D34HK-KvigaBr-DLjEeKBfw>
+    <xmx:vsazav3bFn4l2OJNa-nIaxlFqIChN-3wV1IqRNZ3AHk1yOgfL6Hg_w>
+    <xmx:v8azarvWepPlrvhGX33fQINyGa2rIqf6sBsE-ha5CqYtWm7oyNAddZAi>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.stl.internal (Postfix, from userid 501)
+	id 5A6F52C0006A; Wed, 23 Sep 2026 08:31:58 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <arOeYHEf9aO7AU5X@MiWiFi-R3L-srv>
+X-ThreadId: AgyGGOYLiW2o
+Date: Wed, 23 Sep 2026 08:31:37 -0400
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Randy Dunlap" <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: "Hans de Goede" <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ linux-doc@vger.kernel.org
+Message-Id: <251504c6-c53e-4105-9d0c-30a6e7054007@app.fastmail.com>
+In-Reply-To: <20260923024957.845198-1-rdunlap@infradead.org>
+References: <20260923024957.845198-1-rdunlap@infradead.org>
+Subject: Re: [PATCH] docs: ABI: sysfs-class-firmware-attributes: use literal blocks for
+ console commands
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2026 at 05:39:44PM +0800, Baoquan He wrote:
-> > 
-> > That's an SLO interface.  memory.swap is a provisioning interface.
-> > 
-> > As it stands, I'm left viewing zswap's counter inclusion in swap as more
-> > of a bug than a feature - they account for different things (memory vs
-> > storage usage).
-> 
-> It's hard to say. When 37e84351198b ("mm: memcontrol: charge swap to
-> cgroup2") introduced memory.swap.*, it was clearly defined as charging
-> "the actual number of swap entries used by a cgroup". Please see the
-> commit log. With that, zswap still reserved a swap slot even when the
-> data never reached disk. And not to mention zram, it's backend is RAM,
-> but not physical disk.
+
+
+On Tue, Sep 22, 2026, at 10:49 PM, Randy Dunlap wrote:
+> Use a literal block for console I/O so that the lines aren't merged
+> together in the produced output.
 >
-
-If you read the entire series, you will find this documentation update
-to go along with that commit:
-
-https://lore.kernel.org/linux-mm/dbb4bf6bc071997982855c8f7d403c22cea60ffb.1450352792.git.vdavydov@virtuozzo.com/
-
-  For trusted jobs, on the other hand, a combined counter is not an
-  intuitive userspace interface, and it flies in the face of the idea
-  that cgroup controllers should account and limit specific physical
-  resources.  Swap space is a resource like all others in the system,
-  and that's why unified hierarchy allows distributing it separately.
-
-So the counter was also intended to be a limit on swap space - not a
-limit on the amount of virtual memory allowed to be swapped (via any
-backend).
-
-Johannes originally proposed this for the documentation:
-
-https://lore.kernel.org/linux-mm/20151211194254.GF3773@cmpxchg.org/
-
-  memory.swap.current
-
-       The amount memory of this subtree that has been swapped to
-       disk.
-
-  memory.swap.max
-
-       The maximum amount of memory this subtree is allowed to swap
-       to disk.
-
-
-It is clear from the outset that memory.swap was intended as a resource
-consumption control (how many swap entries may be used), not as a
-virtual memory consumption limit (how much memory can be swapped).
-
-all the v1 discussions you will find these counters talked about
-consistently in terms of "consumption":
-
-https://lore.kernel.org/linux-mm/20151214153037.GB4339@dhcp22.suse.cz/
-
-  I guess this was the reason why this approach hasn't been chosen before
-  but I think we can come up with a way to stop the run away consumption
-  even when the swap is accounted separately.
-
-https://lore.kernel.org/linux-mm/20151215145011.GA20355@cmpxchg.org/
-
-  Allowing the parent to exceed swap with separate counters makes even
-  less sense, because every page swapped out frees up a page of memory
-  that the child can reuse. For every swap page that exceeds the limit,
-  the child gets a free memory page! The child doesn't even have to
-  cause swapin, it can just steal whatever the parent tried to free up,
-  and meanwhile its combined memory & swap footprint explodes.
-
-https://lore.kernel.org/linux-mm/20151215202235.GB15672@cmpxchg.org/
-
-  As far as the high limit goes, its job is to contain cache growth and
-  throttle applications during somewhat higher-than-expected consumption
-  peaks; not to contain "large unreclaimable high limit excess" from
-  buggy or malicious applications, that's what the hard limit is for.
-
-https://lore.kernel.org/linux-mm/5670E147.8060203@jp.fujitsu.com/
-
-  The point is, at least for their customer, the swap is "resource",
-  which should be under control. With their use case, memory usage
-  and swap usage has the same meaning.
-
-
-Now, with vswap - zswap becomes detached entirely from disk swap.
-
-There's no (physical) swap slot being "reserved" by the zswap slot
-usage and the slot is now just another chunk of memory. It is correct,
-according to the definitions, to stop counting it in memory.swap.
-
-Without detatching zswap from swap, this would be blatant breakage.
-
-But, putting aside correctness, lets discuss usage of memory.swap as
-an SLO signal, and whether this use case has merit.
-
-> Now some deployments do use memory.swap.* as an SLO signal, and that is
-> real use cases as Chris and Kairui told. So I don't think this is about
-> who is right and who is wrong.
+> Also correct some punctuation.
 >
-> To keep the existing deployment working and at the same time give the
-> physical slot its own knob, I think the solution is to add a memory.pswap.*
-> counter as you suggested. And that is not something we think of from a
-> brain storm, it comes from real deployments which already depend on the
-> current memory.swap.* behavior.
-> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> Cc: Mark Pearson <mpearson-lenovo@squebb.ca>
+> Cc: Hans de Goede <hansg@kernel.org>
+> Cc: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> Cc: platform-driver-x86@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+>
+>  Documentation/ABI/testing/sysfs-class-firmware-attributes |   21 ++++=
++-----
+>  1 file changed, 12 insertions(+), 9 deletions(-)
+>
+> ---=20
+> linux-next-20260921.orig/Documentation/ABI/testing/sysfs-class-firmwar=
+e-attributes
+> +++=20
+> linux-next-20260921/Documentation/ABI/testing/sysfs-class-firmware-att=
+ributes
+> @@ -397,22 +397,25 @@ Description:
+>  		unlimited attributes.
+>=20
+>  		Read the attribute to check what save mode is enabled (single or bu=
+lk).
+> -		E.g:
+> -		# cat /sys/class/firmware-attributes/thinklmi/attributes/save_setti=
+ngs
+> -		single
+> +		E.g::
+> +
+> +		  # cat /sys/class/firmware-attributes/thinklmi/attributes/save_set=
+tings
+> +		  single
+>=20
+>  		Write the attribute with 'bulk' to enable bulk save mode.
+> -		Write the attribute with 'single' to enable saving, after every=20
+> attribute set.
+> +		Write the attribute with 'single' to enable saving after every=20
+> attribute set.
+>  		The default setting is single mode.
+> -		E.g:
+> -		# echo bulk >=20
+> /sys/class/firmware-attributes/thinklmi/attributes/save_settings
+> +		E.g::
+> +
+> +		  # echo bulk >=20
+> /sys/class/firmware-attributes/thinklmi/attributes/save_settings
+>=20
+>  		When in bulk mode write 'save' to trigger a save of all currently=20
+> modified attributes.
+> -		Note, once a save has been triggered, in bulk mode, attributes can=20
+> no longer be set and
+> +		Note, once a save has been triggered in bulk mode, attributes can n=
+o=20
+> longer be set and
+>  		will return a permissions error. This is to prevent users hitting=20
+> the 48+ save limitation
+>  		(which requires entering the BIOS to clear the error condition)
+> -		E.g:
+> -		# echo save >=20
+> /sys/class/firmware-attributes/thinklmi/attributes/save_settings
+> +		E.g::
+> +
+> +		  # echo save >=20
+> /sys/class/firmware-attributes/thinklmi/attributes/save_settings
+>=20
+>  What:		/sys/class/firmware-attributes/*/attributes/debug_cmd
+>  Date:		July 2021
 
-Then let Chris make and defend a proposal for memory.pswap.* and
-justify the redefinition of memory.swap to mean the total virtual
-memory space eligible to be swapped.
+Looks good to me
+Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 
-If memory.swap has existed with dual meaning for long enough that users
-depend on it to mean something other than the historical and documented
-meaning - we should have this discussion.
-
-That doesn't mean we should simply accept the redefinition, but the
-proposal has some merit considering some ambiguity dating back 10 years.
-
-
-I would like to know more about his use case and why it cannot be
-accomplished by memory.low/min. I can see there being limitations to
-those interfaces that need to be addressed, and maybe such a change to
-the definition is warranted and a new interface needs to grow out of it.
-
-This would also allow vswap=on or =off to work regardless of deployment.
-
-
-Chris has done none of this - he has offered no solution or constructive
-discussion. At best what Chris is doing is finding creative ways to say
-"No" without engaging good faith discourse.
-
-You'll notice Chris did not engage in the discussion around the
-proposal which intended to solve his concerns
-
-https://lore.kernel.org/linux-mm/CACePvbXb1WLz=OAAzVawf3oc3+dE3Z7qfPdagQ2dYuf3OALc2g@mail.gmail.com/
-
-He asked no questions, he brought up a completely unrelated idea,
-demanded justification for the unrelated idea, and then entirely
-disengaged. He continues to demand workload numbers completely
-detached from the discussion at hand, and makes dictations about what
-an "appropriate amount" of compressed memory is.
-
-He's more interested in fillibustering than finding a way forward,
-and this behavior is quite innapropriate.
-
-~Gregory
+Mark
