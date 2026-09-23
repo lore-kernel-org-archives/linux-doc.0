@@ -1,65 +1,65 @@
-Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
+Received: from mail-yx2-f10.google.com (mail-yx2-f10.google.com [74.125.224.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337EF38AC90
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 16:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3631E3C2BAF
+	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 16:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790181389; cv=none; b=nuM8fN7LXGeSyhLuVsVssBIZl1j317gjiBMTSmgDE7WqWhLz4QOEA9K5gfGO//l37JbEUhtxP62JPguq9qw/kbmSAgHPXotnMJFbJ2deLq9wTkG85YUbWC5Hs8MebEFVIuNUxlu0jxgOn8yMbe5MTnckoyYLz9pGIVlg581HCUs=
+	t=1790181391; cv=none; b=Z3nYLRGMFEGWrxN40oYWHuPTSIlRqxRHvfaELDRGFLAuCC+3HtTRO+u6cJR6MDR3GNKhyi+bp4gLdxe7uhNxybNglUZPvo8bgH+zmE+2NzJ6LblGS2k/nultBiwMzfEDT32DsRvZwPhdD1nSx960XeL8K/BX646HZSz80couJMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790181389; c=relaxed/simple;
-	bh=HyMlUX/W9HvvI5kZhh4XgDfUUhUda5AirsyOm9dGlUM=;
+	s=arc-20240116; t=1790181391; c=relaxed/simple;
+	bh=cqDDPS3cYLtnwCkJsHXJQJBfCWV8CGvTznOW39lWS4M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g3nBy/CHcFXEgtnU2weT94FQzMJWKaUnLAvDuEHgOd97rfAMi4hEfW9Q1xFWglitDSHgLm2vN5VGz6OmcTkqZ7ub354o90KWEtgXnR5ixWtaI39FK/pwUKMgQFiraMeYM/fvmy5g0FYOxv598ydIOlkGNTZEjnBHB7hJfDwzPhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=northecho.dev; spf=none smtp.mailfrom=northecho.dev; dkim=pass (2048-bit key) header.d=northecho-dev.20251104.gappssmtp.com header.i=@northecho-dev.20251104.gappssmtp.com header.b=QhKCS5ty; arc=none smtp.client-ip=74.125.224.171
+	 MIME-Version:Content-Type; b=WWbs6ruwc0O3y0hyOU7iGaabkRts89QHXzmhAsCr9hFgcMNGpZ5FwKFChWSXnahvJ6AG78xf4MB5Vcmw5ev5gdqAwYMckzfH/kAgUrJLdnl5i0oFSBI3a7XTt5z6CP4ro9V8PQXGbhABjitp2QXmzY7NugI7KOo/d6wkDw0DrPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=northecho.dev; spf=none smtp.mailfrom=northecho.dev; dkim=pass (2048-bit key) header.d=northecho-dev.20251104.gappssmtp.com header.i=@northecho-dev.20251104.gappssmtp.com header.b=iw6I35BX; arc=none smtp.client-ip=74.125.224.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=northecho.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=northecho.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=northecho-dev.20251104.gappssmtp.com header.i=@northecho-dev.20251104.gappssmtp.com header.b="QhKCS5ty"
-Received: by mail-yx2-f43.google.com with SMTP id 00721157ae682-893c38a5981so1090977b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 09:36:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=northecho-dev.20251104.gappssmtp.com header.i=@northecho-dev.20251104.gappssmtp.com header.b="iw6I35BX"
+Received: by mail-yx2-f10.google.com with SMTP id 00721157ae682-85e68cd58a3so87917b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 09:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=northecho-dev.20251104.gappssmtp.com; s=20251104; t=1790181379; x=1790786179; darn=vger.kernel.org;
+        d=northecho-dev.20251104.gappssmtp.com; s=20251104; t=1790181380; x=1790786180; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=K8ztzFzESiCouCMaYiUr65tJ28qhpNA5LSgzOI3RJSU=;
-        b=QhKCS5tyYcQwxn+dfVzq7sGjioWxu2ybxkIxfXdUJioJuhAMZeBkge8rawr/9F1xVM
-         7MAZxqAeIh6t3tie7645xAt1j92seJBopW5YOwg/5lJO4678Rq8RFdNc2e0vZZWDS+do
-         zYX/AR7TkonFvYJJ8vqbmbSOjWgIkL7JU+obB7deYyCg5dDaamUeQaCFsrRmIG/RTIdK
-         ZabJksbPlhdJ+HNZ8llKwuzIWl8O6g22HgBZEaO5CQze4ET7W3XxKzdjmp/neb0Zd1R3
-         nKae+V5+1/wgR29z9OgCeCYvsm4gSh2edqqR4a7hkS0r5x6WcID6rCu6Jz4743shyUzO
-         r1mg==
+        bh=lgMfR/OpPXnvvBLqscXmXIgkpM0twhM7DvthfQZhSoo=;
+        b=iw6I35BXyur708fjk3Q2KlD0EgHBfBbC2vJtlut7CxCThPCv7ppeRzyQ2AOafljU5f
+         eMRMJJE9Y7ECYrgYiv1P3kWHsv96LnK7qUFBIjq3NESW7FaWjOR+vHexS/ukJbSTnB4M
+         Gxs9OC1FzNDpxfyxgy+UxqhJ6UQq1bmQFG4WcRYiZZMirbxbOQXF76uruvAEn/Lbx5IQ
+         LBF/ymflYLO8MstC/oUyqsi7sqZnTIEqwY6Nz9EIY+c4XURCBFa9XGGZHIDZ1ZOwqO5C
+         dJlZzfncgzjVnrdMVKZUTJp3ZmFCqGpJYFZWv9BSANXWvSal+bwGhOdQOVmoPV/TAhFM
+         ULRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790181379; x=1790786179;
+        d=1e100.net; s=20260707; t=1790181380; x=1790786180;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=K8ztzFzESiCouCMaYiUr65tJ28qhpNA5LSgzOI3RJSU=;
-        b=Ofr7ZzpgONXayePWN177398PxJ5CPlPiaazr5vFaEsr+VMuQuIebetpffOvyvqHkwg
-         cgvh3Age1cczvFPa5l3EW60LuIhTIOO6M8lc4nYoSIFsykXDGoo7z0sSZfRD9ZjRSRnT
-         yADZOai9+DpzxfZs5AoRDHRWG9np7yPYuvvnBvHEaLs2DySKeEYgzjD5f0TmV14uZc/4
-         R6vtmmJXc0eBFioKxwG44nC71q5CWO+ulI0+oTJcZY+sbexRQ1iQXT0p2ho/hDIV+iV6
-         nByYwroINgPMgT0inkxwHeNWJ3kmLsVu0lG3QZHYePkr1JWfb0YLnBjsSOjiIwYMQSUW
-         DMiQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx85n6qLkrcMJ6/fcN7l4vKS/4UuXIsS3Sv2QXG9OSJLLlZv/uyz4pYU6j1SxjAlYGc+fEYpKftQ2I=@vger.kernel.org
-X-Gm-Message-State: AFuF++mV+BlKDzzVkrx19mzJjwu2LJwSi8G6Vf7aRL07ACMm2sCFGMti
-	1/3WNV3Nz5rHz2qOW9Vb5ozAgOCD29JxnclA+4kWolG1b5qHih2hjj5U9vsq8SPhaJGd
-X-Gm-Gg: AYBFou1v17+uREvPjHSOPEtwYq5m3PdvyP7Lkn1FuRtioAl2KXNXNAT5ByTXdSl6gic
-	jxOF1SYxLnWIjg1e9U/w7Ds13oK4NvzdbcRz7+2EmaM7Fja0nZYc2QfzCGZC6BNy0oiB798s4Wn
-	5fwOwTFPxQhlCiEFsQFc8Yh0FhIOEvbFrftFYhcZ2TiyJbFX6Nghdcf5oa9e92WDP/PPsobQ5jW
-	eVYMl+Mp8UO0SetPQTAm+mmQggU2L4cwXe7gEIAQDPjDFFxfJ3P/L4UqlsStj7x+dfJwkH/fCmW
-	WEmtIgj4YPNT/UuJZdqyur/dXC2kTvza5CgqhIHpkxj017SyRQyxgQp0mNp4QMcwJpzQb0eHRRR
-	Y8E+/Z6QLdhvdOcrVv55zXGqdUiJv4oRbK4d8CJBDlQtVz47MHPoy3N4Uct4hBBai3Ch6EwJNkc
-	zlSSPyvbpSJI34hr+BuiHnyIr1x5/YjQlQ4v1AjNsT1J/hHF0reqopsPP0BjzCpGWn1JEiY0Mfx
-	NfKttXuekc8z8iWbdXp+IZS6JPEXRAXHsacwc4=
-X-Received: by 2002:a05:690c:6b13:b0:862:bb29:a715 with SMTP id 00721157ae682-8a45bb793d0mr35516137b3.3.1790181379194;
-        Wed, 23 Sep 2026 09:36:19 -0700 (PDT)
+        bh=lgMfR/OpPXnvvBLqscXmXIgkpM0twhM7DvthfQZhSoo=;
+        b=vujlITXiPTAFfDgNEBzLzoNdM1SeFf5NkyRWKhFICE4ieKz6Rcorr04ARA0Rfvsz+r
+         Ohis8F5RcHnhPT3cDjlT3KdjPaL4uhwt+LwgODS57fG6Dwwo7P80Mp1yQqiZro+FLABG
+         Nqck3+lnl9XjP4TsKF+v31vA4HHr9B4aeZdUhrrBM8fsJYEZ9kToZmTY7qwjfVtQLCF/
+         QFC3xRnX2J7VlnKsbTDSsXYm5rf8lN+fM6rVccgOeESYAtAbc0ypJmNVRY3iqLxVgBG4
+         2xv/rDciAWNa9qqMt27zacQAm6j2mbgX9d9GuSwRnlafY89BNIEFDB3MXsB4jPus1Knw
+         FxHA==
+X-Forwarded-Encrypted: i=1; AKwUvBwkg17sN7s+wbqCe8gMngD0pX6McX8I9A1MDZ2mg33666neug+yFQlZw9y0a0WyPW3mTjR2IddqTSY=@vger.kernel.org
+X-Gm-Message-State: AFuF++nPKH8mhWc8uYHud0Av45J6Vv/y3dSf6GHjJjjEI34dhZTEnQB6
+	3fne/eFeTnSbKvilufTa23FwIOJPMAsNOtNOLWTDFj6CQnCuhvsOEIWGYLE20aYxizGM
+X-Gm-Gg: AYBFou3MkRNg6ky37lwXYSd9UgeZULyTmhxHCiFImhki8lv3mghgIn3Vj0Yh91AIf8K
+	4KjsveNsCdcWMmWc3FkCjYEjer7OzVp7X4rDi1+6sUNOBBECCPzhzJfCJvX22OcuT0I0kug7LEJ
+	YmOj/k+HNFQymdcSiSdUgtDF32RWMvZagLf4oqVh1ytyUC5rkBK2AGWJTcdb3PmsTmakOZZMBch
+	m7BTilYiulSLlDC8dv+SkujPaRr8K+H8lP8K+Uh0dGjw98AFdJlluSteLiD+NiuYX9ApxZqFecx
+	12LL/qEd7u8h48zGvY/bvCBw6Kw83wevqZzO72P0TlhsNbfb5yyNKOBvqfb0SemS7qaXe1kNqKg
+	PCgV08MXxx70HG64uNz9VEpU2JJRddd+yd6sTn3Kd5WBW+5c3cDJN02a5+bkkBW5NrvYHM/5y/j
+	6I86oh9SJNtIolx0WPsw00xNKS02OBOfbdlQYWszOW6KJPUbYIuxVPG+WPhheB+xjydqv+SBdjT
+	UH3r2kTXIq1Y5RE+Gyddhv9LoLkIrmK6QDJUCo=
+X-Received: by 2002:a05:690c:6112:b0:853:bc96:d834 with SMTP id 00721157ae682-8a45aeac201mr36854287b3.2.1790181380453;
+        Wed, 23 Sep 2026 09:36:20 -0700 (PDT)
 Received: from kelso (99-10-92-174.lightspeed.rlghnc.sbcglobal.net. [99.10.92.174])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a4658c9778sm12709257b3.8.2026.09.23.09.36.18
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a4658c9778sm12709257b3.8.2026.09.23.09.36.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 09:36:18 -0700 (PDT)
+        Wed, 23 Sep 2026 09:36:19 -0700 (PDT)
 From: Christopher Lusk <clusk@northecho.dev>
 To: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>
@@ -70,9 +70,9 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/2] docs: landlock: clarify TTY signal scoping
-Date: Wed, 23 Sep 2026 12:33:20 -0400
-Message-ID: <20260923163321.79770-2-clusk@northecho.dev>
+Subject: [PATCH v3 2/2] selftests/landlock: cover TTY signal scoping
+Date: Wed, 23 Sep 2026 12:33:21 -0400
+Message-ID: <20260923163321.79770-3-clusk@northecho.dev>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260923163321.79770-1-clusk@northecho.dev>
 References: <20260923163321.79770-1-clusk@northecho.dev>
@@ -85,14 +85,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-LANDLOCK_SCOPE_SIGNAL limits signals sent to arbitrary processes outside
-a domain.  A PTY master differs because its holder controls attached
-processes through input and signal injection.
+LANDLOCK_SCOPE_SIGNAL blocks signaling an arbitrary out-of-domain process,
+but a PTY master retains signal delivery to its terminal foreground process
+group.
 
-Clarify this boundary in the userspace guide and narrow the UAPI
-description to arbitrary target processes.
+Add a test that enters a signal-scoped domain, checks that kill(SIGUSR1)
+is denied with EPERM, and checks that TIOCSIG(SIGTSTP) succeeds and reaches
+the target's signal handler.
 
-Built the userspace-api docs; no new warnings.
+Tested the focused case in three QEMU boots and ran the complete Landlock
+selftest suite (12 programs, no failures).  Built all Landlock selftests
+with W=1.
 
 Link: https://lore.kernel.org/r/20260916152336.1589383-1-clusk@northecho.dev
 Suggested-by: Günther Noack <gnoack@google.com>
@@ -100,40 +103,205 @@ Suggested-by: Mickaël Salaün <mic@digikod.net>
 Assisted-by: Codex:gpt-5.6-sol
 Signed-off-by: Christopher Lusk <clusk@northecho.dev>
 ---
- Documentation/userspace-api/landlock.rst | 6 ++++++
- include/uapi/linux/landlock.h            | 2 +-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ .../selftests/landlock/scoped_signal_test.c   | 175 ++++++++++++++++++
+ 1 file changed, 175 insertions(+)
 
-diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-index 84cb7bf6b3ed..4d9fb1f1588c 100644
---- a/Documentation/userspace-api/landlock.rst
-+++ b/Documentation/userspace-api/landlock.rst
-@@ -430,6 +430,12 @@ The operations which can be scoped are:
-     This limits the sending of signals to target processes which run within the
-     same or a nested Landlock domain.
+diff --git a/tools/testing/selftests/landlock/scoped_signal_test.c b/tools/testing/selftests/landlock/scoped_signal_test.c
+index 259cdcc8aa5c..9a50817f33eb 100644
+--- a/tools/testing/selftests/landlock/scoped_signal_test.c
++++ b/tools/testing/selftests/landlock/scoped_signal_test.c
+@@ -9,9 +9,12 @@
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <linux/landlock.h>
++#include <poll.h>
+ #include <pthread.h>
+ #include <sched.h>
+ #include <signal.h>
++#include <stdio.h>
++#include <sys/ioctl.h>
+ #include <sys/mount.h>
+ #include <sys/prctl.h>
+ #include <sys/types.h>
+@@ -767,6 +770,178 @@ TEST(sigio_to_pgid_self)
+ 	EXPECT_EQ(0, close(trigger[1]));
+ }
  
-+    Holding a PTY master FD grants control over the processes running under that
-+    terminal, including the ability to inject input and signals.  A process able
-+    to write to the master should therefore be considered as privileged as those
-+    processes, and this capability is not restricted by
-+    ``LANDLOCK_SCOPE_SIGNAL``.
++struct tiocsig_result {
++	int kill_ret;
++	int kill_errno;
++	int ioctl_ret;
++	int ioctl_errno;
++};
 +
- ``LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET``
-     This limits the set of abstract :manpage:`unix(7)` sockets to which we can
-     :manpage:`connect(2)` to socket addresses which were created by a process in
-diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-index cceda3b3b961..ad7b1ebd62ed 100644
---- a/include/uapi/linux/landlock.h
-+++ b/include/uapi/linux/landlock.h
-@@ -500,7 +500,7 @@ struct landlock_net_port_attr {
-  *   connecting to an abstract UNIX socket created by a process outside the
-  *   related Landlock domain (e.g., a parent domain or a non-sandboxed process).
-  * - %LANDLOCK_SCOPE_SIGNAL: Restrict a sandboxed process from sending a signal
-- *   to another process outside the domain.
-+ *   to an arbitrary process outside the domain.
-  */
++static int tty_effect_fd = -1;
++
++static void handle_tty_signal(int sig)
++{
++	const char effect = sig;
++
++	if (tty_effect_fd >= 0)
++		(void)write(tty_effect_fd, &effect, sizeof(effect));
++}
++
++static int setup_tty_signal_handler(int sig)
++{
++	struct sigaction action = {
++		.sa_handler = handle_tty_signal,
++		.sa_flags = SA_RESTART,
++	};
++
++	if (sigemptyset(&action.sa_mask))
++		return -1;
++	return sigaction(sig, &action, NULL);
++}
++
++static int create_pty_master(char *const slave_path,
++			     const size_t slave_path_size)
++{
++	int master_fd, pty_number, unlock = 0;
++
++	master_fd = open("/dev/ptmx", O_RDWR | O_NOCTTY | O_CLOEXEC);
++	if (master_fd < 0)
++		return -1;
++	if (ioctl(master_fd, TIOCSPTLCK, &unlock) < 0 ||
++	    ioctl(master_fd, TIOCGPTN, &pty_number) < 0) {
++		const int saved_errno = errno;
++
++		close(master_fd);
++		errno = saved_errno;
++		return -1;
++	}
++	if (snprintf(slave_path, slave_path_size, "/dev/pts/%d", pty_number) >=
++	    (int)slave_path_size) {
++		close(master_fd);
++		errno = ENAMETOOLONG;
++		return -1;
++	}
++	return master_fd;
++}
++
++/*
++ * A PTY master grants control over its attached terminal, including signal
++ * delivery to the foreground process group.  LANDLOCK_SCOPE_SIGNAL blocks
++ * arbitrary signal targets, but it does not restrict this terminal capability.
++ */
++TEST(tiocsig_to_foreground_pgrp)
++{
++	struct tiocsig_result result = {};
++	struct pollfd poll_fd = {
++		.events = POLLIN,
++	};
++	char slave_path[64], byte, effect_signal = 0;
++	int ready[2], release[2], effect[2], report[2];
++	int master_fd, poll_ret, status;
++	ssize_t report_size;
++	pid_t attacker, target;
++
++	drop_caps(_metadata);
++	master_fd = create_pty_master(slave_path, sizeof(slave_path));
++	if (master_fd < 0 && errno == ENOENT)
++		SKIP(return, "Unix98 PTY not available");
++	ASSERT_LE(0, master_fd);
++	ASSERT_EQ(0, pipe2(ready, O_CLOEXEC));
++	ASSERT_EQ(0, pipe2(release, O_CLOEXEC));
++	ASSERT_EQ(0, pipe2(effect, O_CLOEXEC));
++	ASSERT_EQ(0, pipe2(report, O_CLOEXEC));
++
++	target = fork();
++	ASSERT_LE(0, target);
++	if (target == 0) {
++		int slave_fd;
++
++		EXPECT_EQ(0, close(master_fd));
++		EXPECT_EQ(0, close(ready[0]));
++		EXPECT_EQ(0, close(release[1]));
++		EXPECT_EQ(0, close(effect[0]));
++		EXPECT_EQ(0, close(report[0]));
++		EXPECT_EQ(0, close(report[1]));
++		ASSERT_LE(0, setsid());
++		slave_fd = open(slave_path, O_RDWR | O_CLOEXEC);
++		ASSERT_LE(0, slave_fd);
++		ASSERT_NE(SIG_ERR, signal(SIGTTOU, SIG_IGN));
++		tty_effect_fd = effect[1];
++		ASSERT_EQ(0, setup_tty_signal_handler(SIGUSR1));
++		ASSERT_EQ(0, setup_tty_signal_handler(SIGTSTP));
++		ASSERT_EQ(0, tcsetpgrp(slave_fd, getpgrp()));
++		ASSERT_EQ(1, write(ready[1], ".", 1));
++		ASSERT_EQ(1, read(release[0], &byte, 1));
++		EXPECT_EQ(0, close(slave_fd));
++		EXPECT_EQ(0, close(effect[1]));
++		_exit(_metadata->exit_code);
++		return;
++	}
++	EXPECT_EQ(0, close(ready[1]));
++	EXPECT_EQ(0, close(release[0]));
++	EXPECT_EQ(0, close(effect[1]));
++	ASSERT_EQ(1, read(ready[0], &byte, 1));
++
++	attacker = fork();
++	ASSERT_LE(0, attacker);
++	if (attacker == 0) {
++		EXPECT_EQ(0, close(ready[0]));
++		EXPECT_EQ(0, close(release[1]));
++		EXPECT_EQ(0, close(effect[0]));
++		EXPECT_EQ(0, close(report[0]));
++		create_scoped_domain(_metadata, LANDLOCK_SCOPE_SIGNAL);
++
++		errno = 0;
++		result.kill_ret = kill(target, SIGUSR1);
++		result.kill_errno = errno;
++		errno = 0;
++		result.ioctl_ret = ioctl(master_fd, TIOCSIG, SIGTSTP);
++		result.ioctl_errno = errno;
++		ASSERT_EQ((ssize_t)sizeof(result),
++			  write(report[1], &result, sizeof(result)));
++		EXPECT_EQ(0, close(report[1]));
++		EXPECT_EQ(0, close(master_fd));
++		_exit(_metadata->exit_code);
++		return;
++	}
++	EXPECT_EQ(0, close(report[1]));
++	report_size = read(report[0], &result, sizeof(result));
++	EXPECT_EQ((ssize_t)sizeof(result), report_size);
++	EXPECT_EQ(0, close(report[0]));
++	EXPECT_EQ(attacker, waitpid(attacker, &status, 0));
++	EXPECT_TRUE(WIFEXITED(status));
++	if (WIFEXITED(status))
++		EXPECT_EQ(0, WEXITSTATUS(status));
++
++	EXPECT_EQ(-1, result.kill_ret);
++	EXPECT_EQ(EPERM, result.kill_errno);
++	EXPECT_EQ(0, result.ioctl_ret);
++	EXPECT_EQ(0, result.ioctl_errno);
++
++	poll_fd.fd = effect[0];
++	poll_ret = poll(&poll_fd, 1, 1000);
++	EXPECT_EQ(1, poll_ret);
++	if (poll_ret == 1 && (poll_fd.revents & POLLIN)) {
++		EXPECT_EQ((ssize_t)sizeof(effect_signal),
++			  read(effect[0], &effect_signal,
++			       sizeof(effect_signal)));
++		EXPECT_EQ(SIGTSTP, effect_signal);
++	} else {
++		EXPECT_TRUE(poll_ret == 1 && (poll_fd.revents & POLLIN));
++	}
++
++	ASSERT_EQ(1, write(release[1], ".", 1));
++	EXPECT_EQ(target, waitpid(target, &status, 0));
++	EXPECT_TRUE(WIFEXITED(status));
++	if (WIFEXITED(status))
++		EXPECT_EQ(0, WEXITSTATUS(status));
++
++	EXPECT_EQ(0, close(ready[0]));
++	EXPECT_EQ(0, close(release[1]));
++	EXPECT_EQ(0, close(effect[0]));
++	EXPECT_EQ(0, close(master_fd));
++}
++
+ /* Trace tests */
+ 
  /* clang-format off */
- #define LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET		(1ULL << 0)
 -- 
 2.55.0
 
