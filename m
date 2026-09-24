@@ -1,377 +1,238 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010025.outbound.protection.outlook.com [52.101.201.25])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012007.outbound.protection.outlook.com [52.101.66.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7CE4A483F;
-	Thu, 24 Sep 2026 15:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6364A093B;
+	Thu, 24 Sep 2026 16:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790265036; cv=fail; b=unQhj/U4z+REasyWJvD/avaMQQRIIMoELB/qoOxdEqVoEy1QJunHMvRrPjfL6JhNeJMWULjheQ9yKHxmaYTsvCEEnL123VZqM8OGRzKcGZABgqt4BOEfRla9/YKbXAB9G3UhoGGWho4L1lwKZIieyvtBDr0koDtoTWk7K1dx+uw=
+	t=1790266482; cv=fail; b=YfoFxR/vlkLlwOKAuFzbgY3BwzqGdcevAHRJqAoBY7ZEm/PyYtI2mMD4VVn2zKZ1gc9JDptcVJGG1rb4fnhvgcn+BP5U1EljFC7ku0DaUPbgi75yiKmoFPH3X2dxkh5hTa5flcIJwEYWOq785HXQQ0juGUe11ldNbRMRRe4jZU8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790265036; c=relaxed/simple;
-	bh=7CGsuHUhPnzubjxQeyaN7It8lOKbg2aHRSXd+ABPfR4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Q0lpZxUSheqSqxzAzLX2h+jkVkKdBqAHXIY537/U4GLeqHqxmuLy1qK9bOHHrxCPHo+xdQ4M1Qg4oTJG8Nn3I9O/yOjzmdOo6CESv/YoAKxKbTsI9ivWI43huVoYd+fo5zflk/qzzeHVWieszYCc3QRj3MpEJ/MAPz6gxSlnZOg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IF6Z6NTA; arc=fail smtp.client-ip=52.101.201.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1790266482; c=relaxed/simple;
+	bh=9YJcFGEkpZJJTQalp1H+2FiY8s47wLD+modA8IHKj9k=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=t5kttNdijaUWizrsefUC6vSVxTkkJBq94IQLJlY75Fs3n5dMl7EMrps6d34orSaaJobalUs/+GM7vrLIXi/nyjpsgdPGs70Magiv9jcB9mqcsq5PxfqUYvBfWRgRbLvLLeljfmpAJbysNlNW8urGo7W6t0+Kan2MjoKDph6lkLI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=K9ddfhop; arc=fail smtp.client-ip=52.101.66.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IF6Z6NTA"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="K9ddfhop"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V0m6eg89kopQFl3u4IGUBlxCnRazbDM7W04AjUEYr82pv8x3G4EpPCeTJFTnq9Z3QRmF5PXWl55elFHrnYrWUn4x5FE12iIiO6F9A11TvvNhobLjyHxWiEU8biVfMLJHjaUZfYMiPQG9Tjbu3uZGBc/a1ulAl7XApQL/xa77nCyvqRRPPrCSxI27K8aewe8Q06odz3SUDH4abSX3Uv9yIJ2GcjQiQvjWGNT9gOuoa9rYWRzqHKthceT7n+BjEvtY0s+MlDIQulvEGA4DWoKN6n2l2paRfjj9tf1Hams1uPpHxnc1a4GsvHQNkMF3OK6h58qYgat5rnU5xII5t6dUYw==
+ b=CPFJNEK16sqHkbK5y/iZyguUabba/OI2O5T/26e44Fs7ATNe8EaFR1dnSkAoOPINWBXiV1K45PdLl3oYW/z7WgZz/EQ0UN0p+pVld4vHfvTmcU8aVzXb2s8ZS3rW/kwXQdi6xheTxpbNI6BO9xu5ZPtRj0rCaUTR9pLrIlMncC8dG8xdk8sN1SDnj59NyMMrJt36MwPkmRc7kSYB4HwfLgFY5pjLLRJrSSdMKVADrA27et3IYfK+udDPPoczWjhtW9cEpoYFtZATsTOXwX2yZ8xWrRHgHnhUwDJeFZI5U6RcSMqQNuosOId8W8u//wKNxaCTYVcOigRlsKXHHQ2o6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xiYwQEGkKM+tsHhc5VwTwt7K0S2UtKAK9YfSG0KXgVg=;
- b=Gf3FvOtghUQBfr7F4QG4XyIMI6foJRQhNGdy256hkHEMKvApKl/Of58X25Zuuuzy3BEVB2afSZGGqyJqyr1C/R2ODJioj14x1TKCZ5Qb6o0sD40/IppygmWTsZt89iHlxYLmMoFxiZz66TNpkEJPZara/pzNkKCbXhofbpNOxybxN7+EHTKRSupSl9SE5TsvNrVMH4CdZ2H+NEor58jKQo+fTWTMQfUnb0ZZxMqRAgRmAVcn5GNG8yOpEQHS9DA0gordDSezG/XdQTJB2OxIdp/FAvbD3YwsetFAhId3D11+o+2yVzckZMpgi0gI0ZckCxVxultg+HkeNXlzgeCRow==
+ bh=Td+Wzjjv/ZyMFIFnZhzVfT4DSSUCOFtgjF+A7K27Vw8=;
+ b=ufY17DvyndK+r9xtveN2fDgwj3mfMTFMXpHzASWk/Zb2J02SxODDCMQ8jlJO/3boMFvLoyAf/zx5xikNbBRJcZqbtbfqT2W4tYQxPAfwRmR/VuaNVG78YCuG5FX9Lyvio8PkingDVqrt+Lmb7+Xu/4X+atT7PEQ7blX0nyLwKfK0I3CxvN265hocQkPO0pgUNa1389yKOrtbcj3Dqo7I5zXojSg3ALHCeCcHqPsLFO88KqTwX8uEeOES4M0tPGIfTNcau6G9IXxxZykQSNjBqJ1jHByh11EUGLG5Wc9kLVQiZW0oSMEiGshy2ya4NXeRfNVl+dhMt3dgLch/O6PDfQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xiYwQEGkKM+tsHhc5VwTwt7K0S2UtKAK9YfSG0KXgVg=;
- b=IF6Z6NTAI6zMdc80b8hHyu7XZ5ItC6YPpawMOAVwcEXXe/HtfKdW/gsVcwLD+HrX36GiVCpcWjLZi/UStlcuKnjO0ZGkxW9pqUjtKCYYykoW0RRZg8+DnC9YkFnYrMSy5sCZiq7DBPrQPnl8EofbQbCdDniNBexe5pkQUwe6nsLpvFCPRHs+u4GHzd36hLuuGS2IGhtOi5ilhY4PerGPsLd8mMnp/gdjmjKCO/IE+eMh5dQbSfJypmCakvvDzVi4IO6nerwHidZSF1SABPm0pOtAApXStVwUTsOSzqdGm5SvNctqL0x556wcEN/PDxWUMOjN/iwxYkT8tZxciJlx0Q==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by MW6PR12MB8916.namprd12.prod.outlook.com (2603:10b6:303:24b::14) with
+ bh=Td+Wzjjv/ZyMFIFnZhzVfT4DSSUCOFtgjF+A7K27Vw8=;
+ b=K9ddfhopH/KQlO/Rih90ERYj/npiMyhr0auW9fcXxBHv/W3aeLtdRYXG+Si8L74N6ALlJFXmHmhH0eUF4Bq+vKk7tLMq56slNoUg0scmdmZjrmpVuf7YJp/RkxLFCa842KARfzGtW7AK3PIDVwontszmUJugxuZbBCjBR138aOuzf9Ugp/tBBDlRumOHxIFs04Y2TB5cOUmdHix/UaRfdgIJeVoA9f3alBYi6loVcx2i9slmzwYnR62oo9SkPxo3BI+uRDh5UodTH0RO0qtHVUl9/MhN6u9aoCuDE3xVx0MyuAROtw06MYAqvrsu2EIsf2FHJWkUIFh/Nex6pbTNIg==
+Received: from GV2PR04MB12271.eurprd04.prod.outlook.com (2603:10a6:150:32a::5)
+ by DB9PR04MB8267.eurprd04.prod.outlook.com (2603:10a6:10:24b::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
- 2026 15:50:20 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
- 15:50:20 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 24/40] mm/mlock: eliminate weird VMA_IO_BIT abuse and
- simplify
-Date: Thu, 24 Sep 2026 11:50:14 -0400
-X-Mailer: MailMate (3.0r7032)
-Message-ID: <CBD619D6-8717-4C81-B5EA-D1D0771BDA3A@nvidia.com>
-In-Reply-To: <arT3K71l86fUVldk@gremlin>
-References:
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-24-4583d8a23bca@kernel.org>
- <93672B94-BB0C-4713-8F8A-3619D81DB7BB@nvidia.com> <arT3K71l86fUVldk@gremlin>
-Content-Type: text/plain
+ 2026 16:14:37 +0000
+Received: from GV2PR04MB12271.eurprd04.prod.outlook.com
+ ([fe80::3b38:4ed4:2164:c035]) by GV2PR04MB12271.eurprd04.prod.outlook.com
+ ([fe80::3b38:4ed4:2164:c035%5]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
+ 16:14:37 +0000
+From: Pankaj Gupta <pankaj.gupta@nxp.com>
+To: Arnd Bergmann <arnd@arndb.de>, "Pankaj Gupta (OSS)"
+	<pankaj.gupta@oss.nxp.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li
+	<frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel
+ Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Randy
+ Dunlap <rdunlap@infradead.org>
+CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [EXT] Re: [PATCH v51 5/7] firmware: imx: adds miscdev
+Thread-Topic: [EXT] Re: [PATCH v51 5/7] firmware: imx: adds miscdev
+Thread-Index: AQHdRFLl6qj9FWHmWUa7nq3I0AMEwrbRMnKAgAzENoA=
+Date: Thu, 24 Sep 2026 16:14:37 +0000
+Message-ID:
+ <GV2PR04MB122713E45837EDC3DE804EAB895812@GV2PR04MB12271.eurprd04.prod.outlook.com>
+References: <20260915-imx-se-if-v51-0-4a7dac612cb5@nxp.com>
+ <20260915-imx-se-if-v51-5-4a7dac612cb5@nxp.com>
+ <2034fb2f-f169-46a5-85e8-fa723ddb0360@app.fastmail.com>
+In-Reply-To: <2034fb2f-f169-46a5-85e8-fa723ddb0360@app.fastmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f6375508-4f8d-4bf0-98ed-14865d40f2d8_Enabled=True;MSIP_Label_f6375508-4f8d-4bf0-98ed-14865d40f2d8_SiteId=686ea1d3-bc2b-4c6f-a92c-d99c5c301635;MSIP_Label_f6375508-4f8d-4bf0-98ed-14865d40f2d8_SetDate=2026-09-24T16:14:23.0000000Z;MSIP_Label_f6375508-4f8d-4bf0-98ed-14865d40f2d8_Name=NXP
+ Public;MSIP_Label_f6375508-4f8d-4bf0-98ed-14865d40f2d8_ContentBits=3;MSIP_Label_f6375508-4f8d-4bf0-98ed-14865d40f2d8_Method=Privileged
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: GV2PR04MB12271:EE_|DB9PR04MB8267:EE_
+x-ms-office365-filtering-correlation-id: 1e7e6902-3a48-45f2-58df-08df1a56ee24
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|19092799006|23010399003|10067099003|56012099006|3023799007|6133799003|22082099003|18002099003|4143699003|11063799006|921020|38070700021;
+x-microsoft-antispam-message-info:
+ Ak4gTiZIALgrkg6PgWI1oP8UGV+4h6X0NpSiS2txzgdVXvgGbwXhwuhKYmHGspJYWFpQnV3lcSnq/h3LgMJdevOF4J5Z6t/yphp/yEGNZ5VR7V6sMpvmGSpMBGqY5wggV6Zz38+et7lhFrvpYNZ+/fHqMKLZSq2EDJmtmP0H0PNnWlaEAd84D1OXjye/vFd9ZVo59evmy3tYw5wKG0qCIXr6fwf9TfsJJMWMgOF5Jyz+k5UQASm7KUiI8ogStlB4O5Anc0rmfnMjZPKya2yRdxBiYfuyf6NvVrEJV/2yoqjMgVSKEp3WTeAJr5TnKhZ6ftNCQpUU1biwuw+fHDq1J2qM1rz6j47asmt3v8JQsdDP7BvxuLecUI58iwKZHmY/v9rE4vcqw6P0dDy2g7A0bVKPSfTYrw0uaxIGSjY31i8+B6cR7/cy31bBJa0/xc7kzutguSBO2B52l8Dk3pOyNvwu8sz9OVRfPHHR1KkQSgD06lot0ke1mLrYIpZgb6eymaWr1Sf+e1CEM5mvfjxdmLKz3yNo8IgZDMsoQFUcPsobjuQKLoZxVF4gYar3bjYhiJM4ljymbL8SXqlb4l6TExA7fHYaCYyj/9O6rJKAYGNlErtiN83BRQHtfO1jELeBov2HHta4BfYkulFtXRVnynFzPqAc34w1rVEOuVYTNUevsBbPoZ8+mybEmnQY2jA0bHp9DNxhh5liIh3eMWRf+bikmWqeZynUYDI4WuWu4QPxGeM0Q78gAhBAqzeiblTE
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB12271.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(19092799006)(23010399003)(10067099003)(56012099006)(3023799007)(6133799003)(22082099003)(18002099003)(4143699003)(11063799006)(921020)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?2JOHJFQmJ5MVhka8lOJ/dGJlrGzBa0/A5jKeQIrXxsjT5AvStHYFBUfkUCV/?=
+ =?us-ascii?Q?cNgA8fWhMPVNpHiXgbqvxmokxpR28WcI+PBAcYgcHkYlH+eS+r8uSGiE88T8?=
+ =?us-ascii?Q?0ZwzdP8g4OA3w28ETctQk3W+YK/a+i0aP7pSM9GzH2dnwQt3amSeoek52OJP?=
+ =?us-ascii?Q?obZLTNtpxc3PbFwFUMS/SNIl+z0BtatRHNdJZHwKDnhUep3FccIV0ek9R60z?=
+ =?us-ascii?Q?bPoRf3/X4cUGY5eimB4klB4P0a5rf9qabJuhWiuJSa40jcPRkD9GXKzMWgwT?=
+ =?us-ascii?Q?d4inaH1ea57gmY59CnbtlNTilRDfeX7TnXcy5LvrjoZY7i9PEoDthKLP/38+?=
+ =?us-ascii?Q?Cvx6rxIYzDeNmR5Ac7oAq1bao5lf1NTDRb72pmwP3pXyjw57wtjfZT5T2ysz?=
+ =?us-ascii?Q?zOEG5C9bRTDiQUgtaTWksdrciApG2FYo+T5QiBkrKg3V5Dn83uAUYzYn4gK4?=
+ =?us-ascii?Q?Jh0aswjUV4db4gzmdgQ4bpFkBIAlq4Oj2qkBPXG0a7bRsXb7u9ny7aHYV6RH?=
+ =?us-ascii?Q?emNBg7SclYwFxpmpBp1aJJPgbvRTxF3y9yxcwFc/ad5rkoVWSi8hfoI7foCB?=
+ =?us-ascii?Q?3+cQfErhBGMVJJzCqmi3YajHzRQtYBFI0x25ndmpFEH7YTxIzwChLEr4VVDx?=
+ =?us-ascii?Q?Sz71rhtPasxkMN8Fa96mBlSTvc2PhZLqgt/3fksvuCXuBtGZfjFXhWCuFOY8?=
+ =?us-ascii?Q?XQlVofH6BVFB0kNgUfUIPnOtXf+lzuMbzqlWHhaLk/m4sAxihr5JAJiPn2ao?=
+ =?us-ascii?Q?Wdna+/y2EAYTD89WZRQd4wO3qF42d278kqOCvesf84RFJ2xEElAMRCPWf8en?=
+ =?us-ascii?Q?PHcbPdcsHT7zS6PU729Rtst5QRFY5bVRvyfosKDBx19Tn0zM8IwtgRh7pPYS?=
+ =?us-ascii?Q?zUiH6Iz9JLInV68k+1lec/lllyUhf0Sk4yw1cMAxFQ5/qFaGf/FPtGDYar9b?=
+ =?us-ascii?Q?LyFBweKXMoJF6ZFJwHsl7TtRg5IIVnLoxku7c3rvjN1LQD3/WW7FzTVvnBX2?=
+ =?us-ascii?Q?xRY1IA9GEjzXP+qy22B40OixvbosV4d4/LsrNX4yXF7SN2wNKHrOQogNUpa9?=
+ =?us-ascii?Q?JsizFqOG0mQq4XVEs80+iNxTsV1+KVsX8p/C6Jk0hKQXn8w/7W1/Qi3LY96k?=
+ =?us-ascii?Q?OjQ1eXJ9Nu5qJQ4AhKB0PavdY9bfMXg9rxpNYhfdvewUhcc6EMBeGJ+JSXo2?=
+ =?us-ascii?Q?oNmqI21ST+ol2aZsMdAdICTSRiJiGE7rElDiY1FgJENc245ar3FH9+PY5aLJ?=
+ =?us-ascii?Q?3fq9kVCypU5SCoDOddeFZj2F2M3pjRbaAP5nmcj34RWS3owBA3fSnZooiBBm?=
+ =?us-ascii?Q?0l1HQ1FZagBU3X02pNED58+1lyAUDdtm3E6P/JDe98e3VRZeP1wdwZ7mE0SZ?=
+ =?us-ascii?Q?eG0Y7lZ6pHb7Sa8Aa0KsCK4mZkxE3I+E2q59QPzU5XXSVqYv4Cre0Id69jO5?=
+ =?us-ascii?Q?QCM61pOs/dJSCO39sDtve/luMO/cIC/ZxomYPHoa8gj0ZR/+XMT0R6ka+K+A?=
+ =?us-ascii?Q?wQU0CnX8svMlnPVy3qK+jm+LXkbyzE1kubiAnObj/wI1v6zE1o9xSuF/ESfg?=
+ =?us-ascii?Q?vdZqysYyZQ08UTrU3i8z1t6ME1GJssMsJG2xcYhK9VZMON9Ww/gokCivsUrV?=
+ =?us-ascii?Q?fbpT4g3LPKMULiusD6TYEIK1Bed4tQxPrcNpQzIYstALGr1zfPr8CMuhWYjB?=
+ =?us-ascii?Q?1YAk8VPymgRMcEnWs9co6bwJQCX5lODLtFXoZVvOprIvp/Dy?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-MS-Reactions: disallow
-X-ClientProxiedBy: BN9PR03CA0293.namprd03.prod.outlook.com
- (2603:10b6:408:f5::28) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|MW6PR12MB8916:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3951ee8a-f586-4cea-8c7e-08df1a538978
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|4143699003|11063799006|56012099006|10067099003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	/DYJt0aMJ6rftIKDZrc71LKGQ4W8+lcZLcsIYkbZGdwY2zccTnAXJPeDfYA+Nziv5GZkLnvQvTmx1APX7yJ3Z0fM+V/7rX4pRa1ELWppgvJS/vG9tUooAjm7RWGR7HIdd0fcLYEG+/l3W162rN6m82GQSKUzJJe0duMhzZpruk33ZhmtId0c59DpSkdTmwVwC7/EWHgvCrExEXpc1Wp0I9Yn/uWNm7PUK+B2F7BKf6VjN1ye91ceps1/+oKvvFFzACjuuiRwo/gatru1OqVKDO3Kw8dQlO/I5gV1eOxQRErokp0seL+Cr2Xu/yNCTbSDW3xrNqUzxXfA9QtQheVpGMMcdElcfVoYBNVYyWrdLEPIq2FySzJ8Lt98mN4Zl7/CuafIDohKB+7KDJuqFf4h2bI/92aGToe+hrIIbvaXOtTcqWziVak3sSDBxhLv+eTzciaUZCg0Fdqs5PCgy+8107nhabOQpkmMYDtABZhWaTFtsTvILoUSJfnOL0Pgol1NQrb3cSe5L3Nokxc7mf6OhuEi8lLzCUzOF2g6a6iWcbNIfeAtS42t/GmePumu8JZUjyDTvdhBrF8zUIrYov9hPRmGQnPFRWxf2BIHY48qxD0KAo0giYL6nCSgM5SUFXYSb8SQqPqIwTUM9jAX+BuUHU/esSPwNYZhC91uhPadmSI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(4143699003)(11063799006)(56012099006)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?JeJopQ5lfzE2bWSt/Rmd4DJiBX+xQ19R2cjS+3FNRB+VOfKsUyKVeiFNfFto?=
- =?us-ascii?Q?T1itSYQafYF82gHn8U/jUnW67ukMkUbFi8Vu9CYzq1vn+3bWo4drKKtbALjw?=
- =?us-ascii?Q?KhfgmQ6QO49d4xP6qbULxYFHNd3rJfmlsPDTynTfcj3eYuHBpbNZ/FHpvuuW?=
- =?us-ascii?Q?jx8R/J8gwSksEqNxwNHHWqCRJaSqzpQUvQD1uYeRxCuMVwhnaGTmmmhXaJ8B?=
- =?us-ascii?Q?GpnPmHPbShhZt0cD5onLQVoSD2RQxTcZ1wtiUfDNMoZkjWs9HeIHSCdM8LnT?=
- =?us-ascii?Q?bWk9ZSa8RsOPzvBbh6t++9lCMFGWE+lxd7KOgmnhH+Z/e2pyIGslV/2XCH3p?=
- =?us-ascii?Q?10qTuQyYf46q1PWd+O+DpXx/OiPIRgz8QgCI3xAU2KoZuG7E4sFdIdAuU/YK?=
- =?us-ascii?Q?of8TmfHniOwk4udbD+3+WEpEZ1jAgLASY3Mn2rq+ax5W2mti4qKiv76ax1Bi?=
- =?us-ascii?Q?9xh15nVXYneJTZbzYrXbmQyLdMe11FsPqUrdO/WrifsHtJjJzU1wKLK6Qu+Q?=
- =?us-ascii?Q?mCbA9fO5wRlkM0KBUwsrjpfAQOy3JmuuXU+wlQ+YGtVN7DzGQHfEohi19cpz?=
- =?us-ascii?Q?zwCeZvmO3V2UlMi5Jz0Kou33OUISZfBL5F7BWfZnl0b0K4/9KKFF2TQOiXv9?=
- =?us-ascii?Q?+QnbqDy+2Tr2KB8Ecsi5gbY3Kf8g2fyyN7Q7w99XI8HcacYOsvIwckOjl/IJ?=
- =?us-ascii?Q?os5jKc40ERkR5sbb3+ESbwM0hYcqv5xoqEZfQrGWfsW3ohtHKPgjXK7KIR/Y?=
- =?us-ascii?Q?RZL1hmRqnyloks/PznSICTu+x1FzulX1U/OrjHJyVHTUVRzb+dmI8vhrZq+/?=
- =?us-ascii?Q?iRX9w0H6ioRV//gYIFyrlLEu8TnyFPGUJzFyq7dU72ahIq9qwYCOyfbbXXH4?=
- =?us-ascii?Q?WnzHlO2Yut+2wTg1HvNOFxR56rQzcUVaMUov+qmIs8g5RD6E4JduQR2l/MHP?=
- =?us-ascii?Q?rtQCOcvitugM8YnO2pvWw+csx8n6oAWxf9rShnPLlbtiy6nzSeKh1JJnUVEX?=
- =?us-ascii?Q?BKu/1bACk6Pv2yK1ULFYmtgqUn4blD14c6U/LyvB90zdqt+2OO4K0xUO7plR?=
- =?us-ascii?Q?Y+AANLdWHtQcQWlsnzy8uZP3hAfZAbukv/aeu8Vd9pjWHQp4Q4/uGoL1MO3B?=
- =?us-ascii?Q?J3AvVrB0dcjCT1Oq/Y7YjXUFsfneZZLLzzjqZCXFv1GlspsxXGS9JT8PfVam?=
- =?us-ascii?Q?X50c5hH2anHbHVX65jlJqPa4y8jQbciLyrW5LjjfTVo8jTBUXqd0B4nRNySH?=
- =?us-ascii?Q?H5W37HtIv9R9zRrkAy3Y2WlUgHG/Ar0b76YR/gKmiPEBSoTYakyg8J8W1IyU?=
- =?us-ascii?Q?lDrhzr0q5X4PqS6vEhYdqHU85i+knwTMxAko+Py+Yvjt+ZBmipxC3Tytglqa?=
- =?us-ascii?Q?RcdCNcGHT55EDiB6IUqUL5/j/Xt80zy+FaNXnuuojKXc6xQjwhynj9qHW68z?=
- =?us-ascii?Q?+wQ2KlVlj8zp+J7MEpam2sp4fniY1miJYDZnd80O5AJO0Zo1a4P+YCCZg9uq?=
- =?us-ascii?Q?iNW5w23JZ7nokJfdxTTPHyo1W6+E2TYT3XtDWlY0JD0IUxmjduxz3jS9y4oX?=
- =?us-ascii?Q?blHc8YtDIVKjGyNgi7wOCpytbjdw2TN3Du5S93jmTOTFHq8xmrbOPTcnrcOc?=
- =?us-ascii?Q?aKBYmVL0VeNadD7HwwdJJMzUEHIrCihidb0S2x3tUv/NsceCCg5RfuIeFfd0?=
- =?us-ascii?Q?7Vy3JTwd09vU9/v86yNsbGr1jdC72MzbQfSI1ldMp2FAgNAFWSfgJddGaviK?=
- =?us-ascii?Q?PZRpuHwfVA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3951ee8a-f586-4cea-8c7e-08df1a538978
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 15:50:20.2851
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB12271.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e7e6902-3a48-45f2-58df-08df1a56ee24
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2026 16:14:37.4212
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zN/2ejWQwO24ocq4CdeF4UkGV6z628t5mCXiPUme/B7EMRlZTdImbbwwAf3STLlS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8916
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HJuOA7BU5KgLVJCaPf0Hieo85OV1M67J234q88V3I7JFMSfiwqvbCtQHVVdhukgI0yqr6ApXYxYPNvztL1g3dA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8267
 
-On 24 Sep 2026, at 6:21, Lorenzo Stoakes (ARM) wrote:
-
-> On Wed, Sep 23, 2026 at 04:06:14PM -0400, Zi Yan wrote:
->> On 17 Sep 2026, at 12:22, Lorenzo Stoakes (ARM) wrote:
->>
->>> When performing mlock() or munlock() otherwise normal VMAs have VMA_I=
-O_BIT
->>> solely to fix a race with migration which might otherwise double-coun=
-t
->>> mlock VMAs.
->>>
->>> This is unnecessary - at the point of applying folio mlock state, whe=
-ther
->>> setting or clearing PG_mlocked, we know whether or not we are locking=
-=2E
->>>
->>> Solve this in two ways - thread a boolean through the page table walk=
-
->>> indicating whether a lock or unlock is being performed, and run a loc=
-king
->>> walk with VMA_LOCKONFAULT_BIT set and VMA_LOCKED_BIT cleared.
->>>
->>> This state never occurs otherwise, as VMA_LOCKONFAULT_BIT always impl=
-ies
->>> VMA_LOCKED_BIT. These are also always cleared together.
->>>
->>> Then, update folio_add_lru_vma() and mlock_folio() to check only for
->>> VMA_LOCKED_BIT, and update try_to_unmap_one() to check for VMA_LOCKED=
-_MASK
->>> instead.
->>>
->>> Also remove the useless invocation of allow_mlock_munlock() which sim=
-ply
->>> returns true if unlocking and instead rename it to allow_mlock() and =
-only
->>> call it when locking.
->>>
->>> Finally, with the other mlock abuse of VMA_IO_BIT addressed, update
->>> mlock_vma_folio() and folio_add_lru_vma() to simply test for
->>> VMA_LOCKED_BIT. munlock_vma_folio() tests VMA_LOCKED_MASK instead, as=
- an
->>> unmap racing with the locking walk must still munlock folios the walk=
- has
->>> already counted.
->>>
->>> While here, also replace some deprecated VMA flag predicates.
->>>
->>> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->>> ---
->>>  mm/folio.c    |  2 +-
->>>  mm/internal.h | 10 +++++++---
->>>  mm/mlock.c    | 51 +++++++++++++++++++------------------------------=
---
->>>  mm/rmap.c     |  4 +++-
->>>  4 files changed, 30 insertions(+), 37 deletions(-)
->>>
->>> diff --git a/mm/folio.c b/mm/folio.c
->>> index 47a437e0f7fd..35e242b48870 100644
->>> --- a/mm/folio.c
->>> +++ b/mm/folio.c
->>> @@ -505,7 +505,7 @@ void folio_add_lru_vma(struct folio *folio, struc=
-t vm_area_struct *vma)
->>>  {
->>>  	VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
->>>
->>> -	if (unlikely((vma->vm_flags & (VM_LOCKED | VM_SPECIAL)) =3D=3D VM_L=
-OCKED))
->>> +	if (vma_test(vma, VMA_LOCKED_BIT))
->>
->> I think it is worth documenting VMA_LOCKONFAULT_BIT alone means mlock =
-in
->> progress, like you did in munlock_vma_folio(). Just to keep the protoc=
-ol
->> explicit for all the readers.
+> - Who has reviewed the user interface from outside of NXP?
+>   Since this is not a vendor-independent API, I think we have
+>   to be extra careful and make sure this does not duplicate
+>   anything that is already in the standard firmware interfaces.
 >
-> Well I'm not sure it's necessary here honestly, because this never chec=
-ked
-> VMA_LOCKED_MASK anyway, and VMA_LOCKONFAULT_BIT never made a difference=
-=2E
->
-> So the meaning of VMA_LOCKED_BIT here is strictly 'is it locked' and it=
-'s
-> correctly handled.
->
-> And I fear that it becomes whack-a-mole - the neat thing about this cha=
-nge is
-> that you no longer have to special case the stupid VM_SPECIAL thing, an=
-d can in
-> fact do the 'normal' thing of _just checking_ VMA_LOCKED_BIT :)
->
-> So I think it's better not to.
+> - Why is there a low-level passthrough to the firmware from
+>   userspace? This looks rather irregular, since it is the kernel's
+>   job to abstract the platform and provide vendor-independent
+>   interfaces. In particular the bit about shared memory and
+>   the generic send/receiv ioctl look like they should not
+>   be there, as those would allow side-channels from userspace.
 
-Your reasoning makes sense to me.
+Let me answer at the level I think you are asking rather than with
+driver internals.
 
->
->>
->>>  		mlock_new_folio(folio);
->>>  	else
->>>  		folio_add_lru(folio);
->>> diff --git a/mm/internal.h b/mm/internal.h
->>> index b2c6c9435021..84aa3e6c8bac 100644
->>> --- a/mm/internal.h
->>> +++ b/mm/internal.h
->>> @@ -971,8 +971,7 @@ void mlock_folio(struct folio *folio);
->>>  static inline void mlock_vma_folio(struct folio *folio,
->>>  				struct vm_area_struct *vma)
->>>  {
->>> -	/* The VM_IO check prevents migration from double-counting during m=
-lock. */
->>> -	if (unlikely((vma->vm_flags & (VM_LOCKED|VM_SPECIAL)) =3D=3D VM_LOC=
-KED))
->>> +	if (vma_test(vma, VMA_LOCKED_BIT))
->>
->> Ditto.
->
-> Similar reasoning to above.
->
->>
->>>  		mlock_folio(folio);
->>>  }
->>>
->>> @@ -989,7 +988,12 @@ static inline void munlock_vma_folio(struct foli=
-o *folio,
->>>  	 * always munlock the folio and page reclaim will correct it
->>>  	 * if it's wrong.
->>>  	 */
->>> -	if (unlikely(vma->vm_flags & VM_LOCKED))
->>> +	/*
->>> +	 * VMA_LOCKONFAULT_BIT alone marks an mlock walk in progress, see
->>> +	 * mlock_vma_pages_range(). An unmap racing with the walk must stil=
-l
->>> +	 * munlock folios the walk has already counted.
->>> +	 */
->
-> Here it's worth mentioning, as it's specifically relying on the new
-> behaviour. Although it's neatly using the VMA_LOCKED_MASK to handle bot=
-h the
-> locked case and the 'being locked' case :)
->
->>> +	if (unlikely(vma_test_any_mask(vma, VMA_LOCKED_MASK)))
->>>  		munlock_folio(folio);
->>>  }
->>>
->>
->> Why I am commenting in the middle of the series? Because I am taking
->> a quiz given by LLM based on this series to get myself enough backgrou=
-nd
->> knowledge to review this series. This mlock part came up at part E
->> and I only have part F left before I can do the full review. :)
->
-> Thanks! :) I really appreciate you taking the time to look at this! Sor=
-ry it's
-> so large.
+On review from outside NXP:
 
-Sure. It is great learning material for me. Thank you for the patches.
+- Marco Felsch & Sascha (Pengutronix) reviewed the interface
+  across earlier revisions and I addressed their comments, although
+  it carries no external Reviewed-by.
 
->
-> I held this series back from last cycle to help with review load, then =
-spent
-> some time fixing various AI-discovered things, and all the patches are =
-necessary
-> (well for the most part) to get where the series needs to go.
->
-> I think the change is worth it though!
+- Rob Herring's Reviewed-by on 2/7 covers the devicetree binding and
+  Frieder Schrempf's Tested-by on 3/7 confirms the driver works on his
+  hardware, so neither is a review of the ioctl interface itself.
 
-Of course, great to see hacky code being removed by this series.
+On using standard kernel interfaces:
 
-For this patch, feel free to add
+- I am not proposing the miscdev as a replacement for existing kernel
+  interfaces. Where a standard abstraction already exists, I agree that
+  it should be used.
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+- Fuse/OTP access is already exposed through a standard nvmem provider
+  (drivers/nvmem/imx-ocotp-ele.c).
 
+- Some ELE services, such as key sealing/unsealing and random number
+  generation, overlap with functionality already available through
+  existing kernel frameworks.
 
+- The remaining functionality is the secure-enclave management plane:
+  key-store provisioning and reprovision-enable, persistent key-store
+  migration, signed OEM container authentication, device attestation,
+  and lifecycle transitions. I am not aware of an existing generic
+  kernel subsystem that models those operations today.
 
-Best Regards,
-Yan, Zi
+On what is NXP-specific:
+
+- The cryptographic services exposed through userspace are accessed via
+  the PSA APIs provided by imx-smw rather than applications directly
+  issuing ELE-specific commands.
+
+- What remains NXP-specific is the secure-enclave management layer:
+  provisioning, attestation, lifecycle management, OEM container
+  authentication and persistent key-store management. I would rather
+  not define a cross-vendor kernel ABI from a single implementation,
+  but if there is a plausible shared model across vendors I would be
+  happy to work towards that instead.
+
+On passing commands rather than abstracting each operation:
+
+- The ELE firmware ABI is large, versioned, and evolves independently
+  of the kernel. Defining a dedicated ioctl for every firmware command
+  would effectively freeze those command payloads into the kernel uAPI
+  and make firmware ABI evolution a kernel compatibility problem.
+
+- The ioctl is a transport interface rather than a raw firmware escape
+  hatch. Commands are validated and constrained by the driver before
+  they are forwarded to firmware.
+
+- The stable part is the transport API. The ioctl numbers and
+  structures do not change per SoC. Per-MU differences (interface
+  type, message tags, base FW version and messaging API version) are
+  described by driver data selected from the DT compatible.
+
+- Discovery ioctls allow userspace to determine the SoC and messaging
+  API version it is communicating with rather than assuming them. In
+  practice, supporting a new MU or SoC is a matter of adding driver
+  data and a DT compatible, not changing the uAPI.
+
+On the side-channel concern:
+
+- The kernel's role here is to enforce containment rather than to
+  reinterpret each enclave operation.
+
+- Commands are validated before being forwarded. Commands that are not
+  explicitly recognised and permitted by the driver are rejected.
+
+- Shared memory is allocated per file descriptor, so one context cannot
+  access another context's buffers.
+
+- Userspace never hands firmware an arbitrary pointer. The driver
+  allocates and manages the shared buffer and validates all embedded
+  addresses against the owning context before transmitting a command.
+
+- Consequently, userspace cannot direct firmware to arbitrary physical
+  memory, cannot access another client's buffers, and cannot submit
+  unvalidated commands. The interface is constrained and mediated by
+  the kernel rather than providing unrestricted firmware access from
+  userspace.
+
+Thanks,
+Pankaj
+
+NXP Public
