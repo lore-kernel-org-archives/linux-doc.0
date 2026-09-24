@@ -1,57 +1,58 @@
-Received: from mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
+Received: from mta1.migadu.com (out-32.mta1.migadu.com [95.215.58.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C18A3DDDB0
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 06:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78DD3DDDB0
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 06:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790230156; cv=none; b=Z+IhsBRh6eImMxQ2zVNGUs9YsvgGAxDO4a3FlWvCzwQIo2AYBkkim+clMSuDq/VKLn2yXDg7wm2aiTi3NVPnxHydA2wclky50RhiCM7KJIUiqnJtVj98djsBo5/+AI66P4paZJAaQhc1HTnofoT2Fi90Zj3++0HLnIiD1zgsb5c=
+	t=1790230178; cv=none; b=Tiue26wu+UUm//86qY+z1QBdAAz26Juk70oSN+KqywPQKNL4h4II8M0zBE6vqdcd1t0A15ZYZPZEX0zkza0BPYkQw8/8weKsrGwNy8Sgifb2kGMJRRPNUJJl9E5gMj45g3CMl64I/QxRCY4jSzw8ESbKa2oH6oO1+uur7F9A/+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790230156; c=relaxed/simple;
-	bh=XHpWqj04QFUErnLgPhyPwQH0c/whsMd8F/Sj8yIguRU=;
+	s=arc-20240116; t=1790230178; c=relaxed/simple;
+	bh=EAQiwSLU8WvEPiMz51OeeUlVyfvtoZuDVj/Ws6zFfEs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QPUjEZXRqtcQTnk1x5oUt03Ephv//4O31eTG5EedgWRhYBmh+S3K6zIFLRLP1wcVv5rN00G8odsTX4V7sBtTQ103yq5TAk1S/oPs9WTibwvyGuxnGYpm0pVEXlRqgkdjSjBI//37tPkTfZTCCfO3Lb2lu0HWEhdQq+od8WA3Pj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ejcTKwMt; arc=none smtp.client-ip=91.218.175.178
+	 To:Cc:Content-Type; b=ECBqDNNzF9eLuxbBqDM1sRrAJOs6Nbs+kXNcH8CLoHfS9sMP4beluFfPOHP3QQ5JvoKpjrdnFsCsUFjFv4teYoPRUA3qxK0wcJKA8V1k3+PqINdjzqRZ0owogt4PuFUiRj0ahA++ouijbLagqFLFZKvYMete4FXqUOHkHjiOVwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=p4tNoJ9E; arc=none smtp.client-ip=95.215.58.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ejcTKwMt"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="p4tNoJ9E"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=XHpWqj04QFUErnLgPhyPwQH0c/whsMd8F/Sj8yIguRU=;
+DKIM-Signature: a=rsa-sha256; bh=EAQiwSLU8WvEPiMz51OeeUlVyfvtoZuDVj/Ws6zFfEs=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790230152; v=1; x=1790834952;
- b=ejcTKwMtBm8IT6Ago+5H8aEkDxqaJgZb29nXk2BE+OWzmnXRj6VB2X7ruZiBe0iuCqd+nSB8
- pZ3c/jqxJE/wmKvIFz6F+46poCYJ+3tcOJv+9LLLe/lYjH7BHB1XIbNTkgandLXsVRETImACiFn
- dOpljZpmzMG+gnTfjiPeGSPk=
+ t=1790230173; v=1; x=1790834973;
+ b=p4tNoJ9ExEGaruESs/70oXmOmxrox4wjqiK/4myP6ANlEpKnZDfUB8wjK3b8+pY1l3kdN+jv
+ xMAQpbZxmhM+31Vvc+0lGpY2vBdwFO8uoWZD97+vugiH374ee7bcBjVEXYFrwaAykA+y+LI+3H1
+ Js6fX5kwRqELRKLvfSyOpz3E=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 0ceb4978c6ea2919;
-	Thu, 24 Sep 2026 06:09:12 +0000
-X-Mizu-Trace-ID: 0ceb4978c6ea2919
+Received: by smtp.migadu.com with ESMTPS id 907b09c9ec6f6732;
+	Thu, 24 Sep 2026 06:09:33 +0000
+X-Mizu-Trace-ID: 907b09c9ec6f6732
 X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5b5e5aaf7deso5691e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 23:09:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxX5o7FlMVLTOofRyx5vVIBHnJ/tDD0EV29ft2ncstDGPFwApafWzea2iwFvCFLwFy3385BccuXdko=@vger.kernel.org
-X-Gm-Message-State: AFuF++mzHNpzXNCitzysWQgVzjRxBGpRYIb2tnjs2xd3P9FWsf+zw3Xn
-	IDhAEIS2KBnyUeARNB6hJAgGWYlhuGXfixkSLLzEDjJpedOI0K4LRg6FRuzLYtATEcuROFMIS+t
-	YnFqJejLhxR4+BpxQRVK8kn2f2haQKTPW+mBKVKQ3
-X-Received: by 2002:a05:6512:2395:b0:5b8:b502:9a76 with SMTP id
- 2adb3069b0e04-5b8de5cbe34mr121752e87.13.1790230147200; Wed, 23 Sep 2026
- 23:09:07 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b5e5aaf7deso5709e87.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 23:09:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzNuvrXh3Mc9Q7nL/5KIDI0mgXOnSCzVfCo3sUJITNjiUKH77Q+DfmBcXJ1QIuXGWMU7OU1Rw7x+EI=@vger.kernel.org
+X-Gm-Message-State: AFuF++n6XtpDk/sL9zeld63E3slrbNV4cYJ/etAfJenRniLKHr6R9oVF
+	eL7adYdBg13lPeE/RcKl422kBjPWLYRR+xPOqWHN7rnUIEOLBFJgQ3c/N7IVCvbz/3pr53EfzYE
+	0cRsTyji13CiZ/Oi033B67L/Q4jQvZCjwRsXsoSVn
+X-Received: by 2002:a05:6512:ba4:b0:5a8:6646:d7b4 with SMTP id
+ 2adb3069b0e04-5b8de3bb43emr120128e87.1.1790230168511; Wed, 23 Sep 2026
+ 23:09:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260923-kvm-arm-prefault-v4-0-d4b0b4dfa8c3@kernel.org> <20260923-kvm-arm-prefault-v4-11-d4b0b4dfa8c3@kernel.org>
-In-Reply-To: <20260923-kvm-arm-prefault-v4-11-d4b0b4dfa8c3@kernel.org>
+References: <20260923-kvm-arm-prefault-v4-0-d4b0b4dfa8c3@kernel.org> <20260923-kvm-arm-prefault-v4-13-d4b0b4dfa8c3@kernel.org>
+In-Reply-To: <20260923-kvm-arm-prefault-v4-13-d4b0b4dfa8c3@kernel.org>
 From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Thu, 24 Sep 2026 07:08:31 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTyPsMQ-p4uRpHEd5sabKZPV0nuQv0VdoPWy7PpLtUe93Q@mail.gmail.com>
-X-Gm-Features: AclHuK_F7RRmcZYBgSNF-QK5bg4WxE50rqT6HjF75xbDwVFCBghG7Y9qfeVwzCs
-Message-ID: <CA+EHjTyPsMQ-p4uRpHEd5sabKZPV0nuQv0VdoPWy7PpLtUe93Q@mail.gmail.com>
-Subject: Re: [PATCH v4 11/14] Documentation: KVM: document arm64 KVM_PRE_FAULT_MEMORY
+Date: Thu, 24 Sep 2026 07:08:52 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTyPyy-Z=HAMOz6pUHrz_X4O+Lx3cQ6Ay_Wt+tnc1WDU_w@mail.gmail.com>
+X-Gm-Features: AclHuK8PM-gKMDq-u5QWjDRmdsBji-o2uwHNqiDgg3TNGtYz82rPBW9_kKwo1Hg
+Message-ID: <CA+EHjTyPyy-Z=HAMOz6pUHrz_X4O+Lx3cQ6Ay_Wt+tnc1WDU_w@mail.gmail.com>
+Subject: Re: [PATCH v4 13/14] KVM: selftests: Add option for different backing
+ in pre-fault tests
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
 	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
@@ -74,15 +75,29 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
 	Leo Soares Passos <Leo.Bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, linux-s390@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 23 Sept 2026 at 16:18, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
->
-> Update the KVM API documentation to reflect the fact that arm64 now
-> supports this functionality.
->
-> Also document error values and arm64-specific behaviour.
->
-> Reviewed-by: Oliver Upton <oupton@kernel.org>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Hi Lorenzo,
+
+On Wed, 23 Sep 2026 16:15:56 +0100, "Lorenzo Stoakes (ARM)"
+<ljs@kernel.org> wrote:
+[...]
+> diff --git a/tools/testing/selftests/kvm/pre_fault_memory_test.c b/tools/testing/selftests/kvm/pre_fault_memory_test.c
+[...]
+> @@ -189,24 +195,28 @@ static void __test_pre_fault_memory(enum vm_guest_mode guest_mode, void *arg)
+[...]
+>          test_config.test_size = align_up(TEST_BASE_SIZE + test_config.page_size,
+> -                                         host_page_size);
+> +                                         mem_page_size);
+>          test_config.test_num_pages = vm_calc_num_guest_pages(vm->mode, test_config.test_size);
+
+With -s anonymous_hugetlb_1gb, test_size becomes 1G and setup aborts
+on 4K guest modes, as memslot 0 has no room for the page tables that
+map it:
+
+     No guest physical page available, min_gpa: 0x180000 page_size:
+0x1000 memslot: 0
+
+As a followup, could you compute test_num_pages before creating the VM
+and pass it as extra_mem_pages, as arm64/sea_to_user.c does?
 
 Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
 
