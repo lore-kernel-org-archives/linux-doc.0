@@ -1,222 +1,294 @@
-Received: from mail-ed2-f35.google.com (mail-ed2-f35.google.com [74.125.228.99])
+Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24249481647
-	for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 23:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.99
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790205021; cv=pass; b=sClwTBJpu4e8qY6Iru/qkaoeoOXIhY/CXzac595IX+QzO6TDjkfSsrG42pNwW7wZ28TF8PNXxrTgUUNYmRG3i+G1Nm5Q5+PyyRUrMYUBd2SaxeHcmsvyVsyYkveYr0dh533dAFgkVMJB68lgCXA1/f5Yx7uBrI/WawVtIPaa6TY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790205021; c=relaxed/simple;
-	bh=pA02lskqEBJ7xcsCEpir2dIlgRb+8WSAXZpU/r56rPI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UN3H924Vry3Vy7VjpoJKhT5aUTzksqERRu3GlZ82FyuorjJGBZHvHfK/QvI20Wt4O80o5oz79HSwv/1TZchRIn+xqjLGBjTKUanjg70HI7jlfH+sdgso4Db6oJULHFehm1d/nA3DJEwaaD9yMOZY5sZqR4ySXE2fb/+xvHwNzHc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QORHoqjV; arc=pass smtp.client-ip=74.125.228.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C302ECD35
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 00:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.76
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790209470; cv=none; b=TOW1ulG7V+r9Gj7URmCQ4ixLd88x0XiaQoEeE2Q+aAXP/6TaOY0rMX++xSeiC/kYzPBVQZ+N3xfyJ0AOkD2fSZQbOskqKJ0tRy/bWeja9yOTKIPQTSD3KLrZEv19VjoWctan8eb6t/ZMD9rMtHy0hhu+K10XyZrKTHywyUIxLeI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790209470; c=relaxed/simple;
+	bh=O1qzz4udeaHiCBtWLNhPqgQhh0np6y2v1Qblzap4ubo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u8oxIrgQ9C8yMEzWQnXnAH7LO5HszFf9B9UD17dxmyAxQDY6Zh12c7Bc8zPpRTmQ8vOiIrsBvdq0dVyAtJk9mlH1H+j3lzEmmYNK/4eb5cYUCKYRC7uK2KsWdmeSMOM61k7qRZWJB4su1KbNcZotsGsSdvXe5qwA+T9vSXeXapg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tLKAduNk; arc=none smtp.client-ip=74.125.231.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QORHoqjV"
-Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6aa1da63791so2189889a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 16:10:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790205017; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KUmfqGXFbqVqAsA0tX6bZSfPUnSh8XZutfOAdhjoesPll1c4yFspLSQNv2Uzo1Ln8t
-         OX8yvP8miis6eHkl3e4gcxrcYNFxQnnh9trWZ9EodtjcirC1Nze4U+m7dx1ISN5eZ1O0
-         rmN4Yu99cpJK4T+JkuYC4emT51L8nNnpS7PPnY5TPvLnhSeObqnM2EK4VInW4SOpQYv5
-         F9jieb4/tprRbLrDNM2O4TfDtWh6YXsgqBSjqk60eXiAT/c5mUzf/mtnuYBMzt4MRKdi
-         opnZOX2by7eLOxBS+OVbylbq+sZo174+rEK3BiuCpVnS6GSOuP2Ms96E9/6gQYNR31/Z
-         9fkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=v8CDt3YaPNv1qQdHjAb4WFBPEg/nrTUGnlyKUfZeYLw=;
-        fh=9nD0sjkMnQkZ0EKriz3aiwqem0hrKmffTcTXZrKIgt4=;
-        b=gctBREr41x/l0iJAkaGI8fvUQcITp2HXTMrBMXHygTgf/WSf7hWjegU1w+5EZ2GbgN
-         NGbSv4qFmtwW63bNvqJAFSQfkAH9F1HXvEwgvmcgl4/DwOIE+0XO4MoEuSYrbXgReTmK
-         rTzHIq2pRK32ni8WJlUg0i6gce1keZQqc5zLp8sWcXIffh/OnygJPK5MyTWHXfegbC/D
-         iMpPY0VM0Lb14pYLRnQ5rxqFgW3eA8J+Y2cbP0C2qOke/XHSWJswxLpkNFnqqoWcxnf1
-         +5bcyKjcENc0pd6oOyeaG3ejViptQmV1K3PMpo+n8kLhQz2eK9e8C7B//M8kAdOCE8h6
-         vCFA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tLKAduNk"
+Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-46accbdfb21so1372754fac.1
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 17:24:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790205017; x=1790809817; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=v8CDt3YaPNv1qQdHjAb4WFBPEg/nrTUGnlyKUfZeYLw=;
-        b=QORHoqjVPTTcJfyGc1AeBOqQ3nh3x5JsvFUo29nuD8Kf1uqSsim/YDnrBtP0mf6/nJ
-         j9A2so7EEBaDxmCZ3rTCx3yA1GMY7TkRdYBYrPHc7Gba3YRWt2aSowYqxZIDWtBa/JNz
-         e7KKwG5p09dXcUTtJKoMtqDvLLEBXn2qtIhUZrB1zBfb7XcS7lv3MtZY08StClB3UyU2
-         ty7BZcOEuzIP3C+R6LF1fzgpdLXqrxgMfpS5Lendu9G+oh8+e5ostj05fIbWGgzanlQW
-         uBNwn9arzBfgD7cVdDLKRlvGlX4iIgu6O7rZCLZ5hqqXM7JTFBZeuHwHJYrCize1Z33R
-         NMQQ==
+        d=gmail.com; s=20251104; t=1790209467; x=1790814267; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VaNhGxWDXoFu7JrvArFM0xuuSaYLknf+AiNAGeHpOlc=;
+        b=tLKAduNk74m4FZjjhHyzJ7fyOjIvZHucIau8VQ5rD/nN4RbPwE2KwfNNPDW9tAwSF8
+         DFyZUHBaAS3+7eJL6drUNF+dTQAKK32oP3dSuSFObyw9kyP8ETaDSPr2Qn9rjc9LNN7I
+         k09EwSLr72mZSIqxmv3/OI4v5K0k7hDz7aNhxwUf6lKAspHuzzuYkoW9M1FFKOYsN/Ih
+         BIk3pf2N/phxsZlKSXQrvj4scX7TZRrfaE5lbSvf9mH/DeKwh0Z/IKG/hz8c4IzdbE9Q
+         bCUbvaODcmTGNAiAOdOrXtD5IIbaNtv9u/WlOn5X7q+Ngs17BSusJ2QLjhHOFEPerAW3
+         qi0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790205017; x=1790809817;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v8CDt3YaPNv1qQdHjAb4WFBPEg/nrTUGnlyKUfZeYLw=;
-        b=cnx0H8dYrIVUZJV9erV8zM0chY8VK7SJSoV+YdlJl9IpbNyRLrujwB2KS6XpUzm1IA
-         z9hzPipQ9b6wCuXEgqIc+R9N+Z7eoIxRDzYED+zn/dqg/aE/LNedU29yjBr5YJZjT48+
-         oUhH766SoFvXGylAb4vzRUtOREFf51UrPdHUzRC67vKCwq7Dz2ncdmGskA55qESfFoCJ
-         RbOoqV8FFQ+VR2DSmAxhpwTqP+UbJGFrCUrTlm48xE25X8o4qPIOL2F6SZemgq5Ye8c2
-         zKE6BptwcwqZvE57siYX2q9bqywlRi+zRpnhNvo4T6vwZg9KDFtoKLs8uvy3Gn6EjGS6
-         U9tA==
-X-Forwarded-Encrypted: i=1; AKwUvBw0ZIuhQ6aCokINVMmCMZyUPmAmv6FGw2ZrUZLZB1ZWQysu0RAI2VyywbDFbESuSBoBnXuxkU6LpNQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++lEI7elcOrVm1Z+SDWdBdbkrBohGPGlfp8NKifo17SkbMThM2C9
-	jeM9hq7E13isUaazAYcmJWIvrRwPe1+xmqpy2M59bHbGu6DQryNGpyq0CkHsAWMCGe0st2A6eAc
-	6NJROPXFo9Ve5i0wewUN6BriM+Y7A5S0=
-X-Gm-Gg: AYBFou1mvAs/O4w6FkoxRqkZi/X8nz7dSPS3Uu1m2xdRWF8dHUhwE31B7N6uUAnihr+
-	jxuV1LDu8RhOik5Hpj/V0UzFbzXf8o9Ek3jdVIvPSScPqMHpi4UvrGenPGpHsRUmEbdOFGQA0fL
-	jIYEZfU9L+ZR9oqETmDFV62BbasqeagB7AaHxJxA4qHYiH7mvjrl0AO9zNQSPO3R04n1A0oaj+k
-	GZ/TcZbIbDQRthgc62noqK52cmEvUG9DAxSHPmjlDpyXKbe7WKFb3NT75HdIl4BVzKvvm59x/8z
-	qk2qdlJyeae3HrYWU9mkPTZmOZg6uEwSNwv2cqJxWtAU3H2N/fuEPlN3CM3oZcplBeel/0vUeMd
-	KO7boKitAwVfpc2o/eo3+3Lo44jTyRbqVR1+1skiSd/s6hVMxNUQ=
-X-Received: by 2002:a05:6402:51d0:b0:6a9:adea:42e2 with SMTP id
- 4fb4d7f45d1cf-6aac90b61ecmr489913a12.39.1790205016790; Wed, 23 Sep 2026
- 16:10:16 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790209467; x=1790814267;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=VaNhGxWDXoFu7JrvArFM0xuuSaYLknf+AiNAGeHpOlc=;
+        b=hkgydcOuESOjhHk4cJCqXljvG7K3asma5cLCjFGQUxuCCgUehePLdrW3Tc+VKImycf
+         WtlooZ+qW2KZn42pXP9S/ZsQJscnsSmZu6Lm69Ow3LUu/s+H5mnwnwql4cyMbr4UkdAe
+         MhQ015NiyrIQevTOU3DOgXiuZn5yNAQt1toda1D8UBDNar5zzkcw+jMmoshhqFbbAXe+
+         hSmKScgt8Q9tenEQ5ywx/4kcsQrFD89rxQNTBrFZ1aedqusjYIhFtFqkNbK/QpnemJdZ
+         X1P5l9Ba8TErQJtvQbJQwz/B0RVpoVU/MZMc4OdOBNHL/jvz4i0SOhrsEvpNCuws8il8
+         G8Sw==
+X-Forwarded-Encrypted: i=1; AKwUvBzZyPgXOQPxl/o+aZ/xi+QH2Em9YBOkwyZ5YPE1N3mH9N6zoas/ZU3/IlhKqjJqBfI08g5JzuSZw5Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++maM7zUzZfG3JMdwWt6GeaAG90L4qToTI6DDyrWjfbOYZvoSkw8
+	lDMdSuQRF9US0/oOSajwupNZa2JGjN7uWBLTWuqMZw4lRPsnNaoG+7+O
+X-Gm-Gg: AYBFou1j1H78zS5Cqm6/BUpb0smg8uxQdWHpP1qT7cM+b8t6gjMBGucVlp+yR2mJ5Q0
+	CiXphL5OZGasnKjBIa3oF9/8ugEuG4pyI8G917Lb9dznpggwDS0huHMUWMG3Z/cDZ2NaPaykmMs
+	kyw3kv71oEjkZ9iV7OAi+Fw7b1C650y69lN/8oS5jy98ZkFq1NxsMRfK+tt///Qw+w9UMBHl2EX
+	W+WXk2nHpI4PC9uYb9gtf+iNYUMoJG6IA7hJLFrc1Huezmk+ZEsin3I5pp0a6lEh4OahaR/CgAn
+	2uPvU6nF9AA0NVrw14Ie0/MYd/dGEEbIwfMI47GKlIl5HoZ0LmnlCrQLejEgozDRtJGIClHRlbV
+	4v8vrP97I8793MGPw6WP2ZS0mhdwpa6Z/YGimCfiQNUhE1YoZDO8Cz0M589TJiWuvSMfxHFMf25
+	y2oAtWao50gzTU3V4/o0bqH5iJqUb6onWkGikXB42QkGynWhR6Q7JWxeQEuLi+XwMpK3TzFaIh4
+	3f+zQyXhAdzEAX0w5w=
+X-Received: by 2002:a05:6808:1994:b0:4d6:9355:7543 with SMTP id 5614622812f47-4d731545ff8mr956682b6e.62.1790209466617;
+        Wed, 23 Sep 2026 17:24:26 -0700 (PDT)
+Received: from devvm29614.prn0.facebook.com ([2a03:2880:ff:f::])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4d5c1b305b8sm3689133b6e.1.2026.09.23.17.24.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 17:24:25 -0700 (PDT)
+Date: Wed, 23 Sep 2026 17:24:21 -0700
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: netdev-bot+sashiko@kernel.org
+Cc: sgarzare@redhat.com, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net, skhan@linuxfoundation.org, stefanha@redhat.com,
+	mst@redhat.com, jasowangio@gmail.com, xuanzhuo@linux.alibaba.com,
+	eperezma@redhat.com, shuah@kernel.org, rdunlap@infradead.org,
+	donald.hunter@gmail.com, virtualization@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com,
+	sdf.kernel@gmail.com, bobbyeshleman@meta.com
+Subject: Re: [PATCH net-next v2 6/6] selftests/vsock: test the netns assign
+ privilege checks
+Message-ID: <arRttf9k4yKahe4R@devvm29614.prn0.facebook.com>
+References: <20260921-vsock-guest-ns-v2-6-693bd78fde9e@meta.com>
+ <179019126776.2160803.16648507383433583043@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260923090429.2026529-1-stian@itx.no>
-In-Reply-To: <20260923090429.2026529-1-stian@itx.no>
-From: Magnus Lindholm <linmag7@gmail.com>
-Date: Thu, 24 Sep 2026 01:10:04 +0200
-X-Gm-Features: AclHuK-KybeTuS6nn3jFipLShTCPHEka3TcKpFAC6yT0fDrbo9S-DWDh19_uFiI
-Message-ID: <CA+=Fv5QKMaMGaLO3gKymSv7FVhHMMYxM8ux0S5dTKB26nQeAQw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 0/3] perf: sparc64 user regs and stack dump, with
- arch hooks
-To: Stian Halseth <stian@itx.no>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Andreas Larsson <andreas@gaisler.com>, "David S. Miller" <davem@davemloft.net>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-perf-users@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <179019126776.2160803.16648507383433583043@kernel.org>
 
-Hi Stian,
-
-On Wed, Sep 23, 2026 at 11:04=E2=80=AFAM Stian Halseth <stian@itx.no> wrote=
-:
->
-> This adds HAVE_PERF_REGS and HAVE_PERF_USER_STACK_DUMP to sparc64, so
-> that perf record --call-graph dwarf and elfutils' eu-stackprof work
-> there.
->
-> Two things about the user stack dump do not fit in arch code. The
-> sampled register window's %l/%i registers, which hold the frame pointer
-> and return address the unwinder starts from, stay in the register file
-> until a window spills. The kernel already flushes them wherever it
-> exposes user stack memory (perf_callchain_user(), ptrace), but the stack
-> dump has no arch entry point where that could happen. And a 64-bit
-> sparc stack pointer is biased by 2047, so a dump that starts at the
-> register value begins 2047 bytes below the frame, and is empty when that
-> page has never been touched.
->
-> Patch 1 therefore adds two hooks in the style of perf_arch_misc_flags(),
-> both no-ops by default. Patch 2 is the sparc64 implementation and their
-> user. Patch 3 teaches tools/perf the sparc registers and DWARF unwinding
-> from the dump. The matching elfutils changes are attached to the
-> tracking issue:
->
->   https://github.com/sparclinux/issues/issues/99
->
-> Tested on an UltraSPARC T4-1 on 7.3-rc4: register values check out
-> against known contents, --call-graph dwarf unwinds correctly for both
-> cycles and cpu-clock, as does eu-stackprof, and perf stat/record/record
-> -g are unchanged. Starting the dump at the stack's actual address
-> matters in practice: with the dump at the biased register value, 94% of
-> the user samples of xz -T4 had an empty stack dump; with this series,
-> none do.
->
-> Changes since v2:
-> - Patch 1: add perf_arch_user_stack_pointer(), so an arch can start the
->   dump at the stack's actual address (sashiko review).
-> - Patch 2: drop %g0 from the uapi, as trap entry does not save it; the
->   PC takes its slot, as on mips and loongarch (sashiko review).
-> - Patch 2: start the dump at %sp + 2047 for a 64-bit stack (sashiko
->   review).
-> - Patch 3: follow both, and comment the max_dwarf_reg adjustment (Ian).
->   Drop the memcpy() change to memory_read(), which the unbiased dump
->   start makes unnecessary.
->
-> v2: https://lore.kernel.org/all/20260922201507.1719668-1-stian@itx.no/
-> v1: https://lore.kernel.org/all/20260922135653.1622301-1-stian@itx.no/
->
-> Stian Halseth (3):
->   perf/core: Let an arch prepare and locate the user stack dump
->   sparc64: Support PERF_SAMPLE_REGS_USER and PERF_SAMPLE_STACK_USER
->   perf tools: Support sparc user register samples and dwarf unwinding
->
->  .../features/perf/perf-regs/arch-support.txt  |  2 +-
->  .../perf/perf-stackdump/arch-support.txt      |  2 +-
->  arch/sparc/Kconfig                            |  2 +
->  arch/sparc/include/asm/perf_event.h           |  5 ++
->  arch/sparc/include/uapi/asm/perf_regs.h       | 34 +++++++++
->  arch/sparc/kernel/Makefile                    |  2 +-
->  arch/sparc/kernel/perf_regs.c                 | 74 +++++++++++++++++++
->  include/linux/perf_event.h                    | 11 +++
->  kernel/events/core.c                          |  2 +
->  kernel/events/internal.h                      |  2 +-
->  tools/arch/sparc/include/uapi/asm/perf_regs.h | 34 +++++++++
->  tools/perf/arch/sparc/include/perf_regs.h     | 18 +++++
->  tools/perf/check-headers.sh                   |  1 +
->  tools/perf/util/dwarf-regs-arch/Build         |  1 +
->  .../util/dwarf-regs-arch/dwarf-regs-sparc.c   | 12 +++
->  tools/perf/util/dwarf-regs.c                  |  4 +
->  tools/perf/util/include/dwarf-regs.h          |  1 +
->  tools/perf/util/perf-regs-arch/Build          |  1 +
->  .../util/perf-regs-arch/perf_regs_sparc.c     | 67 +++++++++++++++++
->  tools/perf/util/perf_regs.c                   | 18 +++++
->  tools/perf/util/perf_regs.h                   |  5 ++
->  tools/perf/util/unwind-libdw.c                | 37 ++++++++++
->  22 files changed, 331 insertions(+), 4 deletions(-)
->  create mode 100644 arch/sparc/include/uapi/asm/perf_regs.h
->  create mode 100644 arch/sparc/kernel/perf_regs.c
->  create mode 100644 tools/arch/sparc/include/uapi/asm/perf_regs.h
->  create mode 100644 tools/perf/arch/sparc/include/perf_regs.h
->  create mode 100644 tools/perf/util/dwarf-regs-arch/dwarf-regs-sparc.c
->  create mode 100644 tools/perf/util/perf-regs-arch/perf_regs_sparc.c
->
+On Wed, Sep 23, 2026 at 07:21:07PM +0000, netdev-bot+sashiko@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issue(s) to consider.
+> 
+> Critical: 0 · High: 0 · Medium: 1 · Low: 1
+> 
+> If you believe none of the issues are legitimate, please reply to each
+> issue of Medium severity or higher and explain why the AI is wrong.
+> If any of them are legitimate and you plan to respin, please let patchwork
+> know by including "pw-bot: cr" as a separate line at the end of your reply
+> (one such reply per series is enough).
+> 
+> - [Medium] Both new selftests
+>   (`test_ns_guest_assign_g2h_netns_no_cap_net_admin_fails`,…
+> - [Low] The two new shared-VM tests omit the `vm_reset_g2h()` cleanup
+>   that every other ns_guest_assign_g2h_netns_* test in USE_SHARED_VM…
+> 
 > --
-> 2.55.0
->
+> 
+> selftests/vsock: test the netns assign privilege checks
+> 
+> Adds two vmtest.sh cases that attempt VSOCK_CMD_DEV_NETNS_SET without
+> CAP_NET_ADMIN and from an unprivileged user namespace, and enables
+> CONFIG_USER_NS in the vsock selftest config.
+> 
+> > diff --git a/tools/testing/selftests/vsock/vmtest.sh b/tools/testing/selftests/vsock/vmtest.sh
+> > index e94cc2fd90ccd..4f42bcdac3f6c 100755
+> > --- a/tools/testing/selftests/vsock/vmtest.sh
+> > +++ b/tools/testing/selftests/vsock/vmtest.sh
+> 
+> [ ... ]
+> 
+> > @@ -187,6 +195,8 @@ readonly TEST_DESCS=(
+> >  	ns_guest_assign_g2h_netns_host_connect_ok
+> >  	ns_guest_assign_g2h_netns_reset_on_ns_delete_ok
+> >  	ns_guest_assign_g2h_netns_old_conn_send_fails
+> > +	ns_guest_assign_g2h_netns_no_cap_net_admin_fails
+> > +	ns_guest_assign_g2h_netns_unpriv_user_ns_fails
+> >  )
+> >  readonly NS_MODES=("local" "global")
+> 
+> [Severity: Low]
+> Both new tests are added to USE_SHARED_VM but neither calls
+> vm_reset_g2h() on any exit path, unlike every other
+> ns_guest_assign_g2h_netns_* test in that list.
+> 
+> Should these follow the sibling pattern?  If the privilege check under
+> test is broken, the assign succeeds and the guest's single g2h device is
+> left owned by the transient namespace created by unshare, while the
+> harness moves on to the next test in the same VM.
+> 
+> The kernel does restore this by itself once that namespace is reaped:
+> 
+> net/vmw_vsock/af_vsock.c:vsock_g2h_net_reset() {
+> 	if (likely(rcu_access_pointer(vsock_g2h_net) != net))
+> 		return;
+> 
+> 	mutex_lock(&vsock_register_mutex);
+> 	if (rcu_access_pointer(vsock_g2h_net) == net)
+> 		rcu_assign_pointer(vsock_g2h_net, &init_net);
+> 	...
+> }
+> 
+> registered as .pre_exit in vsock_pernet_ops, and the next test's
+> vm_ns_assign_g2h() overwrites the pointer anyway.  The residual window is
+> the asynchronous teardown that ..._reset_on_ns_delete_ok already documents
+> ("the namespace itself is dismantled from a workqueue, so the device does
+> not come back the same instant").  Since the new tests are appended last
+> in TEST_NAMES and USE_SHARED_VM, a default run is unaffected; this only
+> shows up with selective or reordered invocation.
 
-Hi Stian,
+Yes, these tests should call it regardless. Relying on cleanup makes the
+pass/fail race-y.
 
-I tested v3 on real hardware. I haven't noticed any regressions.
-I built tools/perf from this series and tested the new functionality
-with software cpu-clock events.
+> 
+> [ ... ]
+> 
+> > @@ -1832,6 +1842,48 @@ test_ns_guest_assign_g2h_netns_reset_on_ns_delete_ok() {
+> >  	return "${KSFT_PASS}"
+> >  }
+> >  
+> > +test_ns_guest_assign_g2h_netns_no_cap_net_admin_fails() {
+> > +	local cmd="unshare -n setpriv --bounding-set=-net_admin"
+> > +	local rc
+> > +
+> > +	vm_ssh "init_ns" -- "${cmd}" python3 /root/ynl/cli.py --no-schema \
+> > +		--spec /root/ynl/vsock.yaml --do dev-netns-set &>/dev/null
+> > +	rc=$?
+> > +
+> > +	if [[ "${rc}" -eq 0 ]]; then
+> > +		log_host "assign unexpectedly succeeded without CAP_NET_ADMIN"
+> > +		return "${KSFT_FAIL}"
+> > +	fi
+> > +
+> > +	return "${KSFT_PASS}"
+> > +}
+> 
+> [Severity: Medium]
+> Can this test pass without the capability check ever being reached?  The
+> only assertion is rc -eq 0 => FAIL, output is discarded with &>/dev/null,
+> and there is no positive control, so any nonzero status reads as
+> KSFT_PASS.
+> 
+> A few concrete sources of a nonzero status that are not -EPERM:
+> 
+> net/vmw_vsock/af_vsock.c:vsock_nl_dev_netns_set_doit() {
+> 	int err = vsock_g2h_net_assign(genl_info_net(info));
+> 
+> 	if (err == -ENODEV)
+> 		NL_SET_ERR_MSG(info->extack,
+> 			       "no guest-to-host transport is loaded");
+> 	else if (err == -EOPNOTSUPP)
+> 	...
+> }
+> 
+> and cli.py collapses all of those to the same status as -EPERM:
+> 
+> tools/net/ynl/pyynl/cli.py:main() {
+>     except NlError as e:
+>         print(e)
+>         sys.exit(1)
+> }
+> 
+> vm_ssh() also returns ssh's own status, so a transport failure (255) or a
+> remote shell failure (127, e.g. an installed util-linux that does not
+> accept setpriv --bounding-set=-net_admin) is indistinguishable from the
+> expected refusal.  A python-side failure such as a missing
+> /root/ynl/vsock.yaml exits 1 too.
+> 
+> Would it be worth asserting the privileged case succeeds first?  The file
+> already has the helper the sibling tests use as a precondition:
+> 
+> vm_ns_assign_g2h() {
+> 	local ns=$1
+> 	local nspid=$2
+> 
+> 	vm_ns_exec "${ns}" "${nspid}" "python3 /root/ynl/cli.py --no-schema \
+> 		--spec /root/ynl/vsock.yaml --do dev-netns-set"
+> }
+> 
+> On the changelog note "ynl's cli.py does not report the errno": is that
+> accurate?  NlError.__str__() in tools/net/ynl/pyynl/lib/ynl.py does:
+> 
+>         msg += os.strerror(self.error)
+> 
+> so the error string is printed and the test could match "Operation not
+> permitted" instead of sending everything to /dev/null.
 
-Basic perf stat/record and the existing frame-pointer callchain mode
-worked normally.
+I considered this but felt like grepping stderr/stdout is somewhat
+unnatural. My plan was to later propose that cli.py returns the err via
+exit code, and then update these tests.
 
-PERF_SAMPLE_REGS_USER also worked, with perf successfully recording
-and decoding the SPARC register set.
+First checking the privileged assign sounds like a reasonable middle
+ground to rule out the other error states.
 
-I then tested:
+> 
+> > +
+> > +test_ns_guest_assign_g2h_netns_unpriv_user_ns_fails() {
+> > +	local unpriv_uid=65534
+> > +	local unpriv
+> > +	local rc
+> > +
+> > +	unpriv="setpriv --reuid=${unpriv_uid} --regid=${unpriv_uid}"
+> > +	unpriv="${unpriv} --clear-groups"
+> > +
+> > +	if ! vm_ssh "init_ns" -- "${unpriv} unshare -U true"; then
+> > +		log_host "unprivileged user namespaces unavailable, skipping"
+> > +		return "${KSFT_SKIP}"
+> > +	fi
+> > +
+> > +	vm_ssh "init_ns" -- "${unpriv} unshare -Urn" \
+> > +		python3 /root/ynl/cli.py --no-schema \
+> > +		--spec /root/ynl/vsock.yaml --do dev-netns-set &>/dev/null
+> > +	rc=$?
+> > +
+> > +	if [[ "${rc}" -eq 0 ]]; then
+> > +		log_host "assign unexpectedly succeeded for unprivileged user"
+> > +		return "${KSFT_FAIL}"
+> > +	fi
+> > +
+> > +	return "${KSFT_PASS}"
+> > +}
+> 
+> [Severity: Medium]
+> Same rc != 0 => KSFT_PASS inference here, plus the availability probe is
+> not the command being measured:
+> 
+> 	probe:    ${unpriv} unshare -U true
+> 	measured: ${unpriv} unshare -Urn python3 /root/ynl/cli.py ...
+> 
+> If the extra -r/-n setup or the python startup under uid 65534 fails, the
+> result is KSFT_PASS rather than KSFT_SKIP or KSFT_FAIL, and the child user
+> namespace never actually holds CAP_NET_ADMIN, which is the condition the
+> commit message says is being tested:
+> 
+>     the other confirms that CAP_NET_ADMIN in an unprivileged user ns
+>     alone is insufficient.
+> 
+> Would checking the reported error string, or asserting the privileged
+> assign works in the same test, make these two cases fail if
+> GENL_ADMIN_PERM is ever dropped from VSOCK_CMD_DEV_NETNS_SET?
 
-  perf record -e '1:0:u' -F 99 --call-graph dwarf,8192 ...
-
-This recorded 443 samples with PERF_SAMPLE_REGS_USER and
-PERF_SAMPLE_STACK_USER, using the full 0x7ffff register mask and an
-8192-byte stack dump. perf script and perf report were both able to
-unwind the resulting callchains, and no samples were reported lost.
-
-I haven't tested 32-bit compat tasks or hardware-cycle sampling.
-
-Tested-by: Magnus Lindholm <linmag7@gmail.com>
-
-Thanks,
-Magnus
+Yep, can follow the same approach as above.
