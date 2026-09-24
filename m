@@ -1,164 +1,293 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACCA346FBC
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 14:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A563C3789;
+	Thu, 24 Sep 2026 14:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790259537; cv=none; b=BgOn4b2zsW7BqgbpGo87Rz03R+MnWggLd0W1neSKJW0Ool8qIgn4iZq+yMKnMs9qSOFKBrwytyxFBgeuYXspKf539NVNWv1uz/R78xJyeiAPRGcO12e5m/60jRdb8I/Y6YceXVrUjfzq63PtgN6MpBDr74Z/vXcFAQPdxK4l8J8=
+	t=1790260168; cv=none; b=pHgYMtk2rLMxRj5JgfOmXmWZ2QW/d6rF8YQ4oT5FwyAafHoDNkra8D4vxT+1+k2WxjwNUY8ybMboUmPEgN31F6KcU4V2zVbqc0izg8/eyXvEYh3qEgQmL4OHJPJrpjtVWuPuS5m2+WZbq7CHpgT2SybWgeSlCTMoW1Snc3CXMsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790259537; c=relaxed/simple;
-	bh=P4QXQ85m5TWrdHyiZlWFuLVVI0AIiBJP5izTUxlLlCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eXWfDZFBzBRqQ2O7uXYThvDZqDeszUlCsjBSeLlUnAEuv+DXik1Yqvgario+Thh6AI0soLuIvCbQNljHv7vbLVCDRX0jsCuW9QWrGNYCf8Tufy0fTvvrypR7rSb1xuxbTGf5KyybegBJIYeov+HGwhKZbH866uhvVh2rRtuY6E0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=aoHxdt0n; arc=none smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1790260168; c=relaxed/simple;
+	bh=0NvXIV5gFngEObPgrQFtWuTgtfKLekPJNm+/deMv0Ao=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=P4cC4fGkg6XJFEYEk8mtWLMoi8BgPSXWmkWc/RSFRXCOZO2PNv3/DqSMHKcCmcuvVNC2nC5ln/bxhFLH1q7CyVJ1zth835Uf5i4UZG+XRqz9y0vftSwCV96fHHCROs+RGtEhIdo5ZrzXu2hje1la0Z0c7D4TFce1dw/TzEjOBfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hiYu3iP3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="aoHxdt0n"
-Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-93910cadea0so129141785a.1
-        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 07:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1790259535; x=1790864335; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=54F62XHPr5jXjg3/coQJmTQQL9rWGQ8xIoRYSOjr2Ds=;
-        b=aoHxdt0nslo7Ra1ttXJEMgxk8vz97TYY+3603tdUuULWC8d9Ia7CJcFICFxIULVaBJ
-         MqVPETT7i/O6CwON4le21zPFObZ6RtcMENogTN8tzJOwyEVLsbKQyeFBsQoVj1ofcneR
-         mhnMTBodK03Uch8wnwqV8vjK0kG39vXO7CA9e05oebAY3zcPlYK1kG3aNECAS28KHez+
-         emaZVPhU3GhALXyV4qtSt/okYg/Ugsbhk8UWQii6MH9HQajUeqvbIoDYJqUimnte7Gja
-         Ap7XqT6Uz17N1MUcYwQqyWPhkI+U+XrMn7cfjHGaYlQIzRex5uyztbAXYwBE7WBaySuH
-         9TIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790259535; x=1790864335;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=54F62XHPr5jXjg3/coQJmTQQL9rWGQ8xIoRYSOjr2Ds=;
-        b=Z2ja6bTQooTP27jYyNSODWSt6taGPUhuajVHKwcjFfP37k+vk9uFCzs2tRHi1nMHLU
-         aUN+OvPt80gqciM0eqY2yHsauyGK9Xianep6pt4zK5NaknOrDefI2k6x20MeA0w/E4aD
-         SG+LNf+9Hy/KKJkJ31V9Oe2SKkdJpQlHAPC8gxSjNRggLAOL8F/VGaJv+pfYnZzAjlPj
-         Y3X2uwhULllc2XBc8U/fvwwG/cEIuAuyB/BE8qLUgGmrsJZ+237FvVakfg/EIHb4Wkee
-         KCNiTTWFTkT5XO5Md2VyeR8rJ8LBZuJorqkqE2iK62jmhcgU7lHp0fyT41y8uXYono6i
-         301g==
-X-Forwarded-Encrypted: i=1; AKwUvByDHHU+AEplPV2zhKOClFbPS9S+Wn3LUcsNtDXH84e1yAopGa2KoOZ3U9LueD35YQnfG3G3eCPXOyo=@vger.kernel.org
-X-Gm-Message-State: AFuF++kM47toH2j8DYhzr+oEO4hyfJ2/aE7pfLRHv7yPzKTVBsGmLRZ9
-	8pvgpCasl1plhFFrHE4QRbiutrYOsu9qDOQAxU97jXpQ1n0Ajd5vrFNZy9IJJYSXJBc=
-X-Gm-Gg: AYBFou3392IIl+CdQH7nOgcrDDcQLgZYLZaaUUsI8BzpPiuQmkkXt9fwNeA0a0LArs1
-	uDcY8ynibKpKjn3fwxqSrWM9SGjzkElUy0SOCnV/SnTRYQlo1mQDY5478IzhsMCPKC0ZJwWWvqA
-	hYUPqH72LomGEAvgn0Q6LBbth8AhPH9M3lYa2AB7mDIrCtsZBPFKb2HYbGm3DtYLkVkqGOvX0yB
-	tkYVnrjS0bjJCOUg7i3hFxxDc6UDUpodmgjZU3Zj/RW6I3jryoYDmxTSSaNBrBb0gJ5moH+gmTN
-	snU//ndcfqM9Jg3FYFBgo+mZXk0Br9NMHIIDXm+BXBlTF4Et+gr+8uoWXXrDP1wDXhMsB7MylYW
-	f/uZW71AUSUerClhIl/GytC4hzANaA/BlQwTRUGru49NegVu34RHUZB+5lQ7AeUCtIhVe3HFi7M
-	vF3lDDBqp1JnURSmwHaM7v8x2i13k4ocQtVCJxnFun2Qu3bBTSRU+ulKkj4YO/2JnPBkjS6+YBm
-	lmRKR/4dgX8KqZt6vLYQM3LLH0u3t/xuSz0SdvpO6noqV7uTw6/DkI=
-X-Received: by 2002:a05:620a:3185:b0:939:ed29:8ad with SMTP id af79cd13be357-93c3625bda0mr311149485a.3.1790259534711;
-        Thu, 24 Sep 2026 07:18:54 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c2c22f729sm342356985a.13.2026.09.24.07.18.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 07:18:54 -0700 (PDT)
-Date: Thu, 24 Sep 2026 10:18:52 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Chris Li <chrisl@kernel.org>
-Cc: Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
-	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arUu5gwgqmU6xeUD@gourry-fedora-PF4VCD3F>
-References: <aqLi6cIjD2wJwk0B@cmpxchg.org>
- <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
- <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F>
- <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
- <CAMgjq7CJBHkoZmg9oKNgGA8czL0djyBTCAkPz8ETm-tX=Qci4g@mail.gmail.com>
- <arEotFqE7ZZoxMHd@gourry-fedora-PF4VCD3F>
- <CACePvbXb1WLz=OAAzVawf3oc3+dE3Z7qfPdagQ2dYuf3OALc2g@mail.gmail.com>
- <arFe215hUcjLhvmS@gourry-fedora-PF4VCD3F>
- <arOeYHEf9aO7AU5X@MiWiFi-R3L-srv>
- <CACePvbXHan6Sfmdq6JFrcaMMy6SGvzPs-pautLtg-9D6=W09qg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hiYu3iP3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D2551F00893;
+	Thu, 24 Sep 2026 14:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790260164;
+	bh=KZovxsvRE68Ry60qHGKUoGu4YUryyE2jjoF+16sSt6A=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=hiYu3iP3gsuCSpBfD0UX1AqisO6uELDc76gG0HE13Ge9hE7HNGv4QJMA9iazGqwj1
+	 nvJiIv844UpjkrIl5won6apVZkp1FC7guyAXSGUqoWOWvnJftpZosgRNZMCG+tF2il
+	 1HoGAJ4GBdpG+yiD4HKIcR0J/nuqVs93cbhcx89qhpek1SDbB6oeC7FO4yXNuGZn7/
+	 gQdOaMIR58LdbBaRnMv+zJNIgNqIqeC1OYEIXOEy7qHMFmXahmZ/5S4gy2PJW3nGzr
+	 M5ellIqFR81OZxrmSrRFGS7K1wkQszoe3GGF+WYuaT8hVqg11opL/MDD/CumXbR347
+	 uKGnMXwvozDUA==
+Subject: Re: [PATCH net-next 1/9] ptp: ocp: move the CPLD identification read
+ off the sync worker
+From: netdev-bot+sashiko@kernel.org
+To: maimon.sagi@gmail.com
+Cc: richardcochran@gmail.com, vadim.fedorenko@linux.dev, kuba@kernel.org,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ andrew+netdev@lunn.ch, horms@kernel.org, jiri@resnulli.us,
+ arkadiusz.kubalewski@intel.com, corbet@lwn.net, rdunlap@infradead.org,
+ skhan@linuxfoundation.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Thu, 24 Sep 2026 14:29:22 +0000
+Message-ID: <179026016273.2160803.4703423361109999929@kernel.org>
+In-Reply-To: <20260922142829.57740-2-maimon.sagi@gmail.com>
+References: <20260922142829.57740-2-maimon.sagi@gmail.com>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACePvbXHan6Sfmdq6JFrcaMMy6SGvzPs-pautLtg-9D6=W09qg@mail.gmail.com>
 
-On Thu, Sep 24, 2026 at 01:02:54AM -1000, Chris Li wrote:
-> >
-> > It's hard to say. When 37e84351198b ("mm: memcontrol: charge swap to
-> > cgroup2") introduced memory.swap.*, it was clearly defined as charging
-> > "the actual number of swap entries used by a cgroup". Please see the
-> > commit log. With that, zswap still reserved a swap slot even when the
-> > data never reached disk. And not to mention zram, it's backend is RAM,
-> > but not physical disk.
-> 
-> Right, that definition matches what I have in mind. The actual number
-> of swap entries regardless of the backing type.
-> 
-> Changing the meaning of that breaks existing users.
-> 
+Thank you for your contribution! Sashiko AI review found 4 potential
+issue(s) to consider.
 
-Except that you are the one proposing the change in definition.
+Critical: 0 · High: 1 · Medium: 1 · Low: 2
 
-You conveniently skipped the message where I laid out, in detail,
-why this interpretation is not grounded in either the documentation
-or in the introduction of the counter.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-You do not redefine contracts because "that's what you have in mind".
+- [High] Moving the CPLD identification read into a self-terminating
+  delayed work (ptp_ocp_cpld_work()) removes the only mechanism that re-…
+- [Medium] The commit message names unbind/reboot blocking as part of the
+  problem being fixed ("because ptp_ocp_remove() - which is also the…
+- [Low] Comments describing the per-tick re-resolution of the CPLD i2c
+  adapter are no longer accurate.
+- [Low] Stale comment: `#define CPLD_ID_MAX_ATTEMPTS 10 /* one per
+  sync_work tick */` (drivers/ptp/ptp_ocp.c:4386) still attributes the…
 
-> > Now some deployments do use memory.swap.* as an SLO signal, and that is
-> > real use cases as Chris and Kairui told. So I don't think this is about
-> > who is right and who is wrong.
-> >
-> > To keep the existing deployment working and at the same time give the
-> > physical slot its own knob, I think the solution is to add a memory.pswap.*
-> > counter as you suggested. And that is not something we think of from a
-> > brain storm, it comes from real deployments which already depend on the
-> > current memory.swap.* behavior.
-> 
-> I think it is important not to break the existing usage of
-> memory.swap.* behavior. I am fine with adding another counter.
-> 
+--
 
-Then you should stop distracting everyone and propose your solution and
-make the argument for redefining the counter to mean "what you have in
-mind" and justify the addition of the new interface.
+ptp: ocp: move the CPLD identification read off the sync worker
 
-I think there is merit in the argument - both Johannes and Rik have
-some concerns whether it makes sense.  There's something to discuss.
+The one-shot TAP CPLD identification read is moved out of
+ptp_ocp_sync_work() into a new delayed work, ptp_ocp_cpld_work(), which is
+queued from probe only on boards that carry the part.  The new work
+re-arms itself once a second only while bp->cpld_id_tried is clear, and
+ptp_ocp_remove() gains a cancel_delayed_work_sync() for it.
 
-But the core issue here is that your use case is counter to documented
-purpose of the counter, and just because you can derive meaning in
-combination with another counter does not mean that is contractually
-guaranteed by the ABI.
+A few questions below.
 
-If you want to make the argument that it is, in fact, contractually
-guaranteed by the ABI - then this is a different discussion, and the
-introduction of memory.pswap would be tangential to vswap (though it
-would enable vswap=on to be the default without breaking anyone).
+> diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
+> index 2802989e84947..4a58bcc146487 100644
+> --- a/drivers/ptp/ptp_ocp.c
+> +++ b/drivers/ptp/ptp_ocp.c
 
-Seek a way forward, not a way to stonewall.
+[ ... ]
 
-~Gregory
+> @@ -5935,18 +5937,32 @@ ptp_ocp_sync_work(struct work_struct *work)
+>  
+>  	bp->sync = sync;
+>  
+> -	/* Resolve the adapter here rather than once in probe, where it can
+> -	 * race the adapter's own registration, and read the ID as soon as it
+> -	 * turns up.  A claim can fail transiently - the firmware may not
+> -	 * grant the segment straight after power-up - so adva_x1_cpld_read_id()
+> -	 * retries a bounded number of times before giving up.
+> -	 */
+> +	queue_delayed_work(system_power_efficient_wq, &bp->sync_work, HZ);
+> +}
+> +
+> +/*
+> + * Resolve the i2c adapter and read the CPLD identification.
+> + *
+> + * Kept off ptp_ocp_sync_work(): a claim can block for seconds - the
+> + * MicroBlaze handshake polls for up to MBLAZE_RETRIES * MBLAZE_RETRY_US and
+> + * the hand-back does the same - which would delay the in-sync sampling and
+> + * the dpll change notification, and stall the cancel_delayed_work_sync() on
+> + * the unbind and shutdown paths for as long.
+> + *
+> + * Reschedules only while there is something left to do, so a board without
+> + * the part, or one whose identification is settled, costs nothing.
+> + */
+> +static void ptp_ocp_cpld_work(struct work_struct *work)
+> +{
+> +	struct ptp_ocp *bp = container_of(work, struct ptp_ocp, cpld_work.work);
+> +
+>  	adva_x1_cache_i2c_adap(bp);
 
+[Severity: Low]
+
+This isn't a bug, but with adva_x1_cache_i2c_adap() now called only from
+ptp_ocp_cpld_work(), are its comments about per-tick retries still
+accurate?  Its header says:
+
+ * Called from the worker rather than once from probe: device_add() notifies
+ * before it links the device to its parent, so with asynchronous probing
+ * both the notifier and a single lookup here can miss the same adapter.
+ * Retrying costs a short klist walk per tick until one of them succeeds.
+
+and its body says an adapter cached in the removal window is rejected by
+adva_x1_bus_claim() "and the next tick looks again", while
+adva_x1_bus_claim() says forgetting a recycled number "lets the worker look
+the adapter up again".
+
+Once bp->cpld_id_tried is set the new worker stops re-arming, so there is
+no next tick and only ptp_ocp_i2c_notifier_call() can repopulate the
+number - which the same header comment says can miss the adapter.
+
+> -	if (bp->has_cpld && !READ_ONCE(bp->cpld_id_tried) &&
+> -	    READ_ONCE(bp->cpld_i2c_adap_nr) >= 0)
+> +	if (READ_ONCE(bp->cpld_i2c_adap_nr) >= 0)
+>  		adva_x1_cpld_read_id(bp);
+
+[Severity: Low]
+
+This isn't a bug, but the attempt budget consumed here is still documented
+against the old worker:
+
+#define CPLD_ID_MAX_ATTEMPTS  10     /* one per sync_work tick */
+
+The attempts are now one per cpld_work tick.
+
+>  
+> -	queue_delayed_work(system_power_efficient_wq, &bp->sync_work, HZ);
+> +	if (!READ_ONCE(bp->cpld_id_tried))
+> +		queue_delayed_work(system_power_efficient_wq, &bp->cpld_work,
+> +				   HZ);
+>  }
+
+[Severity: High]
+
+Does this leave the post-flash re-read of the CPLD identity without a
+worker to perform it?
+
+adva_x1_cpld_read_id() sets the flag on the first success, or after the
+attempt budget runs out:
+
+	if (!ret || ++bp->cpld_id_attempts >= CPLD_ID_MAX_ATTEMPTS)
+		bp->cpld_id_tried = true;
+
+so after the probe-time read settles the tail above stops re-arming
+cpld_work, and ptp_ocp_probe() is the only other queue site.
+
+adva_x1_cpld_flash() still clears the bookkeeping and leaves the re-read to
+a periodic worker:
+
+	/* The old image is gone from here on, so stop reporting its
+	 * identity even if the rest of the sequence fails.  Written under
+	 * cpld_lock, which adva_x1_cpld_read_id() also holds across its own
+	 * bookkeeping, so the worker cannot resurrect any of it.
+	 */
+	WRITE_ONCE(bp->cpld_id, 0);
+	WRITE_ONCE(bp->cpld_usercode_ok, false);
+	bp->cpld_id_tried = false;
+	bp->cpld_id_attempts = 0;
+
+but it queues nothing and does not re-read the ID or USERCODE itself.
+
+Before this patch ptp_ocp_sync_work() requeued itself every HZ for the life
+of the binding, so the next tick saw the cleared flag and read the new
+image's IDCODE and USERCODE.  With the split, does bp->cpld_id stay 0 and
+bp->cpld_usercode_ok stay false until unbind and rebind, so
+ptp_ocp_devlink_info_get() permanently skips cpld.id and reports fw.cpld as
+"unknown"?
+
+	id = READ_ONCE(bp->cpld_id);
+	if (id) {
+		sprintf(buf, "0x%08x", id);
+	...
+	if (smp_load_acquire(&bp->cpld_usercode_ok))
+		sprintf(buf, "0x%08x", READ_ONCE(bp->cpld_usercode));
+	else
+		strscpy(buf, "unknown", sizeof(buf));
+
+Documentation/networking/devlink/ptp_ocp.rst states:
+
+       worker and reports the cached value here; the version is omitted
+       until that read has succeeded.  The read is made once per binding
+       and again after a successful CPLD update.
+
+Would queueing bp->cpld_work from adva_x1_cpld_flash() after that reset
+(queueing an already pending delayed work is a no-op) match the documented
+behaviour again, or should the worker keep re-arming while bp->has_cpld?
+
+The same concern applies to the later reset of cpld_id_tried added in
+adva_x1_cache_i2c_adap() by "ptp: ocp: forget a CPLD i2c adapter number
+that no longer resolves" in this series; at the end of the series the queue
+sites for cpld_work are still probe plus the worker's own conditional tail.
+
+[ ... ]
+
+> @@ -6046,6 +6063,9 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  		}
+>  	}
+>  	queue_delayed_work(system_power_efficient_wq, &bp->sync_work, HZ);
+> +	if (bp->has_cpld)
+> +		queue_delayed_work(system_power_efficient_wq, &bp->cpld_work,
+> +				   HZ);
+>  
+>  	return 0;
+>  out_dpll:
+
+[ ... ]
+
+> @@ -6080,6 +6100,7 @@ ptp_ocp_remove(struct pci_dev *pdev)
+>  	int i;
+>  
+>  	cancel_delayed_work_sync(&bp->sync_work);
+> +	cancel_delayed_work_sync(&bp->cpld_work);
+
+[Severity: Medium]
+
+Is the unbind and shutdown part of the changelog still true with this
+cancel in place?  The changelog says:
+
+    While that runs the in-sync sampling and the dpll notification are delayed
+    by the same amount, and because ptp_ocp_remove() - which is also the
+    .shutdown handler - begins with cancel_delayed_work_sync(&bp->sync_work),
+    unbind and reboot block for it too.
+
+and the new function comment repeats it:
+
+ * the dpll change notification, and stall the cancel_delayed_work_sync() on
+ * the unbind and shutdown paths for as long.
+
+cancel_delayed_work_sync() waits for an already running callback to return
+rather than interrupting it, so if ptp_ocp_cpld_work() is mid-claim the
+executing path is:
+
+ptp_ocp_cpld_work()
+  adva_x1_cpld_read_id()
+    adva_x1_bus_claim()
+      adva_x1_mblaze_acquire()
+
+	iowrite32(MBLAZE_REQUEST, &bp->pps_select->i2c_bus_ctrl);
+	for (i = 0; i < MBLAZE_RETRIES; i++) {
+		usleep_range(MBLAZE_RETRY_US, MBLAZE_RETRY_US + 1000);
+		val = ioread32(&bp->pps_select->i2c_bus_ctrl);
+		if (val == MBLAZE_GRANTED)
+			return 0;
+	}
+
+That is 200 iterations of a 10 ms sleep, and on timeout
+adva_x1_mblaze_release() polls the same amount again, with no teardown
+escape check in either loop.  The window in which the blocking read can be
+in flight is the same before and after the split, since the read is
+attempted once a second until cpld_id_tried is set.
+
+Should the changelog and the comment be narrowed to the 1 Hz in-sync
+sampling and dpll notification latency, or would a teardown flag checked
+before taking cpld_lock and between MicroBlaze retries let the still
+required synchronous cancel return promptly?
+
+>  	for (i = 0; i < OCP_SMA_NUM; i++) {
+>  		if (bp->sma[i].dpll_pin) {
+>  			dpll_pin_unregister(bp->dpll, bp->sma[i].dpll_pin, &dpll_pins_ops, &bp->sma[i]);
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260922142829.57740-1-maimon.sagi%40gmail.com
