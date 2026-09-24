@@ -1,129 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC44486436;
-	Thu, 24 Sep 2026 16:57:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323DB486436;
+	Thu, 24 Sep 2026 16:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790269037; cv=none; b=BsKd8ZG6a9Ol4qsmp7o/KfOWAxtipgozRX8JgCQQ/4O0Ro6e4FpaUKtfG/i7Rb9PBPk1nNjERNC0H4Aj1XNlS5W69zHLfbwMbOdm8NNDQ/T890dNhSdlQITmdI/9h8cs+vwtiGTBbofmf9eWSXwONEEBx8M2OqzeL/y0uhB5avQ=
+	t=1790269153; cv=none; b=M0SmT+f9hB1W8BA8uRXmnlpzkMBf6BqD/VlyDawvCTkmFQj6ULJ1g6KyW/PCMNtaXSYUW2iHKy2sqaCdJ9aDQihY+NYmXwPD9L0RFXmkOoPms277QJynxuIrGOw65VeSZSJk/lJACg8CVKMj2XVXyftrVbT1RtHBRsM0jx6zbuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790269037; c=relaxed/simple;
-	bh=bEBfQ+YMFW6+5aZbYKNv7yBRexfQ2EA/XyM7kGczzhE=;
+	s=arc-20240116; t=1790269153; c=relaxed/simple;
+	bh=7MrADAT3pJxaA7yfhAryGDF0wV3MD4vHy706KHaFbVM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KSd89uQ68rV/R8Hnx47vVA341E/TNMmSxvgFtSfZOPu6gAeVkysbX9tR/bVwFtyNY7eBc6ogHyuLVRxBFvnPFXRQd6YfyGNabGDbCR7u1qId1baDkD2YsXWOopdi84GjStP1EgZ3GqtvDdhuexPNcs0/NLQsCZvI3aAj5/pIvWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6YqljgF; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=lvgbDw0bKge4JVrotOSqEVDbAb9B0zbq10KnS8a75VggSxgtw257FtxjwRzz8f0UGNyonmEEfcTa9bNzcvCjoGgSDP3j1teC9wmrAlIJnhofOUADE0rpf509dcHZ/jSiTVgrILG08DwrhOAuHoqUjJEHW7lCW3N9mqdHRViemyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DY0adfjg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6YqljgF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B59511F000FF;
-	Thu, 24 Sep 2026 16:57:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DY0adfjg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C35311F000FF;
+	Thu, 24 Sep 2026 16:59:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790269035;
-	bh=t6RYgPyPHvnf3E0ok0hvTM3TfYuCfS4aedTPXF8X8wo=;
+	s=k20260515; t=1790269152;
+	bh=U8FssP7OiNsbrh+H8QKNJEenMZkalOzxaENsczMx87Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=F6YqljgFdAaDX8Cu3/Jf6a0CN9twAjKd4TYcdNwmsitu/hi7eayUFW8oHsuY8Xtdz
-	 La9a7Z4+M59u9Qd4vL/ErtFOUSPyMWkTH4nvHn/w5f+lgmrVqwormSYGfEh83OoeCR
-	 YTEzVvUi3U2S+EcZmYEMwClsovrJof+2DfF7rHxttbUONQVGOr+B/5z+lomdZjjwZg
-	 8UrM3DXsn2tz42RB7E+440uEeP/UETB4lsVWGRMDJbO5HYaQhNtAmEq7vOBa742v75
-	 2Lro8Rg1cZB3YVWzmmApQXyqm4HTr5GM/ZGXv+ehwsd6z85QO14+5QDXpIbspfq1yB
-	 RSLsUcYI2+dCw==
-Date: Thu, 24 Sep 2026 12:57:13 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org, skhan@linuxfoundation.org,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-Message-ID: <arVWaQM9pWNdU6EG@laps>
-References: <20260924134945.3095661-1-sashal@kernel.org>
- <C1ABA2A9-E1BD-4A89-B5BC-59C06D807D0D@mainlining.org>
- <arU_r7Sl3gnTX6nG@laps>
- <F6362B07-0832-495D-BF92-6FAF06DC5E04@mainlining.org>
+	b=DY0adfjgVgdJYcoNH8o4wB+eXaRT4avo+EonWWfl4mXYK6UMfQEg3qP0vPSua3p8z
+	 zZlXblCJ2xR9svLnOT2RUbqCktR1gY351VWZFkJIg0NOXdk1d7/wggfRtK8JqnEu20
+	 oYP/H8tFbgfOuXOvedZq8ct52Fk2u0HucrfH+UMRNRGV8ztw5EEeLg/uS9Fbm4Rx9u
+	 4XCEVywGLCYNpGVdkxxfWs+PaYPwvOOtziQ+nRlGPLLzPzfebfng06kjzCBQaTyDFU
+	 38dRM+r+HEyy2jNm6d2oMvnzKWITsEFWfa2oyHqJCBhZ6CHO00RFxKVMOfVaqnUKlX
+	 F9C2dhuJX60mg==
+Date: Thu, 24 Sep 2026 17:59:07 +0100
+From: Conor Dooley <conor@kernel.org>
+To: John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: hwmon: lm75: add MAX31875
+Message-ID: <20260924-enjoyer-slit-b55f55fac07c@spud>
+References: <20260924084121.82-1-johnerasmusmari.geronimo@analog.com>
+ <20260924084121.82-2-johnerasmusmari.geronimo@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1KdV1XWkvBgs1aHu"
 Content-Disposition: inline
-In-Reply-To: <F6362B07-0832-495D-BF92-6FAF06DC5E04@mainlining.org>
+In-Reply-To: <20260924084121.82-2-johnerasmusmari.geronimo@analog.com>
 
-On Thu, Sep 24, 2026 at 04:44:52PM +0100, Bradley Morgan wrote:
->On 24 September 2026 16:20:15 BST, Sasha Levin <sashal@kernel.org> wrote:
->>On Thu, Sep 24, 2026 at 04:08:08PM +0100, Bradley Morgan wrote:
->>> On 24 September 2026 14:49:45 BST, Sasha Levin <sashal@kernel.org>
->>wrote:
->>>> Most coding agents have standardized on AGENTS.md as the file they load
->>>> automatically from the root of a repository. README already tells AI
->>>> tools to read and follow Documentation/process/coding-assistants.rst,
->>>> but that only helps if the agent decides to read README before acting,
->>>> which in practice it often doesn't.
->>>>
->>>> Add a top-level AGENTS.md symlink to README, so agents load it on their
->>>> own and follow its pointer to the AI guidelines. This keeps a single
->>>> entry point for every reader, and avoids adding a separate copy of the
->>>> policy that could drift from the RST.
->>>>
->>>> As an example, two different agents were asked to "create a new commit
->>>> renaming the release (in the Makefile) to AI Test".
->>>>
->>>> Without AGENTS.md, the first agent added a Signed-off-by for the user
->>on
->>>> its own. It should never have done that: only the human submitter can
->>>> certify the Developer Certificate of Origin, after reviewing the
->>change.
->>>> It also used its own attribution tag instead of Assisted-by:
->>>>
->>>>> Makefile: rename release to AI Test
->>>>>
->>>>> Co-Authored-By: <model name> <noreply@...>
->>>>> Signed-off-by: Sasha Levin <sashal@kernel.org>
->>>>
->>>> The second agent added no attribution at all:
->>>>
->>>>> Rename release to AI Test
->>>>
->>>> With AGENTS.md in place, neither agent added a Signed-off-by, and both
->>>> used the Assisted-by tag. README itself mentions neither tag, so both
->>>> agents followed its pointer to coding-assistants.rst:
->>>>
->>>>> Makefile: rename release to "AI Test"
->>>>>
->>>>> Change the release name from "Baby Opossum Posse" to "AI Test".
->>>>>
->>>>> Assisted-by: LLM
->>>>
->>>>> Makefile: rename release to AI Test
->>>>>
->>>>> Assisted-by: LLM
->>>>
->>>> Both agents also followed the kernel's general guidelines more closely.
->>>> The second agent's subject gained the "subsystem: summary phrase" form
->>>> that submitting-patches.rst asks for, instead of a bare "Rename release
->>>> to AI Test", and the first agent added a body describing the change.
->>>>
->>>> Assisted-by: LLM
->>>> Signed-off-by: Sasha Levin <sashal@kernel.org>
->>>
->>> NAK, we could add to memories that to read soandso file before every
->>> patch, and then it wouldn't increase tokens then?
->>
->>Could you help me understand what you meant here? I'm aware some agents
->>use a
->>notion of "memories", but I don't think they standardized on it in any
->>way, nor
->>how we could incorporate them here?
->>
->
->They use MEMORY.md sometimes.
+--1KdV1XWkvBgs1aHu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There's no common MEMORY.md. Claude Code keeps one per checkout under
-~/.claude, Codex keeps a single one for all projects that it builds from past
-sessions when its memories feature is enabled, and Gemini saves memories into
-~/.gemini/GEMINI.md. All of these live in the user's home directory, so there's
-nothing we can ship in the tree. AGENTS.md is the in-tree file most agents
-read.
+On Thu, Sep 24, 2026 at 04:41:19PM +0800, John Erasmus Mari Geronimo wrote:
+> Add MAX31875 compatible string to lm75 dt-bindings.
 
--- 
-Thanks,
-Sasha
+Commit message should explain why this is not compatible with exisiting
+devices.
+pw-bot: changes-requested
+With one,
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+>=20
+> Signed-off-by: John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analo=
+g.com>
+> ---
+>  Documentation/devicetree/bindings/hwmon/lm75.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/hwmon/lm75.yaml b/Document=
+ation/devicetree/bindings/hwmon/lm75.yaml
+> index b48bf3fd721fe..d56f3ec299105 100644
+> --- a/Documentation/devicetree/bindings/hwmon/lm75.yaml
+> +++ b/Documentation/devicetree/bindings/hwmon/lm75.yaml
+> @@ -14,6 +14,7 @@ properties:
+>    compatible:
+>      enum:
+>        - adi,adt75
+> +      - adi,max31875
+>        - ams,as6200
+>        - atmel,at30ts74
+>        - dallas,ds1775
+> --=20
+> 2.34.1
+>=20
+
+--1KdV1XWkvBgs1aHu
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCarVW2wAKCRB4tDGHoIJi
+0saFAP9ujrYHUP/CqPz4niWARa46yOU620Fx1Pm54CYu8w52FQEAvK1ThxmNNQEc
++Gp875eety2d9Kn5bZSwsvxtUntBYgc=
+=7HrM
+-----END PGP SIGNATURE-----
+
+--1KdV1XWkvBgs1aHu--
