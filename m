@@ -1,109 +1,110 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE12B345CCA;
-	Thu, 24 Sep 2026 11:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A111476CF0
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 11:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790248844; cv=none; b=PzYQmUS8Z0YjHIjSTGFX5Gr6r8cHAzB/V0X4JXXNvUtbfKOJzbzo7RfxyOlD1e+7ukJpt4CeRHbJpn5/XcTTQWPuPrGjcV/Q472V9j8IoVesw8uPVzGlQF+Ysf5tFxJPF+XB7IsvRas6VtXOmeSCA8ClUeT+/LKJMZ1qt609Lyk=
+	t=1790249275; cv=none; b=brxDrFxxGrFCGqmfHzpqHVTrkYVcsi9qK1cVYMW0vy4wo6EKQCVE2W9A4lIYsMmiy9ijyYb7CmkPhtQzAMKuwrWyhY5yR217EO1DPx0sgKQ+ysaLa2+xa7kvcRPaCbNGFda3a3+GOF3Uw9q1PApsRHjwH82C/1zsvwqnGcyckYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790248844; c=relaxed/simple;
-	bh=yGq6jFcpBFFx6CsudYgDQSKkCZk6t8NYGt5rAsRafzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rn75ZSXqcm3bsKt62kmFsqfCF3pQnznD0n5MXnBw696YC5OWfi9It4Mf3IukNNdy3bs6BLQ7Y7dKYjhhvsowgheBctaadJc2dekzLYV+ALarGMV71ZzLJW+7YiHZN6CQooeG633NMTeVSv1uupA4XvphxBHgC0RYwsGGTwEFr2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=qy9Nytc2; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=ms+bdBL1; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1790249275; c=relaxed/simple;
+	bh=Lq8RP+ZiPKQYeDKKN+eGZA0tMf6NU2q7olqQBx5raOs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ipcnlkV4knm5jpbHU2kSlre4R3ZbciNHcchesSsyz+Am82kQiNmK8EhKdp5XmANYdzDXdYTnjtdWT7YIwqm/ZPxSyRCHyOAKLqjQmYWIyvZySghC4t/5cWhJgTDxBavI3XXeIZNJ8SSo0m6kMARM/3cDkpAp7UFsEI+96gh0bV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cKphEnv7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="qy9Nytc2";
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="ms+bdBL1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=O60QNrfBDhwmpEFr3dBSj1xPYIcsj3539P1OBpzTDiI=; b=qy9Nytc22DTgI8DQyhvwK+U9F6
-	y8pq46jSEiU57a3wvOpbQkna1SbOsDkFfvDh8nfwfj02TGTptEjEmrWyUgLAwZ94fdpgIT/rWIxzx
-	sj6avv55Pgq+ztuKJq7/b+ioQiMAtTennnwhpEQCTw/XcxVRpgq3IcIGaG+ZD9P8FZjn8VGYANY4T
-	cKH0pBshYkePQ9+dUJhiFWZ9vHfdixlahvroLb068vnaKf4RAHK++lQiEsnZ8UMe3Fy5o09AQ0Ce+
-	gFZT6AWNb+ehyX5jfsHs7VXAnvQSyf0mzif6jUL9gJm3ELfg5QLY6aoX2UIQypKm2wAh4Ze+gzB57
-	fvy6ha+g==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <93sam@debian.org>)
-	id 1x9hUp-004UVG-0j;
-	Thu, 24 Sep 2026 11:20:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=debian1.93sam.user; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:Reply-To:
-	Subject:Content-ID:Content-Description:X-Debbugs-Cc;
-	bh=O60QNrfBDhwmpEFr3dBSj1xPYIcsj3539P1OBpzTDiI=; b=ms+bdBL1Qc2jnBMQAqlUzzqnzZ
-	WTywAihc9bn2lEiPOrwY/96gJn5J15sOGsNK2rR/NAz5QGqRqQAGJH08vm2e20f6iMsB7l7sDK90o
-	U1DsjjLkH1IYbqKUQRk1q8GeK4BPr0cvQaWxjeBkhX6CiBPYf3TPaa6YEhCoEzqhfUeQK+B8RSoZR
-	zeyrmBK4/JRssKKh0ucKjacfFEoX17wxEqijjdZ41ifWDGnlqNgEyMhFRX3lf61qwoIQcDlr+rgyL
-	KG9Yp63k7PhzR3k+P3oKmCTBQYDcY9PkYGjmlRSoxdGFicM7llqdgijGe+unavR8/SAqUnY3HHrM1
-	2vWRC1JA==;
-Received: from bsmtp by cheddar.halon.org.uk with local-bsmtp (Exim 4.96)
-	(envelope-from <93sam@debian.org>)
-	id 1x9hUo-005JU1-0h;
-	Thu, 24 Sep 2026 12:20:10 +0100
-Received: from steve by tack.einval.org with local (Exim 4.98.2)
-	(envelope-from <93sam@debian.org>)
-	id 1x9hU3-0000000DbrR-2fHl;
-	Thu, 24 Sep 2026 12:19:23 +0100
-Date: Thu, 24 Sep 2026 12:19:23 +0100
-From: Steve McIntyre <93sam@debian.org>
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-Cc: Prashant Singh <singhpra@juniper.net>, Ard Biesheuvel <ardb@kernel.org>,
-	Jeremy Kerr <jk@ozlabs.org>, linux-efi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2] efivarfs: add nostatfs mount option to skip
- QueryVariableInfo()
-Message-ID: <20260924111913.GN3447081@tack.einval.com>
-References: <20260919044124.8268-1-singhpra@juniper.net>
- <arUD_p0Vn4qyBH_e@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cKphEnv7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928BC1F0089E
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 11:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790249273;
+	bh=Lq8RP+ZiPKQYeDKKN+eGZA0tMf6NU2q7olqQBx5raOs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=cKphEnv7gLnjtnE9ZZoSpyqOTowuPK6l8IJ7TaHRqq0UpXO6CSrpeXAnEJIbFYocy
+	 5xqgVNB8AOaGwIXTqNqr9nv91gWdTk1rTg1yswAzFxINOrkprrO/JC06glkNDTpz7d
+	 Ary/a8VLiBXZT/cMF3JbBEhSpH8iOfKKEvHjRi+gZuIt3JBAX+smfzgb+astXCUzva
+	 2VaX1nZkoLc1Dz+LANQZCmT9wo2wDe7yE4IrqOTWy10jpf9ZExTZSRli3sZ41fAk1K
+	 xZ2A701TKcDhvAsSTx0NIgSfBGq0yPa++CReLfV+TvORg6SCm2Z2DHaDtf0Vw/YIP8
+	 oCTQjENl0fZVg==
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66fb93aee5eso1953946d50.1
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 04:27:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwtZmI2XVRZw5dQhZRTcjAGMgD+T0a8PgY0EGB+lCZGg2RXfcB5WGJ7z3uBhRFvO5nz1QsMUJdUGo4=@vger.kernel.org
+X-Gm-Message-State: AFuF++mEqYBQrqjDYcKnzVZHcsqvPImKUM0VZXlsf6g5L//Ha4qEjzFE
+	60rKdQXFQXHIPRUtyT5NZMpJHQA2prU++9nvYOUuJbt7BfKK3zvKUR3reRqArSoWhOaBlJ2M5lC
+	ckxW/HUBagijnk8zbvX79R3+rgzExbgPMiYzcxAnMyA==
+X-Received: by 2002:a05:690e:bc9:b0:66f:c1be:315c with SMTP id
+ 956f58d0204a3-672ed3b658cmr873163d50.51.1790249272919; Thu, 24 Sep 2026
+ 04:27:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <arUD_p0Vn4qyBH_e@redhat.com>
-X-attached: none
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-submit: auth config found for 93sam@debian.org, using mail-submit.debian.org
-X-Debian-User: 93sam
+References: <aqQrPLPXHXiuKup0@linux.dev> <aqjcFb6MFNiA6n4V@fedora>
+ <aqjpYHbZ14A8xRtK@fedora> <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
+ <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
+ <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
+ <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
+ <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
+ <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
+ <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com> <arP8vXdJAL6ZJ1Os@linux.dev>
+In-Reply-To: <arP8vXdJAL6ZJ1Os@linux.dev>
+From: Chris Li <chrisl@kernel.org>
+Date: Thu, 24 Sep 2026 01:27:41 -1000
+X-Gmail-Original-Message-ID: <CACePvbV8zprLuiWMdYAOLRy=TwRx9WjSahCWySf53o0d_myJ8A@mail.gmail.com>
+X-Gm-Features: AclHuK9Zwq15Jwnk2fvcbfDpfS5y4r-YUwb8vz6DhJu53fLXl4OUnGVnT2WT3Ug
+Message-ID: <CACePvbV8zprLuiWMdYAOLRy=TwRx9WjSahCWySf53o0d_myJ8A@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Nhat Pham <nphamcs@gmail.com>, Rik van Riel <riel@surriel.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <kasong@tencent.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hey all,
-
-On Thu, Sep 24, 2026 at 08:05:34AM -0300, Luis Claudio R. Goncalves wrote:
->On Fri, Sep 18, 2026 at 09:41:24PM -0700, Prashant Singh wrote:
+On Wed, Sep 23, 2026 at 6:30=E2=80=AFAM Shakeel Butt <shakeel.butt@linux.de=
+v> wrote:
 >
->I tested the patch and was quite satisfied with the results, but upon a
->comment from colleagues I ran a few more tests and noticed (confirmed their
->hunch) that fwupd complains about not being able to get the free space in
->efivars:
+
+> > BTW, I already shared that changing swap counter charging will break
+> > our and others' existing deployments.
 >
->  # fwupdmgr get-devices | grep efivars
->  │     Update Error:       getting efivars free space is not supported
->  │ │   Update Error:       getting efivars free space is not supported
->  ...
->
->I was not able to establish whether that would prevent specific operations
->due to the HW I had available for such test.
+> What do you mean here by "break our deployment"? We are talking about
+> memory.swap usage and limits here. Google is still on v1 and using memsw
+> usage and limit and I don't see how vswap is breaking memsw?
 
-fwupd will refuse to do some of its updates if it can't read the
-efivars free space, in particular updates of the secure boot keyrings
-like KEK/DB/DBX.
+Your information is no longer accurate. I got this from our internal
+AI: "While Google's internal production fleet has historically relied
+on cgroup v1, there is an active migration to cgroup v2 to align with
+the upstream Linux community. Meanwhile, in Google Cloud (especially
+Google Kubernetes Engine - GKE), cgroup v2 is already widely deployed
+and is the default for newer node pools."
 
--- 
-Steve McIntyre, Cambridge, UK.                                93sam@debian.org
+About the V1 to V2 migration, it uses the memory.current and
+memory.swap.* counter to simulate the memsw counter for providing the
+metrics singal.
 
+> Are you making these false claims just to derail the conversation?
+
+You should apologize for your accusation.
+
+Chris
