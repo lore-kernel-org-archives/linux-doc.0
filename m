@@ -1,78 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473404AEBE5;
-	Thu, 24 Sep 2026 17:11:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4FC32A3D7;
+	Thu, 24 Sep 2026 17:13:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790269881; cv=none; b=r8TJUWYWT2BytGmfrk46s9pFv1MQrQWRzJHRM1H4+1EOZ2IMiZRi95JkbmW/pfEwe5tDtVuumgaBqb93yhB+pYtPxViRF/LSHGKdjHM5UDTle1tVcYp3HdcwLKPT24QjehjVKGD5JUWi+9v9wubjKJG2Modg8A7z9fAS6/5l3nI=
+	t=1790270025; cv=none; b=ZDSwcxyyT9pz+S8mzTNgp6fHHlHEnhhgqsQmGCGKn2UwWl6JPwsgTSvmgLC9BELkt4REe0SjinMf3YMf3DoKcUDhSu8C8pHDJFJzVfzJRp88a6RLMw+eiWK0upKZuNifPb8e/wegKbTKpseIDOBupWJJKjwfSSg+lh++8gyjcmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790269881; c=relaxed/simple;
-	bh=a8o8R2K4xz7+aGVEIIII3Nv0KLBqdjr8eibmf2YyP6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iSMShI3WGrfE5PaFMtapEonNGByG2sJEFQY5PqPKnT8AY3EacL8HYs4jAeHxOcuUibTQzi5dPh/fmVaWZ0JvVlft3QUoNwVze4ysvHjLdxnRjpnTRtNoFFHhvRiyGEkCJEt2vQoXPN/WnndEmS7eYZHO+H6EUAAPGGRs3UcsGS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UyMRh3Q7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790270025; c=relaxed/simple;
+	bh=QxXA3uQ67pgUn5t/RopmcMZoZB7kY8Vjao6R/aiTHEg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rch0kGCC7EzkaWh8fnjtCAOMQo9SdRU3eL4AkuDCZ+geNPptNRUtRi+wCA1b5f8q6d57OwToiQu1D3x0LbEXx1nGHJy947+3TZEoPMbs4xeKKqp629cE16p1F6lpaYduQePlnnReaSgEdBooyhvE9zR5yX2KURY/M//2XcT/uog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UyOCmc+o; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UyMRh3Q7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95FB81F00893;
-	Thu, 24 Sep 2026 17:11:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UyOCmc+o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D85231F0089B;
+	Thu, 24 Sep 2026 17:13:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790269880;
-	bh=ZWdVAk49LuLPxvSLCIdjvGkb/oHKHD0hXvWre6vT2+Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UyMRh3Q7mBVL3rEFjtCvyDTZYKqtB5p1FWJlA8fl0gRYRKwjuSquQafnLJVYfDHUt
-	 KylhZbU2mye3IAqwDCCCEZOWpcXRAFEyYWS5BQkysMPUjlPVduySHuY3VtU+YoCGxR
-	 i6l9+QkkG91AfXuMfh65Zo8MYTHN1x2J+06gSYiefHXsyeKT+apusTQwn0a386K+Pl
-	 /EHX3mmvoe9lF8desd0H5C91Z0c/74+nk3IT0Z38Lis5SQPAZGwXiIYcyKFFHG+5Wp
-	 kAOeLvca+rpAi4FBQXEIP4ntTo4+O7S1meknWyLV4YguTcXsK7iIS6wfvlhwW7/tTT
-	 WmdOosTdLEA4Q==
-Date: Thu, 24 Sep 2026 19:11:17 +0200
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-To: Ian Rogers <irogers@google.com>
-Cc: Stian Halseth <stian@itx.no>, Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Namhyung Kim <namhyung@kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Mark Rutland <mark.rutland@arm.com>, Jiri Olsa <jolsa@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Magnus Lindholm <linmag7@gmail.com>,
-	linux-perf-users@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3 0/3] perf: sparc64 user regs and stack dump, with
- arch hooks
-Message-ID: <arVZtcrJRRxI6jYd@x2>
-References: <20260923090429.2026529-1-stian@itx.no>
- <CAP-5=fW4bzmy5_6a-8YucOy7JGKg+izRbq+7TaOGKV5aG0oYcw@mail.gmail.com>
- <4927bb40f34ec6d3d5591dabba755452bd6b4a39.camel@itx.no>
- <CAP-5=fWhk8Z22+PhFKbatO6fYgiNBgLGwVgg_NxS8fg=uEdDUw@mail.gmail.com>
- <arVZZCidUqSnIg7u@x2>
+	s=k20260515; t=1790270023;
+	bh=u/pJXEDfDeQ6yuR9LZaN1ivK75isMoDfQFPvPEhsRWc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=UyOCmc+oRDedfWO6Fbkv9I58sxx4FdMi+M5pATNmmWsFIl95BPint7E81aIrOcnQD
+	 2C2roi0z4VhNIX/iReH1afTUHyHTpPOgKv9lqaEojfHeUJXgZ4zLoQvQsRO9DIdALp
+	 a6k/3TEd7SFYK8oyfJoioJLcfea9gJNx4yqnWpatuZzlYbp/iDSoplN6Zbnl6cZcc6
+	 BhhYEf9JIg/xClWZ0oLICo1pTJDZIDteKeKqsMmlSGziqcM/efDy8A0LVxetRvkPVo
+	 Wk4wyyciWj+pjvsSyyJZGQaxF4yp3zlVAWMPeyQiDAd1RemNu2Y0Za/xs4uS3hmNcN
+	 kVOFa64P1UoGw==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	John Johansen <john.johansen@canonical.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jann Horn <jannh@google.com>,
+	Kees Cook <keescook@chromium.org>,
+	Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 5.15.y v2] selftests/landlock: Add tests for whiteout object creation
+Date: Thu, 24 Sep 2026 13:13:28 -0400
+Message-ID: <2026-09-24-daily-reply-0009-re-landlock-whiteout-v2-5-15@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <aee05236ad5600be7fc35c089b345eadf6bcaba8.1790169454.git.mic@digikod.net>
+References: <2026-09-18-daily-reply-0003-re-landlock-whiteout-5-15@kernel.org> <aee05236ad5600be7fc35c089b345eadf6bcaba8.1790169454.git.mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <arVZZCidUqSnIg7u@x2>
 
-On Thu, Sep 24, 2026 at 07:09:58PM +0200, Arnaldo Carvalho de Melo wrote:
-> On Wed, Sep 23, 2026 at 02:16:49PM -0700, Ian Rogers wrote:
-> > On Wed, Sep 23, 2026 at 1:57 PM Stian Halseth <stian@itx.no> wrote:
-> > I think we have everything we need but the kernel changes are really
-> > up to Peter and Ingo, and the tool changes are up to Arnaldo and
-> > Namhyung.
- 
-> Exactly, as soon as the kernel changes land in a path to upstream, I can
-> do the same for the tooling bits.
+> Changes since v1:
+> https://patch.msgid.link/88432dfe86f2aaa9ae499587fd7acff9d34a338b.1789655723.git.mic@digikod.net
+> - Add a guarded RENAME_WHITEOUT fallback for glibc versions before 2.28.
 
-Once that happens, please resubmit just the tools patches without an RFC
-in the subject line.
+Replaced v1 with v2 for 5.15, thanks.
 
-- Arnaldo
+-- 
+Thanks,
+Sasha
