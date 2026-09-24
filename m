@@ -1,57 +1,57 @@
-Received: from mta0.migadu.com (out-162.mta0.migadu.com [91.218.175.162])
+Received: from mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2203F7A98
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 06:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C18A3DDDB0
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 06:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790230150; cv=none; b=Xi+Z9dnOMOfLvkggByTk82kFbSRfcPAq8RjYDsWMhM2ts34dsL9g5pkMsJ9+h3YKuDTsl0FDTTibV6nIoxSawyQOhJJvKNx5vcC5puOYtI70/tg7WtWvNJsANuf/+M0nRQaOOOyoTY/74N9k1w+jXLDXotda9f5aS6tUOEApQKM=
+	t=1790230156; cv=none; b=Z+IhsBRh6eImMxQ2zVNGUs9YsvgGAxDO4a3FlWvCzwQIo2AYBkkim+clMSuDq/VKLn2yXDg7wm2aiTi3NVPnxHydA2wclky50RhiCM7KJIUiqnJtVj98djsBo5/+AI66P4paZJAaQhc1HTnofoT2Fi90Zj3++0HLnIiD1zgsb5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790230150; c=relaxed/simple;
-	bh=RyyiC0ofM8CGzkXnRUfQTw+HLZ/pLb7WijiCtVOlmu0=;
+	s=arc-20240116; t=1790230156; c=relaxed/simple;
+	bh=XHpWqj04QFUErnLgPhyPwQH0c/whsMd8F/Sj8yIguRU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PpnO1VAMKhVe+sqASCECX+X1NhCld9u67JDw82sS9qF3Qq+zWH7acy3MGJ7QAfNwmPDOkIgQPrHiVBehQvUPLkYcgUe6OiAI0JtLPq0elf9bxa7bAYYWCg2d9yZK6rd5hsiN+64tkPMyUqMLnXc6O+bdZ89680nLV8GueyCxfDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eNiVICVB; arc=none smtp.client-ip=91.218.175.162
+	 To:Cc:Content-Type; b=QPUjEZXRqtcQTnk1x5oUt03Ephv//4O31eTG5EedgWRhYBmh+S3K6zIFLRLP1wcVv5rN00G8odsTX4V7sBtTQ103yq5TAk1S/oPs9WTibwvyGuxnGYpm0pVEXlRqgkdjSjBI//37tPkTfZTCCfO3Lb2lu0HWEhdQq+od8WA3Pj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ejcTKwMt; arc=none smtp.client-ip=91.218.175.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eNiVICVB"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ejcTKwMt"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=RyyiC0ofM8CGzkXnRUfQTw+HLZ/pLb7WijiCtVOlmu0=;
+DKIM-Signature: a=rsa-sha256; bh=XHpWqj04QFUErnLgPhyPwQH0c/whsMd8F/Sj8yIguRU=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790230146; v=1; x=1790834946;
- b=eNiVICVBRhgDhGI3qlXj9Y3GWayqaaU9almBvG7o6AUNROowSRoUi7Uz2t+VHW5JOCdV2jm7
- jK/xSmgErZIn8LFr9K5wNBdVNTCi8qadSBVzif6+MKseJOGz/E/yB87Gab3Jf5ryBrbBsQ8NyhK
- 5e2zrO/2+OkKWX1WYs0NPWgQ=
+ t=1790230152; v=1; x=1790834952;
+ b=ejcTKwMtBm8IT6Ago+5H8aEkDxqaJgZb29nXk2BE+OWzmnXRj6VB2X7ruZiBe0iuCqd+nSB8
+ pZ3c/jqxJE/wmKvIFz6F+46poCYJ+3tcOJv+9LLLe/lYjH7BHB1XIbNTkgandLXsVRETImACiFn
+ dOpljZpmzMG+gnTfjiPeGSPk=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id ba1f5cdc877966ac;
-	Thu, 24 Sep 2026 06:09:06 +0000
-X-Mizu-Trace-ID: ba1f5cdc877966ac
+Received: by smtp.migadu.com with ESMTPS id 0ceb4978c6ea2919;
+	Thu, 24 Sep 2026 06:09:12 +0000
+X-Mizu-Trace-ID: 0ceb4978c6ea2919
 X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5b8c42da963so6108e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 23:09:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBx93cpXvLRKn3z/CJz4JOCN4c8S7ZJZkuZ9Gx1Zo84P7zKI9qbhkdkf1hPj6gCf9LD/QE6ieHHZFsQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++majJLoz8qHTm+LTHYVARJYqP/GFE52maB3bK2uRXAIt86QcSXr
-	y2WK6ws8O9NsTO486GtpJPZcfLRCvcEtCzwIKo7eezEpWz3InNpLx5lDlgYVOZ5tW34vCDSsk76
-	hJ8VleXxda4KNCc4hg78qhHLV+8JjPfWkZ3avEE4+
-X-Received: by 2002:a05:6512:1358:b0:5b2:a967:c0e1 with SMTP id
- 2adb3069b0e04-5b8dd6d2b18mr130595e87.0.1790230141441; Wed, 23 Sep 2026
- 23:09:01 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5b5e5aaf7deso5691e87.0
+        for <linux-doc@vger.kernel.org>; Wed, 23 Sep 2026 23:09:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxX5o7FlMVLTOofRyx5vVIBHnJ/tDD0EV29ft2ncstDGPFwApafWzea2iwFvCFLwFy3385BccuXdko=@vger.kernel.org
+X-Gm-Message-State: AFuF++mzHNpzXNCitzysWQgVzjRxBGpRYIb2tnjs2xd3P9FWsf+zw3Xn
+	IDhAEIS2KBnyUeARNB6hJAgGWYlhuGXfixkSLLzEDjJpedOI0K4LRg6FRuzLYtATEcuROFMIS+t
+	YnFqJejLhxR4+BpxQRVK8kn2f2haQKTPW+mBKVKQ3
+X-Received: by 2002:a05:6512:2395:b0:5b8:b502:9a76 with SMTP id
+ 2adb3069b0e04-5b8de5cbe34mr121752e87.13.1790230147200; Wed, 23 Sep 2026
+ 23:09:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260923-kvm-arm-prefault-v4-0-d4b0b4dfa8c3@kernel.org> <20260923-kvm-arm-prefault-v4-12-d4b0b4dfa8c3@kernel.org>
-In-Reply-To: <20260923-kvm-arm-prefault-v4-12-d4b0b4dfa8c3@kernel.org>
+References: <20260923-kvm-arm-prefault-v4-0-d4b0b4dfa8c3@kernel.org> <20260923-kvm-arm-prefault-v4-11-d4b0b4dfa8c3@kernel.org>
+In-Reply-To: <20260923-kvm-arm-prefault-v4-11-d4b0b4dfa8c3@kernel.org>
 From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Thu, 24 Sep 2026 07:08:25 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTxAah=pvuTqSYE0-jkXmgWJBrVD33nCThS4SNJN-kfNmw@mail.gmail.com>
-X-Gm-Features: AclHuK_kb7tirLzxpH1tqzJpHCuAErXckpMiZSE-Wc4zTJclc5slHcBac4UN3_w
-Message-ID: <CA+EHjTxAah=pvuTqSYE0-jkXmgWJBrVD33nCThS4SNJN-kfNmw@mail.gmail.com>
-Subject: Re: [PATCH v4 12/14] KVM: selftests: Enable pre_fault_memory_test for arm64
+Date: Thu, 24 Sep 2026 07:08:31 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTyPsMQ-p4uRpHEd5sabKZPV0nuQv0VdoPWy7PpLtUe93Q@mail.gmail.com>
+X-Gm-Features: AclHuK_F7RRmcZYBgSNF-QK5bg4WxE50rqT6HjF75xbDwVFCBghG7Y9qfeVwzCs
+Message-ID: <CA+EHjTyPsMQ-p4uRpHEd5sabKZPV0nuQv0VdoPWy7PpLtUe93Q@mail.gmail.com>
+Subject: Re: [PATCH v4 11/14] Documentation: KVM: document arm64 KVM_PRE_FAULT_MEMORY
 To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
 	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
@@ -76,18 +76,11 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Wed, 23 Sept 2026 at 16:18, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
 >
-> From: Jack Thomson <jackabt@amazon.com>
+> Update the KVM API documentation to reflect the fact that arm64 now
+> supports this functionality.
 >
-> Enable the pre_fault_memory_test to run on arm64 by making it work with
-> different guest page sizes and testing multiple guest configurations.
+> Also document error values and arm64-specific behaviour.
 >
-> Add an assert on the exit reason, comparing against UCALL_EXIT_REASON so
-> the check is portable, as arm64 exits with KVM_EXIT_MMIO while x86 uses
-> KVM_EXIT_IO.
->
-> Signed-off-by: Jack Thomson <jackabt@amazon.com>
-> [ljs: merge conflict resolution with commit c847704619da ("KVM: selftests:
->  Fix pre_fault_memory_test to run on s390"), commit message accuracy fixup]
 > Reviewed-by: Oliver Upton <oupton@kernel.org>
 > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
