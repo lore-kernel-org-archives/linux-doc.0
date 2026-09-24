@@ -1,167 +1,162 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B011326C385
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 07:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2F540F73F
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 07:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790234323; cv=none; b=nIucQhzt6kuLwwULVrvU29Ddyyy1PmelmlwypaSYJ6OuoZokL+MdKX4GRnYs39XtTku1UOcOWm88pH88vzfqAq+WmVXHa9YRTFAN8dboKGBMZo9LZouz4eTQXdMo2JSJgGze9MTorS9HQPfg7KQAK0URAipwiCqms8cnIAyomQA=
+	t=1790234412; cv=none; b=D0FLy1YZRzXDpHQAeVp5u54IGBeHj9dsdXA/gcbubBuTPL4HD4DH+lmpL1Vk3qBsQRWwqTvcjjDQES/5MjwF9WW6ejK5agaUIChtUso/9vyEuPk+EDCQT5364YY3ABd/hEa6NRvKv75KwaWzbv6I3UMfTtWM45g4OS+Uljvq5m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790234323; c=relaxed/simple;
-	bh=tiND65YWQ7WExP2YCttwYf58Qou97Hr6bJr+s79BFD8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eAU+vxn+b5rpCj2AEpfoVNZmMM8jI5L5D1czbDzd1HxOaqrAZNtJzBxXq145AJQ4+sL6KqXR/dKOt6aJcT4TXnzHAjbYH1FTFaGZs1Tf5w9gbtKEHnoXk+GCAe3v2gR6zVZkTJg7KGMJdG6+6jJdqZmDq1wb/U+InGl39A/CicQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TM4vB4rM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=fcz8hB9o; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790234412; c=relaxed/simple;
+	bh=GHHMs0wM9MmiRMNcNEelwZhzqNS10q95ZUYc+svftEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cQ4/1MDcVul3v8kalJnthQ5RExaif4prPOtKvR9Fl7jdckpvTQ9fsp627YoNU+ar/tENS4i57RpONjdPibHCODbcwqIFhqqtn+hSYpCYFcVYyJ2RAzJbNQ1YsAJ6bxZOJ3WSO/nTVPCrczfzBRTuIpMXygEHZ8UpW0mJClNHipY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ous+ukrS; arc=none smtp.client-ip=74.125.229.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TM4vB4rM";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="fcz8hB9o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790234313;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=O/BKFWAq09c/drTlywLMZ5/iT4zh8IsXGlRsLaDd0Bg=;
-	b=TM4vB4rM6g9y1mI0z+G7g2dDtOxKpdCteviq+XZ2Gc61KUpwyz45Bw7I5AMs/1MzfzWAgn
-	sZWztuRCe7RpGi1RNhA+q4y+Mam049gDRvly6ubDqFhNVkjet99MAq6XTuCLeihBkRjqAg
-	10v9SW4BAvNGtlXq/kHixs4iJ6JuLrk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-389-jX04ddh0P3ONaW8kqDK2kQ-1; Thu, 24 Sep 2026 03:18:30 -0400
-X-MC-Unique: jX04ddh0P3ONaW8kqDK2kQ-1
-X-Mimecast-MFC-AGG-ID: jX04ddh0P3ONaW8kqDK2kQ_1790234307
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-486f3c0d896so867832f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 00:18:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ous+ukrS"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f1801fso1716661e87.2
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 00:20:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1790234307; x=1790839107; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=O/BKFWAq09c/drTlywLMZ5/iT4zh8IsXGlRsLaDd0Bg=;
-        b=fcz8hB9oX0RwftFfCJk4jHxOOsXfCYSgP0H7GDBsPj72J5R+xJmt9xNuun0vvTdCLa
-         wabxJQLq422a28lBpLcYEHok58t4U2XDSPMVpImf3miu+4LEm3LxNOFKQdhP2noB5/L5
-         en6BtOWt2eFjSJ4DLJIIxwsNqYOOXEPYx8WryN/z3oEqqYCGJtzD9m6jQq1hLk9e/xms
-         rwkJCzHlrfyZodNwszFtuxwPwyaA5HFXxO3KsvlO15daNIv3BPNlbqOh0Qi8MM6k3ylu
-         uUOXjSxSVkgpTtqFpQLJeNKYPk78nUHcjTncYiDyZg59auaS+xS2wh7ZDRsMRhfIozwH
-         GbPQ==
+        d=gmail.com; s=20251104; t=1790234408; x=1790839208; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4viioSB1Cdhru9S874ZQwRNPODne/nPyQTptgVZoI4k=;
+        b=Ous+ukrSKYKNVCz+tHieApuBuIfSbYX9L9MUv1X1E+g1UuwdYfuBcx+/+/4q+iO8KK
+         ExgpZwbIg11R8P9igE7ToqQfMi3uYKB8jTgf36LCG9Fg24D0eGUVdNeU9fbbuWQ8SJG5
+         U4g5VtB3pBeLJ/LEeQUofStcLfY6lYhcw+RIKRS1QnUqSDlFe1/xB4w0DrNInTkRaaq2
+         VxdHi8w2tG1uD+Vo8V7p8xIm4luVJUkNUERKPdtSwu1VgOYt+zg0ped4YsIy2Js1espo
+         2Xj330Lf2gO60zKWmInLxLS2i4oT5/yuTmBXoeFmve3inADcyV4HvKIwFrgh6G6NE3Qs
+         sILQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790234307; x=1790839107;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=O/BKFWAq09c/drTlywLMZ5/iT4zh8IsXGlRsLaDd0Bg=;
-        b=2vg8u9mJ4NlC8Dlc3KHZHq1TB/F8//xw+MSTWuTDfWl4DFMwFIMN81KytZcrYCmOzK
-         m5biSraa14VKzCuSUcNrpKJGzaTYxJ1/tDxni9rVszQeKlsjo38i4mxAsGaran2lNcNR
-         LcwSqT8yoH4v3eQLO0hqSUAT0GSKZTnr92VHyWnN9m7FphP+AQOtg8GknKMeOlwAmOBp
-         rLDa0eKnFRDgrUIIhyQNNrvEl1efxG7i688zR5pZJjKMrstukNYDhCLZBDtrHsfq6U0x
-         rbVmWeJFAyaobxCfrg/Z7+ZA+S2us5pFhBW4KWQ+Eiy1PWvLHxitajpyegMwckT84wSH
-         CDfA==
-X-Forwarded-Encrypted: i=1; AKwUvBwmJVisew++v1L2LX85DsB/71xd1/td8Sy7T/B7jL8lgRmTc5KM67UijWKYOwOZ85TsOahTXI/bDFY=@vger.kernel.org
-X-Gm-Message-State: AFuF++kUd0rKQuVFdyBjDs8A/2mbVhZUcXzWqeKDeUkUwsSO3HGkT9C0
-	lGgF8DGkLaWijbRVxuaU/yhJOLODv6T8DEjqhNevjb4hU64mGkINzR2gDzNeB1nsAgwkdvRmLkF
-	Ny008+scl7sqP5ivtHVOWNZTQdN8sGoxz3nre6D4CjP0Y5WqNQrkkI18h09vrog==
-X-Gm-Gg: AYBFou1/JrKd8pQx+JS24KjJFojYEbE2V+v9Xa2ACve2AasciZlBrhvF+gl3bjp67uI
-	lBOkMmDde5qnTcsOtHXk1Va2Wz3prFLv1TXhuHr/ixPdHgjGd3lxe3jFE+9Ah2SNfvdyy2Emlc2
-	8B/SUsDj3AasUsUTHdxBElNkAB4AppZZ1Vcrntq4yVcHNpUVFDYYR17El+v0WK571DeRRpIS82X
-	ApwtjMDRUgkSKe+Suz/1kIlIR5VILkOVbFzyUPCqiKqFGumv3jcPA9pSplS0daosWn2KuSbm+Sc
-	9hxN7YHVLXd5jxPK3dU5C4TT/bVspbyM/NdqmMttRMCFUoRkdkkRF2hXT8U6gCvBbZyG6cHKgnJ
-	w1TgNv5KFRCf3YdyuNKqE70jAq1GOsdkd06wjBxE=
-X-Received: by 2002:a5d:5849:0:b0:488:5535:415e with SMTP id ffacd0b85a97d-48871728c76mr2575373f8f.25.1790234306868;
-        Thu, 24 Sep 2026 00:18:26 -0700 (PDT)
-X-Received: by 2002:a5d:5849:0:b0:488:5535:415e with SMTP id ffacd0b85a97d-48871728c76mr2575344f8f.25.1790234306488;
-        Thu, 24 Sep 2026 00:18:26 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([195.174.135.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-488684862a3sm11499823f8f.7.2026.09.24.00.18.25
+        d=1e100.net; s=20260707; t=1790234408; x=1790839208;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4viioSB1Cdhru9S874ZQwRNPODne/nPyQTptgVZoI4k=;
+        b=mDl0/Ktc5TU8vBpr66myJqy7sK7zYrp8jywxfRmIwhSZpK8IfW7CFr5gLxxBgigCIa
+         fiYeOT0TALopaBzuQM5nAHCUoIozm+LP9xSVhgWV6CGJO2e0tm9NA/kGaFp9JgveJr/w
+         8rp7ygl2GGAYpCHoG9JlhvwJitH0SmKJ8Bz6xU762lQ7qDHbFV6NKssHgqndAA9bzBp9
+         kNxbWlp7NrV/u68PfV9EE7ukkvusqevN20S5OOWfJjDMazlTYDJ7Tz0qsqade6C4lfMM
+         g0k+GtqPX8UyShYJLUpczuVDZt0mGBSHJOaDNtLMrSxNRsdxuBZW5J1HezqTF3BaPWf/
+         7dmQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwIPge6VdnqIa7jGl3voNQP6g8ukZW3N84pPfcqY5VnNeOg4hxgsYn2S4HZgwfqNJ3rpW58HufuxQU=@vger.kernel.org
+X-Gm-Message-State: AFuF++kaDiBdJL4xsSkHPSeCDV+ER7KbIq4NNsSKXXvzIYhlUVGEz/rp
+	QfyscKVwAxYAcWN454p5RBQQZuDua5veAjE6gfuUzoHupG4b3KzAxUVT
+X-Gm-Gg: AYBFou0eOjkVg/opKiR0drF8iYvaabJBt8le7VQ6HH2ZDkr0eRhnVfAuRYunMeeAZrx
+	/uDl7EAo/lGtoV652WnjYh11YUHBjkggJ03yMIuw51TSNqZRq9VN5cn2tApE0bNq3apTgl+3IdG
+	LonljrwuSKptolmDUunRxE9v5zwpKzUBqTMnZmSfuTormDOoEpXQeBxvo1P9S6SygrlpNk5pn/m
+	Dc/u3L6aJwjQBNs8IXgQGXdCkpsxKy58zWERdVcz8FXh8Jn5XfoCxvdpSwfb2ENK6QgYC8j0691
+	Ez9CU8IPcuQcreV0EhEcqhq0x+0nRgmizwdrFM2W76ElsvqsC+KAjXkjDmfIHkkJckaFi93MP4T
+	IOC+kFYorDp6bkHAMslvJa6IPDybjGHauvTcMQ4JnYLIrqqKjO0IfFTgkQH5fao28hltaIdrTKW
+	HgcFvjuvFFCfbdsOlhWMUrTlLVaiPXAEBMjuVUFkbIXPH+QhQzT5fqGsB2aSW1iM7u8sGCxJUZ7
+	T2LpGCPlGnnzxpmAlu9PlVfHU7P
+X-Received: by 2002:a05:6512:234f:b0:5b5:e2e2:5f2e with SMTP id 2adb3069b0e04-5b8df05906bmr513502e87.18.1790234407919;
+        Thu, 24 Sep 2026 00:20:07 -0700 (PDT)
+Received: from localhost (sol-eduroam-pathost130.ki.se. [130.237.96.130])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d857f7edsm1229650e87.31.2026.09.24.00.20.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 00:18:26 -0700 (PDT)
-Message-ID: <c8bf231a39b5303bb283b12648a9e23b5c4bd07e.camel@redhat.com>
-Subject: Re: [PATCH v2 3/3] rv: collect per-edge dwell time for per-cpu
- DA/HA monitors
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Tobias Schaffner <tobias.schaffner@siemens.com>, Steven Rostedt
-	 <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- rpm@xenomai.org, 	jan.kiszka@siemens.com
-Date: Thu, 24 Sep 2026 09:18:24 +0200
-In-Reply-To: <20260911123439.463052-4-tobias.schaffner@siemens.com>
-References: <20260911123439.463052-1-tobias.schaffner@siemens.com>
-	 <20260911123439.463052-4-tobias.schaffner@siemens.com>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+        Thu, 24 Sep 2026 00:20:07 -0700 (PDT)
+Date: Thu, 24 Sep 2026 09:20:06 +0200
+From: Klara Modin <klarasmodin@gmail.com>
+To: Baoquan He <baoquan.he@linux.dev>
+Cc: Chris Li <chrisl@kernel.org>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arTNdz2P4ZZZfruh@parmesan.int.kasm.eu>
+References: <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
+ <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
+ <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
+ <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
+ <arKbXe1Qe-FDCTMM@gourry-fedora-PF4VCD3F>
+ <CACePvbWW4avTV2WB6iRU+LN5zqkMTg3UhBrq41R0iw91-7Ni0g@mail.gmail.com>
+ <5a7ad159b2fabf377b7e1fc4248c433287ac11fb.camel@surriel.com>
+ <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
+ <arO0RCCE3Woh_I_z@parmesan.int.kasm.eu>
+ <arS6dvzAI5XLHuG-@MiWiFi-R3L-srv>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <arS6dvzAI5XLHuG-@MiWiFi-R3L-srv>
 
-On Fri, 2026-09-11 at 14:34 +0200, Tobias Schaffner wrote:
-> With the core facility in place, hook it into the DA/HA layer so that any
-> per-CPU automaton monitor also reports how long it lingers in each state.
->=20
-> Pack the automaton state and its entry timestamp into one word so the
-> transition cmpxchg updates both atomically. This prevents nested events
-> from attributing dwell time to the wrong edge and requires a native
-> 64-bit cmpxchg.
->=20
-> Account a transition as soon as its state change is committed. An HA
-> constraint that rejects the transition can therefore reset the monitor
-> without leaving an accounting window for nested events.
->=20
-> Add a selftest that enables a per-CPU monitor, checks the stats file
-> appears and is populated under load, and skips cleanly otherwise.
->=20
-> Signed-off-by: Tobias Schaffner <tobias.schaffner@siemens.com>
-> ---
-
-Sorry for taking that long, I could just have a quick look at your patches,=
- the
-approach looks fine but I'm going to need more time to check them carefully=
-,
-likely after the LPC conference.
-
-I'm not too fond of how you split into patches. What's the reason for split=
-ting
-1/3 and 2/3 ? It seems they both add the new functionality, one step at a t=
-ime.
-
+On 2026-09-24 13:51:50 +0800, Baoquan He wrote:
+> On 09/23/26 at 02:52pm, Klara Modin wrote:
+> > Hi,
+> > 
 ...
-> +/* Edge statistics pack the state and its entry timestamp into one word.=
- */
-> +#ifdef CONFIG_RV_EDGE_STAT
-> +#define da_state_t	unsigned long
-> +#else
-> +#define da_state_t	unsigned int
-> +#endif
+> > 
+> > Chiming in as more of a user perspective.
+> > 
+> > On my 4 GiB BPI-F3, I can reach more than 10:1 compression ratio on
+> > zswap during some parts when building GCC 17 snapshots. E.g:
+> > 
+> > MemTotal:        3966864 kB
+> > SwapCached:        31872 kB
+> > SwapTotal:      16777212 kB
+> > SwapFree:       16638128 kB
+> > Zswap:            280140 kB
+> > Zswapped:        2859840 kB
+> > AnonPages:       2927376 kB
+> > AnonHugePages:   1409024 kB
+> > 
+> > While this is 72 % rather than the 100 % you asked for, I think this
+> > shows that what size a potential limit on the uncompressed size of zswap
+> > is suitable heavily depends on the workload.
+> > 
+> > I have been using vswap consistently on all my machines since about
+> > August, and I have also tried one or two versions of xswap (but the
+> > current lack of writeback makes it inconvenient for me). I really
+> 
+> Thanks for testing xswap and reporting issue on xswap rfc v3.
+> 
+> xswap has writeback now. I only built foundation for xswap, while
+> writeback part was left to other people for collaboration. Finally
+> I added it.
+> 
+> [RFC PATCH 00/17] mm, swap: xswap writeback to a physical backend
+> https://lore.kernel.org/all/20260920072043.430390-1-hebaoquan@kylinos.cn/T/#u
+> 
 
-Also try to define things in order, da_state_t is used in 2/3 but not defin=
-ed
-until 3/3. This doesn't break builds (the header is unused until 3/3) but i=
-s
-just harder to review.
+Thanks, I'll give it another try when I have time.
 
-I find it more natural to split it into 1 add new functionality, 2 wire it,=
- 3
-test it. What do you think?
-
-Thanks,
-Gabriele
-
+> 
+> > appreciate the work being put in to decouple zswap from needing a
+> > physical swap device to work.
+> > 
+...
+> > 
+> > My personal preference would be for a default uncapped (or very high,
+> > and I don't think 100 % of RAM is high) limit on the uncompressed data
+> > which is backed by zswap, since that would mean one less knob to tune.
+> > 
+> > > 
+> > > Chris
+> > 
+> > Regards,
+> > Klara Modin
