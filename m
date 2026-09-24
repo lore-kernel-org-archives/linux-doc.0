@@ -1,128 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE352253B58;
-	Thu, 24 Sep 2026 08:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790238285; cv=none; b=p94fbcqzHuiudYf1jGIgOr29blsLux1RENTkP5s6PEzDIH8V+PPk9P6wqBQJn70BOuxfUDp77e4KfXP5kMaes5Rd7QM/3cNi9VOA+amJ+OrWB+A8PTbbLUQP3fYVbeIZ+XGAXX9EnII2sJT0rStehfHlHu0+qTy50l2eAugfyR4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790238285; c=relaxed/simple;
-	bh=qH/xoIQQTjhDSiZhLliQjwC+Qf7DIwFZJQ4us8xPFLs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VD5GSbYYnCuJC+HiWVUe+vMtzd5T7vOaYfa9kfTe2007ZUA7qb51ENgJwlv8Ueec9Euh6jROLRGVNjWmpftH60VkBke0DNMXazYyt49kdStvsP4Bh7cKSNKykymt03MEqbkU9ep8NDNdUH5V0xOs08/CLPvGYUfXfwuEEQKPxhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hzWmfzKK; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA57443F4C1
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 08:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790238405; cv=pass; b=k7qp5L0S6QIDCYmqmbmsL/fONX76vxt83FxLMs/RP7ZrgxVqRuZZxj5wGjLFSdWlq6Hz6013DVQuqAR66r/QlQkutXbuZaWvizK6M3hCRkQz25x8sDC2Q4SY7hRo6s7MbtJvMfISq1cpSfpo8PV5HjXkUynAteiXX9uqnpRY2i4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790238405; c=relaxed/simple;
+	bh=svx/lXpxbyRvC5hg9Mf7leQZBgztlGdMd/1meLurTMY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=b87Ru1Ws/Wkp7iHulekoNBbc45w6G3Tc6/sOECLVx8E/jgGEOieWiXtqmFKDmp6KmOIQkdu+9EoImUA6oOPVIoRwIHo3EdWzBSiKhM3B7mVu4CZI8u6/H7vW6IhjOnyn+b1yQI5BozuSYSprl/wuHw4CzvGC1rCSfpDzQzSG6j4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GbaUbnw3; arc=pass smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hzWmfzKK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41AA61F000FF;
-	Thu, 24 Sep 2026 08:24:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790238284;
-	bh=H6tVKrw4vxknpsCfaS2E4oakwh3qbNJjyw35eI3TWIc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hzWmfzKKA3g7QupfnK6ZXnZ8fF2lZmD4DkqCumCqrtgN93b7O+7bJmvVJ1wgkpYnD
-	 JngGUo5JcR8XUqFasFfWGuKlyVPrp4/EEgIbQq/P0Rjcamg+xUTt/cH84ulyAf2FWA
-	 Jn/VnSq1myqFWD0scz6TZNRuDqQtlBJ26+5xrUTfo7fIFZ8h8KXU6W5Y6D9OVk3nRX
-	 YbvbF+9ERz/iDuTXVHdzKAQbzRYnPsMccVdi9XhiCsbxa3DoIb76y+sHqlpXYmeGYy
-	 nuGjLdFvXLSiwS9cOskArOuBZj110IiIXsVSikwXW6yGYoPCx5gvK1fgMC2uHd4zw7
-	 GRdxs8Hm8d1Pw==
-Message-ID: <4ef027ea-13b1-475b-ae31-7d8ca18fcecc@kernel.org>
-Date: Thu, 24 Sep 2026 10:24:40 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GbaUbnw3"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb767cc7fso16033151cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 01:26:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790238399; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BwVRtZI34KB9Ku4enZCvmCXxJHVa+6y79e1rN+z6yOQ3pVRhjW/EAwMbYREr2bkoMg
+         otWXqmaX0vS58NoVuhXPL2EVO6sFYhQDIvoCpVOP94gU5j1T20Y6D4xqI1fs83ffKX6P
+         qy3fZQIbV1fkput+/l5xCM5MAzKYUlS72qaeYksgpS1+takCXt0b6N8B7SWe2ShROnpN
+         euMA4fnwUcYcZSORjxt1vKx61GIbdKhu2bta/E5pBlk24s08Vt7641Pd0ZbtDIxPIOtl
+         IVSdSxDnwTvHJ0AzRqAXA36n9UphYX4TAB3VPhuH0sllqJG4vMb5Ftt/LopwjaTevo8e
+         Zf/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Djx86NYnyz/9RFz/5fi7+M66lo0Fi/FSUEqHr4nGVIo=;
+        fh=Kh69vDtDF2FCtJuSiyt7tb10f9JypRUDsImTVCwyYBU=;
+        b=kEk2G4zo1osFhSw1yt/oHzfZ3zDcEU7OCoqTmSdGfn6WbcfTtSycPYJVum0gaZ3fFw
+         e42OF0bzKHpIDHOtEx8TwAu31AkWa5M2vmq9AVafzhPgrOVgp+hO1LFIWkxU29PPYXFW
+         56DtGh7ut0tJGfws15kUyA2IKQTmGtUswehw8ODpvE4ElLALUH2XwKHMWMbCG3hr+xYd
+         7QtY6+SPSZShix3lADjVadogu4iEs1LnYErD+Z7gTn5wl3+WCyBOE7y4zqQoyv5WB1Ee
+         qd6dqO6FFVP8TY3Lxx+xoh2R9yFlF6OVeWVlqXfUkHvw6o6gdHVc468iIusWSZsyvV6j
+         ZwKQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1790238399; x=1790843199; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Djx86NYnyz/9RFz/5fi7+M66lo0Fi/FSUEqHr4nGVIo=;
+        b=GbaUbnw3MbE4686aB+MUIX/nDidDE5Z3rBo4OINjyQc5X+3lgamt4CS62TDWDKCzf4
+         3YX0Zu/YXQveN+I17TTkN6ju8/1eSPhPaSW2cEdqgAfj0cfBPDVIXIwrFy/aY0F0wwgO
+         VH27RZJnQx7wBVgFWGlJNReK97nLue5IdRNvUORFBBbNku6xLlOUNAckvX7mxVU/39Bl
+         7/BmiqJtr97Sw1pr4pBxWv4fMGQuBDcxVSMncumxC4o/Hpz1jHnJ1aC5asLvz2+FVkxm
+         bRLxuEOE1Lz80cbD16xla54/+5FPb3Dwle2zh+7Ncw3lP84bGtx+8pG9M5EyKrvDY9TN
+         k4mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790238399; x=1790843199;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Djx86NYnyz/9RFz/5fi7+M66lo0Fi/FSUEqHr4nGVIo=;
+        b=O+laObjXSMXTtZm6UsDws+Ye0n67AktI/2H1T3aI1WzxaRWxg5+FHAvECDjOCzJ0+P
+         G6yikZATgeGgL0KUky8wHF8/zfY9lD9e7WBQ+sPeA67SpfCqTwxrmBLppcqvEFFHQ4YB
+         bsgJ8wxwebZCeAr27bfG9LNr2UlRiQpERmaPuEEZa+5kxWz21Xu2btOluurgoDt0mT9x
+         4TsJNZFLzHVfcPU6AbFXbmB7tNNrwxZMBN7YbG5K/slfIY+GmgNjEXUkkgqS9LHtuWAJ
+         LDsVhGdqqcTyXnz8ufkU3qMcV9+H3VOQSsyxc3woGruPFiX/YDyj5vSkA+j+De9pN3rP
+         RzNg==
+X-Forwarded-Encrypted: i=1; AKwUvBzce4tPrfskIkZtV3NQ1edzjZ7vcGmV7VyUcKF119e7WAIbnWqVM9N62f6G3ry5eHegtd6xooqZrA4=@vger.kernel.org
+X-Gm-Message-State: AFuF++lZg0AscA3xf58RxNueEuI54ku0s08o3I12oOwNjNKeqkxijzMp
+	32tG2CN9WibfaCbfjTbVORlTSyN9kFF3zORfUsrKGSsGIVLJbCI8t5tx+/nLVecnBjAILv5lzI7
+	5aZU8DlNsAPatKMuZAvGvJa88KYxQv8Li/U9tgVVv
+X-Gm-Gg: AYBFou3J9V4uDuaSaYt4OjxZ9ZZrw3w37I9QcQGhkw61nBndtoLKg6mAQQbbKzr3TIe
+	7wIGO7BJ4RfU0vCENNujijn5tlYYcAv14ly5uDny7afOplVCLzgGCVL/zH6Wl2FEkfVI0punyEI
+	YIpUsxV5iwKjJ+nrZkGqrPqZNHw7kjEPiQlOzYdIr9ad3af79VidXvPeQkZ01n6kZXbhMrq/w7M
+	tNvExpqVu1dYHuDdlA1tWipvOezFG2b68CyUgjGLEN0IJpdX8g2LQMQeirw7z5vQ7JHQq5XzwpM
+	iMOXbk2ZPXPJ2hAkJa1LXRqov7z3zxyWRE6cHJJSb/vO5Y/tk6Uke7jqPXLDKzfEoUg7gybJ3HD
+	bUUb2c0EVObbJd10IGbAS8JJ9aqSogw6hF3IqCbRl+PQTm8La+tIx06Nxgb/7S5h9fHof
+X-Received: by 2002:a05:622a:4185:b0:532:d0ab:f3cb with SMTP id
+ d75a77b69052e-532feb52734mr11578341cf.59.1790238398107; Thu, 24 Sep 2026
+ 01:26:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: submitting-patches: mention the branch in T:
- entries
-To: Matthias Goergens <matthias.goergens@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <64b0be79c535bb9545f9f81a5044146a8726c761.1790220653.git.matthias.goergens@gmail.com>
- <e592d82c3a9fed3300488fa65380ab055852c984.1790220653.git.matthias.goergens@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <e592d82c3a9fed3300488fa65380ab055852c984.1790220653.git.matthias.goergens@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260924080219.1036588-1-caixinchen1@huawei.com>
+In-Reply-To: <20260924080219.1036588-1-caixinchen1@huawei.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Thu, 24 Sep 2026 10:26:25 +0200
+X-Gm-Features: AclHuK9XSbyZhfSiccnO7XKdYo-g6nGD7WSG7r9j6ZGeEHZyUxcT2PFsdbnfwn4
+Message-ID: <CANn89iJVGmYwQerOixGurH6vw-GtvSAQq6u6zSNZoyZrcEx6Jw@mail.gmail.com>
+Subject: Re: [PATCH RFC -next 0/5] net: charge socket memory budget to memcg upfront
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, kuniyu@google.com, 
+	pabeni@redhat.com, willemb@google.com, davem@davemloft.net, kuba@kernel.org, 
+	horms@kernel.org, ncardwell@google.com, matttbe@kernel.org, 
+	martineau@kernel.org, geliang@kernel.org, mhocko@kernel.org, 
+	roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, mptcp@lists.linux.dev, 
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, lujialin4@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 24/09/2026 05:35, Matthias Goergens wrote:
-> A git T: entry in MAINTAINERS may name a branch after the repository
-> URL, and where it does, that branch rather than the repository's HEAD
-> is the one to prepare patches against.  Say so where contributors are
-> sent to the T: entry.
-> 
-> Suggested-by: Theodore Ts'o <tytso@mit.edu>
-> Link: https://lore.kernel.org/all/arSMwd1bGO1vrif-@mit.edu/
-> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
-> ---
->  Documentation/process/submitting-patches.rst | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 7ae79452e1b4..2936388dcaee 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -37,8 +37,9 @@ which can be grabbed with::
->  Note, however, that you may not want to develop against the mainline tree
->  directly.  Most subsystem maintainers run their own trees and want to see
->  patches prepared against those trees.  See the **T:** entry for the subsystem
-> -in the MAINTAINERS file to find that tree, or simply ask the maintainer if
-> -the tree is not listed there.
-> +in the MAINTAINERS file to find that tree, and the branch to work against if
-> +the entry names one, or simply ask the maintainer if the tree is not listed
-> +there.
+On Thu, Sep 24, 2026 at 9:36=E2=80=AFAM Cai Xinchen <caixinchen1@huawei.com=
+> wrote:
+>
+> The memcg socket accounting currently charges pages to the memory
+> cgroup per grant (__sk_mem_schedule() publishing forward allocation)
+> and refunds them later from skb destructors.  The refund side folds
+> per-skb "was this charged" snapshots back into the socket balance
+> under concurrent lockless RMW, and races there can drive the memcg
+> socket balance negative, ending with:
+>
+>     page_counter underflow
+>     WARNING: ... mm/page_counter.c ... page_counter_cancel()
+>
+> This series flips the model: a socket is charged its whole memory
+> budget (sk_sndbuf + sk_rcvbuf + sk_reserved_mem) to its memcg when the
+> budget is established or grows, and refunded when the budget shrinks
+> or the socket dies.  Grants and per-skb charge/uncharge stop touching
+> the memcg entirely, so the racy refund pairing has no code left to go
+> wrong: refunds can never exceed charges and the balance cannot
+> underflow by construction.
+>
+> Tested: full arm64 build with 0 warnings; each intermediate state
+> compiles (bisectable); tools/testing/selftests/cgroup builds clean.
+> Runtime validation on the workload that used to trigger the underflow
+> is pending.
+>
 
-Honestly this should be squashed with previous. It is one logical change
-- amend format of T: entry and update the docs which reference that T:.
 
-Best regards,
-Krzysztof
+Charging sk_sndbuf + sk_rcvbuf upfront to memory.current is not
+viable, especially for servers handling large numbers of connections
+(e.g. 1 million TCP sockets):
+
+We specifically went in the exact opposite direction in commit
+4890b686f408 ("net: keep sk->sk_forward_alloc as small as possible")
+to make sure idle sockets hold zero forward-allocated memory and
+non-idle sockets hold less than one page (4 KB) in sk_forward_alloc.
+
+
+1. Massive phantom memory charges and false OOMs:
+   With default sysctl_tcp_wmem[1] (16 KB) and sysctl_tcp_rmem[1]
+   (128 KB), 1 million completely idle TCP sockets immediately charge
+   144 GB to the cgroup's memory.current while holding 0 bytes of
+   actual packet buffers.
+   Worse, once TCP autotuning grows sk_rcvbuf / sk_sndbuf during a
+   short burst (up to tcp_rmem[2] =3D 6 MB and tcp_wmem[2] =3D 4 MB by
+   default), TCP does not shrink sk_rcvbuf or sk_sndbuf when the queues
+   drain and the connection becomes idle again. 1 million long-lived,
+   mostly-idle connections would permanently pin hundreds of GBs (up to
+   several TBs) of non-existent memory in memory.current, forcing the
+   memcg into constant reclaim thrashing of real page cache/anon pages
+   and triggering premature memcg OOM kills.
+
+2. Overcommitted caps vs. physical reservations:
+   sk_sndbuf and sk_rcvbuf are per-socket upper bounds that are heavily
+   overcommitted across sockets, not reservations (unlike SO_RESERVE_MEM).
+   Comparing this to vm_committed_as is flawed: vm_committed_as tracks
+   virtual address space overcommit globally and is never charged to
+   memcg's memory.current for the exact same reason.
+
+3. Broken memcg limit enforcement (memory.max bypass):
+   __sk_mem_raise_allocated() drops mem_cgroup_sk_charge() completely,
+   while sk_memcg_budget_sync() ignores charge failures ("the new budget
+   is used uncharged"). When a cgroup reaches memory.max,
+   sk_memcg_budget_sync() fails in sock_init_data_uid(), tcp_init_sock(),
+   setsockopt(SO_SNDBUF/SO_RCVBUF), or autotuning, yet sk_sndbuf and
+   sk_rcvbuf are still raised. Subsequent skb allocations in
+   __sk_mem_schedule() will then allocate real physical memory without
+   charging the memcg at all.
+
+4. Unnecessary struct sock bloat and hot-path overhead:
+   - Adds 8 bytes (sk_memcg_budget + sk_memcg_budget_lock) to struct sock
+     (even when !CONFIG_MEMCG).
+   - Acquires spin_lock_bh(&sk->sk_memcg_budget_lock) inside
+     sk_mem_reclaim().
+   - Every TCP socket creation charges rmem_default + wmem_default
+     (416 KB) in sock_init_data_uid() and immediately uncharges 272 KB
+     in tcp_init_sock().
+
+If you are hitting a page_counter underflow race in socket memcg
+accounting, please share the exact race / stack trace and fix the
+underlying accounting bug rather than charging uncommitted buffer limits.
