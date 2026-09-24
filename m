@@ -1,127 +1,98 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BED14AA41E;
-	Thu, 24 Sep 2026 18:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F373624C5;
+	Thu, 24 Sep 2026 18:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790273722; cv=none; b=N76zGZtLsWXQ5lSTf5Bu46+EsctSPLXJ+VLcfzS9fIv/jii1eO0Jyrn6qCTdW+gQ2Wpui7epmOYMxKzj3nyvY44SI7klA//r9rNXrJSRo0Sn12F5Way8sXweKQ/UI35Ny75HncDvF/D5rQJ6fcBEnjmkzMlUmWp1mCyN91Vhkcs=
+	t=1790274691; cv=none; b=WxtetniyZELQFayG44bzUMWgiEU0iiO4tT4jilLUaaQyD5I3Xj+74f4DoT8Lv2JmuR6JDeGA6smzleuNYIUoHySTYp5bI/p9W/N6nIFB4dRg12BJHcBmk0GL3SSjwLq6Rx9sqzK31d4u3dDZBDMzCa5vQGrv0t9/irRqCteguOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790273722; c=relaxed/simple;
-	bh=wX8CSj2fNMWwCN/CUlUpxrxanIa2BZUzno2ME71/0zE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pkAE8VOeBdkdMnvsOZADj8WCHh2jcfvH0UWKGqioTIJ2KZi4neyWgF87uxhBlB6jVeu+iugemUwNUSxXbpaWlycInk4+YI0QeE/ZYR1162GVItQU/cZ/t9ubVmIhkECc7OIgBYle8dCx2Hqi/Cqi5/vY8DI5FBvLPjY/YcEbfPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=OAIh3WtG; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
+	s=arc-20240116; t=1790274691; c=relaxed/simple;
+	bh=vASZjPdVJmL9BLZZqe/CHwFQYeytSOrKeWPeOZFz8f8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hwZLXTLVE+bJbKe5OkmYwtd4uzI7VdBCdU1HrgFlVHjn9GybtsBTWUhZLXJPecGMiz5rlzSvfnJLYJ99V9C+QaH3nHUQpF0DEd2NR0lA4GecoKzS0/BJvtB4UtaY/dL7/nnSXSDqPBt6j4zhcv9BZt1TFtklyS7tuxYPgr+JjIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W0pLEx3u; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="OAIh3WtG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
-	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID; bh=wX8CSj2fNMWwCN/CUlUpxrxanIa2BZUzno2ME71/0zE=; b=OAIh3W
-	tGD3YH8owDqUp8FviZpRcyXxHQqpTPleog+faXwIQZh19fWn0SW/U5aEYDzlYglaflJbiiF6t1k4m
-	bo+fCQ0U0Q2u0m+jicUUH42aRuCUD15VoZfupmNR9d8u1FdUiLCnRKlFLcun1d6znBHhkFXN2lBhP
-	TiBv7p9NChjggdQrsD/M/jrX1xnYse8KbIMqauuw+rhFMSAcHD5KnyOlz6L3YYHQNaRLX4pj59uHO
-	GRAYtKLvk5mtHCh9uydQQD53zlJ+Vuqv4n7i8XdEEFAfd0maQ1ogkh90OFcOznMeq0pxq5ksBHe7G
-	a4XmqjJKjRthdWfxgUF722GpMqHg==;
-Received: from [2601:18c:8100:a0e0:5a47:caff:fe78:8708]
-	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.5)
-	(envelope-from <riel@surriel.com>)
-	id 1x9nvx-00000004TfP-3vhu;
-	Thu, 24 Sep 2026 18:12:37 +0000
-Message-ID: <7571f005bca65aa4ad5e7ec89e62801ad058b689.camel@surriel.com>
-Subject: Re: [PATCH v5 01/11] mm, swap: add virtual swap device
- infrastructure
-From: Rik van Riel <riel@surriel.com>
-To: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>
-Cc: akpm@linux-foundation.org, kasong@tencent.com, hannes@cmpxchg.org, 
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
-	yosry@kernel.org, david@kernel.org, muchun.song@linux.dev, 
-	shikemeng@huaweicloud.com, baoquan.he@linux.dev, baohua@kernel.org, 
-	youngjun.park@lge.com, chengming.zhou@linux.dev, ljs@kernel.org, 
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	qi.zheng@linux.dev, axelrasmussen@google.com, yuanchu@google.com, 
-	weixugc@google.com, gourry@gourry.net, haowenchao22@gmail.com,
- corbet@lwn.net, 	hughd@google.com, baolin.wang@linux.alibaba.com,
- tj@kernel.org, mkoutny@suse.com, 	skhan@linuxfoundation.org,
- kunwu.chan@linux.dev, kernel-team@meta.com, 	linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	cgroups@vger.kernel.org
-Date: Thu, 24 Sep 2026 14:12:36 -0400
-In-Reply-To: <CACePvbVaDNspMDSw_qAcapKAzXj3JGV-KMYmow7aePa0POHpSg@mail.gmail.com>
-References: <20260918180241.3424851-1-nphamcs@gmail.com>
-	 <20260918180241.3424851-2-nphamcs@gmail.com>
-	 <CACePvbVaDNspMDSw_qAcapKAzXj3JGV-KMYmow7aePa0POHpSg@mail.gmail.com>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
- eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
- Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
- lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
- dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
- mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
- gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
- r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
- WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
- 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
- Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
- +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
- g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
- KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
- fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
- 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
- G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
- okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
- TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
- cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
- omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
- QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
- c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W0pLEx3u"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=0h0IbeNOqSvjcEi0qrU0qL+dUPVCSJzkXIt2pRUFlqE=; b=W0pLEx3uhlcpodgm9jhmgh+zZ/
+	nuKO9Uf51qVsl8Q63c8ThGSPbyIdZqF28Fmg9ESRQl8X1lFl6SJWFYkFjTyvq6xChVJqAGKNTdcH/
+	Vg1OLBsVCnJ1kEi/DNVHu6vq8tgr9+1MCuEs+tgaTvmvMZqL7dv/8Ojkb84ydLNuh+o73zfPOGUjv
+	fFBAafQjz3/4/WBYmqQ/j8/2X/IXpZNWGvaHOR1RC1z8vrbTEXcrteClkuao1aYj0uJb6AgGhkxUu
+	Q+W2GmzFCnOGr4/QKu9ZHuOBW2NXiKG7swZy9U3tFZu64ooNp1SvmK1caV/yUZYcxmK47jvyLofb1
+	DA7ZljyA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x9oE6-0000000BuTX-45IR;
+	Thu, 24 Sep 2026 18:31:23 +0000
+Message-ID: <853fd4a2-e3c3-46cb-844e-57f0002f86c8@infradead.org>
+Date: Thu, 24 Sep 2026 11:31:21 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 5111/5916] htmldocs:
+ Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline
+ emphasis start-string without end-string. [docutils]
+To: Waqar Hameed <waqar.hameed@axis.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+References: <202609110722.GAZVme6v-lkp@intel.com> <pndse3cp5s6.a.out@axis.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <pndse3cp5s6.a.out@axis.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2026-09-22 at 23:18 -1000, Chris Li wrote:
-> On Fri, Sep 18, 2026 at 1:03=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wro=
-te:
-> >=20
-> >=20
-> > @@ -482,6 +491,11 @@ void swap_read_folio(struct swap_io_ctx *ctx,
-> > struct folio *folio)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (zswap_load(folio) !=3D -=
-ENOENT)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 goto finish;
-> >=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (unlikely(swap_is_vswap(sis)))=
- {
->=20
-> There are too many swap_is_vswap() in this series. It fragments the
-> code path, making things harder to reason about. Esepcially around
-> locks. I count 22 in this patch alone.
->=20
-> I consider this the biggest drawback of this series. This
-> fragmentation of the code path.
+Hi,
 
-Could we avoid that by simply always having everything
-go through the vswap abstraction layer?
+On 9/14/26 1:59 AM, Waqar Hameed wrote:
+> On Fri, Sep 11, 2026 at 07:40 +0200 kernel test robot <lkp@intel.com> wrote:
+> 
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>> head:   f2bfbc3554ca6919484030729424b9dee2942d24
+>> commit: cb012fe405f0f487e9480472f3558e678556ed49 [5111/5916] power: supply: rt9471: Use POWER_SUPPLY_PROP_LOAD_SWITCH
+>> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+>> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+>> reproduce: (https://download.01.org/0day-ci/archive/20260911/202609110722.GAZVme6v-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202609110722.GAZVme6v-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>    Using alabaster theme
+>>    WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
+>>    WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+>>    WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+>>    WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
 
-When everything in vswap, we don't need to test for it.
+>>>> Documentation/ABI/testing/sysfs-class-power-rt9471:1: WARNING: Inline emphasis start-string without end-string. [docutils]
+> 
+> [...]
+> 
+> I actually saw this in when working in [1]. Since this was present in
+> many different files in `Documentation/ABI/testing/sysfs-class-power*`,
+> I just assumed this was known and therefore deliberately ignored. Is
+> that your view as well Sebastian? Otherwise, I can easily clean this up
+> and make it correct once for all...
+> 
+> [1] https://lore.kernel.org/lkml/cover.1788290289.git.waqar.hameed@axis.com/
 
-Handling the details of what's behind the vswap would
-be handled one layer down.
+Please fix it (the warning in sysfs-class-power-rt9471).
+I don't see warnings from any other sysfs-class-power* files.
 
-Chris, do you think that would be cleaner?
+thanks.
+-- 
+~Randy
 
-What am I missing?
-
---=20
-All Rights Reversed.
