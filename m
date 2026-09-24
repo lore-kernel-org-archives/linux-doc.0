@@ -1,56 +1,56 @@
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C3E4B7149
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 17:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009B04BB5D2
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 17:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790270997; cv=none; b=YS96ksf16H0tbfQ6gaR3eCex9/NQuGocXQj8IyLxWrHxNl1yisK0gWPK9NeFw9Rfi6BBZG29puX+14ZkvY4HVdyLUSUurijpW8UbeYo+69wjONcHUH++feHXEunlsQ5qH8ula9ol2lwB5hQEzlVihlbzfnU8id8hc+l7Ar51QWU=
+	t=1790270999; cv=none; b=u4jr17FF0tUtfeWi4BGK7vkg9fyIulXuore0wEJ9VPiPMwahDP9F/3ENeMZ0AuRAqVxGjSeKCr+sStJhrMsYFMYCwUZGs1eLeivJADaiLx+rwGkvRZbOgZkv94V9c8e/b3MvOmFsRdlXpOgbO909D/+QtxqxYmCwwxm8AY3R+W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790270997; c=relaxed/simple;
-	bh=nnUUo2nDrt4wu97RgkFtWXJy9n8reFZKLjMwmibE8s8=;
+	s=arc-20240116; t=1790270999; c=relaxed/simple;
+	bh=dPoD2KWcJdBMoqLmCayL0dkgGb1iTFvhuDn+uK1Rbmg=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=nHDqiO6onVH1IDEmj1rp9EngUgGcCm9q5EVjEtwoC8bAY3y+GoGedj8tHm5RgaPztHobYK9P6B9+GZhjmMlkKicWo4aBHNANRWm9auA28Ax2xH34JlcyuBcgnGSqa5PvL9A01YUBEJGH6F2WTxiX9OV2g0MZBJitysO1qLgg9P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=enjakVuv; arc=none smtp.client-ip=209.85.167.200
+	 To:Cc:Content-Type; b=FH+QNLbp3d0Os7V/1VEUpzc0LhOhVMpGbcubLC1Tl5KpP9FB3BMi8Exme/I+SiFR2QvyHD24i7JUsMDHHd6TrRC8ER57YJM/H9b8SjhoqzrTjsoBfjnpWdTp4hD8fO5g+mI42aELFkyq3VU9H6nsgNrYqIZPkv2hZzaYjPPdKXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kZiwh/yS; arc=none smtp.client-ip=209.85.210.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="enjakVuv"
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4cc89e86e9eso185728b6e.3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 10:29:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kZiwh/yS"
+Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-7f4e4b52404so39331a34.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 10:29:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790270992; x=1790875792; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790270993; x=1790875793; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=T/mgSrJpw3YOisDXCB5xsNmyqp3J9irft+yFn98nNFU=;
-        b=enjakVuvME8xVU1Q7Xxex8qtvPu5IofJvZQ2bMtODvalydublbJ46CTRu0uiME0Qte
-         Ioj6OF0d8Wy04gX5BlzlhJeOCVVvxtRB3huRkwGV5KqNXxx+I7S6+F73LjfTpKe234YS
-         DBHLXdKe5qzm8f9H0+VSSju2/PIl4vvQiiSSfHCpW2yDAGeNo1kG02goCQWmgwKuHH+l
-         KkB7Elj5542vyW7dpUnz4YrH2Hk0OvV6dUSOqQqrNr08zkgfOaIz56ezxkuZ2F+asv3I
-         6SNVIjAnANBv2RiGypy9bLdmkvx08NmDMzcJL3lEs2FAIVVafzGwcgM5vpzfIsKTIOYr
-         Uj3A==
+        bh=5UB2VMD+EAaxdax2pXXlz1H3xk/sziSl+ovTL17nQcA=;
+        b=kZiwh/ySSQrU6W/bNKo1lPMZb6KoSzwMT61prSIxuoaKDXHTAVQxLok9xs6hHrxSI5
+         1kUPOaeM9jp2ovuLdszGGpkuTUERqFJHvkepjHSA0KibxDX7BXeoJLSypMbQMVwybPbx
+         RsfT3NETtj5EzkgmvhUOlaMLb9RhWU/LtzQhwHs6mSxcSH7Cc2xlfkXaZVayvfIFWddA
+         FH9PLxPvXBF12BqsW7jQvz4LGE5qpPNQzXsyLXVwDNHAUotF3r3UFgbEe/XjmRqpPl+A
+         8/x62kRyA59J3MxlL1XKs/PHb/EPG2J0LU73sOfWOOUglWe58Nv7mqhDnQnb5edyr3XR
+         fu7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790270992; x=1790875792;
+        d=1e100.net; s=20260707; t=1790270993; x=1790875793;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=T/mgSrJpw3YOisDXCB5xsNmyqp3J9irft+yFn98nNFU=;
-        b=1icGRpiLHWqi0ED7alaz+GPH4q8hFThSjiE89geUPlNKyows+UG2tkNnz8x9wbgUzS
-         HCAjT5hgAp3eZMQzKHZvXuCLPACNEaEQITKLYpETx8ozrf5tVe4d2zXh7VR3W5ii18ti
-         uJV+jXTE9a63tQ0f/1Sw/m1578OuUlf/pkjQtmglUHAcY4c24OyKQTOgfP4bmLCCphvN
-         imRTeIUE9tE5bFOsFhp4q3XtBt4vqBhPH0N7V6AclPBRI9oGJAK4/0UbpNdUhpsKKXrm
-         UmfmdY2W3nMtgn1RVAZ5YlfkBJvzB1gN22yANk6YVWbqu6c6tsJsgZRiBs7Y637fCXk0
-         8zfg==
-X-Forwarded-Encrypted: i=1; AKwUvBwDPO0rIClRFdX+/9CfOEseqwzk/kA+m+m2I6XqQq3WCQu1PNNlYZ14mcK3JqNqbzuERa4UQvgnzS4=@vger.kernel.org
-X-Gm-Message-State: AFuF++l9R6zi/0lrP59gcqrRqoUBiebaD/9TcLiOizFdLRldsoOmBuFr
-	hAaMPnE3W+P+xR8dPO8wksd2w/7Xv+5iCET3gbNDWGFiN8379HP5tNETaIUjUhz0mNhkTOxni76
-	h5M9Gn+ySUuC9FMgJPLL4+Kzz/w==
-X-Received: from jahf8.prod.google.com ([2002:a05:6638:8a48:b0:5f3:a70c:f5ab])
+        bh=5UB2VMD+EAaxdax2pXXlz1H3xk/sziSl+ovTL17nQcA=;
+        b=aR8wqD8gMU5wUAo+IK/E/PYtU2CvywPYK+Y67atwCLUwBISQA65KvIa/6J30A/RPN8
+         MgrOlSvj5Gg/MiHE947hT4GWPrahvk0OHtmqYVv9GsZMfTl6E9R08u7heD6/bgTxgagQ
+         2xkOwGSJGmH5MIK71oWcrL3dani49qW7O+MXJvLu9J0r+95mnAdkVyFjOkbAOda5lurH
+         6TxNIbPvVPrjTTx7v70YY5WpB98rH2g6WtKQsaQpLoCZ3+/ukykW6PhVfmhGTJybNtAn
+         MlTrNPsJvPbgLq50eFNzmMLWmiAspW1iMwKLp2GwTwV+wqrMlOCA8uxR9/sqW65YONtj
+         2Krg==
+X-Forwarded-Encrypted: i=1; AKwUvBzowkocvD+I3o2TvKhhWxwRgzKceFWDiBAOVF2hyjByKAwsF0v9JVE1NcuBlZTs/bfHI81kV+AN+JI=@vger.kernel.org
+X-Gm-Message-State: AFuF++kwohWBlbN5a5DI3oPRThiSyGoxQjUJUr6b93H9CVEmUOHCm7yf
+	cLRrjwfZTTFO5+LT4ZGLErArn3KIm4BmnMigIkD6JtMqaV1UyTg+pKNwOYgqXvDD28qLu6riSPc
+	ojnqONh0FChmf3TtM31FeU+Wtlw==
+X-Received: from ilbel26-n2.prod.google.com ([2002:a05:6e02:501a:20b0:50b:1d1a:8453])
  (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:1921:b0:4d5:291b:b84f with SMTP id 5614622812f47-4d72ef591admr3194424b6e.53.1790270991307;
- Thu, 24 Sep 2026 10:29:51 -0700 (PDT)
-Date: Thu, 24 Sep 2026 17:29:20 +0000
+ 2002:a05:6808:199d:b0:4d6:90f4:48af with SMTP id 5614622812f47-4d72e966ec8mr3960018b6e.49.1790270993044;
+ Thu, 24 Sep 2026 10:29:53 -0700 (PDT)
+Date: Thu, 24 Sep 2026 17:29:21 +0000
 In-Reply-To: <20260924172928.2110956-1-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,8 +60,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260924172928.2110956-1-coltonlewis@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20260924172928.2110956-15-coltonlewis@google.com>
-Subject: [PATCH v9 14/22] perf: Add perf_pmu_resched_update()
+Message-ID: <20260924172928.2110956-16-coltonlewis@google.com>
+Subject: [PATCH v9 15/22] KVM: arm64: Allow kvm_vcpu_pmu_resync_el0() to
+ resync filters in process context
 From: Colton Lewis <coltonlewis@google.com>
 To: kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
 	linux-arm-kernel@lists.infradead.org
@@ -81,95 +82,47 @@ Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
 	Colton Lewis <coltonlewis@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-To modify PMU guest counter reservations dynamically, the per-CPU
-available counter mask must be updated while host perf events are
-temporarily scheduled out.
+Previously, kvm_vcpu_pmu_resync_el0() only scheduled
+KVM_REQ_RESYNC_PMU_EL0 when called from interrupt context (such as an
+IPI reprogramming host perf events). When perf_pmu_resched_update() is
+invoked synchronously from process context during vCPU load/put to
+reschedule host events around guest-reserved counters,
+armv8pmu_enable_event() calls kvm_set_pmu_events() and
+kvm_vcpu_pmu_resync_el0() in process context.
 
-Introduce perf_pmu_resched_update() to update PMU state while holding
-cpuctx->ctx.lock in between scheduling perf events out and scheduling
-them back in. It accepts a callback invoked between ctx_sched_out() and
-perf_event_sched_in(), accomplishing atomic counter mask updates with
-minimal perf API expansion.
-
-Refactor ctx_resched() into __ctx_resched() to invoke the callback at
-the appropriate point.
+Update kvm_vcpu_pmu_resync_el0() to call kvm_vcpu_pmu_restore_guest()
+directly when not in interrupt context so that newly rescheduled host
+perf events have their EL0 exclusion filters applied immediately.
 
 Signed-off-by: Colton Lewis <coltonlewis@google.com>
 ---
- include/linux/perf_event.h |  3 +++
- kernel/events/core.c       | 31 ++++++++++++++++++++++++++++---
- 2 files changed, 31 insertions(+), 3 deletions(-)
+ arch/arm64/kvm/pmu.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/perf_event.h b/include/linux/perf_event.h
-index 5842552294c19..32e3c0d365963 100644
---- a/include/linux/perf_event.h
-+++ b/include/linux/perf_event.h
-@@ -1242,6 +1242,9 @@ extern int perf_event_task_disable(void);
- extern int perf_event_task_enable(void);
- 
- extern void perf_pmu_resched(struct pmu *pmu);
-+extern void perf_pmu_resched_update(struct pmu *pmu,
-+				    void (*update)(struct pmu *, void *),
-+				    void *data);
- 
- extern int perf_event_refresh(struct perf_event *event, int refresh);
- extern void perf_event_update_userpage(struct perf_event *event);
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index db7b76d6b68aa..06d1128d194fa 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -2991,9 +2991,10 @@ static void perf_event_sched_in(struct perf_cpu_context *cpuctx,
-  * event_type is a bit mask of the types of events involved. For CPU events,
-  * event_type is only either EVENT_PINNED or EVENT_FLEXIBLE.
-  */
--static void ctx_resched(struct perf_cpu_context *cpuctx,
--			struct perf_event_context *task_ctx,
--			struct pmu *pmu, enum event_type_t event_type)
-+static void __ctx_resched(struct perf_cpu_context *cpuctx,
-+			  struct perf_event_context *task_ctx,
-+			  struct pmu *pmu, enum event_type_t event_type,
-+			  void (*update)(struct pmu *, void *), void *data)
+diff --git a/arch/arm64/kvm/pmu.c b/arch/arm64/kvm/pmu.c
+index 6f60f86fad387..a8214ab52fcb5 100644
+--- a/arch/arm64/kvm/pmu.c
++++ b/arch/arm64/kvm/pmu.c
+@@ -213,14 +213,17 @@ void kvm_vcpu_pmu_resync_el0(void)
  {
- 	bool cpu_event = !!(event_type & EVENT_CPU);
- 	struct perf_event_pmu_context *epc;
-@@ -3029,6 +3030,9 @@ static void ctx_resched(struct perf_cpu_context *cpuctx,
- 	else if (event_type & EVENT_PINNED)
- 		ctx_sched_out(&cpuctx->ctx, pmu, EVENT_FLEXIBLE);
+ 	struct kvm_vcpu *vcpu;
  
-+	if (update)
-+		update(pmu, data);
-+
- 	perf_event_sched_in(cpuctx, task_ctx, pmu, 0);
+-	if (!has_vhe() || !in_interrupt())
++	if (!has_vhe())
+ 		return;
  
- 	for_each_epc(epc, &cpuctx->ctx, pmu, 0)
-@@ -3040,6 +3044,27 @@ static void ctx_resched(struct perf_cpu_context *cpuctx,
- 	}
+ 	vcpu = kvm_get_running_vcpu();
+ 	if (!vcpu)
+ 		return;
+ 
+-	kvm_make_request(KVM_REQ_RESYNC_PMU_EL0, vcpu);
++	if (in_interrupt())
++		kvm_make_request(KVM_REQ_RESYNC_PMU_EL0, vcpu);
++	else
++		kvm_vcpu_pmu_restore_guest(vcpu);
  }
  
-+static void ctx_resched(struct perf_cpu_context *cpuctx,
-+			struct perf_event_context *task_ctx,
-+			struct pmu *pmu, enum event_type_t event_type)
-+{
-+	__ctx_resched(cpuctx, task_ctx, pmu, event_type, NULL, NULL);
-+}
-+
-+void perf_pmu_resched_update(struct pmu *pmu, void (*update)(struct pmu *, void *), void *data)
-+{
-+	struct perf_cpu_context *cpuctx = this_cpu_ptr(&perf_cpu_context);
-+	struct perf_event_context *task_ctx = cpuctx->task_ctx;
-+	unsigned long flags;
-+
-+	local_irq_save(flags);
-+	perf_ctx_lock(cpuctx, task_ctx);
-+	__ctx_resched(cpuctx, task_ctx, pmu, EVENT_ALL|EVENT_CPU, update, data);
-+	perf_ctx_unlock(cpuctx, task_ctx);
-+	local_irq_restore(flags);
-+}
-+EXPORT_SYMBOL_GPL(perf_pmu_resched_update);
-+
- void perf_pmu_resched(struct pmu *pmu)
- {
- 	struct perf_cpu_context *cpuctx = this_cpu_ptr(&perf_cpu_context);
+ void kvm_host_pmu_init(struct arm_pmu *pmu)
 -- 
 2.56.0.rc1.310.g51773c2048-goog
 
