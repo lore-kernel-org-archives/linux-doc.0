@@ -1,62 +1,64 @@
 Received: from mail-dy2-f12.google.com (mail-dy2-f12.google.com [74.125.229.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE824CDA31
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 20:42:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51554BE434
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 20:42:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790282539; cv=none; b=W7nvV84YdzsW9N76+kmJpnNRj5v41ruv8fWVQB6J9J0sP6T3VgWYsDtHRFEKGNiRkZJeTr8Nc1nN6oHPiMMvDUb+Ccu4dulgC446/DwRq3Ao39YfNUZZUat+l6KsuxrX7OpZ8cbfsI/K7kRD/f2CFrQJ1HnwZsEd4eSnmaIzkSU=
+	t=1790282543; cv=none; b=QEZxKDKeltwuMcFuleUc+ugStS1SepRfdg+3ULkgo981TZHjQJhjXGK1yXoswwy3ki5fAc7damiexA9C2aHvOiiW244yGrLJKDxJjeOBniZETZlRhWSl32Gl3WRWswrOVhsuD6dTPLAIp6tW4TnWSt2T++VUnBMaTqeQO5vpWZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790282539; c=relaxed/simple;
-	bh=bBi9t3/XNj2fxZ4GFxBaUZi+HB2ny2QNyH+RsLcMXqs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hDeIH/pbRsfIEGeyWcPP2xWatxCsacGa192bwSNi+XFar82B3cjoWHwdswMcT/uR9Z+IySV8jBAgZWCfKyFfs92fNd47tS6nBe/Hb8T570UFXfu+OMPdnnpUW2G6mA/s7jdtN7pTkA0LKV0h8uv9uOFujTtJ7SkaEz3ulnRvCLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KKyfQYUq; arc=none smtp.client-ip=74.125.229.12
+	s=arc-20240116; t=1790282543; c=relaxed/simple;
+	bh=sFEfDwCsqFHzU2Y+YA436nNi5yktEf0TjQJTML5xEGo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MMoTirFfKOaHMhT1H7yYiWH3oPd4bd678oEyewzzp/CL0uMgZCHunG521BJHHfLL0CHte9S8wvLDMI8HkqF1KlvvY9tu7HVTf7LyhjTWB4PJ9s02/zPT0G89LxGEK0QANP0BJRr5UPKaYMZAUP2nbKnWNDyp5qqgMAn40TCwpjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QTNMslEi; arc=none smtp.client-ip=74.125.229.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KKyfQYUq"
-Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-333868a177fso79493eec.0
-        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 13:42:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QTNMslEi"
+Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-328664ef791so78649eec.3
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 13:42:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790282532; x=1790887332; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Quf+BJxgePyIzaM/U+UOmAKPgAdi1GCD5xdWybO6rFI=;
-        b=KKyfQYUq27vw2IMBkBhWY6gQ56fu6eoVeoWpmuzsLB3KTG9v1+7/LpUZC/t+tpSe1s
-         3IRWzR27WvyFyrVJD7Op8kqMkjpsuPPxhyNfRtWKP9R+FB3Oi5Ai/aHclCBHmvMbeGUS
-         Y0tts3OujfRoP98FUXek2VcLzR8DGb1ff06ZwlYFPncRmZD4c1lljGDD/vT+dwN6LufW
-         y5irk3THLuzvuFKR2tOBKbjpMwvAXn1iALxlq8BqTz4Urrp5d7QM1lUpEsYVO0j0LPA6
-         gQraca6Vb29uALaArMixJMGa2vT4bOb57vFXlbXnmDC6fP2aiNwSSr+FfJbmvBQW1hWS
-         q9/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790282532; x=1790887332;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1790282533; x=1790887333; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Quf+BJxgePyIzaM/U+UOmAKPgAdi1GCD5xdWybO6rFI=;
-        b=hkYsTP5yQzrAKCoqEfk5negymJG1VkbdZnmz9rsf9cG5BRzfsFov4RKma0lztM3P3s
-         dG9/zQ3iUW2+6dAXzzj/O6+Seij7+QE77OuVTWRYuMclFOhm/sbRjlmrtf3KXEWxm0OA
-         PTEBZn/YzDe2ys25ervl32giuLRB0gByr0mZ4aS5zIJ307Gq9zbbvGUhT8zj7ZEDOAbr
-         vufp+v0l13pv2NGdCEMhS9xQ1uY+2cJb9Ex8SzOaDoc4vbp2AjQz6SbezheETCqoYDQV
-         SqvNtC8y+i7sDEYYS7KEnag7b1qc+AKmp/p9w4XiBe3otnYeqVE3jNZC3ppBdB/GfOU1
-         CD+Q==
-X-Forwarded-Encrypted: i=1; AKwUvByzNfRLPGhInNT9bsKY/RiUi14f3TAhi2+JFjsF5gBz0omRdAqoj6M+hbSgoh+Bavh1elzfxTgaoXw=@vger.kernel.org
-X-Gm-Message-State: AFuF++kchcdF/FwEh0JI0XCe2Psb4bq/od7EoFaxrrq8OcPjtZzXYmEx
-	gWtCgE1aLbYSfN1d0RPtvPeQ1i/retQEv5ZeW7bOoqYfH2HPQ8VkUFO8T81t0t7q
-X-Gm-Gg: AYBFou2FzL/pMs0qnP6PWQAw5Uc7ympPAvwHxGSTtIt2JJdDh5wHwwJNlQjJrcy0q85
-	2lI5I9zpM8ewN8BMl2kwr2FAUo3OHGQQ7gqufoDPBPNW7TDsp7qQxbB/8Z/hPZCPnP0G0ujKTEu
-	WIqAk89jYeii74IQySQK5eFE9Bp7/Y8xhd3zGdMIou4UeT8FKE2WEmUxl3Xiw/JmUjGV4m1UD3C
-	ChDabpFTwvb80Y0G6nb1Sa0Y1i7coLJYIgP7vllfCBD1gM0bv3klZQvnx/1nIMT1a03o+Sr1wkk
-	WWndPxCP9adRNzvs9budGFC5kKb70xoAiKlCle0zxR9CWOxnG7DzXG1v9WdHiogX9YlAZrM3iFz
-	w+BKflOQ9CdEFyiZkRmjp7OzufpTi58JByZJQTrjmXu+DzzCld9ENq+S1ECPNjcpUK56LRDuClp
-	YbI/V8A0L/m8Luqrt4zVZUjMOTU0i9PIhUIXd791BKcIJnaJ1Lwxk48rQZeJ8IpMXK0o9jAdh7j
-	oVfE98aMk9XF441R/Zw5jtDRmDM5/d+vV2GjGhQeA==
-X-Received: by 2002:a05:7301:e0f:b0:33c:29d8:bc21 with SMTP id 5a478bee46e88-34004a89af2mr2406330eec.10.1790282531857;
-        Thu, 24 Sep 2026 13:42:11 -0700 (PDT)
+        bh=iCF2SZ2ebGxhM1cZHR0OwJClfn3gE8zIunp5Y9QwAvU=;
+        b=QTNMslEie1/lLfjCQSxqVPA7RneS9obrsmb64kSQvYqqiXwz4jV3pkZoOwgRfY/B/S
+         MRFEkRBixd0h/ri2KGWA0vlDNEfkWvo1idy7phhz/TCUKm5V9ZXsGhkVaAb48YmPi0f4
+         XPjw0HMPpByfEgc0vOopD4K31Lx0v7x7iqag0gFUmJv8++PS4pPGmZNMQ9M/HeghCJ+V
+         fDrlaBN0gJWhW933kgW7J/BlVJzCl+I8FyRB8xQPvwLjSVvWZeVdxTLgAIbgSD9Q/0mr
+         CdLveKridtzJrPrMQfQHh/OGe+dx2DwKKc7yRpu8SRv9idNw+GpiFxHVLqJbMr+qd34Q
+         JwYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790282533; x=1790887333;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=iCF2SZ2ebGxhM1cZHR0OwJClfn3gE8zIunp5Y9QwAvU=;
+        b=kTdUpJxPSzfvYSgcJh2w4OjoqZcMAHygKZZ3daEjWsuC/Gfd/y89xl7rFZCcFjFHXd
+         O/ltZ+wamZ7TVMte6Z1uoTvU2h9GVuuk3OQBNExBBzheG4VB//BBlnKMH4NkJWKTVTiK
+         GKnmYkwGj/61apuL+qD2NQ7W1talH8G/ioXUgtO93rTvwnHC9SB4LCvIqKRdte1e+HIW
+         s7CYy92ue0O2Vkx1j+Ia0uAHPpNUq2hx3oBk1JzVujXsuH7lCfj8znY5ts0bn6jVHl9u
+         jHSXH5rSBKMb4cVWUenZxhF604O08GaS+4EgI8OAeq+BypKxOY4DG68HyTMUHQdr/GhM
+         38NQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxK56hNTxXXArcCIElTwVU41cZn3wILwJJ9rx75Y+BPR6WXQswgrphaessvypnor/pIOQ6MrxKoDAc=@vger.kernel.org
+X-Gm-Message-State: AFuF++mgRxWm+hOZpx1JydzGLgFZL7RR3gsUPJdMIL1+Y1/3wNg0Gxnt
+	WmdK7LiYj2iE2e6yk2PSdevpsMDPNfLXB/I8IWAjRU7eUio9ymylm6ya
+X-Gm-Gg: AYBFou27LBTCGhw5A3aR7dH32d1J3tuNrjwdIBF5IzTA//GGXBZdXxlDqX0LaUqdoaA
+	yKuQmJgCzN9mIXkI9K8Zez1uEoxmZ0SAAB4QmLzEzZ3GzoPDBZzCKAITfYBI3A2du/OXBM4nPPc
+	wq04somkNVHcgK+31bj+bjoub6NPEDvKF6aThoiMG3Ic0kfHWHkT8OvSg3HjntLjFf/Zn5/R44W
+	cyQx8nZ3f+Z0bne8pFZtqw923bHmumol+9+KM6tkpnMXDhXLbhYIYuAITPBcp+XiUitJb1qgRbw
+	5ndR4AVXYvCrMK8yN1JF4Zp4DzQYumJralzvcHT26SYblcropxm9eJdsbEYiTjRwYa/1V3bqWh5
+	LKDWGuDuVjCkFGkbOQ+sAZfrDLy55sfpWKY3AKeEPfUnjNTqShoJQyVbihXSb7zc20Woqcl6nQi
+	tZMeOi9KCZ02ZLGSa6lwmZpKZIUuWEVGl/W/XQc/WbmxuIZ3LLTSMZIrIY/AmDYFOTf+jIhF7kQ
+	8WvSjEBTEDTUPy9ikUB7sZe7Bx1n6jQ/ErMmbSBYA==
+X-Received: by 2002:a05:7300:8d14:b0:33b:e264:362a with SMTP id 5a478bee46e88-34004a89a19mr3212793eec.13.1790282533196;
+        Thu, 24 Sep 2026 13:42:13 -0700 (PDT)
 Received: from pop-os.scu.edu ([129.210.115.107])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34141d2fe4bsm1073470eec.4.2026.09.24.13.42.10
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34141d2fe4bsm1073470eec.4.2026.09.24.13.42.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 13:42:11 -0700 (PDT)
+        Thu, 24 Sep 2026 13:42:12 -0700 (PDT)
 From: Cong Wang <xiyou.wangcong@gmail.com>
 To: Kees Cook <kees@kernel.org>
 Cc: linux-kernel@vger.kernel.org,
@@ -67,10 +69,12 @@ Cc: linux-kernel@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH 0/3] seccomp: opt in to restarting notifications before receipt
-Date: Thu, 24 Sep 2026 13:42:06 -0700
-Message-ID: <20260924204209.477694-1-xiyou.wangcong@gmail.com>
+Subject: [PATCH 1/3] seccomp: allow restarting interrupted unreceived notifications
+Date: Thu, 24 Sep 2026 13:42:07 -0700
+Message-ID: <20260924204209.477694-2-xiyou.wangcong@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260924204209.477694-1-xiyou.wangcong@gmail.com>
+References: <20260924204209.477694-1-xiyou.wangcong@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,41 +85,152 @@ Content-Transfer-Encoding: 8bit
 
 From: Cong Wang <cwang@multikernel.io>
 
-Sandlock is an unprivileged Linux process sandbox that uses Landlock and
-seccomp to confine untrusted programs.
+An interrupted user notification wait returns ERESTARTSYS before the
+syscall body has run. If the notifying task's handler for the delivered
+signal was installed without SA_RESTART, that task sees EINTR even for
+calls whose callers do not expect it. This can make fork fail
+unexpectedly or make close report EINTR while leaving the descriptor
+open. A leaked pipe write end can prevent readers from seeing EOF.
 
-While using seccomp user notifications to enforce process limits,
-sandlock encountered intermittent shell pipeline failures: SIGCHLD can
-interrupt a pending fork notification and make fork return EINTR before
-it executes [1]. The same pre-execution interruption can leave an
-intercepted close returning EINTR with its descriptor still open.
+The supervisor cannot repair this result once the interrupted task
+removes the notification. If removal happens before receipt, the
+supervisor never receives that request; a reply using its ID would fail
+with ENOENT. Receiving notifications eagerly only narrows the scheduling
+window. WAIT_KILLABLE_RECV protects supervisor processing after receipt,
+but deliberately leaves the pre-receive wait interruptible.
 
-Receiving notifications eagerly only narrows the race, and
-WAIT_KILLABLE_RECV protects the task only after receipt. This series
-adds SECCOMP_FILTER_FLAG_RESTART_BEFORE_RECV so applications can opt in
-to restarting these unexecuted syscalls after the signal handler
-returns. Existing signal-driven cancellation remains unchanged unless
-the flag is enabled. The series includes regression tests and
-documentation.
+A sandbox also cannot transparently fix this in the target. It cannot
+require arbitrary workloads to retry calls such as fork and close.
+Retrying close on EINTR is unsafe when the native syscall has already
+released the descriptor. Forcing SA_RESTART on application handlers
+would change cancellation behavior for other blocking calls.
 
-[1] https://github.com/multikernel/sandlock/issues/235
+Sandlock encounters this while mediating process creation to enforce
+process limits. For example, dash installs its SIGCHLD handler without
+SA_RESTART. While dash is creating a pipeline, an earlier child can exit
+and generate SIGCHLD while dash waits for a fork notification to be
+received. The interrupted wait then makes fork return EINTR, causing
+dash to report "Cannot fork". Removing fork from notification mediation
+would bypass the process-limit enforcement that sandlock needs.
 
-Cong Wang (3):
-  seccomp: allow restarting interrupted unreceived notifications
-  selftests/seccomp: cover restart of unreceived notifications
-  docs/seccomp: describe the SECCOMP_FILTER_FLAG_RESTART_BEFORE_RECV
-    flag
+Add SECCOMP_FILTER_FLAG_RESTART_BEFORE_RECV, requiring NEW_LISTENER.
+Under notify_lock, convert an interrupted wait's ERESTARTSYS to
+ERESTARTNOINTR only while the notification remains INIT. The notifying
+task's signal handler still runs; if it returns normally, syscall entry
+and the filter are evaluated again.
 
- .../userspace-api/seccomp_filter.rst          |  29 ++
- include/linux/seccomp.h                       |   3 +-
- include/uapi/linux/seccomp.h                  |   1 +
- kernel/seccomp.c                              |  16 +-
- tools/include/uapi/linux/seccomp.h            |   1 +
- tools/testing/selftests/seccomp/seccomp_bpf.c | 354 ++++++++++++++++++
- 6 files changed, 399 insertions(+), 5 deletions(-)
+Keep this opt-in because commit c2aa2dfef243 ("seccomp: Add
+wait_killable semantic to seccomp user notifier") deliberately preserved
+pre-receipt interruption so workloads could abandon requests before the
+supervisor starts processing them. The flag can be combined with
+WAIT_KILLABLE_RECV to defer non-fatal signals after receipt. Neither
+supervisor-supplied errors nor the native syscall's restart behavior is
+changed.
 
+Assisted-by: Codex:gpt-6
+Signed-off-by: Cong Wang <cwang@multikernel.io>
+---
+ include/linux/seccomp.h            |  3 ++-
+ include/uapi/linux/seccomp.h       |  1 +
+ kernel/seccomp.c                   | 16 ++++++++++++----
+ tools/include/uapi/linux/seccomp.h |  1 +
+ 4 files changed, 16 insertions(+), 5 deletions(-)
 
-base-commit: f2c53ea949c5048f96b3dbb5a5ee7131ce4ff2de
+diff --git a/include/linux/seccomp.h b/include/linux/seccomp.h
+index fcb3eb9825e5..3b6cc376fff5 100644
+--- a/include/linux/seccomp.h
++++ b/include/linux/seccomp.h
+@@ -10,7 +10,8 @@
+ 					 SECCOMP_FILTER_FLAG_SPEC_ALLOW | \
+ 					 SECCOMP_FILTER_FLAG_NEW_LISTENER | \
+ 					 SECCOMP_FILTER_FLAG_TSYNC_ESRCH | \
+-					 SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV)
++					 SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV | \
++					 SECCOMP_FILTER_FLAG_RESTART_BEFORE_RECV)
+ 
+ /* sizeof() the first published struct seccomp_notif_addfd */
+ #define SECCOMP_NOTIFY_ADDFD_SIZE_VER0 24
+diff --git a/include/uapi/linux/seccomp.h b/include/uapi/linux/seccomp.h
+index dbfc9b37fcae..30b76aa48355 100644
+--- a/include/uapi/linux/seccomp.h
++++ b/include/uapi/linux/seccomp.h
+@@ -25,6 +25,7 @@
+ #define SECCOMP_FILTER_FLAG_TSYNC_ESRCH		(1UL << 4)
+ /* Received notifications wait in killable state (only respond to fatal signals) */
+ #define SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV	(1UL << 5)
++#define SECCOMP_FILTER_FLAG_RESTART_BEFORE_RECV	(1UL << 6)
+ 
+ /*
+  * All BPF programs must return a 32-bit value.
+diff --git a/kernel/seccomp.c b/kernel/seccomp.c
+index 86cf4460d69e..0d83cd848036 100644
+--- a/kernel/seccomp.c
++++ b/kernel/seccomp.c
+@@ -205,6 +205,7 @@ static inline void seccomp_cache_prepare(struct seccomp_filter *sfilter)
+  * @log: true if all actions except for SECCOMP_RET_ALLOW should be logged
+  * @wait_killable_recv: Put notifying process in killable state once the
+  *			notification is received by the userspace listener.
++ * @restart_before_recv: Restart interrupted syscalls before notification receipt.
+  * @prev: points to a previously installed, or inherited, filter
+  * @prog: the BPF program to evaluate
+  * @notif: the struct that holds all notification related information
+@@ -226,6 +227,7 @@ struct seccomp_filter {
+ 	refcount_t users;
+ 	bool log;
+ 	bool wait_killable_recv;
++	bool restart_before_recv;
+ 	struct action_cache cache;
+ 	struct seccomp_filter *prev;
+ 	struct bpf_prog *prog;
+@@ -953,6 +955,8 @@ static long seccomp_attach_filter(unsigned int flags,
+ 	/* Set wait killable flag, if present. */
+ 	if (flags & SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV)
+ 		filter->wait_killable_recv = true;
++	if (flags & SECCOMP_FILTER_FLAG_RESTART_BEFORE_RECV)
++		filter->restart_before_recv = true;
+ 
+ 	/*
+ 	 * If there is an existing filter, make it the prev and don't drop its
+@@ -1208,8 +1212,12 @@ static int seccomp_do_user_notification(int this_syscall,
+ 			 * Check to see whether we should switch to wait
+ 			 * killable. Only return the interrupted error if not.
+ 			 */
+-			if (!(!wait_killable && should_sleep_killable(match, &n)))
++			if (!(!wait_killable && should_sleep_killable(match, &n))) {
++				if (err == -ERESTARTSYS && match->restart_before_recv &&
++				    n.state == SECCOMP_NOTIFY_INIT)
++					err = -ERESTARTNOINTR;
+ 				goto interrupted;
++			}
+ 		}
+ 
+ 		addfd = list_first_entry_or_null(&n.addfd,
+@@ -1977,10 +1985,10 @@ static long seccomp_set_mode_filter(unsigned int flags,
+ 		return -EINVAL;
+ 
+ 	/*
+-	 * The SECCOMP_FILTER_FLAG_WAIT_KILLABLE_SENT flag doesn't make sense
+-	 * without the SECCOMP_FILTER_FLAG_NEW_LISTENER flag.
++	 * Notification wait flags require a userspace listener.
+ 	 */
+-	if ((flags & SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV) &&
++	if ((flags & (SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV |
++		      SECCOMP_FILTER_FLAG_RESTART_BEFORE_RECV)) &&
+ 	    ((flags & SECCOMP_FILTER_FLAG_NEW_LISTENER) == 0))
+ 		return -EINVAL;
+ 
+diff --git a/tools/include/uapi/linux/seccomp.h b/tools/include/uapi/linux/seccomp.h
+index dbfc9b37fcae..30b76aa48355 100644
+--- a/tools/include/uapi/linux/seccomp.h
++++ b/tools/include/uapi/linux/seccomp.h
+@@ -25,6 +25,7 @@
+ #define SECCOMP_FILTER_FLAG_TSYNC_ESRCH		(1UL << 4)
+ /* Received notifications wait in killable state (only respond to fatal signals) */
+ #define SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV	(1UL << 5)
++#define SECCOMP_FILTER_FLAG_RESTART_BEFORE_RECV	(1UL << 6)
+ 
+ /*
+  * All BPF programs must return a 32-bit value.
 -- 
 2.43.0
 
