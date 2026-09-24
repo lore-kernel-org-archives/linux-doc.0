@@ -1,137 +1,305 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD254734C5
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 11:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790248364; cv=none; b=Kw0P9uQD/i9p/jEYGS5y+KXCEG0FKCCmpK5UiLn69uEgISh/4IwCjxcEYDfgL0pI7+2J72nu9KH1TMLotxFZSaT/cEqHzoNidfmMNPSH8dm8aNSUHVj6oRG70y9kosybtAPhM29wYcMi+kypytyx5xMn32QQU/qW2w983uI//M0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790248364; c=relaxed/simple;
-	bh=h7v9i5BwXDpIwVukaEFMvXBYp2ISY3XxRln6ml0HgWI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=sdUKQiox+bfXxzuAhZrGxyL7EA/lgC+lbx2302puHY9yuhJ/iaJdxTaqBQygjitWvv/qJG0vJhNZoU7wXv1t2LYW7nuWSqom+0N4WFdP/4wLayQkJic1ps/YBn/uNW1zgXfXBPqTlXZyip3dhey9MtN4rhLAK1x74XnexO0Rzvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wu8aBbaK; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEF44756DC
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 11:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790248380; cv=pass; b=Gm8LaJKmPPDmDWsFuqJNIZTI+Yb8q6NUSHL7YlK3Mk2ZpI+Kg1/oYYDVyAViiBKj2ot1WCcbnE70N76Tmy40c7cAsddj5i0JtgGJkGlaR1Ue+uMpNvbBdi4kUHvJpzeVgpi6kAaRLZHhUzWeiElAbJB/xS0PhX9Cb3s2GT3qaYI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790248380; c=relaxed/simple;
+	bh=eJYqN4wEoL/OX9Q03eUTbGvGTyg+Jo8gjHizQ3XF3AE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ulbZ1ArpFo//e8pb0T5exIJ33pHlFUIXEDvT+UkNVMp8ZeAne36I+oOo/tFWwRDnoxP69WUuw93j5QJCk0NuFhEbionquX8c7ze35AzpCgj7Mi1Rk7vuEuQ4rH7heaD7K1xSX6IwsWdBzET28TR3F68ka2Mid3j8ij2ZM2PhtlY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UO5XdKUV; arc=pass smtp.client-ip=74.125.228.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wu8aBbaK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD8E1F00893;
-	Thu, 24 Sep 2026 11:12:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790248362;
-	bh=pZ9RcrwyyIc5YkWnQ+0jGoe6Toe0k1NcM6yfWeK3efA=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=Wu8aBbaK7t+K26nrAMs6ftExUc03TtIXLZ46FKoDLp6vhbMp0soViBrlXuz4nk6lY
-	 awIyqHskPQ9aomVVkfIVe/exeYAKUDrh8cq68wGngDHcJHlkCz0Vlm5JACigFbIGLv
-	 tayhrLyJyfxzQmU5lH4XSHKnEfE1sTrZgBT9PR/3xe4UK+HqhWWTblR4bQcoHkLIi5
-	 w3OAuz6yJyuq8m8PKi6NUWcDCWeFEMpNqAMvmB4Z7LqYNpeDOJ9m2nTDwc63XnnuX0
-	 ymkQdo95j+YMZ13ygE5u50Iod7y1//tXobNafdcqTKWAQ4TMB4Q4UWM5umRrl6kI+B
-	 2jw2kJSYagbCQ==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id A7FBB1980058;
-	Thu, 24 Sep 2026 07:12:40 -0400 (EDT)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Thu, 24 Sep 2026 07:12:40 -0400
-X-ME-Sender: <xms:pgW1aiZ1_7bwHGjfBYIxAxAy2WB6Z3tzV_sWKuXVQTssEuJJuIaflQ>
-    <xme:pgW1agPZmzwlixfBX9a015lGMQyv-j9vsyBelrqE0MN4XqbVUB54ees9didMJSk-p
-    VzjtH21wYKyYzUFHq2DCyMSZItTqyXiERE-sv8hQxYAtT4c7GZko5mW>
-X-ME-Proxy-Cause: dmFkZTFHZQewR3/mQNk76XuylpN7LPhPVW8iFs2lcgNqvDHiNOWVSAvgUL2qa6a/RNHLxo
-    CyLsXURwqMYj3L7l57RlQh5wMdZikK5/IqwrEJbUPpFt/jJyFsMSQb008srMD49COeOvdf
-    3SB4bW9aYMUHoyUyGmEuFpIG4mYCzCNHdf4mwGzDyzrIXtDhm/f69pBmhR5mQZdDurp4ES
-    pmMB8OdFwCRoWhNtwnRO1G0Iq5raWx8Ncf4lEKGR4gkjF9y1KJ4iCLSHMe+Aw+hL3VmKi/
-    vKfPx8/Wg0AL0jtKuvXc65rVvi+HS9ggjDHmaoLOJdhkiAjnYPt/VraZwh1MP1i1dq0FOW
-    EMVV46SGZWPq9tWEGuylV6UD6hrbAwwXrii0o7hCTewB08iR56hJ3av5Ky2MtBDMUDThhn
-    TFuxvUJCTSTTCy8k75OtUM5AiLlipbpZ9hivC0nTCJqEwemoEjOjJQFLxBOQKdgZDFq6c8
-    U5HNqElj2DF/AYNCH95ekqT2e9MLs04it1bPyTkVUAD/A8dfa2vKUz43us+1JvOPBqDZrN
-    f52fw94BtX8H7gxGq9MOOxRcNPZxaDRRx4X41pIVe6fbAsAfCxCpBAm2xgEhoKXCRBBi2x
-    J60chuz9+XnxvxyLl5CJ5CRevXZi3h2dcQHrw6+U9Yq8Q9yG9CGWWCY6P2yA
-X-ME-Proxy: <xmx:qAW1ak_vLuk2Bre-hJ1J7HIzQrxqJk0MHkSQTs3c5SA214hDSdsLjA>
-    <xmx:qAW1auQbf8WwtJ85-GyPXRU_MdCFyIwNwR5SEglZXOMdwa0ARTNQjg>
-    <xmx:qAW1apRO6P4hwZ4LgA9b1Spo3KJOma2OmnKf2th5N9Rd8A-LoBVdKA>
-    <xmx:qAW1aq4-8TJCRHUltNfzHNmsPCltmgMUvc34_biyOSFrRN5FEFSVwA>
-    <xmx:qAW1auURCeUmUEkoTGw2UdIk2C0A0oIoGItOehzzQ6ldMIR-UmzgfVDC>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 2F81BF8007E; Thu, 24 Sep 2026 07:12:38 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UO5XdKUV"
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a9984f9adcso3342483a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 04:12:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790248376; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Se7K4KLgF2Um+g5lUX7OSBcGi8GgMguUBl+7CLs5mH5GHrKv9pyzunzfog5QHjUpYm
+         qvNLVkycq3uJ6qdC7YpO0C/ReLe1vwrs9QBfnwuc1rkLPXruKpOhUiYgINSowaqvxtdr
+         qjZ+CcxybVXbWJgzseWv1RUMFLfzVwCBBN5F313TcBVr5Kv46VvP4VObIikqPc/7hEEj
+         4jqoG5thOQBBWh71oCfXwZ3gdWsCm1TIsQ36Z3DXzAgF5jgl38dmteV9vs5cgB3eGd5W
+         P50eWaJG1vJtdiAt65EC7Uhs4fV+X/FQdRcYK6I7hQcBlQRIaHzgpRfJ1YcBlcuQIKsa
+         hlvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BIF+DNqqKyKNEhEgpncpLAUjcdtzT9Ko8rcMz3NbVVk=;
+        fh=CR3ATqhTwrTwZYnv7IrYMT4qZ0+BqtecoG7zjvB8KxA=;
+        b=fuSIdqjzhh0Z0Ivphw5+YSKvMzivfdf5yg3c+OUUF2EKdGqjeEjd9fY8Sdf1r7SFLg
+         +gGY/Vu0qgcuAdB6+hwahyxhYjgnrOjbdZBEUyt2LbeXOZMSchg5FM7XWrIGm0ezOehz
+         sFlqfuXiCrOq8KNWvB5O4KfEbOSaSQD9Q29N82tVrGdPwjeKoFl11+0ueIXfj8VZRV8I
+         AU6TomvtGE9CmklSsmiFZufw+LIjlsAWQwn7ZqtJAdRCLcyXg/LrtyXbB6j3G94AlYMM
+         CMUeVtyINUPBZWmZqiHEd8IHSNHooQTgIn1cB4sNKA1BtI0JzTCosjZBDC8gB9ojRDOV
+         1KkA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790248376; x=1790853176; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=BIF+DNqqKyKNEhEgpncpLAUjcdtzT9Ko8rcMz3NbVVk=;
+        b=UO5XdKUVr0Tnk1hLWi6U3CPXLr93cZu/hKzPqXOfEb9XlRA0iR/adpDePOfLdoKpvd
+         5FjwlmLvQrvCHJHg4or9JvxUYzyPNL/Sb8ina3N19bebDtjEHcwJ9zjGwVAo7aKkRYeg
+         5LjvvdEApWh+gyHuf9RPlsIA0p9I4kErydeF8UZief7e6N/lRrhKU05VI8G/DZxVQLjO
+         7dMo/uOT+lVUArZxkGK+U+g2aqzCdtgO+FJravKU2rX05b5uYT6H0/8dxVEGWexA3sYf
+         giEgTf65NfSGtsvwzw3VsVMbuPP3Enl/KJAZea0xDbpy6OQbqaD+47wmAUhOpUZCqNZR
+         EP2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790248376; x=1790853176;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BIF+DNqqKyKNEhEgpncpLAUjcdtzT9Ko8rcMz3NbVVk=;
+        b=cuezgz/tpktMvn01abLG1OtoMfVaFVPJEOVp/5wkY5TTGCpkfhK6jqx2gwJRfzSrlV
+         CYItlLBxRyCq9jp6WU9DabQxoRqZIQzGqrCPqdf5ItAI9My0DqnJ3Jg/b/etuDyGEogl
+         Crfjs5gCG+cJsndsigFTxYkCyVZJr/xFVSzV8yjdJHY4CAffGuhALBfUXe5fbfv/SF/t
+         W1uBaddDW9wnWj8CANobArA/vLbRPPhWlwbnW3yvAG9bjP4/8x/hkIziGfoo4RgzKKj4
+         pINamcu9D7/nPsgNd66Qh7SvpR4WlpUFtazJF3dthLXLPCrzrupvP4RcoSzKZyj7Sqwv
+         81RA==
+X-Forwarded-Encrypted: i=1; AKwUvBzNfgw4rxQj4KiW2rPpbSStljj7StKQMXYgA0260jvvw1+1c/EpFyLQwk9aEuautivfMNMa5axpiKw=@vger.kernel.org
+X-Gm-Message-State: AFuF++nRn/emlB0Gv6/osm9Ezk5eRM4LBMoSxzyKYtSZ8VwX+H00z6hT
+	hVL7otIE0ZQfw5h5cB4XTax/SIs6dSQck8G22FwDq/nuu+EUcWj4W3UbPQ3lx6NR8qG8o/wfBEh
+	27guvxWM7fwnunPkz0o6txK3HX5Ww6qs=
+X-Gm-Gg: AYBFou1YSJkwCiHSvvnbfdILT7bzWumNME1EzK3xqy1AcL6NRlobURjOuLVuOpPL1/R
+	JkU8+o3GyIH5Apy3tahl1X+Ua+rWyRDBzNF9vcB0Hwxv3Se8rk4lcZGQWx1YCg2uHXO95HIvuni
+	vZtQWbGDj9gXwd7iZca5bjrpXo6PQ5DWpxZC5fUssVazb40y2Gmv5OskPXkVUg5JK+LdNUiARuU
+	U2RvoZtXbLWTLIon9Tq0/AyW4SYScEIQFimFV+3PlME5g1NZFk5JEFlBXoqDQ04PqSmjh60aim7
+	UUhuwxqLJwl/FHxw3CTZ/KgnwrEmVBwNYbEzuPL9wtXVzPRJYmVoa4GX
+X-Received: by 2002:a05:6402:278f:b0:6aa:665:830 with SMTP id
+ 4fb4d7f45d1cf-6aac8f4be3bmr1951363a12.15.1790248376170; Thu, 24 Sep 2026
+ 04:12:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 24 Sep 2026 13:12:17 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
- "Prashant Singh" <singhpra@juniper.net>
-Cc: "Jeremy Kerr" <jk@ozlabs.org>, linux-efi@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Jonathan Corbet" <corbet@lwn.net>,
- linux-doc@vger.kernel.org,
- "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
- "Clark Williams" <clrkwllms@kernel.org>,
- "Steven Rostedt" <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev
-Message-Id: <f7a04536-61e8-40df-8876-260dd2ef4fa8@app.fastmail.com>
-In-Reply-To: <arUD_p0Vn4qyBH_e@redhat.com>
-References: <20260919044124.8268-1-singhpra@juniper.net>
- <arUD_p0Vn4qyBH_e@redhat.com>
-Subject: Re: [PATCH v2] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-Content-Type: text/plain; charset=utf-8
+References: <20260924104831.1081137-1-caixinchen1@huawei.com> <20260924104831.1081137-4-caixinchen1@huawei.com>
+In-Reply-To: <20260924104831.1081137-4-caixinchen1@huawei.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 24 Sep 2026 13:12:44 +0200
+X-Gm-Features: AclHuK814JZB8XXMibt7ISdY9GmULY6F59LGn_JEl7Ybs7QawxIOFdTv7Ii5ZE4
+Message-ID: <CAOQ4uxhMhcxq5+crz84f8xj+Wi1bHhNqa_TecP-RvipheBR+ug@mail.gmail.com>
+Subject: Re: [PATCH RFC -next 03/12] fs: pass struct path to xattr helpers
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, jmorris@namei.org, 
+	serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, 
+	dakr@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, 
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, 
+	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org, 
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com, hirofumi@mail.parknet.co.jp, 
+	cel@kernel.org, jlayton@kernel.org, neil@brown.name, okorniev@redhat.com, 
+	Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, 
+	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, zohar@linux.ibm.com, 
+	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
+	stephen.smalley.work@gmail.com, omosnacek@gmail.com, casey@schaufler-ca.com, 
+	nanx95726@gmail.com, djwong@kernel.org, daniel@iogearbox.net, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	xiujianfeng@huawei.com, lujialin4@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-
-
-On Thu, 24 Sep 2026, at 13:05, Luis Claudio R. Goncalves wrote:
-> On Fri, Sep 18, 2026 at 09:41:24PM -0700, Prashant Singh wrote:
->> QueryVariableInfo() is an EFI runtime service that, on some firmware,
->> takes tens of milliseconds and runs with preemption disabled, stalling
->> the CPU that services it. efivarfs_statfs() calls it (rate-limited si=
-nce
->> commit b2326338dc68 ("efivarfs: Rate limit statfs() handler")) to rep=
-ort
->> the variable-store used/available capacity, so any statfs(2) -- e.g.
->> every "df" -- can inject that stall into unrelated latency-sensitive
->> workloads on the same CPU.
->>=20
->> Add a "nostatfs" mount option: when set, statfs(2) skips
->> QueryVariableInfo() entirely and reports zero used/available. It is s=
-et
->> by default on CONFIG_PREEMPT_RT so real-time kernels do not take the
->> stall out of the box.
+On Thu, Sep 24, 2026 at 12:22=E2=80=AFPM Cai Xinchen <caixinchen1@huawei.co=
+m> wrote:
 >
-> I tested the patch and was quite satisfied with the results, but upon a
-> comment from colleagues I ran a few more tests and noticed (confirmed =
-their
-> hunch) that fwupd complains about not being able to get the free space=
- in
-> efivars:
+> vfs_setxattr(), vfs_getxattr(), vfs_listxattr() and vfs_removexattr()
+> along with their __vfs_setxattr_locked()/__vfs_removexattr_locked()
+> counterparts and the do_setxattr()/do_getxattr()/listxattr()/
+> removexattr() syscall helpers take a struct mnt_idmap and a struct
+> dentry even though callers either already hold a struct path (or a
+> struct file) or have to pass &nop_mnt_idmap because no idmapped
+> mount is involved.  Switch them all to take a struct path instead
+> and derive the idmap and dentry from it where needed.
 >
->   # fwupdmgr get-devices | grep efivars
->   =E2=94=82     Update Error:       getting efivars free space is not =
-supported
->   =E2=94=82 =E2=94=82   Update Error:       getting efivars free space=
- is not supported
->   ...
+> __vfs_setxattr_noperm(), __vfs_getxattr(), __vfs_setxattr(),
+> __vfs_removexattr() and vfs_getxattr_alloc() keep taking the idmap
+> and dentry as they are only called from contexts that operate on
+> bare dentries such as LSM internals.  The SELinux and Smack
+> inode_setsecctx implementations now pass the path they got from the
+> previous patch straight through.
 >
-> I was not able to establish whether that would prevent specific operat=
-ions
-> due to the HW I had available for such test.
+> The security_inode_*xattr() hooks invoked from fs/xattr.c keep
+> taking the idmap and dentry for now; they will be converted together
+> with the LSM hooks themselves in separate patches.
+>
+> evm_calc_hmac_or_hash() contains a redundant xattr size sanity check
+> which calls vfs_getxattr() only to emit a debug message when the
+> kernel-side and user-space-side xattr sizes differ, without ever
+> influencing the result.  Because that function only has a dentry, the
+> call cannot be migrated to the new path-based signature; drop the
+> check and the now unused user_space_size variable instead.
+>
+> Assisted-by: opencode: glm-5.3
+> Signed-off-by: Cai Xinchen <caixinchen1@huawei.com>
+> ---
+>  drivers/block/zloop.c               |   4 +-
+>  fs/cachefiles/xattr.c               |  32 ++++----
+>  fs/ecryptfs/inode.c                 |   8 +-
+>  fs/nfsd/nfs4ctl.h                   |   4 +-
+>  fs/nfsd/vfs.c                       |  57 +++++++-------
+>  fs/overlayfs/copy_up.c              |   4 +-
+>  fs/overlayfs/overlayfs.h            |  18 +++--
+>  fs/overlayfs/xattrs.c               |  13 +++-
+>  fs/smb/server/smb2pdu.c             |  75 +++++++------------
+>  fs/smb/server/smb_common.c          |   2 -
+>  fs/smb/server/smbacl.c              |  19 +++--
+>  fs/smb/server/tests/smbacl_kunit.c  |   6 +-
+>  fs/smb/server/vfs.c                 | 112 ++++++++++++----------------
+>  fs/smb/server/vfs.h                 |  39 ++++------
+>  fs/smb/server/vfs_cache.c           |   3 +-
+>  fs/xattr.c                          |  92 ++++++++++++-----------
+>  include/linux/xattr.h               |  22 +++---
+>  security/integrity/evm/evm_crypto.c |   8 +-
+>  security/selinux/hooks.c            |   4 +-
+>  security/smack/smack_lsm.c          |   4 +-
+>  20 files changed, 243 insertions(+), 283 deletions(-)
 >
 
-We might have to teach fwupdmgr to check the efivarfs mount flags and re=
-mount
-it if it requires this information. We should check whether that is poss=
-ible
-with the current version of the patch.
+[...]
 
-> One idea that I have been musing over is whether or not it would be in=
-teresting
-> to create a static view of the efivars statfs data when first mounting=
- it
-> and updating this data whenever efivars is modified (create/write/dele=
-te).
-> Does that sound reasonable?
+> diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
+> index e963701b4c87..6dc241f195a6 100644
+> --- a/fs/overlayfs/copy_up.c
+> +++ b/fs/overlayfs/copy_up.c
+> @@ -83,7 +83,7 @@ int ovl_copy_xattr(struct super_block *sb, const struct=
+ path *oldpath, struct de
+>         if (!old->d_inode->i_op->listxattr || !new->d_inode->i_op->listxa=
+ttr)
+>                 return 0;
 >
+> -       list_size =3D vfs_listxattr(old, NULL, 0);
+> +       list_size =3D vfs_listxattr(oldpath, NULL, 0);
+>         if (list_size <=3D 0) {
+>                 if (list_size =3D=3D -EOPNOTSUPP)
+>                         return 0;
+> @@ -94,7 +94,7 @@ int ovl_copy_xattr(struct super_block *sb, const struct=
+ path *oldpath, struct de
+>         if (!buf)
+>                 return -ENOMEM;
+>
+> -       list_size =3D vfs_listxattr(old, buf, list_size);
+> +       list_size =3D vfs_listxattr(oldpath, buf, list_size);
+>         if (list_size <=3D 0) {
+>                 error =3D list_size;
+>                 goto out;
+> diff --git a/fs/overlayfs/overlayfs.h b/fs/overlayfs/overlayfs.h
+> index d915b87c0b06..c13f6b2c915c 100644
+> --- a/fs/overlayfs/overlayfs.h
+> +++ b/fs/overlayfs/overlayfs.h
+> @@ -291,8 +291,7 @@ static inline ssize_t ovl_do_getxattr(const struct pa=
+th *path, const char *name,
+>
+>         WARN_ON(path->dentry->d_sb !=3D path->mnt->mnt_sb);
+>
+> -       err =3D vfs_getxattr(mnt_idmap(path->mnt), path->dentry,
+> -                              name, value, size);
+> +       err =3D vfs_getxattr(path, name, value, size);
+>         len =3D (value && err > 0) ? err : 0;
+>
+>         pr_debug("getxattr(%pd2, \"%s\", \"%*pE\", %zu, 0) =3D %i\n",
+> @@ -325,9 +324,13 @@ static inline int ovl_do_setxattr(struct ovl_fs *ofs=
+, struct dentry *dentry,
+>                                   const char *name, const void *value,
+>                                   size_t size, int flags)
+>  {
+> +       struct path path =3D {
+> +               .mnt =3D ovl_upper_mnt(ofs),
+> +               .dentry =3D dentry,
+> +       };
+> +
+>         /* Use vfs_setxattr(), not __vfs_setxattr(): it idmaps the securi=
+ty.capability rootid. */
+> -       int err =3D vfs_setxattr(ovl_upper_mnt_idmap(ofs), dentry, name,
+> -                              value, size, flags);
+> +       int err =3D vfs_setxattr(&path, name, value, size, flags);
+>
+>         pr_debug("setxattr(%pd2, \"%s\", \"%*pE\", %zu, %d) =3D %i\n",
+>                  dentry, name, min((int)size, 48), value, size, flags, er=
+r);
+> @@ -344,7 +347,12 @@ static inline int ovl_setxattr(struct ovl_fs *ofs, s=
+truct dentry *dentry,
+>  static inline int ovl_do_removexattr(struct ovl_fs *ofs, struct dentry *=
+dentry,
+>                                      const char *name)
+>  {
+> -       int err =3D vfs_removexattr(ovl_upper_mnt_idmap(ofs), dentry, nam=
+e);
+> +       struct path path =3D {
+> +               .mnt =3D ovl_upper_mnt(ofs),
+> +               .dentry =3D dentry,
+> +       };
+> +
+> +       int err =3D vfs_removexattr(&path, name);
+>         pr_debug("removexattr(%pd2, \"%s\") =3D %i\n", dentry, name, err)=
+;
+>         return err;
+>  }
+> diff --git a/fs/overlayfs/xattrs.c b/fs/overlayfs/xattrs.c
+> index 5ae44b9c8790..b4658324b9f3 100644
+> --- a/fs/overlayfs/xattrs.c
+> +++ b/fs/overlayfs/xattrs.c
+> @@ -45,7 +45,7 @@ static int ovl_xattr_set(struct dentry *dentry, struct =
+inode *inode, const char
+>         if (!value && !upperdentry) {
+>                 ovl_path_lower(dentry, &realpath);
+>                 with_ovl_creds(dentry->d_sb)
+> -                       err =3D vfs_getxattr(mnt_idmap(realpath.mnt), rea=
+ldentry, name, NULL, 0);
+> +                       err =3D vfs_getxattr(&realpath, name, NULL, 0);
+>                 if (err < 0)
+>                         goto out;
+>         }
+> @@ -86,7 +86,7 @@ static int ovl_xattr_get(struct dentry *dentry, struct =
+inode *inode, const char
+>         ovl_i_path_real(inode, &realpath);
+>         /* Use vfs_getxattr(), not __vfs_getxattr(): it idmaps the securi=
+ty.capability rootid. */
+>         with_ovl_creds(dentry->d_sb)
+> -               return vfs_getxattr(mnt_idmap(realpath.mnt), realpath.den=
+try, name, value, size);
+> +               return vfs_getxattr(&realpath, name, value, size);
+>  }
+>
+>  static bool ovl_can_list(struct super_block *sb, const char *s)
+> @@ -105,15 +105,20 @@ static bool ovl_can_list(struct super_block *sb, co=
+nst char *s)
+>
+>  ssize_t ovl_listxattr(struct dentry *dentry, char *list, size_t size)
+>  {
+> -       struct dentry *realdentry =3D ovl_dentry_real(dentry);
+> +       struct path realpath;
+>         struct ovl_fs *ofs =3D OVL_FS(dentry->d_sb);
+>         ssize_t res;
+>         size_t len;
+>         char *s;
+>         size_t prefix_len, name_len;
+>
+> +       if (ovl_dentry_upper(dentry))
+> +               ovl_path_upper(dentry, &realpath);
+> +       else
+> +               ovl_path_lower(dentry, &realpath);
+> +
 
-efivarfs is not the only component setting EFI variables. You would also=
- have to
-hook every caller of efivar_set_variable() as well as efi.set_variable().
+that's ovl_path_real()
 
+I have no technical issue with the ovl patch bits in this series.
+Anyway, I guess landlock is not going to enforce anything on the
+private mnt with ovl_creds anyway?
+
+Thanks,
+Amir.
