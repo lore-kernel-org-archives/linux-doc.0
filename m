@@ -1,203 +1,258 @@
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4499F49DB80
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 21:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E9F4E73B1
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 21:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790286788; cv=none; b=lGzu1NzeoiZfX20nLPLrZfwDLn23c6uro2YQsKmSfiChme2VtPSzpKPUmqQZmW7BUrWYNfiNS1EQGxbqYlwDwP1/XKIrIv5u0LwhjYmMFFbM6tvWZkq8AnRQIHB5Q6bLq7NpUC5WK7TvN6u9PhQkfASdVXedpjqQhE249QZYK4A=
+	t=1790287162; cv=none; b=uL0VcXbJKndgt4pkCedy9KxYZQ5XtqzX+JhpEN3O2ObUmrE7JnjxfPebVfBmPUzwP92cdZ7fHAMJN3BUQeaaOxU9AWjs4SKgZTwPv1XAoAZfVOUvkRGvivFK+56wxMQjGvmhMLgvEM8Cub9sMsA+56W0tGqjvoQo1UwuNgRcqZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790286788; c=relaxed/simple;
-	bh=d9PT2GdoWFZBMlVJHZrFv1etxubcAqj+sYkXP3zDxNc=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=tTm+A57IcMaTv6Rbd3gukAQyxTQdhhnDO8ysQC7nOPU4XYkf1txgDsvZfLiu9QBy3nH19MegAb2TiOZqf25+CY8EE21mfodZNolUCS7zKLROjKifWxWRlQ6g+yiOGaxf1y6jDIp3d/rfZoH5FAigTjpzMxStMRSMSySiUSqw+7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sasaO8LV; arc=none smtp.client-ip=209.85.215.200
+	s=arc-20240116; t=1790287162; c=relaxed/simple;
+	bh=yFG6D90H677q2YQUtt7wc5bBOiHCM6mtxCcUmxQqY78=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i4aSeSCcyD5x+ilWW2eOTVGfQcMj2P/gYyoV43Wa1Zl8/DDVijHko5HInqX4RfQO+eS8xCOIV7PrVrNxwzhr2dFrMgYit+6+LJ/HtOh2woYsj3vxg58SNNWE6QFU79buuIk1/8uS2QTyfloGR30sUDU3xytmR4U6Ww+Ov617bxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lGeQDvIx; arc=none smtp.client-ip=74.125.228.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sasaO8LV"
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cc73895c7d5so239099a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 14:53:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lGeQDvIx"
+Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc1cea50dc0so47270a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 14:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790286786; x=1790891586; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=96howwJpIzasaCW/3Q0EcsFpl6itohsELojaGu9d8N0=;
-        b=sasaO8LV2aC+eJ22ZSls5e76IWjl5wQbLHC58f+m7GBcqu6ME6MAUYipxXJY5CV1+m
-         tCdY1yvxX5ZBUf+M+OL2cu3tgYoCtz8+vNYuxLbay2kHBOCUUn8H0EY2WCgMPFj+OSFT
-         w+RrM4+Gqdy6L0dSmEGiKwEctOQHKydA+DGIcxnb7snyQiQ+zeAxvIueBKhR+zEZBesn
-         npWdmNiKooIcSPNt7tzTFAjlMAgB9CDDhgPbcG87n1luyzYd+rSNCR26jeq1XGgx0ydP
-         6xPeGQukJU+tB1MRM1M66d5C6w2fIAZ3RbgreRTVSqDUsc3vBZcaO9IPd1S85g/zGWvJ
-         /AUQ==
+        d=google.com; s=20251104; t=1790287159; x=1790891959; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NevIoRhVPx1e2+eEuK5IsXEei6EeRuHGTwV+ThnOoJ8=;
+        b=lGeQDvIx8cgz+5i9HG9uTDpkA9toaQenc/lDfxxDqcvqemTMO/nlhgOFEf4iSOJwdP
+         ArFv0Iz/BVnvNGXcHlNk8Ipic+REhMOjHhg12ZRoUPeNM9swJly5YByD1Ng9nmefhqpc
+         PSa4+rV3Q6CD4Dul5bRQ75ZAhRDsrRv0+45O4eZ2TeVTcaObjMbUVD9iWAQsX34X0xdl
+         h6sNTG1t/6V+mMS3+jQ98UT3yAiioR7lU/9LRE3hrDWAdVgIafhzw0UC/0nRiZCE1rsU
+         MaphVuKfZI7Qx4usiW7b3Y9Nn39jx83nKQXRJR3oLrMGlUp3Z24t07WsBHOUQU1RgIk5
+         5pzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790286786; x=1790891586;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=96howwJpIzasaCW/3Q0EcsFpl6itohsELojaGu9d8N0=;
-        b=vzFl4H58tw9GRcSHmrTd0Vm7F2oj7fho2ogB9vIyGsVNW9XpncMeN4KOxKOZZZeYny
-         av+zJ2nruXfGVku0IQkHk795546bPBXBbTpBppTc7z9xwb78w0PL1PlFMPYdaXxDBteI
-         05MPZoRcz9+IrIvhVZTVEHMFOhCB75IB1l/NC9ci7YsdDGFJpgTKUB8K80nvbQwHAPRn
-         u8lQ3J3AaMMe8t6UNXRInGf4MGDT69syRlPBOswHoRYHhoX6SRQLi+gy6zUr1m/y8ndt
-         uZ/R16dvrNzQ1H6XcZ4/eOqxCJTnvnfeaOchhxEbcVNQTITk/+bHZo9bsCWtPq9SA9Sd
-         uc0w==
-X-Forwarded-Encrypted: i=1; AKwUvBxC4wskHeQqwFjAN0sfd7G5p0qubWo+t6Yi4OxMOKXAB0XhutCqSA6paXZnBYJiFvjAqnwjVglRZ0w=@vger.kernel.org
-X-Gm-Message-State: AFuF++lWqNr8kTiqSkSORIbgSwgqZRaq+0iHRzGshuiIdAA5zd0zdjO6
-	uzjYNtYqgE6L1j8c95648geKJrhZNVOhr6m8s1wB6bFrYsSCnbUxUuGXrIkUWHaZn6WzsYrqiW5
-	/zkgVbw==
-X-Received: from pgbcw5.prod.google.com ([2002:a05:6a02:4285:b0:cc7:513b:37d9])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:439e:b0:3d3:ae50:97ce
- with SMTP id adf61e73a8af0-3de0e755869mr3534504637.27.1790286786082; Thu, 24
- Sep 2026 14:53:06 -0700 (PDT)
-Date: Thu, 24 Sep 2026 14:51:49 -0700
-In-Reply-To: <20260910-gmem-inplace-conversion-v13-0-dd6fbf94f4e1@google.com>
+        d=1e100.net; s=20260707; t=1790287159; x=1790891959;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=NevIoRhVPx1e2+eEuK5IsXEei6EeRuHGTwV+ThnOoJ8=;
+        b=z4ryqCxK2TbmDE84itQzh84zWE5HUXWg8jTC7DsFA7n2ygsKRYmAj9FScjzDaRRdmx
+         fV9mRGwt1/d8Hr7Vv6yfWAWFjv9wqRkRbckx2XTUwKVl75Nya48hp/NsDK0zJ6VjGCKd
+         uCnuNJFWAXAjv5AcRDqfLTIEZQwbzkSkjcH/wsbwQDEddvJX75b0yvev7siVK3e17O4h
+         th3LHpWMdonj5Z8jt8QV7GPF14g3asDxxRaELZjTqi3X2W3ZVra7+gpcYLLp5vLlmeTQ
+         5VZ9GZUjRxQxAbzHOVU5TYc06T07nL6l9dEI7AgA927rRtYtgfxwY9vrwpyCwL/4hVsz
+         5zJg==
+X-Forwarded-Encrypted: i=1; AKwUvByw3kaE00VKw0tjoCzuno45b72E40+n5oFsjW++smLCuJn8fgYnR35KYtHN3ClPsCMbDdLZSMAusJ8=@vger.kernel.org
+X-Gm-Message-State: AFuF++khSP2Uubs53ig15e6cjY3Rj6lE/J5G7RBYFHcQCC1tnHDswosi
+	XXDrg5pp4HYLgRAsrZng3kEaIShRSo294WtkzQDDkdKp0uzbWqCrWvlW9PTEbj0CZA==
+X-Gm-Gg: AYBFou3p/i14ixkve+1CxegCsiLtuRDHmGbSn401YyAuvMnBhI49Oc/IlGcej1doLB7
+	oyASd5DOR0SJG31wIoj1dqoy2VRGpUznuSsFuhHVxjHlHvSJgNAr164m6DT/FzWah6q7/nm9bj5
+	k/ZTkGraUOquOmooLa8DxenPgjXUxNZMV+PadtOJV1w9KKJvWoR+x7/zIKHPx0TB40HRzhipIFa
+	nXLY9BzsGzEIOh5FSV6CuqS4c2eDXQ0vINQ0ICe5uAcId+24cCi9g0UQ9EksYN/Xcf17aBxaUa7
+	Ig105WQ7nG+JG6pNU8qYgrvXDvtsEATcLM+W3Hmsd9KmFExgOhywChaLK0qfhRxQdKn1HUZOinL
+	LXRH2ziwvT+yGv+U8LSNaZZNzvNNpgFGhwZt0Ptu9bdN4YkuEH2uzD+Sw9lohtAEPXuLvjPrbme
+	cQbEOpL2/v2885jpIQS23Q24rLg8sKLP3jNbrPV6iUGrC3Pj66X5FFxUeihOVP1yMe+fXFY7gmw
+	pOY6eC9ByQqWSbWnYzERbDrT6M7JR79wB0T0jsI
+X-Received: by 2002:a05:6a20:548d:b0:3dd:a008:dc3e with SMTP id adf61e73a8af0-3de0e89e58bmr4338025637.44.1790287158837;
+        Thu, 24 Sep 2026 14:59:18 -0700 (PDT)
+Received: from google.com (192.150.203.35.bc.googleusercontent.com. [35.203.150.192])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc78791e4b3sm309308a12.17.2026.09.24.14.59.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 14:59:17 -0700 (PDT)
+Date: Thu, 24 Sep 2026 21:59:11 +0000
+From: David Matlack <dmatlack@google.com>
+To: Zhu Yanjun <yanjun.zhu@linux.dev>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Josh Hilke <jrhilke@google.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vipin Sharma <vipinsh@google.com>, William Tu <witu@nvidia.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v9 00/13] PCI: liveupdate: PCI core support for Live
+ Update
+Message-ID: <arWdLyuHJwcU5tVn@google.com>
+References: <20260918200640.887030-1-dmatlack@google.com>
+ <2e88b92a-d3f2-41f7-bdbe-11fd71690606@linux.dev>
+ <CALzav=eJU+fnPr-QN4s7gY_Lj8Pc3T6KXfC9kiQQ=g4rPEDMuA@mail.gmail.com>
+ <d4547411-eeae-46c5-a30b-12d8cdde9329@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260910-gmem-inplace-conversion-v13-0-dd6fbf94f4e1@google.com>
-X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <179028368162.2007072.12117327378679658047.b4-ty@b4>
-Subject: Re: [PATCH v13 00/44] guest_memfd: In-place conversion support
-From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, jmattson@google.com, jthoughton@google.com, 
-	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Fuad Tabba <fuad.tabba@linux.dev>, 
-	Ackerley Tng <ackerleytng@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev, Xiaoyao Li <xiaoyao.li@intel.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d4547411-eeae-46c5-a30b-12d8cdde9329@linux.dev>
 
-On Thu, 10 Sep 2026 16:55:26 -0700, Ackerley Tng wrote:
-> Here's v13. Thanks everyone for the comments and fast responses!
-> We're now at ~3 weeks to soft-close at 7.3-rc5.
+On 2026-09-23 04:27 PM, Zhu Yanjun wrote:
+> 在 2026/9/22 11:53, David Matlack 写道:
+> > On Tue, Sep 22, 2026 at 11:36 AM Zhu Yanjun<yanjun.zhu@linux.dev> wrote:
+> > > 在 2026/9/18 13:06, David Matlack 写道:
+> > > > Future Work
+> > > > -----------
+> > > > 
+> > > > Following this series, we expect to make further improvements to the PCI
+> > > > core support for Live Update:
+> > > > 
+> > > >     - Allow P2P across Live Update by avoiding resizing or moving
+> > > >       preserved device BARs and preserving all upstream bridge windows.
+> > > > 
+> > > >     - Support preserving Virtual Functions by preserving SR-IOV
+> > > >       configuration on PFs and enumerating VFs after Live Update.
+> > > Preserving the PCIe topology, bus numbers, ACS, and Bus Mastering across
+> > > kexec is a foundational step for minimizing downtime.
+> > > 
+> > > As we look toward complete end-to-end support for DMA preservation
+> > > across Live Update—especially for VFIO device passthrough and dma-buf
+> > > sharing scenarios—IOMMU table/domain preservation becomes crucial to
+> > > prevent IOMMU page faults when devices continue performing DMA during kexec.
+> > > 
+> > > I would like to ask about the current status and roadmap regarding IOMMU
+> > > Live Update / KHO (Kexec Handover) support:
+> > > 
+> > > Is there an ongoing effort or RFC series for IOMMU handover / page-table
+> > > preservation currently in development or under discussion?
+> > > 
+> > > How is the coordination between the PCI core Live Update mechanisms and
+> > > the IOMMU subsystem being envisioned for preserving IOVA mappings (e.g.,
+> > > restoring domains or handing over root tables)?
+> > > 
+> > > Any pointers to active discussion threads, RFCs, or future plans
+> > > regarding IOMMU participation in Live Update would be greatly appreciated.
+> > The first IOMMU series to support Live update, can be found here:
+> > 
+> >    https://lore.kernel.org/linux-iommu/20260921004834.2601285-1-skhawaja@google.com/
 > 
-> v13 is based on 7.3-rc2 and:
+> Thanks.
 > 
-> + Hugh's patch to export lru_cache_drain_for_folio()
-> + Another series [1], which makes kvm_gmem_get_pfn() NOT return a
->   refcounted page to KVM.
+> I have a question regarding the restoration sequencing when module
+> dependencies are involved during a Live Update reboot.
 > 
-> [...]
+> For the standard hardware/driver stack, the sequence seems to naturally
+> follow the kernel's early initcalls and device probing (e.g., IOMMU early
+> hardware handover -> PCI bus topology/BME preservation -> IOMMU domain
+> attach & DMA ownership claim -> VFIO/iommufd cdev binding).
+> 
+> However, if there is a custom kernel module or subsystem (let's call it
+> Module A) that is not part of the standard PCI/IOMMU device probe callback
+> chain, but strictly depends on the fully restored state of PCI, IOMMU, and
+> VFIO/iommufd:
+> 
+> 1.
+> 
+>    What is the recommended or standardized way in the Live Update
+>    architecture to guarantee that Module A's restoration happens
+>    *after* all its underlying dependencies (PCI / IOMMU / VFIO) have
+>    completely finished their restore processes?
+> 
+> 2.
+> 
+>    Is the expectation to rely on LUO (Live Update Orchestrator) phase
+>    notification callbacks (e.g., late restore notifiers), Driver Core
+>    mechanisms like |-EPROBE_DEFER| / |device_link|, or something else?
+> 
+> Any guidance on how cross-subsystem restoration order and async probe
+> dependencies should be handled in the Live Update framework would be greatly
+> appreciated.
 
-Applied to kvm-x86 coco.  A *huge* thanks to everyone who helped with this!
+Note: Some of what I write below is not yet merged into the Live Update
+tree so may change. Samiullah Khawaja will be giving a talk about file
+dependencies at LPC where some of these topics will be discussed.
 
-[01/44] KVM: guest_memfd: Optimize away conversion overheads via dead-code elimination
-        https://github.com/kvm-x86/linux/commit/54623a16bbdc
-[02/44] KVM: guest_memfd: Use kvm_mem_is_private() when populating guest_memfd memory
-        https://github.com/kvm-x86/linux/commit/fa7b8b1bb5d0
-[03/44] KVM: guest_memfd: Introduce per-gmem attributes, use to guard user mappings
-        https://github.com/kvm-x86/linux/commit/1ae5be958ff7
-[04/44] KVM: Rename KVM_GENERIC_MEMORY_ATTRIBUTES to KVM_VM_MEMORY_ATTRIBUTES
-        https://github.com/kvm-x86/linux/commit/44e17d0a3663
-[05/44] KVM: Enumerate support for PRIVATE memory iff kvm_arch_has_private_mem is defined
-        https://github.com/kvm-x86/linux/commit/c2ae2bc1a311
-[06/44] KVM: Rename memory attribute APIs to prepare for in-place gmem conversion
-        https://github.com/kvm-x86/linux/commit/a84ef89cbf91
-[07/44] KVM: Rename kvm_mem_is_private() to kvm_is_private_gfn()
-        https://github.com/kvm-x86/linux/commit/98fd6e30bd14
-[08/44] KVM: Provide generic interface for checking memory private/shared status
-        https://github.com/kvm-x86/linux/commit/8ab5719fbcdc
-[09/44] KVM: guest_memfd: Stub in ability to enable in-place shared<=>private conversion
-        https://github.com/kvm-x86/linux/commit/ee1168fb7313
-[10/44] KVM: Consolidate private memory and guest_memfd ifdeffery in kvm_host.h
-        https://github.com/kvm-x86/linux/commit/bcc640eabbb2
-[11/44] KVM: guest_memfd: Invalidate both SHARED and PRIVATE mappings for in-place conversions
-        https://github.com/kvm-x86/linux/commit/e088c7f86bef
-[12/44] KVM: guest_memfd: Always fault from guest_memfd if in-place conversion is enabled
-        https://github.com/kvm-x86/linux/commit/2e646bcfcf90
-[13/44] KVM: guest_memfd: Pass mapping type filter to invalidation helper
-        https://github.com/kvm-x86/linux/commit/2f7f4e102880
-[14/44] KVM: guest_memfd: Add base support for KVM_SET_MEMORY_ATTRIBUTES2
-        https://github.com/kvm-x86/linux/commit/799c9fadc639
-[15/44] KVM: guest_memfd: Ensure pages are not in use before conversion
-        https://github.com/kvm-x86/linux/commit/dcde2f853ff4
-[16/44] KVM: guest_memfd: Call arch make_shared callback for to-shared conversion
-        https://github.com/kvm-x86/linux/commit/6fa1dab756fd
-[17/44] KVM: guest_memfd: Return early if range already has requested attributes
-        https://github.com/kvm-x86/linux/commit/856852ef2108
-[18/44] KVM: guest_memfd: Zero page while getting pfn
-        https://github.com/kvm-x86/linux/commit/cb0544296a33
-[19/44] KVM: SEV: Make 'uaddr' parameter optional for KVM_SEV_SNP_LAUNCH_UPDATE
-        https://github.com/kvm-x86/linux/commit/edcc3f42981e
-[20/44] KVM: TDX: Make source page optional for KVM_TDX_INIT_MEM_REGION
-        https://github.com/kvm-x86/linux/commit/af602a96f401
-[21/44] KVM: Move KVM_VM_MEMORY_ATTRIBUTES config definition to x86
-        https://github.com/kvm-x86/linux/commit/31670c382efc
-[22/44] KVM: Let userspace disable per-VM mem attributes, enable per-gmem attributes
-        https://github.com/kvm-x86/linux/commit/537ec2b15fdd
-[23/44] KVM: guest_memfd: Enable INIT_SHARED on guest_memfd for x86 Coco VMs
-        https://github.com/kvm-x86/linux/commit/b5ed1ee2a7a0
-[24/44] KVM: selftests: Create gmem fd before "regular" fd when adding memslot
-        https://github.com/kvm-x86/linux/commit/b312cab4e48c
-[25/44] KVM: selftests: Rename guest_memfd{,_offset} to gmem_{fd,offset}
-        https://github.com/kvm-x86/linux/commit/8d5f49000f8b
-[26/44] KVM: selftests: Add support for mmap() on guest_memfd in core library
-        https://github.com/kvm-x86/linux/commit/ee455183c92b
-[27/44] KVM: selftests: Add selftests global for guest memory attributes capability
-        https://github.com/kvm-x86/linux/commit/c3e48c166e35
-[28/44] KVM: selftests: Add helpers for calling ioctls on guest_memfd
-        https://github.com/kvm-x86/linux/commit/0bbbd2b02bf0
-[29/44] KVM: selftests: Test basic single-page conversion flow
-        https://github.com/kvm-x86/linux/commit/eaef4ed5fabc
-[30/44] KVM: selftests: Test conversion flow when INIT_SHARED
-        https://github.com/kvm-x86/linux/commit/e5fa04dc920e
-[31/44] KVM: selftests: Test conversion precision in guest_memfd
-        https://github.com/kvm-x86/linux/commit/492080a3d4e5
-[32/44] KVM: selftests: Test conversion before allocation
-        https://github.com/kvm-x86/linux/commit/97137c140360
-[33/44] KVM: selftests: Convert with allocated folios in different layouts
-        https://github.com/kvm-x86/linux/commit/5362c5fb88f6
-[34/44] KVM: selftests: Test that truncation does not change shared/private status
-        https://github.com/kvm-x86/linux/commit/bfb9b5a286ea
-[35/44] KVM: selftests: Test that shared/private status is consistent across processes
-        https://github.com/kvm-x86/linux/commit/8b72eaa766b6
-[36/44] KVM: selftests: Add helpers to pin pages with CONFIG_GUP_TEST
-        https://github.com/kvm-x86/linux/commit/e8a40b9a604e
-[37/44] KVM: selftests: Test conversion with elevated page refcount
-        https://github.com/kvm-x86/linux/commit/0db3f14f40c4
-[38/44] KVM: selftests: Reset shared memory after hole-punching
-        https://github.com/kvm-x86/linux/commit/c235250e8bc1
-[39/44] KVM: selftests: Provide function to look up guest_memfd details from gpa
-        https://github.com/kvm-x86/linux/commit/ee6f4c381903
-[40/44] KVM: selftests: Provide common function to set memory attributes
-        https://github.com/kvm-x86/linux/commit/f49dd8ba330e
-[41/44] KVM: selftests: Make TEST_EXPECT_SIGBUS thread-safe
-        https://github.com/kvm-x86/linux/commit/ef72e71da099
-[42/44] KVM: selftests: Set up page size and alignment independently for guest_memfd
-        https://github.com/kvm-x86/linux/commit/710169986d9b
-[43/44] KVM: selftests: Update private_mem_conversions_test for in-place conversions
-        https://github.com/kvm-x86/linux/commit/e24e534ff850
-[44/44] KVM: selftests: Update private memory exits test to work with per-gmem attributes
-        https://github.com/kvm-x86/linux/commit/37e0791600e5
+LUO does not have a global "restore phase" or late-restore notifier.
+Restoration is on-demand and driven by dependencies, and userspace does
+the orchestration.
 
---
-https://github.com/kvm-x86/linux/tree/next
+There are two types of objects that LUO manages:
+
+1. FLB (File-Lifecycle-Bound) data, for shared/global state.
+
+   An FLB is retrieved lazily the first time someone calls
+   liveupdate_flb_get_incoming(). The PCI core does that from
+   pci_setup_device() during enumeration, and the IOMMU driver does it
+   when it initializes. So the order in which this global state is
+   restored is simply the normal boot/initcall/probe order of the
+   subsystems that use it. LUO does not impose any extra order.
+
+2. Files in sessions, for per-object state (vfio cdevs, iommufds,
+   memfds, ...).
+
+   Files are retrieved either by userspace (LIVEUPDATE_SESSION_RETRIEVE_FD)
+   or by kernel code (liveupdate_get_file_incoming()). Retrieval can
+   happen in any order and is idempotent. When one file depends on
+   another, the dependency is expressed between the two files, not
+   through a global phase.
+
+VFIO -> iommufd is an example to follow (see Samiullah's IOMMU series
+[1] on top of Vipin's VFIO series [2]):
+
+ - Outgoing: when a vfio cdev is preserved, iommufd_device_preserve()
+   calls liveupdate_get_token_outgoing() on the iommufd file the device
+   is attached to. That fails unless userspace has already preserved
+   the iommufd in the same session, so the dependency is enforced at
+   preserve time. The iommufd token is then recorded in the preserved
+   device state.
+
+ - Incoming: the recorded token is what connects the device back to its
+   iommufd after kexec. Retrieving and re-attaching to the restored
+   iommufd is the next phase of the IOMMU work, so that part is not in
+   [1] yet. The building blocks are there, though:
+   liveupdate_get_file_incoming() lets one file handler pull in a file
+   it depends on by token (it is idempotent, so the order userspace
+   retrieves in doesn't matter), and ->can_finish() lets a handler
+   block LIVEUPDATE_SESSION_FINISH until everything it depends on is in
+   a consistent state.
+
+ - Device binding: vfio-pci's ->retrieve() simply fails (-ENODEV) if the
+   preserved device is not bound to vfio-pci yet. There is no probe
+   deferral inside LUO. Userspace is expected to make sure the device
+   is bound (e.g. wait for udev) before retrieving the file. In the
+   meantime the device is protected: the PCI core keeps bus mastering
+   and BDFs stable, and the IOMMU core reattaches the preserved domain
+   and claims DMA ownership, so no other driver can bind to it.
+
+If you can share more about what Module A is and what state it needs to
+carry across the update, I can try to go into more detail. But
+generically I would recommend:
+
+ - If Module A has state that must survive the Live Update, model it as
+   a LUO file handler. If it depends on specific VFIO/iommufd files,
+   record their tokens with liveupdate_get_token_outgoing() in your
+   ->preserve(). Then in your ->retrieve(), get them back with
+   liveupdate_get_file_incoming(). If something isn't ready yet (e.g.
+   the device hasn't probed), fail ->retrieve() and let userspace retry,
+   and use ->can_finish() to keep the session from finishing too early.
+
+ - If Module A is a driver that binds to a device, the normal driver
+   core mechanisms (-EPROBE_DEFER, device links) still apply for
+   probe-time dependencies. Live Update doesn't replace them. But
+   restoring the preserved state itself should probably go through LUO
+   as above.
+
+ - If Module A doesn't need to preserve anything itself but just
+   consumes the restored VFIO/iommufd objects, the simplest option is to
+   let userspace sequence it. Userspace already knows when the devices
+   are bound and the FDs have been retrieved, so it can hand them to
+   Module A at that point.
+
+[1] https://lore.kernel.org/linux-iommu/20260921004834.2601285-1-skhawaja@google.com/
+[2] https://lore.kernel.org/kvm/20260714151505.3466855-1-vipinsh@google.com/
