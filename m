@@ -1,113 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B172849CF4A;
-	Thu, 24 Sep 2026 15:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4E14A2A78;
+	Thu, 24 Sep 2026 15:41:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790263218; cv=none; b=c9YECACiwEQm5u/jcZWtqAmdt4fsU0zjzxrw1UaTPhQ2cn/fl0ii/Ag+vN3svN9M96VklNBA/0V2RifUr1QzgDFPC5VuJGXsl1dWezhx+jDsUOVGMGXHpMMNCab41oX3bQLxpxh2KNx2HeCBIUvTgcWKV0bjfXPyYprSqNv6vXI=
+	t=1790264497; cv=none; b=mmSRCXzeVNYT1k1UbmF1TXtfFlGPNuVskdt/JE3b6JOvrOCpoXcnOQaFGCnSJL3C/7FTKu+kr6A87o/hCJumffmW9nwS5PMe4QvkBLkqq0vtgfI8nlvpO0DQCEhk+5Y9KRiXraEjD60Z30URVI6U7gh1eYBNqi28ygNkUIg2tVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790263218; c=relaxed/simple;
-	bh=wxEuJMVBoZbga0STtRr92plLtm8vInH3FruD1jhYEKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D1gaKHNt8ZDabBpJ95NYPyzOfuLWa+IJkijOwSLo9nM258MH4B4Y5jbu5DiB5lQek3c+YOg3mP+l1KiqC8Fbi4t052aeRuMi/AIWGPq9DsE+/fqYtVnvXTPEXLrgwPM58iiwoVvuBlGGuhc67l9xho36jqTfAil4R4lVckfhqhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZYKsiDRj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790264497; c=relaxed/simple;
+	bh=e/Sxn8K7dsJV3ATbUcQjIv4QG7GxBYh/gFPNrHCya1Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cpoqXSo/KdSBWrBHHxk/oatfUFKSJrS+GDXszDVlpzvtjkHjfU6RauRbQRlv/ToTr9k51zXt7+ZD0fg6VlDvwreS+F46ERqI3kDXV88w42kHFTnudCejYgackS4EmmlnbIlVJLMrWqoUpmagJF1apuT3hraNnx/dP+98pTLX0xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7O+IDI6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZYKsiDRj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A09A1F00893;
-	Thu, 24 Sep 2026 15:20:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7O+IDI6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D77C61F000FF;
+	Thu, 24 Sep 2026 15:41:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790263217;
-	bh=1TonUH49EnMB6u8c5h2Nyyz7RxZIjpN24Wb4b73V2aA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZYKsiDRjSINDvO2HkBvOdZh3eV1kfCLgy1Yf3Tmsf2ocaM3IyMleG1PCydVJD2+Gm
-	 ZR4pq7/p86HNVIuvjU+qpH98naiOfC0zJQ+yNZ7Xf3vMrL6Zt2kypbV9JyfYY9W/5i
-	 EsnuJfH8XbG0dyKriiAgOsCf+mt6EQve6eIeKG56vpCe/LlNmroA5yAlEiGgGxzIy7
-	 xYZ3lWpm6ff6+xq3ER8P06CgLRluEYnHIX1ylQq0Nn7dqplnLgXn5kzv3nVphn+H0o
-	 7ZFSX628FOmj1DEM6fwNqXYCX6vaEq3DLc5FEw0OKc3JvgibnHsIoe3vpYIr3NInaA
-	 QyPjRZaKTZPYg==
-Date: Thu, 24 Sep 2026 11:20:15 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Bradley Morgan <brads@mainlining.org>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org, skhan@linuxfoundation.org,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-Message-ID: <arU_r7Sl3gnTX6nG@laps>
-References: <20260924134945.3095661-1-sashal@kernel.org>
- <C1ABA2A9-E1BD-4A89-B5BC-59C06D807D0D@mainlining.org>
+	s=k20260515; t=1790264495;
+	bh=eN2cjKfCvDXuqmgo4UbcmS7JlECYCHZ3VnJoYKEKeeA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=R7O+IDI6MizHFzQoZXlcztXkhOVZN4+VLOtDDYP3vtSk149l1qtXhc7GiyjbrHQE4
+	 Y+LGhikL5W7dg05q2pXPUyKuboNlf7IXfGZLuWLwXnuf4vJLhzdVIY50BKGQgNPh7Y
+	 dGCplrYXTs2TEcUr16Oo5z1ik9m3MYnJdQK3PN5DsfT+HoBwM3RMbYkUGjF6c1ufYk
+	 DYBGymFWNj+XrRJ5ZU/r/Z78UuQ6Nv8VYRMIxN80Vy2/9OilPC0qSPb+R0dG21d5Wr
+	 g5axXW77NkXA5w8o5hUmtpGZrFNoLtPfBaWxA/VmfduQnC+SYPfgY9T+E3dGbeYgZn
+	 r2MmKJb1ORVjQ==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>, 
+ "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+ Julian Braha <julianbraha@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Vegard Nossum <vegard.nossum@oracle.com>, 
+ Nauman Sabir <officialnaumansabir@gmail.com>, Tejun Heo <tj@kernel.org>, 
+ Nicolas Pitre <nico@fluxnic.net>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+ Matthew Maurer <mmaurer@google.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Andrew Jones <andrew.jones@linux.dev>, 
+ Graham Roff <grahamr@qti.qualcomm.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ "Borislav Petkov (AMD)" <bp@alien8.de>, Gary Guo <gary@garyguo.net>, 
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+In-Reply-To: <20260919005923.i.879-kees@kernel.org>
+References: <20260919005923.i.879-kees@kernel.org>
+Subject: Re: [PATCH 0/3] kconfig: Introduce cc-option-str
+Message-Id: <179026447975.3085989.6407201524539416516.b4-ty@b4>
+Date: Thu, 24 Sep 2026 11:41:19 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <C1ABA2A9-E1BD-4A89-B5BC-59C06D807D0D@mainlining.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1220; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=e/Sxn8K7dsJV3ATbUcQjIv4QG7GxBYh/gFPNrHCya1Y=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDFlbXZZYeB0JP77O+dvt43dWLDAKP3wy8Y/NlmIZM5Wie
+ a8CxMT9OkpZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBE3q9iZDh7r6T0/syYi1H1
+ T+9q127/8ztnx4HvVouFnU7cEwtcKzSX4b/7G9/tM7Ny2A0y7Cyt7FyiDBKNJ11drDlP+8vbZVe
+ /eDEDAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Thu, Sep 24, 2026 at 04:08:08PM +0100, Bradley Morgan wrote:
->On 24 September 2026 14:49:45 BST, Sasha Levin <sashal@kernel.org> wrote:
->>Most coding agents have standardized on AGENTS.md as the file they load
->>automatically from the root of a repository. README already tells AI
->>tools to read and follow Documentation/process/coding-assistants.rst,
->>but that only helps if the agent decides to read README before acting,
->>which in practice it often doesn't.
->>
->>Add a top-level AGENTS.md symlink to README, so agents load it on their
->>own and follow its pointer to the AI guidelines. This keeps a single
->>entry point for every reader, and avoids adding a separate copy of the
->>policy that could drift from the RST.
->>
->>As an example, two different agents were asked to "create a new commit
->>renaming the release (in the Makefile) to AI Test".
->>
->>Without AGENTS.md, the first agent added a Signed-off-by for the user on
->>its own. It should never have done that: only the human submitter can
->>certify the Developer Certificate of Origin, after reviewing the change.
->>It also used its own attribution tag instead of Assisted-by:
->>
->>> Makefile: rename release to AI Test
->>>
->>> Co-Authored-By: <model name> <noreply@...>
->>> Signed-off-by: Sasha Levin <sashal@kernel.org>
->>
->>The second agent added no attribution at all:
->>
->>> Rename release to AI Test
->>
->>With AGENTS.md in place, neither agent added a Signed-off-by, and both
->>used the Assisted-by tag. README itself mentions neither tag, so both
->>agents followed its pointer to coding-assistants.rst:
->>
->>> Makefile: rename release to "AI Test"
->>>
->>> Change the release name from "Baby Opossum Posse" to "AI Test".
->>>
->>> Assisted-by: LLM
->>
->>> Makefile: rename release to AI Test
->>>
->>> Assisted-by: LLM
->>
->>Both agents also followed the kernel's general guidelines more closely.
->>The second agent's subject gained the "subsystem: summary phrase" form
->>that submitting-patches.rst asks for, instead of a bare "Rename release
->>to AI Test", and the first agent added a body describing the change.
->>
->>Assisted-by: LLM
->>Signed-off-by: Sasha Levin <sashal@kernel.org>
->
->NAK, we could add to memories that to read soandso file before every
->patch, and then it wouldn't increase tokens then?
+On Fri, 18 Sep 2026 17:59:24 -0700, Kees Cook wrote:
+> kconfig: Introduce cc-option-str
+> 
+> Hi,
+> 
+> While reviewing the recent build speedup series[1], it became clear
+> that we needed a general solution in kconfig to avoid repeating detected
+> toolchain options. Implement cc-option-str and ld-option-str, and while
+> at it, create "def_string" and friends to match "def_bool".
+> 
+> [...]
 
-Could you help me understand what you meant here? I'm aware some agents use a
-notion of "memories", but I don't think they standardized on it in any way, nor
-how we could incorporate them here?
+Applied to
 
-And as far as I'm aware, nothing is free here - those "memories" still use
-tokens.
+  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git kbuild-next-unstable
 
+Thanks!
+
+[1/3] kconfig: Add "def_string", "def_int" and "def_hex"
+      https://git.kernel.org/kbuild/c/651fb291c4c86
+[2/3] kconfig: Replace "cc-option-bit" with "cc-option-str"
+      https://git.kernel.org/kbuild/c/889a621272f9b
+[3/3] kconfig: Add "ld-option-str"
+      https://git.kernel.org/kbuild/c/cfcc465018818
+
+Please look out for regression or issue reports or other follow up
+comments, as they may result in the patch/series getting dropped or
+reverted. Patches applied to an "unstable" branch are accepted pending
+wider testing in -next and any post-commit review; they will generally
+be moved to the main branch in a week if no issues are found.
+
+Best regards,
 -- 
-Thanks,
-Sasha
+Cheers,
+Nathan
+
+
