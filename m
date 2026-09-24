@@ -1,128 +1,186 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1573EDE60;
-	Thu, 24 Sep 2026 10:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B28246EF90
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 11:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790247432; cv=none; b=HHkn8P+WDUxZYQunFMLpmf+/GohtHMq1GxQhhLlqLa4onXbvloYoFlLuMni3aNML9YS5CxUAeQ5TYoX7F+CHqAQF5TaF1zrwoeFpTQgyhHGOVbXGAmXbt+MMNHWLVBSYOXiztx32QK3ZzDnsv0ohlXsJMXc9c+nxa8HyAfh2ysk=
+	t=1790247789; cv=none; b=OVV/9s6wEfpRKfQrto6G/6+ZI3AwXhz3lo/M2Q6FVyvneCNJoJ5/TNWKIdADHXAA7YVFuhbF8kl2ARXtEcXMZZ6vnD7CZnIoeb6fovXbjji/FeY7QW/qhjqQtrtE7Avbv/XjEPtGfAW4QvJbyWmPpFubHAmagrIs/t0yktaBekg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790247432; c=relaxed/simple;
-	bh=m0aO0fGkkWz1N/O2gSuqRquq65tZ+MKWr80p9mSF2l4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uT0nlLb3aXIawzqvoyxyBI9zGOGAYAm14sV6ZsMtJVCwVKyNxITvRL7yJBk4EXQ73IAWPKr68/HnjaMvaQw9bMmaVBMS3+dNSqPrCEEI+lmpvMjFV/crqRdhACvqmWvnHfAU522Mj9MCecgjXDM+TkNh5NfxsEqDddqNfL7fnPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=CWzkPeOz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QIgt1jnX; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1790247789; c=relaxed/simple;
+	bh=QHzsWZeESkFprgTXj2DHa5TPoY9T+JiNfra5izuial8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T1EP43fuzMmLXkdzNqDcPwdxuNdk0kHnnYbVfuH011vpQ0qg3/S+7qC6Wezpv9GsEkXRmALdzGEqv5AAH5kBiimYlSlnSIaQ+Dsng+xwwz6Pv2M7oIfnrj6mbEohFBTBxdweOQP+yJbe7cMZ7zZfuXsQQPMbWkInvKrPDbf2H9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iaruF16c; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="CWzkPeOz";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QIgt1jnX"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 49E967A013A;
-	Thu, 24 Sep 2026 06:57:09 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Thu, 24 Sep 2026 06:57:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1790247429; x=
-	1790333829; bh=F/wv8rlVvhXlNpAodROvwX1rTgpBcpHfGOH8x4asVFw=; b=C
-	WzkPeOzB4u7z+o/GDN/kiYvIiOFu9KHBi7n5KNgavPAtt9sYpwxHNumY6dLxehsV
-	tt9sauHMzTVnUy3bR0rjR1MVpcso0YVHwful9+GBjGPWOlnaVxf2L9iC0CfnHjX4
-	lrAlQmKTfPO23ZMxCidNx59mOoFDruJpZBUqYDRGh5+sIRdVOmyflU18TLPFiXNa
-	dSquSwVoAUJ3+IFh42jgvbp4VnTcF7NgKrFlTT5tIYMAUiP4X6YbhuOxZkXKvLJp
-	/zQ2FZyagssVR5C05KH98SnpROV6y8bTUgG3NrMHpj260M01jeX7ohxwq7PQQ6bf
-	O/ydnUEMQnrQTqr7fGL5g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1790247429; x=1790333829; bh=F/wv8rlVvhXlNpAodROvwX1rTgpBcpHfGOH
-	8x4asVFw=; b=QIgt1jnXMDhwTClLc7LSSSyxwqVyrzf+Qlx2sVyhvfzwhXNd5hB
-	QfRzjVMzvlOv3RU3oXEGBrGNUgxKhVkcYp26VV8Wwpp708nsF9I7AL/Q7y8G3mfF
-	aQPI8xbbCMmxQsvfZQFUo9iYRsOEp7ZDco33E5bHZZXlnWrLR0/GEuP4HAiwLq3t
-	abKeP4FT81o96QA9cR1nCKwNmVfg6PEoxD7AliwDxHF4tSt7Bl8+B+sDgJKt/jdU
-	7CUWI3fyeZRkW+ue7RUF+pEkg6fw/2/BDsttTOnjN8qK8/12qb2hNNWLqJTdviZt
-	HmR0ihAMtqbIeg6LnkmQmIVVFceetyC0ZBw==
-X-ME-Sender: <xms:BAK1ahKyJsTBVTs0PzQ3tL0vBRzAo17PAoBABFS3BTs9SEN78MsHyw>
-    <xme:BAK1ahG9xKjgICE_uPLNZGiQcBQjHzU5wQVAnLIKaDL71AAl2tHdYf6kTrdeZ9OUm
-    VwMchlIMb_Jhvx8gCEY_PfU7-vYm6YDt2FxmANYtkgnoGmjIuyiwg3l>
-X-ME-Received: <xmr:BAK1auR8RKv8MzsXoiAQONAo8A8qgQTDezF1SBafdaIH6Z0NnPowao2tXIfI>
-X-ME-Proxy-Cause: dmFkZTFwrd1kfiEN7ECeGw3OT9gcWrgsjA49dB13G33AsgODJR3JiyYKur7uUr0X1nn3Nn
-    kNJP34HYMDHxbV5dSs1fzsez71JzR5MCy6eVQXLJP05ouSb96qUjzEcXSvD2H1Kw/U9PqW
-    sYHpl0ICLHG0wRIBi2As4hBwig7M9Elx/N54vreI0LLeffzqcsod+f30BFGJ4/DPuh7Q/9
-    umPklK+9+izRBGb18Yf2ywZ1WtRLpA0MfT6kGq17R5fFXtzMWfT/nR9rHARSBqadiOe2rY
-    g0fJHKr/lTXc6PS6XC+IVk0JQJK1rdTePBXdGk4KAXae7TF/vFZj6oiRYpkKv/v7/GllQT
-    SKGS2XQopMx13GRm32NrZDFAiXboSmaR9TbmNr9kDYKH04WC7tsyikyjfv/CsJ9hQ2QBFk
-    igEluFPaoADgmb9RccqX1HeEfBFikJ+UWXs7fYA7t/4aVslIGht/CJtH8SGHJ4mCel0M8w
-    ywvdUKSO31WPcJcIdxpmVhWMf2boANHRLzMAst4VHvGFYX67MDR6mfXRQSDR6oElT5pLdp
-    DllJKKuK9GXzNjjve9H76ngjP6UFpfvJVgVK5z05KN/cc5hPpPVCguxlOKVskzTAq1O6dA
-    fh703rr5cdiBaBzyzZFusjAze9s3/waPfYRUrzPmvBSyc9MLiC1AQieOQxLA
-X-ME-Proxy: <xmx:BAK1aqUONGT-INsdvb5qpJvXrvIZroJFrRa3lMFpgLlEHjNp7saHeg>
-    <xmx:BAK1atjXURo9zmVh243MrhWmzEdreAXogQkN46JDhcbWEyp-Jun_Hw>
-    <xmx:BAK1ajdJ1Lm4alGEgH0HjiZ33fWwEpz0_0DqbzJFUlLRL8s_vZ0u-Q>
-    <xmx:BAK1aofOlC7Vds3WrIyGgrLjFd6M1cDUNBiLaYfCFYOQw64HqYNWJQ>
-    <xmx:BQK1aumE0ZvnPhoX5vLCcJGiiPobU3o7mbf3huqQeNAhGKs-P4L8xVdR>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Sep 2026 06:57:08 -0400 (EDT)
-Date: Thu, 24 Sep 2026 12:57:05 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Antony Antony <antony.antony@secunet.com>
-Cc: Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>,
-	Jamal Hadi Salim <hadi@cyberus.ca>, Shuah Khan <shuah@kernel.org>,
-	netdev@vger.kernel.org, Yan Yan <evitayan@google.com>,
-	Tobias Brunner <tobias@strongswan.org>,
-	Florian Westphal <fw@strlen.de>, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH ipsec v3 0/6] xfrm: state: exact mark/mask match for
- control-plane SA lookups
-Message-ID: <arUCAefkfEw-Jl_z@krikkit>
-References: <migrate-state-fixes-v3-0-836125bb53dd@secunet.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iaruF16c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4342D1F0089D
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 11:03:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790247788;
+	bh=qb5cHE2dgUrO0e26v2XgbM47NF6xvjd6olYZGEGtg3M=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=iaruF16c2G/cqjPSVprB5bCJNcjbvA/mX1AvmBrCN8B07E6qtOfbqcjiRFAG9sTAQ
+	 3V5fGKtIn4/uIpfE0ORNmjAKzsBpDoDXAgqdeHtToWTNEDOrCkpwjfCoBhDY9/LTyS
+	 MPDF33u00byP9ILEiJ6ebFfyGIagy5wEbc4Fn7tkYCo1nSGnxA95nHQbEkydNB3hsa
+	 ktFNOrWV0+Gdf/dfOeLJJ7f6HTDrTuuro6R/r+xy69a+YMWDEu6QxpCH0ENUiemFrF
+	 4DYyr6YdFUJK7WFIuhILlgD5C/vSP1ij7M4hWS3BVBQx+Y129btYPHTr9Uw18yntWV
+	 nz6IP5RigS+XQ==
+Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4aa8d882so1979898d50.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 04:03:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBz8rrK+4KZGkXRBwNJQq5rqH82LddWdng0CiT+Ezxyg+7zZPc0Q+9iJyMsuLq5ekHwPRe22q4QKHsA=@vger.kernel.org
+X-Gm-Message-State: AFuF++lpfHPmNcyenx6Ilu8TODgX0bcNxqeHUdpRo2jxamUrYvz/SSWs
+	OgVdT3ozlrmflX9tOOamVHsJHulu/X0LCIJhcZInui1/7i2nkJPu7SYNp/vkKidgXhA5E6ANbZg
+	E3fcCQeQKbBIpPiCRKFmuFGt6cjEaQx3ndcC1x9AH8Q==
+X-Received: by 2002:a05:690e:43c3:b0:671:1256:56f3 with SMTP id
+ 956f58d0204a3-672ed2624cdmr748540d50.21.1790247787078; Thu, 24 Sep 2026
+ 04:03:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <migrate-state-fixes-v3-0-836125bb53dd@secunet.com>
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <aqJXx2vtbKaRLt3x@fedora> <aqLi6cIjD2wJwk0B@cmpxchg.org> <CACePvbUG1ApMzMdEzf-63rpjgGVNsRk21pT72OQGJpM=OtRUew@mail.gmail.com>
+ <aq6cVXPLUUwJA7-2@gourry-fedora-PF4VCD3F> <CACePvbVaPDnva8X-Xmz84r7j5HjTuih-w5phpw7cerK2uPnK6w@mail.gmail.com>
+ <CAMgjq7CJBHkoZmg9oKNgGA8czL0djyBTCAkPz8ETm-tX=Qci4g@mail.gmail.com>
+ <arEotFqE7ZZoxMHd@gourry-fedora-PF4VCD3F> <CACePvbXb1WLz=OAAzVawf3oc3+dE3Z7qfPdagQ2dYuf3OALc2g@mail.gmail.com>
+ <arFe215hUcjLhvmS@gourry-fedora-PF4VCD3F> <arOeYHEf9aO7AU5X@MiWiFi-R3L-srv>
+In-Reply-To: <arOeYHEf9aO7AU5X@MiWiFi-R3L-srv>
+From: Chris Li <chrisl@kernel.org>
+Date: Thu, 24 Sep 2026 01:02:54 -1000
+X-Gmail-Original-Message-ID: <CACePvbXHan6Sfmdq6JFrcaMMy6SGvzPs-pautLtg-9D6=W09qg@mail.gmail.com>
+X-Gm-Features: AclHuK8VFQcjyBqPb4h6LbJpz-yiYCZ7Fqjey1egs43oMEG0gsapG1F4wdinNfg
+Message-ID: <CACePvbXHan6Sfmdq6JFrcaMMy6SGvzPs-pautLtg-9D6=W09qg@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Baoquan He <baoquan.he@linux.dev>
+Cc: Gregory Price <gourry@gourry.net>, Kairui Song <ryncsn@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-2026-09-21, 22:43:59 +0200, Antony Antony wrote:
-> While looking into a XFRM_MSG_MIGRATE_STATE issue reported by Sashiko,
-> we found the underlying problem generalizes: xfrm allows multiple SAs
-> to coexist for the same (SPI, daddr, proto) differing only in mark,
-> and every netlink method that resolves "which SA" - xfrm get_sa(),
-> del_sa(), update, get_ae, new_ae, expire, migrate - uses the same
-> wildcard mark match the data path needs. A broader-mask SA can
-> silently shadow a more specific one:
-> 
->   # ip xfrm state add ... spi 0x1000 mark 1 mask 1 (SA_target)
->   # ip xfrm state add ... spi 0x1000 mark 0 mask 0
->     (SA_decoy, catch-all, added after -> bucket head)
->   # ip xfrm state delete dst ... proto esp spi 0x1000 mark 1 mask 1
->     -> deletes SA_decoy; SA_target survives, untouched
-> 
-> xfrm policy had the same bug, fixed in commit 4f47e8ab6ab7
-> ("xfrm: policy: match with both mark and mask on user interfaces").
-> 
-> Netlink lookups use an exact mark/mask match except for UPDSA; the
-> wildcard match stays for the data path and state_add only.
-> This series applies that fix across every affected method,
-> not just XFRM_MSG_MIGRATE_STATE.
-> 
-> This series is not fixing likely isusses PF_KEY. As it
-> is no more receiving non critical fixes.
+On Tue, Sep 22, 2026 at 11:39=E2=80=AFPM Baoquan He <baoquan.he@linux.dev> =
+wrote:
+>
+> On 09/21/26 at 01:02pm, Gregory Price wrote:
+> > On Mon, Sep 21, 2026 at 06:32:56AM -1000, Chris Li wrote:
+> > > On Mon, Sep 21, 2026 at 3:27=E2=80=AFAM Gregory Price <gourry@gourry.=
+net> wrote:
+> > > >
+> > > > This would preserve the existing memory.swap semantics while allowi=
+ng
+> > > > both backing resources to be constrained independently.
+> > >
+> > > It sounds like you want memory.tiers have limit enforced.
+> > >
+> > > I suppose it is possible. Again I want to see how people would
+> > > actually use this feature.
+> > >
+> >
+> > Possible, but arguably not needed. the swap and zswap counters already
+> > work for this existing interaction.
+> >
+> > As I pointed to in my response to Rik, in every reasonable use of
+> > pswap+zswap the global swap counter is pointless.
+> >
+> > So then pswap=3Dswap and we're left with zswap and swap.
+> >
+> > And I'm not convinced your reading of the swap counter as a limit on th=
+e
+> > *logical* memory allowed to be swapped out is actually accurate.
+> >
+> >   memory.swap.current
+> >         The total amount of swap currently being used by the cgroup
+> >         and its descendants.
+> >
+> >   memory.swap.max
+> >         Swap usage hard limit.  If a cgroup's swap usage reaches this
+> >         limit, anonymous memory of the cgroup will not be swapped out.
+> >
+> > There is no documentation I can find that has ever documented these
+> > counters as "the amount of memory requiring a fault".  If you put a
+> > compression system in front of physical swap - the counters as-describe=
+d
+> > would still be accurate, while your reading would be broken.
+> >
+> > "swap" here is highly implied to mean "storage" as opposed to memory,
+> > which is why "zswap" defines its limits in terms of memory.
+> >
+> >   memory.zswap.current
+> >         The total amount of memory consumed by the zswap compression
+> >         backend.
+> >
+> >   memory.zswap.max
+> >         Zswap usage hard limit. If a cgroup's zswap pool reaches this
+> >         limit, it will refuse to take any more stores before existing
+> >         entries fault back in or are written out to disk.
+> >
+> > If you're presently using swap.max to mean the "logical amount of memor=
+y
+> > allowed to be swapped" - then your usage does not meet the definition o=
+f
+> > the knob.  You need to justify that your use case cannot be expressed
+> > via memory.min/low controls:
+> >
+> >   memory.min
+> >         Hard memory protection.  If the memory usage of a cgroup
+> >         is within its effective min boundary, the cgroup's memory
+> >         won't be reclaimed under any conditions. If there is no
+> >         unprotected reclaimable memory available, OOM killer
+> >         is invoked. Above the effective min boundary (or
+> >         effective low boundary if it is higher), pages are reclaimed
+> >         proportionally to the overage, reducing reclaim pressure for
+> >         smaller overages.
+> >
+> > That's an SLO interface.  memory.swap is a provisioning interface.
+> >
+> > As it stands, I'm left viewing zswap's counter inclusion in swap as mor=
+e
+> > of a bug than a feature - they account for different things (memory vs
+> > storage usage).
+>
+> It's hard to say. When 37e84351198b ("mm: memcontrol: charge swap to
+> cgroup2") introduced memory.swap.*, it was clearly defined as charging
+> "the actual number of swap entries used by a cgroup". Please see the
+> commit log. With that, zswap still reserved a swap slot even when the
+> data never reached disk. And not to mention zram, it's backend is RAM,
+> but not physical disk.
 
-The series looks good, but why did you remove the selftests you had in v1?
-https://lore.kernel.org/all/migrate-state-fixes-v0-3-a69e8637ba3b@secunet.com/
+Right, that definition matches what I have in mind. The actual number
+of swap entries regardless of the backing type.
 
--- 
-Sabrina
+Changing the meaning of that breaks existing users.
+
+> Now some deployments do use memory.swap.* as an SLO signal, and that is
+> real use cases as Chris and Kairui told. So I don't think this is about
+> who is right and who is wrong.
+>
+> To keep the existing deployment working and at the same time give the
+> physical slot its own knob, I think the solution is to add a memory.pswap=
+.*
+> counter as you suggested. And that is not something we think of from a
+> brain storm, it comes from real deployments which already depend on the
+> current memory.swap.* behavior.
+
+I think it is important not to break the existing usage of
+memory.swap.* behavior. I am fine with adding another counter.
+
+Chris
