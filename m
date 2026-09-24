@@ -1,338 +1,108 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BAA3EB815;
-	Thu, 24 Sep 2026 16:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3324C45D1A8
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 16:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790267722; cv=none; b=Tg4jcM9drONcklefbU8+riYjMteT08mKRZKIDuSWLYYNal4KHS4CEpjV0bThTFTiFKebSFZq/v4sg8rxPSrg6XQLb/YSTlZtFTYUhINK+Zl6BXWpsWdqJ2S+zclPqIspgeUYxdDzgHlxNFCaH384ly5zFk+yzSI/uX5NjdEI0Fo=
+	t=1790267895; cv=none; b=ut0abc5eXFKqLm5bB32FnlZ6BSBXnATdCWK8EOsk6h3qMLJhARMBUe5QjQA1iLEELTpvOsFYnjlUaDOzLoOqw8YOcfafbEMIgRkRjCaqJlQJRn/TuMQDbavDHODQEXMqhz+EHYEcC8ygM2uwh+fHmRyPeSt053Jl6WNvP6kqe14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790267722; c=relaxed/simple;
-	bh=iNbBus2U8ZFYU1VXwPxKX66INGGSt1tx61ILURfxYj8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=i21hhsRFvD2BulANp6EeE4YVSiUsAWeLJw5hthzp7iZEjH9QPT7bxowakfvlA894W3GLUys4oDSHib5ApZmObDNHlPSaVaGV2oPa0OLQwxt07NVM6o+9Jq7CkP1II2tlDf3B3hD5BZluTLiuOqcKCT2afk2XnRh7UO8rnXDAqYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=hr1WJpk7; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=Dh8GAAuS; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1790267895; c=relaxed/simple;
+	bh=Y6dfgoDu9ENyHz35342iESy0PYqePxl/sIn9jSurkUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JG6ZzNHm5zW1jgrquJE3ip6+u6Fl87Pcms7URa7RnRqDmby87opdW+fnXW5hzmzT3DUQO+XeEdRGFmB5CID5EZFk4OQfqlpqVw7Fn3nvNnWLJyhOhsgp/0cKWdWxNRPdpBqOL40gQ+JB9SQ42+vuu6x7+tgw5rg3onkwSPczeys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=DELaQ6H+; arc=none smtp.client-ip=74.125.230.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="hr1WJpk7";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="Dh8GAAuS"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790267678; bh=cF/z0+szAgUkO9TvSE+7Cxq
-	bF20dYd3g3xPL7sA9krI=; b=hr1WJpk7icOmBpou61m8nv/jxbyGwztwopBb4dZn9vHVSeZFEb
-	doqNJRDkNa/S/sfKlzi1K/iIGec6MF55f57V97aZIuxwDhkSK6Pgei0LeWd36Z0l6zzBUH93Hx6
-	dHznPDC7GyJc0L1cD56ovgiMOEllMdkd5eIs9cyM0lIWXCTj7jAqz7LDeKFBc4ctRzw90SXzqnr
-	49IYDG99QW5uUFlU0KG9kiLkzYye92gx+VmLRUAhBr/1NAOLLTKjDT7NrEEpWS4HXRXOtRlf7ia
-	XuVAJwiQRQur91hltWzCLbo268PFIhzM2nlDKkdHuaFoipY6LRdSDwTpIK9vCH7jtRA==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790267678; bh=cF/z0+szAgUkO9TvSE+7Cxq
-	bF20dYd3g3xPL7sA9krI=; b=Dh8GAAuSUcB1A4vUTuGXEMHpR8ZnSsXyjTVHGA/M4ftuLzjRWp
-	nCsuqaeNFmUh6snyxpI//EE9NIqgNYL6auDw==;
-Date: Thu, 24 Sep 2026 17:34:38 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: kmehltretter@gmail.com
-CC: bigeasy@linutronix.de, boqun@kernel.org, clrkwllms@kernel.org, corbet@lwn.net,
- elver@google.com, frederic@kernel.org, glider@google.com,
- joelagnelf@nvidia.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- lyude@redhat.com, peterz@infradead.org, rostedt@goodmis.org, tglx@kernel.org
-Subject: Re: [PATCH v3] softirq: Preserve interrupt context during IRQ exit
-In-Reply-To: <20260924041538.52574-1-kmehltretter@gmail.com>
-Message-ID: <706B01DB-E4B8-453C-9265-0B861F649F68@mainlining.org>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="DELaQ6H+"
+Received: by mail-qk2-f43.google.com with SMTP id d75a77b69052e-530280b8234so211571cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 09:38:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1790267891; x=1790872691; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=LuPrvXBzY5FQ+f/5fzbveR9yF272P1V2+jsIcGJNdC0=;
+        b=DELaQ6H+GoqYKhSPbbw83I2UghjOPLUKt/HJzwYXOl5vd4By1b/ewKsZIbd9ahXhZb
+         TJDLBT2drAnq8j1D4gtZjKdZE54vfhHIW07z7SMjyhNrpJZ88lIXL27llafwJKgt7Hvw
+         zeqWn52o1fsiwmzoo4rrDQZv3h3IiFJnFO2iuBnkUsGA3ktjvtFHA3Jr6K2ZEcGMg8M1
+         1di2ZTIAJ2yTB2V6zmlctv6zG6tcG5IvMF9RkWmI06r7tX+skZxDuVThBB0MSr3NZe3S
+         B2+XxiOTA95Xk/3/+mlBZ2rpvQSIcAx9lD43yFxhcrOBvTesr5mE416XkZK5Fw1vsdLx
+         5Q7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790267891; x=1790872691;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LuPrvXBzY5FQ+f/5fzbveR9yF272P1V2+jsIcGJNdC0=;
+        b=HI8R4fZqUXbooQfm8bJKN6yMSgaie7U4tad0qkUam2iGcHNa71xi/gDx8NH6J7Vw/0
+         guNrT57VIE7VJabtjQ6Lvw3LA2QbTwXAJncLq3f8WJnUE6DBeh4JrpXNjpwC0kTfzzx8
+         r+P1j2Bb/mpmTe/8/kfsSNVSpKdGhAIB0Oe+2CwHzS2mjxzRektWWSBJh0K0JqSuVF3t
+         +F/T6aNIqYNipyPOAB/QwQGvj77nLj4w90FvpL7FHLpbNa8CN3Lv3eWNrqjqeCovdmWO
+         IVfnnazRcxa7fDTtpUYcc5+CTZVfvNl0VPYyA3QF4uCC1OycgvK8CKELRNZhDDw47xmw
+         AuEw==
+X-Forwarded-Encrypted: i=1; AKwUvBy4uL4aZJKZD1KmAnZtUlVt+KpRei1dg2r7X0FGkWIKBsbXW3iOQNrUgJ06x872oTkKcE3sWvEpWWo=@vger.kernel.org
+X-Gm-Message-State: AFuF++lRnFk7s0jy/wbrMtY1h+YowS86nQj33HPcdEibnmdWxxOUAt4z
+	4JkZSg2aV1YlQxeex+ckS/zdw/7qZVzVkiZjBOD2DvhhYLmTFgt9YDWJoL91KIRRruw=
+X-Gm-Gg: AYBFou1hIxKgNJ1c6MaPs77n7jIrSqpZCFpz81bBcu8vex4riddJUqLDLAGPOOoflvH
+	u37SslmWsZmKJPTNtP8kKUZw3VqO78vkhNwIZJoF8gdCGWMYv9/OM0ZFTF/bMU1nGdKPzQzejPl
+	Owj1M/zsy0DO04gQTX/xcxyj9pnfcuUkpUD7Z9L4+OSHOD7uw930V3k/cwIz2JtXjooljqfOev7
+	ZAcENlyj8cSzO/aEAf7dSljNLodB+t2VFLdxKZIjD35lDaTphYOHyj7FYuS1Q3+iFqOIY3PgNui
+	H5NLZ4rzUlNfQOfk+hps6nRuOnhEXkpPJ96b3ZDEI4vB/cbYkE523eWvCfwT2O0fCbC9tdfM4ep
+	ajsiXE9h9mLJFYTx8Iv+0M6e9h3N4c2/I5cgaI/wXISv/B9UHHFEK3knL4EcnKkBnxV0ppT4qcR
+	dNmx6jTZoaweRvzvloLkV3mevvJgpUkcd/SjJZLWUBZaIjtUBeM/YgJqsdTQ9pY5TqoBeoV5w2W
+	X3V3KAbIgmPOwRgkqUrg+XRxPPh57B7XSF2Kc8r0Oo80g+j0fQNLEk=
+X-Received: by 2002:ac8:5743:0:b0:530:d860:ffba with SMTP id d75a77b69052e-532fe9f05bamr29797891cf.6.1790267890993;
+        Thu, 24 Sep 2026 09:38:10 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532eb32f6aasm45064551cf.16.2026.09.24.09.38.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 09:38:10 -0700 (PDT)
+Date: Thu, 24 Sep 2026 12:38:08 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 03/40] mm/vma: introduce and use
+ vma_[flags_]can_merge()
+Message-ID: <arVRqJZkql6sGunt@gourry-fedora-PF4VCD3F>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-3-4583d8a23bca@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-3-4583d8a23bca@kernel.org>
 
-On 24 September 2026 05:15:38 BST, Karl Mehltretter
-<kmehltretter@gmail.com> wrote:
->__irq_exit_rcu() removes HARDIRQ_OFFSET first and then runs
->hrtimer_rearm_deferred(), invoke_softirq() and wake_timersd(). This is
->interrupt exit work with interrupts disabled, but preempt_count already
->describes the interrupted task again. Everything which derives the
->context from preempt_count gets it wrong in that window:
->
->  - ftrace, perf and the ring buffer record task context and use the
->    task recursion and context slots.
->  - KCSAN attributes the accesses to the interrupted task, KMSAN uses
->    and changes its state. KCOV and the printk caller id see a task.
->  - On PREEMPT_RT can_spin_trylock() and local_trylock() reject hard
->    interrupt context to avoid interfering with PI when the interrupted
->    task is blocked on a lock. That check does not reject calls made in
->    this window. BPF programs attached to sched_waking or sched_wakeup
->    can reach it through kmalloc_nolock().
->  - An oops kills the interrupted task instead of ending in "Fatal
->    exception in interrupt".
->
->Tracing and the sanitizers see the wrong context in this window. No
->failure caused by this misclassification is known. The early removal of
->HARDIRQ_OFFSET predates git. lockdep is not affected because
->lockdep_hardirq_exit() is the last operation in irq_exit().
->
->Keep HARDIRQ_OFFSET until right before tick_irq_exit(), which needs
->in_hardirq() to be false for the outermost interrupt. Softirq handlers
->must not run with HARDIRQ_OFFSET set, so softirq_handle_begin() replaces
->it with SOFTIRQ_OFFSET and softirq_handle_end() reverts that, each in a
->single raw preempt_count update. The raw operations keep the preemption
->disable location recorded by irq_enter_rcu(), and lockdep is updated by
->hand. softirq_handle_begin() detects the case with
->in_hardirq() because __do_softirq() is reached through the stack switch
->in do_softirq_own_stack() and cannot take an argument.
->
->The checks run before HARDIRQ_OFFSET is removed. !in_interrupt() becomes
->irq_count() == HARDIRQ_OFFSET, as in irq_enter_rcu(). The timer thread
->check becomes !in_nmi() && hardirq_count() == HARDIRQ_OFFSET. It does
->not test softirq_count(): the timer thread must also wake when the
->interrupt hit softirq processing or a section with BHs disabled.
->A softirq raised in the timer thread wakeup is handled by the timer
->thread, which handles all pending softirqs.
->
->A softirq raised in the final preempt_count_sub(), e.g. by a consumer of
->the preempt_enable tracepoint, misses these checks. Wake ksoftirqd for
->it as raise_softirq_irqoff() would. Otherwise it waits for the next
->interrupt exit and a cpuidle driver reports it as pending at idle entry.
->
->The number of preempt_count updates and the interrupt time accounting
->are unchanged. The preemptoff tracer now reports the interrupt and the
->softirq processing on top of it as one section, and function graph with
->nofuncgraph-irqs also skips the interrupt exit work, including the
->__do_softirq() frame.
->
->Suggested-by: Peter Zijlstra <peterz@infradead.org>
->Link: https://lore.kernel.org/r/20260813130826.GW687043@noisy.programming.kicks-ass.net
->Assisted-by: LLM
->Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
->---
->
->Notes:
->    Thanks for the review, Sebastian.
->    
->    v3 also adds a pending softirq check after the final
->    preempt_count_sub(). A preempt_enable tracepoint callback can raise a
->    softirq there, after the softirq and timer thread checks. With an RCU
->    reader in that callback I saw 10 NOHZ tick-stop warnings per boot in
->    QEMU without the new check, and none on the base kernel or with the
->    check. The check wakes ksoftirqd for newly pending softirqs. Does this
->    case justify the extra check on every IRQ exit?
->    
->    Changes in v3:
->    - Operands swapped, no casts, one irq_count() check per direction,
->      lockdep_softirqs_off() before it (Sebastian).
->    - Timer thread check without IRQ_EXIT_TIMERS, order of the exit work
->      kept (Sebastian).
->    - from_hardirq renamed to from_irq_exit, comment as Sebastian suggested.
->    - ksoftirqd wakeup for a softirq raised in the final
->      preempt_count_sub(), see above.
->    - Documentation/core-api/entry.rst updated.
->    - Rebased on tip/master c81f6d2398d0.
->    
->    I am not proposing this for stable.
->    
->    Testing: base against v3 in QEMU on x86-64 in separate configurations
->    (non-RT, threadirqs, RT, KCSAN, KMSAN, rcutorture), on arm32, arm64,
->    ppc64, s390x, parisc, sparc64, riscv64, loongarch64 and m68k, and on a
->    SAM9X75 (also RT), a Raspberry Pi 500+ and a Raspberry Pi 400. No
->    regressions observed in these runs.
->    
->    v2: https://lore.kernel.org/r/20260905023210.82853-1-kmehltretter@gmail.com
->
-> Documentation/core-api/entry.rst | 16 ++++---
-> kernel/softirq.c                 | 79 +++++++++++++++++++++++++++-----
-> 2 files changed, 77 insertions(+), 18 deletions(-)
->
->diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
->index 79fdaed954d9d..ff3df997b151f 100644
->--- a/Documentation/core-api/entry.rst
->+++ b/Documentation/core-api/entry.rst
->@@ -197,8 +197,9 @@ return true, handles NOHZ tick state and interrupt time accounting. This
-> means that up to the point where irq_enter_rcu() is invoked in_hardirq()
-> returns false.
+On Thu, Sep 17, 2026 at 05:22:12PM +0100, Lorenzo Stoakes (ARM) wrote:
+> Replace the open-coded VMA_SPECIAL_FLAGS check in the VMA merge logic with
+> two new functions vma_flags_can_merge() and vma_can_merge() and update the
+> merge logic to use the former.
 > 
->-irq_exit_rcu() handles interrupt time accounting, undoes the preemption
->-count update and eventually handles soft interrupts and NOHZ tick state.
->+irq_exit_rcu() handles interrupt time accounting, handles soft interrupts if
->+possible, undoes the preemption count update and finally handles the NOHZ tick
->+state.
+> This abstracts the check and expresses it in terms of the desired behaviour
+> rather than an arbitrary and confusing VMA flag.
 > 
-> In theory, the preemption count could be updated in irqentry_enter(). In
-> practice, deferring this update to irq_enter_rcu() allows the
-> preemption-count
->@@ -207,10 +208,13 @@ irqentry_exit(), which are described in the next paragraph. The only downside
-> is that the early entry code up to irq_enter_rcu() must be aware that the
-> preemption count has not yet been updated with the HARDIRQ_OFFSET state.
+> This also lays the groundwork for making further improvements in VMA flag
+> usage.
 > 
->-Note that irq_exit_rcu() must remove HARDIRQ_OFFSET from the preemption count
->-before it handles soft interrupts, whose handlers must run in BH context rather
->-than irq-disabled context. In addition, irqentry_exit() might schedule, which
->-also requires that HARDIRQ_OFFSET has been removed from the preemption count.
->+Note that soft interrupt handlers must run in BH context rather than in hard
->+interrupt context. irq_exit_rcu() therefore replaces HARDIRQ_OFFSET with
->+SOFTIRQ_OFFSET in the preemption count while it handles soft interrupts and
->+puts HARDIRQ_OFFSET back afterwards, so that the remaining interrupt exit work
->+is still attributed to the interrupt. HARDIRQ_OFFSET is removed before
->+irq_exit_rcu() returns because irqentry_exit() might schedule, which requires
->+that HARDIRQ_OFFSET has been removed from the preemption count.
+> Also update the userland VMA tests to reflect the change.
 > 
-> Even though interrupt handlers are expected to run with local interrupts
-> disabled, interrupt nesting is common from an entry/exit perspective. For
->diff --git a/kernel/softirq.c b/kernel/softirq.c
->index c3729c5b284b0..efa6707edc0e9 100644
->--- a/kernel/softirq.c
->+++ b/kernel/softirq.c
->@@ -350,8 +350,8 @@ static inline void ksoftirqd_run_end(void)
-> 	local_irq_enable();
-> }
+> No functional change intended.
 > 
->-static inline void softirq_handle_begin(void) { }
->-static inline void softirq_handle_end(void) { }
->+static inline bool softirq_handle_begin(void) { return false; }
->+static inline void softirq_handle_end(bool from_irq_exit) { }
-> 
-> static inline bool should_wake_ksoftirqd(void)
-> {
->@@ -481,15 +481,40 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
-> }
-> EXPORT_SYMBOL(__local_bh_enable_ip);
-> 
->-static inline void softirq_handle_begin(void)
->+static inline bool softirq_handle_begin(void)
-> {
->-	__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
->+	bool from_irq_exit = in_hardirq();
->+
->+	if (!from_irq_exit) {
->+		__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
->+		return false;
->+	}
->+
->+	/*
->+	 * Only reached from irq_exit(), with HARDIRQ_OFFSET still set.
->+	 * Replace it with SOFTIRQ_OFFSET before handle_softirqs() enables
->+	 * interrupts. Use the raw operation to preserve the preemption
->+	 * disable location recorded by irq_enter_rcu(), and update lockdep
->+	 * directly.
->+	 */
->+	__preempt_count_sub(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
->+	lockdep_softirqs_off(_RET_IP_);
->+	WARN_ON_ONCE(irq_count() != SOFTIRQ_OFFSET);
->+
->+	return true;
-> }
-> 
->-static inline void softirq_handle_end(void)
->+static inline void softirq_handle_end(bool from_irq_exit)
-> {
->-	__local_bh_enable(SOFTIRQ_OFFSET);
->-	WARN_ON_ONCE(in_interrupt());
->+	if (!from_irq_exit) {
->+		__local_bh_enable(SOFTIRQ_OFFSET);
->+		WARN_ON_ONCE(in_interrupt());
->+		return;
->+	}
->+
->+	lockdep_softirqs_on(_RET_IP_);
->+	__preempt_count_add(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
->+	WARN_ON_ONCE(irq_count() != HARDIRQ_OFFSET);
-> }
-> 
-> static inline void ksoftirqd_run_begin(void)
->@@ -605,6 +630,7 @@ static void handle_softirqs(bool ksirqd)
-> 	unsigned long old_flags = current->flags;
-> 	int max_restart = MAX_SOFTIRQ_RESTART;
-> 	struct softirq_action *h;
->+	bool from_irq_exit;
-> 	bool in_hardirq;
-> 	__u32 pending;
-> 	int softirq_bit;
->@@ -618,7 +644,7 @@ static void handle_softirqs(bool ksirqd)
-> 
-> 	pending = local_softirq_pending();
-> 
->-	softirq_handle_begin();
->+	from_irq_exit = softirq_handle_begin();
-> 	in_hardirq = lockdep_softirq_start();
-> 	account_softirq_enter(current);
-> 
->@@ -670,7 +696,7 @@ static void handle_softirqs(bool ksirqd)
-> 
-> 	account_softirq_exit(current);
-> 	lockdep_softirq_end(in_hardirq);
->-	softirq_handle_end();
->+	softirq_handle_end(from_irq_exit);
-> 	current_restore_flags(old_flags, PF_MEMALLOC);
-> }
-> 
->@@ -742,14 +768,20 @@ static inline void wake_timersd(void) { }
-> 
-> static inline void __irq_exit_rcu(void)
-> {
->+	u32 pending;
->+
-> #ifndef __ARCH_IRQ_EXIT_IRQS_DISABLED
-> 	local_irq_disable();
-> #else
-> 	lockdep_assert_irqs_disabled();
-> #endif
-> 	account_hardirq_exit(current);
->-	preempt_count_sub(HARDIRQ_OFFSET);
->-	if (!in_interrupt() && local_softirq_pending()) {
->+
->+	/*
->+	 * HARDIRQ_OFFSET is still set. Only the outermost interrupt handles
->+	 * softirqs, and only if it did not hit a softirq or BH disabled section.
->+	 */
->+	if (irq_count() == HARDIRQ_OFFSET && local_softirq_pending()) {
-> 		/*
-> 		 * If we left hrtimers unarmed, make sure to arm them now,
-> 		 * before enabling interrupts to run softirq.
->@@ -758,10 +790,33 @@ static inline void __irq_exit_rcu(void)
-> 		invoke_softirq();
-> 	}
-> 
->+	/*
->+	 * Wake the timer thread even if the interrupt hit a softirq or a
->+	 * section with BHs disabled. Only nested interrupts and NMIs are
->+	 * excluded.
->+	 */
-> 	if (IS_ENABLED(CONFIG_IRQ_FORCED_THREADING) && force_irqthreads() &&
->-	    local_timers_pending_force_th() && !(in_nmi() | in_hardirq()))
->+	    local_timers_pending_force_th() &&
->+	    !in_nmi() && hardirq_count() == HARDIRQ_OFFSET)
-> 		wake_timersd();
-> 
->+	pending = local_softirq_pending();
->+
->+	/*
->+	 * tick_irq_exit() relies on in_hardirq() being false for the
->+	 * outermost interrupt.
->+	 */
->+	preempt_count_sub(HARDIRQ_OFFSET);
->+
->+	/*
->+	 * A softirq raised in preempt_count_sub(), e.g. by a tracepoint,
->+	 * missed the checks above. Wake ksoftirqd as raise_softirq_irqoff()
->+	 * would have done.
->+	 */
->+	if (unlikely(local_softirq_pending() & ~pending) && !in_interrupt() &&
->+	    should_wake_ksoftirqd())
->+		wakeup_softirqd();
->+
-> 	tick_irq_exit();
-> }
-> 
->
->base-commit: c81f6d2398d063009cc9ad2c98f126daaa7669e2
->
-Nice! LGTM, thanks
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
-
-(Note this review is done by correctness!)
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
