@@ -1,192 +1,157 @@
-Received: from mta1.migadu.com (out-206.mta1.migadu.com [95.215.58.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6613385D78
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 05:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0CC359A70;
+	Thu, 24 Sep 2026 05:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790229117; cv=none; b=pSg/SSqzb41n8HrqUf3PfktC8Xyc1ZL5z0atTUgmvmec5L4gEZnTDwIJ3W+FjHdCwFpLeSRgkNNGwvqik5CZea8R4zZqe0uGm/w3UtJlQK2Pb6QGdIyaZhLc0TCdTpyZ6xgt6maHFT4pJGOiG7VdTjs2OpDsdE23z9cX0IYtrvs=
+	t=1790229334; cv=none; b=p4YWkKcu9nhV4/++tkrnoIaeFxmE/wuXY8nyNz2tBFo+Y8x3RMfgl6qQvzGtdBT/F/LWKVZf3Znw5tZuT5ZvUeMwBsn8BFFsMrXl+fx9e7h2tmL6nXcIYSem73fh4kkOX0Pu0yGxVhX9rMB9QScHidqcRZ/j/xsdBlNqZjcd77U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790229117; c=relaxed/simple;
-	bh=Qh8p1Wq/6FENjB4kTXNkMpLip9RVFvwk/eduC06xJC4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p9Qxhoo+vUj1XOKYlccnVDszMsnJfFdLwqjrlVZhJs28VdGP6cJDWWW6QEdNiM2TeEvnDQilbAYwhutxqw7HvMYwwQOFn+0yYEgRdnnRz4lyaeSgEAKw1fTDYUfL85HqnTNi2SIlDlpBJ/s2T6uuJ8Qk3Tjz6W+rAGXQACi13PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sP1vWwUl; arc=none smtp.client-ip=95.215.58.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790229334; c=relaxed/simple;
+	bh=77iWY8iGZ4TI02K2SkQHbWhp/KboQTQ46tf/aeIWKHM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=p5FbHIYwQRwShSgyArepF9xQHYwEuQAqfQVfwlq08cZNbNaz2qo3v00oC15KKOFHTEAdvdGYAbJV64apK3n6nTE7oE0NRuir1dbl/G6BJlelBbXG6UzIYOGwjR6f4nK+ktVkkcpw3PLh52NSH2eXz2Mb7BlynRRUR9Sqmoen+Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJvDAJsW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sP1vWwUl"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Qh8p1Wq/6FENjB4kTXNkMpLip9RVFvwk/eduC06xJC4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790229113; v=1; x=1790833913;
- b=sP1vWwUltxM/z61RttITi1TTXJcaD5qmwVoAGCwAH6bUAhg+1oKaDYiP+Cx3RM9SgwVFvEmq
- TIATMENnAhTTqe9J34sC+epd7JmzmW6vzuTUnL8Eu+Bxz0qFhMcgSZOSoVAMBvJ5EL8Rr7seKSy
- nQtHO6IQ+KYN4R0qxzdZW+sc=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id f5f74063f00ab3a9;
-	Thu, 24 Sep 2026 05:51:52 +0000
-X-Mizu-Trace-ID: f5f74063f00ab3a9
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 24 Sep 2026 13:51:50 +0800
-From: Baoquan He <baoquan.he@linux.dev>
-To: Klara Modin <klarasmodin@gmail.com>
-Cc: Chris Li <chrisl@kernel.org>, Rik van Riel <riel@surriel.com>,
-	Gregory Price <gourry@gourry.net>,
-	Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>,
-	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Yosry Ahmed <yosry@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Barry Song <baohua@kernel.org>,
-	YoungJun Park <youngjun.park@lge.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Wenchao Hao <haowenchao22@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJvDAJsW"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 26BA41F000FF;
+	Thu, 24 Sep 2026 05:55:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790229332;
+	bh=tGDhpi/YZ/+AH1XKgeVw2fMLeUrE/d/2tBqyAIsO6t0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ZJvDAJsWFGCgg8UQ9GEz7LY8bDnV0gnRZCCav7J8k4I8UG7e/6SwcRLkKZ8ibAijt
+	 H3Oebl4fcDse78tf+iW/T12IlQ4hVmGgRhQ/TgJk1QrBwORwY1AnAO83iC6vMRlhmN
+	 7qZXtk4fX+pv++nQAItxg5TzW/WHGx0snxiLjS/vnSO/e228wgOQUfepSwdyuHYZdd
+	 XD6j1yNfgPb9k9QjtqsgfasdusR360L4wQ1giv8xz7fd9WSWpjH3we3q1UFpoO4SqL
+	 e6S5304no9TeQC8EVw6uPY4ogfyPVPVayyi7aEELzfFIHymxmf0QC3auQBxwNzwTzc
+	 pIIOo7uetFqYQ==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: keyrings@vger.kernel.org
+Cc: Jann Horn <jannh@google.com>,
+	linux-kernel@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Kunwu Chan <kunwu.chan@linux.dev>,
-	Meta kernel team <kernel-team@meta.com>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org,
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kairui Song <ryncsn@gmail.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arS6dvzAI5XLHuG-@MiWiFi-R3L-srv>
-References: <CACePvbXThspPYD8DZkAeiJtYuMV79vGgC1SGhpMwhn4COWOtcg@mail.gmail.com>
- <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
- <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
- <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
- <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
- <arKbXe1Qe-FDCTMM@gourry-fedora-PF4VCD3F>
- <CACePvbWW4avTV2WB6iRU+LN5zqkMTg3UhBrq41R0iw91-7Ni0g@mail.gmail.com>
- <5a7ad159b2fabf377b7e1fc4248c433287ac11fb.camel@surriel.com>
- <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
- <arO0RCCE3Woh_I_z@parmesan.int.kasm.eu>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [RFC PATCH 1/2] keys: Return user session keyring on lookup
+Date: Thu, 24 Sep 2026 08:55:17 +0300
+Message-ID: <20260924055521.1981957-2-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260924055521.1981957-1-jarkko@kernel.org>
+References: <20260924055521.1981957-1-jarkko@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <arO0RCCE3Woh_I_z@parmesan.int.kasm.eu>
 
-On 09/23/26 at 02:52pm, Klara Modin wrote:
-> Hi,
-> 
-> On 2026-09-22 21:10:53 -1000, Chris Li wrote:
-> > On Tue, Sep 22, 2026 at 5:53 AM Rik van Riel <riel@surriel.com> wrote:
-> > >
-> > > On Tue, 2026-09-22 at 05:43 -1000, Chris Li wrote:
-> > > > On Tue, Sep 22, 2026 at 5:20 AM Gregory Price <gourry@gourry.net>
-> > > > wrote:
-> > > > >
-> > > > > On Tue, Sep 22, 2026 at 03:32:44AM -1000, Chris Li wrote:
-> > > > > > > Right now it has 64GB of memory.
-> > > > > >
-> > > > > > That is exactly my point. You are running 1/8 = 12.5% system ram.
-> > > > > >
-> > > > >
-> > > > > Chris you are missing the point
-> > > > >
-> > > > > Zswap:           8812236 kB
-> > > > > Zswapped:       24927876 kB
-> > > >
-> > > > I am well aware of the point. The 7%-10% data I provided is before
-> > > > compression. After compression, the real saving is about 1.5% - 2%.
-> > > >
-> > > Here I'm at 28% without any issues, with room for
-> > > more.
-> > 
-> > 28% is one thing, 100% is a difference beast completely. If you
-> > haven't tried it, don't assume 100% will behave the same as 28%. There
-> > is a point where too much zswap makes the system unusable. It is hard
-> > to pinpoint the exact upper boundary. However, figuring out the upper
-> > bound larger than that exact boundary is not hard at all. I haven't
-> > seen any one can use 100% system RAM sized memory swap out to zswap.
-> > If you have a data point showing what that system with 100% swap to
-> > zswap looks like, please share it.
-> > 
-> 
-> Chiming in as more of a user perspective.
-> 
-> On my 4 GiB BPI-F3, I can reach more than 10:1 compression ratio on
-> zswap during some parts when building GCC 17 snapshots. E.g:
-> 
-> MemTotal:        3966864 kB
-> SwapCached:        31872 kB
-> SwapTotal:      16777212 kB
-> SwapFree:       16638128 kB
-> Zswap:            280140 kB
-> Zswapped:        2859840 kB
-> AnonPages:       2927376 kB
-> AnonHugePages:   1409024 kB
-> 
-> While this is 72 % rather than the 100 % you asked for, I think this
-> shows that what size a potential limit on the uncompressed size of zswap
-> is suitable heavily depends on the workload.
-> 
-> I have been using vswap consistently on all my machines since about
-> August, and I have also tried one or two versions of xswap (but the
-> current lack of writeback makes it inconvenient for me). I really
+A process without a session keyring looking up KEY_SPEC_SESSION_KEYRING
+without KEY_LOOKUP_CREATE mutates the credentials. This causes struct creds
+instances shared with other subsystems to become stale.
 
-Thanks for testing xswap and reporting issue on xswap rfc v3.
+Address this by returning the resolved user session keyring directly
+without installing it into credentials.
 
-xswap has writeback now. I only built foundation for xswap, while
-writeback part was left to other people for collaboration. Finally
-I added it.
+Suggested-by: Jann Horn <jannh@google.com>
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+---
+ Documentation/security/keys/core.rst |  6 ++--
+ security/keys/process_keys.c         | 44 +++++++---------------------
+ 2 files changed, 14 insertions(+), 36 deletions(-)
 
-[RFC PATCH 00/17] mm, swap: xswap writeback to a physical backend
-https://lore.kernel.org/all/20260920072043.430390-1-hebaoquan@kylinos.cn/T/#u
+diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
+index 326b8a973828..c81a3a9fe236 100644
+--- a/Documentation/security/keys/core.rst
++++ b/Documentation/security/keys/core.rst
+@@ -165,8 +165,10 @@ The key service provides a number of features besides keys:
+      When a process changes its real UID, if it used to have no session key, it
+      will be subscribed to the default session key for the new UID.
+ 
+-     If a process attempts to access its session key when it doesn't have one,
+-     it will be subscribed to the default for its current UID.
++     If a process attempts to access its session keyring when it doesn't have
++     one, the default user session keyring for its current UID is returned
++     without being installed into its credentials.  If creation is requested,
++     an anonymous session keyring is installed.
+ 
+   *  Each user has two quotas against which the keys they own are tracked. One
+      limits the total number of keys and keyrings, the other limits the total
+diff --git a/security/keys/process_keys.c b/security/keys/process_keys.c
+index a63c46bb2d14..a5aa056a6725 100644
+--- a/security/keys/process_keys.c
++++ b/security/keys/process_keys.c
+@@ -346,31 +346,6 @@ int install_session_keyring_to_cred(struct cred *cred, struct key *keyring)
+ 	return 0;
+ }
+ 
+-/*
+- * Install the given keyring as the session keyring of the current task,
+- * replacing the existing one if any.  If the given keyring is NULL, then
+- * install a new anonymous session keyring.
+- *
+- * Return: 0 on success; -errno on failure.
+- */
+-static int install_session_keyring(struct key *keyring)
+-{
+-	struct cred *new;
+-	int ret;
+-
+-	new = prepare_creds();
+-	if (!new)
+-		return -ENOMEM;
+-
+-	ret = install_session_keyring_to_cred(new, keyring);
+-	if (ret < 0) {
+-		abort_creds(new);
+-		return ret;
+-	}
+-
+-	return commit_creds(new);
+-}
+-
+ /*
+  * Handle the fsuid changing.
+  */
+@@ -665,20 +640,21 @@ key_ref_t lookup_user_key(key_serial_t id, unsigned long lflags,
+ 
+ 	case KEY_SPEC_SESSION_KEYRING:
+ 		if (!ctx.cred->session_keyring) {
+-			/* always install a session keyring upon access if one
+-			 * doesn't exist yet */
+ 			ret = look_up_user_keyrings(NULL, &user_session);
+ 			if (ret < 0)
+ 				goto error;
+-			if (lflags & KEY_LOOKUP_CREATE)
++
++			if (lflags & KEY_LOOKUP_CREATE) {
++				key_put(user_session);
+ 				ret = join_session_keyring(NULL);
+-			else
+-				ret = install_session_keyring(user_session);
++				if (ret < 0)
++					goto error;
++				goto reget_creds;
++			}
+ 
+-			key_put(user_session);
+-			if (ret < 0)
+-				goto error;
+-			goto reget_creds;
++			key = user_session;
++			key_ref = make_key_ref(key, 1);
++			break;
+ 		} else if (test_bit(KEY_FLAG_UID_KEYRING,
+ 				    &ctx.cred->session_keyring->flags) &&
+ 			   lflags & KEY_LOOKUP_CREATE) {
+-- 
+2.47.3
 
-
-> appreciate the work being put in to decouple zswap from needing a
-> physical swap device to work.
-> 
-> > >
-> > > > You are not listening. The boundary was set due to feedback from the
-> > > > application SLO. Those are real deployments not imaginary usage.
-> > > > Please respect the user.
-> > > >
-> > > Different users need different things.
-> > >
-> > > The kernel needs to be able to accommodate all of them.
-> > >
-> > > The kernel default should accommodate the people who
-> > > are least capable of configuring their systems.
-> > >
-> > > Hyperscalers can set their own defaults across their
-> > > fleets. They know how to adjust settings.
-> > 
-> > They can use a safe value, e.g., 100% of RAM. Let the people who know
-> > exactly what they want to swap configure the boundary they want.
-> 
-> My personal preference would be for a default uncapped (or very high,
-> and I don't think 100 % of RAM is high) limit on the uncompressed data
-> which is backed by zswap, since that would mean one less knob to tune.
-> 
-> > 
-> > Chris
-> 
-> Regards,
-> Klara Modin
