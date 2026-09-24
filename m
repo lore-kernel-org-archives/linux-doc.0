@@ -1,206 +1,273 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B4F3515F1;
-	Thu, 24 Sep 2026 14:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790259198; cv=none; b=c6LAPM7L6XesKJt3dvicjai7IN5OHnUczh4cgAsZjol89xcMnRYcgoA1uVatpnMYpI6SbgZzW4ida7ZkWZoKTWuJ+BBYB4CnwroDIQJbYLAxBnckDYuR6iakr43kXIQdFyEYM9KMNXg+eOXmLKzVd5Oj/llIyYK/KOaPJUbsAnU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790259198; c=relaxed/simple;
-	bh=rmF2TlLKJfLKuO5HluXWZ8D0sC9KUhSiqeubl2i+BWk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aGZKg4nrhLKztMVY0i9nQSMqZ5aQB54ksL9sgV1zKuTW/guoyjnrcK9wCtKacSadwxo+LytHqYPNSxeNyq2H0yIP4DAMyD70CxfIuHMnHZBVCLQB9ltI7+FSmRhYZ5NQXB3Bpb/HRev9aSMxmuFOxvhaqk8RPbUPHyWfzpq1LZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NbeLI5SG; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5126338D404
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 14:13:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790259227; cv=pass; b=neN0KHELLDdbt9C84Jtj58tD9JJM5xneEULEiOrY51Rx7Leq5YR3ECcLfMPo9nk3Gb727uzSLuGX4OJ+tw2ZQedTMxRDfCQivFC4hpM+c4YbC9Wm1U0N0KrTv0CHq8SEcJgPKLaK8FnNffS/vdE9y9HsgKJF0F8+sUVR4up9RAE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790259227; c=relaxed/simple;
+	bh=TZk4Jmgk/VpnmPm93MEhhUcknbZQodVVcX6bnE4t8DA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G31DO0z2U4BiW7fwudx7IzKmIa/KRt8RpHTyGdAHNeS9honFKpqCI7tewLoTLerzmxTZ38NEqJIIHNG9Ze277qPdblZv3dxQYscBuo3VWNW+6CbS2REqThOh3SAY+GIcoBYUekWQUV5RUU0OGvbJ4/G1yt9Vr1bSkGGJ4PmRAPE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Hzm1PgZU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Gg0MYv3X; arc=pass smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NbeLI5SG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=rmF2TlLKJfLKuO5HluXWZ8D0sC9KUhSiqeubl2i+BWk=; b=NbeLI5SGsI70x5TUDgkLh+SJzV
-	8dHkqjmnNrsa3JUUoTTuR2LaZlq6ACaOnuPxlzdS0MvKCZuJEWm8zlxR3vDw2pZcly9b3uFue9L8o
-	YI23mIrORrxw0WkPFl93+TbBP9iSB67yBcPoywlyyMeT/gQatEC/IoHy25NTJAtLNvpFGMAfKl1du
-	jO+QQ8Cr9Qgj+hnXWh/bCuzWXmAVItewA9e7MhSb9zHy8q0X/4y/eaCBGN/8TCcQFjI7KeFJKd/7S
-	EiCdJU4ys+Xdb0MghmtlIwhLVKZKBLgXWx9udiKMLzfKKsAjWCkI/Fz+ar9CSlKE3jzrbThtnd/Sa
-	tyCFY90g==;
-Received: from 54-240-197-228.amazon.com ([54.240.197.228] helo=u09cd745991455d.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x9kCC-0000000H5O9-368p;
-	Thu, 24 Sep 2026 14:13:09 +0000
-Message-ID: <55e7eef19801facfd4ac1cb147ab34f0aed0c331.camel@infradead.org>
-Subject: Re: [PATCH v10 00/28] KVM: Enable FRED support with KVM VMX
-From: David Woodhouse <dwmw2@infradead.org>
-To: Shivansh Dhiman <shivansh.dhiman@amd.com>, Sohil Mehta
-	 <sohil.mehta@intel.com>, kvm@vger.kernel.org, x86@kernel.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
- <seanjc@google.com>,  Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Thomas Gleixner	 <tglx@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,  Dave Hansen
- <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, Xin Li
- <xin@zytor.com>,  Andy Lutomirski	 <luto@kernel.org>, Peter Zijlstra
- <peterz@infradead.org>, Andrew Cooper	 <andrew.cooper3@citrix.com>, Tom
- Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
- Chao Gao <chao.gao@intel.com>, Binbin Wu <binbin.wu@linux.intel.com>,  Zhao
- Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>, David Matlack
- <dmatlack@google.com>, 	linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-kselftest@vger.kernel.org
-Date: Thu, 24 Sep 2026 15:13:06 +0100
-In-Reply-To: <43fb3d8a-0736-44ae-bd7f-01e701d4b7d9@amd.com>
-References: <20260911213659.2025974-1-sohil.mehta@intel.com>
-	 <43fb3d8a-0736-44ae-bd7f-01e701d4b7d9@amd.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-Aupz4gerJOM+YF6Qe5sk"
-User-Agent: Evolution 3.62.0-0ubuntu1~ppa1~24.04 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Hzm1PgZU";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Gg0MYv3X"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68OC4eT21437096
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 14:13:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	oMXvHHJQ4qPRTxyYPNHNX4f3X9Wz6eUX2PD7XhGonoY=; b=Hzm1PgZUzUHKsajD
+	PKol7gqODFTA9xR64oCo3cyrBuPhVdgwZReLp0WKEjP/8C55W0uXIUagnKAkWSzT
+	VugqebCXeji+q/qabCvayQBkclI51keFHDFv1nElElxDsoj3l4/J+4j8DVXFkI3m
+	U243E/yxVJ1wGzfTrI95d7GQ8hds5mJ6ul1on1sD58c2pyNtf42TT5Lidc7um99w
+	EIFCzIAfSBzcLtBPpaGvTwsKMN8cPDqm7utoIImynIH+3OtpRnIK0O/bxosHvnrE
+	q38jRvVBAL2biWqLve6Afm7o7vDzMdcPZ9+9ZYUUKCUNXdeay7q1ae5mFOgpII2R
+	oMRQQQ==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gw1t7rxvc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 14:13:42 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-39e3c10ac70so3258851a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 07:13:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790259222; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MXuehyxW8Pej/l+fiU4NdgmqpgmMnDPeeBInCRbf+sDeouASXjTEMGB5uv8BxoczZw
+         CBg3KBTzJLu3V81snWEx+7rPEzVyUehZfaWDB9ads65TWFEG91sUvl2iWmc7JT1vcDMI
+         tgsMSFhRd5mcgxbeAg3H3qUInVwIAncMbBIpCi9kD8+VBN92NZzoCNKaIfyqTNqdrCX5
+         RjCkny9WDmq7+gmD/8+CLIHmTSxwg6kf47RJFfPya+ScfHjCfpuOjYqHbxHN++0ktl4m
+         Kq51Ow+47NDa+iznjtX9/rIDGfHgojgbBQMTHP1dPJOAR2R21lNsiBvxFE4rnRpu6eO/
+         ucbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=oMXvHHJQ4qPRTxyYPNHNX4f3X9Wz6eUX2PD7XhGonoY=;
+        fh=ngaUf8FF1VLndvnAhX3wknaafLSYt9Bhtk7HO2TFauU=;
+        b=o1nL8rkPOJjC6vAOJjtBX12kpI2gX6HNgUpri3FhbJP85nn3hkOb1HABCLGqyxzVVl
+         luZqiduxDJgegs8ZX0gQ2GDCDFRBY0ywbE6wflHXLwU7AhOY4GBtbwHh0rbysxJQ+JQi
+         dG/yEIn/cufBQ0UbBYhsm2/M2+JU2c8W8BBMb0snLImnFvRp5r5sJkGNFFg7vZeCJl3e
+         oq33TPkN1cCYEMA/VFBRbmj29cckrsz2g6y752oO63hrgTiKllU+aX72SRC/v4uSrE+L
+         iFo3GFIZpz8x7LpcBzQMI+S50WSoYHQVgFXwDVs1dI+MQf7cKgpeuBHbmN9bsF0ivQcr
+         190g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790259222; x=1790864022; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oMXvHHJQ4qPRTxyYPNHNX4f3X9Wz6eUX2PD7XhGonoY=;
+        b=Gg0MYv3XN9stA3bviMfI1XZLDFxBLIy2E+1HmzyMXqTdt51HHSJhItuqb+YxEszPDy
+         Gthv+Ho9um2qQVWyRZ6n1STJPByDDLbbEHMiPQEp8H2CJNZTBH1EPuWwPHAlWRfg+CgP
+         y4YCPl4rh0EBojsjnh2P9EjWFX0iv37oLNbw5E+xWn3xGKTVvy1HWHCnOqTCdP+yEt/o
+         4TSI2qtUrvvb0uuhjzuEc+WPtKkPzuP7flFr87KfihYOh1VkBFa+FwkG+Oyeq/jOfjGL
+         gnYppmJ17GCWGzmeN2oqjOb+k3eloVlTuTfNk69kzcBpVZNNVCjsLVPM6ZrPjmVvkgDi
+         88DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790259222; x=1790864022;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oMXvHHJQ4qPRTxyYPNHNX4f3X9Wz6eUX2PD7XhGonoY=;
+        b=fwmYcR0xXqNZEn6BulxcgEdi58i5MhODXQ+L270B46CJvlxrKj7ElXxEvCnW0c1Fvf
+         aM+eYsXkfMHtBJhw2aqs6ob2gFas9zT1djplCPmkrYauhdjRXpxZ0z+GROXt77AWYxpi
+         KGtFv9gOIbqRtUt/pOOgmMrdCPwCY5R+XfKkLn0uxtO9tXKhfacU55I98xBThmkndZWe
+         4AF7IZXow7nvcXTe5i9OenpfZGiV6Yp4vXPp0+vJnO8L5mrO4XdydFHJqZaHe7SBb9Vo
+         UZPCyLXa4tyYCl3bNooF/TkWeT5q2siXbwK9LwhAWKQ4U2FcXhRGL5BAuICzNvlx1UxZ
+         aeuA==
+X-Forwarded-Encrypted: i=1; AKwUvBzQ2vfZmhQbFO8YW2u5jzUIYU2wLWlBtFg4lleE+Y4t9V9Cdcir5T9C/YBukGZbLivPr7OHS3v4yeg=@vger.kernel.org
+X-Gm-Message-State: AFuF++nDOZEzLxek17Rneik0yApOIwAQ+l9YhxS/X4qPtQE3iWMMt1WU
+	IsdrOYuyVRjLWEAW9/vnr29F0N+zMFRaqIYkgqSVp00qTUizJp5Azr7gHyunh9YSTepfp6Ojo7H
+	at3JZDyZZnQUgNVOPrcVRNYBxl5XxkJilH1m/4zRl1mTexTD1BbNbKM3LpiD2vjEcKMW4nk2GQP
+	sx+x+OWsb1HTRa4Df1BNRiFBI9+LJ/aB1z8vL9PQ==
+X-Gm-Gg: AYBFou1UHMTvESf4MpxLIerIqyHOXk/wIxE1A2Yd7PP+rR/1Y/nhwnKHRApDB9ADzif
+	OnBrKcCncCWlXENoe+LHIVREwKppEQoH6j4iWJgPfIsJ8pvpCFNh4Uybp0Qn39O+4laYbRLofsw
+	IgoHe0LE2S0Sf+kZnU1vuute73lmA7mCSZNhqjHV39vBJXyPFc2ECh0sL/yQ==
+X-Received: by 2002:a17:90b:2b46:b0:39e:6c69:9b94 with SMTP id 98e67ed59e1d1-3a09924dbc9mr2318892a91.57.1790259221731;
+        Thu, 24 Sep 2026 07:13:41 -0700 (PDT)
+X-Received: by 2002:a17:90b:2b46:b0:39e:6c69:9b94 with SMTP id
+ 98e67ed59e1d1-3a09924dbc9mr2318859a91.57.1790259221076; Thu, 24 Sep 2026
+ 07:13:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
-
-
---=-Aupz4gerJOM+YF6Qe5sk
+References: <20260923174711.1283986-1-briannorris@chromium.org> <20260923104031.v2.8.I75ceea7b1afd016e08922e47b82e6eb36de144fe@changeid>
+In-Reply-To: <20260923104031.v2.8.I75ceea7b1afd016e08922e47b82e6eb36de144fe@changeid>
+From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Date: Thu, 24 Sep 2026 16:13:30 +0200
+X-Gm-Features: AclHuK-tonoW4ObXIcyadoslI1M0Aw12A9Em35d3sj-cyYhDBVuUQ6rDDffvSOw
+Message-ID: <CAPx+jO843h9bOeWNATHm8D2afbniQsX7WECJzCxmfi9ZcH9+5w@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] PM: runtime: Add Example Driver Patterns section
+To: Brian Norris <briannorris@chromium.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org,
+        linux-pm@vger.kernel.org, Ulf Hansson <ulfh@kernel.org>,
+        Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Doug Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: Kwibo7C-cU03w5qUIojp8kTEtSc_8PQI
+X-Authority-Analysis: v=2.4 cv=U/MHnuru c=1 sm=1 tr=0 ts=6ab53016 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=yx91gb_oNiZeI1HMLzn7:22 a=cm27Pg_UAAAA:8 a=qxAFjvzqHY3AwNVhwX4A:9
+ a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI0MDA1OCBTYWx0ZWRfXy6Icn6odPRfO
+ GxEfR/BIKYLuMs0cA6EYDwxluNCS+I4LMe7/g3wT4BQRT2yxjaWeWGdOjMfkefDNucLAlOJ4aJZ
+ daJ0PJb0qnQDtOTKZokEnUKlr5P6hkb8c3c4n0cMNEqw47YrqiPj7othW8/LgAu3G3A0qZrYijr
+ p/sLo1lwomXmNrNn2osPrExo3zDiUwEKpqYqE+wZ8T2dZaSlYMn4Rmf+Dgzu8JwaB/ee5/bxRO4
+ i4D1mLyd/UQwsiwyylPBQwAENm+1UgkRS2umyQAeUD56gWhnooAAzRDDP+idyGTXhYcUQRvPxr8
+ XlMBN1kEZg+HTpYxUxz6i443mLI5VP4m2lNAGFXj10lQNjmbDfCWTciy/cls2/QBwpk8KSRY/Ae
+ O5rs056+hN15dZP78kAcrP5Ij3/QFq3NM4qM31nkVWapYfsJg6HM/ALPDlO+teLMgZvi/pLNMYV
+ DxUEPui7nPDfKZxF+gw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI0MDA1OCBTYWx0ZWRfX/bRHIILk0TeH
+ 7kB2uclRtJ2Pc9EE3dBDQrXljKT5gD3AtsfLNz9fL1iEQjGJOsSfF6eR0Gtgennu3KN7G598ac0
+ CShPWV73HJQPIS4305SAAyv++K4h37c=
+X-Proofpoint-ORIG-GUID: Kwibo7C-cU03w5qUIojp8kTEtSc_8PQI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-24_03,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609240058
 
-On Thu, 2026-09-24 at 16:44 +0530, Shivansh Dhiman wrote:
-> On 12-09-26 03:06, Sohil Mehta wrote:
-> > Opens
-> > -----
->=20
-> > AMD compatibility: The SVM enabling [5] builds on the same common
-> > plumbing but I haven't had a chance to look at the series yet. Shivansh=
-,
-> > please let me know if there are any incompatibilities. I assume most of
-> > the opens apply to SVM as well so resolutions would help both vendors.
->=20
-> Thanks for the series Sohil. I've been able to run SVM side of vFRED with
-> changes rebased on top of this series. So, no incompatibilities in common
-> plumbing as of now. Will let you know if anything comes up.
+On Wed, Sep 23, 2026 at 7:48=E2=80=AFPM Brian Norris <briannorris@chromium.=
+org> wrote:
+>
+> The runtime PM API surface is pretty large, but there are a few common
+> patterns that many drivers should follow. Add some illustrative
+> examples, to help guide the most common audience for runtime PM docs --
+> driver writers.
+>
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
+> ---
+>
+> Changes in v2:
+>  * Add appropriate teardown to "Probe with Hardware Powered Off"
+>    Example, as the remove() + power-off behavior is subtle here, and
+>    easy to get wrong
+>
+>  Documentation/power/runtime_pm.rst | 367 ++++++++++++++++++++++++++++-
+>  1 file changed, 366 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/power/runtime_pm.rst b/Documentation/power/run=
+time_pm.rst
+> index 7bb64d793cdd..3a615d2de103 100644
+> --- a/Documentation/power/runtime_pm.rst
+> +++ b/Documentation/power/runtime_pm.rst
+> @@ -641,7 +641,9 @@ The implementation is well suited for asynchronous us=
+e in interrupt contexts.
+>  However such use inevitably involves races, because the PM core can't
+>  synchronize ->runtime_suspend() callbacks with the arrival of I/O reques=
+ts.
+>  This synchronization must be handled by the driver, using its private lo=
+ck.
+> -Here is a schematic pseudo-code example::
+> +Here is a schematic pseudo-code example:
+> +
+> +.. code-block:: c
+>
+>         foo_read_or_write(struct foo_priv *foo, void *data)
+>         {
+> @@ -707,3 +709,366 @@ pm_runtime_autosuspend_expiration() from within the=
+ ->runtime_suspend()
+>  callback while holding its private lock.  If the function returns a nonz=
+ero
+>  value then the delay has not yet expired and the callback should return
+>  -EAGAIN.
+> +
+> +.. _Section 10:
+> +
+> +10. Example Driver Patterns
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> +
+> +The runtime PM API is large and complex, but most device drivers follow =
+a small
+> +set of canonical patterns when interacting with runtime PM. This section
+> +illustrates standard patterns for device probing, performing I/O, and ha=
+ndling
+> +interrupts.
+> +
+> +Probe and Initialization
+> +------------------------
+> +
+> +Basic Probe
+> +~~~~~~~~~~~
+> +
+> +A driver that powers on its hardware during probe and does not use autos=
+uspend
+> +can initialize runtime PM using device-managed helpers:
+> +
+> +.. code-block:: c
+> +
+> +       static int foo_probe(struct platform_device *pdev)
+> +       {
+> +               struct device *dev =3D &pdev->dev;
+> +               struct foo_priv *priv;
+> +               int ret;
+> +
+> +               priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +               if (!priv)
+> +                       return -ENOMEM;
+> +
+> +               /* Power on and initialize hardware registers... */
+> +
+> +               /*
+> +                * The code above left hardware powered on and operationa=
+l, so
+> +                * tell the PM core that the device is active before enab=
+ling
+> +                * runtime PM.
+> +                */
+> +               pm_runtime_set_active(dev);
+> +
+> +               ret =3D devm_pm_runtime_enable(dev);
+> +               if (ret)
+> +                       return ret;
+> +
+> +               /*
+> +                * Alternatively, the above two calls can be combined int=
+o:
+> +                * ret =3D devm_pm_runtime_set_active_enabled(dev);
+> +                * if (ret)
+> +                *     return ret;
+> +                */
+> +
+> +               /*
+> +                * Upon successful return from ->probe(), the driver core
+> +                * automatically executes pm_request_idle(dev), allowing =
+the
+> +                * device to suspend asynchronously if its usage counter =
+is zero.
+> +                */
+> +               return 0;
 
-Can I remove the "Some AMD CPUs (Venice) incorrectly..." part of the
-commit message of
-https://git.infradead.org/?p=3Dusers/dwmw2/linux.git;a=3Dcommitdiff;h=3Dfre=
-d
+The above looks nice and simple, but what happens in the error path is
+equally important.
 
---=-Aupz4gerJOM+YF6Qe5sk
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+In principle, nothing prevents the runtime PM callbacks to be invoked
+until pm_runtime_disable() has been called at some point *after* the
+probe callback has returned. This needs to be taken care of correctly.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-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
-08PFsxOMdr6wx4Nzpv8UEUAAAAAAAAA=
+Likewise, as it's great with an example for ->probe(), it would be
+nice with a corresponding example for ->remove().
 
+I will have to defer reviewing the remaining parts in the $subject
+patch, a bit limited bandwidth at the moment.
 
---=-Aupz4gerJOM+YF6Qe5sk--
+[...]
+
+Kind regards
+Uffe
