@@ -1,230 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-92.mta1.migadu.com [95.215.58.92])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5494136654F;
-	Thu, 24 Sep 2026 12:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513AE3C9ED0
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 13:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790254613; cv=none; b=jTmBJOf2gCl9Hw/FR/DAbz+BKZC8PqchCH+Euo1SBZpVabAaPkg4hGIHt2kmzDI28UDMQPvTz/GI7EV99JNzGzEpLN/fIh0oRmICa9lsC1KNorJuwpcoPo8VSfwcRBeUaZcUjmIim5Sjd1JpBwX8yDy12pmDfXoHXtPWtJFUx6k=
+	t=1790255737; cv=none; b=MaN4/EpmwOzlEp3RzeORUbw89/YcaWLO9XzJYyOnVpI5QdMOXwZkpALFCh92jT1RgfriDwRmF9NqCaqZjuvAboYiPBe35P5PQk+gQG52qFMy5nQ2GlEam3lFU4k2nAqTz4Dtrq1wC0BL1l38fvbq750Sgq0lmz0Tv1LpgzKaJ+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790254613; c=relaxed/simple;
-	bh=/wPSn5TX/IfDvUO2b11sC+pew1vT0U/jfmKRpqjH8bg=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=jg+Uyz9lHU5Q5QTNi2cmDEMPPifBjw5VrQcFITSkr+Y/6YJzFOe8uimW32wv8JjrVqVrW7d8Fy1uo7O59v82JG3B6P6bCj5qY24Pz5wo1GYhp9zrgU2rXub4+35ZbAHOzNmRY1bMvoOHu1jkuZuq/CDYgYD5PUZIfKq/InK9sm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2gbq8FS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790255737; c=relaxed/simple;
+	bh=VAqY47MliHFwSb5df7rFV+UkhNv2LqwPUXS4WaUskXI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bNX/vvH4WKUAk3ygfEd6NfLICnoOmA42EznpS/tSADAomxPVf6DnovCiOrFXByscMsk1+WSEwb0KEBA9XraTyyDoVCiqE5aoxYfTBw0bcYjaBbfj8vVZlE8en0aZV5lOBosmbHF2LCIo/GPkwMUS+SMZmS+f766i/5krSKs9foU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NoC2gJgp; arc=none smtp.client-ip=95.215.58.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2gbq8FS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A2121F000FF;
-	Thu, 24 Sep 2026 12:56:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790254612;
-	bh=caS7YkmtkK38DSAKPTLNPWgx0PGnx+hGOkLr7fr36iA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=J2gbq8FSRDIwO5Trd3Hsu3/voYWx+jQ9oTWqSMgj2WrNxOwnrnvOsTzftNuUpEq58
-	 XkDQzuDlme5UKvo2O3xcc/i3+ki8DVov16hEwXzAs0d8SKlSGJvIZLt2D9RGgmoXs9
-	 ibOiU78BDtKirFKscCTWf6dD+XJiFWdPkXCiI/dVDRb/0VVAMyzlu4LD8CAqN38STC
-	 eSu8OkBcS0dCzaDawt8NCOTMfOzmfLNtjRBcdx7H1ULIfZhNQbpeacYcyxPanbgWqR
-	 1nBH4rSCdYPYiT4hBPEeW8caZHtgaQPFJnJ1UCKnP4BFTGzqySZdXTLPWW9CxakM/A
-	 V4rJqpdm1MSZw==
-Date: Thu, 24 Sep 2026 21:56:46 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@kernel.org>,
- Sean Christopherson <seanjc@google.com>, Jinchao Wang
- <wangjinchao600@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org,
- x86@kernel.org, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Subject: Re: [PATCH v17 03/13] x86/hw_breakpoints: Make DR7 updates NMI safe
-Message-Id: <20260924215646.be6a2abb78f3243cef008919@kernel.org>
-In-Reply-To: <20260923091320.GW776954@noisy.programming.kicks-ass.net>
-References: <179005108298.388919.4535333252892590932.stgit@devnote2>
-	<179005111951.388919.3131603399440492416.stgit@devnote2>
-	<20260923091320.GW776954@noisy.programming.kicks-ass.net>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NoC2gJgp"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=VAqY47MliHFwSb5df7rFV+UkhNv2LqwPUXS4WaUskXI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790255731; v=1; x=1790860531;
+ b=NoC2gJgpUwnLXISD/Kn8NkruF31AWhJC1JtA2mSmONrZ5LTySEeO/tJQXQx4yB76ws1sog0+
+ MDxIcL2XJ5U+yxjsFNNqG+MUW6tC5lZRqi3Cdg8aXAK3r/uKTgHVgvOmXEccR3nIemJDKXl3cLC
+ CE+yYy92nsjrcq7WoKr0fK5w=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 15fed9b4dac8ae4f;
+	Thu, 24 Sep 2026 13:15:21 +0000
+X-Mizu-Trace-ID: 15fed9b4dac8ae4f
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 24 Sep 2026 06:15:07 -0700
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Chris Li <chrisl@kernel.org>
+Cc: Nhat Pham <nphamcs@gmail.com>, Rik van Riel <riel@surriel.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <kasong@tencent.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel team <kernel-team@meta.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <20260924125040.GA25882@shakeel.butt@linux.dev>
+References: <aqjpYHbZ14A8xRtK@fedora>
+ <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
+ <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
+ <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
+ <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
+ <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
+ <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
+ <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
+ <arP8vXdJAL6ZJ1Os@linux.dev>
+ <CACePvbV8zprLuiWMdYAOLRy=TwRx9WjSahCWySf53o0d_myJ8A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACePvbV8zprLuiWMdYAOLRy=TwRx9WjSahCWySf53o0d_myJ8A@mail.gmail.com>
 
-On Wed, 23 Sep 2026 11:13:20 +0200
-Peter Zijlstra <peterz@infradead.org> wrote:
+On Thu, Sep 24, 2026 at 01:27:41AM -1000, Chris Li wrote:
+> On Wed, Sep 23, 2026 at 6:30 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+> >
+> 
+> > > BTW, I already shared that changing swap counter charging will break
+> > > our and others' existing deployments.
+> >
+> > What do you mean here by "break our deployment"? We are talking about
+> > memory.swap usage and limits here. Google is still on v1 and using memsw
+> > usage and limit and I don't see how vswap is breaking memsw?
+> 
+> Your information is no longer accurate. I got this from our internal
+> AI: "While Google's internal production fleet has historically relied
+> on cgroup v1, there is an active migration to cgroup v2 to align with
+> the upstream Linux community. Meanwhile, in Google Cloud (especially
+> Google Kubernetes Engine - GKE), cgroup v2 is already widely deployed
+> and is the default for newer node pools."
 
-> On Tue, Sep 22, 2026 at 01:25:19PM +0900, Masami Hiramatsu (Google) wrote:
-> > From: Jinchao Wang <wangjinchao600@gmail.com>
-> > 
-> > Hardware breakpoint installation and removal run with IRQs disabled, but
-> > an NMI can still enter the same code through KGDB. The interrupted
-> > operation and the NMI can consequently claim the same slot or overwrite
-> > each other's DR7 state.
-> > 
-> > Claim and release per-CPU slots with cmpxchg. Update cpu_dr7 with
-> > single-instruction per-CPU operations, and preserve hardware-first
-> > disable and hardware-last enable ordering. Add a per-CPU sequence number
-> > so interrupted DR7 writers and restore paths detect an NMI update and
-> > retry from the latest shadow state.
-> 
-> Bah, KGDB.. Aren't there far more problems with that thing? 
+So, using AI to provide more vague statements. Let me help in providing
+more clear statements:
 
-Yes, it could be... Hmm, it looks like we need to take a closer
-look at other issues related to KGDB as well.
+1. Google shared borg is still on v1.
+2. Google cloud (GCE) is still on v1.
+3. GKE running on VMs is on v2.
 
-> 
-> 
-> > diff --git a/arch/x86/include/asm/debugreg.h b/arch/x86/include/asm/debugreg.h
-> > index 854d82b88ff4..515d2d313d0c 100644
-> > --- a/arch/x86/include/asm/debugreg.h
-> > +++ b/arch/x86/include/asm/debugreg.h
-> > @@ -18,6 +18,7 @@
-> >  #define DR7_FIXED_1	0x00000400
-> >  
-> >  DECLARE_PER_CPU(unsigned long, cpu_dr7);
-> > +DECLARE_PER_CPU(unsigned int, cpu_dr7_seq);
-> 
-> Would it make sense to:
-> 
-> typedef struct {
-> 	unsigned long dr7;
-> 	unsigned int  seq;
-> } dr7_save_t;
+Another very vague statement is "active migration". This migration plan
+has been active since 2018 [1].
 
-Yeah, thanks for the good idea :)
+[1] https://lpc.events/event/2/contributions/204/attachments/143/378/LPC2018-cgroup-v2.pdf
 
 > 
-> 
-> >  #ifndef CONFIG_PARAVIRT_XXL
-> >  /*
-> > @@ -125,40 +126,69 @@ static __always_inline bool hw_breakpoint_active(void)
-> >  
-> >  extern void hw_breakpoint_restore(void);
-> >  
-> > -static __always_inline unsigned long local_db_save(void)
-> > +static __always_inline void local_db_save(unsigned long *dr7,
-> > +					  unsigned int *dr7_seq)
-> 
-> static __always_inline dr7_save_t local_db_save(void)
-> 
-> >  {
-> 
-> >  }
-> >  
-> > -static __always_inline void local_db_restore(unsigned long dr7)
-> > +static __always_inline void local_db_restore(unsigned long dr7,
-> > +					     unsigned int dr7_seq)
-> 
-> static __always_inline void local_db_restore(dr7_save_t dr7)
-> 
-> >  {
-> 
-> >  }
-> >  
-> >  #ifdef CONFIG_CPU_SUP_AMD
-> 
-> > diff --git a/arch/x86/kernel/hw_breakpoint.c b/arch/x86/kernel/hw_breakpoint.c
-> > index 0473a5c95856..901323ae7d6a 100644
-> > --- a/arch/x86/kernel/hw_breakpoint.c
-> > +++ b/arch/x86/kernel/hw_breakpoint.c
-> 
-> > @@ -106,32 +108,25 @@ int arch_install_hw_breakpoint(struct perf_event *bp)
-> 
-> > +	do {
-> > +		seq = this_cpu_inc_return(cpu_dr7_seq);
-> > +		this_cpu_write(cpu_debugreg[i], info->address);
-> > +		barrier();
-> > +		set_debugreg(info->address, i);
-> > +		if (info->mask)
-> > +			amd_set_dr_addr_mask(info->mask, i);
-> > +		this_cpu_or(cpu_dr7, encode_dr7(i, info->len, info->type));
-> > +		barrier();
-> > +		set_debugreg(this_cpu_read(cpu_dr7) | DR7_FIXED_1, 7);
-> > +		barrier();
-> > +	} while (seq != this_cpu_read(cpu_dr7_seq));
-> >  
-> >  	return 0;
-> >  }
-> > @@ -149,36 +144,34 @@ void arch_uninstall_hw_breakpoint(struct perf_event *bp)
-> 
-> > +	do {
-> > +		seq = this_cpu_inc_return(cpu_dr7_seq);
-> > +		dr7 = this_cpu_read(cpu_dr7);
-> 
-> You're inconsistent with the leading barrier(). 
+> About the V1 to V2 migration, it uses the memory.current and
+> memory.swap.* counter to simulate the memsw counter for providing the
+> metrics singal.
 
-Ah, OK.
+What does metrics signal mean here? From [2] it seems like there is
+intention to propose addition of memsw to v2 and from my last
+conversation with Sweet Tea, he was interested in exploring BPF to
+provide memsw semantics.
+
+[2] https://lore.kernel.org/all/7a5619a6d27119fcf566e43563a72396@dorminy.me/
 
 > 
-> > +		dr7 &= ~__encode_dr7(i, info->len, info->type);
-> > +		set_debugreg(dr7 | DR7_FIXED_1, 7);
-> > +		if (info->mask)
-> > +			amd_set_dr_addr_mask(0, i);
-> > +		barrier();
-> > +		this_cpu_and(cpu_dr7,
-> > +			     ~__encode_dr7(i, info->len, info->type));
-> > +		barrier();
-> > +	} while (seq != this_cpu_read(cpu_dr7_seq));
-> > +
-> > +	WARN_ONCE(this_cpu_cmpxchg(bp_per_reg[i], bp, NULL) != bp,
-> > +		  "Can't release breakpoint slot");
-> >  }
+> > Are you making these false claims just to derail the conversation?
 > 
-> These loops should be far more similar. Note how the top one does:
-> 
-> 	this_cpu_or(cpu_dr7, encode_dr7(...));
-> 	set_debugreg(this_cpu_read(cpu_dr7) | ..., 7);
-> 
-> while the bottom one does:
-> 
-> 	dr7 &= ~encode_dr7(...)
-> 	set_debugreg(dr7 | ...);
-> 	this_cpu_and(cpu_dr7, ~encode_dr7(...));
-> 
-> Why can't they both have the same shape and only one encode_dr7()
-> instance?
+> You should apologize for your accusation.
 
-Indeed. It should have the same shape.
+I am actually more convinced that you just want to derail the
+conversation by providing AI generated vague statements. However I
+accept that there are parts in Google like GKE which are on v2. The good
+thing is that vswap is opt-in, so GKE can just not use it.
 
-> 
-> 
-> > @@ -486,12 +480,18 @@ void flush_ptrace_hw_breakpoint(struct task_struct *tsk)
-> >  
-> >  void hw_breakpoint_restore(void)
-> >  {
-> > +	unsigned int seq;
-> > +
-> > +	do {
-> > +		seq = this_cpu_inc_return(cpu_dr7_seq);
-> 
-> no barrier().
-> 
-> > +		set_debugreg(this_cpu_read(cpu_debugreg[0]), 0);
-> > +		set_debugreg(this_cpu_read(cpu_debugreg[1]), 1);
-> > +		set_debugreg(this_cpu_read(cpu_debugreg[2]), 2);
-> > +		set_debugreg(this_cpu_read(cpu_debugreg[3]), 3);
-> > +		set_debugreg(DR6_RESERVED, 6);
-> > +		set_debugreg(this_cpu_read(cpu_dr7) | DR7_FIXED_1, 7);
-> > +		barrier();
-> > +	} while (seq != this_cpu_read(cpu_dr7_seq));
-> >  }
-> >  EXPORT_SYMBOL_FOR_KVM(hw_breakpoint_restore);
-> 
-> I really can't say I'm a fan of this. Is KGDB really a thing?
-
-No, I would like to drop this patch (and KVM patch)from this series
-since wprobe is not supporting to set the DR7 from NMI context.
-
-I think it is better to split the series into 2 threads,
- - wprobe related features/improvements. ([4/13]-[13/13])
- - NMI-safe DR7 for KGDB. ([2/13] and [3/13])
-
-Thank you,
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
