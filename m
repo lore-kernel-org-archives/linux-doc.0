@@ -1,129 +1,123 @@
-Received: from mta1.migadu.com (out-92.mta1.migadu.com [95.215.58.92])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513AE3C9ED0
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 13:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EEA4908DC;
+	Thu, 24 Sep 2026 13:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790255737; cv=none; b=MaN4/EpmwOzlEp3RzeORUbw89/YcaWLO9XzJYyOnVpI5QdMOXwZkpALFCh92jT1RgfriDwRmF9NqCaqZjuvAboYiPBe35P5PQk+gQG52qFMy5nQ2GlEam3lFU4k2nAqTz4Dtrq1wC0BL1l38fvbq750Sgq0lmz0Tv1LpgzKaJ+I=
+	t=1790257503; cv=none; b=txUJ+Qn2h/e54WY4773OODv0j9yyvXTamTpV7h267QnSMP7Zx+3Vun7bBgBqFKa8MsQHvnsjd1MLm0vqx91eC1a6/Gv54hu47f5Z2xh6ufUelwiHzHyPD4bjBnjv81HH9DYs8KOzCCTREpp4uv6l35L3bhpkZB0Qce/uXsJhIvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790255737; c=relaxed/simple;
-	bh=VAqY47MliHFwSb5df7rFV+UkhNv2LqwPUXS4WaUskXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bNX/vvH4WKUAk3ygfEd6NfLICnoOmA42EznpS/tSADAomxPVf6DnovCiOrFXByscMsk1+WSEwb0KEBA9XraTyyDoVCiqE5aoxYfTBw0bcYjaBbfj8vVZlE8en0aZV5lOBosmbHF2LCIo/GPkwMUS+SMZmS+f766i/5krSKs9foU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NoC2gJgp; arc=none smtp.client-ip=95.215.58.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790257503; c=relaxed/simple;
+	bh=RNrHlkedPxi+Seo64aiciiC5cKPNZrA+d4i/PipmIlg=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=IK4yItQ+r4hea+nmp0cMksf4dIGJW1cB3gWmDogxIrdoZSttnq4v5ddDKCMV5z+yRw850AMgEfqZh0BYhXXQdVd2gmRbN4bzv7oCIsoJCE3YzP29VEEpXs9em91MBNhvnjNgGEGfZFvqs73Q9Me17zNjCfbInsbCdxOx2bSngDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=Zqlo3F7I; arc=none smtp.client-ip=212.42.244.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NoC2gJgp"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=VAqY47MliHFwSb5df7rFV+UkhNv2LqwPUXS4WaUskXI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790255731; v=1; x=1790860531;
- b=NoC2gJgpUwnLXISD/Kn8NkruF31AWhJC1JtA2mSmONrZ5LTySEeO/tJQXQx4yB76ws1sog0+
- MDxIcL2XJ5U+yxjsFNNqG+MUW6tC5lZRqi3Cdg8aXAK3r/uKTgHVgvOmXEccR3nIemJDKXl3cLC
- CE+yYy92nsjrcq7WoKr0fK5w=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 15fed9b4dac8ae4f;
-	Thu, 24 Sep 2026 13:15:21 +0000
-X-Mizu-Trace-ID: 15fed9b4dac8ae4f
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 24 Sep 2026 06:15:07 -0700
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Chris Li <chrisl@kernel.org>
-Cc: Nhat Pham <nphamcs@gmail.com>, Rik van Riel <riel@surriel.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Kairui Song <kasong@tencent.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel team <kernel-team@meta.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <20260924125040.GA25882@shakeel.butt@linux.dev>
-References: <aqjpYHbZ14A8xRtK@fedora>
- <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
- <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
- <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
- <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
- <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
- <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
- <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
- <arP8vXdJAL6ZJ1Os@linux.dev>
- <CACePvbV8zprLuiWMdYAOLRy=TwRx9WjSahCWySf53o0d_myJ8A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="Zqlo3F7I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
+	t=1790257492; bh=RNrHlkedPxi+Seo64aiciiC5cKPNZrA+d4i/PipmIlg=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=Zqlo3F7I9z6odqeWj380ltc1L8l1Y1OdMFIQ8fJGCcL0godj+AMTyZAdgeBzcvddy
+	 visMApYsWZFHUl+du/8beS1mqhyyK8ENoIV/CWxsvsCyh4cXW9xX5/jgMeBjt7Okbx
+	 0/ooMNq4gemCVy7fVq7GcIWAcjUgfeWkAadYPLTG/JWW8pKKwCcMOYLk1qQeJgLrW8
+	 b4tI9uek01mHErbJsLDhOWmma86ZwUu/kuFk/UO41MVhGaC3RTdij6ogY0d2ej8cFn
+	 orJV7gvvJ+I19L2+qoEA4l9czaoqgjfie6TZI2lVsYdMBW0eMfXwm6+6RMe9tD03QH
+	 luFchOl1IwK2w==
+Received: from [212.42.244.78] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
+	(envelope-from <n.schier@fritz.com>)
+	id 6ab52954-03d5-7f0000032729-7f000001b242-1
+	for <multiple-recipients>; Thu, 24 Sep 2026 15:44:52 +0200
+Received: from mail-auth.fritz.com (unknown [212.42.244.78])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Thu, 24 Sep 2026 15:44:52 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACePvbV8zprLuiWMdYAOLRy=TwRx9WjSahCWySf53o0d_myJ8A@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v4 01/22] kbuild: do not allocate .modinfo in vmlinux
+From: Nicolas Schier <n.schier@fritz.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Ard Biesheuvel <ardb@kernel.org>, 
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+ Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, linux-riscv@lists.infradead.org, 
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, 
+ linux-hardening@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260923-build-speedup-v4-1-73128809a4a4@kernel.org>
+References: <20260923-build-speedup-v4-0-73128809a4a4@kernel.org>
+ <20260923-build-speedup-v4-1-73128809a4a4@kernel.org>
+Date: Thu, 24 Sep 2026 15:44:48 +0200
+Message-Id: <179025748878.4172706.1928342214472255763.b4-review@b4>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=529; i=n.schier@fritz.com;
+ h=from:subject:message-id; bh=RNrHlkedPxi+Seo64aiciiC5cKPNZrA+d4i/PipmIlg=;
+ b=owEBbQKS/ZANAwAIAYjGvJyImm24AcsmYgBqtSlSAaAHZSpwz+agR7A4nUL/f+UeSeo3MVlM+
+ g0GySzoXvKJAjMEAAEIAB0WIQQO/4WJ63TpgecLpGmIxryciJptuAUCarUpUgAKCRCIxryciJpt
+ uLpFD/4jbTD/m855zQY2oXD/P7gI5rKS0e2JEo4CFs/WQ1q0+MoV/WJx2zzT4SnAM6QXyzOFdL8
+ N4GjNg6r/k+K/apkYq+ibSeq8HUHeSxbO4sdJRWjLXWSReqCL5kxhgvKohauiasWosm4pin+gdR
+ RIwZVezT7eufa+MunXFc3rYHUcBkRsAk5RV5GV/lc9FQdBwdynEkTt0nWX4CiMH/iJh7dYLIYvp
+ 1DkwLdomrF1bURPaP3rgb3sMMNwDGcgH/51PYGy1Cf7MRvdgqCZcW/HRqcEYzFMZPdCjsJgvkhw
+ RUuROmOPYRqcKgbzduQ+SH1njzB9AJeTo5LqhHb7StHjZLRBkVm0tODdImmjW383URt3/Y20UQd
+ wjXVi/xxqIrtsJt78RpFk68LZO82/G3bm1fE3d1JDLJmo0l3W+sR7WVzxKK2SH/AK30LuUXRXUJ
+ 1SaSkqrau/qQNnQ2DyGm2l2l6Wu/gouZrGp1d2hhapMb8D9257v2CnrUEDhBcOh5xYcMlsorNx+
+ S9sQuzuLiqpFAu9Wh/aFc04x+KPDGg2QDWA2KG5wWx8FcTJfAFCWTQfQJrEAD7ZcfQichDLYv1+
+ r9/isWvL4j22ulU2/eqIEx2pPHPPDl5q61LJm6gQhc9gb53OoYIphIXTYZFxQdVLz+W0FuNgXmW
+ 64JXl+x4hWlDQJg==
+X-Developer-Key: i=n.schier@fritz.com; a=openpgp;
+ fpr=7CF67EF8868721AFE53D73FDBDE3A6CC4E333CC8
+X-purgate-ID: 149429::1790257492-1CC5EEF9-18159528/0/0
+X-purgate-type: clean
+X-purgate-size: 531
+X-Notice: Whitelisted
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-pfmilter: host: postfix-mx-02  mail-id: 76E62A085A  external: no
 
-On Thu, Sep 24, 2026 at 01:27:41AM -1000, Chris Li wrote:
-> On Wed, Sep 23, 2026 at 6:30 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
-> >
+On Wed, 23 Sep 2026 18:17:50 +0100, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> Commit 3e86e4d74c04 ("kbuild: keep .modinfo section in vmlinux.unstripped")
+> placed MODULE_INFO() strings in the .modinfo section in vmlinux.unstripped,
+> however it left the section allocatable, so it gets assigned an address and
+> on arm64, arm and riscv, the section is tagged as PT_LOAD.
 > 
-> > > BTW, I already shared that changing swap counter charging will break
-> > > our and others' existing deployments.
-> >
-> > What do you mean here by "break our deployment"? We are talking about
-> > memory.swap usage and limits here. Google is still on v1 and using memsw
-> > usage and limit and I don't see how vswap is breaking memsw?
+> This is useless as the data is ultimately stripped anyway.
 > 
-> Your information is no longer accurate. I got this from our internal
-> AI: "While Google's internal production fleet has historically relied
-> on cgroup v1, there is an active migration to cgroup v2 to align with
-> the upstream Linux community. Meanwhile, in Google Cloud (especially
-> Google Kubernetes Engine - GKE), cgroup v2 is already widely deployed
-> and is the default for newer node pools."
+> [...]
 
-So, using AI to provide more vague statements. Let me help in providing
-more clear statements:
+Reviewed-by: Nicolas Schier <n.schier@fritz.com>
 
-1. Google shared borg is still on v1.
-2. Google cloud (GCE) is still on v1.
-3. GKE running on VMs is on v2.
-
-Another very vague statement is "active migration". This migration plan
-has been active since 2018 [1].
-
-[1] https://lpc.events/event/2/contributions/204/attachments/143/378/LPC2018-cgroup-v2.pdf
-
-> 
-> About the V1 to V2 migration, it uses the memory.current and
-> memory.swap.* counter to simulate the memsw counter for providing the
-> metrics singal.
-
-What does metrics signal mean here? From [2] it seems like there is
-intention to propose addition of memsw to v2 and from my last
-conversation with Sweet Tea, he was interested in exploring BPF to
-provide memsw semantics.
-
-[2] https://lore.kernel.org/all/7a5619a6d27119fcf566e43563a72396@dorminy.me/
-
-> 
-> > Are you making these false claims just to derail the conversation?
-> 
-> You should apologize for your accusation.
-
-I am actually more convinced that you just want to derail the
-conversation by providing AI generated vague statements. However I
-accept that there are parts in Google like GKE which are on v2. The good
-thing is that vswap is opt-in, so GKE can just not use it.
+-- 
+Nicolas
 
