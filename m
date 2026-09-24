@@ -1,85 +1,67 @@
-Received: from mta0.migadu.com (out-100.mta0.migadu.com [91.218.175.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7993B8950
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 07:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24BEA43A7F7;
+	Thu, 24 Sep 2026 07:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790236426; cv=none; b=ltqp6Hy4lyVaWKRM3bbS9eU8YxzVGPe2LrMCAjxHHFPPVtwTwZaCc4weRZDk/32nmIfNvx6ekPEKLnB3SkpcwFzRpK4NI2UWpeDb+eDU/amORnpfm7v95ujJ2zY+Yt7gLP8nxbrQRw+QAWNEUx2aVFdy8sDGhLPc3ZWMnUNlUe0=
+	t=1790236519; cv=none; b=DXy53Rr6WxmDBuU+X0LKaj7FkO5E2C5NXnNp7ZfWIJjxfON+n4SWqxt+ACotPwzycWEN9xHMdeYXNcmIE/IhNJdY2PwOeiT0o+xZ/fRhGLro/LpL7/kauFfBdgr2kMqaPphJxxh++xYPAxLUOfV90j2hgU9330++97DshvqdYFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790236426; c=relaxed/simple;
-	bh=tmFKVXcIZq7e/z6sePm5F4/lrwU40o91QzXOAC74BWg=;
+	s=arc-20240116; t=1790236519; c=relaxed/simple;
+	bh=VYxls7FiBvVcRqIBhB8fGUpeL9h0feLHxmI2IcdgvgU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AVacVI44wVklAqmXeqiufLRtIecfXwbicPCCYP8iiQRzGzPjDsuOumsMBjijDdxQn0t2IPg/DMLzCKaTVM6uQ4SQooLjypMCxj26nnVm2rIIK3EtpKaDQO/j/HgIG7hGn+hhxvMGYK/TcO1dtuiP6LHm9d0ebcySDp2d+Vn5u2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MuDzBozR; arc=none smtp.client-ip=91.218.175.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=EYegqZhZ3c297DEhmKlX1kNPp8L1jcQ00T4whKsvBN1EKYwlMcFMXChu/sxJiw7qREEn4BsvZEjml3Utt3KUNf1CStlTWldJXrxZf97xsqbYSxQDN0j38aBlMZCs8UMZbJ2G9VPfL0nf8GGlajXCQVw3wJmGNbRKpf7wHRstnKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lvFYpHpV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MuDzBozR"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=tmFKVXcIZq7e/z6sePm5F4/lrwU40o91QzXOAC74BWg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790236422; v=1; x=1790841222;
- b=MuDzBozRitngDeYt7LdGDXXgd0dNYPast5NxG3UNIJbOj6z4nn7SDbGpvBsoyk009+YFxZ4U
- J99oOpwwlSnJchoEo2mmdMpJFARKLqMF/TpA7DI1wzNDVq0iNV97Gul4Hk4UpwVcSsuQuKh34gr
- j481XSTM6CZnZM1FCQxXFv9I=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 8c9537f07561259a;
-	Thu, 24 Sep 2026 07:53:41 +0000
-X-Mizu-Trace-ID: 8c9537f07561259a
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 24 Sep 2026 15:53:33 +0800
-From: Baoquan He <baoquan.he@linux.dev>
-To: Klara Modin <klarasmodin@gmail.com>
-Cc: Chris Li <chrisl@kernel.org>, Rik van Riel <riel@surriel.com>,
-	Gregory Price <gourry@gourry.net>,
-	Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>,
-	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Yosry Ahmed <yosry@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Barry Song <baohua@kernel.org>,
-	YoungJun Park <youngjun.park@lge.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Wenchao Hao <haowenchao22@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kunwu Chan <kunwu.chan@linux.dev>,
-	Meta kernel team <kernel-team@meta.com>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org,
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Kairui Song <ryncsn@gmail.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arTW_QJmL5PFev-X@fedora>
-References: <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
- <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
- <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
- <arKbXe1Qe-FDCTMM@gourry-fedora-PF4VCD3F>
- <CACePvbWW4avTV2WB6iRU+LN5zqkMTg3UhBrq41R0iw91-7Ni0g@mail.gmail.com>
- <5a7ad159b2fabf377b7e1fc4248c433287ac11fb.camel@surriel.com>
- <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
- <arO0RCCE3Woh_I_z@parmesan.int.kasm.eu>
- <arS6dvzAI5XLHuG-@MiWiFi-R3L-srv>
- <arTNdz2P4ZZZfruh@parmesan.int.kasm.eu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvFYpHpV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E7BC1F000FF;
+	Thu, 24 Sep 2026 07:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790236512;
+	bh=8XF4GERg8wBeW3ubUb+zC5tRVKKAYGhsksCUCrCMyIE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lvFYpHpVMwPBfEiIuvmYeJUUzULg6cdEWSx4iWYVWk727A5rZV5bpt/5Sjkl2pSTJ
+	 +koGcSegVzDsG20kO8t41OXmh6KWyi8RNfZl2ErJwNIuTh23tjzoeT8Dv37tsGeg79
+	 61gp8tpMx2xIK3zP8kYJIEm2UGPz0MsuiqmNKxY9v5C+ubE70585sEQgHP0rrKt73G
+	 695MVjPFlFxGNvVaOlYp2A83auWFA74egHtR5nruPWwDU0nzqWrYwTTl+K4hgYPEPV
+	 DQ3pwEy3zgSLOIKKJ8W+2SiDFy6P5qvxi1PY+qb9cXOQdaC3iHQ+VtthIr/FlkyQ/I
+	 POZQV/h73LJFA==
+Date: Thu, 24 Sep 2026 08:54:49 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Lance Yang <lance.yang@linux.dev>
+Cc: akpm@linux-foundation.org, david@kernel.org, ziy@nvidia.com, 
+	baolin.wang@linux.alibaba.com, liam@infradead.org, nico.pache@linux.dev, ryan.roberts@arm.com, 
+	dev.jain@arm.com, baohua@kernel.org, usama.arif@linux.dev, kas@kernel.org, 
+	guoren@kernel.org, bcain@kernel.org, geert@linux-m68k.org, dinguyen@kernel.org, 
+	schuster.simon@siemens-energy.com, jonas@southpole.se, stefan.kristiansson@saunalahti.fi, 
+	shorne@gmail.com, dalias@libc.org, glaubitz@physik.fu-berlin.de, pjw@kernel.org, 
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, linux@armlinux.org.uk, 
+	vgupta@kernel.org, monstr@monstr.eu, chris@zankel.net, jcmvbkbc@gmail.com, 
+	will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com, peterz@infradead.org, 
+	davem@davemloft.net, andreas@gaisler.com, richard.henderson@linaro.org, 
+	mattst88@gmail.com, linmag7@gmail.com, catalin.marinas@arm.com, mark.rutland@arm.com, 
+	chenhuacai@kernel.org, kernel@xen0n.name, tsbogend@alpha.franken.de, 
+	James.Bottomley@hansenpartnership.com, deller@gmx.de, maddy@linux.ibm.com, mpe@ellerman.id.au, 
+	chleroy@kernel.org, hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com, 
+	borntraeger@linux.ibm.com, svens@linux.ibm.com, richard@nod.at, 
+	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net, tglx@kernel.org, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	arnd@arndb.de, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, jgg@ziepe.ca, jhubbard@nvidia.com, peterx@redhat.com, 
+	ysato@users.sourceforge.jp, shakeel.butt@linux.dev, corbet@lwn.net, rdunlap@infradead.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-openrisc@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-snps-arc@lists.infradead.org, linux-arch@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-alpha@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-s390@vger.kernel.org, linux-um@lists.infradead.org, hughd@google.com, 
+	qi.zheng@linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 12/12] mm: change the contract for free_pgtables(),
+ update docs
+Message-ID: <arTXJXUhjNTWz9Ga@gremlin>
+References: <20260922-rcu-pagetable-freeing-v4-12-fe1ad1f1e303@kernel.org>
+ <20260924032625.28555-1-lance.yang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,48 +70,86 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <arTNdz2P4ZZZfruh@parmesan.int.kasm.eu>
+In-Reply-To: <20260924032625.28555-1-lance.yang@linux.dev>
 
-On 09/24/26 at 09:20am, Klara Modin wrote:
-> On 2026-09-24 13:51:50 +0800, Baoquan He wrote:
-> > On 09/23/26 at 02:52pm, Klara Modin wrote:
-> > > Hi,
-> > > 
-> ...
-> > > 
-> > > Chiming in as more of a user perspective.
-> > > 
-> > > On my 4 GiB BPI-F3, I can reach more than 10:1 compression ratio on
-> > > zswap during some parts when building GCC 17 snapshots. E.g:
-> > > 
-> > > MemTotal:        3966864 kB
-> > > SwapCached:        31872 kB
-> > > SwapTotal:      16777212 kB
-> > > SwapFree:       16638128 kB
-> > > Zswap:            280140 kB
-> > > Zswapped:        2859840 kB
-> > > AnonPages:       2927376 kB
-> > > AnonHugePages:   1409024 kB
-> > > 
-> > > While this is 72 % rather than the 100 % you asked for, I think this
-> > > shows that what size a potential limit on the uncompressed size of zswap
-> > > is suitable heavily depends on the workload.
-> > > 
-> > > I have been using vswap consistently on all my machines since about
-> > > August, and I have also tried one or two versions of xswap (but the
-> > > current lack of writeback makes it inconvenient for me). I really
-> > 
-> > Thanks for testing xswap and reporting issue on xswap rfc v3.
-> > 
-> > xswap has writeback now. I only built foundation for xswap, while
-> > writeback part was left to other people for collaboration. Finally
-> > I added it.
-> > 
-> > [RFC PATCH 00/17] mm, swap: xswap writeback to a physical backend
-> > https://lore.kernel.org/all/20260920072043.430390-1-hebaoquan@kylinos.cn/T/#u
-> > 
-> 
-> Thanks, I'll give it another try when I have time.
+On Thu, Sep 24, 2026 at 11:26:25AM +0800, Lance Yang wrote:
+>
+> On Tue, Sep 22, 2026 at 04:35:43PM +0100, Lorenzo Stoakes (ARM) wrote:
+> >Now that page tables are freed after an RCU grace period, it is safe for
+> >read-only page table walkers to walk page table ranges that are being
+> >concurrently torn down, provided the mm is kept alive via mmgrab().
+> >
+> >It is however unsafe for writers to do so, as they must obtain an
+> >appropriate lock to do so safely.
+> >
+> >Update the pte_offset_map_lock()'s comment block to reflect this.
+> >
+> >Similarly update the process addresses documentation.
+> >
+> >Acked-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> >Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> >---
+> > Documentation/mm/process_addrs.rst |  6 ++++++
+> > mm/pgtable-generic.c               | 15 +++++++++++----
+> > 2 files changed, 17 insertions(+), 4 deletions(-)
+> >
+> >diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
+> >index a7296f251799..b1f4f44d75eb 100644
+> >--- a/Documentation/mm/process_addrs.rst
+> >+++ b/Documentation/mm/process_addrs.rst
+> >@@ -537,6 +537,12 @@ We establish basic locking rules when interacting with page tables:
+> > * When changing a page table entry the page table lock for that page table
+> >   **must** be held, except if you can safely assume nobody can access the page
+> >   tables concurrently (such as on invocation of :c:func:`!free_pgtables`).
+> >+* Page tables may be *walked* under RCU alone, as page tables are freed only
+> >+  after an RCU grace period has elapsed. However, any entry found must be
+> >+  revalidated after the page table lock is taken (such as the
+> >+  :c:func:`!pmd_same` recheck performed by :c:func:`!pte_offset_map_lock`)
+> >+  before it is acted upon. Changing an entry requires the page table
+> >+  lock and one of the locks that excludes teardown (mmap or VMA lock).
+>
+> What about rmap walkers? try_to_unmap() clears PTEs under the rmap lock
+> and PTL, without an mmap or VMA lock.
 
-Sure, no hurry. Thanks a lot!
+That's an abomination but yep will update.
 
+>
+> Cheers, Lance
+>
+> > * Reads from and writes to page table entries must be *appropriately*
+> >   atomic. See the section on atomicity below for details.
+> > * Populating previously empty entries requires that the mmap or VMA locks are
+> >diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+> >index b91b1a98029c..a127e3e8f9b9 100644
+> >--- a/mm/pgtable-generic.c
+> >+++ b/mm/pgtable-generic.c
+> >@@ -385,10 +385,17 @@ pte_t *pte_offset_map_rw_nolock(struct mm_struct *mm, pmd_t *pmd,
+> >  * Note: "RO" / "RW" expresses the intended semantics, not that the *kmap* will
+> >  * be read-only/read-write protected.
+> >  *
+> >- * Note that free_pgtables(), used after unmapping detached vmas, or when
+> >- * exiting the whole mm, does not take page table lock before freeing a page
+> >- * table, and may not use RCU at all: "outsiders" like khugepaged should avoid
+> >- * pte_offset_map() and co once the vma is detached from mm or mm_users is zero.
+> >+ * Note that free_pgtables(), used after unmapping detached vmas or when exiting
+> >+ * the whole mm, does not take a page table lock before freeing a page table.
+> >+ *
+> >+ * As page table freeing itself is RCU-safe, page table readers can safely run
+> >+ * concurrently with page table teardown.
+> >+ *
+> >+ * However, writers CANNOT as, without a lock being held, nothing prevents
+> >+ * concurrent teardown.
+> >+ *
+> >+ * Also note that the PGD itself is freed at mmdrop() time, not under RCU - so
+> >+ * the walker must keep the mm alive either by pinning the mm or the VMA.
+> >  */
+> > pte_t *pte_offset_map_lock(struct mm_struct *mm, pmd_t *pmd,
+> > 			   unsigned long addr, spinlock_t **ptlp)
+> >
+> >--
+> >2.55.0
+> >
+> >
+
+--
+Cheers, Lorenzo
