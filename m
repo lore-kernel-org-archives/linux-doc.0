@@ -1,99 +1,161 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA7343A7E3;
-	Thu, 24 Sep 2026 08:23:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1190D432BD6;
+	Thu, 24 Sep 2026 08:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790238185; cv=none; b=ff0IEd6RHX694svwlpKTQV8e6IEhxC8ff9q73Ohdvelbi6flCIiJ10vCVSV01eSvt/RO4dd314f9NOE7bjzDZmGRTTBB4UXORtTIL65Agn8NkyefnC6iNpQHsakbAiyncFWaU17+aghV5aG2PO4gpjWqz1d/+DNPNMgp1cuDZo8=
+	t=1790238217; cv=none; b=gH4cNIr1+b/0jCrXjVIAa3zt5n7dgDnmT1obH9O+qULy8SS36IUQT/aXb0rxcx71I8XkzNwZ3xpLJ9n+AoDC6++HFd0fuIqLmT2CjWWWCdl0pIgD0rGt0I3Hl707ZX9wDn2TjTc+ju1O1tox2rcAiK710uq5fymqjYSJlaA9ahw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790238185; c=relaxed/simple;
-	bh=Kw+7uJwadmA3/+0VnGX3uBWEfazwrylhCy0o5tuUHNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i7K94Ey4dp1pBJQE4fdWl8TUEHw2v3OM/NUO7cSK3NRJcCbD1wsAGw58JxWtNuKHgsMHO56Qz45Gy+IgfvUGEW2ZSM783VgzN1WZQsf93koTX+gmFzonFnIvmbEm08zahKoRWpVMnNtiapMgF2+u+ZT8IxFWHq7HKZpGW1lk2EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LKRk7Yef; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790238217; c=relaxed/simple;
+	bh=pq3ootEcRNlE5VmwPiLsqT1U3a54cF5U18IpkqaJGsg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ShNI0QI8mkDWTZum884RpKT0V14T2kTLtkZIpqdTnrubHdj6YbjBcF6jbczYCVd/a9wZKZ2QzCPfr35lKXpr0bLv8JyDpwODWqKjwX8AAWZGXreW4Q3qrLhaEhqTqePxuKy64Njs7CJ/gLbgFncXVTsh9W9CuXP3OA7JMJXetss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c0kukZOv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LKRk7Yef"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09CC31F000FF;
-	Thu, 24 Sep 2026 08:22:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c0kukZOv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 118F01F000FF;
+	Thu, 24 Sep 2026 08:23:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790238179;
-	bh=S/8lUKp9mIX5d6BKwHywb1J2XqYuMwPVrIBYkOuLxkI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LKRk7Yef7xIRXywmYt9T9p8ZQrbVXd7n+swMMEKmBp2zOWJ7YgL2ycv5JC3WOiQE8
-	 r75OCp43XzZPdNxIfpBLHg8Hyxi3VbuxfkXtmHo/dsPoPHl8sDvZWu5skYpaz/3h6B
-	 I8leYeJmIZKqLPggRWdGz6bna2VuECRUlAG++6RMWW3kP9Ou/obf8jtu4nbr1c6rOu
-	 p3GbpdB08d3+J+pskLku3PjKjTCWIia2EGwx7LWnwDYmTt+kSnV9PQR3jRSJV1zKOd
-	 xCU7kf9CeR9HBun9nMQR9UiRg5w6NUmieCFF/EbxzD2C2y9Km6mTqbnlX54j3TFiCv
-	 KozGf/TKQzglA==
-Date: Thu, 24 Sep 2026 09:22:47 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Fuad Tabba <fuad.tabba@linux.dev>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Joey Gouly <joey.gouly@arm.com>, Steffen Eiden <seiden@linux.ibm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Mark Rutland <mark.rutland@arm.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	David Hildenbrand <david@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Jack Thomson <jackabt@amazon.com>, Jack Thomson <jackabt.amazon@gmail.com>, 
-	Alexandru Elisei <alexandru.elisei@arm.com>, Vincent Donnefort <vdonnefort@google.com>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Sean Christopherson <seanjc@google.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Leo Soares Passos <Leo.Bras@arm.com>, 
-	Wei-Lin Chang <weilin.chang@arm.com>, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v4 01/14] KVM: Allow architectures to disallow pre-fault
-Message-ID: <arTdxHgk_3gGySOO@gremlin>
-References: <20260923-kvm-arm-prefault-v4-0-d4b0b4dfa8c3@kernel.org>
- <20260923-kvm-arm-prefault-v4-1-d4b0b4dfa8c3@kernel.org>
- <CA+EHjTzDYSuBVEc+SMdDa41sq-ET=m_oWW0gL9dYf+AumPYPUg@mail.gmail.com>
+	s=k20260515; t=1790238214;
+	bh=0R3Mxbv3vdpxWcQQoOquOV4kjUr9blHIMswP0RJ/a58=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=c0kukZOvskiiPKmmSymm5exGovbxASfO3P63WOJaDq/7+wmrV4idTAKOlrVmL4xN4
+	 thZhxpzmIjjAwFxvHbiHWAqru4ohnWveaTrWJyxrS2Id+CwDvgf0KtS7VxJHgkfAig
+	 TZYtCREuDyZscaRuJLQBbtu0HTT/cF1pVzCEznuPsgcRrAtTcy8jI7TZGjJ4gRACY5
+	 IvcHdXa7ZYtYhNVVzBa9Ur3F47IB6i+61dq0IaetRo1/ZGQYGl94/bhZvWeWKKHR67
+	 B5ucLA7oYVY3YaziIhN9haJQsP2PImSZeY92OJlMMnJf/H+LcRG8KqA0CJ5iYeoOjE
+	 aCNu5pfjCvRSA==
+Message-ID: <eee40025-da99-48df-8687-5d93c99037e4@kernel.org>
+Date: Thu, 24 Sep 2026 10:23:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTzDYSuBVEc+SMdDa41sq-ET=m_oWW0gL9dYf+AumPYPUg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] MAINTAINERS: document the branch in git T: entries
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Matthias Goergens <matthias.goergens@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <64b0be79c535bb9545f9f81a5044146a8726c761.1790220653.git.matthias.goergens@gmail.com>
+ <2c05bf39-7e04-4cc7-9926-3cbf673865b5@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <2c05bf39-7e04-4cc7-9926-3cbf673865b5@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 23, 2026 at 07:52:27PM +0100, Fuad Tabba wrote:
-> Hi Lorenzo,
->
-> On Wed, 23 Sep 2026 16:15:44 +0100, "Lorenzo Stoakes (ARM)"
-> <ljs@kernel.org> wrote:
-> [...]
-> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> [...]
-> > +int kvm_arch_pre_fault_allowed(struct kvm_vcpu *vcpu)
-> > +{
-> > +        if (!vcpu->kvm->arch.pre_fault_allowed)
-> > +                return -EOPNOTSUPP;
-> > +
-> > +        return 0;
-> > +}
->
-> nit: the comment above the smp_rmb() in tdx_sept_map_leaf_spte() still
-> says pre_fault_allowed is read by kvm_arch_vcpu_pre_fault_memory(),
-> but after this patch it's read here.
+On 24/09/2026 10:22, Krzysztof Kozlowski wrote:
+> On 24/09/2026 05:35, Matthias Goergens wrote:
+>> T: entries have named a branch after the repository URL since commit
+>> a1aa5a770dc3 ("MAINTAINERS: update hwmon subsystem git trees"), and
+>> 109 of the 846 git T: lines do so today.  Commit 083bf9c56d06
+>> ("get_maintainer: add more --self-test options") taught
+>> get_maintainer.pl to parse that optional branch and check it with git
+>> ls-remote.  The preamble, however, still describes T: as it did after
+>> commit 50306fb5398f ("[PATCH] Clarify T: field in MAINTAINERS"), as
+>> "tree type and location", and does not mention the branch.
+>>
+>> Documentation/process/submitting-patches.rst sends contributors to the
+>> T: entry to find the tree to prepare patches against.  When
+>> development happens on a branch other than the repository's HEAD, a
+>> branch-less entry points them at the wrong tree; on 2026-09-24, 173 of
+>> the 273 repositories named without a branch had a HEAD that mainline
+>> already contained.
+>>
+>> Document the existing practice and say when to name a branch.
+>>
+>> Suggested-by: Theodore Ts'o <tytso@mit.edu>
+>> Link: https://lore.kernel.org/all/arSMwd1bGO1vrif-@mit.edu/
+>> Signed-off-by: Matthias Goergens <matthias.goergens@gmail.com>
+>> ---
+>> Ted, as I said in my reply on the ext4 patch
+>> (https://lore.kernel.org/all/20260924033200.3615554-1-matthias.goergens@gmail.com/),
+>> I'm sending only a few of the per-tree T: patches for now, and would
+>> value your view before sending the rest.
+>>
+>>  MAINTAINERS | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index cc3cae2e378b..6edc17d66b44 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -30,6 +30,8 @@ Descriptions of section entries and preferred order
+>>         See Documentation/maintainer/maintainer-entry-profile.rst for details.
+>>  	T: *SCM* tree type and location.
+>>  	   Type is one of: git, hg, quilt, stgit, topgit
+>> +	   A git entry may name a branch after the URL; name one when
+>> +	   development does not happen on the repository's HEAD.
+> 
+> What is repository's HEAD? The one ref in remotes/origin/HEAD? Pointing
+> almost always to the master branch? I think no one works on master
+> branch, because that mirrors origin/master. So basically this would
+> expect EVERY tree entry to be renamed... and then - which branch - since
+> almost all of us have more than one (at least fixes and for-next).
+> Basically the DEFAULT is that you do not work on master.
+> 
+> If you disagree, please point me where is the HEAD:
+> https://web.git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git/
+> (and all branches are active, meaning nothing is stalled or some wip-dev
+> work)
+> 
+> I don't think this change in that form and naming is useful for developers.
+> 
+> What contributors need is the branch feeding next, because this is the
+> base for them.
+> 
 
-Ack can fix up I need to respin!
+Also, people could explain their branches in ABOUT page...
+https://web.git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git/about/
 
->
-> Reviewed-by: Fuad Tabba <fuad.tabba@linux.dev>
-
-Thanks! :)
-
->
-> Cheers,
-> /fuad
-
---
-Cheers, Lorenzo
+Best regards,
+Krzysztof
