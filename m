@@ -1,108 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4E14A2A78;
-	Thu, 24 Sep 2026 15:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055C0348C7D;
+	Thu, 24 Sep 2026 15:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790264497; cv=none; b=mmSRCXzeVNYT1k1UbmF1TXtfFlGPNuVskdt/JE3b6JOvrOCpoXcnOQaFGCnSJL3C/7FTKu+kr6A87o/hCJumffmW9nwS5PMe4QvkBLkqq0vtgfI8nlvpO0DQCEhk+5Y9KRiXraEjD60Z30URVI6U7gh1eYBNqi28ygNkUIg2tVY=
+	t=1790264700; cv=none; b=Q+5s4Mmp9Rv+J+3b4G69cuweNHKz44IRqeBVcXWgN1qKyT+41yIA7JRC2ImGxYuRsEiKiREs03DEEdEdLGZYepwP/HVhVI/s5WOFN/HBHlaDY5dIanbxJC+qLO/B9Xl9CAXjQNllQax/wRzTvyNYQpTfMvg9656XaNyj7MJU9rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790264497; c=relaxed/simple;
-	bh=e/Sxn8K7dsJV3ATbUcQjIv4QG7GxBYh/gFPNrHCya1Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cpoqXSo/KdSBWrBHHxk/oatfUFKSJrS+GDXszDVlpzvtjkHjfU6RauRbQRlv/ToTr9k51zXt7+ZD0fg6VlDvwreS+F46ERqI3kDXV88w42kHFTnudCejYgackS4EmmlnbIlVJLMrWqoUpmagJF1apuT3hraNnx/dP+98pTLX0xE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7O+IDI6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790264700; c=relaxed/simple;
+	bh=/h6FDCqEvu2VcdIuCvaYqPR84F3tAsFoiRPMwYVYuD8=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=T2c55uaJ3qezAMCtSrq4hNTLqNTvuy/ee42I9b0F8vopScB996SmcxPjubLyc29C6s6JLmUHbDxDcZ9uzHwlzkFynuWB6qROxhIQFp6GYuWygJE5KDgFIhk0x72Alz0WFX+4uJrort1IIC9lX/XluH3XiKJidBwABI5u71kbXko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=PLOicbZc; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=f05ZGD3L; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7O+IDI6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D77C61F000FF;
-	Thu, 24 Sep 2026 15:41:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790264495;
-	bh=eN2cjKfCvDXuqmgo4UbcmS7JlECYCHZ3VnJoYKEKeeA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=R7O+IDI6MizHFzQoZXlcztXkhOVZN4+VLOtDDYP3vtSk149l1qtXhc7GiyjbrHQE4
-	 Y+LGhikL5W7dg05q2pXPUyKuboNlf7IXfGZLuWLwXnuf4vJLhzdVIY50BKGQgNPh7Y
-	 dGCplrYXTs2TEcUr16Oo5z1ik9m3MYnJdQK3PN5DsfT+HoBwM3RMbYkUGjF6c1ufYk
-	 DYBGymFWNj+XrRJ5ZU/r/Z78UuQ6Nv8VYRMIxN80Vy2/9OilPC0qSPb+R0dG21d5Wr
-	 g5axXW77NkXA5w8o5hUmtpGZrFNoLtPfBaWxA/VmfduQnC+SYPfgY9T+E3dGbeYgZn
-	 r2MmKJb1ORVjQ==
-From: Nathan Chancellor <nathan@kernel.org>
-To: Kees Cook <kees@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, 
- "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
- Julian Braha <julianbraha@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Vegard Nossum <vegard.nossum@oracle.com>, 
- Nauman Sabir <officialnaumansabir@gmail.com>, Tejun Heo <tj@kernel.org>, 
- Nicolas Pitre <nico@fluxnic.net>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
- Matthew Maurer <mmaurer@google.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Andrew Jones <andrew.jones@linux.dev>, 
- Graham Roff <grahamr@qti.qualcomm.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- "Borislav Petkov (AMD)" <bp@alien8.de>, Gary Guo <gary@garyguo.net>, 
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-In-Reply-To: <20260919005923.i.879-kees@kernel.org>
-References: <20260919005923.i.879-kees@kernel.org>
-Subject: Re: [PATCH 0/3] kconfig: Introduce cc-option-str
-Message-Id: <179026447975.3085989.6407201524539416516.b4-ty@b4>
-Date: Thu, 24 Sep 2026 11:41:19 -0400
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="PLOicbZc";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="f05ZGD3L"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1790264690; bh=YebRGxiOOFdyOaA1jNvEHuU
+	n5lpo0MnD1Vo5lFRxTwk=; b=PLOicbZcRRZLFULfhrnocmrz+Ns8EE+lwePeB+YtE6knaTCjZi
+	f13trMXBWP+metR6HkrMnC4YfyT4Oi37DkgE4NWztMvvZTQAwrrx0ZoSSLdcPYR8G5Equis0zfD
+	ySIQADorhzttM/rKJCQYOlt+u2gCHCLohrIUeSo9yDLfrE9fmVxoo2p9UkvTAcxhkc7O7RZL/13
+	5D00akbfcJOgAMIkLTSYg1hLemyeeSUG7GpT7zgdVI3sfDD/c1BViUzoTnXVKiuaIm34u2aPyaA
+	Dc0r5KvkvTVVGHUcUzOJ5TKYFpX3YmEMTA3jhYp4liwseX51FbmdzvnAz6/hTKsfeKg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1790264690; bh=YebRGxiOOFdyOaA1jNvEHuU
+	n5lpo0MnD1Vo5lFRxTwk=; b=f05ZGD3LEsFLDi+b5ZR+E643VUsXO6LjGwWcujHxs74btemuQi
+	TFDb1DJbTzTU+0AMx07RqY+sZOEIf+zKleBQ==;
+Date: Thu, 24 Sep 2026 16:44:52 +0100
+From: Bradley Morgan <brads@mainlining.org>
+To: Sasha Levin <sashal@kernel.org>
+CC: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org, skhan@linuxfoundation.org, workflows@vger.kernel.org
+Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
+In-Reply-To: <arU_r7Sl3gnTX6nG@laps>
+References: <20260924134945.3095661-1-sashal@kernel.org> <C1ABA2A9-E1BD-4A89-B5BC-59C06D807D0D@mainlining.org> <arU_r7Sl3gnTX6nG@laps>
+Message-ID: <F6362B07-0832-495D-BF92-6FAF06DC5E04@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1220; i=nathan@kernel.org;
- h=from:subject:message-id; bh=e/Sxn8K7dsJV3ATbUcQjIv4QG7GxBYh/gFPNrHCya1Y=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDFlbXZZYeB0JP77O+dvt43dWLDAKP3wy8Y/NlmIZM5Wie
- a8CxMT9OkpZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBE3q9iZDh7r6T0/syYi1H1
- T+9q127/8ztnx4HvVouFnU7cEwtcKzSX4b/7G9/tM7Ny2A0y7Cyt7FyiDBKNJ11drDlP+8vbZVe
- /eDEDAA==
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 18 Sep 2026 17:59:24 -0700, Kees Cook wrote:
-> kconfig: Introduce cc-option-str
-> 
-> Hi,
-> 
-> While reviewing the recent build speedup series[1], it became clear
-> that we needed a general solution in kconfig to avoid repeating detected
-> toolchain options. Implement cc-option-str and ld-option-str, and while
-> at it, create "def_string" and friends to match "def_bool".
-> 
-> [...]
+On 24 September 2026 16:20:15 BST, Sasha Levin <sashal@kernel.org> wrote:
+>On Thu, Sep 24, 2026 at 04:08:08PM +0100, Bradley Morgan wrote:
+>> On 24 September 2026 14:49:45 BST, Sasha Levin <sashal@kernel.org>
+>wrote:
+>>> Most coding agents have standardized on AGENTS.md as the file they load
+>>> automatically from the root of a repository. README already tells AI
+>>> tools to read and follow Documentation/process/coding-assistants.rst,
+>>> but that only helps if the agent decides to read README before acting,
+>>> which in practice it often doesn't.
+>>> 
+>>> Add a top-level AGENTS.md symlink to README, so agents load it on their
+>>> own and follow its pointer to the AI guidelines. This keeps a single
+>>> entry point for every reader, and avoids adding a separate copy of the
+>>> policy that could drift from the RST.
+>>> 
+>>> As an example, two different agents were asked to "create a new commit
+>>> renaming the release (in the Makefile) to AI Test".
+>>> 
+>>> Without AGENTS.md, the first agent added a Signed-off-by for the user
+>on
+>>> its own. It should never have done that: only the human submitter can
+>>> certify the Developer Certificate of Origin, after reviewing the
+>change.
+>>> It also used its own attribution tag instead of Assisted-by:
+>>> 
+>>>> Makefile: rename release to AI Test
+>>>> 
+>>>> Co-Authored-By: <model name> <noreply@...>
+>>>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>>> 
+>>> The second agent added no attribution at all:
+>>> 
+>>>> Rename release to AI Test
+>>> 
+>>> With AGENTS.md in place, neither agent added a Signed-off-by, and both
+>>> used the Assisted-by tag. README itself mentions neither tag, so both
+>>> agents followed its pointer to coding-assistants.rst:
+>>> 
+>>>> Makefile: rename release to "AI Test"
+>>>> 
+>>>> Change the release name from "Baby Opossum Posse" to "AI Test".
+>>>> 
+>>>> Assisted-by: LLM
+>>> 
+>>>> Makefile: rename release to AI Test
+>>>> 
+>>>> Assisted-by: LLM
+>>> 
+>>> Both agents also followed the kernel's general guidelines more closely.
+>>> The second agent's subject gained the "subsystem: summary phrase" form
+>>> that submitting-patches.rst asks for, instead of a bare "Rename release
+>>> to AI Test", and the first agent added a body describing the change.
+>>> 
+>>> Assisted-by: LLM
+>>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> 
+>> NAK, we could add to memories that to read soandso file before every
+>> patch, and then it wouldn't increase tokens then?
+>
+>Could you help me understand what you meant here? I'm aware some agents
+>use a
+>notion of "memories", but I don't think they standardized on it in any
+>way, nor
+>how we could incorporate them here?
+>
 
-Applied to
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git kbuild-next-unstable
-
-Thanks!
-
-[1/3] kconfig: Add "def_string", "def_int" and "def_hex"
-      https://git.kernel.org/kbuild/c/651fb291c4c86
-[2/3] kconfig: Replace "cc-option-bit" with "cc-option-str"
-      https://git.kernel.org/kbuild/c/889a621272f9b
-[3/3] kconfig: Add "ld-option-str"
-      https://git.kernel.org/kbuild/c/cfcc465018818
-
-Please look out for regression or issue reports or other follow up
-comments, as they may result in the patch/series getting dropped or
-reverted. Patches applied to an "unstable" branch are accepted pending
-wider testing in -next and any post-commit review; they will generally
-be moved to the main branch in a week if no issues are found.
-
-Best regards,
--- 
-Cheers,
-Nathan
+They use MEMORY.md sometimes.
 
 
+>And as far as I'm aware, nothing is free here - those "memories" still use
+>tokens.
+
+Not as much.
+
+
+
+>
+>
+
+--- Thanks!
+"I'm not a very positive person" - Linus torvalds
