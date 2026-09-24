@@ -1,121 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30BC479880;
-	Thu, 24 Sep 2026 11:59:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D324F1A6814;
+	Thu, 24 Sep 2026 12:25:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790251170; cv=none; b=mOylZOAOKET+OXqMf5nVVdoa8ge/GYqjZqVy+8WIXL9KbnCp7YqGh4gRKsHe4Mc8Ns5lPkq48JJS2dyeNz7noVDOkA9XMCLhm1GZ+1kQywmSiVZA5FNejXxz3Ltk5zODb3dVjyeRzLoQX4V4bOba/JMOdrsN2PMHdgonB2Bu+Jg=
+	t=1790252736; cv=none; b=VEr69Uhg/IF6yAOF8KOlDOBzbGwWH5CoWZBPvitKV+bT1KtxSGjq1HT04nxT312XfRnHmbIvQIotFUshFmkMFv8Ad7BFe11caenB1idw4FPoiu7+bkisaRlWSmLQfI5V3sElfugvkeLQXlAMTAMqwy3Cw8e8E1Hp2+ExYa0dv1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790251170; c=relaxed/simple;
-	bh=774qvqqgMWYaywwJKJV4TivlBOUbwJtduazkCcl5ayc=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=S+ylNPGZ3dfAqlIqpaDsPTqjBOZE/ZyvXsvCNd+hv7f4GbgU/QHMK4+6y1GVv9xs1UyEEsLYRbusykGJZmeBZIi22GK29viXTrYOv0fdKA/AeEjRHZ+sFIGaahSniNrLdr+aI74y6xVWswZL3mmdHlij4D2OyFT934jWb8rhzo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvE8rhzN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790252736; c=relaxed/simple;
+	bh=mkZ+/fEwSs8YWPIqqniDFLFkK5dYF53u9loFzm82MN4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gT30g2TpDDJN2lKDpLVN+wNNbTAjlEnr3HDMjwUP+Jm+ZF2rr7U15mx+TZkBupxQeJxQgbsK/g6Qmgui3v5br9fyy7c8sYoyBZIODndwGkb5HNh+0z7BookUiFa4TpsNBozAADs1wDgkKZNpKAMYeB7xo7PhGGcLJJMV/C5GGnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GKtPE3Be; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvE8rhzN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F1021F00898;
-	Thu, 24 Sep 2026 11:59:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GKtPE3Be"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D311F000FF;
+	Thu, 24 Sep 2026 12:25:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790251168;
-	bh=rX/taSxhg8kPgoMfcN59II2ZF85nZaKfk+f+Anft+tQ=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=KvE8rhzNZMx9lfkitufzNhcoXcZyJaNPnIqNlpW1VttZUmWAsNk6K7Yq59+l4wJXy
-	 d9gSJ/YQlZTkngyLFxXjXSjenTxuacL0hNaLt8TdNzSYLhUVviiQOiZrub6tR0z0KI
-	 ZEVSwLzVD0fodZvRqv7ZaVxOC7rZqEci1UoUHOA8wwCLTq+NiDIZE4u0jx/XCvLS4V
-	 YY33z6kzAZ1Nhr+KmXHUTDVD81pigLKbBAm3VlE3JPda2jw3xX8lZTI7UwYF28s/fc
-	 6eGzvGneVSs9oHZEPeKuVCtauDyTflr+HAM/crf9Uq6/+0XnF6tv/jlsCw1anL3B1L
-	 Mo1p9houxL+Jw==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 1570B198005A;
-	Thu, 24 Sep 2026 07:59:26 -0400 (EDT)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Thu, 24 Sep 2026 07:59:26 -0400
-X-ME-Sender: <xms:mxC1avZ5pjoMf61qaJh0Ulc5TcHJQhbJUW1MK18F7PbvuujisVx-_w>
-    <xme:mxC1apPFyyjXBRqMdKrlNhUSkjylay1PY8xcvZsxV_XAleVLgwHVez0FHN9TpqHMX
-    y-ayHfeg6aqGYGWMc-QkaXQ-40kNJf-NTB4EC2zXORi7xP0Glusdn_H>
-X-ME-Proxy-Cause: dmFkZTEuyhnv88R/Au/UH9DUc7Nhr6CsqiYYSGJM4wjUlhaSYLJ7g7XkwgeyemxfEiyzL8
-    H42xGZZ5eWVOXyi//ON5parv4gESfkNHKLLmwLfG31oSsvg7cpu+6/Qwnl+vPWUB6J4a0P
-    84k+E5qWn7XSQQAZPMJYIAhHc8a+/ZXw25yicXrYcXjLXS1sSrmSbwhwK8mS2N0hMoKu2Z
-    X3JIjCCXd/r/28hHTqrvEOr+Cl4lNs6TVbxSWBfBlNyL/NGo8dcHxHLLw6R2r+9TlmTkKH
-    8hCCqEZo4la4zzbod5D5X51Tf8s9P0zc/XupezqoiWTGwegagUFNnPi0CMdl6F05MXboi7
-    OC+x2TpLR2MrzWudFLUVJTQtaZExhpSAGW4b9EcYiyovN8rxKD+BlKu9/Vd8BuFBT+Yua3
-    /9zXWdhX/sE5qSEL6vXk1F6XGLpUwmj9FyAsomDeyEd9FDT9KD8kfKT/yQhDsMzgPiMKaX
-    oT/ZjVjfVxck32Ap0hhEH46eo8Iukq0oYdYZ9BRJ2N+BYO6Hl+fGuY6ZCD3n8HpCw4FbTj
-    VhiDihInc66wqF0Ln80mbDAxBWZbNVS3lf2Zab0RP03u9ceIsVbJOxj6HtfslptSkdtmVC
-    xtm5Xh3Mmpm12Jd4fjEZoia0CsNiRqh1Jai5JcMedJk4+dcqkh8hW7i+ciNA
-X-ME-Proxy: <xmx:nhC1ajq-bj2cj5aj5YKe2qClgbxG7kRTZWbCS1gaEjXD1Rd42H9Agg>
-    <xmx:nhC1akK69LVllif-Y_rzzXhx2RKq2h9OIuBjRXTLmxTp_EMKqIzr0Q>
-    <xmx:nhC1auOkTOLscj12UTNZkMLYdjC8nmudanxpQA_guQljjuRvwxFFPA>
-    <xmx:nhC1appytB9vBRtU9xBBkM0AMkZ4cpXsS4AdcAv9QjEGjY9ue0oGCA>
-    <xmx:nhC1apIKsUpszBUllvRXzQbzCexKZOXwQcz9nOmBtkiow1ZuYZO2q5ob>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 6B422F80080; Thu, 24 Sep 2026 07:59:23 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20260515; t=1790252734;
+	bh=5sX7O3Pnj+aY/dkYnHDMVzgGGk9MOx3gJVPX6DokO8A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=GKtPE3Bepbg0FpimPIlzjmm/xwig6iO65YdhslFBEIyhcKC5qooxUPGBCTJPNUMqT
+	 bj5DKkljB7YfOM3aMV7tvGRX/8y6xUWDB26Y3VneyP95KvoFdtux9cuSDbb4DHnUn+
+	 F+Y1y5/5uYS7fKIBp5KdsmJZ1zTV+SygErEQ1YmaB9ws3spCL1NwhR+8quRho0lYzG
+	 941Z77g9D4fe5tTRasSlV3OHLZ0qIdd3ga0RMHWb6tTprmhmRRSOHcRJXEnaUboStN
+	 dxk2TtI15MIFjlR/ZIIm116UyBmbwlpjv/yuYuMugqhppw2kVmqFWtMS8tJE1Z5ICH
+	 dikMgSS4iB8tA==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+ =?utf-8?q?Marek_Beh=C3=BAn?= <kabel@kernel.org>, 
+ Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Ike Panhc <ikepanhc@gmail.com>, Rong Zhang <i@rong.moe>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, 
+ Vishnu Sankar <vishnuocv@gmail.com>, Vishnu Sankar <vsankar@lenovo.com>, 
+ linux-leds@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chrome-platform@lists.linux.dev, platform-driver-x86@vger.kernel.org
+In-Reply-To: <20260921-leds-trigger-hw-changed-v7-0-fe3cdb6dec51@rong.moe>
+References: <20260921-leds-trigger-hw-changed-v7-0-fe3cdb6dec51@rong.moe>
+Subject: Re: (subset) [PATCH v7 00/13] leds: Add support for
+ hardware-initiated hardware control trigger transition
+Message-Id: <179025272986.499136.14712876777665893306.b4-ty@b4>
+Date: Thu, 24 Sep 2026 13:25:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 24 Sep 2026 13:59:02 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
- "Steve McIntyre" <93sam@debian.org>
-Cc: "Prashant Singh" <singhpra@juniper.net>, "Jeremy Kerr" <jk@ozlabs.org>,
- linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org,
- "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
- "Clark Williams" <clrkwllms@kernel.org>,
- "Steven Rostedt" <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev
-Message-Id: <0d23d4f2-b5b8-47c3-a676-f6ec72ecf45d@app.fastmail.com>
-In-Reply-To: <arULLk3ERQmADDBU@redhat.com>
-References: <20260919044124.8268-1-singhpra@juniper.net>
- <arUD_p0Vn4qyBH_e@redhat.com> <20260924111913.GN3447081@tack.einval.com>
- <arULLk3ERQmADDBU@redhat.com>
-Subject: Re: [PATCH v2] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev-ad80c
 
+On Mon, 21 Sep 2026 03:40:14 +0800, Rong Zhang wrote:
+> Some laptops can tune their keyboard backlight according to ambient
+> light sensors (auto mode). This capability is essentially a hardware
+> control trigger. Meanwhile, such laptops also offer a shrotcut for
+> cycling through brightness levels and auto mode. For example, on
+> ThinkBook, pressing Fn+Space ("shortcut") cycles keyboard backlight
+> levels in the following sequence:
+> 
+> [...]
 
+Applied, thanks!
 
-On Thu, 24 Sep 2026, at 13:36, Luis Claudio R. Goncalves wrote:
-> On Thu, Sep 24, 2026 at 12:19:23PM +0100, Steve McIntyre wrote:
->> Hey all,
->>=20
->> On Thu, Sep 24, 2026 at 08:05:34AM -0300, Luis Claudio R. Goncalves w=
-rote:
->> >On Fri, Sep 18, 2026 at 09:41:24PM -0700, Prashant Singh wrote:
->> >
->> >I tested the patch and was quite satisfied with the results, but upo=
-n a
->> >comment from colleagues I ran a few more tests and noticed (confirme=
-d their
->> >hunch) that fwupd complains about not being able to get the free spa=
-ce in
->> >efivars:
->> >
->> >  # fwupdmgr get-devices | grep efivars
->> >  =E2=94=82     Update Error:       getting efivars free space is no=
-t supported
->> >  =E2=94=82 =E2=94=82   Update Error:       getting efivars free spa=
-ce is not supported
->> >  ...
->> >
->> >I was not able to establish whether that would prevent specific oper=
-ations
->> >due to the HW I had available for such test.
->>=20
->> fwupd will refuse to do some of its updates if it can't read the
->> efivars free space, in particular updates of the secure boot keyrings
->> like KEK/DB/DBX.
->
-> In this case, corroborating with Sashiko findings, it is necessary to =
-have
-> a way to override that default in kernels with PREEMPT_RT enabled. To =
-be used
-> where this is required for firmware updates.
->
+[01/13] leds: class: Always protect brightness_show() with led_access
+        commit: 6887f40dadb5a263de1d9e4b5517400c08089d35
+[02/13] leds: trigger: Move led_trigger_is_hw_controlled() to the right place
+        commit: 7879d6277485697cf37eb3c1b89ce260d8c67e4f
+[03/13] leds: class: Remove hardware control trigger when writing brightness
+        commit: 96b4ddd6d2d8c645d672f1f26130685d9f40cf2f
+[04/13] leds: trigger: Move led_trigger_group to the right place
+        commit: 43b83e7462e8e9b96e14262c0b6aa739f01c38f7
+[05/13] leds: trigger: Add hw_offloaded() callback and provide trigger_may_offload_to_hw attribute
+        commit: 8e04e5382aa989ae9a36dc0cb3f3c90347d5607f
+[06/13] leds: cros_ec: Implement hw_offloaded() trigger callback
+        commit: b366a50d39d13f8230f959b457abcaeba1e7d121
+[07/13] leds: turris-omnia: Implement hw_offloaded() trigger callback and declare hw_control_trigger
+        commit: f5005c7cec7d4cff58f25442ed6dfca56e42b16d
+[08/13] leds: trigger: netdev: Implement hw_offloaded() callback
+        commit: 072e0e799bc6b3909afc8fd7fac750b31e37b438
+[09/13] leds: trigger: Enforce strict checks in led_trigger_is_hw_controlled()
+        commit: 7b9a609575615a3ba18a31a95282e756e34bd506
+[10/13] leds: trigger: Add led_trigger_notify_hw_control_changed() interface
+        commit: 05b4738b0078f7d6f154f68068a11c8a0635e9df
 
-Indeed.
+--
+Lee Jones [李琼斯]
+
