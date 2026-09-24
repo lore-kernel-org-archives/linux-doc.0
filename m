@@ -1,162 +1,179 @@
-Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2F540F73F
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 07:20:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5095427FA2
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 07:21:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790234412; cv=none; b=D0FLy1YZRzXDpHQAeVp5u54IGBeHj9dsdXA/gcbubBuTPL4HD4DH+lmpL1Vk3qBsQRWwqTvcjjDQES/5MjwF9WW6ejK5agaUIChtUso/9vyEuPk+EDCQT5364YY3ABd/hEa6NRvKv75KwaWzbv6I3UMfTtWM45g4OS+Uljvq5m0=
+	t=1790234483; cv=none; b=uFW6lXpqKhWKaoD0OV3YJ57mmVqBiEUyeHkSrzfeN1Z+GRg15t822GUpNyzqrkDuwIFkWKL2qcCeM13Xmjmynl5ZoNeiY49nUNlp46kmg54nf4Gmqsd35q718G5l6qo4/NYIrgHMzmmZT/2JPKNXdR6i5cVlKRSWk9p+/dav8DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790234412; c=relaxed/simple;
-	bh=GHHMs0wM9MmiRMNcNEelwZhzqNS10q95ZUYc+svftEk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cQ4/1MDcVul3v8kalJnthQ5RExaif4prPOtKvR9Fl7jdckpvTQ9fsp627YoNU+ar/tENS4i57RpONjdPibHCODbcwqIFhqqtn+hSYpCYFcVYyJ2RAzJbNQ1YsAJ6bxZOJ3WSO/nTVPCrczfzBRTuIpMXygEHZ8UpW0mJClNHipY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ous+ukrS; arc=none smtp.client-ip=74.125.229.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790234483; c=relaxed/simple;
+	bh=x7ICjHDMjN+K60no7F5bFA6Mx9WC1kGK316av6wACa8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Wpa1C0WFoCVHEnWYR1xc1Wqoy+cQyKmF52pr2h7usOqY9E6ur5uIBTBpadSESshl6dZYH8huSajf6drEuqmExbseyLxIQ3pC2g3Kpsc+iKhhQsTW1xQlt5lAh8CuoR5K8+pi7/INBx4ykhhMsiXR+GiPWngD/qBVJ1yOsZZ+FLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AUMNQq5O; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=LE7CjjLQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ous+ukrS"
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f1801fso1716661e87.2
-        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 00:20:10 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AUMNQq5O";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="LE7CjjLQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790234479;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Lx/SD0ZEJ5dzEY+xl1QncqAhTw6A7MTbtLbXSvv8KOE=;
+	b=AUMNQq5OxvrzSNDuTg2fOt1XztRFTeUwGkl0jRlEX08EQG/sWbVzK/Nq8jtvE2IKVTAxxC
+	R3klNhkKA4Ch7K87wXS/1ThrHbvPpLwHr1v4cXlnsEuuwvUVP0e1iTI2lv0dvVyiM9vKhG
+	F9XduwTeV3BZKWbnsxhz7vR8BhPQVlQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-296-45-1gHZmM8OJq-q4ZFYKmw-1; Thu, 24 Sep 2026 03:21:17 -0400
+X-MC-Unique: 45-1gHZmM8OJq-q4ZFYKmw-1
+X-Mimecast-MFC-AGG-ID: 45-1gHZmM8OJq-q4ZFYKmw_1790234476
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-49e73659ac5so24553935e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 00:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790234408; x=1790839208; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4viioSB1Cdhru9S874ZQwRNPODne/nPyQTptgVZoI4k=;
-        b=Ous+ukrSKYKNVCz+tHieApuBuIfSbYX9L9MUv1X1E+g1UuwdYfuBcx+/+/4q+iO8KK
-         ExgpZwbIg11R8P9igE7ToqQfMi3uYKB8jTgf36LCG9Fg24D0eGUVdNeU9fbbuWQ8SJG5
-         U4g5VtB3pBeLJ/LEeQUofStcLfY6lYhcw+RIKRS1QnUqSDlFe1/xB4w0DrNInTkRaaq2
-         VxdHi8w2tG1uD+Vo8V7p8xIm4luVJUkNUERKPdtSwu1VgOYt+zg0ped4YsIy2Js1espo
-         2Xj330Lf2gO60zKWmInLxLS2i4oT5/yuTmBXoeFmve3inADcyV4HvKIwFrgh6G6NE3Qs
-         sILQ==
+        d=redhat.com; s=google; t=1790234476; x=1790839276; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Lx/SD0ZEJ5dzEY+xl1QncqAhTw6A7MTbtLbXSvv8KOE=;
+        b=LE7CjjLQsoFj03r/uBN9SN3BfWrQtUlhacU65TfdC0OGP4Nyqd1v5E4tqaiGXqePgg
+         C6EzWP8sDLoIgXy6SVzaa+A2zmJEnAzKEaH/fbiSsXwnHJzhYE5q9/mOvMZNnIEcxNs1
+         8Au7H71t5V09QHGPv7JnxTgu6RrEpMiK21m/IqEvsDAC7tTc2UfKgkOD3UyiBf6LhjTR
+         hmbRGE/V0kJg91mbhF84dFNhEMPcKW0gStberfrMzJZyDrl5RUYVdETsVOiqGiK1YUwc
+         MSPjcIwPAMhCwqDZV717bv7LWNGUVIOmSp8K3gNsYQW2SK/X+cj5EZ9rD5CYX6ukJvQL
+         nRvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790234408; x=1790839208;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4viioSB1Cdhru9S874ZQwRNPODne/nPyQTptgVZoI4k=;
-        b=mDl0/Ktc5TU8vBpr66myJqy7sK7zYrp8jywxfRmIwhSZpK8IfW7CFr5gLxxBgigCIa
-         fiYeOT0TALopaBzuQM5nAHCUoIozm+LP9xSVhgWV6CGJO2e0tm9NA/kGaFp9JgveJr/w
-         8rp7ygl2GGAYpCHoG9JlhvwJitH0SmKJ8Bz6xU762lQ7qDHbFV6NKssHgqndAA9bzBp9
-         kNxbWlp7NrV/u68PfV9EE7ukkvusqevN20S5OOWfJjDMazlTYDJ7Tz0qsqade6C4lfMM
-         g0k+GtqPX8UyShYJLUpczuVDZt0mGBSHJOaDNtLMrSxNRsdxuBZW5J1HezqTF3BaPWf/
-         7dmQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwIPge6VdnqIa7jGl3voNQP6g8ukZW3N84pPfcqY5VnNeOg4hxgsYn2S4HZgwfqNJ3rpW58HufuxQU=@vger.kernel.org
-X-Gm-Message-State: AFuF++kaDiBdJL4xsSkHPSeCDV+ER7KbIq4NNsSKXXvzIYhlUVGEz/rp
-	QfyscKVwAxYAcWN454p5RBQQZuDua5veAjE6gfuUzoHupG4b3KzAxUVT
-X-Gm-Gg: AYBFou0eOjkVg/opKiR0drF8iYvaabJBt8le7VQ6HH2ZDkr0eRhnVfAuRYunMeeAZrx
-	/uDl7EAo/lGtoV652WnjYh11YUHBjkggJ03yMIuw51TSNqZRq9VN5cn2tApE0bNq3apTgl+3IdG
-	LonljrwuSKptolmDUunRxE9v5zwpKzUBqTMnZmSfuTormDOoEpXQeBxvo1P9S6SygrlpNk5pn/m
-	Dc/u3L6aJwjQBNs8IXgQGXdCkpsxKy58zWERdVcz8FXh8Jn5XfoCxvdpSwfb2ENK6QgYC8j0691
-	Ez9CU8IPcuQcreV0EhEcqhq0x+0nRgmizwdrFM2W76ElsvqsC+KAjXkjDmfIHkkJckaFi93MP4T
-	IOC+kFYorDp6bkHAMslvJa6IPDybjGHauvTcMQ4JnYLIrqqKjO0IfFTgkQH5fao28hltaIdrTKW
-	HgcFvjuvFFCfbdsOlhWMUrTlLVaiPXAEBMjuVUFkbIXPH+QhQzT5fqGsB2aSW1iM7u8sGCxJUZ7
-	T2LpGCPlGnnzxpmAlu9PlVfHU7P
-X-Received: by 2002:a05:6512:234f:b0:5b5:e2e2:5f2e with SMTP id 2adb3069b0e04-5b8df05906bmr513502e87.18.1790234407919;
-        Thu, 24 Sep 2026 00:20:07 -0700 (PDT)
-Received: from localhost (sol-eduroam-pathost130.ki.se. [130.237.96.130])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d857f7edsm1229650e87.31.2026.09.24.00.20.07
+        d=1e100.net; s=20260707; t=1790234476; x=1790839276;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Lx/SD0ZEJ5dzEY+xl1QncqAhTw6A7MTbtLbXSvv8KOE=;
+        b=rqKzgXOCnyZPabO1PxP9PMBVbdYDzdrK1bxiKN2zOgIwtmFp6Ib2N1bUtTyjQpuLR5
+         kWFI3zsa+0kJxWN7/FiumGEN14cjytiZA9vfiQJIm7Evj+0D+0WQjDVI1f1oZAmorgX8
+         Rb8ZA9kmki8d/Z6DN0FjzOmw7Gz6bF+rKzINAI7E2SC/CAzLPo15w8tXByvYK1hFZAkS
+         dP86UL9+YJwHk80UesEpP8wuTjF1naP3cGsTLgw88+qo2exnNoezK195YUxCGIXG8M31
+         SGmYkadyoSJ9/kgTHNKXrgJsrBsEjyHbNCrn6vxz8xN1CvOUEgZDPjSRw+9A4k9VBffI
+         LLag==
+X-Forwarded-Encrypted: i=1; AKwUvBxcgxwYpl6SrDZpbgKjQnUVibb7hi4yTWpF5DrjyLUyYxUwQl2ijFhRrQt2gjbw9IXAv672zUqbjRU=@vger.kernel.org
+X-Gm-Message-State: AFuF++nD4Nth8GGsrKQwuq2BxhBjzg8TFN2hgyhWyPgaKX4clQQ2gY3h
+	d2zCUkF8LWnhoy9UHMVytwMzAVSxy3B6sUBMkOjt+c6V3U0sxV8lFbuF5/ObCoRHNLclBvmFu5b
+	LujO9td1u7ZZ2lk1Q/wCVtnuSjMiq0u5M1xp/2oWzwu5FhtUnUWvZdIEPoqDS2A==
+X-Gm-Gg: AYBFou2KrWYBvx+LcaxSmQCd1QXjcZDsBj2t793U85oV/QTQTsicjZtiIjTvLOiscXw
+	+WR7cCF5E4WaJZc9JntVMkByHPSOXXdUDqaxeFVwZ0LwrjPPTivRVsLqr+6HHq6NrlCigAdIt6t
+	/KxCd02hPIJFK6G+TSVxzmRsiGYPz96Nlc2pl4pwgo0IEaxqp+/YclOsSeH3XujuYyCqfj+B4Wl
+	vF+3si7RDq1PkAdLtsEEsjq6aebz+oyuLf/tjwrWiNhnzrYzJc/V+x/AjrNLjdnITulH0qokq8A
+	I0+AseJN7G9WsLfAw1Ai9UMFRNdFb6oduODKKUrkh3tjCwoEeLLhTeoiYHBZuJBvvJ9pvfPy406
+	S+o4D0SUyZAAg6u+Cdyrk51IW5ARO
+X-Received: by 2002:a05:6000:4711:b0:487:35c:b61 with SMTP id ffacd0b85a97d-4887167c4e0mr2257082f8f.24.1790234475987;
+        Thu, 24 Sep 2026 00:21:15 -0700 (PDT)
+X-Received: by 2002:a05:6000:4711:b0:487:35c:b61 with SMTP id ffacd0b85a97d-4887167c4e0mr2257059f8f.24.1790234475601;
+        Thu, 24 Sep 2026 00:21:15 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([195.174.135.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-488684863fbsm11337269f8f.11.2026.09.24.00.21.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 00:20:07 -0700 (PDT)
-Date: Thu, 24 Sep 2026 09:20:06 +0200
-From: Klara Modin <klarasmodin@gmail.com>
-To: Baoquan He <baoquan.he@linux.dev>
-Cc: Chris Li <chrisl@kernel.org>, Rik van Riel <riel@surriel.com>, 
-	Gregory Price <gourry@gourry.net>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Nhat Pham <nphamcs@gmail.com>, Kairui Song <kasong@tencent.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kairui Song <ryncsn@gmail.com>, Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arTNdz2P4ZZZfruh@parmesan.int.kasm.eu>
-References: <785353ef79844e81a8cd97e87b00ef1f785b15e5.camel@surriel.com>
- <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
- <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
- <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
- <arKbXe1Qe-FDCTMM@gourry-fedora-PF4VCD3F>
- <CACePvbWW4avTV2WB6iRU+LN5zqkMTg3UhBrq41R0iw91-7Ni0g@mail.gmail.com>
- <5a7ad159b2fabf377b7e1fc4248c433287ac11fb.camel@surriel.com>
- <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
- <arO0RCCE3Woh_I_z@parmesan.int.kasm.eu>
- <arS6dvzAI5XLHuG-@MiWiFi-R3L-srv>
+        Thu, 24 Sep 2026 00:21:15 -0700 (PDT)
+Message-ID: <b771379679b8f94573382d3c2534fdae77b9fe48.camel@redhat.com>
+Subject: Re: [PATCH v2 1/3] rv: add per-edge dwell-time statistics primitive
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Tobias Schaffner <tobias.schaffner@siemens.com>, Steven Rostedt
+	 <rostedt@goodmis.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rpm@xenomai.org, 	jan.kiszka@siemens.com
+Date: Thu, 24 Sep 2026 09:21:13 +0200
+In-Reply-To: <20260911123439.463052-2-tobias.schaffner@siemens.com>
+References: <20260911123439.463052-1-tobias.schaffner@siemens.com>
+	 <20260911123439.463052-2-tobias.schaffner@siemens.com>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <arS6dvzAI5XLHuG-@MiWiFi-R3L-srv>
 
-On 2026-09-24 13:51:50 +0800, Baoquan He wrote:
-> On 09/23/26 at 02:52pm, Klara Modin wrote:
-> > Hi,
-> > 
+On Fri, 2026-09-11 at 14:34 +0200, Tobias Schaffner wrote:
+> Add a small primitive that records, per automaton edge, how long the
+> monitor dwelled before taking it with a count, a sum and a maximum.
+>=20
+> The counters are per-CPU and lock-free, so a monitor's hot path can
+> update them without disabling interrupts and without perturbing the laten=
+cy
+> being measured. Keep the state and its entry timestamp in one word so
+> nested transitions cannot charge a dwell to the wrong edge.
+>=20
+> Signed-off-by: Tobias Schaffner <tobias.schaffner@siemens.com>
+> ---
+> =C2=A0include/rv/edge_stat.h | 69 +++++++++++++++++++++++++++++++++++++++=
++++
+> =C2=A01 file changed, 69 insertions(+)
+> =C2=A0create mode 100644 include/rv/edge_stat.h
+>=20
+> diff --git a/include/rv/edge_stat.h b/include/rv/edge_stat.h
+
 ...
-> > 
-> > Chiming in as more of a user perspective.
-> > 
-> > On my 4 GiB BPI-F3, I can reach more than 10:1 compression ratio on
-> > zswap during some parts when building GCC 17 snapshots. E.g:
-> > 
-> > MemTotal:        3966864 kB
-> > SwapCached:        31872 kB
-> > SwapTotal:      16777212 kB
-> > SwapFree:       16638128 kB
-> > Zswap:            280140 kB
-> > Zswapped:        2859840 kB
-> > AnonPages:       2927376 kB
-> > AnonHugePages:   1409024 kB
-> > 
-> > While this is 72 % rather than the 100 % you asked for, I think this
-> > shows that what size a potential limit on the uncompressed size of zswap
-> > is suitable heavily depends on the workload.
-> > 
-> > I have been using vswap consistently on all my machines since about
-> > August, and I have also tried one or two versions of xswap (but the
-> > current lack of writeback makes it inconvenient for me). I really
-> 
-> Thanks for testing xswap and reporting issue on xswap rfc v3.
-> 
-> xswap has writeback now. I only built foundation for xswap, while
-> writeback part was left to other people for collaboration. Finally
-> I added it.
-> 
-> [RFC PATCH 00/17] mm, swap: xswap writeback to a physical backend
-> https://lore.kernel.org/all/20260920072043.430390-1-hebaoquan@kylinos.cn/T/#u
-> 
+> +#define RV_STATE_BITS		8
+> +#define RV_STATE_MASK		GENMASK(RV_STATE_BITS - 1, 0)
+> +#define RV_TS_MASK		GENMASK(BITS_PER_LONG - RV_STATE_BITS - 1, 0)
+> +
+> +#define da_state_of(w)		((unsigned int)((w) & RV_STATE_MASK))
+> +#define da_ts_of(w)		((u64)(w) >> RV_STATE_BITS)
+> +#define da_state_pack(s, ts)	(((((da_state_t)(ts)) & RV_TS_MASK) <<
+> RV_STATE_BITS) | \
+> +				 ((da_state_t)(s) & RV_STATE_MASK))
 
-Thanks, I'll give it another try when I have time.
+These are barely readable and error prone, can you use FIELD_GET()/FIELD_PR=
+EP()?
 
-> 
-> > appreciate the work being put in to decouple zswap from needing a
-> > physical swap device to work.
-> > 
-...
-> > 
-> > My personal preference would be for a default uncapped (or very high,
-> > and I don't think 100 % of RAM is high) limit on the uncompressed data
-> > which is backed by zswap, since that would mean one less knob to tune.
-> > 
-> > > 
-> > > Chris
-> > 
-> > Regards,
-> > Klara Modin
+Thanks,
+Gabriele
+
+> +
+> +static __always_inline
+> +void rv_edge_stat_account(struct rv_edge_stat *s, u64 dwell_ns)
+> +{
+> +	s64 max;
+> +	int i;
+> +
+> +	local64_inc(&s->count);
+> +	local64_add(dwell_ns, &s->sum_ns);
+> +
+> +	/* Keep the largest dwell; bound retries if a nested update races us.
+> */
+> +	max =3D local64_read(&s->max_ns);
+> +	for (i =3D 0; dwell_ns > (u64)max; i++) {
+> +		if (i =3D=3D MAX_DA_RETRY_RACING_EVENTS) {
+> +			WARN_ONCE(1, "rv: edge-stat max update exceeded %d
+> retries\n",
+> +				=C2=A0 MAX_DA_RETRY_RACING_EVENTS);
+> +			break;
+> +		}
+> +		if (local64_try_cmpxchg(&s->max_ns, &max, dwell_ns))
+> +			break;
+> +	}
+> +}
+> +
+> +#endif /* CONFIG_RV_EDGE_STAT */
+> +
+> +#endif /* _RV_EDGE_STAT_H */
+
