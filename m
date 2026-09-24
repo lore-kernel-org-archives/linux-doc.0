@@ -1,124 +1,112 @@
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847BA48F82A;
-	Thu, 24 Sep 2026 13:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CEF3002CF;
+	Thu, 24 Sep 2026 13:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790257505; cv=none; b=es+eCdGu52iYgwNJL2vK/82au0xMWPyndePy4NikJb+1uTKfPh8gMEdY2rwZu8rY9YeUd4TTPxyKtNpJBQViX5ai7Zs4w0+1NEcdtca9cTBf5dKCK3IuAP0JfK5kXpLxWuZeLJD8yIlLgK6GBGwUiUD9stRgoCimNnt4cyoGw6o=
+	t=1790257793; cv=none; b=pQ2zK4/yqH+YtMeAfRmgdgqwdlj+CUWLCIXYs/Ykc9gwHVy0ETHVgOqkp8m43P4jNSkgbjaU+4lHLn3+20YNfkAzYjfGjjMyVTDq560sX9XOQtcqWgvmYyXO7U23vNYU+dao4FxqYJbKhNkBeIluZ3LioQeoPNDLa/oX/hEGZ8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790257505; c=relaxed/simple;
-	bh=gBLnS3+lAYmZ5kf9JL3anFiz4fYL1hWDBsQwL263l/k=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=oeibMymZ2W2JkTTmSlZ78RdaUNhOr0tPA5TKKf9cqLpKH7uLkvlJKEoooX1h/9zSAXaAkWXSYftCUSrLtEnLxbGOD7qkYPDN4TX4oYTnYTqLOPmvQodUBBplFH9ERrexzWsim2c4VQE8vryAMEz25rtyffCEbQFwBCE+ZEubMiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com; spf=pass smtp.mailfrom=fritz.com; dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b=RLDQjDdg; arc=none smtp.client-ip=212.42.244.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fritz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritz.com
+	s=arc-20240116; t=1790257793; c=relaxed/simple;
+	bh=L9jdbxdU+cyqjS7Mqp7UTFMeO1hjaIxFFAPQ2lSOcN0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TWEqa3KVLvE4WfL98RtrmEGuCJfpu5UKu0T2/3ZQtK25zywQ/rdKy3LmVpMszr6uI+4s2q+N4/EtfkKPKTlux4OM2JoxK5aNppCXeNl6iNLUe2JqiNysRPC/q6VY9Bb55UoLPMpuPetwolXx9GxI8fqGnGWJov2aRbSGnJVsiO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NcKgNXn1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fritz.com header.i=@fritz.com header.b="RLDQjDdg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fritz.com; s=mail;
-	t=1790257491; bh=gBLnS3+lAYmZ5kf9JL3anFiz4fYL1hWDBsQwL263l/k=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=RLDQjDdgt7QOeFzsZ1IJ2gV5fSFGRDLdlg9Hg8hOOmyV2EaUYEmylWQZ+FbmamP+k
-	 9HV4NH3s+lyQW3I1h2631oEqX8jsiRLLD+NeiEvAFJwIds6LhMkPngiC4DpAZuF148
-	 rF8+PXMx1S4BlGmJPKxfsSC27sAmhA+jZcky1JOxYk1sBk3xrK7mx2nFDVlwP6F7a9
-	 VgAG9vpt9fe4xngdnRoKfDHjNcHMMJSMi9YcdfKQ8wgcK8uOam+rSvOIKBH30ANQIb
-	 8qGgu2WsXMnMirt/Gjxf56SfoRE6dGwBEetgfAZn8UcOpCXThvHk37EgDli1ofMjMS
-	 Uslygc98EPwNA==
-Received: from [2001:bf0:244:244::78] (helo=mail.avm.de)
-	by mail.avm.de with ESMTP (eXpurgate 4.57.1)
-	(envelope-from <n.schier@fritz.com>)
-	id 6ab52953-0449-7f0000032729-7f000001dcc8-1
-	for <multiple-recipients>; Thu, 24 Sep 2026 15:44:51 +0200
-Received: from mail-auth.fritz.com (unknown [IPv6:2001:bf0:244:244::78])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Thu, 24 Sep 2026 15:44:51 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NcKgNXn1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 030921F000FF;
+	Thu, 24 Sep 2026 13:49:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790257790;
+	bh=MRnlUR5F46eq+JtF4GuViCy6aj2enWdJaZfKwgd5wDU=;
+	h=From:To:Cc:Subject:Date;
+	b=NcKgNXn12fAyh58PAEOoF4nU2B3Qc6gjCpEnrm2ufiafSg0Gc01P8/4kZWZ1PKZky
+	 QQug8twn+tYXz7NtRKKhUFLobu2aRq90ooLcxgnkJYOnFpwZXmzje+GS8A6oAnN2K9
+	 wWyfmCd3CHm1NfPeq1UU+9S96MCsaipV14BnEGd6n+9SrN3VRNTVAsJThKL7Iv/rV6
+	 L4qCJkV1Nu0qOVWmIjH/ijwpgN4POay/JYx7EOX8e1PhsL4/lsTRNSFS7q3rIqmRQh
+	 S3GoCaHa8pSWziBAtMlEJKVpPmofDaA7Ya2hfm4w/TnQlCd9pE/zjvt0XG8M/na/Ao
+	 AOiu5ySnsWjeg==
+From: Sasha Levin <sashal@kernel.org>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH] docs: add AGENTS.md as a symlink to README
+Date: Thu, 24 Sep 2026 09:49:45 -0400
+Message-ID: <20260924134945.3095661-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v4 20/22] rust: make exports.o depend on the headers
- generated for it
-From: Nicolas Schier <n.schier@fritz.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, Alexey Gladkov <legion@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Ard Biesheuvel <ardb@kernel.org>, 
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
- Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, linux-riscv@lists.infradead.org, 
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-efi@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, 
- linux-hardening@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260923-build-speedup-v4-20-73128809a4a4@kernel.org>
-References: <20260923-build-speedup-v4-0-73128809a4a4@kernel.org>
- <20260923-build-speedup-v4-20-73128809a4a4@kernel.org>
-Date: Thu, 24 Sep 2026 15:44:48 +0200
-Message-Id: <179025748880.4172706.14868306891021608350.b4-review@b4>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=501; i=n.schier@fritz.com;
- h=from:subject:message-id; bh=gBLnS3+lAYmZ5kf9JL3anFiz4fYL1hWDBsQwL263l/k=;
- b=owEBbQKS/ZANAwAIAYjGvJyImm24AcsmYgBqtSlTKzAsNb3KAlPLj0QSENJsIHfwnQ8yLJWIb
- PdD13zZvHGJAjMEAAEIAB0WIQQO/4WJ63TpgecLpGmIxryciJptuAUCarUpUwAKCRCIxryciJpt
- uGGjD/9ODbOePpr2xjRjWb+mk2Bw35BUrXu5KQ8FyIBaOJfC8LNl3dAG0h/epaiw6+gGCUcqCoV
- Q3pj0r8gWUPb7IFUdyND0fm4NnmizKDSAj1aS/iM+1qF6+KcxebfwTqo6pUukhTKO/1bMk+Nc1h
- sxfRc0hHg8cVc1pw7RfGOYc7/hX0Tdowv6YHivIL+uGvlxZeBMEa0y/udNcjq2yEMWD25XvLqbm
- WKEKwqlOVh/F5nd9/WWCSrQhON7emYprPSD5ecZo8Ymjf9C+IeoxHXELJ/sWNx70XKXS0iDS0xg
- zaThLEGoO3SyycErqFEmC3tU0LcMH9KqgikPrJxgApXyuVZVa43I1zjt2hOPv9Za2Y0nMQz+7NQ
- fDMa084Q7RznP4sbTzAQcMAvEFc2WUAx9FSB/oalarygzJGNR+mK1+IN0jv/Cbso0x/oX5jHNbR
- EA1hTotxHDeyJtcvuvfirQLaLikWABqnJux/0r5MU72ClcJN9WRrxx+/ASsOYEHDCOfI1Xfx3R9
- 9UjWiL09yC83csxRGUckCg5Dhi7uDpyAoYEgT4fNNs/H75VgKww6qTGQEHcCHUzIKb4RMu1aT1d
- IQyAZppEid3lBMbaABGYBnrFdZOecoKo06mlo7eC+6mz4OhpE4KG/v+UgiRn2DKgmYHNnizchn4
- J8E8QdflQiGphBA==
-X-Developer-Key: i=n.schier@fritz.com; a=openpgp;
- fpr=7CF67EF8868721AFE53D73FDBDE3A6CC4E333CC8
-X-purgate-ID: 149429::1790257491-3AFDB965-3EF13F3A/0/0
-X-purgate-type: clean
-X-purgate-size: 503
-X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
-X-purgate: clean
-X-pfmilter: host: postfix-mx-01  mail-id: 863FEA07EC  external: no
+Content-Transfer-Encoding: 8bit
 
-On Wed, 23 Sep 2026 18:18:09 +0100, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> rust/exports.c includes the exports_*_generated.h listing the symbols of
-> the core, bindings, kernel and helpers objects, but this is not expressed
-> in its Makefile.
-> 
-> This worked previously because the headers are always-y targets, and make
-> prepare built all of the rust crates first, which is an implicit
-> dependency.
-> 
-> [...]
+Most coding agents have standardized on AGENTS.md as the file they load
+automatically from the root of a repository. README already tells AI
+tools to read and follow Documentation/process/coding-assistants.rst,
+but that only helps if the agent decides to read README before acting,
+which in practice it often doesn't.
 
-Reviewed-by: Nicolas Schier <n.schier@fritz.com>
+Add a top-level AGENTS.md symlink to README, so agents load it on their
+own and follow its pointer to the AI guidelines. This keeps a single
+entry point for every reader, and avoids adding a separate copy of the
+policy that could drift from the RST.
 
+As an example, two different agents were asked to "create a new commit
+renaming the release (in the Makefile) to AI Test".
+
+Without AGENTS.md, the first agent added a Signed-off-by for the user on
+its own. It should never have done that: only the human submitter can
+certify the Developer Certificate of Origin, after reviewing the change.
+It also used its own attribution tag instead of Assisted-by:
+
+> Makefile: rename release to AI Test
+>
+> Co-Authored-By: <model name> <noreply@...>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+
+The second agent added no attribution at all:
+
+> Rename release to AI Test
+
+With AGENTS.md in place, neither agent added a Signed-off-by, and both
+used the Assisted-by tag. README itself mentions neither tag, so both
+agents followed its pointer to coding-assistants.rst:
+
+> Makefile: rename release to "AI Test"
+>
+> Change the release name from "Baby Opossum Posse" to "AI Test".
+>
+> Assisted-by: LLM
+
+> Makefile: rename release to AI Test
+>
+> Assisted-by: LLM
+
+Both agents also followed the kernel's general guidelines more closely.
+The second agent's subject gained the "subsystem: summary phrase" form
+that submitting-patches.rst asks for, instead of a bare "Rename release
+to AI Test", and the first agent added a body describing the change.
+
+Assisted-by: LLM
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ AGENTS.md | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 120000 AGENTS.md
+
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 120000
+index 0000000000000..100b93820ade4
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1 @@
++README
+\ No newline at end of file
 -- 
-Nicolas
+2.53.0
 
