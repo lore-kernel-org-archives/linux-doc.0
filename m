@@ -1,119 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-100.mta0.migadu.com [91.218.175.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172B941F5CA
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 07:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7993B8950
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 07:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790236332; cv=none; b=OGwIoHfjfX+LF3Ok0+pzZtBx0v7newhc2XJJ40+YG/fT8hONtgcqOOLNiJo/RibMsT5O1lmoAjEpeMDUFnuR2kZUbWxkmL/DuPPwUJYy14+LmB/GK/6ir37iPDhzdHkXaPa2soAWihZeJEVL8CFXjc5A79JynmUN9BF3EmvWTfA=
+	t=1790236426; cv=none; b=ltqp6Hy4lyVaWKRM3bbS9eU8YxzVGPe2LrMCAjxHHFPPVtwTwZaCc4weRZDk/32nmIfNvx6ekPEKLnB3SkpcwFzRpK4NI2UWpeDb+eDU/amORnpfm7v95ujJ2zY+Yt7gLP8nxbrQRw+QAWNEUx2aVFdy8sDGhLPc3ZWMnUNlUe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790236332; c=relaxed/simple;
-	bh=Q2w6LF4/zIJhMqgnul1q5Ke3T8Fce4xJ7qGlNUdJ/6g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gUsRTbtnZxJYK+wP21B5EXLrjbxZGye3kweULT6TYK2axcEmNY6Ix+/4HjjM7LmcC66BhJCmaLmJHMJptKNKvXl+7NqZrDKs7Z2R2/k6n3J/qXA55ZsKLQdVj6a3jA4JoDOJha4B5LC69xHRolgPAivrbn+CEb2Ey4iD4dxfBqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ptqlc8kx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790236426; c=relaxed/simple;
+	bh=tmFKVXcIZq7e/z6sePm5F4/lrwU40o91QzXOAC74BWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AVacVI44wVklAqmXeqiufLRtIecfXwbicPCCYP8iiQRzGzPjDsuOumsMBjijDdxQn0t2IPg/DMLzCKaTVM6uQ4SQooLjypMCxj26nnVm2rIIK3EtpKaDQO/j/HgIG7hGn+hhxvMGYK/TcO1dtuiP6LHm9d0ebcySDp2d+Vn5u2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MuDzBozR; arc=none smtp.client-ip=91.218.175.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ptqlc8kx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E575A1F0089C
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 07:52:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790236329;
-	bh=flhXc27wZ7lq+96q79C1lo9pyNK1W5OvD7SOTlgsYQY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Ptqlc8kxRS/O4MemHmjZ01Ds3sA61fs3CTI+JusAagmLQsN1Akqn2+RqNvZW8Uu1B
-	 fkVtGl19o2GvoAfTGg+wN4khUgWOJ9FZX6ktZ8KPNQnifbt782gXCEup9k83OVKU2t
-	 EPotrLbjrIE8X+v32os82VcQO6ZZF9OCqIB3J9O376A1cE7zOP/KVOHPHmH04n7+6z
-	 tdkyUv/Up2f/Iz9O8fAfZSk8Nri0naYfsAwGJoOlvBHaXT1tsMl7JNC0kw9wS2Iska
-	 V2pq+RIOw9lvDpy2GpXUcGS99+p1HdKg7KmPutL/KHb/YUGMP+2Bo5mPAMtHNBa5Oe
-	 8VnDmcBpmgBvw==
-Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a5e21a5408so13219091fa.0
-        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 00:52:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxIvc0wz43hGy4UiLVilj+LosbGtMaJkObSxKyxH7Hn0XhaqmFujcmwn853vQuOkIv3q145Vjr/8Ro=@vger.kernel.org
-X-Gm-Message-State: AFuF++mhW/57eknhdMrONyVnmcpAfX3v986jNoU2c9IDUCdX7FR9vrrq
-	JWgtYXvcIZ1yrn21joGu3fc4RHEHpsL+/A6AiCpIR3E/4BawxrUoh35B3CV7XxmIle1oVFkpp8s
-	l+yzZMERXfuT2CJaFM7Ty3+6cTdlkkvo=
-X-Received: by 2002:a05:6512:6c8:b0:5b8:b419:b7b with SMTP id
- 2adb3069b0e04-5b8e0a18d1cmr355916e87.49.1790236328001; Thu, 24 Sep 2026
- 00:52:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MuDzBozR"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=tmFKVXcIZq7e/z6sePm5F4/lrwU40o91QzXOAC74BWg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790236422; v=1; x=1790841222;
+ b=MuDzBozRitngDeYt7LdGDXXgd0dNYPast5NxG3UNIJbOj6z4nn7SDbGpvBsoyk009+YFxZ4U
+ J99oOpwwlSnJchoEo2mmdMpJFARKLqMF/TpA7DI1wzNDVq0iNV97Gul4Hk4UpwVcSsuQuKh34gr
+ j481XSTM6CZnZM1FCQxXFv9I=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta11.migadu.com with ESMTPS id 8c9537f07561259a;
+	Thu, 24 Sep 2026 07:53:41 +0000
+X-Mizu-Trace-ID: 8c9537f07561259a
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 24 Sep 2026 15:53:33 +0800
+From: Baoquan He <baoquan.he@linux.dev>
+To: Klara Modin <klarasmodin@gmail.com>
+Cc: Chris Li <chrisl@kernel.org>, Rik van Riel <riel@surriel.com>,
+	Gregory Price <gourry@gourry.net>,
+	Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>,
+	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Yosry Ahmed <yosry@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Barry Song <baohua@kernel.org>,
+	YoungJun Park <youngjun.park@lge.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Wenchao Hao <haowenchao22@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Tejun Heo <tj@kernel.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kunwu Chan <kunwu.chan@linux.dev>,
+	Meta kernel team <kernel-team@meta.com>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org,
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kairui Song <ryncsn@gmail.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arTW_QJmL5PFev-X@fedora>
+References: <CACePvbXZ4i-DsmbQdNtBQb79y59uwZC9J8qHD2wTWpcYaet3LQ@mail.gmail.com>
+ <83539be885f15bb567b30264f5f62e718f4a9fd0.camel@surriel.com>
+ <CACePvbXZQERwLF_f2FYTHsv--kq_-Aw2vVVFF+z+ovdnsHy1bA@mail.gmail.com>
+ <arKbXe1Qe-FDCTMM@gourry-fedora-PF4VCD3F>
+ <CACePvbWW4avTV2WB6iRU+LN5zqkMTg3UhBrq41R0iw91-7Ni0g@mail.gmail.com>
+ <5a7ad159b2fabf377b7e1fc4248c433287ac11fb.camel@surriel.com>
+ <CACePvbUtEdQLmmudON_qC2aKuLYCNktBuAecFKiSvDC6eTfXeQ@mail.gmail.com>
+ <arO0RCCE3Woh_I_z@parmesan.int.kasm.eu>
+ <arS6dvzAI5XLHuG-@MiWiFi-R3L-srv>
+ <arTNdz2P4ZZZfruh@parmesan.int.kasm.eu>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
- <20260916-drm-bridge-every-panel-v3-12-83afb4f1a707@bootlin.com>
- <arInho2bsfJiCgjV@houat> <DLNCQEG62F5N.O98WAO4U2FJO@bootlin.com>
-In-Reply-To: <DLNCQEG62F5N.O98WAO4U2FJO@bootlin.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 24 Sep 2026 09:51:53 +0200
-X-Gmail-Original-Message-ID: <CAD++jLkk-a0MrQUiaDD8OoDDoYVwBwSjFTj5ZBy=Xo7MS4+01g@mail.gmail.com>
-X-Gm-Features: AclHuK8rPixm6Txa-uGEDmLc8FjUZWkrHeBO_IgguNN-8bSfUZSDFWgY_JslL90
-Message-ID: <CAD++jLkk-a0MrQUiaDD8OoDDoYVwBwSjFTj5ZBy=Xo7MS4+01g@mail.gmail.com>
-Subject: Re: [PATCH v3 12/19] drm/mcde: dsi: don't create a panel_bridge
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jessica Zhang <jesszhan0024@gmail.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
-	Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Paul Kocialkowski <paulk@sys-base.io>, Inki Dae <inki.dae@samsung.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Albert Esteve <aesteve@redhat.com>, 
-	Anusha Srivatsa <asrivats@redhat.com>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <arTNdz2P4ZZZfruh@parmesan.int.kasm.eu>
 
-Hi Luca,
+On 09/24/26 at 09:20am, Klara Modin wrote:
+> On 2026-09-24 13:51:50 +0800, Baoquan He wrote:
+> > On 09/23/26 at 02:52pm, Klara Modin wrote:
+> > > Hi,
+> > > 
+> ...
+> > > 
+> > > Chiming in as more of a user perspective.
+> > > 
+> > > On my 4 GiB BPI-F3, I can reach more than 10:1 compression ratio on
+> > > zswap during some parts when building GCC 17 snapshots. E.g:
+> > > 
+> > > MemTotal:        3966864 kB
+> > > SwapCached:        31872 kB
+> > > SwapTotal:      16777212 kB
+> > > SwapFree:       16638128 kB
+> > > Zswap:            280140 kB
+> > > Zswapped:        2859840 kB
+> > > AnonPages:       2927376 kB
+> > > AnonHugePages:   1409024 kB
+> > > 
+> > > While this is 72 % rather than the 100 % you asked for, I think this
+> > > shows that what size a potential limit on the uncompressed size of zswap
+> > > is suitable heavily depends on the workload.
+> > > 
+> > > I have been using vswap consistently on all my machines since about
+> > > August, and I have also tried one or two versions of xswap (but the
+> > > current lack of writeback makes it inconvenient for me). I really
+> > 
+> > Thanks for testing xswap and reporting issue on xswap rfc v3.
+> > 
+> > xswap has writeback now. I only built foundation for xswap, while
+> > writeback part was left to other people for collaboration. Finally
+> > I added it.
+> > 
+> > [RFC PATCH 00/17] mm, swap: xswap writeback to a physical backend
+> > https://lore.kernel.org/all/20260920072043.430390-1-hebaoquan@kylinos.cn/T/#u
+> > 
+> 
+> Thanks, I'll give it another try when I have time.
 
-sorry for my slowness!
+Sure, no hurry. Thanks a lot!
 
-On Thu, Sep 24, 2026 at 9:01=E2=80=AFAM Luca Ceresoli <luca.ceresoli@bootli=
-n.com> wrote:
-> On Tue Sep 22, 2026 at 9:09 AM CEST, Maxime Ripard wrote:
-
-> >> -    } else if (bridge) {
-> >> +    if (!bridge) {
-> >> +            dev_err(dev, "no bridge\n");
-> >> +            return -ENODEV;
-> >> +    } else if (!drm_bridge_is_panel(bridge)) {
-> >>              /* TODO: AV8100 HDMI encoder goes here for example */
-> >>              dev_info(dev, "connected to non-panel bridge (unsupported=
-)\n");
-> >>              return -ENODEV;
-> >
-> > I wonder if we still need that branch. Every panel is a bridge now, and
-> > it looks like we don't have any specific panel handling in this driver,
-> > so I guess it supports bridges already?
-> >
-> > Linus, do you know why this condition was here in the first place?
->
-> I had the same thought while writing the patch, but I chose to be
-> conservative.
->
-> Linus, unless you have more info I'm going to apply the patch as
-> is. Removing this special case would be welcome as a later patch.
-
-I'd say go ahead as-is.
-
-I do have the idea to code up and submit the AV8100 encoder
-and I have the hardware to test it, but every other user should
-be using panels directly, and I would be the only non-panel
-user so I can deal with it when it comes up.
-
-Yours,
-Linus Walleij
