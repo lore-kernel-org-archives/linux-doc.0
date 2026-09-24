@@ -1,445 +1,212 @@
-Received: from mail-oa2-f35.google.com (mail-oa2-f35.google.com [74.125.231.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787AC442385
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 22:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46AD274658
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 22:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790289626; cv=none; b=qI/KjECdZaE11KGchT17Q+cstsIibSiP/LhoNy9vMRv8UjcMy6dzKZ9Ai4zSZ/mbjJV+SutmbKQX9KiBDnX6p9qWGCOMICPIUogSO3kIE7wJ4ceiXg2mh5kEhl6nKKO514nKJmOr/g5i2CvTi6IAHdWnDDZahNZFmxyAkg+0e0I=
+	t=1790289764; cv=none; b=BtJ4AAmuJStOPQuE3Z1uEx6vOje0wUM6xq/07HOEzhrx5NNKDhxiGSxoN/Z1QmptZGyVzql711OG8/wT8XwLsik4nJfZHXEd8tCBZas9gDAvwTsT7N68yf9+lABa5R0ptu9RGYKIWStlh4QnvOqbkWbhwHlx2Kqaxv2CRFt4c3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790289626; c=relaxed/simple;
-	bh=YGT5QUshc0eobNfRyISIsLqeiJQkeLgxi9V0/fkpF3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y7veqYYb+9W1dqHO/PCgeRTLfAMvbbFcY8DKk5EQ0uRoLt50mnpRYKOXjAuHZYlNsripUNt9F46fXVHb7ArgfsX5nKsTkK3N+FvXyWDNpFyDp30HKPL4D0Xykb+okYiZKgneQPRT9HIGFA2h0fGFVPblb8k/VU+mIUsbf34zCs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J8EaXNEc; arc=none smtp.client-ip=74.125.231.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790289764; c=relaxed/simple;
+	bh=2G1FOvOSJrV6/l8sO+qjbSBFUO9X0CWF5KTVr1JnZkM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ABxUMIjY76NJxwIurmzuGnSp+h7unhgvQ3kBdY16z8b/IqJIyAeeMbsuMcXb4rdE+7B1t8SbDXR5M9gxuLMxLTDo6OJNix0n4wjb1qggHG8rxv0lLV7b84xYO9+CfGh5iGkRFcMfBvMzIEpQ6X8Dw6HRh8LErrk5Z+5gASQ4Ojs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eaJiYBco; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LISNVNHZ; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J8EaXNEc"
-Received: by mail-oa2-f35.google.com with SMTP id 586e51a60fabf-486e0f56cddso207436fac.3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 15:40:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eaJiYBco";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LISNVNHZ"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68OMP5Zi2970639
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 22:42:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	81QaywXThCj9GvWcrqbFC8hrrggxf6pFQEEvB0A8Stc=; b=eaJiYBcoVJ7qevSl
+	dhfq+tXf9Yrht/mLq/jwiRTObIgOPPAp4gq7bt1mDqjTW0V6kXIW+8178jTvvqEY
+	/g72Tu5uLFr9TmxDOZ/WTOw4Db3jptMoLUpu03x0RYDq28zhhqtQH8+V6kNLVLAO
+	1Ua+MyDrNoK2wgREaJE/EZogzihYwOq1s6HaLVkWSmzeuJh3HKsCfCtwvHP6+Jd8
+	ENol9vchyHUhmq3K8SCqt3P2t3zGBv8XLggSyAt3yjEQk8zBoVPz6YK9sKvOoTjx
+	qeijDJMaDaBEWWHG3mt12b/Lo717uv1T508Ea2fRW/yjOhQsk+HBOm2Y6914Juvl
+	Prcy/g==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gw68e1sbv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 22:42:38 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-33310847fcaso426125eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 15:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790289623; x=1790894423; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=m7BIDka3Egli6QEFlrOQVcPCPwpdHOatylapULQdLTY=;
-        b=J8EaXNEc/aVZAOb7a0UCKN7PGENuI3R9/7FlvHjg7FGR3im07pu4Nl6GudFXFYiiEF
-         ZNaDXGz4fG0G3itvUfzYk30Xn8/HVSe3CKfMNc0U3Jz1RqxWpiVuIdxuX0RwbKBCH73G
-         7CMcn+tT377QHtOiT543HXUWrP93LoPKuh+1Zd4Zw63FgPI8rBRiB8/MFEJvqWWBdl7Q
-         zXJBtSTRVLkGfQjj31ee7EkadT8n6gk0tKxhCMLG7NSxoQtWrKcDBnZsWRUJu/rJA0gp
-         iNZhAj+4sj5oZFQx0HINzhuPLjGg411JIkBOfyNt4ioIk1KFA9y2aADiONrtagKHjbxW
-         bwPg==
+        d=oss.qualcomm.com; s=google; t=1790289757; x=1790894557; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=81QaywXThCj9GvWcrqbFC8hrrggxf6pFQEEvB0A8Stc=;
+        b=LISNVNHZOretqe6gWASIioEkOL85A7DwJRyC2RPAW7VcmZ981qh7IeLTLfXxILA2KK
+         nyWoIb8clQJHhS+Pk4fhS/QO21MuSwb+M6s7SzL/VGdM+0MZk8mYqs89YYHSdCkskRjV
+         4scvciuR8BoymBM7GXR30I29IMcb7wU8x2J/VrKp4amoceqLy9QedjYO9X3HhwYjW6Jj
+         Luzm4enLgcyu+DUywzkGpLFiLkt7TbyYEp6DyJdJjlSIrRRhoFq6WzkqzyYZEGkSuAJr
+         uvvXBRgOXu/+pCIcPm0Om0r4GpPXE5yquka94ZeJusMFi3R7L3zdTo9LvOT43SUSEbb5
+         88JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790289623; x=1790894423;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=m7BIDka3Egli6QEFlrOQVcPCPwpdHOatylapULQdLTY=;
-        b=dlKuiXJJ0lhXfr8Y9NRdZNyieFovPBD4Hr44QgngXgCXVmEO5xw4RfOylsjR2khppB
-         1Hv3N2RgpO+zjYanxwLk7YJSBAirfxEGQrGhpJC+qwgbmTZPP+Yfaj2+ZZnc2PXnfQ9p
-         muvbp/BbW+M6e7kcUS6nUh/pRSRyLTSCDc1ABvhfw7NY7OENptpopugNHsiBqiANiTMA
-         c1x/B2QVKi618F5cguziXPujk30a25pQOmXhut4M35KDDH7PF+Tp09tx4QBiAIX1cS+Q
-         EfxerwpB7E7PpJjrGGy0XLyU3H5CxMzTXuCHlAqmcwoN5BuNnlzQVeX8guETe5/udHob
-         Ut3A==
-X-Forwarded-Encrypted: i=1; AKwUvBxNnUEfVMy6Zz33YBo+Sy0e8JGMKcxmUPGbKpYNjTRgCK2mOpTWVAB1WWqIvOVQZUYt99LHt8pwsTg=@vger.kernel.org
-X-Gm-Message-State: AFuF++lBdyw+xaCv0RRoE5/uMUN39jFZll3xlQu0R9R6tNv2opk2sBPc
-	RUEUciKY5U1aHiQso2J02HYB9u+z7B0WaqPZgW8ecEc810HEFw/UfzXh
-X-Gm-Gg: AYBFou2Y5U4q25ku9aMaVaIjaMupNku5Iljub7nAKwjjs5w8aIvSp5MuNkiu0XaKplU
-	ceK5LV6aiok7u4YR1pq5O7QVMPLPXMk20vFUdHidB3A/HGZ4AzvAjDuNjEy4/Eb2iz8R3NTzsVy
-	VDr9Kt71QP/MU2dFRmxa/s8KXenWPgfMJwQ9hmLsoA0E2JkGen7/lrvQNerMb1/4em0cwc+ALyD
-	pWO9fgx4eoKEd1XONEzyI8KrXimWOn2LR4d5O2hfNeREV+WceUDkdnPhmxC6u1cUJf/7FOa9F32
-	8hOFHwA+mioxaVcoN8jGe8CTJlL3pKVOuQ/saF8V+wpVEG+NeAM5LfvqeePvTOnCcjKY6QvyNTn
-	oVLq9mVG5dZbT/2w34vsOiUOIrzFDQz0KzFdtC2NaQ/pyjU0Q3nto0+L06jVHYouh/qd/Mi8VAe
-	5d8ZN4BMAxO8qFPBze451hgln49M1wsCZ15enwIeIOJ2HmSm0vCFLe3A7TljVzhciQDHBu0RGK2
-	Plox63+MvFh8I4uyod2
-X-Received: by 2002:a05:6870:8111:b0:486:aec0:1276 with SMTP id 586e51a60fabf-491e5bf6b73mr3683175fac.22.1790289623151;
-        Thu, 24 Sep 2026 15:40:23 -0700 (PDT)
-Received: from devvm29614.prn0.facebook.com ([2a03:2880:ff:15::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-49335011458sm600452fac.4.2026.09.24.15.40.18
+        d=1e100.net; s=20260707; t=1790289757; x=1790894557;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=81QaywXThCj9GvWcrqbFC8hrrggxf6pFQEEvB0A8Stc=;
+        b=vlEam7EE5qr2UPmW7lfGq1Dxrku9gCwwkyAQ/XIPRdYNfj3PfhbU/WpdL5NmTvDvJs
+         VjEeYFj+Sgvt797VLModqCkFFsfeMaOVoDrpfZi0WDpWLWTltY51TZsHVMaOVpK07Cpj
+         KFhJfd53l6/FJLCRNmgpfZmtmst5dcrFaCUsmZyHp3ZCoxBoNBcXcKK6wSnB69ydCSSO
+         laLVDAxhESfoRq7DobweDXh8QeZbx2xqNsxeLTNTLEupuUnxd4Bdg4StGKO4McNNQIM9
+         Ff1t1KW7g5sUVxO25cP9SP0VHBTtM9jC6lTzxZRhfPM3M0f8KqQuvdUH7Iz2q70wZDew
+         Brcw==
+X-Forwarded-Encrypted: i=1; AKwUvBxcampQWOTI9Y/5PUImQaP7qhROWzs3X2b9xVQxLWdukDrmdzxMQTG/o+qGqFgIROwAyc27KXt+Jo0=@vger.kernel.org
+X-Gm-Message-State: AFuF++kxMvz87tkhdHOmbxusvOm0yBNug8OTGtHNV8M+vg3J7sycTjh3
+	1ipJw69qhNu7oQUVmqfMkvDScRhgq1VSTxJn5Ap/hcbrlBsq9RnGL+MQvA2CRfvb/c7cI8K3LlD
+	0hsqSFVXYc3ll2ZNGdo5H71+97hKiZvnjTU4Hl5wvL1q7ZUtHyQzvcbNtuwjRXbQ=
+X-Gm-Gg: AYBFou1oKm+37TP+EQ0dcccxWy2hQ6y0+gEt3Ry8k0TfxNLANIuovbUuVu2UeCXkb+P
+	WhoEXt6jMkzGkLhbZkJgjIpzGusquUiz4QerXgJchEzlvkH042PwPijurlmIdbp52HRIjaUQVPe
+	sTMJ4AQIHEeom5ztitxClgwNy+6v/zeyFWfa9CUFC2IEoDsx5MzY2NghYAYVWExnGDZASwxzj+t
+	vXJDK7HoMI+fWdGXF6xqD8xyBEAZOWfiBeimD/UFcBG3OOJFXyV5TZU9r59BL0iC0vsFsSdvMWB
+	iD34o+tv2N0ES2+Cui/ZM8Bo6DXwqi7KU+CvcCYWXNs5DKu8QBILAMoNMa183LgkRQcGH2MAcq4
+	9/bdS2RHIhEjRY8JWodHW54DqTc4sVNeSz7Lve0HrvfXeS1RgLCD7tw==
+X-Received: by 2002:a05:693c:601c:b0:341:4f3:8f84 with SMTP id 5a478bee46e88-341973cf3cfmr120998eec.13.1790289756363;
+        Thu, 24 Sep 2026 15:42:36 -0700 (PDT)
+X-Received: by 2002:a05:693c:601c:b0:341:4f3:8f84 with SMTP id 5a478bee46e88-341973cf3cfmr120917eec.13.1790289752160;
+        Thu, 24 Sep 2026 15:42:32 -0700 (PDT)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34145d0fc9fsm1538764eec.25.2026.09.24.15.42.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 15:40:21 -0700 (PDT)
-Date: Thu, 24 Sep 2026 15:40:16 -0700
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: netdev-bot+sashiko@kernel.org
-Cc: sgarzare@redhat.com, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	corbet@lwn.net, skhan@linuxfoundation.org, stefanha@redhat.com,
-	mst@redhat.com, jasowangio@gmail.com, xuanzhuo@linux.alibaba.com,
-	eperezma@redhat.com, shuah@kernel.org, rdunlap@infradead.org,
-	donald.hunter@gmail.com, virtualization@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com,
-	sdf.kernel@gmail.com, bobbyeshleman@meta.com
-Subject: Re: [PATCH net-next v2 3/6] vsock: add a netlink command to assign
- the g2h device to a netns
-Message-ID: <arWm0I6ypGK2ezXK@devvm29614.prn0.facebook.com>
-References: <20260921-vsock-guest-ns-v2-3-693bd78fde9e@meta.com>
- <179019126153.2160803.2250276732411996714@kernel.org>
+        Thu, 24 Sep 2026 15:42:31 -0700 (PDT)
+Date: Thu, 24 Sep 2026 15:42:27 -0700
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+        Ard
+ Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Catalin
+ Marinas <catalin.marinas@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, David
+ Sterba <dsterba@suse.com>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-riscv@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+        Randy
+ Dunlap <rdunlap@infradead.org>, Simon Glass <sjg@chromium.org>,
+        Shuah Khan
+ <skhan@linuxfoundation.org>,
+        Nick Terrell <terrelln@fb.com>, Will Deacon
+ <will@kernel.org>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        Conor Dooley
+ <conor.dooley@microchip.com>,
+        linux-integrity@vger.kernel.org, Palmer
+ Dabbelt <palmer@rivosinc.com>,
+        patches@lists.linux.dev, Ross Philipson
+ <ross.philipson@gmail.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Song
+ Shuai <songshuaishuai@tinylab.org>
+Subject: Re: [PATCH 01/16] efi/libstub: Fix error unwind freeing fdt in
+ allocate_new_fdt_and_exit_boot()
+Message-ID: <20260924154227.00001cbe@oss.qualcomm.com>
+In-Reply-To: <1-v1-27d06b313981+8b-arm64_drtm_jgg@nvidia.com>
+References: <0-v1-27d06b313981+8b-arm64_drtm_jgg@nvidia.com>
+	<1-v1-27d06b313981+8b-arm64_drtm_jgg@nvidia.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <179019126153.2160803.2250276732411996714@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI0MDA5MiBTYWx0ZWRfX3NJD9rAgdtIT
+ Tc7bD1W0L7XQhf2YLuTYgnSq0kxstYsca8fYiMaPwryVPpNR2AlvTWrAHCrr6G+ioEeGXdVfr0/
+ I2/4rxhWyo2BCc/xlVzdTQpQKEyaj6mFxuaugXbnJbySIB4Nh+qYYddeJHxMd/PIu4Jv3db8n0N
+ 8bh/q954X6puCMpjuAkeBFZ30W9ZIwrxBLEoF6EYYs6qfqght+jikG+Vszm0h7LZNirAC/Sgf8w
+ 9UyxIfLaF0Ke0qRpBcDIJKS9NQ4okx++H6+AHO+G0Lc7hjv/bwm4R4da5du2k3gWHoDjSw67jIZ
+ +IJd6c9Tx+DfQmpIdO6ZMhV/845K52M9VWI+aGuwsPwtM9jO1ND64cxl7MedCFbDxJLS/t1dXEM
+ /4EYC4XpeKv6BNbXMNyDuq75MtxcIxqPosGoGxnBJMVV1cKltqZhAVHj1NzB1fTKCDARtPtVCQu
+ owsgEstGjFi6/4wicaA==
+X-Proofpoint-GUID: 70oy2MzRLZBYKVgVRvpbt70nsnKZwknS
+X-Proofpoint-ORIG-GUID: 70oy2MzRLZBYKVgVRvpbt70nsnKZwknS
+X-Authority-Analysis: v=2.4 cv=XawcX455 c=1 sm=1 tr=0 ts=6ab5a75e cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=Ikd4Dj_1AAAA:8 a=EUspDBNiAAAA:8 a=7U2iMG9xLqzP7ZOKqLsA:9
+ a=+jEqtf1s3R9VXZ0wqowq2kgwd+I=:19 a=CjuIK1q_8ugA:10 a=6Ab_bkdmUrQuMsNx7PHu:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI0MDA5MiBTYWx0ZWRfX8LYyJhwoDw7+
+ n4xhSdsUulpttj5AOsdB/ujwPot1PCQk8ROQONHYLGaOo1e97osdPx/hE1MP+bTK8CAQ0EBctLY
+ JOm/SFLqcdI8BoWtwmm7v904mi/Feh8=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-24_06,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609240092
 
-On Wed, Sep 23, 2026 at 07:21:01PM +0000, netdev-bot+sashiko@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 6 potential
-> issue(s) to consider.
-> 
-> Critical: 0 · High: 1 · Medium: 2 · Low: 3
-> 
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwork
-> know by including "pw-bot: cr" as a separate line at the end of your reply
-> (one such reply per series is enough).
-> 
-> - [High] vsock_g2h_reset_unreachable() marks a socket
->   TCP_CLOSE/ECONNRESET but leaves it linked in vsock_connected_table…
-> - [Medium] vhost_vsock_set_cid()'s collision check against the G2H device
->   CID became namespace-conditional (`vsock_find_cid(vsock->net,…
-> - [Medium] vsock_g2h_reset_unreachable() invokes the new sleepable
->   `t->reset(vsk, NULL)` callback with only vsock_register_mutex held and…
-> - [Low] DISCARDED (resolved later in the series).
-> - [Low] DISCARDED (resolved later in the series).
-> - [Low] DISCARDED (blocked by the transport patch later in the series).
-> 
-> --
-> 
-> vsock: add a netlink command to assign the g2h device to a netns
-> 
-> This adds a vsock generic netlink family with VSOCK_CMD_DEV_NETNS_SET and
-> VSOCK_CMD_DEV_NETNS_GET, which move the guest-to-host vsock device into the
-> caller's network namespace and read that assignment back. Reachability of the
-> device, and visibility of its CID through the local-CID ioctl, bind() and
-> loopback transport selection, now depend on the namespace asking. Sockets that
-> can no longer reach the device after a move are reset, and the device returns
-> to init_net when its namespace is destroyed.
-> 
-> Link: https://lore.kernel.org/all/20200427142518.uwssa6dtasrp3bfc@steredhat/
-> 
-> A few questions below about the new reachability and reset paths.
-> 
-> > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-> > index fe43e85959583..f2d8e4e84f89b 100644
-> > --- a/Documentation/admin-guide/sysctl/net.rst
-> > +++ b/Documentation/admin-guide/sysctl/net.rst
-> > @@ -529,6 +529,29 @@ their hosts. The behavior of VSOCK sockets in a network namespace is determined
-> 
-> [ ... ]
-> 
-> > +Support is transport dependent. A G2H transport that does not implement the
-> > +move refuses the command with ``EOPNOTSUPP``; of the in-tree guest transports
-> > +only virtio-vsock implements it.
-> 
-> [Severity: Low]
-> 
-> At this commit, does any transport set netns_assign_allow and ->reset?
-> 
-> vsock_netns_assignable() requires both, and neither is set by any in-tree
-> transport here, so VSOCK_CMD_DEV_NETNS_SET can only return -ENODEV or
-> -EOPNOTSUPP while this text says virtio-vsock implements the move.
-> vsock_g2h_net_get() and vsock_maybe_set_connected() also have no callers
-> yet.
-> 
-> The following patch in the series, "vsock/virtio: support guest device
-> network namespace", adds .netns_assign_allow = true and
-> .reset = virtio_transport_reset to virtio_transport and wires up both
-> helpers, so the text becomes accurate at the end of the series. Would it
-> read better to add this paragraph in that patch?
+On Thu, 24 Sep 2026 10:53:04 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-I think this is okay. We add support and then online the transports
-later.
+> Sashiko says fdt_addr can point to either an allocated fdt or the fdt from
+> get_fdt() which is memory owned by FW.
 > 
-> [ ... ]
+> Only the allocated fdt should be freed on the error unwind path. Use a
+> dedicated variable for the allocation's size so that the free does not get
+> confused.
 > 
-> > diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
-> > index abed1fbcf66cc..badc064964b31 100644
-> > --- a/drivers/vhost/vsock.c
-> > +++ b/drivers/vhost/vsock.c
-> > @@ -828,9 +828,11 @@ static int vhost_vsock_set_cid(struct vhost_vsock *vsock, u64 guest_cid)
-> >  		return -EINVAL;
-> >  
-> >  	/* Refuse if CID is assigned to the guest->host transport (i.e. nested
-> > -	 * VM), to make the loopback work.
-> > +	 * VM), to make the loopback work. Only when that device is reachable
-> > +	 * from this VM's namespace, which is the same test the guest CID
-> > +	 * collision check below applies.
-> >  	 */
-> > -	if (vsock_find_cid(guest_cid))
-> > +	if (vsock_find_cid(vsock->net, guest_cid))
-> >  		return -EADDRINUSE;
+> Fixes: 4fc8e738ff3e ("efi: libstub: remove DT dependency from generic stub")
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/firmware/efi/libstub/fdt.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> [Severity: Medium]
-> 
-> This collision check is now conditional on the g2h device being reachable
-> from vsock->net, but that condition can change after the CID has been
-> accepted. Is it re-checked anywhere?
-> 
-> With the device assigned to a local mode namespace A, a VMM in namespace B
-> sees vsock_find_cid(B, guest_cid) return false, because
-> __vsock_registered_transport_cid() reports VMADDR_CID_ANY for the g2h slot
-> when !vsock_g2h_net_reachable(B). So a CID that previously got -EADDRINUSE
-> is now installed.
-> 
-> The device can become reachable from B afterwards, either by another
-> VSOCK_CMD_DEV_NETNS_SET or automatically when namespace A is deleted and
-> vsock_g2h_net_reset() moves the device back to init_net.
-> vsock_g2h_net_assign() only walks vsock_connected_table, so registered
-> vhost guest CIDs are never revisited, and then:
-> 
->   - vsock_use_local_transport(B, cid) computes a non-ANY g2h CID and
->     returns true, so vsock_assign_transport() picks transport_local ahead
->     of transport_h2g and connects intended for the nested guest land on
->     vsock_loopback
->   - vsock_find_cid(B, cid) starts accepting bind() on that CID
-> 
-> Does the nested guest become unreachable from that namespace at that
-> point, which is what the pre-patch unconditional check prevented?
+> diff --git a/drivers/firmware/efi/libstub/fdt.c b/drivers/firmware/efi/libstub/fdt.c
+> index 23b3543d3041b0..5b2dd709d7b151 100644
+> --- a/drivers/firmware/efi/libstub/fdt.c
+> +++ b/drivers/firmware/efi/libstub/fdt.c
+> @@ -229,6 +229,7 @@ efi_status_t allocate_new_fdt_and_exit_boot(void *handle,
+>  	u32 desc_ver;
+>  	efi_status_t status;
+>  	struct exit_boot_struct priv;
+> +	unsigned long fdt_size_allocated = 0;
+>  	unsigned long fdt_addr = 0;
+>  	unsigned long fdt_size = 0;
+>  
+> @@ -257,6 +258,7 @@ efi_status_t allocate_new_fdt_and_exit_boot(void *handle,
+>  			efi_err("Failed to load device tree!\n");
+>  			goto fail;
+>  		}
+> +		fdt_size_allocated = fdt_size;
+Hmm. I argued with myself for a while on this.  Which one of fdt_size and fdt_size_allocate
+is the appropriate one to pass to the call?  In the end I didn't get a good answer so
+oh I guess this is as good as the other way around.
 
-Sashiko doesn't frame this problem that well here IMHO, but it is a real
-issue. The issue is about CID collision between g2h and h2g,
-particularly if the g2h is in another namespace. In theory we should
-allow a CID to be allocated in a local namespace if it is free there.
-The issue is then if the user moves that device into a namespace where
-that CID is already in-use.
+Bug looks real to me and this fixes it I think. Give I know this code very little
+take this tag with a pinch of salt.
 
-We can reject VSOCK_CMD_DEV_NETNS_SET to handle that case, but the
-relocation to init_net upon namespace deletion is more complicated.
+Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 
-In tcp/ip land when a namespace is torn down and a device is
-moved to the init_net, it loses its IP address. There is no address
-collision. We can't really do that here.
+>  	}
+>  
+>  	if (fdt_addr) {
+> @@ -334,7 +336,7 @@ efi_status_t allocate_new_fdt_and_exit_boot(void *handle,
+>  	efi_free(MAX_FDT_SIZE, *new_fdt_addr);
+>  
+>  fail:
+> -	efi_free(fdt_size, fdt_addr);
+> +	efi_free(fdt_size_allocated, fdt_addr);
+>  	if (!efi_novamap)
+>  		efi_bs_call(free_pool, priv.runtime_map);
+>  
 
-In our case, if the g2h CID 10 is in some other namespace, in theory
-don't want to reject vhost trying to allocate CID 10 because that leaks
-information about another namespace.
-
-I also don't think we want to reject namespace deletion in this case
-either, because then the namespace lifetime will be at the mercy of the
-init_net's vmm process that holds the CID.
-
-Right now I'm thinking that just preventing vhost from allocating CIDs
-of any g2h (even if in another local namespace) might be the best
-solution at hand, even if it exposes a leak.
-
-I also considered the possibility of the g2h device falling back to some
-alias_cid when there is contention due to a namespace move... but that
-is a can of worms.
-
-Do you have any thoughts on this Stefano?
-
-> 
-> > diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
-> > index 370fcd3ddabc2..dbf1a6aa367fe 100644
-> > --- a/include/net/af_vsock.h
-> > +++ b/include/net/af_vsock.h
-> > @@ -190,6 +192,16 @@ struct vsock_transport {
-> >  
-> >  	/* Zero-copy. */
-> >  	bool (*msgzerocopy_allow)(void);
-> > +
-> > +	/* True if the G2H transport honours VSOCK_CMD_DEV_NETNS_SET. A
-> > +	 * transport that sets this must also implement reset.
-> > +	 */
-> > +	bool netns_assign_allow;
-> > +
-> > +	/* Send a reset to @vsk's peer. @skb is the packet being replied to, or
-> > +	 * NULL when the reset is not a reply. May sleep.
-> > +	 */
-> > +	int (*reset)(struct vsock_sock *vsk, struct sk_buff *skb);
-> >  };
-> 
-> [Severity: Medium]
-> 
-> Which locks may a ->reset() implementation assume are held?
-> 
-> vsock_g2h_reset_unreachable() calls t->reset(vsk, NULL) with only
-> vsock_register_mutex held and no socket lock. Every existing caller of
-> virtio_transport_reset(), the implementation wired up later in the series
-> (close work and close timeout, the recv "destroy" paths, shutdown), runs
-> under lock_sock() or lock_sock_nested(), which is what serialises
-> vsk->trans and the addresses the reset reads against close/release and
-> recv processing.
-> 
-> Taking lock_sock() around the callback does not look available from this
-> call site, since vsock_connect() holds lock_sock(sk) and then acquires
-> vsock_register_mutex inside vsock_assign_transport(), making sock lock ->
-> register mutex the established order.
-> 
-> The sweep also stores sk->sk_state and sk->sk_err under vsock_table_lock
-> only, so a concurrent lock_sock() holder can overwrite sk_state and the
-> reset is lost.
-> 
-> Separately, the loop performs one sleeping send per collected socket while
-> holding vsock_register_mutex, which blocks socket creation, connect and
-> the CID getters for the duration. Can the resets run outside that mutex,
-> and can this comment state the locking context the callback is invoked in?
-> 
-> > diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-> > index 95a435aef512b..9938dd5010192 100644
-> > --- a/net/vmw_vsock/af_vsock.c
-> > +++ b/net/vmw_vsock/af_vsock.c
-> 
-> [ ... ]
-> 
-> > @@ -654,6 +716,13 @@ int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk)
-> >  		goto err;
-> >  	}
-> >  
-> > +	if (new_transport && new_transport == transport_g2h &&
-> > +	    vsock_netns_assignable(new_transport) &&
-> > +	    !vsock_g2h_net_reachable(sock_net(sk))) {
-> > +		ret = -ENETUNREACH;
-> > +		goto err;
-> > +	}
-> > +
-> 
-> [Severity: Low]
-> 
-> This gate sits after the same-transport shortcut a few lines above it:
-> 
-> 	if (vsk->transport && vsk->transport == new_transport) {
-> 		ret = 0;
-> 		goto err;
-> 	}
-> 
-> so a socket that already holds transport_g2h, for instance one left
-> assigned by an earlier failed connect, never reaches the -ENETUNREACH
-> check.
-> 
-> At the end of the series nothing is emitted from an excluded namespace,
-> because vsock_connect() calls transport->stream_allow() right after
-> vsock_assign_transport() and the following patch makes
-> virtio_transport_stream_allow() return vsock_g2h_net_reachable(...). Would
-> it still be clearer to place this check before the shortcut?
-> 
-> > @@ -742,6 +812,173 @@ bool vsock_find_cid(unsigned int cid)
-> >  }
-> >  EXPORT_SYMBOL_GPL(vsock_find_cid);
-> 
-> [ ... ]
-> 
-> > +/* Move @vsk to TCP_ESTABLISHED and into the connected table, unless the device
-> > + * has moved to a namespace @vsk cannot reach. Returns false without doing
-> > + * either in that case.
-> > + *
-> > + * The reset sweep walks the same table under the same lock, so an assign
-> > + * cannot land between the check and the insert: either the sweep finds @vsk
-> > + * and resets it, or @vsk is never added.
-> > + */
-> > +bool vsock_maybe_set_connected(struct vsock_sock *vsk)
-> > +{
-> > +	struct list_head *list;
-> > +	bool reachable;
-> > +
-> > +	list = vsock_connected_sockets(&vsk->remote_addr, &vsk->local_addr);
-> > +
-> > +	spin_lock_bh(&vsock_table_lock);
-> > +	reachable = vsock_g2h_reachable_sk(vsk);
-> > +	if (reachable) {
-> > +		sk_vsock(vsk)->sk_state = TCP_ESTABLISHED;
-> > +		__vsock_insert_connected(list, vsk);
-> > +	}
-> > +	spin_unlock_bh(&vsock_table_lock);
-> > +
-> > +	return reachable;
-> > +}
-> > +EXPORT_SYMBOL_GPL(vsock_maybe_set_connected);
-> 
-> [Severity: Low]
-> 
-> The invariant described here needs every connected-table insertion of an
-> assignable transport to go through this helper, but nothing calls it in
-> this commit.
-> 
-> The next patch, "vsock/virtio: support guest device network namespace",
-> adds the calls in virtio_transport_recv_connecting() and
-> virtio_transport_recv_listen(), so the invariant holds from there on. Is
-> the split intentional, or should the helper land with its users?
-> 
-> > +/* Reset every connected socket of @t that can no longer reach the g2h device,
-> > + * and let the transport tell each peer.
-> > + */
-> > +static void vsock_g2h_reset_unreachable(const struct vsock_transport *t)
-> > +{
-> 
-> [ ... ]
-> 
-> > +			if (vsk->transport != t ||
-> > +			    sk->sk_state == TCP_CLOSE ||
-> > +			    vsock_g2h_reachable_sk(vsk))
-> > +				continue;
-> > +
-> > +			sk->sk_state = TCP_CLOSE;
-> > +			sk->sk_err = ECONNRESET;
-> > +			sk_error_report(sk);
-> > +
-> > +			sock_hold(sk);
-> > +			list_add_tail(&vsk->pending_reset, &reset_list);
-> > +		}
-> > +	}
-> > +
-> > +	spin_unlock_bh(&vsock_table_lock);
-> 
-> [Severity: High]
-> 
-> The sweep marks the socket TCP_CLOSE with ECONNRESET but leaves it linked
-> in vsock_connected_table and keeps vsk->transport assigned. Can that
-> socket then be inserted into the table a second time?
-> 
-> A connector blocked in vsock_connect() wakes up, leaves the wait loop and
-> runs:
-> 
-> net/vmw_vsock/af_vsock.c:vsock_connect() {
-> 	...
-> 	err = sock_error(sk);
-> 	if (err) {
-> 		sk->sk_state = TCP_CLOSE;
-> 		sock->state = SS_UNCONNECTED;
-> 	}
-> 	...
-> }
-> 
-> so connect() is retryable while the socket is still a member of the
-> connected table. On the retry vsock_assign_transport() takes the shortcut:
-> 
-> 	if (vsk->transport && vsk->transport == new_transport) {
-> 		ret = 0;
-> 		goto err;
-> 	}
-> 
-> which skips vsk->transport->release() and vsock_deassign_transport(), so
-> vsock_remove_connected() is never reached. When the handshake completes
-> again, virtio_transport_recv_connecting() reaches:
-> 
-> net/vmw_vsock/af_vsock.c:__vsock_insert_connected() {
-> 	sock_hold(&vsk->sk);
-> 	list_add(&vsk->connected_table, list);
-> }
-> 
-> on a node that is already linked. Does this corrupt the connected hash
-> bucket and leak the extra sock_hold()? A self-referential bucket would
-> make later list_for_each_entry() walks under vsock_table_lock, including
-> this sweep, vsock_find_connected_socket() and
-> vsock_for_each_connected_socket(), never terminate, and with
-> CONFIG_DEBUG_LIST the second list_add() trips the corruption check.
-> 
-> Reaching the reachable-again state does not need a second netlink call:
-> vsock_g2h_net_reset() moves the device back to init_net when the assigned
-> namespace is deleted.
-> 
-> Should the sweep also call vsock_remove_connected() on the sockets it
-> resets, or otherwise deassign the transport, so a retry cannot re-insert
-> an already linked node?
-> 
-> [ ... ]
-
-Can confirm, this is valid. Will fix.
