@@ -1,383 +1,228 @@
-Received: from smtp1.iinet.com (smtp1.iinet.com [52.129.46.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633613D411A;
-	Thu, 24 Sep 2026 23:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.129.46.35
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFEE8473C8C;
+	Thu, 24 Sep 2026 23:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790291810; cv=none; b=eDSPXinco0XzdGY2n2CMuGyzDEqsod2CzpBDnhFiIKg/45Zt9P+Bsz+CfjjdV2UPy6sBvtJvmGAkJMVVKBhHVouFMjBN4svVsXwQHYl5ZR2bBVJBGXLtlfSyPz1rX4l15LIde1Ongjz551PHkpp8Hxg0Tu7Ot0jh4A7BCTnIjgg=
+	t=1790292459; cv=none; b=OPPWeUk25KjsMkD+QHBFrIde+bzifYXxQhvDSMGThHxJMKt0CkQ/jvvp0MfIXvUYJEWKrrEnE5tw3Uu/n+W6R7/BimpTm3iA1pz/YlrjH9dc7Fr0fhNurWUno52MdryfhfZ5gQojCze2uHbvL3uaIHo2waK+puXjGnpbLKY8dBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790291810; c=relaxed/simple;
-	bh=mLOobzZw9ri5z9DfyH0H77hni9eiuLnPcW8hgcMAARs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CATqisJhIh/1OEahc/L5ATHZ5g/J3J7q7p22sDrlgI97JxVHQvj93Z8iBNgbSZOhZumc1EnHwEJsTtAbkWgWUGq5E0HCdPaKv6I8R0AmYiVcDdaxw536lDcMxRNPFuJeMDem9JyaTfKSr8+Z3s/zfb99Iesy0zbU+6H7lF39p6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com; spf=pass smtp.mailfrom=nwlink.com; dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.b=DvSsALrw; arc=none smtp.client-ip=52.129.46.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nwlink.com
+	s=arc-20240116; t=1790292459; c=relaxed/simple;
+	bh=b3diYIyUxGsc2Fn2erUGeQZjsoSz+2Xj1Vx0ni3W6DY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oN1bY9Y1bFGM5Z/ImOvOWVUorhtAqw34y8gFU2vSB/INgd1A4Pa4y1iWAEPJ/WF0+3EepTPQxzVn7Uk9HVGT32EO1C//0zfsHfcYHWY/MmnJ8k7cdWzQC6cvbTVxlbMLtROsXi8OPlMXf3yf+leuzM0XacIw6epgtRCQBocIiD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=sKbbtKfJ; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.b="DvSsALrw"
-Received: from porter.hsd1.wa.comcast.net (c-98-203-133-45.hsd1.wa.comcast.net [98.203.133.45])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kaf@nwlink.com)
-	by smtp1.iinet.com (Postfix) with ESMTPSA id 251ACC00BE6;
-	Thu, 24 Sep 2026 15:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nwlink.com; s=mail;
-	t=1790290262; bh=lduHQheDCz3i8FFYU7NtHJXTKQv57F6ZVQOT2STr+XA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DvSsALrwHekUSnXYrSBt+9wJxix33aARt5z0ZPvH1hdB6irbDP91TB9LQDqvEvd+R
-	 Gziqv8VxwRjsAZGhao329rQ7XNirSNMu+m2zyG0Zv0pd931/cguh6FKR2oPV4eEjD4
-	 B3WNSwgWmsJwP1Nl8JG7vSbBqiWQeQvzkKqWS8p14sUGh1snOZKbBf429ldXr7MFqb
-	 JHErU5HBxZ3SP8ZHIleA7mcLvegFFsIAAz++d77lh7pKf4MMUvZ6DhD049gM4axML1
-	 8mcB4Lbi42bRVeunlHOygr7qPCuC63GPJE97E6xeexG2g1nOS6UT0yn94Tph1Xe55x
-	 DVuG2B9aOCUCg==
-From: Kyle Farrell <kaf@nwlink.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Kyle Farrell <kaf@nwlink.com>
-Subject: [PATCH v2 2/2] usb: gadget: f_uac2: allow explicit channel count independent of channel mask
-Date: Thu, 24 Sep 2026 15:50:50 -0700
-Message-Id: <20260924225050.2837727-3-kaf@nwlink.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260924225050.2837727-1-kaf@nwlink.com>
-References: <20260924225050.2837727-1-kaf@nwlink.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="sKbbtKfJ"
+Received: by linux.microsoft.com (Postfix, from userid 1223)
+	id 379CC20B7167; Thu, 24 Sep 2026 16:26:47 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 379CC20B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1790292407;
+	bh=Ol4Gw21epj/8o0vv4nhFU7uulVUuXLQX34MJO4d++BM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sKbbtKfJp0xwhazY6dZN1s6FSAhmDbLW451ldNLBpYkgVf4iN1FJt+VM8Y6mMelVu
+	 fvsVMsJolobwtOFvPAGnLafipE1deJZKFkIlT8Pnl6GDUUFSll4oiWvq3lRm/4wTMv
+	 NoJXAb4LeOHKFCTcZYfWKfAVmO54Y26EjTOYvHgs=
+Date: Thu, 24 Sep 2026 16:26:47 -0700
+From: Meagan Lloyd <meaganlloyd@linux.microsoft.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Meagan Lloyd <meaganlloyd@linux.microsoft.com>,
+	linux-i3c@lists.infradead.org, alexandre.belloni@bootlin.com,
+	vitor.soares@toradex.com, samagazaryan@google.com,
+	gregkh@linuxfoundation.org, arnd@arndb.de,
+	boris.brezillon@collabora.com,
+	oleksandr.shulzhenko.viktorovych@intel.com,
+	tgopinath@linux.microsoft.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, linux@roeck-us.net, Frank.Li@nxp.com,
+	jorge.marques@analog.com, pgaj@cadence.com,
+	wsa+renesas@sang-engineering.com, tommaso.merciai.xr@bp.renesas.com,
+	nuno.sa@analog.com, Michael.Hennerich@analog.com, jic23@kernel.org,
+	dlechner@baylibre.com, andy@kernel.org, lorenzo@kernel.org,
+	enelsonmoore@gmail.com, rppt@kernel.org, pratyush@kernel.org,
+	giovanni.cabiddu@intel.com, gabewhigham@gmail.com,
+	haren@linux.ibm.com, pasha.tatashin@soleen.com,
+	jirislaby@kernel.org, adrian.ho.yin.ng@altera.com,
+	ustc.gu@gmail.com, jszhang@kernel.org, adrian.hunter@intel.com,
+	akhilrajeev@nvidia.com, tze.yee.ng@altera.com,
+	manikanta.guntupalli@amd.com, shubhrajyoti.datta@amd.com,
+	jarkko.nikula@linux.intel.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux@analog.com, linux-iio@vger.kernel.org, andi.shyti@kernel.org
+Subject: Re: [PATCH 3/3] i3c: add i3cdev character device module for
+ user-space access
+Message-ID: <20260924-86692413bdae0e78a12c1425@linux.microsoft.com>
+References: <20260911210935.1353126-1-meaganlloyd@linux.microsoft.com>
+ <20260911210935.1353126-4-meaganlloyd@linux.microsoft.com>
+ <aqVUyYkpKT8iX4Jz@ashevche-desk.local>
+ <20260916-454d66ca84cc91479b195aa5@linux.microsoft.com>
+ <aqt_dCazxTDR4cpk@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <aqt_dCazxTDR4cpk@ashevche-desk.local>
 
-The UAC2 gadget driver currently derives bNrChannels from the number
-of set bits in bmChannelConfig. Since the bmChannelConfig
-channel-location bitmap provides only 27 predefined channel locations,
-this limits playback and capture streams to 27 channels. UAC2 permits
-bNrChannels values up to 255, independent of bmChannelConfig.
+On Thu, Sep 17, 2026 at 08:49:40AM +0300, Andy Shevchenko wrote:
+> On Wed, Sep 16, 2026 at 03:57:10PM -0700, Meagan Lloyd wrote:
+> > On Sat, Sep 12, 2026 at 04:34:01PM +0300, Andy Shevchenko wrote:
+> > > On Fri, Sep 11, 2026 at 02:09:35PM -0700, Meagan Lloyd wrote:
+> > > > The i3cdev driver is a character device driver that allows user-space
+> > > > to control and interact with I3C devices.
+> > > 
+> > > > Currently, it has the ability to perform Single Data Rate (SDR)
+> > > > transfers - basic reads/writes.
+> > > > 
+> > > > With the addition of sysfs driver_override, there is now a
+> > > > straightforward and direct way to match the i3cdev driver to any i3c
+> > > > device without stepping on the toes of more specialized drivers that are
+> > > > loaded automatically.
+> > > 
+> > > Is it safe? Why on the earth do we need this? The commit message has not enough
+> > > information.
+> > 
+> > I can't see a reason that it'd be unsafe. To give additional confidence,
+> > it's already in-use in many bus_types:
+> 
+> This argument has nothing to do with i³c. Each bus is different on a physical
+> layer, electrical protocols and programming flow. Each of them has own
+> constraints.
+> 
 
-Add ConfigFS p_channels and c_channels attributes to configure the
-playback and capture channel counts explicitly.  Preserve the existing
-p_chmask and c_chmask interface and semantics. The default value of
-zero for p_channels and c_channels continues to derive the channel count
-from the corresponding p_chmask and c_chmask.
+(resending as my previous reply hit a snag and is probably marked as
+spam for most people)
 
-When an explicit channel count and a nonzero channel mask are both
-specified, require the number of set bits in the mask to match the
-channel count. Partial channel-location assignments permitted by UAC2
-are therefore not supported. Additionally, reject Feature Unit
-configurations whose descriptor length would exceed the one-byte
-bLength field.
+My take is that if you're using the i3cdev module, it's up to the
+programmer to review schematics/datasheets to know how to program
+the hardware devices and bus (in the case of hubs) correctly.
 
-Assisted-by: LLM
-Signed-off-by: Kyle Farrell <kaf@nwlink.com>
----
- .../ABI/testing/configfs-usb-gadget-uac2      | 18 ++++-
- Documentation/usb/gadget-testing.rst          | 18 ++++-
- drivers/usb/gadget/function/f_uac2.c          | 71 +++++++++++++------
- drivers/usb/gadget/function/u_uac2.h          |  4 ++
- 4 files changed, 87 insertions(+), 24 deletions(-)
+Note, this thread's driver_override approach was not favored by the i3c
+subsystem reviewers, so please continue any further discussion in the
+prevailing approach's thread:
+https://lore.kernel.org/linux-i3c/20260921230603.2518652-1-samagazaryan@google.com/T/#mb42d9b2785f8508d39eaf782b3d29189226b8029
 
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uac2 b/Documentation/ABI/testing/configfs-usb-gadget-uac2
-index 133e995c3e92..8e264843e492 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-uac2
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-uac2
-@@ -5,7 +5,14 @@ Description:
- 		The attributes:
- 
- 		=====================	=======================================
--		c_chmask		capture channel mask
-+		c_chmask		capture channel-location mask. The number of
-+					capture channels is derived from the number of
-+					set bits unless c_channels is specified.
-+		c_channels		explicit capture channel count. A value of 0
-+					derives the channel count from c_chmask. When
-+					nonzero, c_chmask specifies channel locations
-+					and may be 0. If both c_channels and c_chmask
-+					are nonzero, the values must agree.
- 		c_srate			list of capture sampling rates (comma-separated)
- 		c_ssize			capture sample size (bytes)
- 		c_hs_bint		capture bInterval for HS/SS (1-4: fixed, 0: auto)
-@@ -20,7 +27,14 @@ Description:
- 		c_volume_res		capture volume control resolution
- 					(in 1/256 dB)
- 		fb_max			maximum extra bandwidth in async mode
--		p_chmask		playback channel mask
-+		p_chmask		playback channel-location mask. The number of
-+					playback channels is derived from the number of
-+					set bits unless p_channels is specified.
-+		p_channels		explicit playback channel count. A value of 0
-+					derives the channel count from p_chmask. When
-+					nonzero, p_chmask specifies channel locations
-+					and may be 0. If both p_channels and p_chmask
-+					are nonzero, the values must agree.
- 		p_srate			list of playback sampling rates (comma-separated)
- 		p_ssize			playback sample size (bytes)
- 		p_hs_bint		playback bInterval for HS/SS (1-4: fixed, 0: auto)
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index 4921e5307d49..c050218291d1 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -741,7 +741,14 @@ The function name to use when creating the function directory is "uac2".
- The uac2 function provides these attributes in its function directory:
- 
- 	================ ====================================================
--	c_chmask         capture channel mask
-+	c_chmask         capture channel-location mask. The number of
-+			 capture channels is derived from the number of
-+			 set bits unless c_channels is specified.
-+	c_channels	 explicit capture channel count. A value of 0
-+			 derives the channel count from c_chmask. When
-+			 nonzero, c_chmask specifies channel locations
-+			 and may be 0. If both c_channels and c_chmask
-+			 are nonzero, the values must agree.
- 	c_srate          list of capture sampling rates (comma-separated)
- 	c_ssize          capture sample size (bytes)
- 	c_sync           capture synchronization type (async/adaptive)
-@@ -752,7 +759,14 @@ The uac2 function provides these attributes in its function directory:
- 	c_volume_res     capture volume control resolution (in 1/256 dB)
- 	c_hs_bint        capture bInterval for HS/SS (1-4: fixed, 0: auto)
- 	fb_max           maximum extra bandwidth in async mode
--	p_chmask         playback channel mask
-+	p_chmask         playback channel-location mask. The number of
-+			 playback channels is derived from the number of
-+			 set bits unless p_channels is specified.
-+	p_channels	 explicit playback channel count. A value of 0
-+			 derives the channel count from p_chmask. When
-+			 nonzero, p_chmask specifies channel locations
-+			 and may be 0. If both p_channels and p_chmask
-+			 are nonzero, the values must agree.
- 	p_srate          list of playback sampling rates (comma-separated)
- 	p_ssize          playback sample size (bytes)
- 	p_mute_present   playback mute control enable
-diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-index 46255ad0a9cf..c7801bb8765e 100644
---- a/drivers/usb/gadget/function/f_uac2.c
-+++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -50,8 +50,17 @@
- #define UNFLW_CTRL	8
- #define OVFLW_CTRL	10
- 
--#define EPIN_EN(_opts) ((_opts)->p_chmask != 0)
--#define EPOUT_EN(_opts) ((_opts)->c_chmask != 0)
-+static unsigned int uac2_num_channels(bool is_playback,
-+				      const struct f_uac2_opts *opts)
-+{
-+	u8 channels = is_playback ? opts->p_channels : opts->c_channels;
-+	u32 chmask = is_playback ? opts->p_chmask : opts->c_chmask;
-+
-+	return channels ? channels : num_channels(chmask);
-+}
-+
-+#define EPIN_EN(_opts) (uac2_num_channels(true, (_opts)) != 0)
-+#define EPOUT_EN(_opts) (uac2_num_channels(false, (_opts)) != 0)
- #define FUIN_EN(_opts) (EPIN_EN(_opts) \
- 				&& ((_opts)->p_mute_present \
- 				|| (_opts)->p_volume_present))
-@@ -671,15 +680,16 @@ static int get_max_srate(const int *srates)
- static int get_max_bw_for_bint(const struct f_uac2_opts *uac2_opts,
- 	u8 bint, unsigned int factor, bool is_playback)
- {
--	int chmask, srate, ssize;
-+	unsigned int channels;
-+	int srate, ssize;
- 	u16 max_size_bw;
- 
- 	if (is_playback) {
--		chmask = uac2_opts->p_chmask;
-+		channels = uac2_num_channels(true, uac2_opts);
- 		srate = get_max_srate(uac2_opts->p_srates);
- 		ssize = uac2_opts->p_ssize;
- 	} else {
--		chmask = uac2_opts->c_chmask;
-+		channels = uac2_num_channels(false, uac2_opts);
- 		srate = get_max_srate(uac2_opts->c_srates);
- 		ssize = uac2_opts->c_ssize;
- 	}
-@@ -689,11 +699,11 @@ static int get_max_bw_for_bint(const struct f_uac2_opts *uac2_opts,
- 		// Win10 requires max packet size + 1 frame
- 		srate = srate * (1000 + uac2_opts->fb_max) / 1000;
- 		// updated srate is always bigger, therefore DIV_ROUND_UP always yields +1
--		max_size_bw = num_channels(chmask) * ssize *
-+		max_size_bw = channels * ssize *
- 			(DIV_ROUND_UP(srate, factor / (1 << (bint - 1))));
- 	} else {
- 		// adding 1 frame provision for Win10
--		max_size_bw = num_channels(chmask) * ssize *
-+		max_size_bw = channels * ssize *
- 			(DIV_ROUND_UP(srate, factor / (1 << (bint - 1))) + 1);
- 	}
- 	return max_size_bw;
-@@ -764,10 +774,11 @@ static int set_ep_max_packet_size_bint(struct device *dev, const struct f_uac2_o
- 	return 0;
- }
- 
--static struct uac2_feature_unit_descriptor *build_fu_desc(int chmask)
-+static struct uac2_feature_unit_descriptor *build_fu_desc(bool is_playback,
-+							  const struct f_uac2_opts *opts)
- {
- 	struct uac2_feature_unit_descriptor *fu_desc;
--	int channels = num_channels(chmask);
-+	unsigned int channels = uac2_num_channels(is_playback, opts);
- 	int fu_desc_size = UAC2_DT_FEATURE_UNIT_SIZE(channels);
- 
- 	fu_desc = kzalloc(fu_desc_size, GFP_KERNEL);
-@@ -976,13 +987,27 @@ static int afunc_validate_opts(struct g_audio *agdev, struct device *dev)
- {
- 	struct f_uac2_opts *opts = g_audio_to_uac2_opts(agdev);
- 	const char *msg = NULL;
-+	unsigned int p_channels = uac2_num_channels(true, opts);
-+	unsigned int c_channels = uac2_num_channels(false, opts);
- 
--	if (!opts->p_chmask && !opts->c_chmask)
--		msg = "no playback and capture channels";
--	else if (opts->p_chmask & ~UAC2_CHANNEL_MASK)
-+	if (opts->p_chmask & ~UAC2_CHANNEL_MASK)
- 		msg = "unsupported playback channels mask";
- 	else if (opts->c_chmask & ~UAC2_CHANNEL_MASK)
- 		msg = "unsupported capture channels mask";
-+	else if (!p_channels && !c_channels)
-+		msg = "no playback and capture channels";
-+	else if (opts->p_channels && opts->p_chmask &&
-+		 opts->p_channels != num_channels(opts->p_chmask))
-+		msg = "playback channel count does not match channel mask";
-+	else if (opts->c_channels && opts->c_chmask &&
-+		 opts->c_channels != num_channels(opts->c_chmask))
-+		msg = "capture channel count does not match channel mask";
-+	else if (FUIN_EN(opts) &&
-+		 UAC2_DT_FEATURE_UNIT_SIZE(p_channels) > U8_MAX)
-+		msg = "too many playback channels for feature unit descriptor";
-+	else if (FUOUT_EN(opts) &&
-+		 UAC2_DT_FEATURE_UNIT_SIZE(c_channels) > U8_MAX)
-+		msg = "too many capture channels for feature unit descriptor";
- 	else if ((opts->p_ssize < 1) || (opts->p_ssize > 4))
- 		msg = "incorrect playback sample size";
- 	else if ((opts->c_ssize < 1) || (opts->c_ssize > 4))
-@@ -1059,12 +1084,12 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 		return PTR_ERR(us);
- 
- 	if (FUOUT_EN(uac2_opts)) {
--		out_feature_unit_desc = build_fu_desc(uac2_opts->c_chmask);
-+		out_feature_unit_desc = build_fu_desc(false, uac2_opts);
- 		if (!out_feature_unit_desc)
- 			return -ENOMEM;
- 	}
- 	if (FUIN_EN(uac2_opts)) {
--		in_feature_unit_desc = build_fu_desc(uac2_opts->p_chmask);
-+		in_feature_unit_desc = build_fu_desc(true, uac2_opts);
- 		if (!in_feature_unit_desc) {
- 			ret = -ENOMEM;
- 			goto err_free_fu;
-@@ -1099,13 +1124,13 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 
- 
- 	/* Initialize the configurable parameters */
--	usb_out_it_desc.bNrChannels = num_channels(uac2_opts->c_chmask);
-+	usb_out_it_desc.bNrChannels = uac2_num_channels(false, uac2_opts);
- 	usb_out_it_desc.bmChannelConfig = cpu_to_le32(uac2_opts->c_chmask);
--	io_in_it_desc.bNrChannels = num_channels(uac2_opts->p_chmask);
-+	io_in_it_desc.bNrChannels = uac2_num_channels(true, uac2_opts);
- 	io_in_it_desc.bmChannelConfig = cpu_to_le32(uac2_opts->p_chmask);
--	as_out_hdr_desc.bNrChannels = num_channels(uac2_opts->c_chmask);
-+	as_out_hdr_desc.bNrChannels = uac2_num_channels(false, uac2_opts);
- 	as_out_hdr_desc.bmChannelConfig = cpu_to_le32(uac2_opts->c_chmask);
--	as_in_hdr_desc.bNrChannels = num_channels(uac2_opts->p_chmask);
-+	as_in_hdr_desc.bNrChannels = uac2_num_channels(true, uac2_opts);
- 	as_in_hdr_desc.bmChannelConfig = cpu_to_le32(uac2_opts->p_chmask);
- 	as_out_fmt1_desc.bSubslotSize = uac2_opts->c_ssize;
- 	as_out_fmt1_desc.bBitResolution = uac2_opts->c_ssize * 8;
-@@ -1308,7 +1333,7 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 	agdev->gadget = gadget;
- 
- 	agdev->params.p_chmask = uac2_opts->p_chmask;
--	agdev->params.p_channels = num_channels(uac2_opts->p_chmask);
-+	agdev->params.p_channels = uac2_num_channels(true, uac2_opts);
- 	memcpy(agdev->params.p_srates, uac2_opts->p_srates,
- 			sizeof(agdev->params.p_srates));
- 	agdev->params.p_ssize = uac2_opts->p_ssize;
-@@ -1321,7 +1346,7 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 		agdev->params.p_fu.volume_res = uac2_opts->p_volume_res;
- 	}
- 	agdev->params.c_chmask = uac2_opts->c_chmask;
--	agdev->params.c_channels = num_channels(uac2_opts->c_chmask);
-+	agdev->params.c_channels = uac2_num_channels(false, uac2_opts);
- 	memcpy(agdev->params.c_srates, uac2_opts->c_srates,
- 			sizeof(agdev->params.c_srates));
- 	agdev->params.c_ssize = uac2_opts->c_ssize;
-@@ -2091,10 +2116,12 @@ end:									\
- CONFIGFS_ATTR(f_uac2_opts_, name)
- 
- UAC2_ATTRIBUTE(u32, p_chmask);
-+UAC2_ATTRIBUTE(u8, p_channels);
- UAC2_RATE_ATTRIBUTE(p_srate);
- UAC2_ATTRIBUTE(u32, p_ssize);
- UAC2_ATTRIBUTE(u8, p_hs_bint);
- UAC2_ATTRIBUTE(u32, c_chmask);
-+UAC2_ATTRIBUTE(u8, c_channels);
- UAC2_RATE_ATTRIBUTE(c_srate);
- UAC2_ATTRIBUTE_SYNC(c_sync);
- UAC2_ATTRIBUTE(u32, c_ssize);
-@@ -2134,10 +2161,12 @@ UAC2_ATTRIBUTE(s16, c_terminal_type);
- 
- static struct configfs_attribute *f_uac2_attrs[] = {
- 	&f_uac2_opts_attr_p_chmask,
-+	&f_uac2_opts_attr_p_channels,
- 	&f_uac2_opts_attr_p_srate,
- 	&f_uac2_opts_attr_p_ssize,
- 	&f_uac2_opts_attr_p_hs_bint,
- 	&f_uac2_opts_attr_c_chmask,
-+	&f_uac2_opts_attr_c_channels,
- 	&f_uac2_opts_attr_c_srate,
- 	&f_uac2_opts_attr_c_ssize,
- 	&f_uac2_opts_attr_c_hs_bint,
-@@ -2207,10 +2236,12 @@ static struct usb_function_instance *afunc_alloc_inst(void)
- 				    &f_uac2_func_type);
- 
- 	opts->p_chmask = UAC2_DEF_PCHMASK;
-+	opts->p_channels = UAC2_DEF_PCHANNELS;
- 	opts->p_srates[0] = UAC2_DEF_PSRATE;
- 	opts->p_ssize = UAC2_DEF_PSSIZE;
- 	opts->p_hs_bint = UAC2_DEF_PHSBINT;
- 	opts->c_chmask = UAC2_DEF_CCHMASK;
-+	opts->c_channels = UAC2_DEF_CCHANNELS;
- 	opts->c_srates[0] = UAC2_DEF_CSRATE;
- 	opts->c_ssize = UAC2_DEF_CSSIZE;
- 	opts->c_hs_bint = UAC2_DEF_CHSBINT;
-diff --git a/drivers/usb/gadget/function/u_uac2.h b/drivers/usb/gadget/function/u_uac2.h
-index 0df808289ded..bacd841c9df6 100644
---- a/drivers/usb/gadget/function/u_uac2.h
-+++ b/drivers/usb/gadget/function/u_uac2.h
-@@ -17,10 +17,12 @@
- #include "uac_common.h"
- 
- #define UAC2_DEF_PCHMASK 0x3
-+#define UAC2_DEF_PCHANNELS 0  /* 0 = derive from p_chmask */
- #define UAC2_DEF_PSRATE 48000
- #define UAC2_DEF_PSSIZE 2
- #define UAC2_DEF_PHSBINT 0
- #define UAC2_DEF_CCHMASK 0x3
-+#define UAC2_DEF_CCHANNELS 0  /* 0 = derive from c_chmask */
- #define UAC2_DEF_CSRATE 64000
- #define UAC2_DEF_CSSIZE 2
- #define UAC2_DEF_CHSBINT 0
-@@ -46,11 +48,13 @@ struct f_uac2_opts {
- 	int				p_srates[UAC_MAX_RATES];
- 	int				p_ssize;
- 	u8				p_hs_bint;
-+	u8				p_channels;
- 	int				c_chmask;
- 	int				c_srates[UAC_MAX_RATES];
- 	int				c_ssize;
- 	int				c_sync;
- 	u8				c_hs_bint;
-+	u8				c_channels;
- 
- 	bool			p_mute_present;
- 	bool			p_volume_present;
--- 
-2.34.1
+> > To answer why we need it:
+> > If we want to write i3cdev as a standard device driver, it can't
+> > actually match anything by default. This is because, some devices on the
+> > system may need specific drivers and i3cdev is generic and should
+> > technically match every device.
+> 
+> Yes, but I have seen no reason why we should expose i³c bus to the user
+> space. With i²c we already know very well that it was (and still is)
+> a bad idea. Why i³c is better (especially taking into account i²c
+> compatible mode and more complex programming flow)?
+> 
 
+cc'ing Andi Shyti from I2C subsystem for context.
+
+Andi, we're considering an I3C character device driver interface.
+If you have any feedback from your experience with I2C, can you
+please share it in:
+https://lore.kernel.org/linux-i3c/20260921230603.2518652-1-samagazaryan@google.com/T/#mb42d9b2785f8508d39eaf782b3d29189226b8029
+
+> > Since the driver_override is default NULL and is set via sysfs, this
+> > allows any specific drivers on boot to be loaded up and would allow
+> > explicit control on what device i3cdev gets bound to.
+> > 
+> > This was my rational. I will refine the commit message with more details.
+> 
+> Put a real life example why the exposing i³c devices into user space is
+> absolutely necessary.
+> 
+
+I'm supporting a kernel running on accelerator cards that plug into
+various server SKUs where hubs/devices along the bus are not physically
+on the card & may differ across SKUs. So, I'm looking to program hubs
+flexibly and dynamically from userspace to setup bus hardware paths.
+
+The hub drivers being posted to i3c subsystem require hard-coding in the
+devicetree to setup the ports physically according to intended
+bus/hardware design. As mentioned, these cards will not know what SKU it
+will be plugged into, so the devicetree hard-coding cannot reasonably be
+determined ahead of time. Theoretically, you may be able to add some
+bootloader support to go query SKU information from other server
+components and then populate the devicetree for the kernel, but that
+will require heavy lifting and plumbing between other server firmware
+components and the bootloader.
+
+Further replies and discussion can be routed here:
+https://lore.kernel.org/linux-i3c/20260921230603.2518652-1-samagazaryan@google.com/T/#mb42d9b2785f8508d39eaf782b3d29189226b8029
+
+Thank you,
+Meagan
+
+> > > > This is accomplished by the i3cdev driver not having any entries in
+> > > > the i3c_device_id table. After boot, simply set the driver_override
+> > > > to "i3cdev" and bind the device manually via the sysfs bind knob.
+> > > > This can also be automated with udev rules as well.
+> > > > 
+> > > > The character device interface will be exposed at: /dev/bus/i3c/<bus
+> > > > id>-<Provisional ID>
+> 
+> ...
+> 
+> > > > +	for (int i = 0; i < metadata->nxfers; i++) {
+> > > 
+> > > Why is 'i' signed?
+> 
+> > Mostly for readability and to make sure the line length on loop headers
+> > is kept below 80 chars. As a precaution, to make sure that 'i' can
+> > represent any metadata->nxfers value without overflow during loops, I
+> > check that metadata->nxfers is less than/equal to INT_MAX in
+> > get_metadata().
+> 
+> No need to add useless checks.
+> 
+> ...
+> 
+> > > > +/** + * print_i3c_err() - Prints the I3C error encountered during
+> > > > the prior + * call to the core's transfer function.  + * @i3cdev:
+> > > > i3cdev_data object + * @metadata: Kernel's copy of i3cdev_xfers
+> > > > (ioctl I3CDEV_XFER input) + * @i3c_xfers: i3c_xfer array that was
+> > > > sent to the I3C core
+> > > 
+> > > > + * Returns: void
+> > > 
+> > > Huh?! Where is this coming from?
+> > 
+> > In i3cdev_ioctl_do_xfers, if i3c_device_do_xfers failed, I wanted to
+> > print out the first I3C controller error encountered. The controller
+> > drivers can set this in the i3c_xfer.err field. Hence this function.
+> > 
+> > It's to aid debugging and provide useful error information.
+> > I can certainly refine the wording on the print_i3c_err documentation
+> > header to make this more clear.
+> 
+> My point is about kernel-doc. Why do we need the return section for void?
+> Where it comes from?
+> 
+> > > > + */
+> 
+> ...
+> 
+> > > Please, rely less on AI and more on the common sense and
+> > > proof-reading.
+> 
+> > I think I gave you the wrong impression. The new contributions in this
+> > series were written and developed by me. I used AI for quality assurance
+> > and cross-referencing. Since I incorporated some AI-flagged suggestions,
+> > I tried to acknowledge that with the Assisted-by tag.
+> 
+> I see, then there is a room to improve the code. But the main question is
+> why do we even need this whole interface to begin with?
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
+> 
+> -- 
+> linux-i3c mailing list
+> linux-i3c@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-i3c
