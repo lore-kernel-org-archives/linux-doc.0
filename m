@@ -1,210 +1,237 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AA13E4500
-	for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 09:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790243777; cv=pass; b=B8CzYKVwHAm6SAWtl3zK16HmciQFOJLQpIWiFPGJzmvXxGM/f1fpbG/Lonc9+dvC4uhkTmZmHUUzL7kgYdB0964vMEuKFmPHwpQcxv13R315JcIEqL/Est037imcGEKlUvmqmF7KG3kZ48w/CFVbxSY3Ia2bvheWA+GAUvHgQbM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790243777; c=relaxed/simple;
-	bh=LBZZcNSVeHHRIpD1xuzWESX6CCgFGvOZ+4ZFnY2ewKU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HnqX1OA+dFKNVGeIt7tf6e3EuX9H2kTDejkXtrjAH6uAkcB8leQC5auJDJm5D20AKgK1kr6XNKidSY5T8KdQ3Fw2GsqV8cKmxd8aPQKJOH/S9aEWsEI65yWJNAjUPBTEx02p3f5yJDVyW5DpR27jRAxuPiVuZYCutt0EqfzSiCk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JODW4//u; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AF838D406;
+	Thu, 24 Sep 2026 10:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790244251; cv=none; b=Xu6ATFNCvoAx2GDfD3bZ6ZklpHvT4dVaTkscCC4FzeR+fwG9wA3Sim6OT76EO5gC04HdfTfeSjy27RmM0cHZbIfPAIxvcnsTJXSWUuZ61i6JjBxHaA07VXIn7NKvkZXTEaW467lPqGGqS1OK092emfjU7+tWX/0eC5E+bGyyzhY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790244251; c=relaxed/simple;
+	bh=vbbMFj8U5zQ0DLQ+H49dKoTliQh3lrv6oisq4q6G+00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CS9IPY4FtTkjCQDMTbzEQI+R8Zgi9BRXu6IqYUYmAmLXmA6E66nealO4ulPqg5i9fQ8g+pggC5U+EtAEZJCAyxuyibKsuFsmpw3XZIPIMo6rFs4rlDYtETQ3x58/VWCbw1iDdcYxUDUXcRr0LEcYVnqvrJx9fDN1FlFA5rO4Wss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMbxskam; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JODW4//u"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-5311edbc154so14559861cf.3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Sep 2026 02:56:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790243763; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NVf/CqIW6OWM5F3zszGfbfl+f4TFWGT3RafMR7PhjovE0O8eA4bhnjYmC63YneO+JD
-         qLuR4M9PcTfGzILUOqAkl5TJlAvDnKrl8vx0Ga9SucGXvMkuUEiPU+vUAxcphO3zi874
-         hsnHeD8B78viIHwjKcfuCqUNmy1ohopFlr5DTloI8Mf5GMimPaKKzKOo8o7FSOvJCDW0
-         mZwHoL81VzCoYp+R2ksEMZODM1QwIi+cM5r9pYt7y20YfAh0GsE8fr6HXRiHOPzKxRzh
-         wZ9LBNYJZyJQM3vbYJJgygWxosKmNPe8R7npvKsuq4gxjv8+dthcxxnzOk/YfiWjTXSG
-         SoqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rM8Pnb3OaTJqlPgDl5Nu230H8PB3TRPyBVd+A2AcpH4=;
-        fh=QiVkRcyXj1xaPb3+q2YPU+ApwIRzM9wKA/mNyvnicHM=;
-        b=h9paJgNjhZVGtvz5ul3QgjZN5CXRL9/eU5gzsfraOXaN0TPsfAMtLVS7uhRgutMTC0
-         VnDRu5pyB7K2PBGSmoyRYlk9E1KccIrp0myuYixrN/GdXNfy5qsXZUdaKy1yjumJStTX
-         y2ZdatIWKx9ZMvf5BEX2HbEAsZLZY3LwedYzZfU2RBiRQCDxfbIbhJJLKjqirteLgx+e
-         W0CyNB8xedyQuHMgCsp4Ydt7+1PjPec46ZyifrocXcY2myZEK0J7TjbLHAQRrBWI244/
-         +tGPdXqVbgWguJgPV45YCcLZPUcNrJrHPSbNhL7Dl77zQdHj1zehoS5PCI4xzOgd+QPK
-         U6Mg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790243763; x=1790848563; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rM8Pnb3OaTJqlPgDl5Nu230H8PB3TRPyBVd+A2AcpH4=;
-        b=JODW4//u3KjtFnoafHckYjbn/WXha6Zo9QUiqtgARpc7DjBG0mhE0WWH+hSp6QxsNm
-         RfYVeBrlMNaoigggDW6bLYZkB/uWJilNXDFvbdrL36dL+fm5HmpCEUZ60jPpRQYZCPAw
-         C/PM4Ypr9TRp0aRT/iAXkY+ck9MM5VKEqtGOKkZwp7Pe0cuc2nCPFuoFVFFfi7IGy3Kt
-         k5Fv+L7nfpY1z6MkPu1vtql9PBXlqQ8A130evougp8/k8OVH0GzSToEOXITzEzSv0+0O
-         hCpLEC4ltGH4PCVCEyb0S5OvP3NAzgIqZsERBJifrjKchVfuLn2YBZKdazPT5ztVnquF
-         CRlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790243763; x=1790848563;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rM8Pnb3OaTJqlPgDl5Nu230H8PB3TRPyBVd+A2AcpH4=;
-        b=mUr1EO3nXKo/+Fv7zuJyOX7IYm/D0bxO6keKO6ZHW7+s0H9ZcGUHUZkT6/47m8Pftd
-         y9qneMkHYwe51DpZdP/jgjLxPktzVZ5cIC/53/rE4uZz1ssDIfPIgFTw4I+ClurG1TsB
-         raMHNS+ocofvEPKtJTrgtnCyju0eAb2wfGXT3esxwLE6XVS4PE0oKPWzpWRISZMxmRbA
-         xgDoKH/dQIF7Jh1CHnneqrzJfEAhKSOhLfQQWrdFLZRKQ0SpioGfkfw2Sgcms6O2OsoQ
-         8YkWNJEBsfFkRND6ErNZ2a4T1trw27kE4toaV2Ju9msEXRwHB0utBtPEq3YtbksC4l0H
-         PF7Q==
-X-Forwarded-Encrypted: i=1; AKwUvByv1NzOe+q1ttdwhqJEqJRaG/RYky4VSmNRK7/d4vcYzMyGClPAGzj+sDYq4EqH2TqjX4vETWCvGGA=@vger.kernel.org
-X-Gm-Message-State: AFuF++k4vddOUOs8xKjgX8G1KpcD2yOgVv277EpahPjMGjJmrpjOw1DR
-	ov0+lp7ANJv/CiE80/68gZ8gl/rNRY66lz9gDYeHlBHGwEdNxo6Qmu6hs0r1NYfRIpWwYD3VxVh
-	oFQ+bJpLNxfyjos4N1H5E48M2gocr7yP0TXVFWPfv
-X-Gm-Gg: AYBFou27VXbUQq5hPaZBV2Mr9B8BYBpEJawZAZKsszToWmBy30R3VYyimPDjqjDKflj
-	zGWnHbfLeO/9OguGFfs9aRUywPVXohqPKJArisnYIKzU6T51do4M1I2mqmK6FvSRdi76lf1ig7E
-	HS69xBamZlYYuD6UyxYMQTX7NukmTfMRbmZHpVq7iF1m03v1/tN0mJovjFT3HDyL91ZUWsuLeJS
-	Zu/Z+XXyRb2arKYfzlnKy1uY/RVUjDXlrZFWdHHZ33sBVCJraNvgtLxY2mZksT3eVhE6OwYG7+Z
-	JhnVUpuR6MF690tY3nz88NRJX23YSMXc2Wi1N/4YJPujPFiFxC7mpVGwmwnkTivRJE1La8f/KOY
-	Y/Xo4W223MwQrbyneE6DK2gAL/l6XRIObMPV9ElGR+zdKg/EbUPkUkoNxfASTAg4yP+78
-X-Received: by 2002:a05:622a:5a0f:b0:532:8f15:2744 with SMTP id
- d75a77b69052e-532fea4d150mr14339051cf.20.1790243762050; Thu, 24 Sep 2026
- 02:56:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMbxskam"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 097291F000FF;
+	Thu, 24 Sep 2026 10:03:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790244234;
+	bh=Q6qe1GeJ9XQcp2Qtuu+QjoS116ZDPXf6D3ecAVzIRhY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DMbxskamLqIuQ517s1qWGAAn1E+xsD1IWLYGPnumbRx6pTv8bCwHJNooLP/0Y9MmF
+	 ewyfTQFlrtMHi0vbNbmoGXeP02wTiKXQwMUnfW6BJPnwha3F6zTor4G266x5NCtrLZ
+	 UINk2FfnnrWpmI4AgQSRtCEaaer/qXtOU6XcHLmcrADLmAXvRTfOudurStBkH10L0j
+	 cHXvTwq8BsOo1ESnuzegeDjHk5jwPxjbI7VL3VpDQNaTCWwI1ExYzT3hhqIHmtSCUY
+	 phCcWTevzoeBg5AakjX55gtjhS7DlK4HJYPRuO/TGOEmjyYP86Mnf1i03HAWs2ule+
+	 sZHwPnp+ZmfYA==
+Date: Thu, 24 Sep 2026 11:03:23 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
+	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 01/40] mm/vma: fix mmap_prepare file handling, remove
+ file_doesnt_need_get
+Message-ID: <arTvHhdoxZi_LslN@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-1-4583d8a23bca@kernel.org>
+ <26EB9785-2909-4D49-A755-09A72BA94BD0@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260924080219.1036588-1-caixinchen1@huawei.com>
- <CANn89iJVGmYwQerOixGurH6vw-GtvSAQq6u6zSNZoyZrcEx6Jw@mail.gmail.com> <d8c12b4e-4ff2-4c62-a40d-d67bb4680a0d@huawei.com>
-In-Reply-To: <d8c12b4e-4ff2-4c62-a40d-d67bb4680a0d@huawei.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Thu, 24 Sep 2026 11:55:50 +0200
-X-Gm-Features: AclHuK_LOWvzBhJczhAfbtW30YiVgV1gD1vN5_bi3qPOiAKB6UaaHqyDAfOb9kg
-Message-ID: <CANn89iLA55e6evpx__7AUQF45uYAbUHxRtz4rVT=vsKpqBRWkA@mail.gmail.com>
-Subject: Re: [PATCH RFC -next 0/5] net: charge socket memory budget to memcg upfront
-To: Cai Xinchen <caixinchen1@huawei.com>
-Cc: tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, kuniyu@google.com, 
-	pabeni@redhat.com, willemb@google.com, davem@davemloft.net, kuba@kernel.org, 
-	horms@kernel.org, ncardwell@google.com, matttbe@kernel.org, 
-	martineau@kernel.org, geliang@kernel.org, mhocko@kernel.org, 
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev, 
-	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, mptcp@lists.linux.dev, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, lujialin4@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <26EB9785-2909-4D49-A755-09A72BA94BD0@nvidia.com>
 
-On Thu, Sep 24, 2026 at 11:25=E2=80=AFAM Cai Xinchen <caixinchen1@huawei.co=
-m> wrote:
+On Wed, Sep 23, 2026 at 10:20:43PM -0400, Zi Yan wrote:
+> On 17 Sep 2026, at 12:22, Lorenzo Stoakes (ARM) wrote:
 >
-> Hi,
+> > The map->file_doesnt_need_get flag is confusing and the existing
+> > implementation has holes.
+> >
+> > Drivers are permitted to change the owning file of a mapping. If they do
+> > so, they are required to take a reference on that file.
+> >
+> > The mmap() operation which ultimately invokes __mmap_region() is guaranteed
+> > to drop the refcount for the original file the mapping was made under, but
+> > this is not true for the replaced file.
+> >
+> > This has been addressed so far by tracking map->file_doesnt_need_get, which
+> > is rather poorly named and unfortunately fails to correctly track whether
+> > or not an additional put were needed in a number of cases.
+> >
+> > Make life easier by removing this flag, and instead drop the reference for
+> > both mmap_prepare and the deprecated mmap callback in a new function
+> > put_map().
+> >
+> > Track whether this needs to be done by aligning mmap_state with
+> > vm_area_desc and store the original file in the map->file field, keeping
+> > the updated file in map->vm_file.
+> >
+> > In order to have the same behaviour for both types of hooks, only drop the
+> > reference __mmap_new_file_vma() itself took in its error path, deferring
+> > the replaced file's reference to put_map().
+> >
+> > To make this work correctly, map->vm_file has to be updated before any
+> > error handling, so update __mmap_new_file_vma() and call_mmap_prepare() to
+> > set this field first.
+> >
+> > Also when mmap_prepare() changes the file and is then merged, the reference
+> > count also must be decremented, so update the logic to call put_map() in
+> > this case too.
+> >
+> > Also update __compat_vma_mmap() to manually perform this step for stacked
+> > file systems using the compatibility layer, and update
+> > compat_set_vma_from_desc() to replace vma_set_file() with a correct
+> > refcount/file update.
+> >
+> > No in-tree driver is impacted by the incorrect implementation of this
+> > currently (no driver that does this is mergeable for one), so this does not
+> > need to be a fix.
+> >
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > ---
+> >  mm/internal.h |  1 +
+> >  mm/util.c     |  5 +++-
+> >  mm/vma.c      | 83 +++++++++++++++++++++++++++++++++++------------------------
+> >  mm/vma.h      |  6 +++--
+> >  4 files changed, 59 insertions(+), 36 deletions(-)
+> >
+> > diff --git a/mm/internal.h b/mm/internal.h
+> > index 0dca33db068f..fe576d468af4 100644
+> > --- a/mm/internal.h
+> > +++ b/mm/internal.h
+> > @@ -7,6 +7,7 @@
+> >  #ifndef __MM_INTERNAL_H
+> >  #define __MM_INTERNAL_H
+> >
+> > +#include <linux/file.h>
+> >  #include <linux/fs.h>
+> >  #include <linux/khugepaged.h>
+> >  #include <linux/mm.h>
+> > diff --git a/mm/util.c b/mm/util.c
+> > index bf0513d1d3d0..016932780925 100644
+> > --- a/mm/util.c
+> > +++ b/mm/util.c
+> > @@ -1228,8 +1228,11 @@ int __compat_vma_mmap(struct vm_area_desc *desc,
+> >
+> >  	/* Perform any preparatory tasks for mmap action. */
+> >  	err = mmap_action_prepare(desc);
+> > -	if (err)
+> > +	if (err) {
+> > +		if (desc->vm_file != vma->vm_file)
+> > +			fput(desc->vm_file);
+> >  		return err;
+> > +	}
+> >  	/* Update the VMA from the descriptor. */
+> >  	compat_set_vma_from_desc(vma, desc);
+> >  	/* Complete any specified mmap actions. */
+> > diff --git a/mm/vma.c b/mm/vma.c
+> > index 55917d097933..fa784f069da4 100644
+> > --- a/mm/vma.c
+> > +++ b/mm/vma.c
+> > @@ -24,7 +24,8 @@ struct mmap_state {
+> >  		vm_flags_t vm_flags;
+> >  		vma_flags_t vma_flags;
+> >  	};
+> > -	struct file *file;
+> > +	struct file *file;	/* mmap()-specified file. */
 >
-> Thank you for the review.
+> IIUC, file is never assigned other than MMAP_STATE() and should not
+> change after mmap(). Could it be made const to prevent any change?
+> I assume mmap_state will not need to handle the nesting issue like
+> vm_area_desc, so file can be const.
+
+Oh I had assumed that this couldn't be const and I thought I'd checked that, but
+seems not, it can be :)
+
+Will fix that up for v4 thanks!
+
 >
-> We found that sk_forward_alloc is a plain int updated by a non-atomic
-> RMW (sk_forward_alloc_add(), where even the read side is not
-> READ_ONCE), and its writers span three unrelated lock domains:
+> > +	struct file *vm_file;	/* May be updated by mmap_prepare. */
+> >  	pgprot_t page_prot;
+> >
+> >  	/* User-defined fields, perhaps updated by .mmap_prepare(). */
+> > @@ -43,8 +44,6 @@ struct mmap_state {
+> >
+> >  	/* Determine if we can check KSM flags early in mmap() logic. */
+> >  	bool check_ksm_early :1;
+> > -	/* If .mmap_prepare changed the file, we don't need to pin. */
+> > -	bool file_doesnt_need_get :1;
+> >  };
+> >
+> >  #define MMAP_STATE(name, mm_, vmi_, addr_, len_, pgoff_, anon_pgoff_, vma_flags_, file_) \
+> > @@ -58,6 +57,7 @@ struct mmap_state {
+> >  		.pglen = PHYS_PFN(len_),				\
+> >  		.vma_flags = vma_flags_,				\
+> >  		.file = file_,						\
+> > +		.vm_file = file_,					\
+> >  		.page_prot = vma_flags_to_page_prot(vma_flags_),	\
+> >  	}
+> >
 >
->    - socket lock, process context: SO_RESERVE_MEM and TX grants
->       (__sk_mem_schedule(), sk_forced_mem_schedule());
 >
->    - receive-queue lock, softirq: UDP RX charges and the
->       udp_rmem_release() fold;
->
->    - no lock at all: sk_mem_charge()/sk_mem_uncharge() from
->       skb_set_owner_r() and skb destructors, and the sk_mem_reclaim()
->       fold itself.
->
-> Any cross-domain pair loses an update.  A lost charge is still
-> returned in full by the matching skb free, so it resurfaces as a
-> phantom surplus in sk_forward_alloc, and the next fold hands it back
-> to the memcg via __sk_mem_reduce_allocated() ->
-> mem_cgroup_sk_uncharge() - an uncharge with no matching charge.
->
-> We first tried to fix it with locks, and hit three walls:
->
->    - the socket lock cannot be used: its holders free skbs (e.g.
->       tcp_recvmsg()), and the destructor's sk_mem_uncharge() would
->       need to re-acquire it - recursion.  That is why these helpers
->       are lockless in the first place;
->
->    - a new per-socket spinlock serializes the RMWs but not the bug:
->       __sk_mem_schedule() publishes the grant before the memcg charge,
->       and the charge may sleep (GFP_KERNEL, memcg reclaim/OOM), so no
->       spinlock can cover both steps; a fold in that window can still
->       refund pages whose charge afterwards fails;
->
->    - such a lock would also sit on the per-packet charge/uncharge
->       paths, exactly the hot path the cacheline layout around
->       sk_forward_alloc was tuned to keep cheap.
->
-> Are there any good solutions to solve this problem?
+> Best Regards,
+> Yan, Zi
 
-Perfect, you now gave us what we need.
-
-UDP is broken, it should be easy to fix without breaking TCP.
-
-I am surprised your LLM went to a completelly broken path.
-
-sk_forward_alloc is never supposed to be updated locklessly across
-multiple lock domains:
-
-- For TCP, sk_forward_alloc is strictly serialized by the socket lock
-  (lock_sock / bh_lock_sock). TCP does not use sock_rfree() as an skb
-  destructor (sk_mem_uncharge() is called under the socket lock in
-  tcp_eat_recv_skb() and sk_wmem_free_skb(), while TX destructors
-  sock_wfree() / tcp_wfree() only touch sk_wmem_alloc).
-
-- For UDP, sk_forward_alloc is serialized by sk->sk_receive_queue.lock
-  (in __udp_enqueue_schedule_skb() and udp_rmem_release()).
-
-Your reproducer and analysis point to two specific places that violate
-these locking rules:
-
-1. SO_RESERVE_MEM on UDP sockets:
-   SO_RESERVE_MEM (commit 2bb2f5fb21b0, "net: add new socket option
-   SO_RESERVE_MEM") was designed for TCP, where sk_forward_alloc is
-   protected by lock_sock(sk) and sk_mem_reclaim() checks
-   sk_unused_reserved_mem(sk).
-
-   However, sock_reserve_memory() only checks sk_has_account(sk), which
-   also matches UDP. UDP does not support SO_RESERVE_MEM:
-   udp_rmem_release() does not check sk_unused_reserved_mem(sk) (so the
-   first recv() reclaims the reserved pages from sk_forward_alloc), and
-   setsockopt(SO_RESERVE_MEM) only holds lock_sock(sk) instead of
-   sk->sk_receive_queue.lock, racing with __udp_enqueue_schedule_skb()
-   and udp_rmem_release().
-
-   We can fix this directly in sock_reserve_memory():
-diff --git a/net/core/sock.c b/net/core/sock.c
-index 1d5927cd49a1..763c2017d9ef 100644
---- a/net/core/sock.c
-+++ b/net/core/sock.c
-@@ -1034,7 +1034,7 @@ static int sock_reserve_memory(struct sock *sk, int b=
-ytes)
-  bool charged;
-  int pages;
-
-- if (!mem_cgroup_sk_enabled(sk) || !sk_has_account(sk))
-+ if (!mem_cgroup_sk_enabled(sk) || !sk_is_tcp(sk))
-  return -EOPNOTSUPP;
-
-2. BPF sockmap (net/core/skmsg.c):
-   As you noted in the reproducer comments, sk_psock_skb_ingress() and
-   sk_psock_skb_ingress_self() call sk_rmem_schedule() and
-   skb_set_owner_r() (which installs sock_rfree() as skb->destructor)
-   from sk_psock_backlog() or after dropping sk_receive_queue.lock in
-   udp_read_skb(). Calling skb_set_owner_r() / sock_rfree() without the
-   socket lock (or sk_receive_queue.lock for UDP) on protocols with
-   sk_has_account(sk) is a bug in net/core/skmsg.c and should be fixed
-   there.
+--
+Cheers, Lorenzo
