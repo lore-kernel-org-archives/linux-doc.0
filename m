@@ -1,88 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCEC372B32
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 05:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAFD3CFF44;
+	Fri, 25 Sep 2026 05:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790314273; cv=none; b=Db8ndH/SsEVr747tzaD2yMjPpo0BjqsjXLaw6nYrOIi3UOL4vjyWq96HJabnhFcDInU1yzsNj4A/fCmh/0x62yMbNJ9LbeEjy6G6DhrlMpSEhRSG7MHp6HE8LHdxxZHpIvCKFkfsFJho3KIJVDacMiX7v0xq/02rlZGPN/E45E4=
+	t=1790314373; cv=none; b=uGoKiklyLfn8wHkK8bvwQZnwgr7Nm6mEwR7kAcYXMWJ/XL3JnVnfpmd5HPU1ohofH1/eYZhMmS+dRi1TJddtjVos7/qCyOGU0c9htCvGNu601psnKCukqQnjaEgu7+4FzMDvLul2CDzI+GKrRkar1ZrFk4hwKDFeerJjBmNOxQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790314273; c=relaxed/simple;
-	bh=CwKYRieg37gmdnMA1DfYuZbGfEeMCtCrEiqac79Z6zo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GYIR0I9UQxotAI2x7Hr/gKw2xorw1ax4CVKyZFY1wQEHg5cwJMQBpzKvmG0EYXvM9yU4/PGjsJNlO6PzlH+x2O0ggEQyhAJDYgXC2yPXV69DRICqipxc5bua4Eq2XKn8s4j71nm1KuMpZ8LwO8/P76L0qWygpTTA9Y3IJ/9X2Pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DawhM1k9; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790314373; c=relaxed/simple;
+	bh=T4F1AtXOGaopsvccnl71wlmC/7QDXyejikqQn/XY7y8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fnO6g5dFvtQM3txLgnEVlqH2pHyOH2GC2nPRJJsgwBQ1OcTKE5bPEwxVISOxmcdkuDJN3KCgEMucBx+kSRDl8K5eNQttbrbc3cJApNSw336z3ycvdu0XQ+RzG4PuGGhZWcBptcZXw84ylXFioDGZEdV7t0Q8SDIxIIsrnawAysk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWgLZkHh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DawhM1k9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790314270; x=1821850270;
-  h=date:from:to:cc:subject:message-id;
-  bh=CwKYRieg37gmdnMA1DfYuZbGfEeMCtCrEiqac79Z6zo=;
-  b=DawhM1k9pbh6AzuSkbLfJBSzp/lSp8iPtA+jEaesz+zmFHRgt4c/fygr
-   W+3fQmLc7MQbCUoeX7uMIoiN5pv8/b9upz7gXFgFnBMD/SCO9h4c+rZJe
-   mQJq7HuI6dyot617C3hxbirooMvktd4BpYQr71yic1HzQ4HbASbLbfO7l
-   5pcT3yVSFZS+WCTzIRveQKmCfmD9TFrHB7D18U5jfUzH2PbNZSoXw7jNV
-   9yra7ntF8Sn+kkYrlsG7BSCiny54gO6xnKUg06hmTeJM4o8l9brw4E2fQ
-   jEVIRO0nWcuFxqQvsOrWOncNkC1M8iavXqazrxH1MxhBbcKlf9Mjs1dFc
-   g==;
-X-CSE-ConnectionGUID: OHIeofUUSfuVzwLWaHgZ0A==
-X-CSE-MsgGUID: +Goy2x3MQOWdawiDs+WrMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="108587371"
-X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="108587371"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 22:31:09 -0700
-X-CSE-ConnectionGUID: bq47cIOLQDqqpD0zzWNL3w==
-X-CSE-MsgGUID: qFBzM5tvRRibxZ8ZNi7VTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
-   d="scan'208";a="277994244"
-Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 24 Sep 2026 22:31:07 -0700
-Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x9yWX-000000000bK-1Jpg;
-	Fri, 25 Sep 2026 05:31:05 +0000
-Date: Fri, 25 Sep 2026 07:30:57 +0200
-From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
- "Rob Herring (Arm)" <robh@kernel.org>, linux-doc@vger.kernel.org
-Subject: [lee-mfd:for-mfd-next 30/35] htmldocs: Warning:
- Documentation/devicetree/bindings/leds/leds-cpcap.txt references a file that
- doesn't exist: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
-Message-ID: <202609250750.y6ENIshd-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWgLZkHh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 051E41F000FF;
+	Fri, 25 Sep 2026 05:32:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790314372;
+	bh=xAGBELmoLKJk45xKYd6Kx/CkqQ+/Q5vwxfgOwHZoR0I=;
+	h=From:To:Cc:Subject:Date;
+	b=UWgLZkHhHDFli2kL6Mlga2FsfQD2u0tS20U11nIVK3GpxquNAh2yw3fL6Zo4kzvZQ
+	 BxEHTy/30zhpjnj4Xu3bdTFA0xh9Y0hvFNctIE9PJUfTGtNOLZ5P30ELfkVAoIgErB
+	 a8bnWAOCv0d0ZAdnlFPCdlBXEobmlPUl1IAl1LYcFDiMBYC4wJ4Vsgt0F3DzU9tC9s
+	 BLqUDIlJ10wxoF4jbYNDkOBZy+7/8TKUTMwUu0pwMXirgL21/mPc2X8gGvQeiDXHE1
+	 6UW6sQa0wYY+ikaN/DHI6uaZokmwmRI8/hxBjWQ2OP8FxiM8k0KDj/rb5/cPqmZnvf
+	 pO3gKMaauFIHA==
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-crypto@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	linux-doc@vger.kernel.org,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: [PATCH] MAINTAINERS: Place libcrypto docs under CRYPTO LIBRARY
+Date: Thu, 24 Sep 2026 22:32:40 -0700
+Message-ID: <20260925053240.189395-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-head:   319633b06ff2bfc2a7a60d2cfcab2e681a343b27
-commit: ed7977e8eacb7efffda85be34af62631d0f03939 [30/35] dt-bindings: mfd: motorola-cpcap: Convert to DT schema
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260925/202609250750.y6ENIshd-lkp@intel.com/reproduce)
+Place Documentation/crypto/libcrypto* under the appropriate entry in
+MAINTAINERS.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609250750.y6ENIshd-lkp@intel.com/
+Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+---
 
-All warnings (new ones prefixed by >>):
+This patch is intended to be taken through libcrypto-next
 
-   Documentation/translations/pt_BR/process/security-bugs.rst: :doc:`regular path submission </../../../process/submitting-patches>`
->> Warning: Documentation/devicetree/bindings/leds/leds-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c52ec2d7d3c1..12647d3b367a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6980,6 +6980,7 @@ L:	linux-crypto@vger.kernel.org
+ S:	Maintained
+ T:	git https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git libcrypto-next
+ T:	git https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git libcrypto-fixes
++F:	Documentation/crypto/libcrypto*
+ F:	lib/crypto/
+ F:	scripts/crypto/
+ 
+
+base-commit: 165768bb70265b5c38cf0b73fafd75be235f8b14
+-- 
+2.55.0
+
