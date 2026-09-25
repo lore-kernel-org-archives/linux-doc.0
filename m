@@ -1,96 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06092D73B9;
-	Fri, 25 Sep 2026 05:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCEC372B32
+	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 05:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790313984; cv=none; b=g7gXsT6T1fg/1AnRR/h5+EWBA+Zd1qSsgTiAbkf6fQw4Gb5yyvlshuYkrqm+JRNz5bJFNUMT64Crsjvo8FYjPzhvtUidUJ4/PLlTWDy0FeAgw94OoZPBjcOladcjbh1QTyXSK6ag2kKm9K6sPDAkeD7UKIXst+wEA3yQXPSnv/A=
+	t=1790314273; cv=none; b=Db8ndH/SsEVr747tzaD2yMjPpo0BjqsjXLaw6nYrOIi3UOL4vjyWq96HJabnhFcDInU1yzsNj4A/fCmh/0x62yMbNJ9LbeEjy6G6DhrlMpSEhRSG7MHp6HE8LHdxxZHpIvCKFkfsFJho3KIJVDacMiX7v0xq/02rlZGPN/E45E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790313984; c=relaxed/simple;
-	bh=MP46wPWD8j8ODihGnKM1w/cGQIi5qrnoZHvqcqT9wW4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eciH3GEtMbrRyFdeghy1WHGrHngQu7l6OtHGkFsp1mwEozaQXjF0xzfLqK53iwkEuw9SxoNQY2TD5xNJBDbQJKpocQLi5wpGfAGmsiMHO1mWf4/aENT8pX1CSlkIdqDV0Eoo6ry3ef8ZQik8d1NeJblm7jTytoqtVOSs8w1o7YY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AxlKoSsQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790314273; c=relaxed/simple;
+	bh=CwKYRieg37gmdnMA1DfYuZbGfEeMCtCrEiqac79Z6zo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GYIR0I9UQxotAI2x7Hr/gKw2xorw1ax4CVKyZFY1wQEHg5cwJMQBpzKvmG0EYXvM9yU4/PGjsJNlO6PzlH+x2O0ggEQyhAJDYgXC2yPXV69DRICqipxc5bua4Eq2XKn8s4j71nm1KuMpZ8LwO8/P76L0qWygpTTA9Y3IJ/9X2Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DawhM1k9; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AxlKoSsQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46B411F00893;
-	Fri, 25 Sep 2026 05:26:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790313982;
-	bh=D2dP+9qLw/W2WhQJy/yudsqVi8Y99UTYvNb8hXeqw7U=;
-	h=From:To:Cc:Subject:Date;
-	b=AxlKoSsQ+X+IWAAa4D75kbeOrX8+iau0y7wzFeKMQGASc0fp1KXPPQsvkcIDU+dgf
-	 64ZhiZbyVD+4sqi3DoB8yCadosA+7LYpNUeuPUuh/lr53f04f5gdcW2qPNg4zyFsp6
-	 Vbx5rRlwDSRHk08tMQ8YPd2kOJU5D/GK8jHSyaPoF6CNcpcxxIh1M9VoFRNQPUAZcF
-	 u8fUQQ+fiEG+T/IfzlH7dYalTIlOSBiFH53arrrplsV9xrSHygl4kmPThZy0WJp9UV
-	 DOMUroT9r3o0VbVX+2xQBlelVk1wC9KKsmopFH/7jmSrz4mUwrIhMuXjM/JPtQhEE9
-	 SHQSB/aWEijwQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-crypto@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Jason A . Donenfeld" <Jason@zx2c4.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	linux-doc@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH] Documentation: libcrypto: Add additional testing information
-Date: Thu, 24 Sep 2026 22:25:02 -0700
-Message-ID: <20260925052502.188024-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DawhM1k9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790314270; x=1821850270;
+  h=date:from:to:cc:subject:message-id;
+  bh=CwKYRieg37gmdnMA1DfYuZbGfEeMCtCrEiqac79Z6zo=;
+  b=DawhM1k9pbh6AzuSkbLfJBSzp/lSp8iPtA+jEaesz+zmFHRgt4c/fygr
+   W+3fQmLc7MQbCUoeX7uMIoiN5pv8/b9upz7gXFgFnBMD/SCO9h4c+rZJe
+   mQJq7HuI6dyot617C3hxbirooMvktd4BpYQr71yic1HzQ4HbASbLbfO7l
+   5pcT3yVSFZS+WCTzIRveQKmCfmD9TFrHB7D18U5jfUzH2PbNZSoXw7jNV
+   9yra7ntF8Sn+kkYrlsG7BSCiny54gO6xnKUg06hmTeJM4o8l9brw4E2fQ
+   jEVIRO0nWcuFxqQvsOrWOncNkC1M8iavXqazrxH1MxhBbcKlf9Mjs1dFc
+   g==;
+X-CSE-ConnectionGUID: OHIeofUUSfuVzwLWaHgZ0A==
+X-CSE-MsgGUID: +Goy2x3MQOWdawiDs+WrMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="108587371"
+X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
+   d="scan'208";a="108587371"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 22:31:09 -0700
+X-CSE-ConnectionGUID: bq47cIOLQDqqpD0zzWNL3w==
+X-CSE-MsgGUID: qFBzM5tvRRibxZ8ZNi7VTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
+   d="scan'208";a="277994244"
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 24 Sep 2026 22:31:07 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9yWX-000000000bK-1Jpg;
+	Fri, 25 Sep 2026 05:31:05 +0000
+Date: Fri, 25 Sep 2026 07:30:57 +0200
+From: kernel test robot <lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+ "Rob Herring (Arm)" <robh@kernel.org>, linux-doc@vger.kernel.org
+Subject: [lee-mfd:for-mfd-next 30/35] htmldocs: Warning:
+ Documentation/devicetree/bindings/leds/leds-cpcap.txt references a file that
+ doesn't exist: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
+Message-ID: <202609250750.y6ENIshd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Link to the KUnit documentation, mention the existence of the benchmarks
-and how to enable them, explicitly mention that the tests can be run on
-real hardware, and mention that it's often possible to clear CPU
-features via the kernel command line.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+head:   319633b06ff2bfc2a7a60d2cfcab2e681a343b27
+commit: ed7977e8eacb7efffda85be34af62631d0f03939 [30/35] dt-bindings: mfd: motorola-cpcap: Convert to DT schema
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260925/202609250750.y6ENIshd-lkp@intel.com/reproduce)
 
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609250750.y6ENIshd-lkp@intel.com/
 
-This patch is intended to be taken through libcrypto-next
+All warnings (new ones prefixed by >>):
 
- Documentation/crypto/libcrypto.rst | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+   Documentation/translations/pt_BR/process/security-bugs.rst: :doc:`regular path submission </../../../process/submitting-patches>`
+>> Warning: Documentation/devicetree/bindings/leds/leds-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
 
-diff --git a/Documentation/crypto/libcrypto.rst b/Documentation/crypto/libcrypto.rst
-index e911e0521597..53037e62728e 100644
---- a/Documentation/crypto/libcrypto.rst
-+++ b/Documentation/crypto/libcrypto.rst
-@@ -127,6 +127,8 @@ The crypto library uses standard KUnit tests.  Like many of the kernel's other
- KUnit tests, they are included in the set of tests that is run by
- ``tools/testing/kunit/kunit.py run --alltests``.
- 
-+For more information about KUnit, see Documentation/dev-tools/kunit/start.rst.
-+
- A ``.kunitconfig`` file is also provided to run just the crypto library tests.
- For example, here's how to run them in user-mode Linux:
- 
-@@ -148,6 +150,17 @@ emulate the correct type of hardware for the code to be reached.
- Since correctness is essential in cryptographic code, new architecture-optimized
- code is accepted only if it can be tested in QEMU.
- 
-+Most of the crypto KUnit tests also include benchmarks.  To enable these, enable
-+``CONFIG_CRYPTO_LIB_BENCHMARK=y`` (in addition to the tests themselves).  The
-+benchmark results are printed to the kernel log when the test runs.
-+
-+Of course, the crypto KUnit tests can also be run on real hardware.  Note that
-+it is generally still possible to test and benchmark non-default code paths in
-+this case (for example, the software implementation of AES when the CPU has
-+hardware-accelerated AES), since on many architectures the kernel supports
-+disabling CPU features via the kernel command line.  For example, on x86,
-+the ``clearcpuid=aes`` kernel command line option disables AES acceleration.
-+
- Note: the crypto library also includes FIPS 140 self-tests.  These are
- lightweight, are designed specifically to meet FIPS 140 requirements, and exist
- *only* to meet those requirements.  Normal testing done by kernel developers and
-
-base-commit: 165768bb70265b5c38cf0b73fafd75be235f8b14
--- 
-2.55.0
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
