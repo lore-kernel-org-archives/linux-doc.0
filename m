@@ -1,191 +1,104 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3982F4483AC
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 07:37:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790321868; cv=pass; b=TvH4IK4fVR4K/DdyHlZxcOtui5nYf5EZveqW/rhL8s8D/rMsf7QuQGbpRsQ68n40SPhl46ojg+YJX1nXzvKXSE1Y+f+C+9UZvDW8pT9CiWGAdb48Vl8ymH2qF8kfRYv8n2CFY+Qw8ZLRPWOd/LhAulcWINUsIxqxsFGaf0D1T9A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790321868; c=relaxed/simple;
-	bh=4HRCApcqOCblV/nRa/gIhH9hhLpyjFWAyS7KPdKAl2s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WIg4mE+/tDJWp9SzFil4drhFXCOy24VjRz6pkkUHnWN3r2hSxJZyW1LOiAefyhENOre9upuHvwaZ6l/NheyhRSzeGsEGuTy9vDFEAYBKSTvzeT461L8Ciped3HCDdjDeyPi9HqlluQXdo90w29gHxSA1dQqpH9zfLdayZ/+SMew=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mQ9vFxFo; arc=pass smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A18745198E;
+	Fri, 25 Sep 2026 07:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790322217; cv=none; b=a+mHV2vpgZVXIDMOGOh+Caa9e8Yvuvc5O+JmY3DA/YKigw9v8OiRMmOwVxuC5frVoI8ny/IMDkGvqkucQh/S6O2ez1yI4s4c8lnoFxmZxZys1p8cfaoazLAENU7I50opXbFkuvK1JXUHJ9E6cylY3hiMV16vcTwbkSgGayxcX7Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790322217; c=relaxed/simple;
+	bh=HmLFghI7T/rZIZJUKluSxFd5PCbOk8DZrf0mZqC6KAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h1+z1DpEDsNp3nlSumKrddpxMcAdETmbI+3FpjYu4uxX5yXCAjx9p9M5CvVkgC6T6wbjpNR0nyWmuGYwcP8RnupEAU2k2XVO0eLNZasiONm4Bk5tp3JG2y7jBq80NgRY4oku7dSA/YK0xr2354Afgu9bUTrjfexsyBCtmTcd2kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MUvezfih; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mQ9vFxFo"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6a5f9b036f9so5522a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 00:37:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790321862; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VBe3FYAP8gLYpQaTDsW2hd9oCu6Ze71ObRR02QoG2hrXIPz0bboWqQPYvrWJt0RyUT
-         lLanYbMJoCBnxl9LoS8PfLBuz++pAQJOtDgjizGx9BgR44xM1Nku1F1j7+HknEq9BFme
-         Dr310qWVtafPYxFBubIbshgek0uhnfA2yWsrr5tj0kx+Ta/vjBLQ9NWbkZCMTa/a1adE
-         eNFaifdyXx4DkNl7oTLdEMPZuVapXMSLCA3ngGJdvPosmBdtx+zsqy6iFUdL5GQQ83gu
-         hxz8cS8TmE8obDZ/I667a7v1Oxs5jzfF3BOgKk5J98MYAyOTT3PB6Hgo7HDZeNDoKZ2c
-         iBbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1Oc+jzCqS0Wyq/bTJh2/I4jluChyvqK4NXUNsIigcps=;
-        fh=n4cgBAzAka2TqMqanoC1beoPoxTXXKtrYiXqDsCed6w=;
-        b=RisE68CIGQRGEMBhbyrnECZYPu/tiEPxzgE02XZjLXpyeLH/WB/9MUshoaeeZd41CL
-         21AczQj3BEWPA9M0MEtW6JxaNdrtR+B24Qiw8VheKyRyTHkWYH0a/xfzD348Ka3PHRBF
-         EuP7MnGpybcqiTUo5QJZShKehEcKsKmK6Vz6djyKHEczkAk21dURZIqGwE7KNuEL7oJ2
-         ZP0Wy2ruQZEIxAa3hS6iniRjXNrWIn2a/4iOw6ObOQuGogj3LcStWaNhFuJ89CfOO8Lm
-         SRxGVh5wM9JTd/nAnxW2VoqmTTtMlBpj/mR+sxxXxdWCIoMsC+5NKY3EeU+OkchATHIL
-         cHcg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790321862; x=1790926662; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1Oc+jzCqS0Wyq/bTJh2/I4jluChyvqK4NXUNsIigcps=;
-        b=mQ9vFxFoabYALJuAnnXHoi1jXZaav9RmInZt43IwRm/fzvwjOopZ3o7VIc+dy42EPi
-         9HROBxO8UV5pJ3vyakmz2OrfmdMJ5l3k2QVu7h7aN2S0ymf58OD7LXQehwoCCooGWSlJ
-         MvGdJLno+5jm9IW1BGyaIVzD6rp/VRh1mI6TzCU97v5KFsxHRp89wyD14t2ZDP1tEBeD
-         A91+ZQG6N6rJ0BcW3pG13YSmw/G2ukmHBfEkN3uE08LggWf2y9iU8nW5r7knfUMWHZRm
-         YPH0c7LQUfotrpUgKUi9Amtde8tnp230k0vXLvU1SeSceyFG1gck3ElBqcrZJ09QAjWJ
-         kRGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790321862; x=1790926662;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1Oc+jzCqS0Wyq/bTJh2/I4jluChyvqK4NXUNsIigcps=;
-        b=NhNj3A/lv078BK6hoKUK5jlew9Bzs5uNeeM9Jb1X6NJaHdNa21srBlciCy0CyN3MNg
-         JtiYp7OwolyPVGDuslnh7rCgGrBGatdN9P00UStBgVysiNdhHW/caOZ3j3kFD9sQD5lU
-         9WP19KfJl2NXzS5NdFmlvtWCkxSoZ6jgDmjy1M6t/7mN5sWuKO1n/2hCronx0RRhoppb
-         iqd13wJZE9WcAR/wdCZ11DIb66S1XvLXPFOsd/8Aushc3VllhCCPh7enHwDMfh09VwxL
-         OGyJbpeKlhjUtP+koQWt+P2OfiVRVEu508E0ulEmhE6agN0VVpEm9V2/gcgK7lI8x98I
-         C1aw==
-X-Forwarded-Encrypted: i=1; AKwUvBz6qZgIDlp5vhdwRULjnu6BWOO/FPr/KGi/WbzOkdFN+YDdCEWuSOUc7YfVr81MQfHhqosDh3rbxcI=@vger.kernel.org
-X-Gm-Message-State: AFuF++lT6cxAalFpyq9kF8m4RMoGnCC71NQhC8KuNB1kZLmrT1MoxzpU
-	ZAB3BppMAI536gpybgGjerowVnnN5jMV4aW+si0PWp1VaL3cuWopFbwnyzcyGsrnJhSEP2MaJsl
-	0adHY4uYU34+5DObOhxSzTIkVuD8S1V9mB16TlEg3
-X-Gm-Gg: AYBFou2fTziqhDxbkzfw5UoyGGdSlg2mC2X4g7FVkAZo9kOC9idJd4FAzqUKoNZ49Jk
-	96+0wXShTCw46V2Sm1forWkZl6dvFxGA2BHTaReooITVLPkaJWCkwnmiTpMOCW4BGZaS0WdHdOH
-	ixmIOFFlsLMXe96nmcLd2t08YYGWV/0Rmq/Pq3qwrTUP0QNzFwGmnniNwaRsEwoV0PM0R8RapZk
-	BE8JrX/61+mRPPRj0BOAH2zHMaoPxCjE5R+3wXjPx31iWdzCz7dQO4wtzC227UpTcZhZFuIFE32
-	Yx4I5CQuKXmYrrGod1YvV9ZyOmKSPF2eLhIwSUUEuG0vFsd363B19w==
-X-Received: by 2002:a05:6402:2714:b0:6a6:f2a5:1b4f with SMTP id
- 4fb4d7f45d1cf-6aae4729638mr36915a12.4.1790321859803; Fri, 25 Sep 2026
- 00:37:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MUvezfih"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=KgGrQ2Rb3/9aZ1fMAFWII3W+U6TCnA4h9tEdG5e23tg=; b=MUvezfih/DPOzLe6xL8tgJcc9f
+	54kuO/Hi4KW4rV/RFK3dL01oQtgbBHLNRugpxCSH0JbSibJsBec6QcFcYV4TWLCIxDSkek+0+Wx3K
+	hONBAOxR7C201wHRUFI4vyP9k0JD+29j15gP+dwfrRT9wAdwOvEZsRfXQyW/utTeYKkyQj/PRh/mX
+	9iR220DJ6s8VATFvPPWfRkBkdGWfC0e5JCUOhjrefItQ6Bq8+2bGl+Cjwo5C5Y02NzAw5QAcWwlmN
+	I/sKbhdxBkJKJQ4GOiYFDVPqyaHxWq2YcZ2RXiL1mU6PGdPpXu6xatB8I/SQyG/Kou+UP/V8+tiN4
+	nkh5FZKA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1xA0aS-0000000GhUh-2wRB;
+	Fri, 25 Sep 2026 07:43:16 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id CA9D430070F; Fri, 25 Sep 2026 09:43:14 +0200 (CEST)
+Date: Fri, 25 Sep 2026 09:43:14 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, yury.norov@gmail.com,
+	kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
+	meted@linux.ibm.com, ynorov@nvidia.com, tglx@kernel.org,
+	gregkh@linuxfoundation.org, pbonzini@redhat.com, seanjc@google.com,
+	vschneid@redhat.com, huschle@linux.ibm.com, rostedt@goodmis.org,
+	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+	christian.loehle@arm.com, tj@kernel.org,
+	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
+	rdunlap@infradead.org, kernellwp@gmail.com,
+	linux-doc@vger.kernel.org, jgross@suse.com,
+	virtualization@lists.linux.dev, sunlightlinux@gmail.com
+Subject: Re: [PATCH v13 06/13] sched/core: Try to use a preferred CPU in
+ is_cpu_allowed
+Message-ID: <20260925074314.GF4121339@noisy.programming.kicks-ass.net>
+References: <20260909135617.871006-1-sshegde@linux.ibm.com>
+ <20260909135617.871006-7-sshegde@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-7-4583d8a23bca@kernel.org> <DLNSOBMBHIVC.22QI9YBL1U72E@nvidia.com>
-In-Reply-To: <DLNSOBMBHIVC.22QI9YBL1U72E@nvidia.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 25 Sep 2026 00:37:26 -0700
-X-Gm-Features: AclHuK_RUT9CXNFLpx8ZY_roLEZNzp5S3oNdpNL4cW25fJBFg9wRGnSWohuMdYA
-Message-ID: <CAJuCfpH6AF-hOo4jU6OeNVpd+fgpqLpmcfAGs11J=nPCgAqG_w@mail.gmail.com>
-Subject: Re: [PATCH v3 07/40] mm/vma: tidy up map kernel pages enum values
-To: Zi Yan <ziy@nvidia.com>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
-	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909135617.871006-7-sshegde@linux.ibm.com>
 
-On Thu, Sep 24, 2026 at 12:31=E2=80=AFPM Zi Yan <ziy@nvidia.com> wrote:
->
-> On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
-> > MMAP_MAP_KERNEL_PAGES is a mouthful, discard the MAP_ as that's implied=
- by
-> > MMAP.
-> >
-> > Also while we're here delete useless comments for mmap actions whose na=
-mes
-> > clearly indicate what they are for.
-> >
-> > Also update the userland VMA tests to reflect this change.
-> >
-> > No functional change intended.
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
-> >  include/linux/mm.h              | 2 +-
-> >  include/linux/mm_types.h        | 8 ++++----
-> >  mm/util.c                       | 8 ++++----
-> >  tools/testing/vma/include/dup.h | 8 ++++----
-> >  4 files changed, 13 insertions(+), 13 deletions(-)
-> >
-> LGTM.
->
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
+On Wed, Sep 09, 2026 at 07:26:10PM +0530, Shrikanth Hegde wrote:
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index a689a0cea4eb..b4ef2e92d786 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -2504,6 +2504,23 @@ static inline bool rq_has_pinned_tasks(struct rq *rq)
+>  	return rq->nr_pinned;
+>  }
+>  
+> +static inline bool task_can_sched_on_preferred(int cpu, struct task_struct *p)
 
->
-> --
-> Best Regards,
-> Yan, Zi
->
+(somehow those arguments feel backwards)
+
+> +{
+> +	if (cpu_preferred(cpu))
+> +		return false;
+
+FWIW, this reads very weird. task_can_sched_on_preferred() returning
+false when task is on a preferred cpu.
+
+The question really is more like: can we migrate to a preferred CPU, and
+in that context it makes more sense. No point in migrating if we are
+already on one.
+
+Perhaps a comment on top of the function can clarify?
+
+> +	/* Only FAIR tasks honor preferred CPU state */
+> +	if (unlikely(p->sched_class != &fair_sched_class))
+> +		return false;
+> +
+> +	/* Ignore preferred state if task affinity is changing */
+> +	if (unlikely(!cpumask_test_cpu(task_cpu(p), p->cpus_ptr)))
+> +		return false;
+> +
+> +	return cpumask_intersects_and(p->cpus_ptr, cpu_preferred_mask,
+> +				      task_cpu_possible_mask(p));
+> +}
