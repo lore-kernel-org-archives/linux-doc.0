@@ -1,135 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B587E4E1C87;
-	Fri, 25 Sep 2026 19:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDF314A619;
+	Fri, 25 Sep 2026 19:48:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790365089; cv=none; b=EgSzsLUVwf1JvCpPGLdmCc/pNKdjGU0im7yItIogmnE+gQZLyubssVXuYNrbMEbpfHh1gGX1OyqRfLe0u40YEi3mx4o5wqFCdIDRUVPScC011c4p4qpmpTTPR7RTP6dvLmsTZ7o8s5n6O6Znw/iJhPmd56603CRTsLQjDolFELs=
+	t=1790365703; cv=none; b=ZkC8OQ/hkf64/E0UbOYLLMyseqbEPl4EF4F0ZasDQ5acMFiDemBmEbq9MaJ1r3yUDzA8maam9Jm72phVE6bNFPluqOGBkU1PIl71jxu2yrNRHKUJqeEERgmgorMiSbdhYIUGLFOllE0LrhrXSUnL+eedvkaU+aah5CjI8pGm5mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790365089; c=relaxed/simple;
-	bh=dstBTE3lWCMn9EudZcftluRV7vRDMp0MnFzhpgOlsz0=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=koiWIMG3NVDl/+d/3lPd8SDGZZo21Zssq4Tj5SKazV4zBoOdqgjF1u9+Z4mLxjr/RkMVJW9M1lpzQ2x+MwEpaD+Hf4C1WWs6YchmiYmfnqcnC0C0BfD1jbqZBSfQ1mUg0lXvAyJUvwTUKqbonYX+cVswYAoJNC2Eb81h1kc8E6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DxbIi28P; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790365703; c=relaxed/simple;
+	bh=TciHMdDlrdsa9ERMoFTjGhAHbHf8M+vgHxNh6dXT4go=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WLcUNnghaIbupEISqHXqvF/gZtU56kKb/NN7fizPNxnd5xi+0IQ7g6Qz8gp9dM6P/Tr1dF20ywAhV2pKNOyjmIJ1BXC11TM/QcIrrjLp+jB7J1SmGJnjTMPv8Qb+jPgz3GXLMVbG2ysEfBF7OeXT6q4BoJnF87uKuJ6eVYhF/HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aiVZjVmE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DxbIi28P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70F401F000FF;
-	Fri, 25 Sep 2026 19:38:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aiVZjVmE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DDF91F000FF;
+	Fri, 25 Sep 2026 19:48:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790365088;
-	bh=0LEsbhIDjBe66cbu0GZSdPhdvVGyJ9cnICBeyy6iWkk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DxbIi28P95AzIzpsaRJqifwhTdKpAAPYMwT4+wQMpyTkmjQuoUxKrj2UjvZ1CzDD5
-	 2dz5GyyZf+UVrlZzUi7246Dh6pWzJ9W7Wngn2hPuK1aiFavZpjeydxRVuDNMIUxFq7
-	 X17bAkTBN1fMC2PylaMk7Rvp4/A6m8r52ETGTJMC4t6XJXPofRdG3WdbI8bKjXZK7g
-	 G1JU9ZU6xnROvYjqRsDVA3WL2Wh4bkp3mkF7Lz4mpmR+9iPkg7uMvQ8cnOVC11EsoI
-	 5m7BmFWf1IT7ed9EuauM/1lhewkRONS0osKU8zKGAvl585hEth7Rs4equHnAMtEzz1
-	 wUQlc7U9HlCJQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 2/2] kbuild: Move gen_init_cpio and gen_initramfs.sh
- to scripts/
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shuah Khan" <skhan@linuxfoundation.org>, "Jonathan Corbet" <corbet@lwn.net>, "Pasha
- Tatashin" <pasha.tatashin@soleen.com>, "Mike Rapoport" <rppt@kernel.org>, "Pratyush
- Yadav" <pratyush@kernel.org>, "Alexander Graf" <graf@amazon.com>, "Nicolas
- Schier" <nsc@kernel.org>, =?utf-8?b?VGhvbWFzIFdlacOfc2NodWg=?= <linux@weissschuh.net>, "Maximilian
- Huber" <maximilian.huber@tngtech.com>, "Nathan Chancellor" <nathan@kernel.org>, "Willy
- Tarreau" <w@1wt.eu>, "Randy Dunlap" <rdunlap@infradead.org>, "Luis
- Augenstein" <luis.augenstein@tngtech.com>
-Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, kexec@lists.infradead.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, "Askar
- Safin" <safinaskar@gmail.com>, linux-kbuild@vger.kernel.org,
- =?utf-8?b?VGhvbWFzIFdlacOfc2NodWg=?= <thomas.weissschuh@linutronix.de>
-In-Reply-To: <20260925-move-gen_init_cpio-to-scripts-v3-2-99c493f76722@kernel.org>
-References: <20260925-move-gen_init_cpio-to-scripts-v3-0-99c493f76722@kernel.org>
- <20260925-move-gen_init_cpio-to-scripts-v3-2-99c493f76722@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 25 Sep 2026 19:38:07 +0000
-Message-Id: <20260925193807.70F401F000FF@smtp.kernel.org>
+	s=k20260515; t=1790365701;
+	bh=iihkM/7KvK/mt1x0eZrWDrnWJRfMoQnZsgo9hNqe2G8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=aiVZjVmEy1ThNnYtiCN1cN+s5ZqCNT+FP/swQUZVuNiJ7kWC5BDeOeCFutI34nVGg
+	 0LmSxyMmeP4LR6IkdRtS1PgHj7BOOsVIFqSAcmDRbbVl3OR6nELyLXXoQXeZMtZnya
+	 LRxoZRnnfLul7IArKgbVPoCGVm2OUfn3az67oNC3dNhjHhBkPBF+DWAVDY7lDtXs1M
+	 j8rUW8SnEeQydrHCrUGimqDN1e/LZAMlUrBS2RTTE8/V1uMt30mpk3s2yLtwonRJof
+	 qTMGhtCJ9ZH8Pjg2pML5wI+IpiO9QdcvOHn2S/qup/K655+EVWVOB4ee8O6G80lb/v
+	 gFFDHLdg3Ec9A==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1xABu6-0000000Daim-3CXI;
+	Fri, 25 Sep 2026 19:48:18 +0000
+Date: Fri, 25 Sep 2026 20:48:18 +0100
+Message-ID: <86eceh3yf1.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Steffen Eiden <seiden@linux.ibm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	David Hildenbrand <david@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Jack Thomson <jackabt@amazon.com>,
+	Jack Thomson <jackabt.amazon@gmail.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Vincent Donnefort <vdonnefort@google.com>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Leo Soares Passos <Leo.Bras@arm.com>,
+	Wei-Lin Chang <weilin.chang@arm.com>,
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH v4 00/14] KVM: arm64: Add KVM_PRE_FAULT_MEMORY support
+In-Reply-To: <arY1uKfUBXRpauaN@gremlin>
+References: <20260923-kvm-arm-prefault-v4-0-d4b0b4dfa8c3@kernel.org>
+	<86ik3u4asq.wl-maz@kernel.org>
+	<arY1uKfUBXRpauaN@gremlin>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ljs@kernel.org, catalin.marinas@arm.com, will@kernel.org, oupton@kernel.org, joey.gouly@arm.com, seiden@linux.ibm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, pbonzini@redhat.com, corbet@lwn.net, mark.rutland@arm.com, fuad.tabba@linux.dev, rdunlap@infradead.org, borntraeger@linux.ibm.com, frankja@linux.ibm.com, david@kernel.org, hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com, svens@linux.ibm.com, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, skhan@linuxfoundation.org, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, jackabt@amazon.com, jackabt.amazon@gmail.com, alexandru.elisei@arm.com, vdonnefort@google.com, aneesh.kumar@kernel.org, seanjc@google.com, imbrenda@linux.ibm.com, Leo.Bras@arm.com, weilin.chang@arm.com, linux-s390@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Medium] selftests/liveupdate: vmtest.sh mkinitrd fails due to missing ge=
-n_init_cpio
-- [Low] kbuild: stale comment in gen_initramfs.sh assumes old usr/ location
---
+On Fri, 25 Sep 2026 09:51:41 +0100,
+"Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+> 
+> On Thu, Sep 24, 2026 at 10:08:37PM +0100, Marc Zyngier wrote:
+> > On Wed, 23 Sep 2026 16:15:43 +0100,
+> > "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+> > >
+> > > This series implements the KVM stage 2 page table pre-faulting feature for
+> > > arm64.
+> >
+> > [...]
+> >
+> > > base-commit: 23ddf997ab16b5f4aa9f948f5a68f5b35e4e398f
+> >
+> > In the future, please don't do this. I've just nuked this commit from
+> > kvmarm/next as I rebuilt it, and using such a random commit is
+> > counter-productive. Just stick to an -rc tag from Linus' tree, and
+> > that's it. I'm perfectly happy to deal with the outcome (conflicts and
+> > other funny things).
+> 
+> Ack! No problem, will do.
+> 
+> Do you prefer that people stick to the same -rc base from the start or OK to
+> roll it over to latest Linus's tree?
 
-commit 97c7fb8e47f1b247f157846cfecd29ff5f239ed1
-Author: Nicolas Schier <nsc@kernel.org>
+We generally pick -rc3 as the merge base for all topic branches, so
+something -rc{1,2,3} are ideal. If you depend on something that is in
+a further -rc, we can manage. But keep in mind that around -rc6, the
+tree is closed to new features and becomes fixes only. So if you find
+yourself basing something on -rc5, you're already playing with fire.
 
-kbuild: Move gen_init_cpio and gen_initramfs.sh to scripts/
+Thanks,
 
-gen_init_cpio and gen_initramfs.sh are part of kbuild and required for
-all kernel builds w/ CONFIG_BLK_DEV_INITRD.  Move both to scripts/ to be
-more clear about their importance.
+	M.
 
-Link: https://lore.kernel.org/all/aSdrCFkUQup3qb-q@derry.ads.avm.de/
-
-> diff --git a/tools/testing/selftests/kho/vmtest.sh b/tools/testing/selfte=
-sts/kho/vmtest.sh
-> index 0014bd76e88de..1e86ffcc3a79e 100755
-> --- a/tools/testing/selftests/kho/vmtest.sh
-> +++ b/tools/testing/selftests/kho/vmtest.sh
-> @@ -100,7 +100,7 @@ file /init $tmp_dir/init 0755 0 0
->  file /kernel $kernel 0644 0 0
->  EOF
-> =20
-> -	"$build_dir/usr/gen_init_cpio" "$tmp_dir/cpio_list" > "$initrd"
-> +	"$build_dir/scripts/gen_init_cpio" "$tmp_dir/cpio_list" > "$initrd"
->  }
-
-[Severity: Medium]
-The path for the kho selftest was updated, but it looks like=20
-tools/testing/selftests/liveupdate/vmtest.sh also still calls the old path.
-
-For example, in its mkinitrd():
-
-	# Generate inner_initrd.cpio
-	"$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list_inner" > "$worksp=
-ace_dir/inner_initrd.cpio"
-
-and again later in the same function:
-
-	# Generate the final initrd
-	"$build_dir/usr/gen_init_cpio" "$workspace_dir/cpio_list" > "$initrd"
-
-Since this patch ensures the old artifact is removed via
-scripts/remove-stale-files, will the liveupdate selftest unconditionally
-fail because it cannot find gen_init_cpio?=20
-
-Should liveupdate/vmtest.sh be updated to use scripts/gen_init_cpio as well?
-
-> diff --git a/usr/gen_initramfs.sh b/scripts/gen_initramfs.sh
-> similarity index 99%
-> rename from usr/gen_initramfs.sh
-> rename to scripts/gen_initramfs.sh
-> index 7eba2fddf0ef2..27ac1fd48001a 100755
-> --- a/usr/gen_initramfs.sh
-> +++ b/scripts/gen_initramfs.sh
-> @@ -247,4 +247,4 @@ done
-> =20
->  # If output_file is set we will generate cpio archive
->  # we are careful to delete tmp files
-> -usr/gen_init_cpio $output $timestamp $cpio_list
-> +scripts/gen_init_cpio $output $timestamp $cpio_list
-
-[Severity: Low]
-Is the script header comment now out of date?
-
-At the top of the renamed scripts/gen_initramfs.sh it still states:
-
-# Generate a cpio packed initramfs. It uses gen_init_cpio to generate
-# the cpio archive.
-# This script assumes that gen_init_cpio is located in usr/ directory
-
-Should this comment be updated to reflect the new scripts/ location?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260925-move-gen_i=
-nit_cpio-to-scripts-v3-1-99c493f76722@kernel.org?part=3D2
+-- 
+Without deviation from the norm, progress is not possible.
