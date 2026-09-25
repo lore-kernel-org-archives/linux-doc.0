@@ -1,70 +1,70 @@
-Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C4B4EE859
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 20:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB3B3F1AB7
+	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 20:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790367665; cv=none; b=iFWkP0QpEdP56OecENWkjOCtcUPDd1r0UuEJAYtCyrm8WPyZqlB2QWQBzNVjWd7bTn0zsUifeRCEBbPsuhSCq8BiKxVgJU60krwhUTpK4imlsn6aGo0PWtNFsnbBQcbrhRhgrBsFt9XQf2zEvxlgILk8rASBCzq7m5yqOtjLj0c=
+	t=1790367986; cv=none; b=eRyI/qgg4HjMZLVNl9lWd0ymyEOtwWw5S2Pkov73+HDr9V8XshcSo2+5GtEpy/FuNDj7bMzsvK4nQ7mvBLWnHVr58T4rU/mOb2K5H55M9CG0Gtx4d7hXsVMmbheI1cGnSCBN620A6Lv/9Lc8yEMtty2u4eRYa/mFn4QKQzjKHDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790367665; c=relaxed/simple;
-	bh=aQdcMnaGRWrcT2d6YZ42NdwPibTOqQqRSFGnSDUxUa0=;
+	s=arc-20240116; t=1790367986; c=relaxed/simple;
+	bh=pLWvLgyzJJJqRJXGy0wrLLfUtbLFMrmx5MOMy9q32N4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YmbaqDmCN59ODsKX493uW6xgQrQqjqIMx+E1XmqwqyHBUCVgA32w4Sg21GkKh/JAahohpjPdb+tXBTxGWExJKX/1BKeli0rJy/JgvKQwOAgAJ65zz9XK1N3B9PgUhIFBAx9qqlwHUYi9gD7NKDoJIYWjRKNiAwvyr69Wm5Gwg/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AZfvwi9M; arc=none smtp.client-ip=74.125.227.168
+	 Content-Type:Content-Disposition:In-Reply-To; b=lL4w6ZLwWjgafQ7k2bIIG1aD7GsZTZSV/LuC4uNMvTDj8DzpNPAsPhUpv1xk7mI88RA5IkdH2/uJUImgPQ+aGxfBf5n4PrqQ8HlB55q5sspbva1GxQaqKL4a0ukbUeXKj18/h+OfRDNNMZ5D1baat0nxnQzZ/YKhs7Pkhp6AWZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hszJJ5AC; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AZfvwi9M"
-Received: by mail-pj2-f40.google.com with SMTP id 98e67ed59e1d1-3a0c52f9a45so661999a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 13:21:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hszJJ5AC"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8692a856865so662372b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 13:26:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790367663; x=1790972463; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xWHZht3/sG7ZvX5La1aBebgJu63RUAKhR/+jLnkgrMk=;
-        b=AZfvwi9M+WMp11YAT6155HO1GrvbdzC1CKj+dEnJN5iex4MvSpu30MiNq5bcb0X4Zv
-         ojBdMZ+R+5SimlQsM66D/ihwWT6OgGpGwKkprX6pA49ZjR84c8Iq10035mDELRyEP+7W
-         YAn3BSoGAOwcSXtc+c66XkNVsexbqhaKFM8s7TNrJvk421FMIzcTU0UGd0Woai16F522
-         KOP2FZnNkTU+QzVMserVL/rk8rBa2MmpZugvT+XZWtSwivrSsjHczmWs63pHIJuR3++1
-         kduU+XrOgqIyWjp7jHXJlovGXQvcZ96t93Vqx9o8uUPjhDgW7c0VWnTBvhfbMUkybmQY
-         0jRQ==
+        d=gmail.com; s=20251104; t=1790367984; x=1790972784; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UTHOStho6nRPPrwayEo907rSZvPmwPMNwiUqVSkI8tY=;
+        b=hszJJ5AC0xMm4DeciTdFlWq8eiJQ5yzUvUjWhxjHdgE8ja242jDd51bxHtAtBUN5+c
+         WVPx0AzpuHYnfkh3ZTECMPcigZsWaUtuH4YozTcrjMPlzncr35PxpmmCv5pVe8c628uJ
+         97Gq1Du8f8rf7SzixP7z9bU2JsavCU34KNycpVMKHRxvkydMpFqHpBuEgBxAKOFopXI5
+         6g1n1qL/BkcNhxiq/YlB9axR05c8rdEPbU1Rf2o+fEGdflxO4ptA0EuD+OpDh91AeCg/
+         7z4+LRPv85EULwAOar7yl3oDtYgd/9FlhaD12VsWzUE959BavgF6s3IMFznofKShx71j
+         TxoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790367663; x=1790972463;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xWHZht3/sG7ZvX5La1aBebgJu63RUAKhR/+jLnkgrMk=;
-        b=r1BG3NNXS9mPmGXqEqxgDvlc7UEVL2TuWpSP5A0ooxJBsAYotKNi80LnDLaZArs/QE
-         aWYwZaGUrN6wUDgS10rI+ggMh99uEY/iR29NT4LUeftLhiZaxdUg98kUbhHT9AhLHBV0
-         NMWPWO2nHb0gKu4HEzOn+tiwToG+f/o4XbnW389rJf/dbfkBCg2Bnya5wL4qceX4NAYP
-         3hBQOkBAESSp9SGurVkOdF6hFhM5FypASCoJSj+0RhF0CLhjurHZXeiIPXuNrQZ+4dlP
-         RuVmoSENnmmNP/ZWRRUJX0DugoCZuxxhsJfWK1frNnMN4Z/5oyFHy0Dy9nmvuUuBNu/S
-         HTlA==
-X-Forwarded-Encrypted: i=1; AKwUvByUUy7qqncVs5HM0H8Hh8Jb5na1FrnQyOTsIcuuTRuVhVSwEM8Slu5EeZ3Pa5iq2TcgypmjnPHlBR4=@vger.kernel.org
-X-Gm-Message-State: AFuF++mto+neEXJH5PbhWcTNTofIgiSKUEqibogRnUJ7Enf+sVsfulh4
-	j/uIkR6NgkqQaNPKxkTz8B9lNkbK4kLypqNIV6FTy+Hw/WvkX06Mlm/i
-X-Gm-Gg: AYBFou3vc81A+xHNLfZFBzR3obGPG1hGHD0/+PP0QHjMAr6mER7axet5GhccigPyn1/
-	6HGyKYPi4kI+8N4USVLBEygTT8D3/LXi3k5Pvtozl19/J+YqSiXLjqW5uu1B98g5SmR4hgDdA9Y
-	vDT15cRbJythOf9RrGRJHjfDIUN+QA7VfF0zIXwo/YUbQUXM7/fmYSS4wIds8AXqzj8wNFtsyjQ
-	HuOTrPIZ05/BCelJbRkJtw88h2QLR02YeZUDhbkccJu4f6TenMEBN5bObdmaaZ0FK4Z5o2VdSZZ
-	4WYvJID3BYwLR3hXxtzUxJHJ6XyZQnllqLNSTYLWKoLcQBzlNw7eOvr1rkqfJb6+6OszSPNtVo8
-	KIXAbiuLlPjR9lYCnahD1ZlRXXXF8U2w9P2pnuumwfLnjcneqgrbY7FQKnG2iaDVUTX0do0IfT0
-	GVALkVM7suKmxTjcYwJbqhR9CIe0AA6xekQOdCjGgkZdM4m6lcUWqJf4WblYFAS+S6b816cvPHh
-	yP5QEtcQGJCGAtHe2MMk5UV42lxhJqFvFuU3q1LL9PG28dYSA==
-X-Received: by 2002:a17:90b:518c:b0:3a0:dbfd:1a1f with SMTP id 98e67ed59e1d1-3a0dbfd269bmr214015a91.25.1790367663092;
-        Fri, 25 Sep 2026 13:21:03 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790367984; x=1790972784;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=UTHOStho6nRPPrwayEo907rSZvPmwPMNwiUqVSkI8tY=;
+        b=O9GPD1Om0i+0og6FU4AR1w4aT0pXGJ1wbe1t50Reox0tYoMcuVbNlzxl37VRCJmOrT
+         AqmUP8bRWZeEfyLG2KBEFeTAtRZGigsPifyOKzAgiJ45JJUj9SHMCPneZAykW2sHM0TH
+         Lh6mM9w/hurn1J1J4juTaCvo1Aq0WFd5RU7VMYp2A83KBszUBxolD/GMRyJIm/2hURHv
+         Ne/9zXPqp1uUEz03WhFVZegHXEIXJphosixeRoZGs0HSOZGAP9xfg3Bpmu5a6Xu1ylD/
+         Wu1tMRA8BPJID949qqSsR9NQNaSm2eJxfdEskWz7LE3+Utoaz/f9x3BUkD3SBtGgyuwK
+         LUvA==
+X-Forwarded-Encrypted: i=1; AKwUvBxshU7ryS2921NttoosMmgk+aVQLH6G/PK6pfi8daMkaIrKCRNnB65DSzQRK580e/dNi9PeJzw9s74=@vger.kernel.org
+X-Gm-Message-State: AFuF++nrWkAvo7arfeztJTOiGVHhC+qUWliydrWQg/Hlqew+y7unkvIh
+	oC5ycerwLDQWpw2jLnksWXSyGLKyOsNtrWYWKQ/zc6M1HxFbAdHPsYVv
+X-Gm-Gg: AYBFou3/P6IkqKWw0zSf/NgnyAqhJUB4+TtX7v5Qxn3qt++IyUdG5KB3ymSoHmITNpM
+	WXhVp5TzIB2x/1YSIYYe9x4Rfvby4c2l/Y4iHshpUtwU6y8l4XgizZoPeAKqoub3QiZ0e/IVMto
+	g45UI5SuNSNkryZ8ofwIZFSytYHYTG0bPBJbB4JISiSsFEwfnCyaTJqZYmOL/p2BseYkWH6sa7s
+	onXn4grt7NIsysKqjJIIbD3DA/7GQMnDy+VacH3CyFTbTxke7dxRqPaWz5t8Wqijs9NgP9qa66X
+	fF6UwFfSRPvMD+Tdlyoexr2z7I9O3SXuKNYHVbuJYREpCGGkReeCNy7xbCgz9ldJl9Dy464xZuD
+	t78jzP8kHHn39T3L07UeCDsmPxOYc/NEkwpXBDPNamWJCBujcKxc8Acne4y7jTZMTvBUDUMau/E
+	liil3ubV/0ap906g3uS0CYyP5LORO/RuoVCJJRVssCliwTFeXzrdXomvRhyU3StX7pt5Khn3h8k
+	IaCJpqxR7yIEBd3IuccyL4nuoVKorIt9n4tDRs=
+X-Received: by 2002:a05:6a21:8286:b0:3dd:a006:7b32 with SMTP id adf61e73a8af0-3de0e8943e1mr7946963637.49.1790367983822;
+        Fri, 25 Sep 2026 13:26:23 -0700 (PDT)
 Received: from KASONG-MC4 ([1.203.116.237])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b99917besm5937983a91.14.2026.09.25.13.20.53
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc790c80e62sm1265849a12.28.2026.09.25.13.26.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 13:21:02 -0700 (PDT)
-Date: Sat, 26 Sep 2026 04:20:51 +0800
+        Fri, 25 Sep 2026 13:26:23 -0700 (PDT)
+Date: Sat, 26 Sep 2026 04:26:13 +0800
 From: Kairui Song <ryncsn@gmail.com>
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Rik van Riel <riel@surriel.com>, Baoquan He <baoquan.he@linux.dev>, 
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Chris Li <chrisl@kernel.org>, Rik van Riel <riel@surriel.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
 	Kairui Song <kasong@tencent.com>, Johannes Weiner <hannes@cmpxchg.org>, 
 	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
 	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, 
@@ -84,7 +84,7 @@ Cc: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>,
 	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
 	Joshua Hahn <joshua.hahnjy@gmail.com>
 Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arbUA-XwLBsty34_@KASONG-MC4>
+Message-ID: <arbTTKE6nYWlNCLd@KASONG-MC4>
 References: <aqjpYHbZ14A8xRtK@fedora>
  <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
  <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
@@ -94,49 +94,77 @@ References: <aqjpYHbZ14A8xRtK@fedora>
  <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
  <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
  <arUcil9kxUPiymXI@KASONG-MC4>
- <arbGo3QTYlUD5cVW@linux.dev>
+ <CAKEwX=PXRB35bUL1=O4Bgx9A7aD4izZZ3dcEcCuMBBhBrMv7fg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <arbGo3QTYlUD5cVW@linux.dev>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKEwX=PXRB35bUL1=O4Bgx9A7aD4izZZ3dcEcCuMBBhBrMv7fg@mail.gmail.com>
 
-On Fri, Sep 25, 2026 at 12:36:46PM +0800, Shakeel Butt wrote:
-> On Fri, Sep 25, 2026 at 09:15:17PM +0800, Kairui Song wrote:
-> [...]
+On Fri, Sep 25, 2026 at 09:54:25AM +0800, Nhat Pham wrote:
+> On Fri, Sep 25, 2026 at 6:15 AM Kairui Song <ryncsn@gmail.com> wrote:
+> >
+> > On Tue, Sep 22, 2026 at 09:44:37PM +0100, Chris Li wrote:
+> > > It seems you are talking about a different topic: the vswap charging issue.
+> > > There is a golden rule that we should follow: don't break existing
+> > > users. At least with the same persistence, this rule should apply
+> > > universally.
+> > > In the swap tiers discussion, the UAPI was such a big deal that we
+> > > couldn't implement new UAPI. On the other hand here we argue for
+> > > liberally changing user-space visible behavior.
+> > >
+> > > BTW, I already shared that changing swap counter charging will break
+> > > our and others' existing deployments.
+> >
+> > Hi all
 > 
-> Thanks Kairui for very clear description of what you want and looking for.
-> After reading your email, I think you want memsw support in v2. Currently you
-> somehow are implementing memsw using memory.current and memory.swap.current.
-> (I am assuming you need to subtract swapcache to avoid double counting.)
-> To conclude, you want to use vswap (the aim is it to default) but you still want
-> your way to implementing memsw keep working.
+> Hi Kairui,
 > 
-> Please correct me if I missed something.
-> 
-> I am wondering if you really want memsw, why not propose memsw. Someone from
-> tencent proposed memsw [1] previously, so why not continue that effort? I am
-> pretty sure folks from Google (people who actually work on prodkernel there)
-> will be happy to collaborate with you on that.
+> Thank you for your thoughtful response! Lots of food for thought for me :)
 
-Hi Shakeel,
+Hi Nhat, thanks for the reply!
 
-Right, I believe it is still being proposes as you can see there are some
-previous progress, year that work need updated, let me try to do something
-about it.
+> >
+> > Just for reference. Maybe a seperate counter, tiering, is a better idea
+> > than changing the swap counter?
+> 
+> I think memory.swap.* is never meant to be used as the "offloaded
+> footprint". It is incidentally correct, because of architectural
+> limitations: zswap/swap cache/zero page usage leads to real
+> consumption of real resources (physical swapfile).
+
+It's not that "incidentally" I think? TGhe defination from the function
+level seems pretty clear, folio_alloc_swap -> charge. A logical
+limitation.
 
 > 
-> [1] https://lore.kernel.org/20250319064148.774406-1-jingxiangzeng.cas@gmail.com/
+> But I understand your concerns regarding the missing observability of
+> the "logical" footprint (i.e the "offloaded size"), and how that would
+> hamper legitimate use cases.
 > 
-> Setting aside the memsw conversation, I think we should go back to the actual
-> vswap conversation and list down what we agree on and where we still need
-> discussion and decision. (I will take a stab at it and start a separate thread
-> but still on this email and will use AI for the summary.)
+> How about a vswap counter that tracks the vswap usage? That would
+> provide the "logical" view. Userspace can then monitor and act based
+> on it.
+> 
+> I think that should cover both of the situations that you (and
+> Johannes in [1]) pointed out:
+> 
+> (1): With memory.current and this vswap counter, you can kill any
+> workloads that violate the level of overcommitting that you set out.
+> 
+> (2): For us, we can use memory.swap.* counter to provide isolation to
+> the physical swap space, which is a real, static resource that can be
+> hogged.
+> 
+> There will unfortunately be changes in userspace programs/scripts that
+> is required. It's unavoidable. We're adding a new behavior. It's the
 
-Right, the things here is that I think it's not hard to see that
-memory.current / memory.swap and memsw (if in V2) is tangled with each
-other so I'm hope we won't create blocker for the future.
+Right, but usually I think adding new things are generically considered
+better than breaking existing things, unless the existing things are
+either just metric, or really broken. But memory.swap seems has a pretty
+clean definition and implementation, and usage?
