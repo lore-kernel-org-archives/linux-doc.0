@@ -1,162 +1,160 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D159F48422B
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 09:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1DC3BB126;
+	Fri, 25 Sep 2026 09:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790328492; cv=none; b=bOQvR99EPZ+WZghOUyr2BcAqQS6gicjLytDop7KnNZahNuRaqsh62LSMcZLGRVukLssdc53LLaDgs4gcrtH108TPk7yvxTlcuZ2qDF04BhLGLun02wXl+vMUgqg0nKvz9cJCqMljoFSyvNIpjDMJjqE2stKyKldyJGdalm9xz+M=
+	t=1790328776; cv=none; b=reD9plZcmw2PNJiNrS4WXg0Lp8VHbeH7nbn3LrwqoQbm7IjJ6tnvkFLG0X/nTDvzqttlBWr6iZUwPXyZI0jnBpg3VwptDclIxrFWCmmRHM2RyETxf3hn7PB3Km034/l8sp8/TaLyKxm9es/YC7hgjQX11NSAmwlke8P0NKGSOUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790328492; c=relaxed/simple;
-	bh=RyhPOU+vvqd3rl1UlRjckMuKAfbjLaCIW52sS+yfk0s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ag7AHQe9+M25v6N0Y1ieoP5mLNz+iDaJuaN3bfdZynyXFKzDfSB/ZDO+pOcZ+ALI8YFSsJlppN11QORTTbpojVnmPPky/5KkB+GZtda5ZLgWeIt2tBKBFAnAiSMt3hMWeFIv+Qwo6T6UDYSVSXDe3tWQIh6hpeHSncBkJGpUMvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YCaa5B8/; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1790328776; c=relaxed/simple;
+	bh=FZHOSQCbU0yz2LrTj5ZDV+Fs0nWY8u2ZMV0zLiKmZug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pf23S5kQqY8qVP4OaNn8oJxo/5f2OgwwEiG03H2ESxuWg/zT3HljxQS3yHJDZasAfD2RccDCaRYJR3WaXq7cnxRwIs+0+wtuCLPxC7jJj6KumM/bvIihnRSdy7BsFQFpXfssD4NuHXn0Q+Lxgy6GtzuKm/ZnzdhVnyLj+TxRg2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1rNEvZ2P; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=6ORble1B; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jk8n2FUI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wRnNBuoq; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YCaa5B8/"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccead2aecso3032635e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 02:28:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1790328488; x=1790933288; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GuAasn6M17RraKJz85D0VGepUYYLmKKd6LjzFHjVWiA=;
-        b=YCaa5B8/bbraaj9MXbfcKga+R1L3Oy53Dlm+QLJ9PluOw2HJuSZ4RD0OUgpEKjEDys
-         1iIjGIzlaLXJl+fJzhD4jsJKpX5ftjb/LWFjKjNSvN0uwzojBFSmYZYw1vDOyCInGbUe
-         d5kHIKVqyg3wLnQ6C0VSNz7g/+iaP/c5K3E5bSPY0TEFeHNVg4IhHe4Q2p8E6MzsC8dT
-         n8na7+M39OVdS6Nak1AG1EpnfI6rPQBVhwmwML6M8v349eGyR3HHS2N8OshqSNp6V+WE
-         IUEAemD4YTNyORvF5Su0LA+6HBShR5Rw8n06UjjwBYuJSJyZ6FP2VmqYggRcG9WSYKNN
-         nCKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790328488; x=1790933288;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GuAasn6M17RraKJz85D0VGepUYYLmKKd6LjzFHjVWiA=;
-        b=sYdAM1aVl7M77D7n2+L6Cd0Np754Rc2ehgbFzOZknOXvN+z3gdcpEp5zoCbUndZQym
-         nq+DEXvGTB6pmFfeIBZGrGYjRUCFlXtMqzIo+gd+z0eavoHLfouxk/iaDA5bt3cenYAo
-         6ZpKt5MP5PNKfl/3z55sY0aEdaDYTH2WcPl8OqOcKst6LXDU1eHSdZtwSvdRD0xsXZNl
-         HbdKlpcemfOwpMRQs+aOYId8xMqj8OnHAh1WFKFb7YRovQg0klR/MyldAwHIc/5ffqkA
-         aQZDdxUpw3rqwiBha1EPJiXv9wrDDNwfnGV8ejmjTLyD7RAw2zkSYjvZfaRoSyPtXrej
-         u8kg==
-X-Forwarded-Encrypted: i=1; AKwUvByivr6oQH3szLW1bSb0/9d34IiRAipygLZnZui8OpQkoMZL38DFjX6jqf7azNsXFznD9sX8MpO9+ls=@vger.kernel.org
-X-Gm-Message-State: AFuF++lVckmWcf2U6PtkH4LLbk7q8eOAS6xvFBxELvLsXTja1auQpxpD
-	Mc6vtQ9AN1Fp7nd4j+Ei1PRmvLaebXksvhDS7HV2yTTM1a6wygmI+Zuzrr1ZE9vO2Vk=
-X-Gm-Gg: AYBFou0dVLY6Q+EuN6JnMNbbXVDCCz5FwE7vIQz/6z2W67B3m63+B1vQv8z/rJVu8nn
-	wIIbL//3kyGrJuE0vPdjtk/BFonqGnXaJ0FO9op2UOunas3c5T9mTut+yu7VPrqA9bR5YxuH964
-	VjCisuBuDl3d89SyEUmsH4QXnX4CPN4RqV3S+y61/1Qw41zlrozu5eiy/eTK2qg6d2SaZs24Cqq
-	kTYriWmby+Z+qxgp4bdryA18gGIt5Wh+ludWVv2qb7C6waABJZ7uLo6qIMo/1kzO2Z9SmiQYj0o
-	iqL+C57qdeZWEDiE0MFAEzrcjSgpwDbiKIuFSdi1CT7ht+3h8P7FeDofYhEU1abQi/C4Jr2eZH3
-	tRh6tVI33UtMaSZzrqvi4CUf4G08hT/3l0MkehSzqfi6FVZHv10K3e3PRV7VKT1/BgMZzQ+Px8i
-	618JiWO+AH8PAC8IBMqxuXNjIMLR+hEv+uIlK99QhyemkSVSI3jN6FaHqZ6w6vG4YjHqrsRhPNQ
-	GXI6ftkSrVHtIJvK718/R48QzQan9uXHn8lF9pa/qj5bg==
-X-Received: by 2002:a05:600c:19cd:b0:49d:2536:402e with SMTP id 5b1f17b1804b1-49ff06f7a45mr28683465e9.30.1790328488006;
-        Fri, 25 Sep 2026 02:28:08 -0700 (PDT)
-Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fee6ced69sm37140085e9.0.2026.09.25.02.28.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Sep 2026 02:28:07 -0700 (PDT)
-Message-ID: <f1d25d13-4adb-428a-805d-d3e19cf1013b@suse.com>
-Date: Fri, 25 Sep 2026 11:28:06 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1rNEvZ2P";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="6ORble1B";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jk8n2FUI";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wRnNBuoq"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 114601FE16;
+	Fri, 25 Sep 2026 09:32:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790328768; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mTvl1PDrKPezU5DYOL8yNnZhAwpezqrF/JSpQNHiXWk=;
+	b=1rNEvZ2PhBySqCF/wwU+V994+Xz+QTrUabmAHu0iCOdQJGqV1nSfik6xZpMcSVVe9X0WJ9
+	SSF85iAdsyMEeHBVE8swXaNtSfc9WoMDNYgfZCoWCY5RJDgz4QJ0sPYFGkp/BeItsk5t7g
+	K+S9BwO7k13sPMh0T7+hcVowBYlWQ/Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790328768;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mTvl1PDrKPezU5DYOL8yNnZhAwpezqrF/JSpQNHiXWk=;
+	b=6ORble1BuI8FEuas8u9mdz5NNzYJTogVLDLctbONkrCXjbh0PFDlsZcdGi1Dr613BvBN0p
+	Wm5TRimT971IC4DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1790328764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mTvl1PDrKPezU5DYOL8yNnZhAwpezqrF/JSpQNHiXWk=;
+	b=jk8n2FUIh1bjnPfQjN9yHRNasI2gpOxqOgu0ZevrBunemkYMRnviEML8dv2Ii/sBEJUj/5
+	F2e70TkRETUjjuVvG9ynk7hevafhxeZB3Lpi0TlITL/jqcVqsBel46NT7sSRnWmTO1x/j6
+	ugjvZJFYXG/U6EjIPT5x+ydX/J8TsIM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1790328764;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mTvl1PDrKPezU5DYOL8yNnZhAwpezqrF/JSpQNHiXWk=;
+	b=wRnNBuoqxB+7sJA/tTv/obyu6z5J1N+jzZytXcB66UVpA0dkyhF89Po0wpvlNURkf3CweV
+	kkArOg0Ok/d+Q8Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DBF4913432;
+	Fri, 25 Sep 2026 09:32:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qIiZLbs/tmoxLQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 25 Sep 2026 09:32:43 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 6DEF7A13DA; Fri, 25 Sep 2026 11:32:43 +0200 (CEST)
+Date: Fri, 25 Sep 2026 11:32:43 +0200
+From: Jan Kara <jack@suse.cz>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] fs: porting.rst: use literal string to avoid warning
+Message-ID: <hyk4puvpheleitf4kt74aamqex2ytuxpda2iki5bgzoteldf23@pccvy6sdmerx>
+References: <20260924183915.400588-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 20/38] dyndbg,module: make proper substructs in
- _ddebug_info
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: Jason Baron <jbaron@akamai.com>, Shuah Khan <shuah@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@net.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>, John Ogness
- <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-pm@vger.kernel.org,
- Louis Chauvet <louis.chauvet@bootlin.com>
-References: <20260923-dd-cmap-part2-clean-v11-0-9b6c217fdf2f@gmail.com>
- <20260923-dd-cmap-part2-clean-v11-20-9b6c217fdf2f@gmail.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260923-dd-cmap-part2-clean-v11-20-9b6c217fdf2f@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260924183915.400588-1-rdunlap@infradead.org>
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,lwn.net:email,intel.com:email,linuxfoundation.org:email,infradead.org:email,suse.cz:email]
+X-Spam-Flag: NO
 
-On 9/24/26 12:34 AM, Jim Cromie wrote:
-> recompose struct _ddebug_info, inserting proper sub-structs.
+On Thu 24-09-26 11:39:15, Randy Dunlap wrote:
+> Avoid the docutils warning:
 > 
-> The struct _ddebug_info has 2 pairs of _vec, num_##_vec fields, for
-> descs and classes respectively.  for_subvec() makes walking these
-> vectors less cumbersome, now lets move those field pairs into their
-> own "vec" structs: _ddebug_descs & _ddebug_class_maps, and re-compose
-> struct _ddebug_info to contain them cleanly.  This also lets us get
-> rid of for_subvec()'s num_##_vec paste-up.
+> Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis start-string without end-string. [docutils]
 > 
-> Also recompose struct ddebug_table to contain a _ddebug_info.  This
-> reinforces _ddebug_info's use as a cursor into relevant data for a
-> builtin module, and access to the full _ddebug state for modules.
+> by quoting the const pointer in literal quotation marks.
+> (Adding a space between the '*' and the '.' also works but it looks odd.)
 > 
-> NOTES:
-> 
-> rename section:__dyndbg_classes to _class_maps, to better align with
-> struct _ddebug_class_maps.
-> 
-> names together, for more obvious name pairing.
-> 
-> Invariant: These vectors ref a contiguous subrange of __section memory
-> in builtin/DATA or in loadable modules via mod->dyndbg_info; with
-> guaranteed life-time for us.
-> 
-> struct module contains a _ddebug_info field and module/main.c sets it
-> up, so that gets adjusted rather obviously.
-> 
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202609231806.ILZP6Fy0-lkp@intel.com/
+> Fixes: 025756ee7b47 ("fs: port mnt_idmap() and file_mnt_idmap() to const mnt_idmap")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks! Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
 > ---
-> v8: set maps.len = nc unconditionally
-> v3: squash in section name changes.
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
 > 
-> v2:
+>  Documentation/filesystems/porting.rst |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Move RvB after SoB
-> In structs _ddebug_descs & _ddebug_class_maps, change int length to unsigned int
-> No use of <0 vals is contemplated.
-> 
-> dyndbg: improve section names
-> 
-> change __dyndbg to __dyndbg_descs
-> change __dyndbg_classes to __dyndbg_class_maps
-> 
-> this sets up for adding __dyndbg_class_users
-> 
-> fixup-drmprint
-> ---
->  include/asm-generic/dyndbg.lds.h |  14 +++---
->  include/linux/dynamic_debug.h    |  34 ++++++++-----
->  kernel/module/main.c             |  12 ++---
->  lib/dynamic_debug.c              | 101 +++++++++++++++++++--------------------
->  4 files changed, 86 insertions(+), 75 deletions(-)
-
-Acked-by: Petr Pavlu <petr.pavlu@suse.com> # modules
-
--- Petr
+> --- linux-next-20260923.orig/Documentation/filesystems/porting.rst
+> +++ linux-next-20260923/Documentation/filesystems/porting.rst
+> @@ -1418,7 +1418,7 @@ All struct mnt_idmap pointers handed to
+>  ->create(), ->mkdir(), ->mknod(), ->symlink(), ->rename(), ->setattr(),
+>  ->getattr(), ->permission(), ->tmpfile(), ->get_acl(), ->set_acl() and
+>  ->fileattr_set() as well as the xattr ->set() handler and the vfs_*()
+> -helpers take a const struct mnt_idmap *. mnt_idmap() and file_mnt_idmap()
+> +helpers take a ``const struct mnt_idmap *``. mnt_idmap() and file_mnt_idmap()
+>  return one. The idmapping is immutable so nothing should have modified it
+>  anyway. References are taken and dropped via mnt_idmap_get() and
+>  mnt_idmap_put() as before, both accept a const pointer.
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
