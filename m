@@ -1,174 +1,343 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010065.outbound.protection.outlook.com [52.101.201.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95379309EE9;
-	Fri, 25 Sep 2026 12:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790337982; cv=fail; b=cU2xqrJzrog21CrV37/otBRzxgkiNrbFcMwWBSGZqTGbqYlsxpFL0wVBKWBjNRa5W1luhTx9qqaNrn42b+ThmEebLu2CHY9t9RsRK3Oz4mJgaHUvCOalOn1liDGvv/kH7fOp5dA850Yn+AmBTGVCbTUCyf+TatfEj1Cb5lTljtc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790337982; c=relaxed/simple;
-	bh=1PH+8lOpMLwxmzCrApYPp8UNyvmmgSBktf4CHv/7ZbM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=agkAX+OSeq9ZPv8O+Z9OMTlMPcPqEeFYhLP419DaCwI84wK0x9SG6gJDEYQTS3rEbefTo3RYdoJiQ1NnuZSR9zseTXZdnHazZTobBu4NzUiWcYP013YepkCBZKMVmwG4wVrxJnsd59NyMQBcVAYMf+sDD1/ktq1Cm6613kbQ+DI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=CofLHIh7; arc=fail smtp.client-ip=52.101.201.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5AB19046E
+	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 12:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790338476; cv=none; b=fDBsSq1oMMk3u+RlJdV1XsxkokdGQmCvfnhpDk5rGVS13Hebt2lacwESuZK1H0eVJG+CKnVPl4clXEWyMKuYOWytVbhv1WbfgaNDnD0Rl0lXUAubWxYnwIY4tlBTJz+G8Op3jZbdLEmG9PGUPzQPsaQfxbK7MpKr8/dA6q4QZ88=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790338476; c=relaxed/simple;
+	bh=ddS6EtYbyPBCw7wCkDFEw/NfPASSKbIXnb55T4G1WpE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ZTYI4P5+56QB/E67HGvg6+unXb0Wt2Rq1pwnxkWP6njNNqkwtIpJhlgC/oVa0kJ68C0UkM7uEJwAchD+cVl+9lBBsi569T73qRbHAWEo4MO5sYdBWBk8mKazjd43wECajTo+2I3N1EojCiEd/6cx0FJMLGErA5LWh+6/IyRJ+gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nmjv6PWz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="CofLHIh7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PGg4P/wyX7tVZrw3NJjJoWBi6JwTOrbTs1To0GLeT17hM4xecjh6jCFFLmdR5fC7YUwmG6Pk/Z20bdqCPoFBni/MyFHZ5L6gGUwpLwRI8Tszsbf3cv5IHXV0Xgb/D4iT4/acSRD+pF89y4D+Er8xhaG3N+YXoLowoBLCjzQfIgZ3x5G6GGvsgDcgUA7wrZz3hClx9crib53EkqBtyVYy5lKvOVSsDSuxaxWXBF9kEVDSxdpVVtGihS3SAiMZbKWb2SlXuf2nnu7VoPj4G1YhhnYujNOPtr1dmU5cjX8467uho+sPwKGsrgsTEjRGMaKAQov6DjENSafuppGO/EnXlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sBfXuzhUK90u38RY9Zwwf7qI9raZPlLEuHQofkzEHWU=;
- b=QWL+zESrmzQKzvRboC06uG0616Wf1UQwLEGlPCWc29kZ/F8uDuvq+pToqPQnx6zJ0ZTWMP0/jT73+x8X9USR7VhdDkZqnFULuSnhGhyMPRLCA8UyUZ7STYZQiSjPLk5S4+d3LNF2Judz7dYA5uDASNyO2fww8+U1RavVaFKeisEnk8G5jZsfw5a3NlNul3+x0WoJHyGmy0s8D2PA2oyEaJCNRQsFLjXfh6HGI21yi7WcWB/jYMZDHrk2WlKri/g3efChDmk1QVGcUhEcnNbo4Xjo7coD5BUWy86Vc1WhbSLBe9nLJ5rVIJmGtnJK2AXFB+BAF7Wtjl0jpC62IRkmpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=infradead.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sBfXuzhUK90u38RY9Zwwf7qI9raZPlLEuHQofkzEHWU=;
- b=CofLHIh7nApRUkXGuxt8hltkk9b0SyH6qaHxTIJj/rs2eMjPzSqombUN3RF1tBkMhvOU+TToxFH0Fg2zxXQD0YtJueDW9nHqGlwjZA7g57xRnwcNJJ+2Yk5JOOLQWjR/Tf6GAe8BqVHInT0Z2UFjDjwx9psPK2vb6Wdp28yasEs=
-Received: from SJ0PR03CA0147.namprd03.prod.outlook.com (2603:10b6:a03:33c::32)
- by MW3PR12MB4442.namprd12.prod.outlook.com (2603:10b6:303:55::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.19; Fri, 25 Sep
- 2026 12:06:15 +0000
-Received: from BY1PEPF0001AE17.namprd04.prod.outlook.com
- (2603:10b6:a03:33c:cafe::20) by SJ0PR03CA0147.outlook.office365.com
- (2603:10b6:a03:33c::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.13 via Frontend Transport; Fri,
- 25 Sep 2026 12:06:15 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BY1PEPF0001AE17.mail.protection.outlook.com (10.167.242.107) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Fri, 25 Sep 2026 12:06:15 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Fri, 25 Sep
- 2026 07:06:10 -0500
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Fri, 25 Sep
- 2026 07:06:09 -0500
-Received: from [10.85.42.224] (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.49 via Frontend
- Transport; Fri, 25 Sep 2026 07:06:03 -0500
-Message-ID: <3901b012-3c13-4ff4-8b6b-007905c380fe@amd.com>
-Date: Fri, 25 Sep 2026 17:36:02 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nmjv6PWz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 211BB1F00893;
+	Fri, 25 Sep 2026 12:14:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790338474;
+	bh=IahDHAQF7RfDObHvj4rGyzlzFJnRRjAI2g4CtB30gI8=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=Nmjv6PWzG3BF2cNne0bMfb8cSQTA4/WNwzcQ9ZCB53XmD17asj6TRvpcAVxnLiVBm
+	 CHJ795IbASSQoeDV0ipbGIcDaeSaXQRhafLWRul96aC5Vp8LlY3HiftJwNqcm6THFo
+	 o1SFo1xIlqYWQHdjKndBLvjONpDcSsGRGB8s1r3acCJZLtvEoL3DmzADcbYbxLbI/+
+	 li4Yn6vAIONEXXDnJj8rRb/5YHgjC8HZgPNzC3jBN6eAyzBmyu+sTextU6jZ+etFOj
+	 eN5YMt7OdnDmM9+Lgwbv2KvhrB66Ptrj/ccmPUOH7cnjX3z8L4UV25Q4N20yYQwRQa
+	 y+XLXBkEtNiRQ==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id BB207198004A;
+	Fri, 25 Sep 2026 08:14:32 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Fri, 25 Sep 2026 08:14:32 -0400
+X-ME-Sender: <xms:pWW2aiCQzrBzkt2I7YVYwfxzTu27KAFzbeoda4dI8ym42QkilmmGMQ>
+    <xme:pWW2anXxflYzxFcLQnHvOTUB_7KpUo4wvXBQfUs_mWX94ZAvwxVDWwefIzYN3iGQ5
+    nYF84e-ysaJEDYAHsMDYrlI_A9ThwO6aHyL8tw4QjbO0JyJ7ZQ7q-1e>
+X-ME-Proxy-Cause: dmFkZTFyygE7+hGtxC3ACXIARRMAb82zW5/8US7NbRjR/GomXcS8O1Ux0Gwn/xb9W9m7/Q
+    OXwu2dd9yjEim1CR7HvhgbiA33/QjThBcCjOsTPuRrkUZS0bX0MrCxcOeQZE0m1aWO7kaO
+    nZghqBxbcz43d4Avb3MhHyv8dmhsJ7vbjyp1G8IeDufmvq7izZZjgdNo8EhBCoJBdpR9fN
+    TrIU5SL6dXqm/Kg4HdDVsHSxrzSbvD4tRbiZ7c3n/9KC54Of3d+b0BzhMtuvMwympAazWZ
+    3SRR3cujbyLS9C3sAiGWsf8xbajY7huETyk2MjUNQbq9x9KIhH7hCSXoS0WhqPDW0GdAWO
+    YMjVlbEbMcb5F8fcD6lirA522ehVkoIiD+XZGQUqZbPA2B9/kx7w7QUa+ZZO1jb9T3Kj8E
+    h9/CD9UEf38mSNIuv2bcmtIle2kjClef3kn+gqZ2zYalrIWIelOb/aB6hGqtoaHxpR237j
+    LCZksX930kQsHKPya8gYUp9dO2qwF2v5FuDKNkIiQbQlKSBv8bvEX27wQPN2veX9aroeLo
+    6VUWUPVmXqqrXN/soDb3rCOYwsqpqxsmuNxRxNM/OarWszLmmL8to9lYPBb0kIhX3neNBl
+    Lde+Gt0TAKwLGLoWs27QqeZXDSGa7Hiz0g2plMuNnn5SIb1fkysowVvAcnmw
+X-ME-Proxy: <xmx:qGW2aqLSiJtuF5utrYHWMPeES7R2HnnQ7K6pFgT-w69WSYW438zLww>
+    <xmx:qGW2at_anXx3QJyqcd26y0j7a5UmzHeP75EnikyzfM0sX1PEy0Q-TQ>
+    <xmx:qGW2ahKv1SQnFn7HXRm6CYY4EiicjZ3k1_jTeP_L5WHgIZffCJHRJg>
+    <xmx:qGW2asG7CD_096kscy5mhIm77L1DUuFY7UlrnxHv84qVHB7T0MV40Q>
+    <xmx:qGW2alzK_Vbdx4GEcGozso-Fxu4A3PcC9bo17SlmoHpVKwVAo2xk1VsT>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id B0BDBF80086; Fri, 25 Sep 2026 08:14:29 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 00/28] KVM: Enable FRED support with KVM VMX
-To: David Woodhouse <dwmw2@infradead.org>, Sohil Mehta
-	<sohil.mehta@intel.com>, <kvm@vger.kernel.org>, <x86@kernel.org>
-CC: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
-	<seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, Xin Li
-	<xin@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra
-	<peterz@infradead.org>, Andrew Cooper <andrew.cooper3@citrix.com>, "Tom
- Lendacky" <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>, Chao
- Gao <chao.gao@intel.com>, Binbin Wu <binbin.wu@linux.intel.com>, "Zhao Liu"
-	<zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>, David Matlack
-	<dmatlack@google.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, "Shivansh
- Dhiman" <shivansh.dhiman@amd.com>
-References: <20260911213659.2025974-1-sohil.mehta@intel.com>
- <43fb3d8a-0736-44ae-bd7f-01e701d4b7d9@amd.com>
- <55e7eef19801facfd4ac1cb147ab34f0aed0c331.camel@infradead.org>
-Content-Language: en-US
-From: Shivansh Dhiman <shivansh.dhiman@amd.com>
-In-Reply-To: <55e7eef19801facfd4ac1cb147ab34f0aed0c331.camel@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 25 Sep 2026 14:14:09 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Prashant Singh" <singhpra@juniper.net>, "Jeremy Kerr" <jk@ozlabs.org>
+Cc: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
+ "Clark Williams" <clrkwllms@kernel.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+ "Steve McIntyre" <93sam@debian.org>, linux-efi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Message-Id: <17ae71e4-c044-4354-938e-3e8021615e6d@app.fastmail.com>
+In-Reply-To: <20260925113145.7396-1-singhpra@juniper.net>
+References: <20260925113145.7396-1-singhpra@juniper.net>
+Subject: Re: [PATCH v3] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE17:EE_|MW3PR12MB4442:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc3208be-085f-45cd-b6c4-08df1afd6633
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|23010399003|82310400026|7416014|30052699003|376014|13003099007|4143699003|10067099003|56012099006|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	25Db8aeCDX1vmkvBmZ2n+ywY4PCbfsD8Rd1dqEjmUR+Bpdd9jXxZJWE7+26+T+jRGPs3gu0QEOLCXUHfa7Yz2U6bbSYYsUCbhzP1i0Lo4WT9mmx251+pguXLoY8OEo7w/lHdKQYhUIQxr9muivWZXTHQwqFigauUjaeiuR+nJKnUXO369StC0b2kIr5XUHlQ5/npI1Va6QDYHkGkZvA1OyMRWfbRhuCSQi0aagNhfs/8TSMf6ZxIB4vj6Drr3zFKD4FOkFdYX9UVlDYHsjtCkZkEPhrB2Oo1ZL0AkA72wvE/VoMvaYw2YmSmGlzChJnj6otxO55G74GyiVg4/NGUaqW/KdpmnAaUGjtxdVDMm3HdpmWiLztNL6Yw4v9NyAiy5HJQn/nKIGmEgfkXIo5R1V4o4siE/aHbrkaiE5hDQOtb/P1AB/iapnB/xnhfik458uP3ZdJ4lTpyQVsOL7lpsAwodEvoZ5Nu+yU8KRtnb5pVF9g6/jXreO6/vjw44rHhypym0YVAXTeKmyUx5MycM9E1nwJYHNjtsOYsiFCrFx++F33cphrryzX2BBt7DFD2J3rIzdQ2lFiqvjcyHOAw845CKXRUrghBT8NBXp5gr4rCpe/4rwoZH37RRmcgOoMTy2nO4EWXH3tnJ0JGET86gw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(23010399003)(82310400026)(7416014)(30052699003)(376014)(13003099007)(4143699003)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	ZaSpFgyr3ioUprJWE+AKxvw3BL7MRadr4cRv52jsu8UE+1/dJXBhDY1CkX5Y33YsfSp106nhf910g97E5u2eI/wCZnPMTtjg8vGhDgGYC+Vsth/n0lv/stFrHBgGn9j2zN+9BzVeMHo1+n8Zw5Jxv1eONpQcpVfFvQ9Ii2/nnc7Ltc58O9dxddkKyKoeGMQ0XQX1jdyFPPEIzelRaJYdxYukoYWZc336uH7DrxVPn/Av/G1drCzvULBXv2KJWKvYF31YdwoqPH+kDjN50u/CUoXtfQncWNPmydO7xpIEHGRP3D8hm+UKsppGy/RLm92bK7EXdsBAHDYoHAtM9ZqLhy5zEelbrh/iAxqT1CVsxBSzHJOELUIZUgo0j+T6/TjGBzpDNae0aU4tIocxayx5+UsyHfcr0OoduIKizyQRuu4p850meR5Vi+YE0t6zWXcy
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 12:06:15.2924
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc3208be-085f-45cd-b6c4-08df1afd6633
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BY1PEPF0001AE17.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4442
 
+Hello Prashant,
 
+Thanks for respinning this.
 
-On 24-09-26 19:43, David Woodhouse wrote:
-> On Thu, 2026-09-24 at 16:44 +0530, Shivansh Dhiman wrote:
->> On 12-09-26 03:06, Sohil Mehta wrote:
->>> Opens
->>> -----
->>
->>> AMD compatibility: The SVM enabling [5] builds on the same common
->>> plumbing but I haven't had a chance to look at the series yet. Shivansh,
->>> please let me know if there are any incompatibilities. I assume most of
->>> the opens apply to SVM as well so resolutions would help both vendors.
->>
->> Thanks for the series Sohil. I've been able to run SVM side of vFRED with
->> changes rebased on top of this series. So, no incompatibilities in common
->> plumbing as of now. Will let you know if anything comes up.
+On Fri, 25 Sep 2026, at 13:31, Prashant Singh wrote:
+> QueryVariableInfo() is an EFI runtime service that, on some firmware,
+> takes tens of milliseconds and runs with preemption disabled, stalling
+> the CPU that services it. efivarfs_statfs() calls it (rate-limited since
+> commit b2326338dc68 ("efivarfs: Rate limit statfs() handler")) to report
+> the variable-store used/available capacity, so any statfs(2) -- e.g.
+> every "df" -- can inject that stall into unrelated latency-sensitive
+> workloads on the same CPU.
+>
+> Add a negatable "nostatfs" mount option: with nostatfs, statfs(2) skips
+> QueryVariableInfo() and reports zero used/available; with statfs it
+> reports the capacity as before. It defaults to nostatfs on
+> CONFIG_PREEMPT_RT so real-time kernels do not take the stall out of the
+> box, but statfs can be passed there to force reporting back on -- e.g.
+> for tools such as fwupd that need the efivars free space to update Secure
+> Boot key databases.
+>
+> The option can also be toggled on a live mount via remount, so reporting
+> can be enabled only for the duration of a firmware update without
+> unmounting the boot-time efivarfs mount:
+>
+>   mount -o remount,statfs   /sys/firmware/efi/efivars   # reporting on
+>   mount -o remount,nostatfs /sys/firmware/efi/efivars   # reporting off
+>
+> Tested on an Intel Xeon E5-2628L v4, 6.12 kernel, via
+> "strace -T -e trace=statfs df" on the efivarfs mount.
+>
+> Cost of the firmware call (CONFIG_PREEMPT_RT not set, so reporting is
+> enabled by default). Default mount calls QueryVariableInfo() and returns
+> the real store capacity, ~66-129 ms per call:
+>
+>   statfs("/sys/firmware/efi/efivars", {f_type=EFIVARFS_MAGIC,
+>       f_bsize=1, f_blocks=90024, f_bfree=33387, f_bavail=28267, ...})
+>       = 0 <0.129124>
+>
+> With -o nostatfs the firmware call is skipped, capacity reported as
+> zero, ~11 us per call:
+>
+>   statfs("/sys/firmware/efi/efivars", {f_type=EFIVARFS_MAGIC,
+>       f_bsize=1, f_blocks=0, f_bfree=0, f_bavail=0, ...}) = 0 <0.000011>
+>
+> PREEMPT_RT default and live remount toggle (CONFIG_PREEMPT_RT=y). The
+> boot-time mount defaults to nostatfs (mount shows nostatfs); no firmware
+> call, capacity zero:
+>
+>   statfs(... f_blocks=0, f_bfree=0, f_bavail=0, ...) = 0 <0.000018>
+>
+> Enabling reporting in place with "mount -o remount,statfs" (mount now
+> shows statfs) takes the ~70 ms firmware call and returns the real
+> capacity, without unmounting:
+>
+>   statfs(... f_blocks=90024, f_bfree=30315, f_bavail=25195, ...)
+>       = 0 <0.070293>
+>
+> Disabling it again with "mount -o remount,nostatfs" returns to the fast,
+> zero-capacity path:
+>
+>   statfs(... f_blocks=0, f_bfree=0, f_bavail=0, ...) = 0 <0.000014>
+>
+> An unrelated remount that does not respecify the option preserves it: a
+> "mount -o remount,rw" after "remount,statfs" leaves the mount showing
+> statfs.
+>
+> Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Prashant Singh <singhpra@juniper.net>
+> ---
+> Changes since v2:
+> - Make the flag negatable (fsparam_flag_no): "statfs" forces reporting
+>   back on, "nostatfs" skips QueryVariableInfo(). Default stays nostatfs
+>   on PREEMPT_RT. This lets fwupd get the efivars free space it needs for
+>   Secure Boot key (KEK/DB/DBX) updates on an RT kernel by mounting with
+>   -o statfs (Luis Claudio R. Goncalves, Steve McIntyre).
+> - Support toggling the option on a live mount via remount, so reporting
+>   can be enabled just for a firmware update without unmounting efivarfs
+>   (Sebastian Andrzej Siewior). Options not respecified on remount are
+>   preserved.
+> - Read/write nostatfs with READ_ONCE()/WRITE_ONCE(): statfs() reads it
+>   without s_umount while remount can update it.
+
+Why? There is no memory ordering or tearing issue here, but only a
+fundamental race where a remount and a statfs() might occur at the
+same time.
+
+> - Add PREEMPT_RT + remount test data to the commit message.
+>
+> Changes since v1:
+> - Replace the sysctl with a mount option named "nostatfs", per review
+>   (Ard Biesheuvel).
+>
+> v1: https://lore.kernel.org/all/20260917071600.5587-1-singhpra@juniper.net/
+> v2: https://lore.kernel.org/all/20260919044124.8268-1-singhpra@juniper.net/
+>
+>  Documentation/filesystems/efivarfs.rst | 16 +++++++++
+>  fs/efivarfs/internal.h                 |  1 +
+>  fs/efivarfs/super.c                    | 46 +++++++++++++++++++++++---
+>  3 files changed, 58 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/filesystems/efivarfs.rst 
+> b/Documentation/filesystems/efivarfs.rst
+> index f646c3f0980f..cd81ee84115b 100644
+> --- a/Documentation/filesystems/efivarfs.rst
+> +++ b/Documentation/filesystems/efivarfs.rst
+> @@ -37,6 +37,22 @@ accidentally.
+>            |4_bytes_of_attributes + efivar_data|
+>            +-----------------------------------+
 > 
-> Can I remove the "Some AMD CPUs (Venice) incorrectly..." part of the
-> commit message of
-> https://git.infradead.org/?p=users/dwmw2/linux.git;a=commitdiff;h=fred
+> +Mount options
+> +=============
+> +
+> +statfs / nostatfs
+> +      Control whether ``statfs(2)`` reports the variable-store used/available
+> +      capacity. Obtaining it requires the ``QueryVariableInfo()`` EFI runtime
+> +      service, which on some firmware takes tens of milliseconds and runs with
+> +      preemption disabled, stalling the calling CPU. With ``nostatfs`` the call
+> +      is skipped and ``statfs(2)`` reports zero. The default is to report,
+> +      except on ``CONFIG_PREEMPT_RT`` where it defaults to ``nostatfs``; pass
+> +      ``statfs`` there to force reporting back on (e.g. for tools such as fwupd
+> +      that need the free space for firmware updates). The option can also be
+> +      flipped on a live mount with ``mount -o remount,statfs`` /
+> +      ``mount -o remount,nostatfs``, so reporting can be enabled only for the
+> +      duration of a firmware update without unmounting efivarfs.
+> +
+>  *See also:*
+> 
+>  - Documentation/admin-guide/acpi/ssdt-overlays.rst
+> diff --git a/fs/efivarfs/internal.h b/fs/efivarfs/internal.h
+> index f913b6824289..0cb053884b4b 100644
+> --- a/fs/efivarfs/internal.h
+> +++ b/fs/efivarfs/internal.h
+> @@ -11,6 +11,7 @@
+>  struct efivarfs_mount_opts {
+>  	kuid_t uid;
+>  	kgid_t gid;
+> +	bool nostatfs;		/* skip QueryVariableInfo() in statfs() */
+>  };
+> 
+>  struct efivarfs_fs_info {
+> diff --git a/fs/efivarfs/super.c b/fs/efivarfs/super.c
+> index 8d33f11db2a1..d2e1f31a72d1 100644
+> --- a/fs/efivarfs/super.c
+> +++ b/fs/efivarfs/super.c
+> @@ -74,6 +74,15 @@ static int efivarfs_show_options(struct seq_file *m, 
+> struct dentry *root)
+>  	if (!gid_eq(opts->gid, GLOBAL_ROOT_GID))
+>  		seq_printf(m, ",gid=%u",
+>  				from_kgid_munged(&init_user_ns, opts->gid));
+> +	/*
+> +	 * Always show nostatfs (it makes statfs() report zero capacity, which
+> +	 * is otherwise surprising); only show statfs where it is not the
+> +	 * default, i.e. on PREEMPT_RT.
+> +	 */
+> +	if (opts->nostatfs)
+> +		seq_puts(m, ",nostatfs");
+> +	else if (IS_ENABLED(CONFIG_PREEMPT_RT))
+> +		seq_puts(m, ",statfs");
 
+Please drop this else branch - it should be sufficient for the 'nostatfs'
+to disappear from the mount options to understand what is going on.
 
-Hi David,
+>  	return 0;
+>  }
+> 
+> @@ -82,13 +91,19 @@ static int efivarfs_statfs(struct dentry *dentry, 
+> struct kstatfs *buf)
+>  	const u32 attr = EFI_VARIABLE_NON_VOLATILE |
+>  			 EFI_VARIABLE_BOOTSERVICE_ACCESS |
+>  			 EFI_VARIABLE_RUNTIME_ACCESS;
+> +	struct efivarfs_fs_info *sfi = dentry->d_sb->s_fs_info;
+>  	u64 storage_space, remaining_space, max_variable_size;
+>  	u64 id = huge_encode_dev(dentry->d_sb->s_dev);
+>  	efi_status_t status;
+> 
+> -	/* Some UEFI firmware does not implement QueryVariableInfo() */
+> +	/*
+> +	 * Some UEFI firmware does not implement QueryVariableInfo(); the
+> +	 * nostatfs mount option also disables this (preempt-disabled,
+> +	 * potentially slow) call entirely, reporting zero used/available.
+> +	 */
+>  	storage_space = remaining_space = 0;
+> -	if (efi_rt_services_supported(EFI_RT_SUPPORTED_QUERY_VARIABLE_INFO)) {
+> +	if (!READ_ONCE(sfi->mount_opts.nostatfs) &&
+> +	    efi_rt_services_supported(EFI_RT_SUPPORTED_QUERY_VARIABLE_INFO)) {
+>  		static DEFINE_RATELIMIT_STATE(_rs, 2 * HZ, 5);
+>  		static u64 storage, remaining;
+>  		static DEFINE_SPINLOCK(lock);
+> @@ -323,12 +338,13 @@ static int efivarfs_callback(efi_char16_t 
+> *name16, efi_guid_t vendor,
+>  }
+> 
+>  enum {
+> -	Opt_uid, Opt_gid,
+> +	Opt_uid, Opt_gid, Opt_statfs,
+>  };
+> 
+>  static const struct fs_parameter_spec efivarfs_parameters[] = {
+>  	fsparam_uid("uid", Opt_uid),
+>  	fsparam_gid("gid", Opt_gid),
+> +	fsparam_flag_no("statfs", Opt_statfs),
+>  	{},
+>  };
+> 
+> @@ -350,6 +366,9 @@ static int efivarfs_parse_param(struct fs_context 
+> *fc, struct fs_parameter *para
+>  	case Opt_gid:
+>  		opts->gid = result.gid;
+>  		break;
+> +	case Opt_statfs:
+> +		opts->nostatfs = result.negated;
+> +		break;
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -402,11 +421,17 @@ static int efivarfs_get_tree(struct fs_context 
+> *fc)
+> 
+>  static int efivarfs_reconfigure(struct fs_context *fc)
+>  {
+> +	struct efivarfs_fs_info *sfi = fc->root->d_sb->s_fs_info;
+> +	struct efivarfs_fs_info *new_sfi = fc->s_fs_info;
+> +
+>  	if (!efivar_supports_writes() && !(fc->sb_flags & SB_RDONLY)) {
+>  		pr_err("Firmware does not support SetVariableRT. Can not remount with rw\n");
+>  		return -EINVAL;
+>  	}
+> 
+> +	/* statfs() reads nostatfs locklessly (no s_umount); pair with WRITE_ONCE. */
+> +	WRITE_ONCE(sfi->mount_opts.nostatfs, new_sfi->mount_opts.nostatfs);
+> +
+>  	return 0;
+>  }
+> 
+> @@ -524,8 +549,19 @@ static int efivarfs_init_fs_context(struct fs_context *fc)
+>  	if (!sfi)
+>  		return -ENOMEM;
+> 
+> -	sfi->mount_opts.uid = GLOBAL_ROOT_UID;
+> -	sfi->mount_opts.gid = GLOBAL_ROOT_GID;
+> +	if (fc->purpose == FS_CONTEXT_FOR_RECONFIGURE) {
+> +		/* Preserve options not respecified on remount. */
+> +		struct efivarfs_fs_info *old = fc->root->d_sb->s_fs_info;
+> +
+> +		sfi->mount_opts.uid = old->mount_opts.uid;
+> +		sfi->mount_opts.gid = old->mount_opts.gid;
+> +		sfi->mount_opts.nostatfs = READ_ONCE(old->mount_opts.nostatfs);
+> +	} else {
+> +		sfi->mount_opts.uid = GLOBAL_ROOT_UID;
+> +		sfi->mount_opts.gid = GLOBAL_ROOT_GID;
+> +		/* QueryVariableInfo() stalls the CPU; default nostatfs on PREEMPT_RT. */
+> +		sfi->mount_opts.nostatfs = IS_ENABLED(CONFIG_PREEMPT_RT);
+> +	}
+> 
 
-Yes, you may go ahead and drop that sentence. AMD Zen 6 (Venice) supports
-event type 5 for INT1, and the FRED Virtualization spec [1] has been
-updated to reflect this.
+Why do we need this? Does remount otherwise forget its options? Does this
+mean that before this patch, remounting with only a different guid would
+reset the uid specified at mount time to the default? If so, please fix
+that in a separate (preceding) patch.
 
-I also ran your int1_fred_test selftest on top of my SVM FRED series [2],
-and all three tests pass. Note that the series stops intercepting ICEBP
-for FRED-enabled guests, which is what lets the guest see event type 5.
-
-$ sudo ./int1_fred_test
-Random seed: 0x55d6fcb8
-Testing FRED event types with EPT fault on stack
-  ICEBP (EVENT_TYPE_PRIV_SWEXC): PASSED
-  INT3 (EVENT_TYPE_SWEXC): PASSED
-  INT $0x20 (EVENT_TYPE_SWINT): PASSED
-
-
-One small nit: could the message above say "EPT/NPT" instead of "EPT",
-since the test also runs on AMD?
-
-Thanks,
-Shivansh
-
-[1]: https://docs.amd.com/v/u/en-US/69191-PUB
-[2]: https://lore.kernel.org/kvm/20260925114017.2208531-1-shivansh.dhiman@amd.com/
-
-
+ 
