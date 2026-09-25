@@ -1,84 +1,78 @@
-Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835254CDA36
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 21:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13E73F8EB7
+	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 21:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790371172; cv=none; b=EWbFgm7pN23ATudvRL7g/jZkigZ6nj2AYn+075XalL4JQz5nGhJHvVoiNvcXfAt0hNjHKXERCzVguJ0JxhpxYd/1mGSJFC0P6+4C7Nw2kH7/jCjIhwBSlhtS9GT6sUnUTztRHcuvJbg+xr0/obzdjHjltVyxbt3pehYaOITQP2c=
+	t=1790371433; cv=none; b=pYOsrm+S/yql1TC/6ft6JeHApmviiDeDLSO1ssMNP/GdUS7iJSQUlXpMpATdw4TMGsOl31WTHS/uYNsrPDg9IMSCpk2ypJqlbBzwZCT0+XAE9DfObBGj5xLYluUn2nwHCWIG6bA1KPzmdZN0ZNsSyehmbBafK6XlCMgzKxqzHhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790371172; c=relaxed/simple;
-	bh=+ycUu4Lrfdhzd9jKGwQrR5OBQYug2brCLTLBMKycAlE=;
+	s=arc-20240116; t=1790371433; c=relaxed/simple;
+	bh=mq3RWoA/hcd32dCL//3OXdHccnRftC6Ctz2XilEVcCo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ufOiQe4OwWhSrsksj8iU/xCqGlUeyy0XMKmN1kS9TM3Hpcy5vrV3p0svEtCE8w6CXXW3U+2o19wKnQuRh5eUUDo+d7+ib6TcR86Li8WcdHSBkHyelCDCOqH8nB/el0v1UNpUHyKtvPKve+diRbfKFg9gNk1yUiEyxOyCpxna78w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BcgtoNnN; arc=none smtp.client-ip=74.125.229.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=D9o8AJ4lS0Lpf8r+DGsjL3Ilrr4RFC8VHS3sVU2gIvAFQ7nmn4IMQthc/cBNxKORnfwLMKk5TIOcoF6sw6s8zfU3KDHjniV60rKpDG7K3yDvkSZLYCObn6kOjF06Dl4DpZUjbGkKML7bxmbFZtKDJZSqhL7joz9x0ABbiWU7i8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EIR7bkoT; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BcgtoNnN"
-Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-341d5303884so688232eec.3
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 14:19:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EIR7bkoT"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4aa0f1766so761905a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 14:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790371170; x=1790975970; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790371431; x=1790976231; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1BSFDJmV96PMiREIfL8Vp0Pof+pF3vE7NpaMcF3TO54=;
-        b=BcgtoNnN7tyT5vXhQxH2W/svjj04rjfZBk106Yx5Ud7AdBiH36T4d3HMQw4OKcx8Sq
-         NSM1vLK6E71a3ci5ofu6g4WdMJ9lDPD/0Vcx/FyPu6F9VzovP6Lta6Wlt01yttgWz0W1
-         8Z3YgLtmzsDiboBvrDdfOWCFsKNWW2peKDw801gsQ4fYGmg1QBitC25naGpcGWZB424v
-         Hk44SSp0/6Ie3W/gSdfw1W9BxtikJ2//by1ti504vamhy+Imv72w+IeZgrh8gJHy3a+/
-         ReuZTohoTELW7MiJjEDd9lcTjXHtDCM80++FO+XxJ4oRlHFEYa/ejek8AkAeRZpBlYOg
-         fr6g==
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5oelsYzBnav4hrJavpxK0ZTVgzSWbj7lSOhSINx8zCc=;
+        b=EIR7bkoTQzM99n4jBSXUx6EWBeqX8kEMqLh3baDLwI3gmyv6Soy7T+zvQjAurh4Q80
+         5FqjDDTFQeBWGuy+lHfikc9Cr2PzJaL1E3BPZcC5577GJCLBjKdgNvYTxis7G8/+ZA8U
+         2z4M3yVRI1ZlnNydDA6u1dtLRfY2JPJtdu6204Rsb3gwKNus6MTRM+8e5GSDYu2cxaMN
+         KvsGjDLUztnBmlZdI0rB/v/QpLcqSVVDoZeOIUH2qleqjNNxNuwawgJdopkXX1g4eZB4
+         6zowUfD5SUePoOU6Vd9JsheWPL06G41WuoxoL9A42Tm2JruNCazUEAGgz2IX4FMsgLG8
+         zpCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790371170; x=1790975970;
+        d=1e100.net; s=20260707; t=1790371431; x=1790976231;
         h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1BSFDJmV96PMiREIfL8Vp0Pof+pF3vE7NpaMcF3TO54=;
-        b=eWMB179uVrbvT+uCOEM05COF4SRwi92mKhgROjf/tv5w+RyTLakrm/andNdQAa5nFJ
-         CQ+JqWpWK6eZTe97aLqr3iHdRDTGICkCN7Tl3Rhs2DalODZKJtYAx7j6doZm7gVeg5K8
-         LXY6cukV/Qu9ajmrpw9R69LG2bwWL4f20vAkzjxsqQpoh8Rja4tPd9SePTYBp7IJ7Qna
-         o7Ixgt0EBSMpzqxcbv+C0ifSVixKoGkrred0PbB/pUr3rSm1Vj6V8oXn9xn4AjJm25Kc
-         uW/OoGOF1AA0YpOaXeumRNi/ZGHmrczMt0/jOg6Yl3pR+UQfFZ2n7Q/Rd838dT1NwI7Y
-         4Hng==
-X-Forwarded-Encrypted: i=1; AKwUvByr9UHMIUo5qfEfEHnJYDl2HILdmt13oxT94yetEGF0STYrzHjwe14Z3K8xoJ4JfoQ0veIkFuo27Yc=@vger.kernel.org
-X-Gm-Message-State: AFuF++m6msgzhPrWkfDmyjwyOl3e1XOLQ4ZWDXkQ1vUC1oVQrNJECNna
-	HvnpnMHr/gZSSE/asKL5UIMpdI8Ks066DL7KcVDtINHcAsrMk72O+CFh
-X-Gm-Gg: AYBFou0cenqjRgG7CmCCnmZuUezmSsFO6jlRSMK95e1BJCDoRiW5H6Z7iXtoLtXhve5
-	L9bD6+54wZ3zJ+E9I5dVATWlGF+VAHdz3k4vyqh1q4qJtUomCbGYBtx7h0I+7zaQx8pIQnKU4mU
-	E+g1sSLiCJH+U6GALd+JYBi1eOR2GotdnafAtPGVd2IWxl6KHvQrKiclMH/eZ/vE+FJClTh5izP
-	56UDHouA/lSHUBqPCHy1WsYMHrYxgk9YvuqgpY8mbR/imRTsg8iUB42OHVmooW7CzEPA/q1DwHx
-	fvN7+zaUi/lKq6Bhk6ksZsVD+xOwFdxi0kxFg6XoPBC35HHhP1RJupQJGLI7yOn9Sh0w//eMFwk
-	ygNnujul00Zk9LgCZJH7NfwbWDgmPFFezLkrzjhsJw9r/PNXT13088hBiNtHfP1S6vp8c0JvUWS
-	AkYyAkVeVjkLfNsW2QX0KGznqSWiu9m/IKw7BeyA0OIVLHGCh2gZGU1ny7yJWhwRSWexktDAUmq
-	bU+mjhho/bgyDHhjZsWMMl1q0NgmRTGnP1q5QE=
-X-Received: by 2002:a05:7300:dd48:b0:33b:eb33:9f70 with SMTP id 5a478bee46e88-34272a41d89mr1027757eec.37.1790371169410;
-        Fri, 25 Sep 2026 14:19:29 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:375:19cf:5fee:be32])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3416e4c2f50sm8029385eec.27.2026.09.25.14.19.27
+        bh=5oelsYzBnav4hrJavpxK0ZTVgzSWbj7lSOhSINx8zCc=;
+        b=sexqptCV0/YUqNyEjTGLTpTHArpmDJH+FtbvA5gaqQ9B7RFNoCO4eHS8AtAueSyfw0
+         h6B757hFYSWpQrqiBb66gq6ZCt203mfGIns+5etDWk6U+2QBbcoQ0SLx3iP73jav6D4J
+         ERkIkMpIuN+nWvKXeMxstbGARUGTASrnPeNZlT6Ph9MCRMNMzdXQdExpnEtdjuZeh6DX
+         KXoSEdXh9dkJn68zjnOyZ5VPXGhWBFHD/kcjsfgGPmy9nN7onT7mj4wO9qz+UBWE2qlu
+         gkslsphXwhe82/lqJhK3j4Ot56r/jujv5YfZLicK2jxwLmtR/EbqjBSjmzc+zMqPvQPX
+         2wXw==
+X-Forwarded-Encrypted: i=1; AKwUvBwwvSJllp1Zxn5aLTd6jnL0F49rnhZclCCcdd2+j3+y8J8liPT5U3nfsDTRX858FTPIN6NbIOVjf3I=@vger.kernel.org
+X-Gm-Message-State: AFuF++lKkMDcLI7I0BIcrTxnnuOP7FWczLpgVHLAb8IMUv9Y/fqHVaD6
+	FxRS1NYsZVVhVEqeSC9MGG24KQbjUexAA+SaQ1fJ8SE088wnIuGFJik8
+X-Gm-Gg: AYBFou0qUAA2SDR5wYNQyjulwVWKayRb6/i/nD7MQmFQkst7CINPB/zt3i7YPKUQPn7
+	+RRZh0WgTU0ylTlLoa77pKQM8IXaLSEG2qWMeP4sjjVowIzCWyBaGie4Q8VuxoTyvjlr+dHGQoN
+	YqjiHHXbIBUmT5hmk50i/Z+G7+qkWdaGDY5LCQVeV6IlXKcamJMJW70YciwzxTAkY4OkhgtyWTy
+	GrMa8lx8wS0s5tXD+FJSpQoJcIpDYN7nAtodal4K17MnduN0hJIRy1y9St9fzZPAgqylliTMjIM
+	8XPIT/ZKu+e1k+KR0Z4qgifZhTbk9iKNVSs3T17imfNaMvQTaHi7dZte4wdXOZXxaHNWLN/crDM
+	wuMBE33CcMrQC2JE8AUXimd15+0Sy4jLGTzurfQcfeRGzA7a8ew5X/+VaaeS9j4sFCfA3B3kh9s
+	9l7dssmqQYRGY3QKKb0GWR/8NvA1OffcNp6/JWZm6a0krBvwBG6y4MQyrnoCj1KrxdDCpP2biUb
+	4t4mWdhd/oB
+X-Received: by 2002:a05:6a20:d70b:b0:3dd:a196:69e2 with SMTP id adf61e73a8af0-3de26f2927emr3172381637.61.1790371430957;
+        Fri, 25 Sep 2026 14:23:50 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc78796c314sm1850422a12.29.2026.09.25.14.23.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 14:19:28 -0700 (PDT)
-Date: Fri, 25 Sep 2026 14:19:25 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <arbkvK54vT7SIyjV@google.com>
-References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
- <20260826-bind_taint-v1-2-52b05f4a965c@linuxfoundation.org>
- <apA8n524yIn-g6ep@hovoldconsulting.com>
+        Fri, 25 Sep 2026 14:23:50 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 25 Sep 2026 14:23:49 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc: david.nystrom@est.tech, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	ricardo.neri@intel.com
+Subject: Re: [PATCH 0/3] hwmon: (coretemp) Report unreliable temperature
+ readings
+Message-ID: <254a2bdb-c759-469d-a1bb-c10f476cebe0@roeck-us.net>
+References: <20260924-coretemp-temp-fault-v1-0-1884f0ff97d5@linux.intel.com>
+ <46f9f319-de71-412f-a424-6cb801478456@roeck-us.net>
+ <20260925182158.GA27122@ranerica-svr.sc.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,53 +81,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apA8n524yIn-g6ep@hovoldconsulting.com>
+In-Reply-To: <20260925182158.GA27122@ranerica-svr.sc.intel.com>
 
-On Thu, Aug 27, 2026 at 03:33:19PM +0200, Johan Hovold wrote:
-> On Wed, Aug 26, 2026 at 11:19:33AM +0200, Greg Kroah-Hartman wrote:
-> > The ability to add and remove devices from a driver through the sysfs
-> > "bind" and "unbind" files was created all those decades ago as a way
-> > that kernel developers can iterate faster, and provide a debugging way
-> > for users to attempt to add a new device to a driver without having to
-> > rebuild their kernel.
+On Fri, Sep 25, 2026 at 11:21:58AM -0700, Ricardo Neri wrote:
+> On Thu, Sep 24, 2026 at 07:37:18PM -0700, Guenter Roeck wrote:
+> > On Thu, Sep 24, 2026 at 07:33:19PM -0700, Ricardo Neri wrote:
+> > > Hi,
+> > > 
+> > > Intel CPUs indicate in IA32_[PACKAGE]_THERM_STATUS whether the digital
+> > > thermal readout they expose is valid. coretemp deliberately ignores that
+> > > indication, for the reason given in commit bf6ea084ebb5 ("hwmon:
+> > > (coretemp) Do not return -EAGAIN for low temperatures"): some CPUs clear
+> > > it while the temperature is too low to be measured, and the value reported
+> > > in that state is more useful to userspace than an error would be.
+> > > 
+> > > The consequence is that userspace cannot distinguish a genuinely low
+> > > temperature from one the CPU could not measure. This series exposes the
+> > > indication through the standard hwmon temp%d_fault attribute, leaving
+> > > temp%d_input exactly as it is.
+> > > 
+> > > One user-visible effect is worth mentioning: sensors(1) prints FAULT in
+> > > place of the temperature when temp%d_fault reads 1. On a CPU that clears
+> > > the valid bit at low temperature, that core stops showing a number in the
+> > > default output, although sensors -u and -j still report it, as does
+> > > anything that reads temp%d_input from sysfs directly. A driver-custom
+> > > attribute name would avoid this, but would be invisible to generic tools.
+> > > Reporting the condition through the documented attribute looks like a
+> > > better option, but please say if you prefer otherwise.
 > > 
-> > This api over the years has been abused and recently come under a major
-> > fuzzing "attack" through tools like syzbot which decided that it would
-> > attempt to just randomly bind any driver to any type of device, causing
-> > loads of unneeded errors and pointless kernel patches to be generated by
-> > unsuspecting new developers.
+> > I think it would be _much_ better to return -ENODATA for invalid readings.
+> > This isn't really a fault, after all. The sensor is not defective,
+> > it just can not provide valid data.
 > > 
-> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
-> > will be set on the driver if the bind/unbind sysfs files are ever
-> > successfully written to.  This lets kernel developers "know" that a user
-> > is attempting to do something that is not normal, and as such, if the
-> > kernel breaks they get to keep the shiny pieces laying around on the
-> > floor.
-> > 
-> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
-> > as many times crashes/oops/warnings/failures happen within the callback,
-> > and the taint flag needs to be there to show what was being attempted.
-> > If it were to be set after the callback happens, the oops report would
-> > not properly reflect what foolishness was being attempted.
-> > 
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > With -ENODATA the sensors command reports N/A for the temperature
+> > measurement, which I also think would be better than reporting FAULT.
 > 
-> This makes it clear that this is a development tool, and it is a good
-> compromise preferable to adding unnecessary complexity or suppressing
-> the attributes completely just to prevent root from shooting themselves
-> in the foot:
+> Thank you for your feedback and for applying the other two patches!
 > 
-> Reviewed-by: Johan Hovold <johan@kernel.org>
-> Tested-by: Johan Hovold <johan@kernel.org>
+> Thank you for your feedback anf for applying the first two patches!
+> 
+> Userspace has seen a number in temp%d_input for over 12 years, and with
+> this change it would get an error on CPUs that clear the valid bit. I can
+> certainly implement returning -ENODATA; I just want to confirm you don't
+> see this as an issue for userspace.
+> 
 
-bind/unbind without overrides should not necessarily be treated as a
-development tool. For example with I2C devices you may want to unbind
-the functional driver, perform firmware update from userspace, and bind
-the device again. This will ensure that driver is not confused and at
-the same time you do not need to put into the kernel code that is
-dormant 99.9999 percent of the time.
+Userspace should be able to handle error returns. That is not an ABI change.
+Even if the fault attribute was implemented, trying to read the temperature
+should still return an error.
 
-Thanks.
+On the other side, claiming that the sensor is faulty is, in my opinion,
+just wrong. It is not faulty, it just does not return valid data.
 
--- 
-Dmitry
+Guenter
