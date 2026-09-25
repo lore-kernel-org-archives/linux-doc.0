@@ -1,176 +1,248 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2E348125E;
-	Fri, 25 Sep 2026 09:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ABE3488239;
+	Fri, 25 Sep 2026 09:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790328934; cv=none; b=Uu1YR+BFm8ZOD/A6dgFneKISB6G5iib+gTI72T6s4WVuzmHAxYfGh74owrh+JZzQFjaEotjMxk+5gqpfPQUbjb/evfOcxZZ6ulH03H/Xd1ODhcIUAv51FZdVC/p6mutHxDSrA2BypgpmCrYPVC4tWdy+SagbAvzoeVxcvyxzVFQ=
+	t=1790329722; cv=none; b=U/EIzZx20JUWjdp7wvQipnwlm/Mfo0WwdC61P+mQdUUT0SSreSgVnxiSOSxlUcAOlG0gwaRd2lzdvSRD+LxK6MauUXc2MFcoblvH5K9GSu1alzPMXapxj/mCcZKSXOWf3Y09CysacQOccmmilMRev7mvu2EiUZSPSWd1CHmmWso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790328934; c=relaxed/simple;
-	bh=k6uDKPPe1ermrsLZjx3IZyd4bJERPiX+St53e6BiYx4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P+Ca7dfSss73i2hXsns0CBNdu5jtxvgnxq+tVrY+JIHu7txq5mvy2zPBB02Fr/7XTzNpRwF7cp4/kUJuKanjlWzNs+ebjNCtt+E/NanKU0toYa+IHq8VrgnfjMX0tCC3GqDRtG/KN35xg91fNsIqPphQiWs0MHu4O2cC2VwnvlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzZxhyhs; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790329722; c=relaxed/simple;
+	bh=hqExfXTHIcTcyEHklVRM0BzpUqrw+4faYEwu8KNKxog=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mzYv8341vBjvn/kX1osPhf0IQ2ztcb9RN/S+X3RNcqaWmISZcgmvKFK0IGOb1RWY9ve8RxdFzlbEPwaXetH3JjX33wVT4goPkKK58BE3zyR5NOlSq/ErfG/uW36PwZitXrKk6hNUI68sv4h/nI6h/F8PsqpxKm/5Yi9sPCbI1JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=cWNcGIlT; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzZxhyhs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DC6D1F000FF;
-	Fri, 25 Sep 2026 09:35:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790328932;
-	bh=uLG5lXHaGba/dPImy7unpJ5IThclo3TEAxLWPTrsKfU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bzZxhyhsPfPrL97TbhC325gHjRpuHNOnRAtDnIf7+He5gMfkm4PSOaeLWWHbi8c+l
-	 6gLN53Uwdjt1XIK0OfcSHtcQmumMJlRTA69LriLBQLJ0wlctJVs9Bq/WbFIYgezX2S
-	 o7HKidp4dQ3owP9NtNKbVP6jhZCshUTUiQ66DK4nhMPv/dIHOX+rBfreTpiYW/Trbr
-	 lwzJ176A2TJiIAwDANzHglZssZ2IwPz45AtPMn/Payp0HQBUyL8MtoMoRwY1oA7vIH
-	 So1mhkj16h3+GX9qr62k4qaQbTa37MdNPZHhAdlXJfG4rCoV0gvFtIiYsigAgrqycF
-	 Yh3V65CGNEVUA==
-Date: Fri, 25 Sep 2026 10:35:02 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 24/40] mm/mlock: eliminate weird VMA_IO_BIT abuse and
- simplify
-Message-ID: <arZAC3fyGMDnxiFX@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-24-4583d8a23bca@kernel.org>
- <93672B94-BB0C-4713-8F8A-3619D81DB7BB@nvidia.com>
- <arT3K71l86fUVldk@gremlin>
- <CBD619D6-8717-4C81-B5EA-D1D0771BDA3A@nvidia.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="cWNcGIlT"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P4acrZ061841;
+	Fri, 25 Sep 2026 09:48:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=BAMPiq
+	7qxEpN74mGPM819vspDrfZEjaehxE6QVIsFAY=; b=cWNcGIlTcJiSZH8xq8QVzR
+	DBWvc3wHTz4K5AsLqobBuIMiqkb8zBib7yyWzCB5vMixov2YXWrt9UukppXXwTHI
+	oWM+OYwGfj92WqpgGSMkucBqBP4A7jkhvjR8TZzuiMqhN9FGac4+SwXfW+lRax7d
+	Rkd6oU+vDpb8TIxqBWyLIMYGVckp08SCa2c4pGv+j1ccRXGnnx8/ZHEjhH0NH349
+	wpKM7O83vGE8+5evNYytgTyYC9sX25YiilXJaNYFhje9373s06ZgKJOfCFCWW/GZ
+	VLndvWBf+v+iqtmQPaadicoVD1xdFKzH80iNJ5K38qJ4JMeJaa7yRFsoB3XYYVig
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gskgsp8mr-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 25 Sep 2026 09:48:01 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68P4lU8e3288179;
+	Fri, 25 Sep 2026 09:48:00 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gvbe21w8w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Sep 2026 09:48:00 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68P9luMD52298060
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 25 Sep 2026 09:47:56 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8458D20043;
+	Fri, 25 Sep 2026 09:47:56 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3ACFF20040;
+	Fri, 25 Sep 2026 09:47:48 +0000 (GMT)
+Received: from [9.39.19.124] (unknown [9.39.19.124])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 25 Sep 2026 09:47:47 +0000 (GMT)
+Message-ID: <4e2421fe-4b26-4d92-8709-bfa8d3a4114a@linux.ibm.com>
+Date: Fri, 25 Sep 2026 15:17:47 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CBD619D6-8717-4C81-B5EA-D1D0771BDA3A@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 08/13] sched/core: Push current task from non
+ preferred CPU
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, yury.norov@gmail.com,
+        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
+        meted@linux.ibm.com, ynorov@nvidia.com, tglx@kernel.org,
+        gregkh@linuxfoundation.org, pbonzini@redhat.com, seanjc@google.com,
+        vschneid@redhat.com, huschle@linux.ibm.com, rostedt@goodmis.org,
+        dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+        hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+        frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+        christian.loehle@arm.com, tj@kernel.org, tommaso.cucinotta@gmail.com,
+        maz@kernel.org, rafael@kernel.org, rdunlap@infradead.org,
+        kernellwp@gmail.com, linux-doc@vger.kernel.org, jgross@suse.com,
+        virtualization@lists.linux.dev, sunlightlinux@gmail.com
+References: <20260909135617.871006-1-sshegde@linux.ibm.com>
+ <20260909135617.871006-9-sshegde@linux.ibm.com>
+ <20260925074953.GG4121339@noisy.programming.kicks-ass.net>
+Content-Language: en-US
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <20260925074953.GG4121339@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=V/XoQuni c=1 sm=1 tr=0 ts=6ab64352 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=sB9Cf5MOR3c-l3nHmB8A:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: c6kA6vVibaezv8Rv_91wlU8f0HEHy6qR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAzOCBTYWx0ZWRfX4f+Zfj0ioizA
+ jpZIE4/2mClgZ0mgNK0bSZx94Z9rkRWX3MWF8WkbE2KrwQGyeR+l/bzGcElKIfmJGpvXBmfEzKw
+ dSB2l/pjQtyry8I/Ds56AeKM60fCWIkPn2EUq//OTXFNXWqMFBqX8Iu90Fy3rl9Ta7Xkh7Jl9W8
+ crM11vO5fltbLTGpDcaEBM7K8CoMmVsa9uAF0OoKMatndXBwlWSkjfFaaql/y08cGVcxdA84/fY
+ +ydoOTY49JdrDswoGeU965d/MZYJd91+/Ch5YnXZTQzFfUEP2W5SHyZnpOVbFwpoePkquHR4gJ0
+ PTIDVCqKHxPO+4RvkiAz1o2xWxjqhjfB5CO1nju+BuHgV/HIvgRjtT8AV5mtraUgcZH3U3U4eKY
+ fYzNLoQCBOkarWrjspdXdhFxFk0ast7abNyZzTDSi05cnlxoMdw2Sh71l7pAjyqN/vz7vhQfJ4l
+ uPQc/xGnI8o72UUzWoQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAzOCBTYWx0ZWRfX0g2S1LbZbO1G
+ z6t6UEMCkVPe7mHymTr+wKCNHh/9kWcQjlzCKRWEFpRI6cqtPCFrdyKuoVvv10BXq4g1vyDV6nu
+ REE6VLPbS7QKg/jJS7RKvmr32upXzN8=
+X-Proofpoint-GUID: ojXf-R95wBDJl8rQb_uFtSW0mjZyzSGF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-25_02,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 malwarescore=0 clxscore=1015 phishscore=0
+ bulkscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609250038
 
-On Thu, Sep 24, 2026 at 11:50:14AM -0400, Zi Yan wrote:
-> On 24 Sep 2026, at 6:21, Lorenzo Stoakes (ARM) wrote:
+Hi Peter.
 
-> >>> diff --git a/mm/folio.c b/mm/folio.c
-> >>> index 47a437e0f7fd..35e242b48870 100644
-> >>> --- a/mm/folio.c
-> >>> +++ b/mm/folio.c
-> >>> @@ -505,7 +505,7 @@ void folio_add_lru_vma(struct folio *folio, struct vm_area_struct *vma)
-> >>>  {
-> >>>  	VM_BUG_ON_FOLIO(folio_test_lru(folio), folio);
-> >>>
-> >>> -	if (unlikely((vma->vm_flags & (VM_LOCKED | VM_SPECIAL)) == VM_LOCKED))
-> >>> +	if (vma_test(vma, VMA_LOCKED_BIT))
-> >>
-> >> I think it is worth documenting VMA_LOCKONFAULT_BIT alone means mlock in
-> >> progress, like you did in munlock_vma_folio(). Just to keep the protocol
-> >> explicit for all the readers.
-> >
-> > Well I'm not sure it's necessary here honestly, because this never checked
-> > VMA_LOCKED_MASK anyway, and VMA_LOCKONFAULT_BIT never made a difference.
-> >
-> > So the meaning of VMA_LOCKED_BIT here is strictly 'is it locked' and it's
-> > correctly handled.
-> >
-> > And I fear that it becomes whack-a-mole - the neat thing about this change is
-> > that you no longer have to special case the stupid VM_SPECIAL thing, and can in
-> > fact do the 'normal' thing of _just checking_ VMA_LOCKED_BIT :)
-> >
-> > So I think it's better not to.
+On 9/25/26 1:19 PM, Peter Zijlstra wrote:
+> On Wed, Sep 09, 2026 at 07:26:12PM +0530, Shrikanth Hegde wrote:
+>> Actively push out the current running task on a non-preferred CPU. Since
+>> the task is currently running, a stopper thread must be queued to push the
+>> task out. However, if the task is pinned only to non-preferred CPUs,
+>> it will continue running there. This helps to maintain userspace
+>> affinities, unlike CPU hotplug or isolated cpusets.
+>>
+>> Though the code is similar to __balance_push_cpu_stop and quite close to
+>> push_cpu_stop, it is kept separate as it provides a cleaner
+>> implementation specifically for CONFIG_PREFERRED_CPU.
 >
-> Your reasoning makes sense to me.
 
-Thanks :)
+> I would have preferred the code looking more like
+> __balance_push_cpu_stop(). Now you're written more or less the same, but
+> visually different for no reason. This makes comparing them unnecessarily
+> hard.
+> 
 
-> >> Why I am commenting in the middle of the series? Because I am taking
-> >> a quiz given by LLM based on this series to get myself enough background
-> >> knowledge to review this series. This mlock part came up at part E
-> >> and I only have part F left before I can do the full review. :)
-> >
-> > Thanks! :) I really appreciate you taking the time to look at this! Sorry it's
-> > so large.
->
-> Sure. It is great learning material for me. Thank you for the patches.
+Yes. I will keep your version at the end and respin v14. Hopefully by Monday.
 
-No worries, and sorry for the size of this change...! :)
+>> Add the npc_push_work_pending flag to protect the work buffer.
+> 
+> I can't help but read NPC as Non-Playing-Character. Too much RPGs, and
+> that ain't Rocket Propelled Grenades. TLA are such fun :-)
+> 
 
->
-> >
-> > I held this series back from last cycle to help with review load, then spent
-> > some time fixing various AI-discovered things, and all the patches are necessary
-> > (well for the most part) to get where the series needs to go.
-> >
-> > I think the change is worth it though!
->
-> Of course, great to see hacky code being removed by this series.
->
-> For this patch, feel free to add
->
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
+hehe. one more into the mix.
+> 
+>> +#ifdef CONFIG_PREFERRED_CPU
+>> +static DEFINE_PER_CPU(struct cpu_stop_work, npc_push_task_work);
+>> +
+>> +static int sched_non_preferred_cpu_push_stop(void *arg)
+>> +{
+>> +	struct task_struct *p = arg;
+>> +	struct rq *rq = this_rq();
+>> +	struct rq_flags rf;
+>> +	int cpu;
+>> +
+>> +	if (cpu_preferred(rq->cpu)) {
+>> +		scoped_guard(rq_lock_irqsave, rq)
+>> +			rq->npc_push_work_pending = false;
+>> +		put_task_struct(p);
+>> +		return 0;
+>> +	}
+>> +
+>> +	raw_spin_lock_irq(&p->pi_lock);
+>> +
+>> +	/*
+>> +	 * select_fallback_rq() may acquire the rq lock in case of fallback.
+>> +	 * So call it before grabbing rq lock. If the task migrates to
+>> +	 * another CPU before the rq lock is acquired, subsequent validation
+>> +	 * of task's current rq will help to safely bail out.
+>> +	 */
+>> +	cpu = select_fallback_rq(rq->cpu, p);
+>> +	rq_lock(rq, &rf);
+>> +	rq->npc_push_work_pending = false;
+>> +	update_rq_clock(rq);
+>> +
+>> +	context_unsafe_alias(rq);
+>> +
+>> +	if (task_rq(p) == rq && task_on_rq_queued(p) &&
+>> +	    !is_migration_disabled(p))
+>> +		rq = __migrate_task(rq, &rf, p, cpu);
+>> +
+>> +	rq_unlock(rq, &rf);
+>> +	raw_spin_unlock_irq(&p->pi_lock);
+>> +	put_task_struct(p);
+>> +
+>> +	return 0;
+>> +}
+> 
+> Anyway, I ended up with:
+> 
+>    static int sched_non_preferred_cpu_push_stop(void *arg)
+>    {
+> 	  struct task_struct *p = arg;
+> 	  struct rq *rq = this_rq();
+> 	  struct rq_flags rf;
+> 	  int cpu;
+> 
+> 	  if (cpu_preferred(rq->cpu)) {
+> 		  scoped_guard (rq_lock_irqsave, rq)
+> 			  rq->npc_push_work_pending = false;
+> 		  put_task_struct(p);
+> 		  return 0;
+> 	  }
+> 
+> 	  scoped_guard (raw_spinlock_irq, &p->pi_lock) {
+> 		  /*
+> 		   * select_fallback_rq() may acquire the rq lock in case of
+> 		   * fallback. So call it before grabbing rq lock. If the task
+> 		   * migrates to another CPU before the rq lock is acquired,
+> 		   * subsequent validation of task's current rq will help to
+> 		   * safely bail out.
+> 		   */
+> 		  cpu = select_fallback_rq(rq->cpu, p);
+> 
+> 		  rq_lock(rq, &rf);
+> 		  rq->npc_push_work_pending = false;
+> 		  update_rq_clock(rq);
+> 
+> 		  context_unsafe_alias(rq);
+> 
+> 		  if (task_rq(p) == rq && task_on_rq_queued(p) &&
+> 		      !is_migration_disabled(p))
+> 			  rq = __migrate_task(rq, &rf, p, cpu);
+> 		  rq_unlock(rq, &rf);
+> 	  }
+> 
+> 	  put_task_struct(p);
+> 
+> 	  return 0;
+>    }
+> 
 
-Thanks :)
+Alright. Will keep the above. (without the additional migrate check)
 
->
->
->
-> Best Regards,
-> Yan, Zi
+> And note how you have an extra !is_migration_disabled() vs
+> __balance_push_cpu_stop(). Either yours is superfluous or
+> __balance_push_cpu_stop() should have one. Which is it?
+> 
 
---
-Cheers, Lorenzo
+yes. It is superfluous. Queue side check is sufficient.
+Will remove it.
+1. Even if task got pulled by remote CPU before stopper got to run,
+    the task_rq check will fail and bail out.
+2. Since the policy is currently for FAIR tasks only, it can't run
+    before stopper.
