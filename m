@@ -1,153 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F033B52F8;
-	Fri, 25 Sep 2026 14:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD4B3D0938
+	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 14:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790345037; cv=none; b=o8TGnwXjd3yGG/UyT3r8dF316qPNqvAf/U6p4nismrEjw2+3ic7YRzDEYPS8hxB8cFDlGSlKKQwSy2E2bpjcuwSUqdA+Bgvrzxc4t31844psRPDweiHJAtxO8nEX9daIRWy+DKfslb+Ye3vyJXLqVwF0W0Jm0o9wS5ouqjaPXr4=
+	t=1790345094; cv=none; b=F+WqNsNdphLwoxFJZ6drIduiPgmnEcBKpYr3ClUI3ieGqQRlhaZebROeAsp/1vlwYPQaS1Ioi7Q+OCo1pgwEGKGWrOCdaVXRJ+5Upcef/O2955PVFN3Dj2WQms1D4i9pNEyWIu2Ka8nuEyzVuanavU6VQLHOw2enyECal/Lb2xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790345037; c=relaxed/simple;
-	bh=nGwG0y3l4cxBaRoR6EH21EjZEXS6RkbHZZjT1Ci/uHo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q4c6QGt81dq2fForUHXC71ruFCIJ8LEFWfml1jNP6/xNDFQR0GHePZj5SCGYoaB0SkoJSSSNmLJOosTw8qBmW1CKx6KTefcHE4TBoZHq8CEmOvIzUumkCkHtOZbt7zEOsYNgiq9kURD8ll3ad4F7vTK2PPOhdcm76Exqlwc1C4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jVWp1HYs; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790345094; c=relaxed/simple;
+	bh=bbmOrdULgI/qG6m5ZYiQCPi7tLPM/ObVmBPDGixfQGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aksukGcbQjY37Vzt+eDaf2AUvwX4Jq1yj1TNoT2jCIzv7f8FyO5Cg6iv96byTiCfEwDvMj9lyonTAbfXNb9QEByEuVXZlV8vfwE2kzmDAc3jqSJm5uzd3/QvdKlKZJNLlzTjLn8b8P5IC4tvg6bsvwK4iwBr5NI+x29FEZN+gdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BYvsOqop; arc=none smtp.client-ip=74.125.227.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jVWp1HYs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E41FF1F00899;
-	Fri, 25 Sep 2026 14:03:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790345035;
-	bh=moEJ5DD1kCJ2wQs0dyY2lmQMFAV3DitHCHfCeQeaslY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=jVWp1HYskHLauwnYvlaUdGxmSJA0e4Ng6vPNyBJltu9Um+fny4d/P9Ar2HgcIM6I8
-	 UEmr4uxjBX8GbrfIXH20gvdTaPzYS9l4DAph/19rnVtTHzbjg+uC5eKKMTcIWqUC2L
-	 ljfZowz4e8o/1+42IEqak7WBI3tgVSrDeoJsvv/PSfuEML/oRcyFn8ZZYRKkpQEt57
-	 U5jIUeXr8tVbGEQz8Qlc29zuO/TDS6ywutxvBmWZrd2qLj8IhzN3K8jJ3am+rS7SZV
-	 q2l/Qk0abhXjp0zD1YTgHwCtuI0zt+RX8kRo00b1sGI47Z04YZP+jcAnNRVip5TAQk
-	 pqOqj32xOf01A==
-Message-ID: <52e41c9f-c91c-42f9-8238-f8c7ff3e8b21@kernel.org>
-Date: Fri, 25 Sep 2026 16:03:35 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BYvsOqop"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a0b0fa2055so550581a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 07:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790345092; x=1790949892; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ovT80gQ2vK9hf0kYJwc2d02kOlcxj5fWOcjSmSVAXmQ=;
+        b=BYvsOqopSQADsn+SQNeWEneJ6Iz4pIokMim1vFm8IubKN49fgy8kSzHS7xRq3Pga1B
+         jRU4FhnBQ0qJBp1tt9eU20DgU6Esgq3XLFymMWYaJkaq6jUhmgc0LAmv8LUyQr4gra/y
+         U3eWrHbnAU/mUHlpM3EcIyQ2FtcMhejVD+kSLGDhtJ2P5Z4kbTOxjQtXIaBZnf+4u098
+         qeuhuGm73Atku1b4LxcavTUT66ZP+ryl8L0co5KZ/q5aOIN9PxEBV/noVVCDSxSK4rRE
+         5dd40JPVIaa2VyWYISkhog3Vj1SGEFYuAbPaKlLAZgM0t/+SA+CWygz9J5AlEDR69qJi
+         MCJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790345092; x=1790949892;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ovT80gQ2vK9hf0kYJwc2d02kOlcxj5fWOcjSmSVAXmQ=;
+        b=TITp74k7PKBMEBVbGRKb2Iv8CQFFsUM4qzwvr6ASG1cnfEAR4P6N2cv5wxpSOnAmTx
+         xF+kse3iCHFhZ8iz68b1HGy+C5S7zgIj/FEqfjS2yep4gHC7cee5lnzCC14IMpYRCpO/
+         yhojshSadm6yKQfRdcIz4NVOlCMZXMzRb+h/hg5llf+aSBXuoEcEbKB36J4FkB9uyf3d
+         eAmmkoKUeznLeqon2+JKi7Dta/2lLRJyOyIuHH8huC0Cb5I4g9KWP2Be9PJnHXgMAAPL
+         34jJI6ZjdLpoqbIA7Zls2W5uBOUpmX+9YznibOGGicm7WCv1VfUVfBW61rNJ22re3RGn
+         Qatg==
+X-Forwarded-Encrypted: i=1; AKwUvBymJbIz6aFUwosr8EU/m782DtrxVNrQGoX8hMWqjOpzbCeB9Ypun638rqK3prctI/Bz357QMkhMlVQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++lod3YWl6TYPuMRXac/KIvs7l/vKp5hL6gezsLNvA+c5Fn3juHJ
+	LL9JrRdXmAlW2vXQ5jGhS10DAwsku0uACqrVuuDmDXA55XFwvD435laV
+X-Gm-Gg: AYBFou3nPaAM9slS3pflDWcjkqdUdWS+YQ2YWLGb7QaIXTV94e58TLlQX5wWy5z/cdz
+	OzL9o1PusArgUaVBuRD60DGvmvwxDGtFOdEvDBK2+ymxzKj62SMOGdKQwQIwxKotD/KklOR++Ep
+	3wG+gFUfu/BoithV+/aM+EhSOe8WpkCbMsomTqZTdWroJ+cx5PfeIQrXHYHBZ+ideySD9ijmC5X
+	uTCEfxlBUCedmVRK8Z+3HaONHf+ZVTzeWjCFPC4sqvoit43y0hSG5HPnebgb6Ac/7oMrvUfWj69
+	ci6QusIc4gVsJ/JPGQ9nT5c32fxzB+aziMGBxTwMmIzyg0qH4rf9eB+Fi+s/1lO1csYPNJ8saqg
+	1HT5z/meu9lxEn72RC/UvGDjDDI7irp3mPfJl/H6J0pJ4o5ZyKHCPD9/rWXsZKzrwHUfuiLTT8v
+	X0RxT8q5h7BYvlLQ+7fjkcRgtXUMEVnecJbMxVAhUAQWlT8D5W+6bSVpL26CpqeHYNhcirGQvTO
+	JlmXG+Iql84zOtp5tJGeFc=
+X-Received: by 2002:a17:90b:3908:b0:3a0:c276:1ecb with SMTP id 98e67ed59e1d1-3a0c276224amr1313125a91.15.1790345087406;
+        Fri, 25 Sep 2026 07:04:47 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a09773e7c3sm10983338a91.17.2026.09.25.07.04.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 07:04:46 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 25 Sep 2026 07:04:46 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc: david.nystrom@est.tech, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	ricardo.neri@intel.com
+Subject: Re: [PATCH 2/3] hwmon: (coretemp) Read TjMax only when refreshing
+ the temperature
+Message-ID: <94dc8122-d6d7-40b0-adde-5e0cd7b645e9@roeck-us.net>
+References: <20260924-coretemp-temp-fault-v1-0-1884f0ff97d5@linux.intel.com>
+ <20260924-coretemp-temp-fault-v1-2-1884f0ff97d5@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 00/44] guest_memfd: In-place conversion support
-To: Ackerley Tng <ackerleytng@google.com>,
- Sean Christopherson <seanjc@google.com>, aik@amd.com,
- andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org,
- chao.p.peng@linux.intel.com, jmattson@google.com, jthoughton@google.com,
- michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com,
- qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com,
- shivankg@amd.com, steven.price@arm.com, willy@infradead.org,
- wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com,
- pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org,
- liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
- Jason Gunthorpe <jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, tarunsahu@google.com,
- Randy Dunlap <rdunlap@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Fuad Tabba <fuad.tabba@linux.dev>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-coco@lists.linux.dev, Xiaoyao Li <xiaoyao.li@intel.com>
-References: <20260910-gmem-inplace-conversion-v13-0-dd6fbf94f4e1@google.com>
- <179028368162.2007072.12117327378679658047.b4-ty@b4>
- <CAEvNRgFpMwduvHPGJ5fLoVPr_iGn=ELzY4AcMGHESC6CkMyeTw@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
- ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
- AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
- 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
- g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
- ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
- 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
- /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
- jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
- DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
- HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
- 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
- LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <CAEvNRgFpMwduvHPGJ5fLoVPr_iGn=ELzY4AcMGHESC6CkMyeTw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260924-coretemp-temp-fault-v1-2-1884f0ff97d5@linux.intel.com>
 
-On 9/25/26 00:31, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
+On Thu, Sep 24, 2026 at 07:33:21PM -0700, Ricardo Neri wrote:
+> show_temp() reads TjMax before checking whether the cached temperature is
+> still fresh, but consumes it only when recomputing that temperature. On a
+> cache hit the value is discarded.
 > 
->> On Thu, 10 Sep 2026 16:55:26 -0700, Ackerley Tng wrote:
->>> Here's v13. Thanks everyone for the comments and fast responses!
->>> We're now at ~3 weeks to soft-close at 7.3-rc5.
->>>
->>> v13 is based on 7.3-rc2 and:
->>>
->>> + Hugh's patch to export lru_cache_drain_for_folio()
->>> + Another series [1], which makes kvm_gmem_get_pfn() NOT return a
->>>   refcounted page to KVM.
->>>
->>> [...]
->>
->> Applied to kvm-x86 coco.  A *huge* thanks to everyone who helped with this!
->>
+> Discarding it is not free. On CPUs that report TjMax in
+> MSR_IA32_TEMPERATURE_TARGET, get_tjmax() returns the value it just read
+> without storing it in tdata->tjmax, so every call reads the MSR again.
+> That is a cross-CPU call whenever the CPU owning the sensor is not the
+> current one, and it is made while holding tdata->update_lock.
 > 
-> Thank you so much everyone!
+> Read TjMax where it is used. The value cannot go stale in the meantime:
+> bits 23:16 of MSR_IA32_TEMPERATURE_TARGET are read-only, and the register
+> is package-scoped, so every CPU of the package reads the same value.
+> 
+> The temperature reported to userspace does not change.
+> 
+> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 
-Nice, a big milestone!
+Applied. No need to resend this or the previous patch.
 
-Well, let's cross fingers that it will end up upstream! ;)
-
--- 
-Cheers,
-
-David
+Thanks,
+Guenter
