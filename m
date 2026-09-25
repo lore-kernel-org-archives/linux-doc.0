@@ -1,45 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B5B39E6FD;
-	Fri, 25 Sep 2026 19:01:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2AA2D73A0;
+	Fri, 25 Sep 2026 19:10:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790362922; cv=none; b=KSxElCn2tV6NRM/HVeB2uMIx6r3ao75c/RNuz5NmJ/hL5zKqIDnNJtQvw3ap3CkYoT8MbR9qnNBTSR/bvvbnBhRkMJCMBDwrzvalqann7DYqAudqGHX6MobYzFmsopH7PJu1wwmod9X9H942q5CLomPJeXrOct5ar00UoS5U4bE=
+	t=1790363417; cv=none; b=KAdJbr5GehY8YpAX4UFIUzmjMMvqqPQ3xFPspNAb8dUpmoHjvSxV6EvzRyhHDOnMbawibF3YmAWDK/D5shZDJDL1Eeuliotj8KwnDmHY/LETTIAPap+Qe8utgdetzyBioZz/xFVtb/qCbS2P4L6Z1DEptjDZnb+l/14+St+5dEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790362922; c=relaxed/simple;
-	bh=kTRqA4x8h+EttCW4HQTHJumhIe63XCCzl3rviK+px0Y=;
+	s=arc-20240116; t=1790363417; c=relaxed/simple;
+	bh=zPE7Fpdceg+qVWrlR6SfURBbX130IhK2/zfJ968obXE=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rKnMXzOOJxQfWYyrUBnhjIqWAVRVs6A9duD9QBIAQDS5huO0YBPATPQQmg1R9CJcXPzR4XqyCx7exN+WWkWsre7Gy2SIw109C6gjnsqnl8JK75vm5Nzb5Mt1o8osUWaHa85FTwrkwIFrfOSx6DYyk/l/6GlP6I40qw7rcD6RvQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eizWHBVf; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=T4+IEPSCYyVqYw/fuwHWQjWhSoG/4DnOUmmFIM6r0xMMODtAZprQ0sCtZddz35PtMPNjsBrJX0uWde7fFV/sz31CyQPCDJSWtAyx75ffPzQmzXEs3T6QRhZlNybJvIs036WcOtairOCGdlbw94toeu+niwmAuK6bW4ww6cQ3GrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lta26CTJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eizWHBVf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 043371F00893;
-	Fri, 25 Sep 2026 19:01:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lta26CTJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C64E1F000FF;
+	Fri, 25 Sep 2026 19:10:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790362913;
-	bh=L7jBqRuVow1pTK1QW3KvYR+feGMWG5tCnOJP2zqQ6WA=;
+	s=k20260515; t=1790363416;
+	bh=WIh5MF91TgNDRmG6Qisl3WLz2tFz4iMG+XOqdmL7CGE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=eizWHBVfzMRnMM2VahOUDum7IK+oWd4Io8ruN8OXqLzIhwZuP+iU2j7dNW604F6zy
-	 x1G+7UhBjUh2G8v1M9//fDme4bGcJ+FLU2oQaVmSYGFKJx1N5H2AcuGfVvYsRvEle6
-	 l4lzijo8NfjJA43vIrRCEj+DNhm0PimW1P59lSpUu3JsOGyDAN3etbjWyN/ic6/DMh
-	 w8jU3j2q74bT5H4u2OGNf468wHHr/9zmDkLMEdr0URrkJF79rBN0r8tu6t08ke1Fin
-	 ZdiKZPUpP8yK50Sw6YOHxYWbMLsB0XiIyykmmdPCiE8ev+/EWy7vvJEJW3k/FuPlcn
-	 3rxVauvHCc/kw==
-Date: Fri, 25 Sep 2026 12:01:52 -0700
+	b=lta26CTJTzuqDDh5KI8mVWRhpEM81U1UcckDr7elT2XmDDv9u3Yu83P5Kh49UB1d7
+	 3RmumOK4R51exJOZZNWGrKtF5MQN87aNO+1fQdjMPzcQisfnSm1Sv3mQpPjr5nVKML
+	 ClXq0r1H+aVB7Wb5sxjDOFcwtAuh3SeOaFRNklbtdCY2DF5NQOUE8Q4alUJYQJ7BjU
+	 0WLKQ8Gl14aZLEKpS81xG/puqobi7SQ6pP3/HchhrBK1Sd4KV9rXlWut9JVd7yL2qs
+	 c3EtSA68/rbFVVNiAjBjoowFqz46o784ouT6Tas+VISMbCw56jRrP+LfDzqv2gbI6h
+	 4Y8PV2u15/CsQ==
+Date: Fri, 25 Sep 2026 12:10:15 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>, Karl Mehltretter
- <kmehltretter@gmail.com>, corbet@lwn.net
-Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- mchehab@kernel.org, skhan@linuxfoundation.org, horms@kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 0/2] net_shaper: fix kernel-doc rendering
-Message-ID: <20260925120152.09ef180c@kernel.org>
-In-Reply-To: <d461b048-b08a-4bbe-b5e7-60ed6686ab52@infradead.org>
-References: <cover.1786751700.git.kmehltretter@gmail.com>
-	<178700041013.1735578.3422132046076853057.git-patchwork-notify@kernel.org>
-	<d461b048-b08a-4bbe-b5e7-60ed6686ab52@infradead.org>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Konstantin Sinyuk <ksinyuk@kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Francois Dugast
+ <francois.dugast@intel.com>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, Donald Hunter <donald.hunter@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, "Paolo Abeni" <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Ilia Levi <ilia.levi@intel.com>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 0/12] drm/fabric: vendor-neutral topology
+ infrastructure for scale-up accelerator interconnects
+Message-ID: <20260925121015.08b8cc15@kernel.org>
+In-Reply-To: <ara5iTl7bmgWbPW9@intel.com>
+References: <cover.1787552412.git.ksinyuk@kernel.org>
+	<20260921131911.532d81f4@kernel.org>
+	<ara5iTl7bmgWbPW9@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,25 +57,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 24 Sep 2026 16:13:05 -0700 Randy Dunlap wrote:
-> > Here is the summary with links:
-> >   - [net-next,v2,1/2] net_shaper: fix kernel-doc list indentation
-> >     https://git.kernel.org/netdev/net-next/c/09b7c00d55a8
-> >   - [net-next,v2,2/2] docs: kerneldoc.py: preserve headings in kernel-doc output
-> >     (no matching commit)
-> > 
-> > You are awesome, thank you!  
+On Fri, 25 Sep 2026 14:12:25 -0400 Rodrigo Vivi wrote:
+> I do understand the feeling here :(
 > 
-> so these 2 patches are merged into net-next, which should be merged
-> into mainline Linux at the next merge window (in the 2 weeks after
-> Linux v7.3 is released).
+> But I do hope that you reconsider your position here. We had such a great
+> experience with the drm-ras using the netlink and I was really hoping that
+> we could just reproduce the same experience here.
 > 
-> Patch 1/2 is in the current linux-next daily releases.
-> However, patch 2/2 is not merged anywhere in linux-next AFAICT.
+> Netlink is such an incredible API.
 > 
-> I also would like to see patch 2/2 merged...
+> Would it help if I take the maintainership of this drm-fabric netlink
+> along with the drm-ras one, ensuring the same consistent and clean usage?
 
-Sorry, maybe I should have called it out more explicitly instead of
-expecting people to read the pw-bot reply. Yes, I only took the
-networking change. I think it's easiest if Karl reposts the other one
-for Jon to apply? (without tagging it for net-next of course)
+Hard call, I have nothing to complain about with the drm-ras work.
+Purely worried about the time :( Well, that, and DRMs general love
+of Rust which seems to be about 10x less development efficient for us..
+
+Let's start by feeding this + the spec into your LLM
+https://github.com/masoncl/review-prompts/blob/main/kernel/subsystem/netlink.md
