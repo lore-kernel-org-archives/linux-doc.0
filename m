@@ -1,170 +1,73 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB3B3F1AB7
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 20:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D8B3DD523;
+	Fri, 25 Sep 2026 20:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790367986; cv=none; b=eRyI/qgg4HjMZLVNl9lWd0ymyEOtwWw5S2Pkov73+HDr9V8XshcSo2+5GtEpy/FuNDj7bMzsvK4nQ7mvBLWnHVr58T4rU/mOb2K5H55M9CG0Gtx4d7hXsVMmbheI1cGnSCBN620A6Lv/9Lc8yEMtty2u4eRYa/mFn4QKQzjKHDo=
+	t=1790368272; cv=none; b=qA305VzCmaRjB+vA/kjpWAmIWGCeL1MVaqBCT+xzhgosZiWhAvSUZsMz/mB0m6iJiC/M6EEY5UzITVbss9AQ8z77WNrOlzy2nsM/nWiKkxAKzs2T4c2n7eBnieLTaucCdLZq4vDZK7HrMLhdXWeawgP3W+IsSVGPKZHZJuEWQF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790367986; c=relaxed/simple;
-	bh=pLWvLgyzJJJqRJXGy0wrLLfUtbLFMrmx5MOMy9q32N4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lL4w6ZLwWjgafQ7k2bIIG1aD7GsZTZSV/LuC4uNMvTDj8DzpNPAsPhUpv1xk7mI88RA5IkdH2/uJUImgPQ+aGxfBf5n4PrqQ8HlB55q5sspbva1GxQaqKL4a0ukbUeXKj18/h+OfRDNNMZ5D1baat0nxnQzZ/YKhs7Pkhp6AWZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hszJJ5AC; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790368272; c=relaxed/simple;
+	bh=G1cRMCvQgExZ/8QTMQMMdwlsD4hXvasNLu7/GStsa+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=haALpui89vU8K8qXc80dX/6g4cehc0w8b/7WzYKQXiWgBVH9qVnfzVV3LkUw4D9YKZeusCVrIUuI/wGHbvlgoRTYi9MPyFzXI4tjCUS8FyqLEgmXk8UPqevvXoY6DDLOv/9Zup6tVB9MoxugLzIPZfljRHG18Xr2dZa1tZdl1fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iJRxkOlF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hszJJ5AC"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8692a856865so662372b3a.2
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 13:26:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790367984; x=1790972784; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UTHOStho6nRPPrwayEo907rSZvPmwPMNwiUqVSkI8tY=;
-        b=hszJJ5AC0xMm4DeciTdFlWq8eiJQ5yzUvUjWhxjHdgE8ja242jDd51bxHtAtBUN5+c
-         WVPx0AzpuHYnfkh3ZTECMPcigZsWaUtuH4YozTcrjMPlzncr35PxpmmCv5pVe8c628uJ
-         97Gq1Du8f8rf7SzixP7z9bU2JsavCU34KNycpVMKHRxvkydMpFqHpBuEgBxAKOFopXI5
-         6g1n1qL/BkcNhxiq/YlB9axR05c8rdEPbU1Rf2o+fEGdflxO4ptA0EuD+OpDh91AeCg/
-         7z4+LRPv85EULwAOar7yl3oDtYgd/9FlhaD12VsWzUE959BavgF6s3IMFznofKShx71j
-         TxoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790367984; x=1790972784;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=UTHOStho6nRPPrwayEo907rSZvPmwPMNwiUqVSkI8tY=;
-        b=O9GPD1Om0i+0og6FU4AR1w4aT0pXGJ1wbe1t50Reox0tYoMcuVbNlzxl37VRCJmOrT
-         AqmUP8bRWZeEfyLG2KBEFeTAtRZGigsPifyOKzAgiJ45JJUj9SHMCPneZAykW2sHM0TH
-         Lh6mM9w/hurn1J1J4juTaCvo1Aq0WFd5RU7VMYp2A83KBszUBxolD/GMRyJIm/2hURHv
-         Ne/9zXPqp1uUEz03WhFVZegHXEIXJphosixeRoZGs0HSOZGAP9xfg3Bpmu5a6Xu1ylD/
-         Wu1tMRA8BPJID949qqSsR9NQNaSm2eJxfdEskWz7LE3+Utoaz/f9x3BUkD3SBtGgyuwK
-         LUvA==
-X-Forwarded-Encrypted: i=1; AKwUvBxshU7ryS2921NttoosMmgk+aVQLH6G/PK6pfi8daMkaIrKCRNnB65DSzQRK580e/dNi9PeJzw9s74=@vger.kernel.org
-X-Gm-Message-State: AFuF++nrWkAvo7arfeztJTOiGVHhC+qUWliydrWQg/Hlqew+y7unkvIh
-	oC5ycerwLDQWpw2jLnksWXSyGLKyOsNtrWYWKQ/zc6M1HxFbAdHPsYVv
-X-Gm-Gg: AYBFou3/P6IkqKWw0zSf/NgnyAqhJUB4+TtX7v5Qxn3qt++IyUdG5KB3ymSoHmITNpM
-	WXhVp5TzIB2x/1YSIYYe9x4Rfvby4c2l/Y4iHshpUtwU6y8l4XgizZoPeAKqoub3QiZ0e/IVMto
-	g45UI5SuNSNkryZ8ofwIZFSytYHYTG0bPBJbB4JISiSsFEwfnCyaTJqZYmOL/p2BseYkWH6sa7s
-	onXn4grt7NIsysKqjJIIbD3DA/7GQMnDy+VacH3CyFTbTxke7dxRqPaWz5t8Wqijs9NgP9qa66X
-	fF6UwFfSRPvMD+Tdlyoexr2z7I9O3SXuKNYHVbuJYREpCGGkReeCNy7xbCgz9ldJl9Dy464xZuD
-	t78jzP8kHHn39T3L07UeCDsmPxOYc/NEkwpXBDPNamWJCBujcKxc8Acne4y7jTZMTvBUDUMau/E
-	liil3ubV/0ap906g3uS0CYyP5LORO/RuoVCJJRVssCliwTFeXzrdXomvRhyU3StX7pt5Khn3h8k
-	IaCJpqxR7yIEBd3IuccyL4nuoVKorIt9n4tDRs=
-X-Received: by 2002:a05:6a21:8286:b0:3dd:a006:7b32 with SMTP id adf61e73a8af0-3de0e8943e1mr7946963637.49.1790367983822;
-        Fri, 25 Sep 2026 13:26:23 -0700 (PDT)
-Received: from KASONG-MC4 ([1.203.116.237])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc790c80e62sm1265849a12.28.2026.09.25.13.26.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 13:26:23 -0700 (PDT)
-Date: Sat, 26 Sep 2026 04:26:13 +0800
-From: Kairui Song <ryncsn@gmail.com>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Chris Li <chrisl@kernel.org>, Rik van Riel <riel@surriel.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Gregory Price <gourry@gourry.net>, 
-	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arbTTKE6nYWlNCLd@KASONG-MC4>
-References: <aqjpYHbZ14A8xRtK@fedora>
- <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
- <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
- <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
- <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
- <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
- <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
- <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
- <arUcil9kxUPiymXI@KASONG-MC4>
- <CAKEwX=PXRB35bUL1=O4Bgx9A7aD4izZZ3dcEcCuMBBhBrMv7fg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iJRxkOlF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C121F1F000FF;
+	Fri, 25 Sep 2026 20:31:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790368267;
+	bh=G1cRMCvQgExZ/8QTMQMMdwlsD4hXvasNLu7/GStsa+4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=iJRxkOlFbnbW8/xJHzxRbTD8cEVK41dtY8T46yxBakKZ+QfcphlZTdJdKQb9JnNnK
+	 k4rDMrlkd3zYvV1bKgMMycMb9ohw8hWuvy4WbbchbAVOhChS0LBeBjeWKIBIUvW7Mi
+	 xgFF+NePQ4aTe2+Sm32YVnByEcJDSR5ujlLdtqBykZhOPpwVIpAsTDEB0RDGB2ygPn
+	 y7TJFrYFxy7CjfIHo6fKGVy49GNBt561uZk/luKStynOZ6lv9zgJqqRGFBPwRdzXfQ
+	 tk3DDmw8TaCXhKlgch9OuCBvtx2zOodiALYMxFUU3E90HJuw3eRG7NyuLhBwX8pF7J
+	 H/gZtuIv98Naw==
+Date: Fri, 25 Sep 2026 13:31:06 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, davem@davemloft.net,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Russell King <linux@armlinux.org.uk>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, Oleksij Rempel <o.rempel@pengutronix.de>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, Florian Fainelli
+ <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 1/3] selftests: drv-net: Introduce a selftest
+ for ethtool flow control
+Message-ID: <20260925133106.7ad8cb3d@kernel.org>
+In-Reply-To: <fb18618d-6402-4f7d-b318-1872570ceb27@lunn.ch>
+References: <20260920164732.349744-1-maxime.chevallier@bootlin.com>
+	<20260920164732.349744-2-maxime.chevallier@bootlin.com>
+	<20260922194251.06e00e2e@kernel.org>
+	<72bdfa09-34ea-43ab-88ad-b3c64c7e1f70@bootlin.com>
+	<20260923201051.66e9bf14@kernel.org>
+	<fb18618d-6402-4f7d-b318-1872570ceb27@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKEwX=PXRB35bUL1=O4Bgx9A7aD4izZZ3dcEcCuMBBhBrMv7fg@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 25, 2026 at 09:54:25AM +0800, Nhat Pham wrote:
-> On Fri, Sep 25, 2026 at 6:15 AM Kairui Song <ryncsn@gmail.com> wrote:
-> >
-> > On Tue, Sep 22, 2026 at 09:44:37PM +0100, Chris Li wrote:
-> > > It seems you are talking about a different topic: the vswap charging issue.
-> > > There is a golden rule that we should follow: don't break existing
-> > > users. At least with the same persistence, this rule should apply
-> > > universally.
-> > > In the swap tiers discussion, the UAPI was such a big deal that we
-> > > couldn't implement new UAPI. On the other hand here we argue for
-> > > liberally changing user-space visible behavior.
-> > >
-> > > BTW, I already shared that changing swap counter charging will break
-> > > our and others' existing deployments.
-> >
-> > Hi all
-> 
-> Hi Kairui,
-> 
-> Thank you for your thoughtful response! Lots of food for thought for me :)
+On Thu, 24 Sep 2026 15:54:36 +0200 Andrew Lunn wrote:
+> I apply software engineering principles to tests as i would to any
+> other code. It has to be maintained, bug fixed etc. For my $DAY_JOB, i
+> spend as much time maintaining test code as feature code. So i don't
+> really want lots of copy/paste version of the same code.
 
-Hi Nhat, thanks for the reply!
+FTR I disagree. Driver ksft are partially born out of my frustration
+with people treating "tests as normal software engineering" which
+somehow always ends up overly complex. Every team or group of people
+has their own, and it gets rewritten whenever the employee who wrote
+the initial version quits.
 
-> >
-> > Just for reference. Maybe a seperate counter, tiering, is a better idea
-> > than changing the swap counter?
-> 
-> I think memory.swap.* is never meant to be used as the "offloaded
-> footprint". It is incidentally correct, because of architectural
-> limitations: zswap/swap cache/zero page usage leads to real
-> consumption of real resources (physical swapfile).
-
-It's not that "incidentally" I think? TGhe defination from the function
-level seems pretty clear, folio_alloc_swap -> charge. A logical
-limitation.
-
-> 
-> But I understand your concerns regarding the missing observability of
-> the "logical" footprint (i.e the "offloaded size"), and how that would
-> hamper legitimate use cases.
-> 
-> How about a vswap counter that tracks the vswap usage? That would
-> provide the "logical" view. Userspace can then monitor and act based
-> on it.
-> 
-> I think that should cover both of the situations that you (and
-> Johannes in [1]) pointed out:
-> 
-> (1): With memory.current and this vswap counter, you can kill any
-> workloads that violate the level of overcommitting that you set out.
-> 
-> (2): For us, we can use memory.swap.* counter to provide isolation to
-> the physical swap space, which is a real, static resource that can be
-> hogged.
-> 
-> There will unfortunately be changes in userspace programs/scripts that
-> is required. It's unavoidable. We're adding a new behavior. It's the
-
-Right, but usually I think adding new things are generically considered
-better than breaking existing things, unless the existing things are
-either just metric, or really broken. But memory.swap seems has a pretty
-clean definition and implementation, and usage?
+Simple, linear scripts which one can read without digging thru modules
+are the best possible tests. Even if they are 4x longer.
