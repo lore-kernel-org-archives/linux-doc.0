@@ -1,271 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B473C47C10B;
-	Fri, 25 Sep 2026 09:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9962D060D;
+	Fri, 25 Sep 2026 09:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790327603; cv=none; b=ufAi36bI2WKzbCs9M2pYVB9XZy3C7k5gRxmjHgMUAZoiCxXM0/6R84sYnllDGSUq5TzZi3ow5dZK4TSlWNjJdnC5Mk0SL5fVJ0k7VEglVHEt6Vr1ehWFEe8TrWo/+hXFjYHiuxS8Ap3HRe69asyX3WA1BC44T6EPC8mS3N3Muuw=
+	t=1790327804; cv=none; b=S1fpPHawnr/ZbhTIhZ2Ivwp4X1ul8nfH4SZkilp9OI7FXJUrZUgZT2qhbRYpbVsUwQfNkxNAlrH/waeXuzbKZMIzTwhwHTCN2kXIhCSU5V6Wax0djQjLG0Sh4q3czFhwZw2DIgUJ40rCGqJFYiDJFwGy/vJkxfTUtX0hdl46hBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790327603; c=relaxed/simple;
-	bh=Tk8lnLCIykMhwm4FM62K4d7d7QJOAD1dpQSl1O/g2h4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BMuTZigNeyXY/MMRlXWwpVhOMZOOi8C7EA4/h615K5aeMjPdPGqKPC+T/5cryzp/VTJ9d0VGzrgfBuMgfLPrLYRWHn9B5xbeyD+F14wIWdlIXLTBnsVxYVZFMjgzHcjBtbeSH9e4cj/51QQprRD4r4+8O+qccaR/RWw2zv10Pbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K2qi0Whp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790327804; c=relaxed/simple;
+	bh=f3slEILtnD6OfXYtDBQjn0ok7NXA8T7HoO7/8IG+DlU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bGVMwClmqNykR5CIsSIJvoLkc+tf8yzUnSzm336Ok7rYyLTpB2JNbv3uV5n2sDXvigP+I5NS8uA7+K+V266fa7HnOnK6Yt/y6KT+HUHZJGQAGrkf4CdbbruVbPEjGR3a//JeswyO46miXZbmLsvuWht0FEk7yleJ8d8C6qwReCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=S34Fs4b5; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K2qi0Whp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A0E1F000FF;
-	Fri, 25 Sep 2026 09:12:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790327601;
-	bh=yfSL2ku4OKsR1ZwNLU9aq+Cv4BSlDAV3gm6yCuANvXg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K2qi0Whp5/6TRdhA6MhlGYRilQhTQ8jPlG08QvTUUmQwkWOHWgmSx5AdhFTFi0qw/
-	 r4+3OumzOouGc7txXhbbk80xasHy05dho7/yw8n5cfGkWIhweFLORuSQD6wUTgF3bF
-	 dlK10/x8cBD+DlIEYdpY/JpYJifQA5N4twHg7jDXzl6B1XyEXIXzNDQx16+MJsnNtN
-	 sTXe6Jh9EmnWLdP4R1YQtEnnOP8lnDSORnscuubhZoG/xGcNI3ROCCX9s0YjPIJIxI
-	 MdK5fq25MLwiukRwd6j6BdAO4Z4mjaXg/lCXJQXPIaGguKLjAmtHiggDOa9mUzFR4Z
-	 ur0MJU3/gDHOA==
-Date: Fri, 25 Sep 2026 10:12:50 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Liam R. Howlett" <liam@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 01/40] mm/vma: fix mmap_prepare file handling, remove
- file_doesnt_need_get
-Message-ID: <arY3xqkPCgZj3IVD@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-1-4583d8a23bca@kernel.org>
- <qpkcjtl5jbip46zxcpyogsk4phmhetfvrvgftxhsxlbxjhucnn@h3a64dfoxcmj>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="S34Fs4b5"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P4aLX3102642;
+	Fri, 25 Sep 2026 09:16:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=I4ylKH
+	+2sasbHrbNdu3JuSJVulkGePegW++9GIzxR6g=; b=S34Fs4b5gYghWx3sleIzjs
+	Vpmclg/ZAqH1JLHIucifBJP37R0950w3BRONnRgSCx1NUOADy9auf+UNPyS3jpGc
+	yirFAg1ilh0MnF4e3FXZp5XnGOV3Ji4F6w8mF5+IprZMb2c/+1HKH0aBOTUfJa+b
+	+5aeOcmReTs4yv/7zYsQV3LiyJilIegeo0GWiScznRI09dhsG3Z2MNrC3hafUb9k
+	iDukDjKdsA87e7MNWvgVHza7uF20wVQ+IuRQjlywNGSS5gXENKYd5B2oswaEvrjb
+	K2Bcg8v2tbiwwNqh8yFRbCdRtUpNUgsFrMl/k8HToOS3z5/NYbe2tjDAgkA3JJsQ
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gskdvn9dt-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 25 Sep 2026 09:16:18 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68P4lVYi3288190;
+	Fri, 25 Sep 2026 09:16:17 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gvbe21tp0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Sep 2026 09:16:17 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68P9GD2Q52035920
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 25 Sep 2026 09:16:13 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4C87020040;
+	Fri, 25 Sep 2026 09:16:13 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8D91E20043;
+	Fri, 25 Sep 2026 09:16:02 +0000 (GMT)
+Received: from [9.39.19.124] (unknown [9.39.19.124])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 25 Sep 2026 09:16:02 +0000 (GMT)
+Message-ID: <3a509e01-6d50-47ed-a53e-2613f2aaee8b@linux.ibm.com>
+Date: Fri, 25 Sep 2026 14:46:01 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <qpkcjtl5jbip46zxcpyogsk4phmhetfvrvgftxhsxlbxjhucnn@h3a64dfoxcmj>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 06/13] sched/core: Try to use a preferred CPU in
+ is_cpu_allowed
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, yury.norov@gmail.com,
+        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
+        meted@linux.ibm.com, ynorov@nvidia.com, tglx@kernel.org,
+        gregkh@linuxfoundation.org, pbonzini@redhat.com, seanjc@google.com,
+        vschneid@redhat.com, huschle@linux.ibm.com, rostedt@goodmis.org,
+        dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+        hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+        frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+        christian.loehle@arm.com, tj@kernel.org, tommaso.cucinotta@gmail.com,
+        maz@kernel.org, rafael@kernel.org, rdunlap@infradead.org,
+        kernellwp@gmail.com, linux-doc@vger.kernel.org, jgross@suse.com,
+        virtualization@lists.linux.dev, sunlightlinux@gmail.com
+References: <20260909135617.871006-1-sshegde@linux.ibm.com>
+ <20260909135617.871006-7-sshegde@linux.ibm.com>
+ <20260925074314.GF4121339@noisy.programming.kicks-ass.net>
+Content-Language: en-US
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <20260925074314.GF4121339@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: YVQjQS8n_el1P8wylsA1uh2GsLa7bi2V
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAzNiBTYWx0ZWRfX5Wcw4Krc2449
+ 1EmLh5yThqVNqFfjMuzk9yQWQV7qeHekWzDhprSevZ67gYAa6JcThmfc/yxJF3r0gdwDIbTjUwC
+ cYsyF7CpoPiVvvCtWC4P1iRgNXfeCVo=
+X-Authority-Analysis: v=2.4 cv=FLiOVOos c=1 sm=1 tr=0 ts=6ab63be2 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=LuPJPAu-xtmjmTxlju0A:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: xrjdfTOlYSFchly5w9RSXeFp2lHqp4dZ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAzNiBTYWx0ZWRfX1BAoKHzEkdZl
+ chgcqQsEqPipJ4xWe7Z+6ON9gLcm2pfTaEH0oSLNzXpC8rfKSiHt10wU/twwpq51s7WePYkonmU
+ g3xP/zpq+1LXZchR34K10HB03L9loqleW8ZFRj7izGiefFm791hNA7yLbQXzJXinQKEsnxD+33H
+ DfKoVwZhI6+A3JrcNGJkpZ4wOoahiaCuQD36yCpfGZ7RXKGJDPViW0hrb58AWj7w6kKBwWY3h5E
+ gpuB+mK1y1kysTQME9NbK67KIvLAIt6d7c8D2qmOBFxzzEZgoDl1akGkDSp8aD2wog6KUAr4tIS
+ Xt1HeSC0elmDx3Yen+c+9zSYXSn5qtV6FeQwxmbRGoTgawnEI4kGYJDrVUa+IYAdKrWfwLs0Pl0
+ Roxw3h6fjhX++LBPfLflLq8+Fc8nPzh4G//zhEEu9Tkv04e3Gd2ptnTqfRUdEE4RHOlshyycWB7
+ nmIWzJRtIw7vDz42CuA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-25_02,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0 phishscore=0 spamscore=0 clxscore=1015
+ suspectscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609250036
 
-(forgive my possibly semi-broken efforts to trim the mail)
+Hi Peter. Thanks for looking into the patches.
 
-On Thu, Sep 24, 2026 at 03:00:44PM -0400, Liam R. Howlett wrote:
-> On 26/09/17 05:22PM, Lorenzo Stoakes (ARM) wrote:
+On 9/25/26 1:13 PM, Peter Zijlstra wrote:
+> On Wed, Sep 09, 2026 at 07:26:10PM +0530, Shrikanth Hegde wrote:
+> 
+>> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+>> index a689a0cea4eb..b4ef2e92d786 100644
+>> --- a/kernel/sched/core.c
+>> +++ b/kernel/sched/core.c
+>> @@ -2504,6 +2504,23 @@ static inline bool rq_has_pinned_tasks(struct rq *rq)
+>>   	return rq->nr_pinned;
+>>   }
+>>   
+>> +static inline bool task_can_sched_on_preferred(int cpu, struct task_struct *p)
+> 
+> (somehow those arguments feel backwards)
+> 
+>> +{
+>> +	if (cpu_preferred(cpu))
+>> +		return false;
+> 
+> FWIW, this reads very weird. task_can_sched_on_preferred() returning
+> false when task is on a preferred cpu.
+> 
 
-> > diff --git a/mm/internal.h b/mm/internal.h
-> > index 0dca33db068f..fe576d468af4 100644
-> > --- a/mm/internal.h
-> > +++ b/mm/internal.h
-> > @@ -7,6 +7,7 @@
-> >  #ifndef __MM_INTERNAL_H
-> >  #define __MM_INTERNAL_H
-> >
-> > +#include <linux/file.h>
-> >  #include <linux/fs.h>
-> >  #include <linux/khugepaged.h>
-> >  #include <linux/mm.h>
-> > diff --git a/mm/util.c b/mm/util.c
-> > index bf0513d1d3d0..016932780925 100644
-> > --- a/mm/util.c
-> > +++ b/mm/util.c
-> > @@ -1228,8 +1228,11 @@ int __compat_vma_mmap(struct vm_area_desc *desc,
-> >
-> >  	/* Perform any preparatory tasks for mmap action. */
-> >  	err = mmap_action_prepare(desc);
-> > -	if (err)
-> > +	if (err) {
-> > +		if (desc->vm_file != vma->vm_file)
-> > +			fput(desc->vm_file);
-> >  		return err;
-> > +	}
-> >  	/* Update the VMA from the descriptor. */
-> >  	compat_set_vma_from_desc(vma, desc);
-> >  	/* Complete any specified mmap actions. */
-> > diff --git a/mm/vma.c b/mm/vma.c
-> > index 55917d097933..fa784f069da4 100644
-> > --- a/mm/vma.c
-> > +++ b/mm/vma.c
-> > @@ -24,7 +24,8 @@ struct mmap_state {
-> >  		vm_flags_t vm_flags;
-> >  		vma_flags_t vma_flags;
-> >  	};
-> > -	struct file *file;
-> > +	struct file *file;	/* mmap()-specified file. */
->
-> I guess renaming file to mmaped_file would be a lot more changes.
+How about below signature?
 
-Yeah :) and want to keep things sync'd with vm_area_desc.
+static inline bool task_can_migrate_to_preferred(struct task_struct *p, int cpu)
 
-Can always obviously follow up later with renames sync'd across both.
+> The question really is more like: can we migrate to a preferred CPU, and
+> in that context it makes more sense. No point in migrating if we are
+> already on one.
+> 
+> Perhaps a comment on top of the function can clarify?
+> 
 
-<snip>
+Above new function name is self explanatory IMHO.
 
-> >  static int __mmap_new_file_vma(struct mmap_state *map,
-> >  			       struct vm_area_struct *vma)
-> > @@ -2593,20 +2597,23 @@ static int __mmap_new_file_vma(struct mmap_state *map,
-> >  	struct vma_iterator *vmi = map->vmi;
-> >  	int error;
-> >
-> > -	vma->vm_file = map->file;
-> > -	if (!map->file_doesnt_need_get)
-> > -		get_file(map->file);
-> > +	vma->vm_file = map->vm_file;
-> > +	if (map_same_file(map))
-> > +		get_file(map->vm_file);
-> >
-> > -	if (!map->file->f_op->mmap)
-> > +	if (!map->vm_file->f_op->mmap)
-> >  		return 0;
-> >
-> >  	error = mmap_file(vma->vm_file, vma);
-> > +	map->vm_file = vma->vm_file;
-> > +
->
-> You set vma->vm_file to map->vm_file unconditionally above, is this
-> necessary?
+>> +	/* Only FAIR tasks honor preferred CPU state */
+>> +	if (unlikely(p->sched_class != &fair_sched_class))
+>> +		return false;
+>> +
+>> +	/* Ignore preferred state if task affinity is changing */
+>> +	if (unlikely(!cpumask_test_cpu(task_cpu(p), p->cpus_ptr)))
+>> +		return false;
+>> +
+>> +	return cpumask_intersects_and(p->cpus_ptr, cpu_preferred_mask,
+>> +				      task_cpu_possible_mask(p));
+>> +}
 
-Yeah, because the mmap hook can change vma->vm_file, and this is necessary
-for the correct file refcount accounting.
-
-The accounting is actually very tricky, because the file that was passed
-via mmap() is fput() after the operation is done but if its swapped then
-you have to make sure everything works out correctly on both error and
-success paths.
-
-Which this patch does (with a lot of AI review checking to make sure it's
-not broken! FWIW)
-
-<snip>
-
-> > @@ -2688,7 +2694,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
-> >  	}
-> >
-> >  	/* Invoke callbacks. */
-> > -	if (map->file)
-> > +	if (map->vm_file)
-> >  		error = __mmap_new_file_vma(map, vma);
-> >  	else if (!is_anon)
-> >  		error = shmem_zero_setup(vma);
-> > @@ -2797,11 +2803,15 @@ static int call_mmap_prepare(struct mmap_state *map,
-> >  	int err;
-> >
-> >  	/* Invoke the hook. */
-> > -	err = vfs_mmap_prepare(map->file, desc);
-> > +	err = vfs_mmap_prepare(map->vm_file, desc);
-> >  	if (err)
-> >  		return err;
-> >
-> > -	/* It's invalid for mmap_preprare hooks to clear vm_ops. */
-> > +	/* Update first so file refcount tracked correctly. */
-> > +	if (desc->vm_file != map->vm_file)
-> > +		map->vm_file = desc->vm_file;
-> > +
-> > +	/* It's invalid for mmap_prepare hooks to clear vm_ops. */
->
-> The less rare of prepare ;)
-
-Haha 'It's a rare prepare that would dare' is what I'd LIKE to put here as a
-comment but probably can't :P
-
-<snip>
-
-> > +static void put_map(struct mmap_state *map)
->
->
-> I like the put_map_file() instead, like Suren suggested.. but maybe
-> put_map_vm_file(), especially since it could be read as put to the file
-> pointer instead of vm_file.
-
-Ack, and of course to bikeshed it a bit :P maybe map_put_vm_file() so the
-'put vm_file' bit is clearer?
-
-<snip>
-
-> > diff --git a/mm/vma.h b/mm/vma.h
-> > index e97bd2dfa786..f15faa83f3d6 100644
-> > --- a/mm/vma.h
-> > +++ b/mm/vma.h
-> > @@ -394,8 +394,10 @@ static inline void compat_set_vma_from_desc(struct vm_area_struct *vma,
-> >
-> >  	/* Mutable fields. Populated with initial state. */
-> >  	vma_set_pgoff(vma, desc->pgoff);
-> > -	if (desc->vm_file != vma->vm_file)
-> > -		vma_set_file(vma, desc->vm_file);
-> > +	if (desc->vm_file != vma->vm_file) {
-> > +		fput(vma->vm_file);
-> > +		vma->vm_file = desc->vm_file;
->
-> This isn't going to be racy somehow, right?
-
-No, at this point the VMA write lock is held and everything should be
-pinned correctly.
-
-The vma_set_file() dance was the problematic bit here as it didn't
-handle the file refcount properly.
-
->
-> > +	}
-> >  	vma->flags = desc->vma_flags;
-> >  	vma->vm_page_prot = desc->page_prot;
-> >
-> >
-> > --
-> > 2.55.0
-> >
-
---
-Cheers, Lorenzo
