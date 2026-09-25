@@ -1,189 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C98842E437;
-	Fri, 25 Sep 2026 05:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1431335C181;
+	Fri, 25 Sep 2026 06:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790314467; cv=none; b=QUvrrp+2snOGWsNoBG41DpqTLZ0WIKCEUP9+hEG/oZTH/YnEdeCot/LtWnNCB+e+iLOfBynrN6+W05zh+fD1+FCESBrT595OtDk79/noby54FIcEt2xFpnsHOaP7hc+vrWonUHdDpqfI0opZwZMQa8s3EiUQ7J1hcwCJJ1Gf0IQ=
+	t=1790316738; cv=none; b=qUCL6mZeWYhGTKGrQEgmyBAYov56t5iAupHmug6pRO8gQt65XYE8rCeTq0ypJm76RfYX1jT2Cxlc3V84Y280K0JUWfAb4xVbsWYKgUQ/+Z5RHsxp2TdeIV69MuwE337AU0MeNFlKQzlceNSkCMXL+qlAgvu4J7SrhPyczo+BIRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790314467; c=relaxed/simple;
-	bh=fU6Wbsft1wL3tiHwqhy+D4YuGagBlWpYiM4Mto7kixQ=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kDz60ZD5leSI5aeb/izj+gm2w4fAnGkayycqlYV3I4jZq+j+W0j79vanqu7DTba/NALTXwr75u/jhPSlY6aiH5+OI+iPvRim9TcoIGCvlgd1z3KF/NAmdnFdkJf+8eQqjMbKhHuvLO96o04U5h+mWBIDdWt2jx46ky7VMPa+noo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qacdg9Si; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790316738; c=relaxed/simple;
+	bh=P2P1AmfxEYO+zzlHQdbgxVmc0L7aQerHsV5uj3L90EU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Y/KWMA9qoqCp1dMQJzrZzxsmnWVxTDqXCV2H2euwSZvZMIyHgJiLlLXaHuFQEyhAtvN05ls8e4Sgr48NgBtOZhw7nahkBP7V4l2LVh41BEWLER4rllSdfKnnNQqbI4VrKHll2znDaDaKErWrfI6RgBq3VGVC13CJFouf5TtkBIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKLZKZlh; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qacdg9Si"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DF211F00893;
-	Fri, 25 Sep 2026 05:34:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790314465;
-	bh=0zjee7LBZp4ThBjD99PhmhzgGuaGV/k+FawOuYMWgkM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Qacdg9SiUc7GylU/vTNMtldVIANA8q3ZTJiKCcida94JY+XPlspz4KcFWd1X8l9TF
-	 1KoQtbXV0HQqFj7F+eAbQ+/ALcC3+ThAL0eSuOIzX5buQg+Aj4d5Gf6chIDO7gIhAI
-	 nbioD7M/3qXB8d+YXh5zRcvr1Cq3z+AUEjM6KDdaBo/q0an599Rox+LVCuKUw//Zmf
-	 m+RJiJhZ4R0m4mqbPJbluwhXVwHWCwl7ua8H6N4z8Vhhtv2Z2nXAkl5qQ0bZs69f8X
-	 i9B0RnQYA/yM4J7DxJ06cBZc6jvgQFvGFAzZ90yga4MQZkAPhPkNPrH0kc1Qct0lVu
-	 gyCTMxg3Nt+jQ==
-Subject: Re: [PATCH net-next v17 6/6] net: dsa: mxl862xx: document devlink
- flash and info support
-From: netdev-bot+sashiko@kernel.org
-To: daniel@makrotopia.org
-Cc: jiri@resnulli.us, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, gregkh@linuxfoundation.org,
- rafael@kernel.org, dakr@kernel.org, andrew@lunn.ch, olteanv@gmail.com,
- linux@armlinux.org.uk, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev
-Date: Fri, 25 Sep 2026 05:34:23 +0000
-Message-ID: <179031446380.2160803.7779219284987374198@kernel.org>
-In-Reply-To: =?utf-8?q?=3Cac0b51c0505596d1523b3d471b497a0c5515108e=2E1790130?=
- =?utf-8?q?482=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
-References: =?utf-8?q?=3Cac0b51c0505596d1523b3d471b497a0c5515108e=2E17901304?=
- =?utf-8?q?82=2Egit=2Edaniel=40makrotopia=2Eorg=3E?=
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKLZKZlh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790316735; x=1821852735;
+  h=date:from:to:cc:subject:message-id;
+  bh=P2P1AmfxEYO+zzlHQdbgxVmc0L7aQerHsV5uj3L90EU=;
+  b=OKLZKZlhVuBOPe8r5f9cK6GaOfNMiUqg9PzqLpqqAMZ9c3cz88FaVq55
+   8/ESSnU4LTjRuqrO1j39cUUQ49NhhN72OvBKVXKMQmpW0QDWDvm5A2e5w
+   lN6Jl+DP+siyuLXIP3er56Cj1o5SyIdaQrY5QCdLmv723JJ4dTCFalWCN
+   QkxYRU+LJPso/yVNLQJd7Zw96t5xrM5eaBfJ5vlX3+4PeusfxrEzfjCqr
+   XixWEJH3Trvb/jXxTBWpZ+vvdlH/ONGHyUxkkapgaeM67kF/VG2HVw+p/
+   KGtaKbx4qOv5fF2K+2J3PeWhMN00x9yffC4HMC8uHZ8hDjdK2epXfdQ3X
+   A==;
+X-CSE-ConnectionGUID: HYAzf+qmRTmJ21S6YjIQEw==
+X-CSE-MsgGUID: 0IJHJoXRQVClPSNj2mAX/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="90057985"
+X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
+   d="scan'208";a="90057985"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 23:12:15 -0700
+X-CSE-ConnectionGUID: oaf+N8YjSEWjgyGuxxKOXA==
+X-CSE-MsgGUID: uDv87LGbRwm4AGoJ9UoICQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
+   d="scan'208";a="273796557"
+Received: from igk-lkp-server01.igk.intel.com (HELO a88263cc608e) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 24 Sep 2026 23:12:13 -0700
+Received: from kbuild by a88263cc608e with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9zAI-000000000c6-0kyr;
+	Fri, 25 Sep 2026 06:12:10 +0000
+Date: Fri, 25 Sep 2026 08:11:39 +0200
+From: kernel test robot <lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
+ Lee Jones <lee@kernel.org>, "Rob Herring (Arm)" <robh@kernel.org>,
+ linux-doc@vger.kernel.org
+Subject: [lee-leds:for-leds-next 30/40] htmldocs: Warning:
+ Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file
+ that doesn't exist: Documentation/devicetree/bindings/leds/leds-cpcap.txt
+Message-ID: <202609250840.ZZRuCtU9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+head:   05b4738b0078f7d6f154f68068a11c8a0635e9df
+commit: d4948551280b1d52c1896b7c80d5383b7d8ad7c5 [30/40] dt-bindings: leds: leds-cpcap: Convert to DT schema
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260925/202609250840.ZZRuCtU9-lkp@intel.com/reproduce)
 
-Low priority / nit picks for your consideration:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609250840.ZZRuCtU9-lkp@intel.com/
 
-- [Low] mxl862xx.rst says that "In the rare case that the reprobe cannot
-  be scheduled at all, ``devlink dev flash`` reports that error and the…
-- [Low] The "Rescue lifecycle" overview comment at the top of
-  drivers/net/dsa/mxl862xx/mxl862xx-fw.c says "devlink dev info exposes…
+All warnings (new ones prefixed by >>):
+
+   Documentation/translations/pt_BR/process/security-bugs.rst: :doc:`regular path submission </../../../process/submitting-patches>`
+>> Warning: Documentation/devicetree/bindings/leds/motorola,cpcap-leds.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+>> Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/leds/leds-cpcap.txt
+   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
 
 --
-
-net: dsa: mxl862xx: document devlink flash and info support
-
-This adds Documentation/networking/devlink/mxl862xx.rst. The new file
-describes the devlink info versions and how flash update behaves,
-including recovery from MCUboot rescue mode. The file is linked from the
-devlink index and added to the driver's MAINTAINERS entry.
-
-> diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-> new file mode 100644
-> index 0000000000000..793f3521f505f
-> --- /dev/null
-> +++ b/Documentation/networking/devlink/mxl862xx.rst
-> @@ -0,0 +1,91 @@
-
-[ ... ]
-
-> +Flash Update
-> +============
-> +
-> +The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-> +The signed firmware image is transferred to the switch over the same
-> +MDIO bus which is also used to manage the switch, then verified and
-> +installed by the MCUboot bootloader running on the switch. All ports
-> +of the switch are closed for the duration of the update and the driver
-> +reprobes the switch after it has rebooted into the new firmware; they
-> +come back registered but down, so userspace brings them up again. A
-> +complete flash and reprobe cycle takes about one minute. In the rare
-> +case that the reprobe cannot be scheduled at all, ``devlink dev
-> +flash`` reports that error and the driver stays bound to a switch it
-> +no longer tracks until it is unbound and rebound. A reboot started
-
-[Severity: Low]
-Does this hold on every path through mxl862xx_devlink_flash_update()?
-The reprobe scheduling error is only returned and logged when the
-transfer succeeded:
-
-drivers/net/dsa/mxl862xx/mxl862xx-fw.c:mxl862xx_devlink_flash_update() {
-    ...
-	priv->skip_teardown = true;
-	mutex_unlock(&priv->mdiodev->bus->mdio_lock);
-    ...
-	err = device_schedule_reprobe(ds->dev, MXL862XX_FW_REPROBE_DELAY_MS);
-	if (!ret && err)
-		dev_err(ds->dev,
-			"flash: new firmware is running but re-probe could not be scheduled (%pe); unbind and rebind to reinitialise\n",
-			ERR_PTR(err));
-
-	return ret ? ret : err;
-}
-
-Suppose mxl862xx_flash_firmware() or mxl862xx_wait_ready() failed, and
-device_schedule_reprobe() then also returned -ENOMEM or -EINVAL. In that
-case the reprobe error is not returned, and the dev_err() that tells the
-user to rebind is skipped.
-
-skip_teardown has already been set unconditionally. With no reprobe
-pending, nothing clears it. Would every later flash then fail here until
-a manual rebind?
-
-	if (priv->skip_teardown) {
-		NL_SET_ERR_MSG_MOD(extack,
-				   "a previous flash awaits its reprobe");
-		return -EBUSY;
-	}
-
-The document says -EBUSY only means that a rescue recovery is in
-progress. Should the code report the reprobe failure on this path too?
-Or should the document mention this -EBUSY and the rebind it needs?
-
-> +while an update is running waits for the transfer to finish, and an
-> +update requested after the system has begun shutting down is refused
-> +with ``-ENODEV``.
-
-[ ... ]
-
-> +If the driver gives up on the recovery, ``devlink dev flash`` returns
-> +``-EIO`` and says so in its extack message. The drain runs once and is
-> +never resumed, so a failed MDIO transaction ends it as well. A loader
-> +that stops answering the drain needs a power cycle; a completed drain
-> +whose reprobe could not be scheduled, and a drain a bus error cut
-> +short, need only a driver rebind. The driver re-examines the switch
-> +when it binds and at no other time, so a power cycle on a board where
-> +the switch can be cycled on its own still has to be followed by an
-> +unbind and rebind for the recovered switch to be recognised.
-
-[Severity: Low]
-This paragraph documents the -EIO case. The rescue lifecycle comment at
-the top of drivers/net/dsa/mxl862xx/mxl862xx-fw.c was added earlier in
-this series, and it still says:
-
- * devlink dev info exposes the fw version (the "flashable" signal) only once at
- * READY; flash_update returns -EBUSY until then, and reprobes to WSP firmware
- * on success.
-
-However, once rescue_failed is set, mxl862xx_devlink_flash_update()
-returns -EIO permanently:
-
-	if (READ_ONCE(priv->rescue_failed)) {
-		NL_SET_ERR_MSG_MOD(extack, "download recovery failed");
-		return -EIO;
-	}
-
-rescue_failed is set in three cases:
-
-- mxl862xx_rescue_heal_work_fn(), when the drain fails
-- mxl862xx_rescue_heal_work_fn(), when the post-drain reprobe cannot be
-  scheduled
-- mxl862xx_rescue_mode_detect(), for an interrupted opening handshake
-
-In each of these cases the loader never reaches READY.
-
-Could that comment be updated to mention the -EIO state, so that it
-matches both the code and this document?
-
-> +
-> +A download interrupted during its opening handshake, before the image
-> +header reached the loader, is reported the same way. The loader waits
-> +for a header that no later session can supply, so that state needs a
-> +power cycle.
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1790130482.git.daniel%40makrotopia.org
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
