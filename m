@@ -1,96 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8C8495524
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 13:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2421A369985;
+	Fri, 25 Sep 2026 13:31:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790343027; cv=none; b=fp+AwTF4spHJIAQQBo6KLXLNoUVl7PLWzUF7kBa1POP59wTdssV15UR+OpRuCcuKaAw+tqRZNXrscFP25gAu9/Cf+wEpRVTXvbBUcT5AS50qXrR5IWA/ySuZQ8WKZYqmkeT1j+AEmvhVzQpfnqhtq2v9vhPaQrmdppwsdAVKvlk=
+	t=1790343075; cv=none; b=m3J/UR0se0zhSPljbzV7qTfjT7dMvW5EPJmZL9JX6b7nFY3vNhgWyN07Q+EZEDFHkEchJVYyJXLCKAHEae6obCN3l8NS1mBdve7I1Do/GoSi3wG0c6lAVABBBXlbbcGUe+d/Z8L3kI0yFoxrb4Ba5dUzq+nNLpKPQRtnJDT+YEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790343027; c=relaxed/simple;
-	bh=/jFCjg6nDyLS94dvgK/EEMc/s+8n2QPDNYXmC3S7fXI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nN+ptWyr6tDM7Md9Q7JYOPmtD4LKQUmZCgfYhteoHuUgrqlq7bTqUpHaUpr6iraHRqMptr7tAr1uaUmiPEHzpReph04zfAuCBzPpwKhRoRVWwU7Hmy+bM1d7uZ7tiL3cRDT7F1SzTX+3T7SUA6WryW5a//h/quXA3hVg6QZRhdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PAXG6agC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790343075; c=relaxed/simple;
+	bh=yA4cKLHyF4qCdwLvgoh1JpCvz5VpyX0kJMobRdgR1Xg=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ThfiVuP5hG3Qe9BJZm8xMtPwCg1gBA1EhsZcm4V7iTqtI7gv5d30neYKZZzEmbr3hjpuLEIgvTGN0CUYTEujYrhauKC6V1d+BMdp4tvaTulQdHAVOQQOMU01l4L3Y1xb/1HyzicLCfnmAwzcHXM7Gbv/bwFlMD7q8WdAfci7sMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BdtuYnGx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PAXG6agC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E25A1F00898
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 13:30:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BdtuYnGx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 988141F00898;
+	Fri, 25 Sep 2026 13:31:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790343021;
-	bh=hjEFWSQNzvV2cy7ibgDjEb2o00pPnzmhtpFfAirbXj0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=PAXG6agCyvCYWf/tSqGxDa9duEbYzyNcom1gf3z7PKaAHOcXVQq6dZEaWudWC45e+
-	 /Fzo3TCxWAG9M8kZkBiOP+qvUXL5lI/R0RPbdgPJARPiwsGmJkElUbDQRClRd6nMt9
-	 mxxZLuQMZNRX1LNmY++AmOx0uTtxjwvqjpi1MukMlfdSVo1MNleFQnbKcAkkrBh4c0
-	 UtuDkvv94FAnLSvD1TLPO94o6HOCP+H2WEjW262DRJTXOSLBTQ9isCPvlFrAZgc7Fz
-	 67dYwpSZUCDKrehPMVrvx4P7NtiMaud4UGH7UL7pluL3RqHEI/2FJ4DQDyWed96EyG
-	 zR3Lz9kUnd+xg==
-Received: by mail-oo2-f18.google.com with SMTP id 006d021491bc7-6b390bcab0cso575040eaf.2
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 06:30:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzNbXf/n3UbiQvTjPxETKbjgAM4etcTLVa431/aFpuwWgdorqyFKJ4SdbTVSAnG1AZWTy5QIoZ81tY=@vger.kernel.org
-X-Gm-Message-State: AFuF++mmk4auK34gUh4UZB7GzP+7lueqz+rX97xcsMYlku2PMMgvc8Lg
-	YrAJTjz+DUNbOU1DL9nI9rg/4tccLKwzwEACxmoM41eJP3H7Rn/2QY79Xt82kMCk/XEeIpBCSS1
-	l2K+uYnDZPfslF41YzVObfdji6IWX9qc=
-X-Received: by 2002:a05:6820:818f:b0:6cd:3ffc:ad01 with SMTP id
- 006d021491bc7-6d441c7de80mr5856938eaf.81.1790343019904; Fri, 25 Sep 2026
- 06:30:19 -0700 (PDT)
+	s=k20260515; t=1790343073;
+	bh=VZ4tp2eoIotFzdh0KT5kqPmQquJ1TlPLTl8eKwffrqI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=BdtuYnGxjblEfvWWb6LmML87rRM5M/4s0fcV6wwp+fWuvtuQKnN+V6UnHfMeIgIdb
+	 agKoJLmG+o1qQDvN0nkftn55QVeDn/kgi0yBVx3fvetYXEiJa3uT4U9Qawj/bJKgSU
+	 DyTCMPJ3RuFhVM3YK61LU0x96oF0TLbsny/g05jA/vzEEBGOK5DaAUZoUinABjds/Q
+	 LGhZ69B8UcTXvHdOHSgQNiufbXMweZU9ujddnflgTf26mr3gM/UJ7A5xl87TbuqYCu
+	 F+96TxFUOkWwDBxjPxgfTZoBe9iNCJkI0TpmZkq32vqpLRrA21mS7T3LEF7WRAimQH
+	 16oLI/3fDIS0w==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 0FBC3198003A;
+	Fri, 25 Sep 2026 09:31:11 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Fri, 25 Sep 2026 09:31:11 -0400
+X-ME-Sender: <xms:mXe2auaDmvXz_ZbNQ5IUJUvYulOdkwXsiDPPm9R48nIri4QEnP-RXQ>
+    <xme:mXe2asOg4Uw2Voj5roTOu2w_3W42g94Ku9M-KmHxhBE3eG4CeOWlhUOj3UPC7XS4M
+    9AedKEJpZ2v7g91WPnKPBRLHfpSmkbITrWurBoh578CH7n78bedTURj>
+X-ME-Proxy-Cause: dmFkZTEMF3/5tb6mz+ib9V0nff9NPmGPtWKkpNVahF43RJATx7iiAV9mOQ1UX28wOiLXG6
+    jf7rcb1V5l5VxL6pbRzDh96fda46eQgCweXFg/XRm3wMx1Gd8rI5l0Wpz0HzoF3Sg3N81s
+    R4dklUgOcIrqDzQzHPK3FWNsqerTynZIDmUQlFBSG1fhgmFPWVd88BfpDvD2ONNOlL6PD9
+    RcHqYFkv7x72ewz577x/8VfmX9Ufo1EBw8Z+mbiQl4pkbAnujHjV6DVJFwda6p4IF/G2s3
+    l55ZGhXkHxZH5BOeGYioJ+Rj4P+N1ARQs3Wu1hFMJzXC8LIqRkqnq10fB/tdxU48g6eNtV
+    e9i6AdN9NTKtwRMswwiyiGxRi/JrcPEvipCWJjq/jROH81UrjeleKirf4Gx2sFYKpFpfr1
+    +zCPn+1f1n8WyT1uCJPh12A9tlq1/+ig4PkNjvRrU1v/bq1jzksE3Q4YSfMmI3+N1sHjxO
+    +I14IciFlV8OotFodD/QjTFbodk/ydtL2awqThW45gMwuMWu3qsonxCbATLJOLkpFh47tz
+    DI0doApvsSc6lUU4nZx6rQVDX0cuFg9MLivKCF9qAPsbPFj3UqWsniE2xBiFBCmGops4wb
+    FCBJRZT8VeLHluNTUQYK0XUhIRAzAmRkje4/l6jZQeuN1L3mP3bFdUMlg3Bw
+X-ME-Proxy: <xmx:n3e2avHuUEcObNIoXGXVULzB97Xau8XE8vbJcgFkzf51IoPHIRupTQ>
+    <xmx:n3e2amAl2zXKBFcjb666kOEFcfSb9IpKzDE3DruVAa_Ce6q74zpaWQ>
+    <xmx:n3e2agdrxIVQyzKCNUhwZmr8flkKS885KQsk50KkuswdLVkPVPChcg>
+    <xmx:n3e2alL6PjnwBM2Bm0Hu7ue0PGlyLpdDhyRJNNYTtkaynBlirqyLAQ>
+    <xmx:n3e2apuVFjFjdTqRYxaqTId9GBDBlwAuBz3cn8VWRF4pO6kRWeP01-bN>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 36A15F80080; Fri, 25 Sep 2026 09:31:05 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260914140821.1805449-1-arnd@kernel.org> <17a74e90-27d1-4954-86a8-491267f00cb8@gmail.com>
-In-Reply-To: <17a74e90-27d1-4954-86a8-491267f00cb8@gmail.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 25 Sep 2026 15:30:05 +0200
-X-Gmail-Original-Message-ID: <CAD++jL=VJsnk-GzAvR4oR8oKJayQzq9Oes+ZW7K=iHGrQ1jh0w@mail.gmail.com>
-X-Gm-Features: AclHuK_tdwElKKmMYGPFlmZM1P8fO1IIRCqgIQbs7o9aMikBwWdJXpQ3EUUcqPA
-Message-ID: <CAD++jL=VJsnk-GzAvR4oR8oKJayQzq9Oes+ZW7K=iHGrQ1jh0w@mail.gmail.com>
-Subject: Re: [PATCH v2 00/14] ARM: deprecated platform removal
-To: Yoshifumi SHU <envzhu@gmail.com>
-Cc: arnd@kernel.org, Frank.Li@nxp.com, aaro.koskinen@iki.fi, 
-	alexander.sverdlin@siemens.com, alexandre.belloni@bootlin.com, 
-	alexandre.torgue@foss.st.com, andreas@kemnade.info, andrew@lunn.ch, 
-	arnd@arndb.de, claudiu.beznea@tuxon.dev, conor+dt@kernel.org, 
-	david@kernel.org, devicetree@vger.kernel.org, enelsonmoore@gmail.com, 
-	festevam@gmail.com, geert@linux-m68k.org, gregory.clement@bootlin.com, 
-	imx@lists.linux.dev, kernel@pengutronix.de, khilman@baylibre.com, 
-	kmehltretter@gmail.com, kristoffer.ericson@gmail.com, krzk@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux@armlinux.org.uk, 
-	liviu.dudau@arm.com, lpieralisi@kernel.org, mcoquelin.stm32@gmail.com, 
-	nicolas.ferre@microchip.com, npitre@baylibre.com, robert.jarzmik@free.fr, 
-	robh@kernel.org, rogerq@kernel.org, s.hauer@pengutronix.de, 
-	sebastian.hesselbarth@gmail.com, shawnguo@kernel.org, soc@lists.linux.dev, 
-	stefan@agner.ch, sudeep.holla@kernel.org, tony@atomide.com, vz@mleia.com, 
-	thehajime@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Fri, 25 Sep 2026 15:30:44 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Jason Gunthorpe" <jgg@nvidia.com>,
+ "Jonathan Cameron" <jonathan.cameron@oss.qualcomm.com>
+Cc: "Alexandre Ghiti" <alex@ghiti.fr>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Arnd Bergmann" <arnd@arndb.de>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "David Sterba" <dsterba@suse.com>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-riscv@lists.infradead.org, "Mark Rutland" <mark.rutland@arm.com>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Paul Walmsley" <pjw@kernel.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>, "Simon Glass" <sjg@chromium.org>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Nick Terrell" <terrelln@fb.com>, "Will Deacon" <will@kernel.org>,
+ "Alexandre Ghiti" <alexghiti@rivosinc.com>,
+ "Conor Dooley" <conor.dooley@microchip.com>,
+ linux-integrity@vger.kernel.org, "Palmer Dabbelt" <palmer@rivosinc.com>,
+ patches@lists.linux.dev, "Ross Philipson" <ross.philipson@gmail.com>,
+ "Sami Tolvanen" <samitolvanen@google.com>,
+ "Song Shuai" <songshuaishuai@tinylab.org>
+Message-Id: <74197f6b-2ac3-43f3-804a-91e4041da20f@app.fastmail.com>
+In-Reply-To: <20260924235031.GE9354@nvidia.com>
+References: <0-v1-27d06b313981+8b-arm64_drtm_jgg@nvidia.com>
+ <4-v1-27d06b313981+8b-arm64_drtm_jgg@nvidia.com>
+ <20260924155307.00007dfc@oss.qualcomm.com> <20260924235031.GE9354@nvidia.com>
+Subject: Re: [PATCH 04/16] vmlinux.lds: Move DATA_LE32() from arm64 to the common
+ linker script
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 21, 2026 at 1:06=E2=80=AFPM Yoshifumi SHU <envzhu@gmail.com> wr=
-ote:
 
-> I would like to request that the core Arm Cortex-M support be retained, s=
-pecifically for v8-M.
-(...)
-> I am willing to help maintain this support, including modernizing the rel=
-evant code. I can regularly test kernels on real Armv8-M hardware.
-> If an active maintainer is required to keep the support, I am willing to =
-take on that responsibility.
-> Please let me know how I can help keep the support.
 
-All right, now we're talking! Could you test and review this patch:
-https://lore.kernel.org/linux-arm-kernel/20260910-arm-generic-irq-entry-v7-=
-1-v3-1-5fd90f6859e1@kernel.org/
+On Fri, 25 Sep 2026, at 01:50, Jason Gunthorpe wrote:
+> On Thu, Sep 24, 2026 at 03:53:07PM -0700, Jonathan Cameron wrote:
+>> On Thu, 24 Sep 2026 10:53:07 -0300
+>> Jason Gunthorpe <jgg@nvidia.com> wrote:
+>> 
+>> > Other arches may want to use this to get consistent fixed endian output.
+>> 
+>> You will have to grab it quickly!
+>> https://lore.kernel.org/all/20260918145217.1669-10-will@kernel.org/#Z31arch:arm64:kernel:image.h
+>> drops that definition as part of ripping out arm64 big endian support.
+>
+> Ah, well easy conflict resolution then :)
+>
+> When I was doing this I was really doubting why it had to be endian
+> specific, this is mostly a cargo cult from the other stuff that was
+> already working that way..
+>
+> I'm personally skeptical any arch could have either EFI stub a
+> different endianess than the vmlinux, it seems like nonsense on alot
+> of levels.
+>
+> So, I will remove the fixed endian pieces from here? Does anyone think
+> otherwise?
+>
 
-I do avoid touching the v7m path and it worked last time I tested
-it  (on an STM32) but I'd like to see your take on it, AFAICT generic
-entry is not really possible (easily) on v7m because of the
-pendable service call mechanism but maybe we can think of a
-really complicated solution? ;)
+Booting a BE kernel from EFI has never worked so no need to start caring
+about it now.
 
-Yours,
-Linus Walleij
