@@ -1,107 +1,80 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD4B3D0938
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 14:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DC336D500;
+	Fri, 25 Sep 2026 14:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790345094; cv=none; b=F+WqNsNdphLwoxFJZ6drIduiPgmnEcBKpYr3ClUI3ieGqQRlhaZebROeAsp/1vlwYPQaS1Ioi7Q+OCo1pgwEGKGWrOCdaVXRJ+5Upcef/O2955PVFN3Dj2WQms1D4i9pNEyWIu2Ka8nuEyzVuanavU6VQLHOw2enyECal/Lb2xg=
+	t=1790345623; cv=none; b=WYVw7hMqpGjvMuaKntwusbLfAkza/mJ1LrYz/hE5jotoTyOnnJxoKz+y3zhWxCEha6EcgZ6Fy1sNydZC5OBZonS5JkPSaTZX3qE09zVgGepvO/++kvTWTG/ZY3//1AioVsTiU3+ofQjBgdbdRfTX1+VBg/D3I95H/4nc7kA8vW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790345094; c=relaxed/simple;
-	bh=bbmOrdULgI/qG6m5ZYiQCPi7tLPM/ObVmBPDGixfQGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aksukGcbQjY37Vzt+eDaf2AUvwX4Jq1yj1TNoT2jCIzv7f8FyO5Cg6iv96byTiCfEwDvMj9lyonTAbfXNb9QEByEuVXZlV8vfwE2kzmDAc3jqSJm5uzd3/QvdKlKZJNLlzTjLn8b8P5IC4tvg6bsvwK4iwBr5NI+x29FEZN+gdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BYvsOqop; arc=none smtp.client-ip=74.125.227.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790345623; c=relaxed/simple;
+	bh=oClpMfyCi2HiAb8UcIX1oTS6ji4pcSfYqVg9OHiKiJk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Tf9p0+fv2uMjJJ/JPDk9VOQ3TPFf6XTrE2XMVVU6U7dJzmIJgfUfT/vbz3hPZIeciKFPepTzQV9UuDUhEoUxLOZRILkgT5MPX6jGxbHquko1hEkY1VAp5ykWTiE17fC/qLLG8DlGUaXnvrH/y+tW5OhrqOElTTyK3xjzd++w420=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TE0jYy4K; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BYvsOqop"
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a0b0fa2055so550581a91.0
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 07:04:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790345092; x=1790949892; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ovT80gQ2vK9hf0kYJwc2d02kOlcxj5fWOcjSmSVAXmQ=;
-        b=BYvsOqopSQADsn+SQNeWEneJ6Iz4pIokMim1vFm8IubKN49fgy8kSzHS7xRq3Pga1B
-         jRU4FhnBQ0qJBp1tt9eU20DgU6Esgq3XLFymMWYaJkaq6jUhmgc0LAmv8LUyQr4gra/y
-         U3eWrHbnAU/mUHlpM3EcIyQ2FtcMhejVD+kSLGDhtJ2P5Z4kbTOxjQtXIaBZnf+4u098
-         qeuhuGm73Atku1b4LxcavTUT66ZP+ryl8L0co5KZ/q5aOIN9PxEBV/noVVCDSxSK4rRE
-         5dd40JPVIaa2VyWYISkhog3Vj1SGEFYuAbPaKlLAZgM0t/+SA+CWygz9J5AlEDR69qJi
-         MCJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790345092; x=1790949892;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ovT80gQ2vK9hf0kYJwc2d02kOlcxj5fWOcjSmSVAXmQ=;
-        b=TITp74k7PKBMEBVbGRKb2Iv8CQFFsUM4qzwvr6ASG1cnfEAR4P6N2cv5wxpSOnAmTx
-         xF+kse3iCHFhZ8iz68b1HGy+C5S7zgIj/FEqfjS2yep4gHC7cee5lnzCC14IMpYRCpO/
-         yhojshSadm6yKQfRdcIz4NVOlCMZXMzRb+h/hg5llf+aSBXuoEcEbKB36J4FkB9uyf3d
-         eAmmkoKUeznLeqon2+JKi7Dta/2lLRJyOyIuHH8huC0Cb5I4g9KWP2Be9PJnHXgMAAPL
-         34jJI6ZjdLpoqbIA7Zls2W5uBOUpmX+9YznibOGGicm7WCv1VfUVfBW61rNJ22re3RGn
-         Qatg==
-X-Forwarded-Encrypted: i=1; AKwUvBymJbIz6aFUwosr8EU/m782DtrxVNrQGoX8hMWqjOpzbCeB9Ypun638rqK3prctI/Bz357QMkhMlVQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++lod3YWl6TYPuMRXac/KIvs7l/vKp5hL6gezsLNvA+c5Fn3juHJ
-	LL9JrRdXmAlW2vXQ5jGhS10DAwsku0uACqrVuuDmDXA55XFwvD435laV
-X-Gm-Gg: AYBFou3nPaAM9slS3pflDWcjkqdUdWS+YQ2YWLGb7QaIXTV94e58TLlQX5wWy5z/cdz
-	OzL9o1PusArgUaVBuRD60DGvmvwxDGtFOdEvDBK2+ymxzKj62SMOGdKQwQIwxKotD/KklOR++Ep
-	3wG+gFUfu/BoithV+/aM+EhSOe8WpkCbMsomTqZTdWroJ+cx5PfeIQrXHYHBZ+ideySD9ijmC5X
-	uTCEfxlBUCedmVRK8Z+3HaONHf+ZVTzeWjCFPC4sqvoit43y0hSG5HPnebgb6Ac/7oMrvUfWj69
-	ci6QusIc4gVsJ/JPGQ9nT5c32fxzB+aziMGBxTwMmIzyg0qH4rf9eB+Fi+s/1lO1csYPNJ8saqg
-	1HT5z/meu9lxEn72RC/UvGDjDDI7irp3mPfJl/H6J0pJ4o5ZyKHCPD9/rWXsZKzrwHUfuiLTT8v
-	X0RxT8q5h7BYvlLQ+7fjkcRgtXUMEVnecJbMxVAhUAQWlT8D5W+6bSVpL26CpqeHYNhcirGQvTO
-	JlmXG+Iql84zOtp5tJGeFc=
-X-Received: by 2002:a17:90b:3908:b0:3a0:c276:1ecb with SMTP id 98e67ed59e1d1-3a0c276224amr1313125a91.15.1790345087406;
-        Fri, 25 Sep 2026 07:04:47 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a09773e7c3sm10983338a91.17.2026.09.25.07.04.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 07:04:46 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 25 Sep 2026 07:04:46 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc: david.nystrom@est.tech, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	ricardo.neri@intel.com
-Subject: Re: [PATCH 2/3] hwmon: (coretemp) Read TjMax only when refreshing
- the temperature
-Message-ID: <94dc8122-d6d7-40b0-adde-5e0cd7b645e9@roeck-us.net>
-References: <20260924-coretemp-temp-fault-v1-0-1884f0ff97d5@linux.intel.com>
- <20260924-coretemp-temp-fault-v1-2-1884f0ff97d5@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TE0jYy4K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49F211F000FF;
+	Fri, 25 Sep 2026 14:13:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790345622;
+	bh=mANS264NYeza8gjWBDmAZ1xP2F5I89+RvMnNgE1IP8Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=TE0jYy4Ko0ggxcvBoX+6Z6FzV15s08o2lL5hKT8HIg0G8bXEN+GBd5b8HUIEiM+Jt
+	 kU01M7kv7uzs15YFnbD9/uQjKL83hhqB/YjDDyBAxkhJ94DNwkMJJvWg9EZmPw1rvW
+	 wxNdLDHCfVxKeW2rEc5Ul3IHcpgv0uF6wIwnWHf/GjSd2jwdiKVgsbrXbCrcn5HbgV
+	 pWhp0a/+xWOtoPc5fDZVLFEhbTN0eewqnHEbqArD+KYvYeeEUIpVfWVezeowxeaRJd
+	 YW92TCIPSdUsJ5AJjZVGHXQQpGOKqAPCJekbMJwcOqDEBZkR2yotUKO2gZ4G5EFk4P
+	 2miimJ1SKeGaw==
+From: Christian Brauner <brauner@kernel.org>
+To: David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, netfs@lists.linux.dev, 
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260912073444.51152-1-kmehltretter@gmail.com>
+References: <20260912073444.51152-1-kmehltretter@gmail.com>
+Subject: Re: [PATCH] netfs: Document the remote size member and its
+ accessors
+Message-Id: <20260925-forcieren-karnickel-waden-1037e619b6a7@brauner>
+Date: Fri, 25 Sep 2026 16:13:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260924-coretemp-temp-fault-v1-2-1884f0ff97d5@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-db0b7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=904; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=oClpMfyCi2HiAb8UcIX1oTS6ji4pcSfYqVg9OHiKiJk=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWRta5w0/+INa1+9KLmcr1cE5jOu0/uWsPHZffa5vfs62
+ 7Yd4/u7taOUhUGMi0FWTJHFod0kXG45T8Vmo0wNmDmsTCBDGLg4BWAi+iEM/wyeBl+JO3Fh+yQz
+ nn8bvh5P7iuTjv2rM79tTZLjRp/4ZyqMDNtY8vIY54aLcAm9kdnWFbR7Te86f0VZq3mPXpuFiDn
+ O5gcA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Thu, Sep 24, 2026 at 07:33:21PM -0700, Ricardo Neri wrote:
-> show_temp() reads TjMax before checking whether the cached temperature is
-> still fresh, but consumes it only when recomputing that temperature. On a
-> cache hit the value is discarded.
-> 
-> Discarding it is not free. On CPUs that report TjMax in
-> MSR_IA32_TEMPERATURE_TARGET, get_tjmax() returns the value it just read
-> without storing it in tdata->tjmax, so every call reads the MSR again.
-> That is a cross-CPU call whenever the CPU owning the sensor is not the
-> current one, and it is made while holding tdata->update_lock.
-> 
-> Read TjMax where it is used. The value cannot go stale in the meantime:
-> bits 23:16 of MSR_IA32_TEMPERATURE_TARGET are read-only, and the register
-> is package-scoped, so every CPU of the package reads the same value.
-> 
-> The temperature reported to userspace does not change.
-> 
-> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+On Sat, 12 Sep 2026 09:34:44 +0200, Karl Mehltretter wrote:
+> netfs: Document the remote size member and its accessors
 
-Applied. No need to resend this or the previous patch.
+Applied to the vfs-7.4.netfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.4.netfs branch should appear in linux-next soon.
 
-Thanks,
-Guenter
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.4.netfs
+
+[1/1] netfs: Document the remote size member and its accessors
+      https://git.kernel.org/vfs/vfs/c/afdf722ab983
+
