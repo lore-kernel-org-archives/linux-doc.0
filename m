@@ -1,132 +1,178 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F6844A401;
-	Fri, 25 Sep 2026 07:51:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061B3334C1C;
+	Fri, 25 Sep 2026 07:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790322712; cv=none; b=R1i4EXVkfQHgfZW+9YwVd561Ej556FH0m9vEW+RnH05+z6ZqDfCmH7q+GtpY1RUXaGwWO1UsNebJ+1IxYlNxK/zGPu24yVSIFJ59fWvRgXxbeVCHufUViIbxmnKEdzbKhHtX+wNo4p/BqIyNlib8QslAVwxYf30x3wFZZiUSssM=
+	t=1790322982; cv=none; b=GsNHCO+1aEPEOQHI2LQyXER2ZvJ/eTdb2cOfcvEjdhqw7APEMYTMR8uoYV7m3mbTkbTvYZkcw2PzGpNyKEdr64Nku7L0A4xneU7UDfBiRW6b2Cvgn5e9P2tMs0ECN/w6jxNtBq3vUIL0imceixwVIOfz4xiWsT8FcrYSM05c7dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790322712; c=relaxed/simple;
-	bh=H4dOP6z8cvSIvC6o3SOjbFDKrFPVd6jypn23lrkidZw=;
+	s=arc-20240116; t=1790322982; c=relaxed/simple;
+	bh=Ui75wXekg5t2R6O9WeXZbgWA1lG0HWJSVZS3zprP3kE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AoyGX6giUDwMzLDcNo2ZLirs3kWWlsUPnUtGw+DAoAr+3Tu0Nf/NHaUhkrJuWGk+PB39nVms3MOBeGyftfv8sybE1MWVe3I2vK0b/WNjAofPtIvPV3DGvShR226d+Ng2qa6KEyIYher4uCWmzsueEuk6KNgEZwJIp0MSLXgwHlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kGwG7lj1; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=DmoR+2tXCtyWRZN9EZ2qB03YqK/P945iX1VUiYBUacQ+sqOcqaVKfsFLHkL8Xx1ckbdY6jJAuj/CWyHYGbVIZBDnjvUFxKKV5nc/uLYF+eVG0bMmk8F8h7l4J2edZ4cIbc+8lipRqc1TTU+b7Hpf512wMiS7dfEWGEs59VNsGUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FnpXE7kL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0bxeKQOI; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kGwG7lj1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=4xIvUf6Fn/gIIXV95CPOPd+qR13P+eKRk/BuK/+dOvA=; b=kGwG7lj13TocCCszVJUFUR24jL
-	4N3LeGxfCiBpknmVmHegSveO0il1OABq7CWfIEAyIkgUqKYsM3iosgH8kwBTl5v8IpCzbXTn8QuJP
-	5p9fiS3MkussRwk90e+rq0DzlThIa11gHD6HuWbuvaF6aHj5Z35neCKB7Zs4v5Cv7hQVFw4xuCSgC
-	3mzjiiuqyNtojrrsvf5Nse5fIsGO2RC1BuT+1cVTge2Oy16yXi1feMDKDCW2E8JcJrsBh8Y8zWr4v
-	Btu3Jv58zxeLaWXuVwf7rSWKeEOd2yDP0H75muq2KabwuHa/blsWm6YcUESikQFobdUcSF29A57ZR
-	h3Rv3fHg==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1xA0iW-0000000GiAO-273E;
-	Fri, 25 Sep 2026 07:51:36 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 1049030070F; Fri, 25 Sep 2026 09:51:35 +0200 (CEST)
-Date: Fri, 25 Sep 2026 09:51:34 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, yury.norov@gmail.com,
-	kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
-	meted@linux.ibm.com, ynorov@nvidia.com, tglx@kernel.org,
-	gregkh@linuxfoundation.org, pbonzini@redhat.com, seanjc@google.com,
-	vschneid@redhat.com, huschle@linux.ibm.com, rostedt@goodmis.org,
-	dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
-	hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
-	frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
-	christian.loehle@arm.com, tj@kernel.org,
-	tommaso.cucinotta@gmail.com, maz@kernel.org, rafael@kernel.org,
-	rdunlap@infradead.org, kernellwp@gmail.com,
-	linux-doc@vger.kernel.org, jgross@suse.com,
-	virtualization@lists.linux.dev, sunlightlinux@gmail.com
-Subject: Re: [PATCH v13 09/13] sched/debug: Add migration stats due to non
- preferred CPUs
-Message-ID: <20260925075134.GH4121339@noisy.programming.kicks-ass.net>
-References: <20260909135617.871006-1-sshegde@linux.ibm.com>
- <20260909135617.871006-10-sshegde@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FnpXE7kL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0bxeKQOI"
+Date: Fri, 25 Sep 2026 09:56:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1790322979;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UCk2YJMmvPlOCeVyko3p0KOgVHNll2SPcOMsAX/v4S4=;
+	b=FnpXE7kL5K6/UocX35wpUDumPsNQzp00+AZtVlHIOqxuGNhjXZ1YOipaJyPODabsnmWamG
+	GXHf69OFWiIg1SAweN8cj69//qr0F/Pf6M9WuVJbH35bACr5kPOPRD5oI50AT9mcXu/WeM
+	+wfI0KsgwdRhPxHanWL8PPQEZ9Lqh25mzX4BL4iMupQKaUYnUjoQAs32o0qbf4qceY6lg2
+	axFukcberRGBW+UjfqCdTToQykFm12We+mNlj3yUeWdUz1BFyjN+R4uWZ9PWYfyJAAMBys
+	6/+5BwsF+kVt1ClswVT34mSdB+BrkUJSEbVfFMCB6gIL/pHmww2oCbcpkAkDEQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1790322979;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UCk2YJMmvPlOCeVyko3p0KOgVHNll2SPcOMsAX/v4S4=;
+	b=0bxeKQOIAHmEZ7WslL9Nm95sVTsGrmsaeSCdqbIbeS/OJYJHnjhpJ965LtptxwDjcGoTP9
+	VhoTY38gZeETcNBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Boqun Feng <boqun@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v3] softirq: Preserve interrupt context during IRQ exit
+Message-ID: <20260925075617.utJ7am6k@linutronix.de>
+References: <20260924041538.52574-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260909135617.871006-10-sshegde@linux.ibm.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260924041538.52574-1-kmehltretter@gmail.com>
 
-On Wed, Sep 09, 2026 at 07:26:13PM +0530, Shrikanth Hegde wrote:
-> Add a new stat,
-> - nr_migrations_cpu_non_preferred: number of migrations happened since
->   a CPU was marked as non preferred due to high steal time.
+On 2026-09-24 06:15:38 [+0200], Karl Mehltretter wrote:
+> __irq_exit_rcu() removes HARDIRQ_OFFSET first and then runs
+> hrtimer_rearm_deferred(), invoke_softirq() and wake_timersd(). This is
+> interrupt exit work with interrupts disabled, but preempt_count already
+> describes the interrupted task again. Everything which derives the
+> context from preempt_count gets it wrong in that window:
 
-My reading of the below code ends up with something like:
+On the return from interrupt path __irq_exit_rcu() removes
+HARDIRQ_OFFSET from the preemption counter at the very top of the
+function. Everything after that will get the current context reported as
+TASK instead of HARDIRQ. Everything in that function, such as
+invoke_softirq(), is aware of the situation and does not rely on the
+counter. There are some exceptions:
 
- - nr_migrations_cpu_non_preferred: number of push migrations while the
-   CPU is non-preferred.
+>   - ftrace, perf and the ring buffer record task context and use the
+=E2=80=A6
+> Notes:
+>     v3 also adds a pending softirq check after the final
+>     preempt_count_sub(). A preempt_enable tracepoint callback can raise a
+>     softirq there, after the softirq and timer thread checks. With an RCU
+>     reader in that callback I saw 10 NOHZ tick-stop warnings per boot in
+>     QEMU without the new check, and none on the base kernel or with the
+>     check. The check wakes ksoftirqd for newly pending softirqs. Does this
+>     case justify the extra check on every IRQ exit?
 
-Hmm?
+No, I don't think so. This is not the normal path. I would rather prefer
+of not being able to attach a tracepoint to preempt_count_sub() within
+__irq_exit_rcu() than this. Also one can attach a tracepoint to
+tick_irq_exit() leaving you with the exact same problem. So I would
+rather have __irq_exit_rcu() in a section where tracepoints can not be
+attached or have the consequences that someone did that. Or maybe have
+tracepoints/BPF taught to not do this here.
 
-> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> ---
->  include/linux/sched.h | 1 +
->  kernel/sched/core.c   | 9 +++++++--
->  kernel/sched/debug.c  | 1 +
->  3 files changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index d7cc77181ef9..48639b0c75d0 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -554,6 +554,7 @@ struct sched_statistics {
->  	u64				nr_failed_migrations_running;
->  	u64				nr_failed_migrations_hot;
->  	u64				nr_forced_migrations;
-> +	u64				nr_migrations_cpu_non_preferred;
->  
->  	u64				nr_wakeups;
->  	u64				nr_wakeups_sync;
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 458b8c6fd9af..fb8404bd47e2 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -11239,8 +11239,13 @@ static int sched_non_preferred_cpu_push_stop(void *arg)
->  	context_unsafe_alias(rq);
->  
->  	if (task_rq(p) == rq && task_on_rq_queued(p) &&
-> -	    !is_migration_disabled(p))
-> -		rq = __migrate_task(rq, &rf, p, cpu);
-> +	    !is_migration_disabled(p)) {
-> +		struct rq *dest_rq = __migrate_task(rq, &rf, p, cpu);
-> +
-> +		if (rq != dest_rq)
-> +			schedstat_inc(p->stats.nr_migrations_cpu_non_preferred);
-> +		rq = dest_rq;
-> +	}
->  
->  	rq_unlock(rq, &rf);
->  	raw_spin_unlock_irq(&p->pi_lock);
-> diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-> index fda10b3fa249..e6a3b516c703 100644
-> --- a/kernel/sched/debug.c
-> +++ b/kernel/sched/debug.c
-> @@ -1440,6 +1440,7 @@ void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
->  		P_SCHEDSTAT(nr_failed_migrations_running);
->  		P_SCHEDSTAT(nr_failed_migrations_hot);
->  		P_SCHEDSTAT(nr_forced_migrations);
-> +		P_SCHEDSTAT(nr_migrations_cpu_non_preferred);
->  		P_SCHEDSTAT(nr_wakeups);
->  		P_SCHEDSTAT(nr_wakeups_sync);
->  		P_SCHEDSTAT(nr_wakeups_migrate);
-> -- 
-> 2.52.0
-> 
+We may legitimately leave invoke_softirq() with pending softirqs. So you
+probably for that reason mask everything out and have a few other
+conditions for that reason. Does not justify it.
+
+=E2=80=A6
+>     - Rebased on tip/master c81f6d2398d0.
+
+The hash here is not really helpful because tip/master is getting thrown
+away. tip/master as of today, better yet the branch that it will be
+probably applied to.
+
+> --- a/Documentation/core-api/entry.rst
+> +++ b/Documentation/core-api/entry.rst
+> @@ -197,8 +197,9 @@ return true, handles NOHZ tick state and interrupt ti=
+me accounting. This
+>  means that up to the point where irq_enter_rcu() is invoked in_hardirq()
+>  returns false.
+> =20
+> -irq_exit_rcu() handles interrupt time accounting, undoes the preemption
+> -count update and eventually handles soft interrupts and NOHZ tick state.
+> +irq_exit_rcu() handles interrupt time accounting, handles soft interrupt=
+s if
+> +possible, undoes the preemption count update and finally handles the NOH=
+Z tick
+> +state.
+
+Changed the ordering to the code flow. Okay.
+
+  irq_exit_rcu() handles interrupt time accounting, eventually handles
+  soft interrupts, undoes the preemption count update and handles NOHZ
+  tick state.
+
+Or leave it.
+
+>  In theory, the preemption count could be updated in irqentry_enter(). In
+>  practice, deferring this update to irq_enter_rcu() allows the preemption=
+-count
+> @@ -207,10 +208,13 @@ irqentry_exit(), which are described in the next pa=
+ragraph. The only downside
+>  is that the early entry code up to irq_enter_rcu() must be aware that the
+>  preemption count has not yet been updated with the HARDIRQ_OFFSET state.
+> =20
+> -Note that irq_exit_rcu() must remove HARDIRQ_OFFSET from the preemption =
+count
+> -before it handles soft interrupts, whose handlers must run in BH context=
+ rather
+> -than irq-disabled context. In addition, irqentry_exit() might schedule, =
+which
+> -also requires that HARDIRQ_OFFSET has been removed from the preemption c=
+ount.
+
+> +Note that soft interrupt handlers must run in BH context rather than in =
+hard
+> +interrupt context. irq_exit_rcu() therefore replaces HARDIRQ_OFFSET with
+> +SOFTIRQ_OFFSET in the preemption count while it handles soft interrupts =
+and
+> +puts HARDIRQ_OFFSET back afterwards, so that the remaining interrupt exi=
+t work
+> +is still attributed to the interrupt. HARDIRQ_OFFSET is removed before
+> +irq_exit_rcu() returns because irqentry_exit() might schedule, which req=
+uires
+> +that HARDIRQ_OFFSET has been removed from the preemption count.
+
+Good.
+
+>  Even though interrupt handlers are expected to run with local interrupts
+>  disabled, interrupt nesting is common from an entry/exit perspective. For
+> diff --git a/kernel/softirq.c b/kernel/softirq.c
+> index c3729c5b284b0..efa6707edc0e9 100644
+> --- a/kernel/softirq.c
+> +++ b/kernel/softirq.c
+> @@ -350,8 +350,8 @@ static inline void ksoftirqd_run_end(void)
+
+As mentioned, the changes below look good except for the check
+in __irq_exit_rcu() which feels a bit much.
+
+Sebastian
