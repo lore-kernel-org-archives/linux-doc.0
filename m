@@ -1,411 +1,261 @@
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013062.outbound.protection.outlook.com [40.93.196.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0FE3B27E8;
-	Fri, 25 Sep 2026 20:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790369469; cv=none; b=EYtFj/7XoWpXeOYczjs5Bvjfocucvbl8qsbJA8anuf0ZJUQpggcHa5KIzJPq1Llbq6I0k4hL4IK36zuYEgqNrjU2DrjXB4UhwQwzQhYbTYZhrXumwHI87xVKuwGxAUo+qEDd9K24afA3mtzoYIuIXvgDTsjNdCP3FzFVmIUXAgI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790369469; c=relaxed/simple;
-	bh=isEu5lJWT9sYTaVx3MO1rh2WJj20UdZyNu7x5oaA3KI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Iezt90s50Z0krcks97CmfTL3zUwTgZTjnBSg2LE17KLhMHDZn9HOqZntT84u3TUT57pwIr9sB37rZXmG1eEYJ160XCUh0x5QRm12in50GxBSnOvYTy7WMMYYD8a1el1DL6eGIRsATOM54U00bFm0UA51w9jErt1H0lb5Y6+bOVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=fMTGNRKT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mMLmCd21; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A7A3F8EB7;
+	Fri, 25 Sep 2026 20:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790369625; cv=fail; b=Aj3C8lgMrbK+GzlwxAZYeCHSq7guJ+KqlQbmmQiO93ZB7JSpl57Ui3X7Kqbpdqi9j+831NSVcvCFpnAfpQ4taDRIfXP4MdW4J4neTuPLdjAHYwYTA99ey0vlnQuZMMU8nCWTeLhwx5xAUqNoSTl16ZXP7396WMN8+mLeEFw5YKo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790369625; c=relaxed/simple;
+	bh=fldHPa1FnQhQ4LzYSbi5aSbDr8dLwBM2EF4Ti0nyDA4=;
+	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
+	 In-Reply-To:MIME-Version; b=Vfl+9sc8hev7Bg6rD8vJ0r5QCA3cHTmYdRUcofJSnnE7vztY0CHRGlEzuZBhfATsj6/1U//TgoV2qtz5FH+2bNk+1A0XEIPjqx2Mz1xpTaaSHc/muNHpuGPWsTcCVEm3/kOH98/oVeIGmgCD14sS36KmqmtrjfLu39xZvEVWBSo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ZzSTIDzG; arc=fail smtp.client-ip=40.93.196.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="fMTGNRKT";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mMLmCd21"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id AB1C3EC01E4;
-	Fri, 25 Sep 2026 16:51:04 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Fri, 25 Sep 2026 16:51:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1790369464;
-	 x=1790455864; bh=gCE7HLeXzDbH1D6ADcOwWJWdbtT4jzyNeRqhwAtoPGE=; b=
-	fMTGNRKThWhVWq2loy1XyEmB6d/uoeoDU/xVjjWGALyBTGkMgIhZV3q1cu/QLr1V
-	qZ7xE7mR481JYKRqI8ILzNFFXhAU3HF4yZ0viLbdFziYBCHY0+pGcV5gLam5doMO
-	Qds/QWmA3drRl11XLEVbZsK1HJNayaTFtSJvarOPsVYaPU7B/YnN3ir5vO6uQm5j
-	oDcAIw7bpravaJo3Lt4q+uMgapA726b6MykvXXgbpix3UZtePN3/BikpA0j64y01
-	0SH3/7EH1LkkPzN0Gi9ANnKyIy7LWo/T0i6cnlXVUF574YihoELkcUPgogtMnI62
-	C9pT0k8zX9vxBBMZ0M10cw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790369464; x=
-	1790455864; bh=gCE7HLeXzDbH1D6ADcOwWJWdbtT4jzyNeRqhwAtoPGE=; b=m
-	MLmCd21sTaq0jI3Weryx9GrFBZCPOPhau3UBl970xo5yGFWLp5EAVdrJJoShhnf8
-	4Sa28EQTmFekFI6cl0SOKCx0run9AFcsy3GSxSJYannms4chA4A1izQAkUegNOr0
-	3OdSDewyVemJr/zHM/YiQ9Q62lQZUz6+6i4lefabAEjqVBof+lRsh5FEui7XQmwD
-	cwldqpmcpcAdZD9dRQHfAvq6r7zC7WN/SCJjdAb40v7m7njPLH3zxREGFFAjXyl4
-	pTD0ps3lRheV4R2ncWzGbEWa2S2HKN9Bm+qbbk2xaMiExN7T2UJfLCbfHMe48ckM
-	RbFzc+3clVQSTtYII1Q1w==
-X-ME-Sender: <xms:uN62al1SJhGxGKRzAmZNN04W_qgNk10hQVKAysypSclVneRR3bwrJQ>
-    <xme:uN62ashVrmB1rAG_D6oWOAS9YnpyosGAyz_CTOcNr7iMd1tztw8OmtkfHQLnOkG5m
-    8BMJFagkFX2hnD6ELqu8aUkJN9K9OGNrWm_zjIVUZaiJU8G8cFhHQ0>
-X-ME-Received: <xmr:uN62amkysxgSaJwS_o179E0KYxvl-sfhXYE6JAfcSD1tL5Nix7FXKrR6Gnq4Ew>
-X-ME-Proxy-Cause: dmFkZTF/duI3S/T9Vawb2BtTpk+HunO6e2s6X8QoxNh5nBHV5Oj0ZPj92faS5od9XjcAPN
-    GT1zQQxsfjcIHP7OH4sKdFd2Yb5c3DSiveKLa06+YrOlVhtiBJcV0/AJHlWVFcX8yidZm/
-    SgMeosGTGj5ibUU6ypndo05pILHq6YH79RKWUaxoK0LHoqOnz27tIW3a49HrGiWJ1AwDAF
-    pEKUirc8Tn0mC8/HbzFSJtmugJXPkV0KO/WpCPGB33QesHijRrVeAFJKcxmkCNzo17LHkt
-    unJTi92q4n+D+tiqAXR5JID1/AkzB5tSvxPRsStHnjryHpmcE5XqMDhNPDIxOhUCFVW/Hz
-    5FDWMhmKLClrXNgr+1/QzO/A7Lmd3O5fAdtkXHvWWeU+SgHyRqbKwz1+deyBLSGii/tzlZ
-    UDQWhw6aadQg4eLA4+InyCrZBd0F+Hpfua9j7bDrQkh31KDZsJnqiIo/tw4LyN84i56JP0
-    5WHbb9ksuMY2l5pLqDBpbpEMpYMxvujxxXaiyOuwlDNnMBuZRVYBFdydYSJPCMuV1LTPg4
-    34o1o9jjMG/GYRiprwqfkG2ev+vwAk/A8cfVXx/sAUu/3MNIYBb5IQR6uKNKdhs/Dabu90
-    zWJE3o/aqN/7XQDDCjwbxNI0PyRc5stRoWwoyuNQ0HaDvyBFgNLVac232S4g
-X-ME-Proxy: <xmx:uN62aqazLoKNfAwpBo3RqBLZ2SvSv5m1fhZ0m9v4I4UrzWW9cYV2pA>
-    <xmx:uN62apHa92fehiklbO2QTCoMmsJdKle_maQKAPUomLY-O3uG7VoXLQ>
-    <xmx:uN62ahZXB1-dNhw6Mi3zXKqEcTYwc7jJGnlnqNfa0jLJme_5y2-9Wg>
-    <xmx:uN62alyww8baLWkkEM8GDqMr2YK0TKmzTBGSg5ymityH-1zJH-0k1g>
-    <xmx:uN62avrk-7PNszIJ0ZrHvyiARefb1TM13AzVMly1vRtBQDlJ3Qx_vx1V>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Sep 2026 16:51:03 -0400 (EDT)
-Date: Fri, 25 Sep 2026 14:49:11 -0600
-From: Alex Williamson <alex@shazbot.org>
-To: David Matlack <dmatlack@google.com>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Josh Hilke
- <jrhilke@google.com>, Sean Christopherson <seanjc@google.com>, Shuah Khan
- <skhan@linuxfoundation.org>, alex@shazbot.org
-Subject: Re: [PATCH v2] vfio: selftests: Add documentation
-Message-ID: <20260925144911.43f00524@shazbot.org>
-In-Reply-To: <20260903183814.2111748-1-dmatlack@google.com>
-References: <20260903183814.2111748-1-dmatlack@google.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZzSTIDzG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XHmcPKZytydq3byzp23XGiu36ByaLbesktRaEDo5Oi4WTVZZ4qMw+8zmlwqc6TRhaH/DdG0UkvNabsIqOrq82rsE6egXCU1ZJxvKI+zUo3JII5PEkSfJR1Q2PeGys3b+11EtuzdBC6JHAPpV55bxp+ucI8z6YggIgPSyqJRzya2a+u/nNP3ezcEAFLnu0jlEj1GuyazlvbC9dO832TUOVE/8Kaikz5e4XF4NlpU4jmp9ZlTXJv1M3hiVriWNh9TLd92OiH3mQ1fHziCcvPJZGYLI1fgPx0ctg+8Y1b9U3+0nzegm9eGiLZkDSBGpyNX7CxpilJ6oURUsIwyX6/y3bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z3QNlMDR1FRmUdzeqnmY23pm/BwEsog5iqZhTFcYeIs=;
+ b=Onsnh0p7kOyakXBWehMWyunKvTnnukNKxvCAhMxSA4IZSV4UuVMq+kf2nzuZR5vShygpc2D83KGOqTu3MVxzpOdhdV3+2+JmK43Gm1dPD8A2leqnibq6OIso2/KMW3R4gzF1uOhhnZDvu3Q3WxeONJM0JFHKU6JIfqhO48Ts1tk7QF0XuzoxclomWf1W9cp0kOkee/lbVl9kwPupE5l7+nv+Yr0SKwtGaxxcKXAUWUJ9zuAS7tZTvA/32LergM8eOMEZCyuXxxyLq3gnNDMyTCkZLxKhgJdjk+84D/h9Nzjyk2AR+WFaGHDlR7PitdaIaIsCMZ6nZOZHp1cYlAXFbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z3QNlMDR1FRmUdzeqnmY23pm/BwEsog5iqZhTFcYeIs=;
+ b=ZzSTIDzGMseX7tSAbWKQNhPfogfcKpg9vZ7q2Mg6NFoINIMLFORoo4ZXBUXxbOZ510rMGT5zVY+3M8potwGJ0dusEZOeEMcDcsyhcl6xXWIQZeif9Y2Pwin1t9aEu+50A4bAZ0Cfj2ggMKORyinDDYkzLmhiTlExCUpwCvD9VmkU0Mh6dyHGuaTB8UVxzkjqbN+IACxQFxzzhecr/m/enXtrESKShshy600arNdMZCPRfKN25DYSPRkGp2esOqtJQ8gIzLNpeyQ8GyPYsQo6suq+NIG3YG4MdW6KFQrNF7dsDbTgrcR9Adb1d0HruJvmcys2CcLQ2p7AVS1xl6o4bg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by CYYPR12MB8961.namprd12.prod.outlook.com (2603:10b6:930:bf::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Fri, 25 Sep
+ 2026 20:53:24 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.014; Fri, 25 Sep 2026
+ 20:53:24 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 25 Sep 2026 16:53:17 -0400
+Message-Id: <DLOP1YI8FF57.1ORJL8RYO0BEW@nvidia.com>
+Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <linux-rdma@vger.kernel.org>, <selinux@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-scsi@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-trace-kernel@vger.kernel.org>,
+ <linux-perf-users@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <kvmarm@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+ <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
+ <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+ <sparclinux@vger.kernel.org>, <fuse-devel@lists.linux.dev>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>,
+ "Vlastimil Babka" <vbabka@kernel.org>, "Jann Horn" <jannh@google.com>,
+ "Pedro Falcato" <pfalcato@suse.de>, "David Hildenbrand" <david@kernel.org>,
+ "Mike Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan"
+ <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>, "Jason
+ Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>, "Paul
+ Moore" <paul@paul-moore.com>, "Stephen Smalley"
+ <stephen.smalley.work@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>, "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii Nakryiko"
+ <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
+ Kartikeya Dwivedi" <memxor@gmail.com>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
+ Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
+ Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau" <kas@kernel.org>, "Doug
+ Gilbert" <dgilbert@interlog.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <mkp@kernel.org>, "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter"
+ <simona@ffwll.ch>, "Helge Deller" <deller@gmx.de>, "Sebastian Reichel"
+ <sre@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Peter Xu"
+ <peterx@redhat.com>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Oleg
+ Nesterov" <oleg@redhat.com>, "Peter Zijlstra" <peterz@infradead.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "Arnaldo Carvalho de Melo"
+ <acme@kernel.org>, "Namhyung Kim" <namhyung@kernel.org>, "Mark Rutland"
+ <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
+ <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>, "Vincent Guittot"
+ <vincent.guittot@linaro.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Will Deacon" <will@kernel.org>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, "Nick Piggin" <npiggin@gmail.com>, "Arnd
+ Bergmann" <arnd@arndb.de>, "Muchun Song" <muchun.song@linux.dev>, "Oscar
+ Salvador" <osalvador@suse.de>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Marc Zyngier"
+ <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>, "Catalin Marinas"
+ <catalin.marinas@arm.com>, "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Janosch Frank"
+ <frankja@linux.ibm.com>, "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>, "Gerald Schaefer"
+ <gerald.schaefer@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>, "David S. Miller"
+ <davem@davemloft.net>, "Andreas Larsson" <andreas@gaisler.com>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
+ <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
+ <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>, "Ying Huang"
+ <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
+ "Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Kemeng
+ Shi" <shikemeng@huaweicloud.com>, "Nhat Pham" <nphamcs@gmail.com>, "Baoquan
+ He" <baoquan.he@linux.dev>, "Youngjun Park" <youngjun.park@lge.com>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>, "Axel Rasmussen"
+ <axelrasmussen@google.com>, "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu"
+ <weixugc@google.com>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Michal
+ Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>, "Xu Xin"
+ <xu.xin@linux.dev>
+From: "Zi Yan" <ziy@nvidia.com>
+Subject: Re: [PATCH v3 08/40] mm: add mmap action for discontiguous kernel
+ page mapping
+X-Mailer: aerc 0.22.0
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org> <20260917-b4-mmap-prepare-vma-flag-sanify-v3-8-4583d8a23bca@kernel.org>
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-8-4583d8a23bca@kernel.org>
+X-ClientProxiedBy: YQBPR01CA0155.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:7e::18) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|CYYPR12MB8961:EE_
+X-MS-Office365-Filtering-Correlation-Id: 24f18d36-6b3d-4acb-0440-08df1b470a3b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|921020|4143699003|6133799003|3023799007|10067099003|5023799004|11063799006|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	u13te0P/y9jcFaxYTJ7sgabnT+38hJFJAp1JbxG++Sz+h7jOgMsbP4mx73vnnJXUz4PhdQ2VYzwt1tK4zHSL/IUBqyDxkvD1R6fyVqubSIYIfseuUGjv0pb8B823U834/GeRjyNfc5ZRY8zeuWzbsmaBSNMFBDF29cwr0hmD4oT0UlNiy//bit0bvdLR8qS2pmTUQ96c5LwJ+7rkZSAITWacvmEhx4Q/YAucmbQ1tsCtZxfaF5zx1moIALH3foI4LMnJzqlNSNynHfa9sbq3JyorUj7cmWyWZqapJSCt0umvofshQaWegsjcV3RB4413GHPpanJmuldzaFNE519afFUFXJqV2KY0wWhCFHyq7R8JyEUuFnRAkddswAf+mvkHGyysz+HPuP5VGVV19C+hGMDT+Y+qhGXXqq3g7GJW/Bzp0m42jqtgdtDt6tJC+0wLYjtJdsWaK+0b2sdgGnrtgkgTtZ18ohPDQ8K9iD6p8+KmnlOJ4BQ/iiZiK+umFjX5nussUYeTwNm58ZtMWkf1RUnTg0flwqDZosOG5oS+zjysfLMYoriQodERGByJmP8tclSbqPcbj+NFz8bOzSHaYR3KF7aFKEIyGqbbdXPUyB4aMC72NmGMykMIi5AaDYHMS7+mkdKf/NmaxH09YW1KdXY0KY+5viiWtGQoxHDbqmiYQM5a9fFhmC7KLrTNza9MQTw4o6O/7Hk8B0c7sOAzDw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(921020)(4143699003)(6133799003)(3023799007)(10067099003)(5023799004)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MDBMYWRJeG5DZzZ3TEIwWGNoWUdtM29PSjNwVjhWcVZRSVluU0FGWGlCUG91?=
+ =?utf-8?B?L2VzQU9EVGRaZWV5NEo2TmZXakJMZTh0K3A5MW82bWVEbGExMGgyVTdVbWRw?=
+ =?utf-8?B?cXJMQmNkWFVRWTlkeXMyQ0RuUFp0T1ViWEtFNEpDQ1hiTDJ3VHdheFRraVh5?=
+ =?utf-8?B?RWhLM2JFd3ArSG9kdEowZERGY2JmNGlBNG9vZFlkZE1lQUVOOCtNR3dOUlUw?=
+ =?utf-8?B?UkNSTGlTSlRHWlROcytjNGNVWlJGQXR4NFJnUkNjYzBadEFEUmhvQkY0NXJM?=
+ =?utf-8?B?TlVJUlMwTmlhNGpkUTJ2b04wVFpXaE8xRllZZG43bitoNTBxRGxHS2tSU29C?=
+ =?utf-8?B?Vy9NY2FGdjJNWVJNUHpvakN0WW8vWVc3Wi84MUw3NW0wRkYra1JnMW51UDdU?=
+ =?utf-8?B?SCtZTmhKTEgrR1ROV2RRSzNhcW5DWFFCUWVLSE4zNTdNOTRNUEcvMzA4VXVZ?=
+ =?utf-8?B?bzM2UElXbndHNCtja2RDaEpUMFRzUHdzQVUvNVVvZkZJcXVCMGNLQUJwUkUx?=
+ =?utf-8?B?YWlmRWFuSlByNFk5amRWWlpSZmh6VTdUZE1zVlhPRWdkZGp0N1lpaFIxbSt6?=
+ =?utf-8?B?aHc3MS85RHBhT0lOaXBpY2Q5bkZHTjRYYmw1a2FMWEdxMG82WURONHJuLzFa?=
+ =?utf-8?B?TVBPV243ai9maWFaQm5OeUZXMmcyUVdHNmZLL2p0RlBSSFFqWjJzV0ZIb3pw?=
+ =?utf-8?B?c0hia2V4Z2NhVGlvSmNBYis4S1Y3UEVLWkhYY1pVRFVtQUNBenU5cDJuYXds?=
+ =?utf-8?B?Q1FZYTFwcWdBR0lVZzAzc0ZnRGh5Q3FISmxlcGIyeElhM25PbHRPV3pKNldw?=
+ =?utf-8?B?ODRBbXJxNmVUY0hJWXNDY2hHRjE1UlJ1Qmg1WlhiaE1tenQ3TzQrYnNRbUMx?=
+ =?utf-8?B?aGlVelFXcGd4aDFsbi9TVkl5cHRHQ0x5Nk9BelgrVnhaTDM2ZVlnZEdQYmlr?=
+ =?utf-8?B?eWw1aHpWN0cvZzJJTk1TdUNCN1BuMHBQYlRNRWtUSi9Va3NWMHdra1JuYUox?=
+ =?utf-8?B?WmNRTGlkNG00T2xXZEhnSytjVEp5Ui9NRGdNd3ZtenlWMm8rbWI3aUJMblpH?=
+ =?utf-8?B?MXdxd0p1dlIxVzZKWEtQbE1BT28vQTY1T05RN1JUNkk5QzVxMUUyTUVDT3BO?=
+ =?utf-8?B?NnNqazR1MUZhVnpmVjdmc3RuNDJUZzE3ODBsZTk3ZHFGaytCQUxLU3FZOE4y?=
+ =?utf-8?B?dEM3TzRYSVplN0pTdmxQeXJBUUlZbmdKVTREaU9WL2VRazZvMm8zTnZhRXZQ?=
+ =?utf-8?B?N3RQeXY1OEpsZElMWEtEQUZLdFBGcTRYQWZGYnpaTlIzdTdwV3BLMmExdS9t?=
+ =?utf-8?B?Z2RqR0VFSzNLOXAzVENndi9DVW92WjUxNmJlVXBOYWo0TVI4OWkySmdHSzNY?=
+ =?utf-8?B?ZjZuTkx5VjUyQXc1ZkV1QkoyWldpTXgrSE92Zi9WVTNtMllHV08rSUZpWkth?=
+ =?utf-8?B?VlZWS2xPMFdGZ01WWmdqaVpwM3RmMU0wRlgwQzFEeFBiZk1nSFFaOE14THZW?=
+ =?utf-8?B?aDUrdHYwMU8yMmdjNG0wK1lDV0hoNnlFL2krR0Q5bjByUVRUUGJKbVBBTWpR?=
+ =?utf-8?B?NFVtcWNRRHJXcE9WSjJlMUpCc2RTeWhnOHlGTVlCTlpUaTFLRnlHK3FZbXEx?=
+ =?utf-8?B?Y2hWOEtRVWlWcnZac0I5Y1cySG44SXpnbGpTSWt4VU1VeU1FWUZ4RXMxVThC?=
+ =?utf-8?B?UzBLMXZZRTBra3JIU2p3dUFBZG5VY0VZM1pNQWI2aXpock1mTTBUaTlBdVVi?=
+ =?utf-8?B?am5nL1hUMFRaeU5HeDE0WmZId2JQT1ZrVjVBbnRtOTI5dG5RRVF0WHFXM25z?=
+ =?utf-8?B?Q2FjWlZSWnBqT0l5bEd6QklrVFBDQzBuVUFTNnFHaDdQQnRncEY1clY4TGgx?=
+ =?utf-8?B?Ly9PT0hjQ2hlR1JaZkdwQ1l5WTVwb2ZyQ0RubnBleGNzQ1lFZnRYMmtzQi9i?=
+ =?utf-8?B?MTFJNlVyVHU0OU9hdmpjaFJTVFEzL3BhNTJqT0ZlbFMyK0J3cWtRbG1ZaWVR?=
+ =?utf-8?B?TEVhZVlMaDQzSHNPS25CSENLSTZXemZuNGUwYk45aFBQY01YOHpVdDVWZDZz?=
+ =?utf-8?B?V29nQXd1SXdMSVJ2MjZoaE1HVGNzTHVYOGdKNWVTWFpLNDJFS1dYVzZ0bWQ3?=
+ =?utf-8?B?NEwwOXg5NGxaZ1JZejI5YzJ1VUFCV3U2aXdIKzNwQUhBYng5ZXhCWVpVMU5q?=
+ =?utf-8?B?eG9IR2VzTG1ua0hrYnJwcFhUYTVKTGRsSWpZeEtEakgwOUJlWmxqRjVnSElO?=
+ =?utf-8?B?VHc5QWZzVHd3NGo4VS9iNXhJQUYvbysxVzZNTWhEa0VPODZsdllDQWJHY2wx?=
+ =?utf-8?Q?ORWxYTeYZHBeQetT25?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24f18d36-6b3d-4acb-0440-08df1b470a3b
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 20:53:24.0082
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 83In5Sx8WkbrAEXowdB/7E54vAx46OgpCMQXk9QJvIVc2rIQKJOnVCceLoXXnzbm
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8961
 
-On Thu,  3 Sep 2026 18:38:14 +0000
-David Matlack <dmatlack@google.com> wrote:
-
-> Add documentation for VFIO selftests in driver-api/vfio-selftests.rst,
-> include it in the driver-api index, and update MAINTAINERS.
-> 
-> Since VFIO selftests was introduced it has expanded to include a helper
-> library (libvfio), driver-level abstractions for triggering hardware DMA
-> and interrupts, multiple IOMMU execution modes, dynamic IOVA allocation,
-> and native integration into KVM selftests. Dedicated documentation
-> should be helpful to guide kernel developers on writing tests, setting
-> up devices, running tests, and understanding the helper library.
-> 
-> Assisted-by: Gemini:3.1-Pro
-> Signed-off-by: David Matlack <dmatlack@google.com>
+On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
+> The existing kernel page mapping mmap actions allow for partial and full
+> mapping of an array of struct page pointers.
+>
+> However some drivers require the mapping of discontiguous ranges. Permit
+> this by providing discontig_kernel_page_ops which allows a driver to
+> specify how the operation should begin and how batches of pages should be
+> retrieved.
+>
+> It uses the minimum exposed interface to do so, providing address, page
+> offset and both vm_private_data state and a local private state object.
+>
+> ops->init can establish state for the operation, and ops->get outputs the
+> pages to map and their count. Should an error arise the core unmaps the
+> VMA, invoking vm_ops->close, which is therefore where any state establish=
+ed
+> by ops->init is released.
+>
+> Batches may not exceed the VMA, but may map less than its full range in
+> case the driver wishes to allow the user to map an area larger than the
+> available data.
+>
+> To use it, users invoke mmap_action_map_discontig_kernel_pages() with
+> initial local private state and a set of operations.
+>
+> Users can then use one of the provided helper functions to perform an
+> action:
+>
+> * discontig_kernel_map_abort() - Abort and leave the mapping as it has
+>   been accumulated so far.
+> * discontig_kernel_map_page() - Map a single page, or a compound page giv=
+en
+>   its head page.
+> * discontig_kernel_map_page_range() - Maps a struct page ** array of a
+>   specified count.
+>
+> The userland VMA tests are updated accordingly.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
-> v2:
->  - Add Assisted-by tag
->  - Replace use of emdash (Alex)
->  - Add a "Contribution Guidelines" section that documents the preferred
->    shortlog (Alex) and links to the KVM x86 maintainers handbook
-> 
-> v1: https://lore.kernel.org/kvm/20260818000550.2526247-1-dmatlack@google.com/
-> 
->  Documentation/driver-api/index.rst          |   1 +
->  Documentation/driver-api/vfio-selftests.rst | 252 ++++++++++++++++++++
->  MAINTAINERS                                 |   1 +
->  3 files changed, 254 insertions(+)
->  create mode 100644 Documentation/driver-api/vfio-selftests.rst
+>  include/linux/mm.h              |  45 +++++++++++++++++
+>  include/linux/mm_types.h        |  44 +++++++++++++++-
+>  mm/internal.h                   |   3 ++
+>  mm/memory.c                     | 108 ++++++++++++++++++++++++++++++++++=
+++++--
+>  mm/util.c                       |   7 +++
+>  tools/testing/vma/include/dup.h |  11 +++-
+>  6 files changed, 209 insertions(+), 9 deletions(-)
+>
+LGTM.
 
-Applied to vfio next branch for v7.4.  Thanks,
+Acked-by: Zi Yan <ziy@nvidia.com>
 
-Alex
 
-> 
-> diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
-> index eaf7161ff957..630f33287bc0 100644
-> --- a/Documentation/driver-api/index.rst
-> +++ b/Documentation/driver-api/index.rst
-> @@ -47,6 +47,7 @@ of interest to most developers working on device drivers.
->     vfio-mediated-device
->     vfio
->     vfio-pci-device-specific-driver-acceptance
-> +   vfio-selftests
->  
->  Bus-level documentation
->  =======================
-> diff --git a/Documentation/driver-api/vfio-selftests.rst b/Documentation/driver-api/vfio-selftests.rst
-> new file mode 100644
-> index 000000000000..9d39a22519d6
-> --- /dev/null
-> +++ b/Documentation/driver-api/vfio-selftests.rst
-> @@ -0,0 +1,252 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==============
-> +VFIO Selftests
-> +==============
-> +
-> +VFIO selftests are built on top of the kernel's selftests framework and are
-> +located in ``tools/testing/selftests/vfio``.
-> +
-> +VFIO selftests enable kernel developers to write and run tests that take the
-> +form of userspace programs that interact with VFIO and IOMMUFD uAPIs. VFIO
-> +selftests can be used to write functional tests for new features, regression
-> +tests for bugs, and performance tests for optimizations.
-> +
-> +These tests are designed to interact with real PCI devices, i.e. they do not
-> +rely on mocking out or faking any behavior in the kernel. This allows the tests
-> +to exercise not only VFIO but also IOMMUFD, the IOMMU driver, interrupt
-> +remapping, IRQ handling, etc.
-> +
-> +Running Tests
-> +=============
-> +
-> +Running VFIO selftests requires a device bound to the ``vfio-pci`` driver.
-> +There are scripts in ``tools/testing/selftests/vfio/scripts/`` to help with
-> +setting one up.
-> +
-> +Picking a Device
-> +----------------
-> +
-> +Some VFIO selftests require a device with a supported driver implementation in
-> +the selftests library (see `Driver Framework`_), while other tests (such as
-> +basic PCI configuration space or reset tests) can use any arbitrary PCI device.
-> +
-> +This section will be expanded in the future to guide developers on how to find
-> +a device with a supported driver. In the meantime, the selftests library
-> +includes driver support for the following devices:
-> +
-> +- Intel IGB Gigabit Ethernet controllers
-> +- Intel IOAT (I/O Acceleration Technology) DMA engines
-> +- Intel DSA (Data Streaming Accelerator)
-> +- NVIDIA Falcon engines (found in many NVIDIA GPUs, e.g., GTX 1080 or RTX 2080)
-> +
-> +Note that using Intel DSA devices requires setting the module parameter
-> +``vfio_pci.disable_denylist=Y`` to allow ``vfio-pci`` to bind to DSA devices.
-> +
-> +Setting up Devices
-> +------------------
-> +
-> +.. code-block:: sh
-> +
-> +    tools/testing/selftests/vfio/scripts/setup.sh 0000:01:00.0
-> +
-> +The script handles unbinding the device from its current driver and binding it
-> +to ``vfio-pci``. Metadata about this device is stored in
-> +``/tmp/vfio-selftests-devices`` so that the device can be cleaned up later
-> +(bound back to its original driver).
-> +
-> +Execution
-> +---------
-> +
-> +VFIO selftests expect the PCI device BDF string as their final command-line
-> +argument. e.g.
-> +
-> +.. code-block:: sh
-> +
-> +    tools/testing/selftests/vfio/vfio_pci_device_test 0000:01:00.0
-> +
-> +Alternatively, the PCI device BDF can be passed via the ``VFIO_SELFTESTS_BDF``
-> +environment variable, which can be useful when running all tests:
-> +
-> +.. code-block:: sh
-> +
-> +	export VFIO_SELFTESTS_BDF=0000:01:00.0
-> +	make -C tools/testing/selftests TARGETS=vfio install
-> +	tools/testing/selftests/kselftest_install/run_kselftest.sh -c vfio
-> +
-> +Cleanup
-> +-------
-> +
-> +.. code-block:: sh
-> +
-> +    tools/testing/selftests/vfio/scripts/cleanup.sh
-> +
-> +This script handles unbinding all previously setup devices from ``vfio-pci``
-> +and binding them back to their original driver. Specific devices can be cleaned
-> +up by passing their BDF string to the cleanup script.
-> +
-> +Writing Tests
-> +=============
-> +
-> +VFIO selftests leverage the ``kselftest_harness.h`` macros to structure setup
-> +and teardown scenarios. A basic test involves:
-> +
-> +1. Declaring a test FIXTURE containing the device and IOMMU state.
-> +2. Generating test variants that span the different IOMMU modes utilizing
-> +   ``FIXTURE_VARIANT_ADD_ALL_IOMMU_MODES()``.
-> +3. Initializing the device and binding the default driver ops.
-> +
-> +For a complete example of writing a VFIO selftest, refer to
-> +``tools/testing/selftests/vfio/vfio_pci_device_test.c``.
-> +
-> +VFIO Selftests Library (libvfio)
-> +================================
-> +
-> +The selftests directory contains a helper library compiled from the ``lib/``
-> +subdirectory. It provides structures and helper functions to handle standard
-> +operations like opening VFIO devices, creating VFIO containers, and interacting
-> +with VFIO and IOMMUFD.
-> +
-> +All VFIO selftests have libvfio linked in by default. Tests can access the
-> +library by including ``<libvfio.h>``.
-> +
-> +Core Objects
-> +------------
-> +
-> +The VFIO selftests framework revolves around two distinct core objects:
-> +``struct iommu`` and ``struct vfio_pci_device``. It is important to understand
-> +the distinction and relationship between them:
-> +
-> +- ``struct iommu`` represents an IOMMU domain and the API used to program it
-> +  (e.g. legacy VFIO Type1 vs IOMMUFD). It is responsible for managing the I/O
-> +  address space, handling DMA mappings, and translating between host virtual
-> +  addresses (HVA) and IO virtual addresses (IOVA).
-> +
-> +- ``struct vfio_pci_device`` represents a single PCI device. It encapsulates
-> +  the VFIO device file descriptor, handles access to the PCI configuration
-> +  space, manages memory-mapped BARs, and drives device interrupts.
-> +
-> +A typical test initializes an IOMMU instance first, then passes it when
-> +initializing one or more PCI devices, linking the devices to the shared IOMMU
-> +domain.
-> +
-> +``struct iommu``
-> +^^^^^^^^^^^^^^^^
-> +
-> +The ``struct iommu`` abstracts away the complexity of managing VFIO containers,
-> +IOMMU groups, and IOMMUFD contexts. A test allocates its IOMMU handle using
-> +``iommu_init()`` passing one of the supported IOMMU modes:
-> +
-> +.. code-block:: c
-> +
-> +    struct iommu *iommu = iommu_init(MODE_IOMMUFD);
-> +    ...
-> +    iommu_cleanup(iommu);
-> +
-> +The selftest framework is designed to work uniformly across all standard kernel
-> +IOMMU APIs. The defined modes (in ``iommu.h``) include:
-> +
-> +- ``MODE_VFIO_TYPE1_IOMMU``
-> +- ``MODE_VFIO_TYPE1V2_IOMMU``
-> +- ``MODE_IOMMUFD_COMPAT_TYPE1``
-> +- ``MODE_IOMMUFD_COMPAT_TYPE1V2``
-> +- ``MODE_IOMMUFD``
-> +
-> +VFIO selftests can replicate their test cases across all possible IOMMU modes
-> +using FIXTURE_VARIANT_ADD_ALL_IOMMU_MODES() to ensure kernel IOMMU APIs remain
-> +compatible.
-> +
-> +``struct vfio_pci_device``
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +A PCI device is represented as a ``struct vfio_pci_device``. The device
-> +representation is initialized using ``vfio_pci_device_init()``, which takes a
-> +target BDF string, opens the device in VFIO, and binds it to an existing
-> +``struct iommu`` instance:
-> +
-> +.. code-block:: c
-> +
-> +    struct vfio_pci_device *device = vfio_pci_device_init(device_bdf, iommu);
-> +    ...
-> +    vfio_pci_device_cleanup(device);
-> +
-> +``struct iova_allocator``
-> +^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +To facilitate DMA mappings without hardcoding IOVAs (IO virtual addresses) that
-> +might conflict with reserved platform address ranges, the library provides a
-> +``struct iova_allocator``.
-> +
-> +The IOVA allocator queries the underlying IOMMU (via ``struct iommu``) for its
-> +valid target IOVA ranges. Tests can safely carve out unique contiguous chunks
-> +of IOVA space for device DMA by repeatedly calling:
-> +
-> +.. code-block:: c
-> +
-> +    struct iova_allocator *allocator = iova_allocator_init(iommu);
-> +    iova_t addr = iova_allocator_alloc(allocator, size);
-> +
-> +Driver Framework
-> +----------------
-> +
-> +The primary goal of VFIO selftests is to verify the correctness of the kernel
-> +code handling VFIO devices, including VFIO core, IOMMUFD, IOMMU drivers, page
-> +pinning, DMA mapping/unmapping, interrupt remapping, and IRQ delivery.
-> +
-> +Because different physical devices have vastly different programming interfaces
-> +for triggering work, the selftests library implements a standard driver
-> +framework.  This framework abstracts diverse hardware endpoints (such as Intel
-> +IGB, IOAT, or DSA) behind a uniform interface, allowing tests to provoke a
-> +broad range of devices to generate DMA operations and interrupts in a
-> +standardized manner.
-> +
-> +By exercising DMA and interrupts with real endpoints, tests can thoroughly
-> +stress and validate the underlying kernel paths, such as IOMMU page table
-> +management, dirty page tracking, Device TLB and IOTLB invalidations, and
-> +interrupt delivery under authentic hardware conditions.
-> +
-> +All endpoint driver implementations populate a common set of operations defined
-> +in ``struct vfio_pci_driver_ops``:
-> +
-> +- ``probe()``: Validate whether the driver supports the current PCI device
-> +  (e.g. matching vendor/device IDs).
-> +- ``init()``: Set up specific control registers or ring-buffer data structures.
-> +- ``remove()``: Clean up structures before destruction.
-> +- ``memcpy_start()``: Initiate DMA copies via the device.
-> +- ``memcpy_wait()``: Poll and wait until previously initiated copies complete
-> +  safely.
-> +- ``send_msi()``: Provoke the device to signal an MSI interrupt.
-> +
-> +Tests are required to set up a dedicated DMA region for the driver to use
-> +within ``struct vfio_pci_driver`` to serve as the driver's main memory
-> +allocation region (e.g. used for in-memory descriptor rings and hardware
-> +buffers). Tests must provision and map this DMA region before completing driver
-> +initialization.
-> +
-> +For a complete example of interacting with the driver framework from a test
-> +perspective, refer to ``tools/testing/selftests/vfio/vfio_pci_driver_test.c``.
-> +
-> +When contributing a new driver implementation to the selftests library, the
-> +primary acceptance criteria is that ``vfio_pci_driver_test`` passes using the
-> +new driver and target device.
-> +
-> +Integration with KVM Selftests
-> +------------------------------
-> +
-> +libvfio is not strictly limited to VFIO selftests, it is also leveraged within
-> +KVM selftests (``tools/testing/selftests/kvm/``). KVM selftests build their own
-> +copy of libvfio and link against it, enabling libvfio to be used in KVM
-> +selftests.
-> +
-> +This integration enables testing the interaction between KVM and VFIO and
-> +IOMMUFD. For example, testing the end-to-end delivery of device interrupts into
-> +running vCPUs.
-> +
-> +Contribution Guidelines
-> +=======================
-> +
-> +- Prefer the shortlog prefix ``vfio: selftests: ...`` for commits that modify
-> +  files in ``tools/testing/selftests/vfio/``.
-> +- Follow the Coding Style, Comments, Changelogs, and Function References
-> +  guidelines from the
-> +  :doc:`KVM x86 maintainers handbook </process/maintainer-kvm-x86>`.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 806bd2d80d15..ba174dd8ba1b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -28396,6 +28396,7 @@ VFIO SELFTESTS
->  M:	David Matlack <dmatlack@google.com>
->  L:	kvm@vger.kernel.org
->  S:	Maintained
-> +F:	Documentation/driver-api/vfio-selftests.rst
->  F:	tools/testing/selftests/vfio/
->  
->  VFIO VIRTIO PCI DRIVER
-> 
-> base-commit: 4e3c1fc8abcb8eff062150b4340fa4569696d645
+--=20
+Best Regards,
+Yan, Zi
 
