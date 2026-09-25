@@ -1,196 +1,152 @@
-Received: from mta0.migadu.com (out-22.mta0.migadu.com [91.218.175.22])
+Received: from mta1.migadu.com (out-159.mta1.migadu.com [95.215.58.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9836B30274D
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 04:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A383C4B60
+	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 04:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790308921; cv=none; b=Va8djhFv/UQNqPWfNR4Tat0+bN1HQf4K1tHs9g34T8KelkvntKO0KZi+byOrsErjuBOHNvc1UsI/78uESfmRYicmf/b+RLN6erLVP4FXoNsQIBNXRQ9OPzetD6Nbgwz8VBIKyJbP/4evCsd7iWvyKqi/YorPUJL4bqaycDPOxBs=
+	t=1790311634; cv=none; b=G6UydTNreme8VVrvER8H7K0ZzMQNp+kUepLiXTnYE6jkCnjOfW7A1gjqkUJHwz0zgoDHF70tZzfvknuRg0rby8pYAr2yq/uErX9CuBNDanDW0OtaHBT3el8gnAKPeNdrqNvEGRrS2tGRKBRUaH/9Q/3IaKxaE59toN07/5k79Hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790308921; c=relaxed/simple;
-	bh=GrVFIyoIV5rjdCEVrJaQXqcpqXxthkYdx247tguJsOg=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=smD+ocKNxfkznUwRfgpVPawGpihHpiv699/6K4bPvlVn7rBvqKtelV1LmpmVusYloYJkCWIRNasdRxkde4zIbSErMmCtk38TdJouwji7E3GGBNxSwg0SEA+6xZtzInqVfJlA9D+El0NHIntWviAofhpmtjK3TYlzvioLMS/UhIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=YiwvUK/s; arc=none smtp.client-ip=91.218.175.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1790311634; c=relaxed/simple;
+	bh=jh8C5ShYQXr3viaQ/Mi2fvp0GqNzxRBy1mECrQ4hGaU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i/deltwXektpEdYmN1BWj26yOHPcicX4i+GjOpJ25l9fMbldybnYaXBTUe/KWcC052S9HbVTlW48vbqVoIdPNR3I6S9QQ53SldwM7Bk6ptFf8ktMLy/4EvZlhWrmsmmeB1QfaWquwE7yNP1ffgHKj2LpF7WA3+CaLAiB0fuMDVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FCNIHfma; arc=none smtp.client-ip=95.215.58.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="YiwvUK/s"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FCNIHfma"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=GrVFIyoIV5rjdCEVrJaQXqcpqXxthkYdx247tguJsOg=;
- c=simple/simple; d=wyuan.org;
+DKIM-Signature: a=rsa-sha256; bh=jh8C5ShYQXr3viaQ/Mi2fvp0GqNzxRBy1mECrQ4hGaU=;
+ c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790308915; v=1; x=1790913715;
- b=YiwvUK/stFfOeeoAY+tASThZri+lHON467YEicjJ97yJfR5Nxkdxw/mwIyok2tWAEgHTclrA
- CKSEod9y5gnRG/HKQ6i9TNMRDfvQT1kFyTtTKGNtB6/9bi2qxk9sySgd8oJ6TL/fhxSjADpn9YL
- UbhWUxhjq5a3HHbMFCIs7VLGX3nm5FDCBix5YU1nde/Ylr/1VxHa/RstMYEtFZi3kKm3PgrKgRx
- akS2J9xdr3EtR9ZFF9SNMZfijxmnBLZ0klA+vKqqD0wHhF1UgRj6qwE0w3lIQ0MYi0rCn1x3Ip+
- 9yaCG9UP9CUiVnj7FHE2FPcCGuSUgp4OrvLRd3tS9khiw==
+ t=1790311630; v=1; x=1790916430;
+ b=FCNIHfma3LS/3JaA2BJJYgDvh1b5rgyweLTodShdjDg10c9sNGQLzo2UvkvnwLTdJtjoIrS7
+ mMXE2rZi3p1dVlTJpgMILbaFwI/JbzCqyKkox75GhQxTTxTX2sEMVAnja/huZQTORQDsTLPa2mX
+ vlIlxjfm+N/2uTk4OrJ46b9c=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 977fcf42e10c7c5b;
-	Fri, 25 Sep 2026 04:01:55 +0000
-X-Mizu-Trace-ID: 977fcf42e10c7c5b
+Received: by smtp.migadu.com with ESMTPS id f70f5b72ae709b91;
+	Fri, 25 Sep 2026 04:47:10 +0000
+X-Mizu-Trace-ID: f70f5b72ae709b91
 X-Migadu-Flow: FLOW_OUT
-Date: Fri, 25 Sep 2026 12:01:48 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: linux-doc@vger.kernel.org
-Subject: What's cooking in Chinese docs (Sep 2026, #01)
-Message-ID: <arXyLM6kiUozClfs@wyuan.org>
+Message-ID: <b1a845c3-3720-4ef6-8c97-8a40ee7bd286@linux.dev>
+Date: Thu, 24 Sep 2026 21:47:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/13] PCI: liveupdate: PCI core support for Live
+ Update
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org,
+ Adithya Jayachandran <ajayachandra@nvidia.com>,
+ Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+ David Rientjes <rientjes@google.com>,
+ Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+ Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+ Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pranjal Shrivastava <praan@google.com>, Pratyush Yadav
+ <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>,
+ William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
+ "yanjun.zhu@linux.dev" <yanjun.zhu@linux.dev>
+References: <20260918200640.887030-1-dmatlack@google.com>
+ <2e88b92a-d3f2-41f7-bdbe-11fd71690606@linux.dev>
+ <CALzav=eJU+fnPr-QN4s7gY_Lj8Pc3T6KXfC9kiQQ=g4rPEDMuA@mail.gmail.com>
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <CALzav=eJU+fnPr-QN4s7gY_Lj8Pc3T6KXfC9kiQQ=g4rPEDMuA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Here are the topics waiting to be merged.
 
-Copies of the source code to Chinese documentation development tree live
-in here:
+在 2026/9/22 11:53, David Matlack 写道:
+> On Tue, Sep 22, 2026 at 11:36 AM Zhu Yanjun <yanjun.zhu@linux.dev> wrote:
+>> 在 2026/9/18 13:06, David Matlack 写道:
+>>> Future Work
+>>> -----------
+>>>
+>>> Following this series, we expect to make further improvements to the PCI
+>>> core support for Live Update:
+>>>
+>>>     - Allow P2P across Live Update by avoiding resizing or moving
+>>>       preserved device BARs and preserving all upstream bridge windows.
+>>>
+>>>     - Support preserving Virtual Functions by preserving SR-IOV
+>>>       configuration on PFs and enumerating VFs after Live Update.
+>> Preserving the PCIe topology, bus numbers, ACS, and Bus Mastering across
+>> kexec is a foundational step for minimizing downtime.
+>>
+>> As we look toward complete end-to-end support for DMA preservation
+>> across Live Update—especially for VFIO device passthrough and dma-buf
+>> sharing scenarios—IOMMU table/domain preservation becomes crucial to
+>> prevent IOMMU page faults when devices continue performing DMA during kexec.
+>>
+>> I would like to ask about the current status and roadmap regarding IOMMU
+>> Live Update / KHO (Kexec Handover) support:
+>>
+>> Is there an ongoing effort or RFC series for IOMMU handover / page-table
+>> preservation currently in development or under discussion?
+>>
+>> How is the coordination between the PCI core Live Update mechanisms and
+>> the IOMMU subsystem being envisioned for preserving IOVA mappings (e.g.,
+>> restoring domains or handing over root tables)?
+>>
+>> Any pointers to active discussion threads, RFCs, or future plans
+>> regarding IOMMU participation in Live Update would be greatly appreciated.
+> The first IOMMU series to support Live update, can be found here:
+>
+>    https://lore.kernel.org/linux-iommu/20260921004834.2601285-1-skhawaja@google.com/
 
-    git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
-    https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
-    https://kernel.googlesource.com/pub/scm/linux/kernel/git/alexs/linux.git
+After cloning the source code from samikhawaja/linux, branch 
+iommu/phase1-v5, I tested the VFIO live update functionality in my local 
+KVM environment and encountered the following issue.
 
-Mirrors:
+When I run the following commands to verify that VFIO live update works 
+correctly, I get the output shown below.
 
-    https://mirrors.hust.edu.cn/git/kernel-doc-zh.git
-    https://mirror.nju.edu.cn/git/kernel-doc-zh.git (experimental)
+I am currently testing with VFIO v5 and PCI core v9, and I am not sure 
+whether this behavior is expected.
 
-Please report any mirror instability to linux-doc@vger.kernel.org
+Interestingly, when I revert the following commit:
 
------------------------------------------------------------------------
+vfio/pci: Preserve the iommufd state of the vfio cdev
 
-[Note]
+the issue disappears.
 
-Continuing with the work by Doehyun Baek, I made a dashboard for Chinese
-documentation patches, which is available at:
+Could you please let me know whether this is expected behavior, or 
+whether it indicates a problem with the current VFIO live update 
+implementation?
 
-  https://buding.wyuan.org/ (cloudflare)
-  https://buding.anka2.top/ (domestically faster)
+"
 
-In general, it brings a feature that enables maintainers to specify a
-patch series status without having to log in (using a key instead).
-But this still needs to be further tested.
+echo "vfio-pci" > /sys/bus/pci/devices/0000:00:04.0/driver_override
 
-Special thanks to Siwei for voluntarily completing a part of the work!
+echo "0000:00:04.0" > /sys/bus/pci/drivers/vfio-pci/bind
+Preserving device in session
+vfio_pci_liveupdate_kexec_test.c:122: Assertion Failure
 
-Low-quality code was unintentional but inevitable, please direct point
-it out.
+   Expression: ret == 0
+   Observed: 0xffffffffffffffea == 0
+   [errno: 22 - Invalid argument]
+"
 
+Thanks a lot.
 
-Happy Mid-Autumn Festival!
+Yanjun Zhu
 
------------------------------------------------------------------------
+>
+> The IOMMU series builds on top of the PCI core support (this series)
+> and the VFIO series linked further up in the cover letter.
 
-[Cooking]
+-- 
+Best Regards,
+Yanjun.Zhu
 
-* R�nich Bon �Ciri�c 2026-09-20
-  [PATCH] docs/zh_CN: fix stale :Original: reference in xfrm_proc.rst
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/20260920073144.546566-1-renich@evalinux.com/
-
-
-* Jiaming Ouyang 2026-09-09
-  [PATCH] docs/zh_CN: add Chinese translation for usb/ohci.rst
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/CAMnqnYwK6HDwV3jRLNWYTfB_w2NmQYn=LRQ41VoWYU53CWd6FA@mail.gmail.com/
-
-
-* Weijie Yuan 2026-09-05
-  [PATCH v2 0/2] docs/zh_CN: update maintainer/configure-git.rst
-  [PATCH v2 1/2] docs/zh_CN: sync maintainer/configure-git with upstream
-  [PATCH v2 2/2] docs/zh_CN: improve maintainer/pull-requests translation
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/20260905-configure-git-v2-0-ab194db8c6b9@wyuan.org/
-
-
-* Yukai Wu 2026-08-29
-  [PATCH] docs/zh_CN: Update arch/riscv/vm-layout.rst translation
-
-  Expecting a re-roll?
-
-  source: https://lore.kernel.org/linux-doc/20260829041542.256360-1-xiaoyewuz.Ruster@gmail.com/
-
-
-* Weijie Yuan 2026-08-23
-  [PATCH v2 0/5] Update maintainer-pgp-guide.rst Chinese translation
-  [PATCH v2 1/5] docs/zh_CN: update maintainer-pgp-guide translation Weijie Yuan
-  [PATCH v2 2/5] docs/zh_CN: clarify free Nitrokey requirements Weijie Yuan
-  [PATCH v2 3/5] docs/zh_CN: update maintainer-pgp-guide kernel.org link Weijie Yuan
-  [PATCH v2 4/5] docs/zh_CN: add kernel.org trust repository reference Weijie Yuan
-  [PATCH v2 5/5] docs/zh_CN: remove empty proofreader field from maintainer PGP guide
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/20260823-maintainer-pgp-guide-v2-0-bea33b2ece54@wyuan.org/
-
-
-* Chen Miao 2026-08-14
-  [PATCH v4 5/6] docs/zh_CN: doc-guide: document macOS Sphinx setup
-  [PATCH v4 6/6] docs/zh_CN: how-to: document case-sensitive APFS setup
-
-  Waiting for a separated translation series, as suggested by Dongliang.
-
-  comment: https://lore.kernel.org/linux-doc/b233295b-64c0-4d50-a0fd-516e4795eb96@hust.edu.cn/
-  source: https://lore.kernel.org/linux-doc/b233295b-64c0-4d50-a0fd-516e4795eb96@hust.edu.cn/ (PATCH 5/6)
-  source: https://lore.kernel.org/linux-doc/20260814214419.49925-6-chenmiao.ku@gmail.com/ (PATCH 6/6)
-
-
-* Ye Liu 2026-08-19 1 commit
-  [RESEND PATCH v2] docs/zh_CN: sync page_table_check.rst translation
-
-  Waiting for response & Expecting a re-roll.
-
-  source: https://lore.kernel.org/linux-doc/20260819025535.2967566-1-ye.liu@linux.dev/
-
-
-* Cui Shuang 2026-07-22 1 commit
-  [PATCH v3] docs/zh_CN: Add configurable error injection translation
-
-  Waiting for response & Expecting a re-roll.
-
-  source: https://lore.kernel.org/linux-doc/20260722123240.22979-1-imcusg@gmail.com/
-
-
-* Jiandong Qiu (2026-07-06) 2 commits
-  [PATCH v3 0/2] docs/zh_CN: update translation of doc-guide/sphinx.rst
-  [PATCH v3 1/2] docs/zh_CN: add process/changes.rst translation
-  [PATCH v3 2/2] docs/zh_CN: update sphinx.rst translation
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/20260706151358.2103703-1-qiujiandong1998@gmail.com/
-
-
-* Yan Zhu (2026-06-12) 10 commits
-  [PATCH 00/10] <cover.1781105672.git.zhuyan2015@qq.com>
-   # Msgid changed
-  [PATCH 00/10] docs/zh_CN: add LSM admin-guide Chinese translation
-                https://lore.kernel.org/linux-doc/tencent_001080DF135CEE2CD1B260EFA08E3CC71A09@qq.com/
-  [PATCH 01/10] docs/zh_CN: add LSM/index Chinese translation
-  [PATCH 02/10] docs/zh_CN: add LSM/apparmor Chinese translation
-  [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
-  [PATCH 04/10] docs/zh_CN: add LSM/SELinux Chinese translation
-  [PATCH 05/10] docs/zh_CN: add LSM/Smack Chinese translation
-  [PATCH 06/10] docs/zh_CN: add LSM/tomoyo Chinese translation
-  [PATCH 07/10] docs/zh_CN: add LSM/Yama Chinese translation
-  [PATCH 08/10] docs/zh_CN: add LSM/SafeSetID Chinese translation
-  [PATCH 09/10] docs/zh_CN: add LSM/ipe Chinese translation
-  [PATCH 10/10] docs/zh_CN: add LSM/landlock Chinese translation
-
-  Needs review.
-
-  source: https://lore.kernel.org/linux-doc/tencent_7080BF6BB8F05936649DDC091FFD8C45210A@qq.com/
-
-
-Any series missing?
