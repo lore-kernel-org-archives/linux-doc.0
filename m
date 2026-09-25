@@ -1,337 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289DF4E66C8;
-	Fri, 25 Sep 2026 19:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C727D442373
+	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 19:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790363807; cv=none; b=NMwIRayVhqctQOLkXWHxhMUx7OE3OQRgoszvubliswmi8SVYXUaONfBa9PkiamZBfxa9ebKzEX4oHZcbzQeLE+mahPAH3ojVPMqyR5uXpwqlUkMm/zWwnkWSCZCCZLk8zgzFwz0yu74dNmRZsSI5rhGiFFqhaPD8YhM0vlSG2VM=
+	t=1790364105; cv=none; b=oIs+GLoKFOtjcBy9R+m2w8CXalKnnItZ4dQF145RceDnaMOXJurX8yw/e3ZiZBy4XltfW9S+5nqXSxp34xr4naiqDaT6HUQgdTvxpGoxaYCmpSxENIBGhObt922+iDTHYVPDoMsqQGpnDLCNjRPfLieYIoRg6/njyatTPLGu5js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790363807; c=relaxed/simple;
-	bh=Tmw7Lyoy2BJSRBitllEK8LzSGFR+a6mKPOAvIUSKJ9s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mgcWlU4dwL4Yoqqe+4aFcqYU0kop1glhqCv4r1Y8nUocqvH49CAaIp3uJd135MFLdzKND+3RMBmJ/qWvAGHgh47DYDFavuI7eN9WzadB3hcd+VgicZ2J5J2jYI1/1Ps8ZagOf7NWjHNYgVbYCXqqS12//XgwD3VtF8E6xcy6xcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TGJnfk3s; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790364105; c=relaxed/simple;
+	bh=AnW3FoapXOivL/XrYzT5pF2wRXd8Iw8zMnVMCQAyolo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AZo2zX9wr+45o8ma+rlhPo2JfK1jv5oLj8s7QAudXxH4EoWAM6xcy+ztUCB6ft0wLsoLLDCggfKkeny21Ik1Y1uetRTuONbWtrLtuVNbSluotm+UOYOzRIGUQFDOfS6+CgBw62cseYZXA3R5/36JUo3LkumsrvAqLQp5xOXm528=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nmcqFz/q; arc=none smtp.client-ip=74.125.228.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TGJnfk3s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FA671F00893;
-	Fri, 25 Sep 2026 19:16:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790363806;
-	bh=rLZ8omInzSMXOU9fAbmYNxiNW9WnUy1KNuwoxwPOBCI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=TGJnfk3sjvRt4SHyxK7Bu+7gBr96ULn5ybdY3RjABktNOM/dJZypN8m0reqF1aCPp
-	 xc0Q59Ee/ZXxi2qBRsBUPO5rJggXT2xEgwpIlT56TW7oJW6z9m8316uJuS67N9h30l
-	 9USllWwAo/tUWJLMRRrWxl9c5MC3EOutwNIpLUD9rG5yaB5q5c8FGyMtQDCWc0Pke0
-	 mOS4etV1bB14w7jDPCjw0A6CTwLqT0WAZE2eQ4vt5+VVKT9xVfPjYRfBmff+C19drM
-	 kn/to5xE3aOZIgsUer2wJxHhvC92nU8WQEVOYCZpTqljquaH4Qslk7YkLWI9P7zM2i
-	 ddfERsQO9RvOQ==
-From: Chuck Lever <cel@kernel.org>
-Date: Fri, 25 Sep 2026 15:16:27 -0400
-Subject: [PATCH RFC v2 5/5] NFS: add a key type that reveals the namespace
- .nfs keyring serial number
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nmcqFz/q"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469b355ffso641509b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 12:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790364103; x=1790968903; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0Jb6ew+moeljvdv7wET58Ij2hd/p8EP7Hag+x2wkklw=;
+        b=nmcqFz/qyOukKj34wtiHPfe3qgKtVZfvOidqK217MgnoZleXmfwJcyIcKX6jN0szhg
+         z5c9mUsleUxRpujUCS1P6eHIVH3DpQiN/Q7fH2XCLjxBYLqTcyhjL36K3E5EWSuaFTes
+         gso2OgKzumbGFolOS7269W1nOMkh2oLlKbnxdXHf8YWHKVSq/BWuIgs/9NDatJKFZAxD
+         FmlFhqyqgyvM55Pt3nucmo4DMsMQEhNg0uQXYL8STnnPlqtL8nvtt0OLfWP684jdu1LO
+         zAz1ODZEOtDHRoasIQbhNI61Xcf6qDH+rI4sVUzsMChYj+Uw5/Q3Sx9TLVtf0IiKaLd+
+         //IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790364103; x=1790968903;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0Jb6ew+moeljvdv7wET58Ij2hd/p8EP7Hag+x2wkklw=;
+        b=GKzY3F7+ivZN5VgrxiaQYnky4LgU2doer/85SGc/hqM/d2IDg4SiKw0JG3+OLjVuH/
+         5hQiNlX8tgdAurQsAZGFjRTK4vkyaCwIjS5gxztJhrWwbxoSk87I1FU8bAEjP/UT5pd5
+         Tdkv0UN382x2uieex4520h4olu0itqxFAtAWiCuvwsRa28S+BoqxtjFc/968EnkfRxUq
+         h4IEmlNvhSlzg/qmnf8OYrbnsyiFnTgg8PfFFahioyoHMQTGuMIlzWbLU4/G9SZtkNDR
+         OVm8CZgykSAS67ms8GuOaD35/xuR/O4jXMNrJLJSJFJvrCyr5IgJ9pHEW0u57uSz8eRE
+         i79g==
+X-Forwarded-Encrypted: i=1; AKwUvBxpfzN8pLouPPX57+j9vxzk8C6QKuoRQj5d2S+5cDrBNF5FaqDTAgk0mQVSHaKJV60Fw4y1/X2PjHw=@vger.kernel.org
+X-Gm-Message-State: AFuF++n6H2b4TTasMzNWS9FzFf92t3hVk7UuFYs6/T0Q6Qr9Z//P3ziE
+	PnASMukZNKrlJTuq5pkivTp1SXJ6CWpOEEdPklxmbtW7wI86ssjaNCok
+X-Gm-Gg: AYBFou0kIJRYWxnByK7fSTWdmjt2ASKNFeqLzXcdzammhK1Kg0Hsl6Vw6CvGYuoJX/Y
+	PhsFT4LqHcHx9+HML24py9jyXvQqGwoq4DgFyGscvu6EWZIvh1l3wNJofBphMylFHu9pvGoHC0g
+	IDEvK8duehC40uSk7vEu+YwFMlAPqmbstmupopCO9JLciW4/syCU13whH5xukuuh7CeIrjXYaQk
+	xvF4YwrBMIwzbQIWZihHUFvtpq6EJKGHxy2ykTg7HMJIIoFPm+oR6YJSjSYPoekvkWy37s8KoMv
+	gzi/oAMb0J8gshATuNcIcw36VfDHl5zey1POQiMMy6zuE7+E31mxTL+xT4DyzxHYPk7d7vnHS15
+	IIslRDhLvS2u0PTaROzsNbJzxi4LfjQG7dnGDOrme90jwLrE+miQaUhz0Pg4O34eHfpytvgZyO0
+	2UH9NpumaluaA4EMWi0HjOv4//D1mXln7PoWvkY5vjCJnnp3RBHvkmij9n0L9W7hptINOKjgWVQ
+	B2T9m8AgjZSCT+WEXSBsWz4LKLxLqj/YFtyGgk=
+X-Received: by 2002:a05:6a00:10d2:b0:87c:9094:b72f with SMTP id d2e1a72fcca58-87e98789dbdmr5541733b3a.12.1790364103038;
+        Fri, 25 Sep 2026 12:21:43 -0700 (PDT)
+Received: from KASONG-MC4 ([1.203.116.237])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87feaf83e0fsm1597652b3a.37.2026.09.25.12.21.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 12:21:41 -0700 (PDT)
+Date: Sat, 26 Sep 2026 03:21:30 +0800
+From: Kairui Song <ryncsn@gmail.com>
+To: Johannes Weiner <hannes@cmpxchg.org>, 
+	YoungJun Park <youngjun.park@lge.com>
+Cc: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Rik van Riel <riel@surriel.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Gregory Price <gourry@gourry.net>, 
+	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arbHLt-iB4RHXyWt@KASONG-MC4>
+References: <aqjpYHbZ14A8xRtK@fedora>
+ <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
+ <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
+ <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
+ <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
+ <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
+ <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
+ <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
+ <arUcil9kxUPiymXI@KASONG-MC4>
+ <araWKyJ5MENBwXCL@cmpxchg.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260925-nfs-mtls-identity-v2-5-aa3ad17dd6c8@kernel.org>
-References: <20260925-nfs-mtls-identity-v2-0-aa3ad17dd6c8@kernel.org>
-In-Reply-To: <20260925-nfs-mtls-identity-v2-0-aa3ad17dd6c8@kernel.org>
-To: Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Christian Brauner <brauner@kernel.org>, David Howells <dhowells@redhat.com>, 
- Sagi Grimberg <sagi@grimberg.me>
-Cc: linux-nfs@vger.kernel.org, keyrings@vger.kernel.org, 
- kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, Chuck Lever <cel@kernel.org>
-X-Mailer: b4 0.16-dev-da966
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8981; i=cel@kernel.org;
- h=from:subject:message-id; bh=Tmw7Lyoy2BJSRBitllEK8LzSGFR+a6mKPOAvIUSKJ9s=;
- b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqtsiT1jFIQixm2CU0BYJCZ/7/LXpqr0b5KPgsI
- hkA8oqL9fOJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCarbIkwAKCRAzarMzb2Z/
- l+rjD/0UWyWVvVTyA7BSJDD78UlNoiccjwE6sPPPsT3FPIlA0SwLfDxOp7r7K3dWE0rCdrggOKG
- rXr2azvK8rya0f+IHxPw9jXbtvk2c9p1NYiLUZ6d586bS7eRR6BG0NMNLRpFHYX4Y1qk33szZej
- wOZ6N7LSjIcfFLknrsJiVjZwHrcfGzzgTYS5IbOFkNe17145PdaxFCrzRdTi1FT6LPUNrdzHWS7
- GYg/KB8xTowII1YNSM3cVgG9bXmx0zPgEPMXanh5HJgAusI48FDelIeTwk8Wts8IkPcrxKGLXA8
- oDoXO79i68UC6CyQNlJOG9eCnXlhQhioCT8yKnKSS7lFyZ1dze+Xi/73WiLptCANz0ZdNLIOD6h
- THY5gMeFP82ysJO7nY3+cxyz1dH18m6qpt+BBDWlTvrBiAaIXBow1hMb4mgieM3PCzQLVBe1hnx
- rANQbV2RAXCqp0pnN+w5N2kECPp0y/suRQONr5U7INY243jRDY6EMMrwXHUgAYZe0nVwNdhuCX3
- 6zZOOdpEg8I4QwjbqOU/Ku6aDoVa1Uh7DJbEOnoGB6aIh8MNu49z5g0GIpULKXQyzyBQiC/EuKO
- r9ahNY9dsP2eXgqmRYy/68mxiyt+O9FMUaqDVBjVzbsOcK8J93NHtsa+EfmHN8DYd4VVBAhMeEY
- rToI6UDgh+tXZCw==
-X-Developer-Key: i=cel@kernel.org; a=openpgp;
- fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <araWKyJ5MENBwXCL@cmpxchg.org>
 
-The per-namespace .nfs keyring is linked into no keyring that
-userspace possesses, so a tool that provisions x509 credentials, or a
-mount helper that searches for them, cannot reach it. Every keyring
-operation from userspace takes a serial number, and nothing hands
-this one out.
+On Fri, Sep 25, 2026 at 11:41:31AM +0800, Johannes Weiner wrote:
+> 
+> Thanks for your thoughtful email, Kairui.
 
-Register an "nfs_keyring" key type whose request_key handler runs in
-the caller's context, without an upcall, and instantiates the key
-with the serial number of the caller's namespace .nfs keyring.
-Userspace reads the serial number with one request_key() and one
-keyctl_read().
+Hello Johannes,
 
-A keyring search runs before the handler does, and a task keeps its
-session keyring across setns(). The type carries KEY_TYPE_NET_DOMAIN
-so a key instantiated in one namespace does not answer a request from
-another. Its preparse accepts no payload but the caller's own serial
-number, so a key planted by add_key() cannot misdirect a later
-request.
+> > I also want to separate two things that I think got bundled together
+> > here: not requiring a physical slot behind a compressed entry, and not
+> > charging the raw size to the swap counter. The first one is great, yeah,
+> > and it's exactly the part we want, it's what makes compression usable
+> > without provisioning disk. The second one is a policy change, maybe it's
+> > not needed for the first stage, charging a cgroup for the
+> > memories it has offloaded doesn't require any slot to exist behind them.
+> > If someone wants to run memory compression with no disk at all,
+> > memory.swap.max defaults to max, so that still works fine, right?
+> 
+> I think what we found out over the course of this discussion is that
+> people have been using memory.swap.max in two ways. Regardless of what
+> we do, we will "break" one side.
+> 
+> (1) The usecase you're describing. Use memory.swap.max, combined with
+> memory.max, to set a "total", predictable footprint of in-use
+> application address space. You can mmap whatever you want, but the
+> number of unique pages you can touch is limited to this sum. And you
+> can control residency vs non-residency through the invididual values
+> of those settings. If compressed entries are not included, this
+> usecase will break.
 
-Register the type after register_pernet_subsys() has installed
-nfs_net_id, and unregister it before the per-namespace state goes
-away. unregister_key_type() waits for in-flight request_key() calls
-to drain, so the handler never runs against a freed struct nfs_net.
+Right, thanks for the reply! residency vs non-residency is one of
+the issues here. It's also about how we consider these two kind of
+resources to balance the scheduling of containers.
 
-Signed-off-by: Chuck Lever <cel@kernel.org>
----
- Documentation/filesystems/nfs/index.rst   |  1 +
- Documentation/filesystems/nfs/keyring.rst | 69 +++++++++++++++++++++++
- fs/nfs/inode.c                            | 94 ++++++++++++++++++++++++++++++-
- 3 files changed, 163 insertions(+), 1 deletion(-)
+> (2) The use case we have. Use memory.swap.max to divide a finite space
+> in storage. We only have so much space on disk, and we need to manage
+> fair access. Note that this isn't about speed. We have a mix of
+> containers where some use writeback and others do not. The ones who
 
-diff --git a/Documentation/filesystems/nfs/index.rst b/Documentation/filesystems/nfs/index.rst
-index a29a212b5b4d..dab5f16aaad1 100644
---- a/Documentation/filesystems/nfs/index.rst
-+++ b/Documentation/filesystems/nfs/index.rst
-@@ -7,6 +7,7 @@ NFS
-    :maxdepth: 1
- 
-    client-identifier
-+   keyring
-    exporting
-    localio
-    pnfs
-diff --git a/Documentation/filesystems/nfs/keyring.rst b/Documentation/filesystems/nfs/keyring.rst
-new file mode 100644
-index 000000000000..29367e71a801
---- /dev/null
-+++ b/Documentation/filesystems/nfs/keyring.rst
-@@ -0,0 +1,69 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================================
-+The per-namespace NFS client keyring
-+====================================
-+
-+The NFS client holds one keyring, named ".nfs", per network
-+namespace. An xprtsec=mtls mount presents the client certificate and
-+private key named by its cert_serial= and privkey_serial= mount
-+options, and the handshake links the mount's namespace .nfs keyring
-+into tlshd before tlshd reads those keys. Keys placed on the .nfs
-+keyring therefore need not grant user read permission: tlshd reaches
-+them as a possessor, and a tlshd in another network namespace never
-+possesses them.
-+
-+The keyring is owned by the owner of the network namespace's user
-+namespace, with KEY_POS_ALL and KEY_USR_ALL less SETATTR. It is not
-+charged to any quota. Keys added to it by userspace are charged to
-+the user that adds them.
-+
-+Finding the keyring serial number
-+=================================
-+
-+The .nfs keyring is not linked into any keyring that userspace
-+possesses, so a serial number is the only way to name it. The NFS
-+client registers a key type, "nfs_keyring", whose sole purpose is to
-+hand that serial number out. Its request_key handler runs in the
-+caller's context and does not upcall to /sbin/request-key.
-+
-+To obtain the serial number, request a key of type "nfs_keyring" with
-+the description ".nfs" and read its payload::
-+
-+	id=$(keyctl request2 nfs_keyring .nfs "" @s)
-+	serial=$(keyctl print $id)
-+
-+The contract of the key type is:
-+
-+ * The description is the string ".nfs". Any other description is
-+   rejected with EINVAL before a key is allocated.
-+
-+ * The callout info must be present. request_key() with a NULL
-+   callout_info never invokes a handler and returns ENOKEY when no
-+   matching key exists, so use request_key() with an empty string, or
-+   ``keyctl request2`` rather than ``keyctl request``. The content of
-+   the callout info is ignored.
-+
-+ * The payload is the keyring serial number as decimal ASCII digits
-+   with no terminating NUL. The return value of keyctl_read() gives
-+   the length; a buffer of 12 bytes is sufficient.
-+
-+ * add_key() with this type accepts only that payload. A key carrying
-+   any other value is rejected with EINVAL, so a key found in the
-+   caller's keyrings always holds the serial number of the caller's
-+   namespace.
-+
-+ * The key type carries KEY_TYPE_NET_DOMAIN. A key instantiated in one
-+   network namespace does not answer a request made in another, so a
-+   process that keeps its session keyring across setns() receives the
-+   serial number of the namespace it is in at the time of the request.
-+
-+The serial number is not a secret. The keyring's own permissions
-+decide what a caller can do with it.
-+
-+Provisioning credentials
-+========================
-+
-+Add the client certificate and private key to the .nfs keyring as
-+keys that grant no user read permission, then pass their serial
-+numbers as cert_serial= and privkey_serial= mount options.
-diff --git a/fs/nfs/inode.c b/fs/nfs/inode.c
-index 2b494fa5ecc0..fe7a05dec02f 100644
---- a/fs/nfs/inode.c
-+++ b/fs/nfs/inode.c
-@@ -42,6 +42,12 @@
- #include <linux/uaccess.h>
- #include <linux/iversion.h>
- #include <linux/fileattr.h>
-+#include <linux/nsproxy.h>
-+#include <linux/key-type.h>
-+#include <keys/user-type.h>
-+#ifdef CONFIG_KEYS
-+#include <keys/request_key_auth-type.h>
-+#endif
- 
- #include "nfs4_fs.h"
- #include "callback.h"
-@@ -2667,6 +2673,76 @@ static void nfs_exit_keyring(struct nfs_net *nn)
- {
- 	key_put(nn->nfs_keyring);
- }
-+
-+static int nfs_keyring_vet_description(const char *desc)
-+{
-+	return strcmp(desc, ".nfs") ? -EINVAL : 0;
-+}
-+
-+static int nfs_keyring_format_serial(char *buf, size_t len)
-+{
-+	struct key *keyring = nfs_net_keyring(current->nsproxy->net_ns);
-+
-+	return snprintf(buf, len, "%d", key_serial(keyring));
-+}
-+
-+/*
-+ * A key planted by add_key() answers request_key() before the handler
-+ * runs. Accept only the serial number the handler would produce.
-+ */
-+static int nfs_keyring_preparse(struct key_preparsed_payload *prep)
-+{
-+	char serial[12];
-+	int len;
-+
-+	len = nfs_keyring_format_serial(serial, sizeof(serial));
-+	if (prep->datalen != len || !prep->data ||
-+	    memcmp(prep->data, serial, len))
-+		return -EINVAL;
-+	return user_preparse(prep);
-+}
-+
-+static int nfs_keyring_request_key(struct key *authkey, void *aux)
-+{
-+	struct request_key_auth *rka = get_request_key_auth(authkey);
-+	char serial[12];
-+	int len, ret;
-+
-+	len = nfs_keyring_format_serial(serial, sizeof(serial));
-+	ret = key_instantiate_and_link(rka->target_key, serial, len,
-+				       rka->dest_keyring, authkey);
-+	if (ret < 0)
-+		complete_request_key(authkey, ret);
-+	return ret;
-+}
-+
-+/*
-+ * A session keyring survives setns(). Without the net domain tag, a
-+ * key instantiated in one namespace answers a request from another.
-+ */
-+static struct key_type key_type_nfs_keyring = {
-+	.name		= "nfs_keyring",
-+	.flags		= KEY_TYPE_NET_DOMAIN,
-+	.vet_description = nfs_keyring_vet_description,
-+	.preparse	= nfs_keyring_preparse,
-+	.free_preparse	= user_free_preparse,
-+	.instantiate	= generic_key_instantiate,
-+	.revoke		= user_revoke,
-+	.destroy	= user_destroy,
-+	.describe	= user_describe,
-+	.read		= user_read,
-+	.request_key	= nfs_keyring_request_key,
-+};
-+
-+static int __init nfs_register_key_type(void)
-+{
-+	return register_key_type(&key_type_nfs_keyring);
-+}
-+
-+static void nfs_unregister_key_type(void)
-+{
-+	unregister_key_type(&key_type_nfs_keyring);
-+}
- #else
- static inline int nfs_init_keyring(struct net *net)
- {
-@@ -2676,6 +2752,15 @@ static inline int nfs_init_keyring(struct net *net)
- static inline void nfs_exit_keyring(struct nfs_net *nn)
- {
- }
-+
-+static inline int nfs_register_key_type(void)
-+{
-+	return 0;
-+}
-+
-+static inline void nfs_unregister_key_type(void)
-+{
-+}
- #endif /* CONFIG_KEYS */
- 
- static int nfs_net_init(struct net *net)
-@@ -2740,10 +2825,14 @@ static int __init init_nfs_fs(void)
- 	if (err < 0)
- 		goto err_sysfs;
- 
--	err = nfsiod_start();
-+	err = nfs_register_key_type();
- 	if (err)
- 		goto err_pernet;
- 
-+	err = nfsiod_start();
-+	if (err)
-+		goto err_keytype;
-+
- 	err = nfs_fs_proc_init();
- 	if (err)
- 		goto err_nfsiod;
-@@ -2787,6 +2876,8 @@ static int __init init_nfs_fs(void)
- 	nfs_fs_proc_exit();
- err_nfsiod:
- 	nfsiod_stop();
-+err_keytype:
-+	nfs_unregister_key_type();
- err_pernet:
- 	unregister_pernet_subsys(&nfs_net_ops);
- err_sysfs:
-@@ -2801,6 +2892,7 @@ static void __exit exit_nfs_fs(void)
- 	nfs_destroy_readpagecache();
- 	nfs_destroy_inodecache();
- 	nfs_destroy_nfspagecache();
-+	nfs_unregister_key_type();
- 	unregister_pernet_subsys(&nfs_net_ops);
- 	unregister_nfs_fs();
- 	nfs_fs_proc_exit();
+Same for us, the usage is mixed.
 
--- 
-2.55.0
+> write back to the swapfile need to be able to get their fair share -
+> not more, not less. Including something that doesn't actually consume
 
+Is that writeback compression rate based? I mean for zswap, you have to
+writeback uncompressable part, and then also do cold writeback through
+shrinker. The compressable part is hard to predict and control though?
+
+> this separate finite resource is also a behavioral change that would
+> break that usecase. And arguably it's a deviation from how the control
+> was intended and from the broader cgroup design philosophy.
+> 
+> I think we need to build tools to support both cases. But somebody
+> will have to change how they're doing things... :/
+> 
+
+In the long term we might need something like tier or xxx_ext for
+cgroup for better control of different resources? In either case I
+think if we could get the building blocks more flexible, and this
+actually sounds like a tiering issue? I remember Youngjun once
+mentioned a memcg X tier limit which sound a bit similiar.
