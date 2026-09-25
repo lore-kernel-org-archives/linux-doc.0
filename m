@@ -1,478 +1,104 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-242.mta1.migadu.com [95.215.58.242])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91E13B8959
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 18:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C3143E48B
+	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 18:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.242
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790361444; cv=none; b=Vrdr3UMNjMbDwTDAHGzMfyNZFhJelypADhhy0Qfe9HEpm556Pz4Ln+Eq1Yohvd1VY+4snL0xGpKlGozWabX8rwbxbSURsB+Hba5nas3IZUoxaDaxwuozmV2d4zyh01yMXOmLGackiQjtlLVKjgX7sgVJcLJp2OSbynn/c/xnows=
+	t=1790362033; cv=none; b=F+uJkz0Do/1b7SnZ1qsXngM0h1Zly8PllCUZZGYq3iiO9ZVGJqmqwu2zqXmTRsCDt9ZF+LluaFW2PgfhnzrfZAFVYb1+r4FBe3RgBCiTeOGVpw4BdEWa7qdUNYMcTJqwqjAOlb233Gyn6dp1T3UoAnAS/s5SnfSKsHE2idDZ9yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790361444; c=relaxed/simple;
-	bh=Zz/8bIE4/JjIRagR4VS2gdwCyA+iHhw/k/7LSkO28R0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JkICF6cEwebewaaCwH0/tmA5Ul5vyah5SKTXTR5PbefjgeBaKLfrDJZ31urq9G1nMcoLDV2JEDjK6CMy53XY/BYGQtfzkqSZ4yPtT0l/5IhvdtvRgJ/UV35dEsV6o5HzxNXoi4CQ/VxWIf8iOLKt4qrG6Tb1tkbzjIFuPxfdpM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LDJZtO9N; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Fikg24FS; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790362033; c=relaxed/simple;
+	bh=ZDB7Cv/GoRAaoC2nMm2ohyzn0qw/lGYfH7aEvgoflCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nbWzGhXkMXo7hn3ZS4fwSGK+WiUEboXuYF9Pbo8kwAlq0erIUsLHI2EMD9WUg+gdfbheDS10Jz02m7bnD1kfEqQEU7gyW7z2GWPcGLrHqpvfGnq3d9REy327frATaab9TZDhWgCQpiiLx7TPQELINtqcWhTSIm4Fbz6ANElAOQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=F0qMOSRQ; arc=none smtp.client-ip=95.215.58.242
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LDJZtO9N";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Fikg24FS"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68PHemhl2732259
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 18:37:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	qU9jfIhz1O12zDKLeEbU8SmuONKTAC52riWnQ1m5YyY=; b=LDJZtO9NqW208Kqd
-	3VP1kfzgKaoXRi4TUkLtkZP//Cc0v+0CjPyv+Wd93Z2/Z3rdo/t/yhX63zxsUEvT
-	qt6/16w/9/Kt8YdMzJsJdJNzG6QOzrgoBuTbaeRRpQJMXqGnDVHTlM31/yfCSUdR
-	ecbNvirWlqSUL3gNn0pjC+BUnml42AR6fUykbAbpjdAEIV7lNTjlgcW39dhoziCn
-	WwWHu4dtMr/H0QWiDSybuZoD+Lni+KjTZXnQj+heQ8BJLhF1YnuUELyYgqIKhnYF
-	hfDwDQZ25P0pfoBHdtfZgWvboFW6c+n6PArKrWbfpqRc63PjfO31OC/I3sv5RkhB
-	SUCSWw==
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gwwjc8a8a-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 18:37:21 +0000 (GMT)
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-342138eeff2so2139047eec.0
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 11:37:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790361441; x=1790966241; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=qU9jfIhz1O12zDKLeEbU8SmuONKTAC52riWnQ1m5YyY=;
-        b=Fikg24FS3Q16rDa/mZJeAfsHTfb1X8Ea15+KmdxRSiIRNoYiX6rDJTla2CXtAGLTfj
-         ABCybSr9dJxnsmjc+vY62VpFdSnX7yAfkUg0n88ipTmvqSZm1pYVNFiB1mxiV/ip39Va
-         jDxpm7Z6g5NmjiyDJeLgEILRvpgWWUiXaF5Tcz2B6vQLMtpHTcYuLZR9LPZgv+cqDIzD
-         Uuc1tZhpIEM+25Hx0WbJqO8lDRBLbJ7Y/HjxiJwJVSi2Z2IjLxuSrWhQIoOkg/ktdwJq
-         kVwAU84jeooonz1vCMsJoLJLUyEyoDF34DJk7RikdoUD2qvp4LtiXqhNYaL9rohdMIIs
-         HAvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790361441; x=1790966241;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qU9jfIhz1O12zDKLeEbU8SmuONKTAC52riWnQ1m5YyY=;
-        b=bPald5hoB5mn6LXRstZUOjJX7V9HY0JuAZ0G3EvhmJHOIozX2SEKKVUdEjlmuAX6ex
-         nNIYjOdfbHOc6vvODbPE73Az/GlrPNj5JLmEzRggx0xgaMNbDxGfkZn98CwXxXFJeV20
-         RoAOI2X+mofB9hp3q5SbWXM87ci/j67KDjcm31eAb2hBfpwMMoq343tlVD/PWHcgtnrW
-         mZvRSGnjL7mLGr4u86g7T+fwnqBYPzG/N9UqvKtHFOJzazXC1pOdmd5SlWe5TmO8djD4
-         KXugBqIYmhSTG1qO1jqhdNDz43VAUKUPtteRddkQOmOCpDnzMiDLK6kEt/6WN0n2nlSR
-         0GUQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzAY88gK+xRfua8rzPoy5Iyb/1SGs8fL80hr7j64TEG54Eq3kGfL/UX5SwT1T139ayQ1+zlXofp9UQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++moQti7y4M2wjkJ3JV+xADysBDgKWDKxVFDxVxZZd8hDm6JZng+
-	p6fVwJ06BQn6iSGmgdcRzfJ16WGVDqeLr8V3bEHmn4UpjJkcT8FdmUGuz86Xm/ZqGjPvBqF5I0s
-	cXAxFfx4BWP6lqRFX3LBgdqa1xJNJ/XCwClAof5CcGH/vaEqbSPlb5inoV/7XIoo=
-X-Gm-Gg: AYBFou2KVWA6t61gEDl8KGT2elPUyf4ZMQexOksBWxncqKntzxqndnYklStYn3CDMU9
-	jEcVlvtEyDLIXbYi/59YQ3yxBAYczp520p4iAlplhve9EJirgl28CrubmQMKaBJo6lmiQnYm5Fn
-	Z4Gh4EpGTsemAcA9VXPQlgmhy7w45c72sMnM50kAe9LCCrGJwGqXw0CY2mA9O7GOJmmFjGUM4eX
-	LAY5SwvzKwucUDCI/CpA8rKht2GQAfaxpyD4XMQPG/JJi56VydIpJu9TSTM+qcDBF3+fkaTMhNI
-	VjfR9ZTPOHPQGxjGui5kBAKjoZUbDGszVaHwOFqPQbJC98MAaPjAoan5mSYFhDMHOvvATlGQhNg
-	Et/hJo+bVJU1UqG5x3s9oC8aSBB2anw+fdKQzMIWWX7LDwtVUUa3Yfw==
-X-Received: by 2002:a05:7301:4d0b:b0:331:89d6:80e7 with SMTP id 5a478bee46e88-342703c0860mr981587eec.13.1790361440860;
-        Fri, 25 Sep 2026 11:37:20 -0700 (PDT)
-X-Received: by 2002:a05:7301:4d0b:b0:331:89d6:80e7 with SMTP id 5a478bee46e88-342703c0860mr981521eec.13.1790361439446;
-        Fri, 25 Sep 2026 11:37:19 -0700 (PDT)
-Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3414407c548sm7322093eec.8.2026.09.25.11.37.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 11:37:18 -0700 (PDT)
-Date: Fri, 25 Sep 2026 11:37:09 -0700
-From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-        Ard
- Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Catalin
- Marinas <catalin.marinas@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, David
- Sterba <dsterba@suse.com>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-riscv@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-        Randy
- Dunlap <rdunlap@infradead.org>, Simon Glass <sjg@chromium.org>,
-        Shuah Khan
- <skhan@linuxfoundation.org>,
-        Nick Terrell <terrelln@fb.com>, Will Deacon
- <will@kernel.org>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        Conor Dooley
- <conor.dooley@microchip.com>,
-        linux-integrity@vger.kernel.org, Palmer
- Dabbelt <palmer@rivosinc.com>,
-        patches@lists.linux.dev, Ross Philipson
- <ross.philipson@gmail.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Song
- Shuai <songshuaishuai@tinylab.org>
-Subject: Re: [PATCH 16/16] efi/arm64: Implement ARM64 DRTM in the stub
-Message-ID: <20260925113709.00005cd1@oss.qualcomm.com>
-In-Reply-To: <16-v1-27d06b313981+8b-arm64_drtm_jgg@nvidia.com>
-References: <0-v1-27d06b313981+8b-arm64_drtm_jgg@nvidia.com>
-	<16-v1-27d06b313981+8b-arm64_drtm_jgg@nvidia.com>
-Organization: Qualcomm
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="F0qMOSRQ"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=ZDB7Cv/GoRAaoC2nMm2ohyzn0qw/lGYfH7aEvgoflCA=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790362028; v=1; x=1790966828;
+ b=F0qMOSRQ6JdStYwkIiLROThp5fhWQvDBe4b4+Ss5aOXnkYoUS+EptNCziAOUr88AjVPfSCn+
+ XXt64a96e436lPhdtAfUhahXy0Pc33Gw4EH9BGe9dnb42OkDIfBBDHHKRXNY5soNMjgcA29M5ov
+ OmtVCYoUKRoUjPceKbIEYC94=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 58196d26f865613b;
+	Fri, 25 Sep 2026 18:47:07 +0000
+X-Mizu-Trace-ID: 58196d26f865613b
+X-Migadu-Flow: FLOW_OUT
+Date: Fri, 25 Sep 2026 11:47:02 -0700
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Baoquan He <baoquan.he@linux.dev>
+Cc: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Kairui Song <ryncsn@gmail.com>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel team <kernel-team@meta.com>, 
+	Linux Memory Management List <linux-mm@kvack.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+Message-ID: <arbA6J7n999U7v0L@linux.dev>
+References: <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org>
+ <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+ <aqgMCIOFi0dKx_6L@fedora>
+ <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+ <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+ <arKRdaNEaKvFOtMg@linux.dev>
+ <CACePvbX7aM45SE9H0hg1_uXBt1i4W7Pgk+d33Z2sG5bj8cHudA@mail.gmail.com>
+ <arKerXANxjILrKNs@MiWiFi-R3L-srv>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDA3NCBTYWx0ZWRfX9Q2K7CUHyxy5
- PhD/s0kJc3DMPwT4KFbicDsDDIcrgeH+vFQ71ucAmWdP8Iz5hcAn885XbibIHzlQwlCuUzctZ7l
- QG0V1kFegT11ij1YdidmHxC3P18SHCo=
-X-Authority-Analysis: v=2.4 cv=dZwVTnXe c=1 sm=1 tr=0 ts=6ab6bf61 cx=c_pps
- a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=Ikd4Dj_1AAAA:8 a=jWgNheo0oZ5oaBA2q4oA:9 a=CjuIK1q_8ugA:10
- a=bBxd6f-gb0O0v-kibOvt:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDA3NCBTYWx0ZWRfX6EuuobmVRObd
- 0Ej/DAA1X2wZpW/ksB14WI206VKjaE1BFM4uBkX/jo7UhmiNse/YbLemi3+N7R2igzDFa1x8ya7
- 4gvZTNHqaFOnLi5m9CigCKLzwL2vxxuYqgRthLTIBAoRpuaaY9Lce+a0dnznISkLitg4d+pb4uM
- DeW7fMtrkJVvEmSq6B41WLkrgLy5sST/zZYUxoonDymGEc13CQf+8oOZ7qBNXVph7kN0fNqiS1u
- b09gA+J06i2nNQNJBPVC9dKllhIgyo9CgeGd62+1Pj5AmlmYxUFMB7OYkBw02eAkumb4eA2JJHf
- tHItXyGfJsW+GbT3kveEYI+Z3KZRBKMEQ5cfgyDVworqt3N080v2lqEu5LC844gCcLBYY9tJpye
- eSx1TGBOpLX2ovu/83mk27Rn+F34Q/AMPmKUGrKTz6tHzMD1RqtDll5YdejQAgA1JrChjVBIeoN
- MjBU6mOHkNmyHe1vC/A==
-X-Proofpoint-GUID: IqjMkoICOl67548X9XFzUITPS5oToTfU
-X-Proofpoint-ORIG-GUID: IqjMkoICOl67548X9XFzUITPS5oToTfU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-25_03,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
- phishscore=0 priorityscore=1501 adultscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609250074
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <arKerXANxjILrKNs@MiWiFi-R3L-srv>
 
-On Thu, 24 Sep 2026 10:53:19 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
-
-> Provide an implementation of the CONFIG_EFI_STUB_DRTM protocol for ARM64
-> DEN0113 >= v1.1.
+On Tue, Sep 22, 2026 at 11:28:45PM +0800, Baoquan He wrote:
+> On 09/22/26 at 04:56am, Chris Li wrote:
+> > On Tue, Sep 22, 2026 at 4:43 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+> > >
+> > > People can speak for themselves and suggest other time slots. You do not speak
+> > > for anyone but yourself here. At this point this is derailing the conversation.
+> > >
+> > 
+> > I am expressing my opinion, freedom of speech. As you can see in the
+> > previous discussion, Baoquan wasn't able to join that time slot. He is
+> > a major shareholder in XSwap. I worry that alignment vswap vs xswap
+> > without Baoquan is ineffective. That is my opinion.
 > 
-> First, it queries the FW for support and collects all the
-> information. This is needed to compute the extra_size, which comes
-> from FW reporting how much memory it needs during the launch for the
-> DLME Data and DCE-owned data. The generic stub ensures there is
-> trailing memory after Image for this.
+> Thanks Chris. I know you are trying to involve more people to join and
+> talk, and I appreciate it.
 > 
-> Then the DRTM_PARAMETERS launch structure is computed using the
-> offsets in the efi_info.
-> 
-> Finally, the stub does ExitBootServices and calls the actual launch.
-ARM_DRTM_FEATURE_DMA_PROTECTION> 
-> The feature discovery process is deliberately fairly verbose to help
-> debug any FW weirdness in the field. Enable it with efi=debug
-> 
-> It looks something like:
-> 
->  EFI stub: DRTM: interface version 1.4
->  EFI stub: DEBUG: DRTM: TPM algorithm 0xc, TPM hashing unavailable, PCR schemas 0x1
->  EFI stub: DEBUG: DRTM: minimum DLME data 73728 bytes, Normal-world DCE 0 bytes
->  EFI stub: Decompressing Linux Kernel...
->  EFI stub: Generating empty DTB
->  EFI stub: Exiting boot services...
->  EFI stub: DEBUG: DRTM: will launch, selected launch features 0x0
->  [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x000f0510]
-> 
-> Eventually the launch'd kernel is going to require built in crypto
-> libraries that match what the FW is using so it can validate some of the
-> information left behind during early boot. Refuse to launch if these are
-> not built in and build in the most common ones from the ARM64_DRTM
-> kconfig.
-> 
-> One nit, if the platform does not support SMC then using drtm=auto may
-> crash on the SMC op. As far as I can tell there is no way to discover SMC
-> support through EFI. Learning it from the ACPI FADT is doable and costs
-> about 250 lines of code.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-First read though only found some superficial stuff.
+> About the meeting time. I am in UTC+8. If the meeting is before 23:00
+> my time, I can join. If it is later than that, it is too late for me,                                 
+> and I can only discuss in the mailing list.                                                           
+>                                                                                                       
+> But I am fine if other people meet without me. Please do not block the                                
+> meeting because of me.                                                                                
 
-Generally looks fine to me.
-
-Jonathan
-
-> diff --git a/drivers/firmware/efi/libstub/arm64-drtm.c b/drivers/firmware/efi/libstub/arm64-drtm.c
-> new file mode 100644
-> index 00000000000000..12ddf7c2dd056a
-> --- /dev/null
-> +++ b/drivers/firmware/efi/libstub/arm64-drtm.c
-
-
-
-> +
-> +static bool efi_drtm_probe_memory(void)
-> +{
-> +	u64 value;
-> +
-> +	if (!efi_drtm_query_feature(ARM_DRTM_FEATURE_MIN_MEMORY, &value))
-> +		return false;
-> +
-> +	drtm_cfg.dlme_data_size =
-> +		FIELD_GET(ARM_DRTM_DLME_DATA_PAGES_MASK, value) *
-
-> +		ARM_DRTM_PAGE_SIZE;
-> +	drtm_cfg.nw_dce_size = FIELD_GET(ARM_DRTM_NW_DCE_PAGES_MASK, value) *
-> +			       ARM_DRTM_PAGE_SIZE;
-> +
-> +	efi_debug(
-> +		"DRTM: minimum DLME data %lu bytes, Normal-world DCE %lu bytes\n",
-
-That code formatter loves the silly.  This is definitely not more readable
-than a slightly longer line!
-I'm reading upwards and got bored now - will assume you'll take a look and tidy
-up other such silliness.
-
-
-> +		drtm_cfg.dlme_data_size, drtm_cfg.nw_dce_size);
-> +	return true;
-> +}
-
-> +
-> +static void efi_drtm_report_previous_error(void)
-> +{
-> +	s64 error_code;
-> +	s64 status;
-> +
-> +	status = arm_drtm_features(ARM_DRTM_SMC_GET_ERROR, NULL);
-> +	if (status != ARM_DRTM_SUCCESS) {
-> +		efi_debug("DRTM: GET_ERROR is unavailable (x0=%lld)\n", status);
-> +		return;
-> +	}
-> +
-> +	status = arm_drtm_get_error(&error_code);
-> +	if (status != ARM_DRTM_SUCCESS) {
-> +		efi_warn("DRTM: failed to read previous error (x0=%lld)\n",
-> +			 status);
-> +		return;
-> +	}
-> +
-> +	if (error_code) {
-> +		efi_warn(
-> +			"DRTM: firmware reports previous launch error 0x%llx\n",
-
-That code formatter is being silly again.
-
-> +			error_code);
-> +		if (efi_drtm_policy != EFI_DRTM_ENFORCE)
-> +			efi_drtm_policy = EFI_DRTM_OFF;
-> +	}
-> +}
-
-> +
-> +efi_status_t efi_drtm_prepare(void)
-> +{
-> +	s64 feature_status;
-> +	u16 major, minor;
-> +	s32 status;
-> +
-> +	if (efi_drtm_policy == EFI_DRTM_OFF)
-> +		return EFI_SUCCESS;
-> +
-> +	if (!efi_arm64_psci_smccc_compatible())
-> +		return efi_drtm_failure();
-> +
-> +	/* VERSION must be the first DRTM call. */
-
-Words like 'must' should be backed by a specific spec reference.
-I couldn't immediately fine one other than common sense suggesting it should
-be called to check we have a version we understand ho to talk to.
-
-> +	status = arm_drtm_version(&major, &minor);
-> +	if (status != ARM_DRTM_SUCCESS) {
-> +		efi_err("DRTM: failed to read interface version (x0=%d)\n",
-> +			status);
-> +		return efi_drtm_failure();
-> +	}
-> +	if (major != ARM_DRTM_VERSION_MAJOR ||
-> +	    minor < ARM_DRTM_VERSION_MIN_MINOR) {
-> +		efi_err("DRTM: unsupported interface version %u.%u\n", major,
-> +			minor);
-> +		return efi_drtm_failure();
-> +	}
-> +	efi_info("DRTM: interface version %u.%u\n", major, minor);
-> +
-> +	efi_drtm_report_previous_error();
-> +	if (efi_drtm_policy == EFI_DRTM_OFF)
-> +		return EFI_SUCCESS;
-> +
-> +	feature_status = arm_drtm_features(ARM_DRTM_SMC_DYNAMIC_LAUNCH, NULL);
-> +	if (feature_status != ARM_DRTM_SUCCESS) {
-> +		efi_err("DRTM: dynamic launch is unavailable (x0=%lld)\n",
-> +			feature_status);
-> +		return efi_drtm_failure();
-> +	}
-> +
-> +	if (!efi_drtm_probe_tpm() || !efi_drtm_probe_memory() ||
-> +	    !efi_drtm_probe_dma() || !efi_drtm_probe_boot_pe())
-> +		return efi_drtm_failure();
-> +
-> +	drtm_cfg.launch_features =
-> +		ARM_DRTM_LAUNCH_HASH_FIRMWARE | ARM_DRTM_LAUNCH_PCR_DEFAULT |
-> +		ARM_DRTM_LAUNCH_DMA_COMPLETE | ARM_DRTM_LAUNCH_NO_AUTH |
-> +		ARM_DRTM_LAUNCH_KEEP_SECURE_IRQS;
-> +
-> +	return EFI_SUCCESS;
-> +}
-> +
-> +unsigned long efi_drtm_get_extra_size(void)
-> +{
-> +	/*
-> +	 * DEN0113 Table 6, feature 0x2 reports both minimum sizes in 4 KiB
-> +	 * pages.  The linker places the DLME data at the 4 KiB-aligned end of
-> +	 * the static Image as required by R314030.  The DLME region must
-> +	 * include all of that data (R45200), and an optional Normal-world DCE
-> +	 * follows it at another 4 KiB-aligned address as required by R312080.
-> +	 * A final page holds the 4 KiB-aligned DRTM_PARAMETERS required by
-> +	 * R312010.  Only the first area is part of the DLME region.
-> +	 */
-> +	if (efi_drtm_policy == EFI_DRTM_OFF)
-> +		return 0;
-> +	return drtm_cfg.dlme_data_size + drtm_cfg.nw_dce_size +
-> +	       ARM_DRTM_PAGE_SIZE;
-> +}
-> +
-> +efi_status_t efi_drtm_prepare_launch(unsigned long image_base,
-> +				     unsigned long fdt_addr)
-> +{
-> +	const struct arm64_image_header *header = (const void *)image_base;
-> +	const struct efi_image_info *info = efi_get_image_info(image_base);
-> +	struct arm64_drtm_handoff *handoff =
-> +		efi_get_image_symbol(image_base, arm64_drtm_handoff);
-> +	struct arm_drtm_parameters *params;
-> +	unsigned long measured_offset;
-> +	unsigned long measured_size;
-> +	unsigned long image_size;
-> +	unsigned long dlme_start;
-> +	unsigned long dlme_end;
-> +	unsigned long dce_end;
-> +	unsigned long entry;
-> +
-> +	if (efi_drtm_policy == EFI_DRTM_OFF)
-> +		return EFI_SUCCESS;
-> +
-> +	image_size = le64_to_cpu(header->image_size);
-> +	measured_offset = le64_to_cpu(info->drtm_measured_start);
-> +	measured_size = le64_to_cpu(info->dlme_measured_size);
-> +	entry = le64_to_cpu(info->drtm_entry);
-> +	dlme_start = image_base + image_size;
-> +	dlme_end = dlme_start + drtm_cfg.dlme_data_size;
-> +	dce_end = dlme_end + drtm_cfg.nw_dce_size;
-> +
-> +	/* Quick checks something didn't go wrong during image construction */
-> +	if (entry < measured_offset ||
-> +	    entry - measured_offset >= measured_size ||
-> +	    !IS_ALIGNED(image_base, ARM_DRTM_PAGE_SIZE) ||
-> +	    !IS_ALIGNED(image_size, ARM_DRTM_PAGE_SIZE) ||
-> +	    !IS_ALIGNED(measured_offset, ARM_DRTM_PAGE_SIZE) ||
-> +	    !IS_ALIGNED(dlme_start, ARM_DRTM_PAGE_SIZE) ||
-> +	    !IS_ALIGNED(dlme_end, ARM_DRTM_PAGE_SIZE) ||
-> +	    !IS_ALIGNED(dce_end, ARM_DRTM_PAGE_SIZE)) {
-> +		efi_err("DRTM: final Image layout is invalid\n");
-> +		return efi_drtm_failure();
-> +	}
-> +
-> +	/*
-> +	 * See arch/arm64/kernel/vmlinux.lds.S for the DRTM Memory layout. After
-> +	 * the DLME we choose to place the Normal World DCE region followed by
-> +	 * the aligned DRTM_PARAMETERS structure.
-> +	 */
-> +	memset((void *)dlme_start, 0, efi_drtm_get_extra_size());
-
-Is that efi_drtm_get_extra_size() adding much?  It is a little irritating to
-have to go look in there to figure out that this memset actually covers
-the params. If you were to just have the sum visible here that would be
-more obvious and align with the comment immediately above the memset.
-
-Maybe it is worth keeping for the big comment in there, but it does
-feel like that and what we have here could be combined.
-
-> +	params = (void *)dce_end;
-> +	params->revision = cpu_to_le16(ARM_DRTM_PARAMETERS_REVISION);
-> +	params->launch_features = cpu_to_le32(drtm_cfg.launch_features);
-> +	params->dlme_region_address = cpu_to_le64(image_base);
-> +	params->dlme_region_size = cpu_to_le64(dlme_end - image_base);
-> +	params->dlme_image_start = cpu_to_le64(measured_offset);
-> +	params->dlme_entry_point_offset = cpu_to_le64(entry - measured_offset);
-> +	params->dlme_image_size = cpu_to_le64(measured_size);
-> +	params->dlme_data_offset = cpu_to_le64(image_size);
-> +	if (drtm_cfg.nw_dce_size) {
-> +		params->nw_dce_region_address = cpu_to_le64(dlme_end);
-> +		params->nw_dce_region_size = cpu_to_le64(drtm_cfg.nw_dce_size);
-> +	}
-> +
-> +	/*
-> +	 * The DLME Data contains its own size in a trusted header, so the
-> +	 * handoff doesn't need to include extra_size. The DCE Data is only
-> +	 * temporary so the kernel also does not need to know about it.
-> +	*/
-> +	handoff->fdt_addr = cpu_to_le64(fdt_addr);
-> +	handoff->drtm_enabled = 1;
-> +
-> +	efi_debug("DRTM: will launch, selected launch features 0x%x\n",
-> +		  drtm_cfg.launch_features);
-> +
-> +	drtm_cfg.params_addr = params;
-> +	return EFI_SUCCESS;
-> +}
-> +
-> +static void efi_drtm_fallback(void)
-> +{
-> +	struct arm_drtm_parameters *params = drtm_cfg.params_addr;
-> +	unsigned long image_base = le64_to_cpu(params->dlme_region_address);
-> +	struct arm64_drtm_handoff *handoff =
-> +		efi_get_image_symbol(image_base, arm64_drtm_handoff);
-> +
-> +	handoff->drtm_enabled = 0;
-> +}
-> +
-> +void efi_drtm_launch(void)
-> +{
-> +
-
-I love trivial. Pointless blank line.
-
-> +	if (efi_drtm_policy == EFI_DRTM_OFF)
-> +		return;
-> +
-> +	/*
-> +	 * No cache maintenance is required before the launch. DEN0113 R42130
-> +	 * requires the DRTM_PARAMETERS to be accessible as Normal Write-Back
-> +	 * Cacheable, Inner Shareable memory, so the DCE reads them coherently
-> +	 * with the writes made above.  R45220 then has the DCE clean and
-> +	 * invalidate the whole DLME region to the Point of Coherency before it
-> +	 * measures the DLME image, which covers both the Image itself and the
-> +	 * handoff struct placed in the DLME region. Thus once we jump into the
-> +	 * kernel with MMU and caches off the CPU will see everything the stub
-> +	 * wrote.
-> +	 */
-> +	arm_drtm_dynamic_launch(drtm_cfg.params_addr);
-> +
-> +	/*
-> +	 * DEN0113 section 3.4 returns from DYNAMIC_LAUNCH only on error. Boot
-
-I'd use a spec version for references + ideally title of section.
-As much as folk may try, sometimes these things move around.
-
-Also tweak the wording.  Failure sure the section doesn't return from anything :)
-
-> +	 * services and their diagnostics are no longer available, so hang.
-> +	 */
-> +	if (efi_drtm_policy == EFI_DRTM_ENFORCE) {
-> +		for (;;)
-> +			asm volatile("wfe");
-> +	}
-> +
-> +	efi_drtm_fallback();
-> +}
+Hi Baoquan, don't worry, I will make sure that you are present in the
+conversation. There isn't much time left before LPC and many people are
+travelling next week, so we may have to schedule one after the LPC. 
 
