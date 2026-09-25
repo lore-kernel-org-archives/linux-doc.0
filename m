@@ -1,111 +1,108 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814164A4EFF;
-	Fri, 25 Sep 2026 13:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DD635F180
+	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 14:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790344785; cv=none; b=KuzLeITqHa8V42IvkoknzFPL+iJPW9YzKAK55sUjdD6vpExeb/YFVBufYNbGS3V3ZaoARj5FZ6SCXuOiZSbaLmfmvhEKJx3nu5ifNllCfWBkf0BCf0mtDRMZmCJ2bAmWbYZ4TGs6pJoQjObaYDQTsYJ8wVZISQ78bxVKxScsPTQ=
+	t=1790344984; cv=none; b=m8wMPYXcNV5Gv6QfKZowlmNr6yC7g5RPuAwVS7vEDR5lKC0sBr/66ctXtpiHDRx63COlMb0yvQPDI1fBZDggzR8YHiBZulcVFHdZoT2QUjvyO3uXmN3qHHB/u778XOxXfPI8oIVKOgQwydxQqzksp1BDAMPqis9Vo/LKlh0xfzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790344785; c=relaxed/simple;
-	bh=AIxHoYBASwLQOXohCuC2aRCgahGgWljtbfksp8mHyfM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b301KoFlA5nvW1bapGSq4bIjm3WCoAT/TDyWgRu9v38kJnOU+o1QUcv8+FXLir+/XMw0D6f2XdQeGzYWM241qBWiy2IEjObATNhs9h5I9osdIDhvq/iT1k+jpcGgk4gdU+ZonHfb0ZQZ1Uz7A4d1ZY8SUAgGFBXGe98O6IwftMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=c9oIkeJo; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1790344984; c=relaxed/simple;
+	bh=VUC4l/F1r1/YFXEL1xQc8lU297sWblxuhQWuv6JfZsg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oPjb//QhCZhoXYw4g9l+Si7SRapCpNQGJhU5zbMQPUB+srMR8B1fugvczMxX3qEIDXJPf1J3vK4lljPGIY0INYZds58HAwu7HMG7yVYjjBMge8Q4oHcjsIWSPDFBlNvoIN4qT/6upLZCz5rZugZ7My9wVMvSBe8Zp06jQVS+BC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FC/3K7+H; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="c9oIkeJo"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id EEACA4E41070;
-	Fri, 25 Sep 2026 13:59:38 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BFF706073B;
-	Fri, 25 Sep 2026 13:59:38 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 206FE10328856;
-	Fri, 25 Sep 2026 15:59:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1790344773; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=aycBG7kmkLd0baAzRQ2OkIRVPs3/PNyoRtHVPTB/LeA=;
-	b=c9oIkeJoGC/yiwLUaSy5a9wXxa+86agp6C6WLnFNTQi2aBtiONLMSeMlf6J//rjV3rXiY2
-	B5mMBPiUIkQIjVvjgdMSj/eiVk1Trf7tfg+cJRmqcVsCYGHiYMkJgtvwOpQNgE/utY7RYc
-	bPHODZxdyGYueSohoZTS3cNEsVnF+DDYrHqn1sun6cWgbmhwAvgHhdp+PCz3C3rIsaQqSX
-	ZJRWCogVcks1bx4XjDIvovkSyRndk9il8FLShk2HohwXvoC2oBzyTFfzhanYgPafUX0+nn
-	hWiFLwyvTftb0SUipXKxEDYQ0JT5b33Vsaa+wuWO+/OgcqC/NW0qDWc/IqMyyQ==
-Message-ID: <d06c0f50-777b-4ffb-a3c9-affde5bb5030@bootlin.com>
-Date: Fri, 25 Sep 2026 15:59:27 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FC/3K7+H"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d90ba1d807so6669975ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 07:03:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790344983; x=1790949783; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=N69Zh7bBqUcbkkYmaE3n3pY4onWHGYP614jgtDR5fU8=;
+        b=FC/3K7+HDVAKxtYKO+IDw5puanf3pRgXRags9DMJmmQ5ZS/nK+9bde5EVuamXfVyK/
+         m4rLstN1GUWm+VvGv3WcCN0wcsKf3da/jKHfxTmjTCTCjpgGqk80/PZR5b4xwxWkAVEN
+         BWtepbraY2Shv9kV3C4k6a4BFTFYlJ4QK/wvZ58UZNEIfspnmPcvWxKo4uxNVVZPOX1Y
+         iZLUMp5PoSpZF9h5ANDkRLu3lVE7FUMCaUNn4/dQsRKYH5ohAzsbdT9HR5NDaT5HKxkd
+         D1TFVSvYet4XRUEUD+JYd2BA/9VG2fKYeQtJsimslNZ12EOaWpXoWzpEaa1k9mxxDJCQ
+         K5tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790344983; x=1790949783;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=N69Zh7bBqUcbkkYmaE3n3pY4onWHGYP614jgtDR5fU8=;
+        b=xxJe3q+s3ykF1pm28pNJYbG7ym72NIRJxGlBDkuVaxUaQaDEFDcS+huG11tVPXAGXz
+         ubxV9k7P947QNTzEuf5Pj6H0PHu0n/j6co/ZAKpuwpnGgm9tTJcM4uEunmLhZEW/cVwx
+         EVThtaigAaN1xTxGYutI3vPRdbB2mw1K8Ga5Hc8fJqlmeH4MaZhuR39sVkaP5qmQnpwL
+         UTWOTmSY6Qze7tQIm56ylV+lRUTM8n3WPCughTLzKX05VX8TeNpZspGQJv3ACAXyvRrz
+         EXsAQlbVMGyUl9S93qAoPNkTjXrTiIx6aD5B+K14MvH6Mk5iHNNVN5BoZa0kvMeYe/za
+         l5gA==
+X-Forwarded-Encrypted: i=1; AKwUvBzej4qgiWYeGoToeI6F1GpWHOaEgXw5b1oq2lqSUEhnaYnMcEMHN9EeKMPrBrokGhUfj7d2NImb66s=@vger.kernel.org
+X-Gm-Message-State: AFuF++nbWr4xblf7YRNUeD8l/LaRQ3eUFeH415HWqQ6w9lixMBtTPQf6
+	wptwBwMeUI55KRokfsEVHPwxOp+OEPrMsOB2PXQNfQKwqaQcOTi2eHlQ
+X-Gm-Gg: AYBFou3Bma/hyQ+RKeVQdlXKL+xdtWj6oXA30hgeWqJHZ9wDP9wf4mNh94lf8Xb1Ubq
+	vZHaywL2Yd9425ZJ5gEOg1/Qhhuc5+JqIjn6YMfofTC7scSCSTD2tBvz7XT/d9ci/WH7wEOonLR
+	fiT37J6sIBfJuSkRzYfnBfR9RNjUfGxaxLG48bMYjD8zxzoGAp2IqyPgph76ybQI8dPBgvJ+3mq
+	XJP0ALB6HfNOJwm4MtNTqAlfKkPTNeDErjsJBaSWkMI8ZfLgHSu1MP7Psk5MXX6RlCVL4ESQjhQ
+	wCv5gJIUuZuZWwPhiMVR6HL3FVFlzGzTcNiiUJUvk0unpR3b4cCLMQabwLpTcsJyq3w+4CFiCd8
+	KeaU6D2zQYYo/Owjy5B+UX9lNB2JVGDqoAHFfe2Q32hug+uLutsJpflX7IAbymCHhX8YQ+l/5d2
+	q8W+9dftunytPDeGucRChdfIhwS9hr0CFEwy6brAJVP9gHBWQZ/8shgpx7Awxz5BUnxHLjFIrtd
+	QLIGXBs0qOYBg==
+X-Received: by 2002:a17:902:e751:b0:2dd:ad73:c936 with SMTP id d9443c01a7336-2df7da9e288mr44860965ad.23.1790344982378;
+        Fri, 25 Sep 2026 07:03:02 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df913ff226sm11074415ad.34.2026.09.25.07.03.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Sep 2026 07:03:01 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 25 Sep 2026 07:03:00 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc: david.nystrom@est.tech, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	ricardo.neri@intel.com
+Subject: Re: [PATCH 1/3] hwmon: (coretemp) Refresh the temperature on the
+ first read
+Message-ID: <486339f3-8516-4c88-b823-25f567c14f3c@roeck-us.net>
+References: <20260924-coretemp-temp-fault-v1-0-1884f0ff97d5@linux.intel.com>
+ <20260924-coretemp-temp-fault-v1-1-1884f0ff97d5@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 1/3] selftests: drv-net: Introduce a selftest for
- ethtool flow control
-To: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Heiner Kallweit
- <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Oleksij Rempel <o.rempel@pengutronix.de>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Florian Fainelli <f.fainelli@gmail.com>, thomas.petazzoni@bootlin.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260920164732.349744-1-maxime.chevallier@bootlin.com>
- <20260920164732.349744-2-maxime.chevallier@bootlin.com>
- <20260922194251.06e00e2e@kernel.org>
- <72bdfa09-34ea-43ab-88ad-b3c64c7e1f70@bootlin.com>
- <20260923201051.66e9bf14@kernel.org>
- <fb18618d-6402-4f7d-b318-1872570ceb27@lunn.ch>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <fb18618d-6402-4f7d-b318-1872570ceb27@lunn.ch>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260924-coretemp-temp-fault-v1-1-1884f0ff97d5@linux.intel.com>
 
-
-
-On 9/24/26 15:54, Andrew Lunn wrote:
-> On Wed, Sep 23, 2026 at 08:10:51PM -0700, Jakub Kicinski wrote:
->> On Wed, 23 Sep 2026 07:41:13 +0200 Maxime Chevallier wrote:
->>> On 9/23/26 04:42, Jakub Kicinski wrote:
->>>> On Sun, 20 Sep 2026 18:47:27 +0200 Maxime Chevallier (Netdev
->>>> Foundation) wrote:  
->>>>> Future ethtool selftests are expected to use the same, these helpers
->>>>> are put in the net selftest lib.  
->>>>
->>>> Please resist the urge to create libraries.
->>>>
->>>> If you're doing this I suspect you didn't even read the README and 
->>>> you expect people to search around for libraries?  
->>>
->>> I did read the README and fought the urge, that was something Andrew
->>> was asking for in the previous round :( I'm ok with either TBH.
->>
->> I guess it was Andrew that didn't read the docs then :)
+On Thu, Sep 24, 2026 at 07:33:20PM -0700, Ricardo Neri wrote:
+> show_temp() reads the status MSR only when the cached temperature is
+> older than one second. Commit 5c0e64dde80f ("hwmon: (coretemp) Remove
+> obsolete temp_data->valid") dropped the tdata->valid check that used to
+> force the very first read, leaving that comparison as the only trigger.
 > 
-> Yes.
+> A never-updated temp_data carries a zero timestamp, which does not look
+> stale on 32-bit kernels: jiffies starts 300 seconds short of wrapping,
+> so the comparison stays false until jiffies wraps and passes HZ. For the
+> first 301 seconds of uptime temp%d_input reports the zero left by the
+> allocator rather than the CPU temperature. 64-bit kernels are
+> unaffected: jiffies starts at a positive value there and does not wrap.
 > 
-> I apply software engineering principles to tests as i would to any
-> other code. It has to be maintained, bug fixed etc. For my $DAY_JOB, i
-> spend as much time maintaining test code as feature code. So i don't
-> really want lots of copy/paste version of the same code.
+> Backdate the timestamp when the temperature data is allocated. One jiffy
+> older than the caching interval is stale under either word size, and the
+> first refresh overwrites it.
 > 
-> So, for flow control, lets follow the README. When EEE is implemented,
-> we can see how bad the copy/paste is, and then consider a library.
+> Fixes: 5c0e64dde80f ("hwmon: (coretemp) Remove obsolete temp_data->valid")
+> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 
-Some side question, as the whole thing goes into the same file, do you
-prefer that the series stays split into 3 patches, or do you prefer
-the whole thing in one single patch ?
+Applied.
 
-The diffstat would be :
-
-tools/testing/selftests/drivers/net/hw/Makefile |   1 +
-tools/testing/selftests/drivers/net/hw/pause.py | 998 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Maxime
+Thanks,
+Guenter
