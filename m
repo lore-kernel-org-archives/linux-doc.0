@@ -1,167 +1,105 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C727D442373
-	for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 19:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341AA4E1C92;
+	Fri, 25 Sep 2026 19:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790364105; cv=none; b=oIs+GLoKFOtjcBy9R+m2w8CXalKnnItZ4dQF145RceDnaMOXJurX8yw/e3ZiZBy4XltfW9S+5nqXSxp34xr4naiqDaT6HUQgdTvxpGoxaYCmpSxENIBGhObt922+iDTHYVPDoMsqQGpnDLCNjRPfLieYIoRg6/njyatTPLGu5js=
+	t=1790364616; cv=none; b=NV0e5orEEIEjxYavd2U1oW20FWf8jpmJIl8nUEK0uwKg8FOtmGAQX2MfIQqVLSZzACZuOk+njvqSTHNNUk76EF2MSkpkAM5AsvXFTxzrf9MRNxx+kR4Nx76LiuwlEgstCOmvVBs9058vNzC0OfFi9JFbEPZ1VmTwU29AfRJZzrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790364105; c=relaxed/simple;
-	bh=AnW3FoapXOivL/XrYzT5pF2wRXd8Iw8zMnVMCQAyolo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AZo2zX9wr+45o8ma+rlhPo2JfK1jv5oLj8s7QAudXxH4EoWAM6xcy+ztUCB6ft0wLsoLLDCggfKkeny21Ik1Y1uetRTuONbWtrLtuVNbSluotm+UOYOzRIGUQFDOfS6+CgBw62cseYZXA3R5/36JUo3LkumsrvAqLQp5xOXm528=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nmcqFz/q; arc=none smtp.client-ip=74.125.228.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790364616; c=relaxed/simple;
+	bh=zT252H2Ho87u3KEN3XgUGqqVJMLoiJ1cFQMrKMVc2VE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Y+lwRV7hgUKL7gqGGKUb60vrE/ONgqAsQmsGufVfn6nIwVBhNMC9IJlCw1TU/p/cPcGcY+bTPoXxgHIlyEGL8w78N4CVigLGODvUQuK1FX2BwpxzoYB2JYexwJgfHQUQ6Nkn8m5Doz9Tdwow1/5qUc1kiBuwH41Yt94pBwmHA5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RTC9Gu0M; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nmcqFz/q"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469b355ffso641509b3a.1
-        for <linux-doc@vger.kernel.org>; Fri, 25 Sep 2026 12:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790364103; x=1790968903; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0Jb6ew+moeljvdv7wET58Ij2hd/p8EP7Hag+x2wkklw=;
-        b=nmcqFz/qyOukKj34wtiHPfe3qgKtVZfvOidqK217MgnoZleXmfwJcyIcKX6jN0szhg
-         z5c9mUsleUxRpujUCS1P6eHIVH3DpQiN/Q7fH2XCLjxBYLqTcyhjL36K3E5EWSuaFTes
-         gso2OgKzumbGFolOS7269W1nOMkh2oLlKbnxdXHf8YWHKVSq/BWuIgs/9NDatJKFZAxD
-         FmlFhqyqgyvM55Pt3nucmo4DMsMQEhNg0uQXYL8STnnPlqtL8nvtt0OLfWP684jdu1LO
-         zAz1ODZEOtDHRoasIQbhNI61Xcf6qDH+rI4sVUzsMChYj+Uw5/Q3Sx9TLVtf0IiKaLd+
-         //IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790364103; x=1790968903;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0Jb6ew+moeljvdv7wET58Ij2hd/p8EP7Hag+x2wkklw=;
-        b=GKzY3F7+ivZN5VgrxiaQYnky4LgU2doer/85SGc/hqM/d2IDg4SiKw0JG3+OLjVuH/
-         5hQiNlX8tgdAurQsAZGFjRTK4vkyaCwIjS5gxztJhrWwbxoSk87I1FU8bAEjP/UT5pd5
-         Tdkv0UN382x2uieex4520h4olu0itqxFAtAWiCuvwsRa28S+BoqxtjFc/968EnkfRxUq
-         h4IEmlNvhSlzg/qmnf8OYrbnsyiFnTgg8PfFFahioyoHMQTGuMIlzWbLU4/G9SZtkNDR
-         OVm8CZgykSAS67ms8GuOaD35/xuR/O4jXMNrJLJSJFJvrCyr5IgJ9pHEW0u57uSz8eRE
-         i79g==
-X-Forwarded-Encrypted: i=1; AKwUvBxpfzN8pLouPPX57+j9vxzk8C6QKuoRQj5d2S+5cDrBNF5FaqDTAgk0mQVSHaKJV60Fw4y1/X2PjHw=@vger.kernel.org
-X-Gm-Message-State: AFuF++n6H2b4TTasMzNWS9FzFf92t3hVk7UuFYs6/T0Q6Qr9Z//P3ziE
-	PnASMukZNKrlJTuq5pkivTp1SXJ6CWpOEEdPklxmbtW7wI86ssjaNCok
-X-Gm-Gg: AYBFou0kIJRYWxnByK7fSTWdmjt2ASKNFeqLzXcdzammhK1Kg0Hsl6Vw6CvGYuoJX/Y
-	PhsFT4LqHcHx9+HML24py9jyXvQqGwoq4DgFyGscvu6EWZIvh1l3wNJofBphMylFHu9pvGoHC0g
-	IDEvK8duehC40uSk7vEu+YwFMlAPqmbstmupopCO9JLciW4/syCU13whH5xukuuh7CeIrjXYaQk
-	xvF4YwrBMIwzbQIWZihHUFvtpq6EJKGHxy2ykTg7HMJIIoFPm+oR6YJSjSYPoekvkWy37s8KoMv
-	gzi/oAMb0J8gshATuNcIcw36VfDHl5zey1POQiMMy6zuE7+E31mxTL+xT4DyzxHYPk7d7vnHS15
-	IIslRDhLvS2u0PTaROzsNbJzxi4LfjQG7dnGDOrme90jwLrE+miQaUhz0Pg4O34eHfpytvgZyO0
-	2UH9NpumaluaA4EMWi0HjOv4//D1mXln7PoWvkY5vjCJnnp3RBHvkmij9n0L9W7hptINOKjgWVQ
-	B2T9m8AgjZSCT+WEXSBsWz4LKLxLqj/YFtyGgk=
-X-Received: by 2002:a05:6a00:10d2:b0:87c:9094:b72f with SMTP id d2e1a72fcca58-87e98789dbdmr5541733b3a.12.1790364103038;
-        Fri, 25 Sep 2026 12:21:43 -0700 (PDT)
-Received: from KASONG-MC4 ([1.203.116.237])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87feaf83e0fsm1597652b3a.37.2026.09.25.12.21.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 12:21:41 -0700 (PDT)
-Date: Sat, 26 Sep 2026 03:21:30 +0800
-From: Kairui Song <ryncsn@gmail.com>
-To: Johannes Weiner <hannes@cmpxchg.org>, 
-	YoungJun Park <youngjun.park@lge.com>
-Cc: Chris Li <chrisl@kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Rik van Riel <riel@surriel.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Kairui Song <kasong@tencent.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren =?utf-8?B?QmFnaGRhc2FyeWFu77+8?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Gregory Price <gourry@gourry.net>, 
-	Wenchao Hao <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Tejun Heo <tj@kernel.org>, Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-Message-ID: <arbHLt-iB4RHXyWt@KASONG-MC4>
-References: <aqjpYHbZ14A8xRtK@fedora>
- <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
- <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
- <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
- <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
- <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
- <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
- <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
- <arUcil9kxUPiymXI@KASONG-MC4>
- <araWKyJ5MENBwXCL@cmpxchg.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RTC9Gu0M"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8A2181F000FF;
+	Fri, 25 Sep 2026 19:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790364615;
+	bh=N33tIU6kIygB4VaarKLSX0TT1aLAq6k2sUWPy0f726s=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=RTC9Gu0MrN5Xg87sZMqOE0Z3mbbvQY0/9wA0REwAIJQdcozHOCmPqrGXEfGInvMkC
+	 vX32v5/xhxgdPSfTFOrk2J3qPyMaNQeVq+OAkPbpleMRJoDbvyYP6ydAm/PpdaGU7Z
+	 +XBumrWmscx+B+WlAKKHaP59v/u27QXVv8qofSvwtYfNxNm+nMSshYlJ7lK2WlPZH4
+	 tJAaB0av7CXmY7daGxq4Js7rugJuxbwErPTYBAEOweudczvXFKeVJ3cwfXcHQc7utQ
+	 PevrKWCKXJ2MRmTV/pcalcQH/20TbgV1S0xbmp//M83zqQsULTTUMAkbOKDMlQln2h
+	 iaVcnYRKAVq1Q==
+From: Nicolas Schier <nsc@kernel.org>
+Date: Fri, 25 Sep 2026 21:29:30 +0200
+Subject: [PATCH v3 1/2] kbuild: Mark usr_gen_init_cpio as
+ no-dot-config-target
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <araWKyJ5MENBwXCL@cmpxchg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260925-move-gen_init_cpio-to-scripts-v3-1-99c493f76722@kernel.org>
+References: <20260925-move-gen_init_cpio-to-scripts-v3-0-99c493f76722@kernel.org>
+In-Reply-To: <20260925-move-gen_init_cpio-to-scripts-v3-0-99c493f76722@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Luis Augenstein <luis.augenstein@tngtech.com>, 
+ Maximilian Huber <maximilian.huber@tngtech.com>, 
+ Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, Alexander Graf <graf@amazon.com>, 
+ Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Askar Safin <safinaskar@gmail.com>, linux-doc@vger.kernel.org, 
+ kexec@lists.infradead.org, linux-mm@kvack.org, 
+ linux-kselftest@vger.kernel.org
+X-Mailer: b4 0.17-dev-1f2f7
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1061; i=nsc@kernel.org;
+ s=20250924; h=from:subject:message-id;
+ bh=zT252H2Ho87u3KEN3XgUGqqVJMLoiJ1cFQMrKMVc2VE=;
+ b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBqtsufsfYeYT1sBDoLauwLKFoPXwsN6+APpXnyU
+ o+A0B4KUOqJAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCarbLnwAKCRAHUgpwFiYS
+ aYOvD/4ygVvWdPjef/U4fr0RFblazzSSsOqSdO+uo2M7hgRgpunel7QTDmY72T8zjdamYOj0Thc
+ 6h6zpfP5PJXV3NQY2CW+2iYMtEieWxmXjAYuC6TrZfUiIbtbDiia4da5fD9j5tH1UVpAzX3+CRe
+ BktrH22N6MU37cUWzryZ3AK1h2RM8WZWsaV8dotOtuak7tv0aR25fkOXyK+05O3ZLWA0croK5I+
+ syqnd5BB7nyb4J9Ru1KWd+DWIEXg7ZUZ6HOuWvDF/Y0JOpl33FZdo8iDHhmvcljfqVNqr4Mbm2B
+ Z5uU+gGmcluYOGdxsNZZI0y86+WPKfC7CVaxa3jtpFH/JQncKx7VGMlZpGEUh9PJszty+qe+d+S
+ zmPmUO8OQjkxNHKbf/S99ihrfMouqV5PgjvAkfuHQ6cUPUEYApm339iJzGqkI/nUAGPrn+rQzeY
+ zcXnYa+PBq94VZpo53cAFdl+P9U5cCLuCap7GfGDVdCVORjSPZNYAO/0OS8z+qz+L+Fu+BNjkHK
+ lBoAHwFGmpBMXvY9oSSpWKaU5rKzwNfckSVkJ+GkNq8ZobeFjQiG7xMHRy1efPx+7eFGb2APolg
+ tsKvJUd3i1eHI7PyZxr6P6ugoRT0r8ppOLfXU2rmh7dY3ZVdaqfMJPUGPTXs2sBqs+6Y1aSjxY6
+ bh31QprBv3oFASg==
+X-Developer-Key: i=nsc@kernel.org; a=openpgp;
+ fpr=18ED52DBE34F860EE9FBC82B7D97093255A0CE7F
 
-On Fri, Sep 25, 2026 at 11:41:31AM +0800, Johannes Weiner wrote:
-> 
-> Thanks for your thoughtful email, Kairui.
+Let usr/gen_init_cpio be built also if there is no kernel configuration.
 
-Hello Johannes,
+Askar Safin reported that gen_init_cpio may be of use before any kernel
+configuration is available.  Add usr_gen_init_cpio to list of targets
+that do not require a .config file.
 
-> > I also want to separate two things that I think got bundled together
-> > here: not requiring a physical slot behind a compressed entry, and not
-> > charging the raw size to the swap counter. The first one is great, yeah,
-> > and it's exactly the part we want, it's what makes compression usable
-> > without provisioning disk. The second one is a policy change, maybe it's
-> > not needed for the first stage, charging a cgroup for the
-> > memories it has offloaded doesn't require any slot to exist behind them.
-> > If someone wants to run memory compression with no disk at all,
-> > memory.swap.max defaults to max, so that still works fine, right?
-> 
-> I think what we found out over the course of this discussion is that
-> people have been using memory.swap.max in two ways. Regardless of what
-> we do, we will "break" one side.
-> 
-> (1) The usecase you're describing. Use memory.swap.max, combined with
-> memory.max, to set a "total", predictable footprint of in-use
-> application address space. You can mmap whatever you want, but the
-> number of unique pages you can touch is limited to this sum. And you
-> can control residency vs non-residency through the invididual values
-> of those settings. If compressed entries are not included, this
-> usecase will break.
+Reported-by: Askar Safin <safinaskar@gmail.com>
+Closes: https://lore.kernel.org/all/20260220191150.244006-1-safinaskar@gmail.com
+Fixes: f8e05c10631e ("kbuild: Add top-level target for building gen_init_cpio")
+Signed-off-by: Nicolas Schier <nsc@kernel.org>
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-Right, thanks for the reply! residency vs non-residency is one of
-the issues here. It's also about how we consider these two kind of
-resources to balance the scheduling of containers.
+diff --git a/Makefile b/Makefile
+index 751a08643bf8..51fada9059d6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -298,6 +298,7 @@ no-dot-config-targets := $(clean-targets) \
+ 			 %asm-generic kernelversion %src-pkg dt_binding_check \
+ 			 dt_style_selftest \
+ 			 outputmakefile rustavailable rustfmt rustfmtcheck \
++			 usr_gen_init_cpio \
+ 			 run-command
+ no-sync-config-targets := $(no-dot-config-targets) %install modules_sign kernelrelease \
+ 			  image_name
 
-> (2) The use case we have. Use memory.swap.max to divide a finite space
-> in storage. We only have so much space on disk, and we need to manage
-> fair access. Note that this isn't about speed. We have a mix of
-> containers where some use writeback and others do not. The ones who
+-- 
+2.47.3
 
-Same for us, the usage is mixed.
-
-> write back to the swapfile need to be able to get their fair share -
-> not more, not less. Including something that doesn't actually consume
-
-Is that writeback compression rate based? I mean for zswap, you have to
-writeback uncompressable part, and then also do cold writeback through
-shrinker. The compressable part is hard to predict and control though?
-
-> this separate finite resource is also a behavioral change that would
-> break that usecase. And arguably it's a deviation from how the control
-> was intended and from the broader cgroup design philosophy.
-> 
-> I think we need to build tools to support both cases. But somebody
-> will have to change how they're doing things... :/
-> 
-
-In the long term we might need something like tier or xxx_ext for
-cgroup for better control of different resources? In either case I
-think if we could get the building blocks more flexible, and this
-actually sounds like a tiering issue? I remember Youngjun once
-mentioned a memcg X tier limit which sound a bit similiar.
