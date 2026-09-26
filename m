@@ -1,165 +1,89 @@
-Received: from mail-oo2-f41.google.com (mail-oo2-f41.google.com [74.125.231.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9FF2D23BC
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 15:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790436380; cv=pass; b=gyyLF5Nt1ZApmy+I8bkG1KfYDsfSxc219eXGxSxnXdwBJLVOcwKELNob0qKZ5BsN7mc1eP36ZDqwNY9dMav+qCBLJSK6ZEtKZmi0bfj3w/prGLNNy8+XZCvToiU982dAV0phnN1xY17Kr6o+1yD23sH8k0K4l9XwlKHG9SId4Ns=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790436380; c=relaxed/simple;
-	bh=jsXY8q60YvIEKOxzyKNJ5rydpTYaSpxDVSfpGMoTGaw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UKfo9GIuAdP4ZCL8metiRcuEtV6cYrrTzXVnW/vOukUsSK2J1N7imG1YrWmiyo8Iqh4DZa2Swz5RZVWB4Ci7DqcuALeDD8cOPzss0bCzyANgJRTOLXYZbZaWgFLo8gJ8ws7G0ikBFJj5OdIyIvhw/xkLsNabKYentgee+A6SGCw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kOJZ3HRf; arc=pass smtp.client-ip=74.125.231.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1186F47799D
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 15:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790436385; cv=none; b=pxD0jKsTca9+svKzCIBIPWHf31iRitofNOCobNxNXLEw46EPD50GpboJUKCWwCKehQf6JbfJHL0nhBI0hS33C+ThBIahhQp+8CsDO0ozRX1kdprSV+L2AlVdxgKd0WhxDomw2q9A+eiDyE8bayv2Vpf08ODDi8xIm9jy6gAojxE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790436385; c=relaxed/simple;
+	bh=RBodIjL1JBfZq6upcz8677pBJYJyS6INGCPErUl86Qw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Xbv+DtYxDXJnd8eFs39N4CGQMVnfi9g3erac58N13hSnj8q8FaaoYyTfuwNPk2mfbFLwDlyiKSpzRn+o/estGeqAid2DMpMnn1L/v+QYM2Z8VorWnAF/mUaNTND6WZGG7rTh1XrepmtDu1dydkkm0QH2iM4ENHQ1a6WbIO6HkMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pdHo+P7B; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kOJZ3HRf"
-Received: by mail-oo2-f41.google.com with SMTP id 46e09a7af769-7fcb425fb68so1091749a34.0
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 08:26:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790436378; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gi19D1Zy3YZIi53MDiWZJRchPfXOcrFvS9Rp4ufbmvji2M2GZI8+W7F3Bd6OJQfikb
-         ecUvzWGdBGECgq68pXTvIFRs6YrekGeLDMv1dLTrV4JOfH2QH918rqmVb5I7FoDH3/WL
-         9RzdpWIwBBuBcBdhMNnwlEcJq80DepghQuOuNDMju+7frtzowzfWADvsGbQk10URwMZl
-         SzMfFy2J4DfSpbrnW/HyijyQHUJdBiaN7/OQ9cmtQL/5g1LhSSLkaYuA1FmTd1bwpFT1
-         7HiFnnTDHtkHx6SYJ/7iTkFCM+0f3NZVBjM2KScql4v6JgmbR8sODTRHvizLz0MZOv2w
-         ll5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jsXY8q60YvIEKOxzyKNJ5rydpTYaSpxDVSfpGMoTGaw=;
-        fh=zkORQbAzqVNmI/PuE+YMmnBMjO9Dh5DCVDfm874Tprs=;
-        b=fW0kE3ETqV6qWOAWrARqusuHq6+SmegRqlhiC3szvhyJw7b751v3/hIwNtvgc/2jGZ
-         R3FtaIHEsH2v9S4GARcoOppfg+XYwwlqH+roseZyc7f6FHIaIAFADgyUp7k3IZaWPdhS
-         c1YjV3kyooDLBQg30g+QkCwmd5HBbODWPc8xzSUBhGb9tNHRHNrM2TbNEjAN6wiKMb3i
-         2NfCdeX6U2EbZIeqoC87c8re7EiI7gp7ZWs+YCTeSD7yLIsAWkIq9xkPip1btdeB6KQJ
-         NuVUyXrHoyXRF4Q6sOHpfDwb1WMwNpedgjsEfg4fKGY/v3WKHqQRlvxlQddlFQBIft4Y
-         DLyA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790436378; x=1791041178; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jsXY8q60YvIEKOxzyKNJ5rydpTYaSpxDVSfpGMoTGaw=;
-        b=kOJZ3HRfg738tLXPULKZqxmP8KwXFyIrkskUg5w2AvWWLOEuocqPue9igUOUBuOsPd
-         RKyy8ELmjqg85j5AP4h1iiaSJxsyFACGi1P3lhhWjFHNcgSgZxF3ahcuEwJAFsgIsPKQ
-         SJy1raUOrT/Z3pvV2totF/vBjkBG1jNXNEBHYDHY6RtA13nHE65QucSPh30smzk1BftA
-         Bj41nGuUzeIhlR1OoBm/YiaZeU7CiHLIYem8vDpTYT12hA+vwIahIOmFM/6tMJYoxxza
-         VDxLSg2YKpMkW5I77ajZkVAhXO/5wFLzqlzDuIbasyPJmBGjrfWiuvZZ3gDndubFSoFN
-         Sb8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790436378; x=1791041178;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jsXY8q60YvIEKOxzyKNJ5rydpTYaSpxDVSfpGMoTGaw=;
-        b=O0JrjqOdi9FUBhwF0d5QHjICL2/yVVHM5uQvMwUiqZoczc/6uK2GXZsPfHbt9kSGAe
-         PgPvO7AO4ywtYd1rIJrdp+9hvZCAPA9YxsaCtZZCVuJkqPHQCHdKV8XkqFDSbb4Zkf3w
-         ScOOYMDd/DHFRWn0eIDKbQqy1np+rlDxqvQeqMG2lIGt/uMtWRa5JXM1BC7EcYpTp41h
-         tJ+0LKKEL87Ir+r0NyXDN+rMQ8uu/n2S2N6D6e6bSsVbcqZQDLfhhQfzx3wU7484S0aQ
-         IYnwz5wWSRv/vqr4Hw6mab2ziNBGM5zUd/hHmnbybq/WkdIfJZVUgpI+C8OJxg9DH6/Y
-         8ivg==
-X-Forwarded-Encrypted: i=1; AKwUvBxuaWVhLYIfkRgMz0+epf/CZgIhVRqFnlBXPmmEzj36QAlexfiCOKMV1m3DLhUDDVuf9QgTjPnmmk8=@vger.kernel.org
-X-Gm-Message-State: AFuF++k4jqAkpBjmYFjb2lNV6fTxKztRq3jgAcfRqkes1E9Py0BIBeQA
-	5ghMvP/DOSLS9vWGKwABKCx41QIzZQr+Phd8ytZubZrYAHK+ztpdEVzt1ZF+dOHEfXXjAxvJUKA
-	HZQ1CqTVNpsNjseSSFO1/MkuDEoc/NTg=
-X-Gm-Gg: AYBFou1RAhvxEJlqkj3bbQX/aLlxOVDhSYGVErrlQTbA1o3Q79Vexj8CmlZO1pJyC5q
-	xZyPLD18puEvBlcWjbh+xQTVRsS901AIzkypIJqyEf9PGhAkJ0rczYOwzHUpCWQidqsaDX2n6tk
-	cTTKY5o/yeRacSklWKJEhAenK3KlsOqHsXpBB7GkWAbzHkKUlQsXyd4xokdwToxEVYeB+IqZgH7
-	mG3GvcPN7L0QVsNgXexKJhLoEIp7Aqb9xfwnE5U+kH201Bf/UEpldHAA2bDUHgXIGqe3BkKsZGr
-	ZKXTuEYh6GuR8rZriWNyLOkFu+eZVsehB81+2Q0tAs7WqPKqUfrrh28q
-X-Received: by 2002:a05:6808:4f0b:b0:4d5:291b:b851 with SMTP id
- 5614622812f47-4d72ef5617cmr9396545b6e.55.1790436377961; Sat, 26 Sep 2026
- 08:26:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pdHo+P7B"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D4C4C408B3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1790436383; bh=4Uvk+YlYSZdCaiyjUYlv4EWLegTSO2EicHwANy6Gz5Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=pdHo+P7BWOMys68XzaiUQVNcSJ3O7rB9eo/gcktjNtmxAZFvD3IBg1kMc3NIq21pI
+	 GAU9WYcwxa76GMnuyn/gYLpQCkHxPg9r/NzifXCmFSdo++NnYYXyRNRrzjb8DM3MDR
+	 qZKwc7CO+4Sq1KNqGW3Z+Fn5YjkF3fltDnQ/uD5n1C+WgR+ZdqEl1d6UvrMseomTWb
+	 eR2+geGFfNm+v+KwWZFh43IKI6XhlAispYRyDFcZ7x+Cucrq/7k2wOHvsAAtIMoRfW
+	 P/tncSl81EdaPg8Nsjov5XBJv2h3TFoJ3VSj9KmYp9ZI6VKv2BT3ZL5NIpVtpquPZc
+	 FSfV9ASIvtvcA==
+Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id D4C4C408B3;
+	Sat, 26 Sep 2026 15:26:22 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Daniel Pereira <danielmaraboo@gmail.com>
+Cc: linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/5] docs: translations: pt_BR: fix refs and start
+ admin-guide
+In-Reply-To: <20260916174136.48011-1-danielmaraboo@gmail.com>
+References: <20260916174136.48011-1-danielmaraboo@gmail.com>
+Date: Sat, 26 Sep 2026 09:26:22 -0600
+Message-ID: <87ik3s3ug1.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMnqnYyO98AEDOHfm32Cb4uGBDucLiZ8gKZ5S+jVf3DDCoFA5w@mail.gmail.com>
- <cfc9cb8d-d13a-4dd6-809c-1ecf3bc9c758@hust.edu.cn> <CAMnqnYxzfUUaeaGTG=pESVN+2yeue4b_7N6d=xMGNE7qdrNbYA@mail.gmail.com>
- <2026092601-reassure-darkness-229b@gregkh> <aresDaW09qoYZsVH@wyuan.org>
-In-Reply-To: <aresDaW09qoYZsVH@wyuan.org>
-From: Jiaming Ouyang <jiamingouyang13@gmail.com>
-Date: Sat, 26 Sep 2026 17:26:07 +0200
-X-Gm-Features: AclHuK-mfo7y02D9o8DG-iC7BMWRt9BbARmaIOz1o4zlN5PO0nlM1BZG46Hfaug
-Message-ID: <CAMnqnYzjDmXhbsMUCT3s1qARHu-w+BODv3OLg8rO=-DQi4StYw@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: add Chinese translation for usb/ohci.rst
-To: Weijie Yuan <wy@wyuan.org>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, alexs@kernel.org, 
-	corbet@lwn.net, skhan@linuxfoundation.org, si.yanteng@linux.dev, 
-	rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain
 
-ZG9jcy96aF9DTjogYWRkIENoaW5lc2UgdHJhbnNsYXRpb24gZm9yIHVzYi9vaGNpLnJzdA0KDQpU
-cmFuc2xhdGUgRG9jdW1lbnRhdGlvbi91c2Ivb2hjaS5yc3QgaW50byBDaGluZXNlIFNpbXBsaWZp
-ZWQuDQoNClRoZSB0cmFuc2xhdGlvbiBjb3ZlcnMgT0hDSSBkcml2ZXIgb3ZlcnZpZXcsIGhhcmR3
-YXJlIHByb3RvY29sDQpkaWZmZXJlbmNlcyAoT0hDSSB2cyBVSENJKSwgaW1wcm92ZW1lbnRzIHNp
-bmNlIDIuNCBrZXJuZWwsDQpxdWV1ZWFibGUgaW50ZXJydXB0IHRyYW5zZmVycywgYW5kIG5vbi1Q
-Q0kgc3VwcG9ydC4NCg0KLS0tDQpTaWduZWQtb2ZmLWJ5OiBKaWFtaW5nIE91eWFuZyA8amlhbWlu
-Z291eWFuZzEzQGdtYWlsLmNvbT4NCg0KLS0tDQpDaGFuZ2VzIGluIHYyOg0KLSBDb3JyZWN0IHRo
-ZSBkYXRlDQotIENvcnJlY3QgdGhlIGxheW91dA0KLSBBZGQgc3BlY2lmaWMgZGV0YWlscyBmb3Ig
-aXQncyBjb250cmlidXRvcnMNCi0tLQ0KIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
-L3VzYi9vaGNpLnJzdCB8IDM4ICsrKysrKysrKysrKysrKysrKysNCiAxIGZpbGUgY2hhbmdlZCwg
-MzggaW5zZXJ0aW9ucygrKQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5z
-bGF0aW9ucy96aF9DTi91c2Ivb2hjaS5yc3QNCg0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
-dHJhbnNsYXRpb25zL3poX0NOL3VzYi9vaGNpLnJzdA0KYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0
-aW9ucy96aF9DTi91c2Ivb2hjaS5yc3QNCm5ldyBmaWxlIG1vZGUgMTAwNjQ0DQppbmRleCAwMDAw
-MDAwMDAwMDAuLjVlMzY4MzFiZjM3MA0KLS0tIC9kZXYvbnVsbA0KKysrIGIvRG9jdW1lbnRhdGlv
-bi90cmFuc2xhdGlvbnMvemhfQ04vdXNiL29oY2kucnN0DQpAQCAtMCwwICsxLDM4IEBADQorLi4g
-U1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCisNCis6T3JpZ2luYWw6IERvY3VtZW50
-YXRpb24vdXNiL29oY2kucnN0DQorDQorOue/u+ivkTog5qyn6Ziz5a626ZOtIEppYW1pbmcgT3V5
-YW5nIDxqaWFtaW5nb3V5YW5nMTNAZ21haWwuY29tPg0KKw0KKz09PT09PT09DQorT0hDSempseWK
-qA0KKz09PT09PT09DQorDQorMjAwMuW5tDjmnIgyM+aXpQ0KKw0KK+KAnE9IQ0ktSENE4oCd6amx
-5Yqo56iL5bqP5piv5LiA5LiqVVNC5Li75py65o6n5Yi25Zmo56iL5bqP77yISENE77yJ77yM5a6D
-5rqQ6IeqMi405YaF5qC457O75YiX5Lit55qE4oCcdXNiLW9oY2nigJ0NCivpqbHliqjnqIvluo/j
-gILigJx1c2Itb2hjaeKAneS7o+eggeS4u+imgeeUsSBSb21hbiBXZWlzc2dhZXJiZXIgPHdlaXNz
-Z0B2aWVubmEuYXQ+57yW5YaZ5L2G5Lmf6I63DQor5b6X5LqG5p2l6IeqRGF2aWQgQnJvd25lbGwg
-PGRicm93bmVsbEB1c2Vycy5zb3VyY2Vmb3JnZS5uZXQ+77yMTGludXMgVG9ydmFsZHMNCivlkoxH
-cmVnb3J5IFAuIFNtaXRo55qE5pSv5oyB44CCDQorDQor5a6D5pSv5oyB4oCc5byA5pS+5Li75py6
-5o6n5Yi25Zmo5o6l5Y+j4oCd77yIT0hDSe+8ie+8jOivpeaOpeWPo+agh+WHhuWMluS6hueUqOS6
-juS4jlVTQiAxLjHkuLvmnLrmjqfliLblmajpgJrkv6HnmoQNCivnoazku7blr4TlrZjlmajljY/o
-rq7jgILigJzkuI7oi7HnibnlsJTml6nmnJ/nmoTigJzpgJrnlKjkuLvmnLrmjqfliLblmajmjqXl
-j6PigJ3vvIhVSENJ77yJ55u45q+U77yM5a6D5bCG5pu05aSa5Y+q6IO95Yqf6IO9DQor5rOo5YWl
-5Yiw56Gs5Lu25Lit44CC6Zmk6Iux54m55bCU5ZKM5aiB55ub5LmL5aSW55qE5YW25LuW5L6b5bqU
-5ZWG55qEVVNCMS4x5o6n5Yi25Zmo6YCa5bi45L2/55SoT0hDSeOAgg0KKw0KK+iHqjIuNOWGheag
-uOS7peadpeeahOabtOaUueWMheaLrA0KKw0KKyAgICAgICAgIC0g5o+Q6auY5LqG5YGl5aOu5oCn
-OyDkv67lpI3kuobplJnor687IOWHj+WwkeS6huW8gOmUgA0KKyAgICAgICAgIC0g5pSv5oyB5pu0
-5paw5ZKM566A5YyW55qEdXNiY29yZSBBUEkNCisgICAgICAgICAtIOS4reaWreS8oOi+k+WPr+S7
-peabtOWkp++8jOW5tuS4lOWPr+S7peaOkumYnw0KKyAgICAgICAgIC0g6YCa6L+H5L2/55So5LiK
-5bGC4oCcaGNk4oCd5qGG5p6277yM5YeP5bCR5Luj56CB6YePDQorICAgICAgICAgLSDmlK/mjIHk
-uIDkupvpnZ5QQ0nnmoRPSENJ5a6e546wDQorICAgICAgICAgLSAuLi4g5Lul5Y+K5pu05aSaDQor
-DQor4oCcT0hDSS1oY2TigJ3pqbHliqjnqIvluo/lpITnkIbmiYDmnIlVU0IgMS4x5Lyg6L6T57G7
-5Z6L44CC5omA5pyJ57G75Z6L55qE5Lyg6L6T6YO95Y+v5Lul5o6S6Zif44CC5Zyo4oCcdXNiLW9o
-Y2nigJ0NCivkuK3kuZ/mmK/lpoLmraTvvIzkvYbkuK3mlq3kvKDovpPpmaTlpJbjgILku6XliY3v
-vIzkvb/nlKjkuIDluKfnmoTlkajmnJ/kvJrlm6DkuLpJUlHlpITnkIbnmoTlvIDplIDogIzlr7zo
-h7TmlbDmja7kuKINCivlpLHnmoTpo47pmanjgILlvZPkuK3mlq3kvKDovpPmjpLpmJ/ml7bvvIzl
-j6/ku6XpgJrov4fnoa7kv53noazku7blnKjmk43kvZzns7vnu5/lpITnkIbnm7jlhbNJUlHml7bl
-p4vnu4jmnInkvKDovpPpnIDopoENCivlpITnkIbvvIzmnaXmnIDlpKfpmZDluqbnmoTpmY3kvY7o
-v5nkupvpo47pmanjgIINCisNCistIERhdmlkIEJyb3duZWxsDQorICA8ZGJyb3duZWxsQHVzZXJz
-LnNvdXJjZWZvcmdlLm5ldD4NCisNCi0tIA0KMi41My4wDQoNCg0KT24gU2F0LCBTZXAgMjYsIDIw
-MjYgYXQgMToyN+KAr1BNIFdlaWppZSBZdWFuIDx3eUB3eXVhbi5vcmc+IHdyb3RlOg0KPg0KPiBI
-aSBHcmVnLA0KPg0KPiBPbiAyMDI2LTA5LTI2IDA5OjEzOjI2ICswMjAwLCBHcmVnIEtIIDxncmVn
-a2hAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6DQo+DQo+ID4gT24gRnJpLCBTZXAgMjUsIDIw
-MjYgYXQgMDU6Mjg6NDdQTSArMDIwMCwgSmlhbWluZyBPdXlhbmcgd3JvdGU6DQo+ID4gPiBTdWJq
-ZWN0OiBbUEFUQ0hdIGRvY3MvemhfQ046IGFkZCBDaGluZXNlIHRyYW5zbGF0aW9uIGZvciB1c2Iv
-b2hjaS5yc3QNCj4gPg0KPiA+IFRoaXMgc2hvdWxkbid0IGJlIGluIHRoZSBlbWFpbCBib2R5IDoo
-DQo+DQo+IEFsdGhvdWdoIHRoaXMgbGluZSBvZiB0ZXh0IGlzIHNvbWV3aGF0IHJlZHVuZGFudCwg
-YXMgaXQgaXMgdGhlIHNhbWUgYXMNCj4gdGhlICJTdWJqZWN0IiBsaW5lIGluIHRoZSBlbWFpbCBo
-ZWFkZXIgKGdpdCBtYWlsaW5mbyB3b3VsZCBzdHJpcCB0aGUNCj4gIlJlOiAiIGJ5IGRlZmF1bHQp
-LCBpdCBpcyBmaW5lIHRvIGxlYXZlIGl0IGhlcmUuPw0KPg0KPiBnaXQuZ2l0L0RvY3VtZW50YXRp
-b24vZ2l0LWFtLmFkb2M6OltbZGlzY3Vzc2lvbl1dOg0KPg0KPiAiRnJvbTogIiwgIkRhdGU6ICIs
-IGFuZCAiU3ViamVjdDogIiBsaW5lcyBzdGFydGluZyB0aGUgYm9keSBvdmVycmlkZSB0aGUNCj4g
-cmVzcGVjdGl2ZSBjb21taXQgYXV0aG9yIG5hbWUgYW5kIHRpdGxlIHZhbHVlcyB0YWtlbiBmcm9t
-IHRoZSBoZWFkZXJzLg0KPg0KPiBlLmcuIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2dpdC94bXFx
-bXM2M29rN2cuZnNmQGdpdHN0ZXIuZy8NCj4NCj4gQnV0IEkgZ3Vlc3MgeW91IGtub3cgYWxsIGFi
-b3V0IHRoaXMsIGp1c3Qgd2FudCB0byBoYW5kbGUgaXQgaGVyZSBpbiBhDQo+IHNpbXBsZSB3YXku
-IDstKQ0KPg0KPiBUaGFua3MuDQo=
+Daniel Pereira <danielmaraboo@gmail.com> writes:
+
+> This series has two parts.
+>
+> Patches 1 and 5 fix cross-references across the existing pt_BR
+> translation.  Several documents pointed at the English version of files
+> that are already translated, so a reader of the translation was sent
+> back to the original.  In code-of-conduct.rst and cve.rst the effect was
+> visible in the rendered text, which quoted the English title of the
+> referenced document in the middle of a Portuguese sentence.  Nine pt_BR
+> anchors were missing and are added here; other translations already
+> define their own.  References whose target has no pt_BR translation are
+> left pointing at the English document.
+>
+> Patches 2 to 4 start the admin-guide translation.  The index mirrors the
+> section layout of the original and lists the pending documents under a
+> Todolist marker, the same way zh_CN tracks its own, so that entries move
+> into a toctree as they get translated.  README.rst and devices.rst are
+> the first two documents.  For devices.rst the device registry itself is
+> pulled in with a literal include of the original devices.txt, keeping
+> the numbers in a single place.
+>
+> The series was built with "make htmldocs" and produces no new warnings;
+> in particular there is no undefined label and no broken toctree entry.
+> checkpatch is clean apart from the usual "does MAINTAINERS need
+> updating?" advisory on the new files, which is already covered by
+> F: Documentation/translations/pt_BR/.
+>
+> Daniel Pereira (5):
+>   docs: translations: pt_BR: point refs at the translated documents
+>   docs: translations: pt_BR: add admin-guide index
+>   docs: translations: pt_BR: translate admin-guide/README.rst
+>   docs: translations: pt_BR: translate admin-guide/devices.rst
+>   docs: translations: pt_BR: point howto.rst at the translated documents
+
+Series applied, thanks.
+
+jon
