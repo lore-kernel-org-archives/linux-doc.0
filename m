@@ -1,55 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324AB4052C4;
-	Sat, 26 Sep 2026 15:27:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F913E4C96;
+	Sat, 26 Sep 2026 15:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790436459; cv=none; b=C5PJCg29xiiz2+72YvsWKjH+hZX5qv/81k1mrD4/Pxlct07Wpa2JSwJfeeA/4ASGEdgtugJj5teSxUkmzVRei760XOkbyY+PeZzQDjB4+NU2eP7+GkIAA5K3TtiiDD2EfhRIJpgzq/wmCQ+1BGWNx5X/jR9Hi1e0LAvmum7KX+g=
+	t=1790436707; cv=none; b=djiehd+Y3p3ud0mkSMCJnArhfOuXU7TEQEerYGTc8Y5vlDir3W5EEX9AELY7g9XQBM9WaBKoBsY3OtjV3+SpADxzHj0Gd+E0WKRVdeG/rmeIEYKrbJWu328CqmVuiiyt1RopnogTlkk4aF0vKCAJ4aXeAD2SjshCJGVZw52DpN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790436459; c=relaxed/simple;
-	bh=+xjcz8nLIIJX8fK6dKDCwgu+xS5L2cxDGJt1yLKiNKY=;
+	s=arc-20240116; t=1790436707; c=relaxed/simple;
+	bh=+TznahWGP/R9f+buMzIm2pnastsjQqrvftK9LcrJHIw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=izNVKU860JcJDcMUlok7W4OlLlcrxDlR0kEo878VLScLXLabKMntJXIaeJjQuW3VSfrRp5gnZDmQLlVM772xg3yWxf+aMm9PkzHuqEtHrzDr7Jt6VC3pB07qV0B1zrXBQhzY8h4Z36VdzRZQzGFXVaeT8xjWLn5aCMkujSqqbpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CLthkADt; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=mOpeFwmLvXYGw7HAjRID0QCRKTyrm3B1rZYIdar7J5AXrjEuj/qfAG4V/KnSU4MBDqlhsyKYhAfe49ONAqBKo+0BYVJTf6oKkCQzIEsGIw4wdARGZ+Ax6PdD8AnGmIIRa1bU32v08qa/wiBpYfuJKKIxFGH+J/XXFQ4Epy/Mmxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=bzNV7R0F; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CLthkADt"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5ABC0408B3
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bzNV7R0F"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 836DD408B3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1790436457; bh=E+Q6hF7V9TA2udl8Xyg0aj+FaZq+4HVqvk+0lqYue/M=;
+	t=1790436705; bh=jZxL8se37Nbgnf+brwBoJ1zGPO5KTS1yFCFAXNFy734=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=CLthkADt4wB5puBdlNthPLhtg+5yOG0fnnt5OubyZG7nBI9m+tsxIpFBZ6PSRG5To
-	 B9kB5uusdyXK8VOcW22pTJuJEibu9VE4O9lHzYGu3kUxoiNf8nBQnCh86RnSDdcCT2
-	 Mt0lP65sYJv/Qe4oybOzvE6v5BtNI7SAWejti8G93kRe7M6xEKdwggw3B3C/nQoKr+
-	 HfpNro42xgYf3Ybf70imtITXZZBC2dXTPwYfMdK5FSIvZNsuJ688ASOT88yTgXtfhN
-	 sF6cDNXj89h8dj6/Mepin6Sp1Qs108d2S5sSV3Dc12PLfd+gXvKezvABtiufC3uCu2
-	 BsD1F6tP9rOfQ==
+	b=bzNV7R0FVYOB98DLRHHq0AiIBG8hxU0g/xsFQSvLOOj4/nkc2ZMxPSynhpGxDG8W9
+	 o6mnoWMITcph9w8o7uQGNt2lhTM7j5o8brIISGrbgG5u08L4gfis/AB5h31yCdIyFm
+	 wTjFSg/limzm2ZwHYvJHulk1jk1KdQUATiJaHhfcABsKwoKWVZcDIjOSshzCGSRuex
+	 Johl91Gf0f5fi5AxOJic47DEfiuMIOTJErNLXl/0G6Xw3dBrTRabow2htJCJHFWY6x
+	 nxVXWqlIUTWy0T+bkFi/5EiN8HxTiHGtYbG888IJEUzfKrPpA6O0wtTdi6ebkD0pL4
+	 daRVsTE2TtJoA==
 Received: from localhost (unknown [IPv6:2601:280:4600:814::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5ABC0408B3;
-	Sat, 26 Sep 2026 15:27:37 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 836DD408B3;
+	Sat, 26 Sep 2026 15:31:45 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Kees Cook <kees@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Miguel Ojeda
- <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, Maximilian Huber
- <maximilian.huber@tngtech.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
- <thomas.weissschuh@linutronix.de>, Luis Augenstein
- <luis.augenstein@tngtech.com>, Breno Leitao <leitao@debian.org>, Masahiro
- Yamada <masahiroy@kernel.org>, Andrew Jones <andrew.jones@linux.dev>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] docs: Makefile: Add a testdocs target for the
- documentation unit tests
-In-Reply-To: <20260916184107.i.183-kees@kernel.org>
-References: <20260916184107.i.183-kees@kernel.org>
-Date: Sat, 26 Sep 2026 09:27:36 -0600
-Message-ID: <87fqyw3udz.fsf@trenco.lwn.net>
+To: Lucas Adryell Ramalho <lucasadramalho@gmail.com>, Daniel Pereira
+ <danielmaraboo@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, Randy
+ Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Lucas Adryell
+ Ramalho <lucasadramalho@gmail.com>
+Subject: Re: [PATCH v4] docs: translations: pt_BR: translate
+ stable-api-nonsense.rst
+In-Reply-To: <20260831-ptbr-stable-api-nonsense-v4-1-0ef5e58504cc@gmail.com>
+References: <20260831-ptbr-stable-api-nonsense-v4-1-0ef5e58504cc@gmail.com>
+Date: Sat, 26 Sep 2026 09:31:44 -0600
+Message-ID: <87cxu03u73.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,38 +52,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Kees Cook <kees@kernel.org> writes:
+Lucas Adryell Ramalho <lucasadramalho@gmail.com> writes:
 
-> tools/unittests/run.py discovers and runs the unit tests there (which
-> are primarily documentation tools), but nothing in the build calls it,
-> so the tests are only run by whoever remembers that the script is there.
+> Translate Documentation/process/stable-api-nonsense.rst into Brazilian
+> Portuguese.
 >
-> Give it a target, next to the other checks that need no Sphinx. The name
-> ends in "docs", so it matches the "%docs" pattern already in
-> no-dot-config-targets and runs without a configured tree, and it sets
-> PYTHONPYCACHEPREFIX as the other Python targets here do, to keep
-> __pycache__ directories out of the source tree.
->
->   $ make testdocs
->   ...
->   Ran 121 tests
->
-> with "make dochelp" listing it between refcheckdocs and cleandocs.
->
-> Tested with GNU Make 4.4.1 and Python 3.14.7, on a tree with no .config,
-> where it ran 121 tests and left no __pycache__ behind.
->
-> Assisted-by: LLM
-> Signed-off-by: Kees Cook <kees@kernel.org>
+> Assisted-by: ChatGPT:GPT-5.5
+> Acked-by: Daniel Pereira <danielmaraboo@gmail.com>
+> Signed-off-by: Lucas Adryell Ramalho <lucasadramalho@gmail.com>
 > ---
-> I debated the naming here, since "tools/unittests/" is such a general
-> directory location, but figured I'd start with a target that made the most
-> logical sense given what is actually being tested there? I dunno. Maybe
-> "make testtools"? But that reads weird.
+> Changes in v4:
+> - Fix nested list formatting that caused an error during make htmldocs.
+> - Remove trailing whitespace reported by checkpatch.
+> - Link to v3: https://lore.kernel.org/r/20260823-ptbr-stable-api-nonsense-v3-1-58c9beebf9bd@gmail.com
+>
+> Changes in v3:
+> - Remove blank lines between bullet points, as Daniel suggested, to match
+>   the style used in the other kernel documentation files.
+> - Link to v2: https://lore.kernel.org/r/20260821-ptbr-stable-api-nonsense-v2-1-f07df4a0fc3b@gmail.com
+>
+> Changes in v2:
+> - Remove the unnecessary top-of-file label that caused a duplicate-label warning during the documentation build.
+> - Add disclosure for generative tools used while preparing and reviewing the translation.
+> - Build the documentation with make htmldocs and verify that the translated document introduces no new warnings or errors.
+> - Link to v1: https://lore.kernel.org/r/20260820-ptbr-stable-api-nonsense-v1-1-0341f55fec2d@gmail.com
+>
+> I used ChatGPT and DeepL to help me clarify some Portuguese sentences that did not sound entirely natural or clear to me.
 > ---
->  Makefile               | 2 +-
->  Documentation/Makefile | 5 +++++
->  2 files changed, 6 insertions(+), 1 deletion(-)
+>  Documentation/translations/pt_BR/process/index.rst |   1 +
+>  .../pt_BR/process/stable-api-nonsense.rst          | 208 +++++++++++++++++++++
+>  2 files changed, 209 insertions(+)
 
 Applied, thanks.
 
