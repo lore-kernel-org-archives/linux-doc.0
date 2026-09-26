@@ -1,148 +1,520 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F96397E9A
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 19:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE8239A040;
+	Sat, 26 Sep 2026 20:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790452303; cv=none; b=deMNqF++43EAevSBUuFycWgnqqiqxonwUzRHXG0gfMFy2IS/FanIiiKGBF+NEVXkMpqFlNoeByAV2HyChvJjLgQB+Y3bnbsK3DPGRMAitt5P5JgzH4SFtYAzPJL2Vmu46RVeqwqiVzfI+7+aCEIHky6LrILSWJE9JjcV5TEcCpg=
+	t=1790453518; cv=none; b=mAi2zWn5b/4+KM2X0oM6Dk5Ai+HK5VH8g41EVwWDK5vZgEzDC0ULktt6iltF8jbTE0rIOro4fiF1k3OJtNIkacikTc82p8lgbQN6mvXAwpF/BuSnKtfyP+nnbyQoseyiAq4KB65bw3ZBKvqg2nwZ8fRcGWppcddYovquU774Qks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790452303; c=relaxed/simple;
-	bh=dfjoZScS9ZOqe44JQfBF8wEPZ+pAl5CDH2L/a4RRcvI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NyHjcK2x5qKFXGdy8gbj4x8vf9V+ZuHXpfRvcEy5WdEdpv6LZNb3113UNnzevdacvzOcoPD67KPRrA8SNhS0CLv+SGyNNlKmYSJhVVU+GMss6RUqI/qySmlY724itPO5WOpxbt9K8VYuZ6rH+vB7mKwb9t9bLNcQDkhF2MhOJiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hXk79hjY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790453518; c=relaxed/simple;
+	bh=FPEiJnd64oya2x/tguGB1+nwNCvtUwxrK1iYq2pvT1g=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=IH8EDVyGRNCLg74h4F8jqV6Y812XSsSKeiqZJG7l3dGKFoBVNxjJLSaCxYJBVGEYRyDzy9knKhlT+cVcNaHrWr6wX67let1MuB1U8TglCmGWxwIeOfNMLp/QOEz3Coiw6uQX2LWuBlfuxH/UhETFuIo9/L2tPXDvZb7O7r/q4hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JTxgYo+P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hXk79hjY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76BDD1F00893
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 19:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790452301;
-	bh=dfjoZScS9ZOqe44JQfBF8wEPZ+pAl5CDH2L/a4RRcvI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=hXk79hjYpNN/19b5nrcBKIx8dVJ+Msn2Ree7YWck7KvESCgcDzse+0R8GBkYnjmuJ
-	 gjBRzkQPySngRT+ONMfxLoCDRumHCzujifJZtz/2aSeIVKieC4CFAZcizSom+LeWu2
-	 HHTwunknIC9uRN4TZgLRjSe8LYnNRp3AUa4uEBN+L6ASiI8PQX2myinD4ASn++M8F5
-	 lKE7qMOePuS6ve8X1d7J/wq6XPBFZjpy85T7YP+/cFoXkssMUaESPdvzSO150JZ6pn
-	 O4AMlk2UHxdNvlwoBIDh1i19tFkjlFKjp2Qc1BuJk3kkhXvh6f2XDrHLctIuqmyrz0
-	 po+nmZ20xvMeQ==
-Received: by mail-ej2-f41.google.com with SMTP id a640c23a62f3a-c2dca989afcso19612366b.2
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 12:51:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwbX3V/n5oZ5iIgZx2pha86nFDwQ2tYRCgOWP4GLpT4YWMztN5sGGD42IQIif3STKPcmvzararUwb4=@vger.kernel.org
-X-Gm-Message-State: AFuF++mKWAfzOBr4LsKjzQBlnj2oKY8yIof/7fegYmUyvwIgbotsOl9f
-	9L64EpSdEYORMcb5vI86kCFNttTs7F/OjAk0cdeFQ+7DbRIW/TU2EIcU5MqrSQYpJMOGX01lKIq
-	MpLCtfq1rLCnuddkF61d/kyv0s6n/2evRPyrZ8x9SyA==
-X-Received: by 2002:a17:907:8908:b0:c26:3424:f7df with SMTP id
- a640c23a62f3a-c2ac24d3e8fmr788004566b.30.1790452295952; Sat, 26 Sep 2026
- 12:51:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JTxgYo+P"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 87793C2BCFA;
+	Sat, 26 Sep 2026 20:11:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790453517;
+	bh=FPEiJnd64oya2x/tguGB1+nwNCvtUwxrK1iYq2pvT1g=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=JTxgYo+PYQb/FJaPrJuYUeWVXrx+U/J78IX1GEgDLVbYLnA3Buwxqe1xhjZ6VnzmC
+	 t2g0xyc46VtVfRC6sos9z5+hHLWYvm56LFDXHhldvta7pDTfSpTT3vPOvvylt2dZ2b
+	 7DadKJ3k/FtJMQl/pbxpaTYVdR41T3pUJ+1vb1MntKwtPryZt3OnSJ1UeIX/sqYhbi
+	 PoEHIt7RfTqDFS7WXwFVhXs4mhbGvddm59Jq6FqotyihYiM6kdtcB5NPHG1SdHbmXj
+	 UGse+VyOwcsDbvuDDy9kkGGJsiaxMzZO7e0tTzuOmESrk45SCyp2sIJJRFNmBp2Kdh
+	 1ro7gK4qAV8jA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F245C98332;
+	Sat, 26 Sep 2026 20:11:57 +0000 (UTC)
+From: Alexei Solcanu via B4 Relay <devnull+alexei.solcanu.pm.me@kernel.org>
+Date: Sat, 26 Sep 2026 16:11:21 -0400
+Subject: [PATCH v2 2/2] hwmon: (gpd-fan) Register both fans on the GPD Win
+ 5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260918180241.3424851-1-nphamcs@gmail.com> <20260918180241.3424851-2-nphamcs@gmail.com>
- <CACePvbVaDNspMDSw_qAcapKAzXj3JGV-KMYmow7aePa0POHpSg@mail.gmail.com>
- <7571f005bca65aa4ad5e7ec89e62801ad058b689.camel@surriel.com>
- <CACePvbV-tazW=LmsbUtAhHzR2d6JwFT5R1jYZ9_NTp1hxXH=bw@mail.gmail.com> <CAKEwX=NbD12FfApEb9g+3Gt_-Rmof0tovYZsxPPyk5TCbFq=Lw@mail.gmail.com>
-In-Reply-To: <CAKEwX=NbD12FfApEb9g+3Gt_-Rmof0tovYZsxPPyk5TCbFq=Lw@mail.gmail.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Sat, 26 Sep 2026 09:51:24 -1000
-X-Gmail-Original-Message-ID: <CACePvbW2rejcNUhK7AG7xLv1C9PmdmdF+uvkV1665BYwG-GNBw@mail.gmail.com>
-X-Gm-Features: AclHuK-xpiJYlVPsv444_ENhKedDDd2x3kiC91E8lDWQNSSouldPc5mcq4B4NH8
-Message-ID: <CACePvbW2rejcNUhK7AG7xLv1C9PmdmdF+uvkV1665BYwG-GNBw@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] mm, swap: add virtual swap device infrastructure
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Rik van Riel <riel@surriel.com>, akpm@linux-foundation.org, kasong@tencent.com, 
-	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
-	shakeel.butt@linux.dev, yosry@kernel.org, david@kernel.org, 
-	muchun.song@linux.dev, shikemeng@huaweicloud.com, baoquan.he@linux.dev, 
-	baohua@kernel.org, youngjun.park@lge.com, chengming.zhou@linux.dev, 
-	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, qi.zheng@linux.dev, axelrasmussen@google.com, 
-	yuanchu@google.com, weixugc@google.com, gourry@gourry.net, 
-	haowenchao22@gmail.com, corbet@lwn.net, hughd@google.com, 
-	baolin.wang@linux.alibaba.com, tj@kernel.org, mkoutny@suse.com, 
-	skhan@linuxfoundation.org, kunwu.chan@linux.dev, kernel-team@meta.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260926-gpd-fan-duo-auto-v2-2-0a2ea41ee3b5@pm.me>
+References: <20260926-gpd-fan-duo-auto-v2-0-0a2ea41ee3b5@pm.me>
+In-Reply-To: <20260926-gpd-fan-duo-auto-v2-0-0a2ea41ee3b5@pm.me>
+To: Guenter Roeck <linux@roeck-us.net>, 
+ Cryolitia PukNgae <cryolitia@uniontech.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Antheas Kapenekakis <lkml@antheas.dev>, 
+ Alexei Solcanu <alexei.solcanu@pm.me>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790453516; l=14211;
+ i=alexei.solcanu@pm.me; s=20260925; h=from:subject:message-id;
+ bh=MrFpUbF13O41mLbsfNDEJnDo2n8txXqAySWA4z3dd98=;
+ b=pTkexDRnGwFsCZWHoRkKq+t1VK3C/Jli6ZXqNz6iuGBl/DuZykPgN+gnvT3A5fVEX6Innial1
+ KDzXoMVjVnABNKMcACaGytsTQh2iAAdnkRkygeCmwZ+ix9QIINAD334
+X-Developer-Key: i=alexei.solcanu@pm.me; a=ed25519;
+ pk=iK6ervbccknflfirBb6E4x7TaOyCpnoGd33gzfiNEeo=
+X-Endpoint-Received: by B4 Relay for alexei.solcanu@pm.me/20260925 with
+ auth_id=1064
+X-Original-From: Alexei Solcanu <alexei.solcanu@pm.me>
+Reply-To: alexei.solcanu@pm.me
 
-On Fri, Sep 25, 2026 at 8:25=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
-:
->
-> On Thu, Sep 24, 2026 at 6:17=E2=80=AFPM Chris Li <chrisl@kernel.org> wrot=
-e:
-> >
-> > On Thu, Sep 24, 2026 at 8:13=E2=80=AFAM Rik van Riel <riel@surriel.com>=
- wrote:
-> >
-> > Yes, but it will pay the price for going through the unnecessary
-> > redirection layer always. It incurs performance and meta data
-> > overhead. That was one of my previous objections to the earlier vswap
-> > version. Sorry I enjoy micro optimization too much, that is both my
-> > strength and weakness.
-> >
-> > >
-> > > When everything in vswap, we don't need to test for it.
-> > >
-> > I've been there and done that, the result was pretty bad in those
-> > earlier series.
-> >
-> > > Handling the details of what's behind the vswap would
-> > > be handled one layer down.
-> > >
-> > > Chris, do you think that would be cleaner?
-> >
-> > If it can wrap below the swap_ops, it is just priviate inernal dedail
-> > of implementing its own indirections. That would be much cleaner. That
-> > is what I am trying to pitch to Nhat in prevoius email but does not
-> > have following actions.
->
-> Registering vswap's operation as into swap_ops isn't too hard. I
-> frankly don't see much wins to it for vswap itself, but it's not hard
-> to do if you like it.
+From: Alexei Solcanu <alexei.solcanu@pm.me>
 
-I am offering these as ways to move forward with vswap. There is
-always the alternaive to use xswap instead.
+The GPD Win 5 uses gpd_duo_drvdata, which exposes a single fan and pwm
+channel: pwm1 writes the same duty cycle to both fans, and fan1_input
+only reads the first fan's RPM.
 
->
-> What I'm disagreeing is treating it as "just another swap device". The
-> implementation shares a lot of swap device's machinery, so I have
-> don't mind adopting it, but you can't treat it like a normal swap
-> device, and expose it to userspace like one. You get issues with
-> allocations internally, and externally you give userspace a vector to
-> misconfigure with device priority.
+The two fans have independent registers. Fan 1 uses duty cycle 0x047A
+and RPM 0x0478/0x0479, fan 2 uses duty cycle 0x047B and RPM
+0x0476/0x0477. A duty cycle of 0 returns that fan to EC control.
 
-I'd like to hear more about this. If a user wants to shoot themselves
-in the foot. My philosophy is just let them. It is not worthwhile to
-complicate the code path. We can add a big fat warning that
-"Oh, you are configuring xswap with a priority other than the
-recommended one." But if the user really wants to do it, we should
-allow it.
+Add separate board data for the Win 5 and register fan1/pwm1 and
+fan2/pwm2, one channel per fan. Boards with a single fan are unchanged.
 
-Another use case is when users employ more than one swap device to
-reduce swap device lock contention. It is not a big deal when you swap
-out a few GB of memory. But if you swap out more than 100G of memory,
-the swap device lock contention really shows up in the earlier version
-of the swap core. The new swap allocator and swap table significantly
-reduce that contention. But that contention still exists. A few
-hundred G of memory under one lock is just a bit too much. I think
-there is a legitimate reason to use more than one device to reduce
-lock contention.
+This changes behaviour on the Win 5: pwm1 and pwm1_enable now control
+only the first fan. The second fan stays under EC control unless pwm2
+and pwm2_enable are used.
 
-Granted, other ways exist to reduce lock contention, but they increase
-code complexity as well. The current swap device design is a good
-balance of code complexity and flexibility.
+The GPD Duo keeps a single channel, since it is untested and its
+second fan's RPM register is unknown.
 
-> That's why I've been insisting on what's the use case that motivates
-> these aspects of the interface that you're interested in. A pretty
-> design is not a real usecase, especially one that creates problems
-> with userspace misconfigurations.
+Tested on a GPD Win 5 (G1618-05).
 
-Points taken; this isn't enough to justify the extra maintenance and
-complexity of vswap right now. A cleaner alternative exists with less
-complexity overhead.
+Suggested-by: Guenter Roeck <linux@roeck-us.net>
+Assisted-by: LLM
+Signed-off-by: Alexei Solcanu <alexei.solcanu@pm.me>
+---
+ Documentation/hwmon/gpd-fan.rst |  14 ++--
+ drivers/hwmon/gpd-fan.c         | 146 +++++++++++++++++++++++++++-------------
+ 2 files changed, 107 insertions(+), 53 deletions(-)
 
-Chris
+diff --git a/Documentation/hwmon/gpd-fan.rst b/Documentation/hwmon/gpd-fan.rst
+index b27657d3305..6c8569c5f64 100644
+--- a/Documentation/hwmon/gpd-fan.rst
++++ b/Documentation/hwmon/gpd-fan.rst
+@@ -28,6 +28,7 @@ Currently the driver supports the following handhelds:
+  - GPD Win Max 2 2025 (HX370)
+  - GPD Win 4 (6800U)
+  - GPD Win 4 (7840U)
++ - GPD Win 5
+  - GPD Micro PC 2
+ 
+ Module parameters
+@@ -59,23 +60,26 @@ Sysfs entries
+ 
+ The following attributes are supported:
+ 
+-fan1_input
++fan[1-2]_input
+   Read Only. Reads current fan RPM.
+ 
+-pwm1_enable
++pwm[1-2]_enable
+   Read/Write. Enable manual fan control. Write "0" to disable control and run
+   at full speed. Write "1" to set to manual, write "2" to let the EC control
+   decide fan speed. Read this attribute to see current status.
+ 
+   NB: In consideration of the safety of the device, when setting to manual mode,
+   the pwm speed will be set to the maximum value (255) by default. You can set
+-  a different value by writing pwm1 later.
++  a different value by writing pwm[1-2] later.
+ 
+-pwm1
++pwm[1-2]
+   Read/Write. Read this attribute to see current duty cycle in the range
+-  [0-255]. When pwm1_enable is set to "1" (manual) write any value in the
++  [0-255]. When pwm[1-2]_enable is set to "1" (manual) write any value in the
+   range [0-255] to set fan speed.
+ 
+   NB: Many boards (except listed under wm2 above) don't support reading the
+   current pwm value in auto mode. That will just return EOPNOTSUPP. In manual
+   mode it will always return the real value.
++
++fan2_input, pwm2_enable and pwm2 only exist on devices with two fans
++(GPD Win 5).
+diff --git a/drivers/hwmon/gpd-fan.c b/drivers/hwmon/gpd-fan.c
+index b3b75f99f58..e03b0dde66f 100644
+--- a/drivers/hwmon/gpd-fan.c
++++ b/drivers/hwmon/gpd-fan.c
+@@ -31,6 +31,7 @@ enum gpd_board {
+ 	win4_6800u,
+ 	win_max_2,
+ 	duo,
++	win5,
+ 	mpc2,
+ };
+ 
+@@ -40,9 +41,11 @@ enum FAN_PWM_ENABLE {
+ 	AUTOMATIC	= 2,
+ };
+ 
++#define GPD_MAX_FANS	2
++
+ struct gpd_fan_data {
+-	enum FAN_PWM_ENABLE pwm_enable;
+-	u8 pwm_value;
++	enum FAN_PWM_ENABLE pwm_enable[GPD_MAX_FANS];
++	u8 pwm_value[GPD_MAX_FANS];
+ 	const struct gpd_fan_drvdata *drvdata;
+ };
+ 
+@@ -55,6 +58,8 @@ struct gpd_fan_drvdata {
+ 	const u16 manual_control_enable;
+ 	const u16 rpm_read;
+ 	const u16 pwm_write;
++	const u16 rpm2_read; // Second fan, 0 if there is none
++	const u16 pwm2_write;
+ 	const u16 pwm_max;
+ };
+ 
+@@ -82,6 +87,20 @@ static struct gpd_fan_drvdata gpd_duo_drvdata = {
+ 	.pwm_max		= 244,
+ };
+ 
++static struct gpd_fan_drvdata gpd_win5_drvdata = {
++	.board_name		= "win5",
++	.board			= win5,
++
++	.addr_port		= 0x4E,
++	.data_port		= 0x4F,
++	.manual_control_enable	= 0x047A,
++	.rpm_read		= 0x0478,
++	.pwm_write		= 0x047A,
++	.rpm2_read		= 0x0476,
++	.pwm2_write		= 0x047B,
++	.pwm_max		= 244,
++};
++
+ static struct gpd_fan_drvdata gpd_win4_drvdata = {
+ 	.board_name		= "win4",
+ 	.board			= win4_6800u,
+@@ -214,7 +233,7 @@ static const struct dmi_system_id dmi_table[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "G1618-05"),
+ 		},
+-		.driver_data = &gpd_duo_drvdata,
++		.driver_data = &gpd_win5_drvdata,
+ 	},
+ 	{
+ 		// GPD Pocket 4
+@@ -290,13 +309,29 @@ static void gpd_ecram_write(const struct gpd_fan_drvdata *drvdata, u16 offset, u
+ 	outb(value, data_port);
+ }
+ 
+-static int gpd_generic_read_rpm(struct gpd_fan_data *data)
++static int gpd_num_fans(const struct gpd_fan_drvdata *drvdata)
++{
++	return drvdata->pwm2_write ? 2 : 1;
++}
++
++static u16 gpd_rpm_reg(const struct gpd_fan_drvdata *drvdata, int channel)
++{
++	return channel ? drvdata->rpm2_read : drvdata->rpm_read;
++}
++
++static u16 gpd_pwm_reg(const struct gpd_fan_drvdata *drvdata, int channel)
++{
++	return channel ? drvdata->pwm2_write : drvdata->pwm_write;
++}
++
++static int gpd_generic_read_rpm(struct gpd_fan_data *data, int channel)
+ {
+ 	const struct gpd_fan_drvdata *drvdata = data->drvdata;
++	u16 reg = gpd_rpm_reg(drvdata, channel);
+ 	u8 high, low;
+ 
+-	gpd_ecram_read(drvdata, drvdata->rpm_read, &high);
+-	gpd_ecram_read(drvdata, drvdata->rpm_read + 1, &low);
++	gpd_ecram_read(drvdata, reg, &high);
++	gpd_ecram_read(drvdata, reg + 1, &low);
+ 
+ 	return (u16)high << 8 | low;
+ }
+@@ -315,18 +350,19 @@ static int gpd_wm2_read_rpm(struct gpd_fan_data *data)
+ 			gpd_ecram_write(drvdata, pwm_ctr_offset, 0xB8);
+ 	}
+ 
+-	return gpd_generic_read_rpm(data);
++	return gpd_generic_read_rpm(data, 0);
+ }
+ 
+-// Read value for fan1_input
+-static int gpd_read_rpm(struct gpd_fan_data *data)
++// Read value for fanN_input
++static int gpd_read_rpm(struct gpd_fan_data *data, int channel)
+ {
+ 	switch (data->drvdata->board) {
+ 	case win4_6800u:
+ 	case win_mini:
+ 	case duo:
++	case win5:
+ 	case mpc2:
+-		return gpd_generic_read_rpm(data);
++		return gpd_generic_read_rpm(data, channel);
+ 	case win_max_2:
+ 		return gpd_wm2_read_rpm(data);
+ 	}
+@@ -349,19 +385,20 @@ static int gpd_wm2_read_pwm(struct gpd_fan_data *data)
+ 	return DIV_ROUND_CLOSEST((var - 1) * 255, (drvdata->pwm_max - 1));
+ }
+ 
+-// Read value for pwm1
+-static int gpd_read_pwm(struct gpd_fan_data *data)
++// Read value for pwmN
++static int gpd_read_pwm(struct gpd_fan_data *data, int channel)
+ {
+ 	switch (data->drvdata->board) {
+ 	case win_mini:
+ 	case duo:
++	case win5:
+ 	case win4_6800u:
+ 	case mpc2:
+-		switch (data->pwm_enable) {
++		switch (data->pwm_enable[channel]) {
+ 		case DISABLE:
+ 			return 255;
+ 		case MANUAL:
+-			return data->pwm_value;
++			return data->pwm_value[channel];
+ 		case AUTOMATIC:
+ 			return -EOPNOTSUPP;
+ 		}
+@@ -378,13 +415,13 @@ static inline u8 gpd_cast_pwm_range(const struct gpd_fan_drvdata *drvdata, u8 va
+ 	return DIV_ROUND_CLOSEST(val * (drvdata->pwm_max - 1), 255) + 1;
+ }
+ 
+-static void gpd_generic_write_pwm(struct gpd_fan_data *data, u8 val)
++static void gpd_generic_write_pwm(struct gpd_fan_data *data, int channel, u8 val)
+ {
+ 	const struct gpd_fan_drvdata *drvdata = data->drvdata;
+ 	u8 pwm_reg;
+ 
+ 	pwm_reg = gpd_cast_pwm_range(drvdata, val);
+-	gpd_ecram_write(drvdata, drvdata->pwm_write, pwm_reg);
++	gpd_ecram_write(drvdata, gpd_pwm_reg(drvdata, channel), pwm_reg);
+ }
+ 
+ static void gpd_duo_write_pwm(struct gpd_fan_data *data, u8 val)
+@@ -397,10 +434,10 @@ static void gpd_duo_write_pwm(struct gpd_fan_data *data, u8 val)
+ 	gpd_ecram_write(drvdata, drvdata->pwm_write + 1, pwm_reg);
+ }
+ 
+-// Write value for pwm1
+-static int gpd_write_pwm(struct gpd_fan_data *data, u8 val)
++// Write value for pwmN
++static int gpd_write_pwm(struct gpd_fan_data *data, int channel, u8 val)
+ {
+-	if (data->pwm_enable != MANUAL)
++	if (data->pwm_enable[channel] != MANUAL)
+ 		return -EPERM;
+ 
+ 	switch (data->drvdata->board) {
+@@ -410,25 +447,27 @@ static int gpd_write_pwm(struct gpd_fan_data *data, u8 val)
+ 	case win_mini:
+ 	case win4_6800u:
+ 	case win_max_2:
++	case win5:
+ 	case mpc2:
+-		gpd_generic_write_pwm(data, val);
++		gpd_generic_write_pwm(data, channel, val);
+ 		break;
+ 	}
+ 
+ 	return 0;
+ }
+ 
+-static void gpd_win_mini_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABLE pwm_enable)
++static void gpd_win_mini_set_pwm_enable(struct gpd_fan_data *data, int channel,
++					enum FAN_PWM_ENABLE pwm_enable)
+ {
+ 	switch (pwm_enable) {
+ 	case DISABLE:
+-		gpd_generic_write_pwm(data, 255);
++		gpd_generic_write_pwm(data, channel, 255);
+ 		break;
+ 	case MANUAL:
+-		gpd_generic_write_pwm(data, data->pwm_value);
++		gpd_generic_write_pwm(data, channel, data->pwm_value[channel]);
+ 		break;
+ 	case AUTOMATIC:
+-		gpd_ecram_write(data->drvdata, data->drvdata->pwm_write, 0);
++		gpd_ecram_write(data->drvdata, gpd_pwm_reg(data->drvdata, channel), 0);
+ 		break;
+ 	}
+ }
+@@ -440,7 +479,7 @@ static void gpd_duo_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABL
+ 		gpd_duo_write_pwm(data, 255);
+ 		break;
+ 	case MANUAL:
+-		gpd_duo_write_pwm(data, data->pwm_value);
++		gpd_duo_write_pwm(data, data->pwm_value[0]);
+ 		break;
+ 	case AUTOMATIC:
+ 		gpd_ecram_write(data->drvdata, data->drvdata->pwm_write, 0);
+@@ -455,11 +494,11 @@ static void gpd_wm2_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABL
+ 
+ 	switch (enable) {
+ 	case DISABLE:
+-		gpd_generic_write_pwm(data, 255);
++		gpd_generic_write_pwm(data, 0, 255);
+ 		gpd_ecram_write(drvdata, drvdata->manual_control_enable, 1);
+ 		break;
+ 	case MANUAL:
+-		gpd_generic_write_pwm(data, data->pwm_value);
++		gpd_generic_write_pwm(data, 0, data->pwm_value[0]);
+ 		gpd_ecram_write(drvdata, drvdata->manual_control_enable, 1);
+ 		break;
+ 	case AUTOMATIC:
+@@ -468,19 +507,20 @@ static void gpd_wm2_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABL
+ 	}
+ }
+ 
+-// Write value for pwm1_enable
+-static void gpd_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABLE enable)
++// Write value for pwmN_enable
++static void gpd_set_pwm_enable(struct gpd_fan_data *data, int channel, enum FAN_PWM_ENABLE enable)
+ {
+ 	if (enable == MANUAL)
+ 		// Set pwm_value to max firstly when switching to manual mode, in
+ 		// consideration of device safety.
+-		data->pwm_value = 255;
++		data->pwm_value[channel] = 255;
+ 
+ 	switch (data->drvdata->board) {
+ 	case win_mini:
+ 	case win4_6800u:
++	case win5:
+ 	case mpc2:
+-		gpd_win_mini_set_pwm_enable(data, enable);
++		gpd_win_mini_set_pwm_enable(data, channel, enable);
+ 		break;
+ 	case duo:
+ 		gpd_duo_set_pwm_enable(data, enable);
+@@ -491,10 +531,15 @@ static void gpd_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABLE en
+ 	}
+ }
+ 
+-static umode_t gpd_fan_hwmon_is_visible(__always_unused const void *drvdata,
++static umode_t gpd_fan_hwmon_is_visible(const void *hwmon_data,
+ 					enum hwmon_sensor_types type, u32 attr,
+-					__always_unused int channel)
++					int channel)
+ {
++	const struct gpd_fan_data *data = hwmon_data;
++
++	if (channel >= gpd_num_fans(data->drvdata))
++		return 0;
++
+ 	if (type == hwmon_fan && attr == hwmon_fan_input) {
+ 		return 0444;
+ 	} else if (type == hwmon_pwm) {
+@@ -511,14 +556,14 @@ static umode_t gpd_fan_hwmon_is_visible(__always_unused const void *drvdata,
+ 
+ static int gpd_fan_hwmon_read(struct device *dev,
+ 			      enum hwmon_sensor_types type, u32 attr,
+-			      __always_unused int channel, long *val)
++			      int channel, long *val)
+ {
+ 	struct gpd_fan_data *data = dev_get_drvdata(dev);
+ 	int ret;
+ 
+ 	if (type == hwmon_fan) {
+ 		if (attr == hwmon_fan_input) {
+-			ret = gpd_read_rpm(data);
++			ret = gpd_read_rpm(data, channel);
+ 
+ 			if (ret < 0)
+ 				return ret;
+@@ -529,10 +574,10 @@ static int gpd_fan_hwmon_read(struct device *dev,
+ 	} else if (type == hwmon_pwm) {
+ 		switch (attr) {
+ 		case hwmon_pwm_enable:
+-			*val = data->pwm_enable;
++			*val = data->pwm_enable[channel];
+ 			return 0;
+ 		case hwmon_pwm_input:
+-			ret = gpd_read_pwm(data);
++			ret = gpd_read_pwm(data, channel);
+ 
+ 			if (ret < 0)
+ 				return ret;
+@@ -547,7 +592,7 @@ static int gpd_fan_hwmon_read(struct device *dev,
+ 
+ static int gpd_fan_hwmon_write(struct device *dev,
+ 			       enum hwmon_sensor_types type, u32 attr,
+-			       __always_unused int channel, long val)
++			       int channel, long val)
+ {
+ 	struct gpd_fan_data *data = dev_get_drvdata(dev);
+ 
+@@ -557,17 +602,17 @@ static int gpd_fan_hwmon_write(struct device *dev,
+ 			if (!in_range(val, 0, 3))
+ 				return -EINVAL;
+ 
+-			data->pwm_enable = val;
++			data->pwm_enable[channel] = val;
+ 
+-			gpd_set_pwm_enable(data, data->pwm_enable);
++			gpd_set_pwm_enable(data, channel, data->pwm_enable[channel]);
+ 			return 0;
+ 		case hwmon_pwm_input:
+ 			if (!in_range(val, 0, 256))
+ 				return -EINVAL;
+ 
+-			data->pwm_value = val;
++			data->pwm_value[channel] = val;
+ 
+-			return gpd_write_pwm(data, val);
++			return gpd_write_pwm(data, channel, val);
+ 		}
+ 	}
+ 
+@@ -581,8 +626,9 @@ static const struct hwmon_ops gpd_fan_ops = {
+ };
+ 
+ static const struct hwmon_channel_info *gpd_fan_hwmon_channel_info[] = {
+-	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
+-	HWMON_CHANNEL_INFO(pwm, HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
++	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT, HWMON_F_INPUT),
++	HWMON_CHANNEL_INFO(pwm, HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
++			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
+ 	NULL
+ };
+ 
+@@ -619,8 +665,10 @@ static void gpd_fan_reset_hardware(void *pdata)
+ 	struct gpd_fan_data *data = pdata;
+ 
+ 	if (data) {
+-		data->pwm_enable = AUTOMATIC;
+-		gpd_set_pwm_enable(data, AUTOMATIC);
++		for (int i = 0; i < gpd_num_fans(data->drvdata); i++) {
++			data->pwm_enable[i] = AUTOMATIC;
++			gpd_set_pwm_enable(data, i, AUTOMATIC);
++		}
+ 	}
+ }
+ 
+@@ -654,8 +702,10 @@ static int gpd_fan_probe(struct platform_device *pdev)
+ 		return -EINVAL;
+ 
+ 	data->drvdata = match;
+-	data->pwm_enable = AUTOMATIC;
+-	data->pwm_value = 255;
++	for (int i = 0; i < gpd_num_fans(match); i++) {
++		data->pwm_enable[i] = AUTOMATIC;
++		data->pwm_value[i] = 255;
++	}
+ 
+ 	dev_set_drvdata(dev, data);
+ 
+
+-- 
+2.55.0
+
+
