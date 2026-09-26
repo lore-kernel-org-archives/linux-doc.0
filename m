@@ -1,120 +1,328 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD493E4100
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 11:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C0E2E7BD9;
+	Sat, 26 Sep 2026 13:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790422541; cv=none; b=R6gi6qwR+J7RW8jq3zPLAZDtt5VcC96siE35wk+l8x460M3/9KKeA26UsdIdaahc7EGXhA8i1HY7ixROSJHV+HUwanWs4+MzNNKYr6uxi/bHW6JDzv9N4sKvyLsVvPfdx9WFrmIaOV5mXtSGiqo+/909v0dPsHctLzZlBWcHdAg=
+	t=1790428040; cv=none; b=LHTFsMpEt13USu9HeMsUElviBDbXakGh/BVQrLdDpdPjfppJc/k301DI/JS7U0dOhkHQa4LHyCkQwCzeT6g6RNHtXLWrqzYQ4S/tDf9KBIHKC4VPrct090TXd2TboaIEaQdE2VcgzZ1zOhC8KR/q3X2TMuaH3qjd6gUS+YebX6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790422541; c=relaxed/simple;
-	bh=elejCM3I7aiBIJk4EokP1CKIsPf6qMSVFiV7ceA0xps=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CoQfQ6cKZuFiurWB+L/RdaovLUSJ8tf+uYmVVkXSgu1a8NJRLFIJSHNsTRmIPFhA1GOR8IobJMf4fP+iOXs4OuaHzyWwl9vwdyLcpNvMV8b7aut6WxwveYFYjVs7P5STRi79RZpySyt4SyRK4ITG/tRaonP6J88Zmlsr1Oeerrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iWZywTzJ; arc=none smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790428040; c=relaxed/simple;
+	bh=wko7kmHoPQKSvHJFu02PIBG+REawZo/0kXd/Igypq3o=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=PeKUwu/VkZcAsYQlRhD/aEYl/9X1wk7hWEjQ0J0g32Dpz2cGUSiNBpQco6qeEVcVocgMCmUsV3ZagJd6oTpN+D0Zd0wVxQgYD0chX2YyFpkZVc7x6nikuNqW3FchIz4QGPS3Oc5Znazd4zNxadz/Pkz3EMBRLGmaWdbBOST5ouM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=GUmK00Nm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CFCADCnP; arc=none smtp.client-ip=103.168.172.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iWZywTzJ"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c25bf832368so18613966b.0
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 04:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790422538; x=1791027338; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=elejCM3I7aiBIJk4EokP1CKIsPf6qMSVFiV7ceA0xps=;
-        b=iWZywTzJ4zNVBCDWtzmj0royJOaD/WQ4wN7PdQ3J5YC3Ud36DGUyZTwpioKZ4BOQID
-         XGnkVPCKZ69yiQPfUYIy/luSjy9uDTDUZ1pOdMQnG3BXVysJFEOAPSOC9bqonWSRUMIM
-         p9/GmEfRxy5po3qxgXsdo6pLLpLPBmTWcvJs68ejPWVACU40rYsvzV3QxooTdUqOC/Ie
-         wmBuTggKV1EamTXEufkq/9o5QNauEmwa/Jny3xY7BVp9O2Rs5kW/Vrn/7sjdU17JKzJt
-         yXjgFufzpfpIZOPSdWQK1dHrn1qttrYZbB6C0WeLPOxZ8RIKJ8T7mwEof4MJHHQGj7e7
-         9eDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790422538; x=1791027338;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=elejCM3I7aiBIJk4EokP1CKIsPf6qMSVFiV7ceA0xps=;
-        b=DeXBWtSiC8Sa7tiwsZIqirCl1LA43rr7m2yS+P8xSQbyqmJQib+FjKuUBB46voHYsE
-         iVeHy4RS3MWTzYyiiYDzashixI4t/JT4avPtXUZSPKeqiB7eQ84yZmsb2v+VRYN/CuNe
-         j5cSsTFuS/JvIKLCuIrB463wLm/5D7mGAWBIgTeTi3PlCQ9j+VWogmQIUrTTc4Yc9Twc
-         TbFHlX67MqPaG4y4vRiF8n/Jz/WZv3vVyUGz8dVbmj+OkJbZPZEk1tubQJoPlSluG/Jl
-         lavMjt3FuTCXorGxzC5FuHfMsJMxxGqJMSrR8BAmP1ZEqC5/pp98tXSl/NzUuZ8bOg51
-         1QAA==
-X-Gm-Message-State: AFuF++mK1yfcZFa1oft3HTCnEeD4aXbeg1e8Kj00nQd7nz8qHV/wJ+Gl
-	8t1GoPz+O1bajdLiTFstkQgUekZN8yS8F4mrnGWrmPDiKqT7FqgjP4qU
-X-Gm-Gg: AYBFou10CtwMDkyigT5jOe3+Umt5F/cFlM4vuVt0lsy/gyOOyK1N7G8Sx0ZBtE3mbIF
-	x6+Sit3ssSwEJlJJieEhS5S6fTAdXK7fIuB0bHNngO8SKn5aVpM/vBkPbyZtqMIbz0Y9Hv7JaiZ
-	uUa58Vp31QAlmIlolUYPyGsBnYR7Jv0xXmu1b26EzrbgOFeqPhNvNE/A3gqPCRvi0S2LEvCjj74
-	jZoENdExy1IFBPYwkv6u6kNvZhnu8GpCXgumMlQMTQU08pw60d6sZFgLmpJsJyj17ccKdlmr55b
-	nXBA0t7PQSEVbw6uI6e+8kje5waNlTdDWP9i0pGI1+mK4gMmdPpI5jh9IIKGKwdm2maTTYVmCR2
-	Sa9AwbGOLV96KL2uG1UuRXrHFsybbDTZVNQNguxq/RChfF+y4KN7dfHXyU43hzv9O9kO9xBK8Hg
-	LPaS3haXAyRMjKI1/FseRoeby+mvM8C8uyrjqx0rWd5yvrXm/cNZEv+50PbzfVvr8/DIRKI2zjD
-	zfvxal7Bv2wXS5PQPA=
-X-Received: by 2002:a17:907:6090:b0:c29:39e2:4aca with SMTP id a640c23a62f3a-c2adbca5396mr461262266b.1.1790422537754;
-        Sat, 26 Sep 2026 04:35:37 -0700 (PDT)
-Received: from Nuel20.localdomain ([105.118.3.229])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2dbd3a046asm42887566b.69.2026.09.26.04.35.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 04:35:37 -0700 (PDT)
-From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	mchehab@kernel.org,
-	aleksander.lobakin@intel.com,
-	aleksandr.loktionov@intel.com,
-	tudor.ambarus@linaro.org,
-	bvanassche@acm.org
-Subject: Re: [PATCH] docs: kdoc: fix struct_group_tagged() parsing regression
-Date: Sat, 26 Sep 2026 12:35:26 +0100
-Message-ID: <20260926113526.65577-1-emmaonana18@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <e8344a91-b2a1-42a5-b65d-e02939103108@infradead.org>
-References: <e8344a91-b2a1-42a5-b65d-e02939103108@infradead.org> <20260914155127.21515-1-emmaonana18@gmail.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="GUmK00Nm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CFCADCnP"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailflow.phl.internal (Postfix) with ESMTP id B12EC1380386;
+	Sat, 26 Sep 2026 09:07:13 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Sat, 26 Sep 2026 09:07:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1790428032;
+	 x=1790435232; bh=E/0Aixz4MoGQbluxHxh98fr8xrgoH3pVa08CacPtFqs=; b=
+	GUmK00NmjYxSwfTBR3tVNjpqLAkVRWaCBtQW8hPgHgcvYPwGIIBCDq+aR194QZJV
+	hmIcmgKgFrX27w+CIuLZuGT+yAFPNfLObwbKGmV03uNiklrcV1jmuaY6kEgV6x+q
+	WRmC/1yuc3swDBfzqYG9TWNOngXm1W05PRIhj/dtOD6JqYWH9z9czT6feZHU2JL3
+	JlQkDDPxveVpZogI1dYghXXZz++8wtMbQ/lGmn0NVM61W0LRFcwZWYUslQl8bO8O
+	UX5rFh6elLuPZ8IbUOIIE0sUFyCCB2PLQbbO8ZRv4Z20dH1JfoSTZZZNWihCrVx9
+	4U3VBA18TINEk/vd5YlE2g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790428032; x=
+	1790435232; bh=E/0Aixz4MoGQbluxHxh98fr8xrgoH3pVa08CacPtFqs=; b=C
+	FCADCnP4fRR97/s//gFNfg+o+dRoT3zAGmmVQgzGghEZGGxzUUe6/HRcoxd0Wg1G
+	g/HL22FnHnD3JvV0Dgj/rtpsMttSHnLk2hw5GuDQVsB9O1YsKx0PDaNwhGHxs7Z4
+	3yzAqm5Dy1VVfvzQEYifHlvzaW2kEkSCIoH/+P2bVn2V9YgQVxn/pdYQA2rgNAx5
+	67xRqC8Rz+PiPjdOzdId03n7pB6tcKzF4LBtK2G+iJk/8veJj42P4Bud7seJhcKM
+	a9xTeAIp8QgYEr0LPZkLtZzLvDWJ1EdO7EU5y2Trcfp8zShGMwSGmxEVyk27RcDm
+	3//dExIenidGLUR3jnVhg==
+X-ME-Sender: <xms:d8O3au7n76eGhw2jpYdaVcHYn7upNz3419mg3XiM0JtuvZuHQIUVeA>
+    <xme:d8O3aitofBqjo_lbLDOAU7mZfGFzex12BqHRTCkWnEKu20vrV6Gu_C_19EF4s5u5Q
+    uVEwdBKfpJgOZoKzIw3RmstgUNQ8069BcGi5cScnfwl2JtyCll0uws>
+X-ME-Proxy-Cause: dmFkZTGUsKpqFXqlz0GGP/SFu+nZLjbDSu7At32QI34HLKVvf1fGYqDec9fSpPeFMwM2na
+    lCIyfst1DkAn1nxttW/0OGqAIcgR9hP0+9KRaczAEVzAiyIUrCzfAz3NG4OEkYMphPiska
+    sxzrcia7B/OfHjuc0OL3x2A6enil36KUIzawLytpDPNS07jW2p5hyCyp71P9EehHhgSWHo
+    13Bfkrk0kKx87sKF02XDEMx1t5GR+s+avdeSQ+AKRYbyaAuXdnE7xZSXQLdPsxEPtOlIpj
+    o0ANo6Se5VTMUcD0Mj9SJPo17T3fs8fxxCSDV2AftKwgRroxTJNkJPQnQ7BWLJ6W6fgTL5
+    wcNX32wzcM+QcLysY+pG69bj2RWFiUEd6wCYRTkVdCNfg7iFgjgAMtc09dsEXp4rUb9h87
+    Oh8IM3cXORgKjuqI9lWC+3kWwTogF+JMgqrNQVO7wVPJtcj/YPXt3JSnFSK50DuW3jJQwf
+    vC9xfsQarOpSwgT1SAHLeR5I1+SexGjeb1uJYikij/Vz/Qj8km+B2lRt2ir399BexDXylD
+    PxhinKlmSGCiwMsbu3RaQoA44Ynwc4XeDZEW0AvzHcge9LqoiYgRJjopaNATJs7VKeCwkb
+    Jf57C98/6wGVpJMIDVVR8ZEuU5t017X4o0/d6NVEbPZlm4dkUa5KYbehg+PA
+X-ME-Proxy: <xmx:fMO3apNP7HWsw2MPRs-ieBJZJpJm3doBBN88O0NvYsDI9Xk97LbkcA>
+    <xmx:fMO3asQhfZWmNKKQDfWOq1r6BmT1NpDzrtyIVNly6k8o72fqmwu0-Q>
+    <xmx:fMO3av5b2ChKxwow5wOHgSJTP_6AHC2Hcrx_qsRy59RQjkEcTmxgSg>
+    <xmx:fMO3agURH6NbNbT-w9t55VsJrrqeLwZ3RwxTXuqbm65L-K8N8i-6xA>
+    <xmx:gMO3ashG8E4Vx1KpZYgMvK8nuPd1Idi8GbsxL2-2Fwaj5ZgG-zhsdId_>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 577F132A0087; Sat, 26 Sep 2026 09:07:03 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AJwEWD5WPnhk
+Date: Sat, 26 Sep 2026 15:06:33 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Lorenzo Stoakes" <ljs@kernel.org>
+Cc: "Andrew Morton" <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>,
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+ "Jann Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ "Mike Rapoport" <rppt@kernel.org>,
+ "Suren Baghdasaryan" <surenb@google.com>,
+ "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>,
+ "Paul Moore" <paul@paul-moore.com>,
+ "Stephen Smalley" <stephen.smalley.work@gmail.com>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Andrii Nakryiko" <andrii@kernel.org>,
+ "Eduard Zingerman" <eddyz87@gmail.com>,
+ "Kumar Kartikeya Dwivedi" <memxor@gmail.com>, "Zi Yan" <ziy@nvidia.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Nico Pache" <nico.pache@linux.dev>,
+ "Ryan Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>,
+ "Barry Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>,
+ "Usama Arif" <usama.arif@linux.dev>,
+ "Kirill A. Shutemov" <kas@kernel.org>,
+ "Doug Gilbert" <dgilbert@interlog.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>,
+ "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter" <simona@ffwll.ch>,
+ "Helge Deller" <deller@gmx.de>, "Sebastian Reichel" <sre@kernel.org>,
+ "John Hubbard" <jhubbard@nvidia.com>, peterx <peterx@redhat.com>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Oleg Nesterov" <oleg@redhat.com>,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "Arnaldo Carvalho de Melo" <acme@kernel.org>,
+ "Namhyung Kim" <namhyung@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>,
+ "Harry Yoo" <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>,
+ "Vincent Guittot" <vincent.guittot@linaro.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Dave Airlie" <airlied@gmail.com>, "Will Deacon" <will@kernel.org>,
+ "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Muchun Song" <muchun.song@linux.dev>,
+ "Oscar Salvador" <osalvador@suse.de>,
+ "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
+ "Marc Zyngier" <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>,
+ "Janosch Frank" <frankja@linux.ibm.com>,
+ "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>,
+ "Gerald Schaefer" <gerald.schaefer@linux.ibm.com>,
+ "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Andreas Larsson" <andreas@gaisler.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>,
+ "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>,
+ "Byungchul Park" <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>,
+ "Ying Huang" <ying.huang@linux.alibaba.com>,
+ "Alistair Popple" <apopple@nvidia.com>, "Chris Li" <chrisl@kernel.org>,
+ "Kairui Song" <kasong@tencent.com>,
+ "Kemeng Shi" <shikemeng@huaweicloud.com>,
+ "Nhat Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>,
+ "Youngjun Park" <youngjun.park@lge.com>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>,
+ "Axel Rasmussen" <axelrasmussen@google.com>,
+ "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu" <weixugc@google.com>,
+ "Chengming Zhou" <chengming.zhou@linux.dev>,
+ "Michal Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Xu Xin" <xu.xin@linux.dev>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
+ selinux@vger.kernel.org, linux-sound@vger.kernel.org,
+ bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev, "Takashi Iwai" <tiwai@suse.de>,
+ "Emil Tsalapatis" <emil@etsalapatis.com>
+Message-Id: <408aef6e-5b0a-482f-8ba8-f8c20ee870e5@app.fastmail.com>
+In-Reply-To: <areSEI5pWBadkqIe@gremlin>
+References: 
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <d4d7d4c2-a1d5-41d0-b1c8-8ea0cc5a0397@app.fastmail.com>
+ <areSEI5pWBadkqIe@gremlin>
+Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit, eliminate
+ VM_SPECIAL
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Randy,
+On Sat, Sep 26, 2026, at 11:40, Lorenzo Stoakes (ARM) wrote:
+> On Sat, Sep 26, 2026 at 12:06:22AM +0200, Arnd Bergmann wrote:
+>>
+>> mm/vma.c: In function '__mmap_region':
+>> mm/vma.c:3083:1: error: the frame size of 1552 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
+>>
+>> I don't immediately see anything that you did that would have introduced
+>> something bad that wasn't already there, so it's likely just gone from
+>> just below the limit I was using for my testing to just above. The 1536
+>> byte limit is what I use on 64-bit builds with KASAN and otherwise
+>> still has a clean build (with a small number of local fixup patches).
+>
+> Hmm are you specifying this limit manually somehow?
 
-> Would something similar to this work for this warning?
+It's a Kconfig setting upstream, but the way I'm doing it is to have
+patch that calculates a sensible default based on other options that
+is a little smaller than the default (currently 2048 bytes) on x86-64
+to catch more cases where something sticks out.
 
-Thanks for looking into this — and for spotting that warning in the
-first place.
+>> If I sprinkle some 'noinline_for_stack' annotations on functions
+>> called by __mmap_region(), I can get the size down to 1144 in this
+>> config, but that doesn't sound like a great workaround.
+>>
+>> The large stack usage is potentially harmful if this ends up
+>> in call chains that have additional large stack usage (e.g.
+>> kmalloc() leading to reclaim). Any ideas for how to reduce it here?
+>
+> That can never happen :) this call chain is _only_ for an mmap() call.
 
-> Warning: include/linux/debugfs.h:246 context_lock_struct(debugfs_cancellation) { struct list_head list; void (*cancel)(struct dentry *, void *); void *cancel_data; }; error: Cannot parse struct or union!
+I mean more functions called /from/ here, something like
 
-> Even though context_lock_struct is in xforms_list.py, it's not working
-> in this case (above).
+  __mmap_region()
+  __mmap_new_vma()
+  vm_area_alloc()
+  kmem_cache_alloc(..., GFP_KERNEL)
+  slab_alloc_node()
+  allocate_slab()
+  alloc_slab_page()
+  __alloc_pages_slowpath()
+  __alloc_pages_direct_reclaim()
+  __perform_reclaim()
+  try_to_free_pages()
+  shrink_zones()
+  shrink_node()
+  lru_gen_shrink_node()
+  shrink_many()
+  shrink_one()
+  try_to_shrink_lruvec()
+  evict_folios()
+  shrink_folio_list()
+  pageout()
+  shmem_writeout()
+  swap_writeout()
+  swap_add_folio()
+  swap_write_submit()
+  nfs_swap_submit_write()
+  nfs_file_direct_write()
+  nfs_direct_extract_pages()
+  nfs_do_recoalesce()
+  __nfs_pageio_add_request()
+  nfs_pageio_doio()
+  pnfs_generic_pg_writepages()
+  pnfs_do_write()
+  pnfs_try_to_write_data()
+  filelayout_write_pagelist()
+  nfs_initiate_pgio()
+  nfs_local_doio()
+  nfs_local_do_write()
+  nfs_local_call_write()
+  ->write_iter()
+  generic_file_write_iter()
+  generic_write_sync()
+  vfs_fsync_range()
+  ->fsync()
+  xfs_file_fsync()
+  file_write_and_wait_range()
+  filemap_fdatawrite_range()
+  filemap_writeback()
+  do_writepages()
+  ->writepages()
+  xfs_vm_writepages()
+  iomap_writepages()
+  iomap_writeback_folio()
+  iomap_writeback_range()
+  ->writeback_range()
+  xfs_zoned_writeback_range()
+  iomap_add_to_ioend()
+  ->writeback_submit()
+  xfs_zoned_writeback_submit()
+  xfs_zone_alloc_and_submit()
+  xfs_submit_zoned_bio()
+  submit_bio()
+  submit_bio_noacct()
+  submit_bio_noacct_nocheck()
+  __submit_bio_noacct()
+  __submit_bio()
+  blk_mq_submit_bio()
+  blk_mq_run_dispatch_ops()
+  blk_mq_try_issue_directly()
+  blk_mq_run_hw_queue()
+  blk_mq_sched_dispatch_requests()
+  blk_mq_do_dispatch_sched()
+  __blk_mq_do_dispatch_sched()
+  blk_mq_dispatch_rq_list()
+  ->queue_rq()
+  scsi_queue_rq()
+  scsi_dispatch_cmd()
+  ->queuecommand()
+  ata_scsi_queuecmd()
+  __ata_scsi_queuecmd()
+  ata_scsi_translate()
+  ata_scsi_qc_issue()
+  ata_qc_issue()
+  qc_issue()
+  ata_sff_qc_issue()
+  ata_sff_queue_pio_task()
 
-If I'm reading mainline right, there's no
-context_lock_struct rule in xforms_lists.py yet; nothing in the kdoc
-tooling handles the macro at all. I hadn't seen your message before —
-the rule is something I'm adding in my follow-up patch "[PATCH] docs:
-kdoc: parse context_lock_struct() as struct declaration", which is
-currently in review in a separate thread.
+There are many ways the call chain can go of course, but the actual
+stack overflows do tend to follow this pattern where you are at a
+function with high stack usage and call kmalloc() during low memory
+condition and that ends up waiting for a block I/O down the line.
+(you normally don't go through swap and nfs, I was just looking
+for the worst case I could easily see in the code)
 
-That's why the warning shows up: there is no transform to run, and even
-with one in place the struct transforms wouldn't fire, since
-dump_struct() applies them only to the members after
-split_struct_proto() — which rejects context_lock_struct(...) first.
-So something similar to the struct_group_tagged fix would be part of it
-(the rule itself), but it also needs the transforms applied to the whole
-declaration before split_struct_proto(), the same way dump_var() and
-dump_function() already do. That's what the patch does.
+> In general I am absolutely taking this seriously and will find a way to
+> reduce this, but my only question is whether this is actually something
+> that needs to be done in this series?
+>
+> Because it's already huge and I would rather avoid adding yet another patch
+> to it if possible.
+>
+> If I can do it as a follow-up that'd be ideal!
 
-Thanks,
+What I was hoping for is that as you are already deep into the
+exact code that caused the warning and you can already see something
+in there that may help.
 
-Onana
+I don't think it's urgent, I just don't want it to be forgotten.
+
+     Arnd
