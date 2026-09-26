@@ -1,173 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C0B3AE188;
-	Sat, 26 Sep 2026 09:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4905E35200D
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 09:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790415690; cv=none; b=C2NmT9uWz00F0F1OANcjzmMvRfxVUwRlXBKIZsTj3xKMUFHAsDJIg0NLrKc2Kv37EWVhSH08UWQhobLZehvPPXF509WL4GtZzdb73pquMNk0gY/vVOMIgLexw5M/TxNHOyv213kRJTWNORjTpKOEHjRcLRnDfJS5skkvfJZcNfA=
+	t=1790416469; cv=none; b=YojweD0zgUHvHR8hw4HhzET13e5IfB3NB9x1etZIeXopcyGItg/k93K4x0H8rO6F28490Wr61yPPKXCInnlwLks1yZ+IG7rYAF/CjW4miLFj/y0OE9dA78yEV01ABC/OPoReawWBypnYM28tp+TOefPZFhWG7iljg5ulmXNMlHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790415690; c=relaxed/simple;
-	bh=fG0FKQk8YwZ1VwP7/bshHcrrty8QQFIrgXpFDMvFJbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LEXT0M+HYTvukNeD9kCslGYlsOpJPDSAmYGTHCtvAATFmU7F2IMvZ4oF0ATuWOxmIjzvGXY8qPTU3bizAE1W57DWfz327NEAfxBrTbFdCyjrieYm0nFGmDF2Jvzwwc9YYph8Zydt0CsEURa1TxE06yrSsFUaOw4SGb5b3o2DhQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jp0AvcBc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790416469; c=relaxed/simple;
+	bh=jtzYYt1gnSbpxseTWwyuGoJGtTKrnUjv6uDGmqvVs5U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bXD0eQW+ZfofsawY7dqSpcQmK+R6T7c6OWYP39A/3WIEWFMc0SLK7inYcpVN4Gk94cmTYU+g7NltVg+PVKQqZ0sH3nDfajisvDTgad/pBfePJFaOr8Kwd2hOfPwQfVPsNFz+3iRVjak6t007llr9eeYBgs4wYfyTrl4nPDKXUjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=odwILmkm; arc=none smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jp0AvcBc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E8C81F000FF;
-	Sat, 26 Sep 2026 09:40:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790415681;
-	bh=0u13dbBevDvvrKeztStjJV2PV5yx6LiZibgW9CGmgFg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Jp0AvcBc2qFPX1KUyqat5xOo7kolWDkC6C0w6P6DaUvXm5iSIG2CZI03JVCmdPvQ2
-	 vFXKg46qQ6h6qbDwt9b4xtSV8aaaHLKGAB793g+poJ3xMYhkIZo7xqXL5RLvULfLUx
-	 vltnCfE9F9DOd8HFLd4r2r4Sg0lUuE/yF336VcdgoJJtQs97NrE8ayt+3eU4eDKxGI
-	 oItyuRRw3Cj0jyhydyYqR3Mm1CDYrci/+rQrHCVid7DDrx80EwRj+MiAUgyhESJ7FS
-	 iOAhXbJnk5J5uDUKfyr1oX15QJ3wMcCu5lNOsTEzc+QVqHwaov8/ApQZu8GqGu9l4+
-	 gmVl8+MdCcOZA==
-Date: Sat, 26 Sep 2026 10:40:50 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	"David Hildenbrand (Red Hat)" <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	"Kirill A. Shutemov" <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, peterx <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Dave Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S . Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>, 
-	Emil Tsalapatis <emil@etsalapatis.com>
-Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit, eliminate
- VM_SPECIAL
-Message-ID: <areSEI5pWBadkqIe@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <d4d7d4c2-a1d5-41d0-b1c8-8ea0cc5a0397@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="odwILmkm"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c25bf832368so17875566b.0
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 02:54:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790416466; x=1791021266; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jtzYYt1gnSbpxseTWwyuGoJGtTKrnUjv6uDGmqvVs5U=;
+        b=odwILmkmjjr7OdOxHtSGcLd1TbFexnxRDpwkbF4lXXuADNF8UsgA1IAIN8zT/U6k+H
+         GALsXW5JAT5wukTCwT5oFnlHlbpZ1f1W69fojya6jrVwmfxMblfxTPtPH+X79qaNY2Yk
+         PhMEbkM8JWxzlaZsHcbAcD1nVgxP5m+/+mndanbhqyuYVP5bhDYJNbwfTGQsbMkLCJeA
+         +P4ZlQzXNlPO3AC09OANNp/C3DNHFiKAth80tBFziyFmdBnFAI7FxuNR4S5WKp3NMZZn
+         KkLsXAfY75TP3XiA2hRWRZcoJcdZj1foxsJdfGIXhlZ0SgXhSTZdt0XLGgd4dV1IANei
+         /hqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790416466; x=1791021266;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jtzYYt1gnSbpxseTWwyuGoJGtTKrnUjv6uDGmqvVs5U=;
+        b=TevYpHlVUhUu0nDrbog9IP5HimE8RzJjNk8eyrbltfkPg3rDqV65WHGUsHfgqEvKEI
+         9t+WIy2VexaunQn0kOXrfZr59jOH6fu8cyMGfHqr8V6I/GulzKkZlJ18ebOvzbJizP+j
+         qi9iT8HkXWMRWc3sNy9SuTRQ09cd4FRlANBoSTyGqu1ZewJfDdtSiKupT5dzyl/9lNz4
+         0ECqmjs6B/llUZmASiCijDrO6sDoplPXZ40hKPGtOfiu+z0g7teD+HsE8HFeMIOGPW8E
+         ug2oIitiwSSZibGs5m2R9nqE2QzlYYcaL1MnNFAIIhF5ojqi1IrnXCdIwofTN+vXkwRP
+         nymA==
+X-Forwarded-Encrypted: i=1; AKwUvBy5EHs/hVo2AUUZeeWXWOY5p5FQ+/jZrsrn2Aid4AVIVbDcaMUkgnM9yk2AuTxtQ/QtSO6kV7hqtKU=@vger.kernel.org
+X-Gm-Message-State: AFuF++nPLjrVqvbyWAOD+gakaP2RyfHWaaOQAzI0iC6a5eD8/filqjAT
+	WZNIL2cYAam5xcnsck1yQKfI7mhM06g6b5jW/Fx3Svsy0hsTOIqit8Fb
+X-Gm-Gg: AYBFou3vRgRPN5YwA1oFTETW2aO5PoLNfob62idRCuBvyafeR8IjY1LBp9Q0ZCCUyEh
+	/etO3lOP9csKpFMQv4FUGDgKq5yRo7m5PFhfSbbOH0qClNWEobEeqtWqFz2OmqVTpXlLK8RmlRz
+	9EgTV9+vIzmMgXl9juFPbdgM/V9cpK4jDx92fswL0F32vPuWv1+Fl+UDMJjIoetG41d6yaqUQc0
+	Hvp4hcZaDpVoB3QQmdAQwn9ACWVEUive/RVa8Db0oaYWq+n/oa3RhSWETGz/4H4+omD0XI9LSXI
+	ug1LXPVo6Md7xMGL3KRv82zilE49VFEXXumUWUB6AtXz7H825CShF1aMLOqVsjDFkTYFbO59fmt
+	XOPIqUOq5jkwprdPnKNTpe81b/cNMxyOsf6R+riUvUvVdEYb7yB0AEAHnBFvUGzMbhsaOJs/CqH
+	dAu+hKOOZmxURW0cuU8pvz0TBLpYwUhWUkhq3GvM4c5d1pTLHkdbeZn4aNY5rG6utQ6mP4u7o9c
+	ovUDGnI2utDVRSg1sZL
+X-Received: by 2002:a17:907:6090:b0:c29:39e2:4aca with SMTP id a640c23a62f3a-c2adbca5396mr447422666b.1.1790416466310;
+        Sat, 26 Sep 2026 02:54:26 -0700 (PDT)
+Received: from Nuel20.localdomain ([105.118.3.229])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2ae77ab08csm224178166b.44.2026.09.26.02.54.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Sep 2026 02:54:25 -0700 (PDT)
+From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+To: bvanassche@acm.org
+Cc: peterz@infradead.org,
+	elver@google.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	mchehab@kernel.org,
+	aleksandr.loktionov@intel.com,
+	kees@kernel.org,
+	tudor.ambarus@linaro.org
+Subject: Re: [PATCH] docs: kdoc: parse context_lock_struct() as struct declaration
+Date: Sat, 26 Sep 2026 10:54:05 +0100
+Message-ID: <20260926095405.56438-1-emmaonana18@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <5315b896-e496-4020-9e46-77ffb942ea37@acm.org>
+References: <5315b896-e496-4020-9e46-77ffb942ea37@acm.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d4d7d4c2-a1d5-41d0-b1c8-8ea0cc5a0397@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 26, 2026 at 12:06:22AM +0200, Arnd Bergmann wrote:
-> On Thu, Sep 17, 2026, at 18:22, Lorenzo Stoakes (ARM) wrote:
-> >
-> >  mm/vma.c                                   | 246 +++++++++++++++++++-------
->
-> Hi Lorenzo,
->
-> I see that in linux-next there is a new build failure in some
-> configurations in code that you are changing here:
+Hi Bart,
 
-Thanks for the report!
+> Has this alternative been considered: instead of modifying
+> tools/lib/python/kdoc/kdoc_parser.py, apply the following change:
 
->
-> mm/vma.c: In function '__mmap_region':
-> mm/vma.c:3083:1: error: the frame size of 1552 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
->
-> I don't immediately see anything that you did that would have introduced
-> something bad that wasn't already there, so it's likely just gone from
-> just below the limit I was using for my testing to just above. The 1536
-> byte limit is what I use on 64-bit builds with KASAN and otherwise
-> still has a clean build (with a small number of local fixup patches).
+Thanks for taking the time to review this. I tried your split
+(`context_lock_struct()` above the comment, plain `struct` below), and it
+does fix the warning.
 
-Hmm are you specifying this limit manually somehow?
+> +context_lock_struct(debugfs_cancellation);
+> ...
+> -context_lock_struct(debugfs_cancellation) {
+> +struct debugfs_cancellation {
 
->
-> What I see is that this function has multiple structures on the
-> stack that have nontrivial sizes:
->
->         VMA_ITERATOR(vmi, mm, addr); /* 104 bytes */
->         MMAP_STATE(map, mm, &vmi, addr, len,...); /* 384 bytes */
->         struct vm_area_desc desc; /* 128 bytes */
->
-> The config that caused this is https://pastebin.com/raw/5M95qHy5,
-> which is an x86-64 build with CONFIG_KASAN_STACK enabled, and likely
-> a few other configuration options that made it a little worse.
-> KASAN_STACK tends to double the stack size used by structures
-> in order to catch out-of-bounds accesses.
+I still think the tool-side fix is the better route: `debugfs_cancellation`
+is the only one with a kernel-doc comment today, but the next comment
+added above any of the others would hit the same error, and we'd be
+fixing the same warning again.
 
-Yeah, there is a lot on the stack admittedly but there is also a lot of state
-being used. I'm sure we can reduce it.
+The part that really sold me on changing the tool was a general ordering
+issue in `dump_struct()`: unlike `dump_var()` and `dump_function()`, it
+applied the transforms only to the members after `split_struct_proto()`,
+so they could never repair the declaration line itself. Moving the
+transform earlier fixes that, and a full-tree A/B test removes the
+existing warning without adding any new ones.
 
->
-> If I sprinkle some 'noinline_for_stack' annotations on functions
-> called by __mmap_region(), I can get the size down to 1144 in this
-> config, but that doesn't sound like a great workaround.
->
-> The large stack usage is potentially harmful if this ends up
-> in call chains that have additional large stack usage (e.g.
-> kmalloc() leading to reclaim). Any ideas for how to reduce it here?
+Would you and Marco prefer the tool-side fix, or should I respin with the
+`debugfs.h` change?
 
-That can never happen :) this call chain is _only_ for an mmap() call.
+Thanks,
 
->
->      Arnd
-
-In general I am absolutely taking this seriously and will find a way to
-reduce this, but my only question is whether this is actually something
-that needs to be done in this series?
-
-Because it's already huge and I would rather avoid adding yet another patch
-to it if possible.
-
-If I can do it as a follow-up that'd be ideal!
-
-Thanks!
-
---
-Cheers, Lorenzo
+Omokefe
