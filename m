@@ -1,116 +1,148 @@
-Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33263793A9
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 19:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F96397E9A
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 19:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790450978; cv=none; b=CCwlyU76ZPYEyjBdQvur4GwfJeC4It2MTateC78phI7ume72FATsWxN253+gC8yXxEr2SUkFLUVnsbBjugSHvbEWt1g2Rr5TdkAqL26UkfB0S1UvfGEg2lTgCb01DV00j2g5ygfQWtuLJOc9wFoTw+T+O6qiWlyqVlhjF3yk/+0=
+	t=1790452303; cv=none; b=deMNqF++43EAevSBUuFycWgnqqiqxonwUzRHXG0gfMFy2IS/FanIiiKGBF+NEVXkMpqFlNoeByAV2HyChvJjLgQB+Y3bnbsK3DPGRMAitt5P5JgzH4SFtYAzPJL2Vmu46RVeqwqiVzfI+7+aCEIHky6LrILSWJE9JjcV5TEcCpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790450978; c=relaxed/simple;
-	bh=1ebgJkP09GKvWRwvK5F2YFranzNOE8JKc24FCxtrAac=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=gbQ3QeHwxSU25H4pJ7Ma4sfWOd0DM8f7iLcC5wjnVgMdYvb8Emg3sUq927/EAcL8TQygLTDuDP56wWM2zWTrd/+HiHqMtGxni4DlUivT9Gv5YcpZAhugdPG5vk1ve16H/5gAo8CrpoO/LLycJhM1HMA+FZ4MzwYoNSo7tnL1QTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SNVA/a8q; arc=none smtp.client-ip=74.125.227.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790452303; c=relaxed/simple;
+	bh=dfjoZScS9ZOqe44JQfBF8wEPZ+pAl5CDH2L/a4RRcvI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NyHjcK2x5qKFXGdy8gbj4x8vf9V+ZuHXpfRvcEy5WdEdpv6LZNb3113UNnzevdacvzOcoPD67KPRrA8SNhS0CLv+SGyNNlKmYSJhVVU+GMss6RUqI/qySmlY724itPO5WOpxbt9K8VYuZ6rH+vB7mKwb9t9bLNcQDkhF2MhOJiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hXk79hjY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SNVA/a8q"
-Received: by mail-pj2-f40.google.com with SMTP id 98e67ed59e1d1-3a0df0bb2d6so390450a91.3
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 12:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790450976; x=1791055776; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RII7KH71ddmT/n6y6BydIJU7a3otHfuo1n/mYhsl0VA=;
-        b=SNVA/a8qgKUb3gTUOZ71bLh9aF+GX/IvEj7/+R7clocKI6ceYsIqQxLVlGEEAXwKty
-         O3r8ieBNfrCcDAha9sevmHF/A/xdcGeaZFZ1MBPOkQS+lOC562MAXY4fp1Gl/HoLADSj
-         MUL3qzcxewg17wzMeXAl8PlDRRYUNLwHLWODcEvyM5avk9Vwag0V4EEQrUkXzIXehbcq
-         fHay8THxNPJiVl3V+EKUrgQd+Bd0D2kKVLiFXPunkjZCca0ClkHU4VQwn16ETrVwwdFS
-         lDw9Y1LerOfh8LwqR2TuTjoHN8FNemW3e33YaAtNKHKynBmLFQ5Tpjw5O9qJ3bo29i/O
-         8Ppw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790450976; x=1791055776;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:subject:from:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RII7KH71ddmT/n6y6BydIJU7a3otHfuo1n/mYhsl0VA=;
-        b=BRudxdIcKniNb36nT4+aX3D5M7F2XAad4lWyYGdaHSsUCUjIUdxPpChx+4pu3o7+mq
-         rUvXzKVsaCuQEA1KHM+0ziwD87X/Sm0W3sPQtkoivXGRum+PvbhZuikWPf6+LPUT+NKD
-         I+gyNOcQyHdTqbUmAb7nPZP/MeFpQbh4Th3IFYAf2dK0XSSs+JgUVKRV4BUkKnpGrESs
-         I/Q0+ijlAHanDmkUrgHxjPLcGwrGr/c/nql1jDgNNuOkgRio4F1/dTh1tb5yxg02g/SW
-         2Yc2ZNGtyM+HCWCL6miUotDXbezWFWy61DlxMAb8AHcfvAxDlxR2ROR7Nki6+bg2iNNO
-         bMrg==
-X-Forwarded-Encrypted: i=1; AKwUvBzDvr2NHF3kLXXEIHG7sd9zcEW5+9jkL+bMSn511T+npq/Z9WBEdOEFOVXaWgrohAE2VaFLOoFnAZs=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLZWIqRO49NdgSIgyDqPUq69j7vzh11KWfE6SwuOv+VQ2wxoCpr
-	hPUGQ0LWP5TXxPzVvT5YE9JSbCEI8GV5yxu92/5Mb4wo2S/fUPX+p65I
-X-Gm-Gg: AYBFou1JGv3ZtdHeRstPw76rt6G7AM16ha3Jpj/K8IFqsbZadaLLdVOLOzQQHks+sBD
-	GKqLYtqbGJCL65Ywtw8cU/xeYEl529jsRiJNNbFtpkWDIN0SjCWguyJnVEptA4A7foRS5TyD9jk
-	ZyCGrtLQmqkwjfAXje9KQo/E/pC6Z6Ya9cd1ZggHZjGnD7DXkqT5gciDrWQ1C5iE1k4qrgSK2lX
-	l+8JeuCc7CD5Bj2AsXD1H1BGcI8zyiEU2P55fGbvjOdLiV1Wmx2qa08/tUhlbZXKROSij9v3Ke/
-	W9/eQe2ELw2InqCCU+VdDRV9e2rTUmP5RM18w/hIyI5nPJ/bsrzKXBD0JhVeIz3Mul4tZjQ0hdM
-	ebIbE1sHovxhnYRzuTmS8R2OlI/lYiT+AITY2d/SyKA61wP3j8yiMB3aCutsHfuV42deZARYq57
-	Nzhp8IXhKlvmnQjB78/V9fkEHPxrgR5IomtpNvl0zvpU9PHMkuxl1XTQ9S+YpC8pX0X6NEAt5vT
-	HgP98Id+dEyQ9BzdQ9gq2AkEpREJ236NWojyKpPJR8=
-X-Received: by 2002:a17:90a:e7d2:b0:3a0:eb54:2e60 with SMTP id 98e67ed59e1d1-3a0eb543751mr1574379a91.31.1790450976021;
-        Sat, 26 Sep 2026 12:29:36 -0700 (PDT)
-Received: from [192.168.11.3] (215.96.231.218.rev.ocx2915.net. [218.231.96.215])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0ba31f408sm3564492a91.3.2026.09.26.12.29.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Sep 2026 12:29:35 -0700 (PDT)
-Message-ID: <df064f9e-ad54-43fb-9b25-9e2869506732@gmail.com>
-Date: Sun, 27 Sep 2026 04:29:26 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hXk79hjY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76BDD1F00893
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 19:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790452301;
+	bh=dfjoZScS9ZOqe44JQfBF8wEPZ+pAl5CDH2L/a4RRcvI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=hXk79hjYpNN/19b5nrcBKIx8dVJ+Msn2Ree7YWck7KvESCgcDzse+0R8GBkYnjmuJ
+	 gjBRzkQPySngRT+ONMfxLoCDRumHCzujifJZtz/2aSeIVKieC4CFAZcizSom+LeWu2
+	 HHTwunknIC9uRN4TZgLRjSe8LYnNRp3AUa4uEBN+L6ASiI8PQX2myinD4ASn++M8F5
+	 lKE7qMOePuS6ve8X1d7J/wq6XPBFZjpy85T7YP+/cFoXkssMUaESPdvzSO150JZ6pn
+	 O4AMlk2UHxdNvlwoBIDh1i19tFkjlFKjp2Qc1BuJk3kkhXvh6f2XDrHLctIuqmyrz0
+	 po+nmZ20xvMeQ==
+Received: by mail-ej2-f41.google.com with SMTP id a640c23a62f3a-c2dca989afcso19612366b.2
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 12:51:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwbX3V/n5oZ5iIgZx2pha86nFDwQ2tYRCgOWP4GLpT4YWMztN5sGGD42IQIif3STKPcmvzararUwb4=@vger.kernel.org
+X-Gm-Message-State: AFuF++mKWAfzOBr4LsKjzQBlnj2oKY8yIof/7fegYmUyvwIgbotsOl9f
+	9L64EpSdEYORMcb5vI86kCFNttTs7F/OjAk0cdeFQ+7DbRIW/TU2EIcU5MqrSQYpJMOGX01lKIq
+	MpLCtfq1rLCnuddkF61d/kyv0s6n/2evRPyrZ8x9SyA==
+X-Received: by 2002:a17:907:8908:b0:c26:3424:f7df with SMTP id
+ a640c23a62f3a-c2ac24d3e8fmr788004566b.30.1790452295952; Sat, 26 Sep 2026
+ 12:51:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Yoshifumi SHU <envzhu@gmail.com>
-Subject: Re: [PATCH v2 00/14] ARM: deprecated platform removal
-To: Linus Walleij <linusw@kernel.org>
-Cc: arnd@kernel.org, Frank.Li@nxp.com, aaro.koskinen@iki.fi,
- alexander.sverdlin@siemens.com, alexandre.belloni@bootlin.com,
- alexandre.torgue@foss.st.com, andreas@kemnade.info, andrew@lunn.ch,
- arnd@arndb.de, claudiu.beznea@tuxon.dev, conor+dt@kernel.org,
- david@kernel.org, devicetree@vger.kernel.org, enelsonmoore@gmail.com,
- festevam@gmail.com, geert@linux-m68k.org, gregory.clement@bootlin.com,
- imx@lists.linux.dev, kernel@pengutronix.de, khilman@baylibre.com,
- kmehltretter@gmail.com, kristoffer.ericson@gmail.com, krzk@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux@armlinux.org.uk,
- liviu.dudau@arm.com, lpieralisi@kernel.org, mcoquelin.stm32@gmail.com,
- nicolas.ferre@microchip.com, npitre@baylibre.com, robert.jarzmik@free.fr,
- robh@kernel.org, rogerq@kernel.org, s.hauer@pengutronix.de,
- sebastian.hesselbarth@gmail.com, shawnguo@kernel.org, soc@lists.linux.dev,
- stefan@agner.ch, sudeep.holla@kernel.org, tony@atomide.com, vz@mleia.com,
- thehajime@gmail.com
-References: <20260914140821.1805449-1-arnd@kernel.org>
- <17a74e90-27d1-4954-86a8-491267f00cb8@gmail.com>
- <CAD++jL=VJsnk-GzAvR4oR8oKJayQzq9Oes+ZW7K=iHGrQ1jh0w@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CAD++jL=VJsnk-GzAvR4oR8oKJayQzq9Oes+ZW7K=iHGrQ1jh0w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260918180241.3424851-1-nphamcs@gmail.com> <20260918180241.3424851-2-nphamcs@gmail.com>
+ <CACePvbVaDNspMDSw_qAcapKAzXj3JGV-KMYmow7aePa0POHpSg@mail.gmail.com>
+ <7571f005bca65aa4ad5e7ec89e62801ad058b689.camel@surriel.com>
+ <CACePvbV-tazW=LmsbUtAhHzR2d6JwFT5R1jYZ9_NTp1hxXH=bw@mail.gmail.com> <CAKEwX=NbD12FfApEb9g+3Gt_-Rmof0tovYZsxPPyk5TCbFq=Lw@mail.gmail.com>
+In-Reply-To: <CAKEwX=NbD12FfApEb9g+3Gt_-Rmof0tovYZsxPPyk5TCbFq=Lw@mail.gmail.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Sat, 26 Sep 2026 09:51:24 -1000
+X-Gmail-Original-Message-ID: <CACePvbW2rejcNUhK7AG7xLv1C9PmdmdF+uvkV1665BYwG-GNBw@mail.gmail.com>
+X-Gm-Features: AclHuK-xpiJYlVPsv444_ENhKedDDd2x3kiC91E8lDWQNSSouldPc5mcq4B4NH8
+Message-ID: <CACePvbW2rejcNUhK7AG7xLv1C9PmdmdF+uvkV1665BYwG-GNBw@mail.gmail.com>
+Subject: Re: [PATCH v5 01/11] mm, swap: add virtual swap device infrastructure
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Rik van Riel <riel@surriel.com>, akpm@linux-foundation.org, kasong@tencent.com, 
+	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeel.butt@linux.dev, yosry@kernel.org, david@kernel.org, 
+	muchun.song@linux.dev, shikemeng@huaweicloud.com, baoquan.he@linux.dev, 
+	baohua@kernel.org, youngjun.park@lge.com, chengming.zhou@linux.dev, 
+	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
+	surenb@google.com, qi.zheng@linux.dev, axelrasmussen@google.com, 
+	yuanchu@google.com, weixugc@google.com, gourry@gourry.net, 
+	haowenchao22@gmail.com, corbet@lwn.net, hughd@google.com, 
+	baolin.wang@linux.alibaba.com, tj@kernel.org, mkoutny@suse.com, 
+	skhan@linuxfoundation.org, kunwu.chan@linux.dev, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026/09/25 22:30, Linus Walleij wrote:
-> All right, now we're talking! Could you test and review this patch:
-> https://lore.kernel.org/linux-arm-kernel/20260910-arm-generic-irq-entry-v7-1-v3-1-5fd90f6859e1@kernel.org/
+On Fri, Sep 25, 2026 at 8:25=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
+:
+>
+> On Thu, Sep 24, 2026 at 6:17=E2=80=AFPM Chris Li <chrisl@kernel.org> wrot=
+e:
+> >
+> > On Thu, Sep 24, 2026 at 8:13=E2=80=AFAM Rik van Riel <riel@surriel.com>=
+ wrote:
+> >
+> > Yes, but it will pay the price for going through the unnecessary
+> > redirection layer always. It incurs performance and meta data
+> > overhead. That was one of my previous objections to the earlier vswap
+> > version. Sorry I enjoy micro optimization too much, that is both my
+> > strength and weakness.
+> >
+> > >
+> > > When everything in vswap, we don't need to test for it.
+> > >
+> > I've been there and done that, the result was pretty bad in those
+> > earlier series.
+> >
+> > > Handling the details of what's behind the vswap would
+> > > be handled one layer down.
+> > >
+> > > Chris, do you think that would be cleaner?
+> >
+> > If it can wrap below the swap_ops, it is just priviate inernal dedail
+> > of implementing its own indirections. That would be much cleaner. That
+> > is what I am trying to pitch to Nhat in prevoius email but does not
+> > have following actions.
+>
+> Registering vswap's operation as into swap_ops isn't too hard. I
+> frankly don't see much wins to it for vswap itself, but it's not hard
+> to do if you like it.
 
-Thanks! I'll take a closer look at the patch and the discussion thread.
+I am offering these as ways to move forward with vswap. There is
+always the alternaive to use xswap instead.
 
-> I do avoid touching the v7m path and it worked last time I tested
-> it  (on an STM32) but I'd like to see your take on it, AFAICT generic
-> entry is not really possible (easily) on v7m because of the
-> pendable service call mechanism but maybe we can think of a
-> really complicated solution? ;)
+>
+> What I'm disagreeing is treating it as "just another swap device". The
+> implementation shares a lot of swap device's machinery, so I have
+> don't mind adopting it, but you can't treat it like a normal swap
+> device, and expose it to userspace like one. You get issues with
+> allocations internally, and externally you give userspace a vector to
+> misconfigure with device priority.
 
-I have experience wrestling with a PendSV-related problem in an RTOS kernel,
-so I believe I can contribute to that part!
+I'd like to hear more about this. If a user wants to shoot themselves
+in the foot. My philosophy is just let them. It is not worthwhile to
+complicate the code path. We can add a big fat warning that
+"Oh, you are configuring xswap with a priority other than the
+recommended one." But if the user really wants to do it, we should
+allow it.
 
-Best regards,
-Yoshifumi SHU
+Another use case is when users employ more than one swap device to
+reduce swap device lock contention. It is not a big deal when you swap
+out a few GB of memory. But if you swap out more than 100G of memory,
+the swap device lock contention really shows up in the earlier version
+of the swap core. The new swap allocator and swap table significantly
+reduce that contention. But that contention still exists. A few
+hundred G of memory under one lock is just a bit too much. I think
+there is a legitimate reason to use more than one device to reduce
+lock contention.
+
+Granted, other ways exist to reduce lock contention, but they increase
+code complexity as well. The current swap device design is a good
+balance of code complexity and flexibility.
+
+> That's why I've been insisting on what's the use case that motivates
+> these aspects of the interface that you're interested in. A pretty
+> design is not a real usecase, especially one that creates problems
+> with userspace misconfigurations.
+
+Points taken; this isn't enough to justify the extra maintenance and
+complexity of vswap right now. A cleaner alternative exists with less
+complexity overhead.
+
+Chris
