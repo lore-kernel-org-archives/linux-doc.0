@@ -1,37 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-107.mta0.migadu.com [91.218.175.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583E438BF7A;
-	Sat, 26 Sep 2026 10:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADF137AA79
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 11:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790417920; cv=none; b=ZqBkL14b1GXFtgXDXgKoXqRMvedWvbm7I93NXCf3kJEH1shhWj6RnJTwpPeAfT00ZRydG5/oxzNh1z2a5C4JxtA1fx+X78StZyap5foGJE6wsvxrcXzhrQaZBGpukebuROCS2KeGhy9XeRi9A1xEcU35rZA7wuvdSZiR9D77TLo=
+	t=1790420696; cv=none; b=dRof8TwD0ntkTfWqHAXO4UKakzP0fcLnFVZpRHeaiLwH8OkglzyuWxzNU8D9gFiazJvch1eM93WWZPjUNy7eoTQIRPxg+wyjnOslrlb6rykWDBZBHpQJxIysa64/F1ohulVtBzg8RC+UNpbsAFpg0duKpgPingXpiTiJ9dyIRuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790417920; c=relaxed/simple;
-	bh=koxNS8eQLTZC4Hkw1erNLLgpHyVN30inKtmKLYfV75E=;
+	s=arc-20240116; t=1790420696; c=relaxed/simple;
+	bh=fzi92E9iSTmRienn4xGQS4GbEerM7Dagzr0A/BzaupE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BKLLlPQRhx1kmMAaauQBlvXTIGWeGqKUu3Xc6v3u8n4seZZFZ+jesRzOkymaV77Uh8jGtbsT2p8GwIVlmbYIPqcp3PGwEGKrB8Qp/Nd/MZ4fy2kl/FkgE3hAZgQci0gWj7wAXUQZKtLrenwxv+jowA/DBkFpKTNMMfZs4Epnhdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RNnd0DUU; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=AhpMhJe7UgtQfO8vLQ8TVoFGIqO+6ySixb/9tMHjrW0dbd0qNBwbfBMcFvM228jAkdCVhRZjzyhCBKZPN83GJTgX9t2sGznlYlPkkPIc2ECloLsuHDaYVOoWGLGbCUV6qS0MmUU/CwubMO4gMsvAQKsh43q2HAzjiNR2ZCzwOZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=RU5YDOPR; arc=none smtp.client-ip=91.218.175.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RNnd0DUU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E441F000FF;
-	Sat, 26 Sep 2026 10:18:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790417918;
-	bh=wEhsOn0MHBgu2cx4PsskVvMaQBB42FGNHfwp0REKX5o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RNnd0DUUeoHEfPWrWyS9Ff3XsS4+4XWF/EC2XhRRP1d/6HBSazGHOT8Z/O5HSLCIC
-	 l8WDmDdI4/pGGhkzgI5DNnjGYUt3HKlF3FQzovgnOeoC3wAWLJ9NJceryz0ZGqmrmA
-	 fwtgo2zdmkV9wgownjNbtepuvC5tD086Aty3JEag=
-Date: Sat, 26 Sep 2026 12:18:33 +0200
-From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="RU5YDOPR"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=fzi92E9iSTmRienn4xGQS4GbEerM7Dagzr0A/BzaupE=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790420691; v=1; x=1791025491;
+ b=RU5YDOPRPLcWitLQneiTZzODD7NQaWFxO6punvO7MuFea7G+FaoH54ZFi69hkbN1/fHa6f7F
+ HrYpGFLjeJsXMKqdC0qKKf28E0wfTAHvruWtoAEgb1xq8QYhPPOSH55ydoLdbhVBP6UKGn4mCaK
+ Bnu6/V4aAKBg62x7zycG9eifG41NzNxt++Af4zCvtt/PUzLIEz9yzggeloUZa19DN7ci3ccpz1e
+ hN/eZvzcwzzvdB/ttrELLniGS9uTED6wtNbtd0MiK7tH22vMgXpfmfz8rSLjmMqiO0+m8sDQiDg
+ bF3xnAGhYid5XTdd+qokvzn/jf5kfbcbIdg9vRsaUGyOQ==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 5ccaf0ba7a00ce50;
+	Sat, 26 Sep 2026 11:04:40 +0000
+X-Mizu-Trace-ID: 5ccaf0ba7a00ce50
+X-Migadu-Flow: FLOW_OUT
+Date: Sat, 26 Sep 2026 19:04:35 +0800
+From: Weijie Yuan <wy@wyuan.org>
 To: Jiaming Ouyang <jiamingouyang13@gmail.com>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, linux-kernel@vger.kernel.org,
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org, alexs@kernel.org, corbet@lwn.net,
 	skhan@linuxfoundation.org, si.yanteng@linux.dev,
 	rdunlap@infradead.org
 Subject: Re: [PATCH] docs/zh_CN: add Chinese translation for usb/ohci.rst
-Message-ID: <2026092601-fretted-humorous-c207@gregkh>
+Message-ID: <aremw0r9vCfAvUgM@wyuan.org>
 References: <CAMnqnYyO98AEDOHfm32Cb4uGBDucLiZ8gKZ5S+jVf3DDCoFA5w@mail.gmail.com>
  <cfc9cb8d-d13a-4dd6-809c-1ecf3bc9c758@hust.edu.cn>
  <CAMnqnYxzfUUaeaGTG=pESVN+2yeue4b_7N6d=xMGNE7qdrNbYA@mail.gmail.com>
@@ -47,9 +56,17 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <CAMnqnYwDoNc5=RjEkeRB3-yB+HJvYkrcTBHpPo6cxydSfRMphw@mail.gmail.com>
 
-On Sat, Sep 26, 2026 at 12:10:16PM +0200, Jiaming Ouyang wrote:
+On 2026-09-26 12:10:16 +0200, Jiaming Ouyang <jiamingouyang13@gmail.com> wrote:
+
 > docs/zh_CN: add Chinese translation for usb/ohci.rst
-> 
+
+Besides the comments from Greg, I think the line above should better
+belong to the Subject: line in the email headers. But there, it is a part
+of email body now, i.e. the line started with 'docs/zh_CN' will appear
+twice in the same commit.
+
+Thanks.
+
 > Translate Documentation/usb/ohci.rst into Chinese Simplified.
 > 
 > The translation covers OHCI driver overview, hardware protocol
@@ -61,18 +78,7 @@ On Sat, Sep 26, 2026 at 12:10:16PM +0200, Jiaming Ouyang wrote:
 > - Correct the date
 > - Correct the layout
 > - Add specific details for it's contributors
-
-This goes below :
-
+> 
 > ---
 > Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
 > ---
-
-Here.
-
-Also your v2 should be in the subject line, right?  Again, take a look
-at the in-kernel documentation, it should explain this.
-
-thanks,
-
-greg k-h
