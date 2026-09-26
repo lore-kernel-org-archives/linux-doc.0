@@ -1,266 +1,103 @@
-Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED9C37DABD
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 17:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.38.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424523515F7
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 18:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790445290; cv=none; b=f/qh7anjGL/vsvL5ysUC4QqS6iLO+6owk8ZRAHvLF0hRuwNQnBkBQu+GMMm1P5g52yQzSsKiVvJ3r+kQMf1Qa4a+0oYr8Gz//KHoWnMtaS/93Pt2oztZVJr72r0E1HwPcHSYGJZvQYw0HGuxen5bQ+D3hzY/trGkLxYYYkEB/Yk=
+	t=1790446128; cv=none; b=rQydc3VNv28vHChFjgPpQl/4I9j5w69gZLsCis1QjjO9IQsi2iTa1Q+81vJzz9j6ryOXf/1Y5Dv5wjo2iPPhLgxC9t9O809Z5WqUxMTCuJZftTaawM/J+N1UQsXSROLY2SPraqtOda1kkRIZfNLRuxyrRapusvPkvwgtMASJ9kY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790445290; c=relaxed/simple;
-	bh=IwTob38rh9Nx3ag7H80F2xgQ+N1EfUyDcOwbdK45NAY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CP9pj1vJhmYFpiDHT8Ee7QPqYkYzikMgMuu4p2p4agEe/Owta+ZhYvAIqrX01fNcArkIQ5okwI/DIkgrL9e0Y2rNdOsTVChfts9F4tkEDZhAcFkWv/2GFf28Mb3HraK9jnR8vDGYMKs/aIybaT7532iviNMcVPFBB5tW+qp3fO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=VRT2siZW; arc=none smtp.client-ip=88.99.38.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1790446128; c=relaxed/simple;
+	bh=/1Is6jwITKvcrzTEMMArf5g2GgzfewQ0ZKjCE8wrIA4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=S64I/q6ybera3r7OF7L7LPg/d3Jjg6qRP6p5uAugNQeVpTJ+X0Da/8s5X/fWsVbtcf1jjTHhaBtzufqQuOVuGOUXJ7cllHJ3emRmyPsnbLte2ylrICq17Ps3K5PKV/gndPyLnLKNHjTku6OxFZd58svEzZJxiWSGTjS85oL0P80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l4SqDFTF; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="VRT2siZW"
-Received: from relay12 (localhost [127.0.0.1])
-	by relay12.grserver.gr (Proxmox) with ESMTP id 236D4BD5D3
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 20:54:42 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay12.grserver.gr (Proxmox) with ESMTPS id 203CABC349
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 20:54:41 +0300 (EEST)
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 6B1E81FDC79
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 20:54:40 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1790445280;
-	bh=SzueBkeQ0eRG00xEUOwz7fXE2kK3yYyEowQoqM97mDo=;
-	h=Received:From:Subject:To;
-	b=VRT2siZWjTGmQLWN/EmZgRweXpf6FRO2whc4DOdfPH2GRFt+MbjsTfZAOT9jWNuCw
-	 4lap0CE6Ox26tRaTUBpVpqwfmeY78iKtkLtefC/Au2AUjZEK1YVJ7s2SJvCwNi/0Vm
-	 yB/5i8I8mhFTKlyCwtDa51MCzHMAkomNfEQP0b/kZR/gofTEUkGcK3XE3e/7kTNPOR
-	 c9cy9aP7m3GqteoLVSxJuxQC7puvbYWaH+2mZgd8cYFWrq472wLj61TKRHjTa9EBBY
-	 zL7qxDRD8BrGPL8ek2pqMrR0sZjTniabvdz7Tz5cFsMTx6dDQ5R1SlGKxl8DEu2bOq
-	 AlAoJlNmM4HYg==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 74.125.227.141) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pj2-f13.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pj2-f13.google.com with SMTP id
- d9443c01a7336-2d747f05ffdso7446985ad.1
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 10:54:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AKwUvBwmxw54Yq6OtRPTQvkbFbpl9j9Oz4iLa/rVz6lhKeQP+NPjb90GXcR3z61tJjXsg9KmZouf5H2YDuY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKcDxV9nKhuLEqtg8bOWw/t0j6K0WS+o5Pzw+u5G3qaLUoY8xLG
-	JHjiTPKE3NBBYbIHMm68/Kgu6wQw+KeSZ5nkcXW0cogO2avBn+mLNTeVIGHQzlI9FkRjHexiWiJ
-	A9CNfqXmy2utnZA2PUzbUvB2ZE6zVWkc=
-X-Received: by 2002:a17:902:e80b:b0:2dd:c053:e0f2 with SMTP id
- d9443c01a7336-2df7e43e2e7mr68505505ad.33.1790445278841; Sat, 26 Sep 2026
- 10:54:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l4SqDFTF"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccf3ca626so10524805e9.0
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 11:08:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790446125; x=1791050925; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8ZgUyaMAO2CVOLqH2JOMYU6c+GcTyIKCAT4dA1Wtw3Y=;
+        b=l4SqDFTFeCC7rDXngC4Ek/odtLFihdDpZN5DwDn7eKtdEgUKdRRwg041h60lbUuX/Z
+         KM4XF+Q8EUpbYQGNgCv7zSFOjEekrsj8NYtse7Xk/KDLTmH9DLVQQtw8ITot6+60TDym
+         l6h7yazNce2DITMEBaynlt/KHr1i9jLaQ4yxuneSKthEgeDWFcKNgiQCKWZYQglO14An
+         JMyN85+mQpHQqgTEzXcgeTsgo3la3OOPH+X9T0DT6cTXMJS9fiWoo1NLFGqHcLTwkiyl
+         L/ZF8IB81A+uzPDURSXwI4ZgN/uQfky24MdIIUuKpndeEQlTVjgfIXc4svMGQ91jvu3I
+         UeGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790446125; x=1791050925;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8ZgUyaMAO2CVOLqH2JOMYU6c+GcTyIKCAT4dA1Wtw3Y=;
+        b=aTbIlTvugUjqoGcXYG+vPK02wq5JIkQrQBpugQhZOzBuDby3GdTqrH8JMK1us3xocF
+         OIQjHq3zx5bKKG4vLzFgNnWYLMhAh+YYelf6sp9aGhnGCKW0wp0cEiCNODSFrkCzVyHR
+         bx7kpNr3oUBUdto4aUaNVLA1Wv4owjQMLcigvlU+yDzbG8yha5zSFjScaF+7iZBJeav5
+         TZrkhnU/h2mnaiqUpet6kGnA0PRdX5D4TAQk1YA1AQUY0z5/6rqL6wRWlRNlGv+A4lh0
+         4SxZHxLTbL0XXM699yEdwr5vY8d6FBetnMk3wx4mpCQ6xEaaRK45MiUraD7Afri9S4Rg
+         WfVw==
+X-Forwarded-Encrypted: i=1; AKwUvBw+ZwLXYmdcYDr6j1cL2dyivrjnt5xqgPz6IKMhj1/KOZi+O0y6ARSKpFM1vSgyFDU5lfJ2o1orTYE=@vger.kernel.org
+X-Gm-Message-State: AFuF++ns1ho1p0+QaqWccoCt++x2NpBuEoBzql53tjKyYLvrEdrb6EA3
+	v56hUce0+EGufzWHy5TSigGZTNAldTzt2UtObHEiy/2aYUPrSeF9S2KhoSSFG5w=
+X-Gm-Gg: AYBFou0gZiph88vDkdnmf8rZxQ5AOilbVJ+tnzPT8icVBOzcOAzecu82OhPr7oqTACi
+	n0d3Z3n8/pIPKazgXW5SmlUuH+h8gOqJ3Lt5Qr+zClwpEjh44Zyj0xjwqvYIjAO5wxZLfYjmeC6
+	/s1nhL6vIZhxRRGKFPHNQRHNF48U1hoUepeFIre5NkDUG8I/6h6iXQyfjPbTq6x7ZgEkNrJiQPM
+	/UM/OZR78CmgN+4ubCtTJTjpDRF88ul+FHqjNd0/7kyLORU9cpMnKVjy8IgrJ8oWMh3kKGrnwIh
+	K1OkgREEtXNGvtMEjYZ6uok5VpKZTibHVhWLosHK52phE+LCuI2anx5m6ltNiDDLGnSLAe3PXAN
+	oTFY9ABH7E33w3FDAG7RR8CzcN4pJxFKBe5dzYSdNBe/dQncFxvQlb/Dv5g0P2tVg6YwZeuTV6z
+	M/lv2NsMjirD09yrrKbqJpCYhdYwAo80LB4X18HcsDwiiUl8P1TSwuetKmnZ17lFU7IBL9LAn8j
+	1DOTLKx/UKwskZdKkvZztSawHXbkxWK5UDDVgKZn5OnoXky
+X-Received: by 2002:a05:600c:1546:b0:49c:fa20:cc00 with SMTP id 5b1f17b1804b1-49fe66f4f59mr157154635e9.23.1790446125211;
+        Sat, 26 Sep 2026 11:08:45 -0700 (PDT)
+Received: from localhost.localdomain ([31.223.3.6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fef5fc189sm111337785e9.3.2026.09.26.11.08.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Sep 2026 11:08:44 -0700 (PDT)
+From: "=?UTF-8?q?Habil=20Eren=20T=C3=BCrker?=" <habilerenturker@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Habil=20Eren=20T=C3=BCrker?= <habilerenturker@hotmail.com>
+To: corbet@lwn.net,
+	clemens@ladisch.de,
+	tglx@kernel.org
+Cc: skhan@linuxfoundation.org,
+	anna-maria@linutronix.de,
+	frederic@kernel.org,
+	linux-doc@vger.kernel.org,
+	x86@kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Habil=20Eren=20T=C3=BCrker?= <habilerenturker@hotmail.com>
+Subject: [PATCH v2 0/2] docs: timers: hpet: Modernize and document API
+Date: Sat, 26 Sep 2026 21:08:36 +0300
+Message-ID: <20260926180838.8145-1-habilerenturker@hotmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <87o72mg21g.fsf@moria.home.lwn.net>
+References: <87o72mg21g.fsf@moria.home.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260924134945.3095661-1-sashal@kernel.org>
- <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
- <arfpV7IXRAHREMzO@laps>
-In-Reply-To: <arfpV7IXRAHREMzO@laps>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Sat, 26 Sep 2026 19:54:27 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
-X-Gm-Features: AclHuK8r5dYvXEgLVx7Rw1HHqS5_fpk0bTtLL8r_IaRHZREQZj9kC2xc02FCrTA
-Message-ID: 
- <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <179044528065.4105939.5158260711750957251@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, 26 Sept 2026 at 17:48, Sasha Levin <sashal@kernel.org> wrote:
->
-> On Sat, Sep 26, 2026 at 01:12:33PM +0200, Antheas Kapenekakis wrote:
-> >1) Agents already read the readme. The canonical way to force load the
->
-> They didn't in my tests. Without AGENTS.md, neither agent opened README before
-> committing, and one of them added my Signed-off-by. Could you share how you
-> tested this?
->
-> >readme at least for claude is @README, not just README. Even so, the
->
-> With the symlink, README's content is loaded directly, so no @ import is
-> needed, and neither agent went on to read README's other pointers.
+This series addresses the feedback from Jonathan Corbet on the initial 
+submission. The work has been split into two separate patches, and the 
+line length has been restricted to under 80 columns.
 
-Ah, a symlink. I missed that. I read that as a string. Should be the
-same but better. I do not think all agents support the @ syntax.
+Habil Eren Türker (2):
+  docs: timers: hpet: Modernize file references
+  docs: timers: hpet: Document userspace API and ioctl commands
 
-> >readme is not tuned for agents and results in context bloat. You say
-> >that README is small, so it is ok. But it is not, it prompts the agent
-> >to read a lot of other useless readmes. [...]
->
-> It didn't in my tests either. With AGENTS.md pointing at README, one agent read
-> only coding-assistants.rst, and the other read that plus generated-content.rst,
-> which coding-assistants.rst references. Neither opened any of README's other
-> pointers.
+ Documentation/timers/hpet.rst | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-They usually read it when they need to. I find it is 60% of the time.
-Of course, this does not compensate for behavior that should always
-apply. Sol 6 also has the annoying habit of modifying readmes
-randomly.
-
-> > [...] Another issue is that you say
-> >that it is only read once, but that has not always been true and
-> >perhaps is still not true. The Claude harness used to append the
->
-> Every model call resends the whole context, so that applies to any AGENTS.md,
-> including a hand-written one. Either way, most of it is served from the prompt
-> cache.
-
-Specifically for Claude, they used to paste it before every message as
-well to steer the model better. I am not saying this is right but it
-is what they did up to May. I am unsure what is happening now. This is
-a bit of folklore in any case and it varies by harness. Nevertheless,
-it underlines that agents.md files need to be carefully crafted.
-
-> >agents.md file before every message. Unsure if it still does, I do not
-> >use Claude. agent.md files should be specifically designed for agents
-> >and handwritten. Moreover, they usually need to be tuned for the model
-> >generation in general, if not the provider and model specifically.
-> >Which brings us to 2.
->
-> The rules README points to (DCO, Assisted-by, patch format) are the same for
-> every model. Personal and model-specific tuning belongs in a personal file.
-> Your sample shows why the shared part should come from the tree: it asks the
-> agent to add your Signed-off-by, which coding-assistants.rst says an agent must
-> never do.
-
-You are correct. Agents are tools. All of their outputs are the
-responsibility of their users. They cannot apply DCO.
-
-For me, I make sure to review copyright and test my kernel patches
-before sending them or pushing them to a remote. So my agent should
-add my sb and the assisted tag otherwise the patches need unnecessary
-cleanup. This is my personal preference. The mainline branch should
-not poison my agent's context or provide conflicting instructions.
-
-I do understand the frustration with people not following DCO and
-agents mistakenly entering the sign off. But I do not think poisoning
-every kernel developer's agent context and blocking it from what it is
-asked is appropriate.
-
-> >2) You are suggesting starting to track agents.md on mainline. This
-> >will make it so you dirty the tree of anyone that uses a custom
-> >agents.md when they switch to mainline for a submission which is a
-> >major annoyance. It'd be better to gitignore {agents,claude}.md on
-> >mainline. This would allow anyone that wants to commit theirs
-> >downstream to do so, while allowing them to copy their agents.md for
-> >mainline submissions.
->
-> Agents already have personal/override files to handle this.
->
-> We also already track .clang-format, .editorconfig and .rustfmt.toml on the
-> same terms. Ignoring AGENTS.md would leave users who don't write their own with
-> nothing, and a template has the same problem unless someone actually copies it.
-
-You are right that by default the kernel has no agents.md file and
-that perhaps it should. The kernel is already "unintuitive" in other
-regards so that used to act as a filter. I guess with agents it works
-the other way around though.
-
-But as far as I know personal snippets are meant to be additive. I do
-not think there is a widespread override for agents.md for the default
-one. Codex seems to have one but there is only one google result on
-it.
-
-It is assumed that agent.md files always apply for a project. So one
-would have to be universal. It is particular to the kernel that it is
-a very large project with a lot of downstream use-cases which makes
-this problematic.
-
-So the problems are:
-
-The agents.md file on mainline would always apply for mainline
-submissions, requiring gymnastics for upstreaming developers if it is
-not appropriate.
-
-A large generic readme that offshoots to 30 other readmes is not an
-appropriate agents.md file.
-Documentation/process/coding-assistants.rst would be a better start
-for a symlink but even that is not particularly lean and would likely
-degrade modern agents. It still contains offshoots to 4 different
-readmes, and the "Procedure for finding and fixing bugs" would degrade
-most modern models. They are already RL'd to do what they are asked,
-and conflicting instructions could lead them to e.g., commit when not
-asked to. For example consider:
-
-> Write a fix for the bug. This part is not optional: except in a few very rare cases, an AI assistant able to find a bug is able to fix it.
-
-Duh
-
-> Note that fixes written in the same session as used to find the bug will generally lead to better and more accurate fixes as the LLM's reasoning context remains present.
-
-How does this help the agent?
-
-> Build and verify that the fix works either using the reproducer or by re-running a complete analysis; drop any fix that doesn't work and try another one.
-
-Already done by modern models.
-
-> The fix must not add build warnings and must pass the checkpatch.pl checks (see submitting-patches.rst).
-
-Offshoots to a different random file bloating context. Modern models
-do that already. Sol 6 even runs checkpatch unprompted so it is
-context bloat for that model.
-
-The only models here are subpar models, and indeed looking at the commit text:
-
-> This was tested both against Qwen3.6-27B-Architect-Polaris2-Fable-B-F451 ... and Opus-5 [1]
-
-Qwen3.6 is a toy model. 3.8 is a bit better. I use 3.8 to tune some
-comfyui prompts and it works ok. A professor friend likes it for doing
-some simple programming tasks too. But it is not something to be taken
-seriously or base documentation on.  Esp. if it affects all
-developers. Opus 5 was considered to be a very bad model too and
-horrible at following instructions. But Opus 5.5 fixed that so it
-wouldn't apply to that and degrade it.
-
-In sum, adding a default agents.md is a big decision. If added, that
-file should be treated with care and be handwritten at minimum and
-
-(i) completely universal and non-conflicting if a global override does
-not exist (does not currently) or
-
-(ii) geared towards new contributors and cheap models if it does
-exist, and proposing an AGENTS.default.md is fair game AFAIK. But
-getting harness buy-in would be the problem in that case. But if it
-does happen, you can get more opinionated and make an
-AGENTS.default.md file that makes agents dumb and has them ask the
-user: are you sure you want to post this? _This is a big driver, it
-would take you 6 months and 12 revisions at least to merge, are you
-sure you want to spend your free time next year on this? You could
-make a helpful bug report instead._, I noticed we referenced code from
-X project, are you sure this complies with DCO? The copyright notice
-does not list the original project, what license should this be with
-OR to GPLv2? Review the driver, you authorize me to add your Sign-off?
-etc etc etc.
-
-Can be annoying enough to force experienced developers to do `touch
-AGENTS.md` and optionally customize it and fair game if it does and
-AGENTS.md has been added to the .gitignore
-
-For context, my job the past year has been doing agentic research in
-academia... so I guess I sunk my teeth in the topic more than most.
-
-Best,
-Antheas
-
-[1] https://github.com/torvalds/linux/commit/3d7c44f73765d98665fb97a4fb89c002c88ba1b9
-
-> --
-> Thanks,
-> Sasha
->
+-- 
+2.47.3
 
