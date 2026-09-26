@@ -1,125 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4C7376A0D;
-	Sat, 26 Sep 2026 17:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F315835F5ED;
+	Sat, 26 Sep 2026 17:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790445085; cv=none; b=XQb4FBLIREtqEEMxphESzASqjiPpbrIq/JT0cnn/JAH2qTVPJmVVfUfAVR2pJgsGYO93D5LFMLkCWu3W0DlAyRhIrOecwCvakq7odE0+iBc6bR67z40Mka1rac8k9PQVa3SSaOyNd7ylmfBQZJOX8Zl4jSSJbNkAt3EybKeQiSQ=
+	t=1790445127; cv=none; b=BdgYkIbFzKC0oR818vVLbyYMG3WKFBXzdJRdQKGXKmqbExF9LyMMjzA2DWXlgHhxbjNBZxQAYpPHDnEu3aY7YzUeUNnBQttwthDbr+lCXZN/8hs2pvrBEpoQpWljlKJZL5UImovVrgd2tlRyTJGpYhXK6o/yV02fujKmUtlXw3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790445085; c=relaxed/simple;
-	bh=dJkwSRcEIBWdPO5DP6xDMu0eTRcPeYjoIpVQnE38tvA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Co6raVDtdVFmdLMZNUNorzWcsgAV8jjK2urgazAX2IpbqH2w1XVHocFGHSOJFDk+jP0naOyyASY21kg7a+x5fG3+4oFstK0RSpNybAN4Vg4UNEQ7WkgUaR533MCXljdVgaKY96jUqnCQ9nnRBtd+X6XSgtOYhN+7C6eAkGUwoP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DD1lP/Qm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790445127; c=relaxed/simple;
+	bh=wgAKn22Ni7MmAUF9oEw63JADTQTQaEwIMtLKGB/G/eo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hk/0lcPu/KyzEHMYoFW/c8amQCFKyGPfqLM74DYFsvMTF/ZP3XRznb6zYz9klEulzdEdE/kXKDUeCAvSyqlAZxJ27863ZjeGYmD3Hf9FpitVqCriAJx00FvGmUWHo8/BsY+oA9Hzl/B8nSaCPouCcbms/5mILy8wZ81MdLsVnB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Llw/Ozns; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DD1lP/Qm"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 197DC1F000FF;
-	Sat, 26 Sep 2026 17:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790445083;
-	bh=+l/+xlFQ9oYX3AqDOoZ5UJ8jLQiMbyYFqszTxwXHlbY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DD1lP/QmC7LYXQVPac1ZErbOX+o9gC185enlv/A+acy3P/pDC5ujo9X8rUfjkldPJ
-	 pHSHH1d+F9mBnfgX1o5XEdguQtswWEoO3h1vMpYyye82Pzp81Ofebc9rm0+H2/yEAj
-	 ZUmV1JJTvoVd3YYUEgqmzt2MnYZi+AqKPTZgSG0MNZ+f37aK6ZQ4DGXqbfndr5bsto
-	 d/BlkNHkO3ehaXRHohpz/SPENa/i18vrn2bs2CQiK8THJZPujfZ4zC2LJYm7dD3Qnq
-	 v75aEO7w1UjPmERPWOFujS6zGWAaO6BkF6QCOFcgPbGzKAKKMFZgqeLYHF87qLF4CM
-	 NF+O3+M9SQfjw==
-Date: Sat, 26 Sep 2026 19:48:16 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Luis Augenstein <luis.augenstein@tngtech.com>,
-	Maximilian Huber <maximilian.huber@tngtech.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Alexander Graf <graf@amazon.com>, Willy Tarreau <w@1wt.eu>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Askar Safin <safinaskar@gmail.com>, linux-doc@vger.kernel.org,
-	kexec@lists.infradead.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Subject: Re: [PATCH v3 0/2] Move tool for generating initramfs cpio to
- scripts/
-Message-ID: <argFYF12qS0REcAP@levanger>
-Mail-Followup-To: Mike Rapoport <rppt@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Luis Augenstein <luis.augenstein@tngtech.com>,
-	Maximilian Huber <maximilian.huber@tngtech.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Alexander Graf <graf@amazon.com>, Willy Tarreau <w@1wt.eu>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Askar Safin <safinaskar@gmail.com>, linux-doc@vger.kernel.org,
-	kexec@lists.infradead.org, linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-References: <20260925-move-gen_init_cpio-to-scripts-v3-0-99c493f76722@kernel.org>
- <areDq-1iFZUViDgS@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Llw/Ozns"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E4202408B3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1790445123; bh=6NE3Q9JZyqp+/wTbVEXAF3fyZw5nQwa+hgB/Hr18ZK0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Llw/OznsfKVAc7JPgpDcnVAd2FkrjLbWzFecVFOInN9m8M3heQuiHlCFH2E+a6uAY
+	 9uk7depmDp17bfvyHJ5uy4INjFd30wUaUq0+UcjEC7hGlX7w2I5P1Mib0EqXK377ej
+	 MuooYOnrXd2uGXBSkAqLtf+iLmRyNNK1L2B81KSWlnJdDiXujaIYMtyUttE1LSKnFH
+	 xjz13UklOpf+VIDYUL8twB29KwwoL9oajZaFr+Su/7SewHmSHvsN9IrDfkKHLCTZi8
+	 Ka+sOGdLzPFcTQy3z2fLH6ZyaijwkrV91w9laKLfhz6PNiEMCRaLScD04qFFcgTszz
+	 d13EFt3KiYTvQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id E4202408B3;
+	Sat, 26 Sep 2026 17:52:02 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Habil Eren =?utf-8?Q?T=C3=BCrker?= <habilerenturker@gmail.com>,
+ clemens@ladisch.de,
+ tglx@kernel.org
+Cc: skhan@linuxfoundation.org, anna-maria@linutronix.de,
+ frederic@kernel.org, linux-doc@vger.kernel.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org, Habil Eren =?utf-8?Q?T=C3=BCrker?=
+ <habilerenturker@hotmail.com>
+Subject: Re: [PATCH] docs: timers: hpet: Modernize file references and
+ document userspace API
+In-Reply-To: <20260926170649.6346-1-habilerenturker@hotmail.com>
+References: <20260926170649.6346-1-habilerenturker@hotmail.com>
+Date: Sat, 26 Sep 2026 11:52:01 -0600
+Message-ID: <87wls7529q.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <areDq-1iFZUViDgS@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 26, 2026 at 11:34:51AM +0300, Mike Rapoport wrote:
-> Hi Nicolas,
-> 
-> On Fri, Sep 25, 2026 at 09:29:29PM +0200, Nicolas Schier wrote:
-> > initramfs cpio tools had been subject of several recent discussions on
-> > linux-kbuild.  Let's get two minor steps forward by enabling a
-> > top-level target for building gen_init_cpio w/o the need of a valid
-> > kbuild configuration [1] and move the tools for generating the built-in
-> > initramfs from usr/ to scripts/ [2].
-> > 
-> > Link: https://lore.kernel.org/all/20260220191150.244006-1-safinaskar@gmail.com # [1]
-> > Link: https://lore.kernel.org/all/aSdrCFkUQup3qb-q@derry.ads.avm.de/ # [2]
-> > ---
-> > Changes in v3:
-> >   * Update various remaining usr/gen_init* references treewide (Nathan)
-> >   * Link to v2: https://patch.msgid.link/20260720-move-gen_init_cpio-to-scripts-v2-0-26b7e15c7133@kernel.org
-> > 
-> > Changes in v2:
-> >   * Build gen_init_cpio only if CONFIG_BLK_DEV_INITRD (Thomas)
-> >   * Keep underscore top-level target name (scripts_gen_init_cpio)
-> >     (Thomas)
-> >   * Link to v1: https://patch.msgid.link/20260309-move-gen_init_cpio-to-scripts-v1-0-0c5059b1ec5b@kernel.org
-> > 
-> > ---
-> > Nicolas Schier (2):
-> >       kbuild: Mark usr_gen_init_cpio as no-dot-config-target
-> >       kbuild: Move gen_init_cpio and gen_initramfs.sh to scripts/
-> > 
-> >  .../early-userspace/early_userspace_support.rst          | 16 ++++++++--------
-> >  Documentation/filesystems/ramfs-rootfs-initramfs.rst     | 10 +++++-----
-> >  MAINTAINERS                                              |  1 +
-> >  Makefile                                                 |  9 +++++----
-> >  scripts/.gitignore                                       |  1 +
-> >  scripts/Makefile                                         |  3 +++
-> >  scripts/Makefile.package                                 |  2 +-
-> >  {usr => scripts}/gen_init_cpio.c                         |  0
-> >  {usr => scripts}/gen_initramfs.sh                        |  2 +-
-> >  scripts/remove-stale-files                               |  2 ++
-> >  scripts/sbom/tests/cmd_graph/test_savedcmd_parser.py     |  2 +-
-> >  tools/testing/selftests/kho/vmtest.sh                    |  2 +-
-> 
-> There's also tools/testing/selftests/liveupdate/vmtest.sh I know of, didn't
-> check for other users in tools/testing
-> 
+"Habil Eren T=C3=BCrker" <habilerenturker@gmail.com> writes:
 
-No idea how I missed that again; will be adjusted in v4.  Thanks a lot!
+> The current HPET documentation contains outdated 'file:' prefixes for
+> source tree references, which breaks proper rendering and hyperlink
+> generation under the modern Sphinx-based documentation ecosystem.
+>
+> Fix this by modernizing the paths using the standard literal backticks
+> formatting. Additionally, add a dedicated 'Userspace API and ioctl
+> Commands' section to clearly document the supported ioctl interfaces
+> extrapolated from include/uapi/linux/hpet.h and samples/timers/hpet_examp=
+le.c
 
--- 
-Nicolas
+"Additionally" is a clue that you should be dividing this work into two
+separate patches.
+
+,
+> including the layout of struct hpet_info.
+>
+> Signed-off-by: Habil Eren T=C3=BCrker <habilerenturker@hotmail.com>
+> ---
+>  Documentation/timers/hpet.rst | 31 +++++++++++++++++++++++++++++--
+>  1 file changed, 29 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/timers/hpet.rst b/Documentation/timers/hpet.rst
+> index c9d05d3ca..e21a6185b 100644
+> --- a/Documentation/timers/hpet.rst
+> +++ b/Documentation/timers/hpet.rst
+> @@ -23,8 +23,35 @@ The driver supports detection of HPET driver allocatio=
+n and initialization
+>  of the HPET before the driver module_init routine is called.  This enabl=
+es
+>  platform code which uses timer 0 or 1 as the main timer to intercept HPET
+>  initialization.  An example of this initialization can be found in
+> -arch/x86/kernel/hpet.c.
+> +``arch/x86/kernel/hpet.c``.
+>=20=20
+>  The driver provides a userspace API which resembles the API found in the
+>  RTC driver framework.  An example user space program is provided in
+> -file:samples/timers/hpet_example.c
+> +``samples/timers/hpet_example.c``
+> +
+> +Userspace API and ioctl Commands
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +* ``HPET_IE_ON`` / ``HPET_IE_OFF``
+> +  Enables or disables the interrupt generation for the timer channel.
+> +
+> +* ``HPET_INFO``
+> +  It is used to query the capabilities and current status of the HPET.=20
+> +  When the ioctl call is made, the kernel populates the ``struct hpet_in=
+fo``=20
+> +  structure and returns it to userspace:
+> +
+> +  .. code-block:: c
+> +
+> +     struct hpet_info {
+> +         unsigned long hi_ireqfreq;	/* Hz */
+> +         unsigned long hi_flags;	/* information */
+> +         unsigned short hi_hpet;
+> +         unsigned short hi_timer;
+> +     };
+> +
+> +* ``HPET_EPI`` / ``HPET_DPI``
+> +  Enables or disables periodic interrupts. When activated, the timer tri=
+ggers continuously at the specified frequency.
+
+Please keep text files to less than 80 columns.
+
+Thanks,
+
+jon
