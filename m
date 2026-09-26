@@ -1,150 +1,165 @@
-Received: from sender5-pp-e106.zoho.com (sender5-pp-e106.zoho.com [165.173.182.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9687A261B9E;
-	Sat, 26 Sep 2026 18:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.106
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790447457; cv=pass; b=YZ2j5b7/OF8EaRl8u2yGJ7c9eSOwExvCABJlkQHVm5rhUF1/uA0+Nex7lfrULbHnZN7yCXCZtMzB+Brn59qpAJUMTi9itApWrCnEFw14GP2+z6UBJWtJzZAZitDVj9cxYFRZGfHW3AI0dziUzsNMPXhjI0NSmYnjlkiCE8SPK2g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790447457; c=relaxed/simple;
-	bh=4PHW3Eo2viww0JvJE1mAzFr6/DfBWETPmCDLuXl3Rko=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=p5EzcFbarywR9iPHyxBwfmK06oNnwijjwTY/2ss40IEb2E9cChFyUzbbkrfeM2S+L8Cjf7lA79osiD5q3ltx9wLSPyFaV3ixgcQg4NSo7eatiKF0/d+b6xPGDzUZS8KRqgNZnbVokGaw7PPISUb3TwhXIPW608cPWfK0zCrorcA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=Q1mjfQIw; arc=pass smtp.client-ip=165.173.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA36E391E7B
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 18:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790447912; cv=none; b=FyyNTe2PIo41TLnZrcEqV2FDQrq1QHzhLPbbQDlPmcqsVdySpvsAKfA/1ie+X8X1opE5JUQnYk1RsblgzCyMOkk6Yu7FAUh/fV7tQopOKpTnlemSLpezlgOy788qxYM1agGI5Cfx2QOVuny8/QpW8MrWMI+6lI4ajzyiV+YvD08=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790447912; c=relaxed/simple;
+	bh=v5qWPwPmptIgOUMB5CFuulpDfvjtsgXAwWcBMYCtwUA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mbii/Ali67Mwb5kYIQHuc4si8Cx9vtyQFg5ZEcfCFcPjwOJLocZXqZsUUc9zohOI3KRSDWufIQwJyxSS30Iv8SJrz2JqQ8oyeU3lTzmBf+AhqYzmiZyWkc78wHlVGeM+dX72RP2VtMFhsNDiJcCU6ZGK738q7KxyFqzmKARiZW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ImjYr6KW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="Q1mjfQIw"
-ARC-Seal: i=1; a=rsa-sha256; t=1790447428; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=JCI4FJnY+tDdh6G0n1+B773G31oYN99r4XkaSRVnqsqKbMKDlM5W/Ko/ffYfOn9SRzUI8ehULiMHSw2iDnB6w81aGoPnbSGs+P1iH0epxC4eB9UwPKWmZcuNeg5bRMz0l4ydyycFHN/6HkSZ20jbHaCHBGtDSCjwL9OEwT5tBt0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1790447428; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4PHW3Eo2viww0JvJE1mAzFr6/DfBWETPmCDLuXl3Rko=; 
-	b=BCDFMZH0/MvpUZNlU7jnqc4sMZgXL8LAutvJ0o9W1IHGRLRcYWAZrsbk1MrCkbhOqnT+j/O/z/a7D/d81rysvAW1Wmh4kqfE8XaWemTxQtMgAjhXWYXnu9pORorYRTQzrBMjwpCJqzvC5YRLlqwhyfwRJ8D6vvBf8CJuFPkoP64=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790447428;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=4PHW3Eo2viww0JvJE1mAzFr6/DfBWETPmCDLuXl3Rko=;
-	b=Q1mjfQIwDqIBPaAG1HQFlh67x9nWyHyUp+4pntTjYB8Db5kGg2i3lvRbeO9NggGY
-	vW11SR4LFU41ipWjJMvPdGq+7O1o4Q4RsAE32votvIfdFjLCwL5nK2PP03r/ThFAqxM
-	KF9LIXgVmfKbcVynTd9J+pONRRBZ4KMutK2usbG3zDP9Z4b0qNeePhLqjQR/eA7B1kP
-	BH06jOCFg82E7y3V7jBJlqdorDGq/Uf8rdiIS8i8p6Eh9F8Dnx9BF4OrunXoXaUuT2S
-	TNTjGs94/kIvPbkdQJwrLk/puvOX9Hrk79feNpZodoQ7DMs6nOPptramq1KzopNyTI0
-	hmMa7kYIQA==
-Received: by smtp.zohomail.com with SMTPS id 1790447427547685.9333117180373;
-	Sat, 26 Sep 2026 11:30:27 -0700 (PDT)
-Message-ID: <98dc534b684e3301bf30c9d7a3e97196f7eff4d5.camel@rong.moe>
-Subject: Re: [PATCH 0/4] ALSA: usb-audio: Demote the severity of sticky
- GET_CUR
-From: Rong Zhang <i@rong.moe>
-To: Faaris Ansari <faaris.ansari@gmail.com>, tiwai@suse.de
-Cc: adventureFAN@gmx.de, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
-	rdunlap@infradead.org, skhan@linuxfoundation.org, tiwai@suse.com
-In-Reply-To: <191af638-f19f-423c-8306-d96ea2b3dcad@gmail.com>
-References: <87h5klw6kp.wl-tiwai@suse.de>
-	 <191af638-f19f-423c-8306-d96ea2b3dcad@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 27 Sep 2026 02:25:22 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ImjYr6KW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB3C31F008A0
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 18:38:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790447906;
+	bh=8Qra4Hs5x0GhjkOw3qaqLENUU09DmiBO0O2Kq1ZFdXw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=ImjYr6KWkSyPQ4rlvfLe+oHVVH86pZLK9aLsIg9azoZyZlYAAwPElsU6pZat/DVER
+	 LLAsswB8AU24MVKAFLYYJ0yOT4TcSfgxCbiYJV84s/9LhweVKZcNEQDpVS6/j8gTRb
+	 6tseNMbpwlf7J4a448aM3ciWmKQHnXYb4/kHa4WfzfbcqjI+7QKHcPvgIRJyb7x8Wg
+	 OGNvueKkE1FHG/m/mofCfnbN3CkROy4YNExbCcBSHXOTdSQg4SVk/bMrn3FamcQMzd
+	 xKRJN1S5jEDy8sAoPNnaTknKr4Rl/N6Myldu662gw06+VA670gf/Yih5SnKPvxYJC0
+	 pECx3ecvnUENg==
+Received: by mail-ej2-f41.google.com with SMTP id a640c23a62f3a-c2dc50c6edfso27320966b.1
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 11:38:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByKzuhhgszXMATLUoXbQnxlILEWjkN870qW8z5I4Q9pntelh9MjKYesJLuw/J90qTRVDA3XxjfNDNI=@vger.kernel.org
+X-Gm-Message-State: AFuF++m0qWbNBzvmcQUHwqap3AHHtxioI0YFRBL5UwH9lGJhIqA9X5nF
+	HLkfEIbX8n9EYM+TvCU/JSloCRek6QC5azPtxhC1FU/eHsDmdA15N/Yhpqt0C5A0Z+q+06kEqEd
+	7M4cEfglv0zZwVC5NWV6l4IDupOMW3rFRs8t+N9ixig==
+X-Received: by 2002:a17:906:f588:b0:c2a:ad55:b3fa with SMTP id
+ a640c23a62f3a-c2ac22db042mr757145966b.7.1790447905700; Sat, 26 Sep 2026
+ 11:38:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-10+b1 
-X-ZohoMailClient: External
+References: <20260918180241.3424851-1-nphamcs@gmail.com> <20260918180241.3424851-2-nphamcs@gmail.com>
+ <CACePvbVaDNspMDSw_qAcapKAzXj3JGV-KMYmow7aePa0POHpSg@mail.gmail.com>
+ <7571f005bca65aa4ad5e7ec89e62801ad058b689.camel@surriel.com>
+ <CACePvbV-tazW=LmsbUtAhHzR2d6JwFT5R1jYZ9_NTp1hxXH=bw@mail.gmail.com> <a30eb60221cda2fe726a86c2c6f859f71fc7a46d.camel@surriel.com>
+In-Reply-To: <a30eb60221cda2fe726a86c2c6f859f71fc7a46d.camel@surriel.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Sat, 26 Sep 2026 08:38:13 -1000
+X-Gmail-Original-Message-ID: <CACePvbVd8uE5mwPX8T95zbURhhXxO2zbRETziJcGwQs3tOLEng@mail.gmail.com>
+X-Gm-Features: AclHuK-N2jo4ZJ9-ufy2a2NhRahWQY5CCHBUKvfMp6i2GWnJxoh5F1ffpf_MpB0
+Message-ID: <CACePvbVd8uE5mwPX8T95zbURhhXxO2zbRETziJcGwQs3tOLEng@mail.gmail.com>
+Subject: Re: [PATCH v5 01/11] mm, swap: add virtual swap device infrastructure
+To: Rik van Riel <riel@surriel.com>
+Cc: Nhat Pham <nphamcs@gmail.com>, akpm@linux-foundation.org, kasong@tencent.com, 
+	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev, 
+	shakeel.butt@linux.dev, yosry@kernel.org, david@kernel.org, 
+	muchun.song@linux.dev, shikemeng@huaweicloud.com, baoquan.he@linux.dev, 
+	baohua@kernel.org, youngjun.park@lge.com, chengming.zhou@linux.dev, 
+	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, 
+	surenb@google.com, qi.zheng@linux.dev, axelrasmussen@google.com, 
+	yuanchu@google.com, weixugc@google.com, gourry@gourry.net, 
+	haowenchao22@gmail.com, corbet@lwn.net, hughd@google.com, 
+	baolin.wang@linux.alibaba.com, tj@kernel.org, mkoutny@suse.com, 
+	skhan@linuxfoundation.org, kunwu.chan@linux.dev, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Faaris,
+On Thu, Sep 24, 2026 at 3:24=E2=80=AFPM Rik van Riel <riel@surriel.com> wro=
+te:
+>
+> On Thu, 2026-09-24 at 15:17 -1000, Chris Li wrote:
+> > On Thu, Sep 24, 2026 at 8:13=E2=80=AFAM Rik van Riel <riel@surriel.com>
+> > wrote:
+> > >
+> > > On Tue, 2026-09-22 at 23:18 -1000, Chris Li wrote:
+> > > > On Fri, Sep 18, 2026 at 1:03=E2=80=AFPM Nhat Pham <nphamcs@gmail.co=
+m>
+> > > > wrote:
+> > > > >
+> > > > >
+> > > > > @@ -482,6 +491,11 @@ void swap_read_folio(struct swap_io_ctx
+> > > > > *ctx,
+> > > > > struct folio *folio)
+> > > > >         if (zswap_load(folio) !=3D -ENOENT)
+> > > > >                 goto finish;
+> > > > >
+> > > > > +       if (unlikely(swap_is_vswap(sis))) {
+> > > >
+> > > > There are too many swap_is_vswap() in this series. It fragments
+> > > > the
+> > > > code path, making things harder to reason about. Esepcially
+> > > > around
+> > > > locks. I count 22 in this patch alone.
+> > > >
+> > > > I consider this the biggest drawback of this series. This
+> > > > fragmentation of the code path.
+> > >
+> > > Could we avoid that by simply always having everything
+> > > go through the vswap abstraction layer?
+> >
+> > Yes, but it will pay the price for going through the unnecessary
+> > redirection layer always. It incurs performance and meta data
+> > overhead. That was one of my previous objections to the earlier vswap
+> > version. Sorry I enjoy micro optimization too much, that is both my
+> > strength and weakness.
+>
+> We really only have two cases here, don't we?
+>
+> Either the data is in the swap cache, and
+> the vswap layer can directly look up the
+> swap cache page.
+>
+> Or the data is in some slower back-end,
+> and doing a second lookup is not going to
+> introduce noticeable overhead.
+>
+> If the micro optimization come at the cost
+> of less flexibility, and harder to maintain
+> code, are they really worth it?
 
-On Fri, 2026-09-25 at 19:33 +0100, Faaris Ansari wrote:
-> Hi there,
->=20
-> I am continuing to have a bug across the latest 7.2 kernels, as well as=
-=20
-> 6.18 and 6.12 LTS branches concerning hardware volume control on my=20
-> Audient EVO4, that I think is related to this issue - would appreciate=
-=20
-> some guidance if not.
->=20
-> Specifically, when changing volume via the knob on the front of the=20
-> device, everything works perfectly, but when modifying volume through=20
-> pwvucontrol or wpctl the volume drastically lowers. As far as I can=20
-> understand, pipewire is resorting to a software mixer for the device for=
-=20
-> some reason, whilst also actively modifying the hardware volume at the=
-=20
-> same time - is this what should occur with "sticky mixers"?
->=20
-> prior to kernels 7.2 (tested 7.1.13) the volume control works perfectly=
-=20
-> via wpctl.
->=20
-> I attempted to add a quirk flag to snd_usb_audio to work around the=20
-> issue without success:
->=20
-> ```
->=20
-> sudo modprobe snd_usb_audio quirk_flags=3D2708:0006:mixer_get_cur_broken
->=20
-> ```
+In this case, yes. Because there is an alternative that can both keep
+code complexity down, perform well, keep metadata small, and be
+flexible.
 
-Nah. This is not the proper way to specify module parameters. It silently
-succeeds when the module is already loaded, without actually modifying
-the parameter. It only works when the module has not been loaded.
+>
+> >
+> > > Handling the details of what's behind the vswap would
+> > > be handled one layer down.
+> > >
+> > > Chris, do you think that would be cleaner?
+> >
+> > If it can wrap below the swap_ops, it is just priviate inernal dedail
+> > of implementing its own indirections. That would be much cleaner.
+> > That
+> > is what I am trying to pitch to Nhat in prevoius email but does not
+> > have following actions.
+> >
+> Can you sketch out the details of what you
+> think that should look like?
+>
+> What would the data structures look like?
+>
+> What operations should there be at the
+> abstraction layer, and at the swap layers
+> below?
+>
+> How should migration of data from one swap
+> backend to another be handled?
+>
+> At this point the best way to make progress
+> would be to hash out those details.
+>
+> If you are unhappy with what you have seen
+> from others, what does your ideal design
+> look like?
 
-It's more preferred to write the option to /etc/modprobe.d/, unload the
-module, and probe the driver again. After that, check
-/sys/module/snd_usb_audio/parameters/quirk_flags to see if it's applied.
+Those are very good questions for the people who want to take that
+path. I can work that person to figure those out. It will  not be me
+just handing out all the answers.
 
-Note that while you can modify the parameter through sysfs, I don't
-recommend you to do so, as it can't handle line feed properly.
-
->=20
->=20
-> I also tried applying these patches to add extra mixer controls to my=20
-> EVO4: https://lore.kernel.org/lkml/20260919151840.24371-1-arc@gmx.li/
->=20
-> This worked fine after I modified the UCM conf for the device to follow=
-=20
-> the new (correct) naming scheme for the master volume, but the volume=20
-> problem was still occuring.
->=20
->=20
-> is this problem I'm having related to these sticky mixers?
->=20
->=20
-> I originally reported this to wireplumber thinking it was an issue=20
-> there, more information is provided at the link below:
->=20
-> https://gitlab.freedesktop.org/pipewire/wireplumber/-/work_items/1022
->=20
->=20
-> As I've never reported anything upstream to the kernel before, I'd=20
-> appreciate extra guidance where necessary. Would love to get this solved=
-=20
-> as its making all volume control on my system unusable, and the change=
-=20
-> which has caused it has also been pushed to LTS kernels,=C2=A0
->=20
-
-No, v7.2 is a *stable* version instead of an *LTS* version.
-
-> leaving me with=20
-> no working kernel besides reverting to the now EOL 7.1 series.
-
-Please test v7.3-rc.
-
-Thanks,
-Rong
-
->=20
->=20
-> Faaris
+Chris
