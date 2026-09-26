@@ -1,237 +1,344 @@
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499CF35B636;
-	Sat, 26 Sep 2026 13:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 023EF28DB55
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 14:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790430626; cv=none; b=oOwqtCI5CuuIduSbhevToDkjQiAYuSoPc5u5AdR2kjLiIUmLN2WTMTNmBGustqVR2O2u+RI7rjWbP11kldcHL8FVJ6SeZtLMAZnSmwKxSjU9wmth29LGXEQ0+Ehqe0JK/3rUeOnzWeFgssh4sPxKtYkvClcrae9cfTC6ZAcZ75E=
+	t=1790433314; cv=none; b=pq2X2Vs/Bla2Wy91v1WLunnUVV8p43nIwQ2FT3CQIhcdqVyth9JF/u3WUjHdHLvGj5/e1VKYzzdpiDBaTKESmLPQqrYj7eRuw36wrGc08l3NqSBtocG5pktOSrNUdFV8JuOO7ZqLwFhOiaGi9+k0ZdQoL09YJGCjg6bC/2MnRL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790430626; c=relaxed/simple;
-	bh=2WGsOmnxLclI+ygrJvzH6dUPGw5WZKi6FxVFImJV1kQ=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UVb8xVgevFlwF7L9cKdQ+Q0YbVStmpbhFk+FgSY2nlrMrac5gt/RhEQtuJwvjBBVDImQDov5DWh2Uw9CMQ1QDX3NZDxJbEsXp88k1NrpOIYeQKVF26VV+V8V2jvZ1ITBPapguRZ5YMgT0cnzb7hkxMKLmSZVB8ywAqLpdmpM+6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1xASnE-000000001eh-3lHX;
-	Sat, 26 Sep 2026 13:50:20 +0000
-Date: Sat, 26 Sep 2026 14:50:17 +0100
-From: Daniel Golle <daniel@makrotopia.org>
-To: Jiri Pirko <jiri@resnulli.us>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: [PATCH net-next v18 6/6] net: dsa: mxl862xx: document devlink flash
- and info support
-Message-ID: <c555c5507ffce3827917d9fb629b19cf928894cc.1790426599.git.daniel@makrotopia.org>
-References: <cover.1790426599.git.daniel@makrotopia.org>
+	s=arc-20240116; t=1790433314; c=relaxed/simple;
+	bh=JveIdfMnbEYqobIaG4H/0vVCYtVazpDPoziCms40STk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pOexnVA9hm0RxTmu4XFTrgpjYchUgz8zJrB/oLPhF1+++HMsX6yb6ggN9OnQTNHGCaFhu3t99PoYf8WZ5NygBcVxQE/2Dy1n2FXcgaHCCXxrsS8dgo1+PeCtjbGV9ijj8Zo78itHJv0KRS32VaX0U3XTEqUY+CTwRoOzs3dfHXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BLnqVR1/; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BLnqVR1/"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49ccead2aecso8179775e9.0
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 07:35:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790433311; x=1791038111; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=sRi2uvg9/167pPQxsIteWZThRIVLdNuXQXVpU9sXzLQ=;
+        b=BLnqVR1/lCxtlwXYd+QzB/SwAC6wHkKRGIWuhhfhn/PUs3rZH5oNR9GurtJHoPKr2F
+         5XH1n0jtlHJR+C4mK4/4M/DTPMTYKHGxXw2b6H8QahqTow2yLhRLB7SKbkOkMftjeI+y
+         2zDc5VFBAkntYxTOMEvmqC264Ern0JuesAM65EgTTU57sxlsK5otVTwbF6fk0AkLU9n6
+         dD/xpxDNbLAfyAx5X+mwyCqg1j7mQFxr7oHyCSassNtr8+Oa/uqM7T46VCARkVBFBvuj
+         KLqb6mFbVDp4+OIcuqW6amTrcI/A5zU3SI4ia7Pqq0s/Wx7txWuqHGRtlkDCSbF0xAvV
+         DF7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790433311; x=1791038111;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=sRi2uvg9/167pPQxsIteWZThRIVLdNuXQXVpU9sXzLQ=;
+        b=AAi5EspAd4aoebG0udU+f407DFd4lVNpnvRYN7YXcMPuY9uTFxkMSCU7jiTWx7Hk9G
+         hNcahMtd82b30MeYxatMHIxoFNTlKJ3Qz0DtLmvHnlDTVyIy81jN3FD8wYL/y6MtTuY/
+         RVRbIgdmUEisYCKcHAFjs5hUfQdNluaETsHZskTzJQLCCiwJ9xLnfXmxwiiSEN2hpIOi
+         fztpSi1beOmobkHZCihgCNb6LrjIAjHOgwnc+vDEx6sEkUEwkNdw/1UXBTPABoaZsdu3
+         RKduZmyc6IgNIu2SodHR87EeKyWaPhgMdsbTeGlMr7vRlavexHyTxwd6ff1itNthD2dm
+         Fbsw==
+X-Forwarded-Encrypted: i=1; AKwUvBySgZydzzxx9pcNGs5nCkvsXNwHvaBvwBvfPw2t+/2aq2EkxBzvlEdwS3Q8D96DIdQ8gp6QeqBr2to=@vger.kernel.org
+X-Gm-Message-State: AFuF++nUKTutqCFc717PeQOu9XeHk3OOb7Rb+kk1otaxY7RYq0wDtfRH
+	ee/XEpGwJwcCqYtMIBrurzziBzxzdDFj4g3VG65e5QewoihZJ4t69WVp
+X-Gm-Gg: AYBFou1DOh1TmVzDaq/D5J9KgrXWcIEo2wibTZwICFBUmcMBtsppCxzrbTUERCmGUw/
+	TR3YOvoxq8vUODy5Zb7n3QfQ8CRlnfTJ5Kn20yD0ECX6c7pltYKKN0KouyObIQNBS1i4E9/2b0Y
+	klSgWFirJ9aJz51u+3CZzlv5v8ILIzNUE8xBhdJz9VepCsPTo6cr+l5owFwYCC+EB3TQE//198n
+	5kCzGtMQ9koSWPxF1WdF0ipYMPP8zCK6MwGu1Ik3QX65WcRMJ25clFlE9DBoVBaFpT0buly7TFz
+	CNCQuLNrFLLU8Lyd3Gbk0+2bnHEsZBwHPovQdQZQSIg8QfXmgXE40Z8QAwHTGppgCWw66El3TMd
+	7VJ+HjWgvDi6GYM1kbOzV0SPYs4F3QMys2stORei1+B2wdZW+bBcBKckGpR+2l66bnkZjIbhpRa
+	wq+Kv8j4dujmYL40SDkK/rjdmKZUybhYAmZcQtnHZI2ZJYTGI+Spd3p1W3rQ0G0LunD6fMVZmaU
+	ZcXLzYBvTFYogncsp/N5iuA5yEIHn//yxzAvoStig34eLBdyxP3YZGahqcETNHDFtFmCEdHe+8u
+	kCIJl0E9YuVviWU4nLTPsVzQWwLOk/fYYz8Xd3iyMjxZgOGOFIewKGtJ1HMxilH1iOVZd5aR+pZ
+	i0+xxn0iyl9XQ
+X-Received: by 2002:a05:600c:3107:b0:49c:cee2:1697 with SMTP id 5b1f17b1804b1-49ff06e502dmr96350065e9.16.1790433310920;
+        Sat, 26 Sep 2026 07:35:10 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-b162-c701-4960-a998-3de8-2fce.310.pool.telefonica.de. [2a02:3100:b162:c701:4960:a998:3de8:2fce])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a64ef3asm14533819f8f.30.2026.09.26.07.35.08
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 26 Sep 2026 07:35:10 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bradley Morgan <brads@mainlining.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH v4] softirq: Preserve interrupt context during IRQ exit
+Date: Sat, 26 Sep 2026 16:35:05 +0200
+Message-Id: <20260926143505.66024-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1790426599.git.daniel@makrotopia.org>
+Content-Transfer-Encoding: 8bit
 
-Describe the devlink info versions and the flash update behaviour,
-including the MCUboot rescue mode recovery, in a dedicated file under
-Documentation/networking/devlink/ and link it from the index. Add the
-new file to the driver's MAINTAINERS entry.
+On the return from interrupt path, __irq_exit_rcu() removes
+HARDIRQ_OFFSET from the preemption counter at the very top of the
+function. Everything after that reports the current context as task
+instead of hard interrupt. The code in the function itself, such as
+invoke_softirq(), is aware of this and does not rely on the counter.
+Everything else which derives the context from preempt_count gets it
+wrong in that window:
 
+  - ftrace, perf and the ring buffer record task context and use the
+    task recursion and context slots.
+  - KCSAN attributes the accesses to the interrupted task, KMSAN uses
+    and changes its state. KCOV and the printk caller id see a task.
+  - On PREEMPT_RT can_spin_trylock() and local_trylock() reject hard
+    interrupt context to avoid interfering with PI when the interrupted
+    task is blocked on a lock. That check does not reject calls made in
+    this window. BPF programs attached to sched_waking or sched_wakeup
+    can reach it through kmalloc_nolock().
+  - An oops kills the interrupted task instead of ending in "Fatal
+    exception in interrupt".
+
+Tracing and the sanitizers see the wrong context in this window. No
+failure caused by this misclassification is known. The early removal of
+HARDIRQ_OFFSET predates git. lockdep is not affected because
+lockdep_hardirq_exit() is the last operation in irq_exit().
+
+Keep HARDIRQ_OFFSET until right before tick_irq_exit(), which needs
+in_hardirq() to be false for the outermost interrupt. Softirq handlers
+must not run with HARDIRQ_OFFSET set, so softirq_handle_begin() replaces
+it with SOFTIRQ_OFFSET and softirq_handle_end() reverts that, each in a
+single raw preempt_count update. The raw operations keep the preemption
+disable location recorded by irq_enter_rcu(), and lockdep is updated by
+hand. softirq_handle_begin() detects the case with in_hardirq() because
+__do_softirq() is reached through the stack switch in
+do_softirq_own_stack() and cannot take an argument.
+
+The checks run before HARDIRQ_OFFSET is removed. !in_interrupt() becomes
+irq_count() == HARDIRQ_OFFSET, as in irq_enter_rcu(). The timer thread
+check becomes !in_nmi() && hardirq_count() == HARDIRQ_OFFSET. It does
+not test softirq_count(): the timer thread must also wake when the
+interrupt hit softirq processing or a section with BHs disabled.
+A softirq raised in the timer thread wakeup is handled by the timer
+thread, which handles all pending softirqs.
+
+A softirq raised from a tracepoint on the final preempt_count_sub()
+waits for the next interrupt exit and can trigger NOHZ tick-stop
+warnings meanwhile. That is not the normal path and does not justify a
+check on every interrupt exit. A tracepoint on tick_irq_exit() already
+behaves the same way.
+
+The number of preempt_count updates and the interrupt time accounting
+are unchanged. The preemptoff tracer now reports the interrupt and the
+softirq processing on top of it as one section, and function graph with
+nofuncgraph-irqs also skips the interrupt exit work, including the
+__do_softirq() frame.
+
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Link: https://lore.kernel.org/r/20260813130826.GW687043@noisy.programming.kicks-ass.net
 Assisted-by: LLM
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Reviewed-by: Bradley Morgan <brads@mainlining.org>
 ---
-v18:
- - the rescue-mode firmware version is reported as running only, and a
-   re-probe that cannot be scheduled is logged on every path and leaves
-   later flashes refused with -EBUSY until a rebind (found by Sashiko AI
-   review)
-v17: no changes
-v16:
- - document that a reboot waits for a running flash and that one
-   requested afterwards is refused, and that a bus error ends the
-   download recovery for good
- - title-case the "Flash Update" heading, as the other devlink driver
-   documents do
- - say that the ports come back down from a flash, that a reprobe which
-   cannot be scheduled needs a rebind, and which of the two recovery
-   failures needs a power cycle and which a rebind (found by Sashiko AI
-   review)
-v15:
- - asic.rev is read from the CHIP ID registers as well, not from one
-   register word shared with asic.id (found by Sashiko AI review)
- - -EIO says the driver gave up on the recovery, which may need a driver
-   rebind rather than a power cycle, and an interrupted opening
-   handshake is reported the same way (found by Sashiko AI review)
-v14: no changes
-v13: no changes
-v12: no changes
-v11: no changes
-v10: document that a switch power cycled on its own needs the driver
-     unbound and rebound before a failed recovery is re-examined
-v9: no changes, picked up Andrew's v5 Reviewed-by
-v8:
- - asic.id and asic.rev are omitted whenever the part number reads
-   zero, not only in MCUboot rescue mode (found by Sashiko AI review)
- - drop the claim that "0.0.0" marks a switch that never ran firmware;
-   rescue mode always reports it (found by Sashiko AI review)
- - document devlink dev flash as the signal that says whether a
-   recovery is still running, including the -EIO it returns once the
-   recovery has failed (found by Sashiko AI review)
-v7: no changes
-v6: no changes
-v5: new patch, splitting the devlink documentation out of the flash
-    update and rescue mode recovery patches so each keeps to code
-    (Jakub Kicinski asked for the documentation)
 
- Documentation/networking/devlink/index.rst    |  1 +
- Documentation/networking/devlink/mxl862xx.rst | 95 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 97 insertions(+)
- create mode 100644 Documentation/networking/devlink/mxl862xx.rst
+Notes:
+    Thanks for the review, Sebastian, and for the Reviewed-by, Bradley.
+    
+    Changes in v4:
+    - Drop the ksoftirqd wakeup after the final preempt_count_sub(). A
+      tracepoint consumer raising a softirq there is not a path to cater
+      for (Sebastian).
+    - Reword the first changelog paragraph (Sebastian).
+    - Rebase on v7.3-rc4, which contains the prerequisites a155ac8f0c52
+      and 2af470916a20. tip/irq/core does not have them yet.
+    - Keep the Reviewed-by from v3. The only code change is the removal
+      above.
+    
+    Testing: the v4 code is the v3 code without the trailing check, which is
+    the state that ran on the x86-64 and arm64 QEMU matrix, the SAM9X75
+    (also RT) and the Raspberry Pi 500+ (also RT) before v3 was posted. The
+    Pi 400 ran the variant with the check. On v7.3-rc4, base against v4
+    booted and stressed cleanly in QEMU on arm64 (virt, SMP, lockdep) and
+    arm32 (versatilepb, lockdep).
+    
+    v3: https://lore.kernel.org/r/20260924041538.52574-1-kmehltretter@gmail.com
+    v2: https://lore.kernel.org/r/20260905023210.82853-1-kmehltretter@gmail.com
 
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index 1af780c811ee..53d3ef16d13f 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -95,6 +95,7 @@ parameters, info versions, and other features it supports.
-    mlx5
-    mlxsw
-    mv88e6xxx
-+   mxl862xx
-    netdevsim
-    nfp
-    octeontx2
-diff --git a/Documentation/networking/devlink/mxl862xx.rst b/Documentation/networking/devlink/mxl862xx.rst
-new file mode 100644
-index 000000000000..c2dfc72ef9a4
---- /dev/null
-+++ b/Documentation/networking/devlink/mxl862xx.rst
-@@ -0,0 +1,95 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+mxl862xx devlink support
-+========================
-+
-+This document describes the devlink features implemented by the
-+``mxl862xx`` device driver.
-+
-+Info versions
-+=============
-+
-+The ``mxl862xx`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+   :widths: 5 5 5 85
-+
-+   * - Name
-+     - Type
-+     - Example
-+     - Description
-+   * - ``asic.id``
-+     - fixed
-+     - 8628
-+     - The chip part number read from the CHIP ID registers. Omitted
-+       when the part number reads as zero, which happens for a switch
-+       sitting in MCUboot rescue mode (the registers need a running
-+       firmware), for an unfused part, and after a failed flash.
-+   * - ``asic.rev``
-+     - fixed
-+     - 0
-+     - The chip version, read from the CHIP ID registers as well. Both
-+       values are published behind the same check, so it is omitted
-+       whenever ``asic.id`` is.
-+   * - ``fw``
-+     - running, stored
-+     - 1.0.70
-+     - Version of the firmware running on the switch, reported as both
-+       running and stored since the switch boots it from its own flash.
-+       It is omitted while no firmware version is known: after a failed
-+       flash, and in MCUboot rescue mode while an interrupted download
-+       is still being recovered in the background. Once the loader is
-+       ready to accept a new image the version appears as "0.0.0",
-+       which no released firmware reports, so version-comparing tools
-+       offer any available release as an upgrade; it is reported as
-+       running only, since the driver cannot tell what the flash holds
-+       while the loader runs. Use ``devlink dev
-+       flash`` to tell a recovering switch from a ready one, see below;
-+       a missing version on its own does not say why.
-+
-+Flash Update
-+============
-+
-+The ``mxl862xx`` driver implements support for ``devlink dev flash``.
-+The signed firmware image is transferred to the switch over the same
-+MDIO bus which is also used to manage the switch, then verified and
-+installed by the MCUboot bootloader running on the switch. All ports
-+of the switch are closed for the duration of the update and the driver
-+reprobes the switch after it has rebooted into the new firmware; they
-+come back registered but down, so userspace brings them up again. A
-+complete flash and reprobe cycle takes about one minute. In the rare
-+case that the reprobe cannot be scheduled at all, the kernel log says
-+so, ``devlink dev flash`` reports that error or the transfer's own if
-+the transfer failed as well, and the driver stays bound to a switch it
-+no longer tracks, refusing further updates with ``-EBUSY``, until it is
-+unbound and rebound. A reboot started
-+while an update is running waits for the transfer to finish, and an
-+update requested after the system has begun shutting down is refused
-+with ``-ENODEV``.
-+
-+A switch stuck in MCUboot rescue mode, e.g. after an interrupted
-+update, is registered without user ports. If the previous download was
-+interrupted mid-transfer the loader is wedged; the driver drains it
-+back to a clean ready state in the background, one byte at a time,
-+which takes tens of minutes for a large image and is reported through
-+the kernel log as it progresses. During that recovery ``devlink dev
-+flash`` returns ``-EBUSY`` with an extack message saying so, and
-+``devlink dev info`` reports no firmware version. Once the loader is
-+ready the firmware version appears and flashing a firmware image
-+through the regular update flow recovers the switch.
-+
-+If the driver gives up on the recovery, ``devlink dev flash`` returns
-+``-EIO`` and says so in its extack message. The drain runs once and is
-+never resumed, so a failed MDIO transaction ends it as well. A loader
-+that stops answering the drain needs a power cycle; a completed drain
-+whose reprobe could not be scheduled, and a drain a bus error cut
-+short, need only a driver rebind. The driver re-examines the switch
-+when it binds and at no other time, so a power cycle on a board where
-+the switch can be cycled on its own still has to be followed by an
-+unbind and rebind for the recovered switch to be recognised.
-+
-+A download interrupted during its opening handshake, before the image
-+header reached the loader, is reported the same way. The loader waits
-+for a header that no later session can supply, so that state needs a
-+power cycle.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6de1ff058db6..cb1dad080f63 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16250,6 +16250,7 @@ M:	Daniel Golle <daniel@makrotopia.org>
- L:	netdev@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/maxlinear,mxl862xx.yaml
-+F:	Documentation/networking/devlink/mxl862xx.rst
- F:	drivers/net/dsa/mxl862xx/
- F:	net/dsa/tag_mxl862xx.c
+ Documentation/core-api/entry.rst | 16 +++++---
+ kernel/softirq.c                 | 65 ++++++++++++++++++++++++++------
+ 2 files changed, 63 insertions(+), 18 deletions(-)
+
+diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
+index 79fdaed954d9..ff3df997b151 100644
+--- a/Documentation/core-api/entry.rst
++++ b/Documentation/core-api/entry.rst
+@@ -197,8 +197,9 @@ return true, handles NOHZ tick state and interrupt time accounting. This
+ means that up to the point where irq_enter_rcu() is invoked in_hardirq()
+ returns false.
  
+-irq_exit_rcu() handles interrupt time accounting, undoes the preemption
+-count update and eventually handles soft interrupts and NOHZ tick state.
++irq_exit_rcu() handles interrupt time accounting, handles soft interrupts if
++possible, undoes the preemption count update and finally handles the NOHZ tick
++state.
+ 
+ In theory, the preemption count could be updated in irqentry_enter(). In
+ practice, deferring this update to irq_enter_rcu() allows the preemption-count
+@@ -207,10 +208,13 @@ irqentry_exit(), which are described in the next paragraph. The only downside
+ is that the early entry code up to irq_enter_rcu() must be aware that the
+ preemption count has not yet been updated with the HARDIRQ_OFFSET state.
+ 
+-Note that irq_exit_rcu() must remove HARDIRQ_OFFSET from the preemption count
+-before it handles soft interrupts, whose handlers must run in BH context rather
+-than irq-disabled context. In addition, irqentry_exit() might schedule, which
+-also requires that HARDIRQ_OFFSET has been removed from the preemption count.
++Note that soft interrupt handlers must run in BH context rather than in hard
++interrupt context. irq_exit_rcu() therefore replaces HARDIRQ_OFFSET with
++SOFTIRQ_OFFSET in the preemption count while it handles soft interrupts and
++puts HARDIRQ_OFFSET back afterwards, so that the remaining interrupt exit work
++is still attributed to the interrupt. HARDIRQ_OFFSET is removed before
++irq_exit_rcu() returns because irqentry_exit() might schedule, which requires
++that HARDIRQ_OFFSET has been removed from the preemption count.
+ 
+ Even though interrupt handlers are expected to run with local interrupts
+ disabled, interrupt nesting is common from an entry/exit perspective. For
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 5d02c36c40e3..12e3e4493767 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -350,8 +350,8 @@ static inline void ksoftirqd_run_end(void)
+ 	local_irq_enable();
+ }
+ 
+-static inline void softirq_handle_begin(void) { }
+-static inline void softirq_handle_end(void) { }
++static inline bool softirq_handle_begin(void) { return false; }
++static inline void softirq_handle_end(bool from_irq_exit) { }
+ 
+ static inline bool should_wake_ksoftirqd(void)
+ {
+@@ -481,15 +481,40 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
+ }
+ EXPORT_SYMBOL(__local_bh_enable_ip);
+ 
+-static inline void softirq_handle_begin(void)
++static inline bool softirq_handle_begin(void)
+ {
+-	__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
++	bool from_irq_exit = in_hardirq();
++
++	if (!from_irq_exit) {
++		__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
++		return false;
++	}
++
++	/*
++	 * Only reached from irq_exit(), with HARDIRQ_OFFSET still set.
++	 * Replace it with SOFTIRQ_OFFSET before handle_softirqs() enables
++	 * interrupts. Use the raw operation to preserve the preemption
++	 * disable location recorded by irq_enter_rcu(), and update lockdep
++	 * directly.
++	 */
++	__preempt_count_sub(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
++	lockdep_softirqs_off(_RET_IP_);
++	WARN_ON_ONCE(irq_count() != SOFTIRQ_OFFSET);
++
++	return true;
+ }
+ 
+-static inline void softirq_handle_end(void)
++static inline void softirq_handle_end(bool from_irq_exit)
+ {
+-	__local_bh_enable(SOFTIRQ_OFFSET);
+-	WARN_ON_ONCE(in_interrupt());
++	if (!from_irq_exit) {
++		__local_bh_enable(SOFTIRQ_OFFSET);
++		WARN_ON_ONCE(in_interrupt());
++		return;
++	}
++
++	lockdep_softirqs_on(_RET_IP_);
++	__preempt_count_add(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
++	WARN_ON_ONCE(irq_count() != HARDIRQ_OFFSET);
+ }
+ 
+ static inline void ksoftirqd_run_begin(void)
+@@ -605,6 +630,7 @@ static void handle_softirqs(bool ksirqd)
+ 	unsigned long old_flags = current->flags;
+ 	int max_restart = MAX_SOFTIRQ_RESTART;
+ 	struct softirq_action *h;
++	bool from_irq_exit;
+ 	bool in_hardirq;
+ 	__u32 pending;
+ 	int softirq_bit;
+@@ -618,7 +644,7 @@ static void handle_softirqs(bool ksirqd)
+ 
+ 	pending = local_softirq_pending();
+ 
+-	softirq_handle_begin();
++	from_irq_exit = softirq_handle_begin();
+ 	in_hardirq = lockdep_softirq_start();
+ 	account_softirq_enter(current);
+ 
+@@ -670,7 +696,7 @@ static void handle_softirqs(bool ksirqd)
+ 
+ 	account_softirq_exit(current);
+ 	lockdep_softirq_end(in_hardirq);
+-	softirq_handle_end();
++	softirq_handle_end(from_irq_exit);
+ 	current_restore_flags(old_flags, PF_MEMALLOC);
+ }
+ 
+@@ -748,8 +774,12 @@ static inline void __irq_exit_rcu(void)
+ 	lockdep_assert_irqs_disabled();
+ #endif
+ 	account_hardirq_exit(current);
+-	preempt_count_sub(HARDIRQ_OFFSET);
+-	if (!in_interrupt() && local_softirq_pending()) {
++
++	/*
++	 * HARDIRQ_OFFSET is still set. Only the outermost interrupt handles
++	 * softirqs, and only if it did not hit a softirq or BH disabled section.
++	 */
++	if (irq_count() == HARDIRQ_OFFSET && local_softirq_pending()) {
+ 		/*
+ 		 * If we left hrtimers unarmed, make sure to arm them now,
+ 		 * before enabling interrupts to run softirq.
+@@ -758,10 +788,21 @@ static inline void __irq_exit_rcu(void)
+ 		invoke_softirq();
+ 	}
+ 
++	/*
++	 * Wake the timer thread even if the interrupt hit a softirq or a
++	 * section with BHs disabled. Only nested interrupts and NMIs are
++	 * excluded.
++	 */
+ 	if (IS_ENABLED(CONFIG_IRQ_FORCED_THREADING) && force_irqthreads() &&
+-	    local_timers_pending_force_th() && !(in_nmi() | in_hardirq()))
++	    local_timers_pending_force_th() &&
++	    !in_nmi() && hardirq_count() == HARDIRQ_OFFSET)
+ 		wake_timersd();
+ 
++	/*
++	 * tick_irq_exit() relies on in_hardirq() being false for the
++	 * outermost interrupt.
++	 */
++	preempt_count_sub(HARDIRQ_OFFSET);
+ 	tick_irq_exit();
+ }
+ 
+
+base-commit: 93f51579e7df248780214094418f205253383cc5
 -- 
-2.55.0
+2.39.5 (Apple Git-154)
+
