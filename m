@@ -1,568 +1,245 @@
-Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B60370AE6
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 20:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3D1380FD8
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 21:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790454749; cv=none; b=fmcwOLMHW37IbCU2v0YDp5gcT7ffjNp5QXZ0WKE2fETrCDzL3X4FnKtmpxL3L/8YQUphUJWYGC0PRFI3+nUhH8PpHPV/UnRDtB5DmH5JPb1oKYfY1nVA1xpFzp6wkUvrRyOlUUBKql3kEtRonex4oNG2HGCmmM9eUbiZwNsv/gI=
+	t=1790458085; cv=none; b=e74vw7GsFqLpHgO2E5GGYA0/6XOazYtuKuMRaAwEuM9wHVpqN4pWOUD8et4hHo6UekT3IsEEzxS5YjW2bXFGyKIzCkLQXHifjTVOBxuiOp0xBSi3ZkZ5IsSEx42CY5jvcBEWNrBfvL0czp2iSEatze19pHAna+BPUFbyvO1nyjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790454749; c=relaxed/simple;
-	bh=aiMJ9XVb/fAOPJP97f8qgEUMoha2rXmlKGPcHFDFMsw=;
+	s=arc-20240116; t=1790458085; c=relaxed/simple;
+	bh=ZGfdlvSoM9BZXTGn+SBJNjjtFMewX0+1I96V97NJx/I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FkFPcERYGdP35KIHLuOS6fFgKdWfPcRR2TQbIu9FqdIYZHcrqaDqPKd/uZizyOSoiZRFLTvp1as/pRsZP6M60n4rPGZLLSjWuTUnlgKKRhkEakA2C/rdMK6aVsmQemk7115uE5pc/KrvVRGIc5lifKxBvqbA1YklNzLp8AkDbBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=eW76/MNI; arc=none smtp.client-ip=37.27.248.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	 To:Cc:Content-Type; b=IqwSx3i/hi2kdQV3B/7JjToVbHTC2XkiKwReGY21aHRAIXUuT6li/86BUqNEPM1gQWA4eLSKEAYBJQyk05bQoYBPJ3Aqlu5u0lbfej9ODQhjRvkktRZ0+3dSZpotrHYKWFkr+7qDtcgCps4c0qa0rsWsClLq0KVNZc2lkzoYNdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gqkMbezn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="eW76/MNI"
-Received: from relay10 (localhost.localdomain [127.0.0.1])
-	by relay10.grserver.gr (Proxmox) with ESMTP id B65E23F9A0
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 23:32:25 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay10.grserver.gr (Proxmox) with ESMTPS id 7EC4942B3C
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 23:32:24 +0300 (EEST)
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 85F791FF313
-	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 23:32:23 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1790454743;
-	bh=gi5IaO//agjFluDDPGgEQedzafbz2TDUY5ZwA983V9w=;
-	h=Received:From:Subject:To;
-	b=eW76/MNIxwwn7mjqioVyMFNCYAR83uk5QyB+7VoUJHNS8wgvMiQIxE8Lo2o8NcrsF
-	 Fs2sMTyL9Esv9w+cvGRy7lObBjZPU+wWzHCPPEZn8/rfuSbwuLMpkXCnyw+uBZnT1P
-	 l77OYtR/GltDy/vTwfOUbVpUr/rpCDlk6Kk2eiBsOmiCfzJ81kxvWfg5wvP8mnTXDu
-	 0v5xpAtz0w2MvvsQdrH4HEtj15eu1q0rc9dJPt/RpRGFctDdfIJ1zAgI550BH5xsCF
-	 NA6uXi28t4Jq8wbLmhoUZvxJanK/LR2+G2ZDDKI9mNxPuXy6BSzps8s5jrb6GpyV3o
-	 UIavChYHmYdBQ==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 74.125.227.141) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pj2-f13.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pj2-f13.google.com with SMTP id
- d9443c01a7336-2d747ec6188so8295575ad.3
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 13:32:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AKwUvBy196X9CMZKZfKYZougfbkigt7tkPI9GFj+Z9tsjp6bsfic/35RbivnVXYMsxy/ZuAY3vQf0TdpFI0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLvy1PFavDBtHBuo8vEW8m6jvi6QVEW4L/ARqfFdcncung+8umE
-	HY0ioCBz7r/2M/KYNHTE9telII+t5zj/7SmMz8XUTRjj4/APgDf9/bxHVFm4WEnJYOEoWWHzzbR
-	JOQ4xhnkAXGMb9twaHujiuHWm+AJqXBs=
-X-Received: by 2002:a17:903:8c5:b0:2df:a0f0:6625 with SMTP id
- d9443c01a7336-2dfa0f06cf3mr27418185ad.17.1790454742029; Sat, 26 Sep 2026
- 13:32:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gqkMbezn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 105491F0089A
+	for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 21:28:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790458084;
+	bh=/b3/K9KEy+XA6wgbrrLssczCgmMTCJmP39vuys8Y1Dk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=gqkMbeznlAE31vhhNwWXbt6fD2qvRyiBie/jaFTCLAZf/m1xXAGscSLs3cXUdNwse
+	 cF1a04qiV/UYfywl3f9e6vFnBFvqoDJChe5MnHFHOCNyhg0spwAK1rgX9YDCD9wq5q
+	 TklqU5/S1LjAZllvTEt8nPxOXkYegmAnLCTAwY3oHHhZXTSGFq63hPzHoYMZUbGWUF
+	 eD0TXesWxJqD6xfx7IbyKvWu8SAWLclYHRXO/SEAn8VBOrFRt4f8qf+jebiGO/rgsB
+	 Gsm78WonTrKLiT6NnKs2ALDpabU+j9uGSNDGZbCIScZblAePwJsyancU6j+xXrlYV5
+	 qGjgS2j2nDG9w==
+Received: by mail-ej2-f42.google.com with SMTP id a640c23a62f3a-c2dc427bf6cso30708466b.2
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 14:28:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzCza7qitSteU5Riwc6c7jYcOZIOUchVBCliZZpZwntbcNpQSNk7Nu/FGrg5ilU3s0KHlDg/EPea10=@vger.kernel.org
+X-Gm-Message-State: AFuF++l3WH2Yj9gh6oqEAsehkV59aRezQQcCgmK/+ptEJvDFiJPAHmrA
+	LwGYDQegU1ABGuDMYtR2ZA1DLAsnH94hLaA6wDwJNMeBBBpkya9nosUn4+5vjnEZM/bYKvx/Ikp
+	JeRpmrAgnIGxFON8QCj4Qas22WVwvE4Gl/m4crIDY7g==
+X-Received: by 2002:a17:907:97cd:b0:c25:5d2:acf0 with SMTP id
+ a640c23a62f3a-c2ac241f82emr841881766b.8.1790458080847; Sat, 26 Sep 2026
+ 14:28:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260926-gpd-fan-duo-auto-v2-0-0a2ea41ee3b5@pm.me>
- <20260926-gpd-fan-duo-auto-v2-2-0a2ea41ee3b5@pm.me>
-In-Reply-To: <20260926-gpd-fan-duo-auto-v2-2-0a2ea41ee3b5@pm.me>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Sat, 26 Sep 2026 22:32:10 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwG51ZAWEbhmwAfbU1RNu2QCJ-cnQhXcuKQb8e7bWKVeDQ@mail.gmail.com>
-X-Gm-Features: AclHuK8q0fQxCqk1qcnBSwPLyStF_AWG-RRmHH1uGcw9vIsjPOLIKoaYK-sljEk
-Message-ID: 
- <CAGwozwG51ZAWEbhmwAfbU1RNu2QCJ-cnQhXcuKQb8e7bWKVeDQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] hwmon: (gpd-fan) Register both fans on the GPD Win
- 5
-To: alexei.solcanu@pm.me
-Cc: Guenter Roeck <linux@roeck-us.net>,
- Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <aqjcFb6MFNiA6n4V@fedora> <aqjpYHbZ14A8xRtK@fedora>
+ <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
+ <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
+ <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
+ <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
+ <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
+ <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
+ <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
+ <arUcil9kxUPiymXI@KASONG-MC4> <araWKyJ5MENBwXCL@cmpxchg.org>
+In-Reply-To: <araWKyJ5MENBwXCL@cmpxchg.org>
+From: Chris Li <chrisl@kernel.org>
+Date: Sat, 26 Sep 2026 11:27:48 -1000
+X-Gmail-Original-Message-ID: <CACePvbV0Z3OhxkEn-MiMrxpSmtbt1YwCt2N2_ZW3jbdh87jgFA@mail.gmail.com>
+X-Gm-Features: AclHuK-pGdbWiVt-UuTNcQ1lUDuTYQAqi73TzSdqZqJN9ntFblbZL_BJbUvjbEg
+Message-ID: <CACePvbV0Z3OhxkEn-MiMrxpSmtbt1YwCt2N2_ZW3jbdh87jgFA@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Johannes Weiner <hannes@cmpxchg.org>
+Cc: Kairui Song <ryncsn@gmail.com>, Nhat Pham <nphamcs@gmail.com>, Rik van Riel <riel@surriel.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <179045474383.550030.14370850392947002810@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 26 Sept 2026 at 22:12, Alexei Solcanu via B4 Relay
-<devnull+alexei.solcanu.pm.me@kernel.org> wrote:
+On Fri, Sep 25, 2026 at 5:41=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.org=
+> wrote:
 >
-> From: Alexei Solcanu <alexei.solcanu@pm.me>
+> On Fri, Sep 25, 2026 at 09:15:17PM +0800, Kairui Song wrote:
+> > On Tue, Sep 22, 2026 at 09:44:37PM +0100, Chris Li wrote:
+> > > It seems you are talking about a different topic: the vswap charging =
+issue.
+> > > There is a golden rule that we should follow: don't break existing
+> > > users. At least with the same persistence, this rule should apply
+> > > universally.
+> > > In the swap tiers discussion, the UAPI was such a big deal that we
+> > > couldn't implement new UAPI. On the other hand here we argue for
+> > > liberally changing user-space visible behavior.
+> > >
+> > > BTW, I already shared that changing swap counter charging will break
+> > > our and others' existing deployments.
+> >
+> > Hi all
+> >
+> > As I read the threads and try to clean up the requirement, just
+> > realized that I forgot and ignored something previously. I think I can
+> > share a few things here.
+> >
+> > I also see that Rik mentioning that:
+> >
+> > > It adds up anonymous, file, accounted slab, and
+> > > (after compression) zswap memory use for a cgroup,
+> > > and can be limited with all the usual cgroup
+> > > limits.
+> >
+> > That's very true, and that's also the one reason we can't
+> > migrate some workload to zswap easily (at least yet) :D
+> > See below.
+> >
+> > The discussion on this can be saw two years before (I know
+> > things are different for V2, so see below):
+> > https://lore.kernel.org/linux-mm/CAMgjq7AYA91f4g-bknUZOMg6hApTD-X5LqjcT=
+BN2u-Lu8pjs+w@mail.gmail.com/
+> >
+> > An minor update for that, memsw in V1 serves pretty well (we also
+> > modded that part and would try push to upstream if doable), and as
+> > memsw is missing in V2, we can still workaround that using
+> > memory.current and memory.swap.current. BUt missing the offloaded
+> > part in memory.swap seems a problem.
+> >
+> > First a little bit off topic, I'll be really happy if we can make
+> > both compressed memory and swap as separate counters (I even once
+> > tried to implement a zpool accounting to account compressed memory
+> > in some unified way, but, well, zpool got killed before I post
+> > that :P), or at least a way to do that, e.g. something like nokmem.
 >
-> The GPD Win 5 uses gpd_duo_drvdata, which exposes a single fan and pwm
-> channel: pwm1 writes the same duty cycle to both fans, and fan1_input
-> only reads the first fan's RPM.
+> Thanks for your thoughtful email, Kairui.
 >
-> The two fans have independent registers. Fan 1 uses duty cycle 0x047A
-> and RPM 0x0478/0x0479, fan 2 uses duty cycle 0x047B and RPM
-> 0x0476/0x0477. A duty cycle of 0 returns that fan to EC control.
+> > Due to our real usage:
+> >
+> > With compressed memory staying in a separate counter (which
+> > we manged to do that with ZRAM) the memory.current + memory.swap
+> > (or, memsw for cgv1) could be the exactly planned or sold size of a
+> > container, the scheduler (e.g. from k8s level) is fully aware of
+> > the packing rate of a host based on this reading. and can make
+> > scheduling decisions based on that. And can control it by
+> > adjusting the limit two combined.
+> >
+> > But with compression as a fixed part in memory.current, first the
+> > compression rate is totally uncontrollable, both the user and us
+> > will be fully *unaware* of how much memory they can *actually* use,
+> > that makes the planning really awkward. memory.max stops being the
+> > bound of what we planned or sold, anything compressed lets the raw
+> > footprint go past it by however much the compression ratio happens
+> > to give, so what we oversold is bounded by the workload's data and
+> > not by anything we configure. We can substract the zswap reading
+> > though with adaption, however it's hard to change the performance,
+> > OOM behavior or reclaim behavior:
+> >
+> > As you may considering compression is trading CPU time with memory,
+> > then two things here: the user could use more memory than we expected
+> > by burning the CPU. And, some users has a leaking application, the
+> > application could goes super slow or experiencing high CPU usage due
+> > to memory being compressed. They really just want to get OOM killed
+> > in time when ever the application leaks beyound a threshold (and
+> > yes that is a real and actually practical model for many applications).
+> > And, we can't simply disable memory compression for them.
+> >
+> > In many cases we just want a best effort compression to make space
+> > for low priority tasks, and do not want ordinary containers to use
+> > compression at the cost of lose of performance. While still has
+> > a fixed limit as usual. So simply disable memory compression is also
+> > not the plan, we do need compression to make place for other
+> > applications, we just don't want their real raw usage to exceed
+> > memory.max, and we can dynamically adjust memory.swap.max to
+> > control the oversold part, compression or physical.
+> >
+> > And this is not about residency, so memory.min/low don't help here:
+> > it's about overselling, and about not leaving a container thrashing in
+> > compress/decompress loops instead of being killed.
+> >
+> > And if the memory compression is really fully transparent (not
+> > doable by software), yeah, that's great as there is nothing to do
+> > with reclaim.  But, for now, we have to go through page fault / folio
+> > allocation / map it again. So For example, if we already have
+> > memory.max =3D=3D memory.current or under high pressure, then now
+> > doing any read from the compressed part would need to some
+> > require further eviction first to make place for the decompressed
+> > new data, this is not like any kind of "real" memory, something
+> > feels not right here.
+> >
+> > Another thing is that I think we has been assuming that physical
+> > swap is slower than compressed memory, which is not always true either.
+> > They all need to be read through page fault, the page fault could
+> > be the real blocker here rather than IO or de-compression.
+> >
+> > I also want to separate two things that I think got bundled together
+> > here: not requiring a physical slot behind a compressed entry, and not
+> > charging the raw size to the swap counter. The first one is great, yeah=
+,
+> > and it's exactly the part we want, it's what makes compression usable
+> > without provisioning disk. The second one is a policy change, maybe it'=
+s
+> > not needed for the first stage, charging a cgroup for the
+> > memories it has offloaded doesn't require any slot to exist behind them=
+.
+> > If someone wants to run memory compression with no disk at all,
+> > memory.swap.max defaults to max, so that still works fine, right?
 >
-> Add separate board data for the Win 5 and register fan1/pwm1 and
-> fan2/pwm2, one channel per fan. Boards with a single fan are unchanged.
+> I think what we found out over the course of this discussion is that
+> people have been using memory.swap.max in two ways. Regardless of what
+> we do, we will "break" one side.
 >
-> This changes behaviour on the Win 5: pwm1 and pwm1_enable now control
-> only the first fan. The second fan stays under EC control unless pwm2
-> and pwm2_enable are used.
->
-> The GPD Duo keeps a single channel, since it is untested and its
-> second fan's RPM register is unknown.
->
-> Tested on a GPD Win 5 (G1618-05).
->
-> Suggested-by: Guenter Roeck <linux@roeck-us.net>
-> Assisted-by: LLM
-> Signed-off-by: Alexei Solcanu <alexei.solcanu@pm.me>
-> ---
->  Documentation/hwmon/gpd-fan.rst |  14 ++--
->  drivers/hwmon/gpd-fan.c         | 146 +++++++++++++++++++++++++++-------------
->  2 files changed, 107 insertions(+), 53 deletions(-)
->
-> diff --git a/Documentation/hwmon/gpd-fan.rst b/Documentation/hwmon/gpd-fan.rst
-> index b27657d3305..6c8569c5f64 100644
-> --- a/Documentation/hwmon/gpd-fan.rst
-> +++ b/Documentation/hwmon/gpd-fan.rst
-> @@ -28,6 +28,7 @@ Currently the driver supports the following handhelds:
->   - GPD Win Max 2 2025 (HX370)
->   - GPD Win 4 (6800U)
->   - GPD Win 4 (7840U)
-> + - GPD Win 5
->   - GPD Micro PC 2
->
->  Module parameters
-> @@ -59,23 +60,26 @@ Sysfs entries
->
->  The following attributes are supported:
->
-> -fan1_input
-> +fan[1-2]_input
->    Read Only. Reads current fan RPM.
->
-> -pwm1_enable
-> +pwm[1-2]_enable
->    Read/Write. Enable manual fan control. Write "0" to disable control and run
->    at full speed. Write "1" to set to manual, write "2" to let the EC control
->    decide fan speed. Read this attribute to see current status.
->
->    NB: In consideration of the safety of the device, when setting to manual mode,
->    the pwm speed will be set to the maximum value (255) by default. You can set
-> -  a different value by writing pwm1 later.
-> +  a different value by writing pwm[1-2] later.
->
-> -pwm1
-> +pwm[1-2]
->    Read/Write. Read this attribute to see current duty cycle in the range
-> -  [0-255]. When pwm1_enable is set to "1" (manual) write any value in the
-> +  [0-255]. When pwm[1-2]_enable is set to "1" (manual) write any value in the
->    range [0-255] to set fan speed.
->
->    NB: Many boards (except listed under wm2 above) don't support reading the
->    current pwm value in auto mode. That will just return EOPNOTSUPP. In manual
->    mode it will always return the real value.
-> +
-> +fan2_input, pwm2_enable and pwm2 only exist on devices with two fans
-> +(GPD Win 5).
-> diff --git a/drivers/hwmon/gpd-fan.c b/drivers/hwmon/gpd-fan.c
-> index b3b75f99f58..e03b0dde66f 100644
-> --- a/drivers/hwmon/gpd-fan.c
-> +++ b/drivers/hwmon/gpd-fan.c
-> @@ -31,6 +31,7 @@ enum gpd_board {
->         win4_6800u,
->         win_max_2,
->         duo,
-> +       win5,
->         mpc2,
->  };
->
-> @@ -40,9 +41,11 @@ enum FAN_PWM_ENABLE {
->         AUTOMATIC       = 2,
->  };
->
-> +#define GPD_MAX_FANS   2
-> +
->  struct gpd_fan_data {
-> -       enum FAN_PWM_ENABLE pwm_enable;
-> -       u8 pwm_value;
-> +       enum FAN_PWM_ENABLE pwm_enable[GPD_MAX_FANS];
-> +       u8 pwm_value[GPD_MAX_FANS];
->         const struct gpd_fan_drvdata *drvdata;
->  };
->
-> @@ -55,6 +58,8 @@ struct gpd_fan_drvdata {
->         const u16 manual_control_enable;
->         const u16 rpm_read;
->         const u16 pwm_write;
-> +       const u16 rpm2_read; // Second fan, 0 if there is none
-> +       const u16 pwm2_write;
->         const u16 pwm_max;
->  };
->
-> @@ -82,6 +87,20 @@ static struct gpd_fan_drvdata gpd_duo_drvdata = {
->         .pwm_max                = 244,
->  };
->
-> +static struct gpd_fan_drvdata gpd_win5_drvdata = {
-> +       .board_name             = "win5",
-> +       .board                  = win5,
-> +
-> +       .addr_port              = 0x4E,
-> +       .data_port              = 0x4F,
-> +       .manual_control_enable  = 0x047A,
-> +       .rpm_read               = 0x0478,
-> +       .pwm_write              = 0x047A,
-> +       .rpm2_read              = 0x0476,
-> +       .pwm2_write             = 0x047B,
-> +       .pwm_max                = 244,
-> +};
-> +
->  static struct gpd_fan_drvdata gpd_win4_drvdata = {
->         .board_name             = "win4",
->         .board                  = win4_6800u,
-> @@ -214,7 +233,7 @@ static const struct dmi_system_id dmi_table[] = {
->                         DMI_MATCH(DMI_SYS_VENDOR, "GPD"),
->                         DMI_MATCH(DMI_PRODUCT_NAME, "G1618-05"),
->                 },
-> -               .driver_data = &gpd_duo_drvdata,
-> +               .driver_data = &gpd_win5_drvdata,
->         },
->         {
->                 // GPD Pocket 4
-> @@ -290,13 +309,29 @@ static void gpd_ecram_write(const struct gpd_fan_drvdata *drvdata, u16 offset, u
->         outb(value, data_port);
->  }
->
-> -static int gpd_generic_read_rpm(struct gpd_fan_data *data)
-> +static int gpd_num_fans(const struct gpd_fan_drvdata *drvdata)
-> +{
-> +       return drvdata->pwm2_write ? 2 : 1;
-> +}
-> +
-> +static u16 gpd_rpm_reg(const struct gpd_fan_drvdata *drvdata, int channel)
-> +{
-> +       return channel ? drvdata->rpm2_read : drvdata->rpm_read;
-> +}
-> +
-> +static u16 gpd_pwm_reg(const struct gpd_fan_drvdata *drvdata, int channel)
-> +{
-> +       return channel ? drvdata->pwm2_write : drvdata->pwm_write;
-> +}
+> (1) The usecase you're describing. Use memory.swap.max, combined with
+> memory.max, to set a "total", predictable footprint of in-use
+> application address space. You can mmap whatever you want, but the
+> number of unique pages you can touch is limited to this sum. And you
+> can control residency vs non-residency through the invididual values
+> of those settings. If compressed entries are not included, this
+> usecase will break.
 
-in my view adding all these functions is unneeded complexity. There
-should be some simpler ternary way.
+Thanks for the very nice write-up; that is the exact usage case I have
+in mind. You put it up there much nicer than I can. Really appreciate
+that.
 
-> +
-> +static int gpd_generic_read_rpm(struct gpd_fan_data *data, int channel)
->  {
->         const struct gpd_fan_drvdata *drvdata = data->drvdata;
-> +       u16 reg = gpd_rpm_reg(drvdata, channel);
->         u8 high, low;
 >
-> -       gpd_ecram_read(drvdata, drvdata->rpm_read, &high);
-> -       gpd_ecram_read(drvdata, drvdata->rpm_read + 1, &low);
-> +       gpd_ecram_read(drvdata, reg, &high);
-> +       gpd_ecram_read(drvdata, reg + 1, &low);
->
->         return (u16)high << 8 | low;
->  }
-> @@ -315,18 +350,19 @@ static int gpd_wm2_read_rpm(struct gpd_fan_data *data)
->                         gpd_ecram_write(drvdata, pwm_ctr_offset, 0xB8);
->         }
->
-> -       return gpd_generic_read_rpm(data);
-> +       return gpd_generic_read_rpm(data, 0);
->  }
->
-> -// Read value for fan1_input
-> -static int gpd_read_rpm(struct gpd_fan_data *data)
-> +// Read value for fanN_input
-> +static int gpd_read_rpm(struct gpd_fan_data *data, int channel)
->  {
->         switch (data->drvdata->board) {
->         case win4_6800u:
->         case win_mini:
->         case duo:
-> +       case win5:
->         case mpc2:
-> -               return gpd_generic_read_rpm(data);
-> +               return gpd_generic_read_rpm(data, channel);
->         case win_max_2:
->                 return gpd_wm2_read_rpm(data);
->         }
-> @@ -349,19 +385,20 @@ static int gpd_wm2_read_pwm(struct gpd_fan_data *data)
->         return DIV_ROUND_CLOSEST((var - 1) * 255, (drvdata->pwm_max - 1));
->  }
->
-> -// Read value for pwm1
-> -static int gpd_read_pwm(struct gpd_fan_data *data)
-> +// Read value for pwmN
-> +static int gpd_read_pwm(struct gpd_fan_data *data, int channel)
->  {
->         switch (data->drvdata->board) {
->         case win_mini:
->         case duo:
-> +       case win5:
->         case win4_6800u:
->         case mpc2:
-> -               switch (data->pwm_enable) {
-> +               switch (data->pwm_enable[channel]) {
->                 case DISABLE:
->                         return 255;
->                 case MANUAL:
-> -                       return data->pwm_value;
-> +                       return data->pwm_value[channel];
->                 case AUTOMATIC:
->                         return -EOPNOTSUPP;
->                 }
-> @@ -378,13 +415,13 @@ static inline u8 gpd_cast_pwm_range(const struct gpd_fan_drvdata *drvdata, u8 va
->         return DIV_ROUND_CLOSEST(val * (drvdata->pwm_max - 1), 255) + 1;
->  }
->
-> -static void gpd_generic_write_pwm(struct gpd_fan_data *data, u8 val)
-> +static void gpd_generic_write_pwm(struct gpd_fan_data *data, int channel, u8 val)
->  {
->         const struct gpd_fan_drvdata *drvdata = data->drvdata;
->         u8 pwm_reg;
->
->         pwm_reg = gpd_cast_pwm_range(drvdata, val);
-> -       gpd_ecram_write(drvdata, drvdata->pwm_write, pwm_reg);
-> +       gpd_ecram_write(drvdata, gpd_pwm_reg(drvdata, channel), pwm_reg);
->  }
->
->  static void gpd_duo_write_pwm(struct gpd_fan_data *data, u8 val)
-> @@ -397,10 +434,10 @@ static void gpd_duo_write_pwm(struct gpd_fan_data *data, u8 val)
->         gpd_ecram_write(drvdata, drvdata->pwm_write + 1, pwm_reg);
->  }
->
-> -// Write value for pwm1
-> -static int gpd_write_pwm(struct gpd_fan_data *data, u8 val)
-> +// Write value for pwmN
-> +static int gpd_write_pwm(struct gpd_fan_data *data, int channel, u8 val)
->  {
-> -       if (data->pwm_enable != MANUAL)
-> +       if (data->pwm_enable[channel] != MANUAL)
->                 return -EPERM;
->
->         switch (data->drvdata->board) {
-> @@ -410,25 +447,27 @@ static int gpd_write_pwm(struct gpd_fan_data *data, u8 val)
->         case win_mini:
->         case win4_6800u:
->         case win_max_2:
-> +       case win5:
->         case mpc2:
-> -               gpd_generic_write_pwm(data, val);
-> +               gpd_generic_write_pwm(data, channel, val);
->                 break;
->         }
->
->         return 0;
->  }
->
-> -static void gpd_win_mini_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABLE pwm_enable)
-> +static void gpd_win_mini_set_pwm_enable(struct gpd_fan_data *data, int channel,
-> +                                       enum FAN_PWM_ENABLE pwm_enable)
->  {
->         switch (pwm_enable) {
->         case DISABLE:
-> -               gpd_generic_write_pwm(data, 255);
-> +               gpd_generic_write_pwm(data, channel, 255);
->                 break;
->         case MANUAL:
-> -               gpd_generic_write_pwm(data, data->pwm_value);
-> +               gpd_generic_write_pwm(data, channel, data->pwm_value[channel]);
->                 break;
->         case AUTOMATIC:
-> -               gpd_ecram_write(data->drvdata, data->drvdata->pwm_write, 0);
-> +               gpd_ecram_write(data->drvdata, gpd_pwm_reg(data->drvdata, channel), 0);
->                 break;
->         }
->  }
-> @@ -440,7 +479,7 @@ static void gpd_duo_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABL
->                 gpd_duo_write_pwm(data, 255);
->                 break;
->         case MANUAL:
-> -               gpd_duo_write_pwm(data, data->pwm_value);
-> +               gpd_duo_write_pwm(data, data->pwm_value[0]);
->                 break;
->         case AUTOMATIC:
->                 gpd_ecram_write(data->drvdata, data->drvdata->pwm_write, 0);
-> @@ -455,11 +494,11 @@ static void gpd_wm2_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABL
->
->         switch (enable) {
->         case DISABLE:
-> -               gpd_generic_write_pwm(data, 255);
-> +               gpd_generic_write_pwm(data, 0, 255);
->                 gpd_ecram_write(drvdata, drvdata->manual_control_enable, 1);
->                 break;
->         case MANUAL:
-> -               gpd_generic_write_pwm(data, data->pwm_value);
-> +               gpd_generic_write_pwm(data, 0, data->pwm_value[0]);
->                 gpd_ecram_write(drvdata, drvdata->manual_control_enable, 1);
->                 break;
->         case AUTOMATIC:
-> @@ -468,19 +507,20 @@ static void gpd_wm2_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABL
->         }
->  }
->
-> -// Write value for pwm1_enable
-> -static void gpd_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABLE enable)
-> +// Write value for pwmN_enable
-> +static void gpd_set_pwm_enable(struct gpd_fan_data *data, int channel, enum FAN_PWM_ENABLE enable)
->  {
->         if (enable == MANUAL)
->                 // Set pwm_value to max firstly when switching to manual mode, in
->                 // consideration of device safety.
-> -               data->pwm_value = 255;
-> +               data->pwm_value[channel] = 255;
->
->         switch (data->drvdata->board) {
->         case win_mini:
->         case win4_6800u:
-> +       case win5:
->         case mpc2:
-> -               gpd_win_mini_set_pwm_enable(data, enable);
-> +               gpd_win_mini_set_pwm_enable(data, channel, enable);
->                 break;
->         case duo:
->                 gpd_duo_set_pwm_enable(data, enable);
-> @@ -491,10 +531,15 @@ static void gpd_set_pwm_enable(struct gpd_fan_data *data, enum FAN_PWM_ENABLE en
->         }
->  }
->
-> -static umode_t gpd_fan_hwmon_is_visible(__always_unused const void *drvdata,
-> +static umode_t gpd_fan_hwmon_is_visible(const void *hwmon_data,
->                                         enum hwmon_sensor_types type, u32 attr,
-> -                                       __always_unused int channel)
-> +                                       int channel)
->  {
-> +       const struct gpd_fan_data *data = hwmon_data;
-> +
-> +       if (channel >= gpd_num_fans(data->drvdata))
-> +               return 0;
-> +
->         if (type == hwmon_fan && attr == hwmon_fan_input) {
->                 return 0444;
->         } else if (type == hwmon_pwm) {
-> @@ -511,14 +556,14 @@ static umode_t gpd_fan_hwmon_is_visible(__always_unused const void *drvdata,
->
->  static int gpd_fan_hwmon_read(struct device *dev,
->                               enum hwmon_sensor_types type, u32 attr,
-> -                             __always_unused int channel, long *val)
-> +                             int channel, long *val)
->  {
->         struct gpd_fan_data *data = dev_get_drvdata(dev);
->         int ret;
->
->         if (type == hwmon_fan) {
->                 if (attr == hwmon_fan_input) {
-> -                       ret = gpd_read_rpm(data);
-> +                       ret = gpd_read_rpm(data, channel);
->
->                         if (ret < 0)
->                                 return ret;
-> @@ -529,10 +574,10 @@ static int gpd_fan_hwmon_read(struct device *dev,
->         } else if (type == hwmon_pwm) {
->                 switch (attr) {
->                 case hwmon_pwm_enable:
-> -                       *val = data->pwm_enable;
-> +                       *val = data->pwm_enable[channel];
->                         return 0;
->                 case hwmon_pwm_input:
-> -                       ret = gpd_read_pwm(data);
-> +                       ret = gpd_read_pwm(data, channel);
->
->                         if (ret < 0)
->                                 return ret;
-> @@ -547,7 +592,7 @@ static int gpd_fan_hwmon_read(struct device *dev,
->
->  static int gpd_fan_hwmon_write(struct device *dev,
->                                enum hwmon_sensor_types type, u32 attr,
-> -                              __always_unused int channel, long val)
-> +                              int channel, long val)
->  {
->         struct gpd_fan_data *data = dev_get_drvdata(dev);
->
-> @@ -557,17 +602,17 @@ static int gpd_fan_hwmon_write(struct device *dev,
->                         if (!in_range(val, 0, 3))
->                                 return -EINVAL;
->
-> -                       data->pwm_enable = val;
-> +                       data->pwm_enable[channel] = val;
->
-> -                       gpd_set_pwm_enable(data, data->pwm_enable);
-> +                       gpd_set_pwm_enable(data, channel, data->pwm_enable[channel]);
->                         return 0;
->                 case hwmon_pwm_input:
->                         if (!in_range(val, 0, 256))
->                                 return -EINVAL;
->
-> -                       data->pwm_value = val;
-> +                       data->pwm_value[channel] = val;
->
-> -                       return gpd_write_pwm(data, val);
-> +                       return gpd_write_pwm(data, channel, val);
->                 }
->         }
->
-> @@ -581,8 +626,9 @@ static const struct hwmon_ops gpd_fan_ops = {
->  };
->
->  static const struct hwmon_channel_info *gpd_fan_hwmon_channel_info[] = {
-> -       HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
-> -       HWMON_CHANNEL_INFO(pwm, HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
-> +       HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT, HWMON_F_INPUT),
-> +       HWMON_CHANNEL_INFO(pwm, HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-> +                          HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
+> (2) The use case we have. Use memory.swap.max to divide a finite space
+> in storage. We only have so much space on disk, and we need to manage
+> fair access. Note that this isn't about speed. We have a mix of
+> containers where some use writeback and others do not. The ones who
+> write back to the swapfile need to be able to get their fair share -
+> not more, not less. Including something that doesn't actually consume
 
-Are you sure the correct number of fans are populated for each device
-because of the visible entry? If yes, it is fine for this hunk. If no,
-needs dynamic population for the struct in probe.
+Just want to make sure I understand correctly. Do you mean the fair
+share of compressed memory used in the zswap case?
 
-You also add a board match for win5, but doesnt the duo have two fans?
-I think we had this discussion last year and I said two fans more
-complexity lets leave it. But if we do it properly this time lets do
-it properly.
+> this separate finite resource is also a behavioral change that would
+> break that usecase. And arguably it's a deviation from how the control
+> was intended and from the broader cgroup design philosophy.
+>
+> I think we need to build tools to support both cases. But somebody
+> will have to change how they're doing things... :/
 
-Verify which duo-like devices implement two fans, it should be all of
-them. I think Cryolitia has a Duo. Win Max 3 according to my GPD
-contact has a duo layout. Unfortunately, I have no users so no DMI. So
-it is at least Duo, Win Max 3, and Win5. Then make it so only these 3
-devices (which should need no separation) report two fans and two fan
-speeds throughout the driver.
+Agree.
 
-Best,
-Antheas
-
->         NULL
->  };
->
-> @@ -619,8 +665,10 @@ static void gpd_fan_reset_hardware(void *pdata)
->         struct gpd_fan_data *data = pdata;
->
->         if (data) {
-> -               data->pwm_enable = AUTOMATIC;
-> -               gpd_set_pwm_enable(data, AUTOMATIC);
-> +               for (int i = 0; i < gpd_num_fans(data->drvdata); i++) {
-> +                       data->pwm_enable[i] = AUTOMATIC;
-> +                       gpd_set_pwm_enable(data, i, AUTOMATIC);
-> +               }
->         }
->  }
->
-> @@ -654,8 +702,10 @@ static int gpd_fan_probe(struct platform_device *pdev)
->                 return -EINVAL;
->
->         data->drvdata = match;
-> -       data->pwm_enable = AUTOMATIC;
-> -       data->pwm_value = 255;
-> +       for (int i = 0; i < gpd_num_fans(match); i++) {
-> +               data->pwm_enable[i] = AUTOMATIC;
-> +               data->pwm_value[i] = 255;
-> +       }
->
->         dev_set_drvdata(dev, data);
->
->
-> --
-> 2.55.0
->
->
->
-
+Chris
