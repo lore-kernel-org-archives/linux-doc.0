@@ -1,98 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880BB25B0B6
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 13:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DE13DEAC4;
+	Sun, 27 Sep 2026 14:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790517375; cv=none; b=V5CrNEvyKsDkliprW2fgWr0+4eg2BNGgx2J4yaq3Z4xowKe9cBSHI3cserT2CAf+OZE8hXXkQjzDzGLqMIilEvC4PJm0HUOKCMXef+iVJSWKFJHCoRsVgd3wSlpecK+eh9BrKQlE/AmTOHaCZ5jHzk9kedjEGfm8SsBEtMz3gK4=
+	t=1790517963; cv=none; b=FP9dA6KES7vKO09/8xquK4T1qowvLvBOARTu6sMANO7LpWNMayhQyug5ls3i1AksZU/paoxHYylmSWRkOoVEVigTaLy8ADZG+H3zLCCWosv6lGm4yiif5O06Jm6qRj0ZPieuu2ftD/FY1PSvMqfwN//SsBaSAGE1DE0k1IcpkEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790517375; c=relaxed/simple;
-	bh=mHZn0S54Ty12Ue024Ygxu9hLtNSmw1mMrZvGUGcotj0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=aMaocNJGpntc2g9wva+JHkmO6MKT8vNyIoCcMHKc6VPVDA8kzn1qICDGjH+chzTXx2RODHfssnP0IboDezAY8dDHmhPGfO/WtiSPC7u98WfY06Q1u32CUAceecGTpxxgpQmHUwkqF7wMp5E1UmLrE8UqCDU2lcOF+y7D7bxxY4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=msdyKUfP; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790517963; c=relaxed/simple;
+	bh=FzoPRIQ2bsgwhyZ6+iLyjv38pc8wdBTIp/IPwRQi0j0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qNKsUGK7f3wa/vy0SRSkvj5o5jlET4d2gFhaMMCTj6hQ0Zh7mm6WNvoMX/2+ysekUywXYnYfU8zcjYD30Gw+4aBdWUx2z57b2indqyFGT4zfo5D2EGx8xYmzEp7JteTDaG2UIZN9RCeCOlZjHcl81K9JAiE3zJ797s9QPgEJX2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BnK4Jz6d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="msdyKUfP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790517373; x=1822053373;
-  h=date:from:to:cc:subject:message-id;
-  bh=mHZn0S54Ty12Ue024Ygxu9hLtNSmw1mMrZvGUGcotj0=;
-  b=msdyKUfP+nE7XMNV1qzPmKCpHnUHVvzhgzu7+6Q5T2VWef8gYNBCMUx/
-   PiirYtTMq1Ee1nrM2oMResHR03Blk4vS61LeLbm3/XDSTItJyNoKDrAHb
-   zZm8JwUwL1Q6qTYV9/6iDNygvZGuPzum/VcQczafdTiNHmDPAXe9i4lRQ
-   GHl7c5mvB9lma5lkWWwJ25NhavIF+BAVzcXfAYd38sM4oiFUyT+gzTP4s
-   3l1hVYHMMvqpaq1Ndh/oGJqjHB+e3SMMAUjDqySuk3Zg2Ov6VhakGcDzC
-   2GyXPaJYA+4YFJ1iZVzTnDMgDeww3mC2iR1yihO/K1pYn9eY4OzIvd9Ly
-   w==;
-X-CSE-ConnectionGUID: fc2WnAK6SoScNOb0tLT3zg==
-X-CSE-MsgGUID: oVwNnxizRNOhHfTXBZBYCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="78795466"
-X-IronPort-AV: E=Sophos;i="6.27,126,1787036400"; 
-   d="scan'208";a="78795466"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2026 06:56:13 -0700
-X-CSE-ConnectionGUID: fvf2Q1q0RaKKtdxapsLiGw==
-X-CSE-MsgGUID: nl8UQEGeTViQCS4IxYPCpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,126,1787036400"; 
-   d="scan'208";a="273921340"
-Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 27 Sep 2026 06:56:12 -0700
-Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xApMP-000000000b7-2AQ6;
-	Sun, 27 Sep 2026 13:56:09 +0000
-Date: Sun, 27 Sep 2026 15:56:00 +0200
-From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [mhiramat:topic/wprobe-v2 14/17] htmldocs:
- Documentation/trace/wprobetrace.rst:98: WARNING: Block quote ends without a
- blank line; unexpected unindent. [docutils]
-Message-ID: <202609271543.pv566S9C-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BnK4Jz6d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5E321F000FF;
+	Sun, 27 Sep 2026 14:06:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790517962;
+	bh=NGmRCTwRhwtPsEvY/v+B8O9tn8Kg3UF9HZ4VG5lIE2w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BnK4Jz6dzwmcKtatVXPj4n3BERjgnJAdi5Vu5F1BhxZZFwqYFSPTI8LK7arY7acpr
+	 nBgBIJW4swgWksr00I211gawvhr7iCvyvnjmHwDVaQ7tJIXx83HxIIhP/SIhQo1fiX
+	 NJkkqfv4BlWCarO2i2Ky4DQI8MnwxczrDjZ5jOio/4JtFyLiBfbfQHfqOhXqJ2iTzx
+	 7cgNv3UnPfd/XatrVj84mzIZX7tVU1BzzURpl5UQUvAlUSJC3xLcSW2F/hdPbuEU+9
+	 8n0qwbhLOv0VlAxDyjqRYoyyGfAS9mLqq8PxdAQ67rhQlxC61PlRSj4maBb+8y+UPn
+	 7J0bPx8+CD1KA==
+Date: Sun, 27 Sep 2026 10:06:00 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
+Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
+Message-ID: <arkiyMt2NIydrPhE@laps>
+References: <20260924134945.3095661-1-sashal@kernel.org>
+ <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
+ <arfpV7IXRAHREMzO@laps>
+ <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
+ <arhtsrVb82vr6U-p@laps>
+ <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/wprobe-v2
-head:   8fd3d67f8ca00e91f910acb4ee753d2290077c33
-commit: 3cf00e4048276f677baca769649aea6fb5ae0f30 [14/17] tracing/wprobe: Add set_wprobe and clear_wprobe event triggers
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260927/202609271543.pv566S9C-lkp@intel.com/reproduce)
+On Sun, Sep 27, 2026 at 04:42:06AM +0200, Antheas Kapenekakis wrote:
+>I do not have a problem with coding-assistants.rst staying as it is
+>now. But it does not make for a good agents.md file. And neither does
+>the readme.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609271543.pv566S9C-lkp@intel.com/
+What makes one good? In my tests this one did its job: both agents
+followed the kernel's rules, for about 1.3k to 2.4k tokens. If you have
+a case where it makes an agent do worse, I'd like to see it.
 
-All warnings (new ones prefixed by >>):
+>I think there might be a misunderstanding with what an agents.md file
+>is meant to do. It is meant to be a small file that lists a few
+>notable things agents should know about a project.
 
-   Relational referents
-   ~~~~~~~~~~~~~~~~~~~~~ [docutils]
-   Documentation/trace/wprobetrace.rst:97: ERROR: Unexpected indentation. [docutils]
->> Documentation/trace/wprobetrace.rst:98: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/userspace-api/landlock:572: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+The spec at agents.md doesn't say that. It has no required fields or
+length, and says anything you'd tell a new teammate belongs there.
+OpenAI's own AGENTS.md in the Codex repo is 320 lines, about four times
+the size of README.
 
+>Why should the kernel make an exception here and say no, this is the
+>agents.md file you get
 
-vim +98 Documentation/trace/wprobetrace.rst
+It's a default for people who haven't written their own, the same as
+.clang-format, .cocciconfig, or .pylintrc. Anyone with their own file can still
+use that instead, and the spec says "explicit user chat prompts override
+everything".
 
-    94	
-    95	Notes:
-    96	- set_wprobe only works on the wprobe which is NOT set a valid address yet,
-    97	  and it must be enabled after the trigger is set.
-  > 98	- clear_wprobe only works on the wprobe which is set a valid address, and it
-    99	  will be soft-disabled after the trigger is cleared.
-   100	- Therefore, if a trigger sets/clears a wprobe, other/same trigger events
-   101	  will not work (on the same event) while the wprobe is set.
-   102	
+>what is the point of creating a
+>shared agents.md file? Is it to help experienced kernel developers?
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yes, and everyone else too. README is an index, so it helps the agent
+figure out where to find things, whether that's an experienced
+developer working in a subsystem or someone asking how some part of the
+kernel works.
+
+It also covers the patches maintainers get from people who never write
+their own. In my tests, two current agents without AGENTS.md got the
+basics wrong: one added my Signed-off-by itself, the other added no
+attribution. With it, both got it right.
+
+>Because omitting sign-offs is not helpful, they will need to add one
+>even if they do not understand what it is
+
+If someone adds their sign-off without understanding what it certifies,
+that's on them. We can't have agents add it for them just because some
+people would ignore its meaning anyway.
+
+If you think a hand-written AGENTS.md would do better, feel free to
+write one and propose it. For now, this one seems to be working just
+fine.
+
+-- 
+Thanks,
+Sasha
