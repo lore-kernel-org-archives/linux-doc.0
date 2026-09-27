@@ -1,269 +1,216 @@
-Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18D93B4E9A
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 02:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8814D2F3614
+	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 02:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790476946; cv=none; b=iknUzEk4EsGyOqDzEcYCJlQ0NSTUEafUQnN0PkJaVyTWPWBPJkwaE4fVbNBarYoEyoSj6OY2MjQ8uQbeNJTA8fAAmmyQrKPE+5OTyz8shmM4D8KGRUoIpHczxWWIugUGF8WssD/puNzXkqIQA5HqlM0TLafJ7tP8CzKq1V987Zo=
+	t=1790477692; cv=none; b=bO5+WEjnPaJ/te7Cfclwtkw471/OYGHVVYVPkewqhL+Fkk7d/KgIWfJGP62cwNY3cZbnxGk6ExUvDEZvOJ7m9gob+MqORUfsxLJO047XxKEC/Viv3Mv8rsfW9eu/wKeaSa7J1uL0Bif+usRvgmn20b+HnG1t82UImkkIGZlXAnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790476946; c=relaxed/simple;
-	bh=CwNv3PDCpSo/2PKr8cuJGpWe7BPaOvLrDZKrCkc++FU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Cj7tJfnHhfCif6aF5kNse3WZ5Sl6fApv4ow1k07xADDLb42Dz0SgIj/q1EJiRIzIdlukPWaqGFSB5ixLruMQ/3amUwiVNVBK5A6Xc2qN9qeLF0to/KHHIXbMhNqObbfdceTpdSrSfh0vdqFTsVx0lHYGOwhlBv8ydbsZo9EX3ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=d03k4FgU; arc=none smtp.client-ip=37.27.248.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1790477692; c=relaxed/simple;
+	bh=5TEuyBQLdHYZldY8L4cBn/RktSyzBo/ghBKSuRswM4A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Brw9eJS9pml1E4jPFcXIE0u10FZ75ftqoQZDBM8GDVpdty0rzfeDUnESCAl+p2MLU+1tTJpvR+oazmXoLDWvn7GLYhnc/GOzOv5Do9y6L2vj7bTMO8vj6iD1Lx39kI0RMGnOn113ZF8MFF3a0GuRJx/Pz5fYZkjfs3xnEqdDD0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=JY0hRCEg; arc=none smtp.client-ip=74.125.227.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="d03k4FgU"
-Received: from relay10 (localhost.localdomain [127.0.0.1])
-	by relay10.grserver.gr (Proxmox) with ESMTP id 7095D40FE8
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 05:42:21 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay10.grserver.gr (Proxmox) with ESMTPS id 5861A4031D
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 05:42:20 +0300 (EEST)
-Received: from mail-pz2-f27.google.com (mail-pz2-f27.google.com [74.125.228.27])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 7A4481FFBA1
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 05:42:19 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1790476939;
-	bh=CwNv3PDCpSo/2PKr8cuJGpWe7BPaOvLrDZKrCkc++FU=;
-	h=Received:From:Subject:To;
-	b=d03k4FgUrAGOvKxH3k+pPUDw96wPXk0c11jjxVexQC0b7CJ619BlbPSuba2qUHcxR
-	 ++4G4q92Lx0VX0Wb8KvGDEQbXnp27RLWpqhEFKaDVcvHFqb2N0SNoMooKqrGeo8s7S
-	 E91exeVdqz5DRx+I0Y5sxW1Dh19XWt+HUz9u7D0FLF0oHDjonCouotB8Vf8EL3v9nC
-	 ublIpoQppSlM/6klEyAii/KSe8Xggi7F0aWehOU33QPdjM0ASyOUSBIEVaoOuC2W8t
-	 hCBFMpsuwnifBTJO0C8+KyoUzw0jFyqkLeUM5V89yqKdyOyWrp0qEHmKCTMuh2W5qd
-	 THo8qfquvUdWA==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 74.125.228.27) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pz2-f27.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pz2-f27.google.com with SMTP id
- d2e1a72fcca58-880fcd3790bso505148b3a.1
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 19:42:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AKwUvBw0cTusTeMHn4ZNs2jxA0Fo3SCqOFSH/ZnVodREwtMPKm33TfLmyRKli1+et7p7vL0o8WBsMd2uMVY=@vger.kernel.org
-X-Gm-Message-State: AFuF++nHQM1SI3KDPQjYByNcvuixTPpT1n6rjrGquRvBcT35ocF7dZNo
-	NLc4JS0okXs9C+HrRXCoO8hMrnLXV/rcushdgivultj1qG2gusdxQaHDRVWoeJgrcQnTu5vBrEa
-	5TcKSV0w7A72pMrcvAWbkTtoYgtBwnTk=
-X-Received: by 2002:a05:6a00:1954:b0:880:fe7b:bc55 with SMTP id
- d2e1a72fcca58-880fe7c018emr2997244b3a.56.1790476937863; Sat, 26 Sep 2026
- 19:42:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="JY0hRCEg"
+Received: by mail-pj2-f40.google.com with SMTP id 98e67ed59e1d1-3a0d2c37b0bso516441a91.0
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 19:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1790477690; x=1791082490; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YdCenWsLNM4fgmWyqHdVLEa8fbYRLFc5Vlv8cacB468=;
+        b=JY0hRCEgUZRTO+eWaor1D5Sb3yxewm8Bw/aIKRRTg6mFr70OpUG0jLcB4hoHMFyUQl
+         bO7wh+fwgBzkiaXG2z7DdKYHlVMhKY3D6fSE4yJZ4vr0QHQcEtxo6YUiMkQYLyewdKp9
+         G1qzyx247gNuQC8x1EM4JjwQ6jvgx4kYb0SZf3N1BS6A4I8kYEeLW+2Gd3rcEYaOebkI
+         OhylBm9LcC4/G+W0GczaWUubAUCCiOvRO21sAfw0vlhfTSPkr2Duzbrh1m5wDrzy7ZAp
+         QbCPJAY4sz7fMUwlCKAvrAJhZpKyat44Z6PDzz5Q294NKwSRvuiadJrrqkdUNBnz7VN8
+         T90g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790477690; x=1791082490;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YdCenWsLNM4fgmWyqHdVLEa8fbYRLFc5Vlv8cacB468=;
+        b=2NZRJ3EzXaEU9GZsSP+07M/FjVo+gbUEDySxs1Z5Gd4aKx6uY69UxsC+0ztrCoVPn0
+         d+Oui7+6/XSTs51zdZPri+cs9OTEy51C0u+w0YRfsC+CO5DRcFd8+SpFgovWVoFOWsYv
+         D93ZY80NplvcocOKgr0zSPC8Tp1zg3hFGSD8pFv8Spm2GssCoGXzohedvavIcpo4bMSs
+         tTagIuVeCnV3ymk/s1B58NhJnFbCH4AjMBwkKVF/bVdVzh1Kke8yId5O2kRY+4ZKofR0
+         z4WkNe42/4MfDdoJ8E0azBGteVraqWpzOBNRXZ/t5kYupSuvxPW1XrDBtrsxhZNEsv6Y
+         V8DQ==
+X-Forwarded-Encrypted: i=1; AKwUvByqCi33HtlQVOgphHT7vYZIZhXUVpGfOM9eO5l86h+ENIYVvS0cuf/rVjlZYg3cvi5skK6qUhZ5LDM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK6cLYNgQgt2lVGvBV/GVIDU8OyWNkK35jEk9nrO6+AGP1lRS7V
+	vl6swhdSe3loxzC7CkjQoAdwArTz5NAuvkxn76FRzO5PnLuBKinVHsdSl7+9hNcMFaE=
+X-Gm-Gg: AYBFou21zYtDwp3rt4vehaD8+U4nVpNmy3sd0LTbXt5nR0C9FFkQlY4TVOeAqUZSCVU
+	11G74Xs0gbjEQHFVU6UHntMqfADyKuZVpyYWYI00CvcRe1ztrBPbsbjDS+P8P58gIOTr8k7LVNL
+	xYJienwephnrJw91soWMgluBjGACVysk9HRcsmj6C1b8FI+AM1olvF8qPpxEAKanzkUsUh8riRN
+	nvyoxtumHpZubXeoOMf97SbP0VVKe960Pp18XwIeDKSl9zmJB55ckRUdMmt1JroATij5oTkKFxf
+	wCtkXu9wV/8qAF3MmE7ToIZ51+tjOlWQWsQeFK3HceswZzXaGN3QIVOqwgRPFjHTptLmtaAQ714
+	40EMwxqXZxKhE5hMDCVKz0CyBnKV8btbwooP8MpYIzsAgwMjdYTMIKc5RsYFMUoi6HZ0cY8+ZDL
+	r21s+62t0c0oOYCnZATRBDZ0Rx4rzIsye1Oxramo9x0yKumZESMtfTWbE//COiv7RPz1VXzf0N1
+	HkHKjD8ck3Wow0Gwijh
+X-Received: by 2002:a17:90b:1652:b0:3a0:9640:8043 with SMTP id 98e67ed59e1d1-3a098ccdd41mr8412652a91.15.1790477689681;
+        Sat, 26 Sep 2026 19:54:49 -0700 (PDT)
+Received: from n232-176-004.byted.org ([36.110.163.102])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b8efb156sm13461377a91.1.2026.09.26.19.54.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Sep 2026 19:54:48 -0700 (PDT)
+From: Muchun Song <songmuchun@bytedance.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-doc@vger.kernel.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Muchun Song <songmuchun@bytedance.com>,
+	Lance Yang <lance.yang@linux.dev>
+Subject: [PATCH v5 00/12] mm: Switch device DAX to section-based vmemmap optimization
+Date: Sun, 27 Sep 2026 10:54:29 +0800
+Message-ID: <20260927025441.741633-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260924134945.3095661-1-sashal@kernel.org>
- <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
- <arfpV7IXRAHREMzO@laps>
- <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
- <arhtsrVb82vr6U-p@laps>
-In-Reply-To: <arhtsrVb82vr6U-p@laps>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Sun, 27 Sep 2026 04:42:06 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
-X-Gm-Features: AclHuK_psYyUaNN45oZJW2syw4hvksOfPWRWLYazFH1JdDm07FTCr7i1M_cdNyw
-Message-ID: 
- <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <179047693967.1894526.11643762001231768198@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 
-On Sun, 27 Sept 2026 at 03:13, Sasha Levin <sashal@kernel.org> wrote:
->
-> On Sat, Sep 26, 2026 at 07:54:27PM +0200, Antheas Kapenekakis wrote:
-> >> It didn't in my tests either. With AGENTS.md pointing at README, one agent read
-> >> only coding-assistants.rst, and the other read that plus generated-content.rst,
-> >> which coding-assistants.rst references. Neither opened any of README's other
-> >> pointers.
-> >
-> >They usually read it when they need to. I find it is 60% of the time.
-> >Of course, this does not compensate for behavior that should always
-> >apply. Sol 6 also has the annoying habit of modifying readmes
-> >randomly.
->
-> Agreed, and the rules in coding-assistants.rst are the part that should
-> always apply.
->
-> >> >agents.md file before every message. Unsure if it still does, I do not
-> >> >use Claude. agent.md files should be specifically designed for agents
-> >> >and handwritten. Moreover, they usually need to be tuned for the model
-> >> >generation in general, if not the provider and model specifically.
-> >> >Which brings us to 2.
-> >>
-> >> The rules README points to (DCO, Assisted-by, patch format) are the same for
-> >> every model. Personal and model-specific tuning belongs in a personal file.
-> >> Your sample shows why the shared part should come from the tree: it asks the
-> >> agent to add your Signed-off-by, which coding-assistants.rst says an agent must
-> >> never do.
-> >
-> >You are correct. Agents are tools. All of their outputs are the
-> >responsibility of their users. They cannot apply DCO.
-> >
-> >For me, I make sure to review copyright and test my kernel patches
-> >before sending them or pushing them to a remote. So my agent should
-> >add my sb and the assisted tag otherwise the patches need unnecessary
-> >cleanup. This is my personal preference. The mainline branch should
-> >not poison my agent's context or provide conflicting instructions.
->
-> Your issue is with coding-assistants.rst, which says agents must not add
-> Signed-off-by. AGENTS.md only makes agents see it.
+This series is split out from the earlier, larger series "mm: Generalize
+HVO for HugeTLB and device DAX" [1]. While the parent series generalizes
+vmemmap optimization across HugeTLB and device DAX, this subset addresses
+a single, self-contained step: switching device DAX to the section-based
+sparse-vmemmap optimization infrastructure introduced for HugeTLB.
 
-I do not have a problem with coding-assistants.rst staying as it is
-now. But it does not make for a good agents.md file. And neither does
-the readme.
+After the HugeTLB conversion, optimized vmemmap state is described by
+the memory section and the sparse-vmemmap population path can allocate or
+reuse shared tail vmemmap pages based on that metadata. Device DAX still
+uses the older DAX-specific population model, including a separate tail
+vmemmap page reservation and architecture-specific logic to locate or
+populate reusable tail pages.
 
-If the user asks an agent how should I use LLM assistance when
-contributing to the kernel, then the agent will find this file
-correctly and explain the basics to the user. So it works as it is
-supposed to already.
+This series makes device DAX use the same section-based model. Device DAX
+records the compound page order from pgmap->vmemmap_shift in section
+metadata before vmemmap population, uses the common per-zone shared tail
+vmemmap page, and drops the extra reserved tail page. The powerpc radix
+path is updated to use the same shared tail-page helper, so the generic
+and powerpc DAX paths follow the same reservation model.
 
-> [ ... ]
->
-> >But as far as I know personal snippets are meant to be additive. I do
-> >not think there is a widespread override for agents.md for the default
-> >one. Codex seems to have one but there is only one google result on
-> >it.
->
-> Codex reads AGENTS.override.md in place of AGENTS.md. Claude Code doesn't load
-> AGENTS.md at all when a CLAUDE.md exists, and Gemini reads GEMINI.md unless
-> configured otherwise.
->
-> The agents are designed exactly for this model: the upstream project has it's
-> own AGENT.md which is relevant for the upstream side of things. Downstream is
-> able to modify it as needed, either by carrying an out of tree patch, an
-> override file, or whatever else works for downstream.
->
-> >A large generic readme that offshoots to 30 other readmes is not an
-> >appropriate agents.md file.
-> >Documentation/process/coding-assistants.rst would be a better start
-> >for a symlink but even that is not particularly lean and would likely
-> >degrade modern agents. It still contains offshoots to 4 different
->
-> Changes to coding-assistants.rst itself are fair game as separate patches. This
-> one only gets agents to load what we already ask them to follow. There's no
-> substance here - we're just making dumb machines behave better.
->
-> >readmes, and the "Procedure for finding and fixing bugs" would degrade
-> >most modern models. They are already RL'd to do what they are asked,
-> >and conflicting instructions could lead them to e.g., commit when not
-> >asked to. For example consider:
->
-> [ snip ]
->
-> I get that you have concerns with those docs, so feel free to propose patches
-> for these.
->
-> I do not thing we need a seperate machine-only readable set of docs. If these
-> "agents" can't do better parsing those docs, then we shouldn't bend over and
-> write them their own versions. I'm okay with doing better at pointing to those
-> docs ("RTFM!"), but I don't think that a fork of the docs is sensible.
->
-> If you disagree, feel free to propose changes to coding-assistants.rst, as this
-> is really a doc that gets read mostly by machines.
+The first patches prepare the shared infrastructure by factoring out
+shared tail-page allocation, allocating the per-zone shared tail-page
+array dynamically, and introducing a generic
+CONFIG_VMEMMAP_OPTIMIZATION symbol.
 
-I do not disagree or proposed something different. Agents can read
-docs just fine (rst, html, they can even read assembly code assembled
-just fine), and the existing kernel docs are fine for that. But they
-should only read them when they want to or when they are asked to. I
-did not propose rewriting the docs for agents.
+The middle patches move device DAX onto that infrastructure by recording
+the device DAX compound page order in memory-section metadata, using that
+metadata to back generic device DAX mappings with the common per-zone
+shared tail page, exposing the shared helpers so the powerpc radix path
+can use the same model, and dropping the extra DAX-only tail page
+reservation and the now-unused section accounting arguments.
 
-I think there might be a misunderstanding with what an agents.md file
-is meant to do. It is meant to be a small file that lists a few
-notable things agents should know about a project. For example, see
-[1][2] I made recently while working on two projects. Most projects
-are limited in scope, and most teams use the same LLM agents more or
-less, so it is easy to make a universal agents.md file that is then
-extended lightly (but mostly not) by individual members.
+The final patch updates the documentation for the new DAX layout.
 
-For the kernel, this is harder to do because how people use the kernel
-varies a lot. Therefore, people should make their own agents.md file.
-Just like we make our own deployment scripts, our own debugging
-scripts, our own patch preparation tools, and set up our own email
-client with custom routing rules (which takes multiple weeks to get
-right, far more than typing out a 50 line md file). Why should the
-kernel make an exception here and say no, this is the agents.md file
-you get and if you don't like it, go figure out how to override it
-with your harness? If the kernel should provide documentation relating
-to how to make an agents.md file with example snippets, this is ok,
-and mirrors how other components such as checkpatch.pl are provided.
+This is intended to be the third smaller step toward the broader HVO
+generalization. The wider HVO consolidation between HugeTLB and device
+DAX is left for follow-up series.
 
-An agents.md file is essentially the list of 5-10 things you do not
-want to have to re-explain to the agent every time. That's it.
+[1] https://lore.kernel.org/all/20260513130542.35604-1-songmuchun@bytedance.com/
 
-Yes last year, RAG, context optimization, memory techniques etc etc
-were all the rage, but after the labs started RLing the agents
-aggressively and doing scaled rollouts in VMs all of that has gone
-away. Agents are now designed to discover a codebase in 10-30 seconds
-fresh in every chat, without advanced memory management, do what was
-asked, test it, lint it, and deliver a result.
+v5:
+- Move the shared tail-page factoring before introducing
+  CONFIG_VMEMMAP_OPTIMIZATION
+- Add a new patch to allocate the per-zone shared tail-page array
+  dynamically and fix the RISC-V build failure reported by the kernel
+  test robot
+- Select VMEMMAP_OPTIMIZATION from ZONE_DEVICE instead of DEV_DAX so
+  MSHV_VTL cannot set vmemmap_shift while leaving the optimization
+  disabled (reported by Sashiko)
+- Move the vmemmap optimization macros and MAX_FOLIO_VMEMMAP_ALIGN from
+  mmzone.h to vmemmap-optimization.h
 
-And modern agents will also write kernel code and compile it and use
-checkpatch and deploy it and write synthetic throwaway tests and
-enable debug fs and sync a partial module so they do not have to
-reboot a device and read /dev/mem directly while creating a kernel
-module without being asked to or with a special AGENTS.md file.
+v4: https://lore.kernel.org/all/20260916064341.1825793-1-songmuchun@bytedance.com/
+- Rename CONFIG_SPARSEMEM_VMEMMAP_OPTIMIZATION to
+  CONFIG_VMEMMAP_OPTIMIZATION (suggested by Mike Rapoport)
+- Collect Acked-by tags from Mike Rapoport
 
-Yesterday/today, I made a USB C controller driver [3] for example and
-it works... Then a Zotac Zone user appeared so I wrote a hwmon driver
-[4] in 5 minutes while the other agents were proding the battery and
-type c of the samsung device (yes, there is also a battery driver).
-And the thing with [4] if you look at it is... it is clean in an
-upstreamable state and only took 4 back and forths... 1 month ago, I
-was annoyed I could not use my 8bitdo controller outside so I just
-ported the SDL protocol from SDL to the kernel enabling IMU and back
-buttons outside of it and Steam [6]. Again 20 minutes. Of course, DCO
-needs care with both [4] and [5], so you see for example [5] says
-"GPL-2.0-only AND Zlib" because it is a mechanic (LLM) conversion from
-SDL and [4] clearly lists and credits the source on the preamble but
-sheds copyright because only registers were referenced. An agent.md
-can't fix that. I had to write those comments and specify those.
+v3: https://lore.kernel.org/all/20260911050228.58884-1-songmuchun@bytedance.com/
+- Use EOPNOTSUPP for partial additions to sections that already use
+  optimized vmemmap mappings
+- Move device_zone() after NODE_DATA() to fix non-NUMA builds
+- Collect Acked-by tags from David Hildenbrand and Qi Zheng
+- Rebase onto mm/mm-new
 
-But in those, I did not use an agents.md file at all. Therefore, to
-come back to the original discussion, what is the point of creating a
-shared agents.md file? Is it to help experienced kernel developers?
-Because it won't because they do not need one. And if they do, they
-can spend an hour and write one with their particulars. If it is to
-help new contributors, that's fair, but without an optional agents.md
-standard, how do you prevent getting in experienced kernel developer's
-way? And also, how does that agents.md file help those new
-contributors? Because omitting sign-offs is not helpful, they will
-need to add one even if they do not understand what it is, and the
-problem is they do not understand what it is and telling the agent to
-skip it does not solve that.
+v2: https://lore.kernel.org/all/20260908030335.96549-1-songmuchun@bytedance.com/
+- Add a missing SPARSEMEM_VMEMMAP dependency (suggested by Qi Zheng,
+  reported by Sashiko)
+- Add an explicit ZONE_DEVICE dependency for DEV_DAX
+- Add missing dependencies to the new public header
+- Explain why optimized and ordinary layouts cannot share a section
+  (suggested by Qi Zheng)
+- Explain why sharing tail vmemmap pages is safe for DEV-DAX (suggested
+  by Qi Zheng)
+- Clarify the removal of duplicated 4K PUD calculations from the docs
+  (reported by Sashiko)
+- Collect Acked-by tags from Qi Zheng
 
-As I said, both [4] and [5] are derivatives and needed special care in
-the copyright and top text. If I was not careful and added my sign-off
-without the preambles, it would be a copyright
-violation/misattribution. But I had to add that myself, the agent did
-not do it, and me adding my sign-off manually after that would fix
-nothing.
+v1: https://lore.kernel.org/all/20260831075342.57563-1-songmuchun@bytedance.com/
 
-Best,
-Antheas
+Muchun Song (12):
+  mm/sparse-vmemmap: factor out shared vmemmap tail page allocation
+  mm/sparse-vmemmap: allocate shared tail page array dynamically
+  mm/sparse-vmemmap: introduce CONFIG_VMEMMAP_OPTIMIZATION
+  mm/sparse-vmemmap: open-code init_compound_tail()
+  mm/sparse-vmemmap: prepare DAX vmemmap population for compound page
+    orders
+  mm/sparse-vmemmap: set compound page order for device DAX
+  mm/sparse-vmemmap: switch device DAX to shared tail vmemmap pages
+  mm/sparse-vmemmap: move vmemmap optimization helpers to a public
+    header
+  powerpc/mm: switch device DAX to shared tail vmemmap pages
+  mm/sparse-vmemmap: drop the extra tail page from device DAX
+    reservation
+  mm/sparse-vmemmap: drop unused section_nr_vmemmap_pages() arguments
+  Documentation/mm: update DAX vmemmap deduplication docs
 
-[1] https://github.com/anatase-org/anatase/blob/master/AGENTS.md
-[2] https://github.com/anatase-org/spaces/blob/master/AGENTS.md
-[3] https://github.com/anatase-org/patchwork/blob/42a339c18111b17bb58ca28cd72fb3eca21cf2ec/drivers/usb/typec/samsung-emuec.c
-[4] https://github.com/anatase-org/patchwork/blob/5f66acf71de3dd59d0b7504a3168d1dde44c5064/drivers/hwmon/zotac-zone-ec.c
-[5] https://github.com/anatase-org/patchwork/blob/04d0b68af73d5e801c97c272ebbbcf5e7ebd9e3a/drivers/hid/hid-8bitdo.c
+ Documentation/arch/powerpc/vmemmap_dedup.rst  |  90 ++------
+ Documentation/mm/vmemmap_dedup.rst            |  32 +--
+ MAINTAINERS                                   |   1 +
+ arch/loongarch/include/asm/pgtable.h          |   1 +
+ arch/powerpc/mm/book3s64/radix_pgtable.c      | 124 +----------
+ arch/riscv/mm/init.c                          |   1 +
+ arch/x86/entry/vdso/vdso32/fake_32bit_build.h |   2 +-
+ fs/Kconfig                                    |   1 +
+ include/linux/mm.h                            |   7 +-
+ include/linux/mmzone.h                        |  38 ++--
+ include/linux/page-flags.h                    |   5 +-
+ include/linux/vmemmap-optimization.h          | 115 ++++++++++
+ mm/Kconfig                                    |   5 +
+ mm/hugetlb.c                                  |   2 +-
+ mm/hugetlb_vmemmap.c                          |  31 +--
+ mm/internal.h                                 |   9 -
+ mm/memory_hotplug.c                           |   6 +-
+ mm/mm_init.c                                  |  17 +-
+ mm/sparse-vmemmap.c                           | 209 +++++++++---------
+ mm/sparse.c                                   |   3 +-
+ mm/sparse.h                                   |  81 +------
+ 21 files changed, 299 insertions(+), 481 deletions(-)
+ create mode 100644 include/linux/vmemmap-optimization.h
 
-> --
-> Thanks,
-> Sasha
->
+
+base-commit: 92068d3f6a4274d952441ba8f46221c3c03787dd
+-- 
+2.54.0
 
