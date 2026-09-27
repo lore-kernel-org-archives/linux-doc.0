@@ -1,33 +1,32 @@
-Received: from mail-43171.protonmail.ch (mail-43171.protonmail.ch [185.70.43.171])
+Received: from mail-106111.protonmail.ch (mail-106111.protonmail.ch [79.135.106.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDAA34349B7;
-	Sun, 27 Sep 2026 19:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27183803EB;
+	Sun, 27 Sep 2026 19:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790536441; cv=none; b=hNxSJneqBticIEH911r3WI4oKHU02fVLHRlHVuxQ9nQ1C3sUvZy9ga6YFo6xxXn4usLe6CSqxsI6oeSVaK7GsXpoGvFCZOvCu3PHL7SVJWDC8o7CF1seoCMHD4CM8gfeObuMNzECRtK+Z31vFO92oJW5anI8m+/TaPwf7xCy0hM=
+	t=1790536434; cv=none; b=islWJlaQDvQfsoQ7hBMoYsiIPh8NdsCP5FGHSgcsEtwsC7opmQY95ca7dmN9n8Db0fY5+rdbUCLy3F6Z4IMpPUCz1iO5DWBrDkH2SjmD2MH+k3dQ5VjtCBDNBxlWuq9nOxaSkYASk4ZqsdQeSW/yNkkll4vFjE0QzB3fmWTQw9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790536441; c=relaxed/simple;
-	bh=T0fyka8QM4xfEq/gh6qKKZDmhO9iSMSF9TpS9OOPHRs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wgh5XkpoSACAidpn+Olw/R4QMg+cmCSvYpVC+F5wtsLVUbLh1NUtez1EKIzLeb5o17eOlgUcpxio8cUn2x51v8bNcwYv27ZEUdfBdJAxKFHRhdiTEE0E75u4pVbvQsRIW0eeyFGRNoQDsWVDlIHyNxr2p2mBgyfNSct2FU1bQb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vasily.cc; spf=pass smtp.mailfrom=vasily.cc; dkim=pass (2048-bit key) header.d=vasily.cc header.i=@vasily.cc header.b=aerAIki7; arc=none smtp.client-ip=185.70.43.171
+	s=arc-20240116; t=1790536434; c=relaxed/simple;
+	bh=LaZLdcF4TYiS3l3mZirh4KvfIgwqwZVOoUIrNen5pEI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BSq1VS5xTLvtrtP3fnP7cFICanWfA6R/GWF7zvvVbBVaowc2mm80vLf+ZL85N+rVCm4qAEmljfIPLyhOCj9ICc6BKkGyCrh6x3zrHhCp3QFDRsxIc30tLQoSbQ/kyi7NcAPD0ldF7EzojhrcnUTv7xXZUMdUDvgmyZP86LHY/i4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vasily.cc; spf=pass smtp.mailfrom=vasily.cc; dkim=pass (2048-bit key) header.d=vasily.cc header.i=@vasily.cc header.b=d98+opzr; arc=none smtp.client-ip=79.135.106.111
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=vasily.cc
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vasily.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vasily.cc header.i=@vasily.cc header.b="aerAIki7"
+	dkim=pass (2048-bit key) header.d=vasily.cc header.i=@vasily.cc header.b="d98+opzr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vasily.cc;
-	s=protonmail2; t=1790536431; x=1790795631;
-	bh=wwQJy1aVVHK5qKcM1TMGlIffe/GSdb/P6CiSZX6UIwI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=aerAIki7TeKHqJlTXDnZ3FRz9J5YpeCix2zIi5OxhRrMPrjQK5skfE/6jFfl4KqNk
-	 ypWOG7+JcMAYnDLQdjoLX8vlOwXU4dNc+kdoZ9mlkPSXF+bhYxjlsoin6rWH5Pcu6+
-	 uqm6vXVwfIOtmOYOZHia8DbvrNPHVF0zauKHBtIxYI3pzoeae5dKnXeDfFbKt7e6nX
-	 4tYbOPdwJdon30iv+0Pp5pOsm8AHrjDrVHlXa/YJ8zt8S1YmPTgg87ggV1pOKALJfR
-	 KjuxJXAZXjY8ELe3JTWpqJjaoa9brMfg+yHAJNIWlet6aBsh2NG0GneWxjZdpfHeCh
-	 spgIEhfR5ImAQ==
-X-Pm-Submission-Id: 4htDct3wWtz2ScPT
+	s=protonmail2; t=1790536427; x=1790795627;
+	bh=j2kaTSxqrFLfgzyt8ZBqEAVxakeVJTIWha5blvfzHv0=;
+	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=d98+opzrpi0aLpHneDNCqtCWMIDfIIfNE71JCY+EpnnczGxb/t4kNFlb6gmSomq5j
+	 R4JwbaxVpcx1QrQwnrsYp2WRzDZpnAB91Z7Ch0u2VoGu7glwOHwCMb7wD1fvwHFZxQ
+	 YEo6qF4WTCFQ3puOR+SXO2SrdAWC/8H93ik8naeG6Tec2xtStioqX3REOwqEkC3Byv
+	 ETxy1V3aKFvyxxJCxP8R5IP9vDtVUeOf1k9jKsDV5HriGtefO0tYE/nIfv5taNYdwU
+	 UA2Vbu9LuNchmCcSpY5jwh4AcWu1wVuJivjEYvCzB6IA43KDASIrugO1VAuHgBKDnO
+	 V7liTwxO18jPw==
+X-Pm-Submission-Id: 4htDck6L1Qz2ScDC
 From: Vas Zayarskiy <contact@vasily.cc>
 To: linux@roeck-us.net,
 	Aleksa Savic <savicaleksa83@gmail.com>,
@@ -38,12 +37,10 @@ Cc: linux-hwmon@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v5 4/5] hwmon: (aquacomputer_d5next) Skip unknown firmware version offsets
-Date: Sun, 27 Sep 2026 22:13:15 +0300
-Message-ID: <20260927191316.4137752-5-contact@vasily.cc>
+Subject: [PATCH v5 0/5] hwmon: AMPINEL telemetry support and shared fixes
+Date: Sun, 27 Sep 2026 22:13:11 +0300
+Message-ID: <20260927191316.4137752-1-contact@vasily.cc>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260927191316.4137752-1-contact@vasily.cc>
-References: <20260927191316.4137752-1-contact@vasily.cc>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,28 +49,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Only decode the firmware version when its offset is known, matching the
-condition used to expose the firmware_version debugfs file. This lets a
-device leave the offset at zero without interpreting the report ID and
-following byte as a firmware version.
+This series adds read-only AMPINEL telemetry to aquacomputer_d5next,
+along with shared numeric, initial-cache and report-validation fixes.
+The separate keyboard interface remains deliberately unsupported, and
+there is no HID core or generic-HID change.
 
-Assisted-by: LLM sparse
-Signed-off-by: Vas Zayarskiy <contact@vasily.cc>
----
- drivers/hwmon/aquacomputer_d5next.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Changes since v4:
+- In patch 1, read the power cache once with READ_ONCE(), check that
+  snapshot for -ENODATA and return the same value. Mark the power-cache
+  updates with WRITE_ONCE(). This addresses the check/use race identified
+  by Sashiko review; the HID callback does not take the hwmon read mutex.
+- In patch 5, use WRITE_ONCE() for AMPINEL's power-cache update as well.
+- Patches 2 through 4 are unchanged. The base remains hwmon-next
+  9edd5ab2656f (7.3-rc4).
 
-diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
-index f80027b27..13272eb88 100644
---- a/drivers/hwmon/aquacomputer_d5next.c
-+++ b/drivers/hwmon/aquacomputer_d5next.c
-@@ -1344,7 +1344,8 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
- 	priv->serial_number[0] = get_unaligned_be16(data + priv->serial_number_start_offset);
- 	priv->serial_number[1] = get_unaligned_be16(data + priv->serial_number_start_offset +
- 						    SERIAL_PART_OFFSET);
--	priv->firmware_version = get_unaligned_be16(data + priv->firmware_version_offset);
-+	if (priv->firmware_version_offset)
-+		priv->firmware_version = get_unaligned_be16(data + priv->firmware_version_offset);
- 
- 	/* Physical temperature sensor readings */
- 	for (i = 0; i < priv->num_temp_sensors; i++) {
+Validation of this revision:
+- The hwmon object builds on x86_64 and i386 with W=1 and Sparse.
+- All 995 captured reports pass the actual C parser/read replay under
+  ASan/UBSan, including simulated 32-bit long clamping and the existing
+  shared numeric, expiry and report-validation regression cases.
+- A userspace scheduling hook invokes the actual raw-event handler after
+  a power-cache read. Valid-to-unavailable, unavailable-to-valid and
+  valid-to-different-valid updates preserve the checked snapshot.
+  The old double read and two independent READ_ONCE() calls fail this
+  check. This models an interleaving, not a live-kernel race reproduction.
+- The exact final source was built and installed on Linux 7.2.6 with
+  stock hid-generic. All 24 raw USB/hwmon comparisons matched after
+  module loading and system activation. Telemetry binds successfully,
+  the keyboard remains unbound, and other HID devices retain their
+  drivers and input capabilities. No AMPINEL fault or kernel WARN/Oops
+  appeared during installation. This revision has not been tested across
+  reboot or suspend/resume; the earlier v3 lifecycle results are separate.
+
+The power snapshot does not provide atomic readings across different
+sensors. Other Aquacomputer models have synthetic regression coverage,
+not hardware validation here. Channel labels follow report order;
+alarm reporting and protection configuration remain outside this series.
+
+AI assistance: Codex assisted with implementation, tests and submission
+text; Sparse was used for static analysis.
+
+V4: https://lore.kernel.org/linux-hwmon/20260927183723.4078226-1-contact@vasily.cc/
+V3: https://lore.kernel.org/linux-hwmon/20260914233728.22725-1-contact@vasily.cc/
+
+Vas Zayarskiy (5):
+  hwmon: (aquacomputer_d5next) Avoid truncating scaled sensor readings
+  hwmon: (aquacomputer_d5next) Expire the initial sensor cache
+  hwmon: (aquacomputer_d5next) Validate incoming status reports
+  hwmon: (aquacomputer_d5next) Skip unknown firmware version offsets
+  hwmon: (aquacomputer_d5next) Add AMPINEL telemetry support
+
+ Documentation/hwmon/aquacomputer_d5next.rst |  13 +++
+ drivers/hwmon/Kconfig                       |   4 +-
+ drivers/hwmon/aquacomputer_d5next.c         | 118 +++++++++++++++++---
+ 3 files changed, 116 insertions(+), 19 deletions(-)
+
+
+base-commit: 9edd5ab2656f040d726b5388f49ceac10bb2944f
