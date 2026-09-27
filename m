@@ -1,138 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3652E737B
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 06:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B19346E70;
+	Sun, 27 Sep 2026 07:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790490207; cv=none; b=T5ixBS2zzCXtgOA8mVYZ+iVsfMwOu1zCZpBteEOJ/qR4UbcKUeS51Cx9FFJ0oPkUBDI6yqBJatyttYd5KeWEx5E2ZxC80q79HucPh+06FXP3Gydmwjfy7fPa+Tv9FQh5PO6qHOu6tmDmhmUjIR0oKQmHrWc37TXmcQrBg0jA8AI=
+	t=1790492545; cv=none; b=D9VTlwXvZkZJO4yfs7wHSlTqmFxuFucDHCRQ2UkZZwQ2cGIjSCTx7VIQtEDjfgDPfsNwt76++1SCQcIgBoXG5YsyBaOE2nMUT5TDwgZIMfv44k47fhrqNNfSjBzOc10LpzQXce0LyiaMyG3lzV1js+ubdf6Di3pi9k7e9CL4hko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790490207; c=relaxed/simple;
-	bh=abQ20sTrkthDKubL8xH9f1qWTFEmLog2Xb7FTeV5HhQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hm72dLbb18xvNHNJCynJTo+zBGJPxhDN22WQAFGhpkYRwDlAW+G83XxprPnP//BxRiGJ7BM/x1LmAK/kwVwyoUmvqsnefv/UsW1yg82NIc2hxHr86/rMKJeN3avdUEcWp5BNcNzoHAmHTIbk7ILKR4b27kKZFKqY2zmDJSuicro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MgjDRlH+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790492545; c=relaxed/simple;
+	bh=4GJ13IWcPjWaUXa8jMggP9BDJTRfHjF4AEkLaUqiH4c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=aFhI5OoMgTyeu6sxRM1gxMNsFXURm4Cb9JsqfST1miwtqlzPfGSIQ2Vw+7B6bSQnlZhrlqxPUcPppQmuml/MtXP0SDYjnr5nSS98LoCjBKi4NLBepirl3qhEKp+o1NtHukR7HfF55jPe3dq+IMTInoQdfLdwBUWOyIkfC36bVgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iI6pHoUl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JDDZOnHn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ROf4rYh+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CLC3IQzb; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MgjDRlH+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B14A1F00898
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 06:23:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790490206;
-	bh=abQ20sTrkthDKubL8xH9f1qWTFEmLog2Xb7FTeV5HhQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=MgjDRlH+sYmzPaCjMSbcE3B7aimF1q17Fn2czcyRyuRVJvOzNSF8TW+yv5wT+RqVw
-	 +as3k2Liyt0WODzu2xA+ywYIuPUStXP1ftIHnpEO1ihWgyMUvRrTaDEy83uwIWflSE
-	 yazikBOTHeYgknkYOEjPgxXexwFhLUtOFJiSQRg1QmO6RDSWDco07eJ6BtSvuapDfP
-	 ZTSKUxftQ5D/UMB4DkBvI0EEoXYn0mvU2SQpYmZgggkdd+IQcjPDDHKhwkVKv2RgNY
-	 PLcnJUUbx+/g9aIvUufLV3c0kyfnzvA/9tirNo/F0zZ1+IdGDBo/f9wnneb7cwi0Pu
-	 ErqEqM5pQjFlg==
-Received: by mail-ej2-f42.google.com with SMTP id a640c23a62f3a-c2c570f6f36so123673466b.3
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 23:23:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwZ4GzJ323FMrT7giNsouCpHnMcY+XI6KKIJbhuyquwPTvZqt3Tb2rBHrN1g2hyxfoJgcrC5pZdbXw=@vger.kernel.org
-X-Gm-Message-State: AFuF++kN6wuE1gxbAgwY8iIKduPZYAZuPiAdNFhct62HP1iAuurlUUhR
-	iHYKQw3rG5APCuOuDYriV3EHU6Vk56V/mzDS5vu6fb8ohPZ3cAzacRm+ifbFy+EF0wEJBlVDflb
-	BNB31cnXaoSKHfmrElszUS6Z+1CA6tOrO+ZT4wQjIlA==
-X-Received: by 2002:a17:907:d408:b0:c29:3821:ae6c with SMTP id
- a640c23a62f3a-c2ac2606943mr866958866b.37.1790490204956; Sat, 26 Sep 2026
- 23:23:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iI6pHoUl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JDDZOnHn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ROf4rYh+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CLC3IQzb"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E402021E71;
+	Sun, 27 Sep 2026 07:02:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790492532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5BIpyzpFhUTjXE4iGhZKarMO0HJAxtBWhlrJwRgsjRw=;
+	b=iI6pHoUlEws+GNp6AKWDB3CN0w4gZVIu/4onumaT1baG8dPh4ojciex5JdAzhZ0+9LMRx7
+	Akiq3eren4C2O5jUFoCJ1o8qXZ5pfzmwzlvsU0REzv6MeaU3cOLLSPFTn2Hp3UCvJubi/h
+	BbYL/jtizXeqGfs86CqYJWXiRyzEfWk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790492532;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5BIpyzpFhUTjXE4iGhZKarMO0HJAxtBWhlrJwRgsjRw=;
+	b=JDDZOnHn/iFwT41w7oqMvvG1FRjvtDiviOTVxap2/TvqaPK4B+AfJ6YzSAdzZzsiHxBZQZ
+	E3fotKVM5nfRjtAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ROf4rYh+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CLC3IQzb
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790492527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5BIpyzpFhUTjXE4iGhZKarMO0HJAxtBWhlrJwRgsjRw=;
+	b=ROf4rYh+/9GYig2Da3M5Iu4/q/F99fP+RsWMlc+iVksKdSM6GVoSorYP7y8NneeJkZBdIA
+	U6u3lKd510eKe73IzPvnaZGcJQWWWyc405+Mozk7Prz20Vpc1JpBQr3CwQPxWzRuvfkKoD
+	v7jtxUqc2op/tikUhvQ2NM7yCsWm0z0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790492527;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5BIpyzpFhUTjXE4iGhZKarMO0HJAxtBWhlrJwRgsjRw=;
+	b=CLC3IQzbgPlclo821E13H6iT3OClrKWxp9Warc8aOSZ7Vp/wCY6TEiQ+y6UPh88ghV4q1k
+	WQxmwkUiDPdJzXBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7CC9B133F1;
+	Sun, 27 Sep 2026 07:02:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iL1nC2+/uGo/dgAAD6G6ig
+	(envelope-from <krisman@suse.de>); Sun, 27 Sep 2026 07:02:07 +0000
+From: Gabriel Krisman Bertazi <krisman@suse.de>
+To: Daniel Tang <danielzgtg.opensource@gmail.com>, =?utf-8?Q?Andr=C3=A9?=
+ Almeida
+ <andrealmeid@igalia.com>, Christian Brauner <brauner@kernel.org>,
+ linux-fsdevel@vger.kernel.org
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+ Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ Hugh Dickins <hughd@google.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ smcv@collabora.com, kernel-dev@igalia.com, linux-kernel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [BUG] Is casefold unreported in /proc/mounts?
+In-Reply-To: <5193732.31r3eYUQgx@daniel-desktop3>
+Organization: SUSE
+References: <5193732.31r3eYUQgx@daniel-desktop3>
+Date: Sun, 27 Sep 2026 03:02:01 -0400
+Message-ID: <877bk7yy6u.fsf@mailhost.krisman.be>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aqjcFb6MFNiA6n4V@fedora> <aqjpYHbZ14A8xRtK@fedora>
- <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
- <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
- <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
- <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
- <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
- <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
- <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
- <arUcil9kxUPiymXI@KASONG-MC4> <araWKyJ5MENBwXCL@cmpxchg.org>
- <CACePvbV0Z3OhxkEn-MiMrxpSmtbt1YwCt2N2_ZW3jbdh87jgFA@mail.gmail.com> <9499bc084e30df4d10bc069ed26d576e4dd3de80.camel@surriel.com>
-In-Reply-To: <9499bc084e30df4d10bc069ed26d576e4dd3de80.camel@surriel.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Sat, 26 Sep 2026 20:23:13 -1000
-X-Gmail-Original-Message-ID: <CACePvbWdJSUDuEbR2FXczbeWwvxP86WDGHTL-eO0A8WwMDoNRQ@mail.gmail.com>
-X-Gm-Features: AclHuK9XVPbdEdRuFYnT3RhuHd6CxK6iuGG39DZDVhwy7Jj_A42gkqdamTqXRIk
-Message-ID: <CACePvbWdJSUDuEbR2FXczbeWwvxP86WDGHTL-eO0A8WwMDoNRQ@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Rik van Riel <riel@surriel.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="=-=-="
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: E402021E71
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,igalia.com,kernel.org,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+,1:+,2:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
 
-On Sat, Sep 26, 2026 at 2:59=E2=80=AFPM Rik van Riel <riel@surriel.com> wro=
-te:
->
-> On Sat, 2026-09-26 at 11:27 -1000, Chris Li wrote:
-> > On Fri, Sep 25, 2026 at 5:41=E2=80=AFAM Johannes Weiner <hannes@cmpxchg=
-.org>
-> > wrote:
-> >
-> > >
-> > > (2) The use case we have. Use memory.swap.max to divide a finite
-> > > space
-> > > in storage. We only have so much space on disk, and we need to
-> > > manage
-> > > fair access. Note that this isn't about speed. We have a mix of
-> > > containers where some use writeback and others do not. The ones who
-> > > write back to the swapfile need to be able to get their fair share
-> > > -
-> > > not more, not less. Including something that doesn't actually
-> > > consume
-> >
-> > Just want to make sure I understand correctly. Do you mean the fair
-> > share of compressed memory used in the zswap case?
-> >
-> Compressed zswap memory is already accounted for
-> under cgroup.memory.max.
+--=-=-=
+Content-Type: text/plain
 
-Ack.
+Daniel Tang <danielzgtg.opensource@gmail.com> writes:
 
->
-> Compressed zswap memory sits under memory.max
-> together with anonymous, file, and slab cache
-> memory.
+> Upon successfully mounting via `sudo mount -t tmpfs -o casefold test /mnt`, I
+> cannot find a read-only way to determine whether this option is enabled.
+> `mount`, `cat /proc/mounts`, and `cat /proc/mountinfo` only display "rw",
+> "relatime", and "inode64", never "casefold" for both with and without
+> `-o casefold`. The only way on 7.0.0-34-generic to test I found is
+> `mkdir test ; chattr +F test ; echo $?`, but that isn't atomic. Which command
+> can determine, without writing anything, whether someone or some program
+> specified `-o casefold`? If absent, I suggest adding the missing info to
+> `/proc/mounts`, likely `mm/shmem.c:shmem_show_options`.
 
-I understand that.
+Yeah.  For device-backed filesystems it is not a mount parameter, but it
+is for shmem/ovl and should show in /proc/mounts.
+
+Either way, there are two ways to check:
+
+1) Parse dmesg after the mount. It is easily overwritten and probably
+worse than just trying;
+
+2) better way: do FS_IOC_SETFLAGS on the mountpoint (with chattr
++F).  If casefold is supported, you'll get -ENOTEMPTY, otherwise you get
+-EOPNOTSUPP.  Since it is the root of the filesystem and a single
+syscall, unless its remounted from under you (in which case /proc/mounts
+doesn't help either), you are safe.
+
+It is worth mentioning you can check kernel support with
+/sys/fs/*/features/casefold.  We probably should add the same for
+/sys/fs/ext4/<disk>/.
+
+This fixes /proc/mounts for shmem: 
 
 
-> We do not need or want another limit there,
-> though I understand other people do.
+--=-=-=
+Content-Type: text/x-patch
+Content-Disposition: inline;
+ filename=0001-shmem-Report-casefold-setting-in-mount-options.patch
 
-Ack.
+From c4b198424fac49e10e32553b223b7615febc6513 Mon Sep 17 00:00:00 2001
+From: Gabriel Krisman Bertazi <krisman@suse.de>
+Date: Sun, 27 Sep 2026 02:49:26 -0400
+Subject: [PATCH] shmem: Report casefold setting in mount options
 
-> The fair resource use from memory.swap.max
-> is to control how much of the fixed swap file
-> (or swap partition) space each cgroup gets.
+For not device-backed filesystems, casefolding is a mount option.
+Report the current encoding and casefolding flags in /proc/mounts so
+userspace can easily check if casefolding is supported.
 
-That is the part I am not sure I understand correctly. Fair in what
-sense? Using the swap file proportional to the memory limit of the
-cgroup? Do you have an example of perfectly fair swap file usage for a
-cgroup with an 8G memory limit versus one with a 1G limit?
+Reported-by: Daniel Tang <danielzgtg.opensource@gmail.com>
+Link: https://lore.kernel.org/linux-fsdevel/5193732.31r3eYUQgx@daniel-desktop3/#R
+Signed-off-by: Gabriel Krisman Bertazi <krisman@suse.de>
+---
+ mm/shmem.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Sorry I am a bit slow grasping what exactly the fair behavior is.
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 897fa2b61346..2b93fcbf5127 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -4916,6 +4916,17 @@ static int shmem_show_options(struct seq_file *seq, struct dentry *root)
+ 	if (sbinfo->qlimits.grpquota_ihardlimit)
+ 		seq_printf(seq, ",grpquota_inode_hardlimit=%lld",
+ 			   sbinfo->qlimits.grpquota_ihardlimit);
++#endif
++#if IS_ENABLED(CONFIG_UNICODE)
++	if (root->d_sb->s_encoding) {
++		unsigned int version = root->d_sb->s_encoding->version;
++
++		seq_printf(seq, ",casefold=utf8-%u.%u.%u",
++			   unicode_major(version), unicode_minor(version),
++			   unicode_rev(version));
++		if (sb_has_strict_encoding(root->d_sb))
++			seq_puts(seq, ",strict_encoding");
++	}
+ #endif
+ 	return 0;
+ }
+-- 
+2.55.0
 
-Chris
+
+--=-=-=--
