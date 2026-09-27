@@ -1,144 +1,135 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01542C0F6C;
-	Sun, 27 Sep 2026 01:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC722AF00;
+	Sun, 27 Sep 2026 01:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790470834; cv=none; b=J68wcZ4U4H9SOBZ9dZH0kS7KwVJnROhG52knnGgjPbg3LeBVINCzhEMdQEcKMQPyVZ8ormKebwyb1EtpCgp7gkQxIx7AH13s1DB2hX9JnM4scmmHChX9PPRQSSyAFYcD1fUzOapAcjh7a+1pClOFGs0q9RJBdt6K4+6CitjR3io=
+	t=1790471606; cv=none; b=PS9C3YB4gje1izVLpy9jov5WZDFuTZQUZg8p1829L93MIrS3PrIB7nxExyAxF0JhwrlDFz3HwlgvTleGCHjA53ZzxJDGAAV3RlJpgUDb/Zesu1Q7D6GXU3foODhW0hflR6vq3yGdSLLCwP5b3EgFhJim/kHhzKvkmeo1+sxdJ/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790470834; c=relaxed/simple;
-	bh=JtRF9MD3P2Hs0hSXn7s/JaY4f07p7uwsfCVagJl5fsA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=r+BWOOEsCNXeYA/6q62Vi7ExZnCCvC3BBRdOGx/uI0kXr/9sGdg0fi39lT4msC23U0TM00vMySRNiYwFNZWHsBQv4IwRym7RglfM+jTMsNy5jBMS9U6LPAXsZxS9KgAE2TI4H8IKOdQB/fGbvwHEfl3L7ZgPeA4dPF0DbFlPUbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=mdL7B7C1; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
+	s=arc-20240116; t=1790471606; c=relaxed/simple;
+	bh=LhbT1u6bt5c64FMxcf1q/vAN2f64Gv1HxhFxf6T9SuU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Igu6I/tsSZsWjzWHDQVonQ/O8ntBnMMsSA5GrXKoG/DinFdsU5fj/SZJSfy7ZJO8q6xMNoAgOywuhZyQLkfF5hc3wRnxJsP+VzBvOAp1ALEUvXXPdoTmhIWcNVFo1wjm3rh1wKd1zZapwYtm9+UpVphr5tjxD78naQE3cIBuVmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2V/wHGl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="mdL7B7C1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
-	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID; bh=JtRF9MD3P2Hs0hSXn7s/JaY4f07p7uwsfCVagJl5fsA=; b=mdL7B7
-	C1hqqpjU58HGllGA3MLoruebFtyD5610lcHcyyTa2i1JNQxXzLqbeGvXEUSrr3/9Zp6FSXB3WvGsy
-	xhgCFMdO78xx7jwTEee9N/xpFpEz69hmFt8bcNXx/AGv/0diHdfLZvaclqXxiQ2wp1O1N9Tgj0q2B
-	NCYeOkwXrr1Cih8CSuAYigsLqJrwNMzxWIzdhjwOb3TM6W71xbZJ53OpdhRQfxwQhB4cuG46lCTo3
-	woM4mw7c3QGPyxNlsMDyFv2CDAOXSmXvdHldYwzgc97XHbGsW0nfdjfviiSSdR474je0WdXnzlLV2
-	WrQ+HGD5PdRa5D6t2QPcP/E3tObA==;
-Received: from [2601:18c:8100:a0e0:5a47:caff:fe78:8708]
-	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.5)
-	(envelope-from <riel@surriel.com>)
-	id 1xAdE5-00000007UmZ-3HPN;
-	Sun, 27 Sep 2026 00:58:45 +0000
-Message-ID: <9499bc084e30df4d10bc069ed26d576e4dd3de80.camel@surriel.com>
-Subject: Re: Path forward for Virtualized Swap?
-From: Rik van Riel <riel@surriel.com>
-To: Chris Li <chrisl@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>
-Cc: Kairui Song <ryncsn@gmail.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan
- He	 <baoquan.he@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Kairui
- Song	 <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, Roman
- Gushchin	 <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, David
- Hildenbrand	 <david@kernel.org>, Muchun Song <muchun.song@linux.dev>,
- Kemeng Shi	 <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>,
- YoungJun Park	 <youngjun.park@lge.com>, Chengming Zhou
- <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)"	 <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)"
- <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
- =?UTF-8?Q?Baghdasaryan=EF=BF=BC?=	 <surenb@google.com>, Qi Zheng
- <qi.zheng@linux.dev>, Axel Rasmussen	 <axelrasmussen@google.com>, Yuanchu
- Xie <yuanchu@google.com>, Wei Xu	 <weixugc@google.com>, Gregory Price
- <gourry@gourry.net>, Wenchao Hao	 <haowenchao22@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Hugh Dickins	 <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Tejun Heo	 <tj@kernel.org>, Michal
- =?ISO-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, Meta kernel
- team	 <kernel-team@meta.com>, Linux Memory Management List
- <linux-mm@kvack.org>,  Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, "open
- list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
- <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Joshua Hahn	 <joshua.hahnjy@gmail.com>
-Date: Sat, 26 Sep 2026 20:58:44 -0400
-In-Reply-To: <CACePvbV0Z3OhxkEn-MiMrxpSmtbt1YwCt2N2_ZW3jbdh87jgFA@mail.gmail.com>
-References: <aqjcFb6MFNiA6n4V@fedora> <aqjpYHbZ14A8xRtK@fedora>
-	 <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
-	 <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
-	 <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
-	 <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
-	 <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
-	 <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
-	 <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
-	 <arUcil9kxUPiymXI@KASONG-MC4> <araWKyJ5MENBwXCL@cmpxchg.org>
-	 <CACePvbV0Z3OhxkEn-MiMrxpSmtbt1YwCt2N2_ZW3jbdh87jgFA@mail.gmail.com>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
- eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
- Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
- lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
- dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
- mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
- gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
- r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
- WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
- 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
- Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
- +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
- g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
- KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
- fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
- 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
- G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
- okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
- TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
- cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
- omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
- QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
- c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2V/wHGl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 215D71F000FF;
+	Sun, 27 Sep 2026 01:13:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790471604;
+	bh=sz0mKDv766sz3dqn6sz5UmjEeYOx+tbMFYwvUYW26t8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=g2V/wHGlVQGw4PkED6b3jTzCgfnEwtumIhmnwTYeSfpALaz6FlD7e4AvkenmwXbpH
+	 jkA6k2/12/b8K9V2OgFhuWlSbD07HWPcPXBUOoWT4rNXzgeikYOEmGvUO91VA17hNK
+	 LSl1lSfncHZHhIfMiaIKClJlJ2vYF0a4owg4lO5gH90r+WBg+Q5tUDNc+VjmylX9O/
+	 L8h3udTSIckmVbaIAyrgpLTe3iDmnQCPgmdd6C9FRSEINoi6xzQwA2v02kjf9x+zGs
+	 dIdsKOc8ghTInUzI0HRNvBal74FocSrf6U7nzJ0W1pxfvrWKosU2ERDLKwMKth4pxC
+	 xXo4GZjiNZzYg==
+Date: Sat, 26 Sep 2026 21:13:22 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
+Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
+Message-ID: <arhtsrVb82vr6U-p@laps>
+References: <20260924134945.3095661-1-sashal@kernel.org>
+ <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
+ <arfpV7IXRAHREMzO@laps>
+ <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
 
-On Sat, 2026-09-26 at 11:27 -1000, Chris Li wrote:
-> On Fri, Sep 25, 2026 at 5:41=E2=80=AFAM Johannes Weiner <hannes@cmpxchg.o=
-rg>
-> wrote:
->=20
-> >=20
-> > (2) The use case we have. Use memory.swap.max to divide a finite
-> > space
-> > in storage. We only have so much space on disk, and we need to
-> > manage
-> > fair access. Note that this isn't about speed. We have a mix of
-> > containers where some use writeback and others do not. The ones who
-> > write back to the swapfile need to be able to get their fair share
-> > -
-> > not more, not less. Including something that doesn't actually
-> > consume
->=20
-> Just want to make sure I understand correctly. Do you mean the fair
-> share of compressed memory used in the zswap case?
->=20
-Compressed zswap memory is already accounted for
-under cgroup.memory.max.
+On Sat, Sep 26, 2026 at 07:54:27PM +0200, Antheas Kapenekakis wrote:
+>> It didn't in my tests either. With AGENTS.md pointing at README, one agent read
+>> only coding-assistants.rst, and the other read that plus generated-content.rst,
+>> which coding-assistants.rst references. Neither opened any of README's other
+>> pointers.
+>
+>They usually read it when they need to. I find it is 60% of the time.
+>Of course, this does not compensate for behavior that should always
+>apply. Sol 6 also has the annoying habit of modifying readmes
+>randomly.
 
-Compressed zswap memory sits under memory.max
-together with anonymous, file, and slab cache
-memory.
+Agreed, and the rules in coding-assistants.rst are the part that should
+always apply.
 
-We do not need or want another limit there,=C2=A0
-though I understand other people do.
+>> >agents.md file before every message. Unsure if it still does, I do not
+>> >use Claude. agent.md files should be specifically designed for agents
+>> >and handwritten. Moreover, they usually need to be tuned for the model
+>> >generation in general, if not the provider and model specifically.
+>> >Which brings us to 2.
+>>
+>> The rules README points to (DCO, Assisted-by, patch format) are the same for
+>> every model. Personal and model-specific tuning belongs in a personal file.
+>> Your sample shows why the shared part should come from the tree: it asks the
+>> agent to add your Signed-off-by, which coding-assistants.rst says an agent must
+>> never do.
+>
+>You are correct. Agents are tools. All of their outputs are the
+>responsibility of their users. They cannot apply DCO.
+>
+>For me, I make sure to review copyright and test my kernel patches
+>before sending them or pushing them to a remote. So my agent should
+>add my sb and the assisted tag otherwise the patches need unnecessary
+>cleanup. This is my personal preference. The mainline branch should
+>not poison my agent's context or provide conflicting instructions.
 
-The fair resource use from memory.swap.max
-is to control how much of the fixed swap file
-(or swap partition) space each cgroup gets.
+Your issue is with coding-assistants.rst, which says agents must not add
+Signed-off-by. AGENTS.md only makes agents see it.
 
---=20
-All Rights Reversed.
+[ ... ]
+
+>But as far as I know personal snippets are meant to be additive. I do
+>not think there is a widespread override for agents.md for the default
+>one. Codex seems to have one but there is only one google result on
+>it.
+
+Codex reads AGENTS.override.md in place of AGENTS.md. Claude Code doesn't load
+AGENTS.md at all when a CLAUDE.md exists, and Gemini reads GEMINI.md unless
+configured otherwise.
+
+The agents are designed exactly for this model: the upstream project has it's
+own AGENT.md which is relevant for the upstream side of things. Downstream is
+able to modify it as needed, either by carrying an out of tree patch, an
+override file, or whatever else works for downstream.
+
+>A large generic readme that offshoots to 30 other readmes is not an
+>appropriate agents.md file.
+>Documentation/process/coding-assistants.rst would be a better start
+>for a symlink but even that is not particularly lean and would likely
+>degrade modern agents. It still contains offshoots to 4 different
+
+Changes to coding-assistants.rst itself are fair game as separate patches. This
+one only gets agents to load what we already ask them to follow. There's no
+substance here - we're just making dumb machines behave better.
+
+>readmes, and the "Procedure for finding and fixing bugs" would degrade
+>most modern models. They are already RL'd to do what they are asked,
+>and conflicting instructions could lead them to e.g., commit when not
+>asked to. For example consider:
+
+[ snip ]
+
+I get that you have concerns with those docs, so feel free to propose patches
+for these.
+
+I do not thing we need a seperate machine-only readable set of docs. If these
+"agents" can't do better parsing those docs, then we shouldn't bend over and
+write them their own versions. I'm okay with doing better at pointing to those
+docs ("RTFM!"), but I don't think that a fork of the docs is sensible.
+
+If you disagree, feel free to propose changes to coding-assistants.rst, as this
+is really a doc that gets read mostly by machines.
+
+-- 
+Thanks,
+Sasha
