@@ -1,99 +1,138 @@
-Received: from mail-qk2-f38.google.com (mail-qk2-f38.google.com [74.125.230.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1545374E6D
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 06:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.230
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3652E737B
+	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 06:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790488956; cv=none; b=gYe0wkFiBWivx8cfHHHptdp7B/SlZR7SrGIUGjUkuIpnXMF7QxstJjkTNB45mpTymy1xIn4DNqvZNdtjqKCTb0hBlrIKWpp8s8pzlAqxZeNcQzUPKq8zdUpd+ObnG8DZbXzLX86aTCSmBIiRfFncUFAaF3yOj7ns7b7qeGDh1u0=
+	t=1790490207; cv=none; b=T5ixBS2zzCXtgOA8mVYZ+iVsfMwOu1zCZpBteEOJ/qR4UbcKUeS51Cx9FFJ0oPkUBDI6yqBJatyttYd5KeWEx5E2ZxC80q79HucPh+06FXP3Gydmwjfy7fPa+Tv9FQh5PO6qHOu6tmDmhmUjIR0oKQmHrWc37TXmcQrBg0jA8AI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790488956; c=relaxed/simple;
-	bh=1jCjtYoS8P7He0eHB/co+eUvc5U6jhinCxysS9BksKw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:MIME-Version:
-	 Content-Type; b=CVAG+cODNVZ5N3SQXIHZ0GC+LM01Njd0LWJcTzKEJb6g8rbcPZPvv0PjkeT+6o/YQlDIgnWqWVsr0REsb12E7H5pfOui27rUGy+GPe8ncey+C2NbvhRfqqD1G6zsuSZhcJXbcfxzoiXbXh5SI0LF/i73QNapSqBEz4vC9eCknNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y3vS2Wfv; arc=none smtp.client-ip=74.125.230.230
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790490207; c=relaxed/simple;
+	bh=abQ20sTrkthDKubL8xH9f1qWTFEmLog2Xb7FTeV5HhQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hm72dLbb18xvNHNJCynJTo+zBGJPxhDN22WQAFGhpkYRwDlAW+G83XxprPnP//BxRiGJ7BM/x1LmAK/kwVwyoUmvqsnefv/UsW1yg82NIc2hxHr86/rMKJeN3avdUEcWp5BNcNzoHAmHTIbk7ILKR4b27kKZFKqY2zmDJSuicro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MgjDRlH+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y3vS2Wfv"
-Received: by mail-qk2-f38.google.com with SMTP id d75a77b69052e-5333729ca3dso3722471cf.3
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 23:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790488954; x=1791093754; darn=vger.kernel.org;
-        h=content-type:content-transfer-encoding:mime-version:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1jCjtYoS8P7He0eHB/co+eUvc5U6jhinCxysS9BksKw=;
-        b=Y3vS2WfvA+l+q781tyXHMb4Mq24JNxDkFriCO7oGUQrSpwuvCK8oNbj+29bV9C+Htx
-         z7ze8JW9+WlOa2VB9vB0epTu5Qf/B6HlVU+UAO8b1B7d2w2z7r9qC5FrZ8HCH4j5ubGg
-         +aaYRxJYRqnJNfPRFr7KmwDlIvgjk/kegIaR/0acgWuPrOgw3tTA6pzeK+I65jN1LG34
-         d/3drkR2OPvq+DmYFG/jc9uyMtuXZJV7/oJ76v+RxzNcticqlBEPkV9kJ4k8C/9XdmcR
-         lQ6gPjBNandaValARMi+4cFEf5iOc3gKxSxb+Vug3fAbv2j8pe7opRUPzyyqvpmYwmY4
-         tXMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790488954; x=1791093754;
-        h=content-type:content-transfer-encoding:mime-version:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1jCjtYoS8P7He0eHB/co+eUvc5U6jhinCxysS9BksKw=;
-        b=dS6aUDk+Wv1uTwFFkbcscSUh61AsB1q77wA26lyrfadGm41nqH1C7iSA6+ddmilVt7
-         mBFCkxQJYOEX5701X60JRSkKwwYxZq5KVKIRKU7sQDEiCFH9PdGbhnsbXFalaNI9gc1r
-         tIjccgejBSLsfkXQ4A8NHnk//rMnbu7AcZYziocZj4j9QiNHC4eHw3UU+Lo1D8ePg9k0
-         SnPRq1EP3w7RGevlDwQMNkwxmIz6aG8fU9vBbyCRqnEUDMXqp72wW3Y79i+6saX0EO1Y
-         CayvMmp7xcMOHVFhNlp4uuJbQF93XN6fOETK2aeZqxL3rvbC+ZCnipkCimRXfVyzHgHk
-         AJqA==
-X-Forwarded-Encrypted: i=1; AKwUvBwufu8GNVFhtElmbQu1dVzVfhexpv/W3qic3ygpLJ1uzXtnqgwa6nNOQubfMfwr6Z4P/GPuBAYBvRM=@vger.kernel.org
-X-Gm-Message-State: AFuF++nEAMDltRjg+ka9sRYKUpBQ75xx0chQbmp6aL7A8uTTM8ZAwf47
-	1d2RgMpirH2zRlv6Zs5LhAKhzMRuBii/wx8kSEtiyB53cA2q4YbrKOqD
-X-Gm-Gg: AYBFou2mxn4v7iUTriaTwzVOTfOUCfxBl7n699rKSomD4Mjo1o0JxYxpQk4ELOmR0jE
-	Cqhi344/vUCVLWN8EVHv0ems2DJOC1hBqDfRZrZ/cc/Oah8kl7wc2JmPLZslKeTI0wIsIn2Ik7z
-	zPVWtKd/QyjeRvIH6pgirw41nsb/S6S5zeWxX4NGJkcFvUAU4ABBpOLhJtFtLLjvFD4+IfXWUZa
-	AKCBFOOBM4VY3iJQbVum1Gyvwc7kQif77c/IvibhneO7JgoF221rkpmsYUbD6MbM31PlTgn+puI
-	FAg2Jky71bbjPSgUWOfv+xmp3EqUFPB3UjQkmqBq57kHdk5EAGfjR2unJpIjG8imdS0im4ya4aJ
-	YTcNhxgcXIGq+gp4E6zAzrqE/Yk+5XGLJJ6VV1nvbQ1ZrToFyF6cx7qXP/4vMIUOT7q6H55mrfH
-	Mz19LpUzPRATLnV0DTD0djo7U7aFkaApcbe8nux1XRse+WAGoGAhnIMEXcjRK5AZh6ZtMXhEPJ/
-	/FRj6i78wg4CjoIf7NJReCiHfsx
-X-Received: by 2002:a05:622a:13c8:b0:530:e52a:8ef1 with SMTP id d75a77b69052e-5330b5dff3dmr142397731cf.26.1790488953719;
-        Sat, 26 Sep 2026 23:02:33 -0700 (PDT)
-Received: from daniel-desktop3.localnet ([204.48.76.67])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5332238c585sm34613801cf.20.2026.09.26.23.02.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 23:02:31 -0700 (PDT)
-From: Daniel Tang <danielzgtg.opensource@gmail.com>
-To: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- Gabriel Krisman Bertazi <gabriel@krisman.be>,
- Gabriel Krisman Bertazi <krisman@suse.de>,
- Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Gabriel Krisman Bertazi <krisman@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
- Hugh Dickins <hughd@google.com>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, smcv@collabora.com, kernel-dev@igalia.com,
- linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org
-Subject: [BUG] Is casefold unreported in /proc/mounts?
-Date: Sun, 27 Sep 2026 02:02:29 -0400
-Message-ID: <5193732.31r3eYUQgx@daniel-desktop3>
-In-Reply-To: <20241021-tonyk-tmpfs-v8-6-f443d5814194@igalia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MgjDRlH+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B14A1F00898
+	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 06:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790490206;
+	bh=abQ20sTrkthDKubL8xH9f1qWTFEmLog2Xb7FTeV5HhQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=MgjDRlH+sYmzPaCjMSbcE3B7aimF1q17Fn2czcyRyuRVJvOzNSF8TW+yv5wT+RqVw
+	 +as3k2Liyt0WODzu2xA+ywYIuPUStXP1ftIHnpEO1ihWgyMUvRrTaDEy83uwIWflSE
+	 yazikBOTHeYgknkYOEjPgxXexwFhLUtOFJiSQRg1QmO6RDSWDco07eJ6BtSvuapDfP
+	 ZTSKUxftQ5D/UMB4DkBvI0EEoXYn0mvU2SQpYmZgggkdd+IQcjPDDHKhwkVKv2RgNY
+	 PLcnJUUbx+/g9aIvUufLV3c0kyfnzvA/9tirNo/F0zZ1+IdGDBo/f9wnneb7cwi0Pu
+	 ErqEqM5pQjFlg==
+Received: by mail-ej2-f42.google.com with SMTP id a640c23a62f3a-c2c570f6f36so123673466b.3
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 23:23:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwZ4GzJ323FMrT7giNsouCpHnMcY+XI6KKIJbhuyquwPTvZqt3Tb2rBHrN1g2hyxfoJgcrC5pZdbXw=@vger.kernel.org
+X-Gm-Message-State: AFuF++kN6wuE1gxbAgwY8iIKduPZYAZuPiAdNFhct62HP1iAuurlUUhR
+	iHYKQw3rG5APCuOuDYriV3EHU6Vk56V/mzDS5vu6fb8ohPZ3cAzacRm+ifbFy+EF0wEJBlVDflb
+	BNB31cnXaoSKHfmrElszUS6Z+1CA6tOrO+ZT4wQjIlA==
+X-Received: by 2002:a17:907:d408:b0:c29:3821:ae6c with SMTP id
+ a640c23a62f3a-c2ac2606943mr866958866b.37.1790490204956; Sat, 26 Sep 2026
+ 23:23:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <aqjcFb6MFNiA6n4V@fedora> <aqjpYHbZ14A8xRtK@fedora>
+ <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
+ <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
+ <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
+ <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
+ <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
+ <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
+ <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
+ <arUcil9kxUPiymXI@KASONG-MC4> <araWKyJ5MENBwXCL@cmpxchg.org>
+ <CACePvbV0Z3OhxkEn-MiMrxpSmtbt1YwCt2N2_ZW3jbdh87jgFA@mail.gmail.com> <9499bc084e30df4d10bc069ed26d576e4dd3de80.camel@surriel.com>
+In-Reply-To: <9499bc084e30df4d10bc069ed26d576e4dd3de80.camel@surriel.com>
+From: Chris Li <chrisl@kernel.org>
+Date: Sat, 26 Sep 2026 20:23:13 -1000
+X-Gmail-Original-Message-ID: <CACePvbWdJSUDuEbR2FXczbeWwvxP86WDGHTL-eO0A8WwMDoNRQ@mail.gmail.com>
+X-Gm-Features: AclHuK9XVPbdEdRuFYnT3RhuHd6CxK6iuGG39DZDVhwy7Jj_A42gkqdamTqXRIk
+Message-ID: <CACePvbWdJSUDuEbR2FXczbeWwvxP86WDGHTL-eO0A8WwMDoNRQ@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: Rik van Riel <riel@surriel.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
+	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Upon successfully mounting via `sudo mount -t tmpfs -o casefold test /mnt`, I
-cannot find a read-only way to determine whether this option is enabled.
-`mount`, `cat /proc/mounts`, and `cat /proc/mountinfo` only display "rw",
-"relatime", and "inode64", never "casefold" for both with and without
-`-o casefold`. The only way on 7.0.0-34-generic to test I found is
-`mkdir test ; chattr +F test ; echo $?`, but that isn't atomic. Which command
-can determine, without writing anything, whether someone or some program
-specified `-o casefold`? If absent, I suggest adding the missing info to
-`/proc/mounts`, likely `mm/shmem.c:shmem_show_options`.
+On Sat, Sep 26, 2026 at 2:59=E2=80=AFPM Rik van Riel <riel@surriel.com> wro=
+te:
+>
+> On Sat, 2026-09-26 at 11:27 -1000, Chris Li wrote:
+> > On Fri, Sep 25, 2026 at 5:41=E2=80=AFAM Johannes Weiner <hannes@cmpxchg=
+.org>
+> > wrote:
+> >
+> > >
+> > > (2) The use case we have. Use memory.swap.max to divide a finite
+> > > space
+> > > in storage. We only have so much space on disk, and we need to
+> > > manage
+> > > fair access. Note that this isn't about speed. We have a mix of
+> > > containers where some use writeback and others do not. The ones who
+> > > write back to the swapfile need to be able to get their fair share
+> > > -
+> > > not more, not less. Including something that doesn't actually
+> > > consume
+> >
+> > Just want to make sure I understand correctly. Do you mean the fair
+> > share of compressed memory used in the zswap case?
+> >
+> Compressed zswap memory is already accounted for
+> under cgroup.memory.max.
 
-Link: https://lore.kernel.org/r/20241021-tonyk-tmpfs-v8-6-f443d5814194@igalia.com
+Ack.
+
+>
+> Compressed zswap memory sits under memory.max
+> together with anonymous, file, and slab cache
+> memory.
+
+I understand that.
 
 
+> We do not need or want another limit there,
+> though I understand other people do.
+
+Ack.
+
+> The fair resource use from memory.swap.max
+> is to control how much of the fixed swap file
+> (or swap partition) space each cgroup gets.
+
+That is the part I am not sure I understand correctly. Fair in what
+sense? Using the swap file proportional to the memory limit of the
+cgroup? Do you have an example of perfectly fair swap file usage for a
+cgroup with an 8G memory limit versus one with a 1G limit?
+
+Sorry I am a bit slow grasping what exactly the fair behavior is.
+
+Chris
