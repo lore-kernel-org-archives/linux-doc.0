@@ -1,272 +1,309 @@
-Received: from mail-pj2-f39.google.com (mail-pj2-f39.google.com [74.125.227.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E15197A7D
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 02:55:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA811531C8;
+	Sun, 27 Sep 2026 05:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790477754; cv=none; b=lPzUBZoxUx0cbUaUwGzRo6DaZQsjRdZ1XoTonedLMhiHWPKE2hoMrXrv6Yyr4fCbuFVNT1A8i9ycQ+dKH14/ub9XAXn/aqAUx4Tp4au00sykxq+MnYuWiZBJOFB8IReG1Nn+itZ+6GEG2TnyHaOnm7KOty1CWwUT0Bjf/QKhQwI=
+	t=1790488268; cv=none; b=QM+BTWV4pwGcn7rKJrWuUx02pJih6psrOAJrdFldXz8QALV0S4kZ0msfaM8EGWafvJvpq2vn+TklQHS8gXyWTMVXvEFhyXzWT9p0EmtjiRDnpKJXdMbMIu2DVnWtNnwW6uxn34gaPuLuViN08r6jQWScfQ3UlWspX/TZ7/gSw8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790477754; c=relaxed/simple;
-	bh=SzfK6CJnam9Dg4BVTpagUZL4n3gDBm63Y+qtGXTWOqU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LRwyqzDlzxql511ZAO8D47Lo/J3VzF2t3v1pX9UbmN5FT1iclbneRZQJ0IPIXhjVSo2tEk45IsI4/PG6VCi1bFiUSjbHx0nUGxDEVFldyctraOnIZthejm7akDMbMN6kWWM37p8nyBrSOVY/uPhYQzPFI/FtVaRwnaERT/whWcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=DMZEu55R; arc=none smtp.client-ip=74.125.227.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1790488268; c=relaxed/simple;
+	bh=cse9LAGl436XF+uVHA01D5Kjv32eh1ys6YTf1AHWtyg=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=CmrSjTLCs6m/ZF8pWu2CoerGjmF/EFUzeZwgK0dx76dqTQaqkfxM/Vrj9Lj/P3xyaVHcb0jxvvRGwUZ0szw2G93NeSfJidHWpcv2JGcNwlFWSDhPCGp5mjNbRULt+e/P2dVtuG1PHG2HcID7iyTMGLp98DMxN3tI4dy+pf5ovO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=zJtyTOLx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="DMZEu55R"
-Received: by mail-pj2-f39.google.com with SMTP id 98e67ed59e1d1-3a0dc47fee0so392339a91.1
-        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 19:55:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="zJtyTOLx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6AE51F000FF;
+	Sun, 27 Sep 2026 05:51:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1790477751; x=1791082551; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zUhtpwjDYsFhZVHLtQ8dC1wt8tqWIMzZ7omgfR51vXw=;
-        b=DMZEu55Rkb+OspXI6D/9zwxiBqfW4g3Urf/udjbCRSviBBH1O5bWy6+dXJJKz6klut
-         4U3UyB7G1cCoCVB97EK1kmgZfMumjoEo8xmf9/r0Hqf7dlnJGFsvUmjnbMM+k/02sE+l
-         UfDJE0YgHzNaiFB+5AiW4pJxOLxQCoN6z5lMp4DdYje95FJALzBlVH1IaP+DPUj1E0SF
-         KL9m4nV+siU72tfiocM3eQ++DfaleRBma2Ydb/+l3hk6d9FYeCwW48Xni8RheJotCuVM
-         uDubPtg1qv/btgNaqeUPDJDMWpFgeYrboHhHMQLCztYHlSJ2xkTC/xhYo6fQ3qwd/wYB
-         JtDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790477751; x=1791082551;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zUhtpwjDYsFhZVHLtQ8dC1wt8tqWIMzZ7omgfR51vXw=;
-        b=lVO52yunIBh1E6/v5cIyXiDCgir7muZvxVlIvnEa7RFvZKgtJYaoiPzwYeW3QNC81S
-         wzf0/sVpyu03UhkjprLLsQp3CTtJ6oIg3/6DVhcLBsZlATaQQNHei8gWchckcCQpTeRq
-         1LcdTC+lIHTEmgzUmQWYqveHHHcHJQYNr0H5JkZFQZAcJOFH2uaPRMk689nugdiUL2qJ
-         hO1yeFMTiHCTrzZzVIW3VdVFgfUbo+c40AtXeiZe1TVVtsuJi4WyIIWM1nQRrWCRa1/y
-         jztmddvDSa5QyRdpOVWZ2IOd21sRnGDdplRr+46iz+DeYuw/IbL4Yy1QnWLg50ovaPf1
-         1aGw==
-X-Forwarded-Encrypted: i=1; AKwUvBxcU87Pxp78b4dB1I98zivu5CiH3hK2iQnzicY8vW1VYQvxskGtLJrpVeMLxi2IWXQ9wjt5CnnTrDg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIKLMzPxepRNJN1QXjdKBTZWlaQpY/KRdYU1jJsbX/1A+Ybeu2w
-	7W77kbn/QI0mW5g7++krFuwh3ntf+EQyL/a+EbxPv0NzrK/cq/Jp9ih8BVKTLHq27VU=
-X-Gm-Gg: AYBFou0vX0OxnvLrH7/E6M/HwibensqdwO8xqN6RaA/u2bO5tj4lQ/3nxQxHUGTqdgJ
-	3OMmHHtq84mLeGUs57OuHaBcZzLoZTrofSa24CJTMDmgrTgGiZ0Aff00jt0k3oTM/tibmoaD7zP
-	hCN/SLs0vo16rPimyMTCc2lv9r/IlzZqzMDbyk9T3eR/sl66seMcUkmdI4Y4yxI9EzwE5A3Lilw
-	MHm9BUGELxfXJRMnGgbCFXE9AHJT5DIiUttxNwXJTPsu2xyZpiTfRwg7NOl4A7SHpda41/Hjrmq
-	N0YAyYRxpBWq2PfHZUNjS1PW8l6I9kZL4eDSY03SXrF6MNVi3H5mV7dpT4pb2Wwb0NT6guoVbu3
-	d2zL8m7OsWVwGDs6xJr0YV9ysHIZpLtH+4AzwOjR1zwoHfPmBS8sa2eaTuPH7KLBNa/e+4Gj2OC
-	jH/wcp89FLhWIAc0MYhWiIja6l9I+vZbRBKnnDJ6ZPQ7piWWZJ/d7mC4BVD0hHAscCmT6hsrraG
-	s/sXW+du4VeJE2JU+Hd
-X-Received: by 2002:a17:90b:580d:b0:39e:6c69:f47e with SMTP id 98e67ed59e1d1-3a098d4ec7amr8377687a91.61.1790477751333;
-        Sat, 26 Sep 2026 19:55:51 -0700 (PDT)
-Received: from n232-176-004.byted.org ([36.110.163.102])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b8efb156sm13461377a91.1.2026.09.26.19.55.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 19:55:50 -0700 (PDT)
-From: Muchun Song <songmuchun@bytedance.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-doc@vger.kernel.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <chleroy@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Muchun Song <songmuchun@bytedance.com>,
-	Lance Yang <lance.yang@linux.dev>
-Subject: [PATCH v5 12/12] Documentation/mm: update DAX vmemmap deduplication docs
-Date: Sun, 27 Sep 2026 10:54:41 +0800
-Message-ID: <20260927025441.741633-13-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.54.0
+	d=linux-foundation.org; s=korg; t=1790488266;
+	bh=UHrAQJDjpZkXol5VEY6/BSqUifaqAPBbX8o+2SqFxC4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=zJtyTOLx9AzZW4ceULP1f5wpwRT2S4P6gkxVsut8kjkqSTxNh5x6hLRAGKDAfxlbL
+	 DIR4BCawrmMPx/OsYsTVZ+OhvOXxWeI5Rji1wbVfkcaxxSh1vASsLh9BiwnfIegVs+
+	 MySOGQKlazDuj2QhwomrLRpDzb1lF597f+vI6jUw=
+Date: Sat, 26 Sep 2026 22:51:05 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Muchun Song <songmuchun@bytedance.com>
+Cc: David Hildenbrand <david@kernel.org>, Oscar Salvador
+ <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
+ Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org, Muchun Song
+ <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, Nicholas Piggin
+ <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Lance Yang <lance.yang@linux.dev>
+Subject: Re: [PATCH v5 00/12] mm: Switch device DAX to section-based vmemmap
+ optimization
+Message-Id: <20260926225105.a56f29d76b2f496c8dc2dac0@linux-foundation.org>
 In-Reply-To: <20260927025441.741633-1-songmuchun@bytedance.com>
 References: <20260927025441.741633-1-songmuchun@bytedance.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Device DAX now uses the common per-zone shared tail page for vmemmap
-deduplication. The old documentation still described a DAX-specific
-layout with a separately populated tail vmemmap page and half the HugeTLB
-savings.
+On Sun, 27 Sep 2026 10:54:29 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
 
-Update the generic and powerpc documentation to describe the shared layout.
-In the powerpc document, keep the radix and 64K-specific details, drop the
-duplicated 4K PUD arithmetic, and replace the repeated device-dax diagrams
-with a single parameterized PMD/PUD diagram.
+> After the HugeTLB conversion, optimized vmemmap state is described by
+> the memory section and the sparse-vmemmap population path can allocate or
+> reuse shared tail vmemmap pages based on that metadata. Device DAX still
+> uses the older DAX-specific population model, including a separate tail
+> vmemmap page reservation and architecture-specific logic to locate or
+> populate reusable tail pages.
+> 
+> This series makes device DAX use the same section-based model. Device DAX
+> records the compound page order from pgmap->vmemmap_shift in section
+> metadata before vmemmap population, uses the common per-zone shared tail
+> vmemmap page, and drops the extra reserved tail page. The powerpc radix
+> path is updated to use the same shared tail-page helper, so the generic
+> and powerpc DAX paths follow the same reservation model.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-Acked-by: Qi Zheng <qi.zheng@linux.dev>
----
-v3:
-- Collect Acked-by from Qi Zheng
+Thanks, I've updated mm-unstable to this version.
 
-v2:
-- Clarify the commit message to state that the 4K PUD arithmetic is
-  intentionally dropped reported by Sashiko.
----
- Documentation/arch/powerpc/vmemmap_dedup.rst | 90 ++++----------------
- Documentation/mm/vmemmap_dedup.rst           | 32 +------
- 2 files changed, 21 insertions(+), 101 deletions(-)
+Sashiko asked a thing:
+	https://sashiko.dev/#/patchset/20260927025441.741633-1-songmuchun@bytedance.com
 
-diff --git a/Documentation/arch/powerpc/vmemmap_dedup.rst b/Documentation/arch/powerpc/vmemmap_dedup.rst
-index dc4db59fdf87..8286acbca9bc 100644
---- a/Documentation/arch/powerpc/vmemmap_dedup.rst
-+++ b/Documentation/arch/powerpc/vmemmap_dedup.rst
-@@ -19,82 +19,28 @@ With 1G PUD level mapping, we require 16384 struct pages and a single 64K
- vmemmap page can contain 1024 struct pages (64K/sizeof(struct page)). Hence we
- require 16 64K pages in vmemmap to map the struct page for 1G PUD level mapping.
+> v5:
+> - Move the shared tail-page factoring before introducing
+>   CONFIG_VMEMMAP_OPTIMIZATION
+> - Add a new patch to allocate the per-zone shared tail-page array
+>   dynamically and fix the RISC-V build failure reported by the kernel
+>   test robot
+> - Select VMEMMAP_OPTIMIZATION from ZONE_DEVICE instead of DEV_DAX so
+>   MSHV_VTL cannot set vmemmap_shift while leaving the optimization
+>   disabled (reported by Sashiko)
+> - Move the vmemmap optimization macros and MAX_FOLIO_VMEMMAP_ALIGN from
+>   mmzone.h to vmemmap-optimization.h
+
+Here's how v5 altered mm.git:
+
+
+ arch/loongarch/include/asm/pgtable.h |    1 
+ arch/riscv/mm/init.c                 |    1 
+ include/linux/mm.h                   |    1 
+ include/linux/mmzone.h               |   27 +----------------
+ include/linux/vmemmap-optimization.h |   29 ++++++++++++++++--
+ mm/hugetlb_vmemmap.c                 |    1 
+ mm/sparse-vmemmap.c                  |   39 +++++++++++++++++++++----
+ 7 files changed, 64 insertions(+), 35 deletions(-)
+
+--- a/arch/loongarch/include/asm/pgtable.h~b
++++ a/arch/loongarch/include/asm/pgtable.h
+@@ -72,6 +72,7 @@
  
--Here's how things look like on device-dax after the sections are populated::
-- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-- |           |                     |     0     | -------------> |     0     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     1     | -------------> |     1     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
-- |           |                     +-----------+                   | | | | |
-- |           |                     |     3     | ------------------+ | | | |
-- |           |                     +-----------+                     | | | |
-- |           |                     |     4     | --------------------+ | | |
-- |    PUD    |                     +-----------+                       | | |
-- |   level   |                     |     .     | ----------------------+ | |
-- |  mapping  |                     +-----------+                         | |
-- |           |                     |     .     | ------------------------+ |
-- |           |                     +-----------+                           |
-- |           |                     |     15    | --------------------------+
-- |           |                     +-----------+
-- |           |
-- |           |
-- |           |
-- +-----------+
--
--
- With 4K page size, 2M PMD level mapping requires 512 struct pages and a single
- 4K vmemmap page contains 64 struct pages(4K/sizeof(struct page)). Hence we
- require 8 4K pages in vmemmap to map the struct page for 2M pmd level mapping.
+ #include <linux/mm_types.h>
+ #include <linux/mmzone.h>
++#include <linux/vmemmap-optimization.h>
+ #include <asm/fixmap.h>
+ #include <asm/sparsemem.h>
  
--Here's how things look like on device-dax after the sections are populated::
+--- a/arch/riscv/mm/init.c~b
++++ a/arch/riscv/mm/init.c
+@@ -22,6 +22,7 @@
+ #include <linux/hugetlb.h>
+ #include <linux/kfence.h>
+ #include <linux/execmem.h>
++#include <linux/vmemmap-optimization.h>
+ 
+ #include <asm/alternative.h>
+ #include <asm/fixmap.h>
+--- a/include/linux/mm.h~b
++++ a/include/linux/mm.h
+@@ -38,6 +38,7 @@
+ #include <linux/bitops.h>
+ #include <linux/iommu-debug-pagealloc.h>
+ #include <linux/kcsan-checks.h>
++#include <linux/vmemmap-optimization.h>
+ 
+ struct mempolicy;
+ struct anon_vma;
+--- a/include/linux/mmzone.h~b
++++ a/include/linux/mmzone.h
+@@ -96,29 +96,6 @@
+ 
+ #define MAX_FOLIO_NR_PAGES	(1UL << MAX_FOLIO_ORDER)
+ 
+-/*
+- * HugeTLB Vmemmap Optimization (HVO) requires struct pages of the head page to
+- * be naturally aligned with regard to the folio size.
+- *
+- * HVO which is only active if the size of struct page is a power of 2.
+- */
+-#define MAX_FOLIO_VMEMMAP_ALIGN					\
+-	(IS_ENABLED(CONFIG_VMEMMAP_OPTIMIZATION) &&		\
+-	 is_power_of_2(sizeof(struct page)) ?			\
+-	 MAX_FOLIO_NR_PAGES * sizeof(struct page) : 0)
 -
-- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-- |           |                     |     0     | -------------> |     0     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     1     | -------------> |     1     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
-- |           |                     +-----------+                   | | | | |
-- |           |                     |     3     | ------------------+ | | | |
-- |           |                     +-----------+                     | | | |
-- |           |                     |     4     | --------------------+ | | |
-- |    PMD    |                     +-----------+                       | | |
-- |   level   |                     |     5     | ----------------------+ | |
-- |  mapping  |                     +-----------+                         | |
-- |           |                     |     6     | ------------------------+ |
-- |           |                     +-----------+                           |
-- |           |                     |     7     | --------------------------+
-- |           |                     +-----------+
-- |           |
-- |           |
-- |           |
-- +-----------+
+-/* The number of retained vmemmap pages with HVO enabled. */
+-#define VMEMMAP_OPTIMIZATION_PAGES		1
+-#define VMEMMAP_OPTIMIZATION_NR_STRUCT_PAGES	\
+-	(VMEMMAP_OPTIMIZATION_PAGES * PAGE_SIZE / sizeof(struct page))
+-#define VMEMMAP_OPTIMIZATION_MIN_ORDER		(ilog2(VMEMMAP_OPTIMIZATION_NR_STRUCT_PAGES) + 1)
 -
--With 1G PUD level mapping, we require 262144 struct pages and a single 4K
--vmemmap page can contain 64 struct pages (4K/sizeof(struct page)). Hence we
--require 4096 4K pages in vmemmap to map the struct pages for 1G PUD level
--mapping.
+-#define __VMEMMAP_OPTIMIZATION_NR_ORDERS	\
+-	(MAX_FOLIO_ORDER - VMEMMAP_OPTIMIZATION_MIN_ORDER + 1)
+-#define VMEMMAP_OPTIMIZATION_NR_ORDERS		\
+-	((__VMEMMAP_OPTIMIZATION_NR_ORDERS > 0 &&	\
+-	  IS_ENABLED(CONFIG_VMEMMAP_OPTIMIZATION)) ? __VMEMMAP_OPTIMIZATION_NR_ORDERS : 0)
 -
--Here's how things look like on device-dax after the sections are populated::
--
-- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-- |           |                     |     0     | -------------> |     0     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     1     | -------------> |     1     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
-- |           |                     +-----------+                   | | | | |
-- |           |                     |     3     | ------------------+ | | | |
-- |           |                     +-----------+                     | | | |
-- |           |                     |     4     | --------------------+ | | |
-- |    PUD    |                     +-----------+                       | | |
-- |   level   |                     |     .     | ----------------------+ | |
-- |  mapping  |                     +-----------+                         | |
-- |           |                     |     .     | ------------------------+ |
-- |           |                     +-----------+                           |
-- |           |                     |   4095    | --------------------------+
-- |           |                     +-----------+
-+Here's how things look on device-dax after vmemmap-optimized sections are
-+populated. ``N`` is the number of vmemmap pages required by the DAX mapping
-+above::
+ enum migratetype {
+ 	MIGRATE_UNMOVABLE,
+ 	MIGRATE_MOVABLE,
+@@ -1156,8 +1133,8 @@ struct zone {
+ 	/* Zone statistics */
+ 	atomic_long_t		vm_stat[NR_VM_ZONE_STAT_ITEMS];
+ 	atomic_long_t		vm_numa_event[NR_VM_NUMA_EVENT_ITEMS];
+-#ifdef CONFIG_SPARSEMEM_VMEMMAP
+-	struct page *vmemmap_tails[VMEMMAP_OPTIMIZATION_NR_ORDERS];
++#ifdef CONFIG_VMEMMAP_OPTIMIZATION
++	struct page **vmemmap_tails;
+ #endif
+ } ____cacheline_internodealigned_in_smp;
+ 
+--- a/include/linux/vmemmap-optimization.h~b
++++ a/include/linux/vmemmap-optimization.h
+@@ -14,6 +14,23 @@
+ #include <linux/mmdebug.h>
+ #include <linux/mmzone.h>
+ 
++/*
++ * HugeTLB Vmemmap Optimization (HVO) requires struct pages of the head page to
++ * be naturally aligned with regard to the folio size.
++ *
++ * HVO which is only active if the size of struct page is a power of 2.
++ */
++#define MAX_FOLIO_VMEMMAP_ALIGN					\
++	(IS_ENABLED(CONFIG_VMEMMAP_OPTIMIZATION) &&		\
++	 is_power_of_2(sizeof(struct page)) ?			\
++	 MAX_FOLIO_NR_PAGES * sizeof(struct page) : 0)
 +
-+  Device DAX                  vmemmap pages (N pages)         backing page frames
-+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-------------+
-+ |           |                     |     0     | -------------> |      0      |
-+ |           |                     +-----------+                +-------------+
-+ |           |                     |     1     | ------+
-+ |           |                     +-----------+       |
-+ |           |                     |     2     | ------+
-+ |           |                     +-----------+       |
-+ |           |                     |     .     | ------+        +-------------+
-+ |  PMD/PUD  |                     +-----------+       |        | A single,   |
-+ |   level   |                     |     .     | ------+------> | per-zone    |
-+ |  mapping  |                     +-----------+       |        | shared tail |
-+ |           |                     |   N - 1   | ------+        | page        |
-+ |           |                     +-----------+                +-------------+
-  |           |
-  |           |
-  |           |
-diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
-index 9fa8642ded48..8c287ae3f86c 100644
---- a/Documentation/mm/vmemmap_dedup.rst
-+++ b/Documentation/mm/vmemmap_dedup.rst
-@@ -1,4 +1,3 @@
--
- .. SPDX-License-Identifier: GPL-2.0
++/* The number of retained vmemmap pages with HVO enabled. */
++#define VMEMMAP_OPTIMIZATION_PAGES		1
++#define VMEMMAP_OPTIMIZATION_NR_STRUCT_PAGES	\
++	(VMEMMAP_OPTIMIZATION_PAGES * PAGE_SIZE / sizeof(struct page))
++#define VMEMMAP_OPTIMIZATION_MIN_ORDER		(ilog2(VMEMMAP_OPTIMIZATION_NR_STRUCT_PAGES) + 1)
++
+ #ifdef CONFIG_VMEMMAP_OPTIMIZATION
+ static inline unsigned int section_compound_order(const struct mem_section *section)
+ {
+@@ -44,6 +61,8 @@ static inline unsigned int pfn_to_sectio
+ {
+ 	return section_compound_order(__pfn_to_section(pfn));
+ }
++
++struct page *vmemmap_shared_tail_page(unsigned int order, struct zone *zone);
+ #else
+ static inline unsigned int section_compound_order(const struct mem_section *section)
+ {
+@@ -64,6 +83,12 @@ static inline unsigned int pfn_to_sectio
+ {
+ 	return 0;
+ }
++
++static inline struct page *vmemmap_shared_tail_page(unsigned int order,
++						    struct zone *zone)
++{
++	return NULL;
++}
+ #endif /* CONFIG_VMEMMAP_OPTIMIZATION */
  
- =========================================
-@@ -192,32 +191,7 @@ to 4 on HugeTLB pages.
+ static inline bool vmemmap_optimizable_pfn(unsigned long pfn)
+@@ -87,8 +112,4 @@ static inline bool vmemmap_optimizable_o
  
- There's no remapping of vmemmap given that device-dax memory is not part of
- System RAM ranges initialized at boot. Thus the tail page deduplication
--happens at a later stage when we populate the sections. HugeTLB reuses the
--the head vmemmap page representing, whereas device-dax reuses the tail
--vmemmap page. This results in only half of the savings compared to HugeTLB.
+ 	return order >= VMEMMAP_OPTIMIZATION_MIN_ORDER;
+ }
 -
--Deduplicated tail pages are not mapped read-only.
-+happens at a later stage when we populate the sections.
+-#ifdef CONFIG_SPARSEMEM_VMEMMAP
+-struct page *vmemmap_shared_tail_page(unsigned int order, struct zone *zone);
+-#endif /* CONFIG_SPARSEMEM_VMEMMAP */
+ #endif /* _LINUX_VMEMMAP_OPTIMIZATION_H */
+--- a/mm/hugetlb_vmemmap.c~b
++++ a/mm/hugetlb_vmemmap.c
+@@ -19,7 +19,6 @@
  
--Here's how things look like on device-dax after the sections are populated::
--
-- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-- |           |                     |     0     | -------------> |     0     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     1     | -------------> |     1     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
-- |           |                     +-----------+                   | | | | |
-- |           |                     |     3     | ------------------+ | | | |
-- |           |                     +-----------+                     | | | |
-- |           |                     |     4     | --------------------+ | | |
-- |    PMD    |                     +-----------+                       | | |
-- |   level   |                     |     5     | ----------------------+ | |
-- |  mapping  |                     +-----------+                         | |
-- |           |                     |     6     | ------------------------+ |
-- |           |                     +-----------+                           |
-- |           |                     |     7     | --------------------------+
-- |           |                     +-----------+
-- |           |
-- |           |
-- |           |
-- +-----------+
-+Deduplicated tail pages are not mapped read-only. The mapping layout is the same
-+as HugeTLB.
--- 
-2.54.0
+ #include <asm/tlbflush.h>
+ #include "hugetlb_vmemmap.h"
+-#include "internal.h"
+ 
+ /**
+  * struct vmemmap_remap_walk - walk vmemmap page table
+--- a/mm/sparse-vmemmap.c~b
++++ a/mm/sparse-vmemmap.c
+@@ -167,16 +167,44 @@ static void * __meminit vmemmap_alloc_bl
+ 	return p;
+ }
+ 
++#ifdef CONFIG_VMEMMAP_OPTIMIZATION
++#define VMEMMAP_OPTIMIZATION_NR_ORDERS	(MAX_FOLIO_ORDER - VMEMMAP_OPTIMIZATION_MIN_ORDER + 1)
++
++static __ref struct page **vmemmap_tails_alloc(struct zone *zone)
++{
++	struct page **pages;
++	const size_t size = array_size(VMEMMAP_OPTIMIZATION_NR_ORDERS, sizeof(*pages));
++
++	pages = slab_is_available() ? kzalloc_objs(*pages, VMEMMAP_OPTIMIZATION_NR_ORDERS) :
++		memblock_alloc(size, __alignof__(*pages));
++	if (!pages)
++		return NULL;
++
++	if (cmpxchg(&zone->vmemmap_tails, NULL, pages) != NULL) {
++		if (slab_is_available())
++			kfree(pages);
++		else
++			memblock_free(pages, size);
++		pages = READ_ONCE(zone->vmemmap_tails);
++	}
++
++	return pages;
++}
++
+ struct page __ref *vmemmap_shared_tail_page(unsigned int order, struct zone *zone)
+ {
+ 	void *addr;
+-	struct page *page;
++	struct page *page, **pages;
+ 	const unsigned int idx = order - VMEMMAP_OPTIMIZATION_MIN_ORDER;
+ 
+-	if (WARN_ON_ONCE(idx >= ARRAY_SIZE(zone->vmemmap_tails)))
++	if (WARN_ON_ONCE(idx >= VMEMMAP_OPTIMIZATION_NR_ORDERS))
++		return NULL;
++
++	pages = READ_ONCE(zone->vmemmap_tails) ? : vmemmap_tails_alloc(zone);
++	if (!pages)
+ 		return NULL;
+ 
+-	page = READ_ONCE(zone->vmemmap_tails[idx]);
++	page = READ_ONCE(pages[idx]);
+ 	if (likely(page))
+ 		return page;
+ 
+@@ -196,16 +224,17 @@ struct page __ref *vmemmap_shared_tail_p
+ 	}
+ 
+ 	page = virt_to_page(addr);
+-	if (cmpxchg(&zone->vmemmap_tails[idx], NULL, page) != NULL) {
++	if (cmpxchg(&pages[idx], NULL, page) != NULL) {
+ 		if (slab_is_available())
+ 			__free_page(page);
+ 		else
+ 			memblock_free(addr, PAGE_SIZE);
+-		page = READ_ONCE(zone->vmemmap_tails[idx]);
++		page = READ_ONCE(pages[idx]);
+ 	}
+ 
+ 	return page;
+ }
++#endif
+ 
+ static __meminit void *vmemmap_alloc_pte(unsigned long pfn, int node,
+ 		struct vmem_altmap *altmap, unsigned long flags)
+_
 
