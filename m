@@ -1,143 +1,180 @@
-Received: from shelob.surriel.com (shelob.surriel.com [96.67.55.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B623C942C;
-	Sun, 27 Sep 2026 12:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.67.55.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6D93B7B7B;
+	Sun, 27 Sep 2026 13:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790512245; cv=none; b=tbzgPtaOER1OgV/QAjj5NS643nqxdDsNKpzGFU3+miQVWTyGgokdHGzuleBmxkL4b5koDF42YKYX8nKRnTcFay2z/2JZ+rV0GixOkA2svwA+PfeiAURpEuEcAnuqC3TKKbBwnOlcZdOyecspfFxZjQdneVRKngKT8p5PlIYBjTk=
+	t=1790514339; cv=none; b=fM9XuhZLDDlO3ZSvIAe2ln2r1CAsqEW6bjLWdJBgSVjRHmmIVORl3/8Dh/e0BG5MrDkX2vUWxve58PxmH23ZcqL3vaTCXgKoH9TyT0zH4XvBIPr53/4sW9rYk//tbWD+JDexsTMsLfOWM2CMeUww1PMIhu6UEYEhXFD/sacepj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790512245; c=relaxed/simple;
-	bh=pka8Z6mvCOBJwU98rqsj3rYDII0HYG+bU+VXYYz6wio=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Q8hhQ5ro7tK2CD9Ci7l630pgeVKKIjPASYzt5ZkQp42A7kbkuj0lUb12Zp6Zt/BZyLqZhlL7cKqPBCMSE7dtpHaFWY1Ic9rZNHu1/WQwKZ11CTNxY69KgCt15cnWCWfffqR5IFn74XPdVZFXfnDhYC4excbqIVVlpeThc/6SVEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com; spf=pass smtp.mailfrom=surriel.com; dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b=Qs32YnbA; arc=none smtp.client-ip=96.67.55.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=surriel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=surriel.com
+	s=arc-20240116; t=1790514339; c=relaxed/simple;
+	bh=1SYAtlMRR5wl79nTZRwJY8oqRGgvDFEedUUwNB4Qva8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jRqJo4CMvp0srKJGH5GdSnESzabJNqbi+vf/K1j5U8OBtq57QsY2xOBQKwn3SH8lB4r4Vesr21vI1lAFUHqjDNzAdEWimBKdWjWegT34DUJG5t0JU7gz00mVkpwP96gw13AUykDBCjHPGmc3wku3dC6TuWHia4920K2BRN1Z+94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W9DpxoZx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=surriel.com header.i=@surriel.com header.b="Qs32YnbA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=surriel.com
-	; s=mail; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID; bh=pka8Z6mvCOBJwU98rqsj3rYDII0HYG+bU+VXYYz6wio=; b=Qs32Yn
-	bA5WLO1Ej9z+B+PWd5S/mJoCk3txk9/xz2ibWRRLFoGweAEAVdN7JT4WU80e5qhYbqo9abA6LPCzh
-	t+VhanqKcKh19I/5M/lg7JCQN5+ohVrjJ2v7Tsu/ALCBsBcrvP79Ce8t3k7wMTtgJ9R/aXdptQPOw
-	TpQpV9cda36yKhusJrvAjreh1UsaiehX2qouYjmkjh5T+INh8XCY1EsHNR1O8Z/2INa1T22HQ26fL
-	DUvGzdnxAkSLgTwxsihksJBE2+9vfLEh2kfY7jJymNHMcsxOOxgajW5cRrGCobNBYk1A9U5OkOp9+
-	zEuQNmWammTBJeXPYHU3LF7/JQcg==;
-Received: from [2601:18c:8100:a0e0:5a47:caff:fe78:8708]
-	by shelob.surriel.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.5)
-	(envelope-from <riel@surriel.com>)
-	id 1xAo0Q-00000008CBI-2vSZ;
-	Sun, 27 Sep 2026 12:29:22 +0000
-Message-ID: <b792823cce613ce756227a3b60cc245b0316a800.camel@surriel.com>
-Subject: Re: Path forward for Virtualized Swap?
-From: Rik van Riel <riel@surriel.com>
-To: Chris Li <chrisl@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, 
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, Shakeel
- Butt <shakeel.butt@linux.dev>,  Kairui Song <kasong@tencent.com>, Michal
- Hocko <mhocko@kernel.org>, Roman Gushchin	 <roman.gushchin@linux.dev>,
- Yosry Ahmed <yosry@kernel.org>, David Hildenbrand	 <david@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Kemeng Shi	
- <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, YoungJun Park	
- <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>,
- "Lorenzo Stoakes (Oracle)"	 <ljs@kernel.org>, "Liam R. Howlett"
- <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike
- Rapoport <rppt@kernel.org>, Suren =?UTF-8?Q?Baghdasaryan=EF=BF=BC?=	
- <surenb@google.com>, Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen	
- <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu	
- <weixugc@google.com>, Gregory Price <gourry@gourry.net>, Wenchao Hao	
- <haowenchao22@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Hugh Dickins	
- <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo	
- <tj@kernel.org>, Michal =?ISO-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>, Shuah
- Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, Meta
- kernel team	 <kernel-team@meta.com>, Linux Memory Management List
- <linux-mm@kvack.org>,  Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, "open
- list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)"
- <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Joshua Hahn	 <joshua.hahnjy@gmail.com>
-Date: Sun, 27 Sep 2026 08:29:21 -0400
-In-Reply-To: <CACePvbWdJSUDuEbR2FXczbeWwvxP86WDGHTL-eO0A8WwMDoNRQ@mail.gmail.com>
-References: <aqjcFb6MFNiA6n4V@fedora> <aqjpYHbZ14A8xRtK@fedora>
-	 <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
-	 <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
-	 <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
-	 <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
-	 <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
-	 <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
-	 <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
-	 <arUcil9kxUPiymXI@KASONG-MC4> <araWKyJ5MENBwXCL@cmpxchg.org>
-	 <CACePvbV0Z3OhxkEn-MiMrxpSmtbt1YwCt2N2_ZW3jbdh87jgFA@mail.gmail.com>
-	 <9499bc084e30df4d10bc069ed26d576e4dd3de80.camel@surriel.com>
-	 <CACePvbWdJSUDuEbR2FXczbeWwvxP86WDGHTL-eO0A8WwMDoNRQ@mail.gmail.com>
-Autocrypt: addr=riel@surriel.com; prefer-encrypt=mutual;
- keydata=mQENBFIt3aUBCADCK0LicyCYyMa0E1lodCDUBf6G+6C5UXKG1jEYwQu49cc/gUBTTk33A
- eo2hjn4JinVaPF3zfZprnKMEGGv4dHvEOCPWiNhlz5RtqH3SKJllq2dpeMS9RqbMvDA36rlJIIo47
- Z/nl6IA8MDhSqyqdnTY8z7LnQHqq16jAqwo7Ll9qALXz4yG1ZdSCmo80VPetBZZPw7WMjo+1hByv/
- lvdFnLfiQ52tayuuC1r9x2qZ/SYWd2M4p/f5CLmvG9UcnkbYFsKWz8bwOBWKg1PQcaYHLx06sHGdY
- dIDaeVvkIfMFwAprSo5EFU+aes2VB2ZjugOTbkkW2aPSWTRsBhPHhV6dABEBAAG0HlJpayB2YW4gU
- mllbCA8cmllbEByZWRoYXQuY29tPokBHwQwAQIACQUCW5LcVgIdIAAKCRDOed6ShMTeg05SB/986o
- gEgdq4byrtaBQKFg5LWfd8e+h+QzLOg/T8mSS3dJzFXe5JBOfvYg7Bj47xXi9I5sM+I9Lu9+1XVb/
- r2rGJrU1DwA09TnmyFtK76bgMF0sBEh1ECILYNQTEIemzNFwOWLZZlEhZFRJsZyX+mtEp/WQIygHV
- WjwuP69VJw+fPQvLOGn4j8W9QXuvhha7u1QJ7mYx4dLGHrZlHdwDsqpvWsW+3rsIqs1BBe5/Itz9o
- 6y9gLNtQzwmSDioV8KhF85VmYInslhv5tUtMEppfdTLyX4SUKh8ftNIVmH9mXyRCZclSoa6IMd635
- Jq1Pj2/Lp64tOzSvN5Y9zaiCc5FucXtB9SaWsgdmFuIFJpZWwgPHJpZWxAc3VycmllbC5jb20+iQE
- +BBMBAgAoBQJSLd2lAhsjBQkSzAMABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRDOed6ShMTe
- g4PpB/0ZivKYFt0LaB22ssWUrBoeNWCP1NY/lkq2QbPhR3agLB7ZXI97PF2z/5QD9Fuy/FD/jddPx
- KRTvFCtHcEzTOcFjBmf52uqgt3U40H9GM++0IM0yHusd9EzlaWsbp09vsAV2DwdqS69x9RPbvE/Ne
- fO5subhocH76okcF/aQiQ+oj2j6LJZGBJBVigOHg+4zyzdDgKM+jp0bvDI51KQ4XfxV593OhvkS3z
- 3FPx0CE7l62WhWrieHyBblqvkTYgJ6dq4bsYpqxxGJOkQ47WpEUx6onH+rImWmPJbSYGhwBzTo0Mm
- G1Nb1qGPG+mTrSmJjDRxrwf1zjmYqQreWVSFEt26tBpSaWsgdmFuIFJpZWwgPHJpZWxAZmIuY29tP
- okBPgQTAQIAKAUCW5LbiAIbIwUJEswDAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQznneko
- TE3oOUEQgAsrGxjTC1bGtZyuvyQPcXclap11Ogib6rQywGYu6/Mnkbd6hbyY3wpdyQii/cas2S44N
- cQj8HkGv91JLVE24/Wt0gITPCH3rLVJJDGQxprHTVDs1t1RAbsbp0XTksZPCNWDGYIBo2aHDwErhI
- omYQ0Xluo1WBtH/UmHgirHvclsou1Ks9jyTxiPyUKRfae7GNOFiX99+ZlB27P3t8CjtSO831Ij0Ip
- QrfooZ21YVlUKw0Wy6Ll8EyefyrEYSh8KTm8dQj4O7xxvdg865TLeLpho5PwDRF+/mR3qi8CdGbkE
- c4pYZQO8UDXUN4S+pe0aTeTqlYw8rRHWF9TnvtpcNzZw==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W9DpxoZx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 403C81F000FF;
+	Sun, 27 Sep 2026 13:05:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790514337;
+	bh=oa25LE79ry5QOlFm4MMWdpvS+Odfoq8gGYf5zdJ0oxg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=W9DpxoZxG6fy+HMrPslnKMmNxQHYsrLXlE7idgjRblWdGxdIDr1Zs9hzZQoZP6F6D
+	 WqvXcVHNqgmfa/avRAbsuCnOzeg/bTgW6qj1NepP1S0ciypdykD38DmYM1ukofpw/v
+	 HfGO2ZVZ4DYF7WgSmp+mLUqu0mNpKeRUy4VmTEnR549uK7cS+F/u/wFtfn/fhIqciI
+	 u48bj2kH20JLxYmnc9KIWy53IVmr7FpmK3aP2yFUwj7fIc66HU8ENnLNIkBY3dotIk
+	 bD1DXjoD5dtdBPZNkcOj8c0UFajZmyjuoexicoNz4BzR9A32Yi4+qt0sWhDtn9SIZ9
+	 x+Vn2AskUvQBw==
+From: SJ Park <sj@kernel.org>
+To: SJ Park <sj@kernel.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v4 0/7] mm/damon: introduce damos quota goal target metric complement flag (was: "Re: [RFC PATCH v4 0/7] snapshot_set_swap_area() unpins the previously selected swap device and")
+Date: Sun, 27 Sep 2026 06:05:29 -0700
+Message-ID: <20260927130530.60524-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260927120533.50484-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2026-09-26 at 20:23 -1000, Chris Li wrote:
-> On Sat, Sep 26, 2026 at 2:59=E2=80=AFPM Rik van Riel <riel@surriel.com>
-> wrote:
->=20
->=20
-> > The fair resource use from memory.swap.max
-> > is to control how much of the fixed swap file
-> > (or swap partition) space each cgroup gets.
->=20
-> That is the part I am not sure I understand correctly. Fair in what
-> sense? Using the swap file proportional to the memory limit of the
-> cgroup? Do you have an example of perfectly fair swap file usage for
-> a
-> cgroup with an 8G memory limit versus one with a 1G limit?
->=20
-> Sorry I am a bit slow grasping what exactly the fair behavior is.
+On Sun, 27 Sep 2026 05:05:24 -0700 SJ Park <sj@kernel.org> wrote:
 
-Say we have a 64GB swap file, and several
-cgroups on the system, applications A & B,
-and system.slice.
+> Add repin_hibernation_swap_type(), which looks up the new device, clears
+> the old SWP_HIBERNATION flag and sets the new one under a single swap_lock
+> acquisition.  The same-device case is short- circuited so userspace can
+> re-select the same swap area without tripping WARN_ON_ONCE and -EBUSY. 
+> Switch snapshot_set_swap_area() to the new helper.
+[...]
 
-We might give system.slice a 10GB memory.swap.max,=C2=A0
-and each application a 25GB memory.swap.max.
+Oops, this cover letter is completely wrong...  Please ignore.  My tool was
+using the commit message of unrelated commit due to my mistake.  I'm so sorry
+for the noise.
 
-This way a memory leak in application B
-does not result in application A being
-unable to run.
+Attaching the correct cover letter below.
 
-The thing that leaks (if anything) ends up=C2=A0
-getting killed, not the innocent bystander.=20
 
---=20
-All Rights Reversed.
+Thanks,
+SJ
+
+=== >8 ===
+mm/damon: introduce damos quota goal target metric complement flag
+
+Aim-oriented DAMOS quota auto-tuning assumes the aggressiveness of the
+scheme (quota) and the quota goal metric are directly proportional.
+Depending on the scheme setup and usage, keeping the relationship can be
+challenging.
+
+For example, let's suppose a memory tiering approach for higher upper
+tier utilization.  One common idea for that (TPP) is utilizing two
+schemes, one for promotion and the other one for demotion.  The
+promotion scheme migrates hot pages from lower tier to upper tier,
+aiming for high utilization of the upper tier.  The demotion scheme
+migrates cold pages from upper tier to lower tier, aiming for head room
+free memory of the upper tier.  Both schemes and their goals are in
+direct proportion.  However, for this kind of use case, we need to
+implement two different goal metrics (per-node memory utilization and
+free memory ratio) while essentially the free memory ratio is just a
+complemented value of the utilization.
+
+To avoid adding too many new metrics, we are adding metrics that turn
+out to be really needed for each found use case.  For example,
+some_mem_psi_us, node_eligible_mem_bp and hugepage_mem_bp don't have
+their complemented value version.  But it is not really difficult to
+expect use cases that their complemented version can be useful.  For
+example, hugepage_mem_bp use case may need a way to reduce the hugepage
+ratio.  That would require a complemented version of hugepage_mem_bp.
+Adding a new metric for each of such use cases could make the number of
+metrics unnecessarily high, and discourage flexible usages of DAMOS.
+
+Add a new flag, quota goal complement, to allow flexible tuning goal
+setup without unnecessarily increasing the number of metrics.  The flag
+specifies whether to use the complemented value of the given goal metric
+for the tuning.  For example, if the complement flag is set, the upper
+tier memory utilization ratio metric works the same as the free memory
+ratio metric for the tier.
+
+Note: Below is additional information that is not intended to be added
+to the final commit message.
+
+Test
+====
+
+I tested this feature using the latest version of DAMON user-space tool,
+damo [1], as below.
+
+On an idle system having 10 GiB single node memory (node id 0), fill up
+80% of memory with page cache.
+
+    $ dd if=/dev/zero of=foo bs=1M count=$((1024*8))
+
+Run DAMOS with pageout action for 80% of free memory, but using
+node_mem_used_bp metric like below.
+
+    $ sudo ./damo start --damos_action pageout \
+            --damos_quota_space 100M --damos_quota_interval 1s \
+            --damos_quota_fail_charge_ratio 1 4096 \
+            --damos_quota_goal_tuner temporal \
+            --damos_quota_goal node_mem_used_bp 20% 0
+
+Because the system has more than 20% node 0 memory utilization, DAMOS
+does nothing, as expected.
+
+Run DAMOS with pageout action for 80% of free memory, using
+node_mem_used_bp metrics with complement flag like below.
+
+    $ sudo ./damo start --damos_action pageout \
+            --damos_quota_space 100M --damos_quota_interval 1s \
+            --damos_quota_fail_charge_ratio 1 4096 \
+            --damos_quota_goal_tuner temporal \
+            --damos_quota_goal node_mem_used_bp 80% complement 0
+
+Because the complement flag is given, it is effectively the same as
+node_mem_freepbp metrics with a target of 80%.  DAMOS reclaims the page
+cache ~100 MiB per second, until the free memory ratio (complemented
+memory utilization ratio) reaches the goal, 80%.
+
+Changes from RFC v4
+- RFC v4: https://lore.kernel.org/20260927120533.50484-1-sj@kernel.org
+- Fix a typo in test code (s/complementfalse/complement/)
+Changes from RFC v3
+- RFC v3: https://lore.kernel.org/20260923101454.5748-1-sj@kernel.org
+- Rebase to the latest mm-new.
+- Add tests done to the cover letter.
+Changes from RFC v2
+- RFC v2: https://lore.kernel.org/20260919011359.88921-1-sj@kernel.org
+- Avoid quota goal value underflow for some_mem_psi.
+- Handle complement flag for psi goal with unset last_psi_total.
+- Pass complement argument to damos_new_quota_goal() from core and
+  core-kunit.
+- Explicitly document no-op complement behavior for user_input.
+Changes from RFC
+- RFC: https://lore.kernel.org/20260918142827.85303-1-sj@kernel.org
+- Avoid quota goal value underflow.
+- Fix usage doc for number of files in each goal directory.
+- Rebase to the latest mm-new.
+
+[1] https://github.com/damonitor/damo
