@@ -1,241 +1,269 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA6821B192;
-	Sun, 27 Sep 2026 01:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18D93B4E9A
+	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 02:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790474359; cv=none; b=ZTClAK0cgEOYSahDMGjyLYIwt2I3piRCQPxHffeprSS91V94uK9ovga9SL2Z2HQCEBL+/ko54TIliqyGHzwxKVdoQl7li8jFc5DIRFFF4i+jyEbbRZP6SlFg4qSaITtO8ulxZ2eE6bAEBBwibCjDQORl+a0LfeF/P+FK1ofxV7A=
+	t=1790476946; cv=none; b=iknUzEk4EsGyOqDzEcYCJlQ0NSTUEafUQnN0PkJaVyTWPWBPJkwaE4fVbNBarYoEyoSj6OY2MjQ8uQbeNJTA8fAAmmyQrKPE+5OTyz8shmM4D8KGRUoIpHczxWWIugUGF8WssD/puNzXkqIQA5HqlM0TLafJ7tP8CzKq1V987Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790474359; c=relaxed/simple;
-	bh=Cj1yxOQ7NmiOhB54Fj2kvY8sqe96D//wtEYKIYBNRx8=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=osiKOwAD/npOO9fV3J5p3m9EhsrCx6ncgmrcuGVPI2PDsDrubw+aYklIII8Yuv8P+Bfx+JazlXUg+WtVjqJDoXbzTcxMJQQUCcOw2X3Qz6VLiyz3GwJyAvvd7KTMU9j3yz4knSC9+SSzzJs3SM4iMuOSo15cP196sxLrTqPe8zA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mfeeVtO7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790476946; c=relaxed/simple;
+	bh=CwNv3PDCpSo/2PKr8cuJGpWe7BPaOvLrDZKrCkc++FU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Cj7tJfnHhfCif6aF5kNse3WZ5Sl6fApv4ow1k07xADDLb42Dz0SgIj/q1EJiRIzIdlukPWaqGFSB5ixLruMQ/3amUwiVNVBK5A6Xc2qN9qeLF0to/KHHIXbMhNqObbfdceTpdSrSfh0vdqFTsVx0lHYGOwhlBv8ydbsZo9EX3ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=d03k4FgU; arc=none smtp.client-ip=37.27.248.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mfeeVtO7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 755731F000FF;
-	Sun, 27 Sep 2026 01:59:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790474357;
-	bh=3mmxZtkXz6CMoG9+1fr08yaqLx0uIg8QGWPSaxHFEmQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=mfeeVtO745hvKy5JDKZe0mq5Xp+dIMbWv6FY2A0tsEQd31GtzIjTpocTbRTlg2fHN
-	 uEu0FUH78rCbqLm5qsmHL5CtJgpECrjNHHrVzrRkhrIjHRdFNcUzaFQlAPcmuxJSVd
-	 SQGHNt5qK2LuU06CvmLaHbaVeeLZwb5DOV1furGgtmT5mJHlJMIe9zXwm1HhdSNJDq
-	 PsRyXGw34SMszmma88JhTfs5SDYSFpK0SthmaqCtuxHBTI/uFtmEftGvMUWJGZNGum
-	 U5WQ+83ZswSKqmhJRoPSC4OGwXi16+kNULIi0ppuzr5YJPlvHY2NYUlmLJ09cxvCyH
-	 cCvcBryhCpAnQ==
-Subject: Re: [PATCH net-next v4 2/2] selftests: net: test untracked NA
- recovery of FAILED neighbors
-From: netdev-bot+sashiko@kernel.org
-To: lfqlee314@gmail.com
-Cc: dsahern@kernel.org, idosch@nvidia.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- rdunlap@infradead.org, netdev@vger.kernel.org, aajith@arista.com,
- roopa@nvidia.com, jhpark1013@gmail.com, corbet@lwn.net,
- skhan@linuxfoundation.org, shuah@kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Sun, 27 Sep 2026 01:59:16 +0000
-Message-ID: <179047435603.2160803.13373341999390974606@kernel.org>
-In-Reply-To:
- <ce40008682ed26ab039168a5fcb515eff8d30c3a.1790127207.git.lfqlee314@gmail.com>
-References:
- <ce40008682ed26ab039168a5fcb515eff8d30c3a.1790127207.git.lfqlee314@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="d03k4FgU"
+Received: from relay10 (localhost.localdomain [127.0.0.1])
+	by relay10.grserver.gr (Proxmox) with ESMTP id 7095D40FE8
+	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 05:42:21 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay10.grserver.gr (Proxmox) with ESMTPS id 5861A4031D
+	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 05:42:20 +0300 (EEST)
+Received: from mail-pz2-f27.google.com (mail-pz2-f27.google.com [74.125.228.27])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 7A4481FFBA1
+	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 05:42:19 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1790476939;
+	bh=CwNv3PDCpSo/2PKr8cuJGpWe7BPaOvLrDZKrCkc++FU=;
+	h=Received:From:Subject:To;
+	b=d03k4FgUrAGOvKxH3k+pPUDw96wPXk0c11jjxVexQC0b7CJ619BlbPSuba2qUHcxR
+	 ++4G4q92Lx0VX0Wb8KvGDEQbXnp27RLWpqhEFKaDVcvHFqb2N0SNoMooKqrGeo8s7S
+	 E91exeVdqz5DRx+I0Y5sxW1Dh19XWt+HUz9u7D0FLF0oHDjonCouotB8Vf8EL3v9nC
+	 ublIpoQppSlM/6klEyAii/KSe8Xggi7F0aWehOU33QPdjM0ASyOUSBIEVaoOuC2W8t
+	 hCBFMpsuwnifBTJO0C8+KyoUzw0jFyqkLeUM5V89yqKdyOyWrp0qEHmKCTMuh2W5qd
+	 THo8qfquvUdWA==
+Authentication-Results: linux3247.grserver.gr;
+        spf=pass (sender IP is 74.125.228.27) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pz2-f27.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-pz2-f27.google.com with SMTP id
+ d2e1a72fcca58-880fcd3790bso505148b3a.1
+        for <linux-doc@vger.kernel.org>; Sat, 26 Sep 2026 19:42:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AKwUvBw0cTusTeMHn4ZNs2jxA0Fo3SCqOFSH/ZnVodREwtMPKm33TfLmyRKli1+et7p7vL0o8WBsMd2uMVY=@vger.kernel.org
+X-Gm-Message-State: AFuF++nHQM1SI3KDPQjYByNcvuixTPpT1n6rjrGquRvBcT35ocF7dZNo
+	NLc4JS0okXs9C+HrRXCoO8hMrnLXV/rcushdgivultj1qG2gusdxQaHDRVWoeJgrcQnTu5vBrEa
+	5TcKSV0w7A72pMrcvAWbkTtoYgtBwnTk=
+X-Received: by 2002:a05:6a00:1954:b0:880:fe7b:bc55 with SMTP id
+ d2e1a72fcca58-880fe7c018emr2997244b3a.56.1790476937863; Sat, 26 Sep 2026
+ 19:42:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260924134945.3095661-1-sashal@kernel.org>
+ <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
+ <arfpV7IXRAHREMzO@laps>
+ <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
+ <arhtsrVb82vr6U-p@laps>
+In-Reply-To: <arhtsrVb82vr6U-p@laps>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Sun, 27 Sep 2026 04:42:06 +0200
+X-Gmail-Original-Message-ID: 
+ <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
+X-Gm-Features: AclHuK_psYyUaNN45oZJW2syw4hvksOfPWRWLYazFH1JdDm07FTCr7i1M_cdNyw
+Message-ID: 
+ <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
+Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <179047693967.1894526.11643762001231768198@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+On Sun, 27 Sept 2026 at 03:13, Sasha Levin <sashal@kernel.org> wrote:
+>
+> On Sat, Sep 26, 2026 at 07:54:27PM +0200, Antheas Kapenekakis wrote:
+> >> It didn't in my tests either. With AGENTS.md pointing at README, one agent read
+> >> only coding-assistants.rst, and the other read that plus generated-content.rst,
+> >> which coding-assistants.rst references. Neither opened any of README's other
+> >> pointers.
+> >
+> >They usually read it when they need to. I find it is 60% of the time.
+> >Of course, this does not compensate for behavior that should always
+> >apply. Sol 6 also has the annoying habit of modifying readmes
+> >randomly.
+>
+> Agreed, and the rules in coding-assistants.rst are the part that should
+> always apply.
+>
+> >> >agents.md file before every message. Unsure if it still does, I do not
+> >> >use Claude. agent.md files should be specifically designed for agents
+> >> >and handwritten. Moreover, they usually need to be tuned for the model
+> >> >generation in general, if not the provider and model specifically.
+> >> >Which brings us to 2.
+> >>
+> >> The rules README points to (DCO, Assisted-by, patch format) are the same for
+> >> every model. Personal and model-specific tuning belongs in a personal file.
+> >> Your sample shows why the shared part should come from the tree: it asks the
+> >> agent to add your Signed-off-by, which coding-assistants.rst says an agent must
+> >> never do.
+> >
+> >You are correct. Agents are tools. All of their outputs are the
+> >responsibility of their users. They cannot apply DCO.
+> >
+> >For me, I make sure to review copyright and test my kernel patches
+> >before sending them or pushing them to a remote. So my agent should
+> >add my sb and the assisted tag otherwise the patches need unnecessary
+> >cleanup. This is my personal preference. The mainline branch should
+> >not poison my agent's context or provide conflicting instructions.
+>
+> Your issue is with coding-assistants.rst, which says agents must not add
+> Signed-off-by. AGENTS.md only makes agents see it.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1 (1)
+I do not have a problem with coding-assistants.rst staying as it is
+now. But it does not make for a good agents.md file. And neither does
+the readme.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+If the user asks an agent how should I use LLM assistance when
+contributing to the kernel, then the agent will find this file
+correctly and explain the basics to the user. So it works as it is
+supposed to already.
 
-- [Medium] The Fixes:-tagged bug fix is bundled with new tests that
-  depend on a new feature.
-- [Low] The commit message says the test verifies that "disabling each
-  gate keeps the entry in FAILED without a link-layer address".
+> [ ... ]
+>
+> >But as far as I know personal snippets are meant to be additive. I do
+> >not think there is a widespread override for agents.md for the default
+> >one. Codex seems to have one but there is only one google result on
+> >it.
+>
+> Codex reads AGENTS.override.md in place of AGENTS.md. Claude Code doesn't load
+> AGENTS.md at all when a CLAUDE.md exists, and Gemini reads GEMINI.md unless
+> configured otherwise.
+>
+> The agents are designed exactly for this model: the upstream project has it's
+> own AGENT.md which is relevant for the upstream side of things. Downstream is
+> able to modify it as needed, either by carrying an out of tree patch, an
+> override file, or whatever else works for downstream.
+>
+> >A large generic readme that offshoots to 30 other readmes is not an
+> >appropriate agents.md file.
+> >Documentation/process/coding-assistants.rst would be a better start
+> >for a symlink but even that is not particularly lean and would likely
+> >degrade modern agents. It still contains offshoots to 4 different
+>
+> Changes to coding-assistants.rst itself are fair game as separate patches. This
+> one only gets agents to load what we already ask them to follow. There's no
+> substance here - we're just making dumb machines behave better.
+>
+> >readmes, and the "Procedure for finding and fixing bugs" would degrade
+> >most modern models. They are already RL'd to do what they are asked,
+> >and conflicting instructions could lead them to e.g., commit when not
+> >asked to. For example consider:
+>
+> [ snip ]
+>
+> I get that you have concerns with those docs, so feel free to propose patches
+> for these.
+>
+> I do not thing we need a seperate machine-only readable set of docs. If these
+> "agents" can't do better parsing those docs, then we shouldn't bend over and
+> write them their own versions. I'm okay with doing better at pointing to those
+> docs ("RTFM!"), but I don't think that a fork of the docs is sensible.
+>
+> If you disagree, feel free to propose changes to coding-assistants.rst, as this
+> is really a doc that gets read mostly by machines.
 
-Pre-existing issues:
-- [Low] Some script exit paths skip cleanup().
+I do not disagree or proposed something different. Agents can read
+docs just fine (rst, html, they can even read assembly code assembled
+just fine), and the existing kernel docs are fine for that. But they
+should only read them when they want to or when they are asked to. I
+did not propose rewriting the docs for agents.
 
---
+I think there might be a misunderstanding with what an agents.md file
+is meant to do. It is meant to be a small file that lists a few
+notable things agents should know about a project. For example, see
+[1][2] I made recently while working on two projects. Most projects
+are limited in scope, and most teams use the same LLM agents more or
+less, so it is easy to make a universal agents.md file that is then
+extended lightly (but mostly not) by individual members.
 
-selftests: net: test untracked NA recovery of FAILED neighbors
+For the kernel, this is harder to do because how people use the kernel
+varies a lot. Therefore, people should make their own agents.md file.
+Just like we make our own deployment scripts, our own debugging
+scripts, our own patch preparation tools, and set up our own email
+client with custom routing rules (which takes multiple weeks to get
+right, far more than typing out a 50 line md file). Why should the
+kernel make an exception here and say no, this is the agents.md file
+you get and if you don't like it, go figure out how to override it
+with your harness? If the kernel should provide documentation relating
+to how to make an agents.md file with example snippets, this is ok,
+and mirrors how other components such as checkpatch.pl are provided.
 
-This adds cases to ndisc_unsolicited_na_test.sh that seed a NUD_FAILED
-neighbor. Each case checks whether an unsolicited NA moves the entry to
-STALE, based on drop_unsolicited_na, accept_untracked_na and forwarding.
+An agents.md file is essentially the list of 5-10 things you do not
+want to have to re-explain to the agent every time. That's it.
 
-It also runs tcpdump in the background and waits for it to exit. It keeps
-the return code in test_unsolicited_na_combination() so existing cases stop
-reporting false success.
+Yes last year, RAG, context optimization, memory techniques etc etc
+were all the rage, but after the labs started RLing the agents
+aggressively and doing scaled rollouts in VMs all of that has gone
+away. Agents are now designed to discover a codebase in 10-30 seconds
+fresh in every chat, without advanced memory management, do what was
+asked, test it, lint it, and deliver a result.
 
-Link: https://lore.kernel.org/r/20260813233344.445265-1-lfqlee314@gmail.com
+And modern agents will also write kernel code and compile it and use
+checkpatch and deploy it and write synthetic throwaway tests and
+enable debug fs and sync a partial module so they do not have to
+reboot a device and read /dev/mem directly while creating a kernel
+module without being asked to or with a special AGENTS.md file.
 
-> diff --git a/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh b/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh
-> index 5db69dad0cfc0..ba9e670b51498 100755
-> --- a/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh
-> +++ b/tools/testing/selftests/net/ndisc_unsolicited_na_test.sh
+Yesterday/today, I made a USB C controller driver [3] for example and
+it works... Then a Zotac Zone user appeared so I wrote a hwmon driver
+[4] in 5 minutes while the other agents were proding the battery and
+type c of the samsung device (yes, there is also a battery driver).
+And the thing with [4] if you look at it is... it is clean in an
+upstreamable state and only took 4 back and forths... 1 month ago, I
+was annoyed I could not use my 8bitdo controller outside so I just
+ported the SDL protocol from SDL to the kernel enabling IMU and back
+buttons outside of it and Steam [6]. Again 20 minutes. Of course, DCO
+needs care with both [4] and [5], so you see for example [5] says
+"GPL-2.0-only AND Zlib" because it is a mechanic (LLM) conversion from
+SDL and [4] clearly lists and credits the source on the preamble but
+sheds copyright because only registers were referenced. An agent.md
+can't fix that. I had to write those comments and specify those.
 
-[ ... ]
+But in those, I did not use an agents.md file at all. Therefore, to
+come back to the original discussion, what is the point of creating a
+shared agents.md file? Is it to help experienced kernel developers?
+Because it won't because they do not need one. And if they do, they
+can spend an hour and write one with their particulars. If it is to
+help new contributors, that's fair, but without an optional agents.md
+standard, how do you prevent getting in experienced kernel developer's
+way? And also, how does that agents.md file help those new
+contributors? Because omitting sign-offs is not helpful, they will
+need to add one even if they do not understand what it is, and the
+problem is they do not understand what it is and telling the agent to
+skip it does not solve that.
 
-> @@ -102,24 +115,39 @@ setup()
->  }
->  
->  start_tcpdump() {
-> -	set -e
-> -	tcpdump_stdout=`mktemp`
-> -	tcpdump_stderr=`mktemp`
-> +	tcpdump_stdout=$(mktemp) || return 1
-> +	tcpdump_stderr=$(mktemp) || return 1
->  	${IP_ROUTER_EXEC} timeout 15s \
->                  tcpdump --immediate-mode -tpni ${ROUTER_INTF} -c 1 \
->                  "icmp6 && icmp6[0] == 136 && src ${HOST_ADDR}" \
-> -                > ${tcpdump_stdout} 2> /dev/null
-> -	set +e
-> +                > "${tcpdump_stdout}" 2> "${tcpdump_stderr}" &
-> +	tcpdump_pid=$!
+As I said, both [4] and [5] are derivatives and needed special care in
+the copyright and top text. If I was not careful and added my sign-off
+without the preambles, it would be a copyright
+violation/misattribution. But I had to add that myself, the agent did
+not do it, and me adding my sign-off manually after that would fix
+nothing.
 
-[Severity: Low]
-This is a pre-existing issue, but some exit paths in this script never reach
-cleanup(). log_test() does this when the user quits under PAUSE_ON_FAIL or
-PAUSE:
+Best,
+Antheas
 
-	[ "$a" = "q" ] && exit 1
+[1] https://github.com/anatase-org/anatase/blob/master/AGENTS.md
+[2] https://github.com/anatase-org/spaces/blob/master/AGENTS.md
+[3] https://github.com/anatase-org/patchwork/blob/42a339c18111b17bb58ca28cd72fb3eca21cf2ec/drivers/usb/typec/samsung-emuec.c
+[4] https://github.com/anatase-org/patchwork/blob/5f66acf71de3dd59d0b7504a3168d1dde44c5064/drivers/hwmon/zotac-zone-ec.c
+[5] https://github.com/anatase-org/patchwork/blob/04d0b68af73d5e801c97c272ebbbcf5e7ebd9e3a/drivers/hid/hid-8bitdo.c
 
-Also, setup() runs under set -e after setup_ns() has created the namespaces.
+> --
+> Thanks,
+> Sasha
+>
 
-Neither the script nor lib.sh installs an EXIT trap. On those paths the
-namespaces, the veth pair and the mktemp files are left behind.
-
-This patch adds one new case. tcpdump now runs in the background here. If
-start_tcpdump() or host_link_up() fails and the user answers 'q' in
-log_test(), is the tcpdump process orphaned? It still stops by itself
-because of timeout 15s.
-
-[ ... ]
-
-> @@ -129,58 +157,145 @@ cleanup()
-
-[ ... ]
-
-> +	if [ -n "${expected_state}" ]; then
-> +		neigh_show_output=$(${IP_ROUTER} neigh show \
-> +			to "${HOST_ADDR}" dev "${ROUTER_INTF}")
-> +		if [[ " ${neigh_show_output} " != \
-> +				*" ${expected_state} "* ]]; then
-> +			return 1
-> +		fi
-> +		if [ -n "${expected_lladdr}" ] &&
-> +				[[ " ${neigh_show_output} " != \
-> +				*" lladdr ${expected_lladdr} "* ]]; then
-> +			return 1
-> +		fi
-> +		if [[ "${expected_state}" == "FAILED" &&
-> +		      "${neigh_show_output}" == *"lladdr"* ]]; then
-> +			return 1
-> +		fi
-
-[Severity: Low]
-The commit message says:
-
-    Verify that disabling each gate keeps the entry in FAILED without a
-    link-layer address.
-
-Can this lladdr check in verify_ndisc() ever trigger? __neigh_fill_info()
-only emits NDA_LLADDR for NUD_VALID states:
-
-net/core/neighbour.c:__neigh_fill_info() {
-    ...
-	ndm->ndm_state	 = neigh->nud_state;
-	if (neigh->nud_state & NUD_VALID) {
-		char haddr[MAX_ADDR_LEN];
-
-		neigh_ha_snapshot(haddr, neigh, neigh->dev);
-		if (nla_put(skb, NDA_LLADDR, neigh->dev->addr_len, haddr) < 0)
-			goto nla_put_failure;
-	}
-    ...
-}
-
-NUD_VALID does not include NUD_FAILED, so ip neigh show never prints lladdr
-for a FAILED entry. Once the FAILED state match above succeeds, this check
-is always false. That means the "without a link-layer address" part is not
-actually tested.
-
-[ ... ]
-
->  test_unsolicited_na_combination() {
-> -	test_unsolicited_na_common $1 $2 $3
-> +	local initial_state=${4:-absent}
-> +	local same_subnet=${5:-1}
-> +	local rc
-> +
-> +	test_unsolicited_na_common "$1" "$2" "$3" "${initial_state}" \
-> +		"${same_subnet}"
-> +	rc=$?
->  	test_msg=("test_unsolicited_na: "
->  		"drop_unsolicited_na=$1 "
->  		"accept_untracked_na=$2 "
->  		"forwarding=$3")
-> -	log_test $? 0 "${test_msg[*]}"
-
-[ ... ]
-
-> @@ -193,6 +308,16 @@ test_unsolicited_na_combinations() {
->  	test_unsolicited_na_combination 1 0 1
->  	test_unsolicited_na_combination 1 1 0
->  	test_unsolicited_na_combination 1 1 1
-> +
-> +	# Expect FAILED entry to become STALE
-> +	test_unsolicited_na_combination 0 1 1 failed
-> +	test_unsolicited_na_combination 0 2 1 failed 1
-
-[Severity: Medium]
-This commit carries a Fixes: tag for f9a2fb73318e. The only change that
-fixes that commit seems to be the rc=$? move in
-test_unsolicited_na_combination(), which now runs before the test_msg=(...)
-assignment.
-
-These two new cases expect a seeded NUD_FAILED entry to become STALE with
-lladdr 02:00:00:00:00:02 and to keep extern_learn. That behaviour comes from
-the preceding series commit "ipv6: update NUD_FAILED neighbors from NA
-messages", which has no Fixes: or stable tag.
-
-Without that commit, ndisc_recv_na() still skips FAILED entries:
-
-net/ipv6/ndisc.c:ndisc_recv_na() {
-    ...
-	if (neigh && !IS_ERR(neigh)) {
-		u8 old_flags = neigh->flags;
-
-		if (READ_ONCE(neigh->nud_state) & NUD_FAILED)
-			goto out;
-    ...
-}
-
-Suppose a stable tree takes this patch because of the Fixes: tag, but not
-the feature commit. With rc now preserved, won't these two cases report
-FAIL?
-
-Could the rc fix go in its own patch with the Fixes: tag, and the
-FAILED-recovery tests in a separate patch without it? If they stay
-together, could the commit message at least state the dependency?
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1790127207.git.lfqlee314%40gmail.com
