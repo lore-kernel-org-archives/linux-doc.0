@@ -1,214 +1,107 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B19346E70;
-	Sun, 27 Sep 2026 07:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6182134CF
+	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 07:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790492545; cv=none; b=D9VTlwXvZkZJO4yfs7wHSlTqmFxuFucDHCRQ2UkZZwQ2cGIjSCTx7VIQtEDjfgDPfsNwt76++1SCQcIgBoXG5YsyBaOE2nMUT5TDwgZIMfv44k47fhrqNNfSjBzOc10LpzQXce0LyiaMyG3lzV1js+ubdf6Di3pi9k7e9CL4hko=
+	t=1790493580; cv=none; b=TteIzUstK0e7yGgsQuwx+klx2yml7ojaz9dYbIJcLOc3uB1q1ZbXkcqBB8JaZ10m5ehKqgSI4y8Fq72zT8eFaKQsty1E8ma/4pFi3kvBPf7rTJ0MHMclsy2XbtrgEY74+QxbBIOMqvFYyycUO9FV0NGRhCy22DbZiqHmCeBTsnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790492545; c=relaxed/simple;
-	bh=4GJ13IWcPjWaUXa8jMggP9BDJTRfHjF4AEkLaUqiH4c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=aFhI5OoMgTyeu6sxRM1gxMNsFXURm4Cb9JsqfST1miwtqlzPfGSIQ2Vw+7B6bSQnlZhrlqxPUcPppQmuml/MtXP0SDYjnr5nSS98LoCjBKi4NLBepirl3qhEKp+o1NtHukR7HfF55jPe3dq+IMTInoQdfLdwBUWOyIkfC36bVgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iI6pHoUl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JDDZOnHn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ROf4rYh+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CLC3IQzb; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790493580; c=relaxed/simple;
+	bh=O67kFIIGApvRlw9ZeiNrFNuR3JFlPHmp8GQYJ2W67G4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iuW7x6fkSyYft6iUzXBFD6t2vTUQiVQxCtag/vNu8UMDYIWf3rUzV3cN6KQQQ4o/+ij0kQvap5VgmE55kdPqZETnmqtcS0F2A6KYdYusDDn0ykyYvn01Lv1CXSnm603U9SaoEo6/5WGbsKyNdzvj/gdn3F7e4VMfC5WeEpwLIsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A8ct8C9z; arc=none smtp.client-ip=74.125.225.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iI6pHoUl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JDDZOnHn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ROf4rYh+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CLC3IQzb"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E402021E71;
-	Sun, 27 Sep 2026 07:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790492532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5BIpyzpFhUTjXE4iGhZKarMO0HJAxtBWhlrJwRgsjRw=;
-	b=iI6pHoUlEws+GNp6AKWDB3CN0w4gZVIu/4onumaT1baG8dPh4ojciex5JdAzhZ0+9LMRx7
-	Akiq3eren4C2O5jUFoCJ1o8qXZ5pfzmwzlvsU0REzv6MeaU3cOLLSPFTn2Hp3UCvJubi/h
-	BbYL/jtizXeqGfs86CqYJWXiRyzEfWk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790492532;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5BIpyzpFhUTjXE4iGhZKarMO0HJAxtBWhlrJwRgsjRw=;
-	b=JDDZOnHn/iFwT41w7oqMvvG1FRjvtDiviOTVxap2/TvqaPK4B+AfJ6YzSAdzZzsiHxBZQZ
-	E3fotKVM5nfRjtAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ROf4rYh+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CLC3IQzb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790492527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5BIpyzpFhUTjXE4iGhZKarMO0HJAxtBWhlrJwRgsjRw=;
-	b=ROf4rYh+/9GYig2Da3M5Iu4/q/F99fP+RsWMlc+iVksKdSM6GVoSorYP7y8NneeJkZBdIA
-	U6u3lKd510eKe73IzPvnaZGcJQWWWyc405+Mozk7Prz20Vpc1JpBQr3CwQPxWzRuvfkKoD
-	v7jtxUqc2op/tikUhvQ2NM7yCsWm0z0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790492527;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5BIpyzpFhUTjXE4iGhZKarMO0HJAxtBWhlrJwRgsjRw=;
-	b=CLC3IQzbgPlclo821E13H6iT3OClrKWxp9Warc8aOSZ7Vp/wCY6TEiQ+y6UPh88ghV4q1k
-	WQxmwkUiDPdJzXBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7CC9B133F1;
-	Sun, 27 Sep 2026 07:02:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iL1nC2+/uGo/dgAAD6G6ig
-	(envelope-from <krisman@suse.de>); Sun, 27 Sep 2026 07:02:07 +0000
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-To: Daniel Tang <danielzgtg.opensource@gmail.com>, =?utf-8?Q?Andr=C3=A9?=
- Almeida
- <andrealmeid@igalia.com>, Christian Brauner <brauner@kernel.org>,
- linux-fsdevel@vger.kernel.org
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
- Hugh Dickins <hughd@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- smcv@collabora.com, kernel-dev@igalia.com, linux-kernel@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [BUG] Is casefold unreported in /proc/mounts?
-In-Reply-To: <5193732.31r3eYUQgx@daniel-desktop3>
-Organization: SUSE
-References: <5193732.31r3eYUQgx@daniel-desktop3>
-Date: Sun, 27 Sep 2026 03:02:01 -0400
-Message-ID: <877bk7yy6u.fsf@mailhost.krisman.be>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A8ct8C9z"
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4888129c46eso990417f8f.1
+        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 00:19:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790493577; x=1791098377; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cRO7NGg+aRPsgVIJVkH1UqcIl5GQW1DvI1YGFjFBLVs=;
+        b=A8ct8C9zgtwHRGXMcpzkqyJhzrq4UKS3aKlHcfW+eBBsyAu+o486qaw79YC1Y2tiv5
+         GgNDZjX5z06PPBEhq2OT+cisTfX0HmCP56Hm/PG25smcS+vR+XdM447I0BtTh4AN2oqf
+         JCiMSHZfXUCpQneOySiiRtenk/hens0DhRJLtirmz+AnmgEumFB7/w3jIgRiyw5Z+wwK
+         VJm83SdzqICtFK593t9cg0sIl5d49xbGnE4kHmMCCWlGZjEi7H3joVljpok0hO75rKqn
+         H2SeRuKruVgskNwoMk0KYqXMcVDnH7sp416OTLVV/ok/iuvRYOBBlT9bv/dwEMfihk+9
+         lJig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790493577; x=1791098377;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cRO7NGg+aRPsgVIJVkH1UqcIl5GQW1DvI1YGFjFBLVs=;
+        b=00/xyXM/oGQxUnVRmmsSulmK7LD3UeyI2LtJw4K0K3G+zAuArTiinc2NyXQSpR5nZn
+         XWvDlKARXykr13AD3p6EHgl3XxQQL3T3wYv/MAIdMWIZtMYGPokCaMxO8IF3mE/IS586
+         IRwN344je94/d3rMnkdbYALaf2efXeIPe1WZ9Si0Xri5HoPOlqQnY0JYBtVYvgnFbpZD
+         1VfExHq7lXrAdKy1d57zC13Rv0FeUOg1FQmt4rkz/eriZoX8q+1KjzxaqTG78FF7lrg8
+         v9uLKYewH8H6OTJZI+ehKHeghJM719sDjuIC7mfilmiZwVU3ATOvxfUrqA/MFIRwrsl5
+         h4XA==
+X-Forwarded-Encrypted: i=1; AKwUvByF1PZvCpO5THLGINB8RHFZtXZo7CPB0AOeBO7Abb2A79cf3NJ4NuaUj2cZPcPInho+QScd4smxvNk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJImSjagfOghjuUUCdcq9/m1aL0hQ4TJrDEDmk1tBj7KaRhYcFI
+	v8QLhT4YE6tAlwO255CcmbZdLPKJvvrepezf99dIxPe9Fg+UqVgY+Fw=
+X-Gm-Gg: AYBFou2KAftVRXMtubUDfnVjWpnEr1z8TIl/URNTTY1Q635Y+4C9KB9qH5cL09Wpl/r
+	BR7ErEG64fZOvx97b50Cc0QYNy7PvD5+jLlciLRGAX3DX9GIQN0D9eop/RaEUny927OJ73MrzX9
+	NrOtnE3kG3uBj6/VeBnPu3boP7qc4pEpnW+/8S9/pdxKeEMJ52bnmjF6mQo1dcTl/9GmuXWF1Ig
+	uUM3f/dxoQizYgq2geIg6iQTtWtWpfkYqgk16BlySVyQfgOLvoVX+g+S1ZYQLnoMiSnHPyOtmNI
+	usCjS682RdwqYwbFiB2Uk1D+LlQ1yy6w6Djf3kmKLVwuQztHLbQhErs+Qeaa998lCymV4TAs8+i
+	oiStiyiWovWE7HW5+TJ72Hht7FC1+K8VW1f2wsCgJiw4z4OIQscRaHOu7HSCyZnYaPCv5fv8usl
+	p/5c/eU46zW5xN0B3hj5FSZ6taaEdfKLan0EO0N9bHtjiGmc7WvC16citAGrBW6VBiNRb2v6YQk
+	EhSBADp5ptSPX2c8TodAFZDzPPDQ3LDAFr7CVF+5zXnPQjx
+X-Received: by 2002:a05:6000:2283:b0:488:7fdb:46ba with SMTP id ffacd0b85a97d-4887fdb4c57mr12486982f8f.18.1790493576863;
+        Sun, 27 Sep 2026 00:19:36 -0700 (PDT)
+Received: from localhost.localdomain ([31.223.3.6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a34a4e9sm15935086f8f.11.2026.09.27.00.19.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Sep 2026 00:19:36 -0700 (PDT)
+From: "=?UTF-8?q?Habil=20Eren=20T=C3=BCrker?=" <habilerenturker@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Habil=20Eren=20T=C3=BCrker?= <habilerenturker@hotmail.com>
+To: corbet@lwn.net
+Cc: clemens@ladisch.de,
+	tglx@kernel.org,
+	skhan@linuxfoundation.org,
+	anna-maria@linutronix.de,
+	frederic@kernel.org,
+	linux-doc@vger.kernel.org,
+	x86@kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] [PATCH v2 1/2] docs: timers: hpet: Modernize file references
+Date: Sun, 27 Sep 2026 10:19:08 +0300
+Message-ID: <20260927071926.7716-1-habilerenturker@hotmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <87jyo74rbv.fsf@trenco.lwn.net>
+References: <87jyo74rbv.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-=-="
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: E402021E71
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,igalia.com,kernel.org,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+,1:+,2:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---=-=-=
-Content-Type: text/plain
+Hi Jonathan,
 
-Daniel Tang <danielzgtg.opensource@gmail.com> writes:
+Thanks for the note.
+ 
+Yes, I used an LLM assistant, and I will resubmit 
+with the proper "Assisted-by" tags.
 
-> Upon successfully mounting via `sudo mount -t tmpfs -o casefold test /mnt`, I
-> cannot find a read-only way to determine whether this option is enabled.
-> `mount`, `cat /proc/mounts`, and `cat /proc/mountinfo` only display "rw",
-> "relatime", and "inode64", never "casefold" for both with and without
-> `-o casefold`. The only way on 7.0.0-34-generic to test I found is
-> `mkdir test ; chattr +F test ; echo $?`, but that isn't atomic. Which command
-> can determine, without writing anything, whether someone or some program
-> specified `-o casefold`? If absent, I suggest adding the missing info to
-> `/proc/mounts`, likely `mm/shmem.c:shmem_show_options`.
+To be more specific: the LLM pointed out that the 'file:' prefix is ​​
+deprecated and suggested using backticks instead. 
+It also helped correct some typos in the commit message and documentation 
+text.
 
-Yeah.  For device-backed filesystems it is not a mount parameter, but it
-is for shmem/ovl and should show in /proc/mounts.
+The rest of the work - identifying the issue, researching, verifying, 
+and resolving it - was entirely my own.
 
-Either way, there are two ways to check:
+Sorry for the noise; I will send v3 with the correct tags shortly.
 
-1) Parse dmesg after the mount. It is easily overwritten and probably
-worse than just trying;
-
-2) better way: do FS_IOC_SETFLAGS on the mountpoint (with chattr
-+F).  If casefold is supported, you'll get -ENOTEMPTY, otherwise you get
--EOPNOTSUPP.  Since it is the root of the filesystem and a single
-syscall, unless its remounted from under you (in which case /proc/mounts
-doesn't help either), you are safe.
-
-It is worth mentioning you can check kernel support with
-/sys/fs/*/features/casefold.  We probably should add the same for
-/sys/fs/ext4/<disk>/.
-
-This fixes /proc/mounts for shmem: 
-
-
---=-=-=
-Content-Type: text/x-patch
-Content-Disposition: inline;
- filename=0001-shmem-Report-casefold-setting-in-mount-options.patch
-
-From c4b198424fac49e10e32553b223b7615febc6513 Mon Sep 17 00:00:00 2001
-From: Gabriel Krisman Bertazi <krisman@suse.de>
-Date: Sun, 27 Sep 2026 02:49:26 -0400
-Subject: [PATCH] shmem: Report casefold setting in mount options
-
-For not device-backed filesystems, casefolding is a mount option.
-Report the current encoding and casefolding flags in /proc/mounts so
-userspace can easily check if casefolding is supported.
-
-Reported-by: Daniel Tang <danielzgtg.opensource@gmail.com>
-Link: https://lore.kernel.org/linux-fsdevel/5193732.31r3eYUQgx@daniel-desktop3/#R
-Signed-off-by: Gabriel Krisman Bertazi <krisman@suse.de>
----
- mm/shmem.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/mm/shmem.c b/mm/shmem.c
-index 897fa2b61346..2b93fcbf5127 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -4916,6 +4916,17 @@ static int shmem_show_options(struct seq_file *seq, struct dentry *root)
- 	if (sbinfo->qlimits.grpquota_ihardlimit)
- 		seq_printf(seq, ",grpquota_inode_hardlimit=%lld",
- 			   sbinfo->qlimits.grpquota_ihardlimit);
-+#endif
-+#if IS_ENABLED(CONFIG_UNICODE)
-+	if (root->d_sb->s_encoding) {
-+		unsigned int version = root->d_sb->s_encoding->version;
-+
-+		seq_printf(seq, ",casefold=utf8-%u.%u.%u",
-+			   unicode_major(version), unicode_minor(version),
-+			   unicode_rev(version));
-+		if (sb_has_strict_encoding(root->d_sb))
-+			seq_puts(seq, ",strict_encoding");
-+	}
- #endif
- 	return 0;
- }
--- 
-2.55.0
-
-
---=-=-=--
+Regards,
+Türker
