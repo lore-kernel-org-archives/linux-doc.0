@@ -1,63 +1,65 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466403E0081
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 11:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27733E40EE
+	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 11:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790509793; cv=none; b=ZZZbtBzQ0ueyj/fSM0dFtRRD68Sk8dDcS28pIZhxnSe6sDvF94j02/q2nNiKzh1emMkGYRV7k5s6ZJuYsAGxHf1fsxGfork+xkjqC6wyyKDl5sdBxdpm5uNBnLFmms2d4voK7MJvdPXOgcXjPfg2GrwP3/9ioPsrc2TgYppwsQY=
+	t=1790509797; cv=none; b=nJxclDT5hVDmo1bRWdeRSaFdmitr+kZkgPx1oAgwxh9kyho2g8oRm64mbq+1plcYsjMP+oSLniW2I/nN72sQsoe+95bEmpVTN6x6MhwI99NwzAwNR2h0fSL+Gp4XfExQ5TEW3V09QTRFslGE3N4BI+pRVfFhJ3Wn1lzTlIdPN7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790509793; c=relaxed/simple;
-	bh=qZkCiL861lt8lwd3IuO5tuuGDOozM3gVvT2PHwQzA8Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YZhzNGTqt8jdpsxwI8aDNyP0OpPg+qqBt1a4hrGZk4MniquBDpkzZxKixOt9CyGZFcShlKfA7QaXss3yl/3URIhyNY5O8HGC6dpw8WBt90hWMsMWXLVxQZK219DW0KDGice1t27RFWyDST0w+n918n63KA/iGEG4aoBP+pLOQjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech; spf=none smtp.mailfrom=osyx.tech; dkim=pass (2048-bit key) header.d=osyx-tech.20251104.gappssmtp.com header.i=@osyx-tech.20251104.gappssmtp.com header.b=P5ZnlvtN; arc=none smtp.client-ip=74.125.225.141
+	s=arc-20240116; t=1790509797; c=relaxed/simple;
+	bh=Q2Ku13SomXVV0zqqYGu+pz6EtMkt4eZTdGTUJsdk9dY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=X0J6uFDBp+1vOE8FnWZlCmfvvR10RyU/ypDSUy35M40fTcGc/xNrSIfDASDUfG+aSswjHfqMCof745LZy6xAp6kSjUkqqJcMO5l2+17N1bzTEYudyCYh3pEkQAUmYoStaPPK12H/C4vjLbcCSBjEuulZHR/CVnTIz/e/OkN1ZS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech; spf=none smtp.mailfrom=osyx.tech; dkim=pass (2048-bit key) header.d=osyx-tech.20251104.gappssmtp.com header.i=@osyx-tech.20251104.gappssmtp.com header.b=Jiih5T1y; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=osyx.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=osyx-tech.20251104.gappssmtp.com header.i=@osyx-tech.20251104.gappssmtp.com header.b="P5ZnlvtN"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d8239so17435415e9.0
-        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 04:49:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=osyx-tech.20251104.gappssmtp.com header.i=@osyx-tech.20251104.gappssmtp.com header.b="Jiih5T1y"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ffe281cb1so4656045e9.1
+        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 04:49:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osyx-tech.20251104.gappssmtp.com; s=20251104; t=1790509788; x=1791114588; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=71g56uPtScUsuXicGPFTJJ9Hw3/l51368qJ69c37ce0=;
-        b=P5ZnlvtN2b/PG2dqaWEce9K/WKmyet+f45TcfC/OQsfwJaUQpXiph8Ervtn0xY0y5u
-         c19X4ITyoxi+02i3RYpT9v4kbKGuIx600pCCLo7WeeIltvbb+ktL64t852icMtrt5W+K
-         /CDeUXPq8X1xkEpu0so6BJIw/WN8Las4vknnPdtO0hyJNsdvq2WuqKHK2mUrmInugPjW
-         8GlK53TjIdyRinV53TqGsh72FVaS2o77sEa2k/mdf6caB81xTD3V4qAJ6yTfsXxIuCcO
-         klUtZK11f5QMaf7WC5n27cvBrOSHJQSkCGXnO/7I8765LRpnZ99X3guFSEOGBixLHMxj
-         psrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790509788; x=1791114588;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=osyx-tech.20251104.gappssmtp.com; s=20251104; t=1790509791; x=1791114591; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=71g56uPtScUsuXicGPFTJJ9Hw3/l51368qJ69c37ce0=;
-        b=q8m70qa0BzM08AC88cxAcXU80SkN+X69560cFx631LbexsKsgf7U7mJUZUioc/JYjb
-         oPMhp7Cq+L8ZY+n4fthd+NnoXjKlJwMAFtyLz2VH5aw8TuWy+df200blcRFF4jssbNpM
-         OWDJO43uy2ORc3JxKr8ztxnosU1yZcttXLTIwVhcE46TAWcRMb6+ZQpld7vrFpAni757
-         uTCH/xucSR0etIKY9RqzyqVPQYlmqwSShVmpu9wJk/umPq2cSOsGPimKSY/RAQR3xHg2
-         85pgrNG8WEIXfCweSE7JKhWR7MRSW4ZCSKjgll812i/ExUMixVMiAqpKD4lxR/JPApXA
-         sr0g==
-X-Forwarded-Encrypted: i=1; AKwUvBx0K7Axbp8fSXMFi+jNg3RZnXTAdg8Q26JmTXS7u1+oMFuiw7EA7vpw18TsZycz0VEixrfqLs1xLd4=@vger.kernel.org
-X-Gm-Message-State: AFuF++nfC6gwMYlcB//GZi1k/ZlmqwCJEOMbNSk44fUiLy39XjSMoVBx
-	rAXlPn4uVvEkCweL3CgGDv553Lk7olioZW3pyRq71GWK+gsbeNN9txIs91NB6nrCdvkN
-X-Gm-Gg: AYBFou0q8uYC28AedKUW/SmkRKb701q2uauLDupbcnKaGxAOPxvok4c6mpCSSiB3OJz
-	dWQ/Zw22aWWTG1Xd3dmHVIujo0nvrkVe05OwcK9S9B6UC9vQQ8N7XCBwCfsHkWK0MhL/UKKQgRx
-	98jRJ/8hNeWcRaHZB+OnXkVh6i21n3V0NWax4utlGeGr6lHQ5JmLH9zZSkchvQK2z0j0TnpfhYD
-	NmonHOFMQiygOQUrEwGzzNWFgPmWO/IzbKoonLd2NJg1X9FuPQL+iIckt/4aBC1yyw1ojNX8hbF
-	MoTzec33dPAGZA8Eannis+g1kXBxz4o6igi/i5muUq8UX43quMOSlpj/kfg1QhI9GxEkco1G+iN
-	mYBA5TZcP5ozjsMfzylzJKSOL4Cr384ufbR3Il9UsxPN4FZ/dyHVdkO59f8zhHPR+x+CiDhnXLn
-	u+4dwZ8AKLhn7VRYSCyFxm1st2s4C516mGnUpV6pHmm3Mtk7tA3i7CPY3IjvmEVVbH4kbhpYjcG
-	IAW/jMz00tyYIKznm2QH04G1G+paQ==
-X-Received: by 2002:a05:600c:4744:b0:49c:e1cd:536 with SMTP id 5b1f17b1804b1-49fe7b6371bmr185299995e9.12.1790509788255;
-        Sun, 27 Sep 2026 04:49:48 -0700 (PDT)
+        bh=BahgNxldR+zhNYXoIFgfqTGGLt20GpjDdoyoUM4NqZ0=;
+        b=Jiih5T1y4RDu5Tm6WvR5iIwjBKn+GLMzh1fxHCEKq2KkZayHLJdwn+Hur/9ufd4wg+
+         wiJkOZzMnfRkHjvHNcw2XFRFA0aVXlrC43o4j3fc4UG4E3bYmIJK3WfIakdAO66/54z6
+         w2wI2XUb3wB523p5u7u1snx6w5P39HS1vJ9bt6CmZ8l44lCNh+zMbLj9scBf5z+6Kwqa
+         qLpr0u/FSksmbsFkf6ofBu+6wU9NqpoEhGlyAja/MmrF0wkBl1XpDiZk59icpiAgQIq7
+         6PCa3npArOM5eWpGNkJCAN8khg9LTKNIJifSl6zZA3hNDaklWM7ceeIMPPmDw1/mLFkC
+         NHhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790509791; x=1791114591;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BahgNxldR+zhNYXoIFgfqTGGLt20GpjDdoyoUM4NqZ0=;
+        b=bGV0GKxMw3EoCAYRGVqcgRM+Yp4Z4hEBSzmfLH1/WCjYR0QJ2muVc44NtOUlDpkMAq
+         W3pSCWnE6sFItHgzISzaAOmuAD2zN7KqMNIb/5yJbEh3+r71haSJ08jdKsgRllqhqiSo
+         X1kjoFGr3q/KOWUf8G3g9Y25eFlILm3ZYGweikGaVhQJpitFSlh7j8pJ08G7JtpMUOwY
+         FJpwTrI9cshBUo8f3DBvFuTn9m8ZemIoQYc57Mvkz9q0QpPAaKMVN4qanC+gK6moroRC
+         qM14Qvgql4wHty0COKwZj90XHJPfWlLq1/zjrSRofmAj5uu6EsrxTD6PkBn5MOHF8eFz
+         9Y6w==
+X-Forwarded-Encrypted: i=1; AKwUvByC0FzJWl/QvRnsqpsf671gslNCL+gicvWN4eey3G+67XWRs7/uB8coy37U/IHoRV+4QTAlhcqkCZw=@vger.kernel.org
+X-Gm-Message-State: AFuF++muvykPdQ81X1uTFsGdBOF42eUN4yGrSUlrwR42CyQAIXGy/NMD
+	yz2yBk/vMLAwWYVsy4U0GUkqgd3j8cLw29f4pah1wtcQpiXUZVHi9U8DvEghc2DtyEZA
+X-Gm-Gg: AYBFou14/Fok4DTAYyJzXaiKvxDsXPOxCq8q8hVx1yOOueE95ANFzo2LTsUi+xJERsV
+	2LReUZC4XBBkO6duV9WVQYUplzw2TT45ctHINMGM8pCRUufxTcgp8qMk2NVnOD2RkLOnEI0PqJU
+	GDE1tmU2yzjGMgW6qrQy1W5/9UAdEpF+WZcMn6ityC3Rk3ARFznI2n1XagJ/Lwq0wHzxpW/3XxD
+	cy6p/UFtI8MTQWwEZPacKMUKXIv7++80M+IdzQ2nG2XD0BbIUJbPHcGaNqdZIJCFF9jCGSsyUfx
+	PZvUYjW92LbRS21NJD9XRg98N3U4JuL8EEEvQ3X7bfBLMiyzIXbRDYHRvs3gyLD5Ia4uLG8VZwl
+	YP499tEBvVPiOwKYaV8PLfbTI3TlD7cM8CpKSD0QNKtUfAH84fEXdk6BwSDQeFbTHB40/gI4EBU
+	YaaMOIR5opPvxLnjBz7iAYhSpwFDaNSaow10D4OeQ+DgBZdxjwddGmm9X5DsP6R/Vut30W3DGLh
+	5ObmE45FY6AAczExcc=
+X-Received: by 2002:a05:600c:a012:b0:49f:ce73:7ac with SMTP id 5b1f17b1804b1-49ff06fc82emr122574895e9.35.1790509791448;
+        Sun, 27 Sep 2026 04:49:51 -0700 (PDT)
 Received: from jp-linux.tailbfef0e.ts.net ([2001:8a0:f59c:a900:6d6e:8514:ff1c:6c57])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a00178bebasm57095935e9.11.2026.09.27.04.49.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a00178bebasm57095935e9.11.2026.09.27.04.49.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 04:49:47 -0700 (PDT)
+        Sun, 27 Sep 2026 04:49:50 -0700 (PDT)
 From: =?UTF-8?q?Jo=C3=A3o=20Peixoto?= <jpeixoto@osyx.tech>
 To: gregkh@linuxfoundation.org,
 	will@kernel.org
@@ -80,10 +82,12 @@ Cc: catalin.marinas@arm.com,
 	linux-riscv@lists.infradead.org,
 	linux-doc@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH v4 0/3] virt: bao: add Bao hypervisor IPC and I/O dispatcher drivers
-Date: Sun, 27 Sep 2026 12:49:21 +0100
-Message-ID: <cover.1790357735.git.jpeixoto@osyx.tech>
+Subject: [PATCH v4 1/3] virt: bao: add IPC shared-memory driver
+Date: Sun, 27 Sep 2026 12:49:22 +0100
+Message-ID: <d5b8553918e16173aaf4767e32daeb47b656a253.1790357735.git.jpeixoto@osyx.tech>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1790357735.git.jpeixoto@osyx.tech>
+References: <cover.1790357735.git.jpeixoto@osyx.tech>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -93,140 +97,601 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series adds guest-side drivers for the Bao static-partitioning
-hypervisor: an IPC shared-memory driver, an I/O dispatcher that lets a
-backend guest service VirtIO I/O for frontend guests, their UAPI and a
-MAINTAINERS entry.
+Add a driver that lets guests running on the Bao static-partitioning
+hypervisor communicate through shared memory. Each guest is assigned a
+read and a write region within a shared-memory area.
 
-Bao is a lightweight static-partitioning hypervisor for embedded and
-safety-critical systems (https://github.com/bao-project).
+The IPC channels are a pure software contract between the Bao hypervisor
+and its guests, so they are not described in the device tree. Each
+channel is instead declared on the kernel command line:
 
-- The IPC shared-memory driver lets Bao guests exchange data through a
-  shared-memory region split into a read and a write channel, exposed
-  as a misc character device (read(), write(), mmap()).
-- The I/O dispatcher bridges Bao's Remote I/O mechanism to a userspace
-  VMM: the VMM creates each device model from /dev/bao, receives the
-  frontend's MMIO accesses and completes them, with ioeventfd/irqfd
-  support for the fast paths.
+  bao_ipcshmem.channels=<channel>[;<channel>...]
 
-Changes since v3
-----------------
-The two design comments on v3 changed the shape of the series, which
-went from six patches to three.
+where each <channel> is
 
-- No device tree (Krzysztof Kozlowski): both bindings and the "bao"
-  vendor prefix are dropped. The IPC channels are a software contract
-  between the hypervisor and the guest and are now declared on the
-  kernel command line (bao_ipcshmem.channels=...). The set of device
-  models a backend serves is a contract between the hypervisor and the
-  VMM, so, following drivers/virt/acrn, the I/O dispatcher exposes a
-  single /dev/bao control device and the VMM creates each device model
-  with BAO_IOCTL_CREATE_DM (shared-memory region + notification line),
-  which returns a per-DM file descriptor; the DM lives as long as the
-  descriptor. The notification line is resolved against the device
-  tree's root interrupt parent, like any device's interrupt.
-- No architecture code (Will Deacon): the hypercall helpers moved to
-  drivers/virt/bao/bao_hypercall.h and use arm_smccc_hvc() for the IPC
-  hypercall and, because the Remote I/O hypercall returns the request
-  in x1-x6, the SMCCC v1.2 arm_smccc_1_2_hvc(). RISC-V uses sbi_ecall()
-  for IPC and a local ecall for Remote I/O (see open items). 32-bit Arm
-  has no SMCCC v1.2 helper, so the I/O dispatcher is limited to arm64
-  and RISC-V for now; the IPC driver still supports 32-bit Arm through
-  SMCCC v1.1 (HAVE_ARM_SMCCC).
-- The standalone "consolidate the IPC hypercall ID" patch is folded into
-  the driver patches (Andrew Jones).
-- All findings of the Sashiko review of v3 are addressed, among them:
-  the DM id is taken from the file descriptor instead of userspace; the
-  irqfd/ioeventfd teardown races and the ioeventfd deassign fall-through
-  are fixed; the interrupt handler is per DM and the request_irq() name
-  is persistent; queued requests are capped and requests that cannot be
-  delivered are completed back to the hypervisor; the UAPI structures
-  have no implicit padding; signals return -ERESTARTSYS; the IPC driver
-  orders the shared-memory writes before the notify hypercall, refuses
-  writable mappings of the read region, validates page-aligned regions
-  and has an llseek. Details are in the per-patch changelogs.
-- The ioctl type is now 0xA7: 7.3-rc1 registered 0xA6 for memory
-  allocation profiling.
-- Found while testing: the two modules were both named bao.ko (now
-  bao_ipcshmem and bao_io_dispatcher), the ioeventfd kernel thread could
-  exit before kthread_stop(), per-DM dispatcher state was kept in static
-  arrays, a list walk used the wrong structure type, the UAPI header did
-  not include linux/ioctl.h, and the dispatcher workqueue now passes
-  WQ_PERCPU as required since 7.x.
+  <id>,<read_base>,<read_size>,<write_base>,<write_size>
 
-Testing
--------
-Built on v7.3-rc1 with GCC (W=1, sparse) for arm64, arm and riscv, as
-modules and built-in, and with clang for arm64 and riscv. Run-time tested
-under Bao v2.0.0 on QEMU aarch64 virt and QEMU riscv64 virt with the
-bao-demos demos: the IPC driver exchanging messages in both directions
-between a Linux 7.3-rc1 guest and a FreeRTOS guest (linux+freertos demo),
-and the I/O dispatcher with a Linux backend serving console, network and
-block device models to a FreeRTOS guest and two Linux guests (virtio
-demo). 32-bit Arm is compile-tested only.
+Userspace accesses the regions through a misc character device using
+read(), write() and mmap(). The read region is written by the peer and
+mapped read-only at stage 2, so a writable mapping of it is refused. A
+write() notifies the peer guest through a hypercall issued with the
+architecture's standard hypervisor call convention: an SMCCC fast call
+in the vendor-specific hypervisor service range (HVC) on arm/arm64 and
+an SBI extension call (ecall) on RISC-V. The helpers live in the driver
+directory, built on the generic SMCCC and SBI support, so no
+architecture code is needed.
 
-Open items
-----------
-- RISC-V: the Bao SBI extension still uses the experimental extension
-  space (0x08000ba0), and the Remote I/O hypercall returns the request
-  in a2-a7, which does not follow the SBI calling convention (Andrew
-  Jones, v2). Changing that means a hypervisor ABI change (status in
-  a0/a1, request through shared memory); the RISC-V support is marked
-  experimental until then, or it can be split out of this series if
-  preferred.
-- Bao does not implement the SMCCC vendor-hypervisor UID call, so the
-  drivers cannot detect the hypervisor yet; adding it is planned on the
-  hypervisor side.
+Co-developed-by: José Martins <jose@osyx.tech>
+Signed-off-by: José Martins <jose@osyx.tech>
+Co-developed-by: David Cerdeira <davidmcerdeira@osyx.tech>
+Signed-off-by: David Cerdeira <davidmcerdeira@osyx.tech>
+Signed-off-by: João Peixoto <jpeixoto@osyx.tech>
+---
+v4:
+- Drop the device-tree binding and the platform driver; the channels are
+  declared on the kernel command line (bao_ipcshmem.channels=<id>,<read_base>,
+  <read_size>,<write_base>,<write_size>[;...]) and the misc devices are
+  created from module init (Krzysztof Kozlowski).
+- Move the hypercall helper out of arch/ into drivers/virt/bao/bao_hypercall.h,
+  built on arm_smccc_hvc() (arm/arm64) and sbi_ecall() (RISC-V); the hypercall
+  ID is defined there, folding the v3 "consolidate the IPC hypercall ID" patch
+  (Will Deacon, Andrew Jones).
+- Kconfig: depend on HAVE_ARM_SMCCC || RISCV; the module is now bao_ipcshmem,
+  so the documented parameter name is real.
+- Add wmb() before the notify hypercall; refuse writable mappings of the read
+  region and clear VM_MAYWRITE; require page-aligned regions and reject ranges
+  that do not fit phys_addr_t/size_t; add .llseek; enlarge the label buffer;
+  do the mmap offset arithmetic in u64 (Sashiko review).
+- Devices live and die with the module and open files pin it, closing the
+  unbind use-after-free of v3.
 
-v3: https://lore.kernel.org/all/cover.1786010512.git.jpeixoto@osyx.tech/
-
-João Peixoto (3):
-  virt: bao: add IPC shared-memory driver
-  virt: bao: add I/O dispatcher driver
-  MAINTAINERS: add Bao hypervisor entry
-
- .../userspace-api/ioctl/ioctl-number.rst      |   2 +
- MAINTAINERS                                   |   8 +
- drivers/virt/Kconfig                          |   2 +
- drivers/virt/Makefile                         |   1 +
- drivers/virt/bao/Kconfig                      |   5 +
- drivers/virt/bao/Makefile                     |   4 +
- drivers/virt/bao/bao_hypercall.h              | 190 ++++++++
- drivers/virt/bao/io-dispatcher/Kconfig        |  20 +
- drivers/virt/bao/io-dispatcher/Makefile       |   4 +
- drivers/virt/bao/io-dispatcher/bao_drv.h      | 389 ++++++++++++++++
- drivers/virt/bao/io-dispatcher/dm.c           | 334 ++++++++++++++
- drivers/virt/bao/io-dispatcher/driver.c       |  70 +++
- drivers/virt/bao/io-dispatcher/intc.c         | 150 +++++++
- drivers/virt/bao/io-dispatcher/io_client.c    | 423 ++++++++++++++++++
- .../virt/bao/io-dispatcher/io_dispatcher.c    | 159 +++++++
- drivers/virt/bao/io-dispatcher/ioeventfd.c    | 326 ++++++++++++++
- drivers/virt/bao/io-dispatcher/irqfd.c        | 315 +++++++++++++
- drivers/virt/bao/ipcshmem/Kconfig             |  16 +
- drivers/virt/bao/ipcshmem/Makefile            |   3 +
- drivers/virt/bao/ipcshmem/ipcshmem.c          | 358 +++++++++++++++
- include/uapi/linux/bao.h                      | 116 +++++
- 21 files changed, 2895 insertions(+)
+ drivers/virt/Kconfig                 |   2 +
+ drivers/virt/Makefile                |   1 +
+ drivers/virt/bao/Kconfig             |   3 +
+ drivers/virt/bao/Makefile            |   3 +
+ drivers/virt/bao/bao_hypercall.h     |  90 +++++++
+ drivers/virt/bao/ipcshmem/Kconfig    |  16 ++
+ drivers/virt/bao/ipcshmem/Makefile   |   3 +
+ drivers/virt/bao/ipcshmem/ipcshmem.c | 358 +++++++++++++++++++++++++++
+ 8 files changed, 476 insertions(+)
  create mode 100644 drivers/virt/bao/Kconfig
  create mode 100644 drivers/virt/bao/Makefile
  create mode 100644 drivers/virt/bao/bao_hypercall.h
- create mode 100644 drivers/virt/bao/io-dispatcher/Kconfig
- create mode 100644 drivers/virt/bao/io-dispatcher/Makefile
- create mode 100644 drivers/virt/bao/io-dispatcher/bao_drv.h
- create mode 100644 drivers/virt/bao/io-dispatcher/dm.c
- create mode 100644 drivers/virt/bao/io-dispatcher/driver.c
- create mode 100644 drivers/virt/bao/io-dispatcher/intc.c
- create mode 100644 drivers/virt/bao/io-dispatcher/io_client.c
- create mode 100644 drivers/virt/bao/io-dispatcher/io_dispatcher.c
- create mode 100644 drivers/virt/bao/io-dispatcher/ioeventfd.c
- create mode 100644 drivers/virt/bao/io-dispatcher/irqfd.c
  create mode 100644 drivers/virt/bao/ipcshmem/Kconfig
  create mode 100644 drivers/virt/bao/ipcshmem/Makefile
  create mode 100644 drivers/virt/bao/ipcshmem/ipcshmem.c
- create mode 100644 include/uapi/linux/bao.h
 
-
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
+index 52eb7e4ba71f..cb98c4c52fd1 100644
+--- a/drivers/virt/Kconfig
++++ b/drivers/virt/Kconfig
+@@ -47,6 +47,8 @@ source "drivers/virt/nitro_enclaves/Kconfig"
+ 
+ source "drivers/virt/acrn/Kconfig"
+ 
++source "drivers/virt/bao/Kconfig"
++
+ endif
+ 
+ source "drivers/virt/coco/Kconfig"
+diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
+index f29901bd7820..ff873bfd453e 100644
+--- a/drivers/virt/Makefile
++++ b/drivers/virt/Makefile
+@@ -10,3 +10,4 @@ obj-y				+= vboxguest/
+ obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
+ obj-$(CONFIG_ACRN_HSM)		+= acrn/
+ obj-y				+= coco/
++obj-y				+= bao/
+diff --git a/drivers/virt/bao/Kconfig b/drivers/virt/bao/Kconfig
+new file mode 100644
+index 000000000000..4f7929d57475
+--- /dev/null
++++ b/drivers/virt/bao/Kconfig
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0
++
++source "drivers/virt/bao/ipcshmem/Kconfig"
+diff --git a/drivers/virt/bao/Makefile b/drivers/virt/bao/Makefile
+new file mode 100644
+index 000000000000..68f5d3f282c4
+--- /dev/null
++++ b/drivers/virt/bao/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0
++
++obj-$(CONFIG_BAO_SHMEM) += ipcshmem/
+diff --git a/drivers/virt/bao/bao_hypercall.h b/drivers/virt/bao/bao_hypercall.h
+new file mode 100644
+index 000000000000..9875e27f312d
+--- /dev/null
++++ b/drivers/virt/bao/bao_hypercall.h
+@@ -0,0 +1,90 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Bao Hypervisor hypercall interface
++ *
++ * Copyright (c) Bao Project and Contributors. All rights reserved.
++ *
++ * Authors:
++ *	João Peixoto <jpeixoto@osyx.tech>
++ *	José Martins <jose@osyx.tech>
++ *	David Cerdeira <davidmcerdeira@osyx.tech>
++ *
++ * Bao exposes its hypercalls through the architecture's standard hypervisor
++ * call convention: SMCCC fast calls in the vendor-specific hypervisor service
++ * range, issued with HVC, on arm/arm64 and an SBI extension, issued with
++ * ecall, on RISC-V. The helpers below are built on the generic SMCCC and SBI
++ * support, so no architecture-specific code is needed.
++ */
++
++#ifndef __BAO_HYPERCALL_H
++#define __BAO_HYPERCALL_H
++
++#include <linux/types.h>
++
++/* IPC through shared-memory hypercall ID */
++#define BAO_IPCSHMEM_HYPERCALL_ID 0x1
++
++#if defined(CONFIG_ARM) || defined(CONFIG_ARM64)
++
++#include <linux/arm-smccc.h>
++
++#ifdef CONFIG_ARM64
++#define BAO_SMCCC_CONV ARM_SMCCC_SMC_64
++#else
++#define BAO_SMCCC_CONV ARM_SMCCC_SMC_32
++#endif
++
++/* Bao hypercalls are fast calls in the vendor-specific hypervisor range. */
++#define BAO_HYPERCALL_FID(id)						\
++	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, BAO_SMCCC_CONV,		\
++			   ARM_SMCCC_OWNER_VENDOR_HYP, (id))
++
++/**
++ * bao_ipcshmem_hypercall - Notify the peer of an IPC shared-memory channel
++ * @ipcshmem_id: Hypervisor-assigned channel identifier
++ *
++ * Return: The hypervisor status code, 0 on success.
++ */
++static inline unsigned long bao_ipcshmem_hypercall(unsigned long ipcshmem_id)
++{
++	struct arm_smccc_res res;
++
++	arm_smccc_hvc(BAO_HYPERCALL_FID(BAO_IPCSHMEM_HYPERCALL_ID), ipcshmem_id,
++		      0, 0, 0, 0, 0, 0, &res);
++
++	return res.a0;
++}
++
++#elif defined(CONFIG_RISCV)
++
++#include <asm/sbi.h>
++
++/*
++ * Bao SBI extension ID.
++ *
++ * This currently lives in the SBI experimental extension space
++ * (0x08000000-0x08FFFFFF). A permanent ID has to be assigned through the
++ * RISC-V SBI specification before the RISC-V support can be considered
++ * stable; until then the RISC-V backend is experimental.
++ */
++#define BAO_SBI_EXT_ID 0x08000ba0
++
++/**
++ * bao_ipcshmem_hypercall - Notify the peer of an IPC shared-memory channel
++ * @ipcshmem_id: Hypervisor-assigned channel identifier
++ *
++ * Return: The SBI error code, 0 on success.
++ */
++static inline unsigned long bao_ipcshmem_hypercall(unsigned long ipcshmem_id)
++{
++	struct sbiret ret;
++
++	ret = sbi_ecall(BAO_SBI_EXT_ID, BAO_IPCSHMEM_HYPERCALL_ID, ipcshmem_id,
++			0, 0, 0, 0, 0);
++
++	return ret.error;
++}
++
++#endif
++
++#endif /* __BAO_HYPERCALL_H */
+diff --git a/drivers/virt/bao/ipcshmem/Kconfig b/drivers/virt/bao/ipcshmem/Kconfig
+new file mode 100644
+index 000000000000..afc904c8c78e
+--- /dev/null
++++ b/drivers/virt/bao/ipcshmem/Kconfig
+@@ -0,0 +1,16 @@
++# SPDX-License-Identifier: GPL-2.0
++config BAO_SHMEM
++	tristate "Bao hypervisor shared memory support"
++	depends on HAVE_ARM_SMCCC || RISCV
++	help
++	  This enables support for Bao shared memory communication.
++	  It allows the kernel to interface with guests running under
++	  the Bao hypervisor, providing a character device interface
++	  for exchanging data through dedicated shared-memory regions.
++	  Channels are declared on the kernel command line via
++	  "bao_ipcshmem.channels=".
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called bao_ipcshmem.
++
++	  If unsure, say N.
+diff --git a/drivers/virt/bao/ipcshmem/Makefile b/drivers/virt/bao/ipcshmem/Makefile
+new file mode 100644
+index 000000000000..2fa38c301ee0
+--- /dev/null
++++ b/drivers/virt/bao/ipcshmem/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_BAO_SHMEM) += bao_ipcshmem.o
++bao_ipcshmem-y := ipcshmem.o
+diff --git a/drivers/virt/bao/ipcshmem/ipcshmem.c b/drivers/virt/bao/ipcshmem/ipcshmem.c
+new file mode 100644
+index 000000000000..f8f4b615200a
+--- /dev/null
++++ b/drivers/virt/bao/ipcshmem/ipcshmem.c
+@@ -0,0 +1,358 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Bao Hypervisor IPC Through Shared-memory Driver
++ *
++ * Copyright (c) Bao Project and Contributors. All rights reserved.
++ *
++ * The IPC shared-memory channels are a pure software contract between the Bao
++ * hypervisor and its guests, so they are not described in the device tree.
++ * Each channel is instead declared on the kernel command line:
++ *
++ *   bao_ipcshmem.channels=<channel>[;<channel>...]
++ *
++ * where each <channel> is
++ *
++ *   <id>,<read_base>,<read_size>,<write_base>,<write_size>
++ *
++ * Addresses and sizes are parsed with kstrtoull() (so "0x" hex is accepted)
++ * and must be page-aligned.
++ */
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/io.h>
++#include <linux/list.h>
++#include <linux/miscdevice.h>
++#include <linux/mm.h>
++#include <linux/module.h>
++#include <linux/slab.h>
++#include <linux/wordpart.h>
++#include "../bao_hypercall.h"
++
++/* "baoipc" + up to 10 digits of a u32 + NUL. */
++#define BAO_IPCSHMEM_NAME_LEN 24
++
++static char *channels;
++module_param(channels, charp, 0444);
++MODULE_PARM_DESC(channels,
++		 "Bao IPC channels: <id>,<read_base>,<read_size>,<write_base>,<write_size>[;...]");
++
++/**
++ * struct bao_ipcshmem - a single Bao IPC shared-memory channel
++ * @list: entry in the global channel list
++ * @miscdev: character device exposing the channel to userspace
++ * @id: hypervisor-assigned channel identifier, passed to the notify hypercall
++ * @label: backing storage for @miscdev.name
++ * @read_base: kernel mapping of the region this guest reads from
++ * @read_phys: physical base of the read region
++ * @read_size: size of the read region
++ * @write_base: kernel mapping of the region this guest writes to
++ * @write_phys: physical base of the write region
++ * @write_size: size of the write region
++ */
++struct bao_ipcshmem {
++	struct list_head list;
++	struct miscdevice miscdev;
++	u32 id;
++	char label[BAO_IPCSHMEM_NAME_LEN];
++	void *read_base;
++	phys_addr_t read_phys;
++	size_t read_size;
++	void *write_base;
++	phys_addr_t write_phys;
++	size_t write_size;
++};
++
++static LIST_HEAD(bao_ipcshmem_devices);
++
++static int bao_ipcshmem_mmap(struct file *filp, struct vm_area_struct *vma)
++{
++	struct bao_ipcshmem *bao = filp->private_data;
++	unsigned long vsize = vma->vm_end - vma->vm_start;
++	u64 offset = (u64)vma->vm_pgoff << PAGE_SHIFT;
++	phys_addr_t region_phys;
++	size_t region_size;
++	bool read_region;
++
++	if (!vsize)
++		return -EINVAL;
++
++	/*
++	 * The read region is exposed at offset 0 and the write region right
++	 * after it. A single mapping cannot span both regions, since they are
++	 * not guaranteed to be physically contiguous.
++	 */
++	if (offset < bao->read_size) {
++		region_phys = bao->read_phys;
++		region_size = bao->read_size;
++		read_region = true;
++	} else if (offset < (u64)bao->read_size + bao->write_size) {
++		offset -= bao->read_size;
++		region_phys = bao->write_phys;
++		region_size = bao->write_size;
++		read_region = false;
++	} else {
++		return -EINVAL;
++	}
++
++	/*
++	 * The read region is written by the peer and is read-only for this
++	 * guest; the hypervisor maps it read-only at stage 2, so refuse a
++	 * writable mapping rather than let userspace take a stage-2 fault,
++	 * and make sure a later mprotect(PROT_WRITE) cannot re-enable it.
++	 */
++	if (read_region) {
++		if (vma->vm_flags & VM_WRITE)
++			return -EACCES;
++		vm_flags_clear(vma, VM_MAYWRITE);
++	}
++
++	if (vsize > region_size - offset)
++		return -EINVAL;
++
++	region_phys += offset;
++	if (!PAGE_ALIGNED(region_phys))
++		return -EINVAL;
++
++	return remap_pfn_range(vma, vma->vm_start, region_phys >> PAGE_SHIFT,
++			       vsize, vma->vm_page_prot);
++}
++
++static ssize_t bao_ipcshmem_read(struct file *filp, char __user *buf,
++				 size_t count, loff_t *ppos)
++{
++	struct bao_ipcshmem *bao = filp->private_data;
++	size_t available;
++
++	if (*ppos >= bao->read_size)
++		return 0;
++
++	available = bao->read_size - *ppos;
++	count = min(count, available);
++
++	if (copy_to_user(buf, bao->read_base + *ppos, count))
++		return -EFAULT;
++
++	*ppos += count;
++	return count;
++}
++
++static ssize_t bao_ipcshmem_write(struct file *filp, const char __user *buf,
++				  size_t count, loff_t *ppos)
++{
++	struct bao_ipcshmem *bao = filp->private_data;
++	size_t available;
++
++	if (*ppos >= bao->write_size)
++		return 0;
++
++	available = bao->write_size - *ppos;
++	count = min(count, available);
++
++	if (copy_from_user(bao->write_base + *ppos, buf, count))
++		return -EFAULT;
++
++	*ppos += count;
++
++	/*
++	 * Ensure the data written above is globally visible before the
++	 * hypercall notifies the peer guest (SMCCC requires the caller to make
++	 * memory updates visible before the SMC/HVC).
++	 */
++	wmb();
++
++	/* Notify Bao hypervisor */
++	bao_ipcshmem_hypercall(bao->id);
++
++	return count;
++}
++
++static int bao_ipcshmem_open(struct inode *inode, struct file *filp)
++{
++	struct bao_ipcshmem *bao;
++
++	bao = container_of(filp->private_data, struct bao_ipcshmem, miscdev);
++	filp->private_data = bao;
++
++	return 0;
++}
++
++static int bao_ipcshmem_release(struct inode *inode, struct file *filp)
++{
++	filp->private_data = NULL;
++	return 0;
++}
++
++static const struct file_operations bao_ipcshmem_fops = {
++	.owner = THIS_MODULE,
++	.read = bao_ipcshmem_read,
++	.write = bao_ipcshmem_write,
++	.mmap = bao_ipcshmem_mmap,
++	.open = bao_ipcshmem_open,
++	.release = bao_ipcshmem_release,
++	.llseek = default_llseek,
++};
++
++static void bao_ipcshmem_free(struct bao_ipcshmem *bao)
++{
++	if (bao->write_base)
++		memunmap(bao->write_base);
++	if (bao->read_base)
++		memunmap(bao->read_base);
++	kfree(bao);
++}
++
++/*
++ * A region must be non-empty and page-aligned, must not wrap around and must
++ * be addressable on this architecture (the command line values are 64-bit).
++ */
++static bool bao_ipcshmem_region_valid(u64 base, u64 size)
++{
++	u64 end;
++
++	if (!size || !PAGE_ALIGNED(base) || !PAGE_ALIGNED(size))
++		return false;
++
++	end = base + size - 1;
++	if (end < base)
++		return false;
++
++	if (sizeof(phys_addr_t) < sizeof(u64) && upper_32_bits(end))
++		return false;
++
++	if (sizeof(size_t) < sizeof(u64) && upper_32_bits(size))
++		return false;
++
++	return true;
++}
++
++static int bao_ipcshmem_add(u32 id, u64 read_base, u64 read_size,
++			    u64 write_base, u64 write_size)
++{
++	struct bao_ipcshmem *bao;
++	int ret;
++
++	if (!bao_ipcshmem_region_valid(read_base, read_size) ||
++	    !bao_ipcshmem_region_valid(write_base, write_size)) {
++		pr_err("channel %u: invalid region\n", id);
++		return -EINVAL;
++	}
++
++	bao = kzalloc(sizeof(*bao), GFP_KERNEL);
++	if (!bao)
++		return -ENOMEM;
++
++	bao->id = id;
++	bao->read_phys = read_base;
++	bao->read_size = read_size;
++	bao->write_phys = write_base;
++	bao->write_size = write_size;
++
++	bao->read_base = memremap(bao->read_phys, bao->read_size, MEMREMAP_WB);
++	if (!bao->read_base) {
++		ret = -ENOMEM;
++		goto err_free;
++	}
++
++	bao->write_base = memremap(bao->write_phys, bao->write_size,
++				   MEMREMAP_WB);
++	if (!bao->write_base) {
++		ret = -ENOMEM;
++		goto err_free;
++	}
++
++	scnprintf(bao->label, sizeof(bao->label), "baoipc%u", id);
++	bao->miscdev.minor = MISC_DYNAMIC_MINOR;
++	bao->miscdev.name = bao->label;
++	bao->miscdev.fops = &bao_ipcshmem_fops;
++
++	ret = misc_register(&bao->miscdev);
++	if (ret) {
++		pr_err("channel %u: misc_register failed: %d\n", id, ret);
++		goto err_free;
++	}
++
++	list_add_tail(&bao->list, &bao_ipcshmem_devices);
++	return 0;
++
++err_free:
++	bao_ipcshmem_free(bao);
++	return ret;
++}
++
++static void bao_ipcshmem_remove_all(void)
++{
++	struct bao_ipcshmem *bao, *tmp;
++
++	list_for_each_entry_safe(bao, tmp, &bao_ipcshmem_devices, list) {
++		list_del(&bao->list);
++		misc_deregister(&bao->miscdev);
++		bao_ipcshmem_free(bao);
++	}
++}
++
++/* Parse one "<id>,<rbase>,<rsize>,<wbase>,<wsize>" channel descriptor. */
++static int bao_ipcshmem_parse_one(char *desc)
++{
++	u64 vals[4];
++	char *tok;
++	u32 id;
++	int i;
++
++	tok = strsep(&desc, ",");
++	if (!tok || kstrtou32(tok, 0, &id))
++		return -EINVAL;
++
++	for (i = 0; i < ARRAY_SIZE(vals); i++) {
++		tok = strsep(&desc, ",");
++		if (!tok || kstrtoull(tok, 0, &vals[i]))
++			return -EINVAL;
++	}
++
++	if (desc && *desc)
++		return -EINVAL;
++
++	return bao_ipcshmem_add(id, vals[0], vals[1], vals[2], vals[3]);
++}
++
++static int __init bao_ipcshmem_init(void)
++{
++	char *buf, *p, *desc;
++	int ret = 0;
++
++	if (!channels || !*channels)
++		return 0;
++
++	buf = kstrdup(channels, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	p = buf;
++	while ((desc = strsep(&p, ";")) != NULL) {
++		if (!*desc)
++			continue;
++		ret = bao_ipcshmem_parse_one(desc);
++		if (ret) {
++			pr_err("bad 'channels' descriptor\n");
++			bao_ipcshmem_remove_all();
++			break;
++		}
++	}
++
++	kfree(buf);
++	return ret;
++}
++
++static void __exit bao_ipcshmem_exit(void)
++{
++	bao_ipcshmem_remove_all();
++}
++
++module_init(bao_ipcshmem_init);
++module_exit(bao_ipcshmem_exit);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("David Cerdeira <davidmcerdeira@osyx.tech>");
++MODULE_AUTHOR("José Martins <jose@osyx.tech>");
++MODULE_AUTHOR("João Peixoto <jpeixoto@osyx.tech>");
++MODULE_DESCRIPTION("Bao Hypervisor IPC Through Shared-memory Driver");
 -- 
 2.43.0
 
