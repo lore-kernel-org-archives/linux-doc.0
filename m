@@ -1,285 +1,100 @@
-Received: from mail-yx2-f41.google.com (mail-yx2-f41.google.com [74.125.224.169])
+Received: from mta1.migadu.com (out-69.mta1.migadu.com [95.215.58.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CB04E73CC
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 16:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9184E5321
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 16:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790611710; cv=none; b=asYyT8UOroVwxdUvlko3JcqkH7CbLMKzdAbzMXiFNHI2cq0q1VP+OUg8s9nUZZxdyj5+k2HriyfjICYVt2E+t4JJi5WYwI10z7vbfM1H/LgApxqdJH60b7ir0MK+Pk1zQ44GkbZ6uRe222etVOnLvuehy7/WfvOhpG0k6ORoFAs=
+	t=1790612001; cv=none; b=GAmh9LZ1cOK+sX4jaCtUToZ1dGQhoJ/7H55XjYDQvJQeDnSf0tuCZdWSuAieMio4wsK9nmCjin34O3e4MrOr1VwlHUIUC3lettsp0TbajlmdmKkZQwgdBnt1uwrP15UkT9ubFHBBe48wArYq3PH24XlBesQO2RjJtO4R1O1NK38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790611710; c=relaxed/simple;
-	bh=kwqPqWGU/lu5O5WnPDRNz7W9uJsbb9qHjsAczhFSIQ4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aNFw5L1cRN3J4BjDNS3wpQI3zOY4jKSsdy2PfTYI4QArcNF7fIU10sh0ROk6QW3k2u+l8jKVauWCoclzJVIoSBpQDvzSikvagz8Z/tV4AENxy+4Zvu44rjp6IeEVGvav2etG3zFxZbdwIwmOLMhIvH1REdyGyUukEHIFUlw6JFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com; spf=pass smtp.mailfrom=toxicpanda.com; dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b=RZUCXPKs; arc=none smtp.client-ip=74.125.224.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	s=arc-20240116; t=1790612001; c=relaxed/simple;
+	bh=VCYMxlYVrU0ZRUnBfl0gDlG7/5tTg9Tcf8QxOVlz+MI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Db/EWI6P+BPeQk3VxYep9cJIqaVpHx35BfysB5I9McgfMmIB5C9cxW1EQyPnquzvj+B3aFxHVX8avTn4+4yF8YRafdjWcBW1wxDnaOQ7ES32yk1yQcpI33nUV0kPg4ihKzr7R/7fWx06AbmS3YOYiCHGMnicOVEqpeoIA04dtrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vQh0M4Yg; arc=none smtp.client-ip=95.215.58.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b="RZUCXPKs"
-Received: by mail-yx2-f41.google.com with SMTP id 00721157ae682-8a860e5505aso31372667b3.1
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 09:08:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1790611708; x=1791216508; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oVTg+cJ8iEwlI+g5Z3PmYvi9KtBGqHnIrE1JgGd8h38=;
-        b=RZUCXPKsVCr9U2XIQ36eFxqdUpSVfi/qr/h9VJjt1JAMNNuk/ftlU8XidIkxvfv5fm
-         Dh9C0+UCL29DM74mlqbeZ0Bf3ge0UQBw8rh9Z8c/cJzQNivX2Dni1u38Yz9RWxU28ggp
-         A37Cxi6kh8RV9zQJt80CH1ZQfgRXwKhwpdnhRlHqE+0UfS/936A+rbrQxCSv2oeShQcl
-         LQYe9DmKVW5nnoql3uVETbWk4lTJvtUkP4BFMhT71JW6e8YzU09feXai7+XZpJD7jYZc
-         zKJgSR0hnjFZzLJi3tPNE6FLIrk2/EL0kH5pAmsIixel4MaK2Td32jh1eY0LGEE0dKAj
-         31/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790611708; x=1791216508;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oVTg+cJ8iEwlI+g5Z3PmYvi9KtBGqHnIrE1JgGd8h38=;
-        b=FCB5WzUNr8MtJlUCUB9SOQ+KT5uBLcaRL7roDCWbUrG5jmyewFD+I68ha9VHQ0+3+v
-         Fuq6QFjq0/S+yk48kZWFBzo0nIkKQJr6AfT6vgjBm88CxsHRR6abWaRANJtRgK05cEyX
-         mLjoRD6BBgzBmndGRmbrE3HLS+BCMRHLzVVXxHuIc48cBT73UDncXhF5sbPo/BZD1aIA
-         szkMCXRCXpjor9TGOoi3e0tTkPQZAXX+97NqqtNQC6E6Qsr6gWI1/6ZWlSisGUBTyBEP
-         ujNC0aQfBBtQX1MptIWiO7oWAej8yPn1PUIMD7wWUXa0GkAVwpH/Ftn2MC/BRwFn7dTz
-         6RSg==
-X-Forwarded-Encrypted: i=1; AKwUvBwmRxG0OaZBwKS6/PFK1CLeOer/o+gcDG1C1b3cnGqrZKG4JQ9mYZfLRx1bxwsZcagCp/fp8vQDZSk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKTGWnTdr8hfNkCpW93SXWDzrrrKTK0v/C56S9c4YR4ci1xyZcI
-	A9rjlP62wM+XLjS7Fjp49ZhzHDy3GRiukoitfjP/7w1s0KCZRAmMAZY8FkM5RgXBZjc=
-X-Gm-Gg: AYBFou2dKKrpEux5/rzGtRxQpmZCFqUuY98xfN4Gv7yNX1zXVy8ZplbMVxhB7cPtrQK
-	expa/TEBMCTk65AajUOFk34HgK4I5Utht1FknjJlQL+qfMSGWgDs/jOgIe/MIE38OCWfhDr7F1O
-	9WoJJboHHVGyzjAu5D/itRMflkoBTEhl9bdf5FXnj3PkTsUZJ5qd8XnzyyV0oLQMy1tF7VKefug
-	/GkgcibtdxmN5u6asgMPSRwxLUqSIAil20Sgslf+Wi1i+u5XLGkQeJtddvqBoxcPMc++iM7S975
-	1xznvfds5wvG5HNbvSy1i9Oj8j1UnchtGCRSBSMg6WornuuGGPBXbbmKrlY8JlLGlVLFPCVAzOi
-	WlKEIu3O8M9++xKeV/ZTs//i1O4BcXl6giqPQkNn/c5ljTT6Dj5Rd4dNWkGZhmn6rRAYFI36AAh
-	hf6qyhzXWXcyBZA+/P3kGozsDorSQ2LHE1iVMR4JsoABn2RZd//CV4rDhHNLLNpIRV79wLVRM0N
-	RHt4NF+ZoxX8o+jadp0BB5Y1A==
-X-Received: by 2002:a05:690c:c681:b0:8a8:5721:9098 with SMTP id 00721157ae682-8a857219668mr41750367b3.20.1790611707875;
-        Mon, 28 Sep 2026 09:08:27 -0700 (PDT)
-Received: from toxicpanda.com ([153.61.196.255])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c813fee09sm179568685a.24.2026.09.28.09.08.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 09:08:27 -0700 (PDT)
-From: Josef Bacik <josef@toxicpanda.com>
-Date: Mon, 28 Sep 2026 16:00:45 +0000
-Subject: [PATCH 9/9] ublk: refuse to go live over canceled io commands
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vQh0M4Yg"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=VCYMxlYVrU0ZRUnBfl0gDlG7/5tTg9Tcf8QxOVlz+MI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790611996; v=1; x=1791216796;
+ b=vQh0M4Yg1wixJ1KHV620RrP9HGBHGzFluIoHZpbRs+hsKnnGrX16PjbjARj2ASFm/bxt1qL1
+ PW4f9knL0flVZH42oUHWRjJAzWdJVMwcnNxNTa0qFWtSx8pY+ZScJV+YaT6DcElEu28xCVGxcL1
+ pEGUFLfu8UoSeqUFQQP7tjsg=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 913ce9d7fd73fb05;
+	Mon, 28 Sep 2026 16:13:16 +0000
+X-Mizu-Trace-ID: 913ce9d7fd73fb05
+X-Migadu-Flow: FLOW_OUT
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b8ea0ca5baso11778e87.1
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 09:13:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwVQQ6NyUtBNO7lUWHzbGQOHOWgI4joH9go+7iBcOWZRlh94Qi3UBJC8IrI0kKw4dd1q+PWt2N4REw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIEkrckXf2s7g9won+z6t5dAyjzUZZXArh6utjuAQ+Yx9kmnTGP
+	ScQPY4kN7xfSNPm6tfO08LqiT6FhHP9LfLxjhQBCZHKhCAGL8QawI4t9mbLcy7tPIwsnaQ5l7f0
+	QQc1QcrgIHX88JlaCBf2lDv8Wqx/yfPPCWKlkgIKB
+X-Received: by 2002:ac2:4650:0:b0:5b8:f142:cf3 with SMTP id
+ 2adb3069b0e04-5b8f1420dc7mr105362e87.11.1790611989788; Mon, 28 Sep 2026
+ 09:13:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260928-b4-ublk-cancel-stop-v1-9-4a4360232a46@toxicpanda.com>
-References: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
-In-Reply-To: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
-To: Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
- Caleb Sander Mateos <csander@purestorage.com>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1790611254; l=7836;
- i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=kwqPqWGU/lu5O5WnPDRNz7W9uJsbb9qHjsAczhFSIQ4=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
- JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QGcSLVl7nzeCvDJvP1fgiB+ynMcfQD0XJ1tJZLVKaA3KPxQnr8qiuhuPvwb9JVcYQUx678ZcTIY
- BM5AbDh08zgA=
-X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
- fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
+References: <20260928152507.2116110-1-fuad.tabba@linux.dev> <86cxtx4bbp.wl-maz@kernel.org>
+In-Reply-To: <86cxtx4bbp.wl-maz@kernel.org>
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Mon, 28 Sep 2026 17:12:33 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTymQqcARDNHHDvkjFvEuf1C78NsvPJwcnaH4bOu-m9tQw@mail.gmail.com>
+X-Gm-Features: AclHuK-OWctusFN_TR3hIpHHx8_H0y3i7Oz0Ee1onONuAo5w9l_i54qFA-ucEZA
+Message-ID: <CA+EHjTymQqcARDNHHDvkjFvEuf1C78NsvPJwcnaH4bOu-m9tQw@mail.gmail.com>
+Subject: Re: [PATCH v1 00/10] KVM: arm64: Nested stage-2 walk error handling
+ and other small fixes
+To: Marc Zyngier <maz@kernel.org>
+Cc: Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Jing Zhang <jingzhangos@google.com>, Karl Mehltretter <kmehltretter@gmail.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-START_DEV on a ready device whose commands got canceled adds a disk on
-which every request fails. With UBLK_F_USER_RECOVERY, unless
-UBLK_F_USER_RECOVERY_FAIL_IO is set, the requests are requeued instead
-and never kicked again, so the partition scan read hangs with
-disk->open_mutex held until the device is stopped again or deleted.
-Every opener blocks behind it. END_USER_RECOVERY on a queue which kept
-->canceling marks the device live and leaves its requests parked the
-same way.
+Hi Marc,
 
-A command canceled by ublk_claim_cmd() cannot be fetched again before
-the queues are reinitialized: FETCH fails with -EBUSY once the device
-is ready and with -EINVAL on an active io. Since commit 1133b93fc7f6
-("ublk: set canceling flag even when disk is not allocated") and the
-previous patches such a device keeps ->canceling set, but nothing stops
-it from going live.
+On Mon, 28 Sep 2026 16:58:34 +0100, Marc Zyngier <maz@kernel.org> wrote:
+[...]
+> > retiring with the fault in PAR_EL1. Reporting the unreadable descriptor
+> > as a Data Abort instead, for the stage-1 walks too, is a separate
+> > change I'll send later.
+>
+> Why later?
 
-In ublk_ctrl_start_dev() check for that and publish ub->ub_disk in one
-cancel_mutex section, so that either START_DEV sees the canceled
-commands or ublk_start_cancel() sees the disk and quiesces it.
+The loop fix is small and stops the hang. The Data Abort change
+replaces the SEA-in-PAR_EL1 reporting at the four walk sites in at.c
+and nested.c and has to stop the PC advancing past the AT. I haven't
+done it yet, and I didn't want to hold the hang fix for it.
 
-Fix by failing START_DEV and END_USER_RECOVERY with -ENODEV when a
-queue is canceling or holds a command canceled after being fetched.
+[...]
+> My definition of a series is "an ordered set of changes that have a
+> common theme or form a progression towards a precise goal". This is
+> not a series, but a patch dump.
+> </rant>
 
-Fixes: 1133b93fc7f6 ("ublk: set canceling flag even when disk is not allocated")
-Assisted-by: LLM
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
----
- Documentation/block/ublk.rst | 15 +++++++++--
- drivers/block/ublk_drv.c     | 63 ++++++++++++++++++++++++++++++++++++++------
- 2 files changed, 68 insertions(+), 10 deletions(-)
+Sorry about that. When you asked me a couple of weeks ago to group
+related patches rather than post them one at a time, I took it past
+"related" and put everything small I had into one series.
 
-diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
-index 28300fee22bf..05d702f66a93 100644
---- a/Documentation/block/ublk.rst
-+++ b/Documentation/block/ublk.rst
-@@ -118,7 +118,13 @@ managing and controlling ublk devices with help of several control commands:
-   After the server prepares userspace resources (such as creating I/O handler
-   threads & io_uring for handling ublk IO), this command is sent to the
-   driver for allocating & exposing ``/dev/ublkb*``. Parameters set via
--  ``UBLK_CMD_SET_PARAMS`` are applied for creating the device.
-+  ``UBLK_CMD_SET_PARAMS`` are applied for creating the device. The command
-+  fails with ``-ENODEV`` if any fetched io command got canceled meantime,
-+  by ``UBLK_CMD_STOP_DEV`` or because its io_uring is gone, and the device
-+  has to be deleted then. With ``UBLK_F_BATCH_IO`` it fails the same way
-+  after a ``UBLK_CMD_STOP_DEV`` sent while no process had ``/dev/ublkc*``
-+  open, or after the current one opened it, even if no io command had
-+  been fetched yet.
- 
- - ``UBLK_CMD_STOP_DEV``
- 
-@@ -195,7 +201,12 @@ managing and controlling ublk devices with help of several control commands:
-   command is accepted after ublk device is quiesced and a new process has
-   opened ``/dev/ublkc*`` and get all ublk queues be ready. When this command
-   returns, ublk device is unquiesced and new I/O requests are passed to the
--  new process.
-+  new process. It fails with ``-ENODEV`` if any of the new io commands got
-+  canceled already, and with ``UBLK_F_BATCH_IO`` also if the cancel of a
-+  ``UBLK_CMD_QUIESCE_DEV`` reached one of its queues after the old process
-+  released ``/dev/ublkc*`` and before that queue got ready. The device has
-+  to be deleted then, or the recovery
-+  started over after the new process has closed ``/dev/ublkc*``.
- 
- - user recovery feature description
- 
-diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
-index 5e86405b294b..19efa13c205a 100644
---- a/drivers/block/ublk_drv.c
-+++ b/drivers/block/ublk_drv.c
-@@ -2757,6 +2757,7 @@ static void ublk_abort_queue(struct ublk_device *ub, struct ublk_queue *ubq)
- static struct gendisk *ublk_start_cancel(struct ublk_device *ub)
- 	__must_hold(&ub->cancel_mutex)
- {
-+	/* sync with ublk_ctrl_start_dev() publishing the disk */
- 	struct gendisk *disk = ublk_get_disk(ub);
- 
- 	if (ub->canceling)
-@@ -2772,10 +2773,10 @@ static struct gendisk *ublk_start_cancel(struct ublk_device *ub)
- 		blk_mq_unquiesce_queue(disk->queue);
- 	} else {
- 		/*
--		 * Disk not yet allocated by ublk_ctrl_start_dev(), so
--		 * there is no request queue and ublk_queue_rq() cannot
--		 * be running.  Just set the flag; if start_dev proceeds
--		 * later, new I/O will see canceling and be aborted.
-+		 * Disk not published by ublk_ctrl_start_dev() or detached
-+		 * already, so ublk_queue_rq() cannot be running.  Just set
-+		 * the flag, START_DEV fails on canceled commands instead
-+		 * of adding a disk on top of them.
- 		 */
- 		ublk_set_canceling(ub, true);
- 	}
-@@ -4652,11 +4653,35 @@ static bool ublk_validate_user_pid(struct ublk_device *ub, pid_t ublksrv_pid)
- 	return ub->ublksrv_tgid == ublksrv_pid;
- }
- 
-+/*
-+ * The commands canceled by ublk_claim_cmd() can't be fetched again
-+ * before the queues are reinitialized, so a ready device must not go live
-+ * while a queue is canceling or holds a command canceled after the fetch.
-+ */
-+static bool ublk_dev_cmds_canceled(struct ublk_device *ub)
-+	__must_hold(&ub->cancel_mutex)
-+{
-+	u16 i;
-+
-+	for (i = 0; i < ub->dev_info.nr_hw_queues; i++) {
-+		struct ublk_queue *ubq = ublk_get_queue(ub, i);
-+		bool canceled;
-+
-+		spin_lock(&ubq->cancel_lock);
-+		canceled = ubq->canceling || ublk_queue_has_canceled_io(ubq);
-+		spin_unlock(&ubq->cancel_lock);
-+		if (canceled)
-+			return true;
-+	}
-+	return false;
-+}
-+
- /*
-  * Wait until all queues have fetched their I/O commands, and return with
-- * ub->mutex held and readiness guaranteed: then every queue's ->canceling
-- * is cleared. Ready may regress between wakeup and mutex_lock() (F_BATCH
-- * UNPREP, daemon death), so re-check it under the mutex and wait again.
-+ * ub->mutex held and readiness guaranteed. Ready may regress between wakeup
-+ * and mutex_lock() (F_BATCH UNPREP, daemon death), so re-check it under the
-+ * mutex and wait again. The commands may still get canceled after being
-+ * fetched, callers check ublk_dev_cmds_canceled().
-  */
- static int ublk_wait_dev_ready_and_lock(struct ublk_device *ub)
- {
-@@ -4691,6 +4716,7 @@ static int ublk_ctrl_start_dev(struct ublk_device *ub,
- 	};
- 	struct gendisk *disk;
- 	int ret = -EINVAL;
-+	bool canceled;
- 
- 	if (ublksrv_pid <= 0)
- 		return -EINVAL;
-@@ -4776,8 +4802,20 @@ static int ublk_ctrl_start_dev(struct ublk_device *ub,
- 	disk->fops = &ub_fops;
- 	disk->private_data = ub;
- 
-+	/*
-+	 * Check and publish under cancel_mutex, so either the canceled
-+	 * commands are seen here or ublk_start_cancel() sees the disk.
-+	 */
-+	mutex_lock(&ub->cancel_mutex);
-+	canceled = ublk_dev_cmds_canceled(ub);
-+	if (!canceled)
-+		ub->ub_disk = disk;
-+	mutex_unlock(&ub->cancel_mutex);
-+	if (canceled) {
-+		ret = -ENODEV;
-+		goto out_put_disk;
-+	}
- 	ub->dev_info.ublksrv_pid = ub->ublksrv_tgid;
--	ub->ub_disk = disk;
- 
- 	ublk_apply_params(ub);
- 
-@@ -4824,6 +4862,7 @@ static int ublk_ctrl_start_dev(struct ublk_device *ub,
- 		ublk_detach_disk(ub);
- 		ublk_put_device(ub);
- 	}
-+out_put_disk:
- 	if (ret)
- 		put_disk(disk);
- out_unlock:
-@@ -5350,6 +5389,7 @@ static int ublk_ctrl_end_recovery(struct ublk_device *ub,
- {
- 	int ublksrv_pid = (int)header->data[0];
- 	int ret = -EINVAL;
-+	bool canceled;
- 
- 	pr_devel("%s: Waiting for all FETCH_REQs, dev id %d...\n", __func__,
- 		 header->dev_id);
-@@ -5372,6 +5412,13 @@ static int ublk_ctrl_end_recovery(struct ublk_device *ub,
- 		ret = -EBUSY;
- 		goto out_unlock;
- 	}
-+	mutex_lock(&ub->cancel_mutex);
-+	canceled = ublk_dev_cmds_canceled(ub);
-+	mutex_unlock(&ub->cancel_mutex);
-+	if (canceled) {
-+		ret = -ENODEV;
-+		goto out_unlock;
-+	}
- 	ub->dev_info.ublksrv_pid = ub->ublksrv_tgid;
- 	ub->dev_info.state = UBLK_S_DEV_LIVE;
- 	pr_devel("%s: new ublksrv_pid %d, dev id %d\n",
+I'll split it. The nested AT walk fixes with their selftest as one
+series, with the Data Abort change in it if you'd rather have them
+together, the SMCCC filter WARN on its own with Oliver's change, the
+three documentation fixes as one series, and the two selftest leaks as
+one.
 
--- 
-2.55.0
+Sorry again :)
 
+Cheers,
+/fuad
