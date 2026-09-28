@@ -1,79 +1,87 @@
-Received: from mta0.migadu.com (out-153.mta0.migadu.com [91.218.175.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49134E50AC
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 16:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D361A4EF140;
+	Mon, 28 Sep 2026 16:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790612484; cv=none; b=E5VDMW4nc+XVSoo/ZBGRidliebJj1NcLwauHrS9fWL0DaY1M9x59rNZUqupXGQjBl0CGGkJhN26hDvNRpD/ZEEBHeyEmO86vzYQh7KxatUQhvKX8XP184dnvgPM4v5Ctn6F5ekf9G9SACZdhqJeh22qq/1pnURHr5wU1adxPHBo=
+	t=1790612597; cv=none; b=m8iE3bptAJicNB5FAyEJAiYGibQF3MexzSlbd+onShAYX5RyoKi+lL35zi9hHxOYIjKIo5/Tf6ZpIGSo6vCmLMyQ09bCOHADOhGF4Uq4W2MIZXCjf2EBwLDnVeAoX7HLiNPR6k8jdZzAwIattOBbJxq2LaaMZX6WisTVCHMsmko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790612484; c=relaxed/simple;
-	bh=c06SVugHWJJNDeT83SdkPtIHJEt16Y1SGd4fojskXEI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lT+x3sFcKBpwqOqEleULA+off6vbiVAJQ7ffF6G8IeMzNNHepLF5aruz5a0px1ieAk9owp4gWT7dI4iOVugSBCNA+4hVIVbFLmg2M6XlLjvUNo0ossCN5w0IukAdG0VFjJoEeYWrE/9QurguIm2LLtjpt12tG9Vwk5nyzz01kug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ndWuDymy; arc=none smtp.client-ip=91.218.175.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790612597; c=relaxed/simple;
+	bh=dNDAcGHNy09VRA5c5vXMv5G1dwyTJJ5okykDl+SczM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kbAFtd+w1E8xW7yToOznlj0ZCji7mDfhm+HQuBQAnExWTROJNeTeVOb728OlcmPlhPfECd731zl4yxGfbpYywO5UowvL/IrSeuyY8yNBPtCJlWiXJlezfhkeA4e0VG8A2k7W2qSJwzrlOY+bcHA/xm8Iuqf4EMSMSWWs8qUh1Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AdKe3Puz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ndWuDymy"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=c06SVugHWJJNDeT83SdkPtIHJEt16Y1SGd4fojskXEI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790612479; v=1; x=1791217279;
- b=ndWuDymye6pgEfFS4MGGwui4fe1+chJZdM3LxXhOAx2vwNetEdgsvod16RqLoGYgWaVM5i4/
- GDPLGetZytIfJzqKWsMgywv1eE7kS02XXKj39yPw+vSb5DeGGVl5T4l0aFHCkMM872JrUmpYqAp
- C0hsEUrhU4ZfyhcowQxF3FcA=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 87dccb8271cd9831;
-	Mon, 28 Sep 2026 16:21:19 +0000
-X-Mizu-Trace-ID: 87dccb8271cd9831
-X-Migadu-Flow: FLOW_OUT
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6aafd2c326aso17860a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 09:21:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxiFgTnfxFOL0cYUKgb6YT7LBcyAlEzKWnAbCv5kT7JdPMlPbbED+OyiLMyTZl7p07zdeOaHrQRsAg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLquPvGtZInG7UrMLRkrxh3d1k8v2GrKkJFWNOEtd32qlIPsCrK
-	2uaLfD4lIhnn8hI/RjLyfbYNvUbOx4ApxU3mmmKIiCrCEW5AnGHHXElQiQZVMk/H9TqG472c7m4
-	iaAHedYExfh7WKHViUanm51zpJh47mBpPt27jjMaR
-X-Received: by 2002:a05:6512:220c:b0:5ae:b726:5f1f with SMTP id
- 2adb3069b0e04-5b8ef277c63mr220456e87.8.1790612128596; Mon, 28 Sep 2026
- 09:15:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AdKe3Puz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54C8B1F0089A;
+	Mon, 28 Sep 2026 16:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790612596;
+	bh=dNDAcGHNy09VRA5c5vXMv5G1dwyTJJ5okykDl+SczM8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AdKe3PuzxBeIfMRzAElN7KJNlKqTeYxTv3RiLkw/Qz7zSVjL8rh3hz+brQG9Rl0bw
+	 4FC4Y6iUVl8feOfDgHg3UMd8MhU6S6JawTo5suISocRvxaMFCN044OBdhh8q4QSPzm
+	 +84ocNwkhgBfQ1aDLsOl181/6k8blbWN99FN7JDQx3AGzlJNTzWmITGFdRp4WIzIu4
+	 jYZICQBD3DbSAThjkRuJHvNzQorEuRquCsQq8bHfEy+9Eo49vSzkuMj34fUFRYF0ow
+	 SlysURxuHxAAvgD/PtsHtPh4xlw2nSGiLzbixrt35t5zyhNs9HZSuzvytQul8CXo5P
+	 asQRSILi8GvMg==
+Date: Mon, 28 Sep 2026 17:23:08 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: Hajime Tazaki <thehajime@gmail.com>, linux-mm@kvack.org, 
+	liam@infradead.org, rbm@suse.com, akpm@linux-foundation.org, luto@amacapital.net, 
+	brendan.jackman@linux.dev, david@kernel.org, liuhangbin@gmail.com, corbet@lwn.net, 
+	kees@kernel.org, broonie@kernel.org, mhocko@suse.com, rppt@kernel.org, 
+	shuah@kernel.org, surenb@google.com, vbabka@kernel.org, wad@chromium.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-um@lists.infradead.org, 
+	geert@linux-m68k.org, daniel@thingy.jp
+Subject: Re: [PATCH v3 2/3] selftests: run tests on nommu architecture
+Message-ID: <arqUVCrA0rC7-c0b@gremlin>
+References: <20260926010819.604346-1-thehajime@gmail.com>
+ <20260926010819.604346-3-thehajime@gmail.com>
+ <04259a99ed91f8a527b255951a6f626310728170.camel@sipsolutions.net>
+ <arpIi5QBG1_MuZzJ@gremlin>
+ <8dfc0ec9ed660e373451c96b6fcc352c35a6a004.camel@sipsolutions.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260928152507.2116110-1-fuad.tabba@linux.dev>
- <20260928152507.2116110-2-fuad.tabba@linux.dev> <arqNu0rSxIz4-Mue@kernel.org>
-In-Reply-To: <arqNu0rSxIz4-Mue@kernel.org>
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Mon, 28 Sep 2026 17:14:52 +0100
-X-Gmail-Original-Message-ID: <CA+EHjTwiqsvxXV7fm8emQHWW7qYrQ79J4V+5Erot5Df2=YaLXQ@mail.gmail.com>
-X-Gm-Features: AclHuK89NS8J3Mx20bby02ytOoblOsUcBV9_SKsrfeTNez43AkDgos1HN6Dw7f0
-Message-ID: <CA+EHjTwiqsvxXV7fm8emQHWW7qYrQ79J4V+5Erot5Df2=YaLXQ@mail.gmail.com>
-Subject: Re: [PATCH v1 01/10] KVM: arm64: Don't WARN on SMCCC filter reserved
- range allocation failure
-To: Oliver Upton <oupton@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, kvmarm@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Steffen Eiden <seiden@linux.ibm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Jing Zhang <jingzhangos@google.com>, Karl Mehltretter <kmehltretter@gmail.com>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8dfc0ec9ed660e373451c96b6fcc352c35a6a004.camel@sipsolutions.net>
 
-Hi Oliver,
+On Mon, Sep 28, 2026 at 02:32:50PM +0200, Johannes Berg wrote:
+> On Mon, 2026-09-28 at 12:00 +0100, Lorenzo Stoakes (ARM) wrote:
+> > > Not sure where this should be merged? I guess selftests would make most
+> > > sense, but you can't actually test it out before the UML nommu changes,
+> > > so that doesn't work too well right now?
+> >
+> > I seem to recall Hajime saying he tested this on an actual nommu
+> > device/virtualised equivalent so nommu UML isn't strictly necessary (though very
+> > nice to have!)
+>
+> Oh, I don't recall, but I guess that's plausibe.
+>
+> > I think I saw something fly by that implied it might be coming in 7.4 is that
+> > so? :)
+>
+> I did end up merging just about everything that was pending for
+> uml/next, so if we don't forget to send a pull request in the merge
+> window, or something equally catastrophic happens, yes ;-)
 
-On Mon, 28 Sep 2026 16:54:35 +0100, Oliver Upton <oupton@kernel.org> wrote:
-[...]
-> Eh, the warn is still useful. You could potentially add a check for
-> -ENOMEM but any other return value is a sign of something wrong in
-> KVM.
+Awesome, thanks! :)
 
-Ack, I'll keep the WARN and exempt -ENOMEM in v2 (or the new series
-this becomes part of).
+>
+> Sorry for the delay. The onslaught of LLMs means priority is elsewhere,
+> sadly.
 
-Cheers,
-/fuad
+Yeah understood, onslaught has reached all areas of the kernel it seems...
+
+>
+> johannes
+
+--
+Cheers, Lorenzo
