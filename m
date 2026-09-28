@@ -1,230 +1,199 @@
-Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FD0339847
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 05:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790572752; cv=pass; b=Vrj+PtTOPgLir+Sa/oYu+Bm2bq4nd2DAd0oHY1wnE0YHI/ON0v4zdrdzctwj/Hl5fS7lMKFjEbpBcnM/xcpImEBQzr4NZC50Ojq/4WlBHpenj+mTWXgbwxm/6gnulFix/sjTdxTKmOjXwL8Yb5PFvMh9EgJohICxTpUJpK4P9Lo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790572752; c=relaxed/simple;
-	bh=eMZ7NWgSIj9tWcw6NNo8sy+jc9H3QenfA/we/snsRR0=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fMmQfiBh2TnCvGxilSrYONagm8XnQFcGrnwu0RYIOGDTYRYNxkyyJ6akll4TpzXfU2IZqGPImI4XPUCHjrLyXbHXu4tSB1OJMvvBLKqhx1gUkIjACSRX7hH2A7xff4hAjpUo/Hfuqsb96n84wIdHPQcNEc6eN8zfkyTtGz5Ys50=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kfjB5HEG; arc=pass smtp.client-ip=74.125.230.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB67F3859DC;
+	Mon, 28 Sep 2026 05:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790573909; cv=none; b=S/KXOfaK6EhxT7iZl1BINl1E8tqD6wPNeI2TRGlTgINQbDwb6ZyfYilutTwunz+7ypjAR5IpYfGjG2Fo8IddLvdv4JJp9iBUjfggato0JTtDJW2w4sRX0uH429lYBYipk9CyC7YLy61E8i/dDsTHG3vPH7EclhHkqihPLRGjTko=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790573909; c=relaxed/simple;
+	bh=CR6lPjPmIs7B/vZ6MqXQRnma9EgaPId0HcCnLjsrn7Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DmSmNEL7jZpXDKl2MAH3loZ6OVdiWaZBiF6ah7KdJ24m85y7zfYT7smjiWUBwX1ZJYJgwAlifBEozr/K45EPTbzvW1O+e2HXLZr8W7EqXD3IFo+eB4GPCV3c+fpPcQJsymvGMYmlrtwAxyWd0BXUhg4J/dM8S6FLAOzdjk1tj3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ZYB0HaKV; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kfjB5HEG"
-Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-9107051ba26so13303866d6.1
-        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 22:19:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790572749; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AzGrqbK8FVgh5ywLmFjLRCG1l2utQhhLC0r9A1LrYqDVh3/VjtZAO90tmL+uLmiWSt
-         jC66Mw8bjx2ognrjby7YH5ENRJgFgvOARbQYGjJAKxWCSqP+uElqxpN/1iSsPWLVZwVj
-         uQ8snSdbyEwcL/jMWHufpncIMJt9H/vtOmi4Eh2U3I0JqLbumrylVCj6IhT3MXD72mPa
-         OKhjLq+mqi+aW7g83yZxes30cT+TqDcOXaOZ2GRCKYnak87dn05sD8gXlgP7eICI6pDm
-         ENBwCDAWCf5rkvt0uG0cilJWqIzQLbI+ZfKv8ZmlsxJkDlm7dg0poUaTT3171Fz03Uv4
-         V2BQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=uhC9VdyJZAhlbxrqH3B0Xp+V5ADIoAIUT4+FDcJgkb0=;
-        fh=d7kqA97XrZqz6BkR6ZiGf15V5cQqp3sb/1mmKnmcfaY=;
-        b=O0pxB8unWJrKP9Dtw9jPN0Vs+bKPpNTllVkHEGc30vz3cLCVXKDbguexj61Lactyja
-         XlvTBGkpWP9Zbla2OK6iJXji9egchDF1pgeoZWdfsvQvuW0rIH7Ou8qh1Nns7Rj9GW6d
-         Voys4eX7fJg4GQRBucfCxa7CDisB9D5rCwv4q2VnFBTpwpeFefO25ov1giQBcUv3DuKU
-         51n1N9qBPbD4k9/FkXqa2URUXch06+AL/Rgvhs8OHGl54FM2Kso8+bdF1QONKa4xuOq8
-         +ChMu1ffMIiLzbN02dZkZxIaIkIVf1tn5nmnbYkBKVJW62Z9Uspm0amSnYsqpuZo0ifc
-         +vzw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790572749; x=1791177549; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uhC9VdyJZAhlbxrqH3B0Xp+V5ADIoAIUT4+FDcJgkb0=;
-        b=kfjB5HEGm7YPH4RmeTlIXpCdy7Dc4DodlT4fgGG8w/fPkLyZQVLeE2KcdW+jsmtMWH
-         DFEI+c7Z1d+yte6Iqv2M2D51TEPuJtAC2O6vLZ7CFCMd/aibGCWf8IlQcbaKnwzjmKEp
-         j2KwbgGB/C5S611H7j3gomTOd9vPIK2wGGjn2pYIf5trnRqe9us2pgyRPQZUHpVp36PP
-         WDQbvS8+dH5pJJi8IRP42weniDT6Qc2PwIIS4kFlKCH5e5U3XunHJA3R/Aro2FUhaMX7
-         Hh/9ewKuS5nGuem4Cbs5gYJ2RC1yacx+3ggn0Tp8SJDkC5Wwy3Y4W+eGTQlVM1hR6/7K
-         EqZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790572749; x=1791177549;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uhC9VdyJZAhlbxrqH3B0Xp+V5ADIoAIUT4+FDcJgkb0=;
-        b=iQW0OYq9SwsCaADdYNLjCQfn+UKYsMW9pq9PRpo1qPqd33AVP4+qPLI+7xKIlX33ND
-         xr+ShL3VdVMBd2Pez3nH9GQ01isMFMoxsMBXb3guDWAA1oWWABJmw2gQf679/JHGZyc3
-         OrwqNGiDJEBlVedlzX0I2ptBkDVWFUMxRYrvHiYOkKNOLpNMBjbsMKgjG1BFW24ilZaz
-         CfjYQZ2/jUDGiyHOZhX5Pa1MGMnR9khZ6Cv6JBMnnDFFDrfLEXJiWmuZ7cf+DN5OZXcv
-         9OjwR3uk2obmDTh0yoh0Go2ayixl5COB5mUdh12cg9n7InbxNlewCbxqAafzP/wnMgXO
-         PVTw==
-X-Forwarded-Encrypted: i=1; AKwUvBy1vAvNBcDSKljDMMvWSGVq9cH9+wXhtdgxoKr9mM6DzvWlYCT4o+A7rkQgIk8+o4VEBsnjhaLqCek=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJdviORx85aLxmrOzRzRuZGHToi/zp589NDRdctE3ZkXGkF9okV
-	YNA7IYmywaZShZWt7MD6V85XhA2HBNMBhyoBKT6q1Ih+7xWtHN97SMfuHjoc+sjMPwcHVoJcxDi
-	4a0dK6rfb4d3HtrdgwIbqVLJGWqMJnovknzgIqwhn
-X-Gm-Gg: AYBFou0XW1X719aIZGtwU501uWHJdQumqpyULLfe2YXU+0JLeTWW/YwHvNjaumctDCO
-	nodFKoN5vvS1NfHxkGhmgtzcMDcoXS/XhsWWIlRtRTRy82o1FWxkoMiW5nC6fn/0HKlwL/gLyhp
-	ackQ2fKsG/0N+vQ2HFFfhvUTXmUR1Lk09r29gByJoIMK0mJ4zMA10SNEx773xN0X8rcEviHp6V9
-	mClvS0moUbbppKTMpgXnm+7+siexaaq3O181uhxc674CWSBHxRvTyAP7R7IkjVUbr0PzHuqlnCc
-	6A0E1fxRrFnXDjS9j7aQ+7ZCvHV1AbZ2i5kGsvAnecQUBrozqzr+T0ETokPIYRRsSIct1QC1kf2
-	+KRoP30oI7w==
-X-Received: by 2002:a05:6214:2f89:b0:912:4680:c96f with SMTP id
- 6a1803df08f44-9142f6c3868mr213059746d6.3.1790572748944; Sun, 27 Sep 2026
- 22:19:08 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 27 Sep 2026 22:19:08 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 27 Sep 2026 22:19:08 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20260927170426.2467-1-kmehltretter@gmail.com>
-References: <20260916-hugetlb-subpool-always-track-used-v3-0-38aae9b5ccdd@google.com>
- <20260916-hugetlb-subpool-always-track-used-v3-3-38aae9b5ccdd@google.com> <20260927170426.2467-1-kmehltretter@gmail.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ZYB0HaKV"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68RGSGt22592686;
+	Mon, 28 Sep 2026 05:38:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=892+fRqgga7UiOa0g
+	Yx1oSkKwKbBRGQrN7BUe+0/Oyg=; b=ZYB0HaKV4v45HbM6UQV2vXEp8umBl5fl4
+	JoUzP3tMqyn/Mc+Gqat6FWK/zj0Ri1jf+I/VntSpSt2V1SMLnbqPILCc2IZlYLfn
+	sQ4BkNkdHQFXLX/4FX7i149KLJHE4epZezO/eO7jdfOrEHkArkXwPAN58iTAObkx
+	hz6XlL9RUMyF6z//cMtAbQ2Xzi5VAf6+H/IoGSg5zUnSrz9QNSuHcXIKm/hCwnH1
+	SQEOPAmsQz1Qnw48y1WkVnVhZnQZ0z8y0r2ClXsuWd+hVxQDhleGlCgCINqNRYOt
+	9/jpkff1Y2/ZrSB9hklAtZBp2Q6IjYMdJegrJckOnbdz23tbasxPg==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx5qqyg00-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 28 Sep 2026 05:38:03 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68S4GILb2157653;
+	Mon, 28 Sep 2026 05:38:02 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gxsvhbrw1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 28 Sep 2026 05:38:02 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68S5bwX131392032
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 28 Sep 2026 05:37:58 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5D98820043;
+	Mon, 28 Sep 2026 05:37:58 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3581F20040;
+	Mon, 28 Sep 2026 05:37:48 +0000 (GMT)
+Received: from li-7bb28a4c-2dab-11b2-a85c-887b5c60d769.ibm.com.com (unknown [9.124.213.68])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 28 Sep 2026 05:37:47 +0000 (GMT)
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+To: linux-kernel@vger.kernel.org, mingo@kernel.org, peterz@infradead.org,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        yury.norov@gmail.com, kprateek.nayak@amd.com, iii@linux.ibm.com,
+        corbet@lwn.net, meted@linux.ibm.com, ynorov@nvidia.com
+Cc: sshegde@linux.ibm.com, tglx@kernel.org, gregkh@linuxfoundation.org,
+        pbonzini@redhat.com, seanjc@google.com, vschneid@redhat.com,
+        huschle@linux.ibm.com, rostedt@goodmis.org, dietmar.eggemann@arm.com,
+        maddy@linux.ibm.com, srikar@linux.ibm.com, hdanton@sina.com,
+        chleroy@kernel.org, vineeth@bitbyteword.org, frederic@kernel.org,
+        arighi@nvidia.com, pauld@redhat.com, christian.loehle@arm.com,
+        tj@kernel.org, tommaso.cucinotta@gmail.com, maz@kernel.org,
+        rafael@kernel.org, rdunlap@infradead.org, kernellwp@gmail.com,
+        linux-doc@vger.kernel.org, jgross@suse.com,
+        virtualization@lists.linux.dev, sunlightlinux@gmail.com
+Subject: [PATCH v14 01/13] sched/cputime: Add kcpustat_field_total helper
+Date: Mon, 28 Sep 2026 11:07:16 +0530
+Message-ID: <20260928053728.797539-2-sshegde@linux.ibm.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260928053728.797539-1-sshegde@linux.ibm.com>
+References: <20260928053728.797539-1-sshegde@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sun, 27 Sep 2026 22:19:08 -0700
-X-Gm-Features: AclHuK90KfcXyQWpd0DwfKVy3z309tVx_VOzduTxOGd0bveF-6OiNV1sFaSOIFs
-Message-ID: <CAEvNRgHQLifmcD1NO6cd7EVcCiQb6gJgNUo4HkFhZAvzuwMq0w@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] mm: hugetlb: Fix subpool usage leak on allocation failure
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Zhao Li <enderaoelyther@gmail.com>, Jinmeng Zhou <zhoujinmeng@bytedance.com>, 
-	Alex Shi <alexs@kernel.org>, David Hildenbrand <david@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Hongxiang Lou <louhongxiang@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Michal Hocko <mhocko@kernel.org>, Mike Rapoport <rppt@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Nhat Pham <nphamcs@gmail.com>, Oscar Salvador <osalvador@suse.de>, Peter Xu <peterx@redhat.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Usama Arif <usama.arif@linux.dev>, 
-	Vlastimil Babka <vbabka@kernel.org>, Wupeng Ma <mawupeng1@huawei.com>, 
-	Yanteng Si <si.yanteng@linux.dev>, Naoya Horiguchi <nao.horiguchi@gmail.com>, fvdl@google.com, 
-	jthoughton@google.com, rientjes@google.com, vannapurve@google.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDAyMiBTYWx0ZWRfX+2OjZj3HRGt8
+ hj5cJ7LRVqDPzDfJtbX0M3pO1nT538JjRLO8Nn6ZPPONp71NyjG0vCRR3UUP+GGF9/USaPeqtgf
+ b+87tpG4FNDWfZPSrGjwSGP+k+JTn+5E1oVIU+vQpf5NnZWOCEIMzFt8raPoV+U0HSbgTHjScXm
+ Ile3ePefMyqP73qzSIxik3CpZsrXdmFLaHo/mgvuIlTsKQFR5kFnE3OCggq7v7Zp0XyTuE5qg4i
+ kmpzSqANGw09DPexvS/wtZo8LnTOGSv0n8R4vIQpatVhdmQUN1mHKfh7MHDxycJoanYc4J684J9
+ jRTwPleDmxOcazM8u99RFhNTWLWtio9IzVnCPCXMIOOanwiQhYXMQBUivEZ6ROXIbBDxQKLKoZV
+ EDYL2EsNPoNzo47tVhNn/jf9ugsPHH+oeqMz0InTZJkwQ2yl+iVIzKCVpeWKouHsMWivP87r7al
+ 7MkN55cAiRBBDgvBhPA==
+X-Authority-Analysis: v=2.4 cv=SPbXx+vH c=1 sm=1 tr=0 ts=6ab9fd3c cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=uAbxVGIbfxUO_5tXvNgY:22 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=Ikd4Dj_1AAAA:8
+ a=VnNF1IyMAAAA:8 a=e8TCS894uZmGZegT9CcA:9
+X-Proofpoint-ORIG-GUID: TfOJIZQfneDVHPj9kYCvClPObCTbIm_j
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDAyMiBTYWx0ZWRfX7Atg57VeLfB9
+ KgOVynp+OaAxzxeQcBkEMZa/i2wV/8yFJQHFFBgGBM41fQjkzG7FjAIJ/ARvmeYk5jf8P7opWcn
+ yJb1uOtLXsgRWm0kGU49M5TukmO9J38=
+X-Proofpoint-GUID: Z0klzcSu0mugIBGtFY80S_6hXNe_OMmI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-26_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 clxscore=1015 spamscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 bulkscore=0 impostorscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609280022
 
-Karl Mehltretter <kmehltretter@gmail.com> writes:
+Provide a new helper function which sums up a given type of cpustat
+over a specified cpumask.
 
-> On Wed, 16 Sep 2026 16:39:03 -0700, Ackerley Tng wrote:
->>  out_subpool_put:
->> +	if (map_chg) {
->> +		long gbl_resv_put = hugepage_subpool_put_pages(spool, 1);
->> +
->> +		hugetlb_acct_memory(h, gbl_resv_get - gbl_resv_put);
->>  	}
->
-> I reproduced the same fallible-positive-adjustment problem in this
-> calculation.
->
-> The complete subpool put is locally correct, but it can expose capacity
-> which another operation consumes before this call tries to restore the
-> corresponding global reservation. A positive hugetlb_acct_memory() can
-> then fail with -ENOMEM, and its return value is ignored.
->
-> I tested the exact patch prefixes on v7.3-rc3 in x86-64 QEMU with 2 MiB
-> huge pages, at both one and four vCPUs. A default-off test hook enforced
-> this ordering:
->
-> 1. A shared MAP_NORESERVE fault acquires one page from a four-page
->    minimum subpool while the global pool has no spare capacity.
-> 2. Folio allocation fails.
-> 3. Before rollback, an existing reservation is released and a competing
->    reservation consumes that newly available capacity.
-> 4. The subpool put restores the local minimum state, but its required +1
->    global correction fails with -ENOMEM.
->
-> Both CPU counts produced the same result:
->
->   Source state  Cleanup result  After file removal / after unmount
->   ------------  --------------  ---------------------------------
->   v7.3-rc3      old cleanup     4 / 0
->   patches 1-2   old local leak  3 / 3
->   patches 1-3   +1, -ENOMEM     3 / ULONG_MAX
->   patches 1-4   +1, -ENOMEM     3 / ULONG_MAX
->
-> The expected values are 4 after file removal and 0 after unmount. Patch 3
-> removes the local usage leak, but the failed positive correction replaces
-> it with globally unbacked subpool reservations and the unmount underflow.
-> Patch 4 does not cover this earlier allocation-failure path.
->
-> As in the reservation case, the base remains balanced in this controlled
-> interleaving. Patch 1 makes the path observable on the minimum-only mount,
-> and patch 3 changes the local leak into globally unbacked reservations.
->
-> As for 2/4, I think the subpool get must remain provisional until the
-> allocation commits or aborts.
->
-> A LLM agent helped me with the tests.
->
-> Thanks,
-> Karl
+This allows the caller's code to be simpler and avoids duplication.
+For example, subsequent patch in the steal governor use this exact
+same pattern when calculating steal time.
 
-This is confusing me. Perhaps I've been reading too much LLM output from
-myself and from Karl :)
+Number of cpus can be derived from cpumask_weight() where necessary.
 
+Suggested-by: Yury Norov <yury.norov@gmail.com>
+Acked-by: Frederic Weisbecker <frederic@kernel.org>
+Reviewed-by: Yury Norov <ynorov@nvidia.com>
+Reviewed-by: Mete Durlu <meted@linux.ibm.com>
+Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+---
+ arch/s390/kernel/hiperdispatch.c | 10 +++-------
+ fs/proc/uptime.c                 |  6 +-----
+ include/linux/kernel_stat.h      | 11 +++++++++++
+ 3 files changed, 15 insertions(+), 12 deletions(-)
 
-== We have a path forward on top of Zhao and Jinmeng's patches
+diff --git a/arch/s390/kernel/hiperdispatch.c b/arch/s390/kernel/hiperdispatch.c
+index 217206522266..c21496f0a141 100644
+--- a/arch/s390/kernel/hiperdispatch.c
++++ b/arch/s390/kernel/hiperdispatch.c
+@@ -207,16 +207,12 @@ static unsigned long hd_calculate_steal_percentage(void)
+ {
+ 	unsigned long time_delta, steal_delta, steal, percentage;
+ 	static ktime_t prev;
+-	int cpus, cpu;
++	int cpus;
+ 	ktime_t now;
+ 
+-	cpus = 0;
+-	steal = 0;
+ 	percentage = 0;
+-	for_each_cpu(cpu, &hd_vmvl_cpumask) {
+-		steal += kcpustat_cpu(cpu).cpustat[CPUTIME_STEAL];
+-		cpus++;
+-	}
++	steal = kcpustat_field_total(CPUTIME_STEAL, &hd_vmvl_cpumask);
++	cpus = cpumask_weight(&hd_vmvl_cpumask);
+ 	/*
+ 	 * If there is no vertical medium and low CPUs steal time
+ 	 * is 0 as vertical high CPUs shouldn't experience steal time.
+diff --git a/fs/proc/uptime.c b/fs/proc/uptime.c
+index 433aa947cd57..53143c66cbe1 100644
+--- a/fs/proc/uptime.c
++++ b/fs/proc/uptime.c
+@@ -15,12 +15,8 @@ static int uptime_proc_show(struct seq_file *m, void *v)
+ 	struct timespec64 idle;
+ 	u64 idle_nsec;
+ 	u32 rem;
+-	int i;
+-
+-	idle_nsec = 0;
+-	for_each_possible_cpu(i)
+-		idle_nsec += kcpustat_field(CPUTIME_IDLE, i);
+ 
++	idle_nsec = kcpustat_field_total(CPUTIME_IDLE, cpu_possible_mask);
+ 	ktime_get_boottime_ts64(&uptime);
+ 	timens_add_boottime(&uptime);
+ 
+diff --git a/include/linux/kernel_stat.h b/include/linux/kernel_stat.h
+index 9ca6c2259dfe..c1e85550bf12 100644
+--- a/include/linux/kernel_stat.h
++++ b/include/linux/kernel_stat.h
+@@ -196,6 +196,17 @@ static inline void kcpustat_cpu_fetch(struct kernel_cpustat *dst, int cpu)
+ }
+ #endif /* !CONFIG_VIRT_CPU_ACCOUNTING_GEN */
+ 
++static inline u64 kcpustat_field_total(enum cpu_usage_stat usage, const struct cpumask *cpus)
++{
++	u64 total = 0;
++	int cpu;
++
++	for_each_cpu(cpu, cpus)
++		total += kcpustat_field(usage, cpu);
++
++	return total;
++}
++
+ extern void account_user_time(struct task_struct *, u64);
+ extern void account_guest_time(struct task_struct *, u64);
+ extern void account_system_time(struct task_struct *, int, u64);
+-- 
+2.52.0
 
-I tried to integrate Zhao [1] and Jinmeng's [2] patches into a v4 of
-this series, and I have path forward for my fixes on top of Zhao and
-Jinmeng's patches.
-
-== The path forward requires some small changes to [1/4] of this series
-
-With Zhao and Jinmeng's patches, the necessary subpool tracking is
-basically done outside of hugepage_subpool_put_pages() in 2 places
-(alloc_hugetlb_folio() and hugetlb_reserve_pages()).
-
-The logic is that patch [1/4] of this series always tracks used_hpages
-in the subpool, so I can update those 2 places that Zhao and Jinmeng
-updated in alloc_hugetlb_folio() and hugetlb_reserve_pages() to also
-always update used_hpages.
-
-I can update those 2 places if we end up going with always tracking
-used_hpages in the subpool, which I still believe is a good cleanup.
-
-== But I found more race-related issues
-
-I thought [2/4] and [3/4] of this series would fix all the race-related
-issues, but my LLM produced a reproducer that revealed even more
-race-related bugs which I don't fully understand.
-
-== Questions for Karl
-
-(Independent of the "Path forward for 7.3/7.4")
-
-1. Does squashing patch [4/4] of this series into [2/4] [3/4] resolve
-   any of what you found?
-2. Does patch [1/4] introduce new issues, or does it just not fully fix
-   all the issues? At this point I think we have so many bugs, it's more
-   about fixing bugs progressively (not regressing) than finding a
-   complete fix.
-3. Would it be ok if you integrate your findings across your two replies
-   on [2/4] and [3/4]? They're similar yet slightly different so it's
-   kind of confusing. If you have reproducers, it would help to share
-   them! :)
-
-== Path forward for 7.3/7.4
-
-Andrew, I think we should merge Zhao and Jinmeng's patches. They
-separately fix different issues, not completely, but is good enough of
-an improvement given this bigger-than-expected mess.
-
-I want to continue iterating on this series but I'm a little busy over
-the next few weeks (LPC) and I don't want to hold things up.
-
-I believe the relative order between those 2 doesn't matter, but I
-tested this order: Zhao then Jinmeng. I'll reply to those patches with
-Tested-by tags.
-
-
-Thank you everyone!
