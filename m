@@ -1,127 +1,451 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f9.google.com (mail-dy2-f9.google.com [74.125.229.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D813B8BC6
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 23:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B6036195B
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 01:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790553055; cv=none; b=WaodccUAImZbd0t71cEOC7xZCQgtfkUQwhRYr+Ko2MscOcMFqSxPfJYp+GgpLMe8lb5JQwIGD2FpvJ5O5/AicfH0PdmTCTliL5UtxGICPx23xRYYjUzmpxNh0h5bKeoEIJ8TVA68hm+bVnp38cID1DkeOrQDnKFDEKJnu7JA5no=
+	t=1790559863; cv=none; b=QfZ4d49402m+QuGYyhJA9b2ea3ix5ROS0omR9MenAX5i8eLzSQQS0yCxzZ2TzHT7aRPqBswQjGsTp10DJvoO+/dEsoSrBNLarSjBPsIFBcPM3tXYoMIHOpuAoXdQksbwFLxgvs+qnNYFA1dIiRpo6VbRMsjfN7Kt/xZWfnEtwro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790553055; c=relaxed/simple;
-	bh=QExukZIjY2AejkBgnmymsglzpWFxW7LnbDXCoL9d84g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=axwl4Ys8NLrSgI6bwH0e0mdXik9l1007W5cLdEOZ0VuFjvnL2n+mPqg+d9oThPjQ2xhrnR+voK4OZsYarJH3QgpYdjKZ0nlcbTH1/z7rrMz54GV65uYJtg3m3fEvlTAbPp6pHwEtdvAccA/C8jghI/9Ik5BERd58HU4NGJYhxyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IGzlXZHz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790559863; c=relaxed/simple;
+	bh=ipsvNDo3zwgmiIFaSah+i1GAWaEG1zxT09E2gBNhPv4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nsSTowF12XYFt2sxy5/hfob++OxQyuwGXAfUok6I8QxyQNx4rkZhbl4Oa+8Eiu/bJg35t56woMeBSrkOk0IQElEaSksayBXW98cg+GQiHj2FJXaBDCmdtcIVmrOeEFFMqNg1XzwhNdNv4NYHh/EK7SQErY8wSoNCkm5MZxgD2YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=har.mn; spf=pass smtp.mailfrom=har.mn; dkim=pass (2048-bit key) header.d=har.mn header.i=@har.mn header.b=N9vzLri6; arc=none smtp.client-ip=74.125.229.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=har.mn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=har.mn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IGzlXZHz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 971831F00899
-	for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 23:50:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790553053;
-	bh=QExukZIjY2AejkBgnmymsglzpWFxW7LnbDXCoL9d84g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=IGzlXZHzPr/8ECiAyHaT53ppe9Pa4uTrD1ifyleS430p+CIoNxFgspLA9FOAsgoDC
-	 Y1V2LIBTT8FgrqI2FugbvCuJIkj4gsoUXcAtu8rVO7ZOgbj1sQNUPRR3RnLIuMpYhX
-	 S9T/NVpEF/tX8lEFHOZdVDoddxYAgHUtn5lwnQ8QDRBmrzAq9iivyjVkw3DBjmOBfW
-	 pFvQyFnYj3ndeu4drCcgFX4gCigXcUi4deAJQJcJ+ithjTcdzZIJ81UfavdwngKQiD
-	 Tyss9VhZN9MePsdYqjBBMuGI01wvOBZ9B9NkXWGLVyWIFT8aCuACQIWAfnJJLhl4M2
-	 IhhraGasAMuPA==
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a996c8adf3so4007892a12.1
-        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 16:50:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzbuhFx/9L//bu3qGYGvcX68mLGReWV0+Lv5RK6CEEC/2ebjGpxCYtztbLXBwEeUL9G2PFWMZmkL+g=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI2JvaeIeF0SuJlb3mAMzO8AKQ8PeQujUuGfe6xe/Z9m6z2NpfU
-	aPPVaXzNEtmkj7WF0R5cqHQlah3glhcYBNjlUFWNINUYbScImedssF8SHANyqAEIkA92ZlWbO1B
-	AmDG0GGxVFjxiYayzRvWaL5FmrdhuxHX7P/ZB3rFa4Q==
-X-Received: by 2002:a05:6402:3226:b0:6aa:e8d9:7d12 with SMTP id
- 4fb4d7f45d1cf-6aae8d98044mr6856124a12.6.1790553052488; Sun, 27 Sep 2026
- 16:50:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=har.mn header.i=@har.mn header.b="N9vzLri6"
+Received: by mail-dy2-f9.google.com with SMTP id 5a478bee46e88-343f0de0450so352324eec.1
+        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 18:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=har.mn; s=google; t=1790559861; x=1791164661; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GGYKAuC+XGJ3GzFJm39Bbz01pRXmWtj9U+4AA2zMEo4=;
+        b=N9vzLri68Cw2p1YhPgiv3bDapUSLK0EoRfFwMwfW5lGDVT7Yx2ydC9z/4SViw2KIUi
+         3TTN8Ca70911ULBgZWPmuSiaJaaOqEoRD5aC62OzItTwaOCG6i2buMRuKoejS/It2s1G
+         SN6Djst85gV+t/wjvzEM74Q54mi4bdBlo6NQE7D8gSa6E4gXKlYXfFJmLx8T6zr+kL7e
+         iOJCGlllaIp89zHs3SxidPIEBZ84EJQW8/HJ+CGL17QEfOKttJ3ygQTILSbl+upp9hjW
+         ok7IFs+dw6XPmsNL7z9avM2KA6mMWNY87QD6ux1FDhaLS8MenZ8rJNFGads6+/rG2LlJ
+         166A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790559861; x=1791164661;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GGYKAuC+XGJ3GzFJm39Bbz01pRXmWtj9U+4AA2zMEo4=;
+        b=ghWl5rTQmF2+QmJCAhVw+NuV0PjLfiMp2Cob0Wud3E4nLxCM/b59hDlSgvUXGy+EJo
+         kF7tHr3YleBJ9dp1QN3ffFvHuOeNgUxQNDxsGVRk0phu4kd7tH8rng+g7+1/MGm5ceBw
+         ZoLzbIPdYyLEcGupuxlRnRYbQ2/VtzAczMmrzfp95dyGLSfx9SDJ3T30Oi4rzSWlFAJs
+         3pUcEkaIEJ7wY3G9EoC2TKSlvIFeqqlhcmcjiQXCnDKZCxLRkbaTs/I8KO4RHS2zhcbU
+         hI8Q23ZkTdkoLRA+NMk8hyvdionCOP3+YMyb64T6sytYtU9mkTmue1eg3tUjM/B1glG7
+         WHpw==
+X-Forwarded-Encrypted: i=1; AKwUvByzXVO8qi77i/hU4EW++pGEyvgjHbLv+wYSXfJscHIvCrASkmvJaUf9rIN55GPQCvg3RXV6TQ9eylc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ8A8FhhOWmuO/LQxgZTypVDqjs3c2NSEbNgsrjoufTmQA3VHEL
+	wMFubpYSI0QXIPzgS7bvMrh6xmotOIZtfsWSclUTxniTD4OjiLjVMr72/Y0bAO/LyQ==
+X-Gm-Gg: AYBFou2Cu7C+UGQlgq7DZ3EP0qszisxApLZKIqmwMfdXghKCU8N39x/DYeHMK5nOeoh
+	+LyRycJpSg7VqlAB0CpEWQR4YRs7qsZ6sjw7dwBQeDzSSAXzRALDVUwU2YN0K4+vHb6cWAyrzhc
+	/6ggVCL++EMsc/DpfuOOSZwGBv280CAFMfUvG6QkHiE6XRJVYCONgkNS8tgN6hEiZTEDmkD8P/M
+	DDa5VRoJmu6e83TvEsUK3Er8VdG58cK7xUzljYwBUvB2GM+grL7/+qWRnv0KWDHI6alqn3Ft2W/
+	2B+hYc9Ou6zPuWIyvJ6TKc3HAMNOQn77c+4289j2r5GW0XzbyIioCPeT6fljczT69vbZaUI94bn
+	vBxKkQ1un4K2YyYlD95qkXdWmSm9MQiKIi0D0Y3dJgnAZY6kCh0Nbm/sqq4+6b42wKg4dHuMfjD
+	dMH6MdWzoTb9wqCMOwg0DNkHF3A4bLs5Ff3aQ0D3Mm+eowMQ7Fxjam+pw1VvNfNsG7Tz/fvc09x
+	NZn862kXkv0V3tQaicjHAaRqg==
+X-Received: by 2002:a05:7301:fc0b:b0:341:cada:34d5 with SMTP id 5a478bee46e88-342711ab268mr7258851eec.1.1790559859236;
+        Sun, 27 Sep 2026 18:44:19 -0700 (PDT)
+Received: from zeniba.local (c-76-132-108-20.hsd1.ca.comcast.net. [76.132.108.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3413fc2413dsm24076139eec.0.2026.09.27.18.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Sep 2026 18:44:18 -0700 (PDT)
+From: Russell Harmon <russ@har.mn>
+To: miklos@szeredi.hu
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	fuse-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Russell Harmon <russ@har.mn>
+Subject: [PATCH v2] fuse: add inode generation number support
+Date: Sun, 27 Sep 2026 18:43:57 -0700
+Message-ID: <20260928014357.2285448-1-russ@har.mn>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260927141437.1432584-1-russ@har.mn>
+References: <20260927141437.1432584-1-russ@har.mn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aqjcFb6MFNiA6n4V@fedora> <aqjpYHbZ14A8xRtK@fedora>
- <CACePvbUwTxcMPVK_1GAz5gPDdh0BV9JZSnKXaUFLqDHBzBmPQg@mail.gmail.com>
- <7ee199ddee81bf8026688def82f78ad9db09be9e.camel@surriel.com>
- <CACePvbVA+DnDJprMx3qOrGb98y1ORQ-LfaENy_Btfx3uW=E4eQ@mail.gmail.com>
- <f3ca71f1c561f28a341de0e5a1b3f24bd4da3201.camel@surriel.com>
- <CACePvbX5Oy98DygLZjC=Z03Lqb0nk50_OEKQCT9svbQOOwwDew@mail.gmail.com>
- <CAKEwX=Mv+tnL8K4rfPuof6mKaLQp=tqR_qjtKrtY0-5L85FLfw@mail.gmail.com>
- <CACePvbUF2QQMh_GiCNQn-RTmZNkkLWkmaHSYzdQwv2fupjNQiw@mail.gmail.com>
- <arUcil9kxUPiymXI@KASONG-MC4> <araWKyJ5MENBwXCL@cmpxchg.org>
- <CACePvbV0Z3OhxkEn-MiMrxpSmtbt1YwCt2N2_ZW3jbdh87jgFA@mail.gmail.com>
- <9499bc084e30df4d10bc069ed26d576e4dd3de80.camel@surriel.com>
- <CACePvbWdJSUDuEbR2FXczbeWwvxP86WDGHTL-eO0A8WwMDoNRQ@mail.gmail.com>
- <b792823cce613ce756227a3b60cc245b0316a800.camel@surriel.com>
- <CACePvbWf8ocrfTpEpQ6==cr1=KTzo4Ar+-Zxt89=sxt02Z8uBg@mail.gmail.com> <1739d52dcdebdc589826990ef2938b58b1055e18.camel@surriel.com>
-In-Reply-To: <1739d52dcdebdc589826990ef2938b58b1055e18.camel@surriel.com>
-From: Chris Li <chrisl@kernel.org>
-Date: Sun, 27 Sep 2026 13:50:41 -1000
-X-Gmail-Original-Message-ID: <CACePvbUjr2kW67r0Baz748p-WLk4rPww7V=sS2s87U=R2L7N+w@mail.gmail.com>
-X-Gm-Features: AclHuK8wcEl0AbVxEBkinaGVysym0CjC226qO7EjIvxWHxxkRi6EAgi7L-b2h2U
-Message-ID: <CACePvbUjr2kW67r0Baz748p-WLk4rPww7V=sS2s87U=R2L7N+w@mail.gmail.com>
-Subject: Re: Path forward for Virtualized Swap?
-To: Rik van Riel <riel@surriel.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Kairui Song <ryncsn@gmail.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Yosry Ahmed <yosry@kernel.org>, 
-	David Hildenbrand <david@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
-	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 27, 2026 at 8:12=E2=80=AFAM Rik van Riel <riel@surriel.com> wro=
-te:
->
-> The only real change we are looking for is
-> that once zswap no longer automatically takes
-> up real swap space, the zswap use is no longer
-> counted under memory.swap.max
->
-> Only the data written out from zswap to
-> physical swap would count toward memory.swap.max.
+This patch adds support for propagating the inode generation number from
+the FUSE server to the kernel. This is useful for exporting FUSE
+filesystems over NFS, where the generation number is used to detect
+stale file handles (ESTALE) when inodes are recycled.
 
-Johannes has a nice write up in this email thread that talks about the
-two usage cases:
-https://lore.kernel.org/all/araWKyJ5MENBwXCL@cmpxchg.org/
+Key changes:
+- Bump FUSE protocol version to 7.47.
+- Repurpose the unused `dummy` field in `struct fuse_attr_out` as
+  `generation`.
+- Add a `FUSE_ATTR_GENERATION` INIT flag with which the filesystem opts
+  into the kernel consuming that field. Gating on the protocol minor
+  version alone would break existing filesystems: the minor version only
+  reflects the library, not whether the individual filesystem fills the
+  field, and a zero there would look like a generation change for any
+  filesystem that reports nonzero generations in LOOKUP.
+- Update `fuse_change_attributes` and related functions to accept and set
+  `inode->i_generation`.
+- Populate `i_generation` from `LOOKUP`, `GETATTR`, and `READDIRPLUS`
+  responses.
+- Detect nodeid recycling on `GETATTR` and `SETATTR` responses via
+  `fuse_stale_inode()`, the same check already used by the `LOOKUP` and
+  `READDIRPLUS` paths, and mark the inode bad (EIO) instead of merging
+  the recycled file's attributes into the existing, possibly still-open,
+  inode.
+- Update `fuse_get_dentry` to validate the generation number against the
+  file handle, returning ESTALE on mismatch.
+- Maintain backward compatibility: without `FUSE_ATTR_GENERATION` the
+  generation field in attr replies is ignored.
 
-I think what you describe is the usage 2)
+Verification:
+Tested with a QEMU harness in fuse-generation-qemu against a patched
+libfuse (FUSE_CAP_ATTR_GENERATION, fuse_reply_attr_with_generation) and
+its passthrough_ll example reporting real backing-filesystem generation
+numbers. The suite verifies that:
+1.  The generation from `LOOKUP` reaches `name_to_handle_at()` file
+    handles and matches the backing filesystem's FS_IOC_GETVERSION.
+2.  `open_by_handle_at()` succeeds for a valid handle and fails with
+    ESTALE for a handle whose generation does not match, both while the
+    inode is cached and after cache eviction.
+3.  When a `GETATTR` reply reports a new generation for a cached inode
+    (inode recycling), the kernel marks the inode bad: fstat() on an
+    open fd fails with EIO, while a fresh path lookup recovers and
+    pre-recycling file handles fail with ESTALE.
 
-I think we need to respect both usage cases. 1) is the established
-one, which I'm more familar. Currently, zswap charges to memory.swap.
-It is the status quo. Breaking this requires figuring out an
-alternative and implementing it in phases.
+Signed-off-by: Russell Harmon <russ@har.mn>
+Assisted-by: Gemini:gemini-3.1
+---
+v2:
+- Bump FUSE_KERNEL_MINOR_VERSION to 47 to match the new 7.47 changelog
+  entry (v1 added the entry but left the minor at 46).
 
-I recall some proposal has been raise, give the usage case 2) a
-different set of counters and limits. e.g. memory.pswap.max. I also
-recall there were voices against it, arguing it was too complicated
-etc. I haven't fully understood all the details. It would be better if
-we don't have to break usage case 1) at all.
+v1: https://lore.kernel.org/all/20260927141437.1432584-1-russ@har.mn/
 
-Chris
+ Documentation/filesystems/fuse/fuse.rst | 32 +++++++++++++++++++++++++
+ fs/fuse/dir.c                           | 21 +++++++++++-----
+ fs/fuse/fuse_i.h                        | 10 ++++++--
+ fs/fuse/inode.c                         | 23 ++++++++++++------
+ fs/fuse/readdir.c                       |  2 +-
+ include/uapi/linux/fuse.h               | 11 +++++++--
+ 6 files changed, 81 insertions(+), 18 deletions(-)
 
->
-> That way both of the fixed size resources are
-> counted according to their own limits:
-> - memory.swap.max limits physical swap use
-> - memory.max limits anon + file + slab + zswap
->
-> --
-> All Rights Reversed.
+diff --git a/Documentation/filesystems/fuse/fuse.rst b/Documentation/filesystems/fuse/fuse.rst
+index 0fbd5a03fdc9..f67bc9fc6316 100644
+--- a/Documentation/filesystems/fuse/fuse.rst
++++ b/Documentation/filesystems/fuse/fuse.rst
+@@ -49,6 +49,38 @@ using the sftp protocol.
+ The userspace library and utilities are available from the
+ `FUSE homepage: <https://github.com/libfuse/>`_
+ 
++NFS export support
++==================
++
++FUSE filesystems can be exported via NFS if the filesystem daemon supports it.
++For reliable NFS export, the filesystem should provide a unique inode
++generation number for each inode. This generation number is used by the
++NFS server to distinguish between different file instances that may
++share the same inode number (e.g. after an inode number is reused).
++
++The inode generation number is provided by the filesystem daemon in the
++following messages:
++
++- `FUSE_LOOKUP`
++- `FUSE_GETATTR` (see below)
++- `FUSE_SETATTR` (see below)
++- `FUSE_READDIRPLUS`
++- `FUSE_CREATE` / `FUSE_TMPFILE` / `FUSE_MKNOD` / `FUSE_MKDIR` / `FUSE_SYMLINK` / `FUSE_LINK`
++
++A daemon that keeps the generation number in its `FUSE_GETATTR` and
++`FUSE_SETATTR` replies (the `generation` field of `fuse_attr_out`,
++protocol 7.46) must announce this by setting `FUSE_ATTR_GENERATION` in
++its `FUSE_INIT` reply flags. When the flag is negotiated, the kernel
++compares the generation in every getattr/setattr reply against the
++cached inode: a mismatch means the daemon has reused the node ID for a
++different file, and the cached inode is marked bad (subsequent
++operations on it fail with EIO). Without the flag, the field is ignored
++and the generation is only taken from lookup-type replies, preserving
++the behavior of existing filesystems.
++
++If the filesystem daemon does not provide a generation number, the kernel
++will use a default value of 0.
++
+ Filesystem type
+ ===============
+ 
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index e49b4e874b15..8f0822847337 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -456,7 +456,7 @@ static int fuse_dentry_revalidate(struct inode *dir, const struct qstr *name,
+ 		forget_all_cached_acls(inode);
+ 		fuse_change_attributes(inode, &outarg.attr, NULL,
+ 				       ATTR_TIMEOUT(&outarg),
+-				       attr_version);
++				       attr_version, outarg.generation);
+ 		fuse_change_entry_timeout(entry, &outarg);
+ 	} else if (inode) {
+ 		fi = get_fuse_inode(inode);
+@@ -1476,7 +1476,8 @@ static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
+ 	fuse_statx_to_attr(&outarg.stat, &attr);
+ 	if ((sx->mask & STATX_BASIC_STATS) == STATX_BASIC_STATS) {
+ 		fuse_change_attributes(inode, &attr, &outarg.stat,
+-				       ATTR_TIMEOUT(&outarg), attr_version);
++				       ATTR_TIMEOUT(&outarg), attr_version,
++				       inode->i_generation);
+ 	}
+ 
+ 	if (stat) {
+@@ -1521,14 +1522,17 @@ static int fuse_do_getattr(struct mnt_idmap *idmap, struct inode *inode,
+ 	args.out_args[0].value = &outarg;
+ 	err = fuse_simple_request(fm, &args);
+ 	if (!err) {
++		u64 generation = fm->fc->attr_generation ?
++				  outarg.generation : inode->i_generation;
++
+ 		if (fuse_invalid_attr(&outarg.attr) ||
+-		    inode_wrong_type(inode, outarg.attr.mode)) {
++		    fuse_stale_inode(inode, generation, &outarg.attr)) {
+ 			fuse_make_bad(inode);
+ 			err = -EIO;
+ 		} else {
+ 			fuse_change_attributes(inode, &outarg.attr, NULL,
+ 					       ATTR_TIMEOUT(&outarg),
+-					       attr_version);
++					       attr_version, generation);
+ 			if (stat)
+ 				fuse_fillattr(idmap, inode, &outarg.attr, stat);
+ 		}
+@@ -2160,6 +2164,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	bool trust_local_cmtime = is_wb;
+ 	bool fault_blocked = false;
+ 	u64 attr_version;
++	u64 generation;
+ 
+ 	if (!fc->default_permissions)
+ 		attr->ia_valid |= ATTR_FORCE;
+@@ -2252,8 +2257,11 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 		goto error;
+ 	}
+ 
++	generation = fc->attr_generation ? outarg.generation :
++					   inode->i_generation;
++
+ 	if (fuse_invalid_attr(&outarg.attr) ||
+-	    inode_wrong_type(inode, outarg.attr.mode)) {
++	    fuse_stale_inode(inode, generation, &outarg.attr)) {
+ 		fuse_make_bad(inode);
+ 		err = -EIO;
+ 		goto error;
+@@ -2279,7 +2287,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 
+ 	fuse_change_attributes_common(inode, &outarg.attr, NULL,
+ 				      ATTR_TIMEOUT(&outarg),
+-				      fuse_get_cache_mask(inode), 0);
++				      fuse_get_cache_mask(inode), 0,
++				      generation);
+ 	oldsize = inode->i_size;
+ 	/* see the comment in fuse_change_attributes() */
+ 	if (!is_wb || is_truncate)
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index c8d4c5f3af7e..cfeb98c217a2 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -514,6 +514,12 @@ struct fuse_conn {
+ 	 */
+ 	unsigned export_support:1;
+ 
++	/**
++	 * @attr_generation: Filesystem fills the generation field of
++	 * fuse_attr_out in GETATTR and SETATTR replies. Only set in INIT
++	 */
++	unsigned attr_generation:1;
++
+ 	/** @writeback_cache: write-back cache policy (default is write-through) */
+ 	unsigned writeback_cache:1;
+ 
+@@ -988,12 +994,12 @@ void fuse_init_symlink(struct inode *inode);
+  */
+ void fuse_change_attributes(struct inode *inode, struct fuse_attr *attr,
+ 			    struct fuse_statx *sx,
+-			    u64 attr_valid, u64 attr_version);
++			    u64 attr_valid, u64 attr_version, u64 generation);
+ 
+ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
+ 				   struct fuse_statx *sx,
+ 				   u64 attr_valid, u32 cache_mask,
+-				   u64 evict_ctr);
++				   u64 evict_ctr, u64 generation);
+ 
+ u32 fuse_get_cache_mask(struct inode *inode);
+ 
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index e9552be3637b..584dce2b21fd 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -210,7 +210,7 @@ static ino_t fuse_squash_ino(u64 ino64)
+ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
+ 				   struct fuse_statx *sx,
+ 				   u64 attr_valid, u32 cache_mask,
+-				   u64 evict_ctr)
++				   u64 evict_ctr, u64 generation)
+ {
+ 	struct fuse_conn *fc = get_fuse_conn(inode);
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+@@ -240,6 +240,7 @@ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
+ 	inode->i_uid     = make_kuid(fc->user_ns, attr->uid);
+ 	inode->i_gid     = make_kgid(fc->user_ns, attr->gid);
+ 	inode->i_blocks  = attr->blocks;
++	inode->i_generation = generation;
+ 
+ 	/* Sanitize nsecs */
+ 	attr->atimensec = min_t(u32, attr->atimensec, NSEC_PER_SEC - 1);
+@@ -313,7 +314,8 @@ u32 fuse_get_cache_mask(struct inode *inode)
+ 
+ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr,
+ 				     struct fuse_statx *sx, u64 attr_valid,
+-				     u64 attr_version, u64 evict_ctr)
++				     u64 attr_version, u64 evict_ctr,
++				     u64 generation)
+ {
+ 	struct fuse_conn *fc = get_fuse_conn(inode);
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+@@ -348,7 +350,7 @@ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr
+ 
+ 	old_mtime = inode_get_mtime(inode);
+ 	fuse_change_attributes_common(inode, attr, sx, attr_valid, cache_mask,
+-				      evict_ctr);
++				      evict_ctr, generation);
+ 
+ 	oldsize = inode->i_size;
+ 	/*
+@@ -391,9 +393,10 @@ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr
+ 
+ void fuse_change_attributes(struct inode *inode, struct fuse_attr *attr,
+ 			    struct fuse_statx *sx, u64 attr_valid,
+-			    u64 attr_version)
++			    u64 attr_version, u64 generation)
+ {
+-	fuse_change_attributes_i(inode, attr, sx, attr_valid, attr_version, 0);
++	fuse_change_attributes_i(inode, attr, sx, attr_valid, attr_version, 0,
++				 generation);
+ }
+ 
+ static void fuse_init_submount_lookup(struct fuse_submount_lookup *sl,
+@@ -514,7 +517,7 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
+ 	spin_unlock(&fi->lock);
+ done:
+ 	fuse_change_attributes_i(inode, attr, NULL, attr_valid, attr_version,
+-				 evict_ctr);
++				 evict_ctr, generation);
+ 	if (is_new_inode)
+ 		unlock_new_inode(inode);
+ 	return inode;
+@@ -1063,6 +1066,10 @@ static struct dentry *fuse_get_dentry(struct super_block *sb,
+ 		goto out_err;
+ 
+ 	inode = ilookup5(sb, handle->nodeid, fuse_inode_eq, &handle->nodeid);
++	if (inode && inode->i_generation != handle->generation) {
++		iput(inode);
++		inode = NULL;
++	}
+ 	if (!inode) {
+ 		struct fuse_entry_out outarg;
+ 
+@@ -1399,6 +1406,8 @@ static void process_init_reply(struct fuse_args *args, int error)
+ 			}
+ 			if (flags & FUSE_NO_EXPORT_SUPPORT)
+ 				fm->sb->s_export_op = &fuse_export_fid_operations;
++			if (flags & FUSE_ATTR_GENERATION)
++				fc->attr_generation = 1;
+ 			if (flags & FUSE_ALLOW_IDMAP) {
+ 				if (fc->default_permissions)
+ 					fm->sb->s_iflags &= ~SB_I_NOIDMAP;
+@@ -1468,7 +1477,7 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
+ 		FUSE_SECURITY_CTX | FUSE_CREATE_SUPP_GROUP |
+ 		FUSE_HAS_EXPIRE_ONLY | FUSE_DIRECT_IO_ALLOW_MMAP |
+ 		FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDMAP |
+-		FUSE_REQUEST_TIMEOUT;
++		FUSE_REQUEST_TIMEOUT | FUSE_ATTR_GENERATION;
+ #ifdef CONFIG_FUSE_DAX
+ 	if (fm->fc->dax)
+ 		flags |= FUSE_MAP_ALIGNMENT;
+diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
+index d2599043f7ec..40781f365fc5 100644
+--- a/fs/fuse/readdir.c
++++ b/fs/fuse/readdir.c
+@@ -229,7 +229,7 @@ static int fuse_direntplus_link(struct file *file,
+ 		forget_all_cached_acls(inode);
+ 		fuse_change_attributes(inode, &o->attr, NULL,
+ 				       ATTR_TIMEOUT(o),
+-				       attr_version);
++				       attr_version, o->generation);
+ 		/*
+ 		 * The other branch comes via fuse_iget()
+ 		 * which bumps nlookup inside
+diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+index 7435e09c87fe..a7da139e2897 100644
+--- a/include/uapi/linux/fuse.h
++++ b/include/uapi/linux/fuse.h
+@@ -248,6 +248,10 @@
+  *  - add bufpool offset field to fuse_uring_ent_in_out struct
+  *  - add FUSE_URING_ZERO_COPY, FUSE_URING_ENT_ZERO_COPY, and
+  *    FOPEN_IO_URING_ZERO_COPY flag
++ *
++ *  7.47
++ *  - add generation to fuse_attr_out
++ *  - add FUSE_ATTR_GENERATION
+  */
+ 
+ #ifndef _LINUX_FUSE_H
+@@ -283,7 +287,7 @@
+ #define FUSE_KERNEL_VERSION 7
+ 
+ /** Minor version number of this interface */
+-#define FUSE_KERNEL_MINOR_VERSION 46
++#define FUSE_KERNEL_MINOR_VERSION 47
+ 
+ /** The node ID of the root inode */
+ #define FUSE_ROOT_ID 1
+@@ -464,6 +468,8 @@ struct fuse_file_lock {
+  * FUSE_REQUEST_TIMEOUT: kernel supports timing out requests.
+  *			 init_out.request_timeout contains the timeout (in secs)
+  * FUSE_HAS_IO_URING_BUFPOOL: kernel supports io-uring buffer pools
++ * FUSE_ATTR_GENERATION: filesystem fills the generation field of
++ *			 fuse_attr_out in GETATTR and SETATTR replies
+  */
+ #define FUSE_ASYNC_READ		(1 << 0)
+ #define FUSE_POSIX_LOCKS	(1 << 1)
+@@ -512,6 +518,7 @@ struct fuse_file_lock {
+ #define FUSE_OVER_IO_URING	(1ULL << 41)
+ #define FUSE_REQUEST_TIMEOUT	(1ULL << 42)
+ #define FUSE_HAS_IO_URING_BUFPOOL (1ULL << 43)
++#define FUSE_ATTR_GENERATION	(1ULL << 44)
+ 
+ /**
+  * CUSE INIT request/reply flags
+@@ -742,7 +749,7 @@ struct fuse_getattr_in {
+ struct fuse_attr_out {
+ 	uint64_t	attr_valid;	/* Cache timeout for the attributes */
+ 	uint32_t	attr_valid_nsec;
+-	uint32_t	dummy;
++	uint32_t	generation;
+ 	struct fuse_attr attr;
+ };
+ 
+-- 
+2.43.0
+
