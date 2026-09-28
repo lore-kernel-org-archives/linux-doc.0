@@ -1,56 +1,56 @@
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B489A4E5340
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 17:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA1F2BEC52
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 17:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790617328; cv=none; b=cGDYPsPRM89jbU9MjCkDBEIx9ypLWmbKaVOtZL5eaCCmJRA7VUmCRBluctkjBDABDO0ENq0EP3gam18cZJ+oX+BoaGHeZGacabzKKs1npXOG1O6rXdXkvwugASFrqLIXuPQPkWMyWQhwvXHPYBTl1Vmw+QNXXjIy/YHx4oda0kA=
+	t=1790617330; cv=none; b=QmdOfo4YPbPnWJeyiZJJ++hJY3HDqTDufUNA3hTowkD2nw4k7bPzrfdrU/jI636JPhHoc/rVRIG1UpmKE9YZZzDWB9qxsPdv57CC0FAI25UXy643VUQ/+tO36YxprKpfyQc5xSmmP+dZZJ5GSgpDkBtNDwZnSONeX6L/Y+32ZKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790617328; c=relaxed/simple;
-	bh=ZaSrs3uAjhFQCf51F89mMRcouDsCdEAkW+43AUiaKuM=;
+	s=arc-20240116; t=1790617330; c=relaxed/simple;
+	bh=RvCHcUH58yjJupLOvtO7BpR8q4h0ix3uvkPrlmgoNTw=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=LLFt5Y/tcHxKP3nx8cUYqiYGO9O21WX/sVVAYNQikgBdDYeHetKbmZI+PjcFGK+k1Z0B1qQxinD1bOxxD/vx26fGjT6+IcX/VKGiwBdwKneNSSecuB+RUn8pgMdZw1/TFQXb3yvE0oLBgJEhYO7bi/b9077adPlgmHq2t2Yq8jY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=u26BZAsH; arc=none smtp.client-ip=209.85.128.69
+	 To:Cc:Content-Type; b=oh8i9ZdaQoQv4cnwuPIs4j3TDF/QnUOLwD+aFma/NNicFoPsPXaZrO548NKVMUidYsEwojwQt0leM6+dW75yNXBCDWbLUZGJGdUCA/RU/A1w+UTzJ+6nAGYNHblk3rIirvmr17Fow7QdNM1ZNbGOuJ28zFckIzJ5lzScX8wtIg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gcPvqBRy; arc=none smtp.client-ip=209.85.221.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="u26BZAsH"
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-49e6422198fso21798945e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 10:42:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gcPvqBRy"
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-486f3c0d896so1680322f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 10:42:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790617321; x=1791222121; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790617324; x=1791222124; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=S18+bNUDQLF3l+YcVeHHvKuNDyoqJaJ7Bbt9+2o39Go=;
-        b=u26BZAsHjKLkDOIdhzg7EG6Ou/DKdQ04NzrWwkGv6bS7gMcVtNgUtVQs4gd3YZb6BZ
-         Cqx8KARWyLo28STVkNjyGfd8AIUVk0+AoKCqryOkccEt5fdIqxZ1BAt/fSx6+XF93rT1
-         snlfsEVySJIk6d7zuVIAKqhaLo4gook1qaP/lUNYrwYErJDvadnJVqMdz7hH5R+Rpkv9
-         rQVxhukmiOXechJdF1emItp7AM6JtNXZtJncXwQubuwx85ETqi51DKaxKkIe6ktXIc8b
-         tMGrDBxsBT/Ka1GHmuihyatsw4/9jrExC3FDNx2DgsreFT8GkafNP/dBLz2kPJmln8Yo
-         mXNw==
+        bh=7RH6hoqk7EsLMc9nVwpPE+90gab30BNeM/1qTHEr8Y8=;
+        b=gcPvqBRyrkTqTj9Xp7/Apr8BpjqdHtn+pUxQRgqMULopM66Y7Xgu35Df98dLUdoaRz
+         K92Vb7ubSu41aLq8rSfaWWDyKlxLpBEqNpdErpvzpbMisM9jTt7rQ02f4i6jNDSXrIU8
+         WEcvE3BhJ62w5c8HkEhXE5iXbJ5OwwoUDdYq6l4l931NvaxTYyz3T9U1tQwe+8b8EYLs
+         Xm7y++4yT42QQBNWT0C7HUtt81wuVZalbLHn6ccLpP6t0v2xJMdpcTQfiOz6AntIQnP4
+         Z3JTZEJh9fzvDezHSVzNB9Hoq5/W1HkupCm+1RK1ehwJL0rmWw2vpEBdyf17kWcX+DXY
+         fDMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790617321; x=1791222121;
+        d=1e100.net; s=20260707; t=1790617324; x=1791222124;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=S18+bNUDQLF3l+YcVeHHvKuNDyoqJaJ7Bbt9+2o39Go=;
-        b=G03yYzq9p1O9uh0U60xXLkYSOC7FcMb8LZRDvfNJuNwp3I7NLvHNqnImpZtRbF4vWs
-         Ab3/NOyGWP6BFNtZiQlfPMocGcQJw9i6EzTno4um+W7tP6XxJ0v/PsqrWjYkgpSZA4uS
-         EgMqDyk5vJSRwoVJr36RrXXjRiT5NtDkjhAz707TW7XlNX3pjQdSs18ittWQ1vhUEsRV
-         qlUfitO1VmZSV8iOQdy5PwD3P+OgNMU2DI6E9NvblK0j5w6VXxc7QVC49jW/KtNktmi0
-         XpHXrTgye3aBSlQ7lbsyro5WEzg24AyZBWhsFrZl3NDSTYhC5DJqz6nriZ/qigxJXXSM
-         0F/A==
-X-Gm-Message-State: AFuF++k9Mk5mltI6pHpy8/J6JEMvr6muqcKYFvUjj5yNu64pNTWBGHv6
-	AgkhKs3NERSZJpC82VjPau2wqM3Am0mCDuL0tHANTGPJkWJTgUhcMybr/z5T1TvtdkH3YGKnpVx
-	1xKeYNL786k+3tgdb2Jl3Sz/Op/GpIgEwmq5N5YSC9hmWvdgwRP25tUQz01Q4cQhbzhQ3H3BxSC
-	QEYo4Bza5GBlgI2daVzZUDNoJUYflvquDb6KJ8QNasZcYb0BAtf+I=
-X-Received: from wmoy19.prod.google.com ([2002:a05:600c:17d3:b0:4a0:507:52])
+        bh=7RH6hoqk7EsLMc9nVwpPE+90gab30BNeM/1qTHEr8Y8=;
+        b=noxHCQQWbzB+miA828UBIsu6itxAw8isgJQbaDbJhxfy9s6+WxDCXbXajdGfH7RgdW
+         tCnxOq77//kHTezsXT2lvYr/Cv8zhJ3a176KV8wLpK8PIpV+GfyyW8KSCYmmWHOeLOQZ
+         hEG9j2M+F/bq6k3KNsODBNHkOfBOS/ec/ewXwAYXNqnpcDOt8ieAjmA0UmR0gxaX6V8j
+         crTbRnQ2adVM5MtgwyQkyWImloO72Dk7ZhWJu/OZ16b85GIHbG0C4JHdW8rkf34uC6EK
+         BpbJDCYN15LYast6mEpPn9S4yy4fXo8RP79/ZPYHt/8bGhNhuLUCa5VxoToArbmRyLvN
+         AyOg==
+X-Gm-Message-State: AFuF++lcqUatU3PdVFt+BsaqFymMx6NtXAtNNmNfJg/MlcaNha6MLeyN
+	uYh8dYz0rV560jeO/zI8krn76a2eVQiR+By/f+scuB8aG1pBpE/BIdSPTZV+HiH187y9W8sq7Px
+	X418cBQHgdVONcWgzO5axv3x1sjdjFuHzwob0hhyu7XmjDmN7WSByhEyuxAAIYk/eT28hlmqmQK
+	tPf3pQKE6QKZFOwzPmjcohZOtqYje0ESW5O3enPAUDs+o2Z7c/B7I=
+X-Received: from wmon22.prod.google.com ([2002:a05:600c:4656:b0:49e:7ce3:41f9])
  (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:6990:b0:4a0:3c3:1ad4 with SMTP id 5b1f17b1804b1-4a003c31c71mr63736595e9.22.1790617321190;
- Mon, 28 Sep 2026 10:42:01 -0700 (PDT)
-Date: Mon, 28 Sep 2026 17:41:18 +0000
+ 2002:a05:600c:a15:b0:49f:e444:cc4c with SMTP id 5b1f17b1804b1-49ff06bdb00mr183042675e9.12.1790617324124;
+ Mon, 28 Sep 2026 10:42:04 -0700 (PDT)
+Date: Mon, 28 Sep 2026 17:41:20 +0000
 In-Reply-To: <20260928174122.3380703-1-smostafa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260928174122.3380703-1-smostafa@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20260928174122.3380703-12-smostafa@google.com>
-Subject: [RFC PATCH 11/15] fork: Move vmap stack freeing to work queue
+Message-ID: <20260928174122.3380703-14-smostafa@google.com>
+Subject: [RFC PATCH 13/15] fork: Implement partial VMAP stack allocation
 From: Mostafa Saleh <smostafa@google.com>
 To: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, 
@@ -75,65 +75,153 @@ Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
 	david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, 
 	rppt@kernel.org, surenb@google.com, mhocko@suse.com, gustavoars@kernel.org, 
 	bigeasy@linutronix.de, clrkwllms@kernel.org, 
-	David Stevens <stevensd@google.com>, Mostafa Saleh <smostafa@google.com>
+	Mostafa Saleh <smostafa@google.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, David Stevens <stevensd@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-From: David Stevens <stevensd@google.com>
+When CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE is enabled, architectures can
+allocate a VMAP stack that is smaller than the full THREAD_SIZE.
 
-For vmap stacks not immediately released into the stack cache, free them
-in a workqueue instead of via call_rcu(). In an RCU context, vfree
-already schedules the actual freeing on the per-cpu system workqueue, so
-this change only affects when exactly the second attempt to put the
-stack into the stack cache occurs.
+This introduces arch abstraction arch_vm_stack_pages() which defaults
+to THREAD_SIZE / PAGE_SIZE.
+During stack allocation, the kernel will map only the requested number
+of pages at the top of the THREAD_SIZE virtual area (as the stack
+grows down), leaving the bottom unmapped. This saves memory while
+retaining the same virtual alignment and guard page overflow detection
+characteristics.
 
-Moving freeing to a workqueue will allow for freeing partially
-populated stacks in a sleepable context (for remove_vm_area),
-rather than relying on vfree dispatching to a workqueue via
-vfree_atomic.
-
+Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+[Rebased, used vm_area->nr_pages directly in one instance]
+[Depends on !PREEMPT_RT]
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+[Fix races around accounting]
+[Use GFP_ATOMIC when executing in the scheduler]
+[Depend on INIT_STACK_ALL_* config]
+[Fix bugs in some error paths and edge cases]
+[Don't cache partially faulted stacks]
+[Added out-var to tell if address is on target stack]
 Signed-off-by: David Stevens <stevensd@google.com>
-[Use system_percpu_wq instead of system_wq as it is deprecated and
- update commit msg]
+[Remove dynamic stack related code, and update commit message]
+[Fix memory leak in error path of alloc_vmap_stack()] and use
+ VM_UNINITIALIZED before installing the pages]
 Signed-off-by: Mostafa Saleh <smostafa@google.com>
 ---
- kernel/fork.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ include/linux/thread_info.h |  8 +++++
+ kernel/fork.c               | 68 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+)
 
+diff --git a/include/linux/thread_info.h b/include/linux/thread_info.h
+index 307b8390fc67..8f052ec82402 100644
+--- a/include/linux/thread_info.h
++++ b/include/linux/thread_info.h
+@@ -92,6 +92,14 @@ static inline long set_restart_fn(struct restart_block *restart,
+ #define THREAD_ALIGN	THREAD_SIZE
+ #endif
+ 
++/*
++ * Arch selecting CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE should override this
++ * with kernel stack size.
++ */
++#ifndef arch_vm_stack_pages
++#define arch_vm_stack_pages()	(THREAD_SIZE / PAGE_SIZE)
++#endif
++
+ #define THREADINFO_GFP		(GFP_KERNEL_ACCOUNT | __GFP_ZERO | __GFP_SKIP_KASAN)
+ 
+ /*
 diff --git a/kernel/fork.c b/kernel/fork.c
-index 3f1c46d8f7ec..ca8e68882316 100644
+index ca8e68882316..66fbad3d4cbd 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
-@@ -208,7 +208,7 @@ static DEFINE_PER_CPU(struct vm_struct *, cached_stacks[NR_CACHED_STACKS]);
- #define GFP_VMAP_STACK (GFP_KERNEL | __GFP_ZERO | __GFP_SKIP_KASAN)
+@@ -119,6 +119,8 @@
  
- struct vm_stack {
--	struct rcu_head rcu;
-+	struct rcu_work work;
- 	struct vm_struct *stack_vm_area;
- };
+ /* For dup_mmap(). */
+ #include "../mm/internal.h"
++/* For clear_vm_uninitialized_flag(). */
++#include "../mm/vmalloc.h"
  
-@@ -287,9 +287,9 @@ static inline void free_vmap_stack(struct vm_struct *vm_area)
+ #include <trace/events/sched.h>
+ 
+@@ -272,6 +274,71 @@ static bool try_release_thread_stack_to_cache(struct vm_struct *vm_area)
+ 	return false;
+ }
+ 
++#ifdef CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE
++static struct vm_struct *alloc_vmap_stack(int node)
++{
++	gfp_t gfp = GFP_VMAP_STACK;
++	unsigned long addr, end;
++	struct vm_struct *vm_area;
++	int err, i;
++
++	vm_area = get_vm_area_node(THREAD_SIZE, THREAD_ALIGN,
++				   VM_MAP | VM_UNINITIALIZED, node, gfp,
++				   __builtin_return_address(0));
++	if (!vm_area)
++		return NULL;
++
++	vm_area->pages = kmalloc_node(sizeof(void *) * (THREAD_SIZE >> PAGE_SHIFT),
++				      gfp, node);
++	if (!vm_area->pages)
++		goto cleanup_err;
++
++	for (i = 0; i < arch_vm_stack_pages(); i++) {
++		vm_area->pages[i] = alloc_pages_node(node, gfp, 0);
++		if (!vm_area->pages[i])
++			goto cleanup_err;
++		vm_area->nr_pages++;
++		mod_lruvec_page_state(vm_area->pages[i], NR_VMALLOC, 1);
++	}
++
++	end = (unsigned long)kasan_reset_tag(vm_area->addr) + THREAD_SIZE;
++	addr = end - (arch_vm_stack_pages() * PAGE_SIZE);
++
++	err = vmap_pages_range(addr, end, PAGE_KERNEL, vm_area->pages, PAGE_SHIFT);
++	if (err)
++		goto cleanup_err;
++
++	clear_vm_uninitialized_flag(vm_area);
++	return vm_area;
++
++cleanup_err:
++	remove_vm_area(vm_area->addr);
++	if (vm_area->pages) {
++		for (i = 0; i < vm_area->nr_pages; i++) {
++			mod_lruvec_page_state(vm_area->pages[i], NR_VMALLOC, -1);
++			__free_page(vm_area->pages[i]);
++		}
++		kfree(vm_area->pages);
++	}
++	kfree(vm_area);
++	return NULL;
++}
++
++static void free_vmap_stack(struct vm_struct *vm_area)
++{
++	int i;
++
++	remove_vm_area(vm_area->addr);
++
++	for (i = 0; i < vm_area->nr_pages; i++) {
++		mod_lruvec_page_state(vm_area->pages[i], NR_VMALLOC, -1);
++		__free_page(vm_area->pages[i]);
++	}
++
++	kfree(vm_area->pages);
++	kfree(vm_area);
++}
++#else
+ static inline struct vm_struct *alloc_vmap_stack(int node)
+ {
+ 	void *stack;
+@@ -286,6 +353,7 @@ static inline void free_vmap_stack(struct vm_struct *vm_area)
+ {
  	vfree(vm_area->addr);
  }
++#endif /* CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE */
  
--static void thread_stack_free_rcu(struct rcu_head *rh)
-+static void thread_stack_free_work(struct work_struct *work)
+ static void thread_stack_free_work(struct work_struct *work)
  {
--	struct vm_stack *vm_stack = container_of(rh, struct vm_stack, rcu);
-+	struct vm_stack *vm_stack = container_of(to_rcu_work(work), struct vm_stack, work);
- 	struct vm_struct *vm_area = vm_stack->stack_vm_area;
- 
- 	if (try_release_thread_stack_to_cache(vm_stack->stack_vm_area))
-@@ -308,7 +308,8 @@ static void thread_stack_delayed_free(struct task_struct *tsk)
- 		vm_stack = tsk->stack + THREAD_SIZE - sizeof(*vm_stack);
- 
- 	vm_stack->stack_vm_area = tsk->stack_vm_area;
--	call_rcu(&vm_stack->rcu, thread_stack_free_rcu);
-+	INIT_RCU_WORK(&vm_stack->work, thread_stack_free_work);
-+	queue_rcu_work(system_percpu_wq, &vm_stack->work);
- }
- 
- static int free_vm_stack_cache(unsigned int cpu)
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
