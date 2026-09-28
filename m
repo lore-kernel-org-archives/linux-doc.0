@@ -1,256 +1,90 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3352949AA22
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 22:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790636370; cv=pass; b=G3EtNlCVx0UCLIwlqi2V61xm1nMn/A/8GVo3Tc8QFgAzHcUkHcrR2dvvLsVsTo2dfDpSOrbWdrUDCpGibM9d7kNzdJ/FqYXiSBuqLmdLbfcn/hAKPLSpHs0ceUEcakBqlWmmAn8RxP5hVAGbOG1UFW5VwPYRzXDTf4m50hmgX6o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790636370; c=relaxed/simple;
-	bh=3dhFSJqSrYEPxwhxTd/7VdtKX5PRSVUZ0eWZ0ZacoZY=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iaZCYdwWTddeBqeKFus5CdHcS1xraaTzTpqaMfeZj4v453yNmckeBZa3Iv2PNDo4F5lwD5hlNuZRh4x8UkHm5f0Pi6ZO6sbrE42uyZxhwA4D+TdqOhf8C6PeQa3F2iIU9B2GEbfobXmGTwJP9ejS3SUHJbG4ZwJIQ4PDYuLHmkU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ds55nWJj; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E663FC5AE
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 23:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790636878; cv=none; b=b+3BEJQg8poVPal5qCZ6BBig7Vp3AqHy4c5Tc0E9hayJNlgAt7XsRB+TUUTG+3P635ihItNWu/O5wQQMoPNK6419LZf9IHua3RlMPm5Zdu+c/eTBBM/GK8p23jOuK/1pCx7BkjiHWvKRzmmIIfUZPy7aY1MR93fRYKCPozGOO4g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790636878; c=relaxed/simple;
+	bh=Sj5M+41Al7fRO9vqLVvnZYhu/SxLf2wuEC7QaeSqUCQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=auMS3MtUzGDUGRHUtDOQJNpSFuHle7+mdIJT3a59+S19iYI/iaynxYlNxhmabbRo0qGxjvUMFmsZQIsLQrZIPRxySbdsEAhDgs80wvUApgEP6dYJDAj1Z+Ssz50vlI+EZrJXgFp3et68bEwizKXFxj9QkeADzyF9dOrrpr290dE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R7u/WacS; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ds55nWJj"
-Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-939109fafd7so289849785a.2
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 15:59:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790636368; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iTjMclYpIjD2jnEzSti7aaP0kLVmreudYY9hTi+rq7gAKHOKwrRCyjBVIpuQGTU565
-         8mqbiz5YSCDKNlzpvZeB/wQE99v5mExsVFVXtwpTuiyy9hzzD/G0q+AJV+WygdsSHySS
-         b3rzZts320isfUAoz+Xc/0Mp/PzCs5vHNqi/0eWJ/DBQzqSr8pfpy9485O+LXolQiTUH
-         8JmNkRQGDIYMVfAAyV+08AZvU645hYKfFVJCh4r9e6kredq6bCNgeN+qaH1KW1E+H0Pq
-         U9FfgXQQ9+jhVja0ucHIdPmqJ7lmlLrYH1SG6azrE8qmz/iPs5oIaeIeQH6dROhzPddU
-         PEGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date
-         :mime-version:references:in-reply-to:from:dkim-signature;
-        bh=h1XRNkq6Yhc/2nUm3L5+IvDvFRHvgBkAyzRT7XwQvCM=;
-        fh=X5YMwENveRaCi0V0VKosj46hqwfFgWIXEm3elhZaHfQ=;
-        b=TJnl28Ru7Lk7s1r1iNyekVcx79iOYhodPAgqmzAv73xTCB37ns6zc6X4fIfSADyGh/
-         qbjd5Elb/K7sSLt9GVvdG6zAjvupWha4mmFyqzDk+hL3///E6XE4VFAN8WbnIzsd3yUQ
-         shYgOcjDFN26/o15zOYppvdpPiLklIyQra8Q7otHM0DEP0jI+xHcR39Yxpm02qJPCEXJ
-         NPnlziPeefzfNjl0K0oASh7Q/KT/Mv4Kfd7GoI/fM7lDCugYL6mbb8pPx50ALZb/lYRo
-         xqP/a2ZavcKhT2UNZJQ6lJcVHKroW9th2EK5zARIMKnGyvHYfFJA4c2uBpZ/RS2tVpOE
-         +h1A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790636368; x=1791241168; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:mime-version:references:in-reply-to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=h1XRNkq6Yhc/2nUm3L5+IvDvFRHvgBkAyzRT7XwQvCM=;
-        b=ds55nWJjikTFMP1BW/kSKlsFLNXzqe2QVctr1EPFtaing/6xj99mqU8zOrK1EWqoq2
-         wM7+DzCNZa7JMl6D8NhikQlxf6hlnxmiI5cEVQCvqThjoOuJc0dbEFOqRyHhfGWT5yYG
-         iD+z2Ivc/ZwbG45plgbcSqiKRGJKrCVoKVmb7POmLL5PRepkJAGBmSGLaUElIIoUnYm+
-         2CXWUGFhe/zTcchrUeiYeIvDwVOi6Z/8LZJ/0nCEWrTav3CRXFL3WjLrGDIdRqn43aAc
-         yMelocVWt7h6QVO1uVmW5r9dMQr7pLu5+dg1SYhkUShkEUJJDcADUWCgnSb9df1xJ8SS
-         3t/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790636368; x=1791241168;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:mime-version:references:in-reply-to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=h1XRNkq6Yhc/2nUm3L5+IvDvFRHvgBkAyzRT7XwQvCM=;
-        b=tB6cqrV6rA9aXOfXNFzZDFLcrIdfVkuI0ab9ggspsBK+TWjJohdt00N2xW7uv9RzyO
-         oRZilnKCb4Sjw+GdysCo7rPa7QACZctrWl2relfsg9Ww26fFpGhHPvUkOOpDmaZGa/xB
-         ONtsGXUluaZMfJ128sCCrazh14e3afWVsHExZY9841nPpJtqayhE+g8zJYrAQWz5ppRB
-         4SywswD4V+lQQZRE3jOJPciAnoGVbILKphUGrC6voBb0Yze3DzV+3013gBdarks3YkhT
-         A1u8t2buhoaw3dnL/T2po1Cb3mS+Ozzk6IrZZtyN8g2VnerkHwHwUyk3iQZ4iSqVPF7n
-         OiaA==
-X-Forwarded-Encrypted: i=1; AKwUvBzeaYOOFoOiSKabOJ2KC5v0fCLWeXVyJkhHtjTXkbp/r39G5Yo6w1owOG8BimD2gPeZGkra+jvbkkM=@vger.kernel.org
-X-Gm-Message-State: AFuF++mJiLMH3RQNhfspPRnaosVDX7OJkd20Ck2gcgMxJRIXynOTfGPM
-	LpJ4p+dZ76562NWmbxE9Y2VTucmHERxGMEsITJ0xWot5e7QUzoTaDHfd1GYg54rExTO7eSYVVIx
-	FKVecUZ4aenWILe+QyiaTZazLpkJFB5vOt8zJ4cAh
-X-Gm-Gg: AYBFou1Gird1+B3SY9fC/CeL5KDhR0Ii4mRDbmDCNEGWHRyuQ8Q2IR7TXaJtmeyQIoy
-	pKcJf4rfDdml9ByBv+DICgq/yBpssIo13gZ+SBaDEYAKFZzZOlBGFZ+p75N7Fivsc5HLKxpjSAT
-	8wUIIB/Mvh3IsFlC63NsSeLj60mvUSoh7T3+FH8NyZzAaQiyfOKdXe3id0mfCR3TSnok121wR/Q
-	Qis+lqmT60IlRm7lragsy4ObaxRey9UqjSHaEHl/bzhoWpaRNVpnpCTPyNcoaBYx+OwXdEIhCkR
-	3/pkkWAwHWjbR+o+122Gt8Puc6c9OvgAGzc+gQwCHw1wgfPprh/hD04kF959aTx9mN/4csfqGfo
-	xa2d/iDEYy4ec1w5yGN7u6SfGiK0KswjtQ39ewD9c
-X-Received: by 2002:a05:620a:7083:b0:939:6c31:2318 with SMTP id
- af79cd13be357-93c43ca0f85mr2339686185a.34.1790636367060; Mon, 28 Sep 2026
- 15:59:27 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 28 Sep 2026 15:59:26 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 28 Sep 2026 15:59:26 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <d599627270c67a5334d2abced75d1d1711fb0af0.camel@infradead.org>
-References: <20260925-gmem-tmpfs-backend-v1-0-d36159822d18@google.com> <d599627270c67a5334d2abced75d1d1711fb0af0.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R7u/WacS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790636877; x=1822172877;
+  h=date:from:to:cc:subject:message-id;
+  bh=Sj5M+41Al7fRO9vqLVvnZYhu/SxLf2wuEC7QaeSqUCQ=;
+  b=R7u/WacSybezGaaCS4acjVPbSbh1HGADfOJKPgfSGq6BVKbE7FPp8c+V
+   cEbb2Fzhw1ect5qk8lKWaD6b/XgRYhuj6VGbwn3FsF4z93bxiDTxfdP6r
+   /4ClRfP3ws+eJQvprKm3Uerb4AwfSPvZTRUu1xrP91LxuGzBvIjVy04BQ
+   QBSLwgNRm1n2HTs63f5LjNlCDYc81+ZW12f81Mb7roWO98a3yJBTdU0sY
+   MZNnrIq2aboTKLW16P1dlLqC4oMyDEs+J040QnGU3X0CWnxq7QbhL3PkR
+   I33eoYMYaoxIyVJO4gK6k0WZ0auoQBwFrUEO7EtvPP5LzSc+pjQ858RmW
+   g==;
+X-CSE-ConnectionGUID: DNXfGQ5NS6GFXWfLwchUqA==
+X-CSE-MsgGUID: yzhDXnoQQ96i/vPPGdEyWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="94062261"
+X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
+   d="scan'208";a="94062261"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 16:07:57 -0700
+X-CSE-ConnectionGUID: 1/Bo7LCSSq+Nh+o1JE+oJA==
+X-CSE-MsgGUID: cgWQq2V3SEGS5SvNzzyrMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,129,1787036400"; 
+   d="scan'208";a="273808295"
+Received: from igk-lkp-server01.igk.intel.com (HELO 04362d00df5a) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 28 Sep 2026 16:07:54 -0700
+Received: from kbuild by 04362d00df5a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xBKRr-000000001B0-1FVO;
+	Mon, 28 Sep 2026 23:07:51 +0000
+Date: Tue, 29 Sep 2026 01:07:00 +0200
+From: kernel test robot <lkp@intel.com>
+To: NeilBrown <neil@brown.name>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Christian Brauner <brauner@kernel.org>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 9482/11456] htmldocs:
+ Documentation/filesystems/api-summary:20: ./fs/dcache.c:2010: WARNING: Block
+ quote ends without a blank line; unexpected unindent. [docutils]
+Message-ID: <202609290155.PQiaOalK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Date: Mon, 28 Sep 2026 15:59:26 -0700
-X-Gm-Features: AclHuK84frc6bKnG4G1OS7cYNUmtfpFymmTftjPaGUJ8aPWmipSyf5FmbAPxTfI
-Message-ID: <CAEvNRgGw_RjiGs_bbVnoRAvq49Qukm4h8XhkBd0DXxn1ZzLrQg@mail.gmail.com>
-Subject: Re: [PATCH RFC 00/17] Allow guest_memfd to be created using a
- resource (pool) fd
-To: David Woodhouse <dwmw2@infradead.org>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Shuah Khan <shuah@kernel.org>, vannapurve@google.com, erdemaktas@google.com, 
-	jxgao@google.com, rientjes@google.com, fvdl@google.com, jthoughton@google.com, 
-	tarunsahu@google.com, pratyush@kernel.org, fuad.tabba@linux.dev, 
-	Gregory Price <gourry@gourry.net>, yan.y.zhao@intel.com, michael.roth@amd.com, 
-	suzuki.poulose@arm.com, Christian Brauner <brauner@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Nicolin Chen <nicolinc@nvidia.com>, Xu Yilun <yilun.xu@linux.intel.com>, aik@amd.com, 
-	aneesh.kumar@kernel.org, Vlastimil Babka <vbabka@kernel.org>, 
-	Connor Williamson <connordw@amazon.co.uk>, Fred Griffoul <fgriffo@amazon.co.uk>
-Cc: kernel-team@android.com, kernel-team@meta.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-David Woodhouse <dwmw2@infradead.org> writes:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6375e61c01e93e35ee7acd336a689ac1fae4b509
+commit: 33d76519f0ccb55b975a399f2a9a9c8933fa89d7 [9482/11456] VFS: add d_duplicate()
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260929/202609290155.PQiaOalK-lkp@intel.com/reproduce)
 
-> On Fri, 2026-09-25 at 17:50 -0700, Ackerley Tng via B4 Relay wrote:
->>
->> =3D=3D=3D What if my provider doesn't deal with pages?
->>
->> Frank and David Woodhouse [2] have use cases for providers that use
->> PFNs, and this is definitely something a generic interface must
->> support.
->>
->> Here are some options I can think of:
->>
->> 1. Don't define .alloc_folio(), instead define .alloc_pfn()
->> 2. Refactor .alloc_folio() to .alloc_pfn()
->>
->> Either way, I think guest_memfd should still be the primary manager of
->> the memory.
->
-> Thanks for working on this.
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609290155.PQiaOalK-lkp@intel.com/
 
-Thanks for the quick reply!
+All warnings (new ones prefixed by >>):
 
-> I'm not sure what you mean by 'primary manager' here but my use case is
+   Ring Design
+   ----------- [docutils]
+   Documentation/filesystems/api-summary:20: ./fs/dcache.c:2009: ERROR: Unexpected indentation. [docutils]
+>> Documentation/filesystems/api-summary:20: ./fs/dcache.c:2010: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   WARNING: ./include/linux/jbd2.h:523 struct member 'h_invalid' not described in 'jbd2_journal_handle'
+   WARNING: ./include/linux/jbd2.h:523 struct member 'h_invalid' not described in 'jbd2_journal_handle'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'power_module' not described in 'amdgpu_display_manager'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'hdmi_frl_status_polling_wq' not described in 'amdgpu_display_manager'
+   WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'hdmi_frl_status_polling_delay_ms' not described in 'amdgpu_display_manager'
 
-Naming is hard! See comment on revocation below.
-
-> for the provider to be the ultimate arbiter of who owns which PFN, and
-> revocation of the same. Think of it like a filesystem backed by
-> external memory. Each guest's memory is a file, and a guest can
-> *donate* specific pages of its memory to other guests (which in the
-
-Putting donation aside first - I don't have a good picture of how a
-guest would tell the host that it's willing to share a page - can't
-comment. Would love to find out more.
-
-> context of the *interface* only means that we need revocation).
->
-
-Going with this revocation part, beginning with a more basic use case:
-I'm thinking that the provider can notify guest_memfd that the page or
-PFN is going away.
-
-guest_memfd cannot say no, but it does have to tell KVM to zap the page
-from stage 2, and for CoCo it may need to do more stuff.
-
-The notification needs some pointer, so I was thinking that on .attach()
-the provider would also note down which guest_memfd instance the
-provider should notify.
-
-The notifier could tell guest_memfd that some (offset, size) is going
-away, and breaking down mappings in the EPT/NPT should be something
-guest_memfd tells KVM to do, I think. Are you thinking that the provider
-would directly break the mappings down in the EPT/NPT?
-
-Does this notification mechanism work for you? IIUC regular DAX would
-need it too, like if the device is unplugged for example.
-
-> Should I be trying to rework parts of my series to live on top of this?
-
-I hope to gather more feedback at LPC. It'd be nice to get early
-feedback if you think it can work for you! The overall design still
-needs feedback though, don't take this as the final direction.
-
-> Things I have working but which I don't see here include:
->
-
-This sounds like 4 or more different features! I think they do work with
-this resource fd proposal.
-
->  =E2=80=A2 PFN support (which you mentioned).
-
-Yup, guest_memfd needs some way to track PFNs in addition to folios. I
-think for tracking we can reference DAX, the part I haven't looked at is
-how to let guest_memfd handle events. Like if there's memory failure on
-a PFN, how do we let guest_memfd handle it?
-
-guest_memfd needs to at least be notified, so that it can handle the KVM
-stuff: zapping and special stuff for CoCo. Whether the provider or
-guest_memfd gets to handle it first can be worked out :)
-
->  =E2=80=A2 IOMMUFD support via dma-buf.
-
-Is this about having guest_memfd work with dmabuf fds?
-
-Fuad also brought up that Android uses dmabuf as an interface for CMA
-memory. [3] IIUC the dmabuf fd is mmap()ed, then the userspace address
-is set up in a memslot for the guest. To make this CMA memory
-CoCo-friendly, we want to use it with guest_memfd.
-
-Jason response was that guest_memfd should probably just directly get
-memory from CMA [3].
-
-I'm not super familiar with CMA or dmabufs, would either have a suitable
-"resource fd" to pass to guest_memfd like how HugeTLBfs has a mount fd?
-The "resource fd" should ideally have no way to mmap or read/write the
-memory directly.
-
-[3] https://lore.kernel.org/all/CA+EHjTxZ0N3Tfnid404B4tkb_E+Z8mODTHTgBPiF6=
-=3DbwZp7Hjw@mail.gmail.com/
-
-Or is this about letting IOMMUFD get pages to map in IOMMU page tables
-via an fd+offset instead of via mmap()-ed userspace addresses as in
-IOMMU_IOAS_MAP_FILE, and that guest_memfd isn't a supported kind of fd
-(yet)?
-
-I think guest_memfd should support IOMMU_IOAS_MAP_FILE. One use case is
-Confidential IO [4], where SNP would need to have private memory
-(guest_memfd) mapped in the IO page tables.
-
-The missing parts here are that guest_memfd and iommufd need to
-cooperate for conversions (or some other coordination in userspace). If
-private memory gets converted to shared, iommufd needs to know to remap
-the pages as shared in the IO page tables.
-
-[4] https://lore.kernel.org/all/20260225075211.3353194-1-aik@amd.com/
-
->  =E2=80=A2 Revocation (which I've tested correctly breaks down large page=
-s in
->    both EPT/NPT and IOMMU).
-
-See above.
-
->  =E2=80=A2 AsyncPF support for pages requested by KVM.
-
-Is this kind of orthogonal? IIUC today KVM MMU handles the async-ness.
-KVM MMU checks that the page is not there, then since async was
-configured, KVM tells the guest to schedule in something else.
-
-guest_memfd doesn't have support for async #PFs now. I imagine it would
-be something like KVM MMU firing off a kvm_gmem_get_pfn() request
-asynchronously, and then guest_memfd gets the page or PFN and inserts it
-in guest_memfd filemap, and then notifies KVM MMU?
-
-Within kvm_gmem_get_pfn(), guest_memfd should get the page or PFN from
-the provider.
-
-I think it's orthogonal because guest_memfd could
-have gotten a PAGE_SIZE page (existing functionality) or gotten a page
-from the provider.
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
