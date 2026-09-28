@@ -1,193 +1,288 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA6A4E50D5
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 15:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0264B4DEC00;
+	Mon, 28 Sep 2026 15:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790608159; cv=pass; b=k8e3tReYhO+BCuQ5ucm3HfLFArBOvfEYeBUv2Y6VlUO/m4uWmFCkg6ZOax4+hFlq+GaVRO/i0rgye0fP7qagAgISGakZxOslwVRgn0k0qL21PQvj8dm4Df00XfXOk4ha4NhiUb7Wu5u/9B4WVv+0ZTOpX9ifoyyGzw86LcRaHZ4=
+	t=1790608733; cv=fail; b=FF+bWrl0HSP+xVlRC1A9IqjrC7v7blUff7752Wg77RxE1dwHpcEOaMKrmhzCKCtZ16KzCuxx7cwV7lktfzFv8wDR+xwZRAgmMLiCA+UG2eXnNS27CUdr3+nVTHRZfisBPVpFUIiVekSMUo1u6g38IKZ89ExdaGDGw6LM2corBis=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790608159; c=relaxed/simple;
-	bh=tf/lMLnfEkd4XBBYB0HDsWtgBfU2mvcJMYwKWgwYVE0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j8oCdoCAatwAj8D3LjiUG/8C4gWszizqNIaM+1uBdAVq7TTNwXINivLwmgmDzyZV+2FFBx5RjaLFdhvEtVyA+GFzAMCe6D89pUsVpqxomoU3hcZzgdmf6ygJL1afW+ckKPY7TpVnl8cesouhcnJZZI4XjQsbO2PtjsYnFVOE3NQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Wp3Bmv8O; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZS44mltT; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790608733; c=relaxed/simple;
+	bh=KQ2uPNX3bH4f+tZsXPUwTwQntP9K9+KPqxTecfEyN4w=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=VKeUDO3dfx3sReL9BfQs2f3BaqAR3F95htf+/QkqgrFBno+cPIE5WBcwJvxQnp+oIhCYK9So0x3qRB4jSettN6R2QjwGmZkXeU26SJkwB1nkD7lkwjG5CtV0T/CfCCh+66B2XHjy2A98dQF0jkc+N05dK0Wb53IcplOjTg35S/4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UwSDzgGv; arc=fail smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Wp3Bmv8O";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZS44mltT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790608156;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7JzwIQlJou2cKoXFRlxragLvVGFjjNACZv+ODl0Exo0=;
-	b=Wp3Bmv8OUEgxLreV5rmvvCgm6SJw4sthMqkxFHUqejJV+mZm9uQDvubi91SFmyLi4ANZ7e
-	pTLK2GhtAd/IuecaRFUBQlycjAD/WHEA+F8VzBo1DOQ+f6h15paKstQ0P76vCdNniQS33L
-	n1/E0R0nG80gg7TAuRUFMqs80a1JawM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-297-bKyJaZi0MtiJy8pR8pdhkw-1; Mon, 28 Sep 2026 11:09:13 -0400
-X-MC-Unique: bKyJaZi0MtiJy8pR8pdhkw-1
-X-Mimecast-MFC-AGG-ID: bKyJaZi0MtiJy8pR8pdhkw_1790608152
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-4870af30a85so2481844f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 08:09:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790608152; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iBIFxCyC2wf12nhu0t6ZJwfVnFpQYn2oWTRV0RmbjEpamb29jgStKmEKDUdgi7R7QP
-         bNtcxi2mMQO5ceU0DO4iTSBcdbcC0ygFQMhcQEDCzWo+n2Es3WoYGtbL5zs5ao8JPN/j
-         MNdVuWknQ5abdcYaNp9F74DIFWgXtW/14p99nXFKm1duwz0DyHmkNE3q8MYZFHpt88ig
-         lsw6AGUqSc00EYivBnHWZjCNAdmTzVyw7NEoqWNv0OmeeUzNlB/MK4HxHqhYF6g1Jqf1
-         V1PgQSRC8UQvZGwFc4zi7qgODjjiSUMQlvOZcvYHTD6993aG9zaPGJ5dRylO3hASn4nk
-         nqgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=7JzwIQlJou2cKoXFRlxragLvVGFjjNACZv+ODl0Exo0=;
-        fh=/eusSEUECVFacZmPQ7e81eksegYHzvVlmVPxDfg7aYI=;
-        b=TGr8NraAVlc1KMa+MBStvGJxGPuaUEu16+8fhR3tLJTojaCTLsS+4TVVdpUEBCrdEY
-         T4jOwDTuoqf0DxXt4/gJmLZ9NVPa2nNnzfZfIrcPWR7rub8HtYq4OowPIBEvm67R8PKt
-         dWHKjxvF8VJRIeAtSv4tpqIpPVudq6eICdmC6bIfM+o6m34m2v6W5Tiq1v3MEXToXTyq
-         0jUokydvwlvZ5pDrWx9zwI4SHQjZZ+DCaFVddTNnWeP+JoPfJ+sWVIsO2rKMVeOgAI4C
-         Z+HFwIFwUANEFXwfr1yFU7YdozwBNs6j3DbzSy03njTPudK3/9bNBlT9DKqbsm+owQ8n
-         2Vmg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1790608152; x=1791212952; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=7JzwIQlJou2cKoXFRlxragLvVGFjjNACZv+ODl0Exo0=;
-        b=ZS44mltTmMf0SyNxMZyeKj2hlI1jstoJYS3HkeryJ83V+5l7tCNohVRT/AQt3rpA9C
-         sIQCirdNUtuQLy6nN7+uGDH9K14nxGz3UJe08tUBpuGEreNiLnjxf79QrS9jB12LttT+
-         ZbL/BL2pP3g8GLWRr3NBm7SztBKA+77LG8fHLIMQWEqxDZsKdjSccbXQFBMxTtTXtYIQ
-         cgMGptMREIzj2YovrtJbRrSfIcznsk5IF2uf1R5+z/I2tX3qhNyd/2wEvO1+vVaHjX7a
-         6OQMGtUV6yWsS490D+EhkKYUmv0kF0czjUAk8ZJLxW+sfeBV0Z91zDMTtQtdlXheijhd
-         o8Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790608152; x=1791212952;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7JzwIQlJou2cKoXFRlxragLvVGFjjNACZv+ODl0Exo0=;
-        b=AW18JN/t1ZotINSigZnTRe902QjvOuDRk2RCdLD7160KQYgHmpttuwJNSPDM6UlSW/
-         dGbIvlvmOi513b8GE2lTlxIcpEZVssTn9CJET50IopQcc+XnoqiKDsOa7vqIa7QuiOXY
-         KLHlbpEvWhPLah8XnIpCRUUaKRDjTSfcKX+/pdu5YSu/Ox/QdKqTTYt3/BuGlAfRyNZk
-         kf9/B7x9p6+lkyRbPpBEiH9qxzxPE7HOR7zjL2fMbSBRUP7iztmWi9f8PmU4od+DhHxs
-         cxz/BfeOcmlRjyTek6abq9mi5ZPffqSDZJ94YtfzNiVNd0m0UbUInUNR68DY35fiLmlc
-         CUfQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzT+EeQGfHD/vK3dwvrPufFgUEXLAcOunI3gt4+WnqtTX5nMefcoY2/jx3boklwmyQHD7zpIrnBZVI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIc/i1EzvWmTM6pNt1nPJ1YB+nNg5dmpDXhDnxA5ZdjlN7MoOcs
-	WPjVMkg23kElB4P/mEdhKFk6Rst74I/V7+9bXsT1uxCPxnUiWg1xkJRQBdE53IcO3aYHvyteAK7
-	VXrMMFOwkcvta+R9MC2wi9rwMRm7ynwt4ljWfl2KmFFsefXkJ15wKQdfvatQdGSvEEosPNzeKov
-	KJp4EtFdWb1Ihs+cpzarH3BzsLWoyAilWdp00C
-X-Gm-Gg: AYBFou2aB8AWhEvZfvZtL/qHJXoKOLwi6wRfmGz4HASCZ0bw0EdsA17Li/KxtT6dVqY
-	NaRYCN3AhL75hNSd3cYqu6SMiYbE9+WCHrMUVUIhTjwtAPd4kYyZk95jWVJU5KOOtKXPiGLi8Rj
-	gb9pLP48tDk8gEDh4jtZzEe3V7OK35I2IECVMGzByUzo901Q3vjQogbj1Bm4GJpcGGrFlHwQxw/
-	X6qoB0zYP47+cxlxA==
-X-Received: by 2002:a05:6000:2083:b0:487:342:eb28 with SMTP id ffacd0b85a97d-488716f2354mr27611175f8f.24.1790608151765;
-        Mon, 28 Sep 2026 08:09:11 -0700 (PDT)
-X-Received: by 2002:a05:6000:2083:b0:487:342:eb28 with SMTP id
- ffacd0b85a97d-488716f2354mr27611104f8f.24.1790608151341; Mon, 28 Sep 2026
- 08:09:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UwSDzgGv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790608732; x=1822144732;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=KQ2uPNX3bH4f+tZsXPUwTwQntP9K9+KPqxTecfEyN4w=;
+  b=UwSDzgGvknJ0zWT/ftmlG/o5aq+9wh3x8fk1ZhKv2sH4LDRezdy9b3Ei
+   +MzXj8qwyJP6xlKwwhfMQlfDTYJjQTOaAQCcAsmFoJ9N1NDJhkW2R0Ojk
+   jPsY3bmdfD3kmR6OkWbGGL4egQR+TiomXaFrcyjyZiIc3hHG/BAy5/UTG
+   ExpsebkL39etg3LJiN/G7HD4Y2zYrSvUh/USbuIVBLuWLu88NiQrL6BxW
+   S7evFVAALO1piCEDQiZaMV6ZREVQDPrl0zTMQnQJFxjGuuqUzqlG+eJxp
+   6ZpgD48DE5IoykicZXHh7KeL9pRJ9YURZ6tTFaZjV/F9yEk6xIt+Re7VC
+   A==;
+X-CSE-ConnectionGUID: t+PcwDCtR6eY05m4seUlAg==
+X-CSE-MsgGUID: 0thWQB4xT7W5KnGCKMRHng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="94024559"
+X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
+   d="scan'208";a="94024559"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 08:18:49 -0700
+X-CSE-ConnectionGUID: nU08LIKRRl6OJBglJ5RDDA==
+X-CSE-MsgGUID: H4rplJtVQ3qNocA04I9mRg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
+   d="scan'208";a="313002176"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 08:18:48 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Mon, 28 Sep 2026 08:18:46 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46 via Frontend Transport; Mon, 28 Sep 2026 08:18:46 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.51) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Mon, 28 Sep 2026 08:18:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q+mP5jcVSGMBn3dkkHuZgfkpWlGij32rrX/2qT0/U6TCWsYnYF3cWf/jSODJbFRqjhJYo1qMyIXmcQMuiclJtTdxVgAm/183sFVNPlad6GAC+JzuQuGuYPB8pXJMp/atFY25vGoS1TIzk4DIhaiCiCqgEsXUVLuE1VaknkcheG4krdwo1+vxZGC/WzEcIV2+LwyYrmVlUPLN+q8h3rxBIC6K3qw6/Tp8SD/K9nnC6nJOm8NWc+3/vT81hS2jCE3FgH8W/3YpWL9TorzAB3WR+FuQv+VZp7j/EZefkkRUsMtZnW9K+tsif/62NGbF7VIUCc5NrY6AmMwbbS7F7Uz9lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F+UNfdATDZPvWDXVxPoX6FVuG5FeywFN8XxOe7UymKs=;
+ b=tc22c/57thZWnULRsYYoSFXcBVzf6huqCg7LVssPyN7diPdg0QbDu/Ac3vswwTz3yA0AWDkRCU4THXXeVRULMZlUNexMui/PvNDPMImttQ2WmoVnQhwC8MaRrjyiGisU0HvDbCaILjNuMY52lZvz+IvBLxABT7t6haPnYugeffO8xckv5Xe9r/0htu2mdsw7xUDAs2tmRQGnH7OLzcpLWuhqOcfL7JmaNGJWxQV627U9BQm1DWNX1YEsaQe0KT8XMSk0UG+lfRQmm4DSJ0xkWCA8pSnlppOWq2u2xzTjfR0oVNPgrpjDB99pSzRGXrinLyq6cPAuSNyV/NMm0C5T/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA3PR11MB8986.namprd11.prod.outlook.com (2603:10b6:208:577::21)
+ by CY8PR11MB6915.namprd11.prod.outlook.com (2603:10b6:930:59::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Mon, 28 Sep
+ 2026 15:18:38 +0000
+Received: from IA3PR11MB8986.namprd11.prod.outlook.com
+ ([fe80::e6f0:6afb:6ef9:ab5c]) by IA3PR11MB8986.namprd11.prod.outlook.com
+ ([fe80::e6f0:6afb:6ef9:ab5c%6]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
+ 15:18:37 +0000
+From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
+To: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>,
+	"peterz@infradead.org" <peterz@infradead.org>, "elver@google.com"
+	<elver@google.com>, "bvanassche@acm.org" <bvanassche@acm.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC: "corbet@lwn.net" <corbet@lwn.net>, "skhan@linuxfoundation.org"
+	<skhan@linuxfoundation.org>, "rdunlap@infradead.org" <rdunlap@infradead.org>,
+	"mchehab@kernel.org" <mchehab@kernel.org>, "kees@kernel.org"
+	<kees@kernel.org>, "tudor.ambarus@linaro.org" <tudor.ambarus@linaro.org>
+Subject: RE: [PATCH] docs: kdoc: parse context_lock_struct() as struct
+ declaration
+Thread-Topic: [PATCH] docs: kdoc: parse context_lock_struct() as struct
+ declaration
+Thread-Index: AQHdTUddKqFqBNYIHUWQKSJKPkKverbkHqLg
+Date: Mon, 28 Sep 2026 15:18:37 +0000
+Message-ID: <IA3PR11MB8986B474B6FEA09972D2E55DE58D2@IA3PR11MB8986.namprd11.prod.outlook.com>
+References: <20260925234054.128477-1-emmaonana18@gmail.com>
+In-Reply-To: <20260925234054.128477-1-emmaonana18@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA3PR11MB8986:EE_|CY8PR11MB6915:EE_
+x-ms-office365-filtering-correlation-id: 14657655-ad25-4dea-8657-08df1d73c54d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|366016|376014|7416014|1800799024|38070700021|6133799003|10067099003|56012099006|11063799006|18002099003|22082099003;
+x-microsoft-antispam-message-info: QGhB9eSA7hXpPcYvjfun1HigzATl6jg5Ahn7ISJqxFLtCM6olWiAEyKVwpgaSJA/5mSlZFDQR/pZsH/t9Tdmx9bO0/Zgxmp0PKq5pXjlrojZol85igQY6Y7toP/7Mon9Rx+x7CY+guXCG53Uq54r0jB+eVbKeffFtM0VOIquOGI0CXtMGSX28x0+6ISO4x7VmqA7iaZRzIuGACmoQHabHpsgnVVfuMx9P76dNThJLNeKajepPC3ITZ0P00StgRTgzAOtdCzjBgcRUsqnT4hy/sFpLXfQFJYFenl35ABvI37DXvXUDevDISHShBSDUIkWWjn9PAX7CFm/m/F+n+1ZTMonoZDwegfcIvAGlgdtXoZdIzx9RPdIZonx4Aonj0nnfRoyHjZhOaL/xdmHirQyFCVzeRftydrdnLiJsS5G08ILtemdTreIflAJ6Mpo8aKRFwJqCiZWpwEASig90CaxxuddwLUxGCfRRQjeVzWidtjtI+EET9uo5Y0q+5umS1TvPJo60Wsy+RpwQ1iXoqwVtvtz4cl6HryqsnVove2AIKiJLnuASjwwjpw8QD9hVhQZ0zHVHpUkccLSROS3rEK25MsevJgcp3PclfoRrRnRY7f0jlGqCw8xezD6N/dqgKRDpP7BEbdnAIkfOsCUghHAUPUdkXQpsbcYpMKSl4lXqcwLrE/uc3r/3dvZbfJfnIrKQRKYj8nTaQe5mJExL+fSyW/gwz1lp0wQ8xEKHLBGJdY=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB8986.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(7416014)(1800799024)(38070700021)(6133799003)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?W+L+6/TjfeqgzGXStcC3mRdP5LLVZFwTYBHwElZ4cuQUkkZoGih1eOYuZYQY?=
+ =?us-ascii?Q?sFc/eDXfJMZ/7QYm8UCo8y6V9PAHKL3Dh/11Ot4OggJjNkasY90mJdBq7Nct?=
+ =?us-ascii?Q?Q7SgjTUaoMPPIoka6P81REof/NvntpkwMIGwPh+S3K3c5509xGnDoCCJY5JR?=
+ =?us-ascii?Q?FGdaZRUVKNIIfjHetsNjDxS34AvN+3q5BsG0MbEUWrqevkwVAnuFW04FCkDh?=
+ =?us-ascii?Q?70v7dXLhdgoTiwP2qUFHsnCDPqC89BTcUVYXEbb7xd/gH/bHBe1hyiPxoJzX?=
+ =?us-ascii?Q?LHmjxXaAauotFq2xy+bDRdTPuDmfx5FO2E5lh+GwVBIN2Ysokpb/WJDA+dwm?=
+ =?us-ascii?Q?CT1IV/iQ4yRE2adoH1kYavLB0F2t3jzX7Wp+gnV9Gh/Gm04v5RfGPZFgrEVN?=
+ =?us-ascii?Q?rlDnOKb1t4VLZzvVYXEjUFKEWJNYCBlukW56ZSxMoMqCBFUHgkYGtXype8AQ?=
+ =?us-ascii?Q?6lNIbA9591cs6ctXRvXHR99sZu9Jz0XMsONNYs/wLD4vaXvxqTnHs9ARWz5B?=
+ =?us-ascii?Q?p8GNSBq3jQ4nTd2/yU6WU6G3ZIRUTNxT5kg00Q9pSJj6hfxkUCOKz3HO9aak?=
+ =?us-ascii?Q?ODmr3orleL7cNCVE+s8WFlD2TnYEeMir8bo4UDodFK3OF53AE7k5WAWNs+nf?=
+ =?us-ascii?Q?1UE5H+uAHtBFQKLFtknnuHRCdEodVzMV0e44TtKT6a8JwGHjVsKUP5jb7bkz?=
+ =?us-ascii?Q?0pR67N5/W09Gt0SYha7V8Z8VTtyQ/F4kyklZSRSVjTHeHke8T2LgSmCu87Fp?=
+ =?us-ascii?Q?XWgSS3SWvnfnyI4AJ3rPUDeTVAKFLMYrCSsqSb77/6Zy9Y9U3wGIaUgb1qDf?=
+ =?us-ascii?Q?XImmym4nYn+t0rnhs/l/tAxY9JrJKEY3VwIfx8P0sPVbjyjqKo8H2IX8Ptur?=
+ =?us-ascii?Q?0J+llVpDpkC3lr9RNGsmLBHK4WzxrP65cEkSNSXgLOs18YmiYAzDrPZr77Tb?=
+ =?us-ascii?Q?UEzqU4B4ADtC1zh9acdo6ojKKSwOFnDYXTsh3Qlex8KJdvI/JYSYaeGIqmz0?=
+ =?us-ascii?Q?bK89wAHnGDDpfBJdjC54ahA7FrCiOhH74GrLFjaiYQVygXjcUtsf+59zx/nu?=
+ =?us-ascii?Q?0oWWMiutQHylU0EfUJkIxrKL/cXPEvWIfgdr4N2m7k9VfrIf28Uf4bvDVIG/?=
+ =?us-ascii?Q?+IpqbF/MJ1PF/uGW5JZNSp2g1lFqyRF0rUHXvjT+HE6ytxSYUO4lBOHip6WD?=
+ =?us-ascii?Q?fUqSdlIjhky9uN4upHCKfJ19yj5pvprTXfObiglmaVUrPHuHS204ZZ740eGV?=
+ =?us-ascii?Q?M2hLbNojGvNlQJnxtQvMkLLb40Ic8dYX/AXpybcU9I6AdlSSRSxHFg/EoqfN?=
+ =?us-ascii?Q?GYHs6Z01jpMFzNrwsWGGrRsu94HvySfZEJmQ6PQ7gwBIkJZa2Ih9u0i7E3Xa?=
+ =?us-ascii?Q?M/3Ihee/meO6aHm/PmrYXp+jvnTkAtnsPJjCBtcf2YJ6zSJr0+BQtA3Y0mZr?=
+ =?us-ascii?Q?qXaOqYfGXQh+K2KpG7VLEnb6Poyo5VJHXtAyEDaj2jIhYPOKz4MO+Kxk8ELB?=
+ =?us-ascii?Q?tDCiXFSuVTXRhsS/MQ06W8b9sz7zH3+U3oOWKGcVzFYGVn+F55GSe9td7bJE?=
+ =?us-ascii?Q?AnTqon0vKzqNfQYvsYSc/VbTRyYH0CFU8hcfQvh21HSgLgour0wGfMB7FV+T?=
+ =?us-ascii?Q?LmLprbxcLi15KW9Go7qLstFSsz4U+23EY7CiTj68nr2LusNu0npioxf7j5Ww?=
+ =?us-ascii?Q?tBnM3bOKReJq7H5RaK7TLbFwnvDcA8wycFR8F3SJylb8s80yLxK7X5kOWxCm?=
+ =?us-ascii?Q?NN05KCLD3YBiSgDMleKXOTAPUdRInxw=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260902200547.184734-1-jtaubepe@redhat.com> <20260902200547.184734-8-jtaubepe@redhat.com>
- <ab97f32b-31dd-4975-a8b2-b445110ae3a9@suse.de> <CADRr4bePoiDnWX_XrMWtQe=1g4Yrw1_dK86EV2k9XZR0HnL+UQ@mail.gmail.com>
- <d4879e78-2735-4f86-beab-8aa319e9162c@suse.de> <CADRr4bcSvLwzfSiV0LTxnhZR7oo3F1b2XEo+wwqi668Gr2BBQA@mail.gmail.com>
- <a7a60b61-24b4-429b-8ccb-ee5b6f06a5ed@suse.de>
-In-Reply-To: <a7a60b61-24b4-429b-8ccb-ee5b6f06a5ed@suse.de>
-From: Jesse Taube <jtaubepe@redhat.com>
-Date: Mon, 28 Sep 2026 11:08:59 -0400
-X-Gm-Features: AclHuK8rEa0dRLnGnsUacjiVX3fDsEVHWVQeb9zJZDMDBAnfAXNWF2dGmvnsVw0
-Message-ID: <CADRr4bfJtQOKYFjDoR+khaPvQW6-UzN70pZ-nfGJnQ22nUkskw@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] nvme: fcloop: Add set_marginal_rport to sysfs
-To: Hannes Reinecke <hare@suse.de>
-Cc: linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, 
-	Sagi Grimberg <sagi@grimberg.me>, Justin Tee <justin.tee@broadcom.com>, 
-	Naresh Gottumukkala <nareshgottumukkala83@gmail.com>, Paul Ely <paul.ely@broadcom.com>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, 
-	GR-QLogic-Storage-Upstream@marvell.com, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, John Meneghini <jmeneghi@redhat.com>, 
-	Bryan Gurney <bgurney@redhat.com>, Chris Leech <cleech@redhat.com>, 
-	"Ewan D . Milne" <emilne@redhat.com>, shinichiro.kawasaki@wdc.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Exchange-RoutingPolicyChecked: eVYFKGFlTXwTwMVionoDjQiwElWVCZg91nLGApj3syhMkAxQBvEz6d0PY5ULm2PS+GlmMqcXvBoC/AWlAKrmDJzHjy4Z4B3oxogjfu6cVwLg+O/QcA8GTF9CKoQFIvVooqjCXdwBTusq6OXYIKIBArfzCjNUphqLCHnwDdm2kAZgZnuhtkLandIMUqkozoQYwHsP/543dH1pis2z8UCah7BYKWcacWPTu6A/q1IiuEFIOdgpQlTkt71LQZ8zOGRoW3pvQmOjhC+hKX2sbeV3PTz5cH03eHOcFUeCocnXZl95ibcQzqVfMZk1ZCUg+3MUkeN7QFj5Tayjeo93ahX7GA==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB8986.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14657655-ad25-4dea-8657-08df1d73c54d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2026 15:18:37.8111
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: J1oIuPFXoj4ApfiWywakBloCc/UMUeyGsV8/TTPgTIUk3EPonRgKaDLuBl3ZFoQ0HO3PeV6wciirpy99f3LAy6+0ZUKFyBpk8IJDJ4dE3KQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6915
+X-OriginatorOrg: intel.com
 
-On Fri, Sep 25, 2026 at 1:10=E2=80=AFAM Hannes Reinecke <hare@suse.de> wrot=
-e:
->
-> On 9/23/26 6:16 PM, Jesse Taube wrote:
-> > On Wed, Sep 23, 2026 at 11:34=E2=80=AFAM Hannes Reinecke <hare@suse.de>=
- wrote:
-> >>
-> >> On 9/23/26 4:56 PM, Jesse Taube wrote:
-> >>> On Mon, Sep 21, 2026 at 10:03=E2=80=AFAM Hannes Reinecke <hare@suse.d=
-e> wrote:
-> >>>>
-> [ .. ]
-> >>>>> @@ -1671,6 +1719,7 @@ static DEVICE_ATTR(del_remote_port, 0200, NUL=
-L, fcloop_delete_remote_port);
-> >>>>>     static DEVICE_ATTR(add_target_port, 0200, NULL, fcloop_create_t=
-arget_port);
-> >>>>>     static DEVICE_ATTR(del_target_port, 0200, NULL, fcloop_delete_t=
-arget_port);
-> >>>>>     static DEVICE_ATTR(set_cmd_drop, 0200, NULL, fcloop_set_cmd_dro=
-p);
-> >>>>> +static DEVICE_ATTR(set_marginal_rport, 0200, NULL, fcloop_set_marg=
-inal_rport);
-> >>>>>
-> >>>>>     static struct attribute *fcloop_dev_attrs[] =3D {
-> >>>>>         &dev_attr_add_local_port.attr,
-> >>>>> @@ -1680,6 +1729,7 @@ static struct attribute *fcloop_dev_attrs[] =
-=3D {
-> >>>>>         &dev_attr_add_target_port.attr,
-> >>>>>         &dev_attr_del_target_port.attr,
-> >>>>>         &dev_attr_set_cmd_drop.attr,
-> >>>>> +     &dev_attr_set_marginal_rport.attr,
-> >>>>>         NULL
-> >>>>>     };
-> >>>>>
-> >>>> Please don't make it a fabrics option.
-> >>>
-> >>> What do you mean by fabrics option? How should I fix this?
-> >>>
-> >> Your patch does two things; one is to modify the parser in
-> >> fcloop_parse_options, and the other is to implement a new
-> >> sysfs rport attribute 'set_marginal_rport()'.
-> >> My suggestion is to drop the first part;
-> >
-> > You want to drop the parser?
-> >
-> Yes. 'set_marginal_rport()' sets a boolean value.
-> You don't really need a parser for that.
 
-Yes, but we need the parser to get the WWPN and WWNN.
 
-Thanks,
-Jesse Taube
->
-> Cheers,
->
-> Hannes
+> -----Original Message-----
+> From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+> Sent: Saturday, September 26, 2026 1:41 AM
+> To: peterz@infradead.org; elver@google.com; bvanassche@acm.org; linux-
+> doc@vger.kernel.org; linux-kernel@vger.kernel.org
+> Cc: corbet@lwn.net; skhan@linuxfoundation.org; rdunlap@infradead.org;
+> mchehab@kernel.org; Loktionov, Aleksandr
+> <aleksandr.loktionov@intel.com>; kees@kernel.org;
+> emmaonana18@gmail.com; tudor.ambarus@linaro.org
+> Subject: [PATCH] docs: kdoc: parse context_lock_struct() as struct
+> declaration
+>=20
+> kernel-doc fails to parse struct declarations wrapped in
+> context_lock_struct(), e.g. struct debugfs_cancellation:
+>=20
+>   include/linux/debugfs.h:245 ... error: Cannot parse struct or union!
+>=20
+> Add a struct transform that expands context_lock_struct() to a plain
+> struct declaration, and apply the struct transforms to the whole
+> declaration before split_struct_proto(), matching what dump_var() and
+> dump_function() already do for their prototypes. The member-only
+> transform in dump_struct() is then redundant.
+>=20
+> Add a regression test for the debugfs_cancellation declaration.
+>=20
+> Fixes: 6e530e2e3119 ("debugfs: Make debugfs_cancellation a context
+> lock struct")
+> Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+> ---
+>  tools/lib/python/kdoc/kdoc_parser.py  | 11 +++++++----
+> tools/lib/python/kdoc/xforms_lists.py |  1 +
+>  tools/unittests/test_kdoc_parser.py   | 26 ++++++++++++++++++++++++++
+>  3 files changed, 34 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/tools/lib/python/kdoc/kdoc_parser.py
+> b/tools/lib/python/kdoc/kdoc_parser.py
+> index d9ad1ddc87dd..80d4245acd17 100644
+> --- a/tools/lib/python/kdoc/kdoc_parser.py
+> +++ b/tools/lib/python/kdoc/kdoc_parser.py
+> @@ -831,6 +831,13 @@ class KernelDoc:
+>          #
+>          source =3D source
+>          proto =3D trim_private_members(proto)
+> +
+> +        #
+> +        # Expand macro-based declarations, like
+> context_lock_struct(),
+> +        # into a plain struct/union declaration before splitting it,
+> +        # as dump_var() and dump_function() already do.
+> +        #
+> +        proto =3D self.xforms.apply("struct", proto)
+>          struct_parts =3D self.split_struct_proto(proto)
+>          if not struct_parts:
+>              self.emit_msg(ln, f"{proto} error: Cannot parse struct or
+> union!") @@ -841,10 +848,6 @@ class KernelDoc:
+>              self.emit_msg(ln, f"expecting prototype for {decl_type}
+> {self.entry.identifier}. "
+>                            f"Prototype was for {decl_type}
+> {declaration_name} instead")
+>              return
+> -        #
+> -        # Go through the list of members applying all of our
+> transformations.
+> -        #
+> -        members =3D self.xforms.apply("struct", members)
+>=20
+>          #
+>          # Deal with embedded struct and union members, and drop enums
+> entirely.
+> diff --git a/tools/lib/python/kdoc/xforms_lists.py
+> b/tools/lib/python/kdoc/xforms_lists.py
+> index e3dda2fe8a53..9f2c750a811b 100644
+> --- a/tools/lib/python/kdoc/xforms_lists.py
+> +++ b/tools/lib/python/kdoc/xforms_lists.py
+> @@ -62,6 +62,7 @@ class CTransforms:
+>          (CMatch("struct_group_attr"), r"struct { \3+ };"),
+>          (CMatch("struct_group_tagged"), r"struct { \3+ };"),
+>          (CMatch("__struct_group"), r"struct { \4+ };"),
+> +        (CMatch("context_lock_struct"), r"struct \1"),
+>      ]
+>=20
+>      #: Transforms for function prototypes.
+> diff --git a/tools/unittests/test_kdoc_parser.py
+> b/tools/unittests/test_kdoc_parser.py
+> index c4a76ed13dbc..4baa78ca02b3 100755
+> --- a/tools/unittests/test_kdoc_parser.py
+> +++ b/tools/unittests/test_kdoc_parser.py
+> @@ -418,6 +418,32 @@ class TestSelfValidate(GenerateKdocItem):
+>          """
+>          self.run_test(self.SOURCE, [self.DEFAULT.copy()],
+> self.EXPORTS)
+>=20
+> +class TestContextLockStruct(GenerateKdocItem):
+> +    def test_context_lock_struct_declaration(self):
+> +        source =3D """
+> +            /**
+> +             * struct debugfs_cancellation - cancellation data
+> +             * @list: internal, for keeping track
+> +             * @cancel: callback to call
+> +             * @cancel_data: extra data for the callback to call
+> +             */
+> +            context_lock_struct(debugfs_cancellation) {
+> +                struct list_head list;
+> +                void (*cancel)(struct dentry *, void *);
+> +                void *cancel_data;
+> +            };
+> +        """
+> +
+> +        kernel_doc =3D KernelDoc(self.config, "test.c", self.xforms)
+> +        patcher =3D patch('builtins.open', new_callable=3Dmock_open,
+> +                        read_data=3Ddedent(source))
+> +        with patcher:
+> +            _, entries =3D kernel_doc.parse_kdoc()
+> +
+> +        self.assertEqual(len(entries), 1)
+> +        self.assertEqual(entries[0].name, "debugfs_cancellation")
+> +        self.assertEqual(entries[0].warnings, [])
+> +
+>  #
+>  # Class and logic to create dynamic tests from YAML  #
 > --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
->
+> 2.43.0
+
+Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
 
