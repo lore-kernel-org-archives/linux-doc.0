@@ -1,171 +1,256 @@
-Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.151.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C749648BD54
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 22:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.151.120
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790635809; cv=none; b=rdn42Np9TIt5x/4+0ChoS1tH8iEHpkv8Bj7ssCyNCrGwehhnCu3iMISXH8MBbBDryL25ldJnuou2cNV342/CH66KkaGzzciuCDmJEY6/F0TX6mVW3/2Cb0SH+3r812U/hZOZNCvqe6OKKrGAIP43HSP2e+Zm4KVDMZwyN97jy6U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790635809; c=relaxed/simple;
-	bh=1XdYZ8IKYtizx4tm/2dKLQh/yB3b4MF3jWH/5AN37gU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=ShU8+0E65HOjesplcUZ6nVur/XWCOG8eCADUSxt/lhwOfVkM5KBDm4DyIGBlbotvbXP6L5mT/RR/CGmNAlFNUg+nYAy91xFjNmmpu6kyOgbYWCbCk0PEiWttUztCO2KBYHqSwmhhQR1GlpMcvSL81ACYYA65rZn/G4ufmGyuZgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=Zb25q6JG; arc=none smtp.client-ip=170.10.151.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3352949AA22
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 22:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790636370; cv=pass; b=G3EtNlCVx0UCLIwlqi2V61xm1nMn/A/8GVo3Tc8QFgAzHcUkHcrR2dvvLsVsTo2dfDpSOrbWdrUDCpGibM9d7kNzdJ/FqYXiSBuqLmdLbfcn/hAKPLSpHs0ceUEcakBqlWmmAn8RxP5hVAGbOG1UFW5VwPYRzXDTf4m50hmgX6o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790636370; c=relaxed/simple;
+	bh=3dhFSJqSrYEPxwhxTd/7VdtKX5PRSVUZ0eWZ0ZacoZY=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iaZCYdwWTddeBqeKFus5CdHcS1xraaTzTpqaMfeZj4v453yNmckeBZa3Iv2PNDo4F5lwD5hlNuZRh4x8UkHm5f0Pi6ZO6sbrE42uyZxhwA4D+TdqOhf8C6PeQa3F2iIU9B2GEbfobXmGTwJP9ejS3SUHJbG4ZwJIQ4PDYuLHmkU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ds55nWJj; arc=pass smtp.client-ip=74.125.230.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="Zb25q6JG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
-	s=mimecast20250127; t=1790635807;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1XdYZ8IKYtizx4tm/2dKLQh/yB3b4MF3jWH/5AN37gU=;
-	b=Zb25q6JG6Rc9XfHK8eejrRTfNiSpKEmIx4kpPNja/iBNwrLguOC56/kzQf9RskF3dAAiS4
-	7QYVi0L2aYZWsxviSWxH0VRb973hpF36GBkQKWYrBufh2RcBPPsT/2319C8TfmLhie8B38
-	Em3+P9wFjBUEYuEzA4nQA6eJgjRYg+4Fc7mZBqhH//pOz333FQ0Z7zmaQGb6kHTh+URbPZ
-	CCinpvbWPcW+/UMJx5SJDn9yfd44uSzNVDzLNmH/rzNuuTlXtxT39eO1nJtxHYGi0L+UJQ
-	oPDwcOKiRMcR/qhk60eEK3qlKHzFGUfP9/L39mDZs3DOh9lJnJunKYGlIN37eQ==
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013015.outbound.protection.outlook.com
- [40.93.201.15]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- usb-mta-63-M1woYulpMze6a-PkMp8LUQ-1; Mon, 28 Sep 2026 15:50:04 -0700
-X-MC-Unique: M1woYulpMze6a-PkMp8LUQ-1
-X-Mimecast-MFC-AGG-ID: M1woYulpMze6a-PkMp8LUQ_1790635802
-Received: from CH0PR02MB7867.namprd02.prod.outlook.com (2603:10b6:610:110::22)
- by SJ0PR02MB7743.namprd02.prod.outlook.com (2603:10b6:a03:321::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Mon, 28 Sep
- 2026 22:50:01 +0000
-Received: from CH0PR02MB7867.namprd02.prod.outlook.com
- ([fe80::d722:d686:a9cb:6c2e]) by CH0PR02MB7867.namprd02.prod.outlook.com
- ([fe80::d722:d686:a9cb:6c2e%4]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
- 22:50:01 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Piergiorgio Beruto
-	<Pier.Beruto@onsemi.com>, Parthiban Veerasooran
-	<parthiban.veerasooran@microchip.com>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Richard Cochran
-	<richardcochran@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
-	<hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jerry Ray
-	<jerry.ray@microchip.com>
-Subject: RE: [PATCH net-next v8 07/11] net: phy: ncn26000: Support for
- onsemi's S2500 internal phy
-Thread-Topic: [PATCH net-next v8 07/11] net: phy: ncn26000: Support for
- onsemi's S2500 internal phy
-Thread-Index: AQHdT5hH4t1huW7wAUedG4YUiiG99rbkl1fw
-Date: Mon, 28 Sep 2026 22:50:00 +0000
-Message-ID: <CH0PR02MB78673D8A3CF809B016983DAC838D2@CH0PR02MB7867.namprd02.prod.outlook.com>
-References: <20260928-s2500-mac-phy-support-v8-0-7e011aacc309@onsemi.com>
- <20260928-s2500-mac-phy-support-v8-7-7e011aacc309@onsemi.com>
-In-Reply-To: <20260928-s2500-mac-phy-support-v8-7-7e011aacc309@onsemi.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH0PR02MB7867:EE_|SJ0PR02MB7743:EE_
-x-ms-office365-filtering-correlation-id: a23919d2-d6b4-4379-d940-08df1db2d429
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|376014|7416014|366016|1800799024|10067099003|11063799006|921020|6133799003|56012099006|18002099003|22082099003|4143699003|38070700021
-x-microsoft-antispam-message-info: AawceS7FrI10U/kJ7DAesQM60Wh06RvW461mVmSFAUrPW73z3qB+J0QboP+BVUAwrBjsPyl6F4oLMMuawPxqxyfB1YdWNqZO8OW/hJ/5GjZapy1fBlGxTyvZyHJxa317iBXG/j9fPg/qJ/k6UpnzzFJY2rx/NDcc99svYn0x90rugPtihD0y2p4P951ryIaMmgg1ySqDqcVfov9FsDP+2idFfmyisS7ovWkDCdvJUPr57ispw0ORgCDlHwPFDltIsb3Idpzgoi42qWvs1L15Bg5fnyzpkL2QO152Y9oxgJ1p8xpDXJ0kSEWdePmp2kfJQrk1EiMck3lQB9GR9Yu3JDIkiSPnrrqhoTSgymoJs5CSX/qkQclhScU1f94lBKmamoWau9hptIKDUKneHV1mDGH8tG01WSa3SNawr9aFgMw8M4qOfm/N//1m2IqGskoFdq/QfvZmzrshGHkHAevm+qTWXiSga3XsUgrEoHPVhlQLUJ1GIEyveYCV7QlMIzJFo9scn698X/xGXQLUrA/3JPcDxOGvl88NmtCosMFlKAx0D2mdGQWqVqlHxfHHITegLikun/zyD6a2x6gS/u7BClGkGvHG6LUiC0V7zV1gLC8JeGA6Um3ZB5otmzWBg9HUiSJSTgJDIpTV43cAGl0/5bqWT2cb9qTMEbY6/7LnKzK4sBhdHvSR5zwQ4JkLR78vkB+1RZMeIiWQfzp92KjWnWKdv4qbatgENYWl7cVYXqVVrzOgaCpRksrb3I2HKP50
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR02MB7867.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(366016)(1800799024)(10067099003)(11063799006)(921020)(6133799003)(56012099006)(18002099003)(22082099003)(4143699003)(38070700021);DIR:OUT;SFP:1101
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WDJyREZVVmlESlFmNnZDVWFoZXFaNmI1a1ZPL3o2alg1dUpiRU00SnZKdXJN?=
- =?utf-8?B?cW5jZVRDV3QvSmk1RFFIaUQ5NFZwbGxUMnVUaG90cEpOelBPZGFuOGErTWRp?=
- =?utf-8?B?ejBpdVhhRUpQZlY5dHlOc2VVcmsyOU1DUWlCdXZHSmpndWhmWUtlYTJKdmcr?=
- =?utf-8?B?L01YblFmNGd0MGVFeFhuTU5DUkR3L1pGWDVNYnlyaXIrejNnOFo3TWgzMm1O?=
- =?utf-8?B?MVEzeUlmVVRraitUL01QZ0VMdXJXeFN0K2haUVhTc0g3bVZKblJHc05FTG5v?=
- =?utf-8?B?M0JFcVp6cU1uSHJzNVlIWi9jUDhQUld0YmhtN2ZnUWJNZDl5cGhjZ3JSU1NO?=
- =?utf-8?B?UkJrK3FUS2VQbitaQUNVMnNXellObGhRRnNpOU5rdENOTWR3cHhGVE03TEQ3?=
- =?utf-8?B?QVZteTZVQTVFSnlRL2JBa29saTNhSnUwVE1UUFFLRzY1N1B6UGxQbW8yZ1Vi?=
- =?utf-8?B?WmQ4K1JUQ0pzanhrVEdRUGY5a05aWWRqZVJydjBhTE83ZklVT3k0WFZNZTl1?=
- =?utf-8?B?YURIWEtVSGl5NWxKMWFGR0xpZWJJakY0dWNPRno5U0l6cGNFb1BLWDFjV0Vz?=
- =?utf-8?B?RldNZVhQdTFLWitDQSszR3M2Nmk2TE9SQ3lzMVZHNzBWWWJFelhJTGZUN0FV?=
- =?utf-8?B?M1pvcDhnZUhPK1ZSOVBtRVpxMkJZL3FxNzZ5TnFXVHRNNEw0anRIT1hQNE9k?=
- =?utf-8?B?bUQvRDJRY3VqM2EycG1Nc040SnBhdXFwKzNEUmIrUExQU3drRjZ3ZGoyUGdl?=
- =?utf-8?B?UlVzc2RLeXdVeXpMbGYvYlFHZ0VlUFFzRmExajZRaXNKV1ViK3d4NE1kdWpG?=
- =?utf-8?B?TXV3cndvS2tlRGN0NFRZL1VZWTVpYmlvdm05amVzR00xYlptb2puNUdsMlFQ?=
- =?utf-8?B?aklrUndMVWRFZ3BqWEVKbVJhTE1UeVdESVJ3SUxzSGVUc1FxakNYVjhIclZl?=
- =?utf-8?B?d21hYUE4VWRwOWZicFdONm9heXEzR2Y2WVJiZTdWYVBEejRiZDJkQnVTdk0z?=
- =?utf-8?B?OXBtZ053TllMRHo3UE9rSnp2VGxZUmZTdDlUOUtLa2tib28xM3FNTGJlOUho?=
- =?utf-8?B?TEpKbzZERlloQWI3a3h5dmlMSmI2TmRiQ292WmJzc3ZPYXN5VUtNMng5cjVp?=
- =?utf-8?B?SGthRTdZdTBDVjZVc1JpcEtOUm8zTjQxSngrWTYzT3hMM3JjRHVBa0JGQ0dT?=
- =?utf-8?B?bXk4ZGwvYkoyejR4UG5xUkx1d2kxMzgxU08zMnllQ0NMc3BHaUhTNTREWHQ0?=
- =?utf-8?B?UjNaWXErdjRMVEFKeGtuZkxzdUQzV09ocnJnV2NHSWxldTJqUUZ5d21mMEFY?=
- =?utf-8?B?RWpKWmhqZmUxNjFxaUdNWnA0M0o0YldhZE1Eeml1UVJ0Nld0L2FJdUZaU1c2?=
- =?utf-8?B?S09BeW9Nc2ZGd3BQenNiTEVTRDhBalN4eUpvSk9WVU9EblJTUGg5anAxQjFm?=
- =?utf-8?B?S09aQVJwVnY3UG94ZllNbHljKy9wRC9RbElFY0QrbU9TT05tdkdhVjZlYkJy?=
- =?utf-8?B?Rk1FR0NTNWk1c1lJVENjWkswcmVZQnpXdkV3L01DZCtsQkZ4N0ZCRU5iNTNL?=
- =?utf-8?B?NkZHUjdJV2QxVm9xNnZIK2hDTHRXT0FRSC9hUVBSTXhuZW9KclhrbTF2YjVM?=
- =?utf-8?B?UGoraVlmSU1JSGxBalpuYXIwbGQrWlYzQ1IwMExyL3Mxc045bCtvSkt0SE1s?=
- =?utf-8?B?bDB1MlBXWStPazlsem1nMG4wVU9lQWJCMSsxeFNYbnY2empCQzU1TW9OSnJt?=
- =?utf-8?B?R2lmZnFld1BXajhBUDFUUk9WYWFzZHUyOHlxbUo3SDF1NU5DUHloUjduMHV5?=
- =?utf-8?B?Ty9venpYTVhVclcrdzlFUmlhZXIvNmZubGg2S3RyRmtNcjV2cEltMkpEdEll?=
- =?utf-8?B?bENTbXUxQSt0cXQwUXZ5MWJ0NEVMeStEcDYveHMwWnVjZmVrb1hyaDlONVB0?=
- =?utf-8?B?Nm1mZ1l1Zm1UcXUvTTZWQXp6OFpGckR2NUYyY2doUlUvenhxWjF0NG9nRVVD?=
- =?utf-8?B?T2l3SnVpQ1JVdnBlL1p4NDJ5Yk5NWis5YzN0d0Rud2swMk5vS3paUmU2RktB?=
- =?utf-8?B?UHhZRkltYVNGQkE1TGFKZ2QwOE5sUDBpYndJVWRHT2tzNFVpYjk5R2VSbnd5?=
- =?utf-8?B?b0g2bUZVbjhNanp4RGdDeDZnckpLTnZ0RGpoZHNSdEc2eEYvbm5HRXFVWTg2?=
- =?utf-8?B?R2tHK0UzdzJBZXRaVVdFeXBCUkk2OXVhZnkyMlZJalcycTgwNjFFRTBWemlJ?=
- =?utf-8?B?NUM5WERtT0xqL3g4WEI2RFdqRFU3WGo2Wmc4TFFCUThpbDMyRzdVWlhweElv?=
- =?utf-8?B?aUxzd1BNMkp2ZzFFM2Yza09ySkt3dVo0YjA2T1I0RFZ4SER1TENJWW1WZm1n?=
- =?utf-8?Q?7omCGjHxnUobw/CY=3D?=
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ds55nWJj"
+Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-939109fafd7so289849785a.2
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 15:59:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790636368; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iTjMclYpIjD2jnEzSti7aaP0kLVmreudYY9hTi+rq7gAKHOKwrRCyjBVIpuQGTU565
+         8mqbiz5YSCDKNlzpvZeB/wQE99v5mExsVFVXtwpTuiyy9hzzD/G0q+AJV+WygdsSHySS
+         b3rzZts320isfUAoz+Xc/0Mp/PzCs5vHNqi/0eWJ/DBQzqSr8pfpy9485O+LXolQiTUH
+         8JmNkRQGDIYMVfAAyV+08AZvU645hYKfFVJCh4r9e6kredq6bCNgeN+qaH1KW1E+H0Pq
+         U9FfgXQQ9+jhVja0ucHIdPmqJ7lmlLrYH1SG6azrE8qmz/iPs5oIaeIeQH6dROhzPddU
+         PEGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date
+         :mime-version:references:in-reply-to:from:dkim-signature;
+        bh=h1XRNkq6Yhc/2nUm3L5+IvDvFRHvgBkAyzRT7XwQvCM=;
+        fh=X5YMwENveRaCi0V0VKosj46hqwfFgWIXEm3elhZaHfQ=;
+        b=TJnl28Ru7Lk7s1r1iNyekVcx79iOYhodPAgqmzAv73xTCB37ns6zc6X4fIfSADyGh/
+         qbjd5Elb/K7sSLt9GVvdG6zAjvupWha4mmFyqzDk+hL3///E6XE4VFAN8WbnIzsd3yUQ
+         shYgOcjDFN26/o15zOYppvdpPiLklIyQra8Q7otHM0DEP0jI+xHcR39Yxpm02qJPCEXJ
+         NPnlziPeefzfNjl0K0oASh7Q/KT/Mv4Kfd7GoI/fM7lDCugYL6mbb8pPx50ALZb/lYRo
+         xqP/a2ZavcKhT2UNZJQ6lJcVHKroW9th2EK5zARIMKnGyvHYfFJA4c2uBpZ/RS2tVpOE
+         +h1A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1790636368; x=1791241168; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:mime-version:references:in-reply-to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=h1XRNkq6Yhc/2nUm3L5+IvDvFRHvgBkAyzRT7XwQvCM=;
+        b=ds55nWJjikTFMP1BW/kSKlsFLNXzqe2QVctr1EPFtaing/6xj99mqU8zOrK1EWqoq2
+         wM7+DzCNZa7JMl6D8NhikQlxf6hlnxmiI5cEVQCvqThjoOuJc0dbEFOqRyHhfGWT5yYG
+         iD+z2Ivc/ZwbG45plgbcSqiKRGJKrCVoKVmb7POmLL5PRepkJAGBmSGLaUElIIoUnYm+
+         2CXWUGFhe/zTcchrUeiYeIvDwVOi6Z/8LZJ/0nCEWrTav3CRXFL3WjLrGDIdRqn43aAc
+         yMelocVWt7h6QVO1uVmW5r9dMQr7pLu5+dg1SYhkUShkEUJJDcADUWCgnSb9df1xJ8SS
+         3t/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790636368; x=1791241168;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:mime-version:references:in-reply-to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=h1XRNkq6Yhc/2nUm3L5+IvDvFRHvgBkAyzRT7XwQvCM=;
+        b=tB6cqrV6rA9aXOfXNFzZDFLcrIdfVkuI0ab9ggspsBK+TWjJohdt00N2xW7uv9RzyO
+         oRZilnKCb4Sjw+GdysCo7rPa7QACZctrWl2relfsg9Ww26fFpGhHPvUkOOpDmaZGa/xB
+         ONtsGXUluaZMfJ128sCCrazh14e3afWVsHExZY9841nPpJtqayhE+g8zJYrAQWz5ppRB
+         4SywswD4V+lQQZRE3jOJPciAnoGVbILKphUGrC6voBb0Yze3DzV+3013gBdarks3YkhT
+         A1u8t2buhoaw3dnL/T2po1Cb3mS+Ozzk6IrZZtyN8g2VnerkHwHwUyk3iQZ4iSqVPF7n
+         OiaA==
+X-Forwarded-Encrypted: i=1; AKwUvBzeaYOOFoOiSKabOJ2KC5v0fCLWeXVyJkhHtjTXkbp/r39G5Yo6w1owOG8BimD2gPeZGkra+jvbkkM=@vger.kernel.org
+X-Gm-Message-State: AFuF++mJiLMH3RQNhfspPRnaosVDX7OJkd20Ck2gcgMxJRIXynOTfGPM
+	LpJ4p+dZ76562NWmbxE9Y2VTucmHERxGMEsITJ0xWot5e7QUzoTaDHfd1GYg54rExTO7eSYVVIx
+	FKVecUZ4aenWILe+QyiaTZazLpkJFB5vOt8zJ4cAh
+X-Gm-Gg: AYBFou1Gird1+B3SY9fC/CeL5KDhR0Ii4mRDbmDCNEGWHRyuQ8Q2IR7TXaJtmeyQIoy
+	pKcJf4rfDdml9ByBv+DICgq/yBpssIo13gZ+SBaDEYAKFZzZOlBGFZ+p75N7Fivsc5HLKxpjSAT
+	8wUIIB/Mvh3IsFlC63NsSeLj60mvUSoh7T3+FH8NyZzAaQiyfOKdXe3id0mfCR3TSnok121wR/Q
+	Qis+lqmT60IlRm7lragsy4ObaxRey9UqjSHaEHl/bzhoWpaRNVpnpCTPyNcoaBYx+OwXdEIhCkR
+	3/pkkWAwHWjbR+o+122Gt8Puc6c9OvgAGzc+gQwCHw1wgfPprh/hD04kF959aTx9mN/4csfqGfo
+	xa2d/iDEYy4ec1w5yGN7u6SfGiK0KswjtQ39ewD9c
+X-Received: by 2002:a05:620a:7083:b0:939:6c31:2318 with SMTP id
+ af79cd13be357-93c43ca0f85mr2339686185a.34.1790636367060; Mon, 28 Sep 2026
+ 15:59:27 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 28 Sep 2026 15:59:26 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 28 Sep 2026 15:59:26 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <d599627270c67a5334d2abced75d1d1711fb0af0.camel@infradead.org>
+References: <20260925-gmem-tmpfs-backend-v1-0-d36159822d18@google.com> <d599627270c67a5334d2abced75d1d1711fb0af0.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: ciAMpz/0svXYMZPYOGh2eAgZxa4JatOnJCFifbMaZ5QtzK1eAKsq0DBBx8bVaxR+GlePS53szQaQxOvc+XAVcvwgHcLpl6onE7dR3XUOliY4BhEu9TFJ5TRG9vcNi/zX5fpLimUPRHu+24osA3HLImLHQC8PamK0rLn06pHnQTHJY1wBuNcuOzaloJkDefMceRT+GzWguNmn8irEQite1huFLgcKDqCSnEoJnGsy2s36igeHy+kgCbMc0z+yWuddapkgEgGOryZ+lpdVAZOhLNwi1Zu/fr5LkqpCFUT21lMbSna1H98HY6RQXOvRPLFxZ630mxN9npF5/z2sYdCwJA==
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB7867.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a23919d2-d6b4-4379-d940-08df1db2d429
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2026 22:50:01.0216
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oQo7N2Z/mnxjkU2zdrXVWAdL4VBd0/TjAIRtNE5J1/Htnp7M02TIMGXxG2v/FB3vUcs9wyHEMalZFUGASFkk7onnrO4WAX3XfqTF6lYNGTM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7743
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Irf_q75ip3O2AEQtASh626GYVUuVAkGL-6Q0JQ8Eyi8_1790635802
-X-Mimecast-Originator: onsemi.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Date: Mon, 28 Sep 2026 15:59:26 -0700
+X-Gm-Features: AclHuK84frc6bKnG4G1OS7cYNUmtfpFymmTftjPaGUJ8aPWmipSyf5FmbAPxTfI
+Message-ID: <CAEvNRgGw_RjiGs_bbVnoRAvq49Qukm4h8XhkBd0DXxn1ZzLrQg@mail.gmail.com>
+Subject: Re: [PATCH RFC 00/17] Allow guest_memfd to be created using a
+ resource (pool) fd
+To: David Woodhouse <dwmw2@infradead.org>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Shuah Khan <shuah@kernel.org>, vannapurve@google.com, erdemaktas@google.com, 
+	jxgao@google.com, rientjes@google.com, fvdl@google.com, jthoughton@google.com, 
+	tarunsahu@google.com, pratyush@kernel.org, fuad.tabba@linux.dev, 
+	Gregory Price <gourry@gourry.net>, yan.y.zhao@intel.com, michael.roth@amd.com, 
+	suzuki.poulose@arm.com, Christian Brauner <brauner@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Nicolin Chen <nicolinc@nvidia.com>, Xu Yilun <yilun.xu@linux.intel.com>, aik@amd.com, 
+	aneesh.kumar@kernel.org, Vlastimil Babka <vbabka@kernel.org>, 
+	Connor Williamson <connordw@amazon.co.uk>, Fred Griffoul <fgriffo@amazon.co.uk>
+Cc: kernel-team@android.com, kernel-team@meta.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-QW5kcmV3LA0KDQpUaGlua2luZyB0aGF0IEkgZG9uJ3QgbmVlZCB0byByZW1vdmUgIlJldmlld2Vk
-IGJ5IiB0YWcgZm9yIG1pbm9yIGNoYW5nZXMsIEkga2VwdCBpdC4NCi5yZWFkX21tZCwgYW5kIHdy
-aXRlX21tZCBjYWxsYmFjayB3YXMgY2hhbmdlZCB0byB1c2UgbmV3ZXIgY2FsbHNiYWNrcw0KcmVj
-ZW50bHkgaW50cm9kdWNlZCBpbiB0aGUgaW4gdGhlIGtlcm5lbC4NCg0KTGV0IG1lIGtub3cgaWYg
-eW91IHdhbnQgbWUgdG8gcmVtb3ZlICJSZXZpZXdlZCBieTogdGFnIGZvciB0aGlzIGNoYW5nZS4N
-Cg0KU2luY2VyZWx5DQpTZWx2YQ0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZy
-b206IFNlbHZhbWFuaSBSYWphZ29wYWwgdmlhIEI0IFJlbGF5DQo+IDxkZXZudWxsK1NlbHZhbWFu
-aS5SYWphZ29wYWwub25zZW1pLmNvbUBrZXJuZWwub3JnPg0KPiBTdWJqZWN0OiBbUEFUQ0ggbmV0
-LW5leHQgdjggMDcvMTFdIG5ldDogcGh5OiBuY24yNjAwMDogU3VwcG9ydCBmb3Igb25zZW1pJ3Mg
-UzI1MDANCj4gaW50ZXJuYWwgcGh5DQo+IA0KPiANCj4gQWRkaW5nIHN1cHBvcnQgZm9yIGludGVy
-bmFsIFBIWSBvZiB0aGUgaW50ZWdyYXRlZA0KPiBtZWRpYSBhY2Nlc3MgY29udHJvbGxlciBTMjUw
-MC4gUExDQSB0eCBvcHBvcnR1bml0eSB0aW1lcidzDQo+IGRlZmF1bHQgdmFsdWUgaXMgY29ycmVj
-dCBpbiB0aGlzIGRldmljZSwgY29tcGFyZWQgdG8NCj4gdGhlIGN1cnJlbnRseSBzdXBwb3J0ZWQg
-UEhZIE5DTjI2MDAwLg0KPiANCj4gUmV2aWV3ZWQtYnk6IEFuZHJldyBMdW5uIDxhbmRyZXdAbHVu
-bi5jaD4NCj4gU2lnbmVkLW9mZi1ieTogU2VsdmFtYW5pIFJhamFnb3BhbCA8U2VsdmFtYW5pLlJh
-amFnb3BhbEBvbnNlbWkuY29tPg0KPiANCj4gLS0tDQo+IGNoYW5nZXMgaW4gdjgNCj4gLSBjaGFu
-Z2VzIHRvIHVzZSBuZXdlciBBUEkgZm9yIHJlYWQvd3JpdGVfbW1kIGNhbGxiYWNrDQo+IGNoYW5n
-ZXMgaW4gdjcNCj4gLSBObyBjaGFuZ2UNCj4gY2hhbmdlcyBpbiB2Ng0KPiArIC5yZWFkX21tZCA9
-IGdlbnBoeV9yZWFkX21tZF9jNDUsDQo+ICsgLndyaXRlX21tZCA9IGdlbnBoeV93cml0ZV9tbWRf
-YzQ1LA0KDQo=
+David Woodhouse <dwmw2@infradead.org> writes:
 
+> On Fri, 2026-09-25 at 17:50 -0700, Ackerley Tng via B4 Relay wrote:
+>>
+>> =3D=3D=3D What if my provider doesn't deal with pages?
+>>
+>> Frank and David Woodhouse [2] have use cases for providers that use
+>> PFNs, and this is definitely something a generic interface must
+>> support.
+>>
+>> Here are some options I can think of:
+>>
+>> 1. Don't define .alloc_folio(), instead define .alloc_pfn()
+>> 2. Refactor .alloc_folio() to .alloc_pfn()
+>>
+>> Either way, I think guest_memfd should still be the primary manager of
+>> the memory.
+>
+> Thanks for working on this.
+>
+
+Thanks for the quick reply!
+
+> I'm not sure what you mean by 'primary manager' here but my use case is
+
+Naming is hard! See comment on revocation below.
+
+> for the provider to be the ultimate arbiter of who owns which PFN, and
+> revocation of the same. Think of it like a filesystem backed by
+> external memory. Each guest's memory is a file, and a guest can
+> *donate* specific pages of its memory to other guests (which in the
+
+Putting donation aside first - I don't have a good picture of how a
+guest would tell the host that it's willing to share a page - can't
+comment. Would love to find out more.
+
+> context of the *interface* only means that we need revocation).
+>
+
+Going with this revocation part, beginning with a more basic use case:
+I'm thinking that the provider can notify guest_memfd that the page or
+PFN is going away.
+
+guest_memfd cannot say no, but it does have to tell KVM to zap the page
+from stage 2, and for CoCo it may need to do more stuff.
+
+The notification needs some pointer, so I was thinking that on .attach()
+the provider would also note down which guest_memfd instance the
+provider should notify.
+
+The notifier could tell guest_memfd that some (offset, size) is going
+away, and breaking down mappings in the EPT/NPT should be something
+guest_memfd tells KVM to do, I think. Are you thinking that the provider
+would directly break the mappings down in the EPT/NPT?
+
+Does this notification mechanism work for you? IIUC regular DAX would
+need it too, like if the device is unplugged for example.
+
+> Should I be trying to rework parts of my series to live on top of this?
+
+I hope to gather more feedback at LPC. It'd be nice to get early
+feedback if you think it can work for you! The overall design still
+needs feedback though, don't take this as the final direction.
+
+> Things I have working but which I don't see here include:
+>
+
+This sounds like 4 or more different features! I think they do work with
+this resource fd proposal.
+
+>  =E2=80=A2 PFN support (which you mentioned).
+
+Yup, guest_memfd needs some way to track PFNs in addition to folios. I
+think for tracking we can reference DAX, the part I haven't looked at is
+how to let guest_memfd handle events. Like if there's memory failure on
+a PFN, how do we let guest_memfd handle it?
+
+guest_memfd needs to at least be notified, so that it can handle the KVM
+stuff: zapping and special stuff for CoCo. Whether the provider or
+guest_memfd gets to handle it first can be worked out :)
+
+>  =E2=80=A2 IOMMUFD support via dma-buf.
+
+Is this about having guest_memfd work with dmabuf fds?
+
+Fuad also brought up that Android uses dmabuf as an interface for CMA
+memory. [3] IIUC the dmabuf fd is mmap()ed, then the userspace address
+is set up in a memslot for the guest. To make this CMA memory
+CoCo-friendly, we want to use it with guest_memfd.
+
+Jason response was that guest_memfd should probably just directly get
+memory from CMA [3].
+
+I'm not super familiar with CMA or dmabufs, would either have a suitable
+"resource fd" to pass to guest_memfd like how HugeTLBfs has a mount fd?
+The "resource fd" should ideally have no way to mmap or read/write the
+memory directly.
+
+[3] https://lore.kernel.org/all/CA+EHjTxZ0N3Tfnid404B4tkb_E+Z8mODTHTgBPiF6=
+=3DbwZp7Hjw@mail.gmail.com/
+
+Or is this about letting IOMMUFD get pages to map in IOMMU page tables
+via an fd+offset instead of via mmap()-ed userspace addresses as in
+IOMMU_IOAS_MAP_FILE, and that guest_memfd isn't a supported kind of fd
+(yet)?
+
+I think guest_memfd should support IOMMU_IOAS_MAP_FILE. One use case is
+Confidential IO [4], where SNP would need to have private memory
+(guest_memfd) mapped in the IO page tables.
+
+The missing parts here are that guest_memfd and iommufd need to
+cooperate for conversions (or some other coordination in userspace). If
+private memory gets converted to shared, iommufd needs to know to remap
+the pages as shared in the IO page tables.
+
+[4] https://lore.kernel.org/all/20260225075211.3353194-1-aik@amd.com/
+
+>  =E2=80=A2 Revocation (which I've tested correctly breaks down large page=
+s in
+>    both EPT/NPT and IOMMU).
+
+See above.
+
+>  =E2=80=A2 AsyncPF support for pages requested by KVM.
+
+Is this kind of orthogonal? IIUC today KVM MMU handles the async-ness.
+KVM MMU checks that the page is not there, then since async was
+configured, KVM tells the guest to schedule in something else.
+
+guest_memfd doesn't have support for async #PFs now. I imagine it would
+be something like KVM MMU firing off a kvm_gmem_get_pfn() request
+asynchronously, and then guest_memfd gets the page or PFN and inserts it
+in guest_memfd filemap, and then notifies KVM MMU?
+
+Within kvm_gmem_get_pfn(), guest_memfd should get the page or PFN from
+the provider.
+
+I think it's orthogonal because guest_memfd could
+have gotten a PAGE_SIZE page (existing functionality) or gotten a page
+from the provider.
