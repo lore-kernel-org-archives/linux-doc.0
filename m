@@ -1,169 +1,87 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAC64DEC23;
-	Mon, 28 Sep 2026 17:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8FC37E5D5;
+	Mon, 28 Sep 2026 17:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790616474; cv=none; b=fuP9jTBsAMU3PgX3cGLDLrBPYFS9PKDwdMns9x3dUx+VqvI82Qzwk4aJyMHTzMwqjww+dTMlQPJ6rcWNe2QJ/IGqQ8d5NzbPr/QDS5WzxavgSvrGgsCE9olLNsTmO4SRxGOOvek3dnTPl18c911TjS5FZwJsn4epEGT9dWYHXkI=
+	t=1790616710; cv=none; b=o8/6MkKsIIabuqw17oXICEcD2BG60SXW7euuMUNmo7eejvjAIkGY08e/cL0ZGKR3ShWEO/V0ffe6dPM8e7ZH9/VSvq7C9WO18N4mak1lY+Qq5qjbknHEOCC9Spc5x1w0t++rnx4Efan9IEg1+daVMkyJRUN5b0HBkbHZyieeQhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790616474; c=relaxed/simple;
-	bh=gIt3NGAnW03OeXjruDI24UqXYHNSPhKzV3ZlW/AUSeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lKtgQiA5bsny4VM8eFvcCrEP4r8fQ4PV66DGfcJYUnWZ5/JRXJ3MzFqiWrpsta3S/Ot0MHa1lE48ESTVOeR4pR/7F7ZyCphljY9TE0BaUZpCH7VNNx/PwcwMeuc8wS3cl3kHOgYAfufCSMZDwvnPHwBMwES+fN50LMN+Drlmq5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W5ZR3y/U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oCI6kHOT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XzOmBuHn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rixRATj3; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790616710; c=relaxed/simple;
+	bh=YUNsQKbdoNdkmOn7hVMkhLGJNjStR4GPA47+J2XShC8=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=XUaZluBHcAUa5rWPFATkTa0mwj+e7WuBcgBhxQAMeVlRSiNyt+59UroxutIDhyOQy+yAI7YlevqXlhYjdK0ws3SDj94rF9jVT+hvj0rQcnV6XtAhqVn+dS9OkoZW+LYGBPmp5Gq61KkXtxFOe4vtVnpJNxJB1g/pc0aZvWypmCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aaaRP7xu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W5ZR3y/U";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oCI6kHOT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XzOmBuHn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rixRATj3"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 875281F395;
-	Mon, 28 Sep 2026 17:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790616466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=guBIp/MekqgsDqeDd2Xw/zLYREGmvAdkTYR9qnoypqI=;
-	b=W5ZR3y/UdcRpQS0PZCZkghVkuVElx097d0aBev8USfGNMFEOF1irnZ3mpys7Jpy+ua6u46
-	fFiwPlP1+UmFrv1VNWUFtrmJEZe+DUm9Z0mtWEy+Ro0PFpACmPpEjaZ76lifgX3MqDgSbM
-	j0aAALaaVB1Bb7UPeijkYMSosi+06Vs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790616466;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=guBIp/MekqgsDqeDd2Xw/zLYREGmvAdkTYR9qnoypqI=;
-	b=oCI6kHOTjkdfX5dInGF9/hhrbb52rZEnpDE/YdrUihhwn2jmvkDZhCvK22BTpmyrJgyCc2
-	nhA8BGCzFI7ie7BA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XzOmBuHn;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rixRATj3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790616462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=guBIp/MekqgsDqeDd2Xw/zLYREGmvAdkTYR9qnoypqI=;
-	b=XzOmBuHnz1Ot5O5sEILn+MWugqpyAKKA/PCh+EhcwYncrpZBRTmTLjZC5OQgF/1Ev3/Gso
-	+/PeGzxhdsQ2KG3N4y/CBO2u98VcOxUU70gWnUDbvR6kCt25UO5W3EZ+KnQrfX6zwMDTVB
-	R7x6Ugt8TMIJYoLCqBYnZfs8JfefT5Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790616462;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=guBIp/MekqgsDqeDd2Xw/zLYREGmvAdkTYR9qnoypqI=;
-	b=rixRATj3Rna+JImNWmorIAkHsvgLdkUUJALiBEPJGYOCI0ojzzukqp+GnrKpBOBDwJuYu8
-	Y3WUojCV7JVeMmCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D0DA1133F1;
-	Mon, 28 Sep 2026 17:27:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nfsNJoyjumpmOQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Mon, 28 Sep 2026 17:27:40 +0000
-Date: Mon, 28 Sep 2026 18:27:39 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: Hajime Tazaki <thehajime@gmail.com>
-Cc: linux-mm@kvack.org, liam@infradead.org, rbm@suse.com, 
-	akpm@linux-foundation.org, luto@amacapital.net, brendan.jackman@linux.dev, david@kernel.org, 
-	liuhangbin@gmail.com, corbet@lwn.net, kees@kernel.org, ljs@kernel.org, 
-	broonie@kernel.org, mhocko@suse.com, rppt@kernel.org, shuah@kernel.org, 
-	surenb@google.com, vbabka@kernel.org, wad@chromium.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-um@lists.infradead.org, geert@linux-m68k.org, 
-	daniel@thingy.jp
-Subject: Re: [PATCH v3 1/3] selftests: kselftest: avoid cd - in runner
-Message-ID: <arqi6iwLDDBlk6Tm@pedro-suse.tail5790ac.ts.net>
-References: <20260926010819.604346-1-thehajime@gmail.com>
- <20260926010819.604346-2-thehajime@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aaaRP7xu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96E5F1F000FF;
+	Mon, 28 Sep 2026 17:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790616709;
+	bh=YUNsQKbdoNdkmOn7hVMkhLGJNjStR4GPA47+J2XShC8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=aaaRP7xu4vYzsbzzIB1ARh5jRF/4XJXKwPf+eveA2AT8Jqgpt1Dnjgyzvhb6dw3MN
+	 s5SsekoSkivHHuRMmjC8WK+SNNa6oKFRebBMX+pN+jDJMgAGxCCLmBp3y5icFGCyhq
+	 koLG98wagBmCJ91hpHOfudtH6lk7UG6sxDevYDhmrwIL+e6sTydtzOC05AhgMH5nAw
+	 VhsKAc6sD+RdhsMIBV2DVLUmCWQ+TBtLqTSr+vRei2d6ksq1uQcIEXUBbTV1E41N5c
+	 FPQgqNF2AvWgUTJmSpxqa1beS5wNqni9CREmTJ+4t9aZH1Me00wySFaMVs7FJ3kIdV
+	 Gx2ByASjD6MFg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 11/12] Documentation/mm: Document the crash memaction
+ registry
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mikulas Patocka" <mpatocka@redhat.com>, "David Hildenbrand" <david@kernel.org>, "David
+ Howells" <dhowells@redhat.com>, "Michal Hocko" <mhocko@suse.com>, "James
+ Bottomley" <James.Bottomley@HansenPartnership.com>, "Rafael J. Wysocki" <rafael@kernel.org>, "Peter
+ Xu" <peterx@redhat.com>, "Danilo Krummrich" <dakr@kernel.org>, "Ying Huang" <ying.huang@linux.alibaba.com>, "Jann
+ Horn" <jannh@google.com>, "Herbert Xu" <herbert@gondor.apana.org.au>, "Saravana
+ Kannan" <saravanak@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Gregory
+ Price" <gourry@gourry.net>, "Catalin Marinas" <catalin.marinas@arm.com>, "Mike
+ Snitzer" <snitzer@kernel.org>, "Pasha Tatashin" <pasha.tatashin@soleen.com>, "Harry
+ Yoo" <harry@kernel.org>, "Mimi Zohar" <zohar@linux.ibm.com>, "Matthew Brost" <matthew.brost@intel.com>,
+ =?utf-8?b?SmFuIFNlYmFzdGlhbiBHw7Z0dGU=?= <linux@jaseg.de>, "Paul Moore" <paul@paul-moore.com>, "Rob
+ Herring" <robh@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, "Nico
+ Pache" <nico.pache@linux.dev>, "Baoquan He" <baoquan.he@linux.dev>, "Andrew
+ Morton" <akpm@linux-foundation.org>, "Muchun Song" <muchun.song@linux.dev>, "Kiryl
+ Shutsemau" <kas@kernel.org>, "Dev Jain" <dev.jain@arm.com>, "Arnd Bergmann" <arnd@arndb.de>, "David
+ S. Miller" <davem@davemloft.net>, "Suren Baghdasaryan" <surenb@google.com>, "Serge
+ E. Hallyn" <serge@hallyn.com>, "Will Deacon" <will@kernel.org>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Mike Rapoport" <rppt@kernel.org>, "Benjamin
+ Marzinski" <bmarzins@redhat.com>, "Jarkko Sakkinen" <jarkko@kernel.org>, "Pratyush
+ Yadav" <pratyush@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Byungchul
+ Park" <byungchul@sk.com>, "Lance Yang" <lance.yang@linux.dev>, "Brendan
+ Jackman" <brendan.jackman@linux.dev>, "Baolin Wang" <baolin.wang@linux.alibaba.com>, "Dave
+ Young" <ruirui.yang@linux.dev>, "Zi Yan" <ziy@nvidia.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Barry
+ Song" <baohua@kernel.org>, "Shuah Khan" <skhan@linuxfoundation.org>, "Mark
+ Rutland" <mark.rutland@arm.com>, "Pedro Falcato" <pfalcato@suse.de>, "Johannes
+ Weiner" <hannes@cmpxchg.org>, "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Alistair
+ Popple" <apopple@nvidia.com>, "Vlastimil Babka" <vbabka@kernel.org>, "James
+ Morris" <jmorris@namei.org>, "Oscar Salvador" <osalvador@suse.de>, "Rik van
+ Riel" <riel@surriel.com>, "Usama Arif" <usama.arif@linux.dev>, "Alasdair
+ Kergon" <agk@redhat.com>
+Cc: robh@kernel.org, devicetree@vger.kernel.org, "Eric Biggers" <ebiggers@kernel.org>, linux-security-module@vger.kernel.org, conor+dt@kernel.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, kexec@lists.infradead.org, dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, keyrings@vger.kernel.org, driver-core@lists.linux.dev, linux-integrity@vger.kernel.org, linux-crypto@vger.kernel.org, linux-arch@vger.kernel.org
+In-Reply-To: <20260928-crash-memaction-upstream-20260921-v3-11-e511e9ee2329@jaseg.de>
+References: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
+ <20260928-crash-memaction-upstream-20260921-v3-11-e511e9ee2329@jaseg.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 28 Sep 2026 17:31:44 +0000
+Message-Id: <20260928173144.96E5F1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260926010819.604346-2-thehajime@gmail.com>
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 875281F395
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kvack.org,infradead.org,suse.com,linux-foundation.org,amacapital.net,linux.dev,kernel.org,gmail.com,lwn.net,google.com,chromium.org,vger.kernel.org,lists.infradead.org,linux-m68k.org,thingy.jp];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
 
-On Sat, Sep 26, 2026 at 10:08:17AM +0900, Hajime Tazaki wrote:
-> The kselftest runner currently uses `cd -` to restore its working
-> directory after running a test.
-> 
-> This is not supported by the minimal BusyBox hush shell used by some
-> NOMMU targets. Store the original directory explicitly and restore it
-> with a quoted path instead.
-> 
-> This also avoids printing the directory change performed by `cd -` and
-> handles paths containing whitespace correctly.
-> 
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Kees Cook <kees@kernel.org>
-> Cc: Andy Lutomirski <luto@amacapital.net>
-> Cc: Will Drewry <wad@chromium.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Brendan Jackman <brendan.jackman@linux.dev>
-> Cc: Hangbin Liu <liuhangbin@gmail.com>
-> Cc: "Ricardo B. Marliere" <rbm@suse.com>
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: linux-um@lists.infradead.org
-> Cc: linux-mm@kvack.org
-> Signed-off-by: Hajime Tazaki <thehajime@gmail.com>
+> Describe the crash memaction registry, including its kernel and userspace
+> interfaces, allocation lifetime rules, and current limitations.
+>=20
+> Signed-off-by: Jan Sebastian G=C3=B6tte <linux@jaseg.de>
 
-NACK.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-https://pubs.opengroup.org/onlinepubs/009695099/utilities/cd.html
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260928-crash-mema=
+ction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de?part=3D11
 
--
-When a hyphen is used as the operand, this shall be equivalent to the command:
-cd "$OLDPWD" && pwd
-
-which changes to the previous working directory and then writes its name.
-
-
-If you're running selftests on !POSIX compliant shells, that's a
-you-issue. Fix the shell, or use something decent.
-
-
--- 
-Pedro
