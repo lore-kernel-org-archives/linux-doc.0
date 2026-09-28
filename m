@@ -1,54 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B68A37269B;
-	Mon, 28 Sep 2026 18:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A294D371D1F
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 18:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790619531; cv=none; b=Kf3Q8omYobh72rfJtlKiqvtdjmR9H7WCyvyEoEmW3QI3fVkX8ocFj4qm4lBbJAkfgLzYVrlMD8H5OCYl5f9bzSw6CCEu/yCKzIe2fal3Yx8kIaKoMJhmVOsYAgOld9zrfczdBqoh4Rcg+vjc/VcZxUnVhKuhHx+qPyujRpArPbc=
+	t=1790619946; cv=none; b=GY5dyyCofC+lpAI/pqryqCTmfiS/cqzqMt3F598N3DwZa2eL2kSXwokZqnz0ETMEFOmRvjQuRQs6oXmozhRwKFIRNIrJ6MeDkQ9h0r5OGHCbV2s8xWwKRQCbU1y0+sDFxpJ6TO35CYDB9XpEg12zNlnol3UhHtUSQ33kfh6V/Yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790619531; c=relaxed/simple;
-	bh=K+gm/+Cc9qAPK0prI75QXEUR81iMnLHYkECUNXcg+H0=;
+	s=arc-20240116; t=1790619946; c=relaxed/simple;
+	bh=S6eNU2hZhNF7ss9QpaGLOW/V81g2oJ53iDZrrOnsD4U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HIltLqfplqUZdCRkEx7vDc7fBnPpeRBuvrzdtH6t0B3nfZH29P61kjmFCquutQpV/nc1uO4nZLAsXRPrc/la9CQz0iUTV34WyPU/bl0UdfNbwfQIMKcpPPSSzvQygs4eT76bJu94g1nI+ddpYd8gyICrynEZ72t9p/cNlqUKcTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VDahCbPk; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=JZi1Kyq0WEIOjOR+iBoqvSMo1PMP4gi3fVhWbfEXeng43S+spLxP7d7gNQrXOZ44GZaESErei1NYnXmTSwm73Rwn6xzLg1cl68DCQzd+31eRDOjqf/bZ8VnLT3+PRuEIEbIZ1z3k/ceniyCo8qEYvJfQcw8L0q56dcSZlAl0168=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IO4P93KI; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDahCbPk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91C51F000FF;
-	Mon, 28 Sep 2026 18:18:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790619529;
-	bh=IngvfdjDTuMxuKWaiC5XQNkdziiuEHqoUpcP04yDirI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VDahCbPkV+RSr4vSZ1HWmkwUpQ/kplhol52IB+WLXyrnPMar5mgI7cZhss+Ge7G17
-	 go6E0RRqYMg0QqKIiMnQgb5vOpVDpsh9YGKDXc60lR2r5WMPXbKC0dr4AjCw9rIfgj
-	 yNzICd4YdTMd0dcx4wh2BbxmbTUVThYBNlXVqq5iF+cQI8wIgK03FE27niBRpoKOJL
-	 DN6TTpxi1FyykohiU1CIcPfEA9siwthZ2XQ8FZw/WHPqDBlBo8CKTQmHN3cjaQcneR
-	 Le+tNHmx2qpKojmC561RZeS+UTHSJ/q0Wnyt7hlPO6A9HoE9jiQSISLLwBLycEdKGV
-	 mTdaWVAHDVOMg==
-Date: Mon, 28 Sep 2026 13:18:48 -0500
-From: Rob Herring <robh@kernel.org>
-To: Alex Ousherovitch <aousherovitch@rambus.com>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>,
-	Shuah Khan <shuah@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>,
-	devicetree@vger.kernel.org,
-	Joel Wittenauer <Joel.Wittenauer@cryptography.com>,
-	linux-api@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org,
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IO4P93KI"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2d3b445a84fso8445ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 11:25:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1790619944; x=1791224744; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=S6xtdmPyxZgVCGy2Ldjj48nQ82FMLqqca6Mq7V23FWM=;
+        b=IO4P93KIDOW+P2uTRUmyRgsJusEnS4QCJuxRc3bgygSF+I0gLWixDuZMwr0lOdyBCX
+         Fzs9cwJm5EoViaFVszWYzHwHKNB+ABpQm06hOfX8IFHIm0uxt88SVpiuesF2sCqaMDqu
+         sFJVYUfxtaqVdbCkQqOu4FFXrldFeFwgUH27nzUFslCXQVVHbSuiE0Y/Aqbff4gEL4jM
+         uAJDLTELQhGz1OLzjtwOnmP/QoNqqvmZCYpEE30Gy/lQTHhhVnDzWc/hHKIcuGJQRxu0
+         rWdaXaOuWQf1tRn8VQeTYonGCF4yaU9mQA3eBUjDOdAXkipr8ryrZWG+BqnzjPZAxtco
+         nU2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790619944; x=1791224744;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=S6xtdmPyxZgVCGy2Ldjj48nQ82FMLqqca6Mq7V23FWM=;
+        b=n9w2eQFajOVw3SmU3YrqAc/Qam8/NQ/Zz2Xp3tmBnwp95n1rhiJmnvaf9QiADIMi9G
+         pPPRsCfFhBTOKRdt5bGF6kuVKbiCaCW2SWJQSi5R0+3jQ5OC9CRC5xWNAdLUz1MotvhU
+         bO2WQa39ct03XYADSoUXXimuBndOC5vTl8IBJ5ciw4UCR1uOu5KeNh4gaq1RdcXAPDuL
+         nm0byiyC3djOB1h3EaQpyrwbDQHRw17w2cdLDIHbbrHS/dcLBaODwS/cYueBOObCrbU2
+         CpP7hYzXPr/z6QXkRrzF8kL7JwEamSep3/oVpUpblFmnaipTInBG64jz2dWWXNmQ+3XD
+         KGFA==
+X-Forwarded-Encrypted: i=1; AKwUvBxVIGsENJ/Snu35TiqxcViYOiKekjmdWgPBc240biF2xO2RwEPNrzj/kNYjt4CGzlpx44k5H1ln+Uc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK+QSuGUUfYqIQbydvGpYGK9LeIa+ls+TjGgcOKjGZpeQQ4ovyF
+	vIy68oT9qvTdEbeeDsFJnvisiwcPzSubtoPPE3Suy5KqglOnbaUR9bQNdaamplB9Kw==
+X-Gm-Gg: AYBFou1aiOMdgKWOYvw37L0xWbXBuFqgZDHU1BNUnEJWp0agdT4/yeDn0MrtqfoUrFk
+	hXxoXfwCxG7h6cgLKF17MtQK/slvjW2CT5w7e7X+WKEurGKOSSCIU6I7EAmhJo7ea8M7/5mwice
+	AURL8fd004NaAXB02m0vY/diiMsVb2IcyIOn0JFsAWDE0TY4NSIxNcx+yjabJBZ7rTpZIa/POK1
+	yrInvZW/gFjgp4VOyYbwf2AuhXPsgUd7KVeLEgIldRYFjty3PAYD5vWdHQCP70gO3geLPjCMgxe
+	sVoFurrDZnvsZUUbkWzkuzrmgFjohOdBHf9in4wuuRrCko/0q3LG8+DI6NTQlIB7hzRMOgpJShw
+	40WGYoOXAobxGpZSU8WecQiYl8PyqTJukvkpzHmyWxsvaN4dqJ7KqARqDjYsGsh64I6wyizODEo
+	T7FILJGLHdKhErrHTH23eG0fuqOwicOf5F6xdbDkyLghQzFFVCG0nJaZ7A7QXHYGi9jEm5wmxEy
+	ht+X2GisCCh+b+K3Kd1am6fZ0qfYyxbK2EA
+X-Received: by 2002:a17:903:3a8b:b0:2cf:9ec1:ea6e with SMTP id d9443c01a7336-2e2c600c613mr28065ad.8.1790619943076;
+        Mon, 28 Sep 2026 11:25:43 -0700 (PDT)
+Received: from google.com (105.211.142.34.bc.googleusercontent.com. [34.142.211.105])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a49858c123sm831538a91.3.2026.09.28.11.25.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 11:25:42 -0700 (PDT)
+Date: Mon, 28 Sep 2026 18:25:34 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Robin Murphy <robin.murphy@arm.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Thi Nguyen <thin@rambus.com>
-Subject: Re: [PATCH v5 01/19] dt-bindings: crypto: add Rambus CryptoManager
- Hub
-Message-ID: <20260928181848.GA150882-robh@kernel.org>
-References: <20260917225929.2494111-1-aousherovitch@rambus.com>
- <20260917225929.2494111-2-aousherovitch@rambus.com>
+	Will Deacon <will@kernel.org>, David Matlack <dmatlack@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Mostafa Saleh <smostafa@google.com>, stable@vger.kernel.org,
+	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
+Subject: Re: [PATCH v7 8/9] iommu/arm-smmu-v3: Change how the tlbi describes
+ the invalidation
+Message-ID: <arqxHgwVXcS5PIJZ@google.com>
+References: <0-v7-e84261bbe7cd+2ea80b-smmu_tlbi_jgg@nvidia.com>
+ <8-v7-e84261bbe7cd+2ea80b-smmu_tlbi_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,145 +93,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260917225929.2494111-2-aousherovitch@rambus.com>
+In-Reply-To: <8-v7-e84261bbe7cd+2ea80b-smmu_tlbi_jgg@nvidia.com>
 
-On Thu, Sep 17, 2026 at 03:59:10PM -0700, Alex Ousherovitch wrote:
-> Add device tree binding schema for the Rambus CryptoManager Hub (CMH)
-> hardware crypto accelerator.  The binding describes the parent
-> SoC-level node with its SIC register region and one queue@N child
-> node per mailbox the host owns, each carrying a reg (mailbox instance
-> index), an optional interrupt, VCQ ring geometry (rambus,num-slots /
-> rambus,slot-stride-bytes) and a rambus,cores affinity list.  Which
-> crypto cores are present is discovered from the SIC CORE_ENABLE
-> register at probe, not described in the device tree.
+On Mon, Sep 21, 2026 at 08:55:16PM -0300, Jason Gunthorpe wrote:
+> The range-invalidation logic has long had a FIXME that there is not enough
+> information to properly compute the range invalidation. There is also
+> subtly not enough information to properly compute the single stride
+> either.
 > 
-> Register the 'rambus' vendor prefix for Rambus Inc.
+> Change tlbi to use the information format that iommupt is going to use for
+> ARM. This prepares the invalidation code to support iommupt and fixes two
+> small limitations with the current code.
 > 
-> Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
-> Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
-> Signed-off-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
-> ---
->  .../bindings/crypto/rambus,cmh-v1030.yaml     | 151 ++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->  2 files changed, 153 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/crypto/rambus,cmh-v1030.yaml
+> iommupt is designed to accumulate all invalidation into a single gather,
+> then the iommu driver should issue a small number of commands to execute
+> the gather to control invalidation latency. This is in contrast to
+> io-pgtable-arm.c which generates many gather flushes and direct walk cache
+> flushes as it progresses.
 > 
-> diff --git a/Documentation/devicetree/bindings/crypto/rambus,cmh-v1030.yaml b/Documentation/devicetree/bindings/crypto/rambus,cmh-v1030.yaml
-> new file mode 100644
-> index 000000000000..a0df35bdc371
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/crypto/rambus,cmh-v1030.yaml
-> @@ -0,0 +1,151 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/crypto/rambus,cmh-v1030.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Rambus CryptoManager Hub (CMH) Hardware Crypto Accelerator
-> +
-> +maintainers:
-> +  - Alex Ousherovitch <aousherovitch@rambus.com>
-> +  - Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
-> +  - Joel Wittenauer <Joel.Wittenauer@cryptography.com>
-> +
-> +description: |
-> +  The Rambus CryptoManager Hub (CMH) is a hardware cryptographic accelerator
-> +  accessed via a mailbox-based VCQ (Virtual Command Queue) interface.  The
-> +  host writes VCQ command sequences into per-mailbox DMA queue buffers and
-> +  rings a doorbell; the CMH eSW processes them and signals completion via
-> +  interrupt.
-> +
-> +  The management host statically partitions the hardware mailboxes across
-> +  the SoC's host interfaces at integration time; the set of mailboxes a
-> +  given host owns is therefore fixed and not runtime-discoverable (a
-> +  mailbox locked to a host reads as unavailable in the SIC availability
-> +  register).  Each owned mailbox is described by a child node.  Which
-> +  crypto cores are present is a fixed silicon-build property indicated by
-> +  the SIC CORE_ENABLE register, so cores are not described in the device
-> +  tree.  Clock and reset are owned by the management host; a node
-> +  describing a non-management host has no clock or reset provider of its
-> +  own, so clocks and reset-gpios are optional.
-> +
-> +  CMH gates access to a locked mailbox by a hardware HOST ID presented on
-> +  the bus with every access, permitting only the owning host's ID.  An
-> +  integration must present a single, stable HOST ID for all accesses to a
-> +  given mailbox, independent of the issuing CPU (relevant on SMP hosts
-> +  whose interconnect encodes the issuing CPU in the HOST ID).
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - not: {}
-> +        description: SoC-specific compatible, e.g. vendor,soc-cmh
-> +      - const: rambus,cmh-v1030
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description:
-> +      SIC (System Interface Controller) MMIO region.  The registers of
-> +      mailbox instance N are at offset N * 0x1000 within this region.
-> +
-> +  clocks:
-> +    minItems: 1
-> +    maxItems: 3
-> +    description:
-> +      The "core" functional clock, and optionally the half-rate "core-div2"
-> +      clock (present only on configurations with side-channel-protected
-> +      cores) and/or the "rt" real-time tick clock.  See clock-names for the
-> +      valid combinations.
-> +
-> +  clock-names:
-> +    oneOf:
-> +      - items:
-> +          - const: core
-> +      - items:
-> +          - const: core
-> +          - const: core-div2
-> +      - items:
-> +          - const: core
-> +          - const: rt
-> +      - items:
-> +          - const: core
-> +          - const: core-div2
-> +          - const: rt
+> To accommodate this the gather will accumulate "damage" in bitmaps, one
+> for leaf changes and one for table changes. This is enough information for
+> SMMUv3 to compute the proper stride for single invalidation and to
+> generate ideal hints for range invalidation.
+> 
+> Change the inner workings of the tlbi process to directly use this
+> new-style gather description with the idea that the iommupt conversion
+> will just direct assign the gather fields to the tlbi.
+> 
+> Rework the three places creating the tlbi to express their needs in
+> terms of the new bitmaps.
+>
+> 1) Simple iotlb invalidation always gets a single range of leaf
+>    levels, so it can set a single leaf bit
+> 
+> 2) Walk invalidation is expected to clear the table and all the leaves it
+>    could contain. Set a single table bit and all the leaf bits.
+> 
+>    There is a weakness in the existing io-pgtable where it double
+>    invalidates the leaves, once through the arm_smmu_tlb_inv_walk() then
+>    again through the gather. Since these are separate operations they are
+>    not capped by the invalidation count limits and a single unmap may end
+>    up doing thousands of tlbi commands. Eventually converting to iommupt's
+>    gather only approach will correct this.
+> 
+> 3) SVA invalidation has no idea what the MM did, so it will set all
+>    the bits in the bitmaps.
+> 
+>    This corrects another weakness where the range-invalidation logic
+>    was generating hints assuming the #2 rules which isn't correct
+>    for SVA.
+> 
+> Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-Can be simplified to:
+Reviewed-by: Pranjal Shrivastava <praan@google.com>
 
-items:
-  - const: core
-  - enum: [ core-div2, rt ]
-  - const: rt
-
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Host-controlled reset for the CryptoManager Hub.  The hub has two
-> +      external, active-low reset inputs -- a power-on reset and a hard
-> +      reset; where a board routes one of them to a host GPIO, that line is
-> +      described here.
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^queue@[0-9a-f]+$":
-> +    type: object
-> +    description:
-> +      One node per hardware mailbox (VCQ command queue) this host owns.
-> +      The set of owned mailboxes is fixed by the management host at
-> +      integration time and enumerated here.
-> +    properties:
-> +      reg:
-> +        maxItems: 1
-> +        description:
-> +          0-based mailbox instance index.  The instance's registers are
-> +          at reg * 0x1000 within the SIC region.
-
-Is there a maximum number of instances? If so, 'maximum: N'.
-
-Rob
+Thanks,
+Praan
