@@ -1,56 +1,56 @@
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238D94EC67D
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 17:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866934EDCC6
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 17:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790617318; cv=none; b=oPGqa5i3XcUNL8PXnQ33rnNv84m7Z6JFDoFG3wAcgnZunpgnYyrm6wD6bNZlEqrk6ZzJpQvk9QWn9I9TCfy1Yf7Jp9k3GGt8hL8eauktoXzh3MF6Fzp8eqxJRT0b0g5ptwLFPrVnu7fK6j/Q9O5keUCPmCjahs81CK5PdR5vmQo=
+	t=1790617319; cv=none; b=jpKUnrQhl1gxOX9qRqG1Bf+GBkrPpy41aSmeavGgPwW7OhrBd5QGiEyQ3zaf+z8XJblHB+oKdzPE4mQWgpiej3rqSkKuPQngB0m9q8cGw4mM8jjbyVslv89KCMefhKpk9CUeVL9TA/Mh2SQBj+R6ADyasbluzX/Jcj5xjp9u2+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790617318; c=relaxed/simple;
-	bh=92UIyLy7GtKPROYl2Br7ZP/exzYZtpSXAMuolLK+K3g=;
+	s=arc-20240116; t=1790617319; c=relaxed/simple;
+	bh=OjWnAwqkXs+i44MTqOp1Ck5J5mQ7pY35YplCenpi9Mc=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=cdkglu0LA3hEp+AGY/giGiNrp8VJf6zqOj/mzDBO9rLbr5K5wEL41xY3d6obcO59XJ2hUDfKjT0LKKUmHrXxoqoIpZC08SQ6sIXW+3LgOTV+KOR4+iZAHsb/qfGKjmvL0mnjydCfrOllH7GMKg8l5zY8GdiXXdhWDqKHLt/P2HU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nLsfqJxW; arc=none smtp.client-ip=209.85.128.70
+	 To:Cc:Content-Type; b=RAYCxw07Dq2TwdZTuS/8nU9w7Zliu4WM+zFwo11XpD/XjIGZgXBOuDU4f7NgVzCkYrIoxcEwio/yC6Ll3amwT9+xdQfFklEjNPi0sv0S1se4U8tVO8rUD+UN0NgbybZN0majLpIFLQMjVmy+xPUmGxTVMtbcsvnOU+LRjyzhVHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GhkNQzfK; arc=none smtp.client-ip=209.85.221.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nLsfqJxW"
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-49ffe287240so16673335e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 10:41:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GhkNQzfK"
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-4888382a9e9so1863757f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 10:41:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790617313; x=1791222113; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790617314; x=1791222114; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PLizaoNOz6hydwy+EEJKSgP0D8TbobflQ2CjOBToA3A=;
-        b=nLsfqJxWSua0QwmHUFI2GZjRHL5NB/vnb24Rh/xuKWfxf9VJtWDKn0fJYUwINJp5Be
-         Nqi/AmzLeZ/S8OVyewsBlXbGketoFwA73JlcKAl1+p0f+XdQo2LetNO8BI8WSSh35/Pc
-         rK7/FOwB2HYxFrAnmPUrsApNI8U8YUIwP2HM27WAYOPRg+YiBSzn0rJHR8b6NiQZamJw
-         KxtNIzLTdTA0WrwYwyAB5pJxQhyfL/Bnn3qJAFEJAjfMF47TWDPOakZgSVyTUHauhNyo
-         nmN1PKuZGZ/8t3GbKixyRpcE2lBHFbfR8ssU0t5IJSbKnXHKYdm0ckmec3mIHXToMJB9
-         8ZLA==
+        bh=jUO525MYjN5YsfP/KDhp3xMzNW05smVZVp3S7wkbxmU=;
+        b=GhkNQzfK74LzqYlGLXENrhteifhPIk5q689GbRVErIK6osnD7gRq0aQRMBfmIShMpQ
+         4Ri4wNOvGKjiPmcy82hoDGOtSmm/jb0mjai3bAA8rMtjforAENUVCiHsqeVlqTsb1tla
+         h5tuGcMopU/6BwCqeXoC560cpD8SEr3va1g8x9Edo+wF1W7RjQT9tPh9JJTM/me6kpQX
+         ESg9JTeJSaSoQp6fuhvb4S68T59Xge0lm372Ne6i5yrJZtH2NRc5szRfc1v0dhzkdqk2
+         aQ160AT3zR44ZoMFJZWSK5ahbM+0wbeLjxmITmTyK3nyeyNFywbChkSEOI3xR4vrOrF8
+         QJDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790617313; x=1791222113;
+        d=1e100.net; s=20260707; t=1790617314; x=1791222114;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=PLizaoNOz6hydwy+EEJKSgP0D8TbobflQ2CjOBToA3A=;
-        b=nX99BJnTckBYcWtF/pg87l8D0pDa+T4So7Z6wxCJ8CQIbcctmCMZnFFQXjwcN8PdEo
-         kGhzVCYaEb18upJU5yeMNDO7Ha7m8tWx+KaEi6TgsQS7fSQfiKxaCupkuwrSvaPUR9VM
-         L99unKeX7P8+XvdKv8k3zvs3JC8n0GKcnfCUPCNmLiKk8qeEIloTsaXlS3lK8CbK+8AR
-         YT+PCPHIogd9xMoCojfd1Wrsyt5iXNz7pQwJOYTsoeld4AKw+TwopYHloKWzt7DVyDWR
-         ZC6UeRS3uALCy1Go29osMnYcK1ZInfbxmCT1lIjS+2r1uADHVZ48cRVA6Dz/ofUehWH+
-         ickg==
-X-Gm-Message-State: AFuF++kpUKKtdt0flkPwTOCEQlO9kKAp9MmK8ZVU1sZXiypJ7XB3dpUM
-	u19qevpec7rb5gZhsZFZxwrJ2rzRlJbEbG+fNiiFk4JHncstmrdmPaBIy5c8eYGaYnAuN3zYeVB
-	6ZG6cJdfLde6p9ZfdFdByJipYkoGFpmf6WX/jV1V9ESxrGG4lEdJ8ec1DD7LGTUndEZm9SLHoqF
-	b4YUFXS1wtyn00vGx0707UlMiu78UpT6JKUF4a317NVHR2dWN7B00=
-X-Received: from wmnb21.prod.google.com ([2002:a05:600c:6d5:b0:49f:e43f:afd1])
+        bh=jUO525MYjN5YsfP/KDhp3xMzNW05smVZVp3S7wkbxmU=;
+        b=lybYtCT9jLZqVPFvoVwq0kpuVEk+VlsVdGMAOo5HAyvStRN+SREuwLS7wZ+1e/okaP
+         /sk53JZCS0b8cNYtkk5dcsF3C/f8MhmLuyZDe7dXtByfZkqpsPgdO8+otW9A6JOVo/B+
+         mtDXH8klaObsqGwp+fWtvdU5ZIsMn11r1ijLKMSNOBg9xvQtWEmOy1ZWSxcIV7TkF4kg
+         9dBSRlHkt8as8LgwxG5SFXMktYTF9Etz/XDfdFSVyrlJxqYMwLercNpgQcfIiscn8ofP
+         KxNzX/+aw0ygq3/7eN5v/K3vs5WxP5smXSDaXJ0sU026SDyyt4k8uzTnjmdYupVEBW8O
+         VNGQ==
+X-Gm-Message-State: AFuF++mPwXJ8aFe8axr8f8LmnyymUnlEZSg2Eb+8Z/a5GS8ENr4gjxaV
+	tDYO93Q/I6SVF1msB0g4goZftlqhf6O06MR/9t3UjhqJo4gxOFgeZI89lbWxKSgyZYNG70v8i/c
+	z4f56OBkM6uh701tJ4EgH67Qdq0KQwbSRk5m69ezumk+wiGj9/Twg2RByyQzCqq/pMykkeLG9L5
+	PfsD5izBITPOBIbhUvx7QbeOvuAhDJ8wCX5rYRlWWlOczR76Nm6Ls=
+X-Received: from wmgb3.prod.google.com ([2002:a05:600c:1503:b0:49f:fec8:8e56])
  (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:83c5:b0:499:bf0e:95c8 with SMTP id 5b1f17b1804b1-49fe66c8623mr231494305e9.1.1790617313066;
- Mon, 28 Sep 2026 10:41:53 -0700 (PDT)
-Date: Mon, 28 Sep 2026 17:41:12 +0000
+ 2002:a05:600c:5487:b0:49e:7c8c:361d with SMTP id 5b1f17b1804b1-49fe66ee809mr241216335e9.22.1790617314094;
+ Mon, 28 Sep 2026 10:41:54 -0700 (PDT)
+Date: Mon, 28 Sep 2026 17:41:13 +0000
 In-Reply-To: <20260928174122.3380703-1-smostafa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260928174122.3380703-1-smostafa@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20260928174122.3380703-6-smostafa@google.com>
-Subject: [RFC PATCH 05/15] sched/task_stack: Add helpers for stack high/low
+Message-ID: <20260928174122.3380703-7-smostafa@google.com>
+Subject: [RFC PATCH 06/15] exit: Don't assume the kernel stack size
 From: Mostafa Saleh <smostafa@google.com>
 To: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, 
@@ -78,110 +78,28 @@ Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
 	Mostafa Saleh <smostafa@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Soon, memory mapped for a kernel stack can be less than THREAD_SIZE.
-However, many parts of the kernel assume it is.
-Add new helpers for the kernel stack that can be called regardless of
-CONFIG_STACK_GROWSUP or the kernel stack size:
-- task_stack_low(): Lowest usable address on the stack.
-- task_stack_high(): Highest usable address on the stack.
-- task_stack_size(): The size of a task kernel stack, it is still
-  THREAD_SIZE at the moment but that will change soon.
+check_stack_usage() assumes that the kernel stack size is THREAD_SIZE.
+The allocated kernel stack size may not be THREAD_SIZE anymore, rely
+on the newly introduced helpers task_stack_size()
 
 Signed-off-by: Mostafa Saleh <smostafa@google.com>
 ---
- include/linux/sched/task_stack.h | 56 ++++++++++++++++++++++++++++++--
- 1 file changed, 53 insertions(+), 3 deletions(-)
+ kernel/exit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/sched/task_stack.h b/include/linux/sched/task_stack.h
-index 1fab7e9043a3..4a808f9c4631 100644
---- a/include/linux/sched/task_stack.h
-+++ b/include/linux/sched/task_stack.h
-@@ -13,6 +13,8 @@
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 424c44a42a4d..899d3bf048d4 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -883,7 +883,7 @@ static void check_stack_usage(void)
+ 	unsigned long free;
  
- #ifdef CONFIG_THREAD_INFO_IN_TASK
+ 	free = stack_not_used(current);
+-	kstack_histogram(THREAD_SIZE - free);
++	kstack_histogram(task_stack_size(current) - free);
  
-+static __always_inline void *task_stack_low(const struct task_struct *task);
-+
- /*
-  * When accessing the stack of a non-current task that might exit, use
-  * try_get_task_stack() instead.  task_stack_page will return a pointer
-@@ -30,7 +32,7 @@ static __always_inline unsigned long *end_of_stack(const struct task_struct *tas
- #ifdef CONFIG_STACK_GROWSUP
- 	return (unsigned long *)((unsigned long)task->stack + THREAD_SIZE) - 1;
- #else
--	return task->stack;
-+	return task_stack_low(task);
- #endif
- }
- 
-@@ -64,6 +66,53 @@ static inline unsigned long *end_of_stack(const struct task_struct *p)
- 
- #endif
- 
-+/*
-+ * Kernel stack layout, higher addresses at the top. task_stack_page() is
-+ * the start of the THREAD_SIZE area, task_stack_low() => task_stack_high()
-+ * is the usable stack.
-+ *
-+ * Case 1) Stack grows down: Only the top task_stack_size() bytes are mapped:
-+ *
-+ *   +-------------+ <- task_stack_high() = task_stack_page() + THREAD_SIZE
-+ *   |    stack    |
-+ *   |      |      |    task_stack_size() bytes
-+ *   |      v      |
-+ *   +-------------+ <- task_stack_low() = end_of_stack() (*)
-+ *   |   may be    |
-+ *   |  unmapped   |    THREAD_SIZE - task_stack_size() bytes
-+ *   +-------------+ <- task_stack_page()
-+ *
-+ *   (*) Depending on CONFIG_THREAD_INFO_IN_TASK, end_of_stack() might be just
-+ *       above it.
-+ *
-+ * Case 2) Stack grows up (CONFIG_STACK_GROWSUP): The whole area is used.
-+ * No support for partially mapped stacks.
-+ *
-+ *   +-------------+ <- task_stack_high() = task_stack_page() + THREAD_SIZE
-+ *   |      ^      |    end_of_stack() is the last unsigned long below it
-+ *   |      |      |
-+ *   |    stack    |    THREAD_SIZE bytes
-+ *   +-------------+ <- task_stack_low() = task_stack_page()
-+ */
-+static __always_inline unsigned long task_stack_size(const struct task_struct *task)
-+{
-+	return THREAD_SIZE;
-+}
-+
-+static __always_inline void *task_stack_low(const struct task_struct *task)
-+{
-+#if defined(CONFIG_STACK_GROWSUP)
-+	return task_stack_page(task);
-+#else
-+	return task_stack_page(task) + THREAD_SIZE - task_stack_size(task);
-+#endif
-+}
-+
-+static __always_inline void *task_stack_high(const struct task_struct *task)
-+{
-+	return task_stack_low(task) + task_stack_size(task);
-+}
-+
- #ifdef CONFIG_THREAD_INFO_IN_TASK
- static inline void *try_get_task_stack(struct task_struct *tsk)
- {
-@@ -88,10 +137,11 @@ void exit_task_stack_account(struct task_struct *tsk);
- 
- static inline int object_is_on_stack(const void *obj)
- {
--	void *stack = task_stack_page(current);
-+	void *stack_base = task_stack_low(current);
-+	void *stack_end = task_stack_high(current);
- 
- 	obj = kasan_reset_tag(obj);
--	return (obj >= stack) && (obj < (stack + THREAD_SIZE));
-+	return (obj >= stack_base) && (obj < stack_end);
- }
- 
- extern void thread_stack_cache_init(void);
+ 	if (free >= lowest_to_date)
+ 		return;
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
