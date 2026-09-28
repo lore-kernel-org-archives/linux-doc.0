@@ -1,106 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC26A4A4824;
-	Mon, 28 Sep 2026 11:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004B64A99B9
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 11:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790594465; cv=none; b=e0TZ9Zn4y+fIz1Y4tGfJY6y5S8QTivJBZYtGaBLDR9e3qylYXtKTYG03vX4yHaH/9Y1vYhuhALYV61AfYbNlzuDDZvhmSs4KWbDtT0ZjJA/3mxeR4/7dINHGey5dVIO85Vdhi45aufuaxFbOl6O8sOAtE6PLncBDsWa7AFog0Uw=
+	t=1790595254; cv=none; b=U9vsZYMi3cwrBN4t202F549CphSBndyv+wqCmGPF+ic2Io4f/WUrMEVy1E7jnRr8StwSratQp9bmkYG6zoj9kK1iNxnFcA7lQMxagWYcibO5ntUzLk8XTHhQ6NvXVEbCSBtTA3ZEAwiNcBG3zBt3gonTVt9eX/ksZaTjvwLB9wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790594465; c=relaxed/simple;
-	bh=5xjUEmJHIrwDr/jWN/dMBJqofDzgpEevyqEk+J5ypYk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XEMHkuvj1OfKdSwGcXctE0kjIaW6pXOmxbOvY9Y2Qpqu4NGHN22wCSiI6TpUMFUgY8sXlXuNHuxiMJiLyffpnkmMHFUmqq0ZlFlfS0GCNSxcbu+bEEKFmqg2HPCbqYZ25hdmWMEC7jZ8DZp+dQIQHxvgRGzWzrbAl5oEMduli9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RIsEuhBG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790595254; c=relaxed/simple;
+	bh=Jt7kPh9XkqywM/6h7nDHDZz6YThHu04q3E5/FsPi8vs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EIVZWFv1pnmukQUESEvRROq4VoLdfTtvzM3NA9rhLDK17hcoeOc4oHNJn16CplDU1GGbGAgzI6TtaurpNRWe3Q2vKPILLjs2oygCTygvTriFXlTSnKz4HAY703TAoM8OX5g3rtgz+A8OWR/s+LtHR/so6cgVUjI9r9Fy2a2hK40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v3zBVzMI; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RIsEuhBG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45EE31F00893;
-	Mon, 28 Sep 2026 11:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790594463;
-	bh=LpkC/LmM+yKvvfA+t3CNU0fBQxqnJxtpH59jGwykX2g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RIsEuhBG7XNvu6OT6rBf2xDIeAQrOIGWAK4Uffb37GTs+P4XLxWtHwZQPv6aqFCYu
-	 8TNE44t9qyMXTAK47myr9Px6h0XHRXv16x6GiKyfs7bvL1UF50YTWxWz9ULiITdU0U
-	 Nl3NCNExjfae0+Y8iNg0Ppeh+toNwtQhVHTlh/yQkzAckATObh+oKeydglNm45T6DK
-	 WtB72knS22H1WUpjqDPT2cB8DqkwFfSqOMcTfyT44vUNwYPJkXZaU3bHIp9ekcMiJ8
-	 f1z9TzrpP05q6zf/7YYBh/HiyVhLKmVjWsBvdJpfRhZvFz0JP8MQkO8hFA5AMH9C5X
-	 WrJ1VUmc7MG4w==
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v3zBVzMI"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2d8facae850so80105ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 04:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1790595251; x=1791200051; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bqZIT4CuwAtsItk7lmKS5Bq3DdAgNyIdg2q2F0jacX0=;
+        b=v3zBVzMIe5XZKwkJU8JVgJoevTo47tYiMz1EAmEAO3KqUd+VrOKzhQm3zV2jVDqMpA
+         hOCda7bFY+EVBmLYjrcE67EzIP8NataIxNcEu76r6Zl8Kd73ynYVOFVpqddk9Cv55cCz
+         Uvl2u+wRCmfXRPJtT/HExhCiAhkacr3LzdgHKZFsSqYD/SDdy55t8yccoPq0nsNcXnSS
+         birKot3rynElkX0zHjB9KBKTHOAwxcZmbZ6TUcFKMfLJeBW6TM3V3pa5KOV4Jli/kK0C
+         cx8Xl1JJwRYro5zy8JDw/nLBKuP/H3BhQR0Kjt7vqtXUa/4OSWIZsuiKFGcIzUK8MV+u
+         Z3HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790595251; x=1791200051;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bqZIT4CuwAtsItk7lmKS5Bq3DdAgNyIdg2q2F0jacX0=;
+        b=EY8hUb1UEU1emde38Gk5ZBxtQiEcFzfpSFq5PszT8WiBw4IRblif8CMF8DxsaceDw+
+         vx551LuiQRb9M3TaEs0yBUuRtkkZJeZjggOP//nscyqLVmf5OWO314M3G1a+iyiFWoJm
+         3bF9yuzwbQGp67RsivkT41TnXA0Np9psQam78xY7rbHYj1RYq3DFdpdAm8UbZa2pz6Ei
+         1R/Ut+aGYNKR8xazSoFwBxh8XdzVJWZfyKohcuiGUY8xvGS0Y49y44jrhInuPND3yHi6
+         hxMo612gzvOjDpW60TA6kbqRTm1Rva2B5ZXXOEWlRD2WaTxywFhKIMuvkvQTovrAKoir
+         5PJw==
+X-Forwarded-Encrypted: i=1; AKwUvBwnoSJ/SFHUjNIpqBaXGaTIMSrGAYlKKbBWTsZiE0IfCuMoHHCykrGEDhEbqexHufxHgI+lZtRBeuE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJNxnSFzjVCrFRm7BGoamjloOGyVB3jMq2KYAT+uqQYYwwlcyPr
+	ma35fmUdkh1RA/6ms0BMT4fmUpvKLHAL1shHfQZtFr4H2UXiFSrf3owbP+TJrLpshA==
+X-Gm-Gg: AYBFou115YBxGa6pY5GZRyTizSBUJFgPOuqhUURHwvtd1UwARQwBX8EVdkcaxcuz5Ji
+	0E0HGFdwQ1EtvVz4xadoKRWcwDP+YCwxAi7ospXEo8YUCOGEG80a7IkvEJkV+A4qbaFjnrkaEiz
+	tVzW1nJfl1nieIUg+tH1J4ws8EhpzREkE97808VBCwYFfAh411LRw4UNZVkA7PZDT8xnIg27kJH
+	ZE2uBllmKeXczVWnvytRHdvLkNIy+n7WrKRSuHxGHE01u4FjqR1TArMBS8sfWQLmV50bDc8yDxl
+	3IYXLNCQz7nLUqJaHXDjwd1o3iZY/iIN2BS+ivxGxzHdtQIzn41h0soAJ6G1tqEAJZMRa6uLHUq
+	ek43Zo/CAn+iqthXQ9zscpfUFEV4kKSTtVH6J7qJxrj05Yoi/+zjrZiWPEgjkECfg8lgmDUrKC+
+	5Y7E8oWE4EhHGNeVRmpKSzlCuLzRz/Yt+9zWcWBUkAwZFFnu76n5d6pEnq1iDbkeBPke9qf304e
+	SMAT0YaRdEN1bxO2LPxpKilkUhwFWcUlYj+
+X-Received: by 2002:a17:902:d54f:b0:2d5:c090:3810 with SMTP id d9443c01a7336-2dfa615a5b9mr4545925ad.2.1790595250807;
+        Mon, 28 Sep 2026 04:34:10 -0700 (PDT)
+Received: from google.com (105.211.142.34.bc.googleusercontent.com. [34.142.211.105])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0972f111csm26688235a91.2.2026.09.28.04.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 04:34:10 -0700 (PDT)
+Date: Mon, 28 Sep 2026 11:34:01 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
 	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	=?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+	Jean-Philippe Brucker <jpb@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: [PATCH v8 21/23] RDMA/mlx5: Declare to P2PDMA that ATS is selected per memory key
-Date: Mon, 28 Sep 2026 14:19:25 +0300
-Message-ID: <20260928-fix-p2p-acs-v4-0-v8-21-404453b9c435@nvidia.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260928-fix-p2p-acs-v4-0-v8-0-404453b9c435@nvidia.com>
-References: <20260928-fix-p2p-acs-v4-0-v8-0-404453b9c435@nvidia.com>
+	Robin Murphy <robin.murphy@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Will Deacon <will@kernel.org>, David Matlack <dmatlack@google.com>,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Mostafa Saleh <smostafa@google.com>, stable@vger.kernel.org,
+	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
+Subject: Re: [PATCH v7 2/9] iommu/arm-smmu-v3: Pass the parameters for the
+ invalidation in a struct
+Message-ID: <arpQqQXkdkNRBn-l@google.com>
+References: <0-v7-e84261bbe7cd+2ea80b-smmu_tlbi_jgg@nvidia.com>
+ <2-v7-e84261bbe7cd+2ea80b-smmu_tlbi_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2-v7-e84261bbe7cd+2ea80b-smmu_tlbi_jgg@nvidia.com>
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Mon, Sep 21, 2026 at 08:55:10PM -0300, Jason Gunthorpe wrote:
+> From: Jason Gunthorpe <jgg@ziepe.ca>
+> 
+> These parameters go to a lot of different functions and the next patches
+> will add more. Put them into a struct to keep things tidy.
+> 
+> Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+> Reviewed-by: Mostafa Saleh <smostafa@google.com>
+> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-An mlx5 function issues Translated Requests only through memory keys
-created with ATS. Enabling ATS in its PCIe configuration therefore does
-not make it translate every address it is handed.
-
-Declare that where the function's P2PDMA state is set up, before P2PDMA
-starts treating clients with ATS enabled as translating everything.
-Without the declaration, mlx5 would lose bus addressing for peer-to-peer
-DMA whenever the IOMMU enables its ATS.
-
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/infiniband/hw/mlx5/main.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/infiniband/hw/mlx5/main.c b/drivers/infiniband/hw/mlx5/main.c
-index 373ee1f42d4a..dcf659beaba0 100644
---- a/drivers/infiniband/hw/mlx5/main.c
-+++ b/drivers/infiniband/hw/mlx5/main.c
-@@ -4561,6 +4561,8 @@ static int mlx5_ib_stage_init_init(struct mlx5_ib_dev *dev)
- 	if (err && err != -EOPNOTSUPP)
- 		goto err_dd;
- 
-+	pcim_p2pdma_set_ats_per_mapping(mdev->pdev);
-+
- 	mlx5_cmd_init_async_ctx(mdev, &dev->async_ctx);
- 
- 	return 0;
-
--- 
-2.55.0
-
+Reviewed-by: Pranjal Shrivastava <praan@google.com>
