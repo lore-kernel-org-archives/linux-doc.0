@@ -1,391 +1,199 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f33.google.com (mail-ed2-f33.google.com [74.125.228.97])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0304646983F;
-	Mon, 28 Sep 2026 21:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AF34CA765
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 22:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790631464; cv=none; b=a+pEqSyjuoaXUgSqkOAvcSmMa0/GZhnmcOzMpemIw1MK4yJjlidGeSCIaZ9mWGll/xLFvHLXq5eUZiVJQ+CMfIdk168V7bxA68Zyl7yvqGMkJBn1iDvyxfRPOyJtHX4zyTzTKx1c0jdAwSAfukiIvXFdV3gcRU6rpK4fqrPYSK4=
+	t=1790633315; cv=none; b=ICWPvTMPgcbYiehQtS3SfsnGX5ZDP2UzD8Z8kP6aK4oO2GJnkzj68DKbV9rI9sGFYpYnhRvLxeTvXp3PQe3HFTOHNF+CXAqfwtZnWdyLhkDPwGmMFSCZc7xhW3N8M5IfZVw6Zkn+aOQJRsGE9BZ5OkvO9Jkag3tqFLJAt+wGR1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790631464; c=relaxed/simple;
-	bh=RSVjfugggLIGr2FGcMqBmKkoraQmnKwQRgkDJ9oPMlk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HrUm3hxgFAnGxEs8n8XvEWQuqpPasyPb8bcXv/uikZEFhjcEzjAu59kNYdOVUkzElAlkoNHEA37XB0Yr+ICpH2BK3OKCMH1XnW6sTo+Ji/RySeTve9DB1StbmapIX9cID49cVG5HCWyye9oBhzUV2d6QzlHtYUaboZ+6xO3VNx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jhVLRPVl; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1790633315; c=relaxed/simple;
+	bh=x+hWyRoyhHhbspYBDjpmI6qUB3yfCUUjCZlGN/fhFa4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=spYTXB8BKoJBirvItFt0X1DYL9P7GkE2M8qt2cO4JaXNlyhI6MmeLVIyCAr/LlqYE534sgRHchtxOHODqsPGdeybYAm4eJKzNIygTznMUjzkxiSF0DSPsECW6ArWzcz8S0jElmahK0COeWygmU58vGewssyoSfu/jVNv1kjMCCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l9ko8ozC; arc=none smtp.client-ip=74.125.228.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jhVLRPVl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=vrzYt8jxcbX7/Huq2ReMlGAvqbQI+DVtSy3AHPTaBQ8=; b=jhVLRPVllI5P/dhCnzsA9aCMEC
-	e3FV/+UwmN/wUpcuh5gsQkbG0r/GMx5uE81jZkkIkteX/MtloU1P8oBolGmsTXhph9Liw8IZkx2In
-	6UagvWuoANnP0vnh+sqDgRu5Zxd3zGtAUqR8Y5xV8MQg+zxPoxbFuNlJJSpVcAo3rgUvilO330M6g
-	RhcbmhwjKw/41pSSJbVIFXjt1vHE0maY7VW991H7U2CDQHFIMkcK5NrVvUC60tvyJvgECGgPVAji3
-	Vaj6OVbW2RZURNxTrfb0+6Z0TPAM0dob3GJ4Q2mqFHwoPh80bwKj3laMtoCURmH8Vh0KfH4unMafG
-	/4Lx1OxQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBJ2X-00000008z3H-16ux;
-	Mon, 28 Sep 2026 21:37:37 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 44ACF300754; Mon, 28 Sep 2026 23:37:36 +0200 (CEST)
-Date: Mon, 28 Sep 2026 23:37:36 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Yiwei Lin <s921975628@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] rbtree: update augmented data on the way down in
- rb_add_augmented_cached()
-Message-ID: <20260928213736.GA2947991@noisy.programming.kicks-ass.net>
-References: <20260928122611.336351-1-s921975628@gmail.com>
- <20260928122611.336351-3-s921975628@gmail.com>
- <20260928133733.GP2009045@noisy.programming.kicks-ass.net>
- <20260928140513.GF4121620@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l9ko8ozC"
+Received: by mail-ed2-f33.google.com with SMTP id 4fb4d7f45d1cf-6ac6f5c507fso2419123a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 15:08:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790633311; x=1791238111; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UYwPqqXGdVDSD+JHw7yX4svUwm+9ZLe0XAdsXLTCAek=;
+        b=l9ko8ozCfegx1zaOMZfDrxOMKT0kG8AMNaoK4PlZqVSL1pqFRbrOkXicnwszzUeZ1K
+         D12f55Hv9Z6pxZNSsS4ZWeKaUQuqHD8/UR/SOMhzLZ5/rjihkPfM0bVu/YrjvTy0F4yN
+         ka3IwmLUAwPwKhRvuEHBa+8vvP+U7i9jedXwtb0Vi4ZAjWst3jtUdtadGpQjZj3Ps7KI
+         NmqxG57hI94ViK4zkoGMVLW/ZEDzWeDtdoHuWbOWIw2ZMCmhYmntG3FduYYP4Q+znV/t
+         K1qNZ1DK5HNl9GLTJstIWnub516mNlBnLxI6ZGe4NSKEOAp//JUGlS9GbloIBILBKPbQ
+         aKrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790633311; x=1791238111;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UYwPqqXGdVDSD+JHw7yX4svUwm+9ZLe0XAdsXLTCAek=;
+        b=A6Sv4a12GxQ99u6CFf5V0gt2EXsbppCjwXfYcNrsb4dSwBOA/TP66E0KYIR2WSfcdX
+         HjDx0mGZ1sZgJDE5df8VXxdq3DEt0ZjU8Xk4k9hrshtjH1VY3Piwopzjm002TNyKj8yh
+         ChXSUQF4j8H69pjnf51vhdqGV1dxQNm3xpsGuozjzQByyeQTvK2jMtZUqqWhPfQo8csC
+         SUP131nHEJvX6IHS+lJT2TlQxpTjdor7r2jJKjVq7RoJ3pMkfp0VZVlndQYA7Fwxf+I/
+         PlFMB1FXff8i5Wb3vckYyXyP4SXDrczED2CSgapjKfAZTdRNTd1JKfhFZ1b0isP7BZvC
+         dt7w==
+X-Forwarded-Encrypted: i=1; AKwUvBy/CRJteoKWsqUC4QUx0Nc3Bcpv4H2z8dB3nD6QY7PTX3re3T5qjoAmF4mz2uFsJYo3dvwDvBE3tqo=@vger.kernel.org
+X-Gm-Message-State: AFuF++lpZeBSDwBNOQgV8T/dGj7i2NJGRdO0TMGKJfYagNzasJCvcz1O
+	z9CAluswZY4h7lg6s1+V9SX372Gg9uZZLhkXTSbpdgfUKWlDeshW7QJ5mGY97xqDy/YKYQ==
+X-Gm-Gg: AYBFou1E7UlkHLBkwZ6cG7XE4K9S+c7YmMi94jwzdnscX7ctVb/URuwSH6LzSZ8nJoI
+	zrP6wiLEdwY7/O6mdeYDv2OMlQbA3T7HOtFv4rnXTmFpopjmhn86QEjKBljQOCVZQl4ziuJZhWn
+	ByCcs0NxJNYDI/Op6zv0lOSOSCtaQTk+ym2RDYtdOiE2OU9jWo80gLv/LYfi5kY6j5La7eo53gN
+	2K4lMkU3MLH5Jo0aXzmGytVYEyko+K9JR1+6u6DxJ65wzeOSZb9CVo2yBPhGfRpRjic5LVeknVf
+	m9MSTzJOco1P10MXjKsu9B8vF7mhAM1R9u4O/qsCkJGYCXPAuViSiormSyacQ5FNZ92UhWapo1p
+	Rs9x5IWyBFtsWBbfeptYVE/tyjGwUxSbQABdAyryY1wupgG9DstIiSCaN7HP5+jTBBR0mJpdT5I
+	YwVVXvrI+duI2dvl1V+oaOyafi2RWJ2GMgKHWE3vs3pX8gRWBxjpVpZMR2c98Y1AT2DuyHTSmpG
+	l0l64MrXmMt8FwKMEAsq7SUWx6wgyv9j8VSkVEF2vl9rVuePLvwxwu5
+X-Received: by 2002:a17:907:a08c:b0:c29:4634:5c99 with SMTP id a640c23a62f3a-c2ac241d641mr1144931166b.4.1790633311274;
+        Mon, 28 Sep 2026 15:08:31 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:801:793:68fd:c07a:9093:1956:b4bf])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2dbd3bcacfsm345002466b.74.2026.09.28.15.08.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 15:08:30 -0700 (PDT)
+From: Yongzhao Chen <yongzhao.derek@gmail.com>
+To: netdev@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jonas Gorski <jonas.gorski@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Woojung Huh <woojung.huh@microchip.com>,
+	UNGLinuxDriver@microchip.com,
+	Russell King <linux@armlinux.org.uk>,
+	linux-doc@vger.kernel.org,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Ziyang Huang <hzyitc@outlook.com>
+Subject: [PATCH net-next v4 0/3] net: dsa: qca8k: add a QCA8337 CPU PHY consumer
+Date: Tue, 29 Sep 2026 00:08:08 +0200
+Message-ID: <20260928220811.1880-1-yongzhao.derek@gmail.com>
+X-Mailer: git-send-email 2.45.2.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260928140513.GF4121620@noisy.programming.kicks-ass.net>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 28, 2026 at 04:05:13PM +0200, Peter Zijlstra wrote:
+This series lets a QCA8337 use one of its internal PHYs (ports 1-5) as
+the CPU port, with a PHY-to-PHY connection to the SoC's own PHY.
 
-> > And that is *very* close to being generalizable, obviating the need for
-> > RBCOMPUTE. Does your LLM see a way to make that happen?
-> 
-> Perhaps by doing something like so?
+Patch 1 makes DSA pass get_phy_flags() to PHYs on CPU and DSA ports, so
+that the internal CPU PHY receives the switch revision and gets the same
+revision-specific initialization as the user ports. Patch 2 pauses
+internal CPU ports as well as ports 0 and 6 during MTU changes and
+serializes that sequence with reg_mutex. Patch 3 accepts an internal PHY
+as the CPU port on QCA8337.
 
-This builds and boot, so it must be perfect, right ;-)
+Changes since v3:
+- Dropped v3 patches 4/5 and 5/5, which disabled SmartSpeed on internal
+  CPU PHYs, and did not add the DT workaround property discussed in the
+  v3 4/5 thread. The lost 1000BASE-T advertisement on the RA74 CPU link
+  came from the IPQ5018 GE PHY's initialization order, not from the
+  QCA8337. The IPQ5018 driver writes its analog settings (LDO, EEE, MSE,
+  DAC) only in config_init() when the MAC attaches, about 38 s after
+  PHY4 starts autonegotiating. Until then the IPQ5018 PHY negotiates with
+  its reset defaults, 1000BASE-T does not come up, and SmartSpeed on
+  both sides drops the 1000BASE-T advertisement. Nothing restores it on
+  PHY4. On RA74, applying the settings at probe brought the CPU link up
+  at 1 Gb/s with SmartSpeed left enabled. That fix is a separate net
+  series:
+    net: phy: qcom: at803x: Fix IPQ5018 short-cable DAC values
+    net: phy: qcom: at803x: Apply IPQ5018 analog settings at probe
+    <https://lore.kernel.org/netdev/20260928220717.939-1-yongzhao.derek@gmail.com/>
+- Patch 1: removed the SmartSpeed reference from the commit message.
+  The code is unchanged, so I kept Florian's Reviewed-by.
+- Patch 3: the commit message no longer refers to an RFC. Internal CPU
+  port selection is still limited to QCA8337; QCA8327 support has not
+  been established. The code is unchanged.
+- Patch 2 is unchanged.
+- Posted as a regular patch series instead of an RFC.
 
-Assisted-by: Brain
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
- include/linux/rbtree_augmented.h | 153 +++++++++++++++++++++++++--------------
- kernel/sched/fair.c              |  69 ++----------------
- net/tipc/name_table.c            |   7 +-
- 3 files changed, 108 insertions(+), 121 deletions(-)
+Dependencies:
+This series depends on the net series "[PATCH net v2 0/3] net: dsa:
+qca8k: fix MDIO error handling" <https://lore.kernel.org/netdev/20260928220629.238-1-yongzhao.derek@gmail.com/>. It applies to
+net-next without that series, but patch 2 aborts and restores the
+paused ports only when register writes report MDIO failures, which
+needs its first patch. Please take the net series first.
 
-diff --git a/include/linux/rbtree_augmented.h b/include/linux/rbtree_augmented.h
-index d2fa1c41bfd2..9c1707aa83b2 100644
---- a/include/linux/rbtree_augmented.h
-+++ b/include/linux/rbtree_augmented.h
-@@ -15,6 +15,7 @@
- #include <linux/compiler.h>
- #include <linux/rbtree.h>
- #include <linux/rcupdate.h>
-+#include <linux/args.h>
- 
- /*
-  * Please note - only struct rb_augment_callbacks and the prototypes for
-@@ -86,6 +87,74 @@ rb_add_augmented_cached(struct rb_node *node, struct rb_root_cached *tree,
- 	return leftmost ? node : NULL;
- }
- 
-+#define RB_FOR_EACH_1(what, RBNAME, RBSTRUCT, RBFIELD, x)	\
-+	what(1, RBNAME, RBSTRUCT, RBFIELD, x)
-+#define RB_FOR_EACH_2(what, RBNAME, RBSTRUCT, RBFIELD, x, ...)	\
-+	what(2, RBNAME, RBSTRUCT, RBFIELD, x) RB_FOR_EACH_1(what, RBNAME, RBSTRUCT, RBFIELD, __VA_ARGS__)
-+#define RB_FOR_EACH_3(what, RBNAME, RBSTRUCT, RBFIELD, x, ...)	\
-+	what(3, RBNAME, RBSTRUCT, RBFIELD, x) RB_FOR_EACH_2(what, RBNAME, RBSTRUCT, RBFIELD, __VA_ARGS__)
-+#define RB_FOR_EACH_4(what, RBNAME, RBSTRUCT, RBFIELD, x, ...)	\
-+	what(4, RBNAME, RBSTRUCT, RBFIELD, x) RB_FOR_EACH_3(what, RBNAME, RBSTRUCT, RBFIELD, __VA_ARGS__)
-+#define RB_FOR_EACH_5(what, RBNAME, RBSTRUCT, RBFIELD, x, ...)	\
-+	what(5, RBNAME, RBSTRUCT, RBFIELD, x) RB_FOR_EACH_4(what, RBNAME, RBSTRUCT, RBFIELD, __VA_ARGS__)
-+#define RB_FOR_EACH_6(what, RBNAME, RBSTRUCT, RBFIELD, x, ...)	\
-+	what(6, RBNAME, RBSTRUCT, RBFIELD, x) RB_FOR_EACH_5(what, RBNAME, RBSTRUCT, RBFIELD, __VA_ARGS__)
-+#define RB_FOR_EACH_7(what, RBNAME, RBSTRUCT, RBFIELD, x, ...)	\
-+	what(7, RBNAME, RBSTRUCT, RBFIELD, x) RB_FOR_EACH_6(what, RBNAME, RBSTRUCT, RBFIELD, __VA_ARGS__)
-+#define RB_FOR_EACH_8(what, RBNAME, RBSTRUCT, RBFIELD, x, ...)	\
-+	what(8, RBNAME, RBSTRUCT, RBFIELD, x) RB_FOR_EACH_7(what, RBNAME, RBSTRUCT, RBFIELD, __VA_ARGS__)
-+
-+#define RB_FOR_EACH(action, RBNAME, RBSTRUCT, RBFIELD, ...)	\
-+	CONCATENATE(RB_FOR_EACH_, COUNT_ARGS(__VA_ARGS__))(action, RBNAME, RBSTRUCT, RBFIELD, __VA_ARGS__)
-+
-+#define RB_AUG_FUNC(val, aug, cmp) (val(s), aug, cmp)
-+#define RB_AUG(val, aug, cmp) (s->val, aug, cmp)
-+#define RB_UNPACK(...) __VA_ARGS__
-+
-+#define __RB_INST(n, RBNAME, RBSTRUCT, RBFIELD, val, aug, cmp)		\
-+static inline void							\
-+RBNAME ## _copy_ ## n(RBSTRUCT *old, RBSTRUCT *new)			\
-+{									\
-+	new->aug = old->aug;						\
-+}									\
-+static inline bool							\
-+RBNAME ## _compute_ ## n(RBSTRUCT *s, bool exit)			\
-+{									\
-+	TYPEOF_UNQUAL(s->aug) _old_aug = s->aug;			\
-+	TYPEOF_UNQUAL(s->aug) _val = val;				\
-+	struct rb_node *_node = &s->RBFIELD;				\
-+	if (_node->rb_right) {						\
-+		RBSTRUCT *_c = container_of(_node->rb_right, typeof(*s), RBFIELD); \
-+		if (cmp(_c->aug, _val))				\
-+			_val = _c->aug;					\
-+	}								\
-+	if (_node->rb_left) {						\
-+		RBSTRUCT *_c = container_of(_node->rb_left, typeof(*s), RBFIELD); \
-+		if (cmp(_c->aug, _val))				\
-+			_val = _c->aug;					\
-+	}								\
-+	s->aug = _val;							\
-+	return _old_aug == _val;					\
-+}
-+#define _RB_INST(n, RBNAME, RBSTRUCT, RBFIELD, args)			\
-+	__RB_INST(n, RBNAME, RBSTRUCT, RBFIELD, args)
-+#define RB_INST(n, RBNAME, RBSTRUCT, RBFIELD, x)			\
-+	_RB_INST(n, RBNAME, RBSTRUCT, RBFIELD, RB_UNPACK x)
-+
-+#define __RB_COPY(n, RBNAME, RBSTRUCT, RBFIELD, val, aug, cmp)		\
-+	RBNAME ## _copy_ ## n(old, new);
-+#define _RB_COPY(n, RBNAME, RBSTRUCT, RBFIELD, args)			\
-+	__RB_COPY(n, RBNAME, RBSTRUCT, RBFIELD, args)
-+#define RB_COPY(n, RBNAME, RBSTRUCT, RBFIELD, x)			\
-+	_RB_COPY(n, RBNAME, RBSTRUCT, RBFIELD, RB_UNPACK x)
-+
-+#define __RB_COMPUTE(n, RBNAME, RBSTRUCT, RBFIELD, val, aug, cmp)	\
-+	ret &= RBNAME ## _compute_ ## n(node, exit);
-+#define _RB_COMPUTE(n, RBNAME, RBSTRUCT, RBFIELD, args)			\
-+	__RB_COMPUTE(n, RBNAME, RBSTRUCT, RBFIELD, args)
-+#define RB_COMPUTE(n, RBNAME, RBSTRUCT, RBFIELD, x)			\
-+	_RB_COMPUTE(n, RBNAME, RBSTRUCT, RBFIELD, RB_UNPACK x)
-+
- /*
-  * Template for declaring augmented rbtree callbacks (generic multi fields)
-  *
-@@ -93,18 +162,29 @@ rb_add_augmented_cached(struct rb_node *node, struct rb_root_cached *tree,
-  * RBNAME:      name of the rb_augment_callbacks structure
-  * RBSTRUCT:    struct type of the tree nodes
-  * RBFIELD:     name of struct rb_node field within RBSTRUCT
-- * RBCOPY:	name of function that copies the RBAUGMENTED datas
-- * RBCOMPUTE:   name of function that recomputes the RBAUGMENTED datas
-+ * RBAUG...:	list of RB_AUG() describing the aughmented data
-  */
--
--#define RB_DECLARE_CALLBACKS_MULTI(RBSTATIC, RBNAME,			\
--			     RBSTRUCT, RBFIELD, RBCOPY, RBCOMPUTE)	\
-+#define RB_DECLARE_CALLBACKS(RBSTATIC, RBNAME,				\
-+			     RBSTRUCT, RBFIELD, RBAUG...)		\
-+RB_FOR_EACH(RB_INST, RBNAME, RBSTRUCT, RBFIELD, RBAUG);			\
-+static inline void							\
-+RBNAME ## __copy(RBSTRUCT *old, RBSTRUCT *new)				\
-+{									\
-+	RB_FOR_EACH(RB_COPY, RBNAME, RBSTRUCT, RBFIELD, RBAUG);		\
-+}									\
-+static inline bool							\
-+RBNAME ## __compute(RBSTRUCT *node, bool exit)				\
-+{									\
-+	bool ret = true;						\
-+	RB_FOR_EACH(RB_COMPUTE, RBNAME, RBSTRUCT, RBFIELD, RBAUG);	\
-+	return ret;							\
-+}									\
- static inline void							\
- RBNAME ## _propagate(struct rb_node *rb, struct rb_node *stop)		\
- {									\
- 	while (rb != stop) {						\
- 		RBSTRUCT *node = rb_entry(rb, RBSTRUCT, RBFIELD);	\
--		if (RBCOMPUTE(node, true))				\
-+		if (RBNAME ## __compute(node, true))			\
- 			break;						\
- 		rb = rb_parent(&node->RBFIELD);				\
- 	}								\
-@@ -114,15 +194,15 @@ RBNAME ## _copy(struct rb_node *rb_old, struct rb_node *rb_new)		\
- {									\
- 	RBSTRUCT *old = rb_entry(rb_old, RBSTRUCT, RBFIELD);		\
- 	RBSTRUCT *new = rb_entry(rb_new, RBSTRUCT, RBFIELD);		\
--	RBCOPY(new, old);						\
-+	RBNAME ## __copy(old, new);					\
- }									\
- static void								\
- RBNAME ## _rotate(struct rb_node *rb_old, struct rb_node *rb_new)	\
- {									\
- 	RBSTRUCT *old = rb_entry(rb_old, RBSTRUCT, RBFIELD);		\
- 	RBSTRUCT *new = rb_entry(rb_new, RBSTRUCT, RBFIELD);		\
--	RBCOPY(new, old);						\
--	RBCOMPUTE(old, false);						\
-+	RBNAME ## __copy(old, new);					\
-+	RBNAME ## __compute(old, false);				\
- }									\
- RBSTATIC const struct rb_augment_callbacks RBNAME = {			\
- 	.propagate = RBNAME ## _propagate,				\
-@@ -130,26 +210,8 @@ RBSTATIC const struct rb_augment_callbacks RBNAME = {			\
- 	.rotate = RBNAME ## _rotate					\
- };
- 
--/*
-- * Template for declaring augmented rbtree callbacks (generic single field)
-- *
-- * RBSTATIC:    'static' or empty
-- * RBNAME:      name of the rb_augment_callbacks structure
-- * RBSTRUCT:    struct type of the tree nodes
-- * RBFIELD:     name of struct rb_node field within RBSTRUCT
-- * RBAUGMENTED: name of field within RBSTRUCT holding data for subtree
-- * RBCOMPUTE:   name of function that recomputes the RBAUGMENTED data
-- */
--
--#define RB_DECLARE_CALLBACKS(RBSTATIC, RBNAME,				\
--			     RBSTRUCT, RBFIELD, RBAUGMENTED, RBCOMPUTE)	\
--static inline void							\
--RBNAME ## _copy_single(RBSTRUCT *new, RBSTRUCT *old)			\
--{									\
--	new->RBAUGMENTED = old->RBAUGMENTED;				\
--}									\
--RB_DECLARE_CALLBACKS_MULTI(RBSTATIC, RBNAME,				\
--		     RBSTRUCT, RBFIELD, RBNAME ## _copy_single, RBCOMPUTE)
-+#define RB_MAX(a, b) (a > b)
-+#define RB_MIN(a, b) (a < b)
- 
- /*
-  * Template for declaring augmented rbtree callbacks,
-@@ -159,34 +221,15 @@ RB_DECLARE_CALLBACKS_MULTI(RBSTATIC, RBNAME,				\
-  * RBNAME:      name of the rb_augment_callbacks structure
-  * RBSTRUCT:    struct type of the tree nodes
-  * RBFIELD:     name of struct rb_node field within RBSTRUCT
-- * RBTYPE:      type of the RBAUGMENTED field
-- * RBAUGMENTED: name of RBTYPE field within RBSTRUCT holding data for subtree
-- * RBCOMPUTE:   name of function that returns the per-node RBTYPE scalar
-+ * RBTYPE:      type of the RBAUGMENTED field -- unused, assumed typeof(RBAUGMENTED)
-+ * RBAUGMENTED: name of field within RBSTRUCT holding data for subtree
-+ * RBVALUE:     name of function that returns the per-node RBTYPE scalar
-  */
- 
--#define RB_DECLARE_CALLBACKS_MAX(RBSTATIC, RBNAME, RBSTRUCT, RBFIELD,	      \
--				 RBTYPE, RBAUGMENTED, RBCOMPUTE)	      \
--static inline bool RBNAME ## _compute_max(RBSTRUCT *node, bool exit)	      \
--{									      \
--	RBSTRUCT *child;						      \
--	RBTYPE max = RBCOMPUTE(node);					      \
--	if (node->RBFIELD.rb_left) {					      \
--		child = rb_entry(node->RBFIELD.rb_left, RBSTRUCT, RBFIELD);   \
--		if (child->RBAUGMENTED > max)				      \
--			max = child->RBAUGMENTED;			      \
--	}								      \
--	if (node->RBFIELD.rb_right) {					      \
--		child = rb_entry(node->RBFIELD.rb_right, RBSTRUCT, RBFIELD);  \
--		if (child->RBAUGMENTED > max)				      \
--			max = child->RBAUGMENTED;			      \
--	}								      \
--	if (exit && node->RBAUGMENTED == max)				      \
--		return true;						      \
--	node->RBAUGMENTED = max;					      \
--	return false;							      \
--}									      \
--RB_DECLARE_CALLBACKS(RBSTATIC, RBNAME,					      \
--		     RBSTRUCT, RBFIELD, RBAUGMENTED, RBNAME ## _compute_max)
-+#define RB_DECLARE_CALLBACKS_MAX(RBSTATIC, RBNAME, RBSTRUCT, RBFIELD,		\
-+				 RBTYPE, RBAUGMENTED, RBVALUE)			\
-+RB_DECLARE_CALLBACKS(RBSTATIC, RBNAME, RBSTRUCT, RBFIELD,			\
-+		     RB_AUG_FUNC(RBVALUE, RBAUGMENTED, RB_MAX))
- 
- 
- #define	RB_RED		0
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index e707da7177df..967e71c15a24 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -999,71 +999,16 @@ static inline bool __entity_less(struct rb_node *a, const struct rb_node *b)
- 	return entity_before(__node_2_se(a), __node_2_se(b));
- }
- 
--static inline void __min_vruntime_update(struct sched_entity *se, struct rb_node *node)
-+static inline bool __min_vruntime_cmp(u64 child_vruntime, u64 min_vruntime)
- {
--	if (node) {
--		struct sched_entity *rse = __node_2_se(node);
--
--		if (vruntime_cmp(se->min_vruntime, ">", rse->min_vruntime))
--			se->min_vruntime = rse->min_vruntime;
--	}
-+	return vruntime_cmp(min_vruntime, ">", child_vruntime);
- }
- 
--static inline void __min_slice_update(struct sched_entity *se, struct rb_node *node)
--{
--	if (node) {
--		struct sched_entity *rse = __node_2_se(node);
--		if (rse->min_slice < se->min_slice)
--			se->min_slice = rse->min_slice;
--	}
--}
--
--static inline void __max_slice_update(struct sched_entity *se, struct rb_node *node)
--{
--	if (node) {
--		struct sched_entity *rse = __node_2_se(node);
--		if (rse->max_slice > se->max_slice)
--			se->max_slice = rse->max_slice;
--	}
--}
--
--static inline void min_vruntime_copy(struct sched_entity *new, struct sched_entity *old)
--{
--	new->min_vruntime = old->min_vruntime;
--	new->min_slice = old->min_slice;
--	new->max_slice = old->max_slice;
--}
--
--/*
-- * se->min_vruntime = min(se->vruntime, {left,right}->min_vruntime)
-- */
--static inline bool min_vruntime_update(struct sched_entity *se, bool exit)
--{
--	u64 old_min_vruntime = se->min_vruntime;
--	u64 old_min_slice = se->min_slice;
--	u64 old_max_slice = se->max_slice;
--	struct rb_node *node = &se->run_node;
--
--	se->min_vruntime = se->vruntime;
--	__min_vruntime_update(se, node->rb_right);
--	__min_vruntime_update(se, node->rb_left);
--
--	se->min_slice = se->slice;
--	__min_slice_update(se, node->rb_right);
--	__min_slice_update(se, node->rb_left);
--
--	se->max_slice = se->slice;
--	__max_slice_update(se, node->rb_right);
--	__max_slice_update(se, node->rb_left);
--
--	return se->min_vruntime == old_min_vruntime &&
--	       se->min_slice == old_min_slice &&
--	       se->max_slice == old_max_slice;
--}
--
--
--RB_DECLARE_CALLBACKS_MULTI(static, min_vruntime_cb, struct sched_entity,
--		     run_node, min_vruntime_copy, min_vruntime_update);
-+RB_DECLARE_CALLBACKS(static, min_vruntime_cb,
-+		     struct sched_entity, run_node,
-+		     RB_AUG(vruntime, min_vruntime, __min_vruntime_cmp),
-+		     RB_AUG(slice, min_slice, RB_MIN),
-+		     RB_AUG(slice, max_slice, RB_MAX));
- 
- /*
-  * Enqueue an entity into the rb-tree:
-diff --git a/net/tipc/name_table.c b/net/tipc/name_table.c
-index 6fda36ab1766..bed04a1f0fbd 100644
---- a/net/tipc/name_table.c
-+++ b/net/tipc/name_table.c
-@@ -88,10 +88,9 @@ struct tipc_service {
- 	struct rcu_head rcu;
- };
- 
--#define service_range_upper(sr) ((sr)->upper)
--RB_DECLARE_CALLBACKS_MAX(static, sr_callbacks,
--			 struct service_range, tree_node, u32, max,
--			 service_range_upper)
-+RB_DECLARE_CALLBACKS(static, sr_callbacks,
-+		     struct service_range, tree_node,
-+		     RB_AUG(upper, max, RB_MAX));
- 
- #define service_range_entry(rbtree_node)				\
- 	(container_of(rbtree_node, struct service_range, tree_node))
+Brandon Mahdavi's multi-CPU RFC v2 [1] also replaces
+qca8k_find_cpu_port() and restricts CPU ports to 0 and 6. It is not
+merged. Whichever series lands second will need to handle the other's
+CPU port selection.
+
+Testing:
+Each patch builds with W=1 for arm64 (drivers/net/dsa/qca, net/dsa,
+drivers/net/phy/qcom, bcm_sf2, microchip) on the net-next base below
+with the MDIO series, and checkpatch --strict is clean apart from
+sign-offs.
+The MTU/pause model test from v3 passes on patch 2 on top of the MDIO
+series. A model test of patch 3 checks CPU port selection for every
+CPU port mask on QCA8337 and QCA8327, and which ports count for the
+MDIO bus choice. The code of all three patches is unchanged from v3.
+
+On hardware, a Redmi AX5400 (IPQ5018 GE PHY to QCA8337 PHY4 as the CPU
+port, plus port 6 as a second CPU port) was tested on OpenWrt's Linux
+6.18.52 with a backport of all three patches, the MDIO series and the at803x
+fixes, and no SmartSpeed change. OpenWrt's multi-CPU patches stay on
+top and remove qca8k_find_cpu_port(), so on this board patch 3 only
+contributes its MDIO scope change; its CPU port fallback is covered by
+the model test only. The CPU link was verified at 1 Gb/s with SmartSpeed
+enabled after a first boot, three reboots, a power-off cold boot, three
+interface down/up cycles, three renegotiations and a network restart.
+During a separate 10-minute observation, sampled link status remained
+at 1 Gb/s with SmartSpeed enabled and no new CPU PHY link-down events
+were logged. Raising a user port MTU to 1504 and back exercises patch
+2's pause sequence. After each change, WAN HTTPS through CPU port 5
+and SSH through CPU port 6 worked. Packet loss during the changes was
+not measured. An MTU above the maximum was rejected. The switch
+registers are not readable on that image, so MAX_FRAME_SIZE and the
+MAC enable bits were not checked directly. There is no net-next boot
+on this board, as it has no upstream DTS.
+
+Thanks to Andrew Lunn for his detailed reviews of v3 4/5, and to Ziyang
+Huang for the OpenWrt PHY-to-PHY CPU port code that patch 3 is based on
+and for pointing me at the IPQ5018 DAC settings.
+
+v3: https://lore.kernel.org/netdev/20260923215858.1653-1-yongzhao.derek@gmail.com/
+v2: https://lore.kernel.org/netdev/20260922202653.1153-1-yongzhao.derek@gmail.com/
+v1: https://lore.kernel.org/netdev/20260919085406.1395-1-yongzhao.derek@gmail.com/
+
+[1] https://lore.kernel.org/netdev/20260802034701.3339052-1-brandon.mahdavi@mahcom.com/
+
+Yongzhao Chen (2):
+  net: dsa: pass PHY flags when connecting shared ports
+  net: dsa: qca8k: serialize CPU MAC pause during MTU changes
+
+Ziyang Huang (1):
+  net: dsa: qca8k: support QCA8337 internal PHY CPU links
+
+ Documentation/networking/dsa/dsa.rst |  2 +
+ drivers/net/dsa/bcm_sf2.c            |  4 ++
+ drivers/net/dsa/microchip/ksz8.c     |  4 ++
+ drivers/net/dsa/qca/qca8k-8xxx.c     | 20 +++++--
+ drivers/net/dsa/qca/qca8k-common.c   | 79 ++++++++++++++++++++++------
+ net/dsa/port.c                       |  6 ++-
+ 6 files changed, 94 insertions(+), 21 deletions(-)
+
+
+base-commit: 014d795c73837ea2339a4ea8e8f82c6e959b845d
+prerequisite-patch-id: aad3a7fefa50cc4a8d29711256b182827e5b3bf2
+prerequisite-patch-id: 92a623b4a20a1d2d516476558e3904d7a1c17b8f
+prerequisite-patch-id: 2819bb7310717899a1fb577b9f4c71a6443a4340
+-- 
+2.43.0
