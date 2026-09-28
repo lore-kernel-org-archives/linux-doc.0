@@ -1,69 +1,69 @@
-Received: from mail-qk2-f39.google.com (mail-qk2-f39.google.com [74.125.230.231])
+Received: from mail-qk2-f40.google.com (mail-qk2-f40.google.com [74.125.230.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3134E80B5
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 16:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037FA4E9C33
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 16:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790611518; cv=none; b=cdKG+YJOw23oShGwaEUcaVlgJiDenZGgJEjSp4aGO3lhpfyKR2lxT0jGIUH9q40/4OB56nQCEA2jID7xrI2kFgT5NZmx+GZw6VFlhQ5Q04u6XNaZH/RHugebCGqeJQG+YE6spel4yxHTcwaViSKeKRNAOLm0a+d8EJeUbxv7MHE=
+	t=1790611559; cv=none; b=Ok8Sn87/TCshpLCGolYI4vitzpyrGAW+7pN39HB+QoZLdkB5MBOKgcJBX7VTTmNFCwKRNGFvHHMWXi9FU0Fr13buRvOGci4YLe4PUKxpp6PFtlNC04/2kAx3AqZXdXqAY3EyMLdm+gMSfkTYIfnBSG0kctG/zrifN0UkBBGDJaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790611518; c=relaxed/simple;
-	bh=okUdNTs9dA4drHjisOFlb7BolHtlKtc1Z2Oya10d9gk=;
+	s=arc-20240116; t=1790611559; c=relaxed/simple;
+	bh=OK9VYCvcNxGcMM+mG3wjRDISOd7f2u3Ql6cIqvbqGSc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q05iA6A9MwQyfVCIWo0IQenmIEdRfKQFxJS9HENnjm9qLWSY+chWM2fUUozhgGrqKGsTrJeic4pXYBKVJ/zKJDFvukng6rbtP212qwLyafyXuVGQbRU8uf5Dcfv7lgWBOHFzzHMxEeceQ//olZ84vnTIJe+1tJVeIkWlS0GMaWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com; spf=pass smtp.mailfrom=toxicpanda.com; dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b=Kv7jKSfk; arc=none smtp.client-ip=74.125.230.231
+	 In-Reply-To:To:Cc; b=LXfFR21zQa7M96W4ZffDA+kILSrBOMt2cJyAvT8Cazk7Eii1cvm2WB9gwa6DL9F41Mpaq9LyTqUdJhHO4VZiudmbGzN2GK9kJX19fiVjqXtJ6yJQk72sJWG5PCTPUJ9HldowLBtaY5UOA0tmIlS4fhkaaRd2BPS7b/KPgpt35Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com; spf=pass smtp.mailfrom=toxicpanda.com; dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b=LpxGVmDU; arc=none smtp.client-ip=74.125.230.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b="Kv7jKSfk"
-Received: by mail-qk2-f39.google.com with SMTP id d75a77b69052e-5332f3092eeso15177481cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 09:05:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b="LpxGVmDU"
+Received: by mail-qk2-f40.google.com with SMTP id af79cd13be357-93c5ce9914dso209818785a.0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 09:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1790611516; x=1791216316; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1790611553; x=1791216353; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Wul9yIPNTdTMZM3NLxXfYZpaiEbCYhYod4k15fzruB0=;
-        b=Kv7jKSfkVkhaVWutBIvej4+nmiUTGFwlTwCUbsX4KLC/gF2iXiaCTnf79P8s7s6Amb
-         PV+BYxx1AURoYblgXIbSbWBf7jpatreZrAi0qB/1OPViFPNNzYHdIlKuQslE32mZ9Y+q
-         Jrfl1ojXTD6pCHN7i56kd6Yi7ap1JB44Ta8FoqBgi1znrcTJbY12TiWCvOyOKQH1jgtV
-         wsHtxabiwXHWWj5xMfiHktS0omH6kNP3w8bVKBP86TJj2Fcks3HJo9QbxKVfM3FFK1oZ
-         htIIzN+NEZ/DTtlipD7x1BDiTEQYOrRQxswO7M3JXEMbe8fUFQhBvQOcO4N4YMnscLIb
-         QEnQ==
+        bh=AH+20yho7PNOwKKESU7Oa/Xa5V1uo7WLmGSEZMxA9rs=;
+        b=LpxGVmDUaoS7jHhsuioaFVzD5oMWdhflzJ0kSpfoh9ugHuRShn6Z0t6DB+HrcKoAqL
+         mAiPRxhhQwuAU0coIiFTcQc0VFwTSjfzmuHxBEO+RlW/9xsMwmAsDFzPtewOS00ZhArE
+         YckAuiaJ3NID4V8WykE6HZ5AhEQCtQTi4OcDE7aa1iYwkgq9oXXWXv5+9bCgKQrbIbuV
+         maoNbed23h2AZngjZK1zpQaAgOeOesocf9IXmZVtAasBsTYG/cQtro50s7bDu74GFOXf
+         G3lIQ3Bj9T5HAnPTJSLBmnMndOlug8ydztIPp7rRkNXoAo4wxYwfykbKu5EKRHxA4Pc/
+         swvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790611516; x=1791216316;
+        d=1e100.net; s=20260707; t=1790611553; x=1791216353;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Wul9yIPNTdTMZM3NLxXfYZpaiEbCYhYod4k15fzruB0=;
-        b=VbOAdODTDZyFma+2xYQwN2S+vhfoUX0cEoZvI1mgNxiAQOqKUaEXi1U4gpBhO89PNV
-         soKfWHcgL4LuGTMbDHNEu04FFvVCGAWXV+ZBCuhFwRmwZNoXKisCSoIvLAG6h/UjCC0c
-         THt/DERajMQ3y9QtD/NXyrOdrOxXhGdF8g4edFZS92aUIvXz8bzkJRIybMjRt7XNtngI
-         BBP6SBFI4ET0kJ+hipox2Gq5SovGqU5iixrUWb6mAfNVX8C01WOK6A0VCD/B4zz1fy3f
-         tVE6922wHryOUkkkaK9lePuOiKQtI9iifIn2C8/4YagHu4H5vthizeGt7FkOH1Hq9HeY
-         4LOw==
-X-Forwarded-Encrypted: i=1; AKwUvBy5NkOB3nElivyb8GJzw5qtDd+EKQbUxHsTBAzGo4Mr6oYyPDMjMsXe6Bse4g1PV+wgYjceYHXyMdA=@vger.kernel.org
-X-Gm-Message-State: AFuF++ll2/CGuCvnxMfLPFDitqzsRFo4xmaGGgaJuwqKGIF3HYitnoIB
-	Aa+IA8DHqaTj4NF2pdjbE3WqbR9Y2wRr6cw/iFlAGf9MuygUEMeCGzf57jw7qi7erkE=
-X-Gm-Gg: AYBFou1q3aKgW6sxjiefGHMC8BAgoNZc+Y9aRb9wY5nxOxk0XGs+ub1cFjFPZ7EDyrH
-	V4T3L4uisyz8WCYZCU/gTmW7a7HAbGAWlmlcFXEIOhqGxrc9s6jjBgKmCHCfPY0T6TJZbSIr5U6
-	y+fatCHvoN6QSh3DV3fnd6AhKOlNXOT6BrF3cxtGf6M9TWa1zOSfJGpXjmemDeiCvCM0jAcFs/1
-	0yqJNJpo9Nbc6eTe6U53QuKDwyDJXv6KNCRIynTF5Mc0LRYVtLIX96obIQpHEXU2vHb7ap7YVLW
-	JkHrzvHQ2UCjRi+5xjJrRJ5DCuxQrPP44XNIeb3JPl1x0iDjiJycRmUzhNeVxB+w8ywkAYZbEtZ
-	8lcF82ZlbL9Hl1JysqnOiOtuqcqZAa3ahokboXKgBJcsQoLLL7SZ8U/D2urSE90GcPLEwa1eD0V
-	h48gda1rbdV7+LgmavMPtqCBR9rju02J1D+XQARNxj9l6QgQ8c4INwHSI4wgRg2CxB3Fz1NM0a4
-	jvhWgDu7NlQu4vq
-X-Received: by 2002:a05:622a:1450:b0:530:e6b9:f5d3 with SMTP id d75a77b69052e-5330b6c9b3bmr219442201cf.48.1790611515925;
-        Mon, 28 Sep 2026 09:05:15 -0700 (PDT)
+        bh=AH+20yho7PNOwKKESU7Oa/Xa5V1uo7WLmGSEZMxA9rs=;
+        b=yzIi0yL39UpecrWbunOvEwSNmj7Z/4woHqNjFB94bfsvNzpZh7at8T5RFQUIwZvNgn
+         sWoLLfExOEZrd+Nl152W5tZQBNsadffHNUUV14NHnzGmI60GQtJ1wbZwcS1o18S0s1h0
+         9YgYBCUG+it9kli5N7T5tboNeHbWKeZ7palQdrLF6MxPLSq/VBh+L6Mo3qzkcUhggAls
+         JQQOcV6zXK8Ya0XHjpjc9Jy7DC8h4q+AaLIQ/GJy9Ky6hsatOGWeJV3xBXPXF0Osp0l6
+         SDx1/910o3bhtkruMeB9wMZE8amTYXggZjUDPMvDgevErYQvFW1bguVKgYyx4l/exGrM
+         ByLw==
+X-Forwarded-Encrypted: i=1; AKwUvBycTfq/3ZaF8aQSSBkfrNV8ENbiTI3U3q6msN/+PKOTFvWZx33UxAsaFMI/NsUA18r6HBdZAGP+UWY=@vger.kernel.org
+X-Gm-Message-State: AFuF++m9bSGSw45tQHMcPv9IcdQL6+pTVcRymKhu6YvN/1nkL2H7+a24
+	w3OTsRAkeVoDKsiYPGEoPgYGIPEnyeugzvPu/6N0dihxpwLwO2g9cTfOtkfEEPgDDWlk8U1urGr
+	7hXKVWeM=
+X-Gm-Gg: AYBFou0vemJHujOtiqJcIlDMDY6FR7bAtuY21+osBqQdq+2QuA0P7Img+wFd0S6dHil
+	KIGtMI/r4+95Ec45Sbh231xm2WNnu0EXBdlDSu9Uqee83RGwRO8yAkt3k02OyE3OEZ3TF6ZPbsy
+	C6ork0flmIAIe8mKkE+GhgzYGsDuOiPfAN9w7YE25b1WxqtzVpmdJ7xmRXy/kbBqlNKUoJHDcdn
+	k2ddhEp/PhVIR2PGxxe6MVerbjgzystswc+LZURGkkIzoK4l0m9HAkvCTjx+SXoJNchTcQL5ZJB
+	/etIf1+mrbcEcBKCGAh2sbbntitcH/o4X0BDW84m5QHZd2ueJUPWVMyFY6tjwnw8pVmGu2Bvaq9
+	lIbiVchHX7uiLNpLfKQiz7/ebrGyfhjCttXE6difvd1YgYin6n6mRXFdyY3hkPKQAmVhRxyxw+r
+	Bf2rBN+IA3UWCMaAn0LidAe5j4ihGV1TyPpXlHxUINsc9TE4MwWsAQC51/AlHkmbCKp5F2J4nAl
+	maHi4H1gbQEJiA=
+X-Received: by 2002:a05:620a:254f:b0:939:f978:c1aa with SMTP id af79cd13be357-93c43b7e985mr2208125085a.11.1790611552856;
+        Mon, 28 Sep 2026 09:05:52 -0700 (PDT)
 Received: from toxicpanda.com ([153.61.196.244])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5332242ae75sm66505491cf.29.2026.09.28.09.05.14
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c81447bedsm181387885a.33.2026.09.28.09.05.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 09:05:14 -0700 (PDT)
+        Mon, 28 Sep 2026 09:05:51 -0700 (PDT)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Mon, 28 Sep 2026 16:00:41 +0000
-Subject: [PATCH 5/9] ublk: complete a command canceled before it was marked
- from its issuer
+Date: Mon, 28 Sep 2026 16:00:42 +0000
+Subject: [PATCH 6/9] ublk: split ublk_claim_cmd() out of ublk_cancel_cmd()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260928-b4-ublk-cancel-stop-v1-5-4a4360232a46@toxicpanda.com>
+Message-Id: <20260928-b4-ublk-cancel-stop-v1-6-4a4360232a46@toxicpanda.com>
 References: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
 In-Reply-To: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
 To: Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
@@ -80,136 +80,77 @@ To: Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>,
 Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1790611254; l=4736;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1790611254; l=2328;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=okUdNTs9dA4drHjisOFlb7BolHtlKtc1Z2Oya10d9gk=;
+ bh=OK9VYCvcNxGcMM+mG3wjRDISOd7f2u3Ql6cIqvbqGSc=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QAu0UigM1OH8sDBZOPQ6qCdR6x7tT9iOK82+3zbZFrUSbXXmPCmWYUDr7s3K6eA0ecIrTHOr8xe
- nqYYHdJ3KCAg=
+ QHe5xJmPDflD3SBKsXUtuxb5CzfenxeuXeV1C2g9gM5w7Y5k5AvUCs3x4cgxFO09Da+MOksxMQ7
+ +EGsxnugpJQ8=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-The issue paths store the command in io->cmd first and call
-ublk_prep_cancel() on their way out, which is where io_uring puts the
-command on its list of cancelable commands. The io_uring cancel callback
-only ever sees commands from that list. A cancel from the control path
-finds the command in io->cmd as soon as it is stored, and can complete it
-before it is marked:
+ublk_cancel_cmd() marks the io as canceled, takes the command off it and
+completes the command. The next patches have callers which do the first
+two steps under a mutex and must not complete the command there: the
+control paths complete with IO_URING_F_UNLOCKED, where
+io_uring_cmd_done() takes uring_lock, and ublk_fetch() takes ub->mutex
+and cancel_mutex inside of uring_lock.
 
-    issue path                      control path
-    ublk_fill_io_cmd()
-                                    ublk_cancel_cmd()
-                                      io_uring_cmd_done()
-                                        not cancelable, nothing to remove
-    ublk_prep_cancel()
-      io_uring_cmd_mark_cancelable()
-        adds the completed request to the list
+Move the marking into ublk_claim_cmd(), which returns the command for the
+caller to complete. ublk_cancel_cmd() is ublk_claim_cmd() followed by
+io_uring_cmd_done().
 
-Leaving such a command alone is no better. FETCH, COMMIT_AND_FETCH and
-NEED_GET_DATA queue it right after, no cancel may come after the one
-which skipped it, and a server waits for all its commands before it
-exits.
-
-Fix by taking the command off the io all the same in ublk_cancel_cmd(),
-but setting UBLK_IO_FLAG_CANCEL_DEFERRED instead of completing it, and
-by having the issue path look for that flag under io->lock once
-ublk_prep_cancel() has marked the command, and complete the command with
-UBLK_IO_RES_ABORT then. A cancel which takes io->lock after that sees
-the marking and completes the command itself.
-
-IORING_URING_CMD_CANCELABLE is not one of the flags the server passes in
-the SQE. It is a bit io_uring keeps for itself in the same word of its
-own copy of the command: io_uring_cmd_mark_cancelable() sets it and
-io_uring_cmd_done() clears it, both with uring_lock held. The control
-path does not hold uring_lock, so read the word with READ_ONCE().
+No functional change.
 
 Assisted-by: LLM
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- drivers/block/ublk_drv.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ drivers/block/ublk_drv.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
-index 1455ce27d3d1..2ff6506b8664 100644
+index 2ff6506b8664..99ac56d36dd0 100644
 --- a/drivers/block/ublk_drv.c
 +++ b/drivers/block/ublk_drv.c
-@@ -191,6 +191,14 @@ struct ublk_batch_io_data {
- /* atomic RW with ubq->cancel_lock */
- #define UBLK_IO_FLAG_CANCELED	0x80000000
- 
-+/*
-+ * Set next to UBLK_IO_FLAG_CANCELED by a cancel which took a command
-+ * before io_uring marked it cancelable, the issue path completes the
-+ * command then, see ublk_take_canceled_cmd().  Set and cleared under
-+ * io->lock.
-+ */
-+#define UBLK_IO_FLAG_CANCEL_DEFERRED	0x40000000
-+
- /*
-  * Initialize refcount to a large number to include any registered buffers.
-  * UBLK_IO_COMMIT_AND_FETCH_REQ will release these references minus those for
-@@ -2807,6 +2815,17 @@ static void ublk_cancel_cmd(struct ublk_queue *ubq, u16 tag,
- 		io->flags |= UBLK_IO_FLAG_CANCELED;
- 		cmd = io->cmd;
- 		io->cmd = NULL;
-+		/*
-+		 * The issue path stores the command before ublk_prep_cancel()
-+		 * marks it cancelable, and completing it in between would
-+		 * leave a completed request on io_uring's list of cancelable
-+		 * commands.  Leave the completion to the issue path then, it
-+		 * looks for this once the command is marked.
-+		 */
-+		if (!(READ_ONCE(cmd->flags) & IORING_URING_CMD_CANCELABLE)) {
-+			io->flags |= UBLK_IO_FLAG_CANCEL_DEFERRED;
-+			cmd = NULL;
-+		}
- 	}
- 	spin_unlock(&ubq->cancel_lock);
- unlock:
-@@ -3202,6 +3221,24 @@ static inline void ublk_prep_cancel(struct io_uring_cmd *cmd,
- 	io_uring_cmd_mark_cancelable(cmd, issue_flags);
+@@ -2778,8 +2778,11 @@ static void ublk_start_cancel(struct ublk_device *ub)
+ 	ublk_put_disk(disk);
  }
  
+-static void ublk_cancel_cmd(struct ublk_queue *ubq, u16 tag,
+-		unsigned int issue_flags)
 +/*
-+ * Called by the issue path after ublk_prep_cancel(): a cancel which found
-+ * the command before it was marked took it off the io and left completing
-+ * it here.  io->lock orders this against ublk_cancel_cmd(), which sees the
-+ * marking if it runs after this, and completes the command itself then.
++ * Mark a fetched command as canceled and take it off the io, the caller
++ * completes it
 + */
-+static bool ublk_take_canceled_cmd(struct ublk_io *io)
-+{
-+	bool canceled;
-+
-+	ublk_io_lock(io);
-+	canceled = io->flags & UBLK_IO_FLAG_CANCEL_DEFERRED;
-+	io->flags &= ~UBLK_IO_FLAG_CANCEL_DEFERRED;
-+	ublk_io_unlock(io);
-+
-+	return canceled;
++static struct io_uring_cmd *ublk_claim_cmd(struct ublk_queue *ubq, u16 tag)
+ {
+ 	struct ublk_io *io = &ubq->ios[tag];
+ 	struct ublk_device *ub = ubq->dev;
+@@ -2831,6 +2834,14 @@ static void ublk_cancel_cmd(struct ublk_queue *ubq, u16 tag,
+ unlock:
+ 	ublk_io_unlock(io);
+ 
++	return cmd;
 +}
 +
- static void ublk_io_release(void *priv)
- {
- 	struct request *rq = priv;
-@@ -3466,6 +3503,8 @@ static int ublk_ch_uring_cmd_local(struct io_uring_cmd *cmd,
- 			goto out;
- 
- 		ublk_prep_cancel(cmd, issue_flags, ubq, tag);
-+		if (ublk_take_canceled_cmd(io))
-+			io_uring_cmd_done(cmd, UBLK_IO_RES_ABORT, issue_flags);
- 		return -EIOCBQUEUED;
- 	}
- 
-@@ -3542,6 +3581,8 @@ static int ublk_ch_uring_cmd_local(struct io_uring_cmd *cmd,
- 		goto out;
- 	}
- 	ublk_prep_cancel(cmd, issue_flags, ubq, tag);
-+	if (ublk_take_canceled_cmd(io))
-+		io_uring_cmd_done(cmd, UBLK_IO_RES_ABORT, issue_flags);
- 	return -EIOCBQUEUED;
- 
-  out:
++static void ublk_cancel_cmd(struct ublk_queue *ubq, u16 tag,
++			    unsigned int issue_flags)
++{
++	struct io_uring_cmd *cmd = ublk_claim_cmd(ubq, tag);
++
+ 	if (cmd)
+ 		io_uring_cmd_done(cmd, UBLK_IO_RES_ABORT, issue_flags);
+ }
+@@ -3224,7 +3235,7 @@ static inline void ublk_prep_cancel(struct io_uring_cmd *cmd,
+ /*
+  * Called by the issue path after ublk_prep_cancel(): a cancel which found
+  * the command before it was marked took it off the io and left completing
+- * it here.  io->lock orders this against ublk_cancel_cmd(), which sees the
++ * it here.  io->lock orders this against ublk_claim_cmd(), which sees the
+  * marking if it runs after this, and completes the command itself then.
+  */
+ static bool ublk_take_canceled_cmd(struct ublk_io *io)
 
 -- 
 2.55.0
