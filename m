@@ -1,129 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f39.google.com (mail-oo2-f39.google.com [74.125.231.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285113546FE;
-	Mon, 28 Sep 2026 17:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790617810; cv=none; b=u324aXF56Pc4Lj0xk0suXS7kMne5VW7KZSdHC2/FQLoyBLuLQ+3uGQt9W9vft0VuqUblLj9SFBlq9ylkHP77Hxjr+0mZmDq4QXCTPRQmUxi+h06aWCJ3NdnnF2ECOTH+i+8JkNbM3gxXi/MNND1zd+572awL6bW6axKJPpbegZs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790617810; c=relaxed/simple;
-	bh=u/E59QhchBsakfNPPqr6eKRHZdqiWw1FvCI9GEDCeFw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fc/h7WXBiNx614J+45tghZv8S5GiPorXd9GsGPymd9yACZxK/j1mdZp1Ry9zxRd3ifd8EvnV0ViA8yusYieeZhyNXB4gx1x3cFvhjzVIKKWU6WBnev6q03JzoXENBbkr80Ms12XY4RNmbB7L+fXBNk5tpIc7mgLZjvUYAwK3kAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KjJm0noY; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7175454706C
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 17:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.167
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790618033; cv=pass; b=SJrGjCV7EVgZyrBQGhnV1WAUVWZ/wGjOmGTx+FQL7UZyLiyD8tpFb5M2VAYlSPtNQ/xl6WFOXKZLRXRTJmJ6+TfrLRaYDxzuT/hixDAIPhQXPpsgyKtT2Ko/J6lfeUjZf0juMu9zbOOid1tS+3Z4m3swHfwF3/edcjRRR69iQms=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790618033; c=relaxed/simple;
+	bh=2kNG+wBoo1LXnVxUU7YpNWdNJd2rymZ+d19jEj0AZXs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=opGF0YUoBhmvjrkiiEp0A7lK4mGLCsn9EDP9sMjw0hRYM+H3z5nGSdi2W55eXw9YDVIKqruW3kQpO0UIiZT3LxOdvfKJLrR7YHv1g4RxDHS+PYfsJW0fldp5muYyfsaskF1qa4YrgyojfkhrZO/15arMBAaqO1GnCFXamB7/4W4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=pass smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=FEsBMcKI; arc=pass smtp.client-ip=74.125.231.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KjJm0noY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F290B1F000FF;
-	Mon, 28 Sep 2026 17:49:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790617809;
-	bh=dJBj7jrhd8l/3+1i/MYD1Oe07SV8AbeGkY/QzpcIlXk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KjJm0noY+sn5WykpEMYX/0cqYF5OZAonPsiiMo8gsrJp3dbtWXzQ+MUuPiGJZJA0x
-	 6jLqI4XrjH/ECSiSdsjKSDEcOX8VHNjxTUmFetbOQTlOnUn092Xi9vWRpAgkcyI7cV
-	 VEdR4+s8FUt72QAhYPACB1DPHc7Kdjz2uCMGh47V7dCsVAU9tDI9stHRuVWg4VowUL
-	 wsubuRL7tSu1HVvPbp8bYrkCi5Pwl78yS8X19cLVqL1XZl7poDdf3RukkTBc6rpsfh
-	 AjjBKhJEyZefMZQzGawiz22PfrG9g5f1MlSZXvtXI+fxD2E2qzuSdugjHmvJG38tDb
-	 U9iSc28s9bD3A==
-Date: Mon, 28 Sep 2026 18:49:51 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Jan Sebastian =?utf-8?B?R8O2dHRl?= <linux@jaseg.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Alasdair Kergon <agk@redhat.com>, 
-	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
-	Benjamin Marzinski <bmarzins@redhat.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Mimi Zohar <zohar@linux.ibm.com>, 
-	David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	"Liam R. Howlett" <liam@infradead.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, kexec@lists.infradead.org, driver-core@lists.linux.dev, 
-	linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org, dm-devel@lists.linux.dev, 
-	linux-crypto@vger.kernel.org, linux-integrity@vger.kernel.org, keyrings@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: Re: [PATCH v3 00/12] CRASH_MEMACTION: describe pages to a kdump
- kernel (was: CRASH_WIPE_SECRETS)
-Message-ID: <arqli0H0v5qPG22z@gremlin>
-References: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
+	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="FEsBMcKI"
+Received: by mail-oo2-f39.google.com with SMTP id 46e09a7af769-81c01f53a3fso175912a34.0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 10:53:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790618029; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lCfIZMAZuRrKC9Gh/nO134xJdzAbK7CJHol3D7hlncbfPOMVoEQl1Y6lyxtXaXHgOP
+         NSo1RIYbVclg3IGaoMCgxs/UuIguDcy2T/aNVK68SKL/dMfp+aR4jQBWw/JnoZSunE0k
+         RCw5WzMIRioVgHz22LWBeI5pyjMwX0DSJut0YlUTaZqdHVOMSf6Obn7h50VdgbHQ3bFy
+         ZZvzQ7kBBgCS4NssCk9jNxKSiWcvJjykVaUd5KMENyIOqYlIjK+9ZpxbyUFAIcWJk8Sz
+         XSoOcPmnMt+zuPrM5loFn6nRVvtROx/GeF1hujNNccmHN34aLlfGu3JGe9VmOJT7khsf
+         tTnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pxorRVrnA629ZxhkkzbuPJrftY5VCgA7nPzvnQoi4i8=;
+        fh=+rC0JY9P8R4SjUxRwFl+Lgb3kruKtStW9A7GZkXkg4Q=;
+        b=I8xbU0XD9+OaZjhx8aZX9RaZbEdq3J+que6eQCiUnTQsVX72rYydijBsJj9X6qgGmI
+         tmx1KMUafVmYHKCdZ28xRlPn6wik8bvhWKWlYLmbMZ3jw1lQrGInsYYrnvhBOECyTKKU
+         v1vsnJw9wHjgxZuNEGsRUJfcAPBJO8w/ofi/SgtlY3cbxOqJeBbIdt8ZoowYfld2CL0K
+         rwfvJjDGvrCioLEDYcdmtvIy9ktKmtORvEPUf7ar1rwV2OblLPAcGPQdyHbNMNYYnA42
+         kgudwChhsaonhA9V2EKVeiaCVvJ0KT/Bq3C9+pm9oP4xJG/NN6hNxL6h+PpyIvI63mkT
+         O1Nw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=purestorage.com; s=google2022; t=1790618029; x=1791222829; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pxorRVrnA629ZxhkkzbuPJrftY5VCgA7nPzvnQoi4i8=;
+        b=FEsBMcKIGfj95sMSo6NPiSGSxjKIY5b2uRvmr2NI0GfUEhege9pHgCandUX1/CE4pQ
+         vSeyFstbxNFx3M0wcrOBxGLkDkyY4VjT+2XoVhZODsBtHSPO6yJ9SwO4Vhoz5SZkQgjf
+         pMLIbVZf3VjQCsSFzR3okAw2ct6ooi7/rPQ0UDDptK++0lcC8MrnUaGUBfeZBUze6r6/
+         SRybZgyNdeHEL/GlqKoO3tZtzgHqcN3gv5OwAWBGENEK5fOblbv+TwAoDI0/w4/ykW/d
+         eQ9+EgYzDyZloSMfX5AEIPk3Y3g4MmS/JKbic363fh1xfVCShfZJumyUr+fz0TT7/i0G
+         ZMqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790618029; x=1791222829;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pxorRVrnA629ZxhkkzbuPJrftY5VCgA7nPzvnQoi4i8=;
+        b=YGBZkhey+7YaK0U5LPWoILFwwmsB+OrvsWzS3N5ULonC6syM5AJParfy5ptTlgy2iP
+         6BiwvH+47tdJsCQl1eVWPPosjrPEILTELRQ9iQqiqvAgCR+s8tgnpTPH/uQLuZpGITQ4
+         c7V0+R2/8r61CpZGqqA3RO/SVn2aPLkfDYts3Ks8c6dMH5cpkGZYfiovCn6n96E8+FnH
+         19x4cdf/zDwl6/C6OxTZZkb9bZfgf8qOzTb0HeBfYWVCH1agFK+D6XgdnYx27xta3A4/
+         DTULmHWyTHgujAx6WXTtpj6nShLzsr0z2pq2QWy1xJ0+65YJL6o9loQDXizUCxETE/nu
+         IIWQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwifI2/oUMjV0K05RrV0lMS+TXehg8y5YJ8g1MxovGDzUE71bwlukO6LiTqEMKdLmrxDtI4TRBTWHI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL7tyedlcaBmErLtmXDTHvMfLCdGlWN6yzq8rm+c8lSceirR7va
+	30BME41ojZ8nxT8A4uO3LwCWY3QyXWnfNlILZHNfIr5wMcSlJsm3etE9ZzXpHER7xrhNUpe4d0w
+	tPI/sM4k0SgpuQ1qvzMLREMmcZrbNM8dPIo5gczYaZKup0GST8/0v4aaSMQ==
+X-Gm-Gg: AYBFou0nJVqnBp5dddDf5hbhrzzndzkpjv4AU6Rfv6reGo6Wa+JEcxuCAHqJccSQ4NE
+	CinbRF5fEffCmPbsp75OnwXTTVhyQ7dUpuMckzMrRgxlzPWNga6EGsZyY1NgEbQWxj9WVJhbhoA
+	uHdFh5ayQweW1x/eSGrI3C0rgOpqWPr2ntHnkNPaYmuwuYL7GM03I0fhWEDrc9nygy8iOsr7hhj
+	w00wGRC7+WYjnuW8ylqHr2cuvpsSgB17WeiyAFN1BQYDCXryktMblsbP14e78x8mzDO+uGT8din
+	GR6TYFOa7+XTNgDxCSUPZRtS7ns6P82IGNeUX8FgOg0BE685mrgFFh7XDTgTtu7hEUo=
+X-Received: by 2002:a05:6870:f10e:b0:447:4cf0:eb19 with SMTP id
+ 586e51a60fabf-4930bb82a4amr15095600fac.4.1790618029099; Mon, 28 Sep 2026
+ 10:53:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
+References: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com> <20260928-b4-ublk-cancel-stop-v1-3-4a4360232a46@toxicpanda.com>
+In-Reply-To: <20260928-b4-ublk-cancel-stop-v1-3-4a4360232a46@toxicpanda.com>
+From: Caleb Sander Mateos <csander@purestorage.com>
+Date: Mon, 28 Sep 2026 10:53:38 -0700
+X-Gm-Features: AclHuK9nxEm2zBDwrnuiv4JMUs_01csR-Wh_9mfwxHD7EKXDa_-x71ypJIIn4T0
+Message-ID: <CADUfDZqDZEM4=uw+By6RnxvLqXbc-iPf8RCUQtQB5_Z_Di84Aw@mail.gmail.com>
+Subject: Re: [PATCH 3/9] ublk: publish io->cmd under io->lock in the commit paths
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 28, 2026 at 07:17:48PM +0200, Jan Sebastian Götte wrote:
-> I'm using linux on an embedded target in a Hardware Security Module-like
-> application. One requirement is that I want the system to be able to
-> quickly erase its memory when it detects physical tampering. I'm
-> approaching that by using kdump to load into a small payload that
-> instead of dumping RAM, erases RAM frmo start to end. However, writing
-> all of RAM, especially on an embedded target, is rather slow. For this
-> reason, I propose a new crash_memaction mechanism that lets the old
-> kernel indicate marked memory areas to the kdump kernel at page
-> granularity.
+On Mon, Sep 28, 2026 at 9:03=E2=80=AFAM Josef Bacik <josef@toxicpanda.com> =
+wrote:
+>
+> io->cmd shares its storage with io->req. FETCH, COMMIT_AND_FETCH and
+> NEED_GET_DATA switch the io from one to the other in
+> ublk_fill_io_cmd() without a lock of their own. That was fine as long
+> as everything else looking at io->cmd ran under the uring_lock of the
+> same ring, which is the case for the io_uring cancel callback.
+>
+> ublk_cancel_cmd() is also called from the control path, from
+> ublk_cancel_dev() with IO_URING_F_UNLOCKED, and the next patches add
+> more such callers which run while the server still commits requests.
+> Nothing orders their reads of io->flags and io->cmd against
+> ublk_fill_io_cmd() then. A reader can find UBLK_IO_FLAG_ACTIVE set and
+> still pick up the request pointer from the union.
+>
+> The batch commit path calls ublk_fill_io_cmd() under io->lock already.
+> Do the same in the other three callers, so that io->lock covers every
+> switch of the union to a command. io->lock is per io and only taken by
+> the task which commits that io, so the fast path gains an uncontended
+> lock in a cacheline it writes anyway.
+>
+> ublk_batch_prep_io() calls __ublk_fetch() with io->lock held, which
+> makes the order io->lock, then ubq->cancel_lock.
+>
+> The readers move under io->lock in the next patch.
+>
+> Assisted-by: LLM
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> ---
+>  drivers/block/ublk_drv.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
+> index 50c99b28ef21..17a33539f271 100644
+> --- a/drivers/block/ublk_drv.c
+> +++ b/drivers/block/ublk_drv.c
+> @@ -3169,6 +3169,9 @@ ublk_fill_io_cmd(struct ublk_io *io, struct io_urin=
+g_cmd *cmd)
+>  {
+>         struct request *req =3D io->req;
+>
+> +       /* io->cmd shares its storage with io->req, switch them under io-=
+>lock */
+> +       lockdep_assert_held(&io->lock);
+> +
+>         io->cmd =3D cmd;
+>         io->flags |=3D UBLK_IO_FLAG_ACTIVE;
+>         /* now this cmd slot is owned by ublk driver */
+> @@ -3338,8 +3341,11 @@ static int ublk_fetch(struct io_uring_cmd *cmd, st=
+ruct ublk_device *ub,
+>          */
+>         mutex_lock(&ub->mutex);
+>         ret =3D ublk_validate_io_buf(ub, cmd, &auto_buf);
+> -       if (!ret)
+> +       if (!ret) {
+> +               ublk_io_lock(io);
+>                 ret =3D __ublk_fetch(cmd, ub, io, q_id);
+> +               ublk_io_unlock(io);
+> +       }
+>         if (!ret) {
+>                 ublk_apply_io_buf(ub, io, cmd, buf_addr, &auto_buf, NULL)=
+;
+>                 ublk_mark_io_ready(ub, q_id);
+> @@ -3496,7 +3502,9 @@ static int ublk_ch_uring_cmd_local(struct io_uring_=
+cmd *cmd,
+>                 if (ret)
+>                         goto out;
+>                 io->res =3D result;
+> +               ublk_io_lock(io);
+>                 req =3D ublk_fill_io_cmd(io, cmd);
+> +               ublk_io_unlock(io);
 
-Sorry this all seems really invasive for what seems to be a very specific
-use case.
+Taking a spinlock for every ublk I/O completion will be very
+expensive. Is it not possible all paths calling ublk_cancel_dev() to
+wait for all tags to go idle?
 
-In general, with big changes like this, you should send the series as an
-RFC.
+Best,
+Caleb
 
-Please send any future revisions of this as an RFC.
-
-The bar for a new VMA flag, a new madvise() flag, etc. is really quite
-high, and I've already noticed what looks like quite buggy code glancing
-through.
-
-And again, I really don't think your case sounds all that compelling for
-general users, given how invasive the changes are, so I strongly suggest
-you rethink your approach.
-
-In any case, as a newcomer to mm, we really ask that people start with
-smaller changes and build up gradually, a change like this really should
-only be done by somebody with an established reputation in the kernel.
-
-In general re: AI-generated code see
-https://docs.kernel.org/process/generated-content.html
-
-	If tools permit you to generate a contribution automatically, expect
-	additional scrutiny in proportion to how much of it was generated.
-
-	As with the output of any tooling, the result may be incorrect or
-	inappropriate. You are expected to understand and to be able to defend
-	everything you submit. If you are unable to do so, then do not submit the
-	resulting changes.
-
-	If you do so anyway, maintainers are entitled to reject your series without
-	detailed review.
-
-Thanks!
-
---
-Cheers, Lorenzo
+>                 ublk_apply_io_buf(ub, io, cmd, addr, &auto_buf, &buf_idx)=
+;
+>                 if (buf_idx !=3D UBLK_INVALID_BUF_IDX)
+>                         io_buffer_unregister(cmd, buf_idx, issue_flags);
+> @@ -3514,7 +3522,9 @@ static int ublk_ch_uring_cmd_local(struct io_uring_=
+cmd *cmd,
+>                  * uring_cmd active first and prepare for handling new re=
+queued
+>                  * request
+>                  */
+> +               ublk_io_lock(io);
+>                 req =3D ublk_fill_io_cmd(io, cmd);
+> +               ublk_io_unlock(io);
+>                 io->buf.addr =3D addr;
+>                 if (likely(ublk_get_data(ubq, io, req))) {
+>                         __ublk_prep_compl_io_cmd(io, req);
+>
+> --
+> 2.55.0
+>
