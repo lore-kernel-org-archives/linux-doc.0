@@ -1,56 +1,56 @@
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C9D3FB07A
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 17:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E631379991
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 17:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790617322; cv=none; b=AFnHpVfK9QG1QqxdDgHOyss2h4WJww8fysxnMUrYDrVOlN73p122SaX+0oYd1G76fg2fZheNmfizNIYvyzPgechLcepsMppcz4VbpSIdrq03V3+qJKXyIuzaHJj/sr1NT07QZCGIujOpR5xxHMkfYltYEY4hVIn+uODcVKwKCJU=
+	t=1790617324; cv=none; b=dUPfp/BJxubEpJ3I6Reb75oIYobrzKmJ73aaAQ0ZfdofnRfQVNPW6k0YcCLb7VfyBWh1wgs7rqctS6gbQVbMuyq+IaFHl8luginv6X4yVQUQMvscX+JCQsCaC3QGRojBQl+0hkuryjTgkswwP5OoWggRxDRqjKqRB1rJINQ7TFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790617322; c=relaxed/simple;
-	bh=ociixwuu60tID8XiJyfQ7GPM3G87cit0sEXbMZxlYyk=;
+	s=arc-20240116; t=1790617324; c=relaxed/simple;
+	bh=6mIvWhe/r7QU8+ZBormU4CZE5CRYcvmpUPaCx/ZKS+I=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=AKxQMi3ny1RgWcLvfY5psX2PP9cFf1UEdmxUtwibt6Duk72Zh9iOY5pBAdjBNeih27irlU2DZiucnFurQyYQlXor6NO0Kb9eReHpvJxhTMGviH/qlAosWHrjpGT6hjfmRAOABm4E8vNn28DtBEmwvCRlN2Kjsu7GBg4KKdlThvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LxFgw8+P; arc=none smtp.client-ip=209.85.221.70
+	 To:Cc:Content-Type; b=NB/bTT7exfN1uF7JB+u7sAbi9/AH4kShjDTGErCcEVavnrHIdafD2WKPGUKwfUZXVM1WPx4twUhp6SjTSsEqJI2Rnc39o3MBsRULnm0GEGdOPDfMKAvK0KWbY661gtcCqKV3CX9vkAuC62fdVPZBwpkokx9jx4Llu8f6rn+5OOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ry6i+YjE; arc=none smtp.client-ip=209.85.128.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LxFgw8+P"
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-4870142fd5cso1672730f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 10:41:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ry6i+YjE"
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-49cdc4080ddso2130845e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 10:42:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790617317; x=1791222117; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790617318; x=1791222118; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+/9CJBbG35x+y3Ddsn+TP4ZxkCLdkVf/5InNQKQpJMA=;
-        b=LxFgw8+PGVwCl/rtilp2YgTd+lm5bphuVLYTvSzDjbybKVBAtR2fhEieRGMaPnS9oA
-         LELLGGAbOO/ZDVLsbHPGHpSi8WVQnCVNBSbZX/PLAWSWmsdCHA1PShpCO8C4GMIZcb81
-         YI5q0Ua17GwIlFJ1Kir4nZxIuL71augnOZ6lDu/y4OOJaJZ96Aoj01B8h/TCNCWgl5Kc
-         4q+pMl4I64HGZKjkaZQhTkF8hle61VBtzAQ4XFO6tRkijwHKolgeZtVQm5WW3rwFZ6Jd
-         +cRJUiC6YvxrJYeXje1dkjROKmwKFx2aNJPtYCAsLjmd5nxaBGAIKddh6i2QcgFDqnMH
-         IcNA==
+        bh=wbjBREz9vOqId6KGSe2hfelOhYq7OUN6jgn8hmrgsOA=;
+        b=Ry6i+YjEdQbCZ/QFdD8xg6lqDlsLxbsxzvjFLvRY/F7VeU5ELTOQz8ZOrvRfhqE+jN
+         Jj2kLKoVjK7984i82fw8GmTZSSa3qqE91CDO6irVlee7ARWHCh8L8mSkq8NACohSzPTi
+         o3hF9IdZUYKcbDDtWctUeJnMVO2ctfGaDlri8iEAJnMfGMveMGsf4PL11LuO1c+gUPoy
+         lqQN67Q3SC/RQtqDxc0ardUYB1XOcv2587QNkEywuiKIWKg4Wzz6POQ0lV6E9gx+aSby
+         LdVNx+rCZwJRDcX/oj9r9gzLUrYZ5dqIYR1cGsK7eLfsUPyQi5SA61pqJ+79k3aKPkEz
+         e13A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790617317; x=1791222117;
+        d=1e100.net; s=20260707; t=1790617318; x=1791222118;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+/9CJBbG35x+y3Ddsn+TP4ZxkCLdkVf/5InNQKQpJMA=;
-        b=P4xOPCfbG/eGyfpUg2kXiyp9LSIm5P2qgVsJl9Jy/8Z0QZAagafBNDcJt7M1uAYUog
-         GYZZtcAqFgCQKppFZFqEj6l7wEynGtz4UIv4EkjMCIdvaDDnzz8AiqKSB93VSTMnTnq5
-         i157nmXLub2IEOG9jcFPt0yv+5J/oNU0sOLHdrwVKUeiXfEWRKRSOhqxI0QoqI3Uzyg/
-         tp6dH07eBp283HfeQrlC6/tmIePaFpvuvw7+NiHgDGmu8m46Wx0AMIAYqS429S73J3Pi
-         dQgoq5meWMYXil9UzI5juWnGiSJMMTE5OFfLS4ytPp53wfQW0zhHqQCS1tmvoaVN27d6
-         miHQ==
-X-Gm-Message-State: AFq9FYILdo9DMgJUn0C4Crj/C6j1cBdbFnr0qOhlpVLNpAn0mkBWDWOr
-	BVxjia51NUsHQzouSKVk+qco9nbEc4ZihKEA3q5jitHo1Xc6udtTth1C6GoyO0IFKbYGkWpnypZ
-	7lYytBI51tdn1VRqlDEz0NNZroEdnx9hbXs3/3tvCn2v/DXp+xSreXL9rJnwc547Vx2E4TB9vaP
-	1hEeMjeP1gkuVdpUYWZephq3G55S65f016HzdVtXQOM4YoYXkEyyU=
-X-Received: from wrck15.prod.google.com ([2002:a5d:524f:0:b0:489:bd7b:5942])
+        bh=wbjBREz9vOqId6KGSe2hfelOhYq7OUN6jgn8hmrgsOA=;
+        b=SIErG8S+KLqZe1REUv4WzuLrHtdKthXXgFGhzIJZmpIKr+MDym6LVyh0Cv0ygz3HS7
+         sCcmIE99nvGFheXIckT8wKPYS9Y6605okCFxTXKROCpmpSnOrzsRs5wjuNL3oZylVDkw
+         3mz9uNTJEW4CdoUuP1EHC17V3GIZii6M/K8DrRiZMiQ6cdfdVd2QpRSrJMoonYf2sj7Z
+         dFZo97Dwcpq6xOCuUAK/Trv49zTjA3sgISdVGRoFZJBWUeRmWdfm2YQe/RUa5atZoL73
+         WJdi4cY+9feeGZYrrXZZFgQjWxr8AEOX95/GY9OR/cIOlV9UY0JBCY6haMT02AZYFo36
+         XM1A==
+X-Gm-Message-State: AFuF++kL377ieQXP6wa+UluLErQ2E88U1b+ySUdvmUzv5KGXiyjyVl1M
+	q3WLH2AmW0F10tEAAgg7+YziSsAtOer/sXIOP69gsUWSSbUm+fhaci2qsla3++5+iB2MxC3AMRX
+	fuAvVNNKN1/JlwKWQfENGoJvcekPwCi7qtDz3gvb0yyDdDFug2wZUDGXwEuLq2eNhrZmJgVUjCx
+	25IfKHh5quMnpIycZgjUp7lwDTy7E/pWK/3kcQUdNSrqakApzOqe8=
+X-Received: from wmdv11.prod.google.com ([2002:a05:600c:12cb:b0:4a0:8ba:ba83])
  (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:2010:b0:488:7803:c1ef with SMTP id ffacd0b85a97d-4887db496acmr19692502f8f.48.1790617316679;
- Mon, 28 Sep 2026 10:41:56 -0700 (PDT)
-Date: Mon, 28 Sep 2026 17:41:15 +0000
+ 2002:a05:600c:470d:b0:4a0:34a:588c with SMTP id 5b1f17b1804b1-4a00d778efemr1664475e9.14.1790617317905;
+ Mon, 28 Sep 2026 10:41:57 -0700 (PDT)
+Date: Mon, 28 Sep 2026 17:41:16 +0000
 In-Reply-To: <20260928174122.3380703-1-smostafa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260928174122.3380703-1-smostafa@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20260928174122.3380703-9-smostafa@google.com>
-Subject: [RFC PATCH 08/15] mm: kmemleak: Don't assume the kernel stack size
+Message-ID: <20260928174122.3380703-10-smostafa@google.com>
+Subject: [RFC PATCH 09/15] arm64: Don't assume the kernel stack size
 From: Mostafa Saleh <smostafa@google.com>
 To: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, 
@@ -78,29 +78,56 @@ Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
 	Mostafa Saleh <smostafa@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-kmemleak_scan_task_stacks() assumes that the kernel stack size is
+stacktrace and panic functions assume that the kernel stack size is
 THREAD_SIZE.
+
 The allocated kernel stack size may not be THREAD_SIZE anymore, rely
 on the newly introduced helpers task_stack_{low, high}()
 
 Signed-off-by: Mostafa Saleh <smostafa@google.com>
 ---
- mm/kmemleak.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/include/asm/stacktrace.h | 4 ++--
+ arch/arm64/kernel/traps.c           | 5 +++--
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/mm/kmemleak.c b/mm/kmemleak.c
-index 8fa409a4f9fb..72e2c628a20b 100644
---- a/mm/kmemleak.c
-+++ b/mm/kmemleak.c
-@@ -1749,7 +1749,7 @@ static void kmemleak_scan_task_stacks(void)
- 			void *stack = try_get_task_stack(p);
+diff --git a/arch/arm64/include/asm/stacktrace.h b/arch/arm64/include/asm/stacktrace.h
+index eb18d7cee62f..cbc93cf213a7 100644
+--- a/arch/arm64/include/asm/stacktrace.h
++++ b/arch/arm64/include/asm/stacktrace.h
+@@ -41,8 +41,8 @@ static inline bool on_irq_stack(unsigned long sp, unsigned long size)
  
- 			if (stack) {
--				stop = scan_block(stack, stack + THREAD_SIZE, NULL);
-+				stop = scan_block(task_stack_low(p), task_stack_high(p), NULL);
- 				put_task_stack(p);
- 			}
- 			put_task_struct(p);
+ static inline struct stack_info stackinfo_get_task(const struct task_struct *tsk)
+ {
+-	unsigned long low = (unsigned long)task_stack_page(tsk);
+-	unsigned long high = low + THREAD_SIZE;
++	unsigned long low = (unsigned long)task_stack_low(tsk);
++	unsigned long high = (unsigned long)task_stack_high(tsk);
+ 
+ 	return (struct stack_info) {
+ 		.low = low,
+diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
+index ce0e213d772d..b91b154843ef 100644
+--- a/arch/arm64/kernel/traps.c
++++ b/arch/arm64/kernel/traps.c
+@@ -902,7 +902,8 @@ DEFINE_PER_CPU(unsigned long [KERNEL_EXC_STACK_SIZE/sizeof(long)],
+ 
+ void __noreturn panic_bad_stack(struct pt_regs *regs, unsigned long esr, unsigned long far)
+ {
+-	unsigned long tsk_stk = (unsigned long)current->stack;
++	unsigned long tsk_stk = (unsigned long)task_stack_low(current);
++	unsigned long tsk_stk_end = (unsigned long)task_stack_high(current);
+ 	unsigned long irq_stk = (unsigned long)this_cpu_read(irq_stack_ptr);
+ 	unsigned long exc_stk = (unsigned long)this_cpu_ptr(kernel_exception_stack);
+ 
+@@ -913,7 +914,7 @@ void __noreturn panic_bad_stack(struct pt_regs *regs, unsigned long esr, unsigne
+ 	pr_emerg("FAR: 0x%016lx\n", far);
+ 
+ 	pr_emerg("Task stack:      [0x%016lx..0x%016lx]\n",
+-		 tsk_stk, tsk_stk + THREAD_SIZE);
++		 tsk_stk, tsk_stk_end);
+ 	pr_emerg("IRQ stack:       [0x%016lx..0x%016lx]\n",
+ 		 irq_stk, irq_stk + IRQ_STACK_SIZE);
+ 	pr_emerg("Exception stack: [0x%016lx..0x%016lx]\n",
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
