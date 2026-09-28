@@ -1,292 +1,113 @@
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from e234-60.smtp-out.ap-northeast-1.amazonses.com (e234-60.smtp-out.ap-northeast-1.amazonses.com [23.251.234.60])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F7848CD60
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 09:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790588325; cv=pass; b=GEsZ6Ytl1j0cRvOrymLLcwY2FanBuS2EGtC7qBJdW884RWkrohHzOHw7OWj1kOHrp/We4AXWjc9Xs2/rn6jKMxE5Y6Lsz+5kQpjG//H3OL1oqPJvP7AXEn/OE4HsnS8DfAHQqm2+zZ3XnjzH5+MUaqPHLgiH+u89YVWec4dhpL8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790588325; c=relaxed/simple;
-	bh=gb6048TDzYlgycuIW+LHs5ZmNznTudpMWjLZxgLAZuo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dChNMMEeEguFE3I6Dyh+OYAIbzMM+wg/7Nbz4FzSYASVw1a6tmsYg+t1r9dJZ6B4LEBJ5hKFxs3EeurbPg47l1O0QQRcr/+Z9OB3mAoYSbnyYOZVOdT4naMvSrUfDIOQZmu1DAAxU5Q/AegualaHpYgyy9N3A3ghmpvGm4REWrU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g1gMmZZ0; arc=pass smtp.client-ip=74.125.228.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284E4497396;
+	Mon, 28 Sep 2026 10:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.251.234.60
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790590119; cv=none; b=cgpoLnn/wWa+5Iqr5KQMTJ/KD/tWv9ho8hqBw7TWRxuaac+WbHLZPliBGwy0Zd8N1gylxuuA3oBEl9dl5YlPEoLcgtpNo9hTMtshpRg80HA0cQoroAcj0JdWHqDNu3p3eVmC22TEAvBTnIC9ZP/lZLZ8+lhcwA8En2edRNIpE2A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790590119; c=relaxed/simple;
+	bh=yMSif6ynx6nwdCbZHY+fd5kWOasUfWU6Tx1mGHdyWwI=;
+	h=In-Reply-To:From:To:Cc:Subject:Message-ID:Date:MIME-Version:
+	 Content-Type; b=LQV6jwp92k4+cuW8Xm9VMI3G2sHadjIVWFdUrAs/DeSUww3rVTj4EQv+kjKMx3EwSKvkPaLK4QsDlIvym7a4gbxUvZb+ipttVffsYtV5fj0noy0OPahA/10uXYyoLcUy6OAPtUm17/qedDrWrFNhH0O6xB8qOeshRNGdm7Xsli4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fqwqf.xyz; spf=pass smtp.mailfrom=send.fqwqf.xyz; dkim=pass (1024-bit key) header.d=fqwqf.xyz header.i=@fqwqf.xyz header.b=I8IgdS8+; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=HQ6p/NJR; arc=none smtp.client-ip=23.251.234.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fqwqf.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=send.fqwqf.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g1gMmZZ0"
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a6063d7dc4so3292277a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 02:38:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790588322; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Q+1BYzFkIi81Bldp+uurYA6KKi7QN6YIDCbKONymPitEAmpUpCJHNNkfLU582j37VK
-         BoNBTXWJEz0MYcFhfgfo5rjXhVl6ijA1gpkBR8v/PDFKGA3mcDgwGbPFOdxdfStKDJdP
-         bdxgBSPVaMBdHaZ+ZREuC2jjccVY1XkdfS/+D9wdkTKxzRB5PKZaju0cKBVhhTLVXq2F
-         CGtlXHFx/bHGGO0P+y4QQl6Dkg9GxsafHt/zlBcfXzLwmsixZnG6T4ElyqC6sMuU5hrF
-         EaHhifRaHlQ+rjP7Prq3gfCS4lwEfeKAn2DI/n+OsJ+Sda+swjk7XDEolnzFd0sRMmwd
-         Megg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hKDPUtqRH0gCyeriwhHpNabxiyuB4wCzvkW0lk6SNbg=;
-        fh=Z6b0shD3+yZLZ12rRkhqEYplVUTABKpps35puaAZZQw=;
-        b=pIz0CEpLaqBAqFS6+4b2aGVQaFcBDkQ/A/ISVl5iqc2O01QmYXxhYDbZOCuNgD5kPb
-         AONGLupnf7WVaDknFuB3jJIdo6JS5AM+J2HL1xSvkgrS4mCdDUi0+DiGMJniOySFv+Xf
-         trhfSr+pD9KTX/eestGDQkyegsNq3Kw3Z2aauaxTLime/7DGTiS9me2vKe4PC/XZ3t+Q
-         y5QH9QOOT186yYolc5pQY3ALieirSudrdFpQdQKFFUS60gYJxEwfi3seBd47LiKXmiEF
-         LNqtrzcuVU0578r4egctxKixnRoasunQ3CwnHEoQZaXst3V3v2fujTHUIvRxy6vwZJZh
-         GKDQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790588322; x=1791193122; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hKDPUtqRH0gCyeriwhHpNabxiyuB4wCzvkW0lk6SNbg=;
-        b=g1gMmZZ0CSMxiEmpNtJwcyO8y7TxMBgQk5+V3AL5gGDdT720hAXgp69f15UyC2KSUg
-         D4L0Uk8xiptJ1xjpi80ksAOamOCsQqpqpB5yaRsbHmr4baznpRIGVD0S0M62rZn1rgv1
-         IZQqY+hg7CULmw99YA8ODSORJnRPhoUI8Cq6AjYpbUKPNjJrBbs6Ex+8L1+8QAmHluHI
-         uFI7EHD20AE/lQlTzfqeKVoUjFqmxvxsXeODOEURcVq1TCpA7kxf0ZM5jxdKEPadNSDe
-         hWf5jeayxlRLeabZljZmElcdVrw+jYy8q1QJuJ/TXnFLS51797y4H5p6KNZWYf7hZFkI
-         w3Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790588322; x=1791193122;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hKDPUtqRH0gCyeriwhHpNabxiyuB4wCzvkW0lk6SNbg=;
-        b=E02OHyk0zbpnhk5CZaMgHMQMX29kIdkkBO9WRkvdsBfMllMaMMp9VQlBXPfFOVY+S+
-         CrjST1z0Bx7p3gA1/222gBF/6E36LLlFYQiDhnhiAXDhTazhib/E7Xxc/rvb2pNuYNPF
-         OiFQnBp+p5Ag3quw9HCuud7lmrCY8cthVXzO0KHuznVsSDn9gOlqeeZqiBE2Lkhq5jDG
-         MhcH5ckXdcpYdBMo4i/KeF0600+Q13yijc0f0ljuTNViujBDV783cDkkSUfozmYDR7a9
-         33TW+o4YCQkhiU5vwu0e31PnctfLCo2DI8BCXs9kTyxrWgsSM/LBo+bJj2T715OHaMsB
-         3yFA==
-X-Forwarded-Encrypted: i=1; AKwUvBzvIGgMk/wQ9IEF9QtNTF1f4zk3GVzKW1HuqtQyd3Wgre7AwiTmLw2sMKUOvcuu80ng9gpsHQamKYk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLY3maTK+I96g02FnQhC73M3pMASxfr7rs1hN91EjosRbrzzkW/
-	JXPvXmYTq9kBLB955ljsF84XRQX+KZzEG5uyaHstWD6fOy6erJC/d3jpKouq2oiim9pkYU5In7P
-	RQuJqF9eA/XNcd3QcBdyTbk5QTAjXYMY=
-X-Gm-Gg: AYBFou09w2Xy3c5eq6pTLzyVtTBp5MjqYN+8MblHgAT8fJdh6ApG6+NlbcnhKnrXjwi
-	n44zPjK2dXhGsIAVeZKzbZZ7q1yG7v2Q826VnEiGCQ7tsbIcNtr9TFRdo+7b2wm+eyPkUuCvTSm
-	JedC/GIoUy4Ux3b4FCN2dinDPmz/oyHkE8xgTsaEMlh5lAW4/c6XM051oAJaNCu8tvyVFsMvVO7
-	rYB9BvUnGONqKv26ECgkYjYLVJvnryGsaw1aEIq8H9IJ9CxyAliqsC00Y9f0knxEg/wSkhhkCxG
-	Ep2xuiTiga/ctFDn1m5+EYFksaV34/T6/U1AhlzBXDCOsomyRT02AWj8
-X-Received: by 2002:a05:6402:2112:b0:6ac:73f8:2e5a with SMTP id
- 4fb4d7f45d1cf-6ac73f831f7mr2844331a12.41.1790588321442; Mon, 28 Sep 2026
- 02:38:41 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=fqwqf.xyz header.i=@fqwqf.xyz header.b="I8IgdS8+";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="HQ6p/NJR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
+	d=fqwqf.xyz; t=1790590116;
+	h=In-Reply-To:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
+	bh=yMSif6ynx6nwdCbZHY+fd5kWOasUfWU6Tx1mGHdyWwI=;
+	b=I8IgdS8+wA2fQ+k0Oy2LH+foCXQKmKHNbJkqBMOblk727ycomb2VIXFVuH4Rn4V+
+	4qHdDFvR1ENxEbyEIcnoASM86dKxoBVBPIbYDty5sW7Ak62XkIsbQnKJjE4t0GEO6RD
+	EnxHGoQhXDqIatm6eAobiqz7BJpp6eXNtNTIt+h4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=zh4gjftm6etwoq6afzugpky45synznly; d=amazonses.com; t=1790590116;
+	h=In-Reply-To:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
+	bh=yMSif6ynx6nwdCbZHY+fd5kWOasUfWU6Tx1mGHdyWwI=;
+	b=HQ6p/NJR4eW+L5zLl6mf+qsbfcDrQicaTYDNmW39mddiGyWgXrkvkkbV0QEvvn1s
+	tdu2Q7XChE7FG7TA5+GfRWf0rB1qUN+aNz6Vyjogg4Fmuh27OMf+KYUlr8/eRTFC8pm
+	H1nBYIaKgvkzSJd7A7RVDnL9FcFigmAEQ/QfoEBo=
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+In-Reply-To:
+ <CAEe3GZE9pVyV=PRxo_1V39dXCEHz_wx1fa5P3U=686b0fweOng@mail.gmail.com>
+From: fQwQf <fqwqf@fqwqf.xyz>
+To: jingyliang@chromium.org, daleyo@gmail.com
+Cc: jikos@kernel.org, bentiss@kernel.org, corbet@lwn.net, broonie@kernel.org, 
+	rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, dmitry.torokhov@gmail.com, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	hbarnor@chromium.org, tfiga@chromium.org
+Subject: Re: [PATCH v4 00/11] Add spi-hid transport driver
+Message-ID: <010601a0e77ce26e-204b61a2-f41e-4d77-b585-228c5da788dc-000000@ap-northeast-1.amazonses.com>
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 28 Sep 2026 10:08:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260927141437.1432584-1-russ@har.mn> <20260928014357.2285448-1-russ@har.mn>
-In-Reply-To: <20260928014357.2285448-1-russ@har.mn>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 28 Sep 2026 11:38:30 +0200
-X-Gm-Features: AclHuK_FhmfwqFXI5b-5yRrCn8vRB0dEKaDQXuuiyccQhL2aHv2Nq8mRUxiiswc
-Message-ID: <CAOQ4uxiD9ofGEG+CkjszGaHygPWH7S4nob03XRNXUCrze5n91w@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: add inode generation number support
-To: Russell Harmon <russ@har.mn>
-Cc: miklos@szeredi.hu, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, fuse-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Bernd Schubert <bernd@bsbernd.com>, 
-	Luis Henriques <luis@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Feedback-ID: :1.ap-northeast-1.6BGMgStFQE7EJYq5syaCRzdneEHVt/+DAaGDrqUmDs9QLO4/SllUBZ3fHvnZ8rcAX/3IjUyTRgi5JFZsWrikFHwlPJqCkqEMlxDFM4JXh+ycxH/J5Tudg5bGdz6h4331g1L1EFsGR8kuYNfGLsrxz4Nym4YXoPcZxeVkrHry4Zx21n8vEVLEjc7s+OCM8PU9:1.ap-northeast-1.DTXDV/V9GPBWozcllKo8innbNB2qs2O/3F8XZSzd9ZM=:AmazonSES
+X-SES-Outgoing: 2026.09.28-23.251.234.60
 
-On Mon, Sep 28, 2026 at 3:44=E2=80=AFAM Russell Harmon <russ@har.mn> wrote:
->
-> This patch adds support for propagating the inode generation number from
-> the FUSE server to the kernel.
+Hi Jingyuan, Dale,
 
-Incomplete statement.
-Without the mention of GETATTR/SETATTR this is a misleading statement.
+Thank you both. Since my earlier message, I have moved =
+the SL7 integration onto Jingyuan's v4 series, replacing the standalone =
+downstream HID driver. Normal touchpad operation is working with the local =
+GENI QSPI stack and existing iptsd setup. This is testing of v4 plus my =
+local changes rather than unmodified v4.
 
-> This is useful for exporting FUSE
-> filesystems over NFS, where the generation number is used to detect
-> stale file handles (ESTALE) when inodes are recycled.
+The QSPI transport uses spi-mem =
+operations, with 1-4-4 transfers and eight dummy clocks for the SL7 read =
+path. I also have changes around DMA buffer alignment, report bounds and =
+request handling. I plan to separate the generic fixes from the QSPI =
+transport changes and keep the GENI/GPI controller work in a separate =
+series, retaining the downstream provenance. I can rebase against v5 and =
+drop anything it already addresses.
 
-How exactly does it help?
-I am not trying to troll you, I am really curious. how?
+I also encountered a resume issue in =
+this SL7 integration: the HID reset-resume callback could run before the =
+asynchronous reset/descriptor exchange completed. Delaying that callback =
+addressed the ordering problem. The touchpad also lost its =
+userspace-selected heatmap mode after reset; restarting iptsd restored =
+multi-finger input. My current SL7 workaround recreates the HID device =
+after reset so userspace reconnects and initializes it again. Resume with =
+this workaround has been tested successfully here, but I would like to =
+discuss a cleaner recovery policy before proposing that part upstream.
 
-Context: I have been trying to improve FUSE NFS export support for a while
-I have built a library that provides reliable NFS export for FUSE passthrou=
-gh fs
-for specific backing file system types [1].
+Jingyuan, do you have a preferred transport interface for adding spi-mem =
+support to the generic driver? I can prepare a focused diff for discussion =
+alongside your v5 work.
 
-[1] https://github.com/amir73il/libfuse/tree/libfuse_passthrough/passthroug=
-h
+Dale, thanks for the nix1e link. I have reviewed =
+the patches and module build definitions at b274dd7. The build definitions =
+apply v4 plus fullduplex.patch to SPI-HID and include separately built =
+GENI/GPI modules with the downstream QSPI patches. The HID read path =
+combines the command and receive buffers in one SPI transfer; my local =
+implementation instead expresses the command, address, dummy clocks and =
+data through spi-mem.
 
-It is broadly understood that real NFS export support requires extending th=
-e
-FUSE protocol to identify objects using file handles and Luis has
-already started
-with this work [2]
+The DT configuration in that revision targets =
+Romulus13/15, so I assume the additional Denali DT changes you mentioned =
+are local to your setup; please correct me if I have missed a published =
+branch. If those changes are available, a link or diff would help us =
+compare the wiring. I also noticed that nix1e's README reports a suspend =
+fix. On your SP11 setup, do touch and pen both remain fully functional =
+after resume without restarting iptsd (if you use it)? That would be useful=
+ context for the SL7 recovery issue above.
 
-[2] https://lore.kernel.org/linux-fsdevel/20260225112439.27276-1-luis@igali=
-a.com/
+Please keep me CCed, as I am =
+not subscribed to the lists.
 
-So my question is, what does adding generation id to GETATTR/SETATTR
-improve for FUSE filesystem writers that wish to export their filesystem to=
- NFS?
-
->
-> Key changes:
-> - Bump FUSE protocol version to 7.47.
-> - Repurpose the unused `dummy` field in `struct fuse_attr_out` as
->   `generation`.
-> - Add a `FUSE_ATTR_GENERATION` INIT flag with which the filesystem opts
->   into the kernel consuming that field. Gating on the protocol minor
->   version alone would break existing filesystems: the minor version only
->   reflects the library, not whether the individual filesystem fills the
->   field, and a zero there would look like a generation change for any
->   filesystem that reports nonzero generations in LOOKUP.
-> - Update `fuse_change_attributes` and related functions to accept and set
->   `inode->i_generation`.
-> - Populate `i_generation` from `LOOKUP`, `GETATTR`, and `READDIRPLUS`
->   responses.
-> - Detect nodeid recycling on `GETATTR` and `SETATTR` responses via
->   `fuse_stale_inode()`, the same check already used by the `LOOKUP` and
->   `READDIRPLUS` paths, and mark the inode bad (EIO) instead of merging
->   the recycled file's attributes into the existing, possibly still-open,
->   inode.
-> - Update `fuse_get_dentry` to validate the generation number against the
->   file handle, returning ESTALE on mismatch.
-> - Maintain backward compatibility: without `FUSE_ATTR_GENERATION` the
->   generation field in attr replies is ignored.
->
-> Verification:
-> Tested with a QEMU harness in fuse-generation-qemu against a patched
-> libfuse (FUSE_CAP_ATTR_GENERATION, fuse_reply_attr_with_generation) and
-> its passthrough_ll example reporting real backing-filesystem generation
-> numbers. The suite verifies that:
-> 1.  The generation from `LOOKUP` reaches `name_to_handle_at()` file
->     handles and matches the backing filesystem's FS_IOC_GETVERSION.
-> 2.  `open_by_handle_at()` succeeds for a valid handle and fails with
->     ESTALE for a handle whose generation does not match, both while the
->     inode is cached and after cache eviction.
-
-1 and 2 should work on upstream FUSE right?
-This is something worth mentioning.
-
-> 3.  When a `GETATTR` reply reports a new generation for a cached inode
->     (inode recycling), the kernel marks the inode bad: fstat() on an
->     open fd fails with EIO, while a fresh path lookup recovers and
->     pre-recycling file handles fail with ESTALE.
-
-How did the inode recycle happen with passtrhough_ll which keeps
-open fds for fuse inodes?
-Something is missing from this test report.
-If you just used a mock filesystem which makes no sense in the real world
-then the value of this change is questionable.
-
->
-> Signed-off-by: Russell Harmon <russ@har.mn>
-> Assisted-by: Gemini:gemini-3.1
-> ---
-> v2:
-> - Bump FUSE_KERNEL_MINOR_VERSION to 47 to match the new 7.47 changelog
->   entry (v1 added the entry but left the minor at 46).
->
-> v1: https://lore.kernel.org/all/20260927141437.1432584-1-russ@har.mn/
->
->  Documentation/filesystems/fuse/fuse.rst | 32 +++++++++++++++++++++++++
->  fs/fuse/dir.c                           | 21 +++++++++++-----
->  fs/fuse/fuse_i.h                        | 10 ++++++--
->  fs/fuse/inode.c                         | 23 ++++++++++++------
->  fs/fuse/readdir.c                       |  2 +-
->  include/uapi/linux/fuse.h               | 11 +++++++--
->  6 files changed, 81 insertions(+), 18 deletions(-)
->
-> diff --git a/Documentation/filesystems/fuse/fuse.rst b/Documentation/file=
-systems/fuse/fuse.rst
-> index 0fbd5a03fdc9..f67bc9fc6316 100644
-> --- a/Documentation/filesystems/fuse/fuse.rst
-> +++ b/Documentation/filesystems/fuse/fuse.rst
-> @@ -49,6 +49,38 @@ using the sftp protocol.
->  The userspace library and utilities are available from the
->  `FUSE homepage: <https://github.com/libfuse/>`_
->
-> +NFS export support
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +FUSE filesystems can be exported via NFS if the filesystem daemon suppor=
-ts it.
-> +For reliable NFS export, the filesystem should provide a unique inode
-> +generation number for each inode. This generation number is used by the
-> +NFS server to distinguish between different file instances that may
-> +share the same inode number (e.g. after an inode number is reused).
-> +
-> +The inode generation number is provided by the filesystem daemon in the
-> +following messages:
-> +
-> +- `FUSE_LOOKUP`
-> +- `FUSE_GETATTR` (see below)
-> +- `FUSE_SETATTR` (see below)
-> +- `FUSE_READDIRPLUS`
-> +- `FUSE_CREATE` / `FUSE_TMPFILE` / `FUSE_MKNOD` / `FUSE_MKDIR` / `FUSE_S=
-YMLINK` / `FUSE_LINK`
-> +
-> +A daemon that keeps the generation number in its `FUSE_GETATTR` and
-> +`FUSE_SETATTR` replies (the `generation` field of `fuse_attr_out`,
-> +protocol 7.46) must announce this by setting `FUSE_ATTR_GENERATION` in
-> +its `FUSE_INIT` reply flags. When the flag is negotiated, the kernel
-> +compares the generation in every getattr/setattr reply against the
-> +cached inode: a mismatch means the daemon has reused the node ID for a
-> +different file, and the cached inode is marked bad (subsequent
-> +operations on it fail with EIO). Without the flag, the field is ignored
-> +and the generation is only taken from lookup-type replies, preserving
-> +the behavior of existing filesystems.
-> +
-> +If the filesystem daemon does not provide a generation number, the kerne=
-l
-> +will use a default value of 0.
-> +
-
-On the one hand, I still need to understand the value of reporting generati=
-on
-in GETATTR/SETATTR.
-
-On the other hand, I do see the value in the server negotiating at init tim=
-e the
-fact that "Generation values are reliable".
-
-What happens today is that NFS exporting is allowed for all FUSE filesystem=
-s
-regardless of the reliability of generation id, so after inode evict
-and recycle,
-an NFSv3 client  that had access to inode X.Y may get access to a completel=
-y
-different file or even a directory with inode X.Y, where X is the recycle n=
-odeid
-and Y is an unreliable generation provided by the server.
-
-The problem is that FUSE does not require opt-in for NFS export, it only
-allows servers to opt-out of NFS export (FUSE_NO_EXPORT_SUPPORT).
-
-So what can be done given a declaration of the server that generation
-is reliable?
-
-One option is to set a non-zero uuid/fsid to the fuse filesystem.
-This will allow exporting the fuse filesystem without the opt-in uuid/fsid=
-=3D
-in /etc/exports.
-This will also allow setting fanotify FAN_MARK_FILESYSTEM watches
-on this fuse filesystem, whose file handles could be trusted to be a genuin=
-e
-unique identity of the filesystem objects.
-
-But if we take this route, it is better to take it one step further
-and allow the
-server to determine the filesystem uuid/fsid during negotiation.
-
-In any case, I am not convinced there is value in doing all this
-without extending
-the protocol with LOOKUP_HANDLE/LOOKUPX lookup by file handle, so if you
-have compelling use cases, please spell them out.
-
-Thanks,
-Amir.
+Best regards,
+Jizhou Tong
