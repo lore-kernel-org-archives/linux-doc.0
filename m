@@ -1,136 +1,103 @@
-Received: from zg8tndyumtaxlji0oc4xnzya.icoremail.net (zg8tndyumtaxlji0oc4xnzya.icoremail.net [46.101.248.176])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1087B485501;
-	Mon, 28 Sep 2026 09:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.101.248.176
+Received: from mta1.migadu.com (out-206.mta1.migadu.com [95.215.58.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC5448C3E8
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 09:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790586115; cv=none; b=GiF5DuEk+ZuGijBaKiaMgpEGTucfcEdKXC0l9h3ccTstY29QitWpinSMSr0wuXHEHfYR8UCQfQ9dRn4CB+XRh2XnstQxT9AhDz6npboTxsaMMOo8xA2ppc194BbHLCdDY++g3FYFA3aCvdEVVo8fuLgBkA6Hv1ma2k8CcKx7Hv4=
+	t=1790587104; cv=none; b=G+k/Ww9VM0+iW9iK5mNIYZJTugjSUMPlrPFOI4vjJTqAx1V3g3iO3p5lK6W5C8WGQYPr7FHjq4BcSbMkpbLVPsgue+DfUqs/lY2Ka/Vb/Yq7Rmc3xIRqsSFUNH933S5ferY2gEHcraPN42wKv94CiT1TirJsp3zzXC6EhArd0Mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790586115; c=relaxed/simple;
-	bh=Q2dUjmWUllHeALB2Hqv98IUS9jgKssXe8msAxnVRy2U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s2YbvUmLetqit/atYfM5TopPFhm3r1HhVM9Dr7hs1rLLcvNe6mh287jB4Gxee1ebDqZDwexwEP2mR5SGHZp/1RQdJRTLW4KHfbwP+tP1cyPNpcm571KFSzIN3zaxTSSktRoFr8lq0HVJsirJ/FQ3rFXS6rkmg3XpSVbzYgwH3n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=46.101.248.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with UTF8SMTP id IQEQrMA2Xnf0LLpq7FIeAA--.41612S2;
-	Mon, 28 Sep 2026 17:01:40 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wDn39byLLpq7h4RAA--.867S2;
-	Mon, 28 Sep 2026 17:01:38 +0800 (CST)
-Message-ID: <7047abdc-1c40-4792-85ec-57db62fbe32b@hust.edu.cn>
-Date: Mon, 28 Sep 2026 17:01:37 +0800
+	s=arc-20240116; t=1790587104; c=relaxed/simple;
+	bh=K099Rw5M4UKS31OhBymJo8V1Y7FIJNV2jyM3H5L2DaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bMraTfusAOP3Zdyn5/JM7eqgnoiHGvaZRsb7WyjQL2ZZLzXHiHKUWjccYl72do/TZiDA2b54GncOKSVYyJe1NY4EnAsijd5U+88K2fiQtbhiktCJ+nnQoEUgAANiuE/TQ+z491rRuHK7No1Q4RiYUJcUCIDZMeThDeeKrxA64N0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=krbkZVRX; arc=none smtp.client-ip=95.215.58.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="krbkZVRX"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=K099Rw5M4UKS31OhBymJo8V1Y7FIJNV2jyM3H5L2DaQ=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790587099; v=1; x=1791191899;
+ b=krbkZVRXRqnA6d4xv2cxXvFNQV2icYxYCx/I0Bu2p/EqtjllE/olv0uoHlm64L5I2zUGrUds
+ jEBpzazB9pfNbLnjfQphB0i0zLEPFzjZxUiHUA8zTgYwn+GREH/Tvkcd3Ak6KfCguDqGfKOQ3OR
+ LlgBPhyte5cQI3kH6PJHS7XMTQKvtuQcqEqohCfU4mvbbt6jkCGb9iQl2P+bHhr1dRbTjsMcsEJ
+ Lx6qFz96wTwNqACP4REhiUm2+0Z3ImQAZX3FJyXh3lSn+OgKpiFCXmolyTCPY+gAmtmopYP6qg4
+ fS5pAPVYl8X02Oe3dRNO1IDUb9Imvy4HItt1ITazxSTYw==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id f274185ece85bc57;
+	Mon, 28 Sep 2026 09:18:19 +0000
+X-Mizu-Trace-ID: f274185ece85bc57
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 28 Sep 2026 17:18:16 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Jiaming Ouyang <jiamingouyang13@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	alexs@kernel.org, corbet@lwn.net, Dongliang Mu <dzm91@hust.edu.cn>,
+	si.yanteng@linux.dev, skhan@linuxfoundation.org,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	rdunlap@infradead.org, baikefan@leap-io-kernel.com
+Subject: Re: [PATCH v2] docs/zh_CN: add Chinese translation for usb/ohci.rst
+Message-ID: <arow2FPuxMHjFNgb@wyuan.org>
+References: <CAMnqnYwKwb5oTFOXNJyTJk2JEL6bnq+7yENm8v8RnovBYsFVGA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs/zh_CN: add Chinese translation for usb/ohci.rst
-To: Jiaming Ouyang <jiamingouyang13@gmail.com>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, alexs@kernel.org, corbet@lwn.net,
- si.yanteng@linux.dev, skhan@linuxfoundation.org,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- rdunlap@infradead.org, baikefan@leap-io-kernel.com
-References: <CAMnqnYwKwb5oTFOXNJyTJk2JEL6bnq+7yENm8v8RnovBYsFVGA@mail.gmail.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <CAMnqnYwKwb5oTFOXNJyTJk2JEL6bnq+7yENm8v8RnovBYsFVGA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IQEQrMA2Xnf0LLpq7FIeAA--.41612S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxZr1kWFy3Xr1kWF18Xw1rtFb_yoW5Cw1UpF
-	Z7KFyfGF4rAr10yFn7Cr1UtF18AF1xKa17J3srJ3Z5JrZ7Ja4IvrnrtFWagrWxWry8Cay0
-	vFn8KFyfCa42y3DanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQKb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCY02
-	Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr
-	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
-	rwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJw
-	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2
-	z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0P73PUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
+On 2026-09-28 10:52:04 +0200, Jiaming Ouyang <jiamingouyang13@gmail.com> wrote:
 
-On 9/28/26 4:52 PM, Jiaming Ouyang wrote:
 > [PATCH v2] docs/zh_CN: add Chinese translation for usb/ohci.rst
->
+
+We do not need this [PATCH] line in the email body, because the
+"Subject:" header of your email already contains the info.
+
+Or you can refer to my reply to Greg.
+
 > Translate Documentation/usb/ohci.rst into Chinese Simplified.
->
+> 
 > The translation covers OHCI driver overview, hardware protocol
 > differences (OHCI vs UHCI), improvements since 2.4 kernel,
 > queueable interrupt transfers, and non-PCI support.
-
-Before formal review, I am curious why you delete 
-Documentation/translations/zh_CN/usb/index.rst in this v2 patch.
-
-Dongliang Mu
-
->
+> 
 > ---
 > Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
->
-> ---
-> Changes in v2:
-> - Correct the date
-> - Correct the layout
-> - Add specific details for it's contributors
-> ---
->   Documentation/translations/zh_CN/usb/ohci.rst | 38 +++++++++++++++++++
->   1 file changed, 38 insertions(+)
->   create mode 100644 Documentation/translations/zh_CN/usb/ohci.rst
->
-> diff --git a/Documentation/translations/zh_CN/usb/ohci.rst
-> b/Documentation/translations/zh_CN/usb/ohci.rst
-> new file mode 100644
-> index 000000000000..5e36831bf370
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/usb/ohci.rst
-> @@ -0,0 +1,38 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +:Original: Documentation/usb/ohci.rst
-> +
-> +:翻译: 欧阳家铭 Jiaming Ouyang <jiamingouyang13@gmail.com>
-> +
-> +========
-> +OHCI驱动
-> +========
-> +
-> +2002年8月23日
-> +
-> +“OHCI-HCD”驱动程序是一个USB主机控制器程序（HCD），它源自2.4内核系列中的“usb-ohci”
-> +驱动程序。“usb-ohci”代码主要由 Roman Weissgaerber <weissg@vienna.at>编写但也获
-> +得了来自David Brownell <dbrownell@users.sourceforge.net>，Linus Torvalds
-> +和Gregory P. Smith的支持。
-> +
-> +它支持“开放主机控制器接口”（OHCI），该接口标准化了用于与USB 1.1主机控制器通信的
-> +硬件寄存器协议。“与英特尔早期的“通用主机控制器接口”（UHCI）相比，它将更多只能功能
-> +注入到硬件中。除英特尔和威盛之外的其他供应商的USB1.1控制器通常使用OHCI。
-> +
-> +自2.4内核以来的更改包括
-> +
-> +         - 提高了健壮性; 修复了错误; 减少了开销
-> +         - 支持更新和简化的usbcore API
-> +         - 中断传输可以更大，并且可以排队
-> +         - 通过使用上层“hcd”框架，减少代码量
-> +         - 支持一些非PCI的OHCI实现
-> +         - ... 以及更多
-> +
-> +“OHCI-hcd”驱动程序处理所有USB 1.1传输类型。所有类型的传输都可以排队。在“usb-ohci”
-> +中也是如此，但中断传输除外。以前，使用一帧的周期会因为IRQ处理的开销而导致数据丢
-> +失的风险。当中断传输排队时，可以通过确保硬件在操作系统处理相关IRQ时始终有传输需要
-> +处理，来最大限度的降低这些风险。
-> +
-> +- David Brownell
-> +  <dbrownell@users.sourceforge.net>
-> +
 
+And your sign-off should be above the three dashes.
+
+so in general like this I guess:
+
+| Translate Documentation/usb/ohci.rst into Chinese Simplified.
+| 
+| The translation covers OHCI driver overview, hardware protocol
+| differences (OHCI vs UHCI), improvements since 2.4 kernel,
+| queueable interrupt transfers, and non-PCI support.
+| 
+| Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
+| ---
+| Changes in v2:
+| - foo
+| - bar
+| 
+| Documentation/translations/zh_CN/usb/ohci.rst | 38 +++++++++++++++++++
+| 1 file changed, 38 insertions(+)
+|  create mode 100644 Documentation/translations/zh_CN/usb/ohci.rst
+| 
+| [...]
+
+
+Hmm, how about read the SubmittingPatches file before sending out next
+version?
+
+https://docs.kernel.org/process/submitting-patches.html#the-canonical-patch-format
+
+Hope it helps.
+
+Thanks.
