@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A071A502D5C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943B5502D5A;
 	Mon, 28 Sep 2026 22:25:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790634324; cv=none; b=AX8Mb3z5EYXvgbLuVbANSAJHjJfdogDjnsPfMmOVhXDQYWSBtB9izwkulrB814wWcu0SB95hRX+N9+uFBqlgV6psaQYSuvaeytxTwZVgLIualqcKhZ5xMfcTC9vOHwprSAePkWIQswQYrlrpyVwI58UMuGJiy7/DcTYNuoHmm9E=
+	t=1790634324; cv=none; b=qogPKrpbjzzOG38+qZjmvw2iNQfPJT/eqklTkMj5kOaqdjlPnTZ/bERxj68DF6T2KCQwBAMvzGQBRnrsGmGWxE23PlomeJ7d6xhjD4pagKKliQuZNAiWOmFhaM/Egk3LNbEG4NX5TJhN+xU6/t5U+h2Eh6h5Vf+lFxm/uljY56w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790634324; c=relaxed/simple;
-	bh=H2zxDgEjF+coNEQ7GExnYBbjhEVdCPu19AJKTxP2Rz4=;
+	bh=SfifI8TQpgUZexAhVD3NGks7syaRBvoFyfKlLs0zn/g=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qsevVHNC3X6nl36ExItc4gL/RopawoaBjxfwU8bvjbMcMcusiug9wBfePUWJRkkjzjYFPRcdvqQ/P9du5TSgZCaMBAbX299jKWnn+iodw5erZMVAsoD+HPO/tbZnmqyhgJXsJy1z7OsoeWKu/ykGCyujNsU2T6PdLYBCyEU224w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jrQ90JnY; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=ojWx/PsOgJmzK3hhNNwoWtGlxnAYf9/wXllOfjRECFx64xOjo9+7HEVAqgOHZDWXSh5ewvZxrkqxdw8c8oTQ4ghCXGsypTkJM/0r9aX863Iy/aXVKVqJ4VRv4Q9VFEskS7H/IoLAsACsWfIGQFVtXNyQGHnh1bo5gRQLsI03FA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FPpoWmMK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jrQ90JnY"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 67F80C4AF13;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FPpoWmMK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 520C6C4AF0B;
 	Mon, 28 Sep 2026 22:25:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790634324;
-	bh=H2zxDgEjF+coNEQ7GExnYBbjhEVdCPu19AJKTxP2Rz4=;
+	bh=SfifI8TQpgUZexAhVD3NGks7syaRBvoFyfKlLs0zn/g=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=jrQ90JnYdWxuHL/L7ZM2RJSD17xZKS71Y14LaF+9iLJnrpvHQZYfC4nglaBQBbq4N
-	 A8pibtD43428tBe1X1PG0KQI+wvZTpSO2xDeQ41BbCHPJ9qib+dZmV9wP8bfEj9Y/N
-	 81h7ZJuWDZb9SArpYeN+GXAOoBIEUCcSVez9c+pmVW/ew6OxhmzJyH+b1tKF8Sz+YC
-	 aMeTawWLhpfvULUDTV97Uwh3wU60lmVOXjxbEWkXMT/qlrs2nl26sRs2RJJEInb3Tf
-	 H9Nd7TxW9SeIFp8FjW7Tf+wXS5hKarsml3oZ8XRqUARCWAx8qmfIVStQ092Y0XV9AW
-	 8N/BxZU6jRdyw==
+	b=FPpoWmMKkvVk3FJ1qcGgR/PVMDTrOvK8RhjK9x6ALiHV89YhGVr6vXYfCZTyQPGnq
+	 M0D73OIqXa8IOtTMGC9EyI4WOXlX31KgDzf2GRNQa70mnRqQVwNCabh2086+xhkjs0
+	 dMhXN9gZuzdJqWoLMKP2QB4fFuwdOsQmxemLiI3rY2TEKslLJrgjdwzAFIKP6yIrwr
+	 rQZuL42N6lRDxFRzWHHxJoZdkHeIBrG1F4GdAyYaVu2CPjGezQ59oVo8YAodopVf/3
+	 NG6QSQFrEZg7aGncENBCIXRyThzgFXCbP1B2vV7NK3QVFYcME47i22Gl4tXvJBJxkH
+	 QaLFjU3wsOWxQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 524CECA5FAF;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31925CA5FAB;
 	Mon, 28 Sep 2026 22:25:24 +0000 (UTC)
 From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
-Date: Mon, 28 Sep 2026 15:25:11 -0700
-Subject: [PATCH net-next v8 04/11] net: ethernet: oa_tc6: Move constant
- definitions to header file
+Date: Mon, 28 Sep 2026 15:25:09 -0700
+Subject: [PATCH net-next v8 02/11] Documentation: networking: Add timestamp
+ related APIs to OA TC6 framework
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,8 +40,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260928-s2500-mac-phy-support-v8-4-7e011aacc309@onsemi.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260928-s2500-mac-phy-support-v8-2-7e011aacc309@onsemi.com>
 References: <20260928-s2500-mac-phy-support-v8-0-7e011aacc309@onsemi.com>
 In-Reply-To: <20260928-s2500-mac-phy-support-v8-0-7e011aacc309@onsemi.com>
 To: Selva Rajagopal <selvamani.rajagopal@onsemi.com>, 
@@ -63,11 +63,11 @@ Cc: Selva Rajagopal <Selvamani.Rajagopal@onsemi.com>,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Jerry Ray <jerry.ray@microchip.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790634319; l=9122;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790634319; l=4547;
  i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
- bh=qeI+8KBI4qtzm8l3GwDfBDjUmGvvFuLrnh1WlKx7wT4=;
- b=gksISXm0ey5ojx926SqgpZu/NQaSeYRblpy+xi4XxkwlrtZuUu3cfTd0amCn99Zjq5O9KWE8C
- JbJqY2SAMmlCDgg03TSY4YlknbACeO8SwsFsTS+zGUcw8Yuf8DBrq9j
+ bh=Gmvv6Ti63vpPjCFKBovXvgYEOjZncBV6qOW2BKbcfl4=;
+ b=MIpSr7dU1SurNcOhAAhIsrbD5h2LJ4LNPagCzdnHEM2PhnlVRJ34xZpY3Hj9SGnC3bd/8aYeN
+ MlJ051tttgfARI243IHRvXSh5z2lHHVIx2cB1S3349Fzw9vKMV3P+GB
 X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
  pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
 X-Endpoint-Received: by B4 Relay for
@@ -77,284 +77,113 @@ Reply-To: Selvamani.Rajagopal@onsemi.com
 
 From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-To help other source files within the module share the
-constant definitions, some of the definitions from oa_tc6.c
-are moved to a header file. This header file is still
-private to OA TC6 framework.
+Added new APIs to support hardware timestamp feature as defined in
+OPEN Alliance 10BASE-T1x MAC-PHY serial interface specification.
 
-oa_tc6 structure is also moved to this header file as it is
-needed for other source files that are part of OA TC6
-framework.
+Added the newer read/write APIs that takes MMS as one of its parameters
+as these were not documented so far.
 
 Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
 ---
-changes in v8:
-  - Merged with latest base version's changes
+changes in v8
+  - Updated the the order of the parameters in oa_tc6_read_register_mms
+    and oa_tc6_write_register_mms apis.
+  - Removed the reference to ioctl
 changes in v7
   - No change
 changes in v6
   - No change
 changes in v5
-  - No change
+  - Fixed "no blank line" issues in four places
 changes in v4
-  - Added MMS values 1 and 12, which are used now
+  - Added information for new APIs in OA TC6 framework
 changes in v3
-  - Moved constant definitions from the source to newly created
-    header file for other sources in the directory to share.
-  - Standard specific defines are moved to Linux common header file
-  - First patch
+  - Added more information for documentation
+changes in v2
+  - Removed the changes to the existing API
+  - Updated information about newly added APIs
+changes in v1
+  - Added changes to an existing API
+  - Added documentation to new hardware timestamp related APIs
 ---
- drivers/net/ethernet/oa_tc6/oa_tc6.c         | 104 +---------------------
- drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h | 125 +++++++++++++++++++++++++++
- 2 files changed, 126 insertions(+), 103 deletions(-)
+ Documentation/networking/oa-tc6-framework.rst | 59 +++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-diff --git a/drivers/net/ethernet/oa_tc6/oa_tc6.c b/drivers/net/ethernet/oa_tc6/oa_tc6.c
-index 364027c39fa4..f8e9309a72f1 100644
---- a/drivers/net/ethernet/oa_tc6/oa_tc6.c
-+++ b/drivers/net/ethernet/oa_tc6/oa_tc6.c
-@@ -14,109 +14,7 @@
- #include <linux/phy.h>
- #include <linux/oa_tc6.h>
+diff --git a/Documentation/networking/oa-tc6-framework.rst b/Documentation/networking/oa-tc6-framework.rst
+index 0feda2f9d840..5bcc194be7ea 100644
+--- a/Documentation/networking/oa-tc6-framework.rst
++++ b/Documentation/networking/oa-tc6-framework.rst
+@@ -153,6 +153,10 @@ OPEN Alliance TC6 Framework
+ - Forwards the received Ethernet frame from 10Base-T1x MAC-PHY to n/w
+   subsystem.
  
--/* Control command header */
--#define OA_TC6_CTRL_HEADER_DATA_NOT_CTRL	BIT(31)
--#define OA_TC6_CTRL_HEADER_WRITE_NOT_READ	BIT(29)
--#define OA_TC6_CTRL_HEADER_MEM_MAP_SELECTOR	GENMASK(27, 24)
--#define OA_TC6_CTRL_HEADER_ADDR			GENMASK(23, 8)
--#define OA_TC6_CTRL_HEADER_LENGTH		GENMASK(7, 1)
--#define OA_TC6_CTRL_HEADER_PARITY		BIT(0)
--
--/* Data header */
--#define OA_TC6_DATA_HEADER_DATA_NOT_CTRL	BIT(31)
--#define OA_TC6_DATA_HEADER_DATA_VALID		BIT(21)
--#define OA_TC6_DATA_HEADER_START_VALID		BIT(20)
--#define OA_TC6_DATA_HEADER_START_WORD_OFFSET	GENMASK(19, 16)
--#define OA_TC6_DATA_HEADER_END_VALID		BIT(14)
--#define OA_TC6_DATA_HEADER_END_BYTE_OFFSET	GENMASK(13, 8)
--#define OA_TC6_DATA_HEADER_PARITY		BIT(0)
--
--/* Data footer */
--#define OA_TC6_DATA_FOOTER_EXTENDED_STS		BIT(31)
--#define OA_TC6_DATA_FOOTER_RXD_HEADER_BAD	BIT(30)
--#define OA_TC6_DATA_FOOTER_CONFIG_SYNC		BIT(29)
--#define OA_TC6_DATA_FOOTER_RX_CHUNKS		GENMASK(28, 24)
--#define OA_TC6_DATA_FOOTER_DATA_VALID		BIT(21)
--#define OA_TC6_DATA_FOOTER_START_VALID		BIT(20)
--#define OA_TC6_DATA_FOOTER_START_WORD_OFFSET	GENMASK(19, 16)
--#define OA_TC6_DATA_FOOTER_END_VALID		BIT(14)
--#define OA_TC6_DATA_FOOTER_END_BYTE_OFFSET	GENMASK(13, 8)
--#define OA_TC6_DATA_FOOTER_TX_CREDITS		GENMASK(5, 1)
--
--#define OA_TC6_CTRL_PROT_REPLY_SIZE		4
--#define OA_TC6_CTRL_HEADER_SIZE			4
--#define OA_TC6_CTRL_REG_VALUE_SIZE		4
--#define OA_TC6_CTRL_IGNORED_SIZE		4
--#define OA_TC6_CTRL_MAX_REGISTERS		128
--#define OA_TC6_CTRL_SPI_BUF_SIZE	(OA_TC6_CTRL_HEADER_SIZE +\
--					(OA_TC6_CTRL_MAX_REGISTERS *\
--					(OA_TC6_CTRL_REG_VALUE_SIZE +\
--					OA_TC6_CTRL_PROT_REPLY_SIZE)) +\
--					OA_TC6_CTRL_IGNORED_SIZE)
--
--#define OA_TC6_CHUNK_PAYLOAD_SIZE		64
--#define OA_TC6_DATA_HEADER_SIZE			4
--#define OA_TC6_CHUNK_SIZE			(OA_TC6_DATA_HEADER_SIZE +\
--						OA_TC6_CHUNK_PAYLOAD_SIZE)
--#define OA_TC6_MAX_TX_CHUNKS			48
--#define OA_TC6_SPI_DATA_BUF_SIZE		(OA_TC6_MAX_TX_CHUNKS *\
--						OA_TC6_CHUNK_SIZE)
--#define STATUS0_RESETC_POLL_DELAY		1000
--#define STATUS0_RESETC_POLL_TIMEOUT		1000000
--
--#define OA_TC6_REG_MMS_MASK		GENMASK(19, 16)
--
--/* Internal structure for MAC-PHY drivers */
--struct oa_tc6 {
--	struct net_device *netdev;
--	struct phy_device *phydev;
--	struct mii_bus *mdiobus;
--	struct spi_device *spi;
--	struct mutex spi_ctrl_lock; /* Protects spi control transfer */
--	spinlock_t tx_skb_lock; /* Protects tx skb handling */
--	void *spi_ctrl_tx_buf;
--	void *spi_ctrl_rx_buf;
--	void *spi_data_tx_buf;
--	void *spi_data_rx_buf;
--	struct sk_buff *ongoing_tx_skb;
--	struct sk_buff *waiting_tx_skb;
--	struct sk_buff *rx_skb;
--	u16 tx_skb_offset;
--	u16 spi_data_tx_buf_offset;
--	u16 tx_credits;
--	u8 rx_chunks_available;
--	bool wait_until_start_valid;
--	bool int_flag;
--	bool disable_traffic;
--	bool prot_ctrl;
--	enum oa_tc6_quirk_flag quirk_flags;
--	struct gpio_desc *reset_gpio;
--};
--
--enum oa_tc6_header_type {
--	OA_TC6_CTRL_HEADER,
--	OA_TC6_DATA_HEADER,
--};
--
--enum oa_tc6_register_op {
--	OA_TC6_CTRL_REG_READ = 0,
--	OA_TC6_CTRL_REG_WRITE = 1,
--};
--
--enum oa_tc6_data_valid_info {
--	OA_TC6_DATA_INVALID,
--	OA_TC6_DATA_VALID,
--};
--
--enum oa_tc6_data_start_valid_info {
--	OA_TC6_DATA_START_INVALID,
--	OA_TC6_DATA_START_VALID,
--};
--
--enum oa_tc6_data_end_valid_info {
--	OA_TC6_DATA_END_INVALID,
--	OA_TC6_DATA_END_VALID,
--};
-+#include "oa_tc6_std_def.h"
++- If supported by the hardware and enabled, updates hardware timestamp
++  in skb, when indicated by one of the three timestamp capture registers
++  through TSC fields of the header.
++
+ Data Transaction
+ ~~~~~~~~~~~~~~~~
  
- static int oa_tc6_spi_transfer(struct oa_tc6 *tc6,
- 			       enum oa_tc6_header_type header_type, u16 length)
-diff --git a/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h b/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h
-new file mode 100644
-index 000000000000..403a9c22b5f1
---- /dev/null
-+++ b/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h
-@@ -0,0 +1,125 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Register and driver related definitions to support
-+ * OPEN Alliance 10BASE‑T1x MAC‑PHY Serial Interface framework.
-+ *
-+ * Author: Selva Rajagopal <selvamani.rajagopal@onsemi.com>
-+ */
+@@ -496,3 +500,58 @@ the MAC-PHY.
+ Zero align receive frame feature can be enabled to align all receive ethernet
+ frames data to start at the beginning of any receive data chunk payload with a
+ start word offset (SWO) of zero.
 +
-+#ifndef OA_TC6_STD_DEF_H
-+#define OA_TC6_STD_DEF_H
++.. c:function:: int oa_tc6_ptp_register(struct oa_tc6 *tc6, \
++                                        struct ptp_clock_info *info);
 +
-+#include <linux/ptp_clock_kernel.h>
-+#include <linux/net_tstamp.h>
-+#include <linux/netdevice.h>
-+#include <linux/spi/spi.h>
-+#include <linux/skbuff.h>
-+#include <linux/sched.h>
-+#include <linux/wait.h>
-+#include <linux/phy.h>
++Registers the PTP hardware clock related functions with the kernel.
++This API simply registers. Initialization of the fields in the
++ptp_clock_info structure are left to the vendor as programming hardware
++timer is expected to be vendor dependent. The fields max_adj, owner,
++and all the functions for the clock operations, like adjfine, gettimex64,
++settime64, adjtime are expected to be initialized in the structure before
++calling the registering the hardware clock.
 +
-+/* Control command header */
-+#define OA_TC6_CTRL_HEADER_DATA_NOT_CTRL	BIT(31)
-+#define OA_TC6_CTRL_HEADER_WRITE_NOT_READ	BIT(29)
-+#define OA_TC6_CTRL_HEADER_MEM_MAP_SELECTOR	GENMASK(27, 24)
-+#define OA_TC6_CTRL_HEADER_ADDR			GENMASK(23, 8)
-+#define OA_TC6_CTRL_HEADER_LENGTH		GENMASK(7, 1)
-+#define OA_TC6_CTRL_HEADER_PARITY		BIT(0)
++.. c:function:: void oa_tc6_ptp_unregister(struct oa_tc6 *tc6);
 +
-+/* Data header */
-+#define OA_TC6_DATA_HEADER_DATA_NOT_CTRL	BIT(31)
-+#define OA_TC6_DATA_HEADER_DATA_VALID		BIT(21)
-+#define OA_TC6_DATA_HEADER_START_VALID		BIT(20)
-+#define OA_TC6_DATA_HEADER_START_WORD_OFFSET	GENMASK(19, 16)
-+#define OA_TC6_DATA_HEADER_END_VALID		BIT(14)
-+#define OA_TC6_DATA_HEADER_END_BYTE_OFFSET	GENMASK(13, 8)
-+#define OA_TC6_DATA_HEADER_PARITY		BIT(0)
++Unregisters the PTP hardware clock related callbacks.
 +
-+/* Data footer */
-+#define OA_TC6_DATA_FOOTER_EXTENDED_STS		BIT(31)
-+#define OA_TC6_DATA_FOOTER_RXD_HEADER_BAD	BIT(30)
-+#define OA_TC6_DATA_FOOTER_CONFIG_SYNC		BIT(29)
-+#define OA_TC6_DATA_FOOTER_RX_CHUNKS		GENMASK(28, 24)
-+#define OA_TC6_DATA_FOOTER_DATA_VALID		BIT(21)
-+#define OA_TC6_DATA_FOOTER_START_VALID		BIT(20)
-+#define OA_TC6_DATA_FOOTER_START_WORD_OFFSET	GENMASK(19, 16)
-+#define OA_TC6_DATA_FOOTER_END_VALID		BIT(14)
-+#define OA_TC6_DATA_FOOTER_END_BYTE_OFFSET	GENMASK(13, 8)
-+#define OA_TC6_DATA_FOOTER_TX_CREDITS		GENMASK(5, 1)
++.. c:function:: int oa_tc6_get_ts_info(struct oa_tc6 *tc6, \
++                                       struct kernel_ethtool_ts_info *info);
 +
-+#define OA_TC6_CTRL_PROT_REPLY_SIZE		4
-+#define OA_TC6_CTRL_HEADER_SIZE			4
-+#define OA_TC6_CTRL_REG_VALUE_SIZE		4
-+#define OA_TC6_CTRL_IGNORED_SIZE		4
-+#define OA_TC6_CTRL_MAX_REGISTERS		128
-+#define OA_TC6_CTRL_SPI_BUF_SIZE	(OA_TC6_CTRL_HEADER_SIZE +\
-+					(OA_TC6_CTRL_MAX_REGISTERS *\
-+					(OA_TC6_CTRL_REG_VALUE_SIZE +\
-+					OA_TC6_CTRL_PROT_REPLY_SIZE)) +\
-+					OA_TC6_CTRL_IGNORED_SIZE)
++Provides timestamp related settings that are supported to ethtool.
 +
-+#define OA_TC6_CHUNK_PAYLOAD_SIZE		64
-+#define OA_TC6_DATA_HEADER_SIZE			4
-+#define OA_TC6_CHUNK_SIZE			(OA_TC6_DATA_HEADER_SIZE +\
-+						OA_TC6_CHUNK_PAYLOAD_SIZE)
-+#define OA_TC6_MAX_TX_CHUNKS			48
-+#define OA_TC6_SPI_DATA_BUF_SIZE		(OA_TC6_MAX_TX_CHUNKS *\
-+						OA_TC6_CHUNK_SIZE)
-+#define STATUS0_RESETC_POLL_DELAY		1000
-+#define STATUS0_RESETC_POLL_TIMEOUT		1000000
++.. c:function:: void oa_tc6_hwtstamp_get(struct oa_tc6 *tc6, \
++                                         struct kernel_hwtstamp_config *cfg);
 +
-+#define OA_TC6_REG_MMS_MASK		GENMASK(19, 16)
++Returns hardware timestamp configuration. Part of net_device_ops callbacks.
 +
-+/* Internal structure for MAC-PHY drivers */
-+struct oa_tc6 {
-+	struct net_device *netdev;
-+	struct phy_device *phydev;
-+	struct mii_bus *mdiobus;
-+	struct spi_device *spi;
-+	struct mutex spi_ctrl_lock; /* Protects spi control transfer */
-+	spinlock_t tx_skb_lock; /* Protects tx skb handling */
-+	void *spi_ctrl_tx_buf;
-+	void *spi_ctrl_rx_buf;
-+	void *spi_data_tx_buf;
-+	void *spi_data_rx_buf;
-+	struct sk_buff *ongoing_tx_skb;
-+	struct sk_buff *waiting_tx_skb;
-+	struct sk_buff *rx_skb;
-+	u16 tx_skb_offset;
-+	u16 spi_data_tx_buf_offset;
-+	u16 tx_credits;
-+	u8 rx_chunks_available;
-+	bool wait_until_start_valid;
-+	bool int_flag;
-+	bool disable_traffic;
-+	bool prot_ctrl;
-+	enum oa_tc6_quirk_flag quirk_flags;
-+	struct gpio_desc *reset_gpio;
-+};
++.. c:function:: void oa_tc6_get_ts_stats(struct oa_tc6 *tc6, \
++                                         struct ethtool_ts_stats *ts_stats);
 +
-+enum oa_tc6_header_type {
-+	OA_TC6_CTRL_HEADER,
-+	OA_TC6_DATA_HEADER,
-+};
++Provides hardware timestamp related traffic statistics for ethtool.
 +
-+enum oa_tc6_register_op {
-+	OA_TC6_CTRL_REG_READ = 0,
-+	OA_TC6_CTRL_REG_WRITE = 1,
-+};
++.. c:function:: int oa_tc6_hwtstamp_set(struct oa_tc6 *tc6, \
++                                        struct kernel_hwtstamp_config *cfg);
 +
-+enum oa_tc6_data_valid_info {
-+	OA_TC6_DATA_INVALID,
-+	OA_TC6_DATA_VALID,
-+};
++Helper to set hardware timestamp configuration. Part of net_device_ops
++callbacks.
 +
-+enum oa_tc6_data_start_valid_info {
-+	OA_TC6_DATA_START_INVALID,
-+	OA_TC6_DATA_START_VALID,
-+};
++.. c:function:: void oa_tc6_set_vend1_mms(struct oa_tc6 *tc6, int mms);
 +
-+enum oa_tc6_data_end_valid_info {
-+	OA_TC6_DATA_END_INVALID,
-+	OA_TC6_DATA_END_VALID,
-+};
-+#endif /* OA_TC6_STD_DEF_H */
++Helper to map MDIO_MMD_VEND1 command to vendor specific Memory Map Select
++(MMS) value. This function offers flexibility for vendors that may have
++used any MMS value between 10 and 15 as allowed by the specification.
++MDIO_MMD_VEND2 is already mapped to MMS4 in the OA TC6 frame work code.
 +
++.. c:function:: int oa_tc6_write_register_mms(struct oa_tc6 *tc6, \
++                                              u8 mms, u16 address, \
++                                              u32 value);
++
++Write a single register addressed by @mms and @address in the MAC-PHY.
++
++.. c:function:: int oa_tc6_read_register_mms(struct oa_tc6 *tc6, \
++                                             u8 mms, u16 address, \
++                                             u32 *value);
++
++Read a single register addressed by @mms and @address in the MAC-PHY.
 
 -- 
 2.43.0
