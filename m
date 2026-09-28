@@ -1,121 +1,220 @@
-Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E77E49E130
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 11:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5344A0F09;
+	Mon, 28 Sep 2026 11:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790593547; cv=none; b=fcyTw7yZUZ9NU3m0Gyhi2/w0PfMbP+2drVncBHOCrpMvMRn9fdp9BcClX20F3XDa0jNhN6PyJ/PfKyMr8GWEPcdfAX120740InJwDINf7NCGvFpjG9l30/hQMuZmV+DTkjOQz2xOL9dMFG+RSk4Na/Jb0125AquPuQGmPeDGOSU=
+	t=1790594379; cv=none; b=ioVd1u6XJ3yhq8JJ8ZGRhiqfR63rXMoisH73F+PaflIdifl0pmosQPxHFYSwf/qzmoSVukMaQ6JcHol7j9ht9d/y+ZNDqAK6Vi9HV7p2Bbkri3iB4dWR/N/D5PnFmMtbe6l4x/csjtAizmAn2pxupM0lENGt1zCHXGbOiUqCnJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790593547; c=relaxed/simple;
-	bh=1XbxKDdXCB0xh56Jj6qRN9S8aTlmP+aUKv+mEwrdbKQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TDSGCzxx8CwaYE4LvWa9IIBO/57Ru8EUKtPc8b0n6F5OtSCXeCP5Jm3yLPjoIm9fULsqpuuR1WWFxOIjfdWgA76g0NbXGbybiQ0cNM1keV1kKGQaJPQK30BGJhqA5eLInMUxsStmXuF4B05bwfzoTb4hiIeyXXj0SHGLiGPlfCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R1Gv7ggU; arc=none smtp.client-ip=74.125.229.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790594379; c=relaxed/simple;
+	bh=e79fPLygaOh50i0YjnNitHoPsgS/gDb2Pjcr0MRYrbI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PlJiQu877344RrT4wavg/Td+Om+j0iFGVNl48kx+O3xl20UrDblsi2IxcZxGloJI/kQSakZ8Fd87OFaT49sYHQZWIcbMLG8q9yhiNYS5y48RuVYSLUnNCx1w0LSmDK9NN1f+yDGn8kEMhc0Te2egMq4/Swq/1zAGPd2UwygWVWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SM+TrDf9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R1Gv7ggU"
-Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-34215285aa1so765892eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 04:05:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790593545; x=1791198345; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=2oM1knUDIGNS9SHIcgxqk4g+0rPtoqn3Rt9m8E+9mag=;
-        b=R1Gv7ggUi6czGna3d1A2oqULin9yrUJM6aZO8s/sjpIJ/G8/10p4o9A1gVcMBOQZOc
-         SAWhJaXMCMZS+4lR49kUnt85PtEv0jKVUIXmcQ1lJoo8Acjs37TwIDEgxUYhfUCPEj3t
-         u8PcpzyHOFCbxYvl0p20kgW8ZoajPbiUZ/pBHiPcNKBIuBpV7VA1YceT4kmLu1CusBT9
-         VRFtwhChkP6hiA7JmNMMJIkKDEf11PDuzNXPbRydJ2e5QI4RG3wNog24PtVJaKaIZ2jr
-         loxXdSzksl3/+sFhh6tYjGi3cwBIAlkIPzK2ulk1vmPm7+iN+i2WteQPmK+zsmzdImnL
-         yKxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790593545; x=1791198345;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2oM1knUDIGNS9SHIcgxqk4g+0rPtoqn3Rt9m8E+9mag=;
-        b=z3uDy03kRVhP+glbh30zMJiWoJWRkSc99WMxW811cOY27rtzO/SG6z/XIkQQHeb8k4
-         smG9h8xcoz7oXFS6r6IUrBaUFuS6Jn3I974+IgJYR+rzTwt4xu26Wbyt6/fQ2F5Fo/aq
-         Tit25o2NCQZlvE9v5jfHo5xdQRkUGI3iYmv1DITIAQOJoR7xf1kL/mtdggWxl3Ho12fu
-         QPR7X00p2NFI4nfXkJm0w+c8/DJecKZCyFCKG3Je8AS1dZlfR4ERaTvrY3+mv5JmOyR1
-         D5BTY4yz1lixzPZaVURUbL5GPPc5M7U0/eKmuNCQXWO6qXgAoOuzcXxR1UMVT1IAsy7z
-         ku6A==
-X-Forwarded-Encrypted: i=1; AKwUvBw/qTmUNlM6TvJxX5BGKSyaS6tE+n8+l/DBPH9szzrN2fuqRMFn+55W8aYD71kF04g2IBQ/+M8t8Jc=@vger.kernel.org
-X-Gm-Message-State: AFuF++mHmCkmogxiUkXv6sSyNqvm3oW+pGdfaTL315S2oqKDv+bKMUCB
-	Ax+/JyCTFaK6M6/N4EFGWkX3Z+gZKU36zhGq7qnbuSxJaIMr44rVykOD
-X-Gm-Gg: AYBFou3RZlI873W+go9eTis0+jucwA2sgQhrihhyeDyXhI6X/W47d3DLNMltG2yaozC
-	QqItRr4fdfxhxasHaJbegE3h94CTv9+GclLPQ+rXA5jJ1b7abTdKA8PtNA5kJi10V7r86uj3mRz
-	52GgM0hgc+v460gEe9G9ODfAEzppLjYSS+AJ3qA4zPEcK5OJW/5jqSwjebh2jz+rDv1qDyfxI5Q
-	Lt1SlJAL9dzxoYverOVVR0X5RUCv+S9nBxTOX99l3TmQdHS174CPOSLZO8QQ4vQHeIdJGLgMSfY
-	N00JV80EqcCGQ3mkKYls+gSxo8WSynNOaMFhXg3kqoD5ATODznmW5YXAdBnPAJqmpNmaiJ7jBnB
-	dDGypT1TPdAlK1Cqmrrl4adNA8fmcdlquTuvx0JZrvRqdo76bFNaRd0xzzy3EsNfvCWfbztUwe5
-	EAFhbZY88PVccpSiHzPfipjNL8QGs25UmG4/gUJZdxh88pztQQlFsxEE82e5PaQ1IU33oUu30jQ
-	Kh9cZGXumI4
-X-Received: by 2002:a05:7300:b54b:b0:33b:e586:ba81 with SMTP id 5a478bee46e88-3427265fed0mr11177549eec.8.1790593544833;
-        Mon, 28 Sep 2026 04:05:44 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34141a4a5ecsm29390123eec.3.2026.09.28.04.05.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 04:05:44 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 28 Sep 2026 04:05:43 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: alexei.solcanu@pm.me
-Cc: Cryolitia PukNgae <cryolitia@uniontech.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SM+TrDf9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D1801F000FF;
+	Mon, 28 Sep 2026 11:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790594378;
+	bh=82H+Wxh/nsMrVBxe1KeUNtTKcuzq7C+4R9ltRTncGVU=;
+	h=From:To:Cc:Subject:Date;
+	b=SM+TrDf9PhF1PUSKamAv4qfsOi4qEY/cvyeyhZXt/Qs8d1bqUtVwHJzffw+1c27T6
+	 3XyZRL10VZetIaKqNq/Ftmw73ads+FyE2+jRC+B+IWPwkGRUeM/Y3sCJLOjcM5kjKd
+	 KjSd0qEaaPnsrEafoH5AaiDsyayRNktBySfTWYtZdO0dvAZWlNO5bB/sYC/lrk5aa5
+	 ROB/zbQWK3aeg8bk7JQdXO1RHnikNMbU5VKDu97ss0JsubsWi6lW8pdMyGOBkYAezi
+	 9Gv/A5p78D96DiVzbY4MPuA84GqVcK3N11jI0lrYCn0+CYQurfJNf3i8JnwD1LdG5C
+	 1KY5rtwIcjRVw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	=?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: Re: [PATCH v2 2/2] hwmon: (gpd-fan) Register both fans on the GPD
- Win 5
-Message-ID: <72ea804b-6d62-4f31-985d-4f3f0359b5be@roeck-us.net>
-References: <20260926-gpd-fan-duo-auto-v2-0-0a2ea41ee3b5@pm.me>
- <20260926-gpd-fan-duo-auto-v2-2-0a2ea41ee3b5@pm.me>
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: [PATCH v8 00/23] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
+Date: Mon, 28 Sep 2026 14:19:04 +0300
+Message-ID: <20260928-fix-p2p-acs-v4-0-v8-0-404453b9c435@nvidia.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260926-gpd-fan-duo-auto-v2-2-0a2ea41ee3b5@pm.me>
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20260821-fix-p2p-acs-v4-0-e72455e3a261
+X-Mailer: b4 0.15-dev-18f8f
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 26, 2026 at 04:11:21PM -0400, Alexei Solcanu via B4 Relay wrote:
-> From: Alexei Solcanu <alexei.solcanu@pm.me>
-> 
-> The GPD Win 5 uses gpd_duo_drvdata, which exposes a single fan and pwm
-> channel: pwm1 writes the same duty cycle to both fans, and fan1_input
-> only reads the first fan's RPM.
-> 
-> The two fans have independent registers. Fan 1 uses duty cycle 0x047A
-> and RPM 0x0478/0x0479, fan 2 uses duty cycle 0x047B and RPM
-> 0x0476/0x0477. A duty cycle of 0 returns that fan to EC control.
-> 
-> Add separate board data for the Win 5 and register fan1/pwm1 and
-> fan2/pwm2, one channel per fan. Boards with a single fan are unchanged.
-> 
-> This changes behaviour on the Win 5: pwm1 and pwm1_enable now control
-> only the first fan. The second fan stays under EC control unless pwm2
-> and pwm2_enable are used.
-> 
-> The GPD Duo keeps a single channel, since it is untested and its
-> second fan's RPM register is unknown.
-> 
-> Tested on a GPD Win 5 (G1618-05).
-> 
-> Suggested-by: Guenter Roeck <linux@roeck-us.net>
-> Assisted-by: LLM
-> Signed-off-by: Alexei Solcanu <alexei.solcanu@pm.me>
+PCI P2PDMA applies Request and Completion Redirect throughout both paths.
+This misclassifies asymmetric and nested switches, and reports one answer
+for every kind of TLP.
 
-Another patch new revision sent as reply of a previous one.
+Three ACS controls act on TLP attributes the client chooses rather than
+on the topology: Translation Blocking and Direct Translated P2P act on
+a Request's Address Type, and Completion Redirect skips Completions carrying
+Relaxed Ordering.
 
-Where does that idea come from ?  Can _someone_ please let me know ?
-It seems like a contagious disease, but no one is willing to admit
-where they caught it.
+Evaluate each direction at the path divergence, decide every class from the
+one walk, expose the provider to dma-buf importers, and let mlx5 ask rather
+than assume.
 
-Guenter
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+Changes in v8:
+- Added extra Reviewed-by from Logan.
+- Added patches to take care of ATS per-device vs. per-mapping option
+- Link to v7: https://patch.msgid.link/20260920-fix-p2p-acs-v4-0-v7-0-ca0828ab697c@nvidia.com
+
+Changes in v7:
+- Removed "Document pdev->p2pdma lifetime rules" patch, it gives nothing
+  after p2pmem fix.
+- Split dmabuf patch.
+- Tushar retested the series, so added his Tested-by.
+- Added Logan's ROB tags and fixed minor documentation issues pointed
+  by him.
+- Link to v6: https://lore.kernel.org/all/20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com/
+
+Changes in v6:
+- Changed DMABUF to use callbacks and not directly stored pointer.
+- Link to v5: https://patch.msgid.link/20260910-fix-p2p-acs-v4-0-v5-0-856087f63c0d@nvidia.com
+
+Changes in v5:
+- Rebase on the posted fixes.
+- Dropped tags from changed patches.
+- Remove Egress Control Vector interpretation and coverage.
+- Keep enabled Egress Control conservative as a Request redirect.
+- Use pci_dbg()/dev_dbg() for diagnostics and drop the "debug" prefix.
+- Removed code comments from "Document the pdev->p2pdma lifetime and RCU
+  rules" patch and reduced description to actual lifetime explanation.
+- Added note that Linux assumes that TLPs are in strict-ordering and
+  untranslated.
+- Added code to calculate p2p paths per-TLP type.
+- Converted mlx5 to use that new proposed API.
+- Link to https://patch.msgid.link/20260821-fix-p2p-acs-v4-0-v4-0-94426b96de73@nvidia.com
+
+Changes in v4:
+- Reject ACS Violations and unreadable routing state instead of treating
+  them as host-bridge redirects
+- Added Tested-by tags from Tushar Dave
+- Added support to asymmetric ACS routing
+- Limited redirect checks to the two ports at the path divergence
+- Added standalone ACS routing diagnostics for hardware retesting
+- Dropped " PCI: Account for Direct Translated P2P in ACS isolation checks" patch
+- Link to v3: https://patch.msgid.link/20260811-fix-p2p-acs-v3-0-efc488ee7c03@nvidia.com
+
+Changes in v3:
+- Fixed pci_p2pdma_add_resource() error unwinding
+- Made pdev->p2pdma teardown wait unconditionally for RCU readers
+- Restricted pci_p2pmem_find_many() to pool-backed providers
+- Documented the pdev->p2pdma lifetime and RCU rules
+- Fixed calc_map_type_and_dist() handling of the verbose argument
+- Required the ACS port and target to share a bus before indexing the
+  Egress Control Vector
+- Gave pci_acs_enabled() and pci_acs_path_enabled() a scope, so the ACS
+  Direct Translated P2P rule no longer stops pci_enable_pasid() from
+  enabling PASID
+- Dropped "Report ACS ports when the paths share no upstream bridge":
+  the mapping type cannot change without a shared upstream bridge, so
+  the pci=disable_acs_redir= hint was not actionable there and the ACS
+  walk only cost config space reads
+- Folded the Request Redirect rule into pci_acs_rr_ineffective(), so
+  pci_acs_flags_enabled() and the Intel SPT PCH quirk share one copy
+- Renamed pci_acs_egress_ctrl_set() to pci_acs_egress_ctrl_is_set(), it
+  reads the bit rather than setting it
+- Reworded the blocked-path warning: ACS may also leave the direct route
+  indeterminate rather than blocked
+- Added KUnit coverage for the shared-bus guard, a device with no ACS
+  capability and an unreadable ACS Control register
+- Added the missing Fixes: tags, a second one on the
+  pci_p2pdma_add_resource() unwinding fix (the dangling devres action
+  dates to f58ef9d1d135) and one on the Egress Control isolation change
+- Link to v2: https://patch.msgid.link/20260806-fix-p2p-acs-v2-0-0cec14812965@nvidia.com
+
+Changes in v2:
+- Added Logan's ROB tags
+- Added commas in Documentation patch
+- Link to v1: https://patch.msgid.link/20260802-fix-p2p-acs-v1-0-a7c5eb64fff6@nvidia.com
+
+---
+Leon Romanovsky (23):
+      PCI/P2PDMA: Document the TLP attribute assumptions
+      PCI/P2PDMA: Derive routing from directional ACS controls
+      PCI: Reject unreadable ACS controls in isolation checks
+      PCI/P2PDMA: Evaluate ACS controls at the path divergence
+      PCI/P2PDMA: Document directional ACS routing
+      PCI/P2PDMA: Collect the path's ACS controls before deciding
+      PCI/P2PDMA: Answer routing per TLP class
+      PCI/P2PDMA: Route Relaxed Ordering Completions directly
+      PCI/P2PDMA: Reject Translated Requests blocked by Translation Blocking
+      PCI/P2PDMA: Route Translated Requests under Direct Translated P2P
+      PCI/P2PDMA: Log detailed ACS routing diagnostics
+      PCI/P2PDMA: Add KUnit tests for the ACS routing decisions
+      PCI/P2PDMA: Test the ACS P2P routing walk
+      PCI: Add KUnit coverage for ACS isolation checks
+      PCI/P2PDMA: Document TLP-class routing
+      dma-buf: Let importers ask how peer-to-peer traffic is routed
+      vfio/pci: Hand out the P2PDMA provider behind a dma-buf
+      RDMA/uverbs: Hand out the P2PDMA provider behind a dma-buf
+      RDMA/mlx5: Ask P2PDMA whether ATS takes a direct peer-to-peer route
+      PCI/P2PDMA: Let a client declare that it selects ATS per mapping
+      RDMA/mlx5: Declare to P2PDMA that ATS is selected per memory key
+      PCI/P2PDMA: Evaluate the ATS path for clients with ATS enabled
+      PCI/P2PDMA: Test the routing of clients with ATS enabled
+
+ Documentation/admin-guide/kernel-parameters.txt   |  15 +-
+ Documentation/driver-api/pci/p2pdma.rst           |  80 ++
+ drivers/dma-buf/dma-buf-mapping.c                 |  39 +
+ drivers/infiniband/core/uverbs_std_types_dmabuf.c |  12 +
+ drivers/infiniband/hw/mlx5/main.c                 |   2 +
+ drivers/infiniband/hw/mlx5/mlx5_ib.h              |  36 +-
+ drivers/infiniband/hw/mlx5/mr.c                   |  47 ++
+ drivers/pci/Kconfig                               |  15 +
+ drivers/pci/Makefile                              |   1 +
+ drivers/pci/p2pdma.c                              | 704 ++++++++++++++++--
+ drivers/pci/pci.c                                 |   7 +-
+ drivers/pci/pci.h                                 |  31 +
+ drivers/pci/pci_acs_test.c                        | 860 ++++++++++++++++++++++
+ drivers/pci/quirks.c                              |   6 +-
+ drivers/vfio/pci/vfio_pci_dmabuf.c                |  12 +
+ include/linux/dma-buf-mapping.h                   |   3 +
+ include/linux/dma-buf.h                           |  19 +
+ include/linux/pci-p2pdma.h                        |  62 +-
+ 18 files changed, 1828 insertions(+), 123 deletions(-)
+---
+base-commit: 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72
+change-id: 20260821-fix-p2p-acs-v4-0-e72455e3a261
+prerequisite-message-id: <20260830-batch-p2p-fixes-v1-0-5044e8dfbe2e@nvidia.com>
+prerequisite-patch-id: 6b25c7fcf164cdfc14e9fac5b908d97fcf6509d7
+prerequisite-patch-id: 0d083c281001365aae4b35544cf28891a6ab9a96
+prerequisite-patch-id: bfd9dabf271f3cc9a3a61f46387d20c20311363d
+prerequisite-patch-id: fad0275efc722830fc591509506c0a5e4f581073
+prerequisite-patch-id: 0c83bee688fec1f6d1564654df7c630fa6a4a978
+
+Best regards,
+--  
+Leon Romanovsky <leonro@nvidia.com>
+
