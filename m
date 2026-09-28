@@ -1,52 +1,81 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f12.google.com (mail-dy2-f12.google.com [74.125.229.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA853D955D;
-	Mon, 28 Sep 2026 14:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E234DB54D
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 14:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790604322; cv=none; b=d84wfd0gzuNw0tumeGUaF8YOeuF0CHAy+o9PDkH9G+U80lY0FuZLfJx8IxMZzpNBRV/CB4ryFNIqOwKQsZ+WK68agjpJc5uea8Nr9AeKPAJkXxElT94Qmg50dKO7BoivRSi2pbUdHOJ7zyenCWza9hWXzBDO9EEnri/dX8a3H7w=
+	t=1790605860; cv=none; b=K+B9Vi1Q9rKTUz1MlxMQ1Vs2m17XGUjqMeAhK7yeC5M6HWvpeFiXgdA5WGiukjr+tm77vEIr5xztpnR5bpNtYtBOJmLUFKMC/vQ7hSPL5ICtQfZq3HA1GpKcY0IDudCHXtvmJSI7fzUpp4Z+Lj8PDZxTJ1VukSzEINoTEMkENtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790604322; c=relaxed/simple;
-	bh=I7cy32qE3mCi1LUnKEYbF81UVxFwlh+gqR/Gi8LW8ws=;
+	s=arc-20240116; t=1790605860; c=relaxed/simple;
+	bh=zOO5vngUpbGvtnJJBJVPw2xvGaJW8+vPXLlCqMLjWxQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CY7UyqIrEHDK7UyPyk7RDJOKxibNESe1Ky43GoLybM6GTTgfHse1iTllWlRbgc9MUJ3BP9CLIdgWEbrKhE0l0+gEbNiSpbl9OMiqgrtWFZcr43fgmdFfqQ6ryO7JMGB1X7XmFiZLcd/0wi2QLK/FD2gBQ7IMP3y4iA7fnDZd5w8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FpWeQOSd; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=P/mVizyf2FyrRystru3uYUE7yZ+E5vxXUAAWgpJ7BWBjkQCViR6t0oS8fmnlvaZHnfAMAf/XaLptI4KXXUHLp1hasyV4Fz1SOYE06z5cQnxWK+vJFK7r+4fqVaVNU4owL4LMop1XOuI3ZqvdMRoKUMojIm5lqYKku53Se++CGXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RET7we+k; arc=none smtp.client-ip=74.125.229.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FpWeQOSd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=FCHe8gudcxkgAqU1pJw+MjYpxYs8TRLpsK3Msg47LyU=; b=FpWeQOSdWekJYUCR1qI1m4/AT6
-	n3hSkR7gomKDULlCi3sFg7XkK9Ur5EiFcxji8yXCAubec40G0cGDPLikJKmX9J10Q+/APklSEKyXN
-	IkmX3+J6qzZWgwFGvtWyylG2kEcOmRAvj2pRR0Ot7AOuIOGWFnnvyJqLcsXJmtEjQXXiXMCg4I4F9
-	+eglSzWu2SC5gvoycaCFkRdEETpcJwGCOM65/qfXGgcsn4dFQxnQup19vdw8qwlUv+yQabNnerDmb
-	fR84pJS43ChI50bfBRDoad3gM5y2zZCjA1gskiUIIwMTdWpF8YpAffTSUMGnbJ7viRnjv7pwcceav
-	ipfUs7dw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBByj-000000073bh-2KM9;
-	Mon, 28 Sep 2026 14:05:13 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 1D8DC3008BF; Mon, 28 Sep 2026 16:05:13 +0200 (CEST)
-Date: Mon, 28 Sep 2026 16:05:13 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Yiwei Lin <s921975628@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] rbtree: update augmented data on the way down in
- rb_add_augmented_cached()
-Message-ID: <20260928140513.GF4121620@noisy.programming.kicks-ass.net>
-References: <20260928122611.336351-1-s921975628@gmail.com>
- <20260928122611.336351-3-s921975628@gmail.com>
- <20260928133733.GP2009045@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RET7we+k"
+Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-3396cec93b6so3707368eec.3
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 07:30:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790605845; x=1791210645; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=fPfnBNjR5ch8SlrLWyGonFkgejUz2CO2DBapZuBSnpk=;
+        b=RET7we+kxRYdLAfbUCc0rcI2pSpqxqFSxRl+ubtip4dDaXcs6shb8DtHmljp/88Slf
+         ct6WY48lz2Ptv5i23PQawLdcQTtqKjwokIl49jpIrRAn3UUR9E2HjeO0z4D066LTBgAa
+         DJLUh0ZAroAmkDEKc87vfwG7a9PeMhV8Dt36pMS36rU3sEgH207IO8lS0XwreA4rKss5
+         Dxw3da3GSf75C4mdg3K0piJKu0Gmql4N2/Jq+pIDirM90IcDRWc3a5ngIxZQ6NF4qQ5m
+         3bgnVysoXoqdqLSypNDihcH0XzWbDJ4LqK6W5qfRTnFCDOwQ0xBSwCyam85Uy7lu0mtU
+         rCeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790605845; x=1791210645;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fPfnBNjR5ch8SlrLWyGonFkgejUz2CO2DBapZuBSnpk=;
+        b=a3MuvOU8Vk3UZaYd0jA0uYClNGLvKl7iBxdRbreryXRd7EuuVVwlExP2feCqCtqiWh
+         dNZTFiUP4xAVrO6j0lm3fQwaYDHZWSfXsAPCr7oEjlSzIkJJmln0s3Hp64OeSOFmY7bA
+         nD3USqMEcBGfSCNm9IZ9K1/8sLz66b9CHz9UbNNNwL2O9t1IphsTRBp1O1B/b7JP5YKK
+         vU1N86pS66JAb+5IDoPEW8hgQeFs0yfDwInRmerfqnIVqif89TDyyaqAh+ak/K4XvBqy
+         LCiOWGjqwEU6jI7Mlz1FWJbDyW/yEN4mYOdlw52U1ZkridD/9JRJ2nIXrIFKblHwNBzg
+         TxXw==
+X-Forwarded-Encrypted: i=1; AKwUvBwFkgmDHFZ4AK1o0Xy7u4k+cTwxE2oX18EbH2AYG4NX7pCyreb0eDNYcx3+50Tgi6YAka9hdk0C2qs=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKqQpl2CjHiQ2nv2wxnaoGSi7sTtGKl6TMeGjYnGTOPZ4cGxAe7
+	1LliEY2zr/NTaXOTXF+WHxGL1g4kbmGV9W39QImosIE32n/vHBMMcSxE
+X-Gm-Gg: AYBFou11GnO/+wuQuUh5neOJwIrSrqb/+xL1FLYTenJFTef0UaXkprC4xGIhjVZglwG
+	KTUBPqs3AFIZpNf2RMihpF64r2YIL+LKv8dpJdqcN8/Sn9zJrt7qzOx/Yp7ADyQTGJ8VnLkJnru
+	AXzAaheQXAaTY2wBNS6GbP6VeIITGx+vx/tK8nGNbM9/Ddh79ksejmHGsdgPNSH7A6xQFoPQEBi
+	pgtVhZYMlKF0w8XjJUTpcXBVgL2PUymPjICjMEFedOprUmL0fD3UEdGdBvslxp1qmuK5DQ+rgef
+	8l8fnGjKxBrfgCXSnRGgUW2XY7rPEEtcnay2I8kWOw01WCD+Q++0rZrIA04ChZ2xKiH3asD6J1Q
+	pBSU3ncQBsci0jS/B3x2qP63m3gKU7cISejHN0tVjTD2/dg5EXh+HR64937bejewxB9p8qKtotg
+	b3k9wyqzYAopS8V9ZHO5OcKnLH+3COF4UNp9w6EoV9T4rXNa49JXre+I/qDt4/EzoY0ueI0xucG
+	mHufpRXHunc
+X-Received: by 2002:a05:7300:cc1b:b0:33c:e61:e201 with SMTP id 5a478bee46e88-34271d88c7emr14770568eec.22.1790605844955;
+        Mon, 28 Sep 2026 07:30:44 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34144b4ae50sm29219226eec.17.2026.09.28.07.30.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 07:30:44 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 28 Sep 2026 07:30:43 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Antheas Kapenekakis <lkml@antheas.dev>
+Cc: alexei.solcanu@pm.me, Cryolitia PukNgae <cryolitia@uniontech.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] hwmon: (gpd-fan) Register both fans on the GPD
+ Win 5
+Message-ID: <531f1815-fdc1-468c-ad4b-d513972cfae6@roeck-us.net>
+References: <20260926-gpd-fan-duo-auto-v2-0-0a2ea41ee3b5@pm.me>
+ <20260926-gpd-fan-duo-auto-v2-2-0a2ea41ee3b5@pm.me>
+ <72ea804b-6d62-4f31-985d-4f3f0359b5be@roeck-us.net>
+ <CAGwozwHiJhDnpYsyWMYvzBmtGtn+pKJp+LY3dUk4mYcjw300oQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,143 +84,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260928133733.GP2009045@noisy.programming.kicks-ass.net>
+In-Reply-To: <CAGwozwHiJhDnpYsyWMYvzBmtGtn+pKJp+LY3dUk4mYcjw300oQ@mail.gmail.com>
 
-On Mon, Sep 28, 2026 at 03:37:33PM +0200, Peter Zijlstra wrote:
-> On Mon, Sep 28, 2026 at 08:26:10PM +0800, Yiwei Lin wrote:
+On Mon, Sep 28, 2026 at 02:03:57PM +0200, Antheas Kapenekakis wrote:
+> On Mon, 28 Sept 2026 at 13:05, Guenter Roeck <linux@roeck-us.net> wrote:
+> >
+> > On Sat, Sep 26, 2026 at 04:11:21PM -0400, Alexei Solcanu via B4 Relay wrote:
+> > > From: Alexei Solcanu <alexei.solcanu@pm.me>
+> > >
+> > > The GPD Win 5 uses gpd_duo_drvdata, which exposes a single fan and pwm
+> > > channel: pwm1 writes the same duty cycle to both fans, and fan1_input
+> > > only reads the first fan's RPM.
+> > >
+> > > The two fans have independent registers. Fan 1 uses duty cycle 0x047A
+> > > and RPM 0x0478/0x0479, fan 2 uses duty cycle 0x047B and RPM
+> > > 0x0476/0x0477. A duty cycle of 0 returns that fan to EC control.
+> > >
+> > > Add separate board data for the Win 5 and register fan1/pwm1 and
+> > > fan2/pwm2, one channel per fan. Boards with a single fan are unchanged.
+> > >
+> > > This changes behaviour on the Win 5: pwm1 and pwm1_enable now control
+> > > only the first fan. The second fan stays under EC control unless pwm2
+> > > and pwm2_enable are used.
+> > >
+> > > The GPD Duo keeps a single channel, since it is untested and its
+> > > second fan's RPM register is unknown.
+> > >
+> > > Tested on a GPD Win 5 (G1618-05).
+> > >
+> > > Suggested-by: Guenter Roeck <linux@roeck-us.net>
+> > > Assisted-by: LLM
+> > > Signed-off-by: Alexei Solcanu <alexei.solcanu@pm.me>
+> >
+> > Another patch new revision sent as reply of a previous one.
+> >
+> > Where does that idea come from ?  Can _someone_ please let me know ?
+> > It seems like a contagious disease, but no one is willing to admit
+> > where they caught it.
 > 
-> > diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> > index 7455a83a6a990..60db4624b9897 100644
-> > --- a/kernel/sched/fair.c
-> > +++ b/kernel/sched/fair.c
-> > @@ -1066,9 +1066,20 @@ static inline bool min_vruntime_update(struct sched_entity *se, bool exit)
-> >  	       se->max_slice == old_max_slice;
-> >  }
-> >  
-> > +/*
-> > + * Fold @new's subtree data into @se, for each @se on @new's insertion path.
-> > + */
-> > +static inline void
-> > +min_vruntime_merge(struct sched_entity *se, struct sched_entity *new)
-> > +{
-> > +	__min_vruntime_update(se, &new->run_node);
-> > +	__min_slice_update(se, &new->run_node);
-> > +	__max_slice_update(se, &new->run_node);
-> > +}
-> >  
+> Maybe the following?
+> https://en.andros.dev/blog/75beece9/sending-patches-via-email-with-git/
+> https://nickdesaulniers.github.io/blog/2017/05/16/submitting-your-first-patch-to-the-linux-kernel-and-responding-to-feedback/
 > 
-> So min_vruntime_update() can be written in terms of this helper like:
-> 
-> static inline bool min_vruntime_update(struct sched_entity *se, bool exit)
-> {
-> 	u64 old_min_vruntime = se->min_vruntime;
-> 	u64 old_min_slice = se->min_slice;
-> 	u64 old_max_slice = se->max_slice;
-> 	struct rb_node *node = &se->run_node;
-> 
-> 	se->min_vruntime = se->vruntime;
-> 	se->min_slice = se->slice;
-> 	se->max_slice = se->slice;
-> 
-> 	min_vruntime_merge(se, node->rb_right);
-> 	min_vruntime_merge(se, node->rb_left);
-> 
-> 	return se->min_vruntime == old_min_vruntime &&
-> 	       se->min_slice == old_min_slice &&
-> 	       se->max_slice == old_max_slice;
-> }
-> 
-> And that is *very* close to being generalizable, obviating the need for
-> RBCOMPUTE. Does your LLM see a way to make that happen?
 
-Perhaps by doing something like so?
+Sigh. That "keeping together" does cause me to miss new patch revisions
+on a regular basis. Oh well. At some point I may just create an
+auto-responder telling people that I am not responding to nested
+revisions, and copy the authors of those articles.
 
-diff --git a/include/linux/rbtree_augmented.h b/include/linux/rbtree_augmented.h
-index d2fa1c41bfd2..c4cf5160aa17 100644
---- a/include/linux/rbtree_augmented.h
-+++ b/include/linux/rbtree_augmented.h
-@@ -15,6 +15,7 @@
- #include <linux/compiler.h>
- #include <linux/rbtree.h>
- #include <linux/rcupdate.h>
-+#include <linux/args.h>
- 
- /*
-  * Please note - only struct rb_augment_callbacks and the prototypes for
-@@ -86,6 +87,20 @@ rb_add_augmented_cached(struct rb_node *node, struct rb_root_cached *tree,
- 	return leftmost ? node : NULL;
- }
- 
-+#define FOR_EACH_1(what, x)       what(x)
-+#define FOR_EACH_2(what, x, ...)  what(x) FOR_EACH_1(what, __VA_ARGS__)
-+#define FOR_EACH_3(what, x, ...)  what(x) FOR_EACH_2(what, __VA_ARGS__)
-+#define FOR_EACH_4(what, x, ...)  what(x) FOR_EACH_3(what, __VA_ARGS__)
-+#define FOR_EACH_5(what, x, ...)  what(x) FOR_EACH_4(what, __VA_ARGS__)
-+#define FOR_EACH_6(what, x, ...)  what(x) FOR_EACH_5(what, __VA_ARGS__)
-+#define FOR_EACH_7(what, x, ...)  what(x) FOR_EACH_6(what, __VA_ARGS__)
-+#define FOR_EACH_8(what, x, ...)  what(x) FOR_EACH_7(what, __VA_ARGS__)
-+
-+#define FOR_EACH(action, ...) \
-+	CONCATENATE(FOR_EACH_, COUNT_ARGS(__VA_ARGS__))(action, __VA_ARGS__)
-+
-+#define COPY_VAL(x) new->x = old->x;
-+
- /*
-  * Template for declaring augmented rbtree callbacks (generic multi fields)
-  *
-@@ -93,12 +108,12 @@ rb_add_augmented_cached(struct rb_node *node, struct rb_root_cached *tree,
-  * RBNAME:      name of the rb_augment_callbacks structure
-  * RBSTRUCT:    struct type of the tree nodes
-  * RBFIELD:     name of struct rb_node field within RBSTRUCT
-- * RBCOPY:	name of function that copies the RBAUGMENTED datas
-  * RBCOMPUTE:   name of function that recomputes the RBAUGMENTED datas
-+ * RBAUG...:	field names within RBSTRUCT holding data for the subtree
-  */
- 
- #define RB_DECLARE_CALLBACKS_MULTI(RBSTATIC, RBNAME,			\
--			     RBSTRUCT, RBFIELD, RBCOPY, RBCOMPUTE)	\
-+			     RBSTRUCT, RBFIELD, RBCOMPUTE, RBAUG...)	\
- static inline void							\
- RBNAME ## _propagate(struct rb_node *rb, struct rb_node *stop)		\
- {									\
-@@ -110,18 +125,23 @@ RBNAME ## _propagate(struct rb_node *rb, struct rb_node *stop)		\
- 	}								\
- }									\
- static inline void							\
-+RBNAME ## __copy(RBSTRUCT *new, RBSTRUCT *old)				\
-+{									\
-+	FOR_EACH(COPY_VAL, RBAUG);					\
-+}									\
-+static inline void							\
- RBNAME ## _copy(struct rb_node *rb_old, struct rb_node *rb_new)		\
- {									\
- 	RBSTRUCT *old = rb_entry(rb_old, RBSTRUCT, RBFIELD);		\
- 	RBSTRUCT *new = rb_entry(rb_new, RBSTRUCT, RBFIELD);		\
--	RBCOPY(new, old);						\
-+	RBNAME ## __copy(new, old);					\
- }									\
- static void								\
- RBNAME ## _rotate(struct rb_node *rb_old, struct rb_node *rb_new)	\
- {									\
- 	RBSTRUCT *old = rb_entry(rb_old, RBSTRUCT, RBFIELD);		\
- 	RBSTRUCT *new = rb_entry(rb_new, RBSTRUCT, RBFIELD);		\
--	RBCOPY(new, old);						\
-+	RBNAME ## __copy(new, old);					\
- 	RBCOMPUTE(old, false);						\
- }									\
- RBSTATIC const struct rb_augment_callbacks RBNAME = {			\
-diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index e707da7177df..cc4cd3565268 100644
---- a/kernel/sched/fair.c
-+++ b/kernel/sched/fair.c
-@@ -1061,9 +1061,8 @@ static inline bool min_vruntime_update(struct sched_entity *se, bool exit)
- 	       se->max_slice == old_max_slice;
- }
- 
--
- RB_DECLARE_CALLBACKS_MULTI(static, min_vruntime_cb, struct sched_entity,
--		     run_node, min_vruntime_copy, min_vruntime_update);
-+		     run_node, min_vruntime_update, min_vruntime, min_slice, max_slice)
- 
- /*
-  * Enqueue an entity into the rb-tree:
+> I faintly recall something like that when i was sending my first patch
+> a few years ago.
+> 
+> I checked the kernel docs and they are correct now and explicitly say
+> do not do this. Perhaps that was a recent change though.
+
+No, that was not a recent change, unless you count commit d7ac8d85d39f4
+("Documentation/SubmittingPatches: discuss In-Reply-To") from 2015 as a
+"recent change".
+
+Guenter
