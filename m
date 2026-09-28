@@ -1,173 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f38.google.com (mail-pz2-f38.google.com [74.125.228.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09EC439768D;
-	Mon, 28 Sep 2026 19:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4364C4E4C40
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 19:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790622160; cv=none; b=oomXNBUZec/XLhOjjRR27MLkrzs/HkiSwio6nEk4JXGn9tCVEgKhKRRUIeVG5J8DHr0GCsL6Q6tn74E4e4JYyIGz9vX0L1ZqCj/kpfPZV2edcgE9AKa/8OhF0NV49uVBrRyF1BtB11QljV1OcXcU0J0nXXz8pnsYYTus6iMbVGs=
+	t=1790622938; cv=none; b=hK93alj6ZFrjHTKIFngBiq1M6qEP2+qQ2F4iT4MctRht7Dbb14JhPeqozgFKG8dnRCu5mnFZRnRKW8KXkUj0ErhysehDa++s8oRRGEVfW4n4Dgvxq6X83G9/jawQAWAmbTJpEdbDbGPWiWO10ILWTx4vVZZ0fQ7vQ3g33WFWmEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790622160; c=relaxed/simple;
-	bh=8IfPv+STfMcZJKjf6yggHH5WDwdE237pEfnwfgqDUzg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AghzlHEbe0TV9oqltfh46/6WMcSsOgNKBTy90Rz2xeHpTlBwJNZM5NL/GEaYYzjvy8poDbzj+IEVMsoN0gGs3moMS2IbrF3GfQvxWAX0In7COVIjHgdcHXqS45eMOX4AlalbHKuwqNpiRBCKF6kbCnzReD6ucslRkjrd3/5KC3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpdScsI+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790622938; c=relaxed/simple;
+	bh=cnSkWhVxKLSHuvDTlQufv+EuF2rraS4RcqOQGjemejk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=FqPM+WUTOaaRveTvssvRh22MOR9uqv4x1O6tl5uGikGCwKdUxWBJlN8hLYAYrw46kzQbz2QIz3DcQ9/hfJkcx58r6dsKnMA9JuFqrngW4JTCGcgNobwpA0UlbHT9vuYuMq3CURtFhq6SGJF4NidPmiwiXIXeunXdo7uJYyFSLh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K1ul2MGa; arc=none smtp.client-ip=74.125.228.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpdScsI+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263B61F000FF;
-	Mon, 28 Sep 2026 19:02:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790622158;
-	bh=vTZRqeA3eh/91cOEVB9Z7b7RmqYVnV8/9o2vIx4X17c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=JpdScsI+6Qzm+N9kvlK8qVUWrOLKhvaCARl3eGaAFGaYO8jR3uleE7yaCCC2auyT3
-	 jbZr+S2DpOD9UfDIEdqk6cBuN8esD48o0Gr0bbRqDa5fkW8kfvg3bc0OO4tZNii7iv
-	 hCZnw+aYEBCML2hR563F9EUvHTG9YIPr8zh9JQIGynl/nYmoSEYCFmA30prsHWWp4o
-	 ouiSZ/rTdzjzBicvJB2pHHx6risqXhJCsl//LUsmZ2yWFCPYtCei5xUflJxZAWNDrU
-	 5hcJqUpuoB8o2R/tjhS4cb6OcUdgWl32Akkvgb7W7xFukQg2PHNhQGjorZFNvgDrDy
-	 5AZH3hA8QW+cQ==
-Message-ID: <7d4816f0-9c18-413f-9a7d-aaa003bf3135@kernel.org>
-Date: Mon, 28 Sep 2026 21:02:17 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K1ul2MGa"
+Received: by mail-pz2-f38.google.com with SMTP id 41be03b00d2f7-cc79a5bdf9fso419047a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 12:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790622936; x=1791227736; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RgWd/l9HpKlKhvcWTT1u0c7+1pXvz8TwXeJa3yLEX5w=;
+        b=K1ul2MGaTUlcU8VoW/vtt3h45V2MYm/YBvwbZR91EXDoyl13W6Q8fgtqYxlszs1w4e
+         wp7lCYHPu49E9isGQ+3ibE7C+C/+5nAtA0J65wEy6fthROkkZGuF0j6Ap9WOMGF5rHlT
+         DFyUjqpI+xrWZZG5t1vjeOiCx3DrHFW9+k6dQ7UoylvJrk8XhYU8BW2iQ7tMgZ87FC6r
+         B0lpOhAXr28bilYzaCElM46svxOF0h1gVXFvcH/hc1GpvjtujJ6KtxhuHnz8q5tbz7c/
+         E+1pCkt+/qMWoLpTcnhmp9bHSWnexnCmJ5QMYIzudhzS/liYFOGoFZIyRQXUW1BTXaP8
+         hsfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790622936; x=1791227736;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RgWd/l9HpKlKhvcWTT1u0c7+1pXvz8TwXeJa3yLEX5w=;
+        b=R5sbKShcmwfcRAZbJnUS5nldgsP0vopunNSWHelhUe1lzaBFu+ZKli4TuUlUfUX2Z3
+         Gr5Hr4pJsk3rxhnmySZJpoMRsFWlz4a4DrHuhI1VAE91h7WG20ELBEeXMy29dxLykq7U
+         dzF2j4mNd9WYZSdVa5K3tj//NZnMzlojAt+4Rvf+2XTPSO5PYrxxxDBFjLAmDav7p3oa
+         3VvPxVoqWxRt4lw/JId24dV75jsQCUV0xO3nHzNsvm/nSv3ZrNYjtjzTBn01UKPZ/b7a
+         40SMdHVrtEAD8gmgEIto8BlwExx33cqpeIJ2+Daf0Sb6MPTQBy31SVv3q1kL0LisIr1g
+         941A==
+X-Forwarded-Encrypted: i=1; AKwUvByZKg2RpuVoAAt8fPSy59bwDTrRpXo5S+4Q3ccfesmN0p3IW4LsAy5VBhsPany2psz8bwqsJDKRLH0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIT0wVelZ0sfu4gYh4oemRbBk6dODZop/AKdqh4ZZUYY0Ypam2c
+	RmSkSxtJx6sRx9nfgpE6a8lTEhxwkrKk3cFNyFLX98s2PuWfNAjcADYU
+X-Gm-Gg: AYBFou1L3SUecXw1etMhg/DATzfnjUXmswxIGCeWHMIQU7gsx2LAOOIjrtSsi6j8Isz
+	cXxzWAeGdvWh789g/gf2A4o0P459A38facNeajSr4zDsNRnTD7DV17tOcwy/K7R0jRiF/VsLOyf
+	mZR69Qmh0C/xQDn3+CJwl79m3SUHZlW5X2OVyuLeq8nO7A2oy7PlkB/FYZrQgaIvLXCVpEhaX+7
+	0stfChvKRDtC/bLbE/TU3JjzfonT8DPyMMj8jl4tGCJy4ikHcqWprjwgCE1S/frCf9FhRJMV322
+	CYtyuiL2Lhk05UOWhTgxw5YW4OeIi8G/uoYYSMQ4z3BMJkXhU8QnQw0ouHxB04MsRhm7SFDWpPz
+	DEF/mTOFBfdqzVLeUkKj9jBlnR0UjDXO5sptIPaBbT+FsQPUHKy307CkdNkVNIUjKAT5AWAfWEd
+	SxRdPZ6QWkhF/kVjTJ4TZtN9NYgYSl4xX3vttyINvktcPP+4TOcvODSV43cRonxpLaLOydeURU5
+	+mrezTiC9V7jW3iThnuMpuTiE0P6eBDAo5OYgTVoP9D4nWfMud2g+E3smiDazHlCnUqw/dd7Bl/
+	Yne0SP6Rz6L+At9eXPDS
+X-Received: by 2002:a17:90b:5648:b0:3a0:e985:9ca2 with SMTP id 98e67ed59e1d1-3a49c1a1c55mr90738a91.31.1790622936500;
+        Mon, 28 Sep 2026 12:15:36 -0700 (PDT)
+Received: from NV-9MNJ414.tailae2068.ts.net (2001-b011-2006-1fb9-8409-0195-705e-5b47.dynamic-ip6.hinet.net. [2001:b011:2006:1fb9:8409:195:705e:5b47])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a49c1afb23sm284314a91.16.2026.09.28.12.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 12:15:35 -0700 (PDT)
+From: Yiwei Lin <s921975628@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Yiwei Lin <s921975628@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] rbtree: update augmented data on the way down in rb_add_augmented_cached()
+Date: Tue, 29 Sep 2026 03:15:26 +0800
+Message-Id: <20260928191526.645160-1-s921975628@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260928140513.GF4121620@noisy.programming.kicks-ass.net>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/12] CRASH_MEMACTION: describe pages to a kdump
- kernel (was: CRASH_WIPE_SECRETS)
-To: =?UTF-8?Q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Baoquan He
- <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Dave Young <ruirui.yang@linux.dev>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Benjamin Marzinski <bmarzins@redhat.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Mimi Zohar <zohar@linux.ibm.com>,
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- James Bottomley <James.Bottomley@HansenPartnership.com>,
- "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Lance Yang <lance.yang@linux.dev>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- kexec@lists.infradead.org, driver-core@lists.linux.dev, linux-mm@kvack.org,
- linux-arm-kernel@lists.infradead.org, dm-devel@lists.linux.dev,
- linux-crypto@vger.kernel.org, linux-integrity@vger.kernel.org,
- keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org
-References: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 9/28/26 19:17, Jan Sebastian Götte wrote:
-> I'm using linux on an embedded target in a Hardware Security Module-like
-> application. One requirement is that I want the system to be able to
-> quickly erase its memory when it detects physical tampering. I'm
-> approaching that by using kdump to load into a small payload that
-> instead of dumping RAM, erases RAM frmo start to end. However, writing
-> all of RAM, especially on an embedded target, is rather slow. For this
-> reason, I propose a new crash_memaction mechanism that lets the old
-> kernel indicate marked memory areas to the kdump kernel at page
-> granularity.
-> 
-> I will be using this mechanism to indicate "secret" memory ranges for
-> early wiping by my kdump payload. After discussion with Baoquan He early
-> August, the patchset includes a second flag that can be used to indicate
-> "cache" memory that the kdump kernel may want to skip when creating the
-> dumpfile.
-> 
-> The record is a bitmap with one bit per page, allocated at boot. It
-> reaches the kdump kernel as a PT_NOTE named MEMACTION. Marking is a
-> lock-free atomic bitmap update with no allocation, so it is safe in any
-> context.
+On 2026/09/28 22:05, Peter Zijlstra wrote:
+> > And that is *very* close to being generalizable, obviating the need for
+> > RBCOMPUTE. Does your LLM see a way to make that happen?
+>
+> Perhaps by doing something like so?
+[...]
+>  #define RB_DECLARE_CALLBACKS_MULTI(RBSTATIC, RBNAME,			\
+> -			     RBSTRUCT, RBFIELD, RBCOPY, RBCOMPUTE)	\
+> +			     RBSTRUCT, RBFIELD, RBCOMPUTE, RBAUG...)	\
 
-This is all rather messy.
+Yes, and since RBCOMPUTE is always "reset the fields to the node's own contribution,
+then fold in each child". I think we can also generalize it with RBMERGE, by
+adding one extra RBINIT:
 
-So, in general, kdump has access to the memmap, and it can figure out certain
-things about pages to be dumped. That's what makedumpfile does.
+        static inline void min_vruntime_init(struct sched_entity *se)
+        {
+                se->min_vruntime = se->vruntime;
+                se->min_slice = se->slice;
+                se->max_slice = se->slice;
+        }
 
-It can identify user pages, kernel pages, etc. If you could identify relevant
-pages through the memmap from the second kernel, you might be able to clean them.
+So the original RBCOMPUTE can be generated by the template instead, which allow us to
+remove min_vruntime_update.
 
-I'd assume you could identify secretmem pages that way.
+        static inline bool RBNAME ## _compute(RBSTRUCT *node)                         \
+        {                                                                             \
+                typeof(node->RBAUGMENTED) aug;                                        \
+                RBSTRUCT *child;                                                      \
+                                                                                      \
+                RBINIT(node, &aug);                                                   \
+                if (node->RBFIELD.rb_left) {                                          \
+                        child = rb_entry(node->RBFIELD.rb_left, RBSTRUCT, RBFIELD);   \
+                        RBMERGE(&aug, &child->RBAUGMENTED);                           \
+                }                                                                     \
+                if (node->RBFIELD.rb_right) {                                         \
+                        child = rb_entry(node->RBFIELD.rb_right, RBSTRUCT, RBFIELD);  \
+                        RBMERGE(&aug, &child->RBAUGMENTED);                           \
+                }                                                                     \
+                if (!memcmp(&aug, &node->RBAUGMENTED, sizeof(aug)))                   \
+                        return true;                                                  \
+                node->RBAUGMENTED = aug;                                              \
+                return false;                                                         \
+        }                                                                             \
 
-But all these madvise/mmap thingies are really not appropriate to reduce the
-zeroing.
+Base on this I have another idea: can we let augmented data becomes one member and
+init/merge just work on its type by value. Taking sched for example:
 
--- 
-Cheers,
+        struct_group_tagged(sched_aug, aug,
+                u64 min_vruntime;
+                u64 min_slice;
+                u64 max_slice;
+        );
 
-David
+So fair.c's se->min_vruntime etc. can stay as they are, we don't have to rely on the
+FOR_EACH machinery. Do you think this can be better or do you prefer the field-list form?
+
+Thanks,
+Yiwei Lin
