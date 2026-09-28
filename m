@@ -1,103 +1,129 @@
-Received: from mta1.migadu.com (out-206.mta1.migadu.com [95.215.58.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC5448C3E8
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 09:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D5530FF36;
+	Mon, 28 Sep 2026 09:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790587104; cv=none; b=G+k/Ww9VM0+iW9iK5mNIYZJTugjSUMPlrPFOI4vjJTqAx1V3g3iO3p5lK6W5C8WGQYPr7FHjq4BcSbMkpbLVPsgue+DfUqs/lY2Ka/Vb/Yq7Rmc3xIRqsSFUNH933S5ferY2gEHcraPN42wKv94CiT1TirJsp3zzXC6EhArd0Mw=
+	t=1790587548; cv=none; b=krVyvgNjQYABLU8/G8Nac+v/mXUKHNTNezu9+bppuq1QqjW76nPb1kGbTAinPLftAJYt3Ve8DdIHjW+ODpFsIihABKq6Um8vMqI6okfn+THv3igPGIWZILQwe2TN+eyuD8/69gpCHjG4kaqqw/XT/2IFtwbPuwKOgFQs3bnXpYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790587104; c=relaxed/simple;
-	bh=K099Rw5M4UKS31OhBymJo8V1Y7FIJNV2jyM3H5L2DaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bMraTfusAOP3Zdyn5/JM7eqgnoiHGvaZRsb7WyjQL2ZZLzXHiHKUWjccYl72do/TZiDA2b54GncOKSVYyJe1NY4EnAsijd5U+88K2fiQtbhiktCJ+nnQoEUgAANiuE/TQ+z491rRuHK7No1Q4RiYUJcUCIDZMeThDeeKrxA64N0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=krbkZVRX; arc=none smtp.client-ip=95.215.58.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1790587548; c=relaxed/simple;
+	bh=gLmI30IVTAMBPBa/hZalicUbckWvB9P4czWGWtkVe+I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rMX22930vNPb3XcJIyhcUZjmdi3JjozVhhrraYktRiLtrQ8Bz1UneR0dF3ndyPi29PcvSieKWbQKq+/bks73hH/6Vv17p4ptDuTg5o9Diwg6hshlZibWgPhN2g41X9GioPkldsssHobK1aehdxQEYsIt8RotWW/pmTS+/taYLeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I9nCQsQr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="krbkZVRX"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=K099Rw5M4UKS31OhBymJo8V1Y7FIJNV2jyM3H5L2DaQ=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790587099; v=1; x=1791191899;
- b=krbkZVRXRqnA6d4xv2cxXvFNQV2icYxYCx/I0Bu2p/EqtjllE/olv0uoHlm64L5I2zUGrUds
- jEBpzazB9pfNbLnjfQphB0i0zLEPFzjZxUiHUA8zTgYwn+GREH/Tvkcd3Ak6KfCguDqGfKOQ3OR
- LlgBPhyte5cQI3kH6PJHS7XMTQKvtuQcqEqohCfU4mvbbt6jkCGb9iQl2P+bHhr1dRbTjsMcsEJ
- Lx6qFz96wTwNqACP4REhiUm2+0Z3ImQAZX3FJyXh3lSn+OgKpiFCXmolyTCPY+gAmtmopYP6qg4
- fS5pAPVYl8X02Oe3dRNO1IDUb9Imvy4HItt1ITazxSTYw==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f274185ece85bc57;
-	Mon, 28 Sep 2026 09:18:19 +0000
-X-Mizu-Trace-ID: f274185ece85bc57
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 28 Sep 2026 17:18:16 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Jiaming Ouyang <jiamingouyang13@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	alexs@kernel.org, corbet@lwn.net, Dongliang Mu <dzm91@hust.edu.cn>,
-	si.yanteng@linux.dev, skhan@linuxfoundation.org,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	rdunlap@infradead.org, baikefan@leap-io-kernel.com
-Subject: Re: [PATCH v2] docs/zh_CN: add Chinese translation for usb/ohci.rst
-Message-ID: <arow2FPuxMHjFNgb@wyuan.org>
-References: <CAMnqnYwKwb5oTFOXNJyTJk2JEL6bnq+7yENm8v8RnovBYsFVGA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I9nCQsQr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A241F000FF;
+	Mon, 28 Sep 2026 09:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790587546;
+	bh=ePovJIioM1ipgDKQDGN2uNP15cDFy1xw6rBFUlGkct0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=I9nCQsQrodPBIAuw9DKd4DDPXJ5vehsGPkAbnRMf5Ny4yrlHb4MGfiGRAZZ42sOnp
+	 AafWGSqmioUIOpB7XLP3tIhQisxsvdt6QH2i1yLWc9x64tp+ISvc1ZNclTCG2vAErT
+	 SEeFM2Orn0WNnkLCkA5CdWqFKZKfxBERk6vTk5FtLEcQLZ0kGjxOF+Dz1COo8wxvui
+	 HUsVbEOkMzixhxUk0GqAhEHb4yYm75QAypSb4f9KOcQLM8azd6UvcYuDoqP5nDsX3B
+	 JnH2tsJobsv7pLHvZFzN1Dq6dzO3LwWa61AtPwK9htqbWogQEcNitdKxeK6SJbp667
+	 h2WtW+sXUGd1g==
+Message-ID: <67722705-d45b-4474-90dc-e2402d766688@kernel.org>
+Date: Mon, 28 Sep 2026 11:25:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMnqnYwKwb5oTFOXNJyTJk2JEL6bnq+7yENm8v8RnovBYsFVGA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] selftests: kselftest: avoid cd - in runner
+To: Hajime Tazaki <thehajime@gmail.com>, linux-mm@kvack.org,
+ liam@infradead.org, rbm@suse.com, akpm@linux-foundation.org,
+ luto@amacapital.net, brendan.jackman@linux.dev, liuhangbin@gmail.com,
+ corbet@lwn.net, kees@kernel.org, ljs@kernel.org, broonie@kernel.org,
+ mhocko@suse.com, rppt@kernel.org, shuah@kernel.org, surenb@google.com,
+ vbabka@kernel.org, wad@chromium.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-um@lists.infradead.org
+Cc: geert@linux-m68k.org, daniel@thingy.jp
+References: <20260926010819.604346-1-thehajime@gmail.com>
+ <20260926010819.604346-2-thehajime@gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260926010819.604346-2-thehajime@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 2026-09-28 10:52:04 +0200, Jiaming Ouyang <jiamingouyang13@gmail.com> wrote:
-
-> [PATCH v2] docs/zh_CN: add Chinese translation for usb/ohci.rst
-
-We do not need this [PATCH] line in the email body, because the
-"Subject:" header of your email already contains the info.
-
-Or you can refer to my reply to Greg.
-
-> Translate Documentation/usb/ohci.rst into Chinese Simplified.
+On 9/26/26 03:08, Hajime Tazaki wrote:
+> The kselftest runner currently uses `cd -` to restore its working
+> directory after running a test.
 > 
-> The translation covers OHCI driver overview, hardware protocol
-> differences (OHCI vs UHCI), improvements since 2.4 kernel,
-> queueable interrupt transfers, and non-PCI support.
+> This is not supported by the minimal BusyBox hush shell used by some
+> NOMMU targets. Store the original directory explicitly and restore it
+> with a quoted path instead.
 > 
+> This also avoids printing the directory change performed by `cd -` and
+> handles paths containing whitespace correctly.
+> 
+> Cc: Shuah Khan <shuah@kernel.org>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Andy Lutomirski <luto@amacapital.net>
+> Cc: Will Drewry <wad@chromium.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Brendan Jackman <brendan.jackman@linux.dev>
+> Cc: Hangbin Liu <liuhangbin@gmail.com>
+> Cc: "Ricardo B. Marliere" <rbm@suse.com>
+> Cc: linux-kselftest@vger.kernel.org
+> Cc: linux-um@lists.infradead.org
+> Cc: linux-mm@kvack.org
+> Signed-off-by: Hajime Tazaki <thehajime@gmail.com>
 > ---
-> Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
 
-And your sign-off should be above the three dashes.
+Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
 
-so in general like this I guess:
+-- 
+Cheers,
 
-| Translate Documentation/usb/ohci.rst into Chinese Simplified.
-| 
-| The translation covers OHCI driver overview, hardware protocol
-| differences (OHCI vs UHCI), improvements since 2.4 kernel,
-| queueable interrupt transfers, and non-PCI support.
-| 
-| Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
-| ---
-| Changes in v2:
-| - foo
-| - bar
-| 
-| Documentation/translations/zh_CN/usb/ohci.rst | 38 +++++++++++++++++++
-| 1 file changed, 38 insertions(+)
-|  create mode 100644 Documentation/translations/zh_CN/usb/ohci.rst
-| 
-| [...]
-
-
-Hmm, how about read the SubmittingPatches file before sending out next
-version?
-
-https://docs.kernel.org/process/submitting-patches.html#the-canonical-patch-format
-
-Hope it helps.
-
-Thanks.
+David
