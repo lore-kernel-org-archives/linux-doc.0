@@ -1,73 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FEF4D9F62;
-	Mon, 28 Sep 2026 17:33:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F8D37C10A;
+	Mon, 28 Sep 2026 17:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790616796; cv=none; b=oLQ26vPVIjjgEltkPeysnyBn8XVz9/hPzkj3yrrDpdvy5s53gJZ/jKoeDOrGVQ5gH5u5RauZIentnGPpRLOsE9t7aCOKOdaOt38QHzOm3CwTMdUbhsZDgCtLggDbXu5jUxZ/XG3Klex30Zx/DIJi0lSghVlUUAhwA7NGgTB4Af8=
+	t=1790616841; cv=none; b=ubFSA8q3FLl//2ToO3c7Vu3jbLyTtOyBR3ksITS9TaxXw1HEch4lBBF4iYZENSWZY6I1x9IRhmFAHmNEPV4t04Zb+84ZrHihnZo8c0KPxdRCtWJESG6i2dWg2M/VFRi/nCIeTBAdquxkrMFuwOiNhIN1tTXPveKf8e1YH1WiKGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790616796; c=relaxed/simple;
-	bh=C8kGbKfsI+FMcV8afys+z8UNd4GWjbh7+SCvfWTuSTM=;
+	s=arc-20240116; t=1790616841; c=relaxed/simple;
+	bh=Rv/LkB6PetOdVT/pJO5A17DkMHpW1BtDQRc+jBFVZPw=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=k8gecQJSyev2uz0xrSET7+9ODSD6/BB+DaGiD4W+KC+oKDsqYloWxrX/HQ5QseM/hcbdLEz0COvQIC6S0+ByTG03QuysWohkMwRhdTqO/0cOJboFvzKmk2nP8WvuofZwxvFOqSeAvNpZ4n66D8R1XiaDnibftpvungJUYkoxaHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IA++G6Ke; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=pFGMtRa/Gph6mjbQRQNbR3xv0ZrejZvv1zdnQh+ijdshtU1dcvWsFxq4nqiEWybNlRZ3oDtWVvcF5CQ7gA8PoQhkxGJvdVt5pKXm5NhUvh3sc7SFC82dK0CcG4p0RX61V96GwSDlF8kLSIhUFOM9zZaEpUhbX3J2iqS8Dild8io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EXIu9dO6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IA++G6Ke"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 338DB1F000FF;
-	Mon, 28 Sep 2026 17:33:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EXIu9dO6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7E641F000FF;
+	Mon, 28 Sep 2026 17:33:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790616795;
-	bh=ZZAMQYYiiCkPWOPSajMdbfju4b+8ZMSrcWzT8+A/DzM=;
+	s=k20260515; t=1790616839;
+	bh=Rv/LkB6PetOdVT/pJO5A17DkMHpW1BtDQRc+jBFVZPw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IA++G6KeWHo5KL4bWJkkW5kJ8rbX8uqYdP/N7/J6hUzwwPck9BMUiXbG7dv08mV+W
-	 Mkhu7jYEAXKJ1jRG5xqRur6EpFCt+ugPjtVsCE3BOsuKgglOdOrcZwJpNzjmNxa6UT
-	 bfZ+1lKO2H+JA+sQJJG7Wl/PBhYmoAXqnfUh7mH3/dnQ6oqK8J2Btnwoc3gVO1El+C
-	 /keEp2AcAZTa6AinGiweR+Dc6hX1maKvscK9nl2GolTZI4w+ybNzA4vbF/5Vb0oA0a
-	 OrXVKvI9dafmHTw4WBEi7Zkl4TfykIjBJ24IRHEjZfvg+S5xDuHTslMQXkC0rMMmKV
-	 /9b/IY3S1qSKQ==
+	b=EXIu9dO6xq2mXjLluKTuv30Af8CyESirOON3Mf9f2hlYpl04nw+40wD3YbPZG1tfL
+	 HmEUK5JSYhOyLVpaITSvM4ELC305cnUmqN9ksJ+i7mccp6EtQ/LsYNrSRewyr85nde
+	 fVJV76IlrsFhWqVs/3xmVmIBd5rfId8R3Lh7oVvN7+x6UaAjI/u56vaUwWNH+BzmMd
+	 5K4imrySj0RLN+5w4QO4+sSnSj9TmSjJF2l8B8t3RQ3nGTFBARSJ9FwuxizUmBvtrv
+	 QDRybDY6Goyif08lGnOWdctOSDJJJnyLsuwJCiGm2H3dSjfMBA31RN52rTusPsKHOf
+	 pnr0NyfPsRKJg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 1/2] kbuild: Mark usr_gen_init_cpio as
- no-dot-config-target
+Subject: Re: [PATCH v3 05/12] dm crypt: Allocate key material from the
+ secret pool
 Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?VGhvbWFzIFdlacOfc2NodWg=?= <linux@weissschuh.net>, "Pratyush
- Yadav" <pratyush@kernel.org>, "Shuah Khan" <skhan@linuxfoundation.org>, "Nathan
- Chancellor" <nathan@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Jonathan
- Corbet" <corbet@lwn.net>, "Luis Augenstein" <luis.augenstein@tngtech.com>, "Maximilian
- Huber" <maximilian.huber@tngtech.com>, "Mike Rapoport" <rppt@kernel.org>, "Pasha
- Tatashin" <pasha.tatashin@soleen.com>, "Willy Tarreau" <w@1wt.eu>, "Alexander
- Graf" <graf@amazon.com>, "Nicolas Schier" <nsc@kernel.org>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-kbuild@vger.kernel.org, kexec@lists.infradead.org, linux-kernel@vger.kernel.org, "Askar
- Safin" <safinaskar@gmail.com>
-In-Reply-To: <20260928-move-gen_init_cpio-to-scripts-v4-1-f437a33c40ac@kernel.org>
-References: <20260928-move-gen_init_cpio-to-scripts-v4-0-f437a33c40ac@kernel.org>
- <20260928-move-gen_init_cpio-to-scripts-v4-1-f437a33c40ac@kernel.org>
+To: "Usama Arif" <usama.arif@linux.dev>, "Matthew Brost" <matthew.brost@intel.com>, "Byungchul
+ Park" <byungchul@sk.com>, "Harry Yoo" <harry@kernel.org>, "Dave Young" <ruirui.yang@linux.dev>, "Will
+ Deacon" <will@kernel.org>, "David Howells" <dhowells@redhat.com>, "Andrew
+ Morton" <akpm@linux-foundation.org>, "Mark Rutland" <mark.rutland@arm.com>, "Kiryl
+ Shutsemau" <kas@kernel.org>, "Dev Jain" <dev.jain@arm.com>, "Johannes
+ Weiner" <hannes@cmpxchg.org>, "Mikulas Patocka" <mpatocka@redhat.com>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Peter Xu" <peterx@redhat.com>, "David S.
+ Miller" <davem@davemloft.net>, "Vlastimil Babka" <vbabka@kernel.org>, "David
+ Hildenbrand" <david@kernel.org>, "Shuah Khan" <skhan@linuxfoundation.org>, "James
+ Morris" <jmorris@namei.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Jann Horn" <jannh@google.com>, "Alistair
+ Popple" <apopple@nvidia.com>, "Saravana Kannan" <saravanak@kernel.org>, "Serge
+ E. Hallyn" <serge@hallyn.com>, "Lance Yang" <lance.yang@linux.dev>, "Barry
+ Song" <baohua@kernel.org>, "Oscar Salvador" <osalvador@suse.de>, "Ying
+ Huang" <ying.huang@linux.alibaba.com>, "Randy Dunlap" <rdunlap@infradead.org>, "Mimi
+ Zohar" <zohar@linux.ibm.com>, "Muchun Song" <muchun.song@linux.dev>, "Catalin
+ Marinas" <catalin.marinas@arm.com>, "Herbert Xu" <herbert@gondor.apana.org.au>, "Brendan
+ Jackman" <brendan.jackman@linux.dev>, "Gregory Price" <gourry@gourry.net>, "Baolin
+ Wang" <baolin.wang@linux.alibaba.com>, "Danilo Krummrich" <dakr@kernel.org>, "Arnd
+ Bergmann" <arnd@arndb.de>, "Mike Rapoport" <rppt@kernel.org>, "James
+ Bottomley" <James.Bottomley@HansenPartnership.com>, "Pratyush Yadav" <pratyush@kernel.org>, "Michal
+ Hocko" <mhocko@suse.com>, "Liam R. Howlett" <liam@infradead.org>, "Rik van
+ Riel" <riel@surriel.com>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Nico
+ Pache" <nico.pache@linux.dev>, =?utf-8?b?SmFuIFNlYmFzdGlhbiBHw7Z0dGU=?= <linux@jaseg.de>, "Mike
+ Snitzer" <snitzer@kernel.org>, "Pasha Tatashin" <pasha.tatashin@soleen.com>, "Rafael
+ J. Wysocki" <rafael@kernel.org>, "Paul Moore" <paul@paul-moore.com>, "Pedro
+ Falcato" <pfalcato@suse.de>, "Baoquan He" <baoquan.he@linux.dev>, "Suren
+ Baghdasaryan" <surenb@google.com>, "Alasdair Kergon" <agk@redhat.com>, "Zi
+ Yan" <ziy@nvidia.com>, "Jonathan Corbet" <corbet@lwn.net>, "Rob Herring" <robh@kernel.org>, "Joshua
+ Hahn" <joshua.hahnjy@gmail.com>, "Benjamin Marzinski" <bmarzins@redhat.com>, "Jarkko
+ Sakkinen" <jarkko@kernel.org>
+Cc: linux-crypto@vger.kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, conor+dt@kernel.org, driver-core@lists.linux.dev, linux-arm-kernel@lists.infradead.org, robh@kernel.org, linux-security-module@vger.kernel.org, kexec@lists.infradead.org, keyrings@vger.kernel.org, linux-arch@vger.kernel.org, devicetree@vger.kernel.org, linux-fsdevel@vger.kernel.org, "Eric
+ Biggers" <ebiggers@kernel.org>, linux-kernel@vger.kernel.org, dm-devel@lists.linux.dev
+In-Reply-To: <20260928-crash-memaction-upstream-20260921-v3-5-e511e9ee2329@jaseg.de>
+References: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
+ <20260928-crash-memaction-upstream-20260921-v3-5-e511e9ee2329@jaseg.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 28 Sep 2026 17:33:13 +0000
-Message-Id: <20260928173314.338DB1F000FF@smtp.kernel.org>
+Date: Mon, 28 Sep 2026 17:33:55 +0000
+Message-Id: <20260928173355.B7E641F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 
-> Let usr/gen_init_cpio be built also if there is no kernel configuration.
+> dm-crypt keeps the volume key, the IV mode seeds and, when a keyring key
+> is used, the key description in memory for as long as the target exists.
+> If the system crashes, they are left in memory and will end up in a
+> crash dump.
 >=20
-> Askar Safin reported that gen_init_cpio may be of use before any kernel
-> configuration is available.  Add usr_gen_init_cpio to list of targets
-> that do not require a .config file.
+> Allocate every buffer that holds key material from the new secret pool,
+> whose backing pages are marked by crash_memaction for the kdump kernel
+> to wipe. The volume key is a flexible array at the end of struct
+> crypt_config, so the whole struct moves into the pool with it.
 >=20
-> Reported-by: Askar Safin <safinaskar@gmail.com>
-> Closes: https://lore.kernel.org/all/20260220191150.244006-1-safinaskar@gm=
-ail.com
-> Fixes: f8e05c10631e ("kbuild: Add top-level target for building gen_init_=
-cpio")
-> Signed-off-by: Nicolas Schier <nsc@kernel.org>
+> Signed-off-by: Jan Sebastian G=C3=B6tte <linux@jaseg.de>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260928-move-gen_i=
-nit_cpio-to-scripts-v4-0-f437a33c40ac@kernel.org?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260928-crash-mema=
+ction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de?part=3D5
 
