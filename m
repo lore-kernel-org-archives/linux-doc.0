@@ -1,90 +1,46 @@
-Received: from mail-ej2-f43.google.com (mail-ej2-f43.google.com [74.125.228.171])
+Received: from mta0.migadu.com (out-21.mta0.migadu.com [91.218.175.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4832E4F7CB8
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 22:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF474908DD
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 22:16:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790633326; cv=none; b=LBdI87afNnaK+Zd4l8GVxkBkFooj7L5AZVWKSbipnv5ScAanxGqIrV4NWkeX67hho2CwgJN4oC3GwfEffd79fdygVEVikoKTrTmbBhGsKfAJfzgFO0SAWucpG2y0ByTLqC32oyj8m11LGga8OCJWBZ6xEYMwC08NB4i9Nsxx8Bo=
+	t=1790633811; cv=none; b=CA4hicNb56oY18CZrw/QxtXmP0Hh26opIrVZK2ZH3ouaPs/zXIxATsrwIQIGfIWdh6jBYwNPZJQjODTwUISzQiKTDoHi7SFHkvBJOpWbWXolphlqEzVV2pJt+g7rft+RXCCcRv/CKieIusUElushFPOfWUAAHbY9dk88HonWmBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790633326; c=relaxed/simple;
-	bh=FTOQlw5dyyb4osUpihmQoUDlMiX5zL7IS33ujQpW7uE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DnwJv+3OFS/GR1yPk5J6QqWmHXawM8dg7w5LHb9ktZhT2Y7m1RUFyN+GSV00Y8RP179G3p4m0p4Ia9cfMzjJWXn9/E57FXcvE+V8FGM/c5vCoExWq2v6xItUM/9j1zJDfzqziTZBO7L1abNxYv9+VnVVYm3paSqIEFPShTQoCpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L24PZFNo; arc=none smtp.client-ip=74.125.228.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790633811; c=relaxed/simple;
+	bh=wrSQvdUGW5Jkt4r5YgB+gmI1KNzrp9xbeWzGNC1IUdM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A1JvKSb3pmo3rQ/9J2ERwlQnf95onF8bhQiXzOiLUNnKKxz7bfqyEhI9GMnLnY0YLzNNY6tso124JBcRRmN1EnWkWYhwpu35K7jFRN0348KX+B1qPyQGUXRTLJN26sJxzyJuLuCPUgSU7sl8kDp1KKTY/etSlaY7sR/SG4fTtBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=abMjA9SW; arc=none smtp.client-ip=91.218.175.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L24PZFNo"
-Received: by mail-ej2-f43.google.com with SMTP id a640c23a62f3a-c2af43c5b0cso442991266b.1
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 15:08:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790633322; x=1791238122; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=q93m/hhLL7MRUrpvnx/dHnc3DUZc/IU6GQ/cfi+h2P0=;
-        b=L24PZFNoMOwiUAf+6vb6C1b9B4wrWGvf6D147qewRAJJLdaxT3vN4jf6rIrfZgezak
-         mAScQqXi1kFIga3QiMAh5ZiBv7kFR9fAhoHLsEUGtPcp0+WCWLV0CJmIht9RoD3MFjye
-         L3HPkLj3ntfRnGgjdMlDiKCBKXH2KzTA6QgHURlsFyZlo4s4cwemDnLG4pXHk2aiYIzO
-         Xkr6mkiH4Ps7C0XsYO99YB5jWyTYf907HEpbz2ZAckgRwst7H1qzpyENYMojSU98VV0P
-         9AN23OU0em9qVtl61grXI1wGoGNYqxCBTHxudmqy5yYVvGi1rsAR4mBqEdYKJBcVrnJE
-         u9ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790633322; x=1791238122;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=q93m/hhLL7MRUrpvnx/dHnc3DUZc/IU6GQ/cfi+h2P0=;
-        b=WcEe02kbomzevorGSwY9e8DMFlg0O0wOzEvZqF5GbDOuGQK0ari9xzYijnkfrEAOt1
-         eKpdueewpTJthaCWd3mPy3JgGhHNiK08vrdMsJsEvILkARcDe9m695s86jnfORZ/l3Vi
-         HIteAJ65LwMICcYcNZaM3279d8rbjI93xgv/8V0Fcm/zNswlBWQOvkAiNb5XVNdUJz2/
-         FtXELeYvorHUXUahmqVyPvpX/2YifQxkZmTOG01gQ8uN17r3EJ+brXHmTsmgZElse8FA
-         WTp+zg2DBaIBQtFfrgGuJh6JpQZk24WgiOZyqOGi5MnzEFqtFfw9crzyNtV4AZWWaWcH
-         0rgw==
-X-Forwarded-Encrypted: i=1; AKwUvByCBC7N4w+3F+CUjNf6csAAOqGqW5ZJs6x/m9lnXWxnDxj6MhwbCPn97+FNvKg/xYTO70ypNwYcmxY=@vger.kernel.org
-X-Gm-Message-State: AFuF++lPQwKm4n+FM5SE19fhaO9bdF3QuYH22CxXekhT81mkCSz+5pLm
-	IdGtji3pN6eoFr783c/EULatImCvMzyUSVko/t20+5QL2/siEnF4m6WD
-X-Gm-Gg: AYBFou2sgR0q6/R6rGfC55nhFRaNyjJqGtUmO4x09UZ0g6pGhGMrJ/gnSeHLyw3aC8Q
-	sAReGKf4nmN9W3/AyP1neAd5+3BGNmwRcc8kn7BAmz3Uv8co8zSWQIhoDc2SDVHm8TYEOP8eCRC
-	Ft4B1apKZNxhBgxUbWuOwo1IyhM+WZaoYqZG99IcY2Ai09bW88oPYwxcpcGpQVJH0RC2TufxxFz
-	kaI/96pYQk4oXlxDqEAOQoPYeeuVlcvL6EDMaHqD7h91o8bjOiKc4GmQRXqfKZOLo7MoHNs2cFT
-	QGfE6FRUNW1ONcXC2bED6EYqK2826e3/OUS0tJZ+iuQNxAHer9dQv43KoZxCTu+fWKY9nPkt2vm
-	Z0NvNOwmjWrYwVaOfbtO/zJickLf+pKpdlJGrdi8CLyAuVVvgerqpYOkbgH5a6g+eH2gV+dOPGm
-	p7yPr9QwTuAgbiCj3zDnphm2IeOBNY/RBTOUEigPhGOAMu7LvKxWNrmr7y5CajuVUVnMr56Sgbc
-	YfrZEpb1YBWd4mZYFjBKvQYFqE5QdXLm4nKxiHCvq2biUnO+WVwmek/
-X-Received: by 2002:a17:907:c614:20b0:c2d:d9f4:2c85 with SMTP id a640c23a62f3a-c2dd9f42eaamr230323366b.41.1790633322375;
-        Mon, 28 Sep 2026 15:08:42 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:801:793:68fd:c07a:9093:1956:b4bf])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2dbd3bcacfsm345002466b.74.2026.09.28.15.08.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 15:08:42 -0700 (PDT)
-From: Yongzhao Chen <yongzhao.derek@gmail.com>
-To: netdev@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="abMjA9SW"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=wrSQvdUGW5Jkt4r5YgB+gmI1KNzrp9xbeWzGNC1IUdM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790633807; v=1; x=1791238607;
+ b=abMjA9SWmRwyYsVnyaJWu13nwPJczGgK+fjy/W2hDPngnUuvhI9lT0/T/hc3NKPn+cRmf7U6
+ N3dgcJRP9t/80Mw7e6CuJblgGDCMzMcuakoZRbvyv8AUquoVlS9dj/kP2lJwIOI3oCAXNlHPUeW
+ WLczK6zFBjS6gfXwA/Mzsc0M=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id e91c9c1cacdb44e5;
+	Mon, 28 Sep 2026 22:16:47 +0000
+X-Mizu-Trace-ID: e91c9c1cacdb44e5
+X-Migadu-Flow: FLOW_OUT
+From: Md Haris Iqbal <haris.iqbal@linux.dev>
+To: Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jonas Gorski <jonas.gorski@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Woojung Huh <woojung.huh@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Russell King <linux@armlinux.org.uk>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ziyang Huang <hzyitc@outlook.com>
-Subject: [PATCH net-next v4 1/3] net: dsa: pass PHY flags when connecting shared ports
-Date: Tue, 29 Sep 2026 00:08:09 +0200
-Message-ID: <20260928220811.1880-2-yongzhao.derek@gmail.com>
-X-Mailer: git-send-email 2.45.2.windows.1
-In-Reply-To: <20260928220811.1880-1-yongzhao.derek@gmail.com>
-References: <20260928220811.1880-1-yongzhao.derek@gmail.com>
+	Md Haris Iqbal <haris.iqbal@linux.dev>
+Subject: [v3 for-next 0/3] block: delay support for error injection
+Date: Tue, 29 Sep 2026 00:16:31 +0200
+Message-ID: <20260928221634.43239-1-haris.iqbal@linux.dev>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -93,95 +49,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DSA calls get_phy_flags() for user ports, but passes zero when connecting
-CPU or DSA port PHYs. Pass the callback result before PHY initialization
-for shared ports too. Drivers without the callback still pass zero.
+Error injection can only fail a bio today.  This adds a delay_us option so
+that a rule can hold a bio back first, to model a slow device.  The delay
+happens above the driver, so it tests the code waiting above the block
+layer, not the blk-mq timeout handler.
 
-Keep bcm_sf2 and ksz88xx shared-port flags at zero, preserving their
-existing behavior. Document the extended callback scope.
+A delayed bio is marked with a new BIO_ERROR_INJECTED flag so the rules
+are not applied to it again, even after a split.  Christoph asked on v2
+to avoid the flag by allowing a delay only together with an error.  I kept
+delay-only rules, as a slow device that succeeds is the more useful case,
+so the flag question is still open.
 
-This lets qca8k pass its switch revision to an internal PHY used as a
-CPU link, so the PHY driver applies the same revision-specific
-initialization as on user ports. A later patch in this series adds
-that user.
+Holding a bio back reorders it against bios submitted later, which breaks
+sequential write ordering on zoned devices.
 
-Assisted-by: LLM
-Signed-off-by: Yongzhao Chen <yongzhao.derek@gmail.com>
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
----
- Documentation/networking/dsa/dsa.rst | 2 ++
- drivers/net/dsa/bcm_sf2.c            | 4 ++++
- drivers/net/dsa/microchip/ksz8.c     | 4 ++++
- net/dsa/port.c                       | 6 +++++-
- 4 files changed, 15 insertions(+), 1 deletion(-)
+Patch 1 is a prep cleanup.  It moves the rejection of an unknown status
+tag into the parser, because patch 2 makes a rule without a status valid.
 
-diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/networking/dsa/dsa.rst
-index 7edfdd555f0..647f952e397 100644
---- a/Documentation/networking/dsa/dsa.rst
-+++ b/Documentation/networking/dsa/dsa.rst
-@@ -668,6 +668,8 @@ PHY devices and link management
-   on its own (e.g.: coming from switch memory mapped registers), this function
-   should return a 32-bit bitmask of "flags" that is private between the switch
-   driver and the Ethernet PHY driver in ``drivers/net/phy/\*``.
-+  It is called when connecting PHYs for user, CPU and DSA ports. Drivers
-+  should return zero for ports that do not need switch-specific PHY flags.
- 
- - ``phy_read``: Function invoked by the DSA user MDIO bus when attempting to read
-   the switch port MDIO registers. If unavailable, return 0xffff for each read.
-diff --git a/drivers/net/dsa/bcm_sf2.c b/drivers/net/dsa/bcm_sf2.c
-index 9e571301518..f516fc396c8 100644
---- a/drivers/net/dsa/bcm_sf2.c
-+++ b/drivers/net/dsa/bcm_sf2.c
-@@ -709,6 +709,10 @@ static u32 bcm_sf2_sw_get_phy_flags(struct dsa_switch *ds, int port)
- {
- 	struct bcm_sf2_priv *priv = bcm_sf2_to_priv(ds);
- 
-+	/* Shared ports previously received no PHY flags. */
-+	if (!dsa_is_user_port(ds, port))
-+		return 0;
-+
- 	/* The BCM7xxx PHY driver expects to find the integrated PHY revision
- 	 * in bits 15:8 and the patch level in bits 7:0 which is exactly what
- 	 * the REG_PHY_REVISION register layout is.
-diff --git a/drivers/net/dsa/microchip/ksz8.c b/drivers/net/dsa/microchip/ksz8.c
-index d7498132064..be8861a7a76 100644
---- a/drivers/net/dsa/microchip/ksz8.c
-+++ b/drivers/net/dsa/microchip/ksz8.c
-@@ -3076,6 +3076,10 @@ static u32 ksz88xx_get_phy_flags(struct dsa_switch *ds, int port)
- {
- 	struct ksz_device *dev = ds->priv;
- 
-+	/* Shared ports previously received no PHY flags. */
-+	if (!dsa_is_user_port(ds, port))
-+		return 0;
-+
- 	switch (dev->chip_id) {
- 	case KSZ88X3_CHIP_ID:
- 		/* Silicon Errata Sheet (DS80000830A):
-diff --git a/net/dsa/port.c b/net/dsa/port.c
-index 1f5536c0dff..4db7e6f9ce5 100644
---- a/net/dsa/port.c
-+++ b/net/dsa/port.c
-@@ -1666,6 +1666,7 @@ static int dsa_shared_port_phylink_register(struct dsa_port *dp)
- {
- 	struct dsa_switch *ds = dp->ds;
- 	struct device_node *port_dn = dp->dn;
-+	u32 phy_flags = 0;
- 	int err;
- 
- 	dp->pl_config.dev = ds->dev;
-@@ -1675,7 +1676,10 @@ static int dsa_shared_port_phylink_register(struct dsa_port *dp)
- 	if (err)
- 		return err;
- 
--	err = phylink_of_phy_connect(dp->pl, port_dn, 0);
-+	if (ds->ops->get_phy_flags)
-+		phy_flags = ds->ops->get_phy_flags(ds, dp->index);
-+
-+	err = phylink_of_phy_connect(dp->pl, port_dn, phy_flags);
- 	if (err && err != -ENODEV) {
- 		pr_err("could not attach to PHY: %d\n", err);
- 		goto err_phy_connect;
+Tested in a VM.
+
+v1: https://lore.kernel.org/linux-block/20260827000115.128093-1-haris.iqbal@linux.dev/
+v2: https://lore.kernel.org/linux-block/20260830012002.80275-1-haris.iqbal@linux.dev/
+
+Changes since v2:
+
+ - Patch 1: return bool, rewrite the commit message.
+
+ - Patch 2: drop __submit_bio_noacct_nocheck(); the flag alone stops the
+   rules being applied again.  Log the error when a delayed bio is failed.
+
+ - Patch 3: trim the documentation.
+
+Changes since v1:
+
+ - Add the BIO_ERROR_INJECTED bio flag.  v1 only resubmitted a delayed bio
+   below the injection hook, which left the remainder of a split going
+   through the hook and matching the same rule again, so a bio was held
+   once per split instead of once.
+
+ - Patch 1: tag_to_blk_status() returns an error and passes the status back
+   through a pointer, instead of returning BLK_STS_OK for both the "OK" tag
+   and an unknown one.  A delay-only rule has no status, so the two have to
+   be told apart.
+
+ - Documentation: a delayed bio is held once rather than once per split.
+
+Md Haris Iqbal (3):
+  block: Reject unknown status tags in error injection rules
+  block: allow error injection rules to delay bios
+  Documentation: block: document error injection delay feature
+
+ Documentation/block/error-injection.rst |  39 +++++-
+ block/blk-core.c                        |  14 +-
+ block/blk.h                             |   2 +-
+ block/error-injection.c                 | 167 +++++++++++++++++++++---
+ block/error-injection.h                 |   1 +
+ include/linux/blk_types.h               |   1 +
+ 6 files changed, 192 insertions(+), 32 deletions(-)
+
 -- 
-2.43.0
+2.53.0
 
