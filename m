@@ -1,290 +1,165 @@
-Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A954F55B0;
-	Mon, 28 Sep 2026 17:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86074EB86C;
+	Mon, 28 Sep 2026 17:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790616140; cv=none; b=iH8N74+JzH72klvwgt593/hlZDfV3cxh+j6Cq/IFhbbJdDRiytq7AwcHCwJnoQOPGfaI4q+vPshHVBi90q3aQZfEL5ZDo/P7lVuSon1ELjjL0EcHiIEhYlaIaazM0sBwrLkni5RuEs2SXrJMFz26SU8Xff+btl8KkHufbzCBgjE=
+	t=1790616250; cv=none; b=oiQKCKP24hygFMDbfvlUSSrIu9LXvxFcXKn/kjTWCtcPLqblxUkyX25Y5NT08YzkM7F9wtuf+pKnx1mNtl/RNOEdFEw1GRrlI0+wFhsRy0W4AkSthU+j6F0hUWrHFUtr/aKRimI6r8OkkhrPijj3hQNfkiyY4OwMmVfO48s9Kj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790616140; c=relaxed/simple;
-	bh=mCwIZ3+dUgUMtuFYdvpTS79yJidQCFB0A/C04zisxTg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tGqRAI7BtesrvnYQt03+q+EjtU/sujq1WvzJOjHSSfyQaertaZ2oaX55FkgSFkmTTMAY2B74ZTMGIxyfZ4ssLqurAX62ihUv4kO5IAWk6w+YfyHc+AoGEvOalUix83xIPUHtF5jDhLCMpbtNQStbfWLVdyxC46JWfaBOSpb0gng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jaseg.de; spf=pass smtp.mailfrom=jaseg.de; dkim=pass (2048-bit key) header.d=jaseg.de header.i=@jaseg.de header.b=q7z5dYxX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=dZ/YLy7K; arc=none smtp.client-ip=103.168.172.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jaseg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jaseg.de
+	s=arc-20240116; t=1790616250; c=relaxed/simple;
+	bh=LvIkHlxbIjbbmcyGr04hQLnB7x9SDj6PnN1XwEsumv4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FdxNZZJTzrGbNg+5KGc+Xf9kJZ908j7pZx2Qac2cxtmGD3TZg9QiIeCB2Yqzxp0aZvv02YPhhCJOdEeZcpmFk04MU0faATb/maJFwtluhJVB12Fhdr83a1xO54s0366M0bNclp6KcdqYLQrnp9HZHVbL4/XrG1yMbcD9gLfXfYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=n9ARMlE0; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jaseg.de header.i=@jaseg.de header.b="q7z5dYxX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="dZ/YLy7K"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailflow.phl.internal (Postfix) with ESMTP id 2C9221380062;
-	Mon, 28 Sep 2026 13:22:08 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Mon, 28 Sep 2026 13:22:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaseg.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1790616128;
-	 x=1790623328; bh=zqJEIjrQ6DEH0bzBdPreQIaAqWO4ZFFKb5xRcMeISvk=; b=
-	q7z5dYxXSS4OwQH4P09MZ8skwf0ROZIKytD4K9WTJOvcqGAKaQVY7LV9kjaTFa8/
-	b+6vIN2M0ako8I4F3rqI7bFCuFfzFXz9sPCu8Yb95ioGvyo2SoDHZldeZK7lWl2g
-	BoI5CXirTjOxUef/egKr8pnDiMaE9PlXhWeA7YX0CumdZ0GfMdCgwhOC4pewwVUy
-	sOqPL9ukoEXlG6qqHF17Zrr6poP44Hgi8pjwuyczT6zkJcZ321YuJyaoBsk6CG+9
-	BTG84DJqa74zda0Qw34TcOED12pTUAYr4rK+pd+Q3f5QoosgeTJb+K1UQHT0O/uR
-	YEE0N+Zaxtmpv6lQIb7wVA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790616128; x=
-	1790623328; bh=zqJEIjrQ6DEH0bzBdPreQIaAqWO4ZFFKb5xRcMeISvk=; b=d
-	Z/YLy7KA1cNMiKNGi9JOv+g8awM9GxK36+H4d85rwWj78m4ZIGXh6F5mngicmceT
-	zicIWQanyZtA6DoH0zmmMhnOMKhhUlRl2lLUO6sklFLc6teqskrnTf4JaEMgEOSB
-	GvPPeRimmAybmADqeWuSY6X7be7+EEiAGLrsPM3YugMd+ULTX6W92KRdr13O9RME
-	8E+03M5IWHuYmWADzlQx92ij8Uq9/3K9pg7Yvzu9N5UanSgQsR+6xrv1l39Gzav3
-	sHqfILaBgzPtNZPpO9CHLKoMI5p3SPr+IQ17hc8ZDhnSLZfTiUlwakdkr9if9usI
-	3LVZr0CSZyZaGEkrlJz+w==
-X-ME-Sender: <xms:P6K6ajJAOBbTGHjN0v1f302S5TEF0O-JC0mxIcWzL1d1RmXDXVTTUA>
-    <xme:P6K6aqmfmb4yk7d0nJAUxfDbYKbiQrVhNwJBr1pvDBMM_ljUHlCqyZiYYhy6lwBfL
-    1XC3fkUf-A89UcfKSUOyNonQC_zUDPyKoHxo0onKAkUVxlj6HoYzmA>
-X-ME-Received: <xmr:P6K6an-teYipzq79MnIzGrPyJjl6OUslkMzliuh6yALBvx1YNJCr6YsTTHsfJ32q>
-X-ME-Proxy-Cause: dmFkZTFVchM+bTT1PKuZ7CN10fxXJIikNoVdUVFHA1eqyKMgAAVr8P6ONf1Qg916JwGLA/
-    UIAM5uyklkVrDRDmXBCinnisDlXug/Uvz0CnXEuy4xZlY+Q3iKI5V68dUZbqn8FCfsIN95
-    6KfV8L2bBYYMAysjIpjjTtDvr59SlVXR0rT3rsZ8OOWBdCzi2fs/qRsgGZhcNemn8sEAcR
-    7gOuIxy/+2FBe7o4KglohLGCDym2m4zsXZ2bZO1r7mHjauIXUwmWu2ruzm3DMO6W6IP24K
-    Wr2E/Zfjs4QhZp1KylseoV5Uqh0JkwjuRMQihg5e/hXKn9gV8Cjo7+1dG47k97NaaXBvAl
-    uBMp3yG7hqMpY6cR72TbbPzb4WDL4DwgP7Zo3tV4PW3EOMINqzVjPRxnhlRCR2Y81wlk4+
-    ZXESSP30YPIfpM771/o9ZNkbVg/dZxlwRIpz9oOZ0s1wg/mXdIciWHQWrmkL4H7eqvPZQb
-    Tk9YWXDslywLGvByrVpZBBzANl5Y65rqjjm3c3mDQHmIBNQ5pmqJvhvGbMuiD6rC7n0t6H
-    8HB71TW8JGWEV4Xt/nwJ4nBpYoZyBlgApR8qnm1eih6RoOheGF138AUQlTP7flnkNqkJsT
-    FbeZw9rnZyEXgcb05ZlFPSrfJBW0eQBLqsfqyjZixpKoGFx+VWiOTm6jZLUQ
-X-ME-Proxy: <xmx:P6K6alaoEGY1cX8M1TQRE9rIBRrjD_xsn9XyjAIsKq6rz5VRgCPyVg>
-    <xmx:P6K6akeWJ59dOSO97F1Z-FLzG9xeI6y3qrunvQXvy9dkEia3-SEQsQ>
-    <xmx:P6K6atF7sbX717xyW9Dzzz1j7Wux4dsj7mQCBMHfn8uBc2NdfsjQZw>
-    <xmx:P6K6avMPot1tr1t-Gc6S6MP68kYdoFLaIIDjEoVNkJ5VcLM2Wr4AAA>
-    <xmx:QKK6ajYh0U5SE_u3mouBLcuAd9yYFXduZ3oEXOBhbfX7rv73dCYfyv_T>
-Feedback-ID: i60a14417:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Sep 2026 13:21:52 -0400 (EDT)
-From: =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
-Date: Mon, 28 Sep 2026 19:18:00 +0200
-Subject: [PATCH v3 12/12] kexec: Expose the crash memaction bitmap in
- debugfs
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="n9ARMlE0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=60pwW9yS4wtzthlp9Mp9xvvjcoaCNvFlVONGyf4pqLY=; b=n9ARMlE0MSx65lhXYyIkB+7/t4
+	QBbo/L6lYFgMkXifniWRSizeJNzPPlsIDQBlk8bRvRiPQox7LmLZLGpkKMyO6dLA2BWsDQBGefyRB
+	kb0sAbEq1sP4wx+Zq8gro9suaSFmaedXVhnjAvvus2ysdvesahcPdL/MSmmcW9+LAdN4dNBMdID9V
+	xHggVUsPNmk2nfCyjLUcE1NZ/d+356iIGHaQOHZ31f1zzTXGzjEYlCnhv5h8yTwTtgwLK+x13aWvt
+	xdHN4D7AU/5mFZ2SoD4YN19YuzpeEi1TEdZfC6rdHZZmy3fXqeqDgMKR82Xh+U4gJJu9d6GP75tPG
+	Wqc9suYQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xBF52-000000019bA-2zoW;
+	Mon, 28 Sep 2026 17:23:56 +0000
+Message-ID: <c3eeaf92-b1a3-401d-8ece-4f3d513c0b42@infradead.org>
+Date: Mon, 28 Sep 2026 10:23:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260928-crash-memaction-upstream-20260921-v3-12-e511e9ee2329@jaseg.de>
-References: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
-In-Reply-To: <20260928-crash-memaction-upstream-20260921-v3-0-e511e9ee2329@jaseg.de>
-To: Jonathan Corbet <corbet@lwn.net>,
-  Shuah Khan <skhan@linuxfoundation.org>,
-  Randy Dunlap <rdunlap@infradead.org>, Rob Herring <robh@kernel.org>,
-  Saravana Kannan <saravanak@kernel.org>,
-  Andrew Morton <akpm@linux-foundation.org>,
-  Baoquan He <baoquan.he@linux.dev>, Mike Rapoport <rppt@kernel.org>,
-  Pasha Tatashin <pasha.tatashin@soleen.com>,
-  Pratyush Yadav <pratyush@kernel.org>,
- Dave Young <ruirui.yang@linux.dev>,
-  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-  "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,  Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>,
-  David Hildenbrand <david@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>,
-  Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-  Brendan Jackman <brendan.jackman@linux.dev>,
-  Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-  Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>,  Mark Rutland <mark.rutland@arm.com>,
- Alasdair Kergon <agk@redhat.com>,  Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>,
-  Benjamin Marzinski <bmarzins@redhat.com>,
-  Herbert Xu <herbert@gondor.apana.org.au>,
-  "David S. Miller" <davem@davemloft.net>,
- Mimi Zohar <zohar@linux.ibm.com>,  David Howells <dhowells@redhat.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,  Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>,  "Serge E. Hallyn" <serge@hallyn.com>,
-  James Bottomley <James.Bottomley@HansenPartnership.com>,
-  "Liam R. Howlett" <liam@infradead.org>,
- Lorenzo Stoakes <ljs@kernel.org>,  Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>,  Rik van Riel <riel@surriel.com>,
- Harry Yoo <harry@kernel.org>,  Lance Yang <lance.yang@linux.dev>,
-  Baolin Wang <baolin.wang@linux.alibaba.com>,
-  Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
-  Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-  Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
-  Matthew Brost <matthew.brost@intel.com>,
-  Joshua Hahn <joshua.hahnjy@gmail.com>,
- Byungchul Park <byungchul@sk.com>,  Gregory Price <gourry@gourry.net>,
-  Ying Huang <ying.huang@linux.alibaba.com>,
-  Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>,
-  Arnd Bergmann <arnd@arndb.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- kexec@lists.infradead.org, driver-core@lists.linux.dev, linux-mm@kvack.org, 
- linux-arm-kernel@lists.infradead.org, dm-devel@lists.linux.dev, 
- linux-crypto@vger.kernel.org, linux-integrity@vger.kernel.org, 
- keyrings@vger.kernel.org, linux-security-module@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- =?utf-8?q?Jan_Sebastian_G=C3=B6tte?= <linux@jaseg.de>
-X-Mailer: b4 0.15.2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: kdoc: parse context_lock_struct() as struct
+ declaration
+To: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>,
+ peterz@infradead.org, elver@google.com, bvanassche@acm.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, mchehab@kernel.org,
+ aleksandr.loktionov@intel.com, kees@kernel.org, tudor.ambarus@linaro.org
+References: <20260925234054.128477-1-emmaonana18@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260925234054.128477-1-emmaonana18@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add two files under /sys/kernel/debug/crash_memaction/. "regions" lists
-the physical ranges the bits describe and their offset and length in the
-bitmap. "bitmap" shows the raw bits as a single blob with all ranges
-concatenated. The files are root only and behind
-CONFIG_CRASH_MEMACTION_DEBUGFS.
 
-Signed-off-by: Jan Sebastian Götte <linux@jaseg.de>
-Assisted-by: Claude Opus 5 <noreply@anthropic.com>
----
- Documentation/mm/crash_memaction.rst |  9 ++++++
- kernel/Kconfig.kexec                 | 14 +++++++++
- kernel/crash_core.c                  | 59 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 82 insertions(+)
 
-diff --git a/Documentation/mm/crash_memaction.rst b/Documentation/mm/crash_memaction.rst
-index 3658bff7693c..eacda046477e 100644
---- a/Documentation/mm/crash_memaction.rst
-+++ b/Documentation/mm/crash_memaction.rst
-@@ -57,3 +57,12 @@ Limitations
-   trying to mark smaller objects, use lib/secret_pool or a similar mechanism.
- * Memory hotplug is not supported at this time. When memory is hotplugged, the
-   newly hotplugged memory will not be included in the bitmap.
-+
-+Inspecting the bitmap
-+=====================
-+
-+With ``CONFIG_CRASH_MEMACTION_DEBUGFS`` the bitmap can be read through debugfs::
-+
-+	# types 0x3000 page_shift 12 nr_regions 1
-+	# start_pfn nr_pages offset bytes paddr
-+	0x0000000000000001 0x0000000000800000 0x0 0x100000 0x0000000040000000
-diff --git a/kernel/Kconfig.kexec b/kernel/Kconfig.kexec
-index 3cdc8d459ac0..b5380e16bfaf 100644
---- a/kernel/Kconfig.kexec
-+++ b/kernel/Kconfig.kexec
-@@ -204,4 +204,18 @@ config CRASH_MEMACTION
- 
- 	  If unsure, say N.
- 
-+config CRASH_MEMACTION_DEBUGFS
-+	bool "Expose the crash memaction bitmap in debugfs"
-+	depends on CRASH_MEMACTION && DEBUG_FS
-+	help
-+	  Allow reading the live crash_memaction bitmap through
-+      /sys/kernel/debug/crash_memaction/. The bitmap is used when
-+      CRASH_MEMACTION is set and when a crash_memaction cmdline param is present
-+      to tell an eventual kdump kernel about the use of certain memory pages.
-+
-+      Note that this is a debug interface only that gives no guarantees
-+      whatsoever on memory consistency.
-+
-+	  If unsure, say N.
-+
- endmenu
-diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-index 6bb2f5645ca6..5eb5a5ada8e0 100644
---- a/kernel/crash_core.c
-+++ b/kernel/crash_core.c
-@@ -28,9 +28,11 @@
- #include <linux/atomic.h>
- #include <linux/bitmap.h>
- #include <linux/bitops.h>
-+#include <linux/debugfs.h>
- #include <linux/jump_label.h>
- #include <linux/overflow.h>
- #include <linux/pfn.h>
-+#include <linux/seq_file.h>
- #include <linux/slab.h>
- #include <linux/string.h>
- #include <linux/sysfs.h>
-@@ -66,6 +68,10 @@ static struct crash_memaction_region *crash_memaction_regions __ro_after_init;
- static unsigned int crash_memaction_nr_regions __ro_after_init;
- static size_t crash_memaction_note_bytes __ro_after_init;
- 
-+/* The one allocation all of the bitmaps above were carved out of. */
-+static void *crash_ma_bitmap_base __ro_after_init;
-+static size_t crash_ma_bitmap_size __ro_after_init;
-+
- static struct crash_memaction_note *crash_memaction_desc __ro_after_init;
- static size_t crash_memaction_desc_bytes __ro_after_init;
- 
-@@ -148,6 +154,8 @@ void __init crash_memaction_init(void)
- 	if (!bits)
- 		goto nomem;
- 
-+	crash_ma_bitmap_base = bits;
-+	crash_ma_bitmap_size = total_bytes;
- 	for (i = 0; i < nr; i++) {
- 		regions[i].bits = bits;
- 		bits += bitmap_size(regions[i].nr_pages);
-@@ -341,6 +349,57 @@ void crash_memaction_unmark(void *addr, size_t size)
- }
- EXPORT_SYMBOL_GPL(crash_memaction_unmark);
- 
-+#ifdef CONFIG_CRASH_MEMACTION_DEBUGFS
-+
-+static struct debugfs_blob_wrapper crash_ma_bitmap_blob;
-+
-+/* @paddr is what the note gives, so a vmcore can be matched to a live one. */
-+static int crash_memaction_regions_show(struct seq_file *m, void *v)
-+{
-+	unsigned long offset = 0;
-+	unsigned int i;
-+
-+	seq_printf(m, "# types 0x%x page_shift %u nr_regions %u\n",
-+		   crash_memaction_type_mask, PAGE_SHIFT,
-+		   crash_memaction_nr_regions);
-+	seq_puts(m, "# start_pfn nr_pages offset bytes paddr\n");
-+
-+	for (i = 0; i < crash_memaction_nr_regions; i++) {
-+		struct crash_memaction_region *reg = &crash_memaction_regions[i];
-+		size_t bytes = bitmap_size(reg->nr_pages);
-+		phys_addr_t paddr = __pa(reg->bits);
-+
-+		seq_printf(m, "0x%016lx 0x%016lx 0x%016lx 0x%016zx %pa\n",
-+			   reg->start_pfn, reg->nr_pages, offset, bytes, &paddr);
-+		offset += bytes;
-+	}
-+
-+	return 0;
-+}
-+DEFINE_SHOW_ATTRIBUTE(crash_memaction_regions);
-+
-+static int __init crash_memaction_debugfs_init(void)
-+{
-+	struct dentry *dir;
-+
-+	if (!crash_memaction_nr_regions)
-+		return 0;
-+
-+	dir = debugfs_create_dir("crash_memaction", NULL);
-+
-+	debugfs_create_file("regions", 0400, dir, NULL,
-+			    &crash_memaction_regions_fops);
-+
-+	crash_ma_bitmap_blob.data = crash_ma_bitmap_base;
-+	crash_ma_bitmap_blob.size = crash_ma_bitmap_size;
-+	debugfs_create_blob("bitmap", 0400, dir, &crash_ma_bitmap_blob);
-+
-+	return 0;
-+}
-+fs_initcall(crash_memaction_debugfs_init);
-+
-+#endif /* CONFIG_CRASH_MEMACTION_DEBUGFS */
-+
- int crash_load_memaction(struct kimage *image)
- {
- 	unsigned long nr_pages, i;
+On 9/25/26 4:40 PM, Omokefe Emmanuel Onanaroghene wrote:
+> kernel-doc fails to parse struct declarations wrapped in
+> context_lock_struct(), e.g. struct debugfs_cancellation:
+> 
+>   include/linux/debugfs.h:245 ... error: Cannot parse struct or union!
+> 
+> Add a struct transform that expands context_lock_struct() to a plain
+> struct declaration, and apply the struct transforms to the whole
+> declaration before split_struct_proto(), matching what dump_var() and
+> dump_function() already do for their prototypes. The member-only
+> transform in dump_struct() is then redundant.
+> 
+> Add a regression test for the debugfs_cancellation declaration.
+> 
+> Fixes: 6e530e2e3119 ("debugfs: Make debugfs_cancellation a context lock struct")
+> Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  tools/lib/python/kdoc/kdoc_parser.py  | 11 +++++++----
+>  tools/lib/python/kdoc/xforms_lists.py |  1 +
+>  tools/unittests/test_kdoc_parser.py   | 26 ++++++++++++++++++++++++++
+>  3 files changed, 34 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+> index d9ad1ddc87dd..80d4245acd17 100644
+> --- a/tools/lib/python/kdoc/kdoc_parser.py
+> +++ b/tools/lib/python/kdoc/kdoc_parser.py
+> @@ -831,6 +831,13 @@ class KernelDoc:
+>          #
+>          source = source
+>          proto = trim_private_members(proto)
+> +
+> +        #
+> +        # Expand macro-based declarations, like context_lock_struct(),
+> +        # into a plain struct/union declaration before splitting it,
+> +        # as dump_var() and dump_function() already do.
+> +        #
+> +        proto = self.xforms.apply("struct", proto)
+>          struct_parts = self.split_struct_proto(proto)
+>          if not struct_parts:
+>              self.emit_msg(ln, f"{proto} error: Cannot parse struct or union!")
+> @@ -841,10 +848,6 @@ class KernelDoc:
+>              self.emit_msg(ln, f"expecting prototype for {decl_type} {self.entry.identifier}. "
+>                            f"Prototype was for {decl_type} {declaration_name} instead")
+>              return
+> -        #
+> -        # Go through the list of members applying all of our transformations.
+> -        #
+> -        members = self.xforms.apply("struct", members)
+>  
+>          #
+>          # Deal with embedded struct and union members, and drop enums entirely.
+> diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
+> index e3dda2fe8a53..9f2c750a811b 100644
+> --- a/tools/lib/python/kdoc/xforms_lists.py
+> +++ b/tools/lib/python/kdoc/xforms_lists.py
+> @@ -62,6 +62,7 @@ class CTransforms:
+>          (CMatch("struct_group_attr"), r"struct { \3+ };"),
+>          (CMatch("struct_group_tagged"), r"struct { \3+ };"),
+>          (CMatch("__struct_group"), r"struct { \4+ };"),
+> +        (CMatch("context_lock_struct"), r"struct \1"),
+>      ]
+>  
+>      #: Transforms for function prototypes.
+> diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
+> index c4a76ed13dbc..4baa78ca02b3 100755
+> --- a/tools/unittests/test_kdoc_parser.py
+> +++ b/tools/unittests/test_kdoc_parser.py
+> @@ -418,6 +418,32 @@ class TestSelfValidate(GenerateKdocItem):
+>          """
+>          self.run_test(self.SOURCE, [self.DEFAULT.copy()], self.EXPORTS)
+>  
+> +class TestContextLockStruct(GenerateKdocItem):
+> +    def test_context_lock_struct_declaration(self):
+> +        source = """
+> +            /**
+> +             * struct debugfs_cancellation - cancellation data
+> +             * @list: internal, for keeping track
+> +             * @cancel: callback to call
+> +             * @cancel_data: extra data for the callback to call
+> +             */
+> +            context_lock_struct(debugfs_cancellation) {
+> +                struct list_head list;
+> +                void (*cancel)(struct dentry *, void *);
+> +                void *cancel_data;
+> +            };
+> +        """
+> +
+> +        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
+> +        patcher = patch('builtins.open', new_callable=mock_open,
+> +                        read_data=dedent(source))
+> +        with patcher:
+> +            _, entries = kernel_doc.parse_kdoc()
+> +
+> +        self.assertEqual(len(entries), 1)
+> +        self.assertEqual(entries[0].name, "debugfs_cancellation")
+> +        self.assertEqual(entries[0].warnings, [])
+> +
+>  #
+>  # Class and logic to create dynamic tests from YAML
+>  #
 
 -- 
-2.55.0
-
+~Randy
