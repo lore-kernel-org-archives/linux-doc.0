@@ -1,139 +1,105 @@
-Received: from mail-pz2-f39.google.com (mail-pz2-f39.google.com [74.125.228.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E65B19CCF5
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 04:41:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BF63016FB;
+	Mon, 28 Sep 2026 05:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790570520; cv=none; b=QJsPUQ6QOW6c5N1DUVQTP6Ug7N7PNcPwcBWwwzkPKC+ynW6Ta5LAc3kc9A9u0/X5GMcKm4D17yhoFsB+yO1BXVBhBko9CvpZlvj3/NvDrKVOyVoJdiwH4g7EdQh7XQz10Cs201kN3pISaqSP0os2yVw04lpoqylmy3fMz88wNtY=
+	t=1790572657; cv=none; b=ePaXocaoKqXaUQdt6/5LRSqxX0Jh14RSnrygEqvxhJ2h0Tuh8tQDrIueDdbFeWcqO0WaTsPgVSWXwFg2UG+aWERsS6nc4vDbC0/MkhwrHpvffn63RDxGeGLjArOQmAlMVbvfOCZV7pjlNKZxqCK2emecOI90RYQdJ+02pGc/d8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790570520; c=relaxed/simple;
-	bh=CV6k+K74Uf2jIsRLjJeq5WxSr8aykUQ/m3Q32deRhns=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NMIM7AkYOiQ2YQvH6D0D5FjByDfoiMWZh4JB37tL98yV9o7uzg6Agqgx8F6KRAl4f3kRwdNynT3aERosK8Zkf64TAZglm8Tr6S14YuBr2Zv4igpgAvqmeriVpET2jQUTq2iPQoha1b+zWPs9O6fMsgqiF+GO0TRHgQyu36W35Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=iIywsmNj; arc=none smtp.client-ip=74.125.228.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1790572657; c=relaxed/simple;
+	bh=lmIa/rLnB25wRisYAW7elKt98KJBLWkjxaC5fbBBn9M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ssl6akuASIZD2Y2HLk0aXpdwpNr5IlVM4gq8XW1cPPXmZnoO5vKG9UtpnGq+RlJ8P66YUxrffvzZA1hNDhJ6Za37Brf6FkLRPPmDE1/g5xnBmCg9gvYS1NdJ5wsrARlOAy8ABoAhsncFtWhOlyK+dwzMxsLkzhuTcErMTAhta/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b=dFMmu984; arc=none smtp.client-ip=180.181.231.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="iIywsmNj"
-Received: by mail-pz2-f39.google.com with SMTP id d2e1a72fcca58-88098dbba5fso383651b3a.1
-        for <linux-doc@vger.kernel.org>; Sun, 27 Sep 2026 21:41:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1790570518; x=1791175318; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0OVW9hC5UCKC68y9iOXThuN5MokNCxQyIbNLFUKAbKE=;
-        b=iIywsmNj9G7ax0dRB8kcO2x1m/vosw4+3Q15+rgslndxzr8+0KjKaDha0FKXbLm9XU
-         f6SKNYB4dhIebx6N3LZLvWKDyZyMes4pwqcHDuFdyz9qZfneqOf9f6+zitRlMwgYZpub
-         gWqqXzlJYrbCQgtwwpklLcJaYsRtI+U81R7zyQtdMzUBHflAv/Fd9E9gJkQ5Kdoomj10
-         xpTrVIdNLS6KyJ+iljPjEdx6J/Q+QIGBsF0gQheDubmHxW1sW3/fnnKX8Ea4RnB/C3CW
-         fRMNYCBZHCPyEimidel9GjBPEF6qrYF5nidKQ/5q3ktyX8Ri+LQQtnr5Y5j8qRXdM2yu
-         JwBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790570518; x=1791175318;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0OVW9hC5UCKC68y9iOXThuN5MokNCxQyIbNLFUKAbKE=;
-        b=vOb2+tsvSuZvhkK/XR1O70+vNdiWnF0lMRWReDIEGAMw7m0V+jtl2kjKEbHCvvmkyp
-         MGdhMJCxIjC1K5JgwCPP7qJ9UOzApTW/U/lKDQkE2DaGPddGxAFQ5k2mlnSJm+7e8mlX
-         27dWRJqnUIIa76zE+q4XD2PCs8ZkC7btATwpm8mkwnOl2YNx7Pl6hSGIglhESNHGqf4L
-         rVlXo+O05mbeamXcco2iaYfF/fYaAdCvbqjGQqnN3Gx50Xm5JbDnHXIjq1SkoHlO1JBv
-         pkCQLUMsW8q3RED2uKgB3YmwMgBkUVBgl9soCDfDtf5sSZbPMmE+PhihlpPOjkmENiDm
-         t2UQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy9A68BuKvFd43cRb9pzB++J0kYCOMuQ5iJzSGF3Mo04x8sK2L78P9jaHwj2TES9SWytYOMszQScqg=@vger.kernel.org
-X-Gm-Message-State: AFuF++k/4NceTp62vnqoPKYx9dBLbB0/+Gp42mS3hybvLM8o1kpJEMS9
-	G9EqCxtaohvG1UHa1jLdR568ezmCl4+BNj6qsiWbEP7cHUeyBB84RDGj6V6lKzO3F4U=
-X-Gm-Gg: AYBFou2m0KweqOZ/+P6mmXHL6WiPOOyGh/6kn3IGC+PJew9VpKriAFRjzorpslYVjpS
-	6p0QP/o3jcYe1iDkVyoDgcUJBQHZoWgPzXY9wnP413WjjTsFQrH5vCuw8fzT0A78oVuKjPIUljG
-	p3PT71s3A8Ab5zgn0peho7OvCxFt2jI03rJSSRepC27SMlbhzL3MJvsGj+H98Gxajg0N/Liitao
-	Y/ACg3oWzW8WD3iwGgF+hQ28BV64IH9e3y8DrarimCUs5dRgfo1kKExNYcKBWgUcxLqmz2oj/2U
-	zn5Y9GowJtNb2M3nVvrcTcgXvNduHdJ92bnMwPrL1Rx3fPzyBVtlRlKJ+W/h6tM/JyNWL1rae4n
-	rWsONs6I9lbDbNZN2cavqPOK9MB5IZZy0GZN+/UB8HYiZTVDNdRKBG8fDTDwyP15s/wDKxCAikK
-	iKTpuiUyUN36odrRJ9q/63zEg+uvef1lAh03DqOVzqPkDQygODSEgb7rKgaOkeOGITvRLbvN2Fh
-	dOga7yWhxCisrBU98LWGPtImNwwXw==
-X-Received: by 2002:a05:6a00:3d09:b0:881:236b:748a with SMTP id d2e1a72fcca58-881236b74f5mr3613151b3a.16.1790570518137;
-        Sun, 27 Sep 2026 21:41:58 -0700 (PDT)
-Received: from n232-176-004.byted.org ([36.110.163.96])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87feae8d827sm3405869b3a.36.2026.09.27.21.41.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 21:41:57 -0700 (PDT)
-From: Muchun Song <songmuchun@bytedance.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
+	dkim=pass (2048-bit key) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="dFMmu984"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
+	from:content-type:reply-to; bh=g0urVNX8ATEeOHGXP86K6LmXYM7IrN5hrV8PI7/e+Bk=; 
+	b=dFMmu984dAtawQ423gsVyUC4zFZWVprPabJ0C+rVE9whvBqO8AgEKSe30ieqccgf2TP+pXT6RjP
+	3FflfBCIRHkUB8IQZcLcXAtwk9qyw+LX1BBBLuHrElqAvYHO7n/k+toyUP6oQNI+L4wqc0FsQGjUf
+	cMuVr6oWRqa59fs3XU+Ij/DkBGDJAmvZ1d1aLTexcjlFMQOagnpklv4gJlxk4cjO4NPMzgqkGROaP
+	TkOhCfnmm1iACvdIxUIXKjdLNw8niOmqwn+o5pIVGt/K/z9Evsh1x0N9mg/XJ/d7KiJ5ymii7XOYq
+	3T5Xgm1QUu7ZS8oY0wlBTnrQG8Q5gVKVLtPw==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.98.2 #2 (Debian))
+	id 1xB3jp-00000000w9f-3e6c;
+	Mon, 28 Sep 2026 13:17:18 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Mon, 28 Sep 2026 15:17:17 +1000
+Date: Mon, 28 Sep 2026 15:17:17 +1000
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: "Ousherovitch, Alex" <aousherovitch@rambus.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-doc@vger.kernel.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <chleroy@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Muchun Song <songmuchun@bytedance.com>,
-	Lance Yang <lance.yang@linux.dev>
-Subject: [PATCH] fixup! mm/sparse-vmemmap: switch device DAX to shared tail vmemmap pages
-Date: Mon, 28 Sep 2026 12:41:48 +0800
-Message-ID: <20260928044148.3300333-1-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260927025441.741633-8-songmuchun@bytedance.com>
-References: <20260927025441.741633-8-songmuchun@bytedance.com>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	"Krishnamoorthy, Saravanakrishnan" <skrishnamoorthy@rambus.com>,
+	Shuah Khan <shuah@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"Wittenauer, Joel" <Joel.Wittenauer@cryptography.com>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"Nguyen, Thi" <thin@rambus.com>
+Subject: Re: [PATCH v5 04/19] crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
+Message-ID: <arn4XYwPYt6i2k7d@gondor.apana.org.au>
+References: <20260917225929.2494111-1-aousherovitch@rambus.com>
+ <20260917225929.2494111-5-aousherovitch@rambus.com>
+ <arNn_fjy4jamSitO@gondor.apana.org.au>
+ <LV8PR04MB9006374FD8621EBF3C7E7F6CD7822@LV8PR04MB9006.namprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <LV8PR04MB9006374FD8621EBF3C7E7F6CD7822@LV8PR04MB9006.namprd04.prod.outlook.com>
 
-Each PTE mapping the shared device DAX tail page takes a page reference.
-A sufficiently large range could therefore cycle the reference count back
-to zero if population were allowed to continue after it became
-non-positive.
+On Wed, Sep 23, 2026 at 08:50:55PM +0000, Ousherovitch, Alex wrote:
+>
+> - shake128/256, cshake, kmac and poly1305 have no matching provider
+>   registered in this tree, so the allocation fails and the transform can't
+>   be created at all. NO_FALLBACK is required to instantiate them.
 
-Use try_get_page() so further mappings fail once the reference count is no
-longer positive. The section population error path tears down mappings
-created for the failed section, while the warning makes this currently
-impractical limit visible.
+Hang on, if an algorithm isn't even implemented in generic C for
+the Crypto API, then it should not be implemented by a driver
+either.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
----
- mm/sparse-vmemmap.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+The reason these algorithms aren't in the Crypto API is because
+they have no users.
 
-diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-index b617ff1b985d..66de04f8863b 100644
---- a/mm/sparse-vmemmap.c
-+++ b/mm/sparse-vmemmap.c
-@@ -278,14 +278,18 @@ static pte_t * __meminit vmemmap_pte_populate(pmd_t *pmd, unsigned long addr, in
- 			/*
- 			 * When a PTE/PMD entry is freed from the init_mm
- 			 * there's a free_pages() call to this page allocated
--			 * above. Thus this get_page() is paired with the
-+			 * above. Thus this try_get_page() is paired with the
- 			 * put_page_testzero() on the freeing path.
- 			 * This can only called by certain ZONE_DEVICE path,
- 			 * and through vmemmap_populate_compound_pages() when
- 			 * slab is available.
-+			 *
-+			 * Use try_get_page() to prevent the shared page refcount
-+			 * from overflowing.
- 			 */
--			if (flags & VMEMMAP_POPULATE_DAX)
--				get_page(pfn_to_page(ptpfn));
-+			if ((flags & VMEMMAP_POPULATE_DAX) &&
-+			    !try_get_page(pfn_to_page(ptpfn)))
-+				return NULL;
- 		}
- 		entry = pfn_pte(ptpfn, PAGE_KERNEL);
- 		set_pte_at(&init_mm, addr, pte, entry);
+So please drop them.
+
+> - sha2, sha3 and sm3 do have a software provider, so the transform loads,
+>   but the auto-fallback can't stand in for the hardware on the streaming
+>   path: our exported state is the opaque HW save/restore checkpoint, not
+>   the canonical state, so a multi-part export/import round-trip through the
+>   fallback misinterprets it (and for SHA-2/SHA-3 the statesize exceeds
+>   HASH_MAX_STATESIZE, so ahash_do_req_chain() returns -ENOSYS). A one-shot
+>   digest could still use the software provider, but a fallback that only
+>   covers one-shot and corrupts streaming isn't usable.
+
+Sorry, that is not supported by our API.  If you cannot export the
+hash state in a compatible format, then you will have to switch over
+to fallbacks and only support digest operations.
+
+Please also elaborate what you mean by opaque checkpoint, does it
+contain the entire hash state or not?
+
+Cheers,
 -- 
-2.54.0
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
