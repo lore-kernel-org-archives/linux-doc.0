@@ -1,69 +1,67 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+Received: from mail-qv2-f43.google.com (mail-qv2-f43.google.com [74.125.230.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C986C4E3251
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 16:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199434E0B71
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 16:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790611404; cv=none; b=ou2mZZyHhNjRptIuqVc81/4GvWxetN+XTe7jzWIzuhKGSCRztU3oAVujT9YVXo6v7VGwZVB4QRs8nzBq6GFa/YmKh1CIKBYNaUWr69t9CxdY5riJYFJ/Z8IM4yr546bd/p97mXu+Z23rX3ydF0w/nM1grGDzCslSBP+jJMtmhuc=
+	t=1790611444; cv=none; b=sZiaPhiOeptJLOGZAd4N42zUJB5c9uxDItutrbue5o0uiGm6uOlT97k/sgGgBRVtTbWLJGodj7pkbkysxPWt+uLXMzxBH1ELphmlcBRKU2dl73HsTOpWvUfNpzCP2Rxw/cXI/RWkLMFAk2pXGWsVxFbcYeJRnLlECeAKB3HXjiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790611404; c=relaxed/simple;
-	bh=zhxsWtMFxkMNLy0cVXpiLrIefZp4GMqj/Axxeo0tWa4=;
+	s=arc-20240116; t=1790611444; c=relaxed/simple;
+	bh=13zZY4Ggnuip4DrDOLcMdPtQG3oZ/6uaeB0rBskJ5Bw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aqm0lOqMsRFESPB8jy49wOl4ZZcaUpKwbxLGvzj6bwl41+bRZkWbDVZjCwHuL7Cf3ZmKm+3Q/27uw5tyI5z8AOQdKSCatNiv07AYruzBk3Vc0dU/rbnoJLRrUYHlfymRZf2tpT+eiN/8WoAKGdT+kj4bB60qGAGHtchca7dqPuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com; spf=pass smtp.mailfrom=toxicpanda.com; dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b=C7RAg0EN; arc=none smtp.client-ip=74.125.224.140
+	 In-Reply-To:To:Cc; b=RyS7lZ1VFo/Q9zETPeq60tsasSmNnLQFm3jsZpHaDtQ75GF8VdLlOcukdba3ck2nzEXoR8D6IsfqWYCY5p8JYQ+ms/GSqFkzw1BhJnC2sJGJ9PWOETOPrSS1DxWmBC8riuRBDU2Up+0e4EoprLAY1kXDvaZHiaLU8OyYnD1TqFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com; spf=pass smtp.mailfrom=toxicpanda.com; dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b=dftKas/d; arc=none smtp.client-ip=74.125.230.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b="C7RAg0EN"
-Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-670fee39d73so3317263d50.3
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 09:03:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b="dftKas/d"
+Received: by mail-qv2-f43.google.com with SMTP id 6a1803df08f44-91434eba57fso24409426d6.2
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 09:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1790611402; x=1791216202; darn=vger.kernel.org;
+        d=toxicpanda.com; s=google; t=1790611442; x=1791216242; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Uv8hzXE4YDFWdArobAYOZWOpWqi/QMlwCECAVD9+99I=;
-        b=C7RAg0ENAA9DkVYpAiiUz3lz4DEOehejT94AupE1umo1+fjHcqkwCNvH1QrIf+4wkP
-         RDsqwqJZVh4DlT1MCHuzOLar8PxLS5zEQqJfuCL3tK7YmIxy7QPszX5mwhGYoFTXDkyf
-         VzOUk4hlz4CUmvkNK4xxHk07XnGSS7Rmq8cehBnQ3ysKD41JnTYBVqSW1PueW+zRdT7m
-         qor1Dmqg89T1umaL85wrVswe5bFA87Emm4DZ7anFTpFVlgxG3nz/Ht6LLqnWsQ34B1rM
-         MFCt1viSU24jZ/EzVk9yEHd+4gd0PpbkOgYmW80X8u0GLEza+qYbXnhs212tln2b9hPR
-         QgxQ==
+        bh=kxKaEX5KPsMqVvctMrRT+/IR2cK71V7y+Zr8xW+kYCI=;
+        b=dftKas/dbC+CA/gxI3t1/zu1dw2DcdLITfVH/SyuJvLSYV6Br9rrCN52zcx+tk+E43
+         BR4MlrDVFmDdozKsEa4sG3YEihdEkP68Cn0CJk7l5apUojcJRIwS7LPdPQ6wq9l9TVAc
+         pkxmjfKH88m/bTFXhPJSf3zc4HahXZ4FJDURlwEiaoUIip8PPyQHRSQVsRiLesT9K8zF
+         MUK4eOXDBJwHcfNF3cn9r2WG2fG8i2sWhPZtaRghzSMa4k0pSBg8rueCpNbkrCe7yfaS
+         yjIOhKLy8ZOmJRGnaf79F2+etZ1QY5XvbvTlJHrom7yNOeuEWLgXTHN8TLAjTThP+RQX
+         b6wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790611402; x=1791216202;
+        d=1e100.net; s=20260707; t=1790611442; x=1791216242;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Uv8hzXE4YDFWdArobAYOZWOpWqi/QMlwCECAVD9+99I=;
-        b=pKT7kawjD6rQMTzumfHpQ/Iwk08eUhfSICu924joKSLB8Bb3b2n6o6Xb7R+53JLYo+
-         tDbuqZmBfY7Ha6cRbIDZS5SaxAoE5qRBBVcCiEW8FGNFgS/RV1Emg6fhk/zzqXAbihMU
-         NzuS4mXYlrF+SyZat8Uald30oIkHxgXpXogDUZwSW0jl9Ub2NaK+arX1Jl9h5/vLx6LX
-         353PJzatQ8thhzoNp+st0IPRi0StvEYFVdymBtHfWOxVILNws1g0SuNMIugnmWr5apUf
-         1vBRHdrhZyIeCsblZAaM2xPt4ID3bL7GtC1RAhW3s7UGQy4Wol+k8q3gzMfhqqZDt9x3
-         qTYg==
-X-Forwarded-Encrypted: i=1; AKwUvBxirSieymeZ//S9pJfCRaXupMzKO35T2589mdTkJufFpDY0GFgqbGH2sN4rsvABlvlLwk9d5ww3NT4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYInPM84WW1s4kLUOTSu/+FB4E18ohqcDzUT5S64wiw+XOCUW4HP
-	BLfniblpdl+OyzSNtnq/vPwspNUdECBssP5tRPcWYQ19Y0b8VEuOKi86GKVbZ6OOEfc=
-X-Gm-Gg: AYBFou0/iVqR9QsaRr+GOOpd5L9R3+rJyBsxprxN1QA2fe7lLsgq02cU1vK8E7Zxxp1
-	NCNKG/jzTNSc97j3RXj0IVuODOkslvRLbv7JaLNH3pfBqFKZSgzmbIEM7Wi1GSuJp9bY52I8WDY
-	YQ7W/4yOj6/aBDawZyHFN84i84dZ6//IbpTZT9SP9qs4nsQvBR2ne2xC0S8/5un1wpsXOpmjW03
-	NFeobCYLMz1laq/ZLQiz3MDoGGdgar/XR9fK+Yu7+81oQyZv2t2rTXr1KSDIvnN5dvzesrXw7Dl
-	VX1TV3++vIClHPmeGWByUsh3+sB6nSsDX5YevVYt75zcN00j92u5DSjid23ajqNBKuB1DgsPHJe
-	/rKp1lalVNY49Du1BuR0kiJXGhVMip/0U0s1HJmxt//ZSZMC/Lv11DkoeUGsQQ4PmIkH8al8dnd
-	vyrT1gdeAc3d7ItUXxGZpqhUb+L01roEmIIRWp/Wq2MkameJHOKpMIpyOm9/LFeHZS5VjXxHm0D
-	zWiKLer0vjQdFA=
-X-Received: by 2002:a05:690e:11c7:b0:675:4a9d:4a85 with SMTP id 956f58d0204a3-6754a9d4f55mr1642232d50.59.1790611401599;
-        Mon, 28 Sep 2026 09:03:21 -0700 (PDT)
-Received: from toxicpanda.com ([153.61.196.245])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91430df77adsm82622156d6.26.2026.09.28.09.03.19
+        bh=kxKaEX5KPsMqVvctMrRT+/IR2cK71V7y+Zr8xW+kYCI=;
+        b=11mBWbLgM1969c/kbcIu8VBRQSJBV720qHKMcluyvwld4ip60DILxYxHGQIX7J67Qb
+         6A2Hp2mlG6DzfZceAXIdwjwNcJOBmTRO29zhSi7yDwS0DmB3C5w6HrtMl1tSGlUaIRNF
+         SpdErJ2Et2i4tQBXIuVt+M45tX+UrNtkyqvNefBufhNzosySTSRc3MfYhdaa2KID3yeE
+         tlIqa18LD+KwBUK5QfCxluE8CntzmN04t6Zo2DOGCn2IU7vdJxRr28c68NyJ9z+qqzoY
+         BUMdoN7nL+NLO9K5/HcmH0/3GKSV6qmhymT7D0epYnFdJhn/cMtrqdCS79LaAOOYx+G8
+         Z3gA==
+X-Forwarded-Encrypted: i=1; AKwUvByLKytqFIDnf9Sn6VpwJ9kHGVB/MT30n1YP8Y2mhr6dEFrVjSxtpvF02dtUwsk0+LP/rhr08rV4o/Y=@vger.kernel.org
+X-Gm-Message-State: AFuF++lV8KwdsoIUpwPIPgIPIFMoROW49X4D7P+bde6Nb9OFoxslhZtK
+	1SgfvjURCrabGSyPQPkdoCHypNWZDxfQHi5xN1m5JqN4pzzmEB0OWvhhPWKqz9qs2X4=
+X-Gm-Gg: AYBFou2c0hRf1Vnd76q5HGo6FtIo1N5koxzj6i6bFCMo2u5cIzx7ZeKQpJcpsEBv+KE
+	xBzSwdHcovot99n2ojS+NyxJ5+my7EjjTcOu8XcqyM81wuY8wUwIwCv0anl62YtWdmUhN1HAQTr
+	a6fvl2q13UlrD+G/PdJ0vxehQUJNAeNDcApEg49dCKSBahEhl3KbMPjZAcBohmK7qJV1fPX4fnN
+	L9C/47oiFN82GtwouLoc7XXsXw5kaRC/wGzO3uQXwvarEtl2XndzJ8pLCdgC70o3vc+/yTuxRZj
+	WHt2QAnldFIE1KbNvx4GjCvw5OCzrlA/Svc8juZYb/Xv3JB18z3/wMBGKhw3Mou01ikTdZfh7mK
+	8JkipUhx9pFfWqKcIsVxrfYdb4lCkBeeTLsqj2V29cwYK85H1fR/UN8xxf2z0oKqYgM3rcfgeL8
+	yQlCc3F2v+el+JwngXOzHbgqBedcr4i+o1A81SH7Vq7OCZ
+X-Received: by 2002:a05:6214:5345:b0:912:4ae8:5512 with SMTP id 6a1803df08f44-9142f635c6amr188557206d6.3.1790611441860;
+        Mon, 28 Sep 2026 09:04:01 -0700 (PDT)
+Received: from toxicpanda.com ([153.61.196.244])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91430da9123sm83309486d6.16.2026.09.28.09.04.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 09:03:19 -0700 (PDT)
+        Mon, 28 Sep 2026 09:04:00 -0700 (PDT)
 From: Josef Bacik <josef@toxicpanda.com>
-Date: Mon, 28 Sep 2026 16:00:39 +0000
-Subject: [PATCH 3/9] ublk: publish io->cmd under io->lock in the commit
- paths
+Date: Mon, 28 Sep 2026 16:00:40 +0000
+Subject: [PATCH 4/9] ublk: read the io under io->lock in ublk_cancel_cmd()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260928-b4-ublk-cancel-stop-v1-3-4a4360232a46@toxicpanda.com>
+Message-Id: <20260928-b4-ublk-cancel-stop-v1-4-4a4360232a46@toxicpanda.com>
 References: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
 In-Reply-To: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
 To: Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
@@ -80,93 +78,92 @@ To: Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>,
 Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openssh-sha256; t=1790611254; l=3087;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1790611254; l=2798;
  i=josef@toxicpanda.com; h=from:subject:message-id;
- bh=zhxsWtMFxkMNLy0cVXpiLrIefZp4GMqj/Axxeo0tWa4=;
+ bh=13zZY4Ggnuip4DrDOLcMdPtQG3oZ/6uaeB0rBskJ5Bw=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgUBr36M/n0nWN0DNbnxwzIiCZez6MG
  JiruuNaSCI/zXsAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QO0A5en96j57mWOrVyPwEj1dTuFJh8twc9kPT03FkNtjzIoQF/ah9T8LSfOgPFSTMdcKR5SC1tH
- zizyeZh9tlAA=
+ QEGImZtzgMNKkqqTM0dIb+5lBVrtd5qqYMy3AoeQNis0pwIYB5oPHW2sF9wRq4da60XrIo3MVrg
+ 8+mmWL4TvTQs=
 X-Developer-Key: i=josef@toxicpanda.com; a=openssh;
  fpr=SHA256:C8kOX2QUJCMqnCX+KEeoqRAjLo9L+ELOSH2NSAJHqGA
 
-io->cmd shares its storage with io->req. FETCH, COMMIT_AND_FETCH and
-NEED_GET_DATA switch the io from one to the other in
-ublk_fill_io_cmd() without a lock of their own. That was fine as long
-as everything else looking at io->cmd ran under the uring_lock of the
-same ring, which is the case for the io_uring cancel callback.
+ublk_cancel_cmd() looks at three things before it takes a command: the
+io is active, the request of its tag is not started, and the io was not
+canceled before. Only the last one is read under a lock.
 
-ublk_cancel_cmd() is also called from the control path, from
-ublk_cancel_dev() with IO_URING_F_UNLOCKED, and the next patches add
-more such callers which run while the server still commits requests.
-Nothing orders their reads of io->flags and io->cmd against
-ublk_fill_io_cmd() then. A reader can find UBLK_IO_FLAG_ACTIVE set and
-still pick up the request pointer from the union.
+Since the previous patch ublk_fill_io_cmd() sets io->cmd and
+UBLK_IO_FLAG_ACTIVE under io->lock. Take io->lock in ublk_cancel_cmd()
+around all three checks and the read of io->cmd, so that a cancel from
+the control path either finds the io not active or finds the command
+which was stored with the flag.
 
-The batch commit path calls ublk_fill_io_cmd() under io->lock already.
-Do the same in the other three callers, so that io->lock covers every
-switch of the union to a command. io->lock is per io and only taken by
-the task which commits that io, so the fast path gains an uncontended
-lock in a cacheline it writes anyway.
+The request check belongs in the same section. COMMIT_AND_FETCH ends
+the request it commits after it has stored the new command. A cancel
+which finds that request idle holds io->lock at that point, so it runs
+after ublk_fill_io_cmd() dropped it and reads the new command, not the
+request pointer which was in the union before.
 
-ublk_batch_prep_io() calls __ublk_fetch() with io->lock held, which
-makes the order io->lock, then ubq->cancel_lock.
+Requests cannot be dispatched to the io meanwhile, every caller has the
+queue marked as canceling or the disk deleted, so the dispatch side does
+not need the lock.
 
-The readers move under io->lock in the next patch.
+ubq->cancel_lock nests inside of io->lock, as it does for
+ublk_batch_prep_io() already.
 
 Assisted-by: LLM
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 ---
- drivers/block/ublk_drv.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/block/ublk_drv.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
-index 50c99b28ef21..17a33539f271 100644
+index 17a33539f271..1455ce27d3d1 100644
 --- a/drivers/block/ublk_drv.c
 +++ b/drivers/block/ublk_drv.c
-@@ -3169,6 +3169,9 @@ ublk_fill_io_cmd(struct ublk_io *io, struct io_uring_cmd *cmd)
- {
- 	struct request *req = io->req;
+@@ -2777,10 +2777,16 @@ static void ublk_cancel_cmd(struct ublk_queue *ubq, u16 tag,
+ 	struct ublk_device *ub = ubq->dev;
+ 	struct io_uring_cmd *cmd = NULL;
+ 	struct request *req;
+-	bool done;
  
-+	/* io->cmd shares its storage with io->req, switch them under io->lock */
-+	lockdep_assert_held(&io->lock);
-+
- 	io->cmd = cmd;
- 	io->flags |= UBLK_IO_FLAG_ACTIVE;
- 	/* now this cmd slot is owned by ublk driver */
-@@ -3338,8 +3341,11 @@ static int ublk_fetch(struct io_uring_cmd *cmd, struct ublk_device *ub,
++	/*
++	 * ublk_fill_io_cmd() runs under io->lock, so either the io is not
++	 * active yet or its command is in io->cmd.  The request the command
++	 * was committed for is ended after that, check it in here as well, so
++	 * that one seen idle goes with the command fetched for the next one.
++	 */
++	ublk_io_lock(io);
+ 	if (!(io->flags & UBLK_IO_FLAG_ACTIVE))
+-		return;
++		goto unlock;
+ 
+ 	/*
+ 	 * Don't try to cancel this command if the request is started for
+@@ -2794,18 +2800,19 @@ static void ublk_cancel_cmd(struct ublk_queue *ubq, u16 tag,
  	 */
- 	mutex_lock(&ub->mutex);
- 	ret = ublk_validate_io_buf(ub, cmd, &auto_buf);
--	if (!ret)
-+	if (!ret) {
-+		ublk_io_lock(io);
- 		ret = __ublk_fetch(cmd, ub, io, q_id);
-+		ublk_io_unlock(io);
-+	}
- 	if (!ret) {
- 		ublk_apply_io_buf(ub, io, cmd, buf_addr, &auto_buf, NULL);
- 		ublk_mark_io_ready(ub, q_id);
-@@ -3496,7 +3502,9 @@ static int ublk_ch_uring_cmd_local(struct io_uring_cmd *cmd,
- 		if (ret)
- 			goto out;
- 		io->res = result;
-+		ublk_io_lock(io);
- 		req = ublk_fill_io_cmd(io, cmd);
-+		ublk_io_unlock(io);
- 		ublk_apply_io_buf(ub, io, cmd, addr, &auto_buf, &buf_idx);
- 		if (buf_idx != UBLK_INVALID_BUF_IDX)
- 			io_buffer_unregister(cmd, buf_idx, issue_flags);
-@@ -3514,7 +3522,9 @@ static int ublk_ch_uring_cmd_local(struct io_uring_cmd *cmd,
- 		 * uring_cmd active first and prepare for handling new requeued
- 		 * request
- 		 */
-+		ublk_io_lock(io);
- 		req = ublk_fill_io_cmd(io, cmd);
-+		ublk_io_unlock(io);
- 		io->buf.addr = addr;
- 		if (likely(ublk_get_data(ubq, io, req))) {
- 			__ublk_prep_compl_io_cmd(io, req);
+ 	req = blk_mq_tag_to_rq(ub->tag_set.tags[ubq->q_id], tag);
+ 	if (req && blk_mq_request_started(req) && req->tag == tag)
+-		return;
++		goto unlock;
+ 
+ 	spin_lock(&ubq->cancel_lock);
+-	done = !!(io->flags & UBLK_IO_FLAG_CANCELED);
+-	if (!done) {
++	if (!(io->flags & UBLK_IO_FLAG_CANCELED)) {
+ 		io->flags |= UBLK_IO_FLAG_CANCELED;
+ 		cmd = io->cmd;
+ 		io->cmd = NULL;
+ 	}
+ 	spin_unlock(&ubq->cancel_lock);
++unlock:
++	ublk_io_unlock(io);
+ 
+-	if (!done && cmd)
++	if (cmd)
+ 		io_uring_cmd_done(cmd, UBLK_IO_RES_ABORT, issue_flags);
+ }
+ 
 
 -- 
 2.55.0
