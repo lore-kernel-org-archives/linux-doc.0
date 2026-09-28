@@ -1,73 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574E64B8280;
-	Mon, 28 Sep 2026 12:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C824B95C9
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 12:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.38.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790596909; cv=none; b=mXVdC3pPrJPjZ/qDCid2RZup2uBbDkmhHmE4Dkky6SqUnXYMtdXbcQ1x93vTWQrqUTeHDBI31Arat/wjkUm3M5MbFpcit3DFu+bjTTfB1Z2mE37bKLy0x+f73wN1M7Pt43Qw21/n8GSoqqbR1h7mSxvSIPosXNW6omvML0jdPV0=
+	t=1790597058; cv=none; b=CsRCucSs5kynGNOpo6yWx6SIGBOCR7O+zt0ba/efZHX/f8BEv1bdMQliqz5BHS8mce+GMxd1U+hxHNNrkQjfHE3pRZryjcgd+LrJuJIFTyiAuxeTYWhGGUzZ4MCG9PbphZHtHvNNS7Vy7s8BwOwYiKOHIiSst6ujHro5yRoMyEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790596909; c=relaxed/simple;
-	bh=NtquoIUVPPcG6J/RUtVN6pPWA9agt77u1FTDFqJhyHA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RKOVDDQnA1FtqYJn4os2U03LZ429DQjnxKL2kKtfgiwwIyD/Xtq3HYFZiW80I3z9/H2jE46NPnteIzy9n/U/5/330uFmUfP+ITxWfxzOKSJZ1BB1BHZPglylWjB+HvXrt8o5iyGK8T0hwDeHH45bicIu0a5XHonT/k+TroBMURk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CZOrgM0S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790597058; c=relaxed/simple;
+	bh=jGLIh26Vc3BjXy6NX5dJdNpiGK43hRixQLowMM2m1RQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l/OpOXuMW/pu3cAlYwfd3HyCyJEHs/e8Is6w/HohoPx3wcXQMNVbcv4dYDVk5yiDIDTT7VNZa0XUe7Z9kuLqkVjUe3H0cVfc89gZ5gVCtPG8naAjY2+XLMo6dTilFfvxiPbs/jC5dYYsjaDzwhLR8cuaop378jDBf0OZKuTX+TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=MxDznQds; arc=none smtp.client-ip=88.99.38.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CZOrgM0S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F74C1F00898;
-	Mon, 28 Sep 2026 12:01:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790596907;
-	bh=XCxphfmmNLJionjwTpfejETuGwU8B2c0wOq0Nh0p5YA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CZOrgM0S710Oy5KmMYl8gHqQ9xPKJ7GM/SO7nIw9sLWTqda7McqswDpom81C8AuiU
-	 udYR2Hz0fwT9TuUnIFp1au8GaKH1GwE5jKoS241VE3guUdPQ3ch4RFfmxSLXfBIcDk
-	 wUK9OnQ/S8p+GkHUSok5Qn+MDvDK8SYvmVd2dqL0=
-Date: Mon, 28 Sep 2026 14:01:42 +0200
-From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To: Jiaming Ouyang <jiamingouyang13@gmail.com>
-Cc: linux-kernel@vger.kernel.org, alexs@kernel.org,
-	Dongliang Mu <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org,
-	corbet@lwn.net, si.yanteng@linux.dev, skhan@linuxfoundation.org,
-	rdunlap@infradead.org
-Subject: Re: [PATCH v2] docs/zh_CN: add Chinese translation for usb/ohci.rst
-Message-ID: <2026092803-harmonics-unreeling-0760@gregkh>
-References: <CAMnqnYxiXKZOOOCjWEijLaQuBsMELM3q3VKhTqrkd0zX-1zyWA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="MxDznQds"
+Received: from relay12 (localhost [127.0.0.1])
+	by relay12.grserver.gr (Proxmox) with ESMTP id C622ABC39C
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 15:04:12 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by relay12.grserver.gr (Proxmox) with ESMTPS id 1E0B6BD306
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 15:04:12 +0300 (EEST)
+Received: from mail-pz2-f38.google.com (mail-pz2-f38.google.com [74.125.228.38])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id 46CF61FFB06
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 15:04:11 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1790597051;
+	bh=jQ4D5dNgKYeYV0EiBemXuEAwgxJD4Xh7c4O8CAg8VEo=;
+	h=Received:From:Subject:To;
+	b=MxDznQdsNo/0sEV4hVVYqelkS/3bR9STmW66JNcVE3RPjjEKLtNtFTfhGVpwHFuIR
+	 YX4OMyWxCKZiD6KNKJziiBEFWwUSORknSZAxaZ2a+mDGY9PpyPZGxGco4qwtoTP4+c
+	 QM2WIclOhjCPXDKC5xnz5M+GwBqHZnqdEX2xXKMI2paeqr1hPODhx2GkILeZqXk/rM
+	 rdH8uuDH+QPjp0zwDZTSn+IcguFgl1sSQi39S3d+Yg9nHm9AWdcz380vXwkvitI5Ub
+	 6WezE6clGhqhcckpDhHfQjhmyXveWwGDzmvomNa0KsfIVtr6zVwKdtXI+L43ApzBkb
+	 GDxz49BbRgH0Q==
+Authentication-Results: linux3247.grserver.gr;
+        spf=pass (sender IP is 74.125.228.38) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pz2-f38.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-pz2-f38.google.com with SMTP id
+ d2e1a72fcca58-88206fc44c6so1315411b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 05:04:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AKwUvBwNnoO4CVOhS6zuM1r3aknuIbtGi1ZR31bECNEZxjzbgrmezmVBnRgLJWdjRxjyVSK6h92g1dAd+Kk=@vger.kernel.org
+X-Gm-Message-State: AFuF++moF1ygFhlWi2pW+fP0OXAf+0fXO+VPWr4nhQLSdlgTQTlDgZCw
+	zOHp/qheA3+bJ6ZgDwiRgyef4qGe2HxIulRJocACiM8WFbKdGmGOYWSm26Pv2aiKAhpkXXh4uXb
+	9LAi370/9pb/lAi1larimVwLAXSAOSH0=
+X-Received: by 2002:a05:6a20:7f8e:b0:3da:f969:b077 with SMTP id
+ adf61e73a8af0-3de0e6f4386mr11655897637.11.1790597049772; Mon, 28 Sep 2026
+ 05:04:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMnqnYxiXKZOOOCjWEijLaQuBsMELM3q3VKhTqrkd0zX-1zyWA@mail.gmail.com>
+References: <20260926-gpd-fan-duo-auto-v2-0-0a2ea41ee3b5@pm.me>
+ <20260926-gpd-fan-duo-auto-v2-2-0a2ea41ee3b5@pm.me>
+ <72ea804b-6d62-4f31-985d-4f3f0359b5be@roeck-us.net>
+In-Reply-To: <72ea804b-6d62-4f31-985d-4f3f0359b5be@roeck-us.net>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Mon, 28 Sep 2026 14:03:57 +0200
+X-Gmail-Original-Message-ID: 
+ <CAGwozwHiJhDnpYsyWMYvzBmtGtn+pKJp+LY3dUk4mYcjw300oQ@mail.gmail.com>
+X-Gm-Features: AclHuK9UWyj2IYcJHU-3AWqghb-BIOq0RdB46udxoAkI3GAb1n1QCG-rKkEdxQo
+Message-ID: 
+ <CAGwozwHiJhDnpYsyWMYvzBmtGtn+pKJp+LY3dUk4mYcjw300oQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] hwmon: (gpd-fan) Register both fans on the GPD Win
+ 5
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: alexei.solcanu@pm.me, Cryolitia PukNgae <cryolitia@uniontech.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <179059705158.2755834.9067239205167695826@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-On Mon, Sep 28, 2026 at 11:34:23AM +0200, Jiaming Ouyang wrote:
-> Translate Documentation/usb/ohci.rst into Chinese Simplified.
-> 
-> The translation covers OHCI driver overview, hardware protocol
-> differences (OHCI vs UHCI), improvements since 2.4 kernel,
-> queueable interrupt transfers, and non-PCI support.
-> 
-> Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
-> ---
-> 
-> Changes in v2:
-> - Correct the date
-> - Correct the layout
-> - Add specific details for it's contributors
-> ---
->  .../translations/zh_CN/usb/index.rst          |  2 +-
->  Documentation/translations/zh_CN/usb/ohci.rst | 38 +++++++++++++++++++
->  2 files changed, 39 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/usb/ohci.rst
+On Mon, 28 Sept 2026 at 13:05, Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On Sat, Sep 26, 2026 at 04:11:21PM -0400, Alexei Solcanu via B4 Relay wrote:
+> > From: Alexei Solcanu <alexei.solcanu@pm.me>
+> >
+> > The GPD Win 5 uses gpd_duo_drvdata, which exposes a single fan and pwm
+> > channel: pwm1 writes the same duty cycle to both fans, and fan1_input
+> > only reads the first fan's RPM.
+> >
+> > The two fans have independent registers. Fan 1 uses duty cycle 0x047A
+> > and RPM 0x0478/0x0479, fan 2 uses duty cycle 0x047B and RPM
+> > 0x0476/0x0477. A duty cycle of 0 returns that fan to EC control.
+> >
+> > Add separate board data for the Win 5 and register fan1/pwm1 and
+> > fan2/pwm2, one channel per fan. Boards with a single fan are unchanged.
+> >
+> > This changes behaviour on the Win 5: pwm1 and pwm1_enable now control
+> > only the first fan. The second fan stays under EC control unless pwm2
+> > and pwm2_enable are used.
+> >
+> > The GPD Duo keeps a single channel, since it is untested and its
+> > second fan's RPM register is unknown.
+> >
+> > Tested on a GPD Win 5 (G1618-05).
+> >
+> > Suggested-by: Guenter Roeck <linux@roeck-us.net>
+> > Assisted-by: LLM
+> > Signed-off-by: Alexei Solcanu <alexei.solcanu@pm.me>
+>
+> Another patch new revision sent as reply of a previous one.
+>
+> Where does that idea come from ?  Can _someone_ please let me know ?
+> It seems like a contagious disease, but no one is willing to admit
+> where they caught it.
 
-This is different from the last v2 version.
+Maybe the following?
+https://en.andros.dev/blog/75beece9/sending-patches-via-email-with-git/
+https://nickdesaulniers.github.io/blog/2017/05/16/submitting-your-first-patch-to-the-linux-kernel-and-responding-to-feedback/
 
-Wait a few days, look at all of the review comments, respin a new
-version based on them, and then submit it.  There is no rush here.
+I faintly recall something like that when i was sending my first patch
+a few years ago.
 
-thanks,
+I checked the kernel docs and they are correct now and explicitly say
+do not do this. Perhaps that was a recent change though.
 
-greg k-h
+Antheas
+
+>
+> Guenter
+>
+
