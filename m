@@ -1,56 +1,56 @@
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35134F4D1C
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 17:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097D94F5DFA
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 17:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790617330; cv=none; b=eMY07OI0G6RXGlAK69INPcbZS16nAutRpKVK+tfIL1KJhmKUUrirlmxOGuD8LMYYm9188lKmeP0uQG9dCyP+J8T6cXKnYxRuiG64NqXCaEDzIlKZ9S2/t4yFpf1yXyTJieVe1OhQPIqV4YIL3oRXQb2rzoZltPpKhrhUGr30AOc=
+	t=1790617331; cv=none; b=TtMg4j9MaZSR1qhD9zetMBw0wDK1fG3Mi8zBKyTmZ9KSopgYTAImpLQB692oiFIWxVGP/gSiwhfTJ9IbtVuczqbSr/NFfvDBVkLUL/zzQGykUoE6SRb0BM5xFIf4SnGT/tSMRwuU1ETIsgUhLKinPzBtKUE18U1QAZd2YhgRiVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790617330; c=relaxed/simple;
-	bh=fqb9OvcrF+1YGNg2ZQpu0FVkmCJMPIgeYZw98qjd2TE=;
+	s=arc-20240116; t=1790617331; c=relaxed/simple;
+	bh=LLJifOi3vvg2Oi1hnLaR9/CWjBWQAFtnWhBPvFWhHP0=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GdIP+9CFMAAMW7korGGw4RekwkmuQv5K3xmZ4jrIXDE/IbqScJ8qwnVM06JWOj9kypYYu9JAgr9AB+IDTgKdTxKLVyxZAqjqK7FwJUX2otAeV7hnhC859OeuqdcrIGBf0IPm6aUZtaOlgTdWnHibZsAozikvTy95KqjaCoQTSKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=R9oWZ0rV; arc=none smtp.client-ip=209.85.128.69
+	 To:Cc:Content-Type; b=eLL6PSOMOOty4FSQE51QPCzYX3O2syj/loEY0euyfa++yIYGUVLjvICjQV0TCN/KBlS2hdT4sTI76z5ofwcIwLHKvtz2rEHbfhl1SumbktzrUXP4v6ewvn5JEAzcpCAsEWB7gtOulQuM/8f6Ku6JXNsYiBAgnnaiP+d0kSJwjKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ArY57ybO; arc=none smtp.client-ip=209.85.221.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R9oWZ0rV"
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-49ffe48d1dfso23512115e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 10:42:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ArY57ybO"
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-48880800a34so1313974f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 10:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790617323; x=1791222123; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790617326; x=1791222126; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=b5BgLva5vXrAwBl9Y3v1BBOsVeywVgMCKKqE5NVyRxk=;
-        b=R9oWZ0rV7gKjtA+la0UmSJwqWvDqq8wPLqFAoKyMDtFhs+vbe53tpGCRzWJ9ioM8F6
-         MZksfaaiPsdWKeF9s75UWfH005UDaew0pgQPt4kE2S/O3XZuJ7PNkRZekOjBByC1ietp
-         /WWRysDJT2/2FG/y+UryCV7l5fWn4Mt+FJlpcbD+B+8L6DLhBifTJVYlpI3q9RdRpNJ5
-         pCzff2k5EJbV9W5yOnqn5NIDZ5ws2C0oS4uK52rsdaIQeDmVPompBLDRP+GHORm/SZDm
-         UASyolwVaW6G/QQ3sN79899OUbU4HhV6rZkcpqLNXCcBYBCO1vsB1gs2hfo1xCcVo1J3
-         IYdQ==
+        bh=Nxfrq1oErs1k/vPJqSmHMRIqd6UamZQptG6IeTh3sVg=;
+        b=ArY57ybOzN6erbP3h+7/PC7SK8VmX0Rs+BRPD39FXzkuGHuPURXuG3cz+OmT96CkCM
+         NowGiLwC3343tQggFitAw/T51xZdEBXRWr5pXUaLHchY5JTzJtPAo/SorwYqIw6+ENSu
+         mnRF0omXeHprh/3ncYkmqSCJg7REKL+kDT8Hz+Dq44U76050yb9S+qP0cO45RIbohocH
+         EkKhRnNNMgcz+Dp38bHZz7zrNsBKYLQPx4t4xNFTu2vgjZUH9V/YQSdVAEEATfPmajkO
+         05s748nLhRowUqunaSQi4/EeSBc73hxCagdGW4D/3VWH1HOFKp8aymh/xtVpLoMw+aSI
+         Y2ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790617323; x=1791222123;
+        d=1e100.net; s=20260707; t=1790617326; x=1791222126;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=b5BgLva5vXrAwBl9Y3v1BBOsVeywVgMCKKqE5NVyRxk=;
-        b=bniQQfpzLzTnm1s8uDTNuaHLpdcGjCb1I45Oshwv/v51CVcEHWi1fumzB1rnjl1+lU
-         8+3jnVOCeLFeg1XjfcG8zWFmNM6s5SpEbxug1jnRpttSZRtcTk4qYvc89V4aFTSMGY8J
-         0A/j+EvWixgWTXX0HIQIuIl8jQD1fk5jqR9J9x0vhovSpurdECbguqrhzaYjveurwu3l
-         I0Mjf6sWMF+zdSsk7DW8lRqzWeYsfqmae6t7jRMJqXE6Nh7xnhKuaJ1bW2QVp+Rn/JGx
-         3NyeMAiac3q+gHrzxU0wKmIwKd3T936ygQ7PObEyce2tn26JdtdsdZxSpvRx7KOBH3aQ
-         eZsw==
-X-Gm-Message-State: AFuF++lIg2rSEqhARlDbOBJbPaKxpzPdL+xEdCks9h0l3SfCsArG+RQz
-	jit5OQHBZbQvMe9wpHg4lpEq/7Uuf8vJDHGIbxFdPG8wcqY37rclbn5ERl6T4n2VXuv+tkHjOxB
-	cQsEB1AhzSKRtOaaf+DN7099FK/SVzdv2q45OCUleoV3zor/MdSLoXS0fNareQYWiv318/3RLj3
-	rCO84Zezdqo4GNzC1ZqaAQY1+vFBZtYvb5TTD703ozpsiSefI2sIU=
-X-Received: from wmhj21.prod.google.com ([2002:a05:600c:3015:b0:49e:8337:33d])
+        bh=Nxfrq1oErs1k/vPJqSmHMRIqd6UamZQptG6IeTh3sVg=;
+        b=TI5wQIyAfW5HY1g8oaNF6Fimxjx4IYvFHPFljXAB4QaRCtjWGvEGnQ7M81v57KmPSq
+         Vjyd7ObokdfhTHBMF8t7ZsvTOfPIEJ8+wCHb/yHiB14wf1e0sWk1Hq/BJ6bacm5KmKRx
+         Zb3BejuzLm25XYFVdupvtXg1h99ZTAQG4vZSLXtR90vNJp+rrge28ndNWcdhRMWMSgTT
+         UTg7wnUBbVRi8hDy9Ss0Zesi85dxXwqHIjxXeZLNspQkFm+Nljz/zlKQBf2f8JOMvt9v
+         bVMqSuVligTAxfcRR3CsToTVB+TRL0qn1OX6D6MUUvv6kge1PPREL1IEorD6qTMEnsvf
+         DlPQ==
+X-Gm-Message-State: AFuF++nV3e5M5ex8nJb9SOPU7lRcL0sRIvBC0SyeoY7CXN1wQU+MEQ4b
+	anoRq27aUwqq69etsISG4NlrSWQf5YlUJqjG4J581obfvQ8lifK8wnOaH6f6nDjaDF2ngMc+h7S
+	Xy6a3hITu5oH0nf4XQ1LPxV6oAKZLt7wayFgyeqaBQRpo6sZB3shxCXQR6o3g1bwD50pw4Rhy0o
+	X/FCJtZE7WVLXZlQZxwct+N0wx7ks22aGILdNqBOEEueskMjxkXEo=
+X-Received: from wmpg37.prod.google.com ([2002:a05:600c:4ca5:b0:4a0:6b:ade5])
  (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:83c4:b0:49f:c331:39e4 with SMTP id 5b1f17b1804b1-49fe66ca101mr236733115e9.7.1790617322864;
- Mon, 28 Sep 2026 10:42:02 -0700 (PDT)
-Date: Mon, 28 Sep 2026 17:41:19 +0000
+ 2002:a05:600c:4f12:b0:49f:ce78:356b with SMTP id 5b1f17b1804b1-49fe6700d0cmr271026815e9.28.1790617325440;
+ Mon, 28 Sep 2026 10:42:05 -0700 (PDT)
+Date: Mon, 28 Sep 2026 17:41:21 +0000
 In-Reply-To: <20260928174122.3380703-1-smostafa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260928174122.3380703-1-smostafa@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20260928174122.3380703-13-smostafa@google.com>
-Subject: [RFC PATCH 12/15] sched/task_stack: Introduce ARCH_HAS_VARIABLE_STACK_SIZE
+Message-ID: <20260928174122.3380703-15-smostafa@google.com>
+Subject: [RFC PATCH 14/15] arm64: mm: Relax kernel stack alignment
 From: Mostafa Saleh <smostafa@google.com>
 To: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, 
@@ -78,67 +78,152 @@ Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
 	Mostafa Saleh <smostafa@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-When CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE is enabled, the kernel stack
-may not be fully populated with the THREAD_SIZE virtual area.
+On the kernel entry it was not possible to use the stack until it
+was checked for overflow which was done by a clever trick relying
+on aligning the kernel stack to double it's size, so if the
+bit at THREAD_SHIFT was set it means that the stack pointer has
+overflowed.
 
-Teach task_stack_size() to return the size of the vm area and not a
-fixed size.
+Now, we can easily switch the sp to sp_el1 which is the overflow
+stack, push some registers and execute more complex flow.
 
-This propagates to end_of_stack() which makes functions like
-stack_not_used() and set_task_stack_end_magic() to use the lowest
-valid stack address instead of THREAD_SIZE which would cause data
-aborts.
+Rework the kernel entry code to eliminate the tbnz check and the
+alignment requirement.
 
 Signed-off-by: Mostafa Saleh <smostafa@google.com>
 ---
- arch/Kconfig                     | 10 ++++++++++
- include/linux/sched/task_stack.h |  5 +++++
- 2 files changed, 15 insertions(+)
+ arch/arm64/include/asm/memory.h |  7 +--
+ arch/arm64/kernel/entry.S       | 87 ++++++++++++++++++++++++++++-----
+ 2 files changed, 77 insertions(+), 17 deletions(-)
 
-diff --git a/arch/Kconfig b/arch/Kconfig
-index 45c657772362..d6fa2ccb0599 100644
---- a/arch/Kconfig
-+++ b/arch/Kconfig
-@@ -431,6 +431,16 @@ config HAVE_ASM_MODVERSIONS
- 	  <asm/asm-prototypes.h> to support the module versioning for symbols
- 	  exported from assembly code.
+diff --git a/arch/arm64/include/asm/memory.h b/arch/arm64/include/asm/memory.h
+index 93ce6ef65573..4545d9b39bd5 100644
+--- a/arch/arm64/include/asm/memory.h
++++ b/arch/arm64/include/asm/memory.h
+@@ -130,12 +130,7 @@
  
-+config ARCH_HAS_VARIABLE_STACK_SIZE
-+	bool
-+	depends on VMAP_STACK
-+	depends on !STACK_GROWSUP
-+	depends on THREAD_INFO_IN_TASK
-+	help
-+	  An arch should select this if it supports dynamically configuring the
-+	  kernel stack size.
-+	  For example the kernel stack size can be from the command line.
+ #define THREAD_SIZE		(UL(1) << THREAD_SHIFT)
+ 
+-/*
+- * By aligning VMAP'd stacks to 2 * THREAD_SIZE, we can detect overflow by
+- * checking sp & (1 << THREAD_SHIFT), which we can do cheaply in the entry
+- * assembly.
+- */
+-#define THREAD_ALIGN		(2 * THREAD_SIZE)
++#define THREAD_ALIGN		THREAD_SIZE
+ 
+ #define IRQ_STACK_SIZE		THREAD_SIZE
+ 
+diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
+index a31ef890a2ee..ea733b673970 100644
+--- a/arch/arm64/kernel/entry.S
++++ b/arch/arm64/kernel/entry.S
+@@ -62,15 +62,33 @@
+ 	sub	sp, sp, #PT_REGS_SIZE
+ 
+ 	/*
+-	 * Test whether the SP has overflowed, without corrupting a GPR.
+-	 * Task and IRQ stacks are aligned so that SP & (1 << THREAD_SHIFT)
+-	 * should always be zero.
++	 * Test whether the SP has overflowed, using the overflow stack.
++	 * As we do not know if the CPU was in process or irq context, first
++	 * check against the task stack if that failed it means it might have
++	 * been an interrupt, so check against an interrupt stack, if both
++	 * failed it means that at least one of the stacks overflowed.
+ 	 */
+-	add	sp, sp, x0			// sp' = sp + x0
+-	sub	x0, sp, x0			// x0' = sp' - x0 = (sp + x0) - x0 = sp
+-	tbnz	x0, #THREAD_SHIFT, __bad_stack
+-	sub	x0, sp, x0			// x0'' = sp' - x0' = (sp + x0) - sp = x0
+-	sub	sp, sp, x0			// sp'' = sp' - x0 = (sp + x0) - x0 = sp
++	msr	spsel, #1
++	stp	x0, x1, [sp, #-16]!
 +
- config HAVE_REGS_AND_STACK_ACCESS_API
- 	bool
- 	help
-diff --git a/include/linux/sched/task_stack.h b/include/linux/sched/task_stack.h
-index 4a808f9c4631..07d73adaecd1 100644
---- a/include/linux/sched/task_stack.h
-+++ b/include/linux/sched/task_stack.h
-@@ -10,6 +10,7 @@
- #include <linux/magic.h>
- #include <linux/refcount.h>
- #include <linux/kasan.h>
-+#include <linux/vmalloc.h>
++	mrs	x0, tpidrro_el0
++	ldr	x0, [x0, #TSK_STACK]
++	msr	spsel, #0
++	mov	x1, sp
++	msr	spsel, #1
++	sub	x1, x1, x0
++	cmp	x1, #THREAD_SIZE
++	b.lo	.Lstack_ok\@
++
++	/* Check whether we are on the IRQ, SDEI or EFI stacks. */
++	stp	x2, x30, [sp, #-16]!
++	bl	__check_ext_stacks
++	ldp	x2, x30, [sp], #16
++
++.Lstack_ok\@:
++	ldp	x0, x1, [sp], #16
++	msr	spsel, #0
++
+ 	b	el1t_\regsize\()_\label
+ 	.endm
  
- #ifdef CONFIG_THREAD_INFO_IN_TASK
+@@ -528,13 +546,60 @@ SYM_CODE_START(vectors)
+ 	kernel_ventry	0, t, 32, error		// Error 32-bit EL0
+ SYM_CODE_END(vectors)
  
-@@ -96,6 +97,10 @@ static inline unsigned long *end_of_stack(const struct task_struct *p)
-  */
- static __always_inline unsigned long task_stack_size(const struct task_struct *task)
- {
-+#ifdef CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE
-+	if (task->stack_vm_area)
-+		return task->stack_vm_area->nr_pages * PAGE_SIZE;
++
++	.macro check_stack_overflow type, ptr, size
++	.ifc \type, percpu
++	ldr_this_cpu x1, \ptr, x0
++	.else
++	adr_l	x1, \ptr
++	ldr	x1, [x1]
++	.endif
++	cbz	x1, 1f
++	.ifc \type, top
++	sub	x1, x1, #\size
++	.endif
++	msr	spsel, #0
++	mov	x0, sp
++	msr	spsel, #1
++	sub	x0, x0, x1
++	cmp	x0, #\size
++	b.lo	2f
++1:
++	.endm
++
++SYM_CODE_START_LOCAL(__check_ext_stacks)
++	/* IRQ stack check */
++	check_stack_overflow percpu, irq_stack_ptr, IRQ_STACK_SIZE
++#ifdef CONFIG_ARM_SDE_INTERFACE
++	/* SDEI normal stack check */
++	check_stack_overflow percpu, sdei_stack_normal_ptr, IRQ_STACK_SIZE
++	/* SDEI critical stack check */
++	check_stack_overflow percpu, sdei_stack_critical_ptr, IRQ_STACK_SIZE
 +#endif
- 	return THREAD_SIZE;
- }
++
++#ifdef CONFIG_EFI
++	/* EFI runtime stack check */
++	check_stack_overflow top, efi_rt_stack_top, THREAD_SIZE
++#endif
++
++	/* All checks failed => it's a real overflow */
++	ldp	x2, x30, [sp], #16
++	b	__bad_stack
++
++2:
++	/* A check succeeded => return to kernel_ventry */
++	ret
++SYM_CODE_END(__check_ext_stacks)
++
+ SYM_CODE_START_LOCAL(__bad_stack)
+ 	/*
+ 	 * We detected an overflow in kernel_ventry.
+-	 * Restore SP and X0.
++	 * Restore X0 and X1, and pop the overflow stack.
+ 	 */
+-	sub	x0, sp, x0
+-	sub	sp, sp, x0
++	ldp	x0, x1, [sp], #16
++
++	/* Restore SP_EL0 */
++	msr	spsel, #0
+ 	add	sp, sp, #PT_REGS_SIZE
  
+ 	/* Switch to the overflow stack */
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
