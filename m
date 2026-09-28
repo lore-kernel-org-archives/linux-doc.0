@@ -1,117 +1,117 @@
-Received: from mail-vs2-f38.google.com (mail-vs2-f38.google.com [74.125.227.38])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1344833A9F8
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 12:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D17834402B
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 12:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790597760; cv=none; b=Be3q+o8jtG1C3plzaB0xWBD/N8jVM+jfOqevgHereVOIyUwNZDj5UYR6PI71pCMERsN/PdlucPxEiDMhR1WZ2TQrOuta572wqh84s+yoWkFUc2KNy4c6d3sC4N/09bmcOtDZ+wN8Ok2mkCb3jR5nUKaFx0nxvSxKMFF4NM7Dbi0=
+	t=1790598381; cv=none; b=BGMdNyaWrbrhTGBmTLgTBy1mNuX+XCfx3MXGy+BVlNWs9NiZ+4KBl63I+QuKwLGAQ74sFnIWCXIMZki37ClAyiYZizdlkKBggS2W4a4GqJKOiFg6Y9Zxh+3dU4ckdF8p3gys/1yQREGsfmvtFKqd8scmWFw3Q+8k5aM57gsWL2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790597760; c=relaxed/simple;
-	bh=ymWANid+W9QAIfsP2B7dxOZPLHb025E1MmiiKZKG/Ho=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TRV09944Iudc+dU+eS19LZl3JIfa5/fzj/lIRahs2I7qqzPm8Ldx//fn/Lnc4BuWzOM9tqK1ziWYqyHwAM1eh1lu4jyP548hX/e7b4l/NHcWYSqOWKc9TTDSIs6HVoF3HFTKZkbcYlLMU/tvqVkE1/X9qsu0/M+/SSFvnaYOkSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1790598381; c=relaxed/simple;
+	bh=oz+qnBneuNzgbgcPeVN/yZFP9YuMrQDJ//Xl7DWeReo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pDrwy08qtTLcg/bHg69X/toqLdxY4RR4jD9aTWKkTUheqRt6SJ6BxRKPDXVURmU0EXinFZVVqaKTSgaQL+WZRMkezpJjw/VLVCmDOIojmwmSCEaWAVsXiw/4TjW6xnaRdGIODcgK4fYcy+FCqRxgN29Q1tRIaKfCXEUNr+3JkKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m/XgSONT; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs2-f38.google.com with SMTP id 71dfb90a1353d-5cda0838062so1376502e0c.1
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 05:15:58 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m/XgSONT"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2dd1dcdcf95so13800405ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 05:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790598379; x=1791203179; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CUjbO+I4hM4lCPUnf5SJ9NB/2+aftjjp44Cv82ayP0Q=;
+        b=m/XgSONTEwxPmWu9uY2rh/c1mYIdTb6sYJP1Kj+HoOV1YyCsrHglRHbVZezImybIuG
+         kglqEJeiJLVrsmIYp5MlWSSMJMaoM0UfQbpHOBCUh5Kz/uVGqusALgy2Qwvd6DT+X4Sb
+         4CFeNoo8YZpoVLTZjM5mfrdpqiYRerMvTXg2cJ3/sxulFohI71lcEuu+amtUoSmT02JK
+         /mHeA9Jd02vB8kE+syIm0EKDVJCAzgZU7VWGHoJtz/Yws6hwMeqlR8rtv995dpoBMhBZ
+         sQaOVFaiw6SkoUWpt9erif/cnGEX3LJ43H33TUNOliaQKUxlqFHrZIuss2Ab4mmLm3GH
+         24gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790597758; x=1791202558;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=XQP52bKkr7Y/wzuKqDsjuqgLw7VrjDizWZT0Wc7gkw4=;
-        b=dS1hEHNOd2uyRnAeboXOzXgylUr70AV8X8T3XtTIkJnW1dD6e/i84jKTnivLF4Zn/v
-         +RW6DfU2GFoNVFGhVB1WeMTbltzBddvJSjVA+H9CHcg2OY0p7y5x0AnylasXg0X6NNE2
-         Ru9djvDBYhU0n1ffSvvIxcy+tWC29wI49J480ABAu9ZDi/wb2gruv0+6dppx/oEcTaXH
-         iVWgNzMx2EAfUimpYFpvTMoM2jdGpCu1LSWDye44/Utl8W9v3iLcw0/ps+55Y6FOVjd3
-         qnSzoTTeN1GMWJiMZWOpIhZirudPfAn6/QHofFbPgBK0DBpRsoL8brCm4QZHIooFbJEL
-         uAjw==
-X-Forwarded-Encrypted: i=1; AKwUvBzlUgYrOyBmj0q3fvOyfEryD6oHgsNTg3Yu0TZemSr94T1GEaXPQOW0abF6HK+qpocuHkDjFNu86n8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKlDCtC15KyueE0DrWmZJjieV5TPPqP9UYPHXRJRCKyVEf7BBj1
-	JPyue2/pSvM0oFSKGRHPZXrfNOcMKlayPFXBfnbOCd007DWAI4YojM21cMLNUecq
-X-Gm-Gg: AYBFou1Jf8AJZBuGWaHXzp/X3RjkzAa40IJpi7D1tvPhCEcoVik7+Wo2NOGUU7PJF1T
-	wfk6UptiPefjZ1J7M15YqqtKkixyQ8vA/cQxnT7lHMKVzgN7G+YrnkSgoowzCrTPXleXoxk/Ix5
-	z8gYsiWj1F06qOhkrweJiryertt4RJAMmiymgnJFVIcbDZmYfx7G4nexhYs/KMPlm/Xp8dv/gL1
-	zoWmKRWt9+rwDASg3+AvwcPL3mWPuIXYfO0PGMREB+BALxZK9LbX2jiy9eqyW9yNDov18bhC5xv
-	B73VucZDnTvpLMpNumtcHzwe3wI6ssPf4PHDZeyksv80BOTFhrlSXJO9I1BKQ+vRMFjQMEJsN7t
-	LMVH6xn78pbNxhMMOM8S1YLkRuL69D92ZILwPs+rpK24/gqCvy2GxYzb+cJwwj8NS2GU2SbP+Jf
-	x1+q69QuJxX/AgAUorX8Fi3FMoo26bqJdwkODgKHRtlE3jX59Fj+f0PugV/36hPoJku7SKicItS
-	H6+8kuV9LX+zvQNrUq80XdychDyIFObbTGx0iIRisJNmSA7
-X-Received: by 2002:a05:6122:1d41:b0:5c9:c60e:3a3c with SMTP id 71dfb90a1353d-5cb0bd5fa20mr5972312e0c.20.1790597757885;
-        Mon, 28 Sep 2026 05:15:57 -0700 (PDT)
-Received: from mail-ua2-f42.google.com (mail-ua2-f42.google.com. [74.125.226.234])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5cde577632bsm9400085e0c.8.2026.09.28.05.15.55
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2026 05:15:56 -0700 (PDT)
-Received: by mail-ua2-f42.google.com with SMTP id a1e0cc1a2514c-986dfb672d8so1311160241.2
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 05:15:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwxYlU3XAOTEmy4BearHmHyKIEs88DwUmGTI+p5PMqPGcSQAWDicpWXO7Eh6RYBAU/H0t1FaUnN5qI=@vger.kernel.org
-X-Received: by 2002:a05:6102:6883:b0:7a7:19aa:8a83 with SMTP id
- ada2fe7eead31-7af1ecf279bmr5070898137.30.1790597755270; Mon, 28 Sep 2026
- 05:15:55 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790598379; x=1791203179;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CUjbO+I4hM4lCPUnf5SJ9NB/2+aftjjp44Cv82ayP0Q=;
+        b=2jxdxDNVjE1ymJkVe/8mrXapgiznQxCicdugIrDPhX2IKjnpSFDtLE9ydh0JaqIxxu
+         rUSDfrRdiPTsNDmBhNq2YWKDQrIIQhKWX4MPI5xWQM+1hvP3EWCRXoPYBX8+1QmJQY1J
+         Sp2FF9Qtdj+QQSbz0o+7mtcnbBim77iU1cQUkS1W5UMw+Jpwp3WoHcLyRE42IA32ZyyQ
+         hLDTe6dADztABjYlQKbUGGV8K9bZBn5E9qy5iuhPVgBFBYCMkgvHDicIdTL3lEgE+cBN
+         iJS76BCUAdJ51fOwqdLKhHpPMWml4OVyicbHmqQMu32MYCCKHMESJnZxK7WO6ma2JKMe
+         Kq1w==
+X-Forwarded-Encrypted: i=1; AKwUvBxgDHv/NpcKFjI1VpwRRtU6h0qyFY06tdRtnUHk5jyjf4quyM7ePiTfpO5CSee791UTUb7EkH3G6Tc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIZAZJNVUiG8R1hzrVdUDgvzSmI9ndc231caS/dZyfLdD6drRmL
+	ReVRora/YWY3oUreZlCnqTyCvnJ0fMfmPhRUKC59P+F8NBU8BOdCUIIW
+X-Gm-Gg: AYBFou0jWdvCJFUWbu6C686SxBpkzbSRVlRTIaUWVlycaRvqGubw+p8N51tW+1MG7ZY
+	52kkjhOUcPFOq1M/N4ekvRBHCYfIqxc3BgtfblOX0P8eW0IzgyJC2Xdy5Pslq/2vok2JonYOGN+
+	n5bVKlAj0cYrtU8XXsw9FU2Hjcv6jvZTBEivHeutHa3H49DNtZo8U0rIPr+671cRGKPstWRe8c8
+	ntSzO28l6Jk+JfD4tBtVrG59RUCy1z93Y2c/WSULfSYfRTfPaB09SGCy19PFqvoFElsQpESI5pw
+	faqEK+r9K2zCDXSlQ5/OJizszgxYNSfJQm3ZPmDcV5/XDVF3CpvEVDdNiN40Boc+kUTFP36+OHq
+	sULU5bJlfLLoi1bB0d7xCowdEmrTxBMr2jaNIbxgTbkFiEM+xPh59MACvHEqvLdVfSUZWLAPvlR
+	VTb/lwO43tf8OkB9Mi7QC6z9920Zp+f/DwBWNz0m62fdGSfhyKd81v+M0Mfyug2jrnzQg12pgur
+	bIFN5KjfOT7gGHFNZSotJSOJxiwMYY+vSjcDi2lZBtwknoxBw24IqUM8Ra4GP6d2iVWjxSHbyzB
+	Th/kxzR4v13Co3jY+xXa
+X-Received: by 2002:a17:903:26cb:b0:2df:34c0:7302 with SMTP id d9443c01a7336-2df7e3a01c3mr67555875ad.39.1790598379324;
+        Mon, 28 Sep 2026 05:26:19 -0700 (PDT)
+Received: from NV-9MNJ414.tailae2068.ts.net (2001-b011-2006-1fb9-8409-0195-705e-5b47.dynamic-ip6.hinet.net. [2001:b011:2006:1fb9:8409:195:705e:5b47])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df90fbc951sm40485615ad.8.2026.09.28.05.26.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 05:26:18 -0700 (PDT)
+From: Yiwei Lin <s921975628@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: Yiwei Lin <s921975628@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] rbtree: fix rb_add_augmented_cached() descent and exercise rb_add*() helpers in rbtree_test
+Date: Mon, 28 Sep 2026 20:26:08 +0800
+Message-Id: <20260928122611.336351-1-s921975628@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260927205501.672807-1-visitorckw@gmail.com>
-In-Reply-To: <20260927205501.672807-1-visitorckw@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 28 Sep 2026 14:15:43 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVcpHrxg_Kb1vpguSYbRg4CU4DxNuPAv3UqHNHZTNk33A@mail.gmail.com>
-X-Gm-Features: AclHuK85gzWq5IklKOwAQu80W0kMa7pFyTsMwsvdeVooaKjfbbGjxmEBQYgiP_k
-Message-ID: <CAMuHMdVcpHrxg_Kb1vpguSYbRg4CU4DxNuPAv3UqHNHZTNk33A@mail.gmail.com>
-Subject: Re: [PATCH v6] m68k, bpf: Add initial BPF JIT compiler support
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, ast@kernel.org, 
-	daniel@iogearbox.net, eddyz87@gmail.com, memxor@gmail.com, andrii@kernel.org, 
-	gerg@linux-m68k.org, rdunlap@infradead.org, martin.lau@linux.dev, 
-	song@kernel.org, yonghong.song@linux.dev, jolsa@kernel.org, 
-	emil@etsalapatis.com, ihor.solodrai@linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
-	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, marscheng@google.com, 
-	eleanor15x@gmail.com, Daniel Palmer <daniel@thingy.jp>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Kuwan-Wei,
+rbtree_test open-codes the insertion of every flavour of rbtree it
+exercises, while the generic rb_add*() helpers have been the way most
+users insert nodes for years now.  Patches 1 and 3 make the test use the
+helpers where the helper does exactly what the test did, so the helpers
+themselves get covered.
 
-On Sun, 27 Sept 2026 at 22:55, Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
-> Add a BPF JIT compiler for the m68k architecture.
->
-> The JIT generates m68k machine code targeting m68020+ processors and
-> coldfire parts with an mmu (ISA_B/ISA_C). It excludes plain 68000/68010
-> and non-mmu coldfire processors, as it relies on 32-bit branch
-> displacements (b<cc>.l) to handle large bpf programs.
->
-> Tested with the test_bpf.ko:
-> test_bpf: Summary: 1061 PASSED, 0 FAILED, [1049/1049 JIT'ed]
-> test_bpf: test_tail_calls: Summary: 10 PASSED, 0 FAILED, [10/10 JIT'ed]
->
-> Tested-by: Daniel Palmer <daniel@thingy.jp>
-> Co-developed-by: Greg Ungerer <gerg@linux-m68k.org>
-> Signed-off-by: Greg Ungerer <gerg@linux-m68k.org>
-> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> ---
-> Changes in v6:
-> - Fix kconfig sort order for HAVE_EBPF_JIT.
-> - Update eBPF-JIT/arch-support.txt
+Converting the cached augmented test exposed the cost of the
+"suboptimal" propagate-from-parent path in rb_add_augmented_cached():
+2-3% on a Raspberry Pi 4 and 5-7% on an x86-64 KVM guest on the
+augmented insert+delete benchmark, against the documented
+update-on-the-way-down pattern.  Patch 2 adds a ->merge() callback to
+struct rb_augment_callbacks and uses it during the descent, which gets
+the helper to parity before the test starts relying on it.
+sched/eevdf, its only user, supplies the callback from its existing
+per-field helpers; the resulting kernel boots and runs on the Pi.
 
-Thanks for the update!
+The augmented invariant checks pass at every step.
 
-Are any of the issues raised by the bpf-ci bot valid?
-Thanks!
+Yiwei Lin (3):
+  rbtree_test: use rb_add() and rb_add_cached() for the basic tests
+  rbtree: update augmented data on the way down in
+    rb_add_augmented_cached()
+  rbtree_test: use rb_add_augmented_cached() for the cached augmented
+    test
 
-Gr{oetje,eeting}s,
-
-                        Geert
+ Documentation/core-api/rbtree.rst | 27 ++++++++++++--
+ include/linux/rbtree_augmented.h  | 40 +++++++++++++++++---
+ kernel/sched/fair.c               | 13 ++++++-
+ lib/rbtree_test.c                 | 62 +++++--------------------------
+ 4 files changed, 80 insertions(+), 62 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
