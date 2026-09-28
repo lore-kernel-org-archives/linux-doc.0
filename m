@@ -1,56 +1,56 @@
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178084EB871
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176D24EB870
 	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 17:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790617316; cv=none; b=H8S1lMtpYLI1VtICgN0jpbFdEPTiuRNF9+tZvRazbj+KiAo1wEx9rscLIxR6eZKN4Th9ZNhBSPZw/BB1DQ5j1umVg1VT9HhOWCv73e4SRiULLpVWjooEtPA5CpD+6McI/OQUSh81eEgpVAVaM94i619rLZQul66IiC8l7PU+t2Y=
+	t=1790617316; cv=none; b=N7snyunyKi5WhbcWzXkl4xQDM79sbx+Q0VdafCa1PGmbPXGElz7T5By1Vgch7wIzNey7iY1nYh1YuCU1jVuVPVKPffqPfXC1WKZYeCzgrgo2J0HLQQGid8KgQ64CXRCB/rl9lBygUdKZDHLxEUPlw460zevpF9ix3WRLbeQrd60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790617316; c=relaxed/simple;
-	bh=4i8baIAc2dkPaONbaLPORXqEKtv4vzfNmgQCV2XNs9M=;
+	bh=c1POIadwprxPDNsdozfeD1o6wPxvRs9raPf1U3VIYsA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=MxgCwW2Ncuj0fJ7/rL4PLzgkDYXxe88Y997iUVRiO1Y7vxF1GqPkeJ3aT7LxlOnC8R3emxGOnGq2wtdQU27I55ojZWTJSImdGYHlIMNudR1+Tx+I5mIt4VsBvZeeyGUzpYj1+WXDuZDsiNx1zHWJeZqm/NiTjEbIMmbkymv5s0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HLcXuZug; arc=none smtp.client-ip=209.85.128.72
+	 To:Cc:Content-Type; b=BAEOODVqLOn0TEiqVnQhJ4iAcgdDSTWA1lE5F7up4HJ/Z5igzw9vfq647NiFdXz8Kkw8Uq1jvLeBKvlU63+Xxf8PrS1p9sV9Jajk/ZbP4ba7KoUSWELt0Rjseco9HibH3QR/AGyghSQsfK4iRfJ8EZnsbfaL3y0LL58Mr4cEISo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sOTojJHl; arc=none smtp.client-ip=209.85.128.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--smostafa.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HLcXuZug"
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-49e6ba4abdfso35202845e9.1
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sOTojJHl"
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-49fffa5de0fso25075055e9.1
         for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 10:41:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790617311; x=1791222111; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790617312; x=1791222112; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZMttkoCzeXLC/JEGKL20pI+XNOolXdLvFIFeMj04zLo=;
-        b=HLcXuZugBloA2b3C43tnwI7Qzd2sVPbUxdX7zXFeEmG12jO2VNPCXIqyGUvMWU2mS/
-         NopYAG6zsnKpll8eoJfG+eCaSgVfT/mNjtbBteo/RwGwIKOEztSMTx/qYNRhoY/0RVzu
-         0ZCBj4wQaRfgjTjJ8FfLuNkBDVo+iH8uvdddnG0QL6qE0+7Km/Ph1WEVvnfIjrzRA+iK
-         k6jlFHpj7QumNTvBHQUxQ7lRAV0cZOcwtrs+X8iONyEL/H/vkRdqZfp65YFYjqVdNjWr
-         Y03jyP0HUm5SUVva2B/U9njitjg+tHtVdRwgM7QYCkGSl2rgtv71VfqvhfNp5wTHpMO8
-         85Vw==
+        bh=+1DJuPuQM9kSMFWHvWycx46i6Qw8Tz2JNB7c4R6pz+k=;
+        b=sOTojJHlNEcrLbVXo4NYzaN3fsx59QS87qsiEUOKWXV1bRLTmZV47wUbezdqfjvubc
+         vpzq2LQBKNWHMjG6FcFgl74VdPKxbFm1nkuKBb+GjfZbX01kmgf2iA5eZx/AZ1p82Ik9
+         hhD5HnxAC/ZuIL6iIc2f6wpm1VHSlRoY2lDEGZlOwNefK8Is3somti5Hy5dOSjyDiF3+
+         11IfZU+I0jKbrv6lzz01CbRCYTOAZ1siVAllDzk55II7t8CVIF93FmmrVvzu5c07gHJu
+         lJA4OksBAWmuuW3oaAS3moZbvEqeSIJakBn+g1uVgAFC7LTmj7SEtbzPv46c67O26qZv
+         +mEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790617311; x=1791222111;
+        d=1e100.net; s=20260707; t=1790617312; x=1791222112;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZMttkoCzeXLC/JEGKL20pI+XNOolXdLvFIFeMj04zLo=;
-        b=S+pV2KXwH7MSOE1CKKbZpSmjM86/cDxMkDiumXxDzpV4DprAsBdg73bwjdNZH2Ss3D
-         2gKg/yu84prWtFjpjy5sebeJGDaiAImv1W04/yaKqlq334e5hixSOydm2UWdZmpsWWIj
-         d34y5wH2764vUETi9IsgNk+Uj1WsEoL7yE6XRXpQ+d0xjwTCFs/1KGlNTpZ1tTMJaqnu
-         dN/CTbg3aHxxGyI14+bZ9ER7/BJRRQNDblyJLMNe9luFr+SbwPBpYtZ0x9Pbz1X+YToF
-         e2+rPGgYk4YcvfLEzSOZtKQ2jDOAMSgENdsb1fVz9Bpl6toxi9g/zj1YOaXS0eYIZ/Po
-         Z40A==
-X-Gm-Message-State: AFuF++klWcGD1iutMlCY00LRKYo8JHltJT9JHvSPEcBD1hdd/e9+oJ2A
-	/idxyuNJqtlOiZKIfXvUQ8lj8e+bnyTpm8Bp/TeQ0gwEq+F7YWSG2C+/8PDlRN0egTA5IjsKfs5
-	gRqmM1HLEJ81YrUFQEKqwjzPwX3MhJCGcBquVuoh/7CBZQsHEFMV8iUC8qbimTywrRAI9M7MiJk
-	Ed3upQ1a2tckvcj0HQPPXfIVSaRoUuv0Sca3hPhSBjcQ3PsFvjpE0=
-X-Received: from wmqb10.prod.google.com ([2002:a05:600c:4e0a:b0:4a0:107:e5c1])
+        bh=+1DJuPuQM9kSMFWHvWycx46i6Qw8Tz2JNB7c4R6pz+k=;
+        b=DJ+jqCbc5TdUC256jnCUE5cVzyxrGaQrbN3z5S4v0/5hCIMf97TLCkg9SYU0OEc6/C
+         RV3TZ55xqZ1nDc9vB4G5fpziledMEdJp1GR8GBvdqdPqHYr+lSQVO1SHRcGrPRzk7GFl
+         EsZZJpJmhswVp3Pb8bbXyAMksclNDRJML43/XiBAU5ZjjyvcJ5V40QKLBCHuB1hK3sDn
+         8FlZzdev0vmkr+y1YECUeBJEaWVWmlb31HW5pHRck+Io1PYYksmt3nZv8sJT9uIhvMNG
+         7gohVI7ZATmks/6O5C9R+9OthKPfBTbpcQ3EbsINMdCo/QjlZ1PXn4KXUElzLH11qM9m
+         Jzpg==
+X-Gm-Message-State: AFuF++nT0aUQPjEMLJh1sBH+BEwIjDb/DnFG9a/XjDybpCL357TFZ97v
+	k2GPl4PGGp6gR4z9ECQ3YNalXcQYbpLWQ1QKEOYUVE6RKi4PqZX9BVWVNP7UOG9EpMrMHIqFYmT
+	VaosCRKc5++VuY3pnl9VKvGSOUYCPGgxq86avhdGcfweiEVIzlgALaIlP+9ebqpevjifS4YZ+SX
+	7iGN+Bd7dY+SpfEm2tODagkcxBw4x9ZauIN7/TM9tSPxuqyHlXXo8=
+X-Received: from wmbhn25.prod.google.com ([2002:a05:600c:a399:b0:4a0:146:71bc])
  (user=smostafa job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8b4c:b0:49f:bd3c:bc16 with SMTP id 5b1f17b1804b1-49fe66f4c16mr231430235e9.17.1790617310870;
- Mon, 28 Sep 2026 10:41:50 -0700 (PDT)
-Date: Mon, 28 Sep 2026 17:41:10 +0000
+ 2002:a05:600c:83c4:b0:49f:c331:39e4 with SMTP id 5b1f17b1804b1-49fe66ca101mr236728135e9.7.1790617311982;
+ Mon, 28 Sep 2026 10:41:51 -0700 (PDT)
+Date: Mon, 28 Sep 2026 17:41:11 +0000
 In-Reply-To: <20260928174122.3380703-1-smostafa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,8 +60,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260928174122.3380703-1-smostafa@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20260928174122.3380703-4-smostafa@google.com>
-Subject: [RFC PATCH 03/15] fork: Move vm_stack to the beginning of the stack
+Message-ID: <20260928174122.3380703-5-smostafa@google.com>
+Subject: [RFC PATCH 04/15] fork: Separate vmap stack allocation and free calls
 From: Mostafa Saleh <smostafa@google.com>
 To: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org, 
@@ -75,40 +75,116 @@ Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
 	david@kernel.org, ljs@kernel.org, liam@infradead.org, vbabka@kernel.org, 
 	rppt@kernel.org, surenb@google.com, mhocko@suse.com, gustavoars@kernel.org, 
 	bigeasy@linutronix.de, clrkwllms@kernel.org, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Linus Walleij <linus.walleij@linaro.org>, 
 	David Stevens <stevensd@google.com>, Mostafa Saleh <smostafa@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-From: David Stevens <stevensd@google.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-The vm_stack struct used to free stacks via an RCU callback is stored
-directly in the stack being freed. Make sure it's stored at the
-beginning of the stack regardless of stack growth direction, to avoid
-faults on partially allocated stacks.
+In preparation for the partially populated stacks, separate out the
+__vmalloc_node and vfree calls from the vmap based stack allocations.
 
+Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+[Fix a bug in original patch: free_vmap_stack(vm_area->addr)]
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+[Add missing free_vmap_stack conversion, fix typos, rebase]
 Signed-off-by: David Stevens <stevensd@google.com>
+[Resolved conflict in alloc_thread_stack_node(), update commit msg]
 Signed-off-by: Mostafa Saleh <smostafa@google.com>
 ---
- kernel/fork.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ kernel/fork.c | 35 +++++++++++++++++++++++------------
+ 1 file changed, 23 insertions(+), 12 deletions(-)
 
 diff --git a/kernel/fork.c b/kernel/fork.c
-index ec4431bf309a..473878d7f62f 100644
+index 473878d7f62f..3f1c46d8f7ec 100644
 --- a/kernel/fork.c
 +++ b/kernel/fork.c
-@@ -285,7 +285,12 @@ static void thread_stack_free_rcu(struct rcu_head *rh)
+@@ -272,6 +272,21 @@ static bool try_release_thread_stack_to_cache(struct vm_struct *vm_area)
+ 	return false;
+ }
+ 
++static inline struct vm_struct *alloc_vmap_stack(int node)
++{
++	void *stack;
++
++	stack = __vmalloc_node(THREAD_SIZE, THREAD_ALIGN, GFP_VMAP_STACK,
++			       node, __builtin_return_address(0));
++
++	return stack ? find_vm_area(stack) : NULL;
++}
++
++static inline void free_vmap_stack(struct vm_struct *vm_area)
++{
++	vfree(vm_area->addr);
++}
++
+ static void thread_stack_free_rcu(struct rcu_head *rh)
+ {
+ 	struct vm_stack *vm_stack = container_of(rh, struct vm_stack, rcu);
+@@ -280,7 +295,7 @@ static void thread_stack_free_rcu(struct rcu_head *rh)
+ 	if (try_release_thread_stack_to_cache(vm_stack->stack_vm_area))
+ 		return;
+ 
+-	vfree(vm_area->addr);
++	free_vmap_stack(vm_area);
+ }
  
  static void thread_stack_delayed_free(struct task_struct *tsk)
- {
--	struct vm_stack *vm_stack = tsk->stack;
-+	struct vm_stack *vm_stack;
-+
-+	if (IS_ENABLED(CONFIG_STACK_GROWSUP))
-+		vm_stack = tsk->stack;
-+	else
-+		vm_stack = tsk->stack + THREAD_SIZE - sizeof(*vm_stack);
+@@ -307,7 +322,7 @@ static int free_vm_stack_cache(unsigned int cpu)
+ 		if (!vm_area)
+ 			continue;
  
- 	vm_stack->stack_vm_area = tsk->stack_vm_area;
- 	call_rcu(&vm_stack->rcu, thread_stack_free_rcu);
+-		vfree(vm_area->addr);
++		free_vmap_stack(vm_area);
+ 		cached_vm_stack_areas[i] = NULL;
+ 	}
+ 
+@@ -336,14 +351,14 @@ static int memcg_charge_kernel_stack(struct vm_struct *vm_area)
+ static int alloc_thread_stack_node(struct task_struct *tsk, int node)
+ {
+ 	struct vm_struct *vm_area;
+-	void *stack;
+ 
+ 	vm_area = alloc_thread_stack_node_from_cache(tsk, node);
+ 	if (vm_area) {
+ 		unsigned long offset = 0;
++		void *stack;
+ 
+ 		if (memcg_charge_kernel_stack(vm_area)) {
+-			vfree(vm_area->addr);
++			free_vmap_stack(vm_area);
+ 			return -ENOMEM;
+ 		}
+ 
+@@ -364,15 +379,12 @@ static int alloc_thread_stack_node(struct task_struct *tsk, int node)
+ 		return 0;
+ 	}
+ 
+-	stack = __vmalloc_node(THREAD_SIZE, THREAD_ALIGN,
+-				     GFP_VMAP_STACK,
+-				     node, __builtin_return_address(0));
+-	if (!stack)
++	vm_area = alloc_vmap_stack(node);
++	if (!vm_area)
+ 		return -ENOMEM;
+ 
+-	vm_area = find_vm_area(stack);
+ 	if (memcg_charge_kernel_stack(vm_area)) {
+-		vfree(stack);
++		free_vmap_stack(vm_area);
+ 		return -ENOMEM;
+ 	}
+ 	/*
+@@ -381,8 +393,7 @@ static int alloc_thread_stack_node(struct task_struct *tsk, int node)
+ 	 * so cache the vm_struct.
+ 	 */
+ 	tsk->stack_vm_area = vm_area;
+-	stack = kasan_reset_tag(stack);
+-	tsk->stack = stack;
++	tsk->stack = kasan_reset_tag(vm_area->addr);
+ 	return 0;
+ }
+ 
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
