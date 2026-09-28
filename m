@@ -1,185 +1,371 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E0B29ACC6;
-	Mon, 28 Sep 2026 12:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790599482; cv=none; b=j9mwfYjpOI4XYbqfjVdpQoTl4c1Gz4UqGsltG58S/et4y3v163K9rpqkLf9ESSs3ZfZLTXkfVyWm4xoqQfKdbIum+HAH5ngpe0CB76N9+bha6o6oLK2x7P6LHKCEf0RDzYptlmXU72VpJWz9DSFbRuXkqU38OZpqfj6JEuzYchQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790599482; c=relaxed/simple;
-	bh=ZXNlI+RAX+nTm0DvvNRSw2dlsVY/sr/atGTezTTinoY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=M1+zuDoHUzHqHkJpNKoneraeuxwl0Yzfo/NtVJuHulFzZMpxs9aRg2GSGpWKquS5BXtqbZuXv1PfjeW946cbtnNpU354VonARC13PJopM0xm85s4K4C7GAgyZ+gnl1Rb2UlvrDozgSOgxz+mVsu7VzE+zLhzvVjoC+om3FOeyCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KJiDs8xD; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10DD41B8F2
+	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 13:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790601268; cv=pass; b=XieGrMYgOz4GYmbYZ/ori8Aav5b4V9nTiFAbeay3KHoapASb3hjeNcmGyDPYUyhyVTC2Aw1PKqB50VbitnRaEn2ezYcVm8qSBIBQ6sMwgkL+oI5gJIU6Hfzwl3+aoFwNpo95rcIrUeDFwFZJlys2Yr1A+rsBRqxzEt0XmlJqbkE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790601268; c=relaxed/simple;
+	bh=vfndy+IDUfkE9mXtuiZaF5XqfBavVAoEu/YwMmCRbbE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bXyISm4m2QMXksz2gM6thMQoMG8GxHlYKhODKC3HVBWs5WfOMZW0ehptOlf3hIQuPHV4g4/ksNOYKSRaVFMSfLpQviJ6nmB7u3S3zBc7pV4r0Z2SWG68O+ILTYiULkhsUjQZGXkY8Z9mPFfFVt1r5LN+65JZ6wu5KBGukKXmZLc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OpKaoU2Z; arc=pass smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KJiDs8xD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790599481; x=1822135481;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=ZXNlI+RAX+nTm0DvvNRSw2dlsVY/sr/atGTezTTinoY=;
-  b=KJiDs8xDJPEjb9oGMBn9jCsVPTYFalvEsCjsybq6zcDSYhjBJf4AQK9E
-   b2HQjicrqIrSd/c7G6ZwXY9DBboJe7zjT+7tP1273EfMfNT+GOs4AZzRd
-   5kJimaiaHFcAxsBjpoXQ9MMlCDtHFYslLGaLGoFgPV4XXrEBXZrw0pHXH
-   rzJilWIESiEbLKDum4D1cpxdjQsDErsu+ENbEM78zEW7T/b3jH4oUcvFk
-   KdVLKAevI0GM2EU2lAEYeXhJWO1E7JPDgZWl1khiWGIGU3wMlYW99lS1V
-   V8kKB3T4jTX+F+lOi5r0vTKCkrp1VOhaJ/Q1s5H/B9oph59uc8auhmX5T
-   A==;
-X-CSE-ConnectionGUID: wceG/DgvQVmWT/3vcbQE5g==
-X-CSE-MsgGUID: JGgB9U/WQqm03VgsSC41iA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="101465243"
-X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="101465243"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 05:44:40 -0700
-X-CSE-ConnectionGUID: fFRMilzCTkWSkFZj16NO1w==
-X-CSE-MsgGUID: h6+JZbPHRayLtVxz/h87ig==
-X-ExtLoop1: 1
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO [10.245.244.73]) ([10.245.244.73])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 05:44:35 -0700
-Message-ID: <417b4032fd106c6730558759fd02e67e2fdc1c82.camel@linux.intel.com>
-Subject: Re: [PATCH v8 20/23] PCI/P2PDMA: Let a client declare that it
- selects ATS per mapping
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- Logan Gunthorpe <logang@deltatee.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>,  Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
- <christian.koenig@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev, Tushar Dave
- <tdave@nvidia.com>, 	linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 	linaro-mm-sig@lists.linaro.org,
- linux-rdma@vger.kernel.org, kvm@vger.kernel.org,  Chaitanya Kulkarni	
- <kch@nvidia.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jens
- Axboe	 <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>, Ankit Agrawal
-	 <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan	
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Sumit
- Semwal	 <sumit.semwal@linaro.org>
-Date: Mon, 28 Sep 2026 14:44:32 +0200
-In-Reply-To: <20260928-fix-p2p-acs-v4-0-v8-20-404453b9c435@nvidia.com>
-References: <20260928-fix-p2p-acs-v4-0-v8-0-404453b9c435@nvidia.com>
-	 <20260928-fix-p2p-acs-v4-0-v8-20-404453b9c435@nvidia.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OpKaoU2Z"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485984ebf5cso2415029f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 06:14:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790601265; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BY5C8yT11FUI9PHZalNWlXp3GiFbPaXhuXc1onUGN9l3hoTW9Vj4nY4RkinQUAsyuh
+         YdGSTCeiWDG0LSD/hfJwDTKbz4wHd0CrDwEseiWrSy+ImgpLf2VQPzU+NwoTwy0xZWLF
+         TG/cE1USj9i0rp6hvtIQrn0lRg4ZyDU3hDM4RqZYOeCNQW8iDg7Sw5a0G09k/gI0Lrjg
+         uu37dIYDbnNyIzQqJmcG/WxaWdPSlnl5OSClSBq+A3W999iOZDTGSCBOtYPKySbYmggm
+         Oy1qg1v28yzvDiIqtsRYbrmWa0+I2ya9okcVKJn0ETDXhEhc+Zznm2VwqVmQRTdUe7na
+         15pQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vND3fTgxqxSE2NFt08zJwdsstzk03d+XxBDIXeJX5tM=;
+        fh=TEJ0FyWltlWAYXYq1XQDFfIKnCPbRMW/cwoPMSUiw0w=;
+        b=e27yZaG2m0qovKCE0yHlrNlwjvfHMl8zIF6D9OvPtLkhv2CYHUJWNTUbCXWq6TjZTP
+         dCVfRYSExrGgu+9pF7RL5sC1cV7YHDgcnkcioBD4STt5sPIj1wQ4RVpJQDVK0LCwWnko
+         mv8Lo9qDAIz1JnacDeHaIk5WKED+xEtKBcILxKuqOFXvcOPXKJ/r5/kHSzmblpsaPMm7
+         O3du3qg7I9scF94/mdqKUJyx5vLEOKPj8Rkrqy6TLPODlSyfe3e4lhuNdrVhLQoJ6R3w
+         CO8KJYSvamLan9TQJoBgn9ioQcjxgJ5HWnTHme8bqSk6Ojrcphl+3YTNiULAaNuGYGV+
+         Sa7Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790601265; x=1791206065; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vND3fTgxqxSE2NFt08zJwdsstzk03d+XxBDIXeJX5tM=;
+        b=OpKaoU2Z6cmRpoczjGMgHx7ZZimb5w3OKZ4j/HHfZ6tbXX4WrmuZb8C4jKHj8sJloG
+         2l+LtIhuKDCACd73WolFjdg8G7g/fAe5IAVUzrRgV5mhCZCuI3Ao2xHG0GQBNRtZkaev
+         HzbFFRlKfA1edEwRf/2dqhIo9DOBANufJMAx1AkHHdAWhgpRQzteq8bhzJmSjL3qftBE
+         qzfgA4z4S0GLWzE0M8UCxIdombbBOg5CizgqM8j90wpPVFXZCX4mUUc0zYTrundI7/Ms
+         1VxEHJsXXLucWmX/c41VZBGB66AOMOqIou6zdAB/h8WhyoqHxLv5HgmOLhlVTmswFOsq
+         hnug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790601265; x=1791206065;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vND3fTgxqxSE2NFt08zJwdsstzk03d+XxBDIXeJX5tM=;
+        b=bNmf6w47ImOz8/bmxLqmPUYj7Oz2von4j1UIrQulW6fG6JXdGb/ZIPWH5hz58yXgR2
+         xi3T0Zb4Tm5lC+pFtbY0EUCTp8UcvLrnlN/YPyHtqSfItzB3g66rh2j1cRphCYhehIrC
+         5mGNr+Hg2ZHQX66UTJB2EqONiGCI1YH1Ze7CTD92biuj2HMWZ7e7L/eJByztgH7Edzz/
+         DeOr3upnrQb021toEzkb+UguU40U8FJIrNsqLiZCYtWmmARc1WHeB2NC8OljiGtvqixu
+         gES+yKNLVFF7tyJ07n7xOiz0Xyp0qWlmePpKsXBWllVgzBodewPm9oZWTa7QSubwd+SO
+         45Yw==
+X-Forwarded-Encrypted: i=1; AKwUvByO3pQWSf3xdQ2PYZajA0XG+ev6Oplqs6zI0esyOw/20SyUGY+NoNs64PlDZzF/sSoj90Epp6VYV8A=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKYD4P0wAcUoHdxvZOVyP52kEjZd864hp6iTNR50XGJ5YQAUJcw
+	kFY/tveHV5VK2gn+iMHSI4Ji91RzUSh0SBWYCz3FJp2sKAh75sv+pIYz5hHUxmMyKKCbSuYLzRP
+	lAE+rSr6UkQCGgbggJqvmZNrFzhGgmBA=
+X-Gm-Gg: AYBFou2rkma5ilhjeUx2dnY3b+rtexgJhptQGX+Ncdu07lRGjJSmJwKU/PSF1d/agXl
+	sQ+sdqzAPffdysFxukjkLN1i0c01hj2myFuwMO52yXaj220JKzW8vVNWTPIGpyXtHzzgKM2s8pN
+	+tlnCjnNYvUsAkahtJbywfhs/sQHX1VrG1fcpyCnL6/9TYyBNDlxesII/jE8RUymdljpxlmmc/m
+	23y1KItihIrZsYoA0ZVA3+FtirH8p1jfChxy9B92Ltrg5ESh1K+1OEPi7VV/yd3wGD637DL1Nyv
+	jdKSqcgy4p8BiqxaA5lpCSC5rj5NL4VfLnKuqCIYh3QH34WXHWLZaSOqc9tyaUY7WPNizJvSC2O
+	32UHAlnlMUL+AtxlIcndhXzXrcXrm
+X-Received: by 2002:a05:6000:4545:b0:488:7f5f:7caf with SMTP id
+ ffacd0b85a97d-4887f5f7e22mr10175659f8f.23.1790601264546; Mon, 28 Sep 2026
+ 06:14:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260918180241.3424851-1-nphamcs@gmail.com> <20260918180241.3424851-2-nphamcs@gmail.com>
+ <CACePvbVaDNspMDSw_qAcapKAzXj3JGV-KMYmow7aePa0POHpSg@mail.gmail.com>
+ <CAKEwX=OP3Gb9sVOvch+p4j7quzgy-rUY=UTZau5ztMj7heJJoA@mail.gmail.com>
+ <CACePvbVQsHXt4=+qfKz-KTar9CG+3OiAfLd1EZgnRE-1gyoKOQ@mail.gmail.com>
+ <CAKEwX=M8pJUYhmADfvdk+09O53EROyDRC+_b05vtimQE5VN=qQ@mail.gmail.com> <CACePvbWTZgbL7U-hrgV=V0egHZ13EqMCOsUbnKTcLvqnv85zUA@mail.gmail.com>
+In-Reply-To: <CACePvbWTZgbL7U-hrgV=V0egHZ13EqMCOsUbnKTcLvqnv85zUA@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Mon, 28 Sep 2026 14:14:09 +0100
+X-Gm-Features: AclHuK-P2g4Mc8ezdcRMnTDUO5s7E9DvQD4Qr_QNwMbU-IG7-Wm7IdyixU-UHR4
+Message-ID: <CAKEwX=M1tc5fLSgxbq9S9TU1AKJWtRZA0AwGQZgNXJ_76hThFg@mail.gmail.com>
+Subject: Re: [PATCH v5 01/11] mm, swap: add virtual swap device infrastructure
+To: Chris Li <chrisl@kernel.org>
+Cc: akpm@linux-foundation.org, kasong@tencent.com, hannes@cmpxchg.org, 
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev, 
+	yosry@kernel.org, david@kernel.org, muchun.song@linux.dev, 
+	shikemeng@huaweicloud.com, baoquan.he@linux.dev, baohua@kernel.org, 
+	youngjun.park@lge.com, chengming.zhou@linux.dev, ljs@kernel.org, 
+	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
+	qi.zheng@linux.dev, axelrasmussen@google.com, yuanchu@google.com, 
+	weixugc@google.com, riel@surriel.com, gourry@gourry.net, 
+	haowenchao22@gmail.com, corbet@lwn.net, hughd@google.com, 
+	baolin.wang@linux.alibaba.com, tj@kernel.org, mkoutny@suse.com, 
+	skhan@linuxfoundation.org, kunwu.chan@linux.dev, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2026-09-28 at 14:19 +0300, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
->=20
-> The PCIe ATS Enable bit covers the whole device, so P2PDMA cannot
-> tell
-> from it whether a client will translate a given address. Most devices
-> translate any address once ATS is enabled, but some choose ATS per
-> DMA
-> mapping and can still use bus addresses for the rest.
->=20
-> Add pcim_p2pdma_set_ats_per_mapping() so the driver of such a device
-> can
-> declare that before P2PDMA starts treating clients with ATS enabled
-> as
-> translating everything. Keep it in the device's P2PDMA state, which
-> already ends with the driver binding.
->=20
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+On Sat, Sep 26, 2026 at 8:02=E2=80=AFPM Chris Li <chrisl@kernel.org> wrote:
+>
+> On Fri, Sep 25, 2026 at 8:04=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wro=
+te:
+> >
+> > On Thu, Sep 24, 2026 at 5:44=E2=80=AFPM Chris Li <chrisl@kernel.org> wr=
+ote:
+> > >
+> > > On Thu, Sep 24, 2026 at 6:20=E2=80=AFAM Nhat Pham <nphamcs@gmail.com>=
+ wrote:
+> > > >
+> > > > On Wed, Sep 23, 2026 at 2:18=E2=80=AFAM Chris Li <chrisl@kernel.org=
+> wrote:
+> > > > >
+> > > > >
+> > > > > There are too many swap_is_vswap() in this series. It fragments t=
+he
+> > > > > code path, making things harder to reason about. Esepcially aroun=
+d
+> > > > > locks. I count 22 in this patch alone.
+> > > > >
+> > > > > I consider this the biggest drawback of this series. This
+> > > > > fragmentation of the code path.
+> > > >
+> > > > This will mirror my response at [1], but I'm responding here for th=
+e
+> > > > record and for your convenience.
+> > >
+> > > Thank you. Really appriciate that.
+> > >
+> > > > It is needed because vswap *is* a special device, with its own
+> > > > requirements. If you don't special case-it, you'd get undesirable
+> > > > behaviors.
+> > >
+> > > Ack, that is why I am against making it a special device. That is the
+> > > whole idea behind xswap. It is just normal swap device implemented vi=
+a
+> > > swap_ops just like ext4 is a file system implemnet on top of VFS.
+> > >
+> > > > Let's take Baoquan's patch series as an example.  It treats the xsw=
+ap
+> > > > device as just another swap device, without any special considerati=
+on
+> > > > for it. Which creates several problem:
+> > >
+> > > That is a careful design choice. Keep in mind that design choice
+> > > usually has pros and cons.
+> > >
+> > > I will follow your feedback here.
+> > >
+> > > > 1. At allocation time, cgroups that disable zswap might get an xswa=
+p
+> > > > slot, because you don't do any check that the device you allocating
+> > > > the swap slots for is xswap. At swap_writeout() time, it is *stuck*=
+ -
+> > > > we already do the unmapping step, so we cannot reclaim the page.
+> > > >
+> > > > Ironically a physical swapfile backend could have bailed us out her=
+e,
+> > > > but it's not in that patch series yet :)
+> > >
+> > > I am not sure I follow. Are you referring to the uncompressible pages
+> > > that xswap would have to reject?
+> > >
+> > > One way to address that is for xswap to just bite the bullet and stor=
+e
+> > > the uncompressible pages within xswap. That way it will stay out of
+> > > the reclaim LRU. Zswap also stores some uncompressible pages. The las=
+t
+> > > time I checked, it was unfortunately not able to serve my case but
+> > > perfect for yours.
+> >
+> > Not even that. Say you have two kind of workloads in the same host:
+> > workload enables disk swap but disable zswap (zswap.max =3D 0), and
+> > workload that wants zswap. Let's even ignore writeback for now.
+> >
+> > You add 2 "swap devices" to the system: xswap and NVME swapfile.
+> >
+> > At swap allocation time, xswap patch series does not check carefully
+> > which swap device is being used, so you might get an xswap slot for
+> > the cgroup that disables zswap. You're stuck at swap_writeout() time.
+> > You can't undo it anymore, and you don't even support the physical
+> > swapfile backend to fallback.
+>
+> The xswap is to be used with the swap.tiers. So at the swap.tiers it
+> selects xswap or SSD swap. Will that solve your problem?
 
-> ---
-> =C2=A0drivers/pci/p2pdma.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 27 +++++=
-++++++++++++++++++++++
-> =C2=A0include/linux/pci-p2pdma.h |=C2=A0 4 ++++
-> =C2=A02 files changed, 31 insertions(+)
->=20
-> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> index 1f4bf0125a5c..ae676509f9f3 100644
-> --- a/drivers/pci/p2pdma.c
-> +++ b/drivers/pci/p2pdma.c
-> @@ -26,6 +26,7 @@
-> =C2=A0struct pci_p2pdma {
-> =C2=A0	struct gen_pool *pool;
-> =C2=A0	bool p2pmem_published;
-> +	bool ats_per_mapping;
-> =C2=A0	struct xarray map_types;
-> =C2=A0	struct p2pdma_provider mem[PCI_STD_NUM_BARS];
-> =C2=A0};
-> @@ -1568,6 +1569,32 @@ void pci_p2pmem_publish(struct pci_dev *pdev,
-> bool publish)
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
-> =C2=A0
-> +/**
-> + * pcim_p2pdma_set_ats_per_mapping - Declare per-mapping ATS for a
-> client
-> + * @pdev: PCI device that initiates peer-to-peer DMA
-> + *
-> + * Declare that @pdev issues Translated Requests only for the DMA
-> mappings its
-> + * driver sets up to use ATS, rather than for any address once ATS
-> is enabled.
-> + * P2PDMA then takes the Address Type of this client's Requests from
-> the TLP
-> + * flags its callers pass.
-> + */
-> +void pcim_p2pdma_set_ats_per_mapping(struct pci_dev *pdev)
-> +{
-> +	struct pci_p2pdma *p2p;
-> +
-> +	p2p =3D rcu_dereference_protected(pdev->p2pdma, 1);
-> +	if (!p2p)
-> +		/*
-> +		 * ats_per_mapping is a performance optimization,
-> +		 * if pcim_p2pdma_init() didn't set pdev->p2pdma
-> pointer
-> +		 * for some reason, let's simply use ATS global
-> settings.
-> +		 */
-> +		return;
-> +
-> +	p2p->ats_per_mapping =3D true;
-> +}
-> +EXPORT_SYMBOL_GPL(pcim_p2pdma_set_ats_per_mapping);
-> +
-> =C2=A0/**
-> =C2=A0 * pci_p2pdma_map_type_tlp - Determine the mapping type for P2PDMA
-> transfers
-> =C2=A0 * @provider: P2PDMA provider structure
-> diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-> index 36045b1b730c..543a09426a11 100644
-> --- a/include/linux/pci-p2pdma.h
-> +++ b/include/linux/pci-p2pdma.h
-> @@ -109,6 +109,7 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct
-> pci_dev *pdev,
-> =C2=A0					 unsigned int *nents, u32
-> length);
-> =C2=A0void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist
-> *sgl);
-> =C2=A0void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
-> +void pcim_p2pdma_set_ats_per_mapping(struct pci_dev *pdev);
-> =C2=A0int pci_p2pdma_enable_store(const char *page, struct pci_dev
-> **p2p_dev,
-> =C2=A0			=C2=A0=C2=A0=C2=A0 bool *use_p2pdma);
-> =C2=A0ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-> @@ -166,6 +167,9 @@ static inline void pci_p2pmem_free_sgl(struct
-> pci_dev *pdev,
-> =C2=A0static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool
-> publish)
-> =C2=A0{
-> =C2=A0}
-> +static inline void pcim_p2pdma_set_ats_per_mapping(struct pci_dev
-> *pdev)
-> +{
-> +}
-> =C2=A0static inline int pci_p2pdma_enable_store(const char *page,
-> =C2=A0		struct pci_dev **p2p_dev, bool *use_p2pdma)
-> =C2=A0{
+I mean, we're having that problem right now, no? :)
+
+
+>
+> >
+> >
+> > >
+> > > > Vswap both has swapfile backend, AND allows you to bypass it if the
+> > > > cgroup disables zswap. Both involves a bit of swap_is_vswap() check=
+,
+> > > > but I think it's worth it :)
+> > >
+> > > If xswap needs the lower tier it can allocate for one. I don't think
+> > > xswap should need to have swap_is_xswap() there. Also xswap does not
+> > > have all the baggage of zswap.writeback enable interface.
+> >
+> > But that's my point. As of now, it does not. Unless you merge the
+> > other RFC series, which brings it to roughly the same size as what I'm
+> > doing here.
+>
+> It is cleaner because it avoids the dual personality issue. It also
+> paves the way to enable writingback from one swap tier to another.
+> That is heading to the right directions.  The vswap writeback only
+> serves zswap, not others.
+
+Writing back from one swap tier to another doesn't exist right now. I
+have not even seen a coherent design to support writeback among swap
+tiers. You're just delivering pie-in-the-sky.
+
+The RFC you mentioned is not writeback between tiers. If you think it
+does, then maybe you should read it again, It's from a very specific
+swap device (xswap, with zswap backend), to a swapfile. Here is what
+it does: add an array to store indirection (physical swap entry) to
+clusters, and update that array when we need to do backend transfer.
+
+Does that ring a bell? That's because it's the exact same mechanism as
+vswap (without proper attribution - not even Suggested-by). If
+anything, it's actually a bit less coherent, because you can set xswap
+to be lower priority than physical swapfile.
+
+Vswap does not have that, because vswap is not an ordinary swap
+device. It's implementing the concept of virtualization (the "V" in
+VFS, if you want to make that analogy), made optional to reduce
+overhead when indirection is not needed. That gives you all the
+machinery you need for backend transfer: a centralized virtualized
+layer, where you can update the backend, without having to go and
+chase down all the external references - no PTE walk needed.
+
+>
+> The biggest hurdle is the user API. One of Johannes's biggest
+> objections is that it lacks writeback support and perhaps more. Now
+> the writeback RFC is available. Let's re-evaluate what is possible.
+> The swap.tier series has been out for a year now.
+
+See above. But transferring between tier is still not a solved problem.
+
+>
+> If it is the same but does not have the 33 swap_is_vswap() fragmented
+> dual personality issue, I see that is a reason to choose that path
+> instead. What do you say?
+
+The problem is the interface and the charging question. We have put
+out our objections to it, and so far we have not been satisfied with
+the defence.
+
+>
+> >
+> > > >
+> > > > Maybe instead of just grepping for swap_is_vswap() and throw your h=
+and
+> > > > at the complexity, read the code and try to understand why it's
+> > > > necessary first, then propose simplifications if you have good idea=
+s
+> > > > in minds.
+> > >
+> > > Yes, I already read your code I decide that most of the
+> > > swap_is_vswap() should not be needed if taking a proper swap_ops
+> > > approach. I wanted to offer you the chance to work closely with me to
+> > > achieve that, but you did not follow that suggestion.
+> > >
+> > > Quote from my old email:
+> > > https://lore.kernel.org/all/CACePvbX+3tO91BmRwaLqf3Xia32GCemt3W8tayEr=
+G81BYLgrzA@mail.gmail.com/
+> > >
+> > > "I am happy to spend some time working with you to discuss the generi=
+c
+> > > adopted version of vswap, if you are open to it. Or if you don't want
+> > > to waste time on it. I can have someone else or myself come up with
+> > > the generic adopted version of vswap for you to review, which I prefe=
+r
+> > > less."
+> > >
+> > > Anyway, Baoquan's xswap writeback patch series is out. I suggest
+> > > following and improving that series instead.
+> > >
+> > > > > This is questionable. A vswap device does not go through swap on.
+> > > > >
+> > > > > This changes the behavior where swap devices always go through sw=
+ap on/off.
+> > > > >
+> > > > > I wish the swap device went through swap on to be able to start s=
+wapping.
+> > > > >
+> > >
+> > > >
+> > > > What usecase would necessitate the need for swapon/swapoff interfac=
+e?
+> > > > Other than just trying to shoehorn it to an existing interface?
+> > >
+> > > I like universal interfaces. Your vswap will break the /etc/fstab. Th=
+e
+> > > current suggestion for xswap using sysfs will break that as well.
+> > > I would like to keep the /etc/fstab interface working, including
+> > > support for UUIDs for swap devices, etc.
+> >
+> > "Universal interfaces" is not a use case. None of the thing you list
+> > out here is a use case. It's an interface, but you have not
+> > constructed a single use case to justify all of that.
+>
+> We don't have to go throgh the universal interface to resolve the 33
+> swap_is_vswap(). It seems there is an alternative now. We can take the
+> xswap route to eventually solve all your problems.
+> >
+> > > I am very concerned that vswap will start kicking in without me
+> > > explicitly enabling it. That changes the previous user-visible
+> > > behavior. It breaks my mental model. Please take this feedback
+> > > seriously.
+> >
+> > I mean, there's a knob for it. How can it start kicking in without
+> > your enablement?
+>
+> Please correct me if I am wrong; here is my understanding from you:
+>
+> vswap is off by default because of that knob. You turn it on and it
+> starts zswap.
+> Two questions here:
+> 1) Is your knob compatible with the existing /etc/fstab where people
+> use it to enable swap devices, including with UUIDs, etc.?
+
+If they don't turn it on, their code works as is. Their existing
+/etc/fstab exhibits no behavioral change.
+
+What you're asking is us *enrolling* in that same interface. And my
+question is what does that interface give us? I already pointed out
+multiple ways where that interface's generality shoots the user in the
+foot.
+
+> 2) When you enable the knob, do some unit test and disable the knob
+> again. Does the vswap go through the same path as swap off so no usage
+> of vswap exists on the system?
+
+It's a boottime parameter.
+
+Why would you care about swapoff? What use case does it serve?
+
+>
+> That is the existing use case I have in mind.
+
+You're describing an interface, again. It's still not a use case.
+
+I can promise that it won't break /etc/fstab if vswap is off. - if it
+does then it's a bug and I can fix it.
+
+>
+> Code maintainability is also a consideration when choosing which
+> technical solutions to move forward with, when there are alternatives
+> to provide solutions to the same problem.
+
+I already pointed out how xswap's design *creates* problem, including
+userspace problem. You just handwaved it away with "let the users
+shoot themselves in the foot". I disagree with that philosophy.
