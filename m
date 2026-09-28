@@ -1,89 +1,152 @@
-Received: from mta0.migadu.com (out-51.mta0.migadu.com [91.218.175.51])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4574EF152
-	for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 15:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD183749E1;
+	Mon, 28 Sep 2026 15:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790609184; cv=none; b=kSKNKAPnC0z3vJNfTD31OccrpbNCYal5a8CrF5WAOITEIjotLuloaH3sRkO4P83O/ZJFpZGRUa/jWTnTYNFi6U0S4pomypP2BFM7zddqCNxxyo8BJkZhBFbE6pBAmTlPVyou+11aK+PG4PtQlMKtUHQhA4K2SXxNAXJgqdhzsqs=
+	t=1790610275; cv=none; b=LQT3ybQ3MrwNuqAAuR0CXQPgMfiL7pyg+UbAbS68rgYfU+16FTW6MkkfqzagY6mQJywE51qI7EFzYXop1I94zYNf9bJkkBSGx69yj36L6PazXaSKoA+pCHS9fiK8ByR0/6sz5rhcYvfzK7AMJbFAA+N5OoFCiTGBYgpX+U2zlKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790609184; c=relaxed/simple;
-	bh=gCZ4+xDzVSAKXpVOsX9KJAGTjtUx6xvPoFZNvNTGzOQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Wxp1EfCwM0UlIHzzqQ9KvinngNDWYR921Iq/TNTOgdLlm9WYq8G2ppzGANL1S6u+3ornFgQ+P0UEnjZUl4J9CPA405nFOyGEC6JLNZIfUXh2iYsNHSrENVcoXoxZRLwT9KJLld/QLn8j9PANUWhXzSi+0JXT3PU3i2a1uchEuF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AT9jcM7Q; arc=none smtp.client-ip=91.218.175.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790610275; c=relaxed/simple;
+	bh=oYWLIsPpqRNEKyCnKZmjGH5wmdT2PKiWTIaG8ec8SKs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ER3uuB0/MUEZvV12l2ubhRLkXCygNXkAIodC2OYrC9WJiG0XKpjiK/uCZN2WzGBbA1C8mhAGofr8wtrrbs7QHSp9LtW+RIusk9D1qogoKfX+ACts98NJR68OPkGx8hRBo0Ns1pijT9+TSdUJgKNRoiHM+kn8KR2VGXykTFm/j2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r0WDKSQo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=elMEMkmW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tqXvzdiw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d70GCo3P; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AT9jcM7Q"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=gCZ4+xDzVSAKXpVOsX9KJAGTjtUx6xvPoFZNvNTGzOQ=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790609178; v=1; x=1791213978;
- b=AT9jcM7Qb7MVac0xNbLN2XpMVJzWexGkjlsRZBfPM4eZ9YjBEOmOjPuFeyEFfvDvaSiTCQ0V
- pB/heBaslEVTk+8x2ASGL4xQ6gsNjOmniWZl1dNa6z93fBb4C+XM559RmHGQrKdfWXKiAMkCzev
- soUuKHZE2vX0fTuntJ42Bh9Y=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 741b53cb36a0a279;
-	Mon, 28 Sep 2026 15:26:18 +0000
-X-Mizu-Trace-ID: 741b53cb36a0a279
-X-Migadu-Flow: FLOW_OUT
-From: Fuad Tabba <fuad.tabba@linux.dev>
-To: Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	kvmarm@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Cc: Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jing Zhang <jingzhangos@google.com>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	Fuad Tabba <tabba@google.com>,
-	kvm@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r0WDKSQo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="elMEMkmW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tqXvzdiw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d70GCo3P"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EC40A1F8AA;
+	Mon, 28 Sep 2026 15:44:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790610268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=N+UMqJ91GA2KmTLJhEVSIC0BWDdfIpZX/6WQAsX4jHE=;
+	b=r0WDKSQocXNG+NqIw+zvGp2sFHXGeo20E1DSCbASxeC8VpnKZ5UTYEajBZ/6J3+/zobmBP
+	3VVhZ/qbUjmQA24Me/06VjRNAN7SSTKFaAV47Fw7GBH4UWKUgEFeSJ6kqzF0R8JDdq4ClK
+	Ju/Ak6+rVmVD9F0OFD8zcg9XMZcyrug=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790610268;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=N+UMqJ91GA2KmTLJhEVSIC0BWDdfIpZX/6WQAsX4jHE=;
+	b=elMEMkmWTnFEkqQSU9Z+t2+HyJAwEjMl5i1igxQj6P/95sZk1maTzwoQn0Mw7MvjyadwqW
+	KKVU3nDr7Y8yMkDg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tqXvzdiw;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=d70GCo3P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790610263; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=N+UMqJ91GA2KmTLJhEVSIC0BWDdfIpZX/6WQAsX4jHE=;
+	b=tqXvzdiwXN1nPQebdFy97n5RvsGwYhriYREA6sebhSxaTAs/VQZFDynzI/1dpYqswpk1Ky
+	R1fP4kl9159vJmMjQKfuxuIzrP4CRIq58bkvnJAIWeh10X0e6htx1yQO64jahmmhp0dn9d
+	+epL2V6xnpIfJH6Qpk2RcrcwcBTvST8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790610263;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=N+UMqJ91GA2KmTLJhEVSIC0BWDdfIpZX/6WQAsX4jHE=;
+	b=d70GCo3Pm4Bs0N92EpPtLzYXvG1SZZF0AGTsIzmlaIJ7tR881NxyiNoqhBkuLxWD4lG2bM
+	PuuBJ04VX13/ndBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7A91C133F3;
+	Mon, 28 Sep 2026 15:44:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id j3BrE1eLumo+TQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 28 Sep 2026 15:44:23 +0000
+Date: Mon, 28 Sep 2026 17:44:22 +0200
+Message-ID: <87a4p14bzd.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Faaris Ansari <faaris.ansari@gmail.com>
+Cc: tiwai@suse.de,
+	adventureFAN@gmx.de,
+	corbet@lwn.net,
+	i@rong.moe,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 10/10] KVM: arm64: selftests: Free the thread arrays in vgic_lpi_stress
-Date: Mon, 28 Sep 2026 16:25:07 +0100
-Message-Id: <20260928152507.2116110-11-fuad.tabba@linux.dev>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260928152507.2116110-1-fuad.tabba@linux.dev>
-References: <20260928152507.2116110-1-fuad.tabba@linux.dev>
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	tiwai@suse.com
+Subject: Re: [PATCH 0/4] ALSA: usb-audio: Demote the severity of sticky GET_CUR
+In-Reply-To: <191af638-f19f-423c-8306-d96ea2b3dcad@gmail.com>
+References: <87h5klw6kp.wl-tiwai@suse.de>
+	<191af638-f19f-423c-8306-d96ea2b3dcad@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: EC40A1F8AA
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	FREEMAIL_CC(0.00)[suse.de,gmx.de,lwn.net,rong.moe,vger.kernel.org,perex.cz,infradead.org,linuxfoundation.org,suse.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
 
-run_test() allocates the vCPU and LPI thread arrays and never frees
-them, while destroy_vm() frees the rest of the test's allocations. Free
-them once the threads have been joined.
+On Fri, 25 Sep 2026 20:33:17 +0200,
+Faaris Ansari wrote:
+> 
+> Hi there,
+> 
+> I am continuing to have a bug across the latest 7.2 kernels, as well
+> as 6.18 and 6.12 LTS branches concerning hardware volume control on my
+> Audient EVO4, that I think is related to this issue - would appreciate
+> some guidance if not.
 
-Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
----
- tools/testing/selftests/kvm/arm64/vgic_lpi_stress.c | 3 +++
- 1 file changed, 3 insertions(+)
+Could you verify the behavior on the latest 7.3-rc?
+Once after confirming that the issue is addressed, we may consider
+backporting to the older kernels.
 
-diff --git a/tools/testing/selftests/kvm/arm64/vgic_lpi_stress.c b/tools/testing/selftests/kvm/arm64/vgic_lpi_stress.c
-index 9a69c439a0f8f..d09db95db3bd5 100644
---- a/tools/testing/selftests/kvm/arm64/vgic_lpi_stress.c
-+++ b/tools/testing/selftests/kvm/arm64/vgic_lpi_stress.c
-@@ -330,6 +330,9 @@ static void run_test(void)
- 		kvm_pthread_join(vcpu_threads[i], NULL);
- 
- 	report_stats(delta);
-+
-+	free(lpi_threads);
-+	free(vcpu_threads);
- }
- 
- static void setup_vm(void)
--- 
-2.39.5
 
+thanks,
+
+Takashi
