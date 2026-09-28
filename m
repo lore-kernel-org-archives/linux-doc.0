@@ -1,95 +1,138 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DC048EC65;
-	Mon, 28 Sep 2026 08:48:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D26B4718CA;
+	Mon, 28 Sep 2026 08:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790585327; cv=none; b=QUcirLuhaPQPCWAiFReQPV7L2DodverLl5bUJ/3kJ6HuQTs3EEtcgpZ8jnqCvkdAnWUC1dYAJLm6mNWdUU+/C6sSovE7b025JmSEXnHHg5/S63Gt3ymS5JMZPfC0hXu59UQh7ewTujW70ipIa+m7ezHHN6sq8wYGwTlILX4Wjn0=
+	t=1790585393; cv=none; b=p+FJG0L+RS7UbiOeUZTuRE8++zEJk0Mt9cTQirUra1EMPFlJJTG3hoBJzIQDpb7YSw7LJRtRvtlFE7tlwUKl+twbhYi2IoMNPzaUerSGpC/bZbJjKkPI+nvbTlpoCWvz8uMmjZ1ueDm28a7Mj9YcP9tidta3GfxgzrZKxg2RgGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790585327; c=relaxed/simple;
-	bh=4TrL1LK87jREhsshgj9afbV5g3GJEMSvHjNMsw4bwYc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=rTccrh4OdeG0T6D+4+wepa51RD/XQSt/8YutBGYSHWC57bg3Up4+nqgzQdXMC+ZUakB20Xcf8w6FwUvGeH+DmPday7YRgVzJNmlDCQUMb7zH1BZXowhfxCcp0DfXrs7Bd+Uh7KRPfB58G0OYwZrRJtbObyijokIPqZUSZ48fIJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZDa58Au2; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZDa58Au2"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id EDECB4E41089;
-	Mon, 28 Sep 2026 08:48:40 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BA3E4601BD;
-	Mon, 28 Sep 2026 08:48:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B9ED0102F1EA6;
-	Mon, 28 Sep 2026 10:48:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1790585317; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=4TrL1LK87jREhsshgj9afbV5g3GJEMSvHjNMsw4bwYc=;
-	b=ZDa58Au2RHTizRo43gJ1JRUszIzTyZQkH6fdz231iZk+mFK47kmlmDY+0VETY5yPpnsekI
-	H2W47fDdg16ql/VlkfIClEu+3ESEBPzsHVxHQwSdkpqq7xS/LmLFAZ+c1Cwv0IKbwSw7wN
-	UNguMPFymrWlqGCyroCsOi8X9w+cBGPYBNKhNvYG1RBg11GdeNJxoWlU5ueicQVxlBuyqM
-	rssKNaxcGDmyEx8/mRYdRbY6UDDqUJjccvTKQdvCwKLp+ozx2FfNr7mFPECEsnr5mrfBuE
-	Qly9BUoYG+GYmxYZ6jpGEQOn3mIhX3sFqMhz33riAziOXByw/e3sDqg5nym3vw==
+	s=arc-20240116; t=1790585393; c=relaxed/simple;
+	bh=sfU9xfBqBBCfykhWV9qEEK+snN8E0IDitn9WMcyitak=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VSdlAQxCWrn9hQuQn8vwJoe/Tv58CP6Lyb/1nhwc87o8CZ9xAYPKpIKvZv48LoUG0q7P2w3mwPOt3WqlWq1IvpJFUGC6vY/HVzgMHXtOhAu2x07Wq+YCdHk6+mlnL6YDBoSc1lkuFsBPZ2nq5wm+uBKn4Hm/dnvIAG09z+cN+yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=13.75.44.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with UTF8SMTP id IAEQrMDWHaQiKrpq0BNIAA--.36226S2;
+	Mon, 28 Sep 2026 16:49:38 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wD3_+ceKrpqVs9IAA--.14044S2;
+	Mon, 28 Sep 2026 16:49:37 +0800 (CST)
+Message-ID: <d773f5ff-316d-4d49-b8ae-acac278fa5ca@hust.edu.cn>
+Date: Mon, 28 Sep 2026 16:49:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 28 Sep 2026 10:48:20 +0200
-Message-Id: <DLQTIJA71AQ1.1RASTM0D6GMGX@bootlin.com>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jessica Zhang"
- <jesszhan0024@gmail.com>, "Laurentiu Palcu" <laurentiu.palcu@oss.nxp.com>,
- "Lucas Stach" <l.stach@pengutronix.de>, "Frank Li" <Frank.Li@nxp.com>,
- "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Paul
- Cercueil" <paul@crapouillou.net>, "Paul Kocialkowski" <paulk@sys-base.io>,
- "Linus Walleij" <linusw@kernel.org>, "Inki Dae" <inki.dae@samsung.com>,
- "Jagan Teki" <jagan@amarulasolutions.com>, "Marek Szyprowski"
- <m.szyprowski@samsung.com>, "Sean Paul" <sean@poorly.run>, "Jonathan
- Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
- Dunlap" <rdunlap@infradead.org>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v3 00/19] drm/panel: embed a drm_bridge into every
- drm_panel
-Cc: "Albert Esteve" <aesteve@redhat.com>, "Anusha Srivatsa"
- <asrivats@redhat.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>,
- "Ian Ray" <ian.ray@gehealthcare.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mips@vger.kernel.org>,
- <linux-rockchip@lists.infradead.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <asahi@lists.linux.dev>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- <linux-tegra@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>
-X-Mailer: aerc 0.22.0
-References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
-In-Reply-To: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re:
+To: Jiaming Ouyang <jiamingouyang13@gmail.com>, linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, alexs@kernel.org,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ rdunlap@infradead.org, Weijie Yuan <wy@wyuan.org>, corbet@lwn.net,
+ skhan@linuxfoundation.org, si.yanteng@linux.dev, baikefan@leap-io-kernel.com
+References: <CAMnqnYzG3EKaUr82NDuY4FG8ocFKj4Ccsqw0o3dmULbf+qM7sA@mail.gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <CAMnqnYzG3EKaUr82NDuY4FG8ocFKj4Ccsqw0o3dmULbf+qM7sA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IAEQrMDWHaQiKrpq0BNIAA--.36226S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxZr1kWFy3Gw47GFW7KF45KFg_yoW5CF48pF
+	Z7KFyfGrs5Ar10yFn7Cr1UtF1kAF1xK3W7J34DJ3Z5JrZ7Ja4IvrnFyFWagrWxWry8Cay2
+	v3Z8KFyfCa42y3DanT9S1TB71UUUUjJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQCb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCY02
+	Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr
+	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
+	rwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
+	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
+	z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUsqjgDUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Wed Sep 16, 2026 at 3:45 PM CEST, Luca Ceresoli wrote:
-> This series embeds a drm_bridge into every drm_panel, as previously
-> discussed [1][2] and in previous iterations.
 
-Series applied to drm-misc-next.
+On 9/28/26 4:44 PM, Jiaming Ouyang wrote:
+> [PATCH v2] docs/zh_CN: add Chinese translation for usb/ohci.rst
+>
+> Translate Documentation/usb/ohci.rst into Chinese Simplified.
+>
+> The translation covers OHCI driver overview, hardware protocol
+> differences (OHCI vs UHCI), improvements since 2.4 kernel,
+> queueable interrupt transfers, and non-PCI support.
 
-Luca
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+You mistakenly move the subject into the commit message, please resend 
+your v2 patch.
+
+Dongliang Mu
+
+
+>
+> ---
+> Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
+>
+> ---
+> Changes in v2:
+> - Correct the date
+> - Correct the layout
+> - Add specific details for it's contributors
+> ---
+>   Documentation/translations/zh_CN/usb/ohci.rst | 38 +++++++++++++++++++
+>   1 file changed, 38 insertions(+)
+>   create mode 100644 Documentation/translations/zh_CN/usb/ohci.rst
+>
+> diff --git a/Documentation/translations/zh_CN/usb/ohci.rst
+> b/Documentation/translations/zh_CN/usb/ohci.rst
+> new file mode 100644
+> index 000000000000..5e36831bf370
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/usb/ohci.rst
+> @@ -0,0 +1,38 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +:Original: Documentation/usb/ohci.rst
+> +
+> +:翻译: 欧阳家铭 Jiaming Ouyang <jiamingouyang13@gmail.com>
+> +
+> +========
+> +OHCI驱动
+> +========
+> +
+> +2002年8月23日
+> +
+> +“OHCI-HCD”驱动程序是一个USB主机控制器程序（HCD），它源自2.4内核系列中的“usb-ohci”
+> +驱动程序。“usb-ohci”代码主要由 Roman Weissgaerber <weissg@vienna.at>编写但也获
+> +得了来自David Brownell <dbrownell@users.sourceforge.net>，Linus Torvalds
+> +和Gregory P. Smith的支持。
+> +
+> +它支持“开放主机控制器接口”（OHCI），该接口标准化了用于与USB 1.1主机控制器通信的
+> +硬件寄存器协议。“与英特尔早期的“通用主机控制器接口”（UHCI）相比，它将更多只能功能
+> +注入到硬件中。除英特尔和威盛之外的其他供应商的USB1.1控制器通常使用OHCI。
+> +
+> +自2.4内核以来的更改包括
+> +
+> +         - 提高了健壮性; 修复了错误; 减少了开销
+> +         - 支持更新和简化的usbcore API
+> +         - 中断传输可以更大，并且可以排队
+> +         - 通过使用上层“hcd”框架，减少代码量
+> +         - 支持一些非PCI的OHCI实现
+> +         - ... 以及更多
+> +
+> +“OHCI-hcd”驱动程序处理所有USB 1.1传输类型。所有类型的传输都可以排队。在“usb-ohci”
+> +中也是如此，但中断传输除外。以前，使用一帧的周期会因为IRQ处理的开销而导致数据丢
+> +失的风险。当中断传输排队时，可以通过确保硬件在操作系统处理相关IRQ时始终有传输需要
+> +处理，来最大限度的降低这些风险。
+> +
+> +- David Brownell
+> +  <dbrownell@users.sourceforge.net>
+> +
+
