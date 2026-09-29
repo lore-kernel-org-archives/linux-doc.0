@@ -1,119 +1,137 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-162.mta1.migadu.com [95.215.58.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D843AAF69;
-	Tue, 29 Sep 2026 07:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B126E3AE191
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 07:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790668496; cv=none; b=HSaB7+PJqagDA8McZubPZhdl3TW4tPF/vDSw3u00lnfO2TrtGTVBnp6twts4wJJqhEdjeFlQQpsNlbtal9OT4QwBRMIXgTcBZ9R2gi1b6vaCNlFwaBQEjFhCSBdp5FKi3+qM6f9mXx3GcioMNM8uVUnNjRn6aNZR2pr+WCq23I4=
+	t=1790668551; cv=none; b=qWeD7ox8644V8ppqYxjFDuAsh6KpuG2vMWKr/ZbsiZQ9bDQ4RRivXDjIO9wDSu6nA9MZ4J1G0CfBPLydocUbH9UGVD060khLowHXkH970PjelTWarHGOMsy+Pgk0c/G9DemOFHkyXmShirT9F4oprBnQJ5v0sSg8lu5g3qmzVIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790668496; c=relaxed/simple;
-	bh=BMIu3XzRkJm+A1W6ZZm3DtEJrTbu/WBqZDXJAhuao4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LJiUFPAuE8GxvaIZZkdNr5NORA5t/yfa6ZGMnRBw9gweKEUCLTpCkLNhNSbIjYp4GK9Wl+S25KwdF48wxh75QnjTsBfQyFy9THU9RKgbMDORT2qmkQr7tUAxNBUH6eP21NrEyotA6WLjnAtabxrp5f6QPE+zvmj9E7mGGG6i6Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bmQLzw4r; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1790668551; c=relaxed/simple;
+	bh=nj3wtQVl7vcnhMbNppV9t0dGEHcungOiAb7gmBQ9b+o=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=sfYssLuz3ksqh/IaYH/td1MMAym2DPdevezp8we2CMbfqny22st+jEU+uZKZkxVmUtKMr8qlPjoQPmg5ElqbG9opoEhx5XjzMIKgrXn218vG7ESfswH6xayEe9fA+1ey7mEEWJyfuozsFAvl77j4ORoTDs3KemYRCJJZrnza0Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NDrUg/Ro; arc=none smtp.client-ip=95.215.58.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bmQLzw4r"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=zT6GlfQft/QJeAy0pckXvrIl9KIiBoLg2QYNryNymLU=; b=bmQLzw4rqkY4fV8qO1gp2+zRk4
-	nhnwFpj7IgIbEV0UNBL0AOnauwbzBlCrL0ajhvhUVi+pNnh8SIZRzeefsOeh2Kr+NSn2B/sAIj7Vh
-	Cx4AjbKvt+mRby1KlKqiNENB9NvJZhwvbf7gm1HC3bSiE/zr2kOf2x6WRKTNv+D2/KJS9G+aCQfJy
-	toxyW81SwYmF7/bHp3ab0R0jpaRE1WptNnL1lIFsaUvgJvNpq1mWDNvoRc/z4pdNqCh2Tcmi+TgDy
-	hVZUhCFgMIoSgF2tN4jnyl9609fBdFBT+W9F9gzKS5Fe2LmAP+mdiNLql6o3NqdHV3RMF1f+4q+yR
-	ZPnsshtw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1xBSfV-00000002Jcc-0zm7;
-	Tue, 29 Sep 2026 07:54:30 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id F1E06300446; Tue, 29 Sep 2026 09:54:26 +0200 (CEST)
-Date: Tue, 29 Sep 2026 09:54:26 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	Christoph Lameter <cl@gentwo.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bo Gan <bo.gan@broadcom.com>, linux-mm@kvack.org,
-	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
-	kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Long Li <longli@microsoft.com>, Andy Lutomirski <luto@kernel.org>,
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>,
-	Ashish Kalra <ashish.kalra@amd.com>
-Subject: Re: [PATCH v2 2/6] percpu: Bound decrypted storage for all x86
- encrypted guests
-Message-ID: <20260929075426.GQ4120091@noisy.programming.kicks-ass.net>
-References: <20260929040256.543767-1-zack.rusin@broadcom.com>
- <20260929040256.543767-3-zack.rusin@broadcom.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NDrUg/Ro"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=nj3wtQVl7vcnhMbNppV9t0dGEHcungOiAb7gmBQ9b+o=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790668547; v=1; x=1791273347;
+ b=NDrUg/RoF1bPvVighGofc9LgFh5CsV8P86ekZ3WhxBT7oEPsv2EaiQEbUnovbXjLyRji/zXp
+ zu1s05qQAaWgnEjHbV11T2RK/fszFU/20H8cgPwE/HMRnaKxGC/qzDC7+I+Z6jOgfFoZRyMwaa0
+ RyucxV3hUsLBqVNRW5VdkRs0=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta11.migadu.com with ESMTPS id 06442dbddb022582;
+	Tue, 29 Sep 2026 07:55:38 +0000
+X-Mizu-Trace-ID: 06442dbddb022582
+X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260929040256.543767-3-zack.rusin@broadcom.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.11\))
+Subject: Re: [PATCH v5 01/12] mm/sparse-vmemmap: factor out shared vmemmap
+ tail page allocation
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <5c73e3b9-4eca-4b84-ba3d-85bb7d6f77dc@kernel.org>
+Date: Tue, 29 Sep 2026 15:55:21 +0800
+Cc: Muchun Song <songmuchun@bytedance.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Oscar Salvador <osalvador@suse.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Jonathan Corbet <corbet@lwn.net>,
+ linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-doc@vger.kernel.org,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,
+ Qi Zheng <qi.zheng@linux.dev>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Lance Yang <lance.yang@linux.dev>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <6BA39A32-5851-42B2-8822-F427D08577D8@linux.dev>
+References: <20260927025441.741633-1-songmuchun@bytedance.com>
+ <20260927025441.741633-2-songmuchun@bytedance.com>
+ <5c73e3b9-4eca-4b84-ba3d-85bb7d6f77dc@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+X-Mailer: Apple Mail (2.3901.100.1.1.11)
 
-On Tue, Sep 29, 2026 at 12:02:51AM -0400, Zack Rusin wrote:
-> TDX also needs shared per-CPU buffers. Use X86_MEM_ENCRYPT for their
-> definition and placement, and provide page-aligned boundaries so the
-> architecture can convert each CPU's whole section before registration.
-> 
-> Define the boundaries in the SMP template or UP data as appropriate.
-> Drop the unused DECLARE_PER_CPU_DECRYPTED() macro.
-> 
-> Suggested-by: Kiryl Shutsemau <kas@kernel.org>
-> Link: https://lore.kernel.org/r/aqqGUAX65s4LdJkr@thinkstation
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> ---
->  include/asm-generic/vmlinux.lds.h | 12 ++++++++----
->  include/linux/percpu-defs.h       |  7 ++-----
->  2 files changed, 10 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-> index 64bc2bfdd2ec..145fcdbbe9db 100644
-> --- a/include/asm-generic/vmlinux.lds.h
-> +++ b/include/asm-generic/vmlinux.lds.h
 
-> @@ -1022,11 +1024,13 @@
->   * Note: We use a separate section so that only this section gets
->   * decrypted to avoid exposing more than we wish.
->   */
-> -#ifdef CONFIG_AMD_MEM_ENCRYPT
-> +#if defined(CONFIG_X86_MEM_ENCRYPT) && defined(CONFIG_SMP)
->  #define PERCPU_DECRYPTED_SECTION					\
->  	. = ALIGN(PAGE_SIZE);						\
-> +	__start_percpu_decrypted = .;					\
->  	*(.data..percpu..decrypted)					\
-> -	. = ALIGN(PAGE_SIZE);
-> +	. = ALIGN(PAGE_SIZE);						\
-> +	__end_percpu_decrypted = .;
->  #else
->  #define PERCPU_DECRYPTED_SECTION
->  #endif
 
-So you're page aligning something that will get different protection and
-will thus shatter large pages?
+> On Sep 29, 2026, at 15:16, David Hildenbrand (Arm) <david@kernel.org> =
+wrote:
+>=20
+> On 9/27/26 04:54, Muchun Song wrote:
+>> HugeTLB and sparse-vmemmap each have their own helper to allocate the
+>> shared vmemmap tail page used by vmemmap optimization.
+>>=20
+>> Factor that logic into a common vmemmap_shared_tail_page() helper. It
+>> allocates the page through vmemmap_alloc_block(), initializes the =
+tail
+>> struct pages, and uses cmpxchg() to install the per-zone shared page.
+>>=20
+>> This removes duplicate allocation logic while handling both early =
+boot
+>> and runtime allocation through the same helper.
+>>=20
+>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>> Acked-by: Qi Zheng <qi.zheng@linux.dev>
+>> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>> ---
+>> v5:
+>> - Move this patch before CONFIG_VMEMMAP_OPTIMIZATION is introduced
+>>=20
+>> v4:
+>> - Update the commit message for the renamed VMEMMAP_OPTIMIZATION =
+config
+>> - Collect Acked-by from Mike Rapoport
+>>=20
+>> v2:
+>> - Collect Acked-by from Qi Zheng
+>> ---
+>=20
+> [...]
+>=20
+>>=20
+>> #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+>> -static __meminit struct page *vmemmap_get_tail(unsigned int order, =
+struct zone *zone)
+>> +struct page __ref *vmemmap_shared_tail_page(unsigned int order, =
+struct zone *zone)
+>> {
+>> - 	struct page *p, *tail;
+>> - 	unsigned int idx;
+>> - 	int node =3D zone_to_nid(zone);
+>> + 	void *addr;
+>> + 	struct page *page;
+>> + 	const unsigned int idx =3D order - =
+VMEMMAP_OPTIMIZATION_MIN_ORDER;
+>=20
+> Nit: constants read much nicer all the way at the top.
 
-That is somewhat uncool. We like large pages, large pages are good.
+I can update to this next version.
+
+>=20
+>=20
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+Thanks.
+
+>=20
+> --=20
+> Cheers,
+>=20
+> David
+
+
