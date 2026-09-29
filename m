@@ -1,133 +1,88 @@
-Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34BA6302753
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 01:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FCC3019D6;
+	Tue, 29 Sep 2026 02:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790643984; cv=none; b=GIpbuOomuPO2iY/BxOrlnoOLiDoGbPjvH6zlYtxWBL85r8O2k7XcrYAW6wKO3dNXePFvL/yQ177ua8OcdoHfjTfnTOm4IkNg6EqowX6hO4l23X0AMCRANUq6hhsSYJa9+UDeHl51D/hg34jZgSYtLn1XAN57AoWKgG3Wk9/kfSI=
+	t=1790647731; cv=none; b=pkd9/uTAtyz1CZCQ3d9Ds4qJqqnNJ4w67k/zn9wtRvq/H+EGgwlfGrJk/pmgdJO68APNnXVxDv5c/LS6AApsdsx8rgB3Q/julBrzgY487MpHA7/qIWlSxUCKQXUDG01q9WhhQ0DZJ492YdQxO3ooT4ecAU6lVrd9Ao8k0VHzzDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790643984; c=relaxed/simple;
-	bh=a3xvF0OREU6IVNTjUEt+ocQYRcp42nk5p+4XJkg0dIk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kwFUNlY9fhuzifNPzqqfXjeSJvslBMRaOu/GwBN8hi6UqPRFYah4yYwbZUTOoyNbPohniBUdkL2kjm71q4JVbqu63379oerMbHWd7g5ajYvFdP7UalCui8ChdFbXBiSgp9msLvwCK2OaHcGZIWjH7i1epv0rjEnsZBJj6Y1dpYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=anW3khdQ; arc=none smtp.client-ip=74.125.227.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790647731; c=relaxed/simple;
+	bh=delfwU9l6L0VwLZE9nQVYZ2E3WYeql8bBRRzxaU4QxI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nOzKK7msv660LyG+d/2jVNYt+R2NXJm+WPETVQO5PfJDCdbxKa7XQ44Rr1dmLqjErBuYc/A0+jm2xeZaC56fWDZD+5qkFAFs9OxI0ghE7RECqpNFr2pNe7QOYoqOmuez49+0B/nppBn0VRYjvvpqrPen9TV+7E1unWWx8cOo5oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LPOMiNOU; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="anW3khdQ"
-Received: by mail-pj2-f40.google.com with SMTP id d9443c01a7336-2e22e123350so9081875ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 18:06:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790643982; x=1791248782; darn=vger.kernel.org;
-        h=content-type:mime-version:user-agent:references:in-reply-to:subject
-         :cc:to:from:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=WUJtE1tO6F+vL+F/po6RA6UlyIObXL7Q50q+l+HvqRI=;
-        b=anW3khdQg3gW5iMolG2lX3g8QZXGIWmoBidAEi4O4lHgsF+uCc4TtJlnLIb99/Sqam
-         jGbi31HtNGnB+YGwhNoaoqYm472LP/RlHriPa0IQROtKztZWwCvUYvQlpF7N8mAUx7VJ
-         9VM262nKO/1rlgyi1WnFYbl0N4yRHjnuArrHkM5gveU+HUy4Xyid/0WZdCArJeBdNB42
-         5EvUlCPe0ic5ltJ8Bm+TNKcBsVnUg8RU/efgnCNRnATRrYzDuDwGzT9YJGezbKWkq8ai
-         8c9zzL31eWa2bSn5jRoWAIhQ1xWz+Z5ofWFKsGdkAZCQVtiGAJUwsgIBKnGoW8Csjsyb
-         2PBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790643982; x=1791248782;
-        h=content-type:mime-version:user-agent:references:in-reply-to:subject
-         :cc:to:from:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WUJtE1tO6F+vL+F/po6RA6UlyIObXL7Q50q+l+HvqRI=;
-        b=SD5xYRdKmLCf5dUBYRzCdxStHVvdAQv4G4FzcyIhNd77jhdhXhdlCbRDj1Gq72e1sE
-         dk9wy/YrICAd1NFowwLyKOdrKN3rsbaFz6MvL9wnb4DGuIoEfmtbEoScHNF+2vi7SSWO
-         2/yvZRMowNW5+2eWEKsnjF8t5Xlhlwyeu+Nahj+NyOqMQy6/OuhUrvn5hnRmzkeqFEVY
-         vxcZnm1cOlE2fYfQLv8XJkyxhpBk5WMjveyBW+thALJEd1GVwu9H4xVDHne6Rbdq/YIs
-         WJx/+3dfqp2AR7Wu9+CdNwJLwXVclBOsYjFr2SRSCTMmRO5+o4mQg/0ijkogUqkZQj97
-         /tqA==
-X-Forwarded-Encrypted: i=1; AKwUvBwVqdiLC35frnmODQogGsTEurY4u6BMCZ7Pqdc6N5xYlAfHBaD0i15HJb9tyWX09+sSMqNM6X3o9nU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI66f52yGWScNmSwxlc4Ohm4EMecGRk9R3KsFm72RRjOaq0iyXH
-	QTk7qNc8BQIF46kBQtmE974Ccf9V0oF199aKyhJCDHjvIQnzfBjPQt30
-X-Gm-Gg: AYBFou1z2fryv98gxkZ8XJgiTwyTS/5I22pSR27ZN+kl7/ejzebX+nbjgPRKLjyNd/t
-	FzCOhSqHXttbxLT7waEtvuutAjYrXBgvpHLCqcL3hEJQhLkASbCoscwBBx4vXsqp+KJ7Gj/cgGm
-	2fL5rCTZyAFQt/kgV+akgyFGPxuRhd4X0z185E1sFJbNYMjuQZRvomvxWyyBYOLiesgNaMf0VCS
-	KxsI5wzU4lwAM07gkg2W2CVKvepgaBBCJePdulD8oEuDuf+W+MTkEdK+XwQcISbcFVmqFHR7pd3
-	uU3UfmCJs36jJciausRBgsAwzHeiH24ZbSwq/DFWD7au7SeJJecvQjPYu8LhM8JJKC/+F3L4nLC
-	HZMO64SvbjXvVuvT0an8IjaVO3mGgUX4p6+UQpGQY/VaVhfza9IZQUMQMmRF76xfrytxzddAWL1
-	jjNdTUacaICFadqPnv6xhUmPDAI8+Pmhl5mDPUHOxZNN2kdjJMllXlruu6lqQztS2fr3rUnhuZ3
-	YX2qYXimnxSn6DGk1ykkwbbBzsB2zMZyVFVlaU8886EE6HHsRgTWH6/Z8sDij8rCpRYJCVIpkyX
-	2WBS3SwSmFtUWD9L+JDaq4nnmhYNhowxHUwpIeFyvTMx6XnzAflJ1KXmZ3hQsAvz664NnoULwG+
-	d
-X-Received: by 2002:a17:902:ef44:b0:2df:9f1d:4552 with SMTP id d9443c01a7336-2df9f1d624emr74517675ad.52.1790643982418;
-        Mon, 28 Sep 2026 18:06:22 -0700 (PDT)
-Received: from mars.local.gmail.com (221x241x217x81.ap221.ftth.ucom.ne.jp. [221.241.217.81])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df90fbbd2asm48234105ad.12.2026.09.28.18.06.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 18:06:21 -0700 (PDT)
-Date: Tue, 29 Sep 2026 10:06:17 +0900
-Message-ID: <m2wls43lyu.wl-thehajime@gmail.com>
-From: Hajime Tazaki <thehajime@gmail.com>
-To: broonie@kernel.org
-Cc: linux-mm@kvack.org,
-	liam@infradead.org,
-	rbm@suse.com,
-	akpm@linux-foundation.org,
-	luto@amacapital.net,
-	brendan.jackman@linux.dev,
-	david@kernel.org,
-	liuhangbin@gmail.com,
-	corbet@lwn.net,
-	kees@kernel.org,
-	ljs@kernel.org,
-	mhocko@suse.com,
-	rppt@kernel.org,
-	shuah@kernel.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	wad@chromium.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	geert@linux-m68k.org,
-	daniel@thingy.jp
-Subject: Re: [PATCH v3 3/3] selftests/nommu: add nommu mmap and mremap behavior tests
-In-Reply-To: <1b2fb12b-a342-4ec5-ad24-14fc761e1e61@sirena.org.uk>
-References: <20260926010819.604346-1-thehajime@gmail.com>
-	<20260926010819.604346-4-thehajime@gmail.com>
-	<1b2fb12b-a342-4ec5-ad24-14fc761e1e61@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LPOMiNOU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=MMdGfEjbI33TRWxRJ6WwqYmmQ8/gC0cXsG61yFN+vLg=; b=LPOMiNOUiA6JnJmGjWxA0BBkz1
+	ZF3fr7YrtoHwZFNzitbdX7tWaWVzh/2HkZ72mjQANpcD+s1IlWvhEKlMnPvwRhS0k8ieAdmCKx7Z6
+	xL7lPNmAmUrWE9Yjan1Hr1R4XZfD0fHNp3rcjc+mHg1HTj3N0278gb0QYEvQqijVuOFMXSt2wH1cp
+	XC0RI+pM8+Vx7sieVu2I0JoTQbtf0FyKGmpbihYePauG9pQYFzlqAA2oA6KVnItVh4t9vH1Is0hR7
+	O9LohFWhbipu0Dp+dBY7NtNLZ4VigmtVxXk20j8sbneWAUdZkKZJTnK/270c8a/xuXJ4PK330a+8r
+	CITORQkA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xBNGv-0000000269h-1cjm;
+	Tue, 29 Sep 2026 02:08:45 +0000
+Message-ID: <64a056b9-ad40-4c09-b2f4-ce686ebce86c@infradead.org>
+Date: Mon, 28 Sep 2026 19:08:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 9482/11456] htmldocs:
+ Documentation/filesystems/api-summary:20: ./fs/dcache.c:2010: WARNING: Block
+ quote ends without a blank line; unexpected unindent. [docutils]
+To: kernel test robot <lkp@intel.com>, NeilBrown <neil@brown.name>
+Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>,
+ linux-doc@vger.kernel.org
+References: <202609290155.PQiaOalK-lkp@intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202609290155.PQiaOalK-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-On Mon, 28 Sep 2026 21:34:15 +0900,
-Mark Brown wrote:
 
-> > +	ksft_print_msg("[RUN] Testing: %s\n", tcase->name);
+On 9/28/26 4:07 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   6375e61c01e93e35ee7acd336a689ac1fae4b509
+> commit: 33d76519f0ccb55b975a399f2a9a9c8933fa89d7 [9482/11456] VFS: add d_duplicate()
+> compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+> docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+> reproduce: (https://download.01.org/0day-ci/archive/20260929/202609290155.PQiaOalK-lkp@intel.com/reproduce)
 > 
-> > +		if (fd < 0) {
-> > +			ksft_test_result_skip("Failed to setup temp node: %s\n",
-> > +					      tcase->pathname);
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202609290155.PQiaOalK-lkp@intel.com/
 > 
-> Your test reports should use a consistant string when reporting the
-> result for a given test, that way tooling can tie results together
-> between different runs.  Report the diagnostic information with a
-> separate print.
+> All warnings (new ones prefixed by >>):
 > 
-> > +	if (result == KSFT_PASS)
-> > +		ksft_finished();
-> > +
-> > +	ksft_exit_fail();
-> > +}
-> 
-> Just unconditionally call ksft_finshed(), it will check the counts of
-> reported tests and exit with an appropriate error code - you don't need
-> to manually collate the results in your test code.
+>    Ring Design
+>    ----------- [docutils]
+>    Documentation/filesystems/api-summary:20: ./fs/dcache.c:2009: ERROR: Unexpected indentation. [docutils]
+>>> Documentation/filesystems/api-summary:20: ./fs/dcache.c:2010: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+>    WARNING: ./include/linux/jbd2.h:523 struct member 'h_invalid' not described in 'jbd2_journal_handle'
+>    WARNING: ./include/linux/jbd2.h:523 struct member 'h_invalid' not described in 'jbd2_journal_handle'
+>    WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'power_module' not described in 'amdgpu_display_manager'
+>    WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'hdmi_frl_status_polling_wq' not described in 'amdgpu_display_manager'
+>    WARNING: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:732 struct member 'hdmi_frl_status_polling_delay_ms' not described in 'amdgpu_display_manager'
 
-thanks for the comments, and I understand all of them.   I will revise
-those in next spin.
+I have already sent a patch for this:
+https://lore.kernel.org/linux-fsdevel/20260928211000.1539250-1-rdunlap@infradead.org/
 
--- Hajime
+
+-- 
+~Randy
 
