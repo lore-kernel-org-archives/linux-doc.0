@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17403A5453;
-	Tue, 29 Sep 2026 07:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0233A450A;
+	Tue, 29 Sep 2026 07:43:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790667712; cv=none; b=tBUn3kjqVZSlEbub5Ecscv6Vc89Vb/7Nw6QsyXlz/2nZjJSH+bMDhSUeecvAXUF2q1uQSNWf6GvrYKP4b1cIhsn5o8/rqMvuItF3njUsUc/HY2l9N0EQQRsVmep1Mh5JxVpw03Ytd8YUmZABbmwcDimQx6riCiksZSiXQQvTGWE=
+	t=1790667798; cv=none; b=T/ng86gMSMn3tR4hknlprS9+y5iHPXAbHzsgfPf9Xg0a1kQyQZAHoj9qBE3tiHN3Hz5ibOIqKLZQSNiviyP2M68+2S9umZlNbmJHVh1jY34F9u5JyhQ2X9WHmG3xcGubPxlkJ5PTip/H1rVdDppcbtkD9fqFbmSaGqjhPrW+r9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790667712; c=relaxed/simple;
-	bh=LB8An0CyAOwOWrrTiu8ZkR80SKuxS7PfsiH21DWPzO8=;
+	s=arc-20240116; t=1790667798; c=relaxed/simple;
+	bh=ug+QKMWp727c/x977owO1BgzJsYUKtzIEeu1zl5Q2r0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b3Hcjsxs9Qbea+x8G27eqMH6VdYebtaNOerTjJv6mrOSg31gost/uQPqwTCE37ZJoHMN6zniWvagbHSHrlXfnCGZ6UWrYtxw6fcMBF3IhY5oFu3RBjXmeaNcKSt84FTJesfCIm+vmFQM73U3eKWy/FnGUK7r0nm0NhmLk9qm05w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eP7n9A61; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=TVqXhEdqEnVaxd1576l82r6xsTP+0sRzuYRE8Ta7OTCOlXo/PTu6TeWfMBhHs7AE6GtsxqEfDp82jpclHfirtm1Y5vrXiEWu0lvtBtTV0OIRfemdYGRAcGY0BFbTxgj3mKC4lW8dtNdTNonFW7t4Ctqzxrb7iWk66VtebYNTUzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJschNlB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eP7n9A61"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 530681F000FF;
-	Tue, 29 Sep 2026 07:41:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJschNlB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2393E1F000FF;
+	Tue, 29 Sep 2026 07:43:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790667711;
-	bh=GSrpAC8UMMB0qYiMQ+1O1rlIqHLeQMas3ZsG4eip2jw=;
+	s=k20260515; t=1790667796;
+	bh=l3uGJBgDueAYQpQ6UNN5wXxoFfi297uAcZttSK4/i90=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=eP7n9A61yORmIgSnGkP5IduRoT3Pxx/cEH/DRB7RVfEi8dF1bIIY5M4VjQsthEAok
-	 8oHF7RjRB9ZVbIujX9nDZmMaVuumAKVIIvbBKU5S2hrN2cjuxpbmDaK5oaQnUlnxAE
-	 uvZFGbDo2RnyCoXrSKld3VA+q1qHSLOGJ3owCB6I0TMZI/a7IAGmDkyC0kS1M/kOUc
-	 wlqr3pNEykCphZXz9UBWTvMAb1y7RRi6z/tDYn/GrC/iWVJchybK/fMhqOcs0TSN9x
-	 2Ae0wYiBEJ9oHFeVJ/Ci1XcVKGMJ6IQYY8FJ1YZZ8cZ9NgChCMgUMi+Csr8ShsgMMv
-	 tAYqOW9+dNNXw==
-Message-ID: <3ae67ab0-ec42-4594-bebc-3c06d4c53eda@kernel.org>
-Date: Tue, 29 Sep 2026 09:41:45 +0200
+	b=mJschNlBhoq9JKJyXT7dxafC1SkgQ74/itXQ7YwoOf11UukAMavZEzlz8PtWHfAno
+	 SYhiTLj5jpURd1SowXyoIu2+Gwvol8zbHo91ZzqUSOsgnxKYa6ELES9UWm/7/P5tkA
+	 zdDL0MswCGxbxULsDOWRMheevjty+5eUD4shlcnarGIbO+XJpSDYVd4c2TDUdw3vfb
+	 FPX8+F1xS5SUJBU5R4Cg2hiqlUT6ia6fW/NQenc+kUfadGKMWypBlvGiJxGuvDKqsV
+	 4MEB0Z8KPhQkF0PC3/501YPQrx5JRUtNETEuL77Yd7cB/n7vryd4mFKMkofjhhQIfL
+	 OTqFoxUtsHukA==
+Message-ID: <118caa06-71cf-432a-a7d4-d721e86cd905@kernel.org>
+Date: Tue, 29 Sep 2026 09:43:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 11/12] mm/sparse-vmemmap: drop unused
- section_nr_vmemmap_pages() arguments
+Subject: Re: [PATCH v5 12/12] Documentation/mm: update DAX vmemmap
+ deduplication docs
 To: Muchun Song <songmuchun@bytedance.com>,
  Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
  <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
@@ -48,7 +48,7 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
  Randy Dunlap <rdunlap@infradead.org>, Lance Yang <lance.yang@linux.dev>
 References: <20260927025441.741633-1-songmuchun@bytedance.com>
- <20260927025441.741633-12-songmuchun@bytedance.com>
+ <20260927025441.741633-13-songmuchun@bytedance.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -95,19 +95,23 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260927025441.741633-12-songmuchun@bytedance.com>
+In-Reply-To: <20260927025441.741633-13-songmuchun@bytedance.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/27/26 04:54, Muchun Song wrote:
-> section_nr_vmemmap_pages() no longer uses the altmap or pgmap
-> arguments, so drop them from the helper and its callers.
+> Device DAX now uses the common per-zone shared tail page for vmemmap
+> deduplication. The old documentation still described a DAX-specific
+> layout with a separately populated tail vmemmap page and half the HugeTLB
+> savings.
+> 
+> Update the generic and powerpc documentation to describe the shared layout.
+> In the powerpc document, keep the radix and 64K-specific details, drop the
+> duplicated 4K PUD arithmetic, and replace the repeated device-dax diagrams
+> with a single parameterized PMD/PUD diagram.
 > 
 > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > Acked-by: Qi Zheng <qi.zheng@linux.dev>
-> ---
-> v3:
-> - Collect Acked-by from Qi Zheng
 > ---
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
