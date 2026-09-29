@@ -1,199 +1,242 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011018.outbound.protection.outlook.com [52.101.57.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343A3511195
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 12:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790684580; cv=none; b=UpMDQHiDuDukOWapDaMBrV060e1ygU0OW8QWSodmSxkQ27TJ7wY08x0mSqnnmjokwcPeR7KdN0/SbczW40/o2dJOqgfSGnMdQr1+t7rMinyyBwdxlvjTJuWY63kmiAutgEcpuHEKdUIRSV0vsSHsVOuS8ZXstV0kF4oNqlejCnE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790684580; c=relaxed/simple;
-	bh=6QEaADfaXLCRdOUWWu0nY6VbePuVEBMcOGAcZQncT5Q=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=uMBn9ewqeObWtwA6d4QYEA+Jk+VC4MOhbOsoHMqHjpraoIKmIZDrtGknrz1rjcNqojZ/h1XeSPu/Es86dq2jNgCFFaQ7L9fcb3z/cHvVYXGqUyZWhsMnKJkYB4x/t9QdM7jHAj8iimCcCliFFVxHKQW8IWX9p0F7c7LgZe5XcGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d80sDkKt; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2ECD413786;
+	Tue, 29 Sep 2026 12:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790685111; cv=fail; b=qOt5N0PAnpKP0c5MZI84d6fuG3u76OZxvdexmyUD7I8uvuHbXBVaR0jJsQkan4wt65Dp598qWyjj+opHNscwFldHc5voB5MgW2HMdYEsSxsAD4gkQW1UQUtM8H9RoruYMYd64Z1r/Aq47XVLDMRcrdpqnZO9i5z2DIDqkiCibgU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790685111; c=relaxed/simple;
+	bh=oRxxL907XiatVXTyR8B/sG7/41wG2XHYsxx7YED8Uw8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=aj6ZYC/S1X7kgBTw45bs+PJ0CJ0jMHYNKF/PuaxUhoPdv1Hi+NEa97AmrRkxkEijwsxYYcDAui5ktAcK0G23hHos7HFnBeZzwxEm2zSOeUBppJsNRdyPyyG/sFIUEEU1CZw4jqvvq54jMZUkey3zb6DKlZnyBPOtDJfVoPoPK24=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=SdgPA2h1; arc=fail smtp.client-ip=52.101.57.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d80sDkKt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDA3D1F00898;
-	Tue, 29 Sep 2026 12:22:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790684577;
-	bh=iSzVu9OwDDKxOSjGO9fkBCYVmRFSj5orb28UskQyMkM=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=d80sDkKtMEyVQkdw2pshzKKKdx98S4oV3YJfHZSRJgT/PlHGMvzY8Z6Z3Ol+6SCU6
-	 cgxWlVKkNyEdvo4W238v4C0WLQeTWfjX87Msv19olm/48XgUACRHKYoiT0kkevsxoi
-	 pIWeJNorj7ojYlr/666p/I4SX7CO5Nui1bWu5ozfFW4TbcKykjS/yTPgC8KY+GYpY7
-	 Zj5vram10u6m4Z2ETZS42snGUEPg/6SXMRP/869ie+lPsmxDrq1R/Ene3Uyst3lipL
-	 4G6RgNQNfaNDvxrSzZ4o32k5oLxHKqaSObq3Ia2I7p9P//9rCbrdYU25v5y2cgWrG3
-	 eNwBR2kZob+AA==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 11F151980050;
-	Tue, 29 Sep 2026 08:22:55 -0400 (EDT)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Tue, 29 Sep 2026 08:22:55 -0400
-X-ME-Sender: <xms:nK27atFqomlGV2UEjoqFdmOK3Y8IOZP3H5K6BHxv4YJSW82tZz2C3Q>
-    <xme:nK27atIUWnhxcFpsf6mQHoXvOkjAo1PiJP2OB02I_j8CtElNsezTkhNEvi1etIwX8
-    jImmgpK3hi2kVctHaZyPQBFh2CFLWSVIJ_B0NKgSZEuZH4afrHmyWvX>
-X-ME-Proxy-Cause: dmFkZTEDFjcPpHlmpkQRZITCYrIcMttwRfx+2D/INT7R3trpwOZHl4PWCw5n4lgiDnG85h
-    HoxMVL9u8TrY/SzF1B75DE0C2B57mS8Erprifw+yAoB7NCv0R2o/vqeXE5Twas2a9Js/TE
-    B/BCvis7tHqJM8o5Ha9WguGhk0bAmD2VOFoCm540fWGtejPMXzLGVqDZvFf2WeB+WqRPG6
-    sOD/vsTrwxMmqZA5SxHt9eQ0AQQtwrAmhpz7QCoZjbXMIyJ9Et/u+3Z9IWQ7YAH/HWMN7o
-    cxEho1rZaYTDnu3zfzBz4vDCZuDL+qPIiHFWdiNGRKtRb924KVsxYKUrR9NHyIUqm6x8rd
-    OXluILFCRMtuqZnv8m4vI378VfHv40BQQbo5knaglo/dVqg9dUY5Ork/NPpSVVDHaBgzTM
-    RZvMM5Tohpzg+52ZBw1wGnqWIrQKgjjntkxGC3+eLAJzIKIxOxNEgATpgwsGLi9CAnPNQO
-    Ir7iUsaqlCrDBKS63xhp72dsVXtSI7mkZiHLbm/YbdWXCSXicEN19I3Cn4/glSy2HkfSUg
-    YqJItdoo8UpUOClJ4zE99qm9aplhtkqnoN1A8AslXqM2RLOBqpxYqjoVLS+Gx7M9uD4IYb
-    Zwip3/pRir4PwgwhpcOFCw4QGfstSb/OEPnp0QOwjj5EEdVkd4L7f5THmALA
-X-ME-Proxy: <xmx:n627ai3_wYBiwMYAVwqs9t59pqrX0DOHBpL9nVgBncHmfHZb261T8g>
-    <xmx:n627avcojehXun9VOwoFJT5tqumgvF0vTOQzMw_3T3astm3oEKHRjg>
-    <xmx:n627ahD7YnlvrWz8teuu59MphbWLdas-u2vnc0TNdLaj98lsHvNBOw>
-    <xmx:n627au9p3AqdVNaTtgTFbkn0mQG8646iSw8s46aMwFginBrz_Cwe5w>
-    <xmx:n627atrZhCVR34YjziFKbxbsQZkvsELvpNgC05WfaJcbGhMwwnLchXHD>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 072BFF80080; Tue, 29 Sep 2026 08:22:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="SdgPA2h1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e+uHNkU4AHo8sd8mh6KebWZyuPfF6eGZFPPjul3SXIKVYxu8hdYnAQth1T2aCvD5QtmuvAARD5ZhF9VbPe/lS3gB4IWyGAke311w8RLtJTjUBPhSWin5fIIr7IDSjY0KzMnZ6yDItAKtOiV8nBYg5G8Uki7+6lkwl3zniP1+23jgknrPtKcU5OU1n013sxTDSPF1DaxHJqW9oQn3oVm7xDKf73hzG2R5GKZ41DZQfdtOZCvepVfM46schiGTRINhf2zs714noGiKqzUub/IogbOeT9qWT6AYZ0CwNiMEiDouKGx1TPaGC3EPjx+zOipKf2TbnjRLTOnIdhuOlkyVTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xOH4Vsp8jZXEQQ5s8O1NkUOqioGS+ov+6uLNwVGwtLM=;
+ b=jItOD/U+20JbBks62mEI8WbM5g0eQ+Ak5HM6KDlH5Np5UWj0JSUw3PfJIT64XWfpDaaWzNqmpfjpBGkSyKLsetG/SiRl2Xd/N1SPmZnPfIk2da0t7Nmx4Fx/yYxMn8zkToyHy6zU4Crxz6nEG6ek0CKqT+jj2tU4IMdL3g310p8NsQXtuL5bI2MDmc40l+dBktxmOwcY57zZH/an0eq63YY8EfY/QYSlFBFsUl+tyuuOHqPQQg2tZRvGHTwE3vRQVJ4hyr12cPpjWWJ9IINH64HIIZ3HbS6f9XpReFxP24god4g5T68HOykAv42EFfpUQ9cy07Wqt83Cc6FBjx1Iqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xOH4Vsp8jZXEQQ5s8O1NkUOqioGS+ov+6uLNwVGwtLM=;
+ b=SdgPA2h1bxYLSPypsHOOqkBjXKermnlZUWuRyUQ0TUm6ZXDuJ/vkNvmdsXubUbaS4YsXpAAi1LejihKK53yuc4yMU7YNrynhz/k8OqEEfoTTLHYL0vmI7jy7XdH/eOaD3GwX5Ew7lbZTTwZ4opUthh5IW9yXgrWtTpgEjhP81qEMkRLu+jlVP6L8E9yHk5VEBdtjZDUDlesWacv6KFrw7n1EtOAY0xOJvTjK5FkSaRu81JyqWoZJNl6kb9E28JHPfnedkY60ZYkTRWCkPYQvYAzSiHR4Pz+uZnxgpo4hShaYeChkqTeEOvg6gOZsiY+UIqH1zqpr6/inTp48hzDoEA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB4827.namprd12.prod.outlook.com (2603:10b6:5:1d6::14)
+ by SAVPR12MB999145.namprd12.prod.outlook.com (2603:10b6:806:4e5::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.23; Tue, 29 Sep
+ 2026 12:31:41 +0000
+Received: from DM6PR12MB4827.namprd12.prod.outlook.com
+ ([fe80::6261:3040:864b:159c]) by DM6PR12MB4827.namprd12.prod.outlook.com
+ ([fe80::6261:3040:864b:159c%6]) with mapi id 15.21.0451.022; Tue, 29 Sep 2026
+ 12:31:40 +0000
+Date: Tue, 29 Sep 2026 14:31:29 +0200
+From: Andrea Righi <arighi@nvidia.com>
+To: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Christian Loehle <christian.loehle@arm.com>,
+	Srikar Dronamraju <srikar@linux.ibm.com>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Phil Auld <pauld@redhat.com>, Breno Leitao <leitao@debian.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Lee Trager <ltrager@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 0/2] sched: Enable preferred SMT siblings on NVIDIA
+ Olympus
+Message-ID: <aruvoVH59aZ4vL1Y@gpd4>
+References: <20260917140707.3807229-1-arighi@nvidia.com>
+ <75f23add-e27c-4749-8495-d29388b6ca56@arm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <75f23add-e27c-4749-8495-d29388b6ca56@arm.com>
+X-ClientProxiedBy: MI2PEPF00000B88.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:298:1::406) To DM6PR12MB4827.namprd12.prod.outlook.com
+ (2603:10b6:5:1d6::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 29 Sep 2026 14:22:31 +0200
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
- "Prashant Singh" <singhpra@juniper.net>
-Cc: "Jeremy Kerr" <jk@ozlabs.org>, "Clark Williams" <clrkwllms@kernel.org>,
- "Steven Rostedt" <rostedt@goodmis.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
- "Steve McIntyre" <93sam@debian.org>, linux-efi@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Message-Id: <59d5452c-42b1-4784-a593-5e549a2a0f12@app.fastmail.com>
-In-Reply-To: <20260929074312.v3jT8uel@linutronix.de>
-References: <20260928203445.72318-1-singhpra@juniper.net>
- <20260929074312.v3jT8uel@linutronix.de>
-Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4827:EE_|SAVPR12MB999145:EE_
+X-MS-Office365-Filtering-Correlation-Id: 40648531-a8e8-45da-aede-08df1e259ce1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|23010399003|10067099003|5023799004|11063799006|18002099003|3023799007|22082099003|4143699003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	NW8y2MFUWsYJUV0S1gb3ZMOV4qzCQcY4XU7hiysD+XsCsDeKif/LBDeVjA19MzARFsShr8qtCKozhmHbkFHAx2GX+MzNlRmri8fl5OWAlKT1VbhiqkaioZg2N1fbuTLPIqUIyiLvutqTxS9qigTyszPoJxtKStkOLaEOXMDrgD/+bPvEk1BUpR6/Ncs2GUf/hrcLghnpgZ7Gm/3XUsrhZtec6v9dYZxBtUeFSgEmTJr+vQ54bmWIRGODWpvhL7YnblgJgsVsloYZZ4Z8kHXnR9KX6E4n2A7iVJkhX3KbfQ1bhF4dio/ZFzqvrbS4psE1/ks22Y8GBBXZXCx8PmFVN+g7r19OAjQPamLCn3SqgQLRNnL4DyF6e76LUhSC0fEk1R+fSmaYVQUeCMdQ+EhkD1lwiQtL/8PXGThtO83mR6HZA3ngGyaxWZ2JljiDh7i9WgpJjAeJhuQ89V2Mcg9cwKzhtdle1ZDB7i+9zBW0+KDibFXmDc4EKc6KwaIFXbcO3SU9uGZ/XPUp3+DnLyCAkFbZ890X35U+1lnuaKOO49NOIqUnIrC9uzHMrsYW+0KngqnIODKFU6sS0CxFEo3iK2Kh4HWKERcnAW/mYOoFX1Fp9bKfu8fjELAzJy+JsNR2YJjP2LZPqa/YWJXBIWeq6j84slIiK2SosNAuCQTrpIo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4827.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(23010399003)(10067099003)(5023799004)(11063799006)(18002099003)(3023799007)(22082099003)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?zZ+MNSvHVlFNbe7F9TcTbI/uIdTOYwN/8ba+1KVzqHUu8YZ3VcverH7xceIW?=
+ =?us-ascii?Q?DS13DcXdfsiCSMQiysf1Vs+xewxqQkDfRqM7OnHHzfnr18EYmduCXLbHH38w?=
+ =?us-ascii?Q?hbShchwcYCPn0LTv4Mr91GFVPS6MePMH2ULtYsZucDQby3oYZNQVA+nNEUmw?=
+ =?us-ascii?Q?qeT0g6oGcK2+Wi8tNLW97Gc5NBArKxYImh3ZV57kX21uv/laclY7wphvCjMH?=
+ =?us-ascii?Q?di05C1jwVv73+OsouiMd6OGTt1xA1TQqLPi1TzkIPSLPAkYrOacsFGUuEWWS?=
+ =?us-ascii?Q?AZnWSzRd2w6Ghg2NnkuUOchrFHC/azkOGMwrj/PgjHp9g6UeCOQJ5lvw0bJ7?=
+ =?us-ascii?Q?urx0LopaaSTAqqTxbnQr5p9isklJWazCORmA7MauwXguQqlr1LFbZ6qjDNib?=
+ =?us-ascii?Q?TnmJjtBhO9H8jmAS3AiDPo8YJ9vqRILpS1V46R+VEPhyFEprZZdAg8dAqVlt?=
+ =?us-ascii?Q?6ysldDLwCNDQ90uE5zMq7SNH/+SHxeEniOMtJpq1q78nC1omHJNMb+JehIFj?=
+ =?us-ascii?Q?KQQ5qbMfhWHRoIsBJ+E7oljZzmdDR2F27h4A/bTDabcxDOmtWmc/K47c10sB?=
+ =?us-ascii?Q?IfkLloiixMoM3wC7M5hjuq8mW1uYGFkLDIDqa+OSDLA9AHF82Wwv+9/WNob/?=
+ =?us-ascii?Q?d+dHttph97nTLg18VEnZOl4QTs9a/WOQ0yqHiJB1UlBZRLuDQt+rupRLdrXR?=
+ =?us-ascii?Q?BGGc9MSZOqXmqqaJdzbKVeD1CBKUMEZhwaWTjNQ18z+3Z28SS0iNTA3Gpynv?=
+ =?us-ascii?Q?L92LHuwysEm3XoTGkxgbaRIKuBszn930BCg5+sQI94yHpzEe8ndJmmdwz3oU?=
+ =?us-ascii?Q?hZpIfvJ3CciMCVQAIOShojazCZ2iqB1O2nFZQ3vIZLAfaIS76IsYgnFidI1+?=
+ =?us-ascii?Q?KGKFrpi2tBMM3jYi7qHuQd9v+dCNhzrR8D9J1DB/esfcRabdj5CtzHi54KMx?=
+ =?us-ascii?Q?NXRKEh4sMnYC4nOrfCPV5/4RIDOsolO3GCt7gymbLTPjiA1SUotHof6l0vTu?=
+ =?us-ascii?Q?L0GGT/AJGipu9FQF6bTrr5v6G0N1P4KxflBGYsNdc06wc8x3ek4o1G6Z4Mup?=
+ =?us-ascii?Q?CuoWEOx4vtwngq0ZQbGL+fyEuCEM0MQN6xNWHdTIEuYtm8nlUdXTeIZ5sbWd?=
+ =?us-ascii?Q?ojz41oXwtkOVh0Cm2NnPSt8UOYpKybJoZ50WWdgGJ6CceA1bLrvvsdY7aVKq?=
+ =?us-ascii?Q?oUUQZNc6KMXF2AgjtgC9TOWKx4OYq5lDjWZ77gWoDQIF1+K1/wGVadUDmsbx?=
+ =?us-ascii?Q?ssSMv9JttOlEYVz3iF5yo0w/o0x64Of0ENHGXNwodjNpjfMAh3xB1kSwxKvq?=
+ =?us-ascii?Q?4u4KqIbZIQMSqIJLNledVEa7DkUJia258dYPMrJEw2HT5oNZgcJ7kPhd9yUk?=
+ =?us-ascii?Q?U9+bpFXzGqf4ZwjObHnQsK9Wfb4ODkV1TqLCuRb0GvwFsNUx6eI/9dbCECfa?=
+ =?us-ascii?Q?iZ27khbENn2RvsFZEw0faIGLc44qej+WfmiCdea6WTpKlOvZixwb8MYXnwaE?=
+ =?us-ascii?Q?DsT88TjhePzttPPDPnq0nC4xYarogLTb4NWWQaZJSogqC4drjShJrL5qIYNh?=
+ =?us-ascii?Q?cTZii4xB9Hn6iAzF5Ip4QDqYlRBETligyzlW7xPRVYITo+oBI40nG77ozLej?=
+ =?us-ascii?Q?a8xAIILSPi9scvd06cUWIr/cf7MaCj1V4FC0NoL/barLxFhDjM81QLEb5K8N?=
+ =?us-ascii?Q?W7dcOddFyYi5glvflRnVvaBTjNrDtAjT5c7ZH6yRmJRk54Y0yJfaLJsvJnTA?=
+ =?us-ascii?Q?8RpNVI335g=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40648531-a8e8-45da-aede-08df1e259ce1
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4827.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 12:31:40.7331
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8Ku0NNdj546LpwIHz71HNzN0Lp3R4el9tRqsCAwz4RCMgXijpWDHQVd0BakMa+fUY8PwfjRbKL/KoBa1huAzlQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAVPR12MB999145
 
-Hi Sebastian,
+Hi Dietmar,
 
-Thanks for taking a look.
+On Mon, Sep 21, 2026 at 11:04:42AM +0200, Dietmar Eggemann wrote:
+> On 17.09.26 16:05, Andrea Righi wrote:
+> 
+> [...]
+> 
+> > The first patch teaches the fair scheduler's idle-selection paths to honor
+> > SD_ASYM_PACKING at the shared-capacity SMT level. The scheduler first selects a
+> > candidate CPU and core according to its existing placement and capacity rules,
+> > then chooses the highest-priority available sibling within that core. This also
+> > completes the existing POWER7 SD_ASYM_PACKING behavior by applying its
+> > hardware-thread ordering during idle selection.
+> > 
+> > Olympus firmware does not currently provide an interface to describe the
+> > preferred SMT sibling. Adding such a firmware or ACPI interface will take time
+> > and will not help systems with existing firmware. At the same time, inferring
+> > this policy from MIDR would encode a platform-specific decision in the kernel
+> > and make it harder to replace with a proper firmware ABI.
+> > 
+> > The second patch therefore adds the sched_smt_asym_packing= boot option. Using
+> > sched_smt_asym_packing=on explicitly opts the SMT scheduling domain into
+> > SD_ASYM_PACKING without requiring architecture-specific detection. Priority
+> > remains defined by arch_asym_cpu_priority(). The weak default orders siblings by
+> > -cpu, consistently selecting the lowest-numbered available logical CPU.
+> > Architecture overrides remain authoritative, so siblings assigned equal
+> > priorities remain unordered. The default auto mode preserves
+> > architecture-provided topology policy, including the existing powerpc behavior,
+> > while off provides an explicit override to disable SMT asymmetric packing.
+> > 
+> > On Olympus, PE0 and PE1 have equal steady-state capacity; this preference does
+> > not identify a faster PE. The lower-numbered logical CPU is used only as a
+> > canonical choice when both siblings are available. Consistently selecting the
+> > same sibling avoids alternating the active PE across wakeups, lets the other
+> > sibling remain idle for longer, and allows more cores to remain in, or return
+> > to, full-resource single-thread mode.
+> 
+> So I think that Power7 and other SMT machines won't ever turn
+> 'sched_smt_asym_packing' on then.
 
-On Tue, 29 Sep 2026, at 09:43, Sebastian Andrzej Siewior wrote:
-> On 2026-09-28 13:34:45 [-0700], Prashant Singh wrote:
->> QueryVariableInfo() is an EFI runtime service that, on some firmware,
->> takes tens of milliseconds and runs with preemption disabled, stalling
->> the CPU that services it. efivarfs_statfs() calls it (rate-limited since
->> commit b2326338dc68 ("efivarfs: Rate limit statfs() handler")) to report
->> the variable-store used/available capacity, so any statfs(2) -- e.g.
->> every "df" -- can inject that stall into unrelated latency-sensitive
->> workloads on the same CPU.
->> 
->> Add a negatable "nostatfs" mount option: with nostatfs, statfs(2) skips
->> QueryVariableInfo() and reports zero used/available; with statfs it
->> reports the capacity as before. It defaults to nostatfs on
->> CONFIG_PREEMPT_RT so real-time kernels do not take the stall out of the
->> box, but statfs can be passed there to force reporting back on -- e.g.
->> for tools such as fwupd that need the efivars free space to update Secure
->> Boot key databases.
->> 
->> The option can also be toggled on a live mount via remount, so reporting
->> can be enabled only for the duration of a firmware update without
->> unmounting the boot-time efivarfs mount:
->> 
->>   mount -o remount,statfs   /sys/firmware/efi/efivars   # reporting on
->>   mount -o remount,nostatfs /sys/firmware/efi/efivars   # reporting off
->> 
->> Tested on an Intel Xeon E5-2628L v4, 6.12 kernel, via
->> "strace -T -e trace=statfs df" on the efivarfs mount.
->
-> This until the end looks extremely verbose. Even if that statfs takes
-> ages, that important part is that it does so with disables preemption.
-> There has been also the introduction of the efi_runtime workqueue which
-> can be pinned to a single CPU. I guess this doesn't work for you or the
-> EFI firmware takes all other CPUs down until the all completes.
->
+Right, POWER7 already sets SD_ASYM_PACKING on its SMT domain (recognized through
+processor version register), so it doesn't need the boot option.
 
-Yeah the most severe issue is that entering SMM requires a rendez-vous
-of all the cores, and so whether preemption is enabled or not is
-actually kind of irrelevant, given that all the other cores just
-disappear.
+The boot option is only for systems such as Olympus whose firmware doesn't
+currently describe a sibling preference.
 
+> As we have seen in https://lore.kernel.org/r/aqSEB2N_NQbBVab6@gpd4 this
+> code will only benefit NVIDIAs Spatial SMT, i.e. dynamically
+> partitioning a physical core, rather than conventional SMT where two
+> threads opportunistically compete for most of the same machinery.
 
-...
->> diff --git a/Documentation/filesystems/efivarfs.rst b/Documentation/filesystems/efivarfs.rst
->> index f646c3f0980f..cd81ee84115b 100644
->> --- a/Documentation/filesystems/efivarfs.rst
->> +++ b/Documentation/filesystems/efivarfs.rst
->> @@ -37,6 +37,22 @@ accidentally.
->>            |4_bytes_of_attributes + efivar_data|
->>            +-----------------------------------+
->>  
->> +Mount options
->> +=============
->> +
->> +statfs / nostatfs
->> +      Control whether ``statfs(2)`` reports the variable-store used/available
->> +      capacity. Obtaining it requires the ``QueryVariableInfo()`` EFI runtime
->> +      service, which on some firmware takes tens of milliseconds and runs with
->> +      preemption disabled, stalling the calling CPU. With ``nostatfs`` the call
->> +      is skipped and ``statfs(2)`` reports zero. The default is to report,
->> +      except on ``CONFIG_PREEMPT_RT`` where it defaults to ``nostatfs``; pass
->> +      ``statfs`` there to force reporting back on (e.g. for tools such as fwupd
->> +      that need the free space for firmware updates). The option can also be
->> +      flipped on a live mount with ``mount -o remount,statfs`` /
->> +      ``mount -o remount,nostatfs``, so reporting can be enabled only for the
->> +      duration of a firmware update without unmounting efivarfs.
->
-> could this be, I don't know something smaller not including the
-> commandline where I would expect that people know how to use it.
->
-> ===================     
-> =========================================================
-> (no)statfs		Control whether ``statfs(2)`` reports the variable-store
-> 			used/ available. Disabling it skips the EFI runtime 
-> 			service call, which might block the CPU for a few milliseconds,
-> 			reporting 0 for used and capacity. Enabled by default on
-> 			PREEMPT_RT.
-> ===================     
-> =========================================================
->
+Right, on conventional SMT systems with symmetric siblings and no
+architecture-defined priority, I don't expect any performance benefit enabling
+this option.
 
-+1
+> 
+> IIUC on Spatial SMT, placing the workload on PE0 is beneficial because
+> even if interrupts and other per-CPU housekeeping activities have to be
+> handled by PE0 next to the benchmark tasks, the main thing is that PE0
+> stays in full-resource single-thread mode (PE1 stays idle).
 
-> It might make sense to add this knob to 
-> Documentation/core-api/real-time/hardware.rst.
-> I am not sure yet but slowly we are getting more knobs that I have
-> expected.
->
->> +
->>  *See also:*
->>  
->>  - Documentation/admin-guide/acpi/ssdt-overlays.rst
->> diff --git a/fs/efivarfs/internal.h b/fs/efivarfs/internal.h
->> index f913b6824289..0cb053884b4b 100644
->> --- a/fs/efivarfs/internal.h
->> +++ b/fs/efivarfs/internal.h
->> @@ -11,6 +11,7 @@
->>  struct efivarfs_mount_opts {
->>  	kuid_t uid;
->>  	kgid_t gid;
->> +	bool nostatfs;		/* skip QueryVariableInfo() in statfs() */
-> Here and below you add a comment to every change you make. What about
-> focusing on the important parts, that deserve an explanation why a
-> change has been made. For instance why nostatfs has the READ_ONCE/
-> WRITE_ONCE accessors and sometimes it does not.
->
+Correct. On Olympus the lower-numbered logical sibling is PE0, prioritizing it
+consistently reduces the activations of both PEs, so PE0 stays in full-resource
+mode.
 
-AIUI the READ_ONCE/WRITE_ONCE were added because Sashiko warned about
-potential KCSAN splats? It would be nice to mention that.
+> > 
+> > The v6 series was tested on a two-node Vera system using 88-thread
+> > single-precision GEMM workloads on the 88 physical cores of NUMA node 0, with
+> > sched_smt_asym_packing=on and the workloads allowed to choose either sibling of
+> > every core. Each result covers five runs.
+> > 
+> > Two BLAS implementations were tested: OpenBLAS, an open-source BLAS library that
+> > provides a publicly reproducible benchmark, and NVIDIA Performance Libraries
+> > (NVPL), NVIDIA's optimized BLAS implementation.
+> > 
+> > OpenBLAS was evaluated using benchmark/sgemm.goto with an M=N=K=16384
+> > single-precision GEMM. NVPL was evaluated using benchblas with the same matrix
+> > dimensions, non-transposed inputs, alpha=1 and beta=0. The numbers below are the
+> > mean and standard deviation from five runs.
+> 
+> So I assume that you have 88 consistently running benchmark threads and
+> in case your new code let them run more likely on PE0 instead PE1 you
+> see this throughput increase.
 
-In any case, KCSAN is runtime instrumentation, and efi_reboot_required()
-is only called after all other CPUs have been brought down. So if anything,
-this should just wrap the read on the reboot path in a data_race() so
-that we don't trigger any instrumentation inadvertently on the way down.
+Yes, both benchmarks used 88 threads across 88 physical cores, with both
+siblings eligible. I captured per-thread scheduler traces and perf counters,
+with PE prioritization, placement favored PE0 and single-thread/two-thread mode
+transitions fell consistently. In the earlier five-run comparison the ST/SMT
+transitions fell by about ~80%.
 
+> 
+> > OpenBLAS throughput increased from 7.11876 +/- 0.06734 TFLOP/s on the baseline
+> > kernel to 7.34669 +/- 0.01936 TFLOP/s with this series (+3.20%). NVPL throughput
+> > increased from 9.64742 +/- 0.17311 TFLOP/s to 10.29695 +/- 0.01786 TFLOP/s
+> > (+6.73%).
+> 
+> I assume further that NVPL has the same benchmark task model, maybe with
+> a couple of sleep/wakeups in between?
+
+Correct, I just checked the sleep/wakeup pattern: across 88 threads, the NVPL
+run shows ~2.6K interruptible sleeps/wakeups and ~3K futex waits. The GEMM
+OpenBLAS run shows only ~250 sleeps/wakeups and futex waits. All those repeated
+wakeups give the scheduler more opportunities to choose a sibling and are likely
+the reason of NVPL's bigger improvement.
+
+Thanks,
+-Andrea
