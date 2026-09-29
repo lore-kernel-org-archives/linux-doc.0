@@ -1,202 +1,163 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA85495ADD
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 16:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD30352B1F9
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 16:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790699464; cv=none; b=IHDG6Xv+Dt/O2j8BPSuNHFqUPJ92++PnXDgNmSutF2+vtCTGjrXXgrrtPwaIkXGMTaqAm3y2cOXLwQ0JLaM7Rc2/+wakIIihmAuPRZalbmjYMIjc4+5zsOcpg6LTW6dDDrXEGcYzeefOBb1tj4pH1vioc82YOp9/mnLrwUJb8/I=
+	t=1790699720; cv=none; b=AvoPn5V7wqMdictrqtBfvDbTyHWRWcs4mK/AgdAa+Wge8haOsZvvFYvQyIBW02vYZXDcITfvKD1DJmYfxOrmFXTTbYf8evN854rG5ZM+13UXR0/cuVKAB2Y7/gE7ZYX70E/enMpoPEv5kCGvYPnIcB9+jBLF13Xu1MXl1HEbB88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790699464; c=relaxed/simple;
-	bh=pVTGW5dlSw+FAj2NlT/PbOJGDXOB4L2ia6EM3qRYftY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a/kaNL0kPgP+3tB4lsJB4E4GqmsjuGHxAk2BI/5Gx+uFrXANaGFDUnMSnxcgZBEy2t7TbRBAJZUeAXvryctGsxp1b7FpLQiCu2ygguU6HL+4zW5Bz7gAdqi4X5YZnIGu/NgIWgau9k4cANTB5MymlWgTedxIDhKu3+E8VEmOXL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=F93ajY+1; arc=none smtp.client-ip=185.125.188.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1790699720; c=relaxed/simple;
+	bh=/h4oyFpdb/42oaB+VKIalhMWr9p37jtmBtfmqH685lU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=pDNlPTQj3SB8yHkTVgu7dDLYQIyIw8ADO9yCdcq/DgicPfrltnvE1Z9zzlaUW1I+ZfGK0QIZ8OghmL7vKkP7TFTOWOaUw+8yaVG5W1z69qQh35r66vhVU5hqStEyFoS8wSj9zz8AU/x4ZdpUxWpoplClGHT2nctCDUyn+jPS/DQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=D2Fse7Kw; arc=none smtp.client-ip=121.127.44.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="F93ajY+1"
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 5EC4D40284
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 16:30:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1790699453;
-	bh=Vn3/Z2DdvynqvHJ/P+ee00azyAyRLA5sp7pyzKMdaqg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type;
-	b=F93ajY+17xMPVWY0RKWQEtIOTnd/V8JSALoUkpyO6X5gwggAEmXev7MUzo0Zp10gN
-	 6/QwQSKfjzrbk3+YwWiUQY8ZW7P63ktVo032pBKe72V1ybUR1HNq4WRcJHcesQmqFi
-	 sPoVcuoKjn3XKw9kOdzuX11BWy+hOManHW0k0Io0nfIq+s/7YEzuzKLWJtdbKiyEWo
-	 BZql7t5qdeXXmPsANUJ71+dV6HON0SrG4XpBxHblyNQ1aFlwWi++BGQHoFIFyCTftl
-	 0eGJ4qpMo8u+BIFp+/U9hKkiE1bN51oxOFq9TkGZWVTeQ7TnaYpIlwEfhfdav5ct/N
-	 ll64Ff2vtF5YlAUbLpYEjEhg86YubTHuDEQwLJterMdkRKDyNY8kQs5sShXFHW3u+0
-	 f2U4/fbK0Lr7B5ZX00Szic/5DuV5h08/FQZnJQYgZimZklfJfTMhFZGDCa2Cqja7/A
-	 Wu4ANlpa/XA2piv6q3L6juOE/s6pTH/VzraMzjcrVUML4pDq9wSPw6+u8n7s1799YD
-	 NrXY5dpZHAfONxh07VqvpGE6WfUHgL3CtaB1u/jV2U2naYSNF/1bY5BUlortP9PxqL
-	 imLovw0bgRnUe1AZQZNGkX4+VqavKU2Y/B3DlLGTUSmswaMCBIfjEOnGSEIVOVfLuu
-	 gVlws5dW/MhQnXSsi+u2/SNQ=
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-49e65bee41aso8543005e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 09:30:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790699453; x=1791304253;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Vn3/Z2DdvynqvHJ/P+ee00azyAyRLA5sp7pyzKMdaqg=;
-        b=DxiMHJYuMPuGhg8QFkuK2PE7/x3gpLzcOq/AqMBp2wntJTwvpn94Cat9ZiomrO49AN
-         w1/ygKDlDjjQ0Lp/C+ZqbUAuPXad335gO0fXTmRTkJ5gSlAFssVhE9+VWz7K6C4xTyQ7
-         utgDkhsx76Kt+mOuEzL2SDbiu69DWDLpYW2AWJcO1cxclRSTGwlrBK1N5j9YJi/5/Hhj
-         mfeBy85amgHc25zJUpwCnhjkg9uSv2ee2tvjMLTU6o/+GI0MQ26Hg59f6AlUTicyXv8q
-         LIDbrz+J7xZG3dUjbuO9bhDEtcOiwAnGK6WmjtDoiRbNPaBFUnjoY/xai2k4EFbkWeLD
-         vYTA==
-X-Gm-Message-State: AFuF++l3yOTbfAmNBSk0JtBuvZQ43WI2tjMRs0ihKAVJwrh3z9XohaGs
-	fj0+rk3yAD8Js+zi/UAqP13+0Wfo2Z2mGITkjHNRqHy0yolhzJB34tVWnOL/MXMrH7I46tKjSIh
-	zyHlx3DQffodnlArRnD0yQGkYE1nC5w5sFLd3hfI0O0b7IzO7ceXeEKIvivpdHz2ux6d5wkGtzc
-	NBnFdhQO+QoWrg
-X-Gm-Gg: AYBFou2sP2WApjfLKIllEyLni3sLt/na2alqx9O/h5xIByt3WO0uVnk9Uc4rmUE3UzE
-	zHJOHopzYvSZhHfhVbGzsQxTikHoKcqQxvkHwtnhg2K5DP+I8aZRJJ6i3TmN2IqrqgwWiTu/O/V
-	tO3zf6oyDpMyul69Nc+lcHA91PrAva3B9rzpktBZbfr04WIeC6xcaDWR8yN+08ho5xMmK7S0ElY
-	aouO6OPcZXkMF/lCJRcsZxzOJzYPyAbQuOn3Kk83diCPJYblU3lQ4D4VnknMnbDC+f8UgGqbSAd
-	9n8a1KUctWyMxtKH6LK7LRX1O9SkcDNbUBsT8CHnw7wMXwZ//Vqi+4L+T/GUSyTZnptiBeoupEU
-	T02rr94jdtRrafLgOJUvBRWFXPhJVrtxUwKO9rndMkhqftzS5IIY3xs1NeyStHd3x1zlRfx0jvM
-	Y8uCLnhLuYIx7vKh3/LiC0IQ==
-X-Received: by 2002:a05:600c:8b10:b0:49f:fbad:29ae with SMTP id 5b1f17b1804b1-4a00d780b78mr58589535e9.17.1790699452740;
-        Tue, 29 Sep 2026 09:30:52 -0700 (PDT)
-X-Received: by 2002:a05:600c:8b10:b0:49f:fbad:29ae with SMTP id 5b1f17b1804b1-4a00d780b78mr58589205e9.17.1790699452395;
-        Tue, 29 Sep 2026 09:30:52 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1242:30e0:769:5000:73ee:deb3? ([2a02:908:1242:30e0:769:5000:73ee:deb3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a00cf9dfdbsm130957335e9.1.2026.09.29.09.30.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2026 09:30:51 -0700 (PDT)
-Message-ID: <70a3451c-db31-41d0-af9d-8c9e123557f6@canonical.com>
-Date: Tue, 29 Sep 2026 18:30:49 +0200
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="D2Fse7Kw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=In-Reply-To: References: Cc: To: From: Subject: Message-Id: Date:
+ Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
+ s=fe-953a8a3ca9; t=1790699712;
+ bh=EF61LIjtkYvJgIxFOWJVrSB6cIgCGKPgebbZQSvs8RM=;
+ b=D2Fse7KwHFmeqrTsFpLqd6C5cV+hZkrvmAymngILSfnGw8DdLePKJ6/aLuJcg0sC7k0IwFzqg
+ HZfsIuZGLOTnGgx9g2XUt7sR0Zl3V97cN/EO6pDSJMnHMg6RihXlpaKvNgMNxehvRqxHnTN+lsE
+ Tb+Yd5k+GadqMMxZQSDPrJhZG0110kSJ9ik6W7JASkRKXdEv6HdZx9Ds39FNm/K6wb0yzxzW4/n
+ wHk7zSsWDcuLFMPqcoIrhZLEfJFAQXulF0/DUn01F/P+EtuJ95c7aGxMECxI3rFlN6w+zeeL4Gp
+ Nlab1YpmlhdPvVGEsO8jUZ/X7Khf4CgM85Uuq7dsPHqw==
+X-Forward-Email-ID: 6abbe8bbc06199c2ee5e36a7
+X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
+ 121.127.44.66
+X-Forward-Email-Version: 2.16.5
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 01/11] riscv: Add B to hwcap and hwprobe
-To: Radim Krcmar <rkrcmar@qti.qualcomm.com>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Conor Dooley <conor@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "spacemit@lists.linux.dev" <spacemit@lists.linux.dev>,
- "sophgo@lists.linux.dev" <sophgo@lists.linux.dev>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- Andy Chiu <tchiu@tenstorrent.com>, Florian Weimer <fweimer@redhat.com>,
- Peter Bergner <bergner@oss.tenstorrent.com>,
- Zihong Yao <zihong.plct@isrc.iscas.ac.cn>, Mark Harris <mark.hsj@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Andrew Jones <andrew.jones@oss.qualcomm.com>,
- Conor Dooley <conor.dooley@microchip.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
- Chen Wang <chen.wang@linux.dev>, Inochi Amaoto <inochiama@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- linux-riscv <linux-riscv-bounces@lists.infradead.org>,
- Guodong Xu <guodong.xu@oss.qualcomm.com>
-References: <20260920-rva23u64-hwprobe-v2-v8-0-5f14bc5c23d3@oss.qualcomm.com>
- <20260920-rva23u64-hwprobe-v2-v8-1-5f14bc5c23d3@oss.qualcomm.com>
- <9d058591-466e-4c06-a820-b8ecc7d319a6@canonical.com>
- <15151b8ab012ca7444d4117e393cf999.guodong.xu@oss.qualcomm.com>
- <DLRWB8R7P6SF.1XIL0OXLZ2F23@qti.qualcomm.com>
-Content-Language: en-US
-From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-In-Reply-To: <DLRWB8R7P6SF.1XIL0OXLZ2F23@qti.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8; format=Flowed
+Date: Tue, 29 Sep 2026 12:35:06 -0400
+Message-Id: <DLRY2GFBXTLS.1492NTGXSAPGB@ubuntu.com>
+Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
+From: "Joshua Peisach" <jpeisach@ubuntu.com>
+To: "Sasha Levin" <sashal@kernel.org>, <corbet@lwn.net>
+Cc: <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+ <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260924134945.3095661-1-sashal@kernel.org>
+In-Reply-To: <20260924134945.3095661-1-sashal@kernel.org>
 
-On 9/29/26 17:12, Radim Krcmar wrote:
-> 2026-09-24T06:38:17-04:00, Guodong Xu <guodong.xu@oss.qualcomm.com>:
->> On Mon, 21 Sep 2026 16:24:53 +0200, Heinrich Schuchardt wrote:
->>> On 9/20/26 09:18, Guodong Xu wrote:
->>>> [ ... ]
->>>>    	__RISCV_ISA_EXT_DATA(q, RISCV_ISA_EXT_Q),
->>>>    	__RISCV_ISA_EXT_SUPERSET(c, RISCV_ISA_EXT_C, riscv_c_exts),
->>>> +	__RISCV_ISA_EXT_SUPERSET(b, RISCV_ISA_EXT_B, riscv_b_exts),
->>>
->>> Hello Guodong,
->>>
->>> The RISC-V Unpriviledged ISA specification has this description of
->>> extension B:
->>>
->>> "The B standard extension comprises instructions provided by the Zba,
->>> Zbb, and Zbs extensions."
->>>
->>> __RISCV_ISA_EXT_SUPERSET would imply that something else but
->>> riscv_b_exts is in B. But such an extra seems not to exist.
->>>
->>> So shouldn't __RISCV_ISA_EXT_BUNDLE be used here? Some code further
->>> change may be needed to set extension B if riscv_b_exts is fulfilled.
+On Thu Sep 24, 2026 at 9:49 AM EDT, Sasha Levin wrote:
+> Most coding agents have standardized on AGENTS.md as the file they load
+> automatically from the root of a repository. README already tells AI
+> tools to read and follow Documentation/process/coding-assistants.rst,
+> but that only helps if the agent decides to read README before acting,
+> which in practice it often doesn't.
+>
+> Add a top-level AGENTS.md symlink to README, so agents load it on their
+> own and follow its pointer to the AI guidelines. This keeps a single
+> entry point for every reader, and avoids adding a separate copy of the
+> policy that could drift from the RST.
+>
+> As an example, two different agents were asked to "create a new commit
+> renaming the release (in the Makefile) to AI Test".
+>
+> Without AGENTS.md, the first agent added a Signed-off-by for the user on
+> its own. It should never have done that: only the human submitter can
+> certify the Developer Certificate of Origin, after reviewing the change.
+> It also used its own attribution tag instead of Assisted-by:
+>
+>> Makefile: rename release to AI Test
 >>
->> Thanks for the review. Intentional, and the difference between the two
->> macros is whether the extension gets a bit of its own.
+>> Co-Authored-By: <model name> <noreply@...>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>
+> The second agent added no attribution at all:
+>
+>> Rename release to AI Test
+>
+> With AGENTS.md in place, neither agent added a Signed-off-by, and both
+> used the Assisted-by tag. README itself mentions neither tag, so both
+> agents followed its pointer to coding-assistants.rst:
+>
+>> Makefile: rename release to "AI Test"
 >>
->> __RISCV_ISA_EXT_BUNDLE carries RISCV_ISA_EXT_INVALID as its id: parsing
->> the name only sets the bits of its parts. That fits zk, zkn names, which
->> are shorthands with no identity of their own beyond the ISA string.
+>> Change the release name from "Baby Opossum Posse" to "AI Test".
 >>
->> B is different: it is a single-letter standard extension with its own
->> misa bit (in the same way as A), and AT_HWCAP on RISC-V is the bitmask
->> of exactly those single letters, so the kernel needs a bit for B itself.
+>> Assisted-by: LLM
+>
+>> Makefile: rename release to AI Test
 >>
->> A is declared the same way; with the spec defines A in the same words as
->> B. If I can take that as a precedence.
->>
->> IMHO, "superset" in this table means "also sets these subset bits", not
->> "contains something extra".
-> 
-> Zba, Zbb, and Zbs are equivalent to B for our purposes.
-> 
-> Are we sure that B will always be listed in the ISA string when Zba,
-> Zbb, and Zbs are present?
-> 
-> We could incorrectly lose RVA23U64 bit otherwise, and I think this was
-> Heinrich's concern as well...
-> 
-> (The "A" extension has the same issue...)
-> 
-> Thanks.
+>> Assisted-by: LLM
+>
+> Both agents also followed the kernel's general guidelines more closely.
+> The second agent's subject gained the "subsystem: summary phrase" form
+> that submitting-patches.rst asks for, instead of a bare "Rename release
+> to AI Test", and the first agent added a body describing the change.
+>
+> Assisted-by: LLM
+How do you need an LLM to assist you with making a symlink?
 
-If Zba, Zbb, and Zbs are present the kernel should set the B flag in 
-hwprobe. This is why RISCV_ISA_EXT_SUPERSET() cannot be used to describe 
-the B extension. RISCV_ISA_EXT_BUNDLE looks more appropriate but may 
-lack functionality.
+Okay, all the other conversation aside. When I see an AGENT.md file in
+a code repository, I see:
 
-RVA23U64 looks like an RISCV_ISA_EXT_BUNDLE() to me, too.
+- This project likely accepts LLM code (which is true for Linux)
+- There is a file that provides a cute little "all you need to know
+about this" file for our matrix multiplication machines
+- There could be parts of code that are entirely LLM-written. (may or
+may not be true here?)
 
-Unfortunately these macros are not properly documented.
+I think the existence of said file can also imply to someone who is
+meat proxying "here's your AGENTS file, go wild!".
 
-It would be helpful to first align on the meaning and usage of the 
-macros and document them properly.
+I don't see how the addition of this file is worth it, aside from
+helping LLMs, in which the users of the LLM should be directing the
+agent to the proper documentation anyway. That ensures that you have
+a human directing the agent.
 
----
+Honestly this looks a lot like, "we have our altar to our LLM
+overlords". The kernel existed without LLMs for years. We don't need
+a file to make LLMs happy and then have LLM companies say "we are so
+important we made a major project that runs most of the world's tech
+infrastructure have to provide us guidelines!" - which I guess we
+already have.
 
-The benefit of an additional hwprobe flags for B is limited. When I want 
-to check for B I can already use:
+Anyway.
 
-RISCV_HWPROBE_EXT_B =
-RISCV_HWPROBE_EXT_ZBA | RISCV_HWPROBE_EXT_ZBB | RISCV_HWPROBE_EXT_ZBS;
+Don't we want humans to read the documentation before contributing?
 
-if ((value & RISCV_HWPROBE_EXT_B) == RISCV_HWPROBE_EXT_B) {
-	// Hurray, I have the B extension.
-}
+I feel like this will just lead to more people going "Agent. Read
+AGENT.md. Find bug. Hiyah!" and then meat proxying patches without
+generally learning or being helpful.
 
-There is more utility in the RVA23U64 flag because it combines values 
-from RISCV_HWPROBE_KEY_BASE_BEHAVIOR, RISCV_HWPROBE_KEY_IMA_EXT_0, and 
-RISCV_HWPROBE_KEY_IMA_EXT_1.
+This is an opportunity of a sanity test for humans to know what they
+are doing before just throwing stuff at the LLM. Why are we throwing
+that out?
 
-Best regards
+And if the argument is "but tokens!", then won't it also take some
+tokens for the agent to process "oh this file is a symlink"?
 
-Heinrich
+I find it hard to take this suggestion seriously.
+
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  AGENTS.md | 1 +
+>  1 file changed, 1 insertion(+)
+>  create mode 120000 AGENTS.md
+>
+> diff --git a/AGENTS.md b/AGENTS.md
+> new file mode 120000
+> index 0000000000000..100b93820ade4
+> --- /dev/null
+> +++ b/AGENTS.md
+> @@ -0,0 +1 @@
+> +README
+> \ No newline at end of file
+
