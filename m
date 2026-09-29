@@ -1,124 +1,81 @@
-Received: from mail-pl1-f227.google.com (mail-pl1-f227.google.com [209.85.214.227])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323F62F8EAC
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 04:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BC72931DF
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 05:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790654624; cv=none; b=B5muDrFJZbIBwBVqMVBrQECkUUCaKTcjh/qupXsC7JLgDpxAdWVTx4ChKbFicr/0bkk87+uvV2AFCp6n+MjJn4Xf26RXmv8/qyMYcwdajj5tV5RovbxRRDejFUrUSPCORgXGebKtPyXndyGTizxHvgbxq9DeQQsFYzWnyUkUiis=
+	t=1790659496; cv=none; b=pT9J1q+/DgHQi26Y3xjdtksyWJjtKcPbYjFHHwrOpRRyvEQX47JA6rZBTa+GDuzi9zxkXWtO6ps7PE8LhfwQraaJhQQyuUPyP05n2DTtstxfxSxOCMaJ0zrud3rc0l5iw6C0U9bs/5CI3DpIvwZWyHtVUjBZkNmrAwXu1apPPAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790654624; c=relaxed/simple;
-	bh=4EnzBo94/wogs9p6WBG49DkcMOj39XOA58Mgzmbfhqc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dE0rgDURxjVa9CMH6cHdhszLzCUldp3GpMor02pwtshrRO/aaL2AIz5EgWVM8wbVxGRMF7NI7PCBXrEjNEHmlJP7+CJCVkfgf1j3T4eqCoZGB/HpdaXobjnNb17SyyNkuPaKbGfNagzbRVpFfb+mWfj35dPUU4kn5bBHjeDhnUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=VHjQdaNg; arc=none smtp.client-ip=209.85.214.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1790659496; c=relaxed/simple;
+	bh=VCI4r23IY/yhxJkm7KNPDvZ1RbPcYzGhTCb+BwU0Onk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=sWNsO3yAN3zex0O9B+I3KNVhB2QQ3zhhd/6QR7dzKwDCE32M7TabzO6bCPEO5xAhZe4cCFvs+2AGNjwI6tPHhxJ6NkCaIudYc1PvlJJTamuoT24LTdahKlOdrhEHYandlGamkgUdopY1cHR0cIJlxIdUKLsTZSx1m7lb1+mozSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jpNYcaIK; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="VHjQdaNg"
-Received: by mail-pl1-f227.google.com with SMTP id d9443c01a7336-2e12db20e65so5638795ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 21:03:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790654620; x=1791259420;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QwnEpUDfw+7fPie+mcX7kjJEU0lPRR1jdyRNDD8g1m0=;
-        b=mfy4eb8z/55CNNBxXd0oHZfQEfomsmm9+Jiwff6RwyTQCfJeDX3Vco8GKSydgLSH5Z
-         YU3KlxfWC79TqxqSXXZ0Vhp4CydkA/QLmSbyQEoqfls7jzaBoAnYm9x0iMFIckP4BuRv
-         NHbI/4znQgTpaErWqUYBuYZzlwcd8JVM1olFZ+KI+dAPfofO/56MW4d4SVZOtoslpIT1
-         lZSwAruvzJaSy3I0g/Na8u1sqDIroXhh/gEm3cZNJFRckJxo8ct0eopkyayJIuKmXwWQ
-         dw8ZmQ/BfSjjMLOiky8IsXKpeLUkr9vRw6huEdq83WFzUoXlKgVdSp/UI7Dz6HsFTq/M
-         C5/Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwVEDgkqZRgft3yrlyJQrubd5sKJxsMvuW5I03NBKDjtPM9jMCuGXO7OBvmz+LIYdU7H8qO+8NpF8U=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJeod/m5rJ5+gMDtwkWc86jojvRUcWb902sDXH9z3w1kQhi0BFT
-	Qa/9jJyFeLU9etvSrVU5Xh4+LzQHxY+URKskI26HRdyFtSfGvCwJt11msWFpfr5PjO6EBDwTn00
-	qJqalpMj6CRKdphRiXMKY8XyilWBISXoxNiLBtWzvq12jkLXnt0b8G4xmpIiFIKoFh0BfQu2JNr
-	W5nkkr+M3pmLnl99e3I7z1aatCAx7/WN3BBz03WSIIslBhdCjbJTalMXrs7+oeP42u1ZplXC46K
-	ZiMHPwCFi3s
-X-Gm-Gg: AYBFou2cm1LCOaJCegemc5SEw8ddLYetv/uHVIW7/Z8fjSK/SD8ETYlwuiXvg3yCZml
-	hlH5Cv8imRy50v5kIypl/ZsXCrF6MCQ2ISaaDknNdoQy2Hhk077x3+gAUPO1Pbn9p2oEj9nc9tn
-	Lpq74wLsSEsOt71bVi9hmfyzCuRNfmac2k7ZfracHq4yi2JCQZoXRwq0ZVLxFpG2FzKCgGpqhwC
-	bVfxR7kvifzgV37UodE/HMPQynKa4+dQCOblHXR1eb1+o9I77PDN+XzTCgTDs49UYiQ6A+61f1K
-	gYMFzpK5xLSYMsxZWVBBsP1ItARAxvc3Ws9ArbPc+H6SSlUCxS2BcmjECZas68IB2fGH0U61GbA
-	VS7gJWVwMWnrrTDczvvZYxKLNbx08INnzVscKiDfePG4fgP0Vzg9Uqtyx9rFeeXUN/ms8fnrELL
-	KWPF+bz3mP1Tp/fwM2FfTcUbYz9gcYyKts
-X-Received: by 2002:a17:902:db06:b0:2e2:c84b:43e9 with SMTP id d9443c01a7336-2e2c84b48d6mr9033645ad.1.1790654620252;
-        Mon, 28 Sep 2026 21:03:40 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-18.dlp.protect.broadcom.com. [144.49.247.18])
-        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2e2c9788a29sm417125ad.16.2026.09.28.21.03.39
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 28 Sep 2026 21:03:40 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-33713e5e6daso5804181eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 21:03:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jpNYcaIK"
+Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8692a856865so1795040b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 22:24:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1790654618; x=1791259418; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790659495; x=1791264295; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=QwnEpUDfw+7fPie+mcX7kjJEU0lPRR1jdyRNDD8g1m0=;
-        b=VHjQdaNgsEqLzbnPQQMfISKNx8TW16XJIW5lKqiRMstRiF4M+cHEYaSwGDZot1H+Qw
-         pdZOJx7+S53hYARt7tp+0qR7yHvbZwqtsLAILeVmT3Whk25CvLZ4wRbSpn0ghcR22BR0
-         ZCkELX9FWEGfhPWbXwQYiuEE2Y7IdIsHb1Eeo=
-X-Forwarded-Encrypted: i=1; AKwUvBwlCFMeX+fhB6Eka7u9qk0or1ub3O5CDXGmleZ41r+BSEBUgjlg7QrQ7xFDoVyjeFJIKgbxzsrij0w=@vger.kernel.org
-X-Received: by 2002:a05:7301:b05:b0:340:7202:d7fc with SMTP id 5a478bee46e88-342713a2732mr10393713eec.17.1790654618212;
-        Mon, 28 Sep 2026 21:03:38 -0700 (PDT)
-X-Received: by 2002:a05:7301:b05:b0:340:7202:d7fc with SMTP id 5a478bee46e88-342713a2732mr10393671eec.17.1790654617422;
-        Mon, 28 Sep 2026 21:03:37 -0700 (PDT)
-Received: from vertex.localdomain ([192.19.144.250])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-347323f5a7esm10952571eec.15.2026.09.28.21.03.32
+        bh=OqJjaWtJymYwkfVBEG9NY0+ZN7tqwrmNxYsbKwMQHQ0=;
+        b=jpNYcaIKGtIQ0rxY/sJTlUXcnwX77vMdE3gbJjQwbMpBpT7rRwbsMPCurEPM0xSoJ8
+         UrfPyntsHLg5ZUV+iPw5xTqJioHsfmPDRNhD0lZhdCmjQJQX4kKDEKNPN3+i05Hh4M35
+         djeFyEU9mvjFnGb3rGoM95rWe2VXb+/zhLvODGOHI3I1/3VHRW7lKeUCbIXxSMc4yAQ3
+         z8ZU6ZPBRvlBwA8GIsDdbQQ9tFxdX0NoznEEw5uPlR6CX0hRe6t2s+HQi8zi3JeIEzDW
+         hCmwHOrMtBbh2VuA38WgpTEMbBT5SIMkFe88gt+yXewE5cJXb+UmzdocW5G5RHqS0x9K
+         3wqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790659495; x=1791264295;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OqJjaWtJymYwkfVBEG9NY0+ZN7tqwrmNxYsbKwMQHQ0=;
+        b=IgAcg4ZBoamAZe/aQZAjBpzorwCu+OxdP+orOlupa+tloPNtdFcDfgzFb6W1GlBbyU
+         5gCGvJZpQ6gLh254SC3af6ZUPMKR1FbzNwfw1wNmrPndBHquCJJgdjwca5HQp0dMpsgd
+         rye3AgW87JRSX7U6891J3DdGaUrRTsKfKGFVzjPPuJ+mzKzi4ImFZPiuAfmZYtGTi8q7
+         r5hiJbrtmLoW5XNFjFlHOi7xZWz1B0TvbxD4Q7Wm5iQnjW3BsVorKZfEL4j1yGIWritZ
+         PfC2E3HBxaHfqkAbIGOyIKG2l5iK+PF7TDGCvqtf4KXu4rtCN9o8cZgdbXd/nY5AA7RV
+         JjqQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzpi43E7+bLtq2HnASbP/ovW2oyXX3Wq/AmrdSdgS3mKb9tkiN2NlSZ20BMAeITJ5xSxkECujan508=@vger.kernel.org
+X-Gm-Message-State: AFuF++kBaMIehU5xj11TZc5LSz6N4It7EABeAFAfPjjp+gl9zK74CwkM
+	whlVXNvpqXJvrEfIEHFL87Z/O2BcE5Ta3Q/EKkK5B3supb9+jiQIVc67
+X-Gm-Gg: AYBFou0txws+CvpZtgHYGAqiye1JvDUHDtQTckmY3XcsK9Esnu7z7ViLPpGnosOY68t
+	uUGjHkHmotG80RqZBhCF1aOyTPjyWv/b7XaspJXBjk99EHUlI3AfPa3leuucZXprGLzyk3sXQjn
+	Y9pCRb2RuZzivve2Q2g1p+wnAEKi3t5PyX6nmQafo2R6GssogaBZ/FugUDBwIvxnCD7+BTzQ5IY
+	cZdcW+oBSYjPEyopoWLdTrpnTvsFu0GeDrFxre/uSwzCID9ADlL6cJi832wenU/6qBTqZdJSAut
+	ARwaNSz0ecIGh4lRnYqgciYwvgjuJfSpwHykYziy4WPg+i49xHkH2EC1VpZqBX9zRN/6+N374k6
+	lW36SUKd5qhoIdZ5QsRzkOhYC25hoQGzD/tfEVEeyx19FRmaIdqT6bgLl9nPbkSTYvlj5X9vUT5
+	Oo7NumiK1ke0ClS/1y9VenHwqyaPnM4MddAlNKSDlRiIfstMkbTsegPtJfBD1sLDqniYh8ItAfY
+	OZZkuma1smxhu6dwYDD
+X-Received: by 2002:a05:6a00:2341:b0:881:bc81:e8f3 with SMTP id d2e1a72fcca58-881bc81ec45mr6635453b3a.12.1790659494629;
+        Mon, 28 Sep 2026 22:24:54 -0700 (PDT)
+Received: from NV-9MNJ414.nvidia.com ([72.25.121.34])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-885e1066931sm161151b3a.16.2026.09.28.22.24.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 21:03:36 -0700 (PDT)
-From: Zack Rusin <zack.rusin@broadcom.com>
-To: Kiryl Shutsemau <kas@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org,
-	Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	virtualization@lists.linux.dev,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	Christoph Lameter <cl@gentwo.org>,
+        Mon, 28 Sep 2026 22:24:54 -0700 (PDT)
+From: Yiwei Lin <s921975628@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Yiwei Lin <s921975628@gmail.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Bo Gan <bo.gan@broadcom.com>,
-	linux-mm@kvack.org,
-	linux-arch@vger.kernel.org,
-	linux-coco@lists.linux.dev,
-	kvm@vger.kernel.org,
+	Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
 	Jonathan Corbet <corbet@lwn.net>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
 	linux-doc@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Ashish Kalra <ashish.kalra@amd.com>
-Subject: [PATCH v2 6/6] x86/percpu: Share decrypted storage before guest CPU setup
-Date: Tue, 29 Sep 2026 00:02:55 -0400
-Message-ID: <20260929040256.543767-7-zack.rusin@broadcom.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260929040256.543767-1-zack.rusin@broadcom.com>
-References: <20260929040256.543767-1-zack.rusin@broadcom.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] rbtree: update augmented data on the way down in rb_add_augmented_cached()
+Date: Tue, 29 Sep 2026 13:24:46 +0800
+Message-Id: <20260929052446.159008-1-s921975628@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260928213736.GA2947991@noisy.programming.kicks-ass.net>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -126,237 +83,35 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-Convert every possible CPU's decrypted section after per-CPU setup and
-before the boot CPU registers its buffers. This replaces KVM's object
-loop and shares VMware steal-time storage without a driver conversion
-path or readiness state.
+On 2026/09/29 05:37, Peter Zijlstra wrote:
+> This builds and boot, so it must be perfect, right ;-)
+>
+> Assisted-by: Brain
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-UP KVM registers inside setup_arch(), so convert before guest_late_init()
-there and move VMware's UP registration to that hook. Stop boot on a
-conversion failure: inconsistent page state must not be published to the
-hypervisor. Host SME keeps its existing mappings. Skip Hyper-V vTOM
-per-CPU storage: its visibility callbacks require later Hyper-V
-initialization.
+Right, thanks.
 
-Suggested-by: Kiryl Shutsemau <kas@kernel.org>
-Link: https://lore.kernel.org/r/aqqGUAX65s4LdJkr@thinkstation
-Link: https://lore.kernel.org/r/aqvxQoIoYhJTZpAC@thinkstation
-Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
----
- arch/x86/hyperv/ivm.c              |  4 ++++
- arch/x86/include/asm/mem_encrypt.h |  2 ++
- arch/x86/include/asm/x86_init.h    |  2 ++
- arch/x86/kernel/cpu/vmware.c       |  2 +-
- arch/x86/kernel/kvm.c              | 35 -----------------------------------
- arch/x86/kernel/setup.c            |  2 ++
- arch/x86/kernel/setup_percpu.c     |  2 ++
- arch/x86/mm/mem_encrypt.c          | 22 ++++++++++++++++++++++
- 8 files changed, 35 insertions(+), 36 deletions(-)
+If you're fine with me carrying it, I can take it into v2 with and
+derive ->merge() from the same RB_AUG() list, so
+rb_add_augmented_cached() folds the new node into its ancestors in
+the one pass down instead of the ->propagate() round trip.
 
-diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-index 2ce4dfe53472..4a5c735c9c52 100644
---- a/arch/x86/hyperv/ivm.c
-+++ b/arch/x86/hyperv/ivm.c
-@@ -887,6 +887,10 @@ void __init hv_vtom_init(void)
- 	cc_set_mask(ms_hyperv.shared_gpa_boundary);
- 	physical_mask &= ms_hyperv.shared_gpa_boundary - 1;
- 
-+	/* vTOM has no early per-CPU consumers and needs the Hyper-V setup. */
-+	x86_init.paging.skip_percpu_decryption = true;
-+	x86_init.paging.early_decrypt_page = NULL;
-+
- 	x86_platform.hyper.is_private_mmio = hv_is_private_mmio;
- 	x86_platform.guest.enc_cache_flush_required = hv_vtom_cache_flush_required;
- 	x86_platform.guest.enc_tlb_flush_required = hv_vtom_tlb_flush_required;
-diff --git a/arch/x86/include/asm/mem_encrypt.h b/arch/x86/include/asm/mem_encrypt.h
-index 4d81f693b1d3..05cf395407ef 100644
---- a/arch/x86/include/asm/mem_encrypt.h
-+++ b/arch/x86/include/asm/mem_encrypt.h
-@@ -21,11 +21,13 @@ struct boot_params;
- #ifdef CONFIG_X86_MEM_ENCRYPT
- void __init mem_encrypt_init(void);
- void __init mem_encrypt_setup_arch(void);
-+void __init mem_encrypt_init_percpu(void);
- int __init early_set_memory_decrypted(unsigned long vaddr, unsigned long size);
- void __init early_set_page_decrypted(unsigned long addr, unsigned long alias);
- #else
- static inline void mem_encrypt_init(void) { }
- static inline void __init mem_encrypt_setup_arch(void) { }
-+static inline void __init mem_encrypt_init_percpu(void) { }
- static inline int __init
- early_set_memory_decrypted(unsigned long vaddr, unsigned long size) { return 0; }
- #endif
-diff --git a/arch/x86/include/asm/x86_init.h b/arch/x86/include/asm/x86_init.h
-index e4131402c783..8d1597372eb6 100644
---- a/arch/x86/include/asm/x86_init.h
-+++ b/arch/x86/include/asm/x86_init.h
-@@ -76,10 +76,12 @@ struct x86_init_oem {
-  *			Callback must call paging_init(). Called once after the
-  *			direct mapping for phys memory is available.
-  * @early_decrypt_page:	Share a direct-mapped page and its optional image alias
-+ * @skip_percpu_decryption: Platform does not use early shared per-CPU data
-  */
- struct x86_init_paging {
- 	void (*pagetable_init)(void);
- 	int (*early_decrypt_page)(unsigned long addr, unsigned long alias);
-+	bool skip_percpu_decryption;
- };
- 
- /**
-diff --git a/arch/x86/kernel/cpu/vmware.c b/arch/x86/kernel/cpu/vmware.c
-index 34b73573b108..b477cc027b18 100644
---- a/arch/x86/kernel/cpu/vmware.c
-+++ b/arch/x86/kernel/cpu/vmware.c
-@@ -366,7 +366,7 @@ static void __init vmware_paravirt_ops_setup(void)
- 					      vmware_cpu_down_prepare) < 0)
- 			pr_err("vmware_guest: Failed to install cpu hotplug callbacks\n");
- #else
--		vmware_guest_cpu_init();
-+		x86_init.hyper.guest_late_init = vmware_guest_cpu_init;
- #endif
- 	}
- }
-diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-index 6b0a5861ccb8..acb3b7b18ebe 100644
---- a/arch/x86/kernel/kvm.c
-+++ b/arch/x86/kernel/kvm.c
-@@ -429,34 +429,6 @@ static u64 kvm_steal_clock(int cpu)
- 	return steal;
- }
- 
--static inline __init void __set_percpu_decrypted(void *ptr, unsigned long size)
--{
--	early_set_memory_decrypted((unsigned long) ptr, size);
--}
--
--/*
-- * Iterate through all possible CPUs and map the memory region pointed
-- * by apf_reason, steal_time and kvm_apic_eoi as decrypted at once.
-- *
-- * Note: we iterate through all possible CPUs to ensure that CPUs
-- * hotplugged will have their per-cpu variable already mapped as
-- * decrypted.
-- */
--static void __init sev_map_percpu_data(void)
--{
--	int cpu;
--
--	if (cc_vendor != CC_VENDOR_AMD ||
--	    !cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
--		return;
--
--	for_each_possible_cpu(cpu) {
--		__set_percpu_decrypted(&per_cpu(apf_reason, cpu), sizeof(apf_reason));
--		__set_percpu_decrypted(&per_cpu(steal_time, cpu), sizeof(steal_time));
--		__set_percpu_decrypted(&per_cpu(kvm_apic_eoi, cpu), sizeof(kvm_apic_eoi));
--	}
--}
--
- static void kvm_guest_cpu_offline(bool shutdown)
- {
- 	kvm_disable_steal_time();
-@@ -709,12 +681,6 @@ arch_initcall(kvm_alloc_cpumask);
- 
- static void __init kvm_smp_prepare_boot_cpu(void)
- {
--	/*
--	 * Map the per-cpu variables as decrypted before kvm_guest_cpu_init()
--	 * shares the guest physical address with the hypervisor.
--	 */
--	sev_map_percpu_data();
--
- 	kvm_guest_cpu_init();
- 	native_smp_prepare_boot_cpu();
- 	kvm_spinlock_init();
-@@ -868,7 +834,6 @@ static void __init kvm_guest_init(void)
- 				      kvm_cpu_online, kvm_cpu_down_prepare) < 0)
- 		pr_err("failed to install cpu hotplug callbacks\n");
- #else
--	sev_map_percpu_data();
- 	kvm_guest_cpu_init();
- #endif
- 
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index cda6adb9f69c..8eebd85e59af 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -1251,6 +1251,8 @@ void __init setup_arch(char **cmdline_p)
- 
- 	io_apic_init_mappings();
- 
-+	if (!IS_ENABLED(CONFIG_SMP))
-+		mem_encrypt_init_percpu();
- 	x86_init.hyper.guest_late_init();
- 
- 	e820__reserve_resources();
-diff --git a/arch/x86/kernel/setup_percpu.c b/arch/x86/kernel/setup_percpu.c
-index c83c61e0b20a..8526ad37a81b 100644
---- a/arch/x86/kernel/setup_percpu.c
-+++ b/arch/x86/kernel/setup_percpu.c
-@@ -5,6 +5,7 @@
- #include <linux/export.h>
- #include <linux/init.h>
- #include <linux/memblock.h>
-+#include <linux/mem_encrypt.h>
- #include <linux/percpu.h>
- #include <linux/kexec.h>
- #include <linux/crash_dump.h>
-@@ -234,4 +235,5 @@ void __init setup_per_cpu_areas(void)
- 	 * this call?
- 	 */
- 	sync_initial_page_table();
-+	mem_encrypt_init_percpu();
- }
-diff --git a/arch/x86/mm/mem_encrypt.c b/arch/x86/mm/mem_encrypt.c
-index c3e239a47b66..d3224607170d 100644
---- a/arch/x86/mm/mem_encrypt.c
-+++ b/arch/x86/mm/mem_encrypt.c
-@@ -13,6 +13,7 @@
- #include <linux/cc_platform.h>
- #include <linux/mem_encrypt.h>
- #include <linux/pgalloc.h>
-+#include <linux/percpu.h>
- #include <linux/virtio_anchor.h>
- #include <linux/iommu-dma.h>
- 
-@@ -24,6 +25,8 @@
- 
- #include "mm_internal.h"
- 
-+extern char __percpu __start_percpu_decrypted[], __end_percpu_decrypted[];
-+
- static pte_t * __init early_lookup_pte(unsigned long addr)
- {
- 	unsigned long pfn, step;
-@@ -134,6 +137,25 @@ int __init early_set_memory_decrypted(unsigned long vaddr, unsigned long size)
- 	return 0;
- }
- 
-+void __init mem_encrypt_init_percpu(void)
-+{
-+	unsigned long size = __end_percpu_decrypted - __start_percpu_decrypted;
-+	int cpu, ret;
-+
-+	if (!cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT) ||
-+	    x86_init.paging.skip_percpu_decryption)
-+		return;
-+
-+	for_each_possible_cpu(cpu) {
-+		unsigned long addr = (unsigned long)
-+			per_cpu_ptr(__start_percpu_decrypted, cpu);
-+
-+		ret = early_set_memory_decrypted(addr, size);
-+		if (ret)
-+			panic("Cannot share CPU %d per-CPU data (err=%d)", cpu, ret);
-+	}
-+}
-+
- /* Override for DMA direct allocation check - ARCH_HAS_FORCE_DMA_UNENCRYPTED */
- bool force_dma_unencrypted(struct device *dev)
- {
+One thing I am aware here:  RB_AUG()'s cmp only
+expresses "pick one of the two", so min/max style aggregates; a sum or
+a count (subtree size, total weight) can't be written, where the old
+RBCOMPUTE could do anything.  Nobody in-tree needs that today, so it might
+be acceptable as is, but it's a regression in generality for the same
+price:
 
--- 
-2.53.0
+        RB_AUG(val, aug, fold)  /* _val = fold(_val, child->aug) */
 
+keeps the register-local recompute exactly as it is, drops RB_MIN /
+RB_MAX in favour of the existing min()/max(), and a sum is just
+"a + b".  For sched that's min, max and a wrapping-safe min for
+min_vruntime. Do you think this can be accepted as is, or should I try
+to make it more general?
+
+
+Thanks,
+Yiwei
