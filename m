@@ -1,80 +1,796 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2160519934;
-	Tue, 29 Sep 2026 11:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2D43ED5B6
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 12:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790682893; cv=none; b=OoqMDnfS+7sljRRhlqvithOuPkVMLhPluEXeuN84/A4MoWCRgk9giTX9///v9WGF9j8S1KKdbnrRzwCRDGAXfuo8jtbW6jACKL+oDi9Py3aclUzhbhBGbo3Su2YCPBl2mevWsAh4ubzwAj2WSbUf/fHweS9Zk7Aw/86Rb5ksWvE=
+	t=1790683221; cv=none; b=qx1JS33l6uJsp9R5kJIQuAJJBo/7mk7Qic52oaygcKtij5OyWWOFWX1E/NiiZv5kSGQ91TP/VKFY8cQkstwBDg2yFLZ0TdeJc25fAUEQ4qbnP/quc7syOPB2Ee5/wy9B5pzLZ29I8VoJ6ez5FFElXI7QaJ2ti2oZx1YMtutygTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790682893; c=relaxed/simple;
-	bh=DtqkbPUa81FQQrzsYaoaL1FIE2UdQgTyoycbJmy1bmA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oDrB0/T7idW7NLpPX/NFrOwkwJqrCEKS6qfxDY5y842H7bxdkaCkWkyV4z5v292wkqgjpqQ3jo8Knzm3PzRxp9B41DCNnsqTzeop6vm9iJD6zs3WEqiAgpxL+7pj1kRfJqafaQk3HJeyGtbKjtoPytGfBWUZLTR7XMo5gjvxAuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=B8GD4qiK; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1790683221; c=relaxed/simple;
+	bh=B/zVAu/XkqUw72TzAQIGzvw9D8uPhA0Q57m09lRjYC0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qaPhJtI76EavxdHdrWKPCwjyDpscgK+OSB7cNroC9TXgcezinGfoykBiCyiIVsE77vdkZK76e/5X7ku8mLrwCICjvKedxb5flxgyHu2i1EmTZ3FAa2ouswWg2ZFHs/ovgO5/FNHk2AzdRMnpv9O4NG6DT0h50oQUOoxrD8qItg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jGB/tzSi; arc=none smtp.client-ip=74.125.227.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="B8GD4qiK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=E5+DOXgoT9iAoCF5tpbNaYvfjMDSAHAT56qKN1IGRIM=; b=B8GD4qiKYcgBmoI6UBQO0tLNeF
-	exB4SQZ3F2yX8xK0wBIa1eLDjwMAWlebcegGhh/Wy2G+HJA4wvERgY9arbv7oXE5ub+4IbUQZcthl
-	gcM61MiyEKZWGIKNXy+qnm/riQL9Jirq6zJh0plkTGyvFbuX+LbGiPzLfONKcKYWAOCk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xBWPk-007wQt-7x; Tue, 29 Sep 2026 13:54:28 +0200
-Date: Tue, 29 Sep 2026 13:54:28 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jGB/tzSi"
+Received: by mail-pj2-f43.google.com with SMTP id d9443c01a7336-2dd89b59dccso3485745ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 05:00:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790683218; x=1791288018; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y/YgzHqXxyOcjo4DAjpJoutcpOwGqhRiEdyZyzIlt/o=;
+        b=jGB/tzSiXsd+3IBT19OdF7jzhkeo3gIXtVXlLCxyhQrvRgijyu5IpdC9tzCN3ospFH
+         VoKCsIE5sVbYD2AtFXrhqim092dkgxS3l5uansamwJWRF9gc9kfSgBc6WNSCSnrFq18r
+         ptyl/kfVpCfLhGZetqsnKoHwcIp0wudaxfdqIZZRlZclqN0mvFeEAfn8FIQ0PZBSRT/q
+         bN1GyGdbaVqCFa7I2xRZgJ13p0GjCSlqgY+LcZ3xEzEA8cM3ytvTYmdW4dp4UhPNK3QR
+         hC8mntkFzAdDULy55Mu8fhO3ItAUNJh4nOTlrwFnzTNv62GPgxC7Dm1+DdUPR/lizaB9
+         A4FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790683218; x=1791288018;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=y/YgzHqXxyOcjo4DAjpJoutcpOwGqhRiEdyZyzIlt/o=;
+        b=NwHlbu0llqBkoxPS+rzfELoyswn393ijCqOqXsqxj9nTjEwxOh8NKoU84hI8mYyldz
+         7SkG2MljG7hQGGVN2aZkkdmRVOm5t0Z0Edy5T7cx+ADwtJe9nxDncyFcbY2V1BV8fWoj
+         2oht+LaKzSlRE23v23IVPKRBe7s5wzQu62UHSGkgsC+1dKW8TVsrnldgODZQ0C5WgRmN
+         o7u1UTbKOygWL2y3+/lYImOInfHz5WSWsHYA6GEyTgSy7C50XcZfrJpjVBR5d6O7OTHS
+         nfsaN59LgbIE9znTA+szd3O0Ns69FZPryjxLnlsTZen1MaMHlotPFK1jz39qqhADwNbj
+         smjg==
+X-Forwarded-Encrypted: i=1; AKwUvBy9MeeZ8zwvssggSDWgOXnZzGCXkeg3IlPqIYDJbZowqsyV+5zBDpfKPa/KMuHsQPTaahCHk1E6skc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKoV9GunwBkjsUd2fvIGNScmzlPyXdM00MCgP0ZEsoPtWtrbRYX
+	deXdHwYBo84fHC/jonz0Irc7AJpv0zMYUMkxE9R5fH/YyNUtzjhAW6sn
+X-Gm-Gg: AYBFou2H/N4eeG0Vw7hAPBymJqRfpUAX+dbn3GDKMyipJeN8pW9ddWJtsoCETEmXtfc
+	nCcviTZH8+W8buxTXfVYVbnHEW+Qe+/rWiEu0aPzZxlFbjIDcuHb3shYurvicIe+qvO7jXHcjV7
+	lFZXxUHxA+U3WwJhNCgaikaA+4jMABH6j6zo7vQ7+geCMQNbJ8rFgMdWRGLLZ+e9FD7fWZ9IWF+
+	LbUMDFBcK6yiuGHznDnlYkllypgApYYHQouzH8sP74qNC7zxBOFxkGAuMdE1NFkjSb+r+ysA6+9
+	c/au9sssGgOz95RA2XS4jgKzaB6Zvag50zJat3hNBa/54hbQ4UFLjnusxh2Dlfr2yCJ/iFk8R1t
+	FUrp/Npjkn7XvYfP9zSHax7wfkXGQp38XhmqExt5NoCIVpWh4rlQXi+iGB85WlyBSPKaEDVYCoB
+	Y4g7aSKZU3g1+5KJc7RSue5eCjki6z6Q6ODAYwsMihDmktY7QGdHVgZswEvOS6v8CWItQne3+cV
+	S2c9D5x8PRnqQJRtUObxKvseoY9ht9XS5qUezjLI4LQFjV7Vf2Wt+/gmQ==
+X-Received: by 2002:a17:903:1ad0:b0:2da:dd0a:99e0 with SMTP id d9443c01a7336-2df8e6db03amr161882505ad.2.1790683216611;
+        Tue, 29 Sep 2026 05:00:16 -0700 (PDT)
+Received: from chenyou.. ([140.116.39.229])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df9142969esm55882605ad.45.2026.09.29.05.00.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 05:00:15 -0700 (PDT)
+From: Chen-Yu Yeh <chenyou910331@gmail.com>
+To: corbet@lwn.net,
+	alexs@kernel.org
+Cc: dzm91@hust.edu.cn,
+	wy@wyuan.org,
+	si.yanteng@linux.dev,
+	srcres258@furdevs.cn,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andy Deng <theandy.deng@gmail.com>,
+	Bailu Lin <bailu.lin@vivo.com>,
+	Bernard Zhao <bernard@vivo.com>,
+	Bryan Wu <bryan.wu@analog.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Chucheng Luo <luochucheng@vivo.com>,
+	Dave Martin <Dave.Martin@arm.com>,
+	Dave Young <hidave.darkstar@gmail.com>,
+	Dongsheng Song <dongshneg.song@gmail.com>,
+	"Eric W . Biederman" <ebiederm@xmission.com>,
+	Eugene Teo <eugeneteo@kernel.sg>,
+	Fu Wei <tekkamanninja@gmail.com>,
+	Fu Wei <wefu@redhat.com>,
+	gao chao <gaochao49@huawei.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hailong Liu <liu.hailong6@zte.com.cn>,
+	Harry Wei <harryxiyou@gmail.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Junhua Huang <huang.junhua@zte.com.cn>,
+	Kangkai Yin <e12051@motorola.com>,
+	Leigang Zang <zangleigang@hisilicon.com>,
+	Li Yang <leoyang.li@nxp.com>,
+	Li Zefan <lizf@cn.fujitsu.com>,
+	Maggie Chen <chenqi@beyondsoft.com>,
+	Nicolas Pitre <nico@fluxnic.net>,
+	Punit Agrawal <punitagrawal@gmail.com>,
 	Russell King <linux@armlinux.org.uk>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Jerry Ray <jerry.ray@microchip.com>
-Subject: Re: [PATCH net-next v8 07/11] net: phy: ncn26000: Support for
- onsemi's S2500 internal phy
-Message-ID: <e8959c33-1b50-46e1-b9b1-029f5fec81f5@lunn.ch>
-References: <20260928-s2500-mac-phy-support-v8-0-7e011aacc309@onsemi.com>
- <20260928-s2500-mac-phy-support-v8-7-7e011aacc309@onsemi.com>
- <CH0PR02MB78673D8A3CF809B016983DAC838D2@CH0PR02MB7867.namprd02.prod.outlook.com>
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Tang Yizhou <tangyeechou@gmail.com>,
+	TripleX Chung <xxx.phy@gmail.com>,
+	Wang Chen <wangchen@cn.fujitsu.com>,
+	Wang Cong <xiyou.wangcong@gmail.com>,
+	Wang Wenhu <wenhu.wang@vivo.com>,
+	Wan Jiabing <wanjiabing@vivo.com>,
+	wheelz <kernel.zeng@gmail.com>,
+	Will Deacon <will@kernel.org>,
+	Wu XiangCheng <bobwxc@email.cn>,
+	Xiaochen Wang <wangxiaochen0@gmail.com>,
+	Xudong Guan <xudong.guan@gmail.com>,
+	xu xin <xu.xin16@zte.com.cn>,
+	yaxinsn <yaxinsn@163.com>,
+	Yinglin Luan <synmyth@gmail.com>,
+	Zhang Le <r0bertz@gentoo.org>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Subject: [PATCH v2 0/7] docs/zh_TW: remove duplicated maintainer contact information
+Date: Tue, 29 Sep 2026 19:59:48 +0800
+Message-ID: <20260929115956.229610-1-chenyou910331@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CH0PR02MB78673D8A3CF809B016983DAC838D2@CH0PR02MB7867.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 28, 2026 at 10:50:00PM +0000, Selvamani Rajagopal wrote:
-> Andrew,
-> 
-> Thinking that I don't need to remove "Reviewed by" tag for minor changes, I kept it.
-> .read_mmd, and write_mmd callback was changed to use newer callsbacks
-> recently introduced in the in the kernel.
-> 
-> Let me know if you want me to remove "Reviewed by: tag for this change.
+MAINTAINERS already records who to contact about the zh_TW
+translations, yet every zh_TW file repeats that information in a
+per-file contact block.  The duplication has a concrete cost: the
+listed zh_TW maintainer address appeared in 58 files and there have
+been three separate attempts to rewrite it across the tree.  In the
+MAINTAINERS discussion Jon Corbet's conclusion was that, rather than
+churning all of those addresses once more, the best thing is simply to
+remove them.
 
-Minor changes like this are fine.
+There is a second reason.  The zh_TW tree was produced by converting
+zh_CN, and the credit blocks came across with the text: nearly every
+address removed here also appears in
+Documentation/translations/zh_CN/, several in more than a hundred
+files.  They credit the simplified-Chinese translation rather than
+zh_TW work, so keeping them would leave the wrong attribution in place.
 
-      Andrew
+Removed:
+
+  - the :Translator: / :翻譯: / :校譯: / :譯者: credit blocks and the
+    譯者:: literal blocks
+  - the "please contact the ... maintainer" prose that introduces them
+  - the 英文版/中文版/繁體中文版 維護者|翻譯者|校譯者 lines, including
+    their continuation lines
+  - the maintainer metadata lines in the legacy headers (M:, zh_CN:,
+    zh_TW:, Maintainer:, Chinese maintainer:, Traditional Chinese
+    maintainer:)
+
+Left alone: :Original:, :作者: (the author of the English original),
+:日期:, :更新:, the C: sync-commit references, copyright notices, and
+every address that is part of a document body, such as
+stable@vger.kernel.org and the examples in submitting-patches.
+
+Attribution for past work is preserved in the git history.
+
+Changes in v2:
+ - Rebased onto docs-next now that the zh_TW process/ series has
+   landed.  v1 no longer applied: that series added a translator entry
+   to fifteen of the blocks 1/7 removes, so 1/7 now removes those
+   entries too (they are mine; the same reasoning applies).
+ - Each patch now has its own commit message instead of sharing one
+   paragraph (Weijie).  The messages also no longer claim that the
+   Chinese credit lines of the legacy headers are kept; they were
+   removed in v1 as well, as this cover letter said.
+ - 7/7: the disclaimer's warning and note said much the same thing;
+   merge them into a single note, as disclaimer-zh_CN.rst has (Weijie).
+   It points readers at the zh_TW maintainers and reviewers rather than
+   at "the file's translator", since this series removes the
+   translator fields.
+ - Copied everyone whose address the series removes, as Jon asked on
+   v1, using current addresses where MAINTAINERS or .mailmap has one.
+   (IRQ.txt spells Eric Biederman's address "ebiederman@"; his address
+   is ebiederm@xmission.com.)
+
+Not changed: IRQ.txt, io_ordering.txt and the other plain-text files
+still lose their contact lines here, so that this series stands on its
+own; as agreed in the zh_TW scope discussion [1], they are removed
+altogether by a separate series.  The "聯繫譯者" wording in
+dev-tools/testing-overview.rst is left as it is, as Weijie suggested.
+
+v1: https://lore.kernel.org/linux-doc/20260819145808.291567-1-chenyou910331@gmail.com/
+[1] https://lore.kernel.org/linux-doc/CAKspUhJAbCWoxgh2eq8R5g_MiNK=oXgKPUWqGOpHh0w1-Fv74A@mail.gmail.com/
+
+Chen-Yu Yeh (7):
+  docs/zh_TW: process: remove maintainer contact information
+  docs/zh_TW: admin-guide: remove maintainer contact information
+  docs/zh_TW: arch: remove maintainer contact information
+  docs/zh_TW: dev-tools: remove maintainer contact information
+  docs/zh_TW: filesystems: remove maintainer contact information
+  docs/zh_TW: cpu-freq: remove maintainer contact information
+  docs/zh_TW: remove the last maintainer contact references
+
+ Documentation/translations/zh_TW/IRQ.txt       |  8 --------
+ .../translations/zh_TW/admin-guide/README.rst  |  5 -----
+ .../zh_TW/admin-guide/bootconfig.rst           |  2 --
+ .../zh_TW/admin-guide/bug-bisect.rst           |  5 -----
+ .../zh_TW/admin-guide/bug-hunting.rst          |  5 -----
+ .../zh_TW/admin-guide/clearing-warn-once.rst   |  2 --
+ .../zh_TW/admin-guide/cpu-load.rst             |  2 --
+ .../zh_TW/admin-guide/cputopology.rst          |  4 ----
+ .../translations/zh_TW/admin-guide/index.rst   |  2 --
+ .../translations/zh_TW/admin-guide/init.rst    |  5 -----
+ .../zh_TW/admin-guide/lockup-watchdogs.rst     |  1 -
+ .../zh_TW/admin-guide/mm/damon/index.rst       |  6 ------
+ .../zh_TW/admin-guide/mm/damon/lru_sort.rst    |  6 ------
+ .../zh_TW/admin-guide/mm/damon/reclaim.rst     |  6 ------
+ .../zh_TW/admin-guide/mm/damon/start.rst       |  6 ------
+ .../zh_TW/admin-guide/mm/damon/usage.rst       |  6 ------
+ .../zh_TW/admin-guide/mm/index.rst             |  5 -----
+ .../translations/zh_TW/admin-guide/mm/ksm.rst  |  5 -----
+ .../zh_TW/admin-guide/reporting-issues.rst     |  6 ------
+ .../admin-guide/reporting-regressions.rst      |  5 -----
+ .../zh_TW/admin-guide/security-bugs.rst        |  5 -----
+ .../translations/zh_TW/admin-guide/sysrq.rst   |  8 --------
+ .../zh_TW/admin-guide/tainted-kernels.rst      |  5 -----
+ .../translations/zh_TW/admin-guide/unicode.rst |  5 -----
+ .../translations/zh_TW/arch/arm/Booting        |  7 -------
+ .../zh_TW/arch/arm/kernel_user_helpers.txt     | 10 ----------
+ .../translations/zh_TW/arch/arm64/amu.rst      |  3 ---
+ .../translations/zh_TW/arch/arm64/booting.txt  |  8 --------
+ .../zh_TW/arch/arm64/elf_hwcaps.rst            |  3 ---
+ .../zh_TW/arch/arm64/hugetlbpage.rst           |  3 ---
+ .../translations/zh_TW/arch/arm64/index.rst    |  2 --
+ .../zh_TW/arch/arm64/legacy_instructions.txt   | 11 -----------
+ .../translations/zh_TW/arch/arm64/memory.txt   |  9 ---------
+ .../translations/zh_TW/arch/arm64/perf.rst     |  3 ---
+ .../zh_TW/arch/arm64/silicon-errata.txt        |  8 --------
+ .../zh_TW/arch/arm64/tagged-pointers.txt       |  9 ---------
+ .../zh_TW/arch/loongarch/booting.rst           |  4 ----
+ .../zh_TW/arch/loongarch/features.rst          |  1 -
+ .../zh_TW/arch/loongarch/index.rst             |  1 -
+ .../zh_TW/arch/loongarch/introduction.rst      |  1 -
+ .../zh_TW/arch/loongarch/irq-chip-model.rst    |  1 -
+ .../translations/zh_TW/arch/mips/booting.rst   |  4 ----
+ .../translations/zh_TW/arch/mips/features.rst  |  4 ----
+ .../translations/zh_TW/arch/mips/index.rst     |  4 ----
+ .../zh_TW/arch/mips/ingenic-tcu.rst            |  4 ----
+ .../translations/zh_TW/arch/openrisc/index.rst |  4 ----
+ .../zh_TW/arch/openrisc/openrisc_port.rst      |  4 ----
+ .../translations/zh_TW/arch/openrisc/todo.rst  |  4 ----
+ .../zh_TW/arch/parisc/debugging.rst            |  4 ----
+ .../translations/zh_TW/arch/parisc/index.rst   |  4 ----
+ .../zh_TW/arch/parisc/registers.rst            |  4 ----
+ .../translations/zh_TW/cpu-freq/core.rst       |  8 --------
+ .../zh_TW/cpu-freq/cpu-drivers.rst             |  8 --------
+ .../zh_TW/cpu-freq/cpufreq-stats.rst           |  8 --------
+ .../translations/zh_TW/cpu-freq/index.rst      |  4 ----
+ .../translations/zh_TW/dev-tools/gcov.rst      |  1 -
+ .../zh_TW/dev-tools/gdb-kernel-debugging.rst   |  1 -
+ .../translations/zh_TW/dev-tools/index.rst     |  1 -
+ .../translations/zh_TW/dev-tools/kasan.rst     |  1 -
+ .../translations/zh_TW/dev-tools/sparse.rst    |  5 -----
+ .../zh_TW/dev-tools/testing-overview.rst       |  1 -
+ .../translations/zh_TW/disclaimer-zh_TW.rst    | 12 ++++--------
+ .../translations/zh_TW/filesystems/debugfs.rst | 10 ----------
+ .../translations/zh_TW/filesystems/index.rst   |  2 --
+ .../translations/zh_TW/filesystems/sysfs.txt   | 10 ----------
+ .../zh_TW/filesystems/virtiofs.rst             |  8 --------
+ Documentation/translations/zh_TW/index.rst     |  2 +-
+ .../translations/zh_TW/io_ordering.txt         |  6 ------
+ .../translations/zh_TW/process/1.Intro.rst     | 10 ----------
+ .../translations/zh_TW/process/2.Process.rst   | 10 ----------
+ .../zh_TW/process/3.Early-stage.rst            |  9 ---------
+ .../translations/zh_TW/process/4.Coding.rst    |  9 ---------
+ .../translations/zh_TW/process/5.Posting.rst   | 10 ----------
+ .../zh_TW/process/6.Followthrough.rst          |  9 ---------
+ .../zh_TW/process/7.AdvancedTopics.rst         | 10 ----------
+ .../zh_TW/process/8.Conclusion.rst             |  9 ---------
+ .../process/code-of-conduct-interpretation.rst |  3 ---
+ .../zh_TW/process/code-of-conduct.rst          |  2 --
+ .../zh_TW/process/coding-style.rst             | 14 --------------
+ .../zh_TW/process/development-process.rst      |  2 --
+ .../zh_TW/process/email-clients.rst            | 12 ------------
+ .../process/embargoed-hardware-issues.rst      |  3 ---
+ .../translations/zh_TW/process/howto.rst       | 18 ------------------
+ .../translations/zh_TW/process/index.rst       |  3 ---
+ .../zh_TW/process/kernel-driver-statement.rst  |  2 --
+ .../process/kernel-enforcement-statement.rst   |  2 --
+ .../zh_TW/process/license-rules.rst            |  3 ---
+ .../zh_TW/process/magic-number.rst             |  8 --------
+ .../zh_TW/process/management-style.rst         |  2 --
+ .../zh_TW/process/programming-language.rst     |  3 ---
+ .../zh_TW/process/stable-api-nonsense.rst      | 10 ----------
+ .../zh_TW/process/stable-kernel-rules.rst      | 12 ------------
+ .../zh_TW/process/submit-checklist.rst         |  4 ----
+ .../zh_TW/process/submitting-patches.rst       | 12 ------------
+ .../process/volatile-considered-harmful.rst    | 12 ------------
+ 95 files changed, 5 insertions(+), 525 deletions(-)
+
+Range-diff against v1:
+1:  b30ed7154694 ! 1:  57561af2e7e1 docs/zh_TW: process: remove maintainer contact information
+    @@ Metadata
+      ## Commit message ##
+         docs/zh_TW: process: remove maintainer contact information
+     
+    -    The zh_TW translations duplicate, in every file, contact information
+    -    that MAINTAINERS already records.  Those addresses have been churned
+    -    repeatedly: the listed zh_TW maintainer address alone appears in 58
+    -    files and there have now been three attempts to update it across the
+    -    tree.  Jon Corbet's conclusion in the MAINTAINERS discussion was that,
+    -    rather than rewriting all of them again, the best thing is simply to
+    -    remove them.
+    -
+    -    Most of the names in the credit blocks belong to the zh_CN translators:
+    -    the zh_TW tree was produced by converting zh_CN, so the credits came
+    -    across with the text.  Of the addresses removed here, nearly all also
+    -    appear in Documentation/translations/zh_CN/, several in more than a
+    -    hundred files.  They credit the simplified-Chinese translation, not
+    -    zh_TW work.
+    -
+    -    Remove the :Translator:/:翻譯:/:校譯:/:譯者: credit blocks and the
+    -    "please contact the ... maintainer" prose that introduces them, and
+    -    drop the maintainer metadata lines (M:, zh_CN:, zh_TW:, Maintainer:,
+    -    Chinese maintainer:, Traditional Chinese maintainer:) from the legacy
+    -    headers.  The translated bodies of the legacy files, including their
+    -    own credit lines, are left untouched.
+    -
+    -    Attribution for past work is preserved in the git history.
+    -
+    +    The zh_TW translations repeat, file by file, contact information that
+    +    MAINTAINERS already records.  Those addresses keep going stale: the
+    +    listed zh_TW maintainer address alone appeared in 58 files, and there
+    +    have been three attempts to update it across the tree.  In the
+    +    MAINTAINERS discussion Jon Corbet concluded that, rather than rewriting
+    +    them all again, they should simply be removed.
+    +
+    +    Most of the names also credit the wrong work.  zh_TW was produced by
+    +    converting zh_CN and the credit blocks came across with the text, so
+    +    they name the simplified-Chinese translators; nearly every address
+    +    removed in this series also appears under
+    +    Documentation/translations/zh_CN/.
+    +
+    +    Start with process/, the largest area.  Remove the :Translator:, :譯者:
+    +    and :校譯: fields, the 譯者:: literal blocks in howto.rst and
+    +    stable-api-nonsense.rst, and the "contact the maintainer" paragraphs
+    +    that introduce the credits in magic-number.rst, stable-kernel-rules.rst
+    +    and volatile-considered-harmful.rst.  This includes the entries that the
+    +    recent process/ update added to fifteen of these blocks.  Attribution
+    +    for all of it stays in the git history.
+    +
+    +    Assisted-by: Claude:claude-opus-5-5
+         Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+     
+      ## Documentation/translations/zh_TW/process/1.Intro.rst ##
+    @@ Documentation/translations/zh_TW/process/1.Intro.rst
+     -
+     - 吳想成 Wu XiangCheng <bobwxc@email.cn>
+     - 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+    +- 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+     -
+      .. _tw_development_process_intro:
+      
+    @@ Documentation/translations/zh_TW/process/2.Process.rst
+     -
+     - 吳想成 Wu XiangCheng <bobwxc@email.cn>
+     - 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+    +- 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+     -
+      .. _tw_development_process:
+      
+    @@ Documentation/translations/zh_TW/process/5.Posting.rst
+     -
+     - 吳想成 Wu XiangCheng <bobwxc@email.cn>
+     - 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+    +- 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+     -
+      .. _tw_development_posting:
+      
+    - 發佈補丁
+    + 發布補丁
+     
+      ## Documentation/translations/zh_TW/process/6.Followthrough.rst ##
+     @@
+    @@ Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
+     -
+     - 吳想成 Wu XiangCheng <bobwxc@email.cn>
+     - 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+    +- 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+     -
+      .. _tw_development_advancedtopics:
+      
+    - 高級主題
+    + 進階主題
+     
+      ## Documentation/translations/zh_TW/process/8.Conclusion.rst ##
+     @@
+    @@ Documentation/translations/zh_TW/process/8.Conclusion.rst
+     -
+     - 吳想成 Wu XiangCheng <bobwxc@email.cn>
+     - 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+    +- 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+      
+      .. _tw_development_conclusion:
+      
+    @@ Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+      :Original: :ref:`Documentation/process/code-of-conduct-interpretation.rst <code_of_conduct_interpretation>`
+     -:Translator: Alex Shi <alex.shi@linux.alibaba.com>
+     -             Hu Haowen <2023002089@link.tyut.edu.cn>
+    +-             Chen-Yu Yeh <chenyou910331@gmail.com>
+      
+      .. _tw_code_of_conduct_interpretation:
+      
+    @@ Documentation/translations/zh_TW/process/coding-style.rst
+     - - Li Zefan <lizf@cn.fujitsu.com>
+     - - Wang Chen <wangchen@cn.fujitsu.com>
+     - - Hu Haowen <2023002089@link.tyut.edu.cn>
+    +- - 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+     -
+    - Linux 內核代碼風格
+    - ==================
+    + Linux 核心程式碼風格
+    + ====================
+      
+     
+      ## Documentation/translations/zh_TW/process/development-process.rst ##
+    @@ Documentation/translations/zh_TW/process/email-clients.rst
+     - - Xiaochen Wang <wangxiaochen0@gmail.com>
+     - - yaxinsn <yaxinsn@163.com>
+     - - Hu Haowen <2023002089@link.tyut.edu.cn>
+    +- - Chen-Yu Yeh <chenyou910331@gmail.com>
+     -
+    - Linux郵件客戶端配置信息
+    + Linux郵件客戶端設定資訊
+      =======================
+      
+     
+    @@ Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+      :Original: :ref:`Documentation/process/embargoed-hardware-issues.rst <embargoed_hardware_issues>`
+     -:Translator: Alex Shi <alex.shi@linux.alibaba.com>
+     -             Hu Haowen <2023002089@link.tyut.edu.cn>
+    +-             Chen-Yu Yeh <chenyou910331@gmail.com>
+      
+    - 被限制的硬件問題
+    + 被限制的硬體問題
+      ================
+     
+      ## Documentation/translations/zh_TW/process/howto.rst ##
+    @@ Documentation/translations/zh_TW/process/howto.rst
+     -                   陳琦  Maggie Chen <chenqi@beyondsoft.com>
+     -                   王聰  Wang Cong <xiyou.wangcong@gmail.com>
+     -                   胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+    +-                   葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+     -
+    - 如何參與Linux內核開發
+    + 如何參與Linux核心開發
+      =====================
+      
+     @@ Documentation/translations/zh_TW/process/howto.rst: Kees Cook, Andrew Morton, Andi Kleen, Vadim Lobanov, Jesper Juhl, Adrian
+      Bunk, Keri Harris, Frans Pop, David A. Wheeler, Junio Hamano, Michael
+    - Kerrisk和Alex Shepard的評審、建議和貢獻。沒有他們的幫助，這篇文檔是不可
+    + Kerrisk和Alex Shepard的評審、建議和貢獻。沒有他們的幫助，這篇文件是不可
+      能完成的。
+     -
+     -
+    @@ Documentation/translations/zh_TW/process/index.rst
+      :Original: :ref:`Documentation/process/index.rst <process_index>`
+     -:Translator: Alex Shi <alex.shi@linux.alibaba.com>
+     -             Hu Haowen <2023002089@link.tyut.edu.cn>
+    +-             Chen-Yu Yeh <chenyou910331@gmail.com>
+      
+      .. _tw_process_index:
+      
+    @@ Documentation/translations/zh_TW/process/license-rules.rst
+      :Original: :ref:`Documentation/process/license-rules.rst <kernel_licensing>`
+     -:Translator: Alex Shi <alex.shi@linux.alibaba.com>
+     -             Hu Haowen <2023002089@link.tyut.edu.cn>
+    +-             Chen-Yu Yeh <chenyou910331@gmail.com>
+      
+      .. _tw_kernel_licensing:
+      
+    @@ Documentation/translations/zh_TW/process/programming-language.rst
+      :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
+     -:Translator: Alex Shi <alex.shi@linux.alibaba.com>
+     -             Hu Haowen <2023002089@link.tyut.edu.cn>
+    +-             Chen-Yu Yeh <chenyou910331@gmail.com>
+      
+      .. _tw_programming_language:
+      
+    @@ Documentation/translations/zh_TW/process/stable-api-nonsense.rst
+     -        中文版校譯者： 李陽  Li Yang <leoyang.li@nxp.com>
+     -                      胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+     -
+    - Linux 內核驅動接口
+    + Linux 內核驅動介面
+      ==================
+      
+     @@ Documentation/translations/zh_TW/process/stable-api-nonsense.rst: Linux能成爲強壯，穩定，成熟的操作系統，這也是你最開始選
+    @@ Documentation/translations/zh_TW/process/stable-kernel-rules.rst
+      
+      :Original: :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
+      
+    --如果想評論或更新本文的內容，請直接聯繫原文檔的維護者。如果你使用英文
+    +-如果想評論或更新本文的內容，請直接聯繫原文件的維護者。如果你使用英文
+     -交流有困難的話，也可以向中文版維護者求助。如果本翻譯更新不及時或者翻
+     -譯存在問題，請聯繫中文版維護者::
+     -
+    @@ Documentation/translations/zh_TW/process/stable-kernel-rules.rst
+     -            - 李陽  Li Yang <leoyang.li@nxp.com>
+     -            - Kangkai Yin <e12051@motorola.com>
+     -            - 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+    +-            - 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+     -
+    - 所有你想知道的事情 - 關於linux穩定版發佈
+    - ========================================
+    + 所有你想知道的事情 - 關於Linux -stable 版本發布
+    + ===============================================
+      
+     
+      ## Documentation/translations/zh_TW/process/submit-checklist.rst ##
+    @@ Documentation/translations/zh_TW/process/submitting-patches.rst
+     - - 李陽 Li Yang <leoyang.li@nxp.com>
+     - - 王聰 Wang Cong <xiyou.wangcong@gmail.com>
+     - - 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+    +- - 葉宸佑 Chen-Yu Yeh <chenyou910331@gmail.com>
+     -
+     -
+    - 提交補丁：如何讓你的改動進入內核
+    + 提交補丁：如何讓你的改動進入核心
+      ================================
+      
+     
+2:  63a10f491ef4 ! 2:  45f9aeb5676b docs/zh_TW: admin-guide: remove maintainer contact information
+    @@ Metadata
+      ## Commit message ##
+         docs/zh_TW: admin-guide: remove maintainer contact information
+     
+    -    The zh_TW translations duplicate, in every file, contact information
+    -    that MAINTAINERS already records.  Those addresses have been churned
+    -    repeatedly: the listed zh_TW maintainer address alone appears in 58
+    -    files and there have now been three attempts to update it across the
+    -    tree.  Jon Corbet's conclusion in the MAINTAINERS discussion was that,
+    -    rather than rewriting all of them again, the best thing is simply to
+    -    remove them.
+    -
+    -    Most of the names in the credit blocks belong to the zh_CN translators:
+    -    the zh_TW tree was produced by converting zh_CN, so the credits came
+    -    across with the text.  Of the addresses removed here, nearly all also
+    -    appear in Documentation/translations/zh_CN/, several in more than a
+    -    hundred files.  They credit the simplified-Chinese translation, not
+    -    zh_TW work.
+    -
+    -    Remove the :Translator:/:翻譯:/:校譯:/:譯者: credit blocks and the
+    -    "please contact the ... maintainer" prose that introduces them, and
+    -    drop the maintainer metadata lines (M:, zh_CN:, zh_TW:, Maintainer:,
+    -    Chinese maintainer:, Traditional Chinese maintainer:) from the legacy
+    -    headers.  The translated bodies of the legacy files, including their
+    -    own credit lines, are left untouched.
+    -
+    -    Attribution for past work is preserved in the git history.
+    +    Remove the :翻譯:, :譯者:, :校譯: and :Translator: fields from the
+    +    admin-guide/ translations.  MAINTAINERS records who looks after zh_TW,
+    +    and the people named in these fields are the zh_CN translators whose
+    +    work this tree was converted from, not maintainers of the zh_TW text.
+     
+    +    Assisted-by: Claude:claude-opus-5-5
+         Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+     
+      ## Documentation/translations/zh_TW/admin-guide/README.rst ##
+3:  754d5c54732b ! 3:  1211b349d82a docs/zh_TW: arch: remove maintainer contact information
+    @@ Metadata
+      ## Commit message ##
+         docs/zh_TW: arch: remove maintainer contact information
+     
+    -    The zh_TW translations duplicate, in every file, contact information
+    -    that MAINTAINERS already records.  Those addresses have been churned
+    -    repeatedly: the listed zh_TW maintainer address alone appears in 58
+    -    files and there have now been three attempts to update it across the
+    -    tree.  Jon Corbet's conclusion in the MAINTAINERS discussion was that,
+    -    rather than rewriting all of them again, the best thing is simply to
+    -    remove them.
+    -
+    -    Most of the names in the credit blocks belong to the zh_CN translators:
+    -    the zh_TW tree was produced by converting zh_CN, so the credits came
+    -    across with the text.  Of the addresses removed here, nearly all also
+    -    appear in Documentation/translations/zh_CN/, several in more than a
+    -    hundred files.  They credit the simplified-Chinese translation, not
+    -    zh_TW work.
+    -
+    -    Remove the :Translator:/:翻譯:/:校譯:/:譯者: credit blocks and the
+    -    "please contact the ... maintainer" prose that introduces them, and
+    -    drop the maintainer metadata lines (M:, zh_CN:, zh_TW:, Maintainer:,
+    -    Chinese maintainer:, Traditional Chinese maintainer:) from the legacy
+    -    headers.  The translated bodies of the legacy files, including their
+    -    own credit lines, are left untouched.
+    -
+    -    Attribution for past work is preserved in the git history.
+    -
+    +    Remove the contact and credit information from the arch/ translations.
+    +    MAINTAINERS records who looks after zh_TW, and nearly all of the names
+    +    here are those of the zh_CN translators whose work this tree was
+    +    converted from.
+    +
+    +    arch/ has the most varied shapes.  The reStructuredText files carry
+    +    :翻譯: or :Translator: fields, or in four arm64 files a bare
+    +    "Translator:" line without the leading colon.  The plain-text arm and
+    +    arm64 files carry a legacy header: from it, drop the M:, zh_CN:,
+    +    zh_TW:, Maintainer:, Chinese maintainer: and Traditional Chinese
+    +    maintainer: lines, including the English maintainers they list, and
+    +    the Chinese lines that repeat them.  The C: lines and the Chinese notes
+    +    recording the commit each translation was made from are kept, as is
+    +    the rest of the header.
+    +
+    +    Assisted-by: Claude:claude-opus-5-5
+         Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+     
+      ## Documentation/translations/zh_TW/arch/arm/Booting ##
+4:  42d9524f941d ! 4:  394a9d630046 docs/zh_TW: dev-tools: remove maintainer contact information
+    @@ Metadata
+      ## Commit message ##
+         docs/zh_TW: dev-tools: remove maintainer contact information
+     
+    -    The zh_TW translations duplicate, in every file, contact information
+    -    that MAINTAINERS already records.  Those addresses have been churned
+    -    repeatedly: the listed zh_TW maintainer address alone appears in 58
+    -    files and there have now been three attempts to update it across the
+    -    tree.  Jon Corbet's conclusion in the MAINTAINERS discussion was that,
+    -    rather than rewriting all of them again, the best thing is simply to
+    -    remove them.
+    -
+    -    Most of the names in the credit blocks belong to the zh_CN translators:
+    -    the zh_TW tree was produced by converting zh_CN, so the credits came
+    -    across with the text.  Of the addresses removed here, nearly all also
+    -    appear in Documentation/translations/zh_CN/, several in more than a
+    -    hundred files.  They credit the simplified-Chinese translation, not
+    -    zh_TW work.
+    -
+    -    Remove the :Translator:/:翻譯:/:校譯:/:譯者: credit blocks and the
+    -    "please contact the ... maintainer" prose that introduces them, and
+    -    drop the maintainer metadata lines (M:, zh_CN:, zh_TW:, Maintainer:,
+    -    Chinese maintainer:, Traditional Chinese maintainer:) from the legacy
+    -    headers.  The translated bodies of the legacy files, including their
+    -    own credit lines, are left untouched.
+    -
+    -    Attribution for past work is preserved in the git history.
+    +    Remove the :Translator: lines from the dev-tools/ translations, and the
+    +    Traditional Chinese maintainer lines from the plain-text header of
+    +    sparse.rst; the rest of that header is kept.  MAINTAINERS records who
+    +    looks after zh_TW, so the per-file copies only go stale.
+     
+    +    Assisted-by: Claude:claude-opus-5-5
+         Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+     
+      ## Documentation/translations/zh_TW/dev-tools/gcov.rst ##
+5:  c3d27ddf03ac ! 5:  c6a621e970c4 docs/zh_TW: filesystems: remove maintainer contact information
+    @@ Metadata
+      ## Commit message ##
+         docs/zh_TW: filesystems: remove maintainer contact information
+     
+    -    The zh_TW translations duplicate, in every file, contact information
+    -    that MAINTAINERS already records.  Those addresses have been churned
+    -    repeatedly: the listed zh_TW maintainer address alone appears in 58
+    -    files and there have now been three attempts to update it across the
+    -    tree.  Jon Corbet's conclusion in the MAINTAINERS discussion was that,
+    -    rather than rewriting all of them again, the best thing is simply to
+    -    remove them.
+    -
+    -    Most of the names in the credit blocks belong to the zh_CN translators:
+    -    the zh_TW tree was produced by converting zh_CN, so the credits came
+    -    across with the text.  Of the addresses removed here, nearly all also
+    -    appear in Documentation/translations/zh_CN/, several in more than a
+    -    hundred files.  They credit the simplified-Chinese translation, not
+    -    zh_TW work.
+    -
+    -    Remove the :Translator:/:翻譯:/:校譯:/:譯者: credit blocks and the
+    -    "please contact the ... maintainer" prose that introduces them, and
+    -    drop the maintainer metadata lines (M:, zh_CN:, zh_TW:, Maintainer:,
+    -    Chinese maintainer:, Traditional Chinese maintainer:) from the legacy
+    -    headers.  The translated bodies of the legacy files, including their
+    -    own credit lines, are left untouched.
+    -
+    -    Attribution for past work is preserved in the git history.
+    +    Remove the credit information from the filesystems/ translations: the
+    +    :Translator: field in index.rst, the 譯者 literal blocks in debugfs.rst
+    +    and virtiofs.rst, and the maintainer and translator lines in the
+    +    plain-text header of sysfs.txt, whose remaining header is kept.
+    +    MAINTAINERS records who looks after zh_TW, and the names here credit
+    +    the zh_CN translations this tree was converted from.
+     
+    +    Assisted-by: Claude:claude-opus-5-5
+         Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+     
+      ## Documentation/translations/zh_TW/filesystems/debugfs.rst ##
+6:  73210c2b2665 ! 6:  2270bf4ca6b7 docs/zh_TW: cpu-freq: remove maintainer contact information
+    @@ Metadata
+      ## Commit message ##
+         docs/zh_TW: cpu-freq: remove maintainer contact information
+     
+    -    The zh_TW translations duplicate, in every file, contact information
+    -    that MAINTAINERS already records.  Those addresses have been churned
+    -    repeatedly: the listed zh_TW maintainer address alone appears in 58
+    -    files and there have now been three attempts to update it across the
+    -    tree.  Jon Corbet's conclusion in the MAINTAINERS discussion was that,
+    -    rather than rewriting all of them again, the best thing is simply to
+    -    remove them.
+    -
+    -    Most of the names in the credit blocks belong to the zh_CN translators:
+    -    the zh_TW tree was produced by converting zh_CN, so the credits came
+    -    across with the text.  Of the addresses removed here, nearly all also
+    -    appear in Documentation/translations/zh_CN/, several in more than a
+    -    hundred files.  They credit the simplified-Chinese translation, not
+    -    zh_TW work.
+    -
+    -    Remove the :Translator:/:翻譯:/:校譯:/:譯者: credit blocks and the
+    -    "please contact the ... maintainer" prose that introduces them, and
+    -    drop the maintainer metadata lines (M:, zh_CN:, zh_TW:, Maintainer:,
+    -    Chinese maintainer:, Traditional Chinese maintainer:) from the legacy
+    -    headers.  The translated bodies of the legacy files, including their
+    -    own credit lines, are left untouched.
+    -
+    -    Attribution for past work is preserved in the git history.
+    +    Remove the :翻譯: and :校譯: blocks from the cpu-freq/ translations.
+    +    They name the translators and reviewers of the zh_CN documents these
+    +    files were converted from; MAINTAINERS records who looks after zh_TW.
+     
+    +    Assisted-by: Claude:claude-opus-5-5
+         Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+     
+      ## Documentation/translations/zh_TW/cpu-freq/core.rst ##
+7:  f9936743dff7 ! 7:  798f87603270 docs/zh_TW: remove the last maintainer contact references
+    @@ Metadata
+      ## Commit message ##
+         docs/zh_TW: remove the last maintainer contact references
+     
+    -    disclaimer-zh_TW.rst is included by every zh_TW document and told
+    -    readers to mail the listed maintainer directly; index.rst asked
+    -    would-be contributors to send patches to the same address.  Point both
+    -    at MAINTAINERS instead, so the contact information lives in one place,
+    -    and drop the remaining contact blocks in the top-level files.
+    +    disclaimer-zh_TW.rst is included by every zh_TW document.  It carried a
+    +    warning telling readers to send changes to "the maintainer (contact
+    +    details below)" and a note giving the previous zh_TW maintainer's name
+    +    and address, while index.rst asked contributors to send patches to that
+    +    same address.
+     
+    -    This mirrors disclaimer-zh_CN.rst, which names no address and refers to
+    -    the Chinese documentation maintainers and reviewers instead.
+    +    Replace the warning and the note, which said much the same thing, with
+    +    a single note as disclaimer-zh_CN.rst has, pointing readers at the zh_TW
+    +    maintainers and reviewers in MAINTAINERS, and point index.rst there as
+    +    well.  Also drop the maintainer lines from the legacy headers of
+    +    IRQ.txt and io_ordering.txt.
+     
+    +    Suggested-by: Weijie Yuan <wy@wyuan.org>
+    +    Assisted-by: Claude:claude-opus-5-5
+         Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+     
+      ## Documentation/translations/zh_TW/IRQ.txt ##
+    @@ Documentation/translations/zh_TW/IRQ.txt: Documentation/core-api/irq/index.rst 
+     
+      ## Documentation/translations/zh_TW/disclaimer-zh_TW.rst ##
+     @@
+    - .. warning::
+    -      此文件的目的是爲讓中文讀者更容易閱讀和理解，而不是作爲一個分支。因此，
+    -      如果您對此文件有任何意見或改動，請先嘗試更新原始英文文件。如果要更改或
+    --     修正某處翻譯文件，請將意見或補丁發送給維護者（聯繫方式見下）。
+    -+     修正某處翻譯文件，請將意見或補丁發送給繁體中文文件的維護者（見
+    -+     MAINTAINERS 檔案）。
+    + :orphan:
+      
+    +-.. warning::
+    +-     此文件的目的是爲讓中文讀者更容易閱讀和理解，而不是作爲一個分支。因此，
+    +-     如果您對此文件有任何意見或改動，請先嘗試更新原始英文文件。如果要更改或
+    +-     修正某處翻譯文件，請將意見或補丁發送給維護者（聯繫方式見下）。
+    +-
+      .. note::
+     -     如果您發現本文檔與原始文件有任何不同或者有翻譯問題，請聯繫該文件的譯者，
+     -     或者發送電子郵件給胡皓文以獲取幫助：<2023002089@link.tyut.edu.cn>。
+    -+     如果您發現本文檔與原始文件有任何不同或者有翻譯問題，請發建議或者補丁給
+    -+     繁體中文文件的維護者和審閱者（見 MAINTAINERS 檔案）。
+    - 
+    +-
+    ++     此文件的目的是讓中文讀者更容易閱讀與理解，而不是作為一個分支。
+    ++     因此，如果您對此文件有任何意見或更新，請先嘗試更新原始英文文件。
+    ++     如果您發現本文件與原始文件有任何不同，或有翻譯問題，請向繁體中文
+    ++     文件的維護者與審閱者提交建議或補丁（見MAINTAINERS檔案）。
+     
+      ## Documentation/translations/zh_TW/index.rst ##
+     @@
+    @@ Documentation/translations/zh_TW/index.rst
+      .. note::
+         內核文檔繁體中文版的翻譯工作正在進行中。如果您願意並且有時間參與這項工
+     -   作，歡迎提交補丁給胡皓文 <2023002089@link.tyut.edu.cn>。
+    -+   作，歡迎將補丁提交給繁體中文文件的維護者（見 MAINTAINERS 檔案）。
+    ++   作，歡迎將補丁提交給繁體中文文件的維護者（見MAINTAINERS檔案）。
+      
+      與Linux 內核社區一起工作
+      ------------------------
+-- 
+2.43.0
+
