@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7E2399354;
-	Tue, 29 Sep 2026 07:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E073A1A3F;
+	Tue, 29 Sep 2026 07:30:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790666653; cv=none; b=YJFavDYrP7T8O+ozRq26y1oAhTcX6NmJVpmI3BorK09mo+Z0QoeA4iqTOtRFIXRrZIvbO3NIlrtcwtNGfiaQ93NQta+//QSJKeEbEmK87ZSQGemNGVs8r+4rz9QEDBNlsRLoGbsotWvywKa+S/1jwwOtaFz+zUqSIq5unonA6lI=
+	t=1790667013; cv=none; b=Otg0U95xXoQZpGe3TWRe/9pHdlDXkutS3909QbsMZzZorh3Yd0OBVF3Wrr7x7MYOFLiuPhQ+x0kXtkVvBt8LKKvwFfu0r5Rs4BuO1mA9ACNBiWCuKREnBlTYPzesbIUrqklFuPZE3sm5SCCuA2cFiI0xwsN4klcM6VL16efCTIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790666653; c=relaxed/simple;
-	bh=9OJFrXkMPFlQtVTNM1EYM7wZo8LqpsR+r5Hv7zoLFlw=;
+	s=arc-20240116; t=1790667013; c=relaxed/simple;
+	bh=uYmq4E6+k6sPUtxXzXAOJYXllr6c0gXTwHtHvCFaNIA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PKpfluoGqmCVvK43Xi7nVjOMVUbSN38eGABUHcNrCMTDgid/wIEGZkkSqilzQOqkhjoQq6tmuJyGqmtG/oPJDprDmdUyZelM7OhGerD/SnpQCTgvF9QgweutlmZGON2Ln0ZGuR5doe3EmPo/fCHMI0z5mP6MmlDSbctE/wf9O8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ibkey2yU; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=X27BTIDVusRmBICT/Es258Uea0xoTv3Lf+BtYXrdMeRJt+K8uGHM6z/lahsRVlunm7zV2cBcxqLvGQarM68KV9/so7fdv0I6TtOsifAhmXeOoh9ZcJxmF3fdwFYl8uy+lyUr/OaXbEutKNxPc/os6IFthkRnJnoY5ED1sjleJh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B4heSQdz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ibkey2yU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE16C1F000FF;
-	Tue, 29 Sep 2026 07:24:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B4heSQdz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35D501F000FF;
+	Tue, 29 Sep 2026 07:30:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790666652;
-	bh=yvxJPj3k2vjV6D8HUDd8QkKGWeBMIhXhJhVwkCPhP3Q=;
+	s=k20260515; t=1790667012;
+	bh=fFhSlZBaUkH6xGhsYdrWxCRhPZNn++zm2ii0wkj+7yc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ibkey2yUqqbiVM76d/2jZTGyjIdUdz2aZM6YaiTOTz9joywkD+nsB2wdU5GPHSSHW
-	 Uxe6UNjvfBnxPaLAJiLIH+gsRzsY2K3p6sj1jwCatttOSR5PmQJWeYyMS7R0gTipDx
-	 91toSUwKUs91yGhn4NOpNTCFOAR4QjdipsKpKZKrVdgP4YFHgv2ipVUjpAgmvec1Sg
-	 nwUgjtnXkrBuf1mAFgFG+g0dFlvx/XpzAYRP1+O1d6y22DmRT+IkA3jEDVM8r9eqqu
-	 gWm26joLY6CvegjTpmEF/XdyrAUPtvOP2B8YcOfRZfiDX7H+Xr/UGrRS9OQkV2HyLu
-	 Y9EqZQaCIOopw==
-Message-ID: <deecea10-589f-4e2c-9c17-5e5dd4e81250@kernel.org>
-Date: Tue, 29 Sep 2026 09:24:06 +0200
+	b=B4heSQdz/tMGqNY0slQOXLzlZADZOd1dREgw2hLpJuin0+Y/BvyRJVvhE9H311PiN
+	 UdkIz6MHgNClCIeaF3ktCwfACFHHvKFYNCNYvebxw9adLLf2IJYvEexDN+mVyzHuAy
+	 3k/ahn482F5vG4IHXX1ST5aRmRIq2QOx/pNZxbLPrW6/fPjaPrD6trp4WhIKWIZb1X
+	 xC3QP9ZZFOwLCfdx1AFk10bV8E4GyHCjiFxSjDv3V6OcHCOS7ftwNB4MLeMm7o98nZ
+	 sQTK8rhjbfYRyMJVzjNJ/kl1Afn+JBTTLP18zsoD7fwkwmoS6aD7FOlYqJt1FpZkXv
+	 jPO0B/TzOk3KA==
+Message-ID: <751f6586-625b-4485-9f27-409fdf38bf3e@kernel.org>
+Date: Tue, 29 Sep 2026 09:30:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/12] mm/sparse-vmemmap: prepare DAX vmemmap
- population for compound page orders
+Subject: Re: [PATCH v5 06/12] mm/sparse-vmemmap: set compound page order for
+ device DAX
 To: Muchun Song <songmuchun@bytedance.com>,
  Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
  <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
@@ -48,7 +48,7 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
  Randy Dunlap <rdunlap@infradead.org>, Lance Yang <lance.yang@linux.dev>
 References: <20260927025441.741633-1-songmuchun@bytedance.com>
- <20260927025441.741633-6-songmuchun@bytedance.com>
+ <20260927025441.741633-7-songmuchun@bytedance.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -95,96 +95,62 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260927025441.741633-6-songmuchun@bytedance.com>
+In-Reply-To: <20260927025441.741633-7-songmuchun@bytedance.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/27/26 04:54, Muchun Song wrote:
-> Device DAX still uses vmemmap_populate_compound_pages() to populate its
-> compound-page vmemmap mappings. That helper allocates the head and first
-> tail vmemmap pages explicitly, then reuses the first tail page for the
-> remaining tail page mappings.
+> Device DAX can use vmemmap optimization only when a full section is
+> populated with a compound-page geometry. Record that geometry as the
+> compound page order in section metadata before populating the section, so
+> later vmemmap accounting and population decisions can use the section state
+> directly.
 > 
-> Device DAX is being moved to the section-based vmemmap optimization
-> infrastructure, but it cannot switch to the generic section-based
-> population path yet. Once a later patch records the DAX compound page
-> order in section metadata, DAX head and first-tail PFNs can look
-> optimizable to the generic helpers as well.
+> Clear the compound page order when the section becomes empty again. Also
+> reject partial additions to a section that already has optimized vmemmap
+> mappings. compound_nr_pages() determines how many struct pages to
+> initialize with a section as the smallest granularity. A section therefore
+> cannot safely mix optimized and ordinary vmemmap layouts.
 > 
-> Add a DAX-specific population flag for this transition. It keeps DAX
-
-Well, you're not adding flag, your reusing an existing one and renaming it?
-
-And then you're specifying it on more paths.
-
-[...]
-
->  mm/sparse-vmemmap.c | 27 +++++++++++++++------------
->  1 file changed, 15 insertions(+), 12 deletions(-)
+> Partial additions continue to use ordinary vmemmap population, so they do
+> not save vmemmap memory. Such additions are uncommon, and the lost saving
+> is negligible.
 > 
-> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-> index e4dae98ba7f8..2457ea2c6dca 100644
-> --- a/mm/sparse-vmemmap.c
-> +++ b/mm/sparse-vmemmap.c
-> @@ -35,8 +35,8 @@
->  /*
->   * Flags for vmemmap_populate_range and friends.
->   */
-> -/* Get a ref on the head page struct page, for ZONE_DEVICE compound pages */
-> -#define VMEMMAP_POPULATE_PAGEREF	0x0001
-> +/* Vmemmap population for ZONE_DEVICE compound pages */
-> +#define VMEMMAP_POPULATE_DAX		0x0001
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Acked-by: Qi Zheng <qi.zheng@linux.dev>
+> ---
+> v3:
+> - Update the subject and commit message to use compound page order
+>   terminology
+> - Use EOPNOTSUPP instead of ENOTSUPP
+> 
+> v2:
+> - Explain why optimized and ordinary layouts cannot share a section
+>   (suggested by Qi Zheng)
+> - Collect Acked-by from Qi Zheng
+> ---
 
-Cleaner.
-
->  
->  #include "internal.h"
->  #include "mm_init.h"
-> @@ -243,13 +243,17 @@ static inline struct page *vmemmap_shared_tail_page(unsigned int order,
->  #endif
->  
->  static __meminit void *vmemmap_alloc_pte(unsigned long pfn, int node,
-> -					 struct vmem_altmap *altmap)
-> +		struct vmem_altmap *altmap, unsigned long flags)
->  {
->  	struct zone *zone;
->  	struct page *page;
->  	const unsigned int order = pfn_to_section_compound_order(pfn);
->  
-> -	if (!vmemmap_optimizable_pfn(pfn))
-> +	/*
-> +	 * Device DAX still relies on vmemmap_populate_compound_pages() for
-> +	 * head/first-tail allocation and tail-page reuse.
-> +	 */
-> +	if (!vmemmap_optimizable_pfn(pfn) || flags & VMEMMAP_POPULATE_DAX)
->  		return vmemmap_alloc_block_buf(PAGE_SIZE, node, altmap);
->  
->  	zone = pfn_to_zone(pfn, node);
-> @@ -271,7 +275,7 @@ static pte_t * __meminit vmemmap_pte_populate(pmd_t *pmd, unsigned long addr, in
->  		pte_t entry;
->  
->  		if (ptpfn == (unsigned long)-1) {
-> -			void *p = vmemmap_alloc_pte(pfn, node, altmap);
-> +			void *p = vmemmap_alloc_pte(pfn, node, altmap, flags);
->  
->  			if (!p)
->  				return NULL;
-> @@ -286,7 +290,7 @@ static pte_t * __meminit vmemmap_pte_populate(pmd_t *pmd, unsigned long addr, in
->  			 * and through vmemmap_populate_compound_pages() when
->  			 * slab is available.
->  			 */
-> -			if (flags & VMEMMAP_POPULATE_PAGEREF)
-> +			if (flags & VMEMMAP_POPULATE_DAX)
->  				get_page(pfn_to_page(ptpfn));
->  		}
->  		entry = pfn_pte(ptpfn, PAGE_KERNEL);
-> @@ -546,6 +550,7 @@ static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
->  	unsigned long size, addr;
->  	pte_t *pte;
+[...]>
+>  static struct page * __meminit section_activate(int nid, unsigned long pfn,
+> @@ -838,8 +840,13 @@ static struct page * __meminit section_activate(int nid, unsigned long pfn,
+>  	struct mem_section *ms = __pfn_to_section(pfn);
+>  	struct mem_section_usage *usage = NULL;
+>  	struct page *memmap;
+> +	unsigned int order;
 >  	int rc;
-> +	unsigned long flags = VMEMMAP_POPULATE_DAX;
+>  
+> +	order = vmemmap_can_optimize(altmap, pgmap) ? pgmap->vmemmap_shift : 0;
+> +	if (nr_pages < PAGES_PER_SECTION && section_compound_order(ms))
+> +		return ERR_PTR(-EOPNOTSUPP);
 
-const and at the top?
+Hm. Why should we support optimizing the vmemmap in case we fall into the same
+memory section as boot memory?
+
+In that case, there already is a memmap allocated during boot for the entire
+section. IOW, we really shouldn't mess with the vmemmap in case we have an early
+section.
+
+But maybe I am missing something and this is already disallowed?
 
 -- 
 Cheers,
