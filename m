@@ -1,239 +1,240 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3675651B16A
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 12:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5070C51DAE3
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 12:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790683302; cv=none; b=BCGplEqo6wQk2fsg6Drz2yRfHtOzlY26PCVyDAK8LBwOJKPeROc10lR6Swz10NdrGzSURMmLUFGROGv3gtSq6VLL1FnhCMV96r3ewXgBeMH/46oea8tVtJHG8Zy085AZEhplPJL97XXNen317q4b1D6K1AA59XYRKO2CArzZDMY=
+	t=1790683974; cv=none; b=nv5dsP575vQ19i+HL8BMwgSB5etVBpebg653LkzT6V3svCCmANiIv0XUXNUNPdZV8NfC38LEf+X9R8xannUXiglU1/AvDKHWbWZjpgxCSHP6RZtlnrk2JxwyfsuXLjo8uBVR5pp1JvheUSD6KnIAYo4ga5UAVBNSwgdS3frlB9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790683302; c=relaxed/simple;
-	bh=ueUERe2+GcebFXc5czhxRoXfkEZTMQbewIufXfoYE6Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gA7SvPL63mvkULqMUvvAt39nM28gWkue1FwTGgVcpRLzYGYVxKANe2GmTscmkZoXdoLFSxi5xJHnpAfrl3bzsrqZMRd5fvA0HUXtSw0hqCwYnKPzSF8IUbAHOahBksnOjKUkbehq91OY+JVYr+f86/k8TkEwlyCS+2qnuUUZ1ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T7QULYhJ; arc=none smtp.client-ip=74.125.227.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790683974; c=relaxed/simple;
+	bh=aOHR2S9JoDTNHa4EinckRR5sM8LP9tsgVirzxTuKr0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RABLvqygCtd48XiFNkx1lJen1hWyMC5aonsJIECCO9mb9vsjtGAqHNgOV57q2idQHA2ERjU5DXUMQWr0n67uiz3/HMdBED3yad+ooQkagA28w9IhPcQaNSwXGpg2Wpx12fO/Pm7it1j6FVjMOxVchIfFgoL6JbcuoLc8pV84zBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QyEG82Sm; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T7QULYhJ"
-Received: by mail-pj2-f43.google.com with SMTP id d9443c01a7336-2dd89b59dccso3486915ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 05:01:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QyEG82Sm"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e7bcb94d3so30765455e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 05:12:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790683300; x=1791288100; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0UTAj0QfCPjJmoqnY6xXW55LyqPC8ieAZfI5EvHkG0w=;
-        b=T7QULYhJXvOnUdoKaq2GioXelfRroxtRDJKqVTbGz7BbgEPRcBKiLhCAu0BRc8lKNY
-         m34g+XBNS63VR1xqLZBGBTbAVL5iq/6Vj+K6kJNEHDkjlbAv9KvnunLlvCh/8WPa0n/S
-         9caUG2nLxfEONnK4II6zzLuNs7HffET25z2WhJMmzLtH7Z5lmXQp+fVNZ7dvodZOdV4U
-         ELOine9F7bfd9PCOvddPemI763uRbxyaEy9ptcDM6J7j9WSA8/zhWZJrWhDp71sxgNgV
-         xueCU3C7Cm3IxtXF//lhSueq8Pz4IoW4IWLsMrCu5fNWaxKatAAkVSM7CrVnZYLiW4M+
-         3ngA==
+        d=google.com; s=20251104; t=1790683970; x=1791288770; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=paQ2/onKT319WLEUhupq6lCWp4YbjzVGMuOnFcHWo94=;
+        b=QyEG82SmuQbhxv/tvt8fWEEJyBx3C/J67V1ppnGriDCnECzwj7IiLhhzdcgcBxymrj
+         kS9Pe6wkinSaUtJwWQtEOU6MUkf9yk/l80tHOztmTsC9qzublESDlQ6H2Hl2vHAxcwEW
+         c84NBPFYN5ZkQmX5Bk7yHpMVlu5WfN98cI7tRIrh4Wfenc0HHl3so+tRXnYHK36oCVoN
+         QLbEnJGJs58Nrq2elz35x/N6B92ykl2YmbFpPzQAgfaoag0Tyv207hHGY9+w0FnJqvxQ
+         u4FeNQ+fwqN0HF3KfGxiicb3NAtmej3V/zUBvciwLUInq5y+YV0oXc2dtc00TH9svvpX
+         nz8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790683300; x=1791288100;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0UTAj0QfCPjJmoqnY6xXW55LyqPC8ieAZfI5EvHkG0w=;
-        b=Hv/7X/CVZu1ZA+cXH7UeHdazSeCZ5LYRoy4nqa+UY28wjyp8by/nmpxhFxfS/w4vKt
-         U8MPSCnSfrGj7DFAdK6O5E04FimdmMGZXoYIOizFIFh3V6WOOPGIXHWQ+TvTad0ojZMq
-         sY8wZ2xG0fvjVmED9Dt756gIQKe9n42tQ9cW7PAreXe+oEDOA3jeECQ4LfsCzPMyK5QK
-         UiiJ32Z0moj+6gfampir9erpV1ICso+EeyTI5G6bcoa/TveY7ffvcyXrkkPRyVCaSVm4
-         lJlYs0bRZOHU0BYeiHFrVjyh5y6TL+MrPXTLZm5LVg7i0qDo/aNEfue+ARSMAA3KrdF4
-         jCGA==
-X-Forwarded-Encrypted: i=1; AKwUvBwWcRJZVro1ewaR2D3slct4EZaFJer8yAIdEiF4ZkxZUF8u9fp4Rk3+SbRNQj4H+JEMnXY3Eq8ecO4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLRmO8zfsyftqkqD6KphImFEPsZk0ZVnTuywgkz1zYwo0dqKv01
-	NtV5codL+QrE3cIt82ilDYMA6QF95fYs2D13b5MMBrJU1B9TJg629o3j
-X-Gm-Gg: AYBFou2jhv13jEW6fiwA1jbxf86kPRaLDP+ixCUFbfg/RHGJt8tfgjlKFrjbtfTYAo2
-	kjE40ZaVwhri4IFX71jsR4Suzvrp1dRTdhRzTYaz3Cj/ZOZJvkeB3dRhZ84KlCBSWbzz331rfxs
-	vcToRyzUPEJWYr9zTmEowSJLaHz4ixr7aafvkZLXQfIHhp0m1fSLbAeValkj5vcNq/xmVziDqVR
-	ipr6U5SlO4/fl3Y8g5Gtbcaf54WGHpsIiA+untHxJY7uCiv1Z9Ys1nnT9S9iTeAM4CrcrCq1RqI
-	QbqqCH4LKWPRROrfSkYm4M/6zXG1lnXRAGG8b5uJdIZiiSdULaANEvw5UfyL1rNHm3qM4mxq/+T
-	DuwMDVWw/WciCcwo+ogRiIR+tZj4We+Gerg2SmSb2v2/9I+qoJDVuIISIcIFhc1ru/Bc6YhP7xW
-	lbo/Z4HZunqh56ejnDjvEnJ5FWgopQFBzlaSfGlK57zMCaSHDZ6jyXdMu2PQ6+CNrKeJfP7PfL8
-	vPPadcegyIfdrt7+EqgIEPTIeTEcwWSTXvKbsRWv2E/Zc4xkodGsYLgEA==
-X-Received: by 2002:a17:902:e550:b0:2df:8909:f719 with SMTP id d9443c01a7336-2df8e71a14amr173981465ad.3.1790683295669;
-        Tue, 29 Sep 2026 05:01:35 -0700 (PDT)
-Received: from chenyou.. ([140.116.39.229])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df9142969esm55882605ad.45.2026.09.29.05.01.25
+        d=1e100.net; s=20260707; t=1790683970; x=1791288770;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=paQ2/onKT319WLEUhupq6lCWp4YbjzVGMuOnFcHWo94=;
+        b=JF6o4rtX9xbK6E+BbjJr0MNYAUu11dMTJYAv6JOmCdnmAuyu6tQB6x9zwKRorHu3Oz
+         cxW/yd3NR2BE2fKW/+MclTGlL4Rh5M2OijziLHqowiq2HXSCFE06/dOTgPs3G9iEZ5Wh
+         P9amd/EhRnIJ9L5NDO0KnMOX7iLo1GKAmyrOzMsODHLlLCRKh/uezpjwzek8XFMGdPoR
+         301C6AB9I9a2d/W3EL22zqnaIABFbRDgW2WZmm2OaxMl3Sk2EPskb3pkYcGpPHjm/sxB
+         Dl6/Ilw+ZOQz1kpqfHW/5z7S9ZKMvkLjDEjpt796L+vKJeG7VOn2TUAwMpH4L8DgPfPi
+         lmDA==
+X-Forwarded-Encrypted: i=1; AKwUvBxtVs/iGs8pcoAQNmeKPGnelxs40OcSqRN0lMFAiaf77koy2shVRpSBP+xHudgRcTcxDCeUvAPGSxQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++mHgeLWRj6KJg3uamfbEkIbeGThTaycqBTAEuxS6dqw482nu/vO
+	1TP5CPy6F5rxLYdgSV+5cMeBZbUpyK7ZUF9V3JWkvQ6QLH84hG+TK+m9M4rcimFxcg==
+X-Gm-Gg: AYBFou0uFZ1WTn4wRqWZoCoTRGc7btW06t09d0aDmCm9Hsk27HxvCUGAoDyQ1CzpRjv
+	CsrcNetR81hs9zR0ioYgJm5Rwak85MP6r3Sya2vO3Ql8uSxy+QDukQd480B4nNbv78ritbZdBZk
+	tNwR49qkE9wLRewbDWma1FQWM3PIdxzW+lxvlkIPDMmuVRrNPOnHDSMlpPK8xtVBnRsi/jpI9fI
+	BDMYz/3bK5hS5QQnaDilMRSXYrF1krhjFaelJPYKvZj+xkkGWyEFB3IWaj7AqK6u5PvEQKa+2AG
+	Oa9mG+0CXYbEIRc7b0/y5KtVEAhs/mpluGy3VaLBGVHAjwFvnn8Or+nVUhO7k3Qu6qKXwua0L0A
+	kbptUwRGN/BEOLjrxy5DN9ri3SyqhC3yy8LsuLblEj5ds0Omi5jdA/jEuLdKrZ4qEz0/2dQaKES
+	uXWoCs/8Xa9EpeJuKHZ9nTlDrS9Bf5qqcdakU4XGH3rvyaPaWTY+Q4KtoHWiVHwlRBWQ1friMie
+	nvAOAxAlctm4hKpEarU3pABoNVmMQ==
+X-Received: by 2002:a05:600c:1d28:b0:49c:fc6e:8cbd with SMTP id 5b1f17b1804b1-49fe66fc677mr302281505e9.33.1790683968737;
+        Tue, 29 Sep 2026 05:12:48 -0700 (PDT)
+Received: from google.com ([2a00:79e0:288a:8:ce20:1d4f:298a:2070])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a013b8f6f5sm4087715e9.10.2026.09.29.05.12.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 05:01:35 -0700 (PDT)
-From: Chen-Yu Yeh <chenyou910331@gmail.com>
-To: corbet@lwn.net,
-	alexs@kernel.org
-Cc: dzm91@hust.edu.cn,
-	wy@wyuan.org,
-	si.yanteng@linux.dev,
-	srcres258@furdevs.cn,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andy Deng <theandy.deng@gmail.com>,
-	Bailu Lin <bailu.lin@vivo.com>,
-	Bernard Zhao <bernard@vivo.com>,
-	Bryan Wu <bryan.wu@analog.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Chucheng Luo <luochucheng@vivo.com>,
-	Dave Martin <Dave.Martin@arm.com>,
-	Dave Young <hidave.darkstar@gmail.com>,
-	Dongsheng Song <dongshneg.song@gmail.com>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	Eugene Teo <eugeneteo@kernel.sg>,
-	Fu Wei <tekkamanninja@gmail.com>,
-	Fu Wei <wefu@redhat.com>,
-	gao chao <gaochao49@huawei.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hailong Liu <liu.hailong6@zte.com.cn>,
-	Harry Wei <harryxiyou@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Junhua Huang <huang.junhua@zte.com.cn>,
-	Kangkai Yin <e12051@motorola.com>,
-	Leigang Zang <zangleigang@hisilicon.com>,
-	Li Yang <leoyang.li@nxp.com>,
-	Li Zefan <lizf@cn.fujitsu.com>,
-	Maggie Chen <chenqi@beyondsoft.com>,
-	Nicolas Pitre <nico@fluxnic.net>,
-	Punit Agrawal <punitagrawal@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Tang Yizhou <tangyeechou@gmail.com>,
-	TripleX Chung <xxx.phy@gmail.com>,
-	Wang Chen <wangchen@cn.fujitsu.com>,
-	Wang Cong <xiyou.wangcong@gmail.com>,
-	Wang Wenhu <wenhu.wang@vivo.com>,
-	Wan Jiabing <wanjiabing@vivo.com>,
-	wheelz <kernel.zeng@gmail.com>,
-	Will Deacon <will@kernel.org>,
-	Wu XiangCheng <bobwxc@email.cn>,
-	Xiaochen Wang <wangxiaochen0@gmail.com>,
-	Xudong Guan <xudong.guan@gmail.com>,
-	xu xin <xu.xin16@zte.com.cn>,
-	yaxinsn <yaxinsn@163.com>,
-	Yinglin Luan <synmyth@gmail.com>,
-	Zhang Le <r0bertz@gentoo.org>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH v2 7/7] docs/zh_TW: remove the last maintainer contact references
-Date: Tue, 29 Sep 2026 19:59:55 +0800
-Message-ID: <20260929115956.229610-8-chenyou910331@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260929115956.229610-1-chenyou910331@gmail.com>
-References: <20260929115956.229610-1-chenyou910331@gmail.com>
+        Tue, 29 Sep 2026 05:12:48 -0700 (PDT)
+Date: Tue, 29 Sep 2026 14:12:42 +0200
+From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+To: Justin Suess <utilityemal77@gmail.com>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>,
+	Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net,
+	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org,
+	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk,
+	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+	dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org,
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com,
+	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org,
+	neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com,
+	tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com,
+	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com,
+	zohar@linux.ibm.com, roberto.sassu@huawei.com,
+	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+	stephen.smalley.work@gmail.com, omosnacek@gmail.com,
+	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org,
+	daniel@iogearbox.net, linux-security-module@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
+	ecryptfs@vger.kernel.org, exfat@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org,
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	xiujianfeng@huawei.com, lujialin4@huawei.com
+Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <arurOphe6QIx2Zr8@google.com>
+References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+ <araxO4ze0KZBz756@suesslenovo>
+ <20260926.255b951d3013@gnoack.org>
+ <arqcbjWLN1CLkL_Y@suesslenovo>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <arqcbjWLN1CLkL_Y@suesslenovo>
 
-disclaimer-zh_TW.rst is included by every zh_TW document.  It carried a
-warning telling readers to send changes to "the maintainer (contact
-details below)" and a note giving the previous zh_TW maintainer's name
-and address, while index.rst asked contributors to send patches to that
-same address.
+On Mon, Sep 28, 2026 at 01:13:35PM -0400, Justin Suess wrote:
+> On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
+> > Hello!
+> > 
+> > On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
+> > > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
+> > > > This series adds two new Landlock filesystem access rights,
+> > > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
+> > > > which control access to file and directory metadata such as inode
+> > > > attributes (mode, ownership, timestamps), extended attributes and POSIX
+> > > > ACLs.  It picks up the work from the "landlock: add chmod and chown
+> > > > support" series [1] and follows the coarse-grained grouping discussed in
+> > > > that thread [2]: instead of separate chmod/chown rights, metadata
+> > > > operations are grouped into one read and one write right.
+> > > > 
+> > > > Landlock evaluates access rights on a per-path basis, but the metadata
+> > > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
+> > > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
+> > > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
+> > > > object.  Patches 1-7 therefore first pass struct path instead of dentry
+> > > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
+> > > > refactoring with no behavior change, split so that every patch builds
+> > > > and works on its own:
+> > > >
+> > > I like these patches, but is the ability to read metadata already
+> > > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
+> > > directory?
+> > > 
+> > > The one case I see this being different is:
+> > > 
+> > > 1. if you wanted to grant read access to the file, but not metadata
+> > > read access, but I can't think of any usecase for being able to read
+> > > the contents of a file, but not the metadata. (see below)
+> > > 
+> > > 2. If you had the absolute path already and didn't need READ_DIR.
+> > > 
+> > > I see introducing this READ_METADATA as causing potential
+> > > hard-to-diagnose issues.
+> > > 
+> > > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
+> > > 
+> > > The program can technically open the file with the READ_FILE permission,
+> > > but it may error out because the stat() on it beforehand failed.
+> > > It's pretty common for programs to do that kind of thing (stat before
+> > > open), like for checking for config files (strace bash and you see it
+> > > stat .profile, /etc/profile)
+> > > 
+> > > There may be other bugs, because being able to set permissions to read
+> > > a file *but not read it's metadata* isn't possible currently in posix
+> > > acl and userspace may not work well if that assumption no longer holds.
+> > >
+> * posix acl and linux DAC.
+> 
+> > > So maybe WRITE_METADATA is good enough?
+> > 
+> > The existing use cases are the combinations of (a) READ_DIR
+> > allowed/denied and (b) READ_METADATA allowed/denied.  Because these
+> > two access rights overlap slightly, it seems likely that for a given
+> > directory or file, users will want to either grant both, or deny both.
+> > 
+> > At the moment, where the (not yet existing) READ_METADATA is
+> > implicitly always allowed, the problematic case is the one where the
+> > Landlock user wants to deny READ_DIR, but where much of the same
+> > metadata is still available through stat() and the various
+> > get-attribute syscalls.  (c.f. the warning box in the Landlock docs
+> > [1])
+> > 
+> > In my view the READ_METADATA right closes a gap that READ_DIR left
+> > open (which is also potentially surprising to callers if they did not
+> > read the docs closely).  Also, if its implementation is symmetric to
+> > WRITE_METADATA, I feel that it's worth having it in the same patch
+> > set.
+> > 
+> > –Günther
+> > 
+> > P.S.: I know, even after we can control stat(), there are likely ways
+> > to infer the presence of a file by observing Landlock error codes.
+> > This would be nice to fix as well, but is harder to do without
+> > controlling the path walk itself [2].  But also, the fact that this is
+> > currently not controllable is not an excuse for leaving READ_METADATA
+> > open IMHO.
+> >
+> I'm still sort of concerned about the case where read access is allowed,
+> but metadata isn't, due to how many applications will not cleanly handle
+> such an unexpected condition. You can reproduce this with a seccomp
+> policy forbidding stat().
+> 
+> Would it make sense to have the existing READ rights
+> (READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
+> if READ_METADATA is handled? Reading a file's contents should always
+> imply that you can read the metadata.
 
-Replace the warning and the note, which said much the same thing, with
-a single note as disclaimer-zh_CN.rst has, pointing readers at the zh_TW
-maintainers and reviewers in MAINTAINERS, and point index.rst there as
-well.  Also drop the maintainer lines from the legacy headers of
-IRQ.txt and io_ordering.txt.
+I am wary of situations where the handling of access rights implicity
+implies other access rights.  We have discussed such schemes in the
+past (e.g. we considered a design for RESOLVE_UNIX where we'd have
+both a "scoped" and a "access_fs" right that would interact with each
+other), but in the end we always settled for approaches where such
+interactions would not be necessary.  One of the concerns was that it
+would complicate "best effort" fallback logic in all Landlock
+libraries and in the countless places where people use the syscalls
+directly.
 
-Suggested-by: Weijie Yuan <wy@wyuan.org>
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
----
- Documentation/translations/zh_TW/IRQ.txt             |  8 --------
- .../translations/zh_TW/disclaimer-zh_TW.rst          | 12 ++++--------
- Documentation/translations/zh_TW/index.rst           |  2 +-
- Documentation/translations/zh_TW/io_ordering.txt     |  6 ------
- 4 files changed, 5 insertions(+), 23 deletions(-)
+To throw another option in the mix.  (To be clear, I have only 70%
+confidence, so feel free to push back, but it feels like it might
+work?):
 
-diff --git a/Documentation/translations/zh_TW/IRQ.txt b/Documentation/translations/zh_TW/IRQ.txt
-index 8115a7618307..b9a3e18495d2 100644
---- a/Documentation/translations/zh_TW/IRQ.txt
-+++ b/Documentation/translations/zh_TW/IRQ.txt
-@@ -6,8 +6,6 @@ communicating in English you can also ask the Chinese maintainer for
- help.  Contact the Chinese maintainer if this translation is outdated
- or if there is a problem with the translation.
- 
--Maintainer: Eric W. Biederman <ebiederman@xmission.com>
--Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
- ---------------------------------------------------------------------
- Documentation/core-api/irq/index.rst 的繁體中文翻譯
- 
-@@ -15,12 +13,6 @@ Documentation/core-api/irq/index.rst 的繁體中文翻譯
- 交流有困難的話，也可以向繁體中文版維護者求助。如果本翻譯更新不及時或
- 者翻譯存在問題，請聯繫繁體中文版維護者。
- 
--英文版維護者： Eric W. Biederman <ebiederman@xmission.com>
--繁體中文版維護者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
--繁體中文版翻譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
--繁體中文版校譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
--
--
- 以下爲正文
- ---------------------------------------------------------------------
- 何爲 IRQ?
-diff --git a/Documentation/translations/zh_TW/disclaimer-zh_TW.rst b/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
-index 28b734c223b6..ed7a8e6debee 100644
---- a/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
-+++ b/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
-@@ -1,11 +1,7 @@
- :orphan:
- 
--.. warning::
--     此文件的目的是爲讓中文讀者更容易閱讀和理解，而不是作爲一個分支。因此，
--     如果您對此文件有任何意見或改動，請先嘗試更新原始英文文件。如果要更改或
--     修正某處翻譯文件，請將意見或補丁發送給維護者（聯繫方式見下）。
--
- .. note::
--     如果您發現本文檔與原始文件有任何不同或者有翻譯問題，請聯繫該文件的譯者，
--     或者發送電子郵件給胡皓文以獲取幫助：<2023002089@link.tyut.edu.cn>。
--
-+     此文件的目的是讓中文讀者更容易閱讀與理解，而不是作為一個分支。
-+     因此，如果您對此文件有任何意見或更新，請先嘗試更新原始英文文件。
-+     如果您發現本文件與原始文件有任何不同，或有翻譯問題，請向繁體中文
-+     文件的維護者與審閱者提交建議或補丁（見MAINTAINERS檔案）。
-diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
-index 95809012a9ef..fb86de03c423 100644
---- a/Documentation/translations/zh_TW/index.rst
-+++ b/Documentation/translations/zh_TW/index.rst
-@@ -15,7 +15,7 @@
- 
- .. note::
-    內核文檔繁體中文版的翻譯工作正在進行中。如果您願意並且有時間參與這項工
--   作，歡迎提交補丁給胡皓文 <2023002089@link.tyut.edu.cn>。
-+   作，歡迎將補丁提交給繁體中文文件的維護者（見MAINTAINERS檔案）。
- 
- 與Linux 內核社區一起工作
- ------------------------
-diff --git a/Documentation/translations/zh_TW/io_ordering.txt b/Documentation/translations/zh_TW/io_ordering.txt
-index 00b374092d7e..8ced3f08e69d 100644
---- a/Documentation/translations/zh_TW/io_ordering.txt
-+++ b/Documentation/translations/zh_TW/io_ordering.txt
-@@ -6,7 +6,6 @@ communicating in English you can also ask the Chinese maintainer for
- help.  Contact the Chinese maintainer if this translation is outdated
- or if there is a problem with the translation.
- 
--Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
- ---------------------------------------------------------------------
- Documentation/driver-api/io_ordering.rst 的繁體中文翻譯
- 
-@@ -14,11 +13,6 @@ Documentation/driver-api/io_ordering.rst 的繁體中文翻譯
- 交流有困難的話，也可以向繁體中文版維護者求助。如果本翻譯更新不及時或
- 者翻譯存在問題，請聯繫繁體中文版維護者。
- 
--繁體中文版維護者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
--繁體中文版翻譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
--繁體中文版校譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
--
--
- 以下爲正文
- ---------------------------------------------------------------------
- 
--- 
-2.43.0
+Is this similar to the "truncate" right?
+----------------------------------------
 
+With "truncate", there was an existing common operation (open(2) with
+O_TRUNC, a.k.a. creat(2)) which called the truncation hook and checked
+for the truncation access right.  But that was in fact OK.  The way we
+resolved it at the time was by documenting very loudly that WRITE_FILE
+and TRUNCATE access rights should always be requested in lockstep, if
+TRUNCATE is handled.
+
+If READ_DIR and READ_FILE do in fact read and return metadata to the
+user, maybe the right thing would be to do it the same way here and
+*require* that we have READ_METADATA to do these operations?
+
+(READ_METADATA is automatically allowed as long as it's not handled,
+so that approach does not break existing programs.  Programs who
+consciously start handling READ_METADATA must simply take into account
+that reading directories and opening files for reading requires
+READ_METADATA.)
+
+(BTW, I can see it for reading directories, but I am not sure I fully
+follow the argument why opening files for reading means that you can
+read the metadata?  Can't that be guarded on fstat()-like operations?)
+
+—Günther
