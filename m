@@ -1,84 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-28.mta1.migadu.com [95.215.58.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1563B14B6;
-	Tue, 29 Sep 2026 08:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40203D16EF
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 08:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790669851; cv=none; b=QPuY+akVu/RCQqPpXtWb1Oko7wHRAakZ1R9SIX/UEjrBKC0aCyDUM4LO9uIPvBHDQG5DjFEvnhVWi3lAB1eVIEf7F5NMPVXNJudS+y+gchbrgoLWgO1xiIe1lfJntC7eA56CT5zOvEvREPqzasVWZJN3YKRtsElanTWGLPU17fM=
+	t=1790670174; cv=none; b=j+GDukmuZdLUgr0cPPBt0gPat+KJMi16zkFWd0KDS/OEFyg+li5FwqrpWZBDbAPIR2rs7ynHqmHzTDFXEA+zoj8ICipI3YzS6cWJ9Dcq2sK2uSragzVBZhin2sD4brEeHxzpmQ7E76UJA1C0eD/7Qjer0auGzlFwREmatfF5NM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790669851; c=relaxed/simple;
-	bh=ewJKq01X7cz2Ue1vFMiTUnv0exHdMMW+tmYvr0degLI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PqnId6wP1TemYeg64uR0wz1HZLqJYC3mNY/VnC2Z6dhvMfDyQ/9Q1/N5fqszcBOTohhkloJozTmxuTplJpkXJfio7qW7KHk2GTnQAgOyJlQ4KZ60Sti47Me+Whvat4SbaBdLkDjurZzSluwRLYZbSw8aO3PR+xHMse/3igV0GaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aa6Au49P; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790670174; c=relaxed/simple;
+	bh=on/JchLIm7ReTjkHsHsqt/RBkZgWaTOn8Aj08/8SF5A=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=Ih5JDiea+tQks9lvpkor8IKsNoHIJhJLzotkH3CZD5jeho/YSOl/lA0aeN2bw1UFCgY1rDHaT9qnrIvuBgHBnZXYtn2u+ztxykVdrt+pyD/lU9heQxCqRbpfq9AxC/3+d7FoG0j4SyaW4Ee8GktgnlcUTjeOcaEbiI4DOlT93cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Sz0RinNF; arc=none smtp.client-ip=95.215.58.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aa6Au49P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A3471F00893;
-	Tue, 29 Sep 2026 08:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790669849;
-	bh=5QoHG/n2/laaRy5rYicMZNSwTjNxom3qwPZeDoYqp/s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aa6Au49PkqG2GJ9kFSljN4pEa9AfiwGP+zm0xec/WFPk3XCdHnxy0/mQTtM5eAnGA
-	 s7G3E65Y+aG80L2rH4F4OSARJoQLMPrcnkmjUrSsOnv7PRqaJIOrwsDsM+TSbsR+ll
-	 JKAe5PL/FV+/rYvDCTpa/LpNZp4+X5UjV+hl1KzJST91v6X6+Ca5ZTRyCw+Ry6X4//
-	 mUMhaJwpurdZ0dUjkBJ9JPBalAu3dwaJ8b+D1Y59cOKeat6c/AT+RfrXyJ5etx1fT2
-	 1aInKxoGrcl4Rpm1V2I0KWaxBa9K4Mn6nDABCh3mi7dLdZleG+pWAnC9Zb0aDZbOHF
-	 GRYz++HJvTYhA==
-From: SJ Park <sj@kernel.org>
-To: SJ Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@davidgow.net>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 0/8] mm/damon: introduce damos quota goal target metric complement flag
-Date: Tue, 29 Sep 2026 01:17:22 -0700
-Message-ID: <20260929081722.42380-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260929080113.41708-1-sj@kernel.org>
-References: 
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Sz0RinNF"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=on/JchLIm7ReTjkHsHsqt/RBkZgWaTOn8Aj08/8SF5A=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790670170; v=1; x=1791274970;
+ b=Sz0RinNFmiKdVAVddhMu3kIoX3ZxK28AKwddLyOdiX0cJJEgwsz5utrXn+KgFlmzUsIAn9fq
+ U1KrdVB11KZb3o0NopaqAyq0Jhw0NupOCTn3A4ZP2TeSRUL66baUVhN4r8YkD0kk0egDPyTPW1B
+ 4sX9wI16Le8m2jpiqJti63M8=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta10.migadu.com with ESMTPS id 94a06a54ff95dd08;
+	Tue, 29 Sep 2026 08:22:50 +0000
+X-Mizu-Trace-ID: 94a06a54ff95dd08
+X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.11\))
+Subject: Re: [PATCH v5 06/12] mm/sparse-vmemmap: set compound page order for
+ device DAX
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <751f6586-625b-4485-9f27-409fdf38bf3e@kernel.org>
+Date: Tue, 29 Sep 2026 16:22:29 +0800
+Cc: Muchun Song <songmuchun@bytedance.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Oscar Salvador <osalvador@suse.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Jonathan Corbet <corbet@lwn.net>,
+ linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-doc@vger.kernel.org,
+ Lorenzo Stoakes <ljs@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,
+ Qi Zheng <qi.zheng@linux.dev>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Lance Yang <lance.yang@linux.dev>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A77F22EE-0C10-483E-83D6-CC88D8485E88@linux.dev>
+References: <20260927025441.741633-1-songmuchun@bytedance.com>
+ <20260927025441.741633-7-songmuchun@bytedance.com>
+ <751f6586-625b-4485-9f27-409fdf38bf3e@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+X-Mailer: Apple Mail (2.3901.100.1.1.11)
 
-On Tue, 29 Sep 2026 01:01:03 -0700 SJ Park <sj@kernel.org> wrote:
-[...]
-> Add a new flag, quota goal complement, to allow flexible tuning goal
-> setup without unnecessarily increasing the number of metrics.  The flag
-> specifies whether to use the complemented value of the given goal metric
-> for the tuning.  For example, if the complement flag is set, the upper
-> tier memory utilization ratio metric works the same as the free memory
-> ratio metric for the tier.
 
-Sashiko found no blocker for this series.  Sashiko sends its findings to damon@
-mailing list [1], and I reply those if anything needs to be clarified.  Please
-refer to those for details.
 
-[1] https://lore.kernel.org/damon/
+> On Sep 29, 2026, at 15:30, David Hildenbrand (Arm) <david@kernel.org> =
+wrote:
+>=20
+> On 9/27/26 04:54, Muchun Song wrote:
+>> Device DAX can use vmemmap optimization only when a full section is
+>> populated with a compound-page geometry. Record that geometry as the
+>> compound page order in section metadata before populating the =
+section, so
+>> later vmemmap accounting and population decisions can use the section =
+state
+>> directly.
+>>=20
+>> Clear the compound page order when the section becomes empty again. =
+Also
+>> reject partial additions to a section that already has optimized =
+vmemmap
+>> mappings. compound_nr_pages() determines how many struct pages to
+>> initialize with a section as the smallest granularity. A section =
+therefore
+>> cannot safely mix optimized and ordinary vmemmap layouts.
+>>=20
+>> Partial additions continue to use ordinary vmemmap population, so =
+they do
+>> not save vmemmap memory. Such additions are uncommon, and the lost =
+saving
+>> is negligible.
+>>=20
+>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>> Acked-by: Qi Zheng <qi.zheng@linux.dev>
+>> ---
+>> v3:
+>> - Update the subject and commit message to use compound page order
+>>  terminology
+>> - Use EOPNOTSUPP instead of ENOTSUPP
+>>=20
+>> v2:
+>> - Explain why optimized and ordinary layouts cannot share a section
+>>  (suggested by Qi Zheng)
+>> - Collect Acked-by from Qi Zheng
+>> ---
+>=20
+> [...]>
+>> static struct page * __meminit section_activate(int nid, unsigned =
+long pfn,
+>> @@ -838,8 +840,13 @@ static struct page * __meminit =
+section_activate(int nid, unsigned long pfn,
+>> 	struct mem_section *ms =3D __pfn_to_section(pfn);
+>> 	struct mem_section_usage *usage =3D NULL;
+>> 	struct page *memmap;
+>> + 	unsigned int order;
+>> 	int rc;
+>>=20
+>> + 	order =3D vmemmap_can_optimize(altmap, pgmap) ? =
+pgmap->vmemmap_shift : 0;
+>> + 	if (nr_pages < PAGES_PER_SECTION && section_compound_order(ms))
+>> + 		return ERR_PTR(-EOPNOTSUPP);
+>=20
+> Hm. Why should we support optimizing the vmemmap in case we fall into =
+the same
+> memory section as boot memory?
+>=20
+> In that case, there already is a memmap allocated during boot for the =
+entire
+> section. IOW, we really shouldn't mess with the vmemmap in case we =
+have an early
+> section.
+>=20
+> But maybe I am missing something and this is already disallowed?
 
+Yes, this is already handled.
+
+For a partial addition to a normal early section, after updating the
+subsection map we return the existing boot-time memmap here:
+
+	if (nr_pages < PAGES_PER_SECTION && early_section(ms))
+		return pfn_to_page(pfn);
+
+Therefore, neither section_set_compound_order_range() nor
+populate_section_memmap() is called. The fully populated boot memmap is
+simply reused, and no vmemmap optimization is attempted.
+
+The check above handles the other case: if the section already has an
+optimized vmemmap layout, as indicated by section_compound_order(ms),
+a partial addition is rejected because we cannot mix optimized and
+ordinary vmemmap layouts within one section. This also covers an early
+section whose vmemmap was already optimized during boot.
 
 Thanks,
-SJ
+Muchun
 
-[...]
+
+>=20
+> --=20
+> Cheers,
+>=20
+> David
+
+
