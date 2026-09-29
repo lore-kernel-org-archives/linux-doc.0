@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C233845A7;
-	Tue, 29 Sep 2026 07:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A4D3909A9;
+	Tue, 29 Sep 2026 07:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790666204; cv=none; b=oj0L/W9yYa4jxsmCwYmXwGo8yMxzhg4d+t6ZyZHHTJFo9Q+YlysuHzDk7Vh7BXhmatQOrL+z5KvZ0HvYPWjcPcMWIcXMmHSbK5xLAFAFFkdWqovHpReOJ5xPEZSoj4gSDovW1FYIqf9YwjTBF8wbMWH1yX6mdBE9/RwmtCvpGXM=
+	t=1790666495; cv=none; b=WfgiOLMy6PjJhyPzi6EWdnr0KW8Q7fYWxDHREAP+phXp0InzyfYAY9/IpZmY8fM2EWaamWjvT0Gy2s5Gy3JuVjhCNZiAAljhZ30YQfecbmJEE2Q2So2mVWBmWQw4QfoHjRhIIRya2DaFnh8+8Pp7gHh1YQxcgNSZL+Kb7cW7fik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790666204; c=relaxed/simple;
-	bh=AiJujK6ouuxLt7zZTtXQs6Rq3ANHVpanJKJyIyICCdU=;
+	s=arc-20240116; t=1790666495; c=relaxed/simple;
+	bh=5zrh24wadC85aK8yho7y3qG/OxqGCTkaEosabr5EGCk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nyKFfUQhxiDtsHZc6H8rRN+jzvRWEjFptIs9+Iyk6COMKhsYOmGkxRNze7jQfoAYtvP125mInzSn7AxFFd60Ke52dn/uiQQO+qIwpGh1+xBanC07Ggdn1Tizg2ZNJWvhmF160632vfDr2iD2HwvEGbPmIVSPrCZF8e/6pIQp6qE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XPvIhzZV; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=spa9CTLGOSU2UPTgtUUkVLCHhOCzGktYrbiCuDzPJlfN8KsmlrGHanzudAw81tVBYl226EopAbZTDNAlzf8JFslQWr65vUZg5RumigQ5nFnqvYiDuPx1lXA1h382KvbmvKtOTa5RXfF5k52G9ecfgkFsOB81JioD43r74kYIwMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Grj63Eom; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XPvIhzZV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95BBB1F00898;
-	Tue, 29 Sep 2026 07:16:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Grj63Eom"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21C591F000FF;
+	Tue, 29 Sep 2026 07:21:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790666202;
-	bh=lAgsxeuo1uwHONfqh8pxHditw8tVE9dP/mYZuc/xVh8=;
+	s=k20260515; t=1790666494;
+	bh=jVzH9135wJ4QdeRKwEGZjDTmaDD7x+M+UkwMS7ATjN4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XPvIhzZVscw0/cIG0nNlyQJokQTnSAf2sVHgbX/GtyrbGyCa9VYZCF03+80v4yyBe
-	 T6BnIW4SEgx/0905eYA6L0YqyQfMPD4ZxPieJLrEijDAEAK1QXGh2PQodJ2iPg7ip+
-	 bsF4tNu9o+DEnz08puq3XIu8kQWM8gWwa7fBeI3tUGiSs7JNuq0lfJ+Rkk2sqFpf2e
-	 2i0w1njrIONG0cBXMFQbOWvlDJiCkgblfTEAQyKEIBYTNyIqkx2fZGFwsaSuNM73Rk
-	 22v9ZCodwNJwGKjsqEBxrY8hP38UnJAbvN/N1sdidyje7sTphU6cS6JCCQWoO4USUA
-	 LqQKah1HtBqBw==
-Message-ID: <5c73e3b9-4eca-4b84-ba3d-85bb7d6f77dc@kernel.org>
-Date: Tue, 29 Sep 2026 09:16:37 +0200
+	b=Grj63EomMmOFpWGNtNOisS3ON2mRVEMypsHP3ZZRNfWxdN61pkoauFTDOjgQFK62T
+	 eVxgpKP6dJISPZQvvWkHjQjDrqp69WceyTkNA5XrrQS50WllfO+zpfgoFWdMOtZuWb
+	 d5R/t1WHiQDDneBjPc9UbC4gnlkI2KYlcHF4WA631f8AsuQLZJ6HxJQm+8GiTIzHHb
+	 5amDF0CEQLBDkIgdXW+xtT3ivF4XOvfTRKRCyLBbhSTR/49/vPbD3EmPEzu8cWK4pr
+	 8yuR0p6ti1+jWnCDofwE/zlRGcdP2GUvWSIBzKnvVcEZyZlykkkTz+EO8c2NU9AaIy
+	 7x0EbKwjy/qzA==
+Message-ID: <36a93f95-2fb4-4310-bef2-88c12dbe7971@kernel.org>
+Date: Tue, 29 Sep 2026 09:21:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/12] mm/sparse-vmemmap: factor out shared vmemmap
- tail page allocation
+Subject: Re: [PATCH v5 02/12] mm/sparse-vmemmap: allocate shared tail page
+ array dynamically
 To: Muchun Song <songmuchun@bytedance.com>,
  Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
  <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
@@ -48,7 +48,7 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
  Randy Dunlap <rdunlap@infradead.org>, Lance Yang <lance.yang@linux.dev>
 References: <20260927025441.741633-1-songmuchun@bytedance.com>
- <20260927025441.741633-2-songmuchun@bytedance.com>
+ <20260927025441.741633-3-songmuchun@bytedance.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -95,54 +95,106 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260927025441.741633-2-songmuchun@bytedance.com>
+In-Reply-To: <20260927025441.741633-3-songmuchun@bytedance.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/27/26 04:54, Muchun Song wrote:
-> HugeTLB and sparse-vmemmap each have their own helper to allocate the
-> shared vmemmap tail page used by vmemmap optimization.
+> Commit 622026e87c40 ("mm/hugetlb: remove fake head pages") added the
+> per-zone vmemmap_tails array. Its size depends on MAX_FOLIO_ORDER, which
+> had been moved to mmzone.h in preparation for the array.
 > 
-> Factor that logic into a common vmemmap_shared_tail_page() helper. It
-> allocates the page through vmemmap_alloc_block(), initializes the tail
-> struct pages, and uses cmpxchg() to install the per-zone shared page.
+> PUD_ORDER is defined by linux/pgtable.h, which cannot be included from
+> mmzone.h without creating an include cycle. It was therefore open-coded
+> as PUD_SHIFT - PAGE_SHIFT.
 > 
-> This removes duplicate allocation logic while handling both early boot
-> and runtime allocation through the same helper.
+> This removed the dependency on PUD_ORDER, but not the underlying
+> dependency on architecture page-table definitions. PUD_SHIFT is
+> generally provided by architecture page-table headers, which are not
+> guaranteed to have been included when mmzone.h is parsed.
+> 
+> The dependency remained hidden because vmemmap_tails was originally
+> guarded by CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP. Under that condition,
+> MAX_FOLIO_ORDER resolves to either MAX_PAGE_ORDER or the fixed HugeTLB
+> limit, rather than the PUD_SHIFT-based definition.
+> 
+> Device DAX, however, does not require CONFIG_HUGETLB_PAGE. When it is
+> converted to use section-based vmemmap optimization, MAX_FOLIO_ORDER can
+> resolve to PUD_SHIFT - PAGE_SHIFT while it is being used to size
+> vmemmap_tails. This would make struct zone depend on architecture
+> page-table definitions being available when mmzone.h is parsed.
+> 
+> Replace the embedded array with a pointer and allocate it on first use.
+> This moves the order-count evaluation into sparse-vmemmap.c, after the
+> architecture page-table definitions are available, and removes the
+> dependency from mmzone.h.
+> 
+> Removing the compile-time array also removes the original reason for
+> keeping MAX_FOLIO_ORDER and the vmemmap optimization sizing definitions
+> in mmzone.h. Follow-up cleanups can place each definition in the header
+> owned by its respective subsystem.
 > 
 > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Acked-by: Qi Zheng <qi.zheng@linux.dev>
-> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > ---
 > v5:
-> - Move this patch before CONFIG_VMEMMAP_OPTIMIZATION is introduced
-> 
-> v4:
-> - Update the commit message for the renamed VMEMMAP_OPTIMIZATION config
-> - Collect Acked-by from Mike Rapoport
-> 
-> v2:
-> - Collect Acked-by from Qi Zheng
+> - Add this patch to fix the RISC-V build failure under the configuration
+>   reported by the kernel test robot
 > ---
+>  include/linux/mmzone.h |  7 +------
+>  mm/sparse-vmemmap.c    | 35 +++++++++++++++++++++++++++++++----
+>  2 files changed, 32 insertions(+), 10 deletions(-)
+> 
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index acd94cecc0d3..68807ff7f946 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -113,11 +113,6 @@
+>  	(VMEMMAP_OPTIMIZATION_PAGES * PAGE_SIZE / sizeof(struct page))
+>  #define VMEMMAP_OPTIMIZATION_MIN_ORDER		(ilog2(VMEMMAP_OPTIMIZATION_NR_STRUCT_PAGES) + 1)
+>  
+> -#define __VMEMMAP_OPTIMIZATION_NR_ORDERS	\
+> -	(MAX_FOLIO_ORDER - VMEMMAP_OPTIMIZATION_MIN_ORDER + 1)
+> -#define VMEMMAP_OPTIMIZATION_NR_ORDERS		\
+> -	(__VMEMMAP_OPTIMIZATION_NR_ORDERS > 0 ? __VMEMMAP_OPTIMIZATION_NR_ORDERS : 0)
+> -
+>  enum migratetype {
+>  	MIGRATE_UNMOVABLE,
+>  	MIGRATE_MOVABLE,
+> @@ -1156,7 +1151,7 @@ struct zone {
+>  	atomic_long_t		vm_stat[NR_VM_ZONE_STAT_ITEMS];
+>  	atomic_long_t		vm_numa_event[NR_VM_NUMA_EVENT_ITEMS];
+>  #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+> -	struct page *vmemmap_tails[VMEMMAP_OPTIMIZATION_NR_ORDERS];
+> +	struct page **vmemmap_tails;
+>  #endif
+>  } ____cacheline_internodealigned_in_smp;
+>  
+
 
 [...]
 
->  
->  #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-> -static __meminit struct page *vmemmap_get_tail(unsigned int order, struct zone *zone)
-> +struct page __ref *vmemmap_shared_tail_page(unsigned int order, struct zone *zone)
+>  struct page __ref *vmemmap_shared_tail_page(unsigned int order, struct zone *zone)
 >  {
-> -	struct page *p, *tail;
-> -	unsigned int idx;
-> -	int node = zone_to_nid(zone);
-> +	void *addr;
-> +	struct page *page;
-> +	const unsigned int idx = order - VMEMMAP_OPTIMIZATION_MIN_ORDER;
+>  	void *addr;
+> -	struct page *page;
+> +	struct page *page, **pages;
+>  	const unsigned int idx = order - VMEMMAP_OPTIMIZATION_MIN_ORDER;
+>  
+>  	if (WARN_ON_ONCE(idx >= VMEMMAP_OPTIMIZATION_NR_ORDERS))
+>  		return NULL;
+>  
+> -	page = READ_ONCE(zone->vmemmap_tails[idx]);
+> +	pages = READ_ONCE(zone->vmemmap_tails) ? : vmemmap_tails_alloc(zone);
 
-Nit: constants read much nicer all the way at the top.
+This reads much nicer if you handle the  READ_ONCE(zone->vmemmap_tails) inside
+the function.
+
+pages = vmemmap_tails(zone);
+
+So just place the entire logic of obtaining the array in there.
 
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Apart from that LGTM.
 
 -- 
 Cheers,
