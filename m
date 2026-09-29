@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5551395ADA;
-	Tue, 29 Sep 2026 07:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C233845A7;
+	Tue, 29 Sep 2026 07:16:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790665881; cv=none; b=QplsDji4U/dejphpIVbMkb2dq4pblUaTOykJPXKGRrEJjuJjWWSHBsVK30kQgRf5cHdbHF2HMKVIlwihhj8qww2/3a7pJtOmgJtMNWGa0TApCHt+r2ZsvTFNIpTwWSbSKJOoTWTPpVZsPUxmkUb7ANJbdsLub+VK6e70T+wE6Bw=
+	t=1790666204; cv=none; b=oj0L/W9yYa4jxsmCwYmXwGo8yMxzhg4d+t6ZyZHHTJFo9Q+YlysuHzDk7Vh7BXhmatQOrL+z5KvZ0HvYPWjcPcMWIcXMmHSbK5xLAFAFFkdWqovHpReOJ5xPEZSoj4gSDovW1FYIqf9YwjTBF8wbMWH1yX6mdBE9/RwmtCvpGXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790665881; c=relaxed/simple;
-	bh=LpnZDIeRWZabckM78hFa2BBhQ+SUKErQOQpYJwv1LsY=;
+	s=arc-20240116; t=1790666204; c=relaxed/simple;
+	bh=AiJujK6ouuxLt7zZTtXQs6Rq3ANHVpanJKJyIyICCdU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T2OWKP1oMJxfL5sCCdYOX2wssNJhVkft3N8ocoX4UHfrHyruCCWIVpANiZ4t1dJd8ahxkUGOWP5k09Jsq8Bj6yp/oFUkrUyxv/62/dQ0rPuDIVWBIIvWSobfoDeCflzDiKvbWGvh0ivot6uuNRwY09ZmU+2CFd245nr4ySD9y6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3hWMC6I; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=nyKFfUQhxiDtsHZc6H8rRN+jzvRWEjFptIs9+Iyk6COMKhsYOmGkxRNze7jQfoAYtvP125mInzSn7AxFFd60Ke52dn/uiQQO+qIwpGh1+xBanC07Ggdn1Tizg2ZNJWvhmF160632vfDr2iD2HwvEGbPmIVSPrCZF8e/6pIQp6qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XPvIhzZV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3hWMC6I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 467421F000FF;
-	Tue, 29 Sep 2026 07:11:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XPvIhzZV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95BBB1F00898;
+	Tue, 29 Sep 2026 07:16:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790665879;
-	bh=JdlkVNS4LHpC8Yj8xus5KzRNAlfmfW9Jat5ACbHfNXQ=;
+	s=k20260515; t=1790666202;
+	bh=lAgsxeuo1uwHONfqh8pxHditw8tVE9dP/mYZuc/xVh8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=k3hWMC6IUNtYuzOPzmJ7y1M5aFJuabov6fIU9bZ0sHW+WrXQhJQFQybdudnHe7uBU
-	 1DheJOg0y7ORTXvx77EkEpgphs6LsSg66jTwGk+v4p4Il8mUmIfRg7h4RIwsGdhDNj
-	 giZetxpv1pMCMoxqM++pU4Fka2UKLcin4pQQCZECGzEKtd1t8cQZoBnzqgHeFmFZod
-	 ozIEGX/tYSllaAWg78LdWR7Of0JKD+T0ijfiMdKsMgZPb0rw+iKSrYuLhAvGm8oHUK
-	 D33cywp6G4E7nt22lpQHhxzxlnX82ly0Fx06nJ0bUvBq8q8ac/FWRf1p60+E1EcP7n
-	 IT1xmbxcMe9QQ==
-Message-ID: <d7a75c99-3021-495f-ae34-883d047370f3@kernel.org>
-Date: Tue, 29 Sep 2026 09:11:13 +0200
+	b=XPvIhzZVscw0/cIG0nNlyQJokQTnSAf2sVHgbX/GtyrbGyCa9VYZCF03+80v4yyBe
+	 T6BnIW4SEgx/0905eYA6L0YqyQfMPD4ZxPieJLrEijDAEAK1QXGh2PQodJ2iPg7ip+
+	 bsF4tNu9o+DEnz08puq3XIu8kQWM8gWwa7fBeI3tUGiSs7JNuq0lfJ+Rkk2sqFpf2e
+	 2i0w1njrIONG0cBXMFQbOWvlDJiCkgblfTEAQyKEIBYTNyIqkx2fZGFwsaSuNM73Rk
+	 22v9ZCodwNJwGKjsqEBxrY8hP38UnJAbvN/N1sdidyje7sTphU6cS6JCCQWoO4USUA
+	 LqQKah1HtBqBw==
+Message-ID: <5c73e3b9-4eca-4b84-ba3d-85bb7d6f77dc@kernel.org>
+Date: Tue, 29 Sep 2026 09:16:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 03/12] mm/sparse-vmemmap: introduce
- CONFIG_VMEMMAP_OPTIMIZATION
+Subject: Re: [PATCH v5 01/12] mm/sparse-vmemmap: factor out shared vmemmap
+ tail page allocation
 To: Muchun Song <songmuchun@bytedance.com>,
  Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
  <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
@@ -48,7 +48,7 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
  Randy Dunlap <rdunlap@infradead.org>, Lance Yang <lance.yang@linux.dev>
 References: <20260927025441.741633-1-songmuchun@bytedance.com>
- <20260927025441.741633-4-songmuchun@bytedance.com>
+ <20260927025441.741633-2-songmuchun@bytedance.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -95,81 +95,54 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260927025441.741633-4-songmuchun@bytedance.com>
+In-Reply-To: <20260927025441.741633-2-songmuchun@bytedance.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/27/26 04:54, Muchun Song wrote:
-> The section-based vmemmap optimization infrastructure is guarded by
-> CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP, but it can also be used by
-> ZONE_DEVICE users that set dev_pagemap::vmemmap_shift. Introduce
-> CONFIG_VMEMMAP_OPTIMIZATION as a common config for the shared
-> infrastructure.
+> HugeTLB and sparse-vmemmap each have their own helper to allocate the
+> shared vmemmap tail page used by vmemmap optimization.
 > 
-> Select the new option from HUGETLB_PAGE_OPTIMIZE_VMEMMAP and from
-> ZONE_DEVICE when the architecture opts in to DAX vmemmap optimization,
-> and use it to guard the generic sparse-vmemmap state and helpers.
+> Factor that logic into a common vmemmap_shared_tail_page() helper. It
+> allocates the page through vmemmap_alloc_block(), initializes the tail
+> struct pages, and uses cmpxchg() to install the per-zone shared page.
+> 
+> This removes duplicate allocation logic while handling both early boot
+> and runtime allocation through the same helper.
 > 
 > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
 > Acked-by: Qi Zheng <qi.zheng@linux.dev>
 > Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > ---
 > v5:
-> - Move this patch after the shared tail-page factoring.
-> - Select VMEMMAP_OPTIMIZATION from ZONE_DEVICE instead of DEV_DAX,
->   covering all users of dev_pagemap::vmemmap_shift, reported by
->   Sashiko.
+> - Move this patch before CONFIG_VMEMMAP_OPTIMIZATION is introduced
 > 
 > v4:
-> - Rename SPARSEMEM_VMEMMAP_OPTIMIZATION to VMEMMAP_OPTIMIZATION
->   (suggested by Mike Rapoport)
+> - Update the commit message for the renamed VMEMMAP_OPTIMIZATION config
 > - Collect Acked-by from Mike Rapoport
 > 
 > v2:
-> - Fix SPARSEMEM_VMEMMAP_OPTIMIZATION being selected without SPARSEMEM_VMEMMAP
->   reported by Sashiko.
-> - Add an explicit DEV_DAX dependency on ZONE_DEVICE
 > - Collect Acked-by from Qi Zheng
 > ---
->  arch/x86/entry/vdso/vdso32/fake_32bit_build.h |  2 +-
->  fs/Kconfig                                    |  1 +
->  include/linux/mm.h                            |  3 +++
->  include/linux/mmzone.h                        | 10 +++++-----
->  include/linux/page-flags.h                    |  5 ++---
->  mm/Kconfig                                    |  5 +++++
->  mm/sparse-vmemmap.c                           |  2 +-
->  mm/sparse.h                                   |  6 +++---
->  8 files changed, 21 insertions(+), 13 deletions(-)
-> 
-> diff --git a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
-> index bc3e549795c3..72a92cb9b53d 100644
-> --- a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
-> +++ b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
-> @@ -11,7 +11,7 @@
->  #undef CONFIG_PGTABLE_LEVELS
->  #undef CONFIG_ILLEGAL_POINTER_VALUE
->  #undef CONFIG_SPARSEMEM_VMEMMAP
-> -#undef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
-> +#undef CONFIG_VMEMMAP_OPTIMIZATION
->  #undef CONFIG_NR_CPUS
->  #undef CONFIG_PARAVIRT_XXL
+
+[...]
+
 >  
-> diff --git a/fs/Kconfig b/fs/Kconfig
-> index d1c210c6508f..1454b7fe9641 100644
-> --- a/fs/Kconfig
-> +++ b/fs/Kconfig
-> @@ -278,6 +278,7 @@ config HUGETLB_PAGE_OPTIMIZE_VMEMMAP
->  	def_bool HUGETLB_PAGE
->  	depends on ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
->  	depends on SPARSEMEM_VMEMMAP
-> +	select VMEMMAP_OPTIMIZATION
+>  #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+> -static __meminit struct page *vmemmap_get_tail(unsigned int order, struct zone *zone)
+> +struct page __ref *vmemmap_shared_tail_page(unsigned int order, struct zone *zone)
+>  {
+> -	struct page *p, *tail;
+> -	unsigned int idx;
+> -	int node = zone_to_nid(zone);
+> +	void *addr;
+> +	struct page *page;
+> +	const unsigned int idx = order - VMEMMAP_OPTIMIZATION_MIN_ORDER;
+
+Nit: constants read much nicer all the way at the top.
+
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-
-Is there a path to remove HUGETLB_PAGE_OPTIMIZE_VMEMMAP, and to merge
-ARCH_WANT_OPTIMIZE_DAX_VMEMMAP+ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP into a
-ARCH_SUPPORTS_VMEMMAP_OPTIMIZATION?
-
 
 -- 
 Cheers,
