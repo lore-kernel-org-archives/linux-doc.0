@@ -1,115 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F313A168E
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 19:46:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152DE39FCB1;
+	Tue, 29 Sep 2026 20:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790711208; cv=none; b=crdhbiaAAYPH5RSf6SXI4k6sCE44fAi7fbxetIPFTJzETPcrtFTbDbVDmuD2BxB1ISHSWB1qE5uJGLzlVi28RZoP2PCQ7rJXtXo9YXot9+V3Z57cAUh7ybvOvqYWJAXAHnBysqTbKiEfxw3i6WoeP9N5pXp9+h0piPoW7v9f0Nk=
+	t=1790712975; cv=none; b=Qx2qLJXOBBLcNki1LaIZVNA+/lN8KCo0S3r8t0GeMKoWChIHOlNW9s7Zcsqjq1/DC+58gQI9hpW+pERsUDiYZoH3YoXHwSiVDU1C4K8uREOUHMj+Chch1s2d04UCu9vYbjt9MhZPYzxnn6977TdSGjFLQFCQs5sjlWEGGwxKkSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790711208; c=relaxed/simple;
-	bh=zbr+GU0lV+fYqZ0sTiprx6XvkzPIp4t8LPwmB7Qu5uA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uubJfMkBGMiJ8kGhcHqWd8zDKW2s8pIZJfS/NWPZldO6haXgZP6eadwsypA/jmwRpceuI2A2N6k63jMkmaQZ/tLBmE9dQ9NbZTaa3KhJVre03PZz5GpcBGa6vVebARKijlH+7XFJSbAlYzKmulNU7MwdIytvjnE6fWWAidcdl7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gozop4Me; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790712975; c=relaxed/simple;
+	bh=CCNb0myM2bFfXS5kJPH6OE5BaOG3Wc1Bp9Rsc8Y9B0M=;
+	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
+	 Content-Type; b=XM5nnMCXMkJJqvmPPl2U34NdNJVPbnWjEsyGsCb49kgIXFNd6nQHMTA/BAMhWRFDZ3amafDvVauLDISYh8ISa6zctG5WHaVr8K4ZV/uTtDUNKYKQGrZpupqaQ9qX7sH6fhTQ5dUb9T4Etwxu62Ktd5VrTRox6EFS3g9wGJlGOIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=X1QmKbvM; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=aohXBJhk; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gozop4Me"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 933B61F0089B
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 19:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790711206;
-	bh=BKbKMVCkvQ3lOBq0ytORD0A1sviCgIZ5GOwLudPtfBQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Gozop4Mepjh4ADUhZIb7lShoooSiMAZ0gCL5cs8ASQCtj1TC2BVZ+WQKwO9tWlqLl
-	 AL0aLsKpHcg4C5iz8LacDgPQwKlPFxDypn1kLsiN1Y1mdTwwgyouUxEVaOE1ARGt/k
-	 KNQye+oDEn7lkiLGU4eecDpR2uv69vjTTjGjo+Md12RE8C7zTQRDKec/i7QD8ANtW9
-	 Q8aztkbc8C7cjtfmxAk+OC1o0jMQlkOIOyTUnGAALa5uDiYQ1YCXJch2nhGXZv0uY7
-	 vnavPkWuCxJalH21vhVK2K2yCpW1nhX76YCDvlVLZVOr9jH4sr95rJ6cBnRgIiQk2P
-	 +xHRwPBD5zrHg==
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b8f5ae6fa8so2664803e87.2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 12:46:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzIHmFwdIfXGcaVOYTvtR0YkVURpec9rMrY/Gg8EqzSVvhuAFikVfWECrLE0wi8FVRCxhtQ7SyGcXM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKTJ29B/Ie1tKJScY34QFhXJLKrAMfR961KNV+JP9Nb/aFDLvu7
-	lWjkbJ8ke9Hk436j1MCGqdaQ98chyhRfUlCsUHmqXR6KSP/9E61GeUkbbYSZFes6pc8hrTgg3gl
-	atjeS10Fw2TRmOBgbqThlQYhw0l6KkLo=
-X-Received: by 2002:a05:6512:3e08:b0:5b8:eb82:4642 with SMTP id
- 2adb3069b0e04-5ba3bf174b4mr164370e87.66.1790711204992; Tue, 29 Sep 2026
- 12:46:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="X1QmKbvM";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="aohXBJhk"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1790712967; bh=b7+Geox4ud8eTAeg3+j6HDt
+	1q363PIIrzuBA/1qIzLQ=; b=X1QmKbvMB/5s7XUVbyfZ31NXs8eN1HR6bZAsQJYyBgls5geHeO
+	sxI/uPI9qD7AR+GKtCZ5k0FB4SVA9kiOS9XmfDxyjlDIl110WbhLYe+MbwCQaOPngaEqrr6gHRq
+	9DlZC9X9rBG/te3HSZCmWQaac0Ox59h8ThThKgHiCs6/EB0YTao+y7mQGfIq0RZDz3P4Qe89BcW
+	mGsJ7i0WAFTYXsQRnDb2XJKLCHcW2gqTfth0EobSiwVJXQ3YvLBB8suTMN7AY+dZtvIJ253inVY
+	hqS1QLOERfjIwMOm5fOawvoxOOrYto1fDGTogs+fJDQwERF7NLRQdby3Gjilcfd/VGA==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1790712967; bh=b7+Geox4ud8eTAeg3+j6HDt
+	1q363PIIrzuBA/1qIzLQ=; b=aohXBJhkdcn4jNAYTeUiUJaqenky18FS9eaOv/ZDLdn1loHoQG
+	MatyD7zBmVYyUXu2TorED2ACCUri1NRjKjBQ==;
+Date: Tue, 29 Sep 2026 21:16:08 +0100
+From: Bradley Morgan <brads@mainlining.org>
+To: salil.mehta@opnsrc.net
+CC: catalin.marinas@arm.com, corbet@lwn.net, gshan@redhat.com,
+ james.morse@arm.com, jic23@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mark.rutland@arm.com, peterz@infradead.org, ruanjinjie@huawei.com,
+ tglx@kernel.org, will@kernel.org, yangyicong@hisilicon.com
+Subject: =?US-ASCII?Q?Re=3A_=5BRFC_PATCH_1/2=5D_cpu/hotplug=3A_Sk?=
+ =?US-ASCII?Q?ip_disabled_CPUs_in_cpuhp=5Fsmt=5Fenable?=
+In-Reply-To: <4ca071f1678acd1d3b8ecc0266938f59b45f629a.1790692295.git.salil.mehta@opnsrc.net>
+Message-ID: <133D63B7-B1DF-4DEB-92F6-B6D785D43457@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260923174711.1283986-1-briannorris@chromium.org> <20260923104031.v2.2.Ia1cae8a40a24662df11553c225f4438eab65b7db@changeid>
-In-Reply-To: <20260923104031.v2.2.Ia1cae8a40a24662df11553c225f4438eab65b7db@changeid>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Tue, 29 Sep 2026 21:45:01 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jhhJQt8wPCL=hUA7U9vSEKxF3Mctm1kRzz=y7erhKb2w@mail.gmail.com>
-X-Gm-Features: AclHuK9Y5Zd_QKf7aBK1kVhzF4TsvkbXBzwUXDK-YtqmY4v1_OFdJlgXy62rvx8
-Message-ID: <CAJZ5v0jhhJQt8wPCL=hUA7U9vSEKxF3Mctm1kRzz=y7erhKb2w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/8] PM: runtime: More kerneldoc formatting
-To: Brian Norris <briannorris@chromium.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, 
-	Ulf Hansson <ulfh@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Doug Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 23, 2026 at 7:47=E2=80=AFPM Brian Norris <briannorris@chromium.=
-org> wrote:
+On 29 September 2026 20:41:29 BST, salil.mehta@opnsrc.net wrote:
+>From: Salil Mehta <salil.mehta@opnsrc.net>
 >
-> In taking another pass at these docs, I found some more inconsistencies.
+>The CPU enabled mask describes whether a present CPU may currently be
+>brought online. cpuhp_smt_enable() is an online operation, but currently
+>walks all present CPUs and only filters CPUs that are already online or
+>belong to offline NUMA nodes.
 >
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-> ---
+>This can make it attempt _cpu_up() for a present CPU which firmware has
+>not enabled and which has not yet been registered as a CPU device.
 >
-> Changes in v2:
->  * New in v2
+>Use the enabled mask for the policy decision it was introduced to
+>represent. This keeps present-but-disabled CPUs out of the SMT bring-up
+>path while still allowing registered offline SMT threads to be brought
+>back online.
 >
->  drivers/base/power/runtime.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-> index 7e75f6d5df07..dce7b6ff7e9d 100644
-> --- a/drivers/base/power/runtime.c
-> +++ b/drivers/base/power/runtime.c
-> @@ -1255,7 +1255,7 @@ static int pm_runtime_get_conditional(struct device=
- *dev, bool ign_usage_count)
->
->  /**
->   * pm_runtime_get_if_active - Bump up runtime PM usage counter if the de=
-vice is
-> - *                           in active state
-> + * in active state.
+>Present and enabled are separate generic CPU states, so callers which
+>intend to bring CPUs online should not assume that every present CPU is
+>enabled.
 
-I wouldn't do this.
+Ok.
 
-Instead, I'd change the one-line description to "Conditionally bump up
-runtime PM usage counter" and I'd explain what "conditionally" means
-in the body of the comment.
-
->   * @dev: Target device.
->   *
->   * Increment the runtime PM usage counter of @dev if its runtime PM stat=
-us is
-> @@ -1635,10 +1635,10 @@ static void pm_runtime_disable_action(void *data)
->  /**
->   * devm_pm_runtime_enable - devres-enabled version of pm_runtime_enable.
->   *
-
-I'd remove the empty line above.
-
-> + * @dev: Device to handle.
-> + *
->   * NOTE: this will also handle calling pm_runtime_dont_use_autosuspend()=
- for
->   * you at driver exit time if needed.
-> - *
-> - * @dev: Device to handle.
->   */
->  int devm_pm_runtime_enable(struct device *dev)
->  {
-> --
-> 2.56.0.rc1.310.g51773c2048-goog
 >
+>Signed-off-by: Salil Mehta <salil.mehta@opnsrc.net>
+>---
+> kernel/cpu.c | 5 +++--
+> 1 file changed, 3 insertions(+), 2 deletions(-)
+>
+>diff --git a/kernel/cpu.c b/kernel/cpu.c
+>index b3c8553d7bd6..988b7a1e8298 100644
+>--- a/kernel/cpu.c
+>+++ b/kernel/cpu.c
+>@@ -2706,8 +2706,9 @@ int cpuhp_smt_enable(void)
+> 	cpu_maps_update_begin();
+> 	cpu_smt_control = CPU_SMT_ENABLED;
+> 	for_each_present_cpu(cpu) {
+>-		/* Skip online CPUs and CPUs on offline nodes */
+>-		if (cpu_online(cpu) || !node_online(cpu_to_node(cpu)))
+>+		/* Skip online/disabled CPUs and CPUs on offline nodes */
+>+		if (cpu_online(cpu) || !cpu_enabled(cpu) ||
+>+		    !node_online(cpu_to_node(cpu)))
+
+Ehh, have you had a issue with this code? Like something e.g: a splat.
+
+
+> 			continue;
+> 		if (!cpu_smt_thread_allowed(cpu) || !topology_is_core_online(cpu))
+> 			continue;
+>
+
+--- Thanks!
+"I'm not a very positive person" - Linus torvalds
