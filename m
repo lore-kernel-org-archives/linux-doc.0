@@ -1,245 +1,143 @@
-Received: from mail-pj2-f39.google.com (mail-pj2-f39.google.com [74.125.227.167])
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94B652D2C1
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 13:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.167
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790687523; cv=none; b=Vo0Sy+7ttqTU/wNkWU5ByM0/ss+ud3HZF0NOEjdugRJl/NRDgY5QMujetPIBG/lRZaJn3eOs6CvHp9iRkI69IlawmDVxtrDzJQgWBLArjot7sjJmPtrTSCTwLCXFBnJ75uZtEmgX2hwp9eMunu/0+FwBvnHTX/JLov1WKxB/RvU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790687523; c=relaxed/simple;
-	bh=HTirRA90UalDWnFdFzCITcI7hIB/YN/mxlnPD1vae+I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LZnmyyFQrmyJcI8WN8bwlxTN2pDhFyF3jZfYC5UVdEqytpj5/SZEj9FMC3nhNmKv2OFfT15hJiQeOb3ZRdrWOGZPdaJwYM9hu7Mrq7VS89+ZmqxiSMIZcbbuiw8NNntqq1MbWF9sZtqbWqLcJfOt+Z7Cb+DfW7+0XWjRXYMme/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SFbtaL9K; arc=none smtp.client-ip=74.125.227.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D39527595
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 13:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790687932; cv=pass; b=Qytk2zFNMDhXAa/PCYGlM2QBsNe9tHlcTiWZmLTGjBB86z+NVBjxBkXSMwRcURvgtGnRre3/uiZMIcx9ynHW7ApAe3FGwZ0JyrfrtVpqOovgf+CrGQi5m/gLY4Kxb8RBW480yObRf0aaGyE4T27yJBFTUNRm9LoXB/8JcsojB34=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790687932; c=relaxed/simple;
+	bh=dnRZgOZPN8h1C48So+KfFB399+wu5SK9LTEtwCEcT2E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lGrUttlcNf9P3sLvEdcYtYZ7nCgwQlkDjDZzDifLQnojSte8WpyuXVAv8gyzKRRudjaFXs6ASc3DivuBUzFBN/xYvRiumUDO+yaOc0tjffIRtHWSRQ3Rvn8ybSx6QRbcbEHkm4/kTyNSpix3NnsRF+gdmcWrCgfcoi/qmU/m8jM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qcZF7L3O; arc=pass smtp.client-ip=74.125.229.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SFbtaL9K"
-Received: by mail-pj2-f39.google.com with SMTP id 98e67ed59e1d1-3a4a98a79b8so79681a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 06:12:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qcZF7L3O"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5ba2e61f172so105067e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 06:18:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790687929; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gzJLshTyjPCLrCZeTiDox7taTDyu3CDtooGcULUg0hh2apmpezoN49IK1YykFsVT4C
+         1H+Fox5EEUcI7VXogdtZe13VN9xKaz1ayoKAzF1rWbzzjoXdk6krgcfLdSphVZXPGmK1
+         /SEKdvi9gXGu1nS1S7DO8NphoByE/Bwqrhj6mRM5hgQfYhuBvdqcurCy8bwK+XI586zK
+         HtlKvWZN9by6dihkT7QnW/kzKUVlwUMS3YIKErl2DjZiWsdvXa5dJrrLHUxNXMwOWtnc
+         CqXC66Bpgq+aQJwuypWQPHYIfYwOIyAtVR9v/Kinh0dvw+X2uPh6szDz7THXKGzyzOP8
+         cteA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gRqL4mq8l9b/8+1doI0jfOmB5WaZxv0ewJ/nUke/hgQ=;
+        fh=12ZTGwBjNy3cvX2nOD0b86hiw41QMC2zOthEksz/5Fo=;
+        b=Tvr0f7C7vT4/LJowTiBnk2SwfEQhXXp2BGxpJo5dxrm/o5JFtPzaZ1Exa1xE2jTT3b
+         sbPWxY5unguRrQAn4kJSm+TudMzmTCddIT4L70rvLiIH2dq8fzeUZP8L7O1+S+s0h9pr
+         Iilb9//IxC2u97+GHh0cRuSa7CYZ+DTR0dumt5gICuFxDUXc/zQB5s+xIUtCPBvJkP+a
+         6/faKrsBHCBnaX8Ws/NEJ2FBMUNfpz9XOccGYdiqt0UuddTsosm95hvdfJRJZIT2P3R9
+         814OUi+uAeqFuRxN1JappPMWO7ro3vYSEoVPXkNDwmqyrwE9ETP+UsBswn3sZNGrxztX
+         zDFg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790687520; x=1791292320; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1790687929; x=1791292729; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=UBGD0ul96jtIpbbV7jZQH0Vpd8aSl2z94lNjdsQZDSA=;
-        b=SFbtaL9K5bglNs1f9/5o2Ig+eOIERiGSv+jH4hNw+9Z9azr69cRgRBpZqlqZnQ1YEO
-         XEgiyTd531uD18tLsaYnbdrQW7XHCNAPvHKjoCGJilo+gbxmz9kMm96HoBcPhltQ/uAB
-         pFk/0NPxCUAIim6eeFSrq4jNgBWx7N5QbWZBvQTcxlrGD3vfUDn2FoWwq+KwrVvkoHWR
-         1u4oj5fu2Xbe9ikTB5Cq1AfHhgLnvfenJGYBNIr3JD10Df8oMXvjOwyTJk3TeHe200iI
-         SmnJPVxaefWREtM8o39JpI6NgZergAWxow9azm3H8XmeaN747hdOvrC9XShOP5/StLyD
-         j+Fg==
+        bh=gRqL4mq8l9b/8+1doI0jfOmB5WaZxv0ewJ/nUke/hgQ=;
+        b=qcZF7L3OnrfiKm8Z+a+sMqBBK/erb1XVb+acvu7SHvhz4HD4v/VgDy9RWTE/Tc2iQ/
+         m3L28MVnczYZ9jBAYJyzw0XFgN2UieVZF57ZaZ8iwu3I4vTmU9UHQIJe6NlfVO2dKdBk
+         mjKUUAEhSgNnqzaBueuxHASqHxqJVmLw6zRmatTf6rzmJPNbvWIlpQADLkeEXLxV4B0H
+         wGqc09VYdp+Z77+fXbwMopLYyJ0mukcoyNp47B9LJkXmdYlb7Q6eMOiU8mRPNbIUaA8G
+         yEtUqvRCV5PH8uSlXNu85tAcgy+iz/efYcSKXjrJtpw9JVm0QiqPqkmvYbaaGxrU2N/w
+         s/7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790687520; x=1791292320;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1790687929; x=1791292729;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UBGD0ul96jtIpbbV7jZQH0Vpd8aSl2z94lNjdsQZDSA=;
-        b=0GWeY91TksyJhYjwzNs1uQcqX+/XwyBsVOIdRXJ24dwtBV8g9M+0jvsaKW5UPVA8XU
-         pneEyUzDUvbgEOm45jYCQWmcTSDgBxD/blRoemdj7WuKXDbbbH4WnxF6+3H0m+NULnix
-         nQGJBOfJU9UHEjnkVjMRKJ1TZiOoVKht/dHsGYOdpW8f9Et0DWqWYTiIrLuC2mHAaXNn
-         +KzQCziHql4qeJcFAd6/1acg8hUAEwYM7Z6tFhka78YG0YvrMF6MWoyTY0qYF61CejPq
-         8ew9uXg79aSnkb1JEH7G+ES1nKmK0AGJ5U1vwMxLK7lITcJbTBNFf87mm1mCePh3Yxtn
-         sFtw==
-X-Forwarded-Encrypted: i=1; AKwUvBxIddMF0UhwnWPjN3g+nIzbUh5Sn0Dd4dZt1kUpLm3sfgXawEjBPpNUUaKxhynmQXpTroWRHOI3JcI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI+d28KwN7rHWIZSHX38ZZvvUKWaQ33A7Ygzxf1JgcrhWZUgYCK
-	9DzQMq2SpSHRd1BxWHW6WfHXvK2PfVHpBL2ZKPWjduekCFHO6K5QMIfY
-X-Gm-Gg: AYBFou1DNuyfHldFTYwilCjmqodZgh7FhyG0yszHBmHd7b6qbvbAaKcphCMH17capoO
-	IMmfJ766xwTIZe+gZ+ywIuVJWwUUfFBfR/a7cUwfrmtCxEvz6OjwJssUbFojGQ0r9HFaHE6NqQI
-	g95tHJuFAqA8kpwK0UZW0GSfZsu4SssU0bXNLN+AJRlUy/BpVDUESM4LwYzyjxtR5ix+d0fmJtN
-	ZPnJnkVS4l9S2VZIZtEZ1MS2YYu8cwSs/yVhpDpL3NQoeVfBzpPwMXPF86vUInULJOydCQHDxKZ
-	xs98o9L+0EmTGWAHiEz59l9IxeyAN1zFIbEE8Q1jHTsSzZroO85z6/6mu5tKHOCDjM/emfnIwMb
-	+oFJLzprUTY1+y6buCyMbIv2FFAHY8DYdWQ1qYynPsbtthNrc/irAdhlJpQDW8mi6WhKI9EjkS5
-	g+qUOBbojfRETBVTisn4B1/R9Rn6zmB4mmr1NMfxKeNnm2cT6QmiRQo71EWWmnUp+C5xf/931UP
-	9hzNXjwAsZCbRJAi2wJJ/8Jy9N6HpSX4O5DjnSVSkTqPil24pKHp3bP8g==
-X-Received: by 2002:a17:90b:3c4e:b0:3a4:88c2:32b8 with SMTP id 98e67ed59e1d1-3a488c245e0mr6140505a91.1.1790687520329;
-        Tue, 29 Sep 2026 06:12:00 -0700 (PDT)
-Received: from chenyou.. ([140.116.39.229])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4985fed22sm5582137a91.9.2026.09.29.06.11.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 06:11:59 -0700 (PDT)
-From: Chen-Yu Yeh <chenyou910331@gmail.com>
-To: corbet@lwn.net,
-	alexs@kernel.org
-Cc: dzm91@hust.edu.cn,
-	wy@wyuan.org,
-	si.yanteng@linux.dev,
-	srcres258@furdevs.cn,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 3/3] docs/zh_TW: link filesystems/ and cpu-freq/ from the index
-Date: Tue, 29 Sep 2026 21:11:40 +0800
-Message-ID: <20260929131142.266819-4-chenyou910331@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260929131142.266819-1-chenyou910331@gmail.com>
-References: <20260929131142.266819-1-chenyou910331@gmail.com>
+        bh=gRqL4mq8l9b/8+1doI0jfOmB5WaZxv0ewJ/nUke/hgQ=;
+        b=rS9KwpKKEua+wqVl5wLGMqvCCJgQgJ4AHtmnWq0NOLi2Rw771BcLO9Nw0JeAzXbLGt
+         xRz9PgKWKnz+fPEyCd6RjgTR1fd7Futa4SAJCqT6CuiJl0HKDSHxFDf77t2zpyPnwR1r
+         Q+o4Z+H+iq2cmmYh6Bso9Ek7LN/iLma1g0v5bWtZ/XGYuYBoRvb4ZmVD1wJ+FQlEIbqV
+         tuuuIR/h3JuK7Fc/KUWAwaL6SSFp4soNmwzaEpauaan0b0CHR3GtUTJcsOIFePPzv6An
+         dZS/KlKKyYdkB2VPRc70L2+FW6E5JdtlZ2aGajjt1JA/zUL4jD9jdcXFfCGv8mmKtRVi
+         DJzA==
+X-Forwarded-Encrypted: i=1; AKwUvByQOTLohU+vnsJzwyC5Z8Ar3O364+8XDCLl3pDG/6pJNziVIJIx2T9dQljQBCQGgV0KCJDyihQlIKc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ1iHVQ4L7ISESOw6CQE/T+ffgBJrCNG3QVjBNwGtenp9/oR3Kn
+	Xil/nQPtBE3In3kmkSGR9AoIORW06Mtj3U3EiKHH0YqCobbBOmKs8p2aKJwHTXB6ZgJWKRb7xd7
+	9P3ekRZxGqsMRHWzQRbAGiLd/dc5uRLw=
+X-Gm-Gg: AYBFou3ZDr9aTkUlnFk+NrnBExf7Bg8VDhYrGG+QUj5dXpzGmN+Vr3wEAYdwoBytkAG
+	WmH00MN2hOtRaAlBmfSdz1HzIVN/5I1097r1gatJfvr/N+Ml/V3zzGMdUDUv5meV4tFkiTZ8Fp8
+	871KdCgdqprip4oJ7RuS8CoJ4fyYC6BDiE66c6vCJub8sD7zkj+zwDI0k/C26hEiX4BELZmjWVB
+	WOijoOt53072LZNaPp8W23Y7XV8KOfu1CDGfi1xEqKdxy5oQDjYtTI9oLSo87jp/FLI6fStC2Y7
+	UikMGh8kAeaRD7wMasRmm1SrI34wkngn/5xaxtkYVo1HgZKJkY4Kw09/ti5bPmlQ/esoT5dghMh
+	FatDJ3azyDgpcVt1/VcZduuJkUmLztGUfHc8vzAy08m6DSFNY
+X-Received: by 2002:a05:6512:4020:b0:5b8:f0a4:350b with SMTP id
+ 2adb3069b0e04-5b8f0a436bdmr3345652e87.1.1790687928678; Tue, 29 Sep 2026
+ 06:18:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260929115956.229610-1-chenyou910331@gmail.com> <CAOB9oOY2V68_qnv6DFyDJL2d=50zN_oQ6=6+Fs7=Ez+9TnuDmg@mail.gmail.com>
+In-Reply-To: <CAOB9oOY2V68_qnv6DFyDJL2d=50zN_oQ6=6+Fs7=Ez+9TnuDmg@mail.gmail.com>
+From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Date: Tue, 29 Sep 2026 21:18:36 +0800
+X-Gm-Features: AclHuK8JI9A3jbYNFYQfj8FyUPccoS-iBb3m2QeZc47P98WPh-RJeMF-A3fYA6A
+Message-ID: <CAKspUh+rJ7qm7VKXTYcqqPxwNWnNJ09p3DAciwGXGzpBCOJ=NA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] docs/zh_TW: remove duplicated maintainer contact information
+To: Yizhou Tang <tangyeechou@gmail.com>
+Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn, wy@wyuan.org, 
+	si.yanteng@linux.dev, srcres258@furdevs.cn, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Andy Deng <theandy.deng@gmail.com>, 
+	Bailu Lin <bailu.lin@vivo.com>, Bernard Zhao <bernard@vivo.com>, Bryan Wu <bryan.wu@analog.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Chucheng Luo <luochucheng@vivo.com>, 
+	Dave Martin <Dave.Martin@arm.com>, Dave Young <hidave.darkstar@gmail.com>, 
+	Dongsheng Song <dongshneg.song@gmail.com>, "Eric W . Biederman" <ebiederm@xmission.com>, 
+	Eugene Teo <eugeneteo@kernel.sg>, Fu Wei <tekkamanninja@gmail.com>, Fu Wei <wefu@redhat.com>, 
+	gao chao <gaochao49@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hailong Liu <liu.hailong6@zte.com.cn>, Harry Wei <harryxiyou@gmail.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
+	Junhua Huang <huang.junhua@zte.com.cn>, Kangkai Yin <e12051@motorola.com>, 
+	Leigang Zang <zangleigang@hisilicon.com>, Li Yang <leoyang.li@nxp.com>, 
+	Li Zefan <lizf@cn.fujitsu.com>, Maggie Chen <chenqi@beyondsoft.com>, 
+	Nicolas Pitre <nico@fluxnic.net>, Punit Agrawal <punitagrawal@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	TripleX Chung <xxx.phy@gmail.com>, Wang Chen <wangchen@cn.fujitsu.com>, 
+	Wang Cong <xiyou.wangcong@gmail.com>, Wang Wenhu <wenhu.wang@vivo.com>, 
+	Wan Jiabing <wanjiabing@vivo.com>, wheelz <kernel.zeng@gmail.com>, 
+	Will Deacon <will@kernel.org>, Wu XiangCheng <bobwxc@email.cn>, 
+	Xiaochen Wang <wangxiaochen0@gmail.com>, Xudong Guan <xudong.guan@gmail.com>, 
+	xu xin <xu.xin16@zte.com.cn>, yaxinsn <yaxinsn@163.com>, Yinglin Luan <synmyth@gmail.com>, 
+	Zhang Le <r0bertz@gentoo.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-filesystems/ and cpu-freq/ each have an index.rst, but nothing links to
-either, so their translations cannot be reached from the rest of the
-zh_TW documentation.  As agreed in the zh_TW scope discussion, link them
-rather than drop them.
+On Tue, Sep 29, 2026 at 8:14 PM Yi Tang <tangyeechou@gmail.com> wrote:
+> I have no objection to removing the duplicate contact information. I
+> noticed that some translations in these commits were changed to
+> traditional Chinese terminology, such as changing "=E7=A1=AC=E4=BB=B6" to=
+ "=E7=A1=AC=E9=AB=94". I
+> suggest submitting these changes as separate commits to make them
+> easier for everyone to review.
 
-The English documentation reaches both through subsystem-apis.rst,
-which the zh_TW index lists only as a TODO item.  Translate
-subsystem-apis.rst, with the two translated areas in its toctrees and
-the rest under TODOList as zh_CN does, and link it from the index.
-"Core subsystems" is rendered as 基礎子系統 rather than
-核心子系統, which would read the same as the page title
-now that "kernel" is 核心.
+Thanks for looking, Yi.
 
-Like the pages it links to, the new page carries the notice for
-translations not kept in sync.
+That change is not part of this series.  What you saw is in the
+range-diff, which compares the v1 and v2 patches as text, context lines
+included.  v1 was based on v7.2 and v2 on docs-next, where the zh_TW
+process/ series has already landed; that series did the terminology
+update in separate commits, e.g. 5f0178db86a3 ("docs/zh_TW: process:
+localize terminology in embargoed-hardware-issues.rst").
 
-update to commit 4f10f1dfb235 ("net: remove ISDN subsystem and Bluetooth
-CMTP")
+So "=E7=A1=AC=E4=BB=B6" -> "=E7=A1=AC=E9=AB=94" only shows up as a changed =
+context line (note the
+blank second column).  The v2 patches themselves change no wording;
+they only delete the credit and contact lines.
 
-Link: https://lore.kernel.org/linux-doc/CAKspUhJAbCWoxgh2eq8R5g_MiNK=oXgKPUWqGOpHh0w1-Fv74A@mail.gmail.com/
-Link: https://lore.kernel.org/linux-doc/ap5xEtMdwXS8Pvcf@wyuan.org/
-Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
----
- Documentation/translations/zh_TW/index.rst    |  6 +-
- .../translations/zh_TW/subsystem-apis.rst     | 99 +++++++++++++++++++
- 2 files changed, 104 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_TW/subsystem-apis.rst
-
-diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
-index 1dddf5963864..001680d040ea 100644
---- a/Documentation/translations/zh_TW/index.rst
-+++ b/Documentation/translations/zh_TW/index.rst
-@@ -39,12 +39,16 @@ TODOList:
- 
- 開發人員使用的內核內部交互接口手冊。
- 
-+.. toctree::
-+   :maxdepth: 1
-+
-+   subsystem-apis
-+
- TODOList:
- 
- * core-api/index
- * driver-api/index
- * 內核中的鎖 <locking/index>
--* subsystem-apis
- 
- 開發工具和流程
- --------------
-diff --git a/Documentation/translations/zh_TW/subsystem-apis.rst b/Documentation/translations/zh_TW/subsystem-apis.rst
-new file mode 100644
-index 000000000000..5c874aafe70c
---- /dev/null
-+++ b/Documentation/translations/zh_TW/subsystem-apis.rst
-@@ -0,0 +1,99 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ./disclaimer-zh_TW.rst
-+.. include:: ./unmaintained-zh_TW.rst
-+
-+:Original: Documentation/subsystem-apis.rst
-+
-+==============
-+核心子系統文件
-+==============
-+
-+這些書從核心開發者的角度，深入介紹特定核心子系統如何運作。這裡的大部分
-+資訊直接取自核心原始碼，並視需要加上補充材料（或者至少是我們設法加上的
-+部分——很可能 *並非* 所有需要的材料都已具備）。
-+
-+基礎子系統
-+----------
-+
-+TODOList:
-+
-+* core-api/index
-+* driver-api/index
-+* mm/index
-+* power/index
-+* scheduler/index
-+* timers/index
-+* locking/index
-+
-+人機介面
-+--------
-+
-+TODOList:
-+
-+* input/index
-+* hid/index
-+* sound/index
-+* gpu/index
-+* fb/index
-+* leds/index
-+
-+網路介面
-+--------
-+
-+TODOList:
-+
-+* networking/index
-+* netlabel/index
-+* infiniband/index
-+* mhi/index
-+
-+儲存介面
-+--------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   filesystems/index
-+
-+TODOList:
-+
-+* block/index
-+* cdrom/index
-+* scsi/index
-+* target/index
-+* nvme/index
-+
-+其他子系統
-+----------
-+
-+**Fixme**：這裡還需要更多的分類整理工作。
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   cpu-freq/index
-+
-+TODOList:
-+
-+* accounting/index
-+* edac/index
-+* fpga/index
-+* i2c/index
-+* iio/index
-+* pcmcia/index
-+* spi/index
-+* w1/index
-+* watchdog/index
-+* virt/index
-+* hwmon/index
-+* accel/index
-+* security/index
-+* crypto/index
-+* bpf/index
-+* usb/index
-+* PCI/index
-+* misc-devices/index
-+* peci/index
-+* wmi/index
-+* tee/index
--- 
-2.43.0
-
+Thanks,
+Chen-Yu
