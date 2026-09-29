@@ -1,1303 +1,234 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012037.outbound.protection.outlook.com [52.101.53.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60FE5525A80
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 12:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790686205; cv=none; b=pXH4TzjNrf85BMo8DIRLFeD81/MZ4mOJGvuHCyEJCFnMKjPOOnxrZYXcE5W8wTv4eOzNFLDOwO1S2IOMV3YY3SRONZkPaCHenwivUAP54XMvH+nm+h01aPae5hfZ0ZJzwjDx1nMGzo6gglfpprITkytJWh8Fqu9obSAC6betNpc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790686205; c=relaxed/simple;
-	bh=ykk8sH3ukd6Z7bFSnuZP8VJ+Fz3abIIFUeFNvxXA/iQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i8EzDn6X9iWg6D038ADS2i1HFGN7odB+Xdir1eSNbFVZV391gfMSoCpwIkXoDures5/25XNEyGf/zeh+Kb86oMJIBpZqdDobPf9pngCuIlMUb5z+QskxsvUHNoqAtgiaOcvIbb+oGj0Qyuq2ScX2kNZ1x3f06DLopRzxs2zemSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SSnkz81l; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0F1513569;
+	Tue, 29 Sep 2026 13:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790686986; cv=fail; b=ugCWlWdViq/APeApau3XdoozGKDB1keYfDDUGcwkwvFxM7pjaXcEW7nLipkWqHKuwFyzN2gtJInxovoLGP1wMv1LH8RDlsR10V8DH4Tqf23GJXnQj2nnFHE4o987DGlO2Ek9hBLjf0u36rHRXOHqzwi7gbZ0AmuMCEd4jIcjE1I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790686986; c=relaxed/simple;
+	bh=IjU61hAZhSL/ARSmqUWcBOAIIu16YxAZC7P0+S/3Xf0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZO0JAvAT5CyuzVVDa9u2z5qupgDmVtJ0X3yxihM5fHN9g+FpLB4LW21gmRMFil++c6Qd/uOLjoENnvifKkOyHvQd9M3KSWuKOFc6eQjPdts2axrB2V2pEpXjwd/JjuBDS3q/+xS6GhLkbUPBU0yg3igLEyfjy2yTHJbGah8pVyw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LyIi5Iph; arc=fail smtp.client-ip=52.101.53.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SSnkz81l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790686200;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+DS1z2lijtWJGWbw95P1/LLexnLrfzUhsbzoXVHr/Xo=;
-	b=SSnkz81lOBlfhsLnhx/Yz3zopNfpsFlTZBNlRc8JiIPsjOR+AEcxfLwhKa3LskZFYCfvgl
-	aXBYEVi1oVbLG9z/XjAnAbGHG9FG4YF7o2uS2VB05YcAbVEJjcFHRKkt09lWwGGM1EXKzM
-	kIl47NGXzONpTUYbKRdXmTlU7qBwt58=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-9-L4e0nCgIOeOo75jjFMwxVg-1; Tue,
- 29 Sep 2026 08:49:55 -0400
-X-MC-Unique: L4e0nCgIOeOo75jjFMwxVg-1
-X-Mimecast-MFC-AGG-ID: L4e0nCgIOeOo75jjFMwxVg_1790686194
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 294DF1955DC7;
-	Tue, 29 Sep 2026 12:49:54 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.redhat.corp (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 013861956095;
-	Tue, 29 Sep 2026 12:49:50 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-doc@vger.kernel.org
-Cc: Nam Cao <namcao@linutronix.de>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Wen Yang <wen.yang@linux.dev>
-Subject: [PATCH 08/10] rv: Add dl_server specific monitors
-Date: Tue, 29 Sep 2026 14:49:06 +0200
-Message-ID: <20260929124908.177676-9-gmonaco@redhat.com>
-In-Reply-To: <20260929124908.177676-1-gmonaco@redhat.com>
-References: <20260929124908.177676-1-gmonaco@redhat.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LyIi5Iph"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XwmsI7nkYU0EbY7fR9vh3X2nOY8uHbs94pepgvSMqjKkMVmYHe0IFSK4uM17cMTEUBW4Z30y5WUkGMzy9OOlNWwvD3aqdSSS/xc5OPavqG9nvdoHQ8+JSfBm4qS7M6usmYtJBDlFwvlybMN0HwoA5NW8hu4rb64roFLOVZn1RhXUrpT1DBcxD+HO8RHutBk43H1fqdff57m6A2uCR5P1U43ePygM+J3d5/CemM4Cdk1c4DYAMxGUn6RFfL1vMVffLBUYRm0PU15kuF764VEt3UdUyxghW7272vqCewrV/ju0EtQs9/Q8wfnnc6w9Uyl2bjyurhxSXNkv5XuAoE0FUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EnSdzzN2KtF34pEHk0SHXphMi0ngC3E/N96I0h1J5v0=;
+ b=M63B+6VzUQonXALtWkdWhcemgZ7EDPHv0kTOMvpJostPqsFJS9pYlPe0AS+N5wAVkzww55DHRtDWh17XzXhrsyRrB38OJxhtLj1t58K8Y04ZvTW5iPd29n007RND3i1S+0pw8dNV4cpChVgeQMQ/4YOgLqfK1xbZffh7OtR1VqkbU7Q3mXgBVV+AdYW5i4xyYP83CDJZyvjOt8obKUz58M5zcdTL5oq1eRffuhvpcvYQFyj7QjZcJSNCBw3P7NBr9VFRa1ot3KUmI8xxXBhuRV2aMR5i4wjNCapxTc9COMdoYWhoty00hKUtsmdpLFt7LP/axnAdPZG6WuGR7MBASA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EnSdzzN2KtF34pEHk0SHXphMi0ngC3E/N96I0h1J5v0=;
+ b=LyIi5IphMxmsTSIX0pmkU1h6YHu20rqcnbjZ9Zzd4ZrORPX2p1v8+BR14nCd3etjaGKDYXYdNoWEru4N3AWS/e7vEHE5znjURRlMQsYHGSXwAog1KNnTmntJ0sbDywZ9qSRE+TjFAkBEdcGp12o32ycm/+GeumfXFfMl1cJTYZw=
+Received: from SA9PR13CA0156.namprd13.prod.outlook.com (2603:10b6:806:28::11)
+ by PH7PR12MB6695.namprd12.prod.outlook.com (2603:10b6:510:1b2::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.23; Tue, 29 Sep
+ 2026 13:02:44 +0000
+Received: from SA2PEPF00003AEA.namprd02.prod.outlook.com
+ (2603:10b6:806:28:cafe::54) by SA9PR13CA0156.outlook.office365.com
+ (2603:10b6:806:28::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.19 via Frontend Transport; Tue,
+ 29 Sep 2026 13:02:44 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SA2PEPF00003AEA.mail.protection.outlook.com (10.167.248.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.472.14 via Frontend Transport; Tue, 29 Sep 2026 13:02:43 +0000
+Received: from localhost (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Tue, 29 Sep
+ 2026 08:02:42 -0500
+Date: Tue, 29 Sep 2026 08:01:45 -0500
+From: Michael Roth <michael.roth@amd.com>
+To: Naveen N Rao <naveen@kernel.org>
+CC: Sean Christopherson <seanjc@google.com>, Ackerley Tng
+	<ackerleytng@google.com>, <aik@amd.com>, <andrew.jones@linux.dev>,
+	<binbin.wu@linux.intel.com>, <brauner@kernel.org>,
+	<chao.p.peng@linux.intel.com>, <david@kernel.org>, <jmattson@google.com>,
+	<jthoughton@google.com>, <oupton@kernel.org>, <pankaj.gupta@amd.com>,
+	<qperret@google.com>, <rick.p.edgecombe@intel.com>, <rientjes@google.com>,
+	<shivankg@amd.com>, <steven.price@arm.com>, <willy@infradead.org>,
+	<wyihan@google.com>, <yan.y.zhao@intel.com>, <forkloop@google.com>,
+	<pratyush@kernel.org>, <suzuki.poulose@arm.com>, <aneesh.kumar@kernel.org>,
+	<liam@infradead.org>, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner
+	<tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, "Vishal
+ Annapurve" <vannapurve@google.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, Kairui Song
+	<kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham
+	<nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, Axel Rasmussen
+	<axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu
+	<weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, Qi Zheng
+	<qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, Kiryl Shutsemau
+	<kas@kernel.org>, Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe
+	<jgg@ziepe.ca>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
+	<peterx@redhat.com>, <tarunsahu@google.com>, Fuad Tabba
+	<fuad.tabba@linux.dev>, Vlastimil Babka <vbabka@kernel.org>,
+	<kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-trace-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-coco@lists.linux.dev>
+Subject: Re: [PATCH v11 15/46] KVM: guest_memfd: Call arch make_shared
+ callback for to-shared conversion
+Message-ID: <gqybhgtzeufmbohckesirsbu3ftn4s4i3uhjhaestphuppvth5@zx7lqsldosbc>
+References: <20260826-gmem-inplace-conversion-v11-0-0a15d8a799aa@google.com>
+ <20260826-gmem-inplace-conversion-v11-15-0a15d8a799aa@google.com>
+ <ao9CKMXAX-hScRSa@google.com>
+ <art6ARechyK0iytK@blrnaveerao1>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <art6ARechyK0iytK@blrnaveerao1>
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003AEA:EE_|PH7PR12MB6695:EE_
+X-MS-Office365-Filtering-Correlation-Id: e671748e-6ee7-452b-8aa1-08df1e29f37f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700016|23010399003|7416014|6133799003|4143699003|10067099003|11063799006|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	DJtHg4PFlipWrHbxcdFUSMHqx7Ma1/j+fW+CyNEsBUrhHuZYSa7axyVNY5SR7wDJDDLLkscqhh27rOW0pVoIaQlM2kI+/MBLbe6PNNkBhfiAJ7XtiUtk7P3sQCNAO9auhk7an4zN7+IU8p5mpk2r++/tMdOBQmj1TUczl8sG2Nvg5d2lsyFKO+xPZLBhGHKid4yWkvWD8q7TxYvMO2khCY8RJhejLcL95yrdmbrOQwoXB2mc2zyRFBuhy195IIMkbppwIJwoecTgk28WQZKRDFWgxB165+N16lE7WmN4sSB8h+hZoo9JGQQnSNsPInVDM492dq3oDlZdzmnSbNjit5lxtZRTaiQ+eLUYVhPF9GIzf5SBMB2zD+xIoYwXlk+OnST9tqD7f7yIyiPrgqbB6ESucsnep2bMtd0G5yYU4BwUh5D/A1hTgrglwTZNY8lpBhi56tGslpCb4dBC4y0LdBC9vpoPBZ9TjrbbDiAZFKiQ9oQn47uw/0EiWgHwrT5KemhvXl72/2BG73qyekOUpIg+UZoYfJleNniTOZXf7R3ccPd3wj61FAAaZfmGV6Ufor0poz/8H/EZcwTpxmTsgIxMJRHGfNsKHjoHKQOS2kGmD69AG40mnoEI75Ft2inNcP5xwM8FnVSRpsFwbalZsI59yOzbXpRN2nvNvfbe4K6Q+F5q1cJ654waXA/hK6RwhKhq9roGZ6kY2nCFbfyHDA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700016)(23010399003)(7416014)(6133799003)(4143699003)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	UWlox5Y/EVZy1WWCuGEaAcWf56XUyzgX2z8LRuO/TxyEqqs8ezTuT8ci0SrxvyPdQj0d60xAHRmZSR1axWhhE1brf2mTKMFL7Ss7tW/0ggzIX8o8yGwgFMH2zS0zUN79PPhSbfDst7drXMtaXd2KDXkhOFiwsj35qFbP+/TmE/O4jpnAOFZDZlB8ejpkNiNc32oruly1QmLpa2csBbARw9P1RdSNSpteFttfctszfFgPDbTgxgdlkXLqdWZ/E+YoY4ZLoBfH2jEdl3vzoMeF+3qU0hc9fXRyQ2SRwAfhADlbdOFnvHDL5sZPGCJPkXMa0fgsCITi866q94UsWHAmDjmbMa7rwVSzqAgiRgNYsRGbYZVA5Kc0YzcX683JJtMV62aKJN79Di1PKwpBcUDcBXlXJL3/liDQaZpNQ+UStvbBwng1X4vXUjY1qdXCE0Ed
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 13:02:43.6921
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e671748e-6ee7-452b-8aa1-08df1e29f37f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003AEA.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6695
 
-Add monitors to validate the behaviour of the deadline server.
+On Tue, Sep 29, 2026 at 03:10:41PM +0530, Naveen N Rao wrote:
+> On Wed, Aug 26, 2026 at 12:44:40PM -0700, Sean Christopherson wrote:
+> > On Wed, Aug 26, 2026, Ackerley Tng wrote:
+> > > +
+> > >  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> > >  				     size_t nr_pages, uint64_t attrs,
+> > >  				     pgoff_t *err_index)
+> > > @@ -624,7 +661,12 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> > >  
+> > >  	filter = to_private ? KVM_FILTER_SHARED : KVM_FILTER_PRIVATE;
+> > >  	kvm_gmem_invalidate_start(inode, start, end, filter);
+> > > +
+> > > +	if (!to_private && kvm_arch_has_gmem_convert())
+> > > +		kvm_gmem_make_shared(inode, start, end);
+> > > +
+> > >  	mas_store_prealloc(&mas, xa_mk_value(attrs));
+> > > +
+> > >  	kvm_gmem_invalidate_end(inode, start, end);
+> > 
+> > The real reason I responded...
+> > 
+> > Thinking about the Secure AVIC mess made me realize zapping NPTs for SNP VMs isn't
+> > strictly necessary in this path.  The PFN isn't changing, just the attributes, and
+> > that's (obviously) tracked in the RMP.  KVM doesn't need to zap SPTEs to induce a
+> > fault, because the mismatched C-bit vs. RMP status will cause an #NPF(RMP), and
+> > AFAICT kvm_mmu_page_fault() will do the right thing.  A misbehaving guest could
+> > continue to access the shared data (assuming we stick with lazy conversions), but
+> > that should be fine?  E.g. it's not really any different than implicit conversions.
+> 
+> Brilliant idea!
+> 
+> > 
+> > In other words, couldn't we do this (as an on-top optimization)?  The only wrinkle
+> > I can think of is that it could delay reconstituion of a hugepage, especially if
+> > we opted for eager conversion (because the guest wouldn't hit #NPFs to trigger the
+> > hugepage promotion).
 
-The currently implemented monitors are:
-* boost
-    fair tasks run either independently or boosted
-* laxity
-    deferrable servers wait for zero-laxity and run
+I suppose gmem could selectively zap if a range switches from mixed to
+all-private. For non-confidential guests, it might even make sense for
+mixed to all-shared if there's some way to avoid the forced
+hugetlb-splitting in that scenario.
 
-Reviewed-by: Nam Cao <namcao@linutronix.de>
-Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
----
- Documentation/trace/rv/monitor_deadline.rst   | 127 ++++++++
- kernel/trace/rv/Kconfig                       |   2 +
- kernel/trace/rv/Makefile                      |   2 +
- kernel/trace/rv/monitors/boost/Kconfig        |  15 +
- kernel/trace/rv/monitors/boost/boost.c        | 276 ++++++++++++++++++
- kernel/trace/rv/monitors/boost/boost.h        | 146 +++++++++
- kernel/trace/rv/monitors/boost/boost_trace.h  |  19 ++
- kernel/trace/rv/monitors/laxity/Kconfig       |  14 +
- kernel/trace/rv/monitors/laxity/laxity.c      | 253 ++++++++++++++++
- kernel/trace/rv/monitors/laxity/laxity.h      | 133 +++++++++
- .../trace/rv/monitors/laxity/laxity_trace.h   |  19 ++
- kernel/trace/rv/rv_trace.h                    |   2 +
- tools/verification/models/deadline/boost.dot  |  48 +++
- tools/verification/models/deadline/laxity.dot |  36 +++
- 14 files changed, 1092 insertions(+)
- create mode 100644 kernel/trace/rv/monitors/boost/Kconfig
- create mode 100644 kernel/trace/rv/monitors/boost/boost.c
- create mode 100644 kernel/trace/rv/monitors/boost/boost.h
- create mode 100644 kernel/trace/rv/monitors/boost/boost_trace.h
- create mode 100644 kernel/trace/rv/monitors/laxity/Kconfig
- create mode 100644 kernel/trace/rv/monitors/laxity/laxity.c
- create mode 100644 kernel/trace/rv/monitors/laxity/laxity.h
- create mode 100644 kernel/trace/rv/monitors/laxity/laxity_trace.h
- create mode 100644 tools/verification/models/deadline/boost.dot
- create mode 100644 tools/verification/models/deadline/laxity.dot
+> > 
+> > diff --git arch/x86/kvm/mmu/mmu.c arch/x86/kvm/mmu/mmu.c
+> > index 62f751952ad8..61f3e270ab61 100644
+> > --- arch/x86/kvm/mmu/mmu.c
+> > +++ arch/x86/kvm/mmu/mmu.c
+> > @@ -1670,6 +1670,7 @@ static bool __kvm_rmap_zap_gfn_range(struct kvm *kvm,
+> >  
+> >  bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+> >  {
+> > +       unsigned long shared_private =  KVM_FILTER_SHARED | KVM_FILTER_PRIVATE;
+> >         bool flush = false;
+> >  
+> >         /*
+> > @@ -1683,6 +1684,10 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+> >         lockdep_assert_once(kvm->mmu_invalidate_in_progress ||
+> >                             lockdep_is_held(&kvm->slots_lock));
+> >  
+> > +       if (gmem_in_place_conversion && !kvm_has_mirrored_tdp(kvm) &&
+> > +           ((range->attr_filter & shared_private) != shared_private))
+> > +               return false;
+> > +
+> >         if (kvm_memslots_have_rmaps(kvm))
+> >                 flush = __kvm_rmap_zap_gfn_range(kvm, range->slot,
+> >                                                  range->start, range->end,
+> 
+> Can this be a problem with gmem hugepages? Not sure how that is going to 
+> look like, so this may be covered in other ways.
+> 
+> But, as it exists today, if the guest converts part of a 2M page to 
+> shared, then this skips zapping the SPTEs from the call in 
+> kvm_gmem_invalidate_start(). sev_gmem_make_shared() then issues PSMASH 
+> to convert RMP entry to 4k entries and we end up with 2M NPT+4K RMP. If 
+> the guest then writes to any private page in that range, 
+> page_fault_can_be_fast() returns true, fast_page_fault() only checks 
+> permissions with spte_permission_fault() and does not do anything.  
+> sev_handle_rmp_fault() also does not issue a zap since it finds that the 
+> RMP entry is already 4k, and we end up in a loop.
 
-diff --git a/Documentation/trace/rv/monitor_deadline.rst b/Documentation/trace/rv/monitor_deadline.rst
-index e88f631d8387..ce714bf6f9d9 100644
---- a/Documentation/trace/rv/monitor_deadline.rst
-+++ b/Documentation/trace/rv/monitor_deadline.rst
-@@ -156,3 +156,130 @@ become ``preempted``::
- The value of ``runtime_left_ns()`` is directly read from the deadline entity
- and updated as the task runs. It is increased by 1 tick to account for the
- maximum delay to throttle (not valid if ``sched_feat(HRTICK_DL)`` is active).
-+
-+Monitor boost
-+~~~~~~~~~~~~~
-+
-+The boost monitor ensures tasks associated to a server (e.g. fair tasks) run
-+either independently or boosted in a timely manner.
-+Unlike other models, the ``running`` state (and the ``switch_in/out`` events)
-+indicates that any fair task is running, this needs to happen within a
-+threshold (the server period ``T()``), whenever a task is ready.
-+
-+The following chart is simplified to avoid confusion, several less important
-+self-loops on states have been removed and event names have been simplified:
-+
-+* ``idle`` (``dl_server_idle``) occurs when the CPU runs the idle task.
-+* ``start/stop`` (``dl_server_start/stop``) start and stop the server.
-+* ``switch`` (``sched_switch_in/out``) represented as a double arrow to
-+  indicate both edges are present: ``ready -- switch_in -> running`` and
-+  ``running -- switch_out -> ready``. As stated above this fires when any fair
-+  task starts or stops to running.
-+* ``resume``: a fair task woke up, this event is especially frequent on self
-+  loops (no state change during a wakeup) but is removed here for clarity.
-+  It's main purpose it's to capture the transition ``idle -> ready``.
-+* ``resume_throttle``: a fair task woke up, potentially when the server
-+  is going to be throttled (no runtime left). This is equivalent to ``resume``,
-+  but it's going to be followed by throttle and the invariant in ``idle`` is
-+  likely already invalid. It triggers also erroneously when the CPU is fully
-+  idle, in that case the runtime is likely stale as it's still consumed by
-+  idle, the event may not be followed by a throttle but the task is very likely
-+  to run and the state machine is going to be fixed on the next replenish
-+  (forced to happen within a period ``T()``).
-+* arrows merge with an ``x`` sign to indicate they are the same event going to
-+  the same state (but with different origins, e.g. ``{idle/throttled} -- stop
-+  -> stopped``). The ``+`` sign indicates standard crossings or corners.
-+
-+Refer to the dot file for the full specification::
-+
-+                      |
-+                      v
-+                #===============#        stop;reset(clk)
-+                H               H <---------------+
-+  +------------>H    stopped    H                 |
-+  |             H               H                 |
-+  |             #===============#                 |
-+  |                 ^          |                  |
-+  |                 |          |                  |      replenish;reset(clk)
-+  |               stop         |                  |                    +--+
-+  |                 |     start;reset(clk)        +-----------------+  |  |
-+  |                 |          v                                    |  |  v
-+  |                +---------------+ <---------- switch --------> +---------+
-+  |   +- resume -> |     ready     |                              |         |
-+  |   |            |               | -replenish;reset(clk)        | running |
-+  |   |  +- idle - |   clk < T()   |   |                          |         |
-+  |   |  |         +---------------+ <-+        +---------------- +---------+
-+  |   |  |         |  ^                         |                   ^    |
-+  |   |  |         |  |                       throttle;reset(clk)   |    |
-+  |   |  |         |  |replenish;reset(clk)     |                   |    |
-+  |   |  |  throttle; |                         |   replenish;reset(clk) |
-+  |   |  |   reset()  |                         |                   |    |
-+  |   |  |         v  |                         v                   |    |
-+  |   |  |   +---------+    switch    +-------------------+         |    |
-+  x---+--+-- |throttled| <----------> | throttled_running | --------+    |
-+  |   |  |   |         |              |     clk < T()     |              |
-+  |   |  |   |clk < T()| -----+       +-------------------+              |
-+  |   |  |   +---------+      |            |                             |
-+  |   |  |      ^             |            |                             |
-+  |   |  | resume_throttle;   |            |                             |
-+ stop |  |     reset(clk)     |            |                             |
-+  |   |  v      |             |            |                             |
-+  |   +---------+ <-----------x--- idle ---x-----------------------------+
-+  |   |         |
-+  +-- |  idle   | <--+
-+      |         |    | replenish;reset(clk)
-+      +---------+ ---+
-+
-+Monitor laxity
-+~~~~~~~~~~~~~~
-+
-+The laxity monitor ensure deferrable servers go to a zero-laxity wait unless
-+already running and run in starvation cases. The model can stay in the
-+zero-laxity wait only for up to a period, then the server either prepares to
-+stop (after ``idle_wait``) or prepares to boost a task (``running``). Boosting
-+(``sched_switch_in``) is only allowed in the ``running`` state.
-+``dl_replenish_running`` should not be allowed in ``running``, but can happen
-+as soon as the server started, the model allows this only within a short
-+threshold::
-+
-+                                                  |
-+ +---- dl_server_stop -----+                      |
-+ |                         v                      v
-+ |            #=======================================#
-+ |   +------- H                stopped                H
-+ |   |        #=======================================#
-+ |   |          |                             ^
-+ |   |  dl_server_start_running;        dl_server_stop
-+ |   |        reset(clk)                      |
-+ |   |          v                             |            dl_replenish_running;
-+ |   |     +-------------------------------------+ -----------clk < REPLENISH_NS
-+ |   |     |                                     |              |
-+ |   |     |              running                | <------------+
-+ |   |     |                                     |
-+ |   |     +-------------------------------------+ ------------------+
-+ |   |       |            ^                    ^                     |
-+ |   |  dl_throttle    dl_replenish_running    |               dl_update
-+ |   |       v            |                    |        dl_replenish;reset(clk)
-+ |   |   +-------------------+                 |   dl_replenish_idle;reset(clk)
-+ |   |   |  replenish_wait   |                 |                     |
-+ |   |   | clk < period_ns() | ----------------+---------------------+--------+
-+ |   |   +-------------------+                 |                     |        |
-+ |   |                   |                     |                     |        |
-+ |   |               dl_update                 |                     |        |
-+ |   |         dl_replenish;reset(clk)     dl_replenish_running      |        |
-+ |   |                   v                     |                     |        |
-+ |   |                 +--------------------------+                  |        |
-+ | dl_server_start;    |                          | <----------------+        |
-+ |   reset(clk)        |     zero_laxity_wait     |                           |
-+ |   |                 |     clk < period_ns()    | ------+ dl_replenish;     |
-+ |   +---------------> |                          |       |    reset(clk)     |
-+ |                     +--------------------------+ <-----+ dl_update         |
-+ |                               |              ^                             |
-+ |  dl_replenish_idle;reset(clk) |      dl_replenish;reset(clk)               |
-+ |                               v            dl_update                       |
-+ |                  +------------------------+  |                             |
-+ +----------------- |        idle_wait       | -+                             |
-+                    |   clk < period_ns()    |                                |
-+                    +------------------------+ <-- dl_replenish_idle;reset(clk)
-+                         ^             |
-+                         +------dl_replenish_idle;reset(clk)
-diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-index cdb851c7cceb..2f2d25bc972b 100644
---- a/kernel/trace/rv/Kconfig
-+++ b/kernel/trace/rv/Kconfig
-@@ -83,6 +83,8 @@ source "kernel/trace/rv/monitors/stall/Kconfig"
- source "kernel/trace/rv/monitors/deadline/Kconfig"
- source "kernel/trace/rv/monitors/nomiss/Kconfig"
- source "kernel/trace/rv/monitors/throttle/Kconfig"
-+source "kernel/trace/rv/monitors/boost/Kconfig"
-+source "kernel/trace/rv/monitors/laxity/Kconfig"
- # Add new deadline monitors here
- 
- # Add new monitors here
-diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-index 1387082dc490..81c557b26334 100644
---- a/kernel/trace/rv/Makefile
-+++ b/kernel/trace/rv/Makefile
-@@ -22,6 +22,8 @@ obj-$(CONFIG_RV_MON_DEADLINE) += monitors/deadline/deadline.o
- obj-$(CONFIG_RV_MON_NOMISS) += monitors/nomiss/nomiss.o
- obj-$(CONFIG_RV_MON_WAKEUP) += monitors/wakeup/wakeup.o
- obj-$(CONFIG_RV_MON_THROTTLE) += monitors/throttle/throttle.o
-+obj-$(CONFIG_RV_MON_BOOST) += monitors/boost/boost.o
-+obj-$(CONFIG_RV_MON_LAXITY) += monitors/laxity/laxity.o
- # Add new monitors here
- obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
- obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
-diff --git a/kernel/trace/rv/monitors/boost/Kconfig b/kernel/trace/rv/monitors/boost/Kconfig
-new file mode 100644
-index 000000000000..3fa121f77729
---- /dev/null
-+++ b/kernel/trace/rv/monitors/boost/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+config RV_MON_BOOST
-+	depends on RV
-+	depends on RV_MON_DEADLINE
-+	default y
-+	select HA_MON_EVENTS_ID
-+	bool "boost monitor"
-+	help
-+	  Monitor to ensure tasks associated to a server (e.g. fair tasks) run
-+	  either independently or boosted in a timely manner.
-+	  This monitor is part of the deadline monitors collection.
-+
-+	  For further information, see:
-+	    Documentation/trace/rv/monitor_deadline.rst
-diff --git a/kernel/trace/rv/monitors/boost/boost.c b/kernel/trace/rv/monitors/boost/boost.c
-new file mode 100644
-index 000000000000..3533d23279ee
---- /dev/null
-+++ b/kernel/trace/rv/monitors/boost/boost.c
-@@ -0,0 +1,276 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+#include <rv/instrumentation.h>
-+
-+#define MODULE_NAME "boost"
-+
-+#include <trace/events/sched.h>
-+#include <rv_trace.h>
-+
-+#define RV_MON_TYPE RV_MON_PER_OBJ
-+#define DA_SKIP_AUTO_ALLOC
-+#define HA_TIMER_TYPE HA_TIMER_WHEEL
-+typedef struct sched_dl_entity *monitor_target;
-+#include "boost.h"
-+#include <rv/ha_monitor.h>
-+#include <monitors/deadline/deadline.h>
-+
-+static inline u64 period_ns(struct ha_monitor *ha_mon)
-+{
-+	struct sched_dl_entity *dl_se = ha_get_target(ha_mon);
-+
-+	return dl_se->dl_period + TICK_NSEC;
-+}
-+
-+static u64 ha_get_env(struct ha_monitor *ha_mon, enum envs_boost env, u64 time_ns)
-+{
-+	if (env == clk_boost)
-+		return ha_get_clk_ns(ha_mon, env, time_ns);
-+	return ENV_INVALID_VALUE;
-+}
-+
-+static void ha_reset_env(struct ha_monitor *ha_mon, enum envs_boost env, u64 time_ns)
-+{
-+	if (env == clk_boost)
-+		ha_reset_clk_ns(ha_mon, env, time_ns);
-+}
-+
-+static inline bool ha_verify_invariants(struct ha_monitor *ha_mon,
-+					enum states curr_state, enum events event,
-+					enum states next_state, u64 time_ns)
-+{
-+	if (curr_state == ready_boost)
-+		return ha_check_invariant_ns(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == throttled_boost)
-+		return ha_check_invariant_ns(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == throttled_running_boost)
-+		return ha_check_invariant_ns(ha_mon, clk_boost, time_ns);
-+	return true;
-+}
-+
-+static inline bool ha_verify_guards(struct ha_monitor *ha_mon,
-+				    enum states curr_state, enum events event,
-+				    enum states next_state, u64 time_ns)
-+{
-+	bool res = true;
-+
-+	if (curr_state == idle_boost && event == dl_replenish_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == idle_boost && event == dl_server_resume_throttled_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == ready_boost && event == dl_replenish_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == ready_boost && event == dl_throttle_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == running_boost && event == dl_replenish_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == running_boost && event == dl_throttle_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == stopped_boost && event == dl_server_start_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == throttled_boost && event == dl_replenish_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	else if (curr_state == throttled_running_boost && event == dl_replenish_boost)
-+		ha_reset_env(ha_mon, clk_boost, time_ns);
-+	return res;
-+}
-+
-+static inline void ha_setup_invariants(struct ha_monitor *ha_mon,
-+				       enum states curr_state, enum events event,
-+				       enum states next_state, u64 time_ns)
-+{
-+	if (next_state == curr_state && event != dl_replenish_boost)
-+		return;
-+	if (next_state == ready_boost)
-+		ha_start_timer_ns(ha_mon, clk_boost, period_ns(ha_mon), time_ns);
-+	else if (next_state == throttled_boost)
-+		ha_start_timer_ns(ha_mon, clk_boost, period_ns(ha_mon), time_ns);
-+	else if (next_state == throttled_running_boost)
-+		ha_start_timer_ns(ha_mon, clk_boost, period_ns(ha_mon), time_ns);
-+	else if (curr_state == ready_boost)
-+		ha_cancel_timer(ha_mon);
-+	else if (curr_state == throttled_boost)
-+		ha_cancel_timer(ha_mon);
-+	else if (curr_state == throttled_running_boost)
-+		ha_cancel_timer(ha_mon);
-+}
-+
-+static bool ha_verify_constraint(struct ha_monitor *ha_mon,
-+				 enum states curr_state, enum events event,
-+				 enum states next_state, u64 time_ns)
-+{
-+	if (!ha_verify_invariants(ha_mon, curr_state, event, next_state, time_ns))
-+		return false;
-+
-+	if (!ha_verify_guards(ha_mon, curr_state, event, next_state, time_ns))
-+		return false;
-+
-+	ha_setup_invariants(ha_mon, curr_state, event, next_state, time_ns);
-+
-+	return true;
-+}
-+
-+static void handle_dl_replenish(void *data, struct sched_dl_entity *dl_se,
-+				int cpu, u8 type)
-+{
-+	if (is_server_type(type))
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_replenish_boost);
-+}
-+
-+static inline void handle_server_switch(struct task_struct *next,
-+					struct task_struct *prev, int cpu,
-+					u8 type)
-+{
-+	struct sched_dl_entity *dl_se = get_server(next, type);
-+
-+	if (!dl_se)
-+		return;
-+	if (is_idle_task(next))
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_server_idle_boost);
-+	else if (get_server_type(next) == type && !rt_or_dl_task(next))
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), sched_switch_in_boost);
-+	else if (get_server_type(prev) == type && !is_idle_task(prev))
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), sched_switch_out_boost);
-+}
-+
-+static void handle_sched_switch(void *data, bool preempt,
-+				struct task_struct *prev,
-+				struct task_struct *next,
-+				unsigned int prev_state)
-+{
-+	int cpu = task_cpu(next);
-+
-+	/*
-+	 * The server is available in next only if the next task is boosted,
-+	 * otherwise we need to retrieve it.
-+	 * This monitor considers switch in/out whenever a task related to the
-+	 * server (i.e. fair) is scheduled in or out, boosted or not.
-+	 * Any switch to the same policy is ignored.
-+	 * PI boosted tasks are not considered fair.
-+	 */
-+	if (get_server_type(next) == get_server_type(prev) &&
-+	    !is_idle_task(next) && !is_idle_task(prev))
-+		return;
-+	handle_server_switch(next, prev, cpu, DL_SERVER_FAIR);
-+	if (IS_ENABLED(CONFIG_SCHED_CLASS_EXT))
-+		handle_server_switch(next, prev, cpu, DL_SERVER_EXT);
-+}
-+
-+static void handle_sched_enqueue(void *data, struct task_struct *tsk, int cpu)
-+{
-+	struct sched_dl_entity *dl_se = NULL;
-+	u8 type = get_server_type(tsk);
-+
-+	if (is_server_type(type))
-+		dl_se = get_server(tsk, type);
-+	if (dl_se) {
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type),
-+				dl_se->runtime > 0 && !idle_cpu(cpu) ?
-+					dl_server_resume_boost :
-+					dl_server_resume_throttled_boost);
-+	}
-+}
-+
-+static void handle_sched_dequeue(void *data, struct task_struct *tsk, int cpu)
-+{
-+	struct sched_dl_entity *dl_se = NULL;
-+	u8 type = get_server_type(tsk);
-+
-+	if (is_server_type(type))
-+		dl_se = get_server(tsk, type);
-+	/*
-+	 * A dequeue is counted as switching out only in case of a change in
-+	 * scheduler where the task is moved to another scheduler's runqueue.
-+	 */
-+	if (dl_se && task_is_running(tsk) && sched_task_on_rq(tsk))
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), sched_switch_out_boost);
-+}
-+
-+static void handle_dl_server_start(void *data, struct sched_dl_entity *dl_se,
-+				   int cpu, u8 type)
-+{
-+	if (is_server_type(type))
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_server_start_boost);
-+}
-+
-+static void handle_dl_server_stop(void *data, struct sched_dl_entity *dl_se,
-+				  int cpu, u8 type)
-+{
-+	if (is_server_type(type))
-+		da_handle_start_event(EXPAND_ID(dl_se, cpu, type), dl_server_stop_boost);
-+}
-+
-+static void handle_dl_throttle(void *data, struct sched_dl_entity *dl_se,
-+			       int cpu, u8 type)
-+{
-+	if (is_server_type(type))
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_throttle_boost);
-+}
-+
-+static int enable_boost(void)
-+{
-+	int retval;
-+
-+	retval = ha_monitor_init();
-+	if (retval)
-+		return retval;
-+
-+	retval = init_storage(true);
-+	if (retval)
-+		return retval;
-+	rv_attach_trace_probe("boost", sched_dl_replenish_tp, handle_dl_replenish);
-+	rv_attach_trace_probe("boost", sched_dl_server_start_tp, handle_dl_server_start);
-+	rv_attach_trace_probe("boost", sched_dl_server_stop_tp, handle_dl_server_stop);
-+	rv_attach_trace_probe("boost", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_attach_trace_probe("boost", sched_enqueue_tp, handle_sched_enqueue);
-+	rv_attach_trace_probe("boost", sched_dequeue_tp, handle_sched_dequeue);
-+	rv_attach_trace_probe("boost", sched_switch, handle_sched_switch);
-+
-+	return 0;
-+}
-+
-+static void disable_boost(void)
-+{
-+	rv_this.enabled = 0;
-+
-+	rv_detach_trace_probe("boost", sched_dl_replenish_tp, handle_dl_replenish);
-+	rv_detach_trace_probe("boost", sched_dl_server_start_tp, handle_dl_server_start);
-+	rv_detach_trace_probe("boost", sched_dl_server_stop_tp, handle_dl_server_stop);
-+	rv_detach_trace_probe("boost", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_detach_trace_probe("boost", sched_enqueue_tp, handle_sched_enqueue);
-+	rv_detach_trace_probe("boost", sched_dequeue_tp, handle_sched_dequeue);
-+	rv_detach_trace_probe("boost", sched_switch, handle_sched_switch);
-+
-+	ha_monitor_destroy();
-+}
-+
-+static struct rv_monitor rv_this = {
-+	.name = "boost",
-+	.description = "fair tasks run either independently or boosted.",
-+	.enable = enable_boost,
-+	.disable = disable_boost,
-+	.reset = da_monitor_reset_all,
-+	.enabled = 0,
-+};
-+
-+static int __init register_boost(void)
-+{
-+	return rv_register_monitor(&rv_this, &rv_deadline);
-+}
-+
-+static void __exit unregister_boost(void)
-+{
-+	rv_unregister_monitor(&rv_this);
-+}
-+
-+module_init(register_boost);
-+module_exit(unregister_boost);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
-+MODULE_DESCRIPTION("boost: fair tasks run either independently or boosted.");
-diff --git a/kernel/trace/rv/monitors/boost/boost.h b/kernel/trace/rv/monitors/boost/boost.h
-new file mode 100644
-index 000000000000..e5ca85cc6620
---- /dev/null
-+++ b/kernel/trace/rv/monitors/boost/boost.h
-@@ -0,0 +1,146 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Automatically generated C representation of boost automaton
-+ * For further information about this format, see kernel documentation:
-+ *   Documentation/trace/rv/deterministic_automata.rst
-+ */
-+
-+#define MONITOR_NAME boost
-+
-+enum states_boost {
-+	stopped_boost,
-+	idle_boost,
-+	ready_boost,
-+	running_boost,
-+	throttled_boost,
-+	throttled_running_boost,
-+	state_max_boost,
-+};
-+
-+#define INVALID_STATE state_max_boost
-+
-+enum events_boost {
-+	dl_replenish_boost,
-+	dl_server_idle_boost,
-+	dl_server_resume_boost,
-+	dl_server_resume_throttled_boost,
-+	dl_server_start_boost,
-+	dl_server_stop_boost,
-+	dl_throttle_boost,
-+	sched_switch_in_boost,
-+	sched_switch_out_boost,
-+	event_max_boost,
-+};
-+
-+enum envs_boost {
-+	clk_boost,
-+	env_max_boost,
-+	env_max_stored_boost = env_max_boost,
-+};
-+
-+_Static_assert(env_max_stored_boost <= MAX_HA_ENV_LEN, "Not enough slots");
-+#define HA_CLK_NS
-+
-+struct automaton_boost {
-+	char *state_names[state_max_boost];
-+	char *event_names[event_max_boost];
-+	char *env_names[env_max_boost];
-+	unsigned char function[state_max_boost][event_max_boost];
-+	unsigned char initial_state;
-+	bool final_states[state_max_boost];
-+};
-+
-+static const struct automaton_boost automaton_boost = {
-+	.state_names = {
-+		"stopped",
-+		"idle",
-+		"ready",
-+		"running",
-+		"throttled",
-+		"throttled_running",
-+	},
-+	.event_names = {
-+		"dl_replenish",
-+		"dl_server_idle",
-+		"dl_server_resume",
-+		"dl_server_resume_throttled",
-+		"dl_server_start",
-+		"dl_server_stop",
-+		"dl_throttle",
-+		"sched_switch_in",
-+		"sched_switch_out",
-+	},
-+	.env_names = {
-+		"clk",
-+	},
-+	.function = {
-+		{
-+			INVALID_STATE,
-+			stopped_boost,
-+			stopped_boost,
-+			stopped_boost,
-+			ready_boost,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			stopped_boost,
-+		},
-+		{
-+			idle_boost,
-+			idle_boost,
-+			ready_boost,
-+			throttled_boost,
-+			INVALID_STATE,
-+			stopped_boost,
-+			idle_boost,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+		},
-+		{
-+			ready_boost,
-+			idle_boost,
-+			ready_boost,
-+			ready_boost,
-+			INVALID_STATE,
-+			stopped_boost,
-+			throttled_boost,
-+			running_boost,
-+			ready_boost,
-+		},
-+		{
-+			running_boost,
-+			idle_boost,
-+			running_boost,
-+			running_boost,
-+			INVALID_STATE,
-+			stopped_boost,
-+			throttled_running_boost,
-+			INVALID_STATE,
-+			ready_boost,
-+		},
-+		{
-+			ready_boost,
-+			idle_boost,
-+			throttled_boost,
-+			throttled_boost,
-+			INVALID_STATE,
-+			stopped_boost,
-+			throttled_boost,
-+			throttled_running_boost,
-+			throttled_boost,
-+		},
-+		{
-+			running_boost,
-+			idle_boost,
-+			throttled_running_boost,
-+			throttled_running_boost,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			throttled_running_boost,
-+			INVALID_STATE,
-+			throttled_boost,
-+		},
-+	},
-+	.initial_state = stopped_boost,
-+	.final_states = { 1, 0, 0, 0, 0, 0 },
-+};
-diff --git a/kernel/trace/rv/monitors/boost/boost_trace.h b/kernel/trace/rv/monitors/boost/boost_trace.h
-new file mode 100644
-index 000000000000..7e422b0e586d
---- /dev/null
-+++ b/kernel/trace/rv/monitors/boost/boost_trace.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Snippet to be included in rv_trace.h
-+ */
-+
-+#ifdef CONFIG_RV_MON_BOOST
-+DEFINE_EVENT(event_da_monitor_id, event_boost,
-+	     TP_PROTO(int id, char *state, char *event, char *next_state, bool final_state),
-+	     TP_ARGS(id, state, event, next_state, final_state));
-+
-+DEFINE_EVENT(error_da_monitor_id, error_boost,
-+	     TP_PROTO(int id, char *state, char *event),
-+	     TP_ARGS(id, state, event));
-+
-+DEFINE_EVENT(error_env_da_monitor_id, error_env_boost,
-+	     TP_PROTO(int id, char *state, char *event, char *env),
-+	     TP_ARGS(id, state, event, env));
-+#endif /* CONFIG_RV_MON_BOOST */
-diff --git a/kernel/trace/rv/monitors/laxity/Kconfig b/kernel/trace/rv/monitors/laxity/Kconfig
-new file mode 100644
-index 000000000000..7ba69405d09b
---- /dev/null
-+++ b/kernel/trace/rv/monitors/laxity/Kconfig
-@@ -0,0 +1,14 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+config RV_MON_LAXITY
-+	depends on RV
-+	depends on RV_MON_DEADLINE
-+	default y
-+	select HA_MON_EVENTS_ID
-+	bool "laxity monitor"
-+	help
-+	  Monitor to ensure deferrable servers go to a zero-laxity wait unless
-+	  already running and run in starvation cases.
-+
-+	  For further information, see:
-+	    Documentation/trace/rv/monitor_deadline.rst
-diff --git a/kernel/trace/rv/monitors/laxity/laxity.c b/kernel/trace/rv/monitors/laxity/laxity.c
-new file mode 100644
-index 000000000000..751d31822436
---- /dev/null
-+++ b/kernel/trace/rv/monitors/laxity/laxity.c
-@@ -0,0 +1,253 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+#include <rv/instrumentation.h>
-+
-+#define MODULE_NAME "laxity"
-+
-+#include <trace/events/sched.h>
-+#include <rv_trace.h>
-+
-+#define RV_MON_TYPE RV_MON_PER_OBJ
-+#define HA_TIMER_TYPE HA_TIMER_WHEEL
-+/* The start condition is on server_stop, allocation likely fails on PREEMPT_RT */
-+#define DA_SKIP_AUTO_ALLOC
-+typedef struct sched_dl_entity *monitor_target;
-+#include "laxity.h"
-+#include <rv/ha_monitor.h>
-+#include <monitors/deadline/deadline.h>
-+
-+/* allow replenish when running only right after server start */
-+#define REPLENISH_NS TICK_NSEC
-+
-+static inline u64 period_ns(struct ha_monitor *ha_mon)
-+{
-+	return ha_get_target(ha_mon)->dl_period + TICK_NSEC;
-+}
-+
-+static u64 ha_get_env(struct ha_monitor *ha_mon, enum envs_laxity env, u64 time_ns)
-+{
-+	if (env == clk_laxity)
-+		return ha_get_clk_ns(ha_mon, env, time_ns);
-+	return ENV_INVALID_VALUE;
-+}
-+
-+static void ha_reset_env(struct ha_monitor *ha_mon, enum envs_laxity env, u64 time_ns)
-+{
-+	if (env == clk_laxity)
-+		ha_reset_clk_ns(ha_mon, env, time_ns);
-+}
-+
-+static inline bool ha_verify_invariants(struct ha_monitor *ha_mon,
-+					enum states curr_state, enum events event,
-+					enum states next_state, u64 time_ns)
-+{
-+	if (curr_state == idle_wait_laxity)
-+		return ha_check_invariant_ns(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == replenish_wait_laxity)
-+		return ha_check_invariant_ns(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == zero_laxity_wait_laxity)
-+		return ha_check_invariant_ns(ha_mon, clk_laxity, time_ns);
-+	return true;
-+}
-+
-+static inline bool ha_verify_guards(struct ha_monitor *ha_mon,
-+				    enum states curr_state, enum events event,
-+				    enum states next_state, u64 time_ns)
-+{
-+	bool res = true;
-+
-+	if (curr_state == idle_wait_laxity && event == dl_replenish_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == idle_wait_laxity && event == dl_replenish_idle_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == replenish_wait_laxity && event == dl_replenish_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == replenish_wait_laxity && event == dl_replenish_idle_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == replenish_wait_laxity && event == dl_replenish_running_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == running_laxity && event == dl_replenish_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == running_laxity && event == dl_replenish_idle_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == running_laxity && event == dl_replenish_running_laxity)
-+		res = ha_get_env(ha_mon, clk_laxity, time_ns) < REPLENISH_NS;
-+	else if (curr_state == running_laxity && event == dl_throttle_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == stopped_laxity && event == dl_server_start_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == stopped_laxity && event == dl_server_start_running_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == zero_laxity_wait_laxity && event == dl_replenish_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == zero_laxity_wait_laxity && event == dl_replenish_idle_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	else if (curr_state == zero_laxity_wait_laxity && event == dl_replenish_running_laxity)
-+		ha_reset_env(ha_mon, clk_laxity, time_ns);
-+	return res;
-+}
-+
-+static inline void ha_setup_invariants(struct ha_monitor *ha_mon,
-+				       enum states curr_state, enum events event,
-+				       enum states next_state, u64 time_ns)
-+{
-+	if (next_state == curr_state && event != dl_replenish_laxity &&
-+	    event != dl_replenish_idle_laxity)
-+		return;
-+	if (next_state == idle_wait_laxity)
-+		ha_start_timer_ns(ha_mon, clk_laxity, period_ns(ha_mon), time_ns);
-+	else if (next_state == replenish_wait_laxity)
-+		ha_start_timer_ns(ha_mon, clk_laxity, period_ns(ha_mon), time_ns);
-+	else if (next_state == zero_laxity_wait_laxity)
-+		ha_start_timer_ns(ha_mon, clk_laxity, period_ns(ha_mon), time_ns);
-+	else if (curr_state == idle_wait_laxity)
-+		ha_cancel_timer(ha_mon);
-+	else if (curr_state == replenish_wait_laxity)
-+		ha_cancel_timer(ha_mon);
-+	else if (curr_state == zero_laxity_wait_laxity)
-+		ha_cancel_timer(ha_mon);
-+}
-+
-+static bool ha_verify_constraint(struct ha_monitor *ha_mon,
-+				 enum states curr_state, enum events event,
-+				 enum states next_state, u64 time_ns)
-+{
-+	if (!ha_verify_invariants(ha_mon, curr_state, event, next_state, time_ns))
-+		return false;
-+
-+	if (!ha_verify_guards(ha_mon, curr_state, event, next_state, time_ns))
-+		return false;
-+
-+	ha_setup_invariants(ha_mon, curr_state, event, next_state, time_ns);
-+
-+	return true;
-+}
-+
-+static void handle_dl_replenish(void *data, struct sched_dl_entity *dl_se,
-+				int cpu, u8 type)
-+{
-+	if (!is_server_type(type))
-+		return;
-+	/* Special replenish happening after throttle, ignore it */
-+	if (dl_se->dl_defer_running && dl_se->dl_throttled)
-+		return;
-+	if (dl_se->dl_defer_running)
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_replenish_running_laxity);
-+	else if (idle_cpu(cpu))
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_replenish_idle_laxity);
-+	else
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_replenish_laxity);
-+}
-+
-+static void handle_dl_server_start(void *data, struct sched_dl_entity *dl_se,
-+				   int cpu, u8 type)
-+{
-+	if (!is_server_type(type))
-+		return;
-+	if (dl_se->dl_defer_running)
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_server_start_running_laxity);
-+	else
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_server_start_laxity);
-+}
-+
-+static void handle_dl_server_stop(void *data, struct sched_dl_entity *dl_se,
-+				  int cpu, u8 type)
-+{
-+	if (is_server_type(type))
-+		da_handle_start_event(EXPAND_ID(dl_se, cpu, type), dl_server_stop_laxity);
-+}
-+
-+static void handle_dl_throttle(void *data, struct sched_dl_entity *dl_se,
-+			       int cpu, u8 type)
-+{
-+	if (is_server_type(type))
-+		da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_throttle_laxity);
-+}
-+
-+static void handle_dl_update(void *data, struct sched_dl_entity *dl_se,
-+			       int cpu, u8 type)
-+{
-+	if (!is_server_type(type) || idle_cpu(cpu) || dl_se->dl_defer_running)
-+		return;
-+	/* The idle flag can be cleared without passing from an actual replenish */
-+	da_handle_event(EXPAND_ID(dl_se, cpu, type), dl_update_laxity);
-+}
-+
-+
-+static void handle_sched_switch(void *data, bool preempt,
-+				struct task_struct *prev,
-+				struct task_struct *next,
-+				unsigned int prev_state)
-+{
-+	if (!next->dl_server)
-+		return;
-+	da_handle_event(EXPAND_ID(next->dl_server, task_cpu(next),
-+				  get_server_type(next)),
-+			sched_switch_in_laxity);
-+}
-+
-+static int enable_laxity(void)
-+{
-+	int retval;
-+
-+	retval = ha_monitor_init();
-+	if (retval)
-+		return retval;
-+
-+	retval = init_storage(true);
-+	if (retval)
-+		return retval;
-+	rv_attach_trace_probe("laxity", sched_dl_replenish_tp, handle_dl_replenish);
-+	rv_attach_trace_probe("laxity", sched_dl_server_start_tp, handle_dl_server_start);
-+	rv_attach_trace_probe("laxity", sched_dl_server_stop_tp, handle_dl_server_stop);
-+	rv_attach_trace_probe("laxity", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_attach_trace_probe("laxity", sched_dl_update_tp, handle_dl_update);
-+	rv_attach_trace_probe("laxity", sched_switch, handle_sched_switch);
-+
-+	return 0;
-+}
-+
-+static void disable_laxity(void)
-+{
-+	rv_this.enabled = 0;
-+
-+	rv_detach_trace_probe("laxity", sched_dl_replenish_tp, handle_dl_replenish);
-+	rv_detach_trace_probe("laxity", sched_dl_server_start_tp, handle_dl_server_start);
-+	rv_detach_trace_probe("laxity", sched_dl_server_stop_tp, handle_dl_server_stop);
-+	rv_detach_trace_probe("laxity", sched_dl_throttle_tp, handle_dl_throttle);
-+	rv_detach_trace_probe("laxity", sched_dl_update_tp, handle_dl_update);
-+	rv_detach_trace_probe("laxity", sched_switch, handle_sched_switch);
-+
-+	ha_monitor_destroy();
-+}
-+
-+static struct rv_monitor rv_this = {
-+	.name = "laxity",
-+	.description = "deferrable servers wait for zero-laxity and run.",
-+	.enable = enable_laxity,
-+	.disable = disable_laxity,
-+	.reset = da_monitor_reset_all,
-+	.enabled = 0,
-+};
-+
-+static int __init register_laxity(void)
-+{
-+	return rv_register_monitor(&rv_this, &rv_deadline);
-+}
-+
-+static void __exit unregister_laxity(void)
-+{
-+	rv_unregister_monitor(&rv_this);
-+}
-+
-+module_init(register_laxity);
-+module_exit(unregister_laxity);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
-+MODULE_DESCRIPTION("laxity: deferrable servers wait for zero-laxity and run.");
-diff --git a/kernel/trace/rv/monitors/laxity/laxity.h b/kernel/trace/rv/monitors/laxity/laxity.h
-new file mode 100644
-index 000000000000..69a818c0f6cf
---- /dev/null
-+++ b/kernel/trace/rv/monitors/laxity/laxity.h
-@@ -0,0 +1,133 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Automatically generated C representation of laxity automaton
-+ * For further information about this format, see kernel documentation:
-+ *   Documentation/trace/rv/deterministic_automata.rst
-+ */
-+
-+#define MONITOR_NAME laxity
-+
-+enum states_laxity {
-+	stopped_laxity,
-+	idle_wait_laxity,
-+	replenish_wait_laxity,
-+	running_laxity,
-+	zero_laxity_wait_laxity,
-+	state_max_laxity,
-+};
-+
-+#define INVALID_STATE state_max_laxity
-+
-+enum events_laxity {
-+	dl_replenish_laxity,
-+	dl_replenish_idle_laxity,
-+	dl_replenish_running_laxity,
-+	dl_server_start_laxity,
-+	dl_server_start_running_laxity,
-+	dl_server_stop_laxity,
-+	dl_throttle_laxity,
-+	dl_update_laxity,
-+	sched_switch_in_laxity,
-+	event_max_laxity,
-+};
-+
-+enum envs_laxity {
-+	clk_laxity,
-+	env_max_laxity,
-+	env_max_stored_laxity = env_max_laxity,
-+};
-+
-+_Static_assert(env_max_stored_laxity <= MAX_HA_ENV_LEN, "Not enough slots");
-+#define HA_CLK_NS
-+
-+struct automaton_laxity {
-+	char *state_names[state_max_laxity];
-+	char *event_names[event_max_laxity];
-+	char *env_names[env_max_laxity];
-+	unsigned char function[state_max_laxity][event_max_laxity];
-+	unsigned char initial_state;
-+	bool final_states[state_max_laxity];
-+};
-+
-+static const struct automaton_laxity automaton_laxity = {
-+	.state_names = {
-+		"stopped",
-+		"idle_wait",
-+		"replenish_wait",
-+		"running",
-+		"zero_laxity_wait",
-+	},
-+	.event_names = {
-+		"dl_replenish",
-+		"dl_replenish_idle",
-+		"dl_replenish_running",
-+		"dl_server_start",
-+		"dl_server_start_running",
-+		"dl_server_stop",
-+		"dl_throttle",
-+		"dl_update",
-+		"sched_switch_in",
-+	},
-+	.env_names = {
-+		"clk",
-+	},
-+	.function = {
-+		{
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			zero_laxity_wait_laxity,
-+			running_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+		},
-+		{
-+			zero_laxity_wait_laxity,
-+			idle_wait_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			stopped_laxity,
-+			INVALID_STATE,
-+			zero_laxity_wait_laxity,
-+			INVALID_STATE,
-+		},
-+		{
-+			zero_laxity_wait_laxity,
-+			idle_wait_laxity,
-+			running_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			zero_laxity_wait_laxity,
-+			INVALID_STATE,
-+		},
-+		{
-+			zero_laxity_wait_laxity,
-+			zero_laxity_wait_laxity,
-+			running_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			stopped_laxity,
-+			replenish_wait_laxity,
-+			zero_laxity_wait_laxity,
-+			running_laxity,
-+		},
-+		{
-+			zero_laxity_wait_laxity,
-+			idle_wait_laxity,
-+			running_laxity,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			zero_laxity_wait_laxity,
-+			INVALID_STATE,
-+		},
-+	},
-+	.initial_state = stopped_laxity,
-+	.final_states = { 1, 0, 0, 0, 0 },
-+};
-diff --git a/kernel/trace/rv/monitors/laxity/laxity_trace.h b/kernel/trace/rv/monitors/laxity/laxity_trace.h
-new file mode 100644
-index 000000000000..32580dba8f42
---- /dev/null
-+++ b/kernel/trace/rv/monitors/laxity/laxity_trace.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Snippet to be included in rv_trace.h
-+ */
-+
-+#ifdef CONFIG_RV_MON_LAXITY
-+DEFINE_EVENT(event_da_monitor_id, event_laxity,
-+	     TP_PROTO(int id, char *state, char *event, char *next_state, bool final_state),
-+	     TP_ARGS(id, state, event, next_state, final_state));
-+
-+DEFINE_EVENT(error_da_monitor_id, error_laxity,
-+	     TP_PROTO(int id, char *state, char *event),
-+	     TP_ARGS(id, state, event));
-+
-+DEFINE_EVENT(error_env_da_monitor_id, error_env_laxity,
-+	     TP_PROTO(int id, char *state, char *event, char *env),
-+	     TP_ARGS(id, state, event, env));
-+#endif /* CONFIG_RV_MON_LAXITY */
-diff --git a/kernel/trace/rv/rv_trace.h b/kernel/trace/rv/rv_trace.h
-index 9896beae73af..ad4df55eb727 100644
---- a/kernel/trace/rv/rv_trace.h
-+++ b/kernel/trace/rv/rv_trace.h
-@@ -190,6 +190,8 @@ DECLARE_EVENT_CLASS(error_env_da_monitor_id,
- #include <monitors/stall/stall_trace.h>
- #include <monitors/nomiss/nomiss_trace.h>
- #include <monitors/throttle/throttle_trace.h>
-+#include <monitors/boost/boost_trace.h>
-+#include <monitors/laxity/laxity_trace.h>
- // Add new monitors based on CONFIG_HA_MON_EVENTS_ID here
- 
- #endif
-diff --git a/tools/verification/models/deadline/boost.dot b/tools/verification/models/deadline/boost.dot
-new file mode 100644
-index 000000000000..05a927b034d9
---- /dev/null
-+++ b/tools/verification/models/deadline/boost.dot
-@@ -0,0 +1,48 @@
-+digraph state_automaton {
-+	center = true;
-+	size = "7,11";
-+	{node [shape = circle] "idle"};
-+	{node [shape = circle] "ready"};
-+	{node [shape = circle] "running"};
-+	{node [shape = plaintext, style=invis, label=""] "__init_stopped"};
-+	{node [shape = doublecircle] "stopped"};
-+	{node [shape = circle] "stopped"};
-+	{node [shape = circle] "throttled"};
-+	{node [shape = circle] "throttled_running"};
-+	"__init_stopped" -> "stopped";
-+	"idle" [label = "idle"];
-+	"idle" -> "idle" [ label = "dl_server_idle\ndl_replenish;reset(clk)\ndl_throttle" ];
-+	"idle" -> "ready" [ label = "dl_server_resume" ];
-+	"idle" -> "stopped" [ label = "dl_server_stop" ];
-+	"idle" -> "throttled" [ label = "dl_server_resume_throttled;reset(clk)" ];
-+	"ready" [label = "ready\nclk < period_ns()"];
-+	"ready" -> "idle" [ label = "dl_server_idle" ];
-+	"ready" -> "ready" [ label = "sched_switch_out\ndl_server_resume_throttled\ndl_server_resume\ndl_replenish;reset(clk)" ];
-+	"ready" -> "running" [ label = "sched_switch_in" ];
-+	"ready" -> "stopped" [ label = "dl_server_stop" ];
-+	"ready" -> "throttled" [ label = "dl_throttle;reset(clk)" ];
-+	"running" [label = "running"];
-+	"running" -> "idle" [ label = "dl_server_idle" ];
-+	"running" -> "ready" [ label = "sched_switch_out" ];
-+	"running" -> "running" [ label = "dl_server_resume_throttled\ndl_server_resume\ndl_replenish;reset(clk)" ];
-+	"running" -> "stopped" [ label = "dl_server_stop" ];
-+	"running" -> "throttled_running" [ label = "dl_throttle;reset(clk)" ];
-+	"stopped" [label = "stopped", color = green3];
-+	"stopped" -> "ready" [ label = "dl_server_start;reset(clk)" ];
-+	"stopped" -> "stopped" [ label = "dl_server_idle\nsched_switch_out\ndl_server_resume\ndl_server_resume_throttled" ];
-+	"throttled" [label = "throttled\nclk < period_ns()"];
-+	"throttled" -> "idle" [ label = "dl_server_idle" ];
-+	"throttled" -> "ready" [ label = "dl_replenish;reset(clk)" ];
-+	"throttled" -> "stopped" [ label = "dl_server_stop" ];
-+	"throttled" -> "throttled" [ label = "dl_throttle\nsched_switch_out\ndl_server_resume_throttled\ndl_server_resume" ];
-+	"throttled" -> "throttled_running" [ label = "sched_switch_in" ];
-+	"throttled_running" [label = "throttled_running\nclk < period_ns()"];
-+	"throttled_running" -> "idle" [ label = "dl_server_idle" ];
-+	"throttled_running" -> "running" [ label = "dl_replenish;reset(clk)" ];
-+	"throttled_running" -> "throttled" [ label = "sched_switch_out" ];
-+	"throttled_running" -> "throttled_running" [ label = "dl_throttle\ndl_server_resume_throttled\ndl_server_resume" ];
-+	{ rank = min ;
-+		"__init_stopped";
-+		"stopped";
-+	}
-+}
-diff --git a/tools/verification/models/deadline/laxity.dot b/tools/verification/models/deadline/laxity.dot
-new file mode 100644
-index 000000000000..e4fdabfe1743
---- /dev/null
-+++ b/tools/verification/models/deadline/laxity.dot
-@@ -0,0 +1,36 @@
-+digraph state_automaton {
-+	center = true;
-+	size = "7,11";
-+	{node [shape = circle] "idle_wait"};
-+	{node [shape = circle] "replenish_wait"};
-+	{node [shape = circle] "running"};
-+	{node [shape = plaintext, style=invis, label=""] "__init_stopped"};
-+	{node [shape = doublecircle] "stopped"};
-+	{node [shape = circle] "stopped"};
-+	{node [shape = circle] "zero_laxity_wait"};
-+	"__init_stopped" -> "stopped";
-+	"idle_wait" [label = "idle_wait\nclk < period_ns()"];
-+	"idle_wait" -> "idle_wait" [ label = "dl_replenish_idle;reset(clk)" ];
-+	"idle_wait" -> "stopped" [ label = "dl_server_stop" ];
-+	"idle_wait" -> "zero_laxity_wait" [ label = "dl_replenish;reset(clk)\ndl_update" ];
-+	"replenish_wait" [label = "replenish_wait\nclk < period_ns()"];
-+	"replenish_wait" -> "idle_wait" [ label = "dl_replenish_idle;reset(clk)" ];
-+	"replenish_wait" -> "running" [ label = "dl_replenish_running;reset(clk)" ];
-+	"replenish_wait" -> "zero_laxity_wait" [ label = "dl_update\ndl_replenish;reset(clk)" ];
-+	"running" [label = "running"];
-+	"running" -> "replenish_wait" [ label = "dl_throttle;reset(clk)" ];
-+	"running" -> "running" [ label = "sched_switch_in\ndl_replenish_running;clk < REPLENISH_NS" ];
-+	"running" -> "stopped" [ label = "dl_server_stop" ];
-+	"running" -> "zero_laxity_wait" [ label = "dl_replenish;reset(clk)\ndl_replenish_idle;reset(clk)\ndl_update" ];
-+	"stopped" [label = "stopped", color = green3];
-+	"stopped" -> "running" [ label = "dl_server_start_running;reset(clk)" ];
-+	"stopped" -> "zero_laxity_wait" [ label = "dl_server_start;reset(clk)" ];
-+	"zero_laxity_wait" [label = "zero_laxity_wait\nclk < period_ns()"];
-+	"zero_laxity_wait" -> "idle_wait" [ label = "dl_replenish_idle;reset(clk)" ];
-+	"zero_laxity_wait" -> "running" [ label = "dl_replenish_running;reset(clk)" ];
-+	"zero_laxity_wait" -> "zero_laxity_wait" [ label = "dl_replenish;reset(clk)\ndl_update" ];
-+	{ rank = min ;
-+		"__init_stopped";
-+		"stopped";
-+	}
-+}
--- 
-2.55.0
+In Ackerley's hugetlb series, gmem will split the underlying folio to 4K in
+that case. I assume, if we end up adopting Sean's proposed optimization, we'd
+update the attr_filter to force a zap if there's a demotion, similarly to how
+kvm_gmem_punch_hole() handles it in this series.
 
+I think as a general rule of thumb though we'd decided that guessing
+too hard at what hugepages will need is best left to hugepage series
+itself (TDX prep work aside), because it always ends up different than
+expected :)
+
+Thanks,
+
+Mike
+
+> 
+> 
+> - Naveen
+> 
