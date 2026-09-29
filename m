@@ -1,152 +1,147 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F3F48E0DA;
-	Tue, 29 Sep 2026 09:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590674FDA4D;
+	Tue, 29 Sep 2026 09:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790674901; cv=none; b=QYXDnY7G4BwgEO36prcCiJGoxDQh+VKOeOhRdJw1hqcEjRXIXLo3hiyXtR/dXeT4dRndCPZdfjaZg9dAUbLe/j1DKM73Z5OLK8h8J3W5h2Q3cDe0DExOOmXQGK8tZhbK/YTmHK8QcdiHUrX6W0t7ehacowb40Vf1b47Nxlmk7+Y=
+	t=1790675386; cv=none; b=OvRpfIWbkIMHZ6dbJwRoAzHrBl9V5g1oy5a77CVFGzw+DeRk79dWwbTORfmBAtvG1ZSlecF1WmJioP2g7BQ0IQrc04J+Ljo/1xQWYViTMmIZTd2ALxaUFmXtON38/pyt59lTUbXuPj5bmv+zagYJjZEYYPz+BMZSlInVDZYJtZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790674901; c=relaxed/simple;
-	bh=i6MhToSUeXUaZjAInrxfmf5v+jFaJbeEauNI4hselkY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gYm7XeoRwSeith0k3d8/IAOLCc9IXMeeM0MFHxnJyjnLssi91qKMd138gQKvxEEC2+CoZt11NYLK7Yg+qakWXGrMTxNAvmmQ/uoXV4UFFudvARnDBF3vJpSwA9kMbRZX9vGli6eWfhEmU4TqzyMXnQaHvK5BMYweL81mmzP/P6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fvWUrcSI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+I0bGYqD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gW3rEXIu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Z8mz7Od1; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790675386; c=relaxed/simple;
+	bh=xyQiEg8J5C6AndKTyPKA1JFthTC47DtNPxckDejzBkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=utJlgSFsEDQ3zuDwyyVJjg467ogQ/C2zk0J8zlINDrFmUgrEt0xE+J7Zaaiah1L4sGOjhRzs3gPwcNyToetjQCYew4axjvpoKLceXjsP6D33Hz2QEKnHNW+QPaQXzO8wkFRuPLP/P2adBeYudg+RlVeVGb109IuNVNcHXw3KPOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MJEDp5k6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fvWUrcSI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+I0bGYqD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gW3rEXIu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Z8mz7Od1"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EABAE21CFE;
-	Tue, 29 Sep 2026 09:41:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790674894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=518M9MBya01LM82FycnZEhBFFMo6IqemH7hrp2/q4PY=;
-	b=fvWUrcSIvsOyjHlc9E8gB9EE0A8gfBfVcCpnTyqAbmG2UvqnyW02rFClaR/stEgl/npRlD
-	5o/FsU/6Y8nq3zSfaTx2s8CBiyfIxBA7caxihPePJNdv1GlGxxXm2Zw//3JxBfw0w4C4cJ
-	ECIKNOuYkwd0VyyIveNBNGpCjiQ97FI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790674894;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=518M9MBya01LM82FycnZEhBFFMo6IqemH7hrp2/q4PY=;
-	b=+I0bGYqDHdGCfSlVszS57xx/TA1EY3t9TYJi+7azNZbxMgciMqgT1XB26cdHQytsNN9onq
-	SR2FL/kAn1rA+xBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790674889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=518M9MBya01LM82FycnZEhBFFMo6IqemH7hrp2/q4PY=;
-	b=gW3rEXIuTkxLj24nZ8dYSeMlTcQHpU2mguC1o4M4Ae1Nst+IFBPg4qRvpi8+3EVTBIyWNC
-	2o6aKTxl8pZcMTTABw9oIBvd+GQbcP+MfuHS12GO72cwvYrD4EJ59+HLJFDSYY7EnAr6Fs
-	tLku6BZTYki21wCTD59Jk78YajRpVHQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790674889;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=518M9MBya01LM82FycnZEhBFFMo6IqemH7hrp2/q4PY=;
-	b=Z8mz7Od1jV7Ui6GCi4Khdn4GRH9ZhA5n7VyHbNQvBxiJiTSs8zMmwfT5vl7qSqXhmGCWbT
-	PxYeresv0UJ+4tDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA008133F1;
-	Tue, 29 Sep 2026 09:41:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kTxeIMmHu2ppIAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 09:41:29 +0000
-Date: Tue, 29 Sep 2026 11:41:25 +0200
-Message-ID: <87bj9g2y4a.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Darren Chang <darrenchangjr01@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add quirk for inverted sample rates on NUX NAI-24
-In-Reply-To: <20260920122653.41993-1-darrenchangjr01@gmail.com>
-References: <20260920122653.41993-1-darrenchangjr01@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MJEDp5k6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBDD31F000FF;
+	Tue, 29 Sep 2026 09:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790675383;
+	bh=4EGzsamnE7S9zSPfntnKu9/cfo1q7r+TWTQ73npLdn0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MJEDp5k6Ucc8s3Ifyqwotl+EOWiB4VH4kDYItmut6mgr4p1E/fmdMvwOHJTXukLeB
+	 lShwNXpwS3GAq/BhUEwLMKlSNEdSOMbXvC5r4cSpQP4Nok6AvIHRvKixxlTMTjyjiF
+	 luhwn9msVSLEZnDoSn/SY/pi2BvbgXSp7DyFh8mXZr5MoN+Vjd+aeUjDzmRpDqR0Bw
+	 v/UfiISJWwrUkNbctv0c4I4elnCaOY2RS1qLupTGasgl7rPeeTH2FOZOnOC4xe9Sfq
+	 mCx6OtB50a0+nCo0u9eENpuVd9OFkoY+mf655PeiHb5T0eykMekeRKD1wnk4BKG39T
+	 T2TaAKHdE6XNA==
+Date: Tue, 29 Sep 2026 15:10:41 +0530
+From: Naveen N Rao <naveen@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
+	chao.p.peng@linux.intel.com, david@kernel.org, jmattson@google.com, jthoughton@google.com, 
+	michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, steven.price@arm.com, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
+	Vishal Annapurve <vannapurve@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Youngjun Park <youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
+	Fuad Tabba <fuad.tabba@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, linux-coco@lists.linux.dev
+Subject: Re: [PATCH v11 15/46] KVM: guest_memfd: Call arch make_shared
+ callback for to-shared conversion
+Message-ID: <art6ARechyK0iytK@blrnaveerao1>
+References: <20260826-gmem-inplace-conversion-v11-0-0a15d8a799aa@google.com>
+ <20260826-gmem-inplace-conversion-v11-15-0a15d8a799aa@google.com>
+ <ao9CKMXAX-hScRSa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -2.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ao9CKMXAX-hScRSa@google.com>
 
-On Sun, 20 Sep 2026 14:26:53 +0200,
-Darren Chang wrote:
+On Wed, Aug 26, 2026 at 12:44:40PM -0700, Sean Christopherson wrote:
+> On Wed, Aug 26, 2026, Ackerley Tng wrote:
+> > +
+> >  static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> >  				     size_t nr_pages, uint64_t attrs,
+> >  				     pgoff_t *err_index)
+> > @@ -624,7 +661,12 @@ static int __kvm_gmem_set_attributes(struct inode *inode, pgoff_t start,
+> >  
+> >  	filter = to_private ? KVM_FILTER_SHARED : KVM_FILTER_PRIVATE;
+> >  	kvm_gmem_invalidate_start(inode, start, end, filter);
+> > +
+> > +	if (!to_private && kvm_arch_has_gmem_convert())
+> > +		kvm_gmem_make_shared(inode, start, end);
+> > +
+> >  	mas_store_prealloc(&mas, xa_mk_value(attrs));
+> > +
+> >  	kvm_gmem_invalidate_end(inode, start, end);
 > 
-> The NUX NAI-24 (USB 3703:2000) has a UAC2 clock source that reports
-> bmAttributes = 0x01 (internal fixed clock) and bmControls = 0x07, so the
-> driver treats its sample rate as programmable.  When the driver sends
-> SET_CUR(SAMPLING_FREQ_CONTROL), the firmware acknowledges the request and
-> then runs the clock on the opposite base-rate family: asking for 44100 Hz
-> makes the device run at 48000 Hz, and asking for 48000 Hz makes it run at
-> 44100 Hz.
+> The real reason I responded...
 > 
-> The result is playback that is about 8.8% fast, or 8.4% slow with heavy
-> static on the 48000 Hz family.  macOS and Windows ignore bmControls, treat
-> the clock as fixed and resample, so they are unaffected.
-> 
-> Work around it by sending the partner rate in SET_CUR for this device, so
-> the device runs at the requested rate.  A new QUIRK_FLAG_SWAP_RATES flag
-> controls this, applied through the quirk flags table.
-> 
-> Only the 44.1/48 kHz pair has been verified on hardware; the 88.2/96 kHz
-> and 176.4/192 kHz pairs are untested but follow the same pattern.
-> 
-> Testing: the equivalent change ran on the device as a locally built
-> module (44100 Hz PCM, device clock 44100 Hz, no xruns, correct tempo, no
-> static).  This upstream form compiles for sound/usb without warnings and
-> passes checkpatch, but has not been built in a full kernel tree or
-> load-tested.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Darren Chang <darrenchangjr01@gmail.com>
+> Thinking about the Secure AVIC mess made me realize zapping NPTs for SNP VMs isn't
+> strictly necessary in this path.  The PFN isn't changing, just the attributes, and
+> that's (obviously) tracked in the RMP.  KVM doesn't need to zap SPTEs to induce a
+> fault, because the mismatched C-bit vs. RMP status will cause an #NPF(RMP), and
+> AFAICT kvm_mmu_page_fault() will do the right thing.  A misbehaving guest could
+> continue to access the shared data (assuming we stick with lazy conversions), but
+> that should be fine?  E.g. it's not really any different than implicit conversions.
 
-Applied to for-next branch now.  Thanks.
+Brilliant idea!
+
+> 
+> In other words, couldn't we do this (as an on-top optimization)?  The only wrinkle
+> I can think of is that it could delay reconstituion of a hugepage, especially if
+> we opted for eager conversion (because the guest wouldn't hit #NPFs to trigger the
+> hugepage promotion).
+> 
+> diff --git arch/x86/kvm/mmu/mmu.c arch/x86/kvm/mmu/mmu.c
+> index 62f751952ad8..61f3e270ab61 100644
+> --- arch/x86/kvm/mmu/mmu.c
+> +++ arch/x86/kvm/mmu/mmu.c
+> @@ -1670,6 +1670,7 @@ static bool __kvm_rmap_zap_gfn_range(struct kvm *kvm,
+>  
+>  bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+>  {
+> +       unsigned long shared_private =  KVM_FILTER_SHARED | KVM_FILTER_PRIVATE;
+>         bool flush = false;
+>  
+>         /*
+> @@ -1683,6 +1684,10 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+>         lockdep_assert_once(kvm->mmu_invalidate_in_progress ||
+>                             lockdep_is_held(&kvm->slots_lock));
+>  
+> +       if (gmem_in_place_conversion && !kvm_has_mirrored_tdp(kvm) &&
+> +           ((range->attr_filter & shared_private) != shared_private))
+> +               return false;
+> +
+>         if (kvm_memslots_have_rmaps(kvm))
+>                 flush = __kvm_rmap_zap_gfn_range(kvm, range->slot,
+>                                                  range->start, range->end,
+
+Can this be a problem with gmem hugepages? Not sure how that is going to 
+look like, so this may be covered in other ways.
+
+But, as it exists today, if the guest converts part of a 2M page to 
+shared, then this skips zapping the SPTEs from the call in 
+kvm_gmem_invalidate_start(). sev_gmem_make_shared() then issues PSMASH 
+to convert RMP entry to 4k entries and we end up with 2M NPT+4K RMP. If 
+the guest then writes to any private page in that range, 
+page_fault_can_be_fast() returns true, fast_page_fault() only checks 
+permissions with spte_permission_fault() and does not do anything.  
+sev_handle_rmp_fault() also does not issue a zap since it finds that the 
+RMP entry is already 4k, and we end up in a loop.
 
 
-Takashi
+- Naveen
+
