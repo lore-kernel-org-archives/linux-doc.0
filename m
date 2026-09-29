@@ -1,68 +1,58 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1423851120F;
-	Tue, 29 Sep 2026 10:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B86551AFF6;
+	Tue, 29 Sep 2026 10:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790677841; cv=none; b=g8/5ckr8rW1U+S2yarmizb8kUeprSivl4IKmbh6WJBdb3vwz3iRQoD31FVuk95vJb+3Wchk1yhXx8eF2miWMT9dGxYUDwYi0eaX3jLSMrX53OYMJmmrj7OFEJvbgxzg7sip0V/PhFOVlXdOlLUcuNiE7jMRZLY3YfcHGOIVoilg=
+	t=1790678239; cv=none; b=Rz9kM42qjoiUYC6qnYKY1ALMarXeQ1D0K2pDw7AOxNRDaOGTzgyZhJ2kvk67/ulmntRzWyoGoPBYWl8r2ENH9bW9K5S17EPvwlNXRqvJZ6sZ+32fnLEk5yP/pS/TE1HQ0FUivV64JjkzvcEHgeCRtDQGPCkKiU3HCnShoa3j4CE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790677841; c=relaxed/simple;
-	bh=pgtgm8oCBfWgTizqvar+fay5aufquDRaH/ZtXkwXIuc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Wd8fSiGUYYmy/lhJLte4KJORqGmqqWSKA1QdanFhlSGf9KR5Ud9wFYbSEuiYdnPGpiPY3GIG5fozA/81pWt0Sj55rcHYF9uFvcwa5AkWWzScQLWLffKgVWvl1WudgeFk5oLHozVMZPaebbkmm+2adyG+rvxQzJT1id2LcFrnjLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Fr1CgNRU; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1790678239; c=relaxed/simple;
+	bh=wWJglgb/iAHgJX8EmX9HwVtLlJ3TvgDZEromL5/4lLo=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XEcuiPyNdT5criKq+uKmzAkz57Nk2jXGZlPQj9I2qE5zrInkQGPRMQ/7HBR1NFoeT5C1mIjGJJRakBSq5NNR2kqUVXt4y27d2by363DzfQ1WwBX7TflJ6Zyt1ETwN4R8LYxy1FGOfFN4vSYx25840RuP+PivcyQoi+evVmvFkP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=hgUnkkio; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Fr1CgNRU"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A47A1655;
-	Tue, 29 Sep 2026 03:30:20 -0700 (PDT)
-Received: from e127648.arm.com (unknown [10.57.52.74])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 998E73F86F;
-	Tue, 29 Sep 2026 03:30:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790677824; bh=pgtgm8oCBfWgTizqvar+fay5aufquDRaH/ZtXkwXIuc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Fr1CgNRUGUZkEfQAFZvYcBHrKgELp+wutD+eOOApcVbUso74X3BwSppTqAYhj+3bJ
-	 BX0tOAJXSIFSssRvJb1c0nE8OV4gxK9xUd9K/2PShbBB/FyQQ+tqTED/cn8NxBxSyE
-	 0jrokF6ivmP8SIK3YYmPj/mBDIxRrT9ASzY8dfzw=
-From: Christian Loehle <christian.loehle@arm.com>
-To: rafael@kernel.org
-Cc: zhenglifeng1@huawei.com,
-	zhongqiu.han@oss.qualcomm.com,
-	viresh.kumar@linaro.org,
-	linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Huang Rui <ray.huang@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>,
-	"Gautham R . Shenoy" <gautham.shenoy@amd.com>,
-	Vanshidhar Konda <vanshikonda@os.amperecomputing.com>,
-	Shubhang Kaushik <sh@gentwo.org>,
-	Pierre Gondois <pierre.gondois@arm.com>,
-	Beata Michalska <beata.michalska@arm.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ionela Voinescu <ionela.voinescu@arm.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Jeremy Linton <jeremy.linton@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	jonathanh@nvidia.com,
-	zhanjie9@hisilicon.com,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Christian Loehle <christian.loehle@arm.com>
-Subject: [PATCH 3/3] cpufreq: Skip updates for unchanged resolved limits
-Date: Tue, 29 Sep 2026 11:29:57 +0100
-Message-Id: <20260929102957.2591657-4-christian.loehle@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260929102957.2591657-1-christian.loehle@arm.com>
-References: <20260929102957.2591657-1-christian.loehle@arm.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="hgUnkkio"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=CEDPGYC1RPsp34/2huo9oDvdsWGlpazljPcYpxq/p2I=;
+	b=hgUnkkiogWWkH7pZKOinYR2DNSU52mvRAVR3j5GBOkMDrN1DJWXryE1cs8DYdMeia8UT3Mlcb
+	wjddmZZtAjxjvHIo5Z9Ig+uPXpOh9UsIWklvh4BRmahW52P1uOllLrraCEKesBNfyi7j6SqNB3v
+	z/H1Cn3Y7DBA4tLgh+eHxqA=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4hvDpB0ZV4zcb44;
+	Tue, 29 Sep 2026 18:25:22 +0800 (CST)
+Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
+	by mail.maildlp.com (Postfix) with ESMTPS id 626594057D;
+	Tue, 29 Sep 2026 18:36:57 +0800 (CST)
+Received: from huawei.com (10.50.163.32) by kwepemr100010.china.huawei.com
+ (7.202.195.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 29 Sep
+ 2026 18:36:56 +0800
+From: Tian Zheng <zhengtian10@huawei.com>
+To: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <corbet@lwn.net>, <pbonzini@redhat.com>,
+	<zhengtian10@huawei.com>, <leo.bras@arm.com>
+CC: <yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>,
+	<yangjinqian1@huawei.com>, <caijian11@h-partners.com>,
+	<liuyonglong@huawei.com>, <tangchengchang@huawei.com>,
+	<yezhenyu2@huawei.com>, <yubihong@huawei.com>, <linuxarm@huawei.com>,
+	<joey.gouly@arm.com>, <kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<seiden@linux.ibm.com>, <suzuki.poulose@arm.com>, <fuad.tabba@linux.dev>,
+	<mark.rutland@arm.com>, <seanjc@google.com>, <rdunlap@infradead.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<skhan@linuxfoundation.org>
+Subject: [PATCH v5 01/15] KVM: arm64: pgtables: Change write bit from S2AP_W to DBM
+Date: Tue, 29 Sep 2026 18:36:41 +0800
+Message-ID: <20260929103655.85107-2-zhengtian10@huawei.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20260929103655.85107-1-zhengtian10@huawei.com>
+References: <20260929103655.85107-1-zhengtian10@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,229 +60,124 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemr100010.china.huawei.com (7.202.195.125)
 
-Commit 9801be8bef65 ("cpufreq: Avoid redundant target() calls for unchanged
-limits") introduced policy->update_limits to skip ->target() when both the
-frequency and effective limits are unchanged. schedutil still bypasses its
-frequency cache on every limit notification for CPUFREQ_NEED_UPDATE_LIMITS
-drivers, and fast switching never consumes the pending state.
+From: Leonardo Bras <leo.bras@arm.com>
 
-Keep raw QoS/limit notifications triggering schedutil recomputation, but
-only let CPUFREQ_NEED_UPDATE_LIMITS force a same-frequency callback when
-resolved policy->{min,max} changes remain pending. Expose that test through
-a cpufreq-core helper.
+As a first step of changing the encoding for the Stage2 PTE descriptor,
+introduce the DBM bit, and adapt every usage of writable to use the DBM
+bit (51) instead of S2AP[1]/Dirty bit (7).
 
-Consume pending state before both slow and fast callbacks, including
-frequency changes, instead of clearing it only in the target == cur case.
-Use release/acquire ordering for the limits and restore pending state on
-failure, preserving concurrent updates and retries. Favor the maximum
-if lockless limit reads observe an inverted pair.
+With DBM as the write permission bit and S2AP[1] as the dirty state,
+the encoding follows the FEAT_S2PIE principle of managing permissions
+and dirty state independently.
 
-This applies to cppc-cpufreq and amd-pstate's frequency-based paths; the
-->adjust_perf() path is unchanged.
+For this step, we convert usages of RW(Dirty) -> WD(DBM|Dirty): every
+writable mapping sets both bits, read-only mappings clear both, and no
+behaviour changes.
 
-Signed-off-by: Christian Loehle <christian.loehle@arm.com>
+Link: https://lore.kernel.org/all/20260901171558.2674031-2-leo.bras@arm.com/
+Signed-off-by: Leonardo Bras <leo.bras@arm.com>
+[zhengtian: keep the nested walker reading writability from S2AP[1]
+alone, document why, and reword the commit message]
+Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
 ---
- drivers/cpufreq/cpufreq.c        | 82 ++++++++++++++++++++++++++------
- include/linux/cpufreq.h          |  1 +
- kernel/sched/cpufreq_schedutil.c | 19 ++------
- 3 files changed, 72 insertions(+), 30 deletions(-)
+ arch/arm64/include/asm/kvm_pgtable.h | 3 +++
+ arch/arm64/kvm/hyp/pgtable.c         | 7 ++++---
+ arch/arm64/kvm/nested.c              | 5 +++++
+ arch/arm64/kvm/ptdump.c              | 4 ++--
+ 4 files changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-index 44bda2f32fcf..9e932c2a986d 100644
---- a/drivers/cpufreq/cpufreq.c
-+++ b/drivers/cpufreq/cpufreq.c
-@@ -2058,6 +2058,21 @@ bool cpufreq_driver_test_flags(u16 flags)
- 	return !!(cpufreq_driver->flags & flags);
- }
- 
-+/**
-+ * cpufreq_driver_needs_limits_update - Check for a pending driver limit update.
-+ * @policy: CPU frequency policy to check.
-+ *
-+ * Return: Whether changed resolved limits require a driver callback.
-+ */
-+bool cpufreq_driver_needs_limits_update(struct cpufreq_policy *policy)
-+{
-+	if (!cpufreq_driver_test_flags(CPUFREQ_NEED_UPDATE_LIMITS))
-+		return false;
+diff --git a/arch/arm64/include/asm/kvm_pgtable.h b/arch/arm64/include/asm/kvm_pgtable.h
+index 41a8687938eb..37baa86d6fd8 100644
+--- a/arch/arm64/include/asm/kvm_pgtable.h
++++ b/arch/arm64/include/asm/kvm_pgtable.h
+@@ -93,10 +93,13 @@ typedef u64 kvm_pte_t;
+
+ #define KVM_PTE_LEAF_ATTR_HI_S2_XN	GENMASK(54, 53)
+
++#define KVM_PTE_LEAF_ATTR_HI_S2_DBM	BIT(51)
 +
-+	/* Pairs with cpufreq_set_update_limits(). */
-+	return smp_load_acquire(&policy->update_limits);
-+}
-+
- /**
-  * cpufreq_get_current_driver - Return the current driver's name.
-  *
-@@ -2183,6 +2198,30 @@ EXPORT_SYMBOL(cpufreq_unregister_notifier);
-  *                              GOVERNORS                            *
-  *********************************************************************/
- 
-+static bool cpufreq_test_and_clear_update_limits(struct cpufreq_policy *policy)
-+{
-+	if (!cpufreq_driver_needs_limits_update(policy))
-+		return false;
-+
-+	return xchg(&policy->update_limits, false);
-+}
-+
-+static void cpufreq_set_update_limits(struct cpufreq_policy *policy)
-+{
-+	/* Publish the new limits before making their update pending. */
-+	smp_store_release(&policy->update_limits, true);
-+}
-+
-+static void cpufreq_read_policy_limits(struct cpufreq_policy *policy,
-+				       unsigned int *min, unsigned int *max)
-+{
-+	/* Lockless reads can mix limit updates; favor max if inverted. */
-+	*min = READ_ONCE(policy->min);
-+	*max = READ_ONCE(policy->max);
-+	if (unlikely(*min > *max))
-+		*min = *max;
-+}
-+
- /**
-  * cpufreq_driver_fast_switch - Carry out a fast CPU frequency switch.
-  * @policy: cpufreq policy to switch the frequency for.
-@@ -2209,14 +2248,20 @@ EXPORT_SYMBOL(cpufreq_unregister_notifier);
- unsigned int cpufreq_driver_fast_switch(struct cpufreq_policy *policy,
- 					unsigned int target_freq)
+ #define KVM_PTE_LEAF_ATTR_HI_S1_GP	BIT(50)
+
+ #define KVM_PTE_LEAF_ATTR_S2_PERMS	(KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R | \
+ 					 KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W | \
++					 KVM_PTE_LEAF_ATTR_HI_S2_DBM | \
+ 					 KVM_PTE_LEAF_ATTR_HI_S2_XN)
+
+ /* pKVM invalid pte encodings */
+diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtable.c
+index b74dd5ce1efd..50f4d3a74f77 100644
+--- a/arch/arm64/kvm/hyp/pgtable.c
++++ b/arch/arm64/kvm/hyp/pgtable.c
+@@ -732,7 +732,7 @@ static int stage2_set_prot_attr(struct kvm_pgtable *pgt, enum kvm_pgtable_prot p
+ 		attr |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R;
+
+ 	if (prot & KVM_PGTABLE_PROT_W)
+-		attr |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
++		attr |= KVM_PTE_LEAF_ATTR_HI_S2_DBM | KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+
+ 	if (!kvm_lpa2_is_enabled())
+ 		attr |= FIELD_PREP(KVM_PTE_LEAF_ATTR_LO_S2_SH, sh);
+@@ -753,7 +753,7 @@ enum kvm_pgtable_prot kvm_pgtable_stage2_pte_prot(kvm_pte_t pte)
+
+ 	if (pte & KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R)
+ 		prot |= KVM_PGTABLE_PROT_R;
+-	if (pte & KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W)
++	if (pte & KVM_PTE_LEAF_ATTR_HI_S2_DBM)
+ 		prot |= KVM_PGTABLE_PROT_W;
+
+ 	switch (FIELD_GET(KVM_PTE_LEAF_ATTR_HI_S2_XN, pte)) {
+@@ -1288,6 +1288,7 @@ static int stage2_update_leaf_attrs(struct kvm_pgtable *pgt, u64 addr,
+ int kvm_pgtable_stage2_wrprotect(struct kvm_pgtable *pgt, u64 addr, u64 size)
  {
--	unsigned int freq;
-+	bool update_limits;
-+	unsigned int min, max, freq;
- 	int cpu;
- 
--	target_freq = clamp_val(target_freq, policy->min, policy->max);
-+	update_limits = cpufreq_test_and_clear_update_limits(policy);
-+	cpufreq_read_policy_limits(policy, &min, &max);
-+	target_freq = clamp_val(target_freq, min, max);
- 	freq = cpufreq_driver->fast_switch(policy, target_freq);
- 
--	if (!freq)
-+	if (!freq) {
-+		if (update_limits)
-+			cpufreq_set_update_limits(policy);
- 		return 0;
-+	}
- 
- 	policy->cur = freq;
- 	arch_set_freq_scale(policy->related_cpus, freq,
-@@ -2367,12 +2412,16 @@ int __cpufreq_driver_target(struct cpufreq_policy *policy,
- 			    unsigned int relation)
- {
- 	unsigned int old_target_freq = target_freq;
-+	unsigned int min, max;
-+	bool update_limits;
-+	int ret;
- 
- 	if (cpufreq_disabled())
- 		return -ENODEV;
- 
--	target_freq = __resolve_freq(policy, target_freq, policy->min,
--				     policy->max, relation);
-+	update_limits = cpufreq_test_and_clear_update_limits(policy);
-+	cpufreq_read_policy_limits(policy, &min, &max);
-+	target_freq = __resolve_freq(policy, target_freq, min, max, relation);
- 
- 	pr_debug("CPU %u: cur %u kHz -> target %u kHz (req %u kHz, rel %u)\n",
- 		policy->cpu, policy->cur, target_freq, old_target_freq, relation);
-@@ -2384,11 +2433,8 @@ int __cpufreq_driver_target(struct cpufreq_policy *policy,
- 	 * calls.
- 	 */
- 	if (target_freq == policy->cur) {
--		if (!(cpufreq_driver->flags & CPUFREQ_NEED_UPDATE_LIMITS) ||
--		    !policy->update_limits)
-+		if (!update_limits)
- 			return 0;
--
--		policy->update_limits = false;
- 	}
- 
- 	if (cpufreq_driver->target) {
-@@ -2399,13 +2445,19 @@ int __cpufreq_driver_target(struct cpufreq_policy *policy,
- 		if (!policy->efficiencies_available)
- 			relation &= ~CPUFREQ_RELATION_E;
- 
--		return cpufreq_driver->target(policy, target_freq, relation);
-+		ret = cpufreq_driver->target(policy, target_freq, relation);
-+	} else if (cpufreq_driver->target_index) {
-+		ret = __target_index(policy, policy->cached_resolved_idx);
-+	} else {
-+		if (update_limits)
-+			cpufreq_set_update_limits(policy);
-+		return -EINVAL;
- 	}
- 
--	if (!cpufreq_driver->target_index)
--		return -EINVAL;
-+	if (ret && update_limits)
-+		cpufreq_set_update_limits(policy);
- 
--	return __target_index(policy, policy->cached_resolved_idx);
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(__cpufreq_driver_target);
- 
-@@ -2681,7 +2733,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
- 			      CPUFREQ_RELATION_H);
- 	if (freq != policy->max) {
- 		WRITE_ONCE(policy->max, freq);
--		policy->update_limits = true;
-+		cpufreq_set_update_limits(policy);
- 	}
- 
- 	freq = __resolve_freq(policy, new_data.min, new_data.min, new_data.max,
-@@ -2689,7 +2741,7 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
- 	freq = min(freq, policy->max);
- 	if (freq != policy->min) {
- 		WRITE_ONCE(policy->min, freq);
--		policy->update_limits = true;
-+		cpufreq_set_update_limits(policy);
- 	}
- 
- 	trace_cpu_frequency_limits(policy);
-diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-index a0a7619d11fd..acd60c2b30f1 100644
---- a/include/linux/cpufreq.h
-+++ b/include/linux/cpufreq.h
-@@ -499,6 +499,7 @@ int cpufreq_register_driver(struct cpufreq_driver *driver_data);
- void cpufreq_unregister_driver(struct cpufreq_driver *driver_data);
- 
- bool cpufreq_driver_test_flags(u16 flags);
-+bool cpufreq_driver_needs_limits_update(struct cpufreq_policy *policy);
- const char *cpufreq_get_current_driver(void);
- void *cpufreq_get_driver_data(void);
- 
-diff --git a/kernel/sched/cpufreq_schedutil.c b/kernel/sched/cpufreq_schedutil.c
-index 49ccd6f1c185..43e448ee3c4c 100644
---- a/kernel/sched/cpufreq_schedutil.c
-+++ b/kernel/sched/cpufreq_schedutil.c
-@@ -123,22 +123,11 @@ static bool sugov_should_update_freq(struct sugov_policy *sg_policy, u64 time)
- static bool sugov_update_next_freq(struct sugov_policy *sg_policy, u64 time,
- 				   unsigned int next_freq)
- {
--	if (sg_policy->need_freq_update) {
--		sg_policy->need_freq_update = false;
--		/*
--		 * The policy limits have changed, but if the return value of
--		 * cpufreq_driver_resolve_freq() after applying the new limits
--		 * is still equal to the previously selected frequency, the
--		 * driver callback need not be invoked unless the driver
--		 * specifically wants that to happen on every update of the
--		 * policy limits.
--		 */
--		if (sg_policy->next_freq == next_freq &&
--		    !cpufreq_driver_test_flags(CPUFREQ_NEED_UPDATE_LIMITS))
--			return false;
--	} else if (sg_policy->next_freq == next_freq) {
-+	sg_policy->need_freq_update = false;
-+
-+	if (sg_policy->next_freq == next_freq &&
-+	    !cpufreq_driver_needs_limits_update(sg_policy->policy))
- 		return false;
--	}
- 
- 	sg_policy->next_freq = next_freq;
- 	sg_policy->last_freq_update_time = time;
+ 	return stage2_update_leaf_attrs(pgt, addr, size, 0,
++					KVM_PTE_LEAF_ATTR_HI_S2_DBM |
+ 					KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W,
+ 					NULL, NULL,
+ 					KVM_PGTABLE_WALK_IGNORE_EAGAIN);
+@@ -1368,7 +1369,7 @@ int kvm_pgtable_stage2_relax_perms(struct kvm_pgtable *pgt, u64 addr,
+ 		set |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R;
+
+ 	if (prot & KVM_PGTABLE_PROT_W)
+-		set |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
++		set |= KVM_PTE_LEAF_ATTR_HI_S2_DBM | KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+
+ 	if (prot & KVM_PGTABLE_PROT_X) {
+ 		ret = stage2_set_xn_attr(prot, &xn);
+diff --git a/arch/arm64/kvm/nested.c b/arch/arm64/kvm/nested.c
+index b191365d97cc..4d7f52f4bc09 100644
+--- a/arch/arm64/kvm/nested.c
++++ b/arch/arm64/kvm/nested.c
+@@ -388,6 +388,11 @@ static int walk_nested_s2_pgd(struct kvm_vcpu *vcpu, phys_addr_t ipa,
+ 		(ipa & GENMASK_ULL(addr_bottom - 1, 0));
+ 	out->output = paddr;
+ 	out->block_size = 1UL << ((3 - level) * stride + wi->pgshift);
++	/*
++	 * L1 descriptors keep the legacy encoding: S2AP[1] is the write
++	 * permission, and DBM is RES0 (the L1-visible HAFDBS is limited
++	 * to AF-only).
++	 */
+ 	out->readable = desc & KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R;
+ 	out->writable = desc & KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+ 	out->level = level;
+diff --git a/arch/arm64/kvm/ptdump.c b/arch/arm64/kvm/ptdump.c
+index 69899797dbad..b0cb8d84a9e9 100644
+--- a/arch/arm64/kvm/ptdump.c
++++ b/arch/arm64/kvm/ptdump.c
+@@ -40,8 +40,8 @@ static const struct ptdump_prot_bits stage2_pte_bits[] = {
+ 		.clear	= " ",
+ 	},
+ 	{
+-		.mask	= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W,
+-		.val	= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W,
++		.mask	= KVM_PTE_LEAF_ATTR_HI_S2_DBM,
++		.val	= KVM_PTE_LEAF_ATTR_HI_S2_DBM,
+ 		.set	= "W",
+ 		.clear	= " ",
+ 	},
+--
+2.43.0
+
