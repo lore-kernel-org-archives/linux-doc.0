@@ -1,262 +1,215 @@
-Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [185.125.25.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89C3560AB1
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 18:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62B23F4DD9;
+	Tue, 29 Sep 2026 19:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790707928; cv=none; b=JTI6aLcl0cLWZEKaF2GXpnS2p13DIwgopHfa96piTU5Tr3OsxlsjJ8Sdzmkb8VZShM+kxZV8Ml9rbBSuPpXCR5hHXRDs3xDe+nkDCTiSO9ZIROOtbdYovnxDpA8Us87OSjly6ast3/PT7iRFRAFtOedx6M1QMCKBaXfGA897RxU=
+	t=1790709865; cv=none; b=cCuubDEgAT3kCpDun9xCkKGlll3qovPc9mzG+20sUHqABAaq+Jmd+a+GptdswCmawHF6VcT7pLJ4QJw5wvHM9n+KlntlYyDedQWhvYq6rEGpsbA/Y5SWNx5YGX8hvMdPDLo5j2GTuBQBEtinFDLtYvtaVkuZ1YJZ/lZ5jhlSF1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790707928; c=relaxed/simple;
-	bh=XG42HsU/sMqXC+2mZyZtlSTX6jXkUuV0jGL7ftsUi1c=;
+	s=arc-20240116; t=1790709865; c=relaxed/simple;
+	bh=QbK+E8OtIzF32QonND+KHJdCfdBfayxRrD0iDnQSt0M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FErFM+tdiLTUwM40poEcFNd2bE2qeVKEYaVcjM2crLx/kWt4+ubVBVhEXuclZ/ZOn37FMY3GM9XB/hlxt83YZc4nJCSrMqNc5YB0b0I1OogNLenAKGxLzh/TCkzK2cVYfgYqPV/uBR5Uu7d2JcYQE8h/TLK4SsJfneu6Gv13j7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=NmkxKvYY; arc=none smtp.client-ip=185.125.25.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=ddmxKqsF4sbZeUiar+aTvU+Y5vm5zeCIXLiFjt3H98UTOkKJbVorGlPWHngbjNRSyWvRPkqqhKyQ1ZRrw9p9nWLHPJ3hlDWCU5bWtm9fcxuzUw8EqECKrkg9a6LgEnb6mtIQNnhRgFSJD1oZqUnijR9yia12tSvhAA1zqeVB9yI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FLeVPkRh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="NmkxKvYY"
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hvS2p2l3bzgtN;
-	Tue, 29 Sep 2026 20:52:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
-	s=20191114; t=1790707921;
-	bh=n8m+1/BomLkKgTbR4X98Agh5NHkdrJRlqsVG38xM61s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NmkxKvYY7IAkYpsQSw34+uAQW9dfJv3xKt7fsNkRohVNKzr5oP5BjUWuF2NdOi79t
-	 vvs4m9cuI+bBBRuJQAVOoHW1oRrA18o+pALFKcTK6U8VOdF0aQDADis65isVXer8D4
-	 UtHi4jAnDX1/It25jO4gSTSKy338JFE41uy/4218=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4hvS2b4dnJzppl;
-	Tue, 29 Sep 2026 20:51:51 +0200 (CEST)
-Date: Tue, 29 Sep 2026 20:51:47 +0200
-From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-To: Justin Suess <utilityemal77@gmail.com>
-Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
-	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, Cai Xinchen <caixinchen1@huawei.com>, paul@paul-moore.com, 
-	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
-	dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, viro@zeniv.linux.org.uk, 
-	brauner@kernel.org, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
-	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
-	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
-	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, 
-	amir73il@gmail.com, senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, 
-	zohar@linux.ibm.com, roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, 
-	eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, omosnacek@gmail.com, 
-	casey@schaufler-ca.com, nanx95726@gmail.com, djwong@kernel.org, daniel@iogearbox.net, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	netfs@lists.linux.dev, ecryptfs@vger.kernel.org, exfat@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	xiujianfeng@huawei.com, lujialin4@huawei.com
-Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
- WRITE_METADATA access rights
-Message-ID: <20260929.Ahgoo4yeetai@digikod.net>
-References: <20260924104831.1081137-1-caixinchen1@huawei.com>
- <araxO4ze0KZBz756@suesslenovo>
- <20260926.255b951d3013@gnoack.org>
- <arqcbjWLN1CLkL_Y@suesslenovo>
- <arurOphe6QIx2Zr8@google.com>
- <arvjb0HJYh1KyEBB@suesslenovo>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FLeVPkRh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A9C1F000FF;
+	Tue, 29 Sep 2026 19:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790709863;
+	bh=+4lcFV7BWlJxo0mkhLOYTkZFGAJFfiTavqhBD4KO1lY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FLeVPkRh1a34ogB9TpRqthY2RcbpuPqQsAGNc8EBMC8NIGvoauZPvtJdN18aNpI85
+	 m5+apCTFoKPSgyD80h3yqAunUkZBSHhpsRtktMeQU6PmoV9plQ7nxsmRnEdZpzeITd
+	 iuw7p12XnIonSLvhM0cCedPFuSbrmDNrcnUJJ6ZkbtgzLKV3vq5Rk8YPLs3Zsj2Tem
+	 vtYbJG/7wRtE8fsTUkKYkWlHUVEShd1dUSTrq5K+X+n/Dn2Af17dIsj1rG6KW+RDD9
+	 UFRZdZ7Avco2qztl/Zdyx7lN7s5vlRb0NWHXIq+UPEs1nanv/2dE8haepp2+acg6/1
+	 +FekM+w1yBvmA==
+Date: Tue, 29 Sep 2026 20:24:15 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Cc: Radim Krcmar <rkrcmar@qti.qualcomm.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"spacemit@lists.linux.dev" <spacemit@lists.linux.dev>,
+	"sophgo@lists.linux.dev" <sophgo@lists.linux.dev>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	Andy Chiu <tchiu@tenstorrent.com>,
+	Florian Weimer <fweimer@redhat.com>,
+	Peter Bergner <bergner@oss.tenstorrent.com>,
+	Zihong Yao <zihong.plct@isrc.iscas.ac.cn>,
+	Mark Harris <mark.hsj@gmail.com>,
+	Aurelien Jarno <aurelien@aurel32.net>,
+	Andrew Jones <andrew.jones@oss.qualcomm.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
+	Chen Wang <chen.wang@linux.dev>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-riscv <linux-riscv-bounces@lists.infradead.org>,
+	Guodong Xu <guodong.xu@oss.qualcomm.com>
+Subject: Re: [PATCH v8 01/11] riscv: Add B to hwcap and hwprobe
+Message-ID: <20260929-operative-anointer-7f54be845b54@spud>
+References: <20260920-rva23u64-hwprobe-v2-v8-0-5f14bc5c23d3@oss.qualcomm.com>
+ <20260920-rva23u64-hwprobe-v2-v8-1-5f14bc5c23d3@oss.qualcomm.com>
+ <9d058591-466e-4c06-a820-b8ecc7d319a6@canonical.com>
+ <15151b8ab012ca7444d4117e393cf999.guodong.xu@oss.qualcomm.com>
+ <DLRWB8R7P6SF.1XIL0OXLZ2F23@qti.qualcomm.com>
+ <70a3451c-db31-41d0-af9d-8c9e123557f6@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rW7jw50OZvM/1nk9"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <arvjb0HJYh1KyEBB@suesslenovo>
-X-Infomaniak-Routing: alpha
+In-Reply-To: <70a3451c-db31-41d0-af9d-8c9e123557f6@canonical.com>
 
-On Tue, Sep 29, 2026 at 01:27:44PM -0400, Justin Suess wrote:
-> On Tue, Sep 29, 2026 at 02:12:42PM +0200, Günther Noack wrote:
-> > On Mon, Sep 28, 2026 at 01:13:35PM -0400, Justin Suess wrote:
-> > > On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
-> > > > Hello!
-> > > > 
-> > > > On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
-> > > > > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
-> > > > > > This series adds two new Landlock filesystem access rights,
-> > > > > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
-> > > > > > which control access to file and directory metadata such as inode
-> > > > > > attributes (mode, ownership, timestamps), extended attributes and POSIX
-> > > > > > ACLs.  It picks up the work from the "landlock: add chmod and chown
-> > > > > > support" series [1] and follows the coarse-grained grouping discussed in
-> > > > > > that thread [2]: instead of separate chmod/chown rights, metadata
-> > > > > > operations are grouped into one read and one write right.
-> > > > > > 
-> > > > > > Landlock evaluates access rights on a per-path basis, but the metadata
-> > > > > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
-> > > > > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
-> > > > > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
-> > > > > > object.  Patches 1-7 therefore first pass struct path instead of dentry
-> > > > > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
-> > > > > > refactoring with no behavior change, split so that every patch builds
-> > > > > > and works on its own:
-> > > > > >
-> > > > > I like these patches, but is the ability to read metadata already
-> > > > > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
-> > > > > directory?
-> > > > > 
-> > > > > The one case I see this being different is:
-> > > > > 
-> > > > > 1. if you wanted to grant read access to the file, but not metadata
-> > > > > read access, but I can't think of any usecase for being able to read
-> > > > > the contents of a file, but not the metadata. (see below)
-> > > > > 
-> > > > > 2. If you had the absolute path already and didn't need READ_DIR.
-> > > > > 
-> > > > > I see introducing this READ_METADATA as causing potential
-> > > > > hard-to-diagnose issues.
-> > > > > 
-> > > > > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
-> > > > > 
-> > > > > The program can technically open the file with the READ_FILE permission,
-> > > > > but it may error out because the stat() on it beforehand failed.
-> > > > > It's pretty common for programs to do that kind of thing (stat before
-> > > > > open), like for checking for config files (strace bash and you see it
-> > > > > stat .profile, /etc/profile)
-> > > > > 
-> > > > > There may be other bugs, because being able to set permissions to read
-> > > > > a file *but not read it's metadata* isn't possible currently in posix
-> > > > > acl and userspace may not work well if that assumption no longer holds.
-> > > > >
-> > > * posix acl and linux DAC.
-> > > 
-> > > > > So maybe WRITE_METADATA is good enough?
-> > > > 
-> > > > The existing use cases are the combinations of (a) READ_DIR
-> > > > allowed/denied and (b) READ_METADATA allowed/denied.  Because these
-> > > > two access rights overlap slightly, it seems likely that for a given
-> > > > directory or file, users will want to either grant both, or deny both.
-> > > > 
-> > > > At the moment, where the (not yet existing) READ_METADATA is
-> > > > implicitly always allowed, the problematic case is the one where the
-> > > > Landlock user wants to deny READ_DIR, but where much of the same
-> > > > metadata is still available through stat() and the various
-> > > > get-attribute syscalls.  (c.f. the warning box in the Landlock docs
-> > > > [1])
-> > > > 
-> > > > In my view the READ_METADATA right closes a gap that READ_DIR left
-> > > > open (which is also potentially surprising to callers if they did not
-> > > > read the docs closely).  Also, if its implementation is symmetric to
-> > > > WRITE_METADATA, I feel that it's worth having it in the same patch
-> > > > set.
-> > > > 
-> > > > –Günther
-> > > > 
-> > > > P.S.: I know, even after we can control stat(), there are likely ways
-> > > > to infer the presence of a file by observing Landlock error codes.
-> > > > This would be nice to fix as well, but is harder to do without
-> > > > controlling the path walk itself [2].  But also, the fact that this is
-> > > > currently not controllable is not an excuse for leaving READ_METADATA
-> > > > open IMHO.
-> > > >
-> > > I'm still sort of concerned about the case where read access is allowed,
-> > > but metadata isn't, due to how many applications will not cleanly handle
-> > > such an unexpected condition. You can reproduce this with a seccomp
-> > > policy forbidding stat().
-> > > 
-> > > Would it make sense to have the existing READ rights
-> > > (READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
-> > > if READ_METADATA is handled? Reading a file's contents should always
-> > > imply that you can read the metadata.
-> > 
-> > I am wary of situations where the handling of access rights implicity
-> > implies other access rights.  We have discussed such schemes in the
-> > past (e.g. we considered a design for RESOLVE_UNIX where we'd have
-> > both a "scoped" and a "access_fs" right that would interact with each
-> > other), but in the end we always settled for approaches where such
-> > interactions would not be necessary.  One of the concerns was that it
-> > would complicate "best effort" fallback logic in all Landlock
-> > libraries and in the countless places where people use the syscalls
-> > directly.
-> > 
-> > To throw another option in the mix.  (To be clear, I have only 70%
-> > confidence, so feel free to push back, but it feels like it might
-> > work?):
-> > 
-> > Is this similar to the "truncate" right?
-> > ----------------------------------------
-> > 
-> > With "truncate", there was an existing common operation (open(2) with
-> > O_TRUNC, a.k.a. creat(2)) which called the truncation hook and checked
-> > for the truncation access right.  But that was in fact OK.  The way we
-> > resolved it at the time was by documenting very loudly that WRITE_FILE
-> > and TRUNCATE access rights should always be requested in lockstep, if
-> > TRUNCATE is handled.
-> > 
-> > If READ_DIR and READ_FILE do in fact read and return metadata to the
-> > user, maybe the right thing would be to do it the same way here and
-> > *require* that we have READ_METADATA to do these operations?
-> > 
-> > (READ_METADATA is automatically allowed as long as it's not handled,
-> > so that approach does not break existing programs.  Programs who
-> > consciously start handling READ_METADATA must simply take into account
-> > that reading directories and opening files for reading requires
-> > READ_METADATA.)
-> > 
-> > (BTW, I can see it for reading directories, but I am not sure I fully
-> > follow the argument why opening files for reading means that you can
-> > read the metadata?  Can't that be guarded on fstat()-like operations?)
-> >
-> Many standard libraries will call stat before / after opening a file to
-> allocate a buffer matching the file size. Or to figure out if mmap
-> is more efficient than opening it directly.
-> 
-> So Python's open().read() or Go's os.ReadFile they may throw an error
-> when opening the file, making it look as if the file is inaccessible
-> when its contents are. They make the assumption that if a file is
-> readable, the metadata is too.
-> 
-> There's also a lot of metadata that is already leaked by just having
-> READ_FILE. FS_IOC_GETFLAGS/FS_IOC_FSGETXATTR ioctl / fileattr_get are
-> unrestrictable and allow you to see inode attributes. There's also
-> access(2) which isn't restricted here and allows you to see your rights
-> on the file. The size can be found by simply seeking to the beginning
-> and end. So much of the metadata is obtainable with just READ_DIR/READ_FILE.
-> 
-> ...
-> 
-> Another problem I'm just realizing is that this READ_METADATA
-> right is inconsistent with open file descriptor behavior. With most
-> rights, already open file descriptors are exempted, but here, fstat,
-> (and the other stat-family calls which takes a file descriptor) become
-> denied even on already open files. It's a catch 22 here, if you change
-> the fstat to not apply to opened files, then READ_FILE becomes a bypass
-> for READ_METADATA. But if you leave it as is, then it's inconsistent with
-> the other Landlock rights wrt already opened files.
+--rW7jw50OZvM/1nk9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Indeed, these access rights should follow the
-LANDLOCK_ACCESS_FS_TRUNCATE mechanic.
+On Tue, Sep 29, 2026 at 06:30:49PM +0200, Heinrich Schuchardt wrote:
+> On 9/29/26 17:12, Radim Krcmar wrote:
+> > 2026-09-24T06:38:17-04:00, Guodong Xu <guodong.xu@oss.qualcomm.com>:
+> > > On Mon, 21 Sep 2026 16:24:53 +0200, Heinrich Schuchardt wrote:
+> > > > On 9/20/26 09:18, Guodong Xu wrote:
+> > > > > [ ... ]
+> > > > >    	__RISCV_ISA_EXT_DATA(q, RISCV_ISA_EXT_Q),
+> > > > >    	__RISCV_ISA_EXT_SUPERSET(c, RISCV_ISA_EXT_C, riscv_c_exts),
+> > > > > +	__RISCV_ISA_EXT_SUPERSET(b, RISCV_ISA_EXT_B, riscv_b_exts),
+> > > >=20
+> > > > Hello Guodong,
+> > > >=20
+> > > > The RISC-V Unpriviledged ISA specification has this description of
+> > > > extension B:
+> > > >=20
+> > > > "The B standard extension comprises instructions provided by the Zb=
+a,
+> > > > Zbb, and Zbs extensions."
+> > > >=20
+> > > > __RISCV_ISA_EXT_SUPERSET would imply that something else but
+> > > > riscv_b_exts is in B. But such an extra seems not to exist.
+> > > >=20
+> > > > So shouldn't __RISCV_ISA_EXT_BUNDLE be used here? Some code further
+> > > > change may be needed to set extension B if riscv_b_exts is fulfille=
+d.
+> > >=20
+> > > Thanks for the review. Intentional, and the difference between the two
+> > > macros is whether the extension gets a bit of its own.
+> > >=20
+> > > __RISCV_ISA_EXT_BUNDLE carries RISCV_ISA_EXT_INVALID as its id: parsi=
+ng
+> > > the name only sets the bits of its parts. That fits zk, zkn names, wh=
+ich
+> > > are shorthands with no identity of their own beyond the ISA string.
+> > >=20
+> > > B is different: it is a single-letter standard extension with its own
+> > > misa bit (in the same way as A), and AT_HWCAP on RISC-V is the bitmask
+> > > of exactly those single letters, so the kernel needs a bit for B itse=
+lf.
+> > >=20
+> > > A is declared the same way; with the spec defines A in the same words=
+ as
+> > > B. If I can take that as a precedence.
+> > >=20
+> > > IMHO, "superset" in this table means "also sets these subset bits", n=
+ot
+> > > "contains something extra".
+> >=20
+> > Zba, Zbb, and Zbs are equivalent to B for our purposes.
+> >=20
+> > Are we sure that B will always be listed in the ISA string when Zba,
+> > Zbb, and Zbs are present?
+> >=20
+> > We could incorrectly lose RVA23U64 bit otherwise, and I think this was
+> > Heinrich's concern as well...
+> >=20
+> > (The "A" extension has the same issue...)
+> >=20
+> > Thanks.
+>=20
+> If Zba, Zbb, and Zbs are present the kernel should set the B flag in
+> hwprobe. This is why RISCV_ISA_EXT_SUPERSET() cannot be used to describe =
+the
+> B extension. RISCV_ISA_EXT_BUNDLE looks more appropriate but may lack
+> functionality.
+>=20
+> RVA23U64 looks like an RISCV_ISA_EXT_BUNDLE() to me, too.
+>=20
+> Unfortunately these macros are not properly documented.
+>=20
+> It would be helpful to first align on the meaning and usage of the macros
+> and document them properly.
 
-> 
-> Which isn't the end of the world, but just shows that either
-> approach is going to have it's quirks. 
-> 
-> I think it would be better to just avoid the cat and mouse game here
-> of trying to seperate READ_FILE/READ_METADATA and either require
-> READ_METADATA be specified with READ_FILE if READ_METADATA is handled
-> like Gunther proposed, or have READ_FILE imply READ_METADATA.
-> 
-> Documenting it strongly is OK too, but really there are really zero
-> usecases where you'd want to grant READ_FILE without READ_METADATA
-> so it would need to be made extremely clear.
+The intended meaning was "bundle contains no additional features beyond
+the components" and "superset contains additional features beyond the
+components".
 
-What about a program that just need to read files? We can think about
-sanboxes such as those used in web browsers, but that applies to other
-tailored processes that don't need/want to access metadata e.g., for
-confidentiality or personal information (UID, timestamp) concerns.
+IIRC the reason for differentiation between the two was to simplify
+things in the kernel and avoid having code which requires y feature checking
+for "bundle extension xyz", because firmware might only set "component
+extension y" and therefore get a false negative on support.
+Probably ditto for userspace parsing /proc/cpuinfo, since I don't think
+hwprobe existed at that point. The things that are using superset now
+don't quite match that, because some extensions have been retroactively
+changed by RVI to match the bundle definition (due to new extensions being
+created for subsets of an existing extension) and superset was used also for
+the xlinuxenvcfg stuff.
 
-This is similar to FILE_WRITE vs. TRUNCATE: most of the time we want
-them to be grouped.
+At this point, I think we could probably just cull the differentiation
+entirely, retaining a macro called "bundle" that has the behaviour of
+the current "superset". People should just know to check the minimum
+required extension (that's common sense surely?!?) and the kernel will
+always propagate support down to components. This is at least the 3rd
+time recently that I have seen confusion over what each is supposed to
+do.
 
-> 
-> Thanks,
-> Justin
-> 
-> > —Günther
-> 
+
+>=20
+> ---
+>=20
+> The benefit of an additional hwprobe flags for B is limited. When I want =
+to
+> check for B I can already use:
+>=20
+> RISCV_HWPROBE_EXT_B =3D
+> RISCV_HWPROBE_EXT_ZBA | RISCV_HWPROBE_EXT_ZBB | RISCV_HWPROBE_EXT_ZBS;
+>=20
+> if ((value & RISCV_HWPROBE_EXT_B) =3D=3D RISCV_HWPROBE_EXT_B) {
+> 	// Hurray, I have the B extension.
+> }
+>=20
+> There is more utility in the RVA23U64 flag because it combines values from
+> RISCV_HWPROBE_KEY_BASE_BEHAVIOR, RISCV_HWPROBE_KEY_IMA_EXT_0, and
+> RISCV_HWPROBE_KEY_IMA_EXT_1.
+>=20
+> Best regards
+>=20
+> Heinrich
+
+--rW7jw50OZvM/1nk9
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCarwQXwAKCRB4tDGHoIJi
+0gsNAP4zCeyU0ECIOLqFYp7eKcSULXfObTdh0pHUxJ7mwe9PCgD9HL3G732aWACU
+0okpHhU7u0xbfNAkhsrFUz0MfF4L9A0=
+=Sl5P
+-----END PGP SIGNATURE-----
+
+--rW7jw50OZvM/1nk9--
