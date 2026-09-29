@@ -1,134 +1,148 @@
-Received: from mail-qv2-f41.google.com (mail-qv2-f41.google.com [74.125.230.169])
+Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113A8525A66
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 13:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A468337BE71
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 13:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790687253; cv=none; b=A2ovw/EfFq5gkeUnlmemRh771KJJ0UTII42sTrsGX09JrTWBmETRTLQ5/7KQ2ZeYu0Qiq7mUb4AcmamldvJvDy993nKPo8I0otxYoldL4u9ymYK6jfnohnXjdFi928iaVoEY7wSkes13GYgYdhf0rU5LiHpRUKbIrCNQ04nuFmY=
+	t=1790687430; cv=none; b=EI68yoVYwjQH0QT2FPP/E1gf6USp55RBqyso+SkuQF2ZTBTAgcEDjRZxVkvn0o5OT4uv4j5C/rUEZbARTv9tNwniSl6zG1UzUd681APQ9G5zh5sQA9eFt7qh1u+LflWXvkhHaTUrp9IDdo0bB1WVIBNnyI++Hlqk7BqniCoc0AU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790687253; c=relaxed/simple;
-	bh=PUrN0XLKKmcY4+BzdqcUirV+08xJH2NYk9oyUJnLOKY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MLRsPpH9Mg1+0yeF9+1P2E+4z8z1SQAxlineV62ymvm5Fv4JZJXgKmRVJTN13+x97ua+8wMkARg+ZeDzRLEP7/F8zwXji/O4ElQuIqbaSVVThXBx5yqaHPYsccFQ7VfllOu2f6v9uiAa8jONsg9GJKWUkUD9oiXmvJpcrwnBgBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com; spf=pass smtp.mailfrom=toxicpanda.com; dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b=sGoAyW/c; arc=none smtp.client-ip=74.125.230.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
+	s=arc-20240116; t=1790687430; c=relaxed/simple;
+	bh=zEnTBTXjr/3Yq3M6DgYn2rlIFOMrPIe3fS/NqzeDWbA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UPwbx4z0NHQ4FV6YEIEYiJng9XonWitp7MRKDpE+3K6JYU8EpnqIR4f9HAVSb4sWcYzyLUbXeny2enVW6xMdi27/jh5iJcG8KP7lr2mEcKSVlqnqxZEnwnRSJuPvkMqHsRIPQL1oTDDAvrQYC27abt7CUe2ma051HqB8K6BZa/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gvtBVMDP; arc=none smtp.client-ip=74.125.227.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b="sGoAyW/c"
-Received: by mail-qv2-f41.google.com with SMTP id 6a1803df08f44-91782711448so9097866d6.2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 06:07:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gvtBVMDP"
+Received: by mail-pj2-f40.google.com with SMTP id d9443c01a7336-2dfae9a76c7so2329845ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 06:10:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda.com; s=google; t=1790687247; x=1791292047; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=s2+9C75fPvA5g6i7G+PRMeW8ilNW2Hk9NJmcPsE1jGE=;
-        b=sGoAyW/cBDUOjNP/dhva8ysA7RPUsTwMJ8xLzsDjxnrHpZ8NwtRL8fvltqg6ECe6uk
-         4bSH/ClMNhb5xWEM48s783LJiRt6RHjWDUZLjJTTSOJnJYKhL/YuPXQkC7g2xGL+ha9X
-         eap9ibADGLP/UaXukTYZfE7vg7NOClXT2SgcR3xekoUB+3eJFaOISd4mlCfpA+kPLcx4
-         jAt+oDTYPvPUHlWadsoosVfKAuDRA/O1LvlgL1idYqQNiSmq2wYGHhP+fYfdjkaOTssm
-         a8O5jRbN1JVD3+bX6NCG8XOzg/cQULYHziQOTmEP+dRSGQ1yD+q05MWpiHqn877tFCej
-         5AiQ==
+        d=gmail.com; s=20251104; t=1790687428; x=1791292228; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=soWPGbxjnigdj4iGcVSd7XhV9qnB/30daTVau/x4EZE=;
+        b=gvtBVMDPwlTwHMleWBHmCmIJJ1pvWlY50/m1q2mkvK+O7fIGvHCrQ3ksukwQ4veAM+
+         EazH0Y7unr9oOUmhO1OjbhASl4CrdBvAp8xWwWy5jdHRu3aOrEMYojIPfE1FsZH3lyN1
+         Uytm5bHLwy9NY2uiW4wsbr97CPhe5vJ4S76ddNCWYWlhWzBsuO4rmB7Agq6iNhwSATYS
+         5Ga4PFqo2fnr7HPSeiX8jq+nathi8PBC9uQtHkmUJ/FlVt4tN4nCGuay+vG/fKjIuveU
+         pp4xHJ81Uf8QYfqOaUEUudsLl4F/gOt5pVecmYj7pwcXTTjrYdo85Cfa4kgxTpyzl3h5
+         zWkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790687247; x=1791292047;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=s2+9C75fPvA5g6i7G+PRMeW8ilNW2Hk9NJmcPsE1jGE=;
-        b=mseBho2JI9CygSwFxljkJhVb4Vjs9hoUnvxkOdgjez3cGCraig6STGo7BYrfo1I/45
-         WjtTE5VBbSGCr1eiY/Kz2lKZRmXeUP7Qip2ZZAIkYgEqD1K/QQjxBi+3aAZGJOtEajdQ
-         IUe6yBTXwEgW6Ql79+10+pb9XLh9FIecKCoLVYtio1flvDDIZfFBDVTZIzGoIe5NZu1U
-         OwnsNh1wUXAx7sFjggPBZCDeSpAhC5YP2E3EtSIGAFeYE9YrP3qnsfkkazu+MJJmDzi+
-         FPpa2Zs5yWpcAz/E6TytJlBvLG9QE+7LBZbO/MYFv+PeJPBQc98QWw8mq/enOZ9VjUnx
-         k+Sw==
-X-Forwarded-Encrypted: i=1; AKwUvBzGAlxuhUrL82gkYI3+F21Lufgr2U1fG9RuJRuzs1t2a8AAx1zoPIYYzkbf4ZOuKk9eP9K5BV78GmQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++lWrNTDhaeeaRHcCt19ckeSLxihmblWPMez27yN9EXxI6RDz/3Y
-	tsd02ddOUZq6jj4YR/h+OH1gm7u5X3p61a1MogwQG1eHXODpwE1hAU36f9ODrWnD9RM=
-X-Gm-Gg: AYBFou3XcK4XKW2fw+5Qv0JHRZIXLf2hWsr9hNTftlUAejoj4s+V8QNQdrMCtGOsL75
-	eFdlm+v7B1WaVfeSdaWBNYAIA9wV2MUrMtCquJnoIMXnsNGrkKEQh7lui5ydVS5B4INXX49Kn61
-	Q0Mti4b5qn7fkKpr3CJSGKRHM6o+PSflZu5h6x1iB98TbvAdu9gvPU630usLnOSt1JEmoqxIZ0N
-	OycrOikazVZYirAUV0DWr/qUS/dpaO+t5vs6rBLz2K5jWBOwn3FUwagovUyix5OGsAsjry114cH
-	V1wwx3QBunNwKUHg3kHFTqtKZIZFWcYJnmP0tPOcN7r1xYdIh6nZQvqRg9eFRzKhdfXJK4M/ftm
-	8bpNHCtfV3DzOAhXHAP7JlCjl2ytfyNG8jwhYuzvL7zvLNmsoHQg2f0mqInznjwKm657hDVYvhQ
-	wnqDAbAbnF7z3n6Oq5iqbemmdNj59VeDyOuejHyYTDZddZerYgbZQ4YKsmeYSxBHxYkRnrFfIGp
-	DH2DWBlLIGtzEA=
-X-Received: by 2002:a05:6214:2f8b:b0:913:ffb2:e8d9 with SMTP id 6a1803df08f44-9142f93e820mr258725566d6.40.1790687246832;
-        Tue, 29 Sep 2026 06:07:26 -0700 (PDT)
-Received: from toxicpanda.com ([153.61.196.255])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9178d1bcfabsm9993486d6.2.2026.09.29.06.07.25
+        d=1e100.net; s=20260707; t=1790687428; x=1791292228;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=soWPGbxjnigdj4iGcVSd7XhV9qnB/30daTVau/x4EZE=;
+        b=cSEMmJdNAFVTaAYCMg3fWc/ovmRnNQPoIjzTC/LNpsxD0yuD0oF74qcz8Gj5qdOs2+
+         /vnKi5gD6O2u+nOqQB/0tIbdZgzsDZzf40xowbytwz+5cK51yIQpxAxfUiPvA23vQwi7
+         GLoqvUtqliQQdtehXQqApcn68xz2Q4GCkzFe2aoTRWUijxVYPUUyOyu/7zriQFM+jIZr
+         ngWDafxxgtDmC9fVElfgzFPaUsup0t2Amx/AbSdBbvpdY02+ezvC08KSQunQveLHsBJo
+         WeyRfSyEIaxdCkvfVs/m7eThccZldeAmpnoxCJ6R4RvMWoNOzZE2CTujV7Ev2uunHwOT
+         pAhQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxnmS+vvGJk3sNsDdBXnli21bOE303U7LGe/7wGljMr080/pKSMGdB7oY9ZlG4TgGLDmn9tv2xnB1w=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJUTUPGcL1o2eexUazrKSum2OyWxCBeSyOWb7VpKEBb0Ir9Mze+
+	sKtMHrUhunT06PazPgogHqWuD0V3cjxCHLhM6Rjay4WMupQgMU9Qt7ol
+X-Gm-Gg: AYBFou3A97R5atGyzah3L8rBrDYdo/VBs0Ggcbezmg9/sGsT77LMAR0GNtdMuwI0nSP
+	w31W5HBBQrT8Srw6X1VBxcn4JoOmQ5YFbRcZl37pEKSR0jfwisuCH5c9m1hwwaEpFa+J6ZUkThy
+	Oemk+5YG7/rhZs2MHaYDVqpKLIwzW7ufjK2lJuSZzYP60uR4bhcw0JJ8mtl4UuLKKIizcr5bev9
+	THHjbXez2EUFG2ySMxfW+4nSZOxihkqLLKm6oV8BFMdzGPTSNsrXsSqSnqSMkt1R/7+4gayMY+J
+	M5L1Pbd2keGE1G+RYKJM2rIkhineB15d/t3ane1gWe6/UiDHh6oZQl8h3pECXsf0Ojaxgb5ZEz8
+	73frKpUKAGhb+yD0OBBW4NOAw+byZNt+0bwZcoJaoSIqLU2H6VwiEo+yw6F9REz/mwfNrU0TJnS
+	e61OLDBy20UHCBGOMlXvifXcQyGM/y7HEZHUbeuS1d4qJlc3vM8aotiDyVN1v4+Pc4fgdwhJ46c
+	31jhP78WOFfXEAzQ3hlq/3IunjOu8vYRhdMR9Y6u2R6hCvt2EouaDzMQA==
+X-Received: by 2002:a17:902:e88c:b0:2dd:6cb5:77c with SMTP id d9443c01a7336-2df8e69f277mr176586875ad.2.1790687427998;
+        Tue, 29 Sep 2026 06:10:27 -0700 (PDT)
+Received: from chenyou.. ([140.116.39.229])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df9142969esm57363705ad.45.2026.09.29.06.10.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 06:07:26 -0700 (PDT)
-Date: Tue, 29 Sep 2026 13:06:49 +0000
-Message-ID: <f3880ecc0f95cc12f0b8fbb019f7efef.josef@toxicpanda.com>
-From: Josef Bacik <josef@toxicpanda.com>
-To: Caleb Sander Mateos <csander@purestorage.com>
-Cc: Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/9] ublk: publish io->cmd under io->lock in the commit paths
-In-Reply-To: <CADUfDZqDZEM4=uw+By6RnxvLqXbc-iPf8RCUQtQB5_Z_Di84Aw@mail.gmail.com>
-References: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com> <20260928-b4-ublk-cancel-stop-v1-3-4a4360232a46@toxicpanda.com> <CADUfDZqDZEM4=uw+By6RnxvLqXbc-iPf8RCUQtQB5_Z_Di84Aw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Tue, 29 Sep 2026 06:10:27 -0700 (PDT)
+From: Chen-Yu Yeh <chenyou910331@gmail.com>
+To: corbet@lwn.net,
+	alexs@kernel.org
+Cc: dzm91@hust.edu.cn,
+	wy@wyuan.org,
+	si.yanteng@linux.dev,
+	srcres258@furdevs.cn,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Subject: [PATCH 0/4] docs/zh_TW: relocate translations to follow the English layout
+Date: Tue, 29 Sep 2026 21:10:14 +0800
+Message-ID: <20260929131020.266120-1-chenyou910331@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 28, 2026 at 10:53:38AM -0700, Caleb Sander Mateos wrote:
-> On Mon, Sep 28, 2026 at 9:03 AM Josef Bacik <josef@toxicpanda.com> wrote:
-> > +               ublk_io_lock(io);
-> >                 req = ublk_fill_io_cmd(io, cmd);
-> > +               ublk_io_unlock(io);
->
-> Taking a spinlock for every ublk I/O completion will be very
-> expensive. Is it not possible all paths calling ublk_cancel_dev() to
-> wait for all tags to go idle?
+Three zh_TW translations still sit where their English originals used
+to live, so tools/docs/checktransupdate.py cannot find the originals at
+all.  This series moves them, gives each a baseline, and adds the
+:Original: fields that were missing, as proposed in the zh_TW scope
+discussion:
 
-I measured it on a c6id.metal (Xeon 8375C) under KVM: an 8 vCPU guest,
-kublk null target with 4 queues, fio 4k randread with 4 jobs at iodepth
-32, ten interleaved rounds of three kernels: for-next, this series, and
-this series with io->lock taken back out of the commit path. That last
-one also drops the second lock/unlock pair patch 5 adds after
-ublk_prep_cancel(), so it isolates both. The guests weren't pinned and
-landed at two throughput levels about 15% apart, so I compared within a
-level.
+  https://lore.kernel.org/linux-doc/CAKspUhJAbCWoxgh2eq8R5g_MiNK=oXgKPUWqGOpHh0w1-Fv74A@mail.gmail.com/
 
-Series against the no-lock kernel, IOPS / CPU time per I/O:
+  translation                 moves to                        baseline
+  admin-guide/security-bugs   process/security-bugs           44ac5abac86b
+  process/magic-number        staging/magic-number            f9a4f4a0e1f5
+  dev-tools/gdb-kernel-...    process/debugging/gdb-kernel-.. d5af79c05e93
 
-  plain      -0.04% / +0.7%  (high level)   -0.7% / +0.7%  (low level)
-  zero copy  -0.6%  / +1.1%                 +1.5% / -1.2%
+Each baseline is the English move commit.  checktransupdate.py does not
+follow renames, so a commit from before a move is invisible at the new
+path and the tool silently falls back to reporting the file as current;
+the move commit is the oldest baseline it can use.  Where that hides a
+missing change, the commit message records it (6b219431037b for
+gdb-kernel-debugging).
 
-Batch mode, which runs the same per-I/O code on both kernels, differs by
--0.03% / +1.2% and +0.4% / +0.5%, so the lock is inside the noise of
-this setup, which is under 1% of about 3.5us per I/O. Against for-next
-the series is +0.4% IOPS / +1.0% CPU per I/O in plain mode at the high
-level. I'm rerunning with pinned guests to tighten that and will follow
-up if it moves.
+Two side effects of the tool reading one "update to commit" line per
+commit, which this series does not try to paper over:
 
-It's one lock per io that only the task committing that io takes, so
-it's uncontended, which fits those numbers.
+ - process/index.rst is touched by the moves and so inherits their
+   baseline; the tool now lists five English index commits that the
+   recent process series already applied.
+ - staging/index.rst and process/debugging/index.rst are new; the latter
+   is listed against a592a36e4937, which only drops the index-link
+   boilerplate that translations keep anyway.
 
-Waiting for the tags to go idle doesn't close the race this is for,
-though. The control path claims io->cmd while the server can still
-commit on the same io, and what matters is ordering the claim against
-the commit switching the io from the request to the new command. Idle
-doesn't give you that: a tag can be idle when you look and be re-armed
-by a COMMIT_AND_FETCH right after. That's the QUIESCE_DEV hang on
-for-next today, its cancel pass skips a tag whose request is with the
-server, the server commits and re-arms it, and nothing ever completes
-that command.
+The fourth relocation named in the proposal, arch/arm/Booting, is one of
+the unreachable plain-text files and is removed in a separate series
+instead.
 
-Also, ublk_wait_for_idle_io() can't actually wait as it is.
-blk_mq_tagset_busy_iter() only visits started requests and
-ublk_count_busy_req() only counts requests that aren't started, so the
-count is always 0. I'll send a fix for that separately with the
-QUIESCE_DEV work.
+This applies on top of v2 of the contact-block cleanup:
 
-If the numbers show a real cost I'd rather find a way to keep the lock
-off the fast path than lose the ordering, so I'm open to ideas.
+  https://lore.kernel.org/linux-doc/20260929115956.229610-1-chenyou910331@gmail.com/
 
-Thanks,
-Josef
+Chen-Yu Yeh (4):
+  docs/zh_TW: move security-bugs to process/
+  docs/zh_TW: move magic-number to staging/
+  docs/zh_TW: move gdb-kernel-debugging to process/debugging/
+  docs/zh_TW: add missing :Original: fields
+
+ .../zh_TW/admin-guide/clearing-warn-once.rst  |  2 +
+ .../zh_TW/admin-guide/cpu-load.rst            |  2 +
+ .../translations/zh_TW/admin-guide/index.rst  |  1 -
+ .../translations/zh_TW/arch/index.rst         |  2 +
+ .../translations/zh_TW/dev-tools/index.rst    |  1 -
+ .../translations/zh_TW/dev-tools/sparse.rst   |  4 +-
+ Documentation/translations/zh_TW/index.rst    |  5 +-
+ .../debugging}/gdb-kernel-debugging.rst       |  2 +-
+ .../zh_TW/process/debugging/index.rst         | 70 +++++++++++++++++++
+ .../translations/zh_TW/process/index.rst      |  9 +--
+ .../security-bugs.rst                         |  0
+ .../translations/zh_TW/staging/index.rst      | 23 ++++++
+ .../{process => staging}/magic-number.rst     |  0
+ 13 files changed, 108 insertions(+), 13 deletions(-)
+ rename Documentation/translations/zh_TW/{dev-tools => process/debugging}/gdb-kernel-debugging.rst (99%)
+ create mode 100644 Documentation/translations/zh_TW/process/debugging/index.rst
+ rename Documentation/translations/zh_TW/{admin-guide => process}/security-bugs.rst (100%)
+ create mode 100644 Documentation/translations/zh_TW/staging/index.rst
+ rename Documentation/translations/zh_TW/{process => staging}/magic-number.rst (100%)
+
+-- 
+2.43.0
+
