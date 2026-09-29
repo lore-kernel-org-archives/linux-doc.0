@@ -1,37 +1,33 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756D0395ADA;
-	Tue, 29 Sep 2026 07:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5551395ADA;
+	Tue, 29 Sep 2026 07:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790665748; cv=none; b=aS+6sA3m3Y9X/DTaOm5NqTWqb15AqkWWgjWJ6kjEY5ALms3umaRKCDVVA/Z5bgZCzGo5MRxKI5pNw26yCJEzvWbkZ19GoGhvpOIoEYIEIRBbMuOsBf3xY+8X6u1AJ8QRp+weoZhhoor4XrjWYDBZCvYuTIBvEeetl48vKhUVFnw=
+	t=1790665881; cv=none; b=QplsDji4U/dejphpIVbMkb2dq4pblUaTOykJPXKGRrEJjuJjWWSHBsVK30kQgRf5cHdbHF2HMKVIlwihhj8qww2/3a7pJtOmgJtMNWGa0TApCHt+r2ZsvTFNIpTwWSbSKJOoTWTPpVZsPUxmkUb7ANJbdsLub+VK6e70T+wE6Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790665748; c=relaxed/simple;
-	bh=opN0ophgBAoWkcRmCvvxHECSx0MgTmTQLigDgTZpwWM=;
+	s=arc-20240116; t=1790665881; c=relaxed/simple;
+	bh=LpnZDIeRWZabckM78hFa2BBhQ+SUKErQOQpYJwv1LsY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fVHKmZF/u+LxJ+4pg7KF/U8RDM/P85M8dRVHtvMeCAdBxyoaIym8q8lKJsvLRq60ZC4Z38mXZlpG1FmFHkVv4LEvIlNnvs9UZRHLG43TtpwFzmOGXZCoxi8IvaL2An+sYgRR8Uti3ZaDRPWspXVeGLziE0iYi5EjjzdnpoDXrY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io; spf=pass smtp.mailfrom=gtucker.io; dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b=iO7DkInj; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gtucker.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gtucker.io
+	 In-Reply-To:Content-Type; b=T2OWKP1oMJxfL5sCCdYOX2wssNJhVkft3N8ocoX4UHfrHyruCCWIVpANiZ4t1dJd8ahxkUGOWP5k09Jsq8Bj6yp/oFUkrUyxv/62/dQ0rPuDIVWBIIvWSobfoDeCflzDiKvbWGvh0ivot6uuNRwY09ZmU+2CFd245nr4ySD9y6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3hWMC6I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gtucker.io header.i=@gtucker.io header.b="iO7DkInj"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 616053ED03;
-	Tue, 29 Sep 2026 07:09:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gtucker.io; s=gm1;
-	t=1790665744;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w9D2kUR7R279hz9z6RiS1dtj9gZjtDtF0tTMRuWfTyk=;
-	b=iO7DkInjaUo2llNTS9reSVo6dbxpIc0X6qLzRs9G4epQNB8Sjk18yz+OWdKKyiaGsOg5RJ
-	cj3KtRmYYefl2DubL0511BRAqLskrI9mdpFksWXBAmTREjveix48qkqQoLXvAVRCbXMW0n
-	tdeYQQ7Y+qP5M4gr9stxopqlUyEck6icZ8jly15eTggFP9s1VaNcCbFe0mG0wwbsERztQ3
-	RqeLxYRApvaysuIiJs/wlmepw48kXgUQPM2TScrt5o4TnhqgibT4obDxahBJE5ltZlDgz2
-	l7uFxi1/dg/JoyBq5OdbdQz6wVw1p7BDRG+kX+jgRAhj9AdXJI+Rmf3T8FujZQ==
-Message-ID: <72690a8d-40b6-4109-8211-32e1dcdb8a39@gtucker.io>
-Date: Tue, 29 Sep 2026 09:09:01 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3hWMC6I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 467421F000FF;
+	Tue, 29 Sep 2026 07:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790665879;
+	bh=JdlkVNS4LHpC8Yj8xus5KzRNAlfmfW9Jat5ACbHfNXQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=k3hWMC6IUNtYuzOPzmJ7y1M5aFJuabov6fIU9bZ0sHW+WrXQhJQFQybdudnHe7uBU
+	 1DheJOg0y7ORTXvx77EkEpgphs6LsSg66jTwGk+v4p4Il8mUmIfRg7h4RIwsGdhDNj
+	 giZetxpv1pMCMoxqM++pU4Fka2UKLcin4pQQCZECGzEKtd1t8cQZoBnzqgHeFmFZod
+	 ozIEGX/tYSllaAWg78LdWR7Of0JKD+T0ijfiMdKsMgZPb0rw+iKSrYuLhAvGm8oHUK
+	 D33cywp6G4E7nt22lpQHhxzxlnX82ly0Fx06nJ0bUvBq8q8ac/FWRf1p60+E1EcP7n
+	 IT1xmbxcMe9QQ==
+Message-ID: <d7a75c99-3021-495f-ae34-883d047370f3@kernel.org>
+Date: Tue, 29 Sep 2026 09:11:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,87 +35,143 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] scripts: add TOML config to container tool
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Miguel Ojeda <ojeda@kernel.org>, =?UTF-8?Q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, Nick Desaulniers <ndesaulniers@google.com>,
- linux-doc@vger.kernel.org, workflows@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- kernelci@lists.linux.dev, automated-testing@lists.yoctoproject.org
-References: <68b14a76a4cb2e6437c869bab948983a98acffbd.1788779245.git.gtucker@gtucker.io>
- <03e8513a-3480-42a5-9d1b-fad6c36ed07a@gtucker.io>
- <20260918214804.GA1849926@ax162>
+Subject: Re: [PATCH v5 03/12] mm/sparse-vmemmap: introduce
+ CONFIG_VMEMMAP_OPTIMIZATION
+To: Muchun Song <songmuchun@bytedance.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
+ <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Lance Yang <lance.yang@linux.dev>
+References: <20260927025441.741633-1-songmuchun@bytedance.com>
+ <20260927025441.741633-4-songmuchun@bytedance.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Guillaume Tucker <gtucker@gtucker.io>
-In-Reply-To: <20260918214804.GA1849926@ax162>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260927025441.741633-4-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: gtucker@gtucker.io
-X-GND-Cause: dmFkZTFenxi55h2HBRShrkenX+7C3lnxqudytjtg3MfMLMOvzVQksYNZDyiz06KgEyx/pFrpwWWrCdcxrYqmCYdyzMLl4Mhahq0XMT37B0AYGHfNy6TT1dsdE93geegPHS58w2IdjuPf3RhlHtJiGrTalRzyveMs0c35rKwcEY9+mzchD9kzOikL8J629xh0Szp6bhqvwWMSnP9RYXS67YaJCOs6UlcPvGoCUVJET/zanBS0DiEgPh22+YQn/yP/ql/46RNRD7bMTCZydJ40Esu5MoiUAt6yO+qtqQSAbMkTwLhJ1+umiafwjTbo3thmLsb6MzVozx5F1W/QFpUNZA1u11/dgZc2g2SiUOnGqiVDezAUcu9to6nkoflz40Vh/tNsjW7SV9LQgfgkgtcsLXDjUZAybO/8t37QZznPIG1d7w1p2z8e8Mc9+EhaoenLnKhPyTYPElAifxkGCjtlrlrDHzRqP3xF2/j4TVMLfK95WFKhm4JYteKSdnNmg0M7Mz0YCDb/CuMliTn+ZkBdb1jSh56IHpUvOGaPaE8zlu5N7Sp1NH8NQrnhj0fhdon4E85UfqkEuZB9qj4/9PBzp874fvYxO8f3USY0UTx62SXfxnuky+JKO4O0v11jIg5hSLJLSK66s+FxT064EG9Ba83Yd9ld6BKUPFQLT2H27Pfgd2VRRw
-X-GND-State: clean
-X-GND-Score: -100
 
-Hi Nathan,
-
-On 18/09/2026 11:48 pm, Nathan Chancellor wrote:
-> Hi Guillaume,
+On 9/27/26 04:54, Muchun Song wrote:
+> The section-based vmemmap optimization infrastructure is guarded by
+> CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP, but it can also be used by
+> ZONE_DEVICE users that set dev_pagemap::vmemmap_shift. Introduce
+> CONFIG_VMEMMAP_OPTIMIZATION as a common config for the shared
+> infrastructure.
 > 
-> On Fri, Sep 18, 2026 at 12:04:09PM +0200, Guillaume Tucker wrote:
->> On 07/09/2026 13:10, Guillaume Tucker wrote:
->>> Add support for a TOML configuration file to the scripts/container
->>> tool.  This improves user experience by not having to keep passing the
->>> same command line options all the time or overly relying on built-in
->>> default values.  Include the concept of 'profiles' with different
->>> named sections in the file to cover various use cases.
->>>
->>> Command line options take precedence over the config file, and values
->>> defined in profile sections take precedence over the default one.
->>>
->>> Add a -c option to override the location of the .container.toml config
->>> file which should otherwise be located in the current working
->>> directory.  If not found, the file is silently ignored as it is not
->>> strictly required unless the -c option is used.
->>>
->>> Add a -p option to choose a particular profile section in the config
->>> file rather than the default.
->>>
->>> Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
->>> Acked-by: Nicolas Schier <n.schier@fritz.com>
->>> ---
->>>
->>> Notes:
->>>      Changes in v2:
->>>      - fix uid / gid handling when set to 0 (root)
->>>      
->>>      Changes in v3:
->>>      - fix logic when loading config profiles using None
->>>      - fix typo with missing whitespace in help message
->>>      - clarify how UID gets used as default value for GID
->>>      
->>>      Changes in v4:
->>>      - drop registry option from TOML config
->>>
->>>   scripts/container | 86 ++++++++++++++++++++++++++++++++++++++++-------
->>>   1 file changed, 74 insertions(+), 12 deletions(-)
->> Thanks for the reviews so far.
->>
->> Do you guys need anything else regarding this series?
->>
->> There's no rush of course and we're all busy, just making sure I
->> didn't miss anything.
+> Select the new option from HUGETLB_PAGE_OPTIMIZE_VMEMMAP and from
+> ZONE_DEVICE when the architecture opts in to DAX vmemmap optimization,
+> and use it to guard the generic sparse-vmemmap state and helpers.
 > 
-> No, my apologies for not responding to this sooner. I plan to take a
-> look soon, I just keep getting preeempted by other stuff.
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> Acked-by: Qi Zheng <qi.zheng@linux.dev>
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+> v5:
+> - Move this patch after the shared tail-page factoring.
+> - Select VMEMMAP_OPTIMIZATION from ZONE_DEVICE instead of DEV_DAX,
+>   covering all users of dev_pagemap::vmemmap_shift, reported by
+>   Sashiko.
 > 
+> v4:
+> - Rename SPARSEMEM_VMEMMAP_OPTIMIZATION to VMEMMAP_OPTIMIZATION
+>   (suggested by Mike Rapoport)
+> - Collect Acked-by from Mike Rapoport
+> 
+> v2:
+> - Fix SPARSEMEM_VMEMMAP_OPTIMIZATION being selected without SPARSEMEM_VMEMMAP
+>   reported by Sashiko.
+> - Add an explicit DEV_DAX dependency on ZONE_DEVICE
+> - Collect Acked-by from Qi Zheng
+> ---
+>  arch/x86/entry/vdso/vdso32/fake_32bit_build.h |  2 +-
+>  fs/Kconfig                                    |  1 +
+>  include/linux/mm.h                            |  3 +++
+>  include/linux/mmzone.h                        | 10 +++++-----
+>  include/linux/page-flags.h                    |  5 ++---
+>  mm/Kconfig                                    |  5 +++++
+>  mm/sparse-vmemmap.c                           |  2 +-
+>  mm/sparse.h                                   |  6 +++---
+>  8 files changed, 21 insertions(+), 13 deletions(-)
+> 
+> diff --git a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
+> index bc3e549795c3..72a92cb9b53d 100644
+> --- a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
+> +++ b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
+> @@ -11,7 +11,7 @@
+>  #undef CONFIG_PGTABLE_LEVELS
+>  #undef CONFIG_ILLEGAL_POINTER_VALUE
+>  #undef CONFIG_SPARSEMEM_VMEMMAP
+> -#undef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+> +#undef CONFIG_VMEMMAP_OPTIMIZATION
+>  #undef CONFIG_NR_CPUS
+>  #undef CONFIG_PARAVIRT_XXL
+>  
+> diff --git a/fs/Kconfig b/fs/Kconfig
+> index d1c210c6508f..1454b7fe9641 100644
+> --- a/fs/Kconfig
+> +++ b/fs/Kconfig
+> @@ -278,6 +278,7 @@ config HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+>  	def_bool HUGETLB_PAGE
+>  	depends on ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
+>  	depends on SPARSEMEM_VMEMMAP
+> +	select VMEMMAP_OPTIMIZATION
 
-Sure, no worries.  On a related topic, I also just started a new
-thread about hosting container images[1].  And I'll be at Plumbers
-next week so we may also catch up there and discuss next steps etc.
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Best wishes,
-Guillaume
+Is there a path to remove HUGETLB_PAGE_OPTIMIZE_VMEMMAP, and to merge
+ARCH_WANT_OPTIMIZE_DAX_VMEMMAP+ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP into a
+ARCH_SUPPORTS_VMEMMAP_OPTIMIZATION?
 
-[1] 
-https://lore.kernel.org/all/01a87de4-8de5-4ff0-941b-2e5932a3a19c@gtucker.io/
 
+-- 
+Cheers,
+
+David
