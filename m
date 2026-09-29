@@ -1,63 +1,65 @@
 Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BCB53FD27
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 15:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3138653FD44
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 15:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790695497; cv=none; b=G/lYl4zxrgx4WCzbcfxurCoqTZkd3VcQtsXFASUKa8vi4nWDuWjAOLcZ7Le9i4j2umpmdWw/SlEoeXQlv96t+BfkyAF/b2xHjNJojaTqH3h6MPUfTH2BFzZzGO0oF3PiZmUA+dvnT6X7MQ8xizwrts4B7K1HxY12+KL25jm0qjc=
+	t=1790695502; cv=none; b=bQgP2DzJFqqDpg+WuMV2UR9hngHiytiVPSyWLZddKczI82ocBoXp2gcXuwLLrgf4fEeqv69h85fAiCHxN4zWOapo9hsn6XdwTKtd0mRQleE7s0Lc3mXHV3rMEKf2A3PNx5CneCNmXFo76Qny0S/SsYZ1/riGcF5k72yxwAN27eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790695497; c=relaxed/simple;
-	bh=IsUrqnbkBzqR9+V+q6y0qSUhzMpi5uygr2LDVgI+dKY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jyJvse8kCX5vG4jJXHhZ5FHbkraCfGgPF1mlXyKi5dTYuE7+bGw5c8KG7BY3hgHpmadd8bufCsc4EFys8K1UUKRoiBJv1Fx82MUANoubBjXHOSNNOKNpXj/F65IbaHl/N1TFKDyFVatOrIgW2F7XP4ytOYI8+bwiNv9cHkOW5lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pM2yYYNk; arc=none smtp.client-ip=74.125.227.140
+	s=arc-20240116; t=1790695502; c=relaxed/simple;
+	bh=ljRvTa1FKA++fXKqZkWKN8lwihjtnE8tip6RujlYs5Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=S9yiQph5iHO2pn9kpelhVQTYwsMAB3ziFZ6Hngd//GHSYGIWy77xzAsmQMbeVvF26HrTacpD7cXOwtIvbcJSu2FQ8BnbB5iOR/t1uQ+3rHJmzV3wXFavjQjaFNG+25ZEEy/F3MGzPcQoRZdAGnFJUXqel4tOOThZieY0Y56O+Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FWBdaA3e; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pM2yYYNk"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d91ede8035so36844635ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 08:24:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FWBdaA3e"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747ed9866so31617485ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 08:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790695486; x=1791300286; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4HlWCQVM32D4igNgCi92CyfQ5gH0706BFceUvI6QYz0=;
-        b=pM2yYYNkhXD5wTImR6XmXHCoeXAMjdXO2hVtIQq9S6Vx7dg1UZvvHYqNQ7pO3AVCav
-         O3JT50G4fBj7tZMVRQpK1hbmR+GOnG7/v8eiEBE7hNqrkcq9ZbgUJCupR1p3j0qhgrHT
-         V+XMis0jHl99xUmYSHmbc7Ds68V3to0Zn1s4kChyHPWHrqaMDvAHxJdMcqv48WpOzdFc
-         51F4/RW9cwr42+NjM0uktWUeMh66xDhMJMLwgfa02k76i++fsgPUAb4GwNuBrAfp+3Rn
-         espGnphha/L1PS8buRw+CWfVInHxYbs7enGAlViSUFhtvxC2TEvwgBc48Uqze+CH4Qiw
-         f0cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790695486; x=1791300286;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1790695490; x=1791300290; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4HlWCQVM32D4igNgCi92CyfQ5gH0706BFceUvI6QYz0=;
-        b=G/QCBKbm9icIbOBzE6bqX9WQQgitE8xGo+UV6Ag2GKB3NqVxLYnMiLMf4qurxu/7EJ
-         Hqlg0KCRtP79NZL/Ez2LHIs7+30+Y/dRJ0GKpY33bri3KZwihfIXDsy0nLwZr/r//f8x
-         gh78dQmI7pGQene34dFQV8pOmh0gmmThO+e4rcsqLVYJoX6zjiR44xz1Hv65nJrc7+sh
-         HCqTXbKA80fqOHjV+iN5/OL4Zmgr6cSqo6ybGsLqGp6fMXbGHR7DP6/mL5KUYqVhpFOn
-         ILsNV+Jzv8BHyafThcOGKCSZtraCdSW40BjwIFnsdKDPYLKPjPeZ3CpN0wWL8f/Re2Hc
-         DfKQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzMhgcpgAmxtIEKOQH/b4cH9zlbquWqEgmRnudWyoj5GmZRd4o3o2QH4Mc84w2ZclT9VyKW6wvNQHA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ3N5zHG6O6r+PDnNXN7fZs+NBB9Sb7WTmuMAexFig39UwexNKu
-	TALvckoEYhjsQrCsqOrvcr3Eg5Ilu9lxsfbp9lQrD31xlC/vHZR2+Znu
-X-Gm-Gg: AYBFou0apPDMBiLNKa82cEPECApyIReeUDO8HERikzfpI+r/Sm3sr2Zh2HDWkKD0g/z
-	2/eNpZI55i6W7Vg4dkj/HDTa9lIg617Phj/z7fWaQ/BCp4Y8XBDo7Ud04R3pLBUtGsNz3gbj613
-	QbsSeUUbFmP+5VKv6Bk5kw9MjRu+8SuKtr5ogHAIu5Mfu0fRs6gz7WCPFsn9meZsF4jjKJSqy85
-	rBZiwBOG3VykOUcFGiS2WDS458MojLjEOgwVqCgnsV4Mj087ot1O5Aj+excXFvXpbw38TC6q5b/
-	UUdZ3Zlafm/4i0NDaHNx714jH4SomDcUF5DKcZXmph8v0V4Jgq3UwFMgbPGMk6wGWS17Cl91OHb
-	OBr/ZR3TW70jx9FmdXYUV3TG1AM+GMhjyG39T6TtpFAc9kFPFdbl/Oay7/P+bpPIjd40YXjW1rp
-	AKHOjdbNbhYLF7yzzOsJSlh++iK0DkY7e7gY35WBsEmFzkH2yIQ565dcSod4+ysCLVtwEcfYwSA
-	2zM2qmWLPZNwYiiyJc3zb9W+h9mwL2toy+rDhCMHYn00eZVdtOzmcr8X0unNpa/uIM/0einBr1F
-	hJxXOve0QO+glqL1JUCj
-X-Received: by 2002:a17:903:3c4e:b0:2e2:cc2d:b84a with SMTP id d9443c01a7336-2e2cc2dbb2cmr15210305ad.41.1790695486117;
-        Tue, 29 Sep 2026 08:24:46 -0700 (PDT)
+        bh=eFyOFPjEEQvNyGsovA6lNcMTRXqLjejzL5M22wl797U=;
+        b=FWBdaA3egrMft8kpUEphfyrKPxWf6GoTUZp6iTGqRaMbh5E31wMk2NloOo1Z0omw7Z
+         t45n7eKwLosFe3dc953EXsx3iVqpjkKJvyjPIP22uSx9j5K4K22xfZ1zwiHM3HS1V7n8
+         FRTwzTufhgHfiqLg3UojiM0J9MyFKzd4P8fOsZ+8zt3P1kXkxtBnEQEn8bs6yf6xySgL
+         5+tYFkN8x8FDaoqNEaD8BHTlA2YSlG17kLDmpbgExCCgkBmIbPfZyfwn2bDUUgxjy2Ot
+         JfXBxcDlt+uhiEgMFSAXXJe2zGnlAlqG+vipDayHt3wduVkqleG7Y57TPwdtQBdRfv4v
+         aaow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790695490; x=1791300290;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eFyOFPjEEQvNyGsovA6lNcMTRXqLjejzL5M22wl797U=;
+        b=NrktzDPqvz2DEJHNKwDeoe/FWP0UkM+ZD88IxjTUKbIZtWpPPtac+Vah/SMqcBkFPd
+         ARvM9JM0L0+jd6wi0p+KdHKVaHm8GKe7Bku+uqZOOhNnIRtiGa3AAkKn7yPSuXzV7egh
+         s2kiS4A9VlHHecOwZ5D6OpLui4jNienA+HkRVnvvk+hsLN6XFB4LrdshTze7y3w2OiQG
+         6NYo9hyo+PaV3tEwCtCTV61LMcQtN7T8JHeQeSbdV+EMysiVlYh0B31DN64f2LvYMBhf
+         BJXdafxcVB38O85n/Rfv7qh/mKK+xENoDQVk8RAWiaycdlfqM5VRtG1TUFcSvU9KrHdn
+         xlwQ==
+X-Forwarded-Encrypted: i=1; AKwUvByH4sv+vNJQ5AFse8njTQDBwJt8H1q1XKmrSMR1ZQZhmhG7qWp++nW6LNOom/kWAD0Keo1G0t2k3Rg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIjXQrchtqK3wHB2ldS+59xXSmQ2ivQKYN3EkyMVe54rP+pYw0B
+	OulNgAlN0gq2M1oydziOUIytdxudz/pFkGSNjikxLYs4MGoBIOncNEkM
+X-Gm-Gg: AYBFou24XnfmhUrTg08glW0/+Tig5JudQFPw+WHFhtDp7iGRIFmblZLGsIt50nk406+
+	OLl5RYHBGbLZBI0AeA8Lk7YSpXa0T0bc3RVbEA3GNNIbzodxCgDWfIVKINr7s9KtyBNQsXowLCc
+	0OjbNrxkIZt06Dg0FME+lnBhIHPNXWsbjtO5MRyZFhV7SDTpxK2VEuijS6C6h7k4ctXTj77KGnU
+	gEuDaxS4TzzmuN/YCsyUwVXnpOa8LDcjwRVqwHuwWoQzXR4cKNBQA5rMflydYQG0VQ7ClCtB+u3
+	mPH6nxJ+0zNquOWZLjJyRf7Uo7LrtLLPdlYjm6VQf6G6/Prk8y1pY2O3Q5jM8wVK/RInd6u6/Tp
+	iYY3UAbiAXWv2JT+qHvUH/M5Sn9lApwJDWwFwfQ3I6oTmPifx1kVs6eWAc1QNwMuZBjs3tDJuoF
+	V0asx8MXbhzyAGiL2mFcVqGan3HjsD6xd/571xM0k8qytA+k2EdCeSln+/et9uMbTwmh6Ki2nz5
+	DvLxBXTJZO71GFhYCVBG547yMN5QOTE1cKmboRGsdjWJjEJLdgqwGbG/y4wavQ6++YfKyum6QZG
+	w+rVx4mr5vMIwo2kbLhY
+X-Received: by 2002:a17:902:ffcf:b0:2df:b55a:5039 with SMTP id d9443c01a7336-2dfb55a53fdmr69446205ad.41.1790695489583;
+        Tue, 29 Sep 2026 08:24:49 -0700 (PDT)
 Received: from NV-9MNJ414.tailae2068.ts.net (2001-b011-2005-5b75-0412-f652-3152-53f1.dynamic-ip6.hinet.net. [2001:b011:2005:5b75:412:f652:3152:53f1])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df91476bb4sm59762255ad.83.2026.09.29.08.24.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df91476bb4sm59762255ad.83.2026.09.29.08.24.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 08:24:45 -0700 (PDT)
+        Tue, 29 Sep 2026 08:24:48 -0700 (PDT)
 From: Yiwei Lin <s921975628@gmail.com>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Peter Zijlstra <peterz@infradead.org>
@@ -71,10 +73,12 @@ Cc: Yiwei Lin <s921975628@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/4] rbtree: declare augmented callbacks per field, fix rb_add_augmented_cached() descent
-Date: Tue, 29 Sep 2026 23:24:35 +0800
-Message-Id: <20260929152439.91443-1-s921975628@gmail.com>
+Subject: [PATCH v2 1/4] rbtree_test: use rb_add() and rb_add_cached() for the basic tests
+Date: Tue, 29 Sep 2026 23:24:36 +0800
+Message-Id: <20260929152439.91443-2-s921975628@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260929152439.91443-1-s921975628@gmail.com>
+References: <20260929152439.91443-1-s921975628@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,60 +87,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rbtree_test open-codes the insertion of every flavour of rbtree it
-exercises, while the generic rb_add*() helpers have been the way most
-users insert nodes for years now.  Patches 1 and 4 make the test use the
-helpers where the helper does exactly what the test did, so the helpers
-themselves get covered.
+insert() and insert_cached() open-code exactly what the generic
+rb_add() and rb_add_cached() helpers do.  Use the helpers instead.
 
-Patch 2 is Peter's RB_AUG() rework from the v1 thread: each augmented
-field is described by its per-node value, its aggregate member and how
-two aggregates combine, and the template derives every callback from
-that, per field and in a local; RB_DECLARE_CALLBACKS_MULTI() goes
-away, RB_DECLARE_CALLBACKS_MAX() becomes a one-line wrapper and its
-RBCOMPUTE is renamed RBVALUE.  One change on top of what was posted:
-the third argument is a fold(a, b) rather than a "replace?" compare,
-which keeps the same register-local recompute, lets sums and counts be
-expressed, and replaces RB_MIN/RB_MAX with the existing min()/max().
+Besides removing duplicated code, this makes rbtree_test cover the
+helpers themselves, which is what most in-tree rbtree users call
+nowadays.
 
-Converting the cached augmented test exposed the cost of the
-"suboptimal" propagate-from-parent path in rb_add_augmented_cached(),
-2-12% on the augmented insert+delete benchmark against the documented
-update-on-the-way-down pattern.  Patch 3 adds a ->merge() callback to
-struct rb_augment_callbacks, derived from the RB_AUG() list, and uses
-it during the descent, which gets the helper to parity before the test
-starts relying on it.
+Signed-off-by: Yiwei Lin <s921975628@gmail.com>
+Assisted-by: LLM
+---
+ lib/rbtree_test.c | 37 ++++++++-----------------------------
+ 1 file changed, 8 insertions(+), 29 deletions(-)
 
-checkpatch has plenty to say about the RB_FOR_EACH() machinery in
-patches 2 and 3 (unused macro arguments, values without parentheses);
-all of it is inherent to the token-pasting dispatch, as for __MAP() in
-linux/syscalls.h.  The tools/ copy of rbtree_augmented.h is left alone.
-
-v1: https://lore.kernel.org/r/20260928122611.336351-1-s921975628@gmail.com
-
-Changes since v1:
-- New patch 2: Peter's per-field RB_AUG() templates, taking a fold
-- ->merge() is derived from the RB_AUG() list instead of being a new
-  template argument; the propagate-from-parent removal is now patch 3
-- Numbers re-measured on the final code, on the Pi and on x86
-
-Peter Zijlstra (Intel) (1):
-  rbtree: declare augmented callbacks per field with RB_AUG()
-
-Yiwei Lin (3):
-  rbtree_test: use rb_add() and rb_add_cached() for the basic tests
-  rbtree: update augmented data on the way down in
-    rb_add_augmented_cached()
-  rbtree_test: use rb_add_augmented_cached() for the cached augmented
-    test
-
- Documentation/core-api/rbtree.rst |  27 ++++-
- include/linux/rbtree_augmented.h  | 192 +++++++++++++++++++++---------
- kernel/sched/fair.c               |  70 ++---------
- lib/rbtree_test.c                 |  62 ++--------
- net/tipc/name_table.c             |   7 +-
- 5 files changed, 179 insertions(+), 179 deletions(-)
-
+diff --git a/lib/rbtree_test.c b/lib/rbtree_test.c
+index 768c5e6453f37..c1386d328cfb1 100644
+--- a/lib/rbtree_test.c
++++ b/lib/rbtree_test.c
+@@ -30,41 +30,20 @@ static struct test_node *nodes = NULL;
+ 
+ static struct rnd_state rnd;
+ 
+-static void insert(struct test_node *node, struct rb_root_cached *root)
++static inline bool less(struct rb_node *a, const struct rb_node *b)
+ {
+-	struct rb_node **new = &root->rb_root.rb_node, *parent = NULL;
+-	u32 key = node->key;
+-
+-	while (*new) {
+-		parent = *new;
+-		if (key < rb_entry(parent, struct test_node, rb)->key)
+-			new = &parent->rb_left;
+-		else
+-			new = &parent->rb_right;
+-	}
++	return rb_entry(a, struct test_node, rb)->key <
++	       rb_entry(b, struct test_node, rb)->key;
++}
+ 
+-	rb_link_node(&node->rb, parent, new);
+-	rb_insert_color(&node->rb, &root->rb_root);
++static void insert(struct test_node *node, struct rb_root_cached *root)
++{
++	rb_add(&node->rb, &root->rb_root, less);
+ }
+ 
+ static void insert_cached(struct test_node *node, struct rb_root_cached *root)
+ {
+-	struct rb_node **new = &root->rb_root.rb_node, *parent = NULL;
+-	u32 key = node->key;
+-	bool leftmost = true;
+-
+-	while (*new) {
+-		parent = *new;
+-		if (key < rb_entry(parent, struct test_node, rb)->key)
+-			new = &parent->rb_left;
+-		else {
+-			new = &parent->rb_right;
+-			leftmost = false;
+-		}
+-	}
+-
+-	rb_link_node(&node->rb, parent, new);
+-	rb_insert_color_cached(&node->rb, root, leftmost);
++	rb_add_cached(&node->rb, root, less);
+ }
+ 
+ static inline void erase(struct test_node *node, struct rb_root_cached *root)
 -- 
 2.34.1
 
