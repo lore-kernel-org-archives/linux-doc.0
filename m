@@ -1,172 +1,213 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8773BB124
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 10:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A286A3D811C;
+	Tue, 29 Sep 2026 10:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790677670; cv=none; b=OoO3vrEYsvB71l07yblAic5DUyIXfz0lc+rclHSq6ftjB/9s0dLhuWabA+aPp7ld8XdkTuraE50V4OZNWryI9+tuPuLrjIlTDn+/QkZ6UoSYykcs8IzNpkzgC5XlIMtxczPrq6lp3gFHPUtjEvnQ3H1DTQ1I5xkeSZDEZH6/iMM=
+	t=1790677828; cv=none; b=Ada5Rwg1iV9fP39567AlTDQkkahWElm1zHRw2cD0QpPU4nOAfcH7LKz7F8fzUafzY9uz/VW2l2R/7btlNB0xuNaGvb41IpHuLxX47v4Rkrcgt4iOk3OyegW5oS85c4AIgd7V9sZm1x1GUvdxWxnb/CNfGDs9sgpIjBSSfcpmwEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790677670; c=relaxed/simple;
-	bh=oQucex6RZMs50tBRvSFd4gxrcOSnqTOU+r9tuuJZYTM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YXTM1tG3RGecy2YkYRMq7X7fJdEVI8Ukl7IOnZxBKOhvg0EJhS+asVe+Iuv2ixoGeXNcrZMbHf9UqEH3yv1V6CTs1JnzhsOxoUoYJbLv8uxe5f++jIS4Dv/XbSrEtFfEHTbh0EzuMmqt1x+rF3js+24136e/mjwcO7BUY83av/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RBR4fXSG; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1790677828; c=relaxed/simple;
+	bh=3jvnpx6ciNS2cbKDocJORo//5TgXhSMCsijbl9aFnAE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=EJ5XvFGYRWsB7GuUFiGYhe7Df/86C7NzxJy+742CzrcRGlQ/5ypFcvmdQygr3z81X7sPz1N9bgmSzANYOK10fSuUlOqS1yAMp1lzjbfbG+B9W2ix6kC44t4Bm90YFtqfNd5FiC676vQ4D/sRYYbI7oAfKPdMggMLOvdpsuYsqWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Lfz3Vj5z; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RBR4fXSG"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a0061bf0d3so33545e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 03:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790677651; x=1791282451; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=f5Y1Bj47kFdGtgtMUGRUSsPhxIRB2mIpZUPvY4e79ZM=;
-        b=RBR4fXSGaVY8aXl3WvdLyjrCE+NU93bkFIRarGoOCEsJ3oDUaWxvv8lD/Oaos30v6R
-         cOVjoTrYu1x/+eqMii1oZlXfgWcmvz9M6N4IzU0U74oxRZpHB+PwY1s4vMXkg8zuluY3
-         7urf5oj4szap2KOso/2K5L9yyleoQ1AG68J+SuNb8hyQX0FG5wgKXh1PKHkEVowEqzhS
-         P1QJjm8A4OtYW4MSWSngGgdVIzep11HO6cfJuk4AFxdryyRptk6KAPrZQxdCrPMSulqn
-         o6gctvaux52mCtX5lvBw95LHRj9LbnPZcS4Uy/6+sZrhYd6zxPecWK4HGYiTwp4mAQyh
-         gx7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790677651; x=1791282451;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=f5Y1Bj47kFdGtgtMUGRUSsPhxIRB2mIpZUPvY4e79ZM=;
-        b=yenY3DchN8rrF+yu8Td2V2+Rx5xag+OMOiJLnbPXWEDDx96+XOy3p5cTmqBYbl10UO
-         otHrjFbyMTiHrFEnHDOH92+8oAu3QpHx/s2y1x71KpnS1hAlRhJOpI4RwjjXoEXJQ71Q
-         Fl0YvO5BMYvnTVUMjhmkBCr4V9xc4r54ozl2NkNC+rgIzqfoi5u0nxCOep809UcT/7Rn
-         02O9L4AJbYrUtdYZ+zWVvRRIiPZvyH6jsu19DsgjS1G3Z2RoGGS3rzHp9miIcq3Pd+GL
-         7MMBbG5N0wd4VkaJ8c/nlkan/jIDAbridUVoN4op1RZUOZjqhDyIGD+srH/OeGAYV6Lg
-         Lwjg==
-X-Gm-Message-State: AFuF++mil0XcZqs4LZ0meFzC2DfvOZiPhXB7i9+AqLJI52H79q90hr0a
-	MBpVfFLTyO5pqosSDPtq9j9AE3ao6QPrY4hVZjAy0ndpljZX1tlOUCN97RasyprN+Q==
-X-Gm-Gg: AYBFou3VOiLFbhSe6qMcih4lo5uextlOIF+2qPl2vbqCwXhG2aW3zcMuZGkofhXWlZD
-	iknQ9QCqpZ1FdSNP0ezDUvhHA3ErVC0BF4JsEEDuoxFrYr/wCjxjIXbqYQX/EFICRU6V5SwSdqQ
-	W6vJjtbRpMFiEmek7JtMYBt/y3DSpHSy4dXf7LJCWFXjHUY4A2m/tZrhvSdlB2cke1B35jYDVWF
-	qb6+4GH2sGt1s0cP0Sr+QAI+Uj8rfg1Rz6DVjSl39Wci9RqOyRHEwxIdS9we2KV//3VHQOYPQtG
-	RzVUXoG6iGjuLAYsueklNRSFi0q/k9HZdSYyyi6dRSVXLO6OpJ7bLSWVUPiwPpT6WP8m2Rvo8Jv
-	TPS1BXbzq7TRT63p4sIoDCotbXb9R4vzWcHLbyE+L9txXutHGTfwXRCBlsiuP+ggI4F6HP9Qj3f
-	VTTnJy0MBHjh/uTNkHbHfXrH7FknuPwlsMMGp/dhcQtvmJIZeldftaTfW9CMEOpWCROn/30bIgz
-	hXUN2WQCD2V0gYkxrLIlI7yPzDA0XXKhb/ELIE2
-X-Received: by 2002:a7b:c7d0:0:b0:49f:e312:54ea with SMTP id 5b1f17b1804b1-4a00f46d761mr379975e9.12.1790677650115;
-        Tue, 29 Sep 2026 03:27:30 -0700 (PDT)
-Received: from google.com (250.192.189.35.bc.googleusercontent.com. [35.189.192.250])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a00c10c656sm103565205e9.2.2026.09.29.03.27.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 03:27:29 -0700 (PDT)
-Date: Tue, 29 Sep 2026 10:27:19 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
-	linux-hardening@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com,
-	will@kernel.org, mark.rutland@arm.com, akpm@linux-foundation.org,
-	urezki@gmail.com, mingo@redhat.com, peterz@infradead.org,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, kprateek.nayak@amd.com,
-	kees@kernel.org, david@kernel.org, ljs@kernel.org,
-	liam@infradead.org, vbabka@kernel.org, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, gustavoars@kernel.org,
-	bigeasy@linutronix.de, clrkwllms@kernel.org
-Subject: Re: [RFC PATCH 12/15] sched/task_stack: Introduce
- ARCH_HAS_VARIABLE_STACK_SIZE
-Message-ID: <aruShxHCUWEHr4i1@google.com>
-References: <20260928174122.3380703-1-smostafa@google.com>
- <20260928174122.3380703-13-smostafa@google.com>
- <5c6edcfe-8332-4db6-b0fa-ca5d137a2075@infradead.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Lfz3Vj5z"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 86E36152B;
+	Tue, 29 Sep 2026 03:30:09 -0700 (PDT)
+Received: from e127648.arm.com (unknown [10.57.52.74])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 96D743F86F;
+	Tue, 29 Sep 2026 03:30:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790677812; bh=3jvnpx6ciNS2cbKDocJORo//5TgXhSMCsijbl9aFnAE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Lfz3Vj5zCxHxFsRYSeob/Q6ePM6eRq++uaBozDEi9CJTKKnYKT19/01wHyh6feyKb
+	 Brl28H+4FesiQvA+/ZvhSbCKkpg8wWwzIYiz6RO/g1WVSSlV8n/2DtD7pBeS3cB/tW
+	 FMBXFPIt6lEgVneZTqfxCGTh+UkFU7+CzMjOFouI=
+From: Christian Loehle <christian.loehle@arm.com>
+To: rafael@kernel.org
+Cc: zhenglifeng1@huawei.com,
+	zhongqiu.han@oss.qualcomm.com,
+	viresh.kumar@linaro.org,
+	linux-kernel@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Huang Rui <ray.huang@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	"Gautham R . Shenoy" <gautham.shenoy@amd.com>,
+	Vanshidhar Konda <vanshikonda@os.amperecomputing.com>,
+	Shubhang Kaushik <sh@gentwo.org>,
+	Pierre Gondois <pierre.gondois@arm.com>,
+	Beata Michalska <beata.michalska@arm.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ionela Voinescu <ionela.voinescu@arm.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Jeremy Linton <jeremy.linton@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	jonathanh@nvidia.com,
+	zhanjie9@hisilicon.com,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Christian Loehle <christian.loehle@arm.com>
+Subject: [PATCH 1/3] cpufreq: Add a driver frequency resolution callback
+Date: Tue, 29 Sep 2026 11:29:55 +0100
+Message-Id: <20260929102957.2591657-2-christian.loehle@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260929102957.2591657-1-christian.loehle@arm.com>
+References: <20260929102957.2591657-1-christian.loehle@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5c6edcfe-8332-4db6-b0fa-ca5d137a2075@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 28, 2026 at 01:37:37PM -0700, Randy Dunlap wrote:
-> 
-> 
-> On 9/28/26 10:41 AM, Mostafa Saleh wrote:
-> > When CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE is enabled, the kernel stack
-> > may not be fully populated with the THREAD_SIZE virtual area.
-> > 
-> > Teach task_stack_size() to return the size of the vm area and not a
-> > fixed size.
-> > 
-> > This propagates to end_of_stack() which makes functions like
-> > stack_not_used() and set_task_stack_end_magic() to use the lowest
-> > valid stack address instead of THREAD_SIZE which would cause data
-> > aborts.
-> > 
-> > Signed-off-by: Mostafa Saleh <smostafa@google.com>
-> > ---
-> >  arch/Kconfig                     | 10 ++++++++++
-> >  include/linux/sched/task_stack.h |  5 +++++
-> >  2 files changed, 15 insertions(+)
-> > 
-> > diff --git a/arch/Kconfig b/arch/Kconfig
-> > index 45c657772362..d6fa2ccb0599 100644
-> > --- a/arch/Kconfig
-> > +++ b/arch/Kconfig
-> > @@ -431,6 +431,16 @@ config HAVE_ASM_MODVERSIONS
-> >  	  <asm/asm-prototypes.h> to support the module versioning for symbols
-> >  	  exported from assembly code.
-> >  
-> > +config ARCH_HAS_VARIABLE_STACK_SIZE
-> > +	bool
-> > +	depends on VMAP_STACK
-> > +	depends on !STACK_GROWSUP
-> > +	depends on THREAD_INFO_IN_TASK
-> > +	help
-> > +	  An arch should select this if it supports dynamically configuring the
-> > +	  kernel stack size.
-> > +	  For example the kernel stack size can be from the command line.
-> 
-> 	                                    can be set from the command line.
-> ?
-> 
+Without a frequency table, cpufreq treats the policy range as continuous
+even when the driver selects discrete performance levels. Governors can
+then issue different kHz requests for the same driver setting.
 
-I will fix it in v2.
+Add ->resolve_freq() for table-less ->target() drivers to canonicalize
+requests within the supplied limits using CPUFREQ_RELATION_{L,H,C}.
+Document the callback and verification contracts so callers can safely
+cache resolved requests.
 
-Thanks,
-Mostafa
+Signed-off-by: Christian Loehle <christian.loehle@arm.com>
+---
+ Documentation/admin-guide/pm/cpufreq.rst |  4 ++++
+ Documentation/cpu-freq/cpu-drivers.rst   | 19 +++++++++++++++++++
+ drivers/cpufreq/cpufreq.c                | 17 +++++++++++++++--
+ include/linux/cpufreq.h                  | 10 ++++++++++
+ 4 files changed, 48 insertions(+), 2 deletions(-)
 
-> > +
-> >  config HAVE_REGS_AND_STACK_ACCESS_API
-> >  	bool
-> >  	help
-> > diff --git a/include/linux/sched/task_stack.h b/include/linux/sched/task_stack.h
-> > index 4a808f9c4631..07d73adaecd1 100644
-> > --- a/include/linux/sched/task_stack.h
-> > +++ b/include/linux/sched/task_stack.h
-> > @@ -10,6 +10,7 @@
-> >  #include <linux/magic.h>
-> >  #include <linux/refcount.h>
-> >  #include <linux/kasan.h>
-> > +#include <linux/vmalloc.h>
-> >  
-> >  #ifdef CONFIG_THREAD_INFO_IN_TASK
-> >  
-> > @@ -96,6 +97,10 @@ static inline unsigned long *end_of_stack(const struct task_struct *p)
-> >   */
-> >  static __always_inline unsigned long task_stack_size(const struct task_struct *task)
-> >  {
-> > +#ifdef CONFIG_ARCH_HAS_VARIABLE_STACK_SIZE
-> > +	if (task->stack_vm_area)
-> > +		return task->stack_vm_area->nr_pages * PAGE_SIZE;
-> > +#endif
-> >  	return THREAD_SIZE;
-> >  }
-> >  
-> 
-> -- 
-> ~Randy
-> 
+diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
+index 34baf20cc202..e634b87a62a8 100644
+--- a/Documentation/admin-guide/pm/cpufreq.rst
++++ b/Documentation/admin-guide/pm/cpufreq.rst
+@@ -144,6 +144,10 @@ that belong to the same policy (including both online and offline CPUs).  That
+ mask is then used by the core to populate the policy pointers for all of the
+ CPUs in it.
+ 
++A table-less driver whose discrete frequencies are derived at runtime can
++instead provide a ``->resolve_freq()`` callback to map arbitrary requests to
++deterministic, supported frequencies.
++
+ The next major initialization step for a new policy object is to attach a
+ scaling governor to it (to begin with, that is the default scaling governor
+ determined by the kernel command line or configuration, but it may be changed
+diff --git a/Documentation/cpu-freq/cpu-drivers.rst b/Documentation/cpu-freq/cpu-drivers.rst
+index 17c69f83691e..4f327760bc04 100644
+--- a/Documentation/cpu-freq/cpu-drivers.rst
++++ b/Documentation/cpu-freq/cpu-drivers.rst
+@@ -86,6 +86,9 @@ And optionally
+  .set_boost - A pointer to a per-policy function to enable/disable boost
+  frequencies.
+ 
++ .resolve_freq - A pointer to a frequency-resolution function for table-less
++ drivers with discrete, runtime-derived frequencies.  See below.
++
+ 
+ 1.2 Per-CPU Initialization
+ --------------------------
+@@ -170,6 +173,22 @@ limits on their own. These shall use the ->setpolicy() callback.
+ 1.5. target/target_index
+ ------------------------
+ 
++Table-less ``->target()`` drivers may provide ``->resolve_freq()`` to map a
++clamped target to a supported frequency within the supplied limits.
++``CPUFREQ_RELATION_L`` selects the lowest frequency at or above the target,
++H the highest at or below it, and C the closest, choosing higher on ties.
++If no supported frequency is at or above the target, L returns the highest
++supported frequency in the interval. If none is at or below the target,
++H returns the lowest supported frequency in the interval.
++``CPUFREQ_RELATION_E`` is stripped before the call.
++
++Equivalent requests must resolve to the same frequency, which the target
++callbacks must map to one canonical driver request even if performance levels
++share a kHz value. This lets callers cache resolved requests. ``->verify()``
++must leave a supported frequency in every accepted limit interval.
++The callback must not sleep: it may run in scheduler context.
++Policies providing both a frequency table and this callback are rejected.
++
+ The target_index call has two arguments: ``struct cpufreq_policy *policy``,
+ and ``unsigned int`` index (into the exposed frequency table).
+ 
+diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+index 54dde8419bdc..44bda2f32fcf 100644
+--- a/drivers/cpufreq/cpufreq.c
++++ b/drivers/cpufreq/cpufreq.c
+@@ -480,8 +480,12 @@ static unsigned int __resolve_freq(struct cpufreq_policy *policy,
+ 
+ 	target_freq = clamp_val(target_freq, min, max);
+ 
+-	if (!policy->freq_table)
++	if (!policy->freq_table) {
++		if (cpufreq_driver->resolve_freq)
++			return cpufreq_driver->resolve_freq(policy, target_freq, min, max,
++							    relation & ~CPUFREQ_RELATION_E);
+ 		return target_freq;
++	}
+ 
+ 	idx = cpufreq_frequency_table_target(policy, target_freq, min, max, relation);
+ 	policy->cached_resolved_idx = idx;
+@@ -495,7 +499,10 @@ static unsigned int __resolve_freq(struct cpufreq_policy *policy,
+  * @policy: associated policy to interrogate
+  * @target_freq: target frequency to resolve.
+  *
+- * The target to driver frequency mapping is cached in the policy.
++ * The frequency-table resolution path caches the mapping in the policy.
++ *
++ * Keep the policy active and exclude driver teardown; a policy reference
++ * alone does not protect driver-private data.
+  *
+  * Return: Lowest driver-supported frequency greater than or equal to the
+  * given target_freq, subject to policy (min/max) and driver limitations.
+@@ -1445,6 +1452,11 @@ static int cpufreq_policy_online(struct cpufreq_policy *policy,
+ 		 * If there is a problem with its frequency table, take it
+ 		 * offline and drop it.
+ 		 */
++		if (policy->freq_table && cpufreq_driver->resolve_freq) {
++			ret = -EINVAL;
++			goto out_offline_policy;
++		}
++
+ 		ret = cpufreq_table_validate_and_sort(policy);
+ 		if (ret)
+ 			goto out_offline_policy;
+@@ -2925,6 +2937,7 @@ int cpufreq_register_driver(struct cpufreq_driver *driver_data)
+ 
+ 	if (!driver_data || !driver_data->verify || !driver_data->init ||
+ 	     (driver_data->target_index && driver_data->target) ||
++	     (driver_data->resolve_freq && !driver_data->target) ||
+ 	     (!!driver_data->setpolicy == (driver_data->target_index || driver_data->target)) ||
+ 	     (!driver_data->get_intermediate != !driver_data->target_intermediate) ||
+ 	     (!driver_data->online != !driver_data->offline) ||
+diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+index d3d0d9d02aa4..a0a7619d11fd 100644
+--- a/include/linux/cpufreq.h
++++ b/include/linux/cpufreq.h
+@@ -364,6 +364,16 @@ struct cpufreq_driver {
+ 	int		(*target)(struct cpufreq_policy *policy,
+ 				  unsigned int target_freq,
+ 				  unsigned int relation);	/* Deprecated */
++	/*
++	 * Optional for table-less ->target() drivers. Resolve a clamped request
++	 * within the supplied limits using CPUFREQ_RELATION_{L,H,C}. Must not
++	 * sleep. See Documentation/cpu-freq/cpu-drivers.rst for the contract.
++	 */
++	unsigned int	(*resolve_freq)(struct cpufreq_policy *policy,
++					unsigned int target_freq,
++					unsigned int min_freq,
++					unsigned int max_freq,
++					unsigned int relation);
+ 	int		(*target_index)(struct cpufreq_policy *policy,
+ 					unsigned int index);
+ 	unsigned int	(*fast_switch)(struct cpufreq_policy *policy,
