@@ -1,183 +1,220 @@
-Received: from mta0.migadu.com (out-36.mta0.migadu.com [91.218.175.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2AC3612DB
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 08:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839C23AE6FC;
+	Tue, 29 Sep 2026 08:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790670994; cv=none; b=UEKeaYrNW5MMwQCyRwiMwBAQ4hYcVWuDx3gDfIu4+eWi8O+upIplT3w8UVTtfLpFNuKECXrQmlpe1rBrfcucHjMvCFkY+HIvaNZyFfUaN8FZdQFbzlO8RN+6Vc2ar7XhGBi70jG7ZZwjwdVVimgen/p54P+N86AzPCgCtCG8mAc=
+	t=1790671388; cv=none; b=DM2zC5Vn/1G/7whzWOm+7lrHAwpccdkxaF7lmbF1xFCZPPgiHqUk3ZEj4scPXyYgtpPd3TCHIqjOX694JbSluQXLijEiACktsm77+AoptulLWrFH+L7002P2ruy6sMPWfMvMQX5tPvIhUwr1NPGT3XazT7V53b86uywA5eDd3EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790670994; c=relaxed/simple;
-	bh=8vfz9yom+ls/aQov6CVfDaBZr7Ko9IZV3QMRLqEpVmM=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=cE0B+mw51UAMZSp0vYfKFXgN23kIkSM4mg9ToNIpeM3lMnOAV6yLOh4ADmhkX0TaUk9RLX2NJF/RoyiquTzHru58f7lkxkX7T9Q/LnQN3KF+dPobFBxk/00NDqP9qHvc1AEHtlUGs5WxvY6cKLz9MlNKPvVUmFJKJyjPDVw9WQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WMXbedJM; arc=none smtp.client-ip=91.218.175.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790671388; c=relaxed/simple;
+	bh=KGTbGAjsl0/VfreTIskSskWJFhvsIGdUVyUCRDRa4yw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AXDKDaSGFfk3UjPEzX3cpNTcaD2P92q62ayO/eA3nLeAe2LTGaLqy9je90NHu3IkdSlzLj4GMBjuKBMGk61hTUpxS69WUdJs0bLacOYFYHd5z9kRHCJmU1vbLCJfAGIEPgRaBoJ4rSfOMeDrGoYcQ12uWpjuJc06jp8qWY/srxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CGwxpnBE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WMXbedJM"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=8vfz9yom+ls/aQov6CVfDaBZr7Ko9IZV3QMRLqEpVmM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790670991; v=1; x=1791275791;
- b=WMXbedJMmbqaftd1IpCIhlKKzGIzCRayG9NJsx7HkivNiVYX7SV3JIweXkHE+jmSxSGZGFY8
- cOpVlP8jKib3bYDO45TF0mzuc9vNN19kzoQfIv0Dl7DmxdKGdmnTYmyYPURpDDWxQSCsyxwG715
- JozrFQ1Ypj7BSyJi0O8Z7r2w=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id 7b4496e5929f9e79;
-	Tue, 29 Sep 2026 08:36:29 +0000
-X-Mizu-Trace-ID: 7b4496e5929f9e79
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CGwxpnBE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEF371F00893;
+	Tue, 29 Sep 2026 08:43:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790671387;
+	bh=L5o5nxIGaf1ad5zEI4GVn6mSMEnb1Lm3br5oDnecbdc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=CGwxpnBELT2SBdYqTWoImYAwOQE6VH3Z/GK/BjARDqL1OwqOg0mgW0LKYZbEz6KG/
+	 SAEdW0C3XoQlNf/Suzav0R/znaJUw+Zx9A2mbHr2oOXegJenEJuYHoxqO8iDkDY1Z9
+	 1biQcQdcVJCtdUNP3yYInn6yCqUpVeK7z7C2EAovrzfdZBjcL/JFpIALGaFmJaradQ
+	 K2j9jnOfTmkKmmk84SVrHosCBrgboNIbijZzR8QL5Fqh44ddhSMmY5yz0y1urmxGHS
+	 6q7CoSukBqGFsgY4TVNW9UMehwhIHeIFxPbMVn2h2JoaMn82yQAVpHyoBvs8ilNbAC
+	 LQ/yguM0me+uQ==
+Message-ID: <73625017-b944-446b-95b6-6c586c304f35@kernel.org>
+Date: Tue, 29 Sep 2026 10:43:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.11\))
-Subject: Re: [PATCH v5 07/12] mm/sparse-vmemmap: switch device DAX to shared
- tail vmemmap pages
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <1b542015-8e5a-41af-9e98-9810333e6725@kernel.org>
-Date: Tue, 29 Sep 2026 16:36:07 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/12] mm/sparse-vmemmap: introduce
+ CONFIG_VMEMMAP_OPTIMIZATION
+To: Muchun Song <muchun.song@linux.dev>
 Cc: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Oscar Salvador <osalvador@suse.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Jonathan Corbet <corbet@lwn.net>,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org,
- linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
+ <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
  Lance Yang <lance.yang@linux.dev>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <53A73178-93E5-414D-8ECE-96B3082384C4@linux.dev>
 References: <20260927025441.741633-1-songmuchun@bytedance.com>
- <20260927025441.741633-8-songmuchun@bytedance.com>
- <1b542015-8e5a-41af-9e98-9810333e6725@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: Apple Mail (2.3901.100.1.1.11)
+ <20260927025441.741633-4-songmuchun@bytedance.com>
+ <d7a75c99-3021-495f-ae34-883d047370f3@kernel.org>
+ <D0B0A406-100C-437D-8AA8-D276E8DA8278@linux.dev>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <D0B0A406-100C-437D-8AA8-D276E8DA8278@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 9/29/26 09:53, Muchun Song wrote:
+> 
+> 
+>> On Sep 29, 2026, at 15:11, David Hildenbrand (Arm) <david@kernel.org> wrote:
+>>
+>> On 9/27/26 04:54, Muchun Song wrote:
+>>> The section-based vmemmap optimization infrastructure is guarded by
+>>> CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP, but it can also be used by
+>>> ZONE_DEVICE users that set dev_pagemap::vmemmap_shift. Introduce
+>>> CONFIG_VMEMMAP_OPTIMIZATION as a common config for the shared
+>>> infrastructure.
+>>>
+>>> Select the new option from HUGETLB_PAGE_OPTIMIZE_VMEMMAP and from
+>>> ZONE_DEVICE when the architecture opts in to DAX vmemmap optimization,
+>>> and use it to guard the generic sparse-vmemmap state and helpers.
+>>>
+>>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>>> Acked-by: Qi Zheng <qi.zheng@linux.dev>
+>>> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+>>> ---
+>>> v5:
+>>> - Move this patch after the shared tail-page factoring.
+>>> - Select VMEMMAP_OPTIMIZATION from ZONE_DEVICE instead of DEV_DAX,
+>>>  covering all users of dev_pagemap::vmemmap_shift, reported by
+>>>  Sashiko.
+>>>
+>>> v4:
+>>> - Rename SPARSEMEM_VMEMMAP_OPTIMIZATION to VMEMMAP_OPTIMIZATION
+>>>  (suggested by Mike Rapoport)
+>>> - Collect Acked-by from Mike Rapoport
+>>>
+>>> v2:
+>>> - Fix SPARSEMEM_VMEMMAP_OPTIMIZATION being selected without SPARSEMEM_VMEMMAP
+>>>  reported by Sashiko.
+>>> - Add an explicit DEV_DAX dependency on ZONE_DEVICE
+>>> - Collect Acked-by from Qi Zheng
+>>> ---
+>>> arch/x86/entry/vdso/vdso32/fake_32bit_build.h |  2 +-
+>>> fs/Kconfig                                    |  1 +
+>>> include/linux/mm.h                            |  3 +++
+>>> include/linux/mmzone.h                        | 10 +++++-----
+>>> include/linux/page-flags.h                    |  5 ++---
+>>> mm/Kconfig                                    |  5 +++++
+>>> mm/sparse-vmemmap.c                           |  2 +-
+>>> mm/sparse.h                                   |  6 +++---
+>>> 8 files changed, 21 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
+>>> index bc3e549795c3..72a92cb9b53d 100644
+>>> --- a/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
+>>> +++ b/arch/x86/entry/vdso/vdso32/fake_32bit_build.h
+>>> @@ -11,7 +11,7 @@
+>>> #undef CONFIG_PGTABLE_LEVELS
+>>> #undef CONFIG_ILLEGAL_POINTER_VALUE
+>>> #undef CONFIG_SPARSEMEM_VMEMMAP
+>>> -#undef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+>>> +#undef CONFIG_VMEMMAP_OPTIMIZATION
+>>> #undef CONFIG_NR_CPUS
+>>> #undef CONFIG_PARAVIRT_XXL
+>>>
+>>> diff --git a/fs/Kconfig b/fs/Kconfig
+>>> index d1c210c6508f..1454b7fe9641 100644
+>>> --- a/fs/Kconfig
+>>> +++ b/fs/Kconfig
+>>> @@ -278,6 +278,7 @@ config HUGETLB_PAGE_OPTIMIZE_VMEMMAP
+>>> def_bool HUGETLB_PAGE
+>>> 	depends on ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP
+>>> 	depends on SPARSEMEM_VMEMMAP
+>>> + 	select VMEMMAP_OPTIMIZATION
+>>
+>> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> 
+> Thanks.
+> 
+>>
+>> Is there a path to remove HUGETLB_PAGE_OPTIMIZE_VMEMMAP, and to merge
+>> ARCH_WANT_OPTIMIZE_DAX_VMEMMAP+ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP into a
+>> ARCH_SUPPORTS_VMEMMAP_OPTIMIZATION?
+> 
+> These are actually two completely different capabilities.
+> 
+> ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP requires the architecture
+> to support dynamic updates to vmemmap page tables, meaning a
+> PTE entry can be changed from one valid entry to another
+> valid entry. This does not meet the requirements on arm64,
+> because arm64 requires page table operations to satisfy BBM
+> (there is, of course, a series [1] attempting to do this).
+> 
+> However, for ARCH_WANT_OPTIMIZE_DAX_VMEMMAP, the vmemmap page
+> tables do not involve dynamic updates, so the BBM requirement
+> can be satisfied. Therefore, arm64 can enable
+> ARCH_WANT_OPTIMIZE_DAX_VMEMMAP, but cannot enable
+> ARCH_WANT_OPTIMIZE_HUGETLB_VMEMMAP. To make the naming clearer,
+> I have another patch [2] that renames it for greater clarity.
 
+Ah, perfect. Too many patches floating around :)
 
-> On Sep 29, 2026, at 15:36, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->=20
-> On 9/27/26 04:54, Muchun Song wrote:
->> HugeTLB vmemmap optimization now uses per-zone shared tail vmemmap =
-pages.
->> Device DAX has not been switched to that mechanism yet.
->>=20
->> Switch device DAX to vmemmap_shared_tail_page() as well. This aligns =
-DAX
->> with HugeTLB by using the common per-zone shared tail vmemmap page.
->>=20
->> The optimization is enabled only for DEV-DAX through =
-pgmap->vmemmap_shift,
->> which supplies the compound page order recorded in section metadata =
-before
->> vmemmap population. Unlike FS-DAX, DEV-DAX does not modify tail =
-struct
->> pages, so sharing them is safe.
->>=20
->> Since the shared tail page can now back ZONE_DEVICE vmemmap mappings,
->> initialize its entries with PG_reserved for device zones. Also skip
->> poisoning vmemmap-optimizable sections while their struct pages may =
-be
->> shared.
->>=20
->> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->> Acked-by: Qi Zheng <qi.zheng@linux.dev>
->> ---
->> v3:
->> - Move device_zone() after the definition of NODE_DATA() to fix
->>  non-NUMA builds.
->> - Update the commit message to describe the compound page order =
-stored
->>  in section metadata
->> - Collect Acked-by from Qi Zheng
->>=20
->> v2:
->> - Explain why sharing tail vmemmap pages is safe for DEV-DAX
->>  (suggested by Qi Zheng)
->> ---
->=20
-> [...]
->=20
->> -
->> static int __meminit vmemmap_populate_compound_pages(unsigned long =
-start_pfn,
->>      unsigned long start,
->>      unsigned long end, int node,
->> @@ -551,21 +536,18 @@ static int __meminit =
-vmemmap_populate_compound_pages(unsigned long start_pfn,
->> pte_t *pte;
->> int rc;
->> 	unsigned long flags =3D VMEMMAP_POPULATE_DAX;
->> + 	struct page *page;
->> + 	unsigned int order =3D pfn_to_section_compound_order(start_pfn);
->=20
-> const and all the way to the top.
+I thought there is a patch set to avoid the BBM requirement on arm64 from James,
+though. So not sure if both things will always stay separate.
 
-OK.
+> 
+> As for ARCH_WANT_OPTIMIZE_DAX_VMEMMAP, I plan to remove it
+> entirely in the future, because architectures that do not support
+> it can simply choose to disable it, as can be seen in patch [3].
+> 
+> So in my plan, ultimately only one config will remain:
+> ARCH_SUPPORTS_VMEMMAP_REMAP.
+> 
+> I hope this clarifies the plan. Let me know what you think.
 
->=20
->=20
-> I did wonder about the poisoning change ... because the memmap usually =
-gets
-> initialized once the memory section gets moved to a zone.
->=20
-> SO now I'm a bit confused about the ordering of events :)
+Yes, thanks.
 
-Yes, the normal memmap entries are initialized later when the range is
-moved into the zone. The shared tail entries are the exception, though.
+-- 
+Cheers,
 
-The ordering for device DAX is:
-
-1. sparse_add_section() sets the section compound order and populates
-   the vmemmap.
-2. During vmemmap population, optimizable tail entries are mapped to
-   the per-zone shared tail page, which is initialized by
-   vmemmap_shared_tail_page().
-3. page_init_poison() is reached after that population.
-4. Later, move_pfn_range_to_zone() calls memmap_init_range(), but the
-   latter deliberately skips vmemmap_optimizable_pfn() because those
-   entries have already been initialized.
-
-Therefore, an unconditional poison here would overwrite the initialized
-shared tail page, and the later zone initialization would not restore =
-it.
-The non-shared entries are still initialized later as usual.
-
-I agree that this ordering is not obvious. I will update the comment to
-make it clearer, for example:
-
-  /*
-   * Poison uninitialized struct pages to catch invalid flag =
-combinations.
-   *
-   * Tail struct pages in a vmemmap-optimized section are initialized =
-and
-   * shared during vmemmap population, so they must not be overwritten =
-here.
-   */
-
-Thanks,
-Muchun
-
->=20
-> --=20
-> Cheers,
->=20
-> David
-
-
+David
