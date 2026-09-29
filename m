@@ -1,151 +1,76 @@
-Received: from mta1.migadu.com (out-236.mta1.migadu.com [95.215.58.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB024FDE64
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 10:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0D64FDE45;
+	Tue, 29 Sep 2026 10:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790676235; cv=none; b=tGn+LzYYVNKfVR5NdmRKAbAsBUTvzFF2xhWmBm0PxAKcbW9lwhx2gyCQ8uHx5m6FJkFTnLjN/p5xXKANeVQWc/ZomVLCy9ctDRMPnpu0iTP/lpfCgFrbmKJGkzhb/TtCJDzugUPL4SFe4I0zT3zEd9EoKd56kouu4CsPg1QtiQ4=
+	t=1790677597; cv=none; b=Z5kadZ3UNE+IZ09teUuZPRxttia07ss4cDLaltN7DLBHzUjjbMfoj/xIH+OpAsuSKve3WpJ97+HDCQzuDngmhV+VUvJymrhL9+rtAq/5WvJ8Rup03wau0sv6EPjhwy4B+4MuZlt0l0k9R780L2jErLWHzOu/dqz7FeoX65ZzcKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790676235; c=relaxed/simple;
-	bh=4nbqrJ878FZWi0rZ57VBSYZymeJkYo6GGL1ScKrDJ8E=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=iTdUsAAGOwLuaxSC3trD0dhltsGmJO6ue7oWRY5gUWZw8UfcpYQQf+9oNBnO8YgLub6OR3RfLBsmd7J+GAvOGNBJIwrwwprv71VPrMvDzBSYEBaZbuhk7UcH2VaXEbs4TnMrsTMQPTqLrAlL+ZTqj2cK/SIT1g+mNzbG25UvHA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JxVixnux; arc=none smtp.client-ip=95.215.58.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790677597; c=relaxed/simple;
+	bh=btRHvqc+GZq+uriH33EH+G3Kt+qUrdgIIHAw6CNyiAk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=FhLfkT8dIB/z+w+vGW3rFE2PoVL6/NyzMC0vSXkh19s0gxJN+a5FynPqWO06Gg9rLrLLu/RPHlr2o2OWoXHiUlfZkc3pG6rCBmHu/PMV5c7TJYLV1IWNXYMcKMIY53B/Xr3/t7kiCP4eZedFx17x6l5/yR3Cx5RXoxJX1/pAERc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=yr/lQ+cH; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JxVixnux"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=4nbqrJ878FZWi0rZ57VBSYZymeJkYo6GGL1ScKrDJ8E=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790676224; v=1; x=1791281024;
- b=JxVixnuxXKa7J76MDELbiqjNz/md1RpTK8wtwknrf1cn72sACiDKlPMFxfdEdO104ClJfoge
- rmzMfGTjKARQNsmBQ5VO0ugOFmLzEAR5WMwgGq1cSrym7OdROPafTZxZeC6a/LWFW23IT8xYFQ3
- fbYRBWqSSp4EsaYjMxRNpIKs=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 00c772cd190c1b5f;
-	Tue, 29 Sep 2026 10:03:44 +0000
-X-Mizu-Trace-ID: 00c772cd190c1b5f
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="yr/lQ+cH"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 52EFE4E410B7;
+	Tue, 29 Sep 2026 10:26:20 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 097E0601BD;
+	Tue, 29 Sep 2026 10:26:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E000F10328018;
+	Tue, 29 Sep 2026 12:26:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790677574; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=btRHvqc+GZq+uriH33EH+G3Kt+qUrdgIIHAw6CNyiAk=;
+	b=yr/lQ+cHZgRAeMbjHWCLcTevfD7wnq7SWEJKzk593NHY+Hvs8u4YDVMEzQ/GvZYhXv7EtP
+	oH+u6gT3/NkBqDrKpNV3MKf85Dh2TYp19xxLev6vuMEb4yvPIjmXXOIIRV+5ir8LAgLKzt
+	gEMShrQntj5Xq5RCaA6iHIgX5syA7wjEgJhvsIfup6Zo7IZlA6XHskdusQsDh8oDQsWIMh
+	vZP/GCNiRJer2ueBRRoJvlHORG8isDpaLYGIpM4yayuyxr5e7qzOcG+uQp6577niDhG9ou
+	VaIGDutXK8zG2s5zUmaqkfUMR2XQRpdGyx5OgOKW0ezuy3kMvhqJSiCix8jZ1g==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.11\))
-Subject: Re: [PATCH v5 08/12] mm/sparse-vmemmap: move vmemmap optimization
- helpers to a public header
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <0481F7BE-F912-4E83-80F1-6E7990B447C1@linux.dev>
-Date: Tue, 29 Sep 2026 18:03:20 +0800
-Cc: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Oscar Salvador <osalvador@suse.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Jonathan Corbet <corbet@lwn.net>,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org,
- linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Lance Yang <lance.yang@linux.dev>
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <9720986C-2DE2-4968-9CA6-7823B1F978C5@linux.dev>
-References: <20260927025441.741633-1-songmuchun@bytedance.com>
- <20260927025441.741633-9-songmuchun@bytedance.com>
- <a31cc06a-c22f-41c2-851e-4827869e9df1@kernel.org>
- <0481F7BE-F912-4E83-80F1-6E7990B447C1@linux.dev>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: Apple Mail (2.3901.100.1.1.11)
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 29 Sep 2026 12:26:09 +0200
+Message-Id: <DLRQ7Z331OX6.HIK92AEHY682@bootlin.com>
+Subject: Re: [PATCH] Documentation/gpu: fix location of drm_panel kernel-doc
+Cc: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ <dri-devel@lists.freedesktop.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>
+To: "Randy Dunlap" <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.22.0
+References: <20260928210326.1526997-1-rdunlap@infradead.org>
+In-Reply-To: <20260928210326.1526997-1-rdunlap@infradead.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
+On Mon Sep 28, 2026 at 11:03 PM CEST, Randy Dunlap wrote:
+> The source file location was changed, so update the documentation
+> accordingly. Fixes these warnings:
+>
+> ERROR: Cannot find file ../drivers/gpu/drm/bridge/panel.c
+> ERROR: Cannot find file ../drivers/gpu/drm/bridge/panel.c
+> WARNING: No kernel-doc for file ../drivers/gpu/drm/bridge/panel.c
+>
+> Fixes: aa8a8c7e4641 ("drm/bridge: panel: move all code to drm_panel.c")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-> On Sep 29, 2026, at 16:44, Muchun Song <muchun.song@linux.dev> wrote:
->=20
->=20
->=20
->> On Sep 29, 2026, at 15:39, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->>=20
->> On 9/27/26 04:54, Muchun Song wrote:
->>> The vmemmap optimization helpers currently live in mm/sparse.h,
->>> which is an internal MM header. That works for MM code, but
->>> prevents powerpc from using the same interfaces without including a
->>> private header.
->>>=20
->>> Move the declarations and inline helpers to vmemmap-optimization.h.
->>> This is a preparatory change for powerpc, which has its own vmemmap
->>> optimization implementation and needs to use the common vmemmap
->>> optimization interfaces from architecture code.
->>=20
->> Which raises the question why powerpc was special and will remain =
-special. Wha's
->> the big problem here that powerpc must do special things?
->=20
-> Good question. I also don't think PowerPC needs special handling,
-> but when HVO logic was introduced for PowerPC, it handled HVO on
-> its own. =46rom my preliminary analysis, the reason it didn't reuse
-> the generic logic initially may be related to the fact that
-> PowerPC's section size is 16M. With a 64k base page, a single page
-> can cover the vmemmap range of multiple sections, and the current
-> generic logic doesn't cover this case.
-
-I looked at the code in my local branch for removing the PowerPC
-vmemmap optimization handling, and I found another issue that needs
-to be addressed.
-
-Since PowerPC vmemmap optimization is restricted to Radix, this only
-needs to cover the Radix page-table implementation.
-
-The generic vmemmap path currently allocates intermediate page-table
-pages with vmemmap_alloc_block_zero(). This bypasses the normal
-page-table constructors.
-
-PowerPC Radix uses early_alloc_pgtable() before slab is available. For
-runtime population, it uses pud_alloc(), pmd_alloc(), and
-pte_alloc_kernel(). These helpers initialize the page-table metadata
-and fragment reference counts expected by pud_free(), pmd_free(), and
-pte_free_kernel() during hot-remove.
-
-To address this, I plan to update the generic path so that it uses
-the normal page-table helpers once slab is available, while retaining
-memblock-backed allocations during early boot. Once allocation and
-teardown are correctly paired, PowerPC Radix should be able to call
-vmemmap_populate_hugepages() directly and remove its duplicate HVO
-page-table walk.
-
-Thanks,
-Muchun
-
->=20
-> However, completely removing PowerPC's special handling is already
-> in my follow-up plan. We need to wait for the current series to enter
-> the mainline, and then we can proceed gradually.
->=20
->>=20
->> Change itself looks good.
->>=20
->> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
->=20
-> Thanks for your review.
->=20
-> Muchun,
-> Thanks
->=20
->>=20
->> --=20
->> Cheers,
->>=20
->> David
-
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
