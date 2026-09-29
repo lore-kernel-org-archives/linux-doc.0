@@ -1,189 +1,154 @@
-Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f42.google.com (mail-oi2-f42.google.com [74.125.231.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B7E3D955D
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 15:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.38.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790694199; cv=none; b=q4uNQo8tZc2PL0Nc9dmQQX2IxPToqSaHL0NeWsn2OTWKvlTgJ4tHmz1PoD5qGBOnKy19WvQh6EX5zLFQ5qeQRj83bvQA/1ea2U34lMdNUK1iqu4EAhJ/XbZyrByzWC0I9o+B8C8GpiqJWUyPA7c7FYhylJ0xGU8pAizQhmjmrS4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790694199; c=relaxed/simple;
-	bh=IMBdnMr73s0jPE0vT1t1QudzkHs0ksFQ9CEx91z8OLw=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653FB3C9429
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 15:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.234
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790694308; cv=pass; b=DICv3+PpQaXsBaCFvAtOQP4Mc/Hbc8dFM0AKVsRukdYowieG+IP4CtYL9veeAfgQeFOyJh/lD1zdlfh6j/wRejHqQCebqY52kJr9XqLR/apQVCEB6YFF2T07krI30STt7L3sWHse9hSSIofrHz/7cCoBYPjGZzqa/WUyILugzfY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790694308; c=relaxed/simple;
+	bh=RYV0Fke/zryIQypMo3pWYA4hmOw8U2yNCXU7He5u95Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sd6vymR6rNXbF1kZUOOniVYZVzqsQj909H5Cd8sB2qI1WE10lh86YNe5s7mJTHoj1Lpc//9utXoCSqgzQvfSfuIo8dycq/vQ+aTBnU9R/RjelKcbAdOa3AhLjy255+OGdUX3Ef51qEyiaAW6GFCBEE256h4lG565I3W4tJNUVlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=DB1UCdtZ; arc=none smtp.client-ip=88.99.38.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	 To:Cc:Content-Type; b=cw2+wIrQ0sDCaPV5EJGUivFUNQvVPyiK4198a2U7tAZYuEq2U0mCaKv/PbF+wIgr7Q8dOs96DDX8jQ1pqwsuPByGT6odUFy3D0ust/t8QmYM3GSQuDF3n4ufva+quQjXyX5VpWY+l1i6wlax3G6/D2NsiYumLdvcTWAwxRMpATk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N3Mdx5Yk; arc=pass smtp.client-ip=74.125.231.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="DB1UCdtZ"
-Received: from relay12 (localhost [127.0.0.1])
-	by relay12.grserver.gr (Proxmox) with ESMTP id 26B2CBC0D0
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 18:03:02 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay12.grserver.gr (Proxmox) with ESMTPS id 8E427BBEE4
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 18:03:01 +0300 (EEST)
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id D02C21FFA0E
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 18:03:00 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1790694181;
-	bh=Fq7ixrFiJrmYh9E7sS71VmUBnUyVUMq7Y9wxXQgpMoA=;
-	h=Received:From:Subject:To;
-	b=DB1UCdtZ+As1TgOvfuoE1tv1bD+zDJv7G4gFwzQbfCHnO2fdza1KNVaueokKvxFhH
-	 o2jewRzpy+bJbH+rMztQyHjjfhtegzy7DgJ5cP0XRuf90y1kUpz36n4Zw43s86Sgjd
-	 vrh5HLF9Bl7sjR55nZEsjIBqF6hsJvepACA6qOGhuLp1OZVcF/zUAb/FkkiQktFJlk
-	 CQfqu+dkmDGUZU8GDJSu6SLGudyM9fgu146Re6pUhPxfJbnXHlDd0hpZrrOwX9Q2Ip
-	 CqBudgw1ligdACSiUv/Su9JamXoRBrJPvpZCdPKM24CVzy/uzHdR6JqcM5dk+vds8T
-	 RCvO2IQsEUwgg==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 74.125.228.12) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pz2-f12.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pz2-f12.google.com with SMTP id
- 41be03b00d2f7-cc1cea4bfd1so1861517a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 08:03:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AKwUvBz9tMdptY4OUd+b+0mELdB/rzmeKSh8dxVOQeLgbnC5M1sE4QVn1zGRFTqaOlvBWnKt8v3ww+SRa60=@vger.kernel.org
-X-Gm-Message-State: AFuF++k1s67/PEKE5n2yLjLwnaVVReT+C4HfnKDSCvJhcOFIDb6KqV0v
-	EdVVfsLyqzRNsDClMMzSj1/QqDHmyaAWs1D+2O5PJCWdHDIFsQItOyNGM46ZIU8+fJGYmm8lxr8
-	beVWPGi2tid2diUSA7h8kogX8qmpmNxc=
-X-Received: by 2002:a05:6a20:244d:b0:3de:5212:ef48 with SMTP id
- adf61e73a8af0-3de5212f325mr8517722637.37.1790694179386; Tue, 29 Sep 2026
- 08:02:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N3Mdx5Yk"
+Received: by mail-oi2-f42.google.com with SMTP id 5614622812f47-4e6afe2c84fso1479951b6e.3
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 08:05:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790694304; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gglXJI21L/hFrHQj45X2xDzyXrFrrP20tPNoNmdRpqodNtUgVniFbAPUKAD7Sy2+IS
+         cXxx/hBurahA3qlWVJQJQWSZ9IUeYF80rAtXqXFQUO8sIvkstdryDk4EXeMrCx3ir7uh
+         sEVKZIV4s2WFXdlFmA6nrDIccUK/nr6kmyUF6T5padPYq99JtZSMKVuQIuGIPKRfrDOT
+         +hdgheZbwB+VZYPKmCfDwVLf+7p6KLGsoXHZ4yosZepg7zlPyZg4jFwNLSUwTjgdQVXt
+         v0aSC1hVVLVF4MBlEYZ4cW5DWoGWbuAOL1z/L8/HRDRlt7HeQrFh6RG0XMNiGRwpqyZG
+         GXKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SxYLhnOzmc+drgJLlfVKMnvEVhnHQOKOuWMtXRb1T4k=;
+        fh=ZicGVyvQ0p3SWXiB4RQsi1o03lTrs+cX9AmB/K7FCK4=;
+        b=HXKtIVZ+eNmL1yqoxpUKfe3Uaf5aXKekVik6SWRjfZ46BVTVkn9DkZvjlaFYtMMYsW
+         nE55d0jVeXMZTAqzmSZu9QEjjh/dySmquValfGpja3U1YRQ48Li8jZUOrzzxZx/+sL/F
+         nTFRF25s4A01fQBlJDvnV4MYo6cTBFNR05mwB4t1UocJSLzTo8f/GqMAqJ0ycWDsUGtF
+         dsjzmsIKmaHnDzwzLPTJGvh72XEULyCEWGO7klJLV3iW6JV+6I2SfDU6QPHVT5aEW1aA
+         9IfvwkxpPwoq8AMmvo/cz1VqQR92d6VdcuRyUMmZX687ViKRZZ0yBzRwW3vfS97sfIbd
+         egWQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790694304; x=1791299104; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SxYLhnOzmc+drgJLlfVKMnvEVhnHQOKOuWMtXRb1T4k=;
+        b=N3Mdx5Yk5e+O4SymkvAFpuNL3GaM0+aSdQkELk60n7ddOt+npYhklRR7jK7yyoUU4W
+         4HKXZYDExKE4wuAxCCRoemjM8s6zrgewf/m5irv6cHMOsCFxXmqtoHIAAVjSaeIwwUuT
+         XstAMnFp+L14Xi7msxZFuDWgzpLJFUCtCCmaJATdL4dHW0wgXsVxyD7RiTkvkdsnGg5d
+         hAqnsUigxu5/TK2c15Dw/S2KF/FEyNxq/0A6YtcZINuDdEw4aiWkg7lkn7W10Vf9c7cb
+         iA4Kz0SnDuPnCvz7+jcyc1hUsTpQWTvFJB8uEPm+eMVBrVcdnozJX1Tcj1G3zO6FSFmQ
+         /YNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790694304; x=1791299104;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SxYLhnOzmc+drgJLlfVKMnvEVhnHQOKOuWMtXRb1T4k=;
+        b=iqdUE7IhRuQNJwOtoOv/y8JlJL9R/h2D38/gsDEVxCoDrUFzoH6gtzTy9oS19WkFP1
+         yv7e//kz+MBd+y1G5JO92RpBJvgUXjewnCAbiSE7BgPU6QJHNWCWgHABwv+rUviHDgfN
+         gz2h3bOuLg0y6OzqjbE48Fvd32dkmn/aWG5TnMRqAAW1UuUwxzxXwhcJZedNTbJ+H6kv
+         he+hU657RFFvl9M54OPV4d6zQDPlkdItAdNoPssD2H/I04JdiVZSnaUdhxMsEesVXD2H
+         eG0vWlv/ihPoIfi/gqCaNRQyjieUWZAQ/6whK7v9XsIRFxn8uFuUswJlv2w9b8TbcLad
+         N32A==
+X-Forwarded-Encrypted: i=1; AKwUvByCMVG+/agSPCwHTVTB5zarqQANxztCezlkz6NY+6plUwyGslcT5MfliBkdn2l7SNyHlfJ9Zyxwjow=@vger.kernel.org
+X-Gm-Message-State: AFuF++klL4lzSb1RxpVyJoteLTds0IQ4q//xKKH54HoFsimcnoswBC6v
+	1mQ15mtBN+Q0JGfzew/chv7HRjcz9lkgNEuF5RHiDcGSPpfryeFd/ODOP8Ca88YCnUQqz5nzmyD
+	10uxncEXU6L+oDeh3otukGagH/sArOp0=
+X-Gm-Gg: AYBFou2pOkVykWZigCi6ATsWwOE1dNrvnVtbRzbKux7N6CEHSYkfcUwKMY6AprUM3yR
+	5CDmnxUJw8BoauADoQFU2h6SbfgKw7mI3W8w3zASyn13974GHzEBQXPMe+iASup+mfyh30X/tNR
+	wn4uE9zc+aZM4/j2+flHQoncBuAjUPQKncVc2C80CJIWsxZGmB4Uxj9CtNVhuL2BUnsUOM/EqO8
+	L7xcSQFhGb3nN84qwEPIYoioR+aD4CTEEWJIU/ymc1rl7QICSgxydV7zIyZHW12/JJ7fUgYjlW6
+	dbleAAPRLVnYCVjSHCcq8a5w3VUKboWGBdfxBTuz9YAs295VLjVLxfJsws2gboExAXxpVdleCdV
+	K13Oi56hU/58e3EHlNDWe9ZPL
+X-Received: by 2002:a05:6809:a:10b0:4d6:90f3:74af with SMTP id
+ 5614622812f47-4dc66070a82mr7548908b6e.47.1790694304147; Tue, 29 Sep 2026
+ 08:05:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260924134945.3095661-1-sashal@kernel.org>
- <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
- <arfpV7IXRAHREMzO@laps>
- <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
- <arhtsrVb82vr6U-p@laps>
- <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
- <arkiyMt2NIydrPhE@laps>
- <CAGwozwGc62HAJnLeYL+jq_PnJq1LsV3Ex9LtQTE1pX3144MdtA@mail.gmail.com>
- <arvFBqreU0qahkXx@laps>
-In-Reply-To: <arvFBqreU0qahkXx@laps>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Tue, 29 Sep 2026 17:02:47 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwEfN7cUZm8usUsSR2bu23ux57QCPxyXJRfwv0tU34gEkQ@mail.gmail.com>
-X-Gm-Features: AclHuK9Ma94Rjlyw1gzwy_ntdbuZQiV23QZbvuSn28lrhRiHscyF7HyryPiPfqg
-Message-ID: 
- <CAGwozwEfN7cUZm8usUsSR2bu23ux57QCPxyXJRfwv0tU34gEkQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
+References: <20260929115956.229610-1-chenyou910331@gmail.com>
+ <CAOB9oOY2V68_qnv6DFyDJL2d=50zN_oQ6=6+Fs7=Ez+9TnuDmg@mail.gmail.com> <CAKspUh+rJ7qm7VKXTYcqqPxwNWnNJ09p3DAciwGXGzpBCOJ=NA@mail.gmail.com>
+In-Reply-To: <CAKspUh+rJ7qm7VKXTYcqqPxwNWnNJ09p3DAciwGXGzpBCOJ=NA@mail.gmail.com>
+From: Yizhou Tang <tangyeechou@gmail.com>
+Date: Tue, 29 Sep 2026 23:04:52 +0800
+X-Gm-Features: AclHuK_KzzfKzL4l-grenIAxx1Sm9JijVCMZ7ff6XE5coebowPrLv7qkSaiuoKk
+Message-ID: <CAOB9oOYdHd3kpnj4aQOnbubTsLLgjw4n9aFMcjQqL-3unNDLAw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] docs/zh_TW: remove duplicated maintainer contact information
+To: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn, wy@wyuan.org, 
+	si.yanteng@linux.dev, srcres258@furdevs.cn, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Andy Deng <theandy.deng@gmail.com>, 
+	Bailu Lin <bailu.lin@vivo.com>, Bernard Zhao <bernard@vivo.com>, Bryan Wu <bryan.wu@analog.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Chucheng Luo <luochucheng@vivo.com>, 
+	Dave Martin <Dave.Martin@arm.com>, Dave Young <hidave.darkstar@gmail.com>, 
+	Dongsheng Song <dongshneg.song@gmail.com>, "Eric W . Biederman" <ebiederm@xmission.com>, 
+	Eugene Teo <eugeneteo@kernel.sg>, Fu Wei <tekkamanninja@gmail.com>, Fu Wei <wefu@redhat.com>, 
+	gao chao <gaochao49@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hailong Liu <liu.hailong6@zte.com.cn>, Harry Wei <harryxiyou@gmail.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
+	Junhua Huang <huang.junhua@zte.com.cn>, Kangkai Yin <e12051@motorola.com>, 
+	Leigang Zang <zangleigang@hisilicon.com>, Li Yang <leoyang.li@nxp.com>, 
+	Li Zefan <lizf@cn.fujitsu.com>, Maggie Chen <chenqi@beyondsoft.com>, 
+	Nicolas Pitre <nico@fluxnic.net>, Punit Agrawal <punitagrawal@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	TripleX Chung <xxx.phy@gmail.com>, Wang Chen <wangchen@cn.fujitsu.com>, 
+	Wang Cong <xiyou.wangcong@gmail.com>, Wang Wenhu <wenhu.wang@vivo.com>, 
+	Wan Jiabing <wanjiabing@vivo.com>, wheelz <kernel.zeng@gmail.com>, 
+	Will Deacon <will@kernel.org>, Wu XiangCheng <bobwxc@email.cn>, 
+	Xiaochen Wang <wangxiaochen0@gmail.com>, Xudong Guan <xudong.guan@gmail.com>, 
+	xu xin <xu.xin16@zte.com.cn>, yaxinsn <yaxinsn@163.com>, Yinglin Luan <synmyth@gmail.com>, 
+	Zhang Le <r0bertz@gentoo.org>
 Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <179069418106.2556217.16249119928110397814@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 29 Sept 2026 at 16:02, Sasha Levin <sashal@kernel.org> wrote:
+On Tue, Sep 29, 2026 at 9:18=E2=80=AFPM =E8=91=89=E5=AE=B8=E4=BD=91 <chenyo=
+u910331@gmail.com> wrote:
 >
-> On Sun, Sep 27, 2026 at 05:24:46PM +0200, Antheas Kapenekakis wrote:
-> >On Sun, 27 Sept 2026 at 16:06, Sasha Levin <sashal@kernel.org> wrote:
-> >> If someone adds their sign-off without understanding what it certifies,
-> >> that's on them. We can't have agents add it for them just because some
-> >> people would ignore its meaning anyway.
-> >
-> >I didn't say we should make the agent add it. I said if someone wants
-> >to do it it is up to them. Not you, not the mainline kernel config,
-> >not this patch. And disabling it does nothing because the user does
-> >not understand what a sign off is anyway and will add it later or
-> >submit without it. In which case you get broken patches anyway and you
-> >solved nothing.
+> On Tue, Sep 29, 2026 at 8:14 PM Yi Tang <tangyeechou@gmail.com> wrote:
+> > I have no objection to removing the duplicate contact information. I
+> > noticed that some translations in these commits were changed to
+> > traditional Chinese terminology, such as changing "=E7=A1=AC=E4=BB=B6" =
+to "=E7=A1=AC=E9=AB=94". I
+> > suggest submitting these changes as separate commits to make them
+> > easier for everyone to review.
 >
-> Again, that's on the user. Your argument is saying that we should just drop
-> this whole DCO nonsense because no one understands it anyway.
+> Thanks for looking, Yi.
 >
-> We can't stop enforcing things just because users don't bother reading the
-> docs.
-
-If it is up to the user, then this patch is not needed. If it is not
-and the kernel should make LLMs prompt the user to do a better job
-with DCO, then this patch does not provide a solution.
-
-I never said anything about enforcement and this patch is not about
-enforcement anyway.
-
-> Nothing is stopping you from changing this behavior to your liking either, but
-> at that point it makes you a downstream consumer on the kernel, so you get to
-> carry that delta.
-
-I am aware. The issue of switching to a mainline tree for upstreaming
-remains. Your symlink would come back. What is the solution for this?
-
-> >> If you think a hand-written AGENTS.md would do better, feel free to
-> >> write one and propose it. For now, this one seems to be working just
-> >> fine.
-> >
-> >No, I am fine with one not existing and it would be my preference
-> >actually. Ideally it would be added to .gitignore as well.
-> >
-> >That just does not address your need of steering novel contributor
-> >plus LLM, which I tried to help with. But if you do not want to put
-> >more effort than a symlink then not breaking our workflows is more
-> >important so this patch should not merge.
+> That change is not part of this series.  What you saw is in the
+> range-diff, which compares the v1 and v2 patches as text, context lines
+> included.  v1 was based on v7.2 and v2 on docs-next, where the zh_TW
+> process/ series has already landed; that series did the terminology
+> update in separate commits, e.g. 5f0178db86a3 ("docs/zh_TW: process:
+> localize terminology in embargoed-hardware-issues.rst").
 >
-> All I care about is having all these "agents" follow the rules and guidelines
-> that the kernel community set around LLM contributions. I'm not trying to
-> improve the quality or make it more efficient. This patch is purely about
-> having the majority of LLM agents follow our rules out of the box.
+> So "=E7=A1=AC=E4=BB=B6" -> "=E7=A1=AC=E9=AB=94" only shows up as a change=
+d context line (note the
+> blank second column).  The v2 patches themselves change no wording;
+> they only delete the credit and contact lines.
+
+Hi Chen-Yu,
+
+Thanks for your explanation. Please feel free to add:
+
+Acked-by: Tang Yizhou <tangyeechou@gmail.com>
+
 >
-> If you want to spend a few months trying to massage an AGENTS.md to the liking
-> of your LLMs-of-choice, then go at it.
-
-In doing so, you should consider the environmental impact and cost
-this symlink will have by providing an unoptimized indexing blob to
-LLMs which will also prompt additional tool calls. Then, the headaches
-it will cause kernel developers that do know what a DCO is or want to
-have a custom agents.md file, specifically the git errors that will be
-caused when upstreaming as the agents.md file will be dirty.
-
-I get what you are trying to do. But you need to address the
-underlying issues here. You can't just handwave them.
-
-Contributing to the kernel has never been "out of the box" and the
-kernel is not set up for that in multiple ways. If you want there to
-be an exception for LLMs such that they do a decent job at it by
-default, if anything to prevent a flood of patches with obvious
-defects, then I would agree with that goal.
-
-But in that case, you need to make sure that people that know how to
-use LLMs and know what a DCO is are not negatively affected. No, it is
-not ok to append 2k tokens to everyone's context or 2-3 more toolcalls
-for every agent thread. It is also not ok to have to do gymnastics to
-remove the symlink when switching to a clean tree for upstreaming.
-
-And even for novel contributors this is not ok. I am blessed to have
-the disposable income to pay 100$ per month to access LLM services.
-Even so, I have to make every % of usage count. Novel contributors are
-not. They are typically using free services, 10-20$ plans, or local
-models.  Those models are disproportionately affected by a poor
-agents.md file and so is their usage.
-
-I would like to see these issues resolved prior to the kernel
-providing an agents.md file or similar (if it should do so) and this
-is a very fair ask. I do not believe I am unreasonable.
-
-Also, the above is a prerequisite for adding a default agents.md file
-and does not pertain to its contents. That is a separate discussion
-altogether.
-
-Best,
-Antheas
-
-> --
 > Thanks,
-> Sasha
->
-
+> Chen-Yu
