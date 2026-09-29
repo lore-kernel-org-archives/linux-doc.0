@@ -1,160 +1,270 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91174E0210;
-	Tue, 29 Sep 2026 14:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F43052E064
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 14:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790692829; cv=none; b=qWxCYDqLu5QFFQzI9aG1ZyB+hXCKXwVLD+wRNVFOFPK5GTvwwwIfsMbqpyPHqFhjIi9oTgvQ9DEMQUf081QmmXG2Gz61ogBgQBhwuc2N6WGtIuvY4mz8HVDH45vbN2wlMNZzTKsqwEysIxYOtce/ewYmGv8WSN2N84yi+RLuMj8=
+	t=1790693081; cv=none; b=r0eDgUu0UITNd8HaWSjmDD88/uByEhXfhLPOm20P7w6WJiKmurkfrBx+tLrvgC9TnHI98fR5D9MnFVOtfMTaVBVh/qATC2ibqBgtIHqkZa+/9BXrEL75ZN3TYlL+3lS5A/jTmFN5ERKHoRCDw3GYwwkahcn8MNc2CwYVhxqxgr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790692829; c=relaxed/simple;
-	bh=bf+J4oky3bF94JcGs4eYrahBGZ1RmSsGSPGHqV+7oGQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=RjUHRYllmwuMKPiHoFA98sR3lnvpUJ7pjaDDgfqNr5FK4Dvwhz5gwRc0lfMrTws32xonL9uR+qFtOMOMuNmS9ac34NfJEIY9P0sOLC2NzZD07PQsk9g5kVctK6RoXJmCkXQJqygw5oUMh0Ho1WeMuvQrhVtrE8UGqQjX7zzz4SA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lBcwj+r5; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1790693081; c=relaxed/simple;
+	bh=3I8q3l882JIcE1IgO5rz9dcJ+s4ewYhrblWApRnrtxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jCHJWxdNvhqHaXjktpVAYihnRjdo4u1b8+/XtsYm6d/2S8NrotSFIex5tF9zdOU/LJxhRJoXOqXX653tg9cG89jazVnlMuDHWVJryHYNuC1lU5FlwYMl5LX0JErOvi1oqSIaruuvBPuk1nXhu8+AfC0drG19bMQIwTOb57lbiis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bud9wY6a; arc=none smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lBcwj+r5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790692825; x=1822228825;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=bf+J4oky3bF94JcGs4eYrahBGZ1RmSsGSPGHqV+7oGQ=;
-  b=lBcwj+r5yN4k6m8NCbxzdX/pL570VCJ+9BWpBr/mCj7+JrUOOTzNPQ/1
-   MhUZpsJ6Li0o2+VKbM44ItdwcaKkXOBES0EmCPABleULB7ZuBOc1JzHzB
-   zNwBrqFDbDFdBjo7sgQ+SIwkes/ty88WSxsEVaZKVfgKe5eHifhMFd97J
-   Ru1ZoPh5+3TWbha/O0MqV0VD3lJXe1xaxIy/r/F4zJluZFCDrnEMVB0bd
-   N7ORs8B9JjieeA9N78Mp28HiD7qXgsr/yGi3QjIqzHSM1YEbGLWtdLLam
-   XiNNk5rJqqE23vk51DeaReHNglAIBr+uB8rtuLOBenFIQibrNNMVL5q8J
-   w==;
-X-CSE-ConnectionGUID: Pw7WcpmlSFiDShBwmcHC1g==
-X-CSE-MsgGUID: EcmX76+wRn+E5q7czOf0IQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="90364793"
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="90364793"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 07:40:23 -0700
-X-CSE-ConnectionGUID: y411HtLjQQ6oWFENc8NpaQ==
-X-CSE-MsgGUID: FALEyBJ+RCqBiW1PFlie9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="301663530"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.233])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2026 07:40:21 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>, corbet@lwn.net, alexs@kernel.org
-Cc: dzm91@hust.edu.cn, wy@wyuan.org, si.yanteng@linux.dev,
- srcres258@furdevs.cn, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Chen-Yu Yeh <chenyou910331@gmail.com>,
- Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH 4/4] docs/zh_TW: add missing :Original: fields
-In-Reply-To: <20260929131020.266120-5-chenyou910331@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260929131020.266120-1-chenyou910331@gmail.com>
- <20260929131020.266120-5-chenyou910331@gmail.com>
-Date: Tue, 29 Sep 2026 17:40:18 +0300
-Message-ID: <c719c6756f345c6c39db483654578ef09de1948f@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bud9wY6a"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c29d50b7cf9so645935566b.2
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 07:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790693070; x=1791297870; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cbyOdvEerjzfIl5xD+HOwuljaf5ylJgalA+Yv8hDp5o=;
+        b=Bud9wY6aVzqyNF3k6K/5UotAIwvVdlZjxc5MB45H6dpiqzepda9NSO9Yzoi670dG8r
+         HSC7gVELz9eikPCNq8E4jBUgnKlRwkOa4GUz4Ro8Oidipu9h7041TBausvTNKQlwr6Kl
+         pJc8UdYWXfkiRabM5QEbq4E+JZyuyVvEm7H5m52fHOkPS3GArlfjPuCHS9uM8y86ET7/
+         /jPVqLF620iCgJoiTiLT7JuGJ6TuUEzK8+1HDjOnepwDY92cJ+Gt29DcqcscQ1QXtKdK
+         Dgo4CkpWphjvrWZ2o/Vc+yg86NYW72QDpE4/j9yoVe/O60qMPg3NDsnx4rtgHRAh1PyS
+         nwgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790693070; x=1791297870;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cbyOdvEerjzfIl5xD+HOwuljaf5ylJgalA+Yv8hDp5o=;
+        b=z+dfWzsDXJs8dNl/WmxF10TnYEUBQ4U6QcPEiJUPSg5r9FIt6VP5DwDwTuh0KzM1j9
+         3BoXrVJ0/QipYum9nWttCpsoUCWc1TBDi/GfMpqwcrG0E5GBjm6l2fJUVo+7Ut672pt6
+         dLhc7cpCMlZd7BzKI1N4xSqclBj4oA04Qt+p84Ui5JSbquhd9V5JU4+E/gIZH3eaXeMV
+         H6Qxy3S9CkFvJskKSVD6+i0Ex3q5tVJmMbeA1JKyp2Fq5Jc3AeMkFo08EQQND8ryvb9I
+         H7diVwN1JtWCGr9KwCVNc728XuCGBPNbmuLgSeAVAAHFOWvjvNOOaU8t78rpm90eqBlL
+         sK/Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzWXEf/aAJd6hoUaUDPVHJdXq1G/uyxN5MnfVp1BP6YRoX5gu3Em+Fo2ngQBGtJ+NIxb9fV30DaZZg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL4nFs/J00oNmC9CxxKwFoPKUyh+zgNWyh44uMCIQn2HET7IzP+
+	vC9Yb6OyR/FzOBDWs6qw24NwTbq/eWmIRqt4mNmO/P6tEJUQKbXTgUxB
+X-Gm-Gg: AYBFou3ytiRBjaBkH2ob1FpWe0iDSHgrRbwZQ6jo2uye47qSVD/IVuckNfvKdMcQSuP
+	qOBsfQEC6h0D1QPcezy/gQSXchQt23HeorwH+rTOphLxb3ahNRHrOtp0tbeQXsPdElxPXzjIf9k
+	1gy0bDJfi4yjpNS5HNP3oIinAbsECgPdTzT/i24PegZ0zGGCA/BXKMjrt/E7Ma5wmVKHzDNY3I4
+	qCwjDSctkvfiuacl5wzKpW9KPhnuev//YIXCSB+QAZQChTPE2r4Wv/bLeYXGZZ64Tx1I18qHXEX
+	8fJQm5NdWOW+3GDeO4hq/+xvE6DXGXxajNMjgL4Ftkl5W0Xx7PJvmMI9eC3gruUc+7+UQZHE08z
+	B1PEf3APeXNwGmVT3uE49xr587F4kcY/0QPOIIXCfTrr1p7T/U3NmvPhMZp6JHmF1Qn8qaEq1Lt
+	i8Ku0uIa6m9gdtDmtQTGVlhodArK5Y0OZeMPQYCaUPoJ1MX0VhRMX9CMqfVIJyYHy2uMAQ7DDhl
+	vDsVysdLF47zO2MacNU3xGOlN/Efy4I/AIz3jGLS3yZcEWDKRhzXAHmop7O+V++HdODCCZNIv+K
+	XE4=
+X-Received: by 2002:a17:907:e982:b0:c29:45f6:6a0b with SMTP id a640c23a62f3a-c2ac25d541fmr1412263166b.34.1790693069331;
+        Tue, 29 Sep 2026 07:44:29 -0700 (PDT)
+Received: from fedora-laptop ([172.245.82.59])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2ae678bbb0sm651166266b.5.2026.09.29.07.44.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 07:44:28 -0700 (PDT)
+Date: Tue, 29 Sep 2026 09:44:16 -0500
+From: Ming Lei <tom.leiming@gmail.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: Jens Axboe <axboe@kernel.dk>,
+	Caleb Sander Mateos <csander@purestorage.com>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/9] ublk: fix dispatch to canceled io commands
+Message-ID: <arvOwDHOgvpVW86j@fedora-laptop>
+References: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
 
-On Tue, 29 Sep 2026, Chen-Yu Yeh <chenyou910331@gmail.com> wrote:
-> Every zh_TW translation names the English document it mirrors in an
-> :Original: field, except these four.  Add one to each, in the plain path
-> form that automarkup turns into a link.
+Hi Josef,
 
-I'm wondering, are these :Original: fields useful anymore since the
-translations extension adds the button to switch between languages?
+On Mon, Sep 28, 2026 at 04:00:36PM +0000, Josef Bacik wrote:
+> ublk can dispatch a block request to an io command which is completed
+> already, and the kernel oopses in ublk_queue_rq() on a NULL io->cmd.
+> Before commit f7700a4415af ("ublk: fix use-after-free in
+> ublk_cancel_cmd()") it is a freed io_uring request instead. Commit
+> 1133b93fc7f6 ("ublk: set canceling flag even when disk is not
+> allocated") fixed the io_uring exit route before the first start.
+> These are the routes next to it:
+> 
+>   1. STOP_DEV on a device which is ready but not started, then
+>      START_DEV. ublk_stop_dev() cancels the fetched commands after
+>      dropping ub->mutex, without marking the queues as canceling.
 
-The pretty much hard-coded expectation is that the English version at
-path/to/foo.rst is the original, and its translations are at
-translations/xx_YY/path/to/foo.rst.
+It looks two races: STOP_DEV vs. START_DEV, STOP_DEV vs. FETCH.
 
-I.e. neither the HTML nor the RST benefit from it, and it's just
-repetition.
+Looks fast io path shouldn't be touched for fixing the races.
 
-BR,
-Jani.
+>   2. A partial FETCH round whose task exits, once another task
+>      completes the round.
+>   3. During recovery, the task of a queue which is ready already
+>      exiting before the last queue is ready.
 
->
-> dev-tools/sparse.rst still carries the old plain-text header rather than
-> the disclaimer include, so its field goes at the top of the file.
->
-> With this, the only .rst files without the field are index.rst,
-> disclaimer-zh_TW.rst and glossary.rst, none of which translates an
-> English document.
->
-> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
-> ---
->  .../translations/zh_TW/admin-guide/clearing-warn-once.rst     | 2 ++
->  Documentation/translations/zh_TW/admin-guide/cpu-load.rst     | 2 ++
->  Documentation/translations/zh_TW/arch/index.rst               | 2 ++
->  Documentation/translations/zh_TW/dev-tools/sparse.rst         | 4 +++-
->  4 files changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/translations/zh_TW/admin-guide/clearing-warn-o=
-nce.rst b/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.r=
-st
-> index 95614600604c..15d54440d224 100644
-> --- a/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
-> +++ b/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
-> @@ -2,6 +2,8 @@
->=20=20
->  .. include:: ../disclaimer-zh_TW.rst
->=20=20
-> +:Original: Documentation/admin-guide/clearing-warn-once.rst
-> +
->  =E6=B8=85=E9=99=A4 WARN_ONCE
->  --------------
->=20=20
-> diff --git a/Documentation/translations/zh_TW/admin-guide/cpu-load.rst b/=
-Documentation/translations/zh_TW/admin-guide/cpu-load.rst
-> index 20ec5bcd5f18..13f03195ac7e 100644
-> --- a/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
-> +++ b/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
-> @@ -2,6 +2,8 @@
->=20=20
->  .. include:: ../disclaimer-zh_TW.rst
->=20=20
-> +:Original: Documentation/admin-guide/cpu-load.rst
-> +
->  =3D=3D=3D=3D=3D=3D=3D=3D
->  CPU =E8=B2=A0=E8=BC=89
->  =3D=3D=3D=3D=3D=3D=3D=3D
-> diff --git a/Documentation/translations/zh_TW/arch/index.rst b/Documentat=
-ion/translations/zh_TW/arch/index.rst
-> index 7c0490589465..724468687c20 100644
-> --- a/Documentation/translations/zh_TW/arch/index.rst
-> +++ b/Documentation/translations/zh_TW/arch/index.rst
-> @@ -1,5 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
->=20=20
-> +:Original: Documentation/arch/index.rst
-> +
->  =E8=99=95=E7=90=86=E5=99=A8=E9=AB=94=E7=B3=BB=E7=B5=90=E6=A7=8B
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20=20
-> diff --git a/Documentation/translations/zh_TW/dev-tools/sparse.rst b/Docu=
-mentation/translations/zh_TW/dev-tools/sparse.rst
-> index 7a3487a7b2c7..7ca7fdf6e1e6 100644
-> --- a/Documentation/translations/zh_TW/dev-tools/sparse.rst
-> +++ b/Documentation/translations/zh_TW/dev-tools/sparse.rst
-> @@ -1,4 +1,6 @@
-> -=EF=BB=BFChinese translated version of Documentation/dev-tools/sparse.rst
-> +=EF=BB=BF:Original: Documentation/dev-tools/sparse.rst
-> +
-> +Chinese translated version of Documentation/dev-tools/sparse.rst
->=20=20
->  If you have any comment or update to the content, please contact the
->  original document maintainer directly.  However, if you have a problem
+2 and 3 could be solved in single simpler patch by making use of the
+ub->canceling flag, and it is easier for backport.
 
---=20
-Jani Nikula, Intel
+From 83d95ff6f06ad71705e2432ffc58971bec0ec648 Mon Sep 17 00:00:00 2001
+From: Ming Lei <tom.leiming@gmail.com>
+Date: Tue, 29 Sep 2026 08:25:05 -0500
+Subject: [PATCH] ublk: keep a canceled FETCH round canceling until the server
+ is gone
+
+A cancel completes a fetched io command and sets io->cmd to NULL, but
+the io still counts as ready. Only ubq->canceling stops ublk_queue_rq()
+from using the NULL io->cmd. Two paths clear that flag too early:
+
+  partial FETCH round                 recovery, two queues
+  -------------------                 --------------------
+  task A: FETCH tags 0-2              q0 ready: q0->canceling = false
+  task A exits:                       q0 task exits:
+    start_cancel(): mark queues         start_cancel(): ub->canceling
+    tags 0-2: io->cmd = NULL              is still set -> q0 not marked
+  task B: FETCH tag 3                   q0: io->cmd = NULL
+    queue ready: canceling = false    q1 ready
+  START_DEV                           END_USER_RECOVERY
+  read -> ublk_queue_cmd(NULL)        read on q0 -> ublk_queue_cmd(NULL)
+
+A FETCH round runs from the open of /dev/ublkcN until
+ublk_reset_ch_dev() resets the queues. A canceled command can't be
+fetched again in the same round. So the ready check only needs one
+fact: did this round see a cancel? ub->canceling already records it:
+ublk_start_cancel() sets it under cancel_mutex before any command is
+taken. It is only cleared too early, when all queues are ready.
+
+Fix:
+
+ - clear ub->canceling only in ublk_reset_ch_dev()
+ - when a queue gets ready, clear ubq->canceling only if ub->canceling
+   is not set, and check it under cancel_mutex
+
+The check and the marking are ordered by cancel_mutex:
+
+  check first:   queue cleared -> start_cancel() marks it again
+                 -> command taken
+  cancel first:  check sees ub->canceling -> queue stays canceling
+
+While ub->canceling is set, no queue clears its flag. So the "all
+queues marked" shortcut in ublk_start_cancel() is correct again.
+
+Fixes: 728cbac5fe21 ("ublk: move device reset into ublk_ch_release()")
+Fixes: 3f3850785594 ("ublk: fix batch I/O recovery -ENODEV error")
+Cc: stable@vger.kernel.org # v6.17+: needs cancel_mutex
+Reported-by: Josef Bacik <josef@toxicpanda.com>
+Closes: https://lore.kernel.org/linux-block/20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com/
+Signed-off-by: Ming Lei <tom.leiming@gmail.com>
+Assisted-by: LLM
+---
+ drivers/block/ublk_drv.c | 54 ++++++++++++++++++++++++----------------
+ 1 file changed, 33 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
+index 66eb55e7162e..38ed7d0e3979 100644
+--- a/drivers/block/ublk_drv.c
++++ b/drivers/block/ublk_drv.c
+@@ -334,6 +334,11 @@ struct ublk_device {
+ 	u16			nr_queue_ready;
+ 	bool 			unprivileged_daemons;
+ 	struct mutex cancel_mutex;
++	/*
++	 * A cancel started in this FETCH round. Set by ublk_set_canceling(),
++	 * cleared only by ublk_reset_ch_dev() when a new round starts. While
++	 * it is set, no queue clears its ->canceling.
++	 */
+ 	bool canceling;
+ 	pid_t 	ublksrv_tgid;
+ 	struct delayed_work	exit_work;
+@@ -2415,6 +2420,11 @@ static void ublk_reset_ch_dev(struct ublk_device *ub)
+ 		spin_unlock(&ubq->cancel_lock);
+ 	}
+ 
++	/* a new FETCH round starts, the queues stay canceling until ready */
++	mutex_lock(&ub->cancel_mutex);
++	ub->canceling = false;
++	mutex_unlock(&ub->cancel_mutex);
++
+ 	/* set to NULL, otherwise new tasks cannot mmap io_cmd_buf */
+ 	ub->mm = NULL;
+ 	ub->nr_queue_ready = 0;
+@@ -3024,11 +3034,19 @@ static void ublk_reset_io_flags(struct ublk_queue *ubq, struct ublk_io *io)
+ }
+ 
+ /* reset per-queue io flags */
+-static void ublk_queue_reset_io_flags(struct ublk_queue *ubq)
++static void ublk_queue_reset_io_flags(struct ublk_device *ub,
++				      struct ublk_queue *ubq)
+ {
+-	spin_lock(&ubq->cancel_lock);
+-	ubq->canceling = false;
+-	spin_unlock(&ubq->cancel_lock);
++	/*
++	 * A cancel in this FETCH round took a command which still counts as
++	 * ready, so the queue has to stay canceling. ub->canceling is set
++	 * under cancel_mutex before any command is taken: either we see it
++	 * here, or the cancel marks this queue again later.
++	 */
++	mutex_lock(&ub->cancel_mutex);
++	if (!ub->canceling)
++		ubq->canceling = false;
++	mutex_unlock(&ub->cancel_mutex);
+ 	ubq->fail_io = false;
+ 	ubq->force_abort = false;
+ }
+@@ -3051,24 +3069,17 @@ static void ublk_mark_io_ready(struct ublk_device *ub, u16 q_id,
+ 		ub->nr_queue_ready++;
+ 
+ 		/*
+-		 * Reset queue flags as soon as this queue is ready.
+-		 * This clears the canceling flag, allowing batch FETCH commands
+-		 * to succeed during recovery without waiting for all queues.
++		 * Reset queue flags as soon as this queue is ready. Unless
++		 * this round saw a cancel, this clears the canceling flag,
++		 * allowing batch FETCH commands to succeed during recovery
++		 * without waiting for all queues.
+ 		 */
+-		ublk_queue_reset_io_flags(ubq);
++		ublk_queue_reset_io_flags(ub, ubq);
+ 	}
+ 
+-	/* Check if all queues are ready */
+-	if (ublk_dev_ready(ub)) {
+-		/*
+-		 * All queues ready - clear device-level canceling flag
+-		 * and wake ublk_dev_ready() waiters.
+-		 */
+-		mutex_lock(&ub->cancel_mutex);
+-		ub->canceling = false;
+-		mutex_unlock(&ub->cancel_mutex);
++	/* All queues ready - wake ublk_dev_ready() waiters */
++	if (ublk_dev_ready(ub))
+ 		wake_up_var(&ub->nr_queue_ready);
+-	}
+ }
+ 
+ static inline int ublk_check_cmd_op(u32 cmd_op)
+@@ -4433,9 +4444,10 @@ static bool ublk_validate_user_pid(struct ublk_device *ub, pid_t ublksrv_pid)
+ 
+ /*
+  * Wait until all queues have fetched their I/O commands, and return with
+- * ub->mutex held and readiness guaranteed: then every queue's ->canceling
+- * is cleared. Ready may regress between wakeup and mutex_lock() (F_BATCH
+- * UNPREP, daemon death), so re-check it under the mutex and wait again.
++ * ub->mutex held and readiness guaranteed. The queues stay canceling if
++ * this round saw a cancel, see ublk_queue_reset_io_flags(). Ready may
++ * regress between wakeup and mutex_lock() (F_BATCH UNPREP, daemon death),
++ * so re-check it under the mutex and wait again.
+  */
+ static int ublk_wait_dev_ready_and_lock(struct ublk_device *ub)
+ {
+-- 
+2.55.0
+
+
+
+
+Thanks,
+Ming
