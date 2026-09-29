@@ -1,117 +1,184 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BC72931DF
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 05:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162254A32;
+	Tue, 29 Sep 2026 05:40:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790659496; cv=none; b=pT9J1q+/DgHQi26Y3xjdtksyWJjtKcPbYjFHHwrOpRRyvEQX47JA6rZBTa+GDuzi9zxkXWtO6ps7PE8LhfwQraaJhQQyuUPyP05n2DTtstxfxSxOCMaJ0zrud3rc0l5iw6C0U9bs/5CI3DpIvwZWyHtVUjBZkNmrAwXu1apPPAg=
+	t=1790660429; cv=none; b=p59FdwU0idZGhRjlAO5fUgwE3gESpQZRaj1hV8Pa8MZ6itZAOM/tXPsIhfAonLxD7xIMyBSUyWnkUIFi+v9xBX3eUXoegWh+5k0TNfSB0/G9yYoz0sitGHsZjkHhV3cBi70f1gK8fAXocCm2AtN7/OYQlrrlK4CuB6YJ3UkLC2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790659496; c=relaxed/simple;
-	bh=VCI4r23IY/yhxJkm7KNPDvZ1RbPcYzGhTCb+BwU0Onk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sWNsO3yAN3zex0O9B+I3KNVhB2QQ3zhhd/6QR7dzKwDCE32M7TabzO6bCPEO5xAhZe4cCFvs+2AGNjwI6tPHhxJ6NkCaIudYc1PvlJJTamuoT24LTdahKlOdrhEHYandlGamkgUdopY1cHR0cIJlxIdUKLsTZSx1m7lb1+mozSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jpNYcaIK; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790660429; c=relaxed/simple;
+	bh=UwBNj/WRYvBhs+qLQKgoN88/2kBTeszB+PSYJ+ZygHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YWsHb9XHE1SbrrK9db2s3jfFmTube686pCl91NtUq+N3og2NEnzfLdXW4bpiDnzHHDppNg6lDLTkVUXyWV3eqS5pV6CUPz5grvrLz4wy5l/DltXJmDKvtbgIT+NL6lmTJASoWA71f1yVS77aU4Fq7DsuP4wDjXrQwbStoSxuF18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=PJOuuQ1O reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jpNYcaIK"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-8692a856865so1795040b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 28 Sep 2026 22:24:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790659495; x=1791264295; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OqJjaWtJymYwkfVBEG9NY0+ZN7tqwrmNxYsbKwMQHQ0=;
-        b=jpNYcaIKGtIQ0rxY/sJTlUXcnwX77vMdE3gbJjQwbMpBpT7rRwbsMPCurEPM0xSoJ8
-         UrfPyntsHLg5ZUV+iPw5xTqJioHsfmPDRNhD0lZhdCmjQJQX4kKDEKNPN3+i05Hh4M35
-         djeFyEU9mvjFnGb3rGoM95rWe2VXb+/zhLvODGOHI3I1/3VHRW7lKeUCbIXxSMc4yAQ3
-         z8ZU6ZPBRvlBwA8GIsDdbQQ9tFxdX0NoznEEw5uPlR6CX0hRe6t2s+HQi8zi3JeIEzDW
-         hCmwHOrMtBbh2VuA38WgpTEMbBT5SIMkFe88gt+yXewE5cJXb+UmzdocW5G5RHqS0x9K
-         3wqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790659495; x=1791264295;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OqJjaWtJymYwkfVBEG9NY0+ZN7tqwrmNxYsbKwMQHQ0=;
-        b=IgAcg4ZBoamAZe/aQZAjBpzorwCu+OxdP+orOlupa+tloPNtdFcDfgzFb6W1GlBbyU
-         5gCGvJZpQ6gLh254SC3af6ZUPMKR1FbzNwfw1wNmrPndBHquCJJgdjwca5HQp0dMpsgd
-         rye3AgW87JRSX7U6891J3DdGaUrRTsKfKGFVzjPPuJ+mzKzi4ImFZPiuAfmZYtGTi8q7
-         r5hiJbrtmLoW5XNFjFlHOi7xZWz1B0TvbxD4Q7Wm5iQnjW3BsVorKZfEL4j1yGIWritZ
-         PfC2E3HBxaHfqkAbIGOyIKG2l5iK+PF7TDGCvqtf4KXu4rtCN9o8cZgdbXd/nY5AA7RV
-         JjqQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzpi43E7+bLtq2HnASbP/ovW2oyXX3Wq/AmrdSdgS3mKb9tkiN2NlSZ20BMAeITJ5xSxkECujan508=@vger.kernel.org
-X-Gm-Message-State: AFuF++kBaMIehU5xj11TZc5LSz6N4It7EABeAFAfPjjp+gl9zK74CwkM
-	whlVXNvpqXJvrEfIEHFL87Z/O2BcE5Ta3Q/EKkK5B3supb9+jiQIVc67
-X-Gm-Gg: AYBFou0txws+CvpZtgHYGAqiye1JvDUHDtQTckmY3XcsK9Esnu7z7ViLPpGnosOY68t
-	uUGjHkHmotG80RqZBhCF1aOyTPjyWv/b7XaspJXBjk99EHUlI3AfPa3leuucZXprGLzyk3sXQjn
-	Y9pCRb2RuZzivve2Q2g1p+wnAEKi3t5PyX6nmQafo2R6GssogaBZ/FugUDBwIvxnCD7+BTzQ5IY
-	cZdcW+oBSYjPEyopoWLdTrpnTvsFu0GeDrFxre/uSwzCID9ADlL6cJi832wenU/6qBTqZdJSAut
-	ARwaNSz0ecIGh4lRnYqgciYwvgjuJfSpwHykYziy4WPg+i49xHkH2EC1VpZqBX9zRN/6+N374k6
-	lW36SUKd5qhoIdZ5QsRzkOhYC25hoQGzD/tfEVEeyx19FRmaIdqT6bgLl9nPbkSTYvlj5X9vUT5
-	Oo7NumiK1ke0ClS/1y9VenHwqyaPnM4MddAlNKSDlRiIfstMkbTsegPtJfBD1sLDqniYh8ItAfY
-	OZZkuma1smxhu6dwYDD
-X-Received: by 2002:a05:6a00:2341:b0:881:bc81:e8f3 with SMTP id d2e1a72fcca58-881bc81ec45mr6635453b3a.12.1790659494629;
-        Mon, 28 Sep 2026 22:24:54 -0700 (PDT)
-Received: from NV-9MNJ414.nvidia.com ([72.25.121.34])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-885e1066931sm161151b3a.16.2026.09.28.22.24.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 22:24:54 -0700 (PDT)
-From: Yiwei Lin <s921975628@gmail.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Yiwei Lin <s921975628@gmail.com>,
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="PJOuuQ1O"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 90C9640E01ED;
+	Tue, 29 Sep 2026 05:40:24 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
+	reason="fail (body has been altered)" header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id LW9VMulucr1U; Tue, 29 Sep 2026 05:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1790660414; bh=4lbDjmw7JtBgfO2hPYdY0U8ZEXv57xCD4oHdW903C5w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PJOuuQ1OX8x8eK+0w+F5cbdnUGSPrA8pi/h5SDJBeGEsOnwgCvPAVmrnHiPiObdDP
+	 et7KfBmhLy+crcqPIG3X0MyMtYijQWmADye082P0afK3ztffARE+/RWwyVUB+gWwx+
+	 meTKNH7NDq1RtEe3/bLWL6hwhWxD46FXH+HtJXG/0jDaGSxJfF6Pe3T1iWK45qot5U
+	 2LfqvK13f6GD7tUmMVa1mn1dorgnMf08BKYtnKhMN5Gpu+b+r9+VmSfhxqQaSmo4KP
+	 H+44JUWa/alrd+4EhBdHCePdSwe/MRXL8KAc/RdsPVYBd0n3lH3CqY/vAkqPrZrTGq
+	 /M+W3xct/KCM/3iPxwfF/was8cNy/hc+25ugpW1cp2z2XqI+PePUOSiC1/zJj1fbpg
+	 QQlb2Km0uC3V/R8nnJVzeUYcVNOtT6XvHAEZbLI+uYyVSBoKGGpme7aE5vmW1twx4K
+	 J/4gGT7BVgeqZoCYcFQ0uJgtIEpGy1fNNiQG7DH3HLjukLsEm/kewzzgIueScAo7kH
+	 yB83BPL6mbiHeGeMfrV4PGbWdqhmVdTw3lO+VJrbfAH86L2T+PeJ+huzdrnq025EzS
+	 OxKWC/z/2nvnTSqHoZfDcGagnhp3WcaEniNGYCg78V+tMWGMGsSR7D9BZa7RfDZK8V
+	 go6kmqSEINa+cyy3zeqxqcl8=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2796940E015D;
+	Tue, 29 Sep 2026 05:39:34 +0000 (UTC)
+Date: Mon, 28 Sep 2026 22:39:30 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Kiryl Shutsemau <kas@kernel.org>, x86@kernel.org,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
+	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
+	Christoph Lameter <cl@gentwo.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] rbtree: update augmented data on the way down in rb_add_augmented_cached()
-Date: Tue, 29 Sep 2026 13:24:46 +0800
-Message-Id: <20260929052446.159008-1-s921975628@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260928213736.GA2947991@noisy.programming.kicks-ass.net>
-References: 
+	Bo Gan <bo.gan@broadcom.com>, linux-mm@kvack.org,
+	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
+	kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Long Li <longli@microsoft.com>, Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	Kees Cook <kees@kernel.org>, Ashish Kalra <ashish.kalra@amd.com>
+Subject: Re: [PATCH v2 0/6] x86/percpu: Share decrypted storage before guest
+ setup
+Message-ID: <20260929053930.GEartPEjbZMpBVSvSk@fat_crate.local>
+References: <20260929040256.543767-1-zack.rusin@broadcom.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260929040256.543767-1-zack.rusin@broadcom.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 2026/09/29 05:37, Peter Zijlstra wrote:
-> This builds and boot, so it must be perfect, right ;-)
->
-> Assisted-by: Brain
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+On Tue, Sep 29, 2026 at 12:02:49AM -0400, Zack Rusin wrote:
+> VMware publishes its per-CPU steal-time GPA without first sharing the
+> storage in encrypted guests.
 
-Right, thanks.
+So this one liner is the only explanation why this patchset exists, AFAIC=
+T. So
+I asked AI. I'm pasting what it said below, at the end.
 
-If you're fine with me carrying it, I can take it into v2 with and
-derive ->merge() from the same RB_AUG() list, so
-rb_add_augmented_cached() folds the new node into its ancestors in
-the one pass down instead of the ->propagate() round trip.
+Is any of it true?
 
-One thing I am aware here:  RB_AUG()'s cmp only
-expresses "pick one of the two", so min/max style aggregates; a sum or
-a count (subtree size, total weight) can't be written, where the old
-RBCOMPUTE could do anything.  Nobody in-tree needs that today, so it might
-be acceptable as is, but it's a regression in generality for the same
-price:
+If so, how much and is that the reason this patchset exists?
 
-        RB_AUG(val, aug, fold)  /* _val = fold(_val, child->aug) */
+I.e., you want for vmware monitoring tools to work with CoCo guests.
 
-keeps the register-local recompute exactly as it is, drops RB_MIN /
-RB_MAX in favour of the existing min()/max(), and a sum is just
-"a + b".  For sched that's min, max and a wrapping-safe min for
-min_vruntime. Do you think this can be accepted as is, or should I try
-to make it more general?
+Yes, no? Anything else?
 
+And looking at your commit messages, they don't really talk about why the
+patches exist.
 
-Thanks,
-Yiwei
+And I don't think you know your audience - you're sending a bunch of patc=
+hes
+touching arch/x86/ and you throw all that virt gibberish around like it a=
+in't
+no tomorrow and you're thinking that tip people can follow. And I think w=
+e can
+follow only bits and pieces but all of us will be mostly head-scratching =
+here
+and probably ignore the whole set.
+
+So perhaps you should lay off your virt hat for a minute and try to expla=
+in in
+an approachable way what you're trying to do so that even non-virt people=
+ can
+follow.
+
+Right now concepts are flying around left and right in that text and I ha=
+ve no
+clue what's going on here.
+
+Thx.
+
+P.S., here's the AI gunk:
+
+"In this context, =E2=80=9CVMware per=E2=80=91CPU steal=E2=80=91time GPA=E2=
+=80=9D is referring to **Guest
+Physical Address (GPA)**=E2=80=93based accounting of **CPU steal time per=
+ vCPU**
+inside a VMware virtual machine.
+
+Let=E2=80=99s break the components down:
+
+- **Steal time** =20
+
+  In virtualization, =E2=80=9Csteal time=E2=80=9D is the amount of time a=
+ guest CPU *wanted*
+  to run but **was not scheduled by the hypervisor** because the physical=
+ CPU
+  was busy running other VMs or host tasks. =20
+
+  Per=E2=80=91CPU steal time means this is measured **for each vCPU** sep=
+arately.
+
+- **GPA (Guest Physical Address)** =20
+  GPA is the CPU=E2=80=99s view of =E2=80=9Cphysical=E2=80=9D memory insi=
+de the guest. It=E2=80=99s:
+  - The address space the guest OS uses for RAM, MMIO, etc.
+  - Translated by the hypervisor to real host physical memory (or nested =
+translations with EPT/NPT).
+
+- **Why GPA for steal time?** =20
+  VMware (and other hypervisors) can expose performance statistics (like =
+steal time, idle time, run time) via:
+  - Per=E2=80=91vCPU counters/timers
+  - Memory=E2=80=91mapped (GPA=E2=80=91mapped) structures that the guest =
+can read
+  - Paravirtual interfaces (e.g., hypercalls, PV drivers) which are often=
+ described or backed by GPA regions
+
+So when someone says =E2=80=9CVMware per=E2=80=91CPU steal-time GPA,=E2=80=
+=9D they usually mean:
+
+A VMware mechanism where **per=E2=80=91vCPU steal=E2=80=91time metrics** =
+are exposed to the
+guest via data structures located in **guest physical address space**, so=
+ the
+guest OS or monitoring tools can read those counters and attribute lost C=
+PU
+time per vCPU."
+
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
