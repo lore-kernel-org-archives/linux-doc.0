@@ -1,65 +1,65 @@
-Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
+Received: from mail-pj2-f39.google.com (mail-pj2-f39.google.com [74.125.227.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9899A52B1EE
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 13:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94B652D2C1
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 13:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790687520; cv=none; b=VEyzav0j3phDjDjELzj3L+Uivv2aNwaQPsxorx2vGDSoBt7m7zdmVLpSR8s9wqPqPnFXiQny8dH7JifBh1TSrh4HmNqcxSLukAZYJWXdFc2SZwQODdzYoZ7i2K/rkQt0C7LOnW3BV8SosBpQ5QzPK7CFdxC/4gMq9OjJKsR8s+o=
+	t=1790687523; cv=none; b=Vo0Sy+7ttqTU/wNkWU5ByM0/ss+ud3HZF0NOEjdugRJl/NRDgY5QMujetPIBG/lRZaJn3eOs6CvHp9iRkI69IlawmDVxtrDzJQgWBLArjot7sjJmPtrTSCTwLCXFBnJ75uZtEmgX2hwp9eMunu/0+FwBvnHTX/JLov1WKxB/RvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790687520; c=relaxed/simple;
-	bh=ec/H0yqEMPYtNHFIq7T7/iYvQbs6Iqkz068IUnyBKXw=;
+	s=arc-20240116; t=1790687523; c=relaxed/simple;
+	bh=HTirRA90UalDWnFdFzCITcI7hIB/YN/mxlnPD1vae+I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=thDSnFGpngUTXHYwwVGotvt9vkc1bwY1+25Mm3QLaie1e679+oax8RF0tzn4mPeNDYwTzircImU0qpT9G2RI/k2nwmd+fTTTXWwFWNgFMWNcMJAooTP6GkCCSodmktkMH7DJbvX43JlwCec87I1NoI6pO9EbWbhJt+/4fCVM92I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L8C5+b+R; arc=none smtp.client-ip=74.125.227.168
+	 MIME-Version:Content-Type; b=LZnmyyFQrmyJcI8WN8bwlxTN2pDhFyF3jZfYC5UVdEqytpj5/SZEj9FMC3nhNmKv2OFfT15hJiQeOb3ZRdrWOGZPdaJwYM9hu7Mrq7VS89+ZmqxiSMIZcbbuiw8NNntqq1MbWF9sZtqbWqLcJfOt+Z7Cb+DfW7+0XWjRXYMme/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SFbtaL9K; arc=none smtp.client-ip=74.125.227.167
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L8C5+b+R"
-Received: by mail-pj2-f40.google.com with SMTP id 98e67ed59e1d1-3a2ada3f121so381717a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 06:11:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SFbtaL9K"
+Received: by mail-pj2-f39.google.com with SMTP id 98e67ed59e1d1-3a4a98a79b8so79681a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 06:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790687517; x=1791292317; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790687520; x=1791292320; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=iTgAa62DcFYDyXEAH9xbF6s4onZobPTMJ7Puaf98Usw=;
-        b=L8C5+b+Rwa11WWazn0EpEMvpp0JKyKZZTtJM9KBlCxJsDwDOVbY+5JM/LHE9bnHhls
-         ing/mKy1vl/P7PLz3eQ696rmjnMY9tR1LW2HNqOtpKTNGHIx4zbE0+O0VZBkpqCN5coB
-         vQP0LuVBKjApXo9cQUn/vvhbr8jbAoUl/vKyE9mMEEVWPguFf9HUIzelZVdCR2n3hcuj
-         b61NmVu+jEDlI96YA6W8pEIT79wGMh0+qWtIXfjC2eq0ybMAhIs77sWZ9v/Ht4SOyleI
-         MtSzkaukvvr5HDllFT2zKvFuxmrrmK+CAI3lvZR24NKhsO5J+44I5agMydb3htb/gZLq
-         nQfg==
+        bh=UBGD0ul96jtIpbbV7jZQH0Vpd8aSl2z94lNjdsQZDSA=;
+        b=SFbtaL9K5bglNs1f9/5o2Ig+eOIERiGSv+jH4hNw+9Z9azr69cRgRBpZqlqZnQ1YEO
+         XEgiyTd531uD18tLsaYnbdrQW7XHCNAPvHKjoCGJilo+gbxmz9kMm96HoBcPhltQ/uAB
+         pFk/0NPxCUAIim6eeFSrq4jNgBWx7N5QbWZBvQTcxlrGD3vfUDn2FoWwq+KwrVvkoHWR
+         1u4oj5fu2Xbe9ikTB5Cq1AfHhgLnvfenJGYBNIr3JD10Df8oMXvjOwyTJk3TeHe200iI
+         SmnJPVxaefWREtM8o39JpI6NgZergAWxow9azm3H8XmeaN747hdOvrC9XShOP5/StLyD
+         j+Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790687517; x=1791292317;
+        d=1e100.net; s=20260707; t=1790687520; x=1791292320;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=iTgAa62DcFYDyXEAH9xbF6s4onZobPTMJ7Puaf98Usw=;
-        b=Q6uVZzhMzBHis7gelHLI80Nqu6Peno3snISM5/frM30yJo5AzZwzZsL/7BK97Z0epg
-         KDHUmsU7YvshtMxeZXWRX2c4SS0EreS2/Y7XCym6xJE+8oTgu4FJFeUfKb7hqxZf1Qzb
-         p3uoi/jjr6kh3XJFxym5rZbsFlFa9ZJQwY5aPcO9boIXj22A4jCn4scAiK6fRJgg5DeP
-         Ret3yyRJegHrk86Fb5Uwy0xhL/LWJq3Qd7W4CKGCMowY9bn5JKSQyVVLeAUFygHtt32R
-         5LIgCs4hngSg0oXdYLELyVVZBZit5O9pB7oJEqx3SNeSnQdkjvUwDbu/ZV7BqNqnaQwT
-         xdNw==
-X-Forwarded-Encrypted: i=1; AKwUvBzHsDfCwxGP9KdkzLbQaQUY2t8aiPnMULwNQVxQ1NB+M2QoDlLcJlFhXc0EU1TtYtPWFZlJ+64gczg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKAS/26MrGTZfsO8VA4YgU9xffVozaB++bo19tgUtNAeyWcLWJ4
-	8qZ/5gojzprWZdx5uFzsvQmfVs4XDgOP2R9GBU9K9OntMbHJ9unoVY8c83mxew==
-X-Gm-Gg: AYBFou0MyV5dQaKD8ezH85iUJkOYIQRtVXtGoVTo74+gm6i8BCcWjs7bMMrO7U08Nov
-	zeotAzyCPp7lILIAZ+yG58ffk0OTfW8P3x+F9S/AMtaYMf5C7stTUOJQ/VVpDouxYV+zZA+9HCs
-	PHTq4LdBPXrynCjtmMfi03CQhKjZ7nukt1/Zb/IX96RXQWqlq0KjPOmyqtE+igSWkopnxFlGM1O
-	KH97J8L8zRZgNb56QddT6XLDdFJX7IOROGxP5iw2vhI1ATNkQim/pbfxIIj9l1+nIg+KTqDh27t
-	yjfsCuxPkZdfHdJawY8JQe2JAenZ211xsYPHSN6ABeYiplMxHaKGoGQ8zAm/GHGrQRqA8PO+tjE
-	aCSQJ4Kf+Vvkk5imzhjTDlX0mGcybdnDgcubUzd+wRz4f+TG7r5OpsHwzZBsHCj8EEGIYZfo8ec
-	mpq4Kt7X3BORyvPNFXCht6GTYZaGCcy0TRnTU/7OPVdUN3xhc5CVGSkaYlESYM265prU4f0i6uR
-	gud84hSRHCgxy2UjOaz4DpmABrsrLbcKsJz9dUBXwmYV3+Fhc6sRE0z8Q==
-X-Received: by 2002:a17:90b:3889:b0:39e:55ce:af15 with SMTP id 98e67ed59e1d1-3a0b28344abmr19900783a91.5.1790687516828;
-        Tue, 29 Sep 2026 06:11:56 -0700 (PDT)
+        bh=UBGD0ul96jtIpbbV7jZQH0Vpd8aSl2z94lNjdsQZDSA=;
+        b=0GWeY91TksyJhYjwzNs1uQcqX+/XwyBsVOIdRXJ24dwtBV8g9M+0jvsaKW5UPVA8XU
+         pneEyUzDUvbgEOm45jYCQWmcTSDgBxD/blRoemdj7WuKXDbbbH4WnxF6+3H0m+NULnix
+         nQGJBOfJU9UHEjnkVjMRKJ1TZiOoVKht/dHsGYOdpW8f9Et0DWqWYTiIrLuC2mHAaXNn
+         +KzQCziHql4qeJcFAd6/1acg8hUAEwYM7Z6tFhka78YG0YvrMF6MWoyTY0qYF61CejPq
+         8ew9uXg79aSnkb1JEH7G+ES1nKmK0AGJ5U1vwMxLK7lITcJbTBNFf87mm1mCePh3Yxtn
+         sFtw==
+X-Forwarded-Encrypted: i=1; AKwUvBxIddMF0UhwnWPjN3g+nIzbUh5Sn0Dd4dZt1kUpLm3sfgXawEjBPpNUUaKxhynmQXpTroWRHOI3JcI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI+d28KwN7rHWIZSHX38ZZvvUKWaQ33A7Ygzxf1JgcrhWZUgYCK
+	9DzQMq2SpSHRd1BxWHW6WfHXvK2PfVHpBL2ZKPWjduekCFHO6K5QMIfY
+X-Gm-Gg: AYBFou1DNuyfHldFTYwilCjmqodZgh7FhyG0yszHBmHd7b6qbvbAaKcphCMH17capoO
+	IMmfJ766xwTIZe+gZ+ywIuVJWwUUfFBfR/a7cUwfrmtCxEvz6OjwJssUbFojGQ0r9HFaHE6NqQI
+	g95tHJuFAqA8kpwK0UZW0GSfZsu4SssU0bXNLN+AJRlUy/BpVDUESM4LwYzyjxtR5ix+d0fmJtN
+	ZPnJnkVS4l9S2VZIZtEZ1MS2YYu8cwSs/yVhpDpL3NQoeVfBzpPwMXPF86vUInULJOydCQHDxKZ
+	xs98o9L+0EmTGWAHiEz59l9IxeyAN1zFIbEE8Q1jHTsSzZroO85z6/6mu5tKHOCDjM/emfnIwMb
+	+oFJLzprUTY1+y6buCyMbIv2FFAHY8DYdWQ1qYynPsbtthNrc/irAdhlJpQDW8mi6WhKI9EjkS5
+	g+qUOBbojfRETBVTisn4B1/R9Rn6zmB4mmr1NMfxKeNnm2cT6QmiRQo71EWWmnUp+C5xf/931UP
+	9hzNXjwAsZCbRJAi2wJJ/8Jy9N6HpSX4O5DjnSVSkTqPil24pKHp3bP8g==
+X-Received: by 2002:a17:90b:3c4e:b0:3a4:88c2:32b8 with SMTP id 98e67ed59e1d1-3a488c245e0mr6140505a91.1.1790687520329;
+        Tue, 29 Sep 2026 06:12:00 -0700 (PDT)
 Received: from chenyou.. ([140.116.39.229])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4985fed22sm5582137a91.9.2026.09.29.06.11.53
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4985fed22sm5582137a91.9.2026.09.29.06.11.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 06:11:56 -0700 (PDT)
+        Tue, 29 Sep 2026 06:11:59 -0700 (PDT)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: corbet@lwn.net,
 	alexs@kernel.org
@@ -70,9 +70,9 @@ Cc: dzm91@hust.edu.cn,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 2/3] docs/zh_TW: mark translations outside the maintained set
-Date: Tue, 29 Sep 2026 21:11:39 +0800
-Message-ID: <20260929131142.266819-3-chenyou910331@gmail.com>
+Subject: [PATCH 3/3] docs/zh_TW: link filesystems/ and cpu-freq/ from the index
+Date: Tue, 29 Sep 2026 21:11:40 +0800
+Message-ID: <20260929131142.266819-4-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260929131142.266819-1-chenyou910331@gmail.com>
 References: <20260929131142.266819-1-chenyou910331@gmail.com>
@@ -85,761 +85,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-As agreed in the zh_TW scope discussion, include the notice added in the
-previous patch in every translation that nobody keeps in sync.
+filesystems/ and cpu-freq/ each have an index.rst, but nothing links to
+either, so their translations cannot be reached from the rest of the
+zh_TW documentation.  As agreed in the zh_TW scope discussion, link them
+rather than drop them.
 
-The rule is per file rather than per directory: a translation carries
-the notice unless it is looked after.  Today the looked-after set is
-process/, which the recent process series brought up to date, less the
-two files that have moved into process/ since and are already
-marked.  Everything else is marked, index pages included: they carry
-translated prose and fall behind like any other page, and a notice on an
-area's index tells readers what to expect of the whole area.  A file
-drops the notice once someone brings it up to date and takes it on.
+The English documentation reaches both through subsystem-apis.rst,
+which the zh_TW index lists only as a TODO item.  Translate
+subsystem-apis.rst, with the two translated areas in its toctrees and
+the rest under TODOList as zh_CN does, and link it from the index.
+"Core subsystems" is rendered as 基礎子系統 rather than
+核心子系統, which would read the same as the page title
+now that "kernel" is 核心.
 
-Left alone are index.rst, disclaimer-zh_TW.rst and glossary.rst, which
-do not translate an English document, and the notice itself.
+Like the pages it links to, the new page carries the notice for
+translations not kept in sync.
 
-arch/index.rst and dev-tools/sparse.rst have no disclaimer include to
-sit next to -- the former never had one, the latter still uses the old
-plain-text header -- so the notice goes at the top of those two files.
-filesystems/sysfs.txt is not touched: Sphinx does not read .txt sources,
-so an include there would never be processed.
+update to commit 4f10f1dfb235 ("net: remove ISDN subsystem and Bluetooth
+CMTP")
 
 Link: https://lore.kernel.org/linux-doc/CAKspUhJAbCWoxgh2eq8R5g_MiNK=oXgKPUWqGOpHh0w1-Fv74A@mail.gmail.com/
-Link: https://lore.kernel.org/linux-doc/aqFPBQxq5asHzvtn@wyuan.org/
+Link: https://lore.kernel.org/linux-doc/ap5xEtMdwXS8Pvcf@wyuan.org/
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- Documentation/translations/zh_TW/admin-guide/README.rst       | 1 +
- Documentation/translations/zh_TW/admin-guide/bootconfig.rst   | 1 +
- Documentation/translations/zh_TW/admin-guide/bug-bisect.rst   | 1 +
- Documentation/translations/zh_TW/admin-guide/bug-hunting.rst  | 1 +
- .../translations/zh_TW/admin-guide/clearing-warn-once.rst     | 1 +
- Documentation/translations/zh_TW/admin-guide/cpu-load.rst     | 1 +
- Documentation/translations/zh_TW/admin-guide/cputopology.rst  | 1 +
- Documentation/translations/zh_TW/admin-guide/index.rst        | 1 +
- Documentation/translations/zh_TW/admin-guide/init.rst         | 1 +
- .../translations/zh_TW/admin-guide/lockup-watchdogs.rst       | 1 +
- .../translations/zh_TW/admin-guide/mm/damon/index.rst         | 1 +
- .../translations/zh_TW/admin-guide/mm/damon/lru_sort.rst      | 1 +
- .../translations/zh_TW/admin-guide/mm/damon/reclaim.rst       | 1 +
- .../translations/zh_TW/admin-guide/mm/damon/start.rst         | 1 +
- .../translations/zh_TW/admin-guide/mm/damon/usage.rst         | 1 +
- Documentation/translations/zh_TW/admin-guide/mm/index.rst     | 1 +
- Documentation/translations/zh_TW/admin-guide/mm/ksm.rst       | 1 +
- .../translations/zh_TW/admin-guide/reporting-issues.rst       | 1 +
- .../translations/zh_TW/admin-guide/reporting-regressions.rst  | 1 +
- Documentation/translations/zh_TW/admin-guide/sysrq.rst        | 1 +
- .../translations/zh_TW/admin-guide/tainted-kernels.rst        | 1 +
- Documentation/translations/zh_TW/admin-guide/unicode.rst      | 1 +
- Documentation/translations/zh_TW/arch/arm64/amu.rst           | 1 +
- Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst    | 1 +
- Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst   | 1 +
- Documentation/translations/zh_TW/arch/arm64/index.rst         | 1 +
- Documentation/translations/zh_TW/arch/arm64/perf.rst          | 1 +
- Documentation/translations/zh_TW/arch/index.rst               | 2 ++
- Documentation/translations/zh_TW/arch/loongarch/booting.rst   | 1 +
- Documentation/translations/zh_TW/arch/loongarch/features.rst  | 1 +
- Documentation/translations/zh_TW/arch/loongarch/index.rst     | 1 +
- .../translations/zh_TW/arch/loongarch/introduction.rst        | 1 +
- .../translations/zh_TW/arch/loongarch/irq-chip-model.rst      | 1 +
- Documentation/translations/zh_TW/arch/mips/booting.rst        | 1 +
- Documentation/translations/zh_TW/arch/mips/features.rst       | 1 +
- Documentation/translations/zh_TW/arch/mips/index.rst          | 1 +
- Documentation/translations/zh_TW/arch/mips/ingenic-tcu.rst    | 1 +
- Documentation/translations/zh_TW/arch/openrisc/index.rst      | 1 +
- .../translations/zh_TW/arch/openrisc/openrisc_port.rst        | 1 +
- Documentation/translations/zh_TW/arch/openrisc/todo.rst       | 1 +
- Documentation/translations/zh_TW/arch/parisc/debugging.rst    | 1 +
- Documentation/translations/zh_TW/arch/parisc/index.rst        | 1 +
- Documentation/translations/zh_TW/arch/parisc/registers.rst    | 1 +
- Documentation/translations/zh_TW/cpu-freq/core.rst            | 1 +
- Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst     | 1 +
- Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst   | 1 +
- Documentation/translations/zh_TW/cpu-freq/index.rst           | 1 +
- Documentation/translations/zh_TW/dev-tools/gcov.rst           | 1 +
- Documentation/translations/zh_TW/dev-tools/index.rst          | 1 +
- Documentation/translations/zh_TW/dev-tools/kasan.rst          | 1 +
- Documentation/translations/zh_TW/dev-tools/sparse.rst         | 4 +++-
- .../translations/zh_TW/dev-tools/testing-overview.rst         | 1 +
- Documentation/translations/zh_TW/filesystems/debugfs.rst      | 1 +
- Documentation/translations/zh_TW/filesystems/index.rst        | 1 +
- Documentation/translations/zh_TW/filesystems/tmpfs.rst        | 1 +
- Documentation/translations/zh_TW/filesystems/virtiofs.rst     | 1 +
- Documentation/translations/zh_TW/staging/index.rst            | 1 +
- Documentation/translations/zh_TW/staging/magic-number.rst     | 1 +
- 58 files changed, 61 insertions(+), 1 deletion(-)
+ Documentation/translations/zh_TW/index.rst    |  6 +-
+ .../translations/zh_TW/subsystem-apis.rst     | 99 +++++++++++++++++++
+ 2 files changed, 104 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_TW/subsystem-apis.rst
 
-diff --git a/Documentation/translations/zh_TW/admin-guide/README.rst b/Documentation/translations/zh_TW/admin-guide/README.rst
-index bf692cc7b867..5b513d5fd97a 100644
---- a/Documentation/translations/zh_TW/admin-guide/README.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/README.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/README.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/bootconfig.rst b/Documentation/translations/zh_TW/admin-guide/bootconfig.rst
-index e033c5bdd1eb..02a35b08d540 100644
---- a/Documentation/translations/zh_TW/admin-guide/bootconfig.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/bootconfig.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/bootconfig.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst b/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst
-index 3cec29682ce0..7fd0de63a382 100644
---- a/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: :doc:`../../../admin-guide/bug-bisect`
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst b/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
-index f85baa0e97a8..e9ca0816ca70 100644
---- a/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: :doc:`../../../admin-guide/bug-hunting`
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst b/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
-index 15d54440d224..82a483980516 100644
---- a/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/clearing-warn-once.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/cpu-load.rst b/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
-index 13f03195ac7e..1e8da15a4f92 100644
---- a/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/cpu-load.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/cputopology.rst b/Documentation/translations/zh_TW/admin-guide/cputopology.rst
-index 7da38b685ae3..daa2c46835ea 100644
---- a/Documentation/translations/zh_TW/admin-guide/cputopology.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/cputopology.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/cputopology.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/index.rst b/Documentation/translations/zh_TW/admin-guide/index.rst
-index 937f84c69ce9..e396c4eeb04d 100644
---- a/Documentation/translations/zh_TW/admin-guide/index.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/index.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: :doc:`../../../admin-guide/index`
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/init.rst b/Documentation/translations/zh_TW/admin-guide/init.rst
-index b68a5f58ce78..a16390c07f02 100644
---- a/Documentation/translations/zh_TW/admin-guide/init.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/init.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: :doc:`../../../admin-guide/init`
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/lockup-watchdogs.rst b/Documentation/translations/zh_TW/admin-guide/lockup-watchdogs.rst
-index 6c5282c62461..d5423de1c2d5 100644
---- a/Documentation/translations/zh_TW/admin-guide/lockup-watchdogs.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/lockup-watchdogs.rst
-@@ -1,4 +1,5 @@
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/lockup-watchdogs.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/mm/damon/index.rst b/Documentation/translations/zh_TW/admin-guide/mm/damon/index.rst
-index ed6eaca13ce1..fcdda7ee50c8 100644
---- a/Documentation/translations/zh_TW/admin-guide/mm/damon/index.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/mm/damon/index.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0
- .. include:: ../../../disclaimer-zh_TW.rst
-+.. include:: ../../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/mm/damon/index.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/mm/damon/lru_sort.rst b/Documentation/translations/zh_TW/admin-guide/mm/damon/lru_sort.rst
-index 2a5b87f1e4f6..f90bad6484fe 100644
---- a/Documentation/translations/zh_TW/admin-guide/mm/damon/lru_sort.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/mm/damon/lru_sort.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0
- .. include:: ../../../disclaimer-zh_TW.rst
-+.. include:: ../../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/mm/damon/lru_sort.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/mm/damon/reclaim.rst b/Documentation/translations/zh_TW/admin-guide/mm/damon/reclaim.rst
-index 36145acdf9aa..fb7bbd030684 100644
---- a/Documentation/translations/zh_TW/admin-guide/mm/damon/reclaim.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/mm/damon/reclaim.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0
- .. include:: ../../../disclaimer-zh_TW.rst
-+.. include:: ../../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/mm/damon/reclaim.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/mm/damon/start.rst b/Documentation/translations/zh_TW/admin-guide/mm/damon/start.rst
-index af16b730d13b..14504d0f5dce 100644
---- a/Documentation/translations/zh_TW/admin-guide/mm/damon/start.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/mm/damon/start.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0
- .. include:: ../../../disclaimer-zh_TW.rst
-+.. include:: ../../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/mm/damon/start.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst b/Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst
-index 82633ec7d15f..f7b267c9173b 100644
---- a/Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/mm/damon/usage.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0
- .. include:: ../../../disclaimer-zh_TW.rst
-+.. include:: ../../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/mm/damon/usage.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/mm/index.rst b/Documentation/translations/zh_TW/admin-guide/mm/index.rst
-index 969780c9936a..21b61b9ce477 100644
---- a/Documentation/translations/zh_TW/admin-guide/mm/index.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/mm/index.rst
-@@ -1,4 +1,5 @@
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original:   Documentation/admin-guide/mm/index.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/mm/ksm.rst b/Documentation/translations/zh_TW/admin-guide/mm/ksm.rst
-index 697545ae0fcd..e1a250d0f034 100644
---- a/Documentation/translations/zh_TW/admin-guide/mm/ksm.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/mm/ksm.rst
-@@ -1,4 +1,5 @@
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/mm/ksm.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst b/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
-index dc2903570705..a23b31884cd8 100644
---- a/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
-@@ -3,6 +3,7 @@
- 
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/reporting-issues.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst b/Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst
-index e85baccdb53b..f03570d61895 100644
---- a/Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/reporting-regressions.rst
-@@ -2,6 +2,7 @@
- .. 【重分發信息參見本文件結尾】
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/reporting-regressions.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/sysrq.rst b/Documentation/translations/zh_TW/admin-guide/sysrq.rst
-index 221f05807730..003742c62d85 100644
---- a/Documentation/translations/zh_TW/admin-guide/sysrq.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/sysrq.rst
-@@ -1,4 +1,5 @@
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/sysrq.rst
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst b/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst
-index cdfaccfbb4ae..0a351aff5e98 100644
---- a/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: :doc:`../../../admin-guide/tainted-kernels`
- 
-diff --git a/Documentation/translations/zh_TW/admin-guide/unicode.rst b/Documentation/translations/zh_TW/admin-guide/unicode.rst
-index b9b57cc76d61..85fb4ca90936 100644
---- a/Documentation/translations/zh_TW/admin-guide/unicode.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/unicode.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/admin-guide/unicode.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/arm64/amu.rst b/Documentation/translations/zh_TW/arch/arm64/amu.rst
-index edea336b323d..9e5048aa39c1 100644
---- a/Documentation/translations/zh_TW/arch/arm64/amu.rst
-+++ b/Documentation/translations/zh_TW/arch/arm64/amu.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: :ref:`Documentation/arch/arm64/amu.rst <amu_index>`
- 
-diff --git a/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst b/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
-index 66b7c6f8ef39..d46934c2c4e1 100644
---- a/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
-+++ b/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: :ref:`Documentation/arch/arm64/elf_hwcaps.rst <elf_hwcaps_index>`
- 
-diff --git a/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst b/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
-index ad747f9e1916..b613e434d6e5 100644
---- a/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
-+++ b/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: :ref:`Documentation/arch/arm64/hugetlbpage.rst <hugetlbpage_index>`
- 
-diff --git a/Documentation/translations/zh_TW/arch/arm64/index.rst b/Documentation/translations/zh_TW/arch/arm64/index.rst
-index 279873b25a25..0e3495411469 100644
---- a/Documentation/translations/zh_TW/arch/arm64/index.rst
-+++ b/Documentation/translations/zh_TW/arch/arm64/index.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: :ref:`Documentation/arch/arm64/index.rst <arm64_index>`
- 
-diff --git a/Documentation/translations/zh_TW/arch/arm64/perf.rst b/Documentation/translations/zh_TW/arch/arm64/perf.rst
-index a91d43e69b49..da1736068365 100644
---- a/Documentation/translations/zh_TW/arch/arm64/perf.rst
-+++ b/Documentation/translations/zh_TW/arch/arm64/perf.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: :ref:`Documentation/arch/arm64/perf.rst <perf_index>`
- 
-diff --git a/Documentation/translations/zh_TW/arch/index.rst b/Documentation/translations/zh_TW/arch/index.rst
-index 724468687c20..6b7235fd8612 100644
---- a/Documentation/translations/zh_TW/arch/index.rst
-+++ b/Documentation/translations/zh_TW/arch/index.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. include:: ../unmaintained-zh_TW.rst
+diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
+index 1dddf5963864..001680d040ea 100644
+--- a/Documentation/translations/zh_TW/index.rst
++++ b/Documentation/translations/zh_TW/index.rst
+@@ -39,12 +39,16 @@ TODOList:
+ 
+ 開發人員使用的內核內部交互接口手冊。
+ 
++.. toctree::
++   :maxdepth: 1
 +
- :Original: Documentation/arch/index.rst
- 
- 處理器體系結構
-diff --git a/Documentation/translations/zh_TW/arch/loongarch/booting.rst b/Documentation/translations/zh_TW/arch/loongarch/booting.rst
-index cc9610322742..e26654f84ce2 100644
---- a/Documentation/translations/zh_TW/arch/loongarch/booting.rst
-+++ b/Documentation/translations/zh_TW/arch/loongarch/booting.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/loongarch/booting.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/loongarch/features.rst b/Documentation/translations/zh_TW/arch/loongarch/features.rst
-index 667f33030430..843a40553def 100644
---- a/Documentation/translations/zh_TW/arch/loongarch/features.rst
-+++ b/Documentation/translations/zh_TW/arch/loongarch/features.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/loongarch/features.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/loongarch/index.rst b/Documentation/translations/zh_TW/arch/loongarch/index.rst
-index 7371f35326c1..ddec7144a488 100644
---- a/Documentation/translations/zh_TW/arch/loongarch/index.rst
-+++ b/Documentation/translations/zh_TW/arch/loongarch/index.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/loongarch/index.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/loongarch/introduction.rst b/Documentation/translations/zh_TW/arch/loongarch/introduction.rst
-index 1184bae117d7..0e28afcca695 100644
---- a/Documentation/translations/zh_TW/arch/loongarch/introduction.rst
-+++ b/Documentation/translations/zh_TW/arch/loongarch/introduction.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/loongarch/introduction.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/loongarch/irq-chip-model.rst b/Documentation/translations/zh_TW/arch/loongarch/irq-chip-model.rst
-index 89f4facc1a12..4cd53dd20401 100644
---- a/Documentation/translations/zh_TW/arch/loongarch/irq-chip-model.rst
-+++ b/Documentation/translations/zh_TW/arch/loongarch/irq-chip-model.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/loongarch/irq-chip-model.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/mips/booting.rst b/Documentation/translations/zh_TW/arch/mips/booting.rst
-index 43958df77efe..b79e33cf4026 100644
---- a/Documentation/translations/zh_TW/arch/mips/booting.rst
-+++ b/Documentation/translations/zh_TW/arch/mips/booting.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/mips/booting.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/mips/features.rst b/Documentation/translations/zh_TW/arch/mips/features.rst
-index d5f2d3129614..6588fe3a7529 100644
---- a/Documentation/translations/zh_TW/arch/mips/features.rst
-+++ b/Documentation/translations/zh_TW/arch/mips/features.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/mips/features.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/mips/index.rst b/Documentation/translations/zh_TW/arch/mips/index.rst
-index 832a5e9ee413..15df9ac33988 100644
---- a/Documentation/translations/zh_TW/arch/mips/index.rst
-+++ b/Documentation/translations/zh_TW/arch/mips/index.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/mips/index.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/mips/ingenic-tcu.rst b/Documentation/translations/zh_TW/arch/mips/ingenic-tcu.rst
-index fc74f474593d..98dc62884644 100644
---- a/Documentation/translations/zh_TW/arch/mips/ingenic-tcu.rst
-+++ b/Documentation/translations/zh_TW/arch/mips/ingenic-tcu.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/mips/ingenic-tcu.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/openrisc/index.rst b/Documentation/translations/zh_TW/arch/openrisc/index.rst
-index 7d852d37cc4e..5c6aa94794ad 100644
---- a/Documentation/translations/zh_TW/arch/openrisc/index.rst
-+++ b/Documentation/translations/zh_TW/arch/openrisc/index.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/openrisc/index.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/openrisc/openrisc_port.rst b/Documentation/translations/zh_TW/arch/openrisc/openrisc_port.rst
-index 7d6dcf29eb7d..33d3f5eb74eb 100644
---- a/Documentation/translations/zh_TW/arch/openrisc/openrisc_port.rst
-+++ b/Documentation/translations/zh_TW/arch/openrisc/openrisc_port.rst
-@@ -1,4 +1,5 @@
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/openrisc/openrisc_port.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/openrisc/todo.rst b/Documentation/translations/zh_TW/arch/openrisc/todo.rst
-index 89bb852c5d00..870faeca72ef 100644
---- a/Documentation/translations/zh_TW/arch/openrisc/todo.rst
-+++ b/Documentation/translations/zh_TW/arch/openrisc/todo.rst
-@@ -1,4 +1,5 @@
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/openrisc/todo.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/parisc/debugging.rst b/Documentation/translations/zh_TW/arch/parisc/debugging.rst
-index a58cf3aa534a..2fb32a102c9f 100644
---- a/Documentation/translations/zh_TW/arch/parisc/debugging.rst
-+++ b/Documentation/translations/zh_TW/arch/parisc/debugging.rst
-@@ -1,4 +1,5 @@
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/parisc/debugging.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/parisc/index.rst b/Documentation/translations/zh_TW/arch/parisc/index.rst
-index a08e0329383d..727a396ecf4a 100644
---- a/Documentation/translations/zh_TW/arch/parisc/index.rst
-+++ b/Documentation/translations/zh_TW/arch/parisc/index.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/parisc/index.rst
- 
-diff --git a/Documentation/translations/zh_TW/arch/parisc/registers.rst b/Documentation/translations/zh_TW/arch/parisc/registers.rst
-index ea9b8df9314d..acc512ce6b05 100644
---- a/Documentation/translations/zh_TW/arch/parisc/registers.rst
-+++ b/Documentation/translations/zh_TW/arch/parisc/registers.rst
-@@ -1,4 +1,5 @@
- .. include:: ../../disclaimer-zh_TW.rst
-+.. include:: ../../unmaintained-zh_TW.rst
- 
- :Original: Documentation/arch/parisc/registers.rst
- 
-diff --git a/Documentation/translations/zh_TW/cpu-freq/core.rst b/Documentation/translations/zh_TW/cpu-freq/core.rst
-index 8a2c835b5c50..ba7e6f84fd27 100644
---- a/Documentation/translations/zh_TW/cpu-freq/core.rst
-+++ b/Documentation/translations/zh_TW/cpu-freq/core.rst
-@@ -1,5 +1,6 @@
- .. SPDX-License-Identifier: GPL-2.0
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/cpu-freq/core.rst
- 
-diff --git a/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst b/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst
-index 0e4ae51916d3..f02c1d2d1b54 100644
---- a/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst
-+++ b/Documentation/translations/zh_TW/cpu-freq/cpu-drivers.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/cpu-freq/cpu-drivers.rst
- 
-diff --git a/Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst b/Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst
-index dbaa9df781e3..fbc2f9b9bd8c 100644
---- a/Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst
-+++ b/Documentation/translations/zh_TW/cpu-freq/cpufreq-stats.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/cpu-freq/cpufreq-stats.rst
- 
-diff --git a/Documentation/translations/zh_TW/cpu-freq/index.rst b/Documentation/translations/zh_TW/cpu-freq/index.rst
-index c32c618dd972..041ad0f299bc 100644
---- a/Documentation/translations/zh_TW/cpu-freq/index.rst
-+++ b/Documentation/translations/zh_TW/cpu-freq/index.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/cpu-freq/index.rst
- 
-diff --git a/Documentation/translations/zh_TW/dev-tools/gcov.rst b/Documentation/translations/zh_TW/dev-tools/gcov.rst
-index 69965427a51a..da5d09dde7eb 100644
---- a/Documentation/translations/zh_TW/dev-tools/gcov.rst
-+++ b/Documentation/translations/zh_TW/dev-tools/gcov.rst
-@@ -1,4 +1,5 @@
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/dev-tools/gcov.rst
- 
-diff --git a/Documentation/translations/zh_TW/dev-tools/index.rst b/Documentation/translations/zh_TW/dev-tools/index.rst
-index fafebd092a3d..0d5671af2b41 100644
---- a/Documentation/translations/zh_TW/dev-tools/index.rst
-+++ b/Documentation/translations/zh_TW/dev-tools/index.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/dev-tools/index.rst
- 
-diff --git a/Documentation/translations/zh_TW/dev-tools/kasan.rst b/Documentation/translations/zh_TW/dev-tools/kasan.rst
-index 7728b50aa4b6..fd5a77d53211 100644
---- a/Documentation/translations/zh_TW/dev-tools/kasan.rst
-+++ b/Documentation/translations/zh_TW/dev-tools/kasan.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/dev-tools/kasan.rst
- 
-diff --git a/Documentation/translations/zh_TW/dev-tools/sparse.rst b/Documentation/translations/zh_TW/dev-tools/sparse.rst
-index 7ca7fdf6e1e6..c81440f85765 100644
---- a/Documentation/translations/zh_TW/dev-tools/sparse.rst
-+++ b/Documentation/translations/zh_TW/dev-tools/sparse.rst
-@@ -1,4 +1,6 @@
--﻿:Original: Documentation/dev-tools/sparse.rst
-+﻿.. include:: ../unmaintained-zh_TW.rst
++   subsystem-apis
 +
-+:Original: Documentation/dev-tools/sparse.rst
+ TODOList:
  
- Chinese translated version of Documentation/dev-tools/sparse.rst
+ * core-api/index
+ * driver-api/index
+ * 內核中的鎖 <locking/index>
+-* subsystem-apis
  
-diff --git a/Documentation/translations/zh_TW/dev-tools/testing-overview.rst b/Documentation/translations/zh_TW/dev-tools/testing-overview.rst
-index 140f4f946833..447a93774d53 100644
---- a/Documentation/translations/zh_TW/dev-tools/testing-overview.rst
-+++ b/Documentation/translations/zh_TW/dev-tools/testing-overview.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/dev-tools/testing-overview.rst
- 
-diff --git a/Documentation/translations/zh_TW/filesystems/debugfs.rst b/Documentation/translations/zh_TW/filesystems/debugfs.rst
-index 17e12fc57400..6b9536f58a7a 100644
---- a/Documentation/translations/zh_TW/filesystems/debugfs.rst
-+++ b/Documentation/translations/zh_TW/filesystems/debugfs.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/filesystems/debugfs.rst
- 
-diff --git a/Documentation/translations/zh_TW/filesystems/index.rst b/Documentation/translations/zh_TW/filesystems/index.rst
-index 87307a291c8e..9dfcdc66ecce 100644
---- a/Documentation/translations/zh_TW/filesystems/index.rst
-+++ b/Documentation/translations/zh_TW/filesystems/index.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: :ref:`Documentation/filesystems/index.rst <filesystems_index>`
- 
-diff --git a/Documentation/translations/zh_TW/filesystems/tmpfs.rst b/Documentation/translations/zh_TW/filesystems/tmpfs.rst
-index aed61cc3064d..b479700c8c86 100644
---- a/Documentation/translations/zh_TW/filesystems/tmpfs.rst
-+++ b/Documentation/translations/zh_TW/filesystems/tmpfs.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/filesystems/tmpfs.rst
- 
-diff --git a/Documentation/translations/zh_TW/filesystems/virtiofs.rst b/Documentation/translations/zh_TW/filesystems/virtiofs.rst
-index f3a682094266..7efca193b49a 100644
---- a/Documentation/translations/zh_TW/filesystems/virtiofs.rst
-+++ b/Documentation/translations/zh_TW/filesystems/virtiofs.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: :ref:`Documentation/filesystems/virtiofs.rst <virtiofs_index>`
- 
-diff --git a/Documentation/translations/zh_TW/staging/index.rst b/Documentation/translations/zh_TW/staging/index.rst
-index 556c63a17f9c..b82de8291543 100644
---- a/Documentation/translations/zh_TW/staging/index.rst
-+++ b/Documentation/translations/zh_TW/staging/index.rst
-@@ -1,6 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: Documentation/staging/index.rst
- 
-diff --git a/Documentation/translations/zh_TW/staging/magic-number.rst b/Documentation/translations/zh_TW/staging/magic-number.rst
-index af1b2d05942a..a5c19d1e698b 100644
---- a/Documentation/translations/zh_TW/staging/magic-number.rst
-+++ b/Documentation/translations/zh_TW/staging/magic-number.rst
-@@ -3,6 +3,7 @@
- .. _tw_magicnumbers:
- 
- .. include:: ../disclaimer-zh_TW.rst
-+.. include:: ../unmaintained-zh_TW.rst
- 
- :Original: :ref:`Documentation/staging/magic-number.rst <magicnumbers>`
- 
+ 開發工具和流程
+ --------------
+diff --git a/Documentation/translations/zh_TW/subsystem-apis.rst b/Documentation/translations/zh_TW/subsystem-apis.rst
+new file mode 100644
+index 000000000000..5c874aafe70c
+--- /dev/null
++++ b/Documentation/translations/zh_TW/subsystem-apis.rst
+@@ -0,0 +1,99 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ./disclaimer-zh_TW.rst
++.. include:: ./unmaintained-zh_TW.rst
++
++:Original: Documentation/subsystem-apis.rst
++
++==============
++核心子系統文件
++==============
++
++這些書從核心開發者的角度，深入介紹特定核心子系統如何運作。這裡的大部分
++資訊直接取自核心原始碼，並視需要加上補充材料（或者至少是我們設法加上的
++部分——很可能 *並非* 所有需要的材料都已具備）。
++
++基礎子系統
++----------
++
++TODOList:
++
++* core-api/index
++* driver-api/index
++* mm/index
++* power/index
++* scheduler/index
++* timers/index
++* locking/index
++
++人機介面
++--------
++
++TODOList:
++
++* input/index
++* hid/index
++* sound/index
++* gpu/index
++* fb/index
++* leds/index
++
++網路介面
++--------
++
++TODOList:
++
++* networking/index
++* netlabel/index
++* infiniband/index
++* mhi/index
++
++儲存介面
++--------
++
++.. toctree::
++   :maxdepth: 1
++
++   filesystems/index
++
++TODOList:
++
++* block/index
++* cdrom/index
++* scsi/index
++* target/index
++* nvme/index
++
++其他子系統
++----------
++
++**Fixme**：這裡還需要更多的分類整理工作。
++
++.. toctree::
++   :maxdepth: 1
++
++   cpu-freq/index
++
++TODOList:
++
++* accounting/index
++* edac/index
++* fpga/index
++* i2c/index
++* iio/index
++* pcmcia/index
++* spi/index
++* w1/index
++* watchdog/index
++* virt/index
++* hwmon/index
++* accel/index
++* security/index
++* crypto/index
++* bpf/index
++* usb/index
++* PCI/index
++* misc-devices/index
++* peci/index
++* wmi/index
++* tee/index
 -- 
 2.43.0
 
