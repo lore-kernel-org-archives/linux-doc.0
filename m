@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0C836B920;
-	Tue, 29 Sep 2026 07:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055313A640C;
+	Tue, 29 Sep 2026 07:39:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790667406; cv=none; b=CHcMYf04r+/C/RmlWMNbtvYewAO4dnBIAS8OvzIH7zjOKynRbnL368TG3QmcZ/ryNJ3GN+E3YJfDHZ9hy/ZDPm51Ve7WZN8iC5nJFZNyWgnddykv43Fu3iTiKdzvz1HmDw4pG5jxhxfsI1tTcMjdAbjqlbaYlDP+e491hzlmekI=
+	t=1790667601; cv=none; b=JY4Po1lMUv9jqfbvzPAM0YfP3pQWG9VRk/+XKiBRt2sng8PNPgFUGiVuHcKEV/spYwME3VpCzSpGHPoswP4dJzkighVmHTozptt8EDlS8JsYK7TkFhUd4bYXdBDetyQ2w14EDk2fLSMzow9G5h5X8MdCXwc3RF1h7jFYSpVRUyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790667406; c=relaxed/simple;
-	bh=aLSR3jeN6SEnb6pKT6saVvqm/ATzFiwB7UR5fQfZciM=;
+	s=arc-20240116; t=1790667601; c=relaxed/simple;
+	bh=tqDW8EPgpTuBsz5qUkBZX8c9BkMTlGA45n9YAvX0SKk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u46BOokXUb9ir/GicIZz0OnpwgWRKxnRmVxRtaqXzZn4RmVJjq9UM7W54tGeVJLQKMul817JnkSfaxBENr/bgrU/+YvT4GTDkF5Ng+xR8QJ+1bqkyelXie+r0sRCRR0cZ/5s+U3qnzhkHAx4isY2GCLCLaO7Gx7ISWuRjuhIcKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IimBV9tX; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=hSHUdJPTd97pvQ58w6jcqPsmfnE+MZI2FO5RB0nDuDqO1Y/hmw9C8dECq4FUFuXWFbw1zqTFzWRA33C1C/vLvijfUgLpcpj7twhqVEIaLI2+0EZHf7jM6BEY4Wb9PKMZjTahOkjRuvzoSPf3vu81t2rgVi+HTR2BRtTeeJzTtUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HIPigIjl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IimBV9tX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F27901F000FF;
-	Tue, 29 Sep 2026 07:36:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HIPigIjl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D3991F000FF;
+	Tue, 29 Sep 2026 07:39:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790667405;
-	bh=N4ktdpi1f+/KDUD6L3UXr89sslU38XOXuJkv+riiaEg=;
+	s=k20260515; t=1790667599;
+	bh=G3EVKaVLylqb9RWBjtjzgElhNbiD4VmAvFVDm8rDfD4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=IimBV9tXab1BYBvx21vk5zYso+7dCfqv09ZfPCCNxIZBCG0qD2CSZiCF92zrEcDAh
-	 TZg4vfypokm6PuGRQZHu1ZzssiOGuX0/iFqcx9FOkfesKhn3Lp2cKO9itGJ/PUIuAA
-	 Gvh3WIqS2aoJaEgiCtSn1KvbcMaM252im82unuIUQ2IhlZTmJBd3WBfBuQadjWxKY9
-	 c6G/sp2lpauOWFZrtfhL/6RLZBIsRzZ2x8JV6Wo9bPNjkwNh/wzxFrcUHIdAi6RAGW
-	 Cet9Rh+AYl+P53tJDy0E7ZdskiaxsvWxU2X2ECcv/49QACR19eLfXC26MZhuDzVC2T
-	 Lw0OFJeLZGfpw==
-Message-ID: <1b542015-8e5a-41af-9e98-9810333e6725@kernel.org>
-Date: Tue, 29 Sep 2026 09:36:39 +0200
+	b=HIPigIjlsAUgH2jHDO9FkW0Y8+CWBqCvft5W6cCrP5+fYqW/khvQic3GSlV0DZDGd
+	 Yzxjn0LLsdXvtpNd1OTY8YAjKFv1ThHYFUTY0cM0DUJj2GDhA0iExCdDLfIw2hT6HR
+	 SsdBTLb4xeYO76hMr6zhJ0D94UZqpa4yqeLSG28mS0hX257UBTf4CbWYeYD9/WYbP4
+	 Er7hHht/rArymYXeCoIyQfCNorypWHmHtzLTXYC+Ey4jV9Xf/p61MdSJNTdMCwKkT/
+	 RZhSbxga5O0aBiH4/K0wTR6ycSjijqr8blTJtnk7AwRyX5LwzY2hWpI5gI0Y+LVRvy
+	 QzEXoBo+iTp+w==
+Message-ID: <a31cc06a-c22f-41c2-851e-4827869e9df1@kernel.org>
+Date: Tue, 29 Sep 2026 09:39:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 07/12] mm/sparse-vmemmap: switch device DAX to shared
- tail vmemmap pages
+Subject: Re: [PATCH v5 08/12] mm/sparse-vmemmap: move vmemmap optimization
+ helpers to a public header
 To: Muchun Song <songmuchun@bytedance.com>,
  Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
  <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
@@ -48,7 +48,7 @@ Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
  Randy Dunlap <rdunlap@infradead.org>, Lance Yang <lance.yang@linux.dev>
 References: <20260927025441.741633-1-songmuchun@bytedance.com>
- <20260927025441.741633-8-songmuchun@bytedance.com>
+ <20260927025441.741633-9-songmuchun@bytedance.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -95,62 +95,27 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260927025441.741633-8-songmuchun@bytedance.com>
+In-Reply-To: <20260927025441.741633-9-songmuchun@bytedance.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/27/26 04:54, Muchun Song wrote:
-> HugeTLB vmemmap optimization now uses per-zone shared tail vmemmap pages.
-> Device DAX has not been switched to that mechanism yet.
+> The vmemmap optimization helpers currently live in mm/sparse.h,
+> which is an internal MM header. That works for MM code, but
+> prevents powerpc from using the same interfaces without including a
+> private header.
 > 
-> Switch device DAX to vmemmap_shared_tail_page() as well. This aligns DAX
-> with HugeTLB by using the common per-zone shared tail vmemmap page.
-> 
-> The optimization is enabled only for DEV-DAX through pgmap->vmemmap_shift,
-> which supplies the compound page order recorded in section metadata before
-> vmemmap population. Unlike FS-DAX, DEV-DAX does not modify tail struct
-> pages, so sharing them is safe.
-> 
-> Since the shared tail page can now back ZONE_DEVICE vmemmap mappings,
-> initialize its entries with PG_reserved for device zones. Also skip
-> poisoning vmemmap-optimizable sections while their struct pages may be
-> shared.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Acked-by: Qi Zheng <qi.zheng@linux.dev>
-> ---
-> v3:
-> - Move device_zone() after the definition of NODE_DATA() to fix
->   non-NUMA builds.
-> - Update the commit message to describe the compound page order stored
->   in section metadata
-> - Collect Acked-by from Qi Zheng
-> 
-> v2:
-> - Explain why sharing tail vmemmap pages is safe for DEV-DAX
->   (suggested by Qi Zheng)
-> ---
+> Move the declarations and inline helpers to vmemmap-optimization.h.
+> This is a preparatory change for powerpc, which has its own vmemmap
+> optimization implementation and needs to use the common vmemmap
+> optimization interfaces from architecture code.
 
-[...]
+Which raises the question why powerpc was special and will remain special. Wha's
+the big problem here that powerpc must do special things?
 
-> -
->  static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
->  						     unsigned long start,
->  						     unsigned long end, int node,
-> @@ -551,21 +536,18 @@ static int __meminit vmemmap_populate_compound_pages(unsigned long start_pfn,
->  	pte_t *pte;
->  	int rc;
->  	unsigned long flags = VMEMMAP_POPULATE_DAX;
-> +	struct page *page;
-> +	unsigned int order = pfn_to_section_compound_order(start_pfn);
+Change itself looks good.
 
-const and all the way to the top.
-
-
-I did wonder about the poisoning change ... because the memmap usually gets
-initialized once the memory section gets moved to a zone.
-
-SO now I'm a bit confused about the ordering of events :)
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
 Cheers,
