@@ -1,270 +1,210 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F43052E064
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 14:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F4E3D47C5;
+	Tue, 29 Sep 2026 14:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790693081; cv=none; b=r0eDgUu0UITNd8HaWSjmDD88/uByEhXfhLPOm20P7w6WJiKmurkfrBx+tLrvgC9TnHI98fR5D9MnFVOtfMTaVBVh/qATC2ibqBgtIHqkZa+/9BXrEL75ZN3TYlL+3lS5A/jTmFN5ERKHoRCDw3GYwwkahcn8MNc2CwYVhxqxgr0=
+	t=1790693942; cv=none; b=bedv5GK1AYkmJpKWjpme6ZJ4dfa0lLy4TkVB60ZKdHeQ4EpEkdTgXp0zMNZ4bStloFSJ66Enmm9e1v5Ms6zjiZoeQd4e6mzcgch2k3fVhbTqi4hPNtSPV5+LpTr5p6GGm9YbV1xIJlmkjtzTx4BDmtMaNW/TZQdY5QbnDyK0fZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790693081; c=relaxed/simple;
-	bh=3I8q3l882JIcE1IgO5rz9dcJ+s4ewYhrblWApRnrtxo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jCHJWxdNvhqHaXjktpVAYihnRjdo4u1b8+/XtsYm6d/2S8NrotSFIex5tF9zdOU/LJxhRJoXOqXX653tg9cG89jazVnlMuDHWVJryHYNuC1lU5FlwYMl5LX0JErOvi1oqSIaruuvBPuk1nXhu8+AfC0drG19bMQIwTOb57lbiis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bud9wY6a; arc=none smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790693942; c=relaxed/simple;
+	bh=DqeI++b161KtjAHzethdo3fEox1c19TAWzryZUcs3tE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=HI6fL73ZlmYNK9tsCETClK3IXu3JaakV5MIFgZQylnzpu9fzq94/yTukelgD4s1PIVST6BGzvmRpCLMpmpjsZFDaQxx++Lq2eErNzTOidH8mFSdnvIMoj6sVXk/rugCzNjUnQIxV26Ckn/2S7EfmVGGTs/tXpnPX3xgn77vd/Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=XvvrqjJq; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bud9wY6a"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c29d50b7cf9so645935566b.2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 07:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790693070; x=1791297870; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cbyOdvEerjzfIl5xD+HOwuljaf5ylJgalA+Yv8hDp5o=;
-        b=Bud9wY6aVzqyNF3k6K/5UotAIwvVdlZjxc5MB45H6dpiqzepda9NSO9Yzoi670dG8r
-         HSC7gVELz9eikPCNq8E4jBUgnKlRwkOa4GUz4Ro8Oidipu9h7041TBausvTNKQlwr6Kl
-         pJc8UdYWXfkiRabM5QEbq4E+JZyuyVvEm7H5m52fHOkPS3GArlfjPuCHS9uM8y86ET7/
-         /jPVqLF620iCgJoiTiLT7JuGJ6TuUEzK8+1HDjOnepwDY92cJ+Gt29DcqcscQ1QXtKdK
-         Dgo4CkpWphjvrWZ2o/Vc+yg86NYW72QDpE4/j9yoVe/O60qMPg3NDsnx4rtgHRAh1PyS
-         nwgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790693070; x=1791297870;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cbyOdvEerjzfIl5xD+HOwuljaf5ylJgalA+Yv8hDp5o=;
-        b=z+dfWzsDXJs8dNl/WmxF10TnYEUBQ4U6QcPEiJUPSg5r9FIt6VP5DwDwTuh0KzM1j9
-         3BoXrVJ0/QipYum9nWttCpsoUCWc1TBDi/GfMpqwcrG0E5GBjm6l2fJUVo+7Ut672pt6
-         dLhc7cpCMlZd7BzKI1N4xSqclBj4oA04Qt+p84Ui5JSbquhd9V5JU4+E/gIZH3eaXeMV
-         H6Qxy3S9CkFvJskKSVD6+i0Ex3q5tVJmMbeA1JKyp2Fq5Jc3AeMkFo08EQQND8ryvb9I
-         H7diVwN1JtWCGr9KwCVNc728XuCGBPNbmuLgSeAVAAHFOWvjvNOOaU8t78rpm90eqBlL
-         sK/Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzWXEf/aAJd6hoUaUDPVHJdXq1G/uyxN5MnfVp1BP6YRoX5gu3Em+Fo2ngQBGtJ+NIxb9fV30DaZZg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL4nFs/J00oNmC9CxxKwFoPKUyh+zgNWyh44uMCIQn2HET7IzP+
-	vC9Yb6OyR/FzOBDWs6qw24NwTbq/eWmIRqt4mNmO/P6tEJUQKbXTgUxB
-X-Gm-Gg: AYBFou3ytiRBjaBkH2ob1FpWe0iDSHgrRbwZQ6jo2uye47qSVD/IVuckNfvKdMcQSuP
-	qOBsfQEC6h0D1QPcezy/gQSXchQt23HeorwH+rTOphLxb3ahNRHrOtp0tbeQXsPdElxPXzjIf9k
-	1gy0bDJfi4yjpNS5HNP3oIinAbsECgPdTzT/i24PegZ0zGGCA/BXKMjrt/E7Ma5wmVKHzDNY3I4
-	qCwjDSctkvfiuacl5wzKpW9KPhnuev//YIXCSB+QAZQChTPE2r4Wv/bLeYXGZZ64Tx1I18qHXEX
-	8fJQm5NdWOW+3GDeO4hq/+xvE6DXGXxajNMjgL4Ftkl5W0Xx7PJvmMI9eC3gruUc+7+UQZHE08z
-	B1PEf3APeXNwGmVT3uE49xr587F4kcY/0QPOIIXCfTrr1p7T/U3NmvPhMZp6JHmF1Qn8qaEq1Lt
-	i8Ku0uIa6m9gdtDmtQTGVlhodArK5Y0OZeMPQYCaUPoJ1MX0VhRMX9CMqfVIJyYHy2uMAQ7DDhl
-	vDsVysdLF47zO2MacNU3xGOlN/Efy4I/AIz3jGLS3yZcEWDKRhzXAHmop7O+V++HdODCCZNIv+K
-	XE4=
-X-Received: by 2002:a17:907:e982:b0:c29:45f6:6a0b with SMTP id a640c23a62f3a-c2ac25d541fmr1412263166b.34.1790693069331;
-        Tue, 29 Sep 2026 07:44:29 -0700 (PDT)
-Received: from fedora-laptop ([172.245.82.59])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2ae678bbb0sm651166266b.5.2026.09.29.07.44.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 07:44:28 -0700 (PDT)
-Date: Tue, 29 Sep 2026 09:44:16 -0500
-From: Ming Lei <tom.leiming@gmail.com>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/9] ublk: fix dispatch to canceled io commands
-Message-ID: <arvOwDHOgvpVW86j@fedora-laptop>
-References: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="XvvrqjJq"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68TB6GLY2189632;
+	Tue, 29 Sep 2026 14:57:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=R6JfXv
+	ppDwndtGpHNaqd1NG4kbQK5XAbphIjZn2QMB4=; b=XvvrqjJqEMZ89mSdXaLySS
+	CjMLp6MTIbywHpMoH9g+y4QVCQAscidvC84BgYYBCsDGT1/Z6vuQQOy4iZIfCCOY
+	WdK0UuxJrJ5UWKZ53D7fFcS/UIRk4Gq3HYZzy/bKf6CmZ2+0LV53SLbm1//1UPUS
+	ctXPDId3zJAV1Wakmxi7nI/NSrZ6DeedMlmA/ecpgei04M2kmKvbBa1n2PZmOsPJ
+	8O8K7cpFPeSvlrPp6PBGtS+umhzQUvgFZ8EGvyt2CXr4KgVGL9E7T6DMOVymFHGT
+	Wb0SPsavtNZKUxSrUk51KyQBHexVefyUFtjdF1wlw3M3VLxWclBDZY5dU2OHk4ow
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx5qr7mf1-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 29 Sep 2026 14:57:30 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 68TAlU6r1667670;
+	Tue, 29 Sep 2026 14:57:29 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4gxsvhj493-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 29 Sep 2026 14:57:29 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 68TEvPqG50397614
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 29 Sep 2026 14:57:25 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 05FBF20043;
+	Tue, 29 Sep 2026 14:57:25 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EC00D20040;
+	Tue, 29 Sep 2026 14:57:14 +0000 (GMT)
+Received: from [9.124.214.246] (unknown [9.124.214.246])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 29 Sep 2026 14:57:14 +0000 (GMT)
+Message-ID: <4cd3d839-ac67-43ac-9b22-0ded9c3d1f41@linux.ibm.com>
+Date: Tue, 29 Sep 2026 20:27:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 09/13] sched/debug: Add migration stats due to non
+ preferred CPUs
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+To: Nathan Chancellor <nathan@kernel.org>, peterz@infradead.org
+Cc: linux-kernel@vger.kernel.org, mingo@kernel.org, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, yury.norov@gmail.com,
+        kprateek.nayak@amd.com, iii@linux.ibm.com, corbet@lwn.net,
+        meted@linux.ibm.com, ynorov@nvidia.com, tglx@kernel.org,
+        gregkh@linuxfoundation.org, pbonzini@redhat.com, seanjc@google.com,
+        vschneid@redhat.com, huschle@linux.ibm.com, rostedt@goodmis.org,
+        dietmar.eggemann@arm.com, maddy@linux.ibm.com, srikar@linux.ibm.com,
+        hdanton@sina.com, chleroy@kernel.org, vineeth@bitbyteword.org,
+        frederic@kernel.org, arighi@nvidia.com, pauld@redhat.com,
+        christian.loehle@arm.com, tj@kernel.org, tommaso.cucinotta@gmail.com,
+        maz@kernel.org, rafael@kernel.org, rdunlap@infradead.org,
+        kernellwp@gmail.com, linux-doc@vger.kernel.org, jgross@suse.com,
+        virtualization@lists.linux.dev, sunlightlinux@gmail.com,
+        Marco Elver <elver@google.com>, llvm@lists.linux.dev
+References: <20260928053728.797539-1-sshegde@linux.ibm.com>
+ <20260928053728.797539-10-sshegde@linux.ibm.com>
+ <20260929121838.GA1814129@ax162>
+ <2964a7d8-8765-435c-af9e-a38024fca877@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <2964a7d8-8765-435c-af9e-a38024fca877@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI5MDA1OCBTYWx0ZWRfX8QE/bA12ixhQ
+ GGCKHdguXOu1egtpLmNkSa72JDnNMUZZ2Nmdt/wi83+3+cOVbAa2IpqRkuF7MOcB8GvpIImbYbU
+ /aCAv+pPZakCSsC1GlsvoT/gCc9aOb59pG2Rx0+IKXxlZTfOt7ZL/SheaULLw+dWbMZ87UvRl4V
+ VN0912Q/srwuFVnIEGjB2c04S8HBrELYySY2GNulZSMXYXoFoaD8BhjkksgcGH9xejrkckPVSXd
+ vTj14oAZFjUZqAj+p3j9mA2NLBMVN2u5DIBo5wg53YTM8zhoubcH8fjxEqqPMNfsy66lyCh9qPQ
+ x4HPZzxdQlnj417zp1Zt154lkdDESxmR/7xHkSzuG7w0Eg4sUciwy1KBe0AhOHhbjMfxf6H3x28
+ vClA6jrMbejcXQH6K8RLy4eXh5PYG0+NHPVgSA0uj01b8XzXUeTuzqJkdvLfx+yujh84XYgwW8x
+ 9qZMiUZ1g5tD8mAH+dA==
+X-Authority-Analysis: v=2.4 cv=SPbXx+vH c=1 sm=1 tr=0 ts=6abbd1db cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VnNF1IyMAAAA:8
+ a=dZdlNAd9hR_1z_CP-BwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: mldWp8I46kJ4NJJmp9bnC7Hus2sjzBBG
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI5MDA1OCBTYWx0ZWRfX01DnDrelLr55
+ 9G7RaKzPyTtiTdojcqqAUfqUz2rKVRzPClp7+lgC8uZqV83DRtWhwwgLx0fYqxCFTaEF4HbsXUx
+ Mbl++ljY7hRH8BlRm78TNcWAhW0HNhQ=
+X-Proofpoint-GUID: GtyHGCHu9-nvngSu4wczeaSac3lOIR3C
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-29_04,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 clxscore=1015 spamscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 bulkscore=0 impostorscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609290058
 
-Hi Josef,
+Hi Nathan.
 
-On Mon, Sep 28, 2026 at 04:00:36PM +0000, Josef Bacik wrote:
-> ublk can dispatch a block request to an io command which is completed
-> already, and the kernel oopses in ublk_queue_rq() on a NULL io->cmd.
-> Before commit f7700a4415af ("ublk: fix use-after-free in
-> ublk_cancel_cmd()") it is a freed io_uring request instead. Commit
-> 1133b93fc7f6 ("ublk: set canceling flag even when disk is not
-> allocated") fixed the io_uring exit route before the first start.
-> These are the routes next to it:
+On 9/29/26 6:13 PM, Shrikanth Hegde wrote:
+> Hi Nathan. Thanks for report.
 > 
->   1. STOP_DEV on a device which is ready but not started, then
->      START_DEV. ublk_stop_dev() cancels the fetched commands after
->      dropping ub->mutex, without marking the queues as canceling.
+> On 9/29/26 5:48 PM, Nathan Chancellor wrote:
+>> On Mon, Sep 28, 2026 at 11:07:24AM +0530, Shrikanth Hegde wrote:
+>>> Add a new per-task stat,
+>>> - nr_migrations_cpu_non_preferred: number of push migrations while the
+>>>    CPU is non-preferred.
+>>>
+>>> Since this new stat is per-task, it changes only /proc/<pid>/sched.
+>>> It doesn't update /proc/schedstat. Hence increasing the schedstat version
+>>> is not necessary.
+>>>
+>>> Signed-off-by: Shrikanth Hegde <sshegde@linux.ibm.com>
+>> ...
+>>> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+>>> index 5049eff58fb7..7465c983e6f6 100644
+>>> --- a/kernel/sched/core.c
+>>> +++ b/kernel/sched/core.c
+>>> @@ -11236,8 +11236,13 @@ static int sched_non_preferred_cpu_push_stop(void *arg)
+>>>           update_rq_clock(rq);
+>>>           context_unsafe_alias(rq);
+>>> -        if (task_rq(p) == rq && task_on_rq_queued(p))
+>>> -            rq = __migrate_task(rq, &rf, p, cpu);
+>>> +        if (task_rq(p) == rq && task_on_rq_queued(p)) {
+>>> +            struct rq *dest_rq = __migrate_task(rq, &rf, p, cpu);
+>>> +
+>>> +            if (rq != dest_rq)
+>>> +                schedstat_inc(p->stats.nr_migrations_cpu_non_preferred);
+>>> +            rq = dest_rq;
+>>> +        }
+>>>           rq_unlock(rq, &rf);
+>>>       }
+>>
+>> This breaks the build for me with clang-23+ (which have context analysis
+>> enabled by default), although it bisects to the final patch of the
+>> series since this is under CONFIG_PREFERRED_CPU and it is not selected
+>> until then.
+>>
+>>    kernel/sched/core.c:11292:25: error: calling function '__migrate_task' requires holding raw_spinlock 'rq_lockp(rq)' exclusively [-Werror,-Wthread-safety-analysis]
+>>     11292 |                         struct rq *dest_rq = __migrate_task(rq, &rf, p, cpu);
+>>           |                                              ^
+>>    kernel/sched/core.c:11298:3: error: releasing raw_spinlock 'rq_lockp(rq)' that was not held [-Werror,-Wthread-safety-analysis]
+>>     11298 |                 rq_unlock(rq, &rf);
+>>           |                 ^
+>>    kernel/sched/core.c:11303:1: error: raw_spinlock 'rq_lockp(__this_rq())' is not held on every path through here [-Werror,-Wthread-safety-analysis]
+>>     11303 | }
+>>           | ^
+>>    kernel/sched/core.c:11286:3: note: raw_spinlock acquired here
+>>     11286 |                 rq_lock(rq, &rf);
+>>           |                 ^
+>>    3 errors generated.
+>>
+>> Not sure what the proper fix for this is, maybe another
+>> context_unsafe_alias()? cc Marco just in case
+>>
+> 
+> I suspect it is due to using of dest_rq = rq and rq is changing context.
+> 
+> let me try locally and see the fix.
+> One fix is use rq->cpu instead of rq comparison to see if migration happened.
 
-It looks two races: STOP_DEV vs. START_DEV, STOP_DEV vs. FETCH.
+Well, it was rather due to Patch 8/13 which had rq marked as context_unsafe_alias
+after acquiring it.
 
-Looks fast io path shouldn't be touched for fixing the races.
+I have tried below and that helps to fix the warnings.
+I will write a changelog and send it across soon.
 
->   2. A partial FETCH round whose task exits, once another task
->      completes the round.
->   3. During recovery, the task of a queue which is ready already
->      exiting before the last queue is ready.
+Let me know if it works for you.
 
-2 and 3 could be solved in single simpler patch by making use of the
-ub->canceling flag, and it is easier for backport.
-
-From 83d95ff6f06ad71705e2432ffc58971bec0ec648 Mon Sep 17 00:00:00 2001
-From: Ming Lei <tom.leiming@gmail.com>
-Date: Tue, 29 Sep 2026 08:25:05 -0500
-Subject: [PATCH] ublk: keep a canceled FETCH round canceling until the server
- is gone
-
-A cancel completes a fetched io command and sets io->cmd to NULL, but
-the io still counts as ready. Only ubq->canceling stops ublk_queue_rq()
-from using the NULL io->cmd. Two paths clear that flag too early:
-
-  partial FETCH round                 recovery, two queues
-  -------------------                 --------------------
-  task A: FETCH tags 0-2              q0 ready: q0->canceling = false
-  task A exits:                       q0 task exits:
-    start_cancel(): mark queues         start_cancel(): ub->canceling
-    tags 0-2: io->cmd = NULL              is still set -> q0 not marked
-  task B: FETCH tag 3                   q0: io->cmd = NULL
-    queue ready: canceling = false    q1 ready
-  START_DEV                           END_USER_RECOVERY
-  read -> ublk_queue_cmd(NULL)        read on q0 -> ublk_queue_cmd(NULL)
-
-A FETCH round runs from the open of /dev/ublkcN until
-ublk_reset_ch_dev() resets the queues. A canceled command can't be
-fetched again in the same round. So the ready check only needs one
-fact: did this round see a cancel? ub->canceling already records it:
-ublk_start_cancel() sets it under cancel_mutex before any command is
-taken. It is only cleared too early, when all queues are ready.
-
-Fix:
-
- - clear ub->canceling only in ublk_reset_ch_dev()
- - when a queue gets ready, clear ubq->canceling only if ub->canceling
-   is not set, and check it under cancel_mutex
-
-The check and the marking are ordered by cancel_mutex:
-
-  check first:   queue cleared -> start_cancel() marks it again
-                 -> command taken
-  cancel first:  check sees ub->canceling -> queue stays canceling
-
-While ub->canceling is set, no queue clears its flag. So the "all
-queues marked" shortcut in ublk_start_cancel() is correct again.
-
-Fixes: 728cbac5fe21 ("ublk: move device reset into ublk_ch_release()")
-Fixes: 3f3850785594 ("ublk: fix batch I/O recovery -ENODEV error")
-Cc: stable@vger.kernel.org # v6.17+: needs cancel_mutex
-Reported-by: Josef Bacik <josef@toxicpanda.com>
-Closes: https://lore.kernel.org/linux-block/20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com/
-Signed-off-by: Ming Lei <tom.leiming@gmail.com>
-Assisted-by: LLM
 ---
- drivers/block/ublk_drv.c | 54 ++++++++++++++++++++++++----------------
- 1 file changed, 33 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
-index 66eb55e7162e..38ed7d0e3979 100644
---- a/drivers/block/ublk_drv.c
-+++ b/drivers/block/ublk_drv.c
-@@ -334,6 +334,11 @@ struct ublk_device {
- 	u16			nr_queue_ready;
- 	bool 			unprivileged_daemons;
- 	struct mutex cancel_mutex;
-+	/*
-+	 * A cancel started in this FETCH round. Set by ublk_set_canceling(),
-+	 * cleared only by ublk_reset_ch_dev() when a new round starts. While
-+	 * it is set, no queue clears its ->canceling.
-+	 */
- 	bool canceling;
- 	pid_t 	ublksrv_tgid;
- 	struct delayed_work	exit_work;
-@@ -2415,6 +2420,11 @@ static void ublk_reset_ch_dev(struct ublk_device *ub)
- 		spin_unlock(&ubq->cancel_lock);
- 	}
- 
-+	/* a new FETCH round starts, the queues stay canceling until ready */
-+	mutex_lock(&ub->cancel_mutex);
-+	ub->canceling = false;
-+	mutex_unlock(&ub->cancel_mutex);
-+
- 	/* set to NULL, otherwise new tasks cannot mmap io_cmd_buf */
- 	ub->mm = NULL;
- 	ub->nr_queue_ready = 0;
-@@ -3024,11 +3034,19 @@ static void ublk_reset_io_flags(struct ublk_queue *ubq, struct ublk_io *io)
- }
- 
- /* reset per-queue io flags */
--static void ublk_queue_reset_io_flags(struct ublk_queue *ubq)
-+static void ublk_queue_reset_io_flags(struct ublk_device *ub,
-+				      struct ublk_queue *ubq)
- {
--	spin_lock(&ubq->cancel_lock);
--	ubq->canceling = false;
--	spin_unlock(&ubq->cancel_lock);
-+	/*
-+	 * A cancel in this FETCH round took a command which still counts as
-+	 * ready, so the queue has to stay canceling. ub->canceling is set
-+	 * under cancel_mutex before any command is taken: either we see it
-+	 * here, or the cancel marks this queue again later.
-+	 */
-+	mutex_lock(&ub->cancel_mutex);
-+	if (!ub->canceling)
-+		ubq->canceling = false;
-+	mutex_unlock(&ub->cancel_mutex);
- 	ubq->fail_io = false;
- 	ubq->force_abort = false;
- }
-@@ -3051,24 +3069,17 @@ static void ublk_mark_io_ready(struct ublk_device *ub, u16 q_id,
- 		ub->nr_queue_ready++;
- 
- 		/*
--		 * Reset queue flags as soon as this queue is ready.
--		 * This clears the canceling flag, allowing batch FETCH commands
--		 * to succeed during recovery without waiting for all queues.
-+		 * Reset queue flags as soon as this queue is ready. Unless
-+		 * this round saw a cancel, this clears the canceling flag,
-+		 * allowing batch FETCH commands to succeed during recovery
-+		 * without waiting for all queues.
- 		 */
--		ublk_queue_reset_io_flags(ubq);
-+		ublk_queue_reset_io_flags(ub, ubq);
- 	}
- 
--	/* Check if all queues are ready */
--	if (ublk_dev_ready(ub)) {
--		/*
--		 * All queues ready - clear device-level canceling flag
--		 * and wake ublk_dev_ready() waiters.
--		 */
--		mutex_lock(&ub->cancel_mutex);
--		ub->canceling = false;
--		mutex_unlock(&ub->cancel_mutex);
-+	/* All queues ready - wake ublk_dev_ready() waiters */
-+	if (ublk_dev_ready(ub))
- 		wake_up_var(&ub->nr_queue_ready);
--	}
- }
- 
- static inline int ublk_check_cmd_op(u32 cmd_op)
-@@ -4433,9 +4444,10 @@ static bool ublk_validate_user_pid(struct ublk_device *ub, pid_t ublksrv_pid)
- 
- /*
-  * Wait until all queues have fetched their I/O commands, and return with
-- * ub->mutex held and readiness guaranteed: then every queue's ->canceling
-- * is cleared. Ready may regress between wakeup and mutex_lock() (F_BATCH
-- * UNPREP, daemon death), so re-check it under the mutex and wait again.
-+ * ub->mutex held and readiness guaranteed. The queues stay canceling if
-+ * this round saw a cancel, see ublk_queue_reset_io_flags(). Ready may
-+ * regress between wakeup and mutex_lock() (F_BATCH UNPREP, daemon death),
-+ * so re-check it under the mutex and wait again.
-  */
- static int ublk_wait_dev_ready_and_lock(struct ublk_device *ub)
- {
--- 
-2.55.0
-
-
-
-
-Thanks,
-Ming
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 0bb86a43a592..23677d76f9d2 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -11283,10 +11283,10 @@ static int sched_non_preferred_cpu_push_stop(void *arg)
+  		 * safely bail out.
+  		 */
+  		cpu = select_fallback_rq(rq->cpu, p);
++		context_unsafe_alias(rq);
+  		rq_lock(rq, &rf);
+  		rq->npc_push_work_pending = false;
+  		update_rq_clock(rq);
+-		context_unsafe_alias(rq);
+  
+  		if (task_rq(p) == rq && task_on_rq_queued(p)) {
+  			struct rq *dest_rq = __migrate_task(rq, &rf, p, cpu);
