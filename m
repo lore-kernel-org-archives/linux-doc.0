@@ -1,203 +1,199 @@
-Received: from mta0.migadu.com (out-7.mta0.migadu.com [91.218.175.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC663AEF21
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 08:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8003AE6FC;
+	Tue, 29 Sep 2026 08:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790668870; cv=none; b=rNIAAdYDw1fsSP1rWQu5NVQ+wMRGyf4rDoVy9K6TEHIulBAazb1hlaQiNMucY4+O9w9fFwjEItV/+Ocd7UAyObceGgfpeZ9jqDSKecc424W/Qbx7iQgeYWFA66hf53sCBGHBug9fhiLxuF1s7NdI5PHYIuFMRcRfZz5cAhE8qTQ=
+	t=1790668882; cv=none; b=hvxC+UnxPLYD4pfjAXDp5YTdjip+7doVgoPGqKJLcKb8v1sVDRYU70iZOloIdNBGESRUgsnq7nttisoKzWFSXcj7VWaazsYVYfNQuy9c5myeRVpqrrq+bx8PWoruvAl/M0jHQIvcDYsheQA+qWHP9OmIHybtJItEg/1UfnKOjoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790668870; c=relaxed/simple;
-	bh=MD9qZpr2p5t9FhYsovu1Jono6fdj3Cfdqpkd+cOqNz0=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=t5izDbi3zCNJGWGCVSO2GAlQct4mxesOgygyxJqJftkqp6EMk77ewZSDhjLcBHgiTynoPusSEje/APy/X/gNmnZwilSQ0/goo5nC0n3d9JQ1mHoBVmQTen7aJD832B9g0DdnMC+j15luLNSTiPuTwKbpdY6uT0auWfFUKRMq+us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uwkw+xlU; arc=none smtp.client-ip=91.218.175.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790668882; c=relaxed/simple;
+	bh=PmlbDtksbQyBLekA8pPOMkFDXd2oDQXvK0e+zqfxaxY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qGLnci7cnPAJvm6Rd2HMhnEt+6JuKeVuja6Pol9gWAVaBTv7lp6b2XMpdxvRWA1uQ7YKplf81vLbHM9IYnB/zNxVlVsY1Ta6xbZy6OEVboLkp9kt8un6UG0vAiK4bapNXK8EfGBXBYfTH4a51jMToV8BJDeUbXjGZudqnKwiZKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EjZv7jzf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uwkw+xlU"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=MD9qZpr2p5t9FhYsovu1Jono6fdj3Cfdqpkd+cOqNz0=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790668865; v=1; x=1791273665;
- b=uwkw+xlUVWQ2sgOn7jzpFAYwfkWbYfy9enm1gQfMh/5pjq0Y2gGxrAEBUOZbR6KXKrOaGHf9
- jARK7fAnWoUsdM9iJWvFgzFlHRoRzy+qHJoPHLtLiMC+hA3B84hOq1ifN0p/NTLmZQZJh2Jyutn
- mSUiU9tHWXM8ddBhVjGxZmjk=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 737886a2c9b58270;
-	Tue, 29 Sep 2026 08:01:05 +0000
-X-Mizu-Trace-ID: 737886a2c9b58270
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EjZv7jzf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3825C1F000FF;
+	Tue, 29 Sep 2026 08:01:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790668880;
+	bh=a6KTCI9sEhcxrT3X+lHb4vCE6F9AtSD5ReH23TAc3Jk=;
+	h=From:To:Cc:Subject:Date;
+	b=EjZv7jzfA7ZhfyPnj6C565KTMPF9Xp9dnV2T7/7V2B6zmLT4IOSRbMTM0iWRDwKxZ
+	 Eior/5Cq15wHnuYwodm5mcQeGLg15ze8xOEbUJr1yd/GfD3ey41ChrmUoj2Tvon6Vc
+	 X//5FAf87wv+cfIz2WF99Oras9LC7ZuXmoX7gcIHJ+b6nWEb9odN5PnBs+rv6aDNFH
+	 QZsueVeWxTr0BPafzyAIr+/xrRTdGwf3kOAQ48IMbZ5HpE/ANprjg1l1UeucZ/93Na
+	 iLizpBqTT3a6NxuuAsQybdeCJ0mckJ6dRGAEhD23gUDGfRwuN/3hL0HhDqEbcJMmp/
+	 Xsy3H/2c4q2LQ==
+From: SJ Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SJ Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 0/8] mm/damon: introduce damos quota goal target metric complement flag
+Date: Tue, 29 Sep 2026 01:01:03 -0700
+Message-ID: <20260929080113.41708-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.11\))
-Subject: Re: [PATCH v5 02/12] mm/sparse-vmemmap: allocate shared tail page
- array dynamically
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <36a93f95-2fb4-4310-bef2-88c12dbe7971@kernel.org>
-Date: Tue, 29 Sep 2026 16:00:42 +0800
-Cc: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Oscar Salvador <osalvador@suse.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Jonathan Corbet <corbet@lwn.net>,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org,
- linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Lance Yang <lance.yang@linux.dev>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <78618F09-296E-4632-A890-53351739024D@linux.dev>
-References: <20260927025441.741633-1-songmuchun@bytedance.com>
- <20260927025441.741633-3-songmuchun@bytedance.com>
- <36a93f95-2fb4-4310-bef2-88c12dbe7971@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: Apple Mail (2.3901.100.1.1.11)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+Aim-oriented DAMOS quota auto-tuning assumes the aggressiveness of the
+scheme (quota) and the quota goal metric are directly proportional.
+Depending on the scheme setup and usage, keeping the relationship can be
+challenging.
+
+For example, let's suppose a memory tiering approach for higher upper
+tier utilization.  One common idea for that (TPP) is utilizing two
+schemes, one for promotion and the other one for demotion.  The
+promotion scheme migrates hot pages from lower tier to upper tier,
+aiming for high utilization of the upper tier.  The demotion scheme
+migrates cold pages from upper tier to lower tier, aiming for head room
+free memory of the upper tier.  Both schemes and their goals are in
+direct proportion.  However, for this kind of use case, we need to
+implement two different goal metrics (per-node memory utilization and
+free memory ratio) while essentially the free memory ratio is just a
+complemented value of the utilization.
+
+To avoid adding too many new metrics, we are adding metrics that turn
+out to be really needed for each found use case.  For example,
+some_mem_psi_us, node_eligible_mem_bp and hugepage_mem_bp don't have
+their complemented value version.  But it is not really difficult to
+expect use cases that their complemented version can be useful.  For
+example, hugepage_mem_bp use case may need a way to reduce the hugepage
+ratio.  That would require a complemented version of hugepage_mem_bp.
+Adding a new metric for each of such use cases could make the number of
+metrics unnecessarily high, and discourage flexible usages of DAMOS.
+
+Add a new flag, quota goal complement, to allow flexible tuning goal
+setup without unnecessarily increasing the number of metrics.  The flag
+specifies whether to use the complemented value of the given goal metric
+for the tuning.  For example, if the complement flag is set, the upper
+tier memory utilization ratio metric works the same as the free memory
+ratio metric for the tier.
+
+Patches Sequence
+================
+
+Patch 1 introduces the quota goal complement flag API and implements its
+behavior.  Patch 2 updates damos_new_quota_goal() to receive the flag.
+Patch 3 update DAMON sysfs interface to support the complement flag.
+Patches 4 and 5 extend existing kunit and kselftest to cover the new
+flag.  Patches 6-8 update design, usage and ABI documents for the new
+feature.
+
+Note: Below is additional information that is not intended to be added
+to the final commit message.
+
+Test
+====
+
+I tested this feature using the latest version of DAMON user-space tool,
+damo [1], as below.
+
+On an idle system having 10 GiB single node memory (node id 0), fill up
+80% of memory with page cache.
+
+    $ dd if=/dev/zero of=foo bs=1M count=$((1024*8))
+
+Run DAMOS with pageout action for 80% of free memory, but using
+node_mem_used_bp metric like below.
+
+    $ sudo ./damo start --damos_action pageout \
+            --damos_quota_space 100M --damos_quota_interval 1s \
+            --damos_quota_fail_charge_ratio 1 4096 \
+            --damos_quota_goal_tuner temporal \
+            --damos_quota_goal node_mem_used_bp 20% 0
+
+Because the system has more than 20% node 0 memory utilization, DAMOS
+does nothing, as expected.
+
+Run DAMOS with pageout action for 80% of free memory, using
+node_mem_used_bp metrics with complement flag like below.
+
+    $ sudo ./damo start --damos_action pageout \
+            --damos_quota_space 100M --damos_quota_interval 1s \
+            --damos_quota_fail_charge_ratio 1 4096 \
+            --damos_quota_goal_tuner temporal \
+            --damos_quota_goal node_mem_used_bp 80% complement 0
+
+Because the complement flag is given, it is effectively the same as
+node_mem_freepbp metrics with a target of 80%.  DAMOS reclaims the page
+cache ~100 MiB per second, until the free memory ratio (complemented
+memory utilization ratio) reaches the goal, 80%.
+
+Changes from RFC v5
+- RFC v5: https://lore.kernel.org/20260928093342.16584-1-sj@kernel.org
+- Rebase to latest mm-new.
+- Drop RFC tag.
+Changes from RFC v4
+- RFC v4: https://lore.kernel.org/20260927120533.50484-1-sj@kernel.org
+- Fix a typo in test code (s/complementfalse/complement/).
+- Extend sysfs.sh DAMON selftest for complement flag sysfs file.
+Changes from RFC v3
+- RFC v3: https://lore.kernel.org/20260923101454.5748-1-sj@kernel.org
+- Rebase to the latest mm-new.
+- Add tests done to the cover letter.
+Changes from RFC v2
+- RFC v2: https://lore.kernel.org/20260919011359.88921-1-sj@kernel.org
+- Avoid quota goal value underflow for some_mem_psi.
+- Handle complement flag for psi goal with unset last_psi_total.
+- Pass complement argument to damos_new_quota_goal() from core and
+  core-kunit.
+- Explicitly document no-op complement behavior for user_input.
+Changes from RFC
+- RFC: https://lore.kernel.org/20260918142827.85303-1-sj@kernel.org
+- Avoid quota goal value underflow.
+- Fix usage doc for number of files in each goal directory.
+- Rebase to the latest mm-new.
+
+[1] https://github.com/damonitor/damo
+
+SJ Park (8):
+  mm/damon/core: introduce damos_quota_goal->complement
+  mm/damon/core: add complement argument to damos_new_quota_goal()
+  mm/damon/sysfs-schemes: support quota goal complement flag
+  mm/damon/tests/core-kunit: test quota_goal->complement commit
+  selftests/damon/sysfs.sh: test quota goal complement flag file
+  Docs/mm/damon/design: document damos quota goal complement flag
+  Docs/admin-guide/mm/damon/usage: update for quota goal complement file
+  Docs/ABI/damon: update for quota goal metric complement sysfs file
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |  6 ++++
+ Documentation/admin-guide/mm/damon/usage.rst  | 15 +++++----
+ Documentation/mm/damon/design.rst             | 15 ++++++---
+ include/linux/damon.h                         |  4 ++-
+ mm/damon/core.c                               | 33 ++++++++++++++++---
+ mm/damon/lru_sort.c                           |  5 +--
+ mm/damon/reclaim.c                            |  5 +--
+ mm/damon/sysfs-schemes.c                      | 30 +++++++++++++++++
+ mm/damon/tests/core-kunit.h                   |  5 ++-
+ samples/damon/mtier.c                         |  2 +-
+ tools/testing/selftests/damon/sysfs.sh        |  3 ++
+ 11 files changed, 101 insertions(+), 22 deletions(-)
 
 
-
-> On Sep 29, 2026, at 15:21, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->=20
-> On 9/27/26 04:54, Muchun Song wrote:
->> Commit 622026e87c40 ("mm/hugetlb: remove fake head pages") added the
->> per-zone vmemmap_tails array. Its size depends on MAX_FOLIO_ORDER, =
-which
->> had been moved to mmzone.h in preparation for the array.
->>=20
->> PUD_ORDER is defined by linux/pgtable.h, which cannot be included =
-from
->> mmzone.h without creating an include cycle. It was therefore =
-open-coded
->> as PUD_SHIFT - PAGE_SHIFT.
->>=20
->> This removed the dependency on PUD_ORDER, but not the underlying
->> dependency on architecture page-table definitions. PUD_SHIFT is
->> generally provided by architecture page-table headers, which are not
->> guaranteed to have been included when mmzone.h is parsed.
->>=20
->> The dependency remained hidden because vmemmap_tails was originally
->> guarded by CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP. Under that =
-condition,
->> MAX_FOLIO_ORDER resolves to either MAX_PAGE_ORDER or the fixed =
-HugeTLB
->> limit, rather than the PUD_SHIFT-based definition.
->>=20
->> Device DAX, however, does not require CONFIG_HUGETLB_PAGE. When it is
->> converted to use section-based vmemmap optimization, MAX_FOLIO_ORDER =
-can
->> resolve to PUD_SHIFT - PAGE_SHIFT while it is being used to size
->> vmemmap_tails. This would make struct zone depend on architecture
->> page-table definitions being available when mmzone.h is parsed.
->>=20
->> Replace the embedded array with a pointer and allocate it on first =
-use.
->> This moves the order-count evaluation into sparse-vmemmap.c, after =
-the
->> architecture page-table definitions are available, and removes the
->> dependency from mmzone.h.
->>=20
->> Removing the compile-time array also removes the original reason for
->> keeping MAX_FOLIO_ORDER and the vmemmap optimization sizing =
-definitions
->> in mmzone.h. Follow-up cleanups can place each definition in the =
-header
->> owned by its respective subsystem.
->>=20
->> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->> ---
->> v5:
->> - Add this patch to fix the RISC-V build failure under the =
-configuration
->>  reported by the kernel test robot
->> ---
->> include/linux/mmzone.h |  7 +------
->> mm/sparse-vmemmap.c    | 35 +++++++++++++++++++++++++++++++----
->> 2 files changed, 32 insertions(+), 10 deletions(-)
->>=20
->> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
->> index acd94cecc0d3..68807ff7f946 100644
->> --- a/include/linux/mmzone.h
->> +++ b/include/linux/mmzone.h
->> @@ -113,11 +113,6 @@
->> (VMEMMAP_OPTIMIZATION_PAGES * PAGE_SIZE / sizeof(struct page))
->> #define VMEMMAP_OPTIMIZATION_MIN_ORDER =
-(ilog2(VMEMMAP_OPTIMIZATION_NR_STRUCT_PAGES) + 1)
->>=20
->> -#define __VMEMMAP_OPTIMIZATION_NR_ORDERS \
->> - 	(MAX_FOLIO_ORDER - VMEMMAP_OPTIMIZATION_MIN_ORDER + 1)
->> -#define VMEMMAP_OPTIMIZATION_NR_ORDERS \
->> - 	(__VMEMMAP_OPTIMIZATION_NR_ORDERS > 0 ? =
-__VMEMMAP_OPTIMIZATION_NR_ORDERS : 0)
->> -
->> enum migratetype {
->> MIGRATE_UNMOVABLE,
->> MIGRATE_MOVABLE,
->> @@ -1156,7 +1151,7 @@ struct zone {
->> atomic_long_t vm_stat[NR_VM_ZONE_STAT_ITEMS];
->> atomic_long_t vm_numa_event[NR_VM_NUMA_EVENT_ITEMS];
->> #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
->> - 	struct page *vmemmap_tails[VMEMMAP_OPTIMIZATION_NR_ORDERS];
->> + 	struct page **vmemmap_tails;
->> #endif
->> } ____cacheline_internodealigned_in_smp;
->>=20
->=20
->=20
-> [...]
->=20
->> struct page __ref *vmemmap_shared_tail_page(unsigned int order, =
-struct zone *zone)
->> {
->> 	void *addr;
->> - 	struct page *page;
->> + 	struct page *page, **pages;
->> 	const unsigned int idx =3D order - =
-VMEMMAP_OPTIMIZATION_MIN_ORDER;
->>=20
->> 	 (WARN_ON_ONCE(idx >=3D VMEMMAP_OPTIMIZATION_NR_ORDERS))
->> 		return NULL;
->>=20
->> - 	page =3D READ_ONCE(zone->vmemmap_tails[idx]);
->> + 	pages =3D READ_ONCE(zone->vmemmap_tails) ? : =
-vmemmap_tails_alloc(zone);
->=20
-> This reads much nicer if you handle the  =
-READ_ONCE(zone->vmemmap_tails) inside
-> the function.
->=20
-> pages =3D vmemmap_tails(zone);
-
-Sounds good.
-
->=20
-> So just place the entire logic of obtaining the array in there.
-
-No problem.
-
-Thanks,
-Muchun
-
->=20
->=20
-> Apart from that LGTM.
->=20
-> --=20
-> Cheers,
->=20
-> David
-
-
+base-commit: af86bf5500fcc53d591e1000e6e08dec1227fb06
+-- 
+2.47.3
