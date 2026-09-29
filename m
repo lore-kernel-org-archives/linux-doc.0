@@ -1,229 +1,296 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011046.outbound.protection.outlook.com [40.107.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f228.google.com (mail-pg1-f228.google.com [209.85.215.228])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1221E53B358;
-	Tue, 29 Sep 2026 16:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790700972; cv=fail; b=u8tnsnbsmxGYCcT3HU+PIfE0Ui9ha9RIb9EwzZIpCH6GW6dozJS1QQ+7bzb3DunyLnaBNAat9J0NssI821N8I2UGx0epXPD1dg7j9GBP14SwAiic/WQ+v4BM1pJyly4+22GiAE+v/vO5r8WsR1hW+vcjiCqCNuLDm84LwK5I6N4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790700972; c=relaxed/simple;
-	bh=Ad5XmpCI6OIjQQUiX9AFAFF8jPw92d16/9UZOqTLJ4A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CEicpANpFddF3+/q2eW0Rmm2aLr/Nn2ok22wbli0HN/i10ruT6v/ODGp5JlqSLOOk9SxBPkGhc6VR1YgdMXK5R5wAX6g4Rte3rkdIDJY4kfl2//9BOXzu9HUE9Ku338aOO68uihk7V7IrGbPkc/xEbY7EOR8CYrxLircZTtkqms=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MeP26QnZ; arc=fail smtp.client-ip=40.107.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D95B4D2EDB
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 17:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.228
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790701988; cv=none; b=lsR7Zr2t3AKGMPcnI8PL9Qo5b/Jf1jJyr93vAFXkzPt8K6HISVmXfxzHl5dLIR1Cmy4O+KRYGhxln+C+9EE4caHM6c+0kasiO8C9y0ECmnp6c+kmK1S5GNcsjXpoEhQxBCBr5s4Q4+hs++6o4NeIyjuv5oOOdYW8ruwhFk57VXo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790701988; c=relaxed/simple;
+	bh=R50Dmpq5Ge1SniR82+EpJXJpq9LvvVZmkeICHIXXObY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hWWiroZrchZ5ZdkrVccliHadB0bVdRqV2adirnkdLlzDHyjtZaAFFmhkzWCZM5HrSdvdZgFrxlyAOnaZjFvWF9XPoCWuHE/ULBULGCqjZ7EgsaWX4PIVEoAP3Wa9y0djjJR8fnMMnrX2tOEfVlrCd0bGmfi+Svz/B1aRb+MbdTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=WX+59uPR; arc=none smtp.client-ip=209.85.215.228
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MeP26QnZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pqLTtenB7+qgI8SWhVtC0YnF9apjNJdOvka8bztRGmbRY2qZ2kO8ju57HDa44OJf++W0+2H9RSo8PG2S4r1d+1qCtSbYolvfqOleID3Fv+BKzpwBHdFKVBnSv2pEALULqmHNX2FVc5iNVT2bHm5cWM9rsq3sqqrKFEnvMp38z4/Mfy+uRQ/nJD7SQza8a0H9W3GSpZ8ELfXtQSsnOlNGL37lFUbv/N7pZkNCQvGzI1Be4HZuJpgCeqKnjOdU7RRzO2ZZLICmlKmRH9iLMpL1fTTRUbFafQJKP7jxjzhO8uvkhQAe6R5KS0Bma7MqwGm78zPncKv4/Ynm7ayN2Y3FRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K3EgK+Pq2OSa8tGuyR+9zwVemQJ87+rRd+5XFuCg3RA=;
- b=s4w3k3xFc8CfcwKvOrzTptb0ONOn4X1xM6wHOXI7XJd0opERVG9iCkw0qpyk3W4/EimVN5KnC/jwQDjUkqP7nSP9E9n9nYP8AW2QeCCyYf1zmnmyvTXJurQ2j1NJj3mkEp4up1HI+n/4VwVB60Pm6vQlWqEtOWjDYGr5McrThQuncB/6rfdgDG9Ki11m8Q5XI3N0QQVuYAEbabZbnc+53fg9r9FEJ/beVpv33/NHdc+eCk5b4p5M9DB0rvXtWQDlIG3CXE7LYHNnE2vJYBTHCD2yyezhJoXKZMmRQj6XW5rgaVmqzwVthXqZ/7ybVTzsEn2HzNHHSX0q8Cj60YOgIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K3EgK+Pq2OSa8tGuyR+9zwVemQJ87+rRd+5XFuCg3RA=;
- b=MeP26QnZXveB9K00eK+Gd4B5CnTk0+h7xQXwSwwGG/DAE4cQ2uFbQHJvFL8fwaLd/N/dy73OwJXz+Dw1DB32iZJcG50nqgbbrFdr6am+wbO3a3wiJ9CI7RWWcTnmyCViIMTKIuFbp4aL34h3xiCdQDUen5S53ycYR2kkPPgZtiAPLLGx/nUAyJntqFGVpgSpG8q870kvO6sjeJJch+8DceT242YxuNiKqyrzmafIfg95fU79m1VYY06oDyFaKhuZrCffYBCo/qaIZCyH9WHSQ3/mGqkvHhTl0BNqZICV1ryFk2o4jPgQbJlw1IU+4RRjylltvzVLge4mHroQaBcS6Q==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB4827.namprd12.prod.outlook.com (2603:10b6:5:1d6::14)
- by CH3PR12MB7620.namprd12.prod.outlook.com (2603:10b6:610:150::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Tue, 29 Sep
- 2026 16:56:03 +0000
-Received: from DM6PR12MB4827.namprd12.prod.outlook.com
- ([fe80::6261:3040:864b:159c]) by DM6PR12MB4827.namprd12.prod.outlook.com
- ([fe80::6261:3040:864b:159c%6]) with mapi id 15.21.0451.022; Tue, 29 Sep 2026
- 16:56:03 +0000
-From: Andrea Righi <arighi@nvidia.com>
-To: Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Will Deacon <will@kernel.org>
-Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Christian Loehle <christian.loehle@arm.com>,
-	Srikar Dronamraju <srikar@linux.ibm.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Phil Auld <pauld@redhat.com>,
-	Breno Leitao <leitao@debian.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Lee Trager <ltrager@nvidia.com>,
-	Vikram Sethi <vsethi@nvidia.com>,
-	Kayra Cizmeci <kayracizmeci@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] sched/topology: Add asymmetric SMT packing override
-Date: Tue, 29 Sep 2026 18:54:41 +0200
-Message-ID: <20260929165538.726616-3-arighi@nvidia.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260929165538.726616-1-arighi@nvidia.com>
-References: <20260929165538.726616-1-arighi@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MI1P293CA0024.ITAP293.PROD.OUTLOOK.COM (2603:10a6:290:3::6)
- To DM6PR12MB4827.namprd12.prod.outlook.com (2603:10b6:5:1d6::14)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="WX+59uPR"
+Received: by mail-pg1-f228.google.com with SMTP id 41be03b00d2f7-cc4aa0246b7so444191a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 10:13:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790701986; x=1791306786;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MX26lFXm93NYLqY38tQaLRN2TPwzheoo4giv1vYlLS4=;
+        b=hj8pUdj+ta2VHniS866M7lI4dYZ9npg0j+PjZQFI+chvpL0gPzZtC/Z22CFa4vt2lg
+         8mnKB2CE2sQuuZf2r4bSjoqpWLhHaJ8a7BW1OPiOtJb83J87XtPTJ3W0cayaONBEJzXJ
+         sTpFrESPciZwfBfwJpP74qHi7p1Y7h9nSyLeFxixrL9nXvluEDwSmPxWXNY/IY5IZh6l
+         yAKXI4aPzwRp3cQjP+ZXUTav0XC6G3IfwYHZhqus8jx+cokopUCANZoND+okci/wNG7D
+         B/adEBnZ6mwpfsBwx8zwkh33JC3H6IHcFu1anmW9PQWiUB73IKt51qqeu0hpBRZd9Vq8
+         FkuA==
+X-Forwarded-Encrypted: i=1; AKwUvBz4HZ6IXoCz/P2ZlcL2K4jP69ndhHxNSMsNtrTd+Jbx+cMbV6juYK9AMJBdr+vAsTtiaWIEjd/jkys=@vger.kernel.org
+X-Gm-Message-State: AFuF++mnU5cF1rxPkTDxHLFy3yRgJTbXQw2VUso6XvfDDOLehploF9z3
+	piY+J2gk9Sj9A+OoXzHPkAnhSpzT/JFH8iBNXKrpMcKRTJIUg+cuRShJCiqv5QW2yPrgbCcgihL
+	R01wSm0AgeBBaGr4osl09uJKurdiY3M5PhRrheY196afnv7iZpy+RP+9T87xf+zvjecY/jskCZz
+	T2dIIZq+4jiCZifNybQm+9/dKJ+Ky8n9mIEjtKowTgXKSvksMcljJ0h+Mq6ntQDpbptavPBF/XG
+	XNIGykDVAXy
+X-Gm-Gg: AYBFou2SLV2AuxvzvlpsWztAEDhnFqVU6OAR7T9ZbtoClCXZm6CfZFi3OV6k0LsiMhM
+	cphXq3ugaYZCrB3at16aIxalsyXefPlMfh9RluXyEOS1GFPEQ/QHrhdGxajpCsSQRRFvmcbireo
+	2NaVYjbJrFDVjvk91iyb/2MgxlYI0rTzF6fdX6fuZUAuZVqzK6tQrSBL3gHhkomed+DMASPEea3
+	TJ1p3sNlngOOM1ft2L8SqKSaM4nfhYMoRHoZKDXoP/CM5818RN14SnBYqTXYiUbVKGGR9pe/rBO
+	QkCVPFAtkm3idvkUMThPZUQo86sIEHI1Shij9R/vBOcCsaXfiItc9U3Dtu7PM9K4oZnoledHSh/
+	F+x9ypOtoSwBLhDZAJjhNnBedpCAu9YBc/d9cuuFMgNSw7IUFFJML6PgXy3WveQBXwJgESAr4ha
+	xbe/2t7M9z2NZieY20t5E31nVCOS18zxrTCp0=
+X-Received: by 2002:a05:6a20:3d95:b0:3dd:a196:30a7 with SMTP id adf61e73a8af0-3de0e9b5de3mr14634165637.87.1790701986286;
+        Tue, 29 Sep 2026 10:13:06 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-124.dlp.protect.broadcom.com. [144.49.247.124])
+        by smtp-relay.gmail.com with ESMTPS id 41be03b00d2f7-cc7d2d54b8asm78108a12.5.2026.09.29.10.13.05
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 29 Sep 2026 10:13:06 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-30c0d568830so8892851eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 10:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1790701984; x=1791306784; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MX26lFXm93NYLqY38tQaLRN2TPwzheoo4giv1vYlLS4=;
+        b=WX+59uPRiMsbvsswpeSLI3PumXEPCEFG+FPdlmDrZf7U/rcIdwe+44uBD+KTJAXAoJ
+         27qdxFLdCDBsGQ8Z6AjaTn7+Y5IfPET4eHsbzK8XSModcOyylz5hPvyQ6nlzdIey5gSy
+         Hh2B/UjEs2yw/h1/uxE/7dQsQ1HHBZ8eBubcE=
+X-Forwarded-Encrypted: i=1; AKwUvBzUJJw2lFVZ0qdsJRJ0v7HNhXahdPbsBZ5zwfeZ4M4s9tBEjzk6NTJVJxYxc6wWKwAKasi+j2slg1g=@vger.kernel.org
+X-Received: by 2002:a05:7301:4908:b0:348:201a:6c8b with SMTP id 5a478bee46e88-348201a6ef2mr6324590eec.38.1790701983955;
+        Tue, 29 Sep 2026 10:13:03 -0700 (PDT)
+X-Received: by 2002:a05:7301:4908:b0:348:201a:6c8b with SMTP id
+ 5a478bee46e88-348201a6ef2mr6324466eec.38.1790701981900; Tue, 29 Sep 2026
+ 10:13:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4827:EE_|CH3PR12MB7620:EE_
-X-MS-Office365-Filtering-Correlation-Id: f82fac17-70bd-4bd6-c783-08df1e4a8c07
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|7416014|10067099003|56012099006|11063799006|3023799007|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	HrWlNETenyLEDs2QM6+uAPfKoMc5ju3917ucMl4EIJOXaaKylqA8OL8zAI7zE4tY/KGNcILkG5mDLbIg4l0odOASeLJPqhMNZA8tkHC1FgexePcVjJp8T2iXofPyt8v7I/isqNFUwjrEG8zLxH0sHhe2wKVKWC7lbOcfiy64680m43gsQ7Ee2ug+ZHfI9LFuLdINjVHb5FrwQsLhiw56L6d7HeKaduQcnUAgzPgYBMoNHoGURTOV89vjSXQgS0tJxJkildPqg/8mIkDBI5ZEBsiAF+uq1W1wanR1EjxWZjmC3YiPAWuSpaJtUNjU3grqf972TJ7CeCIcPKG/tDK2ZDyfWJsJjLE4K2loJhI7wIJt9TIHCe9SACbEOaT2OlflSPXFjR3wXBDvyjTQhG35pQAiepZCwXaWR4o+3f94kClAOyMfMQTNHBh3tCoa3j9dOYUbkVQ2xwVxT0Uyb7Mf15Dndi7SGXZQnfDyaWYgq9/guiHRdhD6ZNDqEsDHg26II3vzjWnE7omvlH0wqcfRpSp5YugEq+uMr8kcbJVuvXhKWLCe/ZZaT+UzDMAPXN4Ukve7I8M61S8zUP+hPmZ5h3BbLGKmEwMpLQuUZIdhnV4y4ZgHdkObKWezxxK/9Kbw6RmGYMOsxWXiYIs6b7SFIy8i21ZLnGPajYQK6+wN7jI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4827.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(7416014)(10067099003)(56012099006)(11063799006)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?2I5/dBKR8uBrkBiMTOJvHx2NfrHrChIYVMgcvOVnNg/uAeBXhO/PYKYcBtf8?=
- =?us-ascii?Q?AwZzIv2U54YLBmxPOJMNDARzewgQB+iBxztLaLaXFijrehl1MM6FWj3J+PHg?=
- =?us-ascii?Q?W72TgNEpDCsuiWkNrQds/VCOdipCUSiwUHpa5L2McZ0jq1RbHRNlNDJdkkod?=
- =?us-ascii?Q?xiad225ofvxxqoK/zuN6GtBmIJs4hQKADV6zopdJ9Gc+PLDqr7WNpS53oMGi?=
- =?us-ascii?Q?xDmpANRCn3eLddDI/4dlJQniIkv+1EXSlsIC5sqaU777Dfu5azonhtdVRC9x?=
- =?us-ascii?Q?IJWcaTObQL1zlBP9Ofmbk7mmDo31iuJ0nKbGWArg4IHWFq160RED1JCM04GW?=
- =?us-ascii?Q?Nb7EC45GSJJnsF5Cf6EtPVjIO8UQLEMdvIDBPPllEbZ/L3bbFKEmQBW2Ck6l?=
- =?us-ascii?Q?UVwJBw5plA8iVGwfS6AO8p5mubxUgAPy41HTQ9qRivlxVORLf2RpZKIxJN1L?=
- =?us-ascii?Q?dU2eT/oFK7ICUVcsyyUPaIaJg2fCmqG1sRZ1fzJUtHVjLEMwlOMQMJ+xP79w?=
- =?us-ascii?Q?FVdNIh4w2PF/OMiocZgFhrZ+tomktjcMuffrFRdhNrv6bObdnwvkn0ynknRY?=
- =?us-ascii?Q?Vhui/igFxOFT0EpYBlcZabSYrvCnqwnIEve/7Oxf6TiolgzQJIHeyrd55OvU?=
- =?us-ascii?Q?9B9ZckBcCJqNFkVJo8h9pQ1gFIKyGujpxwgNqbZj6W7R9FFayLRk6JImGWlk?=
- =?us-ascii?Q?taZPl8NMaQgzHPNUJseiH2WC6y8Hz7XN4Qwx9W68uRZtpt6WOyL+1bGb3T/H?=
- =?us-ascii?Q?BgA8FInljGWYazLqzkfnmdkPn76R+KlNFjFbmc4tmMyl8nenlVn035WxTYF0?=
- =?us-ascii?Q?0Rhq25u7xgCDO7cW3nRLLnQAEgBN4HAfJutUFdjISg9dHskEbWBg9iHckEjj?=
- =?us-ascii?Q?NrDmx4AFlnZO1z4+V4SnDrDufkb5A03dqQSFgN+3rBzACUMyvhlF2Gq1H2NK?=
- =?us-ascii?Q?XZM2SS8h+6V+6ZZSv8cQm1mPukVxS8aOIwwMjpMeEHv+HWSP1XKxiz9sgJAI?=
- =?us-ascii?Q?w5Z+H2PV2rVzK6E3reOwkiclgFLKEiHW1KPJVkE2xuYRiFwH+rTYKjRBiPBz?=
- =?us-ascii?Q?j+tU8675pRzfyCC9KCXRIhhlLSk7AXK4kP6D2NhGjrUl8v0Jn1E8ViZz8Ylx?=
- =?us-ascii?Q?W+B5ZpJaYXV+DVHdULNZ7zYGx03ATLm+rErfGw6rj2NgfwJAUyae29p7poxq?=
- =?us-ascii?Q?gWwpXU4ltfCwVNjNiLxqf9/vppOoUv/h3aomm3PU2Abtlj2qvt0zpJocJa8t?=
- =?us-ascii?Q?vRHCS9Ym/x+YXCS3uDYHyPe9fcOBAmaYL9PuNW5/iGpRhb5wQL6uVjdRTic6?=
- =?us-ascii?Q?c4VTKnOTUNMk2q1EsCCIal2P0IJxy1iCz/tto3zmsUxQoiHv37t/bbvwKPv7?=
- =?us-ascii?Q?nKib1LWWRIlLRiYWZUxZgbkRDPfQF0AJ1NIkm8nPsmG4FKSFkpNuQOtXl1mF?=
- =?us-ascii?Q?2P4cO/LYqEMsgg23P1jmzvwS0MlXwtSp4na+9O2xum+qVf4WbqB2r9PPa1sf?=
- =?us-ascii?Q?wjge5mY42aGJPED0hYiTBOEdb1sGgPlzPnsOfTKF+Qe47Niy1oGAQ6Q1IYar?=
- =?us-ascii?Q?WDFd3F142GwTAxF8z9j7eQrdvv5RcyebU8+g3bxBhveyZYvvV/bMmsO+LwoS?=
- =?us-ascii?Q?+iQ/UcUbdmd+zMFntUk3VVTZCRd+zqO1J2EWrtka0OqCbbeoD1JHf1mQ3wKb?=
- =?us-ascii?Q?aJk+skLYQPnF2vGM/1MnWR7wINXna0asw+obKgmogA426pw67eM41A7t9NVd?=
- =?us-ascii?Q?/xZOBqu1ug=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f82fac17-70bd-4bd6-c783-08df1e4a8c07
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4827.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 16:56:03.7948
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nppver5+eef1PVVVcBS9XH6nahf3jXo/APkM4H5+Di3H8MpHP6mlbSK4OllO/JWS1lHcU0B3cDow0QmX7sahlQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7620
+References: <20260929040256.543767-1-zack.rusin@broadcom.com>
+ <20260929040256.543767-3-zack.rusin@broadcom.com> <20260929075426.GQ4120091@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260929075426.GQ4120091@noisy.programming.kicks-ass.net>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Tue, 29 Sep 2026 13:12:45 -0400
+X-Gm-Features: AclHuK9CQF2HwjTfB3IkA5Iz-7VKmkeLlHNlajXqAX5pb_ttJ9z-UY2UurMeehQ
+Message-ID: <CABQX2QP0+Jr6gG0nZkDggvyGWCSHMNVKPPavZTYBqH+wg7rdMg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] percpu: Bound decrypted storage for all x86
+ encrypted guests
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Kiryl Shutsemau <kas@kernel.org>, Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>, 
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Ajay Kaher <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	virtualization@lists.linux.dev, bcm-kernel-feedback-list@broadcom.com, 
+	linux-kernel@vger.kernel.org, Christoph Lameter <cl@gentwo.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Bo Gan <bo.gan@broadcom.com>, linux-mm@kvack.org, 
+	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev, kvm@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>, Ashish Kalra <ashish.kalra@amd.com>
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000b22bf2065ca24ba6"
 
-Architectures can use SD_ASYM_PACKING to describe preferred CPU ordering
-at the SMT scheduling domain. Some systems benefit from this policy, but
-their firmware cannot describe the preference and inferring it from the
-CPU model would embed a platform-specific policy in the kernel.
+--000000000000b22bf2065ca24ba6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add sched_smt_asym_packing=on boot option to force SD_ASYM_PACKING at
-the SMT level. Omitting the option preserves the topology provided by
-the architecture or firmware.
+On Tue, Sep 29, 2026 at 3:54=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
+> On Tue, Sep 29, 2026 at 12:02:51AM -0400, Zack Rusin wrote:
+> > @@ -1022,11 +1024,13 @@
+> >   * Note: We use a separate section so that only this section gets
+> >   * decrypted to avoid exposing more than we wish.
+> >   */
+> > -#ifdef CONFIG_AMD_MEM_ENCRYPT
+> > +#if defined(CONFIG_X86_MEM_ENCRYPT) && defined(CONFIG_SMP)
+> >  #define PERCPU_DECRYPTED_SECTION                                     \
+> >       . =3D ALIGN(PAGE_SIZE);                                          =
+ \
+> > +     __start_percpu_decrypted =3D .;                                  =
+ \
+> >       *(.data..percpu..decrypted)                                     \
+> > -     . =3D ALIGN(PAGE_SIZE);
+> > +     . =3D ALIGN(PAGE_SIZE);                                          =
+ \
+> > +     __end_percpu_decrypted =3D .;
+> >  #else
+> >  #define PERCPU_DECRYPTED_SECTION
+> >  #endif
+>
+> So you're page aligning something that will get different protection and
+> will thus shatter large pages?
+>
+> That is somewhat uncool. We like large pages, large pages are good.
 
-Apply the override centrally to domains with SD_SHARE_CPUCAPACITY so it
-also covers architectures with custom SMT topology callbacks, including
-powerpc.
+I'm a huge large pages fan too. I have a poster in my office and
+everything... And I never do things that are uncool. I have a wwcdd
+(what would cool dude do) bracelet and I look at it every time I make
+a decision, which given that I'm old gets on my wife's nerves a lot.
+That is to say I'm handsome and innocent.
 
-When enabled, priority remains defined by arch_asym_cpu_priority(). The
-weak default prefers lower-numbered logical CPUs, while architecture
-overrides remain authoritative. Siblings with equal priorities remain
-unordered. In particular, x86 with CONFIG_SCHED_MC_PRIO normally gives
-both SMT siblings the same core priority, so enabling the option there
-does not prioritize a sibling.
+The alignment isn't new. It has been there since ac26963a1175
+("percpu: Introduce DEFINE_PER_CPU_DECRYPTED") under AMD_MEM_ENCRYPT,
+which common distro kernels enable. This patch extends it to TDX-only
+builds and adds the boundary symbols. On bare metal and in ordinary
+guests nothing changes protection, so no large pages are split.
 
-Tested-by: Breno Leitao <leitao@debian.org>
-Signed-off-by: Andrea Righi <arighi@nvidia.com>
----
- .../admin-guide/kernel-parameters.txt          | 12 ++++++++++++
- kernel/sched/topology.c                        | 18 ++++++++++++++++++
- 2 files changed, 30 insertions(+)
+In confidential guests, yes, converting each CPU's page splits the
+direct map around it. The alignment doesn't cause that: a large
+mapping can't be part private and part shared, so a converted page
+can't stay inside one. The alignment only keeps unrelated per-CPU data
+out of the shared page. Because that page sits in every CPU's per-CPU
+unit, each 2M mapping that holds one of them becomes 4K mappings,
+including the ordinary per-CPU data around it. In the layouts we've
+tested that's most of the first per-CPU chunk.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index e75344f4e0cde..8157ff434cb5e 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6800,6 +6800,18 @@ Kernel parameters
- 			solution to mutex-based priority inversion.
- 			Format: <bool>
- 
-+	sched_smt_asym_packing= [KNL,SMP]
-+			Format: on
-+			Force asymmetric packing at the SMT scheduling domain.
-+			Idle CPU selection prefers siblings with a higher
-+			arch_asym_cpu_priority(). The default implementation
-+			prefers lower-numbered logical CPUs, but architecture
-+			overrides remain authoritative. Equal priorities do
-+			not establish a sibling preference. For example, x86
-+			with CONFIG_SCHED_MC_PRIO normally assigns the same
-+			core priority to both SMT siblings, so this option
-+			does not favor either sibling.
-+
- 	sched_verbose	[KNL,EARLY] Enables verbose scheduler debug messages.
- 
- 	schedstats=	[KNL,X86] Enable or disable scheduled statistics.
-diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
-index 3dab0253976fb..919d0fb00bd9f 100644
---- a/kernel/sched/topology.c
-+++ b/kernel/sched/topology.c
-@@ -32,6 +32,20 @@ static int __init sched_debug_setup(char *str)
- }
- early_param("sched_verbose", sched_debug_setup);
- 
-+#ifdef CONFIG_SCHED_SMT
-+static bool sched_smt_asym_packing __read_mostly;
-+
-+static int __init setup_sched_smt_asym_packing(char *str)
-+{
-+	if (strcmp(str, "on"))
-+		return 0;
-+
-+	sched_smt_asym_packing = true;
-+	return 1;
-+}
-+__setup("sched_smt_asym_packing=", setup_sched_smt_asym_packing);
-+#endif
-+
- static inline bool sched_debug(void)
- {
- 	return sched_debug_verbose;
-@@ -1954,6 +1968,10 @@ sd_init(struct sched_domain_topology_level *tl,
- 	if (WARN_ONCE(sd_flags & ~TOPOLOGY_SD_FLAGS,
- 		      "wrong sd_flags in topology description\n"))
- 		sd_flags &= TOPOLOGY_SD_FLAGS;
-+#ifdef CONFIG_SCHED_SMT
-+	if (sched_smt_asym_packing && (sd_flags & SD_SHARE_CPUCAPACITY))
-+		sd_flags |= SD_ASYM_PACKING;
-+#endif
- 	sd_flags |= asym_cpu_capacity_classify(sd_span, cpu_map);
- 
- 	*sd = (struct sched_domain){
--- 
-2.55.0
+SMP KVM SEV guests already pay this today. sev_map_percpu_data()
+converts the same pages for every possible CPU, at the same
+granularity. What v2 adds is TDX guests and guests on other
+hypervisors.
 
+Where you're right is that v2 converts in every encrypted guest apart
+from Hyper-V vTOM, even when nothing uses the pages. VMware only needs
+them when the steal clock is enabled.
+
+If this is a deal breaker for you for v3 I could convert only when the
+hypervisor's platform setup says it will use them: VMware when the
+steal clock is available, KVM when async page faults, steal time or PV
+EOI are enabled. That decision would be made before the conversion
+(for KVM that means making it in kvm_init_platform() instead of
+kvm_guest_init()), so there's still no readiness state, and other
+confidential guests don't lose large pages to this.
+
+If you'd also like to keep large pages while the steal clock is in
+use, the alternative is to move these buffers out of the per-CPU area
+into one tightly packed allocation. That concentrates the splits in
+that one allocation, so the rest of the per-CPU area keeps its large
+pages. Kiryl preferred the per-CPU section when we discussed v1, so
+I'd like to hear from both of you before going that way. fwiw, I'd
+vastly prefer to first fix the steal-time bug for VMware before trying
+to do this though (whether it's with this series or a smaller
+VMware-only fix). x86 kernel team is notoriously opinionated, which
+isn't a bad thing, but it means that a rewrite of core x86 bits like
+that will take a long time and it's starting to feel a little like I
+stepped into something and you're all behind blast doors yelling "cut
+all the wires you coward!!!" and I'm just confused going "I just came
+here to get some blueberries".
+
+z
+
+--000000000000b22bf2065ca24ba6
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
+SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
+uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
+s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
+SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
+QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
+fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
+iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
+3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
+91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
+06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
+b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
+VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIM95
+Y+wYvsgw8fhQBqM5K0hnr0Cphy3qyWfbqheI4Lz8MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI2MDkyOTE3MTMwNFowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAIs1XyjJtzbkWnWz4CvSJzIzWmQfcCZCoZmlK9+W
+gO7cQFBnXDSFH6BaqvcbnwfuCgxc8uTbdNAhVrz2tYB7wlMA7CnmensEs4Bo3Dv3+UJRHoue1B/a
+79slR+zpFcRNtYy3uYoLM4TMfeigm1hbw7tBZjsSWeAh427N23vBc/EUOYMMWCRgVaMacxoT0CGo
+NUYKDdWbHM98z2XMXy5XOPb6ZE0vB+iUQrzX209WdrlJugU6fmRa2M0tmF+qYXTJ22gOQU6Skl8Z
+Qzyl9Mcq7eHUSaIPkHAsXQfDKTjiZUiAV8XT4Uj/ONDn8lchVTWis9tt42eSjOwH1CEbhth5iWI=
+--000000000000b22bf2065ca24ba6--
