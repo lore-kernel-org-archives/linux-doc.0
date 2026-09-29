@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659894848AC;
-	Tue, 29 Sep 2026 08:43:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7912735C692;
+	Tue, 29 Sep 2026 08:44:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790671427; cv=none; b=RywI+MpeSrHnAa8CElNFs3uCdzXacZHxwTLLCqYoWno3RjMS2UY3qnCJzK5f9KlpO7zjWB6Ag+G1sl0NRxoewQD++v0xub5f+VT+utYVcDBQNz8d3DPfxBWAilN/XFTc2A1VFVtg603dvUVnco5egTS4FuXM/QHmvs+3sRRG3GU=
+	t=1790671485; cv=none; b=nyWwoYtoZkY2YKRCMo1PWceC47Si6m064BgN37N1jy7WipK362DS8TG8EryuOKSpbyWWftSLF2jMsyEiNyviFBPHPWkbwVbkAQ+7ysI7+3KBjWMEvDzRzvlrWqPlF8RSmeAVAgeUCvfKgWvZg3R27R1CpyrSeJ+tUpAUiZc08Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790671427; c=relaxed/simple;
-	bh=1Lu+5ULdbfh+9GxKVeU/8/6vbJ8TO3sc9LigRIKc+hI=;
+	s=arc-20240116; t=1790671485; c=relaxed/simple;
+	bh=IFdDTmxKbsSwmVt9jtoh80/tSfqgJIeCbdD4ktDdC24=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JZLBSC3/Xkt6LxqNlGUha0eGhnKhBzrMMW75d/QrLciT33fQgzcti0bJDjJArRUpvUSVcC5cnihczT19N4BmsAs9YQJS8GqgaS3J/HKrriaMI/5pDgBauB9zHaQvSVqCXc3gAgN7SUbBWe4UOAJqqK7RysqppI7FQ8e/eYAKtjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lBDwfrHY; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=jUKlB4LLpJlccFC4Uoe0s9CECnjnMyNN1bBk1ppouj7GsVnfVxRf0uL0gGK/4Eh5ZoGfQWorkdZKkiQ540+K4ujwQMyEywXQzQ6MD3FSAfrCmBOdXpBBpWDE5YYjM3chZGFetVw0eLROzv9+Hwa0hUeXiXQHCO6GfPQ+x6ybZdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fy7FxN0I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lBDwfrHY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C574A1F00898;
-	Tue, 29 Sep 2026 08:43:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fy7FxN0I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D44961F00899;
+	Tue, 29 Sep 2026 08:44:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790671425;
-	bh=n7ZwDHwCgtTpKzG09AoZx3xocuDeXqkubNatC0w4bQU=;
+	s=k20260515; t=1790671477;
+	bh=x4L/jE5ebP4VaIcoaqlRL5Ew3xtGuWL/copMvRUYC5A=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=lBDwfrHY3inuAoEAndHGXnyuoIoECnFC7ApDC5nXOylkuOkgrKDP01M2YdmnXg7N5
-	 OVQw0RPU2+xeG1SBHIkczI/C0AZr5hkyWrVnOhcArSM3wg+KAdakaIIbp7E9Av6qm5
-	 SO2BH0ZA1/M9djZtw+okW/M7pSV5/ROKA8jG1f6DsihZo2bMdDT8eVTAfMrnKyaB9P
-	 Nal/wms3eAZdrT00IRNZZ2v05dscRFGmcSIZVutDeXgalzyia5e+j8d5rb4Q8vZP9y
-	 NWnhHBt9pwDi0reGXW2WIsDjviAiIa7wIRcXC8j/nsq24KZDemVNRxLTH5zQvmhRJD
-	 8ldtZ7nJtx4pQ==
-Message-ID: <bf153c2c-ec21-4919-ae48-7ff97fe6ceb6@kernel.org>
-Date: Tue, 29 Sep 2026 10:43:39 +0200
+	b=Fy7FxN0IlIRFzxaE9D0CVee2wD8aBYfBGhMpfSJ5mU35Z0HXsavQxNKOJ/ifFcHDB
+	 7DPywdjuwW6jxeQxSR5zna3L6bplj4pTi5cOgmbWRH1DFbAy7Bta8TKii+fCWnJ/YT
+	 wd/VFXsLIIS0Lge88piuCgH9Vfj2px2o/oOOng34Htvac3JdTduprEAiqF9RthPeKe
+	 vnir0muq/qdyVBQ331EM0FEjj//JPAXixYRUTRPwd5drrOmrjXjgu1onPQ5bxjzvfP
+	 Q1lef2ekkipbtmQMDmSfMaZeuYVEQreTpQN4qaL/CjE9qJ/eCeJW0XbWijFyz94b8p
+	 32SMVGda3PK1Q==
+Message-ID: <7b7f0ce6-6f67-4f98-9408-59e9d0716135@kernel.org>
+Date: Tue, 29 Sep 2026 10:44:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,23 +35,20 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 06/12] mm/sparse-vmemmap: set compound page order for
- device DAX
-To: Muchun Song <muchun.song@linux.dev>
-Cc: Muchun Song <songmuchun@bytedance.com>,
+Subject: Re: [PATCH v5 09/12] powerpc/mm: switch device DAX to shared tail
+ vmemmap pages
+To: Muchun Song <songmuchun@bytedance.com>,
  Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
  <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Michael Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
- Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Qi Zheng <qi.zheng@linux.dev>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- Lance Yang <lance.yang@linux.dev>
+ Muchun Song <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Qi Zheng <qi.zheng@linux.dev>,
+ Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Lance Yang <lance.yang@linux.dev>
 References: <20260927025441.741633-1-songmuchun@bytedance.com>
- <20260927025441.741633-7-songmuchun@bytedance.com>
- <751f6586-625b-4485-9f27-409fdf38bf3e@kernel.org>
- <A77F22EE-0C10-483E-83D6-CC88D8485E88@linux.dev>
+ <20260927025441.741633-10-songmuchun@bytedance.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -98,81 +95,25 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <A77F22EE-0C10-483E-83D6-CC88D8485E88@linux.dev>
+In-Reply-To: <20260927025441.741633-10-songmuchun@bytedance.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 9/29/26 10:22, Muchun Song wrote:
+On 9/27/26 04:54, Muchun Song wrote:
+> The powerpc radix compound vmemmap population path still finds a reusable
+> tail page by walking the vmemmap page tables.
 > 
+> Switch it to the common vmemmap_shared_tail_page() helper instead, so it
+> can use the shared vmemmap page directly to simplify the code.
 > 
->> On Sep 29, 2026, at 15:30, David Hildenbrand (Arm) <david@kernel.org> wrote:
->>
->> On 9/27/26 04:54, Muchun Song wrote:
->>> Device DAX can use vmemmap optimization only when a full section is
->>> populated with a compound-page geometry. Record that geometry as the
->>> compound page order in section metadata before populating the section, so
->>> later vmemmap accounting and population decisions can use the section state
->>> directly.
->>>
->>> Clear the compound page order when the section becomes empty again. Also
->>> reject partial additions to a section that already has optimized vmemmap
->>> mappings. compound_nr_pages() determines how many struct pages to
->>> initialize with a section as the smallest granularity. A section therefore
->>> cannot safely mix optimized and ordinary vmemmap layouts.
->>>
->>> Partial additions continue to use ordinary vmemmap population, so they do
->>> not save vmemmap memory. Such additions are uncommon, and the lost saving
->>> is negligible.
->>>
->>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
->>> Acked-by: Qi Zheng <qi.zheng@linux.dev>
->>> ---
->>> v3:
->>> - Update the subject and commit message to use compound page order
->>>  terminology
->>> - Use EOPNOTSUPP instead of ENOTSUPP
->>>
->>> v2:
->>> - Explain why optimized and ordinary layouts cannot share a section
->>>  (suggested by Qi Zheng)
->>> - Collect Acked-by from Qi Zheng
->>> ---
->>
->> [...]>
->>> static struct page * __meminit section_activate(int nid, unsigned long pfn,
->>> @@ -838,8 +840,13 @@ static struct page * __meminit section_activate(int nid, unsigned long pfn,
->>> 	struct mem_section *ms = __pfn_to_section(pfn);
->>> 	struct mem_section_usage *usage = NULL;
->>> 	struct page *memmap;
->>> + 	unsigned int order;
->>> 	int rc;
->>>
->>> + 	order = vmemmap_can_optimize(altmap, pgmap) ? pgmap->vmemmap_shift : 0;
->>> + 	if (nr_pages < PAGES_PER_SECTION && section_compound_order(ms))
->>> + 		return ERR_PTR(-EOPNOTSUPP);
->>
->> Hm. Why should we support optimizing the vmemmap in case we fall into the same
->> memory section as boot memory?
->>
->> In that case, there already is a memmap allocated during boot for the entire
->> section. IOW, we really shouldn't mess with the vmemmap in case we have an early
->> section.
->>
->> But maybe I am missing something and this is already disallowed?
+> This removes the powerpc-specific tail-page lookup and its fallback path
+> and aligns the device DAX vmemmap optimization path with HugeTLB.
 > 
-> Yes, this is already handled.
-> 
-> For a partial addition to a normal early section, after updating the
-> subsection map we return the existing boot-time memmap here:
-> 
-> 	if (nr_pages < PAGES_PER_SECTION && early_section(ms))
-> 		return pfn_to_page(pfn);
-> 
-> Therefore, neither section_set_compound_order_range() nor
-> populate_section_memmap() is called. The fully populated boot memmap is
-> simply reused, and no vmemmap optimization is attempted.
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
 
-Perfect, thanks
+I did not grasp all the complexity of the old approach, but what i read here all
+makes sense to me.
 
 Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
