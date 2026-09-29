@@ -1,306 +1,277 @@
-Received: from mail-yx1-f99.google.com (mail-yx1-f99.google.com [74.125.224.99])
+Received: from mail-yx2-f40.google.com (mail-yx2-f40.google.com [74.125.224.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9AD53FD2B
-	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 17:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A3A5437FC
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 17:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790702731; cv=none; b=A0k5CPPx0qGe1uwb5PB2yOnACqskrQKJgKV0WRTSJoPIO8r4mvNH6GBUmLibm7c5rngpMEjlYDbUl1+1N/OShiyqlzyNmmx/dCz5WFh9sIUl0HrK1kB6WIC2yD2WHEJpFiDhW6CP3goCtECvPfmLMaNgMH74V1Ix56r/etXHGCE=
+	t=1790702904; cv=none; b=RZhJYZyJaKOO/j+ocdcAyKxoiosWAqRA8PVEZNVLhAJqDJ5ogTKe4+Dtnh6b5J27OR6uwl7kGOl4ZdP6PlYonI5V4gfzEUkfIoMyDA85iuzqKaC8f93aqEjqVMmWNO/RgwFMcHxuquRNJQ9fH8QRSQ222gDyM4o85AZXvGXCwKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790702731; c=relaxed/simple;
-	bh=Y558qIZxe+h5YeVyxvCyzsSWhPh00cmMc4hCjboY3dI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OS9S4Khk1UsiyOGg0vX83EUpkaJKyh8upVXLFiMcLPCfEMkoxC3jUAEmtpCHxhMMCbnPT/eA0Si7ZGaJkmCyuHHJ2Bum6vO67GAePFNDrujEBzFfLTpBikcTzdwWF5nnhTBShn+99KbGwK2YHRFwcaN5h/3WX0SRGkG4AkzaNDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=K2gvwnN/; arc=none smtp.client-ip=74.125.224.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1790702904; c=relaxed/simple;
+	bh=8j0qcZ7vyE2oW02nLC5r3IqAcVdJURVPkUEwZFw3aeQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tot//HfipVU0ZwY4a9IZIKCCbOsc0bj/QocqzgPXen8sNHdG2jM+fm5Ch1eB7X5QBxTedf4GYexyyYZkR7vcMhckQPb5VrLRPfeuCbueOIHA0S17et6IQhlk6nLjyy1bqPd3yZ01dBMfu+vEWNphO+eqRfOya9GH0f3Q0xUTIkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KuWEDymd; arc=none smtp.client-ip=74.125.224.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="K2gvwnN/"
-Received: by mail-yx1-f99.google.com with SMTP id 956f58d0204a3-66c744a00edso201128d50.2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 10:25:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790702728; x=1791307528;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Y558qIZxe+h5YeVyxvCyzsSWhPh00cmMc4hCjboY3dI=;
-        b=LXZX83wsQhXuXHeiuckW2YZXtIAALiQm5TYEzMg0+0r5zd4QZlRJVFWWvcmfABNXo/
-         HZ6z1hN7oOWiRt6zTy8YGtfhxOpqRvTE9twrM9eLvVXLs2aUseaDeCNN8cqoqR2xYlGv
-         pdIb0zx8ItpbmJlef3HCAxvteplyCKx50NRgcChjPqLuOn06StSN3vpio/aOxSp7/2Ky
-         tUyuQmGdPUdVrjdZ5GltNnpZVabxwbuNTj62JX4onl8y7yBHnj4HP+Me1k4rO6IAqJDZ
-         5sg1lz2sqhy0bkkHt/NLbwUVZGpV4y4fhmnqQeZ0/vArl/SOai4MwbfLVZbbFWeOnqrY
-         3I/w==
-X-Forwarded-Encrypted: i=1; AKwUvByL7JcLRes2HG/zpiAAD/J+d+HbATaUvPMecbmbcWnVUba6jH3/TSykZzADss9liSWof4RFPl59EeY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ0O7T41VUpheulQo4joiyN499cbzrZN5k24zLUR2IVvtycpwDh
-	X4B9YvcyPx58RO9sSVwMv56Pk7gIWA+mzKhNoCjv9RM1fDYh4IxpeIcThJNGE+OPX7ZEg7XrTki
-	mOmOrEGvBi8qnfBf2mDVPekNaWN8x+n6Rnk+4F8+1GADx925LWu+eNUL4UhbUkMMfbvmd+eJyGf
-	tXdeKmOugMhu+pNkRAG4Ip5qPjjcOFkReW9Jrh1+XNUfea/22AZx/fkust2qTWhlLTfbThhKQzo
-	mvizmtme7kx
-X-Gm-Gg: AYBFou2+ofBxN+SLWyFOuxn3vz/ebwY9fIORoa1061EiyF4yn93ohnxPjKrm3Btb2Lp
-	r4RTllh9X9Ltwa2g1vXKmn7VOnpQc0U7WzQJNgU4eZ0bOWs7jRHLEpwsSnJ3kr3f7w2EIiAvuCL
-	wXv1LNqZvJpzoh5eY8AQOmCb+9vDY0Tw0H7eG0JBxPkaaVvCHAwDTnygydFc10AYnxdTF3AEkwG
-	qDlgzThO/ylPtIiTTFBdFyn3Sw3mizaADfNrb0iuD8oJE3O57vHidzzot4fx+eCARgtOOAVGiED
-	DGMSj7aADLxWN+Ce8VI0IeBZ5bLZN3IMPvHFrFdsC62frV4wR0oCQ1G50aBW+Q8McUqoeOow2UK
-	J3iuFKlS+M3DsErx+oVJQ1Wa5dGRAevJHxHqHsHeqZCi3oaInxV/iXdQXb02YpmVsedFqsA7ZJA
-	MGBT0sWSRrmAS91wVBQeJBAEubtAhs8qNF5kE=
-X-Received: by 2002:a05:690e:1349:b0:675:710f:73ab with SMTP id 956f58d0204a3-675710f77e1mr618351d50.14.1790702728042;
-        Tue, 29 Sep 2026 10:25:28 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-125.dlp.protect.broadcom.com. [144.49.247.125])
-        by smtp-relay.gmail.com with ESMTPS id 956f58d0204a3-675ab9ad1fdsm96833d50.0.2026.09.29.10.25.25
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 29 Sep 2026 10:25:28 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-39b1a8b8bb1so35178071fa.2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 10:25:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KuWEDymd"
+Received: by mail-yx2-f40.google.com with SMTP id 00721157ae682-8ab46253999so9193587b3.2
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 10:28:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1790702724; x=1791307524; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Y558qIZxe+h5YeVyxvCyzsSWhPh00cmMc4hCjboY3dI=;
-        b=K2gvwnN//DbFQIk5b0iLWetLsCPigKln5T/MVolV71VwBXNphTuRCk3lY8IJqTlmdV
-         n8Ur0DHMiIc+q/wHqVCQHRJl2b6SYhjuoe2+EdTsRSDrPVgnwkI2A0kxs2xUCzlKI8LR
-         uIYG5e+xGJ/uNYFUR+NpGEJ6/6VYU2VaULBT8=
-X-Forwarded-Encrypted: i=1; AKwUvBxxJDbgWBZ8vC1UvBHmzIl7ny+sDHX9lae7zYiqOpy8l8FjEnfEu1LnBVzsEI224SpCZoqLgFVMq+4=@vger.kernel.org
-X-Received: by 2002:a2e:beab:0:b0:3a1:9562:732 with SMTP id 38308e7fff4ca-3a7716e854emr518961fa.1.1790702723821;
-        Tue, 29 Sep 2026 10:25:23 -0700 (PDT)
-X-Received: by 2002:a2e:beab:0:b0:3a1:9562:732 with SMTP id
- 38308e7fff4ca-3a7716e854emr518621fa.1.1790702723256; Tue, 29 Sep 2026
- 10:25:23 -0700 (PDT)
+        d=gmail.com; s=20251104; t=1790702896; x=1791307696; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=H7AYhx7OwLQEIiRZQ0G71SBDDoW0tSj1yBVOElXugj8=;
+        b=KuWEDymdiwdfVJ+EH2ZF2DY4ncLmtSEi40hLkedWoCLdRBIFtIpQF3GpSRwcBAwON/
+         Po5VFohtZQtw6RPv8jyV9rRURSfsLUxPgoQbi3Q7Y1yPvuRxsoeaVshN+StFlEMygbZ6
+         G5AWu6F8gGCnlnqqj6TYMl6cqr598P4g5szJXWgLHnuL8++1R6WFFUiPX2pXaZ0TWAI3
+         aBKv3slex/fG4nDdfvbnB2rUNIuycMRXhZNiripawtUWKp2KVMgKlSFsjIfY1dmXsVXa
+         uPnhaer3iXqbyvHEwhOkZ+XnXgZ7wf93fB8K3L7S4C6O7GKRZUTobcDNsOq0aNCvVFAH
+         g7jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790702896; x=1791307696;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=H7AYhx7OwLQEIiRZQ0G71SBDDoW0tSj1yBVOElXugj8=;
+        b=ibgexXqjH8ut8XHV1HsY+iRwnVo4l/ODqWt7y+UvSlrxj6rSCX5OXZmIYlC+kdtPdi
+         S2pYwC10j3+7po7U3W1MjoDOA+46BaxdGh9e0PYDbnQeTG0LI5pfa9dzgAwhqpToVGs7
+         DIusjO5VazesVemEgaPd+CgjvHLtCHztoJll5pCDRYDeAGldliJACbFp05ZEYhwdPqQr
+         Bys1RywIjxokEdjtv9xHpAQafzS1nSEiNgq8t/yc1mHShzne9CDHCBTU0dBOMVAlB2rs
+         uWTXutj2RxB0Gv6KN2cILbeutNdzZ8jONMxmK5cQHHZVgT4amV+yNjiK5kiVexWcpdya
+         5CIA==
+X-Forwarded-Encrypted: i=1; AKwUvByefiSG0h5JN1lHO4+zVxzL13+cGuISGczm0Gwiv2dWFP0TBiXqY589PLMDMlNjISUiYPvAuG/MN/E=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKcwzx6XBd7e/ZkyyTlAzVjn2nM3lmKeA8+9a8Zh7qqW3THMKl1
+	b6DvwE9RG7UbXETgqnuPnVc1FC3CiNRKrxZOMccZssbD69GpVrckkERU
+X-Gm-Gg: AYBFou20uWjq2urI5old7RrcvxOjk6dlZTJrKTx+SeWLU5ZcCFonEqaQXd9Z0a34qqz
+	GV36y03yDfJMMyE1ov048SFlQ2cQAsx8K1CbLRHFAHjtdL2adQETcz9ezDIQig/7GbaJzW5EvNf
+	V5VP0JDnrxsKlzEuCn1nQD3xBeXZieYIT1AGPbQ0jkvWIJ+/4v1Qh0WPimg1v4c8AVr/laIbXi+
+	jZa2/UziCsNeb8qBSOwKYuFfNWeF40u3bBtrK2Cj+DS6fDZoPNAJD8PwBe0CPqJeLIqaVGNwsaA
+	cKvt8vgtZtUHTuTkfZyCREoBfLr3XKffK5BGaK9QE2pjA59LCABPw5x9VIi6n4mXYd25bfq9KVR
+	7NARbeha4FySKhZx5bHApUtVZ1CZ6Kk4y8VvnxddiU0BCy113Pb18kY9kdxTf8EcHCXsx1dnOd2
+	XgwycJUey7DdqgQORhRP16vwxMZJsZsGx87LzBdXdPBom6Rkic1CLp8k6cWGjc//X0YYwX8Ed5P
+	tfXPhUa6fYt8g==
+X-Received: by 2002:a05:690c:348a:b0:8a8:889d:2db with SMTP id 00721157ae682-8a8889d085amr56610267b3.34.1790702896362;
+        Tue, 29 Sep 2026 10:28:16 -0700 (PDT)
+Received: from suesslenovo ([71.132.185.69])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8abce9ead49sm1450107b3.28.2026.09.29.10.28.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 10:28:15 -0700 (PDT)
+Date: Tue, 29 Sep 2026 13:27:44 -0400
+From: Justin Suess <utilityemal77@gmail.com>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack3000@gmail.com>, 
+	Cai Xinchen <caixinchen1@huawei.com>, mic@digikod.net, paul@paul-moore.com, jmorris@namei.org, 
+	serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, dlemoal@kernel.org, 
+	hch@lst.de, axboe@kernel.dk, viro@zeniv.linux.org.uk, brauner@kernel.org, 
+	jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, linkinjeon@kernel.org, 
+	sj1557.seo@samsung.com, yuezhang.mo@sony.com, hirofumi@mail.parknet.co.jp, 
+	cel@kernel.org, jlayton@kernel.org, neil@brown.name, okorniev@redhat.com, 
+	Dai.Ngo@oracle.com, tom@talpey.com, miklos@szeredi.hu, amir73il@gmail.com, 
+	senozhatsky@chromium.org, chenxiaosong@chenxiaosong.com, zohar@linux.ibm.com, 
+	roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, 
+	stephen.smalley.work@gmail.com, omosnacek@gmail.com, casey@schaufler-ca.com, nanx95726@gmail.com, 
+	djwong@kernel.org, daniel@iogearbox.net, linux-security-module@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev, 
+	ecryptfs@vger.kernel.org, exfat@lists.linux.dev, linux-nfs@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, xiujianfeng@huawei.com, 
+	lujialin4@huawei.com
+Subject: Re: [PATCH RFC -next 00/12] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <arvjb0HJYh1KyEBB@suesslenovo>
+References: <20260924104831.1081137-1-caixinchen1@huawei.com>
+ <araxO4ze0KZBz756@suesslenovo>
+ <20260926.255b951d3013@gnoack.org>
+ <arqcbjWLN1CLkL_Y@suesslenovo>
+ <arurOphe6QIx2Zr8@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260929040256.543767-1-zack.rusin@broadcom.com> <20260929053930.GEartPEjbZMpBVSvSk@fat_crate.local>
-In-Reply-To: <20260929053930.GEartPEjbZMpBVSvSk@fat_crate.local>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Tue, 29 Sep 2026 13:25:09 -0400
-X-Gm-Features: AclHuK9MtIFPSxXHWZMv2V63rPUuOwDojaWOanbSwfqwCxHPzt-TuhSiHt6biCo
-Message-ID: <CABQX2QNmza+=i1FXgDtFS3e3O5oXxPZppRbRrL54P1LmrB2gBw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] x86/percpu: Share decrypted storage before guest setup
-To: Borislav Petkov <bp@alien8.de>
-Cc: Kiryl Shutsemau <kas@kernel.org>, x86@kernel.org, Dennis Zhou <dennis@kernel.org>, 
-	Tejun Heo <tj@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	Ajay Kaher <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	virtualization@lists.linux.dev, bcm-kernel-feedback-list@broadcom.com, 
-	linux-kernel@vger.kernel.org, Christoph Lameter <cl@gentwo.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Bo Gan <bo.gan@broadcom.com>, linux-mm@kvack.org, 
-	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev, kvm@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, "K. Y. Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Ashish Kalra <ashish.kalra@amd.com>
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000cb07ea065ca277a4"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <arurOphe6QIx2Zr8@google.com>
 
---000000000000cb07ea065ca277a4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi, Boris.
-
-On Tue, Sep 29, 2026 at 1:40=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
-e:
-> On Tue, Sep 29, 2026 at 12:02:49AM -0400, Zack Rusin wrote:
-> > VMware publishes its per-CPU steal-time GPA without first sharing the
-> > storage in encrypted guests.
+On Tue, Sep 29, 2026 at 02:12:42PM +0200, Günther Noack wrote:
+> On Mon, Sep 28, 2026 at 01:13:35PM -0400, Justin Suess wrote:
+> > On Sat, Sep 26, 2026 at 09:56:28AM +0200, Günther Noack wrote:
+> > > Hello!
+> > > 
+> > > On Fri, Sep 25, 2026 at 02:03:05PM -0400, Justin Suess wrote:
+> > > > On Thu, Sep 24, 2026 at 06:48:19PM +0800, Cai Xinchen wrote:
+> > > > > This series adds two new Landlock filesystem access rights,
+> > > > > LANDLOCK_ACCESS_FS_READ_METADATA and LANDLOCK_ACCESS_FS_WRITE_METADATA,
+> > > > > which control access to file and directory metadata such as inode
+> > > > > attributes (mode, ownership, timestamps), extended attributes and POSIX
+> > > > > ACLs.  It picks up the work from the "landlock: add chmod and chown
+> > > > > support" series [1] and follows the coarse-grained grouping discussed in
+> > > > > that thread [2]: instead of separate chmod/chown rights, metadata
+> > > > > operations are grouped into one read and one write right.
+> > > > > 
+> > > > > Landlock evaluates access rights on a per-path basis, but the metadata
+> > > > > related LSM hooks (inode_getattr, inode_setattr, inode_setxattr,
+> > > > > inode_getxattr, inode_listxattr, inode_removexattr, inode_set_acl,
+> > > > > inode_get_acl, inode_remove_acl) only receive the dentry of the accessed
+> > > > > object.  Patches 1-7 therefore first pass struct path instead of dentry
+> > > > > through the metadata-related VFS helpers and LSM hooks.  This is a pure
+> > > > > refactoring with no behavior change, split so that every patch builds
+> > > > > and works on its own:
+> > > > >
+> > > > I like these patches, but is the ability to read metadata already
+> > > > sorta controlled by LANDLOCK_ACCESS_FS_READ_DIR on the parent
+> > > > directory?
+> > > > 
+> > > > The one case I see this being different is:
+> > > > 
+> > > > 1. if you wanted to grant read access to the file, but not metadata
+> > > > read access, but I can't think of any usecase for being able to read
+> > > > the contents of a file, but not the metadata. (see below)
+> > > > 
+> > > > 2. If you had the absolute path already and didn't need READ_DIR.
+> > > > 
+> > > > I see introducing this READ_METADATA as causing potential
+> > > > hard-to-diagnose issues.
+> > > > 
+> > > > Say you handle READ_METADATA and READ_FILE, but only grant READ_FILE.
+> > > > 
+> > > > The program can technically open the file with the READ_FILE permission,
+> > > > but it may error out because the stat() on it beforehand failed.
+> > > > It's pretty common for programs to do that kind of thing (stat before
+> > > > open), like for checking for config files (strace bash and you see it
+> > > > stat .profile, /etc/profile)
+> > > > 
+> > > > There may be other bugs, because being able to set permissions to read
+> > > > a file *but not read it's metadata* isn't possible currently in posix
+> > > > acl and userspace may not work well if that assumption no longer holds.
+> > > >
+> > * posix acl and linux DAC.
+> > 
+> > > > So maybe WRITE_METADATA is good enough?
+> > > 
+> > > The existing use cases are the combinations of (a) READ_DIR
+> > > allowed/denied and (b) READ_METADATA allowed/denied.  Because these
+> > > two access rights overlap slightly, it seems likely that for a given
+> > > directory or file, users will want to either grant both, or deny both.
+> > > 
+> > > At the moment, where the (not yet existing) READ_METADATA is
+> > > implicitly always allowed, the problematic case is the one where the
+> > > Landlock user wants to deny READ_DIR, but where much of the same
+> > > metadata is still available through stat() and the various
+> > > get-attribute syscalls.  (c.f. the warning box in the Landlock docs
+> > > [1])
+> > > 
+> > > In my view the READ_METADATA right closes a gap that READ_DIR left
+> > > open (which is also potentially surprising to callers if they did not
+> > > read the docs closely).  Also, if its implementation is symmetric to
+> > > WRITE_METADATA, I feel that it's worth having it in the same patch
+> > > set.
+> > > 
+> > > –Günther
+> > > 
+> > > P.S.: I know, even after we can control stat(), there are likely ways
+> > > to infer the presence of a file by observing Landlock error codes.
+> > > This would be nice to fix as well, but is harder to do without
+> > > controlling the path walk itself [2].  But also, the fact that this is
+> > > currently not controllable is not an excuse for leaving READ_METADATA
+> > > open IMHO.
+> > >
+> > I'm still sort of concerned about the case where read access is allowed,
+> > but metadata isn't, due to how many applications will not cleanly handle
+> > such an unexpected condition. You can reproduce this with a seccomp
+> > policy forbidding stat().
+> > 
+> > Would it make sense to have the existing READ rights
+> > (READ_DIR/READ_FILE) imply READ_METADATA on the files/directories 
+> > if READ_METADATA is handled? Reading a file's contents should always
+> > imply that you can read the metadata.
+> 
+> I am wary of situations where the handling of access rights implicity
+> implies other access rights.  We have discussed such schemes in the
+> past (e.g. we considered a design for RESOLVE_UNIX where we'd have
+> both a "scoped" and a "access_fs" right that would interact with each
+> other), but in the end we always settled for approaches where such
+> interactions would not be necessary.  One of the concerns was that it
+> would complicate "best effort" fallback logic in all Landlock
+> libraries and in the countless places where people use the syscalls
+> directly.
+> 
+> To throw another option in the mix.  (To be clear, I have only 70%
+> confidence, so feel free to push back, but it feels like it might
+> work?):
+> 
+> Is this similar to the "truncate" right?
+> ----------------------------------------
+> 
+> With "truncate", there was an existing common operation (open(2) with
+> O_TRUNC, a.k.a. creat(2)) which called the truncation hook and checked
+> for the truncation access right.  But that was in fact OK.  The way we
+> resolved it at the time was by documenting very loudly that WRITE_FILE
+> and TRUNCATE access rights should always be requested in lockstep, if
+> TRUNCATE is handled.
+> 
+> If READ_DIR and READ_FILE do in fact read and return metadata to the
+> user, maybe the right thing would be to do it the same way here and
+> *require* that we have READ_METADATA to do these operations?
+> 
+> (READ_METADATA is automatically allowed as long as it's not handled,
+> so that approach does not break existing programs.  Programs who
+> consciously start handling READ_METADATA must simply take into account
+> that reading directories and opening files for reading requires
+> READ_METADATA.)
+> 
+> (BTW, I can see it for reading directories, but I am not sure I fully
+> follow the argument why opening files for reading means that you can
+> read the metadata?  Can't that be guarded on fstat()-like operations?)
 >
-> So this one liner is the only explanation why this patchset exists, AFAIC=
-T. So
-> I asked AI. I'm pasting what it said below, at the end.
->
-> Is any of it true?
+Many standard libraries will call stat before / after opening a file to
+allocate a buffer matching the file size. Or to figure out if mmap
+is more efficient than opening it directly.
 
-Partly. So steal time tells Linux how much time a virtual CPU spent
-ready to run but waiting for the hypervisor to schedule it.
+So Python's open().read() or Go's os.ReadFile they may throw an error
+when opening the file, making it look as if the file is inaccessible
+when its contents are. They make the assumption that if a file is
+readable, the metadata is too.
 
-For example, during a 100 ms interval, the vCPU might execute for 70
-ms and wait for a physical CPU for 30 ms. Reporting those 30 ms helps
-kernel:
-- account for CPU usage accurately: avoid charging applications for
-time when the hypervisor wasn't running their vCPU.
-- make fairer scheduling decisions: base task execution accounting on
-the CPU time tasks actually received.
-- expose host contention: the st field in top and counters in
-/proc/stat help explain why a VM is slow even though its applications
-don't appear to consume all available CPU time.
+There's also a lot of metadata that is already leaked by just having
+READ_FILE. FS_IOC_GETFLAGS/FS_IOC_FSGETXATTR ioctl / fileattr_get are
+unrestrictable and allow you to see inode attributes. There's also
+access(2) which isn't restricted here and allows you to see your rights
+on the file. The size can be found by simply seeking to the beginning
+and end. So much of the metadata is obtainable with just READ_DIR/READ_FILE.
 
-The benefit is greatest on busy or overcommitted hosts. On a host
-where vCPUs rarely wait, steal time stays near zero.
+...
 
-To make this work the hypervisor writes a running total into a small
-per-CPU buffer in guest memory, and the guest kernel reads it. More
-below...
+Another problem I'm just realizing is that this READ_METADATA
+right is inconsistent with open file descriptor behavior. With most
+rights, already open file descriptors are exempted, but here, fstat,
+(and the other stat-family calls which takes a file descriptor) become
+denied even on already open files. It's a catch 22 here, if you change
+the fstat to not apply to opened files, then READ_FILE becomes a bypass
+for READ_METADATA. But if you leave it as is, then it's inconsistent with
+the other Landlock rights wrt already opened files.
 
-> If so, how much and is that the reason this patchset exists?
->
-> I.e., you want for vmware monitoring tools to work with CoCo guests.
->
-> Yes, no? Anything else?
+Which isn't the end of the world, but just shows that either
+approach is going to have it's quirks. 
 
-If options are binary then "no" :) It's not for monitoring tools, it's
-for the kernel's own steal-time accounting above, which currently
-doesn't work in confidential VMware guests. So the issue is that in a
-confidential guest (AMD SEV SNP, Intel TDX) memory is private by
-default, so the hypervisor can't read or write it. Any page the
-hypervisor has to write must first be converted to shared by the
-guest. Linux gives us the address of the steal-time buffer without
-converting it. The hypervisor then tries to write into a private page,
-which doesn't work. Currently ESXi deliberately powers off the VM when
-that happens. That only affects VMs with the steal clock enabled,
-which ESXi leaves off by default except for Photon guests. I'll
-probably change ESXi to just disable steal time when a guest gives us
-a private page, but that only avoids the power-off; steal time still
-won't work in these guests without this series.
+I think it would be better to just avoid the cat and mouse game here
+of trying to seperate READ_FILE/READ_METADATA and either require
+READ_METADATA be specified with READ_FILE if READ_METADATA is handled
+like Gunther proposed, or have READ_FILE imply READ_METADATA.
 
-KVM has the same need for three of its per-CPU buffers (steal time,
-async page faults and PV EOI). It already converts them, but only on
-AMD and in its own loop. Kiryl asked on v1 for one common place that
-converts all such per CPU buffers early, on both AMD and Intel,
-instead of each hypervisor driver doing it. That's patches 2-6.
+Documenting it strongly is OK too, but really there are really zero
+usecases where you'd want to grant READ_FILE without READ_METADATA
+so it would need to be made extremely clear.
 
-Patch 1 fixes an old layout bug in uniprocessor kernels, where these
-buffers can share a page with unrelated data. The series also fixes
-SEV and SEV-SNP guests on KVM running kernels built with CONFIG_SMP=3Dn,
-which currently hang at boot (we reproduced the hang).
+Thanks,
+Justin
 
-> And looking at your commit messages, they don't really talk about why the
-> patches exist.
->
-> And I don't think you know your audience - you're sending a bunch of patc=
-hes
-> touching arch/x86/ and you throw all that virt gibberish around like it a=
-in't
-> no tomorrow and you're thinking that tip people can follow. And I think w=
-e can
-> follow only bits and pieces but all of us will be mostly head-scratching =
-here
-> and probably ignore the whole set.
->
-> So perhaps you should lay off your virt hat for a minute and try to expla=
-in in
-> an approachable way what you're trying to do so that even non-virt people=
- can
-> follow.
-
-Fair enough. I'll rework the cover letter and the commit messages so
-each one starts with the problem. The series originally wasn't really
-touching x86 core parts and I haven't updated it for a larger crowd.
-Would you like an explanation of steal time, like the above, in the
-cover as well?
-
-z
-
---000000000000cb07ea065ca277a4
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIVIgYJKoZIhvcNAQcCoIIVEzCCFQ8CAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ghKPMIIGqDCCBJCgAwIBAgIQfofDCS7XZu8vIeKo0KeY9DANBgkqhkiG9w0BAQwFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNTNaFw0yOTA0MTkwMDAwMDBaMFIxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBS
-NiBTTUlNRSBDQSAyMDIzMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAwjAEbSkPcSyn
-26Zn9VtoE/xBvzYmNW29bW1pJZ7jrzKwPJm/GakCvy0IIgObMsx9bpFaq30X1kEJZnLUzuE1/hlc
-hatYqyORVBeHlv5V0QRSXY4faR0dCkIhXhoGknZ2O0bUJithcN1IsEADNizZ1AJIaWsWbQ4tYEYj
-ytEdvfkxz1WtX3SjtecZR+9wLJLt6HNa4sC//QKdjyfr/NhDCzYrdIzAssoXFnp4t+HcMyQTrj0r
-pD8KkPj96sy9axzegLbzte7wgTHbWBeJGp0sKg7BAu+G0Rk6teO1yPd75arbCvfY/NaRRQHk6tmG
-71gpLdB1ZhP9IcNYyeTKXIgfMh2tVK9DnXGaksYCyi6WisJa1Oa+poUroX2ESXO6o03lVxiA1xyf
-G8lUzpUNZonGVrUjhG5+MdY16/6b0uKejZCLbgu6HLPvIyqdTb9XqF4XWWKu+OMDs/rWyQ64v3mv
-Sa0te5Q5tchm4m9K0Pe9LlIKBk/gsgfaOHJDp4hYx4wocDr8DeCZe5d5wCFkxoGc1ckM8ZoMgpUc
-4pgkQE5ShxYMmKbPvNRPa5YFzbFtcFn5RMr1Mju8gt8J0c+dxYco2hi7dEW391KKxGhv7MJBcc+0
-x3FFTnmhU+5t6+CnkKMlrmzyaoeVryRTvOiH4FnTNHtVKUYDsCM0CLDdMNgoxgkCAwEAAaOCAX4w
-ggF6MA4GA1UdDwEB/wQEAwIBhjBMBgNVHSUERTBDBggrBgEFBQcDAgYIKwYBBQUHAwQGCisGAQQB
-gjcUAgIGCisGAQQBgjcKAwwGCisGAQQBgjcKAwQGCSsGAQQBgjcVBjASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBQAKTaeXHq6D68tUC3boCOFGLCgkjAfBgNVHSMEGDAWgBSubAWjkxPioufi
-1xzWx/B/yGdToDB7BggrBgEFBQcBAQRvMG0wLgYIKwYBBQUHMAGGImh0dHA6Ly9vY3NwMi5nbG9i
-YWxzaWduLmNvbS9yb290cjYwOwYIKwYBBQUHMAKGL2h0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5j
-b20vY2FjZXJ0L3Jvb3QtcjYuY3J0MDYGA1UdHwQvMC0wK6ApoCeGJWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vcm9vdC1yNi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUAA4IC
-AQCRkUdr1aIDRmkNI5jx5ggapGUThq0KcM2dzpMu314mJne8yKVXwzfKBtqbBjbUNMODnBkhvZcn
-bHUStur2/nt1tP3ee8KyNhYxzv4DkI0NbV93JChXipfsan7YjdfEk5vI2Fq+wpbGALyyWBgfy79Y
-IgbYWATB158tvEh5UO8kpGpjY95xv+070X3FYuGyeZyIvao26mN872FuxRxYhNLwGHIy38N9ASa1
-Q3BTNKSrHrZngadofHglG5W3TMFR11JOEOAUHhUgpbVVvgCYgGA6dSX0y5z7k3rXVyjFOs7KBSXr
-dJPKadpl4vqYphH7+P40nzBRcxJHrv5FeXlTrb+drjyXNjZSCmzfkOuCqPspBuJ7vab0/9oeNERg
-nz6SLCjLKcDXbMbKcRXgNhFBlzN4OUBqieSBXk80w2Nzx12KvNj758WavxOsXIbX0Zxwo1h3uw75
-AI2v8qwFWXNclO8qW2VXoq6kihWpeiuvDmFfSAwRLxwwIjgUuzG9SaQ+pOomuaC7QTKWMI0hL0b4
-mEPq9GsPPQq1UmwkcYFJ/Z4I93DZuKcXmKMmuANTS6wxwIEw8Q5MQ6y9fbJxGEOgOgYL4QIqNULb
-5CYPnt2LeiIiEnh8Uuh8tawqSjnR0h7Bv5q4mgo3L1Z9QQuexUntWD96t4o0q1jXWLyrpgP7Zcnu
-CzCCBYMwggNroAMCAQICDkXmuwODM8OFZUjm/0VRMA0GCSqGSIb3DQEBDAUAMEwxIDAeBgNVBAsT
-F0dsb2JhbFNpZ24gUm9vdCBDQSAtIFI2MRMwEQYDVQQKEwpHbG9iYWxTaWduMRMwEQYDVQQDEwpH
-bG9iYWxTaWduMB4XDTE0MTIxMDAwMDAwMFoXDTM0MTIxMDAwMDAwMFowTDEgMB4GA1UECxMXR2xv
-YmFsU2lnbiBSb290IENBIC0gUjYxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzARBgNVBAMTCkdsb2Jh
-bFNpZ24wggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQCVB+hzymb57BTKezz3DQjxtEUL
-LIK0SMbrWzyug7hBkjMUpG9/6SrMxrCIa8W2idHGsv8UzlEUIexK3RtaxtaH7k06FQbtZGYLkoDK
-RN5zlE7zp4l/T3hjCMgSUG1CZi9NuXkoTVIaihqAtxmBDn7EirxkTCEcQ2jXPTyKxbJm1ZCatzEG
-xb7ibTIGph75ueuqo7i/voJjUNDwGInf5A959eqiHyrScC5757yTu21T4kh8jBAHOP9msndhfuDq
-jDyqtKT285VKEgdt/Yyyic/QoGF3yFh0sNQjOvddOsqi250J3l1ELZDxgc1Xkvp+vFAEYzTfa5MY
-vms2sjnkrCQ2t/DvthwTV5O23rL44oW3c6K4NapF8uCdNqFvVIrxclZuLojFUUJEFZTuo8U4lptO
-TloLR/MGNkl3MLxxN+Wm7CEIdfzmYRY/d9XZkZeECmzUAk10wBTt/Tn7g/JeFKEEsAvp/u6P4W4L
-sgizYWYJarEGOmWWWcDwNf3J2iiNGhGHcIEKqJp1HZ46hgUAntuA1iX53AWeJ1lMdjlb6vmlodiD
-D9H/3zAR+YXPM0j1ym1kFCx6WE/TSwhJxZVkGmMOeT31s4zKWK2cQkV5bg6HGVxUsWW2v4yb3BPp
-DW+4LtxnbsmLEbWEFIoAGXCDeZGXkdQaJ783HjIH2BRjPChMrwIDAQABo2MwYTAOBgNVHQ8BAf8E
-BAMCAQYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUrmwFo5MT4qLn4tcc1sfwf8hnU6AwHwYD
-VR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwDQYJKoZIhvcNAQEMBQADggIBAIMl7ejR/ZVS
-zZ7ABKCRaeZc0ITe3K2iT+hHeNZlmKlbqDyHfAKK0W63FnPmX8BUmNV0vsHN4hGRrSMYPd3hckSW
-tJVewHuOmXgWQxNWV7Oiszu1d9xAcqyj65s1PrEIIaHnxEM3eTK+teecLEy8QymZjjDTrCHg4x36
-2AczdlQAIiq5TSAucGja5VP8g1zTnfL/RAxEZvLS471GABptArolXY2hMVHdVEYcTduZlu8aHARc
-phXveOB5/l3bPqpMVf2aFalv4ab733Aw6cPuQkbtwpMFifp9Y3s/0HGBfADomK4OeDTDJfuvCp8g
-a907E48SjOJBGkh6c6B3ace2XH+CyB7+WBsoK6hsrV5twAXSe7frgP4lN/4Cm2isQl3D7vXM3PBQ
-ddI2aZzmewTfbgZptt4KCUhZh+t7FGB6ZKppQ++Rx0zsGN1s71MtjJnhXvJyPs9UyL1n7KQPTEX/
-07kwIwdMjxC/hpbZmVq0mVccpMy7FYlTuiwFD+TEnhmxGDTVTJ267fcfrySVBHioA7vugeXaX3yL
-SqGQdCWnsz5LyCxWvcfI7zjiXJLwefechLp0LWEBIH5+0fJPB1lfiy1DUutGDJTh9WZHeXfVVFsf
-rSQ3y0VaTqBESMjYsJnFFYQJ9tZJScBluOYacW6gqPGC6EU+bNYC1wpngwVayaQQMIIGWDCCBECg
-AwIBAgIMYT8cPnonh1geNIT5MA0GCSqGSIb3DQEBCwUAMFIxCzAJBgNVBAYTAkJFMRkwFwYDVQQK
-ExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBDQSAy
-MDIzMB4XDTI0MTEyODA2NTUwOVoXDTI2MTEyOTA2NTUwOVowgaUxCzAJBgNVBAYTAlVTMRMwEQYD
-VQQIEwpDYWxpZm9ybmlhMREwDwYDVQQHEwhTYW4gSm9zZTEZMBcGA1UEYRMQTlRSVVMrREUtNjYx
-MDExNzEWMBQGA1UEChMNQlJPQURDT00gSU5DLjETMBEGA1UEAxMKWmFjayBSdXNpbjEmMCQGCSqG
-SIb3DQEJARYXemFjay5ydXNpbkBicm9hZGNvbS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
-ggEKAoIBAQCwQ8KpnuEwUOX0rOrLRj3vS0VImknKwshcmcfA9VtdEQhJHGDQoNjaBEFQHqLqn4Lf
-hqEGUo+nKhz2uqGl2MtQFb8oG+yJPCFPgeSvbiRxmeOwSP0jrNADVKpYpy4UApPqS+UfVQXKbwbM
-6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
-SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
-uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
-s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
-SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
-QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
-fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
-iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
-3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
-91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
-06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
-b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
-VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIJNP
-S6jDImrUmlay9QeGHdRpWRIu9sjbDlG7nS4YLZLtMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI2MDkyOTE3MjUyNFowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBABn7umyBI0ODtjDTInAnzL4jPZQj4rZcOWbQDG5s
-wsb5qh7Bm5FolTp0MixRzvB05qi0pp82YX01FuIUoBEujnwhl+oGwHVZJYnBclOi/yN+GEze81Zi
-I91GGLNxGHFMN3nSK6CgyGOGSuTjZTjRRRFgLX36FxZpBM2KE60jbqZ/D4ZUKLq3IGBCmdGO0Min
-mzCJgcYhqMw+fkgs/PArWjCpK5sNR7Q9VZuKgYeR3vIt2W2hK+vsWiMn0LQwH+hR6dm5V6DFTY76
-Uqge5A75qZEL9Qpkl4iVjQmmTw3+/9ISrwA1ewzUGexPOeZTeWm6AFom1d5B/hvF7np2Pg+Vai0=
---000000000000cb07ea065ca277a4--
+> —Günther
