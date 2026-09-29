@@ -1,215 +1,253 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62B23F4DD9;
-	Tue, 29 Sep 2026 19:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCD855294B
+	for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 19:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790709865; cv=none; b=cCuubDEgAT3kCpDun9xCkKGlll3qovPc9mzG+20sUHqABAaq+Jmd+a+GptdswCmawHF6VcT7pLJ4QJw5wvHM9n+KlntlYyDedQWhvYq6rEGpsbA/Y5SWNx5YGX8hvMdPDLo5j2GTuBQBEtinFDLtYvtaVkuZ1YJZ/lZ5jhlSF1U=
+	t=1790710920; cv=none; b=HUTOUdmXS4sTspOXd9r27zptx0EXx+FXbq+4rupkec9MWIePr18rZ7CUdKab8F6N0cuDO0dN5nT1E998Yzf84Ra5F6Q5UIWAs7Dcp7dSt9CL7q4RCYgTKqsY7TO+bOkDa2Zn7rD3ERFfk/YSXiqk3C8xR7uHko4wTr5FE0SyLfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790709865; c=relaxed/simple;
-	bh=QbK+E8OtIzF32QonND+KHJdCfdBfayxRrD0iDnQSt0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ddmxKqsF4sbZeUiar+aTvU+Y5vm5zeCIXLiFjt3H98UTOkKJbVorGlPWHngbjNRSyWvRPkqqhKyQ1ZRrw9p9nWLHPJ3hlDWCU5bWtm9fcxuzUw8EqECKrkg9a6LgEnb6mtIQNnhRgFSJD1oZqUnijR9yia12tSvhAA1zqeVB9yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FLeVPkRh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790710920; c=relaxed/simple;
+	bh=+45BcQ1RgT6MLBnxjeHGPypIakJE07cZ/vx1Nx03QEc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SgSNj+bytApJqC9tuMs1h984rSDOsyasZklijp4pdTeL0ZpiT21Qh9dNUu/gUAZ9+pU21+Cbhj8M4dd0FJZTp+UY0J0WeKXZytGx1ktTc0cUfd5wOdgf2lrIQzYeHLDZ6TEKnQVFsSqLoNCexd5xA2T7at8oqRQAqBLkERqFSoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opnsrc.net; spf=pass smtp.mailfrom=opnsrc.net; dkim=pass (2048-bit key) header.d=opnsrc.net header.i=@opnsrc.net header.b=AHoiS710; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=opnsrc.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opnsrc.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FLeVPkRh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A9C1F000FF;
-	Tue, 29 Sep 2026 19:24:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790709863;
-	bh=+4lcFV7BWlJxo0mkhLOYTkZFGAJFfiTavqhBD4KO1lY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FLeVPkRh1a34ogB9TpRqthY2RcbpuPqQsAGNc8EBMC8NIGvoauZPvtJdN18aNpI85
-	 m5+apCTFoKPSgyD80h3yqAunUkZBSHhpsRtktMeQU6PmoV9plQ7nxsmRnEdZpzeITd
-	 iuw7p12XnIonSLvhM0cCedPFuSbrmDNrcnUJJ6ZkbtgzLKV3vq5Rk8YPLs3Zsj2Tem
-	 vtYbJG/7wRtE8fsTUkKYkWlHUVEShd1dUSTrq5K+X+n/Dn2Af17dIsj1rG6KW+RDD9
-	 UFRZdZ7Avco2qztl/Zdyx7lN7s5vlRb0NWHXIq+UPEs1nanv/2dE8haepp2+acg6/1
-	 +FekM+w1yBvmA==
-Date: Tue, 29 Sep 2026 20:24:15 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
-Cc: Radim Krcmar <rkrcmar@qti.qualcomm.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"spacemit@lists.linux.dev" <spacemit@lists.linux.dev>,
-	"sophgo@lists.linux.dev" <sophgo@lists.linux.dev>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	Andy Chiu <tchiu@tenstorrent.com>,
-	Florian Weimer <fweimer@redhat.com>,
-	Peter Bergner <bergner@oss.tenstorrent.com>,
-	Zihong Yao <zihong.plct@isrc.iscas.ac.cn>,
-	Mark Harris <mark.hsj@gmail.com>,
-	Aurelien Jarno <aurelien@aurel32.net>,
-	Andrew Jones <andrew.jones@oss.qualcomm.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
+	dkim=pass (2048-bit key) header.d=opnsrc.net header.i=@opnsrc.net header.b="AHoiS710"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ffe281cb1so21808495e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 12:41:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=opnsrc.net; s=google; t=1790710916; x=1791315716; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gVTdtiWy9fgGK15KimSckpDSSxGqJuOzH/U6G/oihcg=;
+        b=AHoiS710qrbR7efH7DlkL03IQTyEvnCZYmgO71Ph/zoNSnAF06WbiH3eFdFex8rdC9
+         8z34vHMdh1msubq9Sfz8bfGRQSt7GLheXug10UhsR8wtz2qRYNNUNcxT3lrSvzrq0x50
+         n4PEPbK1+LmZRl3pnlr9TNBvHMhFpem2lkS2gYBenHsCWb1P39Tm48k17/Y6orWzro9O
+         1bTh5DSl0xTB7iaMh67JccPcsS79/PiLUF8b+be/gMocF1HsNCXfNR+VdhPI/o7SoN6y
+         9WS6M9A8donMcfIJ9xqkn2AyUVgGgAL55oqz3He2Tgih/5jxYWcKLbsIFJEy3e1AWcIP
+         BCgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790710916; x=1791315716;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gVTdtiWy9fgGK15KimSckpDSSxGqJuOzH/U6G/oihcg=;
+        b=XlR6V6zc9jYaG3bdQpzlGMlHtIOI+V6QuPcI7CzsfV8wI7vNOvIo/PhVqtgc8PYaiQ
+         Tv3suklwG1FP4RxhWd914QexQod6iK9fw24NjjdRTerXDiNHL7R9osJ2h/E1Y1LwhU0x
+         Wv4Fs5yLj5JS222SJHfqisvJFdm+XoS1YuFNB6RE9qZs3C/76fCKlgW6VpQniqiTHOPY
+         HUINcF7iqkJdeGgJlawdJK8+HfiAr2pghkq3zGL8V/cBHYGlNTrpZWKx2zsuLhnt7SEw
+         n7e9EnXtJw1rfI/3MkazqFdqNnLlxg8xUJ66EGBrb6p/fhK9Y1LaIgizPdsLWJhogYeX
+         KyKA==
+X-Forwarded-Encrypted: i=1; AKwUvBx/XmfFrIFrf2y+oRYx3hdQaphQUQVm03moglVClsCm4BEwPz5Z2Jo2910WIrhUH6lfjfLZR+2wbOQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++lj1NdJFBacGiSXWBRNMmdULVjtC370MYMApGYoJE/FdpV983S9
+	IW9OhsV+TJJ0+sTgnkdTNjQ8njuPj4NNvY7cm21Rb/riB0xsTlK0r7IP86DYXZ63vHM=
+X-Gm-Gg: AYBFou1Y7ySv2uI49Kj/lWOIxNlSZS5duVKvSInCMCX0k8Ub7TX1IqTWBogjDyTYPT1
+	9/g/lKY7ke9fbPInB4hyWiA7ddwZr7MEJFo+VBJsrLocVvGhZGKrJRbKNTBH7jPDbYHuzVhx187
+	QNHozkrpTmnJ8HSyHvs7gZ9qiIH52pQMyYEpecW6vjQAacQd5wbpPgTyuuDFEdTraUwIiMNtbZi
+	us5I0E3d/oxWKFGxqzqup5o2LwVsnkLAZwZoElCXZQE57XjiJpIVi0Veg6LZAckr2iB6X5EAngJ
+	S5JVEHJSqf/3boVv6SxYkihPKXppkN3gXRyUoaB+Iv3csnrKGJxNH5DMvRTmV4OLFTtEBQJEMnf
+	lQLfcruf8oBj8W1ojjVuHLaFZJbbf/uMFJOQ/9TlADK/3qGI66IGRVo9cdYSPz/lxbkQ0scbV7/
+	GM30SK+VoEERG/JLT7XmoYo7Co/OaTSEVgHgsmmJku8dwLDqIDp3V3XAWpZXlV4f39VnewsxPhG
+	1EHeSjtl8vY7psCkBnJDura8X8CZrvyOzTDWhxARyVpuK0ZjJgUr6UMN7jpAELvx9n0VWk=
+X-Received: by 2002:a05:600c:1393:b0:49f:fbf8:87e9 with SMTP id 5b1f17b1804b1-4a014febbbbmr2911245e9.3.1790710915912;
+        Tue, 29 Sep 2026 12:41:55 -0700 (PDT)
+Received: from localhost.localdomain ([217.146.93.153])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a014f77b62sm5238355e9.6.2026.09.29.12.41.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 12:41:54 -0700 (PDT)
+From: salil.mehta@opnsrc.net
+To: Thomas Gleixner <tglx@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jinjie Ruan <ruanjinjie@huawei.com>,
+	Yicong Yang <yangyicong@hisilicon.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
-	Chen Wang <chen.wang@linux.dev>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-riscv <linux-riscv-bounces@lists.infradead.org>,
-	Guodong Xu <guodong.xu@oss.qualcomm.com>
-Subject: Re: [PATCH v8 01/11] riscv: Add B to hwcap and hwprobe
-Message-ID: <20260929-operative-anointer-7f54be845b54@spud>
-References: <20260920-rva23u64-hwprobe-v2-v8-0-5f14bc5c23d3@oss.qualcomm.com>
- <20260920-rva23u64-hwprobe-v2-v8-1-5f14bc5c23d3@oss.qualcomm.com>
- <9d058591-466e-4c06-a820-b8ecc7d319a6@canonical.com>
- <15151b8ab012ca7444d4117e393cf999.guodong.xu@oss.qualcomm.com>
- <DLRWB8R7P6SF.1XIL0OXLZ2F23@qti.qualcomm.com>
- <70a3451c-db31-41d0-af9d-8c9e123557f6@canonical.com>
+	Gavin Shan <gshan@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	Salil Mehta <salil.mehta@opnsrc.net>
+Subject: [RFC PATCH 0/2] cpu/hotplug: use cpu_enabled_mask for SMT bringup
+Date: Tue, 29 Sep 2026 19:41:28 +0000
+Message-Id: <cover.1790692295.git.salil.mehta@opnsrc.net>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rW7jw50OZvM/1nk9"
-Content-Disposition: inline
-In-Reply-To: <70a3451c-db31-41d0-af9d-8c9e123557f6@canonical.com>
+Content-Transfer-Encoding: 8bit
 
---rW7jw50OZvM/1nk9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Salil Mehta <salil.mehta@opnsrc.net>
 
-On Tue, Sep 29, 2026 at 06:30:49PM +0200, Heinrich Schuchardt wrote:
-> On 9/29/26 17:12, Radim Krcmar wrote:
-> > 2026-09-24T06:38:17-04:00, Guodong Xu <guodong.xu@oss.qualcomm.com>:
-> > > On Mon, 21 Sep 2026 16:24:53 +0200, Heinrich Schuchardt wrote:
-> > > > On 9/20/26 09:18, Guodong Xu wrote:
-> > > > > [ ... ]
-> > > > >    	__RISCV_ISA_EXT_DATA(q, RISCV_ISA_EXT_Q),
-> > > > >    	__RISCV_ISA_EXT_SUPERSET(c, RISCV_ISA_EXT_C, riscv_c_exts),
-> > > > > +	__RISCV_ISA_EXT_SUPERSET(b, RISCV_ISA_EXT_B, riscv_b_exts),
-> > > >=20
-> > > > Hello Guodong,
-> > > >=20
-> > > > The RISC-V Unpriviledged ISA specification has this description of
-> > > > extension B:
-> > > >=20
-> > > > "The B standard extension comprises instructions provided by the Zb=
-a,
-> > > > Zbb, and Zbs extensions."
-> > > >=20
-> > > > __RISCV_ISA_EXT_SUPERSET would imply that something else but
-> > > > riscv_b_exts is in B. But such an extra seems not to exist.
-> > > >=20
-> > > > So shouldn't __RISCV_ISA_EXT_BUNDLE be used here? Some code further
-> > > > change may be needed to set extension B if riscv_b_exts is fulfille=
-d.
-> > >=20
-> > > Thanks for the review. Intentional, and the difference between the two
-> > > macros is whether the extension gets a bit of its own.
-> > >=20
-> > > __RISCV_ISA_EXT_BUNDLE carries RISCV_ISA_EXT_INVALID as its id: parsi=
-ng
-> > > the name only sets the bits of its parts. That fits zk, zkn names, wh=
-ich
-> > > are shorthands with no identity of their own beyond the ISA string.
-> > >=20
-> > > B is different: it is a single-letter standard extension with its own
-> > > misa bit (in the same way as A), and AT_HWCAP on RISC-V is the bitmask
-> > > of exactly those single letters, so the kernel needs a bit for B itse=
-lf.
-> > >=20
-> > > A is declared the same way; with the spec defines A in the same words=
- as
-> > > B. If I can take that as a precedence.
-> > >=20
-> > > IMHO, "superset" in this table means "also sets these subset bits", n=
-ot
-> > > "contains something extra".
-> >=20
-> > Zba, Zbb, and Zbs are equivalent to B for our purposes.
-> >=20
-> > Are we sure that B will always be listed in the ISA string when Zba,
-> > Zbb, and Zbs are present?
-> >=20
-> > We could incorrectly lose RVA23U64 bit otherwise, and I think this was
-> > Heinrich's concern as well...
-> >=20
-> > (The "A" extension has the same issue...)
-> >=20
-> > Thanks.
->=20
-> If Zba, Zbb, and Zbs are present the kernel should set the B flag in
-> hwprobe. This is why RISCV_ISA_EXT_SUPERSET() cannot be used to describe =
-the
-> B extension. RISCV_ISA_EXT_BUNDLE looks more appropriate but may lack
-> functionality.
->=20
-> RVA23U64 looks like an RISCV_ISA_EXT_BUNDLE() to me, too.
->=20
-> Unfortunately these macros are not properly documented.
->=20
-> It would be helpful to first align on the meaning and usage of the macros
-> and document them properly.
+Hi,
 
-The intended meaning was "bundle contains no additional features beyond
-the components" and "superset contains additional features beyond the
-components".
+For context, I had been away from the QEMU/kernel mailing-list work for an
+extended period due to exceptional personal circumstances. I have only
+recently started catching up with the Arm vCPU hotplug work and the related
+changes that have landed upstream. While doing so, I came across the change
+discussed below.
 
-IIRC the reason for differentiation between the two was to simplify
-things in the kernel and avoid having code which requires y feature checking
-for "bundle extension xyz", because firmware might only set "component
-extension y" and therefore get a false negative on support.
-Probably ditto for userspace parsing /proc/cpuinfo, since I don't think
-hwprobe existed at that point. The things that are using superset now
-don't quite match that, because some extensions have been retroactively
-changed by RVI to match the bundle definition (due to new extensions being
-created for subsets of an existing extension) and superset was used also for
-the xlinuxenvcfg stuff.
+============
+I. The Story
+============
 
-At this point, I think we could probably just cull the differentiation
-entirely, retaining a macro called "bundle" that has the behaviour of
-the current "superset". People should just know to check the minimum
-required extension (that's common sense surely?!?) and the kernel will
-always propagate support down to components. This is at least the 3rd
-time recently that I have seen confusion over what each is supposed to
-do.
+This is an RFC and, in particular, an open question about the interaction
+between cpu_present_mask, cpu_enabled_mask and cpuhp_smt_enable(). I may have
+missed a later constraint or discussion while catching up, so I would very
+much appreciate a sanity check on the direction proposed here.
 
+Commit f9a82544c717 ("cpu/hotplug: Fix NULL kobject warning in
+cpuhp_smt_enable()") fixed a real warning on arm64 by changing the arm64
+present-mask semantics: an ACPI Online-Capable CPU which is not MADT
+Enabled is no longer initially marked present, and acpi_map_cpu() /
+acpi_unmap_cpu() now add and remove it from cpu_present_mask.
 
->=20
-> ---
->=20
-> The benefit of an additional hwprobe flags for B is limited. When I want =
-to
-> check for B I can already use:
->=20
-> RISCV_HWPROBE_EXT_B =3D
-> RISCV_HWPROBE_EXT_ZBA | RISCV_HWPROBE_EXT_ZBB | RISCV_HWPROBE_EXT_ZBS;
->=20
-> if ((value & RISCV_HWPROBE_EXT_B) =3D=3D RISCV_HWPROBE_EXT_B) {
-> 	// Hurray, I have the B extension.
-> }
->=20
-> There is more utility in the RVA23U64 flag because it combines values from
-> RISCV_HWPROBE_KEY_BASE_BEHAVIOR, RISCV_HWPROBE_KEY_IMA_EXT_0, and
-> RISCV_HWPROBE_KEY_IMA_EXT_1.
->=20
-> Best regards
->=20
-> Heinrich
+I wondered whether the generic enabled mask gives us a narrower way to fix
+the original problem.
 
---rW7jw50OZvM/1nk9
-Content-Type: application/pgp-signature; name=signature.asc
+cpu_enabled_mask was introduced by 4e1a7df45480 ("cpumask: Add enabled
+cpumask for present CPUs that can be brought online") specifically for the
+case where a CPU can be present but is not currently allowed to be brought
+online.  cpuhp_smt_enable() is itself trying to bring offline CPUs online,
+so patch 1 simply skips a CPU when !cpu_enabled(cpu).
 
------BEGIN PGP SIGNATURE-----
+If that is the intended meaning of cpu_enabled_mask, should
+cpuhp_smt_enable() consume it rather than require arm64 to collapse the
+present/not-enabled distinction?  Or is there another reason why changing
+the arm64 present-mask semantics is preferred here?  I may be missing a
+constraint in another architecture or in the SMT hotplug path, hence this
+RFC.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCarwQXwAKCRB4tDGHoIJi
-0gsNAP4zCeyU0ECIOLqFYp7eKcSULXfObTdh0pHUxJ7mwe9PCgD9HL3G732aWACU
-0okpHhU7u0xbfNAkhsrFUz0MfF4L9A0=
-=Sl5P
------END PGP SIGNATURE-----
+Patch 2 reverts f9a82544c717 so that the question can be evaluated with the
+original arm64 virtual CPU hotplug model restored.  The ordering is
+intentional: the generic enabled check lands first, so reverting the arm64
+present-mask change does not reintroduce the NULL-kobject warning.
 
---rW7jw50OZvM/1nk9--
+===========
+II. Testing
+===========
+
+The series is based on current upstream master, after Linux v7.3-rc5.
+
+An arm64 Image build with CONFIG_ACPI=y, CONFIG_HOTPLUG_CPU=y and
+CONFIG_HOTPLUG_SMT=y passes.
+
+The runtime tests were performed on an NVIDIA Jetson Orin Nano system.
+The host does not provide hardware SMT; QEMU's virtual SMT topology was
+used to exercise the guest HOTPLUG_SMT paths described below.
+
+===============
+III. Reproducer
+===============
+
+The warning can be reproduced with an arm64 ACPI guest using a virtual SMT
+topology, for example:
+
+  qemu-system-aarch64 \
+    -machine virt,gic-version=3,acpi=on \
+    -accel tcg,thread=multi -cpu cortex-a57 \
+    -smp cpus=3,maxcpus=6,sockets=1,clusters=1,cores=3,threads=2 \
+    -m 1024M \
+    -bios QEMU_EFI.fd \
+    -kernel Image \
+    -initrd rootfs.cpio.gz \
+    -append "console=ttyAMA0 root=/dev/ram rdinit=/init acpi=force" \
+    -nographic
+
+After boot:
+
+  cat /sys/devices/system/cpu/present
+  cat /sys/devices/system/cpu/enabled
+  cat /sys/devices/system/cpu/online
+
+With the pre-f9a arm64 semantics these report:
+
+  present=0-5
+  enabled=0-2
+  online=0-2
+
+Then exercise SMT disable/enable:
+
+  echo off > /sys/devices/system/cpu/smt/control
+  cat /sys/devices/system/cpu/online
+
+  echo on > /sys/devices/system/cpu/smt/control
+  cat /sys/devices/system/cpu/online
+
+With the original cpuhp_smt_enable() implementation, the second write
+produces the following warning:
+
+  WARNING: fs/sysfs/group.c:137 at internal_create_group+0x418/0x550,
+  CPU#2: bash/1
+
+with the relevant call trace:
+
+  internal_create_group+0x418/0x550
+  sysfs_create_group+0x20/0x38
+  topology_add_dev+0x24/0x38
+  cpuhp_invoke_callback+0x174/0x2c0
+  __cpuhp_invoke_callback_range+0x98/0x128
+  _cpu_up+0x150/0x280
+  cpuhp_smt_enable+0xc4/0x128
+  control_store+0xf8/0x1f0
+
+With patch 1 followed by patch 2, the same sequence gives:
+
+  SMT off: online=0,2
+  SMT on:  online=0-2
+
+and:
+
+  dmesg | grep -E "WARNING:|internal_create_group|cpuhp_smt_enable"
+
+produces no output.
+
+=========================
+IV. Additional Comparison
+=========================
+
+I also checked cpus=4,maxcpus=6: all four requested initial CPUs are brought
+up with the restored present semantics.  By comparison, applying the
+f9a82544c717 changes in isolation to the same firmware model resulted in
+only the boot CPU being brought up during early SMP initialization, with
+the remaining enabled CPUs appearing later through ACPI enumeration.
+
+Both patches pass scripts/checkpatch.pl --strict with no warnings or
+errors.
+
+I also have an up-to-date QEMU branch containing the corresponding Arm vCPU
+hotplug work used for the tests above. If that would be useful for reproducing
+or testing this RFC, please shout and I can share the branch.
+
+=================
+V. 'The' Question
+=================
+
+The main question for review is therefore whether cpu_enabled_mask should be
+the generic eligibility check in cpuhp_smt_enable(), preserving the
+present/enabled distinction that motivated the mask, or whether there is a
+reason that distinction should instead be removed from arm64.
+
+Many thanks in anticipation!
+Salil
+
+Salil Mehta (2):
+  cpu/hotplug: Skip disabled CPUs in cpuhp_smt_enable
+  Revert "cpu/hotplug: Fix NULL kobject warning in cpuhp_smt_enable()"
+
+ Documentation/arch/arm64/cpu-hotplug.rst | 28 ++++++++++--------------
+ arch/arm64/kernel/acpi.c                 |  2 --
+ arch/arm64/kernel/smp.c                  | 12 +---------
+ kernel/cpu.c                             |  5 +++--
+ 4 files changed, 16 insertions(+), 31 deletions(-)
+
+-- 
+2.34.1
