@@ -1,137 +1,279 @@
-Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
+Received: from mail-ed2-f38.google.com (mail-ed2-f38.google.com [74.125.228.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95414BE423
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 15:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FED5013A9
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 15:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790782137; cv=none; b=PmcuOyVHCwBpptHtVH3ziX3fGrDzazTstm+R4zbCwAoVqJ6dSy3QTH4f/GjF7eFHc0hqnEbKzRI5CGLIgMBTqOCCAD34K6mjaW/0ZzO7P6+0bd9qMxYSUrUn4RxT6t4dKWayhduBGoBLbk/bDp5owZWrtNrGydFFyEzEA/nvg7w=
+	t=1790782137; cv=none; b=SnmS2MHc/+fF+sDeD2J+H5PiLklBNuAR8fAwzpXQoukI8MpPBPHTZIV3DayKjXy/BzrHezjEliDkbvL+fZbo7QZtuwTxjpkg2FKfigxQfYxOevsWcQO8OE92udvvIis1B7uNc6QCpu/TYdNloAYaTA00mhGGn1Rl5qUKsVpSg6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790782137; c=relaxed/simple;
-	bh=2Ggxf1QJMVzAn7z3bWwrwpi9VQNSETBx43AfVJ4a5jE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D77EZMRfOn91yFiDmJoQ0rQHf8EopqO3EFRDkUS/aafVoSCcQEcR2ItafJ+/UeQTlCXztek0yjZ1t7E9zajMDNweu6Bc2CsrfeOBvF3807forGK2Sy0SwMES393C3DAf88G/7WI+Vsqv0jAYWue3CNUr0xGkikm+3IlQV0yzcoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=k41tjchO; arc=none smtp.client-ip=74.125.229.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	bh=buw7eilKhVYBpVzHXoFXBKSXA87LBruo6Br9DLlJ1Js=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a98AvDY5hVpxDqzBocMHCKhcCi7H8x1tAaG3cRQy7WScgsUFCISrBaefxVq6cWHl5AITL3pcZkIFT6+ObQOrvSuSPApmo79C75V/4CY7ke5FzV4DU/mtuBMMUhXc7DcgDmEWKBI9Y0bILkShBdezow72wfTTaKjlww1c7Ig0bfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jsiDjkf/; arc=none smtp.client-ip=74.125.228.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="k41tjchO"
-Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-33e46a15703so5235264eec.0
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 08:28:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jsiDjkf/"
+Received: by mail-ed2-f38.google.com with SMTP id 4fb4d7f45d1cf-6aaeeacce15so8773861a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 08:28:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1790782124; x=1791386924; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cc+9rKSOSGawoxpJ2ipg52Wvw6p1Y1gNn8hY21fAsGA=;
-        b=k41tjchOeNuQm/A50C17+3cfj639ABE7thfMk6YhMkICiSG5sdsQ5q7om4BYS+5QWn
-         D09YaKyioATHoAaoA3FrW7iYaRPfoX6ME8wx0O9kUTlmhCBpUdB548En+XYverqGsHv2
-         CtTrlRSEyCxSx6qo++UikX+8rrIsCgKmR+X/4dZru2D7DFxbBD/IOSQg7M6KgQt7YwhL
-         DAdFL68a3X2Qk7wJcJmUCkGwJ9Fr78pCP7plXUvjWsp0W2uuxycbZDppl+ggtRNcto0p
-         D9n2mG09dLyW38CBwjv7afMkY717VrE4GOS+j61zx5mNPYeHPQqMKqjI+Det/tVmN3D5
-         lcBg==
+        d=linaro.org; s=google; t=1790782119; x=1791386919; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GQ41yj00/XNv9YnqFd8MxyPQ2Or7W/eiTKmLpRiCxws=;
+        b=jsiDjkf/cU+nwHRtIWEBcIVKe7nh5e42us7XxZDWebjPwMshfwuiyEc7N5eKph2JJf
+         N4LExnNHmGDgULHQ/Mwtp226DIbaJNO70v9ogT4bqLVSI70GD7puhUqRhYGlLkvP4Lrl
+         Jv3qp88H6yxry5g/BSzv0GC6IdlYTdRrWEgHAQlyw9OmC22Z4WGVjHTVei4FaGEyYxfh
+         kCIv5ij+1fJNqFiH16MJwvvPsK40dIPrCDtv0FDErfR1ekEPmO5UMjba59q9IMuWVni3
+         jRGCbmx8CWfr7h9n/1QxLYO5QSHTkwEIcq5V670r1CAg0o4nK/gzC2EKBaZWE3brQNK1
+         kKxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790782124; x=1791386924;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cc+9rKSOSGawoxpJ2ipg52Wvw6p1Y1gNn8hY21fAsGA=;
-        b=ps3+bdpGgOfuK5SihbxuY1Es98KHnDNTFtG/wVdlw5g52q5hjxoXMVidA6i0F82xKK
-         KXmdR9izg/QMo/S4KZXVfLgFhNRT3T6oCAuKKHx0wpoKUCAnlsI7WzCr1js8odrYqUnP
-         UR5RoBpxZWfds1z3O4AWnQ1DlW50G7I6I6dpQ3LeT7emi48lKKASAlBzad2txKVik8bA
-         dTBA2LkGxsdG0jQ13Xw44WU8JyoCvLNFu5LgWrHdphtxeUdt9iINncwwrBh3eS6DO1PM
-         4lEIkcFKl/jTEMBJqs00SRKshZs9E3PP+h+nWjmaaEMcHJeXpth7CynuMPfi8O4lZ94W
-         j6BQ==
-X-Forwarded-Encrypted: i=1; AKwUvByc9omTZ8T1CuFMGf3DvTQl+ZAnPboylXKGKfRincyE1jcKK9TlESVt8vpQcoAk2S5nCDvZId9L0HE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLoCusAFf7+LaKiE2LsHquc7DWb6xPx2z8KoenzJ5tL2SadEMgP
-	dgUMnxjXKdBuitsEBC0veIB0Ws2YXMc6fdLULSYZjoQyUW0ZrcIEfN2ClMbxtkmflq2d1jQjcbd
-	QeNzQO7M=
-X-Gm-Gg: AYBFou3wX5uaP51Yf3t+D2xItLMxTKBwE5ZqdBKE3MNcB/gB4eNUP3Nt4fSHdDwBiM2
-	n9Ih7bZy1TwfvFoo8gulyBEyJU7DFBfpurq5U1QU6LmyF6DFeVMjF1SLyG+AleNHoF4YZR1FKdl
-	tbV141G6jW2L2kE+9jFPZajdbiuvjWM9HuEmGNNJpHlaQQszfKqTp9WtS8NuCfeuMbtP+n/ueWE
-	H089ZOxgkWayphgP0WcQ37eawg8Ke+xkGkiP6MFaMjDC7YfFozqHa9PR0AyFO36ZYJVQK3hGmvC
-	EQSKsESlpx8tv2naiz/pVVP83+ZRBJ/5Naxq2SB353B7w0hS1XIklVTiPlEjrcok8fG7712Fb/a
-	hWF8jykJ0KByCQTMOEenpW/pgZROofWwkrHhrYsQYIcJ1nmvlsNYSF4Hzw2EPfZtLeCgViU7zDj
-	F1GU7G2qH8UUlG6DC520AB7S932dtQdW5KpLijHA/Hh5/EpyfIFSu4OvlgDjyTrxcjwP4BsEfga
-	mNkUrDzW1mqWEaofe8=
-X-Received: by 2002:a05:7301:fc04:b0:339:85bf:dd89 with SMTP id 5a478bee46e88-34cdd2a42a2mr2004450eec.35.1790782123219;
-        Wed, 30 Sep 2026 08:28:43 -0700 (PDT)
-Received: from G6L4RL2QG9 ([139.177.225.238])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34cf5b3ea3csm5750493eec.23.2026.09.30.08.28.35
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 30 Sep 2026 08:28:42 -0700 (PDT)
-From: Muchun Song <songmuchun@bytedance.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-doc@vger.kernel.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <chleroy@kernel.org>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Muchun Song <songmuchun@bytedance.com>,
-	Lance Yang <lance.yang@linux.dev>
-Subject: [PATCH] fixup! powerpc/mm: switch device DAX to shared tail vmemmap pages
-Date: Wed, 30 Sep 2026 23:28:26 +0800
-Message-ID: <20260930152826.76084-1-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260930140627.57431-10-songmuchun@bytedance.com>
-References: <20260930140627.57431-10-songmuchun@bytedance.com>
+        d=1e100.net; s=20260707; t=1790782119; x=1791386919;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GQ41yj00/XNv9YnqFd8MxyPQ2Or7W/eiTKmLpRiCxws=;
+        b=IX8HlL78w32Nxv3dq83rPrIV3ocGh2WGW5BoqWaS9Xg3oG4nvAjcMzhBYJfX42b+fe
+         aH2xWfT8kg+I2XmbxjZh7G6ulexkWuAAwJrspOAHxPfBwntS+cqGKLUpL7K2Spab//nC
+         /jSak7UB1ZfnHMctQe9w5ZRhmuSz9ll3ofFwktUog7egrAMpJ7KFuXCkJXAr3Csqoujp
+         DYB5h4oTgXp/rIu4f/rg26MGx1HYqSHnTSyHPO8lC7pkvzchi76zu+y/wZYJ5s2gfuZD
+         Io2MZUm+l7OUHBhoRJmIGOf6TcmNxfSHSEhcsYLyseXKB/gQ1Ten6P2BMrF1dwCSLb3l
+         +r5w==
+X-Forwarded-Encrypted: i=1; AKwUvByGc9xfThb1PqiBe0HiegM7wGeeVVbm8oF9uix5QGgmMYYfxa1sj8AnJdu+PYqiEZhX3HixMsWF554=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJEv2D2kYJNrGlM/R0EkizpLKbKTrHnb3NMdpYV17p4LMTk2OS4
+	ES0pcEaXg4TMtw40fW0QAfijbqVxqeQMbLrGbkjZiLa1VRGN6ORNQoi/NPTT2C41KLM=
+X-Gm-Gg: AYBFou0DWbYXigwBqwdEjdt/uEso8tOv0Qf7aD+TeSWfRD5zixde/Outu60Ad2mdl2y
+	0eSGWSOuVJ36E3L+nksw1eQT7OuZ2dOKz1tjaDwGniEfaIR7mpiThp1NTdUrwmiw/fFm1mavPxz
+	AoN9vQ1P1FFlw1JYYLdgF+ep/z+BK9eBSRDKEkH8HenjBkoXxJO8fSnlec8VXDpYIK/W5JecAj8
+	HydwzmggfWz/9HVBiRZkM0CPGOLVPSWH6YIwN0otWI298uUw2U+Iq547AjwN3vbulu3ire8p1rp
+	hpLbwXAYndVbtz6VEgjVNShgYAofRCK+A1dyULFEnKOnhHqKDWLAedi0guRniDwfiP/kQEXKqeX
+	+gBpGDf+2wMnSaa3faBdt6lfWuTq8OTajdNnuN4JgK0N0wHHLOD5qq+WsaV9G5JB0nk8xmW22hH
+	BFGfzj8j7bO/FJ7BWlRJ1czjnXnOhp9LrPqZRBm8gASTVKPzP2Zh8pClQtTq0vq2DnTu9fQE86c
+	40=
+X-Received: by 2002:a05:6402:4543:b0:6ab:bafd:260e with SMTP id 4fb4d7f45d1cf-6ae199672d1mr1029959a12.44.1790782119271;
+        Wed, 30 Sep 2026 08:28:39 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ae156a2082sm1010321a12.30.2026.09.30.08.28.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Sep 2026 08:28:38 -0700 (PDT)
+Message-ID: <f54b9ea6-48b1-4f6c-92cc-b0a9249c2fb0@linaro.org>
+Date: Wed, 30 Sep 2026 16:28:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 16/22] KVM: arm64: Apply dynamic guest counter
+ reservations
+To: Colton Lewis <coltonlewis@google.com>
+Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
+ <yuzenghui@huawei.com>, Fuad Tabba <fuad.tabba@linux.dev>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Zide Chen <zide.chen@intel.com>, Alexandru Elisei
+ <alexandru.elisei@arm.com>,
+ Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+ Mingwei Zhang <mizhang@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Russell King <linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>,
+ linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kvm@vger.kernel.org, kvmarm@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+References: <20260924172928.2110956-1-coltonlewis@google.com>
+ <20260924172928.2110956-17-coltonlewis@google.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260924172928.2110956-17-coltonlewis@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The PowerPC radix path takes one reference for every PTE that maps the
-shared tail page. Unlike the generic path, get_page() lets the counter
-continue after it becomes non-positive and eventually cycle to zero.
 
-Use try_get_page() so vmemmap population fails before the shared page
-reference count can cycle, matching the generic implementation.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
----
- arch/powerpc/mm/book3s64/radix_pgtable.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+On 24/09/2026 18:29, Colton Lewis wrote:
+> Reserve and release guest PMU counters dynamically during vCPU load and
+> put rather than statically at VM creation.
+> 
+> Add kvm_pmu_set_guest_counters() in arch/arm64/kvm/pmu-direct.c, called
+> from kvm_pmu_load() and kvm_pmu_put(). When the requested guest counter
+> mask collides with active host events in cpuc->used_mask (or when
+> releasing counters after squeezing a host event), invoke
+> perf_pmu_resched_update() with kvm_pmu_update_mask() to update the
+> per-CPU cpuc->cntr_mask between scheduling host events out and back in;
+> otherwise update cpuc->cntr_mask directly with interrupts disabled.
+> 
+> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+> ---
+>   arch/arm64/kvm/pmu-direct.c  | 77 ++++++++++++++++++++++++++++++++++++
+>   include/linux/perf/arm_pmu.h |  1 +
+>   2 files changed, 78 insertions(+)
+> 
+> diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
+> index a22c9258c2452..31d5afc44f36e 100644
+> --- a/arch/arm64/kvm/pmu-direct.c
+> +++ b/arch/arm64/kvm/pmu-direct.c
+> @@ -115,6 +115,77 @@ u64 kvm_pmu_direct_pmcr_read(struct kvm_vcpu *vcpu)
+>   		ARMV8_PMU_PMCR_N);
+>   }
+>   
+> +/* Callback to update counter mask between perf scheduling */
+> +static void kvm_pmu_update_mask(struct pmu *pmu, void *data)
+> +{
+> +	struct arm_pmu *arm_pmu = to_arm_pmu(pmu);
+> +	struct pmu_hw_events *cpuc = this_cpu_ptr(arm_pmu->hw_events);
+> +	unsigned long *new_mask = data;
+> +
+> +	bitmap_copy(cpuc->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
+> +}
+> +
+> +/**
+> + * kvm_pmu_set_guest_counters() - Handle dynamic counter reservations
+> + * @cpu_pmu: struct arm_pmu to potentially modify
+> + * @guest_mask: new guest mask for the pmu
+> + *
+> + * Check if guest counters will interfere with current host events and
+> + * call into perf_pmu_resched_update if a reschedule is required.
+> + */
+> +static void kvm_pmu_set_guest_counters(struct arm_pmu *cpu_pmu, u64 guest_mask)
+> +{
+> +	struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
+> +	DECLARE_BITMAP(guest_bitmap, ARMPMU_MAX_HWEVENTS);
+> +	DECLARE_BITMAP(new_mask, ARMPMU_MAX_HWEVENTS);
+> +	unsigned long flags;
+> +	bool need_resched = false;
+> +
+> +	bitmap_from_arr64(guest_bitmap, &guest_mask, ARMPMU_MAX_HWEVENTS);
+> +	bitmap_copy(new_mask, cpu_pmu->cntr_mask, ARMPMU_MAX_HWEVENTS);
+> +
+> +	local_irq_save(flags);
+> +	if (guest_mask) {
+> +		/* Subtract guest counters from available host mask */
+> +		bitmap_andnot(new_mask, new_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS);
+> +
+> +		/* Did we collide with an active host event? */
+> +		if (bitmap_intersects(cpuc->used_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS)) {
+> +			int idx;
+> +
+> +			need_resched = true;
+> +			cpuc->host_squeezed = true;
+> +
+> +			/* Look for pinned events that are about to be preempted */
+> +			for_each_set_bit(idx, guest_bitmap, ARMPMU_MAX_HWEVENTS) {
+> +				if (test_bit(idx, cpuc->used_mask) && cpuc->events[idx] &&
+> +				    cpuc->events[idx]->attr.pinned) {
+> +					pr_warn_once("perf: Pinned host event squeezed out by KVM guest PMU partition\n");
 
-diff --git a/arch/powerpc/mm/book3s64/radix_pgtable.c b/arch/powerpc/mm/book3s64/radix_pgtable.c
-index 9ca28e4a610a..a3332f32ffb2 100644
---- a/arch/powerpc/mm/book3s64/radix_pgtable.c
-+++ b/arch/powerpc/mm/book3s64/radix_pgtable.c
-@@ -1042,13 +1042,17 @@ static pte_t * __meminit radix__vmemmap_pte_populate(pmd_t *pmdp, unsigned long
- 			/*
- 			 * When a PTE/PMD entry is freed from the init_mm
- 			 * there's a free_pages() call to this page allocated
--			 * above. Thus this get_page() is paired with the
-+			 * above. Thus this try_get_page() is paired with the
- 			 * put_page_testzero() on the freeing path.
- 			 * This can only called by certain ZONE_DEVICE path,
- 			 * and through vmemmap_populate_compound_pages() when
- 			 * slab is available.
-+			 *
-+			 * Use try_get_page() to prevent the shared page refcount
-+			 * from overflowing.
- 			 */
--			get_page(reuse);
-+			if (!try_get_page(reuse))
-+				return NULL;
- 			p = page_to_virt(reuse);
- 			pr_debug("Tail page reuse vmemmap mapping\n");
- 		}
--- 
-2.54.0
+If you enable pseudo-NMIs, watchdog_hardlockup_enable() installs the 
+watchdog using a pinned PMU event. If host userspace also has a pinned 
+event on the mandatory 1 PMU counter assigned to the host, then a guest 
+could potentially squeeze out the watchdog.
+
+I'm wondering if we need to prioritise kernel owned events? Or we just 
+treat them the same as any other event, and with PMU partitioning assume 
+they can't be guaranteed to be running? I feel like you would expect a 
+watchdog to be a bit more than best effort though, especially if there 
+was always a guaranteed counter available to put it on.
+
+I didn't follow it through completely, but it also looks like if the 
+event gets squeezed it would enter an error state and then never be 
+re-enabled, even after the guest stops running.
+
+Note, that I think the current ordering means that the watchdog won't 
+actually get squeezed out because it's created first. But I don't think 
+we can rely on the ordering as a strong guarantee, and it might get 
+broken by refactoring in the future.
+
+
+> +					break;
+> +				}
+> +			}
+> +		}
+> +	} else {
+> +		/*
+> +		 * Restoring to full mask.
+> +		 * Only resched if we previously squeezed an event.
+> +		 */
+> +		if (cpuc->host_squeezed) {
+> +			need_resched = true;
+> +			cpuc->host_squeezed = false;
+> +		}
+> +	}
+> +	if (!need_resched)
+> +		/* Host was never using guest counters anyway */
+> +		bitmap_copy(cpuc->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
+> +	local_irq_restore(flags);
+> +
+> +	if (need_resched) {
+> +		/* Collision: run full perf reschedule */
+> +		perf_pmu_resched_update(&cpu_pmu->pmu, kvm_pmu_update_mask, new_mask);
+> +	}
+> +}
+> +
+>   /**
+>    * kvm_pmu_host_counter_mask() - Compute bitmask of host-reserved counters
+>    *
+> @@ -255,6 +326,7 @@ static void kvm_pmu_apply_event_filter(struct kvm_vcpu *vcpu)
+>    */
+>   void kvm_pmu_load(struct kvm_vcpu *vcpu)
+>   {
+> +	struct arm_pmu *pmu;
+>   	unsigned long guest_counters;
+>   	u64 mask;
+>   	u8 i;
+> @@ -269,7 +341,9 @@ void kvm_pmu_load(struct kvm_vcpu *vcpu)
+>   
+>   	preempt_disable();
+>   
+> +	pmu = vcpu->kvm->arch.arm_pmu;
+>   	guest_counters = kvm_vcpu_pmu_guest_counter_mask(vcpu);
+> +	kvm_pmu_set_guest_counters(pmu, guest_counters);
+>   	kvm_pmu_apply_event_filter(vcpu);
+>   
+>   	for_each_set_bit(i, &guest_counters, ARMPMU_MAX_HWEVENTS) {
+> @@ -329,6 +403,7 @@ void kvm_pmu_load(struct kvm_vcpu *vcpu)
+>    */
+>   void kvm_pmu_put(struct kvm_vcpu *vcpu)
+>   {
+> +	struct arm_pmu *pmu;
+>   	unsigned long guest_counters;
+>   	unsigned long flags;
+>   	u64 mask;
+> @@ -345,6 +420,7 @@ void kvm_pmu_put(struct kvm_vcpu *vcpu)
+>   
+>   	preempt_disable();
+>   
+> +	pmu = vcpu->kvm->arch.arm_pmu;
+>   	guest_counters = kvm_vcpu_pmu_guest_counter_mask(vcpu);
+>   	mask = guest_counters;
+>   
+> @@ -395,5 +471,6 @@ void kvm_pmu_put(struct kvm_vcpu *vcpu)
+>   	write_sysreg(val & mask, pmovsclr_el0);
+>   	local_irq_restore(flags);
+>   
+> +	kvm_pmu_set_guest_counters(pmu, 0);
+>   	preempt_enable();
+>   }
+> diff --git a/include/linux/perf/arm_pmu.h b/include/linux/perf/arm_pmu.h
+> index be1e345e99a77..45658273ffa86 100644
+> --- a/include/linux/perf/arm_pmu.h
+> +++ b/include/linux/perf/arm_pmu.h
+> @@ -76,6 +76,7 @@ struct pmu_hw_events {
+>   
+>   	/* Active events requesting branch records */
+>   	unsigned int		branch_users;
+> +	bool host_squeezed;
+>   };
+>   
+>   enum armpmu_attr_groups {
 
