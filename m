@@ -1,118 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A24337A825;
-	Wed, 30 Sep 2026 20:06:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D9F4CEE6B;
+	Wed, 30 Sep 2026 20:14:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790798811; cv=none; b=tYZQsotnC37pwqJ/NBlFvvgxEkPqWf2vRGoRi2M0cqt41qsaObJ6EnsPOxDcNLZU1+crfyZ3GAj1FEfXDmVpE6u9Ax6G/+38i5xvE0cKqGcIdMvH6qchNaJelJOVm78DivamDW9F7facCuJxsV1KY4IZ3Y2A3EhamArsXLeiwvQ=
+	t=1790799278; cv=none; b=C9OWv9CSpTEUjbr5813KLRXJveMzcfBvnfJe+dRvxp8cVLsyx6XWciR8ZVuftkr3TD2PBQop3f60CLohvhM87u2htBhqfEEzqN/sAxzxMpawc5aCGgEqkLbEZdRBvpzAeD9ab0rtf0a5nWpfp1OJMfWWPZBqfQnTZ4iPo0V/GgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790798811; c=relaxed/simple;
-	bh=l2ORluW7Ws06y+FAudSoO5Gh1UBw8fLSOXzI2uisfB4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g/2NDEIYeTplQoZV//8XOjggnYve+coj8vky0uftXXr4cAfBfKbZ8m3uzUYXa5CskYU79wxYhMkhRjw94Wl3sIT5mlhSub3CbgQpYDOrM6bm++W5lFGygGzKFyvfwNfNB5IdqHuAMvBLnh4Cxfpbl8tTGy0XoMSDBWf4Y1U1U+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dsTyOIL1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790799278; c=relaxed/simple;
+	bh=jBh29V7lXWDaQ1OWFYNzYZPO+3CDjuUVa1CxNBSUIyc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=asNItaz7pB92I3M+UQK6sboJjj1GRzT8E2cb/rWypNi8JyBIzmLtAFyNiTfj8F8shxtIu0YYdwixcHKsNoy0311NQtOM3vdPsKz1Vza4lihWw1+HL+x72NfJBvuY02+QwxOoLSxCcsHOsOHrvhH5RHucGji8OsnoFsFdAKOblXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wm8rj2Mc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dsTyOIL1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24FF91F000FF;
-	Wed, 30 Sep 2026 20:06:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wm8rj2Mc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 080141F000FF;
+	Wed, 30 Sep 2026 20:14:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790798810;
-	bh=9wwWQH0RuSx1sfd7/SgXUFkFYOs6i6IKZVk7OeFK0Y8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=dsTyOIL1lc+U+TSySonbnY8xOMbpjOb6PlRCeAtuJ4zuKOoEF6tgz54w8WfcrOKgL
-	 /q+WbSyU8bJHk/+m/mXIsGhj7CJBruTLwxTZTtYdz67HeU94qlzmLeGFCKYk4lbcN9
-	 Flh+e6oWvUdiE7WSFb/xgr6u/qNbYmTsIV09ZNhtW8hTmlFbbw8ethtIvWsZdTcv2Y
-	 02UlFmIn5hL6Hoiimv+tDAoujdmrckq6jRkS4t+huKUQxAt+bHsc+yr1lzK4aX66H5
-	 c/6IbGuiH6yNu9ttSBA0RFGXTJTzw2uwJ5xpXvVyAv3VWgMtyO9v7tEJjIGUHuOEgi
-	 GKbbIuJn6QUgg==
-Message-ID: <8cdd2938-a7a2-4d20-bacd-7ab4f5cbe80f@kernel.org>
-Date: Wed, 30 Sep 2026 15:06:46 -0500
+	s=k20260515; t=1790799276;
+	bh=Jh9wopEdiGr68kmPZd9LyAO78ha3dVq5Jg4mF7rTlfI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Wm8rj2McmLUtm0s5iraBnwgg/RBLC2Wh9hYWgLS3F+pyiBXUqpZ2bQfNHQQk7ghIr
+	 YlmEkwd9QmLrZlLChWZ9oVBQIpEi1xX2nLj/qZIDkqY+Gfb3aneNTC3bsbNF39/1Vr
+	 bx7dKdDkTeHaVlEVCM9FHVYdkN+utAR9BObz17+EhFJ3nOMx8TX6BWO+i5IBt9s1/q
+	 P4Ud0G5IG+7mkJBUTHXE/lRlzq/EKcRWMJQvp2s14LFcZBKwtkfVqd3De8eXgo+pTH
+	 lzoHcJ6NADdZFcToiV16BdZ722vMMlJ9s6CV2gncbtUWYEyIAPQavb7StmrQ+Ih9HK
+	 gOaA99QE8djeg==
+Date: Wed, 30 Sep 2026 20:14:34 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Ard Biesheuvel <ardb@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	Jonathan Corbet <corbet@lwn.net>, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 13/13] lib/crypto: Add documentation about zeroization
+ of key and context data
+Message-ID: <20260930201434.GA61218@google.com>
+References: <20260916095022.604354-1-thuth@redhat.com>
+ <20260916095022.604354-14-thuth@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] cpufreq: Resolve CPPC frequencies to performance
- levels
-Content-Language: en-US
-To: Christian Loehle <christian.loehle@arm.com>
-Cc: zhenglifeng1@huawei.com, zhongqiu.han@oss.qualcomm.com,
- viresh.kumar@linaro.org, linux-kernel@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, K Prateek Nayak <kprateek.nayak@amd.com>,
- Huang Rui <ray.huang@amd.com>, Perry Yuan <perry.yuan@amd.com>,
- "Gautham R . Shenoy" <gautham.shenoy@amd.com>,
- Vanshidhar Konda <vanshikonda@os.amperecomputing.com>,
- Shubhang Kaushik <sh@gentwo.org>, Pierre Gondois <pierre.gondois@arm.com>,
- Beata Michalska <beata.michalska@arm.com>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Ionela Voinescu <ionela.voinescu@arm.com>,
- Sudeep Holla <sudeep.holla@kernel.org>, Lukasz Luba <lukasz.luba@arm.com>,
- Jeremy Linton <jeremy.linton@arm.com>, Peter Zijlstra
- <peterz@infradead.org>, jonathanh@nvidia.com, zhanjie9@hisilicon.com,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, rafael@kernel.org
-References: <20260929102957.2591657-1-christian.loehle@arm.com>
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20260929102957.2591657-1-christian.loehle@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260916095022.604354-14-thuth@redhat.com>
 
+On Wed, Sep 16, 2026 at 11:50:15AM +0200, Thomas Huth wrote:
+> +What to zeroize
+> +---------------
+> +
+> +The following types of structures hold sensitive material and should be
+> +zeroized after use:
+> +
+> +- **Key structures** (e.g. ``struct aes_key``, ``struct hmac_sha256_key``):
+> +  contain expanded round keys or prepared key material.
+> +
+> +- **HMAC/MAC context structures** (e.g. ``struct hmac_sha256_ctx``,
+> +  ``struct aes_cmac_ctx``): contain inner and outer hash states derived from
+> +  the key.
+> +
+> +- **Hash context structures** (e.g. ``struct sha256_ctx``): may contain
+> +  sensitive data being hashed.
+> +
+> +Not all of these require explicit cleanup by callers.  Many ``..._final()``
+> +functions already zeroize their context internally (see `Automatic vs. manual
+> +zeroization`_ below).
 
+This should mention that the raw key that the key struct was prepared
+from needs to be zeroized as well.  Every in-kernel user of a keyed
+algorithm has to deal with this problem, as to "prepare" a key, you need
+to have the key already in the first place (whether it's passed in from
+userspace, or derived from some other key, or something else).
 
-On 9/29/26 05:29, Christian Loehle wrote:
-> For table-based cpufreq drivers, the core resolves requests to supported
-> frequency-table entries before governors such as schedutil compare them
-> with their cached target. Different kHz requests selecting the same entry
-> therefore need not reach the driver again.
-> 
-> Table-less cppc-cpufreq lacks this resolution: the core returns the requested
-> kHz value even if firmware exposes only a few CPPC performance levels.
-> Different requests can miss the governor's cache yet program the same
-> Desired Performance value. The tested ARM AGI CPU exposes only 61 levels,
-> with bounds visible at:
-> 
->    /sys/devices/system/cpu/cpuX/acpi_cppc/{lowest,highest}_perf
-> 
-> Add ->resolve_freq() so table-less ->target() drivers can canonicalize
-> requests without constructing a frequency table. CPPC resolves requests
-> before sugov_update_next_freq(), allowing its existing cache to skip
-> equivalent requests. Raw limit notifications still trigger
-> reconsideration, but only changed resolved limits force a driver update.
-> Failed limit writes remain pending for retry.
-> 
-> Testing on an ARM AGI CPU (61 distinct CPPC levels) with schedutil gives
-> the following end-to-end results across 16 iterations:
-> 
->    schbench -m 2 -t 31 -F 256 -n 5 -R 18000 -r 60 -w 20 -i 60
-> 
->    metric                         baseline       resolve-freq      change
->    median p99                    3364 us          3280 us          -2.5%
->    mean of run p99s              3664.2 us        3299.0 us       -10.0%
->    worst run p99                 4360 us          3500 us         -19.7%
->    median throughput             16431.08 RPS     16460.69 RPS     +0.2%
-> 
-> In an instrumented run of the same workload, cppc_set_perf() calls fell
-> from 1,136,868 to 866,703, a 23.8% reduction.
-> 
-> Christian Loehle (3):
->    cpufreq: Add a driver frequency resolution callback
->    cpufreq: CPPC: Resolve frequencies to performance levels
->    cpufreq: Skip updates for unchanged resolved limits
-> 
->   Documentation/admin-guide/pm/cpufreq.rst |   4 +
->   Documentation/cpu-freq/cpu-drivers.rst   |  19 ++
->   drivers/cpufreq/cppc_cpufreq.c           | 257 +++++++++++++++++++++--
->   drivers/cpufreq/cpufreq.c                |  99 +++++++--
->   include/linux/cpufreq.h                  |  11 +
->   kernel/sched/cpufreq_schedutil.c         |  19 +-
->   6 files changed, 359 insertions(+), 50 deletions(-)
-> 
-> 
-> base-commit: 6375e61c01e93e35ee7acd336a689ac1fae4b509
+Zeroizing a 'struct aes_key' for example is kind of useless if the
+actual raw AES key is still in memory somewhere.
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+Any interest in sending a follow-up patch that clarifies this?  It
+really should clarify that users of cryptography in the kernel should
+apply zeroization to the full flow of their keys through the system
+including system calls, key derivation, key preparation, etc.
+
+- Eric
