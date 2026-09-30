@@ -1,68 +1,68 @@
 Received: from mail-oo2-f38.google.com (mail-oo2-f38.google.com [74.125.231.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66024BC00F
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 23:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A37D4BD377
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 23:47:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790812022; cv=none; b=pxdrXXkn2NRKRp6ijWRDtC0dsWscpCWeVJVgPqzn11TnF7NojkpcdgteVK5/ulpwI/L2w3QQ9fI7GpvLHHrZfSdvU8PcBop2Ye7JBU+//8QmqcU03Mx/7tKuRv3sawnefW1XNtqNj5FKz1sRgDGjwN7+lSAcX4Jmk5vocElNTsw=
+	t=1790812026; cv=none; b=lSZKq3wGK6zzDsZraO8zeJQ/pfGM0FKJUxOgBlke/Wh/3htc4u3lMiIO1A0zT0hGrfY5153ssUmIg60QIhlOdBF91rmw8M4ExtGeWK1XNFaFOB/0kgqJuzYcoHnj9g/lew2Gy33Hl0ZdUDdcFe+4LLUz70oniWypNNqP5gUCokc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790812022; c=relaxed/simple;
-	bh=TsKEM23vrGNZP59nClNAGbEF4QPHeuq9r9xlzWpsDi8=;
+	s=arc-20240116; t=1790812026; c=relaxed/simple;
+	bh=fXmvbaq+zCQusRkupX1jC5a1EgGfZp9ZyOpuO0BI8+0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=B6jlcHZTGE7H/hDSAgB7FHBvlvAftMgHiTFp9prxS6EZa3KTPjrn4I5CjT3RrLsD8pFaYRETptrItIjAXeRWFvbyWcx4ai3BAqoAbpu/kzwQA2J0ka3xMRAJyy1rJXuHP58IIlAQNZOz0JhFBS4+lxPe7BHPLwCIJwjR7N3SQuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FUX1kLeF; arc=none smtp.client-ip=74.125.231.166
+	 In-Reply-To:To:Cc; b=gDx7WdrexW9dLwWMhVN9z541f0tgpgZwZKaGj2C5L7kf3OZ1pYcef3uPxMOtTuzBPxoh9W6KMQ/1prLq7/d2bpFKNSgADbUjjfNIPLBi1dMKhzRll/AsrOIdpLMhfo7U7R+bl306mUINJ4sDD3RLFcfaODsJHW1JjAiv1Dn0E58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J/vomn7g; arc=none smtp.client-ip=74.125.231.166
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FUX1kLeF"
-Received: by mail-oo2-f38.google.com with SMTP id 46e09a7af769-80a18990c76so3754186a34.2
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 16:47:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J/vomn7g"
+Received: by mail-oo2-f38.google.com with SMTP id 46e09a7af769-805c194bc92so6924631a34.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 16:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790812019; x=1791416819; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790812023; x=1791416823; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CKazThAjDvEancv5DllE0t7hYEI/Pi0fz1aTpnksd5Y=;
-        b=FUX1kLeFelJ/FZlVzCuvg6arDKp/L41BWts37Udf+dlXucGs0pnjVP48wCPcPfMw7D
-         lENgOg67FtmVvvyxvBXyjX1yJa2+itG07uF8HBUrednPzKmaUrHOcb5/DBBQj4UsvUH+
-         w0/VuHE0WSaKGLBAfm4dfPD0n9vnBo29pTtTo8xLYxr3uU2vWorffwJ0ZYGAhFwVxjTm
-         j9JmFu5z4TMXDPHUYdtIuVqlcZeuk6H7Sioa+ptqm04NDlB1JqRhh6SIlUUOekUJGo5w
-         tf6LUaLelZGZRQrTkqfH2Nk6EsKgeq/jfqXMP0dotfFwJIHtK+dR+ynqnWZ6FPNXXqzn
-         mycw==
+        bh=h6QOkhPcQnsn+fArNZjI2d6w/nkTnw2V0POtC44FnOI=;
+        b=J/vomn7gg2Jxu+TXJ9anqKxQfAQyTLLDSYbKtqwTvsFoN2WbJX6r8LrKaniAPDoVEt
+         wfNOGXd2L46niLhh+i431fJlzHpURkZKTTTm4q81IlEnSWQBxnR/mkpfTeF1R5Rie9r3
+         uJ4y1rvJQ7HkNI+8fcYeD+TnxCt5Qa/D9X6oycgKRODTMKf/Ap1F82hpiV7mGUoa3L9P
+         aMZfc5dC080FGUDdq13E5ZTVnRuIYK7cxwlEZ0UjrvElsh2FIiI0C+fDAt2YTYgSKv9+
+         WQrJ+DSLKjt+kAsmOmhSjWMBuTOln7lOYW8gD2an+U7YfzyN6WQxee0HV7yDeLMhGINy
+         QcjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790812020; x=1791416820;
+        d=1e100.net; s=20260707; t=1790812023; x=1791416823;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CKazThAjDvEancv5DllE0t7hYEI/Pi0fz1aTpnksd5Y=;
-        b=Zb4mq26mlIsY8SyCl1DfXIkfvUfKsPjZzpANIXHpTSEfPbY8TYE45IqThAdk9tFn62
-         VfHbZUWNFKt2BASbp22C9k6wzjmtna0Kh6AXQsNRbEqefTsXeVZGCO2wEl0+U2+WEwDV
-         yBmERl0IdKMIKbd84DoR7iWqsLSkYzGTidZSYjgdvrSvpflxpD1eQtz69zO0888qaozv
-         JM6LjSFMKpFFiphHSxaE1zGwCCXo7wOF9B6sFudKrs4Oag0Y7B545mlN1RCbfRhejosa
-         e2juIsPA1aWZjBR3UmJ4cGtvhSFngFGynjsjfkyjXF4oizfJGvZfACvjunsHdC1kGTNp
-         6ghg==
-X-Forwarded-Encrypted: i=1; AKwUvBzzklcz1vGXMhyLx9zCtCuYzxFfp4CY52xzc1OTdtRxfTjN34akSDwrXaDUgAMdeHSdcmyAyvXQaRU=@vger.kernel.org
-X-Gm-Message-State: AFuF++nZX0zybOACb/lBrpr6rEVBeHmir7JkqiGYuWNlRju8iYZPOUIC
-	z1itu/NVS4jROVkwD2utW2cSykPmaaLJp39APKjhrCS+7CWfCbmIPtGI
-X-Gm-Gg: AYBFou3u/PtIfXHAtZ9gwMBVmv5NSfda9l0VMJa3zFUi8qjEdtJa0jo0yvXF5sGhLLI
-	cNUNmFIJx9pY4rj7uzoQ4X+Mb2cPviygt/rrLyPzUwMdMiSaanxNeuIraTsYoKs74xRr8TxdGk2
-	bHYYtLc9SleKlIkAVpdftCT5oFOdbR+W5671YlYnhhChbjVu4ylZvPgP4QpV3Azl3DGRx/zc0FX
-	XI/nAYTrFuF/3dzRWMlLvKOkhErjHvGNXyT2HkAgX+yD3ucfVnsrk4z2jJQEEBV9B5iFF3Eggbw
-	FPp7VNECPYjuisEveDftJxos+6xn+pKLPjx/eA4obnDlXU4gavQKsHlFJeYA4nweaMCFh/G1MTN
-	AKabr0bkLQxdmQhEw84N1VQPhGe2sUkKtJBwS3+R861naXiSKrSWF2U8QJblAdSAEjh4ZhSQeCm
-	7wlY5xq03NYIjwOtc/cKDUXr0aiUiMOAkGeGIong/YzaYFJq0oCSpAIBVWgjEsTo7v1RU=
-X-Received: by 2002:a05:6830:4110:b0:806:6e79:c7ea with SMTP id 46e09a7af769-82048f1eec7mr4160685a34.6.1790812019674;
-        Wed, 30 Sep 2026 16:46:59 -0700 (PDT)
-Received: from localhost ([2a03:2880:30ff:6::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8212ae3ed24sm1348726a34.17.2026.09.30.16.46.58
+        bh=h6QOkhPcQnsn+fArNZjI2d6w/nkTnw2V0POtC44FnOI=;
+        b=YoM6Tw6QCOPstMbhktdO+UBx7jXkwn2ZbWk3hjPwx8jG18NfgJ7UiH8KbVkH1TC94e
+         w0lF2HvAaj/nebkrHYp/HT8QmOOhcOszSiJ18K5WboqfT9k+ixmZxSvO78Fs3hQErK5S
+         pnhDYTckFaH/mFWYQrMryHy7MF6TAlAp/dpfCl5Awci0meQng61/EE+D9iDWI4B13dDR
+         nBfvMURdduBCjRUF1vxRIbrX76GQoNwB9I1mmjdSM5Ucq7jeQygSXLVbUB180l71OxOF
+         MvXrburVtFS9YIXuHo26iNZpspV8KOMd5PFiGgVvNErWCNPr1COlKuVQ+D7O31O+djNN
+         7Sow==
+X-Forwarded-Encrypted: i=1; AKwUvBzcACZHnKbnQW7Cw36WyRDqMDocUWkffFulMrhPQ2QlgFVUxHWehHjNkbNIIsb0V17tITIGWbBcfks=@vger.kernel.org
+X-Gm-Message-State: AFuF++lpBv8fhpU2uUAuARubEPbUP3U5cmb1Mizq9CsZxrhYEO0etCCu
+	WisSfyZlUBtSouv6b6YusG9I6XyhLyTdTLs41e6bW3FN8rCQ+tXSD77G
+X-Gm-Gg: AYBFou1eR2kEiomOUeV75VMwtVmOpKGxY3DNLvYKSCHWcpTuxCafaewmOA02q9vyOep
+	2YowpsR9QDoq4FCDR1kSTzvIukYq6qZGqGwmJuf0W2O0sKF1D2v5s/phb0j56cI9ofEzFLezV8+
+	QKlNrcwGJIY6Jm9ATS8gdbCdjJR9mplQmEdmIxnqO2+i1DjQPrs24bd0swaQHR03bkz+Wsozh/V
+	C4X6r4udLEk6MnkfcklQp0oGjGwixDVG2QHuZUv/rZFXY5k3RVQKL305ftnLPBg3EprYjQzHTx4
+	I/bSP2SGVVVu+sbPM0Elqw2mb/Tzvjuzx6s2E2VAhHZiZRdeZuOMHwW9UMxkT8ii41PF6IKcBN/
+	w8CGEqNXJP43yNkBfgYqNAyMFlu3JjhyPv0o1npQ62tC+ZjPFfvuUzuVWjyltAdlaSWJEbIqr2T
+	t+RAJXY/Lgmz30hMZMHFnWdsuulDx6D9xL+lDGyjCnWdbDgpw5mKG8N26PYtKFgiZ0gYOr
+X-Received: by 2002:a05:6830:6d0b:b0:813:baf6:c644 with SMTP id 46e09a7af769-8204b2bd01cmr3744930a34.26.1790812022660;
+        Wed, 30 Sep 2026 16:47:02 -0700 (PDT)
+Received: from localhost ([2a03:2880:30ff:40::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8212a413937sm1258025a34.8.2026.09.30.16.47.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 16:46:58 -0700 (PDT)
+        Wed, 30 Sep 2026 16:47:01 -0700 (PDT)
 From: Daniel Zahka <daniel.zahka@gmail.com>
-Date: Wed, 30 Sep 2026 16:46:48 -0700
-Subject: [PATCH net-next v2 3/4] net: psp: drop psp assoc clear in
- sk_clone()
+Date: Wed, 30 Sep 2026 16:46:49 -0700
+Subject: [PATCH net-next v2 4/4] selftests: drv-net: psp: test that
+ rx-assoc fails on closed and listen socks
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260930-psp-defeat-v2-3-f266e7447129@gmail.com>
+Message-Id: <20260930-psp-defeat-v2-4-f266e7447129@gmail.com>
 References: <20260930-psp-defeat-v2-0-f266e7447129@gmail.com>
 In-Reply-To: <20260930-psp-defeat-v2-0-f266e7447129@gmail.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -87,32 +87,56 @@ Cc: netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 X-Mailer: b4 0.13.0
 
-Unwind the change from commit 1d2929d0850f ("net: psp: do not inherit
-the Rx association on clone"), now that assoc state cannot exist on
-listen sockets.
-
-With commit 8cc3aef0cb19 ("tcp: Do not allow buggy transitions between
-ehash and lhash2."), and the change in this series restricting PSP assoc
-operations to established sockets, this state should be unreachable.
+Cover two of the basic psp assoc states that have been defeatured. Do
+not include tests with shutdown(), connect(..., AF_UNSPEC), etc. I don't
+think the coverage is worth the complexity. That should be done with
+packetdrill.
 
 Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
 ---
- net/core/sock.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2:
+- drop assoc_tx_non_established test
+---
+ tools/testing/selftests/drivers/net/psp.py | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/net/core/sock.c b/net/core/sock.c
-index 2948dffcc3e1..d7ddd365abeb 100644
---- a/net/core/sock.c
-+++ b/net/core/sock.c
-@@ -2496,7 +2496,7 @@ struct sock *sk_clone(const struct sock *sk, const gfp_t priority,
- 	RCU_INIT_POINTER(newsk->sk_bpf_storage, NULL);
- #endif
- #if IS_ENABLED(CONFIG_INET_PSP)
--	RCU_INIT_POINTER(newsk->psp_assoc, NULL);
-+	DEBUG_NET_WARN_ON_ONCE(rcu_access_pointer(sk->psp_assoc));
- #endif
+diff --git a/tools/testing/selftests/drivers/net/psp.py b/tools/testing/selftests/drivers/net/psp.py
+index 0a2329f41431..473500901879 100755
+--- a/tools/testing/selftests/drivers/net/psp.py
++++ b/tools/testing/selftests/drivers/net/psp.py
+@@ -319,6 +319,32 @@ def assoc_sk_only_unconn(cfg):
+         ksft_eq(the_exception.nl_msg.error, -errno.EINVAL)
  
- 	/* SANITY */
+ 
++def assoc_rx_unconnected(cfg):
++    """ Test that an Rx assoc is rejected on an unconnected socket """
++    _init_psp_dev(cfg)
++
++    with socket.socket(socket.AF_INET6, socket.SOCK_STREAM) as s:
++        with ksft_raises(NlError) as cm:
++            cfg.pspnl.rx_assoc({"version": 0,
++                                "dev-id": cfg.psp_dev_id,
++                                "sock-fd": s.fileno()})
++        ksft_eq(cm.exception.nl_msg.error, -errno.ENOTCONN)
++        ksft_eq(cm.exception.nl_msg.extack['bad-attr'], ".sock-fd")
++
++
++def assoc_rx_listener(cfg):
++    """ Test that an Rx assoc is rejected on a listening socket """
++    _init_psp_dev(cfg)
++
++    with socket.create_server(("localhost", 0)) as s:
++        with ksft_raises(NlError) as cm:
++            cfg.pspnl.rx_assoc({"version": 0,
++                                "dev-id": cfg.psp_dev_id,
++                                "sock-fd": s.fileno()})
++        ksft_eq(cm.exception.nl_msg.error, -errno.ENOTCONN)
++        ksft_eq(cm.exception.nl_msg.extack['bad-attr'], ".sock-fd")
++
++
+ def assoc_version_mismatch(cfg):
+     """ Test creating associations where Rx and Tx PSP versions do not match """
+     _init_psp_dev(cfg)
 
 -- 
 2.52.0
