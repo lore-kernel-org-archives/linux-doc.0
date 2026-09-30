@@ -1,163 +1,180 @@
-Received: from mail-ed2-f31.google.com (mail-ed2-f31.google.com [74.125.228.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FB436B92C
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 06:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.95
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790748097; cv=pass; b=JDNOzE4X0M1GnUm3siX+w8Gl/Phw1bhUKKUBxLdZlHhP6NKqyCBHGuDpWpi8224ZOxcffDUL8OUeDSDgloQtvS+T3avGBt7JibhAnIlit7bxYwEkp+Q3Cqia1t370vBByuugsfV3vPiZrIaQmJaFfcS/Eu4dgtbyXsF8LIEchV8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790748097; c=relaxed/simple;
-	bh=IcOj33yDRHvyt5L9JitZ1ZGchB+/DNq2PYiHYhA9vDY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qDuzCG5BTBDKRPkBfx+jyL2+0zE3t7TI/7SqHWx+S12NmSmXXnXGhv3bpPE1YJCQ2VWlhLEjOwBL5Q9Vc5g+xcGe8voEEv8g2h9/TFf7BwDdxtNEh020etIVIOVuIopmv0HoGZHrxB13o9enYp8phP7R5mAciIX33TIqf6CyfTU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J2w2WyCC; arc=pass smtp.client-ip=74.125.228.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A8F3750BD;
+	Wed, 30 Sep 2026 06:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790748584; cv=none; b=GXLHnhOQA7Tsz8JSTvtKslIObDc7fohCZWLpebXl+tGM4J/IKKhMiYqlRbVNF7D12SN03nrQZbFSKdqEEFhdJ4iyQzuIAmCHOLlkXhdxehq5U1sRLLeoKJR3hMVxoL3DI5ihSaJcpoK4E7GrHojj45fQo/hz+Arn+1KV+3HKwpU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790748584; c=relaxed/simple;
+	bh=XCROvOlzC8UhROXRYTXlDPWwk3VZngkaabZb74KjKB0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=p4477w+/6WLI9FakgvAwM1rspYWEOjoaQonvA1tGRMjZIgEOPjHjcbDUnncRGS5y9MZi/b/SobOYGskzwf3q8H0DbFO+fh9x/v9n+UjjRMmzfrn5rWK1/3F2x067NWLS4T2Twf3xa1KEWDkJJNqkYoRZS4ocOPmV8ghou8nl6qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C0aJiqgl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J2w2WyCC"
-Received: by mail-ed2-f31.google.com with SMTP id 4fb4d7f45d1cf-6ad795d5205so408063a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 23:01:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790748094; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ecald/IHCNnhaeQG7xLevtk7X1q65e+UnokYbObrXN5f7wfOQaErEtLA9mgQIwgaNM
-         mokh13kvVEwmd/ZOflsNzzGad0gUWJgnf7e3QyHsfhPOf/PWldv1Uq1IkEc3OpqlS19v
-         5XabDFKGkI/i5A9ajqI9XYX8VwnLpEjg9RErjluPm0qT5DUyT6uMhOp/PMnVfJS5h0XK
-         E8tMcS1MA6TaSKav7Huv1XsP8+QckPbc/hYsm+T4qpPUWZAp+O63gOMJedJCIx+OAQBQ
-         5A1hpAq816TlYTkDwrMWe0MTACSZQ8R5aPZ3f8UWTYQ95P/xTo/HwLyGBv4h6UFcxOuQ
-         ltQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IcOj33yDRHvyt5L9JitZ1ZGchB+/DNq2PYiHYhA9vDY=;
-        fh=vci4ozrSpqCHYIDQKm7NySyyzHyY/mgW8zOkTY4JC0U=;
-        b=XC8uyf9q5MYrzEkMk8/CnK66otUNjKFgToynPMSby8dpmG65cC1sqzoanwyRWHLOjG
-         opt+4aCD2nYb4bg7WMazLCZndOXA4Fy6ejIANVg/h37erga4MI8dqKh08zSJuoGAAZzF
-         RUvIJZsuoWxJsL9SAHti2fRc9nfKV7h/+i0Z3uOwU4LuVT2inPJK7lefErF4rlTTxnjN
-         QA03eYb5HwW/a81afLIhYQmHPNhJ+YatDtEY0V3CCkvy6nNDyNrHZqAKA4DS3bDmUKpS
-         iR3S4xjPe0bTp0cO9DgqxqBVhTu0te7by+ahhTPJw2/rwNfZCrB+eQBzygNYeESXkf4w
-         Z1Pw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790748094; x=1791352894; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IcOj33yDRHvyt5L9JitZ1ZGchB+/DNq2PYiHYhA9vDY=;
-        b=J2w2WyCCeWOVNjJoRf4knmvAJZwYoof9Tfmjv75e1CljA59RiJx1hu1lbG8BTwgoFl
-         hbcCg8q/PnyvW9cwwjmNsAIp92ppA1DI0nE3enbDCjkSEoHYK8SlVyuRzKJitMHOMTze
-         i7vE5erQ4su9J6kqKzG2iOWaa6LU6qxZZ1obGentJq7Yo1P6F7gRfaq8WHccVW2Cf/3C
-         fzulCkBt5Hh5wNrprRceeU3SV7dPN+vIVVvq9MJNrNQ0kk/4Mc1RzbLi4Jw62z7necy8
-         2M8A/mNgPnPkcyYcnE5an43tYcX101irky1Av5MkM+1yWW6mVPQQ0rr5wIXbQgd+XRZi
-         2AVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790748094; x=1791352894;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IcOj33yDRHvyt5L9JitZ1ZGchB+/DNq2PYiHYhA9vDY=;
-        b=YnzN0/zOhzO1Bi/3mAEbWMj+2xAb0MD/UXsMcwn8krmRtuKJ6Ete8hlO+Ayj3FfHJu
-         vmKjg2UENDPF1g+xnwcuJe5y75F8X/uVDMvbDl/7KzDgzAuhgQ1VrzexpEYipsshsIIi
-         PYTuXqngOFUctW3sraDvvcdu5bn1mOjSBdhZI1pabsw7yIpYgjMDvTqvbh+xrHzRPz28
-         fZN5rlV/PTCGFBcqEiZLq8CZUKMlaRJw1w1n70oiOI8sI9gv3BR4puLlWMNZhPTuH8bK
-         wOkyG41EDbekk0irSy0SEXoPrC3fw/yH3Kg6MsWMj72ZUPUtAIHacvmkOBwueL/vbnoF
-         R3/A==
-X-Forwarded-Encrypted: i=1; AKwUvBxSppsgxEXsLKnTv3NlDwT0RbKJ7aOQhcW4CpJ757wZRpYg/F1avkDHInG4Hyi6sTX35IObp5dTbDo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJt9JGoXN2ZDRZtZ9LTh/N2bodR7RCqMh88Cf3OiCX5TiovGX44
-	HGjMPg0kFZQqDiLcrNki6yv6R9sSDKKFqUIu/1UPZwqLBzCFgjPq1oGZOK1duPPgAASrCjitebj
-	7u0NtX2Dr8ISrKW5wzORXFBkZ/VtmJpY=
-X-Gm-Gg: AYBFou02VbpyOwwLp+kz+TJ+VJB1ngE1zGQhFFrCtZbkWzE6QUWVv2fK9f+dL9uVofM
-	sJWI9kKGvboVFYX43wdySO9KI0v0tJlu5VFXPQoLS622ql69LeSff1QSWwdutFxCmu9VRtM1C+X
-	V/kOZuvQr0HEPypeqIZ4mDwaceWo0qAhGqw50HPnuTwUWVxJmNKnjKsujP2k7dlW4hZ4KIBOdda
-	LV1clACj6/i3OqDXG7mV1HKz4t3RbIRx2qWqJmI95XOGbrVokg6hrsxOPMtT92J9o/eK7DNFFCA
-	ps+qlJCiv3odMCAtbE2ujq/oDKrMEilF4ID/GttZOev+f5eJ/Z5T2da/Z3X7t9OSzEw=
-X-Received: by 2002:a05:6402:240d:b0:6aa:b341:3f9a with SMTP id
- 4fb4d7f45d1cf-6ae199552c3mr84751a12.39.1790748093339; Tue, 29 Sep 2026
- 23:01:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C0aJiqgl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572AC1F00898;
+	Wed, 30 Sep 2026 06:09:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790748583;
+	bh=6h7uN8oZD3fZpgLOnuO8jNg+qNPB0aHlC6LIXgLd8rk=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=C0aJiqglHpwJMphJCpT4ly83kzzULfY86X8xWEmDOq2pBqy67AgGL3YFrPGG23MJn
+	 +NdNlUw4P8giMvqQn7RtDXuMPWeeVcikY5m2YWr6kMg+4wVWa+UPkc5jwXydWohbDJ
+	 m1c9edqBNk11B7ekSoG2SEQ0V/nzgkRivO/gfmpyo3N9nQg9+VqqvepB8bIQixjhji
+	 4OwbXUrRlI3Gm0w+uWhO73vcwKl4h+6U3tBZCPWp/tYSLWXt4OflukSgruJAnw9iiP
+	 A6w9/5A9ck7io/2CopLIL+AEXeb1TIVNw4WF6IoHXZY4uZCctKvgwlxY1UzAe/ZGCQ
+	 Ohlvcemt1XFxA==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 94480198003A;
+	Wed, 30 Sep 2026 02:09:40 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Wed, 30 Sep 2026 02:09:40 -0400
+X-ME-Sender: <xms:oae8anI4GVEbKvhVlcjR8-LzUjW6OI8pIX4xwdE5AShm-xYggBCfzA>
+    <xme:oae8al9IGvGGArTgEiF5YPyEty4h9752h8j-gFFQveVwEoIfCoJuIO9iAa0OslTxH
+    UawP56YQYeryMLbKnajVAnkDQ1a_qJcmZKTe2KpbEm_S_Gb9hOhMp5x>
+X-ME-Proxy-Cause: dmFkZTGH3CDWrAOgFb5M8dKUdw7jBdaLrB2Pwt8r3855AuHOEEYS9lNyfJml3e2Dw82aft
+    4NyxgO+2wM2f2o/0MofBREoFjUlN0fcXDbSg/pS7qRRU5oDw78l4/t2gvNPUQyexhSycSt
+    NaVeHCiWHN4+JISu6xqaJJt6mTDAIaQvkHd63LyqxXLYaoOYjOh0tslHUgOuNZpfYZFw/g
+    LZ7QLONu1oyh6dS6HIpxt1l89FRI6Eacrsv4tm7E3MPWo/RE03KKbe0p3wSmJMTB9jGcuH
+    iNbSFAozKIM6ijzfRf92WbPAwKQzsczw4VH6i0WpOVq4lJ2zHYqfIovQJgYd/cfjVlKhjk
+    e1jP+aUIjrqaEucWf5QX3yzd8oJlT72RfwsYe+lbigeYlQ+U+oQHDoFJ3wAWpJsSmBW3B/
+    DGDwMN85cq94oVGZI1g8e0AWPYXoeKoki8n1/ZW8B9YDmAWj2GEk9E5VGmOt9oSn33ATc5
+    BxSU+h4nkzK4CWLKrE2as1Y0YmXAl98LF+LYWUd8bHl2eAK+HIAH+exjmJe6P6F++r7pQ0
+    o8dz94tGnjB/3dBhU2rWSZVqotQzJE3GcbPy7X4OqQrmm6RVTQDWp41ttcQ81UqGwb1rfh
+    bYWBVh6a4Qr0moEAa9JpdxaEgtXF2BwKI1qH8xboZknig3xSe//xi7zCRiUw
+X-ME-Proxy: <xmx:pKe8avxvzVXMRxvxUY17jp02351u8li9Z1gpWAe66HMral07sMde8A>
+    <xmx:pKe8ajG2K4xMzY109hxeYHL0r-CTQ38UceHkzldI8BgzF_caUDzCDA>
+    <xmx:pKe8avy834KnGQ6bfDnmXxYhl1jweaX-Bv9PTRe3wpd6gEVc_evBAA>
+    <xmx:pKe8amPkiBGuQigPfbr0JHSSKaV1s4LLxnrYpnPprTJvZKh0pJTnTw>
+    <xmx:pKe8alajaA18p7dGKstTDxtDh6LxrbscDldnMaDcLrfA4cWhwVkImsYX>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 74AE3F80086; Wed, 30 Sep 2026 02:09:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260927141437.1432584-1-russ@har.mn> <20260928014357.2285448-1-russ@har.mn>
- <CAOQ4uxiD9ofGEG+CkjszGaHygPWH7S4nob03XRNXUCrze5n91w@mail.gmail.com>
- <CA+zrezRqjY3_V1cDRpTVsXY-d_2CEVkhPqjWiztuKH1CG63jUQ@mail.gmail.com>
- <CAOQ4uxj4xQ9Z=9JH=U21iHnfLBQLboz5dsivigKicWS22M+zgQ@mail.gmail.com> <CA+zrezR3vZOH4-DJbu7kRu=qXF4RSWUxz3BjpnOou_vy6eDcwQ@mail.gmail.com>
-In-Reply-To: <CA+zrezR3vZOH4-DJbu7kRu=qXF4RSWUxz3BjpnOou_vy6eDcwQ@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 30 Sep 2026 08:01:21 +0200
-X-Gm-Features: AclHuK-4L2-xB50QQpUyCJRdrgV6J6jaFhZT4eTld-X9LxMW38Hfe-Cy2gWP4SU
-Message-ID: <CAOQ4uxiw-=keqrbFsPSAz6USCbHe1EtpjnGCLsRe2zXsXMeEog@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: add inode generation number support
-To: Russell Harmon <russ@har.mn>
-Cc: miklos@szeredi.hu, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, fuse-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Bernd Schubert <bernd@bsbernd.com>, 
-	Luis Henriques <luis@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Wed, 30 Sep 2026 08:09:17 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Prashant Singh" <singhpra@juniper.net>,
+ "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: "Jeremy Kerr" <jk@ozlabs.org>, "Clark Williams" <clrkwllms@kernel.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+ "Steve McIntyre" <93sam@debian.org>, linux-efi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Message-Id: <2219f7bb-62a0-496f-a311-8eb651fb76e6@app.fastmail.com>
+In-Reply-To: <20260930013500.10273-1-singhpra@juniper.net>
+References: <20260928203445.72318-1-singhpra@juniper.net>
+ <20260929074312.v3jT8uel@linutronix.de>
+ <59d5452c-42b1-4784-a593-5e549a2a0f12@app.fastmail.com>
+ <20260929151401.doOQX7D0@linutronix.de>
+ <20260930013500.10273-1-singhpra@juniper.net>
+Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 29, 2026 at 10:55=E2=80=AFPM Russell Harmon <russ@har.mn> wrote=
-:
+
+On Wed, 30 Sep 2026, at 03:35, Prashant Singh wrote:
+> Thanks Ard and Sebastian for the comments.
 >
-> On Mon, Sep 28, 2026 at 9:54=E2=80=AFAM Amir Goldstein <amir73il@gmail.co=
-m> wrote:
-> >
-> > On Mon, Sep 28, 2026 at 6:04=E2=80=AFPM Russell Harmon <russ@har.mn> wr=
-ote:
-> > >
-...
-
-> > >
-> > > If I remember correctly, name_to_handle_at on a FUSE filesystem
-> > > contains just the inode+generation, and open_by_handle_at results in =
-a
-> > > LOOKUP of that inode (and now inode+generation). But I'll
-> > > double-check. Assuming my memory is correct, I think that's
-> > > sufficient, assuming that we consider inode+generation as a unique
-> > > file object identifier.
-> >
-> > The problem is, that what you assume is not an API definition, this is
-> > a specific
-> > filesystem implementation, which happens to be correct for some commonl=
-y
-> > used filesystems (e.g. ext4, xfs), but is not true in general.
-> > In general the API {name_to,open_by}_handle_at() the file handle is an
-> > opaque blob.
+>>Please don't respond to questions by respinning the patch without
+>>having any discussion at all.
 >
-> Maybe I'm thinking about this backwards, but we're not talking about
-> "any" filesystem here. We're talking about the FUSE filesystem where
-> the definition of a handle _is_ inode+generation. All I'm proposing we
-> do is to expose that fact to the FUSE userspace daemon.
-
-Correction.
-The generation is exposed to userspace daemon and to the kernel
-via the LOOKUP response.
-All your patch does is re-validate generation in GETATTR/SETATTR.
-Practically this means that generation is validated on attr expiration
-time. This is a reinforcement of an incomplete id model, but it is a bandai=
-d
-not a cure.
-I fail to see the real world value in this change, so please do explain it =
-to me
-in terms of use cases that would be improved and by how much.
-
-> That daemon
-> can then turn around and call open on another filesystem, or make a
-> network call to AWS or whatever. In my case I want to
-> open_by_handle_at on an underlying filesystem, but I can solve that by
-> storing a mapping from fuse_ino+fuse_generation_num to
-> underlying_fs_file_handle in my database.
+> Noted, and apologies for sending v4 without first finalizing the v3
+> discussion.
+>
+>>I asked you an honest question, and it seems Sashiko spotted an
+>>issue here too.
+>>Is there a problem with how the current code deals with uid and gid
+>>on a remount?
+>
+> No, I checked and did not find a problem. I mentioned this in my
+> response to your query on v3:
+> https://lore.kernel.org/all/20260925113145.7396-1-singhpra@juniper.net/
 >
 
-Exactly! The daemon does not need any changes to FUSE protocol
-to have a perfectly correct implementation.
+Apologies, I missed that.
 
-If you can demonstrate or envision a filesystem that would benefit
-from your patch please describe it in your proposal.
+>>This until the end looks extremely verbose.
+>
+> I can drop the strace data from the commit message if that reads
+> cleaner; I had included it to highlight the issue.
+>
 
-Thanks,
-Amir.
+Yeah you can trim it a bit but git commit log space is cheap and
+only people that care about the patch will read it anyway.
+
+As for the docs and code comment changes themselves, please make
+those a bit more to the point. People can go and find the commit
+that introduced/updated them to know more about the background.
+
+>>could this be, I don't know something smaller not including the
+>>commandline where I would expect that people know how to use it.
+>>
+>>===================     =========================================================
+>>(no)statfs              Control whether ``statfs(2)`` reports the variable-store
+>>                        used/ available. Disabling it skips the EFI runtime
+>>                        service call, which might block the CPU for a few milliseconds,
+
+might block all CPUs for a few milliseconds.
+
+>>                        reporting 0 for used and capacity. Enabled by default on
+
+Instead, report 0/0 for used/available.
+
+>>                        PREEMPT_RT.
+>>===================     =========================================================
+>>
+>>It might make sense to add this knob to Documentation/core-api/real-time/hardware.rst.
+>
+> Thanks, I will use this wording and move it to
+> Documentation/core-api/real-time/hardware.rst.
+>
+>>Here and below you add a comment to every change you make. What about
+>>focusing on the important parts, that deserve an explanation why a
+>>change has been made. For instance why nostatfs has the READ_ONCE/
+>>WRITE_ONCE accessors and sometimes it does not.
+>
+> Apologies, that was a miss on my part, and I saw that sashiko-bot
+> flagged it too. I wanted to gather any additional comments before
+> addressing it.
+>
+>>Yeah the most severe issue is that entering SMM requires a rendez-vous
+>>of all the cores, and so whether preemption is enabled or not is
+>>actually kind of irrelevant, given that all the other cores just
+>>disappear.
+>
+> Yes, I observed the same behavior. I was not sure whether this is
+> x86-specific, so I refrained from mentioning it in the commit log.
+>
+
+It is x86 specific but that is the main reason we need any of this.
+
+>>Right. So if anything, there could be a data_race() in one place
+>>instead inconsistent READ/ WRITE once as we have it now.
+>
+> I would use data_race() on the write for nostatfs. Please let me know
+> if the below looks OK:
+>
+>     /* nostatfs is read locklessly by statfs()/show_options(); the racy 
+> update is benign. */
+>     data_race(sfi->mount_opts.nostatfs = new_sfi->mount_opts.nostatfs);
+>
+
+AFAICT, that would potentially leave KCSAN instrumentation on the reboot
+path, which might trigger and interfere with the reboot. So instead,
+I'd like to put this in efi_reboot_required if we can. If it is needed
+in more places to address an actual KCSAN splat, I don't mind. If it is
+just to make Sashiko happy, then we shouldn't bother.
+
+
+
