@@ -1,78 +1,51 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC47B469822
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 09:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96D840682A;
+	Wed, 30 Sep 2026 09:13:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790759495; cv=none; b=jG92li1jyGIPDlFUyLrTnv1yNtIpWI4j6hxjLS9Q4Qoa9egvbrgAglj9asF9x8T6S9sJuXNHxzaCOEAdLuXQkRQNQv1kVmhKN8qhFYUH2v6UbgaSkPt2CxYkXnWsaQD8vpZY2xHts9uVZN1zxrsSDIaxkcpnrGyhovv37H8RNoQ=
+	t=1790759620; cv=none; b=RgaUkKtCEjDgEJ73qyd7maGH0lMAfpzM/7OYykn/ymfBu+gi6I+zXLneSTwyYHLORzSOufscC+IA8/XraO6zBQ1fWo+BYwp8PyRYBtgAUGGjHb7LoBXSkFX7P8t2hHdCpzWAeKx66wFdsjEN/xUWQwXY0rxhWZquPKqJTmhhoA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790759495; c=relaxed/simple;
-	bh=/T9SB3efXe5MNqiq/VssbwaJLIYXUF5nvDQjxixgDW0=;
+	s=arc-20240116; t=1790759620; c=relaxed/simple;
+	bh=WkIjjnIr1FTqx6OwSGy19wcnvSGs4r1B8kuXCn4Z3Ss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X8hYCYkhH8qzfp8vDh2SRS7m8s4Bbk1k08RhHEL56ccnQGMHbk7TDSSsqRHXc9MGd2n9kOD9arjrJ9P31y2Fn1acgyJMMjR04jDFqprH7twWYZFVNoN6VLJxtbPCOTjxfLi9tWJtbt9WlbQ6bMIwE1dHI6kXEkepLCpMxTxmn74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=gRaRtqDG; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=UaJuyOTm68SqYOJdfANqloR4+1UTCr8HUWi8o+VTXDL0cZOWSIJtS33mEYs2CyBw+9zEyP43TW1oO5K8p2BKxL9X9nP4vDTMffoy1u6FXiT5HAZZxVCw1eu8IJOztLUhlHimXHJZwITYYeBrvp6tdxkgifPux40Oad+N06uCZ/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FwpxOKCD; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="gRaRtqDG"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ffed768deso10517905e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 02:11:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1790759491; x=1791364291; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jjNSxVYXKX8qPd2UHTWRIDsJB7UEqZyaJzAT3xKsOKI=;
-        b=gRaRtqDGPNAN7Q4np1i31Ai74dPvPEEvoO2/wcszaPEKU180je9/VADGyxaO+/O21k
-         7B9H6AOTEuWSYrnMbFhBlWW0zOo3DHgoUBkkUY88D0aRHNrWtFIdNFzjRITaTzpzwTAf
-         C9YbrxyrzjHLJir01Bm3MnSPBHfRAG0iEOtUhR33Fccc3RniDuyxL8CcY3ptiTShPIV3
-         Bz46tM7OFtvMKhTrSZQIc1Ky1jOYg7LXedKlLt+3rA9iU8rL1kIE5i6DmT2IcpwjnRt1
-         CFkbEHJ8hOuHulWGHjSzkXbAsA6eDVZ+z08A49zFnp0MFL4YS6jayiooupQbWIPCE+Yl
-         H72A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790759491; x=1791364291;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jjNSxVYXKX8qPd2UHTWRIDsJB7UEqZyaJzAT3xKsOKI=;
-        b=EXbGiGHlJd4hwir1SN+5ic5Zzd2JBVbSJAgxdCkAJCi6ooM0RolufqsaZItRR+z/Xt
-         fmMT3p02lviM/iH3k38rXqDi/Cb6d+H4FnXGC1skAx6BWWR/VNHqo6jwHogxvnGzRPIH
-         aqJ4L3geJu1nUqMYXyG1TV5nsdA3mfqeIMEm7nIyzYLLbVWeYr3nFSMjVzN/+yylyU63
-         cIVZRtBG6yG70yjfvkRqS2SkvKjYXWPl80uQtM2HmryI7Y37aN0oYz39bhLvHu5Ou3ZC
-         /Io9PDw5spWCqXgN7dxjtMA9nhK1b2c12u6sAd9IYF0yvymGSqkap6aYIESY1M9JBB9Q
-         3hZA==
-X-Forwarded-Encrypted: i=1; AKwUvBxYnPcilKQ3kr5ZZTKf9p8o256BILguW9o3dkBe4MyzFb924X3JHC7h81QLpjPa6/vE+JrHAm8fLhE=@vger.kernel.org
-X-Gm-Message-State: AFuF++m+k6hTRAxM2j8Ia+XcP5B+jmKevli4iP5hkeya40jqso24uP35
-	cAmUJcJAoAzKu/if8QLM/sA17wBRUXAKQr0W27VJY9JBcMZ4Fl2BeagELVmDBBtBnyo=
-X-Gm-Gg: AYBFou2A6TJAVpECntb+To/bc2VCPx1mtn+/ZzaphdS+9kMtv01H+tF3CrxTsic/ov2
-	IVakggVPMIZ0sXKKrnY7jtZocTvcp3XPoEDPQoj6GFaFLE9i8pj+UKgE4kgozcWe1qA1A5thCi1
-	BKfwWWGb5o20GjElT1TnViDvNGbHtko7ox0kpb+WnsGqnQKomlzFzkbf+dJrgXM3QuOEJWopOxn
-	rFaHTXhJ73FO9VfxRzV0ruMtZH8q/Nq82NaFZenhbRwMdNmKDyjL8Y+xQPOprgiJY8iAPPKLEL5
-	gcCWg/QbtAJO7oXVg0X2PHVIK6sbx3ZPiss7wIzvur0iMQ1qqLQ+D+932xHxJ3CAPb5xclvAyfb
-	Extqwt0bT1kos5M7x+2elYr937VaezBYUTvxBPj4yqD/bY1mVCr86ncjQ7u67KbAe0ev4Rw3wY4
-	aIvMkGIFMgnh6E3hk95ErexIdpFR9V/UfZ1sBneZm5jSEuTAi6IoQ9YertOcHFmJ/ofOw=
-X-Received: by 2002:a05:600c:a09:b0:49f:fc4f:9efb with SMTP id 5b1f17b1804b1-4a01b1a2029mr10750085e9.7.1790759490766;
-        Wed, 30 Sep 2026 02:11:30 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F ([2620:10d:c092:500::6:13b8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0174d5191sm41627435e9.3.2026.09.30.02.11.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 02:11:30 -0700 (PDT)
-Date: Wed, 30 Sep 2026 05:11:28 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Li Zhe <lizhe.67@bytedance.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
-	liam@infradead.org, rppt@kernel.org, mhocko@suse.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, ziy@nvidia.com, joshua.hahnjy@gmail.com, 
-	ying.huang@linux.alibaba.com, apopple@nvidia.com, linux-mm@kvack.org, 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FwpxOKCD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=cdJJeZ1bhNDcY+rf7aor9Q03O40l/Lr6ZvYURHNxEEI=; b=FwpxOKCD5anE1763qbBS2ORixr
+	a3JSaXryl0itquTW6Wb66Q8D0uxKWuhV/M0EgRi7ekUoVyyAri4dmhPdvLUols0qYHvrt62ua8QK+
+	CZnFHLR8N7BelbsZ8fszgYYPyROSdnCBPmMuqe2JUfUykfPyFXmAHvck5G6w7rlq6TNTxrLJ680it
+	Df2bc5mz5mCXZJHdADab+Wz701i0u5gOoiRcJKszpuhesdsWwwdo0phNT1pOfqKFadIyPOPu79CUr
+	2DynxtSerKiYFWVSjemcAtsoX6qAqs27yU5gLUWhQtbZN3XBxEBnUU8QvBobDmksFXcUPhqxyGnGG
+	oVs8i3Mw==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
+	id 1xBqNR-00000003ZGU-2P74;
+	Wed, 30 Sep 2026 09:13:27 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 4CBB2300673; Wed, 30 Sep 2026 11:13:24 +0200 (CEST)
+Date: Wed, 30 Sep 2026 11:13:24 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Yiwei Lin <s921975628@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Davidlohr Bueso <dave@stgolabs.net>, Jon Maloy <jmaloy@redhat.com>,
+	netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference
- with MPOL_WEIGHTED_INTERLEAVE policy
-Message-ID: <arzR_QtoMPtM5kUB@gourry-fedora-PF4VCD3F>
-References: <20260930072617.64665-1-lizhe.67@bytedance.com>
- <arzLw18RiTN6Hmey@fedora>
- <7df34f77-2c52-47a3-a495-d782009ab543@bytedance.com>
+Subject: Re: [PATCH v2 2/4] rbtree: declare augmented callbacks per field
+ with RB_AUG()
+Message-ID: <20260930091324.GI88198@noisy.programming.kicks-ass.net>
+References: <20260929152439.91443-1-s921975628@gmail.com>
+ <20260929152439.91443-3-s921975628@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,48 +54,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7df34f77-2c52-47a3-a495-d782009ab543@bytedance.com>
+In-Reply-To: <20260929152439.91443-3-s921975628@gmail.com>
 
-On Wed, Sep 30, 2026 at 04:59:50PM +0800, Li Zhe wrote:
-> On 9/30/26 4:43 PM, Gregory Price wrote:
-> > On Wed, Sep 30, 2026 at 03:26:17PM +0800, Li Zhe wrote:
-> >> Allow MPOL_F_NUMA_BALANCING for MPOL_WEIGHTED_INTERLEAVE.  As with
-> >> MPOL_BIND and MPOL_PREFERRED_MANY, keep migration constrained by the
-> >> policy nodemask: if the CPU's node is outside the nodemask, do not
-> >> migrate the folio there.
-> >>
-> > Why for WEIGHTED_INTERLEAVE and not INTERLEAVE as well?
-> 
-> 
-> Thanks for pointing this out.
-> 
-> I focused on MPOL_WEIGHTED_INTERLEAVE in v1 because the motivating use
-> case is to seed memory across tiers with a configurable ratio at
-> allocation time, and then let NUMA balancing/memory tiering adjust the
-> placement based on access patterns. With equal weights,
-> MPOL_WEIGHTED_INTERLEAVE can also cover the regular interleave
-> allocation pattern.
-> 
-> That said, I agree that MPOL_INTERLEAVE can be handled consistently as
-> well. Since this is still an explicit opt-in via MPOL_F_NUMA_BALANCING,
-> unless others see a reason to keep MPOL_INTERLEAVE out, I will extend
-> this in v2 to cover both MPOL_INTERLEAVE and MPOL_WEIGHTED_INTERLEAVE
-> with the same nodemask constraint.
-> 
+On Tue, Sep 29, 2026 at 11:24:37PM +0800, Yiwei Lin wrote:
 
-Looking at it, is there an actual reason to limit F_MORON at all? Or
-should we just lift
+> No functional change intended.
 
-                if (pol->flags & MPOL_F_MORON) {
-                        /*
-                         * Optimize placement among multiple nodes
-                         * via NUMA balancing
-                         */
-                        if (node_isset(thisnid, pol->nodes))
-                                break;
-                        goto out;
-                }
+> -#define RB_DECLARE_CALLBACKS_MAX(RBSTATIC, RBNAME, RBSTRUCT, RBFIELD,	      \
+> -				 RBTYPE, RBAUGMENTED, RBCOMPUTE)	      \
+> -static inline bool RBNAME ## _compute_max(RBSTRUCT *node, bool exit)	      \
+> -{									      \
+> -	RBSTRUCT *child;						      \
+> -	RBTYPE max = RBCOMPUTE(node);					      \
+> -	if (node->RBFIELD.rb_left) {					      \
+> -		child = rb_entry(node->RBFIELD.rb_left, RBSTRUCT, RBFIELD);   \
+> -		if (child->RBAUGMENTED > max)				      \
+> -			max = child->RBAUGMENTED;			      \
+> -	}								      \
+> -	if (node->RBFIELD.rb_right) {					      \
+> -		child = rb_entry(node->RBFIELD.rb_right, RBSTRUCT, RBFIELD);  \
+> -		if (child->RBAUGMENTED > max)				      \
+> -			max = child->RBAUGMENTED;			      \
+> -	}								      \
+> -	if (exit && node->RBAUGMENTED == max)				      \
+> -		return true;						      \
+> -	node->RBAUGMENTED = max;					      \
+> -	return false;							      \
+> -}									      \
 
-Out ahead of everything?
-
-~Gregory
+The one thing that did get lost is this 'exit' stuff. I'm not sure it
+matters, but it might need a mention.
