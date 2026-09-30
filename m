@@ -1,194 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-1-115.ptr.blmpb.com (va-1-115.ptr.blmpb.com [209.127.230.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCB24CDA2E;
-	Wed, 30 Sep 2026 11:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200063BBFBB
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 11:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790768643; cv=none; b=p912FObWLL8yNgEbzc2N3wm6AwBHuBwBNoaJJzhc1xZ+R7GLgDxL9+yaaVAxDYNFBB7jAXn/Bpza2WunGK+wNazUVYkX9+RUoCtGnKNUGENdc5i9DkrlH2RhJbam+6VjXH31ppH0dwUqp4zlj9HUvfFgEYHze9+I1hGAgZXJSiU=
+	t=1790769159; cv=none; b=qNoxj8d3MNUfhCBvbVF42efP+28LsuK2/Y3enjyS87ZYyp6srarOnUaeMUIPlGQtc4Hc7Jtx8KQEUtQfg6b9exzF+QYj2MIYJ54NLSUKE1JEE2BfdrVHMabuZfkQ4PuNCYL+zHK9wUQTPled1vrkUDy7oyGXnFQFwB0IyKbFwU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790768643; c=relaxed/simple;
-	bh=XbWhsaYYwwptgi4uHGm8FURUn9UCJ8ZEfu4EpI6zryg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j3Tg46Q2CVOxgKzYjUoRcN88bfTCKgRHBcLq1AVYC8DqiN+2eh5RUaveM+PoFWq3jsIlSBW/ruCC9ixndeutN8SScXvuThNq2WBQayPA7hDwPNLJVvj2fkjBkNLqs6chj+LlXOKzEHCOCTFr3dMY5Zr1w2iBWtSw3aXz0S/+5Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VSWXjJHV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790769159; c=relaxed/simple;
+	bh=sGi4duRgSEofU+S8eH9EnDd2GBK+K4sFhazBSXNCJys=;
+	h=References:From:In-Reply-To:Cc:Date:Mime-Version:Content-Type:To:
+	 Subject:Message-Id; b=P7uTwtve8dR31T5saHOJSrcg232wzXgi7329UJiKbq5L4MZLXJmzIdwygW4lEn4hba9712vZYQi+M8huQZiohIPXQaaayFp9sHdV+8zeXyRJDt5MjZguEVnkG/GzFpPyd0sXljUwGWw3m1dAuX/jNG4UKkx4QjcdUYP6p11GUDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Z+55iLEp; arc=none smtp.client-ip=209.127.230.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VSWXjJHV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E935B1F00893;
-	Wed, 30 Sep 2026 11:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790768641;
-	bh=045Gg/9FNTZlrsi+oP8Nxf9edT3+jF24v5WNbYcZjwE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VSWXjJHVAsJ34fjRpCgdAAm2s+N2fiEQSsaLA83OWsLq4eONyJuVTUfPjdna+84/m
-	 q1/1x2A3M5+juV1717SRNgmygTNIXSdte54KjqlagnfyYM5nvdvN6tmbfog6D74Gii
-	 rtHNCGwAyKdmRpQAOB85aZYiTw8Zv4AvgiTBZj6t3Y3cLYzgx/Cbu8SdkN2WrV56d4
-	 jjoxNRA8oUhe//pwutrYVjDKzCQE6/dOiGbSntP9Yt7b9G6O3cspwsYwROmB1m7da3
-	 DTtTpp37fbHkG2hQ4G38CDwinoxY1+ALw5+CQhP61M6Kpz8Nuf7XXpD5Ucku+DcCIg
-	 rEraZmriCvq5g==
-Date: Wed, 30 Sep 2026 14:43:56 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH v8 16/23] dma-buf: Let importers ask how peer-to-peer
- traffic is routed
-Message-ID: <20260930114356.GC3401365@unreal>
-References: <20260928-fix-p2p-acs-v4-0-v8-0-404453b9c435@nvidia.com>
- <20260928-fix-p2p-acs-v4-0-v8-16-404453b9c435@nvidia.com>
- <607e8903-a979-4d78-bf08-447321c03119@amd.com>
- <20260929132305.GJ563127@unreal>
- <720dbac3-24f6-4c91-899e-e205865c1fd1@amd.com>
- <20260929175737.GK563127@unreal>
- <eeef5951-825e-459f-b474-bf8c59588446@amd.com>
- <20260930081832.GA3401365@unreal>
- <4549640c-f4a5-4dac-9be3-2e5aa127555c@amd.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Z+55iLEp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1790769152; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=u2He0n5DmuqJPogb7cosTA7pj5eK80oWxnlE2Q9AaOE=;
+ b=Z+55iLEp3mxL2ee/IvLxCxHeLFI8RvH/ysXIPUaGd2Kd9Dcpt9fXa1wRXAyKX68Vq67HfK
+ amy5RuT+qeimZTXyMAfrd1G3STZA+U/gU2aIfcp6WZZNmp/obRbU8+7lQoFir0id8J7ada
+ 8wYh4EQYYFC+ANRGpUMBSQXjlpQdzmU/lqEdCn+RRLIUIBtj8d4jFjjKwIxAQ+LJF7ZeQz
+ eEOk17wLG/isei33i7IiXqRRJj6SRnAmkS+/JNOo3G4QcEyNvBagwO2EojZauJqLvebaJ9
+ NkInWiNE5cRo3+h4HEKfjAFwIlg0FF+2nems48xs556QjejeL+e99dz9Gtuu3w==
+References: <20260930072617.64665-1-lizhe.67@bytedance.com> <cfdcaaa3-a9e7-4352-ab01-4922ebb8e0c9@kernel.org>
+From: "Li Zhe" <lizhe.67@bytedance.com>
+X-Lms-Return-Path: <lba+26abcf7fe+314015+vger.kernel.org+lizhe.67@bytedance.com>
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+In-Reply-To: <cfdcaaa3-a9e7-4352-ab01-4922ebb8e0c9@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Cc: <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>
+Date: Wed, 30 Sep 2026 19:52:05 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4549640c-f4a5-4dac-9be3-2e5aa127555c@amd.com>
+Mime-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Type: text/plain; charset=UTF-8
+To: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	<akpm@linux-foundation.org>, <ljs@kernel.org>, <liam@infradead.org>, 
+	<rppt@kernel.org>, <mhocko@suse.com>, <corbet@lwn.net>, 
+	<skhan@linuxfoundation.org>, <ziy@nvidia.com>, <joshua.hahnjy@gmail.com>, 
+	<gourry@gourry.net>, <ying.huang@linux.alibaba.com>, 
+	<apopple@nvidia.com>
+Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference with MPOL_WEIGHTED_INTERLEAVE policy
+Message-Id: <808292b4-841c-45bd-aacd-b487be1858ca@bytedance.com>
 
-On Wed, Sep 30, 2026 at 10:34:56AM +0200, Christian König wrote:
-> On 9/30/26 10:18, Leon Romanovsky wrote:
-> > On Wed, Sep 30, 2026 at 09:00:57AM +0200, Christian König wrote:
-> >> On 9/29/26 19:57, Leon Romanovsky wrote:
-> >>> On Tue, Sep 29, 2026 at 03:39:42PM +0200, Christian König wrote:
-> >>>> On 9/29/26 15:23, Leon Romanovsky wrote:
-> >>>>> On Tue, Sep 29, 2026 at 11:34:05AM +0200, Christian König wrote:
-> >>>>>> On 9/28/26 13:19, Leon Romanovsky wrote:
-> >>>> ...>>
-> >>>>>>> +	return pci_p2pdma_map_type_tlp(provider, attach->dev, tlp_flags);
-> >>>>>>
-> >>>>>> This function call here *must* be in the exporter and not the DMA-buf framework.
-> >>>>>>
-> >>>>>> So clear NAK to putting that here.
-> >>>>>
-> >>>>> "Look, it is easy to complain you don't like how it looks, but this
-> >>>>> stuff is hard there are lots of competing concerns, if you have a
-> >>>>> better idea now is a good time to present it."
-> >>>>> https://lore.kernel.org/all/20260921130858.GO11599@ziepe.ca/#t
-> >>>>>
-> >>>>> Do you have a viable solution?
-> >>>>
-> >>>> Ok, that sounds like you haven't understood why I'm rejecting this.
-> >>>>
-> >>>> By moving the calls to pci_p2pdma functions into DMA-buf you bypass the NAK to expose those functions to drivers from the DMA maintainers.
-> >>>
-> >>> No, you have misunderstood Hellwig's position. His request was to ensure that only
-> >>> subsystems deal with P2P internals. He was perfectly fine with bringing P2P
-> >>> complexity into dma-buf, since it is the agreed-upon mechanism for sharing DMA
-> >>> regions between devices.
-> >>
-> >> Thanks for clearing that up, I indeed didn't realized that.
-> >>
-> >> But that is pretty much against my standpoint that I don't want any P2P complexity in DMA-buf.
-> >>
-> >>>
-> >>> So this is not a NAK bypass; it is a correct implementation of his request.
-> >>> He handled P2P-related complexity in the block layer.
-> >>>
-> >>> Let's add Christoph to the thread so he can correct me if I'm wrong.
-> >>>
-> >>>>
-> >>>> I unfortunately didn't understood that when the dma-buf-mapping.c code was added and just assumed that you just needed a place to put some common code.
-> >>>
-> >>> That is not correct. Devices A and B share a DMA region via the dma-buf
-> >>> mechanism. Where do you expect the code common to dma-buf to be placed?
-> >>
-> >> In the DMA layer!
-> >>
-> >>>>
-> >>>> So as long as that NAK from the DMA maintainers to expose the pci_p2p functions to drivers stand I will push hard to get that stuff removed again from DMA-buf as well.
-> >>>
-> >>> Are you seriously suggesting that every dma-buf driver in the world should
-> >>> have to reimplement this mess?
-> >>
-> >> Well I completely agree that this should probably not be replicated into each exporter, but that is the job of the DMA layer and not DMA-buf.
-> >>
-> >> The purpose of DMA-buf is to exchange DMA addresses between an exporter and one or more importers and handle things like lifetime and synchronization of accesses. 
-> >>
-> >> What the framework should do is to transport the capabilities of the importer to the exporter, e.g. what physical connections we have etc..
-> >>
-> >> What the framework can also do is to have additional information from the exporter to the importer regarding addresses and mappings, for example if they are bus, IOVA or some special internal DMA addresses or how to stitch together your PCIe TLP or whatever.
-> > 
-> > At a minimum, exporters need to pass `p2pdma_provider`.
-> 
-> No, exactly that is a no-go. The neither the framework nor the importer should see the p2pdma_provider.
-> 
-> Only fully translated addresses where the DMA access should happen.
-> 
-> > 
-> > If I keep the “dma-buf: Let exporters hand out the P2PDMA provider behind a
-> > buffer” patch, I can move the P2P TLP types back into `p2pdma.c` and export
-> > only the function that indicates whether ATS is required.
-> > 
-> > Is it ok?
-> 
-> What you can do is to forward declare enum pci_p2pdma_map_type and than pass that 1 to 1 from the exporter to the importer.
+On 9/30/26 7:26 PM, David Hildenbrand (Arm) wrote:
+> On 9/30/26 09:26, Li Zhe wrote:
+>> MPOL_WEIGHTED_INTERLEAVE is useful on tiered-memory systems because it
+>> can seed a workload's new allocations across fast memory and slower
+>> capacity memory according to a configured ratio.
+>>
+>> That initial placement is useful for workload managers and orchestration
+>> systems.  They can take the amount of fast memory and slower capacity
+>> memory on a machine into account before starting a workload, and choose =
+a
+>> weighted policy that seeds the workload across the tiers at allocation
+>> time.  This avoids starting from an all-fast or all-slow placement and
+>> then relying on promotion or demotion to reshape a large working set.
+>>
+>> After those pages have been placed, however, the policy cannot currently
+>> opt in to migrate-on-fault placement.  set_mempolicy() and mbind()
+>> reject MPOL_WEIGHTED_INTERLEAVE when MPOL_F_NUMA_BALANCING is specified,
+>> so memory tiering cannot promote hot pages that were initially placed on
+>> the slower nodes by the weighted policy.
+>>
+>> Initial placement is only a starting point.  Pages initially allocated o=
+n
+>> fast memory are not necessarily the long-term hot pages, and pages
+>> initially allocated on slower memory may become hot as the workload's ho=
+t
+>> set changes.  The policy therefore needs to be able to combine weighted
+>> initial placement with memory tiering's NUMA fault based hot-page
+>> promotion.
+> Ok, so memory allocation will respect the weights but balancing will igno=
+re
+> them? That really sounds rather odd to me.
+>
+> And I assume that was the reason why we might have disallowed the combina=
+tion:
+> it turns a weighted mechanism into an unweighted mechanism.
+>
+> So are we really sure these semantics that you would essentially set in s=
+tone
+> here are the semantics we want? (ignoring weights)
+Yes, that is a fair concern. It does look odd if the weights are
+interpreted as a hard resident placement ratio.
 
-Unfortunately, neither suggestion applies to RDMA NICs. They need to know,
-before mapping addresses, whether to create the memory region with ATS
-enabled.
+My understanding of the existing MPOL_WEIGHTED_INTERLEAVE ABI is that
+the weights are allocation weights, not a long-term resident ratio. The
+sysfs ABI documentation says that these weights only affect new
+allocations, and that changing them at runtime will not migrate already
+allocated pages.=C2=A0 The implementation also has normal allocation fallba=
+ck
+if the selected weighted target cannot satisfy the allocation.
 
-The importer needs a way to obtain device information from the exporter so
-that it can configure itself correctly.
+The use case here follows that interpretation.=C2=A0 The weights are used t=
+o
+seed the initial placement across memory tiers.=C2=A0 After that, with an
+explicit MPOL_F_NUMA_BALANCING opt-in, memory tiering would promote hot
+pages based on access patterns, not based on the original allocation
+ratio.=C2=A0 Users that want weighted allocation without that behavior woul=
+d
+keep using MPOL_WEIGHTED_INTERLEAVE without MPOL_F_NUMA_BALANCING.
 
-Thanks
+That said, I agree that allowing this flag combination would set the
+semantics for it.=C2=A0 If reusing MPOL_F_NUMA_BALANCING for this is too
+ambiguous, do you think we should model this as a separate opt-in ABI
+for "weighted initial placement plus access-based balancing" instead?
+For example, a separate flag or policy mode would make it clearer that
+the weights are not intended to constrain migrate-on-fault placement.
 
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > Thanks
-> > 
-> > 
-> >>
-> >> As long as both the exporter and importer agree on what those values mean I have no problem at all with that.
-> >>
-> >> But how those DMA addresses come to be should *absolutely not* be part of DMA-buf! The complexity of that is seriously not something we should have here.
-> >>
-> >> Regards,
-> >> Christian.
-> >>
-> >>>
-> >>> Thanks
-> >>>
-> >>>>
-> >>>> What you try to do here is seriously not ok and I will push back hard on that in the future.
-> >>>>
-> >>>> Regards,
-> >>>> Christian.
-> >>>>
-> >>>>>
-> >>>>> Thanks
-> >>>>>
-> >>>>>>
-> >>>>>> Regards,
-> >>>>>> Christian.
-> >>>>
-> >>>>
-> >>
-> 
+If the allocation-only interpretation of the weights is acceptable, I
+can make it explicit in the commit message and documentation in v2.
+Otherwise I would appreciate your suggestion on the preferred interface.
+
+Thanks,
+Zhe
