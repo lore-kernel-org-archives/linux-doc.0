@@ -1,195 +1,250 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D932165EA;
-	Wed, 30 Sep 2026 00:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C3F2F87B;
+	Wed, 30 Sep 2026 00:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790728174; cv=none; b=cbRV6xmahdwFeTAtJ5d/acjB0TnUxOz6W0kV2iuJ5TFMWIsZ6fcG5pkhWJppuz2KAeQ52UyZ14mGHwYWTOZK/v82uzOXNJlyw9ezA3BLbFGtHHgLFxK9Hj40CgY5qtyJZvW6yZIhPcRt4JfxVAQqkT/6QPCWo1uJA63p3Ell1KE=
+	t=1790728518; cv=none; b=E5XF6CjzKV5t9jZ7nj1WLYhHHd8snPTKZj2D6GAV/ILIlJ2b2T/1MVqKM6N2PAYLNt9fZor/7W76YEpnN5HnT6mcOY0KATeQ6ZIL32o3ndJPDd2iRSaCQSssd7s/g0V2Muy0BZE+dLKOEJ30JksQ9p15di9Q6pfltzF1uW4JhLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790728174; c=relaxed/simple;
-	bh=vbll7qC4Nmh7EKoumfj3br3jNAAsP6izSlVgIlopEkE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BH/MhvXA5wO7B5hVWFtl+AIE5/NNcTJ73fNOsMFcMREcCl2Z7p1Ppd3CD0B62LnecuZWBsTA7cpKHaBlnu+iCuSQO+NKMy/MzkXlQ37LCf3tIjpdhycYe6v0ssY+6ngUzq8Tu8w3E9nBpErMIVPH7wUIkn845gBWg7nG4vOE6MU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=peM3sMMu; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1790728518; c=relaxed/simple;
+	bh=zjkiyRqLL547noCZTyaXMFL+DbNJLuxp50YmxD4PJ2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J+KdFo5YGGQ/to1eDxeiL7XDKU5L8Kp7p8jY79dtiU3xZ7DjfINDMrWHlBJC2zd+AIWvp6FeKNMUck64M1lxxpmob4BIfOBhj489B6EsWuxrpyD5Som7Yb2B79sLKiva6nSy8xT3JDkR7yOkdOPNnctRlLwHRhAS/y3gAKZsvE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y7R0imuU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="peM3sMMu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ahPhAQkCfSyZ/hTYflZfPypDdJtLyf5LfLIC6RVfRTM=; b=peM3sMMury3bw+vPcqjuQSzbEa
-	9hspIdEa6U/KPAL2CU3STAmXGHmkiY69gkFqyKhzITmcPsUJAzfz4l8rmfN6ZOJhyFV0YUGw6bdKM
-	iZLaxhU5a8G5QYzCmDZZGPnk6G8HLOOWHI3BTgE0/erai9qaRc1JO+Fv3FejgboBVCtvgt9ox/gAg
-	Ps7KsjC89kpHFw8oekHcs56VktMPc01jT7FR3Bx8bV9peHblUWzZcKoSojhYj+TNfKNHPBXeXrlji
-	DGGbfSnLKwi2M+W0nEXciCF6ZotIhweqxlfXD0Q8T7Cd+slopxyZq8Z0xvm8j/Z1u/IeZcJjL+Ibo
-	26VIz2RA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBiCH-00000004oyl-0dEZ;
-	Wed, 30 Sep 2026 00:29:21 +0000
-Message-ID: <ef6f0d64-fb3c-492e-a70f-ab97ff462969@infradead.org>
-Date: Tue, 29 Sep 2026 17:29:20 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y7R0imuU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3C5E1F000FF;
+	Wed, 30 Sep 2026 00:35:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790728517;
+	bh=Cr6UdQKdI0xls4OlaLkP7rmWD8zhk3VYrwsH9krw7jM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Y7R0imuU10TDOyA5h5xY8NunTH92rKR594grKtQDyTajkI0sTgxH0QtQqcpBT27uK
+	 v/jDcULaKuymQGkyFvycV2q25HWMoizg99vQU9Ktr08NMf/k6gMLY7jzNc0T+/UEeV
+	 9KMQ5hsKDvYFsxePGoJC5mTkxMk7mT1/w+3SYdIJc7Kuz/Ogzq74/VIHss+BdgO+Vg
+	 vliQ6n3zIZJcT11CWqF7ymubvoOv5TXY6cpYQHc1LIJ70Bn9e5yvzlhDACFxCtMP9T
+	 ilwweYwv9xkWcYcYpQ9cZjp6kp2+fUaixo6Z4pK8YLv3Ng4Nbkul7R6rHI9ANhZdSp
+	 +ELyy7HJgVzpA==
+Date: Tue, 29 Sep 2026 17:35:15 -0700
+From: Oliver Upton <oupton@kernel.org>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: maz@kernel.org, catalin.marinas@arm.com, will@kernel.org,
+	corbet@lwn.net, pbonzini@redhat.com, leo.bras@arm.com,
+	yuzenghui@huawei.com, wangzhou1@hisilicon.com,
+	yangjinqian1@huawei.com, caijian11@h-partners.com,
+	liuyonglong@huawei.com, tangchengchang@huawei.com,
+	yezhenyu2@huawei.com, yubihong@huawei.com, linuxarm@huawei.com,
+	joey.gouly@arm.com, kvmarm@lists.linux.dev, kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	seiden@linux.ibm.com, suzuki.poulose@arm.com, fuad.tabba@linux.dev,
+	mark.rutland@arm.com, seanjc@google.com, rdunlap@infradead.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v5 02/15] KVM: arm64: Add KVM_PGTABLE_PROT_DIRTY
+Message-ID: <arxZQwkLCLBnITzH@kernel.org>
+References: <20260929103655.85107-1-zhengtian10@huawei.com>
+ <20260929103655.85107-3-zhengtian10@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: kdoc_output: don't add a man page tail for
- filtered-out symbols
-To: simonsudarushkin@gmail.com, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260929-kdoc-man-filter-v1-1-5f70268885d1@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260929-kdoc-man-filter-v1-1-5f70268885d1@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260929103655.85107-3-zhengtian10@huawei.com>
 
-Hi Simon,
-
-On 9/29/26 6:36 AM, Simon Sudarushkin via B4 Relay wrote:
-> From: Simon Sudarushkin <simonsudarushkin@gmail.com>
+On Tue, Sep 29, 2026 at 06:36:42PM +0800, Tian Zheng wrote:
+> @@ -731,8 +731,12 @@ static int stage2_set_prot_attr(struct kvm_pgtable *pgt, enum kvm_pgtable_prot p
+>  	if (prot & KVM_PGTABLE_PROT_R)
+>  		attr |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R;
 > 
-> ManFormat.msg() appends the "SEE ALSO" tail after every call to the base
-> class msg(), even when the -e, -i, -s or --nosymbol filters dropped the
-> symbol and nothing was written for it. With -s, every other symbol in
-> the file leaves a stray "SEE ALSO" block behind the requested page. With
-> -e on a file that exports nothing, the output is only such blocks, with
-> no .TH header at all:
-> 
->   $ tools/docs/kernel-doc -man -s string_get_size lib/string_helpers.c \
->       | grep -c 'SEE ALSO'
->   13
->   $ tools/docs/kernel-doc -man -e include/rdma/ib_mad.h | grep -c '^\.TH'
->   0
-> 
-> Only add the tail when the base class produced a page, and add unit
-> tests for both cases.
-> 
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Closes: https://lore.kernel.org/all/fc7978bb-a71f-456d-84bb-670c8f0426ed@infradead.org/
-> Fixes: 104e0a682e12 ("tools: kernel-doc: add a see also section at man pages")
-> Assisted-by: LLM
-> Signed-off-by: Simon Sudarushkin <simonsudarushkin@gmail.com>
-> ---
-> Randy, this takes a different route from your patch in August [1]: the
-> out_tail() call stays in ManFormat.msg() and is skipped when the base
-> class produced no page, so OutputFormat does not need to know about it.
-> DOC blocks that are shown keep their tail, since they get their own .TH.
+> -	if (prot & KVM_PGTABLE_PROT_W)
+> -		attr |= KVM_PTE_LEAF_ATTR_HI_S2_DBM | KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+> +	if (prot & KVM_PGTABLE_PROT_W) {
+> +		attr |= KVM_PTE_LEAF_ATTR_HI_S2_DBM;
+> +
+> +		if (prot & KVM_PGTABLE_PROT_DIRTY)
+> +			attr |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+> +	}
 
-Yes, I had already abandoned that patch and its approach. I was (slowly)
-looking at doing something like this, although probably not as succinct
-as this.
+Can you introduce the dirty state first? You're temporarily setting
+DBM+S2AP[1] as a workaround in the preceding patch.
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Then we can have it encoded such that when FEAT_HAFDBS is implemented:
 
-Thanks.
+	KVM_PGTABLE_PROT_W	=> KVM_PTE_LEAF_ATTR_HI_S2_DBM
+	KVM_PGTABLE_PROT_DIRTY	=> KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W
 
+And if FEAT_HAFDBS is *not* implemented:
 
+	KVM_PGTABLE_PROT_W	=> KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W
+	KVM_PGTABLE_PROT_DIRTY	=> KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W
+
+i.e. aliasing both to bit 7.
+
+Thanks,
+Oliver
+
+>  	if (!kvm_lpa2_is_enabled())
+>  		attr |= FIELD_PREP(KVM_PTE_LEAF_ATTR_LO_S2_SH, sh);
+> @@ -753,9 +757,13 @@ enum kvm_pgtable_prot kvm_pgtable_stage2_pte_prot(kvm_pte_t pte)
 > 
-> [1] https://lore.kernel.org/all/20260816054826.3988516-1-rdunlap@infradead.org/
-> ---
->  tools/lib/python/kdoc/kdoc_output.py |  5 +++-
->  tools/unittests/test_kdoc_parser.py  | 52 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 56 insertions(+), 1 deletion(-)
+>  	if (pte & KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R)
+>  		prot |= KVM_PGTABLE_PROT_R;
+> -	if (pte & KVM_PTE_LEAF_ATTR_HI_S2_DBM)
+> +	if (pte & KVM_PTE_LEAF_ATTR_HI_S2_DBM) {
+>  		prot |= KVM_PGTABLE_PROT_W;
 > 
-> diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
-> index 618b0d765ef5..659a2c6fb6be 100644
-> --- a/tools/lib/python/kdoc/kdoc_output.py
-> +++ b/tools/lib/python/kdoc/kdoc_output.py
-> @@ -763,7 +763,10 @@ class ManFormat(OutputFormat):
->          Add a tail at the end of man pages output.
->          """
->          super().msg(fname, name, args)
-> -        self.out_tail(fname, name, args)
+> +		if (pte & KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W)
+> +			prot |= KVM_PGTABLE_PROT_DIRTY;
+> +	}
 > +
-> +        # Symbols dropped by the output filters produce no page
-> +        if self.data:
-> +            self.out_tail(fname, name, args)
->  
->          return self.data
->  
-> diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
-> index c4a76ed13dbc..bcb1b1a5ccc6 100755
-> --- a/tools/unittests/test_kdoc_parser.py
-> +++ b/tools/unittests/test_kdoc_parser.py
-> @@ -301,6 +301,58 @@ class CToMan(unittest.TestCase):
->          self.assertEqual(result, expected)
->  
->  
-> +class ManFilterTail(unittest.TestCase):
-> +    """
-> +    Symbols dropped by the output filters must not leave a man page tail.
-> +    """
-> +
-> +    source = dedent("""
-> +        /**
-> +         * foo - First function
-> +         * @a: an argument
-> +         */
-> +        int foo(int a) { return 0; };
-> +
-> +        /**
-> +         * bar - Second function
-> +         * @b: an argument
-> +         */
-> +        int bar(int b) { return 0; };
-> +    """)
-> +
-> +    def setUp(self):
-> +        config = MockKdocConfig()
-> +        kernel_doc = KernelDoc(config, "mock.c", CTransforms())
-> +
-> +        with patch('builtins.open', new_callable=mock_open,
-> +                   read_data=self.source):
-> +            _, self.entries = kernel_doc.parse_kdoc()
-> +
-> +        self.out_style = ManFormat()
-> +        self.out_style.set_config(config)
-> +
-> +    def run_filter(self, **kwargs):
-> +        args = {"export": False, "internal": False, "symbol": None,
-> +                "nosymbol": None, "function_table": set(),
-> +                "enable_lineno": False, "no_doc_sections": False}
-> +        args.update(kwargs)
-> +
-> +        self.out_style.set_filter(**args)
-> +
-> +        return self.out_style.output_symbols("mock.c", self.entries)
-> +
-> +    def test_symbol_filter(self):
-> +        """Only the selected symbol gets a page, with a single tail."""
-> +        result = self.run_filter(symbol=["foo"], function_table={"foo"})
-> +
-> +        self.assertEqual(result.count(".TH "), 1)
-> +        self.assertEqual(result.count('.SH "SEE ALSO"'), 1)
-> +
-> +    def test_all_filtered_out(self):
-> +        """No exported symbols: no output at all."""
-> +        self.assertEqual(self.run_filter(export=True), "")
-> +
-> +
->  class CToRest(unittest.TestCase):
->      out_style = RestFormat()
->      config = MockKdocConfig()
+>  	switch (FIELD_GET(KVM_PTE_LEAF_ATTR_HI_S2_XN, pte)) {
+>  	case 0b00:
+>  		prot |= KVM_PGTABLE_PROT_PX | KVM_PGTABLE_PROT_UX;
+> @@ -1288,7 +1296,6 @@ static int stage2_update_leaf_attrs(struct kvm_pgtable *pgt, u64 addr,
+>  int kvm_pgtable_stage2_wrprotect(struct kvm_pgtable *pgt, u64 addr, u64 size)
+>  {
+>  	return stage2_update_leaf_attrs(pgt, addr, size, 0,
+> -					KVM_PTE_LEAF_ATTR_HI_S2_DBM |
+>  					KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W,
+>  					NULL, NULL,
+>  					KVM_PGTABLE_WALK_IGNORE_EAGAIN);
+> @@ -1368,8 +1375,12 @@ int kvm_pgtable_stage2_relax_perms(struct kvm_pgtable *pgt, u64 addr,
+>  	if (prot & KVM_PGTABLE_PROT_R)
+>  		set |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R;
 > 
-> ---
-> base-commit: 4f041d7b65b8007403cce30ecf69ad42d48ec315
-> change-id: 20260929-kdoc-man-filter-eba1ff857dad
+> -	if (prot & KVM_PGTABLE_PROT_W)
+> -		set |= KVM_PTE_LEAF_ATTR_HI_S2_DBM | KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+> +	if (prot & KVM_PGTABLE_PROT_W) {
+> +		set |= KVM_PTE_LEAF_ATTR_HI_S2_DBM;
+> +
+> +		if (prot & KVM_PGTABLE_PROT_DIRTY)
+> +			set |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+> +	}
 > 
-> Best regards,
-> --  
-> Simon Sudarushkin <simonsudarushkin@gmail.com>
-
-
--- 
-~Randy
+>  	if (prot & KVM_PGTABLE_PROT_X) {
+>  		ret = stage2_set_xn_attr(prot, &xn);
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index 2d44cd6a5aed..698a87e85a6d 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -1221,7 +1221,9 @@ int kvm_phys_addr_ioremap(struct kvm *kvm, phys_addr_t guest_ipa,
+>  	struct kvm_pgtable *pgt = mmu->pgt;
+>  	enum kvm_pgtable_prot prot = KVM_PGTABLE_PROT_DEVICE |
+>  				     KVM_PGTABLE_PROT_R |
+> -				     (writable ? KVM_PGTABLE_PROT_W : 0);
+> +				     (writable ?
+> +				      (KVM_PGTABLE_PROT_W | KVM_PGTABLE_PROT_DIRTY) :
+> +				      0);
+> 
+>  	if (is_protected_kvm_enabled())
+>  		return -EPERM;
+> @@ -1587,7 +1589,7 @@ static enum kvm_pgtable_prot adjust_nested_fault_perms(struct kvm_s2_trans *nest
+>  						       enum kvm_pgtable_prot prot)
+>  {
+>  	if (!kvm_s2_trans_writable(nested))
+> -		prot &= ~KVM_PGTABLE_PROT_W;
+> +		prot &= ~(KVM_PGTABLE_PROT_W | KVM_PGTABLE_PROT_DIRTY);
+>  	if (!kvm_s2_trans_readable(nested))
+>  		prot &= ~KVM_PGTABLE_PROT_R;
+> 
+> @@ -1658,7 +1660,7 @@ static int gmem_abort(const struct kvm_s2_fault_desc *s2fd)
+>  	}
+> 
+>  	if (!(s2fd->memslot->flags & KVM_MEM_READONLY))
+> -		prot |= KVM_PGTABLE_PROT_W;
+> +		prot |= KVM_PGTABLE_PROT_W | KVM_PGTABLE_PROT_DIRTY;
+> 
+>  	if (s2fd->nested)
+>  		prot = adjust_nested_fault_perms(s2fd->nested, prot);
+> @@ -1690,10 +1692,17 @@ static int gmem_abort(const struct kvm_s2_fault_desc *s2fd)
+>  	}
+> 
+>  out_unlock:
+> +	/*
+> +	 * Dirty the folio for any write-permitting mapping: hardware can
+> +	 * promote a writable-clean entry to writable-dirty without a VM
+> +	 * exit, so a clean release could lose a guest write at reclaim.
+> +	 * The dirty bitmap is only marked for mappings installed dirty,
+> +	 * or pre-copy would treat every writable page as dirty.
+> +	 */
+>  	kvm_release_faultin_page(kvm, page, !!ret, prot & KVM_PGTABLE_PROT_W);
+>  	kvm_fault_unlock(kvm);
+> 
+> -	if ((prot & KVM_PGTABLE_PROT_W) && !ret)
+> +	if ((prot & KVM_PGTABLE_PROT_DIRTY) && !ret)
+>  		mark_page_dirty_in_slot(kvm, s2fd->memslot, gfn);
+> 
+>  	return ret != -EAGAIN ? ret : 0;
+> @@ -1993,11 +2002,14 @@ static int kvm_s2_fault_compute_prot(const struct kvm_s2_fault_desc *s2fd,
+> 
+>  	*prot = KVM_PGTABLE_PROT_R;
+> 
+> -	if (s2vi->map_writable && (s2vi->device ||
+> -				   !memslot_is_logging(s2fd->memslot) ||
+> -				   kvm_is_write_fault(s2fd->vcpu)))
+> +	if (s2vi->map_writable) {
+>  		*prot |= KVM_PGTABLE_PROT_W;
+> 
+> +		if (s2vi->device || !memslot_is_logging(s2fd->memslot) ||
+> +		    kvm_is_write_fault(s2fd->vcpu))
+> +			*prot |= KVM_PGTABLE_PROT_DIRTY;
+> +	}
+> +
+>  	if (s2fd->nested)
+>  		*prot = adjust_nested_fault_perms(s2fd->nested, *prot);
+> 
+> @@ -2028,7 +2040,7 @@ static int kvm_s2_fault_map(const struct kvm_s2_fault_desc *s2fd,
+>  			    void *memcache)
+>  {
+>  	enum kvm_pgtable_walk_flags flags = KVM_PGTABLE_WALK_SHARED;
+> -	bool writable = prot & KVM_PGTABLE_PROT_W;
+> +	bool dirty = prot & KVM_PGTABLE_PROT_DIRTY;
+>  	struct kvm *kvm = s2fd->vcpu->kvm;
+>  	struct kvm_pgtable *pgt;
+>  	long perm_fault_granule;
+> @@ -2091,7 +2103,11 @@ static int kvm_s2_fault_map(const struct kvm_s2_fault_desc *s2fd,
+>  	}
+> 
+>  out_unlock:
+> -	kvm_release_faultin_page(kvm, s2vi->page, !!ret, writable);
+> +	/*
+> +	 * Speculative folio dirtying: W, not DIRTY, per the contract
+> +	 * documented in kvm_release_faultin_page().
+> +	 */
+> +	kvm_release_faultin_page(kvm, s2vi->page, !!ret, prot & KVM_PGTABLE_PROT_W);
+>  	kvm_fault_unlock(kvm);
+> 
+>  	/*
+> @@ -2099,7 +2115,7 @@ static int kvm_s2_fault_map(const struct kvm_s2_fault_desc *s2fd,
+>  	 * making sure we adjust the canonical IPA if the mapping size has
+>  	 * been updated (via a THP upgrade, for example).
+>  	 */
+> -	if (writable && !ret) {
+> +	if (dirty && !ret) {
+>  		phys_addr_t ipa = gfn_to_gpa(get_canonical_gfn(s2fd, s2vi));
+>  		ipa &= ~(mapping_size - 1);
+>  		mark_page_dirty_in_slot(kvm, s2fd->memslot, gpa_to_gfn(ipa));
+> diff --git a/arch/arm64/kvm/ptdump.c b/arch/arm64/kvm/ptdump.c
+> index b0cb8d84a9e9..a1251e252b4f 100644
+> --- a/arch/arm64/kvm/ptdump.c
+> +++ b/arch/arm64/kvm/ptdump.c
+> @@ -45,6 +45,12 @@ static const struct ptdump_prot_bits stage2_pte_bits[] = {
+>  		.set	= "W",
+>  		.clear	= " ",
+>  	},
+> +	{
+> +		.mask	= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W,
+> +		.val	= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W,
+> +		.set	= "D",
+> +		.clear	= "C",
+> +	},
+>  	{
+>  		.mask	= KVM_PTE_LEAF_ATTR_HI_S2_XN,
+>  		.val	= 0b00UL << __bf_shf(KVM_PTE_LEAF_ATTR_HI_S2_XN),
+> --
+> 2.43.0
+> 
