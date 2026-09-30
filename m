@@ -1,45 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F0D3B71D1;
-	Wed, 30 Sep 2026 09:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA00947127C
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 09:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790759876; cv=none; b=pKsYMSYvYbUQv0uC9NScGWU/2iLT19naH8paepgKp9Sst6+iG9AfR0zZnabCoYKNgxWg1z7BgRteTh9QMdYHDq+P49dCwtIIqcsTAUPuSEaAvGEHWHlBrIa+dlkwvn5egwG4AUcfkvK6imnziJ1spZS0wyjXt7e2qgkt9AYomc8=
+	t=1790760080; cv=none; b=uOVWX9/KEW0AQxqpqLg8dmFGGGlE7u/t/Iil9wG7Sh4UCYVKK7Xu5onZScxGNNYCi6DelzfRxWXe/MDv9jboePKwahGiVSta2E+aPTdeWlhJ0QYya0BfV7q92umqSSyUMUPkl5QQGKHQOis+XZb/YG9l7fA+kkSemJMnKG+lBP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790759876; c=relaxed/simple;
-	bh=ftbkTwrG9CVQyXvF/1PpXRiixtFQvE4ouNvv6aSVwXM=;
+	s=arc-20240116; t=1790760080; c=relaxed/simple;
+	bh=lVsLiKAy7p7IfcJvewv6s5URcHOvXIRkgJmZf7dJ0vo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ux9nZB/kTPjZ70ngwvpZ9poKif9YRAXyEccN/iz7dLEduUy+9Km/nm3bF6eWxKO+uguw45MLP1uX+1NCW86frpfZfSKC4zGoa9Y/j16cyHNnm2W8FZ+VzDN7VssGMQzjmBYxxiQtuGT2C/cRXz3VSZlqgzuNOL3oHvQQuV1o/pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UauxHsxm; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=EuuEazIHMDTlrVCu4oM81JZ8StsVBkUJ0ax7tTLccnVK6fok8lEoyIBifljfbDCyZvb1rpAiB1aCLvRUFz/6rGGXCcUo/eS2bTJus6zrJjTLpdXpHpV8oyB9TAdZGoJMuX8WMX4J6h8uwklHcBbdlZpwxsESyaJGeBQcH0MoeRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H78vh1Us; arc=none smtp.client-ip=74.125.227.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UauxHsxm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9B151F000FF;
-	Wed, 30 Sep 2026 09:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790759875;
-	bh=Q1A+WlULujwTkG6nahgS6pUXERQ7Qa2I13iMuWs4TUk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UauxHsxmJYoEhmXuIJJ/UPFeXejYxaiQKZPO7NyNDw8gm9kLo127Hkg6o/OuzYpak
-	 neThc3i4svWHBeRIH+8LFrKnMz6R8dnr/d2qT3JvphBBimg4og/E96u78huJKXROKA
-	 r7RLUXzeC5+a53CwSpr1klK6yaS9QJn0ib0rWiordGcQSAzioHQSCpVrqdA6yOr++L
-	 RTeL41++Yywva4yIrj09NdzHIhH4TVag8EYtKFjD+ti37gHNU7RQIBm9Aq0/0s4gkp
-	 qyE5TiqZaToB/wSCoy0IQ7RPqS7Hi3DFEnCIOrBBO3R7y+79tn66UGmQ60a1IZgQd3
-	 4iKrX3a57sFnw==
-Date: Wed, 30 Sep 2026 10:17:47 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Hajime Tazaki <thehajime@gmail.com>
-Cc: linux-mm@kvack.org, liam@infradead.org, rbm@suse.com, 
-	akpm@linux-foundation.org, luto@amacapital.net, brendan.jackman@linux.dev, david@kernel.org, 
-	liuhangbin@gmail.com, corbet@lwn.net, kees@kernel.org, broonie@kernel.org, 
-	mhocko@suse.com, rppt@kernel.org, shuah@kernel.org, surenb@google.com, 
-	vbabka@kernel.org, wad@chromium.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-um@lists.infradead.org, geert@linux-m68k.org, 
-	daniel@thingy.jp
-Subject: Re: [PATCH v4 1/2] selftests: run tests on nommu architecture
-Message-ID: <arzTBqww5_1MH0B7@gremlin>
-References: <20260929235711.2287931-1-thehajime@gmail.com>
- <20260929235711.2287931-2-thehajime@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H78vh1Us"
+Received: by mail-pj2-f40.google.com with SMTP id 98e67ed59e1d1-3a0eeda3e03so1949487a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 02:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790760078; x=1791364878; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4uFxrRSZblzhovR/kIrS1Ft+xK7V+IoAvsNqkY5KOFo=;
+        b=H78vh1UsHHvDkLnqWQaWKgrgilL+Ix+rRtAtY3PXgeRcf+T3A5x6sQ1WsxA105Vmum
+         hRasGejg8dQ0qRd+LgFP+ZTKvAzaocn+NW84m3THPwnRRBwPyNqgdCinNb41pdKguwDW
+         k52Gwvnfccw9/21tfQM1EZCccJxu1KMDUJ+JV+mz6Iycs6XFQD4PBAgxotQyGHjcJbkv
+         KPcSwNv0aFQ/XtngGA/RiDn6Bzb8UItti/McVFD77klN9Elk8XjxK5aIQtAQwORBWGW4
+         F89Hgr5FzEKko3v5a4ivGDXJpNNqgeeaj7Vmxi6AQzneDYEYR1F7+FYVGu/bgECHLRdo
+         QeEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790760078; x=1791364878;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4uFxrRSZblzhovR/kIrS1Ft+xK7V+IoAvsNqkY5KOFo=;
+        b=PEVBDKiqOQ+8W3eRdVACG3r37lqaX3TSZ28PQAut5rZCxcbBgwhVlgi5dNRPM7X62/
+         wlSdZMTlGNHsAjgWNBg41h3eJ0/iDCwBW6vsDnnM2kRDgaPwERe1tLUgFCFnCzV3ZLI4
+         FxFq+HLZp+MVz/w7Eiz32qGw4TzM7spa9YNTtCpnAkMS9AQsB4M2vq3qQ11F1eCtlb9v
+         eBzFRsr4cPPFRyLZqbXkvlIdonpTchreXKseiDCOvOYyoLPw0+L1snsZoZ0g4wCuhpFR
+         jOw+kFYQTykhM6pB3TDVYRWLgcfhLWzmBtohaaiiintnzfC1VdWyasZYs/jAk2tddbwr
+         Fncw==
+X-Forwarded-Encrypted: i=1; AKwUvBxKcGrr9Use8WPVr1aIxo4MU9dD8TyfkjnWnbvEbKEoULF+R4iAZkYWZE0kYyLySoZn8c52prcvfpw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIogNy0yvPiimy8nwUm7VxUjDlkDQ5vzjcJk5yMOcIlx8FSR16m
+	jbC159/lm3xlmZr+SB5l/YdRUarsP9/4Ytem/aARD9xuJkwR2qBQp0XL
+X-Gm-Gg: AYBFou3u6Du35ESHmXF4Z7znKQb0Ct7xod/FbTPEybeadctP4Eo8WeYHjvgkKTHi3C9
+	dimQVK2alCHMuPOVvwYFJfDD1etihlKhnush85tLrboVnZTXVjTVB1OOKG5JSANd8GA2ST1Z6EA
+	BjtsN7tSEpvztcvHtckvua1Fr3dxLzb0fB92zAP/YPQX7Dsa7h5BJn414czGKSmCQhtbHbtCmRx
+	Uyz+WVgXC0cen5/14pM7k8jGaDP/uPjOydp6kl4JsZrrW0CPk1qDXIkJB7hE2nFFVRsnartzYcn
+	emiJYgmCAPVEJrrCDXkP0RU9CTf7M20FP817ZZtHCJ7Id8CKiUv9oEknEyrDQy7YIbXYIX0/F3B
+	xKFLMTeGX3z6bw2xRZDvjXyUaxF9+uOQeWL0bJClomICPMh8TV259C4iSDwNQ8q51xxy+NYkEV4
+	5Gjqf6lm88LwROltTqKeqtfuUWW8qJW3C9JnbGSJIZQwg2miI+5HCR2Hmmp/Yor6FMxs4S
+X-Received: by 2002:a17:90a:f944:b0:39d:f08e:e6e7 with SMTP id 98e67ed59e1d1-3a4d0f038e8mr414812a91.9.1790760077844;
+        Wed, 30 Sep 2026 02:21:17 -0700 (PDT)
+Received: from localhost ([2001:19f0:8000:3e6e:5400:6ff:fe38:3d01])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4ca7810d6sm3182760a91.6.2026.09.30.02.21.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 02:21:17 -0700 (PDT)
+Date: Wed, 30 Sep 2026 17:21:08 +0800
+From: Inochi Amaoto <inochiama@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Inochi Amaoto <inochiama@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Rhys Tumelty <rhys@tumelty.co.uk>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, Yixun Lan <dlan@gentoo.org>, 
+	Longbin Li <looong.bin@gmail.com>
+Subject: Re: [PATCH v4 4/5] phy: core: Add managed phy bulk data helper
+ functions
+Message-ID: <arzSkE1kY_u4jJWT@inochi.infowork>
+References: <20260929085235.469515-1-inochiama@gmail.com>
+ <20260929085235.469515-5-inochiama@gmail.com>
+ <arzITUCmgUp3uiRn@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,51 +83,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260929235711.2287931-2-thehajime@gmail.com>
+In-Reply-To: <arzITUCmgUp3uiRn@ashevche-desk.local>
 
-On Wed, Sep 30, 2026 at 08:57:10AM +0900, Hajime Tazaki wrote:
-> Architectures lacking MMU don't support fork(2) syscall and only
-> vfork(2) is available with limitations.  Thus, we cannot run kselftest
-> on nommu architecture as is.
->
-> This commit addresses this issue with the following changes:
->
-> - on test run stage, avoid calling timeout command when NOMMU=1 variable
->   added to environmental variable, since timeout command uses fork
->   syscall which nommu platform doesn't support.
-> - describe the difference of nommu tests in the document.
->
-> So command line to build/execute tests for nommu should be like below:
->
->  $ make ARCH=um NOMMU=1 O=build kselftest-all TARGETS=nommu
->  $ make ARCH=um NOMMU=1 O=build kselftest-install TARGETS=nommu
->  $ NOMMU=1 ./build/kselftest/kselftest_install/run_kselftest.sh -p \
->    -c nommu
->
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Kees Cook <kees@kernel.org>
-> Cc: Andy Lutomirski <luto@amacapital.net>
-> Cc: Will Drewry <wad@chromium.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Brendan Jackman <brendan.jackman@linux.dev>
-> Cc: Hangbin Liu <liuhangbin@gmail.com>
-> Cc: "Ricardo B. Marliere" <rbm@suse.com>
-> Cc: linux-kselftest@vger.kernel.org
-> Cc: linux-um@lists.infradead.org
-> Cc: linux-mm@kvack.org
-> Cc: linux-doc@vger.kernel.org
+On Wed, Sep 30, 2026 at 11:29:01AM +0300, Andy Shevchenko wrote:
+> On Tue, Sep 29, 2026 at 04:52:34PM +0800, Inochi Amaoto wrote:
+> > Add device managed variants of the phy bulk helper functions. So
+> > the driver can benefit from automatically managed phy handles.
+> 
+> ...
+> 
+> > +int devm_of_phy_bulk_get_all(struct device *dev, struct device_node *np,
+> > +			     struct phy_bulk_data **phys)
+> > +{
+> > +	struct phy_bulk_devres *devres;
+> > +	int ret;
+> 
+> > +	*phys = NULL;
+> 
+> Why?! In case of error we modify the output, this is usually not the best
+> approach as in most of the cases the expectation is that whatever user
+> provide (including a garbage) should be left untouched in case of an error.
+> 
 
-Not sure we need all the Cc's explicitly :) Andrew adds them in (I'm actually
-not sure in general if they're really all that useful, some of my series sent to
-hoards of people due to touching multiple bits scroll off the screen :P)
+This is something I think this is wrong and I need to removed.
 
-> Closes: https://sashiko.dev/#/patchset/20260813063401.1786548-1-thehajime%40gmail.com
-> Signed-off-by: Hajime Tazaki <thehajime@gmail.com>
+> > +	if (!np)
+> > +		return 0;
+> 
+> Same here. On top why do we even care about np like this? Interestingly that
+> some other APIs consider this as np == dev_of_node(dev) case, and automatically
+> propagate that.
+> 
 
-LGTM so:
+After a deep recheck. I think you are true. We do not need to care
+about that, just let the internal api decide whether it should be
+an error is better. I misunderstand that it should check it at early
+stage to avoid some bad use in the following logic. Now I found it
+is meaningless.
 
-Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > +	devres = devres_alloc(devm_phy_bulk_release_all, sizeof(*devres),
+> > +			      GFP_KERNEL);
+> > +	if (!devres)
+> > +		return -ENOMEM;
+> > +
+> > +	ret = of_phy_bulk_get_all(np, &devres->phys);
+> > +	if (ret > 0) {
+> > +		for (int i = 0; i < ret; i++)
+> > +			phy_add_device_link(dev, devres->phys[i].phy);
+> > +		*phys = devres->phys;
+> > +		devres->num_phys = ret;
+> > +		devres_add(dev, devres);
+> > +	} else {
+> > +		devres_free(devres);
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> 
+> ...
+> 
+> > +static inline int devm_of_phy_bulk_get_all(struct device *dev,
+> > +					   struct device_node *np,
+> > +					   struct phy_bulk_data **phys)
+> > +{
+> > +	if (phys)
+> > +		*phys = NULL;
+> 
+> Same as per above.
+> 
+> > +	return 0;
+> 
+> Why not an error? I do not see the _optional word in the function name.
+> 
 
---
-Cheers, Lorenzo
+IIRC get_all it a special optional meaning: treat not existing device as
+0, this follows the same meaning like clk. Vladimir has a good explaination
+on this in the previous version:
+https://lore.kernel.org/linux-phy/20260907124318.6q4rr2huxyehm3zs@skbuf/
+
+> > +}
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
