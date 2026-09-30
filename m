@@ -1,190 +1,113 @@
-Received: from va-2-113.ptr.blmpb.com (va-2-113.ptr.blmpb.com [209.127.231.113])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC584F68AB
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 14:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D54547A0DD;
+	Wed, 30 Sep 2026 14:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790776985; cv=none; b=GqTblg6/uzwzxtk6xj2yOXAKOX3XUH0qFmgHKvgRikuWOGv4b0Wmww+5iUNWDnPu/SQqkGar8JpAM7iaZJN385QC6QPu9MGWTbHexjcSHP3hpHxCT3Awh5liZo73oGE8sCYLgRNmAoAWyNDejevSYcz6pS2xvU2JpieKDYFG4XI=
+	t=1790777077; cv=none; b=E53/eCI/vhwdeapqe/YPmzEyagNvr1axJPWvHhQIVspL8kOpmPIjerXQb8We/nH2ZW+VkL+aPQV0PocJ0pextdUvuw7gWqzsZCCi6YFtndKJjMyxyy70IRoiOvusFNJH3nvV+Fw6VPMMUON4igL/26S3UcYhZV08iZASgO2qgNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790776985; c=relaxed/simple;
-	bh=6ru/kbdsbpMCsJGQVcyHizgWLndwUbOnSRbzgOMzWBU=;
-	h=Cc:Subject:To:Mime-Version:Content-Type:In-Reply-To:References:
-	 From:Message-Id:Date; b=gxmAYe/PRUcwLSGhJMLPFs3YPQlcmQo/32xShSLu3LD/ebct0SrHFFS3SfSeicwoIwT4s2+bx+FmAFjCdZ97UC0clSw9UMlKQDlPU96LNurhcYsmJplqwWvvxz9/iYDfcdALOawAURiGHX3haUs2YySFHv0ORFXIWqEok0KIO+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=jUJz+CnS; arc=none smtp.client-ip=209.127.231.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1790777077; c=relaxed/simple;
+	bh=PhQX3sDUfwrI0ZOYgYs28c4fyJcMzrHQbMgRhhbqRDk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CZ8qWz0pNpuL4FAljUvpVWX94hsTmaUu5SNJsytJn4/FVrmK0ZoXA2KcbawRV4WxUW9lC6aukT6bD7OM6KFLNWIafMylJmqo25/k/HmEZ/QweEd8N9HPldAplG9QLdy8PczvnAWgb7KI0pdQ7o7x7jo82nEA7msJk+lglZtNjW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b51FCUDK; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="jUJz+CnS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1790776964; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=WaE+XWWIAh7wnvjsJHyHq9GcUuzsegZPrdGo3qEDS8I=;
- b=jUJz+CnSOqgqoBn9Hc/HYuORMShKcjbAaBXhBH6tBK4ZTVT20sLZU13QAGOquh440muTy+
- LfyXsFrvNZXXBslpnhQB7TxZhuC9N2GWVbXTTuq+tNGHPpQvHO/a30NGeV1vBIUHgE4SNZ
- /0NHnlLPqSou8wkk4UPhBUNbPAUBKrma8E8gm8KRbNsVEFnF8hmJHRwES6ECPLqgTp2Dl2
- zquanW77auaekDGa0lTL6MY2mZE5rhIeVaFbd9etUwnkz6/PEI+npxhE+6sVTDEJK5uWHU
- Py4llw4JunqLEd7JxG9uCDOJsXxMSP2r+4deauH6DpofbRj+3YbQX6VY0guiUw==
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	<akpm@linux-foundation.org>, <ljs@kernel.org>, <liam@infradead.org>, 
-	<rppt@kernel.org>, <mhocko@suse.com>, <corbet@lwn.net>, 
-	<skhan@linuxfoundation.org>, <ziy@nvidia.com>, <gourry@gourry.net>, 
-	<ying.huang@linux.alibaba.com>, <apopple@nvidia.com>, 
-	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference with MPOL_WEIGHTED_INTERLEAVE policy
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-To: "Joshua Hahn" <joshua.hahnjy@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b51FCUDK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790777067; x=1822313067;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PhQX3sDUfwrI0ZOYgYs28c4fyJcMzrHQbMgRhhbqRDk=;
+  b=b51FCUDKuchfIMWaTRNC8NmZlozyT3Lcb+32tV+aCYum94JduesiQp2f
+   p6gJhUJXMo/4bDKWJqbUDxT0roCG1pFyfxZvGXTY9Gkgi/UPeIqlhwKr6
+   xB+NscdPOWBg3xMWVmfZnWZaUW98ho7XiFGfTacmWhX82RP2nQqOeW7va
+   vAnz4LfWcc7/3hdg9fAZFxK29WCZLn6l/HV4b9/R+FVPv112WY6iiFwBv
+   EMfFUtJd+rEoBUiIhokzteUW+e+iLgO+H/kyihiUJOvvvwgnF44LMVZjE
+   OtwvBnw6BO6VgHZ+ZsyLAYfeIXMSO2TxY3i6MEj1y6AAgRjG7Xeky0wHS
+   w==;
+X-CSE-ConnectionGUID: kbUj7QxjQO6JIvP9ovAMog==
+X-CSE-MsgGUID: /77HhMQQR3+fes702tSKYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="102040774"
+X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
+   d="scan'208";a="102040774"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 07:04:19 -0700
+X-CSE-ConnectionGUID: ipLzaATGQN+0d7jhXNYabA==
+X-CSE-MsgGUID: YujcAwxgQu+JZgssQ7YN+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
+   d="scan'208";a="305201745"
+Received: from spandruv-desk1.amr.corp.intel.com (HELO localhost) ([10.245.245.137])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 07:04:14 -0700
+Date: Wed, 30 Sep 2026 17:04:11 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Janani Sunil <jan.sun97@gmail.com>
+Cc: Janani Sunil <janani.sunil@analog.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,
+	Marius Cristea <marius.cristea@microchip.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-spi@vger.kernel.org,
+	Kent Gustavsson <nedo80@gmail.com>
+Subject: Re: [PATCH v6 5/5] iio: dac: Add AD5529R DAC driver support
+Message-ID: <ar0W2xQ56wMFvtaE@ashevche-desk.local>
+References: <20260715-ad5529r-driver-v6-0-cfdf8b9f5ee3@analog.com>
+ <20260715-ad5529r-driver-v6-5-cfdf8b9f5ee3@analog.com>
+ <arzTnOTaL97GudZM@ashevche-desk.local>
+ <a57399f0-4c47-4b32-bf6a-7761d9b57320@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-In-Reply-To: <20260930121154.687586-1-joshua.hahnjy@gmail.com>
-User-Agent: Mozilla Thunderbird
-References: <20260930121154.687586-1-joshua.hahnjy@gmail.com>
-From: "Li Zhe" <lizhe.67@bytedance.com>
-Message-Id: <2e3f12b7-0dac-428c-b70b-07e1f63de028@bytedance.com>
-Content-Transfer-Encoding: quoted-printable
-X-Lms-Return-Path: <lba+26abd1683+9fba82+vger.kernel.org+lizhe.67@bytedance.com>
-Date: Wed, 30 Sep 2026 22:02:23 +0800
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a57399f0-4c47-4b32-bf6a-7761d9b57320@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 9/30/26 8:11 PM, Joshua Hahn wrote:
-> On Wed, 30 Sep 2026 19:52:05 +0800 "Li Zhe" <lizhe.67@bytedance.com> wrot=
-e:
->
->> On 9/30/26 7:26 PM, David Hildenbrand (Arm) wrote:
->>> On 9/30/26 09:26, Li Zhe wrote:
->>>> MPOL_WEIGHTED_INTERLEAVE is useful on tiered-memory systems because it
->>>> can seed a workload's new allocations across fast memory and slower
->>>> capacity memory according to a configured ratio.
->>>>
->>>> That initial placement is useful for workload managers and orchestrati=
-on
->>>> systems.  They can take the amount of fast memory and slower capacity
->>>> memory on a machine into account before starting a workload, and choos=
-e a
->>>> weighted policy that seeds the workload across the tiers at allocation
->>>> time.  This avoids starting from an all-fast or all-slow placement and
->>>> then relying on promotion or demotion to reshape a large working set.
->>>>
->>>> After those pages have been placed, however, the policy cannot current=
-ly
->>>> opt in to migrate-on-fault placement.  set_mempolicy() and mbind()
->>>> reject MPOL_WEIGHTED_INTERLEAVE when MPOL_F_NUMA_BALANCING is specifie=
-d,
->>>> so memory tiering cannot promote hot pages that were initially placed =
-on
->>>> the slower nodes by the weighted policy.
->>>>
->>>> Initial placement is only a starting point.  Pages initially allocated=
- on
->>>> fast memory are not necessarily the long-term hot pages, and pages
->>>> initially allocated on slower memory may become hot as the workload's =
-hot
->>>> set changes.  The policy therefore needs to be able to combine weighte=
-d
->>>> initial placement with memory tiering's NUMA fault based hot-page
->>>> promotion.
->>> Ok, so memory allocation will respect the weights but balancing will ig=
-nore
->>> them? That really sounds rather odd to me.
->>>
->>> And I assume that was the reason why we might have disallowed the combi=
-nation:
->>> it turns a weighted mechanism into an unweighted mechanism.
->>>
->>> So are we really sure these semantics that you would essentially set in=
- stone
->>> here are the semantics we want? (ignoring weights)
->> Yes, that is a fair concern. It does look odd if the weights are
->> interpreted as a hard resident placement ratio.
->>
->> My understanding of the existing MPOL_WEIGHTED_INTERLEAVE ABI is that
->> the weights are allocation weights, not a long-term resident ratio. The
->> sysfs ABI documentation says that these weights only affect new
->> allocations, and that changing them at runtime will not migrate already
->> allocated pages.=C2=A0 The implementation also has normal allocation fal=
-lback
->> if the selected weighted target cannot satisfy the allocation.
->>
->> The use case here follows that interpretation.=C2=A0 The weights are use=
-d to
->> seed the initial placement across memory tiers.=C2=A0 After that, with a=
-n
->> explicit MPOL_F_NUMA_BALANCING opt-in, memory tiering would promote hot
->> pages based on access patterns, not based on the original allocation
->> ratio.=C2=A0 Users that want weighted allocation without that behavior w=
-ould
->> keep using MPOL_WEIGHTED_INTERLEAVE without MPOL_F_NUMA_BALANCING.
->>
->> That said, I agree that allowing this flag combination would set the
->> semantics for it.=C2=A0 If reusing MPOL_F_NUMA_BALANCING for this is too
->> ambiguous, do you think we should model this as a separate opt-in ABI
->> for "weighted initial placement plus access-based balancing" instead?
->> For example, a separate flag or policy mode would make it clearer that
->> the weights are not intended to constrain migrate-on-fault placement.
->>
->> If the allocation-only interpretation of the weights is acceptable, I
->> can make it explicit in the commit message and documentation in v2.
->> Otherwise I would appreciate your suggestion on the preferred interface.
-> I see two usecases for weighted interleave. Let's say you first allocate
-> all the cold memory, and then all the hot memory using an interleave
-> policy. This leaves the same hotness in both tiers since they are
-> interleaved:
->
-> In one scenario you might genuinely want to keep some hot memory in
-> both tiers to maximize bandwidth utilization.
->
-> But in the other case when you are not limited by bandwidth, you might
-> indeed want to start out with a weighted interleave allocation to
-> reduce variance on where hot memory lands, and then make promotion /
-> demotion decisions based on access.
->
-> Zhe, do you have a specific use-case in mind? For the second use
-> case I would be curious to see if you see any meaningful performance
-> differences in startup time when comapring a workload using other
-> mempolicies for the allocation and then tiering vs. using weighted
-> interleave and then tiering.
->
-> But yeah, I think David is right that we should go over the semantics
-> and really make sure this is what we want to commit to.
->
-> Thanks again Zhe! Have a great day,
-> Joshua
+On Wed, Sep 30, 2026 at 03:51:26PM +0200, Janani Sunil wrote:
+> On 9/30/26 11:17, Andy Shevchenko wrote:
+> > On Wed, Jul 15, 2026 at 01:41:08PM +0200, Janani Sunil wrote:
+> > > Add support for AD5529R 16-channel, 12/16 bit Digital to Analog Converter
+> > > from Analog Devices.
+> > > 
+> > > The device communicates over SPI and supports per-channel output range
+> > > configuration. An optional external 4.096V reference can be used in
+> > > place of the internal reference.
+> > You haven't added a given tag, why?
+> > 
+> > In any case I have noticed that there are a number of (not so critical) issues
+> > are still exists, so I have to withdraw my tag. But please, answer the above Q.
+> 
+> I intentionally did not carry the Reviewed-by tag from V5, because V6
+> included substantial driver updates. I should have mentioned this in the
+> cover letter, but I missed doing so.
+> Some of the points mentioned here have already been addressed in later
+> revisions and are now present in Jonathan's testing branch. I will send a
+> follow up patch for the reset of the items.
 
-The use case is closer to the second one, but the main motivation is not
-only startup-time performance.=C2=A0 The more important point is that each
-workload has its own DDR/CXL budget assigned by the workload manager.
+Good, thanks for taking care of that.
 
-MPOL_WEIGHTED_INTERLEAVE is useful because it lets new allocations
-follow that per-workload budget from the beginning, instead of placing
-everything on one tier first and correcting the placement later. This is
-important for workload orchestration because the workload starts from a
-placement close to its assigned DDR/CXL ratio.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-After that, we still need memory tiering because the initial weighted
-placement does not know which pages will be hot. Some pages initially
-placed on CXL may become hot, and some pages initially placed on DDR may
-be cold. The intended model is therefore: weighted interleave provides
-the per-workload allocation ratio, while promotion/demotion and reclaim
-exchange hot and cold pages and try to keep the workload within its
-assigned tier budget.
 
-So I do not expect MPOL_WEIGHTED_INTERLEAVE alone to be a hard resident
-ratio after migrations. The ratio is part of the workload placement
-policy managed by the control plane. The kernel side still needs to let
-hot pages from the slower tier be promoted when the workload explicitly
-opts in to NUMA balancing.
-
-Thanks a lot for taking a look at this.
-
-Thanks,
-Zhe
-
->
->> Thanks,
->> Zhe
