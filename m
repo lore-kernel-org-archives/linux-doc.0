@@ -1,35 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f41.google.com (mail-dy2-f41.google.com [74.125.229.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B62433A9E8;
-	Wed, 30 Sep 2026 00:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D02348896
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 01:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790729408; cv=none; b=urMTdUQT0KYS8/6hM3/jDnhucqvTUaBNYDY1iHWthbF4VZLiXM5ycjn5brKgNTpzvmDEQYB+3BfY74sOpQVQ4s9gvoWyASxBcvKjXo1pw4naeoCEKOa2OFjFwFRnvUeIOAv2hZdsGsRlU20IZ7tqiz+Mw4IFPUuoMTvok5lulBA=
+	t=1790730738; cv=none; b=TMbHamQV5xE3tVHnBV/jXH+qXbdWVz9e0Q5ZrJ57XvSOc97zOuVJoytGWZmQ8nfZ4eNZ6DiGPuol5tAonLWnkHyWBK54nFNT5a0nEJGLoZbasnDsiiuzZSkEDC3kWFuasvpCfL7RSqivkQWv71Dr1Blf+xAri8fY70Pu2wa+c6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790729408; c=relaxed/simple;
-	bh=TjiKnNl1rUdu6C/SiyWkAG/6zIZAFl+XTZQALhS4gCY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=oUP2qkoebX9V4KuLCiqgO2+I1r1CWDnExBCXsjQQgMTNL8EsoaAttlK6aYZqOtCXyufXd6anp9Bsphsix5V7/YGPndlvyVhrGR+6W40BB/Q/RMIDoaKKXADdjQb9S1r1GJHfMePMToyXq8OrAbpp5cc33jFrXVJ+fwHqRsvHzPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SUdStqcp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790730738; c=relaxed/simple;
+	bh=r6QEHOpOYHWj7FufqyeEcfQM5mfa/urPcEzDnrQ04Kg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F3BsE6cv0EJAs9oha/yEhXp8ifLKCi6eU28C7UB2VVyyLoxtk1NwQT/D0YF5D1PQprku90dGvQMMgQr3Js0zqr9Ok+K8XvgsOYcc5X2lm81ObPIpn/6i/vmmTLB1dGv+LsBp38mwbTwm//1OOI++aAbkqT0r4wZxAfHBLsuvQMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=N+EUxWqL; arc=none smtp.client-ip=74.125.229.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SUdStqcp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45E081F000FF;
-	Wed, 30 Sep 2026 00:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790729407;
-	bh=9v1GAkHoBOPWp5VtYA6kIbswGlgJ8597azWdEv7u8Uk=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=SUdStqcpeiuuetzdR4h0MIN6ogcod0wC07kWe3A4pPeQyt3iJY8/LQqJrv2CLh9NC
-	 c9YBs3vupjY1XpUQVnjPMevo0bX+Yk8Ai8yCR+5xPbMAfStVOk+X/LsxPl4gTTerdt
-	 or9eFvtuZp/+0oulAej5E9GBRvRHefF3mNC0dKVeu6qAfg7j76rGwLL1ybWMEn99+2
-	 fl3SX0W7gYZLs1ReFPb+TWHOaxn/gVRAXd/C9YTZ9od9M3GCP5boXsJW6f+tBGu9TS
-	 MXPSR1IV2wuvMr6p/OrCdR19SwEMpHBCkyKEUdflsT6RouNNT1grfV0zgsEv8bQmt9
-	 JmSsT4OUbfyOg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3A3803924FEA;
-	Wed, 30 Sep 2026 00:50:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="N+EUxWqL"
+Received: by mail-dy2-f41.google.com with SMTP id 5a478bee46e88-34c4a0870d2so455117eec.2
+        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 18:12:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=trailofbits.com; s=google; t=1790730735; x=1791335535; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=o/GYHJr9V/8fnSGwEk+BZPbvKDBaM+5fMSFs2YxkmV0=;
+        b=N+EUxWqLuu9vcw01cgL5F8i1PXMyFJgmJAVoow9mmlYX9u65gpz8Hu1r9AwpL1Ran2
+         cNIc/eWwd8z4U3MBDxdgQECPeSfXC8zq9EfKGWxNUWPJ9sv8ygIoQ8ZKH9adbRsTASPZ
+         +XbTa4xpDWUfgKPP+KZK+10DVBhOjdM8aQu3BKUmuQCZ/lLmVFIn8p5oeRVWKrAyVedp
+         QJtYVdq2fsInoAlF9E5kDLftJIRaUF5Z6TBVh4ROtxsboYmeNA+ozBYcgM2eOWqbrmlQ
+         ZXS8N9Pp2usEGUS1JDEm+LA84VvTfUVK8COpegCXY2+JE1+WxI9up97aIU74Pn0ZbIno
+         5u9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790730735; x=1791335535;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=o/GYHJr9V/8fnSGwEk+BZPbvKDBaM+5fMSFs2YxkmV0=;
+        b=oLB4U/qSY2TKaDW2QTgC6kTTEw4dVU6JZ30S3gKsl6vCdDs9KAEjYRLApPCIB/sh5J
+         fsuSJbPbDT4ZXiZI8FaUUlNfCoECCiNlS3zeUH4u++Omnqa9pWaSeOghTBT65k2Tw4zf
+         eqzHTFYWMx4iZ6myf/GcH+6LA+MKFR65P+V3LRal96Sso2ZS6JSDqRHYD+7f2dHObygK
+         B3uder/8I98g6YrmCOnZtYZeDB4efqksDhcuCw8uhOrD19tHMo/69xT5QnNJ0KfKK+Dv
+         pum8paM9bucE+7+IIUNi/ShUBRLODFFOBoEiaAnPFuFSlqDv10/0DytIYToOmVfc+URc
+         6Lrg==
+X-Forwarded-Encrypted: i=1; AKwUvBwlWZvyNvBrHQQceCu/Nh85OSvizhitXge6Oadv/rkQnGL2jl+cb4C86V9R7CsRq4Tf27hqSnmWnc8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKwXnqmzv5zAwhqDLgK71vG8hr361thVnmCMeuNC0sxV2vsum/2
+	bDF2H0z0hAiaKO5v/WcuH453bSfNw+A9Z61CglzwqMdPY+SMnQN0P5LmRI0HHPSENUI=
+X-Gm-Gg: AYBFou0L5SL+69IoWqVumswp1tDR4Ji0Y16Hp4RJSKccYYeGmIG7/ur2mXD30QouI6V
+	oZmWjkuy0YHaSQHa+gROKIioTS2oTT+mpYahce7inDnU+OKaTYDoNn2T/GoSg5/H9Hy7QK2CffW
+	gq2ngG2BZZGJschOIg7b7+rUzfJpA6r2YnqsBXKeJUTx1idsoUlWR45uKqy0dr3/c5HmuPLchb2
+	DFAOK47dZBIYzuHxJLIF2nWBfs9XISGR1mzlJcemQHmtBNM5OIQjwj3T1MELnVydOz/0GI9UlsP
+	nSxayoD5/i31uAfV4MlTSXXr34fGwejbUHkc3zWk2+fbLqEIUzntDSgPCSCuWiaJ5FT9PHLj0Fq
+	JPzIQZDmoKh1pHpYi6WHvmX4yEEPDBYXv6rImJiQXKCa+t5WIEgKR71xhyK7hfJ689PusH/3mmB
+	HpkDn1wat8NM4SOQ76JkxfF8gcu40T6zQVk2cpLTPjHWLY8Al7gZ+7GNT9G6DEZihKUNT77Sm/z
+	gIqKzht3Hoca8xcGirFz5gykcKnG5eTiAmo+TXc7JcsFW9nH2cPHsRbBP2wT3MHi1tPjow=
+X-Received: by 2002:a05:7301:23af:b0:342:a328:fe1c with SMTP id 5a478bee46e88-34c672e2943mr1274302eec.27.1790730735387;
+        Tue, 29 Sep 2026 18:12:15 -0700 (PDT)
+Received: from localhost.localdomain ([2603:8001:5f01:8bab:3481:cbb6:f339:9e4e])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34c388f4e19sm2290684eec.22.2026.09.29.18.12.13
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 29 Sep 2026 18:12:14 -0700 (PDT)
+From: Artem Dinaburg <artem@trailofbits.com>
+To: stable@vger.kernel.org
+Cc: Artem Dinaburg <artem@trailofbits.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Christoph Schlameuss <schlameuss@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	David Hildenbrand <david@kernel.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	Sean Christopherson <seanjc@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	avi@redhat.com,
+	cotte@de.ibm.com,
+	david@redhat.com,
+	mtosatti@redhat.com
+Subject: [PATCH 6.6.y] kvm: s390: Reject memory region operations for ucontrol VMs
+Date: Tue, 29 Sep 2026 21:12:08 -0400
+Message-ID: <20260930011211.94657-1-artem@trailofbits.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,46 +95,94 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v4 0/2] ipv6: update NUD_FAILED neighbors from NA
- messages
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179072940591.1186988.3707181901513774796.git-patchwork-notify@kernel.org>
-Date: Wed, 30 Sep 2026 00:50:05 +0000
-References: <cover.1790127207.git.lfqlee314@gmail.com>
-In-Reply-To: <cover.1790127207.git.lfqlee314@gmail.com>
-To: Lawrence Lee <lfqlee314@gmail.com>
-Cc: dsahern@kernel.org, idosch@nvidia.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- rdunlap@infradead.org, netdev@vger.kernel.org, aajith@arista.com,
- roopa@nvidia.com, jhpark1013@gmail.com, corbet@lwn.net,
- skhan@linuxfoundation.org, shuah@kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Hello:
+From: Christoph Schlameuss <schlameuss@linux.ibm.com>
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+[ Upstream commit 7816e58967d0e6cadce05c8540b47ed027dc2499 ]
 
-On Wed, 23 Sep 2026 01:34:17 +0000 you wrote:
-> Neighbor Advertisements for existing NUD_FAILED entries are currently
-> ignored. This can leave a first-hop router with an unusable neighbor after
-> the host becomes reachable and announces itself, particularly when
-> forwarding is offloaded away from the kernel and traffic destined to the
-> FAILED neighbor is unable to trigger the kernel's normal neighbor
-> resolution process.
-> 
-> [...]
+This change rejects the KVM_SET_USER_MEMORY_REGION and
+KVM_SET_USER_MEMORY_REGION2 ioctls when called on a ucontrol VM.
+This is necessary since ucontrol VMs have kvm->arch.gmap set to 0 and
+would thus result in a null pointer dereference further in.
+Memory management needs to be performed in userspace and using the
+ioctls KVM_S390_UCAS_MAP and KVM_S390_UCAS_UNMAP.
 
-Here is the summary with links:
-  - [net-next,v4,1/2] ipv6: update NUD_FAILED neighbors from NA messages
-    https://git.kernel.org/netdev/net-next/c/24717a02aee4
-  - [net-next,v4,2/2] selftests: net: test untracked NA recovery of FAILED neighbors
-    https://git.kernel.org/netdev/net-next/c/022e48e20776
+Also improve s390 specific documentation for KVM_SET_USER_MEMORY_REGION
+and KVM_SET_USER_MEMORY_REGION2.
 
-You are awesome, thank you!
+[ Backport to 6.6.y: omitted KVM_SET_USER_MEMORY_REGION2 documentation
+  because that ioctl is absent from 6.6.y. ]
+
+Signed-off-by: Christoph Schlameuss <schlameuss@linux.ibm.com>
+Fixes: 27e0393f15fc ("KVM: s390: ucontrol: per vcpu address spaces")
+Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Link: https://lore.kernel.org/r/20240624095902.29375-1-schlameuss@linux.ibm.com
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+[frankja@linux.ibm.com: commit message spelling fix, subject prefix fix]
+Message-ID: <20240624095902.29375-1-schlameuss@linux.ibm.com>
+Assisted-by: LLM
+Signed-off-by: Artem Dinaburg <artem@trailofbits.com>
+---
+Hi Greg, Sasha, and kvm s390 maintainers,
+
+I am working through the small CVE backports still missing from 6.6.y.
+This one addresses CVE-2024-43819. It rejects memory-region ioctls before a
+ucontrol VM can dereference its NULL gmap.
+
+I (sadly) do not have an s390 to run the fix, but it built and the adaptation
+makes sense.
+
+The fix is already present in 6.12.y, 6.18.y, and 7.2.y, but not in 6.6.y.
+This fix also affects 6.1.y, which will need a separate backport; this
+submission contains only the 6.6.y patch.
+The target-specific adjustment is recorded in the bracketed note above.
+
+Could you please queue it for 6.6.y?
+
+CVE: CVE-2024-43819
+Upstream: 7816e58967d0e6cadce05c8540b47ed027dc2499
+
+AI assistance: An LLM helped identify, adapt, and validate this backport; I
+reviewed the resulting code and validation evidence.
+
+Thanks,
+Artem Dinaburg
+
+ Documentation/virt/kvm/api.rst | 6 ++++++
+ arch/s390/kvm/kvm-s390.c       | 3 +++
+ 2 files changed, 9 insertions(+)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 21a7578142a18b..0f7177c7653bd3 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -1363,6 +1363,12 @@ Instead, an abort (data abort if the cause of the page-table update
+ was a load or a store, instruction abort if it was an instruction
+ fetch) is injected in the guest.
+ 
++S390:
++^^^^^
++
++Returns -EINVAL if the VM has the KVM_VM_S390_UCONTROL flag set.
++Returns -EINVAL if called on a protected VM.
++
+ 4.36 KVM_SET_TSS_ADDR
+ ---------------------
+ 
+diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
+index cf075a89342263..97b436ae0012c5 100644
+--- a/arch/s390/kvm/kvm-s390.c
++++ b/arch/s390/kvm/kvm-s390.c
+@@ -5769,6 +5769,9 @@ int kvm_arch_prepare_memory_region(struct kvm *kvm,
+ {
+ 	gpa_t size;
+ 
++	if (kvm_is_ucontrol(kvm))
++		return -EINVAL;
++
+ 	/* When we are protected, we should not change the memory slots */
+ 	if (kvm_s390_pv_get_handle(kvm))
+ 		return -EINVAL;
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.39.5
 
