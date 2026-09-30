@@ -1,144 +1,122 @@
-Received: from mail-oi2-f42.google.com (mail-oi2-f42.google.com [74.125.231.234])
+Received: from mail-dl2-f43.google.com (mail-dl2-f43.google.com [74.125.229.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EBA51354E
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 16:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F13348896
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 16:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790786415; cv=none; b=C94Sr9TSgUa57FeY3pH1du8GpM2goVMvHjGNTHK3vYtVgi17k35yWRYKkOrEb7TB3qlvavqjFxZMseZ1tsXAUFiYc4RQXBCl0KGwX+xgsxgVjwAguLAFW1i4jucWZxnUVNU2QKkrYguFf5ECR3KDOz4YCJ+o97mkWf4gVeJjMY0=
+	t=1790787160; cv=none; b=tcxj6iLQ5LvfvjP7jsfBa+ZolqRu6boIyuWu0tpVILMxTXZwPOIgGZFJLWe+QANNG0tqKRzLSy+72hXPjPzMp5xp3SJpeAkvqkxFYNnr5tOR5XFq9pd7ep9hXbGxyForfxctBe270sjmXgtEatyQRQHbCmokQTEowP+GG3Mhs7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790786415; c=relaxed/simple;
-	bh=0+haRPFJVrIBg/KxwiST0BnLw4HTvHOw2SUsjkpxatI=;
+	s=arc-20240116; t=1790787160; c=relaxed/simple;
+	bh=USoosmtGDycX1a/Va/WTZ2HKM0YP5/LMRYBi/jK/1WU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VdTuKk4A4eTu7Br7rXpP5Jt/DdhbW9zbRybJjrbdFwSJsRmNRs5oqNUTtRtUF2nqU84nGO3nwlIxwaDstOXBcvzmqZQz8nnfh6+S38LJJ8P/7VtsJL1ScEAhPYA+ND7LYnJD6lvmCyXlgLBhe77K0AIZlQzXNxt9Defh5Qtl32Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kcs1rX9q; arc=none smtp.client-ip=74.125.231.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZmnO4homNwTmTqyNTEBvvaA5JaOFsvhZOLLog3dJqVPYjcI68uJtaDuCvPDeFeKerbtmvkF6SsiBhhVyb1dArpaqvDJungZislr5jEr4iSRLyUr8v3gfclde1P7v0ijV3LV6kbbwemtfG0aiZcmsEFoexVECZWqrC/16hB/ufWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=OhOI/Tgd; arc=none smtp.client-ip=74.125.229.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kcs1rX9q"
-Received: by mail-oi2-f42.google.com with SMTP id 5614622812f47-4e849c5fe49so3515106b6e.3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 09:40:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="OhOI/Tgd"
+Received: by mail-dl2-f43.google.com with SMTP id a92af1059eb24-142dd046b87so4176449c88.2
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 09:52:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790786412; x=1791391212; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XFw9xlTGc6nwfYyMIGcXU1qXmiqHTAyDTwnu+eltMIw=;
-        b=Kcs1rX9qKBKCm+6gagzO8Lbu9K7Zy4G9PDbcK7BNsB9zcCOPlXZpgU6/Zwox8LSU/a
-         BculvFb5O6BRfAdI++hc4Fep465OVJcm84XaIduMIGwpqx2DElkyymTVGrqPVOa9CUxR
-         FQfZ0NixeTIBZhOVUk6D5pWc0iHbqYcIHDns9BJOvrsRkTdk0Z7sBkQeRmuvik5fD4Vn
-         R8q9P6Bkv7nJ7eoyjptK5YwDYW9ghxndav8tWMDMiD6pv3JGjZB4jvqX+UtuF9QZVMnk
-         Hl49fHGSiMe+We+fwXJQ/awSyB+tsjn68HY0L00QH8ZmcLOUCpQkQkM7x6nSgdm/QA9b
-         LqBQ==
+        d=ziepe.ca; s=google; t=1790787158; x=1791391958; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=USoosmtGDycX1a/Va/WTZ2HKM0YP5/LMRYBi/jK/1WU=;
+        b=OhOI/TgdclwGcCILD+ANQGEgwuLJ1ZFSSM6jZ0eyyZ5+emPldVS5zYq/zAUpJhDnrG
+         yK0jdBXbcETvevcDmN1A4j946Qj4hSNu0rKZCPee7rIB7Dqmcb1xcIedR/Bmt5K58SxD
+         cAI3QtH0pMAXwQJYvhU8d0wGmHg9MdTQg5xMwKqWLaulux13gkarK7uX7e/BVSlO0NJ0
+         L8y2Xh0n9cuFXrampV3zVqU70hZ2hbkcWrmJOsSLWkDdDLly1pNPqk/rE5dK6UpPfnjF
+         PKz+PLpK+1hm3LyrH2xo9sMnWM9KVbPso6lmlhuBWaIZmwq4yxmEqHqznGVGaqHEvJIi
+         KLyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790786412; x=1791391212;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XFw9xlTGc6nwfYyMIGcXU1qXmiqHTAyDTwnu+eltMIw=;
-        b=C8so5KKbx34+WoGI4KSPrO9At3bfgAGTxf+7VbwT5o25XdLWRC4136ILgrr1nPc2vH
-         ea6t+lujzr0rBlxILv1so3jhf1/FiBBrzd3UqUgxaxu9oLa3zd0CSHo9fUdg0AhRhTkX
-         mEdgZ7UI4eXx+WBegedCbpT4snzixWBiZwrXgtjn6rNT5R9ROL77gj7YrjyCf6mARRTN
-         RvDmOyzuM1Xw/aAHWl++D+12MtDRZuZ24M92zLHvuKKyXgt8jn9or7bhjo65m1EKa+WT
-         ohL/cIATKKaFuhBtfQKYokg9tjB1j9hgoRg8PZpj4R8L4uqVBcMLXRan9mwKuMkIXDpn
-         vCAg==
-X-Forwarded-Encrypted: i=1; AKwUvBzp8w7nhGuE4BqxrP4QWw81PBjvVotPt3d7Jbx+RjFwM9h7/EIwt2b+AEkwEyIva5I6g/LEXQvaW4Q=@vger.kernel.org
-X-Gm-Message-State: AFuF++kGeDjmOx2IHCjMFk7mbTMCZNOAVzaeqQcOvk2TTX122bxf/yir
-	VOSvn8IBt3UGYzswYbAp/EF0aQUuL/CBpYkAyqOAhF3X+hz7OyllHRa8
-X-Gm-Gg: AYBFou0UxjHwojklPshRxoU0x8SUXplkveQWU1WKjxACSXIR1QIEdiSfF3yCZs2AZRc
-	SD4s2+FhTR/nCWbUOtrM1ewLGAAUEWbKzorvMoDL2oSATev31Q96DX8u0+7PcKIg12Da2WEc60X
-	3J+3tOVfXSQZ7S6annsxJY9JVgSrEuxsDjdgg1RhrlFTxqnATn1ZgdOYWM469skjggj6nE2vSBs
-	QIxwUBFj8JsqOSifXj/8tiPsSTGuBp0qy0KAhlPrQUEaYXbFk/Abyyf5hvUniXpo4/hv4vjD5Yw
-	WSIzUkslR/Tj4hulKJ3bjvq4KRRvbf0xzmegqkzi/LPIloDlnl5/tPFMDbKt2+7EIQuDSTrClkG
-	cjr1a+6AsXj+2FiNVQ0qu/wDu3zg9E6uQYmHoQcOPBbEungj8KxxC8iAY83cufi9mTe3yIVa+nY
-	1D1xm7FX1xBc9g10HwCHmzErXmNlfOuhAUsQEgC6df7xi7Qf6nKUrDkM0hzOWnilBLH3Tu54gHY
-	kv1LZkvC7ESs1i1u9TMz2bzkonVsx7H7gDBXlhKhXacGfJ+fEH8zweXxG6JQLysWhAEHZChr+ob
-	ag8=
-X-Received: by 2002:a05:6808:4488:b0:4c3:9892:96e1 with SMTP id 5614622812f47-4f1b84ca716mr1997644b6e.25.1790786412075;
-        Wed, 30 Sep 2026 09:40:12 -0700 (PDT)
-Received: from fedora-laptop ([172.245.82.59])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4f1b43a602csm1272690b6e.6.2026.09.30.09.40.08
+        d=1e100.net; s=20260707; t=1790787158; x=1791391958;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=USoosmtGDycX1a/Va/WTZ2HKM0YP5/LMRYBi/jK/1WU=;
+        b=ZevJk1uo+3Si3HM+BTkYEk0eG7OCQAsvASy53RB2jJYTJVZruRIBfiIX+YZf5l62a/
+         ihFNmAv83qAkRQSy7EEbPSFfAR/a4PmlRMjHtK6gbs/Sqhp6tK56ONfi1tfCF8LHQLdX
+         ZN+OBwGiwJdfjA+rxMQt01fVOHByk0FAPJ0gqDQh0erbVlwYUzTegJspxPy754y9yx+F
+         qivXOp8xxPn5fZvoLb/QZN4jBgzEXIgQU7NqTN6rstLtrAwxHrP47tXxmAJz1OCteGzN
+         7k9HKuHkEWLFDi6jIXHQ5mCVUPWIlAWyEoO+64QMLhXlRU3DHL2hMVOt+ccKK8x9vqqC
+         QVrQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwkAB9I/VkXeSIDulWFwUMRaSRb7BgbYF7wsNf9KDeeWD4oIXeadulZLV9H1nUL7q317G0p/3Iq4J8=@vger.kernel.org
+X-Gm-Message-State: AFuF++llSBDfGb8scWMTH8DcprK3QIBxEUZReXm7pKirVakUQmb0ueXE
+	k0epMyBWUWfk7EZa1nWS+0BTObLEOkJ6UpblEDbumrGHh/avS3IAivVXfHDUnunAkhs=
+X-Gm-Gg: AYBFou1itLewj3n9A+X11agwsN0+AiDiwYotvOqJm9Xz2CAYBW/BkmG/FyrklNpfp5V
+	NUEouaVHeaJRdhm+QqHx9bl5eGef4+eGGUWB8oxdcmYiW2pTRQqd1umBnHhhK6w0htiqMGts5hC
+	WZCv7Rnah9QF2i2bjftCC+Y8CMXD8dZfNlQf81Z8xvx7rwQmn+cASfWZ1yuccFtSCR2ITIR4lHU
+	HRaUqJ4BBHKuUsEteX6Q0KVyvoRsmH4bthFzBA94eL2FDd9ZkWOazYONgPb6zHzsknzj6c7bfK7
+	wbdGtteRp3lbPR2gp4fK/5K/uyuJ9z492NbPioWImlCKVfsjkQH0E3ljS6ht/KNb2JaPYvw2DKE
+	fcDaDZhCQ04e4ohIIdPonl5AhWnvKk7V9kr5X9clX3b/Y6piV/YTkKHhjcrvwfSheDqkrJWrwGJ
+	USt+jtUqMysKFnuYIN4V+T0QA/CpS6NTHr4DtnnB96t/KJeQ==
+X-Received: by 2002:a05:7022:4595:b0:143:297c:276c with SMTP id a92af1059eb24-14d330b1ca2mr3017652c88.33.1790787158196;
+        Wed, 30 Sep 2026 09:52:38 -0700 (PDT)
+Received: from ziepe.ca ([130.41.10.202])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14d313b9c38sm4523537c88.1.2026.09.30.09.52.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 09:40:11 -0700 (PDT)
-Date: Wed, 30 Sep 2026 11:40:04 -0500
-From: Ming Lei <tom.leiming@gmail.com>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/9] ublk: fix dispatch to canceled io commands
-Message-ID: <ar07ZKeb-j2ykXxg@fedora-laptop>
-References: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com>
- <arvOwDHOgvpVW86j@fedora-laptop>
- <e15d4e3c39e8ed1860b762cfd8e43c92.josef@toxicpanda.com>
+        Wed, 30 Sep 2026 09:52:37 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xBxXo-0000000C7JB-1eI9;
+	Wed, 30 Sep 2026 13:52:36 -0300
+Date: Wed, 30 Sep 2026 13:52:36 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v8 16/23] dma-buf: Let importers ask how peer-to-peer
+ traffic is routed
+Message-ID: <20260930165236.GS163130@ziepe.ca>
+References: <20260929132305.GJ563127@unreal>
+ <720dbac3-24f6-4c91-899e-e205865c1fd1@amd.com>
+ <20260929175737.GK563127@unreal>
+ <eeef5951-825e-459f-b474-bf8c59588446@amd.com>
+ <20260930081832.GA3401365@unreal>
+ <4549640c-f4a5-4dac-9be3-2e5aa127555c@amd.com>
+ <20260930114356.GC3401365@unreal>
+ <fbdc710d-7be1-4021-83c2-548c798d9d14@amd.com>
+ <20260930143237.GI3401365@unreal>
+ <b2e766389e57a55da959369c5ad4b9e39e425659.camel@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e15d4e3c39e8ed1860b762cfd8e43c92.josef@toxicpanda.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b2e766389e57a55da959369c5ad4b9e39e425659.camel@linux.intel.com>
 
-On Wed, Sep 30, 2026 at 02:17:31PM +0000, Josef Bacik wrote:
-> On Tue, Sep 29, 2026 at 09:44:16AM -0500, Ming Lei wrote:
-> > It looks two races: STOP_DEV vs. START_DEV, STOP_DEV vs. FETCH.
-> >
-> > Looks fast io path shouldn't be touched for fixing the races.
-> >
-> > >   2. A partial FETCH round whose task exits, once another task
-> > >      completes the round.
-> > >   3. During recovery, the task of a queue which is ready already
-> > >      exiting before the last queue is ready.
-> >
-> > 2 and 3 could be solved in single simpler patch by making use of the
-> > ub->canceling flag, and it is easier for backport.
-> 
-> Agreed, yours is much simpler, and keeping the flag set for the whole
-> FETCH round is the right model. I ran it on top of for-next (d70609a2f68c)
-> with KASAN and lockdep through my reproducers and the ublk selftests. The
-> oopses for 2 and 3 are gone, and recover_01-04, batch_01-03, generic_17,
-> stress_01/02/05 and 60 batch QUIESCE_DEV/recover cycles pass.
-> 
-> What's left for 2 and 3 is that the device still comes up. For 2,
-> START_DEV returns 0 and the new disk fails every request. For 3,
-> END_USER_RECOVERY returns 0, the device is LIVE, and every read on the
-> queue whose task exited sits requeued forever, since the queue stays
-> canceling and nothing kicks the requeue list. With ub->canceling
-> covering the whole round that's a small check: return -ENODEV from
-> START_DEV and END_USER_RECOVERY when ub->canceling is set, checked under
-> cancel_mutex against publishing ub->ub_disk. The server can't fetch
-> those commands again anyway. Patch 9 of my series did that on the old
-> model, I'll redo it on top of yours.
-> 
-> For 1, your patch alone still oopses in ublk_queue_rq() from the
-> partition scan when START_DEV follows STOP_DEV, same as before. I'll
-> respin my series as just that, on top of your patch and without touching
-> the commit path: STOP_DEV marks the queues canceling and takes the
-> fetched commands under ub->mutex, and FETCH marks its command cancelable
-> before it publishes it, so a cancel from the control path never
-> completes a command io_uring doesn't have on its cancelable list yet.
-> 
-> For your patch:
-> 
-> Tested-by: Josef Bacik <josef@toxicpanda.com>
+On Wed, Sep 30, 2026 at 04:57:04PM +0200, Thomas Hellström wrote:
 
-Thanks for the test!
+> Returning again to Jason's series. Let's say we'd add just the mapping
+> type infrastructure, converted users of pcie_p2pdma only to use that
+> and then we'd have access to per-mapping-type data. This could actually
+> be done as a prereq for this series and merged separately. It's a
+> couple of patches only.
 
-For STOP_DEV related races with STOP_DEV, START_DEV and FETCH, one simple
-idea is to add internal device state of UB_STATE_STOPPING, which is set
-in ublk_stop_dev() in case of any pending uring_cmd, and cleared in
-ublk_reset_ch_dev() when the char dev is closed.
+I'm happy to say I found someone here to pick it up again, so we
+should see something on it after LPC!
 
-Then we can fail STOP_DEV, START_DEV and FETCH if UB_STATE_STOPPING is set.
-
-I have written patches towards this direction, so far so good, pass all
-selftests and survive in races of your reports, will post out for review
-further.
-
-
-Thanks,
-Ming
+Jason
