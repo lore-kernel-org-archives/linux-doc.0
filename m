@@ -1,93 +1,99 @@
-Received: from mail-dy2-f41.google.com (mail-dy2-f41.google.com [74.125.229.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D02348896
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 01:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790730738; cv=none; b=TMbHamQV5xE3tVHnBV/jXH+qXbdWVz9e0Q5ZrJ57XvSOc97zOuVJoytGWZmQ8nfZ4eNZ6DiGPuol5tAonLWnkHyWBK54nFNT5a0nEJGLoZbasnDsiiuzZSkEDC3kWFuasvpCfL7RSqivkQWv71Dr1Blf+xAri8fY70Pu2wa+c6Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790730738; c=relaxed/simple;
-	bh=r6QEHOpOYHWj7FufqyeEcfQM5mfa/urPcEzDnrQ04Kg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F3BsE6cv0EJAs9oha/yEhXp8ifLKCi6eU28C7UB2VVyyLoxtk1NwQT/D0YF5D1PQprku90dGvQMMgQr3Js0zqr9Ok+K8XvgsOYcc5X2lm81ObPIpn/6i/vmmTLB1dGv+LsBp38mwbTwm//1OOI++aAbkqT0r4wZxAfHBLsuvQMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=N+EUxWqL; arc=none smtp.client-ip=74.125.229.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5BC3112DA;
+	Wed, 30 Sep 2026 01:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.143.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790732181; cv=fail; b=gQUcpyGkXmF3h8f7GMC1TVuMgFfA62o7tUmFkMMO5VQxNn3cq3iukIcdnpOBU9DOX4UZFdRsHwFNiKpWdhIAWpgSqqpzX0KWUgCAKYAAH0Hoa4PTAq7QVGDxv5TY8BwvEHBQV5wIM8n8O0h86wU05WE2HESnxz9qkapkE4w4IOw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790732181; c=relaxed/simple;
+	bh=TrltmFtYt4jiIRTR2bXONwsYpeomELusTIme4eEvCi8=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D5hCkWZkMyydWmtaWaNiuROjs261v/a8o2TuLfVocH0q2Sr2UqjC7GHD3EPoTlzE7F+jqB92fvcdUe6mX9DVghhkkVLKn2MK0FaiGUtkJbb0XSz6qvd294Nf+FqS9RRSAhnZU2XXcw+7mxHLRPsHglaJ9T/3jOY23PLAoYqJirk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=X0OiR52j; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=g2/CuQoa; arc=fail smtp.client-ip=148.163.143.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="N+EUxWqL"
-Received: by mail-dy2-f41.google.com with SMTP id 5a478bee46e88-34c4a0870d2so455117eec.2
-        for <linux-doc@vger.kernel.org>; Tue, 29 Sep 2026 18:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=trailofbits.com; s=google; t=1790730735; x=1791335535; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=o/GYHJr9V/8fnSGwEk+BZPbvKDBaM+5fMSFs2YxkmV0=;
-        b=N+EUxWqLuu9vcw01cgL5F8i1PXMyFJgmJAVoow9mmlYX9u65gpz8Hu1r9AwpL1Ran2
-         cNIc/eWwd8z4U3MBDxdgQECPeSfXC8zq9EfKGWxNUWPJ9sv8ygIoQ8ZKH9adbRsTASPZ
-         +XbTa4xpDWUfgKPP+KZK+10DVBhOjdM8aQu3BKUmuQCZ/lLmVFIn8p5oeRVWKrAyVedp
-         QJtYVdq2fsInoAlF9E5kDLftJIRaUF5Z6TBVh4ROtxsboYmeNA+ozBYcgM2eOWqbrmlQ
-         ZXS8N9Pp2usEGUS1JDEm+LA84VvTfUVK8COpegCXY2+JE1+WxI9up97aIU74Pn0ZbIno
-         5u9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790730735; x=1791335535;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=o/GYHJr9V/8fnSGwEk+BZPbvKDBaM+5fMSFs2YxkmV0=;
-        b=oLB4U/qSY2TKaDW2QTgC6kTTEw4dVU6JZ30S3gKsl6vCdDs9KAEjYRLApPCIB/sh5J
-         fsuSJbPbDT4ZXiZI8FaUUlNfCoECCiNlS3zeUH4u++Omnqa9pWaSeOghTBT65k2Tw4zf
-         eqzHTFYWMx4iZ6myf/GcH+6LA+MKFR65P+V3LRal96Sso2ZS6JSDqRHYD+7f2dHObygK
-         B3uder/8I98g6YrmCOnZtYZeDB4efqksDhcuCw8uhOrD19tHMo/69xT5QnNJ0KfKK+Dv
-         pum8paM9bucE+7+IIUNi/ShUBRLODFFOBoEiaAnPFuFSlqDv10/0DytIYToOmVfc+URc
-         6Lrg==
-X-Forwarded-Encrypted: i=1; AKwUvBwlWZvyNvBrHQQceCu/Nh85OSvizhitXge6Oadv/rkQnGL2jl+cb4C86V9R7CsRq4Tf27hqSnmWnc8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKwXnqmzv5zAwhqDLgK71vG8hr361thVnmCMeuNC0sxV2vsum/2
-	bDF2H0z0hAiaKO5v/WcuH453bSfNw+A9Z61CglzwqMdPY+SMnQN0P5LmRI0HHPSENUI=
-X-Gm-Gg: AYBFou0L5SL+69IoWqVumswp1tDR4Ji0Y16Hp4RJSKccYYeGmIG7/ur2mXD30QouI6V
-	oZmWjkuy0YHaSQHa+gROKIioTS2oTT+mpYahce7inDnU+OKaTYDoNn2T/GoSg5/H9Hy7QK2CffW
-	gq2ngG2BZZGJschOIg7b7+rUzfJpA6r2YnqsBXKeJUTx1idsoUlWR45uKqy0dr3/c5HmuPLchb2
-	DFAOK47dZBIYzuHxJLIF2nWBfs9XISGR1mzlJcemQHmtBNM5OIQjwj3T1MELnVydOz/0GI9UlsP
-	nSxayoD5/i31uAfV4MlTSXXr34fGwejbUHkc3zWk2+fbLqEIUzntDSgPCSCuWiaJ5FT9PHLj0Fq
-	JPzIQZDmoKh1pHpYi6WHvmX4yEEPDBYXv6rImJiQXKCa+t5WIEgKR71xhyK7hfJ689PusH/3mmB
-	HpkDn1wat8NM4SOQ76JkxfF8gcu40T6zQVk2cpLTPjHWLY8Al7gZ+7GNT9G6DEZihKUNT77Sm/z
-	gIqKzht3Hoca8xcGirFz5gykcKnG5eTiAmo+TXc7JcsFW9nH2cPHsRbBP2wT3MHi1tPjow=
-X-Received: by 2002:a05:7301:23af:b0:342:a328:fe1c with SMTP id 5a478bee46e88-34c672e2943mr1274302eec.27.1790730735387;
-        Tue, 29 Sep 2026 18:12:15 -0700 (PDT)
-Received: from localhost.localdomain ([2603:8001:5f01:8bab:3481:cbb6:f339:9e4e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34c388f4e19sm2290684eec.22.2026.09.29.18.12.13
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 29 Sep 2026 18:12:14 -0700 (PDT)
-From: Artem Dinaburg <artem@trailofbits.com>
-To: stable@vger.kernel.org
-Cc: Artem Dinaburg <artem@trailofbits.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Christoph Schlameuss <schlameuss@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	David Hildenbrand <david@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	avi@redhat.com,
-	cotte@de.ibm.com,
-	david@redhat.com,
-	mtosatti@redhat.com
-Subject: [PATCH 6.6.y] kvm: s390: Reject memory region operations for ucontrol VMs
-Date: Tue, 29 Sep 2026 21:12:08 -0400
-Message-ID: <20260930011211.94657-1-artem@trailofbits.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="X0OiR52j";
+	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="g2/CuQoa"
+Received: from pps.filterd (m0148664.ppops.net [127.0.0.1])
+	by mx0b-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68TNRlcE2698599;
+	Wed, 30 Sep 2026 01:35:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=jnprhpepp0429;
+	 bh=gqyDof4uQvMz6LwmzVlGHnkktuuDkqtVbFgw8EOB/Do=; b=X0OiR52j7lCY
+	7EH8OLaxB3FEX5LgkzgBdu/zAIE5T9AFvB//e8Hs1ARkQv3alSgX5soHLHagztcz
+	sX4VUGKUSJmU0VCY/L09waqDY7jBiZzHpObOimts3MZRVsqGrWx8tJmeTjnYauWj
+	3bdP5Ny8LccTPfP2DeJs9oyVeYG45220dOFScTIGEoyux2ud60dlQOECQa1YyqQq
+	aEfsdtmxkf2mupwEHy+OSgS+j9Hp5YGmAFu03M7BAnp5pOJAwp8IY8YdLgo7DZZy
+	u2IrKNB0KblHRWLGQW7nZ+2Oymb0WZWgxtqdYH3LHJYgdvElXon6PXAVPCZRjJXq
+	ShSJHWNLqw==
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11012013.outbound.protection.outlook.com [40.93.195.13])
+	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 4h0je3vpeb-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 30 Sep 2026 01:35:07 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iXeXZ0c5Oy9nw/Xd71QuTtonW5NwD5GYVhxq6aZa0ZusvI/ZrhElQ9eh5/e/oIiUXK0oizyOxJiZzzyIHOFWdzy9OYHZ3KrRynXDnBeOzSdlW3shuiFf4XnV5+tKUgr2nTnYH1HS/jJPv77I9T6IcyYqARx+qAuQUCKqx31a9sBtKK2CFA24et1llhofXElKUPC0b6zYaWuIBRyUTOSUyXjc5NBlt7gHq0xp2KKEhiq9sEjidbJ80RS15VwosO2Srz8u42jcyJhyb38g62/LJIqDjCwIReW4N+C6mycyxMC/fTrsrsY+YUneZuZOCr1WQIBPJZKRaZaSwf0iQF7NUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
+ bh=gqyDof4uQvMz6LwmzVlGHnkktuuDkqtVbFgw8EOB/Do=;
+ b=Iso4az3vKBlNp5B6+7NwyNU5rvFxvAuO9lFGXcMQwAiLtVLAd17PIixfYsntRoR/faJAYvwH8w9yvcWokwoAIFdSUK5bssGXLVUw0hRjMckeJuFRy4Xs+sn2FNt67Fi7ny0aPmO+DJ7gE7vtrTId5SdCSIDANO8wghXYELIbQfIElVb8RHbSKraK8qYUaclla42veNogivQCXcgE744s+BXaLuqdFKcQdO5Ydd9g6oIdWzEfqu30m1h8E6hrE+j1TmgRY8DXtC2+PA4G9bKDp2b6ZIPEmh85c/o66GxyU14F2lX5vaGzx6+zFdXumUPmfkeMB5Ze4zAXUuxsXCxlJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
+ 66.129.239.19) smtp.rcpttodomain=debian.org
+ smtp.mailfrom=ebf951f79306.juniper.net; dmarc=fail (p=reject sp=reject
+ pct=100) action=oreject header.from=juniper.net; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gqyDof4uQvMz6LwmzVlGHnkktuuDkqtVbFgw8EOB/Do=;
+ b=g2/CuQoam3AUErfdRgqTWrwmcOLta6IZNPROXa6SPM7XHZ7FRcSQ7bFf1FsWQTDPrkrf8tYgh6G7a6c5pTP+fjacMjMN9whNpswGmzmOLt5tBiHEtMIsLNDimYj7gHwsPRLyoSHF8g7DWwiQYyauGj62Snojo3lxhmF93IKJ2kYueTwP34qCWnZOPLcRRR2pMvRyMDZ2UC/waC6p0GlitJBQU2L3ZVcLb+Tr97lBTCAU5iUy/ud9rCuKAE+72tNe2kGzBwYfJtUVwSz2OCeUO5c2rjtixBHSeHqI2cz6fss4TtPIbx4Mu3J8Wq6FoXiLcPAVH3vB8Mk9RLkCabuNNA==
+Received: from BN9PR03CA0219.namprd03.prod.outlook.com (2603:10b6:408:f8::14)
+ by MN6PR05MB10210.namprd05.prod.outlook.com (2603:10b6:208:46d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.25; Wed, 30 Sep
+ 2026 01:35:05 +0000
+Received: from BN3PEPF0000B077.namprd04.prod.outlook.com
+ (2603:10b6:408:f8:cafe::25) by BN9PR03CA0219.outlook.office365.com
+ (2603:10b6:408:f8::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.23 via Frontend Transport; Wed,
+ 30 Sep 2026 01:35:05 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=none (sender IP
+ is 66.129.239.19) smtp.mailfrom=ebf951f79306.juniper.net; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject header.from=juniper.net;
+Received-SPF: None (protection.outlook.com: ebf951f79306.juniper.net does not
+ designate permitted sender hosts)
+Received: from juniper.net (66.129.239.19) by
+ BN3PEPF0000B077.mail.protection.outlook.com (10.167.243.122) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.472.14 via Frontend Transport; Wed, 30 Sep 2026 01:35:03 +0000
+Received: from p-exchbe-eqx-04.jnpr.net (10.104.9.87) by
+ p-exchfe-eqx-04.jnpr.net (10.104.9.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 29 Sep 2026 18:35:02 -0700
+Received: from ebf951f79306.juniper.net (10.104.20.6) by
+ p-exchbe-eqx-04.jnpr.net (10.104.9.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 29 Sep 2026 18:35:02 -0700
+Received: by ebf951f79306.juniper.net (Postfix, from userid 14867)
+	id ADCF11444B7D; Tue, 29 Sep 2026 18:35:02 -0700 (PDT)
+From: Prashant Singh <singhpra@juniper.net>
+To: <bigeasy@linutronix.de>
+CC: <ardb@kernel.org>, <jk@ozlabs.org>, <clrkwllms@kernel.org>,
+        <rostedt@goodmis.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+        <rdunlap@infradead.org>, <lgoncalv@redhat.com>, <93sam@debian.org>,
+        <linux-efi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
+        Prashant Singh
+	<singhpra@juniper.net>
+Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
+Date: Tue, 29 Sep 2026 18:35:00 -0700
+Message-ID: <20260930013500.10273-1-singhpra@juniper.net>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260929151401.doOQX7D0@linutronix.de>
+References: <20260928203445.72318-1-singhpra@juniper.net> <20260929074312.v3jT8uel@linutronix.de> <59d5452c-42b1-4784-a593-5e549a2a0f12@app.fastmail.com> <20260929151401.doOQX7D0@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -95,94 +101,128 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B077:EE_|MN6PR05MB10210:EE_
+X-MS-Office365-Filtering-Correlation-Id: 557ac903-0f1a-4a02-d99f-08df1e930d16
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|35950700016|376014|82310400026|7416014|1800799024|10067099003|56012099006|11063799006|4143699003|22082099003|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	Ru/wb0zRgdfHm1GLL5NaibXyVmulcuu1bLQuxy0Tu/8je4wnrt3Q0vbeLhxEmX25KM0B+t7GNG5bftd5VFeNeX/syfgGC0m926898lqjz9/z6V4VHQ7tsRPrpb2QqOff9B7epmW/frwbdcuBTR3LE17ChrcdjgoC18OtjObJGZq2sIgHMXulBnoWwTZvnrMXWpIc4ETavXn4HZq6JqOozWwc9C3ezOzANpCH+c3zUi3Oxyi3VVAiFWLbX8ET8fDDwvBt0cwDumltnRlxIZc/5qRedxh72BHBH73fICpRSVFOEE8sOALQd7zsZs1mX2bOOiOdn53wSjVtg8Srmp20pqs2kkAgVosJxLPpSdq7vQ7GIszyBILwkkWmjgvCiDJ65FUyPI44f5uAIViEaSjLrbIi9I/0dzxkx6+jE091HOz1LhiXWmB95JgU5wnlQ059ZX+cIdatdCBsMcAf5xKcWgftPRU/GHommftcSARDjgjkwEGiZSYc1BzzepRqFo0VsFnoQUqgCdjJpXUtCd3PSx/eB56lu2r4sHNaeW4SWQBU/ecsOXP1kYIVm3hIHyfkSq8nPVdsqYuHVV4jnT7VnZXOyoDuxso3MhAZTJUYgSy1mtrLQavoxHJtGpAlDfrOcjbDkEuzrAK1AYkYaC/gmqACUgl0FBiJii4PzLbNjkfFEN/bPO6vD718G3NuFEjdIiCWBdRnU0l/5Gtk6r+OFQ==
+X-Forefront-Antispam-Report:
+	CIP:66.129.239.19;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:juniper.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35950700016)(376014)(82310400026)(7416014)(1800799024)(10067099003)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	qWjRTpZkvAUDpWpzJC+HdupPJyAD4JGX4YNj62nxUHFdPt7KiNtUDoxdl+kpGKFYXqDh3S/K8K4XQkyhPs298o9Sx5CabquccLnaLpzrf+Ma7atAXQ8CgC8UZpRp0PtAtyuvU+iQkFMaS1N+danHZmii7DagzD0Xn6j0feJZBN/6W3ShMztEI0TLSHIBfm/UDMBqyNA0ipvL9MLmy+k0AqfgkN0uozjqBDPcqif52fyYLJ9k6kLBFd81Jdb8/NErpQCQMFmF2UH86jPFk8Di6uZoFlhz6ISWlgQqpwUkodQQcysGHHxL1p3Y8F6ELq1e0fWSX31HcMWZSx46x00RVyYiLVjmoGVMR9sjZK18nyVoKoKx+j/c3wcRe/H8AALz8yfx8r/m0SnQqUo8YEVTEjxm38ff5OtKpFFEPe8yME7lNpVvmMT9RtCH2Y4g9b8n
+X-Exchange-RoutingPolicyChecked:
+	vHylOJ1pNqv7lpoaK6FU6d2XFyi90tJ1Vr8/sBEj/ZWWgfoqVA9vjHj9atNw6H00UBEW2f8jItQ3BfZ2lz8FrobZMtA+O03d8AvQ//cRTICQgfo2fPobjJfKUeNLmiMo4wAn6ZRwHV7MvJ1W4Ezj5Gmxk+noUPW41iuLQ5xWmUynhxSpwngl7qmfGSvS7Thj2qREPANrHAZM+5VZ2Pn72lLwh6EA9uvUhIYE59JXK8rE6MuSoUoLPQPjDTxij6A1lb5bdbCeZhEbVzS6y/HuxnNNmYHmGz6pmOEnE70YqgFEBtVgtbymLaSNLCFfseKfc0MVZlAIAxOnxnlalmtlkw==
+X-OriginatorOrg: juniper.net
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 01:35:03.7217
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 557ac903-0f1a-4a02-d99f-08df1e930d16
+X-MS-Exchange-CrossTenant-Id: bea78b3c-4cdb-4130-854a-1d193232e5f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bea78b3c-4cdb-4130-854a-1d193232e5f4;Ip=[66.129.239.19];Helo=[juniper.net]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B077.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR05MB10210
+X-Authority-Analysis: v=2.4 cv=H9tOUOYi c=1 sm=1 tr=0 ts=6abc674b cx=c_pps
+ a=mi0BVYrBcfLCPOxFm7cYqw==:117 a=SKdRtqzh2DBFgDMvUaaGnA==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10
+ a=f7IdgyKtn90A:10 a=rhJc5-LppCAA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=gQcMVamqm3wCPoSYhaRC:22 a=NCWKwCw8Xy9Og0ibBRsL:22 a=VwQbUJbxAAAA:8
+ a=OUXY8nFuAAAA:8 a=V-E1HRFuWMMkLzhyDk4A:9 a=cAcMbU7R10T-QSRYIcO_:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTMwMDAwNSBTYWx0ZWRfX+Z3CTGhO9yEM
+ eDnMnqXoug3q+g4BsRijVSnSyYsbaLVe3xGiUANIG2PJjeelhBSMhjR/dgf86d6VD/ZLa1d10o2
+ 5hasrqCDs1s92MknfA9ULYxz6S/uC7bFffC03+kGxpHJh4sjQ3RyxPHu+qgiW459DbuWZWwilj0
+ is6QYR1l3wHRigLLIJiOFp0poG8jyNv9muKE2rcWluZb1VOF/CHAwJMAhBoKMwB9L6WbKPoJXHP
+ O4iWd3McnpiF/3D6X42BjQqwzP2CYEGHMnDAxUJh8+DO6I3QrCbnzBeO/9QMgBZ0FTgOB2ibMAo
+ thHpL9I2DHYrQx8fY2ZMcPvolrdlHkGCptEnp6UnCF/mjYAjmzbwWXRJty3hkyu+8GTpbWh1D+6
+ zjn0aPDgURZk77SNS59zDs7/Bnj3VQPAM03m25LWckcUUJ+XBd6DcNlqXZJx0BWBkiZ7044tW7/
+ rqtXCf004H+/DBPvKbw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTMwMDAwNSBTYWx0ZWRfX/miDV9qYI2Aj
+ BM4d9Xd0Xet73jUm5F8tRCqdXnfbUYvzxIxYHy4H22iMpQMHgQfgmTPLA0uDCjA6ps+HazTwleR
+ bcA/50tDQwRs6aIrtwEodNYSBcZSY4E=
+X-Proofpoint-GUID: fyFz1czmHUa6E1wy98L6SbC_rKpDNlvz
+X-Proofpoint-ORIG-GUID: fyFz1czmHUa6E1wy98L6SbC_rKpDNlvz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-29_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Reason: orgsafe
+X-Proofpoint-Spam-Details: rule=outbound_safe policy=outbound score=0
+ phishscore=0 suspectscore=0 adultscore=0 malwarescore=0 bulkscore=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 lowpriorityscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=orgsafe scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609300005
 
-From: Christoph Schlameuss <schlameuss@linux.ibm.com>
+Thanks Ard and Sebastian for the comments.
 
-[ Upstream commit 7816e58967d0e6cadce05c8540b47ed027dc2499 ]
+>Please don't respond to questions by respinning the patch without
+>having any discussion at all.
 
-This change rejects the KVM_SET_USER_MEMORY_REGION and
-KVM_SET_USER_MEMORY_REGION2 ioctls when called on a ucontrol VM.
-This is necessary since ucontrol VMs have kvm->arch.gmap set to 0 and
-would thus result in a null pointer dereference further in.
-Memory management needs to be performed in userspace and using the
-ioctls KVM_S390_UCAS_MAP and KVM_S390_UCAS_UNMAP.
+Noted, and apologies for sending v4 without first finalizing the v3
+discussion.
 
-Also improve s390 specific documentation for KVM_SET_USER_MEMORY_REGION
-and KVM_SET_USER_MEMORY_REGION2.
+>I asked you an honest question, and it seems Sashiko spotted an
+>issue here too.
+>Is there a problem with how the current code deals with uid and gid
+>on a remount?
 
-[ Backport to 6.6.y: omitted KVM_SET_USER_MEMORY_REGION2 documentation
-  because that ioctl is absent from 6.6.y. ]
+No, I checked and did not find a problem. I mentioned this in my
+response to your query on v3:
+https://lore.kernel.org/all/20260925113145.7396-1-singhpra@juniper.net/
 
-Signed-off-by: Christoph Schlameuss <schlameuss@linux.ibm.com>
-Fixes: 27e0393f15fc ("KVM: s390: ucontrol: per vcpu address spaces")
-Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Link: https://lore.kernel.org/r/20240624095902.29375-1-schlameuss@linux.ibm.com
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-[frankja@linux.ibm.com: commit message spelling fix, subject prefix fix]
-Message-ID: <20240624095902.29375-1-schlameuss@linux.ibm.com>
-Assisted-by: LLM
-Signed-off-by: Artem Dinaburg <artem@trailofbits.com>
----
-Hi Greg, Sasha, and kvm s390 maintainers,
+>This until the end looks extremely verbose.
 
-I am working through the small CVE backports still missing from 6.6.y.
-This one addresses CVE-2024-43819. It rejects memory-region ioctls before a
-ucontrol VM can dereference its NULL gmap.
+I can drop the strace data from the commit message if that reads
+cleaner; I had included it to highlight the issue.
 
-I (sadly) do not have an s390 to run the fix, but it built and the adaptation
-makes sense.
+>could this be, I don't know something smaller not including the
+>commandline where I would expect that people know how to use it.
+>
+>===================     =========================================================
+>(no)statfs              Control whether ``statfs(2)`` reports the variable-store
+>                        used/ available. Disabling it skips the EFI runtime
+>                        service call, which might block the CPU for a few milliseconds,
+>                        reporting 0 for used and capacity. Enabled by default on
+>                        PREEMPT_RT.
+>===================     =========================================================
+>
+>It might make sense to add this knob to Documentation/core-api/real-time/hardware.rst.
 
-The fix is already present in 6.12.y, 6.18.y, and 7.2.y, but not in 6.6.y.
-This fix also affects 6.1.y, which will need a separate backport; this
-submission contains only the 6.6.y patch.
-The target-specific adjustment is recorded in the bracketed note above.
+Thanks, I will use this wording and move it to
+Documentation/core-api/real-time/hardware.rst.
 
-Could you please queue it for 6.6.y?
+>Here and below you add a comment to every change you make. What about
+>focusing on the important parts, that deserve an explanation why a
+>change has been made. For instance why nostatfs has the READ_ONCE/
+>WRITE_ONCE accessors and sometimes it does not.
 
-CVE: CVE-2024-43819
-Upstream: 7816e58967d0e6cadce05c8540b47ed027dc2499
+Apologies, that was a miss on my part, and I saw that sashiko-bot
+flagged it too. I wanted to gather any additional comments before
+addressing it.
 
-AI assistance: An LLM helped identify, adapt, and validate this backport; I
-reviewed the resulting code and validation evidence.
+>Yeah the most severe issue is that entering SMM requires a rendez-vous
+>of all the cores, and so whether preemption is enabled or not is
+>actually kind of irrelevant, given that all the other cores just
+>disappear.
+
+Yes, I observed the same behavior. I was not sure whether this is
+x86-specific, so I refrained from mentioning it in the commit log.
+
+>Right. So if anything, there could be a data_race() in one place
+>instead inconsistent READ/ WRITE once as we have it now.
+
+I would use data_race() on the write for nostatfs. Please let me know
+if the below looks OK:
+
+    /* nostatfs is read locklessly by statfs()/show_options(); the racy update is benign. */
+    data_race(sfi->mount_opts.nostatfs = new_sfi->mount_opts.nostatfs);
 
 Thanks,
-Artem Dinaburg
-
- Documentation/virt/kvm/api.rst | 6 ++++++
- arch/s390/kvm/kvm-s390.c       | 3 +++
- 2 files changed, 9 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 21a7578142a18b..0f7177c7653bd3 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -1363,6 +1363,12 @@ Instead, an abort (data abort if the cause of the page-table update
- was a load or a store, instruction abort if it was an instruction
- fetch) is injected in the guest.
- 
-+S390:
-+^^^^^
-+
-+Returns -EINVAL if the VM has the KVM_VM_S390_UCONTROL flag set.
-+Returns -EINVAL if called on a protected VM.
-+
- 4.36 KVM_SET_TSS_ADDR
- ---------------------
- 
-diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
-index cf075a89342263..97b436ae0012c5 100644
---- a/arch/s390/kvm/kvm-s390.c
-+++ b/arch/s390/kvm/kvm-s390.c
-@@ -5769,6 +5769,9 @@ int kvm_arch_prepare_memory_region(struct kvm *kvm,
- {
- 	gpa_t size;
- 
-+	if (kvm_is_ucontrol(kvm))
-+		return -EINVAL;
-+
- 	/* When we are protected, we should not change the memory slots */
- 	if (kvm_s390_pv_get_handle(kvm))
- 		return -EINVAL;
--- 
-2.39.5
-
+Prashant
