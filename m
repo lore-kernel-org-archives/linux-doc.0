@@ -1,170 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326AA4D90B7
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 12:58:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAE24CB8AB;
+	Wed, 30 Sep 2026 13:40:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790773104; cv=none; b=HnYKfHzbrKiVcQ7+GXKLLFYGoAG9jqvHLKvT6Bd4g3QvvUptKFupJclq0+iL3zKY1JOqTWSNmwG8yly5auCBpCqR7d+BDC9lq+vAZvUCXq167VsiC6s9D+GT14X5/7aR7UFDmF7pqlw9FxUcptD52jmboQqcB6MXfd4XPxBg1/I=
+	t=1790775636; cv=none; b=AzxdTmPqw9DytqBcm4Dze7ouVSATD+Dslk1QS9cEttRC/pMDMhv4kol23zRG4kRHCGDO6KOnHJUNB6NDGvdpHsEwEg60dHUDAhO0pEKnysjDueKZbtdui4anrmsV6zeXfARJI31Kf0VWSESeJ8/eKVTgv1kJiIDha17WDc87kQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790773104; c=relaxed/simple;
-	bh=rZtgfYv2AO/zXiME8s9cxVQxA8YtBrtrul1J15Yqh6U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iTODioTxRHTDN2L/r96BsVrcz5UDYMjo6PaOGo/Z9pvHqDOrvoIbuBG16Fo5Q2QFQNNagdwhE3KI4XJDQQj0fwYmLJcdEsByrNagfCJurjHBBtsnOTwULndvo8+9hvhDToZE9vMkN+lKeWrOMNsjOArg9VwTMoDEVoLe2iII6tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sp5FnBXt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790775636; c=relaxed/simple;
+	bh=uzHGM/3maVkIGwCJuKvC/PNaFcYXYyU6EAt9CwiwkGY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=kljH8SepuIueXoJyaVYI47jm/xyuxAC+ERzGbuYaP2IVqaCVmq/RXoYxL0egxZDPVJUFWZG1TF9+xK59TMPeEqRvPnazTWgSrXodaIMGNbfw5A0vatd6BRuy460dkJEaWEjMTXSG1FArC4UBgF/pHTfF1jm36h8J6fQUkHuV9V4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XKtt4/A5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sp5FnBXt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E87C1F000FF
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 12:58:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XKtt4/A5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 607161F000FF;
+	Wed, 30 Sep 2026 13:40:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790773100;
-	bh=4R7QyzFU4jTnN6KZN+qcbI1ITL23TDjJrOjMQnK+HN0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Sp5FnBXt/plkqGRy1LSUTeI5QP3TY75xFol2CjTifZzxgOE+Iwma2HkBoDSDipYiT
-	 tGdhLACm/9pws0BKK81u08zgmk6g6C+FR7Iz/HSkkFONz9OrumVPf/3fFRtpXYwTl7
-	 mlIYVcTfV+TjOtrM4l6EXT6scsemvGOxAuTlsnYxwA+FzjnO5dSkb8RsVLYVeZm5iw
-	 b0Gqi0tXSAihuw5y0mvtLU1zKWY7VUhqoJYCHvTiMD+SEhIm7O1ytd4EmffYOI0Llj
-	 PEnZ4iIY/mOjxLeyV/AjF/rp0rlGXO+1Uv64w1Cm0kc+1xn2esD1lKRbbohzDczswo
-	 braUflZTXnmKQ==
-Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a6124046f0so45209001fa.3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 05:58:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzdNmf9Mkwj+/aPKKl8s+66zAPFEf5pQV4a80biZeK/ZgJfB/IyqwXbv0+hC7YqUUeNsYngajyAeZ4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIADodgUIF/o20SfEJwwt5zeHEj/A0RykqM7vvFEvoc4vT0jqAe
-	QstI+iEdIklp8bV3dkF57XMlEQAsBoVeutMlN46sr7mZSiMgdDPcpgPeM9VeD2tkm0aoPzgEHRJ
-	M3uAQDWMUf8nBtDfOadK3cbf60HZRD4g=
-X-Received: by 2002:a05:651c:3241:b0:3a6:67d9:af17 with SMTP id
- 38308e7fff4ca-3a779224357mr4250621fa.12.1790773098770; Wed, 30 Sep 2026
- 05:58:18 -0700 (PDT)
+	s=k20260515; t=1790775620;
+	bh=zbkUDNwMgnqGHrbog0cra0S8SRCtAdGfYKEuqQ54rHU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=XKtt4/A5r/NkfGSvjGsvCW5EFKALT4VUt/RHVBjfHu+gJmFaF8/SWNcnrhlmbywAS
+	 ifcqRGWYrmSjygRyyrsTfwOoN2bR2RY4k37nRTO86Fe/6ZQMJmouyYQepITjzW/tLt
+	 an92bB88qaT5hqoqilJyvJmu9fzkThXkvwq+yIw2k0S/X/1iXOxZ7uRrI2+wOdRlWG
+	 gg5IBr0eTLWXVU78MxgA3y+//L0MbFHibkUIsEBDi1XKQOlJjPlbCAIAprCWNyzfu2
+	 N4dBImdVO92xInyLowtE5Vy0a5O3aWxh1xfY0cTW7PyFmz5QQNqBm+piNDE9yfYwhg
+	 ZZSNukz9/nwOQ==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Luis Augenstein <luis.augenstein@tngtech.com>, 
+ Maximilian Huber <maximilian.huber@tngtech.com>, 
+ Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Pratyush Yadav <pratyush@kernel.org>, Alexander Graf <graf@amazon.com>, 
+ Willy Tarreau <w@1wt.eu>, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+ Nicolas Schier <nsc@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Askar Safin <safinaskar@gmail.com>, linux-doc@vger.kernel.org, 
+ kexec@lists.infradead.org, linux-mm@kvack.org, 
+ linux-kselftest@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+In-Reply-To: <20260928-move-gen_init_cpio-to-scripts-v4-0-f437a33c40ac@kernel.org>
+References: <20260928-move-gen_init_cpio-to-scripts-v4-0-f437a33c40ac@kernel.org>
+Subject: Re: [PATCH v4 0/2] Move tool for generating initramfs cpio to
+ scripts/
+Message-Id: <179077560598.3184845.8880862675609960141.b4-ty@b4>
+Date: Wed, 30 Sep 2026 15:40:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260930025044.104824-1-briannorris@chromium.org>
-In-Reply-To: <20260930025044.104824-1-briannorris@chromium.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 30 Sep 2026 14:56:34 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0i-xqbWniqWKyVbxVLVtoYDHcRfAdamGW2OkvvOm14Www@mail.gmail.com>
-X-Gm-Features: AclHuK9KMt3PbkIr8TeO0dsSVJCSy3r0lAsA67o9HxEJBJtWEfvyvGCvOEsCYfs
-Message-ID: <CAJZ5v0i-xqbWniqWKyVbxVLVtoYDHcRfAdamGW2OkvvOm14Www@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] PM: runtime: Overhaul kerneldoc, runtime_pm.rst docs
-To: Brian Norris <briannorris@chromium.org>
-Cc: Pavel Machek <pavel@kernel.org>, Doug Anderson <dianders@chromium.org>, 
-	Ulf Hansson <ulfh@kernel.org>, linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1195; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=uzHGM/3maVkIGwCJuKvC/PNaFcYXYyU6EAt9CwiwkGY=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDFl7BS33Hd+UGvve0kZKZXb3b+nkhL8/ZL9esLiXa6xya
+ v0x49U3O0pZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBEPioy/NNPOlPA9cZP+FZm
+ WdDsvrtCQplpXb/C83d5LD07//GadGVGhqs7v7rem/Z96nyOPVe/fK5Nf7Jo0d+HUju3xd+vdmE
+ 8H8wIAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Wed, Sep 30, 2026 at 4:51=E2=80=AFAM Brian Norris <briannorris@chromium.=
-org> wrote:
->
-> The runtime PM documentation could use some improvements and additions,
-> to help guide people less familiar with the main runtime PM concepts and
-> its internal implementation details.
->
-> v1 is here:
-> https://lore.kernel.org/all/20260904212000.4167880-1-briannorris@chromium=
-.org/
->
-> v2 is here:
-> https://lore.kernel.org/all/20260923174711.1283986-1-briannorris@chromium=
-.org/
->
-> The first part of the v1 series has already been applied. For the
-> remaining work:
->
->  - Formatting and clarity improvements.
->
->  - Clarifying core concepts in the Introduction. (Pretty much all new
->    readers I encounter have a hard time with the difference between
->    "enabled", "allowed", and "active".)
->
->  - Adding Example driver patterns -- because the API is so large and
->    complicated, it can help to try to walk people through standard
->    practices, and what everything means in context.
->
-> I tried to keep some of the larger changes toward the end, to hopefully
-> make it easier to rework or reject them while cherry-picking some of the
-> easier stuff from the first part of the series.
->
-> Feel free to add suggestions! Within reason, I'm open to tackling more
-> here, as I think many people have many valid perspectives on exactly why
-> and how the docs do or don't serve people well today. Or I can tackle
-> less, if you think some of my choices are not improvements.
->
-> Some possible follow-ups I'm toying with:
->
->  * Slimming down the API might be better than heavily documenting it. A
->    smaller API is a more digestible API.
->
->    My only concrete next step: drop __pm_runtime_put_autosuspend(). Its
->    last user is nearly gone:
->    https://lore.kernel.org/all/20260806-smmu-rpm-v4-1-8183d007331c@oss.qu=
-alcomm.com/
->
->    I could also see deprecating one of
->    pm_runtime_put_sync{,_suspend,_autosuspend}(). They all do slightly
->    different things, but I'm not sure every difference is actually fully
->    intentional (or at least, not necessary).
->
->  * Tweaking some of the behavior on pm_runtime_barrier(). Today, it's
->    very asymmetric, as it prefers resume. But I believe there may be
->    value in making it flush (not just cancel) pending suspend too. That
->    may be in a future proposal; for now, I just try to make its
->    asymmetry more clear in the docs.
->
->  * Sand down some more rough edges on return codes. For example, it's
->    very difficult to get any useful meaning out of pm_runtime_put_sync()
->    return codes. There's a high chance that anyone trying to treat
->    return codes as errors is inviting bugs. (Is -EAGAIN a failure?)
->
->    Of course, the answer there is not "document it better" -- we can
->    make it easier to use.
->
->  * Adjust the way devm_pm_runtime_enable() works, specifically for
->    remove()/teardown. Currently, this is very hard to use correctly --
->    some common driver patterns may assume that a device will tear down
->    while RPM_SUSPENDED; but that's not actually guaranteed. Notably,
->    this makes some of the "Examples" section fairly tricky/subtle.
->
-> Regards,
-> Brian
->
-> Changes in v3:
->  * Misc formatting improvements
->  * Rewrite Examples to avoid devm_* at first, to highlight correct
->    approaches
->  * Include error-handling and remove() in any probe() Examples
->  * Advise more caution when using devm_*, as ordering issues are subtle
->
-> Changes in v2:
->  * Major rework on Introduction section, especially regarding "enabled"
->    and "active"
->  * Add appropriate teardown to "Probe with Hardware Powered Off"
->    Example, as the remove() + power-off behavior is subtle here, and
->    easy to get wrong
->  * Drop changes that are already applied
->  * Add a few new fix patches, noticed while reviewing the rest
->  * Move Introduction patch near the end of the series, as it is a likely
->    target for further discussion and modification.
->  * Correct Ulf's email address
->  * CC linux-doc
->
-> Brian Norris (8):
->   PM: runtime: Correct pm_runtime_autosuspend_expiration() doc
->   PM: runtime: More kerneldoc formatting
->   PM: runtime: Misc improvements to runtime_pm.rst
->   PM: runtime: Add "Section" hyperlinks
->   PM: runtime: Clarify ->runtime_idle() callback return value handling
->   PM: runtime: Clarify driver callback expectations and structure
->     Section 2
->   PM: runtime: Expand introduction with core concepts and structure
->   PM: runtime: Add Example Driver Patterns section
+On Mon, 28 Sep 2026 19:26:56 +0200, Nicolas Schier wrote:
+> Move tool for generating initramfs cpio to scripts/
+> 
+> initramfs cpio tools had been subject of several recent discussions on
+> linux-kbuild.  Let's get two minor steps forward by enabling a
+> top-level target for building gen_init_cpio w/o the need of a valid
+> kbuild configuration [1] and move the tools for generating the built-in
+> initramfs from usr/ to scripts/ [2].
+> 
+> [...]
 
-Patches [1-6/8] are fine with me now, so applied (as 7.4 material).
+Applied to
 
-I will send comments on patch [7/8] separately and the last one is
-still under review.
+  https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git kbuild-next-unstable
 
 Thanks!
+
+[1/2] kbuild: Mark usr_gen_init_cpio as no-dot-config-target
+      https://git.kernel.org/kbuild/c/14e2c1f5431a0
+[2/2] kbuild: Move gen_init_cpio and gen_initramfs.sh to scripts/
+      https://git.kernel.org/kbuild/c/33bef82263082
+
+Please look out for regression or issue reports or other follow up
+comments, as they may result in the patch/series getting dropped or
+reverted. Patches applied to an "unstable" branch are accepted pending
+wider testing in -next and any post-commit review; they will generally
+be moved to the main branch in a week if no issues are found.
+
+Best regards,
+-- 
+Cheers,
+Nathan
+
+
