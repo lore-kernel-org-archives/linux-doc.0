@@ -1,209 +1,340 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8C93C10BF;
-	Wed, 30 Sep 2026 19:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8AF3D1A97
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 19:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790794885; cv=none; b=tD1mKiJQrv+1Dv5F3ZBXK7MRzjHav9YP9VV2S7se7YQeByWpDf1yG8XCOJFHQFj2jg5o/yres8sCV2l+AYuqwgE1QhvSFSGVZ0/os9Z9jUN6QlE3C2Y5MAY/CiZDKvCjRFWaStPiaeXtddY1caCtMfU9F6B1lKguuJ+cNLHEbX8=
+	t=1790795685; cv=none; b=e2gO83/Zttby2G8bWvMTQGcSdiRD0oJou0XCJ12BIeOdgiP7KsIFHw83cNJiXXCsAjY37pZGoQxC+uCRX7lQ4chig1VWWvEURArTtwALzKIXUHEkS4xB3muSs4Bx5pxTIKDF9k+JR0yefh+HdxLDlGaWXpLVHEgMzDSuyOKy/hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790794885; c=relaxed/simple;
-	bh=KjIuQEjLYXT0dJKTl5NO8AML+BaDM/a1zdfKbin2LF0=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=mct5/4yI/NnWHChDBNtFaEXnN5LpjyjDVEbR0XD58SKs0dPRxgYrNcGTsZU5V+EFaKBPUeTFwnYcwqrZav2R5nM3SVdDasjMyD0aa22OTb79l9iUmi8hhIg2xIWx/oudPDIMb5hTtwlvjzuwKPevI7khrDY78n5Fl5K1XVpwZSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=AfOugEP9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790795685; c=relaxed/simple;
+	bh=Q2dfVBTA5NMWKcswYwtN7KVP6XuDzsX/wflSVX+jOE0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fQV1V4GKjeeZ1qW+9RB/4WgAt0lKdxX0rzSZShA05e7+wTINU9RRvjrw7ILJI6hGc8vRKDxKW8KkM5GIlGJZefNKG5S2j+vm9EUDtCNSspuOBo19UfSR/cJx03etkkvdxTPhnF2Eq5uH3D/DMtQ+GPJVQES+0okz6KMbcQ5rCvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hYIYDNri; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="AfOugEP9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 617E41F008A1;
-	Wed, 30 Sep 2026 19:01:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hYIYDNri"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e6598dd44so36137195e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 12:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1790794872;
-	bh=XZ9p+0TXsTapVE0fUDcxcrxFDfTJp6cr+bt+UngMYk0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=AfOugEP91NYVCmPmVOD6zXRVsG4tpdYvKHH57PQ0NhP32hoFVSp1mwVpKuJGcbMxk
-	 IVSyP/V5SJfJtM+kNKQQES/oP7r4sOtjDeBVT04Y6h8Pa9lfdAvwu2qn4YVNUMYTjK
-	 xoz1+LkQVNjPzQr88ZznUqCs7RO5t9ViwPP+3GVQ=
-Date: Wed, 30 Sep 2026 12:01:10 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Muchun Song <songmuchun@bytedance.com>
-Cc: David Hildenbrand <david@kernel.org>, Oscar Salvador
- <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman <mpe@ellerman.id.au>, Jonathan Corbet <corbet@lwn.net>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org, Muchun Song
- <muchun.song@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Qi Zheng <qi.zheng@linux.dev>, Nicholas Piggin
- <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, Ritesh Harjani
- <ritesh.list@gmail.com>, Shrikanth Hegde <sshegde@linux.ibm.com>, Randy
- Dunlap <rdunlap@infradead.org>, Lance Yang <lance.yang@linux.dev>
-Subject: Re: [PATCH v6 00/12] mm: Switch device DAX to section-based vmemmap
- optimization
-Message-Id: <20260930120110.3ace5f23b7530e179272fac4@linux-foundation.org>
-In-Reply-To: <20260930140627.57431-1-songmuchun@bytedance.com>
-References: <20260930140627.57431-1-songmuchun@bytedance.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=gmail.com; s=20251104; t=1790795682; x=1791400482; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3zvnjS+dlt0/FohVtWMLLifkmnbfEBWCuLKr0ZvxY+U=;
+        b=hYIYDNriyQ3AnHHb+2UBj1PB6Us/F9FjlYIha3oFGg0YBbxWs0Exi/9OFNUuLhLb4x
+         UAM2Q5qIIt8Ga5lD1OOIrdWTbbKY4zF6Xwo/YoubEW3aB8gZxcgG/OjI4ZxptuFYpeC8
+         0bxVb2RJZ8xQsnd7lp88d4RSLdajCfJYwoTKxiAlPLI1YKXXiWRKgAmqjQmHdsnT87Fq
+         HTcAvARKTJPFTVLTDOPny3PaE5bA8sy1b9t/Dpwgj9WrQCvApKMxXPtT+1eNaTcdHotX
+         y3RfJW+381Y0bP3Axuyl0xTJ2p4XN8/0mJpgHU/aBbqlN2QNNoz1qjJgq7sCnDYnwLhb
+         T35A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790795682; x=1791400482;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3zvnjS+dlt0/FohVtWMLLifkmnbfEBWCuLKr0ZvxY+U=;
+        b=XT/FgvVoTu3hRr4dYGL2FG237MhfZRJVUNSAlPg+kmQXICHRa2XQd2dS9Q8eV+aGze
+         ikFOgZvaJjA94rljJMk6ufNMFKKyZXEOnZ9Di0+ja06ViJpkZBVonhNL28q4NKVJdCLl
+         CDlYfJXd0IM7WoZlVeMLwGzpUYR5Pgi/9LHoJ9DoL/euea5bfJ+PO+6jQmc/633+MdTz
+         3oShSmMShR2YMOhWBgPpe0VdsLw0V3mVeHJuzHxlpICWqIZAkDqBARVxatVmSDtRAUrn
+         q8+/VS8K4S8xw+135fCRdBoJX8gfW8qhOxM/JinuE6ihU7jFfHBfEsGFFK+swoatemi+
+         u0FQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzGY6K6eEFFlRRq+IJXE1mWXY2EERPsaUZJ30Jhas/qZ8DBbfsAAkNmCvMI9TS1HhvTS2+S3z825gQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++mV39+oso6er5H7F/XH76LlfL6KNb2RYOJol13xOMvPuVcbr/yv
+	gkSJDSdV2iH41CAXk7eLJZunJnyb8ZsMsBHX++wEx8SBxaHUIsJnOYZ3
+X-Gm-Gg: AYBFou0eE77GTZ9Y6djwTmoVkq6Ay2xcgYK6w5Ju+DRn9HJQ/FzQ63z3794QRZUlqSj
+	N7ecJXqBRpDEmsNCdIM+IsrZ03bJ4o4RUM8REmma2Rmz4pmem8NSWSMf/s+REzzSgkajWcAg+d9
+	8G7Fc1DBia0HpfRO4ajtY/tRblyDNkl+ueFUpfKRnsf6m8IRgDWvZ12v1sLu53d4V2kgfB78F3R
+	/gDeuQMWQjIlxFLCjGF4Y1FYEkOz+Bg5alULvzvyfOXajQ2rsmOCIGUg53XQyJ6PHGDALX+C2TU
+	2JyZPU+ElaweWrkjPWvdc1tKd8LKMeFGw8nofuawvyG7n7sziskRkjukSz+kf6uym0L1UUzJ7wf
+	ehf9tPYi1yqOFRi8gnQcDoaAe0guSJzJQFShdqUFuwOVJlXn2QmECOQkpav2wInm+ioPgMPm4gg
+	C8ATZE5TfrSb3sUGoyu1knUUS5I6041TrdlHMgchYaBU6SAqoS2sC6OLqvQXgnpvU9hAhiqShU2
+	6uO5JM9/SaYmY2rKMx85UTNbNBPNHkEhVQqJchi5Kp0DpNdlyoIrzmRdzcjnMqc81O2pyVM8TRW
+	f9mv65AHrXfhLFuFqRB6oqaoz3OI+li6bflj8DpEefGWoCeqCUel9vt4IpEb47q1bY3H4Hou5Lv
+	c
+X-Received: by 2002:a05:600c:4445:b0:4a0:1b14:e845 with SMTP id 5b1f17b1804b1-4a01b14e85dmr40903785e9.2.1790795681430;
+        Wed, 30 Sep 2026 12:14:41 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-b2b3-0101-b51c-a607-3dcc-3979.310.pool.telefonica.de. [2a02:3100:b2b3:101:b51c:a607:3dcc:3979])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01f9145e6sm4184065e9.5.2026.09.30.12.14.40
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 30 Sep 2026 12:14:40 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bradley Morgan <brads@mainlining.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH v5] softirq: Preserve interrupt context during IRQ exit
+Date: Wed, 30 Sep 2026 21:14:32 +0200
+Message-Id: <20260930191432.62760-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 30 Sep 2026 22:06:15 +0800 Muchun Song <songmuchun@bytedance.com> wrote:
+On the return from interrupt path, __irq_exit_rcu() removes
+HARDIRQ_OFFSET from the preemption counter at the very top of the
+function. Everything after that reports the current context as task
+instead of hard interrupt. The code in the function itself, such as
+invoke_softirq(), is aware of this and does not rely on the counter.
+Everything else which derives the context from preempt_count gets it
+wrong in that window:
 
-> This version is based on mm-new commit a878c908dc92.
-> 
-> This series is split out from the earlier, larger series "mm: Generalize
-> HVO for HugeTLB and device DAX" [1]. While the parent series generalizes
-> vmemmap optimization across HugeTLB and device DAX, this subset addresses
-> a single, self-contained step: switching device DAX to the section-based
-> sparse-vmemmap optimization infrastructure introduced for HugeTLB.
-> 
-> After the HugeTLB conversion, optimized vmemmap state is described by
-> the memory section and the sparse-vmemmap population path can allocate or
-> reuse shared tail vmemmap pages based on that metadata. Device DAX still
-> uses the older DAX-specific population model, including a separate tail
-> vmemmap page reservation and architecture-specific logic to locate or
-> populate reusable tail pages.
-> 
-> This series makes device DAX use the same section-based model. Device DAX
-> records the compound page order from pgmap->vmemmap_shift in section
-> metadata before vmemmap population, uses the common per-zone shared tail
-> vmemmap page, and drops the extra reserved tail page. The powerpc radix
-> path is updated to use the same shared tail-page helper, so the generic
-> and powerpc DAX paths follow the same reservation model.
-> 
+  - ftrace, perf and the ring buffer record task context and use the
+    task recursion and context slots.
+  - KCSAN attributes the accesses to the interrupted task, KMSAN uses
+    and changes its state. KCOV and the printk caller id see a task.
+  - On PREEMPT_RT can_spin_trylock() and local_trylock() reject hard
+    interrupt context to avoid interfering with PI when the interrupted
+    task is blocked on a lock. That check does not reject calls made in
+    this window. BPF programs attached to sched_waking or sched_wakeup
+    can reach it through kmalloc_nolock().
+  - An oops kills the interrupted task instead of ending in "Fatal
+    exception in interrupt".
 
-Thanks.  I updated mm-unstable to this version.
+Tracing and the sanitizers see the wrong context in this window. No
+failure caused by this misclassification is known. The early removal of
+HARDIRQ_OFFSET predates git. lockdep is not affected because
+lockdep_hardirq_exit() is the last operation in irq_exit().
 
-> 
-> v6:
-> - Use try_get_page() to prevent the shared device DAX tail-page
->   reference count from overflowing (suggested by Andrew Morton,
->   reported by Sashiko)
-> - Move constant declarations to the top of their functions and fold
->   the shared tail-page array lookup into vmemmap_tails() (suggested by
->   David Hildenbrand)
-> - Clarify the DAX population flag description and why optimized tail
->   pages must not be poisoned (suggested by David Hildenbrand)
-> - Collect Acked-by tags from David Hildenbrand
-> - Rebase onto mm/mm-new
+Keep HARDIRQ_OFFSET until right before tick_irq_exit(), which needs
+in_hardirq() to be false for the outermost interrupt. Softirq handlers
+must not run with HARDIRQ_OFFSET set, so softirq_handle_begin() replaces
+it with SOFTIRQ_OFFSET and softirq_handle_end() reverts that, each in a
+single raw preempt_count update. The raw operations keep the preemption
+disable location recorded by irq_enter_rcu(), and lockdep is updated by
+hand. softirq_handle_begin() detects the case with in_hardirq() because
+__do_softirq() is reached through the stack switch in
+do_softirq_own_stack() and cannot take an argument.
 
+The checks run before HARDIRQ_OFFSET is removed. !in_interrupt() becomes
+irq_count() == HARDIRQ_OFFSET, as in irq_enter_rcu(). The timer thread
+check becomes (in_nmi() | hardirq_count()) == HARDIRQ_OFFSET. It does
+not test softirq_count(): the timer thread must also wake when the
+interrupt hit softirq processing or a section with BHs disabled.
+A softirq raised in the timer thread wakeup is handled by the timer
+thread, which handles all pending softirqs.
 
-Here's how v6 altered mm.git:
+A softirq raised from a tracepoint on the final preempt_count_sub()
+waits for the next interrupt exit and can trigger NOHZ tick-stop
+warnings meanwhile. That is not the normal path and does not justify a
+check on every interrupt exit. A tracepoint on tick_irq_exit() already
+behaves the same way.
 
+The number of preempt_count updates and the interrupt time accounting
+are unchanged. The preemptoff tracer now reports the interrupt and the
+softirq processing on top of it as one section, and function graph with
+nofuncgraph-irqs also skips the interrupt exit work, including the
+__do_softirq() frame.
 
- arch/powerpc/mm/book3s64/radix_pgtable.c |    8 +++--
- mm/sparse-vmemmap.c                      |   32 ++++++++++++---------
- 2 files changed, 25 insertions(+), 15 deletions(-)
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Link: https://lore.kernel.org/r/20260813130826.GW687043@noisy.programming.kicks-ass.net
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Reviewed-by: Bradley Morgan <brads@mainlining.org>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
 
---- a/arch/powerpc/mm/book3s64/radix_pgtable.c~b
-+++ a/arch/powerpc/mm/book3s64/radix_pgtable.c
-@@ -1042,13 +1042,17 @@ static pte_t * __meminit radix__vmemmap_
- 			/*
- 			 * When a PTE/PMD entry is freed from the init_mm
- 			 * there's a free_pages() call to this page allocated
--			 * above. Thus this get_page() is paired with the
-+			 * above. Thus this try_get_page() is paired with the
- 			 * put_page_testzero() on the freeing path.
- 			 * This can only called by certain ZONE_DEVICE path,
- 			 * and through vmemmap_populate_compound_pages() when
- 			 * slab is available.
-+			 *
-+			 * Use try_get_page() to prevent the shared page refcount
-+			 * from overflowing.
- 			 */
--			get_page(reuse);
-+			if (!try_get_page(reuse))
-+				return NULL;
- 			p = page_to_virt(reuse);
- 			pr_debug("Tail page reuse vmemmap mapping\n");
- 		}
---- a/mm/sparse-vmemmap.c~b
-+++ a/mm/sparse-vmemmap.c
-@@ -170,10 +170,14 @@ static void * __meminit vmemmap_alloc_bl
- #ifdef CONFIG_VMEMMAP_OPTIMIZATION
- #define VMEMMAP_OPTIMIZATION_NR_ORDERS	(MAX_FOLIO_ORDER - VMEMMAP_OPTIMIZATION_MIN_ORDER + 1)
+Notes:
+    Changes in v5:
+    - Timer thread wakeup: merge the NMI test into the hardirq test,
+      (in_nmi() | hardirq_count()) == HARDIRQ_OFFSET (Sebastian).
+    - Add Sebastian's Reviewed-by, given on v4.
+    - Rebase on v7.3-rc5. The two touched files are unchanged since rc4.
+    
+    Testing: v5 differs from v4 by that one expression. Both forms agree
+    for all 2^32 preempt_count values and at the real site on every IRQ
+    exit in four QEMU boots (arm64, arm32; plain and threadirqs; 1.1M
+    evaluations). gcc 15 emits one conditional branch less on x86-64,
+    arm64 and arm32; clang 22 on arm64, and 16 bytes less on x86-64. On
+    v7.3-rc5, base against v5 in QEMU on arm64 (virt, SMP, lockdep) and
+    arm32 (versatilepb, lockdep): boot and stress, nothing on v5 that the
+    base does not show.
+    
+    v4: https://lore.kernel.org/r/20260926143505.66024-1-kmehltretter@gmail.com
+
+ Documentation/core-api/entry.rst | 16 +++++---
+ kernel/softirq.c                 | 65 ++++++++++++++++++++++++++------
+ 2 files changed, 63 insertions(+), 18 deletions(-)
+
+diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
+index 79fdaed954d9..ff3df997b151 100644
+--- a/Documentation/core-api/entry.rst
++++ b/Documentation/core-api/entry.rst
+@@ -197,8 +197,9 @@ return true, handles NOHZ tick state and interrupt time accounting. This
+ means that up to the point where irq_enter_rcu() is invoked in_hardirq()
+ returns false.
  
--static __ref struct page **vmemmap_tails_alloc(struct zone *zone)
-+static __ref struct page **vmemmap_tails(struct zone *zone)
+-irq_exit_rcu() handles interrupt time accounting, undoes the preemption
+-count update and eventually handles soft interrupts and NOHZ tick state.
++irq_exit_rcu() handles interrupt time accounting, handles soft interrupts if
++possible, undoes the preemption count update and finally handles the NOHZ tick
++state.
+ 
+ In theory, the preemption count could be updated in irqentry_enter(). In
+ practice, deferring this update to irq_enter_rcu() allows the preemption-count
+@@ -207,10 +208,13 @@ irqentry_exit(), which are described in the next paragraph. The only downside
+ is that the early entry code up to irq_enter_rcu() must be aware that the
+ preemption count has not yet been updated with the HARDIRQ_OFFSET state.
+ 
+-Note that irq_exit_rcu() must remove HARDIRQ_OFFSET from the preemption count
+-before it handles soft interrupts, whose handlers must run in BH context rather
+-than irq-disabled context. In addition, irqentry_exit() might schedule, which
+-also requires that HARDIRQ_OFFSET has been removed from the preemption count.
++Note that soft interrupt handlers must run in BH context rather than in hard
++interrupt context. irq_exit_rcu() therefore replaces HARDIRQ_OFFSET with
++SOFTIRQ_OFFSET in the preemption count while it handles soft interrupts and
++puts HARDIRQ_OFFSET back afterwards, so that the remaining interrupt exit work
++is still attributed to the interrupt. HARDIRQ_OFFSET is removed before
++irq_exit_rcu() returns because irqentry_exit() might schedule, which requires
++that HARDIRQ_OFFSET has been removed from the preemption count.
+ 
+ Even though interrupt handlers are expected to run with local interrupts
+ disabled, interrupt nesting is common from an entry/exit perspective. For
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 5d02c36c40e3..288e9e37b806 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -350,8 +350,8 @@ static inline void ksoftirqd_run_end(void)
+ 	local_irq_enable();
+ }
+ 
+-static inline void softirq_handle_begin(void) { }
+-static inline void softirq_handle_end(void) { }
++static inline bool softirq_handle_begin(void) { return false; }
++static inline void softirq_handle_end(bool from_irq_exit) { }
+ 
+ static inline bool should_wake_ksoftirqd(void)
  {
--	struct page **pages;
--	const size_t size = array_size(VMEMMAP_OPTIMIZATION_NR_ORDERS, sizeof(*pages));
-+	const size_t size = array_size(VMEMMAP_OPTIMIZATION_NR_ORDERS,
-+				       sizeof(*zone->vmemmap_tails));
-+	struct page **pages = READ_ONCE(zone->vmemmap_tails);
+@@ -481,15 +481,40 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
+ }
+ EXPORT_SYMBOL(__local_bh_enable_ip);
+ 
+-static inline void softirq_handle_begin(void)
++static inline bool softirq_handle_begin(void)
+ {
+-	__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
++	bool from_irq_exit = in_hardirq();
 +
-+	if (pages)
-+		return pages;
++	if (!from_irq_exit) {
++		__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
++		return false;
++	}
++
++	/*
++	 * Only reached from irq_exit(), with HARDIRQ_OFFSET still set.
++	 * Replace it with SOFTIRQ_OFFSET before handle_softirqs() enables
++	 * interrupts. Use the raw operation to preserve the preemption
++	 * disable location recorded by irq_enter_rcu(), and update lockdep
++	 * directly.
++	 */
++	__preempt_count_sub(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
++	lockdep_softirqs_off(_RET_IP_);
++	WARN_ON_ONCE(irq_count() != SOFTIRQ_OFFSET);
++
++	return true;
+ }
  
- 	pages = slab_is_available() ? kzalloc_objs(*pages, VMEMMAP_OPTIMIZATION_NR_ORDERS) :
- 		memblock_alloc(size, __alignof__(*pages));
-@@ -193,19 +197,19 @@ static __ref struct page **vmemmap_tails
- 
- struct page __ref *vmemmap_shared_tail_page(unsigned int order, struct zone *zone)
+-static inline void softirq_handle_end(void)
++static inline void softirq_handle_end(bool from_irq_exit)
  {
--	void *addr;
--	struct page *page, **pages;
- 	const unsigned int idx = order - VMEMMAP_OPTIMIZATION_MIN_ORDER;
-+	struct page *page, **pages;
-+	void *addr;
+-	__local_bh_enable(SOFTIRQ_OFFSET);
+-	WARN_ON_ONCE(in_interrupt());
++	if (!from_irq_exit) {
++		__local_bh_enable(SOFTIRQ_OFFSET);
++		WARN_ON_ONCE(in_interrupt());
++		return;
++	}
++
++	lockdep_softirqs_on(_RET_IP_);
++	__preempt_count_add(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
++	WARN_ON_ONCE(irq_count() != HARDIRQ_OFFSET);
+ }
  
- 	if (WARN_ON_ONCE(idx >= VMEMMAP_OPTIMIZATION_NR_ORDERS))
- 		return NULL;
+ static inline void ksoftirqd_run_begin(void)
+@@ -605,6 +630,7 @@ static void handle_softirqs(bool ksirqd)
+ 	unsigned long old_flags = current->flags;
+ 	int max_restart = MAX_SOFTIRQ_RESTART;
+ 	struct softirq_action *h;
++	bool from_irq_exit;
+ 	bool in_hardirq;
+ 	__u32 pending;
+ 	int softirq_bit;
+@@ -618,7 +644,7 @@ static void handle_softirqs(bool ksirqd)
  
--	pages = READ_ONCE(zone->vmemmap_tails) ? : vmemmap_tails_alloc(zone);
-+	pages = vmemmap_tails(zone);
- 	if (!pages)
- 		return NULL;
+ 	pending = local_softirq_pending();
  
- 	page = READ_ONCE(pages[idx]);
--	if (likely(page))
-+	if (page)
- 		return page;
+-	softirq_handle_begin();
++	from_irq_exit = softirq_handle_begin();
+ 	in_hardirq = lockdep_softirq_start();
+ 	account_softirq_enter(current);
  
- 	addr = vmemmap_alloc_block(PAGE_SIZE, zone_to_nid(zone));
-@@ -218,9 +222,9 @@ struct page __ref *vmemmap_shared_tail_p
- 		atomic_set(&page->_mapcount, -1);
- 		set_page_node(page, zone_to_nid(zone));
- 		set_page_zone(page, zone_idx(zone));
--		prep_compound_tail(page, NULL, order);
- 		if (zone_is_zone_device(zone))
- 			__SetPageReserved(page);
-+		prep_compound_tail(page, NULL, order);
+@@ -670,7 +696,7 @@ static void handle_softirqs(bool ksirqd)
+ 
+ 	account_softirq_exit(current);
+ 	lockdep_softirq_end(in_hardirq);
+-	softirq_handle_end();
++	softirq_handle_end(from_irq_exit);
+ 	current_restore_flags(old_flags, PF_MEMALLOC);
+ }
+ 
+@@ -748,8 +774,12 @@ static inline void __irq_exit_rcu(void)
+ 	lockdep_assert_irqs_disabled();
+ #endif
+ 	account_hardirq_exit(current);
+-	preempt_count_sub(HARDIRQ_OFFSET);
+-	if (!in_interrupt() && local_softirq_pending()) {
++
++	/*
++	 * HARDIRQ_OFFSET is still set. Only the outermost interrupt handles
++	 * softirqs, and only if it did not hit a softirq or BH disabled section.
++	 */
++	if (irq_count() == HARDIRQ_OFFSET && local_softirq_pending()) {
+ 		/*
+ 		 * If we left hrtimers unarmed, make sure to arm them now,
+ 		 * before enabling interrupts to run softirq.
+@@ -758,10 +788,21 @@ static inline void __irq_exit_rcu(void)
+ 		invoke_softirq();
  	}
  
- 	page = virt_to_page(addr);
-@@ -528,12 +532,12 @@ static int __meminit vmemmap_populate_co
- 						     unsigned long end, int node,
- 						     struct dev_pagemap *pgmap)
- {
-+	const unsigned long flags = VMEMMAP_POPULATE_DAX;
-+	const unsigned int order = pfn_to_section_compound_order(start_pfn);
- 	unsigned long size, addr;
- 	pte_t *pte;
--	int rc;
--	unsigned long flags = VMEMMAP_POPULATE_DAX;
- 	struct page *page;
--	unsigned int order = pfn_to_section_compound_order(start_pfn);
-+	int rc;
++	/*
++	 * Wake the timer thread even if the interrupt hit a softirq or a
++	 * section with BHs disabled. Only nested interrupts and NMIs are
++	 * excluded.
++	 */
+ 	if (IS_ENABLED(CONFIG_IRQ_FORCED_THREADING) && force_irqthreads() &&
+-	    local_timers_pending_force_th() && !(in_nmi() | in_hardirq()))
++	    local_timers_pending_force_th() &&
++	    (in_nmi() | hardirq_count()) == HARDIRQ_OFFSET)
+ 		wake_timersd();
  
- 	page = vmemmap_shared_tail_page(order, device_zone(node));
- 	if (!page)
-@@ -891,8 +895,10 @@ int __meminit sparse_add_section(int nid
++	/*
++	 * tick_irq_exit() relies on in_hardirq() being false for the
++	 * outermost interrupt.
++	 */
++	preempt_count_sub(HARDIRQ_OFFSET);
+ 	tick_irq_exit();
+ }
  
- 	ms = __nr_to_section(section_nr);
- 	/*
--	 * Poison uninitialized struct pages in order to catch invalid flags
--	 * combinations.
-+	 * Poison uninitialized struct pages to catch invalid flag combinations.
-+	 *
-+	 * Tail struct pages in a vmemmap-optimized section are initialized and
-+	 * shared during vmemmap population, so they must not be overwritten here.
- 	 */
- 	if (!section_vmemmap_optimizable(ms))
- 		page_init_poison(memmap, sizeof(struct page) * nr_pages);
-_
+
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+-- 
+2.39.5 (Apple Git-154)
 
