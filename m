@@ -1,139 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0ABEED8;
-	Wed, 30 Sep 2026 00:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D932165EA;
+	Wed, 30 Sep 2026 00:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790727907; cv=none; b=sanGU6i/avOizHKSix94dvzR5RVMBNv66tDgx4t/sQkmgw8BE2LKgbVbi6ZcTD+KZqpADUFFbPrdti6ipEv2cRWxHAlVYdZbD/BsE7PeMUExo40oHLv7HoIfkeuTazPP9g8+Yw2kagJLmaZSgdL2RAOYxbkopWuaT+erTL88oZo=
+	t=1790728174; cv=none; b=cbRV6xmahdwFeTAtJ5d/acjB0TnUxOz6W0kV2iuJ5TFMWIsZ6fcG5pkhWJppuz2KAeQ52UyZ14mGHwYWTOZK/v82uzOXNJlyw9ezA3BLbFGtHHgLFxK9Hj40CgY5qtyJZvW6yZIhPcRt4JfxVAQqkT/6QPCWo1uJA63p3Ell1KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790727907; c=relaxed/simple;
-	bh=I1qDs9BDbcfwaj01gAmb+tRsK8kiWxN+rVkQEeUsac4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NqdwwSZCtTw/ZctYAOP2Qo24vhQdlxQt1kFuTkFOcZwWdR9V4Eh2nPVi9rctkrlduefPI/b6edQnGVVOtXX60Cu9FqdsxKPEsYFaMR133a8HDlhTT3cJt1S4b+keg7pToAHRoDY5QRLHRSd3ELSNJEFl2JNqypncASyG9fg054s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NC3wN3NI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790728174; c=relaxed/simple;
+	bh=vbll7qC4Nmh7EKoumfj3br3jNAAsP6izSlVgIlopEkE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BH/MhvXA5wO7B5hVWFtl+AIE5/NNcTJ73fNOsMFcMREcCl2Z7p1Ppd3CD0B62LnecuZWBsTA7cpKHaBlnu+iCuSQO+NKMy/MzkXlQ37LCf3tIjpdhycYe6v0ssY+6ngUzq8Tu8w3E9nBpErMIVPH7wUIkn845gBWg7nG4vOE6MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=peM3sMMu; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NC3wN3NI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 811F51F00899;
-	Wed, 30 Sep 2026 00:25:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790727905;
-	bh=3qjgKogqDJ4nU3WCcsiVuj/fs6MGqUehEm1aDK84/10=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NC3wN3NI6FGYkISLfmTPBTbQQ/lHzXUmcmXJy+yeHqcy3I63kghmoSWxVnM8GqZ1F
-	 QAEuW772CeWzvRKQhjdZLeVNj2WCkTUYSc+Hpf53kInALjM0XRCPzN0SlvVPHSyPdg
-	 19F54EGZI+vUJB+7OLplFQJa5s5EaP22fv6wxSTWS7eK1eKLqH4UGOYT8o8BL5+Cra
-	 CoELMHbRU6v3bl4oXYDPdSsSxw0KcP05Imr7fAdopv+pxcND2/a6JT4rGXxKDT7H/Y
-	 E8+D825YrmbSNdKIq5se6Xu0H2n8GAPUbuTxmcICepRpHCPVIPqowOBLdwsJ3D9Wb9
-	 Ry3E/HpEbNZrg==
-Date: Tue, 29 Sep 2026 17:25:04 -0700
-From: Oliver Upton <oupton@kernel.org>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: maz@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-	corbet@lwn.net, pbonzini@redhat.com, leo.bras@arm.com,
-	yuzenghui@huawei.com, wangzhou1@hisilicon.com,
-	yangjinqian1@huawei.com, caijian11@h-partners.com,
-	liuyonglong@huawei.com, tangchengchang@huawei.com,
-	yezhenyu2@huawei.com, yubihong@huawei.com, linuxarm@huawei.com,
-	joey.gouly@arm.com, kvmarm@lists.linux.dev, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	seiden@linux.ibm.com, suzuki.poulose@arm.com, fuad.tabba@linux.dev,
-	mark.rutland@arm.com, seanjc@google.com, rdunlap@infradead.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v5 01/15] KVM: arm64: pgtables: Change write bit from
- S2AP_W to DBM
-Message-ID: <arxW4PUY3qqRkogl@kernel.org>
-References: <20260929103655.85107-1-zhengtian10@huawei.com>
- <20260929103655.85107-2-zhengtian10@huawei.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="peM3sMMu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ahPhAQkCfSyZ/hTYflZfPypDdJtLyf5LfLIC6RVfRTM=; b=peM3sMMury3bw+vPcqjuQSzbEa
+	9hspIdEa6U/KPAL2CU3STAmXGHmkiY69gkFqyKhzITmcPsUJAzfz4l8rmfN6ZOJhyFV0YUGw6bdKM
+	iZLaxhU5a8G5QYzCmDZZGPnk6G8HLOOWHI3BTgE0/erai9qaRc1JO+Fv3FejgboBVCtvgt9ox/gAg
+	Ps7KsjC89kpHFw8oekHcs56VktMPc01jT7FR3Bx8bV9peHblUWzZcKoSojhYj+TNfKNHPBXeXrlji
+	DGGbfSnLKwi2M+W0nEXciCF6ZotIhweqxlfXD0Q8T7Cd+slopxyZq8Z0xvm8j/Z1u/IeZcJjL+Ibo
+	26VIz2RA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xBiCH-00000004oyl-0dEZ;
+	Wed, 30 Sep 2026 00:29:21 +0000
+Message-ID: <ef6f0d64-fb3c-492e-a70f-ab97ff462969@infradead.org>
+Date: Tue, 29 Sep 2026 17:29:20 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260929103655.85107-2-zhengtian10@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: kdoc_output: don't add a man page tail for
+ filtered-out symbols
+To: simonsudarushkin@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260929-kdoc-man-filter-v1-1-5f70268885d1@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260929-kdoc-man-filter-v1-1-5f70268885d1@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Tian,
+Hi Simon,
 
-On Tue, Sep 29, 2026 at 06:36:41PM +0800, Tian Zheng wrote:
-> From: Leonardo Bras <leo.bras@arm.com>
+On 9/29/26 6:36 AM, Simon Sudarushkin via B4 Relay wrote:
+> From: Simon Sudarushkin <simonsudarushkin@gmail.com>
 > 
-> As a first step of changing the encoding for the Stage2 PTE descriptor,
-> introduce the DBM bit, and adapt every usage of writable to use the DBM
-> bit (51) instead of S2AP[1]/Dirty bit (7).
+> ManFormat.msg() appends the "SEE ALSO" tail after every call to the base
+> class msg(), even when the -e, -i, -s or --nosymbol filters dropped the
+> symbol and nothing was written for it. With -s, every other symbol in
+> the file leaves a stray "SEE ALSO" block behind the requested page. With
+> -e on a file that exports nothing, the output is only such blocks, with
+> no .TH header at all:
 > 
-> With DBM as the write permission bit and S2AP[1] as the dirty state,
-> the encoding follows the FEAT_S2PIE principle of managing permissions
-> and dirty state independently.
+>   $ tools/docs/kernel-doc -man -s string_get_size lib/string_helpers.c \
+>       | grep -c 'SEE ALSO'
+>   13
+>   $ tools/docs/kernel-doc -man -e include/rdma/ib_mad.h | grep -c '^\.TH'
+>   0
 > 
-> For this step, we convert usages of RW(Dirty) -> WD(DBM|Dirty): every
-> writable mapping sets both bits, read-only mappings clear both, and no
-> behaviour changes.
+> Only add the tail when the base class produced a page, and add unit
+> tests for both cases.
 > 
-> Link: https://lore.kernel.org/all/20260901171558.2674031-2-leo.bras@arm.com/
-> Signed-off-by: Leonardo Bras <leo.bras@arm.com>
-> [zhengtian: keep the nested walker reading writability from S2AP[1]
-> alone, document why, and reword the commit message]
-> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Closes: https://lore.kernel.org/all/fc7978bb-a71f-456d-84bb-670c8f0426ed@infradead.org/
+> Fixes: 104e0a682e12 ("tools: kernel-doc: add a see also section at man pages")
+> Assisted-by: LLM
+> Signed-off-by: Simon Sudarushkin <simonsudarushkin@gmail.com>
 > ---
->  arch/arm64/include/asm/kvm_pgtable.h | 3 +++
->  arch/arm64/kvm/hyp/pgtable.c         | 7 ++++---
->  arch/arm64/kvm/nested.c              | 5 +++++
->  arch/arm64/kvm/ptdump.c              | 4 ++--
->  4 files changed, 14 insertions(+), 5 deletions(-)
+> Randy, this takes a different route from your patch in August [1]: the
+> out_tail() call stays in ManFormat.msg() and is skipped when the base
+> class produced no page, so OutputFormat does not need to know about it.
+> DOC blocks that are shown keep their tail, since they get their own .TH.
+
+Yes, I had already abandoned that patch and its approach. I was (slowly)
+looking at doing something like this, although probably not as succinct
+as this.
+
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+
 > 
-> diff --git a/arch/arm64/include/asm/kvm_pgtable.h b/arch/arm64/include/asm/kvm_pgtable.h
-> index 41a8687938eb..37baa86d6fd8 100644
-> --- a/arch/arm64/include/asm/kvm_pgtable.h
-> +++ b/arch/arm64/include/asm/kvm_pgtable.h
-> @@ -93,10 +93,13 @@ typedef u64 kvm_pte_t;
+> [1] https://lore.kernel.org/all/20260816054826.3988516-1-rdunlap@infradead.org/
+> ---
+>  tools/lib/python/kdoc/kdoc_output.py |  5 +++-
+>  tools/unittests/test_kdoc_parser.py  | 52 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 56 insertions(+), 1 deletion(-)
 > 
->  #define KVM_PTE_LEAF_ATTR_HI_S2_XN	GENMASK(54, 53)
-> 
-> +#define KVM_PTE_LEAF_ATTR_HI_S2_DBM	BIT(51)
+> diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
+> index 618b0d765ef5..659a2c6fb6be 100644
+> --- a/tools/lib/python/kdoc/kdoc_output.py
+> +++ b/tools/lib/python/kdoc/kdoc_output.py
+> @@ -763,7 +763,10 @@ class ManFormat(OutputFormat):
+>          Add a tail at the end of man pages output.
+>          """
+>          super().msg(fname, name, args)
+> -        self.out_tail(fname, name, args)
 > +
->  #define KVM_PTE_LEAF_ATTR_HI_S1_GP	BIT(50)
+> +        # Symbols dropped by the output filters produce no page
+> +        if self.data:
+> +            self.out_tail(fname, name, args)
+>  
+>          return self.data
+>  
+> diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
+> index c4a76ed13dbc..bcb1b1a5ccc6 100755
+> --- a/tools/unittests/test_kdoc_parser.py
+> +++ b/tools/unittests/test_kdoc_parser.py
+> @@ -301,6 +301,58 @@ class CToMan(unittest.TestCase):
+>          self.assertEqual(result, expected)
+>  
+>  
+> +class ManFilterTail(unittest.TestCase):
+> +    """
+> +    Symbols dropped by the output filters must not leave a man page tail.
+> +    """
+> +
+> +    source = dedent("""
+> +        /**
+> +         * foo - First function
+> +         * @a: an argument
+> +         */
+> +        int foo(int a) { return 0; };
+> +
+> +        /**
+> +         * bar - Second function
+> +         * @b: an argument
+> +         */
+> +        int bar(int b) { return 0; };
+> +    """)
+> +
+> +    def setUp(self):
+> +        config = MockKdocConfig()
+> +        kernel_doc = KernelDoc(config, "mock.c", CTransforms())
+> +
+> +        with patch('builtins.open', new_callable=mock_open,
+> +                   read_data=self.source):
+> +            _, self.entries = kernel_doc.parse_kdoc()
+> +
+> +        self.out_style = ManFormat()
+> +        self.out_style.set_config(config)
+> +
+> +    def run_filter(self, **kwargs):
+> +        args = {"export": False, "internal": False, "symbol": None,
+> +                "nosymbol": None, "function_table": set(),
+> +                "enable_lineno": False, "no_doc_sections": False}
+> +        args.update(kwargs)
+> +
+> +        self.out_style.set_filter(**args)
+> +
+> +        return self.out_style.output_symbols("mock.c", self.entries)
+> +
+> +    def test_symbol_filter(self):
+> +        """Only the selected symbol gets a page, with a single tail."""
+> +        result = self.run_filter(symbol=["foo"], function_table={"foo"})
+> +
+> +        self.assertEqual(result.count(".TH "), 1)
+> +        self.assertEqual(result.count('.SH "SEE ALSO"'), 1)
+> +
+> +    def test_all_filtered_out(self):
+> +        """No exported symbols: no output at all."""
+> +        self.assertEqual(self.run_filter(export=True), "")
+> +
+> +
+>  class CToRest(unittest.TestCase):
+>      out_style = RestFormat()
+>      config = MockKdocConfig()
 > 
->  #define KVM_PTE_LEAF_ATTR_S2_PERMS	(KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R | \
->  					 KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W | \
-> +					 KVM_PTE_LEAF_ATTR_HI_S2_DBM | \
->  					 KVM_PTE_LEAF_ATTR_HI_S2_XN)
+> ---
+> base-commit: 4f041d7b65b8007403cce30ecf69ad42d48ec315
+> change-id: 20260929-kdoc-man-filter-eba1ff857dad
 > 
->  /* pKVM invalid pte encodings */
-> diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtable.c
-> index b74dd5ce1efd..50f4d3a74f77 100644
-> --- a/arch/arm64/kvm/hyp/pgtable.c
-> +++ b/arch/arm64/kvm/hyp/pgtable.c
-> @@ -732,7 +732,7 @@ static int stage2_set_prot_attr(struct kvm_pgtable *pgt, enum kvm_pgtable_prot p
->  		attr |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R;
-> 
->  	if (prot & KVM_PGTABLE_PROT_W)
-> -		attr |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
-> +		attr |= KVM_PTE_LEAF_ATTR_HI_S2_DBM | KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+> Best regards,
+> --  
+> Simon Sudarushkin <simonsudarushkin@gmail.com>
 
-Hmm... I'd actually like to see this structured where the "write" bit
-could either be S2AP_W or DBM depending on if the system supports
-FEAT_HAFDBS. Look at how HVHE is handled for selecting the right AP
-encoding for the hyp stage-1 page tables.
 
-> diff --git a/arch/arm64/kvm/ptdump.c b/arch/arm64/kvm/ptdump.c
-> index 69899797dbad..b0cb8d84a9e9 100644
-> --- a/arch/arm64/kvm/ptdump.c
-> +++ b/arch/arm64/kvm/ptdump.c
-> @@ -40,8 +40,8 @@ static const struct ptdump_prot_bits stage2_pte_bits[] = {
->  		.clear	= " ",
->  	},
->  	{
-> -		.mask	= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W,
-> -		.val	= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W,
-> +		.mask	= KVM_PTE_LEAF_ATTR_HI_S2_DBM,
-> +		.val	= KVM_PTE_LEAF_ATTR_HI_S2_DBM,
->  		.set	= "W",
->  		.clear	= " ",
->  	},
-> --
-> 2.43.0
-> 
+-- 
+~Randy
