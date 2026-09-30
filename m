@@ -1,279 +1,389 @@
-Received: from mail-ed2-f38.google.com (mail-ed2-f38.google.com [74.125.228.102])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FED5013A9
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 15:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81FF4F5E0A
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 15:43:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790782137; cv=none; b=SnmS2MHc/+fF+sDeD2J+H5PiLklBNuAR8fAwzpXQoukI8MpPBPHTZIV3DayKjXy/BzrHezjEliDkbvL+fZbo7QZtuwTxjpkg2FKfigxQfYxOevsWcQO8OE92udvvIis1B7uNc6QCpu/TYdNloAYaTA00mhGGn1Rl5qUKsVpSg6s=
+	t=1790783031; cv=none; b=cX/6GqHiUXnT1Gu/vd/Wzfpulr8Bel/pPUMa0qkk80tz3h6c43IVp8uIi6aDuM4vrQJs+QYKeauzeM94I4I9GNeNjA8dbJiCpb32GFZwewcl91GJA+fWtRmuPwdwfTIHH9Egm4zcB7Wb2/kuJ2tTCa3VH/3LZ+n81LvfPVKntp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790782137; c=relaxed/simple;
-	bh=buw7eilKhVYBpVzHXoFXBKSXA87LBruo6Br9DLlJ1Js=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a98AvDY5hVpxDqzBocMHCKhcCi7H8x1tAaG3cRQy7WScgsUFCISrBaefxVq6cWHl5AITL3pcZkIFT6+ObQOrvSuSPApmo79C75V/4CY7ke5FzV4DU/mtuBMMUhXc7DcgDmEWKBI9Y0bILkShBdezow72wfTTaKjlww1c7Ig0bfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jsiDjkf/; arc=none smtp.client-ip=74.125.228.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1790783031; c=relaxed/simple;
+	bh=XH49CGixjjksXun7g5i7bMMAdjRXsDHjHFvYOdHvpVM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=K/W1IAz/uZTbtgKq78KhJreVp0/9uOK3HbtFATa5XEQ4a2cCNxZ9JJoaw92RnJjxjQaCRdb8xGzWbe5RfaolqhpJd00yI8qcing0TWH3qbLi5Tftj/o7Fo8nOH+pocLo/3N9txn4tEpqDkzFnKzumA28DUj1SB7Vv9sFDc5Lp4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H28pCtz/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jsiDjkf/"
-Received: by mail-ed2-f38.google.com with SMTP id 4fb4d7f45d1cf-6aaeeacce15so8773861a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 08:28:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1790782119; x=1791386919; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GQ41yj00/XNv9YnqFd8MxyPQ2Or7W/eiTKmLpRiCxws=;
-        b=jsiDjkf/cU+nwHRtIWEBcIVKe7nh5e42us7XxZDWebjPwMshfwuiyEc7N5eKph2JJf
-         N4LExnNHmGDgULHQ/Mwtp226DIbaJNO70v9ogT4bqLVSI70GD7puhUqRhYGlLkvP4Lrl
-         Jv3qp88H6yxry5g/BSzv0GC6IdlYTdRrWEgHAQlyw9OmC22Z4WGVjHTVei4FaGEyYxfh
-         kCIv5ij+1fJNqFiH16MJwvvPsK40dIPrCDtv0FDErfR1ekEPmO5UMjba59q9IMuWVni3
-         jRGCbmx8CWfr7h9n/1QxLYO5QSHTkwEIcq5V670r1CAg0o4nK/gzC2EKBaZWE3brQNK1
-         kKxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790782119; x=1791386919;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GQ41yj00/XNv9YnqFd8MxyPQ2Or7W/eiTKmLpRiCxws=;
-        b=IX8HlL78w32Nxv3dq83rPrIV3ocGh2WGW5BoqWaS9Xg3oG4nvAjcMzhBYJfX42b+fe
-         aH2xWfT8kg+I2XmbxjZh7G6ulexkWuAAwJrspOAHxPfBwntS+cqGKLUpL7K2Spab//nC
-         /jSak7UB1ZfnHMctQe9w5ZRhmuSz9ll3ofFwktUog7egrAMpJ7KFuXCkJXAr3Csqoujp
-         DYB5h4oTgXp/rIu4f/rg26MGx1HYqSHnTSyHPO8lC7pkvzchi76zu+y/wZYJ5s2gfuZD
-         Io2MZUm+l7OUHBhoRJmIGOf6TcmNxfSHSEhcsYLyseXKB/gQ1Ten6P2BMrF1dwCSLb3l
-         +r5w==
-X-Forwarded-Encrypted: i=1; AKwUvByGc9xfThb1PqiBe0HiegM7wGeeVVbm8oF9uix5QGgmMYYfxa1sj8AnJdu+PYqiEZhX3HixMsWF554=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJEv2D2kYJNrGlM/R0EkizpLKbKTrHnb3NMdpYV17p4LMTk2OS4
-	ES0pcEaXg4TMtw40fW0QAfijbqVxqeQMbLrGbkjZiLa1VRGN6ORNQoi/NPTT2C41KLM=
-X-Gm-Gg: AYBFou0DWbYXigwBqwdEjdt/uEso8tOv0Qf7aD+TeSWfRD5zixde/Outu60Ad2mdl2y
-	0eSGWSOuVJ36E3L+nksw1eQT7OuZ2dOKz1tjaDwGniEfaIR7mpiThp1NTdUrwmiw/fFm1mavPxz
-	AoN9vQ1P1FFlw1JYYLdgF+ep/z+BK9eBSRDKEkH8HenjBkoXxJO8fSnlec8VXDpYIK/W5JecAj8
-	HydwzmggfWz/9HVBiRZkM0CPGOLVPSWH6YIwN0otWI298uUw2U+Iq547AjwN3vbulu3ire8p1rp
-	hpLbwXAYndVbtz6VEgjVNShgYAofRCK+A1dyULFEnKOnhHqKDWLAedi0guRniDwfiP/kQEXKqeX
-	+gBpGDf+2wMnSaa3faBdt6lfWuTq8OTajdNnuN4JgK0N0wHHLOD5qq+WsaV9G5JB0nk8xmW22hH
-	BFGfzj8j7bO/FJ7BWlRJ1czjnXnOhp9LrPqZRBm8gASTVKPzP2Zh8pClQtTq0vq2DnTu9fQE86c
-	40=
-X-Received: by 2002:a05:6402:4543:b0:6ab:bafd:260e with SMTP id 4fb4d7f45d1cf-6ae199672d1mr1029959a12.44.1790782119271;
-        Wed, 30 Sep 2026 08:28:39 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ae156a2082sm1010321a12.30.2026.09.30.08.28.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Sep 2026 08:28:38 -0700 (PDT)
-Message-ID: <f54b9ea6-48b1-4f6c-92cc-b0a9249c2fb0@linaro.org>
-Date: Wed, 30 Sep 2026 16:28:37 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H28pCtz/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CFFA1F0089C
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 15:43:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790783024;
+	bh=RgDyfRoaqiRPgneHgZKWaqHOPayWQXCh/v6+T6AoTk4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=H28pCtz/NWuzAwuSUne6iRNSKDiSGDJ1B7T1jhz6DHg9DW3wVWjuwS4SSjagOP9FT
+	 BU8GLcXVVvCv2PAj/xhmfxZvLzPS6itsWej4IKVLwdYHsBEhoSWitobKyoIekD28Sx
+	 n7tTYJcJOWYZ2hrU1Cwy9Azl3nxY+PD0of/ld5M6ol8kPGwbdmiTKVwwYxEOYWlZcP
+	 2WQH68SaE8y2r9r/haTx/0pWHWm83lG2gh3HwJq5EVV1koxXb/PPwQ/sBCqmeY4Rg2
+	 C7VZL2o29MtWSZLjV6WSfIvs9YPOlgEQg9gVcYFf+ZM8z261A4qIhW3F4NpJjIhEf0
+	 M8A6h2iFGUaIA==
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a5919af2eeso45177011fa.3
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 08:43:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwMgmfEqU6TZNlLz8oZmOTumG6g5n4Imvjr2VBrng7HOoJUvXWJqI9UlN7QWR46rChDLpFvsaLyYYw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKvesoj6zyPuT9Gt2QnJIwOIZzhNU6hmJpl/hAK0ZPXYsMeW880
+	HnPVYGmBu4RWWHqkfpY//f9xvQTHThjT31sk8zFgQjsy0ALHbogiYPwR03D/CmqrG23424k/TTZ
+	t65vZhBG7Sp8g3lkEpJM+09efiwXfHR0=
+X-Received: by 2002:a05:651c:1986:b0:3a6:636b:63c5 with SMTP id
+ 38308e7fff4ca-3a7791c27b5mr6513401fa.16.1790783022385; Wed, 30 Sep 2026
+ 08:43:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 16/22] KVM: arm64: Apply dynamic guest counter
- reservations
-To: Colton Lewis <coltonlewis@google.com>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, Fuad Tabba <fuad.tabba@linux.dev>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Zide Chen <zide.chen@intel.com>, Alexandru Elisei
- <alexandru.elisei@arm.com>,
- Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
- Mingwei Zhang <mizhang@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Russell King <linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>,
- linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, kvmarm@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20260924172928.2110956-1-coltonlewis@google.com>
- <20260924172928.2110956-17-coltonlewis@google.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260924172928.2110956-17-coltonlewis@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260930025044.104824-1-briannorris@chromium.org> <20260929194956.v3.7.I45a794e4452e3df22419acdd8f11e2b788b3413f@changeid>
+In-Reply-To: <20260929194956.v3.7.I45a794e4452e3df22419acdd8f11e2b788b3413f@changeid>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Wed, 30 Sep 2026 17:41:56 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0ifwGx-1H-YVM63-0HUD5cs+5W4Tk8T+2LdLZpy5sLS9w@mail.gmail.com>
+X-Gm-Features: AclHuK8cCRtb72aYjdwV70zWye9WCjL7mKQ8pDTimUJJiieKZ6fYVm3sRZLghLQ
+Message-ID: <CAJZ5v0ifwGx-1H-YVM63-0HUD5cs+5W4Tk8T+2LdLZpy5sLS9w@mail.gmail.com>
+Subject: Re: [PATCH v3 7/8] PM: runtime: Expand introduction with core
+ concepts and structure
+To: Brian Norris <briannorris@chromium.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Doug Anderson <dianders@chromium.org>, Ulf Hansson <ulfh@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-pm@vger.kernel.org, Len Brown <lenb@kernel.org>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 24/09/2026 18:29, Colton Lewis wrote:
-> Reserve and release guest PMU counters dynamically during vCPU load and
-> put rather than statically at VM creation.
-> 
-> Add kvm_pmu_set_guest_counters() in arch/arm64/kvm/pmu-direct.c, called
-> from kvm_pmu_load() and kvm_pmu_put(). When the requested guest counter
-> mask collides with active host events in cpuc->used_mask (or when
-> releasing counters after squeezing a host event), invoke
-> perf_pmu_resched_update() with kvm_pmu_update_mask() to update the
-> per-CPU cpuc->cntr_mask between scheduling host events out and back in;
-> otherwise update cpuc->cntr_mask directly with interrupts disabled.
-> 
-> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+On Wed, Sep 30, 2026 at 4:51=E2=80=AFAM Brian Norris <briannorris@chromium.=
+org> wrote:
+>
+> I commonly see people have difficulty learning how runtime PM works
+> because of the following key points [*]:
+>
+>  1) there are several boolean concepts in runtime PM, with somewhat
+>     similar meanings:
+>
+>      enabled / disabled
+>      active / suspended
+>      allowed / forbidden
+>
+>  2) if these concepts are documented at all, they're scattered across
+>     the kerneldoc or Documentation/
+>
+>  3) the runtime_pm.rst docs don't make any attempt to ease a reader into
+>     understanding the concepts, and instead jump straight into how it's
+>     implemented (queues, 'struct device' fields, helpers).
+>
+> Let's try to remedy this a bit by discussing the core concepts and
+> highlights at the top of the introduction, and introduce a few
+> sub-headings, so it's easier to navigate different aspects of the
+> introduction.
+>
+> While shuffling the intro around, I also see that the existing text
+> largely mirrors the layout of the following sections (2, 3, and 4), but
+> does so out of order. Reorder those, and point to section numbers.
+>
+> [*] In addition to API complexity. I count 61 pm_*() helpers, 7 of which
+>     are variations of put() and 8 of which are variations of get().
+>
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
 > ---
->   arch/arm64/kvm/pmu-direct.c  | 77 ++++++++++++++++++++++++++++++++++++
->   include/linux/perf/arm_pmu.h |  1 +
->   2 files changed, 78 insertions(+)
-> 
-> diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
-> index a22c9258c2452..31d5afc44f36e 100644
-> --- a/arch/arm64/kvm/pmu-direct.c
-> +++ b/arch/arm64/kvm/pmu-direct.c
-> @@ -115,6 +115,77 @@ u64 kvm_pmu_direct_pmcr_read(struct kvm_vcpu *vcpu)
->   		ARMV8_PMU_PMCR_N);
->   }
->   
-> +/* Callback to update counter mask between perf scheduling */
-> +static void kvm_pmu_update_mask(struct pmu *pmu, void *data)
-> +{
-> +	struct arm_pmu *arm_pmu = to_arm_pmu(pmu);
-> +	struct pmu_hw_events *cpuc = this_cpu_ptr(arm_pmu->hw_events);
-> +	unsigned long *new_mask = data;
-> +
-> +	bitmap_copy(cpuc->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
-> +}
-> +
-> +/**
-> + * kvm_pmu_set_guest_counters() - Handle dynamic counter reservations
-> + * @cpu_pmu: struct arm_pmu to potentially modify
-> + * @guest_mask: new guest mask for the pmu
-> + *
-> + * Check if guest counters will interfere with current host events and
-> + * call into perf_pmu_resched_update if a reschedule is required.
-> + */
-> +static void kvm_pmu_set_guest_counters(struct arm_pmu *cpu_pmu, u64 guest_mask)
-> +{
-> +	struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
-> +	DECLARE_BITMAP(guest_bitmap, ARMPMU_MAX_HWEVENTS);
-> +	DECLARE_BITMAP(new_mask, ARMPMU_MAX_HWEVENTS);
-> +	unsigned long flags;
-> +	bool need_resched = false;
-> +
-> +	bitmap_from_arr64(guest_bitmap, &guest_mask, ARMPMU_MAX_HWEVENTS);
-> +	bitmap_copy(new_mask, cpu_pmu->cntr_mask, ARMPMU_MAX_HWEVENTS);
-> +
-> +	local_irq_save(flags);
-> +	if (guest_mask) {
-> +		/* Subtract guest counters from available host mask */
-> +		bitmap_andnot(new_mask, new_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS);
-> +
-> +		/* Did we collide with an active host event? */
-> +		if (bitmap_intersects(cpuc->used_mask, guest_bitmap, ARMPMU_MAX_HWEVENTS)) {
-> +			int idx;
-> +
-> +			need_resched = true;
-> +			cpuc->host_squeezed = true;
-> +
-> +			/* Look for pinned events that are about to be preempted */
-> +			for_each_set_bit(idx, guest_bitmap, ARMPMU_MAX_HWEVENTS) {
-> +				if (test_bit(idx, cpuc->used_mask) && cpuc->events[idx] &&
-> +				    cpuc->events[idx]->attr.pinned) {
-> +					pr_warn_once("perf: Pinned host event squeezed out by KVM guest PMU partition\n");
+>
+> (no changes since v2)
+>
+> Changes in v2:
+> Address review feedback around descriptions of "enabled" and "active". I
+> know not every point of discussion was settled, but I hope this updated
+> version resolves many of them and provides a better basis for further
+> improvement.
+>  * Avoid calling enabled and active "orthogonal"
+>  * Describe more of their inter-relationship
+>  * Prioritize talking about "enabled" first, since that's the first
+>    concept a reader should know about
+>  * Brief mentions of parent/child and supplier/consumer, and dependency
+>    handling
+>  * Other tweaks
+>
+>  Documentation/power/runtime_pm.rst | 103 +++++++++++++++++++++++------
+>  1 file changed, 84 insertions(+), 19 deletions(-)
+>
+> diff --git a/Documentation/power/runtime_pm.rst b/Documentation/power/run=
+time_pm.rst
+> index 68903d93a3e7..c63fbf0ff862 100644
+> --- a/Documentation/power/runtime_pm.rst
+> +++ b/Documentation/power/runtime_pm.rst
+> @@ -13,31 +13,96 @@ Runtime Power Management Framework for I/O Devices
+>  1. Introduction
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> -Support for runtime power management (runtime PM) of I/O devices is prov=
+ided
+> -at the power management core (PM core) level by means of:
+> -
+> -* The power management workqueue pm_wq in which bus types and device dri=
+vers can
+> -  put their PM-related work items.  It is strongly recommended that pm_w=
+q be
+> -  used for queuing all work items related to runtime PM, because this al=
+lows
+> -  them to be synchronized with system-wide power transitions (suspend to=
+ RAM,
+> -  hibernation and resume from system sleep states).  pm_wq is declared i=
+n
+> -  include/linux/pm_runtime.h and defined in kernel/power/main.c.
+> -
+> -* A number of runtime PM fields in the 'power' member of 'struct device'=
+ (which
+> -  is of the type 'struct dev_pm_info', defined in include/linux/pm.h) th=
+at can
+> -  be used for synchronizing runtime PM operations with one another.
+> +Runtime power management (or runtime PM, sometimes shortened to RPM) all=
+ows
+> +individual I/O devices to transition between high and low-power states
+> +dynamically while the system is running, conserving power without waitin=
+g for a
+> +system-wide sleep state.
 
-If you enable pseudo-NMIs, watchdog_hardlockup_enable() installs the 
-watchdog using a pinned PMU event. If host userspace also has a pinned 
-event on the mandatory 1 PMU counter assigned to the host, then a guest 
-could potentially squeeze out the watchdog.
+I would rephrase the above as follows:
 
-I'm wondering if we need to prioritise kernel owned events? Or we just 
-treat them the same as any other event, and with PMU partitioning assume 
-they can't be guaranteed to be running? I feel like you would expect a 
-watchdog to be a bit more than best effort though, especially if there 
-was always a guaranteed counter available to put it on.
+"Runtime power management (or runtime PM, sometimes also referred to
+as RPM) allows individual I/O devices that are not in active use to be
+put into low-power states, in which they may not be operational or
+even accessible, and go back to the fully operational state as needed.
+Power can be reduced this way without waiting for a transition into a
+system-wide sleep state."
 
-I didn't follow it through completely, but it also looks like if the 
-event gets squeezed it would enter an error state and then never be 
-re-enabled, even after the guest stops running.
-
-Note, that I think the current ordering means that the watchdog won't 
-actually get squeezed out because it's created first. But I don't think 
-we can rely on the ordering as a strong guarantee, and it might get 
-broken by refactoring in the future.
-
-
-> +					break;
-> +				}
-> +			}
-> +		}
-> +	} else {
-> +		/*
-> +		 * Restoring to full mask.
-> +		 * Only resched if we previously squeezed an event.
-> +		 */
-> +		if (cpuc->host_squeezed) {
-> +			need_resched = true;
-> +			cpuc->host_squeezed = false;
-> +		}
-> +	}
-> +	if (!need_resched)
-> +		/* Host was never using guest counters anyway */
-> +		bitmap_copy(cpuc->cntr_mask, new_mask, ARMPMU_MAX_HWEVENTS);
-> +	local_irq_restore(flags);
 > +
-> +	if (need_resched) {
-> +		/* Collision: run full perf reschedule */
-> +		perf_pmu_resched_update(&cpu_pmu->pmu, kvm_pmu_update_mask, new_mask);
-> +	}
-> +}
+> +Core Concepts
+> +-------------
 > +
->   /**
->    * kvm_pmu_host_counter_mask() - Compute bitmask of host-reserved counters
->    *
-> @@ -255,6 +326,7 @@ static void kvm_pmu_apply_event_filter(struct kvm_vcpu *vcpu)
->    */
->   void kvm_pmu_load(struct kvm_vcpu *vcpu)
->   {
-> +	struct arm_pmu *pmu;
->   	unsigned long guest_counters;
->   	u64 mask;
->   	u8 i;
-> @@ -269,7 +341,9 @@ void kvm_pmu_load(struct kvm_vcpu *vcpu)
->   
->   	preempt_disable();
->   
-> +	pmu = vcpu->kvm->arch.arm_pmu;
->   	guest_counters = kvm_vcpu_pmu_guest_counter_mask(vcpu);
-> +	kvm_pmu_set_guest_counters(pmu, guest_counters);
->   	kvm_pmu_apply_event_filter(vcpu);
->   
->   	for_each_set_bit(i, &guest_counters, ARMPMU_MAX_HWEVENTS) {
-> @@ -329,6 +403,7 @@ void kvm_pmu_load(struct kvm_vcpu *vcpu)
->    */
->   void kvm_pmu_put(struct kvm_vcpu *vcpu)
->   {
-> +	struct arm_pmu *pmu;
->   	unsigned long guest_counters;
->   	unsigned long flags;
->   	u64 mask;
-> @@ -345,6 +420,7 @@ void kvm_pmu_put(struct kvm_vcpu *vcpu)
->   
->   	preempt_disable();
->   
-> +	pmu = vcpu->kvm->arch.arm_pmu;
->   	guest_counters = kvm_vcpu_pmu_guest_counter_mask(vcpu);
->   	mask = guest_counters;
->   
-> @@ -395,5 +471,6 @@ void kvm_pmu_put(struct kvm_vcpu *vcpu)
->   	write_sysreg(val & mask, pmovsclr_el0);
->   	local_irq_restore(flags);
->   
-> +	kvm_pmu_set_guest_counters(pmu, 0);
->   	preempt_enable();
->   }
-> diff --git a/include/linux/perf/arm_pmu.h b/include/linux/perf/arm_pmu.h
-> index be1e345e99a77..45658273ffa86 100644
-> --- a/include/linux/perf/arm_pmu.h
-> +++ b/include/linux/perf/arm_pmu.h
-> @@ -76,6 +76,7 @@ struct pmu_hw_events {
->   
->   	/* Active events requesting branch records */
->   	unsigned int		branch_users;
-> +	bool host_squeezed;
->   };
->   
->   enum armpmu_attr_groups {
+> +Understanding runtime PM requires distinguishing between several pairs o=
+f
+> +related but distinct concepts that apply to each device: **enabled** /
+> +**disabled**, **active** / **suspended**, and **allowed** / **forbidden*=
+*.
+> +
+> +* **Enabled**: To use runtime PM to manage a device's power states, it m=
+ust
+> +  first be **enabled**. If RPM is never enabled for a device, it general=
+ly
+> +  stays inactive from an RPM perspective, and the PM core will ignore it=
+.
+> +  If it is enabled, the PM core can manage the device status (see **Acti=
+ve**
+> +  below) according to its understanding of whether the device is in use,=
+ and
+> +  perform state transitions via the appropriate PM callbacks
+> +  (->runtime_suspend(), ->runtime_resume()).
+> +
+> +  Each device has an internal disable counter (``disable_depth``) which
+> +  determines whether runtime PM is currently enabled. Devices are initia=
+lly
+> +  registered with runtime PM disabled (``disable_depth =3D=3D 1``), thou=
+gh some bus
+> +  types (such as PCI) may enable it before driver probe.
+> +
+> +  To opt into runtime PM, a driver first ensures that the device's recor=
+ded
+> +  status matches its actual physical state (for example, by calling
+> +  pm_runtime_set_active() if the device was powered on at probe) and the=
+n calls
+> +  pm_runtime_enable(), decrementing ``disable_depth`` to zero (i.e.,
+> +  **enabled**). Runtime PM may be disabled again explicitly via
+> +  pm_runtime_disable() or temporarily during system sleep transitions.
+> +
+> +* **Active**: The PM core tracks a device's runtime status as either **a=
+ctive**
+> +  (the device is operational, having completed its resume callback or ot=
+herwise
+> +  marked active) or **suspended** (the device is idle or in a low-power =
+state,
+> +  having completed its suspend callback or otherwise marked suspended), =
+along
+> +  with transitional **suspending** and **resuming** phases. When runtime=
+ PM is
+> +  **enabled**, state transitions are primarily driven by reference count=
+ing:
+> +  drivers call pm_runtime_resume_and_get() (or related variants) before =
+using
+> +  the hardware, to ensure the device is active; and pm_runtime_put() (or
+> +  related variants) once work completes. When a device's usage counter d=
+rops to
+> +  zero and its dependencies (children or consumers) are suspended, the P=
+M core
+> +  can suspend the device immediately or after an autosuspend delay.
+> +
+> +  Besides driving the state of the device in question, a device's runtim=
+e
+> +  status also affects those of its dependencies =E2=80=94 its parent (if=
+ the parent's
+> +  ``power.ignore_children`` is false) and its linked supplier device(s) =
+(for
+> +  links with the ``DL_FLAG_PM_RUNTIME`` flag). An **active** device hold=
+s
+> +  reference counts on its dependencies, preventing them from suspending.
+> +
+> +* **Allowed**: System policy and user space govern whether dynamic suspe=
+nsion
+> +  is permitted through the concepts of **allowed** and **forbidden**,
+> +  manipulated in-kernel via pm_runtime_allow() and pm_runtime_forbid() a=
+nd
+> +  exposed to user space through the ``/sys/devices/.../power/control``
+> +  attribute. When runtime PM is forbidden (``control`` set to ``on``), t=
+he PM
+> +  core increments the device's usage counter, forcing the device to rema=
+in
+> +  active regardless of whether the driver is idle. When runtime PM is al=
+lowed
+> +  (``control`` set to ``auto``), this reference is dropped, permitting t=
+he PM
+> +  core to automatically suspend the device whenever its driver and child
+> +  devices are no longer using it.
+> +
+> +Notably, runtime PM also has a feature called "autosuspend." This is dif=
+ferent
+> +than the ``control`` notion of "auto" (i.e., "allowed"). Autosuspend is
+> +described in more detail in `Section 9`_.
 
+Regarding the above, I have reconsidered it with the conclusion that
+it would be better to describe "active" and "suspended" first and
+"enabled" and "disabled" subsequently, and maybe without going too
+much into details yet.  Here's my version of it:
+
+"There are some device-level concepts that need to be grasped in order
+to understand runtime PM as a whole.
+
+First of all, runtime PM tracks whether or not devices are in active
+use, which generally means that they are accessible and operational,
+and may be depended on by something (for example, other devices or
+user space).  That is represented by the **active** meta-state of a
+device from the runtime PM perspective.  The other persistent device
+meta-state used by runtime PM, called **suspended**, represents a
+promise that the given device will not be accessed.  This covers
+devices in low-power states, but it also may include devices that are
+not fully operational, or are regarded as such, for other reasons.
+There are also two transient meta-states, **suspending** and
+**resuming**, that represent transitions between **active** and
+**suspended** often referred to as *runtime suspend* and *runtime
+resume*, or just *suspend* and *resume*, respectively.  Every device
+handled by runtime PM is in one of these four meta-states at any time
+and the meta-state it is in is expected to reflect its actual physical
+configuration (that is, for instance, if the device is not accessible,
+it cannot be **active**).  The term "runtime PM state" used in what
+follows refers to the meta-states described above.
+
+Second, in order to track the runtime PM state and carry out
+transitions between **active** and **suspended**, runtime PM needs to
+be **enabled** for the given device.  If it is **disabled**, it
+generally leaves the device alone.  This means in particular that the
+runtime PM state of a device and its actual physical configuration may
+get out of sync after disabling runtime PM for it.  Analogously, the
+runtime PM state of a device may need to be explicitly adjusted to
+reflect its current physical configuration before enabling runtime PM
+for it.  Moreover, it is generally not recommended to leave devices in
+the **active** meta-state after disabling runtime PM for them because
+that may affect what can be done to their ancestors and suppliers
+going forward.
+
+More specifically, in addition to tracking the runtime PM state of
+every device, runtime PM tracks dependencies between different
+devices.  In fact, that dependency tracking mechanism is the main
+reason for using runtime PM.  The idea is that in order for a device
+to become **active**, all of the devices it depends on must also be
+**active** and that is enforced by runtime PM.  Accordingly, an
+attempt to resume a device causes all of the devices it depends on to
+become **active** and remain **active** until the given device is
+suspended.  In turn, an attempt to suspend a device may allow the
+devices it depends on to also suspend unless they are additionally
+depended on by something else.  While desirable so long as runtime PM
+is **enabled**, this may become problematic when runtime PM is
+**disabled** because the tracking of dependencies does not stop
+automatically at that point and it may cause some devices to remain
+**active** unnecessarily.
+
+As a rule, runtime PM is **disabled** for all devices to start with,
+but there are bus types that enable it for every device (for instance,
+the PCI bus type does so).  Generally speaking, drivers are expected
+to know which bus they belong to and so they should also know whether
+or not runtime PM has been enabled for the devices handled by them
+already.  In the cases in which runtime PM is not enabled by the bus
+type, drivers are responsible for enabling it if they want to
+participate in it.  The devices for which runtime PM has never been
+enabled are black boxes from its point of view.
+
+Finally, runtime PM may be **forbidden** even though it has been
+enabled.  Doing so causes the given device to transition into the
+**active** meta-state (unless it has been **active** already before)
+and prevents it from being suspended.  In other words, a device with
+forbidden runtime PM remains **active** at least until runtime PM is
+**allowed** for it again.  This mechanism is not only available to
+kernel code, but it may also be used by user space through the
+``/sys/devices/.../power/control`` *sysfs* attribute of the given
+device.  Namely, writing ``on`` to that attribute causes runtime PM to
+be forbidden for it, and writing ``auto`` to that attribute causes
+runtime PM to be allowed.  User space may use that attribute at any
+time, so the ability to transition a device into the **suspended**
+meta-state via runtime PM must not be relied on for correctness, among
+other things."
+
+I think that it provides all of the information needed to start with
+without pulling too much stuff documented elsewhere.
+
+If you agree with the above, I'll send my version as a separate patch.
+
+> +
+> +Implementation Structure
+> +------------------------
+> +
+> +Support for runtime power management is provided at the power management=
+ core
+> +(PM core) level by means of:
+>
+>  * Three device runtime PM callbacks in 'struct dev_pm_ops' (defined in
+> -  include/linux/pm.h).
+> +  include/linux/pm.h). See `Section 2`_.
+> +
+> +* A number of runtime PM fields in the 'power' member of 'struct device'=
+ that
+> +  can be used for synchronizing runtime PM operations with one another. =
+These
+> +  are covered in `Section 3`_.
+>
+>  * A set of helper functions defined in drivers/base/power/runtime.c that=
+ can be
+>    used for carrying out runtime PM operations in such a way that the
+> -  synchronization between them is taken care of by the PM core.  Bus typ=
+es and
+> -  device drivers are encouraged to use these functions.
+> +  synchronization between them is taken care of by the PM core. Bus type=
+s and
+> +  device drivers are encouraged to use these functions. They are covered=
+ in
+> +  `Section 4`_.
+>
+> -The runtime PM callbacks present in 'struct dev_pm_ops', the device runt=
+ime PM
+> -fields of 'struct dev_pm_info' and the core helper functions provided fo=
+r
+> -runtime PM are described below.
+> +* The power management workqueue pm_wq in which bus types and device dri=
+vers can
+> +  put their PM-related work items. It is strongly recommended that pm_wq=
+ be
+> +  used for queuing all work items related to runtime PM, because this al=
+lows
+> +  them to be synchronized with system-wide power transitions (suspend to=
+ RAM,
+> +  hibernation and resume from system sleep states). pm_wq is declared in
+> +  include/linux/pm_runtime.h and defined in kernel/power/main.c.
+>
+>  .. _Section 2:
+>
+> --
+
+The last part above looks fine to me.
+
+Thanks!
