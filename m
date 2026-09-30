@@ -1,111 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f38.google.com (mail-oo2-f38.google.com [74.125.231.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E0C3DA7E3;
-	Wed, 30 Sep 2026 10:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38DC369D53
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 11:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790764119; cv=none; b=i7IOOSSKp+M/YfknkGsBBPPP6TNic2jFCQB6Ua79iS9+jjTlEdH154aJ2CI23DO6A2seAXauqKYHTM0IIdMEZjQiZnKtgvwo47Z/iO7damUWI0lE9YYA4EqrLUqmgK8zwIuMKr0E0M831s2phFsf+cdI3IRUlFCEjd8E9UcRHfE=
+	t=1790766010; cv=none; b=uuR78QgeXNGS+58u51TyrRIaLmD3c9voeww612VQwf9o4CECiVhZC/+aJxoDdF2U31gyNIBWVPEuT0UjqXch/b8Jc2UYelgmDTX6bbQLDAKVg4pNIa+9j58CXyJvdxBbWXseb3ackCDGsZnTeuAGevGhhiN878+4qcCQ92rlUlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790764119; c=relaxed/simple;
-	bh=+YKSvw+J+7jyR16aky17JL7uQiLkoDOGI6/Tgsb5LPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LMoYdC5yeQpoZvgXpSHDSxPlZCF9p2WECSXhBJIFWVS25cK+ZIFuTOUijdaYa+6qnkvGnMvPzctWC/Zv1Jgna7u4AGnah68RWIdk9XkUPFTaYuKXo8iT4IoMeXJvqAuESiCLwxCoJl0e5y9uOvn0YNkX2D/VCWSnSumF6XAlp8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gb7zXE9I; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790766010; c=relaxed/simple;
+	bh=VXbwWAA2rGOCrZka7cjtcYwvbR5kzNs9BT06htzz/Wg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=atNLaktsdqeiofAnajuzVZWLOXF2pzbhUmDHN7AAv9qIC5h1epcicbIW3yms94kNL8glgcIpcciOkPuZnAKbPD9Vbf0S/z/XB+9V+r3ww4UUo5sdsJEX48RsqiCgjY9aQ3+MH8Qgd3scJyJ+HkDJGdeWR/WqGVSZ60X+L/Dhzxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qshiNve+; arc=none smtp.client-ip=74.125.231.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gb7zXE9I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB6EE1F000FF;
-	Wed, 30 Sep 2026 10:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790764118;
-	bh=3AlfBCTmpruVCLkNFQRzrD/em+eWOpqKpyOiivU3oII=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Gb7zXE9IoZs6cbj6Ja6aHJwZtGMS/ICAce6EWUxPoyYZD+wWn4JQB36ydNcIHy81P
-	 Ix6KhornLVyu7QjQImjuYJQ6q3ut/Fpfea/s1Pxc6E9B/gYaAfai4tv658RbGEJV5w
-	 c2FUbn7dDgVRndYi4OQH6cCcxSIYm4BWxmElD3MZlIFl78mR1DXuYpzw7KolJxBXXf
-	 DG/sXJIz9HZBpHeGv5t+Hbz1DPI/xqH0NEWgu8GtDXVqzAS+LWJi2HH6uipj3+6Kyb
-	 ynwz5InOjqSt/H9stD7inw5OssG4dusyaNgA1GOGAjyR7JwM8ARquCvuPpAC+nmpew
-	 Jb/Z6N0cSvjjg==
-Date: Wed, 30 Sep 2026 15:55:34 +0530
-From: Naveen N Rao <naveen@kernel.org>
-To: Michael Roth <michael.roth@amd.com>
-Cc: Sean Christopherson <seanjc@google.com>, 
-	Ackerley Tng <ackerleytng@google.com>, aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	jmattson@google.com, jthoughton@google.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com, forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
-	aneesh.kumar@kernel.org, liam@infradead.org, Paolo Bonzini <pbonzini@redhat.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
-	Vishal Annapurve <vannapurve@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Youngjun Park <youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Baoquan He <baoquan.he@linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, tarunsahu@google.com, 
-	Fuad Tabba <fuad.tabba@linux.dev>, Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, linux-coco@lists.linux.dev
-Subject: Re: [PATCH v11 15/46] KVM: guest_memfd: Call arch make_shared
- callback for to-shared conversion
-Message-ID: <arzjFT1Fqzcuw9QM@blrnaveerao1>
-References: <20260826-gmem-inplace-conversion-v11-0-0a15d8a799aa@google.com>
- <20260826-gmem-inplace-conversion-v11-15-0a15d8a799aa@google.com>
- <ao9CKMXAX-hScRSa@google.com>
- <art6ARechyK0iytK@blrnaveerao1>
- <gqybhgtzeufmbohckesirsbu3ftn4s4i3uhjhaestphuppvth5@zx7lqsldosbc>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qshiNve+"
+Received: by mail-oo2-f38.google.com with SMTP id 006d021491bc7-6d89a3ebc93so785003eaf.3
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 03:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790765996; x=1791370796; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Woc7loh+3fAfJUM+qt0sDz2j23/UUVhg4Uqbsoe5iBY=;
+        b=qshiNve+rTMoIseNxIziioZkq1WxWbPKi/1HS4qW2igRSeoleQkUIbqNDjYC8K+NPp
+         HxfaB6H6rWIIeV5jk+ST+f7F0sWu+29CSXt15amSWPFOmqIfZlfbeKmc11S9Y8bhDmC8
+         fI3F9v9ItU0Nx4FpMjqKFRw2HVQHGHTrXTNSMAq7K0ytLJOzLsmtszYmOJjgIpsF2yiv
+         2rXASWxbAOar/qW/n67QTAdFgWh4TshcJDw9r1nrvGGf2itoPHBBOI/Y9pri8KU90nZG
+         j/W8Rm5tC58TLN9x4H8YJ464Bl8bb0qmc1Q1P7KIHIa0ZTi32yFvyii7FIs3pdoTk8Pp
+         SU2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790765996; x=1791370796;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Woc7loh+3fAfJUM+qt0sDz2j23/UUVhg4Uqbsoe5iBY=;
+        b=mbENgVFIXEdWBn8m+XCRaalCnTZ1eAppIiP3XPPRBWPXCbw56PLdvFYlJqh9vuA9j+
+         GKn2vTwJrIeivxgSPZmsDFQ/FSWfw8PRf22KwJqHNyuFDmdzBKHf/ON6bBVPYX5Uvppt
+         Ct86ZNE/PMBbZkvKv5nBIEtSdcTLmr3fCO51hfpY+VfkeM5EbWOonrhduXi8h/GY7KIP
+         3EM1iRnGGIuWAYaQ3p1dqWmypZ7RjkRU5XofcqWXCorz3L2o0qTGZPV3v6VRuSzlUlFo
+         /yXhasOJCfclW/UZT3FHJP6MlEVmUaMO/FebexVG8itSKwSBdMngGYkd9X483GbNyyji
+         gx3g==
+X-Forwarded-Encrypted: i=1; AKwUvBxQevQ8ESk0qMOCTuBXkEIC7+9r8Ind9hQLqdaDHf5FMm81KWDfNKHXSoSI91gVG0jNMGaWqaRXmmQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++mE4k89MD8EkJ/4u9BOeL9Nn5iTZn5Eztz0IxcsyTiz/+OxSGI/
+	TKQ/zZ1bnndRQscMseuTg6FNu+T2ZnHSG969jzvF2q+Zza+PsjMIlGkJ
+X-Gm-Gg: AYBFou0yJcshWdKXp/xINpyEN7fDqrbbx/SiPoJ8PRF6sjjpMXzZxXr5lqxmLigbmL3
+	b6K7SsWX1+Y3+kbpYPt9JgNu4+pgNnJ9iPL+4qj5yArih24HS3ZGIJ6yc/APyOoZ2QviSnGM4J2
+	HrF309zz4QAO0UkpbYsptcHpk4S0h2rDodO6YX/sSZURw0ZIILMKuXMEA+MpcHCtmUOicNGkJJd
+	Hofrhgz7YObX5d7DtlCQKy95vRt7Of0YZAFrYJE7bRQrkvplqWTzoidOUmbuPt36Yw9BTAOed/9
+	8QtTC0UgSestYgnF8EIS6NyoqLt8fHrkf0eMYZNUtgAYDa8K80CmMAVn8q4n/rCOY+I+LwAoaXY
+	8VwTkWCSUnE0+kej9TmnrASb6prdzqxdKhF+qdIWQE4E5EXYlJUWDWwbAeb/top8025bnVCzs0w
+	Axn+3EjYApgKI68UO5mDQLyyK6mRiJhCSZcMXJ8c39/yFJ/HETN8PLNBZjy0Aj3RUe9UhcreMoo
+	vNnQpdNWqqkv8RKMTdG3eFmh9BGXQ==
+X-Received: by 2002:a4a:ee14:0:b0:6d8:e140:66d1 with SMTP id 006d021491bc7-6dcf4b6698amr692225eaf.23.1790765996325;
+        Wed, 30 Sep 2026 03:59:56 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:48::])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6dcce85d9bcsm1045955eaf.6.2026.09.30.03.59.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 03:59:55 -0700 (PDT)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: Li Zhe <lizhe.67@bytedance.com>,
+	akpm@linux-foundation.org,
+	david@kernel.org,
+	ljs@kernel.org,
+	liam@infradead.org,
+	rppt@kernel.org,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	ziy@nvidia.com,
+	joshua.hahnjy@gmail.com,
+	ying.huang@linux.alibaba.com,
+	apopple@nvidia.com,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference with MPOL_WEIGHTED_INTERLEAVE policy
+Date: Wed, 30 Sep 2026 03:59:52 -0700
+Message-ID: <20260930105953.3956219-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <arzR_QtoMPtM5kUB@gourry-fedora-PF4VCD3F>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <gqybhgtzeufmbohckesirsbu3ftn4s4i3uhjhaestphuppvth5@zx7lqsldosbc>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 29, 2026 at 08:01:45AM -0500, Michael Roth wrote:
-> On Tue, Sep 29, 2026 at 03:10:41PM +0530, Naveen N Rao wrote:
-> > On Wed, Aug 26, 2026 at 12:44:40PM -0700, Sean Christopherson wrote:
-> > > On Wed, Aug 26, 2026, Ackerley Tng wrote:
+On Wed, 30 Sep 2026 05:11:28 -0400 Gregory Price <gourry@gourry.net> wrote:
+
+> On Wed, Sep 30, 2026 at 04:59:50PM +0800, Li Zhe wrote:
+> > On 9/30/26 4:43 PM, Gregory Price wrote:
+> > > On Wed, Sep 30, 2026 at 03:26:17PM +0800, Li Zhe wrote:
+> > >> Allow MPOL_F_NUMA_BALANCING for MPOL_WEIGHTED_INTERLEAVE.  As with
+> > >> MPOL_BIND and MPOL_PREFERRED_MANY, keep migration constrained by the
+> > >> policy nodemask: if the CPU's node is outside the nodemask, do not
+> > >> migrate the folio there.
+> > >>
+> > > Why for WEIGHTED_INTERLEAVE and not INTERLEAVE as well?
 > > 
-> > Can this be a problem with gmem hugepages? Not sure how that is going to 
-> > look like, so this may be covered in other ways.
 > > 
-> > But, as it exists today, if the guest converts part of a 2M page to 
-> > shared, then this skips zapping the SPTEs from the call in 
-> > kvm_gmem_invalidate_start(). sev_gmem_make_shared() then issues PSMASH 
-> > to convert RMP entry to 4k entries and we end up with 2M NPT+4K RMP. If 
-> > the guest then writes to any private page in that range, 
-> > page_fault_can_be_fast() returns true, fast_page_fault() only checks 
-> > permissions with spte_permission_fault() and does not do anything.  
-> > sev_handle_rmp_fault() also does not issue a zap since it finds that the 
-> > RMP entry is already 4k, and we end up in a loop.
+> > Thanks for pointing this out.
+> > 
+> > I focused on MPOL_WEIGHTED_INTERLEAVE in v1 because the motivating use
+> > case is to seed memory across tiers with a configurable ratio at
+> > allocation time, and then let NUMA balancing/memory tiering adjust the
+> > placement based on access patterns. With equal weights,
+> > MPOL_WEIGHTED_INTERLEAVE can also cover the regular interleave
+> > allocation pattern.
+> > 
+> > That said, I agree that MPOL_INTERLEAVE can be handled consistently as
+> > well. Since this is still an explicit opt-in via MPOL_F_NUMA_BALANCING,
+> > unless others see a reason to keep MPOL_INTERLEAVE out, I will extend
+> > this in v2 to cover both MPOL_INTERLEAVE and MPOL_WEIGHTED_INTERLEAVE
+> > with the same nodemask constraint.
+> > 
 > 
-> In Ackerley's hugetlb series, gmem will split the underlying folio to 4K in
-> that case. I assume, if we end up adopting Sean's proposed optimization, we'd
-> update the attr_filter to force a zap if there's a demotion, similarly to how
-> kvm_gmem_punch_hole() handles it in this series.
-
-Ah, nice - that would be better.
-
+> Looking at it, is there an actual reason to limit F_MORON at all? Or
+> should we just lift
 > 
-> I think as a general rule of thumb though we'd decided that guessing
-> too hard at what hugepages will need is best left to hugepage series
-> itself (TDX prep work aside), because it always ends up different than
-> expected :)
+>                 if (pol->flags & MPOL_F_MORON) {
+>                         /*
+>                          * Optimize placement among multiple nodes
+>                          * via NUMA balancing
+>                          */
+>                         if (node_isset(thisnid, pol->nodes))
+>                                 break;
+>                         goto out;
+>                 }
+> 
+> Out ahead of everything?
 
-Got it, that makes sense. Will consider adding WARN_ON_ONCE() so the 
-dependency is clear.
-
-
-Thanks,
-Naveen
-
++1, I like this idea, especialy since the switch-case break case already
+leads to an MPOL_F_MORON check at the bottom. It would be nice to just
+consolidate this into one generic path at the top and simplify the
+exit path as well.
