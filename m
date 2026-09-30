@@ -1,154 +1,137 @@
-Received: from mail-ej2-f41.google.com (mail-ej2-f41.google.com [74.125.228.169])
+Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D922F377EA7
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 15:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95414BE423
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 15:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790782063; cv=none; b=gFLelaGOaJRTepC32heeQZbcwwlo1LY9/ExuhftOKag6OVPdZGnvP2lU1/4hU/lF6WmQGAXpcHeOGdbXIpX8AhIsy2MT4TeZ1LuuT7r8tIUdLofakgQtfg+HambITJq9+xOl4Lms8nrS9RcfBryHUWpCCNlnHp/aI8lmyb7gSzk=
+	t=1790782137; cv=none; b=PmcuOyVHCwBpptHtVH3ziX3fGrDzazTstm+R4zbCwAoVqJ6dSy3QTH4f/GjF7eFHc0hqnEbKzRI5CGLIgMBTqOCCAD34K6mjaW/0ZzO7P6+0bd9qMxYSUrUn4RxT6t4dKWayhduBGoBLbk/bDp5owZWrtNrGydFFyEzEA/nvg7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790782063; c=relaxed/simple;
-	bh=0s/Gn6TxRqE+ma6MSeiSWHaaSkW4KWvpR2ed33nhSXw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dnLIPI1GNemTxm1DoATkgtvH46MBQFOh91xtV0L6rop5/rom2n/6heun0D+cOVJzgiECocry7u7/ImkOWsDDT+rRKPxtWE6ZGfIkpvjISK7asKiDX+t0Yv73vBU6eZnj851NXOEEHfo9ReWSF7b4HTcIAoYBRwTx8Zs3se37f28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sqPNDQvw; arc=none smtp.client-ip=74.125.228.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1790782137; c=relaxed/simple;
+	bh=2Ggxf1QJMVzAn7z3bWwrwpi9VQNSETBx43AfVJ4a5jE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=D77EZMRfOn91yFiDmJoQ0rQHf8EopqO3EFRDkUS/aafVoSCcQEcR2ItafJ+/UeQTlCXztek0yjZ1t7E9zajMDNweu6Bc2CsrfeOBvF3807forGK2Sy0SwMES393C3DAf88G/7WI+Vsqv0jAYWue3CNUr0xGkikm+3IlQV0yzcoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=k41tjchO; arc=none smtp.client-ip=74.125.229.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sqPNDQvw"
-Received: by mail-ej2-f41.google.com with SMTP id a640c23a62f3a-c2e028ed54dso240088766b.1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 08:27:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="k41tjchO"
+Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-33e46a15703so5235264eec.0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 08:28:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1790782050; x=1791386850; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=m8/ka+J/ZNQmE2G5JtUp2jlHYt7CIUXWsqK/1+vFYBc=;
-        b=sqPNDQvwO44ngOq8O0pVz0s6Xf/8otThIx3hzOlCrlrpP+yARDTfCB3cRifadR5d47
-         wMhJ9k48vKUdKavoYpf1Z7ICVGc82wKkPoxUh2/gf44pJlOP65FVabCnFBvmVITZ9Css
-         j21+OxQ/zcudYzfMjwbtXUHsih/6VHMiNf6OXd8XNs9aJjBRkDza5FATdGv5AZgaaeRW
-         55z/oDGeFd4h8Vt95TTnOBGuLwd8UEOM8O8IPFBzBdjyGVXore2bJd083NYoJhKQrdZy
-         AX5kpSopg+1yg7WtZr2pPaCd4hL8bljgKuTTR8LO2xoh9pY5OfeioN3Sq/aUpW/FbD7l
-         oRzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790782050; x=1791386850;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=bytedance.com; s=google; t=1790782124; x=1791386924; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=m8/ka+J/ZNQmE2G5JtUp2jlHYt7CIUXWsqK/1+vFYBc=;
-        b=VsFfW1svHlcIcj81uxMzyGlW6Dsik7I/mhayYElpM0/Oyc1oRYSz/FkosCQkW+HFIP
-         gWIzG3I2lne3BU6+93sScI5+tHMG9eOpFp+lugWc+1ssNQU+Uyh0ixsyBMJHC/EWT+y6
-         1QbkdS7X+mc1cJnXg/+IfchIm46z2Tw8c1Wd35Za83GLDSdF5WeGmp4WFOuPsxstunDB
-         qdsJm7PlCLGQ8WDV0itDUzBRoQhVDj1xPL2zouSEJNWBrvPyGBaiqxl4B/el/3QtGUuk
-         4Czjau/OWnZnxNSqLxYj5HQ180QCBSH7OCdCou+NKypBP9keW126pSMv0qoRqtnmkE+N
-         E/nw==
-X-Forwarded-Encrypted: i=1; AKwUvBzPaVN8Sud2Tj58hlI4aepAQEcYM+xFIilh1IXsZVVaVGyv/HMh/1+111BOY4zCue92kLmDfTPsOnc=@vger.kernel.org
-X-Gm-Message-State: AFuF++n/kG4dnnQKE/p0ZOD8ecYuDaTUpxc8LbhD4VVp/P7O6Bw5uQyJ
-	XkEzzib4JchDSDAfSaWefezGdxDdaeOtkB8OlsLISywxYVgdMfAUOHtgD/hVy85X518=
-X-Gm-Gg: AYBFou3Mvd2nXqlAYEYZ8KO7WgN6TDWVc/irxrtopR/qcvFYmK/kbiVLcCfa1qWV9Y7
-	KelPc2yld0yn0Z0j2RE3hWX6yf/vFpkAWprPZ/Gww/L0oYbqciaonet9beFBcM3SGxHEDKpZldX
-	HoU21+3BqKHlVn68DfyYRR0A1zMc+BXCV4Iz3bSABb/+8C3jpTQ9znVK+DscdWcMlYaYU6u8NXD
-	7x7lwzMhlRctMM4rLscNQRBfL9QmtP9w8M0h145TAnnlbmm5IxDoPgJI5jq90feFa7rkXRYioML
-	5uJ6nXxB7Uzrjfpmaejg/A6zYHWpOqQWq+PTiz68gtB4KDuNeea70WtFLlnC3XYs6tjsOTGnppE
-	nlMUEKfgZuHNnp11w3z2LZCJ/uvDepEpxkf3vuxhaDcJ4iK8Lh3usZec6/Jo19Y/ugCB9ZrHrTu
-	1R95YduFKSVrmWCFwI2g7o4tc9+0ArYSGCltjsVrTR2ZVOKtuXBZ92oBtTx+lLmX2xAqwDOqcHP
-	MY=
-X-Received: by 2002:a17:907:e002:20b0:c2d:ca32:2176 with SMTP id a640c23a62f3a-c2e23be61f9mr114745266b.8.1790782049863;
-        Wed, 30 Sep 2026 08:27:29 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2e31a3eb32sm28640766b.3.2026.09.30.08.27.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Sep 2026 08:27:29 -0700 (PDT)
-Message-ID: <56d86280-fcea-4d2d-b6b9-b47449f3408d@linaro.org>
-Date: Wed, 30 Sep 2026 16:27:27 +0100
+        bh=cc+9rKSOSGawoxpJ2ipg52Wvw6p1Y1gNn8hY21fAsGA=;
+        b=k41tjchOeNuQm/A50C17+3cfj639ABE7thfMk6YhMkICiSG5sdsQ5q7om4BYS+5QWn
+         D09YaKyioATHoAaoA3FrW7iYaRPfoX6ME8wx0O9kUTlmhCBpUdB548En+XYverqGsHv2
+         CtTrlRSEyCxSx6qo++UikX+8rrIsCgKmR+X/4dZru2D7DFxbBD/IOSQg7M6KgQt7YwhL
+         DAdFL68a3X2Qk7wJcJmUCkGwJ9Fr78pCP7plXUvjWsp0W2uuxycbZDppl+ggtRNcto0p
+         D9n2mG09dLyW38CBwjv7afMkY717VrE4GOS+j61zx5mNPYeHPQqMKqjI+Det/tVmN3D5
+         lcBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790782124; x=1791386924;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cc+9rKSOSGawoxpJ2ipg52Wvw6p1Y1gNn8hY21fAsGA=;
+        b=ps3+bdpGgOfuK5SihbxuY1Es98KHnDNTFtG/wVdlw5g52q5hjxoXMVidA6i0F82xKK
+         KXmdR9izg/QMo/S4KZXVfLgFhNRT3T6oCAuKKHx0wpoKUCAnlsI7WzCr1js8odrYqUnP
+         UR5RoBpxZWfds1z3O4AWnQ1DlW50G7I6I6dpQ3LeT7emi48lKKASAlBzad2txKVik8bA
+         dTBA2LkGxsdG0jQ13Xw44WU8JyoCvLNFu5LgWrHdphtxeUdt9iINncwwrBh3eS6DO1PM
+         4lEIkcFKl/jTEMBJqs00SRKshZs9E3PP+h+nWjmaaEMcHJeXpth7CynuMPfi8O4lZ94W
+         j6BQ==
+X-Forwarded-Encrypted: i=1; AKwUvByc9omTZ8T1CuFMGf3DvTQl+ZAnPboylXKGKfRincyE1jcKK9TlESVt8vpQcoAk2S5nCDvZId9L0HE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLoCusAFf7+LaKiE2LsHquc7DWb6xPx2z8KoenzJ5tL2SadEMgP
+	dgUMnxjXKdBuitsEBC0veIB0Ws2YXMc6fdLULSYZjoQyUW0ZrcIEfN2ClMbxtkmflq2d1jQjcbd
+	QeNzQO7M=
+X-Gm-Gg: AYBFou3wX5uaP51Yf3t+D2xItLMxTKBwE5ZqdBKE3MNcB/gB4eNUP3Nt4fSHdDwBiM2
+	n9Ih7bZy1TwfvFoo8gulyBEyJU7DFBfpurq5U1QU6LmyF6DFeVMjF1SLyG+AleNHoF4YZR1FKdl
+	tbV141G6jW2L2kE+9jFPZajdbiuvjWM9HuEmGNNJpHlaQQszfKqTp9WtS8NuCfeuMbtP+n/ueWE
+	H089ZOxgkWayphgP0WcQ37eawg8Ke+xkGkiP6MFaMjDC7YfFozqHa9PR0AyFO36ZYJVQK3hGmvC
+	EQSKsESlpx8tv2naiz/pVVP83+ZRBJ/5Naxq2SB353B7w0hS1XIklVTiPlEjrcok8fG7712Fb/a
+	hWF8jykJ0KByCQTMOEenpW/pgZROofWwkrHhrYsQYIcJ1nmvlsNYSF4Hzw2EPfZtLeCgViU7zDj
+	F1GU7G2qH8UUlG6DC520AB7S932dtQdW5KpLijHA/Hh5/EpyfIFSu4OvlgDjyTrxcjwP4BsEfga
+	mNkUrDzW1mqWEaofe8=
+X-Received: by 2002:a05:7301:fc04:b0:339:85bf:dd89 with SMTP id 5a478bee46e88-34cdd2a42a2mr2004450eec.35.1790782123219;
+        Wed, 30 Sep 2026 08:28:43 -0700 (PDT)
+Received: from G6L4RL2QG9 ([139.177.225.238])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34cf5b3ea3csm5750493eec.23.2026.09.30.08.28.35
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 30 Sep 2026 08:28:42 -0700 (PDT)
+From: Muchun Song <songmuchun@bytedance.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Oscar Salvador <osalvador@suse.de>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-doc@vger.kernel.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Muchun Song <songmuchun@bytedance.com>,
+	Lance Yang <lance.yang@linux.dev>
+Subject: [PATCH] fixup! powerpc/mm: switch device DAX to shared tail vmemmap pages
+Date: Wed, 30 Sep 2026 23:28:26 +0800
+Message-ID: <20260930152826.76084-1-songmuchun@bytedance.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260930140627.57431-10-songmuchun@bytedance.com>
+References: <20260930140627.57431-10-songmuchun@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 20/22] KVM: arm64: Add vCPU device attr to partition
- the PMU
-To: Colton Lewis <coltonlewis@google.com>
-Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, Fuad Tabba <fuad.tabba@linux.dev>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Zide Chen <zide.chen@intel.com>, Alexandru Elisei
- <alexandru.elisei@arm.com>,
- Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
- Mingwei Zhang <mizhang@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Russell King <linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>,
- linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kvm@vger.kernel.org, kvmarm@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20260924172928.2110956-1-coltonlewis@google.com>
- <20260924172928.2110956-21-coltonlewis@google.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260924172928.2110956-21-coltonlewis@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+The PowerPC radix path takes one reference for every PTE that maps the
+shared tail page. Unlike the generic path, get_page() lets the counter
+continue after it becomes non-positive and eventually cycle to zero.
 
+Use try_get_page() so vmemmap population fails before the shared page
+reference count can cycle, matching the generic implementation.
 
-On 24/09/2026 18:29, Colton Lewis wrote:
-> Add the KVM_ARM_VCPU_PMU_V3_ENABLE_PARTITION vCPU device attribute to
-> enable a Partitioned PMU for a VM where PMUv3 and VHE are supported.
-> 
-> When partitioning is enabled (tracked via
-> KVM_ARCH_FLAG_PARTITION_PMU_ENABLED), userspace must explicitly
-> configure the number of guest event counters via
-> KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS with a value strictly less than the
-> maximum number of general-purpose counters implemented by the PMU (or
-> 0 only when FEAT_HPMN0 is supported), leaving at least one
-> general-purpose counter reserved for host profiling prior to calling
-> KVM_ARM_VCPU_PMU_V3_INIT.
-> 
-> Signed-off-by: Colton Lewis <coltonlewis@google.com>
-> ---
->   Documentation/virt/kvm/devices/vcpu.rst | 42 ++++++++++++++-
->   arch/arm64/include/asm/kvm_host.h       |  1 +
->   arch/arm64/include/uapi/asm/kvm.h       |  2 +
->   arch/arm64/kvm/pmu.c                    | 71 ++++++++++++++++++++++++-
->   arch/arm64/kvm/sys_regs.c               |  5 +-
->   5 files changed, 118 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
-> index deb5c51bc00c8..fb5921ed9dea2 100644
-> --- a/Documentation/virt/kvm/devices/vcpu.rst
-> +++ b/Documentation/virt/kvm/devices/vcpu.rst
-> @@ -57,6 +57,9 @@ Returns:
->                     hardware PMU, or interrupt number not set (non-GICv5
->                     guests, only)
->   	 -EBUSY   PMUv3 already initialized
-> +	 -EINVAL  Partitioning enabled without explicitly configuring
-> +		  fewer than max_counters via
-> +		  KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS
->   	 =======  ======================================================
->   
->   Request the initialization of the PMUv3.  If using the PMUv3 with an in-kernel
-> @@ -162,7 +165,8 @@ the cpu field to the processor id.
->   	 -EFAULT  Error accessing the value pointed to by addr
->   	 -ENODEV  PMUv3 not supported or GIC not initialized
->   	 -EINVAL  No PMUv3 explicitly selected, or value of N out of
-> -	 	  range
-> +	 	  range (or N >= max_counters when partitioning is
-> +		  enabled)
+Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+---
+ arch/powerpc/mm/book3s64/radix_pgtable.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-"No PMUv3 explicitly selected, or value of N > max_counters, or N > 
-max_counters - 1 when partitioning is enabled".
-
-That might be clearer, otherwise it seems like max_counters being 
-relevant to "out of range" only applies to when partitioning is enabled, 
-not that it's max_counters all the time but one is -1.
+diff --git a/arch/powerpc/mm/book3s64/radix_pgtable.c b/arch/powerpc/mm/book3s64/radix_pgtable.c
+index 9ca28e4a610a..a3332f32ffb2 100644
+--- a/arch/powerpc/mm/book3s64/radix_pgtable.c
++++ b/arch/powerpc/mm/book3s64/radix_pgtable.c
+@@ -1042,13 +1042,17 @@ static pte_t * __meminit radix__vmemmap_pte_populate(pmd_t *pmdp, unsigned long
+ 			/*
+ 			 * When a PTE/PMD entry is freed from the init_mm
+ 			 * there's a free_pages() call to this page allocated
+-			 * above. Thus this get_page() is paired with the
++			 * above. Thus this try_get_page() is paired with the
+ 			 * put_page_testzero() on the freeing path.
+ 			 * This can only called by certain ZONE_DEVICE path,
+ 			 * and through vmemmap_populate_compound_pages() when
+ 			 * slab is available.
++			 *
++			 * Use try_get_page() to prevent the shared page refcount
++			 * from overflowing.
+ 			 */
+-			get_page(reuse);
++			if (!try_get_page(reuse))
++				return NULL;
+ 			p = page_to_virt(reuse);
+ 			pr_debug("Tail page reuse vmemmap mapping\n");
+ 		}
+-- 
+2.54.0
 
