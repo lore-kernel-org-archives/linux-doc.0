@@ -1,122 +1,82 @@
-Received: from mail-dl2-f43.google.com (mail-dl2-f43.google.com [74.125.229.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F13348896
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 16:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8744F51C34D;
+	Wed, 30 Sep 2026 18:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790787160; cv=none; b=tcxj6iLQ5LvfvjP7jsfBa+ZolqRu6boIyuWu0tpVILMxTXZwPOIgGZFJLWe+QANNG0tqKRzLSy+72hXPjPzMp5xp3SJpeAkvqkxFYNnr5tOR5XFq9pd7ep9hXbGxyForfxctBe270sjmXgtEatyQRQHbCmokQTEowP+GG3Mhs7k=
+	t=1790793696; cv=none; b=cNv1g8k8fGklDy9vfwDtRGohEcgSiYbfGL+YBus2gQjlocUQkaBrmY+la9bttgjO0S1UPWeOu4D2Fj85heLMBsa04kPYFCWrjH+ChrTiFZFa9e5YJYIJbeweoXHPRJkti3rlB2NlWM+OV0qyt2N48aAM4GLDD81MegC4FiY55/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790787160; c=relaxed/simple;
-	bh=USoosmtGDycX1a/Va/WTZ2HKM0YP5/LMRYBi/jK/1WU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZmnO4homNwTmTqyNTEBvvaA5JaOFsvhZOLLog3dJqVPYjcI68uJtaDuCvPDeFeKerbtmvkF6SsiBhhVyb1dArpaqvDJungZislr5jEr4iSRLyUr8v3gfclde1P7v0ijV3LV6kbbwemtfG0aiZcmsEFoexVECZWqrC/16hB/ufWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=OhOI/Tgd; arc=none smtp.client-ip=74.125.229.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1790793696; c=relaxed/simple;
+	bh=JPBLddgMUAgMoxbfEADil0cH8zquZgAGo3+9stQm6GM=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eY14nYMQyRZ02+U+qSfq93LuUZRlff84Dh9zPswyZoCKAPmdfHyVw4n/pDG+sOJw83DDVWOZkCeL+vbGbE6inZvfvqlYX4VbCxlqv0ZFdjZ4IdxDY494WZOFt7ftNm8/jengCPz6Ea0g/B1bdPu5BQYmXcQ3q+OVrLL7fSHoISw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=l8J2WmdH; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="OhOI/Tgd"
-Received: by mail-dl2-f43.google.com with SMTP id a92af1059eb24-142dd046b87so4176449c88.2
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 09:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1790787158; x=1791391958; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=USoosmtGDycX1a/Va/WTZ2HKM0YP5/LMRYBi/jK/1WU=;
-        b=OhOI/TgdclwGcCILD+ANQGEgwuLJ1ZFSSM6jZ0eyyZ5+emPldVS5zYq/zAUpJhDnrG
-         yK0jdBXbcETvevcDmN1A4j946Qj4hSNu0rKZCPee7rIB7Dqmcb1xcIedR/Bmt5K58SxD
-         cAI3QtH0pMAXwQJYvhU8d0wGmHg9MdTQg5xMwKqWLaulux13gkarK7uX7e/BVSlO0NJ0
-         L8y2Xh0n9cuFXrampV3zVqU70hZ2hbkcWrmJOsSLWkDdDLly1pNPqk/rE5dK6UpPfnjF
-         PKz+PLpK+1hm3LyrH2xo9sMnWM9KVbPso6lmlhuBWaIZmwq4yxmEqHqznGVGaqHEvJIi
-         KLyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790787158; x=1791391958;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=USoosmtGDycX1a/Va/WTZ2HKM0YP5/LMRYBi/jK/1WU=;
-        b=ZevJk1uo+3Si3HM+BTkYEk0eG7OCQAsvASy53RB2jJYTJVZruRIBfiIX+YZf5l62a/
-         ihFNmAv83qAkRQSy7EEbPSFfAR/a4PmlRMjHtK6gbs/Sqhp6tK56ONfi1tfCF8LHQLdX
-         ZN+OBwGiwJdfjA+rxMQt01fVOHByk0FAPJ0gqDQh0erbVlwYUzTegJspxPy754y9yx+F
-         qivXOp8xxPn5fZvoLb/QZN4jBgzEXIgQU7NqTN6rstLtrAwxHrP47tXxmAJz1OCteGzN
-         7k9HKuHkEWLFDi6jIXHQ5mCVUPWIlAWyEoO+64QMLhXlRU3DHL2hMVOt+ccKK8x9vqqC
-         QVrQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwkAB9I/VkXeSIDulWFwUMRaSRb7BgbYF7wsNf9KDeeWD4oIXeadulZLV9H1nUL7q317G0p/3Iq4J8=@vger.kernel.org
-X-Gm-Message-State: AFuF++llSBDfGb8scWMTH8DcprK3QIBxEUZReXm7pKirVakUQmb0ueXE
-	k0epMyBWUWfk7EZa1nWS+0BTObLEOkJ6UpblEDbumrGHh/avS3IAivVXfHDUnunAkhs=
-X-Gm-Gg: AYBFou1itLewj3n9A+X11agwsN0+AiDiwYotvOqJm9Xz2CAYBW/BkmG/FyrklNpfp5V
-	NUEouaVHeaJRdhm+QqHx9bl5eGef4+eGGUWB8oxdcmYiW2pTRQqd1umBnHhhK6w0htiqMGts5hC
-	WZCv7Rnah9QF2i2bjftCC+Y8CMXD8dZfNlQf81Z8xvx7rwQmn+cASfWZ1yuccFtSCR2ITIR4lHU
-	HRaUqJ4BBHKuUsEteX6Q0KVyvoRsmH4bthFzBA94eL2FDd9ZkWOazYONgPb6zHzsknzj6c7bfK7
-	wbdGtteRp3lbPR2gp4fK/5K/uyuJ9z492NbPioWImlCKVfsjkQH0E3ljS6ht/KNb2JaPYvw2DKE
-	fcDaDZhCQ04e4ohIIdPonl5AhWnvKk7V9kr5X9clX3b/Y6piV/YTkKHhjcrvwfSheDqkrJWrwGJ
-	USt+jtUqMysKFnuYIN4V+T0QA/CpS6NTHr4DtnnB96t/KJeQ==
-X-Received: by 2002:a05:7022:4595:b0:143:297c:276c with SMTP id a92af1059eb24-14d330b1ca2mr3017652c88.33.1790787158196;
-        Wed, 30 Sep 2026 09:52:38 -0700 (PDT)
-Received: from ziepe.ca ([130.41.10.202])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14d313b9c38sm4523537c88.1.2026.09.30.09.52.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 09:52:37 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xBxXo-0000000C7JB-1eI9;
-	Wed, 30 Sep 2026 13:52:36 -0300
-Date: Wed, 30 Sep 2026 13:52:36 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH v8 16/23] dma-buf: Let importers ask how peer-to-peer
- traffic is routed
-Message-ID: <20260930165236.GS163130@ziepe.ca>
-References: <20260929132305.GJ563127@unreal>
- <720dbac3-24f6-4c91-899e-e205865c1fd1@amd.com>
- <20260929175737.GK563127@unreal>
- <eeef5951-825e-459f-b474-bf8c59588446@amd.com>
- <20260930081832.GA3401365@unreal>
- <4549640c-f4a5-4dac-9be3-2e5aa127555c@amd.com>
- <20260930114356.GC3401365@unreal>
- <fbdc710d-7be1-4021-83c2-548c798d9d14@amd.com>
- <20260930143237.GI3401365@unreal>
- <b2e766389e57a55da959369c5ad4b9e39e425659.camel@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="l8J2WmdH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1790793694; x=1822329694;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JPBLddgMUAgMoxbfEADil0cH8zquZgAGo3+9stQm6GM=;
+  b=l8J2WmdHRFD6bpyomCpIqnxLvf25/z/VRMZgwtC7kTOROhHlY+G85vQg
+   mCSd8pAH5NHsp4sRERW8Uem7M7bdu2mp5ClAqbNccKIi3wmXIK50dMb9m
+   5J9UIs/0ZH8hZyzulYkFFtNaqYYI1RDagJgiIccwJAaA73BuA2rU3OBg9
+   4t8YvWL4oe8xorj0zKpCWo8nJ+uRDSWfF2pMSBcR9etYmNtqpuC/6VLQR
+   3NI9b8FGrV9LwNOjnEx/fl9ME6wA/FaJ8vRqCWIitpUuMAHM+85m1Noan
+   FWkGxsMGc98k6V3CYPNjKCydq8Ywql9SeAwuq08UEPr35iCxIoLmmoaqQ
+   A==;
+X-CSE-ConnectionGUID: we0tvhQWR7CZPnkshB0Uyg==
+X-CSE-MsgGUID: Qyq+JkDtRBiTTaFgpHGeVQ==
+X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
+   d="scan'208";a="64681246"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 11:41:28 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.87.152) by
+ chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.49; Wed, 30 Sep 2026 11:41:26 -0700
+Received: from DEN-DL-M70577 (10.10.85.11) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Wed, 30 Sep 2026 11:41:24 -0700
+Date: Wed, 30 Sep 2026 20:41:23 +0200
+From: Daniel Machon <daniel.machon@microchip.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: <davem@davemloft.net>, <netdev@vger.kernel.org>, <edumazet@google.com>,
+	<pabeni@redhat.com>, <andrew+netdev@lunn.ch>, <horms@kernel.org>, Nicolai
+ Buchwitz <nb@tipi-net.de>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+	<rdunlap@infradead.org>, <workflows@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>
+Subject: Re: [PATCH net-next v2] docs: netdev: additional info requirements
+ for bug fixes
+Message-ID: <20260930184123.ix4saaidpo566oxf@DEN-DL-M70577>
+References: <20260930163109.3910509-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b2e766389e57a55da959369c5ad4b9e39e425659.camel@linux.intel.com>
+In-Reply-To: <20260930163109.3910509-1-kuba@kernel.org>
 
-On Wed, Sep 30, 2026 at 04:57:04PM +0200, Thomas Hellström wrote:
+> Knowing how AI-generated patches were tested would be a great help
+> when reviewing them. Explicitly ask people to describe the discovery
+> and validation process they followed.
+> 
+> I posted this as an RFC a while back and there were some concerns
+> from developers that it would gum up the process. With Linus's
+> recent complaints about the size of our PRs, we really need
+> this information. I launched an AI bot which complains if
+> people don't explain how bugs were discovered and tested
+> (look for netdev-bot+sinfo@kernel.org, s=series info).
+> We need to document this requirement.
+> 
 
-> Returning again to Jason's series. Let's say we'd add just the mapping
-> type infrastructure, converted users of pcie_p2pdma only to use that
-> and then we'd have access to per-mapping-type data. This could actually
-> be done as a prereq for this series and merged separately. It's a
-> couple of patches only.
+Acked-by: Daniel Machon <daniel.machon@microchip.com>
 
-I'm happy to say I found someone here to pick it up again, so we
-should see something on it after LPC!
-
-Jason
