@@ -1,278 +1,123 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CED51A744
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 14:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB5E51C332
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 14:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790777356; cv=none; b=i/uC2ZmKd2n1t6VyHpA11FODzPMe2eoNonWi0/FFae0pM2hsV/nA+s0luBz0DvguBJTM/gaXNNc3f5zOy/0dZ/fhqEzGYVjTWb4Lizk3qX3UC4gxSTcjvhEatT1O3eStvJIy3fpfn97pdbL2zCWLUcPx2eQeIXv+3wEnTTc/saM=
+	t=1790777914; cv=none; b=npYU9Xy50rCOc3qVNa9PJ4fMXJPAsB+uu2nVU4IRnxMVJyZdNOla92cXAMgrh1HdfFpRc+ONcYHAMsDBm/3gOoyNykQBisQQ3gyz3xc8WuNGJQR9qihEweCuwjQKzcKtACZ9JpILazDrkUoCwdugRoKOHjoXwDEkQJnZt1n88sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790777356; c=relaxed/simple;
-	bh=nX2kpSagwvrXtZW4TuK/z8xDkCLKtHJmbCTdjNDQWHI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kg/drSuk7VH1fcadhiV92i8CZzuy6/r4DoOfgywuBIJ87BKkcqs+yMf+Nex7UZRH1BOrae6fzBUgWNwey0skLPJetGR0NG2Tzj8/SEt0QYMuEVJ+XKo9YsDzoeL8b3uld0XWaOHQMb05EAmNiSNaXQVSOe/NQ8ZRvP3sHbPEwiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=CPvNa5bT; arc=none smtp.client-ip=74.125.227.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1790777914; c=relaxed/simple;
+	bh=YWPdCfsFS6ZQRQCEfEmlwZY8o1h7IsheV/Zhu+t5mrY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YokSmI2HlIAEs28j13F92zHGIsKa88lICmS/4ipg74qeU9BxNLoK/hokxDmcCLtZT4N000ndXBW/+E4v9NhVyqqB+HIfY2FMW2R1V2VEAxhnTIlJHyT71Z9kdSu8P2uAiAHmwPlFpnvxHa21N5kRTOh8gulHGP4PmWBkTvRVa8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com; spf=pass smtp.mailfrom=toxicpanda.com; dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b=XdniRzin; arc=none smtp.client-ip=74.125.230.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="CPvNa5bT"
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a49573b8bdso1623147a91.2
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 07:09:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b="XdniRzin"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-90cdfcb5cb1so62705696d6.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 07:18:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1790777337; x=1791382137; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wFs7N1zg+/ZEZHxojTsBYZG7Bu1MLCx/OGkj1iEK8Us=;
-        b=CPvNa5bT8g18MXtAWMzScWY+i5Gq7t6xctl1j2F3vWDDUtA3sSk9D22SZV+/zDQgpS
-         BridnDolE5iyS2VTG9qhy+oDEKD5YLspZtj7ReTOE4B2CJJqX81/GzTR+4XNUyytkIJo
-         I9JIPA7AkItpQw5xOh1PyGiaOXADk7lkeilJ7AEGpj1aatQUTwuCkJZPgDGFtuHRWCzW
-         RLwTVx7APDh1rfq2SVMiiDtlV5wNh3/DHeVePvtj3mp/vNpRJ4cC6qB+mnzx9B+yyG//
-         URK8T7pfv1zyt4Swvc0IX4uFsvnlqoJSv9E8ht6baEE/GiZ5+YfVaAN9b1GVcdbQJ/gv
-         HQLw==
+        d=toxicpanda.com; s=google; t=1790777896; x=1791382696; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=abUwIeE8e0bpFPRb9wUYRAMfwfBclRmiyensy4fqIE4=;
+        b=XdniRzinlTcHzMj9HW9T692w9pUcHbeyAyLPc77mOd3x7fanJf/QcI4epp1ovlEZVY
+         IMo+13a8sOH6q8EeJd2TLw+WFlQCzLL8URaHz7UyqTrLxC1O/ggVwypxm0RtL+AuMFA7
+         RLD8eceGCpNSa/xtRFgpOFXrFW+RU7KE5vevaYvUDxMeIYFExbYBHPaqGOGu+ZVNt1MP
+         XJE3RvifOQ43BjRb6p1rHBQatxv8APv6orX86J7ycwlToBYixsvB8tVbGHD4fI1XljP9
+         /34jOMOrMw8ef7Nvw6cX/7KdcVyw6cal58EE4bLHMzljIqfHMzOh2zNieR12I3QVNxMM
+         Q8VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790777337; x=1791382137;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wFs7N1zg+/ZEZHxojTsBYZG7Bu1MLCx/OGkj1iEK8Us=;
-        b=abjfn0jCiW3/6mak/H9EiVSN8SE753YBVSfF4ref/SdzdYjTvzKrWVO5LCPm4n3fAk
-         H1YOAB4FBnwt52S9Ik2AEqrq7ll7pS0mDEtEyrccUWEc/C3rt+zz70KKVrGspQA3DWlQ
-         puGQW2yCYBXivxTW3RcIImFxz2LN/yc00YstQtr7+WYWza08HsN4fBeNN66MgG0JgYJ6
-         Gvv2cILld8jp3ptDlQmqj2mEg84oHb27a6mG+cNeU6ZOAj8PDhcHanxg60GWZcPr6Pd+
-         AgLr7VtuAuqF++9aigtaFxDf7w6k+G6lARK+1qhuxgXp0eKViZFe/IRj/vrUU16aDVyw
-         oVVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxjnLK60Bh8cEzvYshUOTJ9TxtOzOPm0NzUQTABmgKM90sbJAhdGXyIrCHFv3B4drJukIfkpelpjQE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKXGid+toz6Jq1s1LJBgs4a6XgLtKpH2JMo6OXeEUBbRXP8VlS0
-	zUAg3+qSEiLNVw2bF0ODCnj21hFY351ExLXJZpeRSlvaufaIN1EWNmKCiA4tjIEm+DM=
-X-Gm-Gg: AYBFou09imDaBarBvHd6W0mvqNEn0QLGZ/axf+/ejQHysMPf3u3SkMgYxPIdcnnNCW0
-	gQ3I7foVfPG0KLVEimthVtvIVRntJvn8PZE4hIWQg9WcoO4u1soU45NQgal90Z9+FAD5x2Oelks
-	vSPCw/oaesDURVEWqtYW92EMXyL3dPUXC1UnzYdOjyWSJChbJ4CwZMRGQueF0i4d/r4thtmA3EL
-	irIIzS6qENDJjIZgBKT9DpAALOX6cx60jfv7E/ZgdW+bQIjQHu/KHRk/DT84tEW+Hwaqqi+Fxi9
-	K+/iHLajpSk8hr0vQuNnBc4lOatJ5fjLzszEdyvvAZIaqxGppBZopeXFblWzvW2Ahan9zlYWxn9
-	QQqYXbjB9t3yiDcYMhh+B2gsIzdtwpeuIMmfPRTQUiowLCjxTxJc2kiUR8I8cmbj4QBQ4MbQ64K
-	/xGxq9fgN5R6MOofj9clIvZmLyp20a9BLAttmdRiAAZBHgTtNh0HflmKsNNkhbvYr74M+nuOOhj
-	o0zV1AJ7TC8IoPrDac7eUCJ
-X-Received: by 2002:a17:90b:3ccb:b0:39e:6a80:b796 with SMTP id 98e67ed59e1d1-3a4d18c4d32mr1414859a91.38.1790777336778;
-        Wed, 30 Sep 2026 07:08:56 -0700 (PDT)
-Received: from G6L4RL2QG9 ([139.177.225.238])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4e60ea12csm639509a91.1.2026.09.30.07.08.48
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 30 Sep 2026 07:08:55 -0700 (PDT)
-From: Muchun Song <songmuchun@bytedance.com>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-doc@vger.kernel.org,
-	Muchun Song <muchun.song@linux.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <chleroy@kernel.org>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Muchun Song <songmuchun@bytedance.com>,
-	Lance Yang <lance.yang@linux.dev>
-Subject: [PATCH v6 12/12] Documentation/mm: update DAX vmemmap deduplication docs
-Date: Wed, 30 Sep 2026 22:06:27 +0800
-Message-ID: <20260930140627.57431-13-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260930140627.57431-1-songmuchun@bytedance.com>
-References: <20260930140627.57431-1-songmuchun@bytedance.com>
+        d=1e100.net; s=20260707; t=1790777896; x=1791382696;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=abUwIeE8e0bpFPRb9wUYRAMfwfBclRmiyensy4fqIE4=;
+        b=qw4rz4jeF/9WfCfj0UMcWL94AdD04ag0xbzgVLxImAwg8YdRacPenxAXif3VuB0lBA
+         BKIz0G+xIwKg0s8JBztu71bIdjvdgHIvflKsuKlM6iOPjei6nf1tRdHEasd3j1lmZW2Y
+         zfNTwo4QQO68VZQFgSeG3H7+Ffd8EprIK0ZCB/wTE3AfrWjpbGiTAZ2dNWGSFb8aHkTk
+         RgmvcQYTq4Hw1e4pAvJWHoMvSDXdOtm9pV/x+r4Clhn5hqqIZpnSxEV9VwbK5+zbKs+d
+         XIWJjRvcg8RK4So55n9Gx6v4B0S/+0eI2zZdT3SHKLzgG2cCHCVIJ/s7RlnPJcceeQmc
+         23gg==
+X-Forwarded-Encrypted: i=1; AKwUvBx4xrqZPe/kF24ODUD5BPpXIwgx1fvxOZvWa7bWAE2qxaGXE8aOqynBW7w25CzdSl1OawmjGB9FiK0=@vger.kernel.org
+X-Gm-Message-State: AFuF++lw5pMRtrOi5u0yI3SqrI/vHWODGitL2jQYLIMmityeQiIi+OQI
+	cyXJqMBl0Qr21U2UCQh2QnJstp56jsujAaU7pkVEUtHEpdTri1Fz+LDKfwHsc6wkr5M=
+X-Gm-Gg: AYBFou1ImUW5auPQsBUDXN/KDBhY3EKqSiWaWbIIURCCg+LqYt+rs4OAdLXaxoOSIV0
+	gqkXQBM3IGc6ra2aK3BPmmBVv+PnDJyUeRJcfBtiHlmGKTXwvF6Z4ERWvVS0OL7SR3uiMF+coOI
+	/3PxWPQjdFpJrbxoCTUZu0+wwUnMqe89X5qaYmdI68Ydth4ckVc0PD0bFhEcJD3nJ1W7ogMpyE4
+	k0lkjkfUFBym2geBcUyZaBhBP07hbQ356rFpANhe2RKToK95np76b7SaWmqFL0bJW7MI+thhEzt
+	d4yXQomwSTbeiifdW4Puz6GMl19e55RQ/K05Xc2YdYSY2fGJA3gXb2AtE2I5JpyvIbxp8EQaT2P
+	WDHsivifBBLKnXSycbDvRKaALMcxIldgUaXvTubDTaFDPOzAv25F857yurFI+ub8zFXr0CDVGZU
+	aBMHodqQbQIvMli/7BOWcfPBXvLh33/bcplYVv6Bj+0BpBYTeRTcikFBHthFb+zBWNIXE0hDFL9
+	DLTegUdhJgl0M0=
+X-Received: by 2002:a05:6214:2601:b0:917:98b6:51ff with SMTP id 6a1803df08f44-917a0bd731bmr24260116d6.32.1790777895505;
+        Wed, 30 Sep 2026 07:18:15 -0700 (PDT)
+Received: from toxicpanda.com ([153.61.196.250])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-917a8aa9c54sm347136d6.49.2026.09.30.07.18.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 07:18:14 -0700 (PDT)
+Date: Wed, 30 Sep 2026 14:17:31 +0000
+Message-ID: <e15d4e3c39e8ed1860b762cfd8e43c92.josef@toxicpanda.com>
+From: Josef Bacik <josef@toxicpanda.com>
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Caleb Sander Mateos <csander@purestorage.com>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/9] ublk: fix dispatch to canceled io commands
+In-Reply-To: <arvOwDHOgvpVW86j@fedora-laptop>
+References: <20260928-b4-ublk-cancel-stop-v1-0-4a4360232a46@toxicpanda.com> <arvOwDHOgvpVW86j@fedora-laptop>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Device DAX now uses the common per-zone shared tail page for vmemmap
-deduplication. The old documentation still described a DAX-specific
-layout with a separately populated tail vmemmap page and half the HugeTLB
-savings.
+On Tue, Sep 29, 2026 at 09:44:16AM -0500, Ming Lei wrote:
+> It looks two races: STOP_DEV vs. START_DEV, STOP_DEV vs. FETCH.
+>
+> Looks fast io path shouldn't be touched for fixing the races.
+>
+> >   2. A partial FETCH round whose task exits, once another task
+> >      completes the round.
+> >   3. During recovery, the task of a queue which is ready already
+> >      exiting before the last queue is ready.
+>
+> 2 and 3 could be solved in single simpler patch by making use of the
+> ub->canceling flag, and it is easier for backport.
 
-Update the generic and powerpc documentation to describe the shared layout.
-In the powerpc document, keep the radix and 64K-specific details, drop the
-duplicated 4K PUD arithmetic, and replace the repeated device-dax diagrams
-with a single parameterized PMD/PUD diagram.
+Agreed, yours is much simpler, and keeping the flag set for the whole
+FETCH round is the right model. I ran it on top of for-next (d70609a2f68c)
+with KASAN and lockdep through my reproducers and the ublk selftests. The
+oopses for 2 and 3 are gone, and recover_01-04, batch_01-03, generic_17,
+stress_01/02/05 and 60 batch QUIESCE_DEV/recover cycles pass.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-Acked-by: Qi Zheng <qi.zheng@linux.dev>
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
----
-v6:
-- Collect Acked-by from David Hildenbrand
+What's left for 2 and 3 is that the device still comes up. For 2,
+START_DEV returns 0 and the new disk fails every request. For 3,
+END_USER_RECOVERY returns 0, the device is LIVE, and every read on the
+queue whose task exited sits requeued forever, since the queue stays
+canceling and nothing kicks the requeue list. With ub->canceling
+covering the whole round that's a small check: return -ENODEV from
+START_DEV and END_USER_RECOVERY when ub->canceling is set, checked under
+cancel_mutex against publishing ub->ub_disk. The server can't fetch
+those commands again anyway. Patch 9 of my series did that on the old
+model, I'll redo it on top of yours.
 
-v3:
-- Collect Acked-by from Qi Zheng
+For 1, your patch alone still oopses in ublk_queue_rq() from the
+partition scan when START_DEV follows STOP_DEV, same as before. I'll
+respin my series as just that, on top of your patch and without touching
+the commit path: STOP_DEV marks the queues canceling and takes the
+fetched commands under ub->mutex, and FETCH marks its command cancelable
+before it publishes it, so a cancel from the control path never
+completes a command io_uring doesn't have on its cancelable list yet.
 
-v2:
-- Clarify the commit message to state that the 4K PUD arithmetic is
-  intentionally dropped reported by Sashiko.
----
- Documentation/arch/powerpc/vmemmap_dedup.rst | 90 ++++----------------
- Documentation/mm/vmemmap_dedup.rst           | 32 +------
- 2 files changed, 21 insertions(+), 101 deletions(-)
+For your patch:
 
-diff --git a/Documentation/arch/powerpc/vmemmap_dedup.rst b/Documentation/arch/powerpc/vmemmap_dedup.rst
-index dc4db59fdf87..8286acbca9bc 100644
---- a/Documentation/arch/powerpc/vmemmap_dedup.rst
-+++ b/Documentation/arch/powerpc/vmemmap_dedup.rst
-@@ -19,82 +19,28 @@ With 1G PUD level mapping, we require 16384 struct pages and a single 64K
- vmemmap page can contain 1024 struct pages (64K/sizeof(struct page)). Hence we
- require 16 64K pages in vmemmap to map the struct page for 1G PUD level mapping.
- 
--Here's how things look like on device-dax after the sections are populated::
-- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-- |           |                     |     0     | -------------> |     0     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     1     | -------------> |     1     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
-- |           |                     +-----------+                   | | | | |
-- |           |                     |     3     | ------------------+ | | | |
-- |           |                     +-----------+                     | | | |
-- |           |                     |     4     | --------------------+ | | |
-- |    PUD    |                     +-----------+                       | | |
-- |   level   |                     |     .     | ----------------------+ | |
-- |  mapping  |                     +-----------+                         | |
-- |           |                     |     .     | ------------------------+ |
-- |           |                     +-----------+                           |
-- |           |                     |     15    | --------------------------+
-- |           |                     +-----------+
-- |           |
-- |           |
-- |           |
-- +-----------+
--
--
- With 4K page size, 2M PMD level mapping requires 512 struct pages and a single
- 4K vmemmap page contains 64 struct pages(4K/sizeof(struct page)). Hence we
- require 8 4K pages in vmemmap to map the struct page for 2M pmd level mapping.
- 
--Here's how things look like on device-dax after the sections are populated::
--
-- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-- |           |                     |     0     | -------------> |     0     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     1     | -------------> |     1     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
-- |           |                     +-----------+                   | | | | |
-- |           |                     |     3     | ------------------+ | | | |
-- |           |                     +-----------+                     | | | |
-- |           |                     |     4     | --------------------+ | | |
-- |    PMD    |                     +-----------+                       | | |
-- |   level   |                     |     5     | ----------------------+ | |
-- |  mapping  |                     +-----------+                         | |
-- |           |                     |     6     | ------------------------+ |
-- |           |                     +-----------+                           |
-- |           |                     |     7     | --------------------------+
-- |           |                     +-----------+
-- |           |
-- |           |
-- |           |
-- +-----------+
--
--With 1G PUD level mapping, we require 262144 struct pages and a single 4K
--vmemmap page can contain 64 struct pages (4K/sizeof(struct page)). Hence we
--require 4096 4K pages in vmemmap to map the struct pages for 1G PUD level
--mapping.
--
--Here's how things look like on device-dax after the sections are populated::
--
-- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-- |           |                     |     0     | -------------> |     0     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     1     | -------------> |     1     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
-- |           |                     +-----------+                   | | | | |
-- |           |                     |     3     | ------------------+ | | | |
-- |           |                     +-----------+                     | | | |
-- |           |                     |     4     | --------------------+ | | |
-- |    PUD    |                     +-----------+                       | | |
-- |   level   |                     |     .     | ----------------------+ | |
-- |  mapping  |                     +-----------+                         | |
-- |           |                     |     .     | ------------------------+ |
-- |           |                     +-----------+                           |
-- |           |                     |   4095    | --------------------------+
-- |           |                     +-----------+
-+Here's how things look on device-dax after vmemmap-optimized sections are
-+populated. ``N`` is the number of vmemmap pages required by the DAX mapping
-+above::
-+
-+  Device DAX                  vmemmap pages (N pages)         backing page frames
-+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +-------------+
-+ |           |                     |     0     | -------------> |      0      |
-+ |           |                     +-----------+                +-------------+
-+ |           |                     |     1     | ------+
-+ |           |                     +-----------+       |
-+ |           |                     |     2     | ------+
-+ |           |                     +-----------+       |
-+ |           |                     |     .     | ------+        +-------------+
-+ |  PMD/PUD  |                     +-----------+       |        | A single,   |
-+ |   level   |                     |     .     | ------+------> | per-zone    |
-+ |  mapping  |                     +-----------+       |        | shared tail |
-+ |           |                     |   N - 1   | ------+        | page        |
-+ |           |                     +-----------+                +-------------+
-  |           |
-  |           |
-  |           |
-diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
-index 9fa8642ded48..8c287ae3f86c 100644
---- a/Documentation/mm/vmemmap_dedup.rst
-+++ b/Documentation/mm/vmemmap_dedup.rst
-@@ -1,4 +1,3 @@
--
- .. SPDX-License-Identifier: GPL-2.0
- 
- =========================================
-@@ -192,32 +191,7 @@ to 4 on HugeTLB pages.
- 
- There's no remapping of vmemmap given that device-dax memory is not part of
- System RAM ranges initialized at boot. Thus the tail page deduplication
--happens at a later stage when we populate the sections. HugeTLB reuses the
--the head vmemmap page representing, whereas device-dax reuses the tail
--vmemmap page. This results in only half of the savings compared to HugeTLB.
--
--Deduplicated tail pages are not mapped read-only.
-+happens at a later stage when we populate the sections.
- 
--Here's how things look like on device-dax after the sections are populated::
--
-- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-- |           |                     |     0     | -------------> |     0     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     1     | -------------> |     1     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     2     | ----------------^ ^ ^ ^ ^ ^
-- |           |                     +-----------+                   | | | | |
-- |           |                     |     3     | ------------------+ | | | |
-- |           |                     +-----------+                     | | | |
-- |           |                     |     4     | --------------------+ | | |
-- |    PMD    |                     +-----------+                       | | |
-- |   level   |                     |     5     | ----------------------+ | |
-- |  mapping  |                     +-----------+                         | |
-- |           |                     |     6     | ------------------------+ |
-- |           |                     +-----------+                           |
-- |           |                     |     7     | --------------------------+
-- |           |                     +-----------+
-- |           |
-- |           |
-- |           |
-- +-----------+
-+Deduplicated tail pages are not mapped read-only. The mapping layout is the same
-+as HugeTLB.
--- 
-2.54.0
+Tested-by: Josef Bacik <josef@toxicpanda.com>
 
+Thanks,
+Josef
