@@ -1,152 +1,257 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFBF3B47E1;
-	Wed, 30 Sep 2026 08:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334BF4718ED
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 08:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790758468; cv=none; b=mnEgI5YW+Klq7I2iK+jJruQM65Z25U8OM8xACXk6vNTR43HPW6jrJtZwAnsclWZzJPDq+aS7ssbp47UZwmgJlZ7tJTZej9CiLb/cqgUiLWn2+DeJak/tGZF0ThAFHn613L/+h7OQSf0A/0IiYPmCvVdWFJBnPTUx9W5jGfGlYqs=
+	t=1790758768; cv=none; b=kvKoUVlmMfsl3XUuUXErKyHizHg9bHxl0LJ9IqKd8sOz3MBL7cqtxhsULyjk+3XDtaJ82VU2Afl3tH1UElSCaLfSQfxbG4vOnKAs9Y+wEjDe5yB77OKTADFqyJejXNQkZ4eFfDlbGToXfYsmwgB5+aAkjvB2XKjD6lZ5YX5CMj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790758468; c=relaxed/simple;
-	bh=/bg6wWvn3UxxefOMsl8JIomiL9mMcf6RS3vUGzzxCZM=;
+	s=arc-20240116; t=1790758768; c=relaxed/simple;
+	bh=mpQhRYCu0dg3KElr3JPFwpohTwn3Jjao9cHLc/MGV8s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LsbuHRseMrk9O3C6HL/bKNM5qdpL+C7j9HHIq22WaMu8FEztCP1wZOtyhNdyiVB/Rf703m/DuzCVKj/6MvAXWxTEGwA/jmtDxQAQ4LYdC9BTaStEFCFycOV1ZQK/d+Pv0TB099yHVFbCp7thgXd2O5iS2q8Xu6avBjP+wxbiqYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aJzc5jIL; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=FnFBUkmxwQtzihFiWhfNWjKHn+uVE61F9vX5vtwSmU29aKi/GZJLaMYlNfAK10Jkb+24agzZ5Vfumy6LLUZ0h+pskMXxJcyzFkMrjYraN/rEBt3STbkuReFDh3mYxFel8QqGTGAyq48RFVnNTk63haCzqIJkr8CDSRvcxvO0y3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z40h7m98; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aJzc5jIL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=0UFYYKBUewXLJbGJZ9BEDna7/dDF99emZQefLuG6AWg=; b=aJzc5jIL6ZEo+riFOwoxR1oSNm
-	C2hf1HPOb9+KTK8px2ooi5YPLIeRFxTZoinR6pVkeYDaZKn09QeR00yhVqRRjAPKdAPRJkoIrT7S/
-	hRxVygx6bLPrPlKZSnQKreIhSWLLbwZnFvcJlIoRpu0zHhaZDBm7i980rS/vK3fK3nujDtN/6z8l8
-	fLgOlnTOkOldZJL6u6dcGPuFYD8IOAfYYLYx7hVPjXkwkJJiUSDbMGWUxsizvsvnVwzDCw78nf0AV
-	IzzNDXK6Hdr8Iec9g2P2seZ7jfrgAs9zrZtJEFt/4RzEbuMhSVTPiYHQJ3yrkx4qqkpIjr6CULMaD
-	pmozWVDw==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xBq4s-0000000B7se-1SQm;
-	Wed, 30 Sep 2026 08:54:14 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id D9DFA300673; Wed, 30 Sep 2026 10:54:13 +0200 (CEST)
-Date: Wed, 30 Sep 2026 10:54:13 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	Christoph Lameter <cl@gentwo.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bo Gan <bo.gan@broadcom.com>, linux-mm@kvack.org,
-	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
-	kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Long Li <longli@microsoft.com>, Andy Lutomirski <luto@kernel.org>,
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>,
-	Ashish Kalra <ashish.kalra@amd.com>
-Subject: Re: [PATCH v2 2/6] percpu: Bound decrypted storage for all x86
- encrypted guests
-Message-ID: <20260930085413.GH88198@noisy.programming.kicks-ass.net>
-References: <20260929040256.543767-1-zack.rusin@broadcom.com>
- <20260929040256.543767-3-zack.rusin@broadcom.com>
- <20260929075426.GQ4120091@noisy.programming.kicks-ass.net>
- <CABQX2QP0+Jr6gG0nZkDggvyGWCSHMNVKPPavZTYBqH+wg7rdMg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z40h7m98"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-39b2ad83dc6so3375555a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 01:59:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790758763; x=1791363563; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lwqDJJxq+i6yiMKe3H7XeoLAk9BxxMBDZsuZ7Sfnq6I=;
+        b=Z40h7m98z323VKNhgYINYG1pSkBNiWTyHRUIrbeNRgNEezEmN1tslyZKU4yMmcmzSb
+         TfT8da0Mj9usF1wNbnfw8Lrdk5QWSTuVXeQQICZt2KxiTyujissCbjnouwhfrT/3hoXK
+         P3ohdcjmi5t9XqxMR0Ja/o2cs+BM1Cun++ZJcfFDsnPgA7vGz5ocgLfzjUMsXA5q+Owv
+         N7bWF8Fk/Kfhznc9d8U7ShS1iK+lecr+BaAKVJbj3JlSfb2OKiaUj+bJb5fi0QkByw6W
+         T11mF5fZCyq+aAEmwPnpcXmSx6tkoFqYb2Wn28pDifwsubH1lbwjxdXWDqRXkdz6BtLV
+         yGag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790758763; x=1791363563;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lwqDJJxq+i6yiMKe3H7XeoLAk9BxxMBDZsuZ7Sfnq6I=;
+        b=wVcYU/ifunuo6bnu4ma/jrDfh4+aAsxXJbzXUvVXaOQLliA8kMUfhle2A8FajiGVyA
+         0EWnb/Tnz8yZyp43EOGk4wXvQ6cDERU8ga5PW864ipwSkW/sQQyGF8XocUojaj1N+cY1
+         RdrXE8G7rKv66ZEa0LLC+h+W1UrC9P/NG6Os4mVos2krKtEaSpYkIrcWxte0+bSHsia8
+         B1yzrqZuHtJzS74s06o4oV7yO8vI1FQXAZQu5RdIsPAKHk2sqts5uIPgONLpIT3LMkc0
+         f5pGxp5U/CIaN2o9dxZa1EcP/tvQOB+RAEOdOnosNAJW2E+6AkmxeeKFH1TjKFECZ1sy
+         IjMQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw3s5zF5ctJ3NBfqsOXszm9ZIje4K8n6zt2Rghpvc+4AF+sIp9nxwI4pVX/07fkSYZ23Bom/YRzdIs=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLiZYY8BkHII1ekI4/nfp8SUtzuFa/rG8gJkdMUzDP8/3oJjMxn
+	h2bA5bCkdqNsO/Ohnb7JJWVg1sC1svk1cs24PdiAr9GxJlvgwLWjcn6B
+X-Gm-Gg: AYBFou0fXMNf3TxW2uPq2ykZtKrr84SN4N4NEGbmJ9fODYfC+Or6NQxUDeyrNUWd2Te
+	VhzzxsVnK5NgppP5QX9nAHUXI2FqQSGMeo+vjbLpPet5IleU9GmiRZYuSvcdWsYcXHv6PieRc+y
+	82VmjQt94w0PonRdcorRmnCcFZtu/zIPo59429F1hwm8l1jVzi2aaNObNOKvA5pQ34Tqv0HvYsz
+	13mYDgCwOq3sD1K7febCR8VfIH8HsT6gGI4bF4Ym9jyUya0zGGaWF8eYXAwWzq+euFAfv6s440f
+	LKKBws49uRa2mSJGV9EIqXEU0kFgK+vFp11LPdFXS1TyJsesp/gaS8AV78dsqnzD0+YwQL7qta7
+	DY0CyTIiVUtSK43/HRovdsf02moaoN9pekgk7th/yNKzSTV4QJfg/z8Cs6s37El1J5S7evi5Q9Q
+	G+UI9M6attbtncGGXLXICN+BzIZg8XwIEUnNITg+vvohv2yGT6aCtj+MxMYMxIxOW6QVJiKw==
+X-Received: by 2002:a17:90b:1d0d:b0:3a0:e476:576b with SMTP id 98e67ed59e1d1-3a4d179ece8mr721296a91.37.1790758763142;
+        Wed, 30 Sep 2026 01:59:23 -0700 (PDT)
+Received: from localhost ([2001:19f0:8000:3e6e:5400:6ff:fe38:3d01])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4ce16ac10sm2149770a91.8.2026.09.30.01.59.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 01:59:22 -0700 (PDT)
+Date: Wed, 30 Sep 2026 16:59:13 +0800
+From: Inochi Amaoto <inochiama@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Inochi Amaoto <inochiama@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Rhys Tumelty <rhys@tumelty.co.uk>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, Yixun Lan <dlan@gentoo.org>, 
+	Longbin Li <looong.bin@gmail.com>
+Subject: Re: [PATCH v4 3/5] phy: core: Add phy bulk data helper functions
+Message-ID: <arzLeuO0qbRxofFv@inochi.infowork>
+References: <20260929085235.469515-1-inochiama@gmail.com>
+ <20260929085235.469515-4-inochiama@gmail.com>
+ <arzGyL8gGrxeZoN7@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CABQX2QP0+Jr6gG0nZkDggvyGWCSHMNVKPPavZTYBqH+wg7rdMg@mail.gmail.com>
+In-Reply-To: <arzGyL8gGrxeZoN7@ashevche-desk.local>
 
-On Tue, Sep 29, 2026 at 01:12:45PM -0400, Zack Rusin wrote:
-> On Tue, Sep 29, 2026 at 3:54=E2=80=AFAM Peter Zijlstra <peterz@infradead.=
-org> wrote:
-> > On Tue, Sep 29, 2026 at 12:02:51AM -0400, Zack Rusin wrote:
-> > > @@ -1022,11 +1024,13 @@
-> > >   * Note: We use a separate section so that only this section gets
-> > >   * decrypted to avoid exposing more than we wish.
-> > >   */
-> > > -#ifdef CONFIG_AMD_MEM_ENCRYPT
-> > > +#if defined(CONFIG_X86_MEM_ENCRYPT) && defined(CONFIG_SMP)
-> > >  #define PERCPU_DECRYPTED_SECTION                                    =
- \
-> > >       . =3D ALIGN(PAGE_SIZE);                                        =
-   \
-> > > +     __start_percpu_decrypted =3D .;                                =
-   \
-> > >       *(.data..percpu..decrypted)                                    =
- \
-> > > -     . =3D ALIGN(PAGE_SIZE);
-> > > +     . =3D ALIGN(PAGE_SIZE);                                        =
-   \
-> > > +     __end_percpu_decrypted =3D .;
-> > >  #else
-> > >  #define PERCPU_DECRYPTED_SECTION
-> > >  #endif
-> >
-> > So you're page aligning something that will get different protection and
-> > will thus shatter large pages?
-> >
-> > That is somewhat uncool. We like large pages, large pages are good.
->=20
-> I'm a huge large pages fan too. I have a poster in my office and
-> everything... And I never do things that are uncool. I have a wwcdd
-> (what would cool dude do) bracelet and I look at it every time I make
-> a decision, which given that I'm old gets on my wife's nerves a lot.
-> That is to say I'm handsome and innocent.
+On Wed, Sep 30, 2026 at 11:22:32AM +0300, Andy Shevchenko wrote:
+> On Tue, Sep 29, 2026 at 04:52:33PM +0800, Inochi Amaoto wrote:
+> > Add several helper functions that allow drivers to get several phy
+> > consumers in one operation. If any of the phy cannot be acquired then
+> > any phys that were got will be put before returning to the caller.
+> > 
+> > This can relieve the driver owners' life who needs to handle many phys,
+> > as well as each phy error reporting.
+> 
+> ...
+> 
+> > +/**
+> > + * of_phy_get_count() - Get the number of phys of a device node
+> > + * @np: device_node for which to get the phy
+> > + *
+> > + * Return: the phy count if successful, %0 if no phy handle is found,
+> > + * negative error value if error occurs.
+> > + */
+> > +static int of_phy_get_count(const struct device_node *np)
+> > +{
+> > +	int count;
+> > +
+> > +	count = of_count_phandle_with_args(np, "phys", "#phy-cells");
+> 
+> > +
+> 
+> I would drop this blank line.
+> 
+> > +	if (count == -ENOENT)
+> > +		return 0;
+> 
+> I'm not sure about usefulness of this kind of trick in the _count API.
+> 
+> > +	return count;
+> > +}
+> 
+> ...
+> 
+> > +static void phy_bulk_put(struct device *dev, unsigned int num_phys,
+> > +			 struct phy_bulk_data *phys)
+> > +{
+> > +	while (num_phys--) {
+> 
+> > +		if (!IS_ERR_OR_NULL(phys[num_phys].phy))
+> 
+> This should be part of phy_put(). In general many kernel resource release APIs
+> are NULL and/or error pointer aware. This is a slow path and it makes user's life
+> easier
+> 
 
-:-)
+Something reasonable, As of_phy_put does have a check, but phy_put
+does not and it use phy->dev directly. I think this is acceptable
+QoL change.
 
-> The alignment isn't new. It has been there since ac26963a1175
-> ("percpu: Introduce DEFINE_PER_CPU_DECRYPTED") under AMD_MEM_ENCRYPT,
-> which common distro kernels enable. This patch extends it to TDX-only
-> builds and adds the boundary symbols. On bare metal and in ordinary
-> guests nothing changes protection, so no large pages are split.
+> > +			phy_put(dev, phys[num_phys].phy);
+> > +		phys[num_phys].phy = NULL;
+> > +	}
+> > +}
+> 
+> ...
+> 
+> > +static void of_phy_bulk_put(unsigned int num_phys, struct phy_bulk_data *phys)
+> > +{
+> > +	while (num_phys--) {
+> > +		of_phy_put(phys[num_phys].phy);
+> 
+> > +		phys[num_phys].phy = NULL;
+> 
+> Is NULLification mandatory?
+> 
 
-Right, I saw it is pre-existing, but you made me notice ;-)
+I think it may not be as the phy is managed internally.
+But I think it could be keeped to avoid misuse.
 
-Anyway, the thing that wasn't immediately obvious was that we only
-really change the protection for (sekjoer) guests. This means I mostly
-don't care.
+> > +	}
+> > +}
+> 
+> ...
+> 
+> > +static int of_phy_bulk_get_by_index(struct device_node *np,
+> > +				    unsigned int num_phys,
+> > +				    struct phy_bulk_data *phys)
+> > +{
+> > +	unsigned int i;
+> > +	int ret;
+> > +
+> > +	for (i = 0; i < num_phys; i++) {
+> > +		phys[i].id = NULL;
+> > +		phys[i].phy = NULL;
+> > +	}
+> 
+> But why? The below does the assognments.
+> 
 
-> In confidential guests, yes, converting each CPU's page splits the
-> direct map around it. The alignment doesn't cause that: a large
+I refered of_clk_bulk_get(). And at least I think the init for
+phy field should be kept for an initial state. For id, I think
+it is possible to be removed.
 
-Nit you could 2M align, so alignment is somewhat related.
+> > +	for (i = 0; i < num_phys; i++) {
+> > +		of_property_read_string_index(np, "phy-names", i, &phys[i].id);
+> 
+> > +		phys[i].phy = of_phy_get_by_index(np, i);
+> > +
+> > +		ret = PTR_ERR_OR_ZERO(phys[i].phy);
+> > +		if (ret) {
+> > +			phys[i].phy = NULL;
+> 
+> Same Q: do we need a NULLification in this case? Perhaps the respective APIs
+> should be error pointer aware?
+> 
 
-> mapping can't be part private and part shared, so a converted page
-> can't stay inside one. The alignment only keeps unrelated per-CPU data
-> out of the shared page. Because that page sits in every CPU's per-CPU
-> unit, each 2M mapping that holds one of them becomes 4K mappings,
-> including the ordinary per-CPU data around it. In the layouts we've
-> tested that's most of the first per-CPU chunk.
+I think this should be removed to keep the error info. This is the
+thing I have missed. Thanks.
 
-So perhaps a little more invasive would be poking at the per-cpu
-allocator and having a whole 'decrypted' pcpu_chunk which is 2M aligned
-or something.
+> > +			goto err;
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +
+> > +err:
+> > +	of_phy_bulk_put(i, phys);
+> > +
+> > +	return ret;
+> > +}
+> 
+> ...
+> 
+> > +/**
+> > + * phy_bulk_exit() - exit multiple PHYs
+> > + * @num_phys: number of entries in the phys array
+> > + * @phys: array of struct phy_bulk_data to exit
+> > + *
+> > + * Exits the PHYs in reverse array order. All PHYs are processed even if an
+> > + * error occurs.
+> > + *
+> > + * Return: %0 if successful, the first negative error code otherwise
+> > + */
+> > +int phy_bulk_exit(unsigned int num_phys, struct phy_bulk_data *phys)
+> > +{
+> > +	int ret = 0;
+> > +	int err;
+> > +
+> > +	while (num_phys--) {
+> > +		err = phy_exit(phys[num_phys].phy);
+> > +		if (err && !ret)
+> > +			ret = err;
+> > +	}
+> > +
+> > +	return ret;
+> 
+> So, we return an arbitrary error and inconsistent state of the phys[] array.
+> What can caller do about all this? Any type of recovery? TL;DR:
+> I put in doubt the function prototype and the implementation (error handling).
+> 
 
+This is something I have done wrongly. It should return when the first
+error occurs. So the caller can continue to exit the left phys.
 
-Anyway, as long as this is sekjoer guests only, I really could not be
-bothered much. Proceed, but perhaps put on a comment in the
-vmlinux.lds.h to clarify this, for those of us who do not live in
-coconut land?
+As the phy_exit() does not check whether the init_count is 0, I think 
+an additional check is needed fpr phy_exit() to avoid a negative 
+init_count.
+
+> > +}
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
+
