@@ -1,185 +1,130 @@
-Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9F14CCDD3
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 12:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E843B19C6
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 12:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790770323; cv=none; b=amR457Zm/D6dVsFUHybZ8up23HkvZi68rWrDUswgUiUSjQAo0TbGrK+7HPt8UehUQBvL1NEm1XbUdoJuEnzRO0s4tjUi2aa9d77b8qBnKlGsX3p8DJwlxRZvrvH0zk4p4ijp5IgvJ8rYqpK9pThPCreEXKH8bjYHwq1dju2WxwA=
+	t=1790771135; cv=none; b=gPSfF4S3+gHRP9wuDfPGm8/xCOTq4m6jiQZYFO8fY0/qsCLFnAXLexLlK9dxsTDrbTPe4I2n2829IQlL5yW9tw1A+uQY8jZD2yV6dsT1ZogncZ2f4IT2yFljnrwT2vxT2Mn8mY+6VF8I0AjwB5EywfK5n5KG27jUMeTTujhYnf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790770323; c=relaxed/simple;
-	bh=heiLNgxCRShurwcEkBpHOEt50V9w8wXC0MeKwIR/wJE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lupqyjSGo6sqSgdTts+3uyWsysJM7sraFugiIAxOcKZqzg8Ysc4cixYPabK2W2N2vMBEvtwIZX208/xlwMjXJv8iRIJnNK8mYdQK18/99sUkmo07egj/DmIf1II/tR4Ja1W5lAbcAvfFurGw5sd3dD3Lg61/hPkI8QiHoRB4A0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K6z0fnEj; arc=none smtp.client-ip=74.125.231.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790771135; c=relaxed/simple;
+	bh=zebZfUoPIHJt+rmMkSu7Jx8Y7uL+tCkoh8Qa3svfgI0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OC559Ro0pLop0zpZGtg8uL0cnaRiiLXQwa1Il8FfFbACmAptWZmbkH8F3whoMHb2H666HkvDRlBKe6I1KBuTM6IGODbOouEWfDmjmigUZpVbr2eIetD+Frw2vPaWR0a2mBqEF6reWJO9GTGtORAiUBvqNFn8lsPqsFK/C7seFBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=dfimvSPf; arc=none smtp.client-ip=74.125.225.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K6z0fnEj"
-Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-483c65c2fa7so2976642fac.1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 05:11:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="dfimvSPf"
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4887f6cf16bso3326004f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 05:25:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790770317; x=1791375117; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=gourry.net; s=google; t=1790771131; x=1791375931; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ZFYvPCDLrvrC5oT74t7swbnU8bzwyNGtjBbSx2EyWUU=;
-        b=K6z0fnEjZUNruyGZwT7EUz7Ktdq+q9ZGwpSQS/eESmThnUQFCdeKQ8XFBWQ7HIY1cR
-         GNeIE84dgpiYTOfEjYShPhQ6QIaRsqZTWlxvqbPwgRyEGe7Cl7NXZycxRUIcvpbVQsAb
-         vVRrq/AEpNhS7w3EpMexz/wl5CgzopLSizPs/cDep+qZ1avYziKQ9b7KeJ+P0T6ooSo8
-         8+pO4T/bDYmkEryrCc8wZ0v8z/wqMqp0uxDrzcai8Cs6JHRMstX8oReYETlKeM+YTt4H
-         vsrul9XMrT9rHKHHnXzrmH3GmXPaJJOZUf7nDOI9D2cDntEa2AOilepcUgXJF8yihFsa
-         LA6Q==
+        bh=AE3TJ96gqAayN6Olyj2FbVbcdzFNDjBGHX1lD/f5unU=;
+        b=dfimvSPf0uU7lIqKTkdW3k+RzuVlsk2cZDqYR1JlXA+Jf1EDt8eHg7PnbGc0yiY4OO
+         eQkpcbxYCBdRc1Z6TgKGPl+1cefpKtth7z+Vdb5cOCnjcaoSk4wW37zyqlKqxQUq/x3c
+         5wXaYqc3yLM5sD+cH5+9vpXgGl5oVlC7OmaLWdvmhCDlfciB6N4riOw9gIcIMc40XptB
+         qOnVB+xKnHHd2M/rHjN7ANu5qMe/VCcGD9+48XB3JmPsvQO/J+2V8xnbDuZxO7dProQz
+         dN71Vsuo1LmMFtx/ErpIOuVpaeg/Exq0KSEPoZifn9WcCf17XIJ8jKfz3KTd4SLfgmcL
+         kVnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790770317; x=1791375117;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1790771131; x=1791375931;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZFYvPCDLrvrC5oT74t7swbnU8bzwyNGtjBbSx2EyWUU=;
-        b=mTconupmDuirDLEqWjCpTvkJVXIxGmKHVDOj1Bj0h80eMu9A1r47xwxmB4bg9jKTq+
-         iHJLczqm6IVFRQc9mWKy8dvIWh8hORMkaSZYLZEXx1Cx0IKHfvDtz8bqOBlcwD5n0nGd
-         osDiLiN48+cnsF6m4P3vX5pGKqP2nmYSpk4DdAy/XoeVvY5Y7/ySEoOQja3tTMTbZ9WZ
-         Hgs0Yfbht17ZuuLHJS5aS2bwsJZPNJQsWtcPfe/lA/vj4V5S6IZ9zUehWa8Qb2vu13C1
-         0RKwrBUe7IGApu3Bst/WDQTk/CTKuhvgL1IM9SVMAXntURfsdzjoimDuuU+MBrXJfCLk
-         b+zw==
-X-Forwarded-Encrypted: i=1; AKwUvBzv6VrcgzGNAgnVa+kWthMqHbIJOlL3DOfgADbbEk5aN9QgeD/7CueAg/dqeghr2rPAyiE180OUGNk=@vger.kernel.org
-X-Gm-Message-State: AFuF++nM7xBXlKCta+QbLACxO7qZ2Qcx21YOxfxoMOse/akfZwYCNfbd
-	4dRWVjt42NbnXDvGr2StY+YBnIUPiv8U0XWDm5u40BRyCepe+xtwKWUQ
-X-Gm-Gg: AYBFou018a6t+tr7pbkSdTJQGS4PO8OU+5pK7rZExVEmJIEqBDX3d4SXW7lbVWT/oPk
-	D0DBJxAY2+XHh8yfQ3wx7QFcLVjvoy2p1ET14QJ5mLi+tUEu6BZR9A2auf0bC9f7RahXplTxnbn
-	HNd1v3sljL3lkQRrsjw9AQCj5sgKN2MLDCICd8cse++MqNXPuJpAihBTUM1NFvpCEqgP8LmgKZc
-	HSV8EWZoX+SZRp2pycIGEvKITmhl6GXn6pxZhZE4WmzLRUdn8Pdo1RamEVGMcfll16pLzwvwUF4
-	VpymcoeMy5nfzNTh7Xmwakt5VijBeII2gUg9LyJVf01DqXgZjRCUVrRlSgYKUWhirSIKNOeDIc3
-	RjgqsE0kjGHZn+HRpWo+M7kQWqy2Fad0k8gaEl3xoSMkc5+zNlNUKIBSMCxd3ONLZfN131LlVTG
-	tl5SCljV4TrENhua/MZz6ze8TFoBWxF7mw5CU/Eo1FSd02QHLMxlbACus5lCKOSvOp9UX4TdLFI
-	UIf4uC9X4ooNZNlgKhkHx5vPrI0yw==
-X-Received: by 2002:a05:6870:9615:b0:49d:c9ed:21f2 with SMTP id 586e51a60fabf-49ddda314d9mr1064165fac.18.1790770317220;
-        Wed, 30 Sep 2026 05:11:57 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:8::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-49de00cd469sm522330fac.17.2026.09.30.05.11.55
+        bh=AE3TJ96gqAayN6Olyj2FbVbcdzFNDjBGHX1lD/f5unU=;
+        b=BMLXSr4HUIdBq+O9deSczrt6GPG6/V+D4550VgR8UPnpyFnWOf1DkKf7agMmOdbH5+
+         jWRt5qYj9hJh8g9B0+wU9oSBV8h3ysGSIsAJXn0NTtRrzpCSQZ7c/vCcQp71gfVkTCWZ
+         77ISYgSVtl5mXap/rdl3R5mO14j0sZiVfLcYWiyL+CkHJudr7nUmyEHcEX74J5+KuGFN
+         2xGWJtmkpUoiadGRm5BW3CUQr8qFaUzmQAcheqmDNAtYVMwKuVdj4AIDmgrL/Snb88+x
+         SjzEojchMBqocywHgBYIAPKM7En5J+Pqnm9gHrS1GSmZ1FMbe62B0b9Qbe4XU7mK8J1r
+         3ptQ==
+X-Forwarded-Encrypted: i=1; AKwUvBygtIx+6470jkr3I/LcqXIBVim58KYVDhW8m96rIyw/jWJSdra+eldHQFyCtRYXnWezYsrVE1OCmQk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJiJxrVg1I3zteS3WDyyqd263NrTSWhoq+Szkm75tRchpFQkSCO
+	TuXH/ePKFMVLpevllO20tP2TVTaUd8igrabdTxxfmeFiTjfODX0FMNfzCOSNwayU7jE=
+X-Gm-Gg: AYBFou2nTKO4DqDDXpGWd+eNqKu+U/PUgFLPs7dRn4KaMsAPbKW/kxTG61qyfzwscQM
+	D/9mqzmbK0As6nvu7Q7dQOdNnzNYNzK6r60MltcDN1OD+mjFy0Ur6goaDyaaijQYh1f2702UEsb
+	z5Vhr80E65aTRMwHo6D7TAYuBPMin+Ol5JBKgjFa/oDF/Vf67E71vmXDY4NEnoF0OvYG5fXuPsk
+	4jbZsST8tFMzf51El5ZWH11hPw/+nv8HWa8VV/YlFXQhe/Txs35XmC55SZKUUVw+j6+4qgQjZFY
+	b/oWeXruVlNd1Erp+8o9Ow5aisvYezfPDIlabH9tACtLrKkVzlq8XQVnJkYwar+yBQgwfB4zUvf
+	7NcJJwo6EulSkqL9l/tqpldSHHFLPhC48yFlw8lAEH2TZZpVxopPvsg0nshP6x3AKTRdtznKzKl
+	1nJwswj8UhcQRfYFaDAfXFCXEj6E12CqmPEreOqcYKd8yT2n+MnglQ1Gi545c5vc6gfdk=
+X-Received: by 2002:a05:6000:471e:b0:488:5fca:a837 with SMTP id ffacd0b85a97d-48b024d96a3mr2492614f8f.20.1790771130871;
+        Wed, 30 Sep 2026 05:25:30 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F ([2620:10d:c092:500::6:13b8])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b029bf85dsm3449812f8f.13.2026.09.30.05.25.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 05:11:56 -0700 (PDT)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: "Li Zhe" <lizhe.67@bytedance.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	akpm@linux-foundation.org,
-	ljs@kernel.org,
-	liam@infradead.org,
-	rppt@kernel.org,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	ziy@nvidia.com,
-	joshua.hahnjy@gmail.com,
-	gourry@gourry.net,
-	ying.huang@linux.alibaba.com,
-	apopple@nvidia.com,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference with MPOL_WEIGHTED_INTERLEAVE policy
-Date: Wed, 30 Sep 2026 05:11:52 -0700
-Message-ID: <20260930121154.687586-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <808292b4-841c-45bd-aacd-b487be1858ca@bytedance.com>
-References: 
+        Wed, 30 Sep 2026 05:25:30 -0700 (PDT)
+Date: Wed, 30 Sep 2026 08:25:28 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Li Zhe <lizhe.67@bytedance.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org, 
+	liam@infradead.org, rppt@kernel.org, mhocko@suse.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, ziy@nvidia.com, joshua.hahnjy@gmail.com, 
+	ying.huang@linux.alibaba.com, apopple@nvidia.com, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference
+ with MPOL_WEIGHTED_INTERLEAVE policy
+Message-ID: <arz-iKWj1gRO3ALw@gourry-fedora-PF4VCD3F>
+References: <20260930072617.64665-1-lizhe.67@bytedance.com>
+ <arzLw18RiTN6Hmey@fedora>
+ <7df34f77-2c52-47a3-a495-d782009ab543@bytedance.com>
+ <arzR_QtoMPtM5kUB@gourry-fedora-PF4VCD3F>
+ <e195b784-8a78-4bbb-97ed-168dd86b3d89@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e195b784-8a78-4bbb-97ed-168dd86b3d89@bytedance.com>
 
-On Wed, 30 Sep 2026 19:52:05 +0800 "Li Zhe" <lizhe.67@bytedance.com> wrote:
-
-> On 9/30/26 7:26 PM, David Hildenbrand (Arm) wrote:
-> > On 9/30/26 09:26, Li Zhe wrote:
-> >> MPOL_WEIGHTED_INTERLEAVE is useful on tiered-memory systems because it
-> >> can seed a workload's new allocations across fast memory and slower
-> >> capacity memory according to a configured ratio.
-> >>
-> >> That initial placement is useful for workload managers and orchestration
-> >> systems.  They can take the amount of fast memory and slower capacity
-> >> memory on a machine into account before starting a workload, and choose a
-> >> weighted policy that seeds the workload across the tiers at allocation
-> >> time.  This avoids starting from an all-fast or all-slow placement and
-> >> then relying on promotion or demotion to reshape a large working set.
-> >>
-> >> After those pages have been placed, however, the policy cannot currently
-> >> opt in to migrate-on-fault placement.  set_mempolicy() and mbind()
-> >> reject MPOL_WEIGHTED_INTERLEAVE when MPOL_F_NUMA_BALANCING is specified,
-> >> so memory tiering cannot promote hot pages that were initially placed on
-> >> the slower nodes by the weighted policy.
-> >>
-> >> Initial placement is only a starting point.  Pages initially allocated on
-> >> fast memory are not necessarily the long-term hot pages, and pages
-> >> initially allocated on slower memory may become hot as the workload's hot
-> >> set changes.  The policy therefore needs to be able to combine weighted
-> >> initial placement with memory tiering's NUMA fault based hot-page
-> >> promotion.
-> > Ok, so memory allocation will respect the weights but balancing will ignore
-> > them? That really sounds rather odd to me.
-> >
-> > And I assume that was the reason why we might have disallowed the combination:
-> > it turns a weighted mechanism into an unweighted mechanism.
-> >
-> > So are we really sure these semantics that you would essentially set in stone
-> > here are the semantics we want? (ignoring weights)
-> Yes, that is a fair concern. It does look odd if the weights are
-> interpreted as a hard resident placement ratio.
+On Wed, Sep 30, 2026 at 07:22:10PM +0800, Li Zhe wrote:
+> Yes, that makes sense to me.
 > 
-> My understanding of the existing MPOL_WEIGHTED_INTERLEAVE ABI is that
-> the weights are allocation weights, not a long-term resident ratio. The
-> sysfs ABI documentation says that these weights only affect new
-> allocations, and that changing them at runtime will not migrate already
-> allocated pages.  The implementation also has normal allocation fallback
-> if the selected weighted target cannot satisfy the allocation.
+> I do not see a reason to keep the MPOL_F_MORON handling limited to
+> specific policy cases. The flag already means that migrate-on-fault
+> placement should target the accessing CPU's node, and the nodemask check
+> is the common constraint we want for all policies that opt in to this
+> behavior.
 > 
-> The use case here follows that interpretation.  The weights are used to
-> seed the initial placement across memory tiers.  After that, with an
-> explicit MPOL_F_NUMA_BALANCING opt-in, memory tiering would promote hot
-> pages based on access patterns, not based on the original allocation
-> ratio.  Users that want weighted allocation without that behavior would
-> keep using MPOL_WEIGHTED_INTERLEAVE without MPOL_F_NUMA_BALANCING.
-> 
-> That said, I agree that allowing this flag combination would set the
-> semantics for it.  If reusing MPOL_F_NUMA_BALANCING for this is too
-> ambiguous, do you think we should model this as a separate opt-in ABI
-> for "weighted initial placement plus access-based balancing" instead?
-> For example, a separate flag or policy mode would make it clearer that
-> the weights are not intended to constrain migrate-on-fault placement.
-> 
-> If the allocation-only interpretation of the weights is acceptable, I
-> can make it explicit in the commit message and documentation in v2.
-> Otherwise I would appreciate your suggestion on the preferred interface.
+> I will rework v2 to handle MPOL_F_MORON before the policy-specific
+> switch. Then the switch can remain responsible for the non-MPOL_F_MORON
+> misplaced logic, while MPOL_BIND, MPOL_PREFERRED_MANY, MPOL_INTERLEAVE
+> and MPOL_WEIGHTED_INTERLEAVE can share the same migrate-on-fault path.
+>
 
-I see two usecases for weighted interleave. Let's say you first allocate
-all the cold memory, and then all the hot memory using an interleave
-policy. This leaves the same hotness in both tiers since they are
-interleaved:
+I do think it's worth breaking this up a bit, we can decide whether we
+want to apply it to interleave separate of the larger change.
 
-In one scenario you might genuinely want to keep some hot memory in
-both tiers to maximize bandwidth utilization.
+there is also slightly different behavior for task-mempolicy and
+vma-mempolicy, because vma-mempolicy applies interleave via index while
+task mempolicy does it based on a rolling counter, so you'll want to
+think about what happens on repeated faults
 
-But in the other case when you are not limited by bandwidth, you might
-indeed want to start out with a weighted interleave allocation to
-reduce variance on where hot memory lands, and then make promotion /
-demotion decisions based on access.
+i.e.
 
-Zhe, do you have a specific use-case in mind? For the second use
-case I would be curious to see if you see any meaningful performance
-differences in startup time when comapring a workload using other
-mempolicies for the allocation and then tiering vs. using weighted
-interleave and then tiering. 
+1) fault in a VMA interleaved based on idx
+2) a bunch of tiering and pageout/swap happens
+3) we fault a page back in based on idx - that means this page is
+   forever-faulted onto that location rather than taking that as an
+   indication that maybe it should be local
 
-But yeah, I think David is right that we should go over the semantics
-and really make sure this is what we want to commit to.
+Maybe we're ok with that, but we should probably think about it a bit.
 
-Thanks again Zhe! Have a great day,
-Joshua
+We may also want to limit this based on NUMA balancing being in tiering
+mode vs normal mode.  This only makes sense in tiering mode, in my
+opinion.  In normal mode i'm not sure it makes as much sense - and
+that's probably where this all came from.
 
-> Thanks,
-> Zhe
+tl;dr: If we want to change this behavior for interleave, we should
+probably give more thought for how it should apply more generally
+instead of just hacking on support to one or two modes.
+
+~Gregory
