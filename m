@@ -1,96 +1,152 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CF944C4FE
-	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 08:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFBF3B47E1;
+	Wed, 30 Sep 2026 08:54:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790757836; cv=none; b=oRxqxWkoKl+TR5uVPCGaehq8YpFXu/mgvGolbBL4aJW0W8TPFh+5W1bxh0Vcsd+gU9GkDO9Ij+Lzny9DHPQU95Iv8vGsvlnsvPl0exdxKw+BEsGA5PygMmf/HtVRtwhuQ1z9GdR297lGv3yLiCr1fYi4c7/MbGa+36e1bMS5cA0=
+	t=1790758468; cv=none; b=mnEgI5YW+Klq7I2iK+jJruQM65Z25U8OM8xACXk6vNTR43HPW6jrJtZwAnsclWZzJPDq+aS7ssbp47UZwmgJlZ7tJTZej9CiLb/cqgUiLWn2+DeJak/tGZF0ThAFHn613L/+h7OQSf0A/0IiYPmCvVdWFJBnPTUx9W5jGfGlYqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790757836; c=relaxed/simple;
-	bh=UHIktq9hHohxcsnuW+PjvAGKUTvxgMu5Z3skfDIeIVk=;
+	s=arc-20240116; t=1790758468; c=relaxed/simple;
+	bh=/bg6wWvn3UxxefOMsl8JIomiL9mMcf6RS3vUGzzxCZM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P5jLURlKI8dMBrctNcGwtY8YVKoRq49RaD6/r5rAswU8sjK7bzGt5OGbdGQDbmW069nTnlYnE6ZcHHPDb1CmvY+/x4J03MEwyTy34cAWiJgVT2Fx3W535flAoq2HiPgfB5pwsBzL2oVpnvpY2MBVG3WyCKyv2DUY8sz3Onv3k84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Qm9JQ4sJ; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=LsbuHRseMrk9O3C6HL/bKNM5qdpL+C7j9HHIq22WaMu8FEztCP1wZOtyhNdyiVB/Rf703m/DuzCVKj/6MvAXWxTEGwA/jmtDxQAQ4LYdC9BTaStEFCFycOV1ZQK/d+Pv0TB099yHVFbCp7thgXd2O5iS2q8Xu6avBjP+wxbiqYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aJzc5jIL; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Qm9JQ4sJ"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c294ad260fdso289630866b.1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 01:43:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1790757831; x=1791362631; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=11O/i4eaHiTKOHQj5oOKeDGVuB1F5PuQ9vQoJ/Gyud8=;
-        b=Qm9JQ4sJp9p8W9kvU+Yl49C3WZmKFu4Zn+8vFMeElBfWaU09zE00j6c1Uw7QTfJ0YQ
-         yHaBKmtxZAIs1U7BeIAXpnnOLX8iq+IKe2JY8+A2ay7rYZrU9DV48LKitCQ5ofH7n1xK
-         RdnwZOWNRJUoeQouhjF41LNl7CYXApelGOT5os4sb7GFPB8pj22mNv3o//RHHrOCKgjB
-         xW85O4qsP0X9l2u4TufTFX/dSM5F6GepUAnWrU6c/BtV/tjfM0KXfBL1HiGgFWwQGsXf
-         /PnQ0UcRqj16VOXyNT55DXWUU/l8KZ1XGf3ZMIIcEpPINJWrjEL9z5heSXuUVel4cYXT
-         WyZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790757831; x=1791362631;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=11O/i4eaHiTKOHQj5oOKeDGVuB1F5PuQ9vQoJ/Gyud8=;
-        b=ckleUuYyywjMbaL0HlLbVKUkKpHdczmRbd+ToPThFdTdrzwOISP2Emi399vsIuaiyN
-         muPnZDVA9tZQyXvKSJjrXxm8z4PAIYFOg7KyHoFYSNVeyemAzsJ/pWVjh56spQ2v0KC1
-         65Y00/vzK/W+/krVeABFn3dK1MrqUDE/y2Ui2VmKuIRlG73O+ay2jpOYO0T3NbhBYLWC
-         wtHqDDRgvYmS7jbhYLsxcyjxV6bNbu2yLuEpxbiEEWG8aiJ5G6gBJdDfJaCHs9TXig5o
-         UJj7u9skgM4hFVa0V5rSxS814tNO4dvuxdEqeGXNnaJdzS0TDyiFYLJsBC54L2XaGgja
-         ZCww==
-X-Forwarded-Encrypted: i=1; AKwUvBy1vZMUyiPTnICJJ7wuSqZvZ5C97b4PScUZ9nce/kqhNFRaO1qERUlynFMqUQQHu8uKgeQBa84AP3A=@vger.kernel.org
-X-Gm-Message-State: AFuF++l9K3LgQ+OEI9KNt2J2FyeGqJYyKr4M2UrcoqfyOyENSFA5KJps
-	gwqDEHN0NcUdDOFGR3nPzVuFZBdCm7XWB7KRfN8F/2DTOFiY4D/NaXyL6S/GJ7ea/Cg=
-X-Gm-Gg: AYBFou0HiyEhLgpO7sdR/qhis+trOPKIZW/Jbtls1xYXDLQIQCRrZJXIgFOsg7WhwSk
-	cJVlrgI+4UJvs5klkfat6HbbrJcQaYZ9ftpNhMQvwfMD9D45ZczgG/bAkxhWnrbsfeYLmPyXEEk
-	sGqsXOFYwpN61ZtQpGeiubDM7O3xKLMO27NAJrNKeD1TlUvTJFeT6Y6RPCLh18lY4U1KJpDvzXD
-	MtE38FyEzhFavyoFeN9JTPvpmtIcIIVap0HGXITgUL84fTb1b9p8rQuPgfUTB4ODJaJhbH2yf6a
-	WJkofOdf2/goN0RdJWqf/gPOBd1aUIULvyq6ug6TRg8QHRxJZFEXnkPv2XbNnFuAPPVumBbDXfI
-	st0J7LFnJwSMceysONWfJfIycFK8iLjH2OZm9aCtBw1ip95Xn2BC/+4YLAXeEicztRMLKaY8sKY
-	fRJf5eCrF5NInoYb0p8spgI4/VrHviQ6Z55KcAqBbORF6lZPvpzGBthN83BWo=
-X-Received: by 2002:a17:907:94c4:b0:c2e:22f7:59c5 with SMTP id a640c23a62f3a-c2e23cabdb0mr57793966b.7.1790757830388;
-        Wed, 30 Sep 2026 01:43:50 -0700 (PDT)
-Received: from fedora ([84.207.203.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2e22f5f676sm29571566b.26.2026.09.30.01.43.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 01:43:49 -0700 (PDT)
-Date: Wed, 30 Sep 2026 09:43:47 +0100
-From: Gregory Price <gourry@gourry.net>
-To: Li Zhe <lizhe.67@bytedance.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, ljs@kernel.org,
-	liam@infradead.org, rppt@kernel.org, mhocko@suse.com,
-	corbet@lwn.net, skhan@linuxfoundation.org, ziy@nvidia.com,
-	joshua.hahnjy@gmail.com, ying.huang@linux.alibaba.com,
-	apopple@nvidia.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference
- with MPOL_WEIGHTED_INTERLEAVE policy
-Message-ID: <arzLw18RiTN6Hmey@fedora>
-References: <20260930072617.64665-1-lizhe.67@bytedance.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aJzc5jIL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=0UFYYKBUewXLJbGJZ9BEDna7/dDF99emZQefLuG6AWg=; b=aJzc5jIL6ZEo+riFOwoxR1oSNm
+	C2hf1HPOb9+KTK8px2ooi5YPLIeRFxTZoinR6pVkeYDaZKn09QeR00yhVqRRjAPKdAPRJkoIrT7S/
+	hRxVygx6bLPrPlKZSnQKreIhSWLLbwZnFvcJlIoRpu0zHhaZDBm7i980rS/vK3fK3nujDtN/6z8l8
+	fLgOlnTOkOldZJL6u6dcGPuFYD8IOAfYYLYx7hVPjXkwkJJiUSDbMGWUxsizvsvnVwzDCw78nf0AV
+	IzzNDXK6Hdr8Iec9g2P2seZ7jfrgAs9zrZtJEFt/4RzEbuMhSVTPiYHQJ3yrkx4qqkpIjr6CULMaD
+	pmozWVDw==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xBq4s-0000000B7se-1SQm;
+	Wed, 30 Sep 2026 08:54:14 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id D9DFA300673; Wed, 30 Sep 2026 10:54:13 +0200 (CEST)
+Date: Wed, 30 Sep 2026 10:54:13 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Kiryl Shutsemau <kas@kernel.org>, Borislav Petkov <bp@alien8.de>,
+	x86@kernel.org, Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
+	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
+	Christoph Lameter <cl@gentwo.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bo Gan <bo.gan@broadcom.com>, linux-mm@kvack.org,
+	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
+	kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Long Li <longli@microsoft.com>, Andy Lutomirski <luto@kernel.org>,
+	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>, Kees Cook <kees@kernel.org>,
+	Ashish Kalra <ashish.kalra@amd.com>
+Subject: Re: [PATCH v2 2/6] percpu: Bound decrypted storage for all x86
+ encrypted guests
+Message-ID: <20260930085413.GH88198@noisy.programming.kicks-ass.net>
+References: <20260929040256.543767-1-zack.rusin@broadcom.com>
+ <20260929040256.543767-3-zack.rusin@broadcom.com>
+ <20260929075426.GQ4120091@noisy.programming.kicks-ass.net>
+ <CABQX2QP0+Jr6gG0nZkDggvyGWCSHMNVKPPavZTYBqH+wg7rdMg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260930072617.64665-1-lizhe.67@bytedance.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CABQX2QP0+Jr6gG0nZkDggvyGWCSHMNVKPPavZTYBqH+wg7rdMg@mail.gmail.com>
 
-On Wed, Sep 30, 2026 at 03:26:17PM +0800, Li Zhe wrote:
-> Allow MPOL_F_NUMA_BALANCING for MPOL_WEIGHTED_INTERLEAVE.  As with
-> MPOL_BIND and MPOL_PREFERRED_MANY, keep migration constrained by the
-> policy nodemask: if the CPU's node is outside the nodemask, do not
-> migrate the folio there.
->
+On Tue, Sep 29, 2026 at 01:12:45PM -0400, Zack Rusin wrote:
+> On Tue, Sep 29, 2026 at 3:54=E2=80=AFAM Peter Zijlstra <peterz@infradead.=
+org> wrote:
+> > On Tue, Sep 29, 2026 at 12:02:51AM -0400, Zack Rusin wrote:
+> > > @@ -1022,11 +1024,13 @@
+> > >   * Note: We use a separate section so that only this section gets
+> > >   * decrypted to avoid exposing more than we wish.
+> > >   */
+> > > -#ifdef CONFIG_AMD_MEM_ENCRYPT
+> > > +#if defined(CONFIG_X86_MEM_ENCRYPT) && defined(CONFIG_SMP)
+> > >  #define PERCPU_DECRYPTED_SECTION                                    =
+ \
+> > >       . =3D ALIGN(PAGE_SIZE);                                        =
+   \
+> > > +     __start_percpu_decrypted =3D .;                                =
+   \
+> > >       *(.data..percpu..decrypted)                                    =
+ \
+> > > -     . =3D ALIGN(PAGE_SIZE);
+> > > +     . =3D ALIGN(PAGE_SIZE);                                        =
+   \
+> > > +     __end_percpu_decrypted =3D .;
+> > >  #else
+> > >  #define PERCPU_DECRYPTED_SECTION
+> > >  #endif
+> >
+> > So you're page aligning something that will get different protection and
+> > will thus shatter large pages?
+> >
+> > That is somewhat uncool. We like large pages, large pages are good.
+>=20
+> I'm a huge large pages fan too. I have a poster in my office and
+> everything... And I never do things that are uncool. I have a wwcdd
+> (what would cool dude do) bracelet and I look at it every time I make
+> a decision, which given that I'm old gets on my wife's nerves a lot.
+> That is to say I'm handsome and innocent.
 
-Why for WEIGHTED_INTERLEAVE and not INTERLEAVE as well?
+:-)
 
-Otherwise this seems reasonable.
+> The alignment isn't new. It has been there since ac26963a1175
+> ("percpu: Introduce DEFINE_PER_CPU_DECRYPTED") under AMD_MEM_ENCRYPT,
+> which common distro kernels enable. This patch extends it to TDX-only
+> builds and adds the boundary symbols. On bare metal and in ordinary
+> guests nothing changes protection, so no large pages are split.
 
-~Gregory
+Right, I saw it is pre-existing, but you made me notice ;-)
+
+Anyway, the thing that wasn't immediately obvious was that we only
+really change the protection for (sekjoer) guests. This means I mostly
+don't care.
+
+> In confidential guests, yes, converting each CPU's page splits the
+> direct map around it. The alignment doesn't cause that: a large
+
+Nit you could 2M align, so alignment is somewhat related.
+
+> mapping can't be part private and part shared, so a converted page
+> can't stay inside one. The alignment only keeps unrelated per-CPU data
+> out of the shared page. Because that page sits in every CPU's per-CPU
+> unit, each 2M mapping that holds one of them becomes 4K mappings,
+> including the ordinary per-CPU data around it. In the layouts we've
+> tested that's most of the first per-CPU chunk.
+
+So perhaps a little more invasive would be poking at the per-cpu
+allocator and having a whole 'decrypted' pcpu_chunk which is 2M aligned
+or something.
+
+
+Anyway, as long as this is sekjoer guests only, I really could not be
+bothered much. Proceed, but perhaps put on a comment in the
+vmlinux.lds.h to clarify this, for those of us who do not live in
+coconut land?
