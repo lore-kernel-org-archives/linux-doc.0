@@ -1,198 +1,289 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012000.outbound.protection.outlook.com [40.107.209.0])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f43.google.com (mail-ej2-f43.google.com [74.125.228.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54F62F8EA3;
-	Wed, 30 Sep 2026 15:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790781046; cv=fail; b=dRmlsTkCkjlw8O8xOF1da9YAVWCkSHAbJ3oDkBhsJ21aB4Hf3pzzprCNxoXaA0EHb8vCesKwVdN9icSS/4OCuima6k/d1wu2OnuYjV2BbK5azn5SgZ4FQqkHOpXDbwJE72j4C9u6QqlB5nxF+BkARzw1hoxeIqblpKBdl+OfmOc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790781046; c=relaxed/simple;
-	bh=8+nX33XGcC6xaJ354t8+lO3WBY1CoFJ6aMeNcourCt4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QfXRoQ4EMPMzMqxYJuYIA0z9CklrNdHz5TYkf/O41B90hSGFrCz9aYvZ4bFU6COyl3rV5TRoTcjJi6lHWx6kg917tvOFLpVKpzjd6LGPJbbR0cKmKAkkx/lT6XiiKQHslaweHGoUcU/NPHxfTa3goJAyWu7gl0NPu0YnkuVrXzI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rF3LMWFF; arc=fail smtp.client-ip=40.107.209.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9F24FD7AC
+	for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 15:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790781950; cv=none; b=q7YXHHxnrDDRBkIW+TtA+ZMPOP7mNFBF7yXuPzaqGq7WtdO8VbTBohJ+FRmYNOTiRF07hdXasNK9EFgCWkAChBwGHQaTcD5Bd+4Kas16lgEpnEvf+AXjQutvX54uMAR4H8eM7DUEsg3C8hyIi8v2N0/AIFYvnXd6rnKIcA5hR8Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790781950; c=relaxed/simple;
+	bh=tw8VEhkaJLys3VBxozpDegjtznBwhDam2zldl0cUZcQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=N6vaJjUiJRZQPRB1oPnz9HK2woNyzSF9q+8ocfpIgrf4T0rGh39IfBoZQupR2zsaDkdJ0xI1qgnLsYcc/uqQFtxmW+f6v6QJ0S4kC2RGCfElmYjsH4ym3hKLmAzheDMzvFE9CyWCxn8Z5cOSB83ZsW4QWeF/k8XlPibT/ZYT0v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q36wcles; arc=none smtp.client-ip=74.125.228.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rF3LMWFF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gLIB8JH3yvTItiBD/G0K5CkvyrflWKpHFG6rdtRwiB7jdRdxuC9Jjn2vWRmukR6oPQI77UTIVmkR24dGEQe6dWIz7dnB7vOWdcK1VXR+BAhW87dGCdqipML+dP1U346IjGixSAT4/iS5GaUUH7li31A6elTd6f7tMNaiuQDeVBRBrgQxJsA2jXHdUG8itUmkfKqwcdUMCQDGz6kp+053U0CTTqjzvex81DansGkf5Ik2SzT1/0XKRKo0qz0wGOMWwflC6eX+1aOjTX8quQsHkQteZlUcgU5+QJUcQjG4qPLAcAj8/E3sDb3aWgASUzS3GVES6IG8mYxhcvX1/GMbbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZIpEnQqeJD67Yt0sOkVklXGfQh7eSPXOnniolBK2wog=;
- b=NFwD6GF4ywwUoSGJwVjKRZi1+kvyvyOtXhHl1hgzeiqM5E8HjqoEmR01mvfBptxB+pH4RYRCI/ChAtQJnFSQ+G+U0CWQ/h7wlIy3ZPnw4dE7roApuvxWCs6jRF6zUVOT/vFXtyok04vl/Sdsb5MWZgtFTl7TRAW+yJe4WSJZjmSaY0FgbiXxWNwyQU0afTN9OMH+MdcTDzob8Hri09XcEo4W7IuyK969C/BwGZbub3HaPCyH6u3D6+1+dpfRRYNy+F9HK3+/sIhOpQO+NNkipixw8vYoyIk/nBQegHGGGwV8vS4WEi/tUyIUlOP3M2zxP5lAxkTCERk9+k4PnjFWnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZIpEnQqeJD67Yt0sOkVklXGfQh7eSPXOnniolBK2wog=;
- b=rF3LMWFFYLaGqtyqSPTkSZSyYgkR0WVIfiMn158Aj6PlPZM+QRLQxMYvKm3URQQ1b+22S1ciDg1Cf09JRw9IjLk/uTqrWyupyCYvUgqQLCimhvHAhV5Lxo84zsbz3ZtWKgOuj7z19/rbXgcruHsPXQnKDk1hqx/n/R12UDqYI9kMxKhng5WfPqJgyffSHRS1kVUuF1r9BO9tQ/z+fYhiAHqH2Fx+kWF69w9bqy3zK7Fuwxhaxf1QBl8Lyraf/Di/q/qFFoAxK87XZcdVbvxcFO2p5fvE1hQgEGV1JgtXji6trH46I7ZqJukclwCDg++9WHrQH8GnRIT8VOWfhkL2qg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by SA1PR12MB6824.namprd12.prod.outlook.com (2603:10b6:806:25f::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Wed, 30 Sep
- 2026 15:10:21 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0472.015; Wed, 30 Sep 2026
- 15:10:15 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Gregory Price <gourry@gourry.net>, Li Zhe <lizhe.67@bytedance.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, akpm@linux-foundation.org,
- ljs@kernel.org, liam@infradead.org, rppt@kernel.org, mhocko@suse.com,
- corbet@lwn.net, skhan@linuxfoundation.org, ying.huang@linux.alibaba.com,
- apopple@nvidia.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference
- with MPOL_WEIGHTED_INTERLEAVE policy
-Date: Wed, 30 Sep 2026 11:10:13 -0400
-X-Mailer: MailMate (3.0r7032)
-Message-ID: <A005B05D-A85C-4153-A65D-0BDF9D8500DF@nvidia.com>
-In-Reply-To: <ar0fURbLDPrphYMY@gourry-fedora-PF4VCD3F>
-References: <20260930121154.687586-1-joshua.hahnjy@gmail.com>
- <2e3f12b7-0dac-428c-b70b-07e1f63de028@bytedance.com>
- <ar0fURbLDPrphYMY@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-MS-Reactions: disallow
-X-ClientProxiedBy: BN9PR03CA0870.namprd03.prod.outlook.com
- (2603:10b6:408:13d::35) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q36wcles"
+Received: by mail-ej2-f43.google.com with SMTP id a640c23a62f3a-c2a8b9acbc6so847767966b.0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 08:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1790781938; x=1791386738; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=URPVZ5mnqaX/4a/mHP5WDlkoNKbhEPagHNKAx4oZedE=;
+        b=Q36wclesB1UtjsuT1MQjzsEC+th2KFiw+6hmjFDREld0hLhqYQWIfktoczL0FZRhQJ
+         HdUL/QKwAkymoyHsFD1f5x4zVxgDicjVez5p9pedQL6raS1zX7MLcViwpL0YaU8zHftj
+         xEXU7176AdNpBZwF/yRnpoQVQ8ADw7Z+fv7fhk6MWfEMjDfSD3bmXjJeFyBoev8T5Fgo
+         Ul0vSUziU2jqHRl6maScMoyoDCu+qC63uRM50Qyv0TzWrJbr3Gv8QLeR9regoIaHz0NN
+         60XU4wHFcmltVK/LhmjepTk227XOQFoGwqIQgw/kZrjMGMsk/Bk79TE45nrmB+FX6UoZ
+         bGgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790781938; x=1791386738;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=URPVZ5mnqaX/4a/mHP5WDlkoNKbhEPagHNKAx4oZedE=;
+        b=VP8oqgHY8XygflcZ+cvp3mODPS5js4rgRzlIa+bLN2sZ0Zie10cXVhz4fBaOU6mXED
+         UXehbe9mmcf/oFfS90w57Y29+QlkBXKlyqukb73/cNv5BOZmaqNyileNj0elMz4zZUa5
+         3MCGpsmfkBK9HjVAkkdK9rFCOCDNPaVPJ5T14vIctLG4OQ6tjgRP3nohDpO3wcy2J50Q
+         gkJ5kiWQFewpuR5YdONfbSP8qiTGYMfcFpQWDvXDtEP2BnFeoxsUqYEl3wGha1vhAWLm
+         +JoZ1x0hj/dnZAA+m+3hrAmYA2spjhVCgvaFgbCoI/c3qkODTeIspo6LTxqJAJljVm1k
+         WTMA==
+X-Forwarded-Encrypted: i=1; AKwUvBzp4kCWJyRtIHxKL61yIqW0YjQbqX1QpCK8iUXP/24v7yL6XkslFTvivR9LrqfwO8hxBzPy/jGcroA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ7Pw0EhYiSGV2Pz6aljl73LSnedYCWeDqmsKxlUNMElZqD1tVo
+	DfDDgFyFHGXkeAu9/9K1IUDJkuvw1rDbRdWtnQmwafW9SsVYTNxqcNYNNNXyPrSY0qA=
+X-Gm-Gg: AYBFou063xmRTCjTMXpJmqSb8ykzbLyvCs0m/48NzYVqTyDu52QLBr4qK7u8G1Gew/r
+	pnLU3F1fT6cObQniZB9b4HoaxvMna2kb+NGQ3VYUDrwZOcO/ZY8czBK4I5mIONR1iZSZ7k2iVih
+	CXPSUKqZ/AhJERoiI679EFCRse+05LgnS2Se19xywktRWTjr/XoQPSpFOgnxexgicc2tsHEvSow
+	b0CbOsPzmYA8HdIy4IP5qjgAUhBNQg/xyocvU9G/rPkZd5Bxx/UYWVZyYfKz60oJRyevU6Br+tA
+	+//Ev10GV1hrrPPjGropM5C4p4x65InGGIkwwHnp5keq5/l0i4brBOXv76O2ymEGFllsvbWxyqn
+	S6kiM7z0gML5q2PCEMOOS4SzsMCb3mR+bzteU7Q7y8pBFBLruQOHfys9dmtp7bxQljQ3SMrrrg7
+	r30325AoVeZW44bxTvcLc1siXaKDGT6y1Eq2HEXcmXv4Zdlb2RfqNaX7rm2sFEpS9f6hXQecT5D
+	70=
+X-Received: by 2002:a17:907:6095:b0:c29:5215:b2d8 with SMTP id a640c23a62f3a-c2e23cabf4fmr155306066b.14.1790781938443;
+        Wed, 30 Sep 2026 08:25:38 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2e31dd955bsm23066166b.70.2026.09.30.08.25.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Sep 2026 08:25:38 -0700 (PDT)
+Message-ID: <8e47bb89-a894-4fd0-9f96-e11b5dea1972@linaro.org>
+Date: Wed, 30 Sep 2026 16:25:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SA1PR12MB6824:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82bb16d7-1086-41b3-54bf-08df1f04ee54
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|18002099003|22082099003|11063799006|4143699003|3023799007|10067099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	HKHZAYxG6ZbyjpFSLEAIU/ynIXNb+x3YvFHwJgGgy3oddFitj/PYqYDEq5STEARUrWtSp15i45tMEBF3UVS6bKIan5By3MEm280XQwiFieZP5vpKrl6Y+UxnYhTzTN8dWus8UzquREPdOJQNILcsZI4yuZKNrvtPM5BS3esGekjSFAxc7yV22yxa/LiW3GYDAA6hwf4egl2/19h8oJjfkC/FtFXpZp0hcp5d9qMxTXkk1ZweLlXIsqDMLZfKLwaKcT3dv97UZlneNU1tUXtShgrf2pX7UHgOnEiD5+HftzIdck6uTIPlEDGajv+V1eIzlVHFa5pphLzczr2Z8JWqRfTykiystLAkLUiQ5wo8HuP05TKVA2+aMQcsoGiBAPDdm/xJD0i7kQKZPF/O2hY+UJIH7rN3GN+c7626CP5CdRNwOs8fFR4gjCKenYprDFAdSPYppTGW7SP7Kuwn2ZZDhbQABpyR6zWiHWLxlL0C6oj+wcIAsjGBllxXz1fUpNF4zw6lFDNkiaCEnGkxx5NztWopI88bmqRBRa36H08JlgpI6sn/HEBQHhRfmSz0DP0ymrCMKU/1NpEkx8Ou8Cvwf7q/3gHi+M7XBh1BYxo06fhrmqJxb9EHLdlyqCS5pogY2IjHt3FJetazbhs2qkXvYXhMLqf/yETBGeRDuLpPjA8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(18002099003)(22082099003)(11063799006)(4143699003)(3023799007)(10067099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d0xhcnJxQjhZamdEb1BBaU5aTjdwNmI1MmViOTMvcDZZbUhZOHRPSDhsV1hQ?=
- =?utf-8?B?cUEyb3RMMFJYS25mOXVwcFZWbTlaU3B3Nk5XL1UzWGx4bHY1T3o3TmxaN2Vh?=
- =?utf-8?B?ZEhNRG5LakFxT2RGMy8rbDYySFpGYmUwVnJGK1F4TjVhWjZteWcybHJCT0ZP?=
- =?utf-8?B?OXZFZTU2UE14REF4SWhJVy90WDZmMFpXM3Nub1k1UG13S2ZBYmEzcm9mcGFE?=
- =?utf-8?B?Q2pwVDZGOHlPVW0zaC9mMCtnZENnOVczT2ROR0dseWtMdHZ3N2hRQlVjRUpY?=
- =?utf-8?B?YkNzZ2hTaFR1TmJ4ZEZhc2NUWDhBempYMmtHSU1sd3RCayt1YjR6Zm9iNEZx?=
- =?utf-8?B?dVorYThLSzR2VW41Vm1PVDY0R05GVDM5bFRmSkxUQStEMmpmWVhqR2V2M0ZC?=
- =?utf-8?B?VUdCWDNaZHpjRzhZSEpNbUlsU2dsVTV1aUx3eDZLNVdab0lGV2R4Q2tCNnlK?=
- =?utf-8?B?b2FycnBtQm9QVVkwQzdaR3ppelJKckdCVnk1MGdoakFCcXpza08ybHk3bU56?=
- =?utf-8?B?ZUFhSE8xcWI3VVEySmRIUC9YdVU4VDRvUXoxTTZqb2xRdVRwaUpWdWs4djY3?=
- =?utf-8?B?aXBUTjgxK05SejdaNWExTHJUS0U3MzNuMTVIWkl6bnh3dktZS2UybXNieUlQ?=
- =?utf-8?B?Mm5ENmQzdmR4clpPenJka2dDbGU1RjVOOXlaKyt3ZEIwc1hZRWIvWEt3a2Ew?=
- =?utf-8?B?LzRaTitNR0Nwc2JaZlpCc1BnNnVjL2pSRTA4VlBJUkVtUVNyUDFsaTRIMVRX?=
- =?utf-8?B?OWlJaUZOczJvWTdlVThWNGFWL2JLVUlIMmdta21RZXJobHJjWk0ycDlhRDVN?=
- =?utf-8?B?MmI5UnpldlRhZnRzSnNEaSswMzNMWkthZjFIR0xPazA2cEtycHdnRHNRZktq?=
- =?utf-8?B?ejV6QXJtUGRxaVJ6dWZZdjNHVnZ5eVBLd3hValZJYXVkZjg2WUMyMGIzdkl1?=
- =?utf-8?B?U0ZNNmRJZ1ZYcjJLSWlaVkM3L0lOc3RvYnNaQnZTL2JrajhhOVRuUDZQenhI?=
- =?utf-8?B?ZlgrOEJWUmxIZG9tRUZCbHp5cFVwcmkrSXlDK2xnMGt2M2lUbXc5QmFrbzNq?=
- =?utf-8?B?MFN4MkxKQW95UFA3T1dxcmN0aFd6amt4VTdHSjF4RDQ4eEkxSGNxNW9la0lL?=
- =?utf-8?B?ZVcxR3hDMUlySXNId0RGVkVrTjd4SnNFNk1TV2h5ditmM0JHV3ZTMkxCa1FL?=
- =?utf-8?B?dFloMWZhL2dWS0paSHBVZi9hcVhTc003Y0lyUGQrd1IzZWZpcXJDOE1EalFn?=
- =?utf-8?B?b3JydUkrUitlYnI2SnB4ajdaZklub0QrV1kzRkE4M2Zza1JNVm5JRExwaVND?=
- =?utf-8?B?UE4vNmtFL2gyTkZ0MWpoelNKUnhtZzlGbXVwRnJhdTh4WnptODgxcE11QTJF?=
- =?utf-8?B?dkFqTmJ3S054aDBZMTE0Qkd2b0dMZXEwYzRiZ3pIcFNkQ0habWV5Vmt1MjhM?=
- =?utf-8?B?djRLQmFBQmVqdFlhcklnbkJqVk1PcnY2eWs2a0NTYUI1M1NxZjdCQWZxSGF5?=
- =?utf-8?B?dG1kdXdFOEN2bldieno5RkRZdnVtL25JUmkrQkZuT2xsQmptZ0c4dTN5RmdT?=
- =?utf-8?B?ckdCN1FQc09nb2lvTVN2SXkrYXNHd0w3R01FUDRjL0YraXQxTUNPbzVLQkpR?=
- =?utf-8?B?bjRSdjk4RHZzRjNiR0QwSkJuL2pvM3p4ZWdjY1pxRzBkUXdVZ0MvMndQaHo3?=
- =?utf-8?B?c3RIQytPdHloOEp6WXJaQVI4bTZUREZVR3NXSkhMZGJaZ1YxOW5FU0FsckpW?=
- =?utf-8?B?QVFNYnRuMGxuUWVuL3BiNXV6dmw3QStta2k5anBwMFdTVE1Td1lrcXZzN0pq?=
- =?utf-8?B?dkYvbGhuazVJVmQ4SlJUazFaV3F4SlNpclNQajBkKzB1bFVndXVsYzcybGJj?=
- =?utf-8?B?SGdsNVQrUVNNcFMxdG5WeEt4ZGxJcFFpWHhzeWF6azRIdUFwbFRrQWh1WDR1?=
- =?utf-8?B?RjNta1R0WkE0REVZRUtvTjhIL3BVak5JVndxbXZ5TGdLWHRMMHNZc2pQRVlW?=
- =?utf-8?B?dWVjdXZQOG1jcWxrRWtWK0VJeDdpRmZXbXpncWZkU2tJdTRvOGVZT3lHM3V4?=
- =?utf-8?B?THd3QUFFQW1jWm5kWmdoK1dTeDFiaGRlZ1ZZWkwvTkhEL1Jmc3pDbzdDOHVV?=
- =?utf-8?B?SDFPVTUyWmVNUTc2WTN6UkZaOXpOWGVmUVJSOXRPNXlqMVN5VGNvRUF1a0Mz?=
- =?utf-8?B?QVZQWmNKVzQ5RlhuanFlV3ZTZ2ppUStKNm52L1dNall3eno3ZjVxRnU2OWl1?=
- =?utf-8?B?U3JVNGh0M0MwV01mcHBFZHNqYnRYWmhGZkx6NHVQYVV2cHd4ZUhNcWFxTFo1?=
- =?utf-8?Q?RpnfkmSsUxwuTAYROD?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82bb16d7-1086-41b3-54bf-08df1f04ee54
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 15:10:15.0193
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0gzCwtjpwZGTxKGjIjmnIfR18/MFmOlrOprL7uQvWipOwecyze9odJfZHDZ3bkLm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6824
-
-On 30 Sep 2026, at 10:50, Gregory Price wrote:
-
-> On Wed, Sep 30, 2026 at 10:02:23PM +0800, Li Zhe wrote:
->> The use case is closer to the second one, but the main motivation is not
->> only startup-time performance.  The more important point is that each
->> workload has its own DDR/CXL budget assigned by the workload manager.
->>
->
-> mempolicy is the wrong interface to do budget policy, you'd be better
-> off looking at Joshua's memcg tiered node solutions for that.
->
->> MPOL_WEIGHTED_INTERLEAVE is useful because it lets new allocations
->> follow that per-workload budget from the beginning, instead of placing
->> everything on one tier first and correcting the placement later. This is
->> important for workload orchestration because the workload starts from a
->> placement close to its assigned DDR/CXL ratio.
->>
->
-> This however is reasonable to me - you'd prefer to spread out the cost
-> of initial faulting placement explicitly, rather than simply take
-> fallbacks when the top-tier budget becomes pressured.
->
-> i.e. w/o interleave:
->
-> [node 0       ]
-> ^^^^^^^^^^^^^^ alloc until full
->                 vvvvvvvvv fallback
->                 [node 1          ]
->
-> in this scenario you end up with considerable hot memory
-> on the remote node consolidated in time-space (everything
-> allocated after node0 becomes full skews heavily toward
-> node1)
->
-> Tiering then likely takes many faults to rebalance after
-> you've already reached node0 limits.
->
-> w/ interleave
->
-> [node 0                                      ]
->  ^^^vv^^^vv^^^vv^^^vv^^^vv^^^vv....
-> [node 1                                      ]
->
-> In this scenario you do an initial fill distributed by weight
-> and then let tiering figure it out without consolidating all
-> of the pressure to the point where node0 has no space left.
->
-> That said - this seems like mostly an initial-fill problem, after
-> you initially fill your memory, a new allocation largely implies
-> the memory is hot - and you probably prefer that to be local.
-
-If this is a initial-fill problem, can userspace set weighted interleave
-initially? The program or harness can observe memory usage of the program
-or related NUMA nodes and switch the policy to numa balancing via
-set_mempolicy() or mbind() without MPOL_MF_MOVE after certain threshold
-is met?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/22] ARM64 PMU Partitioning
+To: Colton Lewis <coltonlewis@google.com>
+Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
+ <yuzenghui@huawei.com>, Fuad Tabba <fuad.tabba@linux.dev>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Zide Chen <zide.chen@intel.com>, Alexandru Elisei
+ <alexandru.elisei@arm.com>,
+ Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+ Mingwei Zhang <mizhang@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Russell King <linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>,
+ linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kvm@vger.kernel.org, kvmarm@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+References: <20260924172928.2110956-1-coltonlewis@google.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260924172928.2110956-1-coltonlewis@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-Best Regards,
-Yan, Zi
+On 24/09/2026 18:29, Colton Lewis wrote:
+> This series creates a new PMU scheme on ARM, a partitioned PMU that
+> allows reserving a subset of counters for more direct guest access,
+> significantly reducing overhead. More details, including performance
+> benchmarks, can be read in the v1 cover letter linked below.
+> 
+> There is no longer a kernel command line parameter
+> (`arm_pmuv3.reserved_host_counters`); PMU partitioning is now completely
+> controlled via the KVM API using `KVM_ARM_VCPU_PMU_V3_ENABLE_PARTITION`
+> and `KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS` vCPU device attributes. When
+> partitioning is enabled for a VM, userspace must explicitly configure a
+> guest event counter count strictly less than the maximum general-purpose
+> counters implemented by the PMU (leaving at least one general-purpose
+> counter for the host) prior to calling `KVM_ARM_VCPU_PMU_V3_INIT`. A QEMU
+> patch demonstrating how to use the uAPI is sent separately.
+> 
+> An overview of what this series accomplishes was presented at KVM
+> Forum 2025. Slides [1] and video [2] are linked below.
+> 
+> v9:
+> 
+> * Rebase on top of v7.3-rc4.
+> 
+> * Drop the `arm_pmuv3.reserved_host_counters` module parameter so
+>    partitioning is completely controlled via the KVM vCPU device
+>    attribute uAPI (`KVM_ARM_VCPU_PMU_V3_ENABLE_PARTITION` and
+>    `KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS`), and document the new
+>    attribute and counter allocation rules in
+>    `Documentation/virt/kvm/devices/vcpu.rst` (James Clark).
+> 
+> * Move the dynamic counter allocation mask (`cntr_mask`) from global
+>    `struct arm_pmu` to per-CPU `struct pmu_hw_events` (`cpuc->cntr_mask`)
+>    in a dedicated `drivers/perf` patch, fixing multi-pCPU counter
+>    reservation clobbering on vCPU migration and eliminating the
+>    `cpu_pm_pmu_setup()` cpuidle `WARN_ON_ONCE` (Zide Chen, James Clark).
+> 
+> * Synchronously propagate trapped guest writes to `PMEVTYPER<n>_EL0`
+>    and `PMCCFILTR_EL0` to hardware via `kvm_pmu_apply_single_event_filter()`
+>    when guest-owned, fixing in-guest `perf stat` event count skew across
+>    runs (James Clark, Sashiko AI Review).
+> 
+> * Refactor `armv8pmu_can_use_pmccntr()` and `armv8pmu_get_event_idx()`
+>    to check `cntr_mask` inside `armv8pmu_can_use_pmccntr()` and un-nest
+>    the 64-bit user-access check so cycle events fall back cleanly to
+>    general-purpose counters when `PMCCNTR_EL0` is reserved by a guest
+>    (Robin Murphy).
+> 
+> * Restrict the lazy transition to `VCPU_PMU_ACCESS_GUEST_OWNED` to when
+>    the guest actively enables counting (`PMCR_EL0.E = 1` or setting guest
+>    counter bits in `PMCNTENSET_EL0` / `PMINTENSET_EL1`), preventing guest
+>    boot-time PMU probing from prematurely claiming hardware counters and
+>    triggering spurious host counter preemption warnings (James Clark).
+> 
+> * Fix patch dependency ordering and series bisectability across all
+>    commits, removing intermediate `max_guest_counters` / `hw_cntr_impl`
+>    churn and squashing the selftest exception relaxation into the
+>    Partitioned PMU selftest patch (James Clark).
+> 
+> * Fix compiler warning for `struct arm_pmu` declaration in
+>    `include/kvm/arm_pmu.h` (kernel test robot) and guard
+>    `kvm_pmu_host_counter_mask()` when KVM is compiled in but not active
+>    (wuyifan).
+> 
+> * Track physical CPU PMU residency in `vcpu->arch.pmu.loaded_on_cpu`
+>    separately from `VCPU_PMU_ACCESS_GUEST_OWNED`, and toggle
+>    `MDCR_EL2.HPME` via `kvm_pmu_host_start()` / `kvm_pmu_host_stop()`
+>    instead of `PMCR_EL0.E` when starting/stopping host perf events while
+>    a partitioned guest is loaded.
+> 
+> * Allow `kvm_vcpu_pmu_resync_el0()` to resynchronize VHE EL0 event
+>    filters (`PMEVTYPER<n>_EL0.U`) in process context and order
+>    `kvm_pmu_put()` before `kvm_vcpu_pmu_restore_host()` in
+>    `kvm_arch_vcpu_put()`.
+> 
+> * Address additional Sashiko AI Review findings:
+>    - Check `idx - 1` against `cpuc->cntr_mask` in `armv8pmu_get_chain_idx()`
+>      to prevent 64-bit chained host events from crossing an odd `HPMN`
+>      partition boundary, and use `cpuc->cntr_mask` in
+>      `armv8pmu_enable_user_access()`.
+>    - Latch live hardware `PMOVSSET_EL0` overflow bits for guest counters
+>      with IRQs disabled (`local_irq_save()`) in `kvm_pmu_part_overflow_status()`
+>      and during trapped guest accesses to `PMOVS{SET,CLR}_EL0`.
+>    - Add mandatory `isb()` barriers after control-plane system register
+>      writes (`mdcr_el2`, `pmcntenclr_el0`, `pmintenclr_el1`), preserve
+>      guest `PMSELR_EL0` / `PMUSERENR_EL0` when `MDCR_EL2.TPM == 0`, and
+>      restore host `PMCR_EL0` control flags on `kvm_pmu_put()`.
+> 
+> v8:
+> https://lore.kernel.org/kvmarm/20260612192909.1153907-1-coltonlewis@google.com/
+> 
+> v7:
+> https://lore.kernel.org/kvmarm/20260504211813.1804997-1-coltonlewis@google.com/
+> 
+> v6:
+> https://lore.kernel.org/kvmarm/20260209221414.2169465-1-coltonlewis@google.com/
+> 
+> v5:
+> https://lore.kernel.org/kvmarm/20251209205121.1871534-1-coltonlewis@google.com/
+> 
+> v4:
+> https://lore.kernel.org/kvmarm/20250714225917.1396543-1-coltonlewis@google.com/
+> 
+> v3:
+> https://lore.kernel.org/kvm/20250626200459.1153955-1-coltonlewis@google.com/
+> 
+> v2:
+> https://lore.kernel.org/kvm/20250620221326.1261128-1-coltonlewis@google.com/
+> 
+> v1:
+> https://lore.kernel.org/kvm/20250602192702.2125115-1-coltonlewis@google.com/
+> 
+> [1] https://gitlab.com/qemu-project/kvm-forum/-/raw/main/_attachments/2025/Optimizing__itvHkhc.pdf
+> [2] https://www.youtube.com/watch?v=YRzZ8jMIA6M&list=PLW3ep1uCIRfxwmllXTOA2txfDWN6vUOHp&index=9
+> 
+> Colton Lewis (21):
+>    arm64: cpufeature: Add cpucap for HPMN0
+>    KVM: arm64: Reorganize PMU functions
+>    perf: arm_pmuv3: Generalize counter bitmasks
+>    perf: arm_pmuv3: Move counter allocation mask to per-CPU struct
+>      pmu_hw_events
+>    perf: arm_pmuv3: Check cntr_mask before using pmccntr
+>    perf: arm_pmuv3: Allocate counter indices from high to low
+>    KVM: arm64: Add initial scaffolding for Partitioned PMU
+>    KVM: arm64: Set up FGT for Partitioned PMU
+>    KVM: arm64: Add Partitioned PMU register trap handlers
+>    KVM: arm64: Set up MDCR_EL2 to handle a Partitioned PMU
+>    KVM: arm64: Context swap Partitioned PMU guest registers
+>    KVM: arm64: Enforce PMU event filter at vcpu_load()
+>    perf: Add perf_pmu_resched_update()
+>    KVM: arm64: Allow kvm_vcpu_pmu_resync_el0() to resync filters in
+>      process context
+>    KVM: arm64: Apply dynamic guest counter reservations
+>    KVM: arm64: Implement lazy PMU context swaps
+>    perf: arm_pmuv3: Handle IRQs for Partitioned PMU guest counters
+>    KVM: arm64: Detect overflows for the Partitioned PMU
+>    KVM: arm64: Add vCPU device attr to partition the PMU
+>    KVM: selftests: Add find_bit to KVM library
+>    KVM: arm64: selftests: Add test case for Partitioned PMU
+> 
+> Marc Zyngier (1):
+>    KVM: arm64: Reorganize PMU includes
+> 
+>   Documentation/virt/kvm/devices/vcpu.rst       |  42 +-
+>   arch/arm/include/asm/arm_pmuv3.h              |  16 +
+>   arch/arm64/include/asm/arm_pmuv3.h            |   7 +-
+>   arch/arm64/include/asm/kvm_host.h             |  18 +-
+>   arch/arm64/include/asm/kvm_types.h            |   6 +-
+>   arch/arm64/include/uapi/asm/kvm.h             |   2 +
+>   arch/arm64/kernel/cpufeature.c                |  10 +-
+>   arch/arm64/kvm/Makefile                       |   2 +-
+>   arch/arm64/kvm/arm.c                          |   4 +-
+>   arch/arm64/kvm/config.c                       |  49 +-
+>   arch/arm64/kvm/debug.c                        |  41 +-
+>   arch/arm64/kvm/pmu-direct.c                   | 636 ++++++++++++++
+>   arch/arm64/kvm/pmu-emul.c                     | 718 +---------------
+>   arch/arm64/kvm/pmu.c                          | 787 +++++++++++++++++-
+>   arch/arm64/kvm/sys_regs.c                     | 334 ++++++--
+>   arch/arm64/tools/cpucaps                      |   1 +
+>   arch/arm64/tools/sysreg                       |   6 +-
+>   drivers/perf/arm_pmu.c                        |   7 +-
+>   drivers/perf/arm_pmuv3.c                      |  97 ++-
+>   include/kvm/arm_pmu.h                         |  93 ++-
+>   include/linux/perf/arm_pmu.h                  |   2 +
+>   include/linux/perf/arm_pmuv3.h                |  14 +-
+>   include/linux/perf_event.h                    |   3 +
+>   kernel/events/core.c                          |  31 +-
+>   tools/include/perf/arm_pmuv3.h                |  12 +-
+>   tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+>   .../selftests/kvm/arm64/vpmu_counter_access.c | 129 ++-
+>   tools/testing/selftests/kvm/lib/find_bit.c    |   2 +
+>   28 files changed, 2200 insertions(+), 870 deletions(-)
+>   create mode 100644 arch/arm64/kvm/pmu-direct.c
+>   create mode 100644 tools/testing/selftests/kvm/lib/find_bit.c
+> 
+> 
+> base-commit: 93f51579e7df248780214094418f205253383cc5
+
+Hi Colton,
+
+Looks good to me, everything seems to be working now:
+
+Tested-by: James Clark <james.clark@linaro.org>
+
+There are still a few Sashiko comments though, and one critical one 
+about racing with pseudo-NMI PMU interrupts that looked reasonable. I 
+tried to test it and reproduce an actual issue but couldn't, so maybe 
+it's bogus.
+
