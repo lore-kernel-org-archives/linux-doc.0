@@ -1,216 +1,149 @@
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012037.outbound.protection.outlook.com [40.107.200.37])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AE1471244;
-	Thu,  1 Oct 2026 11:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790853499; cv=fail; b=gpK0GdTj1H3w/8TeXraqdC4XBzK7WN1t4dfLwyMyw2wb2ug+PqPMapDA1MUimOMW88NyIg75CDb7FXy7UdDkPkLjD97G+AyATAg+xxHx2a6EFAC9sw+GQP9YW6s94aU73q3c/11Ebvj8vtFMwmy+ZdpJxzKLEk3942tgu0UNVkc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790853499; c=relaxed/simple;
-	bh=4G1eKVaT9W1v/5ES84dCeVaSqYfHgbXo2DQ7l91DDwQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nLaV/iwrfgs2jqhkwz4jCC7QX3twsdvXjJbzlzV1xdwqV3EuscZkVBlSetsdO9p8exD9xx8Ux5kXhMGYLDf1qfh7P1vRBV5spZWlSq0mDAY+nsYxxieRoeUcAGKqVTcchf2D08dO8qzLt6bRg/kx1FJfAF4BDcG448cMuE1/sq4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=XQRscA+o; arc=fail smtp.client-ip=40.107.200.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90EC476CD9
+	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 11:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790853548; cv=none; b=BnUnN3nCkal+KCddHKO6W0sCy0Up6V3Phf9YPV9ry9YaGL+vgTIJRhHqUnDSAUvk6LqIJmYinsi/UI5w0XL+2pPufghNTMn7yl+fWlO2sDJYmtwep7DJLUpPOqtUh+O4cRevSfnVOOEAUUfrxX1ICP99kxvIxlHbT1r54+SuqiI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790853548; c=relaxed/simple;
+	bh=T5hkxiLK5QweA8xYY2b0kNgTq2KlMqL9lNVwKAsYRXE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=sQGf3NZHUyClisVGR8XRfFR69NFolajj8DStwjLfr/4+vfDFSSJ5OIxGpB2m7GoMArXqJeX/jbcw9DOO1S6s7oV2n/oAA97sKbkGYn4aUXxiL7MmBwe3WFovkLfjrY7/mr8kJShXH/FhVMddTc2YO56gmQzwA6GnIwyM+KL0XyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V1o6PgNA; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Koa3pmFh; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="XQRscA+o"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tt/7KttJcmXrb1CYiG725dhJ1i4ZWGUvGDe2HBVexmcSZUHDOSn2EIcMCm17gOZL+qN4Fcxb0+uorVfB9udq4DS4NhLLxmY//BR9SQ5hn0X0/qGM9eDFfwb/uSc+z0ImCqT4yY1pEr/sJzMKXbwzNl2Onmr2ksRYsErJ4uaztScJddHruGHMZJOhYvL+zogVdqiYIS9UowGI7n6sHnEvrRXrIGGOngx/udPGo2pvq32LVRz6LsVSsU6mWYWYFzlb1r8KdT45ucdl1FZdQNcRaiUZWdNeJqj+3siCLYqT0jOJfL6LbCo5zI/NLhLqoxxy4E9dnuIxn7MtbGEovqOFQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OLexoLRVfDQa+64aoDbaSAoPyQyGTI/u9Y7kIeL2owk=;
- b=PkGf9seseu9k53SE+Po52+zDA4HzNjuUfR8mF+ljSG3EJdaF6mJTzTr1NjlFmBNdhomifgDDzSixDQvidL19jZmS2INLiTd+9Yw8f22IX9DtqwyCpTJkXjvKDMbYXw3St+ZcE100HuBwfg9NiVCgtjiMM+SZbkeIIw0sb3aKUWkvGioQztw9bY5mF76wcbUTyLHTxpdzI/8GZgUz1GrEbHQOWdEDP3iSq5IRt4KLsEdS/K23p2/xAWLn4/qnkLxIzm8VuGtQqJNM2UHOZqe6gMIMhlGGarPy+pnryKfef9kiI0kKGUb62e8v5a+HR31j7/gXkM0Rcp2/fNnH6I+kCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OLexoLRVfDQa+64aoDbaSAoPyQyGTI/u9Y7kIeL2owk=;
- b=XQRscA+oQo+okrILTcLCYg0PvvjJab4AKW9+VxpJUOnkn+s5fwpPGwM4fQ1Uu3MMiX6IZ4bkhdhnXyZ3tpsDZpD4Fd3+zGMVSkGWVS+W4H/EDhcgGZLEmrGF2vr5a9EA08Vg2Uk7hbvYsc8b73cig23AzTnAC2j26wYtxl0PPXYBtdlRjE6KnaN2dTTm5I6auS67H5GqBNmaVx+a3fxqdEmoqPWkrRN/ppdSDJpAi044QhaQ2CDOFaCzuThGYpi2Y3xk/QzJADa3sX86tlF8d2S8lcq/WLn/3niPOVLOOgfm2r+8PLsfvlLtXaSa8ngvl2aCP6LEQU1cDhVqXZyX0g==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by MN0PR12MB5811.namprd12.prod.outlook.com (2603:10b6:208:377::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Thu, 1 Oct
- 2026 11:18:13 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0472.016; Thu, 1 Oct 2026
- 11:18:13 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Gregory Price <gourry@gourry.net>, Li Zhe <lizhe.67@bytedance.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, akpm@linux-foundation.org,
- ljs@kernel.org, liam@infradead.org, rppt@kernel.org, mhocko@suse.com,
- corbet@lwn.net, skhan@linuxfoundation.org, ying.huang@linux.alibaba.com,
- apopple@nvidia.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference
- with MPOL_WEIGHTED_INTERLEAVE policy
-Date: Thu, 01 Oct 2026 07:18:11 -0400
-X-Mailer: MailMate (3.0r7032)
-Message-ID: <4CDEE1DB-1847-42EB-9801-6B3968590C33@nvidia.com>
-In-Reply-To: <280965b2-c6eb-4f01-a0ac-c4fb7e518f97@kernel.org>
-References: <20260930121154.687586-1-joshua.hahnjy@gmail.com>
- <2e3f12b7-0dac-428c-b70b-07e1f63de028@bytedance.com>
- <ar0fURbLDPrphYMY@gourry-fedora-PF4VCD3F>
- <A005B05D-A85C-4153-A65D-0BDF9D8500DF@nvidia.com>
- <280965b2-c6eb-4f01-a0ac-c4fb7e518f97@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-MS-Reactions: disallow
-X-ClientProxiedBy: MN2PR16CA0047.namprd16.prod.outlook.com
- (2603:10b6:208:234::16) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V1o6PgNA";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Koa3pmFh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790853545;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=isKKctMTOuNZ2ISnIkB2czFHAzW4g7b0r9h2VTPLIVw=;
+	b=V1o6PgNA4zxy+F9XprzEF5YjbxwedLINpdiqwyGa1wuN6xQ/g8dZM7WzX8pvEbL/LC68OF
+	C34X2cSzTMPxQuhc4xC4MxHBe5VpJtL+PnQ4MnBKI/3tfKhLkdGMNc8CvGf3+E7+s+71yu
+	tZ9RD/qRRjEUnJtx08W/CgojpF2ZDsY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-490-0rPxIOTDPFmNgr459QYzag-1; Thu, 01 Oct 2026 07:19:04 -0400
+X-MC-Unique: 0rPxIOTDPFmNgr459QYzag-1
+X-Mimecast-MFC-AGG-ID: 0rPxIOTDPFmNgr459QYzag_1790853543
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-486f9d150c3so3838294f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 04:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1790853543; x=1791458343; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=isKKctMTOuNZ2ISnIkB2czFHAzW4g7b0r9h2VTPLIVw=;
+        b=Koa3pmFhE1Gum0+QcLYpzFxg2Bg/3ZrOIum9IBxWpCkguvnnmKOioaOtnueHF9dYua
+         08AYuFsku+NRBYTGht1beMJyUb5HGc/h7LrGZrjQ86VK5xzN5GPR47SuPbFXozNWThDM
+         CXq4Q3dpGhMJW9eHwETYIf0lrmGqyj4ZjGQ/cD0OtpRNvX4P6zQVpOlWRhg3fx59Ztck
+         Z3i319GjpLRNOVOjrzQo3Pxingruj/FIs8hLia6+Cy/y7YG09BRV/tU2/uT31DeKsJNw
+         DHxv2/Ak05hWgV3ZbGKT7HOOfwGo3nmJvp0zILCa5zvFbGwCaS1r4gxyZ6nUUee0CjIp
+         Pg2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790853543; x=1791458343;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=isKKctMTOuNZ2ISnIkB2czFHAzW4g7b0r9h2VTPLIVw=;
+        b=NE8VW5A1it7OLBcfh0zDYbrJIEwFSwBiDYrmClk5DeHtZzakkoOfu3fivZhCstOCsP
+         8K3qTSHVOzMPE8BJvk/JJHPHsoUgwoDACVi/5Bv6Hw2Oizc+n8x9pFcC1E0QUloZWt8L
+         q1Eni4C+5XeqzutiKzCMm2sp7mj9j0Em74eTTdKKc71nYrbvQRgOMjOdrpXZQZYYWqgK
+         B2gq6+S4tKn1TW6sktKHbbWF4c4DGS8nclh5p/+SpcVkSvvAgEBjBlPzHc3ucv58arMa
+         jViPWsu3RZg/PsPknU4Vr5hPYBVPKesX6/3Lfy+IIdO/dP4N+pH+nFsEvEPpqzsVtzfr
+         +L/A==
+X-Forwarded-Encrypted: i=1; AKwUvBwdqsYBXEHqjbV7obDAFFKajmuUgyArCGUjkrbEbzI9tmfp+YTmHcik/IBS/iL4wujU6yO7tUUc4Ak=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIKBNjAE/G1cRM3HkDTKQSmnH2rCk5KZ9por1wdEg9TdFP/QNX2
+	raQWUtk7sLaNeETdqOj6tSSc9F/ZFDhIfSsi68/oJxWQNLfKRB6fnjrgSn1oiywKmbCwP1Eh666
+	IZDayWQYHtXI6vjZAt6m7TSffooJo9vQajQffZA/CkiZMmy/ZGCZwe5ttjm5wrg==
+X-Gm-Gg: AYBFou2XFclLYFB/qgCdt+LJQzZ+KefyhodTEfnXCCEmiSrn+ixHz5fgceVLvGvr77b
+	3Eg5+DsmUb0YS3y6cR2IY7xIVLkjzbITvYhHYLt/Y2jyGSxNAV/yWZqlCyWeECEb2Kxkce/tpWo
+	9mPrhCSszLC/3Zt+r++y2vHbUhoZnK3Z12WhbhwyubAbqTog+YQ2xH4SQip1wQwaZvHN7paoYXi
+	JotBoUKOw5gR5MZMOzWuRttHRDuvQC3/DMKGl8LLpGI0cPPKFvfVUdXUktK14SyAoXeDmQL3ME/
+	pjjhGt7yOnz/PmnTFGwo1nk6k5Rq4jDk0qWF2fIlpnXOJKdrlmhgc8iDHD+xrUaGauZj2XA7Oqc
+	LGnecROZfh6BmCgHOo8dIUMM1cBX3e3EbUar/LGbrV4zDPGngpRskdm0UBLwQ73FyWUFyolfWDg
+	==
+X-Received: by 2002:a5d:5849:0:b0:487:27f6:a4e3 with SMTP id ffacd0b85a97d-48b0253d698mr7952017f8f.51.1790853543414;
+        Thu, 01 Oct 2026 04:19:03 -0700 (PDT)
+X-Received: by 2002:a5d:5849:0:b0:487:27f6:a4e3 with SMTP id ffacd0b85a97d-48b0253d698mr7951958f8f.51.1790853542917;
+        Thu, 01 Oct 2026 04:19:02 -0700 (PDT)
+Received: from [192.168.188.234] (ip232-47-231-195.pool-bba.aruba.it. [195.231.47.232])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b068ff96dsm5707719f8f.8.2026.10.01.04.19.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Oct 2026 04:19:02 -0700 (PDT)
+Message-ID: <80fdcb30-be96-49da-8499-2c673e95b75b@redhat.com>
+Date: Thu, 1 Oct 2026 13:19:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|MN0PR12MB5811:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43c8a7f9-689c-40b5-68bd-08df1fadae75
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|10067099003|56012099006|4143699003|3023799007|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	vUARe23zlZxkKWgIrh7d8cr5ce/eEHj1hm2i2KVD1wkZcdodSaqkBbaiDlk1I0Gmev5YmBXLZ/gyrs0JSn2aAFbQfwHVJijUYCelII3nk3SZ6rtH0qWhRb01/yYV73IeTydTq4+GP5hGjePN2pfWv70oSQ+n+0QNcvPSS/NIKrDMobK/uHEflAGOqM+SiYfqMujlmlT2P7UFYLKbTw7aIrgUaZmz80NDusDV/RLCKNbickjPQdjXAIi7I0TAHENRdZKIefHJ46Sgp2uvlD15mi/POrdK1c3igGVZ6g82dnftuVg1OziSIfuodFWJ6VbG5BBEVgcu4QlNXo1FbZYM63IBclCnF6L8rgW5zfYBU3ZiKSEN5iFUW2pz2Scavzbqw4br4BgKKQnczmiBe8ewtopIzrN9rTcUr7jIYw31jaoWxNJ0SAqxnb6cYogmYyJLcz0+oHlRdaynXHNEh0lpddZKSUw+L6GhspZ1Td3SlWf+cSckkqJqhMwmsBVKwf7M7GPxBMiQaYtiroOfyKP2oA98IzZbtuBYyOGThpvF2zeEQUniyb7BNVnjWVtvWjlN3F97uUa7+eFADg79T7RHByMPyu75zwn8bPtv30LX9Pc1BhuLXFf2Oin+s+0AaO1AdZ0T975xZYpl+eXZBzjUVN8iEan5JlVsd8TnjNV9Jls=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(10067099003)(56012099006)(4143699003)(3023799007)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?enN1TFBsS1N5SHpyc1gwbzhmT1Ywb2xIRjhSVVcwcFM0a1RqYURaWEJmemNm?=
- =?utf-8?B?cExsU0hxbXIxTXBhckFUNzloWjBrbjBscjA4YTEybytVU1VSOXUxSG82aEhT?=
- =?utf-8?B?bU1QNDNoN0o4S0c4VUZ0OEQvbDdOUmx0OWNBZFBaNDZNYndJOUhnTG13M1ov?=
- =?utf-8?B?NGxUM3oyUjFkMmpkWit1T2wxTWJXa3FuT0VuMmFMNWdjSHR5TDZHWmpDcEtj?=
- =?utf-8?B?ZnVLYmVQMm10NjlISFIvbzduTHFNUGZjRkRIaVYvMFU3Z2VFdElMazBIb3Ez?=
- =?utf-8?B?ZmJMeXpnSWI5bWI2U2pWQWQ2N2lYc201ZEVKaTVTVG44eWk2eHhzK0R2emcz?=
- =?utf-8?B?S0JpaEtOMjZ5aXlrYmZDMHlpbmQ4Zm45Uk0wa1VZMXZNdnE2SE0xRmNxZXNq?=
- =?utf-8?B?NThKLzVSNnJ2UjVHQjlqbDF5OVNkc1BHaWZvZG9VejhwQkh0dFRmQ1QxbXVz?=
- =?utf-8?B?YWJENC9tellsd1RBclBBOXB5SGhtY0lZd1BKSE1oNG9wMGJFWnZtMkFId3pl?=
- =?utf-8?B?NHpySUNKUEpBZFFuR3R2azEzUEEwMm5PMCtlbkt6ZU1sUXEyRDNvSEdpdzIz?=
- =?utf-8?B?d05hOGc4Yng1M2xWR0gzM0ZTWGI4dVJ5Rm9qeVRDam9FTjMzTy9GOUJPVlVB?=
- =?utf-8?B?TmhYTjlicitDR0NnR1lEUUIzd0tnY1lpK3RDWFB3R1kwd3k3NzVnTEIyN3dn?=
- =?utf-8?B?cWRqSldNOEVDaUxkVVpKSDlCK1N6OERBcDhVazdFNlJCRkRIRTBHVXcwWHBZ?=
- =?utf-8?B?K3Z1UXlKcDQ0NTUzQ0g2L2J1aDQ4UEdXMmxXRkdLamRTUnQydG5DN0JadUVC?=
- =?utf-8?B?TkJud2FpRm5nNHVYMDJDZllsK0IweG9zSndQY0RCUnlrR01FcVpJdWw0Y2dE?=
- =?utf-8?B?cmRpbHRMbE5RYlA2OXp4MmZ3RnFwNDBWUHJmdENCRVh2aXBvRGxjcm5jZnov?=
- =?utf-8?B?ZTkzV0VUT0pkdW8yRWs2ZjBzTzlOWUwzNHFOSlVuMWNTaUI1MTFrWkE1d25j?=
- =?utf-8?B?Y0cvTFFnMGpxNUpMc3VJV1owb0xrZlF6aVFFSXhtN2hhZGgzMnN3akhPNnpW?=
- =?utf-8?B?azJJa3pQVGJOVHpVQlNyNHd3RzhOQXR1YWNBSFJzYk52VDc2KzVIdFdBWkJS?=
- =?utf-8?B?OWtCSHZ5L1NlaHJnbVFxZmUzRGJ2aTZvRkdnRnRyR0pXTHZybWtVTlVRL0ZL?=
- =?utf-8?B?R2JHbkRsNmQ3TUZKb3hvRVFSZzhUaXZoZFBJUFBNWmZWUGNKeUw3bExhOWh6?=
- =?utf-8?B?bEJDbHk3SjRvMldRZUVLVVBuNUgwWnpDbDRKWi9GZDYyZ2R3Yk04S0RMWDVQ?=
- =?utf-8?B?VHVKS1lpNkhIZDRFekdjcFgyaUlCUkVkR1lqcmtMMnpWUmlHU0hmaUZiSGxD?=
- =?utf-8?B?RW1XNGRHOVAyR3hyU3JkNHlrakdtUERmbE44bENQTUhNdGhyUjFyVDFyT0kx?=
- =?utf-8?B?RXFlSWZwdDVRQ3lBSjVyZGljck1QdE9raFIrUXN3UkVrUWx1dWJTNzg5SHZp?=
- =?utf-8?B?QVZoTmM2M01BYTlqcnlIMWwyc2tnRTBPYjZJRjZ4RVZHZFlDcXZkLzJpN2xG?=
- =?utf-8?B?SlgrSitGUk9BQXhWbnV5RnhSam01dit6M1hJUDJHYU9PNjdxTzFlaUlGUlBx?=
- =?utf-8?B?YmZURWhGMjVCUGMyZWRzcVJKTHpja2NxQ2YrOG8xc2Z5VGM2TlhQc29YS1lY?=
- =?utf-8?B?cWJrRGhCOWhjbGc0Q081b1BjcFVkQWhmenhvbE1QYk5jaUxtWDI1YWdvcis1?=
- =?utf-8?B?NmdDak9wMzlVc21hL0ZuY0c3NVFmZmdwbnJ6R1prSDVUVjFyZ1JOekJBc2ND?=
- =?utf-8?B?cSsxL2lJQmlGZVlGekxBcTVCbUUrYkluL000YVlYNTV6SnNwZlV0NytVeGVa?=
- =?utf-8?B?UHNDajlEUVBEKzNieUZicThRcFI3QnFCd2psWGdxWkRCNnpqeENCU3VqTGsx?=
- =?utf-8?B?dHpZNm9HMlhpMlRtUGRtS1drWnROZjg2WksvclczTkhvN1p0Q1htWkk3cktz?=
- =?utf-8?B?anJKL3FHUThUODlMUW5WZDBEUXpYVU0vSGo4QldDU08vSXFMeVNBYzJLT3dk?=
- =?utf-8?B?Tk03dmpBdWJxNmlmeWUycGFzaFNEZXo4c2tHMzA1U2ZpT2Fsb1E3UEFJZEhs?=
- =?utf-8?B?ZjhFVW9Qd2J6U2hrVFk0Sjk4a201eEw4QkN5NUtZYVNWMWlBMDB6Ry82emV3?=
- =?utf-8?B?Vk90NzRjTjRKNHArWitwWmpxcjhjQ2NpNVg5U0dob2t1VTZJMjZJODVhdGVZ?=
- =?utf-8?B?bHlEZ3dtK3l3dDU5TEFya2lWazN5VEl0SkRmZTV2VkQvek5nWnNZd2pwQjNN?=
- =?utf-8?Q?1C4oqmiuLw3IAZxOMy?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43c8a7f9-689c-40b5-68bd-08df1fadae75
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 11:18:12.9767
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nD5YnVJi4a8orRs7Bduy5lNr6RNCfULi5L7KLlGTLGHNj980gAu0HIehAyNZ8Da5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5811
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v18 0/6] net: dsa: mxl862xx: devlink flash and
+ rescue
+To: Daniel Golle <daniel@makrotopia.org>, Jiri Pirko <jiri@resnulli.us>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev
+References: <cover.1790426599.git.daniel@makrotopia.org>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <cover.1790426599.git.daniel@makrotopia.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 1 Oct 2026, at 6:54, David Hildenbrand (Arm) wrote:
+On 9/26/26 15:48, Daniel Golle wrote:
+> This series adds "devlink dev flash" and "devlink dev info" support to
+> the MaxLinear MxL862xx DSA driver, and makes a switch stuck in its
+> MCUboot loader recoverable through the same path.
+> 
+> The switch is flashed over the loader's clause-22 SMDIO download
+> interface after the firmware API has rebooted it into MCUboot, and the
+> driver reinitialises through a deferred detach and re-probe once the
+> new image runs. A switch found in MCUboot at probe registers in a
+> reduced rescue mode with firmware version 0.0.0, so the same flash flow
+> recovers it; an interrupted download is drained in the background
+> first. The deferred re-probe comes from a new driver-core helper,
+> device_schedule_reprobe(), which the bound driver calls without a
+> module reference; it also replaces the open-coded self-reprobe that
+> iwlwifi, hci_h5 and btintel_pcie carry, whose work function frees its
+> own module text from under a racing rmmod. fwupd's devlink plugin
+> carries the matching quirks [17].
+> 
+> Patch 3 is a driver-core change and patch 4 does not link without it,
+> so the series needs a driver-core ack before net-next can take it.
+> 
+> Tested on an MxL86252C switch of the BananaPi R4 Pro 8X: an upgrade
+> through fwupd; an unbind and a reboot issued while a flash was running,
+> which wait out the transfer and announce the wait; a host crash and a
+> power cut mid-transfer, recovered by the background drain and by the
+> rescue path on the next boot; and an unbind and a reboot issued while a
+> background drain was running, which abort the drain at once and let it
+> resume and complete on the rebind or reboot.
+> 
+> Changes since v17 [23]:
 
-> On 9/30/26 17:10, Zi Yan wrote:
->> On 30 Sep 2026, at 10:50, Gregory Price wrote:
->>
->>> On Wed, Sep 30, 2026 at 10:02:23PM +0800, Li Zhe wrote:
->>>> The use case is closer to the second one, but the main motivation is not
->>>> only startup-time performance.  The more important point is that each
->>>> workload has its own DDR/CXL budget assigned by the workload manager.
->>>>
->>>
->>> mempolicy is the wrong interface to do budget policy, you'd be better
->>> off looking at Joshua's memcg tiered node solutions for that.
->>>
->>>> MPOL_WEIGHTED_INTERLEAVE is useful because it lets new allocations
->>>> follow that per-workload budget from the beginning, instead of placing
->>>> everything on one tier first and correcting the placement later. This is
->>>> important for workload orchestration because the workload starts from a
->>>> placement close to its assigned DDR/CXL ratio.
->>>>
->>>
->>> This however is reasonable to me - you'd prefer to spread out the cost
->>> of initial faulting placement explicitly, rather than simply take
->>> fallbacks when the top-tier budget becomes pressured.
->>>
->>> i.e. w/o interleave:
->>>
->>> [node 0       ]
->>> ^^^^^^^^^^^^^^ alloc until full
->>>                 vvvvvvvvv fallback
->>>                 [node 1          ]
->>>
->>> in this scenario you end up with considerable hot memory
->>> on the remote node consolidated in time-space (everything
->>> allocated after node0 becomes full skews heavily toward
->>> node1)
->>>
->>> Tiering then likely takes many faults to rebalance after
->>> you've already reached node0 limits.
->>>
->>> w/ interleave
->>>
->>> [node 0                                      ]
->>>  ^^^vv^^^vv^^^vv^^^vv^^^vv^^^vv....
->>> [node 1                                      ]
->>>
->>> In this scenario you do an initial fill distributed by weight
->>> and then let tiering figure it out without consolidating all
->>> of the pressure to the point where node0 has no space left.
->>>
->>> That said - this seems like mostly an initial-fill problem, after
->>> you initially fill your memory, a new allocation largely implies
->>> the memory is hot - and you probably prefer that to be local.
->>
->> If this is a initial-fill problem, can userspace set weighted interleave
->> initially? The program or harness can observe memory usage of the program
->> or related NUMA nodes and switch the policy to numa balancing via
->> set_mempolicy() or mbind() without MPOL_MF_MOVE after certain threshold
->> is met?
->
-> You mean: use the weighted policy initially and then switch to a NUMA-balancing
-> one which doesn't involve the weights anymore?
->
-> That makes more sense to me. Although I struggle to see why an effectively
-> "let's put random memory on slow and others at hot" is a good starting point to
-> later let if be fixed up by actual balancing/tiering.
+Out of sheer curiosity, what represent the number in the square brackets?
 
-Statistically speaking, unless the hot/cold page distribution follows a power-law
-distribution, random placement usually provides an average placement result.
-So it is not a bad start point.
+More feedback from clashiko. Requests about comments clarification
+are IMHO mostly pedant and could be ignored, but AFAICS there are a
+few actionable items on patches 3 and 4.
 
->
-> It all sounds a bit hackish. :)
+/P
 
-
-Best Regards,
-Yan, Zi
