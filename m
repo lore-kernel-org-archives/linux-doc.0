@@ -1,67 +1,68 @@
 Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E2B48642A
-	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 21:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AB94A2626
+	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 21:34:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790890443; cv=none; b=bRpccrH3FtX4upKVyen9T/coL9ArPfyRbtgPoTRhAXAZcSqT2S9xZbhJuwpo6YupKAXORjFH4N/LcfMdwBziKCS2GG5BAto2BdI4Go7NetXB/sn7LVJvCOBpykYbsa7X9Snh2DuNa53up7M005PoPaKzZXDf9+uf46CNrrzTzSE=
+	t=1790890445; cv=none; b=VriDyLByzpdYHMGGcjxxCemrk5mQJ3Vyr9lU3FKdKZIDpWQmU9wecF1bjKwxlPNGhjnaqHJUbwLjhJ6NZH+vHJy7++GM7kkxK3Cz7DNt4zaim3l0RHAJHJGWveIaReDhmhrcFvuEkuhUkh5MhhhR2lFJO15hKC9LLyJxnL8oeqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790890443; c=relaxed/simple;
-	bh=aoQY2n7UuHsEBO2b/7mwS2MVg8AzdCvjCqCqmkccQyQ=;
+	s=arc-20240116; t=1790890445; c=relaxed/simple;
+	bh=aIbawXPVSEHJ0DscG76tmh9vZXpkAHRdIDz4TIVMzco=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hgr1RIwH3kTS4FEj1UnhF9dN3QvuHXpYONDRuTXGdD5wJ77VOm+VkXo7ogk7URr6uhAuivH6AUZu5WU9WHwX6YyNIcLhZF5scLhBUqfOoi5QsUcy3RH+ENQE9hwU8vjIkvDEa5NmkOeEZz4l++YsGptwGcX8jtc0yprOmMJew+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C4QyQjR0; arc=none smtp.client-ip=209.85.167.197
+	 To:Cc:Content-Type; b=OOJmrYe9YD4HKMap/Rx7ee4OGnEpRlmj6oXKKtV/fDwTwtinOcnfNQoh6y0hAlARGGJuXkZ+NK5Yy43rFvPTy+jKuk4oPndIszFQ4fsh5Kp9tlajnyZtDzHqxV6d77Z4K9o0C74YyL58sY0a9Nn+b264e1DT9T6pJ0iaFV40QDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=boKQkQy/; arc=none smtp.client-ip=209.85.167.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C4QyQjR0"
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4a7de733fa9so2444423b6e.3
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 14:33:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="boKQkQy/"
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4cc89e86e4dso10674537b6e.2
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 14:34:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790890438; x=1791495238; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790890440; x=1791495240; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=aoQY2n7UuHsEBO2b/7mwS2MVg8AzdCvjCqCqmkccQyQ=;
-        b=C4QyQjR0Rc92htssClGS1cqTRLuedDdvrMqWrl45sKTSkV0N7gcYIp7AfwzGjfauog
-         k54ep4YtTv9ARaLkAAG00FZn1KXHTbiWTuzxNVRMxBMMUpfNDEiRRGxFTMIbXnPNqxhz
-         AVHFDp81d2Cp7P8PfeTiWIRDTVVgtHYvDN9ATmemT/WycA4RhVbP2jbfpBEOcrQyIf5w
-         CCeisilSmC2G/6AteMCTugplztzABCcUEhr6j5C7AIVnYEdU+8h6eoIa/7AtrBVpscLi
-         /uRVkexGkHLfgEac9r38Df0IiEvryYM4PYXRyKPSmsEB9E9iS7V/pBUge0OmxR0YdY96
-         HOSw==
+        bh=aIbawXPVSEHJ0DscG76tmh9vZXpkAHRdIDz4TIVMzco=;
+        b=boKQkQy/fz28Xxju7V9yf/r1v3muO9vuW8iub1LH0Bqun/fKl1N3uTn+dYgOksswlM
+         +wgI56EJ9zDa62YaMPd7H3+1WHTt/S2ayjNIEfWf5o08aRrMZMPvRXL3awQxupifx+yp
+         2/73Bla8Yej6UHnMOakEVOaTkz5EJCwerZdkIGduFdcYyiv4naUWABD3dvW3LpQkygaB
+         kiGb6d+VN+Lrlmh5neRjwWT61McYKzAjyOT4JYMyXFMh6gRZ2VbK7pv8AHfeZbhYHrln
+         34ginvXjIkstxJaaG+TRFEZINScgv7KZA3ssois+zz9yrUzB9FGShoh1arvpRwKTfmSm
+         /uZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790890438; x=1791495238;
+        d=1e100.net; s=20260707; t=1790890440; x=1791495240;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=aoQY2n7UuHsEBO2b/7mwS2MVg8AzdCvjCqCqmkccQyQ=;
-        b=ZM5YIvnlFzTtGy+3/ho8fIx/qfKIJpjQHNmPQUDC0r5l5d/0TmpFj0CkoV/qPTgYd+
-         1YMY3Dj9Lr65efGLbWRuocVArGF3KW7aoF+uSwJ7H3x/1vihA0lUh4wynhZN2N5WFK8e
-         fN1R2uE6VTRCl37fdPQ4r/J4FQy/5GwCd5rLjJHsaZ4S628I8zB7ZXD2lszeeJAXNR9K
-         CPB0QzSGvEpntEruQ+BR/WsuCxG8f+MiCph6AARqGjI7lTWtAKI6ACqcVat7qmA0K1Gw
-         R2cAQ7I+9ZdYVtkBzUW3p/X4aPeOwCbiYzRxb+2Se6iaIrU9CN+n/+s0+nJNVgo5BCPU
-         njQw==
-X-Forwarded-Encrypted: i=1; AKwUvBzM3m0L0lk06moUjfa+4kqpU48cVdJMqPIbjm/NmkQXfYZ+KKR20+9HF0TM7atn5tXX1Iy3I1Mj/gQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++kWSfCuXZ8q4/tHI9C+vjly0ohyDjipvPhVytsfa+2XpwLnzPm3
-	EYFA9bTWGmXdG1L7OR7hIuTgky8VinIo2CcN2gURTkZvd9ErfypNzWnE2nHIK1BAWjFxnQpVC4T
-	OKLBJwzWDkx4g6EemjP7VAsRloA==
-X-Received: from ilbcx6.prod.google.com ([2002:a05:6e02:3c06:b0:50d:b50e:1675])
+        bh=aIbawXPVSEHJ0DscG76tmh9vZXpkAHRdIDz4TIVMzco=;
+        b=QmReLmQ6Ht7enIN14pBRU8Leel0IsfWrRCB41ANypJLgjjK0qe6SBdzw3YuTaeWop1
+         r/CT9wGuo0EPHZPgh0aGIl2Mkdmf8lwybu+UL0vR3ephU/MVnrzgMBSD3wPevBeIVMiC
+         2g7nYNvKKJm0axvsSVFgPtPebVYb7eNlwAA9MWXPmNx/co1Z6LnODvULw7lTpmN+/+Fr
+         pLfxTTKwPJWNKedUJBKcQuqLPbS0t8py7Ix0iKALr9BgshyMw1+jlWyvtsOnsk9y7EMb
+         X14BcFp0cT4GI6pftzL1uc0jolii0MfWZJWmPiju1A0mFds0ZXGzczxZT4R0uy7CLzzD
+         uO1g==
+X-Forwarded-Encrypted: i=1; AKwUvBxj/oae/mm/PkvKgoRdzUnaQGpqarTcRzMJzz89R3iAFLkOaFeQPkuPG4QnrfhOmbWI/Hh7clIjquk=@vger.kernel.org
+X-Gm-Message-State: AFuF++mh43knL+/zMFW1Q5NQxOxzfvvRh9ktdcUz/UQcGDziSEKDIzAq
+	DbYgfD4IGRZfv6wICWrxkI7qSGFglP2RHXV0KTgHuFzilDvd/ni6xUMJ1Le/x/zFbYm8QhocLkN
+	zAv1szd0E5MtXKW1MxxPvjfAmtA==
+X-Received: from ilbby7.prod.google.com ([2002:a05:6e02:2607:b0:50f:46b5:b429])
  (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:1211:b0:4b9:a829:f015 with SMTP id 5614622812f47-4f529d297bemr430489b6e.33.1790890437780;
- Thu, 01 Oct 2026 14:33:57 -0700 (PDT)
-Date: Thu,  1 Oct 2026 21:33:55 +0000
-In-Reply-To: <8e47bb89-a894-4fd0-9f96-e11b5dea1972@linaro.org>
+ 2002:a05:6808:2219:b0:4e6:6079:c33d with SMTP id 5614622812f47-4f5292ffc0amr467127b6e.10.1790890439463;
+ Thu, 01 Oct 2026 14:33:59 -0700 (PDT)
+Date: Thu,  1 Oct 2026 21:33:57 +0000
+In-Reply-To: <f54b9ea6-48b1-4f6c-92cc-b0a9249c2fb0@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260924172928.2110956-1-coltonlewis@google.com> <8e47bb89-a894-4fd0-9f96-e11b5dea1972@linaro.org>
+References: <20260924172928.2110956-1-coltonlewis@google.com>
+ <20260924172928.2110956-17-coltonlewis@google.com> <f54b9ea6-48b1-4f6c-92cc-b0a9249c2fb0@linaro.org>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20261001213357.2088894-1-coltonlewis@google.com>
-Subject: Re: [PATCH v9 00/22] ARM64 PMU Partitioning
+Message-ID: <20261001213357.2088894-3-coltonlewis@google.com>
+Subject: Re: [PATCH v9 16/22] KVM: arm64: Apply dynamic guest counter reservations
 From: Colton Lewis <coltonlewis@google.com>
 To: James Clark <james.clark@linaro.org>
 Cc: Colton Lewis <coltonlewis@google.com>, Marc Zyngier <maz@kernel.org>, 
@@ -83,30 +84,39 @@ Content-Type: text/plain; charset="UTF-8"
 
 Hi James,
 
-On Wed, Sep 30, 2026 at 04:25:36PM +0100, James Clark wrote:
-> Looks good to me, everything seems to be working now:
+On Wed, Sep 30, 2026 at 04:28:37PM +0100, James Clark wrote:
+> If you enable pseudo-NMIs, watchdog_hardlockup_enable() installs the
+> watchdog using a pinned PMU event. If host userspace also has a pinned event
+> on the mandatory 1 PMU counter assigned to the host, then a guest could
+> potentially squeeze out the watchdog.
 >
-> Tested-by: James Clark <james.clark@linaro.org>
+> I'm wondering if we need to prioritise kernel owned events? Or we just treat
+> them the same as any other event, and with PMU partitioning assume they
+> can't be guaranteed to be running? I feel like you would expect a watchdog
+> to be a bit more than best effort though, especially if there was always a
+> guaranteed counter available to put it on.
+>
+> I didn't follow it through completely, but it also looks like if the event
+> gets squeezed it would enter an error state and then never be re-enabled,
+> even after the guest stops running.
+>
+> Note, that I think the current ordering means that the watchdog won't
+> actually get squeezed out because it's created first. But I don't think we
+> can rely on the ordering as a strong guarantee, and it might get broken by
+> refactoring in the future.
 
-Thank you for testing and for all the reviews!
+Good catch. Even without future refactoring, creation order can be
+defeated today if /proc/sys/kernel/nmi_watchdog is toggled off and back
+on at runtime while a userspace per-CPU pinned event is already open,
+giving the re-created watchdog a higher group_index and causing
+merge_sched_in() to put it into PERF_EVENT_STATE_ERROR when a
+partitioned guest takes PMCCNTR_EL0.
 
-> There are still a few Sashiko comments though, and one critical one about
-> racing with pseudo-NMI PMU interrupts that looked reasonable. I tried to
-> test it and reproduce an actual issue but couldn't, so maybe it's bogus.
-
-The "Critical" Sashiko comment on Patch 19/22 (claiming that clearing
-hardware PMOVSSET_EL0 loses overflow bits because the guest has direct
-untrapped access to PMOVSSET_EL0) is a false positive: Patch 09/22 sets
-HDFGRTR_EL2_PMOVS and HDFGWTR_EL2_PMOVS (and without FGT, MDCR_EL2.TPM
-is set), so guest accesses to PMOVSSET_EL0 and PMOVSCLR_EL0 always trap
-to pmu_reg_read() / pmu_reg_write().
-
-The pseudo-NMI race comments on Patch 11/22 and Patch 19/22 are
-theoretically possible in a narrow 2-instruction RMW window because
-local_irq_save() does not mask GICv3 pseudo-NMIs, which explains why it
-wasn't reproducible in practice. In v10 I will make the PMOVSSET_EL0
-shadow updates and vcpu->arch.mdcr_el2 assignment atomic, and address
-the other valid Sashiko findings.
+Prioritizing kernel-owned events (!event->owner) ahead of userspace
+events in perf_event_groups_cmp() and perf_less_group_idx() guarantees
+that a kernel-pinned watchdog always wins the mandatory host counter
+over userspace pinned events regardless of creation order. I will look
+into adding that for v10.
 
 Thanks,
 Colton
