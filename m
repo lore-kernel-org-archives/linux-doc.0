@@ -1,101 +1,143 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1397828E0;
-	Thu,  1 Oct 2026 02:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FE2381EAF;
+	Thu,  1 Oct 2026 06:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790821076; cv=none; b=bcfigVK2nscKxn5tdqgueBBAVdL1Fqr/TuHxRcKKKHuS/MUWavYiP+b0srpB9mxBMkTyt3Df+Ceb68H4v3l1orfYI4uLlC6RYpCs/if2ptRYZXVkh1idJkFIaFGpWR0bMBpb8Tgoo8RbuWWURHBGTkXn3F9PthjyG0K1TnHGjSQ=
+	t=1790835478; cv=none; b=Z8oJsynp6sBr0jiPgcvnmmesbuTZW4uub+FMW4fVIcYsS7chRy1l3ZbRddcNuUJFLRbwhTdsVllZ/bKmxRCxh29oaTmIUvhfLnOCsW5FokiaX25Ol6HxxL3YnC00OWKJt+LJPKuUXtOaPzGWOuizgDJXrnXu6/TgYWVjjnjxPjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790821076; c=relaxed/simple;
-	bh=Gd/qQIUaP6lcuejR3No/uE5nT0/NKD67EUf/NMG3q00=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f2VTl5a62SRc7hYIL6bNjERPNHYzYavFHi8zK/GXjdEYKbwgpTpJx03bOz43L3vrdzhDa61mzlqdPgD5MNco1ulWKhdvtMFce9RJzIF1aB87+6Ozs1ESJJ2Z/20naM3OYeBFfcNf7bYc4Ton2qyXW9NAdnXp7RWj3ooTjajMA9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Rwocds+A; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1790835478; c=relaxed/simple;
+	bh=bdjZ2ksMrimHVAeNkXQXzTtwi9GLiSP/enN5YzvRaeE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QblMKd+4FTgh+e/1Yqw3ng2z8B4vyu7MLqAaUbjcwea+k1N5NM0PqEwfyIybRb2Nf7tIZbC0WdqCwWxNJVTNJQNMwFJ8zkvxJE+cTyhaaT1DGEWpbiBZiKoqlkdq64zMFNzq9owsDo/5bioB6gAUWqwTGOrKz2iVW0vkj/eewuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uiy59Iu7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Rwocds+A"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=lO/IozwWM9cMGiFtGYhrUTFCJclvAMMd7gfbaxtHYYw=; b=Rwocds+AGpm9XGoXxnOxhHrf5Q
-	vQkyvKwJXB/5iI5jzord4507G8hpkyrvMQfO5Ymjo92b4ZDobOAasizCkZXVYFoTsRH5KelesXcmd
-	I/rjqBCVkl0tmJLrOaX8JcfZwhiFPZ8g1T6ShKNOJLcVu0l92STByvomSNONeHzSpXj5e9DHxYjfL
-	GVbRO4brHvI08+tDEErrP1S7ACw4IBOYu+cucS6s8FqT3sMrv1P0qcnSPhCsDe/UPWcC2EVS1E794
-	xm6zp0Lt6e0FgSySSitBOgzL30J55Pt0LHZD7uTy+N1KE+Pbb6IbNJ/iKAkxhpk/pBAKbPyqn2dEa
-	mww9HMLg==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xC6Mk-00000007bJi-281u;
-	Thu, 01 Oct 2026 02:17:46 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	NeilBrown <neil@brown.name>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uiy59Iu7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82AC01F000FF;
+	Thu,  1 Oct 2026 06:17:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790835477;
+	bh=PzeZRK3gY0+Qmg3bEyZe//3N5u+pNkNVRn1dnWCLqAE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Uiy59Iu7dkAPfC5+dQN02uWT3FtS5tIi1Bu/Hml2SIogm+MBBYrhVrawxx4gjJW7i
+	 kep9+QGlBZDlLynjNcLYdzvhCno0eW7ZZtDCje7IAXYWdWjtEHvtQ4ktJpcPXDcg9y
+	 QKepGUrqcPvxI0/e3Os06WyFUjrHiwNs0ilGv8Y7Wvd9WbfAeeT5VVEsTux6YVZWls
+	 gsorZV+cvm3ZjW+pc9iKFENVLt71++wgb7vz8Xhi8OECk7Yp23kGMQOlNryrkm0zfr
+	 Z0/c50xGiUKCoTBHoWMJ8Z6srtBvC19W7YjlHqU5wnPwM35/reXMJ5LMsDSuIG6LwJ
+	 RCiP09TZEDVsQ==
+Date: Thu, 1 Oct 2026 09:17:52 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3] VFS: d_duplicate: repair comments to avoid kernel-doc warnings
-Date: Wed, 30 Sep 2026 19:17:45 -0700
-Message-ID: <20261001021745.2160005-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v8 16/23] dma-buf: Let importers ask how peer-to-peer
+ traffic is routed
+Message-ID: <20261001061752.GJ3401365@unreal>
+References: <20260929132305.GJ563127@unreal>
+ <720dbac3-24f6-4c91-899e-e205865c1fd1@amd.com>
+ <20260929175737.GK563127@unreal>
+ <eeef5951-825e-459f-b474-bf8c59588446@amd.com>
+ <20260930081832.GA3401365@unreal>
+ <4549640c-f4a5-4dac-9be3-2e5aa127555c@amd.com>
+ <20260930114356.GC3401365@unreal>
+ <fbdc710d-7be1-4021-83c2-548c798d9d14@amd.com>
+ <20260930143237.GI3401365@unreal>
+ <ed393791-46d5-40ad-998b-4ac0e1e9c6fa@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ed393791-46d5-40ad-998b-4ac0e1e9c6fa@amd.com>
 
-Use a typical list style for comments to prevent kernel-doc warnings:
+On Wed, Sep 30, 2026 at 04:52:20PM +0200, Christian König wrote:
+> On 9/30/26 16:32, Leon Romanovsky wrote:
+> > On Wed, Sep 30, 2026 at 01:52:39PM +0200, Christian König wrote:
+> ...
+> >>> The importer needs a way to obtain device information from the exporter so
+> >>> that it can configure itself correctly.
+> >>
+> >> That won't work with DMA-buf then, the exporter is completely opaque to the importer and that is for really good reasons.
+> >>
+> >> Why in the world does the importer needs to know the information from the exporter before the mapping is created?
+> >>
+> >> It is the exporter who decides how data is accessed by the importer and not the other way around.
+> > 
+> > There are several reasons:
+> > 
+> > 1. This is how DMA-BUF MRs are built in RDMA. In mlx5, they rely on the ODP
+> >    mechanism, which requires an MKEY to be created first. See commit
+> >    90da7dc8206a (“RDMA/mlx5: Support dma-buf based userspace memory region”).
+> 
+> I know that patch, but I absolutely don't understand where the problem is.
+> 
+> > 2. P2P routing is a property of devices, not memory. It is known and remains
+> >    stable.
+> 
+> No, absolutely not. You are making completely incorrect assumptions how DMA-buf works.
 
-Documentation/filesystems/api-summary:20: ../fs/dcache.c:2029: ERROR: Unexpected indentation. [docutils]
-Documentation/filesystems/api-summary:20: ../fs/dcache.c:2030: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+Maybe, but I understand how the kernel, PCI, and P2P DMA work, and dma-buf
+seems to operate in a parallel reality that is not aligned with any of them.
 
-Also, modify the spelling of "whiteout" to match all other uses in
-the kernel source tree and to be consistent on the same line.
+> 
+> Again: What is exported and from which path is up to the exporter and only determined when you create a DMA-buf mapping!
 
-Fixes: 33d76519f0cc ("VFS: add d_duplicate()")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-v3: use one colon for the list, not "::" for a literal block (Neil).
-    Add linux-doc etc. to Cc: list.
-v2: dropped Jan's Reviewed-by since the patch changed.
+Let's discuss the PCI P2P case, where `p2pdma_provider` is present. In this
+flow, the exporter has a PCI device, and the importer also has one when it
+attaches. The decision about how to construct the addresses is made at that
+point. Note that both the exporter and importer are PCI P2P devices, so the
+importer should make the request.
 
-Cc: NeilBrown <neil@brown.name>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
+> 
+> In most cases you don't even have a single device which is the DMA-buf exporter.
 
- fs/dcache.c |   11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+How is it possible for exporter with p2pdma_provider?
 
---- linux-next-20260930.orig/fs/dcache.c
-+++ linux-next-20260930/fs/dcache.c
-@@ -2025,11 +2025,12 @@ EXPORT_SYMBOL(d_alloc);
-  * @dentry: the dentry to duplicate
-  *
-  * Some rename operations need to be combined with another operation
-- * inside the filesystem.
-- * 1/ A cluster filesystem when renaming to an in-use file might need to
-- *   first "silly-rename" that target out of the way before the main rename
-- * 2/ A filesystem that supports white-out might want to create a whiteout
-- *   in place of the file being moved.
-+ * inside the filesystem:
-+ *
-+ * 1. A cluster filesystem when renaming to an in-use file might need to
-+ *    first "silly-rename" that target out of the way before the main rename
-+ * 2. A filesystem that supports whiteout might want to create a whiteout
-+ *    in place of the file being moved.
-  *
-  * For this they need two dentries which temporarily have the same name,
-  * before one is renamed.  d_duplicate() provides for this.  Given a
+> 
+> Only while creating the mapping the underlying access path is finally determined. It can be that P2P is used, it can be that internal connections are used, it can be that the data is moved to system memory....
+
+But we are talking about in-tree exporters: RDMA, VFIO e.t.c
+
+> 
+> That's why we have the distinction between attaching and importer and the importer creating a mapping.
+> 
+> > 3. See the VFIO TPH ST discussion, where the requirement to obtain the
+> >    exporter’s P2P information in the importer was raised again.
+> 
+> As far as I can see there isn't any. The TPH/ST information are just passed through from the exporter to the importer.
+> 
+> We could define a bit better what needs to come first the mapping or the TPH/ST query but for their use case that is actually irrelevant.
+
+They need an access to p2pdma_provider too.
+https://lore.kernel.org/linux-rdma/CAH3zFs2rhg6-b-pVDps1V8LsM4Dn48t4J4LFVyKOZtT4axdY=Q@mail.gmail.com/
+
+Thanks
+
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Thanks
+> 
