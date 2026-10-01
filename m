@@ -1,291 +1,195 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FA94C150C;
-	Thu,  1 Oct 2026 11:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3069937F311;
+	Thu,  1 Oct 2026 12:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790855822; cv=none; b=rdaN1VeRDQl7btq50/o5nlXMBaBEs66zHITQZmk0dpg/3wDYuggHMPPqhD5yZ1inFpp+YwIY0IsouBNgJZ8Y4ecnW7RHhbh0UIvDSYIb21hmWX2O4pWjTGSebi5YyPpJpLUWjdhZj8lLrpHjC5o7qBMyB6YufCV+u0Nk+Qtl/nA=
+	t=1790856268; cv=none; b=AZzdE97v4hfamqJsAz/eGUoqlL1zPJSZs+95/hmcN0dOyVn3UFoAKV0euZvLkRaKiPXNWNouF6YzuMhFPXlTl+DbHTBS35wBeCV+tHTzsATOAL2yJRRRRlgwvQouGqwJ5RuD0ZXWpBDDVUtghQFISQBdnx2D8Fjvl69umK7RGx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790855822; c=relaxed/simple;
-	bh=qMFDGWO8T8rFnlZH5zEdWBCmQ3eAYnLT2YaeHu0sank=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XQZzQUdegnkM5CvRQTmWwhVPA7NUlVBSI15JIiBHSNjQAtdo12nmgQt8w+/nYaGJItCY3I4mYNY4PyRv6LJ9Bohr2gtSL296L3Ct0tXiTKlC5Cb6OjxRz2KE2rnTqd3LA5+mhxPpZxyG3x6kC3xYt7A+eMjYoi+bgZntUHspk1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mnX/q5ZG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790856268; c=relaxed/simple;
+	bh=CBvToYd/GEB02L8taC6XmYYZMLPqiqIVafuNtu1j4nc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m2yzLZIxjA2vPdzrdlPfkcoL8XYSmVnGsw/HM+Pk/ux1Yalmdy7cm+3dK3eblxSj/P7xyRSzJJNoOs9a3bU9j2gdVUSyuUWnyTza8dYLbAM6dwOt3tlH74v4tQ868br6H4f4IltoqUH+nrOYQX4a9FjnV2ukfKnvQ8ccgLoi03o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jzEc16Qp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mnX/q5ZG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6631F00899;
-	Thu,  1 Oct 2026 11:56:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jzEc16Qp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B39C71F00898;
+	Thu,  1 Oct 2026 12:03:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790855816;
-	bh=b8xMLV7p9JhteAfTAaXYXGWAPPpzeBoIObqNjYHNZZc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=mnX/q5ZGh9QvoKViirbZ+0zoCYxQCU+qGhCAeUJMpcagryn+sDJAnarzkPMf6klND
-	 fw2oxioFH3OspfgLXlsNrqSPhEv/28440YQT1iM/XZJD1BGZ2OW4JfuwgYjsBFGAQC
-	 n5qNwrPFqG8Hq5Eamz3XDh2hnRqkdb7Lyce917X6CQUyGn/foj5YIX2CjbWznsIuqb
-	 Qicl+1f7WYFxwI9V9IrAB7d9Xazllb1otM2X3UCzVSvYGDHqtmJfb1PAM8Zontty0e
-	 /wLhGtBmaFrt4Q8KGKXOwavjBWGTlYfKOGJM/QJvhBack0KE6VMIWmNCy1+3wVpBIf
-	 GAnVID1Z9H5fg==
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	=?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: [PATCH v9 18/18] PCI/P2PDMA: Test the routing of clients with ATS enabled
-Date: Thu,  1 Oct 2026 14:55:26 +0300
-Message-ID: <20261001-fix-p2p-acs-v4-0-v9-18-1a8e0f50ddd9@nvidia.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261001-fix-p2p-acs-v4-0-v9-0-1a8e0f50ddd9@nvidia.com>
-References: <20261001-fix-p2p-acs-v4-0-v9-0-1a8e0f50ddd9@nvidia.com>
+	s=k20260515; t=1790856267;
+	bh=16tuaIAAfr4wGiFPpZL2QS3b7vOItbJPvdfgt9EFjWY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jzEc16QpT6y5z85CoNqayXJTgj/zcV8+4j43vVNREEjYgKaYaARNlkINFh+o2cgFo
+	 sN3NMoR6fbvOc+m/lxGiWC6qUmK/W2sqF5PMeqx+QkX9s3sVMnzDWZ/M2mm0MYJz41
+	 S3cSgkKzqx/7bn79m4vmUxCXlXwbjLyAsEIqKIlF/mizbYzyQzRqhlcK0ve8U5iSJn
+	 jaobTqj+k1b/C4rk1yKhopNUeonw8tSEDLii1LybOClMulCnzymBzlP7Dt9SdjRJKW
+	 6NQE2pAYnLiSAfrqMon7C3+Tw8a0f45b0g+nJiXE+3PnL55rzlVV8mocIqh7q0QmOr
+	 ffT/Y1YtPvXzw==
+Message-ID: <14bb5577-ee28-4770-8566-f586f3840a8d@kernel.org>
+Date: Thu, 1 Oct 2026 14:03:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/40] mm/vma: introduce and use
+ vma_[flags_]can_merge()
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Xu Xin <xu.xin@linux.dev>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-3-4583d8a23bca@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-3-4583d8a23bca@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On 9/17/26 18:22, Lorenzo Stoakes (ARM) wrote:
+> Replace the open-coded VMA_SPECIAL_FLAGS check in the VMA merge logic with
+> two new functions vma_flags_can_merge() and vma_can_merge() and update the
+> merge logic to use the former.
+> 
+> This abstracts the check and expresses it in terms of the desired behaviour
+> rather than an arbitrary and confusing VMA flag.
+> 
+> This also lays the groundwork for making further improvements in VMA flag
+> usage.
+> 
+> Also update the userland VMA tests to reflect the change.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
 
-A client that enables ATS for the whole device must never be handed a
-bus address, and Translation Blocking must reject its peer-to-peer
-traffic even when the caller asks for the default class. That has to
-hold for answers taken from the cache as well.
-
-Cover those on the fabricated fabric, together with a client that
-declared per-mapping ATS keeping the per-class answers and a client
-without ATS answering for the Untranslated Requests it will issue.
-
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/pci/p2pdma.c       |   8 +--
- drivers/pci/pci.h          |   5 ++
- drivers/pci/pci_acs_test.c | 123 +++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 133 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 9d17a3d2bf1f..38c712d77f15 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -1595,14 +1595,15 @@ void pcim_p2pdma_set_ats_per_mapping(struct pci_dev *pdev)
- }
- EXPORT_SYMBOL_GPL(pcim_p2pdma_set_ats_per_mapping);
- 
--static unsigned int pci_p2pdma_client_tlp_flags(struct pci_dev *client,
--						unsigned int tlp_flags)
-+VISIBLE_IF_KUNIT unsigned int
-+pci_p2pdma_client_tlp_flags(struct pci_dev *client, unsigned int tlp_flags)
- {
- 	if (client->ats_enabled)
- 		return tlp_flags | PCI_P2PDMA_TLP_TRANSLATED;
- 
- 	return tlp_flags & ~PCI_P2PDMA_TLP_TRANSLATED;
- }
-+EXPORT_SYMBOL_IF_KUNIT(pci_p2pdma_client_tlp_flags);
- 
- /*
-  * A client that translates every address it is handed cannot be handed a bus
-@@ -1611,7 +1612,7 @@ static unsigned int pci_p2pdma_client_tlp_flags(struct pci_dev *client,
-  * translation carries the IOVA to the host bridge, so that route has to work
-  * as well.
-  */
--static enum pci_p2pdma_map_type
-+VISIBLE_IF_KUNIT enum pci_p2pdma_map_type
- pci_p2pdma_client_map_type(struct pci_dev *provider, struct pci_dev *client,
- 			   bool per_mapping, enum pci_p2pdma_map_type type)
- {
-@@ -1629,6 +1630,7 @@ pci_p2pdma_client_map_type(struct pci_dev *provider, struct pci_dev *client,
- 
- 	return PCI_P2PDMA_MAP_NOT_SUPPORTED;
- }
-+EXPORT_SYMBOL_IF_KUNIT(pci_p2pdma_client_map_type);
- 
- /**
-  * pci_p2pdma_map_type_tlp - Determine the mapping type for P2PDMA transfers
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index a4a07f31f744..8b10965ab536 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -1144,6 +1144,11 @@ enum pci_p2pdma_map_type calc_map_type_and_dist(struct pci_dev *provider,
- 						int *dist,
- 						unsigned int tlp_flags,
- 						bool verbose);
-+unsigned int pci_p2pdma_client_tlp_flags(struct pci_dev *client,
-+					 unsigned int tlp_flags);
-+enum pci_p2pdma_map_type
-+pci_p2pdma_client_map_type(struct pci_dev *provider, struct pci_dev *client,
-+			   bool per_mapping, enum pci_p2pdma_map_type type);
- #endif
- 
- #ifdef CONFIG_PCI_QUIRKS
-diff --git a/drivers/pci/pci_acs_test.c b/drivers/pci/pci_acs_test.c
-index 6a2cd38d968f..a9a3b80ea0ac 100644
---- a/drivers/pci/pci_acs_test.c
-+++ b/drivers/pci/pci_acs_test.c
-@@ -698,6 +698,125 @@ static void acs_walk_unreadable_control_test(struct kunit *test)
- 			PCI_P2PDMA_MAP_NOT_SUPPORTED);
- }
- 
-+/*
-+ * Route the way pci_p2pdma_map_type_tlp() does once it has a client: the
-+ * client decides which flags apply, and the answer is then checked against
-+ * what the client can be handed.
-+ */
-+static enum pci_p2pdma_map_type acs_client_map(struct acs_fabric *f,
-+					       bool per_mapping,
-+					       unsigned int tlp_flags)
-+{
-+	enum pci_p2pdma_map_type type;
-+	int dist;
-+
-+	if (!per_mapping)
-+		tlp_flags = pci_p2pdma_client_tlp_flags(f->client, tlp_flags);
-+	type = calc_map_type_and_dist(f->provider, f->client, &dist, tlp_flags,
-+				      false);
-+	return pci_p2pdma_client_map_type(f->provider, f->client, per_mapping,
-+					  type);
-+}
-+
-+/*
-+ * A client with ATS enabled for the whole device translates whatever it is
-+ * handed, so it never gets bus addresses even on a direct route, and
-+ * Translation Blocking rejects it even when its caller asks for the default
-+ * class.
-+ */
-+static void acs_client_ats_test(struct kunit *test)
-+{
-+	struct acs_fabric f = {};
-+
-+	acs_build_fabric(test, &f);
-+	f.client->ats_enabled = 1;
-+
-+	KUNIT_EXPECT_EQ(test, acs_client_map(&f, false, 0),
-+			PCI_P2PDMA_MAP_THRU_HOST_BRIDGE);
-+
-+	f.client_leaf->acs_cap = 0x100;
-+	f.client_leaf->acs_capabilities = PCI_ACS_TB;
-+	f.client_leaf_cfg.ctrl = PCI_ACS_TB;
-+
-+	KUNIT_EXPECT_EQ(test, acs_client_map(&f, false, 0),
-+			PCI_P2PDMA_MAP_NOT_SUPPORTED);
-+}
-+
-+/*
-+ * The cache holds what the topology allows, filled when the client first
-+ * asked. A client whose ATS was enabled after that must still be kept off the
-+ * bus addresses the cache recorded.
-+ */
-+static void acs_client_ats_cached_test(struct kunit *test)
-+{
-+	enum pci_p2pdma_map_type type[PCI_P2PDMA_TLP_CLASSES], hit;
-+	struct acs_fabric f = {};
-+	unsigned long cached;
-+	unsigned int flags;
-+	int dist;
-+
-+	acs_build_fabric(test, &f);
-+	for (flags = 0; flags < PCI_P2PDMA_TLP_CLASSES; flags++)
-+		type[flags] = calc_map_type_and_dist(f.provider, f.client,
-+						     &dist, flags, false);
-+	cached = pci_p2pdma_map_types_pack(type);
-+
-+	f.client->ats_enabled = 1;
-+	flags = pci_p2pdma_client_tlp_flags(f.client, 0);
-+	hit = pci_p2pdma_map_types_unpack(cached, flags);
-+
-+	KUNIT_EXPECT_EQ(test,
-+			pci_p2pdma_client_map_type(f.provider, f.client, false,
-+						   hit),
-+			PCI_P2PDMA_MAP_THRU_HOST_BRIDGE);
-+}
-+
-+/*
-+ * A client that declared per-mapping ATS picks the Address Type per mapping,
-+ * so it keeps the per-class answers even with ATS enabled.
-+ */
-+static void acs_client_ats_per_mapping_test(struct kunit *test)
-+{
-+	struct acs_fabric f = {};
-+
-+	acs_build_fabric(test, &f);
-+	f.client->ats_enabled = 1;
-+
-+	KUNIT_EXPECT_EQ(test, acs_client_map(&f, true, 0),
-+			PCI_P2PDMA_MAP_BUS_ADDR);
-+	KUNIT_EXPECT_EQ(test,
-+			acs_client_map(&f, true, PCI_P2PDMA_TLP_TRANSLATED),
-+			PCI_P2PDMA_MAP_BUS_ADDR);
-+
-+	f.client_leaf->acs_cap = 0x100;
-+	f.client_leaf->acs_capabilities = PCI_ACS_TB;
-+	f.client_leaf_cfg.ctrl = PCI_ACS_TB;
-+
-+	KUNIT_EXPECT_EQ(test, acs_client_map(&f, true, 0),
-+			PCI_P2PDMA_MAP_BUS_ADDR);
-+	KUNIT_EXPECT_EQ(test,
-+			acs_client_map(&f, true, PCI_P2PDMA_TLP_TRANSLATED),
-+			PCI_P2PDMA_MAP_NOT_SUPPORTED);
-+}
-+
-+/*
-+ * A client with ATS disabled cannot issue Translated Requests, so a caller
-+ * asking about them gets the answer for the Untranslated ones it will issue.
-+ */
-+static void acs_client_no_ats_test(struct kunit *test)
-+{
-+	struct acs_fabric f = {};
-+
-+	acs_build_fabric(test, &f);
-+	f.dn1->acs_cap = 0x100;
-+	f.dn1->acs_capabilities = PCI_ACS_RR | PCI_ACS_DT;
-+	f.dn1_cfg.ctrl = PCI_ACS_RR | PCI_ACS_DT;
-+
-+	KUNIT_EXPECT_EQ(test,
-+			acs_client_map(&f, false, PCI_P2PDMA_TLP_TRANSLATED),
-+			PCI_P2PDMA_MAP_THRU_HOST_BRIDGE);
-+}
-+
- static struct kunit_case pci_acs_test_cases[] = {
- 	KUNIT_CASE_PARAM(pci_acs_p2pdma_request_test,
- 			 acs_request_gen_params),
-@@ -723,6 +842,10 @@ static struct kunit_case pci_acs_test_cases[] = {
- 	KUNIT_CASE(acs_walk_tb_above_divergence_test),
- 	KUNIT_CASE(acs_walk_unreadable_control_test),
- 	KUNIT_CASE(acs_map_types_pack_test),
-+	KUNIT_CASE(acs_client_ats_test),
-+	KUNIT_CASE(acs_client_ats_cached_test),
-+	KUNIT_CASE(acs_client_ats_per_mapping_test),
-+	KUNIT_CASE(acs_client_no_ats_test),
- 	{}
- };
- 
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
 -- 
-2.55.0
+Cheers,
 
+David
