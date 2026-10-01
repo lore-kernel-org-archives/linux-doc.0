@@ -1,77 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39A9517BBE;
-	Thu,  1 Oct 2026 13:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A0D374A0E;
+	Thu,  1 Oct 2026 14:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790862771; cv=none; b=TzBeWYQQa7wVLkqnvBt3ZAw7YAV6IijensB4EjUd9im9QrIfbu2Y0ZSOsjkxctSZgENKkFQ1CDHbkc/GHYnlRKl8I7Mo4WqmGtiNFPrqnDiUnNRKDx/9lz++ceE4PrH1MfpykU0eqSYYJFAVL9kb4ZRxCM96E4DB7QV3x1FDGYc=
+	t=1790863230; cv=none; b=BCLiGwFbEWEEDbmgusdKcD0rILG3+VfMU5yv+v4UjHKRi0Q+1G1VBMczAiK02p/Mmn4Dtyz7cGtMskdz4kJJaCEWQDMRMtKr/5fg1xAdHJLDD0QGHBy15PCKwqeCuQuQZJLl1ivKvIli5QEhQqQrmoHMpWnGIoAizEndWS3/dHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790862771; c=relaxed/simple;
-	bh=umMm/lPHi+t6I0OV+oiw1mqotwWKf/PFzTIWE/oehD4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MACjUgZzNk6q+fCi/jwsh92zQwbFvBJJXHvo8GKwiEqV5XB42yFIRVxZGWGMKcMGzqBI1Oe8sqkzZQgaXr7M4AYAcOC1992UkxX14NQ/K4g3in6Go63V30pTplaxKPTCbcfXPbantF+VZ9gVborXNDBpaq+Yd6dW5PGW5QTY6+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pby8+liv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790863230; c=relaxed/simple;
+	bh=AcGFaAWMJog91BkmxiEKa9EgggF0tj82X5+IprY3G/c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=TyqW3TzzsxtlwTO8u+UuIruqOoqlT2k4SUXI93cn1nerVqjuunQ3M32RjRj5fKRY5mgJOhu3BNWhefPiMXbPsQ2aTi9FJsrvpvoSvqCffDky05g5w6u25C4z0q5icJbCVsNpWarx8ZbHup6zdOiMBUX24CM8PNluCqrDBRdUTh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sp6736PK; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pby8+liv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BC831F00898;
-	Thu,  1 Oct 2026 13:52:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790862762;
-	bh=xzjj40ZRCj8ePrqYusGZlHY502YuOXd8N/PhFe182tg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Pby8+livbzPijUL6F+BG9QMZ0Jf7qAdFX04IyC7J1tg04EpOJCduBgjFntCw9cTBZ
-	 MQsMBXcp8kvZCK90ZwJaphKg48Fm3GYh3Dly1nnEsmzGVrwQjTd/0tGXg+nvtWr5JW
-	 cFtFoicBHelQTw03fS6iB5yeZTOLofhKYD992EGBwv9xKCybGDp/UeB1de0O+qeqMf
-	 ovslBqmMa3NIgjbwIA1JgrBsG2jdpqCinJl7konAvUq38z2rPKLnS1MSc+l588W6qG
-	 XWtIzTvY3pSLtjeHlrnLxWc7iiXRvcSXDWzkJqi9v9rcVOWQUgOPRQh60I1Z9x6bYx
-	 UWH8xdcLYReEQ==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org
-Cc: Sasha Levin <sashal@kernel.org>,
-	Artem Dinaburg <artem@trailofbits.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christoph Schlameuss <schlameuss@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	David Hildenbrand <david@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	avi@redhat.com,
-	cotte@de.ibm.com,
-	david@redhat.com,
-	mtosatti@redhat.com
-Subject: Re: [PATCH 6.6.y] kvm: s390: Reject memory region operations for ucontrol VMs
-Date: Thu,  1 Oct 2026 09:52:15 -0400
-Message-ID: <2026-09-30-1-daily-reply-0011-kvm-s390-ucontrol-memregion-6-6@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260930011211.94657-1-artem@trailofbits.com>
-References: <20260930011211.94657-1-artem@trailofbits.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sp6736PK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790863229; x=1822399229;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=AcGFaAWMJog91BkmxiEKa9EgggF0tj82X5+IprY3G/c=;
+  b=Sp6736PKtxl3aiuSzSene9Ugt30SYKmt6Uq361v6KI0yWbQdhSTd52fq
+   2nUatgi6Taq4Ru3Co8liXGKMsEO169rC20S5I+yQmdHewV5uDYxJRn4ca
+   BFavdq+5pbxXl3PddqW4SmmLYlpUSBK9s5K/SxtEUINEIHLY5JvEeHv5b
+   tyBwpL5ALWoYgO4R2tufAhzad2YVaxMllPjyU09kS4eMjiRogYx0zxq9w
+   buusG4KzGSRjGB3C3lD7eBdgdTMmAfTnD5rdAwZzW29q3je8/ZlCFKP21
+   ONWNf0EIegYQwOlB9OaCF0YnaZzreVSuDTwtRjsfXoXNeB11XyMVa90vh
+   A==;
+X-CSE-ConnectionGUID: 8+MqRzbgR+uE+WkYR2zDoA==
+X-CSE-MsgGUID: q2SemrfZTjOtw4RcNZfk3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90834350"
+X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
+   d="scan'208";a="90834350"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 07:00:28 -0700
+X-CSE-ConnectionGUID: ZdwFH+w8S4mkkxYd3KUrXA==
+X-CSE-MsgGUID: Xgw++lmJRXKuWjmUgI0Bxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
+   d="scan'208";a="303936278"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.111])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 07:00:25 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
+Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn, wy@wyuan.org,
+ si.yanteng@linux.dev, srcres258@furdevs.cn, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
+Subject: Re: [PATCH 4/4] docs/zh_TW: add missing :Original: fields
+In-Reply-To: <CAKspUhKCpXGKb7zpz9MbtpixVMUWKXMJtK-z6CcrezGA6e+ETA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260929131020.266120-1-chenyou910331@gmail.com>
+ <20260929131020.266120-5-chenyou910331@gmail.com>
+ <c719c6756f345c6c39db483654578ef09de1948f@intel.com>
+ <CAKspUhKCpXGKb7zpz9MbtpixVMUWKXMJtK-z6CcrezGA6e+ETA@mail.gmail.com>
+Date: Thu, 01 Oct 2026 17:00:23 +0300
+Message-ID: <22fdd310dfb0946bbe58ed71308e58d936cbed53@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-> This one addresses CVE-2024-43819. It rejects memory-region ioctls before a
-> ucontrol VM can dereference its NULL gmap.
+On Wed, 30 Sep 2026, =E8=91=89=E5=AE=B8=E4=BD=91 <chenyou910331@gmail.com> =
+wrote:
+> You are right, and I should have seen it -- the rest of this series is
+> built on that same expectation. checktransupdate.py also finds the
+> original purely from the path, which is why 1/4-3/4 move the files
+> rather than fix their :Original: fields. By the same token, at their old
+> paths the language switcher cannot pair them with their originals
+> either, which is a better argument for the moves than the one I gave.
 
-Queued for 6.6, thanks.
+Oh, by the way, I do think the series as a whole is worthwhile cleanup,
+and having the :Original: fields is the current practice. Removing them
+should be a separate change.
 
--- 
-Thanks,
-Sasha
+BR,
+Jani.
+
+--=20
+Jani Nikula, Intel
