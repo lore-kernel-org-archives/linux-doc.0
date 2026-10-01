@@ -1,46 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f28.google.com (mail-oo2-f28.google.com [74.125.231.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39554949E0;
-	Thu,  1 Oct 2026 16:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C1C49B47C
+	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 17:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790873598; cv=none; b=CKO4xmzmcrWZpTWPidMapJwbnGzctm5Cgr4/zjxKCzq4VhFXJpuJxh9bnIGVTwCuUffiVOTH7x8j09rjJvmpvWNN3rKQCplp/nJ8e54Lp4VrCPJyVY3i38PN7QIYGNMVf/ZcVa5VtbvDrm5uCkBvy6MPWz+XI1ZKnOrzyJALHxY=
+	t=1790874910; cv=none; b=Ib8wFvmDXoPYwGP4uKKrLnFo+q4oq3IiO532uM0tGSsQglHKYs5viA9HQ5jAn62a/iZKZwSogztQWiF4OaOQ8i+9LZYEsqQx2ZcTp+rnE5DF6op8dMy9ErsDEPDiZbELTNh7eb6HTQjO8wCs6H5JW0rmp+s9PiTT0bSq+J6Frm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790873598; c=relaxed/simple;
-	bh=pldxfBBUJszv2h95WSmrqJHgRj+RN0mpAukKCJ4Us+g=;
+	s=arc-20240116; t=1790874910; c=relaxed/simple;
+	bh=a7oq1MIgLZQaYmPsWc/dtcP0sMS+eH9o/8iLzIQIc/M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i3RC18Q2/OjGr9ySsipBjjZZa4Ph4qmLTEOS7H0j5zNQq/xJnEinQIwzmf7eHbm3aJ8KxTq61slqjyxVdo81Pkhgw65se54iN58S4aNubv0zgpQNUZeh5e7vm+eWZAKbiHcR5jNeGkfExN8TJq2Q1zVf4AmiocGyDfX3pEQyL9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LvbSVCpa; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=LBXW0iqRunOQ2uY0RvA0/dGmEZY1oqHPJp27E+NMZwXiFQOYavx1d842kxQRsecdG5gbRCO/Uktryts5szZaTvwFf0X67j1prXpaTrwRxoa269orAYaWgH5t4vFrg3Gpu/Bnz3WF6Lat6T5aPYBhenGLJ8TkOAr9uOnu+6wpEj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=LiMyoth8; arc=none smtp.client-ip=74.125.231.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LvbSVCpa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 204151F000FF;
-	Thu,  1 Oct 2026 16:53:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790873596;
-	bh=pldxfBBUJszv2h95WSmrqJHgRj+RN0mpAukKCJ4Us+g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LvbSVCpaCUVkCAz7so8zugOU3NwB259fPKMks2lna/kHm0w4qsV+s9KRttiSYjuTA
-	 YWqi1beCw/63VRYo0D6E/5KjdiQoKuWAd02GWBKBvUyHv2gNb5OpWIBZgmsUN+JO77
-	 fPkC76O599BnM951u6Mz1XTKKEeAlR3aeV0Pw8AKnIPyIHfQuI6mwgdcokO0RvViPk
-	 RdT41/5KVCI+WaVbKnShZrhW6IiaQJW0alniE3u/M/Mzo96jeQdxwX+5sWe3XE02nT
-	 gHobMG1OESuD/ILEtZBbpiDZA1gbnXyxoe6/X/W0xeRaKXMcPnl4XzBCqJkfx7M4xQ
-	 tOdXdnwJxlghw==
-Date: Thu, 1 Oct 2026 17:53:09 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Fuad Tabba <fuad.tabba@linux.dev>, Peter Maydell <peter.maydell@linaro.org>, 
-	Leonardo Bras <leo.bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, 
-	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v21 15/15] KVM: selftests: arm64: Add GCS EXLOCK
- exception emulation test
-Message-ID: <ar6PJqq3Ujaz-ibx@gremlin>
-References: <20260930-arm64-gcs-v21-0-3556644cd927@kernel.org>
- <20260930-arm64-gcs-v21-15-3556644cd927@kernel.org>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="LiMyoth8"
+Received: by mail-oo2-f28.google.com with SMTP id 006d021491bc7-6ca35deb7deso674842eaf.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 10:15:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1790874903; x=1791479703; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=t/6p+zYx/lSA8o0kTLIaLNlPefSKg05wX6rF51KJFNw=;
+        b=LiMyoth8etbND3MNQwHkSEaJ+HRDwN2uwRaewq7vz7DMUR87ukAlz/idYFO+9P6q+F
+         praczIlNXVUo7jpkHmQrcQSqHqJd30JN6mwusqmR5YmITRuzCwAY1SH2MAA3lHTAxxHo
+         faGoT3BQxCP6RyuF8r8RHTRZIN1Ph/QB1SVB05+al/6VVF3S276Y/hxw1gLp+1oFhFCs
+         lmZ+9tOAyzFeR6sKKWseaDtFdWeWBhVmsqFNOHFVT+ePvsahskBDp+eAee0YutmzEMYi
+         lXWUnFYXBSu+OFBL88bdW+EF4UaSB6nQY5vV3JPLiXRtYb8F4eCw0g5h62Cc3OhIQKcW
+         5wkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790874903; x=1791479703;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=t/6p+zYx/lSA8o0kTLIaLNlPefSKg05wX6rF51KJFNw=;
+        b=TtAIrbuhW6wNg+4dxuR+oTFxbZTPWD1e21ELMLjB+MsOKUIgTEjToG+ll142l+edjs
+         4nxZqFFWvBq3NL9pm+ROTbAo0VgSHAgn7Kskj1u07BdqrNSTO2SKBlzsxN/0t0ga+ODl
+         o/5EFOV9NmvMXjGBjH2MAysH9qyhphX8iqAcsxdww4/ppLQPND6gFn5JJACze0MkIKAJ
+         j0TYqG4q52FV8D87BC7EODxF0/YQR/N3Vf4R+ObZhBMqLMXgXfPuAeRJ8WR4x4TxncNT
+         /hgdrrE91NFahuujRyAy0tzqNhnkUjYRf3DtzDZxeCQuV7V71PzcXTI5WBb3r3utSZ2x
+         nAYg==
+X-Forwarded-Encrypted: i=1; AKwUvBxAGwKYxNsTXWxiVqcwUg8uUExi28RL8shglprutnGbuIdFf0jzv8OxwnXJQ59BcURYd/cLf2Jwrp8=@vger.kernel.org
+X-Gm-Message-State: AFuF++mhUBFNoiTfQ0eLXPtqM73C4eUmrginX1VGLZYK8VFxoTDBoPJ/
+	9XIcuLCWpi35z4eiNtqWt/9fgCrPDZBKDJnhBZbhBLPPnuk8qMNyDCcb5td3lzunv+Q=
+X-Gm-Gg: AYBFou2YvqitcRZEgBBE+lCzStUu3oEoF+TvF2drRZMG8MgtHiIR+qgGLWGfvfq3cKb
+	xVntS6VRXnxRoz3rVugPasViPjbTkvBjhS0xEmhIRjDHTTzWx07JeFBy9z8eBwg9VsK5g1JRy1U
+	/MsLHqL67JzxWjVIsSECTJaPZ453JY8icEgQUCYnO3aJdLDOnEnL4Tm3CfJGEP95EkXaZJofWgA
+	Qe98q3xRgc6tkiAaIUmeILNYu0sCI1E8BuY9Fh6axSz2zLQq0fqCGNSjAywTo1YcfPms/dieozY
+	M8JowsrL6E3bJwWnARJeDpz07fjrhDXz/oKirah7EHIhsmvSVrIsOmYW07wp9CeeZkL0BFozQXt
+	02aJ83JAnsjRZycBNEejkJyB9tluemSqZnbyzB/eYgZYUk6l5W9rolt+0939THYeWEGb4jkltf5
+	zmaf9xRlWvRsspWNLvdys7OdHxECvGHWX3RXTkaxwWk2cq
+X-Received: by 2002:a05:6820:f025:b0:6c3:32f0:6307 with SMTP id 006d021491bc7-6df32aa7ec9mr9152eaf.12.1790874902929;
+        Thu, 01 Oct 2026 10:15:02 -0700 (PDT)
+Received: from ziepe.ca ([130.41.10.202])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6dd97aff835sm3239083eaf.6.2026.10.01.10.15.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 10:15:02 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xCKN3-0000000EaHJ-0IkU;
+	Thu, 01 Oct 2026 14:15:01 -0300
+Date: Thu, 1 Oct 2026 14:15:01 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Fred Griffoul <fgriffo@amazon.co.uk>,
+	Connor Williamson <connordw@amazon.com>, ackerleytng@google.com,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>,
+	vannapurve@google.com, erdemaktas@google.com, jxgao@google.com,
+	rientjes@google.com, fvdl@google.com, jthoughton@google.com,
+	tarunsahu@google.com, pratyush@kernel.org, fuad.tabba@linux.dev,
+	Gregory Price <gourry@gourry.net>, yan.y.zhao@intel.com,
+	michael.roth@amd.com, suzuki.poulose@arm.com,
+	Christian Brauner <brauner@kernel.org>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>, aik@amd.com,
+	aneesh.kumar@kernel.org, Vlastimil Babka <vbabka@kernel.org>,
+	kernel-team@android.com, kernel-team@meta.com,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC 01/17] mm: shmem: Implement guest_memfd provider
+ operations for tmpfs
+Message-ID: <20261001171501.GD3019323@ziepe.ca>
+References: <20260925-gmem-tmpfs-backend-v1-0-d36159822d18@google.com>
+ <20260925-gmem-tmpfs-backend-v1-1-d36159822d18@google.com>
+ <9292b27b8f48c515bee3246cf3b3a60762302186.camel@infradead.org>
+ <20261001141743.GB3019323@ziepe.ca>
+ <ba82487d2fe70e762a06e42a9474299d1a501ed7.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,42 +106,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260930-arm64-gcs-v21-15-3556644cd927@kernel.org>
+In-Reply-To: <ba82487d2fe70e762a06e42a9474299d1a501ed7.camel@infradead.org>
 
-On Wed, Sep 30, 2026 at 10:48:25PM +0100, Mark Brown wrote:
-> When running in vEL2 ERET is emulated, this means that we must emulate
-> the behaviour of GCSCR_EL2.EXLOCKEN. Add a test that validates the
-> behaviour.
->
-> As per DDI0487 R_WTXBY PSTATE.EXLOCK is set to the value of
-> GCSCR_ELx.EXLOCKEN when taking an exception to the same exception level.
-> As per DDI0487 R_TYTWB if on exception return to the same EL
-> GCSCR_ELx.EXLOCKEN is 1 and PSTATE.EXLOCK is not 1 then the exception
-> return is illegal.
->
-> We nest handling of two UDFs to allow us to both observe and modify
-> PSTATE.EXLOCK, checking that expected exceptions are generated for ERET.
-> We also repeat the UDF tests having enabled fine grained traps for ERET
-> to try to ensure that the slow paths are taken.
->
-> We also attempt to write to both SPSR_ELx and ELR_ELx, again using a UDF
-> handler to control PSTATE.EXLOCK. We do all this both with and without
-> having enabled EXLOCKEN, though only for code running at EL2 due to
-> framework limitations.
->
-> For completeness we also inject a data abort from EL0 to EL2 with
-> GCSCR_EL2.EXLOCKEN set, ensuring that PSTATE.EXLOCK is not set.
->
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: Leonardo Bras <leo.bras@arm.com>
+On Thu, Oct 01, 2026 at 04:47:54PM +0100, David Woodhouse wrote:
+> On Thu, 2026-10-01 at 11:17 -0300, Jason Gunthorpe wrote:
 
-This all seems reasonable test-wise, but I wonder if the discussion around 8/15
-might alter some of what's tested here?
+> > It would be nice if it could handle MMIO and "cachable MMIO" as well.
+> 
+> As opposed to just MMIO vs. RAM as implemented in the prototype in
+> https://git.infradead.org/?p=users/dwmw2/linux.git;a=commitdiff;h=a7ca2d8859036 ?
 
-In that - if it's only hardware that's doing the locked check then the SPSR (and
-probably ELR?) bits might only be exercising that rather than KVM stuff?
+Sort of, RAM is a little more permanent than "cachable mmio", I prefer
+the latter because it conveys it is located on a device, is subject to
+things like reset. Eg "CXL ram" would be cachable mmio.
 
-It might only need a comment update though :)
+I haven't heard of anything needing a unique PTE for this yet, but who
+knows down the road.
 
---
-Cheers, Lorenzo
+> I think Fred has a cleaner version of that about ready to post as the
+> next version of my series.
+
+Yeah, cleaned up is needed, I want us to resolve this in the dmabuf
+code cleanly not add more of the hack mess I made for vfio/iommufd..
+
+Jason
