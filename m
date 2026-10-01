@@ -1,88 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E4226982C
-	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 07:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4438619E7F7;
+	Thu,  1 Oct 2026 07:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790840083; cv=none; b=Ap/wlzACV7piCjP4BNM1KfvMoYbM/5ngr9oQKzodWSIHNCykfSqHFaekO6SCB3gLnx1x/DgctAs6M4wF4NUFMn+Xtmui1MpC0G+p4msUez6P2XdCJLSk7lBnlQvQbZU2BNd8w07sbdv7Xmj5VFYys117EGLIsTamzGfvJvk0j9c=
+	t=1790840388; cv=none; b=A6E7ejRXfMZdkPCITa7821NA1dhwGKYxojr/3ruRqxMEFGGxxa4iDO3yWhpkKesyfOtEEqS7tlqTUcgJLS65za/eaTrS3MjRG9GZ8EisYrlNRGLlkKVj7HhEXgx5qw6t6YcwNaDJPrpgyHbzvGHmlQECFpBuBGnjPiKVP10dhy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790840083; c=relaxed/simple;
-	bh=kuV33l73kgCfxMXZpX+G6jMpAhtpEBO72ZuYilyuWkY=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U37GlI0VpNRyGx5c8IMGlDr3Os4yjJQEaViVg2GogUH0X9OmPndcWU+a19bGP+MLT1xH6zOGV3TCyFKRyYpPdfxjWR30bwWkFKX5seuj08nB7TmABZwKb4Dcr7I9nncn345bmcDWordl1yjfIKFcYVTjfmP2wegiqEqu8duTwJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfyM4xSR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790840388; c=relaxed/simple;
+	bh=55sRFBGXFDX+6ubexTshVbi8YoYaQKcQK4rdcq3wsM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kbYvlLUrKvLeG/9h1A/TC3kjztB9DgN71FBiAOaLEFkfnNWxuhqhTHsfN2SKnykSzDEGbERU1voi5UKbKnXfVzAEolGf3eqAewfATGLb1+JM4p/0FED/l2w85cp87ZLbiDe1lpbKp8RExw+3VBj4uno4rAZXzctXmi6cp5NMCX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=H5ADH4RU; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LC849Svj; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfyM4xSR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EBD21F008A1
-	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 07:34:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790840082;
-	bh=kuV33l73kgCfxMXZpX+G6jMpAhtpEBO72ZuYilyuWkY=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=QfyM4xSRlKStaeo/bShD69v/jI3OoLIt9RIlKAxFj08Dl+wLGEQBSqAvQhCoRjKGk
-	 LoKxGHq+CxrS9V2uPd4C5LVxuMTeyD/4DL9PTaaXXBcaF2qhNh1u33Mb0Tmft89/y4
-	 JK540dc3kMHcoBdpmpzys4aF4Nkaa0kf2vhA6a8+g5l0P2qVUnQsbNT5YoHFfupbRo
-	 3LUkl77zt0THmf0rxul77MMD9Mzv5USAhLR7J4SHkujvTjrVFs1pOrtS9bS9hk3jHW
-	 gyZ/cyJI1HqruFwWPwC6FAOzyMxVeGrl5UkQeiFG5RTWufhU4paN7KN7JEuBJimpfG
-	 4GtqckmA4KRMQ==
-Received: by mail-lr2-f34.google.com with SMTP id 38308e7fff4ca-3a652b710a5so60913441fa.3
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 00:34:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxYILdQVZL7SAC/JWirSQAYTHyDR+CmaATqScqAYhPr62Wq3bcJjf7JNjhi/6g3PUtl/lCJFNugDA4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJcnb1i7DqqD9sEWBa4QCin26k3hTBoubiOAjjY1Kwnqncdvhl9
-	buqXO3Pa6uB/j7eXYTqEc8Bjx0+ocKKfKDmHvB100oGg/xozHcYcJNtBLo+QeWgSsaYnAtlNc8N
-	zDgbo3uYbOWo373cPDwdZIwP4BPTWYthPdXXkJkJZyw==
-X-Received: by 2002:a2e:b8ce:0:b0:3a6:6aad:be45 with SMTP id
- 38308e7fff4ca-3a779206b12mr11576161fa.10.1790840081040; Thu, 01 Oct 2026
- 00:34:41 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 1 Oct 2026 10:34:39 +0300
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 1 Oct 2026 10:34:39 +0300
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260723-qcom-qce-cmd-descr-v24-1-4f87bb4d9938@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="H5ADH4RU";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LC849Svj"
+Date: Thu, 1 Oct 2026 09:39:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1790840384;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=55sRFBGXFDX+6ubexTshVbi8YoYaQKcQK4rdcq3wsM8=;
+	b=H5ADH4RUxK1UUoCugVGup5Od1rW0g2NXlzeoTkKVpAxz91t3nYV3qI6ROSzssSNAldaySH
+	mTq7yTUu2It3ZLM+NsxIsRaGKaADs7CZrRZ/yUVakS3JRldvSFUSxKpy91H2D++i5tpjn+
+	/M4IQc5j2DPA8TJUAEBdboQY4sJ6j1hhvKBFPq1Er2y3n7mCilD+fz5GemnU5/g/Fl9kzv
+	tugJLt8ZGW2E9wtM3cV8gFlHNzf7q4Q0eVcb0nyi+EneWWpLyhdH7yGgygqMjkXe1BYVtY
+	MN3b78fxMwpJr33BJbxf/ooogYqCQZKLFGonJQFveJVOfM+bCBU3WbGe0Lzu1Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1790840384;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=55sRFBGXFDX+6ubexTshVbi8YoYaQKcQK4rdcq3wsM8=;
+	b=LC849SvjZAxpKGaUQHVRpa4VX/3KdlvOFZ+Znez4n6SWj5oGojEbFVtB8uTMx5T5Yy04E7
+	cH7HenTyMsrJerBw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Boqun Feng <boqun@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Bradley Morgan <brads@mainlining.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v5] softirq: Preserve interrupt context during IRQ exit
+Message-ID: <20261001073943.QYhian_i@linutronix.de>
+References: <20260930191432.62760-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260723-qcom-qce-cmd-descr-v24-0-4f87bb4d9938@oss.qualcomm.com> <20260723-qcom-qce-cmd-descr-v24-1-4f87bb4d9938@oss.qualcomm.com>
-Date: Thu, 1 Oct 2026 10:34:39 +0300
-X-Gmail-Original-Message-ID: <CAMRc=Mc9O-wgeWGNgEW45p5YumdkBwKf7_Zkrgw1=r3Pn8QTPQ@mail.gmail.com>
-X-Gm-Features: AclHuK9Cfoeox9K-SbC3OnT5eZecFWUtZX-vzEsZcBWrrPHwk34664gyCfLJNQY
-Message-ID: <CAMRc=Mc9O-wgeWGNgEW45p5YumdkBwKf7_Zkrgw1=r3Pn8QTPQ@mail.gmail.com>
-Subject: Re: [PATCH v24 01/14] dmaengine: constify struct dma_descriptor_metadata_ops
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	brgl@kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>, Vinod Koul <vkoul@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Udit Tiwari <quic_utiwari@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, 
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
-	Frank Li <Frank.Li@kernel.org>, Andy Gross <agross@codeaurora.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Vignesh Raghavendra <vigneshr@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260930191432.62760-1-kmehltretter@gmail.com>
 
-On Thu, 23 Jul 2026 19:09:07 +0200, Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> said:
-> There's no reason for the instances of this struct to be modifiable.
-> Constify the pointer in struct dma_async_tx_descriptor and all drivers
-> currently using it.
->
-> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
-> Reviewed-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
+On 2026-09-30 21:14:32 [+0200], Karl Mehltretter wrote:
+> On the return from interrupt path, __irq_exit_rcu() removes
+> HARDIRQ_OFFSET from the preemption counter at the very top of the
+> function. Everything after that reports the current context as task
+> instead of hard interrupt. The code in the function itself, such as
+=E2=80=A6
 
-Vinod: this patch is independent from the rest of the series and the BAM DMA
-rework. Could youtake it for v7.4 as I won't respin the rest of the series
-before we get the QCE fixes in anyway?
+Good.
 
-Bart
+Sebastian
