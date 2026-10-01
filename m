@@ -1,231 +1,382 @@
-Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua2-f41.google.com (mail-ua2-f41.google.com [74.125.226.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AA83655FC;
-	Thu,  1 Oct 2026 01:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.147.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790817694; cv=fail; b=kH1j/V1mfO0Pgu81MebnnURP3XPb/fJRqlR+4HD0bHSzLLbKNCqwIC+YfGjbLGe3D7KLn9VZibThcTH5Et27lDsTMjV5zS85YFI1Mw2S5ru5f5g/UpUPYaN0zCQnUfVxAxIrTNWAV+r1MPnSiZ9BnpSAdkHNhixeZuSCjOMcXVM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790817694; c=relaxed/simple;
-	bh=nVPjTq5VTrr264IXiomrsgzA73YevZMEelzAZe/RjSo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V+wGrnhu0uBeSyUOZG05AsA+qTz4OiZFBSi7loTW7+77UIs7swCRH3wqpHunP2vvH9ivSguB/xwW/SmomwbkvvpB3dEC6HkFQQQqrfBeN5PR5qPmjHEDh5473rnlxiewBrGOrQSHFfgGa+AgXy2ZAVjlCZkDb5NGGAS9iOzp2wo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=XAvs7L8k; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=AKZdK0qY; arc=fail smtp.client-ip=148.163.147.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4555B299920
+	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 01:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.226.233
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790818737; cv=none; b=t9LSWgNVnNDDDSBiM4vLoIJdgGu8wrCrNtLNqF11HhayP78RzDfIh5FuufUHimF5QRTcpKIQvcqG3ec59rG0COpUhXqBKDBkHC+khOYPK1S7quAOAIrUxzUGlL0HC8oiY7ys9KJX7fZIjlj/QHu6ithCNVukyhPsj9hStvqih9I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790818737; c=relaxed/simple;
+	bh=cpGaJyYvEHcZ1oge85+Vhqy+EafiPJx68iuqL/9VXlU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LLIq7eSOAnRVOAx1znKaDap0AXbe42UEPHFPhrTNU8DhAbS5br9XuxjyGqmwgEI1gmrfQVkEGMB9P68modJr8L+U4Gfmi5jm7fswwm6IFNTlyvRPF8115F4Z58CpgUlgrXquLZm+6lmjbmX4mWxyfkHG7X023igyWjX+Q0KzFic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LPZEEUDb; arc=none smtp.client-ip=74.125.226.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="XAvs7L8k";
-	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="AKZdK0qY"
-Received: from pps.filterd (m0134421.ppops.net [127.0.0.1])
-	by mx0b-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6910oVNB1860400;
-	Thu, 1 Oct 2026 01:20:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=jnprhpepp0429;
-	 bh=VHL6UmsGmT0HZPR/4KSjhSreaHw4t/XWFUSTSAJUBOk=; b=XAvs7L8kQ25F
-	SN3ivJWyAC05aMa98rNkB+mP6k76T77te0tcJXiox5t67DSu0c0OCNIYZarQxrx6
-	9iD23zbFTP9doew9A9Cd+bzfWUDprSmGaCtqzE8pJjB19aI1U3mUbU6kkYCpMNzR
-	arHPCrOcJidAGBn+W9mUxE3s9nA4aucLQa55k/zldzMELiWM/gaQjSNypOg0hr3a
-	TSDYaPAkfx9cIUtJeEjv1klXC/RUqEIC59/RU8Auf+ilxYJvOiwC925+0cI5Bj0+
-	iJ1d/gXFbxQ40Gzb542Ke96NpKPxAvoz2MLoGDE0E7ng+cyyJZkss43Equ7shoAX
-	Iv8nhg2BTw==
-Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012003.outbound.protection.outlook.com [40.107.200.3])
-	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 4h1a7y2p3y-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 01 Oct 2026 01:20:22 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n1A6LqATO6A0a3uMj3yG+wovfYmv9+Fq1qUPis1H/93f78JZc21PhCEokYVS0NLPd+HLXuSD1SwyaF2pu18ZbU2izZ8BhYMBIv9JyKSl71GZNRRZSq2PgBQ+bcu52VPSFHrnynA3xXOTER4Xc6ErUeErReP3cKSgOnqiIAnOHhyFa1EyQbLbgZqQ6keqnct5RYVOrynHCCMe3TjVAXTDdv5IpMa6p1c8/DWNDN9oa9lwySAV59CitbIZZL4sgYGNOtxr6OUVzYgh97TUXrNHMvjU8Gw31kY2Vjdl5/pWK/fnv86xfPtholh+cwCbDQkG7wqgipb8PCh/NDZ8Jc+0pA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=VHL6UmsGmT0HZPR/4KSjhSreaHw4t/XWFUSTSAJUBOk=;
- b=qwJjaLzZNwUa4UHD6s6w3z/7QUjfbGCJIy4CTZeTe5LIlVpA+BAIfnPDSfNSN6BqCQ2ukB02IaL6PT2YCOtJt+L4PWOXGHKrpIIiz32tgh4TCL0HKqcFMa0gL1KmdiUNu3lUdi1IhxECGFC6hij54bz8H/5t+0tILuxfyPKd6uGw+ezvctrAnK45dc8f1XrPurh+3oGnXUrSD/lR8LNZjFs/EzpU9ANAHqYlmReNBo2JTox8aJlzVq8UZQ1KRw9MTg/CNX6uCn8vbJKeqZtegnq0AN7ia/fj6T6ru1wuLgKoiiATQVaFzgT+1kzbDAOKWqK0kryDVUyrsrK355bEZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
- 66.129.239.19) smtp.rcpttodomain=debian.org
- smtp.mailfrom=ebf951f79306.juniper.net; dmarc=fail (p=reject sp=reject
- pct=100) action=oreject header.from=juniper.net; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VHL6UmsGmT0HZPR/4KSjhSreaHw4t/XWFUSTSAJUBOk=;
- b=AKZdK0qY5WSb/DdG9EhsV8ZaHjV+2wa2st2F3wcBCVE4csZobv0sY3ldZaUokI33eZeRFWwm4SRL2CK51wsgqcpApH7Ti89xHsv3GCF3ZA8qXyu/DZBDGR/Re8povH267uPtnyqwKeSwXvRv+WMpndR5Lfba4KH3b46CiVxhQhBEj2gtbs5ODwWSWQR+jZaZeWYP60QVMIc/W1F3grvhvQrj5+wRexAPlptp48iY4c1swA1CSlql2mu06ZhfxcAffU7EZOi9TfwSeorcQpjF/xHYiC75nQI8osZPd4dxDst+r0HgmJK2CCU7KfxCsFPgu/vq2LgpiFekiJ1J2byTFQ==
-Received: from BN9PR03CA0665.namprd03.prod.outlook.com (2603:10b6:408:10e::10)
- by DS0PR05MB9054.namprd05.prod.outlook.com (2603:10b6:8:ce::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Thu, 1 Oct
- 2026 01:20:16 +0000
-Received: from BL6PEPF00020E62.namprd04.prod.outlook.com
- (2603:10b6:408:10e:cafe::2e) by BN9PR03CA0665.outlook.office365.com
- (2603:10b6:408:10e::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.15 via Frontend Transport; Thu, 1
- Oct 2026 01:20:16 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=none (sender IP
- is 66.129.239.19) smtp.mailfrom=ebf951f79306.juniper.net; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject header.from=juniper.net;
-Received-SPF: None (protection.outlook.com: ebf951f79306.juniper.net does not
- designate permitted sender hosts)
-Received: from juniper.net (66.129.239.19) by
- BL6PEPF00020E62.mail.protection.outlook.com (10.167.249.23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.472.14 via Frontend Transport; Thu, 1 Oct 2026 01:20:16 +0000
-Received: from p-exchbe-eqx-04.jnpr.net (10.104.9.87) by
- p-exchfe-eqx-04.jnpr.net (10.104.9.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 30 Sep 2026 18:20:15 -0700
-Received: from p-exchbe-eqx-04.jnpr.net (10.104.9.87) by
- p-exchbe-eqx-04.jnpr.net (10.104.9.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 30 Sep 2026 18:20:15 -0700
-Received: from ebf951f79306.juniper.net (10.104.20.6) by
- p-exchbe-eqx-04.jnpr.net (10.104.9.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Wed, 30 Sep 2026 18:20:15 -0700
-Received: by ebf951f79306.juniper.net (Postfix, from userid 14867)
-	id 67EA91444BA9; Wed, 30 Sep 2026 18:20:15 -0700 (PDT)
-From: Prashant Singh <singhpra@juniper.net>
-To: <bigeasy@linutronix.de>
-CC: <ardb@kernel.org>, <jk@ozlabs.org>, <clrkwllms@kernel.org>,
-        <rostedt@goodmis.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-        <rdunlap@infradead.org>, <lgoncalv@redhat.com>, <93sam@debian.org>,
-        <linux-efi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-Date: Wed, 30 Sep 2026 18:20:11 -0700
-Message-ID: <20261001012011.30525-1-singhpra@juniper.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LPZEEUDb"
+Received: by mail-ua2-f41.google.com with SMTP id a1e0cc1a2514c-98a811d2f51so592059241.3
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 18:38:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790818734; x=1791423534; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5x1T1inUpIFF0iYAooZ+OiN23m1A7Xtl75+y86SmUw0=;
+        b=LPZEEUDbZBlapLzMElDVXIKiBRJS60zwwgfsNHzRkdo24EB1wDZMBy1eCWNvMoMo2d
+         HhCzwDvpvXUSIb/Rdv+jQxBPYpijvwIkCU79amv0TPNw3RYbh4nsUGwFcfkNFDNlpPAm
+         ajsaBwlNP31f5Cg+Fe4oKMnRia/kVMeNrURg4hvI0PcBHgbIiPG1b5K5ryeGKyzABD/B
+         M09VJqN/YDPTNFh26b9iIiqcit5sGHlxgHL1NbdruUwLM3hBLpxOqXs/UObvS4NqCkoR
+         +oHajYgsYFlqrNEeb/pFqwGO4FBbLGNpfdf18Lf7SQX8myAl/1aTi2adOvYWColcIUMs
+         SIBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790818734; x=1791423534;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5x1T1inUpIFF0iYAooZ+OiN23m1A7Xtl75+y86SmUw0=;
+        b=Dgv0FK+IHOWraMN1Mvg9TN6oT9Rw7MCWQWMPQ+1jp4FJ5UQzyFsyz16w8dfMXPVqY4
+         Z07ajavOQrQsB+t8FVD5evbV1Wf+JLWtiaUvzSzb8ODh4M5cGj6zlWMJ6twZoEBKM8M4
+         AQE73uJZpM91njCzFG9G7RLRYLLXA/XpfVB/k2TE6P6zw3CJ8TNJP2QSc8EDI1Esnv9o
+         GpISUXndhzNMSdnW9LQWQodTo4gDOIGrjEfdhbrL6ZjMvY/PZZDLNyknzu3r1cuheMFF
+         OvWABj1xRkvhnT2krjUl3aAWTDEQUcDRD04MkAHrhJOLKNBoF+HmXAQKzaRQSU9PKS+S
+         TuLA==
+X-Forwarded-Encrypted: i=1; AKwUvBwifM/MR2WpT3+aoJ503rGeo4eXVzZ3LwwK0N7F72IJoFZ2ErqJGLYHWu8vidfUy2DiWv7MoSEgFE0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI3O0aIvwk7M94PFNJLNjRPax15gWrzJKI9CN7ro5XyzZ80ABmn
+	L/jZccrbtujFZX0hQx4mPR37VPGzZc4NShXbZ9QuGcBwmz2nOD4JIHpE
+X-Gm-Gg: AYBFou0T9s/9EYDUXKJUnwgZC2HCEdVzIkc8BxEmKvic4I9Vct+9qsJ99aTKhtkORv1
+	kyCC0REDAjvkkkLyyOQfiWfQGfHru58lfnpfV2DeSgIjpbw1VBmZ+hBLAw0Ie0ovC7/y0/qgjP7
+	hNulToAw3Ee36Mn5DBy14OjJpWm73uRbHr/TygmnSJRSY3Pvl71NJn185Q3odGZoKg0lagq9XIs
+	CjsuZR9GuFzaXhclSr8IZ1jbpPkO7xWfpE8nMbBr87Nee8lO3K5v8WdAqGU0LnygyLH7f1i8KIF
+	dEU5ZKmUXrauD7ZDE726b7XfEMJptzp423lazewJQK3loibKoaW78mn98rIAJnaTdpOiOSjrYvW
+	uuOyBW8F6/9zLpM1+7ejAioiNReQTXA81oqJuVihOhEP6rV1yyqjPM+jR+sFIwt9+QqxNB4E2yU
+	0I671gd2DzdD2KIbZu4SYgy7/Ltm8pXc6P9BD2uvNgiB714g5YZhaUf9gUH3Vi+Bjzhnw4Y+Hte
+	xpmKrZ+BciAl+0Tvw==
+X-Received: by 2002:a05:6102:3f13:b0:7b2:7aac:8ccf with SMTP id ada2fe7eead31-7be73a97ccfmr1140993137.29.1790818733920;
+        Wed, 30 Sep 2026 18:38:53 -0700 (PDT)
+Received: from localhost.localdomain ([2804:7f0:9f80:e9c2:635e:658a:e25:b693])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7bfa44169cfsm1376885137.2.2026.09.30.18.38.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 18:38:53 -0700 (PDT)
+From: vinihsr <vinicius.m1821@gmail.com>
+To: Daniel Pereira <danielmaraboo@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Vinicius Henrique <vinicius.m1821@gmail.com>
+Subject: [PATCH v5] docs: translations: pt_BR: translate threat-model.rst
+Date: Wed, 30 Sep 2026 22:38:33 -0300
+Message-Id: <20261001013833.29002-1-vinicius.m1821@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260930063217.eWGJ_JpZ@linutronix.de>
-References: <20260928203445.72318-1-singhpra@juniper.net>  <20260929074312.v3jT8uel@linutronix.de>  <59d5452c-42b1-4784-a593-5e549a2a0f12@app.fastmail.com>  <20260929151401.doOQX7D0@linutronix.de>  <20260930013500.10273-1-singhpra@juniper.net>  <20260930063217.eWGJ_JpZ@linutronix.de>
+In-Reply-To: <20260923025148.35637-1-vinicius.m1821@gmail.com>
+References: <20260923025148.35637-1-vinicius.m1821@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00020E62:EE_|DS0PR05MB9054:EE_
-X-MS-Office365-Filtering-Correlation-Id: e766820c-ce6a-4008-5ce3-08df1f5a26be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|35950700016|7416014|1800799024|82310400026|22082099003|18002099003|4143699003|6133799003|10067099003|56012099006|11063799006|5023799004;
-X-Microsoft-Antispam-Message-Info:
-	CyvgfQ1pN6BtlScIK4v7xC9qX+IjzqhNBxvsT3YfrBtLPHxEhULCprRMjJvvFCA+pcx1aDeXRsDVSx6HwJ6O6ZRpnxMkikvdPFC7BzXkndg2rQY/9g8Jm1EBKvYZZ5EKUmURSbR5uq4p/dnSJNclR8Bjr2IFWtjg4hFnjWk4MA5GkLfcLKvFtq8mZ8wSLGzmy+GianvyJoNLdyQfT3NjFgQ8if/sw6/9HGf/SO7tDQvHJvLRS8+E6Ilrev749d1O39ab6YGAWdeiZeZRda5mEoD7uAqhpF8xOpwx0RPDL/dgWeZJYG6bhjqSWvaGunyL4FQ2W0NpeqAfPclF4xrY85Z02zjkkuXDAR6TgvYFJtC5opouXfZ/SdQAjbmXrGGguER10gkmLIHwSdwdjyzMtxE/7h9oJc281MlhKrbAjbJwQ/1Jek4N3zJ3CHhemQV6HwDe40VXLda38biHTv9ho06OI5sHdgCGdfbXshDIA8UrK4mA6l696drjnYN23eZsiqks5ehoZbf7YV7Z220gKvXWrqMONrS21+jA4NvjJUm/G2+8A0Tafl2WJapOwZZdFardQsfUG2UPcmXW37X31aTvqKS05YDlvXWbRNxBlYcwr4BKlvRb9ls78RzvYghRvb6l/8Niqc+eTE+Yh2vcGM/f7EeR7J9tHp+s0x0I+hdcUdsqLD/8zknDOYqkNo3fdoaAhDQ6HstCha+GHQZwWg==
-X-Forefront-Antispam-Report:
-	CIP:66.129.239.19;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:juniper.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(35950700016)(7416014)(1800799024)(82310400026)(22082099003)(18002099003)(4143699003)(6133799003)(10067099003)(56012099006)(11063799006)(5023799004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	9XHv26lfUdwUI2wueOW3olF5XnLMx1/HLx/WspvrqbNSxgQiqvNOWML8+9vmjGxksV9cSBtPbSPeL2RmVYYiltAtvYl+4iQZ8A7Zj7Ry0PBK801/4rzcux0o1GuuoambWi3ESnLekq7hOfmNF5FsnAmnZIBIRiB6k3nVL5LibVvOC1gkT9E+kBs1zL37BZm+ErJQY0lVO3TqAIgBstP+mwc6YsCTUb4lIkfwYDvfnoBP2nJ8+hLwCvo3Ho33+DV35QXcav+IsxGyeRN7CjskhnBOQeW6VkTHBCpfgE7agrSIEGs1aeLuFu/zNBzxKbFPYTK62HPs2Byxq4njsZ8E1XoD/wGBiHoza1MOt7gE5qtd31r8SgoUzkLjYPwrdH5GUMH4qxT9oAYI1OAb1PRsJ6PYHm8BnOtWR38UCUCBMHULwv9SaEt81suCFVIXKuKo
-X-Exchange-RoutingPolicyChecked:
-	fpmJVNk6Yc1wkp7ddDODsUdIBtyCNtSPOg8CHikqe+yiaJwG10/MPnp6I+HBlbn0K+BQ+oGlfZOmvEL2p4SFOIMw04GwHiaT9mlLR3LwzOR2tmkrFH3suF5skrEU6FFNTyGv3cZ9e4R/SBYMRhA3X06sO/rBzgHqciKTtXUVejoCRgdVE1wdE+HP8JZnznCJ+K21EVcC0+tUIEWQszO0MphlzcbdCov89x8MerBeUZh8cEhCPco+2kj/4PkpT5eDQ/zi5ZzK2FIpsg666nP56TawlU5enNVRnX8UdwhdpBF2NHY+u6z9pO/eBJ8phIkH0O4UPn7xg9YFYdN13ZYQWA==
-X-OriginatorOrg: juniper.net
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 01:20:16.5996
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e766820c-ce6a-4008-5ce3-08df1f5a26be
-X-MS-Exchange-CrossTenant-Id: bea78b3c-4cdb-4130-854a-1d193232e5f4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bea78b3c-4cdb-4130-854a-1d193232e5f4;Ip=[66.129.239.19];Helo=[juniper.net]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF00020E62.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR05MB9054
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAxMDAwNCBTYWx0ZWRfXzSkPTKvaFQI8
- 90WGnRcuxBzzMl8vlRdHJb8DRKAbI1eIp7aC7Zviy+J6sq9DDGswDaJkFspwvPfAdpzh6Rzj+kx
- 8+5kc3CmXHrSMslXeKFBYHxJZRdX85ccFn7Q75U1snh+S4Kr9SlzHE8GLvbfw3d+KA4kUq6pHx6
- OjUkqxQDjvOYklGdgxCMLvbfWrFjE/ef58N5/qGBU7IZ7yUTxXwD289UcSVdJq0StAzKmr3sLyE
- UTr2ubkeHRdQaoHuwLNjP+V/8B0UtulxhQzbo1XuY2zGoUHvGilq6dx4i+PJs2831D9CRoT0dXw
- T0geqgubEpYnkLGUFlY4q7//byxJPAgTKagPJ9QyOnDxExB1ZEANOlLFe/YMbdQHPerAsnYQVPG
- cBKcsWEHdXEe1KQHonPv8g/gbkssWRH29sh/qGl2l/RavgAaXDsrxKRfB9NbSeSiCPl36+NqqxY
- 4rvtynD0R8lnoX56qHg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAxMDAwNCBTYWx0ZWRfX0cD0wlAQT3AP
- 3b9pNiWFe4T0WN+k4owlpwWbhxkOZT8Z/Vwzhmcp4Z1p8FsIr3D5pN8HFSuEdZr4jhjnxy3Rr8p
- jMJkzS7m6PsbVgGPDHB7Y0iTEIMzzNc=
-X-Authority-Analysis: v=2.4 cv=We2Z+EhX c=1 sm=1 tr=0 ts=6abdb556 cx=c_pps
- a=QsHTWkejXhsF4jLr7vu2uQ==:117 a=SKdRtqzh2DBFgDMvUaaGnA==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10
- a=f7IdgyKtn90A:10 a=rhJc5-LppCAA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gQcMVamqm3wCPoSYhaRC:22 a=ay80y3fxfMS_JZZz1qJy:22 a=28hbXIuJbkYIf9WHxNwA:9
-X-Proofpoint-ORIG-GUID: 9aPCytUNlSVI5tmOzuYq7yM81GnKANQt
-X-Proofpoint-GUID: 9aPCytUNlSVI5tmOzuYq7yM81GnKANQt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-01_01,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Reason: orgsafe
-X-Proofpoint-Spam-Details: rule=outbound_safe policy=outbound score=0
- suspectscore=0 clxscore=1015 phishscore=0 bulkscore=0 malwarescore=0
- adultscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=orgsafe scancount=1 engine=8.22.0-2609040000
- definitions=main-2610010004
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thanks Ard and Sebastian for the comments.=0D
-=0D
->Yeah you can trim it a bit but git commit log space is cheap and=0D
->only people that care about the patch will read it anyway.=0D
-=0D
-Will do.=0D
-=0D
->As for the docs and code comment changes themselves, please make=0D
->those a bit more to the point. People can go and find the commit=0D
->that introduced/updated them to know more about the background.=0D
-=0D
-Will do.=0D
-=0D
->>                        used/ available. Disabling it skips the EFI runti=
-me=0D
->>                        service call, which might block the CPU for a few=
- milliseconds,=0D
->=0D
->might block all CPUs for a few milliseconds.=0D
->=0D
->>                        reporting 0 for used and capacity. Enabled by def=
-ault on=0D
->=0D
->Instead, report 0/0 for used/available.=0D
-=0D
-Will take care of this.=0D
-=0D
->AFAICT, that would potentially leave KCSAN instrumentation on the reboot=0D
->path, which might trigger and interfere with the reboot. So instead,=0D
->I'd like to put this in efi_reboot_required if we can. If it is needed=0D
->in more places to address an actual KCSAN splat, I don't mind. If it is=0D
->just to make Sashiko happy, then we shouldn't bother.=0D
-=0D
-Could you please clarify what you mean by efi_reboot_required here? nostatf=
-s=0D
-is only read in efivarfs_statfs(), efivarfs_show_options() and=0D
-efivarfs_init_fs_context(), none of which run on the reboot path, so I'm=0D
-not sure how it would apply.=0D
-=0D
-On the annotation itself: an internal review flagged a potential KCSAN=0D
-data race rather than an observed splat -- statfs() can run concurrently=0D
-with a remount updating the flag, so it is a genuine (benign) concurrent=0D
-access. I ran concurrent statfs/remount loops on separate CPUs under=0D
-KCSAN and didn't trigger a report in a bounded run, which could be=0D
-expected given KCSAN samples accesses, so it doesn't disprove the race.=0D
-Since KCSAN only needs one side of the pair marked, data_race() on the=0D
-write covers both readers and the reads stay plain. I'm happy to drop it=0D
-entirely if you'd prefer to keep the benign race unannotated.=0D
-=0D
->Please keep this description _here_ where you have it. Once this is=0D
->merged, you could send another patch, extending the documentation with=0D
->the statfs option (I think the workqueue change is in).=0D
-=0D
-Sure -- I'll keep it in Documentation/filesystems/efivarfs.rst for now=0D
-and send a follow-up extending Documentation/core-api/real-time/hardware.rs=
-t=0D
-once this is merged.=0D
-=0D
->You still have the problem that someone reading the variable leads to=0D
->the same problem but this requires a privileged user. And if I am not=0D
->mistaken, someone sent patches to have efi-runtime runtime disabled/=0D
->enabled.=0D
-=0D
-Agreed -- the variable-read path is the same, but needs a privileged=0D
-user unlike the unprivileged statfs()/df trigger.=0D
-=0D
-Thanks,=0D
-Prashant=0D
+Translate threat-model.rst into Brazilian Portuguese,
+maintaining consistency with original formatting rules.
+And add it to the pt_BR process documentation index.
+
+Assisted-by: LLM
+Signed-off-by: Vinicius Henrique <vinicius.m1821@gmail.com>
+---
+Changes in v5: 
+- Changing "Kernel do Linux" to "Kernel Linux". 
+- Standardized terminology ("violações de segurança", "temporização de eventos"). 
+- v4: https://lore.kernel.org/r/20260928232540.51083-1-vinicius.m1821@gmail.com
+
+ .../translations/pt_BR/process/index.rst      |   1 +
+ .../pt_BR/process/threat-model.rst            | 259 ++++++++++++++++++
+ 2 files changed, 260 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/threat-model.rst
+
+diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
+index 2c63d82bf..5c90edfad 100644
+--- a/Documentation/translations/pt_BR/process/index.rst
++++ b/Documentation/translations/pt_BR/process/index.rst
+@@ -78,6 +78,7 @@ gerenciamento de bugs e vulnerabilidades.
+    :maxdepth: 1
+ 
+    Falhas de segurança <security-bugs>
++   O Modelo de ameaças do Kernel Linux <threat-model>
+    Problemas de hardware sob embargo <embargoed-hardware-issues>
+    CVEs <cve>
+ 
+diff --git a/Documentation/translations/pt_BR/process/threat-model.rst b/Documentation/translations/pt_BR/process/threat-model.rst
+new file mode 100644
+index 000000000..c67f53f3f
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/threat-model.rst
+@@ -0,0 +1,259 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++O modelo de ameaças do Kernel Linux
++======================================
++
++Existem muitas suposições sobre o que o kernel protege e o que não protege.
++Essas suposições tendem a causar confusão nos relatórios de bugs
++(:doc:`relacionados à segurança <security-bugs>` vs :doc:`não relacionados à
++segurança <../../../admin-guide/reporting-issues>`), e podem complicar a
++aplicação das medidas de segurança quando as responsabilidades por certos
++limites não estão claras entre o kernel, as distribuições, os administradores e
++os usuários.
++
++Este documento tenta esclarecer as responsabilidades do kernel neste domínio.
++
++As responsabilidades do kernel
++------------------------------
++
++O kernel abstrai o acesso aos recursos de hardware locais e a sistemas remotos
++de forma a permitir que múltiplos usuários locais obtenham uma parcela justa dos
++recursos disponíveis concedidos a eles e, quando o hardware subjacente permitir,
++atribuam um nível de confidencialidade às suas comunicações e aos dados que
++estão processando ou armazenando.
++
++O kernel presume que o hardware subjacente se comporta de acordo com suas
++especificações. Isso inclui a integridade do conjunto de instruções da CPU, a
++transparência da unidade de previsão de desvios e das unidades de cache, a
++consistência da Unidade de Gerenciamento de Memória (MMU), o isolamento de
++periféricos com capacidade de DMA (por exemplo, via IOMMU), transições de estado
++nos controladores, intervalos de valores lidos dos registradores, o respeito às
++limitações de hardware documentadas, etc.
++
++Quando o hardware não consegue manter o isolamento especificado (por exemplo,
++falhas na CPU, canais laterais, resposta do hardware a entradas inesperadas), o
++kernel geralmente tenta implementar medidas de mitigação razoáveis. Trata-se de
++medidas de melhor esforço destinadas a reduzir a superfície de ataque ou elevar
++o custo de um ataque dentro dos limites dos recursos do hardware; elas não
++constituem uma garantia de segurança fornecida pelo kernel.
++
++Os usuários sempre realizam suas atividades sob a autoridade de um administrador
++capaz de conceder ou negar vários tipos de permissões que podem afetar a forma
++como os usuários se beneficiam dos recursos disponíveis ou o nível de
++confidencialidade de suas atividades. Os administradores também podem delegar
++todas ou parte de suas próprias permissões a alguns usuários, particularmente
++por meio de capacidades (capabilities), mas não apenas. Tudo isso é realizado
++por meio de configuração (sysctl, permissões do sistema de arquivos, etc.).
++
++O kernel Linux aplica um determinado conjunto de configurações padrão que
++correspondem ao seu modelo de ameaças. As distribuições têm seu próprio modelo
++de ameaças e vêm com suas próprias predefinições de configuração, as quais o
++administrador pode ter que ajustar para melhor atender às suas expectativas
++(flexibilizar ou restringir).
++
++Por padrão, o kernel Linux garante as seguintes proteções ao ser executado em
++processadores comuns que possuem níveis de privilégio e unidades de
++gerenciamento de memória:
++
++* **Isolamento baseado no usuário**: um usuário sem privilégios pode restringir
++  o acesso aos seus próprios dados por parte de outros usuários sem privilégios
++  que estejam executando no mesmo sistema. Isso inclui:
++
++  * dados armazenados, por meio de permissões do sistema de arquivos
++  * dados na memória (as páginas não são acessíveis, por padrão, a outros
++    usuários)
++  * atividade do processo (o ptrace não é permitido a outros usuários)
++  * comunicação entre processos (outros usuários não podem observar os dados
++    trocados por meio de UNIX domain sockets ou outros mecanismos de IPC).
++  * comunicações de rede dentro do mesmo sistema ou com outros sistemas
++
++* **Proteção baseada em capacidades**:
++
++  * usuários que não possuam capacidades elevadas (incluindo, mas não se
++    limitando a CAP_SYS_ADMIN) não podem alterar a configuração, a memória nem o
++    estado do kernel, modificar a visão de outros usuários sobre o layout do
++    sistema de arquivos, conceder a qualquer usuário capacidades que ele não
++    possua, nem afetar a disponibilidade do sistema (desligamento,
++    reinicialização, pânico, travamento ou tornar o sistema não responsivo por
++    esgotamento ilimitado de recursos).
++  * usuários que não possuam a capacidade ``CAP_NET_ADMIN`` não podem alterar a
++    configuração de rede, interceptar nem falsificar comunicações de rede de
++    outros usuários ou sistemas.
++  * usuários que não possuam ``CAP_SYS_PTRACE`` não podem observar as atividades
++    dos processos de outros usuários.
++
++Quando ``CONFIG_USER_NS`` está definido, o kernel também permite que usuários
++sem privilégios criem seu próprio namespace de usuário, no qual possuem todas as
++capacidades, mas com algumas restrições (eles não podem realizar ações que
++tenham impacto no namespace de usuário inicial, como alterar a hora, carregar
++módulos ou montar dispositivos de bloco). Consulte ``user_namespaces(7)`` para
++obter mais detalhes; as possibilidades dos namespaces de usuário não são
++abordadas neste documento.
++
++O kernel também oferece diversos recursos de solução de problemas e depuração,
++os quais podem constituir vetores de ataque quando caem em mãos erradas. Embora
++alguns deles tenham sido projetados para serem acessíveis a usuários locais
++comuns com baixo risco (por exemplo, logs do kernel via ``/dev/kmsg``), alguns
++exporiam informações suficientes para representar um risco na maioria dos casos,
++e a decisão de expô-los é de responsabilidade do administrador (eventos perf,
++rastreamentos), e outros não foram projetados para serem acessados por usuários
++sem privilégios (por exemplo, debugfs). O acesso a esses recursos por um usuário
++que tenha recebido permissão explícita de um administrador não constitui uma
++violação de segurança.
++
++Bugs que permitem violar os princípios acima constituem violações de segurança.
++No entanto, bugs que permitem uma violação somente após outra já ter sido
++alcançada são apenas pontos fracos. O kernel aplica uma série de medidas de
++autoproteção cujo objetivo é evitar que um limite de segurança seja ultrapassado
++quando certas classes de bugs são encontradas, mas uma falha nessas proteções
++adicionais não constitui, por si só, uma vulnerabilidade.
++
++Quais classes de problemas não são consideradas vulnerabilidades
++----------------------------------------------------------------
++
++No modelo de ameaças do kernel Linux, as seguintes classes de problemas
++**NÃO** são consideradas vulnerabilidades do kernel Linux. No entanto,
++quando se acredita que o kernel poderia ser melhor, eles devem ser relatados,
++para que possam ser analisados e corrigidos sempre que razoavelmente possível,
++mas serão tratados como qualquer bug comum:
++
++* **Configuração**:
++
++  * kernels desatualizados e, particularmente, ramos em fim de vida útil estão
++    fora do escopo do modelo de ameaças do kernel: os administradores são
++    responsáveis por manter seus sistemas atualizados. Para que um bug seja
++    qualificado como uma vulnerabilidade, deve ser demonstrado que ele afeta
++    versões mantidas ativamente.
++
++  * nível de compilação: alterações na configuração do kernel que estejam
++    explicitamente documentadas como redutoras do nível de segurança (por
++    exemplo, ``CONFIG_NOMMU``), ou destinadas apenas a desenvolvedores.
++
++  * nível do sistema operacional: alterações nos parâmetros da linha de comando,
++    sysctls, permissões do sistema de arquivos, capacidades do usuário, e
++    exposição de interfaces privilegiadas que aumentem explicitamente a
++    exposição, seja oferecendo acesso não padrão a usuários sem privilégios,
++    seja reduzindo a capacidade do kernel de aplicar algumas proteções ou
++    medidas de mitigação. Exemplo: acesso de gravação ao procfs ou ao debugfs.
++
++  * problemas acionados apenas ao usar recursos destinados ao desenvolvimento ou
++    depuração (por exemplo, LOCKDEP, KASAN, FAULT_INJECTION): sabe-se que esses
++    recursos introduzem sobrecarga e instabilidade potencial e não se destinam
++    ao uso em produção.
++
++  * problemas que afetam drivers expostos sob CONFIG_STAGING, bem como recursos
++    marcados como EXPERIMENTAL na configuração.
++
++  * carregamento de módulos explicitamente inseguros/quebrados/staging
++    e, de modo geral, qualquer uso de subsistema marcado como experimental ou
++    não destinado ao uso em produção.
++
++  * execução de módulos fora da árvore ou forks não oficiais do kernel;
++    esses casos devem ser relatados ao fornecedor relevante.
++
++* **Excesso de privilégios iniciais**:
++
++  * ações realizadas por um usuário que já possui os privilégios necessários
++    para executar essa ação ou modificar esse estado (por exemplo,
++    ``CAP_SYS_ADMIN``, ``CAP_NET_ADMIN``, ``CAP_SYS_RAWIO``, ``CAP_SYS_MODULE``,
++    sem que nenhum outro limite seja ultrapassado).
++
++  * ações realizadas em um namespace de usuário que não contornam as restrições
++    impostas ao usuário inicial (por exemplo, uso de ptrace, envio de sinais,
++    uso de recursos, acesso a FS/dispositivo/sysctl/memória, vínculo de rede,
++    configuração do sistema/rede, etc.).
++
++  * qualquer ação realizada pelo usuário root no namespace inicial (por exemplo,
++    um oops do kernel ao gravar em um dispositivo privilegiado).
++
++* **Fora do uso em produção**:
++
++  Isso abrange ataques teóricos/probabilísticos que dependem de condições de
++  laboratório com ruído zero no sistema, ou aqueles que exigem um número
++  irrealista de tentativas (por exemplo, bilhões de tentativas) que seriam
++  detectadas pelo monitoramento padrão do sistema muito antes do sucesso,
++  tais como:
++
++  * previsão de números aleatórios que só funciona em um ambiente totalmente
++    silencioso (como ID de IP, portas TCP ou números de sequência que só podem
++    ser adivinhados em laboratório).
++
++  * observação de atividades e vazamentos de informações com base em abordagens
++    probabilísticas que são suscetíveis a ruído de medição e não são
++    realisticamente reproduzíveis em um sistema de produção.
++
++  * problemas que só podem ser desencadeados por ataques intensos (por exemplo,
++    força bruta) cujo impacto no sistema torna improvável ou impossível
++    permanecerem indetectáveis antes de serem bem-sucedidos (por exemplo,
++    consumir toda a memória antes de ter sucesso).
++
++  * problemas observados apenas em simuladores de desenvolvimento, emuladores ou
++    combinações que não existem em sistemas reais no momento do relato
++    (problemas envolvendo dezenas de milhões de threads, dezenas de milhares de
++    CPUs, frequências de CPU irrealistas, tamanhos de RAM ou capacidades de
++    disco, velocidades de rede).
++
++  * bem como problemas que podem ser acionados a um custo que é ordens de
++    magnitude superior aos benefícios esperados (por exemplo, um emulador de
++    teclado totalmente funcional apenas para recuperar 7 bytes não inicializados
++    em uma estrutura, ou um método de força bruta envolvendo milhões de
++    tentativas de conexão para adivinhar um número de porta).
++
++* **Falhas de fortificação (hardening)**:
++
++  * capacidade de contornar algumas das medidas de fortificação do kernel sem um
++    caminho de exploração demonstrável (por exemplo, contorno de ASLR,
++    temporização de eventos ou sondagem sem consequências demonstráveis).
++    Trata-se apenas de pontos fracos, não de vulnerabilidades.
++
++  * falta de verificações de argumentos e falha ao relatar certos erros sem
++    consequências imediatas.
++
++* **Vazamentos aleatórios de informações**:
++
++  Isso diz respeito a vazamentos de pequenas partes de dados que simplesmente
++  estão presentes e que não podem ser escolhidas pelo invasor, ou que enfrentam
++  restrições de acesso:
++
++  * preenchimento (padding) de estruturas relatado por chamadas de sistema ou
++    outras interfaces.
++
++  * identificadores, dados parciais, strings não terminadas relatadas em
++    mensagens de erro.
++
++  * Vazamentos de endereços/ponteiros de memória do kernel não constituem um
++    vetor imediatamente explorável e não são vulnerabilidades, embora devam ser
++    relatados e corrigidos.
++
++* **Dispositivos e mídias em não conformidade**:
++
++  Os drivers são implementados com base em uma especificação. Quando um
++  dispositivo ou mídia de armazenamento viola a especificação para a qual o seu
++  driver foi escrito, o mau comportamento resultante é um bug comum a ser
++  corrigido, não uma vulnerabilidade, a menos que o driver esteja
++  especificamente documentado como sendo fortificado contra entradas hostis. Os
++  seguintes casos, portanto, não são considerados vulnerabilidades:
++
++  * bugs desencadeados pela montagem de uma imagem de sistema de arquivos
++    corrompida ou criada de forma maliciosa: a montagem de um dispositivo de
++    bloco é uma operação privilegiada (veja acima), e o administrador é
++    responsável pela mídia que ele monta. Isso inclui problemas que são
++    resolvidos, mitigados ou detectados pela execução de uma verificação de
++    consistência do sistema de arquivos (fsck) na imagem antes da montagem.
++
++  * bugs cuja reprodução requer modificação de hardware ou emulação,
++    incluindo dispositivos USB falsos que se passam por outros, ou
++    dispositivos que relatam valores fora dos seus limites documentados.
++
++* **Acesso físico**:
++
++  Problemas que exigem acesso físico à máquina, modificação de hardware ou o uso
++  de hardware especializado (por exemplo, analisadores lógicos, ferramentas de
++  ataque DMA via PCI-E/Thunderbolt) estão fora do escopo, a menos que o sistema
++  esteja explicitamente configurado com tecnologias destinadas a defender contra
++  tais ataques (por exemplo, IOMMU).
++
++* **Regressões funcionais e de desempenho**:
++
++  Qualquer problema que possa ser mitigado pela definição de permissões e
++  limites adequados não se qualifica como uma vulnerabilidade.
+-- 
+2.34.1
+
