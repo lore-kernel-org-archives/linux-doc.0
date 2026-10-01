@@ -1,382 +1,121 @@
-Received: from mail-ua2-f41.google.com (mail-ua2-f41.google.com [74.125.226.233])
+Received: from mail-qv2-f41.google.com (mail-qv2-f41.google.com [74.125.230.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4555B299920
-	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 01:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.226.233
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790818737; cv=none; b=t9LSWgNVnNDDDSBiM4vLoIJdgGu8wrCrNtLNqF11HhayP78RzDfIh5FuufUHimF5QRTcpKIQvcqG3ec59rG0COpUhXqBKDBkHC+khOYPK1S7quAOAIrUxzUGlL0HC8oiY7ys9KJX7fZIjlj/QHu6ithCNVukyhPsj9hStvqih9I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790818737; c=relaxed/simple;
-	bh=cpGaJyYvEHcZ1oge85+Vhqy+EafiPJx68iuqL/9VXlU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LLIq7eSOAnRVOAx1znKaDap0AXbe42UEPHFPhrTNU8DhAbS5br9XuxjyGqmwgEI1gmrfQVkEGMB9P68modJr8L+U4Gfmi5jm7fswwm6IFNTlyvRPF8115F4Z58CpgUlgrXquLZm+6lmjbmX4mWxyfkHG7X023igyWjX+Q0KzFic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LPZEEUDb; arc=none smtp.client-ip=74.125.226.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06CA39E9C8
+	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 02:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790820856; cv=pass; b=dBRCLpolFS5rcpCydHbiK+sKGevErSDfv+U8/h2TM0e3iUzQ1rhQgIsnRE3YRpPK5spx/TS2S92Mml/eW6KUf6iCbcDDvXBaSDoB6MspmZuenHQ58gyGG4/XDIqidpG0czLUk1z6DxgR/mv7AHByU8YtSQ3S2xDiIGRnSOcBV9k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790820856; c=relaxed/simple;
+	bh=Yk7ss9TOQXru4kMYGhjweiXMWqsnD33IHm0XuGjqUzc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=s6KMxSHHGp+EyrukWFnF12MLSk0sCvimvmdVVCdXZrHHfC6QVQjDGlmU+YZQMeMmNrMY37tN3oc6pfYnqJrtJmr8mxP68k5shI2T0uc9YzgbLgaFLXr50PQMZAkZPj4mlIbHTZ0N7ZWrjt6b05pphNaWFc3KRcZeCKpJTxxGexw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oit94SJR; arc=pass smtp.client-ip=74.125.230.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LPZEEUDb"
-Received: by mail-ua2-f41.google.com with SMTP id a1e0cc1a2514c-98a811d2f51so592059241.3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 18:38:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oit94SJR"
+Received: by mail-qv2-f41.google.com with SMTP id 6a1803df08f44-91788e38a27so24131976d6.3
+        for <linux-doc@vger.kernel.org>; Wed, 30 Sep 2026 19:14:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790820840; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LeKLOKYMaPupnVk8Fdb31vpUQcPu07fo8lU2ELztWr/WoEMU6HlUuY9hnQpZfnvWOS
+         D1bXnYN7J0i03ZB5hEqYzl6uR2wqkMgSUIefq9m0DXykxyIJb40peCUxeYd5bvLjBdjj
+         RbQX4gaN3XC49POzlir1HkBGXnRCKY241mlnkU58tOwWeEBrOezuz1yQz/+GgYdEL8Xw
+         CKoipN+gsf5O1N9r+fsO7deDl/04CbGmZMjC8BYbgfbgs1qfuv7Kh9XrIxbh4nmzIE95
+         nxZf1PN9yiRfosvCEbyAfp1QV0ubvMgJm/KjcSB64VGWp4JzQn7PEyPoDi9+fGFV5HYc
+         FRLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Yk7ss9TOQXru4kMYGhjweiXMWqsnD33IHm0XuGjqUzc=;
+        fh=spSD+7ECPDs9v+PE29oXDwnFd9RgGpsqVVuHz2tKm88=;
+        b=OxycWRanf+28Jg9FmOzJysoZspaOg0NsIjZWHdIVU4pijMFhoy2TRVIAsgQBSYOcpq
+         ibjYwPdUdfBOGbFhbgCfbgmE38TSnQD8nw9oxenszCwJEuRqZdBoMfBsRH60GrifR7lw
+         tQAQJAUP56yrzybbP3rZ7OeILhOQj3D8SM0xrQ6BHF5NLkVSCaSWj84ukHY5fQ4BW8eH
+         Gq07ob0mel4l7xaqD/1HNcSHR4CfgdkPSeXEr3YlY660/7UefntM7GuD1qS2BTY3WeNx
+         09O2KDC2EoUSohTNtKkCZsvuTxIcX8vj+znbnBUZ9A0Y5Nqbf6l6euIkHEJCFN8HymRi
+         eJ9A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790818734; x=1791423534; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1790820840; x=1791425640; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=5x1T1inUpIFF0iYAooZ+OiN23m1A7Xtl75+y86SmUw0=;
-        b=LPZEEUDbZBlapLzMElDVXIKiBRJS60zwwgfsNHzRkdo24EB1wDZMBy1eCWNvMoMo2d
-         HhCzwDvpvXUSIb/Rdv+jQxBPYpijvwIkCU79amv0TPNw3RYbh4nsUGwFcfkNFDNlpPAm
-         ajsaBwlNP31f5Cg+Fe4oKMnRia/kVMeNrURg4hvI0PcBHgbIiPG1b5K5ryeGKyzABD/B
-         M09VJqN/YDPTNFh26b9iIiqcit5sGHlxgHL1NbdruUwLM3hBLpxOqXs/UObvS4NqCkoR
-         +oHajYgsYFlqrNEeb/pFqwGO4FBbLGNpfdf18Lf7SQX8myAl/1aTi2adOvYWColcIUMs
-         SIBg==
+        bh=Yk7ss9TOQXru4kMYGhjweiXMWqsnD33IHm0XuGjqUzc=;
+        b=Oit94SJRUX5rbbg3VsBngS5x544esEGnRGo8ANr3+h9/8pq9PelPJXK4ebV6Sh2ku8
+         WMCPzr8kPk9yhHgSKB4FZ0e6IrSOZG0GjwjNacZznWPWP9unmNDezKKgDKMA9djNoJ3T
+         oOMlkqLgT4AUzeRAy5f2ixR50EiOhQsHeDsgPl2csCBxjzvxUcItVAVWP3xltXyIXNs+
+         6bNDkN14lmvzelClLVdq4EcAlhUFmrvSBheyrybjTL0trw11xXl6SqwKAx4A/NVjuHfc
+         5NuvX+2R19oMwzYd9HkLPDNDj5RniT6l3ZpUbgzJPJFSh2CUAcTx/tfS6PiNhtiB4dvX
+         6ODQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790818734; x=1791423534;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1790820840; x=1791425640;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5x1T1inUpIFF0iYAooZ+OiN23m1A7Xtl75+y86SmUw0=;
-        b=Dgv0FK+IHOWraMN1Mvg9TN6oT9Rw7MCWQWMPQ+1jp4FJ5UQzyFsyz16w8dfMXPVqY4
-         Z07ajavOQrQsB+t8FVD5evbV1Wf+JLWtiaUvzSzb8ODh4M5cGj6zlWMJ6twZoEBKM8M4
-         AQE73uJZpM91njCzFG9G7RLRYLLXA/XpfVB/k2TE6P6zw3CJ8TNJP2QSc8EDI1Esnv9o
-         GpISUXndhzNMSdnW9LQWQodTo4gDOIGrjEfdhbrL6ZjMvY/PZZDLNyknzu3r1cuheMFF
-         OvWABj1xRkvhnT2krjUl3aAWTDEQUcDRD04MkAHrhJOLKNBoF+HmXAQKzaRQSU9PKS+S
-         TuLA==
-X-Forwarded-Encrypted: i=1; AKwUvBwifM/MR2WpT3+aoJ503rGeo4eXVzZ3LwwK0N7F72IJoFZ2ErqJGLYHWu8vidfUy2DiWv7MoSEgFE0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI3O0aIvwk7M94PFNJLNjRPax15gWrzJKI9CN7ro5XyzZ80ABmn
-	L/jZccrbtujFZX0hQx4mPR37VPGzZc4NShXbZ9QuGcBwmz2nOD4JIHpE
-X-Gm-Gg: AYBFou0T9s/9EYDUXKJUnwgZC2HCEdVzIkc8BxEmKvic4I9Vct+9qsJ99aTKhtkORv1
-	kyCC0REDAjvkkkLyyOQfiWfQGfHru58lfnpfV2DeSgIjpbw1VBmZ+hBLAw0Ie0ovC7/y0/qgjP7
-	hNulToAw3Ee36Mn5DBy14OjJpWm73uRbHr/TygmnSJRSY3Pvl71NJn185Q3odGZoKg0lagq9XIs
-	CjsuZR9GuFzaXhclSr8IZ1jbpPkO7xWfpE8nMbBr87Nee8lO3K5v8WdAqGU0LnygyLH7f1i8KIF
-	dEU5ZKmUXrauD7ZDE726b7XfEMJptzp423lazewJQK3loibKoaW78mn98rIAJnaTdpOiOSjrYvW
-	uuOyBW8F6/9zLpM1+7ejAioiNReQTXA81oqJuVihOhEP6rV1yyqjPM+jR+sFIwt9+QqxNB4E2yU
-	0I671gd2DzdD2KIbZu4SYgy7/Ltm8pXc6P9BD2uvNgiB714g5YZhaUf9gUH3Vi+Bjzhnw4Y+Hte
-	xpmKrZ+BciAl+0Tvw==
-X-Received: by 2002:a05:6102:3f13:b0:7b2:7aac:8ccf with SMTP id ada2fe7eead31-7be73a97ccfmr1140993137.29.1790818733920;
-        Wed, 30 Sep 2026 18:38:53 -0700 (PDT)
-Received: from localhost.localdomain ([2804:7f0:9f80:e9c2:635e:658a:e25:b693])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7bfa44169cfsm1376885137.2.2026.09.30.18.38.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 18:38:53 -0700 (PDT)
-From: vinihsr <vinicius.m1821@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vinicius Henrique <vinicius.m1821@gmail.com>
-Subject: [PATCH v5] docs: translations: pt_BR: translate threat-model.rst
-Date: Wed, 30 Sep 2026 22:38:33 -0300
-Message-Id: <20261001013833.29002-1-vinicius.m1821@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260923025148.35637-1-vinicius.m1821@gmail.com>
-References: <20260923025148.35637-1-vinicius.m1821@gmail.com>
+        bh=Yk7ss9TOQXru4kMYGhjweiXMWqsnD33IHm0XuGjqUzc=;
+        b=nQIGGId0Cg8OpgCskXt5vO27yYItBgwDMsOxYxqnoGcL43FxyVg4fl3WQRykTkkgCP
+         D8Qr6vQ2XvULn6ZwbYWkr5TKnaOeZZOCLdQuttt2Yk95xDKILP/nFN0yIVWRC41IiqVZ
+         cFxT6cnPOyEHc6NHLof7+LLB/pB7TkTR9GIdtLMvyxeL3RlZns6q6b9I7ZnmaVzbKZfM
+         JmvoMT86s6X2Tdp/UY8XpIct4zIzUwAJPGhe2fpLv/TibwIuUbA1+WZH+6Cuw1kPbXQW
+         qltzjhYqoaE+k66WinUmnxACnBQANER+/WUkO49ht4eHGOevGrZN2djpxrlCtov7nu9Z
+         R+Ig==
+X-Forwarded-Encrypted: i=1; AKwUvBzjfE2ew8aoGEwbzn+gEPdMHTgnOSsjzMp1h5YKqIRv3U36F9CIgqSHfHOTIZnl8CjanV7EYpUKJvI=@vger.kernel.org
+X-Gm-Message-State: AFuF++k7br+QoGFiy4uH5QLAS/jCc1XVdljggVi48u7v6HpJB6aNsI2t
+	b8mq6Z63DO5JifMvOcEHETZBgckGWT7Xp6EfkEC+HeaPmQ/zREVwhGb3n76Ty1nD65ny9MpD9l/
+	ncAg6CwmBSVG3bp/7Q0CbiYk67Nj3GoOq+EIYRFE=
+X-Gm-Gg: AYBFou29XGi/0TiQBc4Kv/U7FSktOHzSAPAzqDcQeLuf2qEGyyFk/C7LObHTiZRWCdb
+	48Q3X9JdZozXwATfGsofyVV9mdiQlOZVqku8nLoEuWZA6fkIzyMiBc87F1rKJR4PKmkCEGI7A24
+	5RdXdTxGrxUFdZlwAj+dw58dUOg8+TmumbdoLKfWXQ//RRtCJd4/xt3PRNmk58Q3hwwUOUid8DG
+	igLdUU8Pp6k19Tm//j6L9yBcKsT5FCJwZCyuXETj1nP1+jUCrl08fAOg9+k+O2tevuuu1advcrh
+	8SnI/7AMPszqKWJ9ZubbAQrdeylkdOVIdd/4eAhj0Pbc9EM6It5wkY+sgrrqqy5yRwzwaapes/m
+	d0LsV3q2yjRb5mfkm9H3ThOoaYLbKySK/cRX/xX6KKK2ppo71CllEC4H81PMb8bx7mF3Y2TSoIe
+	Aum/Sc
+X-Received: by 2002:a05:6214:2269:b0:915:e6ed:db32 with SMTP id
+ 6a1803df08f44-917a0d609a1mr60922996d6.43.1790820840135; Wed, 30 Sep 2026
+ 19:14:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260923025148.35637-1-vinicius.m1821@gmail.com> <20261001013833.29002-1-vinicius.m1821@gmail.com>
+In-Reply-To: <20261001013833.29002-1-vinicius.m1821@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Wed, 30 Sep 2026 23:13:48 -0300
+X-Gm-Features: AclHuK_jbvTF7AW6PD8bczL9LsCGaQVdfIoh7r2Bqp9D2zg3dubFwY6ez1cEZVs
+Message-ID: <CAMAsx6f5hMH8FF4ykRp42AJ7AxbuOJw=g-VL9PCFYYOAW1-SvA@mail.gmail.com>
+Subject: Re: [PATCH v5] docs: translations: pt_BR: translate threat-model.rst
+To: vinihsr <vinicius.m1821@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Translate threat-model.rst into Brazilian Portuguese,
-maintaining consistency with original formatting rules.
-And add it to the pt_BR process documentation index.
+Em qua., 30 de set. de 2026 =C3=A0s 22:38, vinihsr
+<vinicius.m1821@gmail.com> escreveu:
+>
+> Translate threat-model.rst into Brazilian Portuguese,
+> maintaining consistency with original formatting rules.
+> And add it to the pt_BR process documentation index.
+>
+> Assisted-by: LLM
+> Signed-off-by: Vinicius Henrique <vinicius.m1821@gmail.com>
 
-Assisted-by: LLM
-Signed-off-by: Vinicius Henrique <vinicius.m1821@gmail.com>
----
-Changes in v5: 
-- Changing "Kernel do Linux" to "Kernel Linux". 
-- Standardized terminology ("violações de segurança", "temporização de eventos"). 
-- v4: https://lore.kernel.org/r/20260928232540.51083-1-vinicius.m1821@gmail.com
+Hi Vini,
 
- .../translations/pt_BR/process/index.rst      |   1 +
- .../pt_BR/process/threat-model.rst            | 259 ++++++++++++++++++
- 2 files changed, 260 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/threat-model.rst
+Thanks for v5, the translation looks good to me.
 
-diff --git a/Documentation/translations/pt_BR/process/index.rst b/Documentation/translations/pt_BR/process/index.rst
-index 2c63d82bf..5c90edfad 100644
---- a/Documentation/translations/pt_BR/process/index.rst
-+++ b/Documentation/translations/pt_BR/process/index.rst
-@@ -78,6 +78,7 @@ gerenciamento de bugs e vulnerabilidades.
-    :maxdepth: 1
- 
-    Falhas de segurança <security-bugs>
-+   O Modelo de ameaças do Kernel Linux <threat-model>
-    Problemas de hardware sob embargo <embargoed-hardware-issues>
-    CVEs <cve>
- 
-diff --git a/Documentation/translations/pt_BR/process/threat-model.rst b/Documentation/translations/pt_BR/process/threat-model.rst
-new file mode 100644
-index 000000000..c67f53f3f
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/threat-model.rst
-@@ -0,0 +1,259 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+O modelo de ameaças do Kernel Linux
-+======================================
-+
-+Existem muitas suposições sobre o que o kernel protege e o que não protege.
-+Essas suposições tendem a causar confusão nos relatórios de bugs
-+(:doc:`relacionados à segurança <security-bugs>` vs :doc:`não relacionados à
-+segurança <../../../admin-guide/reporting-issues>`), e podem complicar a
-+aplicação das medidas de segurança quando as responsabilidades por certos
-+limites não estão claras entre o kernel, as distribuições, os administradores e
-+os usuários.
-+
-+Este documento tenta esclarecer as responsabilidades do kernel neste domínio.
-+
-+As responsabilidades do kernel
-+------------------------------
-+
-+O kernel abstrai o acesso aos recursos de hardware locais e a sistemas remotos
-+de forma a permitir que múltiplos usuários locais obtenham uma parcela justa dos
-+recursos disponíveis concedidos a eles e, quando o hardware subjacente permitir,
-+atribuam um nível de confidencialidade às suas comunicações e aos dados que
-+estão processando ou armazenando.
-+
-+O kernel presume que o hardware subjacente se comporta de acordo com suas
-+especificações. Isso inclui a integridade do conjunto de instruções da CPU, a
-+transparência da unidade de previsão de desvios e das unidades de cache, a
-+consistência da Unidade de Gerenciamento de Memória (MMU), o isolamento de
-+periféricos com capacidade de DMA (por exemplo, via IOMMU), transições de estado
-+nos controladores, intervalos de valores lidos dos registradores, o respeito às
-+limitações de hardware documentadas, etc.
-+
-+Quando o hardware não consegue manter o isolamento especificado (por exemplo,
-+falhas na CPU, canais laterais, resposta do hardware a entradas inesperadas), o
-+kernel geralmente tenta implementar medidas de mitigação razoáveis. Trata-se de
-+medidas de melhor esforço destinadas a reduzir a superfície de ataque ou elevar
-+o custo de um ataque dentro dos limites dos recursos do hardware; elas não
-+constituem uma garantia de segurança fornecida pelo kernel.
-+
-+Os usuários sempre realizam suas atividades sob a autoridade de um administrador
-+capaz de conceder ou negar vários tipos de permissões que podem afetar a forma
-+como os usuários se beneficiam dos recursos disponíveis ou o nível de
-+confidencialidade de suas atividades. Os administradores também podem delegar
-+todas ou parte de suas próprias permissões a alguns usuários, particularmente
-+por meio de capacidades (capabilities), mas não apenas. Tudo isso é realizado
-+por meio de configuração (sysctl, permissões do sistema de arquivos, etc.).
-+
-+O kernel Linux aplica um determinado conjunto de configurações padrão que
-+correspondem ao seu modelo de ameaças. As distribuições têm seu próprio modelo
-+de ameaças e vêm com suas próprias predefinições de configuração, as quais o
-+administrador pode ter que ajustar para melhor atender às suas expectativas
-+(flexibilizar ou restringir).
-+
-+Por padrão, o kernel Linux garante as seguintes proteções ao ser executado em
-+processadores comuns que possuem níveis de privilégio e unidades de
-+gerenciamento de memória:
-+
-+* **Isolamento baseado no usuário**: um usuário sem privilégios pode restringir
-+  o acesso aos seus próprios dados por parte de outros usuários sem privilégios
-+  que estejam executando no mesmo sistema. Isso inclui:
-+
-+  * dados armazenados, por meio de permissões do sistema de arquivos
-+  * dados na memória (as páginas não são acessíveis, por padrão, a outros
-+    usuários)
-+  * atividade do processo (o ptrace não é permitido a outros usuários)
-+  * comunicação entre processos (outros usuários não podem observar os dados
-+    trocados por meio de UNIX domain sockets ou outros mecanismos de IPC).
-+  * comunicações de rede dentro do mesmo sistema ou com outros sistemas
-+
-+* **Proteção baseada em capacidades**:
-+
-+  * usuários que não possuam capacidades elevadas (incluindo, mas não se
-+    limitando a CAP_SYS_ADMIN) não podem alterar a configuração, a memória nem o
-+    estado do kernel, modificar a visão de outros usuários sobre o layout do
-+    sistema de arquivos, conceder a qualquer usuário capacidades que ele não
-+    possua, nem afetar a disponibilidade do sistema (desligamento,
-+    reinicialização, pânico, travamento ou tornar o sistema não responsivo por
-+    esgotamento ilimitado de recursos).
-+  * usuários que não possuam a capacidade ``CAP_NET_ADMIN`` não podem alterar a
-+    configuração de rede, interceptar nem falsificar comunicações de rede de
-+    outros usuários ou sistemas.
-+  * usuários que não possuam ``CAP_SYS_PTRACE`` não podem observar as atividades
-+    dos processos de outros usuários.
-+
-+Quando ``CONFIG_USER_NS`` está definido, o kernel também permite que usuários
-+sem privilégios criem seu próprio namespace de usuário, no qual possuem todas as
-+capacidades, mas com algumas restrições (eles não podem realizar ações que
-+tenham impacto no namespace de usuário inicial, como alterar a hora, carregar
-+módulos ou montar dispositivos de bloco). Consulte ``user_namespaces(7)`` para
-+obter mais detalhes; as possibilidades dos namespaces de usuário não são
-+abordadas neste documento.
-+
-+O kernel também oferece diversos recursos de solução de problemas e depuração,
-+os quais podem constituir vetores de ataque quando caem em mãos erradas. Embora
-+alguns deles tenham sido projetados para serem acessíveis a usuários locais
-+comuns com baixo risco (por exemplo, logs do kernel via ``/dev/kmsg``), alguns
-+exporiam informações suficientes para representar um risco na maioria dos casos,
-+e a decisão de expô-los é de responsabilidade do administrador (eventos perf,
-+rastreamentos), e outros não foram projetados para serem acessados por usuários
-+sem privilégios (por exemplo, debugfs). O acesso a esses recursos por um usuário
-+que tenha recebido permissão explícita de um administrador não constitui uma
-+violação de segurança.
-+
-+Bugs que permitem violar os princípios acima constituem violações de segurança.
-+No entanto, bugs que permitem uma violação somente após outra já ter sido
-+alcançada são apenas pontos fracos. O kernel aplica uma série de medidas de
-+autoproteção cujo objetivo é evitar que um limite de segurança seja ultrapassado
-+quando certas classes de bugs são encontradas, mas uma falha nessas proteções
-+adicionais não constitui, por si só, uma vulnerabilidade.
-+
-+Quais classes de problemas não são consideradas vulnerabilidades
-+----------------------------------------------------------------
-+
-+No modelo de ameaças do kernel Linux, as seguintes classes de problemas
-+**NÃO** são consideradas vulnerabilidades do kernel Linux. No entanto,
-+quando se acredita que o kernel poderia ser melhor, eles devem ser relatados,
-+para que possam ser analisados e corrigidos sempre que razoavelmente possível,
-+mas serão tratados como qualquer bug comum:
-+
-+* **Configuração**:
-+
-+  * kernels desatualizados e, particularmente, ramos em fim de vida útil estão
-+    fora do escopo do modelo de ameaças do kernel: os administradores são
-+    responsáveis por manter seus sistemas atualizados. Para que um bug seja
-+    qualificado como uma vulnerabilidade, deve ser demonstrado que ele afeta
-+    versões mantidas ativamente.
-+
-+  * nível de compilação: alterações na configuração do kernel que estejam
-+    explicitamente documentadas como redutoras do nível de segurança (por
-+    exemplo, ``CONFIG_NOMMU``), ou destinadas apenas a desenvolvedores.
-+
-+  * nível do sistema operacional: alterações nos parâmetros da linha de comando,
-+    sysctls, permissões do sistema de arquivos, capacidades do usuário, e
-+    exposição de interfaces privilegiadas que aumentem explicitamente a
-+    exposição, seja oferecendo acesso não padrão a usuários sem privilégios,
-+    seja reduzindo a capacidade do kernel de aplicar algumas proteções ou
-+    medidas de mitigação. Exemplo: acesso de gravação ao procfs ou ao debugfs.
-+
-+  * problemas acionados apenas ao usar recursos destinados ao desenvolvimento ou
-+    depuração (por exemplo, LOCKDEP, KASAN, FAULT_INJECTION): sabe-se que esses
-+    recursos introduzem sobrecarga e instabilidade potencial e não se destinam
-+    ao uso em produção.
-+
-+  * problemas que afetam drivers expostos sob CONFIG_STAGING, bem como recursos
-+    marcados como EXPERIMENTAL na configuração.
-+
-+  * carregamento de módulos explicitamente inseguros/quebrados/staging
-+    e, de modo geral, qualquer uso de subsistema marcado como experimental ou
-+    não destinado ao uso em produção.
-+
-+  * execução de módulos fora da árvore ou forks não oficiais do kernel;
-+    esses casos devem ser relatados ao fornecedor relevante.
-+
-+* **Excesso de privilégios iniciais**:
-+
-+  * ações realizadas por um usuário que já possui os privilégios necessários
-+    para executar essa ação ou modificar esse estado (por exemplo,
-+    ``CAP_SYS_ADMIN``, ``CAP_NET_ADMIN``, ``CAP_SYS_RAWIO``, ``CAP_SYS_MODULE``,
-+    sem que nenhum outro limite seja ultrapassado).
-+
-+  * ações realizadas em um namespace de usuário que não contornam as restrições
-+    impostas ao usuário inicial (por exemplo, uso de ptrace, envio de sinais,
-+    uso de recursos, acesso a FS/dispositivo/sysctl/memória, vínculo de rede,
-+    configuração do sistema/rede, etc.).
-+
-+  * qualquer ação realizada pelo usuário root no namespace inicial (por exemplo,
-+    um oops do kernel ao gravar em um dispositivo privilegiado).
-+
-+* **Fora do uso em produção**:
-+
-+  Isso abrange ataques teóricos/probabilísticos que dependem de condições de
-+  laboratório com ruído zero no sistema, ou aqueles que exigem um número
-+  irrealista de tentativas (por exemplo, bilhões de tentativas) que seriam
-+  detectadas pelo monitoramento padrão do sistema muito antes do sucesso,
-+  tais como:
-+
-+  * previsão de números aleatórios que só funciona em um ambiente totalmente
-+    silencioso (como ID de IP, portas TCP ou números de sequência que só podem
-+    ser adivinhados em laboratório).
-+
-+  * observação de atividades e vazamentos de informações com base em abordagens
-+    probabilísticas que são suscetíveis a ruído de medição e não são
-+    realisticamente reproduzíveis em um sistema de produção.
-+
-+  * problemas que só podem ser desencadeados por ataques intensos (por exemplo,
-+    força bruta) cujo impacto no sistema torna improvável ou impossível
-+    permanecerem indetectáveis antes de serem bem-sucedidos (por exemplo,
-+    consumir toda a memória antes de ter sucesso).
-+
-+  * problemas observados apenas em simuladores de desenvolvimento, emuladores ou
-+    combinações que não existem em sistemas reais no momento do relato
-+    (problemas envolvendo dezenas de milhões de threads, dezenas de milhares de
-+    CPUs, frequências de CPU irrealistas, tamanhos de RAM ou capacidades de
-+    disco, velocidades de rede).
-+
-+  * bem como problemas que podem ser acionados a um custo que é ordens de
-+    magnitude superior aos benefícios esperados (por exemplo, um emulador de
-+    teclado totalmente funcional apenas para recuperar 7 bytes não inicializados
-+    em uma estrutura, ou um método de força bruta envolvendo milhões de
-+    tentativas de conexão para adivinhar um número de porta).
-+
-+* **Falhas de fortificação (hardening)**:
-+
-+  * capacidade de contornar algumas das medidas de fortificação do kernel sem um
-+    caminho de exploração demonstrável (por exemplo, contorno de ASLR,
-+    temporização de eventos ou sondagem sem consequências demonstráveis).
-+    Trata-se apenas de pontos fracos, não de vulnerabilidades.
-+
-+  * falta de verificações de argumentos e falha ao relatar certos erros sem
-+    consequências imediatas.
-+
-+* **Vazamentos aleatórios de informações**:
-+
-+  Isso diz respeito a vazamentos de pequenas partes de dados que simplesmente
-+  estão presentes e que não podem ser escolhidas pelo invasor, ou que enfrentam
-+  restrições de acesso:
-+
-+  * preenchimento (padding) de estruturas relatado por chamadas de sistema ou
-+    outras interfaces.
-+
-+  * identificadores, dados parciais, strings não terminadas relatadas em
-+    mensagens de erro.
-+
-+  * Vazamentos de endereços/ponteiros de memória do kernel não constituem um
-+    vetor imediatamente explorável e não são vulnerabilidades, embora devam ser
-+    relatados e corrigidos.
-+
-+* **Dispositivos e mídias em não conformidade**:
-+
-+  Os drivers são implementados com base em uma especificação. Quando um
-+  dispositivo ou mídia de armazenamento viola a especificação para a qual o seu
-+  driver foi escrito, o mau comportamento resultante é um bug comum a ser
-+  corrigido, não uma vulnerabilidade, a menos que o driver esteja
-+  especificamente documentado como sendo fortificado contra entradas hostis. Os
-+  seguintes casos, portanto, não são considerados vulnerabilidades:
-+
-+  * bugs desencadeados pela montagem de uma imagem de sistema de arquivos
-+    corrompida ou criada de forma maliciosa: a montagem de um dispositivo de
-+    bloco é uma operação privilegiada (veja acima), e o administrador é
-+    responsável pela mídia que ele monta. Isso inclui problemas que são
-+    resolvidos, mitigados ou detectados pela execução de uma verificação de
-+    consistência do sistema de arquivos (fsck) na imagem antes da montagem.
-+
-+  * bugs cuja reprodução requer modificação de hardware ou emulação,
-+    incluindo dispositivos USB falsos que se passam por outros, ou
-+    dispositivos que relatam valores fora dos seus limites documentados.
-+
-+* **Acesso físico**:
-+
-+  Problemas que exigem acesso físico à máquina, modificação de hardware ou o uso
-+  de hardware especializado (por exemplo, analisadores lógicos, ferramentas de
-+  ataque DMA via PCI-E/Thunderbolt) estão fora do escopo, a menos que o sistema
-+  esteja explicitamente configurado com tecnologias destinadas a defender contra
-+  tais ataques (por exemplo, IOMMU).
-+
-+* **Regressões funcionais e de desempenho**:
-+
-+  Qualquer problema que possa ser mitigado pela definição de permissões e
-+  limites adequados não se qualifica como uma vulnerabilidade.
--- 
-2.34.1
+The link to admin-guide/reporting-issues still points to the English
+page, but that is fine since there is no pt_BR translation of it yet.
 
+Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
+
+Thanks,
+Daniel
