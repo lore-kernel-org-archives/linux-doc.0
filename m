@@ -1,122 +1,186 @@
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AB94A2626
-	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 21:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1E63A4F31
+	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 22:45:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790890445; cv=none; b=VriDyLByzpdYHMGGcjxxCemrk5mQJ3Vyr9lU3FKdKZIDpWQmU9wecF1bjKwxlPNGhjnaqHJUbwLjhJ6NZH+vHJy7++GM7kkxK3Cz7DNt4zaim3l0RHAJHJGWveIaReDhmhrcFvuEkuhUkh5MhhhR2lFJO15hKC9LLyJxnL8oeqE=
+	t=1790894747; cv=none; b=BqSlNVj9Zgv0DlJVCbKkV6N4FFXB7Y2NTPswIHzXdal7T7c0/nFwonSwJmcXHRIaJMrDZTw9aMmpzIwrk4Ard/72zVlxP4H1uORFNYe3ajcvUzVT60QXpKRuB43fIWNFRWKLWhsOUE2xAWCp0yWZ6odLxf2HZuglbuY/UGYJDqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790890445; c=relaxed/simple;
-	bh=aIbawXPVSEHJ0DscG76tmh9vZXpkAHRdIDz4TIVMzco=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=OOJmrYe9YD4HKMap/Rx7ee4OGnEpRlmj6oXKKtV/fDwTwtinOcnfNQoh6y0hAlARGGJuXkZ+NK5Yy43rFvPTy+jKuk4oPndIszFQ4fsh5Kp9tlajnyZtDzHqxV6d77Z4K9o0C74YyL58sY0a9Nn+b264e1DT9T6pJ0iaFV40QDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=boKQkQy/; arc=none smtp.client-ip=209.85.167.197
+	s=arc-20240116; t=1790894747; c=relaxed/simple;
+	bh=1lmvz1gSrAujeaxqnCoydH1/hO6InoEWG6kj/zEEDSY=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=DhwdVvJNzrXZ2xsKySR8MwNME7D+evvb3WTmIXlkliPbpTXkznXpuImQ213IDU0NBpBhmazSJwtBPqV6PNSQkN6o1QWrvZB/iLGN7NfuJemgZI+WlQSf850CgkSrhc4WfZmQC136rItUrs2Ke7WEHvj5J0LHQT0z0sEy/U25Ots=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S12QMDAM; arc=none smtp.client-ip=209.85.215.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--praan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="boKQkQy/"
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4cc89e86e4dso10674537b6e.2
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 14:34:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S12QMDAM"
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cbb20f82a0eso4330599a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 15:45:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790890440; x=1791495240; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aIbawXPVSEHJ0DscG76tmh9vZXpkAHRdIDz4TIVMzco=;
-        b=boKQkQy/fz28Xxju7V9yf/r1v3muO9vuW8iub1LH0Bqun/fKl1N3uTn+dYgOksswlM
-         +wgI56EJ9zDa62YaMPd7H3+1WHTt/S2ayjNIEfWf5o08aRrMZMPvRXL3awQxupifx+yp
-         2/73Bla8Yej6UHnMOakEVOaTkz5EJCwerZdkIGduFdcYyiv4naUWABD3dvW3LpQkygaB
-         kiGb6d+VN+Lrlmh5neRjwWT61McYKzAjyOT4JYMyXFMh6gRZ2VbK7pv8AHfeZbhYHrln
-         34ginvXjIkstxJaaG+TRFEZINScgv7KZA3ssois+zz9yrUzB9FGShoh1arvpRwKTfmSm
-         /uZg==
+        d=google.com; s=20251104; t=1790894745; x=1791499545; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=N7eSAUXHwsAygHXMeAum7tZT9f+Wmgg5m71MP+aREYo=;
+        b=S12QMDAMqQRddohmLKtvCjCjVMpwjreCCWbCR6r26AvHGWMh8rdE3K1oLE+YIWKTX9
+         o2F0UMXkS5PJ1U7Kt4EhJlUszyOJhRvZL/RN8J/06fCrbHWqZGBQ0AucilndlJ5uPjKK
+         EkG5fUGtzBLU/BiLBk+EgAo+6qzwxXZqHuCtfh3nQBEiCqMbG0K3u9MOicGt7l7Xtjvf
+         g2dQWXjmJN4CQc9qah5kkc8Uofm8YUenTDDrpHhwJ9iOAUY8z5BzzWID395Gr/uTl3p0
+         gxcDXnpn5ggAzuTFVIvnl7lzOJn82oVxxOrFLWRAXeWsWoE8XDv+O4W97Tm2iP2BtQxs
+         F1+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790890440; x=1791495240;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=aIbawXPVSEHJ0DscG76tmh9vZXpkAHRdIDz4TIVMzco=;
-        b=QmReLmQ6Ht7enIN14pBRU8Leel0IsfWrRCB41ANypJLgjjK0qe6SBdzw3YuTaeWop1
-         r/CT9wGuo0EPHZPgh0aGIl2Mkdmf8lwybu+UL0vR3ephU/MVnrzgMBSD3wPevBeIVMiC
-         2g7nYNvKKJm0axvsSVFgPtPebVYb7eNlwAA9MWXPmNx/co1Z6LnODvULw7lTpmN+/+Fr
-         pLfxTTKwPJWNKedUJBKcQuqLPbS0t8py7Ix0iKALr9BgshyMw1+jlWyvtsOnsk9y7EMb
-         X14BcFp0cT4GI6pftzL1uc0jolii0MfWZJWmPiju1A0mFds0ZXGzczxZT4R0uy7CLzzD
-         uO1g==
-X-Forwarded-Encrypted: i=1; AKwUvBxj/oae/mm/PkvKgoRdzUnaQGpqarTcRzMJzz89R3iAFLkOaFeQPkuPG4QnrfhOmbWI/Hh7clIjquk=@vger.kernel.org
-X-Gm-Message-State: AFuF++mh43knL+/zMFW1Q5NQxOxzfvvRh9ktdcUz/UQcGDziSEKDIzAq
-	DbYgfD4IGRZfv6wICWrxkI7qSGFglP2RHXV0KTgHuFzilDvd/ni6xUMJ1Le/x/zFbYm8QhocLkN
-	zAv1szd0E5MtXKW1MxxPvjfAmtA==
-X-Received: from ilbby7.prod.google.com ([2002:a05:6e02:2607:b0:50f:46b5:b429])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:2219:b0:4e6:6079:c33d with SMTP id 5614622812f47-4f5292ffc0amr467127b6e.10.1790890439463;
- Thu, 01 Oct 2026 14:33:59 -0700 (PDT)
-Date: Thu,  1 Oct 2026 21:33:57 +0000
-In-Reply-To: <f54b9ea6-48b1-4f6c-92cc-b0a9249c2fb0@linaro.org>
+        d=1e100.net; s=20260707; t=1790894745; x=1791499545;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=N7eSAUXHwsAygHXMeAum7tZT9f+Wmgg5m71MP+aREYo=;
+        b=RlbzR/fPjLLCySUQHy5JMMgmqwOljntqjHpl5ixefaKcTTil9+3Ia31WI/GdJbs3yS
+         a0q6eJfLDbUIZmxwp9DgUIUgS/nFURvrdRwTxToFVvBTjXdKh8COD/u/vJEOI6c4DxUr
+         lV3ZEI3soifBW0AUyLfmpFmwR9z06TvoP6dlpjBjfME4qHhSMfM+j6ZFUvXBTf3qh6Yb
+         k0H5y0HiWkJNxqB+laEP4lKF7EQTvIC5m6SITvNwHlBbTGEChjBfwi1E6DpLCh7bQ7vE
+         gTqVKGK0rzGZccc+n3KYpbLDxCetro/LbyffRdFwNtIzNTKBJZxoNH3yaBXp18VDrHBW
+         qgkw==
+X-Forwarded-Encrypted: i=1; AKwUvBw6k7TGCO5m+bC9BfjG6+rTnzVTRiXQ5rKvNjq8AOBHLqVOh6WTde1T9lW4gdOBihhYujY1Dsmn7Zs=@vger.kernel.org
+X-Gm-Message-State: AFuF++niSJ7InKR41Q0VMnLB/y9IQ2IRYHp+t7i6vtmJHsuZsZ2hbUa5
+	tOGJuUF7aOztEkzaMR/g+iQFFu3upYCPXSekg3Jmn3Azt68H9GjzoKXXa0sLJKdbSL4F09sYvuG
+	uVA==
+X-Received: from pgdh4.prod.google.com ([2002:a05:6a02:5184:b0:cc9:f746:40c4])
+ (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:a344:b0:3dd:a00a:7ad0
+ with SMTP id adf61e73a8af0-3e0bd3e5169mr730038637.61.1790894744569; Thu, 01
+ Oct 2026 15:45:44 -0700 (PDT)
+Date: Thu,  1 Oct 2026 22:45:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260924172928.2110956-1-coltonlewis@google.com>
- <20260924172928.2110956-17-coltonlewis@google.com> <f54b9ea6-48b1-4f6c-92cc-b0a9249c2fb0@linaro.org>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20261001213357.2088894-3-coltonlewis@google.com>
-Subject: Re: [PATCH v9 16/22] KVM: arm64: Apply dynamic guest counter reservations
-From: Colton Lewis <coltonlewis@google.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Colton Lewis <coltonlewis@google.com>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Fuad Tabba <fuad.tabba@linux.dev>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Zide Chen <zide.chen@intel.com>, 
-	Alexandru Elisei <alexandru.elisei@arm.com>, 
-	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>, Mingwei Zhang <mizhang@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Russell King <linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>, 
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Message-ID: <20261001224531.765278-1-praan@google.com>
+Subject: [RFC PATCH 0/7] iommu: Introduce Page Table Observability Framework
+From: Pranjal Shrivastava <praan@google.com>
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, 
+	Alex Williamson <alex@shazbot.org>, David Matlack <dmatlack@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: Mostafa Saleh <smostafa@google.com>, Daniel Mentz <danielmentz@google.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, iommu@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Logan Odell <loganodell@google.com>, Pranjal Shrivastava <praan@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi James,
+Introduce an observability framework to track and expose IOMMU page table
+memory usage per domain. As VMMs and userspace drivers map and unmap large,
+sparse IOVA regions through VFIO and iommufd, page table directories are
+often left allocated but completely empty. generic_pt frees a table when a
+single unmap covers it entirely, but tables that empty through a series of
+partial unmaps stay allocated until the domain is destroyed.
 
-On Wed, Sep 30, 2026 at 04:28:37PM +0100, James Clark wrote:
-> If you enable pseudo-NMIs, watchdog_hardlockup_enable() installs the
-> watchdog using a pinned PMU event. If host userspace also has a pinned event
-> on the mandatory 1 PMU counter assigned to the host, then a guest could
-> potentially squeeze out the watchdog.
->
-> I'm wondering if we need to prioritise kernel owned events? Or we just treat
-> them the same as any other event, and with PMU partitioning assume they
-> can't be guaranteed to be running? I feel like you would expect a watchdog
-> to be a bit more than best effort though, especially if there was always a
-> guaranteed counter available to put it on.
->
-> I didn't follow it through completely, but it also looks like if the event
-> gets squeezed it would enter an error state and then never be re-enabled,
-> even after the guest stops running.
->
-> Note, that I think the current ordering means that the watchdog won't
-> actually get squeezed out because it's created first. But I don't think we
-> can rely on the ordering as a strong guarantee, and it might get broken by
-> refactoring in the future.
+Currently, this *stranded* memory is only visible in aggregate
+(nr_iommu_pages in /proc/vmstat, and sec_pagetables in the memcg
+memory.stat). There is no way to tell which domain, and hence which VFIO
+container or iommufd context, owns it. On a host, it shows up as a drop in
+available memory with no corresponding owner and has resulted in OOMs
+without any diagnostic information.
 
-Good catch. Even without future refactoring, creation order can be
-defeated today if /proc/sys/kernel/nmi_watchdog is toggled off and back
-on at runtime while a userspace per-CPU pinned event is already open,
-giving the re-created watchdog a higher group_index and causing
-merge_sched_in() to put it into PERF_EVENT_STATE_ERROR when a
-partitioned guest takes PMCCNTR_EL0.
+The series implements the tracking infrastructure to attribute this
+memory to its domain and exposes it per fd, so that userspace / telemetry
+can see which VFIO container or iommufd context holds it.
 
-Prioritizing kernel-owned events (!event->owner) ahead of userspace
-events in perf_event_groups_cmp() and perf_less_group_idx() guarantees
-that a kernel-pinned watchdog always wins the mandatory host counter
-over userspace pinned events regardless of creation order. I will look
-into adding that for v10.
+Design
+======
+The tracking is implemented once, within the generic_pt library:
 
-Thanks,
-Colton
+ - struct iommu_domain gains an atomic_long_t nr_pages counter.
+ - To avoid expanding existing metadata structures, struct ioptdesc
+   repurposes the unused page->private slot to alias the owning
+   struct iommu_domain pointer. The ioptdesc layout stays identical to
+   struct page.
+ - The core page allocator (iommu_alloc_pages_node_sz()) is wrapped with
+   an attributed variant, iommu_alloc_pages_node_sz_attributed(), which
+   charges the domain on allocation. The common free path uncharges it
+   using the stored domain pointer, so no free call site changes.
+ - generic_pt's table allocator uses the attributed variant, so every
+   driver built on generic_pt gains accounting without driver changes.
+
+The cost is one atomic operation per page table allocation and free. Leaf
+map and unmap are unchanged.
+
+Userspace interface
+===================
+The per-domain counts are aggregated when fdinfo is read, and exposed
+through /proc/<pid>/fdinfo/<fd>:
+
+ - VFIO container fd (type1): summed over all attached domains.
+ - iommufd fd: summed over all paging HWPTs in the context. Nested HWPTs
+   are skipped as their stage-1 page tables are owned by userspace.
+
+Both backends report the same key, so tooling does not need to know
+whether a VMM uses VFIO type1 or iommufd:
+
+	iommu-nr-pages:	<pages>
+
+Only domains whose page table is implemented by generic_pt account their
+memory. If any relevant domain does not, the key is omitted rather than
+reporting a misleading partial count. The field is documented in
+Documentation/filesystems/proc.rst.
+
+Built on generic_pt
+=====================
+All users of generic_pt in this tree: Intel VT-d (first and second stage),
+AMD IOMMU (v1 and v2 page tables) and RISC-V. ARM SMMUv3 will gain
+accounting once its conversion to generic_pt lands. [1]
+
+Open questions
+==============
+ - Is a single, backend-agnostic fdinfo key preferred over per-backend
+   keys (e.g. vfio-nr-pages / iommufd-nr-pages)?
+ - Is omitting the key preferable to reporting a partial count when a
+   domain without accounting is attached?
+ - The value is in pages, consistent with nr_iommu_pages in /proc/vmstat.
+   Would bytes be preferred?
+ - Is aliasing page->private through the ioptdesc overlay acceptable?
+
+Upcoming Work / Roadmap
+=======================
+An IO page table shrinker, which reclaims empty leaf directories under
+memory pressure, is posted separately as an RFC. The two series are
+independent. Per-domain accounting is useful on its own, and also
+quantifies the memory such reclaim could recover.
+
+There's an alignment session at Linux Plumbers Conference 2026 for these [2]
+
+[1] https://lore.kernel.org/all/0-v2-563ee63886f0+1209-iommupt_armv8_jgg@nvidia.com/
+[2] https://lpc.events/event/20/contributions/2624/
+
+Logan Odell (1):
+  vfio/type1: Expose IO page table usage via fdinfo
+
+Pranjal Shrivastava (6):
+  iommu: Add infrastructure for per-domain IOPT accounting
+  iommu: Implement domain-attributed page allocation
+  iommupt: Enable per-domain IOPT attribution
+  iommufd: Expose IO page table usage via fdinfo
+  iommufd/selftest: Add observability test for iommu-nr-pages
+  vfio/selftests: Add observability test for IO page table usage
+
+ Documentation/filesystems/proc.rst            |  34 +++++
+ drivers/iommu/generic_pt/iommu_pt.h           |   7 +-
+ drivers/iommu/iommu-pages.c                   |  35 +++++-
+ drivers/iommu/iommu-pages.h                   |  25 +++-
+ drivers/iommu/iommufd/main.c                  |  38 ++++++
+ drivers/vfio/container.c                      |  21 ++++
+ drivers/vfio/vfio.h                           |   2 +
+ drivers/vfio/vfio_iommu_type1.c               |  21 ++++
+ include/linux/iommu.h                         |   2 +
+ tools/testing/selftests/iommu/iommufd.c       |  48 +++++++
+ tools/testing/selftests/vfio/Makefile         |   1 +
+ .../selftests/vfio/vfio_nr_pages_test.c       | 119 ++++++++++++++++++
+ 12 files changed, 347 insertions(+), 6 deletions(-)
+ create mode 100644 tools/testing/selftests/vfio/vfio_nr_pages_test.c
+
+
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
+-- 
+2.56.0.rc1.315.gc6ed9934b7-goog
+
