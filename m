@@ -1,149 +1,80 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90EC476CD9
-	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 11:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78DF4F68DD;
+	Thu,  1 Oct 2026 11:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790853548; cv=none; b=BnUnN3nCkal+KCddHKO6W0sCy0Up6V3Phf9YPV9ry9YaGL+vgTIJRhHqUnDSAUvk6LqIJmYinsi/UI5w0XL+2pPufghNTMn7yl+fWlO2sDJYmtwep7DJLUpPOqtUh+O4cRevSfnVOOEAUUfrxX1ICP99kxvIxlHbT1r54+SuqiI=
+	t=1790854108; cv=none; b=CEkL6hyGfGrBFIGC7tYmB2XtXtIvUR10RJwIBQiwYPjX4J71rdvBXaVuPbc8DF+M6XecEJA7CCL/VIpNzn5AdTt11BKqMNRPlRPmrlYILBGwqeOeIu7E5nN8ZphYE/97mBdwBx05HfHB85euYVpUouioIjnuS93PkxYt3dKWcT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790853548; c=relaxed/simple;
-	bh=T5hkxiLK5QweA8xYY2b0kNgTq2KlMqL9lNVwKAsYRXE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=sQGf3NZHUyClisVGR8XRfFR69NFolajj8DStwjLfr/4+vfDFSSJ5OIxGpB2m7GoMArXqJeX/jbcw9DOO1S6s7oV2n/oAA97sKbkGYn4aUXxiL7MmBwe3WFovkLfjrY7/mr8kJShXH/FhVMddTc2YO56gmQzwA6GnIwyM+KL0XyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V1o6PgNA; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Koa3pmFh; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790854108; c=relaxed/simple;
+	bh=+aPFoqTRZI9aQaQwPIfthfWsP7uMV9Fzj9lzvBTtCJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iiskNmczANa8/gH190V3UEI2U83seJwjU12joxtCPnGWqlZ6jSOZxmDREG7toAnZSMJdxMYEJm0Bn7zz2BAG1q2HL97MEmpqZNsCpgqzSfdhKn9oAJT8rmCfppmf4yfsMOwn1hSPkNCNDTfNBhzD9rv9OaSijb2tNV11dwfioRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tv79kSWi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V1o6PgNA";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Koa3pmFh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790853545;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=isKKctMTOuNZ2ISnIkB2czFHAzW4g7b0r9h2VTPLIVw=;
-	b=V1o6PgNA4zxy+F9XprzEF5YjbxwedLINpdiqwyGa1wuN6xQ/g8dZM7WzX8pvEbL/LC68OF
-	C34X2cSzTMPxQuhc4xC4MxHBe5VpJtL+PnQ4MnBKI/3tfKhLkdGMNc8CvGf3+E7+s+71yu
-	tZ9RD/qRRjEUnJtx08W/CgojpF2ZDsY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-490-0rPxIOTDPFmNgr459QYzag-1; Thu, 01 Oct 2026 07:19:04 -0400
-X-MC-Unique: 0rPxIOTDPFmNgr459QYzag-1
-X-Mimecast-MFC-AGG-ID: 0rPxIOTDPFmNgr459QYzag_1790853543
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-486f9d150c3so3838294f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 04:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1790853543; x=1791458343; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=isKKctMTOuNZ2ISnIkB2czFHAzW4g7b0r9h2VTPLIVw=;
-        b=Koa3pmFhE1Gum0+QcLYpzFxg2Bg/3ZrOIum9IBxWpCkguvnnmKOioaOtnueHF9dYua
-         08AYuFsku+NRBYTGht1beMJyUb5HGc/h7LrGZrjQ86VK5xzN5GPR47SuPbFXozNWThDM
-         CXq4Q3dpGhMJW9eHwETYIf0lrmGqyj4ZjGQ/cD0OtpRNvX4P6zQVpOlWRhg3fx59Ztck
-         Z3i319GjpLRNOVOjrzQo3Pxingruj/FIs8hLia6+Cy/y7YG09BRV/tU2/uT31DeKsJNw
-         DHxv2/Ak05hWgV3ZbGKT7HOOfwGo3nmJvp0zILCa5zvFbGwCaS1r4gxyZ6nUUee0CjIp
-         Pg2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790853543; x=1791458343;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=isKKctMTOuNZ2ISnIkB2czFHAzW4g7b0r9h2VTPLIVw=;
-        b=NE8VW5A1it7OLBcfh0zDYbrJIEwFSwBiDYrmClk5DeHtZzakkoOfu3fivZhCstOCsP
-         8K3qTSHVOzMPE8BJvk/JJHPHsoUgwoDACVi/5Bv6Hw2Oizc+n8x9pFcC1E0QUloZWt8L
-         q1Eni4C+5XeqzutiKzCMm2sp7mj9j0Em74eTTdKKc71nYrbvQRgOMjOdrpXZQZYYWqgK
-         B2gq6+S4tKn1TW6sktKHbbWF4c4DGS8nclh5p/+SpcVkSvvAgEBjBlPzHc3ucv58arMa
-         jViPWsu3RZg/PsPknU4Vr5hPYBVPKesX6/3Lfy+IIdO/dP4N+pH+nFsEvEPpqzsVtzfr
-         +L/A==
-X-Forwarded-Encrypted: i=1; AKwUvBwdqsYBXEHqjbV7obDAFFKajmuUgyArCGUjkrbEbzI9tmfp+YTmHcik/IBS/iL4wujU6yO7tUUc4Ak=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIKBNjAE/G1cRM3HkDTKQSmnH2rCk5KZ9por1wdEg9TdFP/QNX2
-	raQWUtk7sLaNeETdqOj6tSSc9F/ZFDhIfSsi68/oJxWQNLfKRB6fnjrgSn1oiywKmbCwP1Eh666
-	IZDayWQYHtXI6vjZAt6m7TSffooJo9vQajQffZA/CkiZMmy/ZGCZwe5ttjm5wrg==
-X-Gm-Gg: AYBFou2XFclLYFB/qgCdt+LJQzZ+KefyhodTEfnXCCEmiSrn+ixHz5fgceVLvGvr77b
-	3Eg5+DsmUb0YS3y6cR2IY7xIVLkjzbITvYhHYLt/Y2jyGSxNAV/yWZqlCyWeECEb2Kxkce/tpWo
-	9mPrhCSszLC/3Zt+r++y2vHbUhoZnK3Z12WhbhwyubAbqTog+YQ2xH4SQip1wQwaZvHN7paoYXi
-	JotBoUKOw5gR5MZMOzWuRttHRDuvQC3/DMKGl8LLpGI0cPPKFvfVUdXUktK14SyAoXeDmQL3ME/
-	pjjhGt7yOnz/PmnTFGwo1nk6k5Rq4jDk0qWF2fIlpnXOJKdrlmhgc8iDHD+xrUaGauZj2XA7Oqc
-	LGnecROZfh6BmCgHOo8dIUMM1cBX3e3EbUar/LGbrV4zDPGngpRskdm0UBLwQ73FyWUFyolfWDg
-	==
-X-Received: by 2002:a5d:5849:0:b0:487:27f6:a4e3 with SMTP id ffacd0b85a97d-48b0253d698mr7952017f8f.51.1790853543414;
-        Thu, 01 Oct 2026 04:19:03 -0700 (PDT)
-X-Received: by 2002:a5d:5849:0:b0:487:27f6:a4e3 with SMTP id ffacd0b85a97d-48b0253d698mr7951958f8f.51.1790853542917;
-        Thu, 01 Oct 2026 04:19:02 -0700 (PDT)
-Received: from [192.168.188.234] (ip232-47-231-195.pool-bba.aruba.it. [195.231.47.232])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b068ff96dsm5707719f8f.8.2026.10.01.04.19.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Oct 2026 04:19:02 -0700 (PDT)
-Message-ID: <80fdcb30-be96-49da-8499-2c673e95b75b@redhat.com>
-Date: Thu, 1 Oct 2026 13:19:01 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tv79kSWi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 344A51F000FF;
+	Thu,  1 Oct 2026 11:28:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790854099;
+	bh=ds5ik7E8aFeLG9+eGz+NlTxnIFC20DsaI0MfbH9KF6k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Tv79kSWilx5o3Mgjnv6DJsulMK1FxPD1gS7DssuJbuIB6XLXKDDufYKPtTkUgG+1c
+	 /GZZ/EqB3dXenONMYETxi+vZA1vJPnF3avtbUEqXo3PoU8+p7tqVAs1uPLVG334ry2
+	 4UuZk7zTvGoXN1nEDe7nL0MUkhudPFMxNllKQOiey7dMnF1/OlUTxL9ZzQHcLIe3Wd
+	 Ntct4FD7P/KhiRrAUxYYnfzjt/5SKCzPQF66AAe+NgkWQJsOl4YmWjrATckyU92tLU
+	 gKj3M8oIOr4ZJV52WDQEu+jEDngRReB2YxkeviHwajemKI/fVnOSCha7vmP9rckloa
+	 zZqZzJXDWUIOg==
+Date: Thu, 1 Oct 2026 12:28:12 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Fuad Tabba <fuad.tabba@linux.dev>, Peter Maydell <peter.maydell@linaro.org>, 
+	Leonardo Bras <leo.bras@arm.com>, Wei-Lin Chang <weilin.chang@arm.com>, 
+	Yao Yuan <yaoyuan@linux.alibaba.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v21 03/15] KVM: arm64: Manage GCS access and registers
+ for guests
+Message-ID: <ar5DIENoWVSOTQsY@gremlin>
+References: <20260930-arm64-gcs-v21-0-3556644cd927@kernel.org>
+ <20260930-arm64-gcs-v21-3-3556644cd927@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v18 0/6] net: dsa: mxl862xx: devlink flash and
- rescue
-To: Daniel Golle <daniel@makrotopia.org>, Jiri Pirko <jiri@resnulli.us>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
- Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev
-References: <cover.1790426599.git.daniel@makrotopia.org>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <cover.1790426599.git.daniel@makrotopia.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260930-arm64-gcs-v21-3-3556644cd927@kernel.org>
 
-On 9/26/26 15:48, Daniel Golle wrote:
-> This series adds "devlink dev flash" and "devlink dev info" support to
-> the MaxLinear MxL862xx DSA driver, and makes a switch stuck in its
-> MCUboot loader recoverable through the same path.
-> 
-> The switch is flashed over the loader's clause-22 SMDIO download
-> interface after the firmware API has rebooted it into MCUboot, and the
-> driver reinitialises through a deferred detach and re-probe once the
-> new image runs. A switch found in MCUboot at probe registers in a
-> reduced rescue mode with firmware version 0.0.0, so the same flash flow
-> recovers it; an interrupted download is drained in the background
-> first. The deferred re-probe comes from a new driver-core helper,
-> device_schedule_reprobe(), which the bound driver calls without a
-> module reference; it also replaces the open-coded self-reprobe that
-> iwlwifi, hci_h5 and btintel_pcie carry, whose work function frees its
-> own module text from under a racing rmmod. fwupd's devlink plugin
-> carries the matching quirks [17].
-> 
-> Patch 3 is a driver-core change and patch 4 does not link without it,
-> so the series needs a driver-core ack before net-next can take it.
-> 
-> Tested on an MxL86252C switch of the BananaPi R4 Pro 8X: an upgrade
-> through fwupd; an unbind and a reboot issued while a flash was running,
-> which wait out the transfer and announce the wait; a host crash and a
-> power cut mid-transfer, recovered by the background drain and by the
-> rescue path on the next boot; and an unbind and a reboot issued while a
-> background drain was running, which abort the drain at once and let it
-> resume and complete on the rebind or reboot.
-> 
-> Changes since v17 [23]:
+On Wed, Sep 30, 2026 at 10:48:13PM +0100, Mark Brown wrote:
 
-Out of sheer curiosity, what represent the number in the square brackets?
+> Reviewed-by: Leonardo Bras <leo.bras@arm.com>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-More feedback from clashiko. Requests about comments clarification
-are IMHO mostly pedant and could be ignored, but AFAICS there are a
-few actionable items on patches 3 and 4.
+With the preceding patch and the additional change below to extend the
+invariant to GCS as well, the issue with incorrect save/restore is resolved
+and this LGTM, so:
 
-/P
+Reviewed-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 3ae293798b27..823460106de8 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+
+> @@ -5875,6 +5917,9 @@ static bool kvm_validate_id_regs(struct kvm *kvm)
+>  	if (kvm_has_s1poe(kvm) && !kvm_has_tcr2(kvm))
+>  		return false;
+>
+> +	if (kvm_has_gcs(kvm) && !kvm_has_s1pie(kvm))
+> +		return false;
+
+OK nice this extends the invariant to cover GCS as well!
+
+--
+Cheers, Lorenzo
