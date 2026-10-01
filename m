@@ -1,81 +1,85 @@
-Received: from mail-wr2-f34.google.com (mail-wr2-f34.google.com [74.125.225.98])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C03389E07
-	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 13:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF2F51597A
+	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 13:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790861170; cv=none; b=iGnLHCQYEZjc6tYRt4Nway99L6rb+qkFJvCSBdIaYwFjeDJtA0I+ol/h74qTBhBNVmPFllUpHAKsSp7VaJeTjUGMj/xhpGIn1rH9WrKQ25nD/pBTuTpbPNK69sEttYI7xxc+t6B5m6Bn/dFhTMXaOKF5vyaceW45+5OSQtKBRF4=
+	t=1790862229; cv=none; b=Uq4kym1xSighy6RcwBlc/sDg3dyfYVs7jqOlpyKGb6x8/rin6mSlnFMCyDP/jHVN0pyObWRgrXTnv6mbTzEKOzcgyd5UgmaesqxIGtZHzGRFxmKmQnoZLyCxXbNaAstHLw98MYQZI9jA7d+QI5VNrd40OogVgRj+mALr8LCRGaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790861170; c=relaxed/simple;
-	bh=ASd1S1qQ49fEQp8HALzVs+yB7/ulU5Tcnt2/SJGQYMw=;
+	s=arc-20240116; t=1790862229; c=relaxed/simple;
+	bh=k2tGWZBSq6m9m92JJesXcs78oXeXxRsuS4Ph2lEaE88=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JW9K16LmTkDWjHg2+EHnY1HPRbO5OLpdusg3HIxZeNKMvAKo52PUsfawfHDQtlVTMviasbXBOmsTQZQOdqJgWVH67BW4/XxO96mmaulWzzGk+2FYr6l3EU3LiDt9wergcXwkjQw+9Rb2d8xhEy9tGEaqT1hijLQhueozBBudS3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=LM4yJuLo; arc=none smtp.client-ip=74.125.225.98
+	 Content-Type:Content-Disposition:In-Reply-To; b=qxdQmxJez8Jn6euaCyk09wlTRwa4IiITtPllIWfyV78nWdZu3VV1gf5gRlfyhO2Vl34ayQFaDyL262gTGEmQnFt9M7VmlwinSOm9Os80dtpetkajsNOOb1rdzOIVqZh6BYe2DmVi94KOEzWsK1F3EMImQK2i9vH7zMy4RC1219M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=DqZEzPfD; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="LM4yJuLo"
-Received: by mail-wr2-f34.google.com with SMTP id ffacd0b85a97d-48af9f88c95so903597f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 06:26:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="DqZEzPfD"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ce364488dso10794435e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 06:43:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1790861166; x=1791465966; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1790862225; x=1791467025; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=1U7rCP2J1UR7XvChQyXqCJWaXLGRfuecEUSlZ8WyOlk=;
-        b=LM4yJuLoNL6+u5IzkUooUlEr1vzWbopo0MxKOnmOoLle2O53r3hPVkGx0mEHOtkBzj
-         +ypb7pZNIe/rTQTPYwmlSueAfykkmiW643NXszTqwcDEfLnEgNeSx+C+mpeWYWTWNnn7
-         0r5y6Ku1VDFEpK1u7WAJIdyrR3n76v8w8vHIB2eZ4xrDcUKlf8VqpVxKZyNibTszNICL
-         vkxJtT7PgKWFP7xPdbi7kVjuT69PG8NX0FgN+x6mI+9yhadzmJl5Mj49h2OMs46s8YzX
-         l1ja4Dmemy03+Xc4Y0W4TZETspPcuyqlWNmbKtJppagFCfZw3zduoRvYRpx7C1n2D0Z5
-         i2AQ==
+        bh=9GzyFhoA2S7uios3Q3nexzUQFEC9iru05+QnoGlj3hE=;
+        b=DqZEzPfD04fpWPGHpCTt0gkiU5RVPxaVWzIV6kshqTUIZAhsEGYJWau1rm4ilNcOVV
+         kDYECMPqc808q+3S/wlpfy4Zonr5JdeArGZ64LeZuynhvgIMus4R4su8oGglj1Lm7Q/p
+         xxx0t/Ds/HICjF5naZa3MhdYJ2tCIUveTXkT1kUktpAP7fDBee/DrFA6B2C1G9r2Jj2g
+         5eYtQtWNQIU+buEp98MmqzloVUNOrJN0KKDuaFOJuhAIgLy4U+ZO06buaRmY3e9CuhFo
+         Y0rBd+PaERYcDD4xyDCY8m85jdUwuLOCOlAI8xp9OxbIPPERM7P2dkthIqK0cpQLltUy
+         omdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790861166; x=1791465966;
+        d=1e100.net; s=20260707; t=1790862225; x=1791467025;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1U7rCP2J1UR7XvChQyXqCJWaXLGRfuecEUSlZ8WyOlk=;
-        b=tXLq57A5FEzDNIAWTOuokHR6BrTpdLcjhecGGSQq+CsiM0AoynZLzLMdmvVzG+rwGD
-         XAv4BIPKORNsnhbpJ5+0rEv5jsgspGjSyqFevYeZTz3aVP3mrJY+Sd28XBv9gPlKjTrt
-         vb6cUN5GyY6p75qT+NUET8wl9J106T7wJvMBwrPWf8sMNSzDPdwYmwxJrlMVW46G30WJ
-         yw6OuoF1adB5VVk5bXJv2q8Hr3PzUfWk3By04Q7IdxZ7JlLnV1kF6jdsE9HY3hzk11jc
-         2kYk7g5rmh7WroFbM2kygw1Eh5DflehvVa8eOBv6VSquxQRu1V12iHMlmy4v4fwCsfiI
-         Va/w==
-X-Forwarded-Encrypted: i=1; AKwUvBwm9rE6wjBUoCQ/59c2zL92JlQcsMi4FFWEe5eBqRAuqyZpjyS/7u3qACDYT5oei+uXQLsdODuXsZk=@vger.kernel.org
-X-Gm-Message-State: AFuF++n6RXrndXPHmHy546YiQ4sd/TP5kbXKOhK2ujfOLgV8tkc9paOU
-	aHp1FnJNXztxAxWBPqO58jXUh1pRDS7mRGmzh/PmcuSSKyFmAYopLx6FDmXpamHtL+Q=
-X-Gm-Gg: AYBFou1t7jM8GjLQFTOTZl3OnlfN7tImxWc9UmCQj6Dc23tfTmcUqq3mY9MZikHQhK4
-	SfPEgrgPzrWy7EuMq9bsM71Nc5bCdciabK+ZF4JZmWCQfJ+iVNoD8DxbS014bwc59vH5rRLDxmY
-	jp8sQA5FatjuX2EFYTJDUdfoQRGPlT4xhVLCQ9u7755xAK53bwwHPCZ2UuXrnwYIHziv8MusfZ2
-	H4VjjyxE1o5KnOrCOryX7kkRNZxrIXsIiLPsjeNbVzsNWkU0nfcoB2GhOfcv+jNU0dh6Z3GHvXz
-	y9I6sP+ejgTba6Z1sKKOKfD4jnIbNPNhD55UGYxTpp0+VC7Lt+cp6uEqIXJX9rONdotfPnrlLAC
-	4kbu7a9E8pqJRdPi1zL343jWJRrYfz3AF+4nUBGDw5h9JuGg3GSFcTpyJ81QsxLozCX9fuzFv8H
-	CLQ+Z1yUMF7t62rjUy8k3ZyxbVRyQse4MrOLXRPxlL9k3oofDqhJ0T4GehKUTywIIf3HvGiFWqh
-	k711Q==
-X-Received: by 2002:a05:600c:a107:b0:4a0:1ef1:b62b with SMTP id 5b1f17b1804b1-4a01ef1b7ebmr36180515e9.10.1790861166322;
-        Thu, 01 Oct 2026 06:26:06 -0700 (PDT)
+        bh=9GzyFhoA2S7uios3Q3nexzUQFEC9iru05+QnoGlj3hE=;
+        b=TZzKoXMFwpfDIFJvnlpv6WowOYIqb/6PoSSiYaXe+Ku9v7u1Dk9JGRYnaLdYM9cu2x
+         Baf1xvtSRbwmIwfB8wyCivphpU/PTCFxtGSHpuWo8Xb4VsnujfFHh8fIYoJIG/9WjyNj
+         cgTwoa0ygKbMoKKS/6s2rHPewX2EvH0YFicJWkNOSZACQY5leKUunuT9QdGdwOtJyK2R
+         AshxXPBXJMIpAJqs69XwQjcNeayrFd4Talx97heb627zgBEcSMpCyCuhvWlkuMj1FqbK
+         owA/VOkjmW7JS8WX+LoPi03MxN2L7WJI8rAQplT5cafQ9Qh7CFMkGfHhhzXsKi1PDPxF
+         g+pA==
+X-Forwarded-Encrypted: i=1; AKwUvBxgu/3sCjoNHOdFbPiF6U+oJ8BakG+XlUrQMPQluqw37110vNeATXWWaM9suYACDGlNJiwP33w/eT8=@vger.kernel.org
+X-Gm-Message-State: AFuF++npa4yZxEDwHh8uHD318p1gutRMxI/c0M1bqh1x23tGyknPQuKI
+	XP4JyBB9bAWIohvdONJQJyBXOaHgjDi3ug9SL1QWlspyLqSadcCkFeNgRbyUopyC9Bw=
+X-Gm-Gg: AYBFou1eFQOYR86T6jKpSUohNx5yztDp/1C25cc/SoRuGZZdyr94yUKUy9mqKw81alI
+	d3BLwOy84y7Wl/gkuomV87NRcrCmty5FejK3ZVQlg4OUZ3VjTZg23rWXJ2J+20DqnNiEhXX+tVh
+	mT13S3Llb9pKMSnIkTj0yDv1Oooh7BPuvMwawTgkXNTYj9iw2ztUYaqxREQs3BiZwER0QXi7Tpy
+	7tC2vy9pRFFYez1x6R4OFW+p7i+kV5HTZb52cGS/+StD0xX2tehSiCPxNN4QkWG/hcCjZz+H5om
+	uWZcwU66jFPuhxDINAb7uuIhv5oWtBx0SEvRAD9d46CBKjhD81uNCND4dvKIN83Qu/AfMDtLx8Q
+	gU4WHUA9Auyh72qsshkrFGEYk3RVTaD7kIIse14qjUajqwQK8vbewixP1vZQ7ByDw+YomJJMJqH
+	5K9GSMlI6OktPCW6x2IdikynOvnj/isvL/VtjxS2LA/XtefSxQVO1b7Y0prlAu9oAOfMA=
+X-Received: by 2002:a05:600c:4f52:b0:4a0:22d5:21af with SMTP id 5b1f17b1804b1-4a022d52255mr32632575e9.15.1790862225048;
+        Thu, 01 Oct 2026 06:43:45 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F ([2620:10d:c092:500::6:7dd1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01f93ad0bsm47435175e9.4.2026.10.01.06.26.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a023ecef86sm33062845e9.3.2026.10.01.06.43.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 06:26:05 -0700 (PDT)
-Date: Thu, 1 Oct 2026 09:26:03 -0400
+        Thu, 01 Oct 2026 06:43:44 -0700 (PDT)
+Date: Thu, 1 Oct 2026 09:43:42 -0400
 From: Gregory Price <gourry@gourry.net>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Zi Yan <ziy@nvidia.com>, Li Zhe <lizhe.67@bytedance.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, akpm@linux-foundation.org, ljs@kernel.org, liam@infradead.org, 
-	rppt@kernel.org, mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	ying.huang@linux.alibaba.com, apopple@nvidia.com, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference
- with MPOL_WEIGHTED_INTERLEAVE policy
-Message-ID: <ar5eC22VfSFlMw3W@gourry-fedora-PF4VCD3F>
-References: <20260930121154.687586-1-joshua.hahnjy@gmail.com>
- <2e3f12b7-0dac-428c-b70b-07e1f63de028@bytedance.com>
- <ar0fURbLDPrphYMY@gourry-fedora-PF4VCD3F>
- <A005B05D-A85C-4153-A65D-0BDF9D8500DF@nvidia.com>
- <280965b2-c6eb-4f01-a0ac-c4fb7e518f97@kernel.org>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Shuah Khan <shuah@kernel.org>, vannapurve@google.com, erdemaktas@google.com, jxgao@google.com, 
+	rientjes@google.com, fvdl@google.com, jthoughton@google.com, tarunsahu@google.com, 
+	pratyush@kernel.org, fuad.tabba@linux.dev, David Woodhouse <dwmw2@infradead.org>, 
+	yan.y.zhao@intel.com, michael.roth@amd.com, suzuki.poulose@arm.com, 
+	Christian Brauner <brauner@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Nicolin Chen <nicolinc@nvidia.com>, Xu Yilun <yilun.xu@linux.intel.com>, aik@amd.com, 
+	aneesh.kumar@kernel.org, Vlastimil Babka <vbabka@kernel.org>, kernel-team@android.com, 
+	kernel-team@meta.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC 00/17] Allow guest_memfd to be created using a
+ resource (pool) fd
+Message-ID: <ar5iaaLcyz9dCXQI@gourry-fedora-PF4VCD3F>
+References: <20260925-gmem-tmpfs-backend-v1-0-d36159822d18@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,32 +88,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <280965b2-c6eb-4f01-a0ac-c4fb7e518f97@kernel.org>
+In-Reply-To: <20260925-gmem-tmpfs-backend-v1-0-d36159822d18@google.com>
 
-On Thu, Oct 01, 2026 at 12:54:22PM +0200, David Hildenbrand (Arm) wrote:
-> > If this is a initial-fill problem, can userspace set weighted interleave
-> > initially? The program or harness can observe memory usage of the program
-> > or related NUMA nodes and switch the policy to numa balancing via
-> > set_mempolicy() or mbind() without MPOL_MF_MOVE after certain threshold
-> > is met?
-> 
-> You mean: use the weighted policy initially and then switch to a NUMA-balancing
-> one which doesn't involve the weights anymore?
-> 
-> That makes more sense to me. Although I struggle to see why an effectively
-> "let's put random memory on slow and others at hot" is a good starting point to
-> later let if be fixed up by actual balancing/tiering.
-> 
-> It all sounds a bit hackish. :)
->
+On Fri, Sep 25, 2026 at 05:50:47PM -0700, Ackerley Tng wrote:
+> + e.g. for tmpfs,
+>     + Use mount page size.
+>     + Respect mount size limits.
+>     + Use guest_memfd mpol and fall back to mount mpol.
+>         + Gregory, now you can set mpol upfront on a mount! [3])
 
-It is a bit of a non-combo (Nonbo).  You're using weighted interleave
-with the intent of spreading out the bandwidth utilization (and maybe to
-offset some reclaim behavior? *shrug*) but then undo all the placement
-with tiering.
+I haven't had time to quite give this the read it deserves yet (have
+been traveling this past week), but I think this mpol/mount issue can
+be solved with a new dax driver (which maybe provides this provider
+interface) without needing to involve numa policy at all.
 
-But, in defense of the hackery - I have seen strategies like this work
-to optimize startup times and then let tiering optimize runtime.  Phased
-execution gets funky like that.
+Essentially
+
+fd = open("/dev/cxl_dev", ...); /* backed by anondax driver */
+
+then later when a fault on that fd happens, the driver provides an
+anon-memory allocation that explicitly requests the node associated
+with that device - as opposed to trying to jam this into mempolicy.
+
+If you're planning to be at LPC, happy to discuss this in person, but I
+think this provider pattern is likely much cleaner without mempolicy at
+all if you can just make the provider do that allocation path for you.
 
 ~Gregory
