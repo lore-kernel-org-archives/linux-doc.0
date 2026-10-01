@@ -1,100 +1,183 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C1B377575;
-	Thu,  1 Oct 2026 23:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A09345741;
+	Fri,  2 Oct 2026 00:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790898363; cv=none; b=Wsd3ENd6R1mEZtLqrYo1xk9JhxD+HnSU3tMv+2nxO4QPHNzh6kZMSBEC1M13JonX1TKarNC5unm4lDvBTP2r6NL4xqeLLuhcO8MyVQiuaukuGk6U1st1eIbTB3lDNytwSWanr4V8Dq7O0R/474vLQiuilWMlvIfSkP+gY0lcFrQ=
+	t=1790899257; cv=none; b=OkOAYeZEFLHtak0vs1KQ7/zXt7D7v/XXDsQiha25S8oOYwsPaI40WYlQ9x/x7Vv4xhwWWju8tIzzFfFXlNfaRTaZjrCrbBoNzvirvrHcHe5w2Qh/6dWW6K68rKBoIzf9EDBH5BANpzSdZpFA91W7p8VNKO9IH5OS/+REs9yRhiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790898363; c=relaxed/simple;
-	bh=otatrbpvzgeePBYD7syuCvA3ICSk6SUJoyQaKP2bl6s=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=RXDPtq/aGYUMzZbHmpFKKvVYH/455a88+PVozghUUElK0nZv3c49bur84Xgm9FF+bdYdi5RjpoGGwO8X+7Oy0YgfglQxQWBAQMLmcbntT3Dj4rgaZAHMkOQ7qletERlQ5Sh4EnZt4LIY54YwyN/A/c+aeK7XTzzQqeFhq/GKf8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=fail (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n78i2g0G reason="signature verification failed"; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790899257; c=relaxed/simple;
+	bh=x1strTpm8b1z4O62jRuNRGgT6L5CVAZjv+PrVHg22xI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XfspXAtmQ7VfQG5fHlufMh2EQ+edojRqwtlYKHKMj70xUPItsOqgNHViAIWB/Zx/ZXIfnS9RGD2hC0wo6e9T9y8uipxraV/YNjOtudVwjYfHpdNk8foE0Wzgty+BCC9oMpjPmS1BNjWZPEEqKkcVsGXqZY0lDz3GTkHyTN71o0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=fsZrsXbw; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n78i2g0G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29F551F00893;
-	Thu,  1 Oct 2026 23:45:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790898361;
-	bh=3A1Ao6AkeQQW21XFx0nCGh+Pf0dIGxxVzzcK/mEcst8=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=n78i2g0G/kYMfoqlT2xljKl4d8y+B3CaDZfKOEAJishZpWb36uxgr4a5/vy9R41Sm
-	 tjexrfNNfLDt8DS/b/f4j45JX5FMHo9foL1PspMBCnWzo3CTQtAnC7HQnQVKjGfZCz
-	 4HjQi6xiQ0osUha/4+saiehsEq5Dv7qqW/bwqPWKoGvlomv9YRHtt10PFkIkIYLxlV
-	 HbYUyDxLeK8wqUqbAP1xNrn6+VS0uaDOyW3u2MqjSVDsi744P8PpGdOM3ib/UThWrQ
-	 PDc/JbjX64E+3+hb9tLx3n4WiCj7MDF2JCXldu2Z4lcr+ENuKgRPzQ4zAiEXi2oM8L
-	 lkHHiccpnH40Q==
-Content-Type: multipart/mixed; boundary="===============7077505053475274818=="
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="fsZrsXbw"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id CC72640E03BE;
+	Fri,  2 Oct 2026 00:00:43 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id NaJ-HpYXBw58; Fri,  2 Oct 2026 00:00:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1790899233; bh=cG+cJ7mT22tNPHsFBNtxnr+VztjGQBeRNYYjS2dgVhM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fsZrsXbwppxgBw+JMcEWeOik0QpmlmhwCehRdAUflP9fffOHurGmKV/miQIYLo7dl
+	 0rmH8plvSRduAlM1Cd30fXlLUrWE36VjiP69+bX8ezPP9y0QbxAOVhaCEx0jzOH/jB
+	 rbq7WEuRlaVjUgZjaf2IHhqfeNccFCrHykU19EBEhHgRybuf7w8mZIwFMlxAaVoZhO
+	 d2TAISGT5AW67hpOT2+/jKGEpfJKcUp197bqs0RU90atPixEZBAiKw5T0H5SO+reOd
+	 EKhLFW70iqospUTw4Dyczm2h7FZeU4EqpowkR1A0eD3A1FRbdrLcG+6aJe/+D9IRdV
+	 tQJEHyKX6/eVtDIEm/SyhgtBr+oDFW9stciSfKxFq8xv/2n4EL/3GPpQ9ysJWhWKGv
+	 EJe1QQMc1ogmeLVzWVENseeV0l5d75Gy1Xa55R0LUR5e33g7YK/bQKQ1dP0RKEw9+a
+	 Jsor6wKUbW+b/UYo8/4cNn/8j4dlu8Kj2n4pvaDvI/gnBKgFoBt5Ze9+Qnk9MvfLwP
+	 TI0lh7wmOTllPBTjS6DrcAv7FlotWP4MVY2v90qApdWiwDmhehK4G374oOCXyj+Abu
+	 tpvNncuvRIoCcb75sb/7GJWT8Aq2ohUS2oAwudDUNDQHqhjulshygMHoLW/6AOLKFB
+	 NJfQuVGfFyE0nXitzxJWJCqU=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D09C640E02A8;
+	Thu,  1 Oct 2026 23:59:53 +0000 (UTC)
+Date: Thu, 1 Oct 2026 16:59:50 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Kiryl Shutsemau <kas@kernel.org>, x86@kernel.org,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, virtualization@lists.linux.dev,
+	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
+	Christoph Lameter <cl@gentwo.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bo Gan <bo.gan@broadcom.com>, linux-mm@kvack.org,
+	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
+	kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Long Li <longli@microsoft.com>, Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	Kees Cook <kees@kernel.org>, Ashish Kalra <ashish.kalra@amd.com>
+Subject: Re: [PATCH v2 0/6] x86/percpu: Share decrypted storage before guest
+ setup
+Message-ID: <20261001235950.GHar7z9v3zfk8odoTh@fat_crate.local>
+References: <20260929040256.543767-1-zack.rusin@broadcom.com>
+ <20260929053930.GEartPEjbZMpBVSvSk@fat_crate.local>
+ <CABQX2QNmza+=i1FXgDtFS3e3O5oXxPZppRbRrL54P1LmrB2gBw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <3a7e578809176358fa69c7728fa26fc76cadf93bb216c2caa074d55df0e799e2@mail.kernel.org>
-In-Reply-To: <20261001225214.12351-8-wanjay@amazon.com>
-References: <20261001225214.12351-8-wanjay@amazon.com>
-Subject: Re: [PATCH bpf-next v4 07/12] bpf: keep module BTF until the vmlinux BTF is available
-From: bot+bpf-ci@kernel.org
-To: wanjay@amazon.com,bpf@vger.kernel.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com
-Cc: alan.maguire@oracle.com,martin.lau@linux.dev,yonghong.song@linux.dev,jolsa@kernel.org,ihor.solodrai@linux.dev,qmo@kernel.org,nathan@kernel.org,nsc@kernel.org,linux-kbuild@vger.kernel.org,linux@weissschuh.net,christian@heusel.eu,mcgrof@kernel.org,petr.pavlu@suse.com,samitolvanen@google.com,linux-modules@vger.kernel.org,rostedt@goodmis.org,mhiramat@kernel.org,mathieu.desnoyers@efficios.com,linux-trace-kernel@vger.kernel.org,acme@kernel.org,namhyung@kernel.org,irogers@google.com,linux-perf-users@vger.kernel.org,jikos@kernel.org,bentiss@kernel.org,linux-input@vger.kernel.org,tj@kernel.org,void@manifault.com,arighi@nvidia.com,changwoo@igalia.com,sched-ext@lists.linux.dev,shuah@kernel.org,linux-kselftest@vger.kernel.org,ojeda@kernel.org,rust-for-linux@vger.kernel.org,arnd@arndb.de,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,abuehaze@amazon.com,doebel@amazon.de,mpohlack@amazon.de,jay.wang.upstream@gmail.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kern
- el.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Thu,  1 Oct 2026 23:45:59 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CABQX2QNmza+=i1FXgDtFS3e3O5oXxPZppRbRrL54P1LmrB2gBw@mail.gmail.com>
 
---===============7077505053475274818==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Tue, Sep 29, 2026 at 01:25:09PM -0400, Zack Rusin wrote:
+> Partly. So steal time tells Linux how much time a virtual CPU spent
+> ready to run but waiting for the hypervisor to schedule it.
+> 
+> For example, during a 100 ms interval, the vCPU might execute for 70
+> ms and wait for a physical CPU for 30 ms. Reporting those 30 ms helps
+> kernel:
+> - account for CPU usage accurately: avoid charging applications for
+> time when the hypervisor wasn't running their vCPU.
+> - make fairer scheduling decisions: base task execution accounting on
+> the CPU time tasks actually received.
+> - expose host contention: the st field in top and counters in
+> /proc/stat help explain why a VM is slow even though its applications
+> don't appear to consume all available CPU time.
 
-> bpf: keep module BTF until the vmlinux BTF is available
+Aaaha, IOW, that's the "st" column here:
 
-TL;DR: Nits only: in kernel/bpf/btf.c, btf_drop_deferred_vmlinux_regs() could
-reuse the new btf_free_deferred_regs() helper, and the module and vmlinux
-apply loops look duplicated. No bug.
+$ vmstat
+procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
+ 1  0      0 1714852   9748  85300    0    0  3793    51 1445    0  0  1 99  0  0  0
 
-> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> index 96241dc62dc3..4d51fb212218 100644
-> --- a/kernel/bpf/btf.c
-> +++ b/kernel/bpf/btf.c
+In any case, you could keep that helpful explanation in yout 0th message. :)
 
-[ ... ]
+> If options are binary then "no" :) It's not for monitoring tools, it's
+> for the kernel's own steal-time accounting above, which currently
+> doesn't work in confidential VMware guests. So the issue is that in a
+> confidential guest (AMD SEV SNP, Intel TDX) memory is private by
+> default, so the hypervisor can't read or write it. Any page the
+> hypervisor has to write must first be converted to shared by the
+> guest. Linux gives us the address of the steal-time buffer without
+> converting it. The hypervisor then tries to write into a private page,
+> which doesn't work. Currently ESXi deliberately powers off the VM when
+> that happens. That only affects VMs with the steal clock enabled,
+> which ESXi leaves off by default except for Photon guests. I'll
+> probably change ESXi to just disable steal time when a guest gives us
+> a private page, but that only avoids the power-off; steal time still
+> won't work in these guests without this series.
+> 
+> KVM has the same need for three of its per-CPU buffers (steal time,
+> async page faults and PV EOI). It already converts them, but only on
+> AMD and in its own loop. Kiryl asked on v1 for one common place that
+> converts all such per CPU buffers early, on both AMD and Intel,
 
-> @@ -10967,6 +11252,16 @@ static void btf_apply_deferred_regs(struct btf *btf, struct list_head *regs)
->  	}
->  }
->
-> +static void btf_free_deferred_regs(struct list_head *regs)
-> +{
-> +	struct btf_deferred_reg *reg, *tmp;
-> +
-> +	list_for_each_entry_safe(reg, tmp, regs, list) {
-> +		list_del(&reg->list);
-> +		btf_free_deferred_reg(reg);
-> +	}
-> +}
-> +
+Right, why early?
 
-This isn't a bug, but could btf_drop_deferred_vmlinux_regs() call the new
-btf_free_deferred_regs(&regs) instead of keeping its own copy of the loop?
+I mean, I am still trying to see the justification for this diffstat
 
-The tail of btf_drop_deferred_vmlinux_regs() still open-codes the same
-thing on its local list:
+ 14 files changed, 247 insertions(+), 51 deletions(-)
 
-    list_for_each_entry_safe(reg, tmp, &regs, list) {
-        list_del(&reg->list);
-        btf_free_deferred_reg(reg);
-    }
+and whether it is really worth it.
 
-The splice / unlock / apply / relock loop in btf_module_apply_regs() is
-also the same as the one in btf_apply_deferred_vmlinux_regs(), just with a
-different mutex.
+> instead of each hypervisor driver doing it. That's patches 2-6.
+> 
+> Patch 1 fixes an old layout bug in uniprocessor kernels, where these
+> buffers can share a page with unrelated data. The series also fixes
+> SEV and SEV-SNP guests on KVM running kernels built with CONFIG_SMP=n,
+> which currently hang at boot (we reproduced the hang).
 
+That should tell you how much we care about UP. We would even love to make SMP
+the default.
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+> Fair enough. I'll rework the cover letter and the commit messages so
+> each one starts with the problem. The series originally wasn't really
+> touching x86 core parts and I haven't updated it for a larger crowd.
+> Would you like an explanation of steal time, like the above, in the
+> cover as well?
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/36938681172
---===============7077505053475274818==--
+Yes please.
+
+Also, we have some blurb about how to write those:
+
+https://docs.kernel.org/process/maintainer-tip.html#patch-subject
+
+and
+
+https://docs.kernel.org/process/submitting-patches.html
+
+In talking to Peter about it, we were wondering whether this can be made
+simpler. Like do not touch perCPU but do a normal page for each CPU's steal
+time gunk and thus do not split the large page and then that early
+enc/decrypting of memory I don't like either.
+
+Perhaps we should start with the simplest approach first.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
