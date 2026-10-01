@@ -1,93 +1,290 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092AC5304B0;
-	Thu,  1 Oct 2026 18:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24B145DF76
+	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 19:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790878481; cv=none; b=QKm8QaJCxErNbQBqq/5Z1BeRN7WxwqpT1Zn11YTu9INWDTAmoztF0qu42pZhVKt/nt9o/vMDtrFYAjUwNTryDwkoEbIq6VAxd0i2LYxXpewVgJWzDJ8R4GNaMJBFeQtNHQuByQyBcbYoqplVGJ83pzd3BspKDumMEAI1jApsXB8=
+	t=1790884735; cv=none; b=YW0Tk8Yq4oht+xSmwiFv5ecuJ/I43RQZ9EB0T5gffsEnx6BqzM5jHlz/4/Jqo9On5pKavlFi6g6H9Fnt29BcO2Eq19nRPIYEOXkPs7ZSndz5u+bqlgpIOhMr+kAJhNnGx7IWGr8QLPL479bvbzUWkkWxNpkT60yQDZ6y/JdC6Aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790878481; c=relaxed/simple;
-	bh=8EXPyjCLnT0u6Y3Aw1qgMDaoecca6+CurIO2hSBvPAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XNgN6I7Zxe6FT5tW6b4iFJj9TMHvoah0gjG9pzT/VduF7caGaPVmXSvSKDJN5fmZ4ehAWwxZksdmwISmcVsjfxCJiL5NM6dEa5s99SKMYCkblKLdkervgj06oOutuZVXcjAlgLPqQ0JBNyve/RJ/azXmGB+x753nBesYd7pE+bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K0YVCfY2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790884735; c=relaxed/simple;
+	bh=7biaceuF8JildUKqyYt37vlxGGuZnD3rNHSu+vAe6Do=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=KHJ4DIBtUZFt+G3/J6Kk3qWt4l4+Y3FgMgOiY/28fo6tskV/1p7pZNUJf324w+yOTz2B0XziK+bkOoMy//lekIwfIV7c4fh+7S31edKiutrN0BSj2ShscrF3TuuGSw+I7ujTYp5pfGUyM0OmVGYztiwvz8ok9XO90DaDurRxxZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJY/8LEZ; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K0YVCfY2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFA111F000FF;
-	Thu,  1 Oct 2026 18:14:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790878472;
-	bh=8EXPyjCLnT0u6Y3Aw1qgMDaoecca6+CurIO2hSBvPAE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K0YVCfY2IDUaC4Vt4tc6UsXJc2uHpFjZ8QQVRtHbwXnLVQqg+u5EW9RW5MrX/HhQt
-	 aBsJd+I6q0vpz1wNylTgBOsPVkpnW2j+cvZENvcBD/lZ77oY3EszViUH6kkOwBetVZ
-	 H9VGfiGECqOwiSeuB2jonVQsYNAMtKKI3/q4s6kzPVf87jTYbNAd4pPl9T4ACPIPek
-	 LtFtHRGA6IIl2pBMyHvMWHQMUeqkiMrPxHmN8sH+OuFoedNzkmC7ZM9/iQztEMXzzH
-	 NmCq/uXXPLYoUpwEva61QltarOEgoeojcabxt2AbJn61YJxlS/VrguUjw6ri9wGNBX
-	 vbDa2ZJ5fJvBQ==
-Date: Thu, 1 Oct 2026 19:14:26 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>,
-	Fuad Tabba <fuad.tabba@linux.dev>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Leonardo Bras <leo.bras@arm.com>,
-	Wei-Lin Chang <weilin.chang@arm.com>,
-	Yao Yuan <yaoyuan@linux.alibaba.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DJY/8LEZ"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6598dd44so43539865e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 12:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790884731; x=1791489531; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yd/IzBfTWyOHkp/HPfVgYP2qejoik94e/J+ry+nD4kI=;
+        b=DJY/8LEZ7nixqGEpBsQNDZ4zxvRfnlXTI9UsKJiOhyyPMytvGHDZXrPm2KAHz9TXh4
+         8/evz4aTBooOrawfClbKsCoYtN44vHiqnb+RfUl64b+2JAJ7OiVYuBBSupZ9PXbIeEDa
+         L36ylbKZM+do7peT32Mtu2SibTqcvMgcip1b0OkHIf67h94PqxKWAPLFZlWuMIHQ3IQM
+         umRfO61sBOA1oADaFEtJZbPMjN1dljloKZujMeYObzcsc/CKr7+gZ5qgyZ6N5aK63+Kz
+         OQS6qt93pqQvlRMllMzdYs7A3aEfeScsdARkpkNYFT0KQ96gc2XZN/IgTEJ8I/jPwvhr
+         PqTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790884731; x=1791489531;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yd/IzBfTWyOHkp/HPfVgYP2qejoik94e/J+ry+nD4kI=;
+        b=uTQPiCb4bin/KfY6yhpU2RlurC0eAri3rfRovy+KNfdgNCmR/uxEzZZsLESdwWsYqN
+         Lau1n4hoYWUPJ2xRRm7lJEhp00YH25arwvWvSBRSakRbv39CEAfNQdHX63dtX+JxzvFZ
+         JP+1LQsHcx1UH70y5gx+6DCeTsnf6dfiWNqL3RsVS8OznQS639REILfqPI6BdhYHRhRH
+         ZSYDHaIgWJO0MLzWEBKVsJN1q/QTnHqc3UxfS+1vDGKIGwzdFVyVQn7nqPko1o1kDEQE
+         ra+PavK/VZgekg7s6d9jB8BVhoxfvTg4ooKSQa7l1DPhqas2Jl8pjPLy8KlTl9bmJyw/
+         aX8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxehwcxeO7Xr8JiEopPYrfcgGqWFW2YEQXtaP9lZNDK7thfzYKPJMXHOLy2Q7+id0SAouQGUGsonyo=@vger.kernel.org
+X-Gm-Message-State: AFuF++ljFTSMIn1aC5F8SMoitInwojIP3qKAayipo/oVfI2hgSZPLrmS
+	e4mSD4kLHjklzPQzpGx75OTvO7eEi5XRg4yle0KOCzFLL1cy5yHtg9bK
+X-Gm-Gg: AYBFou0umcQmAMjCq8TZpgvpN8o6TBmz796RVztBQ+Sq66/FUC0wvFIAv1YaKGEgyph
+	yoFpFgnrrFSVb5XNhfyLOLz+XDGDYRdFNiUDgAJwVj1uQzvYvF++5AnJNUsmjoI6lHPl8ZexwY5
+	5olpX//+Wcr8RIgGGR/qBUZjICSgtK6mT2N7d1sh8oIPgCRhrtEan41ilxO580uko+hUHYUdDzH
+	atZAlAQJPH+ri1pg0i7mqpGsqWPzUtvK88Ew82qnImQWHO10LFsXbh9JzevysKfv0qPCtC73c1A
+	YH9Ia15Awpap2cMuJLoiDplOCRCbAS+hbGwi5PeXuFsggVeg7lCluhCNScAFtslFdYNgnJ3+QjT
+	y0Y7SoOqPQBM8Hvg7aWVvn7479DKqNmfHVetk9N7s6JoXcQpO9lFE3DFHC+eHhraeUqcnNhE4AK
+	IfIFuqtRqlrm6pYRvRShue4fPCHIuFdU1fciRQSkV6t5pePo0cA5Y5kYtHS1woqLRpg5/dcS+SY
+	W3fQC6MKLsKLlwFPc+bps2RZQ==
+X-Received: by 2002:a05:600c:37cf:b0:4a0:2391:6540 with SMTP id 5b1f17b1804b1-4a027596b61mr9056685e9.25.1790884730937;
+        Thu, 01 Oct 2026 12:58:50 -0700 (PDT)
+Received: from ingenieria31.oficinasStQ.local ([79.112.15.218])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0276f92d9sm15031045e9.4.2026.10.01.12.58.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 12:58:50 -0700 (PDT)
+From: =?UTF-8?q?M=C3=A0xim=20Pedraza=20Padilla?= <maximpedraza@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Francesco Valla <francesco@valla.it>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-embedded@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v21 12/15] KVM: selftests: arm64: Add GCS to set_id_regs
-Message-ID: <8eb4d0f8-3080-4efa-afaf-bbe2a16eaa37@sirena.org.uk>
-References: <20260930-arm64-gcs-v21-0-3556644cd927@kernel.org>
- <20260930-arm64-gcs-v21-12-3556644cd927@kernel.org>
- <ar6MIFW2vfM893yd@gremlin>
+Subject: [PATCH RFC v4 00/13] Add splash DRM client
+Date: Thu,  1 Oct 2026 21:58:34 +0200
+Message-Id: <20261001195847.141192-1-maximpedraza@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hLSHdAw0xQgYgBov"
-Content-Disposition: inline
-In-Reply-To: <ar6MIFW2vfM893yd@gremlin>
-X-Cookie: Do not stamp.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This is the fourth version of Francesco's splash client, which I have
+taken over with his agreement [1]. It also supersedes my "Boot logo
+supplied by the device tree" series [2]: Thomas pointed out that fbdev
+is not the place for it and that the device tree support belongs here
+[3], and he was right.
+
+The client draws a splash from the moment the display driver registers
+until userspace takes the display over. On top of what v3 did, the image
+can now come from the device tree, be placed and turned, and every part
+of that can be set from the command line. Patch 13 documents it all and
+adds it to the DRM client documentation.
+
+Why this is in the kernel
+-------------------------
+
+Maxime asked in v1 why this should not be left to userspace or to the
+bootloader. The cases it is for are the ones neither covers:
+
+  - Nothing initialises the display before the kernel does. U-Boot's
+    Falcon mode, meant to cut boot time, starts the kernel from the SPL
+    and never runs U-Boot proper, where display support lives: there is
+    no bootloader splash to hand over, and the device tree is the only
+    thing that reaches the kernel. Userspace comes seconds later.
+
+  - One kernel image for several products. An image built into the
+    kernel, with CONFIG_EXTRA_FIRMWARE, means one kernel per logo, or
+    every logo in every product's kernel, all of them staying in memory
+    for good. Francesco described exactly this case in v2: one board
+    support package for a family of devices, each with its own logo and
+    background, picked by the bootloader.
+
+  - A splash handed over from the bootloader does not always survive the
+    native driver taking over the display.
+
+Where the image comes from
+--------------------------
+
+In this order: a BMP named on the command line, the device tree, the
+EFI BGRT, and "drm_splash.bmp" loaded as firmware; with none of them,
+only the background is drawn.
+
+The device tree node lives under /chosen (patch 6) and carries the BMP
+either in the node, which dtc fills in with /incbin/, or in a reserved
+memory region the bootloader loaded it into. The region keeps the image
+out of the device tree, so that it can be changed from userspace by
+updating a partition, as Francesco suggested. A node is only there if
+someone put it there for that board, so it goes before the BGRT.
+
+The command line wins over everything else, each parameter for its own
+part only, as console= wins over stdout-path: splash_bmp (or "none"),
+splash_color, splash_pos, splash_offset and splash_rotation. Without it
+a BMP loaded as firmware could be neither placed nor turned, and it lets
+a placement be tried without rebuilding a device tree.
+
+Placement uses a position with -1 centring an axis, plus an offset, in
+screen pixels. A rotation turns the image and not the screen, counter
+clockwise as for panels and as DRM_MODE_ROTATE_* count. A device tree
+image is placed as its node says, a BGRT image at the table offsets, and
+anything else is centred; placement given on the command line applies
+whatever the source.
+
+BGRT images with the ACPI 6.2 orientation bits set are no longer skipped
+but turned (patch 11). I took the meaning of the bits and of the offsets
+from Plymouth, the main user of the BGRT, so that the kernel and
+Plymouth put the image in the same place and the handover does not
+jump. I have not found the specification text to check against;
+corrections are welcome.
+
+Changes since v3
+----------------
+
+Fixes to Francesco's patches, folded in and listed in the commit notes;
+most of them were also in sashiko's review of v3 [4]:
+
+  - the render thread stayed in TASK_UNINTERRUPTIBLE for good when the
+    BMP firmware was missing (hung task warning), could miss a wake up,
+    and kthread_stop() was called on a thread that had already exited
+    (use-after-free), never existed or failed to start;
+  - a use-after-free on unbind: the image was released after
+    drm_client_release(), which frees the client;
+  - a use-after-free in the firmware callback when the device goes away
+    first, as the request cannot be cancelled; unregister now waits;
+  - the BMP bounds check could overflow and let a crafted bitmap offset
+    read 4 GiB away;
+  - the 24 bit blitters read a byte past the image;
+  - buffers went to the wrong modesets when one was skipped, tiled
+    groups dereferenced a buffer before creating it and swapped width
+    and height, a failed dumb buffer left an ERR_PTR behind, and the
+    modeset list was walked without modeset_mutex;
+  - the BGRT symbols are exported (Mario's report [5]), GPL only;
+  - the DRM_CLIENT_DEFAULT entry is indented with tabs (patch 1).
+
+Additions: the device tree source and its binding, placement, rotation,
+the background colour following the image, BGRT orientation, the
+command line parameters, and the documentation.
+
+Testing
+-------
+
+  - QEMU versatilepb (pl111, 16 bpp): 39 cases for the device tree
+    source (inline and region, invalid nodes, placement, clamping,
+    rotations, rows with and without padding, backgrounds), plus 17 for
+    the command line and the order of the sources, each compared pixel
+    by pixel.
+  - QEMU virt arm64 (virtio-gpu, 32 bpp) and x86-64 with OVMF for the
+    BGRT, including forced orientation bits.
+  - KASAN on arm64, with the BMP loaded as firmware and the driver
+    unbound afterwards: v3 reports the out-of-bounds read, the
+    use-after-frees and hangs on unbind; this version reports nothing.
+    The firmware callback race was reproduced with the sysfs fallback,
+    and a BMP with a crafted bitmap offset oopses v3 and is rejected
+    here.
+  - An AM335x board (tilcdc, 800x480 panel of which only the bottom 297
+    lines are visible, 16 bpp), booting over TFTP and NFS: 27 cases,
+    plus 9 with the BMP loaded as firmware from an initramfs, checked
+    by reading the scanout buffer back through /dev/mem.
+  - W=1 and sparse clean; every patch builds on its own on arm and
+    x86-64; checkpatch --strict clean apart from a quoted modpost line
+    and the MAINTAINERS reminder answered by the next patch;
+    dt_binding_check clean for the binding.
+
+Not tested: tiled displays (I have none), a BGRT with orientation bits
+from real firmware, the modeset fix with a skipped modeset ahead of a
+used one, and Falcon mode with this series.
+
+Open questions
+--------------
+
+  - Rob: how the image should be described, a BMP in a property or raw
+    pixels described like simple-framebuffer [6]. The binding here uses
+    the BMP; the client would need a second drawing path for the other.
+  - Once the binding settles I will send the dt-schema change that lets
+    the node live under /chosen; until then dtbs_check flags it.
+  - The splash is a DRM client, so a device using it has no fbdev
+    emulation and no /dev/fb0. That rules it out where userspace still
+    draws through fbdev.
+
+To Francesco: I listed you as maintainer of the binding too, next to me,
+as co-maintainer of the client that reads it. Say if you would rather
+not be.
+
+Based on drm-misc-next as of 2026-10-01 (7c4bda20eb0f).
+
+[1] https://lore.kernel.org/all/aryqYhHqFk3cXh9d@bywater/
+[2] https://lore.kernel.org/all/20260923201035.51007-1-maximpedraza@gmail.com/
+[3] https://lore.kernel.org/all/64e273d4-2660-437d-8871-e2bfa3c377c9@suse.de/
+[4] https://sashiko.dev/#/patchset/20260510-drm_client_splash-v3-0-a9aee9f0b2fc%40valla.it
+[5] https://lore.kernel.org/dri-devel/5d7067de-97b7-4232-9cf6-e4b978696482@amd.com/
+[6] https://lore.kernel.org/all/CAEUXW=Gh6wMk1i=x_KT0eSdkHeHs8Hkxkj4hfsuTRyY6=aphpw@mail.gmail.com/
+
+v3: https://lore.kernel.org/r/20260510-drm_client_splash-v3-0-a9aee9f0b2fc@valla.it
+v2: https://lore.kernel.org/r/20260106-drm_client_splash-v2-0-6e86a7434b59@valla.it
+v1: https://lore.kernel.org/r/20251027-drm_client_splash-v1-0-00698933b34a@valla.it
+
+Màxim
+
+Francesco Valla (3):
+  drm: client: add splash client
+  MAINTAINERS: add entry for DRM splash client
+  drm: docs: remove bootsplash from TODO
+
+Màxim Pedraza Padilla (10):
+  drm/clients: Kconfig: indent DRM_CLIENT_DEFAULT with tabs
+  efi: bgrt: export the BGRT table and image size
+  dt-bindings: display: add a boot logo node under /chosen
+  drm/client: splash: add a device tree image source
+  drm/client: splash: place the device tree image where it asks
+  drm/client: splash: turn the device tree image as it asks
+  drm/client: splash: take the background colour from the image source
+  drm/client: splash: turn the BGRT image on panels mounted turned
+  drm/client: splash: prefer what the command line asks for
+  drm/client: splash: document the image sources and parameters
+
+ .../bindings/display/boot-logo.yaml           |  151 ++
+ Documentation/gpu/drm-client.rst              |    6 +
+ Documentation/gpu/todo.rst                    |   17 -
+ MAINTAINERS                                   |    9 +
+ drivers/firmware/efi/efi-bgrt.c               |    3 +
+ drivers/gpu/drm/clients/Kconfig               |   91 +-
+ drivers/gpu/drm/clients/Makefile              |    1 +
+ drivers/gpu/drm/clients/drm_client_internal.h |    9 +
+ drivers/gpu/drm/clients/drm_client_setup.c    |    8 +
+ drivers/gpu/drm/clients/drm_splash.c          | 1471 +++++++++++++++++
+ 10 files changed, 1743 insertions(+), 23 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/boot-logo.yaml
+ create mode 100644 drivers/gpu/drm/clients/drm_splash.c
 
 
---hLSHdAw0xQgYgBov
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+base-commit: 7c4bda20eb0f150315d19f1b51058820e75d3f3d
+-- 
+2.39.5
 
-On Thu, Oct 01, 2026 at 05:38:54PM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Wed, Sep 30, 2026 at 10:48:22PM +0100, Mark Brown wrote:
-
-> > Now that GCS is configurable via the ID registers update set_id_regs to
-> > cover ID_AA64PFR1_EL1.GCS.
-
-> Should maybe also mention adding the GCS-without-S1PIE test?
-
-I'd have said that was part of the coverage the test now has for
-bitfields TBH.
-
---hLSHdAw0xQgYgBov
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq+owEACgkQJNaLcl1U
-h9AK6Af8CW+PewA41u22GjCm2K4HWJprbzV/mTkY5qCL0xX8i+fFZwjBEGuDg++l
-1WZRIYTi4kqI5ofqkLVG8zllv9dSAW+DXcsH7TJjs5wyZDO9bNqbbBeqFZswxGMh
-ZYdKcZLYTg7gs9EGJ5eEPyIgNYjjJga9ABn6hZTFsDEM+VKDL7GcjpO6WXW+JPZg
-cc2IlLt9eQTZcjwpvtnT9xwnHsbCppAuuVqV8tU+ZuTQ94TMixXsDTTltMvolgvB
-9ZDUkJtJD9k4vuBdXiyh/UmkgMf+b9hoDlJwshmwjziFwY25asoZUM5LNZcJhC8t
-E5Dked3ERLcN6MVu6njP5Qxr0XEW5A==
-=ZnLt
------END PGP SIGNATURE-----
-
---hLSHdAw0xQgYgBov--
