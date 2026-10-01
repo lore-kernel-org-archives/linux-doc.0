@@ -1,138 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5353E168C;
-	Thu,  1 Oct 2026 07:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E4226982C
+	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 07:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790840030; cv=none; b=Qo9qizxIJkJLlUf7wlI0BFlbGzI+RAwaiXWALiA3KmPvZkEzyoltbrCI8Vy+KEQaQUVWeQsh9zut6umHVrwD4V3rkmeDkdRDonfw1KlTm8PLzseMIQq/w/8iCrJ4C0JhemFcb10YGrtx+8JaHnMAyoQtVlTqvzViv17B1HubCd8=
+	t=1790840083; cv=none; b=Ap/wlzACV7piCjP4BNM1KfvMoYbM/5ngr9oQKzodWSIHNCykfSqHFaekO6SCB3gLnx1x/DgctAs6M4wF4NUFMn+Xtmui1MpC0G+p4msUez6P2XdCJLSk7lBnlQvQbZU2BNd8w07sbdv7Xmj5VFYys117EGLIsTamzGfvJvk0j9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790840030; c=relaxed/simple;
-	bh=HCbe2iSZ9MjXXALiOHe07k/Dr2KTH5oWsn9wBTYy+Ds=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=i5Zvl+vON2frr5ZV4cSKgNElzqFyN4BtG2jTP/gQicOIjMVmh2ASljWXBHT/GR3l2SqoFhi/vLF4sDPyNJZP1seAAl84jmK07SbE5WkGaY7hJ4HawGtDpWP2uw5UV4LI0XxioXIlvfF6jDn2VmynGf2LrfOx1hsonJeOFGWHMi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SJV9rcvN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790840083; c=relaxed/simple;
+	bh=kuV33l73kgCfxMXZpX+G6jMpAhtpEBO72ZuYilyuWkY=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=U37GlI0VpNRyGx5c8IMGlDr3Os4yjJQEaViVg2GogUH0X9OmPndcWU+a19bGP+MLT1xH6zOGV3TCyFKRyYpPdfxjWR30bwWkFKX5seuj08nB7TmABZwKb4Dcr7I9nncn345bmcDWordl1yjfIKFcYVTjfmP2wegiqEqu8duTwJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfyM4xSR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SJV9rcvN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B73AA1F000FF;
-	Thu,  1 Oct 2026 07:33:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfyM4xSR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EBD21F008A1
+	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 07:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790840028;
-	bh=g68NssCbHV1Z0j/xt9LYSA9TUqJSO3DMsbZaH2PG3so=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=SJV9rcvNm3tyxxEVwsraKgx6DeF4CFTWhgq0Z+axLzDxcpwTnQC+c2ANxKFAMMXaC
-	 LXDH+xX4qULFYvKVQgVsTV8nSdtFcyIBg1fLQD9ekQ66IueRu0pfVanqVlAIHHy7q7
-	 43tPVcmsnAfTrPoLUINWS2T/huBQIUMeVdOMZpU/8SjpsmVtbiuqRp4yx+LeWbJG7Y
-	 mROhg5fx+YbJV19Sog4sfYwBYpMv2+5aQkdHG2oQCFzvwY2LV1oVJa3xFinzdYkT4n
-	 LP5VQpODgIse5dU5NbYW45Wcba6mEijximapj6HClPZe24k72fVfucqwbL5g+luDRh
-	 1orq0OUzADXaw==
-Subject: Re: [PATCH net-next v2] docs: netdev: additional info requirements
- for bug fixes
-From: netdev-bot+sashiko@kernel.org
-To: kuba@kernel.org
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, nb@tipi-net.de,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Thu, 01 Oct 2026 07:33:47 +0000
-Message-ID: <179084002725.434549.277511708648912832@kernel.org>
-In-Reply-To: <20260930163109.3910509-1-kuba@kernel.org>
-References: <20260930163109.3910509-1-kuba@kernel.org>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1790840082;
+	bh=kuV33l73kgCfxMXZpX+G6jMpAhtpEBO72ZuYilyuWkY=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=QfyM4xSRlKStaeo/bShD69v/jI3OoLIt9RIlKAxFj08Dl+wLGEQBSqAvQhCoRjKGk
+	 LoKxGHq+CxrS9V2uPd4C5LVxuMTeyD/4DL9PTaaXXBcaF2qhNh1u33Mb0Tmft89/y4
+	 JK540dc3kMHcoBdpmpzys4aF4Nkaa0kf2vhA6a8+g5l0P2qVUnQsbNT5YoHFfupbRo
+	 3LUkl77zt0THmf0rxul77MMD9Mzv5USAhLR7J4SHkujvTjrVFs1pOrtS9bS9hk3jHW
+	 gyZ/cyJI1HqruFwWPwC6FAOzyMxVeGrl5UkQeiFG5RTWufhU4paN7KN7JEuBJimpfG
+	 4GtqckmA4KRMQ==
+Received: by mail-lr2-f34.google.com with SMTP id 38308e7fff4ca-3a652b710a5so60913441fa.3
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 00:34:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxYILdQVZL7SAC/JWirSQAYTHyDR+CmaATqScqAYhPr62Wq3bcJjf7JNjhi/6g3PUtl/lCJFNugDA4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJcnb1i7DqqD9sEWBa4QCin26k3hTBoubiOAjjY1Kwnqncdvhl9
+	buqXO3Pa6uB/j7eXYTqEc8Bjx0+ocKKfKDmHvB100oGg/xozHcYcJNtBLo+QeWgSsaYnAtlNc8N
+	zDgbo3uYbOWo373cPDwdZIwP4BPTWYthPdXXkJkJZyw==
+X-Received: by 2002:a2e:b8ce:0:b0:3a6:6aad:be45 with SMTP id
+ 38308e7fff4ca-3a779206b12mr11576161fa.10.1790840081040; Thu, 01 Oct 2026
+ 00:34:41 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 1 Oct 2026 10:34:39 +0300
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 1 Oct 2026 10:34:39 +0300
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260723-qcom-qce-cmd-descr-v24-1-4f87bb4d9938@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260723-qcom-qce-cmd-descr-v24-0-4f87bb4d9938@oss.qualcomm.com> <20260723-qcom-qce-cmd-descr-v24-1-4f87bb4d9938@oss.qualcomm.com>
+Date: Thu, 1 Oct 2026 10:34:39 +0300
+X-Gmail-Original-Message-ID: <CAMRc=Mc9O-wgeWGNgEW45p5YumdkBwKf7_Zkrgw1=r3Pn8QTPQ@mail.gmail.com>
+X-Gm-Features: AclHuK9Cfoeox9K-SbC3OnT5eZecFWUtZX-vzEsZcBWrrPHwk34664gyCfLJNQY
+Message-ID: <CAMRc=Mc9O-wgeWGNgEW45p5YumdkBwKf7_Zkrgw1=r3Pn8QTPQ@mail.gmail.com>
+Subject: Re: [PATCH v24 01/14] dmaengine: constify struct dma_descriptor_metadata_ops
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	brgl@kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>, Vinod Koul <vkoul@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Udit Tiwari <quic_utiwari@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
+	Frank Li <Frank.Li@kernel.org>, Andy Gross <agross@codeaurora.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Vignesh Raghavendra <vigneshr@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+On Thu, 23 Jul 2026 19:09:07 +0200, Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> said:
+> There's no reason for the instances of this struct to be modifiable.
+> Constify the pointer in struct dma_async_tx_descriptor and all drivers
+> currently using it.
+>
+> Reviewed-by: Manivannan Sadhasivam <mani@kernel.org>
+> Reviewed-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+Vinod: this patch is independent from the rest of the series and the BAM DMA
+rework. Could youtake it for v7.4 as I won't respin the rest of the series
+before we get the QCE fixes in anyway?
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] The new 'Bug fixes' section in
-  Documentation/process/maintainer-netdev.rst applies to "All bug fixes"…
-
---
-
-docs: netdev: additional info requirements for bug fixes
-
-This commit adds a "Bug fixes" section to maintainer-netdev.rst. The
-section requires fixes to state how the bug was discovered and validated,
-and how the fix was tested. It also asks for short reproducers to go in the
-commit message, with longer ones linked online.
-
-> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-> index 1739d9f856c3b..df220a9654387 100644
-> --- a/Documentation/process/maintainer-netdev.rst
-> +++ b/Documentation/process/maintainer-netdev.rst
-> @@ -283,6 +283,38 @@ as a patch to the list with a commit message explaining the technical
->  problems with the reverted commit. Reverts should be used as a last resort,
->  when original change is completely wrong; incremental fixes are preferred.
->  
-> +Bug fixes
-> +~~~~~~~~~
-> +
-> +All bug fixes must state how the issue was discovered and validated,
-> +and how the fix was tested. This should be done in plain English, not with
-
-[ ... ]
-
-> +If the discovery method does not imply the issue was triggered, the commit
-> +message should describe the validation, i.e. how the bug was confirmed
-> +to be real. The commit message must disclose whether reproducing the issue
-> +required modifying the kernel (e.g. inserting a delay to widen a race, or
-> +writing a loadable module to issue the right sequence of calls) or using error
-> +injection. The reproduction steps should be included in the commit message
-> +if they are short (roughly 10 lines or fewer); longer reproducers can be posted
-> +online with a link included.
-
-[Severity: Medium]
-Could this conflict with Documentation/process/security-bugs.rst for fixes
-to bugs that were found with AI tools?
-
-The new section covers all bug fixes. It asks for short reproducers in the
-commit message and a public link for longer ones.
-
-security-bugs.rst says bugs found with AI assistance must be treated as
-public, and then says:
-
-  case, do not publicly share a reproducer, as this could cause unintended harm;
-  just mention that one is available and maintainers might ask for it privately
-  if they need it.
-
-It says the same thing again in the AI tools section:
-
-  Note that since the
-  report will be posted to a public list, the reproducer should only be
-  shared upon maintainers' request.
-
-The Security fixes section later in maintainer-netdev.rst tells people to
-use the mailing lists and not contact the netdev maintainers directly. A fix
-for an AI-found security bug in networking code would therefore be posted
-publicly, and the reproducer would stay in git history.
-
-For that case, the new text says to publish the reproducer and
-security-bugs.rst says not to. The commit message says AI-generated patches
-are the main target, and security-bugs.rst is written for the same group.
-
-Would it help to add an exception for security-relevant fixes here, or a
-pointer to security-bugs.rst, so the two documents agree?
-
-> +
-> +The testing statement should explain whether the fix was tested against the
-> +reproducer and against kernel selftests. If the bug is in a hardware driver,
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260930163109.3910509-1-kuba%40kernel.org
+Bart
