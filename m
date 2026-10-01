@@ -1,508 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D7F3803F1
-	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 13:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3201A43DED7;
+	Thu,  1 Oct 2026 13:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790859653; cv=none; b=XwvgB+TSyJbgaOw+JK+Cb9yGOD1JfsUwREYmQMUw9fs/5bk601VOLu2qwylnPEmLwUTRZvZ4BiD1s6MG3qZZ6kv+x8EZUP61tUF8YTGgQhI45GGz41sYgUs9z18LsH8KW3aq8sYP38zFzMvkAoYrpLgrSADEuobssusYE5KMY4A=
+	t=1790860100; cv=none; b=WkuDrlkdi5ciPuLXKSBOmlWSHBKcZN77RzXcEUpej5qUPT/MllD7mKER9NjI8/1/1ZqcxKKQRha7PYSBi2pk7R/G3fC9yqFIY1aA+i3XUGRrrjdJHBCqgqSDYcSv021hVmR5CwHB58w/cd7rGmlh+t0khEuX56NbgjljCUwqEqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790859653; c=relaxed/simple;
-	bh=tMljaISo/9I0DG/bN+vAgBnnJUNmlYdFVwga45m9kTI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JtfkDh6EoP85VkWFxzxcpY/c9xTu/Q3eZinqfV0syMgO5Rq8jamkx9hFskxByv8wbkr0KC/K+FI1CZHpzrgRlZuuUDbmoQEFewr9uEImwDplUToa7dFDjJDyZ5OxBLCaq1EtzUgh7W/9hTeRCjdabKDwJFff5K7mVc6Fd0OkhSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J7YQviCz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790860100; c=relaxed/simple;
+	bh=7NTVxUPPQRkEo3oKjzqHQ5kZL9esH3eQ+srU6u8rBsk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZTRaq7ROycxzar2Ph8R45W6JRmDMDzKuT79FLhNqL16CEjA/1Tic0iIJiuhPRmIOJS1PJG4qY/XwKiHvVcW4rM2S0lxKskcYZrC/SbgEDMarRAr14zhmha5AuKXPf5P5BmJgJBlhZv8/HeJI7t7xfa6x2cXk4GkcW8SeF2PAsBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nUPlma9X; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J7YQviCz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5833F1F0089B
-	for <linux-doc@vger.kernel.org>; Thu,  1 Oct 2026 13:00:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790859651;
-	bh=KHXUneKs9Jfbf9u4LYiB1pAFKuyeCk45mbKds6KZ8+E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=J7YQviCzpgj+utGR3EjCvDmyptDVwT5uKApDcC3Gp+0OXMb2E1WRcGbeR1issrj5F
-	 SY/qgo1YG18qjo7DjEKKduABbFr5kiyLcRrQnnZ3ytKVU5JXpYlLHqhAB4Cx/aRDtz
-	 HFrkHoVtQvTyJuIPbJ8R2gaxHFLVVRlt0Ew/g58j+aQ8CQOGqsyxS0l4dRaSrLN4zS
-	 HbwJ5MDPGcRbUzVEHBSnucj1fI8DOZtEYfP3Wh1BWyDKwx7ux0M9beRrg7ZiHfMfDQ
-	 Z3Ic8b7tYilTKfD5PAVEkJkhm1UDY/iO+qTW35JOSiSkzRnbFv2TAZ5Lku+JjHXeFV
-	 rjO0Zw7TfPWnA==
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5ba390408cdso2702240e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 06:00:51 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzo2ly9IYO5UKZ87dkz2r3sFwZh0JJKKZIYzi9g2jeqggomFgMthrv+a8Eh3XcAmEqAnFEPN6ak2NY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJZ4RjSDja9QY2q8NGoZ9A+x6Ya8un6bUTLcbhIT1iLFBfhXAwy
-	OnDhOkBUKauISPjOF8eBFkRhfTEsoPJaBZBKaHQwY8QqGiSlN99kP0yhzT3dmSgVsgKZTLTW35H
-	MEz8uBu/liPln/9kARcQicFU4/JcAzSg=
-X-Received: by 2002:a05:6512:2398:b0:5bb:7b2a:5b19 with SMTP id
- 2adb3069b0e04-5bb7b2a5be3mr126859e87.0.1790859649529; Thu, 01 Oct 2026
- 06:00:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nUPlma9X"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=NQbZZznD2FdL+dsSLxIV1m7QSEEUiXKj9hpXUNyjtqs=; b=nUPlma9XuLsAC5/fvmFRVmRSKF
+	eXkcRVUYB1R6vII5bc84ncJFKD258tg9X4/97v8y/S0GYi0PMffs4uCoGYH6vbTxacUTPpy5MEOML
+	25If5oKvkstbG7QJG1xLeiGfjA+wNL0d4Wp7Wi6AqKNBlPKdRURD7OtcaltOlJ4oWNC9WjHJ2VryL
+	793R9x1CqVLVlXQDefC+PgTgCCL6gj9JL/RaL7yvukpdmEKtglkESI7vegayygsJ6xpAkJd8VaMh8
+	9RFSLeSORd1Q/uFn8wDO6SXl+x4qC1109VbJ2dfjWGdVFsibGTEJ2/enXPzV3PsHgAwdWGYvs1b7u
+	uEe+sXGQ==;
+Received: from 54-240-197-228.amazon.com ([54.240.197.228] helo=edge-m3-r3-161.e-iad51.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1xCGVi-00000007YSm-1Ylt;
+	Thu, 01 Oct 2026 13:07:42 +0000
+Message-ID: <9292b27b8f48c515bee3246cf3b3a60762302186.camel@infradead.org>
+Subject: Re: [PATCH RFC 01/17] mm: shmem: Implement guest_memfd provider
+ operations for tmpfs
+From: David Woodhouse <dwmw2@infradead.org>
+To: ackerleytng@google.com, Hugh Dickins <hughd@google.com>, Baolin Wang	
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+  Sean Christopherson	 <seanjc@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, David Hildenbrand	 <david@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan	 <skhan@linuxfoundation.org>, Randy
+ Dunlap <rdunlap@infradead.org>, Shuah Khan	 <shuah@kernel.org>,
+ vannapurve@google.com, erdemaktas@google.com, 	jxgao@google.com,
+ rientjes@google.com, fvdl@google.com, jthoughton@google.com, 
+	tarunsahu@google.com, pratyush@kernel.org, fuad.tabba@linux.dev, Gregory
+ Price	 <gourry@gourry.net>, yan.y.zhao@intel.com, michael.roth@amd.com, 
+	suzuki.poulose@arm.com, Christian Brauner <brauner@kernel.org>, Jason
+ Gunthorpe	 <jgg@ziepe.ca>, Nicolin Chen <nicolinc@nvidia.com>, Xu Yilun	
+ <yilun.xu@linux.intel.com>, aik@amd.com, aneesh.kumar@kernel.org, Vlastimil
+ Babka	 <vbabka@kernel.org>, Fred Griffoul <fgriffo@amazon.co.uk>, Connor
+ Williamson	 <connordw@amazon.com>
+Cc: kernel-team@android.com, kernel-team@meta.com,
+ linux-kernel@vger.kernel.org, 	linux-mm@kvack.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-kselftest@vger.kernel.org
+Date: Thu, 01 Oct 2026 14:07:40 +0100
+In-Reply-To: <20260925-gmem-tmpfs-backend-v1-1-d36159822d18@google.com>
+References: <20260925-gmem-tmpfs-backend-v1-0-d36159822d18@google.com>
+	 <20260925-gmem-tmpfs-backend-v1-1-d36159822d18@google.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-s3MK8W8btbMwTiyek4QL"
+User-Agent: Evolution 3.62.0-0ubuntu1~ppa1~24.04 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260930025044.104824-1-briannorris@chromium.org>
- <20260929194956.v3.7.I45a794e4452e3df22419acdd8f11e2b788b3413f@changeid>
- <CAJZ5v0ifwGx-1H-YVM63-0HUD5cs+5W4Tk8T+2LdLZpy5sLS9w@mail.gmail.com> <ar2d2xCi9ITd3NYH@google.com>
-In-Reply-To: <ar2d2xCi9ITd3NYH@google.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 1 Oct 2026 14:59:02 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0hYOjKMxEdtvqfO_T4K2eiZsNAeqZOymx0vb_q66QB6Hw@mail.gmail.com>
-X-Gm-Features: AclHuK8srxPF81keIGu9488uS5H_eERec2uNtQ6Kxk6suulT9ilfC5Id9fj7Sqk
-Message-ID: <CAJZ5v0hYOjKMxEdtvqfO_T4K2eiZsNAeqZOymx0vb_q66QB6Hw@mail.gmail.com>
-Subject: Re: [PATCH v3 7/8] PM: runtime: Expand introduction with core
- concepts and structure
-To: Brian Norris <briannorris@chromium.org>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Doug Anderson <dianders@chromium.org>, Ulf Hansson <ulfh@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Len Brown <lenb@kernel.org>, linux-kernel@vger.kernel.org
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+
+
+--=-s3MK8W8btbMwTiyek4QL
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 1, 2026 at 1:40=E2=80=AFAM Brian Norris <briannorris@chromium.o=
-rg> wrote:
->
-> Hi Rafael,
->
-> On Wed, Sep 30, 2026 at 05:41:56PM +0200, Rafael J. Wysocki (Intel) wrote=
-:
-> > On Wed, Sep 30, 2026 at 4:51=E2=80=AFAM Brian Norris <briannorris@chrom=
-ium.org> wrote:
+On Fri, 2026-09-25 at 17:50 -0700, Ackerley Tng via B4 Relay wrote:
+>=20
+> @@ -130,6 +131,9 @@ struct super_operations {
+> =C2=A0
+> =C2=A0	/* Report a filesystem error */
+> =C2=A0	void (*report_error)(const struct fserror_event *event);
+> +#ifdef CONFIG_KVM_GUEST_MEMFD
+> +	const struct guest_memfd_provider_operations *gmem_provider_ops;
+> +#endif
+> =C2=A0};
+> =C2=A0
+> =C2=A0struct super_block {
 
-[cut]
+I think I'd prefer the memory provider ops *not* to explicitly mention
+KVM or guest_memfd.=20
 
-> > > +
-> > > +Core Concepts
-> > > +-------------
-> > > +
-> > > +Understanding runtime PM requires distinguishing between several pai=
-rs of
-> > > +related but distinct concepts that apply to each device: **enabled**=
- /
-> > > +**disabled**, **active** / **suspended**, and **allowed** / **forbid=
-den**.
-> > > +
-> > > +* **Enabled**: To use runtime PM to manage a device's power states, =
-it must
-> > > +  first be **enabled**. If RPM is never enabled for a device, it gen=
-erally
-> > > +  stays inactive from an RPM perspective, and the PM core will ignor=
-e it.
-> > > +  If it is enabled, the PM core can manage the device status (see **=
-Active**
-> > > +  below) according to its understanding of whether the device is in =
-use, and
-> > > +  perform state transitions via the appropriate PM callbacks
-> > > +  (->runtime_suspend(), ->runtime_resume()).
-> > > +
-> > > +  Each device has an internal disable counter (``disable_depth``) wh=
-ich
-> > > +  determines whether runtime PM is currently enabled. Devices are in=
-itially
-> > > +  registered with runtime PM disabled (``disable_depth =3D=3D 1``), =
-though some bus
-> > > +  types (such as PCI) may enable it before driver probe.
-> > > +
-> > > +  To opt into runtime PM, a driver first ensures that the device's r=
-ecorded
-> > > +  status matches its actual physical state (for example, by calling
-> > > +  pm_runtime_set_active() if the device was powered on at probe) and=
- then calls
-> > > +  pm_runtime_enable(), decrementing ``disable_depth`` to zero (i.e.,
-> > > +  **enabled**). Runtime PM may be disabled again explicitly via
-> > > +  pm_runtime_disable() or temporarily during system sleep transition=
-s.
-> > > +
-> > > +* **Active**: The PM core tracks a device's runtime status as either=
- **active**
-> > > +  (the device is operational, having completed its resume callback o=
-r otherwise
-> > > +  marked active) or **suspended** (the device is idle or in a low-po=
-wer state,
-> > > +  having completed its suspend callback or otherwise marked suspende=
-d), along
-> > > +  with transitional **suspending** and **resuming** phases. When run=
-time PM is
-> > > +  **enabled**, state transitions are primarily driven by reference c=
-ounting:
-> > > +  drivers call pm_runtime_resume_and_get() (or related variants) bef=
-ore using
-> > > +  the hardware, to ensure the device is active; and pm_runtime_put()=
- (or
-> > > +  related variants) once work completes. When a device's usage count=
-er drops to
-> > > +  zero and its dependencies (children or consumers) are suspended, t=
-he PM core
-> > > +  can suspend the device immediately or after an autosuspend delay.
-> > > +
-> > > +  Besides driving the state of the device in question, a device's ru=
-ntime
-> > > +  status also affects those of its dependencies =E2=80=94 its parent=
- (if the parent's
-> > > +  ``power.ignore_children`` is false) and its linked supplier device=
-(s) (for
-> > > +  links with the ``DL_FLAG_PM_RUNTIME`` flag). An **active** device =
-holds
-> > > +  reference counts on its dependencies, preventing them from suspend=
-ing.
-> > > +
-> > > +* **Allowed**: System policy and user space govern whether dynamic s=
-uspension
-> > > +  is permitted through the concepts of **allowed** and **forbidden**=
-,
-> > > +  manipulated in-kernel via pm_runtime_allow() and pm_runtime_forbid=
-() and
-> > > +  exposed to user space through the ``/sys/devices/.../power/control=
-``
-> > > +  attribute. When runtime PM is forbidden (``control`` set to ``on``=
-), the PM
-> > > +  core increments the device's usage counter, forcing the device to =
-remain
-> > > +  active regardless of whether the driver is idle. When runtime PM i=
-s allowed
-> > > +  (``control`` set to ``auto``), this reference is dropped, permitti=
-ng the PM
-> > > +  core to automatically suspend the device whenever its driver and c=
-hild
-> > > +  devices are no longer using it.
-> > > +
-> > > +Notably, runtime PM also has a feature called "autosuspend." This is=
- different
-> > > +than the ``control`` notion of "auto" (i.e., "allowed"). Autosuspend=
- is
-> > > +described in more detail in `Section 9`_.
-> >
-> > Regarding the above, I have reconsidered it with the conclusion that
-> > it would be better to describe "active" and "suspended" first and
-> > "enabled" and "disabled" subsequently,
->
-> I also found it to be not-so-great to put "enabled" first, as it still
-> requires forward-references to "active" to cover it sufficiently.
->
-> > and maybe without going too
-> > much into details yet.
->
-> Sure. There are probably some details that could be omitted from my
-> version. Frankly, some of those details are there because you asked for
-> them though...
->
-> > Here's my version of it:
->
-> Thanks! My general thoughts are:
->
-> 1) I think your version adds a few things that are nice to have. For
->    example, a better clarification of what "active" and "suspended" mean
->    from both physical device level, and from abstract RPM meaning. (This
->    may also be where you've insisted on "meta-state" as a term. I don't
->    agree that "meta" adds any value, but I won't insist.)
+It is *just* a provider of memory. It manages its own address space,
+and gives you the PFN (or folio, if you must) for a given range of its
+address space on request. Perhaps with a 'nowait' flag to allow for
+asynchronous operation (expecting its caller to try again without that
+flag from a context where it *does* want to wait).
 
-I just want to make it clear that "active" and "suspended" are
-abstract and not tied to any specific device states in principle.
-Maybe this is obvious.
+It will also want to manage *permissions* for that memory (read-only,
+probably shared/private too?). And *revocation* when it wants a page
+back.
 
->    I also think the "forbidden" implication is a good addition: "the
->    ability to transition a device into the suspended meta-state via
->    runtime PM must not be relied on for correctness" -- that's one
->    reason I wanted to put allowed/forbidden up top; that it throws a
->    wrench in many people's assumptions.
->
->    You spend more time on dependencies. That's a good thing IMO.
->
-> 2) I think your version adds some things that are undesirable for an
->    intro. For one, it spends quite some time to talk about the pitfalls
->    of a "disabled+active" device. I think this is not something that
->    goes in an introduction, and is more of an anti-pattern. If we wanted
->    to document anti-patterns, we could write another few essays, I'm
->    sure... It's also somewhat covered in Section 5 already.
+The *consumers* of this memory provider API will include KVM/guestmemfd
+and IOMMUFD. The latter *might* be through masquerading as dmabuf, or
+IOMMUFD might treat memory providers as a first class citizen and be
+taught to consume them directly.
 
-Fair enough.
+But let's try to keep the interface, its implementations, and its
+consumers cleanly separated.
 
->    You've also completely omitted describing reference counting.
+--=-s3MK8W8btbMwTiyek4QL
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-Kind of on purpose because I didn't want to pull up too much internal stuff=
-.
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
+ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
+MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
+AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
+DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
+q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
+S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
+Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
+72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
+CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
+mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
+h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
+CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
+GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
+AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
+v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
+CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
+b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
+Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
+A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
+vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
+0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
+jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
+FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
+HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
+IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
+MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
+MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
+sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
+tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
+EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
+6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
+ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
+bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
+Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
+02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
+sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
+ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
+JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
+LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
+BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
+LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
+hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
+SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
+c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
+RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
+AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
+EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
+ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
++3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
++icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
+McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
+LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
+nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
+gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
+Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
+CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
+QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
+Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
+SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
+YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
+kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
+pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
+v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
+vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
+PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
+REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
+lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
+aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
+D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
+bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
+MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
+oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
+TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
+bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
+BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
+MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
+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
+51df9OWCP+h1s2JCUrfiMhkAAAAAAAA=
 
->  This is  one of the most fundamental aspects of RPM, IMO. (OTOH, omittin=
-g API
->    names is a fine choice.) I think your elaboration of "dependencies"
->    is a good time to just break out a section on what constitutes "in
->    use" -- get()/put() references, and dependents.
->
-> 3) Lack of organizational clarity -- your version looks more like a wall
->    of text essay, which IMO doesn't do so well at engaging introductory
->    readers, or those skimming for one concept (e.g., "forbidden"). I
->    still prefer the structure that clearly highlights the main topics,
->    either with bullets or sections or something.
 
-This is a matter of personal preference.
-
-> 4) autosuspend -- I think it deserves a mention in the intro, even if
->    it's a pointer to the existing section. Not sure if you meant to drop
->    it.
->
-> 5) Wordy. Your intro has about ~%50% more words. I think the same
->    content could be represented more succinctly, to make for a better
->    read.
->
-> ...but:
->
-> 6) It's better than not having this introduction at all!
->
-> So aside from the general thoughts above, I will:
->
-> (a) add minimal direct feedback to the text below, in case you'd still
->     prefer taking a variation of your content. That would be OK with me.
->
-> (b) provide my own adaptation of my writing + your writing at the end,
->     in case you'd rather try that.
->
-> > "There are some device-level concepts that need to be grasped in order
-> > to understand runtime PM as a whole.
->
-> I think listing the concepts at the top helps, as a sort of introductory
-> paragraph/sentence to the following wall of text and/or bullets.
->
-> Also, super-nits: you seem to wrap at about 70 chars, while most of this
-> doc (and other docs, I think) wraps at around 78-80.
->
-> I also see a difference on two spaces after periods or not. I guess most
-> of this doc uses two, even though that's not the dominant style these
-> days. I'll try to stick with two spaces now that I noticed. (Fun fact:
-> it seems browsers automatically collapse these to one space, when
-> viewing the generated HTML.)
->
-> > First of all, runtime PM tracks whether or not devices are in active
-> > use, which generally means that they are accessible and operational,
-> > and may be depended on by something (for example, other devices or
-> > user space).  That is represented by the **active** meta-state of a
-> > device from the runtime PM perspective.  The other persistent device
-> > meta-state used by runtime PM, called **suspended**, represents a
-> > promise that the given device will not be accessed.  This covers
-> > devices in low-power states, but it also may include devices that are
-> > not fully operational, or are regarded as such, for other reasons.
-> > There are also two transient meta-states, **suspending** and
-> > **resuming**, that represent transitions between **active** and
-> > **suspended** often referred to as *runtime suspend* and *runtime
-> > resume*, or just *suspend* and *resume*, respectively.  Every device
-> > handled by runtime PM is in one of these four meta-states at any time
-> > and the meta-state it is in is expected to reflect its actual physical
-> > configuration (that is, for instance, if the device is not accessible,
-> > it cannot be **active**).  The term "runtime PM state" used in what
->
-> Somewhat nitpick: everything else seems to call it "runtime PM status"
-> or similar, not "runtime PM state". `enum rpm_status`, most of the
-> existing doc language, the 'power.runtime_status' field, etc.
->
-> > follows refers to the meta-states described above.
-> >
-> > Second, in order to track the runtime PM state and carry out
-> > transitions between **active** and **suspended**, runtime PM needs to
-> > be **enabled** for the given device.  If it is **disabled**, it
-> > generally leaves the device alone.  This means in particular that the
-> > runtime PM state of a device and its actual physical configuration may
-> > get out of sync after disabling runtime PM for it.  Analogously, the
->
-> I'm not sure "analogously" is the right word here. It seems like you're
-> going for "additionally" or some other similar word.
->
-> > runtime PM state of a device may need to be explicitly adjusted to
-> > reflect its current physical configuration before enabling runtime PM
-> > for it.  Moreover, it is generally not recommended to leave devices in
-> > the **active** meta-state after disabling runtime PM for them because
-> > that may affect what can be done to their ancestors and suppliers
-> > going forward.
-> >
-> > More specifically, in addition to tracking the runtime PM state of
-> > every device, runtime PM tracks dependencies between different
-> > devices.  In fact, that dependency tracking mechanism is the main
-> > reason for using runtime PM.  The idea is that in order for a device
-> > to become **active**, all of the devices it depends on must also be
-> > **active** and that is enforced by runtime PM.  Accordingly, an
-> > attempt to resume a device causes all of the devices it depends on to
-> > become **active** and remain **active** until the given device is
-> > suspended.  In turn, an attempt to suspend a device may allow the
-> > devices it depends on to also suspend unless they are additionally
-> > depended on by something else.  While desirable so long as runtime PM
-> > is **enabled**, this may become problematic when runtime PM is
-> > **disabled** because the tracking of dependencies does not stop
-> > automatically at that point and it may cause some devices to remain
-> > **active** unnecessarily.
->
-> Like I said above, I like that you went into more detail on
-> dependencies. But I think this is a pretty divergent train of thought.
-> In my edited version below, I chose to break it out into a new
-> bullet/section, kept after the first 3.
->
-> > As a rule, runtime PM is **disabled** for all devices to start with,
-> > but there are bus types that enable it for every device (for instance,
-> > the PCI bus type does so).  Generally speaking, drivers are expected
-> > to know which bus they belong to and so they should also know whether
-> > or not runtime PM has been enabled for the devices handled by them
-> > already.  In the cases in which runtime PM is not enabled by the bus
-> > type, drivers are responsible for enabling it if they want to
-> > participate in it.  The devices for which runtime PM has never been
-> > enabled are black boxes from its point of view.
->
-> I think most of this paragraph is a bit too much, and is easily derived
-> from just explaining that "most start disabled; some buses (like PCI)
-> make more initial choices for you; choose accordingly".
->
-> I'm also not sure what the "black box" mention adds on top of the
-> earlier, "If it is **disabled**, it generally leaves the device alone."
->
-> > Finally, runtime PM may be **forbidden** even though it has been
-> > enabled.  Doing so causes the given device to transition into the
-> > **active** meta-state (unless it has been **active** already before)
-> > and prevents it from being suspended.  In other words, a device with
-> > forbidden runtime PM remains **active** at least until runtime PM is
-> > **allowed** for it again.  This mechanism is not only available to
-> > kernel code, but it may also be used by user space through the
-> > ``/sys/devices/.../power/control`` *sysfs* attribute of the given
-> > device.  Namely, writing ``on`` to that attribute causes runtime PM to
-> > be forbidden for it, and writing ``auto`` to that attribute causes
-> > runtime PM to be allowed.  User space may use that attribute at any
-> > time, so the ability to transition a device into the **suspended**
-> > meta-state via runtime PM must not be relied on for correctness, among
-> > other things."
->
-> I still think autosuspend belongs in the intro, even if only to link to
-> the existing section. (I also think the "auto" vs "autosuspend"
-> disambiguation is important, but I'm also open to moving that part to
-> Section 9 or similar.)
->
-> > I think that it provides all of the information needed to start with
-> > without pulling too much stuff documented elsewhere.
-> >
-> > If you agree with the above, I'll send my version as a separate patch.
->
-> I'm obviously biased, but I think there's room for improvement. I'm
-> providing my adaptation of your text below, but I'm also open to yours
-> however you see fit. Like I said, one of these options is better than
-> none.
->
-> Let me know if I should send the below in v4, or else please mail your
-> own for review!
->
-> """
-> Runtime PM operates around a few device-level concepts =E2=80=94 whether =
-a device is
-> **active** or **suspended**; whether runtime PM is **enabled** or **disab=
-led**;
-> whether runtime PM is **allowed** or **forbidden**; and whether a device =
-is "in
-> use."
->
-> * **Active**: Runtime PM tracks whether or not devices are in active use,=
- which
->   generally means that they are accessible and operational, and may be de=
-pended
->   on by something (for example, other devices or user space).  This is
->   represented by the **active** meta-state.  By contrast, the **suspended=
-**
-
-So you can just drop the "meta-" prefix here and elsewhere below if
-you think that the meaning of "state" is clear enough.  It's up to you
-though.
-
->   meta-state represents a promise that the given device will not be acces=
-sed.
->   This covers devices in low-power states, but it also may include device=
-s that
->   are not fully operational.  There are also two transient meta-states,
->   **suspending** and **resuming**, representing transitions between **act=
-ive**
->   and **suspended** often referred to as *runtime suspend* and *runtime
->   resume*, or just *suspend* and *resume*, respectively.  Every device ha=
-ndled
->   by runtime PM is in one of these four meta-states at any time, and its
->   meta-state is expected to reflect its actual physical configuration (th=
-at is,
->   for instance, if the device is not accessible, it must not be **active*=
-*).
->   The term "runtime PM status" used in what follows refers to the meta-st=
-ates
->   described above.
->
-> * **Enabled**: In order to track the runtime PM status and carry out
->   transitions between **active** and **suspended**, runtime PM needs to b=
-e
->   **enabled** for the given device.  If it is **disabled**, runtime PM
->   generally leaves the device alone.  This means in particular that the r=
-untime
->   PM status of a device and its actual physical configuration may get out=
- of
->   sync after disabling runtime PM for it.  Additionally, the runtime PM s=
-tatus
->   of a device may need to be explicitly adjusted to reflect its current
->   physical configuration before enabling runtime PM for it (e.g., during =
-device
->   probe).  Once runtime PM is **enabled**, it begins managing PM status =
-=E2=80=94
->   performing *runtime suspend* and *runtime resume* transitions based on =
-its
->   understanding of whether a device is in use.
->
->   As a rule, all devices are initialized with runtime PM **disabled**, th=
-ough
->   some bus types (such as PCI) manage some RPM initialization automatical=
-ly,
->   and therefore probe devices in an **enabled** state.  For other devices=
-,
->   drivers must enable runtime PM on their own to opt in.
->
-> * **Allowed**: Runtime PM may be **forbidden** even though it has been en=
-abled.
->   Doing so causes the given device to transition into the **active** meta=
--state
->   and prevents it from being suspended.  In other words, a device with
->   forbidden runtime PM remains **active** at least until runtime PM is
->   **allowed** for it again.  This mechanism can be managed by in-kernel A=
-PIs,
->   but more importantly, it is also available to user space via the
->   ``/sys/devices/.../power/control`` sysfs attribute of the given device.
->   Namely, writing ``on`` to that attribute forbids runtime PM, and writin=
-g
->   ``auto`` allows it.  User space may modify that attribute at any time, =
-so the
->   ability to transition a device into the **suspended** meta-state via ru=
-ntime
->   PM must not be relied on for correctness.
->
-> * **In use**: Runtime PM determines whether a device should be transition=
-ed to
->   an **active** state by its understanding of whether a device is in use.=
-  The
->   first way a device is considered **in use** is by its own usage count =
-=E2=80=94 a
->   reference counter driven by a variety of get()/put() APIs.  Additionall=
-y, a
->   device may be considered **in use** by having active dependents =E2=80=
-=94 either
->   child devices, or device-linked consumers.  When a device is no longer =
-in
->   use, runtime PM may choose to transition it to the **suspended** state.
->
->   Thus, when a device moves from a **suspended** to an **active** state, =
-it may
-
-I would say "from **suspended** to **active**" here
-
->   also cause its dependencies to resume.
-
-Also, I'd say "it causes its dependencies to resume unless they are
-**active** already"
-
->  Conversely, suspending a device may
->   also cause its otherwise-unused dependencies to suspend.
->
-> * **Autosuspend**: Runtime PM also supports a feature called "autosuspend=
-."
->   This is different than the ``control`` notion of "auto" (i.e., **allowe=
-d**).
->   Autosuspend is covered in `Section 9`_.
-> """
-
-Apart from the nits above, this looks fine to me.  Please feel free to
-send a v4.
-
-Thanks!
+--=-s3MK8W8btbMwTiyek4QL--
