@@ -1,541 +1,243 @@
-Received: from mail-vs2-f39.google.com (mail-vs2-f39.google.com [74.125.227.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5B75013D1
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 17:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0024E13E8;
+	Fri,  2 Oct 2026 17:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790961138; cv=none; b=pI9pxF0Cc/4eXJTiul7xJzufaboAGfNiCmQ91dvXkMQc3HNtXMSStv47HGTmzfghcgRBp+rO5Ppxj8heRGx+bivQh4m0yfXclPvjnXMgpfvWmdnRk0uzV779e5JNxBbfmS63QgS4iek04PH/k5DUWFbUX6fjWmgLHREehRI7NSE=
+	t=1790961184; cv=none; b=nHdlCZYw2Jt8MtgUr4kHmEELbGMqsAYUABS/Cu5yvMVyQUw07m+RhQg/3hHVwvksl9JX77id7ojvWGM2+GcNnW/coG2v9tA8DPPUkkWRoc6WUvSsyn+p9sjpisFL0CZUTVXBSP/AFczNQtkY4kj5Y0Ils1wYBvPQpIsBSVF4Byo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790961138; c=relaxed/simple;
-	bh=PK2alp6/xnsHER1rffOmxAkIoASTZ/vXBcbR9/rNVLk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AK7MnBOk02+lYnmEgahgsQejzGWlyQxBDtz3GHD3mTcg7XrrZoLR3TjESPFqxD9zoeL9eGxKzKrqTxszMp0bPZXVdFedbVd0EodfP8D/WU/Glotvov9sjdKTckJKUS31lc2SRfEEe8XF1TJFkb7yflk9Eg146NhFz0Du/iBvLdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UjleLcRe; arc=none smtp.client-ip=74.125.227.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790961184; c=relaxed/simple;
+	bh=bMOormtD/BysD5q/X8WDjYCKDuOENgwnylEY69wimnU=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=aBQ84H34DkgrFpwqFWws1bEASLhZwJw0xlzAxzKx7+XA9faPBCicS96G5QSCpN7vVmXqrWZIgh+7tNweM6D0iQqKbGa785YD/i+bxEf1r9T9JTSjgpfSI9LwjcpN7cOoVFL2EvX08qBaDDpTsnfOCtjmZ6oWlbw7F8jbzHf55dI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=k3cOqoXT; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=CmtFmN6j; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UjleLcRe"
-Received: by mail-vs2-f39.google.com with SMTP id 71dfb90a1353d-5d5af7b2015so1022368e0c.1
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 10:12:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790961120; x=1791565920; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FgbzUmq0OSdHr1yvAJe1wHzLrk4YUD9c9CxEWcth0do=;
-        b=UjleLcReWJrJDgEdK/NYVy7B5PfkYwFNVWYdldQYbK9KA62X9x8DYuX4bKgTVPqCHj
-         Hj/eyngQEqW6/uueyYryGfDohr5Pch5EIMlXkZSJG7uVNstFwffalb1e3WFgzutpseou
-         ZuKS9hkdTrPc0lz3GmQY4iQL6bT+5IVclxdLLMYb5OPzhgcMltfrGV5CA4IsjV21Zieq
-         x83Nt4OKQitdbmvERw6t8qacyli6yXK/iLAfz6UbPMG32gI/DXLhLYg8m/RtRdQyqvDp
-         SmKizEO2N440+vKXYqek4ikS7Em9jYpzXGJnqggWf/ztlkkSdEFoi6TUpRpRI1G3xYUu
-         GeUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790961120; x=1791565920;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FgbzUmq0OSdHr1yvAJe1wHzLrk4YUD9c9CxEWcth0do=;
-        b=l9tOSrP7hbgwaeIv/sh/Cw7qtp6uYAROAEpYGPUnvGCHsrWsFXhVg/XWAoXUnmHQ08
-         yo5bNlqMDMQeA6meie9jW8t7gmrVh5h8mdjAdSEfJ7hOweIlP8PW1BmuhGM6qO/gCAly
-         WHbrTmIe2/eyKNj8goGFEuAHtR0J5GPFqvQL9OyDVup/nbJI51JT4ZeWx2yGIn4PL1wr
-         MXRH06Ngwzxm1O/CIcB63vFMvkjQR/81Na5Wosi6KNEHyQIxklGwF9xtSJ7sF7Wpz4h6
-         ZpqDYnAecVaKstnXVyuGoravC3BJ7RdRRgQdg5zuycEJWKQ8q7rXe49VFVffVFbwAHwB
-         El1Q==
-X-Gm-Message-State: AFq9FYLyByUhgyHnMch8t+/L7EjFuBWp9RDVkkzPRyipPhv2FVTQO0Ba
-	4qLtWbrSgpzyXaJ/z9y5nZ5AgCmi1nnd6QedzerD2klhgoWxW7tnM4txICZkoBjZ
-X-Gm-Gg: AYBFou0iJkwBE6Vq199I160q/IsmcyUVDnZzcsa09fEjROER7O8DiwPqYagoOqJmvh6
-	0GtIAGOSQmFVHIadStlfJrGOBeZstYlSqnhOftRsuh7T2YTa+CfOQaAwgV7THv2U0CkwV3ZNnLc
-	cudArM+h+lc23d0Wmv/3PArOFd5YGll29tDMoywj8YFMe9tHOT4M389I6m1j17kSvSJPJ1NN8yj
-	0rlCwybduOAMewlndVDJ4bIVVt4jxIdbASASA0xwPuo572ps4DpNt5XxMp9crF79YWNHI/+WUUQ
-	8tO7Zho8ECOXtzMI3RFXHBdA3mmW4bEOkYMyWFiI/xDx2aqlGBMkKWyFtwxRge1iViXV6Y0ddXK
-	o3kKK4KFi05dWsui1keu8+mnrIyRpwroGmRWuW9Ljxl9Wv/xUlY4+AipTgqr4b7ET6TZKPGwIs1
-	N4O9aOEZaiIg/dtSkU721APnA6/khjw8UrRXpEnA35veNIIodynoU3I+FATgvL3r2hBI9sx7RF5
-	pbogmiDZ8/RRYG+eO8BPRDIwUqxuILbXf1E+fPD64ZBNlvuwQ3cHi6N9bnc+KHXQer6EE5fpLov
-	kbZNMGuJ
-X-Received: by 2002:a05:6122:9004:b0:5dd:93c4:12cb with SMTP id 71dfb90a1353d-5dd93c42213mr366994e0c.2.1790961118811;
-        Fri, 02 Oct 2026 10:11:58 -0700 (PDT)
-Received: from penguin.bbrouter. ([200.218.229.14])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5da635c7209sm3947605e0c.15.2026.10.02.10.11.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 10:11:58 -0700 (PDT)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: corbet@lwn.net
-Subject: [PATCH 08/10] docs/translations/pt_BR: admin-guide: add bootconfig.rst
-Date: Fri,  2 Oct 2026 14:11:31 -0300
-Message-ID: <20261002171133.50969-9-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261002171133.50969-1-danielmaraboo@gmail.com>
-References: <20261002171133.50969-1-danielmaraboo@gmail.com>
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="k3cOqoXT";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="CmtFmN6j"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1790961152; bh=b9Q0i239fHVl2Kmz77y2hqJ
+	hKMRp0ccS9+F9KIK0Jhk=; b=k3cOqoXT7iyuu9IwI3dU6iCnI6VAlceY9g/2speCBBovG+d5lm
+	+8fyy0pebrjEp1MDWDVxLM7103M7XPWEMzwwTBeOxQ4xu3GVRLOmmDBrDzRJ8dvNWF7LxgfLheu
+	xalcN3D8SdgKogqpDG/LdRabowqU0Zswkj3NYeARcKkZDfmTuotP/T0N9IwFAsv2ARks9bzha7y
+	Ia9oBlbaEtoi7V6wGyl4vHUUDH41mQLZHW52FKgh43g/xrZ3+R7p8VnjXozqCmMmZFulXuE5bR4
+	Gzomkm56TsgL/i+VWr1AhKy9VZB9n6sqtN7sU7h7J0XCG/CW2exlPPym7Kb37LzTlpg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=Message-ID:Subject:To:From:Date; t=1790961152; bh=b9Q0i239fHVl2Kmz77y2hqJ
+	hKMRp0ccS9+F9KIK0Jhk=; b=CmtFmN6jO7CuOtkqUNxQF+NndeulGQxjo9ai9gJ3chl4yCFwcB
+	NtHWgsC4OciGaHrxIKTkj6M518iY0qxAIaDg==;
+Date: Fri, 02 Oct 2026 18:12:32 +0100
+From: Bradley Morgan <brads@mainlining.org>
+To: Kunwu Chan <kunwu.chan@gmail.com>, paulmck@kernel.org, corbet@lwn.net,
+ mingo@redhat.com, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+ josh@joshtriplett.org, urezki@gmail.com, dave@stgolabs.net,
+ lianux.mm@gmail.com
+CC: stern@rowland.harvard.edu, parri.andrea@gmail.com, will@kernel.org,
+ peterz@infradead.org, boqun@kernel.org, npiggin@gmail.com,
+ dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
+ akiyks@gmail.com, dlustig@nvidia.com, joelagnelf@nvidia.com,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, longman@redhat.com,
+ rostedt@goodmis.org, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+ qiang.zhang@linux.dev, kunwu.chan@gmail.com, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, lkmm@lists.linux.dev, linux-doc@vger.kernel.org,
+ rcu@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_RFC_v2_00/15=5D_hazptr=3A_batch_sy?=
+ =?US-ASCII?Q?nchronize_operations_through_a_shared_scan?=
+In-Reply-To: <20261002170847.3653663-1-kunwu.chan@gmail.com>
+References: <20261002170847.3653663-1-kunwu.chan@gmail.com>
+Message-ID: <06F49954-C343-4894-931D-9B2F50F644DE@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-Add translation of bootconfig.rst to Portuguese and update
-admin-guide/index.rst.
+On 2 October 2026 18:08:32 BST, Kunwu Chan <kunwu.chan@gmail.com> wrote:
+>This series extends Paul McKenney's v3 hazptr implementation [1]
+>with a shared scan path for concurrent hazptr_synchronize() callers,
+>and adapts the lockdep dynamic-key hashlist use case from Boqun
+>Feng's 2025 shazptr series [2] to the current hazptr API.
+>
+>The series also adds rcuscale support and torture coverage for
+>the hazptr implementation.
+>
+>The lockdep conversion replaces the expedited RCU wait in
+>lockdep_unregister_key() with hazptr_synchronize().  This limits
+>the wait to hazard pointers protecting the target hash bucket
+>instead of waiting for a system-wide expedited RCU grace period.
+>
+>[1]
+>https://lore.kernel.org/all/20260919000056.3132131-26-paulmck@kernel.org/
+>[2]
+>https://lore.kernel.org/lkml/20250625031101.12555-1-boqun.feng@gmail.com/
+>
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
----
- .../pt_BR/admin-guide/bootconfig.rst          | 423 ++++++++++++++++++
- .../translations/pt_BR/admin-guide/index.rst  |   6 +-
- 2 files changed, 428 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/pt_BR/admin-guide/bootconfig.rst
 
-diff --git a/Documentation/translations/pt_BR/admin-guide/bootconfig.rst b/Documentation/translations/pt_BR/admin-guide/bootconfig.rst
-new file mode 100644
-index 000000000..aa73c5752
---- /dev/null
-+++ b/Documentation/translations/pt_BR/admin-guide/bootconfig.rst
-@@ -0,0 +1,423 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+====================
-+Configuração de boot
-+====================
-+
-+:Autor: Masami Hiramatsu <mhiramat@kernel.org>
-+
-+Visão geral
-+===========
-+
-+A configuração de boot expande a linha de comando atual do kernel para suportar
-+dados adicionais de chave-valor ao inicializar o kernel de forma eficiente.
-+Isso permite que os administradores passem um arquivo de configuração estruturado
-+por chaves.
-+
-+Sintaxe do arquivo de configuração
-+==================================
-+
-+A sintaxe de configuração de boot é uma estrutura simples de chave-valor. Cada
-+chave consiste em palavras conectadas por pontos, e a chave e o valor são
-+conectados por ``=``. A string de valor deve ser terminada pelos seguintes
-+delimitadores descritos abaixo.
-+
-+Cada palavra-chave deve conter apenas letras do alfabeto, números, traço (``-``)
-+ou sublinhado (``_``). E cada valor contém apenas caracteres imprimíveis ou espaços,
-+exceto delimitadores como ponto e vírgula (``;``), quebra de linha (``\n``),
-+vírgula (``,``), cerquilha (``#``) e chave de fechamento (``}``).
-+
-+Se o ``=`` for seguido por espaços em branco até um desses delimitadores, a chave
-+será atribuída a um valor vazio.
-+
-+Para arrays, os valores do array são separados por vírgula (``,``), e comentários
-+e quebras de linha com nova linha (``\n``) são permitidos entre os valores do array
-+para facilitar a legibilidade. Assim, a primeira entrada do array deve estar na
-+mesma linha da chave.::
-+
-+  CHAVE[.PALAVRA[...]] = VALOR[, VALOR2[...]][;]
-+
-+Diferente da sintaxe de linha de comando do kernel, espaços em branco (incluindo
-+tabs) são ignorados ao redor da vírgula e do ``=``.
-+
-+Se você quiser usar esses delimitadores em um valor, pode usar aspas duplas
-+(``"VALOR"``) ou aspas simples (``'VALOR'``) para colocá-lo entre aspas. Observe
-+que você não pode escapar essas aspas.
-+
-+Pode haver uma chave que não tenha valor ou tenha um valor vazio. Essas chaves
-+são usadas para verificar se a chave existe ou não (como um booleano).
-+
-+Sintaxe de chave-valor
-+----------------------
-+
-+A sintaxe do arquivo de configuração de boot permite que o usuário mescle chaves
-+com palavras parcialmente iguais usando chaves (braces). Por exemplo::
-+
-+ foo.bar.baz = value1
-+ foo.bar.qux.quux = value2
-+
-+Elas também podem ser escritas assim::
-+
-+ foo.bar {
-+    baz = value1
-+    qux.quux = value2
-+ }
-+
-+Ou de forma mais concisa, escrita da seguinte maneira::
-+
-+ foo.bar { baz = value1; qux.quux = value2 }
-+
-+Em ambos os estilos, as mesmas palavras-chave são mescladas automaticamente ao
-+serem analisadas no momento da inicialização. Assim, você pode anexar árvores ou
-+pares de chave-valor semelhantes.
-+
-+Valores com a mesma chave
-+-------------------------
-+
-+É proibido que dois ou mais valores ou arrays compartilhem a mesma chave.
-+Por exemplo::
-+
-+ foo = bar, baz
-+ foo = qux  # !ERRO! não podemos redefinir a mesma chave
-+
-+Se você quiser atualizar o valor, deve usar o operador de substituição (override)
-+``:=`` explicitamente. Por exemplo::
-+
-+ foo = bar, baz
-+ foo := qux
-+
-+então, ``qux`` é atribuído à chave ``foo``. Isso é útil para sobrescrever o
-+valor padrão adicionando bootconfigs personalizados (parciais) sem precisar
-+analisar o bootconfig padrão.
-+
-+Se você quiser anexar o valor a uma chave existente como membro de um array,
-+pode usar o operador ``+=``. Por exemplo::
-+
-+ foo = bar, baz
-+ foo += qux
-+
-+Neste caso, a chave ``foo`` conterá ``bar``, ``baz`` e ``qux``.
-+
-+Além disso, subchaves e um valor podem coexistir sob uma chave pai.
-+Por exemplo, a seguinte configuração é permitida::
-+
-+ foo = value1
-+ foo.bar = value2
-+ foo := value3 # Isto atualizará o valor de foo.
-+
-+Observe que, como não há sintaxe para colocar um valor puro diretamente sob uma
-+chave estruturada, você deve defini-lo fora das chaves. Por exemplo::
-+
-+ foo {
-+     bar = value1
-+     bar {
-+         baz = value2
-+         qux = value3
-+     }
-+ }
-+
-+Além disso, a ordem do nó de valor sob uma chave é fixa. Se houver um valor e
-+subchaves, o valor será sempre o primeiro nó filho da chave. Portanto, se o
-+usuário especificar subchaves primeiro, por exemplo::
-+
-+ foo.bar = value1
-+ foo = value2
-+
-+No programa (e em /proc/bootconfig), ele será exibido conforme abaixo::
-+
-+ foo = value2
-+ foo.bar = value1
-+
-+Comentários
-+-----------
-+
-+A sintaxe de configuração aceita comentários no estilo shell-script. Os comentários
-+iniciados com cerquilha ("#") até a quebra de linha ("\n") serão ignorados.
-+
-+::
-+
-+ # linha de comentário
-+ foo = value # valor atribuído a foo.
-+ bar = 1, # 1º elemento
-+       2, # 2º elemento
-+       3  # 3º elemento
-+
-+Isto é analisado como abaixo::
-+
-+ foo = value
-+ bar = 1, 2, 3
-+
-+Observe que você NÃO pode colocar um comentário ou uma quebra de linha entre o
-+valor e o delimitador (``,`` ou ``;``). Isso significa que a seguinte configuração
-+possui um erro de sintaxe::
-+
-+ key = 1 # comentário
-+       ,2
-+
-+
-+/proc/bootconfig
-+================
-+
-+/proc/bootconfig é uma interface de espaço de usuário da configuração de boot.
-+Diferente de /proc/cmdline, este arquivo exibe a lista no estilo chave-valor.
-+Cada par chave-valor é mostrado em cada linha no seguinte formato::
-+
-+ CHAVE[.PALAVRAS...] = "[VALOR]"[,"VALOR2"...]
-+
-+
-+Inicializando o kernel com um Boot Config
-+=========================================
-+
-+Existem duas opções para inicializar o kernel com bootconfig: anexar o bootconfig
-+à imagem initrd ou embuti-lo no próprio kernel.
-+
-+Anexando um Boot Config ao Initrd
-+---------------------------------
-+
-+Como o arquivo de configuração de boot é carregado com o initrd por padrão, ele
-+será adicionado ao final do arquivo de imagem do initrd (initramfs) com
-+preenchimento (padding), tamanho, checksum e palavra mágica de 12 bytes conforme
-+abaixo.
-+
-+[initrd][bootconfig][padding][size(le32)][checksum(le32)][#BOOTCONFIG\n]
-+
-+Os campos de tamanho (size) e checksum são valores de 32 bits sem sinal em little endian.
-+
-+Quando a configuração de boot é adicionada à imagem do initrd, o tamanho total
-+do arquivo é alinhado a 4 bytes. Para preencher a lacuna, caracteres nulos
-+(``\0``) serão adicionados. Assim, ``size`` é o comprimento do arquivo bootconfig
-++ bytes de preenchimento.
-+
-+O kernel Linux decodifica a última parte da imagem do initrd na memória para
-+obter os dados de configuração de boot.
-+Por causa desse método "piggyback", não há necessidade de alterar ou atualizar o
-+carregador de inicialização (boot loader) e a própria imagem do kernel, desde que
-+o boot loader passe o tamanho correto do arquivo initrd. Se, por qualquer motivo,
-+o boot loader passar um tamanho maior, o kernel não conseguirá encontrar os
-+dados do bootconfig.
-+
-+Para realizar esta operação, o kernel Linux fornece o comando ``bootconfig`` sob
-+tools/bootconfig, que permite ao administrador aplicar ou excluir o arquivo de
-+configuração na/da imagem do initrd. Você pode compilá-lo com o seguinte comando::
-+
-+ # make -C tools/bootconfig
-+
-+Para adicionar seu arquivo de configuração de boot à imagem do initrd, execute o
-+bootconfig conforme abaixo (dados antigos são removidos automaticamente se existirem)::
-+
-+ # tools/bootconfig/bootconfig -a your-config /boot/initrd.img-X.Y.Z
-+
-+Para remover a configuração da imagem, você pode usar a opção -d como abaixo::
-+
-+ # tools/bootconfig/bootconfig -d /boot/initrd.img-X.Y.Z
-+
-+Em seguida, adicione "bootconfig" na linha de comando normal do kernel para instruir
-+o kernel a procurar pelo bootconfig no final do arquivo initrd.
-+Como alternativa, compile seu kernel com a opção Kconfig ``CONFIG_BOOT_CONFIG_FORCE``
-+selecionada.
-+
-+Embutindo um Boot Config no kernel
-+----------------------------------
-+
-+Se você não puder usar initrd, também poderá embutir o arquivo bootconfig no
-+kernel através de opções do Kconfig. Nesse caso, você precisa recompilar o
-+kernel com as seguintes configurações::
-+
-+ CONFIG_BOOT_CONFIG_EMBED=y
-+ CONFIG_BOOT_CONFIG_EMBED_FILE="/CAMINHO/PARA/ARQUIVO/BOOTCONFIG"
-+
-+``CONFIG_BOOT_CONFIG_EMBED_FILE`` requer um caminho absoluto ou um caminho
-+relativo para o arquivo bootconfig a partir da árvore de código-fonte ou da
-+árvore de objetos. O kernel o embutirá como o bootconfig padrão.
-+
-+Assim como ao anexar o bootconfig ao initrd, você precisa da opção ``bootconfig``
-+na linha de comando do kernel para habilitar o bootconfig embutido ou,
-+alternativamente, compilar seu kernel com a opção Kconfig
-+``CONFIG_BOOT_CONFIG_FORCE`` selecionada.
-+
-+Observe que, mesmo se você definir esta opção, poderá sobrescrever o bootconfig
-+embutido por outro bootconfig anexado ao initrd.
-+
-+Renderizando chaves kernel.* embutidas em tempo de compilação
-+-------------------------------------------------------------
-+
-+Por padrão, o bootconfig embutido (``CONFIG_BOOT_CONFIG_EMBED=y``) é analisado
-+em tempo de execução, após ``parse_early_param()`` já ter sido executado. Os
-+tratadores de parâmetros iniciais (early parameters) (``mem=``, ``earlycon=``,
-+``loglevel=``, ...) não conseguem, portanto, ver valores fornecidos através da
-+subárvore ``kernel`` embutida.
-+
-+A opção ``CONFIG_CMDLINE_FROM_BOOTCONFIG`` resolve isso renderizando a subárvore
-+``kernel`` de ``CONFIG_BOOT_CONFIG_EMBED_FILE`` em uma string de cmdline plana em
-+tempo de compilação do kernel (via ``tools/bootconfig -C``) e prefixando-a a
-+``boot_command_line`` durante a configuração arquitetural inicial, de modo que
-+as chaves fiquem visíveis para ``parse_early_param()``.
-+
-+A opção requer ``CONFIG_BOOT_CONFIG_EMBED=y``, um ``CONFIG_BOOT_CONFIG_EMBED_FILE``
-+não vazio, ``CONFIG_CMDLINE`` vazio e uma arquitetura que selecione
-+``CONFIG_ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG``. Atualmente apenas x86 a seleciona;
-+em outras arquiteturas, o bootconfig embutido ainda funciona, mas apenas por meio
-+do analisador tardio em tempo de execução.
-+
-+A mesma ativação explícita de ``bootconfig`` se aplica como em outros lugares:
-+as chaves renderizadas são prefixadas apenas quando ``bootconfig`` (em qualquer
-+forma) aparece na linha de comando do kernel, ou quando ``CONFIG_BOOT_CONFIG_FORCE``
-+está definido, cujo padrão é ``y`` quando ``CONFIG_BOOT_CONFIG_EMBED`` está definido.
-+
-+Por exemplo, dado::
-+
-+ kernel {
-+   loglevel = 7
-+   mem = 4G
-+ }
-+
-+o kernel inicializa como se ``loglevel=7 mem=4G`` tivesse sido prefixado à linha
-+de comando do carregador de inicialização, com os valores visíveis para os
-+tratadores analisados precocemente. Valores separados por vírgula ainda são
-+expandidos em múltiplas entradas de linha de comando de acordo com a convenção
-+de array do bootconfig -- o ``kernel.earlycon = "uart8250,io,0x3f8"`` embutido
-+deve estar entre aspas para resultar em uma única entrada ``earlycon=``, exatamente
-+como no analisador em tempo de execução.
-+
-+Se a string renderizada não couber em ``COMMAND_LINE_SIZE`` juntamente com a
-+linha de comando existente, o prefixo será ignorado e um erro será registrado,
-+de modo que um bootconfig embutido superdimensionado não possa travar a inicialização.
-+
-+Interação com outras fontes de linha de comando e bootconfig
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Com ``CONFIG_CMDLINE_FROM_BOOTCONFIG=y``, a subárvore ``kernel`` renderizada
-+comporta-se como uma linha de comando em tempo de compilação (semelhante a
-+``CONFIG_CMDLINE``), e não como uma fonte de bootconfig. Ela é prefixada a
-+``boot_command_line`` em ``setup_arch()``, antes de ``parse_early_param()`` e
-+muito antes de o analisador em tempo de execução inspecionar um initrd. As opções
-+podem chegar ao kernel a partir de até quatro locais:
-+
-+- Linha de comando do carregador de inicialização (bootloader): os argumentos
-+  que o carregador de inicialização passa. A linha de comando embutida é
-+  prefixada na frente deles, portanto, para parâmetros onde o último vence
-+  (last-one-wins), uma opção do bootloader ainda sobrescreve o valor embutido.
-+  Visível em /proc/cmdline.
-+- Linha de comando embutida (esta opção): a subárvore ``kernel`` renderizada,
-+  prefixada precocemente para ser vista por ``parse_early_param()``. Visível em
-+  /proc/cmdline.
-+- Bootconfig do initrd: analisado tardiamente em ``setup_boot_config()``; suas
-+  chaves ``kernel`` são colocadas antes de ``boot_command_line``, ou seja, antes
-+  da linha de comando embutida, portanto, a regra do último vencedor favorece os
-+  valores embutidos. Como uma fonte de bootconfig, um bootconfig do initrd ainda
-+  substitui o bootconfig embutido. Visível em /proc/cmdline e /proc/bootconfig.
-+- Bootconfig embutido (tempo de execução): analisado tardiamente, apenas quando
-+  nenhum bootconfig do initrd estiver presente. Visível em /proc/cmdline e
-+  /proc/bootconfig.
-+
-+Assim, com esta opção, os valores ``kernel.*`` embutidos têm precedência sobre os
-+valores ``kernel.*`` de um bootconfig do initrd: para parâmetros iniciais, o initrd
-+ainda não foi analisado e, para parâmetros comuns, as chaves embutidas chegam mais
-+tarde na linha de comando. Se você precisa que um bootconfig do initrd sobrescreva
-+as chaves ``kernel.*`` embutidas, deixe esta opção desativada e confie no analisador
-+em tempo de execução.
-+
-+A string renderizada faz parte da linha de comando, portanto aparece em
-+/proc/cmdline. Ela deliberadamente não é mostrada em /proc/bootconfig: esse
-+arquivo continua relatando a árvore de bootconfig analisada -- o bootconfig do
-+initrd se presente, caso contrário o bootconfig embutido -- independentemente de a
-+renderização da linha de comando em tempo de compilação estar ativada.
-+
-+Parâmetros do kernel via Boot Config
-+====================================
-+
-+Além da linha de comando do kernel, a configuração de boot pode ser usada para
-+passar os parâmetros do kernel. Todos os pares chave-valor sob a chave ``kernel``
-+serão passados diretamente para a linha de comando do kernel. Além disso, os pares
-+chave-valor sob ``init`` serão passados para o processo init via linha de comando.
-+Os parâmetros são concatenados com a string de linha de comando do kernel fornecida
-+pelo usuário na seguinte ordem, de modo que o parâmetro de linha de comando possa
-+sobrescrever os parâmetros de bootconfig (isso depende de como o subsistema lida com
-+parâmetros, mas em geral, o parâmetro anterior será sobrescrito pelo posterior)::
-+
-+ [bootconfig params][cmdline params] -- [bootconfig init params][cmdline init params]
-+
-+Aqui está um exemplo de arquivo bootconfig para parâmetros de kernel/init::
-+
-+ kernel {
-+   root = 01234567-89ab-cdef-0123-456789abcd
-+ }
-+ init {
-+  splash
-+ }
-+
-+Isto será copiado na string de linha de comando do kernel da seguinte forma::
-+
-+ root="01234567-89ab-cdef-0123-456789abcd" -- splash
-+
-+Se o usuário fornecer alguma outra linha de comando como::
-+
-+ ro bootconfig -- quiet
-+
-+A linha de comando final do kernel será a seguinte::
-+
-+ root="01234567-89ab-cdef-0123-456789abcd" ro bootconfig -- splash quiet
-+
-+
-+Limitações do arquivo de configuração
-+=====================================
-+
-+Atualmente, o tamanho máximo da configuração é de 32 KB e o total de palavras-chave
-+(não entradas de chave-valor) deve ser inferior a 1024 nós.
-+Nota: este não é o número de entradas, mas de nós; uma entrada deve consumir mais
-+de 2 nós (uma palavra-chave e um valor). Portanto, teoricamente, haverá até 512
-+pares chave-valor. Se as chaves contiverem 3 palavras em média, poderá conter 256
-+pares chave-valor. Na maioria dos casos, o número de itens de configuração estará
-+abaixo de 100 entradas e será menor que 8 KB, o que seria suficiente.
-+Se o número de nós exceder 1024, o analisador retornará um erro mesmo se o tamanho
-+do arquivo for menor que 32 KB. (Observe que esse tamanho máximo não inclui os
-+caracteres nulos de preenchimento.)
-+De qualquer forma, como o comando bootconfig verifica isso ao anexar uma configuração
-+de boot à imagem initrd, o usuário pode perceber antes da inicialização.
-+
-+
-+APIs do Bootconfig
-+==================
-+
-+O usuário pode consultar ou iterar sobre pares chave-valor; também é possível
-+encontrar um nó de chave raiz (prefixo) e encontrar chaves-valores sob esse nó.
-+
-+Se você tiver uma string de chave, poderá consultar o valor diretamente com a chave
-+usando xbc_find_value(). Se quiser saber quais chaves existem no bootconfig, pode
-+usar xbc_for_each_key_value() para iterar sobre os pares chave-valor.
-+Observe que você precisa usar xbc_array_for_each_value() para acessar o valor de
-+cada array, por exemplo::
-+
-+ vnode = NULL;
-+ xbc_find_value("key.word", &vnode);
-+ if (vnode && xbc_node_is_array(vnode))
-+    xbc_array_for_each_value(vnode, value) {
-+      printk("%s ", value);
-+    }
-+
-+Se você quiser focar em chaves que tenham uma string de prefixo, pode usar
-+xbc_find_node() para encontrar um nó pela string de prefixo e iterar pelas chaves
-+sob o nó de prefixo com xbc_node_for_each_key_value().
-+
-+Mas o uso mais típico é obter o valor nomeado sob o prefixo ou obter o array
-+nomeado sob o prefixo, como abaixo::
-+
-+ root = xbc_find_node("key.prefix");
-+ value = xbc_node_find_value(root, "option", &vnode);
-+ ...
-+ xbc_node_for_each_array_value(root, "array-option", value, anode) {
-+    ...
-+ }
-+
-+Isso acessa um valor de "key.prefix.option" e um array de "key.prefix.array-option".
-+
-+O bloqueio (locking) não é necessário, pois após a inicialização, a configuração
-+torna-se somente leitura. Todos os dados e chaves devem ser copiados se você
-+precisar modificá-los.
-+
-+
-+Funções e estruturas
-+====================
-+
-+.. kernel-doc:: include/linux/bootconfig.h
-+.. kernel-doc:: lib/bootconfig.c
-diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
-index 264b3c1c8..96a54595f 100644
---- a/Documentation/translations/pt_BR/admin-guide/index.rst
-+++ b/Documentation/translations/pt_BR/admin-guide/index.rst
-@@ -55,9 +55,13 @@ Documentação relacionada à segurança:
- Inicializando o kernel
- ----------------------
- 
-+.. toctree::
-+   :maxdepth: 1
-+
-+   bootconfig
-+
- Todolist:
- 
--*   bootconfig
- *   kernel-parameters
- *   efi-stub
- *   initrd
--- 
-2.47.3
+This is well needed. Thanks for the patch, I'll maybe review maybe test if
+I have time, cough cough, school!
 
+>Performance data
+>================
+>
+>All measurements are on an ARM64 KVM guest with
+>HAZPTR_SCALE_NR_OBJS=8 and round-robin updater selection; unless
+>noted otherwise, nreaders=0.  Scale tests run with
+>PROVE_LOCKING=n.
+>
+>rcuscale synchronize latency (96 CPUs, nw=1):
+>
+>              nreaders=0      nreaders=1       nreaders=4      nreaders=96
+>    scale       avg              avg             avg              avg
+>    --------------------------------------------------------------------
+>    hazptr     46 us            47 us          102 us            106 ms
+>    RCU       8.3 ms           8.5 ms         16.6 ms         54.4 ms
+>    SRCU      8.2 ms           8.0 ms         11.7 ms         11.8 ms
+>
+>Hazptr single-writer latency remains below 110 us with up to
+>four readers on this 96-CPU guest, but rises to 106 ms when
+>all 96 CPUs hold hazard pointers.
+>
+>Under 16 concurrent synchronize callers (nw=16), per-writer
+>latency at four CPU counts:
+>
+>              hazptr nw=16      RCU nw=16     SRCU nw=16
+>    CPUs       avg               avg             avg
+>    -----------------------------------------------------------
+>      24       8.0 ms          13.6 ms          9.2 ms
+>      96       8.0 ms          13.3 ms          8.6 ms
+>     128       7.9 ms          13.0 ms         11.7 ms
+>     256       8.0 ms          20.8 ms          9.6 ms
+>
+>Hazptr remains around 8.0 ms across these CPU counts, with the
+>scan-kthread retry interval contributing to the latency.
+>RCU rises to ~21 ms at 256 CPUs while SRCU stays around 9-12 ms.
+>
+>Reader-side overhead (refscale, 96 readers on the 96-CPU guest,
+>3 runs each):
+>
+>    hazptr     25.7 ns/op
+>    RCU        96.7 ns/op
+>    SRCU      134.6 ns/op
+>
+>lockdep workload -- tc qdisc mq x100, ARM64 KVM, PROVE_LOCKING=y,
+>96 background hazptr readers, function-call IPIs per 100 ops:
+>
+>    CPUs       hazptr              exp RCU            reduction
+>    ------------------------------------------------------------
+>      24       196                 207                 5%
+>      96       189                 265                29%
+>     128       193                 266                27%
+>     256       222                 384                42%
+>
+>Hazptr issues fewer function-call IPIs at each CPU count, with
+>the difference reaching 42% at 256 CPUs.
+>
+>The hazptr.sh test suite passes, including the lockdep scenarios
+>and the 8-to-256 CPU sweep, with no lockdep warnings, deadlocks,
+>or crashes.
+>Additional x86 server testing with Lian Wang is planned(maybe after
+>LPC).
+>
+>Changes since RFC/WIP
+>=====================
+>
+>- RFC/WIP: https://lore.kernel.org/all/20260922070950.4173245-1-kunwu.chan@gmail.com/
+>
+>- Split the original 4-patch RFC/WIP into smaller commits covering
+>  shared scanning, correctness, API support, lockdep, scaling, and
+>  torture testing.
+>
+>- Incorporated Boqun Feng's review feedback: use a Bloom filter to
+>  avoid per-waiter allocation, add scoped_guard() support, and add
+>  a debug option to force the hazptr acquire slow path.
+>
+>- Fixed scan ordering around backup-slot promotion by scanning all
+>  per-CPU slots before the overflow lists, with a separate
+>  overflow-list phase.
+>
+>- Simplified the scan cycle to flip first and drain only the old
+>  wildcard generation, with herd7-verified LKMM tests for both the
+>  in-flight and resolved publication cases.
+>
+>- Extended rcuscale and hazptrtorture coverage, added a selftest
+>  script for the torture configurations, and fixed the
+>  hazptr_release() kernel-doc.
+>
+>Kunwu Chan (15):
+>  hazptr: add shared scan kthread
+>  hazptr: use Bloom filter for shared scan waiters
+>  hazptr: scan all per-CPU slots before overflow lists
+>  hazptr: add scoped_guard() support
+>  hazptr: add debug option to force the acquire slow path
+>  hazptr: elide redundant first drain pass
+>  Documentation/litmus-tests: add hazptr wildcard-flip escape test
+>  locking/lockdep: use hazptr to wait for dynamic key lookups
+>  rcuscale: add hazptr scale type
+>  hazptr: fix kernel-doc of hazptr_release()
+>  Documentation/litmus-tests: add hazptr acquire-before-scan test
+>  hazptrtorture: add slowpath and lockdep scenarios
+>  hazptrtorture: add READERS4 and READERS0 torture configs
+>  hazptrtorture: add 128- and 256-CPU configs
+>  selftests/rcutorture: add hazptr torture test script
+>
+> Documentation/litmus-tests/README             |  13 +
+> .../hazptr/hazptr-acquire-before-scan.litmus  |  45 +++
+> .../hazptr/hazptr-wildcard-flip-escape.litmus |  46 +++
+> include/linux/hazptr.h                        |  56 ++-
+> kernel/hazptr.c                               | 336 +++++++++++++++++-
+> kernel/locking/lockdep.c                      |  25 +-
+> kernel/rcu/Kconfig.debug                      |  10 +
+> kernel/rcu/hazptrtorture.c                    |  57 ++-
+> kernel/rcu/rcuscale.c                         |  70 +++-
+> .../selftests/rcutorture/bin/hazptr.sh        | 146 ++++++++
+> .../rcutorture/configs/hazptr/CFLIST          |   6 +
+> .../rcutorture/configs/hazptr/CPU128          |  16 +
+> .../rcutorture/configs/hazptr/CPU128.boot     |   1 +
+> .../rcutorture/configs/hazptr/CPU256          |  16 +
+> .../rcutorture/configs/hazptr/CPU256.boot     |   1 +
+> .../rcutorture/configs/hazptr/LOCKDEP         |  17 +
+> .../rcutorture/configs/hazptr/LOCKDEP.boot    |   1 +
+> .../rcutorture/configs/hazptr/READERS0        |  16 +
+> .../rcutorture/configs/hazptr/READERS0.boot   |   2 +
+> .../rcutorture/configs/hazptr/READERS4        |  16 +
+> .../rcutorture/configs/hazptr/READERS4.boot   |   2 +
+> .../rcutorture/configs/hazptr/SLOWPATH        |  16 +
+> 22 files changed, 881 insertions(+), 33 deletions(-)
+> create mode 100644
+> Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus
+> create mode 100644
+> Documentation/litmus-tests/hazptr/hazptr-wildcard-flip-escape.litmus
+> create mode 100755 tools/testing/selftests/rcutorture/bin/hazptr.sh
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/CPU128
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/CPU128.boot
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/CPU256
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/CPU256.boot
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/LOCKDEP
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/LOCKDEP.boot
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/READERS0
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/READERS0.boot
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/READERS4
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/READERS4.boot
+> create mode 100644
+> tools/testing/selftests/rcutorture/configs/hazptr/SLOWPATH
+>
+>
+
+--- Thanks!
+"I'm not a very positive person" - Linus torvalds
