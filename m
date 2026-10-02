@@ -1,167 +1,97 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8231438332A;
-	Fri,  2 Oct 2026 12:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17B225F7A9
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 12:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790944409; cv=none; b=roH1f8DVihAr1INeSKvHlOBFZtW2Unv+P0itYjgAyuCrzsAoeaItOa2IhGgW7JQNsFi0NkIX8ht9OL8CIaht6Sv+II8aAJT3cCoksSvebT6FnLBkZVHiqB88BfGZM2q9B19kNJg79IF7f++b+qhcuKotdZNCTWk9uQdS/2GsgWE=
+	t=1790944505; cv=none; b=XGLGJDrAIEvxZxtM84TBqGcuQlpPIQokW16eCYRr1vtd90IKL/VZ3D1eSBWTII8ZbA1iDherPll8lhLOeeObvXJsXRo1khd6oqScru6mqRbxOVyVlOd16lmyiGBdoP6jFl0M6u5HmqDhiIdgEu00has48H1Zy6BDn8I3IJaMSzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790944409; c=relaxed/simple;
-	bh=NDgEPa0XeDvsUmZpfYIS+OBNFMqFM1UOXxuPhnqM03g=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SgESlp0Zl6AEO9oFlT2ZRDloF6nIzvVA9NWiNdA7TT++g/Nw6muXsHVConw8fWkpetdS0sWZwOMjx2tQps35xqwz4i3RwLzwli58BGcA7TwnA1IYl/MSlfeZPNYZyS5SyqK8/rOEJ1gcmVcnnfZZV6gtdIZtFlkAJKSiqNQFZsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=GqNF4z36; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1790944505; c=relaxed/simple;
+	bh=55uqquefT7wuE6dDcsDWJfqHcmHVWSrJMWYos+tPwAU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nknCa6x0G3L0L44/mOGp7o6V9WMJZfZm5Cv2Rj+v95HLb0UBU67g2Jv7/zvBy33cX7jutPUQ6bxj5ZhA8qW5wL2pTsgoSCaKL4n7vO8h9FYCznYc4vPWGpHLGTTu3Y1ZLAAkFZJJBYa05DUKkruNhf3AF4ua6zsJePOrmD2b2ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mXjG6spp; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="GqNF4z36"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mXjG6spp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1790944407; x=1822480407;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NDgEPa0XeDvsUmZpfYIS+OBNFMqFM1UOXxuPhnqM03g=;
-  b=GqNF4z367Grc6WPc4FFqsgJLlSABT8GH1UK80aE/4DlWUYLZwtphrfn/
-   mok53HWngeIytVnRP7EKi79UFLPC6ap6wv8889N5f/0HeSYjkwDH/zB7o
-   qKP6YWOSM3W3oinwFSmYVs4H/kQX4cGlR5Z8NzwwST1r2kx08HShenwmG
-   ceiL/vYJtTgtHI+ANV6/09vWLHUSmWuqQrGX91gcgtCefhhKTzSVpY8Rr
-   0MfDjinHbuxtuZkO688SrVkpKYSMTUPDv5aGn6IJxHr/BaAXRsQkOCZ6f
-   EghjNM9j5uVgqpeXkAkSeTNzKbg7jJeZlqpdaISL+XroJx6ZR9VH1tRcA
-   Q==;
-X-CSE-ConnectionGUID: YsK1ByWlSzaT8IyPnfeHRg==
-X-CSE-MsgGUID: LEe5eKNsT6m+ajl436z7BQ==
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790944503; x=1822480503;
+  h=date:from:to:cc:subject:message-id;
+  bh=55uqquefT7wuE6dDcsDWJfqHcmHVWSrJMWYos+tPwAU=;
+  b=mXjG6spp9cHQCqChlMXFCxKucxbzpAJwRrQeL0+b2l9ZBb6qEhdoUXTo
+   iqNUYLd3AkwMGmiKOdGYBi4lA/iqPdQprnXpUeG1Q7Z4O9DrUgi2AFfCZ
+   UDNl88+YnagWtegkXEo9+4tTLJqPn56DA0N6342oXqKBeE1Yg8ur13+S/
+   HZglT6ziRuKICYI1oK1GJXGVNXptUAE/wuuIksJxmYurvsIg3LIb5hGYc
+   zAGmm10bNZL5o3nMDYvCDaZevYe2hewIZqHD/3/8ZlrNuOc4jRs4AtnMQ
+   AEpQo8emdrLy5FRKds3lFlmyOhgFrvDsz+T8lU9TP4o4SeJ7wGrTzasdr
+   A==;
+X-CSE-ConnectionGUID: 5iTsXnB4SaO6mi8xU+mwqg==
+X-CSE-MsgGUID: Xtb62E7fSV6Hgb4/Jhym8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="108087612"
 X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
-   d="asc'?scan'208";a="63552307"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 02 Oct 2026 05:33:26 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Fri, 2 Oct 2026 05:33:25 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58 via Frontend
- Transport; Fri, 2 Oct 2026 05:33:20 -0700
-Date: Fri, 2 Oct 2026 13:31:59 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-CC: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Himanshu
- Chauhan <himanshu.chauhan@oss.qualcomm.com>, Conor Dooley <conor@kernel.org>,
-	Anup Patel <anup@brainfault.org>, =?iso-8859-1?Q?Cl=E9ment_L=E9ger?=
-	<cleger@rivosinc.com>, Yunhui Cui <cuiyunhui@bytedance.com>, Atish Patra
-	<atish.patra@linux.dev>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar
-	<mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
-	<namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Alexander
- Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>, Will Deacon <will@kernel.org>, Thomas
- Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap
-	<rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan
-	<shuah@kernel.org>, Yuanzhu <yuanzhu@bytedance.com>, Yicong Yang
-	<yang.yicong@picoheart.com>, Susheng Yang <yang.susheng@zte.com.cn>,
-	<linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-perf-users@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH v10 RESEND 7/9] perf: RISC-V: add support for SSE event
-Message-ID: <20261002-reach-cloning-f1594729dbe3@wendy>
-References: <cover.1789974241.git.zhangzhanpeng.jasper@bytedance.com>
- <4f7828b3e30407de9df205264bb94edc767d318c.1789974241.git.zhangzhanpeng.jasper@bytedance.com>
+   d="scan'208";a="108087612"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 05:35:03 -0700
+X-CSE-ConnectionGUID: V6/Tu9xYRQiAc3dL8vVleQ==
+X-CSE-MsgGUID: 6ZZ6G5TtS9SYt2FH5ncmXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
+   d="scan'208";a="265831"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3fb566d470b1) ([10.211.93.152])
+  by fmviesa012.fm.intel.com with ESMTP; 02 Oct 2026 05:35:01 -0700
+Received: from kbuild by 3fb566d470b1 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xCcTY-000000000XD-3WuS;
+	Fri, 02 Oct 2026 12:34:56 +0000
+Date: Fri, 02 Oct 2026 14:34:22 +0200
+From: kernel test robot <lkp@intel.com>
+To: Albert Esteve <aesteve@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>,
+ George Zhang <george.zhang@amd.com>, linux-doc@vger.kernel.org
+Subject: [drm-amdgpu:drm-amdgpu-next 3/171] htmldocs:
+ Documentation/gpu/amdgpu/display/display-manager:44:
+ ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:6222: WARNING: Error in
+ declarator or parameters
+Message-ID: <202610021405.aouP0UDa-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="1CpoeXeJ7HJ+y6fs"
-Content-Disposition: inline
-In-Reply-To: <4f7828b3e30407de9df205264bb94edc767d318c.1789974241.git.zhangzhanpeng.jasper@bytedance.com>
 
---1CpoeXeJ7HJ+y6fs
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Albert,
 
-On Mon, Sep 21, 2026 at 07:15:04PM +0800, Zhanpeng Zhang wrote:
-> From: Cl=E9ment L=E9ger <cleger@rivosinc.com>
->=20
-> Register a handler for the local PMU overflow SSE event so that RISC-V
-> perf can receive overflows even when normal S-mode interrupts are masked.
-> Reuse the existing overflow handler and pass it the interrupted pt_regs
-> rebuilt by the architecture SSE entry path.
->=20
-> Select the delivery mechanism once during PMU probe. Prefer SSE when its
-> event can be registered and enabled. If the extension or PMU event is
-> explicitly unsupported, use the ordinary PMU interrupt. Do not enable the
-> interrupt after any other SSE setup failure or when a crash kernel may
-> have inherited firmware state. Install the PMU enable and disable
-> callbacks only after SSE delivery becomes active.
->=20
-> Keep the local PMU SSE event disabled across CPU power management. On
-> entry, the generic SSE notifier masks the hart before the lower-priority
-> PMU notifier disables the event and stops the counters. On exit, the SSE
-> notifier first unmasks the hart while the event remains disabled. The PMU
-> notifier then restores counters and event userpage state before enabling
-> the event. An unmask failure stops the notifier chain and leaves the
-> counters stopped. Ordinary PMU interrupts retain their existing notifier
-> ordering.
->=20
-> An SSE overflow can arrive as soon as the event is enabled during probe.
-> Publish the counter mask before SSE setup, so an early handler can stop
-> the counter source even before perf starts admitting normal samples.
-> After a real overflow, restart only counters whose perf state is still
-> running. Honor a non-zero return from perf_event_overflow() and leave
-> throttled events stopped.
->=20
-> Guest attribution is not part of this version. Detect an interrupted guest
-> from hstatus.SPV and skip its sample while still updating the period and
-> counter state, rather than exposing guest state as a host sample.
->=20
-> The perf PMU callbacks cannot return errors. If an SSE transition or
-> interrupted-context read fails, latch the failure per CPU and stop its
-> mapped events through the normal perf state transitions. Do not reset the
-> firmware counter mapping behind perf, restart a failed event, or attempt a
-> runtime switch to IRQ delivery.
->=20
-> During cleanup, close callback admission and synchronously drain each CPU
-> before disabling and unregistering the SSE event. If firmware refuses the
-> cleanup, stop the counter source and transfer the event to the SSE core so
-> later CPU hotplug or shutdown processing can retry without using freed PMU
-> callback state.
->=20
-> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
-> Co-developed-by: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-> Signed-off-by: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-> Co-developed-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-> Signed-off-by: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-> ---
->  Documentation/arch/riscv/index.rst     |   1 +
->  Documentation/arch/riscv/pmu-sse.rst   |  55 +++
->  MAINTAINERS                            |   1 +
->  drivers/firmware/riscv/riscv_sbi_sse.c |   9 +
->  drivers/perf/Kconfig                   |  11 +
->  drivers/perf/riscv_pmu.c               |  14 +-
->  drivers/perf/riscv_pmu_sbi.c           | 540 ++++++++++++++++++++-----
->  include/linux/perf/riscv_pmu.h         |  20 +-
->  include/linux/riscv_sbi_sse.h          |   6 +
->  9 files changed, 564 insertions(+), 93 deletions(-)
->  create mode 100644 Documentation/arch/riscv/pmu-sse.rst
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+tree:   https://gitlab.freedesktop.org/drm/amdgpu/kernel drm-amdgpu-next
+head:   b6b1d97218518003107d4446fac278fa3e0a19a0
+commit: 7e9fca772695c65f97493272e2e7cd475f202965 [3/171] drm/amd/display: replace STATIC_IFN_KUNIT with VISIBLE_IF_KUNIT
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20261002/202610021405.aouP0UDa-lkp@intel.com/reproduce)
 
---1CpoeXeJ7HJ+y6fs
-Content-Type: application/pgp-signature; name="signature.asc"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610021405.aouP0UDa-lkp@intel.com/
 
------BEGIN PGP SIGNATURE-----
+All warnings (new ones prefixed by >>):
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCar+kPwAKCRB4tDGHoIJi
-0nZkAQC+nQDWcheoZ/uoVpx3J1ReYYcarCsWNy5EGzoBtyzH5QEA1ZEVCP+p6hA3
-bTJLWk5wESdHUitdwSiuB/6AYgPHXwE=
-=1K1t
------END PGP SIGNATURE-----
+   ---------------------^
+   Documentation/gpu/amdgpu/display/display-manager:29: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c:2271: WARNING: Error in declarator or parameters
+   Invalid C declaration: Expected identifier in nested name, got keyword: void [error at 21]
+   VISIBLE_IF_KUNIT void dm_dmub_outbox1_low_irq (void *interrupt_params)
+   ---------------------^
+>> Documentation/gpu/amdgpu/display/display-manager:44: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:6222: WARNING: Error in declarator or parameters
+   Invalid C declaration: Expected identifier in nested name, got keyword: int [error at 20]
+   VISIBLE_IF_KUNIT int amdgpu_dm_atomic_check (struct drm_device *dev, struct drm_atomic_commit *state)
+   --------------------^
+   Documentation/gpu/amdgpu/display/display-manager:50: ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c:64: ERROR: Unexpected section title.
 
---1CpoeXeJ7HJ+y6fs--
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
