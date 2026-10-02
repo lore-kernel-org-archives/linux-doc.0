@@ -1,310 +1,112 @@
-Received: from mail-qk2-f41.google.com (mail-qk2-f41.google.com [74.125.230.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF6D4C77D9
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 15:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D7B2F9D82;
+	Fri,  2 Oct 2026 16:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790955781; cv=none; b=hSMIDeYTMR8Q5xsF7v96CebwuseWU40VN7FDVjDRNf5QOCdWtCgnNl57FQdDBvDyyBNNxDgwFV6iFxMlvaJYkv8/m3CM2VzNU5f374d88HiDJmmC1KKy5Te6ZKvzqKdNDNSLnY3NcxPRxXFR7kIDBDupZLKoQKjR3eJkmHpFsBw=
+	t=1790957509; cv=none; b=O/hWpWkp2uelyDL39JcFFn5OnvgZBY3sUWAHbHjz+6TdvSy4zRArUvBs5NLfzWZQpNYzovJ3w4bzMnsoWCOzSF8sByD0n2xQCuBDclXleIsqnmSkPV3kagt7Xcty7ZuWIIS32Oy4Y+AIZrxa/RHtcOOyxhJI+sQgz8gGSOqR8iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790955781; c=relaxed/simple;
-	bh=3N4HhH1cWkzqVHOUQ925Ryetzqlgwmf/5cwKJ8Nc0Lg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=T4YsddFhyYCJEcBwn0U/Z1aEJbLH/pXSJlpv4wLLDwsZoe4zwzYmFkFAEKCMei1nDPmsMIruErZsA7d2Zq1SXDtGAzxNshmFfqI5i/nnq3LS6ni+Kni8dnPqGAy7Bjbjy2UVdy8nZqZ8k5IWFVbDV65tkO674igkOZw46GWhG/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ila1rktm; arc=none smtp.client-ip=74.125.230.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790957509; c=relaxed/simple;
+	bh=d/BWqh3I+o1TpqkOrGVewyRNzXZFs+ZGIdSCNuZrwAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qm1wylZNTeriuWHvsqSax35Sg4/rAczcIkWofNAwmsK808FEkYeeRy1ygMRe5Sfo++2i2I+LgcRSBBSp7irr0UCC6b4/xBdPRX/FNbAGoH+Nnrcrc+y0RTYQ4NQhtlSqG8yMgOkWOWY38hf2lKbyDN0rI3pna+8GO4D4vwUK6O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KlPBNFEO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ila1rktm"
-Received: by mail-qk2-f41.google.com with SMTP id af79cd13be357-93e479c36edso34841385a.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 08:42:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790955778; x=1791560578; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=3kwrkrr/vf7kFupAjZIcmWfwkxiNpoHruTeKfYbyUJk=;
-        b=ila1rktmyNPVD1+vcwUASkJanAQx+ERfJXVTq9c2vItfSSEK+WCAsLiOHx2AxVEVhh
-         Gp36PS+MPHqPXABSfJUwNJ95pyzPt2ch7Yi+w7HAknTzWMEYTmAgnqW8BmGJR0L187Cv
-         BJ4AADsZC0NFexYiKokDS4MH+O5AI1j8+Znsa9kazUJa/4dtH0Tyn58lYWFuoHdlOvIx
-         ekceZvbZTccTO2Z92tgnMG/ZrsYLToqlEk+d1/kSQEKj2CHSC3tvJhkhg1BiniIHY/K6
-         XkcPEo16JXVrA9SVVU8WaxjnRGP+9Nvft0qicOfH+QtsPqzWknJui6+jg8HO+N/157hZ
-         Hdqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790955778; x=1791560578;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3kwrkrr/vf7kFupAjZIcmWfwkxiNpoHruTeKfYbyUJk=;
-        b=AZUN/NkfRn1jKLkqoF6756cZ3GlWUR3nkPFdDSJMDYxdt74pkC6go5qQTeKPvaF6I3
-         p+r9SDzuRmO5ff9vftY42Bfg56QJW0LugjxYDP3uCNHnCIsb/6fHwNKXSwAO2it41I/Z
-         AWylo0upXKUqf4lhTnsZOTKjLVXPYxErD4dqIokbmxcXUA7Wx2QePjKKtG1YZ9vus9wB
-         btTJgRvn/4GPNmN6TJMw6jnd5A3In8NNwSiLZvzQNWtb8k6PChQ27EicxJurb7GLS4ZS
-         OsmOzi7ruYrO//pd1AT6kLJ5gk1MbjsROWsn+LOBPkjnLa9Bkm2KudVF/cqB+EhEJUMV
-         YIRQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw8EfzWlSNjR7mOqQ2RGtNeXmjkJqBY1qPBkuTy42McQFLR4G0knYn07BCFMBNTu6WX8cDeGv9vA7I=@vger.kernel.org
-X-Gm-Message-State: AFuF++nl1dOx4txV5gBsd5RHXR1e+rykQBkBJ8iRxpJbed273LU8RXXG
-	wFnhBy8no5nXvB8CvnvdUv63qViyyBvzuighsn28WwFsJC7ZH6gH30EO
-X-Gm-Gg: AYBFou3u1hKvAoUjNKg834+SSi6jIdq6IoRq160irphYQf6I0rqrdxs491dz67MOeB7
-	8SJImbnCNfvwljAI5t/nJYWEsWGVFZ7WLSyXVdKs2SZMJ4kObQjp1nMNUnHtdBdiikcg27iz7RV
-	lhu9U9hz8pXK9UYvEfN+VjbRkt2rG4fZZn3sEt9pfobHVI1iAa18jF86T2sBRn0bILWWIxIyyRZ
-	sktwo6UTmgV+icgEeQZAg3mYFDMKsrvp118hDLhAhmqA0AYNngfbP0BHBcaFaqQA72ywSYwYCoy
-	RiCiNkcPkuCJMODSyMr7wl95F6BEaq1C6Y3NoQ9XukBkkBaZr3fJPgzN2w7+/UdBd0qqfuoJWzc
-	Rzeh8yJcB7pvWypcH2DpdAqWa9vEokviP5d6nBkbFuBWpjtl3KLAN5RhT+jNMAMFHrhntbqOLp3
-	XDN85v0MKNi0DRdBQduybDRLZOmPbmgvPBgsHzF8ueifXG25BxcUdNmTjiCZiZhql9yyvPxeuvw
-	yk=
-X-Received: by 2002:a05:620a:a0d7:10b0:938:e23a:2ce9 with SMTP id af79cd13be357-93cf16b5abemr419579685a.16.1790955778210;
-        Fri, 02 Oct 2026 08:42:58 -0700 (PDT)
-Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-917d5938934sm22628306d6.5.2026.10.02.08.42.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2026 08:42:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KlPBNFEO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8488D1F000FF;
+	Fri,  2 Oct 2026 16:11:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790957508;
+	bh=d/BWqh3I+o1TpqkOrGVewyRNzXZFs+ZGIdSCNuZrwAQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KlPBNFEOE0gGia6RZAPeBTgVB7HNktDmiscBZ7dS/dxuvyJV5qZ4EBnMmKRqBWf+p
+	 NlxsjCUCHTgzOy14NdmetFcItytYbmQN/W1Cz9uNprrziSxnI2AwI/H7kvg7pcE0Th
+	 apHw1PmIMxp0r8Tb82ZsCAY6CdcYuqB/iILLMgb+Hd9L8Z04owEifByqirNGM+qtq7
+	 tnLVDa9jv/B19Ic1romkl3FQeHLFBdffX1K2/Z3MGzjcMTPK1VcbUS2u0EawxZYH+y
+	 GpQjr2jGxvYJz4PqGTUmJEW1o60Sr6vup0HAlwN8d+g/2nFyPIqzdSzcGp8to062lR
+	 qxk5wHC7LEjbQ==
+Date: Fri, 2 Oct 2026 17:11:18 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 40/40] mm/vma: introduce and use vma[_flags]_can_gup()
+Message-ID: <ar_WousLPxpyMozt@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-40-4583d8a23bca@kernel.org>
+ <202033a0-ea65-44de-8119-689e0df0b78e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 02 Oct 2026 11:42:56 -0400
-Message-Id: <DLUGU5KA6ZRP.33X0TT44Y2ZR4@gmail.com>
-Cc: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
- <kuba@kernel.org>, <pabeni@redhat.com>, <shuah@kernel.org>,
- <willemdebruijn.kernel@gmail.com>, <horms@kernel.org>, <corbet@lwn.net>,
- <skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <kuniyu@google.com>,
- <willemb@google.com>, <netdev@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH net-next v2 2/4] net: psp: require an established
- connection for association setup
-From: "Daniel Zahka" <daniel.zahka@gmail.com>
-To: <netdev-bot+sashiko@kernel.org>, <daniel.zahka@gmail.com>
-X-Mailer: aerc 0.21.0-threadmapfix
-References: <20260930-psp-defeat-v2-2-f266e7447129@gmail.com>
- <179090927139.434549.15378852090892678294@kernel.org>
-In-Reply-To: <179090927139.434549.15378852090892678294@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202033a0-ea65-44de-8119-689e0df0b78e@kernel.org>
 
-On Thu Oct 1, 2026 at 10:47 PM EDT, netdev-bot+sashiko wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential
-> issue(s) to consider.
->
-> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 2
->
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwor=
-k
-> know by including "pw-bot: cr" as a separate line at the end of your repl=
-y
-> (one such reply per series is enough).
->
-> - [Medium] The new check in psp_sock_assoc_set_rx()
->   (net/psp/psp_sock.c:162) rejects every state other than=E2=80=A6
-> - [Low] The commit message says the new sk_state check in
->   psp_sock_assoc_set_tx() (net/psp/psp_sock.c:261) fixes a bug from=E2=80=
-=A6
-> - [Low] The new psp.rst text (lines 139-141) says "connect() on a socket
->   that has PSP assoc state will return -EINVAL".
->
-> --
->
-> net: psp: require an established connection for association setup
->
-> This commit makes the PSP rx-assoc and tx-assoc handlers reject sockets
-> that are not in TCP_ESTABLISHED. It also makes tcp_v4_connect() and
-> tcp_v6_connect() return -EINVAL when PSP assoc state already exists, and
-> drops the PSP overhead from icsk_ext_hdr_len in the connect paths.
->
->> diff --git a/Documentation/networking/psp.rst b/Documentation/networking=
-/psp.rst
->> index 4ac09e64e95a5..0f9b6b73f2447 100644
->> --- a/Documentation/networking/psp.rst
->> +++ b/Documentation/networking/psp.rst
->> @@ -132,6 +132,14 @@ numbers in a way that deletes a prefix of the PSP p=
-rotected part of
->>  the TCP stream. If userspace cares to mitigate this type of attack, a
->>  special "start of PSP" message should be exchanged after ``tx-assoc``.
->> =20
->> +Upgrade to PSP must be done on established TCP connections.
->> +``rx-assoc`` and ``tx-assoc`` will return ``-ENOTCONN`` if
->> +``sk_state`` is not ``TCP_ESTABLISHED``.
->> +
->> +The PSP assoc state of a socket is not reset when the connection is
->> +torn down. ``connect()`` on a socket that has PSP assoc state will
->> +return ``-EINVAL``.
->
-> [Severity: Low]
-> Is the -EINVAL statement accurate for most connect() calls on a socket
-> with assoc state?
->
-> rx-assoc and tx-assoc now require TCP_ESTABLISHED, so a socket with
-> assoc state has sock->state =3D=3D SS_CONNECTED. __inet_stream_connect()
-> returns before it gets to sk_prot->connect():
->
-> net/ipv4/af_inet.c:__inet_stream_connect() {
->     ...
-> 	switch (sock->state) {
-> 	default:
-> 		err =3D -EINVAL;
-> 		goto out;
-> 	case SS_CONNECTED:
-> 		err =3D -EISCONN;
-> 		goto out;
->     ...
-> }
->
-> FIN or RST teardown leaves sock->state at SS_CONNECTED, and
-> psp_sk_assoc_free() only runs from inet_sock_destruct(). That means the
-> new psp_sk_assoc() checks in tcp_v4_connect() and tcp_v6_connect() can
-> only be reached after an explicit connect(AF_UNSPEC) disconnect. Every
-> other case returns -EISCONN.
->
-> Should the documentation say that -EINVAL applies to reconnect attempts
-> after an AF_UNSPEC disconnect?
->
+On Fri, Oct 02, 2026 at 09:48:14AM +0200, David Hildenbrand (Arm) wrote:
+> Long story short: I wonder whether vma[_flags]_can_gup() is the right
+> abstraction, especially for users that don't actually *use* gup but just want
+> slightly similar semantics (no VM_IO|VM_PFNMAP).
 
-I suppose I was thinking more along the lines of the AF_UNSPEC, because
-otherwise, the -EISCONN is the same as any non-PSP socket. I could
-change if a v3 is needed.
+OK confirmed off-list that you would prefer this be dropped for now.
 
->> +
->>  Rotation notifications
->>  ----------------------
->> =20
->
-> [ ... ]
->
->> diff --git a/net/psp/psp_sock.c b/net/psp/psp_sock.c
->> index a9cfeebe4ba1b..a6b1c42dd626f 100644
->> --- a/net/psp/psp_sock.c
->> +++ b/net/psp/psp_sock.c
->> @@ -159,6 +159,12 @@ int psp_sock_assoc_set_rx(struct sock *sk, struct p=
-sp_assoc *pas,
->> =20
->>  	lock_sock(sk);
->> =20
->> +	if (sk->sk_state !=3D TCP_ESTABLISHED) {
->> +		NL_SET_ERR_MSG(extack, "Socket must be in established state");
->> +		err =3D -ENOTCONN;
->> +		goto exit_unlock;
->> +	}
->> +
->
-> [Severity: Medium]
-> This check in psp_sock_assoc_set_rx() rejects every state except
-> TCP_ESTABLISHED. The commit message only justifies this with closed and
-> listen sockets. Does it also remove cases that could have users?
->
-> A TCP Fast Open server child returned by accept() can still be in
-> TCP_SYN_RECV. It already has a dst from tcp_v4_syn_recv_sock() or
-> tcp_v6_syn_recv_sock(), and it is the same socket that later becomes
-> ESTABLISHED. The point that the child does not inherit PSP state doesn't
-> apply to it. On that socket, rx-assoc now succeeds or fails depending on
-> when the final ACK arrives.
->
-> A TCP_FASTOPEN_CONNECT client also returns from connect() while it is
-> still in TCP_SYN_SENT.
->
-> The commit message also says:
->
->   "establishing PSP state prior to connect() will result in a
->    PSP-encrypted TCP SYN sent to a listening peer"
->
-> Is this true when only the Rx key is installed? The SYN is built by
-> tcp_init_nondata_skb(), which calls psp_enqueue_set_decrypted():
->
-> include/net/psp/functions.h:psp_enqueue_set_decrypted() {
-> 	...
-> 	pas =3D psp_sk_assoc(sk);
-> 	if (pas && pas->tx.spi)
-> 		skb->decrypted =3D 1;
-> }
->
-> With only an Rx key, the SYN goes out in plaintext.
-> __psp_sk_rx_policy_check() accepts plaintext as long as no Tx key is
-> set:
->
-> 	if (!pse) {
-> 		if (!pas->tx.spi ||
-> 		    (!pas->peer_tx && psp_is_allowed_nondata(skb, pas)))
-> 			return 0;
-> 	}
->
-> So the handshake completes normally, and tx-assoc can follow once the
-> connection is ESTABLISHED. With an explicit dev-id,
-> psp_assoc_device_get_locked() allows rx-assoc on a socket that has not
-> called connect() yet.
->
-> Before this patch, setting up only the Rx key before connect() appeared
-> to work. Should the commit message and psp.rst say that this sequence
-> and the TFO cases are being removed as well?
->
-
-Not supporting TFO in this way is by design. I considered that rx assoc
-could be allowed as long as sk_state is not TCP_CLOSE or TCP_LISTEN, but
-that seemed more complicated than needed. For the upgrade model,
-requiring both sides to just be ESTABLISHED seems simplest.
-
->>  	if (psp_sk_assoc(sk)) {
->>  		NL_SET_ERR_MSG(extack, "Socket already has PSP state");
->>  		err =3D -EBUSY;
->> @@ -252,6 +258,12 @@ int psp_sock_assoc_set_tx(struct sock *sk, struct p=
-sp_dev *psd,
->> =20
->>  	lock_sock(sk);
->> =20
->> +	if (sk->sk_state !=3D TCP_ESTABLISHED) {
->> +		NL_SET_ERR_MSG(extack, "Socket must be in established state");
->> +		err =3D -ENOTCONN;
->> +		goto exit_unlock;
->> +	}
->> +
->
-> [Severity: Low]
-> The commit message says this check fixes a bug from commit 6b46ca260e22
-> ("net: psp: add socket security association code"), but the patch has
-> no Fixes: tag. Could the tx-assoc check be split out and sent to net
-> with a Fixes: tag?
->
-> After tcp_time_wait(), psp_twsk_init() makes the timewait socket share
-> the same assoc:
->
-> net/psp/psp_sock.c:psp_twsk_init() {
-> 	...
-> 	if (pas)
-> 		refcount_inc(&pas->refcnt);
-> 	rcu_assign_pointer(tw->psp_assoc, pas);
-> 	...
-> }
->
-> The original sk is then in TCP_CLOSE with sk->psp_assoc still set. If
-> only the Rx key was installed, the old psp_sock_assoc_set_tx() accepted
-> the request. psp_sock_set_tx_key() then wrote pas->tx, pas->upgrade_seq
-> and pas->drv_data. Meanwhile the timewait socket reads pas->tx.spi
-> without locks from softirq, in psp_twsk_rx_policy_check() and
-> psp_reply_set_decrypted().
->
-> The commit message says the patch targets net-next because it depends on
-> commit 8cc3aef0cb19 ("tcp: Do not allow buggy transitions between ehash
-> and lhash2."). That dependency only matters for the rx-assoc and listen
-> socket part. The tx-assoc state check works without it.
->
-> As posted, stable kernels with PSP would keep this race, and backporters
-> would have nothing pointing them to the fix.
->
-
-The tx-assoc and connect() bits could be split out into a dedicated
-patch for net. Tests in psp.py will break without the first commit in
-this series.
-
-Alternatively, the whole commit can be taken without
-splitting, but the changelog may need to be changed given that it over
-promises on defeaturing listen without the dependencies on
-unhashed_state
-
->>  	pas =3D psp_sk_assoc(sk);
->>  	if (!pas) {
->>  		NL_SET_ERR_MSG(extack, "Socket has no Rx key");
-
+--
+Cheers, Lorenzo
