@@ -1,186 +1,512 @@
-Received: from mail-dl2-f39.google.com (mail-dl2-f39.google.com [74.125.229.167])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7391A361946
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 19:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F570443E40
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 20:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790970551; cv=none; b=U93o9QKTIEh3WQM3ZsAv5lpIJlmqZswIjeNlEHIlK9TdZrA7IsROTYYJM5g1IfBEKsNFlUbgI75LbRfv6jYyFD5SBFiTxirm4oqsoe2NQ4MlTBG9oPn4X5vgX3oY0DF2UvnkLiMDLMSWrekEg3UDT73k+/HY+gDn4ych01gWxgM=
+	t=1790971528; cv=none; b=GendnXit/PwHcgzAzeHA4FjiiFcmQOA6yA1az8Zcx3gLnbL6AHzXQaYs0x2y4PYbBcW+qJqFA+kxsDmQ6v/GUWh7oo2t5XIqd8Kh8wOclGRjjp+2ShnMLbsx3R6fnKpfShTOAaeowA3Q6RJFwHpHxWxHcljLccQJh9gEiMolTyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790970551; c=relaxed/simple;
-	bh=BA1c0FkHJccaJp4mZY2Xa5/jpWSQsLFKfIsyjBoOSVk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M8Qn+8UUwVYyGJNf2uYRDJ0ZZYTROOijLsMuwucwbuSsW8YTU2//XVKLuItLyR5oUkKToe3iSYTTVDTHmH01QKNlB4HEx7JGGf6IoetCr9m8iQ6ZDyyjtCQtWfBG+QTfO+iA1KlEGf0nlF2WAZLEGUk1ED9zsguJ+3pG2UtJU2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=QsejfObb; arc=none smtp.client-ip=74.125.229.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
+	s=arc-20240116; t=1790971528; c=relaxed/simple;
+	bh=1P2H4aQIabAAYjQAcV3gyWmec7MeuHESTbXJ/ZwHW0U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=UXu7WleNMSBx03uMt6vkpepqMkCS5Afh2ZBPhI4VmoC4RYC74sf4fDsvG5hKjoTikqzNCdxnPWoWe/Ogsd2RapdCmHnem91dRvIZprCYhSuW0fQCdK2y6fUppQk8gMMmAgDcc3YMmTvcdEe6hSciAlM+Y8luI2I8FiiFNtn7IgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=HVTz3jsW; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="QsejfObb"
-Received: by mail-dl2-f39.google.com with SMTP id a92af1059eb24-1438cb9b3a3so7100621c88.2
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 12:49:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="HVTz3jsW"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6deb848ddd7so117868eaf.0
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 13:05:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=trailofbits.com; s=google; t=1790970548; x=1791575348; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5Jk2g6BtdlmGdKtgGPAbggZvehqRrTlA+cJG1wv2zZM=;
-        b=QsejfObb/wmxhikAczTsark7ZpSrYCvIQl5XPSnMm/hGeLmkfX4dgBuSqy5CgGEo2b
-         fSZYLKo3Y0o9HWu2edVzj5GnPMsWOxTqDccXNCwmT/tZHdDu/Jr8eWsXFPojIkLYJVfE
-         iH1++2yXRyQjDl11Edeto+CvX2m+DJMtlYNxSIcgKjpRZUlOSd61XyvkXuObjjoOQbjK
-         OSofm00Jkxapfea2E+mJ08H8mF7QSWZ3rh1wqW3N9w0JfxS88eLQAB3dpYsX4ZmaW71y
-         wFPWNX1hzTIXoJVQPFvzY+IcsE1Mq8OQ4LMzvxhvguDf59ezkJxL89PtZyEgSifzPxJa
-         H/dA==
+        d=baylibre.com; s=google; t=1790971524; x=1791576324; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=hGLOfsMliwOpjvjoVWru3ZxxJGoZY5MaKdQvca3BhcY=;
+        b=HVTz3jsWaMmvonsrMGHDJlFFP9DjUd6shkJiCDy8qkunv93QaD/Sr+hGllQNqnMvu8
+         +GWW3QTm1q5Qm7kunLenmoCAYFb5M2uUUVZ7/51EYx/C6JvEKcX40dw6FD3AOyMVPA2i
+         fsrUN/fO3UpMYza9nNAmCK70bSgZFTIGNhzBM6FnXkzC+5GvESi6Cr+3tDQgcCVaJ0pN
+         9zkTBxT1/kX9PkgQ3UWGjIA+P3EPK+CWfwkywzjNboSYQhGDueo3pIwwz7USwXv7jgLN
+         VbtJM9xuQxna+lL0Hs1QGahRYIraP9o7/GXuzCC+Hcm2GmaDqWq+/hC7xXmEbQXjbgII
+         r2+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790970548; x=1791575348;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5Jk2g6BtdlmGdKtgGPAbggZvehqRrTlA+cJG1wv2zZM=;
-        b=qhxOEsy47Wb13f0O/lkxB5g0gd3Lgc26S8IccTuk7vQvrPFQdK3uu4v7hXoSpA+UDs
-         VjwpCKOx/0w0vudW4uaAQw3grygsd1g2L8CQAIl+1m0h5NkVAYoGm/QIlnzQbQdTwA3c
-         +tgLD5K4cDbcQf3wbzsEhbJYZj8sSuU1s8JD+3YgQ8WfVHfXlDjtVG+/aC0pDTcgXDPO
-         AwvrA0tbYF6Iwx1dw7ue7ObqZ2mJKqlleIJpTTDmhWOnr/LILOOYJVZHnDcQkWa1YbBa
-         9iH5q+oynElAAO+xtV4gTxYfL4PIEMsCEB/wetyD0dD8POWlVqgOonI/PDuQFouIKX7E
-         7VvA==
-X-Forwarded-Encrypted: i=1; AKwUvBztelU0NdwGbG//D5wxj8s60S5zhuzTAR/mdzWs3AN84/RZNcQ1BEbWwYyDvEB+3jlsEpxCT3ZrnB0=@vger.kernel.org
-X-Gm-Message-State: AFuF++l0kh6K2BbMl8OHdLnGbTHt0vQkh55KVFa6zuN7rfQ+peVTvHd9
-	rCU1xq9yJ4x92lu5FFP/IhFq7PvyAhfBMDpaUU16i5NX6ZhsxHhtq8GfF4OCfs8qdJk=
-X-Gm-Gg: AYBFou1P2w9e27Uylo1V60D9HkAKSwWAMCWiXFOFH7t87JgXNoKCmEvOL8C16xV4uLd
-	U6O5W3zgiY+rhthrelj50pd7BrSZEshh8lV56Cyri9pFbGCRf6D1i+wn8DY8ab9rkr9ic6Jh8J4
-	6bW4/UoEShJzyh9N5QP5dayQFU74Ylsb6DQ3hZtrp1fIrmD6ixjgkPcJFrtJOlxREs7RCJ9yYOq
-	18qB7yiKpQ/ohdjARIqjmG2T3UkSH4gYMGghTzDmV8HZ1placAOYAkYdBw8OgYbIM2I89aSMg7w
-	O9SyszCtTZxCkrNPIt9uivnDioO7JLGwMvq7eh6MmyJdvO7koO0S5eKiK8Nytps1+ZJ/oSTAgMa
-	b8j9YKx1KELtIXHPYu2okcoi1aBjXvkyjxlUw6iFLGxpuYqAGPXiq1o+eLMbqozMMA1I+DgIj/4
-	6HB8R8z9gVC4uKnXRVvYfXGKN0XdgEZ2b6GuaWWYRFrL6b4WACd2vFhwZuB0cCqZ221C+ylSXrl
-	+bs13Q1QN5SBsE7dsGw7GATA0qWJlY+9JOZQR/RBcnfljUqBYihAmS0AoQ6mHuaCW/51nM9/+8k
-	MhXYmA==
-X-Received: by 2002:a05:701b:42c9:10b0:14f:b80a:33a5 with SMTP id a92af1059eb24-14fb8197636mr2873373c88.28.1790970548456;
-        Fri, 02 Oct 2026 12:49:08 -0700 (PDT)
-Received: from localhost.localdomain ([2603:8001:5f01:8bab:bcf9:6140:24a9:d1e7])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14fae9b3dfesm6697431c88.11.2026.10.02.12.49.06
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 02 Oct 2026 12:49:07 -0700 (PDT)
-From: Artem Dinaburg <artem@trailofbits.com>
-To: stable@vger.kernel.org
-Cc: Artem Dinaburg <artem@trailofbits.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Christoph Schlameuss <schlameuss@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	David Hildenbrand <david@kernel.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	Sean Christopherson <seanjc@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	avi@redhat.com,
-	cotte@de.ibm.com,
-	david@redhat.com,
-	mtosatti@redhat.com
-Subject: [PATCH 6.1.y] kvm: s390: Reject memory region operations for ucontrol VMs
-Date: Fri,  2 Oct 2026 15:49:03 -0400
-Message-ID: <20261002194904.21236-1-artem@trailofbits.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20260707; t=1790971524; x=1791576324;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=hGLOfsMliwOpjvjoVWru3ZxxJGoZY5MaKdQvca3BhcY=;
+        b=KDdlTqIRj6XHatpZE7a+HOnuckhjKfqwGAo9AwPBZLPii2PPasPvhLiqnMoUiwCjp7
+         z4kMtNzAnjs5bzrNrNSQrltxAtkpuz8Tqhy1EW4gI6D6DVw5A5Z+DtWFB2XxeqLNwwh4
+         8O6CwmgdyjOCpT/xQdQzKKKQ15LD5nFep6bdvf/iLgIx73+xYHKga+WURTMzD91G8xHc
+         pUt6D+sU3abZqqs9xFBm8mG3OAAR5TQEUp6tXf5DDsh0wt0kg9G/vMJKeq/fB89DysMd
+         gt/5ijEykR0Ddxnf4FvzddX/gYkiGV24PvhbABBW1BCjkFGareGlFrY6xZQU9TTsuMTt
+         sqsQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwGQc79TcEdulbfLP1iS7ZH5FlowwVy6GdHzY7bUry8TfP7CD1vyPti3biuZ+ndepDz40bSX3MWMQ0=@vger.kernel.org
+X-Gm-Message-State: AFuF++nSyxAxKKxW1pQJH1H1nbL0HYElFu+vdtkgT0KV/ZYmyey/MIMw
+	YcKWkMbg+okV1DXHgbrHTYi6wT4GzXsuTaOQunz+SzWgFtLw8XzqSTpsERwm4LYR9jo=
+X-Gm-Gg: AYBFou22fEECNRfMzZgTz/MtSWwcp6AlHr9l0mHyVLqrdFtlNa8p12fJyeSVePV4Nfq
+	mubB/qL3FXvnHPSPmGKuLWuQe8ICVKSOFjVw/QWPyAVZW6DGRy3GYrNdrNLyxvBKWbLGzWIxD+R
+	fhUoX9/zU5KanpbX3c0pKsXZ8naOblpnQmECRvuGUCtb8s5+/DqpVwuPsUVwdCThovVq/GSLnwx
+	hvdvscqUEABLJYEKo3T6GRV/YzhjOI6NUTYyY+MQHlqJ6P76ACUmON3H1OzbSYihFbVR51AUzRJ
+	b7OgK1ESMbLcyZhaF8Oi2tE8ar0wF+tkudWJOrGEq6KJDiiCvrlC5pYEE6VLzTaUHhXp4xCgMXx
+	WuGVV6FK1F6qpq+XKblnjOIru7GiFPnURKf/WxPqf8gZRJ4juc3uMFDAXVIOC72FCdZkXP7EMD2
+	pcQhLiCklBfh51SrdJKMnhkX2GMFpVzbeiS4T1b76lofZutSCK1lXXfG9EWGHXgXCuZrhs1v//M
+	4YS42BRrlo6Aw==
+X-Received: by 2002:a05:6820:310b:b0:6cd:3ffc:e328 with SMTP id 006d021491bc7-6e09ea63c65mr272579eaf.70.1790971523911;
+        Fri, 02 Oct 2026 13:05:23 -0700 (PDT)
+Received: from [127.0.1.1] ([2600:8803:e7e4:500:b543:49c5:7c72:a244])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6df37fe3061sm3566115eaf.1.2026.10.02.13.05.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2026 13:05:21 -0700 (PDT)
+From: "David Lechner (TI)" <dlechner@baylibre.com>
+Date: Fri, 02 Oct 2026 15:05:13 -0500
+Subject: [PATCH] docs: iio: add documentation for ti-ads112c14 driver
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261002-iio-adc-ti-ads112c14-docs-v1-1-d5f3efb27727@baylibre.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMMQ7CMAyF4atUnrFUuym0XKViCI4BMzQoLgip6
+ t0JMD19w/tXcC2mDsdmhaIvc8tzBe0akFucr4qWqoFb3rcj92iWMSbBxeo4EQsFTFkcuRtoDEP
+ fHWKA+n8Uvdj7155Of/vzfFdZvkHYtg+cUvfdfQAAAA==
+X-Change-ID: 20260925-iio-adc-ti-ads112c14-docs-2381948537a4
+To: Jonathan Cameron <jic23@kernel.org>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Chris Hall <c-hall@ti.com>, 
+ Patrick Edwards <pedwards@ti.com>, Kurt Borja <kuurtb@gmail.com>, 
+ "David Lechner (TI)" <dlechner@baylibre.com>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=16237;
+ i=dlechner@baylibre.com; h=from:subject:message-id;
+ bh=1P2H4aQIabAAYjQAcV3gyWmec7MeuHESTbXJ/ZwHW0U=;
+ b=owEBbQGS/pANAwAKAcLMIAH/AY/AAcsmYgBqwA56fFNMcZB5IV9UusL1xYpcZIWh66Viaf4XT
+ HwXaSECAFSJATMEAAEKAB0WIQTsGNmeYg6D1pzYaJjCzCAB/wGPwAUCasAOegAKCRDCzCAB/wGP
+ wAaNCACWYn/ukIc6QVV1dZVwpqHDkPtH/3c3y0/tIUWfqPE/5SA8q9pPAzgB/15SUa7XRaRYwJ0
+ Od4jM48DVDi2lD3rv9otm9lA13GAHDuRWQO4LBeeJT0MyKwrYkqCMcFexLd16Fz8SQoX10sRcoy
+ hdMyD0cBcTQeIyDUJ9JbYNA6RyHnnxPNT6BR0tMSUKuhKBohPufF3QksyqCRxLYaqntyxKLgkpK
+ 1qNBd1BmejbKabAOsD5svjP4sXjemZo4oPhEZuTdkPXwqCqiLPVYK2rsxDjzAPPspLwWN1MSqKY
+ EZfii+fi155jlO0h4OLhZwSwXuLdwj0Hz6rZQ1h1cPuWBGCL
+X-Developer-Key: i=dlechner@baylibre.com; a=openpgp;
+ fpr=8A73D82A6A1F509907F373881F8AF88C82F77C03
 
-From: Christoph Schlameuss <schlameuss@linux.ibm.com>
+Add documentation for the TI ADS112C14 and ADS122C14 ADC driver.
 
-[ Upstream commit 7816e58967d0e6cadce05c8540b47ed027dc2499 ]
+These chips have several quirks that don't map cleanly to the usual IIO
+ABI, so it is worth documenting them for users. This covers how the
+devicetree channel nodes map to IIO channels, the system monitor
+channels, the order in which the interdependent filter_type,
+oversampling_ratio and sampling_frequency attributes need to be written,
+the settlingtime attribute and when it applies, burnout current, GPIOs,
+debugfs register access and the different behavior of buffered reads
+depending on which trigger is used. Also include some devicetree
+examples of typical sensor configurations.
 
-This change rejects the KVM_SET_USER_MEMORY_REGION and
-KVM_SET_USER_MEMORY_REGION2 ioctls when called on a ucontrol VM.
-This is necessary since ucontrol VMs have kvm->arch.gmap set to 0 and
-would thus result in a null pointer dereference further in.
-Memory management needs to be performed in userspace and using the
-ioctls KVM_S390_UCAS_MAP and KVM_S390_UCAS_UNMAP.
-
-Also improve s390 specific documentation for KVM_SET_USER_MEMORY_REGION
-and KVM_SET_USER_MEMORY_REGION2.
-
-[ Backport to 6.1.y: omitted KVM_SET_USER_MEMORY_REGION2 documentation
-  because that ioctl is absent from 6.1. ]
-
-Signed-off-by: Christoph Schlameuss <schlameuss@linux.ibm.com>
-Fixes: 27e0393f15fc ("KVM: s390: ucontrol: per vcpu address spaces")
-Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Link: https://lore.kernel.org/r/20240624095902.29375-1-schlameuss@linux.ibm.com
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-[frankja@linux.ibm.com: commit message spelling fix, subject prefix fix]
-Message-ID: <20240624095902.29375-1-schlameuss@linux.ibm.com>
-Assisted-by: LLM
-Signed-off-by: Artem Dinaburg <artem@trailofbits.com>
+Signed-off-by: David Lechner (TI) <dlechner@baylibre.com>
 ---
-Hi Greg, Sasha, and kvm s390 maintainers,
+ Documentation/iio/ads112c14.rst | 355 ++++++++++++++++++++++++++++++++++++++++
+ Documentation/iio/index.rst     |   1 +
+ MAINTAINERS                     |   1 +
+ 3 files changed, 357 insertions(+)
 
-I am working through the small CVE backports still missing from 6.1.y.
-This one addresses CVE-2024-43819. It rejects memory-region ioctls before a
-ucontrol VM can dereference its NULL gmap.
-
-The corresponding 6.6.y backport is already in the 6.6.y stable queue.
-The fix is already present in 6.12.y, 6.18.y, and 7.2.y, but not
-in 6.1.y.
-The target-specific adjustment is recorded in the bracketed note above.
-
-Could you please queue it for 6.1.y?
-
-CVE: CVE-2024-43819
-Upstream: 7816e58967d0e6cadce05c8540b47ed027dc2499
-
-AI assistance: An LLM helped identify, adapt, and validate this backport; I
-reviewed the resulting code and validation evidence.
-
-Thanks,
-Artem Dinaburg
-
- Documentation/virt/kvm/api.rst | 6 ++++++
- arch/s390/kvm/kvm-s390.c       | 3 +++
- 2 files changed, 9 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 1bc61bf804f1f8..1f0f84501e59c8 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -1382,6 +1382,12 @@ The KVM_SET_MEMORY_REGION does not allow fine grained control over memory
- allocation and is deprecated.
- 
- 
-+S390:
-+^^^^^
+diff --git a/Documentation/iio/ads112c14.rst b/Documentation/iio/ads112c14.rst
+new file mode 100644
+index 000000000000..e3a031e851be
+--- /dev/null
++++ b/Documentation/iio/ads112c14.rst
+@@ -0,0 +1,355 @@
++.. SPDX-License-Identifier: GPL-2.0-only
 +
-+Returns -EINVAL if the VM has the KVM_VM_S390_UCONTROL flag set.
-+Returns -EINVAL if called on a protected VM.
++================
++ADS112C14 driver
++================
 +
- 4.36 KVM_SET_TSS_ADDR
- ---------------------
- 
-diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
-index c7b4c0d37c87b0..0caaa462baf6f8 100644
---- a/arch/s390/kvm/kvm-s390.c
-+++ b/arch/s390/kvm/kvm-s390.c
-@@ -5587,6 +5587,9 @@ int kvm_arch_prepare_memory_region(struct kvm *kvm,
- {
- 	gpa_t size;
- 
-+	if (kvm_is_ucontrol(kvm))
-+		return -EINVAL;
++ADC driver for Texas Instruments ADS112C14 and similar devices. The module name
++is ``ti-ads112c14``.
 +
- 	/* When we are protected, we should not change the memory slots */
- 	if (kvm_s390_pv_get_handle(kvm))
- 		return -EINVAL;
--- 
-2.39.5
++Supported devices
++=================
++
++The following chips are supported by this driver:
++
++* `ADS112C14 <https://www.ti.com/product/ADS112C14>`_ (16-bit)
++* `ADS122C14 <https://www.ti.com/product/ADS122C14>`_ (24-bit)
++
++These are low-power ADCs with 8 analog inputs and an I2C interface. They are
++primarily designed for use with resistive sensors such as RTDs, thermocouples
++and resistive bridges.
++
++Supported features
++==================
++
++Measurement channels
++--------------------
++
++Each ``channel@`` node in the devicetree describes the conditions needed to
++take a particular measurement rather than just a physical input. In addition to
++the analog input(s), this includes the reference source, excitation currents,
++burnout current and input chopping. See the `ti,ads112c14.yaml`_ devicetree
++binding for the details.
++
++.. _ti,ads112c14.yaml: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/iio/adc/ti,ads112c14.yaml
++
++The IIO channels in sysfs are named after the analog inputs given in the
++devicetree:
++
++* The ``single-channel = <X>`` devicetree property creates an ``in_voltageX``
++  channel.
++* The ``diff-channels = <X>, <Y>`` devicetree property creates an
++  ``in_voltageX-voltageY`` channel.
++* If the measurement uses the external reference and the
++  ``ti,refp-refn-resistor-ohms`` devicetree property is given, the measurement
++  is ratiometric to the resistor between REFP and REFN, so it is reported as an
++  ``in_resistanceX`` channel instead, where ``X`` is the positive input. In
++  this case, ``raw * scale`` gives the resistance in ohms.
++
++If a devicetree channel node has a ``label`` property, it can be read from the
++``in_*_label`` sysfs attribute.
++
++Unless the ``bipolar`` devicetree property is given, the raw value is unsigned.
++
++The ``in_*_scale`` sysfs attribute selects the PGA gain. The available values
++are listed in the ``in_*_scale_available`` sysfs attribute.
++
++Excitation currents are left enabled after a measurement until a measurement is
++made that does not use them.
++
++System monitor channels
++-----------------------
++
++The following channels are always present in sysfs, regardless of the
++devicetree:
++
++============================ ===============================================
++Channel                      Description
++============================ ===============================================
++``in_temp100``               Internal temperature sensor.
++``in_voltage101``            External reference voltage (REFP - REFN).
++``in_voltage102``            AVDD supply voltage.
++``in_voltage103``            DVDD supply voltage.
++``in_voltage104-voltage104`` Internal short, used for offset calibration.
++============================ ===============================================
++
++The chip measures the external reference, AVDD and DVDD through an internal
++attenuator that divides by 8. This is already taken into account in the scale,
++so ``raw * scale`` gives the actual voltage in millivolts.
++
++The internal short channel has a writable ``in_voltage104-voltage104_scale``
++sysfs attribute so that the PGA gain can be set to match the gain of the
++measurement channel being calibrated.
++
++When the external reference is a resistor driven by the excitation currents
++(e.g. in an RTD configuration), there is only a reference voltage while the
++excitation currents are enabled. So a measurement that uses the excitation
++currents needs to be made first, otherwise the ``in_voltage101`` reading will
++not be meaningful.
++
++Filter type, oversampling ratio and sampling frequency
++------------------------------------------------------
++
++The filter type, oversampling ratio and sampling frequency can be set per
++channel with the ``in_*_filter_type``, ``in_*_oversampling_ratio`` and
++``in_*_sampling_frequency`` sysfs attributes.
++
++On these chips, these three settings are tightly coupled and do not map
++directly to separate register fields. The available values of one attribute
++depend on the current value of the others, so the attributes must be written in
++a specific order:
++
++1. Write ``in_*_filter_type``.
++2. If the filter type is ``sinc4`` or ``sinc4+sinc1``, write
++   ``in_*_oversampling_ratio`` and then ``in_*_sampling_frequency``.
++3. If the filter type is ``sinc4+sinc1+pf1``, write ``in_*_sampling_frequency``
++   and then ``in_*_oversampling_ratio``.
++
++After each write, check the ``*_available`` sysfs attribute of the next
++attribute to see which values can be selected.
++
++Settling time
++-------------
++
++The ``in_*_settlingtime`` sysfs attribute sets the total time for the ADC to
++settle before it outputs the first conversion result after starting conversions
++or after changing settings. The ``in_*_settlingtime_available`` sysfs attribute
++gives the range of allowed values as ``[min step max]``.
++
++The minimum value is the fixed latency of the digital filter for the current
++filter type, oversampling ratio and sampling frequency. This already includes
++the time for the conversion itself. Selecting a larger value adds a
++programmable delay before the conversion starts, which can be used to allow
++external circuitry (e.g. filters on the analog inputs) to settle. The available
++delays are not evenly spaced, so the driver selects the smallest delay that
++gives at least the requested settling time. Read back the attribute after
++writing it to see the actual value.
++
++The settling time applies to more than just the first conversion in some
++cases:
++
++* In single-shot mode, every conversion is a first conversion. This includes
++  reading ``in_*_raw`` and buffered reads that are not using the DRDY trigger
++  (see `Device buffers`_).
++* When input chopping is enabled with the ``input-chopping`` devicetree
++  property, the input mux is swapped after each conversion, so every
++  conversion waits for the settling time. In this case, the actual data rate
++  is lower than ``in_*_sampling_frequency`` and is approximately
++  ``1 / settlingtime``.
++
++Burnout current
++---------------
++
++If a devicetree channel node has the ``burn-out-current-nanoamp`` property, the
++channel has an extra ``in_*_burnoutraw`` sysfs attribute. Reading it takes a
++single conversion with the burnout current sources enabled. This can be used to
++detect an open or shorted sensor. The burnout current affects the accuracy of
++the reading, so it is only enabled for this conversion and not for normal
++reads. Input chopping is also disabled during this conversion since the chip
++does not allow it to be used together with the burnout current sources.
++
++External clock
++--------------
++
++If the ``clocks`` devicetree property is given, the chip is clocked from the
++external clock on the GPIO3 pin instead of the internal 4.096 MHz oscillator.
++The available sampling frequencies and settling times in sysfs are scaled
++accordingly.
++
++I2C CRC
++-------
++
++The I2C CRC feature of the chip is always enabled. The driver checks the CRC of
++all register reads and direct reads. For buffered reads, see `Device buffers`_.
++
++GPIO controller
++---------------
++
++If the ``gpio-controller`` devicetree property is given, the AIN4/GPIO0 to
++AIN7/GPIO3 pins can be used as GPIOs. The lines are named ``iio:deviceN:GPIOx``.
++
++Pins that are used for something else according to the devicetree are not
++available as GPIOs. This includes:
++
++* Analog inputs and excitation current outputs used by any measurement channel
++  (AIN4 to AIN7 are GPIO0 to GPIO3).
++* GPIO0 and GPIO1 when an external reference is used (REFP and REFN share these
++  pins).
++* GPIO2 when ``interrupt-names`` contains ``fault``.
++* GPIO3 when ``interrupt-names`` contains ``drdy`` or when the ``clocks``
++  property is given.
++
++Outputs are always configured as push-pull.
++
++Debugfs register access
++-----------------------
++
++The chip registers can be read and written via the ``direct_reg_access``
++debugfs attribute. This can be used to check settings against the datasheet and
++to check status that is not otherwise available, such as the AVDD and reference
++undervoltage and fault flags in the ``STATUS_MSB`` register (0x02). For
++example:
++
++.. code-block:: bash
++
++    $ cd /sys/kernel/debug/iio/iio:device0
++    $ echo 0x02 > direct_reg_access
++    $ cat direct_reg_access
++
++Writing registers this way bypasses the driver, so it should only be used for
++debugging.
++
++Unimplemented features
++----------------------
++
++* Power management (power-down and standby modes).
++* Monitoring and events (e.g. AVDD and reference undervoltage, /FAULT pin).
++* Open-drain configuration of the GPIO outputs and /DRDY output.
++
++Device buffers
++==============
++
++This driver supports IIO triggered buffers. The behavior depends on which
++trigger is used.
++
++DRDY trigger
++------------
++
++If the ``interrupt-names`` devicetree property contains ``drdy``, the driver
++provides a trigger for it. The driver does not set the interrupt trigger type,
++so it must be given in the ``interrupts`` devicetree property. Since /DRDY is
++active low, this should be ``IRQ_TYPE_EDGE_FALLING``.
++
++When this trigger is used, the chip runs in continuous conversion mode and the
++data is read each time a conversion completes. In this mode, only one channel
++may be enabled at a time, and the data rate is given by the
++``in_*_sampling_frequency`` sysfs attribute of that channel (except when input
++chopping is enabled, see `Settling time`_).
++
++The trigger is not assigned by default, so it has to be selected by writing to
++the ``trigger/current_trigger`` sysfs attribute. The trigger is named
++``<name>-dev<N>-drdy``, where ``<name>`` is the value of the ``name`` sysfs
++attribute of the IIO device and ``<N>`` is the same number as in the
++``iio:device<N>`` directory name of the IIO device. For example, for
++``iio:device0``, ``<N>`` is ``0``:
++
++.. code-block:: bash
++
++    $ cd /sys/bus/iio/devices/iio:device0
++    $ echo "$(cat name)-dev0-drdy" > trigger/current_trigger
++
++Other triggers
++--------------
++
++When any other trigger is used (e.g. an hrtimer trigger), the chip runs in
++single-shot mode and each enabled channel is read in turn each time the trigger
++fires. In this mode, any number of channels may be enabled. Since every
++conversion includes the settling time, the trigger frequency cannot be set as
++high as ``in_*_sampling_frequency``. Each time the trigger fires, it takes at
++least the sum of the ``in_*_settlingtime`` values of all enabled channels plus
++the I2C communication time to read all of the channels. The trigger frequency
++needs to be low enough to allow for this.
++
++Buffer data format
++------------------
++
++Each sample is stored in 32 bits, big-endian, with the conversion result in the
++upper bits. The byte immediately following the conversion result contains the
++CRC byte sent by the chip. The driver does not check this CRC for buffered
++reads, so userspace can use it to detect and discard corrupted samples. The CRC
++is CRC-8 with polynomial 0x07 and initial value 0xFF, calculated over the bytes
++of the conversion result.
++
++Devicetree examples
++===================
++
++The following examples show some typical sensor configurations. See the
++datasheet for the corresponding circuit diagrams.
++
++2-wire RTD
++----------
++
++One excitation current drives both the RTD and the reference resistor, so the
++measurement is ratiometric and the RTD resistance is available from
++``in_resistance1_raw`` and ``in_resistance1_scale``.
++
++.. code-block::
++
++    adc@40 {
++        compatible = "ti,ads122c14";
++        reg = <0x40>;
++        avdd-supply = <&avdd>;
++        dvdd-supply = <&dvdd>;
++        ti,refp-refn-resistor-ohms = <500>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        channel@0 {
++            reg = <0>;
++            diff-channels = <1>, <4>;
++            excitation-channels = <0>;
++            excitation-current-nanoamp = <500000>;
++            reference-sources = "external";
++        };
++    };
++
++3-wire RTD
++----------
++
++Two matched excitation currents are used to cancel out the lead resistance.
++Input chopping is enabled to reduce offset errors.
++
++.. code-block::
++
++    adc@40 {
++        compatible = "ti,ads122c14";
++        reg = <0x40>;
++        avdd-supply = <&avdd>;
++        dvdd-supply = <&dvdd>;
++        ti,refp-refn-resistor-ohms = <500>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        channel@0 {
++            reg = <0>;
++            diff-channels = <1>, <2>;
++            excitation-channels = <0>, <3>;
++            excitation-current-nanoamp = <500000>, <500000>;
++            input-chopping;
++            reference-sources = "external";
++        };
++    };
++
++Resistive bridge with thermistor
++--------------------------------
++
++The bridge is excited by AVDD, which is also connected to REFP, so the bridge
++measurement is ratiometric. The thermistor is measured using the internal
++reference. The labels make it easy to find the channels in userspace.
++
++.. code-block::
++
++    adc@40 {
++        compatible = "ti,ads122c14";
++        reg = <0x40>;
++        avdd-supply = <&avdd>;
++        dvdd-supply = <&dvdd>;
++        refp-supply = <&avdd>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        channel@0 {
++            reg = <0>;
++            diff-channels = <6>, <7>;
++            bipolar;
++            reference-sources = "external";
++            label = "bridge";
++        };
++
++        channel@1 {
++            reg = <1>;
++            diff-channels = <1>, <2>;
++            reference-sources = "internal-2.5v";
++            label = "thermistor";
++        };
++    };
+diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+index d0fb32f4b80f..6f9146d686f5 100644
+--- a/Documentation/iio/index.rst
++++ b/Documentation/iio/index.rst
+@@ -37,6 +37,7 @@ Industrial I/O Kernel Drivers
+    adis16475
+    adis16480
+    adis16550
++   ads112c14
+    adxl313
+    adxl380
+    adxl345
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ecc22d1149d1..82b8a294e5b8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -27309,6 +27309,7 @@ M:	David Lechner <dlechner@baylibre.com>
+ L:	linux-iio@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/iio/adc/ti,ads112c14.yaml
++F:	Documentation/iio/ads112c14.rst
+ F:	drivers/iio/adc/ti-ads112c14.c
+ 
+ TI ADS1018 ADC DRIVER
+
+---
+base-commit: a3b3580713f3ac5a32dc2874ee546828977a1d68
+change-id: 20260925-iio-adc-ti-ads112c14-docs-2381948537a4
+
+Best regards,
+--  
+David Lechner (TI) <dlechner@baylibre.com>
 
