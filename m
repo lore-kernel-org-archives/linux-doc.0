@@ -1,96 +1,113 @@
-Received: from mail-dl2-f42.google.com (mail-dl2-f42.google.com [74.125.229.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C657E36F8FE
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 13:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A08348C4C
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 13:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790948091; cv=pass; b=czmLTE2wPnyC5G238uD2uU/Mhmf+ZyUTZGhmwiq7BF/EnEt1+3sKophcXYtRZvEqPEX8YoO/SNbjCHAnJmPMXGkCspAIR1Zgx2Sy3FU92HGIKEa2X/2BINgHDK1AVWicNKPzTmoafiv8gBF+ehhM7GpWQc5GybpesU7NKs0ovfg=
+	t=1790948811; cv=pass; b=O80B534rQ82A2AL1OrNpuUTph5iGx4MAmxxr1XZa8P7+vP/kHEnSUeu6W80pzffDJ6SM85XrwB23C81ATyxBnoB31eQ1yUT2YyKS/6rLcKlosWBXbA6Atbz3txvE9K4tVvHfdJ9dJ4byvPcwy4olb3b1pjf8X9o3GdLBNvCjwmM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790948091; c=relaxed/simple;
-	bh=ptuql8EP/xwC8/m6AyGXvhJvfVbV+wQgTXqkQooIt/U=;
+	s=arc-20240116; t=1790948811; c=relaxed/simple;
+	bh=T1OfMuxccvCVLUQ4ooAuxw1CLcnmWDp/3LEIapIUnyw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qj9CBo6JtpF3hxucRo57VddSeZfG0A0YoY6A09nkIkcZQU09MdHmzU5xbfEGGoJEsUbZtlT0BpUVHXAVPKc4xdN7drFWGTGycXagLfjfHdhjzLGUPmMSBO+KjdD3qQpdHUgm8SpY6ngkvlgZHJT4Hq0Zx81+Ip5uPhkjuaNvEUs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lcQ5Adeg; arc=pass smtp.client-ip=74.125.229.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=FUebaAHlefHMM4Psm2K7oTMCH7P1r2jN2aOW7f48cp926HgWxAX7vdzsQNR4YJ5ca9p9v2TMbkwXWXyjg7gR7hZzM6nFKvkKXFl/5EUFo48nfS+n/gzlVRoEYisH0HtzwxrNr0QhPJ7SPp6kR2m/1TGTYiG5RUdal568Epwld+c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O79BuVsa; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UWadtrqV; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lcQ5Adeg"
-Received: by mail-dl2-f42.google.com with SMTP id a92af1059eb24-144ef651963so171166c88.3
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 06:34:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790948086; cv=none;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O79BuVsa";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UWadtrqV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790948808;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6dEanQnOyXhk+suk32DBilMCW9SZjDiEbY5jKTMsnxY=;
+	b=O79BuVsar85MbGK16Ee4gh//sV1xBNXtYiOY7xmYdqWYZXHiJlgtl2N7icv+M59MYFQyzc
+	hjRxAIZ5iR6GSz9l2UzCCVWZFn/M8c4Z37Vguf0hX1g1Za3+RgJJ6p1waw59RYMcu2MTgC
+	NZHxAnqFH7vubSg48mPGQV8FeVadNQU=
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
+ [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-57-lXCpbJ5NN065NTJQHp5naw-1; Fri, 02 Oct 2026 09:46:47 -0400
+X-MC-Unique: lXCpbJ5NN065NTJQHp5naw-1
+X-Mimecast-MFC-AGG-ID: lXCpbJ5NN065NTJQHp5naw_1790948807
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-66cbfb7ec42so11808888d50.1
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 06:46:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790948807; cv=none;
         d=google.com; s=arc-20260327;
-        b=abrtByM2IMAMskXX0fp74Wi57TyImC6g8aw0YBwEjYpTWXCm+VG3DYr7hX4ThC8wFu
-         JpwT4Xgs/zDo/9vCUWCoYNeIQOn5r/gQePF9BOEnR7qOYLxmNBDjT/Vio3+NmOx4yHrR
-         3ZjpE943Tw3JVojMAaNYS9pls76a6cSdeuSKVaHkRwi1HSN8lG1/EEWsvfBsZfCGBtTo
-         ZUfeQLq73xUXs5fEzmJYlCU/Y84Ai/iO2SC8Sbl/pfRrkwcAoaQjN682eWBLdAC9hpIU
-         WGpu5RMx/ro2W0pLU+T14PXyaGP3wKiAaAAg7QX8InLuCXp6qhdjKCY18r9/d6nwxYOL
-         2n9Q==
+        b=jWIaltCtTZj/jBfp6YsUxKXitRL8f0zgJ9BOxaYUeH7QZ+8awinMG3+SDhTjAkAJtU
+         luZPzsZrTfL/2jdmoFS+YO01uF039C3cmhsQ71kriOAmGrkY2mIR39F8z4FOP/7I60FU
+         fywvDYof3wJk50NvJ+haq1WWuICRB33C7SDQpq2dKighUq+YZCatsqAg5k5LP7lDRcVN
+         NhK8Ft/vkhz7u8EkADCyqsh+fx61jPEgMW+sGrFTwxdj0QDEpWWjI27uM+GeY2nw61du
+         JQatUr6WTvxst0MPEa8fUL5VcMQ+laDqEiNDp6359eWzHBIonlaSsmUXuSg5pHVfalm2
+         9ssg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=yx6G1AW+nvvITgzsA9b25EAkpoWe5JEuWuaZEwVI7YQ=;
-        fh=s2Ii4R5ycJCS46GluGLNeP8n/7UDhyDCTwjv/+n+22s=;
-        b=EQzZJ4yc1+FolECM6UZ6flnsMJLgo4I0RK7AYeJBYAbhsSFaUUdUjVkoe9oakkgOTQ
-         WyGhEWV8dfL71eoXp5xIgJaRbn/3R9xjFuU2RUpyLDx1ywHI6XWuGKK9R1c9d/fiCYtV
-         Ar8R0dYUMbHnhb6jQmu6h1Acu7IHgHHs92UggpfnI6gZPflE5lOUT9y0RgrcgQ6yf7E4
-         y51dpIgaH7ElrmCN4F/85tzNzaRre7msZwiQcmN/Fx60R5y5mTIXbnB1GKgCvkWsNor1
-         pLVgE7q75YovY5OmWsAjMo4y9ZlRhV+1yVT+PG40Z9pS30H2M+cdsNjsSwKCzpsWsdxC
-         m7yQ==;
+        bh=6dEanQnOyXhk+suk32DBilMCW9SZjDiEbY5jKTMsnxY=;
+        fh=YkMg6RlqmT0JfKuBp0YO6ga6EUIACLj0ns7mGtfdND4=;
+        b=jXf7q56hkTVNI0+X8BIkTCPO6y0/1+P2Y2n5rV13X+kZj2Hcuat++aXViSOBEaBxe9
+         OdjJPTO7Ztb+MXz6b07Yz0nmby5zqfgX58h4yXhiNUVjxGNoAWS1bEBYz90Sz0diSm8O
+         fINC9v5y/2SeVOg+kmkYMlDLSU+exA+FU2bQnSMo0RpgolF10toJAErxqu/xtuPsAZuj
+         zS1qRHidtS/91zLcHQAdqXwGxuR9t6wOJlvJCQ2mdGqxZX+kgW5pfRrjyOB7Hosb92VW
+         Be+MnaU5lrBOer0f0Q0fyntCP+YFV3tw/avvZhGkrJ1OhrZ5OGI9HNYlZM1Ht2eeOOq2
+         TYmw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790948086; x=1791552886; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1790948807; x=1791553607; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=yx6G1AW+nvvITgzsA9b25EAkpoWe5JEuWuaZEwVI7YQ=;
-        b=lcQ5AdegZSWHxI/3afoIRtWBelesyOuzbm/AjZlE3M+ToEsQ8o/cQ6juqrhiwuG+Ya
-         zVxqavVOuavXKoq5zvNZ82FaE9LqPMTCLCvZAWeOT71s/u3qKiuz2PYpj36mgXsXITHo
-         utuoP45iTXIeMDub1kcnYkk0KcloDDzdyTPROUDwpGkl86b66BAL6obIubtgCEswDEbe
-         JlyxL8DnFVo54b7LHNWZ7DTjG/9ru43zdYuBFLq7EAzcrWFk2eRi4wx+L5lbcEf6qKri
-         PNY6SHXHSc2D9qAFIaFJCUo3VSbwqBSbiHYFizpV8HjCbh6QEQoY+dPIUOpcSxXSRyOC
-         r2Ng==
+        bh=6dEanQnOyXhk+suk32DBilMCW9SZjDiEbY5jKTMsnxY=;
+        b=UWadtrqVT++t78Sv1hGNoBOOIr4BNlDXfCeVezqWec54LsOUnUAy/eqbwWNYtuZcwK
+         rpcmNWeO0eMdOdimRgZHHdLcHUXdX1EL/bUOKpTxrFSb41IFJ0ND1uFXmqoBuxFMytoZ
+         uyrnen8x1vdxIRCwm+PdbqHUoWZNoeDkxV70Fy6i03HYkSqfZZaet8oO/Pl0X9Dk4djI
+         /xPBif3H/cdyFBSgclpuEkhFy80H9MCoyN8oEhrDLLrVnRJusi2vh9WhzwQMUwwn2+UK
+         ZOix6SxBSfU0/UmIsPi6SuW0trWIvIucVKxaZXHjWANZcRyi6d2/5jU2+YaOeOKCpCEr
+         +NrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790948086; x=1791552886;
+        d=1e100.net; s=20260707; t=1790948807; x=1791553607;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=yx6G1AW+nvvITgzsA9b25EAkpoWe5JEuWuaZEwVI7YQ=;
-        b=pM7jJWprAWB3Su6JizPl7HbRortjwTALCaG1QycijDo5EuWcuXSRPpUied4go/SLuV
-         8/mN63BVJV6eb5jKKEJnBLXzf6MbXHZmV+eZXBijKE4WvEDmSZmdiir99hfmXjtnc4Q3
-         AURtrSTfTKrRFd/YCynIqE943SKdUBjoz2rPo903qAPDk8wesO39NP0h8kCsi6PfXvhb
-         PHCWXsRY2Mh/1rnbncfmXXVP8wEoynkNnxjX7jZ0neNCCTpJZzGW9jCrmEbk0dNTi/IN
-         MEuZXgxS5ikjdKdERBJ+adX5SsjUkoZo3c4vfTXNvLNuM3jRXzHXBLq+td/nP2uD1X40
-         4plg==
-X-Forwarded-Encrypted: i=1; AKwUvBwp73m8ODTKR60IVX6SNcxo2PM2N3ceTJXhXXshjdREs2NjkVuXHtkPMfx83rk2b8lz8af9ISZY4K4=@vger.kernel.org
-X-Gm-Message-State: AFuF++lG7q1gM2Bc1J+DhoojeZZ+MTC7JnFgStgoa78PFf+5zD8B/otl
-	A0Vmer/JBDeVKysvo835cBRu7PcPJh4MQLyl7+gUa3d6GeACbZKmKqsRPg/bYo6lMhwh/5nzmX/
-	+dx18b8Rf5V8dg+r6NsGE0PVPmDmreto=
-X-Gm-Gg: AYBFou1TwYdUNpXjOw57Le+iqXMHOaww4xKAogv7ilQc+SQ5qdT4fTbI+voXktpV4KA
-	UFmUQ1KADmG9LrToiU4D3lnTwzuREcJl6RwH/aNNgxJTpF02+TX/MNY0MM8sa66S0+TFXT+eQN+
-	s0yQOl6n/7DshkbVeNxchnQ5ctqO+RTYlTxk6SDvhzdyhy5wHFNlZW1nzq8e6Rjw8YOkAqg8+6d
-	vihG5PwtLNMNJQRSDdkrX9Or4vELrocubuFBvt48uMCUe/LEKv6ZqgLXt6iyPS9pSlSeV+/1Vz1
-	acS+/cN8Uv3W2KGcDuXGxZZg401l7EnGJ7VuQSozMOjPeRJwWV87H59LJFDGsnQNIKvxTuODYB7
-	J+bRE4EYGvvHcRKiHGzbDnWnAlQibch9NUerUnBN0qTqSwXAft8gN
-X-Received: by 2002:a05:701b:424d:20b0:146:ffa9:2117 with SMTP id
- a92af1059eb24-14f5aa4188fmr4688728c88.1.1790948085630; Fri, 02 Oct 2026
- 06:34:45 -0700 (PDT)
+        bh=6dEanQnOyXhk+suk32DBilMCW9SZjDiEbY5jKTMsnxY=;
+        b=UmOs8a6UiPY3GesWo7uxlKfNwJbDKyeywLl5cl60qnUiBNsAF6dyLI4xe5cJ51MLyc
+         FjqwkMNAV0nRgaZoFmRg1m5l89GW1BaCe2Ee3VE+EetvcFmLbV1Nm2oJMHav5TwOxnjD
+         9XYXjDWy9RAXNJerh1ARUDUuL1HyMJumwR04rrmzwvDmfjv2Ta1t2L82r77O15tgkMd9
+         bwjIupYDX0OamfhxQtOmtggxhEaL/plDXdwG+3jm89Wrtv5+4Ex6fJRoZsr375xMXrVx
+         n64EdRDAn4yGHnnHMQ0+h1hoC0EpW4nmEiVtULqZ5Cy1YBhyLjQgldMRteApxInqt0/w
+         qXXA==
+X-Forwarded-Encrypted: i=1; AKwUvBxgUJdVP1agfXlC3X9shJBTduXznJJIbJpCOrl2fSKG45aPJmdquiKULiNv1kw3odL0+5ZdNifTf/E=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK4Cl6Pmjt0ExkFP2/7DSZ9zUZ/EyrT20RwhE6gFq7JvNqhphUN
+	eXrI/1f+qRmvTMIhctQJ4p6WMcYfK2EE97nnZ7zNSswDlYAuNMBJi7iY+OAKkTEEqDmIVfW0kQU
+	vHy9JLqKtPZ828tTFxVZ0eaNpnXfIJOgSs9hjKK5FTcEcaItMox79Qd83gBYfUGEwG5znQihcUj
+	MrTvoOL1bSy6WECPbWrJtZNJV6gm/7fG4kNM6A
+X-Gm-Gg: AYBFou28kfYR0cV5+hBKhtWbeU3l+ibcP7Pxh+3p9I309VZo3dV3jkVYzKwV1IgTBl7
+	vVfFrb8NQZJTn7u85qAlMaAv0/LIwr9WJuGtsBvAZV9C7gWj1M66PEBJAw7WEjQwfyhzHfTFS3b
+	tlYJrnr50w3T0jXDR3rsq7+L3Ua8xw+e99d7Q4JEi4pzM8FLYxR0rGnw==
+X-Received: by 2002:a05:690e:168c:b0:677:ad61:2984 with SMTP id 956f58d0204a3-677ad61357bmr927180d50.40.1790948806593;
+        Fri, 02 Oct 2026 06:46:46 -0700 (PDT)
+X-Received: by 2002:a05:690e:168c:b0:677:ad61:2984 with SMTP id
+ 956f58d0204a3-677ad61357bmr927146d50.40.1790948806082; Fri, 02 Oct 2026
+ 06:46:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260907-visibility-unification-v1-0-6a962e5b3351@redhat.com>
-In-Reply-To: <20260907-visibility-unification-v1-0-6a962e5b3351@redhat.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 2 Oct 2026 09:34:33 -0400
-X-Gm-Features: AclHuK_TcjLVEROGMJB5lyBOvzPZSfQv2eIf90DD5P5QCDVjEATvEIscfiIQFpg
-Message-ID: <CADnq5_MZZje5XGfYgJ1v4Ts_k+ZyyBtSrSqB5upTEt+AqBi9Yg@mail.gmail.com>
+References: <20260907-visibility-unification-v1-0-6a962e5b3351@redhat.com> <CADnq5_MZZje5XGfYgJ1v4Ts_k+ZyyBtSrSqB5upTEt+AqBi9Yg@mail.gmail.com>
+In-Reply-To: <CADnq5_MZZje5XGfYgJ1v4Ts_k+ZyyBtSrSqB5upTEt+AqBi9Yg@mail.gmail.com>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Fri, 2 Oct 2026 15:46:33 +0200
+X-Gm-Features: AclHuK9i1DaMDvJYQE2Z1NJPuLF2VanTJNwwCXcvdTlybffYDnKmDymLXiGYtmw
+Message-ID: <CADSE00L=KGCXqpjm3aiOQ-JwzirXTrvVsd-mNXpb9QDggVs=pw@mail.gmail.com>
 Subject: Re: [PATCH 0/3] drm/amd/display: use kunit/visibility.h for test helpers
-To: Albert Esteve <aesteve@redhat.com>
+To: Alex Deucher <alexdeucher@gmail.com>
 Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
 	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
 	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
@@ -102,106 +119,121 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 7, 2026 at 9:45=E2=80=AFAM Albert Esteve <aesteve@redhat.com> w=
-rote:
+On Fri, Oct 2, 2026 at 3:34=E2=80=AFPM Alex Deucher <alexdeucher@gmail.com>=
+ wrote:
 >
-> amdgpu_dm grew its own STATIC_IFN_KUNIT / EXPORT_IF_KUNIT /
-> INLINE_IFN_KUNIT macros instead of using kunit/visibility.h. This
-> series switches the KUnit helpers over to the common API.
+> On Mon, Sep 7, 2026 at 9:45=E2=80=AFAM Albert Esteve <aesteve@redhat.com>=
+ wrote:
+> >
+> > amdgpu_dm grew its own STATIC_IFN_KUNIT / EXPORT_IF_KUNIT /
+> > INLINE_IFN_KUNIT macros instead of using kunit/visibility.h. This
+> > series switches the KUnit helpers over to the common API.
+> >
+> > VISIBLE_IF_KUNIT is gated on CONFIG_KUNIT rather than
+> > CONFIG_DRM_AMD_DC_KUNIT_TEST, so the helpers are non-static whenever
+> > KUnit is enabled. EXPORT_SYMBOL_IF_KUNIT places the symbols in the
+> > EXPORTED_FOR_KUNIT_TESTING namespace; the AMD DC test files import
+> > that namespace with MODULE_IMPORT_NS().
+> >
+> > INLINE_IFN_KUNIT is dropped rather than generalized. It was only used
+> > on amdgpu_dm_fixpt_from_s3132(), inverted the original static inline,
+> > and is unnecessary for tests in another translation unit.
+> >
+> > Tested with:
+> >   ./tools/testing/kunit/kunit.py run --arch=3Dx86_64 \
+> >     --kunitconfig=3Ddrivers/gpu/drm/amd/display/amdgpu_dm/tests
+> >
+> > (CONFIG_GCOV omitted; it is not available on x86_64.)
+> >
+> > Suggested-by: Maxime Ripard <mripard@kernel.org>
+> >
+> > Signed-off-by: Albert Esteve <aesteve@redhat.com>
 >
-> VISIBLE_IF_KUNIT is gated on CONFIG_KUNIT rather than
-> CONFIG_DRM_AMD_DC_KUNIT_TEST, so the helpers are non-static whenever
-> KUnit is enabled. EXPORT_SYMBOL_IF_KUNIT places the symbols in the
-> EXPORTED_FOR_KUNIT_TESTING namespace; the AMD DC test files import
-> that namespace with MODULE_IMPORT_NS().
->
-> INLINE_IFN_KUNIT is dropped rather than generalized. It was only used
-> on amdgpu_dm_fixpt_from_s3132(), inverted the original static inline,
-> and is unnecessary for tests in another translation unit.
->
-> Tested with:
->   ./tools/testing/kunit/kunit.py run --arch=3Dx86_64 \
->     --kunitconfig=3Ddrivers/gpu/drm/amd/display/amdgpu_dm/tests
->
-> (CONFIG_GCOV omitted; it is not available on x86_64.)
->
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
->
-> Signed-off-by: Albert Esteve <aesteve@redhat.com>
+> I've reverted this series.  It breaks the build when CONFIG_KUNIT=3Dy and
+> CONFIG_DRM_AMD_DC_KUNIT_TEST=3Dn. When CONFIG_KUNIT=3Dy,
+> the functions are not static, but when CONFIG_DRM_AMD_DC_KUNIT_TEST=3Dn,
+> they should be, resulting in build errors.
 
-I've reverted this series.  It breaks the build when CONFIG_KUNIT=3Dy and
-CONFIG_DRM_AMD_DC_KUNIT_TEST=3Dn. When CONFIG_KUNIT=3Dy,
-the functions are not static, but when CONFIG_DRM_AMD_DC_KUNIT_TEST=3Dn,
-they should be, resulting in build errors.
+Oops! I'm very sorry. What's the procedure now? I see you posted a
+series containing the revert. Can I send another version of this
+series after that lands to fix it?
 
-Alex
+BR,
+Albert.
 
-> ---
-> Albert Esteve (3):
->       drm/amd/display: replace STATIC_IFN_KUNIT with VISIBLE_IF_KUNIT
->       drm/amd/display: replace EXPORT_IF_KUNIT with EXPORT_SYMBOL_IF_KUNI=
-T
->       drm/amd/display: drop INLINE_IFN_KUNIT
 >
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  79 ++++-----
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_audio.c    |  26 +--
->  .../amd/display/amdgpu_dm/amdgpu_dm_backlight.c    |  74 ++++----
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    | 133 +++++++--------
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c  |  12 +-
->  .../amd/display/amdgpu_dm/amdgpu_dm_connector.c    | 190 ++++++++++-----=
-------
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  |  38 ++---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c |  52 +++---
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_cursor.c   |  10 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_dmub.c |  30 ++--
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_freesync.c |  10 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c | 105 ++++++------
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 140 +++++++--------
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c  | 146 ++++++++-------=
--
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_ism.c  |  40 ++---
->  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  60 +++----
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    | 104 +++++------
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_pp_smu.c   | 116 ++++++-------
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |  22 +--
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_quirks.c   |   4 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c   |   9 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_services.c |  10 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c   |  18 +-
->  .../display/amdgpu_dm/tests/amdgpu_dm_audio_test.c |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_backlight_test.c     |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_color_test.c |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_colorop_test.c       |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_connector_test.c     |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c   |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_crtc_test.c  |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_cursor_test.c        |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_dmub_test.c  |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_freesync_test.c      |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_hdcp_test.c  |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_helpers_test.c       |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_irq_test.c   |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_ism_test.c   |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_kunit_helpers.c      |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_mst_types_test.c     |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_plane_test.c |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_pp_smu_test.c        |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_psr_test.c   |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_quirks_test.c        |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_replay_test.c        |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_services_test.c      |   1 +
->  .../amd/display/amdgpu_dm/tests/amdgpu_dm_test.c   |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c    |   1 +
->  drivers/gpu/drm/amd/display/dc/core/dc_sink.c      |   6 +-
->  drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |   2 +-
->  drivers/gpu/drm/amd/display/dc/dm_helpers.h        |  13 +-
->  tools/lib/python/kdoc/xforms_lists.py              |   3 +-
->  51 files changed, 748 insertions(+), 728 deletions(-)
-> ---
-> base-commit: bc35965f6940a9bf834d54187b6088b8eb09206d
-> change-id: 20260907-visibility-unification-fd358c580447
+> Alex
 >
-> Best regards,
-> --
-> Albert Esteve <aesteve@redhat.com>
+> > ---
+> > Albert Esteve (3):
+> >       drm/amd/display: replace STATIC_IFN_KUNIT with VISIBLE_IF_KUNIT
+> >       drm/amd/display: replace EXPORT_IF_KUNIT with EXPORT_SYMBOL_IF_KU=
+NIT
+> >       drm/amd/display: drop INLINE_IFN_KUNIT
+> >
+> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  79 ++++-----
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_audio.c    |  26 +--
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_backlight.c    |  74 ++++----
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    | 133 +++++++------=
+--
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c  |  12 +-
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_connector.c    | 190 ++++++++++---=
+--------
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  |  38 ++---
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c |  52 +++---
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_cursor.c   |  10 +-
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_dmub.c |  30 ++--
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_freesync.c |  10 +-
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c | 105 ++++++------
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 140 +++++++------=
+--
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c  | 146 ++++++++-----=
+---
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_ism.c  |  40 ++---
+> >  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  60 +++----
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    | 104 +++++------
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_pp_smu.c   | 116 ++++++-------
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |  22 +--
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_quirks.c   |   4 +-
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c   |   9 +-
+> >  .../drm/amd/display/amdgpu_dm/amdgpu_dm_services.c |  10 +-
+> >  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c   |  18 +-
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_audio_test.c |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_backlight_test.c     |   1 +
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_color_test.c |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_colorop_test.c       |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_connector_test.c     |   1 +
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c   |   1 +
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_crtc_test.c  |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_cursor_test.c        |   1 +
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_dmub_test.c  |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_freesync_test.c      |   1 +
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_hdcp_test.c  |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_helpers_test.c       |   1 +
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_irq_test.c   |   1 +
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_ism_test.c   |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_kunit_helpers.c      |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_mst_types_test.c     |   1 +
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_plane_test.c |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_pp_smu_test.c        |   1 +
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_psr_test.c   |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_quirks_test.c        |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_replay_test.c        |   1 +
+> >  .../amdgpu_dm/tests/amdgpu_dm_services_test.c      |   1 +
+> >  .../amd/display/amdgpu_dm/tests/amdgpu_dm_test.c   |   1 +
+> >  .../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c    |   1 +
+> >  drivers/gpu/drm/amd/display/dc/core/dc_sink.c      |   6 +-
+> >  drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |   2 +-
+> >  drivers/gpu/drm/amd/display/dc/dm_helpers.h        |  13 +-
+> >  tools/lib/python/kdoc/xforms_lists.py              |   3 +-
+> >  51 files changed, 748 insertions(+), 728 deletions(-)
+> > ---
+> > base-commit: bc35965f6940a9bf834d54187b6088b8eb09206d
+> > change-id: 20260907-visibility-unification-fd358c580447
+> >
+> > Best regards,
+> > --
+> > Albert Esteve <aesteve@redhat.com>
+> >
 >
+
