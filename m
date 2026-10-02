@@ -1,146 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-1-112.ptr.blmpb.com (va-1-112.ptr.blmpb.com [209.127.230.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002AE44065B;
-	Fri,  2 Oct 2026 08:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C860C352020
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 08:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790928628; cv=none; b=hLhbc+Nq4sX3lVCy8fBUBTytDOlequG/y9M2CaJXjICw5lt6qcy2mWDByKkf8+vq0/U6EwX9uZ5Y6knTapozQSmXljFv3jM1ib+wA9M8i/CkqYFSowZvTuIvBAk454qarDP4uXcm+yKHQKKKoNwsUXqSxMTgUqIPBrQzCJ2jVB0=
+	t=1790928985; cv=none; b=h9vmXMq3Kpx7cS5ig4dQNT7DmTmgsOkIkhpcrN1V1U2v6GEVtlNFQou8ndpWuxXZEv3Ud6KMc87eI1UPK3r/WCORExxeweGhS7naYmHShhsa+1FzlnpfYqD895yHxseMefxUV1wHNwc7BmVi8qDHd3DmAWWj1et31mXglmOCneM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790928628; c=relaxed/simple;
-	bh=/jWlfTYISWDRdwB70XBgz/0rZ6uagYb5mFQFGQi3k1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FWLHwkt/Nh6mtiOA6ynxM5G+ogwLmQOc3SRKgIk/7C/u2iDHUMNWPImKjDlOqmO5fQ6c8hQvKIn7hcndQkEE+as5ofFAEnT3WyOKLO+RgoqvMiWNs0zQi1/SmtSeWHuSfyw58Y043JkIAuxU3k4Y8HTaU41WRZUDk2XwqlH2mpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkKfj52w; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790928985; c=relaxed/simple;
+	bh=Uap9mjpiN11wxRfxEzbIWrRb3EGL8MmrFbOcb9PkmWI=;
+	h=Content-Type:References:Cc:Subject:Mime-Version:In-Reply-To:To:
+	 Message-Id:Date:From; b=kVWBwf/s7i/sGgKE4jtRDKhfhN9eHv18A9NQbT4Bpm79R6UtaonfwUW/WKH6WS8G/D8/xRK63r7rSeZBdnY0twpcyoHiSg/aELpMQ89rZWOvsOWzF5eGy04jJwoNBtVBBarVx3RJD+dfFFVfLavGORICgPrMYZ4sbchMUUFMZG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Gnkv5q6o; arc=none smtp.client-ip=209.127.230.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkKfj52w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CD511F000FF;
-	Fri,  2 Oct 2026 08:10:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790928623;
-	bh=BIHFM4YkUGLtT//ijgD4g07c9OxY00eHXMaA/kwG2nM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZkKfj52wi+HBtm4OSS7+TGHkipMV+dWZaiDRPkTP1OUg2cSZgWi236Wj6NYUE3zhP
-	 cE/wLWLsAeog8taVdUpM5sc8E4yCibHvboHgqOHxAEG+Y5Z/wzqywqWTkRHX1PX8RJ
-	 Y6MrqkaPJzwXRfn048jxdDXzNp00NQ6UuQjAuOmLFP1bfYlCjQ7TtK0Qzpq09+/X09
-	 mUlW0HPJX0OTnzNLrxPH7PlPg13Ld0kUi9GjYTFEQg80JgThJuOQqXg7k0VabrPqqj
-	 M9I4tH9JjiDYoMcnmK8F+JM777QiRIOEKoJxCdsUEHTj9cABRLPo4injcxApsYeJGY
-	 nLF4S21X/85NQ==
-Date: Fri, 2 Oct 2026 09:10:15 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Hajime Tazaki <thehajime@gmail.com>, johannes@sipsolutions.net, 
-	linux-mm@kvack.org, liam@infradead.org, rbm@suse.com, akpm@linux-foundation.org, 
-	luto@amacapital.net, brendan.jackman@linux.dev, liuhangbin@gmail.com, corbet@lwn.net, 
-	kees@kernel.org, broonie@kernel.org, mhocko@suse.com, rppt@kernel.org, 
-	shuah@kernel.org, surenb@google.com, vbabka@kernel.org, wad@chromium.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-um@lists.infradead.org, 
-	geert@linux-m68k.org, daniel@thingy.jp
-Subject: Re: [PATCH v4 1/2] selftests: run tests on nommu architecture
-Message-ID: <ar9ldn036SgT-bq1@gremlin>
-References: <20260929235711.2287931-1-thehajime@gmail.com>
- <20260929235711.2287931-2-thehajime@gmail.com>
- <bda5eeaa-7868-4d4a-9026-9e99347afd7c@kernel.org>
- <ar4br2vW7yZGd3gt@gremlin>
- <94759bed23f00d2044005e36be6f72f297e092f0.camel@sipsolutions.net>
- <m2se2o3jyc.wl-thehajime@gmail.com>
- <a65f4431-d225-4535-b921-00319ceeb2a2@kernel.org>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Gnkv5q6o"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1790928972; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=erijjSKK0F16UjGTpa1TwWvZ6Kt00yN1jhH4DWA5qn8=;
+ b=Gnkv5q6oaIA7vzSUYJ/bCO3LDfFmUZrZ5DI3Yg+LJSThnLIP2A69xJkstQfmc5ucpmuFac
+ S5CSD+6enTLkEyPtyWswxmklEeEvLYIT2Vw537SYcCKZursDeBVqsaas9ZavFCao7x/XsB
+ DB6dj6u+8gOferZJ2HvTGgMgLRQ6FkJ+dFFLjY7k1qGxsEFw3zSc4KS3ilIRqYyXZ0CAvc
+ lgJm/7nyKuVHshm/L/oUaqxo+J0ttmVGp/CrJzR7hQEUqVTtqetVCniSH1IbB0MWKbMykQ
+ FkYuXpEhCXl2VHrfImAGr/zOa+9oXQMMzHaj4zUaGGk5fo2qwqcia0ZyvuwgFQ==
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+References: <20260930121154.687586-1-joshua.hahnjy@gmail.com> <2e3f12b7-0dac-428c-b70b-07e1f63de028@bytedance.com> <ar0fURbLDPrphYMY@gourry-fedora-PF4VCD3F> <A005B05D-A85C-4153-A65D-0BDF9D8500DF@nvidia.com> <280965b2-c6eb-4f01-a0ac-c4fb7e518f97@kernel.org> <ar5eC22VfSFlMw3W@gourry-fedora-PF4VCD3F> <44d15437-6aae-4d7c-bfd4-296276583826@kernel.org>
+Cc: "Zi Yan" <ziy@nvidia.com>, "Joshua Hahn" <joshua.hahnjy@gmail.com>, 
+	<akpm@linux-foundation.org>, <ljs@kernel.org>, <liam@infradead.org>, 
+	<rppt@kernel.org>, <mhocko@suse.com>, <corbet@lwn.net>, 
+	<skhan@linuxfoundation.org>, <ying.huang@linux.alibaba.com>, 
+	<apopple@nvidia.com>, <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] mm/numa_balancing: allow migrate on protnone reference with MPOL_WEIGHTED_INTERLEAVE policy
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a65f4431-d225-4535-b921-00319ceeb2a2@kernel.org>
+Mime-Version: 1.0
+User-Agent: Mozilla Thunderbird
+In-Reply-To: <44d15437-6aae-4d7c-bfd4-296276583826@kernel.org>
+X-Original-From: Li Zhe <lizhe.67@bytedance.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	"Gregory Price" <gourry@gourry.net>
+X-Lms-Return-Path: <lba+26abf684a+8e553f+vger.kernel.org+lizhe.67@bytedance.com>
+Message-Id: <cac17315-7157-4f97-8ad4-98ef268f1b8a@bytedance.com>
+Date: Fri, 2 Oct 2026 16:15:45 +0800
+From: "Li Zhe" <lizhe.67@bytedance.com>
 
-On Fri, Oct 02, 2026 at 08:08:44AM +0200, David Hildenbrand (Arm) wrote:
-> On 10/2/26 04:38, Hajime Tazaki wrote:
-> >
-> > David, Lorenzo, Johannes,
-> >
-> > thanks for the comments and inputs.
-> >
-> > On Thu, 01 Oct 2026 19:01:45 +0900,
-> > Johannes Berg wrote:
-> >>>
-> >>> I thought maybe uname could help but our LLM overlords tell me no.
-> >>
-> >> Hajime originally wanted uname to indicate it, but that caused
-> >> regressions elsewhere, so we dropped that commit. I guess we could put
-> >> _something_ back?
-> >
-> > systemd uses uname information and our (old) patch changing the format
-> > triggered the regression.  thus, we dropped it.
-> >
-> >>> It pointed at something though.
-> >>>
-> >>> In fs/proc/meminfo.c:
-> >>>
-> >>> #ifndef CONFIG_MMU
-> >>> 	show_val_kb(m, "MmapCopy:       ",
-> >>> 		    (unsigned long)atomic_long_read(&mmap_pages_allocated));
-> >>> #endif
-> >>>
-> >>> So MmapCopy in /proc/meminfo tells us definitively, weirdly enough.
-> >>
-> >> Hyrum's law and all that, but I guess it's not highly likely to (want
-> >> to) change :)
-> >
-> > a runtime detection is nice.
-> >
-> > scanning /proc/meminfo might be useful. although it requires to mount
-> > procfs (we can actually skip procfs mount as it is optional) so, this
-> > is not 100% portable.
-> >
-> > checking ENOSYS like syscall(SYS_mprotect) might be useful but I
-> > wasn't sure if this is always the case of NOMMU or not.
-> >
+On 10/2/26 3:56 PM, David Hildenbrand (Arm) wrote:
+> On 10/1/26 15:26, Gregory Price wrote:
+>> On Thu, Oct 01, 2026 at 12:54:22PM +0200, David Hildenbrand (Arm) wrote:
+>>>> If this is a initial-fill problem, can userspace set weighted interleave
+>>>> initially? The program or harness can observe memory usage of the program
+>>>> or related NUMA nodes and switch the policy to numa balancing via
+>>>> set_mempolicy() or mbind() without MPOL_MF_MOVE after certain threshold
+>>>> is met?
+>>> You mean: use the weighted policy initially and then switch to a NUMA-balancing
+>>> one which doesn't involve the weights anymore?
+>>>
+>>> That makes more sense to me. Although I struggle to see why an effectively
+>>> "let's put random memory on slow and others at hot" is a good starting point to
+>>> later let if be fixed up by actual balancing/tiering.
+>>>
+>>> It all sounds a bit hackish. :)
+>>>
+>> It is a bit of a non-combo (Nonbo).  You're using weighted interleave
+>> with the intent of spreading out the bandwidth utilization (and maybe to
+>> offset some reclaim behavior? *shrug*) but then undo all the placement
+>> with tiering.
+> I can understand the "random initial placement will help if you cross your
+> fingers" argument from Zi.
 >
-> I assume there are plenty of other mechanisms. Like testing if fork isn't allowed.
+> But then the question really is whether the app should then change the policy
+> after the initial placement was done and the weighted stuff no longer makes a
+> lot of sense.
+Yes, that model makes sense if the application or runtime can
+cooperate with the policy switch.
 
-Yup that's an obvious candidate!
+One limitation is that this is not fully transparent for existing
+workloads. set_mempolicy() updates the calling task's policy, and
+mbind() updates VMAs in the calling mm. move_pages() and
+migrate_pages() can move pages of another process, but they do not
+change that process's future allocation policy.
 
-You actually need to check for both -EINVAL and -ENOSYS since, of course, we are
-inconsistent with this.
+So I agree this staged approach is worth considering, but it also has
+some deployment cost for workloads that cannot participate in the
+policy switch.
 
-Some nommu arches specify __ARCH_WANT_SYS_FORK unconditionally for both
-mmu/nommu variants meaning you get -EINVAL in that case:
-
-https://elixir.bootlin.com/linux/v7.2.8/source/kernel/fork.c#L2830
-
-Otherwise you get -ENOSYS because it's not defined.
-
-But fork() -> -EINVAL or -ENOSYS = nommu, then just have the child quit and
-etc. should do it.
-
-But then that'd need some C... ah fun :)
-
-Crazy to me that we don't expose it in uname...
+Thanks,
+Zhe
 
 >
-> > My original attempt was to use include/generated/autoconf.h; with that
-> > we can omit environmental variable or command argument of NOMMU=1,
-> > but gave up with handling standalone build/test case which might miss
-> > the generated file (and complicate the patch only for the NOMMU
-> > detection).
-> >
-> > So, specifying NOMMU=1 is my previous, though dirty, conclusion.
-> Let's avoid making it harder on users by doing some runtime detection.
-
-Yeah it'd be preferable.
-
-I see a bunch of usage of procfs in selftests.
-
-So can we just please require that the selftests have the user mount /proc, then
-the /proc/meminfo grep is the easiest + quickest way.
-
->
-> --
-> Cheers,
->
-> David
-
---
-Cheers, Lorenzo
+>> But, in defense of the hackery - I have seen strategies like this work
+>> to optimize startup times and then let tiering optimize runtime.  Phased
+>> execution gets funky like that.
+> No doubt about that.
