@@ -1,89 +1,96 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011022.outbound.protection.outlook.com [40.107.208.22])
+Received: from mx-relay97-hz1-if1.hornetsecurity.com (mx-relay97-hz1-if1.hornetsecurity.com [94.100.128.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D3636606B;
-	Fri,  2 Oct 2026 23:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790983942; cv=fail; b=XDsukdWdGvogEIz+ANtf3aQNYUSGC0bc9dLVYpW5XhTeO/AZw1dBad/pyBIc82iQzem1EJ5a8gEoUFls4GbCsL4tHK4MzZ/w3z97jIyEH0q9J5IKszmcuWwx4dCc08A9rqPLApsgnHfcH0udPyMuGpFTtDDVGuBsg70KjsssgIQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790983942; c=relaxed/simple;
-	bh=1kAkyL/Cc5xGsXCWCiyjShgS1seHnj2zjVv76bg8C6o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FtJvG+pXUJVEK+7sZGWQJB7G047RtnROaLrY7f7SQZ51AhOr1upT7A/nQGXze+MRaQItgeB3iMGWMXQ/4rWrJ33M0qPapYcki8tFdgkUtkBRC3rz2rnbKOk/wnGmhgiSso3bRRmoAe7OD6jXD6NFe5cWXQ6MkMAsiQpo9Vfwzr4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=D63ccrDl; arc=fail smtp.client-ip=40.107.208.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DD736492D
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 23:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=94.100.128.107
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790985486; cv=fail; b=Kpq09U3fV4l/YsBGcgAe1PAJAyPSqyZcdxJ1Z3/+IZwAB9cBe2hB4ZJRuG7WE3bpyiDo6wK/0qjGVoCh00MN70b2rPpytDo+45aPlIo9mTUJGhZA+mkGKsv/w4PZY3BHu+dkKmbOOU18XHAXZKj7LNm8n+5bFGGRH/+++SCC9LU=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790985486; c=relaxed/simple;
+	bh=o/H5exfJ6LcZZEYOiYI+/D42PwXaEEC3zv6l+TDlZFc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=h8ZAVNaySqSEMJkcb0otwwMI7IhKvKg5Y/9ar6rgvl65+HPqp3NJEyzpbBcxmDYuEJC1aUHUI9u8KvzUpBP4Gz5HNTrxfvp3y2q2y7Xg1BgcvlUWlkFOE6sv+oiOF2fEsHYv1JBQQYFGl8TvFYRtBOOnqm+EtTdbpYdiRrw9RcI=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=witekio.com; spf=pass smtp.mailfrom=witekio.com; dkim=pass (2048-bit key) header.d=witekio.com header.i=@witekio.com header.b=WdyMvsck; arc=fail smtp.client-ip=94.100.128.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=witekio.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=witekio.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="D63ccrDl"
+	dkim=pass (2048-bit key) header.d=witekio.com header.i=@witekio.com header.b="WdyMvsck"
+ARC-Authentication-Results: i=2; mx-gate97-hz1.hornetsecurity.com 1; spf=pass
+ reason=mailfrom (ip=52.101.65.105, headerfrom=witekio.com)
+ smtp.mailfrom=witekio.com
+ smtp.helo=du2pr03cu002.outbound.protection.outlook.com; dkim=pass
+ header.d=witekio.com header.s=selector1 header.a=rsa-sha256; dmarc=pass
+ header.from=witekio.com orig.disposition=pass
+ARC-Message-Signature: a=rsa-sha256;
+ bh=PZ7PqQW5Yp4KhLzIFoCSRPPKDmOWjDszj+NfMhWGniE=; c=relaxed/relaxed;
+ d=hornetsecurity.com; h=from:to:date:subject:mime-version; i=2; s=hse1;
+ t=1790985465;
+ b=tf1DScxEqY9QTe1q8ccqhSm2/pctZZgfRLD0j/Bhmca5/+o/qK+dTfhfReHAGb+pJQKJjmgl
+ q8I9OM9a8Kuby3lVxBzOBYTzp4cWBjsFP0QouUiY67HVv8VjJgP8WlEAbdc4hK+8pFTbewNKt+L
+ +Oga2NnaAgkqm16YHt3j+2SdvDfGib8ipHqtWYko+EVkxyrjmIU9sirbQV4hTQ4XoyJFbbuAnDt
+ UpYRaa6+iqwoYPYR7udKVkGwp5Q8vJafWF3mrCBJ5vnmhsBB56Dkr0BIBDjQ8cxVbM+lHGf3vQ0
+ OHFudSMO8rsrpQSCAn3F1QO66v34AvY7tw558qCdzCZQw==
+ARC-Seal: a=rsa-sha256; cv=pass; d=hornetsecurity.com; i=2; s=hse1;
+ t=1790985465;
+ b=lxHfnML2JvVyILdqYDUN5bQFlmjhT5QaIFgM98Ax71Z4zuf9Vp7+BeU6N0S1O03ecaoQv7z3
+ tMU4OFGc+l7GZossIuii6gQsutx+sOSsZFsHifzjnm3sa3OUu56zG8x+bFaktenF01RPoNd/yad
+ Ais43QRxoUrEy6yQnmEJYrgaT6btOYqxyiRU9GIutNBJyXgraoIfOAgVI2jXBwmoCtsZsufxWRg
+ FcU/CMxcezuhrRiJS3hk2DwYJP73PVmxAleJ5e3FaeFacCWXcsXkijhE+HAXiTH5NyRJlxmp8xl
+ n1S1MSfUrWo9x/oYrvGmonlvt4nAoSSKQELq4PGzhRWCA==
+Received: from mail-northeuropeazon11021105.outbound.protection.outlook.com ([52.101.65.105]) by mx-gate97-hz1;
+ Sat, 03 Oct 2026 01:57:45 +0200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JANWgWYZj1RgbuxkdO0sXqniJ7lufEzb2X28xjaCJ/h4de6fInibTJttWkZvw/905rg7l8Vskkq/Nbs6SS9iGAn61dUNpo+8uIBafSt43HHzEQLxecDy2uG3k9J4LcJ9YxGy5/VSFMyf35uJk9zAtEaYyqviBL/vhXDL1w2DTR5ih+UQUCIsRvrji6hi4cHq1Pw147fkr+wzImHB/w7l8DGNWzvjkqMTHqXrlZuZeOG+hvGQIACd9cRiBRaz17pkq8CN8TMTHZjYN7Ysys//sDGMCknwZCxCFAfAjBGEblrC4YcC7BbxRQOYPi83tL3EN1aR2xEsCs912fQEomw3Ig==
+ b=RWxh58ATwszfXDAwNven81D4p7f81hj/n68cOkq5QSUlCXojrwK2ixcW3ICTZuLHdNb2de+huYN2x5FR8NszCLppw4qMD+IvPtGmBZdpkx4enkQamHCs8y/GcIcN7LHkDPKgJ5B4p5DAh+iv4TSzVV3ehymAWjwOcdNohk7a8wIIchwzUT6vxHhDasi5boVzMr58ro9Cyyey1sN06xD+/IBp0xQMrE7LZrDmeZCkcLLwA8bLb+ziywW2X+Pu9XQCNvshxwrJwUEMv1PB0gV5MyYP4kCUspB8i8bR7B3lHcGhIHlHmK89U0+B0dh8rtOfksV6czUvqoxkjHFaTb04fg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ExBGJA4WQRHqCGMET97qrwsDxtRZ83mx1bcwfEPylwM=;
- b=DOBGUvICxvmKIuEae4SlWX6Z40HznyJMywnk882G1HHkHgx/9hiP4pL0AgGoGfLnb4LyIkm71VJCBRAJF8LhphEc53cEfGRrcN0VAeYjwEEoYJYukTEsdrpND4t1PysYr8R0T7XmvmrfZ+3lMV7coW2RmaieUG55gTewcOmUfgaM1pEgaXjmDLFoxravEDVRvHvO0dDkSsmK1kyhAGfTZ6nyt6c0LoT1EiUByPIChk4SdWAKW/gJFlYlpScHoWTAt3yYOU5NKJ7clIawugEuQENDFZvO2kH3+cEm5cmO/vUmSxz5vioeTLzGEu0GRWBVOheyIKNbGyXV2Bj8haenGg==
+ bh=PZ7PqQW5Yp4KhLzIFoCSRPPKDmOWjDszj+NfMhWGniE=;
+ b=EmXxpqng88PXQYwgQt83veIGsL6uDxgX4vr8H3zZ2cFCDbFz696rjCCdBP6GScYvjd/vE2uOsSQf53t6BV7/Z1/j5Id55E3KV17W/vTAjqcaIkAI+yLNNA6htr9ftvsRYDyUE96jztHhCKHzQDFx+MeahqAqLhBrcFnmV235SiCPiVnsWkSlSR1sWTvyIXXQCF4OCV2D5nC0pjMtGRXjwL5uJIsRp04rZ0fNi34cTWrKYtS5/y7ozZlRlXBS1+n2THGdJ1JmW10B65Ju6j4LjMo/9cWcDPz89tkyPwkE7+QGhpJ+/KywZGznt2ri2PXAjRFx106V4vtT0z13zGlGZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
+ dkim=pass header.d=witekio.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ExBGJA4WQRHqCGMET97qrwsDxtRZ83mx1bcwfEPylwM=;
- b=D63ccrDl0udzuy8t4Qj9jjpsoC3SXCGp/24ddSXvqxAWu6DnmhpaWQSW67S52WamvHlVy4yZY6iLAAN5GxakTIGK7CP5HRZoPtqXGoV6VGbAU12uv4K2hZN4fKDAHzTERKt+s9OFER7ihnxjEskBlyBMzCFn1Z1IXBY/J+DpNe8jh8hKJmI2rPOFs5YVT/hPL6v+QktIMzvRxjlsijnY1WjH+Xj1urJRIhnX/6OpAqma5r5/h1o+8A7qaNApVdaYCbzxrHO5wNiAYitaJtAGzo2lJIfBS6x/lAwB9Oaf6x8wYMv3pTdXhEjDh/HmMkmBeTCkWXgEXRhQacyjJhON2A==
+ bh=PZ7PqQW5Yp4KhLzIFoCSRPPKDmOWjDszj+NfMhWGniE=;
+ b=WdyMvsckbyFOrDLH3TrlkYDlAaJO5CYhUpn2LWS9ubm3gxXptK71IEtxOLwqaVT2jtyyec6WGqg2ryXIbfyZCy8bQD2jCUbSBGDK8GOtCY+vrzn6rTifU6QNqwCW3FnOHiT0POirua/SGZqk4iRvPPiqD2baCyMUwmsY6dMSabBXzybu91lkvSm4QhIbxHKjP4nEbQzbkuL6hF9Beh/Eyu5MhlPId/Z/7M1YNk5quuiPzQrVziaK9GFPgWj1ZSgnBMIE5R+yXBF09QYZtCQqN3vJR8BxT+193ieYJW4ecyhqOQhODdzP0INDY8cfyB9e2rghvwZWvP6fQ/MCN0MUpA==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LY0PR12MB325698.namprd12.prod.outlook.com
- (2603:10b6:408:3bb::14) by DM4PR12MB6303.namprd12.prod.outlook.com
- (2603:10b6:8:a3::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Fri, 2 Oct
- 2026 23:32:09 +0000
-Received: from LY0PR12MB325698.namprd12.prod.outlook.com
- ([fe80::b65f:1548:5b35:e2b5]) by LY0PR12MB325698.namprd12.prod.outlook.com
- ([fe80::b65f:1548:5b35:e2b5%5]) with mapi id 15.21.0472.016; Fri, 2 Oct 2026
- 23:32:09 +0000
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alexandre Ghiti <alex@ghiti.fr>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	David Sterba <dsterba@suse.com>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Simon Glass <sjg@chromium.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Nick Terrell <terrelln@fb.com>,
-	Will Deacon <will@kernel.org>
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	linux-integrity@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	patches@lists.linux.dev,
-	=?utf-8?q?Piotr_Kr=C3=B3l?= <piotr.krol@3mdeb.com>,
-	Ross Philipson <ross.philipson@gmail.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Song Shuai <songshuaishuai@tinylab.org>
-Subject: [PATCH v2 05/15] arm64/efi: Use CONFIG_EFI_STUB_IMAGE_INFO for code_size
-Date: Fri,  2 Oct 2026 20:31:42 -0300
-Message-ID: <5-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
-In-Reply-To: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
-References:
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PH0P220CA0009.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:d3::13) To LY0PR12MB325698.namprd12.prod.outlook.com
- (2603:10b6:408:3bb::14)
+ header.d=none;dmarc=none action=none header.from=witekio.com;
+Received: from DB8P192MB0792.EURP192.PROD.OUTLOOK.COM (2603:10a6:10:167::18)
+ by VE1P192MB0543.EURP192.PROD.OUTLOOK.COM (2603:10a6:800:165::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.19; Fri, 2 Oct
+ 2026 23:57:30 +0000
+Received: from DB8P192MB0792.EURP192.PROD.OUTLOOK.COM
+ ([fe80::587b:a57b:3517:d13b]) by DB8P192MB0792.EURP192.PROD.OUTLOOK.COM
+ ([fe80::587b:a57b:3517:d13b%7]) with mapi id 15.21.0472.016; Fri, 2 Oct 2026
+ 23:57:30 +0000
+Message-ID: <191be387-b7d0-44c4-9f7b-ae820b8e7162@witekio.com>
+Date: Fri, 2 Oct 2026 16:57:24 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: Add TI
+ TPS389004/TPS389006/TPS389008
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Luna Hart <lhart.opensource@witekio.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Flaviu Nistor <flaviu.nistor@gmail.com>
+References: <20260929-lhart-dev-tps38900x-v1-0-7045c5894152@witekio.com>
+ <20260929-lhart-dev-tps38900x-v1-1-7045c5894152@witekio.com>
+ <20261001-greedy-skink-from-sirius-b13f9e@quoll>
+Content-Language: en-US
+From: Luna Hart <lhart.opensource@witekio.com>
+In-Reply-To: <20261001-greedy-skink-from-sirius-b13f9e@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR04CA0229.namprd04.prod.outlook.com
+ (2603:10b6:303:87::24) To DB8P192MB0792.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:10:167::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,259 +98,113 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LY0PR12MB325698:EE_|DM4PR12MB6303:EE_
-X-MS-Office365-Filtering-Correlation-Id: e5e1f2b7-bf48-4655-cbf5-08df20dd5a96
+X-MS-TrafficTypeDiagnostic: DB8P192MB0792:EE_|VE1P192MB0543:EE_
+X-MS-Office365-Filtering-Correlation-Id: 863278bf-8778-42fc-adf7-08df20e0eb24
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|1800799024|366016|376014|10067099003|3023799007|11063799006|56012099006|22082099003|18002099003|921020;
+	BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|7416014|18002099003|22082099003|56012099006|4143699003|6133799003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	coeGjkS/qCfnGO2GDHLz6LTRydTCspbuy0AGJ9KxuHiFyKtQWamEC2YDfmcn3+lkCSSWmXNBnxO2StxiA+gUHpybjvO9meZPT3shHSa5ikWWd6qd+vAnLOOYU/gdpMF3oEgWp+yMf13GlZvDxXl0I7AfTmOWSujflE+i+Z4wtrjElRrwEC2Pv2W9qiN+bWQnRcLdL0jr9LrGggV5z0aPrIjWAhhJIRad+ajOeQsesfu6BhU4TtXsy59v2+xPTeagXGjUtSxOS5tObF/jB04E5cZ1IZNp7Z7vlRf4RpPFa25YJmRdTTOItOuvestN0aXn5k+SN94mpnJr55602pfRu7Q5t36PMfeoT81iIY5jpB2LDKTPzFytqKdedFQRhk7oA1zuLSDDbz9EWgcg+jY7887yFqJvtj/jYFYs9tKmk7+WEzn3afHU3TTeLgkwcK33G7CgaieySaBTCpdJsujOLpVSow+marZlbAhPpDVIOiu93wSChJG/w4kaWE+QyPTn0bzNcMP5Llo02VJHdWr0l+Uh9XzXJEW7sePAF3Z4z7qwPkpBWoH1h/uXtqLjTbwgqUNU4+/XBe6orD+U6CBdD+HVjhfdptXDUkBf0aFMWW/iWPUaAbo4O8WXDiNYCSsWk/KUQgEOhzDRqCteepx09NBDirrGNjyg3BT+SSTnTcLfMQYx7MIVB00uVcEmWS35eHqpBJELtfhxbsnV45Z3pg==
+	75GvoKKkz84rGVHUvYpbEUvJR3PPZmSHXFGC14IEyimOa/thLjDSxV2LMC1nUpyEfNDlNmGygOkV10rbYahNd8bAMShoZacKvP5aQNvJvxaztmqMulK6ZBltTWTroPatQaxifpxjRAl8HNQg4P+8lMx+zuCvE1VsQWGGM4jtnncw4jsKlVDvGMcH+owul3avWjZg9ArrQ7a1m6de7ysVL2lvirUCmGveSItEjAk9F2+X2Dn/eKZijCR8H5lHS3Lh4DI4ejyaIdbNccZx0lJpPUq2tkR5Xrp2bTgbnslMLfs33NjbfTspiJTcoAx+mhlCiX8G+VICuMu6To1kfHTdmZj2IHaNrKbON8Yyahenqd8TNt2+fLMW/qDiDwgFPcyEB8nZ0xXpiJnoxRNZQg/5lSMevCxvngNCk1jNzIfr58l4Gn1HsaxuGIB7bOz39JMUMJAwrrV9MDstIty7vxv0vh7TFbxOYka8TxR+1bx6xc52ykqMZPK5c5dFZPx5mwFtorEvbfynddc7K4DJIhxAkBuzx9mFDdqrD9FOxiOGpCj61qViUsaefiAY1igmbR+WMU05Xt9B5yfN5aKhj0Si0sFPxAmMBF0S1ln0ZPQfAB5Jo+6l/Og/Ncm7nXUWT5NTIzdY7zHymNgqsWBaT9bmU4WOTQxGIO3X4luvtydGw8g=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LY0PR12MB325698.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(1800799024)(366016)(376014)(10067099003)(3023799007)(11063799006)(56012099006)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8P192MB0792.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(7416014)(18002099003)(22082099003)(56012099006)(4143699003)(6133799003)(10067099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?8/ry0u+Pu4+z+MCnspdEzzKpPHExwm+2KZYXQ4PwG6TVjDjkfJ3mC9q2tECh?=
- =?us-ascii?Q?/mLQZI0VXJ42TRk+OfCx29Zi/L2SDXVJ9IH1tX3gPLxncGpHEzwJqaNzJ5EG?=
- =?us-ascii?Q?GwTV0qZo56IkhXTJ2lp6fD8O0DUjoP75yP4I3fjhTGduXaioWaCet/gX26+r?=
- =?us-ascii?Q?eCG6Sc05QGhfwIIb2TEYwXqOQ8lY3qihLU4G6Mg1LCq3tPbGPrzRDyPZOoc6?=
- =?us-ascii?Q?GJAblcOKVtmP7kKEDgyMrhtSsx4RfbQRMKqqJCQsoF7cuNtDSPvCS+f4u+Fd?=
- =?us-ascii?Q?USciQN8njfFMMzps+SeYV1DPn5o7di1k6XR3pjc1kAOz/d8oVkOSYRr6lIlp?=
- =?us-ascii?Q?XTvjAKDTt8jFfIXzvDpvXOpF8X09KZWLfH10dET7fRXXOG5jF25nGfJAgyis?=
- =?us-ascii?Q?EHUU3TQHoHBEjjUSxXqeWu8ntvj6ugz+ZIkTj3MG2BXxgVeDD3Wq6gPx36OM?=
- =?us-ascii?Q?7T8CzZ3Iz78oLBzO/QhnHAiDXLyUNYE5H6BLfM8ASosf/O7i0u3Q3pRIHjto?=
- =?us-ascii?Q?GD2b7+3xmnxypX8UA4vSwP+gLSklusiGJIG4Ll8EUuPHkfsqJE/g2N+zDnKu?=
- =?us-ascii?Q?DYog0bBbuOs0F0N9ASfmmvfLvNLJ0WL5WnEOyPLVkhhk07/5Hq5XMecAWcDL?=
- =?us-ascii?Q?ohCqQeHjOJA8NxeKMXTUyP9QJgEyxnjKYkn9QCiL2iPE8ufrEwjyJJaCuTIf?=
- =?us-ascii?Q?JOAwznuwyvk+fB93snvoDs0fZpA16oz3a2T5/SQi4cZ25ksbNDG8zosD3CTj?=
- =?us-ascii?Q?uU88Cl3oWDTlMlpLnCphtN32Y/fr2S6XjPsgunUjKSktZRZx8JlNnXqr3re4?=
- =?us-ascii?Q?wr4WXcYvDWzYz1ouXLLSdABNlxj++JJHp79mKx64sJDkourqs5R5lYKBtg0y?=
- =?us-ascii?Q?7weM56qzrTKT7CRVkeeVmY9t6WmC+T1aHhnWgXIjI5Fx1+2vS3jOjhIfLc6I?=
- =?us-ascii?Q?wd0ooXgUQXCapX7dLfeE78mCUA0mUiwoyy4ADW59WXcnXRRH901WjYBVf9W5?=
- =?us-ascii?Q?LZPuggPat0ySnpEejQ2UJmDQzFbXQlzkP2/BPby4P570DfYa/K2JfPACQnHP?=
- =?us-ascii?Q?XnR0lM/NocNVtEnxC90Kmxe7wUN9MfIbjLw1q5Guj0X9tOcMjgZ/Iv8z1Iq3?=
- =?us-ascii?Q?W4lwRxcBbzR46U/U4x9kaLftrWnJCbPlq2xt5pf9SFYwtMqlJVU/z+FpeTwU?=
- =?us-ascii?Q?9GTCFleiiZnbFdSxM3u+8DCnxZmSgJmMIhhNdNmF1OmWclt4I3gx7xXsWftX?=
- =?us-ascii?Q?w0+Qkl5WEVD4vHG+qIWWp+S6F82brGp+CGbOnm8WzddLCupF5oM4NFhryFcJ?=
- =?us-ascii?Q?S2K13SzExWVdcuT+TY2k0YrB5/c0fq79aRsy6UmGC4dvCVCZnlyVJo1y4cmC?=
- =?us-ascii?Q?iFQbPHxbpuvLYfAIIGwROtGZqBTjVuMapGAOfT/t+k37FmMV6R6kA6WktUCh?=
- =?us-ascii?Q?AJvSRqgOobUeNbWmDgo9pE6/0hYg7eyLxjvdNo/lUJ9txEtNJHYxjjw6pWiH?=
- =?us-ascii?Q?jG1mifuK5NEeG3FFZwWEekC1mYzBNaGaMv5nSWiVeLspRmBAnQ4a9FA0gA39?=
- =?us-ascii?Q?WA5pvYAN5h0mciPkmrdk1d9eppu+6Ga6KRVy8CT6N5VcBcP6g4Ttqy/gfF+D?=
- =?us-ascii?Q?nDpzOeO1K9EvFtQDjEFJ4x/J0yyB41Hy9mxjt+kniT/Zu07Br+iE5vh9MXPM?=
- =?us-ascii?Q?63jG6++UI3HU1qNWIkTG5dP1PEIIg+0enzfdQwm1BnetwKbU?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e5e1f2b7-bf48-4655-cbf5-08df20dd5a96
-X-MS-Exchange-CrossTenant-AuthSource: LY0PR12MB325698.namprd12.prod.outlook.com
+	=?utf-8?B?Tm9GaTJyd3hsNUd4Q1hjS25XVTFXNnU0YkRMYVhEYjRWaGxDWnBWd0JFTGFK?=
+ =?utf-8?B?V3NDbFlacVpZVDBDWGtSYTVBWWtaZWx1ZTlDWVBWUjdjczU5MFZnWkxxT0JC?=
+ =?utf-8?B?RmFZOStIYSsycVJjTFc0aHBwaWdKTWs0WjkvUzd4Wk9YemR5a1k4TWd5TEgv?=
+ =?utf-8?B?YU1hVlJxbUhmYlFpeTh4S1dJMmU5ZHZXRTEzMEpCektvV21teDFBMjB6Mlo4?=
+ =?utf-8?B?V1J6V04rY0IwOUV3aVFTYWZ2Z1JJaXNuR3ZqWDBEQVJhRzM0RXFLNHN0ODdz?=
+ =?utf-8?B?cEJkZU1NaTl3dlVsVm0vKzJNWjUyK25KQUJXd2h0dUIxMkJlbzg0dWxCRFEw?=
+ =?utf-8?B?MHBocVBoQko1NG0yK0NZRXBWWlVycm9xNklORHFDa1BmWFJRZm1PbWFvSk1W?=
+ =?utf-8?B?cHhnZGNmUm5hUWtSQ3hvSXlMUnRnZllUdk5pZUpjbE96MktVSGdvV3ZTbUFs?=
+ =?utf-8?B?QlZGekt2Z0RsMitHQ0VIWmllVzZTVlNFdHVxT2s1QnlsajBLY0ZMYmdDTktW?=
+ =?utf-8?B?VXp4NGgwcjg1eTlDVWdydG56Rk40VDZ6QWt5YWRrVkliOUpYdXJ0ajlqMTNM?=
+ =?utf-8?B?NXBBTGY4ZDYxK1NMV0VWeUlVSE4wbi9zbzhnTXF6TkR6L0M2QzhZTUU0R094?=
+ =?utf-8?B?Z25LOCt3eEVUQ1hHUU5EcWNTZW14UjBEeTcydHUyZ25rbG82cDl6cGo2QTJD?=
+ =?utf-8?B?ZzNKMDVJM0tKaVE0NnQxUEtZQ0VBYys5MElDM3FBVkdkUWZYa2NOZkVpTWtP?=
+ =?utf-8?B?QnM1Y3MrVHRSSHVxNitwckU2OXVnUzNoWlRrc2JWNko1cnViK3Brb0FuWXVT?=
+ =?utf-8?B?eG91VlJhN0RveXAybjJVVEVCWmFZaHZuMXZwSVRRVGdLdHJaN2h5dExHOHl4?=
+ =?utf-8?B?ZnRMSXVuVjBLUFU4d1I3aFduaWZwTUtqT2xOVjZRdkJTcWM2YWh2cUNBNXhC?=
+ =?utf-8?B?QkcvVXdBR3ljR2M2Z1VDcmlDME93L1BESFl6Mjg5NjBwVFJGQlc1VjJ4OFZs?=
+ =?utf-8?B?WHB0eXR2OWtQdWxuWEJKYmFZZnJuRWFvL21BUk5ndmhzeG80T1NNR09rZXd1?=
+ =?utf-8?B?b1hUUlA4RE44MGFhRjUwK2hnTXpNR2RqbHRwSGt4dzRwcTEwV0hOUWtDS3ls?=
+ =?utf-8?B?RWcyMXZFR3I5c1NMc205alVFR1BvOE9VdzVLOWhlUmtYclZxTDc0YlRhWVJW?=
+ =?utf-8?B?MGV3OU1YVU9HWUhUQU1pakFuQzk1eVRxbGZNQVd3SFV0Yi95eHJZOUY4aDNC?=
+ =?utf-8?B?dXZRYnhtdVBXSW9vUEdWTnRmY0tWOW5tNFVHVkFmTkpJQ2JPdHo3OUVUakpB?=
+ =?utf-8?B?TGxiaHk5NHdpdXQ3c05BL3M1WEhCbXNiaTIwMEVXd3NHcXZtNnU2RzBiTmF6?=
+ =?utf-8?B?Z2hRcDlFNzkzbDV0Zllqa0oxTEJGdUt3OVAxNWRDWUtRSUpJa2FQM0c5NmRR?=
+ =?utf-8?B?OWVBL0czZnlmSUgrUXNFVXFCMDNMSDVKOFdYQWR1djhBTlJkSnlLRFBuRGxZ?=
+ =?utf-8?B?OXhIS202aVc0VjM0aXJQVklaVFBIZjEwODVqa21SamhVbnRMbHpyUmFpWitO?=
+ =?utf-8?B?WG8ybWlHYkQzc2lzRGp1cDNhZkNOMEpsWkJCTVN0OVFnWXJPblJhcEhqS2Ev?=
+ =?utf-8?B?N01reXJhWkdFdldScmhJSmtuUExnZ3FML1VrYkh5eC9MNlVHUXg5S0lieXVI?=
+ =?utf-8?B?V0ptQ0FkYVNtTnJ3M1VJcWI2SGQ2ZkRzcDV3dmoxWWNOdUx6YVIvRUJHcUpz?=
+ =?utf-8?B?MEU5UE1oYVJXcWRZclRkUXdVYklHVHN3SS82aXZ2eGR1VyttbVZwaC9jWDhh?=
+ =?utf-8?B?T290Vmtjek1RbFF6a0EvK0w4MWxWNjZTdHJobmk0dlJISlg5MDlJRlVoNUt2?=
+ =?utf-8?B?Y2pSM2ZLbkN1cmVwUnBJTGFtUy82S2tpWmI3SzRCOUtoTkVGeG90ZEhxRndK?=
+ =?utf-8?B?dDc2dUFneEtnQXNnUDhWNnZhZHo3M0VyOVI0OVoxNWtHcGRhVEpLSUtacE8v?=
+ =?utf-8?B?b1J5QUloUER5dFFCbjRmUkRHeURNdXdiUlgxOUlLVkpsTGlHN3hrZUJUR0ho?=
+ =?utf-8?B?MFNGa0tCdStRNURSR3pJZEpJZlVuYlQ2bHJqdmREdnh6bTRRaXkrNmVrNVI4?=
+ =?utf-8?B?b1dWQ1RKMVVxY01sQ0svYUZpN2xwY2laSzQrdW4rWVZmVHVqZ0J2cVJ3YUVU?=
+ =?utf-8?B?Z1RrbVhWRHhJbnRKNE51WGtOSVdmeHVSeTBwU3BUVWRrMW41NEpMbXRrNHVF?=
+ =?utf-8?B?dlJ5NUVzVFNzZnQ2bXQwdDlpWEVzaWNsZzVscXlGd1BqZ3lkMXc2andFVGlO?=
+ =?utf-8?B?aWNVVCtSdXZWeTI4QkFUNGJGRHhySW5aNUdFZ2FUUUxuVkhVQWdudz09?=
+X-Exchange-RoutingPolicyChecked:
+	PrJwiKlnKs+wskvIsMrP59OCYKHJlJ4DHNAoHf0b0ZbAVzp9iral61iD5wH5nEaWGeiWADMMwiPQn9m5RW5CFxvDA5RVQja7YvP+Dd938Dv/+DV+zP1p66AEuSzQLaHf7Q8jVaCn4EYYA6BqoBpGoWWXPxHFModALVmBxxLDp9/4rKect27Yioll81puexOxjW/l5XEeavTKteyKaaKlhNBQavDmcRkkvRArbu/c4xZFQRpJQ9luFEut2AWysLvE1q4UjEZgRHV0Vuyf7ygMObyi2hTcON/VnEZCLzOqs4b5IxAGHGpnXitqYh4V63VKrgsRy5+XIwpPcM1k1GnsVg==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	OVkahA81CW3KMACuOU702GHNMOaGv9GePGBtrUmp1GE2sT5hF/3iAdhmn2UYzYV1ud+653DWOstMD0S686RLyW5vKZlFoUi9gRA1tmzS4aCefyhJavgtp2uVwvoeh3XwDdU18/4lNl3+UzfE6Gd1ATzP2gVpONtn6sHhD6GIlELvziW4d9UR0XON1NfU1/GpYkQgo1Ep3ItFL4/EeyEFESFfiUXt5rO3IrWO/BIRhxD+SC/PHQ4GbrsCMNwuXOBlRVO9Iwq/6UkwVPzaKRnvZNqnup6PDRphRG6ZBALFrhq8pU+cjjRct8TXi7i9cRufspULVmpDhcj6E1v43TMRdizUHb3uIOgMB6vd7/yV+rt+dO5fjIpyUJbGTPSZ5J8jqHG6SS2Tn5iqrYqC+Mgqo849yiX+PFRRKihypd1BSQ93zy8sUHYfsjA9m8eW/XFLK1f2Cf+8EGVhUMSMPgsHVyYXi8eqkT68f3LSvJCsUznqZA6Urg3k4DO+3jm16fPvrnY1gYiEax/xxW9phrR/VzlolNN6UWjlAGoctGEqyQO3PCOGuChxkGYnp9esMCunORRUryhetLnesHWH3y36faQWO6creDcfUR6MXZ+DQa6jOsjB6DbkAdyycefcq6V8
+X-OriginatorOrg: witekio.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 863278bf-8778-42fc-adf7-08df20e0eb24
+X-MS-Exchange-CrossTenant-AuthSource: DB8P192MB0792.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2026 23:31:59.2855
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2026 23:57:30.4787
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TjGjlqRKA8G4A2TatadaKuBAYUzKe9b4txSvUMsutGBTG+tPI0mhbaCH6EL5ms6c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6303
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2VMjllgd2IGfwiNC1Rk+4e++KOmnD8jFVlgo/85+tQNNxZIiXQq2eP5MMQr74UI6UiwfRtpQcNqygMWzU3kgNw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1P192MB0543
+X-cloud-security-sender:lhart@witekio.com
+X-cloud-security-recipient:linux-doc@vger.kernel.org
+X-cloud-security-crypt: load encryption module
+X-cloud-security-Mailarchiv: E-Mail archived for: lhart.opensource@witekio.com
+X-cloud-security-Mailarchivtype:outbound
+X-cloud-security-Virusscan:CLEAN
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate97-hz1 with 4hxQgy41Hxz27fdZ
+X-cloud-security-connect: mail-northeuropeazon11021105.outbound.protection.outlook.com[52.101.65.105], TLS=1, IP=52.101.65.105
+X-cloud-security-Digest:229734f868ea88646ed6b6cac12cba01
+X-cloud-security:scantime:2.560
 
-Pass code_size to zboot through struct efi_image_info instead of the
-custom objcopy trick and remove the objcopy way.
+On 10/1/26 1:17 AM, Krzysztof Kozlowski wrote:
+>> +    const: 0
+>> +
+>> +patternProperties:
+>> +  "^vmon@[0-7]$":
+> 
+> How is this called for other devices? "channel"?
 
-The linker still computes code_size, it just gets placed into the struct.
+It looks like "channel" is most common (perhaps "input" would be valid
+too, from the ti,ina3221).
 
-0-day found a randconfig where code_size would overflow a 32 bit number.
-Move everything to 64 bit. I doubt that anyone ever uses such a large
-vmlinux but u64 also fixes that silent corruption failure in the build.
+The V2 patch set changes this to "channel".
 
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
----
- arch/arm64/Kconfig                          |  1 +
- arch/arm64/boot/Makefile                    |  3 ---
- arch/arm64/include/asm/image.h              | 11 +++++++++++
- arch/arm64/kernel/image-vars.h              |  8 +++-----
- arch/arm64/kernel/vmlinux.lds.S             |  4 ++++
- drivers/firmware/efi/libstub/Makefile.zboot |  2 +-
- drivers/firmware/efi/libstub/arm64-stub.c   |  5 ++++-
- drivers/firmware/efi/libstub/arm64.c        |  4 ++--
- drivers/firmware/efi/libstub/zboot.lds      |  4 ----
- 9 files changed, 26 insertions(+), 16 deletions(-)
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index b5a51b0ef9440a..4a752835ce1116 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -2532,6 +2532,7 @@ config EFI
- 	select EFI_PARAMS_FROM_FDT
- 	select EFI_RUNTIME_WRAPPERS
- 	select EFI_STUB
-+	select EFI_STUB_IMAGE_INFO
- 	select EFI_GENERIC_STUB
- 	imply IMA_SECURE_AND_OR_TRUSTED_BOOT
- 	default y
-diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
-index b5a08333bc57b5..cfbad0c210fa04 100644
---- a/arch/arm64/boot/Makefile
-+++ b/arch/arm64/boot/Makefile
-@@ -51,7 +51,4 @@ EFI_ZBOOT_BFD_TARGET	:= elf64-littleaarch64
- EFI_ZBOOT_MACH_TYPE	:= ARM64
- EFI_ZBOOT_FORWARD_CFI	:= $(CONFIG_ARM64_BTI_KERNEL)
- 
--EFI_ZBOOT_OBJCOPY_FLAGS	= --add-symbol zboot_code_size=0x$$( \
--				$(NM) vmlinux|grep _kernel_codesize|cut -d' ' -f1)
--
- include $(srctree)/drivers/firmware/efi/libstub/Makefile.zboot
-diff --git a/arch/arm64/include/asm/image.h b/arch/arm64/include/asm/image.h
-index 9ba85173f85765..b18ce23a2cba7f 100644
---- a/arch/arm64/include/asm/image.h
-+++ b/arch/arm64/include/asm/image.h
-@@ -5,6 +5,8 @@
- 
- #define ARM64_IMAGE_MAGIC	"ARM\x64"
- 
-+#define EFI_IMAGE_INFO_SIZE	8
-+
- #define ARM64_IMAGE_FLAG_BE_SHIFT		0
- #define ARM64_IMAGE_FLAG_PAGE_SIZE_SHIFT	(ARM64_IMAGE_FLAG_BE_SHIFT + 1)
- #define ARM64_IMAGE_FLAG_PHYS_BASE_SHIFT \
-@@ -54,6 +56,15 @@ struct arm64_image_header {
- 	__le32 res5;
- };
- 
-+/*
-+ * This struct is filled in by the linker, see EFI_IMAGE_INFO.
-+ * Any change requires updating arch/arm64/kernel/vmlinux.lds.S
-+ */
-+struct efi_image_info {
-+	u64 code_size;
-+};
-+static_assert(sizeof(struct efi_image_info) == EFI_IMAGE_INFO_SIZE);
-+
- #endif /* __ASSEMBLER__ */
- 
- #endif /* __ASM_IMAGE_H */
-diff --git a/arch/arm64/kernel/image-vars.h b/arch/arm64/kernel/image-vars.h
-index 14beb7b9d304c1..13c0b77627d82e 100644
---- a/arch/arm64/kernel/image-vars.h
-+++ b/arch/arm64/kernel/image-vars.h
-@@ -35,8 +35,10 @@ PROVIDE(__efistub_caches_clean_inval_pou = __pi_caches_clean_inval_pou);
- 
- PROVIDE(__efistub__text			= _text);
- PROVIDE(__efistub__end			= _end);
--PROVIDE(__efistub___inittext_end       	= __inittext_end);
- PROVIDE(__efistub__edata		= _edata);
-+#ifdef CONFIG_EFI_STUB_IMAGE_INFO
-+PROVIDE(__efistub_efi_image_info_offset = __efi_image_info_offset);
-+#endif
- #if defined(CONFIG_EFI_EARLYCON) || defined(CONFIG_SYSFB)
- PROVIDE(__efistub_sysfb_primary_display	= sysfb_primary_display);
- #endif
-@@ -150,10 +152,6 @@ KVM_NVHE_ALIAS(kvm_protected_mode_initialized);
- 
- #endif /* CONFIG_KVM */
- 
--#ifdef CONFIG_EFI_ZBOOT
--_kernel_codesize = ABSOLUTE(__inittext_end - _text);
--#endif
--
- /*
-  * LLD will occasionally error out with a '__init_end does not converge' error
-  * if INIT_IDMAP_DIR_SIZE is defined in terms of _end, as this results in a
-diff --git a/arch/arm64/kernel/vmlinux.lds.S b/arch/arm64/kernel/vmlinux.lds.S
-index af1d720209764f..8305b47995954b 100644
---- a/arch/arm64/kernel/vmlinux.lds.S
-+++ b/arch/arm64/kernel/vmlinux.lds.S
-@@ -282,6 +282,10 @@ SECTIONS
- 		CON_INITCALL
- 		INIT_RAM_FS
- 		*(.init.altinstructions .init.bss)	/* from the EFI stub */
-+		EFI_IMAGE_INFO(
-+			/* code_size */
-+			EFI_IMAGE_INFO_OFFSET(__inittext_end);
-+		)
- 	}
- 	.exit.data : {
- 		EXIT_DATA
-diff --git a/drivers/firmware/efi/libstub/Makefile.zboot b/drivers/firmware/efi/libstub/Makefile.zboot
-index 42408132249ae7..fd4bfaaaaf0ab8 100644
---- a/drivers/firmware/efi/libstub/Makefile.zboot
-+++ b/drivers/firmware/efi/libstub/Makefile.zboot
-@@ -35,7 +35,7 @@ efi-zboot-objcopy-flags-$(CONFIG_EFI_STUB_IMAGE_INFO) = \
- 		awk '$$3 == "_efi_image_info_offset_value" { print $$1 }')
- 
- # avoid eager evaluation to prevent references to non-existent build artifacts
--OBJCOPYFLAGS_vmlinuz.o = -I binary -O $(EFI_ZBOOT_BFD_TARGET) $(EFI_ZBOOT_OBJCOPY_FLAGS) \
-+OBJCOPYFLAGS_vmlinuz.o = -I binary -O $(EFI_ZBOOT_BFD_TARGET) \
- 			  $(efi-zboot-objcopy-flags-y) \
- 			  --rename-section .data=.gzdata,load,alloc,readonly,contents
- $(obj)/vmlinuz.o: $(obj)/vmlinuz FORCE
-diff --git a/drivers/firmware/efi/libstub/arm64-stub.c b/drivers/firmware/efi/libstub/arm64-stub.c
-index 2c38693561475c..1d10a166abf8d1 100644
---- a/drivers/firmware/efi/libstub/arm64-stub.c
-+++ b/drivers/firmware/efi/libstub/arm64-stub.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/efi.h>
- #include <asm/efi.h>
-+#include <asm/image.h>
- #include <asm/memory.h>
- #include <asm/sections.h>
- 
-@@ -21,6 +22,7 @@ efi_status_t handle_kernel_image(unsigned long *image_addr,
- 				 efi_loaded_image_t *image,
- 				 efi_handle_t image_handle)
- {
-+	const struct efi_image_info *info;
- 	unsigned long kernel_size, kernel_codesize, kernel_memsize;
- 
- 	if (image->image_base != _text) {
-@@ -33,7 +35,8 @@ efi_status_t handle_kernel_image(unsigned long *image_addr,
- 			SEGMENT_ALIGN >> 10);
- 
- 	kernel_size = _edata - _text;
--	kernel_codesize = __inittext_end - _text;
-+	info = efi_get_image_info((unsigned long)_text);
-+	kernel_codesize = info->code_size;
- 	kernel_memsize = kernel_size + (_end - _edata);
- 	*reserve_size = kernel_memsize;
- 	*image_addr = (unsigned long)_text;
-diff --git a/drivers/firmware/efi/libstub/arm64.c b/drivers/firmware/efi/libstub/arm64.c
-index e57cd3de0a00f4..f6c250711de8cc 100644
---- a/drivers/firmware/efi/libstub/arm64.c
-+++ b/drivers/firmware/efi/libstub/arm64.c
-@@ -88,11 +88,11 @@ efi_status_t check_platform_features(void)
- #define DCTYPE	"cvau"
- #endif
- 
--u32 __weak code_size;
--
- void efi_cache_sync_image(unsigned long image_base,
- 			  unsigned long alloc_size)
- {
-+	const struct efi_image_info *info = efi_get_image_info(image_base);
-+	unsigned long code_size = info->code_size;
- 	u32 ctr = read_cpuid_effective_cachetype();
- 	u64 lsize = 4 << cpuid_feature_extract_unsigned_field(ctr,
- 						CTR_EL0_DminLine_SHIFT);
-diff --git a/drivers/firmware/efi/libstub/zboot.lds b/drivers/firmware/efi/libstub/zboot.lds
-index f389aaadbe44bd..8d32be32931494 100644
---- a/drivers/firmware/efi/libstub/zboot.lds
-+++ b/drivers/firmware/efi/libstub/zboot.lds
-@@ -2,7 +2,6 @@
- 
- ENTRY(__efistub_efi_zboot_header);
- 
--PROVIDE(zboot_code_size = ABSOLUTE(0));
- PROVIDE(efi_zboot_image_info_offset = ABSOLUTE(0));
- 
- SECTIONS
-@@ -22,9 +21,6 @@ SECTIONS
- 		__efistub__gzdata_end = .;
- 		*(.rodata* .init.rodata* .srodata*)
- 
--		. = ALIGN(4);
--		__efistub_code_size = .;
--		LONG(zboot_code_size);
- 		. = ALIGN(8);
- 		__efistub_efi_image_info_offset = .;
- 		QUAD(efi_zboot_image_info_offset);
--- 
-2.43.0
+>> +      If no child nodes are present, all channels will be exposed for>> +      monitoring. Otherwise, only the provided nodes will be created.
+> 
+> That's a bit odd behavior. Is it expected for hwmon?
 
+It seems not. Changing this in V2 to enable all channels by default.
+Disabling channels by using the status prop explicitly instead.
+
+--
+
+Thank you for the quick response and review of these changes.
+
+All other comments will be addressed in the V2 patch set, which I will
+share as soon as possible.
+
+
+Regards,
+
+Luna Hart
