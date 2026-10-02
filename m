@@ -1,66 +1,66 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yx2-f40.google.com (mail-yx2-f40.google.com [74.125.224.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A3529BD91
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 00:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3392BDC13
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 00:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790900349; cv=none; b=XDtObbhHUNwGbClV7eV4Psm7c0r9X+DaCSz4SWvILTBKTzvFof23Dqh1wDdYD67rn4bCKBjrz0SLpK5uzu9WwwP50ZCkKderbbSw75okl/GrokIOESwckuZdXZ3SVxpbGCK0Fxt5xtx0dSDSuNS2wFlHLXmRTrUZKjNFbzG0dB4=
+	t=1790900362; cv=none; b=B6xReuRPGV6gh0HKhv5DU0ch4flPbU3C9Wg9NSUzBOFaO8xltVyaPlGX/yBINIh6mvpp3K2wa0LKlTGRkd0Q7R3V08EyJ/iv0ffO7DCu3j6y1UnLtBN/t3OAOLm8OiKcZbahU7NOJe7lNeU3ZsFsDVhwNj7xmI2Xu13b1NREAC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790900349; c=relaxed/simple;
-	bh=tHOOuvQftQXv7kCz1QwflqeQnXUUIQsuBI7s7adJkwg=;
+	s=arc-20240116; t=1790900362; c=relaxed/simple;
+	bh=DD+PbZOcOM6sepZnP/mE8B57grk05o5jXUbfsi0gFZ0=;
 	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=uTo+JV5cI2Vqfj2aqhk0fD0dpLQyrpkZOrE4FZXg0z77dBx8UZlbtHDKaaPjW8jyBzQhks0jyqJLE8V4OL+NoEBExKTdNkknGc9/iALa/JxMduhNcvBnFmUTDoWk91zpsAxKZNB9w8mk67fhy/a9q5uRgdUhS0WJ8ZOkavr588Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zq/dt9UV; arc=none smtp.client-ip=209.85.128.180
+	 MIME-Version:Content-Type; b=Cqj4MWlGIuc+EC7DmaeEogwzmxJOM/o5Dl3y56sBLfsllnlhCviaibxxUGMwz2F65MSZdFII4xbvAuc1uQG661D080kuaDXjL4N+3URf+2hLTL2xXmjod40q0pg1t7wOlO76sC2ZkVFCXjBrWSnpY1HRnZiOm6oOfnVkJktQ1rI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cri0sqUK; arc=none smtp.client-ip=74.125.224.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zq/dt9UV"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-8ac8a2ac52bso11733067b3.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 17:19:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cri0sqUK"
+Received: by mail-yx2-f40.google.com with SMTP id 00721157ae682-8ab4620ecf9so30580277b3.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 17:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790900346; x=1791505146; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790900359; x=1791505159; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:subject
          :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=535iR1AeWRu7qsNxOz73cbrVlGNHnndMzPzdHrUTQc0=;
-        b=Zq/dt9UVyCXAYmJeslfvxQyRPXIlRSMGZF3Ywk6M+VzCsjrAd5r5rf00UdS3Iapwt4
-         /QhotAEQQzCdKIn0HSgKkhr8aRFwGBSM5c9iFaFf8iZwjh2FhD8zy4VC0r1gvmPwMCi9
-         XOwoZrm2YPhSBSXHANzvEodiiWQ9YREXH+FkKFhL49Mog/Egt1qMfSYFUiG3YQpSLA1C
-         O6ucIOTinz50hU1CVpNv1aGgG7G8da81e84hbnwlkuvb7xHWiD0PZDJ5DrFrhOHmcFRt
-         OVq9wZazBGOX9Oc+BbegyhSxqS/5IG/Y0mj47cQOikFRzGBCAz6vqFouGmx/z46GLN/s
-         VjMg==
+        bh=nF/bpEyAJLHrYgSp1W7lB/si839SdmIfrx3CzMfz4dQ=;
+        b=Cri0sqUK8TK+nyisKYS9TvQs7p8C4Bs98ld7gLSTuVj2jstnv/GYq8sPqw8fPIcr3t
+         CauV1mjTMH98SBj/NSRQAz3RUIOd5/kAYm/Rp7Gu3rQ34NEeSkDFTKj0frX4iKoT/lu9
+         dRV/Z/KrNN8vcKIa85R21duRxSuDMKqGmk2ISaXVv/PBGKYFuoyrRqPANaYFaQ52ruto
+         rzXecq2HEAvXVFglbTUyBLrbh32utxXD3fnFdbKloKjUrTFEKFFBaehJDuEg8sA53y/l
+         JzzRlFuHOf9OWSI5U457EbV+wct7AYN9oYVya/HqFtos/iLpahoxf5SL+vjAIQnXYsXy
+         OPVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790900346; x=1791505146;
+        d=1e100.net; s=20260707; t=1790900359; x=1791505159;
         h=content-transfer-encoding:content-type:mime-version:subject
          :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=535iR1AeWRu7qsNxOz73cbrVlGNHnndMzPzdHrUTQc0=;
-        b=EeR2CFiic3+oLOWM7haVnetPn/peDu2Qr9LBB1+9ulJnelwS15eySC2Wlsl5bDhYe3
-         3nBKqBzO0BDNBRB7mMfL8zhcPMKHGEmyIYSmjNN9RNK3Q7H6KMIj+CtX9XGBeS0XmNOo
-         QgQ45OmB5GpvfDNOx1yb1OXVY4gyI04AT54+C8PkTmhtpYAHtTZiokaKQ5H50Kdlgj4I
-         arBAn7xntNyN90ZNhCKrBa+FhxYAPH46UAZL1I9dQk+oo3XbEwDni27K7wfsr3vby33B
-         5cnQ1DzhXFzjYReA4JpnSes4b9388oLp+rjfyQfOEWnKeCdKW+8Ew7muX85jIfO0d/50
-         EuYg==
-X-Forwarded-Encrypted: i=1; AKwUvBxf+efyVs366fBavOPcZcby7dLZt+ZbymG/OSEahjIm3VmLLbDQyfVc5/4vlx3eraEogl8VjRbXYnk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI1IXo1x4GK0E5pYla53kTexRhjMAWW4mEF5c7qJIWuViWhMkMn
-	fIHP9ziFJbzHNmWA1bHV+NtDKdXXaG0omMR0bGkPKRW+9ixCSQ3K6/tJ
-X-Gm-Gg: AYBFou1+6c8W6vrWGguEhuUa8DMzyaWaK9eG2LJLbYyqtXsgBsqYDfETYhg+l/AI0Ci
-	hIwj9z10HRf0Bihq/+NNn/bOUT0N/L6SZzSqXrU7wv3Ea9T+ALe/8WIdBzsMha4raLo0O0Hm8kA
-	U1GLOs1YQZH+ICNp/vbYSSlzPE6/St3oICrHpKSdx2x9ZwDx+5b+jRxFvREflkVuLx7T0But/ac
-	sifvmbKzPpnsU8wW1QuL/Qe8P9rzTqZ3DUthLqllHgukCMNQkWhNYBS+t4L0sTkCQXJqiGB68ml
-	BTWVuh5ynHCcz3YBnEF+ZC1UQeHrLa6fIh4vf2dDhEaPRRr93wfE7K9dflr0XmU7rgQiCviapRT
-	oVy15csGVr7k2daye9PpbhHmiYCDwCHvXvzCnWGAOig+vumvhbYguCl/9UrD7xhOONr2lsxEntF
-	vdkDKWwDpgz/ljByz7V/VxXRkBklmdiGEESfsnypX2QUsZUZXzWv+U2uPprtba43Y/5SRAtNe6Z
-	NFeqfrCkiF22reLkp4jn/RNKm+6/qtI5rQwGahw2xZMrtXqR5StsnP/neHz0Ts=
-X-Received: by 2002:a05:690c:c3c4:b0:8a4:e89e:5185 with SMTP id 00721157ae682-8acdae4a24fmr17253507b3.9.1790900344396;
-        Thu, 01 Oct 2026 17:19:04 -0700 (PDT)
+        bh=nF/bpEyAJLHrYgSp1W7lB/si839SdmIfrx3CzMfz4dQ=;
+        b=aONWAQ7A/tDwvGFwupxgTVA7BYhVlEFPRN/kpoRkxfAQs167afc3UnL9SbZW07uYw7
+         /pMtK3JX39T+N4Pyap+kJVQNTdG3XldnqjNbC375lMe99v9QJfBBWY+XCc+pja1Z/FX2
+         /YrqpFj7Kn3mN/aEXReTGWg0k11Gm+O9bWJ2RNA6jH7QWzLsEJlJ2CR6lMvDGQoFWYuX
+         MLbAP6MjYNjUWN86Ra8sS9GZzl8nK89iNCkzB09mVCwmwa428piG9p9gzxshcwSyIohd
+         NWzDkx9bWOFWD6dZGP3rUTQuugC8/kS4tCTvBxiCG5QozXmeDM0nRez15esehnzYXdZa
+         28UQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzOXcRihLCGosKISzG1mG4CsvjZKV+xcrItNFgJpd6ToZc8nKsrhn7CtqDfSaIFQtEL3wtdsy6qcr0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKIBMJnjzHFsYVsElCz5vFcAx2fru8Yg6RTxFfEOZmaPr1Srazp
+	dyd3CKnsVQ1Ugaim9ZDGfFdl9OZI1n0k1F+/zJF3kO0eGV4gwGI49Rmb
+X-Gm-Gg: AYBFou21QLaebjB5LryFTZwGnB7NwGuk0zQTi8GnWtqHfTb4SOKqdbhZ3TdKADAtSz8
+	OwLZT5IJni8+lRWcDHFN6oh3gDZsM4AH+PFoEdeQPixrmea6+3AicoZBdEQpjwJEJX9ty4kW+92
+	2LIsVIJTMaBsPw0nRmOpvMKx2l/0aVokHpkMTIlCIMjpXJTUKVYVHvNO4dmO2Uy3yOUk7BwWtjv
+	c2Xw2C8XcVwi2jx8RmCtX+nb5cP4FiYYnXA1QyLbynwVGD8RmFiw7Vxc2LxXMPB3W73ptt5lraK
+	BNIew59QCY1SjPNQj9k/rFScpo936fXyzR/pSqq9V/L2Zv2dMfEvcQNH61b7t3GMkmemPmamJ1R
+	84szwZo2w0Rrm1HyQY//o/t1lx6mmaJChPvxFfsv+ch2z745Dig6mb63CZiIbN3bbCJ1LwGQwvi
+	GrCSZOFVsTj1KLZffbWJDDBaSysHUP8F8AT2VHmJTxyfnyBqhzjC+1p3ckfaX3uRnb3PuFFAedY
+	oGFL8nd40SwpU8jS+vAfO92a4Ph7klMjiF7423CxQy/gMqpjgoJ
+X-Received: by 2002:a05:690c:f08:b0:865:b26a:8e30 with SMTP id 00721157ae682-8ae39be12c2mr4052777b3.34.1790900359541;
+        Thu, 01 Oct 2026 17:19:19 -0700 (PDT)
 Received: from gmail.com (111.46.245.35.bc.googleusercontent.com. [35.245.46.111])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8ae330e89ebsm3300567b3.30.2026.10.01.17.19.03
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8ae32ef445fsm3311477b3.28.2026.10.01.17.19.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 17:19:03 -0700 (PDT)
-Date: Thu, 01 Oct 2026 20:19:03 -0400
+        Thu, 01 Oct 2026 17:19:18 -0700 (PDT)
+Date: Thu, 01 Oct 2026 20:19:18 -0400
 From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
 To: Daniel Zahka <daniel.zahka@gmail.com>, 
  Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -80,12 +80,12 @@ Cc: netdev@vger.kernel.org,
  linux-kselftest@vger.kernel.org, 
  linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org
-Message-ID: <willemdebruijn.kernel.7eaf3a38aa5c@gmail.com>
-In-Reply-To: <20260930-psp-defeat-v2-2-f266e7447129@gmail.com>
+Message-ID: <willemdebruijn.kernel.149ec551960a3@gmail.com>
+In-Reply-To: <20260930-psp-defeat-v2-3-f266e7447129@gmail.com>
 References: <20260930-psp-defeat-v2-0-f266e7447129@gmail.com>
- <20260930-psp-defeat-v2-2-f266e7447129@gmail.com>
-Subject: Re: [PATCH net-next v2 2/4] net: psp: require an established
- connection for association setup
+ <20260930-psp-defeat-v2-3-f266e7447129@gmail.com>
+Subject: Re: [PATCH net-next v2 3/4] net: psp: drop psp assoc clear in
+ sk_clone()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -97,49 +97,14 @@ Content-Type: text/plain;
 Content-Transfer-Encoding: 7bit
 
 Daniel Zahka wrote:
-> Check sk_state under the socket lock in both the rx-assoc and tx-assoc
-> handlers, and only allow association setup on sockets in
-> TCP_ESTABLISHED. Also, fail connect() when PSP assoc state is already
-> present, and remove the dead PSP MSS adjustment from
-> tcp_v[46]_connect().
+> Unwind the change from commit 1d2929d0850f ("net: psp: do not inherit
+> the Rx association on clone"), now that assoc state cannot exist on
+> listen sockets.
 > 
-> The net effect of this commit is:
-> 1. PSP assoc state can never exist on a listen socket.
-> 2. The upgrade to PSP must be done while the socket is in
->    TCP_ESTABLISHED.
-> 
-> This change defeatures behavior that was previously allowed under the
-> PSP uapi. My justification is:
-> 
-> Nothing useful can be done after association setup on closed or listen
-> sockets today. Listen sockets could accept a PSP-encrypted TCP SYN, but
-> the child socket will not inherit any PSP state. On the other side,
-> establishing PSP state prior to connect() will result in a PSP-encrypted
-> TCP SYN sent to a listening peer, which in turn has the aforementioned
-> limitations. That implies that there cannot be any users of this
-> feature, so it should be safe to remove it from the PSP uapi.
-> 
-> In theory, the check in the tx-assoc path is more restrictive than
-> necessary. FIN_WAIT1/2, CLOSING, LAST_ACK and CLOSE_WAIT could be
-> allowed, and the peer would accept PSP-encrypted ACKs in the
-> post-FIN-sent states, or data in the half-close case, but it is simpler
-> to disallow those states because they don't fit the upgrade model.
-
-And preferable to do so. While it could be allowed, there is no real
-use case for it. Simpler state model allows simpler code.
-
-> The check in the tx-assoc path fixes a bug in commit 6b46ca260e22 ("net:
-> psp: add socket security association code") where an unsynchronized
-> write can be performed on an assoc shared with a timewait socket when
-> the socket is in TCP_CLOSE after shutdown. This commit is not targeted
-> at net because its premise of preventing listen sockets from holding
-> assoc state depends on net-next commit 8cc3aef0cb19 ("tcp: Do not allow
-> buggy transitions between ehash and lhash2.")
+> With commit 8cc3aef0cb19 ("tcp: Do not allow buggy transitions between
+> ehash and lhash2."), and the change in this series restricting PSP assoc
+> operations to established sockets, this state should be unreachable.
 > 
 > Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
 
 Reviewed-by: Willem de Bruijn <willemb@google.com>
-
-Even if targeting to net-next, you could consider keeping the Fixes tag.
-Importantly the prerequisite patch is mentioned. But is only one of two
-mentioned here?
