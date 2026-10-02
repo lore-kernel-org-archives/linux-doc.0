@@ -1,68 +1,69 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157E849892A
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 13:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD414A2610
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 13:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790946671; cv=none; b=J+APAdjFQYIPACeZUAFgEBYtQJ0c5TJrJIVfRuVy9YPai+ePmUuCzKIv+3fJQGc/5dbZsUkCBtGLpObByF1V4CAOotI6ANbbgMe1VgqP85XgeICxk5D7Z7b1mqoJdiDQD1QVcFFFLj54hWEYXk6wFHJ5ES1gCuC6+MZZ6PTCfTc=
+	t=1790946682; cv=none; b=VvkiULjjfeoGFFz6wxQoI6H4xFmX2vHz5zGE1al71VoS/S8ElY3oDJZNiC2C11H1FqUFVDvJlmd+jDJAIWDpzmsNu2jcW+kjWoNxNKnL0zskpw8JqeR08FjQrtXNgyiikIho16RRPcDyCAfEWQCqn9I3XvXUjEeVV4421OBjY8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790946671; c=relaxed/simple;
-	bh=1/MWaWl7SHGLfFRyKiE4w3OttUIDPIFsx2PJUmpRrwA=;
+	s=arc-20240116; t=1790946682; c=relaxed/simple;
+	bh=7QvZkqasdhulNkXszpS0tpwM49MyqDv5UCggA3JJ858=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pyUOWDpFAR+cbslpZiyXb4zwwSAB/wj9sDO/R/gAP2QOGHMpncW251JYiH5j1Oc1PZ6/m5iqBYr4rmXisTTKVurHs2M+sPgzgy324f5XmgvNsVv1Ysr3wQiZQgYxzTwGWG9rrOv5kbU8Izx8Y3P1nRnxcwBeCiYZrJzC5q+EeE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EkmJEB8u; arc=none smtp.client-ip=74.125.82.177
+	 In-Reply-To:To:Cc; b=Sjd12isAjWctf1zNu+w1tWv52N+EXEzKB+wjTLGSuXu3XZ+qXi/vZRUTQZqvuEtGAKhsa0U8gS2YVdftFSOH2k+KN1nuNFBPz7pbyfJkPVMkmaVOmohsXGaKz9sCWjHp1JLfSkYZdt1GiIGLljOcyyDzFWXgs3Vd4H2e6iAiPhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XL0zlLUN; arc=none smtp.client-ip=74.125.229.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EkmJEB8u"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-34e0b5014e8so1324333eec.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 06:11:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XL0zlLUN"
+Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-33bfb26865fso7473443eec.2
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 06:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790946664; x=1791551464; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790946674; x=1791551474; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=X6o0ty3ov2C8lJybFtCY8aJEJkERYawSQ48Y+HPmwLI=;
-        b=EkmJEB8u0o8F7k88Il3uegfWkej2h5FG5Uv5Uy6LOVKhkjp5E1V2ItLqSiXXND8XNU
-         iJQ6GSHEaHiq2kh+7M4dIPvKpHOri1wOUa4qqTUZ8J+Ao8fEuzhW5Aa8QP16kKpTrdZ6
-         a+NjNLDrRKAdd1PatsvWeHK45dWvJhk7wwsjvV9YufIPuWkDy72+NqvvNa0zgDecqWi3
-         d4CCAW8aSAS3CUBYQLgGH6IVDVt6JzDMD3S6PlYnoa6r0H1pLhzlejnHaE/UkuuSxs3B
-         r6vA1RkFk55zhzUKdJ4dWMSLJ6qT84JsCfbrmzCTbibdXgPcSM9bBa+fmrcN+WisdpXg
-         sdNg==
+        bh=CATXTkxYpbqMwc3sPzpFt8avLOKzYpBFTwjOumo8LEw=;
+        b=XL0zlLUNh1wlkAQx5EZHdQ/rQtnAoJqbS0b/5oVW87zjKl06Ek9WObHTegyHAS6yWK
+         xcFrG8kMYu6lyQw4/bPaU15S/H3dle7/yNW4EXOaq0eZwsVyp4N8yOtDMvKtL5HK+aeV
+         CUGuK33vKNvG6KOy0Fs+N+dMysbL+YHm4Mrdv/USXN45HtG39x4trskqLxjf4OhlAE0f
+         nRfvNrivRm4ULNZLsak1eizh7A98iHZ7VABcpOCK1Z1eznhZAZAVNrXkmcfx36IpChu4
+         JR+C9l1rpsrbNbZstogxFICvl73zOaIC0ml7sk6daABV3r7QJako66xoCmY3vIj7zqaO
+         umSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790946664; x=1791551464;
+        d=1e100.net; s=20260707; t=1790946674; x=1791551474;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=X6o0ty3ov2C8lJybFtCY8aJEJkERYawSQ48Y+HPmwLI=;
-        b=Z3YYsHIwg6/87JQ/2D888j2kcNcYdSRXdxarR+zY3kAHWJ7rvIfAxIQC4cD5+WZ79W
-         PgsO/RU2IRwSAgoTcQs4pdT+ix/J7YjFBc0rwe61GsK/gU1A6x0TDJdPewtpPaGIUKqg
-         NMYH9Ay8CNofB7u+DwshwKDP/OYpGTNoxiEwTUeDL0r7TNAFVaon3C0d2iTStWjEGhTq
-         I1bfgZccUKtWP46G7G3K/44bzk+SQ8cTgdcpY94uHDIrLzB3IyOm+LnUZTiQPCDQdGkV
-         xCLMfCt1pXzsYDdutqq/A12mg7nb8MsF1kw5osQrJx3IRAbppNsZH3sSYvKw/DXDEf8w
-         8vBw==
-X-Forwarded-Encrypted: i=1; AKwUvBxU2WHryar/+y1PRqtFnn3ea6diBaxAggl4AVnrnXKAjnnb82ixWLpcDaBJx02OgahAAdQfhfEusHw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lWgjEYZ8JytEN20QHljHUtTxmJvOjjUllco4fHylaLlfTugCfT
-	wZWVEHeRfy6HiqPRJagvO9gqN4GOyBHFfD0F2Lp72qTmSbyX3arnJWOI
-X-Gm-Gg: AYBFou0eqhEVxJOEGqBK0j2YnAEcphxjslDSkWgtCROP9RRU7my0axqeA21mHyiJVe2
-	8cxXFtYYGRAKtU1C/SbrHoPYjqL5WgfMWEF/1X370GfHEXr8wxapkCBG9vjU74vJBDjVgZK6E7p
-	azdJF4uhcGPfQVNPsqQMhnC69mSxkcNlkgD2IBx4lk43ZrFpsALk+9BEzC+uQ2Vpfa09I+6mguz
-	Nfd76EmwGWv/w0qzqNJDfxB34xVdw78ONwq0H2qlly3zpwp07jsFw5JBe0pUOd6tvhwDdgM7UqC
-	Opi+iy8JtyrfoUsbd0+Stfxu6d5Q8X7KFXLrAAATOYXkVSQh3uB8SyIBkIBMFofZHbzVc0c6aFa
-	Bwkt69NMXJLsFvMqlIwqWi4TNDGYLii0Ru2+09Vi5zKP3Yh0VbN6TTPmI5v1z2SjiptplgJNMBW
-	H8Quc5BJ5t5RDdGf8LN1yFh67HTXRKI8CiFcvjmkl8jXsZnutiDODUSZS7JRGpfVZli6g=
-X-Received: by 2002:a05:7301:1c1a:b0:34e:2150:e5a4 with SMTP id 5a478bee46e88-34e2150e886mr5581289eec.16.1790946663728;
-        Fri, 02 Oct 2026 06:11:03 -0700 (PDT)
+        bh=CATXTkxYpbqMwc3sPzpFt8avLOKzYpBFTwjOumo8LEw=;
+        b=SHrJNIeslb0ROUbqfFycvyd99zJkHtCywqTMJh5X0jKqiskzcLMSVAa1Xhjs5qt7xY
+         j/S6pGPxGVb93kWs5uPyXBC4yPj55VLagGdodHeWQJ7bV+MVhq71Mf+FcYOh4+n0LsZP
+         /P1VQZfI+QEuTxsLXan23F6A3NJjOMYRW7WNvVNtawBNWjI7/kXYukNa9fS0s1wwX4tV
+         o/PyN4loD6w0/bdz7h/nfH2B0iFAu0plFLZEuWO2W13PbGud2Up3BA8WiznlHaWBVhs0
+         bX/haY/QRczxy6N2jx69lunwEQnWfFgVJR02ahz096/11dmh5+bMx02h5GuWUwEhYhKJ
+         cQLw==
+X-Forwarded-Encrypted: i=1; AKwUvBwzfN8ruaPbZ5QAmkfBrYEU3UCYLXW04dGnHXm/qE2+HiAziV/55QVrMQS8VkcuxwFZze/HKjGMlGg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJVbOiyKWyBiKS6nQOeyhLVEl/7qm1yv1Gh6oCoBTmH5ND+1LSo
+	AnBY8Xu8SXdweOvDKilRJWTB14krB06nOVjIHTegngxwQkGvGIsB2mNO
+X-Gm-Gg: AYBFou3wNYLJLZyjiM8G0aPZLB0o3Djk6xyCi4uEHb0a+0XPE1yKN6L9vprBh8l6ICu
+	v17pndncutdPLBYapi4mJSW/fUv8Tofwg74Bsajbkdxm6ozgJj4t3+9kiowHcILRD0+OocU3EMY
+	xIywfkPDGAZpuyM1GPa+0bnJlYDxdAqUSFVvR6UlbbXtgLmBFdXSXBobYHxACWOUb4qFrZg6WLX
+	BTXeYP4DpnjwAWvYJoO850ieNlMxZTrS+x3Pgl9fLR6lSlEaEKT09D5fNK/k2D1Z2H6fv7IFl48
+	x9RPdXJ7QMrOqPkdqtU8ri+wPhl02DxDD8YU7GBgiRm+Hqj+h1Je6cxTzGZmZQxdczkzrRn46Ab
+	VZGYxVzLktehCtsvtBtSTMeDdy9XzDdeEj3NbWGS6hsrn8IToNs/tt55t2zp6WBYT7p3OMHxaGJ
+	h2B2V9AoyHKKbgm95bA+Wog2CXbruMz87//A+cOL7RINBQB3juY3/ei8ox8idcAisH9oaTX2sIB
+	S4W
+X-Received: by 2002:a05:7300:50d1:b0:34e:f7cb:605e with SMTP id 5a478bee46e88-34f2199955emr3532775eec.35.1790946673805;
+        Fri, 02 Oct 2026 06:11:13 -0700 (PDT)
 Received: from [127.0.1.1] ([23.254.208.9])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34f0672c739sm7309347eec.3.2026.10.02.06.10.56
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34f0672c739sm7309347eec.3.2026.10.02.06.11.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 06:11:03 -0700 (PDT)
+        Fri, 02 Oct 2026 06:11:11 -0700 (PDT)
 From: Qiliang Yuan <odys.yuan@gmail.com>
-Date: Fri, 02 Oct 2026 21:10:24 +0800
-Subject: [PATCH v5 04/12] cpuset: Drive kernel-noise housekeeping from
- isolated partitions
+Date: Fri, 02 Oct 2026 21:10:25 +0800
+Subject: [PATCH v5 05/12] context_tracking: Allow runtime per-CPU user
+ tracking enable/disable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,7 +72,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261002-wujing-dhm-v5-4-78a6996d87ad@gmail.com>
+Message-Id: <20261002-wujing-dhm-v5-5-78a6996d87ad@gmail.com>
 References: <20261002-wujing-dhm-v5-0-78a6996d87ad@gmail.com>
 In-Reply-To: <20261002-wujing-dhm-v5-0-78a6996d87ad@gmail.com>
 To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
@@ -96,79 +97,323 @@ Cc: Waiman Long <longman@redhat.com>, linux-kernel@vger.kernel.org,
  linux-kselftest@vger.kernel.org, Qiliang Yuan <odys.yuan@gmail.com>
 X-Mailer: b4 0.13.0
 
-An isolated cpuset partition already updates the HK_TYPE_DOMAIN
-housekeeping mask.  Extend it to also update the kernel-noise masks
-(HK_TYPE_KERNEL_NOISE and HK_TYPE_MANAGED_IRQ) so that creating or
-destroying an isolated partition reconfigures the full set of
-housekeeping cpumasks.
+ct_cpu_track_user() and the context_tracking_key static key are currently
+restricted to boot-time use: the key is __ro_after_init and the function
+is __init with __initdata state.  This prevents enabling nohz_full context
+tracking for CPUs isolated at runtime via cpuset partitions.
 
-HK_TYPE_KERNEL_NOISE must stay a subset of HK_TYPE_DOMAIN: a CPU with
-the tick suppressed still needs to be excluded from the normal sched
-domain, or scheduler load balancing can keep nominating it as a
-target.  Update the sched domain mask first and only touch the
-kernel-noise types when that update succeeds, so the two masks can
-never diverge for the same isolation request.
+Split ct_cpu_track_user() into three functions:
 
-housekeeping_update() and housekeeping_update_types() are called after
-dropping cpus_read_lock and cpuset_mutex, with only cpuset_top_mutex held
-for mutual exclusion.
+  ct_cpu_track_user(cpu)      - sets per_cpu(context_tracking.active) and
+                                increments context_tracking_key; callable
+                                at runtime with the CPU offline.
+
+  ct_cpu_untrack_user(cpu)    - reverses the above; for de-isolation.
+
+  ct_cpu_track_user_init(cpu) - __init wrapper; calls ct_cpu_track_user()
+                                and handles TIF_NOHZ / tasklist setup.
+
+Change context_tracking_key from DEFINE_STATIC_KEY_FALSE_RO to
+DEFINE_STATIC_KEY_FALSE so that static_branch_inc/dec() can be called
+after the __ro_after_init window closes.
+
+Update tick_nohz_init() to call ct_cpu_track_user_init() so boot
+behaviour is unchanged.
+
+This is a prerequisite for DHM (Dynamic Housekeeping Management) runtime
+CPU noise isolation without boot parameters.
+
+context_tracking_key is a single systemwide static branch, not a
+per-CPU gate: once live, __ct_user_enter()/__ct_user_exit() run
+unconditionally on every CPU, regardless of that CPU's own
+context_tracking.active.  Going live happens through code patching,
+and other CPUs only observe the patched code some time after
+static_branch_inc() returns.  A CPU whose kernel<->user transition
+lands in that window sees context_tracking_enabled() as still false
+and silently skips recording it, leaving context_tracking.state
+stuck, so the next traced kernel entry on that CPU wrongly trips
+CT_WARN_ON(__ct_state() != CT_STATE_USER).  Reordering the enable and
+a fixup sweep around each other cannot close this: whichever runs
+last still has its own propagation delay to every other CPU.
+
+Add context_tracking_activating, a plain per-CPU bool with no
+code-patching delay of its own, and
+context_tracking_enabled_or_activating() to test it alongside the
+static key.  ct_cpu_track_user() sets it on every CPU via IPI
+strictly before static_branch_inc(), and clears it via another IPI
+only after static_branch_inc() returns, so every relevant call site
+sees it in place for the whole window during which the static key
+might not have propagated yet.  Route user_enter_irqoff(),
+user_exit_irqoff(), the guest variants, CT_WARN_ON() and ct_state()
+through it instead of the raw static key.  Also directly bootstrap
+CT_STATE_USER for a CPU caught sitting in user mode by its
+interrupted pt_regs, rather than leaving it to self-correct on its
+own next transition.
 
 Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
 ---
- kernel/cgroup/cpuset.c | 32 +++++++++++++++++++++++++++++---
- 1 file changed, 29 insertions(+), 3 deletions(-)
+ include/linux/context_tracking.h       | 16 +++---
+ include/linux/context_tracking_state.h | 25 +++++++++-
+ kernel/context_tracking.c              | 91 ++++++++++++++++++++++++++++++++--
+ kernel/time/tick-sched.c               |  2 +-
+ 4 files changed, 122 insertions(+), 12 deletions(-)
 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 3f52717c19654..8b3bb034adf62 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -1431,17 +1431,43 @@ static void cpuset_update_sd_hk_unlock(void)
- 		rebuild_sched_domains_locked();
+diff --git a/include/linux/context_tracking.h b/include/linux/context_tracking.h
+index af9fe87a09225..a83a2f1f9f9a9 100644
+--- a/include/linux/context_tracking.h
++++ b/include/linux/context_tracking.h
+@@ -12,6 +12,8 @@
  
- 	if (update_housekeeping) {
-+		static const unsigned long noise_types =
-+			BIT(HK_TYPE_KERNEL_NOISE) | BIT(HK_TYPE_MANAGED_IRQ);
-+		int ret;
-+
- 		update_housekeeping = false;
- 		cpumask_copy(isolated_hk_cpus, isolated_cpus);
+ #ifdef CONFIG_CONTEXT_TRACKING_USER
+ extern void ct_cpu_track_user(int cpu);
++extern void ct_cpu_untrack_user(int cpu);
++extern void __init ct_cpu_track_user_init(int cpu);
  
-+		mutex_unlock(&cpuset_mutex);
-+		cpus_read_unlock();
+ /* Called with interrupts disabled.  */
+ extern void __ct_user_enter(enum ctx_state state);
+@@ -25,26 +27,26 @@ extern void user_exit_callable(void);
+ 
+ static inline void user_enter(void)
+ {
+-	if (context_tracking_enabled())
++	if (context_tracking_enabled_or_activating())
+ 		ct_user_enter(CT_STATE_USER);
+ 
+ }
+ static inline void user_exit(void)
+ {
+-	if (context_tracking_enabled())
++	if (context_tracking_enabled_or_activating())
+ 		ct_user_exit(CT_STATE_USER);
+ }
+ 
+ /* Called with interrupts disabled.  */
+ static __always_inline void user_enter_irqoff(void)
+ {
+-	if (context_tracking_enabled())
++	if (context_tracking_enabled_or_activating())
+ 		__ct_user_enter(CT_STATE_USER);
+ 
+ }
+ static __always_inline void user_exit_irqoff(void)
+ {
+-	if (context_tracking_enabled())
++	if (context_tracking_enabled_or_activating())
+ 		__ct_user_exit(CT_STATE_USER);
+ }
+ 
+@@ -74,7 +76,7 @@ static inline void exception_exit(enum ctx_state prev_ctx)
+ 
+ static __always_inline bool context_tracking_guest_enter(void)
+ {
+-	if (context_tracking_enabled())
++	if (context_tracking_enabled_or_activating())
+ 		__ct_user_enter(CT_STATE_GUEST);
+ 
+ 	return context_tracking_enabled_this_cpu();
+@@ -82,13 +84,13 @@ static __always_inline bool context_tracking_guest_enter(void)
+ 
+ static __always_inline bool context_tracking_guest_exit(void)
+ {
+-	if (context_tracking_enabled())
++	if (context_tracking_enabled_or_activating())
+ 		__ct_user_exit(CT_STATE_GUEST);
+ 
+ 	return context_tracking_enabled_this_cpu();
+ }
+ 
+-#define CT_WARN_ON(cond) WARN_ON(context_tracking_enabled() && (cond))
++#define CT_WARN_ON(cond) WARN_ON(context_tracking_enabled_or_activating() && (cond))
+ 
+ #else
+ static inline void user_enter(void) { }
+diff --git a/include/linux/context_tracking_state.h b/include/linux/context_tracking_state.h
+index 0b81248aa03e2..25f87a9763313 100644
+--- a/include/linux/context_tracking_state.h
++++ b/include/linux/context_tracking_state.h
+@@ -138,6 +138,28 @@ static __always_inline bool context_tracking_enabled(void)
+ 	return static_branch_unlikely(&context_tracking_key);
+ }
+ 
++/*
++ * context_tracking_key goes live via code patching, which other CPUs only
++ * observe some time after ct_cpu_track_user() calls static_branch_inc().
++ * A CPU whose kernel<->user transition lands in that window would see
++ * context_tracking_enabled() as still false and silently skip recording
++ * it, leaving context_tracking.state stale.  ct_cpu_track_user() sets
++ * context_tracking_activating on every CPU with an IPI strictly before
++ * calling static_branch_inc(), and clears it again with another IPI only
++ * after static_branch_inc() returns (so only once every CPU is
++ * guaranteed to already observe the branch as enabled).  Checking it
++ * here closes that window: every transition in between is recorded via
++ * the normal __ct_user_enter()/__ct_user_exit() path instead of being
++ * silently dropped.
++ */
++DECLARE_PER_CPU(bool, context_tracking_activating);
 +
- 		/*
- 		 * housekeeping_update() is now called without holding
- 		 * cpus_read_lock and cpuset_mutex. Only cpuset_top_mutex
- 		 * is still being held for mutual exclusion.
- 		 */
--		mutex_unlock(&cpuset_mutex);
--		cpus_read_unlock();
--		WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus));
++static __always_inline bool context_tracking_enabled_or_activating(void)
++{
++	return context_tracking_enabled() ||
++	       unlikely(__this_cpu_read(context_tracking_activating));
++}
 +
-+		/*
-+		 * Update the sched domain mask first; it must succeed
-+		 * before the kernel-noise types because workqueue flush
-+		 * and timer migration depend on the sched domain mask.
-+		 */
-+		ret = housekeeping_update(isolated_hk_cpus);
-+		WARN_ON_ONCE(ret);
+ static __always_inline bool context_tracking_enabled_cpu(int cpu)
+ {
+ 	return context_tracking_enabled() && per_cpu(context_tracking.active, cpu);
+@@ -159,7 +181,7 @@ static __always_inline int ct_state(void)
+ {
+ 	int ret;
+ 
+-	if (!context_tracking_enabled())
++	if (!context_tracking_enabled_or_activating())
+ 		return CT_STATE_DISABLED;
+ 
+ 	preempt_disable();
+@@ -171,6 +193,7 @@ static __always_inline int ct_state(void)
+ 
+ #else
+ static __always_inline bool context_tracking_enabled(void) { return false; }
++static __always_inline bool context_tracking_enabled_or_activating(void) { return false; }
+ static __always_inline bool context_tracking_enabled_cpu(int cpu) { return false; }
+ static __always_inline bool context_tracking_enabled_this_cpu(void) { return false; }
+ #endif /* CONFIG_CONTEXT_TRACKING_USER */
+diff --git a/kernel/context_tracking.c b/kernel/context_tracking.c
+index a743e7ffa6c00..326862a2679e3 100644
+--- a/kernel/context_tracking.c
++++ b/kernel/context_tracking.c
+@@ -23,6 +23,9 @@
+ #include <linux/hardirq.h>
+ #include <linux/export.h>
+ #include <linux/kprobes.h>
++#include <linux/smp.h>
++#include <linux/ptrace.h>
++#include <asm/irq_regs.h>
+ #include <trace/events/rcu.h>
+ 
+ 
+@@ -411,9 +414,12 @@ static __always_inline void ct_kernel_enter(bool user, int offset) { }
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/context_tracking.h>
+ 
+-DEFINE_STATIC_KEY_FALSE_RO(context_tracking_key);
++DEFINE_STATIC_KEY_FALSE(context_tracking_key);
+ EXPORT_SYMBOL_GPL(context_tracking_key);
+ 
++DEFINE_PER_CPU(bool, context_tracking_activating);
++EXPORT_SYMBOL_GPL(context_tracking_activating);
 +
-+		/*
-+		 * Only touch the kernel-noise housekeeping masks
-+		 * (HK_TYPE_KERNEL_NOISE and HK_TYPE_MANAGED_IRQ) once the
-+		 * sched domain update above actually succeeded: HK_TYPE_
-+		 * KERNEL_NOISE must stay a subset of HK_TYPE_DOMAIN, so a CPU
-+		 * can never end up tick-suppressed while still scheduled as
-+		 * part of the normal (non-isolated) sched domain.  The tick,
-+		 * RCU and managed-interrupt state is reconfigured as the
-+		 * affected CPUs are cycled through the CPU hotplug machinery.
-+		 */
-+		if (!ret)
-+			WARN_ON_ONCE(housekeeping_update_types(noise_types,
-+							       isolated_hk_cpus));
- 		mutex_unlock(&cpuset_top_mutex);
- 	} else {
- 		cpuset_full_unlock();
+ static noinstr bool context_tracking_recursion_enter(void)
+ {
+ 	int recursion;
+@@ -674,14 +680,93 @@ void user_exit_callable(void)
+ }
+ NOKPROBE_SYMBOL(user_exit_callable);
+ 
+-void __init ct_cpu_track_user(int cpu)
++/*
++ * context_tracking_key is a single systemwide static branch, not a per-CPU
++ * gate: once live, __ct_user_enter()/__ct_user_exit() run unconditionally
++ * on every CPU (so that a task migrating between a tracked and an
++ * untracked CPU always sees consistent state), regardless of that CPU's
++ * own context_tracking.active.  Going live happens through code patching,
++ * though, and other CPUs only observe the patched code some time after
++ * static_branch_inc() is called on this one.  A CPU whose kernel<->user
++ * transition lands in that window would see context_tracking_enabled()
++ * as still false and silently skip recording it, leaving
++ * context_tracking.state stuck at whatever it was, so the first traced
++ * kernel entry on that CPU afterwards would wrongly trip
++ * CT_WARN_ON(__ct_state() != CT_STATE_USER).  Reordering the two calls
++ * below cannot close this: whichever runs last still has its own
++ * propagation delay to every other CPU.
++ *
++ * context_tracking_enabled_or_activating() closes the window instead:
++ * every user_enter_irqoff()/user_exit_irqoff()/CT_WARN_ON() site treats
++ * a CPU as tracking once context_tracking_activating is set on it, with
++ * no code-patching delay of its own, since it is a plain per-CPU bool
++ * set directly by the interrupting IPI handler rather than inferred
++ * from a jump label.  Set it on every CPU before static_branch_inc(),
++ * and only clear it once static_branch_inc() has returned, so there is
++ * no gap during which a CPU observes neither signal: every transition
++ * in between is recorded through the normal path instead of being
++ * silently dropped.  Also directly bootstrap CT_STATE_USER for a CPU
++ * caught sitting in user mode (via its interrupted pt_regs), rather
++ * than leaving it to self-correct on its own next transition.
++ */
++static void ct_activate_set_pending_ipi(void *unused)
+ {
+-	static __initdata bool initialized = false;
++	struct pt_regs *regs = get_irq_regs();
+ 
++	__this_cpu_write(context_tracking_activating, true);
++	if (regs && user_mode(regs))
++		__ct_user_enter(CT_STATE_USER);
++}
++
++static void ct_activate_clear_pending_ipi(void *unused)
++{
++	__this_cpu_write(context_tracking_activating, false);
++}
++
++/**
++ * ct_cpu_track_user - enable context tracking for a CPU
++ * @cpu: target CPU (must be offline when called at runtime)
++ *
++ * Marks @cpu as actively tracking user/kernel transitions and increments
++ * the context_tracking_key refcount.  Safe to call at runtime provided
++ * the CPU is offline so no context-tracking readers are active on it.
++ */
++void ct_cpu_track_user(int cpu)
++{
+ 	if (!per_cpu(context_tracking.active, cpu)) {
++		bool first_activation = !context_tracking_enabled();
++
+ 		per_cpu(context_tracking.active, cpu) = true;
++		if (first_activation)
++			on_each_cpu(ct_activate_set_pending_ipi, NULL, 1);
+ 		static_branch_inc(&context_tracking_key);
++		if (first_activation)
++			on_each_cpu(ct_activate_clear_pending_ipi, NULL, 1);
+ 	}
++}
++EXPORT_SYMBOL_GPL(ct_cpu_track_user);
++
++/**
++ * ct_cpu_untrack_user - disable context tracking for a CPU
++ * @cpu: target CPU (must be offline when called)
++ *
++ * Reverses ct_cpu_track_user().  The CPU must be offline so that no
++ * context-tracking readers are active on it.
++ */
++void ct_cpu_untrack_user(int cpu)
++{
++	if (per_cpu(context_tracking.active, cpu)) {
++		per_cpu(context_tracking.active, cpu) = false;
++		static_branch_dec(&context_tracking_key);
++	}
++}
++EXPORT_SYMBOL_GPL(ct_cpu_untrack_user);
++
++void __init ct_cpu_track_user_init(int cpu)
++{
++	static __initdata bool initialized = false;
++
++	ct_cpu_track_user(cpu);
+ 
+ 	if (initialized)
+ 		return;
+diff --git a/kernel/time/tick-sched.c b/kernel/time/tick-sched.c
+index 6c3fea3867139..8c53754c4ac4a 100644
+--- a/kernel/time/tick-sched.c
++++ b/kernel/time/tick-sched.c
+@@ -675,7 +675,7 @@ void __init tick_nohz_init(void)
+ 	}
+ 
+ 	for_each_cpu(cpu, tick_nohz_full_mask)
+-		ct_cpu_track_user(cpu);
++		ct_cpu_track_user_init(cpu);
+ 
+ 	ret = cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN,
+ 					"kernel/nohz:predown", NULL,
 
 -- 
 2.43.0
