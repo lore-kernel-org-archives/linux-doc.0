@@ -1,71 +1,71 @@
-Received: from mail-vs2-f36.google.com (mail-vs2-f36.google.com [74.125.227.36])
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343CA5013AD
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 17:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5D550B43A
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 17:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790961126; cv=none; b=n1FS9QspWynViyzgcZwyr+YEWXar4Lzu9OzKVjnpS/cOKY7gN5bg0YCmY0vX000yXxrd6L9FWZL1mereS2VwegyBhe6Py2dPFTrSrlLWkAiJ/Opp6NOMDBOSTmL9uRDNMuOXvgIZAX351QDPK/8LGaUlk4B1OgIgZrFy4tV/qG0=
+	t=1790961129; cv=none; b=YecUhyvygA4kNjs9Keas9GU+5nQm5TLb5OAtk+vlUt/aNEUTd1cLgYcLoYwjDVjWGgsFlxXCRFXa7mcwA3cNdmUIGWAfIyaJvTlLQe7UX2qyD3plw9lK3JXKDoP/tn3CIc2SyqkwLPFLbOtUxFLzLdp67jDzdaNqxdPP6Qyl48Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790961126; c=relaxed/simple;
-	bh=XOFaTVSwW/9YBFC6mfw/z7wVwnNezmfJy/wesJmf7IQ=;
+	s=arc-20240116; t=1790961129; c=relaxed/simple;
+	bh=vaymtDF4QTN98nIR6gU5b5jDEdTpSUTJa+6j+g3Dy+c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NzAMGrCCw3exFqqxI1LpAwYPMXsDow+LN+yKTkASy35zfxOpPnKzyJrTbcTZJas6AZRsrGwADod62MA3Qc7EYyVIv9FlHO4cF811mYxLEJCYUTcRuC6QLbzt/i14pxl4PZhDaqGy9YHApUmsVkwshXqOUNohggMOVcnUxD6mvRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UWVw0lhZ; arc=none smtp.client-ip=74.125.227.36
+	 MIME-Version:Content-Type; b=HyVzk8evddlmnDVURMytEgD4Tv/q2VrIs8CiXYAFqQp7msSw8Bl4+FDxX6Y8e2KqPiM4N3LNQEeGUybqa/st2g9l6Oo7JYqbNbYlDhyH4llnt3aTZMTcBu+KPnvyDom6MgOVXUOg950MqLgulf3DrR1JtuH0vmTbgOltpk6/LSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eRvW6O+h; arc=none smtp.client-ip=209.85.221.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UWVw0lhZ"
-Received: by mail-vs2-f36.google.com with SMTP id 71dfb90a1353d-5d7274a41d8so2120907e0c.3
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 10:11:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eRvW6O+h"
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5d82736af9fso992584e0c.0
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 10:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790961111; x=1791565911; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790961115; x=1791565915; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=+kuxUp68NfE1BX6EejbUySHt6ovgmEbDuypLUDZaOH4=;
-        b=UWVw0lhZ5pC152dAg1pj3Q+12fS0nD9kZWtbJ98k6vlIVxNMIqs2YnEQ/iClr4X7vV
-         TDn4TpygyLsqqAo6YIhCt66BzwfrDxXHH8hDJM/ethYhqz3RoViXohF48I2XDhnNHGwx
-         54bowQZ/AC+jjbk0i0dUMzYHwpO9POKg3xpzp9iYVCBhJj1WMwWC6LziID1p8xHBNSiV
-         2Sq2MFKwVNO7UuFZ80cgJwDSK/TpLdXnvb+Ys2xGjTo8E2kfuTWJs6kT3nWSN7S6w7P9
-         zPsJlUIexfDo2dF4qB6ud7OiNfOBIzFKOPilX6sdGb80V1W+sxbzot9iJVRVfCfjYp1c
-         qeew==
+        bh=f/edGc268+iz4tpkQVK69RgBOxwtOo3BnOMEu7CwFNc=;
+        b=eRvW6O+heTbdAVAR7OJ10ST20+fzUZnT2qlAEw5k2QqKfyH39YaN4DW6enAygHKeM9
+         n30oIQVRoJFXLpL9to+7EGbwJw+MfGtCTOKYA7peCcNr4neLzo+ePFB0tpYyaauSTse9
+         ckZ8zEtKxSrsF/mbX0xdCpm21GDKM/pXTJAqvVXMYbpoo/wJL449IialZQ7wIJERhetD
+         B1mheomGTWFzZY5t/JoDwGKecu6/2iFALfj/YCRdABlFi1nsnJhH8Dh+gyJqPxJA1kHR
+         ubl8EuQhF8wDgV9lpT4BykZRwTQz8H2fyEGahE3GyVIam/i5TQG0FXRhbAqmRQp9ZfI2
+         +1dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790961111; x=1791565911;
+        d=1e100.net; s=20260707; t=1790961115; x=1791565915;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+kuxUp68NfE1BX6EejbUySHt6ovgmEbDuypLUDZaOH4=;
-        b=DxGKFCYTq5NCY1GKydRSFvlcWe71tT90kBUtHPKCiPxgIBuAJAG39stQgDtRCb5V34
-         hISW1u6DzTLjD8DDpbJv10IW0NJRGZSjtepfB9lrt5MgaknLeCkx6Mig2j1LCyK80aeP
-         NLhZYw6xpfe7RRYq9CEGFHVRVw0gntYX9pkt1uXGmmFdn3yJtV2XTMyHAW2tKc3xgmff
-         O2WoP/UZcwCjMOo973LiG/npDW+bur3ghrfyLrUiF5nj6n4l7WUti6zcQIDQWnn1dWCw
-         SrIXioG7S5V4/50PVCbdVHrS/Sz5hPLoFXWIe+1Kls6U9vzCOCJgmBGUdJaMvuDEn9FO
-         duRQ==
-X-Gm-Message-State: AFq9FYJz4Uy9wcXNCZGNdQksYiNiv3nCYxyYsfbNc4vHE9SxSuSk9FVK
-	s00cfFwh0j1226djBepYjAwZ866q6mq48hTK/AcRAQG04rUrpgKdOSU7pW4EjOE9
-X-Gm-Gg: AYBFou1iRhia2/mrHATqgxckhRc1IFlolq5XPGTYyCrjm2ccfjP+giiIZFv33JVmX+5
-	6vby37GSvBShb3o6KbF9qUgjcSmPIWjhSs8Fuqda/8tDikgEdeTXjO141IsXbEUEfIvjO2k3baz
-	VJxdPg7DoD4jtP0YGLdJpc/JVxGP8dbkB4/BRk9hkQYVCgIjdmY+wA6aKN/Msepj3+ERYylGVKA
-	hs2Alx94/6vX12emk4bB9wv4Xt8q7WLHzisd8UMSzQMzNY23AyProWBxYnxZW08n2fj2e6LmilE
-	qOZP0a6hpzrQ4TSJbsrC1am+FwHJpChW+WmxyCaeOv9jmBa7PsDDqm/iv6pKIP2XuiTrZ/SDfsv
-	CLON1CnQ1AFUfisjdODx8BPRacygp395f8hJ2ujf3bYV5sqDuYSRHVyPoAYQfUUsbbZ3QMQS0Qs
-	xXbDPN6YKDNu3EJc/9n+6+0+q5l3nsYca61G982bcA1+yYsMPCk6SSK25mbH3mDp8wcsFid2/qp
-	hJGMmRKMxav0LsRvTidITXLkZKA9aDBC7YRR5UlOikkmHrvpQIp8SprEK4KWDyyP/59c/epA6g+
-	BzDojXB0A5yvuBjhy/N+3qrA
-X-Received: by 2002:a05:6122:4312:b0:5cf:2d4a:42c3 with SMTP id 71dfb90a1353d-5dab28cb7a0mr1115901e0c.19.1790961111278;
-        Fri, 02 Oct 2026 10:11:51 -0700 (PDT)
+        bh=f/edGc268+iz4tpkQVK69RgBOxwtOo3BnOMEu7CwFNc=;
+        b=PfVW6lP7VNCFbZ4JOw3Hip4IcKeC48osri8yvhmK75YTp+QZ7Nsvb7hILiVywyNoPV
+         PZ5oLmhssO7IkXTfBeJqWK5tBqGf0jKZO1BVfO6Kx5BHi3T0F1breptJa3v84faGejxS
+         uificIqEPk5tBU4uN+UiG9n3C9Pc1d65x5sA7lKW3k847seXAXgMUyZ4HUISby0lP3ha
+         XmAwcv1JRY9IUxYDp3Lt0TPIx/HG6WOj+spL4oBsSvC2mdyK5pwKiBP7jBhSAf+r1y+0
+         H/tgiG0Syx/3Ji7zyxmIMthJ+QOIeMwYbLo76EX3fS+P578w4hRNweeVMtveAOyq0hQQ
+         a0nQ==
+X-Gm-Message-State: AFq9FYLi6MMviqf1BruES3mdVd3jlojQ7rDeQR8yaPBax6y/11hWxVHx
+	2bcPd2AE9y3bUQmbJjwC6g+8AhDVbHKT3TK2S41N83qR3jWhlFVvAYYSf4eIELJj
+X-Gm-Gg: AYBFou3IBiIZmsJbjG6V642N2Z/W50Vg3xzxN9aR2n2ay2KD/wFhBbcEkD8HXJi61jf
+	cyQ8vT1NavTScJISM6mn7ci7oPeRQk/+P98Fs4QkJkUxDi1YCep7/gTOt4FMWNczRI4rgHQS8+s
+	T0XA7Nerafm1Hz/kuDNuhibfYFC2JSI+PmohQZQ12/u1L7OtrDg4lL3Tdiqsz84QDQhk66SehFm
+	4tdsoo7vafbjPQJzoZMv6yNLgU40Z9T7aRAufyfwdVxT4PL5lQTJyKKA5vN4Q2bJiBAEFBBUU7I
+	wk53QWSbM/bQRyznsNUgu01QeGZztf4WX+ZuxKgcattfexp4z95kpmeXk+2ONCd+g1umkX1RdIt
+	dusrv2N4hRuVTwWC80/HF0MCVY2QdS8IvmFhq8H1aGp6kDP8z5Hs/sluMBGzhQWoJ8YSgvUjhlV
+	1i7E5xoV0q3qLMAQNazn7PeYEQD0xiz9hQfr7nKwKTOWD++Aick8kE+KXbSjnlJqAW/ANPGmxEA
+	I2GAk7vy613tRU0F7koCqQw6gfOiQ/eDteUE3/sip093Y4MGbrMdOi5mexaci14B+sJJmVEHKVf
+	cCpSrsDUzuMv5/RVtuiE56w=
+X-Received: by 2002:a05:6122:6c17:b0:5d0:e57f:add3 with SMTP id 71dfb90a1353d-5d7ad9b1a34mr2009362e0c.2.1790961114832;
+        Fri, 02 Oct 2026 10:11:54 -0700 (PDT)
 Received: from penguin.bbrouter. ([200.218.229.14])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5da635c7209sm3947605e0c.15.2026.10.02.10.11.49
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5da635c7209sm3947605e0c.15.2026.10.02.10.11.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 10:11:51 -0700 (PDT)
+        Fri, 02 Oct 2026 10:11:54 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: linux-doc@vger.kernel.org
 Cc: corbet@lwn.net
-Subject: [PATCH 04/10] docs/translations/pt_BR: admin-guide: add cputopology.rst
-Date: Fri,  2 Oct 2026 14:11:27 -0300
-Message-ID: <20261002171133.50969-5-danielmaraboo@gmail.com>
+Subject: [PATCH 06/10] docs/translations/pt_BR: admin-guide: add LSM/index.rst
+Date: Fri,  2 Oct 2026 14:11:29 -0300
+Message-ID: <20261002171133.50969-7-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261002171133.50969-1-danielmaraboo@gmail.com>
 References: <20261002171133.50969-1-danielmaraboo@gmail.com>
@@ -78,143 +78,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add translation of cputopology.rst to Portuguese and update
+Add translation of LSM/index.rst to Portuguese and update
 admin-guide/index.rst.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
- .../pt_BR/admin-guide/cputopology.rst         | 105 ++++++++++++++++++
- .../translations/pt_BR/admin-guide/index.rst  |   2 +-
- 2 files changed, 106 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/pt_BR/admin-guide/cputopology.rst
+ .../pt_BR/admin-guide/LSM/index.rst           | 53 +++++++++++++++++++
+ .../translations/pt_BR/admin-guide/index.rst  |  2 +-
+ 2 files changed, 54 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/LSM/index.rst
 
-diff --git a/Documentation/translations/pt_BR/admin-guide/cputopology.rst b/Documentation/translations/pt_BR/admin-guide/cputopology.rst
+diff --git a/Documentation/translations/pt_BR/admin-guide/LSM/index.rst b/Documentation/translations/pt_BR/admin-guide/LSM/index.rst
 new file mode 100644
-index 000000000..f7321e275
+index 000000000..353ed472f
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/admin-guide/cputopology.rst
-@@ -0,0 +1,105 @@
++++ b/Documentation/translations/pt_BR/admin-guide/LSM/index.rst
+@@ -0,0 +1,53 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+================================================================
-+Como as informações de topologia de CPU são exportadas via sysfs
-+================================================================
++===========================================
++Uso dos Módulos de Segurança do Linux (LSM)
++===========================================
 +
-+As informações de topologia de CPU são exportadas via sysfs. Os itens
-+(atributos) são semelhantes à saída de /proc/cpuinfo em algumas arquiteturas.
-+Eles residem em /sys/devices/system/cpu/cpuX/topology/. Por favor, consulte o
-+arquivo de ABI: Documentation/ABI/stable/sysfs-devices-system-cpu.
++O framework dos Módulos de Segurança do Linux (LSM - Linux Security Module)
++fornece um mecanismo para que várias verificações de segurança sejam interceptadas
++por novas extensões do kernel. O nome "módulo" é um pouco impróprio, já que essas
++extensões não são, na verdade, módulos carregáveis do kernel. Em vez disso, elas
++são selecionáveis em tempo de compilação via CONFIG_DEFAULT_SECURITY e podem ser
++substituídas em tempo de inicialização pelo argumento de linha de comando do
++kernel ``"security=..."``, no caso em que múltiplos LSMs foram compilados em um
++determinado kernel.
 +
-+O arquivo independente de arquitetura, drivers/base/topology.c, exporta esses
-+atributos. No entanto, os arquivos do sysfs relacionados à hierarquia de die,
-+cluster, book e drawer só serão criados se uma arquitetura fornecer as macros
-+relacionadas, conforme descrito abaixo.
++Os principais usuários da interface LSM são as extensões de Controle de Acesso
++Obrigatório (MAC - Mandatory Access Control), que fornecem uma política de
++segurança abrangente. Os exemplos incluem SELinux, Smack, Tomoyo e AppArmor. Além
++das extensões MAC maiores, outras extensões podem ser construídas usando o LSM
++para fornecer alterações específicas na operação do sistema quando esses ajustes
++não estão disponíveis na funcionalidade principal do próprio Linux.
 +
-+Para que uma arquitetura ofereça suporte a esse recurso, ela deve definir
-+algumas dessas macros em include/asm-XXX/topology.h::
++Os módulos de capacidades do Linux sempre serão incluídos. Isso pode ser seguido
++por qualquer número de módulos "menores" (minor) e no máximo um módulo "maior"
++(major). Para obter mais detalhes sobre capacidades, consulte ``capabilities(7)``
++no projeto Linux man-pages.
 +
-+	#define topology_physical_package_id(cpu)
-+	#define topology_die_id(cpu)
-+	#define topology_cluster_id(cpu)
-+	#define topology_core_id(cpu)
-+	#define topology_book_id(cpu)
-+	#define topology_drawer_id(cpu)
-+	#define topology_sibling_cpumask(cpu)
-+	#define topology_core_cpumask(cpu)
-+	#define topology_cluster_cpumask(cpu)
-+	#define topology_die_cpumask(cpu)
-+	#define topology_book_cpumask(cpu)
-+	#define topology_drawer_cpumask(cpu)
++Uma lista dos módulos de segurança ativos pode ser encontrada lendo
++``/sys/kernel/security/lsm``. Esta é uma lista separada por vírgulas e sempre
++incluirá o módulo de capacidade. A lista reflete a ordem na qual as verificações
++são feitas. O módulo de capacidade sempre será o primeiro, seguido por quaisquer
++módulos "menores" (por exemplo, Yama) e depois pelo módulo "maior" (por exemplo,
++SELinux), se houver um configurado.
 +
-+O tipo das ``macros **_id`` é int.
-+O tipo das ``macros **_cpumask`` é ``(const) struct cpumask *``. Estas últimas
-+correspondem aos atributos apropriados ``**_siblings`` do sysfs (exceto por
-+topology_sibling_cpumask(), que corresponde a thread_siblings).
++Os atributos de processo associados aos módulos de segurança "maiores" devem ser
++acessados e mantidos usando os arquivos especiais em ``/proc/.../attr``. Um módulo
++de segurança pode manter um subdiretório específico do módulo lá, nomeado após o
++módulo. ``/proc/.../attr/smack`` é fornecido pelo módulo de segurança Smack e
++contém todos os seus arquivos especiais. Os arquivos diretamente em
++``/proc/.../attr`` permanecem como interfaces legadas para módulos que fornecem
++subdiretórios.
 +
-+Para manter a consistência em todas as arquiteturas, include/linux/topology.h
-+fornece definições padrão para qualquer uma das macros acima que não estejam
-+definidas em include/asm-XXX/topology.h:
++Todolist:
 +
-+1) topology_physical_package_id: -1
-+2) topology_die_id: -1
-+3) topology_cluster_id: -1
-+4) topology_core_id: 0
-+5) topology_book_id: -1
-+6) topology_drawer_id: -1
-+7) topology_sibling_cpumask: apenas a CPU fornecida
-+8) topology_core_cpumask: apenas a CPU fornecida
-+9) topology_cluster_cpumask: apenas a CPU fornecida
-+10) topology_die_cpumask: apenas a CPU fornecida
-+11) topology_book_cpumask: apenas a CPU fornecida
-+12) topology_drawer_cpumask: apenas a CPU fornecida
-+
-+Além disso, as informações de topologia de CPU são fornecidas sob
-+/sys/devices/system/cpu e incluem estes arquivos. A fonte interna para a saída
-+está entre colchetes ("[]").
-+
-+    =========== ==========================================================
-+    kernel_max: o índice máximo de CPU permitido pela configuração do kernel.
-+		[NR_CPUS-1]
-+
-+    offline:	CPUs que não estão online porque foram desligadas via
-+		HOTPLUG ou excedem o limite de CPUs permitido pela
-+		configuração do kernel (kernel_max acima).
-+		[~cpu_online_mask + cpus >= NR_CPUS]
-+
-+    online:	CPUs que estão online e sendo escalonadas [cpu_online_mask]
-+
-+    possible:	CPUs para as quais foram alocados recursos e que podem ser
-+		colocadas online se estiverem presentes. [cpu_possible_mask]
-+
-+    present:	CPUs que foram identificadas como presentes no
-+		sistema. [cpu_present_mask]
-+    =========== ==========================================================
-+
-+O formato para a saída acima é compatível com cpulist_parse()
-+[veja <linux/cpumask.h>]. Alguns exemplos a seguir.
-+
-+Neste exemplo, existem 64 CPUs no sistema, mas as cpus 32-63 excedem
-+o máximo do kernel, que está limitado a 0..31 devido à opção de
-+configuração NR_CPUS ser 32. Observe também que as CPUs 2 e 4-31 não estão
-+online, mas poderiam ser colocadas online, pois estão tanto presentes
-+quanto possíveis::
-+
-+     kernel_max: 31
-+        offline: 2,4-31,32-63
-+         online: 0-1,3
-+       possible: 0-31
-+        present: 0-31
-+
-+Neste exemplo, a opção de configuração NR_CPUS é 128, mas o kernel foi
-+iniciado com possible_cpus=144. Existem 4 CPUs no sistema e a cpu2
-+foi colocada offline manualmente (e é a única CPU que pode ser colocada
-+online.)::
-+
-+     kernel_max: 127
-+        offline: 2,4-127,128-143
-+         online: 0-1,3
-+       possible: 0-127
-+        present: 0-3
-+
-+Consulte Documentation/core-api/cpu_hotplug.rst para o parâmetro de inicialização
-+do kernel possible_cpus=NUM, bem como para obter mais informações sobre as
-+várias cpumasks.
++*   apparmor
++*   LoadPin
++*   SELinux
++*   Smack
++*   tomoyo
++*   Yama
++*   SafeSetID
++*   ipe
++*   landlock
 diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
-index 878a88d71..c574515c2 100644
+index 9f7933c57..19678a358 100644
 --- a/Documentation/translations/pt_BR/admin-guide/index.rst
 +++ b/Documentation/translations/pt_BR/admin-guide/index.rst
-@@ -37,10 +37,10 @@ com eles.
+@@ -49,10 +49,10 @@ Documentação relacionada à segurança:
+    :maxdepth: 1
  
-    sysfs-rules
-    sysctl/index
-+   cputopology
+    hw-vuln/index
++   LSM/index
  
  Todolist:
  
--*   cputopology
- *   abi
+-*   LSM/index
+ *   perf-security
  
- Documentação relacionada à segurança:
+ Inicializando o kernel
 -- 
 2.47.3
 
