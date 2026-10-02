@@ -1,353 +1,158 @@
-Received: from mail-pf1-f227.google.com (mail-pf1-f227.google.com [209.85.210.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6FD3AA4F9
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 06:06:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC0437269A;
+	Fri,  2 Oct 2026 06:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790921198; cv=none; b=NQTPbTKizHok/2EgNQeJqLsJhDwoeGyJl7zBUraLt+GzZDpPZ4MiQ1fyG3SfYm+pEJj36kZlSPvhoVZOJnbkWmOxgC8CylV73LOZK2brqjLFBzxeQ1TFfL70umIKmnvLV2HkuFY7lGkZnChYqAYUYOt7lWycStN9F2knLoyJChQ=
+	t=1790921339; cv=none; b=avpKrVWWZE/nmP9aqHqfgqlzSmPJcSL23At4uBl4XpuZlW4h51ocyr7iz7f9wrW/E4JH2I0d7HWN+4PsmKKUo0FYwVE9p/oQY2yQT1igRUBF+J8oKEjmEs1Pc8O0fa1NgpQHcaFqmJu/VO1FbWfsLRaMaQdAIOLFsBl/eSsJSBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790921198; c=relaxed/simple;
-	bh=z34L/VRUtmoUEPySKCLGztyzOGSZCx2j5juNnreyK0E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CPXm0B8P3g+dvT2KzQk3WaHq1wxhLr43/kMukfMB7cnF/hcPBTFQUt1xlTaLffhjHlKmn2tTXhyUb+LIdx6q1GbyHXnVxy5kVniSX/EFUoUFXcdhvOTuakCHkeubH3SpxSS1vWlxure1atBMf1ZglhOaEHF12VDT8HftSxmYSQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=DY9mBTDI; arc=none smtp.client-ip=209.85.210.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1790921339; c=relaxed/simple;
+	bh=S9WpXt8ZwaIop/LKQtEbEzXpn3nwMilU/SPTJAshtzE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YO2m6TkLf/D9VlqTN7wJIQtQd1RbRlvOm07GwR/hRMEfVh78grHgumm59hu8gYCDT/k+lwSBGjWAFPLnUujp0L3A/2dKdQpr4C6VMHD+BAi7FXfoYFloWACbJS1t0RAYSz1QI7pd3x3TDCkRbP9TSw2qPdpCfe1ot9EMtVqSdvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k0n9BCZe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="DY9mBTDI"
-Received: by mail-pf1-f227.google.com with SMTP id d2e1a72fcca58-8690079f2c1so2001407b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 23:06:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790921196; x=1791525996;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6BVaGMMoThVTL1EOxCZ8k72+xTVQTVhIyNmT+Do36So=;
-        b=mst0LightUF3AOGY3N4CsXpAs1FtDLe9g8y2aSgrO5bkQmqpAuuCg535Rqp6diKxnk
-         9vVcyvjEOXm5mHlYsD4/yqaIKHk1TgZ7LVX3cNbGSxqgvR6C1TJxlThWl02rT6QFMSyz
-         hCv5sVxLbocnppBnSmuMF1549FoJBPtqKi7DCB4+N/uC5NGw6x0DdKsAt/eUzbr5+i76
-         blSgLN2/K3bf+zl+vFjxon49lWjpVQW8y9TDIzUgwB93JbAan82zJG1HoGlKh99SQfQn
-         8Q3891N/5SayJUP/UkQjfiQaNLa2UK4jvlpGWuKge2GS8XpeCxNTC81ApLw0cU2bXhSh
-         bcQw==
-X-Forwarded-Encrypted: i=1; AKwUvBzU/gHd/rSLScKtwd3SG8LuiWul1r4x67hvEhLk4eLOYLB/HgMmEbiBzDAUXiyRs61tPWWks/0A4h0=@vger.kernel.org
-X-Gm-Message-State: AFuF++kkCuq899MtWPBTzJqFcoY88EqOBuARHvkUcwxHVoYRjq2sBSc9
-	WgwOyGGAJW5cs5J472IndhjQG+8LaP3lj2VTe+yNAASGACw/GgDkHydS7eOtW3DqxSDbtpFkYaI
-	XKQWFqWi/8bNvBUpf0ytuCRyZ5eKHQKIVEuHEK9Jo5cJBRU46DcNyIKr1a97DF9t9RxvRHymgyZ
-	vVuy6ii7VGxw0HD2EhD/WibAyP/GKP5SLiMC39c3Pq/Destgqo+Q2jely1KU8BoHPvJAM4idAKB
-	WoYR5g09e+F
-X-Gm-Gg: AYBFou0pWDkMko2kvAkC1D8ZdFM5TNaazAYeHdoB9lOn5FwxE8E9FiU0cZRHBD9DCFH
-	i+0ZJqOcalk13lNP5qILx0ITHxM9iu0Y09kBe3hbLo9Taj8ILaDNiBNqsdm4sYnbmwPAsu18x7t
-	k/aqfnQyx4MG757kxR/wNbK/fqae3wlgJBcXhUhsDH0YManhK83MsLVCnjWjzsOh4poL22F11Dq
-	tshW5F1wX2P8bqrc/PIf1bdYnIz9A31PIrRcxxcR8YKt5W+uacVqqEVUxLheZ+HPy1tO654CN/P
-	le4YGGYs2YOapajQ/9NGvX22r9GbKYdG3Tni66Z6VVfYJ5cPuFQXSYfQXIKGRRWb97k1JycH+VT
-	ZKBF0pOR1iP0QZxEPCSFsq9BS7JsRpB32sIplR54291D+IUcjIIRSCLSPXxS7oeIeAR9mZtdyfV
-	nog3f1lqGXud/H6IeZ2UCORdaMezoif13D
-X-Received: by 2002:a05:6a21:328f:b0:3e0:b778:d985 with SMTP id adf61e73a8af0-3e0bcfa4a3bmr2041997637.45.1790921196142;
-        Thu, 01 Oct 2026 23:06:36 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-16.dlp.protect.broadcom.com. [144.49.247.16])
-        by smtp-relay.gmail.com with ESMTPS id 41be03b00d2f7-cc9f73570a1sm404283a12.3.2026.10.01.23.06.35
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 01 Oct 2026 23:06:36 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1493b09d6bbso3387282c88.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 23:06:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1790921194; x=1791525994; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6BVaGMMoThVTL1EOxCZ8k72+xTVQTVhIyNmT+Do36So=;
-        b=DY9mBTDIdzAMHWXTx8GJj81YQ6jSadFgt0OzrooSEsgRDWIYGeqIsgcb/554ob0V7m
-         meuidKGlc9hyX7M2lQA0A7BOJRtGCvwbWjCklMrw8P5gNh+BC1yaTa4hVbJ3nChI3Ngi
-         2IiJLopDTqf/soDQXNMFcetpgyej1I8ENCXPg=
-X-Forwarded-Encrypted: i=1; AKwUvByeqPu6fjz9UZgjwjFYtNnHh5D6z0Wd04bed4bW9MpkfqmYTvD5fwZLLi7kQCEbIglxLZkMWkE2SvI=@vger.kernel.org
-X-Received: by 2002:a05:7022:b88a:b0:14c:1f57:3ea9 with SMTP id a92af1059eb24-14f5bef5190mr1601635c88.26.1790921193727;
-        Thu, 01 Oct 2026 23:06:33 -0700 (PDT)
-X-Received: by 2002:a05:7022:b88a:b0:14c:1f57:3ea9 with SMTP id
- a92af1059eb24-14f5bef5190mr1601590c88.26.1790921192899; Thu, 01 Oct 2026
- 23:06:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k0n9BCZe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2A121F000FF;
+	Fri,  2 Oct 2026 06:08:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790921335;
+	bh=agu/VYOjK7kNVTsVW73qyg7EU19zxMLH1H7KJB1gnL4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=k0n9BCZe437AIaCN19WoBh6UpkVlB2OxIuvSMocblVpda5vLUmTgjqGfsI2ij+gc9
+	 p+tACWkGa+lgasOyQy9dpA5rbxE+OcN8wJrMmPyYIkS3O37Yhy3rb/w+HGeOVJM/ft
+	 GVV7seGQ6yEQrb+r51pcfaI9C8bc/TAJuL3eNo12qZzYKc+B7nW3p+BieXJcWK3hZu
+	 +JCjVCQJPTpKp55e6dCyPb0Lbcg0/hp0hB3+CuNLPMFUZl+/KZxrNUJRGDUWc26FIk
+	 66aOBLsMXaUrnXxfL14PiUHqIEkBT95W/7polM1nzak6lzT0iCGcHpX5nGMJxg6HWq
+	 vcK3+mBQ/Z1WQ==
+Message-ID: <a65f4431-d225-4535-b921-00319ceeb2a2@kernel.org>
+Date: Fri, 2 Oct 2026 08:08:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260929040256.543767-1-zack.rusin@broadcom.com>
- <20260929053930.GEartPEjbZMpBVSvSk@fat_crate.local> <CABQX2QNmza+=i1FXgDtFS3e3O5oXxPZppRbRrL54P1LmrB2gBw@mail.gmail.com>
- <20261001235950.GHar7z9v3zfk8odoTh@fat_crate.local>
-In-Reply-To: <20261001235950.GHar7z9v3zfk8odoTh@fat_crate.local>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Fri, 2 Oct 2026 02:06:16 -0400
-X-Gm-Features: AclHuK-rd5CcQufUaR0BIRz4PquQ50RR10S1_da_RH0Fm436Xl3eZ4up2QGuXdk
-Message-ID: <CABQX2QNE331JieoHixJisyU309A-S_LDuwuZEHQf+AKQs-OyCw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] x86/percpu: Share decrypted storage before guest setup
-To: Borislav Petkov <bp@alien8.de>
-Cc: Kiryl Shutsemau <kas@kernel.org>, x86@kernel.org, Dennis Zhou <dennis@kernel.org>, 
-	Tejun Heo <tj@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	Ajay Kaher <ajay.kaher@broadcom.com>, Alexey Makhalov <alexey.makhalov@broadcom.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	virtualization@lists.linux.dev, bcm-kernel-feedback-list@broadcom.com, 
-	linux-kernel@vger.kernel.org, Christoph Lameter <cl@gentwo.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Bo Gan <bo.gan@broadcom.com>, linux-mm@kvack.org, 
-	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev, kvm@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, "K. Y. Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Ashish Kalra <ashish.kalra@amd.com>
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000a04918065cd55570"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] selftests: run tests on nommu architecture
+To: Hajime Tazaki <thehajime@gmail.com>, johannes@sipsolutions.net
+Cc: ljs@kernel.org, linux-mm@kvack.org, liam@infradead.org, rbm@suse.com,
+ akpm@linux-foundation.org, luto@amacapital.net, brendan.jackman@linux.dev,
+ liuhangbin@gmail.com, corbet@lwn.net, kees@kernel.org, broonie@kernel.org,
+ mhocko@suse.com, rppt@kernel.org, shuah@kernel.org, surenb@google.com,
+ vbabka@kernel.org, wad@chromium.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-um@lists.infradead.org,
+ geert@linux-m68k.org, daniel@thingy.jp
+References: <20260929235711.2287931-1-thehajime@gmail.com>
+ <20260929235711.2287931-2-thehajime@gmail.com>
+ <bda5eeaa-7868-4d4a-9026-9e99347afd7c@kernel.org> <ar4br2vW7yZGd3gt@gremlin>
+ <94759bed23f00d2044005e36be6f72f297e092f0.camel@sipsolutions.net>
+ <m2se2o3jyc.wl-thehajime@gmail.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <m2se2o3jyc.wl-thehajime@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---000000000000a04918065cd55570
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 10/2/26 04:38, Hajime Tazaki wrote:
+> 
+> David, Lorenzo, Johannes,
+> 
+> thanks for the comments and inputs.
+> 
+> On Thu, 01 Oct 2026 19:01:45 +0900,
+> Johannes Berg wrote:
+>>>
+>>> I thought maybe uname could help but our LLM overlords tell me no.
+>>
+>> Hajime originally wanted uname to indicate it, but that caused
+>> regressions elsewhere, so we dropped that commit. I guess we could put
+>> _something_ back?
+> 
+> systemd uses uname information and our (old) patch changing the format
+> triggered the regression.  thus, we dropped it.
+> 
+>>> It pointed at something though.
+>>>
+>>> In fs/proc/meminfo.c:
+>>>
+>>> #ifndef CONFIG_MMU
+>>> 	show_val_kb(m, "MmapCopy:       ",
+>>> 		    (unsigned long)atomic_long_read(&mmap_pages_allocated));
+>>> #endif
+>>>
+>>> So MmapCopy in /proc/meminfo tells us definitively, weirdly enough.
+>>
+>> Hyrum's law and all that, but I guess it's not highly likely to (want
+>> to) change :)
+> 
+> a runtime detection is nice.
+> 
+> scanning /proc/meminfo might be useful. although it requires to mount
+> procfs (we can actually skip procfs mount as it is optional) so, this
+> is not 100% portable.
+> 
+> checking ENOSYS like syscall(SYS_mprotect) might be useful but I
+> wasn't sure if this is always the case of NOMMU or not.
+> 
 
-On Thu, Oct 1, 2026 at 8:00=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrote=
-:
->
-> On Tue, Sep 29, 2026 at 01:25:09PM -0400, Zack Rusin wrote:
-> > Partly. So steal time tells Linux how much time a virtual CPU spent
-> > ready to run but waiting for the hypervisor to schedule it.
-> >
-> > For example, during a 100 ms interval, the vCPU might execute for 70
-> > ms and wait for a physical CPU for 30 ms. Reporting those 30 ms helps
-> > kernel:
-> > - account for CPU usage accurately: avoid charging applications for
-> > time when the hypervisor wasn't running their vCPU.
-> > - make fairer scheduling decisions: base task execution accounting on
-> > the CPU time tasks actually received.
-> > - expose host contention: the st field in top and counters in
-> > /proc/stat help explain why a VM is slow even though its applications
-> > don't appear to consume all available CPU time.
->
-> Aaaha, IOW, that's the "st" column here:
->
-> $ vmstat
-> procs -----------memory---------- ---swap-- -----io---- -system-- -------=
-cpu-------
->  r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy i=
-d wa st gu
->  1  0      0 1714852   9748  85300    0    0  3793    51 1445    0  0  1 =
-99  0  0  0
->
-> In any case, you could keep that helpful explanation in yout 0th message.=
- :)
+I assume there are plenty of other mechanisms. Like testing if fork isn't allowed.
 
-Yeah, that's the one. Sounds good, and thanks for the links to the tip
-and submitting-patches docs, I'll follow them for v3.
+> My original attempt was to use include/generated/autoconf.h; with that
+> we can omit environmental variable or command argument of NOMMU=1,
+> but gave up with handling standalone build/test case which might miss
+> the generated file (and complicate the patch only for the NOMMU
+> detection).
+> 
+> So, specifying NOMMU=1 is my previous, though dirty, conclusion.
+Let's avoid making it harder on users by doing some runtime detection.
 
-> > If options are binary then "no" :) It's not for monitoring tools, it's
-> > for the kernel's own steal-time accounting above, which currently
-> > doesn't work in confidential VMware guests. So the issue is that in a
-> > confidential guest (AMD SEV SNP, Intel TDX) memory is private by
-> > default, so the hypervisor can't read or write it. Any page the
-> > hypervisor has to write must first be converted to shared by the
-> > guest. Linux gives us the address of the steal-time buffer without
-> > converting it. The hypervisor then tries to write into a private page,
-> > which doesn't work. Currently ESXi deliberately powers off the VM when
-> > that happens. That only affects VMs with the steal clock enabled,
-> > which ESXi leaves off by default except for Photon guests. I'll
-> > probably change ESXi to just disable steal time when a guest gives us
-> > a private page, but that only avoids the power-off; steal time still
-> > won't work in these guests without this series.
-> >
-> > KVM has the same need for three of its per-CPU buffers (steal time,
-> > async page faults and PV EOI). It already converts them, but only on
-> > AMD and in its own loop. Kiryl asked on v1 for one common place that
-> > converts all such per CPU buffers early, on both AMD and Intel,
->
-> Right, why early?
+-- 
+Cheers,
 
-Because on SMP kernels both KVM and VMware hand the boot CPU's buffer
-address to the hypervisor in smp_prepare_boot_cpu(), right after
-setup_per_cpu_areas() and well before mm_core_init(). Sharing a page
-usually means splitting the direct map around it, and
-set_memory_decrypted() needs the page allocator for the new page
-table. To keep that existing registration point, the common code
-needed its own early sharing path, which is most of what patches 4 and
-5 are.
-
-> I mean, I am still trying to see the justification for this diffstat
->
->  14 files changed, 247 insertions(+), 51 deletions(-)
->
-> and whether it is really worth it.
-
-For VMware alone it isn't. But you guys have to decide based on what
-your long-term plan here is.
-
-I'd be happiest if we stayed within the confines of the VMware code.
-That's what v1 of this did (besides the small guard fix outside) and
-I'll only stray from this if I'm explicitly told that a patch/series
-won't be accepted without some cleanups/re-architecture somewhere
-else.
-
-I'm here because internally we've had multiple teams needing various
-bugs/features in the kernel and looking at some parts of our Linux
-kernel code was making me sad so I decided to collect the changes and
-use this opportunity to also cleanup some of our code. (I have three
-other series in my tree, they all touch arch/x86/kernel/cpu/vmware.c
-so I'm trying to push them out in a semi-coherent order.) But this is
-very much a spare time thing. I can guarantee I'll find enough time to
-always review the VMware bits, maintain them and answer questions
-about them, but I can't do the same for other parts of the kernel. So
-the more focused we can keep those patches the easier this is for me.
-
-> > instead of each hypervisor driver doing it. That's patches 2-6.
-> >
-> > Patch 1 fixes an old layout bug in uniprocessor kernels, where these
-> > buffers can share a page with unrelated data. The series also fixes
-> > SEV and SEV-SNP guests on KVM running kernels built with CONFIG_SMP=3Dn=
-,
-> > which currently hang at boot (we reproduced the hang).
->
-> That should tell you how much we care about UP. We would even love to mak=
-e SMP
-> the default.
-
-hah :) The UP handling was a good chunk of the complexity (patch 1,
-the kernel-image aliases and their kexec teardown), and the simpler
-approach below doesn't need any of it.
-
-> In talking to Peter about it, we were wondering whether this can be made
-> simpler. Like do not touch perCPU but do a normal page for each CPU's ste=
-al
-> time gunk and thus do not split the large page and then that early
-> enc/decrypting of memory I don't like either.
->
-> Perhaps we should start with the simplest approach first.
-
-Sounds good to me, that's pretty much the smaller fix I'd offered on
-v1. v3 would then be VMware only: if the steal clock is available,
-allocate the steal-time structs for all possible CPUs once the page
-allocator is up, share them with set_memory_decrypted(), and register
-the boot CPU from an early initcall. The existing hotplug callback
-registers the other CPUs as they come up. The memory comes from the
-page allocator, so it's in the direct map and TDX's vmalloc problem
-doesn't come up. No percpu, linker-script or early-conversion changes,
-and KVM stays as it is. This would also move registration for
-unencrypted guests to the initcall.
-
-One small tweak: I'd pack all CPUs into one allocation (64 bytes each)
-rather than use a page per CPU. Sharing a page can still split the
-large direct map mapping around it, so a page per CPU could split one
-large mapping per CPU, while a single allocation concentrates those
-splits in that one allocation. And that only happens in confidential
-guests with the steal clock enabled.
-
-Kiryl, I know this is the opposite of what you asked for on v1, but it
-sounds like Boris and Peter would rather start with the VMware-only
-fix. Shout if you object.
-
-z
-
---000000000000a04918065cd55570
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
-SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
-uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
-s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
-SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
-QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
-fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
-iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
-3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
-91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
-06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
-b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
-VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIHMv
-yTLPcyN7lWUhT/on8/ToZwnK+q0RgvXIiep/lGIUMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI2MTAwMjA2MDYzNFowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAFsJiP1etuKra7IRbsDCox9oIoW46luETWyadZPG
-/9+VUWkP8aXivckqk369OBsHFJABXJWQE1vT4hDVOncSwlpxmcIKn1TNKt/RtfKpupSzlUej0t2v
-fHZAGLORk2hFfoMgWH1ctmx5o/ssr+f+FbWsinIW1Fyp0ionq1ztT3iw8QRXNimkKo/kgnEMuvwa
-mcTtsq8zD2qb4C2hCH/hvkImuzk4nYQbqNrgxE/R/ro+utG3OmZ0K3FKlqiy60hI/kd4HSSIEyLQ
-Y93bjEpNzrsuP4RIsIpnA1tjPirKL7ixhTVnmZEknnbWJrgiJK7G1Nw3qTngvuoILi6Yodyvlo0=
---000000000000a04918065cd55570--
+David
