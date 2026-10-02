@@ -1,92 +1,246 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D540D420898;
-	Fri,  2 Oct 2026 12:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44EB649159D;
+	Fri,  2 Oct 2026 13:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790945934; cv=none; b=Dq1DATWiFIvdaPvST0T+1rqxVTxmzIyG0aRTPx5c+xQhIwsbH2XAmRSJyONk8k+1fLDv7USo2tthjo5LBrmUKKJdnYuZuqixxfNf6Wnl8D794pUl0ty33u+76LBNk34BqwUpGOe4XUuTWFgGzuzlaGOPuSNAZhEAfTwzoGeu18c=
+	t=1790946092; cv=none; b=NvuSGbv6NiEp7Zy+lTuJJhPzZcy0YWa4NeCPCRt6HSDSv+yw49/F4YPcQtEORCfSMLn1Sd3qfS7NED4a0EUEpEbCLUeJigd1kbOUwjf1ItlGTUD57L6ugzO/UQi1WY9QjXXS7FYTtN4AnUbhZDePtDbVecQVAfydXa8ZDTuoiII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790945934; c=relaxed/simple;
-	bh=ZZog2DmzD6JYHzIOPkxymMrGPQfxhMFEozr7PgktX+M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CdwoScDkT251BYzLJQzq4A4wk62l6uLX++bXP8aBn+dy584nbfJoXynDPgfJtXY2Mf3tQ67Vh4D2FlD3cMA7YqyGD2qNsq5sblHw8pW8nWCCgUo5L5OQcNCRixDDxXNTkSoL31QSoiZX8bM2a9HEsJegsFh/cmICmh0j6xhHjks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E9fle4+S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790946092; c=relaxed/simple;
+	bh=PPNsKh5iFmYOWcu5Wh5/i5vHtCxevqviLv8Y6BrMjPY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ksJWtPDmQxrpyC9PWnDnfwNNsanPl9ZF5FUp4Rvyau48rZBrDqdzesXnZ9iAcPawxCq58XzX7St58ASYF2Q9I5IEwrkwjcLr35ZXfeg37/rlQ90HYyFgVIWrTwPFwcROnbOMjfPOA3znwR+ioQNEF3lqXUD1lfkmxiP7KnYbosc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=dqJtOXiv; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E9fle4+S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 373C51F000FF;
-	Fri,  2 Oct 2026 12:58:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790945932;
-	bh=+2V7CaCvNrpvmbbJwh1WNIboZ7/7dvdjBHWJRak6y1Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=E9fle4+ShkEJyX93P+zCxQYNpaiuneKl3cDuESA0qdhga/zr0Ff9pWRe2/xTdmvjB
-	 AEbEc4auXu8VPovNsWl5nIOEtRIM5wkOzM6GdyK/QSDaT2gNyJItsXcLCARk3Hsb6j
-	 +GbRVebu96DSgkaQ3+mOmF2lTpnyPpBBtlehuvJz9ASppldg3jTh1AyfDtmGxOZTYA
-	 J9eHakUB9H0dbNy1OIjXT4OCUGJVbHs4EoFCMrnXVA8Ka+LO8qgj6mMMG1UZ98hBkJ
-	 zjFWDJblHXXQ6Dc9QZsiPF95hn9nOqfcxjokndQLJRkOyhxJgrSVhhsRIyfgU430bk
-	 Tk1hl2Acsveqw==
-From: Mark Brown <broonie@kernel.org>
-To: corbet@lwn.net, Jesse Jeronimus <jesse.jeronimus@gmail.com>
-Cc: gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
- dlechner@baylibre.com, skhan@linuxfoundation.org, rdunlap@infradead.org, 
- linux-spi@vger.kernel.org, linux-doc@vger.kernel.org, 
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261002110752.89529-1-jesse.jeronimus@gmail.com>
-References: <20261002110752.89529-1-jesse.jeronimus@gmail.com>
-Subject: Re: [PATCH] Documentation: devres: Remove non-existent SPI
- register helpers
-Message-Id: <179094140888.83544.16333779168176030027.b4-ty@b4>
-Date: Fri, 02 Oct 2026 12:43:28 +0100
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="dqJtOXiv"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1AF0497;
+	Fri,  2 Oct 2026 06:01:24 -0700 (PDT)
+Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6564E3F86F;
+	Fri,  2 Oct 2026 06:01:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790946088; bh=PPNsKh5iFmYOWcu5Wh5/i5vHtCxevqviLv8Y6BrMjPY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dqJtOXivG2aPuAGzBiMXSIBSYNDf4tXrBQDpUpqUptX3mI4a0yMOrc6LsghKhon0x
+	 UkiosuX/S1rRCJhki2bPF10ihIgxIxVyEHHfdm2CqEZvcjwwJW+4YQ187+yaFb+R+j
+	 4QGq7hezZ4TAYh4tkHW2swzRkOlA80PsRyAqz1Cs=
+Date: Fri, 2 Oct 2026 14:01:14 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Tomohiro Misono <misono.tomohiro@fujitsu.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Marc Zyngier <maz@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+	Kohei Enju <enju.kohei@fujitsu.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH 2/4] arm64: tlb: Add tlbi workaround for FUJITSU-MONAKA
+ Erratum E#030001
+Message-ID: <ar-rGjVKB0vqB-Jx@J2N7QTR9R3.cambridge.arm.com>
+References: <20261002-monaka-fix-for-upstream-v1-0-4aec0b0cbe34@fujitsu.com>
+ <20261002-monaka-fix-for-upstream-v1-2-4aec0b0cbe34@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1143; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ZZog2DmzD6JYHzIOPkxymMrGPQfxhMFEozr7PgktX+M=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqv6qHzcBcA5vqVY30uOJacgpKRb5KhxuteVUaF
- O9UU4iPNHSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCar+qhwAKCRAk1otyXVSH
- 0J9+CACApkMvr45KcscqprNr05WFgzHatE5NaDuGAQfG3KTKeaqP/9A4Go4QB+/L8Q795h/BS1v
- V9DUWAEn7XLRhXUt5yE7UkJwVpxmobyBFlPsfDa28YkaK9ENi0R9d1lCj4kOOJjcNbJxsx2q8+h
- 94Z7+c3mlClSGd1ZQC2SH+UyM4/l6W/S/fxgtGtGJKqxU2+LQp5S8J/5Bsp6bLI95m7xnyIp6XP
- Pyu9f+Z7a5CjxUP/QF6yYvnytfWWTfa1AfAn8yyv0X+Fj/3g+TWqMsUV0T9VaYqLi6AzYaxuGD4
- 2/4bt2kdyRkjAyay7ew410tzzUZf/BZuVkVAK7fiOEQii9jx
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261002-monaka-fix-for-upstream-v1-2-4aec0b0cbe34@fujitsu.com>
 
-On Fri, 02 Oct 2026 13:06:46 +0200, Jesse Jeronimus wrote:
-> Documentation: devres: Remove non-existent SPI register helpers
+On Fri, Oct 02, 2026 at 07:26:50PM +0900, Tomohiro Misono wrote:
+> FUJITSU-MONAKA Erratum E#030001 affects FUJITSU-MONAKA CPU
+> when using 64k page size.
+> 
+> On affected FUJITSU-MONAKA CPUs, range-based TLBI operations
+> targeting a VA or IPA may fail to invalidate TLB entries when
+> addr[34:29] == all 1 && addr[28:0] == 0 for 512MB mappings.
+> The affected instructions are:
+>   RVA[L]E{1,2,3}*, RVAA[L]E1*, and RIPAS2[L]E1*.
 
-Applied to
+How does this work when all of the following are true:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.4
+* The S1 translation granule is 4K.
+* The S2 translation granule is 64K.
+* S1 has a 1G block translating VA x to IPA y.
+* S2 has a 512M block translating IPA y to PA z.
 
-Thanks!
+In that case, can a "512MB mapping" exist for VA x? I would expect so.
 
-[1/1] Documentation: devres: Remove non-existent SPI register helpers
-      https://git.kernel.org/broonie/spi/c/d220c9443db6
+Assuming that is the case, the S1 translation granule doesn't matter,
+and the S1 workaround cannot depend on PAGE_SIZE_64KB.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> Work around the erratum by issuing additional non-range
+> TLBI instructions corresponding to the affected VA or IPA
+> range-based TLBI operations.
+> 
+> Signed-off-by: Tomohiro Misono <misono.tomohiro@fujitsu.com>
+> ---
+>  Documentation/arch/arm64/silicon-errata.rst |  2 ++
+>  arch/arm64/Kconfig                          | 19 +++++++++++++++++
+>  arch/arm64/include/asm/cpucaps.h            |  2 ++
+>  arch/arm64/include/asm/tlbflush.h           | 33 +++++++++++++++++++++++++++++
+>  arch/arm64/kernel/cpu_errata.c              | 10 +++++++++
+>  arch/arm64/tools/cpucaps                    |  1 +
+>  6 files changed, 67 insertions(+)
+> 
+> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> index ac3248b9f2f3..8ab6284e3d10 100644
+> --- a/Documentation/arch/arm64/silicon-errata.rst
+> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> @@ -373,6 +373,8 @@ stable kernels.
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> +| Fujitsu        | MONAKA          | E#030001        | FUJITSU_ERRATUM_030001      |
+> ++----------------+-----------------+-----------------+-----------------------------+
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | ASR            | ASR8601         | #8601001        | N/A                         |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index b5a51b0ef944..38248a31d5f1 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -1312,6 +1312,25 @@ config FUJITSU_ERRATUM_010001
+>  
+>  	  If unsure, say Y.
+>  
+> +config FUJITSU_ERRATUM_030001
+> +	bool "FUJITSU-MONAKA erratum E#030001: Range TLBI may fail to invalidate some entries"
+> +	depends on PAGE_SIZE_64KB
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+As above, I strongly suspect this depends on the conbiation of S1 and S2
+sizes, and could happen regardless of whether S1 uses 64K.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+> +	default y
+> +	help
+> +	  This option adds a workaround for FUJITSU-MONAKA erratum E#030001.
+> +	  On affected FUJITSU-MONAKA CPUs, range-based TLBI operation
+> +	  targeting a VA or IPA may fail to invalidate some TLB entries
+> +	  for 512MB mappings. The affected instructions are RVA[L]E{1,2,3}*,
+> +	  RVAA[L]E1*, and RIPAS2[L]E1*.
+> +
+> +	  Work around the erratum by issuing additional non-range TLBI
+> +	  instructions corresponding to the affected VA or IPA range-based
+> +	  TLBI operations.
+> +
+> +	  The erratum only affects the FUJITSU-MONAKA on 64k pagesize.
+> +
+> +	  If unsure, say Y.
+> +
+>  config HISILICON_ERRATUM_161600802
+>  	bool "Hip07 161600802: Erroneous redistributor VLPI base"
+>  	default y
+> diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
+> index 76350b38f0d7..9220b917ec20 100644
+> --- a/arch/arm64/include/asm/cpucaps.h
+> +++ b/arch/arm64/include/asm/cpucaps.h
+> @@ -66,6 +66,8 @@ cpucap_is_possible(const unsigned int cap)
+>  		return IS_ENABLED(CONFIG_ARM64_ERRATUM_3194386);
+>  	case ARM64_WORKAROUND_4193714:
+>  		return IS_ENABLED(CONFIG_ARM64_ERRATUM_4193714);
+> +	case ARM64_WORKAROUND_FUJITSU_030001:
+> +		return IS_ENABLED(CONFIG_FUJITSU_ERRATUM_030001);
+>  	case ARM64_MPAM:
+>  		/*
+>  		 * KVM MPAM support doesn't rely on the host kernel supporting MPAM.
+> diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
+> index 14a78ac0f800..0487daec1652 100644
+> --- a/arch/arm64/include/asm/tlbflush.h
+> +++ b/arch/arm64/include/asm/tlbflush.h
+> @@ -487,6 +487,37 @@ static __always_inline void __tlbi_range(tlbi_op op, u64 addr,
+>  	op(arg);
+>  }
+>  
+> +#ifdef CONFIG_FUJITSU_ERRATUM_030001
+> +static inline void fujitsu_erratum_wa(tlbi_op lop, u64 start, u64 end, u16 asid)
+> +{
+> +	u64 addr;
+> +
+> +	if (!alternative_has_cap_unlikely(ARM64_WORKAROUND_FUJITSU_030001))
+> +		return;
+> +
+> +	/*
+> +	 * The erratum fails to invalidate TLBI entries in the range when
+> +	 * addr[34:29] == all 1 && addr[28:0] == all 0 for 512M hugepage.
+> +	 * However, since it cannot be determined reliably if the target
+> +	 * entry is hugepage or not here, always assume hugepage is used.
+> +	 * The workaround is to issue extra non-range TLBI ops corresponding
+> +	 * to the affected VA or IPA range-based ops in the range.
+> +	 */
+> +	addr = (start & GENMASK_ULL(63, 35)) | GENMASK_ULL(34, 29);
+> +	while (addr < end) {
+> +		__tlbi_level_asid(lop, addr, TLBI_TTL_UNKNOWN, asid);
+> +		if (addr + BIT_ULL(35) < addr)
+> +			/* overflow */
+> +			break;
+> +		addr += BIT_ULL(35);
+> +	}
+> +}
+> +#else
+> +static inline void fujitsu_erratum_wa(tlbi_op lop, u64 start, u64 end, u16 asid)
+> +{
+> +}
+> +#endif /* CONFIG_FUJITSU_ERRATUM_030001 */
+> +
+>  static __always_inline void __flush_tlb_range_op(tlbi_op lop, tlbi_op rop,
+>  						 u64 start, size_t pages,
+>  						 u64 stride, u16 asid,
+> @@ -518,6 +549,8 @@ static __always_inline void __flush_tlb_range_op(tlbi_op lop, tlbi_op rop,
+>  		__tlbi_level_asid(lop, addr, level, asid);
+>  		addr += stride;
+>  	}
+> +
+> +	fujitsu_erratum_wa(lop, start, end, asid);
+>  }
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+It would be much simpler to say range invalidation doesn't work on this
+part.
 
-Thanks,
-Mark
+>  
+>  #define __flush_s1_tlb_range_op(op, start, pages, stride, asid, tlb_level) \
+> diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+> index 8ec47d89b45b..5b9dea3c761d 100644
+> --- a/arch/arm64/kernel/cpu_errata.c
+> +++ b/arch/arm64/kernel/cpu_errata.c
+> @@ -1027,6 +1027,16 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+>  		.matches = has_impdef_pmuv3,
+>  		.cpu_enable = cpu_enable_impdef_pmuv3_traps,
+>  	},
+> +#ifdef CONFIG_FUJITSU_ERRATUM_030001
+> +	{
+> +		.desc = "FUJITSU-MONAKA Erratum E#030001",
+> +		.capability = ARM64_WORKAROUND_FUJITSU_030001,
+> +		ERRATA_MIDR_RANGE_LIST(((const struct midr_range[]) {
+> +					MIDR_ALL_VERSIONS(MIDR_FUJITSU_MONAKA),
+> +					{}
+> +				})),
+> +	},
 
+Are you expecting to add other parts here?
+
+Is there a (future?) revision of MONAKA with this fixed?
+
+Mark.
+
+> +#endif
+>  	{
+>  		.desc = "Known broken GICv3 SEIS implementation",
+>  		.capability = ARM64_WORKAROUND_GICv3_BROKEN_SEIS,
+> diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+> index 2775ba3359cf..50a9aa0e2bf0 100644
+> --- a/arch/arm64/tools/cpucaps
+> +++ b/arch/arm64/tools/cpucaps
+> @@ -132,3 +132,4 @@ WORKAROUND_REPEAT_TLBI_SYNC
+>  WORKAROUND_SPECULATIVE_AT
+>  WORKAROUND_SPECULATIVE_SSBS
+>  WORKAROUND_SPECULATIVE_UNPRIV_LOAD
+> +WORKAROUND_FUJITSU_030001
+> 
+> -- 
+> 2.43.0
+> 
