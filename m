@@ -1,202 +1,142 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f41.google.com (mail-qv2-f41.google.com [74.125.230.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E94F352C54
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 08:41:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E3447D44D
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 09:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790930462; cv=none; b=AgL79EeWqjuSti2qcouppmRGH7JEwdW2cJ4kYzuQK0mDTq3QoS9O2Z2L7yhjFNUsQA6u/P0FxdrFaOHYEFCj9uk2+dJvuMQyWaAJnx5SS1IYKuXdNfvYCpu+KPFv+ESNU0e0cQd8sfgEK7oFT033C6yL5aD1kiU8/fA5P4up8M4=
+	t=1790932698; cv=none; b=XHgwBixKj8PcGnTHssEQg+PfN0l2OpEjg/TgKJlSBTzOGuqKOK9krcOEJ5+5HFyobqjYG2dKcrLHMHt84lUJXP+fxn9CVeqteVJunEiL+FyeQB/UsDC8RPBHmAB44Riii0X/S5O1MizdTaIEmOEWtKMnQpJDOw0orw92RPMRJoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790930462; c=relaxed/simple;
-	bh=g3WQYC9inDBpN52heydkhuKN+wu9j/uQyOu98dyVs18=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eTxbp2chWdcPRgS2ekvWjJnPD9oJVR+kROK8Mxz5WRrbYrPSTZatupkzm/ueGZtntvbQNXULnqAz0mYH4d2xxCQTOeEOFBs0LeX8EwQCt+MOBIik0NV1R71PL2SeIgk/VNf7tai87mZZsnEG6bkX6JiNN8pM0kN3uykd30CWz2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=I+XTzA3+; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=N/MisG4Y; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790932698; c=relaxed/simple;
+	bh=Qfsjd4gOBk2R1cAVmxNn9b1xSjQOZ/MyAh0pURKAmQo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=rvgN9UzKrpSSL/bkLMp7aat3RIfnjj3Txw0YPsIi+m3WgxNkSczethDLr/jlza6H4mx4M+i3QSysVk4yHqVUMilDwm+93q1RNArLvUxAXDiVh8GaJO6m+kWarO7WGHSniv7ww+avfF4C9ZVBH1cmpCxemgjCDrV7CpxFEoQu4Gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C2HSWPlO; arc=none smtp.client-ip=74.125.230.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="I+XTzA3+";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="N/MisG4Y"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6925inDo4019492
-	for <linux-doc@vger.kernel.org>; Fri, 2 Oct 2026 08:41:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	SRt1xEPKkLyIuVd9CabpyHFvvXu/eoMAADR7BossydM=; b=I+XTzA3+iRDxGOSA
-	N9/9ZBRzW2HXfCTAgVwjZe24AnIhhUaKp0G3zfrQr2YFnpI7ViDv7Hi/7K+dZAEa
-	qbQe6bmSKZn4Bns3FZ9pNcVJN1//Exrhqp+t/1dW86qQNbMc8tJcagKBjFRPJ6Ml
-	yiWGxKiVSEVgdWizKlR+BLNaoKKSEFW4wRLsT17wMMlXlCKsAaXmhDKxyfg3fe7+
-	8VPCDHi9Pkr3imA/unPMcsjZ+R26yh+te1hedKCneUMgWYvRzMYEQyjIqtsiOWb2
-	Xx1onrV3oEtZv31ruToPiyZ1ZNcVocEtN9CdCbcclX3ZfHYMwAYVmKCFHQ9kv5LH
-	vl3JVg==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h1rvqbu7r-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 08:40:59 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38e54b6556aso7518387a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 01:40:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C2HSWPlO"
+Received: by mail-qv2-f41.google.com with SMTP id 6a1803df08f44-91784fbb60dso43390016d6.1
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 02:18:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790930459; x=1791535259; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SRt1xEPKkLyIuVd9CabpyHFvvXu/eoMAADR7BossydM=;
-        b=N/MisG4YZHAt0Wst7HdEyZT0Z4i8Y+wuDDlN02eVIIkbuhSbV4b1c7vCEyq3EgY3+/
-         WpbLcLT8XRTJzJmmhYOR9++Xoi+7gRQk7TolhM9z6VMZ0Auh4WbgMzBs+XTspRl/BQtV
-         FO97K0rMQO6ZjcLdY8t0zJMToeAsgWkXIDYF0G8kgIVhdTftTXNRDtqUYbflLassY0hq
-         fCUrjod+F5IPBR+wkesXzxDyvsXEVPn2aSkNXSR/BiSfuSo5Ax7YCTI0kWJjuLAC6nlO
-         XDFAAHG5EaONyf6WBglEXdG8bnW/WzqjHCRzTubkqDaciNjxn5VBesSy7IDKmwkHR1TF
-         NUkg==
+        d=gmail.com; s=20251104; t=1790932695; x=1791537495; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Qi9AutxC+YxaVYc+sgXQhd2bNMCFaltRc/nQQBHbNXo=;
+        b=C2HSWPlOBODAEnXbDpuwl56cL4P+YrbZGRADpH5kpPpdv41r96qFVxMojhe+alWWwz
+         0h2yB1VQvIK2defDyTkcbtFsX57pasAF21csbbMSgK7CKg5JTSGjOahXBMwudFw4Tj0Q
+         k9vLHNkpW8dxJHs9fQL/iYpRAZ281pepRmfGLWRGHB9iXlcHVWunhSa94RgxXGa9AhE+
+         yxDewJGzhEzrOtBDcOBeIwNnLft0/Cg6SERXowQ9Wt7+UYeFys9URt0oRonjWthWeOKw
+         5Gf92ZM+V/SpiOVUzTRd33dmOu4H36gtz1mhxFG4M4iueKfx4v/4wpG894/NW6xnDGHA
+         Sslw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790930459; x=1791535259;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1790932695; x=1791537495;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SRt1xEPKkLyIuVd9CabpyHFvvXu/eoMAADR7BossydM=;
-        b=YMwenXhRyra0MDZ4z10u8Qtm371wGyCxRSKkWJ6DoyK9kdzbCUzx4BWv52MNUx7nOg
-         uIG9B89l+UB6Ob4T22mI2BL0MiSVDzxpl/K6KguR8VP7hmWLZ/+qhOY7ZYufRQhfu4GF
-         FRvcJ9Br/a2wsAo1sKtUGzbY5r5EfROR3ouLAYrE/4e8rwvKc6P72um9N/ZN92t42MWP
-         PhZ/lo9lmYRTIckDg5Vc75QUEfIqG5Wa8qLa9Gt1YWmB8VtInFJhcdso81ocuJkUFTob
-         5sVqqUHMdBYOC9xHE1IH8xorac3m5zfiUwJR7G8NWKiMrEHr5tEs/ubvMDVUdgQcQNkG
-         UAVA==
-X-Forwarded-Encrypted: i=1; AKwUvBzisfBgqr59AKk0jMUeJJeIxH0uKD7iLGLqqpif5AGNKHQpJQj0TEymi3mJwsPTz9ABHjKuy73zvtQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYImo7eVR19eWewHz8WB9uTh9HiNO1Es6eZv4X+3EUseRePM7MLV
-	BvxTV/0paBWITTv1C1d08ozIlGlp3NNlSB4KtDEtf7Fb0x2/J04j+J21ylJECdXfTNmkuFsJazd
-	VPUPpBGiiz3T4jof/rpKb3jmb193INLbKMS4A8Y39vmqay9OeWZzA360dw6ecoBw=
-X-Gm-Gg: AYBFou1zHTglXt63l+FfRFUXXl1tkKyNHcYXfoOadGg906EDapxF+UOtEiutSp7Bwmh
-	MbbFdhTKkaZzJmctp+VkYYXfXseAFmF1S9BMUwKS9Nk0NJ28m1IH7XfMwmStQSRpNuxYEMBVdJh
-	ic1e/xkYX8VrB0+x8QPIFbwSXOWlkHiK/CsxtHxk0T+bsqUTD7acnfq+4RVBtmCK+BBeqFjP2rI
-	+OPWnUbyuUu9D8yrWSrWc04O0ZhwxRev2O8rtVpDywD59K0wD9Ywmc4V82JSxZfUHI8pPT6gnan
-	CGBhQkC51Coo6RYewEYcQHiRo/xhIk89hSAj4eXlFTLI7yjbQh8m+rcMwMDLRmAPE9O2LhWEtwv
-	a6N/6D/LobZ4i
-X-Received: by 2002:a17:90a:d64b:b0:3a4:6f87:c0cf with SMTP id 98e67ed59e1d1-3a6ce84bc31mr1544732a91.53.1790930458863;
-        Fri, 02 Oct 2026 01:40:58 -0700 (PDT)
-X-Received: by 2002:a17:90a:d64b:b0:3a4:6f87:c0cf with SMTP id 98e67ed59e1d1-3a6ce84bc31mr1544697a91.53.1790930458256;
-        Fri, 02 Oct 2026 01:40:58 -0700 (PDT)
-Received: from localhost ([2a12:a305:4::30fb])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a6cd59187csm3397134a91.10.2026.10.02.01.40.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 01:40:56 -0700 (PDT)
-Date: Fri, 02 Oct 2026 04:40:53 -0400
-Message-ID: <7325307a9d029ef3277c343230a46a40.guodong.xu@oss.qualcomm.com>
-From: Guodong Xu <guodong.xu@oss.qualcomm.com>
-To: "rkrcmar@qti.qualcomm.com" <rkrcmar@qti.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>,
-        Chen Wang <chen.wang@linux.dev>, Inochi Amaoto <inochiama@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Conor Dooley <conor@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "spacemit@lists.linux.dev" <spacemit@lists.linux.dev>,
-        "sophgo@lists.linux.dev" <sophgo@lists.linux.dev>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        Andy Chiu <tchiu@tenstorrent.com>, Florian Weimer <fweimer@redhat.com>,
-        Peter Bergner <bergner@oss.tenstorrent.com>,
-        Zihong Yao <zihong.plct@isrc.iscas.ac.cn>,
-        Mark Harris <mark.hsj@gmail.com>,
-        Aurelien Jarno <aurelien@aurel32.net>,
-        Andrew Jones <andrew.jones@oss.qualcomm.com>
-Subject: Re: [PATCH v8 11/11] riscv: hwprobe: Introduce rva23u64 base behavior
-In-Reply-To: <DLRXBUKNNOWW.BHCJX6LQ9LB1@qti.qualcomm.com>
-References: <20260920-rva23u64-hwprobe-v2-v8-0-5f14bc5c23d3@oss.qualcomm.com>
- <20260920-rva23u64-hwprobe-v2-v8-11-5f14bc5c23d3@oss.qualcomm.com>
- <DLRXBUKNNOWW.BHCJX6LQ9LB1@qti.qualcomm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        bh=Qi9AutxC+YxaVYc+sgXQhd2bNMCFaltRc/nQQBHbNXo=;
+        b=mkwoEFyjE67ligGzv3tb1jxEwAI5SBAjchlmCFHOCO8F6h/Z9ynIUE/uqoNTNL1TVb
+         3zqg8m/FuxF45uarxXjQumixo9MMqPyLu2fFBtLDhYMI9mwKdQF6jN9JYNUQjYSTc/5w
+         NuHB2hwbXJV1wvH4U1OPPpkjYSW/A6RADHSrH9GRMel/GqEJOdOtySQFZBgxwJJU+1w7
+         pF1IKBXITM/RTLecKxRG7481dy2T5cDUZM4hQHZvyw/3wxBxgjtvXUxTB60LJ4E0p+yu
+         tqmcXvQKAfoUj+cAWhDb8uKVeuLpLdACI0XRRZ6XvvzzOGrzdD6zK24F33u2zh6/AP37
+         3xqg==
+X-Forwarded-Encrypted: i=1; AKwUvBw0JaCvh910bPmMDQdawHHLhAIwFlVwwJu9U3uncp6FrGNyZHExrVxiGAFcsaBXWvBpftul4CMVPxg=@vger.kernel.org
+X-Gm-Message-State: AFuF++kjuFwVBieesiGPaZ7V1a602DFX3DXAd4od33m6Q4WUkAFyCW9T
+	HzDRdc5aeVbatR8fc4jMcJaeoRS5LMuPFzSCNTatCca8bEKv+rzBeX9s
+X-Gm-Gg: AYBFou2d+kmmJXFgUuga9Dxi3O7gJVbeKty9eHdqAwGEI6po4lc5YBg/VpmlDjlMiIa
+	aKf1aZd+KuwpKOTsO/ytL0kG7HdOJnhLk1G5uKxQ+773+SpjKEXzcHoSMHwhw7yngOyml0i+UbX
+	a2ANfTzKRv2DHb8qVD5azixDcfsuRQsoCcANgXCmEBq3DLu+Z/YkV8lcPowUBI6vW1mzsyVzr4v
+	GnX9jcuc8u7cmAMJqWF9SpTWbQwX+Bb6kGAFAlxBsfXIKRR5txiFIETjHo6oalQvZDZzRtMqLnD
+	OZ9FVJE7meNsSffI1fnZjeUjHVvnRI9GbHBTUZx+E9HL7xUDrOGMfLeU+FMOZ6uyNgBYsKObQn9
+	1e7GenAmSRHSviqjqCWH/QP0S8cDN4cmJLcW9UUJY2+aiTnkaupSBW+frD9g04CQZc7KSR1AZLN
+	dNBHcQAax+ZFjLTc2qUuEl1htBEp0Vp+r1bac3BsCv/HExypWgoMOkfFypwR7Z/OD/HEO/Nv3Pn
+	DI=
+X-Received: by 2002:a05:620a:1b9a:b0:93c:b47b:26f with SMTP id af79cd13be357-93cf178a668mr324269985a.49.1790932694960;
+        Fri, 02 Oct 2026 02:18:14 -0700 (PDT)
+Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93cca26dae0sm170607785a.33.2026.10.02.02.18.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Oct 2026 02:18:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAyMDAzNCBTYWx0ZWRfX7YzXYcMgbxQM
- ldXDiYtbeLU2CsIOCu8g3ZXQR+Ujsev+Q+gp/AdQUf0m+Ks+wA5wqq9sEsnJem6SWFOh4Aw6f0+
- veQkD+/5DjFeJ6Nj1EVzcjnXc1iaI8HciXlciFqMOxYHbhy5MuPdTd50be2PksEM80nT5AYZdDv
- ZwK44YlkGbwVm/Hnq3ahYmLziAT6LJVIYexuLO3bSnMbnugaFVK11Nu1RMny9ROsnVPKgTX/V2E
- 6rEyJN/b6JDGVhWUZORx9liGSnfCP0NdFJqE5SXxgvX4VD1pLX6jP6TJ1R6uLILY7y4cTxDqslK
- cwuw3+5jupdInjEyBmRfZHrs0WqKIisM7DPoh2JLkUJFACYtuHMajW3fxLmMrtIkzqvpgkyqGhg
- uSYclAZsQFAw+XggqbaPMRD3OrVlSM/f9jv7UL8TqJZSMpyWDGvCIfSryjJvw66+yqw8CAG+vkl
- LYIXx9/gBlAex4otx1Q==
-X-Authority-Analysis: v=2.4 cv=JIauIMKb c=1 sm=1 tr=0 ts=6abf6e1b cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=VwQbUJbxAAAA:8
- a=t9496tuAAAAA:8 a=EUspDBNiAAAA:8 a=9U0Ts4Z4qhTHMBCqQIgA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22 a=4wQ91nGE5lQcD7eh5OX0:22
-X-Proofpoint-GUID: -yps4-I-I9a_UwdZqyBOaT7yLmrp5dcY
-X-Proofpoint-ORIG-GUID: -yps4-I-I9a_UwdZqyBOaT7yLmrp5dcY
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAyMDAzNCBTYWx0ZWRfXwRD8g26C0ZHy
- /3gKeQH83JUO0d0iKD+V7nn7AUnyobBS4a/vE0jRDluySHfM85bb5h3bM0ghdaWxePYA0BK3eo8
- +glWmXRlfzd+DMt0XVXN/+2GaDy4fw0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-02_02,2026-10-01_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 phishscore=0 impostorscore=0 bulkscore=0
- spamscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2610020034
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 02 Oct 2026 05:18:13 -0400
+Message-Id: <DLU8NL6QVE5F.3Q1Y7MLJVGCXE@gmail.com>
+Cc: <netdev@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH net-next v2 2/4] net: psp: require an established
+ connection for association setup
+From: "Daniel Zahka" <daniel.zahka@gmail.com>
+To: "Willem de Bruijn" <willemdebruijn.kernel@gmail.com>, "Daniel Zahka"
+ <daniel.zahka@gmail.com>, "Andrew Lunn" <andrew+netdev@lunn.ch>, "David S.
+ Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Shuah
+ Khan" <shuah@kernel.org>, "Simon Horman" <horms@kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy
+ Dunlap" <rdunlap@infradead.org>, "Kuniyuki Iwashima" <kuniyu@google.com>,
+ "Willem de Bruijn" <willemb@google.com>
+X-Mailer: aerc 0.21.0-threadmapfix
+References: <20260930-psp-defeat-v2-0-f266e7447129@gmail.com>
+ <20260930-psp-defeat-v2-2-f266e7447129@gmail.com>
+ <willemdebruijn.kernel.7eaf3a38aa5c@gmail.com>
+In-Reply-To: <willemdebruijn.kernel.7eaf3a38aa5c@gmail.com>
 
-Hi Radim,
-
-On Tue, 29 Sep 2026 16:00:22 +0000, Radim Krcmar wrote:
-> 2026-09-20T03:18:31-04:00, Guodong Xu <guodong.xu@oss.qualcomm.com>:
->> [ ... ]
->> +	int cpu;
->> +
->> +	for_each_cpu(cpu, cpus) {
->> +		if (!riscv_isa_base_available(hart_isa[cpu].isa_bases, base))
->> +			return false;
+On Thu Oct 1, 2026 at 8:19 PM EDT, Willem de Bruijn wrote:
+> Daniel Zahka wrote:
+>> Check sk_state under the socket lock in both the rx-assoc and tx-assoc
+>> handlers, and only allow association setup on sockets in
+>> TCP_ESTABLISHED. Also, fail connect() when PSP assoc state is already
+>> present, and remove the dead PSP MSS adjustment from
+>> tcp_v[46]_connect().
+>>=20
+>> The net effect of this commit is:
+>> 1. PSP assoc state can never exist on a listen socket.
+>> 2. The upgrade to PSP must be done while the socket is in
+>>    TCP_ESTABLISHED.
+>>=20
+>> This change defeatures behavior that was previously allowed under the
+>> PSP uapi. My justification is:
+>>=20
+>> Nothing useful can be done after association setup on closed or listen
+>> sockets today. Listen sockets could accept a PSP-encrypted TCP SYN, but
+>> the child socket will not inherit any PSP state. On the other side,
+>> establishing PSP state prior to connect() will result in a PSP-encrypted
+>> TCP SYN sent to a listening peer, which in turn has the aforementioned
+>> limitations. That implies that there cannot be any users of this
+>> feature, so it should be safe to remove it from the PSP uapi.
+>>=20
+>> In theory, the check in the tx-assoc path is more restrictive than
+>> necessary. FIN_WAIT1/2, CLOSING, LAST_ACK and CLOSE_WAIT could be
+>> allowed, and the peer would accept PSP-encrypted ACKs in the
+>> post-FIN-sent states, or data in the half-close case, but it is simpler
+>> to disallow those states because they don't fit the upgrade model.
 >
-> I think that extensions like F or V might be present in the ISA, yet
-> actually disabled in user-mode and this loop would misreport that
-> RVA23U64 is present.
+> And preferable to do so. While it could be allowed, there is no real
+> use case for it. Simpler state model allows simpler code.
+>
+>> The check in the tx-assoc path fixes a bug in commit 6b46ca260e22 ("net:
+>> psp: add socket security association code") where an unsynchronized
+>> write can be performed on an assoc shared with a timewait socket when
+>> the socket is in TCP_CLOSE after shutdown. This commit is not targeted
+>> at net because its premise of preventing listen sockets from holding
+>> assoc state depends on net-next commit 8cc3aef0cb19 ("tcp: Do not allow
+>> buggy transitions between ehash and lhash2.")
+>>=20
+>> Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
+>
+> Reviewed-by: Willem de Bruijn <willemb@google.com>
+>
+> Even if targeting to net-next, you could consider keeping the Fixes tag.
+> Importantly the prerequisite patch is mentioned. But is only one of two
+> mentioned here?
 
-Only V has a way to be disabled by user-mode, through
-prctl(PR_RISCV_V_SET_CONTROL) with PR_RISCV_V_VSTATE_CTRL_OFF. That
-interface is questionable, and obsoleting it was discussed on the
-RISE Platform WG call on 16 Sep. And I plan to take this to LPC26
-next week in Prague to see what the community says.
-
-Besides, since you mentioned hwprobe_isa_ext0() below: actually, today's
-per hart hwprobe_isa_ext0() doesn't honor that prctl(V OFF), IMA_V stays
-set. Refer to [1].
-
-There is no way for a user-mode application to disable F/D.
-
-> Is there a reason to diverge from how hwprobe_isa_ext0() does the
-> extension detection?  (has_fpu() and other global checks)
-
-Anyway, back to the RVA23U64 isa_base bit. In this design, I mean to
-report the per-hart RVA23U64 base, which is derived from hart_isa[cpu].isa.
-That bitmap has passed the validate callbacks in riscv_resolve_isa(), so
-it "matches kernel configuration as well as correct extension
-dependencies".
-
-There can be a mismatch on a system with heterogeneous harts, where
-has_fpu() is false globally but this particular hart has F/D. On such
-a system Zfa and Zcd are still reported for that hart today, which is
-the same mismatch. Same reason, because Zfa/Zcd passed validate callbacks
-per hart.
-
-So the isa_base bit RVA23U64 behaves like the per-hart keys do today,
-while IMA_FD, IMA_C and IMA_V at the top of hwprobe_isa_ext0() are
-host-wide. My take is that when user space queries over all CPUs, it
-gets the intersection, where RVA23U64 is not reported in such a
-heterogeneous situation. Per hart, I want to keep the kernel config + ISA
-string truth.
-
-[1] https://lore.kernel.org/linux-riscv/20260725001614.2578617-1-tchiu@tenstorrent.com/
-
-Guodong
+Yes, sorry. I replied with the full Fixes info to the bot here:
+https://lore.kernel.org/netdev/DLTLF0VWT5UY.2WUPQRDZJQO3W@gmail.com/
