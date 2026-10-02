@@ -1,136 +1,110 @@
-Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7E843DEC6;
-	Fri,  2 Oct 2026 07:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1DD44163B;
+	Fri,  2 Oct 2026 07:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790926465; cv=none; b=amkjYiYHW3DCLDIyKTUmXCMwGMWsqWbajf//YSIO7DWlmFIXitiQJhxYtyaf5oR2XzCzvg2uajjD9XtA/+tvsGP9fmwUL3aGs70gu12Hp/qhM5ESknDuFd+LrVeMtAu5V7LkPhA6Lqf730VX61N8wMpQVnKkj2eySzIvWQYa71Q=
+	t=1790927129; cv=none; b=e24q8nxpgB2CCeYpxpdnMMVl/3to12tyXdjvvVF7gQToeRL+ZK1chlfHzEcnm0qU2Y0QxYgoj+hXaKINHNB637Qg8u/gWNBaha9rAGlvntUNpEW4ONuK9Hrcg7QZ6l9uhpkWZBWJbdyrEDOdw5wiFzTXvxEcmJlatDoofPeP7qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790926465; c=relaxed/simple;
-	bh=m+LVU2zi0zSOvknT2CQZ4vuI1VWQtPXUViI/XoHlI50=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M+d5T2ds2YMHYPnnG7W7IdERmZlXmNQQ+UehJrh/xK4wXjCkJ9nGxbWgjSnerfezJT8yAQdIAHbMGCrveDPen6HBhs19LPtL554nbD4YYK9TGaw22bzHGzeH3XJiEbZWfRZzwGz6GRdL4YG+8yz8ScwvwUgrm4PBZFb8u4lqh10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=pWkW/SR5; arc=none smtp.client-ip=44.246.1.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1790927129; c=relaxed/simple;
+	bh=VxAFUhl8JDPZUyOTuk8XIlOz7AqK4lBsD6qFrsqfLkY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=u02K/wBlsBs1EaDARUcaPoBhr0A4xknXBU5lp8rKy6wAlSp1T+Isxl/eJj3TmYifIZ4UV/C12IsuztxEmiwC/bhVvIB2dRxBYTy3NMQ4leNsIo4DrelwPCWzDiEMl9KUu9ppqgu9QL49aW9JsfMOrG0DU5ZVDK6keeOkuf1e27E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KwWcNgs1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="pWkW/SR5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1790926463; x=1822462463;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Tpiacak94CnVvVjiQqt6BeZBKKqRNWtVDXJ5p2keyyY=;
-  b=pWkW/SR5o4ecfiiDnP7CK1rmOpiI1VeyVJ6JWRumilOAInAoMaI/m/F+
-   OEx9y8NDVUzFsmRn1Y0urdTZRVruBT+JKCIfohxUQoIF8PZUZ+zx50Cpr
-   DF4rTY2doqH2dq6PXt+krMhaO+c/CwDBtA3bIdYVgaVDXAtolsO186IdI
-   1iU3rsmUS92WZB3xOamZJTGvFsCEtIofPrb/HF1KEUtzWDbfYdv1CNLye
-   dPZll+uMcY0JB+gKg6XNPyC/SOInfqGxv2OPhrSIPh4l+sl8/5sbbST73
-   bAvDPwCSTCYUlD4bIi+c/1BbVcsaHeJZNEEt5ZMShZYxqj6PYmu2OJ1nz
-   Q==;
-X-CSE-ConnectionGUID: mQGoYcZMSYWiuYG0x9YIvQ==
-X-CSE-MsgGUID: yxmXURUMRpy+DovE+/uubw==
-X-IronPort-AV: E=Sophos;i="6.27,136,1787011200"; 
-   d="scan'208";a="30213323"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 07:34:23 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:10260]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.24.164:2525] with esmtp (Farcaster)
- id c36c8b8c-7ef4-4a34-8890-c411c7f7ff52; Fri, 2 Oct 2026 07:34:23 +0000 (UTC)
-X-Farcaster-Flow-ID: c36c8b8c-7ef4-4a34-8890-c411c7f7ff52
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
- Fri, 2 Oct 2026 07:34:23 +0000
-Received: from dev-dsk-wanjay-2c-d25651b4.us-west-2.amazon.com (172.19.198.4)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
- Fri, 2 Oct 2026 07:34:22 +0000
-From: Jay Wang <wanjay@amazon.com>
-To: <ihor.solodrai@linux.dev>, <bpf@vger.kernel.org>, <ast@kernel.org>,
-	<daniel@iogearbox.net>, <andrii@kernel.org>, <eddyz87@gmail.com>,
-	<memxor@gmail.com>
-CC: <alan.maguire@oracle.com>, <martin.lau@linux.dev>,
-	<yonghong.song@linux.dev>, <jolsa@kernel.org>, <qmo@kernel.org>,
-	<nathan@kernel.org>, <nsc@kernel.org>, <linux-kbuild@vger.kernel.org>,
-	<linux@weissschuh.net>, <christian@heusel.eu>, <mcgrof@kernel.org>,
-	<petr.pavlu@suse.com>, <samitolvanen@google.com>,
-	<linux-modules@vger.kernel.org>, <rostedt@goodmis.org>,
-	<mhiramat@kernel.org>, <mathieu.desnoyers@efficios.com>,
-	<linux-trace-kernel@vger.kernel.org>, <acme@kernel.org>,
-	<namhyung@kernel.org>, <irogers@google.com>,
-	<linux-perf-users@vger.kernel.org>, <jikos@kernel.org>, <bentiss@kernel.org>,
-	<linux-input@vger.kernel.org>, <tj@kernel.org>, <void@manifault.com>,
-	<arighi@nvidia.com>, <changwoo@igalia.com>, <sched-ext@lists.linux.dev>,
-	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>, <ojeda@kernel.org>,
-	<rust-for-linux@vger.kernel.org>, <arnd@arndb.de>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<abuehaze@amazon.com>, <doebel@amazon.de>, <mpohlack@amazon.de>,
-	<jay.wang.upstream@gmail.com>
-Subject: Re: [PATCH bpf-next v4 00/12] bpf: make the vmlinux BTF an on-demand loadable module (CONFIG_DEBUG_INFO_BTF=m) to save ~5.4 MB memory
-Date: Fri, 2 Oct 2026 07:34:22 +0000
-Message-ID: <20261002073422.14253-1-wanjay@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <596bfb65-db2d-413b-8039-c921031b50fd@linux.dev>
-References: <596bfb65-db2d-413b-8039-c921031b50fd@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KwWcNgs1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0764E1F00898;
+	Fri,  2 Oct 2026 07:45:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790927127;
+	bh=4pEj+dUpf/d2gtpJtogfdsGqq/vlK1UHl2zJvGkpm1o=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=KwWcNgs1MZlqMxkfT7IHQb0OgwD7uDuXfJyzPT4PoK4aierCb6akK8Ud86GORFDv3
+	 AeYTaWRJgaBprMblb4+8OSzCbmnQ561UFRCL3BwGU7ArdYgcmIMbGZv1UzGyVTvCSw
+	 BrH+8oQjNu5w6+x/NEtjGj4V0CYfvNi4Vt86NFe3RAesC8vfcabSS9YUnTgvWpqsk2
+	 o8kuO+P0ujBJtxcH9HgVYb9EeNa9mMTgEP6HQWZJbAKaPSjnnA6wUPGfTx3pl8/8d0
+	 heq3BkcD0Qsc3A3fIGSl81fovsXvgC8EhbdaLI0Fexpnk1Qd+HSAZ/xQLs87/HaJcH
+	 9VDQQjACNzo/Q==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 7A137198003A;
+	Fri,  2 Oct 2026 03:45:24 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Fri, 02 Oct 2026 03:45:24 -0400
+X-ME-Sender: <xms:EGG_ao84nIIcq10xNEojAybswkNjRDuAzPK8g6y_Rj5MoNxZJpy7tQ>
+    <xme:EGG_arhit_jhYrvz4lnSPkVlz5C8Asx6LO543nX1kWA_1IKbVF6SLW4QXURGNcUa-
+    k-3q_2kVg5zdRpAEMZQJNHm0EK4SUqo1CH5DiqfUSkq79ckJJTLpqw>
+X-ME-Proxy-Cause: dmFkZTFkqu6HjImMUOMNeLbIKN4w3bg+6B0rzZnczP8X0ylnRs3MLgSfzeIYu2qbH5cZyb
+    Bj2VyJyRPgPRhfGQlY39HXL7G139EP4EEHUdh6l0Wn/QcimQNWGpIfWt0UVWH8zMP3lpUK
+    ez4LbVUVyWIVviWYqBYHlq52/gyKTF3eLd8kAHoe57a33p1LGn/X2FOWjFlJwUcemBor42
+    98Xdk38Cz5LQNNpdGbXYydUjePzoVC3jh8U0zuLFnGUbawTFYuqSJhXrmBy0dzbJ5fZWb0
+    AYAmbrf37DCnOWWlbazYPOIAVF6hSk+Cr3xdlzu25u60XCf4KhonTC8aDsttKBDIU9eWNV
+    6NBwXYn2LePslm7eStEvf7j8T2HoHe+jyGr0dMFdudBfNrW2m5et70K9/TySyUNCHfnh9l
+    oDReYD/YaAiHgseIOKpZa4ZP+801FbfiyYJ9zUdf6czikkKhFs653ByIszbuS4ETrl7HN+
+    PdZS7TqLxGd8h+G/VHuZtH0QapgTSkSZTrxZRay+kzyBHZa2D8wG0v34DXGAxBJ02iRiR1
+    Ygni2Cn4Hh3rjPoNtvH+d7ShdYI+XwrYIh0JczBkDqZTA+YZedtSE1VE9p5U0p132ynreQ
+    EtlhGEJThFxig5pIWYbAoOTgFMJGI+zDGkyECUs7IQEbByXM7uJyoMNyZTNQ
+X-ME-Proxy: <xmx:FGG_ajvuPZ5K4_AqhIkpf-74NH61GqjnXP4xFGh1gSVyabhuQePjLw>
+    <xmx:FGG_amIMKGB6H_D1DSzkpQc2r9irEeWGZDA311vbL2tG18yucdVBjw>
+    <xmx:FGG_aqMChE_8fMwucIVB6rlbURvBoZjNDTbPvIjcnt2jSUmDjX2AQg>
+    <xmx:FGG_aiCHRpeqZUpVgt9iXRpCWpnFOng0CZAvLkn9mkgDToG8eSu_iQ>
+    <xmx:FGG_aqWlWhyfWUpXSGhONnXV9US1aaqGAdj6cS4J_QbLOQf4jq968mMH>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id C7008F80084; Fri,  2 Oct 2026 03:45:20 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-
-> A question I had: is it really worth 2k of complicated kernel code to
-> *maybe sometimes* save <10Mb of memory?
-
-There are many reasons this is worth it.  The main ones:
-
-1. This did not start from a number we picked, but from a real use
-   case: users who run large fleets of small instances, 1 GiB of
-   memory or less, with their workloads sized to fit.  We are not able
-   to disclose more detail, but for them 5.4 MB on every instance is
-   real money, and it can be exactly what pushes a workload over its
-   memory budget and onto the next instance size.  That is why we took
-   this on, even though we knew it would not be a small change.
-
-2. Loading code and data only when a system needs them is what kernel
-   modules exist for.  And most of them take well under ~1 MB once
-   loaded (nf_conntrack, overlay, vfat); even big ones like ext4, kvm
-   and btrfs stay around 1-2.5 MB.  The vmlinux BTF is 5.4 MB.
-
-3. We are not alone in trying to keep BTF out of memory until it is
-   needed.  The inline BTF work [1] plans to deliver its data, which
-   is even larger, through a module too.  The .BTF.link record and the
-   resolve_btfids option that serve both are already part of this
-   series (patch 10), so this is not machinery for the vmlinux BTF
-   alone.
-
-> Do those tiny VMs that you target run systemd with BPF LSM?
-
-Not necessarily, and that is the image's choice.  Even with BPF LSM
-built in and bpf in CONFIG_LSM, memory-conscious users can turn it off
-at boot with an lsm= list that leaves it out, and then systemd does not
-load restrict_fs at all.
-
-And even where user space is in the way, which as above it does not
-have to be, the answer is to fix user space so it gets this win too,
-not to give up on it.
-
-> If the answer is "yes" for the majority of them,
-
-"The majority" is also hard to pin down here: what runs at boot
-depends on the user space packages built into each image, and on the
-workload.
-
-So the question should be what it takes to make this work, not whether
-to drop it because it is complicated.  If there are ways to cut it
-down, or issues found in the implementation, we would be happy to take
-them and go through every one.
+Date: Fri, 02 Oct 2026 09:44:59 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>
+Cc: "Francesco Valla" <francesco@valla.it>,
+ "Mario Limonciello" <mario.limonciello@amd.com>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Jocelyn Falempe" <jfalempe@redhat.com>, "Sam Ravnborg" <sam@ravnborg.org>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-embedded@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <001eb42a-ec22-474a-83c6-371f1f4b2b8c@app.fastmail.com>
+In-Reply-To: <20261001195847.141192-3-maximpedraza@gmail.com>
+References: <20261001195847.141192-1-maximpedraza@gmail.com>
+ <20261001195847.141192-3-maximpedraza@gmail.com>
+Subject: Re: [PATCH RFC v4 02/13] efi: bgrt: export the BGRT table and image size
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
-[1] https://lore.kernel.org/bpf/20260916074118.1007116-1-alan.maguire@oracle.com/
+
+On Thu, 1 Oct 2026, at 21:58, M=C3=A0xim Pedraza Padilla wrote:
+> The DRM splash client reads the boot graphics the firmware left behind
+> through bgrt_tab and bgrt_image_size. Built as part of drm_client_lib,
+> which can be a module, it then fails to link:
+>
+>   ERROR: modpost: drivers/gpu/drm/clients/drm_client_lib.ko: symbol=20
+> 'bgrt_tab' undefined!
+>   ERROR: modpost: drivers/gpu/drm/clients/drm_client_lib.ko: symbol=20
+> 'bgrt_image_size' undefined!
+>
+> Export both. They are filled in once, early in boot, and only read
+> after that.
+>
+
+Mind making these __ro_after_init while at it? Conceptually, they
+already are and should be annotated as such for robustness. This
+becomes more important once we expose them to modules.
+
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
+
