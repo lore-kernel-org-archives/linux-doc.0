@@ -1,168 +1,285 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5D550B43A
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 17:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2E650129E
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 17:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790961129; cv=none; b=YecUhyvygA4kNjs9Keas9GU+5nQm5TLb5OAtk+vlUt/aNEUTd1cLgYcLoYwjDVjWGgsFlxXCRFXa7mcwA3cNdmUIGWAfIyaJvTlLQe7UX2qyD3plw9lK3JXKDoP/tn3CIc2SyqkwLPFLbOtUxFLzLdp67jDzdaNqxdPP6Qyl48Y=
+	t=1790961129; cv=none; b=q+5WuQ4KznEeRYYGQeaI1+dn+S9QxQqUoMC9rZv6iC9zo4DrCAi6baH33JcvMtNZaYzhq2+Gr+um05IP6frjKJQcJuxHV8Yd5UOAYGkzDHwyex47tTtwdYqq0Ky3PvxUq4zSa4tXzENZRXPeGoGHJyxQLrGLEA+7Bb0+3fpWQYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790961129; c=relaxed/simple;
-	bh=vaymtDF4QTN98nIR6gU5b5jDEdTpSUTJa+6j+g3Dy+c=;
+	bh=DSy90Vi1pYW2azdUTwrc0TT6kW6QsQGO8Rlo/8MHFWI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HyVzk8evddlmnDVURMytEgD4Tv/q2VrIs8CiXYAFqQp7msSw8Bl4+FDxX6Y8e2KqPiM4N3LNQEeGUybqa/st2g9l6Oo7JYqbNbYlDhyH4llnt3aTZMTcBu+KPnvyDom6MgOVXUOg950MqLgulf3DrR1JtuH0vmTbgOltpk6/LSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eRvW6O+h; arc=none smtp.client-ip=209.85.221.177
+	 MIME-Version; b=B+Rhv+cTxmEOzKZAbvtNMDztblJh3T0JotLZbXBMCfRnQ8OxquMXxW/X26oM4aZRj06lx6JjjjvAKd6R0x8OxW51Nkh8+PeXL96RgMKh1SJJus0FqSSXe0A8OVGbUnMa7IzRNCF51Wk+dLWqgeudKaemZON6yf9rwqOB+e1sg1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O0t2PPF2; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eRvW6O+h"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5d82736af9fso992584e0c.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 10:11:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O0t2PPF2"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccc02279so130295a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 10:11:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790961115; x=1791565915; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=f/edGc268+iz4tpkQVK69RgBOxwtOo3BnOMEu7CwFNc=;
-        b=eRvW6O+heTbdAVAR7OJ10ST20+fzUZnT2qlAEw5k2QqKfyH39YaN4DW6enAygHKeM9
-         n30oIQVRoJFXLpL9to+7EGbwJw+MfGtCTOKYA7peCcNr4neLzo+ePFB0tpYyaauSTse9
-         ckZ8zEtKxSrsF/mbX0xdCpm21GDKM/pXTJAqvVXMYbpoo/wJL449IialZQ7wIJERhetD
-         B1mheomGTWFzZY5t/JoDwGKecu6/2iFALfj/YCRdABlFi1nsnJhH8Dh+gyJqPxJA1kHR
-         ubl8EuQhF8wDgV9lpT4BykZRwTQz8H2fyEGahE3GyVIam/i5TQG0FXRhbAqmRQp9ZfI2
-         +1dg==
+        d=gmail.com; s=20251104; t=1790961118; x=1791565918; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=j4yfFb6320kdlQ6cch251gfqYxfn4Y6pwvS8rFGl1n0=;
+        b=O0t2PPF2FE7EvdxKkZqB/mE4moJ0mkddf9b+J0zYRcsRh3u8oGV4BJHxw2H+96fxJZ
+         meG4z0Y6SaWKEbBvpAQR+OuJ6sUlksJaB5XwEGdnO+NzKO0dE/MAfQ1lMdUUg9qOK64r
+         bxHFemm3XR+QWV2XQn+vJM8IM0cWb4hMn8Mxzieti0jnZs1LN3tOBMYw4im6tVK89/EG
+         ChKgFqQU31ziRSDlUS6YQ8eNQJaIqLYFi+vRMKGqsl8CF5Ipqh0wvCpDMM+9LqP7/sAb
+         bhOQPqlHpsK/ERNaPgqq27d5SyXZ5BKmIagtPiWbqemicdRtAK+qyq8tjPSIibOiHb2v
+         WHEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790961115; x=1791565915;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=f/edGc268+iz4tpkQVK69RgBOxwtOo3BnOMEu7CwFNc=;
-        b=PfVW6lP7VNCFbZ4JOw3Hip4IcKeC48osri8yvhmK75YTp+QZ7Nsvb7hILiVywyNoPV
-         PZ5oLmhssO7IkXTfBeJqWK5tBqGf0jKZO1BVfO6Kx5BHi3T0F1breptJa3v84faGejxS
-         uificIqEPk5tBU4uN+UiG9n3C9Pc1d65x5sA7lKW3k847seXAXgMUyZ4HUISby0lP3ha
-         XmAwcv1JRY9IUxYDp3Lt0TPIx/HG6WOj+spL4oBsSvC2mdyK5pwKiBP7jBhSAf+r1y+0
-         H/tgiG0Syx/3Ji7zyxmIMthJ+QOIeMwYbLo76EX3fS+P578w4hRNweeVMtveAOyq0hQQ
-         a0nQ==
-X-Gm-Message-State: AFq9FYLi6MMviqf1BruES3mdVd3jlojQ7rDeQR8yaPBax6y/11hWxVHx
-	2bcPd2AE9y3bUQmbJjwC6g+8AhDVbHKT3TK2S41N83qR3jWhlFVvAYYSf4eIELJj
-X-Gm-Gg: AYBFou3IBiIZmsJbjG6V642N2Z/W50Vg3xzxN9aR2n2ay2KD/wFhBbcEkD8HXJi61jf
-	cyQ8vT1NavTScJISM6mn7ci7oPeRQk/+P98Fs4QkJkUxDi1YCep7/gTOt4FMWNczRI4rgHQS8+s
-	T0XA7Nerafm1Hz/kuDNuhibfYFC2JSI+PmohQZQ12/u1L7OtrDg4lL3Tdiqsz84QDQhk66SehFm
-	4tdsoo7vafbjPQJzoZMv6yNLgU40Z9T7aRAufyfwdVxT4PL5lQTJyKKA5vN4Q2bJiBAEFBBUU7I
-	wk53QWSbM/bQRyznsNUgu01QeGZztf4WX+ZuxKgcattfexp4z95kpmeXk+2ONCd+g1umkX1RdIt
-	dusrv2N4hRuVTwWC80/HF0MCVY2QdS8IvmFhq8H1aGp6kDP8z5Hs/sluMBGzhQWoJ8YSgvUjhlV
-	1i7E5xoV0q3qLMAQNazn7PeYEQD0xiz9hQfr7nKwKTOWD++Aick8kE+KXbSjnlJqAW/ANPGmxEA
-	I2GAk7vy613tRU0F7koCqQw6gfOiQ/eDteUE3/sip093Y4MGbrMdOi5mexaci14B+sJJmVEHKVf
-	cCpSrsDUzuMv5/RVtuiE56w=
-X-Received: by 2002:a05:6122:6c17:b0:5d0:e57f:add3 with SMTP id 71dfb90a1353d-5d7ad9b1a34mr2009362e0c.2.1790961114832;
-        Fri, 02 Oct 2026 10:11:54 -0700 (PDT)
-Received: from penguin.bbrouter. ([200.218.229.14])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5da635c7209sm3947605e0c.15.2026.10.02.10.11.53
+        d=1e100.net; s=20260707; t=1790961118; x=1791565918;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=j4yfFb6320kdlQ6cch251gfqYxfn4Y6pwvS8rFGl1n0=;
+        b=kmMXQxZSLQvcu5o5IIk5Keq5WyNsn6jjz9iufI04inqpMczBPAobgS/htbXToWfyti
+         kRzukwc4l0JCEjfoqadzLnlmkZFLuMqT5BQsy1+F75bRv7w5JljHMaKkBgsStAzNJuCl
+         +P3euvi1W1J4+h4kD5A8SdjYNZy5dito/mo969RiNzfGGnc3rIbDD4R+6eFFm/EaSdxg
+         3SoLqG2BEVpgQ43dQZYtRindL6H8gertb/srcij5aSzld2hQvcmcByEieorKe64xZjAe
+         UEIyKVEOW+PixpVWf1HTiLlBRqGqbyCY3mCDhuihXXuVw/6Pz98KOmg7y7LF8amFRRFj
+         Byyw==
+X-Forwarded-Encrypted: i=1; AKwUvBz0gSkngV1uWjJ9NGFiYdUzNTx3Xu7KUU6gg+jPQPXaKyrETJ1xP/64rS0XasA74N5ScvaxvV5FOdw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK0B+NRI2Ab61neKIbEFIrX/E9Eo5AvC+VFL8BwRdWQWxBS2W5b
+	6VKvvh2RXdTKcRubi0W32O2yQ3V6yp54c6MWDnxcAPK/HQ7i08fhMke5
+X-Gm-Gg: AYBFou3F25ieSKcKyBsYAlEyjmvE+VCcVqk+RKlmgh7Meizq3b6RDjBP9MgqoiFx71H
+	uGcpq7WsTzfUmQhyZlmJ5TX94BPO3UwuEYv4j6LcBI/DIMMLf2nnT8MAlZx0ZR9nfrGxMYpe4EH
+	t4zu6bo4stpdu3c5fFCtSSaXb1u9h7diYt+Ya1Q4z9DTU8XxYJk4d5g7LB5SW3iXoJlz0bQcR6D
+	OKpPJDsvnEMoZR+OONmlLrnXLkA0Y2xUqrVYpBY1M45aR0jsCIMaYmgpWakmn7FlxlHKEHJz4/D
+	PpuZL3t1jzqU1GzPHPoZwCMGQ0LscZRedBOVq9YRjc1S+H7FT/s17aEBNy21BHCSNdQDvkoUGXw
+	yz0bdtT48RFcII/N4IRnjVP8t1p8ENNDo9WNyrofTL09GKm7m8zUWdVi+jqDtH4zbwqHa+7vP97
+	Eelx5CK7XrD0U04lc9SOWFL5W7iRNNKVyV31AfhQNri4C4rtaCr/pUPWKBy833ykKjfHCRsbmnD
+	xfMgqicKWuQtziMSA==
+X-Received: by 2002:a17:90b:586e:b0:3a5:147a:3b63 with SMTP id 98e67ed59e1d1-3a6ce3a97bemr2829709a91.8.1790961117352;
+        Fri, 02 Oct 2026 10:11:57 -0700 (PDT)
+Received: from kernel.tail6741c6.ts.net ([185.220.238.43])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a7024d0f5fsm1597719a91.0.2026.10.02.10.11.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 10:11:54 -0700 (PDT)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: corbet@lwn.net
-Subject: [PATCH 06/10] docs/translations/pt_BR: admin-guide: add LSM/index.rst
-Date: Fri,  2 Oct 2026 14:11:29 -0300
-Message-ID: <20261002171133.50969-7-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261002171133.50969-1-danielmaraboo@gmail.com>
-References: <20261002171133.50969-1-danielmaraboo@gmail.com>
+        Fri, 02 Oct 2026 10:11:56 -0700 (PDT)
+From: Kunwu Chan <kunwu.chan@gmail.com>
+To: paulmck@kernel.org,
+	corbet@lwn.net,
+	mingo@redhat.com,
+	frederic@kernel.org,
+	neeraj.upadhyay@kernel.org,
+	josh@joshtriplett.org,
+	urezki@gmail.com,
+	dave@stgolabs.net,
+	lianux.mm@gmail.com
+Cc: stern@rowland.harvard.edu,
+	parri.andrea@gmail.com,
+	will@kernel.org,
+	peterz@infradead.org,
+	boqun@kernel.org,
+	npiggin@gmail.com,
+	dhowells@redhat.com,
+	j.alglave@ucl.ac.uk,
+	luc.maranget@inria.fr,
+	akiyks@gmail.com,
+	dlustig@nvidia.com,
+	joelagnelf@nvidia.com,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	longman@redhat.com,
+	rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com,
+	jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev,
+	kunwu.chan@gmail.com,
+	brads@mainlining.org,
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	lkmm@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH RFC v2 15/15] selftests/rcutorture: add hazptr torture test script
+Date: Sat,  3 Oct 2026 01:08:47 +0800
+Message-ID: <20261002170847.3653663-16-kunwu.chan@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261002170847.3653663-1-kunwu.chan@gmail.com>
+References: <20261002170847.3653663-1-kunwu.chan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add translation of LSM/index.rst to Portuguese and update
-admin-guide/index.rst.
+Add hazptr.sh as a one-command regression test for the hazptr
+torture configs.
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+Run NOPREEMPT, PREEMPT, READERS0, and READERS4, followed by
+LOCKDEP with wq_churn and SLOWPATH with CONFIG_PROVE_LOCKING=y.
+The latter two also check the console for lockdep warnings.
+
+With --allcpus, repeat the PREEMPT test at CPU counts 8, 16, 32,
+and so on up to 256.
+
+Follow the pattern of the existing srcu_lockdep.sh script.
+
+Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
 ---
- .../pt_BR/admin-guide/LSM/index.rst           | 53 +++++++++++++++++++
- .../translations/pt_BR/admin-guide/index.rst  |  2 +-
- 2 files changed, 54 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/pt_BR/admin-guide/LSM/index.rst
+ .../selftests/rcutorture/bin/hazptr.sh        | 146 ++++++++++++++++++
+ 1 file changed, 146 insertions(+)
+ create mode 100755 tools/testing/selftests/rcutorture/bin/hazptr.sh
 
-diff --git a/Documentation/translations/pt_BR/admin-guide/LSM/index.rst b/Documentation/translations/pt_BR/admin-guide/LSM/index.rst
-new file mode 100644
-index 000000000..353ed472f
+diff --git a/tools/testing/selftests/rcutorture/bin/hazptr.sh b/tools/testing/selftests/rcutorture/bin/hazptr.sh
+new file mode 100755
+index 000000000000..ef636e519a55
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/admin-guide/LSM/index.rst
-@@ -0,0 +1,53 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/tools/testing/selftests/rcutorture/bin/hazptr.sh
+@@ -0,0 +1,146 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0+
++#
++# Run hazptr torture tests and report any that fail.
++#
++# Usage: hazptr.sh [ --cpus N ] [ --allcpus ] [ --datestamp string ]
++#
++# Copyright (C) 2026 Kunwu Chan
++#
++# Authors: Kunwu Chan <kunwu.chan@gmail.com>
 +
-+===========================================
-+Uso dos Módulos de Segurança do Linux (LSM)
-+===========================================
++usage () {
++	echo "Usage: $scriptname optional arguments:"
++	echo "       --cpus N       override CPU count (default: auto-detect)"
++	echo "       --allcpus      test at CPU counts 8,16,32,...,256"
++	echo "       --datestamp string"
++	exit 1
++}
 +
-+O framework dos Módulos de Segurança do Linux (LSM - Linux Security Module)
-+fornece um mecanismo para que várias verificações de segurança sejam interceptadas
-+por novas extensões do kernel. O nome "módulo" é um pouco impróprio, já que essas
-+extensões não são, na verdade, módulos carregáveis do kernel. Em vez disso, elas
-+são selecionáveis em tempo de compilação via CONFIG_DEFAULT_SECURITY e podem ser
-+substituídas em tempo de inicialização pelo argumento de linha de comando do
-+kernel ``"security=..."``, no caso em que múltiplos LSMs foram compilados em um
-+determinado kernel.
++ds=`date +%Y.%m.%d-%H.%M.%S`-hazptr
++scriptname="$0"
 +
-+Os principais usuários da interface LSM são as extensões de Controle de Acesso
-+Obrigatório (MAC - Mandatory Access Control), que fornecem uma política de
-+segurança abrangente. Os exemplos incluem SELinux, Smack, Tomoyo e AppArmor. Além
-+das extensões MAC maiores, outras extensões podem ser construídas usando o LSM
-+para fornecer alterações específicas na operação do sistema quando esses ajustes
-+não estão disponíveis na funcionalidade principal do próprio Linux.
++RCUTORTURE="`pwd`/tools/testing/selftests/rcutorture"; export RCUTORTURE
++PATH=${RCUTORTURE}/bin:$PATH; export PATH
++. functions.sh
 +
-+Os módulos de capacidades do Linux sempre serão incluídos. Isso pode ser seguido
-+por qualquer número de módulos "menores" (minor) e no máximo um módulo "maior"
-+(major). Para obter mais detalhes sobre capacidades, consulte ``capabilities(7)``
-+no projeto Linux man-pages.
++cpus=""		# empty = let kvm.sh auto-detect
++allcpus=0
 +
-+Uma lista dos módulos de segurança ativos pode ser encontrada lendo
-+``/sys/kernel/security/lsm``. Esta é uma lista separada por vírgulas e sempre
-+incluirá o módulo de capacidade. A lista reflete a ordem na qual as verificações
-+são feitas. O módulo de capacidade sempre será o primeiro, seguido por quaisquer
-+módulos "menores" (por exemplo, Yama) e depois pelo módulo "maior" (por exemplo,
-+SELinux), se houver um configurado.
++while test $# -gt 0
++do
++	case "$1" in
++	--datestamp)
++		checkarg --datestamp "(relative pathname)" "$#" "$2" '^[a-zA-Z0-9._/-]*$' '^--'
++		ds=$2
++		shift
++		;;
++	--cpus)
++		checkarg --cpus "(number)" "$#" "$2" '^[0-9]\+$' '^--'
++		cpus="$2"
++		shift
++		;;
++	--allcpus)
++		allcpus=1
++		;;
++	*)
++		echo Unknown argument $1
++		usage
++		;;
++	esac
++	shift
++done
 +
-+Os atributos de processo associados aos módulos de segurança "maiores" devem ser
-+acessados e mantidos usando os arquivos especiais em ``/proc/.../attr``. Um módulo
-+de segurança pode manter um subdiretório específico do módulo lá, nomeado após o
-+módulo. ``/proc/.../attr/smack`` é fornecido pelo módulo de segurança Smack e
-+contém todos os seus arquivos especiais. Os arquivos diretamente em
-+``/proc/.../attr`` permanecem como interfaces legadas para módulos que fornecem
-+subdiretórios.
++nerrs=0
 +
-+Todolist:
++run_kvm () {
++	local ds_suffix="$1"
++	local configs="$2"
++	local cpu_arg="$3"
++	local kconfig="$4"
++	local resdir="$RCUTORTURE/res/$ds/$ds_suffix"
 +
-+*   apparmor
-+*   LoadPin
-+*   SELinux
-+*   Smack
-+*   tomoyo
-+*   Yama
-+*   SafeSetID
-+*   ipe
-+*   landlock
-diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
-index 9f7933c57..19678a358 100644
---- a/Documentation/translations/pt_BR/admin-guide/index.rst
-+++ b/Documentation/translations/pt_BR/admin-guide/index.rst
-@@ -49,10 +49,10 @@ Documentação relacionada à segurança:
-    :maxdepth: 1
- 
-    hw-vuln/index
-+   LSM/index
- 
- Todolist:
- 
--*   LSM/index
- *   perf-security
- 
- Inicializando o kernel
++	mkdir -p "$resdir"
++
++	tools/testing/selftests/rcutorture/bin/kvm.sh \
++		--torture hazptr \
++		--duration 5s \
++		--configs "$configs" \
++		${cpu_arg:+--cpus "$cpu_arg"} \
++		${kconfig:+--kconfig "$kconfig"} \
++		--trust-make \
++		--datestamp "$ds/$ds_suffix" > "$resdir/kvm.sh.out" 2>&1
++	return $?
++}
++
++check_lockdep () {
++	local ds_suffix="$1" config_dir="$2" label="$3"
++	local resdir="$RCUTORTURE/res/$ds/$ds_suffix"
++	local console="$resdir/$config_dir/console.log"
++
++	if ! test -f "$console"
++	then
++		echo "Missing console.log for $label ($ds_suffix)" > "$resdir/kvm.sh.err"
++		return 1
++	fi
++	if grep -qE "WARNING: possible (recursive locking|circular locking dependency)" "$console"
++	then
++		echo "Lockdep warning in $label" > "$resdir/kvm.sh.err"
++		return 1
++	fi
++	return 0
++}
++
++# Basic torture: all hazptr configs, CPU count auto-detected
++
++echo "--- hazptr basic torture${cpus:+ ($cpus CPUs)} ---"
++run_kvm basic "NOPREEMPT PREEMPT READERS0 READERS4" "$cpus" || nerrs=$((nerrs+1))
++
++# LOCKDEP: verify no lockdep splats with PROVE_LOCKING + wq_churn
++
++echo "--- hazptr lockdep + wq_churn ---"
++if run_kvm lockdep-wq LOCKDEP "$cpus"
++then
++	check_lockdep lockdep-wq LOCKDEP "LOCKDEP wq_churn" ||
++		nerrs=$((nerrs+1))
++else
++	nerrs=$((nerrs+1))
++fi
++
++# SLOWPATH + PROVE_LOCKING: verify forced-slowpath does not deadlock
++
++echo "--- hazptr SLOWPATH + lockdep ---"
++if run_kvm slowpath-lockdep SLOWPATH "$cpus" \
++	"CONFIG_PROVE_LOCKING=y"
++then
++	check_lockdep slowpath-lockdep SLOWPATH \
++		"SLOWPATH+PROVE_LOCKING" ||
++		nerrs=$((nerrs+1))
++else
++	nerrs=$((nerrs+1))
++fi
++
++# CPU scaling: optionally test at multiple CPU counts
++
++if test "$allcpus" -ne 0
++then
++	max_cpus=`grep '^processor' /proc/cpuinfo 2>/dev/null | wc -l`
++	for n in 8 16 32 64 128 256
++	do
++		if test "$n" -le "$max_cpus"
++		then
++		echo "--- hazptr CPU=$n ---"
++		run_kvm "cpu$n" "PREEMPT" "$n" "CONFIG_NR_CPUS=$n" || nerrs=$((nerrs+1))
++		fi
++	done
++fi
++
++# Report
++
++if test "$nerrs" -ne 0
++then
++	echo "hazptr.sh: $nerrs test(s) failed"
++	exit 1
++fi
++echo "hazptr.sh: all tests passed"
++exit 0
 -- 
-2.47.3
+2.43.0
 
