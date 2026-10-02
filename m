@@ -1,243 +1,230 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0024E13E8;
-	Fri,  2 Oct 2026 17:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EE6223328;
+	Fri,  2 Oct 2026 19:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790961184; cv=none; b=nHdlCZYw2Jt8MtgUr4kHmEELbGMqsAYUABS/Cu5yvMVyQUw07m+RhQg/3hHVwvksl9JX77id7ojvWGM2+GcNnW/coG2v9tA8DPPUkkWRoc6WUvSsyn+p9sjpisFL0CZUTVXBSP/AFczNQtkY4kj5Y0Ils1wYBvPQpIsBSVF4Byo=
+	t=1790967634; cv=none; b=j8wrQ2B2Qr8rDztEHn+RPxt01QwHSTDB4JCkRBnCutA2rsadIt7px0iwOJs0F39M9Fa13cmRKOLKguFHfJOEZXdEIztqSQDASDg87TTBmJ5GfcM9+rkScUb7QTWNdB5kR1D0I/nUB+Z6+c/cL59G4RlTI5oliyiF3F/Kj9vUxAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790961184; c=relaxed/simple;
-	bh=bMOormtD/BysD5q/X8WDjYCKDuOENgwnylEY69wimnU=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=aBQ84H34DkgrFpwqFWws1bEASLhZwJw0xlzAxzKx7+XA9faPBCicS96G5QSCpN7vVmXqrWZIgh+7tNweM6D0iQqKbGa785YD/i+bxEf1r9T9JTSjgpfSI9LwjcpN7cOoVFL2EvX08qBaDDpTsnfOCtjmZ6oWlbw7F8jbzHf55dI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=k3cOqoXT; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=CmtFmN6j; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1790967634; c=relaxed/simple;
+	bh=PEbJLvy7CrYN1hf9iYQ+ysoXfJ8bNcfDcQxuv4rB2lg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Yz3XI57f7p8zsGrD+Xu4G9CxjXyrvCkOeyrZL3yffQBSQqQD2zsOStEepnsC/KE8m2fM4Ivneilp5vs1+n3PvnfaQeBrKogXLc/3wng2f9ygHHTkXlQyolhGuazbENL29u44eD9Krwnge99krZb+autawRW+aTil1dqJw6ppxkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YxZ782g1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="k3cOqoXT";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="CmtFmN6j"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790961152; bh=b9Q0i239fHVl2Kmz77y2hqJ
-	hKMRp0ccS9+F9KIK0Jhk=; b=k3cOqoXT7iyuu9IwI3dU6iCnI6VAlceY9g/2speCBBovG+d5lm
-	+8fyy0pebrjEp1MDWDVxLM7103M7XPWEMzwwTBeOxQ4xu3GVRLOmmDBrDzRJ8dvNWF7LxgfLheu
-	xalcN3D8SdgKogqpDG/LdRabowqU0Zswkj3NYeARcKkZDfmTuotP/T0N9IwFAsv2ARks9bzha7y
-	Ia9oBlbaEtoi7V6wGyl4vHUUDH41mQLZHW52FKgh43g/xrZ3+R7p8VnjXozqCmMmZFulXuE5bR4
-	Gzomkm56TsgL/i+VWr1AhKy9VZB9n6sqtN7sU7h7J0XCG/CW2exlPPym7Kb37LzTlpg==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790961152; bh=b9Q0i239fHVl2Kmz77y2hqJ
-	hKMRp0ccS9+F9KIK0Jhk=; b=CmtFmN6jO7CuOtkqUNxQF+NndeulGQxjo9ai9gJ3chl4yCFwcB
-	NtHWgsC4OciGaHrxIKTkj6M518iY0qxAIaDg==;
-Date: Fri, 02 Oct 2026 18:12:32 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Kunwu Chan <kunwu.chan@gmail.com>, paulmck@kernel.org, corbet@lwn.net,
- mingo@redhat.com, frederic@kernel.org, neeraj.upadhyay@kernel.org,
- josh@joshtriplett.org, urezki@gmail.com, dave@stgolabs.net,
- lianux.mm@gmail.com
-CC: stern@rowland.harvard.edu, parri.andrea@gmail.com, will@kernel.org,
- peterz@infradead.org, boqun@kernel.org, npiggin@gmail.com,
- dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
- akiyks@gmail.com, dlustig@nvidia.com, joelagnelf@nvidia.com,
- skhan@linuxfoundation.org, rdunlap@infradead.org, longman@redhat.com,
- rostedt@goodmis.org, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
- qiang.zhang@linux.dev, kunwu.chan@gmail.com, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, lkmm@lists.linux.dev, linux-doc@vger.kernel.org,
- rcu@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_RFC_v2_00/15=5D_hazptr=3A_batch_sy?=
- =?US-ASCII?Q?nchronize_operations_through_a_shared_scan?=
-In-Reply-To: <20261002170847.3653663-1-kunwu.chan@gmail.com>
-References: <20261002170847.3653663-1-kunwu.chan@gmail.com>
-Message-ID: <06F49954-C343-4894-931D-9B2F50F644DE@mainlining.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YxZ782g1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A01321F000FF;
+	Fri,  2 Oct 2026 19:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790967633;
+	bh=Gcl/f7moFApWo3jqJXdkRteP30YDcjxwYvzQVuzmbj4=;
+	h=From:To:Cc:Subject:Date;
+	b=YxZ782g1CNQTsuUl9y3aigokBAb+oTzvb60oKfr9yAjE4mX7SFOmKq4MYxZOh4e9W
+	 XVf9EzYxllCIsiSKqGctvl7kBgkFuey+xsOpzy8vcO2ibO5m32HmdT1M7R35jJR37e
+	 w/Oba24+G+rSeVoESdLh8XsIgozwQGiTYb7a3E7XHNcrgDK5cylrWnpTOecgeJwP/P
+	 DwgeQ/q6eTHXaXu5LJ+NHeeDtRtY8ub0BgB9Y099dw80D7KyPUdlslLBl8D+wsedPa
+	 g1Kl5Y0wZrVCd9VkUdwRQibtxtJty4wK/t+s1I2SthgksK+ehtF+s2OquVE/eaOM9k
+	 Zt4/aq5PlJlIw==
+From: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>
+To: Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Alexander Duyck <alexanderduyck@fb.com>,
+	kernel-team@meta.com,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	netdev@vger.kernel.org,
+	bpf@vger.kernel.org,
+	io-uring@vger.kernel.org
+Cc: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
+	"Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>,
+	Weiming Shi <bestswngs@gmail.com>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	David Wei <dw@davidwei.uk>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mina Almasry <almasrymina@google.com>
+Subject: [RFC net-next 00/15] xsk: Zero copy through page-pool memory providers
+Date: Fri,  2 Oct 2026 21:00:01 +0200
+Message-ID: <20261002190018.696925-1-bjorn@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 2 October 2026 18:08:32 BST, Kunwu Chan <kunwu.chan@gmail.com> wrote:
->This series extends Paul McKenney's v3 hazptr implementation [1]
->with a shared scan path for concurrent hazptr_synchronize() callers,
->and adapts the lockdep dynamic-key hashlist use case from Boqun
->Feng's 2025 shazptr series [2] to the current hazptr API.
->
->The series also adds rcuscale support and torture coverage for
->the hazptr implementation.
->
->The lockdep conversion replaces the expedited RCU wait in
->lockdep_unregister_key() with hazptr_synchronize().  This limits
->the wait to hazard pointers protecting the target hash bucket
->instead of waiting for a system-wide expedited RCU grace period.
->
->[1]
->https://lore.kernel.org/all/20260919000056.3132131-26-paulmck@kernel.org/
->[2]
->https://lore.kernel.org/lkml/20250625031101.12555-1-boqun.feng@gmail.com/
->
+Hi!
+
+Here's an RFC for you all to enjoy with your favorite Friday
+$BEVERAGE.
+
+AF_XDP zero copy needs a second receive allocator in every driver.
+The driver takes xdp_buff_xsk objects from the XSK buffer pool beside
+its page_pool path and owns their lifetime. Drivers built around
+page_pool and the queue management API, which already support devmem
+and io_uring zero-copy receive, have to duplicate their receive path.
+
+This series makes UMEM a page-pool memory provider instead. Each
+aligned 4 KiB chunk is a NET_IOV_XSK net_iov. Binding a zero-copy
+socket installs the provider on the queue through the queue
+management API. The driver keeps its page_pool allocation, DMA sync,
+recycling and refill code. The provider consumes FILL, drops invalid
+and repeated addresses, and owns RX need-wakeup.
+
+An XSKMAP redirect publishes the UMEM address when every buffer of the
+frame belongs to the socket's provider. XDP_PASS and other redirect
+targets copy into page-backed memory first. TX is unchanged; drivers
+read socket TX descriptors directly.
+
+Core changes:
+
+ - MP_CAP_READABLE and MP_CAP_FRAG. A readable provider may back
+   header and regular pools, and XDP may run on its buffers. devmem
+   and io_uring set MP_CAP_FRAG and keep their behavior.
+ - Providers request RX headroom through the queue configuration.
+ - Readable net_iov areas. netmem_address() resolves provider memory
+   with a load and a shift, without an indirect call.
+ - A refill-completion callback. The XSK provider keeps NAPI scheduled
+   while FILL has entries, and sets NEED_WAKEUP when FILL is empty.
+ - Batched page-pool release for objects handed to userspace.
+ - xdp_buff carries the netmem and a pointer to kernel-owned shared
+   info, so fragment metadata never lives in user-writable UMEM. It
+   grows from 56 to 64 bytes on 64-bit.
+
+Differences from classic zero copy:
+
+ - 4 KiB pages and aligned 4 KiB chunks only. Other layouts fail to
+   bind with -EOPNOTSUPP, but can be supported in the future.
+ - Generic XDP and CPUMAP cannot deliver to a provider-backed socket.
+
+Classic zero copy is unchanged. This does not propose converting
+existing drivers; it is for page_pool drivers without zero copy.
+
+fbnic is the only driver user, +640/-122 for RX and TX. I have bnxt
+working with AF_XDP, plus some performance patches/fixes for the
+AF_XDP core on top of this -- but let's start with these patches.
+
+Patches 1-2 fix bugs in net-next that the series hits. They are
+carried here so the series can be tested on its own.
+
+ 1. "xdp: Size zero-copy skb heads by their contents". XDP_PASS of a
+    zero-copy buffer copies it into an skb whose head is sized by the
+    XSK frame size, which leaves no room for skb_shared_info. A frame
+    that fills its buffer overwrites skb_shared_info. Provider
+    buffers take this path on XDP_PASS, which the usual AF_XDP
+    program returns when no socket is bound to the queue. Reproduced
+    on fbnic in QEMU.
+
+ 2. "eth: fbnic: Report the logical XDP RX queue". fbnic reports
+    queue 0 in rx_queue_index for every queue. AF_XDP drops frames
+    whose queue differs from the socket's, and the usual program
+    looks up its socket by that index, so zero copy works on queue 0
+    only.
+
+Feedback wanted on:
+
+ 0. General thoughts on extending the page pool provider.
+ 1. Does refill_done belong in page_pool, or should finite providers
+    keep NAPI scheduled some other way?
+ 2. PP_FLAG_ALLOW_UNREADABLE_NETMEM is how a pool picks up any
+    provider, readable or not. A driver that only wants AF_XDP must
+    set it, and then passes the core checks for devmem and io_uring
+    too if it supports header split. Drivers that set the flag today
+    may also split buffers, for example mlx5 through
+    page_pool_fragment_netmem(). Only QCFG_RX_HEADROOM keeps the
+    unsplittable XSK provider away from them. Split the flag, or let
+    drivers declare support for unsplittable providers?
+ 3. Is growing xdp_buff by 8 bytes acceptable?
+ 4. How should userspace learn the chunk constraints before bind?
+
+This is a way to move code from the drivers to the core, reducing the
+work for driver developers.
+
+I hope to see you at LPC next week! Particular the netdev and bpf MC,
+and the AF_XDP BoF on Monday.
 
 
-This is well needed. Thanks for the patch, I'll maybe review maybe test if
-I have time, cough cough, school!
+Björn
 
->Performance data
->================
->
->All measurements are on an ARM64 KVM guest with
->HAZPTR_SCALE_NR_OBJS=8 and round-robin updater selection; unless
->noted otherwise, nreaders=0.  Scale tests run with
->PROVE_LOCKING=n.
->
->rcuscale synchronize latency (96 CPUs, nw=1):
->
->              nreaders=0      nreaders=1       nreaders=4      nreaders=96
->    scale       avg              avg             avg              avg
->    --------------------------------------------------------------------
->    hazptr     46 us            47 us          102 us            106 ms
->    RCU       8.3 ms           8.5 ms         16.6 ms         54.4 ms
->    SRCU      8.2 ms           8.0 ms         11.7 ms         11.8 ms
->
->Hazptr single-writer latency remains below 110 us with up to
->four readers on this 96-CPU guest, but rises to 106 ms when
->all 96 CPUs hold hazard pointers.
->
->Under 16 concurrent synchronize callers (nw=16), per-writer
->latency at four CPU counts:
->
->              hazptr nw=16      RCU nw=16     SRCU nw=16
->    CPUs       avg               avg             avg
->    -----------------------------------------------------------
->      24       8.0 ms          13.6 ms          9.2 ms
->      96       8.0 ms          13.3 ms          8.6 ms
->     128       7.9 ms          13.0 ms         11.7 ms
->     256       8.0 ms          20.8 ms          9.6 ms
->
->Hazptr remains around 8.0 ms across these CPU counts, with the
->scan-kthread retry interval contributing to the latency.
->RCU rises to ~21 ms at 256 CPUs while SRCU stays around 9-12 ms.
->
->Reader-side overhead (refscale, 96 readers on the 96-CPU guest,
->3 runs each):
->
->    hazptr     25.7 ns/op
->    RCU        96.7 ns/op
->    SRCU      134.6 ns/op
->
->lockdep workload -- tc qdisc mq x100, ARM64 KVM, PROVE_LOCKING=y,
->96 background hazptr readers, function-call IPIs per 100 ops:
->
->    CPUs       hazptr              exp RCU            reduction
->    ------------------------------------------------------------
->      24       196                 207                 5%
->      96       189                 265                29%
->     128       193                 266                27%
->     256       222                 384                42%
->
->Hazptr issues fewer function-call IPIs at each CPU count, with
->the difference reaching 42% at 256 CPUs.
->
->The hazptr.sh test suite passes, including the lockdep scenarios
->and the 8-to-256 CPU sweep, with no lockdep warnings, deadlocks,
->or crashes.
->Additional x86 server testing with Lian Wang is planned(maybe after
->LPC).
->
->Changes since RFC/WIP
->=====================
->
->- RFC/WIP: https://lore.kernel.org/all/20260922070950.4173245-1-kunwu.chan@gmail.com/
->
->- Split the original 4-patch RFC/WIP into smaller commits covering
->  shared scanning, correctness, API support, lockdep, scaling, and
->  torture testing.
->
->- Incorporated Boqun Feng's review feedback: use a Bloom filter to
->  avoid per-waiter allocation, add scoped_guard() support, and add
->  a debug option to force the hazptr acquire slow path.
->
->- Fixed scan ordering around backup-slot promotion by scanning all
->  per-CPU slots before the overflow lists, with a separate
->  overflow-list phase.
->
->- Simplified the scan cycle to flip first and drain only the old
->  wildcard generation, with herd7-verified LKMM tests for both the
->  in-flight and resolved publication cases.
->
->- Extended rcuscale and hazptrtorture coverage, added a selftest
->  script for the torture configurations, and fixed the
->  hazptr_release() kernel-doc.
->
->Kunwu Chan (15):
->  hazptr: add shared scan kthread
->  hazptr: use Bloom filter for shared scan waiters
->  hazptr: scan all per-CPU slots before overflow lists
->  hazptr: add scoped_guard() support
->  hazptr: add debug option to force the acquire slow path
->  hazptr: elide redundant first drain pass
->  Documentation/litmus-tests: add hazptr wildcard-flip escape test
->  locking/lockdep: use hazptr to wait for dynamic key lookups
->  rcuscale: add hazptr scale type
->  hazptr: fix kernel-doc of hazptr_release()
->  Documentation/litmus-tests: add hazptr acquire-before-scan test
->  hazptrtorture: add slowpath and lockdep scenarios
->  hazptrtorture: add READERS4 and READERS0 torture configs
->  hazptrtorture: add 128- and 256-CPU configs
->  selftests/rcutorture: add hazptr torture test script
->
-> Documentation/litmus-tests/README             |  13 +
-> .../hazptr/hazptr-acquire-before-scan.litmus  |  45 +++
-> .../hazptr/hazptr-wildcard-flip-escape.litmus |  46 +++
-> include/linux/hazptr.h                        |  56 ++-
-> kernel/hazptr.c                               | 336 +++++++++++++++++-
-> kernel/locking/lockdep.c                      |  25 +-
-> kernel/rcu/Kconfig.debug                      |  10 +
-> kernel/rcu/hazptrtorture.c                    |  57 ++-
-> kernel/rcu/rcuscale.c                         |  70 +++-
-> .../selftests/rcutorture/bin/hazptr.sh        | 146 ++++++++
-> .../rcutorture/configs/hazptr/CFLIST          |   6 +
-> .../rcutorture/configs/hazptr/CPU128          |  16 +
-> .../rcutorture/configs/hazptr/CPU128.boot     |   1 +
-> .../rcutorture/configs/hazptr/CPU256          |  16 +
-> .../rcutorture/configs/hazptr/CPU256.boot     |   1 +
-> .../rcutorture/configs/hazptr/LOCKDEP         |  17 +
-> .../rcutorture/configs/hazptr/LOCKDEP.boot    |   1 +
-> .../rcutorture/configs/hazptr/READERS0        |  16 +
-> .../rcutorture/configs/hazptr/READERS0.boot   |   2 +
-> .../rcutorture/configs/hazptr/READERS4        |  16 +
-> .../rcutorture/configs/hazptr/READERS4.boot   |   2 +
-> .../rcutorture/configs/hazptr/SLOWPATH        |  16 +
-> 22 files changed, 881 insertions(+), 33 deletions(-)
-> create mode 100644
-> Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus
-> create mode 100644
-> Documentation/litmus-tests/hazptr/hazptr-wildcard-flip-escape.litmus
-> create mode 100755 tools/testing/selftests/rcutorture/bin/hazptr.sh
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/CPU128
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/CPU128.boot
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/CPU256
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/CPU256.boot
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/LOCKDEP
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/LOCKDEP.boot
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/READERS0
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/READERS0.boot
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/READERS4
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/READERS4.boot
-> create mode 100644
-> tools/testing/selftests/rcutorture/configs/hazptr/SLOWPATH
->
->
+Björn Töpel (15):
+  xdp: Size zero-copy skb heads by their contents
+  eth: fbnic: Report the logical XDP RX queue
+  net: Add memory provider capabilities
+  net: Let memory providers set RX buffer headroom
+  page_pool: Extend memory provider operations
+  xdp: Track non-page netmem in receive buffers
+  xsk: Keep the DMA mapping in the buffer pool
+  xsk: Handle a detached FILL ring in RX wakeup
+  xsk: Add a page-pool memory provider for UMEM
+  xsk: Add RX helpers for page-pool drivers
+  xdp: Copy provider buffers on pass and redirect
+  xsk: Receive provider UMEM without copying
+  eth: fbnic: Support AF_XDP zero-copy receive
+  eth: fbnic: Support AF_XDP zero-copy transmit
+  Documentation: xsk: Document page-pool zero copy
 
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+ Documentation/networking/af_xdp.rst           |  65 ++
+ Documentation/networking/netmem.rst           |   7 +-
+ .../net/ethernet/meta/fbnic/fbnic_ethtool.c   |   5 +
+ .../net/ethernet/meta/fbnic/fbnic_netdev.c    | 164 ++++-
+ .../net/ethernet/meta/fbnic/fbnic_netdev.h    |   4 +
+ drivers/net/ethernet/meta/fbnic/fbnic_txrx.c  | 561 ++++++++++++---
+ drivers/net/ethernet/meta/fbnic/fbnic_txrx.h  |  24 +
+ include/net/netdev_queues.h                   |   6 +
+ include/net/netmem.h                          |  32 +-
+ include/net/page_pool/helpers.h               |  62 +-
+ include/net/page_pool/memory_provider.h       |  39 +-
+ include/net/page_pool/types.h                 |   8 +-
+ include/net/xdp.h                             |  64 +-
+ include/net/xdp_sock.h                        |  10 +
+ include/net/xdp_sock_drv.h                    |  58 +-
+ include/net/xsk_buff_pool.h                   |   7 +-
+ io_uring/zcrx.c                               |   4 +-
+ net/core/dev.c                                |   4 +-
+ net/core/dev.h                                |   5 +
+ net/core/devmem.c                             |   7 +-
+ net/core/filter.c                             |  28 +-
+ net/core/netdev_config.c                      |   2 +
+ net/core/netdev_rx_queue.c                    |  61 +-
+ net/core/page_pool.c                          |  72 +-
+ net/core/xdp.c                                | 112 ++-
+ net/ethtool/rings.c                           |  18 +-
+ net/xdp/Kconfig                               |   1 +
+ net/xdp/xsk.c                                 | 253 ++++++-
+ net/xdp/xsk.h                                 |  58 ++
+ net/xdp/xsk_buff_pool.c                       | 667 +++++++++++++++++-
+ 30 files changed, 2164 insertions(+), 244 deletions(-)
+
+
+base-commit: 071876fd50482a68603a9460d80dd6dd58827ee1
+-- 
+2.55.0
+
