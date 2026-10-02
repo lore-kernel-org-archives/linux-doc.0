@@ -1,110 +1,156 @@
-Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E879E2DF156
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 03:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790912680; cv=pass; b=Oq825NZMrNbSttioNP/13nCghB+0R2QgfxCvKWNjxJazLSrJWR5kgnfXQmuRhCE/DdK8xcrRJ7yf+pkuiIEx+dB777+GSd70XefTzjkG2kIYcXfGpxDEmYZdvegva1F+8m6mmTPG0k9njNOaHMWFlbWkhQD/Bz9ZBVo+vx2NpDg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790912680; c=relaxed/simple;
-	bh=HReWgbpmu+EyMkLkA/hcPWjBoAE+oDWXlQs3CH3gA4w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qiWYxz9ZIHa13cwFca487u9C7oNAbf6YGhf9wLROCoEa31XPL/sIuFpeZw00GTD/+tWoqBcH2H3knP8GR/ZyhcaS/8n4cNRwLfGSyCSX8XryVzLoFxKRHleO4398cxqBSdywiy6WMcQI4UVpsWh51rEKQx4SlgdEVxGarsrn7lo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nz2KgTlQ; arc=pass smtp.client-ip=74.125.230.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B71175A62
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 04:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790914531; cv=none; b=Ws45Xrp1Gty7wRj2kAhbo07YbVi892CZ+jpeBkn69Peeb5/kBTdPNvrGY348FlMwWa3PGtMAKKQUJ34g9AXQ1pXOhfTGtrjsFaWABNk4kzhtAT9KRoULwqqxwMqlIKcV1VUJWEeZX4TlcKz962Cb0SgAn+ZAinV7V5Jy5pqBWZU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790914531; c=relaxed/simple;
+	bh=qEpCCNFio2iaESKTqfGgNYuFlMgPhAmm2vmNFrdbijM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FqzyGuNPCqCpVeCRfyfHI5XmG8Fh8XCHGlv5zdieZi29U0dpzfLN4neel8T+2e9qyfrytDWZA9ciuosy0sqCIyQg6mnIReNYj17+0tovxETAZFMDpIZQ+x8Ki8hpU/l6suoohfNQASvZrOzkFcYwHwCUZtHDuw5MCAQrEF/MrzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d3xg2BKO; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nz2KgTlQ"
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a49e560a98so5189891fa.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 20:44:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790912677; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iLCOD9a/7woa35M/2ckPYJt9sh5FcP45tvkYDvVNsAD2sNiPfi/EmrZVQ8rUWjB9OO
-         9LmRCUGxRVPlbRvAlea2DutE0SkN9ahIldveVmqbmX9Li/as7qR17+dCgpuI3NJqN8D/
-         G3NckDmqdbMoUaVDi1ks5aEZi+9I0vus8qzYbiCgKf4EZgbPtYG2PJDjOntLvmMH5NxH
-         owbTJMKeRoAL1H9a6ZppoB8rCIJkHnYeQXIe8Sazr3g/jw60D+U4xIsJDx7cdzbiL1JS
-         3aL2tmcqGqNDGX2XYjm8hziyuSjkaWLFBbYhm2nE97M/QMT+TfxYL/t0cnASZ0gyVOA7
-         XFSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=HReWgbpmu+EyMkLkA/hcPWjBoAE+oDWXlQs3CH3gA4w=;
-        fh=ljwB6ZfPEWRtLsr1K1bHYGfwrS3/G/puPvTBZOheaaY=;
-        b=pQjRDvIP4qi/zD9pjNvn3I1tddyC9Ca6vHuN1NS40M0uAVMlqrJqfOd/lANRioj5UT
-         MzbJlsrUbgzKdUPjIrN/U6HIqJliSVwwk9meU9LNt9gG89gTlbYGsJPlws5hxWOTK7Q5
-         WErUR2Tk7glwQtc07VLnzfMd6D7720D2iFnbfCirA9qRBkQz+NgA0bKLjdaMPRDKGvvY
-         KZ9xw6gFwDMqPCCylWMsFgkbn1tsJNvz804NymmoKZ/gRRUCpkteNQMfrrzwfYuKhRBB
-         UB/Lfa7jRjf0MU5xdq6GUsLPa1pGpf2GZoQwGX4mIhX1ggbnEwQmvivPwHkmr/ILzFHR
-         trKw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d3xg2BKO"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ff96ce221so1677665e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 21:15:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790912677; x=1791517477; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HReWgbpmu+EyMkLkA/hcPWjBoAE+oDWXlQs3CH3gA4w=;
-        b=nz2KgTlQQwOk0jEhd1N/BO1GDGS+g9qJaynBe1mXXsqOX8hXonAtGNmYaHPl12cUtz
-         5yYU763JSB7MA/njhiKvAFC9J3ij3WDVvtmED4S/FVMi/DXoFxvJzoSYLeo8K/7+C5UB
-         uvg8kOKTNsvxCwf+pUuFoKP7plANgrA5FUEaXsnR1j1IRIL34M7u6Gr5BymKY5MaNhgr
-         qM+HV3DLhEDK7zweNdTABzcH7/SPyGemSzkRUCXCAhoKrek1yJE1C1CokT/VxFstr1vA
-         Sn38G+6uWODXjzuYnhVoiUDRW+6FjeJWw67G+bnR9HZaa1JervKOVWDpcsr529ZocQcp
-         q0Cg==
+        d=gmail.com; s=20251104; t=1790914529; x=1791519329; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AIDrugdzd2VRvxrjP7DNmuK/HUl0lALqvQgqwdaAuLE=;
+        b=d3xg2BKOmA90d5rZ0VBaZabiLPOtldOdDrFXThx0C9O2DCQz+QVwr7Ia8L/pd/R4z9
+         JWMGur/W/2m8NwIPZCHd5l1Kak3zqrGuuUNufD4mr3OrED1/7a4bl7CvZYNsjzWaETdY
+         SAAKfYyoEnaxPAK3KgCbcfJkhEWhHHQKwxuXLhK9F2hwsSjqzVXds2b6GuLmpd2qgAkr
+         zvE1gp3bUAtxcns6pEux8DhUlxLxJZ+Chhuisvvp3inS8PQJmnV/19nyMnWXcYgc4Sw2
+         9/qVBIlqMBNp4OC5WCQ0zFzsAWhzaxsa3m9u0VPGG7HaJB8xnQlHw3rOjCqI++Oq4Ffj
+         +p8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790912677; x=1791517477;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=HReWgbpmu+EyMkLkA/hcPWjBoAE+oDWXlQs3CH3gA4w=;
-        b=qpYPFs/9LTfpL+VudANLpRdpju1hHzo9FDM/1DSGYbW4MXHXOJWqoKsNXno+xSs2bF
-         VhVBQJ+w9QdDsZlXsd0xhvq5L4uaFsJYl2FKaolS8/Nf9Af3xjVNC9VlIwlJd4zPrcVe
-         6mdN0uvG/FEkaPoy3zMH6s2NeQHMvK7PQVSU0XTzTWw102bLN6vRDU1qmOw526P1uFSB
-         Rm9J4M6lIFYODKAPKGY41O9Ti0I7VRJQbSp9UG14Z6vIWwvgAsJpt3enTWJviw5/zUE0
-         3DjK8pxfJMyTiYMVjhYZK2M/tzNOpBtJZ7dhBbQJ/9tOZW7oHvnhGdb41XA7OOKwyu0r
-         XsHw==
-X-Forwarded-Encrypted: i=1; AKwUvBxFPMY2AXlpeDDbfcdUCOKHnVDB3AKZB2ui9A7CJ+ZjMc7YgSCaSeKyp8lrU0LDNdM1J1yl44rf4gU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK5WlEmRgNN3eQ5Km/6mwLFtt0alT77bEyCOruclUyYkgKJg9yS
-	ju1wfSbo/nkog4BdQsIjfnoWlUbhzWyr6lCdMweLULP4wqQRxO0KYYPT070jlvE6GNG4TMUlEUn
-	fOvbG8JOQ1+MQy8oS94ZD0uvIxsQYEU4=
-X-Gm-Gg: AYBFou0e7SpIv3dyjSdAZA9bQ2ZUHpv90ot10lVd78169d1naCDKpdee/2eWhu1x31s
-	iYe9uffVt4Cr5cI5+ox27vjmDBQuOxPz5ICWq6ukcQv1UPQwFiQiScLZBSqCzKdCbt0Yh/qo+/d
-	FsgF+pS62D+b/WzUKKWn/+6sLdkV9a0JFzCn0CUGWU2s0/y/eNZknUFSPplROM6yCVcHkWdn7So
-	rR+e/Fa4Z2Xrsu8Nl/Kn+BXO+a2YjVZBaSeKcMdBpzwNEctt7LqUVOOpRF3vLCnjdQD2edupVjv
-	aTdQXWARVAw6Gx/bxbPkn5+URoJdtfYsT8h6O6++oXOJVAySUwlSFJeEY6JAmZ/V5zmZjWRLDtq
-	WQV21K4O4q9j8AmBLvY05iI0q03KG5JKEgSQG
-X-Received: by 2002:a05:6512:4011:b0:5b8:ef9a:40ba with SMTP id
- 2adb3069b0e04-5bb9bb1132dmr353216e87.4.1790912676690; Thu, 01 Oct 2026
- 20:44:36 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790914529; x=1791519329;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AIDrugdzd2VRvxrjP7DNmuK/HUl0lALqvQgqwdaAuLE=;
+        b=BeEa7GqwZq/aYE2jewl0bPKCykvYbdh8Sad7iFuBAmgZvwm6tMTeW0zs68sakK5uuL
+         dXWRpZmQZ/ox7y7dJKasjtf66ptkwRcN032zcrTT9WLgJCaiF9QwU0Mo+CwQq18JDsQT
+         X0U4aoqtEQBZIqAbkp9kWY1nLvV+ZCmU+N69jIVvN1aSmpVeZX4LNiBdg/q0p2PVDtXx
+         zz+xaQa0jZHDtUe8qKABcitfcNE4ZoVXlLKYBDCpBEY7WY/0q6EzadU+rF+pyW3a7iii
+         4MA1VCFcx5aODnx6N1FVOTsgY0555q+kmLxW9dCSknFDs6hSgt1wYyLZ8dflgNpxvcRP
+         cINA==
+X-Gm-Message-State: AFuF++m2L558Z5j8Ar6Fe+3plFT7VdfydHxXcVE66lxEo79Q8xy/+PXU
+	S6jsHzY+F7e7s9xxVMWXkZe6FHT1zDxqJ430LamjiVkhw3nDeQbPl6YTJr90UAqHKDWpT8Kc
+X-Gm-Gg: AYBFou2xQ13jdFvhH3eK3t71VhmIV+yVV4Nek6RJ8y/eHXrIKVLU9kPHldglzF1N7Ok
+	M6wKEXLm07wl4wpuuqxHzfM3sslFdElmexGv0JGScjkoYaQLJ4USke0OU4DS5BSbnGpMuTV/fay
+	yTosCwS9RcOfnow7Yg9VuWLyueAm68G71i0WtBQ/qSGpFQCLSICVjqb2rCYeZqJhzYv3l9bwzXP
+	ctA3riWpnkND38p3QEsRzTl1s1PFM9ZfrpfF628ZKqIjT6SkDJFVLQhL54H4pQ48di16Ku0ttEG
+	7YzD4t5+tUz13iBtHzYNgI/qiY4wFGZgycK3dwosQqiCOWG/BkKl9PSdKB+rpgHQjFXlMlRqNwr
+	U6/nvmq1Ix5d05mhIxOQlA5YsqUxU6OGF+A9is5i6ewdO+UR7rfnkZvID0rYwbogITDM4ogweIh
+	JrxNHjC1t7f28xlRfpvii6y0+yvwAW10+VDjye3GNgkz0geqJlikEnXA+SQk8icNiGZ8IadtLoF
+	EsvS9F/Pkr9OTYoQatd7LRpqduN3AI=
+X-Received: by 2002:a05:600c:6384:b0:4a0:13d8:cd0c with SMTP id 5b1f17b1804b1-4a02769886emr25697315e9.2.1790914528481;
+        Thu, 01 Oct 2026 21:15:28 -0700 (PDT)
+Received: from Nuel20.localdomain ([105.118.71.106])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a03ff3cab2sm13522835e9.2.2026.10.01.21.15.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 21:15:28 -0700 (PDT)
+From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	mchehab@kernel.org,
+	aleksandr.loktionov@intel.com,
+	bvanassche@acm.org,
+	emmaonana18@gmail.com,
+	tudor.ambarus@linaro.org
+Subject: [PATCH] docs: kdoc: strip DOMAIN_NS() wrapper in function prototypes
+Date: Fri,  2 Oct 2026 05:15:19 +0100
+Message-ID: <20261002041520.42061-1-emmaonana18@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260929131020.266120-1-chenyou910331@gmail.com>
- <20260929131020.266120-5-chenyou910331@gmail.com> <c719c6756f345c6c39db483654578ef09de1948f@intel.com>
- <CAKspUhKCpXGKb7zpz9MbtpixVMUWKXMJtK-z6CcrezGA6e+ETA@mail.gmail.com> <22fdd310dfb0946bbe58ed71308e58d936cbed53@intel.com>
-In-Reply-To: <22fdd310dfb0946bbe58ed71308e58d936cbed53@intel.com>
-From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Date: Fri, 2 Oct 2026 11:44:25 +0800
-X-Gm-Features: AclHuK_Dh5pXV_8N5Am6Vpr68aVyRU0--ZbOln1WgpOW5_eCBnb1L7DMrifY0iE
-Message-ID: <CAKspUhJRG1hh7OQQh3a9yx9pRbKFOOMmhghhvxpQ3UKRob6qgg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] docs/zh_TW: add missing :Original: fields
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn, wy@wyuan.org, 
-	si.yanteng@linux.dev, srcres258@furdevs.cn, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 01, 2026, Jani Nikula wrote:
-> Oh, by the way, I do think the series as a whole is worthwhile cleanup,
-> and having the :Original: fields is the current practice. Removing them
-> should be a separate change.
+kernel-doc fails to parse functions whose names are wrapped in the
+DOMAIN_NS() namespace macro, e.g. in
+drivers/iommu/generic_pt/iommu_pt.h:217:
 
-That makes sense -- 4/4 only brings these four in line with current
-practice, and whether the practice itself should change is a separate
-question. So I take back what I said about dropping it.
+  ... expecting prototype for iova_to_phys(). Prototype was for
+  DOMAIN_NS() instead
 
-Thanks,
-Chen-Yu
+function_xforms is the designated place for unwrapping function-name
+macros, but it has no entry for DOMAIN_NS(), so the macro name is kept
+as the prototype and the real name leaks into the parameter list.
+
+Add a transform expanding DOMAIN_NS(op) to op, following the existing
+DEFINE_IDTENTRY_IRQ precedent.
+
+Add a regression test for the wrapped iova_to_phys() declaration.
+
+Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
+---
+ tools/lib/python/kdoc/xforms_lists.py |  6 ++++++
+ tools/unittests/test_kdoc_parser.py   | 22 ++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
+
+diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
+index e3dda2fe8a53..5e8bd9117895 100644
+--- a/tools/lib/python/kdoc/xforms_lists.py
++++ b/tools/lib/python/kdoc/xforms_lists.py
+@@ -91,6 +91,12 @@ class CTransforms:
+         (CMatch("__diagnose_as"), ""),
+         (CMatch("DECL_BUCKET_PARAMS"), r"\1, \2"),
+         (CMatch("DEFINE_IDTENTRY_IRQ"), r"static void \1(struct pt_regs *regs, u32 vector)"),
++        #
++        # DOMAIN_NS() wraps a function name with a namespace prefix
++        # (see drivers/iommu/generic_pt/iommu_pt.h). Unwrap it so the
++        # real function name is parsed.
++        #
++        (CMatch("DOMAIN_NS"), r"\1"),
+         (CMatch("__cond_acquires"), ""),
+         (CMatch("__cond_releases"), ""),
+         (CMatch("__acquires"), ""),
+diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
+index c4a76ed13dbc..4b47a858824a 100755
+--- a/tools/unittests/test_kdoc_parser.py
++++ b/tools/unittests/test_kdoc_parser.py
+@@ -418,6 +418,28 @@ class TestSelfValidate(GenerateKdocItem):
+         """
+         self.run_test(self.SOURCE, [self.DEFAULT.copy()], self.EXPORTS)
+ 
++class TestDomainNs(GenerateKdocItem):
++    def test_domain_ns_wrapped_function(self):
++        source = """
++            /**
++             * iova_to_phys() - Return the output address for the given IOVA
++             * @domain: Table to query
++             * @iova: IO virtual address to query
++             */
++            phys_addr_t DOMAIN_NS(iova_to_phys)(struct iommu_domain *domain,
++                                                dma_addr_t iova);
++        """
++
++        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
++        patcher = patch('builtins.open', new_callable=mock_open,
++                        read_data=dedent(source))
++        with patcher:
++            _, entries = kernel_doc.parse_kdoc()
++
++        self.assertEqual(len(entries), 1)
++        self.assertEqual(entries[0].name, "iova_to_phys")
++        self.assertEqual(entries[0].warnings, [])
++
+ #
+ # Class and logic to create dynamic tests from YAML
+ #
+-- 
+2.43.0
+
