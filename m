@@ -1,182 +1,161 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-pj2-f41.google.com (mail-pj2-f41.google.com [74.125.227.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E99450F2
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 02:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274DD1DE8BF
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 02:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790908508; cv=none; b=twIfZJ5wrorDKd5/VBtbDQix70K3ye6jqNG83xgOJ/7zSJKMpqk0vRBAow1UNgJ8YV1nEAjuNmMWacT8w3w73Vz2NXLwJZcutpvd0piwFQ7EM9/iqwq/IliX12qTfg332mO8ouYAgAu0dEf2nXEzC/kKYDM3wduUNYviydpLWrI=
+	t=1790908741; cv=none; b=tGsThwiZ/rzGwo4lazvC7ktrUg0/jzVGyvcVDLKkWlgJcaHWD3/WOylZpzVySViKq3FUD3WmSGCCJMFVo81xq7jHIDc0glLel27Fe0Tr3dl+d4EUrZ7WnsWS2HY5rEhQOGpUnHM+ORMIVq8ageOv6CYd6I/ExPLU/4uY/aatS0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790908508; c=relaxed/simple;
-	bh=SXO+SobDH6cVcgzb3z/5p2jgvfKdpafjqM7lqmZB1AY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y0ybWLBsNkuhwrIWMdzhE/C9glU5DynpSc9IROxOyQp75nr+eXJS58mFHpjGeap8gGEqHTeHH3HqWsN3XliyGkuaO5CGZNg97OvrpQ+5qeGB1NZL3QPPpzZLXZPTKwtiPKYcOJab1kblu3twO3POqs3dbamfW49Wa/maURgBduQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hxH7ySt0; arc=none smtp.client-ip=74.125.225.140
+	s=arc-20240116; t=1790908741; c=relaxed/simple;
+	bh=c19bk59QINY1kuvBH/nzmxB/WX9HqyJCd38qB52kWUw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h9zp41vEzMpKL+KUiHJRlayMM64HPg413C01RM7zIbiDgNT0xlv1BOqEZba8Mk3Z9k8S6HOlKEcfdXSP/MDBaD0f4fMcrhkpOlod4hT3uQA+XfBbSOLZ1pYbzrsJ3Pj3wvCd3TLQUPFOguMDOvxYBUx0qwtNbo9zZx549KgsW0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Seho5LNX; arc=none smtp.client-ip=74.125.227.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hxH7ySt0"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-4a01eeeed23so643185e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 19:35:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Seho5LNX"
+Received: by mail-pj2-f41.google.com with SMTP id 98e67ed59e1d1-3a6d9baf76bso205304a91.3
+        for <linux-doc@vger.kernel.org>; Thu, 01 Oct 2026 19:38:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790908505; x=1791513305; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1rnR4B1VLG/A6C9Ykh3FwKXCJ1NovidmATqbVT+/lH0=;
-        b=hxH7ySt0oHHAGg2seCsaFX6ofPyBlVmu/rAX9Or3NzUdFCAx9srE/zGg0KSz/Xrj+F
-         GD+BbWmxwMxAgq3D8o/KqVpyEPAohJ7JnqLFOB1cm90iJJJv40dUjmT0cFHyjgsv1kcm
-         Q5Okd02OEGZMYs0dYtqJaSKpo5gG0cxHvh8UOrl0ZW6xGHv9i91haidy/edG+BZTDrxO
-         vJQZw+jp+uiO8TShkOjFYpfOP82hjoSpj/RyFbRmszr7dBOodUQAORVDj0xue+y2KCo7
-         NVU9pm7Ju/6VZxBBNyFfEv8U8BmpA/cr81tVxituKzRMF2RwuIg1Ll+yS8Y2eZDYpgPB
-         cviw==
+        d=gmail.com; s=20251104; t=1790908739; x=1791513539; darn=vger.kernel.org;
+        h=content-type:mime-version:user-agent:references:in-reply-to:subject
+         :cc:to:from:message-id:date:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=W0JwbUYYrULzWB47hYNIr342NMFY/RUwXnmibkziqko=;
+        b=Seho5LNXBedsqcD7q0ZdV5+fzIVuNSj1kDJsjg4ATz1OTyV/WHCV8nVIYmxacRLVHF
+         +CrdUB8gxqCw05vGt0NgMz+MEomeICNO1btZjjFqOFXc7x8GpWD+bfLvw8i0le+XgWMp
+         uy/H+ewu8TOzmj8k+PiCnOzvDTlojBwu9HQztOT+5p+kbfQsOBba8mR5USMuyObwcOWc
+         3aBIaXIJwDYRJTPGW3phBRz2iqJ7nxtf/sWWYiwiOaNkAhH2i43wqzHE2tDqFx5DGHe1
+         1WyRqmB2WtRC7TFBlQZRD6ui8hPmUawTX/wIRv9XQPbvd2ytxvtLStGyTd9CAqEqRMrD
+         eW4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790908505; x=1791513305;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1rnR4B1VLG/A6C9Ykh3FwKXCJ1NovidmATqbVT+/lH0=;
-        b=l63Oh964S4C0miiVTFP2QtGLIvYvxMyz57DVOzBDVwn0EpRoB1OAy7L7FQ0+GioHwc
-         Sf5QhFstJU6sm7HfWMAtoL5QJ0LmlVc6KEKknYxz7h1VpD5jkpy2EdSQcGrkCe88hmxF
-         Pd7S2DMeSwAs9uXeDWFQNq4v50IaipjcHPhkjeeuoato2wGT9JOMt4xaNkqyDCPDjm7s
-         nEaFRSjp3k6vNq6BHD4mQyDRILZmGo5qPQFDYw6GZRNuci5cwsXqPTrtMtatTr06rPvc
-         /IL+jepCbX2JXgWRAG2Fh6HeYHJqjygKL8tBKSML/bK+SF0aaDNudJ4XlJ0Px2zPd5dV
-         i5zg==
-X-Gm-Message-State: AFuF++kowZIWev2FtyekZ/QAPaOeJmiXPCS0/V46tvHG0daGOqAfJ3b7
-	bqmM6/WsfclvRwiHWXNdUsNjDrx2XArl0gnEvgfn1sM/oebQcw86ieMtf1mflzQLuMNkUUCY
-X-Gm-Gg: AYBFou34ENGC60HM5Gf4ejFBIqC2O//FOltsg/SQ+u8dkc7V6HrYD6/x7U0fXWF815T
-	LqjZEfrwAV87j7/kX1wIH5eQSKQxfk76fm05mX8APZLE8ti053m184voCEoFf2pO+0jHAZd/4Mf
-	+U1zS5GrcDMZvR1E27iNRW+UL50SOzXeNz9orFsT5wLkzUtaRp0D3KZq5dGhtzahBejbPOobae4
-	siLWfbTIP304l1eSVnNfsJVa4P3qUNp0zjjJWv1jgpbeDmOAQ4pZzhv+DVOsu9TLwDq9nTjUIit
-	00c2foyS+Vv5cHYMcbPQBNRgfyYH1Z8wrKU/yPn/cmuvyKRDe5GQD2e6Gm+PZoyGNeoBw3AHpg5
-	Jf1JNSCSp55xNHzWhc2nnGB6w2zl0+fJngZb7514tHyqwE6KYuhhoyaTRB1QAU3q/Ttlqvezk6K
-	yiEkstt0Nska1zGs0ABZzOD7fZ5zUgj0MxiK8mbiH8Sb5sU0CJjvwOB4iFjO/Hw5YATOzuH3haq
-	PsbqsEw7Bn1Bd1G/X2GKg==
-X-Received: by 2002:a05:600c:6217:b0:4a0:1f9e:5f78 with SMTP id 5b1f17b1804b1-4a027452677mr24180105e9.0.1790908504828;
-        Thu, 01 Oct 2026 19:35:04 -0700 (PDT)
-Received: from Nuel20.localdomain ([105.118.71.106])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a03043fae5sm16283935e9.0.2026.10.01.19.35.02
+        d=1e100.net; s=20260707; t=1790908739; x=1791513539;
+        h=content-type:mime-version:user-agent:references:in-reply-to:subject
+         :cc:to:from:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=W0JwbUYYrULzWB47hYNIr342NMFY/RUwXnmibkziqko=;
+        b=FtJhpwiJFpyWH/VwlZlY/r4zjRbwfpwQPNQoj3yrdYcHKPcx8+9iffOD0XyJNcQ6aM
+         9CsS0xtuz/EE0YliqsYQsbqn85bW8mcowxJKibt+u3LhDk82psWVrHiggA1XnYYQb2Vn
+         /QJGNebis0AuxSO9MZYvSy/5gv8OpuLzRrap1ENehvxwQXJ7H3ln2z/8xCjRgTT9FUwI
+         G4+2DmD7rJ540zhqgG++gecwsbBgpCf6bdoZEVHpnqOdKSJIm9/yFRksZyCs8XL4lgeW
+         cmwnayhtdhTHy+0l8u4/6w8lr1mWOSi03NXUHlhRlCrwu9cP4MfjI37gqOAgefheeY2g
+         ZljQ==
+X-Forwarded-Encrypted: i=1; AKwUvByG4Buk0yEsiaCADTAvxpaKJzEcqr6UzGxPL0WvYHDivd6Sxg7EfjTrqyY8IBhiiKBELwaIxe8BoCo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKEaapudM84AZhM4Ov0duJUt2hexKjymqDAv+Xw7k6muWRNX10L
+	aOh8i5UO1eIrUvrJo+Dezo6r5pP4eqjXK29f0eFHW+0bSFiIWRRYcgZZ
+X-Gm-Gg: AYBFou2wcXzU/tVPIKfQgqio34gaZoLdfFkvx1oGneAmnT5++r8cByYzbSh6WcBMZcX
+	xzaD/onxdLZ6fgHt9w5D4ZszWEa7AQKvjJ27U3bqSXRHJaoatuvRdoUhX/3r3b4FrEZTy3YcR8Q
+	3qd7sUioHi0q9x8H2LIKoWdN3lBY/WfrtC2EDEJFy97hdBsLqyCtsMQ+SXLRmL2jCKlJ9wQs4EO
+	4RbWgbrjD8PJDjjwrEklfO6fY26xleQW+y/L/5IOEEScGWmfNQsIPJW/UvK40DWBSta4WzrAsYw
+	riC6PLZo0iEJag5w+mVUpSjwPXq7TgQuHLt6JMhIu5x5+3rWUcV9kqo78M0jYMpzj/J61QSQ8n0
+	L8I4o4npNUHcgrWPHp6XyM6OFcvqMjmlV7rWyas/pAmi+4ggr2OUSeNh4vleCrbf+IhjdeQTdoa
+	ihmqiQTZg+yHRmsgbv7UeFoHXb94yXPQGKJqrh8S3nlkUHEWQHLJ718qO2bMUMgA0V06G/vS4Pg
+	wLLMdD7FCIVDoeK/dOAvFNC2TW3RyC6LEr+/whBsX7bzhXI+Bq5KAUk6tYNDSGKuKulKp3W1zHO
+	jnBy9cvPEpPGwDecBXQlUNlQU0VponQlhtaCy5WDZ7MC5BI1+e/f
+X-Received: by 2002:a17:90b:4ecc:b0:3a0:ca1d:b40b with SMTP id 98e67ed59e1d1-3a6cec84dffmr1148635a91.50.1790908739319;
+        Thu, 01 Oct 2026 19:38:59 -0700 (PDT)
+Received: from mars.local.gmail.com ([240a:61:8063:c5f3:3cbb:dbfe:34ef:b37e])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4f46bc991sm6682074a91.4.2026.10.01.19.38.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 19:35:04 -0700 (PDT)
-From: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	mchehab@kernel.org,
-	aleksandr.loktionov@intel.com,
-	Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
-Subject: [PATCH] docs: kdoc: handle TRACE_EVENT_FN() family in tracepoint parser
-Date: Fri,  2 Oct 2026 03:34:56 +0100
-Message-ID: <20261002023456.19470-1-emmaonana18@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 01 Oct 2026 19:38:58 -0700 (PDT)
+Date: Fri, 02 Oct 2026 11:38:51 +0900
+Message-ID: <m2se2o3jyc.wl-thehajime@gmail.com>
+From: Hajime Tazaki <thehajime@gmail.com>
+To: johannes@sipsolutions.net
+Cc: ljs@kernel.org,
+	david@kernel.org,
+	linux-mm@kvack.org,
+	liam@infradead.org,
+	rbm@suse.com,
+	akpm@linux-foundation.org,
+	luto@amacapital.net,
+	brendan.jackman@linux.dev,
+	liuhangbin@gmail.com,
+	corbet@lwn.net,
+	kees@kernel.org,
+	broonie@kernel.org,
+	mhocko@suse.com,
+	rppt@kernel.org,
+	shuah@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	wad@chromium.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	geert@linux-m68k.org,
+	daniel@thingy.jp
+Subject: Re: [PATCH v4 1/2] selftests: run tests on nommu architecture
+In-Reply-To: <94759bed23f00d2044005e36be6f72f297e092f0.camel@sipsolutions.net>
+References: <20260929235711.2287931-1-thehajime@gmail.com>
+	<20260929235711.2287931-2-thehajime@gmail.com>
+	<bda5eeaa-7868-4d4a-9026-9e99347afd7c@kernel.org>
+	<ar4br2vW7yZGd3gt@gremlin>
+	<94759bed23f00d2044005e36be6f72f297e092f0.camel@sipsolutions.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 
-kernel-doc fails to parse tracepoint declarations that use
-TRACE_EVENT_FN(), e.g. gpu_power_status:
 
-  drivers/gpu/drm/panthor/panthor_trace.h:28 ... Unrecognized
-  tracepoint format ...
-  ... expecting prototype for gpu_power_status(). Prototype was for
-  TRACE_EVENT_FN() instead
+David, Lorenzo, Johannes,
 
-tracepoint_munge() only matches TRACE_EVENT(), so the macro name is
-kept as the prototype and the TP_PROTO() arguments leak into the
-parameter list as garbage.
+thanks for the comments and inputs.
 
-Match TRACE_EVENT_FN(), TRACE_EVENT_FN_COND(),
-TRACE_EVENT_CONDITION() and TRACE_EVENT_SYSCALL() the same way as
-TRACE_EVENT() and list them explicitly at the call site in
-process_proto_function().
+On Thu, 01 Oct 2026 19:01:45 +0900,
+Johannes Berg wrote:
+> > >  $ make ARCH=um NOMMU=1 O=build kselftest-all TARGETS=nommu
+> > > >  $ make ARCH=um NOMMU=1 O=build kselftest-install TARGETS=nommu
+> > > >  $ NOMMU=1 ./build/kselftest/kselftest_install/run_kselftest.sh -p \
+> > > >    -c nommu
+> > > 
+> > > Is there a way we could derive that from the environment in one of these cases?
+> > 
+> > I thought maybe uname could help but our LLM overlords tell me no.
+> 
+> Hajime originally wanted uname to indicate it, but that caused
+> regressions elsewhere, so we dropped that commit. I guess we could put
+> _something_ back?
 
-Add a regression test for the gpu_power_status declaration.
+systemd uses uname information and our (old) patch changing the format
+triggered the regression.  thus, we dropped it.
 
-Signed-off-by: Omokefe Emmanuel Onanaroghene <emmaonana18@gmail.com>
----
- tools/lib/python/kdoc/kdoc_parser.py | 18 +++++++++++++++++-
- tools/unittests/test_kdoc_parser.py  | 28 ++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+), 1 deletion(-)
+> > It pointed at something though.
+> > 
+> > In fs/proc/meminfo.c:
+> > 
+> > #ifndef CONFIG_MMU
+> > 	show_val_kb(m, "MmapCopy:       ",
+> > 		    (unsigned long)atomic_long_read(&mmap_pages_allocated));
+> > #endif
+> > 
+> > So MmapCopy in /proc/meminfo tells us definitively, weirdly enough.
+> 
+> Hyrum's law and all that, but I guess it's not highly likely to (want
+> to) change :)
 
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index d9ad1ddc87dd..28c325665c17 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -1542,6 +1542,22 @@ class KernelDoc:
-         if r.search(proto):
-             tracepointname = r.group(1)
- 
-+        r = KernRe(r'TRACE_EVENT_FN\((.*?),')
-+        if r.search(proto):
-+            tracepointname = r.group(1)
-+
-+        r = KernRe(r'TRACE_EVENT_FN_COND\((.*?),')
-+        if r.search(proto):
-+            tracepointname = r.group(1)
-+
-+        r = KernRe(r'TRACE_EVENT_CONDITION\((.*?),')
-+        if r.search(proto):
-+            tracepointname = r.group(1)
-+
-+        r = KernRe(r'TRACE_EVENT_SYSCALL\((.*?),')
-+        if r.search(proto):
-+            tracepointname = r.group(1)
-+
-         r = KernRe(r'DEFINE_SINGLE_EVENT\((.*?),')
-         if r.search(proto):
-             tracepointname = r.group(1)
-@@ -1601,7 +1617,7 @@ class KernelDoc:
-                 self.entry.prototype = self.syscall_munge(ln,
-                                                           self.entry.prototype)
-             else:
--                r = KernRe(r'TRACE_EVENT|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
-+                r = KernRe(r'TRACE_EVENT|TRACE_EVENT_FN|TRACE_EVENT_FN_COND|TRACE_EVENT_CONDITION|TRACE_EVENT_SYSCALL|DEFINE_EVENT|DEFINE_SINGLE_EVENT')
-                 if r.search(self.entry.prototype):
-                     self.entry.prototype = self.tracepoint_munge(ln,
-                                                                  self.entry.prototype)
-diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
-index c4a76ed13dbc..398e11a8737e 100755
---- a/tools/unittests/test_kdoc_parser.py
-+++ b/tools/unittests/test_kdoc_parser.py
-@@ -418,6 +418,34 @@ class TestSelfValidate(GenerateKdocItem):
-         """
-         self.run_test(self.SOURCE, [self.DEFAULT.copy()], self.EXPORTS)
- 
-+class TestTraceEventFn(GenerateKdocItem):
-+    def test_trace_event_fn_declaration(self):
-+        source = """
-+            /**
-+             * gpu_power_status - called when hardware turns on or off
-+             * @dev: pointer to device
-+             * @shader_bitmap: bitmap
-+             */
-+            TRACE_EVENT_FN(gpu_power_status,
-+                TP_PROTO(const struct device *dev, u64 shader_bitmap),
-+                TP_ARGS(dev, shader_bitmap),
-+                TP_STRUCT__entry(__field(u64, shader_bitmap)),
-+                TP_fast_assign(__entry->shader_bitmap = shader_bitmap;),
-+                TP_printk("%s", __get_str(dev_name)),
-+                my_register, my_unregister
-+            );
-+        """
-+
-+        kernel_doc = KernelDoc(self.config, "test.c", self.xforms)
-+        patcher = patch('builtins.open', new_callable=mock_open,
-+                        read_data=dedent(source))
-+        with patcher:
-+            _, entries = kernel_doc.parse_kdoc()
-+
-+        self.assertEqual(len(entries), 1)
-+        self.assertEqual(entries[0].name, "trace_gpu_power_status")
-+        self.assertEqual(entries[0].warnings, [])
-+
- #
- # Class and logic to create dynamic tests from YAML
- #
--- 
-2.43.0
+a runtime detection is nice.
+
+scanning /proc/meminfo might be useful. although it requires to mount
+procfs (we can actually skip procfs mount as it is optional) so, this
+is not 100% portable.
+
+checking ENOSYS like syscall(SYS_mprotect) might be useful but I
+wasn't sure if this is always the case of NOMMU or not.
+
+My original attempt was to use include/generated/autoconf.h; with that
+we can omit environmental variable or command argument of NOMMU=1,
+but gave up with handling standalone build/test case which might miss
+the generated file (and complicate the patch only for the NOMMU
+detection).
+
+So, specifying NOMMU=1 is my previous, though dirty, conclusion.
+
+-- Hajime
 
