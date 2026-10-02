@@ -1,285 +1,217 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2E650129E
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 17:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C8B501291
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 17:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790961129; cv=none; b=q+5WuQ4KznEeRYYGQeaI1+dn+S9QxQqUoMC9rZv6iC9zo4DrCAi6baH33JcvMtNZaYzhq2+Gr+um05IP6frjKJQcJuxHV8Yd5UOAYGkzDHwyex47tTtwdYqq0Ky3PvxUq4zSa4tXzENZRXPeGoGHJyxQLrGLEA+7Bb0+3fpWQYc=
+	t=1790961135; cv=none; b=gpjiCj5u6yodU+lHeR8avGbRB0E96uubT0MaLEvnCZmnORjwLo6jITDJbcsXK9yL4r8NCWSE8vu3Xy50bo5Irmx69wqWV0kwbom+WzSX4tC4doBVGidhXuyz7hsMz4l4HEG41Kg7fjw9XTcEnxgstdOlYF9nrEcaLWLJIxAbHsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790961129; c=relaxed/simple;
-	bh=DSy90Vi1pYW2azdUTwrc0TT6kW6QsQGO8Rlo/8MHFWI=;
+	s=arc-20240116; t=1790961135; c=relaxed/simple;
+	bh=ba0mY5inJOmpBRwHHRs0PUHO6DuUx86G4kH00QLn0dU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B+Rhv+cTxmEOzKZAbvtNMDztblJh3T0JotLZbXBMCfRnQ8OxquMXxW/X26oM4aZRj06lx6JjjjvAKd6R0x8OxW51Nkh8+PeXL96RgMKh1SJJus0FqSSXe0A8OVGbUnMa7IzRNCF51Wk+dLWqgeudKaemZON6yf9rwqOB+e1sg1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O0t2PPF2; arc=none smtp.client-ip=74.125.227.140
+	 MIME-Version:Content-Type; b=kCm/m4e381ks6S8PwEvESsWYPJS/s54/WqpDP/nVfjzcyrH6qM+JQJNQitDMjeU1LL82Rn1NWfxDQO0cCjRiRztEdrWvGGO3f0emGxZSycd8ime9SuqSgs9xDBZxmoh8Xg+ozToK4QVuHK0zUhkxQsoimmGsy/DGQpPqzgUwN1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dl4mOwpJ; arc=none smtp.client-ip=74.125.227.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O0t2PPF2"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccc02279so130295a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 10:11:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dl4mOwpJ"
+Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c67e529da9so2778375e0c.2
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 10:12:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790961118; x=1791565918; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=j4yfFb6320kdlQ6cch251gfqYxfn4Y6pwvS8rFGl1n0=;
-        b=O0t2PPF2FE7EvdxKkZqB/mE4moJ0mkddf9b+J0zYRcsRh3u8oGV4BJHxw2H+96fxJZ
-         meG4z0Y6SaWKEbBvpAQR+OuJ6sUlksJaB5XwEGdnO+NzKO0dE/MAfQ1lMdUUg9qOK64r
-         bxHFemm3XR+QWV2XQn+vJM8IM0cWb4hMn8Mxzieti0jnZs1LN3tOBMYw4im6tVK89/EG
-         ChKgFqQU31ziRSDlUS6YQ8eNQJaIqLYFi+vRMKGqsl8CF5Ipqh0wvCpDMM+9LqP7/sAb
-         bhOQPqlHpsK/ERNaPgqq27d5SyXZ5BKmIagtPiWbqemicdRtAK+qyq8tjPSIibOiHb2v
-         WHEg==
+        d=gmail.com; s=20251104; t=1790961123; x=1791565923; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=QaUcGfbk1g26E8pVP2hsNZMSdLfRyykfzPNG+bvArbg=;
+        b=dl4mOwpJksGThBa8y31/gI9NZJkFwQFDue1mhMWb6O+M/3wIsctt8iGwdWexH4YaHZ
+         uJRji7SegH7/vWJMHZxjCne9UHxMfheTCRH6uDWhnDtXHjWLIH6YrBhzHzCq6Z+CGSwM
+         34ZE99PCXx3t6Ceo8xN7Oy6LxQRBz+19MrZgQsIzu09S4HUB37Y13p0D+16FjffiG/+M
+         mqvOfbJvew64o5PXWQxzrA7EgMTiXqbylCfE+/2fnNnQGVNWknnrzAuNO682gVlsaVfa
+         9bycS9knCW7P9EUvNbfDkFsuKvcdpKrVCJUSdzxpNgAi4WVCZUl8XN+Ozv/k7wPJW2QN
+         1+gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790961118; x=1791565918;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=j4yfFb6320kdlQ6cch251gfqYxfn4Y6pwvS8rFGl1n0=;
-        b=kmMXQxZSLQvcu5o5IIk5Keq5WyNsn6jjz9iufI04inqpMczBPAobgS/htbXToWfyti
-         kRzukwc4l0JCEjfoqadzLnlmkZFLuMqT5BQsy1+F75bRv7w5JljHMaKkBgsStAzNJuCl
-         +P3euvi1W1J4+h4kD5A8SdjYNZy5dito/mo969RiNzfGGnc3rIbDD4R+6eFFm/EaSdxg
-         3SoLqG2BEVpgQ43dQZYtRindL6H8gertb/srcij5aSzld2hQvcmcByEieorKe64xZjAe
-         UEIyKVEOW+PixpVWf1HTiLlBRqGqbyCY3mCDhuihXXuVw/6Pz98KOmg7y7LF8amFRRFj
-         Byyw==
-X-Forwarded-Encrypted: i=1; AKwUvBz0gSkngV1uWjJ9NGFiYdUzNTx3Xu7KUU6gg+jPQPXaKyrETJ1xP/64rS0XasA74N5ScvaxvV5FOdw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK0B+NRI2Ab61neKIbEFIrX/E9Eo5AvC+VFL8BwRdWQWxBS2W5b
-	6VKvvh2RXdTKcRubi0W32O2yQ3V6yp54c6MWDnxcAPK/HQ7i08fhMke5
-X-Gm-Gg: AYBFou3F25ieSKcKyBsYAlEyjmvE+VCcVqk+RKlmgh7Meizq3b6RDjBP9MgqoiFx71H
-	uGcpq7WsTzfUmQhyZlmJ5TX94BPO3UwuEYv4j6LcBI/DIMMLf2nnT8MAlZx0ZR9nfrGxMYpe4EH
-	t4zu6bo4stpdu3c5fFCtSSaXb1u9h7diYt+Ya1Q4z9DTU8XxYJk4d5g7LB5SW3iXoJlz0bQcR6D
-	OKpPJDsvnEMoZR+OONmlLrnXLkA0Y2xUqrVYpBY1M45aR0jsCIMaYmgpWakmn7FlxlHKEHJz4/D
-	PpuZL3t1jzqU1GzPHPoZwCMGQ0LscZRedBOVq9YRjc1S+H7FT/s17aEBNy21BHCSNdQDvkoUGXw
-	yz0bdtT48RFcII/N4IRnjVP8t1p8ENNDo9WNyrofTL09GKm7m8zUWdVi+jqDtH4zbwqHa+7vP97
-	Eelx5CK7XrD0U04lc9SOWFL5W7iRNNKVyV31AfhQNri4C4rtaCr/pUPWKBy833ykKjfHCRsbmnD
-	xfMgqicKWuQtziMSA==
-X-Received: by 2002:a17:90b:586e:b0:3a5:147a:3b63 with SMTP id 98e67ed59e1d1-3a6ce3a97bemr2829709a91.8.1790961117352;
-        Fri, 02 Oct 2026 10:11:57 -0700 (PDT)
-Received: from kernel.tail6741c6.ts.net ([185.220.238.43])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a7024d0f5fsm1597719a91.0.2026.10.02.10.11.45
+        d=1e100.net; s=20260707; t=1790961123; x=1791565923;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QaUcGfbk1g26E8pVP2hsNZMSdLfRyykfzPNG+bvArbg=;
+        b=X8RPayTeuS7+wbjYZ47KwNr3Tz7iA1QwcWq2UAecb5bLrg3Xi76bOC1tcHNgfLTKVL
+         Pq6zMR4PW9Nmk/51pvpUXE8AG5J+cDMfu2rb5i1S8slMflIWRJbyGnEKgoPkjJzVBmus
+         mhvjOIMqy2YfbxsHRmr38mh2DyIJijfBxMZdrPVvWbdExKTM4o8JDGbMBV36kqUIEjl5
+         HjEd2Ev8q/c8AyKsYXcDW9PrV8vQCRe6LP7YY3Eqvkxm4Z0wuptjx2BzlEFrTp5btJ+6
+         z4s4q+axfZJVd9ew+DQTUoTUe25EapUtnHXBlGLPHvXgDAG8XpTn/BdYdVwCEtQnYUZ0
+         jzeA==
+X-Gm-Message-State: AFq9FYIoraZyVOVUXv5J63h+e2dDjsrZ5pu+Fn4s3OE5fGi6deR01A7c
+	XSneqhQ3euwuoo4mTwb1b19I8ezbkoMZ2n0UKlXqjS4EsZ5fSpuBxfc7vWn5P9xM
+X-Gm-Gg: AYBFou2WtS63fkiyjSYwKSoOo8dSRrIcIH5AmUvzJRjvO4tOh6gTIlB1CQJ8fcdwOyb
+	BgxKr+a04YwoW45OchrOxuVRqFgZsr1kslvptvZWCvLTq6LU5e9pXlhqMUtxrNb4GTNpTAWz9Wa
+	elZbqXGvDZQT+U65g0ZehN41WB1hLICBOwSMjY6yVRTxMUXXemP8nB83VT2+XX3eOHqHaqp2fJp
+	bFFOzdzuogNdtNJK0MhflPv6ihnNW2SZVE113dE1tctiuC2mx6XQ5kS4Xggs6mIms1Z2Mxf2xrU
+	yUpM+yqDMfLme1SOCMrTd9aKZ+JsYOkf4SW9hId8Z4+yN20x8YvyETolU9wbg/FSOBbO3CCysUl
+	tWEsQRMdF/toqWl8a+U4yK+nMGWdjLpTOPFDIVADBJpH8xjggND2wUAoIPC5c99KWcp/6jSeZmj
+	eY/qnGrPy45EOuXEiISL6m98FKs7mDbP3iO5Sz1t2496gDODfyXYNqyBZmyfYxAWp47MAmyOOmb
+	2dZJ7uDPttBMsy/Dklqme4CD7zgcuKQlAhAhLAOTEF8LVdFPck0zORpI67jWnSTyb+k63u+/2AU
+	C6fN/zzSsP1B5NCxwKRAZSA=
+X-Received: by 2002:a05:6122:3381:b0:5c9:a60b:e5d0 with SMTP id 71dfb90a1353d-5dab08e7fbemr1046267e0c.10.1790961122482;
+        Fri, 02 Oct 2026 10:12:02 -0700 (PDT)
+Received: from penguin.bbrouter. ([200.218.229.14])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5da635c7209sm3947605e0c.15.2026.10.02.10.12.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 10:11:56 -0700 (PDT)
-From: Kunwu Chan <kunwu.chan@gmail.com>
-To: paulmck@kernel.org,
-	corbet@lwn.net,
-	mingo@redhat.com,
-	frederic@kernel.org,
-	neeraj.upadhyay@kernel.org,
-	josh@joshtriplett.org,
-	urezki@gmail.com,
-	dave@stgolabs.net,
-	lianux.mm@gmail.com
-Cc: stern@rowland.harvard.edu,
-	parri.andrea@gmail.com,
-	will@kernel.org,
-	peterz@infradead.org,
-	boqun@kernel.org,
-	npiggin@gmail.com,
-	dhowells@redhat.com,
-	j.alglave@ucl.ac.uk,
-	luc.maranget@inria.fr,
-	akiyks@gmail.com,
-	dlustig@nvidia.com,
-	joelagnelf@nvidia.com,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	longman@redhat.com,
-	rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev,
-	kunwu.chan@gmail.com,
-	brads@mainlining.org,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	lkmm@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	rcu@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH RFC v2 15/15] selftests/rcutorture: add hazptr torture test script
-Date: Sat,  3 Oct 2026 01:08:47 +0800
-Message-ID: <20261002170847.3653663-16-kunwu.chan@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261002170847.3653663-1-kunwu.chan@gmail.com>
-References: <20261002170847.3653663-1-kunwu.chan@gmail.com>
+        Fri, 02 Oct 2026 10:12:02 -0700 (PDT)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net
+Subject: [PATCH 10/10] docs/translations/pt_BR: admin-guide: add efi-stub.rst
+Date: Fri,  2 Oct 2026 14:11:33 -0300
+Message-ID: <20261002171133.50969-11-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261002171133.50969-1-danielmaraboo@gmail.com>
+References: <20261002171133.50969-1-danielmaraboo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add hazptr.sh as a one-command regression test for the hazptr
-torture configs.
+Add translation of efi-stub.rst to Portuguese and update
+admin-guide/index.rst.
 
-Run NOPREEMPT, PREEMPT, READERS0, and READERS4, followed by
-LOCKDEP with wq_churn and SLOWPATH with CONFIG_PROVE_LOCKING=y.
-The latter two also check the console for lockdep warnings.
-
-With --allcpus, repeat the PREEMPT test at CPU counts 8, 16, 32,
-and so on up to 256.
-
-Follow the pattern of the existing srcu_lockdep.sh script.
-
-Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
+Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
- .../selftests/rcutorture/bin/hazptr.sh        | 146 ++++++++++++++++++
- 1 file changed, 146 insertions(+)
- create mode 100755 tools/testing/selftests/rcutorture/bin/hazptr.sh
+ .../pt_BR/admin-guide/efi-stub.rst            | 102 ++++++++++++++++++
+ .../translations/pt_BR/admin-guide/index.rst  |   2 +-
+ 2 files changed, 103 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/efi-stub.rst
 
-diff --git a/tools/testing/selftests/rcutorture/bin/hazptr.sh b/tools/testing/selftests/rcutorture/bin/hazptr.sh
-new file mode 100755
-index 000000000000..ef636e519a55
+diff --git a/Documentation/translations/pt_BR/admin-guide/efi-stub.rst b/Documentation/translations/pt_BR/admin-guide/efi-stub.rst
+new file mode 100644
+index 000000000..d21f134ab
 --- /dev/null
-+++ b/tools/testing/selftests/rcutorture/bin/hazptr.sh
-@@ -0,0 +1,146 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0+
-+#
-+# Run hazptr torture tests and report any that fail.
-+#
-+# Usage: hazptr.sh [ --cpus N ] [ --allcpus ] [ --datestamp string ]
-+#
-+# Copyright (C) 2026 Kunwu Chan
-+#
-+# Authors: Kunwu Chan <kunwu.chan@gmail.com>
++++ b/Documentation/translations/pt_BR/admin-guide/efi-stub.rst
+@@ -0,0 +1,102 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+usage () {
-+	echo "Usage: $scriptname optional arguments:"
-+	echo "       --cpus N       override CPU count (default: auto-detect)"
-+	echo "       --allcpus      test at CPU counts 8,16,32,...,256"
-+	echo "       --datestamp string"
-+	exit 1
-+}
++=================
++O EFI Boot Stub
++=================
 +
-+ds=`date +%Y.%m.%d-%H.%M.%S`-hazptr
-+scriptname="$0"
++Nas plataformas x86 e ARM, uma zImage/bzImage do kernel pode se passar por
++uma imagem PE/COFF, convencendo assim os carregadores de firmware EFI a
++carregá-la como um executável EFI. O código que modifica o cabeçalho da bzImage,
++juntamente com o ponto de entrada específico do EFI para o qual o carregador de
++firmware salta, são conhecidos coletivamente como o "EFI boot stub", e residem
++em arch/x86/boot/header.S e drivers/firmware/efi/libstub/x86-stub.c, respectivamente.
++Para ARM, o stub EFI é implementado em arch/arm/boot/compressed/efi-header.S e
++drivers/firmware/efi/libstub/arm32-stub.c. O código do stub EFI compartilhado
++entre arquiteturas está em drivers/firmware/efi/libstub.
 +
-+RCUTORTURE="`pwd`/tools/testing/selftests/rcutorture"; export RCUTORTURE
-+PATH=${RCUTORTURE}/bin:$PATH; export PATH
-+. functions.sh
++Para arm64, não há suporte a kernel compactado, portanto a própria Imagem se
++passa por uma imagem PE/COFF e o stub EFI é vinculado diretamente ao kernel. O
++stub EFI para arm64 reside em drivers/firmware/efi/libstub/arm64.c e
++drivers/firmware/efi/libstub/arm64-stub.c.
 +
-+cpus=""		# empty = let kvm.sh auto-detect
-+allcpus=0
++Ao usar o EFI boot stub, é possível inicializar um kernel Linux sem o uso de um
++carregador de boot EFI convencional, como o grub ou elilo. Como o EFI boot stub
++desempenha as tarefas de um carregador de inicialização, em certo sentido ele *É*
++o carregador de inicialização.
 +
-+while test $# -gt 0
-+do
-+	case "$1" in
-+	--datestamp)
-+		checkarg --datestamp "(relative pathname)" "$#" "$2" '^[a-zA-Z0-9._/-]*$' '^--'
-+		ds=$2
-+		shift
-+		;;
-+	--cpus)
-+		checkarg --cpus "(number)" "$#" "$2" '^[0-9]\+$' '^--'
-+		cpus="$2"
-+		shift
-+		;;
-+	--allcpus)
-+		allcpus=1
-+		;;
-+	*)
-+		echo Unknown argument $1
-+		usage
-+		;;
-+	esac
-+	shift
-+done
++O EFI boot stub é ativado com a opção de kernel CONFIG_EFI_STUB.
 +
-+nerrs=0
 +
-+run_kvm () {
-+	local ds_suffix="$1"
-+	local configs="$2"
-+	local cpu_arg="$3"
-+	local kconfig="$4"
-+	local resdir="$RCUTORTURE/res/$ds/$ds_suffix"
++Como instalar bzImage.efi
++-------------------------
 +
-+	mkdir -p "$resdir"
++A bzImage localizada em arch/x86/boot/bzImage deve ser copiada para a Partição
++de Sistema EFI (ESP - EFI System Partition) e renomeada com a extensão ".efi".
++Sem a extensão, o carregador de firmware EFI se recusará a executá-la. Não é
++possível executar bzImage.efi a partir dos sistemas de arquivos normais do Linux
++porque o firmware EFI não possui suporte para eles. Para ARM, a
++arch/arm/boot/zImage deve ser copiada para a partição de sistema e pode não
++precisar ser renomeada. Da mesma forma, para arm64, arch/arm64/boot/Image deve
++ser copiada, mas não necessariamente renomeada.
 +
-+	tools/testing/selftests/rcutorture/bin/kvm.sh \
-+		--torture hazptr \
-+		--duration 5s \
-+		--configs "$configs" \
-+		${cpu_arg:+--cpus "$cpu_arg"} \
-+		${kconfig:+--kconfig "$kconfig"} \
-+		--trust-make \
-+		--datestamp "$ds/$ds_suffix" > "$resdir/kvm.sh.out" 2>&1
-+	return $?
-+}
 +
-+check_lockdep () {
-+	local ds_suffix="$1" config_dir="$2" label="$3"
-+	local resdir="$RCUTORTURE/res/$ds/$ds_suffix"
-+	local console="$resdir/$config_dir/console.log"
++Passando parâmetros do kernel a partir do shell EFI
++---------------------------------------------------
 +
-+	if ! test -f "$console"
-+	then
-+		echo "Missing console.log for $label ($ds_suffix)" > "$resdir/kvm.sh.err"
-+		return 1
-+	fi
-+	if grep -qE "WARNING: possible (recursive locking|circular locking dependency)" "$console"
-+	then
-+		echo "Lockdep warning in $label" > "$resdir/kvm.sh.err"
-+		return 1
-+	fi
-+	return 0
-+}
++Argumentos para o kernel podem ser passados após bzImage.efi, por exemplo::
 +
-+# Basic torture: all hazptr configs, CPU count auto-detected
++	fs0:> bzImage.efi console=ttyS0 root=/dev/sda4
 +
-+echo "--- hazptr basic torture${cpus:+ ($cpus CPUs)} ---"
-+run_kvm basic "NOPREEMPT PREEMPT READERS0 READERS4" "$cpus" || nerrs=$((nerrs+1))
++A opção "initrd="
++-----------------
 +
-+# LOCKDEP: verify no lockdep splats with PROVE_LOCKING + wq_churn
++Como a maioria dos carregadores de inicialização, o stub EFI permite que o
++usuário especifique múltiplos arquivos initrd usando a opção "initrd=". Este é
++o único parâmetro de linha de comando específico do stub EFI; tudo o mais é
++passado para o kernel quando ele inicializa.
 +
-+echo "--- hazptr lockdep + wq_churn ---"
-+if run_kvm lockdep-wq LOCKDEP "$cpus"
-+then
-+	check_lockdep lockdep-wq LOCKDEP "LOCKDEP wq_churn" ||
-+		nerrs=$((nerrs+1))
-+else
-+	nerrs=$((nerrs+1))
-+fi
++O caminho para o arquivo initrd deve ser um caminho absoluto a partir do início
++da ESP; nomes de caminhos relativos não funcionam. Além disso, o caminho é no
++estilo EFI e os elementos de diretório devem ser separados com barras invertidas
++(\). Por exemplo, dada a seguinte estrutura de diretórios::
 +
-+# SLOWPATH + PROVE_LOCKING: verify forced-slowpath does not deadlock
++  fs0:>
++	Kernels\
++			bzImage.efi
++			initrd-large.img
 +
-+echo "--- hazptr SLOWPATH + lockdep ---"
-+if run_kvm slowpath-lockdep SLOWPATH "$cpus" \
-+	"CONFIG_PROVE_LOCKING=y"
-+then
-+	check_lockdep slowpath-lockdep SLOWPATH \
-+		"SLOWPATH+PROVE_LOCKING" ||
-+		nerrs=$((nerrs+1))
-+else
-+	nerrs=$((nerrs+1))
-+fi
++	Ramdisks\
++			initrd-small.img
++			initrd-medium.img
 +
-+# CPU scaling: optionally test at multiple CPU counts
++para inicializar com o arquivo initrd-large.img se o diretório de trabalho atual
++for fs0:\Kernels, o seguinte comando deve ser usado::
 +
-+if test "$allcpus" -ne 0
-+then
-+	max_cpus=`grep '^processor' /proc/cpuinfo 2>/dev/null | wc -l`
-+	for n in 8 16 32 64 128 256
-+	do
-+		if test "$n" -le "$max_cpus"
-+		then
-+		echo "--- hazptr CPU=$n ---"
-+		run_kvm "cpu$n" "PREEMPT" "$n" "CONFIG_NR_CPUS=$n" || nerrs=$((nerrs+1))
-+		fi
-+	done
-+fi
++	fs0:\Kernels> bzImage.efi initrd=\Kernels\initrd-large.img
 +
-+# Report
++Observe como bzImage.efi pode ser especificado com um caminho relativo. Isso ocorre
++porque a imagem que estamos executando é interpretada pelo shell EFI, que entende
++caminhos relativos, enquanto o restante da linha de comando é passado para bzImage.efi.
 +
-+if test "$nerrs" -ne 0
-+then
-+	echo "hazptr.sh: $nerrs test(s) failed"
-+	exit 1
-+fi
-+echo "hazptr.sh: all tests passed"
-+exit 0
++.. hint::
++   Também é possível fornecer um initrd usando um protocolo UEFI específico do
++   Linux no momento da inicialização. Consulte :ref:`pe-coff-entry-point` para
++   obter detalhes.
++
++A opção "dtb="
++--------------
++
++Para as arquiteturas ARM e arm64, uma árvore de dispositivos (device tree) deve ser
++fornecida ao kernel. Normalmente, o firmware deve fornecer a árvore de dispositivos
++através da EFI CONFIGURATION TABLE. No entanto, a opção de linha de comando "dtb="
++pode ser usada para sobrescrever a árvore de dispositivos fornecida pelo firmware
++ou para fornecer uma quando o firmware não puder fazê-lo.
++
++Observe: O firmware adiciona informações de configuração em tempo de execução à
++árvore de dispositivos antes de inicializar o kernel. Se dtb= for usado para
++sobrescrever a árvore de dispositivos, quaisquer dados em tempo de execução
++fornecidos pelo firmware serão perdidos. A opção dtb= deve ser usada apenas como
++uma ferramenta de depuração ou como último recurso quando uma árvore de dispositivos
++não for fornecida na EFI CONFIGURATION TABLE.
++
++"dtb=" é processado da mesma maneira que a opção "initrd=" descrita acima.
+diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
+index 40397ef77..f0f096a74 100644
+--- a/Documentation/translations/pt_BR/admin-guide/index.rst
++++ b/Documentation/translations/pt_BR/admin-guide/index.rst
+@@ -60,10 +60,10 @@ Inicializando o kernel
+ 
+    bootconfig
+    kernel-parameters
++   efi-stub
+ 
+ Todolist:
+ 
+-*   efi-stub
+ *   initrd
+ 
+ Rastreando e identificando problemas
 -- 
-2.43.0
+2.47.3
 
