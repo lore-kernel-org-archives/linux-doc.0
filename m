@@ -1,71 +1,71 @@
-Received: from mail-vs2-f33.google.com (mail-vs2-f33.google.com [74.125.227.33])
+Received: from mail-vs2-f39.google.com (mail-vs2-f39.google.com [74.125.227.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7C64D37A0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5B75013D1
 	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 17:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.33
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790961140; cv=none; b=RThEpd/YIVI7Oewn6krOJl2SA29vpkJ1pRoLPIsMlqAOAPhfnLzirq8llBAz12WCi6GCTUPATSSgJKrDfjYpgXdV7BEFhVMd6of3GlYMuPUENiXQ/JDU8M9tDhF3sCamQJOWFArgb4RBA+aaaT75T6o9NXyw18qjJ6DeJGNsJVo=
+	t=1790961138; cv=none; b=pI9pxF0Cc/4eXJTiul7xJzufaboAGfNiCmQ91dvXkMQc3HNtXMSStv47HGTmzfghcgRBp+rO5Ppxj8heRGx+bivQh4m0yfXclPvjnXMgpfvWmdnRk0uzV779e5JNxBbfmS63QgS4iek04PH/k5DUWFbUX6fjWmgLHREehRI7NSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790961140; c=relaxed/simple;
-	bh=X4o8nkXMr3FVdys8vj9D1nn226fSc+WBPQ1hJBea158=;
+	s=arc-20240116; t=1790961138; c=relaxed/simple;
+	bh=PK2alp6/xnsHER1rffOmxAkIoASTZ/vXBcbR9/rNVLk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FYw3I4Y547NTCTo0b3F0RxNsaKYJvu3NpD4kFoNltbJKtrXV6DXpV2IrrwxILjiFwOWWPen33nWqx2o4gvU5De6vlhdn4lB05LJHFi7PQCAk7j+NTROWioyPQIAMQ5X/3bf3Ol442W16YrRtgRwL9RHDVjhaJQ2zwzO+bhYWrgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ndsHwP4S; arc=none smtp.client-ip=74.125.227.33
+	 MIME-Version:Content-Type; b=AK7MnBOk02+lYnmEgahgsQejzGWlyQxBDtz3GHD3mTcg7XrrZoLR3TjESPFqxD9zoeL9eGxKzKrqTxszMp0bPZXVdFedbVd0EodfP8D/WU/Glotvov9sjdKTckJKUS31lc2SRfEEe8XF1TJFkb7yflk9Eg146NhFz0Du/iBvLdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UjleLcRe; arc=none smtp.client-ip=74.125.227.39
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ndsHwP4S"
-Received: by mail-vs2-f33.google.com with SMTP id 71dfb90a1353d-5caec6d2983so6556993e0c.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UjleLcRe"
+Received: by mail-vs2-f39.google.com with SMTP id 71dfb90a1353d-5d5af7b2015so1022368e0c.1
         for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 10:12:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790961121; x=1791565921; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790961120; x=1791565920; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=hfb0wXGFE+tgscc174wTSrbVM3lFITz6X2ycizwv16w=;
-        b=ndsHwP4SlyP3Tii51fG219m2jv9yRz40qmMm3TZdteKZlt5680Jjo3DKsNBBzMKeI6
-         Vhto83Y2v4P9pMbQ2HxUMFV4/TH0N0jHHGyDLPGoRMl85u+BE+XcTpQ7V8GtblKEFzcm
-         AT1CPdHTojQyT8RBjcKqwG8yK0pyXJ7l5gJppAe7IE+HZ3WJFfK09M5CqnvQYtyWDNFM
-         f2hg5A+z1aAYAjyH1MrLeJRcuHPdC0Yl/15wSZAiK7SCi8mbSQ9OtyOfp+z7xSWqpZ65
-         v5yUPrXSWarXcykFEk0gFoqn0Cpfy/8iviOspTRrOi1XNXPVE4gKwNEQlOAzgJt7saBI
-         N+6g==
+        bh=FgbzUmq0OSdHr1yvAJe1wHzLrk4YUD9c9CxEWcth0do=;
+        b=UjleLcReWJrJDgEdK/NYVy7B5PfkYwFNVWYdldQYbK9KA62X9x8DYuX4bKgTVPqCHj
+         Hj/eyngQEqW6/uueyYryGfDohr5Pch5EIMlXkZSJG7uVNstFwffalb1e3WFgzutpseou
+         ZuKS9hkdTrPc0lz3GmQY4iQL6bT+5IVclxdLLMYb5OPzhgcMltfrGV5CA4IsjV21Zieq
+         x83Nt4OKQitdbmvERw6t8qacyli6yXK/iLAfz6UbPMG32gI/DXLhLYg8m/RtRdQyqvDp
+         SmKizEO2N440+vKXYqek4ikS7Em9jYpzXGJnqggWf/ztlkkSdEFoi6TUpRpRI1G3xYUu
+         GeUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790961121; x=1791565921;
+        d=1e100.net; s=20260707; t=1790961120; x=1791565920;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=hfb0wXGFE+tgscc174wTSrbVM3lFITz6X2ycizwv16w=;
-        b=Byz/0bRonThSnAD2mBaWTgOWXw5xhGOfPP/hrt2y0oNyH347cqJ3bFgF/ntK3MqbUb
-         OrZ4V0T2ghoUNDqKD9PHmGJOYgepNsDOOB5O0pQtY6FyH+atFMS3ioJCCbYg2xzbJfaZ
-         h/t4sjcQaa3Sutzl2rnaBQuHYTqm3mQtV2UDV9/9j+l495HK37QVTR22GKdbDNQr1pbm
-         SHE4GjX73KkNLdpIcMvEWc6u3rLF7Dp9ZUUDvW+varMnxVLZ61cnG0KOchTSH/BC4f10
-         uiCfTaOsv3GDsMNr9C9t+AbsIzZIZLMIQ5jiKvxjgDG/S+OCGcDWUfUtwJed3JwDk/4C
-         pBIQ==
-X-Gm-Message-State: AFq9FYJ13RaRr7c/BECYEGptsnefVTuzg1k4c+MiOsaOY+eEkcIgF7tG
-	HSvAZRYzXLMTfeEWWxLiKZdOeVlks5765cWNubNQOcrA0gmg0HT+dsKWWbfQMzPI
-X-Gm-Gg: AYBFou0zdaL3eYNDRLyeq8+GLujV2SPK+873LRKNWewIUlczz0W9FjuyXtzMuqZVh8b
-	l1MGXeSI/ToBaWEOAMAl7fKn/wBqDetjOkmZYg0xfunnKAc64L7WxQEEzDkDAU6jrAgwYtSUpaT
-	fpA2IPlpgbX22JYpy+bWzvfmL1R57IBmCx9WH9ye4F3t7nauK0dZxdhYAI4i/ipp7MaPtgvNrtS
-	Vku/xVP21oMFWfrGBwAsptQMQl01hj0lyomymdR9bgbMv9+JxXtEtLuXbX66FQtiehmZ0DaA7vu
-	ipb30vH9wVElAL6a5EqijVNMPeJZYS85ZrKillYkqQIV+3Np4KtZRly78u0e6YN6T2n3Jy6WR3r
-	qDlUkQwrIIhcOi6TixzI82IwpNoJ8Kvnf/ZY5RhDafahiuBnIn9mvHn+V7kg11gDSWTshQTHWGd
-	M52MieGmMGZQGFdI9ZzJzLYD0C5dG1W8/RBMr9eUEJjV8yVCKB9dDphkrFh1e4U+0fLW4uNen6o
-	evyr03zcf3IzpoKkStyF2BCLtHofw5/tIcqqTS/IeBpSS5LBWAB5ZAPgd4p2bkBq8VFkXhimdHO
-	8PNViGbbX2mCiwZlDXxsAaY=
-X-Received: by 2002:a05:6122:2393:b0:5c9:c60e:5cf5 with SMTP id 71dfb90a1353d-5dab335861dmr1155536e0c.19.1790961120664;
-        Fri, 02 Oct 2026 10:12:00 -0700 (PDT)
+        bh=FgbzUmq0OSdHr1yvAJe1wHzLrk4YUD9c9CxEWcth0do=;
+        b=l9tOSrP7hbgwaeIv/sh/Cw7qtp6uYAROAEpYGPUnvGCHsrWsFXhVg/XWAoXUnmHQ08
+         yo5bNlqMDMQeA6meie9jW8t7gmrVh5h8mdjAdSEfJ7hOweIlP8PW1BmuhGM6qO/gCAly
+         WHbrTmIe2/eyKNj8goGFEuAHtR0J5GPFqvQL9OyDVup/nbJI51JT4ZeWx2yGIn4PL1wr
+         MXRH06Ngwzxm1O/CIcB63vFMvkjQR/81Na5Wosi6KNEHyQIxklGwF9xtSJ7sF7Wpz4h6
+         ZpqDYnAecVaKstnXVyuGoravC3BJ7RdRRgQdg5zuycEJWKQ8q7rXe49VFVffVFbwAHwB
+         El1Q==
+X-Gm-Message-State: AFq9FYLyByUhgyHnMch8t+/L7EjFuBWp9RDVkkzPRyipPhv2FVTQO0Ba
+	4qLtWbrSgpzyXaJ/z9y5nZ5AgCmi1nnd6QedzerD2klhgoWxW7tnM4txICZkoBjZ
+X-Gm-Gg: AYBFou0iJkwBE6Vq199I160q/IsmcyUVDnZzcsa09fEjROER7O8DiwPqYagoOqJmvh6
+	0GtIAGOSQmFVHIadStlfJrGOBeZstYlSqnhOftRsuh7T2YTa+CfOQaAwgV7THv2U0CkwV3ZNnLc
+	cudArM+h+lc23d0Wmv/3PArOFd5YGll29tDMoywj8YFMe9tHOT4M389I6m1j17kSvSJPJ1NN8yj
+	0rlCwybduOAMewlndVDJ4bIVVt4jxIdbASASA0xwPuo572ps4DpNt5XxMp9crF79YWNHI/+WUUQ
+	8tO7Zho8ECOXtzMI3RFXHBdA3mmW4bEOkYMyWFiI/xDx2aqlGBMkKWyFtwxRge1iViXV6Y0ddXK
+	o3kKK4KFi05dWsui1keu8+mnrIyRpwroGmRWuW9Ljxl9Wv/xUlY4+AipTgqr4b7ET6TZKPGwIs1
+	N4O9aOEZaiIg/dtSkU721APnA6/khjw8UrRXpEnA35veNIIodynoU3I+FATgvL3r2hBI9sx7RF5
+	pbogmiDZ8/RRYG+eO8BPRDIwUqxuILbXf1E+fPD64ZBNlvuwQ3cHi6N9bnc+KHXQer6EE5fpLov
+	kbZNMGuJ
+X-Received: by 2002:a05:6122:9004:b0:5dd:93c4:12cb with SMTP id 71dfb90a1353d-5dd93c42213mr366994e0c.2.1790961118811;
+        Fri, 02 Oct 2026 10:11:58 -0700 (PDT)
 Received: from penguin.bbrouter. ([200.218.229.14])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5da635c7209sm3947605e0c.15.2026.10.02.10.11.59
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5da635c7209sm3947605e0c.15.2026.10.02.10.11.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 10:12:00 -0700 (PDT)
+        Fri, 02 Oct 2026 10:11:58 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: linux-doc@vger.kernel.org
 Cc: corbet@lwn.net
-Subject: [PATCH 09/10] docs/translations/pt_BR: admin-guide: add kernel-parameters.rst
-Date: Fri,  2 Oct 2026 14:11:32 -0300
-Message-ID: <20261002171133.50969-10-danielmaraboo@gmail.com>
+Subject: [PATCH 08/10] docs/translations/pt_BR: admin-guide: add bootconfig.rst
+Date: Fri,  2 Oct 2026 14:11:31 -0300
+Message-ID: <20261002171133.50969-9-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261002171133.50969-1-danielmaraboo@gmail.com>
 References: <20261002171133.50969-1-danielmaraboo@gmail.com>
@@ -78,172 +78,464 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add translation of kernel-parameters.rst to Portuguese and update
+Add translation of bootconfig.rst to Portuguese and update
 admin-guide/index.rst.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
- .../translations/pt_BR/admin-guide/index.rst  |   2 +-
- .../pt_BR/admin-guide/kernel-parameters.rst   | 134 ++++++++++++++++++
- 2 files changed, 135 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/pt_BR/admin-guide/kernel-parameters.rst
+ .../pt_BR/admin-guide/bootconfig.rst          | 423 ++++++++++++++++++
+ .../translations/pt_BR/admin-guide/index.rst  |   6 +-
+ 2 files changed, 428 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/pt_BR/admin-guide/bootconfig.rst
 
-diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
-index 96a54595f..40397ef77 100644
---- a/Documentation/translations/pt_BR/admin-guide/index.rst
-+++ b/Documentation/translations/pt_BR/admin-guide/index.rst
-@@ -59,10 +59,10 @@ Inicializando o kernel
-    :maxdepth: 1
- 
-    bootconfig
-+   kernel-parameters
- 
- Todolist:
- 
--*   kernel-parameters
- *   efi-stub
- *   initrd
- 
-diff --git a/Documentation/translations/pt_BR/admin-guide/kernel-parameters.rst b/Documentation/translations/pt_BR/admin-guide/kernel-parameters.rst
+diff --git a/Documentation/translations/pt_BR/admin-guide/bootconfig.rst b/Documentation/translations/pt_BR/admin-guide/bootconfig.rst
 new file mode 100644
-index 000000000..42a646632
+index 000000000..aa73c5752
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/admin-guide/kernel-parameters.rst
-@@ -0,0 +1,134 @@
++++ b/Documentation/translations/pt_BR/admin-guide/bootconfig.rst
+@@ -0,0 +1,423 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+Os parâmetros de linha de comando do kernel
-+===========================================
++====================
++Configuração de boot
++====================
 +
-+A seguir está uma lista consolidada dos parâmetros do kernel conforme
-+implementados pelas macros __setup(), early_param(), core_param() e
-+module_param(), ordenados na ordem do dicionário inglês (definida como ignorar
-+toda a pontuação e ordenar dígitos antes de letras sem distinção entre
-+maiúsculas e minúsculas), e com descrições onde conhecidas.
++:Autor: Masami Hiramatsu <mhiramat@kernel.org>
 +
-+O kernel analisa os parâmetros da linha de comando do kernel até "``--``";
-+se ele não reconhecer um parâmetro e este não contiver um '.', o parâmetro
-+será passado para o init: parâmetros com '=' vão para o ambiente do init,
-+outros são passados como argumentos de linha de comando para o init.
-+Tudo após "``--``" é passado como argumento para o init.
++Visão geral
++===========
 +
-+Os parâmetros de módulo podem ser especificados de duas maneiras: através da
-+linha de comando do kernel com um prefixo de nome de módulo, ou via modprobe,
-+por exemplo::
++A configuração de boot expande a linha de comando atual do kernel para suportar
++dados adicionais de chave-valor ao inicializar o kernel de forma eficiente.
++Isso permite que os administradores passem um arquivo de configuração estruturado
++por chaves.
 +
-+	(linha de comando do kernel) usbcore.blinkenlights=1
-+	(linha de comando do modprobe) modprobe usbcore blinkenlights=1
++Sintaxe do arquivo de configuração
++==================================
 +
-+Os parâmetros para módulos compilados embutidos no kernel precisam ser
-+especificados na linha de comando do kernel. O modprobe examina a linha de
-+comando do kernel (/proc/cmdline) e coleta parâmetros de módulo ao carregar um
-+módulo, de modo que a linha de comando do kernel também pode ser usada para
-+módulos carregáveis.
++A sintaxe de configuração de boot é uma estrutura simples de chave-valor. Cada
++chave consiste em palavras conectadas por pontos, e a chave e o valor são
++conectados por ``=``. A string de valor deve ser terminada pelos seguintes
++delimitadores descritos abaixo.
 +
-+Este documento pode não estar totalmente atualizado e abrangente. O comando
-+"modinfo -p ${nomedomodulo}" exibe uma lista atual de todos os parâmetros de um
-+módulo carregável. Módulos carregáveis, após serem carregados no kernel em
-+execução, também revelam seus parâmetros em /sys/module/${nomedomodulo}/parameters/.
-+Alguns desses parâmetros podem ser alterados em tempo de execução pelo comando
-+``echo -n ${valor} > /sys/module/${nomedomodulo}/parameters/${param}``.
++Cada palavra-chave deve conter apenas letras do alfabeto, números, traço (``-``)
++ou sublinhado (``_``). E cada valor contém apenas caracteres imprimíveis ou espaços,
++exceto delimitadores como ponto e vírgula (``;``), quebra de linha (``\n``),
++vírgula (``,``), cerquilha (``#``) e chave de fechamento (``}``).
 +
-+Tratamento especial
-+-------------------
++Se o ``=`` for seguido por espaços em branco até um desses delimitadores, a chave
++será atribuída a um valor vazio.
 +
-+Hífens (traços) e sublinhados são equivalentes em nomes de parâmetros, portanto::
++Para arrays, os valores do array são separados por vírgula (``,``), e comentários
++e quebras de linha com nova linha (``\n``) são permitidos entre os valores do array
++para facilitar a legibilidade. Assim, a primeira entrada do array deve estar na
++mesma linha da chave.::
 +
-+	log_buf_len=1M print-fatal-signals=1
++  CHAVE[.PALAVRA[...]] = VALOR[, VALOR2[...]][;]
 +
-+também pode ser inserido como::
++Diferente da sintaxe de linha de comando do kernel, espaços em branco (incluindo
++tabs) são ignorados ao redor da vírgula e do ``=``.
 +
-+	log-buf-len=1M print_fatal_signals=1
++Se você quiser usar esses delimitadores em um valor, pode usar aspas duplas
++(``"VALOR"``) ou aspas simples (``'VALOR'``) para colocá-lo entre aspas. Observe
++que você não pode escapar essas aspas.
 +
-+Aspas duplas podem ser usadas para proteger espaços nos valores, por exemplo::
++Pode haver uma chave que não tenha valor ou tenha um valor vazio. Essas chaves
++são usadas para verificar se a chave existe ou não (como um booleano).
 +
-+	param="spaces in here"
++Sintaxe de chave-valor
++----------------------
 +
-+Listas de CPUs
-+~~~~~~~~~~~~~~
++A sintaxe do arquivo de configuração de boot permite que o usuário mescle chaves
++com palavras parcialmente iguais usando chaves (braces). Por exemplo::
 +
-+Alguns parâmetros do kernel recebem uma lista de CPUs como valor, por exemplo:
-+isolcpus, nohz_full, irqaffinity, rcu_nocbs. O formato desta lista é:
++ foo.bar.baz = value1
++ foo.bar.qux.quux = value2
 +
-+	<número da cpu>,...,<número da cpu>
++Elas também podem ser escritas assim::
 +
-+ou
++ foo.bar {
++    baz = value1
++    qux.quux = value2
++ }
 +
-+	<número da cpu>-<número da cpu>
-+	(deve ser um intervalo positivo em ordem crescente)
++Ou de forma mais concisa, escrita da seguinte maneira::
 +
-+ou uma mistura
++ foo.bar { baz = value1; qux.quux = value2 }
 +
-+	<número da cpu>,...,<número da cpu>-<número da cpu>
++Em ambos os estilos, as mesmas palavras-chave são mescladas automaticamente ao
++serem analisadas no momento da inicialização. Assim, você pode anexar árvores ou
++pares de chave-valor semelhantes.
 +
-+Observe que, para o caso especial de um intervalo, é possível dividir o intervalo em
-+grupos de tamanhos iguais e, para cada grupo, usar uma determinada quantidade a
-+partir do início desse grupo:
++Valores com a mesma chave
++-------------------------
 +
-+	<número da cpu>-<número da cpu>:<tamanho usado>/<tamanho do grupo>
++É proibido que dois ou mais valores ou arrays compartilhem a mesma chave.
++Por exemplo::
 +
-+Por exemplo, pode-se adicionar à linha de comando o seguinte parâmetro:
++ foo = bar, baz
++ foo = qux  # !ERRO! não podemos redefinir a mesma chave
 +
-+	isolcpus=1,2,10-20,100-2000:2/25
++Se você quiser atualizar o valor, deve usar o operador de substituição (override)
++``:=`` explicitamente. Por exemplo::
 +
-+onde o item final representa as CPUs 100,101,125,126,150,151,...
++ foo = bar, baz
++ foo := qux
 +
-+O valor "N" pode ser usado para representar a última CPU numericamente no sistema,
-+ou seja, "foo_cpus=16-N" seria equivalente a "16-31" em um sistema de 32 núcleos.
++então, ``qux`` é atribuído à chave ``foo``. Isso é útil para sobrescrever o
++valor padrão adicionando bootconfigs personalizados (parciais) sem precisar
++analisar o bootconfig padrão.
 +
-+Tenha em mente que "N" é dinâmico; portanto, se alterações no sistema fizerem com
-+que a largura do bitmap mude, como menos núcleos na lista de CPUs, N e quaisquer
-+intervalos que usem N também mudarão. Use o mesmo em um sistema pequeno de 4 núcleos,
-+e "16-N" se tornará "16-3", e agora a mesma entrada de boot será sinalizada como
-+inválida (início > fim).
++Se você quiser anexar o valor a uma chave existente como membro de um array,
++pode usar o operador ``+=``. Por exemplo::
 +
-+O nome de grupo especial tolerante a maiúsculas/minúsculas "all" tem o significado
-+de selecionar todas as CPUs, de modo que "nohz_full=all" seja o equivalente a
-+"nohz_full=0-N".
++ foo = bar, baz
++ foo += qux
 +
-+A semântica de "N" e "all" é suportada em nível de bitmaps e é válida para todos
-+os usuários de bitmap_parselist().
++Neste caso, a chave ``foo`` conterá ``bar``, ``baz`` e ``qux``.
 +
-+Sufixos métricos
-+~~~~~~~~~~~~~~~~
++Além disso, subchaves e um valor podem coexistir sob uma chave pai.
++Por exemplo, a seguinte configuração é permitida::
 +
-+O sufixo [KMG] é comumente descrito após vários valores de parâmetros do kernel.
-+Os sufixos 'K', 'M', 'G', 'T', 'P' e 'E' são permitidos. Essas letras representam
-+os multiplicadores _binários_ 'Quilo', 'Mega', 'Giga', 'Tera', 'Peta' e 'Exa',
-+equivalendo a 2^10, 2^20, 2^30, 2^40, 2^50 e 2^60 bytes, respectivamente. Esses
-+sufixos de letras também podem ser totalmente omitidos.
++ foo = value1
++ foo.bar = value2
++ foo := value3 # Isto atualizará o valor de foo.
 +
-+Opções de compilação do kernel
-+------------------------------
++Observe que, como não há sintaxe para colocar um valor puro diretamente sob uma
++chave estruturada, você deve defini-lo fora das chaves. Por exemplo::
 +
-+Os parâmetros listados abaixo só são válidos se certas opções de compilação do
-+kernel foram ativadas e se o respectivo hardware estiver presente. Esta lista deve
-+ser mantida em ordem alfabética. O texto entre colchetes no início de cada descrição
-+informa as restrições sob as quais um parâmetro é aplicável.
++ foo {
++     bar = value1
++     bar {
++         baz = value2
++         qux = value3
++     }
++ }
 +
-+Os parâmetros indicados com BOOT são, na verdade, interpretados pelo carregador
-+de inicialização e não têm significado diretamente para o kernel.
-+Não modifique a sintaxe dos parâmetros do carregador de inicialização sem extrema
-+necessidade ou coordenação com <Documentation/arch/x86/boot.rst>.
++Além disso, a ordem do nó de valor sob uma chave é fixa. Se houver um valor e
++subchaves, o valor será sempre o primeiro nó filho da chave. Portanto, se o
++usuário especificar subchaves primeiro, por exemplo::
 +
-+Existem também parâmetros do kernel específicos de arquitetura não documentados aqui.
++ foo.bar = value1
++ foo = value2
 +
-+Observe que TODOS os parâmetros do kernel listados abaixo DISTINGUEM MAIÚSCULAS DE
-+MINÚSCULAS, e que um = final no nome de qualquer parâmetro indica que o parâmetro
-+será inserido como uma variável de ambiente, enquanto sua ausência indica que ele
-+aparecerá como um argumento do kernel legível via /proc/cmdline por programas em
-+execução assim que o sistema estiver ativo.
++No programa (e em /proc/bootconfig), ele será exibido conforme abaixo::
 +
-+O número de parâmetros do kernel não é limitado, mas o comprimento da linha de
-+comando completa (parâmetros incluindo espaços, etc.) é limitado a um número fixo
-+de caracteres. Este limite depende da arquitetura e varia entre 256 e 4096 caracteres.
-+Ele é definido no arquivo ./include/uapi/asm-generic/setup.h como COMMAND_LINE_SIZE.
++ foo = value2
++ foo.bar = value1
 +
-+.. include:: ../../../admin-guide/kernel-parameters.txt
-+   :literal:
++Comentários
++-----------
++
++A sintaxe de configuração aceita comentários no estilo shell-script. Os comentários
++iniciados com cerquilha ("#") até a quebra de linha ("\n") serão ignorados.
++
++::
++
++ # linha de comentário
++ foo = value # valor atribuído a foo.
++ bar = 1, # 1º elemento
++       2, # 2º elemento
++       3  # 3º elemento
++
++Isto é analisado como abaixo::
++
++ foo = value
++ bar = 1, 2, 3
++
++Observe que você NÃO pode colocar um comentário ou uma quebra de linha entre o
++valor e o delimitador (``,`` ou ``;``). Isso significa que a seguinte configuração
++possui um erro de sintaxe::
++
++ key = 1 # comentário
++       ,2
++
++
++/proc/bootconfig
++================
++
++/proc/bootconfig é uma interface de espaço de usuário da configuração de boot.
++Diferente de /proc/cmdline, este arquivo exibe a lista no estilo chave-valor.
++Cada par chave-valor é mostrado em cada linha no seguinte formato::
++
++ CHAVE[.PALAVRAS...] = "[VALOR]"[,"VALOR2"...]
++
++
++Inicializando o kernel com um Boot Config
++=========================================
++
++Existem duas opções para inicializar o kernel com bootconfig: anexar o bootconfig
++à imagem initrd ou embuti-lo no próprio kernel.
++
++Anexando um Boot Config ao Initrd
++---------------------------------
++
++Como o arquivo de configuração de boot é carregado com o initrd por padrão, ele
++será adicionado ao final do arquivo de imagem do initrd (initramfs) com
++preenchimento (padding), tamanho, checksum e palavra mágica de 12 bytes conforme
++abaixo.
++
++[initrd][bootconfig][padding][size(le32)][checksum(le32)][#BOOTCONFIG\n]
++
++Os campos de tamanho (size) e checksum são valores de 32 bits sem sinal em little endian.
++
++Quando a configuração de boot é adicionada à imagem do initrd, o tamanho total
++do arquivo é alinhado a 4 bytes. Para preencher a lacuna, caracteres nulos
++(``\0``) serão adicionados. Assim, ``size`` é o comprimento do arquivo bootconfig
+++ bytes de preenchimento.
++
++O kernel Linux decodifica a última parte da imagem do initrd na memória para
++obter os dados de configuração de boot.
++Por causa desse método "piggyback", não há necessidade de alterar ou atualizar o
++carregador de inicialização (boot loader) e a própria imagem do kernel, desde que
++o boot loader passe o tamanho correto do arquivo initrd. Se, por qualquer motivo,
++o boot loader passar um tamanho maior, o kernel não conseguirá encontrar os
++dados do bootconfig.
++
++Para realizar esta operação, o kernel Linux fornece o comando ``bootconfig`` sob
++tools/bootconfig, que permite ao administrador aplicar ou excluir o arquivo de
++configuração na/da imagem do initrd. Você pode compilá-lo com o seguinte comando::
++
++ # make -C tools/bootconfig
++
++Para adicionar seu arquivo de configuração de boot à imagem do initrd, execute o
++bootconfig conforme abaixo (dados antigos são removidos automaticamente se existirem)::
++
++ # tools/bootconfig/bootconfig -a your-config /boot/initrd.img-X.Y.Z
++
++Para remover a configuração da imagem, você pode usar a opção -d como abaixo::
++
++ # tools/bootconfig/bootconfig -d /boot/initrd.img-X.Y.Z
++
++Em seguida, adicione "bootconfig" na linha de comando normal do kernel para instruir
++o kernel a procurar pelo bootconfig no final do arquivo initrd.
++Como alternativa, compile seu kernel com a opção Kconfig ``CONFIG_BOOT_CONFIG_FORCE``
++selecionada.
++
++Embutindo um Boot Config no kernel
++----------------------------------
++
++Se você não puder usar initrd, também poderá embutir o arquivo bootconfig no
++kernel através de opções do Kconfig. Nesse caso, você precisa recompilar o
++kernel com as seguintes configurações::
++
++ CONFIG_BOOT_CONFIG_EMBED=y
++ CONFIG_BOOT_CONFIG_EMBED_FILE="/CAMINHO/PARA/ARQUIVO/BOOTCONFIG"
++
++``CONFIG_BOOT_CONFIG_EMBED_FILE`` requer um caminho absoluto ou um caminho
++relativo para o arquivo bootconfig a partir da árvore de código-fonte ou da
++árvore de objetos. O kernel o embutirá como o bootconfig padrão.
++
++Assim como ao anexar o bootconfig ao initrd, você precisa da opção ``bootconfig``
++na linha de comando do kernel para habilitar o bootconfig embutido ou,
++alternativamente, compilar seu kernel com a opção Kconfig
++``CONFIG_BOOT_CONFIG_FORCE`` selecionada.
++
++Observe que, mesmo se você definir esta opção, poderá sobrescrever o bootconfig
++embutido por outro bootconfig anexado ao initrd.
++
++Renderizando chaves kernel.* embutidas em tempo de compilação
++-------------------------------------------------------------
++
++Por padrão, o bootconfig embutido (``CONFIG_BOOT_CONFIG_EMBED=y``) é analisado
++em tempo de execução, após ``parse_early_param()`` já ter sido executado. Os
++tratadores de parâmetros iniciais (early parameters) (``mem=``, ``earlycon=``,
++``loglevel=``, ...) não conseguem, portanto, ver valores fornecidos através da
++subárvore ``kernel`` embutida.
++
++A opção ``CONFIG_CMDLINE_FROM_BOOTCONFIG`` resolve isso renderizando a subárvore
++``kernel`` de ``CONFIG_BOOT_CONFIG_EMBED_FILE`` em uma string de cmdline plana em
++tempo de compilação do kernel (via ``tools/bootconfig -C``) e prefixando-a a
++``boot_command_line`` durante a configuração arquitetural inicial, de modo que
++as chaves fiquem visíveis para ``parse_early_param()``.
++
++A opção requer ``CONFIG_BOOT_CONFIG_EMBED=y``, um ``CONFIG_BOOT_CONFIG_EMBED_FILE``
++não vazio, ``CONFIG_CMDLINE`` vazio e uma arquitetura que selecione
++``CONFIG_ARCH_SUPPORTS_CMDLINE_FROM_BOOTCONFIG``. Atualmente apenas x86 a seleciona;
++em outras arquiteturas, o bootconfig embutido ainda funciona, mas apenas por meio
++do analisador tardio em tempo de execução.
++
++A mesma ativação explícita de ``bootconfig`` se aplica como em outros lugares:
++as chaves renderizadas são prefixadas apenas quando ``bootconfig`` (em qualquer
++forma) aparece na linha de comando do kernel, ou quando ``CONFIG_BOOT_CONFIG_FORCE``
++está definido, cujo padrão é ``y`` quando ``CONFIG_BOOT_CONFIG_EMBED`` está definido.
++
++Por exemplo, dado::
++
++ kernel {
++   loglevel = 7
++   mem = 4G
++ }
++
++o kernel inicializa como se ``loglevel=7 mem=4G`` tivesse sido prefixado à linha
++de comando do carregador de inicialização, com os valores visíveis para os
++tratadores analisados precocemente. Valores separados por vírgula ainda são
++expandidos em múltiplas entradas de linha de comando de acordo com a convenção
++de array do bootconfig -- o ``kernel.earlycon = "uart8250,io,0x3f8"`` embutido
++deve estar entre aspas para resultar em uma única entrada ``earlycon=``, exatamente
++como no analisador em tempo de execução.
++
++Se a string renderizada não couber em ``COMMAND_LINE_SIZE`` juntamente com a
++linha de comando existente, o prefixo será ignorado e um erro será registrado,
++de modo que um bootconfig embutido superdimensionado não possa travar a inicialização.
++
++Interação com outras fontes de linha de comando e bootconfig
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Com ``CONFIG_CMDLINE_FROM_BOOTCONFIG=y``, a subárvore ``kernel`` renderizada
++comporta-se como uma linha de comando em tempo de compilação (semelhante a
++``CONFIG_CMDLINE``), e não como uma fonte de bootconfig. Ela é prefixada a
++``boot_command_line`` em ``setup_arch()``, antes de ``parse_early_param()`` e
++muito antes de o analisador em tempo de execução inspecionar um initrd. As opções
++podem chegar ao kernel a partir de até quatro locais:
++
++- Linha de comando do carregador de inicialização (bootloader): os argumentos
++  que o carregador de inicialização passa. A linha de comando embutida é
++  prefixada na frente deles, portanto, para parâmetros onde o último vence
++  (last-one-wins), uma opção do bootloader ainda sobrescreve o valor embutido.
++  Visível em /proc/cmdline.
++- Linha de comando embutida (esta opção): a subárvore ``kernel`` renderizada,
++  prefixada precocemente para ser vista por ``parse_early_param()``. Visível em
++  /proc/cmdline.
++- Bootconfig do initrd: analisado tardiamente em ``setup_boot_config()``; suas
++  chaves ``kernel`` são colocadas antes de ``boot_command_line``, ou seja, antes
++  da linha de comando embutida, portanto, a regra do último vencedor favorece os
++  valores embutidos. Como uma fonte de bootconfig, um bootconfig do initrd ainda
++  substitui o bootconfig embutido. Visível em /proc/cmdline e /proc/bootconfig.
++- Bootconfig embutido (tempo de execução): analisado tardiamente, apenas quando
++  nenhum bootconfig do initrd estiver presente. Visível em /proc/cmdline e
++  /proc/bootconfig.
++
++Assim, com esta opção, os valores ``kernel.*`` embutidos têm precedência sobre os
++valores ``kernel.*`` de um bootconfig do initrd: para parâmetros iniciais, o initrd
++ainda não foi analisado e, para parâmetros comuns, as chaves embutidas chegam mais
++tarde na linha de comando. Se você precisa que um bootconfig do initrd sobrescreva
++as chaves ``kernel.*`` embutidas, deixe esta opção desativada e confie no analisador
++em tempo de execução.
++
++A string renderizada faz parte da linha de comando, portanto aparece em
++/proc/cmdline. Ela deliberadamente não é mostrada em /proc/bootconfig: esse
++arquivo continua relatando a árvore de bootconfig analisada -- o bootconfig do
++initrd se presente, caso contrário o bootconfig embutido -- independentemente de a
++renderização da linha de comando em tempo de compilação estar ativada.
++
++Parâmetros do kernel via Boot Config
++====================================
++
++Além da linha de comando do kernel, a configuração de boot pode ser usada para
++passar os parâmetros do kernel. Todos os pares chave-valor sob a chave ``kernel``
++serão passados diretamente para a linha de comando do kernel. Além disso, os pares
++chave-valor sob ``init`` serão passados para o processo init via linha de comando.
++Os parâmetros são concatenados com a string de linha de comando do kernel fornecida
++pelo usuário na seguinte ordem, de modo que o parâmetro de linha de comando possa
++sobrescrever os parâmetros de bootconfig (isso depende de como o subsistema lida com
++parâmetros, mas em geral, o parâmetro anterior será sobrescrito pelo posterior)::
++
++ [bootconfig params][cmdline params] -- [bootconfig init params][cmdline init params]
++
++Aqui está um exemplo de arquivo bootconfig para parâmetros de kernel/init::
++
++ kernel {
++   root = 01234567-89ab-cdef-0123-456789abcd
++ }
++ init {
++  splash
++ }
++
++Isto será copiado na string de linha de comando do kernel da seguinte forma::
++
++ root="01234567-89ab-cdef-0123-456789abcd" -- splash
++
++Se o usuário fornecer alguma outra linha de comando como::
++
++ ro bootconfig -- quiet
++
++A linha de comando final do kernel será a seguinte::
++
++ root="01234567-89ab-cdef-0123-456789abcd" ro bootconfig -- splash quiet
++
++
++Limitações do arquivo de configuração
++=====================================
++
++Atualmente, o tamanho máximo da configuração é de 32 KB e o total de palavras-chave
++(não entradas de chave-valor) deve ser inferior a 1024 nós.
++Nota: este não é o número de entradas, mas de nós; uma entrada deve consumir mais
++de 2 nós (uma palavra-chave e um valor). Portanto, teoricamente, haverá até 512
++pares chave-valor. Se as chaves contiverem 3 palavras em média, poderá conter 256
++pares chave-valor. Na maioria dos casos, o número de itens de configuração estará
++abaixo de 100 entradas e será menor que 8 KB, o que seria suficiente.
++Se o número de nós exceder 1024, o analisador retornará um erro mesmo se o tamanho
++do arquivo for menor que 32 KB. (Observe que esse tamanho máximo não inclui os
++caracteres nulos de preenchimento.)
++De qualquer forma, como o comando bootconfig verifica isso ao anexar uma configuração
++de boot à imagem initrd, o usuário pode perceber antes da inicialização.
++
++
++APIs do Bootconfig
++==================
++
++O usuário pode consultar ou iterar sobre pares chave-valor; também é possível
++encontrar um nó de chave raiz (prefixo) e encontrar chaves-valores sob esse nó.
++
++Se você tiver uma string de chave, poderá consultar o valor diretamente com a chave
++usando xbc_find_value(). Se quiser saber quais chaves existem no bootconfig, pode
++usar xbc_for_each_key_value() para iterar sobre os pares chave-valor.
++Observe que você precisa usar xbc_array_for_each_value() para acessar o valor de
++cada array, por exemplo::
++
++ vnode = NULL;
++ xbc_find_value("key.word", &vnode);
++ if (vnode && xbc_node_is_array(vnode))
++    xbc_array_for_each_value(vnode, value) {
++      printk("%s ", value);
++    }
++
++Se você quiser focar em chaves que tenham uma string de prefixo, pode usar
++xbc_find_node() para encontrar um nó pela string de prefixo e iterar pelas chaves
++sob o nó de prefixo com xbc_node_for_each_key_value().
++
++Mas o uso mais típico é obter o valor nomeado sob o prefixo ou obter o array
++nomeado sob o prefixo, como abaixo::
++
++ root = xbc_find_node("key.prefix");
++ value = xbc_node_find_value(root, "option", &vnode);
++ ...
++ xbc_node_for_each_array_value(root, "array-option", value, anode) {
++    ...
++ }
++
++Isso acessa um valor de "key.prefix.option" e um array de "key.prefix.array-option".
++
++O bloqueio (locking) não é necessário, pois após a inicialização, a configuração
++torna-se somente leitura. Todos os dados e chaves devem ser copiados se você
++precisar modificá-los.
++
++
++Funções e estruturas
++====================
++
++.. kernel-doc:: include/linux/bootconfig.h
++.. kernel-doc:: lib/bootconfig.c
+diff --git a/Documentation/translations/pt_BR/admin-guide/index.rst b/Documentation/translations/pt_BR/admin-guide/index.rst
+index 264b3c1c8..96a54595f 100644
+--- a/Documentation/translations/pt_BR/admin-guide/index.rst
++++ b/Documentation/translations/pt_BR/admin-guide/index.rst
+@@ -55,9 +55,13 @@ Documentação relacionada à segurança:
+ Inicializando o kernel
+ ----------------------
+ 
++.. toctree::
++   :maxdepth: 1
++
++   bootconfig
++
+ Todolist:
+ 
+-*   bootconfig
+ *   kernel-parameters
+ *   efi-stub
+ *   initrd
 -- 
 2.47.3
 
