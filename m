@@ -1,88 +1,90 @@
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1AB2F0661
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 21:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B813BB138
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 21:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790975236; cv=none; b=mUUFHY2OZh74KDXiq0tk5iUdZaNcVxi9sHheSAPtj3IqBE3+dI5T6cn1aWwxTJQFBRskeLk1FzOtejXuV666M0jBBZFwbSD0qJzq8YJ8oVK8agOcWYrQ44PJeou0xkHu8fjNEIefdnvRgkMdpCCRIYsZXuBbM7Rq7LgS8OEGPgY=
+	t=1790975301; cv=none; b=YVcET0g/kHs1be+NhtjmKt88k4ZyaK3xaCUIpVu0dKPYU0QyRIDVx7gFUHPENJO8ENDsES0jGH/kQyf2iUzdgHCZKELI9E5vIGfxrwgRXpo7Ox22wC/Vs0vn92RQ6pYX0fq+223rvWvvV6Nhq7jVZczYtNBJSzqiCn4PjyPgt+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790975236; c=relaxed/simple;
-	bh=w1W5J3SALBETF+5OrryW1gx85y5dHHK+OV5TMcQ6fLg=;
+	s=arc-20240116; t=1790975301; c=relaxed/simple;
+	bh=PBAHaD8xQ10qTO5DVYhs5dgCsVz7/DJgL5T+NL3ImSw=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=uMK8hbX0ZOKO7qbVirJUHOsfZEXYrXs6FI7b4zPWFb/geYir5uxRWdUCLUZyN+omIpDM2t6NXoclhJaPiyjZOW7m+tMQut9/6q/P/6rdYMGTP0jOODN9zxU5OSU7De1NWD3osCmQ6Em2Esbsr3zwErMUOK7fMtnQtt69a/UZMEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z3EEuDkg; arc=none smtp.client-ip=209.85.216.70
+	 To:Cc:Content-Type; b=A3c/wjhDakf2JZBSov+cf7Upn6W8dwzP49ByB9m4T+TsuyTAb1A4fZpvmBvNXiR6xTGdZuiSH1KiotlWeLFRJGJ9gdnnNlJPlbIpmrDoFUub3qAwQvp5zGWto1O+O0IRPXm4pWr8bUkUzD4kIRNDIYGX2ZRWm5qZ2BrwPSdrN8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tTIn/aEq; arc=none smtp.client-ip=209.85.214.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z3EEuDkg"
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-39aee9b4cf2so396743a91.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 14:07:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tTIn/aEq"
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2dfb24dfedfso178285ad.2
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 14:08:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790975234; x=1791580034; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1790975299; x=1791580099; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=a+a1MIFjkZveTbvQHiVu876qwYJS4kKndW0rOXlUN/c=;
-        b=Z3EEuDkgJ82+ZBKv0yqlrusqvftFFtMEo+RtHjsz/BPMABVajTfOeYgtOTO4ipTdMt
-         EZiBGdtVtkKH7ouFioVpRnvdrSOMdGvUGSarPvrd3cAAWD3uIx8+leTjhjqwE8sNiicf
-         9QM3irPFGyUW8Ifbg2X/f4/TjEz//2uBWYUkMIFigleUndx4A4hoW8C014iOpfZKZ2f6
-         AsaDx7dEsfIHMwBtFncAkUKUhv74q6iRIXkpPqFbkrHSROPxG64iUAV5HAjTSbCqzUpu
-         Y36GS1j0zNFLiXqWqF2OxueCZvro02VcYWJbK6OI8U4ulO8n1h+DES7eb3QRo2vBiLFL
-         tZ4A==
+        bh=+XXwhsFESQJgrRakBtjUjCDlfTD0yj3Lco0tsWkbwp4=;
+        b=tTIn/aEq0/jKXkUpZ+AKFIjW0Y7A5DPDlVnf3yj9WOARXArr0CHrtSunKlD4KQTKg/
+         YGkRRJDTMGEMeGXL2JvhpQwnyx7Htl4NfVqMsnWgYmgUSjoluNnSDjiuQ1wwv7hz6s/Y
+         cef3HJjmGdO4Hj6WQjKnA4SJxYo/tBy1MuLsb9g3PIW6F20/TmNnECLf5F3KFCtJ/tsT
+         4qdhtjrcusJdDd/E8i/YNAPK11TtjKjD0lVHfBozsRjopEwyA1KmpByFKpdyS9DM7XhL
+         Ji9DF5E0qMjQejwjlF9wBcLwVjf+AjMQCeYfslDbPtm17Axc2r6GpbPbf/umMF0UoGad
+         ud7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790975234; x=1791580034;
+        d=1e100.net; s=20260707; t=1790975299; x=1791580099;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=a+a1MIFjkZveTbvQHiVu876qwYJS4kKndW0rOXlUN/c=;
-        b=qTZNgP8AP9D/7+MRbJrJ9Etpg8iiuVLEbwAVDuxMODVm3kU9Rx84VtJPUPJSfEvyId
-         EEpZ42RBODBtJ1W5wmzIZ4bplgcqSuwDJ0bVULaNOOOuW3//XYFlOs4XpLtjV9MSOWUX
-         5sD98LI7S7KYciuaT9HQ24k4Ieuf87rsbw05U38eXmOdjT8maP9jUhaElI8Ph75cLQrQ
-         gY7BKcmis/mzjpS2bOZFCgfZyE9sad9vRkB9W2BWW2qr7Mk7T//UrZw3G9TzkeIbzBHA
-         zao1/Qi1Nck4hdOMG0oGxd7yQ1c2hi6bQlFQPnWEWbdgvFYT6ZfUYBgzxKpX8Hutkeob
-         jVpQ==
-X-Forwarded-Encrypted: i=1; AKwUvByw7xrRX6t2bvjx2JsWSOe14WvLh7UqtpfxjDPxJwrw5ex7TcumWovyPQH4wClE0qYD5Sopm8NUlno=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKOvmETXwOMJoQFJVh1N+4sRDof+aAhJgtzZLGGivzZUsI3Qe1c
-	wTlwFdWu/iobX6vmCM/tREjkIQSCJd2bmI7ycWWbcI8DFIBI/mtkSSpuHW37QgzeSDV12LoUlBk
-	9QgiDVA==
-X-Received: from pggi24.prod.google.com ([2002:a63:cd18:0:b0:cc7:924e:a5e0])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:e7d2:b0:3a7:8350:49a2
- with SMTP id 98e67ed59e1d1-3a78350537bmr399081a91.33.1790975234122; Fri, 02
- Oct 2026 14:07:14 -0700 (PDT)
-Date: Fri,  2 Oct 2026 14:06:42 -0700
-In-Reply-To: <20260928180250.3075584-1-fuad.tabba@linux.dev>
+        bh=+XXwhsFESQJgrRakBtjUjCDlfTD0yj3Lco0tsWkbwp4=;
+        b=QXO/W95usRvviY8t5gBWD6msD0w10Exzm0d3kZ7fu/S9ELKzqccjY0wYgLcR8N3K1V
+         7K8mPvUC1A9Ce3p/ljj8aDd1CQ2Vc9TJ/xN2zXJ5Gg7N7x9nXCm5vQhJhSXmI1D9ffxl
+         wMINFHB32Lfa2rPcnTVDVkON7dN1jqjVEWOil2DSuIjoeIJYTpkTDhB3mcJdvfIdqZqq
+         PoPgXBhcVPOGpGvIceAhayz3uT6ayVtsepVNaOMAMdhPHoPoJjjvqX8eTBCeiV/WO5t9
+         Wn9HDU1SXL82BoGUWZB3GqNepvfFaNgrFZR9FgWDHgppyYD6AwVLLZc+Aja3fOFsWylE
+         +sLw==
+X-Forwarded-Encrypted: i=1; AKwUvBz+CTgNuK4ddagPNJ4/6n/00HHjhso33rmY+nvs9XYkULjwdmrGKp0xghiF8k82njCg7dO8MBN/lAQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKfzm7RTMdNxdfGIyecA/Z+uJ0hx3d0aybBx/bD/y5gVYZ+82LH
+	vHGtjs5L8UUYYNMF5ruegttxzc8vGiHVBeZwMxuJ77T4gXcFE/71xfHBFblmVGuxxTuuq1ausRL
+	YOWasiw==
+X-Received: from plie14.prod.google.com ([2002:a17:903:378e:b0:2df:ab33:9c53])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:fd4b:b0:2dd:c053:d73e
+ with SMTP id d9443c01a7336-2e49b6808ebmr23556415ad.37.1790975298845; Fri, 02
+ Oct 2026 14:08:18 -0700 (PDT)
+Date: Fri,  2 Oct 2026 14:06:54 -0700
+In-Reply-To: <20260905090912.40740-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20260928180250.3075584-1-fuad.tabba@linux.dev>
+References: <20260905090912.40740-1-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <179097474286.4070650.8909923019348377018.b4-ty@b4>
-Subject: Re: [PATCH] KVM: guest_memfd: Fix the in-place conversion documentation
+Message-ID: <179097515536.4084615.5338363103904700221.b4-ty@b4>
+Subject: Re: [PATCH] Documentation: KVM: SEV: Use the uapi structure names
 From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, Fuad Tabba <fuad.tabba@linux.dev>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Ackerley Tng <ackerleytng@google.com>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org
+To: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Karl Mehltretter <kmehltretter@gmail.com>
+Cc: Ashish Kalra <ashish.kalra@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>, kvm@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Brijesh Singh <brijesh.singh@amd.com>
 Content-Type: text/plain; charset="utf-8"
 
-On Mon, 28 Sep 2026 19:02:50 +0100, Fuad Tabba wrote:
-> Commit dcde2f853ff46 ("KVM: guest_memfd: Ensure pages are not in use
-> before conversion") added error_offset to struct kvm_memory_attributes2,
-> written back on failure, and a -EAGAIN return. The
-> KVM_SET_MEMORY_ATTRIBUTES2 section of api.rst still lists the old
-> struct, marks it input-only and leaves EAGAIN out of the Errors table.
-> It also refers to KVM_CAP_GUEST_MEMFD_MMAP, which had become
-> KVM_CAP_GUEST_MEMFD_FLAGS before this ioctl was added.
+On Sat, 05 Sep 2026 11:09:12 +0200, Karl Mehltretter wrote:
+> The document names struct kvm_sev_launch_update,
+> struct kvm_sev_attestation, struct kvm_sev_launch_send_update_data and
+> struct kvm_sev_launch_receive_update_data. None of them exists in
+> arch/x86/include/uapi/asm/kvm.h; the structures are
+> kvm_sev_launch_update_data, kvm_sev_attestation_report,
+> kvm_sev_send_update_data and kvm_sev_receive_update_data.
 > 
 > [...]
 
-Applied to kvm-x86 coco, thanks!
+Applied to kvm-x86 misc, thanks!
 
-[1/1] KVM: guest_memfd: Fix the in-place conversion documentation
-      https://github.com/kvm-x86/linux/commit/681f3b68f435
+[1/1] Documentation: KVM: SEV: Use the uapi structure names
+      https://github.com/kvm-x86/linux/commit/fe02f37155c8
 
 --
 https://github.com/kvm-x86/linux/tree/next
