@@ -1,168 +1,310 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f41.google.com (mail-qk2-f41.google.com [74.125.230.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6519F43149D;
-	Fri,  2 Oct 2026 15:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF6D4C77D9
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 15:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790954829; cv=none; b=p5WvM06qw3Fi5C/93x62kRjKwq01phun4e7MYdgc+QbA0G49/4ahI/R/bqgaMctHxXEG1eqj9XykxixDDtzrcPs7+gitcZ9rjB9yBB1qFiMCv+fBW0IO2MoRXjmo1kB2+ZCcTSX/g7sZG+3yVp/2QRo606F/Ics+Et+yz9xptuU=
+	t=1790955781; cv=none; b=hSMIDeYTMR8Q5xsF7v96CebwuseWU40VN7FDVjDRNf5QOCdWtCgnNl57FQdDBvDyyBNNxDgwFV6iFxMlvaJYkv8/m3CM2VzNU5f374d88HiDJmmC1KKy5Te6ZKvzqKdNDNSLnY3NcxPRxXFR7kIDBDupZLKoQKjR3eJkmHpFsBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790954829; c=relaxed/simple;
-	bh=bjpo6tvg1DCVZMJqklvFUuf602rMdzy2YM6oQNc8qeU=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=WjJn0Lljo5Fhu3ddtbxDRhQEfCilmVNpmCiXbgDYJIyBBYnmN/r84umSbgEYqUhKPaqT3jP+bMAAbatzRQpl8BFPCSzr7Lvfjwc+gLbqksUcyr0J6zcD4kE9zOuJHKPgPKB+WXeOLMv3VAqFK4h0yiIRO93TkBpA+arD/lAkA5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=RfpU2o2x; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=X1cI4+Mp; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1790955781; c=relaxed/simple;
+	bh=3N4HhH1cWkzqVHOUQ925Ryetzqlgwmf/5cwKJ8Nc0Lg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=T4YsddFhyYCJEcBwn0U/Z1aEJbLH/pXSJlpv4wLLDwsZoe4zwzYmFkFAEKCMei1nDPmsMIruErZsA7d2Zq1SXDtGAzxNshmFfqI5i/nnq3LS6ni+Kni8dnPqGAy7Bjbjy2UVdy8nZqZ8k5IWFVbDV65tkO674igkOZw46GWhG/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ila1rktm; arc=none smtp.client-ip=74.125.230.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="RfpU2o2x";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="X1cI4+Mp"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790954789; bh=9T/wUe6RMWDwS3C9Yfgbl5T
-	6Qg1ecGSGmKcD5n/LrnU=; b=RfpU2o2xyn006JHL0GmBnYa2vWwB4Xko7Vy9bRggAAkl7vHFwC
-	4kOefPYcmDERBqTVYRgbr7k/X/2u3PCL3FZ+D98H48UEgDdCsI8vIxEQZ4u2VBc7lzyquYfm0Ed
-	fb9F0V7Y9kYcg/jpenTcSiA0v10DGpcJsaDnqjJDVCMa4WZNGAtHa3EVkILIxMas7gAYnQmkkGx
-	oFuQcBsqbWgWQ1UMortM1FzYbI3C3NhsgbBAQMnbKggNJkOvKYGjXZOzs5RO/i4jNLVqxqrB318
-	7rSsEjQZI7KDitvttZ2g5KMulqv1a1iwoK/P1RY21P95k4EfslH+GtHUackQs5bnZFg==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1790954789; bh=9T/wUe6RMWDwS3C9Yfgbl5T
-	6Qg1ecGSGmKcD5n/LrnU=; b=X1cI4+Mp3YW++RespDPcwZvJvGcNBOVLY7A98yWDWfQ9IBARfN
-	nBmg2QL31ecuawkbil3gqg4Hu9Psn/DWtbAg==;
-Date: Fri, 02 Oct 2026 16:26:29 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: odys.yuan@gmail.com
-CC: anna-maria@linutronix.de, boqun@kernel.org, bsegall@google.com,
- cgroups@vger.kernel.org, corbet@lwn.net, dietmar.eggemann@arm.com,
- frederic@kernel.org, jiangshanlai@gmail.com, joelagnelf@nvidia.com,
- josh@joshtriplett.org, juri.lelli@redhat.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- longman@redhat.com, mathieu.desnoyers@efficios.com, mgorman@suse.de,
- mingo@redhat.com, neeraj.upadhyay@kernel.org, paulmck@kernel.org,
- peterz@infradead.org, qiang.zhang@linux.dev, rcu@vger.kernel.org,
- rostedt@goodmis.org, shuah@kernel.org, skhan@linuxfoundation.org,
- tglx@kernel.org, tj@kernel.org, urezki@gmail.com, vincent.guittot@linaro.org,
- vschneid@redhat.com, pmladek@suse.com
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v5_07/12=5D_watchdog=3A_Sync_watchdog=5F?=
- =?US-ASCII?Q?cpumask_with_HK=5FTYPE=5FKERNEL=5FNOISE_on_isolation?=
-In-Reply-To: <20261002-wujing-dhm-v5-7-78a6996d87ad@gmail.com>
-Message-ID: <C21F0A47-2FE9-46F1-867D-E035673F750D@mainlining.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ila1rktm"
+Received: by mail-qk2-f41.google.com with SMTP id af79cd13be357-93e479c36edso34841385a.0
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 08:42:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790955778; x=1791560578; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=3kwrkrr/vf7kFupAjZIcmWfwkxiNpoHruTeKfYbyUJk=;
+        b=ila1rktmyNPVD1+vcwUASkJanAQx+ERfJXVTq9c2vItfSSEK+WCAsLiOHx2AxVEVhh
+         Gp36PS+MPHqPXABSfJUwNJ95pyzPt2ch7Yi+w7HAknTzWMEYTmAgnqW8BmGJR0L187Cv
+         BJ4AADsZC0NFexYiKokDS4MH+O5AI1j8+Znsa9kazUJa/4dtH0Tyn58lYWFuoHdlOvIx
+         ekceZvbZTccTO2Z92tgnMG/ZrsYLToqlEk+d1/kSQEKj2CHSC3tvJhkhg1BiniIHY/K6
+         XkcPEo16JXVrA9SVVU8WaxjnRGP+9Nvft0qicOfH+QtsPqzWknJui6+jg8HO+N/157hZ
+         Hdqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790955778; x=1791560578;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3kwrkrr/vf7kFupAjZIcmWfwkxiNpoHruTeKfYbyUJk=;
+        b=AZUN/NkfRn1jKLkqoF6756cZ3GlWUR3nkPFdDSJMDYxdt74pkC6go5qQTeKPvaF6I3
+         p+r9SDzuRmO5ff9vftY42Bfg56QJW0LugjxYDP3uCNHnCIsb/6fHwNKXSwAO2it41I/Z
+         AWylo0upXKUqf4lhTnsZOTKjLVXPYxErD4dqIokbmxcXUA7Wx2QePjKKtG1YZ9vus9wB
+         btTJgRvn/4GPNmN6TJMw6jnd5A3In8NNwSiLZvzQNWtb8k6PChQ27EicxJurb7GLS4ZS
+         OsmOzi7ruYrO//pd1AT6kLJ5gk1MbjsROWsn+LOBPkjnLa9Bkm2KudVF/cqB+EhEJUMV
+         YIRQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw8EfzWlSNjR7mOqQ2RGtNeXmjkJqBY1qPBkuTy42McQFLR4G0knYn07BCFMBNTu6WX8cDeGv9vA7I=@vger.kernel.org
+X-Gm-Message-State: AFuF++nl1dOx4txV5gBsd5RHXR1e+rykQBkBJ8iRxpJbed273LU8RXXG
+	wFnhBy8no5nXvB8CvnvdUv63qViyyBvzuighsn28WwFsJC7ZH6gH30EO
+X-Gm-Gg: AYBFou3u1hKvAoUjNKg834+SSi6jIdq6IoRq160irphYQf6I0rqrdxs491dz67MOeB7
+	8SJImbnCNfvwljAI5t/nJYWEsWGVFZ7WLSyXVdKs2SZMJ4kObQjp1nMNUnHtdBdiikcg27iz7RV
+	lhu9U9hz8pXK9UYvEfN+VjbRkt2rG4fZZn3sEt9pfobHVI1iAa18jF86T2sBRn0bILWWIxIyyRZ
+	sktwo6UTmgV+icgEeQZAg3mYFDMKsrvp118hDLhAhmqA0AYNngfbP0BHBcaFaqQA72ywSYwYCoy
+	RiCiNkcPkuCJMODSyMr7wl95F6BEaq1C6Y3NoQ9XukBkkBaZr3fJPgzN2w7+/UdBd0qqfuoJWzc
+	Rzeh8yJcB7pvWypcH2DpdAqWa9vEokviP5d6nBkbFuBWpjtl3KLAN5RhT+jNMAMFHrhntbqOLp3
+	XDN85v0MKNi0DRdBQduybDRLZOmPbmgvPBgsHzF8ueifXG25BxcUdNmTjiCZiZhql9yyvPxeuvw
+	yk=
+X-Received: by 2002:a05:620a:a0d7:10b0:938:e23a:2ce9 with SMTP id af79cd13be357-93cf16b5abemr419579685a.16.1790955778210;
+        Fri, 02 Oct 2026 08:42:58 -0700 (PDT)
+Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-917d5938934sm22628306d6.5.2026.10.02.08.42.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Oct 2026 08:42:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 02 Oct 2026 11:42:56 -0400
+Message-Id: <DLUGU5KA6ZRP.33X0TT44Y2ZR4@gmail.com>
+Cc: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+ <kuba@kernel.org>, <pabeni@redhat.com>, <shuah@kernel.org>,
+ <willemdebruijn.kernel@gmail.com>, <horms@kernel.org>, <corbet@lwn.net>,
+ <skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <kuniyu@google.com>,
+ <willemb@google.com>, <netdev@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH net-next v2 2/4] net: psp: require an established
+ connection for association setup
+From: "Daniel Zahka" <daniel.zahka@gmail.com>
+To: <netdev-bot+sashiko@kernel.org>, <daniel.zahka@gmail.com>
+X-Mailer: aerc 0.21.0-threadmapfix
+References: <20260930-psp-defeat-v2-2-f266e7447129@gmail.com>
+ <179090927139.434549.15378852090892678294@kernel.org>
+In-Reply-To: <179090927139.434549.15378852090892678294@kernel.org>
 
-On 2 October 2026 14:10:27 BST, Qiliang Yuan <odys.yuan@gmail.com> wrote:
->The watchdog is initialized at boot to run on all housekeeping CPUs
->(HK_TYPE_KERNEL_NOISE). When a cpuset isolated partition removes CPUs
->from that mask at runtime, watchdog continues running on those CPUs
->because nothing updates watchdog_cpumask.
+On Thu Oct 1, 2026 at 10:47 PM EDT, netdev-bot+sashiko wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential
+> issue(s) to consider.
 >
->Save the boot-time watchdog_cpumask as watchdog_cpumask_boot, which
->captures the user's intended coverage (possibly narrowed via kernel
->parameter or sysctl) before any runtime isolation. Introduce
->lockup_detector_hk_update() which intersects this boot snapshot with
->the current HK_TYPE_KERNEL_NOISE mask and reconfigures the detector.
->This ensures that isolated CPUs are excluded while honoring any
->manual narrowing the admin applied at or after boot.
+> Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 2
 >
->lockup_detector_hk_update() snapshots the RCU-protected housekeeping
->mask under rcu_read_lock(), then updates watchdog_cpumask and calls
->__lockup_detector_reconfigure() under watchdog_mutex, matching the
->same locking discipline used by proc_watchdog_cpumask().
+> If you believe none of the issues are legitimate, please reply to each
+> issue of Medium severity or higher and explain why the AI is wrong.
+> If any of them are legitimate and you plan to respin, please let patchwor=
+k
+> know by including "pw-bot: cr" as a separate line at the end of your repl=
+y
+> (one such reply per series is enough).
 >
-
-Added Petr mladek, maybe he may be interested? See comments:
-
->Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
->---
-> include/linux/nmi.h |  2 ++
-> kernel/watchdog.c   | 24 ++++++++++++++++++++++++
-> 2 files changed, 26 insertions(+)
+> - [Medium] The new check in psp_sock_assoc_set_rx()
+>   (net/psp/psp_sock.c:162) rejects every state other than=E2=80=A6
+> - [Low] The commit message says the new sk_state check in
+>   psp_sock_assoc_set_tx() (net/psp/psp_sock.c:261) fixes a bug from=E2=80=
+=A6
+> - [Low] The new psp.rst text (lines 139-141) says "connect() on a socket
+>   that has PSP assoc state will return -EINVAL".
 >
->diff --git a/include/linux/nmi.h b/include/linux/nmi.h
->index af69712df5f48..409af7884d939 100644
->--- a/include/linux/nmi.h
->+++ b/include/linux/nmi.h
->@@ -37,6 +37,7 @@ extern int sysctl_hardlockup_all_cpu_backtrace;
-> static inline void lockup_detector_init(void) { }
-> static inline void lockup_detector_retry_init(void) { }
-> static inline void lockup_detector_soft_poweroff(void) { }
->+static inline void lockup_detector_hk_update(void) { }
-> #endif /* !CONFIG_LOCKUP_DETECTOR */
-> 
-> #ifdef CONFIG_SOFTLOCKUP_DETECTOR
->@@ -120,6 +121,7 @@ void watchdog_hardlockup_enable(unsigned int cpu);
-> void watchdog_hardlockup_disable(unsigned int cpu);
-> 
-> void lockup_detector_reconfigure(void);
->+void lockup_detector_hk_update(void);
-> 
-> #ifdef CONFIG_HARDLOCKUP_DETECTOR_BUDDY
-> void watchdog_buddy_check_hardlockup(int hrtimer_interrupts);
->diff --git a/kernel/watchdog.c b/kernel/watchdog.c
->index e567fbb0d4692..d4eccb8e337f1 100644
->--- a/kernel/watchdog.c
->+++ b/kernel/watchdog.c
->@@ -53,6 +53,8 @@ static int __read_mostly watchdog_hardlockup_available;
-> 
-> struct cpumask watchdog_cpumask __read_mostly;
-> unsigned long *watchdog_cpumask_bits = cpumask_bits(&watchdog_cpumask);
->+/* Boot snapshot: user's intended watchdog mask before any runtime isolation. */
->+static struct cpumask watchdog_cpumask_boot __ro_after_init;
-> 
-> #ifdef CONFIG_HARDLOCKUP_DETECTOR
-> 
->@@ -1348,6 +1350,27 @@ static void __init lockup_detector_delay_init(struct work_struct *work)
-> 	lockup_detector_setup();
+> --
+>
+> net: psp: require an established connection for association setup
+>
+> This commit makes the PSP rx-assoc and tx-assoc handlers reject sockets
+> that are not in TCP_ESTABLISHED. It also makes tcp_v4_connect() and
+> tcp_v6_connect() return -EINVAL when PSP assoc state already exists, and
+> drops the PSP overhead from icsk_ext_hdr_len in the connect paths.
+>
+>> diff --git a/Documentation/networking/psp.rst b/Documentation/networking=
+/psp.rst
+>> index 4ac09e64e95a5..0f9b6b73f2447 100644
+>> --- a/Documentation/networking/psp.rst
+>> +++ b/Documentation/networking/psp.rst
+>> @@ -132,6 +132,14 @@ numbers in a way that deletes a prefix of the PSP p=
+rotected part of
+>>  the TCP stream. If userspace cares to mitigate this type of attack, a
+>>  special "start of PSP" message should be exchanged after ``tx-assoc``.
+>> =20
+>> +Upgrade to PSP must be done on established TCP connections.
+>> +``rx-assoc`` and ``tx-assoc`` will return ``-ENOTCONN`` if
+>> +``sk_state`` is not ``TCP_ESTABLISHED``.
+>> +
+>> +The PSP assoc state of a socket is not reset when the connection is
+>> +torn down. ``connect()`` on a socket that has PSP assoc state will
+>> +return ``-EINVAL``.
+>
+> [Severity: Low]
+> Is the -EINVAL statement accurate for most connect() calls on a socket
+> with assoc state?
+>
+> rx-assoc and tx-assoc now require TCP_ESTABLISHED, so a socket with
+> assoc state has sock->state =3D=3D SS_CONNECTED. __inet_stream_connect()
+> returns before it gets to sk_prot->connect():
+>
+> net/ipv4/af_inet.c:__inet_stream_connect() {
+>     ...
+> 	switch (sock->state) {
+> 	default:
+> 		err =3D -EINVAL;
+> 		goto out;
+> 	case SS_CONNECTED:
+> 		err =3D -EISCONN;
+> 		goto out;
+>     ...
 > }
-> 
-
-Why no comment?, other than that,
-
-Looks good to me, cheerss
-
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
-
->+void lockup_detector_hk_update(void)
->+{
->+	cpumask_var_t new_mask;
->+
->+	if (!alloc_cpumask_var(&new_mask, GFP_KERNEL))
->+		return;
->+
->+	rcu_read_lock();
->+	cpumask_and(new_mask, &watchdog_cpumask_boot,
->+		    housekeeping_cpumask_rcu(HK_TYPE_KERNEL_NOISE));
->+	rcu_read_unlock();
->+
->+	mutex_lock(&watchdog_mutex);
->+	cpumask_copy(&watchdog_cpumask, new_mask);
->+	__lockup_detector_reconfigure(false);
->+	mutex_unlock(&watchdog_mutex);
->+
->+	free_cpumask_var(new_mask);
->+}
->+EXPORT_SYMBOL_GPL(lockup_detector_hk_update);
->+
-> /*
->  * lockup_detector_retry_init - retry init lockup detector if possible.
->  *
->@@ -1390,6 +1413,7 @@ void __init lockup_detector_init(void)
-> 
-> 	cpumask_copy(&watchdog_cpumask,
-> 		     housekeeping_cpumask(HK_TYPE_KERNEL_NOISE));
->+	cpumask_copy(&watchdog_cpumask_boot, &watchdog_cpumask);
-> 
-> 	if (!watchdog_hardlockup_probe())
-> 		watchdog_hardlockup_available = true;
 >
+> FIN or RST teardown leaves sock->state at SS_CONNECTED, and
+> psp_sk_assoc_free() only runs from inet_sock_destruct(). That means the
+> new psp_sk_assoc() checks in tcp_v4_connect() and tcp_v6_connect() can
+> only be reached after an explicit connect(AF_UNSPEC) disconnect. Every
+> other case returns -EISCONN.
+>
+> Should the documentation say that -EINVAL applies to reconnect attempts
+> after an AF_UNSPEC disconnect?
 >
 
+I suppose I was thinking more along the lines of the AF_UNSPEC, because
+otherwise, the -EISCONN is the same as any non-PSP socket. I could
+change if a v3 is needed.
 
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+>> +
+>>  Rotation notifications
+>>  ----------------------
+>> =20
+>
+> [ ... ]
+>
+>> diff --git a/net/psp/psp_sock.c b/net/psp/psp_sock.c
+>> index a9cfeebe4ba1b..a6b1c42dd626f 100644
+>> --- a/net/psp/psp_sock.c
+>> +++ b/net/psp/psp_sock.c
+>> @@ -159,6 +159,12 @@ int psp_sock_assoc_set_rx(struct sock *sk, struct p=
+sp_assoc *pas,
+>> =20
+>>  	lock_sock(sk);
+>> =20
+>> +	if (sk->sk_state !=3D TCP_ESTABLISHED) {
+>> +		NL_SET_ERR_MSG(extack, "Socket must be in established state");
+>> +		err =3D -ENOTCONN;
+>> +		goto exit_unlock;
+>> +	}
+>> +
+>
+> [Severity: Medium]
+> This check in psp_sock_assoc_set_rx() rejects every state except
+> TCP_ESTABLISHED. The commit message only justifies this with closed and
+> listen sockets. Does it also remove cases that could have users?
+>
+> A TCP Fast Open server child returned by accept() can still be in
+> TCP_SYN_RECV. It already has a dst from tcp_v4_syn_recv_sock() or
+> tcp_v6_syn_recv_sock(), and it is the same socket that later becomes
+> ESTABLISHED. The point that the child does not inherit PSP state doesn't
+> apply to it. On that socket, rx-assoc now succeeds or fails depending on
+> when the final ACK arrives.
+>
+> A TCP_FASTOPEN_CONNECT client also returns from connect() while it is
+> still in TCP_SYN_SENT.
+>
+> The commit message also says:
+>
+>   "establishing PSP state prior to connect() will result in a
+>    PSP-encrypted TCP SYN sent to a listening peer"
+>
+> Is this true when only the Rx key is installed? The SYN is built by
+> tcp_init_nondata_skb(), which calls psp_enqueue_set_decrypted():
+>
+> include/net/psp/functions.h:psp_enqueue_set_decrypted() {
+> 	...
+> 	pas =3D psp_sk_assoc(sk);
+> 	if (pas && pas->tx.spi)
+> 		skb->decrypted =3D 1;
+> }
+>
+> With only an Rx key, the SYN goes out in plaintext.
+> __psp_sk_rx_policy_check() accepts plaintext as long as no Tx key is
+> set:
+>
+> 	if (!pse) {
+> 		if (!pas->tx.spi ||
+> 		    (!pas->peer_tx && psp_is_allowed_nondata(skb, pas)))
+> 			return 0;
+> 	}
+>
+> So the handshake completes normally, and tx-assoc can follow once the
+> connection is ESTABLISHED. With an explicit dev-id,
+> psp_assoc_device_get_locked() allows rx-assoc on a socket that has not
+> called connect() yet.
+>
+> Before this patch, setting up only the Rx key before connect() appeared
+> to work. Should the commit message and psp.rst say that this sequence
+> and the TFO cases are being removed as well?
+>
+
+Not supporting TFO in this way is by design. I considered that rx assoc
+could be allowed as long as sk_state is not TCP_CLOSE or TCP_LISTEN, but
+that seemed more complicated than needed. For the upgrade model,
+requiring both sides to just be ESTABLISHED seems simplest.
+
+>>  	if (psp_sk_assoc(sk)) {
+>>  		NL_SET_ERR_MSG(extack, "Socket already has PSP state");
+>>  		err =3D -EBUSY;
+>> @@ -252,6 +258,12 @@ int psp_sock_assoc_set_tx(struct sock *sk, struct p=
+sp_dev *psd,
+>> =20
+>>  	lock_sock(sk);
+>> =20
+>> +	if (sk->sk_state !=3D TCP_ESTABLISHED) {
+>> +		NL_SET_ERR_MSG(extack, "Socket must be in established state");
+>> +		err =3D -ENOTCONN;
+>> +		goto exit_unlock;
+>> +	}
+>> +
+>
+> [Severity: Low]
+> The commit message says this check fixes a bug from commit 6b46ca260e22
+> ("net: psp: add socket security association code"), but the patch has
+> no Fixes: tag. Could the tx-assoc check be split out and sent to net
+> with a Fixes: tag?
+>
+> After tcp_time_wait(), psp_twsk_init() makes the timewait socket share
+> the same assoc:
+>
+> net/psp/psp_sock.c:psp_twsk_init() {
+> 	...
+> 	if (pas)
+> 		refcount_inc(&pas->refcnt);
+> 	rcu_assign_pointer(tw->psp_assoc, pas);
+> 	...
+> }
+>
+> The original sk is then in TCP_CLOSE with sk->psp_assoc still set. If
+> only the Rx key was installed, the old psp_sock_assoc_set_tx() accepted
+> the request. psp_sock_set_tx_key() then wrote pas->tx, pas->upgrade_seq
+> and pas->drv_data. Meanwhile the timewait socket reads pas->tx.spi
+> without locks from softirq, in psp_twsk_rx_policy_check() and
+> psp_reply_set_decrypted().
+>
+> The commit message says the patch targets net-next because it depends on
+> commit 8cc3aef0cb19 ("tcp: Do not allow buggy transitions between ehash
+> and lhash2."). That dependency only matters for the rx-assoc and listen
+> socket part. The tx-assoc state check works without it.
+>
+> As posted, stable kernels with PSP would keep this race, and backporters
+> would have nothing pointing them to the fix.
+>
+
+The tx-assoc and connect() bits could be split out into a dedicated
+patch for net. Tests in psp.py will break without the first commit in
+this series.
+
+Alternatively, the whole commit can be taken without
+splitting, but the changelog may need to be changed given that it over
+promises on defeaturing listen without the dependencies on
+unhashed_state
+
+>>  	pas =3D psp_sk_assoc(sk);
+>>  	if (!pas) {
+>>  		NL_SET_ERR_MSG(extack, "Socket has no Rx key");
+
