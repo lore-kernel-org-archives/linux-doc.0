@@ -1,46 +1,62 @@
-Received: from mta0.migadu.com (out-167.mta0.migadu.com [91.218.175.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0D53DBD51
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 14:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4566D4C8FFF;
+	Fri,  2 Oct 2026 14:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790951508; cv=none; b=ouHPKgNthw0WGEJfAnMZ7Oz0kdoHWqLgq1gsfSFn+9Tf6s/YUiZ5aRXtvkEgiLiG3N0tfdySvAW0wO+L2gAa84E5uMribMM3g9akacogjAu6k+nQcZM+2+nCoDg+w5mIGmXBkc5SOi2jAR6Oe5IBtnQQvxogRxNWxj1D2loqWgc=
+	t=1790952046; cv=none; b=q6MgogrJEL6IgnXikg4dnMei1OJoEpS2HqnudEqMiooTbneA36pZ9Tb5wXf8fnQ9hc7Pm5KOVd8m25msrFjvyl9FxAXZya95nOCF6YWYv+Y0BleN3hH3DjJ9E+fxawtISSEjIVZpwGs5FXttiFJH6fSlSVgI7GMpRv7dCM/jTQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790951508; c=relaxed/simple;
-	bh=fNt4+C/Jemn3Y22Z1OBgTZ1eIobkHZtRnqubE4Txtx4=;
+	s=arc-20240116; t=1790952046; c=relaxed/simple;
+	bh=uRVzb4q9OnjD7ysKCgL73yda96KR80dS+yOvFv+JzNY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BicZi2Kp0/86iWHmJ9aIYTaCjTS9SdJgK4OYfwSRyIUHJaLeMYu8dosOG7BmkKdeklg7Xr95ct5fzKQMZEIbiah7xswCrSdjfZpq+IX4IDUsjbXbOmYLJ5MHerJunHjttc56+2N0W8kx/gUJepL56rtEbZfzA/FB85gC1rFYWdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=Idp0gYtp; arc=none smtp.client-ip=91.218.175.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=bUJh9f/eohYKWbDMHvx8u8GXhXASpbHTqF/i5EQRYb1wXTHn31C3hMpSFQUQXjDPPqRIzAhAYrtPUOuRkCELlIy8FBj+wanlx8kR+rIxfwVT6aN7Qado0hQ4G9ikHkhqecd91Dpol9igM0l6qvWDo5MKG4w2Bdi6hatynMi83rE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J+Y7btEI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="Idp0gYtp"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=fNt4+C/Jemn3Y22Z1OBgTZ1eIobkHZtRnqubE4Txtx4=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790951504; v=1; x=1791556304;
- b=Idp0gYtpWGYjkeXNoo2wSF64iZ+ABrtlm+zTzmukcdlYGUGD20AgHIZ2R5cLWjcuIOO90xfA
- zAXUJEg/TWWiEgg3slZNKwIciBuuNgS+d/3RrLJ8xdW1idBEvshKFeW9k+LRWcg9W/tQKqjBhsO
- OfdF8I8dgnWCbND9DCT3IuvLkPKe+pp3c2/ToGsI2RWL97QeZQ8R5cOh7H/sE40iyCfYf9Ut9Y9
- Y6itqu+crvznq/jmzv6VZ5rmzXcIenXnBfJR9+fkqh4k4OYXRFcQJQmyqsbcS8xPUQb2aZKRe3v
- lpLM/QULvgC4wp1TFh2BCS15weKaZGsOlTa0KjLHUM5Zw==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f6bffca1b5471be7;
-	Fri, 02 Oct 2026 14:31:34 +0000
-X-Mizu-Trace-ID: f6bffca1b5471be7
-X-Migadu-Flow: FLOW_OUT
-Date: Fri, 2 Oct 2026 22:31:25 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>
-Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn,
-	si.yanteng@linux.dev, srcres258@furdevs.cn,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] docs/zh_TW: move security-bugs to process/
-Message-ID: <ar_APS7UG25kXXYH@wyuan.org>
-References: <20260929131020.266120-1-chenyou910331@gmail.com>
- <20260929131020.266120-2-chenyou910331@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J+Y7btEI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70BCA1F000FF;
+	Fri,  2 Oct 2026 14:40:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790952041;
+	bh=dcnYXBA3CEuai0qXprr2+qcXQPtBfgGrYCuvMwsvpIU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=J+Y7btEI6wVH8SHpWF1hvukTyWhiFXJzzVeJkL7+bJGU19zujfqJ/unjYCWogXMTo
+	 aR9J8tb2IzpQO9Nb4ks1OtNadABO6C9qhhlrQHafo/jjjY5Iwc87tuv9QkTZJSBcfh
+	 vuzJ7tVkEN1RnisC829oVeGHm8bywCGfw2N2JGNHhprrqcLBllUy4wG7Z0h/JvbHjx
+	 ldxLi67QqiIzfBNBc1SYRN9+r4lN4aHwLdRxtRRrqG/rPjwJl5nkxsnIVg+7uAFZQR
+	 06TR50wzBjO9S3VxX83nEhVID8nzGTuPE7ytLOnDW6Ow0OPXOTC1dJ+u9+A8Wnrs3+
+	 s2mpJcE2gB+rw==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xCeRC-00000009jua-3wyb;
+	Fri, 02 Oct 2026 16:40:38 +0200
+Date: Fri, 2 Oct 2026 16:40:38 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <ar_CZkY_keyTrWqX@hovoldconsulting.com>
+References: <20260826-bind_taint-v1-0-52b05f4a965c@linuxfoundation.org>
+ <20260826-bind_taint-v1-2-52b05f4a965c@linuxfoundation.org>
+ <apA8n524yIn-g6ep@hovoldconsulting.com>
+ <arbkvK54vT7SIyjV@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,54 +65,67 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260929131020.266120-2-chenyou910331@gmail.com>
+In-Reply-To: <arbkvK54vT7SIyjV@google.com>
 
-
-On 2026-09-29 21:10:15 +0800, Chen-Yu Yeh <chenyou910331@gmail.com> wrote:
-
-> The English original moved from admin-guide/ to process/ in
-> commit 44ac5abac86b ("Documentation/security-bugs: move from
-> admin-guide/ to process/"), but the translation stayed behind.
-> checktransupdate.py locates the English original from the translation's
-> path, so it currently reports:
+On Fri, Sep 25, 2026 at 02:19:25PM -0700, Dmitry Torokhov wrote:
+> On Thu, Aug 27, 2026 at 03:33:19PM +0200, Johan Hovold wrote:
+> > On Wed, Aug 26, 2026 at 11:19:33AM +0200, Greg Kroah-Hartman wrote:
+> > > The ability to add and remove devices from a driver through the sysfs
+> > > "bind" and "unbind" files was created all those decades ago as a way
+> > > that kernel developers can iterate faster, and provide a debugging way
+> > > for users to attempt to add a new device to a driver without having to
+> > > rebuild their kernel.
+> > > 
+> > > This api over the years has been abused and recently come under a major
+> > > fuzzing "attack" through tools like syzbot which decided that it would
+> > > attempt to just randomly bind any driver to any type of device, causing
+> > > loads of unneeded errors and pointless kernel patches to be generated by
+> > > unsuspecting new developers.
+> > > 
+> > > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+> > > will be set on the driver if the bind/unbind sysfs files are ever
+> > > successfully written to.  This lets kernel developers "know" that a user
+> > > is attempting to do something that is not normal, and as such, if the
+> > > kernel breaks they get to keep the shiny pieces laying around on the
+> > > floor.
+> > > 
+> > > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+> > > as many times crashes/oops/warnings/failures happen within the callback,
+> > > and the taint flag needs to be there to show what was being attempted.
+> > > If it were to be set after the callback happens, the oops report would
+> > > not properly reflect what foolishness was being attempted.
+> > > 
+> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > 
+> > This makes it clear that this is a development tool, and it is a good
+> > compromise preferable to adding unnecessary complexity or suppressing
+> > the attributes completely just to prevent root from shooting themselves
+> > in the foot:
+> > 
+> > Reviewed-by: Johan Hovold <johan@kernel.org>
+> > Tested-by: Johan Hovold <johan@kernel.org>
 > 
->   Cannot find the origin path for
->   Documentation/translations/zh_TW/admin-guide/security-bugs.rst
+> bind/unbind without overrides should not necessarily be treated as a
+> development tool. For example with I2C devices you may want to unbind
+> the functional driver, perform firmware update from userspace, and bind
+> the device again. This will ensure that driver is not confused and at
+> the same time you do not need to put into the kernel code that is
+> dormant 99.9999 percent of the time.
 
-Yes, right.
+Yeah, there are some other uses of these attributes that essentially
+involves switching to a user space driver (vfio, i2c-dev, libusb, ...).
 
-> Move it to match the English layout, and list it under "Dealing with
-> bugs" in process/index.rst as the English index does.  The content is
-> unchanged; its :Original: reference already points at
-> process/security-bugs and resolves the same way from the new location.
+This is still a bit of a foot gun as many subsystems do not expect their
+devices to live on hotpluggable buses and will break in various ways
+unless you know what you are doing or happen to be lucky. So I think
+tainting the kernel is still warranted.
 
-> The translation has only had mechanical changes since it was imported in
-> 2021, and the English document did not change between that import and
-> its move,
+This should probably have been highlighted in the commit message,
+though.
 
-Hmm, is it? What does "mechanical changes" means? Does it mean small
-changes like typos, format, and etc.?
+Note that unloading the driver module in question is generally safer as
+the chardev implementation provides some safeguards against unloading
+drivers for devices that are currently in use (even if some subsystems
+also manages to get that wrong).
 
-Maybe I got it wrong, but I noticed that the current version has quite a
-few new sections and additional content, though. Am I misunderstanding
-something?
-
-But I guess you might just have made a typing mistake here. The diff
-below should be fine.
-
-> so the move commit is the English version this translation mirrors.
-
-That's right.
-
-> It is also the oldest baseline the tool can use: checktransupdate.py
-> does not follow renames, so a commit from before the move would make
-> it fall back to comparing dates and report the file as up to date.
-
-Right.
-
-> update to commit 44ac5abac86b ("Documentation/security-bugs: move from
-> admin-guide/ to process/")
-
-Checked, and indeed. Current translation is aligned with 44ac5ab.
-
-Thanks.
+Johan
