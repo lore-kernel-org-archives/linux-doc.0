@@ -1,99 +1,269 @@
-Received: from mta0.migadu.com (out-103.mta0.migadu.com [91.218.175.103])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91FC2311C32
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 16:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E504FD7A5
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 17:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790959883; cv=none; b=SzYL5/B6Lr0cAXVDOKYQMtAJ2aEgUIz4n+uFAKaGXNS/zozlNUZ+kIKjyjBbb/cebiBSPdu2AgcyXhMzDbx54tpDYq5ER5hEEmwpjrlowcu3R0icvDnNLzw4uu6+p99Feb0bB/JrqVyY6W+bd8ZQ3my9WKWd3DRmOlYzoYpiyaM=
+	t=1790960949; cv=none; b=VaMAsJTYiAtWN6W6GxPt0OCDxL6dXXCc2ucOcWy4biVj3Cv4dOaut8Lxfi2dLWoxSGdFxVBFCQORmBc58O2zZJYRP0rXZaqGE5quYyGopCq2QCZTYuXVo46ltjz2+1UxM6WhxIFrHqtZcj1yspBE5JnZ6qrB5Q1+3Vx7UJTEt/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790959883; c=relaxed/simple;
-	bh=/I3TgWx8/U/mtgoPen/cIWwNHyR0DG/ZCxNDvpcPV6s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=S9ZSigFwNYvrRRgNwD8Hx08/xkS6QJFWuCVuxS3O2RSvTkhrkOcL6eBIlNKbAJTwispedjwfwJBxBjDC6H4dVP7h8vV4jpHsQ5Cdq1X9+HUVTfOKOBTu2xvDztQ4lpL/8S1Vg5XmbYqCEVyCSHi+UT5MA8mOgQEPDTsbeglPvyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=MIjA326L; arc=none smtp.client-ip=91.218.175.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1790960949; c=relaxed/simple;
+	bh=P6kLUfqJKeds6mBcoX+09pwoLlGMX2WhGD61+udcnHM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N6QJ0hhEXEkwaT2ZidBzimoMGp0mhCrlUoY4hxcLjmfWPuH7iOWEb4k3pkAiCJUqOBLuSxuogsB9N4W2nfUwUeoGlAJ6d98EfW2ZVThypLwaBDuZ2O3P4nssyWoIfgcoKjIOAmq0lG5AkY2nfRys//i1VPbA/0VSu87+MNqzzHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=arLAY77L; arc=none smtp.client-ip=74.125.227.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="MIjA326L"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=/I3TgWx8/U/mtgoPen/cIWwNHyR0DG/ZCxNDvpcPV6s=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790959879; v=1; x=1791564679;
- b=MIjA326LfRybeWPLOwCXnJOHDM3t5kcPUnzr3ctO08xE5O37fZhBLarqJ1cftgyr+b1EKcVe
- 5y2dt61lgj1rIEZ/mbMnygAIqNV35tudDExef3KUOEFphZThTldCuOQLDvOMqlg+ghZ9GOMzF7y
- D4UuRP8JR3rdwBZHxnW2XvEsw/Dqiz2plR1W4CyZc7WV3zcxeLyEXKXBa1ZmsZDMBqN+hK6WoGS
- /7MMKGIbkYd2sbb2eMrePobeD3afrxWCjSMNCvliI+gDoxKCX5S6bMsG8srrPNFjVRxOYHJWEAg
- x8dPIS3DRXvg7bwKQU7+irlnd4kcZkIdgOVQk1Eo7L8AA==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 3e530eae1dfef6a4;
-	Fri, 02 Oct 2026 16:51:09 +0000
-X-Mizu-Trace-ID: 3e530eae1dfef6a4
-X-Migadu-Flow: FLOW_OUT
-Date: Sat, 3 Oct 2026 00:51:01 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Chen-Yu Yeh <chenyou910331@gmail.com>, corbet@lwn.net, alexs@kernel.org,
-	dzm91@hust.edu.cn, si.yanteng@linux.dev, srcres258@furdevs.cn,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH 4/4] docs/zh_TW: add missing :Original: fields
-Message-ID: <ar_g9Z14OhcrSvOI@wyuan.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="arLAY77L"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-396ccc02279so128286a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 10:09:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790960943; x=1791565743; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Fl0M9kkOu81fD6UmnHPgP6gAcI7k1L5BHVF53b6ArLM=;
+        b=arLAY77Lf5hP9ARIas2zgFclVUwfWR96quc5vpfBfKQ3ipa+ra9xPuTk+LJSPq1Szs
+         gHVX+/ipK3emNX1fGPme1m2O39rxYIpZ4cI0IysNlfzvUZWlR59z+MTl9IVxIrLlnVIB
+         OYv/ZETIGDsvFCY+w+8IleuES5EwIv87nn4q5Jm1rRa54TskejcnKAL9tIxaEsjPc6Tp
+         9RRwcnw85aDqVddaCPdnAvRA7tY/2yWDEx5CUibU6GjuWF/UPHkM5KCGFNxF8/rloVlA
+         MJ9EslIJr2irn8RhrUf+30MLGE8pHxm02kmvvD2s4kswVPiOnE4N/yAEk5Ad3iYV0307
+         zs1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790960943; x=1791565743;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Fl0M9kkOu81fD6UmnHPgP6gAcI7k1L5BHVF53b6ArLM=;
+        b=FVVO2spbUhQd10G5Ji2VHmwDoTvxg4z8QD4Cjt+u6rjknPTwbZnqZgb9CSrqmS4Ola
+         EJth7KbZZEflzjHtGpQ80rXGqgN10EjznV1FudRK56Y3W5107cvGQ9qHg4yll6AYs6EM
+         BOtCaSBtXJxvZwKhGWahL4U1Obf/3N4CO4YCV+GQVrqqvlTR2CDIdyrbTGYomZJj4Dsm
+         6mtv9AXZceV+8HM9q2ibipUUELgSd2bK/NVB7dc+YmbawJMlHzu0CiUTP+3SElo4Wend
+         Z7AMVo1T5zyxHYX36h+hhfviGwIKaxmA3+IYq7qowJdRo1Gip1iatkWZ2sU56/lCGA7X
+         r3Mw==
+X-Forwarded-Encrypted: i=1; AKwUvBzRoO9ckzZYK7sQcXBYmJggK6Wn1+pOvHuUpgAjdM185mQRHrE4tW9ZiK5EHfFbgxcXoFi1Bio6l9Y=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJnHUmXAh2Scs9CloMxa3SKfmk9bUUMzm24ZyFxeUbToD2EoRkg
+	Wkn4zL1gqPQVYniMtH5ejyMbSVhYks31yIWHdzlaQuGrrKqgINfLlkdF
+X-Gm-Gg: AYBFou2I044jzBwjuP+dTJroqp6G151thf7NTGI1p7IATfXBxTddG1Bu1s0vjKfC7ux
+	S+qOIb2W91mpqJ/HF7adtPTfVPyPfTKHhW73enBGb2N88ET6MUW0szwsZNifoUm7nvyBZ3HVG/U
+	taWsBXFYfbSMXZt2oAAketBhoreUM7iUad1TPKHaVR7H+GdYq1xwyrPh5nB7AO6qhm5wWWElK0/
+	Tl4DTtume7dTX0z/SpQ7XxvPRzMaag96AyeQYR8+XfQsWQ4weFT77ztBCcxdU5dvYW5hSo8+91S
+	+mfQ6ONM+J8MQ7HfkpFWWBZ/H4scY6tdggMWSNpWnjRDcAaXjQYLEPRyjf1Qhl+BbUjhzDuCrDp
+	FqTrIUNVojyj2AYdgNFxaDupHjOUc1xY7tCw2tbHG/qsF9M0Jp9VV0RlBJGhBFusxrP03OwrcbW
+	Qc+QP0EOTHGcKpaDsbz8CUBbJV4K24rCOX7+mDIhypZhKKiY5hjk8gDyPzUTPni9sa05rf4GKAf
+	w1p6TZ+Nu2vYf+z6Q==
+X-Received: by 2002:a17:90b:1c86:b0:3a4:d5c0:f826 with SMTP id 98e67ed59e1d1-3a6ce9b0fe4mr3264396a91.65.1790960942759;
+        Fri, 02 Oct 2026 10:09:02 -0700 (PDT)
+Received: from kernel.tail6741c6.ts.net ([185.220.238.43])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a7024d0f5fsm1597719a91.0.2026.10.02.10.08.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2026 10:09:02 -0700 (PDT)
+From: Kunwu Chan <kunwu.chan@gmail.com>
+To: paulmck@kernel.org,
+	corbet@lwn.net,
+	mingo@redhat.com,
+	frederic@kernel.org,
+	neeraj.upadhyay@kernel.org,
+	josh@joshtriplett.org,
+	urezki@gmail.com,
+	dave@stgolabs.net,
+	lianux.mm@gmail.com
+Cc: stern@rowland.harvard.edu,
+	parri.andrea@gmail.com,
+	will@kernel.org,
+	peterz@infradead.org,
+	boqun@kernel.org,
+	npiggin@gmail.com,
+	dhowells@redhat.com,
+	j.alglave@ucl.ac.uk,
+	luc.maranget@inria.fr,
+	akiyks@gmail.com,
+	dlustig@nvidia.com,
+	joelagnelf@nvidia.com,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	longman@redhat.com,
+	rostedt@goodmis.org,
+	mathieu.desnoyers@efficios.com,
+	jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev,
+	kunwu.chan@gmail.com,
+	brads@mainlining.org,
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	lkmm@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH RFC v2 00/15] hazptr: batch synchronize operations through a shared scan
+Date: Sat,  3 Oct 2026 01:08:32 +0800
+Message-ID: <20261002170847.3653663-1-kunwu.chan@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <22fdd310dfb0946bbe58ed71308e58d936cbed53@intel.com>
- <c719c6756f345c6c39db483654578ef09de1948f@intel.com>
 
-Hi,
+This series extends Paul McKenney's v3 hazptr implementation [1]
+with a shared scan path for concurrent hazptr_synchronize() callers,
+and adapts the lockdep dynamic-key hashlist use case from Boqun
+Feng's 2025 shazptr series [2] to the current hazptr API.
 
-On 2026-09-29 17:40:18 +0300, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+The series also adds rcuscale support and torture coverage for
+the hazptr implementation.
 
-> On Tue, 29 Sep 2026, Chen-Yu Yeh <chenyou910331@gmail.com> wrote:
-> > Every zh_TW translation names the English document it mirrors in an
-> > :Original: field, except these four.  Add one to each, in the plain path
-> > form that automarkup turns into a link.
-> 
-> I'm wondering, are these :Original: fields useful anymore since the
-> translations extension adds the button to switch between languages?
-> 
-> The pretty much hard-coded expectation is that the English version at
-> path/to/foo.rst is the original, and its translations are at
-> translations/xx_YY/path/to/foo.rst.
-> 
-> I.e. neither the HTML nor the RST benefit from it, and it's just
-> repetition.
+The lockdep conversion replaces the expedited RCU wait in
+lockdep_unregister_key() with hazptr_synchronize().  This limits
+the wait to hazard pointers protecting the target hash bucket
+instead of waiting for a system-wide expedited RCU grace period.
 
-On 2026-10-01 17:00:23 +0300, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+[1] https://lore.kernel.org/all/20260919000056.3132131-26-paulmck@kernel.org/
+[2] https://lore.kernel.org/lkml/20250625031101.12555-1-boqun.feng@gmail.com/
 
-> On Wed, 30 Sep 2026, 葉宸佑 <chenyou910331@gmail.com> wrote:
-> > You are right, and I should have seen it -- the rest of this series is
-> > built on that same expectation. checktransupdate.py also finds the
-> > original purely from the path, which is why 1/4-3/4 move the files
-> > rather than fix their :Original: fields. By the same token, at their old
-> > paths the language switcher cannot pair them with their originals
-> > either, which is a better argument for the moves than the one I gave.
-> 
-> Oh, by the way, I do think the series as a whole is worthwhile cleanup,
-> and having the :Original: fields is the current practice. Removing them
-> should be a separate change.
+Performance data
+================
 
-I am a newcomer and might lack contextual information, but I don't see
-anything rely heavily on this field either? I only find that on March
-this year, Jon did not expect that the script checktransupdate.py uses
-this field to get the original file of each translation.
+All measurements are on an ARM64 KVM guest with
+HAZPTR_SCALE_NR_OBJS=8 and round-robin updater selection; unless
+noted otherwise, nreaders=0.  Scale tests run with
+PROVE_LOCKING=n.
 
-So is this a convention or is there some additional circumstance that
-forces us to keep this field?
+rcuscale synchronize latency (96 CPUs, nw=1):
 
-Hmm, btw, I noticed that the Japanese translations do not have this
-field.
+              nreaders=0      nreaders=1       nreaders=4      nreaders=96
+    scale       avg              avg             avg              avg
+    --------------------------------------------------------------------
+    hazptr     46 us            47 us          102 us            106 ms
+    RCU       8.3 ms           8.5 ms         16.6 ms         54.4 ms
+    SRCU      8.2 ms           8.0 ms         11.7 ms         11.8 ms
 
-Thanks.
+Hazptr single-writer latency remains below 110 us with up to
+four readers on this 96-CPU guest, but rises to 106 ms when
+all 96 CPUs hold hazard pointers.
+
+Under 16 concurrent synchronize callers (nw=16), per-writer
+latency at four CPU counts:
+
+              hazptr nw=16      RCU nw=16     SRCU nw=16
+    CPUs       avg               avg             avg
+    -----------------------------------------------------------
+      24       8.0 ms          13.6 ms          9.2 ms
+      96       8.0 ms          13.3 ms          8.6 ms
+     128       7.9 ms          13.0 ms         11.7 ms
+     256       8.0 ms          20.8 ms          9.6 ms
+
+Hazptr remains around 8.0 ms across these CPU counts, with the
+scan-kthread retry interval contributing to the latency.
+RCU rises to ~21 ms at 256 CPUs while SRCU stays around 9-12 ms.
+
+Reader-side overhead (refscale, 96 readers on the 96-CPU guest,
+3 runs each):
+
+    hazptr     25.7 ns/op
+    RCU        96.7 ns/op
+    SRCU      134.6 ns/op
+
+lockdep workload -- tc qdisc mq x100, ARM64 KVM, PROVE_LOCKING=y,
+96 background hazptr readers, function-call IPIs per 100 ops:
+
+    CPUs       hazptr              exp RCU            reduction
+    ------------------------------------------------------------
+      24       196                 207                 5%
+      96       189                 265                29%
+     128       193                 266                27%
+     256       222                 384                42%
+
+Hazptr issues fewer function-call IPIs at each CPU count, with
+the difference reaching 42% at 256 CPUs.
+
+The hazptr.sh test suite passes, including the lockdep scenarios
+and the 8-to-256 CPU sweep, with no lockdep warnings, deadlocks,
+or crashes.
+Additional x86 server testing with Lian Wang is planned(maybe after
+LPC).
+
+Changes since RFC/WIP
+=====================
+
+- RFC/WIP: https://lore.kernel.org/all/20260922070950.4173245-1-kunwu.chan@gmail.com/
+
+- Split the original 4-patch RFC/WIP into smaller commits covering
+  shared scanning, correctness, API support, lockdep, scaling, and
+  torture testing.
+
+- Incorporated Boqun Feng's review feedback: use a Bloom filter to
+  avoid per-waiter allocation, add scoped_guard() support, and add
+  a debug option to force the hazptr acquire slow path.
+
+- Fixed scan ordering around backup-slot promotion by scanning all
+  per-CPU slots before the overflow lists, with a separate
+  overflow-list phase.
+
+- Simplified the scan cycle to flip first and drain only the old
+  wildcard generation, with herd7-verified LKMM tests for both the
+  in-flight and resolved publication cases.
+
+- Extended rcuscale and hazptrtorture coverage, added a selftest
+  script for the torture configurations, and fixed the
+  hazptr_release() kernel-doc.
+
+Kunwu Chan (15):
+  hazptr: add shared scan kthread
+  hazptr: use Bloom filter for shared scan waiters
+  hazptr: scan all per-CPU slots before overflow lists
+  hazptr: add scoped_guard() support
+  hazptr: add debug option to force the acquire slow path
+  hazptr: elide redundant first drain pass
+  Documentation/litmus-tests: add hazptr wildcard-flip escape test
+  locking/lockdep: use hazptr to wait for dynamic key lookups
+  rcuscale: add hazptr scale type
+  hazptr: fix kernel-doc of hazptr_release()
+  Documentation/litmus-tests: add hazptr acquire-before-scan test
+  hazptrtorture: add slowpath and lockdep scenarios
+  hazptrtorture: add READERS4 and READERS0 torture configs
+  hazptrtorture: add 128- and 256-CPU configs
+  selftests/rcutorture: add hazptr torture test script
+
+ Documentation/litmus-tests/README             |  13 +
+ .../hazptr/hazptr-acquire-before-scan.litmus  |  45 +++
+ .../hazptr/hazptr-wildcard-flip-escape.litmus |  46 +++
+ include/linux/hazptr.h                        |  56 ++-
+ kernel/hazptr.c                               | 336 +++++++++++++++++-
+ kernel/locking/lockdep.c                      |  25 +-
+ kernel/rcu/Kconfig.debug                      |  10 +
+ kernel/rcu/hazptrtorture.c                    |  57 ++-
+ kernel/rcu/rcuscale.c                         |  70 +++-
+ .../selftests/rcutorture/bin/hazptr.sh        | 146 ++++++++
+ .../rcutorture/configs/hazptr/CFLIST          |   6 +
+ .../rcutorture/configs/hazptr/CPU128          |  16 +
+ .../rcutorture/configs/hazptr/CPU128.boot     |   1 +
+ .../rcutorture/configs/hazptr/CPU256          |  16 +
+ .../rcutorture/configs/hazptr/CPU256.boot     |   1 +
+ .../rcutorture/configs/hazptr/LOCKDEP         |  17 +
+ .../rcutorture/configs/hazptr/LOCKDEP.boot    |   1 +
+ .../rcutorture/configs/hazptr/READERS0        |  16 +
+ .../rcutorture/configs/hazptr/READERS0.boot   |   2 +
+ .../rcutorture/configs/hazptr/READERS4        |  16 +
+ .../rcutorture/configs/hazptr/READERS4.boot   |   2 +
+ .../rcutorture/configs/hazptr/SLOWPATH        |  16 +
+ 22 files changed, 881 insertions(+), 33 deletions(-)
+ create mode 100644 Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus
+ create mode 100644 Documentation/litmus-tests/hazptr/hazptr-wildcard-flip-escape.litmus
+ create mode 100755 tools/testing/selftests/rcutorture/bin/hazptr.sh
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/CPU128
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/CPU128.boot
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/CPU256
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/CPU256.boot
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/LOCKDEP
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/LOCKDEP.boot
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/READERS0
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/READERS0.boot
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/READERS4
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/READERS4.boot
+ create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/SLOWPATH
+
+-- 
+2.43.0
+
