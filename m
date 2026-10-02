@@ -1,157 +1,144 @@
-Received: from mail-vs2-f38.google.com (mail-vs2-f38.google.com [74.125.227.38])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8B9352C28
-	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 11:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECF426ED40
+	for <linux-doc@vger.kernel.org>; Fri,  2 Oct 2026 11:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790941128; cv=none; b=scfhzM3hI/sZ1jvl2xRnj+275A7e6/cx5+8CdcfYBFGnTmbaGMuCGzOayKodaezu8BFtDFT6Ok/vnnuZK4My1rM/Zx1HviWu67Q5Bb8f5RzDuJR37+Wo4R8hoZAMAIWHWNOYNaCpcYVzqFgQfk+HQ/VfUTye8tbWYvHAT9vEcgg=
+	t=1790941726; cv=none; b=eO1FKGy3QEvLWIDgaktePHRmdPS1bMtrN6S4YI7EZfjqfI9NQSMc/489mwYzBZ0fIkVsW/SKOtBUJ2UO0M/6Hfm3K+nQ72o9l9yyW7utiNyoYDlt7xNmgN5Mh58SuNyNVglkNnAm5ZLpI12ULNvwYTNI1hdy0bwKJzNeXd8kwP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790941128; c=relaxed/simple;
-	bh=f9oplO5WC58bhFJzOVFaqIm9gWgGw58xMvElkvBM7LE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K1rF5277xONxxKoFDTOwoMI3+rqbym6SwkAm3JlrbTJI6cmHiHVX3UNrzsW0seoVPM8A4oUM9Ooom5NYfSvi1ZM7aXzCTUjeKAa/3YBf4O5iBSjMMFONk9H4X6lCvA9rP1lvYhyhdvzOEhOwCwjZ+MhES55QQkWCKkAEwEqxSro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1790941726; c=relaxed/simple;
+	bh=gAY+ry7XQppx5kZcg+BfzcVwDqxF38v68qrWhv2EpEU=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
+	 References:MIME-Version; b=tQA3fEyr+hko+IG3QMNoUdeni3G6oeKl6CU15R0TsBdqO7jV4lM2foPyZPRBTgHsIp+XP9Emt6JB60PPgX5iuj2auXGFl3u0HRQzmYmjCqgPmgYOJjHDaq73IQ91ZucjlPaN+oTbMhSSJFvymKsxYQRwIG8REOfbbkZk8t6DWsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MeyZIhmU; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs2-f38.google.com with SMTP id 71dfb90a1353d-5da475a08ceso301514e0c.2
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 04:38:47 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MeyZIhmU"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4cacd3409so4541620a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 04:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790941724; x=1791546524; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jDgCZ93FbbC+h+9QAZpC0c3CaTDV4NHqwfDJ+8l3w7I=;
+        b=MeyZIhmU8tcw6SYtV+1UZ7tSerG+sxuHQGu95Sf+jXbAr1jEANi1Xr2UvlE2O8dFCC
+         Kz4XzfQuSc3KIwWpsVO1Wp9OmjeYf+k2zVFqFV8MrniXv/Iv8UCfKoVfgmpUA3BuiRNo
+         E09LSomNq7IqB2WCn+1NYu8sFOkvU0Cu6beoCzkTV3AHfDKdEtalVaFOtKnZkVt+FvBt
+         TdkVI6itaXRa85ogpErUJnSIghBnEdXTd3G62zvw8C3M2iygDKn2y0J1J0hsAnGP9hT8
+         3SVS+eFmQ2NIyY/3qTsvtmqitlyjb/IelUbO2q1DHTFsAfgRgFm+mHLNtvYT7EJfslZ4
+         pFVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790941126; x=1791545926;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=20l5MGKYIkk3dxTQvp40s490//vZekkNtR3rks2T+EI=;
-        b=K9QUzM5c3kkRdXfkQPCAnuYkXC9DAAhsVXCQA+cDuBfVEGX6NSpzPnl9Tp2Lj3NAXN
-         9x13GhTV6fkP05n51H4dyw0pvbD60RwgvZIoZBdEph1dTz6CIALvNUfVWFasEo81P8Ul
-         1XcPuvYSSWYXbnBQLfPX3XJPj3SDGWyYS8+xCGTf0PZSODa8V1Upq9K5B/21ksucm6AV
-         vXJu3uS7m0k8KEUYoZJU3UT+DX4Zj93dcIQL+RNV8bVNgY8kOk2K+YGsReKlKkX39eaQ
-         2uEnZkjGXdPEFkxtrzpHsy9me8G1fjb6rLtafk+Q/wN7Di6EW+VYqxNg5YarnUS14JhR
-         O/AQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy/mn8czNnvasPtA9eCTCUbwSw9xWpOOb3RtAiDVoloAAdiZdwvdNDVrQvb0htNy3zPbyUoup3hHFE=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLFvgK+QnPy9bFTfhJuXGnpNge5sVBe84rrM+KyljvUTg+qn53/
-	dhB66a0yD9LMwfwgGEuQE1NbyDYvwv7kDvP7K4TrqcFDe4U7opqqjUo+ycyO5YsT
-X-Gm-Gg: AYBFou07xFDAQgiLz41OWZm0FbbA6q/dg42hKJQ0ZBMNgCe1t52t2WlkIk87Pet3HOH
-	/ttcuHzZUKmtrIMJXu8MDunkSHA8QtHqXB/5f/nxEAFbkdcjCScOrsmaR2bsIoQDQQdr+QGTt1d
-	mP9ZV7On/IrC4RYYIvHh3YVYPrl4cXMgBWvMQJuuCAQz26b2sXd+wSR1q69FjRHK04lYvrr/n1L
-	wEh+m2fVUcwC4eRbmqotmD/JuNjXhmYwEcnktqYLYm+Frwzl6eupffZfju+1TyzrnMkO2wXiBG/
-	JYbBAq+qnbdwHDmTJPyul3MVUP80Cu63Am9XS0+lWiV2Xd+64uIRkCdCRedTuy4AHeNf/c4u+rq
-	voFhgjFNtcZkMqg/isEyT/OX5WqyXt25CzlGeMDsARVM0PV2VBhlrMCtAA9NeRMJp0wPKuKTn0G
-	yxv+QiIJ50i3kgSJ7blWYmD2OtV76fvuZ2pCRjx3mjGhgurAe9bF5kjXBTOC0wKToDq0qzBG8nl
-	pKww+MroAAHCLW6VSI8A0xbUrxOfRe+v57e
-X-Received: by 2002:a05:6122:3d04:b0:5d3:e71a:7341 with SMTP id 71dfb90a1353d-5dab1c40e6amr633641e0c.17.1790941126153;
-        Fri, 02 Oct 2026 04:38:46 -0700 (PDT)
-Received: from mail-vs2-f38.google.com (mail-vs2-f38.google.com. [74.125.227.38])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5da61f8fe4bsm3144326e0c.8.2026.10.02.04.38.44
-        for <linux-doc@vger.kernel.org>
+        d=1e100.net; s=20260707; t=1790941724; x=1791546524;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jDgCZ93FbbC+h+9QAZpC0c3CaTDV4NHqwfDJ+8l3w7I=;
+        b=PeMxaNV8Pl1tKfdkWKmHqxQVMHUjtz75UANTp5QI6pQdwe01Tvaq3mHoprc8622V5o
+         K3bQ7EZmxmjj0zc8+/k0QhRCJ2Qg0hFCKDglMa+rhUbvYF77UFb8BVIPhoBUrD9DPRI5
+         DjfOXwWNTCpuHN2jneeuxHtAfVoqWmVe4dMLz9B/9gjInVavG17YOj8gaqyoR8C3J7lw
+         TCKPilNClqy8C0+SfLbrkcxJv0rkfMSiZoJfsPc9HZUpZhY2CLaEg7QKJv0plJUV5T6m
+         cPG+AfaN1a1zwiQPtINU0jCtiIH1xKBrijlwD7/1Vob0YArt5o7qRT3npKx9QpWbewRh
+         iG4Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzoMz2v5RuqGMQZ7RkY6eNkU2Qw/znXEhH6r+waMZb8hUuNlxuvIS5jdwC/paa109ShIPxFtD3Fkp0=@vger.kernel.org
+X-Gm-Message-State: AFuF++lJyXvyJHKtUHEa3s7hruX7OPw/gEzazhwogL2KtixNEyZgBGQq
+	A3BgMmC3iH7FceuDfqKA6s6MecayBD+jBgOhts3C7TCLy0UTrDUCnVWf
+X-Gm-Gg: AYBFou2G+DnNmxjpxPzW28OmRDPPZcZaiLoh/MtEQevsY4L2TQJLeUK+ty4uLAnpvoy
+	YpkwLqfYQt5tmp/09Ui7dOcErBD24ibT8O+ckRBfmKmyoxp7oxh4hVMBndwWjknsrAFdOHLq7eo
+	BlLfbb0cuTGk+REg0ISS9AmDUBskYT7RjdsLEH8T6dRaMY1IRqHARlZT2etJ9r7y66nbV8gf1zG
+	c4jy07GbwhrK/zEBhdc4Z5l8SvI6xo+1zHi88pbVDpR39DdTvh2hXWELMAoJ97YMs4UW3wq/FCm
+	VH0jqbvbnBauBITW4iwqKOZp2JFKWJnPzO9FJYtRn1mAgzpCEBQ54lF8toRLSOLDuz5FbvMDa6e
+	nbW+cHueoReRi5XMCC0IlmkbNyuLKsypkq9bdZzWLJzSRfjQzvLRTTxDa/URwTDyWh0Gtj7srw5
+	2QMefvu8cI5YWLYXp08MqmvJLFZjcFvVwkIz/dW2/0hgSdJFS6oSPuF6NqcHchWSDcurvwPd8Ph
+	iult1mANnFdzPBwTDWFpaMGGmQ5HA35LppOXZnkNy4EAmYlnWr/lTaH1wNpLCHtonLlwaKSJmtb
+	r0s=
+X-Received: by 2002:a05:6300:210a:b0:3e0:b937:8844 with SMTP id adf61e73a8af0-3e0bd199342mr2548048637.44.1790941723843;
+        Fri, 02 Oct 2026 04:48:43 -0700 (PDT)
+Received: from localhost ([153.61.198.250])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88b0d247dbcsm743396b3a.55.2026.10.02.04.48.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2026 04:38:44 -0700 (PDT)
-Received: by mail-vs2-f38.google.com with SMTP id ada2fe7eead31-7c05849c263so503002137.3
-        for <linux-doc@vger.kernel.org>; Fri, 02 Oct 2026 04:38:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzjC/TzYU1IwKA5svRQBKDWAqwQbSUYLOR4UY94qAYukgp8n8G3Y4NK7yKdrjSE7wUH9Cqv7vtPD9o=@vger.kernel.org
-X-Received: by 2002:a05:6102:14aa:b0:7bd:b263:14c8 with SMTP id
- ada2fe7eead31-7c0f60ae056mr564893137.30.1790941124266; Fri, 02 Oct 2026
- 04:38:44 -0700 (PDT)
+        Fri, 02 Oct 2026 04:48:43 -0700 (PDT)
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 02 Oct 2026 11:48:42 +0000
+Message-Id: <DLUBUT40BBOG.1L6QS7A8CIE79@gmail.com>
+Cc: "Alan Maguire" <alan.maguire@oracle.com>, "Martin KaFai Lau"
+ <martin.lau@linux.dev>, "Yonghong Song" <yonghong.song@linux.dev>, "Jiri
+ Olsa" <jolsa@kernel.org>, "Ihor Solodrai" <ihor.solodrai@linux.dev>,
+ "Quentin Monnet" <qmo@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nsc@kernel.org>, <linux-kbuild@vger.kernel.org>,
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, "Christian
+ Heusel" <christian@heusel.eu>, "Luis Chamberlain" <mcgrof@kernel.org>,
+ "Petr Pavlu" <petr.pavlu@suse.com>, "Sami Tolvanen"
+ <samitolvanen@google.com>, <linux-modules@vger.kernel.org>, "Steven
+ Rostedt" <rostedt@goodmis.org>, "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ <linux-trace-kernel@vger.kernel.org>, "Arnaldo Carvalho de Melo"
+ <acme@kernel.org>, "Namhyung Kim" <namhyung@kernel.org>, "Ian Rogers"
+ <irogers@google.com>, <linux-perf-users@vger.kernel.org>, "Jiri Kosina"
+ <jikos@kernel.org>, "Benjamin Tissoires" <bentiss@kernel.org>,
+ <linux-input@vger.kernel.org>, "Tejun Heo" <tj@kernel.org>, "David Vernet"
+ <void@manifault.com>, "Andrea Righi" <arighi@nvidia.com>, "Changwoo Min"
+ <changwoo@igalia.com>, <sched-ext@lists.linux.dev>, "Shuah Khan"
+ <shuah@kernel.org>, <linux-kselftest@vger.kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, <rust-for-linux@vger.kernel.org>, "Arnd Bergmann"
+ <arnd@arndb.de>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Hazem Mohamed Abuelfotoh"
+ <abuehaze@amazon.com>, "Bjoern Doebel" <doebel@amazon.de>, "Martin Pohlack"
+ <mpohlack@amazon.de>, <jay.wang.upstream@gmail.com>
+Subject: Re: [PATCH bpf-next v4 04/12] bpf: take the vmlinux BTF from the
+ btf_vmlinux module
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: "Jay Wang" <wanjay@amazon.com>, <bpf@vger.kernel.org>, "Daniel Borkmann"
+ <daniel@iogearbox.net>, "Andrii Nakryiko" <andrii@kernel.org>, "Eduard
+ Zingerman" <eddyz87@gmail.com>, "Kumar Kartikeya Dwivedi"
+ <memxor@gmail.com>
+In-Reply-To: <20261001225214.12351-5-wanjay@amazon.com>
+References: <20261001225214.12351-1-wanjay@amazon.com> <20261001225214.12351-5-wanjay@amazon.com>
+X-Mailer: mkdraft (claude review draft; edit before sending)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260929235711.2287931-1-thehajime@gmail.com> <20260929235711.2287931-2-thehajime@gmail.com>
- <bda5eeaa-7868-4d4a-9026-9e99347afd7c@kernel.org> <ar4br2vW7yZGd3gt@gremlin>
- <94759bed23f00d2044005e36be6f72f297e092f0.camel@sipsolutions.net>
- <m2se2o3jyc.wl-thehajime@gmail.com> <a65f4431-d225-4535-b921-00319ceeb2a2@kernel.org>
- <ar9ldn036SgT-bq1@gremlin>
-In-Reply-To: <ar9ldn036SgT-bq1@gremlin>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 2 Oct 2026 13:38:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUKcUxHZKhTEF1gwWrU1o8O6jt6N3r90V5hynrLFdwY0A@mail.gmail.com>
-X-Gm-Features: AclHuK8oY5W9edeNeZu9OdjhmLKHIkhJXkjnhYM2yOIrkiFEQlBpS9n1EzHgsaE
-Message-ID: <CAMuHMdUKcUxHZKhTEF1gwWrU1o8O6jt6N3r90V5hynrLFdwY0A@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] selftests: run tests on nommu architecture
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Hajime Tazaki <thehajime@gmail.com>, johannes@sipsolutions.net, 
-	linux-mm@kvack.org, liam@infradead.org, rbm@suse.com, 
-	akpm@linux-foundation.org, luto@amacapital.net, brendan.jackman@linux.dev, 
-	liuhangbin@gmail.com, corbet@lwn.net, kees@kernel.org, broonie@kernel.org, 
-	mhocko@suse.com, rppt@kernel.org, shuah@kernel.org, surenb@google.com, 
-	vbabka@kernel.org, wad@chromium.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-um@lists.infradead.org, 
-	daniel@thingy.jp
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Lorenzo,
+On Thu, Oct 01, 2026 at 10:52 PM Jay Wang <wanjay@amazon.com> wrote:
+> +	err = __sys_bpf(cmd, USER_BPFPTR(uattr), size, USER_BPFPTR(uattr_common), size_common);
+> +	if (IS_MODULE(CONFIG_DEBUG_INFO_BTF) && err < 0 && bpf_btf_vmlinux_retry(cmd, misses))
+> +		err = __sys_bpf(cmd, USER_BPFPTR(uattr), size, USER_BPFPTR(uattr_common),
+> +				size_common);
 
-On Fri, 2 Oct 2026 at 10:10, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> On Fri, Oct 02, 2026 at 08:08:44AM +0200, David Hildenbrand (Arm) wrote:
-> > On 10/2/26 04:38, Hajime Tazaki wrote:
-> > > On Thu, 01 Oct 2026 19:01:45 +0900,
-> > > Johannes Berg wrote:
-> > >>>
-> > >>> I thought maybe uname could help but our LLM overlords tell me no.
-> > >>
-> > >> Hajime originally wanted uname to indicate it, but that caused
-> > >> regressions elsewhere, so we dropped that commit. I guess we could put
-> > >> _something_ back?
-> > >
-> > > systemd uses uname information and our (old) patch changing the format
-> > > triggered the regression.  thus, we dropped it.
-> > >
-> > >>> It pointed at something though.
-> > >>>
-> > >>> In fs/proc/meminfo.c:
-> > >>>
-> > >>> #ifndef CONFIG_MMU
-> > >>>   show_val_kb(m, "MmapCopy:       ",
-> > >>>               (unsigned long)atomic_long_read(&mmap_pages_allocated));
-> > >>> #endif
-> > >>>
-> > >>> So MmapCopy in /proc/meminfo tells us definitively, weirdly enough.
-> > >>
-> > >> Hyrum's law and all that, but I guess it's not highly likely to (want
-> > >> to) change :)
-> > >
-> > > a runtime detection is nice.
-> > >
-> > > scanning /proc/meminfo might be useful. although it requires to mount
-> > > procfs (we can actually skip procfs mount as it is optional) so, this
-> > > is not 100% portable.
-> > >
-> > > checking ENOSYS like syscall(SYS_mprotect) might be useful but I
-> > > wasn't sure if this is always the case of NOMMU or not.
-> > >
-> >
-> > I assume there are plenty of other mechanisms. Like testing if fork isn't allowed.
->
-> Yup that's an obvious candidate!
->
-> You actually need to check for both -EINVAL and -ENOSYS since, of course, we are
-> inconsistent with this.
->
-> Some nommu arches specify __ARCH_WANT_SYS_FORK unconditionally for both
-> mmu/nommu variants meaning you get -EINVAL in that case:
->
-> https://elixir.bootlin.com/linux/v7.2.8/source/kernel/fork.c#L2830
->
-> Otherwise you get -ENOSYS because it's not defined.
->
-> But fork() -> -EINVAL or -ENOSYS = nommu, then just have the child quit and
-> etc. should do it.
+Running the command twice when it failed and a global counter moved
+is not going to fly.
+Missing BTF is not always an error.
+With =m and BTF not loaded yet take
+  int prog(struct xdp_md *ctx)
+with func_info. That is everything libbpf loads.
+do_check_common() calls btf_prepare_func_args(env, 0).
+find_canonical_prog_ctx_type() returns NULL, btf_is_prog_ctx_type()
+returns false, the arg becomes ARG_PTR_TO_MEM and
+func_info_aux[0].unreliable is set.
+The prog loads. err == 0. No retry.
+From then on freplace of that prog fails with
+"Cannot replace static functions" and fentry/fexit see its args
+as scalars, even after BTF is loaded.
+With =y both work.
 
-fork() is not strictly an MMU-feature (you can implement fork on nommu
-if all memory accesses are done relative to a base address register),
-while I think mprotect() is an MMU-feature. Unless it can also be used
-to change the protection using the one or two BARs most MCU haves?
-Anything else that is a real MMU-feature? Non-identity mmap()?
+That is the only reason why "a socket filter does not load it".
+In v3 such prog loaded BTF.
+systemd built with BPF_FRAMEWORK loads
+  int sd_bind4(struct bpf_sock_addr *ctx)
+from manager_setup_cgroup() at every boot.
 
-Gr{oetje,eeting}s,
+The result of the verification cannot depend on who touched BTF first.
 
-                        Geert
+bpf-ci is right too. The first run writes into uattr.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+It's starting to feel that this is dead end.
+So much complexity to save few Mbyte.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+pw-bot: cr
