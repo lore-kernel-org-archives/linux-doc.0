@@ -1,126 +1,100 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C111446AEF2;
-	Sat,  3 Oct 2026 16:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A5E450405
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 16:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791043438; cv=none; b=gBP9iYaBZKYyI14sHlMaFWVHtghvt3578Kjz3gieCpWWLf6rhTX3EZgnT9yll67QS/I8oB6xzfyOsSuBUXBRlCc1HEckePwmMsS0HBzKi9pt0YiTn4cGOvaWl8P8Yp45n/t7mfyU4cEFPokQFZnmfwezYCbDx6aJTyjnCNRfd88=
+	t=1791043930; cv=none; b=CiugC+9/UG542vi8a005PPSwA8IhQ4sy4SBe3F/Cp53mD12qS8Povz1HF0EULVU30xjL09h45ZN94gK4gx7Q8f/AFFzS2uHUB24IUuoWbf2P93EjzVLp/aoR8YssgEBHLs+7q+wl7uU6tEnH2ClH6sGQH2Lxgn1pXy1m4+VlpD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791043438; c=relaxed/simple;
-	bh=raScNH55YyHKO9o6R9zNWW+p8fAddrS2wh/1QF52HVQ=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=aPpxUEbsyeIOz8O6u3bTMl8Tkju1J1A7nLRQvTI/RUlZ3v4v2xiBWMjIoZHP8kpBlBG6NE5DWDA6V70GSrL8i+/bG3aINcXx92tL4GLiqKOQubK8tvtrFsyRZwFWSYZ0LLgpptuV0li/bRlIKEZkXIUgQEcQfNxsgWgjAFTFKPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.helo=mail.mainlining.org; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.helo=mail.mainlining.org
-Date: Sat, 03 Oct 2026 17:03:08 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Miguel Ojeda <ojeda@kernel.org>
-CC: Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?ISO-8859-1?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?ISO-8859-1?Q?Onur_=D6zkan?= <work@onurozkan.dev>,
- Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linusw@kernel.org>,
- Christian Schrefl <chrisi.schrefl@gmail.com>,
- "Paul E . McKenney" <paulmck@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, linux-arm-kernel@lists.infradead.org,
- rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] ARM: rust: Enable Rust support for ARMv5TE
-In-Reply-To: <20261003093827.77857-1-kmehltretter@gmail.com>
-References: <20261003093827.77857-1-kmehltretter@gmail.com>
-Message-ID: <E4C8623E-CCCA-408F-A03E-1B2C7DFD0D75@mainlining.org>
+	s=arc-20240116; t=1791043930; c=relaxed/simple;
+	bh=N9ceTkdnppyXotVHs6BYtqvBSOM5XkSH4LjhdBGGE9g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jlUvZnFuiOjJoQmE1xDQ/IpI842I8OLG7WreUNbgMen/5yqA0Tc9a48fG8Ib0NpXbEQLe2MvT5CiTLprJQjLkIdrCHsw0vVCi2/N0uk4DwLQfJoex1Fhdc3J+iVTC2xFGdXaXRCTppv0C+as3ozYP4mz6Z/LiWGumgokIdqIUcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 2635b57ebf4511f19a56ed5b684f684d-20261004
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
+	IP_UNTRUSTED, SRC_UNTRUSTED, IP_LOWREP, SRC_LOWREP, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
+	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:c0850011-acab-4d49-82a6-41f594baa385,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-INFO: VERSION:1.3.19,REQID:c0850011-acab-4d49-82a6-41f594baa385,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:10
+X-CID-META: VersionHash:7db8b62,CLOUDID:48e50d00358a2b9b54db0b4daa3d3f58,BulkI
+	D:26100400115821J6TXFL,BulkQuantity:0,SF:17|19|38|66|78|102|127|850|865|89
+	8,TC:nil,Content:0|15|50|99,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS
+	:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,A
+	RC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 2635b57ebf4511f19a56ed5b684f684d-20261004
+X-User: lienze@kylinos.cn
+Received: from localhost.localdomain [(175.169.70.242)] by mailgw.kylinos.cn
+	(envelope-from <lienze@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 366136427; Sun, 04 Oct 2026 00:11:53 +0800
+From: Enze Li <lienze@kylinos.cn>
+To: muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net
+Cc: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	enze.li@gmx.com,
+	Enze Li <lienze@kylinos.cn>
+Subject: [PATCH] docs: hugetlbpage.rst: fix typo in per-node attribute description
+Date: Sun,  4 Oct 2026 00:11:25 +0800
+Message-Id: <20261003161125.40485-1-lienze@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-On 3 October 2026 10:38:25 BST, Karl Mehltretter <kmehltretter@gmail.com>
-wrote:
->Rust is currently limited to ARMv7 on 32-bit ARM. This series extends
->it to ARMv5TE.
->
->Linus Walleij asked for older ARM cores during review of the ARMv7
->support [1]. Christian Schrefl tried ARMv5 with the armv5te-none-eabi
->target at the time [2]. He hit missing core atomics, missing
->__aeabi_mem* symbols and a floating-point helper reached from
->pr_info!() formatting. None of these show up anymore. The kernel crate
->now implements atomics through the C helpers, and the
->armv5te-unknown-linux-gnueabi target used here keeps the Linux EABI.
->
->The only remaining problem was a link error. Pre-ARMv6 __arch_xchg()
->has no 2-byte case, which the Rust Atomic<i16> helpers need. Patch 1
->adds it the way the other pre-ARMv6 atomics work, with interrupts
->disabled. Patch 2 enables Rust for ARMv5TE.
->
->Bradley Morgan's two-byte cmpxchg() emulation series [3] does not
->overlap with this. Its ARMv6 part was dropped in v2 and it never
->covered xchg() or pre-ARMv6.
+The per-node hugepages section writes the free_hugepages and
+surplus_hugepages file names with stray trailing quotes.  Quote the real
+names as inline literals instead.
 
-On purpose! It'll be dead code after one of ards changes
+Signed-off-by: Enze Li <lienze@kylinos.cn>
+---
+ Documentation/admin-guide/mm/hugetlbpage.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
->
->Tested on v7.3-rc1 with clang 22.1.8, rustc 1.99.0 and bindgen 0.73.2.
->
->- QEMU versatilepb (ARM926EJ-S). The Rust samples, all Rust KUnit
->  suites and 355 doctests pass.
->- Microchip SAM9X75 Curiosity board (ARM926EJ-S), at91_dt_defconfig
->  without the ARMv4T AT91RM9200. The samples, all Rust KUnit suites and
->  356 doctests pass. The Rust sample modules (rust_minimal, rust_print,
->  rust_misc_device, rust_driver_faux) load and unload cleanly.
->- Build test with every Rust driver, abstraction and sample that can be
->  selected on ARMv5TE (rnull, binder, the two PHY drivers, cpufreq-dt,
->  the DRM panic QR code). PWM_TH1520 is the exception. It uses a native
->  u64 division, which does not link on 32-bit ARM.
->
->As a further test I ported the Atmel PWM driver to Rust and ran it next
->to the C driver on the SAM9X75 board. The port is not part of this
->series. The comparison found a prescaler bug in the C driver for
->periods of 2^32 clock cycles or more [4].
->
->I plan to get a Raspberry Pi 1 Model B+ and then add ARMv6K support as
->a separate patch.
->
->The ARMv7 enablement went in through Russell's patch system as
->"ARM: 9441/1". Unless someone prefers another route I would submit
->this series there after review.
->
->[1]
->https://lore.kernel.org/rust-for-linux/CACRpkdYF0sVB2-qgy=GzETSR3+2sagVQPGdunDQDJrn8KqJorA@mail.gmail.com/
->[2]
->https://lore.kernel.org/rust-for-linux/b13d37bd-ec68-4713-94e5-e9ed4d6a6354@gmail.com/
->[3]
->https://lore.kernel.org/lkml/20260922173354.14404-1-brads@mainlining.org/
->[4]
->https://lore.kernel.org/linux-pwm/20261003083036.21584-1-kmehltretter@gmail.com/
->
->Karl Mehltretter (2):
->  ARM: cmpxchg: support 2-byte xchg() on pre-ARMv6 CPUs
->  ARM: rust: Enable Rust support for ARMv5TE
->
-> Documentation/rust/arch-support.rst |  2 +-
-> arch/arm/Kconfig                    |  2 +-
-> arch/arm/Makefile                   |  4 ++++
-> arch/arm/include/asm/cmpxchg.h      | 14 +++++++++++---
-> 4 files changed, 17 insertions(+), 5 deletions(-)
->
->
->base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
->
+diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
+index 3cc15d800be1..2075f1f14a42 100644
+--- a/Documentation/admin-guide/mm/hugetlbpage.rst
++++ b/Documentation/admin-guide/mm/hugetlbpage.rst
+@@ -373,9 +373,9 @@ contains the following attribute files::
+ 	free_hugepages
+ 	surplus_hugepages
+ 
+-The free\_' and surplus\_' attribute files are read-only.  They return the number
+-of free and surplus [overcommitted] huge pages, respectively, on the parent
+-node.
++The ``free_hugepages`` and ``surplus_hugepages`` attribute files are read-only.
++They return the number of free and surplus [overcommitted] huge pages,
++respectively, on the parent node.
+ 
+ The ``nr_hugepages`` attribute returns the total number of huge pages on the
+ specified node.  When this attribute is written, the number of persistent huge
 
---- Thanks!
-https://lore.kernel.org/all/EE579805-42F2-4C58-B752-F28779EEB717@grrlz.net/
+base-commit: 763ad0211c7b587344f03bc4d1299810aeb736f4
+-- 
+2.25.1
+
