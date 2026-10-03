@@ -1,126 +1,127 @@
-Received: from mta1.migadu.com (out-109.mta1.migadu.com [95.215.58.109])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44BC331A63
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 04:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.109
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A54A337BAB;
+	Sat,  3 Oct 2026 04:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791002753; cv=none; b=ITOrhs5u9ecO+wPK1+0R2Jc5n2ForhEVZcq138U9urhXHo+H2DPSSEjVlS/pbb2i8kN7r5c/u7gfIxMZY+BIXKoTzIeZdla8lOR6poQj0UZVLlrfQaM+cgCFoAuUdEEXAHZ2PExy5x4RB/HzYXHP/XkqLaZy6Xk/TIBKJ9FfbrQ=
+	t=1791003054; cv=none; b=nNVE0OSN7Ljzf+LKiWijWIyG1pnxaEYrWzssQ5kT5SOgrvfdIT/C3otanZpCcEoxJ1SGoTjQbE+Filnp5QF/PWPdZMXnT/kFCx1+2pOu/9Mt+83ExzddVW0Ogl7+g6vEGZ8+tcdM3gFMcXjzf2wVt9jpBjP24fRfrhEjZc/+rco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791002753; c=relaxed/simple;
-	bh=PqHA7PAh9JHMpXtkgXGlLykZuAEZzZGGNJLrwPYAJeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=brw4lZF2vU4dbv7DKVizjHjzzrsyIvoXuutdDReUfq8AA9bj0JeM09GPPCqwenZqLMMgB6P6N0bDy1uVp32n+cTXApuhn3fa90t1+j7rrCCJHmL3qim9fVN03fnAFJdHf1wU/JOaEkt9SmLT+q1S2SVu68SsFP6Aqd1kpX3X/BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=Ee8Q+FO8; arc=none smtp.client-ip=95.215.58.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1791003054; c=relaxed/simple;
+	bh=KF5QQQ9RPSVhSfzH8r6fMmA1Wl6ZokjNOwHXb/s/NYk=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=UWRtW6pCkYoVhu0SR6mt5j2e5x4WcvRKMALwesas89T8jy4L57ZbLJLpgDhU74sd7wVwI0So6d5bNb/BbqCKM4bepHhiS1fHKo3L+cWsUoUY9QQtqeWK2yvZDUnD05zYOMMVb3417hv9jRwJAj9kfCez34r4Yva0dsSi2qytqF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=fail (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TC7nbRqN reason="signature verification failed"; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="Ee8Q+FO8"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=PqHA7PAh9JHMpXtkgXGlLykZuAEZzZGGNJLrwPYAJeU=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791002749; v=1; x=1791607549;
- b=Ee8Q+FO8bnLZgRAqXKj+3lZQYvpNzPdLqfJztoOxMsNpO5WGdGzlPlOkUVldjkQf/yKcDVkj
- zLn7i9e2iyN4oTkAYawe4JSrxEUI19Lqrj40ySxW58AJqRViqVEAjKpAvjJUY9AXOVhKlKqD2Rf
- MqpKvgr/nyIMZV1nz1pp3bVW3/VNF21WJuSX0iCeny2s/qFYh6Jfv9dcuQMcdy25/i7gyYQZKEH
- 8wQs5ZAiaIs45xpHVN12dl+n+ktqqS84TxB4X+AfKHuKJf/j2rC3b4poSElceHm/eRda0oOe4Lz
- jcx3A1JmfX6UZjx/pELdK9s7x4o2Wnn1EaAQDX8mYx1Zw==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id de9461c6e3360cc2;
-	Sat, 03 Oct 2026 04:45:47 +0000
-X-Mizu-Trace-ID: de9461c6e3360cc2
-X-Migadu-Flow: FLOW_OUT
-Date: Sat, 3 Oct 2026 12:45:38 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>
-Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn,
-	si.yanteng@linux.dev, srcres258@furdevs.cn,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] docs/zh_TW: add a notice for translations not kept
- in sync
-Message-ID: <asCIcsjSHdqF3oI-@wyuan.org>
-References: <20260929131142.266819-1-chenyou910331@gmail.com>
- <20260929131142.266819-2-chenyou910331@gmail.com>
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TC7nbRqN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77BE41F000FF;
+	Sat,  3 Oct 2026 04:50:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791003052;
+	bh=DLY7CkY5wWyEZxB66xjOMvgruHX/vgpHJc67oiGl934=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=TC7nbRqN4mkHtTgxgpRmcrs+K+wR41ucNCI5+7e4WAy2xtpM4tgDSmHb8ueMOYqs9
+	 aeJFga694eL4FspHB/IT8HFlY7zXJy4RIQmsOtG+zlRDaaCuqM/vGlk9eQjdba3F98
+	 dfXZ7TZNJvq3KuKbAHj/RPjdYS0fyVevOkLTFlfk4jM5t5wj0KZrF2ikX1JuFkc7R9
+	 /xWOEILr3V7436sCd13S3j+5bpjCu/GxDIO1PSwynldmWz9rmkO+Yx93sn86qGJ/Vz
+	 klOAjH7MnCbgGgdJgZRitgrL1x3/IohTAlcMv0laQgrt2vS4je+nHlPAWrOgaclw9W
+	 YJtEoNwqlc8KQ==
+Content-Type: multipart/mixed; boundary="===============4908982598732312440=="
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260929131142.266819-2-chenyou910331@gmail.com>
+Message-Id: <aa721817952d2aff37a77588339c61d5090f1589203451243ed88149bf00f1d5@mail.kernel.org>
+In-Reply-To: <20261003035921.1918874-1-kees@kernel.org>
+References: <20261003035921.1918874-1-kees@kernel.org>
+Subject: Re: [PATCH v4 01/11] seq_buf: Do not print an empty line from an overflowed seq_buf_do_printk()
+From: bot+bpf-ci@kernel.org
+To: kees@kernel.org,morbo@google.com
+Cc: kees@kernel.org,akpm@linux-foundation.org,david@davidgow.net,pmladek@suse.com,senozhatsky@chromium.org,shuvampandey1@gmail.com,rostedt@goodmis.org,corbet@lwn.net,gnoack@google.com,willy@infradead.org,mic@digikod.net,andriy.shevchenko@linux.intel.com,mhiramat@kernel.org,mathieu.desnoyers@efficios.com,jikos@kernel.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,ihor.solodrai@linux.dev,chleroy@kernel.org,u.kleine-koenig@baylibre.com,maddy@linux.ibm.com,mpe@ellerman.id.au,npiggin@gmail.com,sbhat@linux.ibm.com,blum@kernel.org,alison.schofield@intel.com,dave.jiang@intel.com,gregkh@linuxfoundation.org,lgs201920130244@gmail.com,iweiny@kernel.org,u.kleine-koenig@pengutronix.de,vishal.l.verma@intel.com,rdunlap@infradead.org,skhan@linuxfoundation.org,linux-kernel@vger.kernel.org,bpf@vger.kernel.org,linux-security-module@vger.kernel.org,linux-trace-k
+ ernel@vger.kernel.org,linuxppc-dev@lists.ozlabs.org,nvdimm@lists.linux.dev,linux-doc@vger.kernel.org,linux-hardening@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
+Date: Sat,  3 Oct 2026 04:50:50 +0000 (UTC)
 
-On 2026-09-29 21:11:38 +0800, Chen-Yu Yeh <chenyou910331@gmail.com> wrote:
+--===============4908982598732312440==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-> As agreed in the zh_TW scope discussion, translations that nobody keeps
-> in sync with their English originals should say so in the file itself,
-> rather than leave readers to find out.  Add the notice as a shared file
-> included at the top of each such translation, the way
-> disclaimer-zh_TW.rst already is.
-> 
-> The notice carries no :orphan: marker.  Included after
-> disclaimer-zh_TW.rst it would not be at the start of the document, and
-> Sphinx would render it as an empty "orphan" field; Sphinx does not warn
-> about a file that is only ever included, so the marker is not needed.
-> 
-> Start with the two files in process/ that are not in sync.  process/ is
-> the part of zh_TW that is kept current, but security-bugs.rst and
-> debugging/gdb-kernel-debugging.rst only moved there with the recent
-> relocations and have not been updated yet; they carry the notice until
-> they are.  The rest of the tree follows in the next patch.
-> 
-> Link: https://lore.kernel.org/linux-doc/CAKspUhJAbCWoxgh2eq8R5g_MiNK=oXgKPUWqGOpHh0w1-Fv74A@mail.gmail.com/
-> Link: https://lore.kernel.org/linux-doc/aqFPBQxq5asHzvtn@wyuan.org/
-> Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+> seq_buf: Do not print an empty line from an overflowed seq_buf_do_printk()
 
-Acked-by: Weijie Yuan <wy@wyuan.org>
+TL;DR: The new KUnit test may fail spuriously, and stop detecting the bug,
+when console_loglevel suppresses KERN_INFO (quiet, loglevel=N) or
+CONFIG_PRINTK=n, since the capture console never sees records.
 
-> ---
->  .../zh_TW/process/debugging/gdb-kernel-debugging.rst        | 1 +
->  Documentation/translations/zh_TW/process/security-bugs.rst  | 1 +
->  Documentation/translations/zh_TW/unmaintained-zh_TW.rst     | 6 ++++++
->  3 files changed, 8 insertions(+)
->  create mode 100644 Documentation/translations/zh_TW/unmaintained-zh_TW.rst
-> 
-> diff --git a/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst b/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
-> index a9ca1156fea6..45f178c0bf59 100644
-> --- a/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
-> +++ b/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
-> @@ -1,6 +1,7 @@
->  .. highlight:: none
->  
->  .. include:: ../../disclaimer-zh_TW.rst
-> +.. include:: ../../unmaintained-zh_TW.rst
->  
->  :Original: Documentation/process/debugging/gdb-kernel-debugging.rst
->  
-> diff --git a/Documentation/translations/zh_TW/process/security-bugs.rst b/Documentation/translations/zh_TW/process/security-bugs.rst
-> index 76a78746ca4e..783d7c77b5fa 100644
-> --- a/Documentation/translations/zh_TW/process/security-bugs.rst
-> +++ b/Documentation/translations/zh_TW/process/security-bugs.rst
-> @@ -1,6 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
->  .. include:: ../disclaimer-zh_TW.rst
-> +.. include:: ../unmaintained-zh_TW.rst
->  
->  :Original: :doc:`../../../process/security-bugs`
->  
-> diff --git a/Documentation/translations/zh_TW/unmaintained-zh_TW.rst b/Documentation/translations/zh_TW/unmaintained-zh_TW.rst
-> new file mode 100644
-> index 000000000000..4b4eb63d749c
-> --- /dev/null
-> +++ b/Documentation/translations/zh_TW/unmaintained-zh_TW.rst
-> @@ -0,0 +1,6 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+> diff --git a/lib/tests/seq_buf_kunit.c b/lib/tests/seq_buf_kunit.c
+> index eb466386bbef..0934dfb602ff 100644
+> --- a/lib/tests/seq_buf_kunit.c
+> +++ b/lib/tests/seq_buf_kunit.c
+
+[ ... ]
+
+> +static void seq_buf_printk_run(struct console *capture, struct seq_buf *s)
+> +{
+> +	seq_buf_printk_marked = 0;
+> +	seq_buf_printk_empty = 0;
+> +	seq_buf_printk_last_was_ours = false;
 > +
-> +.. warning::
-> +     本翻譯目前無人維護，沒有與英文原文保持同步，內容可能已經過時。如有
-> +     出入，請以英文原文（見下方的Original欄位）為準。如果您願意協助更新本
+> +	/*
+> +	 * register_console() will not take an unmatched console without
+> +	 * CON_ENABLED, and unregister_console() clears it, so set it on
+> +	 * every run to keep the test repeatable.
+> +	 */
+> +	capture->flags = CON_ENABLED;
+> +	register_console(capture);
+> +	seq_buf_do_printk(s, KERN_INFO);
+> +	unregister_console(capture);
+> +}
 
-So here means we still need the Original field.? ;)
+Does this test depend on console_loglevel being above LOGLEVEL_INFO?
 
-> +     翻譯，歡迎將補丁提交給繁體中文文件的維護者（見MAINTAINERS檔案）。
+The records are printed at KERN_INFO, and a legacy console only gets a record
+through console_emit_next_record(), which calls printk_get_next_message()
+with may_suppress set.  That function skips any record for which
+suppress_message_printing() is true:
+
+    static bool suppress_message_printing(int level)
+    {
+            return (level >= console_loglevel && !ignore_loglevel);
+    }
+
+A skipped record just advances con->seq and ->write() is never called.
+
+With console_loglevel <= 6, seq_buf_printk_capture() never runs and
+seq_buf_printk_marked stays 0, so these expectations in
+seq_buf_do_printk_test() fail:
+
+    KUNIT_EXPECT_EQ(test, seq_buf_printk_marked, 1);
+    KUNIT_EXPECT_EQ(test, seq_buf_printk_marked, 2);
+    KUNIT_EXPECT_EQ(test, seq_buf_printk_marked, 1);
+
+The seq_buf_printk_empty checks would still pass in that setup, so the test
+would also stop detecting the bug it was written for.
+
+CONFIG_CONSOLE_LOGLEVEL_QUIET is 4 when "quiet" is on the command line.  A
+loglevel=N boot argument, dmesg -n, or a kernel.printk sysctl that lowers the
+console level has the same effect, and some distributions lower it by
+default.  With CONFIG_SEQ_BUF_KUNIT_TEST=m this would report a failure.  The
+same happens with CONFIG_PRINTK=n, where printk() is a no-op and
+SEQ_BUF_KUNIT_TEST depends only on KUNIT.
+
+The kunit.py qemu and UML runs would not notice, since they do not lower the
+loglevel.  The later commits in this series still call
+seq_buf_do_printk(s, KERN_INFO) unchanged.
+
+Would it make sense to use a level that is not filtered, call kunit_skip()
+when console_loglevel would suppress KERN_INFO, or read the records back from
+the printk ring buffer instead of a console?
+
+
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/37096036516
+--===============4908982598732312440==--
