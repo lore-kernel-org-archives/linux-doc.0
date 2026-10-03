@@ -1,190 +1,159 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2975D3C988E
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 10:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423621D435F
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 11:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791024352; cv=none; b=BlRSD3Rgb9vk+SnqT8IgRo3Q7WfHXMtVWzJidG1m73Lmf/+hj/8XGuduJGbN3c8iodyb+e9fN73dbaS0BtYWvxNOa1PM0J8Q9utahJRvabDBKVYvSaZRhIUfJuG9iUzZiz3ntkh7ljcIPjMwgzm6oKpM52HTUoAEhgseqI0XRx4=
+	t=1791025311; cv=none; b=TOUAk4Z+sXQCAUHhw2lg8r/eA5cJ9rZQrcSidT6gVnMaUjwG69foqPFTmSWEj34lgZJMexaub4Ph9Sk5lPoDdWmwXtRLgmZZhlQQ7YmGQbG22zbspO8JkohU/jnrli/vDWzX9P9PW489X4pPjR1uhe/leujuhf24wpZmReZjsVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791024352; c=relaxed/simple;
-	bh=zN8NwfOwTEFS4HgV6P2aMwyRYwUoOzd9vCuBgwE1hmQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=fVERHSQXqwJubSfeENoRkpaRpbYySJMedvuwFzDEVfYe6T6393vwlXCTLN40BhZ06uSvEr/yDNIQwyRN6vIr6VhbVFOAVbdqvBwM4zim/t5FVjzoRwpM/1PCzwMMnBTgwOM1hpTgS0DrDal6eXtomI0dWhVLf/+OZREnLMQTj10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=YLqUkDSL; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=yosQDK5z; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1791025311; c=relaxed/simple;
+	bh=oxz6Hnxbn2oHmeqY+Q26PyVBH/quzvwQKwumGfN9c8E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SSlX6e6WUcrPXvIW8ypUyaK9APi1heJSIz7090C2aNVL+9ep2T9DSd0ddYOIvsWPmw42NbQEfIATTbsjkO85Nlg7xUF1fuaYa4w4utQ48ikgwvWcKdIXkXbMvYj/yK/EyXIQ1zSfIL+yM3XhGnbtJbqhajsCJ8y899edVLS1Fv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O4iP4ZG8; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="YLqUkDSL";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="yosQDK5z"
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 179A614000BA
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 06:45:50 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Sat, 03 Oct 2026 06:45:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1791024337;
-	 x=1791110737; bh=LbsAV9q1BJGs+RkHnrhLC9PjudY2w8K1olk814fYDss=; b=
-	YLqUkDSLnOO5W2+kr3uyDUJms2s0k1nxGPVMI587cpcNfbbJinuDNNKBZULzoO0k
-	VR43naVRki4CFgPaAWlo57/uuv0KbDiEohnV/ZcwfUwR0sNZMirQQDgdS1DhFxYO
-	v6DyvC99DtCCnCECQpVUujjesdTs15J5BUiSPxik6AmW9JpsEj6hXp3k2REeYf0h
-	Zai7P928NxVEiiXatDLohLMLCdbBgSQqQ0ryzyAGCM+AMHlTC+C+wpFG4bQC394j
-	4SHNYj0TefUA8SFu0EfiJYkbdjSVYFHBdlmTLem1M0yqdvSrpSO1qXm2oRKRonOR
-	nPrw/HpLL3NQ2SwfKMEGQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1791024337; x=
-	1791110737; bh=LbsAV9q1BJGs+RkHnrhLC9PjudY2w8K1olk814fYDss=; b=y
-	osQDK5zING56/JOqlIJng/59CIrDqlEUjX4E5aeGvmHoZcR0CQC5lnwLmQc3f2NW
-	Bh5aZilJtw+kppB/qC683hjzDcNmZrxyt00nplehAlHE58Icp4YqZTkd7eK9DbLz
-	DclJOLn6A1VDzCVB2Tf6sjbQfjFwlyVaaRhe1/xqphs2SKPqeKTerazVYGz97sEh
-	9JB1i0XrPp33wqyIfA8ZHsgoh5UfZJXbIft1j++dFtKhXpW13+1ngi0Uy6Gs/KE0
-	ZCO2pN0y2sDxii2JBv/NZQkmP1nwwsehkBhGGcuDob1xPCdBRBFFWSdbYr2YzOV6
-	Do+pLTuLtvp4oTxdRc1ew==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
-	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1791024337; d=arndb.de;
-	mf=PGFybmRAYXJuZGIuZGU+;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm1:rsa-sha256:CLrhzICyEWwNx0rQaUuiApVKvgMuCBPhTraOL1k8PPYVaeB
-	AzBlqy9sdmxZjLP5Cx59OLpdarHNWHw8W3Pb392kboPS0fW2YoOufwTsa+F1QaSW
-	9Ds0q4XXDKGL7KPHyr5saDwwNSt2ojI8UXVkDg2CAsJjNnPCpQnkwO9IOw6zQ5EY
-	gihKfd000DSq32Q5sXh6Lg/dfc8o8Jtmz0U5rdsJBT7ArwsUf2bOQ466Wx+fVEt8
-	KAlgfSsev7n+T9DqhhXgEPXJbp7LHiEbM7G778VszF82I3EiQoNHIVhJPxhMaufA
-	xEQOFjx5aAR5th++oY1gH497OMzAo9ATRDDD5Zw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:j/98+heVyS4qQGyuupafB+vXRsAdPzNdRaTDbkxL6S0=:zN8NwfOwTEFS4HgV6P2aMwyRYwUoOzd9vCuBgwE1hmQ=;
-X-ME-Sender: <xms:yNzAav20WObJrSLISZBjIvttufyxI7bnGL10KJ_JWUGKW_LIHE-1Eg>
-    <xme:yNzAao4xK-H9_BLwiaqg6-0_45R0UmSND8EfeunishzlxayIIRm6BlAoS4h5G99tM
-    ZGf34psl_spsEbmAJBGbGdAawa4WGIXYktKBiyGfB0RJS5dJcZjI-5->
-X-ME-Proxy-Cause: dmFkZTEbg1jSKr1GfSmMC2AVkUcfFCIwA/48EoLzIZqsaRTiyliBq5GUXDoG8OlN3hWdR+
-    OEoCH1iWD3Q6XYpoN9n/8kZ9MPqWLGQ/udEmnZSbPkpNZh2+bu0kE5lQgc8rFMxqJsrqIR
-    gnlaHSqxSCzM3B5uSm2+4yJ26fS/OChfxe1+y2kn/yvPHuWFMeGzn7GPqgF688lRAEj8uJ
-    jIMXjAqn2DFn88jbkSGLfIAzF9I/9Yd73/Ns54OHAWmmelfD/6rDlG2nwLJWBekaldgcO9
-    59F0L2sSVceLXlQehYTRjBnUyER5PgS9zM1W3X9qKCQ3LtibKaf39+pv7TFSTWKPvbjPRA
-    jskfXeD4lBCzvwU12IUiMxxRL7xUuvoXjLytayh0P/q6Vgvvym+a/pAM9/YYU5ImasQxs5
-    RKoo1fIpbhwIqUc9nERpU9/218tv2aXj7QsdD7JV7iE1pgcbEtpqHgK54U90KeehazFHYN
-    MtxGIwg1SSu1eR8gYoc/jBOZXy3KOJX2lTDWuBM+3DPK6buGSidzxGDFOGuL0ZANPgK244
-    0s+cOyxFmJS8crMbyk3FZ0qmJ+Tq7cqIFej63zAgf5gwDI3YaHxNvFjLAMheDyduozNKtb
-    /iAQWSlkfDZB4yXU2nklwlVHw279+nx5FJrsV3j/NnxEgkk6/6OLFoeX/hpQ
-X-ME-Proxy: <xmx:zNzAaj-hnE1kKloc2GdI5cXKMNh49_ewuOBuO4HESOxIFSDq10WNLg>
-    <xmx:zNzAapXF7ojCayMW7GP0vGjlwIJvGHfnX7QQXdx1Rx0HotMyUxnD6g>
-    <xmx:zNzAakdm71pZpEMd-WXfK5EvQXu_s-HEu8ODynvx5d6O6fDWxX64vg>
-    <xmx:zNzAamU2ThcEE0shuuKm3lmiSGL7O8OK8ohY7MZap-XEWl8EoRFoDA>
-    <xmx:0dzAagZieGoLkWzHHGKjNvH3fbmD8fgX0zkJfeISpd65iWcq4O0wnSeJ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 070D132A008A; Sat,  3 Oct 2026 06:45:28 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O4iP4ZG8"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48b02b1b4cfso180580f8f.0
+        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 04:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791025308; x=1791630108; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=U88Dx/fLCGECyYQCess+Hy3G4KhGKCmrl9990XZefic=;
+        b=O4iP4ZG8hdRmIWAKVnOxFGyllxBqp9/xuOw+n45gSaLToSL7x9k/OmLUT5tdb5vYkS
+         ExfrlsUaqfjtmWsJVLuXzh/vd0yvQ7RZ3Z++c4xWWufF9UPmHIl47voIW3/Z23TjRei7
+         nKNiKCyBDaEN0lR/xJ/9E6utecJ/a/k06UlP2e8CbFLmmFpoAGFRDb+7uUE5RS6k/86U
+         IvsWA+fpYUQgmTZu+hWSo08ttPA0OPdxd50c9tKGP5Svi9SXifOVzf5fSYYa/cy7el0v
+         KWmF/evz1f27eSoKXfg4bPevhwYzdrYoYOwRSXVcCl08NA1IdtnzpuHilEQr0ZJ6WbTa
+         e4mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791025308; x=1791630108;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=U88Dx/fLCGECyYQCess+Hy3G4KhGKCmrl9990XZefic=;
+        b=z3FMcfyJ/w3jGjRUenNKHzbr/UmH20jBSDQDOShVpv2yL5nUfh2Ci6FQIJp4dWHGPr
+         tsQEPVF/p6N9FU8bP276wQGSggFxl1pJbpnH9BaiMy32a1/nr58q1UUCFutL5YfeYO3j
+         fsshBrmoXic7uFKG1k9IIY4HDkcgHkl1D6v760t38GaP6tym+PDOHf0SvygMeaGwSNTk
+         QUj8Jbg6mIBjWMw2ABLzoZvRfMJJ/mo8gHaNuukspNnd6ntr0gjHwdnMPpbAY+o4G7Ia
+         +BNTcDFwkVVzOnPsVD/k95hdWiPRXlSZ3ksebXt4+aKmpouHpXoxXlU8pcIyZwlC9wQ0
+         w5uQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwtEe+7fMd97y6pW5bTlFN/eDFrpd195NFpYcLkLexSWQkNx9z44e6IGWETzDTF245pa3dI9EUEDlo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJwpYmN5UFZda7vWU9TSA3bUw1dsGFAG33R5OJEZZfkFkPcEwVH
+	Yh0FgUnfsAi/VD21UhJxQ2X3Kyjglr90UnqPRPB3YaebkrEfY5hENIMV
+X-Gm-Gg: AYBFou0ZpVlRJy+bPD9JyVsu32qMAb35zbekcj3B96odvFy1mq0OeW+czJJZIwmIvhp
+	Gw2AaPGpRCeY+lABVToJSR/4K9WGm8tGyjknq5PQ4mLFWZzEXwJic8s5kMEcZV8YNpZgahkDZlB
+	Haou7Y7hq0OjzmH4YBm0MtjpEdq9VilWfkrmQRmWn/gsIs1iPqa0dInHZEW+R4sZaeGxx6EZxXb
+	ID8kzjdoNEWPLV+XMroKSupKm3ekF+XaoAcK0AHCAToQC79tnwCp47iJF/tyDJQdPYrUjP6pFh/
+	kLOjFtp0N5ptoKCvHvtsLFTb0i7mTFJOIk7eLMGzSl4ksiL1HGb+U/MW6zQe+pKWeVcA4YjXhsn
+	3Ar2Q2CZYpjp5yHmCogpKBuQP0tQSLCCXbwyrRn3DCyAwyBT266O7I38gapqm0I/L0FfVhxU/PE
+	XvoSfJrwq58cgrlyAxEkkvwvOgdZymWM0WbMV6E+zKS3lkKbpbKeyjTexrSxLuyqoKsg+0ineO7
+	5YVsmcLt968GZxSDtoCn2Ka6xUYZR4k5R6fDB45LAwORRLXpxjXTVO6Og5cdy/2MwJKSC5M286N
+	WOVxg4T08Y+a71euFOd9MZgGbzF/2x53cs8XjBYyWTT3yZNXj/QDERZCf2MKunoIeGWlYmE5bDW
+	UjOgL8A/vxxJaVptOog==
+X-Received: by 2002:adf:e80e:0:b0:48b:437:8fbb with SMTP id ffacd0b85a97d-48b067c013bmr13201711f8f.19.1791025308156;
+        Sat, 03 Oct 2026 04:01:48 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-b2e2-2001-c47f-5a89-3d9a-cd2d.310.pool.telefonica.de. [2a02:3100:b2e2:2001:c47f:5a89:3d9a:cd2d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b38103856sm12316254f8f.25.2026.10.03.04.01.47
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 03 Oct 2026 04:01:47 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Peter Xu <peterx@redhat.com>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	David Hildenbrand <david@kernel.org>,
+	linux-mm@kvack.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] userfaultfd: docs: Fix an error code, two names and the POLLERR cause
+Date: Sat,  3 Oct 2026 13:01:37 +0200
+Message-Id: <20261003110137.88619-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: A-PcLBAcdglw
-Date: Sat, 03 Oct 2026 12:45:07 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Karl Mehltretter" <kmehltretter@gmail.com>,
- "Russell King" <linux@armlinux.org.uk>, "Miguel Ojeda" <ojeda@kernel.org>
-Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- "Benno Lossin" <lossin@kernel.org>,
- "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
- "Danilo Krummrich" <dakr@kernel.org>,
- "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Tamir Duberstein" <tamird@kernel.org>,
- "Alexandre Courbot" <acourbot@nvidia.com>,
- =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "Linus Walleij" <linusw@kernel.org>,
- "Christian Schrefl" <chrisi.schrefl@gmail.com>,
- "Bradley Morgan" <brads@mainlining.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nick Desaulniers" <ndesaulniers@google.com>,
- "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>,
- linux-arm-kernel@lists.infradead.org, rust-for-linux@vger.kernel.org,
- llvm@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <33197b82-3eff-4c87-b370-c677ca31a02a@app.fastmail.com>
-In-Reply-To: <20261003093827.77857-3-kmehltretter@gmail.com>
-References: <20261003093827.77857-1-kmehltretter@gmail.com>
- <20261003093827.77857-3-kmehltretter@gmail.com>
-Subject: Re: [PATCH 2/2] ARM: rust: Enable Rust support for ARMv5TE
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 3, 2026, at 11:38, Karl Mehltretter wrote:
-> HAVE_RUST is currently selected for CPU_32v7 only. The
-> arm-unknown-linux-gnueabi target used for ARMv7 emits ARMv6
-> instructions (+v6), so it cannot be used for ARMv5. Use rustc's
-> built-in armv5te-unknown-linux-gnueabi target instead. It keeps the
-> Linux EABI (no short enums, unlike the -none-eabi targets) and is
-> soft-float and strict-align.
->
-> Kernels that also contain ARMv4 or ARMv4T CPUs are built for the
-> lowest architecture and stay excluded. CPU_32v5 also covers the ARMv5T
-> ARM1020. C code is already built with -march=armv5te there, so Rust
-> matches.
+Four statements in userfaultfd.rst do not match the code:
 
-None of this makes sense to me: The target should not control
-the instruction set, that is what the -march= flag is needed for.
-Does that not get passed for Rust?
+- UFFDIO_COPY is said to return -ENOSPC when the monitored process
+  exits at the time of the copy. That error is -ESRCH since
+  commit e86b298bebf7 ("userfaultfd: replace ENOSPC with ESRCH in case
+  mm has gone during copy/zeropage"), and userfaultfd_copy() still
+  returns -ESRCH when mmget_not_zero() fails.
+- the postcopy example says that UFFDIO_ZEROCOPY is used for zero pages.
+  The ioctl is UFFDIO_ZEROPAGE, as the same sentence says a line
+  earlier.
+- the write protect section says to clear UFFDIO_WRITEPROTECT_MODE_WP in
+  pagefault.mode. struct uffd_msg's pagefault has no mode field. The
+  flag goes in the mode field of struct uffdio_writeprotect, as the
+  paragraph says when it sets the flag.
+- poll() is said to report POLLERR "when ranges supplied were
+  incorrect". userfaultfd_poll() never looks at ranges, and an ioctl
+  with a bad range fails on its own. It returns EPOLLERR when the
+  UFFDIO_API handshake has not been done yet and when the file does not
+  have O_NONBLOCK set, and it did so when the sentence was written.
 
-If an ARMv7 kernel includes ARMv6 instructions, that is broken
-on ARMv8 CPUs that are lacking the CP15 barriers and swp style
-atomics, so that needs to be fixed.
+Say -ESRCH, UFFDIO_ZEROPAGE and mode, and name the two POLLERR cases.
 
-I don't see what part of rust would depend on ARMv5 instructions,
-it should just work on ARMv4T as well, though ARMv4 may be
-trickier because missing bx instructions etc.
+Fixes: e86b298bebf7 ("userfaultfd: replace ENOSPC with ESRCH in case mm has gone during copy/zeropage")
+Fixes: 25edd8bffd0f ("userfaultfd: linux/Documentation/vm/userfaultfd.txt")
+Fixes: 57e5d4f278b9 ("userfaultfd: wp: UFFDIO_REGISTER_MODE_WP documentation update")
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+ Documentation/admin-guide/mm/userfaultfd.rst | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-> ==============================================
-> -``arm``        Maintained        ARMv7 Little Endian only.
-> +``arm``        Maintained        ARMv5TE and ARMv7, Little Endian only.
+diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
+index 783d969f0e28..97daea83b7f1 100644
+--- a/Documentation/admin-guide/mm/userfaultfd.rst
++++ b/Documentation/admin-guide/mm/userfaultfd.rst
+@@ -199,8 +199,9 @@ Notes:
+   those IOCTLs wakes up the faulting thread.
+ 
+ - Be sure to test for all errors including
+-  (``pollfd[0].revents & POLLERR``).  This can happen, e.g. when ranges
+-  supplied were incorrect.
++  (``pollfd[0].revents & POLLERR``).  This happens if the userfaultfd
++  does not have ``O_NONBLOCK`` set, or if it is polled before the
++  ``UFFDIO_API`` handshake.
+ 
+ Write Protect Notifications
+ ---------------------------
+@@ -218,7 +219,7 @@ protect as many ranges as you like (inside the registered range).
+ Then, in the thread reading from uffd the struct will have
+ ``msg.arg.pagefault.flags & UFFD_PAGEFAULT_FLAG_WP`` set. Now you send
+ ``ioctl(uffd, UFFDIO_WRITEPROTECT, struct *uffdio_writeprotect)``
+-again while ``pagefault.mode`` does not have ``UFFDIO_WRITEPROTECT_MODE_WP``
++again while ``mode`` does not have ``UFFDIO_WRITEPROTECT_MODE_WP``
+ set. This wakes up the thread which will continue to run with writes. This
+ allows you to do the bookkeeping about the write in the uffd reading
+ thread before the ioctl.
+@@ -584,7 +585,7 @@ The QEMU in the source node writes all pages that it knows are missing
+ in the destination node, into the socket, and the migration thread of
+ the QEMU running in the destination node runs ``UFFDIO_COPY|ZEROPAGE``
+ ioctls on the ``userfaultfd`` in order to map the received pages into the
+-guest (``UFFDIO_ZEROCOPY`` is used if the source page was a zero page).
++guest (``UFFDIO_ZEROPAGE`` is used if the source page was a zero page).
+ 
+ A different postcopy thread in the destination node listens with
+ poll() to the ``userfaultfd`` in parallel. When a ``POLLIN`` event is
+@@ -672,7 +673,7 @@ asynchronously and the non-cooperative process resumes execution as
+ soon as manager executes read(). The ``userfaultfd`` manager should
+ carefully synchronize calls to ``UFFDIO_COPY`` with the events
+ processing. To aid the synchronization, the ``UFFDIO_COPY`` ioctl will
+-return ``-ENOSPC`` when the monitored process exits at the time of
++return ``-ESRCH`` when the monitored process exits at the time of
+ ``UFFDIO_COPY``, and ``-ENOENT``, when the non-cooperative process has changed
+ its virtual memory layout simultaneously with outstanding ``UFFDIO_COPY``
+ operation.
 
-Here you exclude ARMv6K and ARMv8-A-aarch32...
-
-> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-> index ffbc7f386131..f6b14d9f0e1f 100644
-> --- a/arch/arm/Kconfig
-> +++ b/arch/arm/Kconfig
-> @@ -138,7 +138,7 @@ config ARM
->  	select MMU_GATHER_RCU_TABLE_FREE if SMP && ARM_LPAE
->  	select HAVE_REGS_AND_STACK_ACCESS_API
->  	select HAVE_RSEQ
-> -	select HAVE_RUST if CPU_LITTLE_ENDIAN && CPU_32v7 && !KASAN
-> +	select HAVE_RUST if CPU_LITTLE_ENDIAN && (CPU_32v7 || (CPU_32v5 && 
-> !CPU_32v4T && !CPU_32v4)) && !KASAN
-
-but here you allow it, so I think one of them should change,
-and you need to better explain what the dependency on !CPU_32v4T
-is about, and what happens for an ARMv6K-only kernel, compared
-to a combined ARMv6K+ARMv7-A one.
-
->  KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_ISA) -Wa,$(arch-y) $(tune-y) 
-> -include $(srctree)/arch/arm/include/asm/unified.h -msoft-float
-> +ifdef CONFIG_CPU_32v5
-> +KBUILD_RUSTFLAGS += --target=armv5te-unknown-linux-gnueabi
-> +else
->  KBUILD_RUSTFLAGS += --target=arm-unknown-linux-gnueabi
-> +endif
-
-This looks wrong, the choice between armv5 and armv7 should work
-the same way as the choice between armv6 and armv7/v8, if I read
-the rustc docs correctly, this should be using the target-cpu=
-argument on the generic arm-unknown-linux-gnueabi target.
-
-      Arnd
+base-commit: ff47652a4b66c067c765a7ad464d930b5a9367cc
