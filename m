@@ -1,146 +1,164 @@
-Received: from mail-pj2-f38.google.com (mail-pj2-f38.google.com [74.125.227.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC32B345EA8
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 22:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882EB3515CF;
+	Sat,  3 Oct 2026 23:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791067204; cv=none; b=QYtNwKY5YvguKfNgPzSYYbvFlosXAdsUpj4SfX4nEKi6xxJnB/0d91LRxXJeCW7Wz3eiFC9Zn3U8dF8cpqRqOuMqLDJZZ1kVlq920bAz2K47vCKHjgYr8Hc0CBSV/ntKAD4Bo8EpZe+rh57ytSLUoy7YPrEvmuTgUyahFjyfZrc=
+	t=1791068742; cv=none; b=pX8quyo+IprWef4YG5a3I0LpwFrapRw1/w56AmYn8pv4A80YjTlsAjPZrGC56RF9wr/w5zT2Vndv4xNie4e7cK1//SqiwgSUnRxB/VL9kK93BGeYOkP7Zd11uIW6XrH3JAHepCPfOt1hlkqctZc2an+3EsHvO4zr9hE/S6YjZ1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791067204; c=relaxed/simple;
-	bh=t988az+IkSXq3gTpP/ixKIAHAGj79xMTyDNMRKS3/fg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BOzQYUnNFns0woOjXUHY367sqHzMGKhprDVbiNXosnIm5UKm8o2di7Nw/frbgXNG7Kb7qKN2TlCy3BvNUnC2TQM9jGvp9phd0366AerKESkCYTGxQYL2MBOnt8tJmxQ5bH2s/S86sVYwCCAZn8GzUONnyLwOqdTWOOF4VNHP6EQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VAmqYGRm; arc=none smtp.client-ip=74.125.227.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791068742; c=relaxed/simple;
+	bh=2gsRRtMv2Z4FqxHe/61bLUyhh3qkJGX/eKsWJFWpMFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZrhHPSC78l0iI4QN0BxJFsmyv02eBlcq1lY2Di0OtmxXk/slsaeJmw3olYRftEUoHKykDUr9mVeVbaU8BWYWlTz2Z3u5PWboJEf7z0HkNPS8E4/u7qCh0KQ+oWvJAdak5hw5hHsAveDGI/QtzgmRY+nW+ngn8fEJx6uMarp/e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwRAgnL8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VAmqYGRm"
-Received: by mail-pj2-f38.google.com with SMTP id d9443c01a7336-2e2d9fdf798so1949145ad.0
-        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 15:40:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791067203; x=1791672003; darn=vger.kernel.org;
-        h=content-type:mime-version:user-agent:references:in-reply-to:subject
-         :cc:to:from:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=n/oIu14jUGCFAHwNtKrIHGbo5GeSCHJZDG7wMHq45NE=;
-        b=VAmqYGRmqqhtjpDWL7m1hwONxrM4QRr/xNPEcb3VkhR1x8T6pTJ7+Jg442kV+UW/IR
-         XSLR9dXHVPZ5NdvLYwF03LvChP06O3Jz6bhQAYg86+tOjnAPXTWuNdxaYM2RmKOaTSf/
-         dYsOxkh8Qu9eLmwyrFir5drhmVol/l11N8hHwUltIpYiQW0omFPS00D12xdrGY0sAx3O
-         O9zb5A/HnH3Em4HwbPeXBSBnucLzp2+hZkSuxfhSJQp8BWDfa2fXvRm+LNX0LTpnZMFp
-         6Xl14BZ3oRqiPnN7aTdRsMFiEyiAuXSdCwYmT6w9uLAOj8t/GZSK9XhZA4E66Y/uC/xJ
-         hAXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791067203; x=1791672003;
-        h=content-type:mime-version:user-agent:references:in-reply-to:subject
-         :cc:to:from:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=n/oIu14jUGCFAHwNtKrIHGbo5GeSCHJZDG7wMHq45NE=;
-        b=GI8rIzHyT/ytZBK3h/NJrzZom93QrSlL/fGZoF3ZeeI8B/myW5mvfr1re8HgJ/L5RK
-         touSEjU2GdZyghb2wplLklRkOB2ZBbcgjlRAoUW752FsZ8o0RO41MgQwI9Gc5xrTe/Ep
-         DSl6MKkgJbvrc54ub/4ZLqQhCWCs3v6JZVheHha0PP/1hf+Jdp36N3cRxVaHOhj8+HLk
-         R5K1tEpY3Q9c/Ssm2+d16rYdOWr4ZA7cRCn7B4EpIyH8GnvWqTLtRzkQ05Ef9zTUQdme
-         FPCE7m5jiLXyOe+tovGk1dav9XFPL1Jb1QLRkK7NjClbScznA+HNm4/bDlEHiPolFgOR
-         nUHQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy1YdkQfyJY9ZOrJ/S6yohDRbSeV30gBXIr1F2UbkN6klHm1TWWW0+Q9Rrb9DbZNcq7vi4edwQwps4=@vger.kernel.org
-X-Gm-Message-State: AFuF++ksYuBoUcTZlPVeXG2sJZrFo0PX9GWlWJu2eLdNy6PXtms4tgNI
-	0SpxQr1XtvWirYnIP2bAxKF899CIGycbcmafg09dpmiNkXMwpQW+ojiw
-X-Gm-Gg: AYBFou1aiUhesKhos4eCK4I7ZSrlIjOo0jHghJ18p1ZNxD8VCUhuauept6AQnjCg5aK
-	xrWXlB5s3/4T1WcIqToqN6kHX4JAHjB7d3gggOJxMRmhejkRhTAJk9CsplJtifYbF+EbZLPkHtL
-	Ps2cSR52AJGgyDF9Ik/rUGByYq3ZZ1JpPDPfGsaf9eE5ZYyttIQ6zQ4qObEnLLiS1QgRVo3RKZK
-	HXo2xXLVUgYgjtH5tTJg3IIec57I6/hM2TxV9vO4uVjaHuJxZNaTEF9U0frtLv6s+q1RHhk5+rl
-	vsNsLdieLK1/9ywKihQoGwfaiRZbRaiTQEA31CwOp5YOHGj1gI6xInqtuLCYhn1v6Py2Mah9gNn
-	llu0G7pxGNiB+ImsdUQKRwoDjlYV4xeHt4kYNYePKLpshbxzvsQRd10UwRVpJPxaM5G7gyqJkWg
-	TO6ESVIXOrfekdiobUKkP6Qcn73T+xOeoePLzLRMZ7g1vSKFAc3oz6fzHJtINwP1G7Ct9zt/Sds
-	a/kzlUWuJRll6FprhbIoyo/Op8LKm1aAKUbs9TKIv2ht1KiHdF9bQy6LjO9dMCFOK/1lzoUfw4f
-	WzcMXtzW/qU7qSzn5eqNSAF9Sinhafqi6kdp/BA2Vu71X2sGMT6hg0MXcfG0ediNt1YqsUx25SA
-	Upl1FgDBWGKE=
-X-Received: by 2002:a17:902:d506:b0:2df:84e0:9034 with SMTP id d9443c01a7336-2e49a7cdc18mr57178595ad.7.1791067203022;
-        Sat, 03 Oct 2026 15:40:03 -0700 (PDT)
-Received: from mars.local.gmail.com (221x241x217x81.ap221.ftth.ucom.ne.jp. [221.241.217.81])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e49f7339desm19297455ad.81.2026.10.03.15.39.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 15:40:02 -0700 (PDT)
-Date: Sun, 04 Oct 2026 07:39:57 +0900
-Message-ID: <m2qzi62yte.wl-thehajime@gmail.com>
-From: Hajime Tazaki <thehajime@gmail.com>
-To: david@kernel.org
-Cc: ljs@kernel.org,
-	geert@linux-m68k.org,
-	johannes@sipsolutions.net,
-	linux-mm@kvack.org,
-	liam@infradead.org,
-	rbm@suse.com,
-	akpm@linux-foundation.org,
-	luto@amacapital.net,
-	brendan.jackman@linux.dev,
-	liuhangbin@gmail.com,
-	corbet@lwn.net,
-	kees@kernel.org,
-	broonie@kernel.org,
-	mhocko@suse.com,
-	rppt@kernel.org,
-	shuah@kernel.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	wad@chromium.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	daniel@thingy.jp
-Subject: Re: [PATCH v4 1/2] selftests: run tests on nommu architecture
-In-Reply-To: <d6ee0a8f-e7a8-4fa7-88b8-62fb44bfc863@kernel.org>
-References: <20260929235711.2287931-1-thehajime@gmail.com>
-	<20260929235711.2287931-2-thehajime@gmail.com>
-	<bda5eeaa-7868-4d4a-9026-9e99347afd7c@kernel.org>
-	<ar4br2vW7yZGd3gt@gremlin>
-	<94759bed23f00d2044005e36be6f72f297e092f0.camel@sipsolutions.net>
-	<m2se2o3jyc.wl-thehajime@gmail.com>
-	<a65f4431-d225-4535-b921-00319ceeb2a2@kernel.org>
-	<ar9ldn036SgT-bq1@gremlin>
-	<CAMuHMdUKcUxHZKhTEF1gwWrU1o8O6jt6N3r90V5hynrLFdwY0A@mail.gmail.com>
-	<ar-bIzYDdlOKUqla@gremlin>
-	<d6ee0a8f-e7a8-4fa7-88b8-62fb44bfc863@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwRAgnL8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3F381F0089B;
+	Sat,  3 Oct 2026 23:05:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791068741;
+	bh=qao+pMIXUl/3i+MsEDsveP1/Me4CRSfOmI5CYiqCK+A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MwRAgnL8lAyCUXMe36JHwaAodmcSouJYauA3IM8z14WIPK+DfnG/cELmPbQvl67sS
+	 qapc24g8S7xAsl7wCQNvqZ+k4sqdAgB2j7noay3+L2KFERFhTmz0Ngp1yX8yA7F04a
+	 W4bKCzAh87bwZ7GwILqRTPTeBQ3ecoj5I/RYOZui62pJVySnNsQKRBCH2EC9uepham
+	 DSZ1SaOrONw1vEBn3fdIpGS9RTVQ1saYWm5YWdYV1R9mfvmGIhGvuH0sovCbEEpbB4
+	 x84xGRl4fnXz0W9L+7abCaL+YAMrRAEFN/hXbXWR6ctRbLAKvjGmqinRDLm9qAlXv6
+	 9FUOXDzN8iJOw==
+Date: Sun, 4 Oct 2026 00:05:31 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Drew Fustini <fustini@kernel.org>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 4/5] dt-bindings: riscv: Add binding for CBQRI
+ controllers
+Message-ID: <20261004-fender-oink-1646de550f3b@spud>
+References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
+ <20261003-dfustini-atl-sc-cbqri-dt-v9-4-52fd8be98dcf@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9U6MfxL1eoZMWu+O"
+Content-Disposition: inline
+In-Reply-To: <20261003-dfustini-atl-sc-cbqri-dt-v9-4-52fd8be98dcf@kernel.org>
 
+--9U6MfxL1eoZMWu+O
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Sat, Oct 03, 2026 at 12:12:29AM -0700, Drew Fustini wrote:
+> Document the device tree binding for RISC-V CBQRI capacity and bandwidth
+> controllers. Each controller is named by a device-specific compatible
+> followed by the generic compatible. The binding also describes the
+> common riscv,cbqri-rcid and riscv,cbqri-mcid properties, and the
+> optional riscv,cbqri-cache phandle that links a capacity controller to
+> the cache whose capacity it allocates.
+>=20
+> Assisted-by: LLM
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> Signed-off-by: Drew Fustini <fustini@kernel.org>
+> ---
+>  .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 97 ++++++++++++++++=
+++++++
+>  MAINTAINERS                                        |  1 +
+>  2 files changed, 98 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml b/D=
+ocumentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+> new file mode 100644
+> index 000000000000..0924758ebdde
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+> @@ -0,0 +1,97 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/riscv/riscv,cbqri.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: RISC-V Capacity and Bandwidth QoS Register Interface (CBQRI) cont=
+roller
+> +
+> +description: |
+> +  The RISC-V CBQRI specification defines capacity-controller and
+> +  bandwidth-controller register blocks that allocate cache capacity and =
+memory
+> +  bandwidth to resource-control IDs (RCIDs) and monitor usage per
+> +  monitoring-counter ID (MCID):
+> +  https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.pdf
+> +
+> +  Allocation and monitoring share one register block, and a controller m=
+ay
+> +  implement either or both. A driver discovers which at runtime from the
+> +  capabilities register, so the compatible names only the controller typ=
+e. It
+> +  does not distinguish allocation-only, monitoring-only or combined
+> +  controllers, and no property declares monitoring support.
+> +
+> +maintainers:
+> +  - Drew Fustini <fustini@kernel.org>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - tenstorrent,ascalon-shared-cache-controller
+> +          - const: riscv,cbqri-capacity-controller
+> +      - items:
+> +          - {}
+> +          - const: riscv,cbqri-bandwidth-controller
 
-On Fri, 02 Oct 2026 21:21:53 +0900,
-David Hildenbrand (Arm) wrote:
-> 
-> On 10/2/26 13:53, Lorenzo Stoakes (ARM) wrote:
-> > On Fri, Oct 02, 2026 at 01:38:31PM +0200, Geert Uytterhoeven wrote:
-> > 
-> >> On Fri, 2 Oct 2026 at 10:10, Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> > 
-> >>> But fork() -> -EINVAL or -ENOSYS = nommu, then just have the child quit and
-> >>> etc. should do it.
-> >>
-> >> fork() is not strictly an MMU-feature (you can implement fork on nommu
-> >> if all memory accesses are done relative to a base address register),
-> >> while I think mprotect() is an MMU-feature. Unless it can also be used
-> >> to change the protection using the one or two BARs most MCU haves?
-> >> Anything else that is a real MMU-feature? Non-identity mmap()?
-> > 
-> > Does any nommu arch implement fork() in linux?
-> 
-> I was about to say, that sounds a bit too theoretical for me. IIUC that is not
-> implemented, and if someone would propose it we would likely just nak it.
-> 
-> In the unlikely event that this would see the light of day, we could always
-> change our detection in the selftests.
+I think I lead you up the garden path here actually, it needs to be
+"- not: {}", "- {}" permits anything.
 
-thanks all for the inputs and review.
+--9U6MfxL1eoZMWu+O
+Content-Type: application/pgp-signature; name=signature.asc
 
-I will try to implement the detection with /proc/meminfo.
+-----BEGIN PGP SIGNATURE-----
 
--- Hajime
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCasGKOwAKCRB4tDGHoIJi
+0rh3AQC9sn2b3xtbezq/LLuqtE017LIOfCkf9Vkinzo7mFnwOwD7Bl1MMdeB57Aj
+9puacBsqArtCXFVPNVGPEdBW+bcqtgE=
+=Hv6j
+-----END PGP SIGNATURE-----
 
+--9U6MfxL1eoZMWu+O--
