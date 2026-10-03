@@ -1,107 +1,108 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DAC2ED848
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 12:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D51142047E;
+	Sat,  3 Oct 2026 12:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791029954; cv=none; b=G3ssdrXIfSs++Ia231NJup9pGROMvwdMzeYG8+SwK2PtM7A7kXXNMEV9PPair3z6M0njCYp81x8dXF3XoJMMxMAWwY+Z0j8oXrkiFvlFKjz6huiuTxn3Q8eePKoyhJA7AzTFsTtK0aHUYcemtSdMjkSliiXlSrgE6SAIEB5UC/g=
+	t=1791030609; cv=none; b=MqXAoZc3RA2Pipou2jtzA55Ufh2lHnWPVoh1ZULZ8Vrj4hj8mfdlklJSpIMcxhodXo9gfVJbcApDGuJDpXIjO0OcXGqG6cFHZp1gS3jwSpHZRn6uyg85Z8rRlRB3Y8JE8v/omRtQLBN3h6ltXk4VSpLAM3IKDUlyxhCFpORDl9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791029954; c=relaxed/simple;
-	bh=V0/7vUbzZ2WS3ekKYc+/9kx/XXTqOYvzaiHvHZHSBnk=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
-	 References:MIME-Version; b=iHNueW8/LhZQFhtwki4pGYAT9SW45rsBZ+Ka9CxqFUnEEumc7Qd9cfer+SVJwc5jBdXFmXlJHwdgtWMEoi3MZWRv7cQ1vQrp42TN/RVSdSbgmDjKMtdOhHDndYjAPRV7SHuSWmbheC1VxviX8dQTMnksKs5N3IHL/uHMJpKtirQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ya1uPvVe; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791030609; c=relaxed/simple;
+	bh=SAUWf+RZn/Bh6RldaLjMFTISIbtZl3XjUaHvS69IRek=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DbzaSj4Glkwv0o3XFJB17RpNqC02QIJl4U3eu7UAJWS72T+prv2aFYIoecFL8valPdxZliv/ZjjLit0vNhfA8jR5awKKJJHNU0DYrGqYygSrx/hjVl4dkMyLAIH2Q43y4aNVr94BhI87hE3mxKK9yRfpCd0LwcX0Lvo5AsULIQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h9P3fNIu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ya1uPvVe"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-cc4dbcf2b85so192419a12.3
-        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 05:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791029944; x=1791634744; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:to
-         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=V0/7vUbzZ2WS3ekKYc+/9kx/XXTqOYvzaiHvHZHSBnk=;
-        b=Ya1uPvVeeM6n17IR0e8tR+Fjn4A7Tt8xHAj2K4RCLwhM/hfRH2CLdq5KVXsqQ+7+x3
-         Bjh71FLm+eHABWYeuAqtB8u41rC6u3Gv0BBngTOtNGGVVoYenWZdoIx3EaA3DW/NqxEm
-         r1BZUyVLORTMFFEYNnrQzZPkAX5SzAzBvz9lKEZ3dm47fm7OGnnuU6Pf8eBH/fTDejMv
-         npC3Z2mnofQdhE53ZvxxScLXy/4abR1ig/Pap4sIskWXMbYdPYLxYYrtmb8UwcnIJNTw
-         789AGnYTn0CFfvhsFtKtHWJVNh1VUA9JUAmfn7mEfHa9u0CqKMUz5YKq5/iDP7QXZpvj
-         C1RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791029944; x=1791634744;
-        h=mime-version:content-transfer-encoding:references:in-reply-to:to
-         :from:subject:cc:message-id:date:content-type:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=V0/7vUbzZ2WS3ekKYc+/9kx/XXTqOYvzaiHvHZHSBnk=;
-        b=zsj7ynLSx4dHLnbYgzHfEUX+ApW2NSxoJK8MBSy6u1gZEVzib/Vf0mqvx4aVPrQbPj
-         cs2RwxOOFCkTv+99ab15BVOg34aR2WYdWf3BDvAem+22GFhhKL5WUG78VL4cVcarYLbK
-         yCwsdFIHAN09lmmnNlQdS/WoGnqd5XOD+YUwBZEjGPzD+8kSa4BS404O+FRuOkOuj5cE
-         XjR7ZJC8MLquJ3MxPiFPOYWOWVEyWpi4wqCVbLEK0eQ96+O1mO+bjZASsbM/IGT6Oa4O
-         pusjEinAKjyNZj8OY/2Ei30ZacChAGdeRiDwwxg+wJgyfvlUiDp195NHVKebdtgXFUuf
-         ZNmQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxFyqSFL8yfv+6gkPH2G0qCAvK4wKFmvDPnI3ERHojer4RKMqzA9rmwZNz0qkyVEQ9g9nLf8ZrpJPA=@vger.kernel.org
-X-Gm-Message-State: AFuF++k+38nIB+t4Ji89ea1Hd/gUh5OAZ+a6mszGT67FRJvLLYhrRg3Z
-	aGbGbslfcRkv0GiPm0/QRoLsLSeYvWEJL8teQDmDnAPZsk0Vm+pAQAa+
-X-Gm-Gg: AYBFou3b6xyj1BvFKRX6LjKq/GYkU7P6uC1Tkv3jUsXz86gCVf2+1Lfw16MMUle47hN
-	uciX7JdY2mhfFYFOWOtf+W804oQn+x3OuQpvb5abm7puR2Qy4XcmBUi+13yUfAPRLHWJv7gN9pA
-	CZWoWQc2EDA9FNlqtcdadD/BaDrxtGnx7YxqDahpeFMt6mYeIkgEWTmYWuI5oRfW8fORxkViOZq
-	lXig/I3zdsK6D14/8x3vAkmqCp6fXxB+a0dxXHXoSFV8xEha0eGNoEV81BwBHCeg21PWGwSIgZJ
-	78RCpK78tcD//Fd2B+fdLLFFXuYZDfA3NSHgA3HwkISpKdctT85Yx3v3pAbVZu9GXVeL2VtbXjd
-	F9uqkiJ0/7x+9dc9eO70BTpSZnrItckIAC61t1U2lGBnK8D3Lrk6mqCQVr6CAhiWZaIKy/kAkQs
-	JDt6BMkrjltx/VMz+3mNB2DUi+1QTS1c5OMNmusqqxxOcP1lzvHSv8CGvGksfwRuGu/oS4VUyxk
-	rMJkN958+qpkSmLvu3u7F2qBD6YpPe0DnRL3rK4yfcqj9XrrDYc8f/B/1QcUeaaSVJW4/MEcLDO
-	B7Y=
-X-Received: by 2002:a05:6a21:d89:b0:3dd:a197:7360 with SMTP id adf61e73a8af0-3e0d6d8ff80mr2052536637.57.1791029943830;
-        Sat, 03 Oct 2026 05:19:03 -0700 (PDT)
-Received: from localhost ([153.61.198.247])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cca561e9d1dsm1740373a12.6.2026.10.03.05.19.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 03 Oct 2026 05:19:03 -0700 (PDT)
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 03 Oct 2026 12:19:02 +0000
-Message-Id: <DLV74KRI1SBL.MYZVQAB3N6QG@gmail.com>
-Cc: <abuehaze@amazon.com>, <acme@kernel.org>, <andrii@kernel.org>,
- <arighi@nvidia.com>, <arnd@arndb.de>, <bentiss@kernel.org>,
- <bpf@vger.kernel.org>, <changwoo@igalia.com>, <christian@heusel.eu>,
- <daniel@iogearbox.net>, <doebel@amazon.de>, <eddyz87@gmail.com>,
- <ihor.solodrai@linux.dev>, <irogers@google.com>,
- <jay.wang.upstream@gmail.com>, <jikos@kernel.org>, <jolsa@kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-input@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-modules@vger.kernel.org>,
- <linux-perf-users@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
- <linux@weissschuh.net>, <martin.lau@linux.dev>,
- <mathieu.desnoyers@efficios.com>, <mcgrof@kernel.org>, <memxor@gmail.com>,
- <mhiramat@kernel.org>, <mpohlack@amazon.de>, <namhyung@kernel.org>,
- <nathan@kernel.org>, <nsc@kernel.org>, <ojeda@kernel.org>,
- <petr.pavlu@suse.com>, <qmo@kernel.org>, <rostedt@goodmis.org>,
- <rust-for-linux@vger.kernel.org>, <samitolvanen@google.com>,
- <sched-ext@lists.linux.dev>, <shuah@kernel.org>, <tj@kernel.org>,
- <void@manifault.com>, <wanjay@amazon.com>, <yonghong.song@linux.dev>
-Subject: Re: [PATCH bpf-next v4 00/12] bpf: make the vmlinux BTF an
- on-demand loadable module (CONFIG_DEBUG_INFO_BTF=m) to save ~5.4 MB memory
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
-To: "Alan Maguire" <alan.maguire@oracle.com>
-In-Reply-To: <7fe71959-1c58-4b6f-9019-6f886683530e@oracle.com>
-References: <DLUZVHOLSN1B.115EUX4KJBEA3@gmail.com> <7fe71959-1c58-4b6f-9019-6f886683530e@oracle.com>
-X-Mailer: mkdraft (claude review draft; edit before sending)
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h9P3fNIu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 128AE1F0089B;
+	Sat,  3 Oct 2026 12:30:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791030608;
+	bh=+JZDKY8Pm+m7xlMt9GpnBgo5K7r0EZ5kqFaq0xkbApQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=h9P3fNIuaXDWPgnrzBJXr3TwwCnJIpQSYNxZlXeEHm2JqzisfBbyrtL3CknxAKyGL
+	 pFR27cXnjweG14YpvqvCpRtFBN4DmIFcOnWoqI64jOzE/cWeEHvGmTT8gNsPOjFCNN
+	 /zz6FOMCU0mAoCdVD9zMQWiDme42glgKUbek61IZiAY5Nx8nNvk+lnx6lDiEHqW7Py
+	 OvgFOYIRsaujI9O70Qp4KgCgDHhOLaEHEaifYQC1hCdwnqzHMaRAPgeJnBIDwJ8OKw
+	 sElI/OlfeRFtEa/grB5n792AP6fsopfDlAurP6TrxyrzXHOqufQdZmqfHJjXo4OOtR
+	 s6TngiAD94apA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1xCysP-0000000GWsH-3y6y;
+	Sat, 03 Oct 2026 12:30:06 +0000
+Date: Sat, 03 Oct 2026 13:30:05 +0100
+Message-ID: <86fqyn2che.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Fuad Tabba <fuad.tabba@linux.dev>,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Leonardo Bras <leo.bras@arm.com>,
+	Wei-Lin Chang <weilin.chang@arm.com>,
+	Yao Yuan <yaoyuan@linux.alibaba.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v21 02/15] KVM: arm64: Refuse to start a guest with S1PIE or S1POE but not TCR2
+In-Reply-To: <20260930-arm64-gcs-v21-2-3556644cd927@kernel.org>
+References: <20260930-arm64-gcs-v21-0-3556644cd927@kernel.org>
+	<20260930-arm64-gcs-v21-2-3556644cd927@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: broonie@kernel.org, catalin.marinas@arm.com, will@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, shuah@kernel.org, oupton@kernel.org, fuad.tabba@linux.dev, peter.maydell@linaro.org, leo.bras@arm.com, weilin.chang@arm.com, yaoyuan@linux.alibaba.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Sat, Oct 03, 2026 at 12:45 PM Alan Maguire <alan.maguire@oracle.com> wrote:
-> The only overall cost is if when we wind up using vmlinux BTF with the compressed
-> .BTF section, since we have to do a full vmlinux BTF allocation (on top of the
-> spac taken up by the compressed .BTF section) right? So slight penalty if vmlinux
-> is used, but big gain if not.
+On Wed, 30 Sep 2026 22:48:12 +0100,
+Mark Brown <broonie@kernel.org> wrote:
+> 
+> Since there is an architectural dependency between the features as an
+> optimisation we only context switch guest registers for FEAT_S1PIE and
+> FEAT_S1POE if the guest also has FEAT_TCR2. We do not, however, enforce
+> this as a requirement when starting a guest and only configure the traps
+> for accessing the registers based on their individual features. This means
+> that a VMM can configure a guest which can read and write the system
+> registers for FEAT_S1PIE and FEAT_S1POE without the hypervisor updating the
+> values of these registers for the guest.
+> 
+> Avoid this by refusing to create a guest with an affected configuration.
+> 
+> Rather than doing something data driven we open code the checks, I started
+> doing something data driven but it was very clear that such code should be
+> shared with the host kernel cpufeature code. Refactoring for that seemed
+> like disproportionate effort and invasiveness for the context so is
+> deferred for followup work.
 
-I think it can be copied compressed into vmalloc area and
-freed after decompress, so memory usage should be exactly the same.
+This *absolutely* needs to be data driven, and we're not going back to
+over two years ago. We already have most of what is needed in
+config.c, and it is only a matter of making sure that S1PxE is only
+enabled for the guest if TCR2 and ATS1A are also present. If that
+means additional sanitisation of the idregs when finalised, so be it.
+
+If userspace decides to expose crap in the ID registers, that's its
+own problem, and we're not in the business of enforcing idiotic
+configurations. The only thing that matters is that the state that KVM
+deals with is consistent.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
