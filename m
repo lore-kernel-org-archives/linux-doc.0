@@ -1,234 +1,79 @@
-Received: from mta1.migadu.com (out-135.mta1.migadu.com [95.215.58.135])
+Received: from mta1.migadu.com (out-159.mta1.migadu.com [95.215.58.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54741C84D7
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 04:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.135
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5168B387341
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 04:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791001180; cv=none; b=CHwvJl+bv1sTg7NTTsfyWKsbSourqqEntJpTSfR43AoyG7ypBq/CHDM//YMlv4P3YVOFJtSnMlK8LoWunl17ZPCIWYgvlQh1TaUDWS3KON6O9oX5WzKC0NjDyJQAN0vTOcdQbtHqpUW0G3o0L+PaVbIQxjuDAzdA2BuBYEWrr/Y=
+	t=1791001374; cv=none; b=pua/+NNxIShlDMOjbPUQosPFjyin3bI82M0YwkKocVDVPtNx1m7I/Y88IpLHfYoU6J2NaCngt5YDrA0h4B1M2W08vm5vUYxnYpbsLG7WmHu2d8DygH2XewWmUsem1DSQhbnLSrOl+5NuwXtICe0QwpeJXGzWNvOfuNGqcXIizHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791001180; c=relaxed/simple;
-	bh=DsplKi1Uiyu0yuMCqeZCzrK5XxacKXcgJmCBFbBifk0=;
+	s=arc-20240116; t=1791001374; c=relaxed/simple;
+	bh=5j7W3UEDDcpxB30MobziH1Q9LnlUIk8bxHlV21IS/9g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hbL+Gs9dDzcOH53Ltdu6bWLYNnMh88Z+r3u476FN5JQup313XwlIFpR+EOyUse1+Y32bFRBIlN/N+X1dpEdbAfxgtzWBr/jrTb5iW2fhOfsJurTQo+YuAuqORDoofBpp6C38q3BuRFdldpXIJnweAUuHIbcXcgDk00GRxSZqXZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=khErUw62; arc=none smtp.client-ip=95.215.58.135
+	 Content-Type:Content-Disposition:In-Reply-To; b=CzWneJjrFwikLBDckqz7+VUCi8LebrzJsdIouDKptO9QhtkZfYyu6Fr28LQHj1x+M8IDbNMcrUMaQjn3lijbzK1MKxY8covxhD4KXFmqK2iT/yYMeu7OC3Qefhhs6LZE4GC3l0R/O0Dc/xmItOHSz++flPhUSIvvqNvbkc7ROwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=engQDNWC; arc=none smtp.client-ip=95.215.58.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="khErUw62"
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="engQDNWC"
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=DsplKi1Uiyu0yuMCqeZCzrK5XxacKXcgJmCBFbBifk0=;
+DKIM-Signature: a=rsa-sha256; bh=5j7W3UEDDcpxB30MobziH1Q9LnlUIk8bxHlV21IS/9g=;
  c=simple/simple; d=wyuan.org;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791001174; v=1; x=1791605974;
- b=khErUw62ahv3aNr/gKeZWXiBn4Vp8Lgyp7nUoM9EOH/uZL/TzujKoYLPGIN/dH8SJ1dtV2u0
- TGbMpbPiVcs66oCXp5QRTI4mFTpoEjxy5N/N6nusglnU43bvLTQfJfhPScCyNTsTPYTItymBzP7
- GWcEEckfU8XNHHcrj580viBUFGXw6SJTmcehoKBjBAIJJc18ejCMC1yLsfQld4hK1JMZYsE5TB8
- lA4NzxRxSCiDako960Y45s5WsSG4zFzicfSfMfg30aTVPZoVJ85f1X/oYDBsgh22A3+OxDLsmKB
- ee78WJvmJTeeD/Fgd6xyqtZeVq0XQTBijY6swM4+uRZ0A==
+ t=1791001370; v=1; x=1791606170;
+ b=engQDNWCy2DiGme+WHIXM5TT/HRceMgr2DThCLvVoat9RQnBEGL5JPlnJvap8TAn5eYcrRYE
+ AKD6POqt0g/rI+f6LVzvsJRyQTAetFbmMOdLhj0D7L9/7MsY+BeRIu0DOFtzU0g0nClmD2iI6D+
+ xRGQUBXJs762M9vaQaXu7MW0RSMmtinlqoE1Om+M/1mCOcQnHRXIgAFlN8cYLplZPNLRLu3SblN
+ 49ZnuSWAvfwRaSjBGyfsBfwSLuMSUdimCWvOfZ51ALEwZHJF8ia8uJE4pDw+WnRy1DOmzkpTPvZ
+ TgppoC2UwUg2ldPb0qjJNbjNVfQAWCPmJz2Vs27kjb/qQ==
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id e06294bbecdb007b;
-	Sat, 03 Oct 2026 04:19:34 +0000
-X-Mizu-Trace-ID: e06294bbecdb007b
+Received: by smtp.migadu.com with ESMTPS id 96e7dc6f7d29fc3a;
+	Sat, 03 Oct 2026 04:22:50 +0000
+X-Mizu-Trace-ID: 96e7dc6f7d29fc3a
 X-Migadu-Flow: FLOW_OUT
-Date: Sat, 3 Oct 2026 12:19:30 +0800
+Date: Sat, 3 Oct 2026 12:22:47 +0800
 From: Weijie Yuan <wy@wyuan.org>
 To: Chen-Yu Yeh <chenyou910331@gmail.com>
 Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn,
 	si.yanteng@linux.dev, srcres258@furdevs.cn,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] docs/zh_TW: move gdb-kernel-debugging to
- process/debugging/
-Message-ID: <asCCUliodZDQs8dw@wyuan.org>
+Subject: Re: [PATCH 4/4] docs/zh_TW: add missing :Original: fields
+Message-ID: <asCDF69rCybdguo-@wyuan.org>
 References: <20260929131020.266120-1-chenyou910331@gmail.com>
- <20260929131020.266120-4-chenyou910331@gmail.com>
+ <20260929131020.266120-5-chenyou910331@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260929131020.266120-4-chenyou910331@gmail.com>
+In-Reply-To: <20260929131020.266120-5-chenyou910331@gmail.com>
 
-On 2026-09-29 21:10:17 +0800, Chen-Yu Yeh <chenyou910331@gmail.com> wrote:
+On 2026-09-29 21:10:18 +0800, Chen-Yu Yeh <chenyou910331@gmail.com> wrote:
 
-> The English original moved from dev-tools/ to process/debugging/ in
-> commit d5af79c05e93 ("Documentation: move dev-tools debugging files to
-> process/debugging/"), but the translation stayed behind.
-> checktransupdate.py locates the English original from the translation's
-> path, so it currently reports:
+> Every zh_TW translation names the English document it mirrors in an
+> :Original: field, except these four.  Add one to each, in the plain path
+> form that automarkup turns into a link.
 > 
->   Cannot find the origin path for
->   Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst
+> dev-tools/sparse.rst still carries the old plain-text header rather than
+> the disclaimer include, so its field goes at the top of the file.
 > 
-> Move it to match the English layout, and fix the relative path of the
-> disclaimer include, which is now one level deeper.  zh_TW has no
-> process/debugging/ directory yet, so add an index.rst translated from
-> the English one, listing the guides not translated yet under TODOList,
-> and link it from process/index.rst in place of its TODOList entry.
-> 
-> The baseline needs a caveat.  The translation lacks
-> commit 6b219431037b ("docs/scripts/gdb: add necessary make scripts_gdb
-> step"), which went in before the move, but checktransupdate.py does not
-> follow renames and cannot report a change made at the old path.  Use the
-> move commit, the oldest baseline the tool can see, and record the
-> missing change here instead.  The tool will list
-> commit 09e1d93a421f ("scripts/gdb: update documentation for
-> lx_per_cpu"), which already edited this translation, together with the
-> one later change it really lacks, commit 7f7f468548ce ("Documentation:
-> Provide hints on how to debug Python GDB scripts").
-> 
-> For the new index.rst the tool will also list
-> commit a592a36e4937 ("Documentation: use a source-read extension for the
-> index link boilerplate"); that change only removes the index-link
-> boilerplate, which this translation does not carry.
-
-I actually think the script is getting in the way a bit. Its output is
-only meant to serve as a reference, not something that forces us to
-constantly worry about how the script behaves. For example, when the
-script cannot detect renames, wouldn't it be simpler to just update the
-translation as usual? But anyway,
-
-> update to commit d5af79c05e93 ("Documentation: move dev-tools debugging
-> files to process/debugging/")
+> With this, the only .rst files without the field are index.rst,
+> disclaimer-zh_TW.rst and glossary.rst, none of which translates an
+> English document.
 > 
 > Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+
+So let's follow the usual practice for now, until we make a decision in
+the future.
 
 Reviewed-by: Weijie Yuan <wy@wyuan.org>
 
 > ---
->  .../translations/zh_TW/dev-tools/index.rst    |  1 -
->  .../debugging}/gdb-kernel-debugging.rst       |  2 +-
->  .../zh_TW/process/debugging/index.rst         | 70 +++++++++++++++++++
->  .../translations/zh_TW/process/index.rst      |  2 +-
->  4 files changed, 72 insertions(+), 3 deletions(-)
->  rename Documentation/translations/zh_TW/{dev-tools => process/debugging}/gdb-kernel-debugging.rst (99%)
->  create mode 100644 Documentation/translations/zh_TW/process/debugging/index.rst
-> 
-> diff --git a/Documentation/translations/zh_TW/dev-tools/index.rst b/Documentation/translations/zh_TW/dev-tools/index.rst
-> index 915449762d1a..fafebd092a3d 100644
-> --- a/Documentation/translations/zh_TW/dev-tools/index.rst
-> +++ b/Documentation/translations/zh_TW/dev-tools/index.rst
-> @@ -26,7 +26,6 @@ Documentation/translations/zh_TW/dev-tools/testing-overview.rst
->     sparse
->     gcov
->     kasan
-> -   gdb-kernel-debugging
->  
->  Todolist:
->  
-> diff --git a/Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst b/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
-> similarity index 99%
-> rename from Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst
-> rename to Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
-> index 8faa87f26c6a..a9ca1156fea6 100644
-> --- a/Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst
-> +++ b/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
-> @@ -1,6 +1,6 @@
->  .. highlight:: none
->  
-> -.. include:: ../disclaimer-zh_TW.rst
-> +.. include:: ../../disclaimer-zh_TW.rst
->  
->  :Original: Documentation/process/debugging/gdb-kernel-debugging.rst
->  
-> diff --git a/Documentation/translations/zh_TW/process/debugging/index.rst b/Documentation/translations/zh_TW/process/debugging/index.rst
-> new file mode 100644
-> index 000000000000..4440aa6a97e2
-> --- /dev/null
-> +++ b/Documentation/translations/zh_TW/process/debugging/index.rst
-> @@ -0,0 +1,70 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../../disclaimer-zh_TW.rst
-> +
-> +:Original: Documentation/process/debugging/index.rst
-> +
-> +============================
-> +給Linux核心開發者的除錯建議
-> +============================
-> +
-> +一般指南
-> +--------
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   gdb-kernel-debugging
-> +
-> +TODOList:
-> +
-> +* driver_development_debugging_guide
-> +* kgdb
-> +* userspace_debugging_guide
-> +
-> +特定子系統指南
-> +--------------
-> +
-> +TODOList:
-> +
-> +* media_specific_debugging_guide
-> +
-> +一般除錯建議
-> +============
-> +
-> +視問題而定，可用來追蹤問題、甚至用來確認問題是否真的存在的工具也各不相同。
-> +
-> +第一步，你必須先弄清楚要除錯的是哪一類問題。根據答案的不同，你的方法與
-> +工具選擇也可能有所不同。
-> +
-> +我是否需要在存取受限的情況下除錯？
-> +----------------------------------
-> +
-> +你對機器的存取是否受到限制，或是無法中斷正在進行的執行？
-> +
-> +在這種情況下，你的除錯能力取決於發行版所提供的核心內建的除錯支援。
-> +Documentation/process/debugging/userspace_debugging_guide.rst 簡要介紹了在
-> +這種情況下可用的各種除錯工具。在大多數情況下，你可以查看/boot目錄中的
-> +設定檔，來確認你的核心具備哪些功能。
-> +
-> +我是否擁有系統的root存取權限？
-> +------------------------------
-> +
-> +你能否輕易地替換有問題的模組，或安裝新的核心？
-> +
-> +若是如此，你可用的工具就多得多，相關工具請參見
-> +Documentation/process/debugging/driver_development_debugging_guide.rst 。
-> +
-> +時序是否是影響因素？
-> +--------------------
-> +
-> +重要的是弄清楚你要除錯的問題是穩定重現（也就是給定一組輸入時，總是得到
-> +相同的錯誤輸出），還是時有時無。如果問題時有時無，可能有某種時序因素在
-> +作用。如果在程式碼中插入延遲確實會改變其行為，那麼時序很可能就是其中一個
-> +因素。
-> +
-> +當時序確實會改變程式碼的執行結果時，用簡單的printk()來除錯可能行不通；
-> +類似的替代方案是使用trace_printk()，它會把除錯訊息記錄到追蹤檔案，而不是
-> +核心日誌。
-> +
-> +**Copyright** ©2024 : Collabora
-> diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
-> index de99156324df..bd638264bbe4 100644
-> --- a/Documentation/translations/zh_TW/process/index.rst
-> +++ b/Documentation/translations/zh_TW/process/index.rst
-> @@ -88,12 +88,12 @@ TODOList:
->  .. toctree::
->     :maxdepth: 1
->  
-> +   debugging/index
->     security-bugs
->     embargoed-hardware-issues
->  
->  TODOList:
->  
-> -* debugging/index
->  * handling-regressions
->  * threat-model
->  * cve
-> -- 
-> 2.43.0
-> 
+>  .../translations/zh_TW/admin-guide/clearing-warn-once.rst     | 2 ++
+>  Documentation/translations/zh_TW/admin-guide/cpu-load.rst     | 2 ++
+>  Documentation/translations/zh_TW/arch/index.rst               | 2 ++
+>  Documentation/translations/zh_TW/dev-tools/sparse.rst         | 4 +++-
+>  4 files changed, 9 insertions(+), 1 deletion(-)
