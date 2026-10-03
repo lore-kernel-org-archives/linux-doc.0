@@ -1,101 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-31.mta1.migadu.com [95.215.58.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F40450F2;
-	Sat,  3 Oct 2026 04:34:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137E422D4E9
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 04:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791002043; cv=none; b=KnCERuzadMNQu5B5GQ/4ShdFtM8O9SW5HzSsZT5tpT+HiIvoWx9n0NrTao2ksWUQedy09OwF9HJh6yKzYbIe7y+8Et8x8oWv4zgBSOLa1uE3nS3K5DQJcucsy8L1B4MGnpj3xZhLA086QRhK53mPSIN5g7blE9D4gkq4IEVmgDo=
+	t=1791002284; cv=none; b=QCf1eXAJ0GCVA1uSCu42Pa9EHT5gqasfpMxwEvpDtkdDLWvc7bC0E+IGUcpAwqV+tPxsN3057w4Bk8q12b2UfNiEpG0NbhnmoJ1+VUnmQLY+o26oUydagbHIOJRsRh+gEZ/VrWwdScJYWxgOLgUceHQ5vT2jqZdQzRaw/t3lGwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791002043; c=relaxed/simple;
-	bh=zGsMMCFnuZoFawv7/XTqHVMWITtkX2O6G8xrb12kjxs=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=CnE0kVGkNNBTUtK5EWrW/xJEH42blNe62YWDLfMHsFRLhnPXpzX8rskK1tHXMUMe3rNWaNHqmF6xwDwuaTGce6yCi9nFOf4+6A4RNuAc/kB4iQs2s3bIE0KI8N2RfGLeWomfqksiLdL+Iw/KVGOGH69+sTNzkQIEpY5Cg9GVQ7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=fail (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CMZBO/0C reason="signature verification failed"; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791002284; c=relaxed/simple;
+	bh=OddsCyB1+NlHOb+iAMix+w+nZ2FgLtttMfKfX5HO2bw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=onAyS0q9Ns6ryfC1EgV/UTQVEi581KiceAyYq5HFSTSYmAg4HcQxYdOiJ1uYPwlBKGsBYM6lSbx7uFTkXgoLHtP8yfBgrBcEi/n6spMdnaHAxtRux6ps6dEThfDANWu+bYdd8U2B2T3hbdFWHaTGCREYPXXsMBNRvrmCpyNHfIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=C3r2srPS; arc=none smtp.client-ip=95.215.58.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CMZBO/0C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2089C1F000FF;
-	Sat,  3 Oct 2026 04:33:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791002041;
-	bh=T5WqpPkABYIUr+bdw9uNCeIvTTslukdoECjwAYUP7k8=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=CMZBO/0C5xeumMuL3ncSkFagppcPpT5dOBjyZc+U25dEpLF/06r0ZRaHPXYDLuqD6
-	 SNcQRLrq+gVgrsRiZKbdWdUuby/voNjj10L7uz5SMzAVj3vpKVOtP/p6BjKY5bgDGa
-	 mKbfI1DXTb4RaywucblX8VTCk2IVBVBv32LzbGlrHmPLImUMnup8WdULwUFxyR7b3S
-	 xU4XPlOThF3RXjVJfDS3SprBoad763bLCItuU1Wu1M6MngY1qY3pbifawvQrozhrgG
-	 Dzz5fuCF0GcT9b6O5AIJJsItZDm/UXZINp0EBqrWEbp2sT4jVzKo5EYUNgCqDGWxqH
-	 8sGRvF90o/fvg==
-Content-Type: multipart/mixed; boundary="===============0675329118283778615=="
+	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="C3r2srPS"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=OddsCyB1+NlHOb+iAMix+w+nZ2FgLtttMfKfX5HO2bw=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1791002280; v=1; x=1791607080;
+ b=C3r2srPSZjD1DACYCQWX90zQvBjcmLe3Q3XBY8BJFzXuJQr39BFDgo8X+NykJ17lwsJ4Xe5B
+ vdQG/hDhcsaHr8dOwoU3xdmIfoTvi3i0F8knGVKmLXx9chFOYKLb8/Uzf6c2zwkYXDUx85bjPC/
+ sORIZMQeg0EzIlC0sdTVwqrV2wLS0Ej/S17S06aM5cf5larrVjFp/HjVOgt/jbqQviefjpI4X9r
+ Qbeeo8ey6HJmJsaPwYItF3tZmUobZmDXfw6Xfq81kDE6MTzkXorgdTi4Zgiwd/rFvPt1zfdfimx
+ g5j5qs7Rml+u7xLT+oRABmnV7IvFuCWyUEkBj2CXs/1Yg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 91a53acc4ac8f721;
+	Sat, 03 Oct 2026 04:37:59 +0000
+X-Mizu-Trace-ID: 91a53acc4ac8f721
+X-Migadu-Flow: FLOW_OUT
+Date: Sat, 3 Oct 2026 12:37:49 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Chen-Yu Yeh <chenyou910331@gmail.com>
+Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn,
+	si.yanteng@linux.dev, srcres258@furdevs.cn,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] docs/zh_TW: mark translations that are not kept in
+ sync
+Message-ID: <asCGnSMAh_XFnWMD@wyuan.org>
+References: <20260929131142.266819-1-chenyou910331@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <f3b5a05404cc45b59981e869a0203ed07497f6f6942e6d72cee63b37612b7cda@mail.kernel.org>
-In-Reply-To: <20261003035921.1918874-8-kees@kernel.org>
-References: <20261003035921.1918874-8-kees@kernel.org>
-Subject: Re: [PATCH v4 08/11] seq_buf: Add seq_buf_init_append()
-From: bot+bpf-ci@kernel.org
-To: kees@kernel.org,morbo@google.com
-Cc: kees@kernel.org,willy@infradead.org,akpm@linux-foundation.org,andriy.shevchenko@linux.intel.com,david@davidgow.net,pmladek@suse.com,shuvampandey1@gmail.com,rostedt@goodmis.org,corbet@lwn.net,senozhatsky@chromium.org,gnoack@google.com,mic@digikod.net,mhiramat@kernel.org,mathieu.desnoyers@efficios.com,jikos@kernel.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,ihor.solodrai@linux.dev,chleroy@kernel.org,u.kleine-koenig@baylibre.com,maddy@linux.ibm.com,mpe@ellerman.id.au,npiggin@gmail.com,sbhat@linux.ibm.com,blum@kernel.org,alison.schofield@intel.com,dave.jiang@intel.com,gregkh@linuxfoundation.org,lgs201920130244@gmail.com,iweiny@kernel.org,u.kleine-koenig@pengutronix.de,vishal.l.verma@intel.com,rdunlap@infradead.org,skhan@linuxfoundation.org,linux-kernel@vger.kernel.org,bpf@vger.kernel.org,linux-security-module@vger.kernel.org,linux-trace-k
- ernel@vger.kernel.org,linuxppc-dev@lists.ozlabs.org,nvdimm@lists.linux.dev,linux-doc@vger.kernel.org,linux-hardening@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Sat,  3 Oct 2026 04:33:59 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260929131142.266819-1-chenyou910331@gmail.com>
 
---===============0675329118283778615==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On 2026-09-29 21:11:37 +0800, Chen-Yu Yeh <chenyou910331@gmail.com> wrote:
 
-> seq_buf: Add seq_buf_init_append()
+> As agreed in the zh_TW scope discussion [1], process/ is the part of
+> zh_TW that is kept current; everything else now says in the file
+> itself that nobody keeps it in sync, and points readers at the English
+> original.  The rule is per file: the two documents that moved into
+> process/ with the relocation series are marked until someone updates
+> them.
+> 
+>   1/3 adds the notice and applies it to those two files
+>   2/3 applies it to the other 58 translations (one line each)
+>   3/3 links filesystems/ and cpu-freq/, which nothing linked before, via
+>       a translated subsystem-apis.rst, as the English tree does
+> 
+> The notice deliberately has no :orphan: marker: included after
+> disclaimer-zh_TW.rst, a second one renders as an empty "orphan" field.
+> (Two existing pages already show that field, because something precedes
+> the disclaimer include: a stray byte-order mark in
+> process/kernel-enforcement-statement.rst and a highlight directive in
+> gdb-kernel-debugging.rst.  Not fixed here.)
+> 
+> One consequence worth knowing: checktransupdate.py reads the "update to
+> commit" line of a translation's latest commit only, so any tree-wide
+> patch like 2/3 makes it report every touched file as current.  The
+> contact-block cleanup already had that effect on most of the tree.
+> Fixing it belongs in the tool, not in the translations.
 
-TL;DR: Commit message only: it says seq_buf_init() sets the buffer size to 0
-via seq_buf_clear(), but it resets the length, not the size. The code is not
-reported as buggy.
+Agreed.
 
-> seq_buf: Add seq_buf_init_append()
->
-> Several strlcat() call sites being converted to seq_buf need behavior
-> seq_buf doesn't currently provide. The normal seq_buf_init() always
-> sets the new buffer size to 0 via seq_buf_clear(). Code migrating from
-> strlcat(buf, ...), which appends to whatever buf already contains,
-> can't use seq_buf_init() without discarding that existing content. Add
-> seq_buf_init_append(), which preserves the existing contents and positions
-> the seq_buf to append after it. A buffer with no NUL within its size
-> starts out overflowed, as strlcat() treats it as already truncated.
-> Add KUnit tests for behavior coverage.
->
-> Tests passed under qemu on ARCH=x86_64 with GCC 16.2.0 and CONFIG_KASAN=y,
-> and on big-endian ARCH=s390 with GCC s390x-linux-gnu 16.2.0.
->
-> Assisted-by: LLM
-> Signed-off-by: Bill Wendling <morbo@google.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Co-developed-by: Kees Cook <kees@kernel.org>
-> Signed-off-by: Kees Cook <kees@kernel.org>
+> This applies on top of the relocation series sent alongside it,
+> "[PATCH 0/4] docs/zh_TW: relocate translations to follow the English
+> layout".
 
-This isn't a bug in the code, but is the changelog accurate when it says
-seq_buf_init() "always sets the new buffer size to 0 via seq_buf_clear()"?
+I figured out the applying sequence by myself and then came across this
+sentence... :-| ;-)
 
-seq_buf_init() stores the size it was given in s->size, and seq_buf_clear()
-leaves s->size alone.  It only resets the length and terminates the first
-byte:
-
-    static inline void seq_buf_clear(struct seq_buf *s)
-    {
-    	s->len = 0;
-    	if (s->size)
-    		s->buffer[0] = '\0';
-    }
-
-Should the sentence say that seq_buf_init() always sets the length (s->len)
-to 0 via seq_buf_clear(), rather than the buffer size?
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/37096036516
---===============0675329118283778615==--
+Thanks.
