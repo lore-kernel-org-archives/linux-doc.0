@@ -1,56 +1,56 @@
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com [209.85.208.70])
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com [209.85.218.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012904A3849
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 21:23:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8DBB4A0EED
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 21:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791062600; cv=none; b=Mf2Gew/Km2p/FOgcPO5kqBGkTtbJDUMzLEyLl/7ve2DlzyBjZRSYNQIWuCqtdjO8iJ1PxcluKd4t7Z+r+8k2Jw5mFCBZs8YhshKc7borgP1SbvsJWyPmcZNxnylm7dFH91q/Q0nxyqEs1YIydkoGud+fpm0zVjVNxXeiaMzACp4=
+	t=1791062601; cv=none; b=sy0m0a38Ew/Bai2vxmUWJgI5j10s2Iq3vAb2qoaalPf+kl1GD+a0VZ2UQ76TF86MbBjDtnPatJh0qXJDND893r/k58Qty96UHELO+Blax+hKTRs1DyS3/LYtAydp5YjtnbkqeYi0Z79Zl6cMF/sXAqjJpk+u5klIrAAlgFn7Rhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791062600; c=relaxed/simple;
-	bh=0UEzNPYoMtYU8V6tV9CGaZXf2SYy9Eg3sYnpmfOu5WA=;
+	s=arc-20240116; t=1791062601; c=relaxed/simple;
+	bh=EgAxeOjDc3nvKbooFebIjz9Kp87TEB8CgostF/3vXXs=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=XR5GpJRBkoxUcv3Hbn9cMaaH711nWSg2DWFeICRZ8BQV8ctWBBkKRk8oPbSrct/Rv9ak+gDcAdH89XpX9XRJ8IVVspiNqACRazCxrO/euxbzJtRD+P8EY8w6eHkDFlBEZ3PKQioqGwQ/WlmmKWj2gWsAK/jGvf6NRQG/sqWwoow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=X6+GS01h; arc=none smtp.client-ip=209.85.208.70
+	 To:Cc:Content-Type; b=lipHsi6F6e+PPCO7qB4/M5kLuHfC0Stt0WRBmB7MgYARGcYDV1mH3vZPlhl+URG3a3lSn+rhCj7lN2PcFMQpvnD2NdjesKqbiC6JNpSg0Dx2RQIaT6RVYRf7iHBCrUbU89lhCEas+WS6c+wg6ipPn0hM5CJ1x2DBzZB6tmMK34g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=a+LbM6lX; arc=none smtp.client-ip=209.85.218.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X6+GS01h"
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-6ae18a3adaeso964813a12.0
-        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 14:23:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a+LbM6lX"
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-c2e6ed5bac9so54700066b.0
+        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 14:23:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791062592; x=1791667392; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1791062589; x=1791667389; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3aZwzLkeC5Zd1WFKT0DwnrS8SKkPjkbpjbdTgKohmOY=;
-        b=X6+GS01h6zUqI8yReMwjT+GPSVBZdAtuOWNNuvGt3HZsdH8BxKJLVCq9CNfl6xl405
-         aFEvlpfEiyiYZ0O6qEL5sFmUB4D2kMdeFREM7Xbl2RQfEg6JimL0AJvl7k249+lDzAQN
-         KX9DblBYeP2bUPlEpx8Uk83DmErCRQSZW3tH8Yz3ZXquvy+OOApx08tlcpjUmUMitSMm
-         AuK6DftvKtLZGzewPYJ77sa+vkTReWec0ty9brAgFpDR+ng9KDZqJHwT7L8aT/dx61BS
-         +X94YINQvcho0kNCKSTIjvzzoNm4+64zpVZx0ACWQSN44O12WJQDIFZcOXii1kVvWR29
-         j47A==
+        bh=7zE5K72n+KulUAR4TVMzQ2qmXtrugcAg+vwkNaLgqTo=;
+        b=a+LbM6lXMWAtCa3lF/u0u4S7cHQjui2M6a+vVcnyv+tenFZT+SSrPDiapJCglPQGo5
+         xQ0v3tsLHfQKaHPfbih6QiCbdPuRSSaWifJSF+Ia8Mmp2FYPfd9zQghzAthvX8EqezG/
+         t4VB1cSa+jOZZeXu9j8SPC5Ea4l11u/6ddU5v4Ij5tT56f6MVBwtwIop8Ai6tXhK861j
+         6X49E8R/8QIXM8QUN1jzoWlR8NvZ49zwaJQ8kETgT4bBBQnvFMpK1r3pDHhhNCBQLQJD
+         Rs1tupjOk/p+ikI5Hv0GidOyxHz3U/Lc0cTo+r26vcBmoPwsY6XkOAg0lFglmBaohlyZ
+         gN9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791062592; x=1791667392;
+        d=1e100.net; s=20260707; t=1791062589; x=1791667389;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3aZwzLkeC5Zd1WFKT0DwnrS8SKkPjkbpjbdTgKohmOY=;
-        b=LfnQhfv+wuNGSp58CnHKFBNHDRJvfDFTQcTzayH5T+YLd1ecO6RC/PKiW8hOtT7SQq
-         wWT3CUlqUY2SwAMJdpoX2ISOAlJ/MpKaA28l+IbmA4qSL23p3TpOmLEcJ8gCKF2XNA/m
-         PexIqfMQYIQkHXvsRvmw0IT5TaMHYnEVFKjJG1we9zMXk+gJYNMLZ+qxdK2BlkxECgWt
-         HtbMiWcordmV6QUfzK2Wk91IwIGkX5Uy4FtQYayb99alK9edEljFuYzwnABrrXN6HL+D
-         LchGkj+ZUzVHVjUugkwvuMbhqTq9BcZMQ7/khzWX69K9jnJVyO+Ue0/wkoMJN8TLfwni
-         AwTA==
-X-Forwarded-Encrypted: i=1; AKwUvBzBBC6x6qOBqdLfq6FHFC8DJ1boAVfzoyZUhzhdWXVuReORZvc9hjktZUEC16tYK0tB6BP5iqfvK14=@vger.kernel.org
-X-Gm-Message-State: AFuF++n9Z7zdt3KqokCzBk2ZJNH5pAIoNwQxbO6oSeF037FXpnu8herw
-	nF5+Fj6afj2z5UYjqNFGHk8lvgLjzI3HA3BLfbPdWCvzMkR9ZVl+wvnsR75viylZPr5NrrtPuo+
-	t8D3FtA==
-X-Received: from ejcfv45.prod.google.com ([2002:a17:907:50ad:b0:c2e:8121:1730])
- (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:9728:b0:c2e:7fe7:2898
- with SMTP id a640c23a62f3a-c2e7fe738bbmr76710966b.12.1791062591766; Sat, 03
- Oct 2026 14:23:11 -0700 (PDT)
-Date: Sat,  3 Oct 2026 21:22:38 +0000
+        bh=7zE5K72n+KulUAR4TVMzQ2qmXtrugcAg+vwkNaLgqTo=;
+        b=dHZ2FapvRLiPF0/QbZNtiCfM98dYKtyyGFnOMRaR8+ScyGCzJjurt1kF+vU+oRRJxx
+         gNVyxPWDMdLizBsuUY1dRPrEUTeeP4ak6b7d8eyfXhVO1/8ScT4ugthzehHeRpqiAFVC
+         T9rCusK0WQ2/IEa2M8yZkYcnDfLfmjB8e6fuVA1z/ePXZxairDdELQ+j+GZGIgCC3DYF
+         kTIuXNUbNvLOXRau3pz7pflcEJyBKV83oHgrFTGEfRJoPxjnqckufabCEG/hHe2DP8Wh
+         Wv0Zy+GHlbRHZM8BPD+54xC/hjs3LR4Wk9JdFc+X19Ju04amc6H/5u7fC5EuKdLtadQE
+         rPwQ==
+X-Forwarded-Encrypted: i=1; AKwUvByMkkZbgT9OYN0LqlXfQ5ny3DhIQDLrRoOq2KoqD5jNPgaDo8TXrTld7SoBD7G9VTKcuT0gFIbRcf0=@vger.kernel.org
+X-Gm-Message-State: AFuF++luvDUHANJcOA/aRxBfrZnD/6kUgPu3PqZnVhkOpfjOdN9Ydns5
+	2KxLRFiQC7iIB/UABHn82fSlePntL2a+KNzpdwmpzjIt6kpp45iD/X24PdOi4GfOnO9M3JpoD/x
+	1AjOMtQ==
+X-Received: from ejiu17.prod.google.com ([2002:a17:906:ed1:b0:c2e:4ce4:b30])
+ (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:94cf:b0:c27:420b:7c90
+ with SMTP id a640c23a62f3a-c2e6f278111mr294082166b.48.1791062588878; Sat, 03
+ Oct 2026 14:23:08 -0700 (PDT)
+Date: Sat,  3 Oct 2026 21:22:36 +0000
 In-Reply-To: <20261003212241.3432303-1-lrizzo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,9 +60,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20261003212241.3432303-1-lrizzo@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20261003212241.3432303-20-lrizzo@google.com>
-Subject: [RFC: DMA_PMD 19/22] net/mlx5e: Use DMA_PMD memory for tx header
- bounce buffers
+Message-ID: <20261003212241.3432303-18-lrizzo@google.com>
+Subject: [RFC: DMA_PMD 17/22] net/gve: Use DMA_PMD memory for RX buffers
 From: Luigi Rizzo <lrizzo@google.com>
 To: Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
 	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>, 
@@ -83,147 +82,197 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafae
 	linux-kernel@vger.kernel.org, Luigi Rizzo <lrizzo@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-When dev->dma_pmd_tx_hdrs is enabled, allocate a MAX_TCP_HEADER
-bounce buffer per TX DMA FIFO slot out of the DMA_PMD arena. When the
-linear portion of a transmitted packet is at most MAX_TCP_HEADER bytes,
-copy it into the pre-mapped bounce buffer instead of calling
-dma_map_single()/dma_unmap_single() on every packet.
+When dev->dma_pmd_rxbuf is enabled, back GQI-RDA RX packet buffers with
+a per-queue DMA_PMD page pool (rx->dma_pmd_pool); DQO-RDA uses page_pool,
+which checks dev->dma_pmd_rxbuf directly.
 
 Signed-off-by: Luigi Rizzo <lrizzo@google.com>
 ---
- drivers/net/ethernet/mellanox/mlx5/core/en.h  |  2 ++
- .../net/ethernet/mellanox/mlx5/core/en/txrx.h |  4 ++-
- .../net/ethernet/mellanox/mlx5/core/en_main.c | 14 ++++++++++
- .../net/ethernet/mellanox/mlx5/core/en_tx.c   | 28 +++++++++++++++----
- 4 files changed, 42 insertions(+), 6 deletions(-)
+ drivers/net/ethernet/google/gve/gve.h      |  2 +
+ drivers/net/ethernet/google/gve/gve_main.c |  5 ++
+ drivers/net/ethernet/google/gve/gve_rx.c   | 61 ++++++++++++++++------
+ 3 files changed, 53 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en.h b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-index a3945195f454e..d762ad1c1ffaf 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en.h
-@@ -442,6 +442,8 @@ struct mlx5e_txqsq {
- 		struct mlx5e_sq_dma       *dma_fifo;
- 		struct mlx5e_skb_fifo      skb_fifo;
- 		struct mlx5e_tx_wqe_info  *wqe_info;
-+		void                      *tx_hdr_bufs;
-+		dma_addr_t                 tx_hdr_bufs_dma;
- 	} db;
- 	void __iomem              *uar_map;
- 	struct netdev_queue       *txq;
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-index f2a8453d8dce0..6de7a2a430d72 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en/txrx.h
-@@ -365,7 +365,9 @@ mlx5e_tx_dma_unmap(struct device *pdev, struct mlx5e_sq_dma *dma)
- {
- 	switch (dma->type) {
- 	case MLX5E_DMA_MAP_SINGLE:
--		dma_unmap_single(pdev, dma->addr, dma->size, DMA_TO_DEVICE);
-+		if (dma->size)
-+			dma_unmap_single(pdev, dma->addr, dma->size,
-+					 DMA_TO_DEVICE);
- 		break;
- 	case MLX5E_DMA_MAP_PAGE:
- 		netmem_dma_unmap_page_attrs(pdev, dma->addr, dma->size,
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-index 4c6060d54fbed..efd766aa43a02 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-@@ -1666,6 +1666,13 @@ static void mlx5e_free_icosq(struct mlx5e_icosq *sq)
+diff --git a/drivers/net/ethernet/google/gve/gve.h b/drivers/net/ethernet/google/gve/gve.h
+index c280ff35ee771..11330404f681b 100644
+--- a/drivers/net/ethernet/google/gve/gve.h
++++ b/drivers/net/ethernet/google/gve/gve.h
+@@ -10,6 +10,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/dmapool.h>
+ #include <linux/ethtool_netlink.h>
++#include <linux/dma-pmd.h>
+ #include <linux/netdevice.h>
+ #include <linux/net_tstamp.h>
+ #include <linux/pci.h>
+@@ -258,6 +259,7 @@ struct gve_rx_ring {
+ 			u32 qpl_copy_pool_mask;
+ 			u32 qpl_copy_pool_head;
+ 			struct gve_rx_slot_page_info *qpl_copy_pool;
++			struct dma_pmd_pool *dma_pmd_pool;
+ 		};
  
- void mlx5e_free_txqsq_db(struct mlx5e_txqsq *sq)
- {
-+	if (sq->db.tx_hdr_bufs) {
-+		int wq_sz = mlx5_wq_cyc_get_size(&sq->wq);
-+		int df_sz = wq_sz * MLX5_SEND_WQEBB_NUM_DS;
+ 		/* DQO fields. */
+diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/ethernet/google/gve/gve_main.c
+index 9cc343a162712..e5631987b050f 100644
+--- a/drivers/net/ethernet/google/gve/gve_main.c
++++ b/drivers/net/ethernet/google/gve/gve_main.c
+@@ -1055,6 +1055,11 @@ static int gve_queues_mem_alloc(struct gve_priv *priv,
+ 	if (err)
+ 		goto free_tx;
+ 
++	if (rx_alloc_cfg->raw_addressing && priv->pdev->dev.dma_pmd_rxbuf)
++		dev_info(&priv->pdev->dev,
++			 "DMA_PMD rx_bufs pool: enabled on %u RX queue(s)\n",
++			 rx_alloc_cfg->qcfg_rx->num_queues);
 +
-+		dma_free_coherent(sq->pdev, df_sz * MAX_TCP_HEADER,
-+				  sq->db.tx_hdr_bufs, sq->db.tx_hdr_bufs_dma);
-+	}
- 	kvfree(sq->db.wqe_info);
- 	kvfree(sq->db.skb_fifo.fifo);
- 	kvfree(sq->db.dma_fifo);
-@@ -1690,6 +1697,13 @@ int mlx5e_alloc_txqsq_db(struct mlx5e_txqsq *sq, int numa)
- 		return -ENOMEM;
+ 	return 0;
+ 
+ free_tx:
+diff --git a/drivers/net/ethernet/google/gve/gve_rx.c b/drivers/net/ethernet/google/gve/gve_rx.c
+index 81ea800e66e94..45b5e841efcd3 100644
+--- a/drivers/net/ethernet/google/gve/gve_rx.c
++++ b/drivers/net/ethernet/google/gve/gve_rx.c
+@@ -121,6 +121,7 @@ void gve_rx_free_ring_gqi(struct gve_priv *priv, struct gve_rx_ring *rx,
  	}
  
-+	if (sq->pdev->dma_pmd_tx_hdrs)
-+		sq->db.tx_hdr_bufs =
-+			dma_alloc_coherent(sq->pdev,
-+					   df_sz * MAX_TCP_HEADER,
-+					   &sq->db.tx_hdr_bufs_dma,
-+					   GFP_KERNEL | __GFP_NOWARN);
-+
- 	sq->dma_fifo_mask = df_sz - 1;
+ 	gve_rx_unfill_pages(priv, rx, cfg);
++	rx->dma_pmd_pool = dma_pmd_pool_destroy(rx->dma_pmd_pool);
  
- 	sq->db.skb_fifo.pc   = &sq->skb_fifo_pc;
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c
-index 0b5e600e4a6a9..3b6a7a8b0128e 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c
-@@ -177,6 +177,27 @@ mlx5e_tx_get_gso_ihs(struct mlx5e_txqsq *sq, struct sk_buff *skb)
- 	return ihs;
+ 	if (rx->data.data_ring) {
+ 		bytes = sizeof(*rx->data.data_ring) * slots;
+@@ -159,14 +160,29 @@ static void gve_setup_rx_buffer(struct gve_rx_ring *rx,
+ static int gve_rx_alloc_buffer(struct gve_priv *priv, struct device *dev,
+ 			       struct gve_rx_slot_page_info *page_info,
+ 			       union gve_rx_data_slot *data_slot,
+-			       struct gve_rx_ring *rx)
++			       struct gve_rx_ring *rx, gfp_t gfp)
+ {
+-	struct page *page;
++	struct page *page = NULL;
+ 	dma_addr_t dma;
+-	int err;
++	int err = 0;
+ 
+-	err = gve_alloc_page(priv, dev, &page, &dma, DMA_FROM_DEVICE,
+-			     GFP_ATOMIC);
++	if (rx->dma_pmd_pool) {
++		page = dma_pmd_pool_alloc_node(rx->dma_pmd_pool,
++					       gfp | __GFP_NOWARN, priv->numa_node);
++		if (page) {
++			dma = dma_map_page(dev, page, 0, PAGE_SIZE,
++					   DMA_FROM_DEVICE);
++			if (dma_mapping_error(dev, dma)) {
++				priv->dma_mapping_error++;
++				put_page(page);
++				page = NULL;
++				err = -ENOMEM;
++			}
++		}
++	}
++	if (!page && !err)
++		err = gve_alloc_page(priv, dev, &page, &dma, DMA_FROM_DEVICE,
++				     gfp);
+ 	if (err) {
+ 		u64_stats_update_begin(&rx->statss);
+ 		rx->rx_buf_alloc_fail++;
+@@ -209,7 +225,8 @@ static int gve_rx_prefill_pages(struct gve_rx_ring *rx,
+ 		}
+ 		err = gve_rx_alloc_buffer(priv, &priv->pdev->dev,
+ 					  &rx->data.page_info[i],
+-					  &rx->data.data_ring[i], rx);
++					  &rx->data.data_ring[i], rx,
++					  GFP_KERNEL);
+ 		if (err)
+ 			goto alloc_err_rda;
+ 	}
+@@ -319,6 +336,8 @@ int gve_rx_alloc_ring_gqi(struct gve_priv *priv,
+ 			err = -ENOMEM;
+ 			goto abort_with_copy_pool;
+ 		}
++	} else if (hdev->dma_pmd_rxbuf) {
++		rx->dma_pmd_pool = dma_pmd_pool_create(0, 8);
+ 	}
+ 
+ 	filled_pages = gve_rx_prefill_pages(rx, cfg);
+@@ -365,6 +384,7 @@ int gve_rx_alloc_ring_gqi(struct gve_priv *priv,
+ abort_filled:
+ 	gve_rx_unfill_pages(priv, rx, cfg);
+ abort_with_qpl:
++	rx->dma_pmd_pool = dma_pmd_pool_destroy(rx->dma_pmd_pool);
+ 	if (!rx->data.raw_addressing) {
+ 		gve_free_queue_page_list(priv, rx->data.qpl, qpl_id);
+ 		rx->data.qpl = NULL;
+@@ -495,13 +515,19 @@ static void gve_rx_flip_buff(struct gve_rx_slot_page_info *page_info, __be64 *sl
+ 	*(slot_addr) ^= offset;
  }
  
-+static inline dma_addr_t
-+mlx5e_tx_map_hdr(struct mlx5e_txqsq *sq, unsigned char *data, u32 len)
-+{
-+	dma_addr_t dma_addr;
-+
-+	if (sq->db.tx_hdr_bufs && len <= MAX_TCP_HEADER) {
-+		u32 off = (sq->dma_fifo_pc & sq->dma_fifo_mask) *
-+			  MAX_TCP_HEADER;
-+
-+		memcpy(sq->db.tx_hdr_bufs + off, data, len);
-+		dma_addr = sq->db.tx_hdr_bufs_dma + off;
-+		mlx5e_dma_push_single(sq, dma_addr, 0);
-+		return dma_addr;
+-static int gve_rx_can_recycle_buffer(struct gve_rx_slot_page_info *page_info)
++static int gve_rx_can_recycle_buffer(struct gve_rx_ring *rx,
++				     struct gve_rx_slot_page_info *page_info)
+ {
+ 	int pagecount = page_count(page_info->page);
+ 
+ 	/* This page is not being used by any SKBs - reuse */
+-	if (pagecount == page_info->pagecnt_bias)
++	if (pagecount == page_info->pagecnt_bias) {
++		if (rx && rx->dma_pmd_pool &&
++		    !dma_is_pmd_page(page_to_pfn(page_info->page)) &&
++		    dma_pmd_pool_has_free(rx->dma_pmd_pool))
++			return 0;
+ 		return 1;
 +	}
+ 	/* This page is still being used by an SKB - we can't reuse */
+ 	else if (pagecount > page_info->pagecnt_bias)
+ 		return 0;
+@@ -545,7 +571,7 @@ static struct sk_buff *gve_rx_copy_to_pool(struct gve_rx_ring *rx,
+ 
+ 	copy_page_info = &rx->qpl_copy_pool[pool_idx];
+ 	if (!copy_page_info->can_flip) {
+-		int recycle = gve_rx_can_recycle_buffer(copy_page_info);
++		int recycle = gve_rx_can_recycle_buffer(NULL, copy_page_info);
+ 
+ 		if (unlikely(recycle < 0)) {
+ 			gve_schedule_reset(rx->gve);
+@@ -665,7 +691,7 @@ static struct sk_buff *gve_rx_skb(struct gve_priv *priv, struct gve_rx_ring *rx,
+ 			u64_stats_update_end(&rx->statss);
+ 		}
+ 	} else {
+-		int recycle = gve_rx_can_recycle_buffer(page_info);
++		int recycle = gve_rx_can_recycle_buffer(rx, page_info);
+ 
+ 		if (unlikely(recycle < 0)) {
+ 			gve_schedule_reset(priv);
+@@ -971,7 +997,7 @@ static bool gve_rx_refill_buffers(struct gve_priv *priv, struct gve_rx_ring *rx)
+ 			 * owns half the page it is impossible to tell which half. Either
+ 			 * the whole page is free or it needs to be replaced.
+ 			 */
+-			int recycle = gve_rx_can_recycle_buffer(page_info);
++			int recycle = gve_rx_can_recycle_buffer(rx, page_info);
+ 
+ 			if (recycle < 0) {
+ 				if (!rx->data.raw_addressing)
+@@ -983,11 +1009,16 @@ static bool gve_rx_refill_buffers(struct gve_priv *priv, struct gve_rx_ring *rx)
+ 				union gve_rx_data_slot *data_slot =
+ 						&rx->data.data_ring[idx];
+ 				struct device *dev = &priv->pdev->dev;
+-				gve_rx_free_buffer(dev, page_info, data_slot);
+-				page_info->page = NULL;
++				struct gve_rx_slot_page_info old_info = *page_info;
++				union gve_rx_data_slot old_slot = *data_slot;
 +
-+	dma_addr = dma_map_single(sq->pdev, data, len, DMA_TO_DEVICE);
-+	if (likely(!dma_mapping_error(sq->pdev, dma_addr)))
-+		mlx5e_dma_push_single(sq, dma_addr, len);
-+	return dma_addr;
-+}
-+
- static inline int
- mlx5e_txwqe_build_dsegs(struct mlx5e_txqsq *sq, struct sk_buff *skb,
- 			unsigned char *skb_data, u16 headlen,
-@@ -187,8 +208,7 @@ mlx5e_txwqe_build_dsegs(struct mlx5e_txqsq *sq, struct sk_buff *skb,
- 	int i;
- 
- 	if (headlen) {
--		dma_addr = dma_map_single(sq->pdev, skb_data, headlen,
--					  DMA_TO_DEVICE);
-+		dma_addr = mlx5e_tx_map_hdr(sq, skb_data, headlen);
- 		if (unlikely(dma_mapping_error(sq->pdev, dma_addr)))
- 			goto dma_unmap_wqe_err;
- 
-@@ -196,7 +216,6 @@ mlx5e_txwqe_build_dsegs(struct mlx5e_txqsq *sq, struct sk_buff *skb,
- 		dseg->lkey       = sq->mkey_be;
- 		dseg->byte_count = cpu_to_be32(headlen);
- 
--		mlx5e_dma_push_single(sq, dma_addr, headlen);
- 		num_dma++;
- 		dseg++;
- 	}
-@@ -578,7 +597,7 @@ mlx5e_sq_xmit_mpwqe(struct mlx5e_txqsq *sq, struct sk_buff *skb,
- 	txd.data = skb->data;
- 	txd.len = skb->len;
- 
--	txd.dma_addr = dma_map_single(sq->pdev, txd.data, txd.len, DMA_TO_DEVICE);
-+	txd.dma_addr = mlx5e_tx_map_hdr(sq, txd.data, txd.len);
- 	if (unlikely(dma_mapping_error(sq->pdev, txd.dma_addr)))
- 		goto err_unmap;
- 
-@@ -591,7 +610,6 @@ mlx5e_sq_xmit_mpwqe(struct mlx5e_txqsq *sq, struct sk_buff *skb,
- 
- 	sq->stats->xmit_more += xmit_more;
- 
--	mlx5e_dma_push_single(sq, txd.dma_addr, txd.len);
- 	mlx5e_skb_fifo_push(&sq->db.skb_fifo, skb);
- 	mlx5e_tx_mpwqe_add_dseg(sq, &txd);
- 	mlx5e_tx_skb_update_ts_flags(skb);
+ 				if (gve_rx_alloc_buffer(priv, dev, page_info,
+-							data_slot, rx)) {
+-					break;
++							data_slot, rx, GFP_ATOMIC)) {
++					if (page_count(page_info->page) >
++					    page_info->pagecnt_bias)
++						break;
++				} else {
++					gve_rx_free_buffer(dev, &old_info, &old_slot);
+ 				}
+ 			}
+ 		}
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
