@@ -1,109 +1,160 @@
-Received: from mta1.migadu.com (out-233.mta1.migadu.com [95.215.58.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A713A34D382
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 10:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48394374A16
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 10:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791021890; cv=none; b=FgUFCWREWYF8NOooZmgbiZ+fm13Q1mYp19Y67iBolGy6w6R3IP05qHJ0aw8BnEZzfyNxC1W3E6XHTlPZzu/J0/rvo4O4G6AD26VYV0nh+70SVFrMiC3xQZRkKA+Ofgy/DXK4M6bZUJe9Hf43AVpOyldU8W0oX7Jomu46tL+e+A4=
+	t=1791022364; cv=none; b=nugmXyzP6URHRBAUr45hRinP1Jdq0WVYL5hYdFfjESjBsZCq0ZUT2I+o4aVVWdOOiTpN3mvOiZ11KeJpXRWrRn6m/RLAEmJ7WXc1cxwY5wWo9NgqTCV0lBXXTyEnlKt7XjTWjtNhwysZsV3A0D8+NdKXX98cnyx0MFmiycYsHNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791021890; c=relaxed/simple;
-	bh=ZU7ccYgREQswmbosQ04YGNlHX4hrT2Ol0F6Sxmt+faI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oGVtmJbrDPduWLxH0ryO7c7we5onHdSykHCfhDz3+vRZT8/AfPELopjzdnyXfn87bzxON9tpYeKOL4IlW1plc23qH/zSIx0v7xly1iyxusUEIimz4yfeGTrvG9KV44ND5BF9cLxaureZcg5Weq3h2nwIDM+uga6Efu9Cgwr9Nz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=tiSVcuhR; arc=none smtp.client-ip=95.215.58.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	s=arc-20240116; t=1791022364; c=relaxed/simple;
+	bh=Em/8Q4T5WVyJTc8ied0AfMAXsr9lQ4Pf+YUf8+Llc58=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=H/UGSqsXUpPk6DZWfnlA406VA/Sszr3f5W4t8JgTdDGKrx2UNJ0yvaXPFY0Z0Ba/5/bwsQ8x8YVFlViqkIA/EKFMbQ6Pm9wEpZXh5rzX5S1la850EYDxNyLrNyQxohWWhueFaB5VbBaQaGkcaaa2Q5bw9VSa1HW1wbZhsTxtjZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=la2K0wct; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=B7PQMvx8; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="tiSVcuhR"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=ZU7ccYgREQswmbosQ04YGNlHX4hrT2Ol0F6Sxmt+faI=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791021885; v=1; x=1791626685;
- b=tiSVcuhRpHobPHmoaxS5sz3+rOtLLYf7PZOLinctlkV3azxYYWns4PYtniCCT1AJL5rwsuQ3
- s1AydUTv+3pUR1pUqGJxjVNp3JA05QFJYk6Titu8Lahym8HER6IbgjRewyAXF3VZoXKWXwo1fBR
- mqbTFEybqGVhmQ7i5hN49OK0eH5RT2g5NuvYJO7oKwsl9QWhKfJhgUcEgGN1CnXx7e5asqRqb6Y
- nkQcE/g3A1UF9tI5TNVaG+1EORyOhK1C6n7UPwkZCsF6gBFk3NEgJsYlLWcfY7wO6HfsLZJazLg
- S4i7q4Tjo2iR9piKNDt8g7hlf/pTHUC/uE5xBhiSJkLGA==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 9a7ee22c7c230aa8;
-	Sat, 03 Oct 2026 10:03:03 +0000
-X-Mizu-Trace-ID: 9a7ee22c7c230aa8
-X-Migadu-Flow: FLOW_OUT
-Date: Sat, 3 Oct 2026 18:02:58 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: =?utf-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn,
-	si.yanteng@linux.dev, srcres258@furdevs.cn,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] docs/zh_TW: move security-bugs to process/
-Message-ID: <asDS0rS9Racqp3B6@wyuan.org>
-References: <20260929131020.266120-1-chenyou910331@gmail.com>
- <20260929131020.266120-2-chenyou910331@gmail.com>
- <ar_APS7UG25kXXYH@wyuan.org>
- <CAKspUhKypHhegcJJ1DokVhUqLCBE+VaQkX4cMw+tt2L2p1FgYw@mail.gmail.com>
- <CAKspUh+XM_E0CyrG8Lf-fGNFuQop0+i5_O7b+eRJ_Ghp0x6JZw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="la2K0wct";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B7PQMvx8"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfout.phl.internal (Postfix) with ESMTP id 276F1EC031D
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 06:12:42 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Sat, 03 Oct 2026 06:12:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1791022349;
+	 x=1791108749; bh=TsvOMud2kpRikmVD2T66+I1gHy71FYtl6qh7nZPWTPo=; b=
+	la2K0wctqo4WPWtHG6E63XtnuP0GoueJk3Nikxp0TPFctyYg965XZpnmz2POBM29
+	pT9IbmN/2lXX2ROzM7iGsuz9Y3Xndty6lrUgMuiVvKrvISzXMiF53qoQfVp/Lbtn
+	yEgfkFWepUtJLYRf8KCJ1WPpElY88RHcyI0y7POO7qm8XlLQOs7bo1iGNCQWdD4y
+	D0bytlW8GNVpL9OXcf8DtvVemjjtsoG1PO/Pwxi/99PO2VrYJSUkkKs5cU2thA/c
+	xZeP7HL0T49zaI4wWR2EFrdXe76hdMW1HOIQfWAlqbAYIVMALS+rKLwof5DQHne9
+	AHEDcxoFoPtInaKicT0QkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1791022349; x=
+	1791108749; bh=TsvOMud2kpRikmVD2T66+I1gHy71FYtl6qh7nZPWTPo=; b=B
+	7PQMvx8GalMYv1Z2fbl/GxHYK/LGCs1NhEvC/uZ63bCaIi92gDP/Z9lV/gGtPiCj
+	l8cDsWVFitayuJxoKGpYDPmrTJqFY2l1naEfooXa9UupBgAvcTpUJ/9kCLqK1go/
+	gL0ypnLC9GJLiniJKWAjTDqdjTH6fivg7ACd1bIGkLR4igyOolBrFQUG9ra01lOd
+	jTutnU8jCBjsRKMHcEn3ewy8SNI9AkoRcPWR2+1yePEXl95X0EIKfhq4vk4WqHO6
+	jHb0t7cy5YIHeedSp+cHSLdnfWJBsHm2tNfnQds2RhoUgMR+6XxRbuHPU27nBktQ
+	tTx48+MaZz+sj9ZTnMkVQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1791022349; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm1:rsa-sha256:gQwykkgFQzcnilNbRL87T3cminzgmJLQ6ssTnZT49QSIn+u
+	kjl5zEt0IBiHR2c6NSccp+FrJ6ki6wvlpRUUqAmIL51Yv5OKwmUO/TFSP1vD+5/A
+	KUxElPe67aR1nDcVK4CrJ5iExBGMFZII5R3DwS36dMXYwy7UJv4IZQpf/vRDkaLq
+	JKqNNU9qchdcbD+/Q5Nfej4Y+7bsBxN/YrNVxfbc+1PfU3tlTCdMeRbUZy8uPqGl
+	aTdb5XrjT6b3v9Oa3woTFXO0vxo+oYk5Wz3LnS2mu7KfLD/4SY+TcnOJnlzAMuop
+	JlVTGDGUHdVT2nbIGsM1ilfO5A8TPyGcxDRFL8g==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:bSBg07AyJDh8nIznW2E0BJ7e3SFvW04lYLBX16wcRdI=:Em/8Q4T5WVyJTc8ied0AfMAXsr9lQ4Pf+YUf8+Llc58=;
+X-ME-Sender: <xms:BNXAakND3vmOHS6r9JSvgH3WBKf8Vx9cwbv1VeB9Eo3RwF7Ry_I4YA>
+    <xme:BNXAalypYwt55h3-1htHlDvRcabtYW3afDfKcYR7S81Zg2SbOp_CQMbNFfRFjx7HI
+    VDMnQmElqjJOYbVnBLaYKiyhgDa5JtYzwDc154kirSvV1qcwvaEnLeW>
+X-ME-Proxy-Cause: dmFkZTFBB7hs3NcjUVHct1drZuqXiA1pIQAz979fbY6M5ydA53D5Io4XIec8GFXHnKC3ih
+    0j9MGHsCNmtSvpdgGYBm5WA//Rdnq/6SfTFJT7Fxjye7NOKWuVepnxsBeMpXqIzqLv5YjL
+    63Cpqug36HSavId07c3mtDDRfIUkA7OiECcQNefT7QvV5aZPdvMiIE02vP/AifaPn9zGgO
+    NPfzVvSmsnHVAJGfbQHPswy219nFHprFzN+2QyEin65K9AMUi9mLMWQWFwEZbYIHybUewD
+    8nZwWDFzo7e1lWdrFA0yknag0sNYATtaSqc63mdkJ1Oh32G327MSBwFKBRvsBL5OjheKRA
+    shkRUJ+qQNqdYL54mTKI+865Up5tehCG1YK4JKPX1lIeQ/EVSTTj7IAWIAoY70Egs9tB8t
+    zs4qWTWdSw2Q10l2Lqb5J0QbdiOXHihiQJBNQCs+LCjXcIuVLN9Teti1EKRil8ZHIpilsr
+    scKeuJv3e8kZT8DbTL0m8+BNHuUZEBjgUYxpeYqLZn+cdXeG42J7mcuvKknCGe5sEnVLnE
+    YfkRegqaQBYlnnOvYHme+pXvzeAFtJByO/MAWiEJ60IGj6HEmMvj5fz+0JoMd8YsUmMZFC
+    JjHA+Z8G6tCgboe5Svw4ubdWibYjiC/axV+qkQ7e5yKghCORCeW0zXndvUPg
+X-ME-Proxy: <xmx:CdXAatScP8RgrbtbNEcyop2hU8vbiMQ7Lu8dOi2HKE5aicrsP454Qw>
+    <xmx:CdXAaugx8tC2WMIsQEL8dk-HJOK_29OjgecI1a6i5j3KPwVKHtjiUQ>
+    <xmx:CdXAahbWR6WER36AkqZy_oh7Ca_y4FMyyGaPPR_QQXGVHaE8g1t95g>
+    <xmx:CdXAavXsyFNWArcDud0ELs0v5qj1PvLSNGc1jQ4KXLGzkEk_mQnqMQ>
+    <xmx:DdXAan8zml3uyKc9IBaqckjec0I-LwvAjmiL6Dfcrr4kkCVOz-gfiWjX>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id BFEB832A008A; Sat,  3 Oct 2026 06:12:20 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKspUh+XM_E0CyrG8Lf-fGNFuQop0+i5_O7b+eRJ_Ghp0x6JZw@mail.gmail.com>
+X-ThreadId: A3bqS_zWz5jN
+Date: Sat, 03 Oct 2026 12:12:00 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Karl Mehltretter" <kmehltretter@gmail.com>,
+ "Russell King" <linux@armlinux.org.uk>, "Miguel Ojeda" <ojeda@kernel.org>
+Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ "Benno Lossin" <lossin@kernel.org>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "Danilo Krummrich" <dakr@kernel.org>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Tamir Duberstein" <tamird@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ "Linus Walleij" <linusw@kernel.org>,
+ "Christian Schrefl" <chrisi.schrefl@gmail.com>,
+ "Bradley Morgan" <brads@mainlining.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nick Desaulniers" <ndesaulniers@google.com>,
+ "Bill Wendling" <morbo@google.com>,
+ "Justin Stitt" <justinstitt@google.com>,
+ linux-arm-kernel@lists.infradead.org, rust-for-linux@vger.kernel.org,
+ llvm@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Krzysztof Kozlowski" <krzk@kernel.org>
+Message-Id: <1682542c-b5c7-4031-9d8b-7ba1d0a3ee19@app.fastmail.com>
+In-Reply-To: <20261003093827.77857-2-kmehltretter@gmail.com>
+References: <20261003093827.77857-1-kmehltretter@gmail.com>
+ <20261003093827.77857-2-kmehltretter@gmail.com>
+Subject: Re: [PATCH 1/2] ARM: cmpxchg: support 2-byte xchg() on pre-ARMv6 CPUs
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On 2026-10-03 17:56:02 +0800, 葉宸佑 <chenyou910331@gmail.com> wrote:
+On Sat, Oct 3, 2026, at 11:38, Karl Mehltretter wrote:
+> Pre-ARMv6 CPUs have no halfword swp, so __arch_xchg() only handles 1-
+> and 4-byte exchanges there and turns any other size into a link error
+> via __bad_xchg().
 
-> On Sat, Oct 03, 2026, Chen-Yu Yeh wrote:
-> > The <N> commits since the move, including the new sections you noticed,
-> 
-> That should read 17 -- I left a placeholder in. Sorry for the noise.
-> 
-> Chen-Yu
-> 
-> 葉宸佑 <chenyou910331@gmail.com> 於 2026年10月3日週六 下午5:53寫道：
-> >
-> > On Fri, Oct 02, 2026 at 10:31:25PM +0800, Weijie Yuan wrote:
-> > > > The translation has only had mechanical changes since it was imported in
-> > > > 2021, and the English document did not change between that import and
-> > > > its move,
-> > >
-> > > Hmm, is it? What does "mechanical changes" means? Does it mean small
-> > > changes like typos, format, and etc.?
-> >
-> > Yes -- changes that did not touch the translated text itself: the
-> > address updates in 2023, the tree-wide character conversion, and the
-> > path updates that came with the English move.
+Note that 16-bit atomics are only in ARMv6K (1136r1, 1176),
+not ARMv6 (1136r0). 
 
-Yup.
+> No C code needs a 16-bit xchg() on these CPUs, but the Rust atomic
+> helpers in rust/helpers/atomic_ext.c provide xchg() for Atomic<i16>
+> unconditionally, so building with CONFIG_RUST=y for ARMv5 fails:
+>
+>   ld.lld: error: undefined symbol: __bad_xchg
+>   >>> referenced by helpers.c
+>   >>>               rust/helpers/helpers.o:(rust_helper_atomic_i16_xchg)
+>
+> Implement the 2-byte case with interrupts disabled, as the pre-ARMv6
+> atomic_t operations already do. This is safe because SMP requires
+> ARMv6K or later.
 
-> >
-> > > Maybe I got it wrong, but I noticed that the current version has quite a
-> > > few new sections and additional content, though. Am I misunderstanding
-> > > something?
-> >
-> > Those all went in after the move. The window I meant is from the import
-> > (July 2021) to the move (March 2023), and the English file has no
-> > commits in it:
-> >
-> >   $ git log --oneline --since=2021-07-29 --until=2023-03-05 -- \
-> >         Documentation/admin-guide/security-bugs.rst
-> >   $
-> >
-> > The <N> commits since the move, including the new sections you noticed,
-> > are exactly what checktransupdate.py reports against the 44ac5abac86b
-> > baseline once this is applied. That is the point of the move: the
-> > backlog becomes visible instead of "Cannot find the origin path".
-> >
-> > I should have written "between the import and the move" more plainly;
-> > as it stands it is easy to read as "since the import".
+This was previously impossible because you could have ARMv6 kernels
+with SMP enabled, but now that Krzysztof has merged my series to
+remove OMAP2 and i.MX6, this should work.
 
-;) Yes, this made me take a closer look.
+If anyone wants to backport this to older kernels, they would
+also require d70242427110 ("ARM: rework ARM11 CPU selection logic").
 
-Thanks for the detailed explanation. So this is just a nitpick which
-does not matter much.
+Otherwise, this looks good,
 
-Thanks.
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+
+    Arnd
