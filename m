@@ -1,192 +1,286 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538FF48A2CC
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 17:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8041F3B7B71
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 19:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791047251; cv=none; b=rdB7jae8yXbY3acpGdg7Fu2qwWRxbOLVP47HYYx8GiVS+o2BLzAKHAMidXs/rLjmuVATBYPD8yyzwmlDs02JC3IFICyHS68rNPhYwcnqtwFbqUiVndhdp0fU7IsfDlslvSCKlnEciUfWYnvio9R5XbHm/9mHjgU48eWBVQKUIY0=
+	t=1791056531; cv=none; b=iTadHrX4qbmaEbGoQnL95X0v2pGt5q9TKFPQ5zIECuMP7G7ZTqkCsdXwf+fmxPrxkSbqQCpefDG7w+iDDxuxGkKl71txCPf619lcoXA2pO8UyGNFt3PQAh72wGTb7PkmhOrGtDqokHdtVbQnlwxW3z+O5IjQj0Gaqai5P2cLIxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791047251; c=relaxed/simple;
-	bh=FzlyXPstQKA22LT8IX4LjRqLlPmdLdap5eNXvrcSaIs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NlIZgLyaYWVl/clrrfmJpTCR7tUAebspmqvKOe64z8WRWpO1LFMvfhpPvAQbQZ2WChjNkUAIEyP1nzRrDhSzyfwNdAhg9Jw3QxSgyVp8UPDJxG2AGrhCKWByI2IW2bB54NBtLVM6yBYxL2D2IXMnt0oSXutKcpcmizSUjJh99Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bISS3wm1; arc=none smtp.client-ip=74.125.225.140
+	s=arc-20240116; t=1791056531; c=relaxed/simple;
+	bh=/iDGyIPoKrBXhqTX+xBXowT9bq0uWZA7SUBkTYlzxzo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qSZJlu3Eh7KpRGFSyTbfa3I5w2qCj7Qu7MZF9b6KEWwvDalj+U1HuQr8M1Ft8Q/n7SJpqwf1KoNlmhvrjcJSYBVEO45pA1Fk+WBBYmr3mCNBCtNV0hP5eMmDaYGxutiX6NGygpGKNL+qIwOEwT3CHrlZkvc0fcmphsiARufURjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JUqy0wM2; arc=none smtp.client-ip=74.125.225.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bISS3wm1"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd5462b69so4121535e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 10:07:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JUqy0wM2"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e66390995so4566235e9.2
+        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 12:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791047246; x=1791652046; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3GGSdJzmN2dqwo1b/5Kfo2bKbnsN93Ci8hxqW9b45lI=;
-        b=bISS3wm1Rv/Fi+Np3/B5QtAvYhuG2Zm3fpIaw17tCGh36ZXE4H6+w9xUVgNq/xUpZR
-         cS2KitdgcBDnSt/nZwvrptn+xb+9y3hi3EpeXoLNh+hTrWJBvWv2se1eUlwtfDl/xmpX
-         GLlrR7D2uCw4lnzXmjV15+dLwyZZsiOlhjvkdgRYS7+OYCukjWWkD1lgwNGFUYqs368b
-         bIv9mMfzlz0M0bk6afVSXjlB2edkrK7yk619ZW5AJbbfjJkVQW525EkFM5cMNJixGFNb
-         rZlQtYqvww6TkhO78QBoiVdY89OSCAII5tYBoD8a3uXlBgr8x4o+KJMBvIoFZJeGrHUt
-         BEyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791047246; x=1791652046;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1791056527; x=1791661327; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3GGSdJzmN2dqwo1b/5Kfo2bKbnsN93Ci8hxqW9b45lI=;
-        b=xjmzkWOsKUPcdTTLYMT9DZMchYSMfx+dq0rBLy+J0QJul/UuelaXn/PTEcnUqvSGyC
-         5fguSG7wG79GkyuY1isSlUQB0d2elIKWoRNGubu/wc29TBIdX1uc6z6ILuGbCY8ya73V
-         V2JCt68w1UFK2KNokiuJjdoBLb+r6fI/NWiqyb5fHZU9Fmxqu07PvvnAKPwqFqyvfWRi
-         hc2TjhL2paHVqzfkx/ZcdGmJWDc0M9RZNF2U6k5Wa9wOhRBMO27ghqiyrbW1MIpcpvjH
-         KlaiYQoyfBLZiXZBDsd9rAzMy5YeVKfxjpgnt4O1LLPX206vvlWivNahmC/u/JsCBgwq
-         jOFA==
-X-Forwarded-Encrypted: i=1; AKwUvBy9iJxIG1P+uugqw5qNqVzQoN2bMOxXtk2Ojj9eoiLfqvo7zpKu7yU8NaQqke2nRZ4AJgP/DJJhLoU=@vger.kernel.org
-X-Gm-Message-State: AFuF++nKpnx6BDGbpryxL3/OskN/KNEar0spN3MhcSmQ3m2TPeb08dHb
-	csCZsTBpPame18zpyUkU0wEVVeSrSV2z+4NzZ/A8DZdgVrjgclbQ5IJo
-X-Gm-Gg: AYBFou3lPOXfCFnlTvpb388qsQMsTmFqxlrQ2CeculHhssxI9G0vVcTjoLKsHveKP8n
-	8ZIwfs6/N315zAjXviKBzhOKp00zadSw5h7vXYLRQcddqlSBx3k9ei45gZScYItZ5K2oDbrBJCe
-	dvrbM8L5ofcdMTYSPP5pkGzLaemkli9dld7S8JVhBi7+Zt8n/d/QS8r/Va0NjP0j3wp9z7E7yI4
-	zlYF5tCCFJqVI0YK01ntHKNUt+P2IVRchdzolQ2rRDQikgv6YtSmumPdXAq79CVmzwq+2b7Pvd+
-	iVH+MFr6vb5TZGl16IjSpSzAzYUZYuhHTI3jxVb9A2PZFWQmhPa5ZpmsJJy5jrJRjrVmR+/WWf+
-	d3nzQEQRbHAFmx7Fp4DbuWsCCv1FxZYiUlldsT0F12BLg3MhePZ0LMmJ/tjRcWoADjKVMYoruWr
-	2mYrw7aFj8KUfJNDhf2p1r4HHXqoSGzdKFYJZNaRNCbTm/7H/9mIWuVnNri1kHee3ervINBY+Z3
-	j+DaZSBr+VlzGzjZ6qKLmVouAh7rnzeTierP/OibUtOEfrLEB8WbfdZ0/+pC3Y4OrF2Qzcd+AYd
-	hPfi3EDjgmg4gojK8/gIzhxDMtt1OS+VQcCsblTXSuuefBayyh8TlaSjCOukWEjchrzuZSEEmFs
-	m
-X-Received: by 2002:a05:600c:138b:b0:49f:ce78:3562 with SMTP id 5b1f17b1804b1-4a02759b46fmr107744155e9.19.1791047245976;
-        Sat, 03 Oct 2026 10:07:25 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-b2e2-2001-c47f-5a89-3d9a-cd2d.310.pool.telefonica.de. [2a02:3100:b2e2:2001:c47f:5a89:3d9a:cd2d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b380faaeesm12742668f8f.18.2026.10.03.10.07.23
+        bh=7tsAe5aIFshgubUUdqgrKg7NfoQD6aHl738yHlYnd58=;
+        b=JUqy0wM22EJH7h1+TWQbq11h/xHpLjegnNb+zKSu7rrvdG+OQVImeejv2J/Yl1QHvC
+         ILq+V9McDdGrAO3kTr2SUF097rbt1TG/hahE3CnriioNDrT9WBpRbGs/SSl70yK9hcAv
+         CuWZSoMr3b8H9cdVRe3TblYFz1aN0INEUfDFNjwY96az9+aI4aGnNXgFHdaVLUO71AcI
+         c7GomFgbngzOKqlPeGiOXEtqA6OOxcN0Mu94+ZxdPZe44+vxS3qqMZNa9lK0rk4djttP
+         QDw6TqRhV3qxCrqXnpbgkgi1iqD+WHsbGNjjMl1gfU/Mk6qd9RPVqZvrdJTreRspc4wf
+         z1Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791056527; x=1791661327;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7tsAe5aIFshgubUUdqgrKg7NfoQD6aHl738yHlYnd58=;
+        b=P9DOXPyjpiwUZj11JmDG4WjCdTWcM+q4oOsu5UV5wCfiKtCy4dkqlwBjj8fjvn2m0s
+         myr1SDm2RTsV/mQICR44DxIVljSnmj9oV0szbBO0A9bV07qGvFU1AOED6aduAyYeY2Bg
+         rvgDVrx46t456UfMeWGSeDQaPtrVIW+r5LAgUbMJNSRFT4iHT9PVCSoVQtzYpWeh4op/
+         Cxk9kaBiRxtx6smu8/xC1rixDkI18QcQqGsQXdF0RD5+c1uA+23k8sMDjBTQSx1X0baQ
+         ScZSFzEZOMWLSnGWMPSSY2J2/hA92xu6AoPyG80r/xsXS7sXm4XVggsJwD4g3Uby7wp9
+         tq/g==
+X-Forwarded-Encrypted: i=1; AKwUvBxTniMET2V1r77EYbZp4cnT/hJuOGztjgVMYAlvS2AwKFyUd8seUbBUIJ0oJmBHTYO4PO8S/Qk9E5Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++m8r2JgNgnMVp6O7TFU2rS1b/gvP9pI7obAgozVYF+B3+Nfun1R
+	kKbg8jCWstCUY2LXkuvFTWbcts/d09KsWmgXVD1X71q0jm0RwwbrxiJ8
+X-Gm-Gg: AYBFou2vhUq6U9yxgt3WfH7duKM1s4AGDS95x226cDVT+Q/NSmnv4JK+OwzVdgNCztN
+	zXFia1Ibd/jDVNi9ngltg70IyBLI5Z3N5ybDyYZRA3yrgZweZZgJPG5fT9vJ+BUzkJNQRRnCPvH
+	Ordaq/PdROF6EzM7EBHybMVeSvNLlHYxuOidaP5lT8fMr1F84De6ObpxHmsDymFqVcali5dZfSO
+	XMxVvEbDrVODe03ITzRoV+kDxoJEVr/wyGFhmKJEDptUKCP+qVXseTUQwcuwp78qMkedNETshCx
+	QA721mo/hi6YN8bKxnRpxJWv3LRcCMpAwc+6rT7tn/ttTIDJZOzNl6lpTSyPZ3ewCXgnbKSPBIX
+	LHIz0s7oTboXK0R9GU+OYAFQM9Tuv9ZlivBOSfwCaZUWW7v56faYvcSRliozNMgL8k1TljTq48A
+	OIR1HK9UfyXpnpl8Ombmma/7Ee/EA9pLQrtNOGc43BXxJJKqRU1DY25+yUd289mRUJu3gklLvsw
+	JDT5yOw2BCzv2/58q8xIe8rCSrGZTnO3lDIGpaHVQfNGLd8G27usK4BkByRq/Umjwg04oyfzcnA
+	h2Y3C2dnY8gzSIP2a3+mJD6E
+X-Received: by 2002:a05:600c:8b88:b0:4a0:258a:b25c with SMTP id 5b1f17b1804b1-4a0276abde3mr103801915e9.29.1791056526607;
+        Sat, 03 Oct 2026 12:42:06 -0700 (PDT)
+Received: from cachyos.home (2a01cb0c82caf900a186612f304bfea5.ipv6.abo.wanadoo.fr. [2a01:cb0c:82ca:f900:a186:612f:304b:fea5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a162e867e8sm161520495e9.15.2026.10.03.12.42.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 10:07:25 -0700 (PDT)
-Date: Sat, 3 Oct 2026 19:07:22 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Russell King <linux@armlinux.org.uk>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, 
-	Linus Walleij <linusw@kernel.org>, Christian Schrefl <chrisi.schrefl@gmail.com>, 
-	Bradley Morgan <brads@mainlining.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	linux-arm-kernel@lists.infradead.org, rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ARM: rust: Enable Rust support for ARMv5TE
-Message-ID: <asEzZ1wOQ_MbgEsk@gmail.com>
-References: <20261003093827.77857-1-kmehltretter@gmail.com>
- <20261003093827.77857-3-kmehltretter@gmail.com>
- <33197b82-3eff-4c87-b370-c677ca31a02a@app.fastmail.com>
+        Sat, 03 Oct 2026 12:42:06 -0700 (PDT)
+From: =?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-usb@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
+Subject: [RFC PATCH v6 0/8] ALSA: usb: add RME Babyface Pro driver (proprietary mode)
+Date: Sat,  3 Oct 2026 21:41:29 +0200
+Message-ID: <20261003194137.86176-1-i.bahloul01@gmail.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <33197b82-3eff-4c87-b370-c677ca31a02a@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 03, 2026 at 12:45:07PM +0100, Arnd Bergmann wrote:
+Hi Takashi,
 
-Hi Arnd,
+This is v6 of the RME Babyface Pro proprietary-mode driver.  The split
+is the one you asked for in the v4 review and that v5 introduced: a
+minimal core first, the mixer added piece by piece, suspend/resume near
+the end, the front panel and the DSP EQ last, and a design document.
+v6 keeps that split and folds in the work done since v5, most of it in
+the stream core; it is rebased on next-20261002.
 
-> > Kernels that also contain ARMv4 or ARMv4T CPUs are built for the
-> > lowest architecture and stay excluded. CPU_32v5 also covers the ARMv5T
-> > ARM1020. C code is already built with -march=armv5te there, so Rust
-> > matches.
-> 
-> None of this makes sense to me: The target should not control
-> the instruction set, that is what the -march= flag is needed for.
-> Does that not get passed for Rust?
+Changes since v5:
 
-No. arch/arm/Makefile only passes --target=arm-unknown-linux-gnueabi,
-no CPU or feature flags. That target has "+v6" built in, so Rust code
-in an ARMv7 kernel is built as ARMv6 today.
+ - Stream sessions (patch 1, David Fredman).  A session now lives from
+   the first prepare to the last hw_free; trigger START/STOP only
+   gates the audio the URB handlers move, so an xrun restart no longer
+   tears the session down.  A session start sends what the RME Windows
+   driver sends (rate write, trigger pair, URBs, arm) instead of
+   re-running the cold init and replaying the whole mixer state: about
+   1 ms instead of about 1 s, and it waits until 50 ms have passed
+   since the previous stop, since a session triggered within ~15 ms of
+   the last one comes up silent.  After three consecutive bad URBs the
+   handlers stop resubmitting; disconnect and suspend kill the URBs
+   before cancelling the work their handlers queue; hw_params is
+   refused once the device is gone; the handlers read the substream
+   pointers under RCU.
 
-I tried the generic target with CPU flags (libcore for versatile on
-v7.3-rc1, rustc 1.99.0, CPU arch from the build attributes of core.o):
+ - The latency follows the application (patch 1, David Fredman).  The
+   URBs are sized from the period in hw_params, two periods in flight,
+   instead of a fixed 8 x 256 frames queue (42.7 ms at 48 kHz whatever
+   buffer the application asked for).  While another application has
+   the other direction set up it is offered the running rate and a
+   period no shorter than the session's; the application that holds
+   both directions may change the rate or the buffer size itself, as a
+   DAW does from its settings.  The round trip through the analog path
+   is now the queue, two periods, plus 66 to 184 frames, for example
+   2.7 ms at a 32-frame period (64-frame buffer) and 48 kHz, where it
+   was 44 ms.
 
-  --target=arm-unknown-linux-gnueabi
-      ARMv6, uses uxtb/uxth/sxth/rev
-  --target=arm-unknown-linux-gnueabi -Ctarget-cpu=arm926ej-s
-      still ARMv6
-  --target=arm-unknown-linux-gnueabi -Ctarget-cpu=arm926ej-s
-  -Ctarget-feature=-v6
-      ARMv5TE, but every rustc call warns
-      "unstable feature specified for `-Ctarget-feature`: `v6`"
-  --target=armv5te-unknown-linux-gnueabi
-      ARMv5TE
-  --target=armv4t-unknown-linux-gnueabi
-      ARMv4T, no clz, no blx
+ - runtime->delay (patch 1, David Fredman): the audio queued in the
+   URBs plus a fixed delay for the converters and the device, per speed,
+   taken from RME's own driver.  The capture figures at 96 and 192 kHz
+   are estimates for the Pro FS.
 
-So -Ctarget-cpu can add features but does not remove the +v6. The
-generic target also declares 64-bit atomics, armv5te and armv4t only
-32 bit. Below ARMv6 I only see the separate targets.
+ - mmap access (patch 1).  The ring the core allocates was never
+   offered for mmap, so JACK, which needs it, could not open the card
+   ("mmap-based access is not possible for the capture stream").  The
+   URB handlers already copy to and from that ring and take the
+   application's position from the shared control page, so offering
+   MMAP and MMAP_VALID was enough.
 
-> 
-> If an ARMv7 kernel includes ARMv6 instructions, that is broken
-> on ARMv8 CPUs that are lacking the CP15 barriers and swp style
-> atomics, so that needs to be fixed.
+ - Core fixes (patch 1): a failed probe no longer dereferences a NULL
+   URB/DMA array in the unwind; a partially filled playback URB plays
+   silence after the queued frames instead of the previous URB's audio.
 
-The Rust objects from the generic target have no swp and no CP15
-access. The atomics go through the C helpers.
+ - Mixer (patches 2-4): a volume change no longer unmutes a muted
+   output (David Fredman); the power-on default routes only the
+   playback channels; the fader controls validate a value before
+   narrowing it; a failed preamp write no longer leaves the cache
+   claiming the new state; a re-applied DIM rebuilds its restore point.
+   The saved-state list is purged after usb_deregister(), not before.
 
-Building the Rust code of ARMv7 kernels as ARMv7 would be a separate
-change. I can look at that after this series.
+ - Front panel (patch 6): a DIM press is reported through a "DIM
+   Button Press Count" control for a mixer application to act on,
+   rather than the driver changing a level itself; the wheel ignores a
+   muted output; the controls the panel changes (volume, gain, 48V,
+   monitoring crosspoint) are notified (David Fredman for the first
+   two).  The SELECT channel selection cannot be read, and the unit
+   keeps one per IN pair across IN switches and power cycles, with the
+   first press after an IN switch only showing it again.  v5 assumed it
+   starts empty and steps from there, so SET and the wheel could act on
+   a channel other than the lit one.  It is now one "Front Panel
+   Selection" control per pair, which alsactl keeps across boots; a
+   pair that was never told starts unknown and SET and the wheel do
+   nothing on it rather than guess.  The state shared with the control
+   callbacks is accessed with READ_ONCE/WRITE_ONCE, and the mixer state
+   is saved at disconnect only after the poll has stopped.
 
-> 
-> I don't see what part of rust would depend on ARMv5 instructions,
-> it should just work on ARMv4T as well, though ARMv4 may be
-> trickier because missing bx instructions etc.
+ - DSP EQ (patch 7): the EQ is saved and re-uploaded across resume and
+   a re-probe; an inactive band uploads a defined shared scale; the Q
+   controls start at 1.0 instead of an out-of-range 0.
 
-Agreed. !CPU_32v4T only came from the armv5te target, which emits clz
-and blx. With the armv4t target it can go. ARMv4 has no rustc target.
+ - The split itself.  v5's patches 2-7 had lost the DIM restore-point
+   update on a Phones volume change; it is back, in patch 4.  Resume
+   now re-applies the routing flags, which v5 left out.  Phase, split
+   and trim are re-applied after a re-probe from patch 3 on, where v5
+   waited until patch 4.  No comment, Kconfig help text or MAINTAINERS
+   entry refers to the series any more, and the MAINTAINERS entry lists
+   linux-sound.
 
-> 
-> > ==============================================
-> > -``arm``        Maintained        ARMv7 Little Endian only.
-> > +``arm``        Maintained        ARMv5TE and ARMv7, Little Endian only.
-> 
-> Here you exclude ARMv6K and ARMv8-A-aarch32...
-> [..] 
-> but here you allow it, so I think one of them should change,
-> 
+ - The frames_per_urb, nurbs, urb_frames_min and panel_poll_ms
+   parameters are 0444: they are read once at probe.
 
-Right. A v6K+v7 kernel has CPU_32v7 and gets HAVE_RUST already, a
-v6K-only kernel does not. No technical reason. I have a patch for
-v6K-only that I held back until I have a Pi 1, but I guess QEMU
-suffices.
+ - The design document describes the current stream model, the
+   period-driven URBs and the SELECT behaviour.
 
-> This looks wrong, the choice between armv5 and armv7 should work
-> the same way as the choice between armv6 and armv7/v8, if I read
-> the rustc docs correctly, this should be using the target-cpu=
-> argument on the generic arm-unknown-linux-gnueabi target.
+Every patch builds in-tree on its own against next-20261002 with W=1
+and no warnings.  Run against the generated patch files, checkpatch
+--strict reports no errors, four warnings and one check, all known
+false positives: 'ang' (the CORDIC angle) twice and BIT() for a signed
+Q27 constant in the EQ patch, and the "does MAINTAINERS need
+updating?" note on the two patches that add files, which patch 1's
+MAINTAINERS entry covers.
 
-There is no choice between ARMv6 and ARMv7 today. Both get the generic
-target without flags and so ARMv6 code. And target-cpu= on the generic
-target does not get below ARMv6, see the table above. That is why I
-used a separate target for ARMv5.
+Validation, on a Babyface Pro FS with the final tree (built
+out-of-tree against 7.2.8 from the same sources):
 
-For a v2 of this I would
+ - regress.sh --mixer-restore --disconnect-test, with the sweep at
+   periods 64 to 2048 on all nine rates, passes 59/59 on a quiet
+   machine; the same sweep with both streams opened for mmap access
+   passes 56/56.  A first read/write run, made while I was running
+   checkpatch on the same machine, had one playback xrun at 88.2 kHz
+   and a 64-frame period; that point passed 12 of 12 repeats in both
+   access modes.
 
-- pick the rustc target next to the -march lines: armv4t for
-  CPU_32v4T, armv5te for CPU_32v5, the generic one from ARMv6K upwards
-- select HAVE_RUST for everything except CPU_32v4 and plain CPU_V6
-- make arch-support.rst say the same
+ - Each of patches 1-7 was also loaded on its own and streamed full
+   duplex (read/write at 48 kHz, mmap at 192 kHz) with no xrun and
+   nothing in the kernel log; the card shows 0, 96, 119, 133, 133, 143
+   and 203 controls after patches 1 to 7.
 
-I have this running in QEMU on v7.3-rc1 with
-- sx1 (OMAP310, ARM925T, ARMv4T), omap1_defconfig
-- versatilepb (ARM926EJ-S), versatile_defconfig
-- raspi0 (ARM1176), bcm2835_defconfig without ARCH_MULTI_V7
+ - The real jackd 1.9.22, started with "jackd -d alsa -d hw:BabyfacePro
+   -r 48000 -p 256 -n 2", fails with the mmap message on the module
+   before patch 1's change and starts with it: 12 capture and 12
+   playback ports, 20 s at periods of 64, 128 and 256 frames without an
+   xrun, and a client's tone comes back on the card's internal playback
+   tap at the expected level.  PipeWire opens the card with mmap access
+   too, playback and capture together at a quantum of 256 and 48 kHz,
+   with no errors.
 
-Would that be ok for you?
+ - The URB sizing: a single PCM session renegotiated through nine
+   period/buffer configurations (64:128 to 2048:4096, including 100:200
+   and 1000:3000) without an xrun, with the URB size and count chosen
+   as described.  David Fredman measured it and the delay on an
+   original Babyface Pro; his figures are in the PRs on the project
+   page.  On the Pro FS, snd_pcm_delay() on the internal playback tap
+   agrees with the model at 48 kHz to a constant 14 frames at periods
+   of 64, 256 and 1024 (the tap leaves out the converters); the analog
+   loopback check of the 96 and 192 kHz capture estimates has not been
+   run.
 
-Thanks
-Karl
+ - Earlier, with v5's load-time profile (frames_per_urb=32 nurbs=8),
+   two things were seen that are not understood: once a session at
+   192 kHz came up with the device completing no URB (the next session
+   was fine), and once the unit stopped completing URBs altogether
+   until it was power-cycled - a module reload, a USB re-enumeration
+   and a host reboot did not bring it back.  Neither has happened again,
+   including at a 32-frame period with the period-driven sizing.  The
+   default 256-frame sizing has shown neither.
+
+Known limitations:
+
+ - USB autosuspend is not supported; it is disabled at probe.  S3
+   suspend/resume works.
+
+ - The SELECT selection of an IN pair cannot be read from the unit.
+   alsactl restores what the driver last knew, which is wrong only if
+   the selection was changed while the driver was not running.
+
+ - A few protocol details remain open (documented in the source, not
+   blocking): the preamp readback index semantics, a width
+   strip-ownership edge case, whether DIM's scope follows TotalMix's
+   Main Out setting, and the exact high-frequency warping of the EQ
+   coefficients against the vendor curve.
+
+Disclosure: as with previous versions, the reverse-engineering and
+substantial portions of the kernel implementation were written with
+heavy assistance from AI coding assistants.  All of it was verified by
+hand on real hardware; the human authors remain responsible for the
+result via Signed-off-by.
+
+Thanks,
+Ismaïl
+
+Ismaïl Bahloul (8):
+  ALSA: usb: add RME Babyface Pro driver core (probe, PCM stream)
+  ALSA: usb: babyfacepro: add output masters and crosspoint routing
+  ALSA: usb: babyfacepro: add mic preamp, phantom/pad and input trim
+  ALSA: usb: babyfacepro: add routing flags and varispeed pitch
+  ALSA: usb: babyfacepro: add S3 suspend/resume
+  ALSA: usb: babyfacepro: add the front-panel poll and controls
+  ALSA: usb: babyfacepro: add the hardware DSP EQ
+  Documentation: sound: add the Babyface Pro proprietary-mode design doc
+
+ Documentation/sound/cards/babyface-pro.rst |  193 +
+ Documentation/sound/cards/index.rst        |    1 +
+ MAINTAINERS                                |    6 +
+ sound/usb/Kconfig                          |   17 +
+ sound/usb/Makefile                         |    2 +-
+ sound/usb/babyfacepro/Makefile             |    4 +
+ sound/usb/babyfacepro/babyfacepro-ctl.c    | 3929 ++++++++++++++++++++
+ sound/usb/babyfacepro/babyfacepro.c        | 2076 +++++++++++
+ sound/usb/babyfacepro/babyfacepro.h        |  579 +++
+ 9 files changed, 6806 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/sound/cards/babyface-pro.rst
+ create mode 100644 sound/usb/babyfacepro/Makefile
+ create mode 100644 sound/usb/babyfacepro/babyfacepro-ctl.c
+ create mode 100644 sound/usb/babyfacepro/babyfacepro.c
+ create mode 100644 sound/usb/babyfacepro/babyfacepro.h
+
+-- 
+2.56.0
+
