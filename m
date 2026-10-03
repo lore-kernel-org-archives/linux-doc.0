@@ -1,224 +1,320 @@
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com [209.85.208.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B793382F08
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 20:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE412773F7
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 21:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791060922; cv=none; b=d4i/KMrBt9/UHp37Gr00kNXR6wtjtDwTTqV0Mm+i9JkbN1tS42+tD4QoBHdHG7IJzeTxV+F49tnINX6/m3MM7J4AF0FSNlxhVXMAAWvFelc5iykgKQ9Q9pN3edKoyu6ae64HxPDSqyVllioXMoe1KN/0bKFsoWCvdt5YHeMwOJE=
+	t=1791062570; cv=none; b=JWadEFk/qJUbThE2ymX1TEgUcW6mM56n13+w6sawMAXvTI4U7Vpn3rxdIy8erkusq/5URkN3YnvMvwBkLpVc0fc4vdUjJMnRN/S3VziQIRCXaRVpXZ/0Ij4VBAKCmeOy2LqvZALkjLjd4VIjh+ooIgOv8Q5F+s5xZbgdsDgo538=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791060922; c=relaxed/simple;
-	bh=ik7SfSihSd7srhBjbKZLRLCC+5A0g+MU1oxC+qFg0bs=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=JfQMcw76r22DCrd1+NHeb5WkJ292Uzvm5YBA5Y+SVLZ7TCbhmVuaLBtXlOCGPCwZbCC7DmlKkGlBpgPhoT+v6uVWieMyrMsYtKDCq6NP67ix26sb0tJbCRIr1rKqvTdxuHEKDD1s00/uPZ7Td7zy7FB9RYFZ6OJXXpt73/eDAQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Ky8EfLvX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=S7fsTYLj; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1791062570; c=relaxed/simple;
+	bh=Ue7ULJ5WY3bFakED6d/ARGtq7/M50CODLVb+2O2f6Yo=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=d8pfeRIpjwkDbMj0Pyf5DOCT9roGsGi0cEuOWoCmZd6Mk4FFF1JMXKlzwO61moVuGgLK8xZPnxTJY914MlUmkf3iPblf5ver00hSVLoJthRpN0LUX+GclLPjsqxscBDs5onuOBL2vCU6L+5qpOGVRa7+EKa4bASyVU9z1D//f5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BNOtlAbh; arc=none smtp.client-ip=209.85.208.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Ky8EfLvX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="S7fsTYLj"
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id E0ABA1400085
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 16:55:19 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Sat, 03 Oct 2026 16:55:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1791060907;
-	 x=1791147307; bh=OfNciX7Kzw3HdRiwwkOeKUPFQ5qprTv16kcShTgN2+k=; b=
-	Ky8EfLvXf0aC70x9f/nMD3WXA+ORYs4sALykdU2/byvq1nv0BBPHigAlpyAP/IqT
-	4t4a7B77kJO33ETFg577Mcm1C64uJsiFhrOptkCHBDnhPOfOea06xKJxjoslPhny
-	NU+6qCa4F9+i9LzVBCvpV59SwtCK0r6xZhlgkxCmxYytfqSon6hMPRqBlfGRttq2
-	ErA4CulWUqFIR9sVNSk7cbv3os5GA3YemXOoMUiynnz3wdDzkfhE1tNXhzBkSDEP
-	UgVbe+Yjvd0RpNOs4wuAcJXeyT6DUbaTOG0NHShsqP1wM7fExvHLA8M7iUXHdb4I
-	5s2KK8dHRxOOXT4edsnK2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1791060907; x=
-	1791147307; bh=OfNciX7Kzw3HdRiwwkOeKUPFQ5qprTv16kcShTgN2+k=; b=S
-	7fsTYLjnnNjAFIpV9EYHI9P4fZ8SL2NOH5xYHEmAezgIIrMGOKSjeIEgCvU0ro5k
-	ceV6IEcXiw3jha2BPJwisPBO39rUSdXGa6M2nMqQldGF8uGfextNKsuROszwTUoi
-	dVoDDQtAanLiF2lgALIhV9qoh4Y1Nj693i+Iy/rZQ4uiWe0iCrdysGCbXJwT3uEk
-	K9SgzUGGWaJnBfNREMdKTKQ2jTiDyG5TZ+1GwhSKU+QO7sTNOPUeW6XE9lSmRic2
-	ZB0UV7XHXfPXeP7bKDxJdci4fks4pKwTV3+elT9JJUnYlZ+mAkbqRhWJwqr2Sbfd
-	9RYX0/1QQFWUk6TU4f93A==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
-	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1791060907; d=arndb.de;
-	mf=PGFybmRAYXJuZGIuZGU+;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm1:rsa-sha256:o7tstf70Qfa/r8TYrLLHrecYyduJ3hhp1rGhv6O+NbXAuwa
-	aX63llkruKmf3hkaokTLorxSUrUNbtNxUNAFDg9ZxuaS6PP/PYG+vYIWR71Cw+qE
-	QEbAthtSSig2JyMTOyr2VT/iY5waBKzWGRvNJFQAYLrUUdMePl1kMc/LRfZ+DG2H
-	pPSccncHqoPwgX6vIO7PuhwOVavTFUAsaCBibwl6jn/w8EQgOT3pKmOkRebXVWHA
-	qSUP2sGd/oHuatlYnq4PPSLv04XJV/rQu2fS6jcbiYhtoavQD/DiYwyvBTkk5L7A
-	mXpA+LjKdI/qAQjcOJn1Mqb6s2t4BVIOCVMuSgw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:GyCnERTPxeQJXOVuBs4/3L4C1Z0l5VIWw1a73NTjPwk=:ik7SfSihSd7srhBjbKZLRLCC+5A0g+MU1oxC+qFg0bs=;
-X-ME-Sender: <xms:omvBauSuhQ9ggYy7989JCPhwB6R-s7ru-2oqUNtMJuJlcqt_drIV_w>
-    <xme:omvBaukiy4RtVekt9T-yEl6ngW4FNAbq5hY6x1nS_MzUEkZ1LH80gpQuVS5z-rJEX
-    ulZRvyDbtuqhWHFaQe7TrOO57-ZhP9pUGdvaab0E4BfIb_JVAVZETU>
-X-ME-Proxy-Cause: dmFkZTGqH8D9AZ6i468pJhQ4wce95TqgvWhQCyTKZkCG4CrneDArON+7/8DMt2wEyyJ7OD
-    D3pMjg1tDeDiOgWCeMuJ1436+gm3Us7QCtRXM6sLINq66msbS3UsULBA6yhM3Q7fnWFHb9
-    N5i6fPBFDRCnd8M6jh7BeeFKr1WvING5wnczFTvlr12bejiGMrRnKq53guQRIJkf3sfbjv
-    Z6jLx8VvQdtwlxix5W09SkU/bLFM4BeUQtlfLuAMzxVNy5goDBeDFqLs+0GzF2OMA8rTuq
-    pDDPsid/yCcdhRBdYsMj/XKICHStxjoecO5Cc2TN0apwn1EEF8TUtps7HjyOJF5nWWRihe
-    gVmvANIo9weSefu3A7KOOmck9frk3x8YsjLZgPBi9/KGkAXyFujXcKWPK4Unqqdd88F7uE
-    RT4uzvp4dgWgsIH3Lc527rWyvdTGQrPBFj9ElH8RMnr9rezUz8kRcoy4WRqyBQw7PHhf0R
-    O/HnmN4GzSW2Vn+VZv8titcAqBOuzlm25EA++2DeUln4VezeM63EY3qv9jKkic+gi79V5L
-    T9wnwnzwtwVWc1/hztNmYbR64lDrBjl28EO7whK3Jh+QtkjBOcEwtBqTgYHy3f2nElM2B7
-    oDxzOh1bkURtFbvfuCi4lXdUvZcxDFZHq8rGh/s5qOmE90PtoBkSSnz06A6Q
-X-ME-Proxy: <xmx:p2vBai5fGbqic6xOPaGn7iuoMwyr8WkQ1Cax7uQWG-mDOJl1L4hGoQ>
-    <xmx:p2vBalheBCeok7JKOnC49lqszB57hW1aDK4w7eAEsISLrtf5t71UdA>
-    <xmx:p2vBak6jJP8_83eqUPlZg8VIIEIwR3qWHMvFYiy4QW3RvKIccFM1bQ>
-    <xmx:p2vBamB8QStobUsUf2LgrNhs1Sb_6kP3ctE7Ya2atwurpH18c7Oz-A>
-    <xmx:q2vBajK4fHg2k9GM_8swAZyfBQok5fZlrrX7qFBzzNoZQWYPACbz5o8N>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id AEE9032A008A; Sat,  3 Oct 2026 16:54:58 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BNOtlAbh"
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-6a615ab0c06so639419a12.2
+        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 14:22:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791062566; x=1791667366; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=VE+LxnBIdWSDoOzHpOAVXErosSD4QsTFJ9TX/Oi0RT4=;
+        b=BNOtlAbhJ2+axpfljeW4WW0I/PFajuydGN3J6PhZP/nRoP3yaXWX3bC78mW68mjaOw
+         Wk5ywH4lbBEOxQj2IttmWMEGa3zBu6/RaakTYYrhIu4mncoNUUTJjtBZpQsrWKXPDjkv
+         l73zXTaPCwvrL173dWG/hW3s7weOubf2SbGMs5CPIZkdYhfVxSMFPnJMQ3BbY/gT2sOO
+         VWvSd9JO2ROCKGgnTRYhPnYMjKm1mg1PfNhOXBMJneAr5++4Wwavg3CUS9JFVOwAFRvx
+         AVyy08MMT5sb4EGuMsjCWmz9G94zFBIzkPgsKrHO0Rb/9/Ak570aTyqrLzm75JnpJh9U
+         hpOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791062566; x=1791667366;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VE+LxnBIdWSDoOzHpOAVXErosSD4QsTFJ9TX/Oi0RT4=;
+        b=Q7TSy3Ppwx7oUl3H1AZQbXo6n2b63ug2mJYFrR91jQ8W98AH8pJMq3RHG4F9qYjBzP
+         9/PvNh5VDShuFy1EgD9xEOUmUrabWvpgff+l9igUovvuEmzsvuSHQyyFAjBTxny1holU
+         h8ALar15gzJHeJPuG53JPddQfEWwf0oV7gxdGpd9CD8CyDCUc2c0pTwxd8fQE778c7Rx
+         QieRvTH3n4BaevyhOYJoPb+jPyWI6FT6FiI746Yri4+H2NETM5PaqWu9PqWEaZaUPiRX
+         sYTGENmIvgQBYO5Of+CGoCu0+QpJnR7bXUBSO3W1CUgv23d/eP9Ko2IpouG7fT4nmfBq
+         Lptw==
+X-Forwarded-Encrypted: i=1; AKwUvBym8iaqaQe51fafw/C5o2CyMUFJRsXD6pfwnq+yy1AMpNyQMpikfzKyt9TX94dZg9cjSUp+oPYL0pI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIaUHBanooDJFqOdemHPJSmFIGX0na3UBlOxWDNP+AnkF2mlvDx
+	CNQ1M9sckLE9Xh4UwSWBE3G1+SxoHTNp3qN+daNQY8VF3Dn2B6b5BJAzyfkkUJ1xsH44FMOQkjd
+	fZl76+w==
+X-Received: from ejbhk10.prod.google.com ([2002:a17:906:c9ca:b0:c2e:6b98:66f3])
+ (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:3808:b0:6ac:8ef4:177d
+ with SMTP id 4fb4d7f45d1cf-6af9e2d34f8mr5494442a12.20.1791062566061; Sat, 03
+ Oct 2026 14:22:46 -0700 (PDT)
+Date: Sat,  3 Oct 2026 21:22:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-ThreadId: A-PcLBAcdglw
-Date: Sat, 03 Oct 2026 22:54:28 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Karl Mehltretter" <kmehltretter@gmail.com>
-Cc: "Russell King" <linux@armlinux.org.uk>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- "Gary Guo" <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- "Benno Lossin" <lossin@kernel.org>,
- "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
- "Danilo Krummrich" <dakr@kernel.org>,
- "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Tamir Duberstein" <tamird@kernel.org>,
- "Alexandre Courbot" <acourbot@nvidia.com>,
- =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "Linus Walleij" <linusw@kernel.org>,
- "Christian Schrefl" <chrisi.schrefl@gmail.com>,
- "Bradley Morgan" <brads@mainlining.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nick Desaulniers" <ndesaulniers@google.com>,
- "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>,
- linux-arm-kernel@lists.infradead.org, rust-for-linux@vger.kernel.org,
- llvm@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <3436fcef-a052-4261-afb5-677b0bbf28c2@app.fastmail.com>
-In-Reply-To: <asEzZ1wOQ_MbgEsk@gmail.com>
-References: <20261003093827.77857-1-kmehltretter@gmail.com>
- <20261003093827.77857-3-kmehltretter@gmail.com>
- <33197b82-3eff-4c87-b370-c677ca31a02a@app.fastmail.com>
- <asEzZ1wOQ_MbgEsk@gmail.com>
-Subject: Re: [PATCH 2/2] ARM: rust: Enable Rust support for ARMv5TE
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
+Message-ID: <20261003212241.3432303-1-lrizzo@google.com>
+Subject: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+From: Luigi Rizzo <lrizzo@google.com>
+To: Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Luigi Rizzo <lrizzo@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Oct 3, 2026, at 19:07, Karl Mehltretter wrote:
-> On Sat, Oct 03, 2026 at 12:45:07PM +0100, Arnd Bergmann wrote:
->>
->> > Kernels that also contain ARMv4 or ARMv4T CPUs are built for the
->> > lowest architecture and stay excluded. CPU_32v5 also covers the ARMv5T
->> > ARM1020. C code is already built with -march=armv5te there, so Rust
->> > matches.
->> 
->> None of this makes sense to me: The target should not control
->> the instruction set, that is what the -march= flag is needed for.
->> Does that not get passed for Rust?
->
-> No. arch/arm/Makefile only passes --target=arm-unknown-linux-gnueabi,
-> no CPU or feature flags. That target has "+v6" built in, so Rust code
-> in an ARMv7 kernel is built as ARMv6 today.
+Here is a subsystem called DMA_PMD on which I would like feedback on
+architecture, possible enhancements, or kernel components that could be
+reused to avoid duplication.
 
-How do you build ARMv7-A rust code in user space? If the default is
-ARMv6, doesn't that rule out things like thumb2, vfpv3 and sensible
-(inlined) atomics?
+I think it can be extremely useful for those affected by the HW/SW overhead
+of IOMMU (especially IOTLB thrashing, see [1]), or confidential computing,
+or preemptable VMs.
 
-In the kernel, we don't normally allow neon code, but it sounds like
-we may need to make rust depend on !CONFIG_THUMB2_KERNEL, as that
-may be problematic when linking with v6 code.
+The (not too exaggerated) pitch line is
 
-> I tried the generic target with CPU flags (libcore for versatile on
-> v7.3-rc1, rustc 1.99.0, CPU arch from the build attributes of core.o):
->
->   --target=arm-unknown-linux-gnueabi
->       ARMv6, uses uxtb/uxth/sxth/rev
->   --target=arm-unknown-linux-gnueabi -Ctarget-cpu=arm926ej-s
->       still ARMv6
->   --target=arm-unknown-linux-gnueabi -Ctarget-cpu=arm926ej-s
+DMA_PMD has the performance of identity, guarantees that only IO buffers
+can ever have active IOMMU or IOTLB mappings, removes the bounce buffer
+overhead in confidential computing and preemptable VMs, and integrates
+smoothly with existing kernel APIs.
 
-Ok, so I guess this is more like -mtune= in clang and gcc?
+=== ARCHITECTURE
 
->  -Ctarget-feature=-v6
->      ARMv5TE, but every rustc call warns
->      "unstable feature specified for `-Ctarget-feature`: `v6`"
-...
-> So -Ctarget-cpu can add features but does not remove the +v6. The
-> generic target also declares 64-bit atomics, armv5te and armv4t only
-> 32 bit. Below ARMv6 I only see the separate targets.
+DMA_PMD was initially designed to address IOTLB thrashing (details in [1]),
+but turned out to also resolve nicely the strict IOMMU overhead, and avoid
+the bounce buffer overhead in preemptible VMs and Confidential Computing.
 
-Maybe this should be "+v7-a" instead of "-v6" to allow allow the
-compiler to use all ARMv7-A features instead? It would be surprising
-if they added 32-bit Arm support to Rust without a way to target what
-is in almost every single chip and Linux distro today.
+It works by combining several known techniques:
 
->> I don't see what part of rust would depend on ARMv5 instructions,
->> it should just work on ARMv4T as well, though ARMv4 may be
->> trickier because missing bx instructions etc.
->
-> Agreed. !CPU_32v4T only came from the armv5te target, which emits clz
-> and blx. With the armv4t target it can go. ARMv4 has no rustc target.
+- transparently feed allocators of device memory (skb_page_frag_refill(),
+  dma_alloc_attrs(), pagepool, ...) with DMA_PMD pages, i.e. physically
+  contiguous PMD_SIZE (2MB) pages mapped via PDE_SIZE IOMMU entries
 
-Ok, makes sense.
+- heavy recycling of DMA_PMD pages (like pagepool) and lazy IOMMU unmapping
+  (like DMA-FQ), BUT:
 
->> This looks wrong, the choice between armv5 and armv7 should work
->> the same way as the choice between armv6 and armv7/v8, if I read
->> the rustc docs correctly, this should be using the target-cpu=
->> argument on the generic arm-unknown-linux-gnueabi target.
->
-> There is no choice between ARMv6 and ARMv7 today. Both get the generic
-> target without flags and so ARMv6 code. And target-cpu= on the generic
-> target does not get below ARMv6, see the table above. That is why I
-> used a separate target for ARMv5.
->
-> For a v2 of this I would
->
-> - pick the rustc target next to the -march lines: armv4t for
->   CPU_32v4T, armv5te for CPU_32v5, the generic one from ARMv6K upwards
-> - select HAVE_RUST for everything except CPU_32v4 and plain CPU_V6
+- like strict IOMMU (DMA), safely release memory back to the kernel only
+  after destroying all of its IOMMU mappings and a synchronous IOTLB flush
 
-I would leave out CPU_V7M as well, it's not worth trying to
-support, and likely going away soon. It's probably not supported
-by rust either, as this requires building with -march=armv7 or
--march=armv7-m and is definitely incompatible with -march=armv7-a
-and -march=armv6k.
+- on allocation, DMA_PMD pages can be configured to be pinned in the host
+  (hence suitable for preemptible VMs) and/or unencrypted (hence suitable
+  for Confidential Computing), removing the need for bounce buffers
 
-> - make arch-support.rst say the same
->
-> I have this running in QEMU on v7.3-rc1 with
-> - sx1 (OMAP310, ARM925T, ARMv4T), omap1_defconfig
-> - versatilepb (ARM926EJ-S), versatile_defconfig
-> - raspi0 (ARM1176), bcm2835_defconfig without ARCH_MULTI_V7
->
-> Would that be ok for you?
+- there are global and per-device optin /sys/device/.../dma_pmd_*
+  and /proc/sys/net/core/tx_enable_dma_pmd
 
-Yes, sounds fine to me, though I would still hope to get native
-ARMv7-A support in place of "build for v6 and hope for the best"
-approach eventually. 
+NIC drivers can typically use dma_pmd with no modifications for rings,
+tx buffers, rx buffers (if they use pagepool), and rx headers. For tx
+headers, almost all drivers need changes (see later patches in the series)
+to implement cheap bounce buffers and avoid individual 4K mappings.
 
-      Arnd
+The series has the following main components:
+
+- a sparse array (similar to pageblock_flags) to quickly attach metadata
+  to a 2MB page without fiddling with the struct page. Cost is 128B per 2MB
+  page used as an IO buffer, totally negligible.
+
+- dma_pmd_pool, a replacement for alloc_pages() that can be instantiated
+  per-CPU or per receive queue. It handles the split of PMD_SIZE pages
+  into order-N blocks, handles dma_map and unmap, and aggressively recycles
+  entries. It is used to feed skb_page_frag_refill(), pagepool, and
+  receive buffers for drivers that do not use pagepool.
+  See [2] for "WHY NOT PAGEPOOL FOR TX AND EVERYTHING"
+
+- dma_pmd_arena, is another allocator backed by DMA_PMD pages and
+  is used exclusively as the backend for dma_alloc_attrs().
+  Used for longer-lived allocations (descriptor/completion rings,
+  rx and tx header buffers)
+
+- glue code to hook DMA_PMD into pagepool [2], skb_page_frag_refill(),
+  dma_alloc_attrs(), dma_map/unmap...
+
+- per-driver patches, where necessary (e.g. tx header buffers [3])
+
+=== PERFORMANCE BENEFITS
+
+Your mileage may vary. Enabling the IOMMU may have no throughput
+impact, until it does when some system components (bus, IOTLB, CPU)
+become overloaded.  Aside from throughput reduction, one interesting
+parameter is the effectiveness of the IOTLB. Here is a sample of SMMU
+performance counters for a large ARM system with 2x200G NICs doing
+bidirectional traffic:
+
+    === DMA-FQ MODE (total throughput ~440Gbps)
+    25,757,488      smmuv3_pmcg_*/event=0x80/   IOTLB lookups
+    16,634,941      smmuv3_pmcg_*/event=0x81/   IOTLB  misses
+
+    === DMA_PMD on top of strict DMA (total throughput ~745Gbps)
+    22,693,218      smmuv3_pmcg_*/event=0x80/   IOTLB lookups
+        30,536      smmuv3_pmcg_*/event=0x81/   IOTLB  misses
+    (not a mistake, also lookups went down despite the higher rate
+    because the tx side can use larger segments)
+
+The 2MB mappings made IOTLB misses almost non existent, because
+the working set is reduced by a factor of ~512.
+       
+Note, the code has more verbose comments than I would like.
+Several of them are there to avoid Sashiko getting confused and
+flagging false positives.
+
+=== NOTES
+
+[1] IOMMU IMPACT AND IOTLB THRASHING
+This is documented in more detail in Documentation/core-api/dma-pmd.rst
+but the compact version is below.
+
+There are three main costs involved with using the IOMMU:
+- CPU cost for dma map/unmap
+- CPU cost and latency for synchronous IOTLB flush (required for strong security)
+- IOTLB thrashing, shows up dramatically when the IO access pattern
+  exceeds the IOTLB size, and IOMMU page walks slow down bus activity
+  up to a point where we see over 30..60% throughput reduction just for
+  this reason.  Some relevant references
+
+  https://lore.kernel.org/all/4b42f2eb-dc29-153e-ace9-5584ea2e5070@redhat.com/
+  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10280580/
+
+Specifically, NICs access 4 or more pages per packet (descriptor queue,
+completion queue, rx or tx header, one or more buffers), with very little
+locality especially for data buffers and tx headers. Each queue has 1-4K
+entries, a fast NIC uses 16 or more queues per direction, so just the
+data buffers cover 32..128K pages. Using 4KB mappings makes the IOTLB
+ineffective, as shown by the performance counters shown earlier.
+
+[2] WHY NOT PAGEPOOL FOR TX AND EVERYTHING
+There is some overlap between pagepool and dma_pmd_pool in that both
+implement a cache, but pagepool is missing some important features:
+
+- pagepool does not handle splitting 2M pages in smaller chunks, or
+  the mappings. That would need to be implemented (and is what dma_pmd_pool does)
+
+- pagepool's provided pages cannot be cleanly managed by
+  get_page()/put_page(), which is what all the consumers of
+  skb_page_frag_refill(). Fixing that would require dozen of changes
+  with high risk of missing some paths.
+
+- even for the receive path, a provider for pagepool has more restrictions
+  than alloc_pages-supplied memory, so if I wanted to wrap dma_pmd_pool
+  as a provider I would have needed changes to the provider interface.
+
+- pagepool requires a device at allocation time, which is not known when
+  skb_page_frag_refill() runs, hence the IOMMU mappings cannot be handled
+  at allocation time.
+
+- page_pool_alloc_pages assumes a single NAPI consumer with BH disabled,
+  whereas skb_page_frag_refill() runs from a preemptive context.
+
+- and last not least, we need to handle the dma_alloc_attrs() allocations
+  which don't match pagepool API
+
+Of course all of the above could be modified, but the complexity
+would be similar to that of implementing dma_pmd_pool, and with a
+huge risk of breaking existing functionality or missing some path.
+
+[3] DRIVER CHANGES
+
+Most drivers need no change for rings, transmit buffers, or receive buffers
+(if they use pagepool). Tx headers are generally mapped on the fly and
+that is enough to trigger IOTLB thrashing, so most drivers need a small
+change to implement very cheap tx bounce buffers backed by DMA_PMD pages.
+
+We could avoid the bounce buffers using DMA_PMD for the skb->head region,
+but that memory is contiguous to skb_shinfo so it would be exposed to
+IO device access, which may be undesirable for security.
+
+Luigi Rizzo (22):
+  iommu/dma: introduce CONFIG_DMA_PMD and metadata table
+  iommu/dma: add DMA_PMD pool lifecycle and page recycle hook
+  mm: Add split_page_compound()
+  iommu/dma: add DMA_PMD pool block allocation
+  iommu/dma: Global cap and shrinker for DMA_PMD pool memory
+  iommu/dma: reserve a per-domain IOVA window for DMA_PMD pages
+  iommu/dma: release DMA_PMD domain mappings on domain teardown
+  iommu/dma: use per-domain IOVA window to map DMA_PMD memory
+  iommu/dma: Add DMA_PMD arena allocator
+  driver core: Add per-device dma_pmd_* sysfs attributes
+  dma-mapping: Use DMA_PMD arena for dma_alloc_attrs()
+  net/core: Use per-CPU DMA_PMD pools for skb_page_frag_refill()
+  net/core: Use DMA_PMD for page_pool memory
+  iommu/dma: Support decrypted and pinned DMA_PMD pages
+  iommu/dma: Add background page scrubber for DMA_PMD pools
+  iommu/dma: Add per-NUMA-node PMD page reservoir
+  net/gve: Use DMA_PMD memory for RX buffers
+  net/gve: Use DMA_PMD memory for tx header bounce buffers
+  net/mlx5e: Use DMA_PMD memory for tx header bounce buffers
+  net/idpf: Use DMA_PMD memory for tx header bounce buffers
+  net/bnxt: Use DMA_PMD memory for tx header bounce buffers
+  iommu/dma: Add DMA_PMD statistics and debugfs
+
+ Documentation/core-api/dma-pmd.rst            |  320 ++++
+ Documentation/core-api/index.rst              |    1 +
+ drivers/base/core.c                           |   51 +
+ drivers/iommu/Kconfig                         |   33 +
+ drivers/iommu/Makefile                        |    3 +
+ drivers/iommu/dma-iommu.c                     |   72 +-
+ drivers/iommu/dma-iommu.h                     |    8 +
+ drivers/iommu/dma-pmd-arena.c                 |  412 +++++
+ drivers/iommu/dma-pmd-kunit.c                 |  225 +++
+ drivers/iommu/dma-pmd-map.c                   |  531 ++++++
+ drivers/iommu/dma-pmd-meta.c                  |  403 +++++
+ drivers/iommu/dma-pmd-pool.c                  | 1538 +++++++++++++++++
+ drivers/iommu/dma-pmd-priv.h                  |  385 +++++
+ drivers/iommu/iommu.c                         |    2 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |   45 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.h     |    2 +
+ drivers/net/ethernet/google/gve/gve.h         |    5 +
+ drivers/net/ethernet/google/gve/gve_main.c    |    5 +
+ drivers/net/ethernet/google/gve/gve_rx.c      |   61 +-
+ drivers/net/ethernet/google/gve/gve_tx.c      |   38 +-
+ drivers/net/ethernet/google/gve/gve_tx_dqo.c  |   45 +-
+ .../ethernet/intel/idpf/idpf_singleq_txrx.c   |    6 +-
+ drivers/net/ethernet/intel/idpf/idpf_txrx.c   |   21 +-
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h   |   27 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en.h  |    2 +
+ .../net/ethernet/mellanox/mlx5/core/en/txrx.h |    4 +-
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |   14 +
+ .../net/ethernet/mellanox/mlx5/core/en_tx.c   |   28 +-
+ include/linux/device.h                        |    5 +
+ include/linux/dma-pmd.h                       |  198 +++
+ include/linux/mm.h                            |    2 +
+ include/net/libeth/tx.h                       |    5 +-
+ include/net/page_pool/types.h                 |    3 +
+ include/net/sock.h                            |    3 +
+ kernel/dma/direct.c                           |    6 +-
+ kernel/dma/mapping.c                          |   39 +-
+ mm/Kconfig.debug                              |   11 +
+ mm/Makefile                                   |    1 +
+ mm/page_alloc.c                               |   89 +
+ mm/split_page_compound_kunit.c                |  113 ++
+ net/core/page_pool.c                          |   61 +-
+ net/core/sock.c                               |   86 +-
+ net/core/sysctl_net_core.c                    |    7 +
+ 43 files changed, 4835 insertions(+), 81 deletions(-)
+ create mode 100644 Documentation/core-api/dma-pmd.rst
+ create mode 100644 drivers/iommu/dma-pmd-arena.c
+ create mode 100644 drivers/iommu/dma-pmd-kunit.c
+ create mode 100644 drivers/iommu/dma-pmd-map.c
+ create mode 100644 drivers/iommu/dma-pmd-meta.c
+ create mode 100644 drivers/iommu/dma-pmd-pool.c
+ create mode 100644 drivers/iommu/dma-pmd-priv.h
+ create mode 100644 include/linux/dma-pmd.h
+ create mode 100644 mm/split_page_compound_kunit.c
+
+-- 
+2.56.0.rc1.315.gc6ed9934b7-goog
+
