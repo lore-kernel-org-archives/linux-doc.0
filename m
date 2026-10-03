@@ -1,214 +1,192 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB75486406;
-	Sat,  3 Oct 2026 16:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538FF48A2CC
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 17:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791045995; cv=none; b=GBg/WUFZc0VsbrvYnK6g/dNFfgt3v3kbAFDKZ1rHAZrB/GtuakzAk1+mdW2TYqVLqX1yikXyabX+TrFxI9tx/b7kpI/JnX5OvIpNrnCbsDlv/QEIa3PE/o6Fm0VnE0NAiqk2N+zmU7tanip+lZRbTBrI6eovPOLrOuZ4pTT7AbQ=
+	t=1791047251; cv=none; b=rdB7jae8yXbY3acpGdg7Fu2qwWRxbOLVP47HYYx8GiVS+o2BLzAKHAMidXs/rLjmuVATBYPD8yyzwmlDs02JC3IFICyHS68rNPhYwcnqtwFbqUiVndhdp0fU7IsfDlslvSCKlnEciUfWYnvio9R5XbHm/9mHjgU48eWBVQKUIY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791045995; c=relaxed/simple;
-	bh=I2iSzq1wq3BUA5ngKyuzaIh6bRjYfHM3M8Ib2DX8Eao=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=N8VXc6QbdNxPdBgyq84bdos6T8Nlh3uTPGhK6Aqo1Hhg7cYhlplH+ppU7/lzlKtqt2xBfOZ1MCXk0Ok5RYLjvS7ZwHLlwtIzuczFrh45OR/JQbmxMNUNEM2TLviG64A7r8C3dZhiCKQPfaeueG32qEyO3ZySUftqvqJmit2cWh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ku6FBW49; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791047251; c=relaxed/simple;
+	bh=FzlyXPstQKA22LT8IX4LjRqLlPmdLdap5eNXvrcSaIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NlIZgLyaYWVl/clrrfmJpTCR7tUAebspmqvKOe64z8WRWpO1LFMvfhpPvAQbQZ2WChjNkUAIEyP1nzRrDhSzyfwNdAhg9Jw3QxSgyVp8UPDJxG2AGrhCKWByI2IW2bB54NBtLVM6yBYxL2D2IXMnt0oSXutKcpcmizSUjJh99Rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bISS3wm1; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ku6FBW49"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4771F1F0089D;
-	Sat,  3 Oct 2026 16:46:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791045994;
-	bh=Q2aQUzTUuuuNI/ysultBnvmSy0Vxb53qrqOM+R0btIA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ku6FBW49LPAkrwvQYvPuhG2A9tZpaFs5wAVnWBb1CxSYOUntmmdE1VzT+g3vHRCB/
-	 wAI8gvD2dZL3efLWLd9O8T1aBHFt76hZy4DjBEN67LI8r+TKjfTLfZ1LcfJjSoq5+D
-	 +/zObojgb5XSiK+6OwavP1gL0bJvpwBljQcr1aIibko31uj3P4WFnOTzxune1P1SGG
-	 /wBneoTIxJM0Zf2gK7F3Bw5NBWnxNSx7st9EJvqpBIDEefq704llAKSmffFlYxfLxA
-	 0Lvz4jR9pJclNhlTuW76CdWrPw9kP3j8TEfJufylQMl8ExSw15xn9ckeLY4N525Cu0
-	 //BE35soPRm+w==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Sat, 03 Oct 2026 17:33:09 +0100
-Subject: [PATCH v4 38/38] mm/huge_memory: remove vma_is_special_huge()
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bISS3wm1"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd5462b69so4121535e9.1
+        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 10:07:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791047246; x=1791652046; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3GGSdJzmN2dqwo1b/5Kfo2bKbnsN93Ci8hxqW9b45lI=;
+        b=bISS3wm1Rv/Fi+Np3/B5QtAvYhuG2Zm3fpIaw17tCGh36ZXE4H6+w9xUVgNq/xUpZR
+         cS2KitdgcBDnSt/nZwvrptn+xb+9y3hi3EpeXoLNh+hTrWJBvWv2se1eUlwtfDl/xmpX
+         GLlrR7D2uCw4lnzXmjV15+dLwyZZsiOlhjvkdgRYS7+OYCukjWWkD1lgwNGFUYqs368b
+         bIv9mMfzlz0M0bk6afVSXjlB2edkrK7yk619ZW5AJbbfjJkVQW525EkFM5cMNJixGFNb
+         rZlQtYqvww6TkhO78QBoiVdY89OSCAII5tYBoD8a3uXlBgr8x4o+KJMBvIoFZJeGrHUt
+         BEyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791047246; x=1791652046;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3GGSdJzmN2dqwo1b/5Kfo2bKbnsN93Ci8hxqW9b45lI=;
+        b=xjmzkWOsKUPcdTTLYMT9DZMchYSMfx+dq0rBLy+J0QJul/UuelaXn/PTEcnUqvSGyC
+         5fguSG7wG79GkyuY1isSlUQB0d2elIKWoRNGubu/wc29TBIdX1uc6z6ILuGbCY8ya73V
+         V2JCt68w1UFK2KNokiuJjdoBLb+r6fI/NWiqyb5fHZU9Fmxqu07PvvnAKPwqFqyvfWRi
+         hc2TjhL2paHVqzfkx/ZcdGmJWDc0M9RZNF2U6k5Wa9wOhRBMO27ghqiyrbW1MIpcpvjH
+         KlaiYQoyfBLZiXZBDsd9rAzMy5YeVKfxjpgnt4O1LLPX206vvlWivNahmC/u/JsCBgwq
+         jOFA==
+X-Forwarded-Encrypted: i=1; AKwUvBy9iJxIG1P+uugqw5qNqVzQoN2bMOxXtk2Ojj9eoiLfqvo7zpKu7yU8NaQqke2nRZ4AJgP/DJJhLoU=@vger.kernel.org
+X-Gm-Message-State: AFuF++nKpnx6BDGbpryxL3/OskN/KNEar0spN3MhcSmQ3m2TPeb08dHb
+	csCZsTBpPame18zpyUkU0wEVVeSrSV2z+4NzZ/A8DZdgVrjgclbQ5IJo
+X-Gm-Gg: AYBFou3lPOXfCFnlTvpb388qsQMsTmFqxlrQ2CeculHhssxI9G0vVcTjoLKsHveKP8n
+	8ZIwfs6/N315zAjXviKBzhOKp00zadSw5h7vXYLRQcddqlSBx3k9ei45gZScYItZ5K2oDbrBJCe
+	dvrbM8L5ofcdMTYSPP5pkGzLaemkli9dld7S8JVhBi7+Zt8n/d/QS8r/Va0NjP0j3wp9z7E7yI4
+	zlYF5tCCFJqVI0YK01ntHKNUt+P2IVRchdzolQ2rRDQikgv6YtSmumPdXAq79CVmzwq+2b7Pvd+
+	iVH+MFr6vb5TZGl16IjSpSzAzYUZYuhHTI3jxVb9A2PZFWQmhPa5ZpmsJJy5jrJRjrVmR+/WWf+
+	d3nzQEQRbHAFmx7Fp4DbuWsCCv1FxZYiUlldsT0F12BLg3MhePZ0LMmJ/tjRcWoADjKVMYoruWr
+	2mYrw7aFj8KUfJNDhf2p1r4HHXqoSGzdKFYJZNaRNCbTm/7H/9mIWuVnNri1kHee3ervINBY+Z3
+	j+DaZSBr+VlzGzjZ6qKLmVouAh7rnzeTierP/OibUtOEfrLEB8WbfdZ0/+pC3Y4OrF2Qzcd+AYd
+	hPfi3EDjgmg4gojK8/gIzhxDMtt1OS+VQcCsblTXSuuefBayyh8TlaSjCOukWEjchrzuZSEEmFs
+	m
+X-Received: by 2002:a05:600c:138b:b0:49f:ce78:3562 with SMTP id 5b1f17b1804b1-4a02759b46fmr107744155e9.19.1791047245976;
+        Sat, 03 Oct 2026 10:07:25 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-b2e2-2001-c47f-5a89-3d9a-cd2d.310.pool.telefonica.de. [2a02:3100:b2e2:2001:c47f:5a89:3d9a:cd2d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b380faaeesm12742668f8f.18.2026.10.03.10.07.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Oct 2026 10:07:25 -0700 (PDT)
+Date: Sat, 3 Oct 2026 19:07:22 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Russell King <linux@armlinux.org.uk>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, 
+	Linus Walleij <linusw@kernel.org>, Christian Schrefl <chrisi.schrefl@gmail.com>, 
+	Bradley Morgan <brads@mainlining.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	linux-arm-kernel@lists.infradead.org, rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] ARM: rust: Enable Rust support for ARMv5TE
+Message-ID: <asEzZ1wOQ_MbgEsk@gmail.com>
+References: <20261003093827.77857-1-kmehltretter@gmail.com>
+ <20261003093827.77857-3-kmehltretter@gmail.com>
+ <33197b82-3eff-4c87-b370-c677ca31a02a@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-38-a1f052500fd7@kernel.org>
-References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
-In-Reply-To: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Janosch Frank <frankja@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
- Xu Xin <xu.xin@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
- fuse-devel@lists.linux.dev, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2917; i=ljs@kernel.org;
- h=from:subject:message-id; bh=I2iSzq1wq3BUA5ngKyuzaIh6bRjYfHM3M8Ib2DX8Eao=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLIO6unadC65lrS76vCNF1OzrsrvEpqY9vDlynom6cMPX
- x7Sl2b/1lHKwiDGxSArpsjy/Iv4/iCRsHmdF/zdYOawMoEMYeDiFICJzPZmZFi2XDJ0sWkRt8N8
- cbMd8lv5l/B9fVSztabELN68e1nwsqeMDFv2Fth8nu96gft8z+oDq4XeefVsFD9/dSfr+Uoj04l
- H//ABAA==
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <33197b82-3eff-4c87-b370-c677ca31a02a@app.fastmail.com>
 
-vma_is_special_huge() tests whether either the VMA_PFNMAP_BIT or
-VMA_MIXEDMAP_BIT is set (i.e. whether the VMA is not mm-managed),
-but with a DAX carve-out.
+On Sat, Oct 03, 2026 at 12:45:07PM +0100, Arnd Bergmann wrote:
 
-DAX however no longer sets VMA_MIXEDMAP_BIT, so this carve-out is no longer
-required.
+Hi Arnd,
 
-Therefore test for !vma_is_mm_managed() instead and also drop the
-VMA_IO_BIT check, as it is now redundant since it is enforced that
-mm-managed mappings may not set VMA_IO_BIT.
+> > Kernels that also contain ARMv4 or ARMv4T CPUs are built for the
+> > lowest architecture and stay excluded. CPU_32v5 also covers the ARMv5T
+> > ARM1020. C code is already built with -march=armv5te there, so Rust
+> > matches.
+> 
+> None of this makes sense to me: The target should not control
+> the instruction set, that is what the -march= flag is needed for.
+> Does that not get passed for Rust?
 
-This also eliminates another overloaded use of 'special' within mm.
+No. arch/arm/Makefile only passes --target=arm-unknown-linux-gnueabi,
+no CPU or feature flags. That target has "+v6" built in, so Rust code
+in an ARMv7 kernel is built as ARMv6 today.
 
-No functional change intended.
+I tried the generic target with CPU flags (libcore for versatile on
+v7.3-rc1, rustc 1.99.0, CPU arch from the build attributes of core.o):
 
-Acked-by: Zi Yan <ziy@nvidia.com>
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- mm/huge_memory.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+  --target=arm-unknown-linux-gnueabi
+      ARMv6, uses uxtb/uxth/sxth/rev
+  --target=arm-unknown-linux-gnueabi -Ctarget-cpu=arm926ej-s
+      still ARMv6
+  --target=arm-unknown-linux-gnueabi -Ctarget-cpu=arm926ej-s
+  -Ctarget-feature=-v6
+      ARMv5TE, but every rustc call warns
+      "unstable feature specified for `-Ctarget-feature`: `v6`"
+  --target=armv5te-unknown-linux-gnueabi
+      ARMv5TE
+  --target=armv4t-unknown-linux-gnueabi
+      ARMv4T, no clz, no blx
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 83dd63b04568..000c4bb50f71 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -110,14 +110,6 @@ static inline bool file_thp_enabled(const struct vm_area_struct *vma)
- 	return S_ISREG(inode->i_mode);
- }
- 
--/* If returns true, we are unable to access the VMA's folios. */
--static bool vma_is_special_huge(const struct vm_area_struct *vma)
--{
--	if (vma_is_dax(vma))
--		return false;
--	return vma_test_any(vma, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT);
--}
--
- static bool vma_file_bypass_thp_tuneables(const struct vm_area_struct *vma,
- 		enum tva_type type)
- {
-@@ -192,7 +184,7 @@ unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
- 	/* Check the intersection of requested and supported orders. */
- 	if (vma_is_anonymous(vma))
- 		supported_orders = THP_ORDERS_ALL_ANON;
--	else if (vma_is_dax(vma) || vma_is_special_huge(vma))
-+	else if (vma_is_dax(vma) || !vma_is_mm_managed(vma))
- 		supported_orders = THP_ORDERS_ALL_SPECIAL_DAX;
- 	else
- 		supported_orders = THP_ORDERS_ALL_FILE_DEFAULT;
-@@ -3066,7 +3058,7 @@ int zap_huge_pud(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 	orig_pud = pudp_huge_get_and_clear_full(vma, addr, pud, tlb->fullmm);
- 	arch_check_zapped_pud(vma, orig_pud);
- 	tlb_remove_pud_tlb_entry(tlb, pud, addr);
--	if (vma_is_special_huge(vma)) {
-+	if (!vma_is_mm_managed(vma)) {
- 		spin_unlock(ptl);
- 		/* No zero page support yet */
- 	} else {
-@@ -3222,7 +3214,7 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
- 		 */
- 		if (arch_needs_pgtable_deposit())
- 			zap_deposited_table(mm, pmd);
--		if (vma_is_special_huge(vma))
-+		if (!vma_is_mm_managed(vma))
- 			return;
- 		if (unlikely(pmd_is_migration_entry(old_pmd))) {
- 			const softleaf_t old_entry = softleaf_from_pmd(old_pmd);
-@@ -4765,9 +4757,7 @@ static inline bool vma_not_suitable_for_thp_split(struct vm_area_struct *vma)
- {
- 	if (vma_is_dax(vma))
- 		return true;
--	if (vma_is_special_huge(vma))
--		return true;
--	if (vma_test(vma, VMA_IO_BIT))
-+	if (!vma_is_mm_managed(vma))
- 		return true;
- 	if (vma_is_hugetlb(vma))
- 		return true;
+So -Ctarget-cpu can add features but does not remove the +v6. The
+generic target also declares 64-bit atomics, armv5te and armv4t only
+32 bit. Below ARMv6 I only see the separate targets.
 
--- 
-2.55.0
+> 
+> If an ARMv7 kernel includes ARMv6 instructions, that is broken
+> on ARMv8 CPUs that are lacking the CP15 barriers and swp style
+> atomics, so that needs to be fixed.
 
+The Rust objects from the generic target have no swp and no CP15
+access. The atomics go through the C helpers.
+
+Building the Rust code of ARMv7 kernels as ARMv7 would be a separate
+change. I can look at that after this series.
+
+> 
+> I don't see what part of rust would depend on ARMv5 instructions,
+> it should just work on ARMv4T as well, though ARMv4 may be
+> trickier because missing bx instructions etc.
+
+Agreed. !CPU_32v4T only came from the armv5te target, which emits clz
+and blx. With the armv4t target it can go. ARMv4 has no rustc target.
+
+> 
+> > ==============================================
+> > -``arm``        Maintained        ARMv7 Little Endian only.
+> > +``arm``        Maintained        ARMv5TE and ARMv7, Little Endian only.
+> 
+> Here you exclude ARMv6K and ARMv8-A-aarch32...
+> [..] 
+> but here you allow it, so I think one of them should change,
+> 
+
+Right. A v6K+v7 kernel has CPU_32v7 and gets HAVE_RUST already, a
+v6K-only kernel does not. No technical reason. I have a patch for
+v6K-only that I held back until I have a Pi 1, but I guess QEMU
+suffices.
+
+> This looks wrong, the choice between armv5 and armv7 should work
+> the same way as the choice between armv6 and armv7/v8, if I read
+> the rustc docs correctly, this should be using the target-cpu=
+> argument on the generic arm-unknown-linux-gnueabi target.
+
+There is no choice between ARMv6 and ARMv7 today. Both get the generic
+target without flags and so ARMv6 code. And target-cpu= on the generic
+target does not get below ARMv6, see the table above. That is why I
+used a separate target for ARMv5.
+
+For a v2 of this I would
+
+- pick the rustc target next to the -march lines: armv4t for
+  CPU_32v4T, armv5te for CPU_32v5, the generic one from ARMv6K upwards
+- select HAVE_RUST for everything except CPU_32v4 and plain CPU_V6
+- make arch-support.rst say the same
+
+I have this running in QEMU on v7.3-rc1 with
+- sx1 (OMAP310, ARM925T, ARMv4T), omap1_defconfig
+- versatilepb (ARM926EJ-S), versatile_defconfig
+- raspi0 (ARM1176), bcm2835_defconfig without ARCH_MULTI_V7
+
+Would that be ok for you?
+
+Thanks
+Karl
