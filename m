@@ -1,232 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4F51DF75B;
-	Sat,  3 Oct 2026 09:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B9935AC3B
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 09:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791018243; cv=none; b=PL7UBZi9abnBNfYCTJqmgs1mIlnFGFPTt8YvMMpwyzH3PEQW5He7OXl8oJPq8Cph58qYNxx72H/HceB449V/lqZ7tFw4pctDvar6IzZt05bdC6uIHa/RTDj4esVb7k3hKaXKAwZHC8FVJRwW3lk2RMUnlXJxq1o2h/zh2Oy0oX8=
+	t=1791020317; cv=none; b=f17U0MdRy9fX7O5NK3O+GDEXGOt2ZQxpOAvwOgRUYVaibadoU+LM7AwrUt9o/4dKTVafjFb6Lbhy/nv+0lqDGBCNJQ7GaSUWi1kQHAilo705DRin+CSIulH1/V5Vap33oQU2/M30XLXIXefqeUJahLh6WzHx+Eo2Kalk1MBnPTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791018243; c=relaxed/simple;
-	bh=ySVPAx6FaV3b8M7WMt7yxSlRhPhy0oNRcPgzmnCJNSo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wg6m51J5JdeRNoH7nrBAfXINIhtt/jk9jjUsH3MvWswIIbUG4ao3XDbCZpWyq2HEsiYsasr0uvY1HJFY8WRW+kR+rYkc77MNrlu/htTi3zzbG6+PCF1sUKo7EqB8fb3j1/xdePAJoBe9eBnUGpwnbME15mc7PAx+zulBlwKjbTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UU+loouH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791020317; c=relaxed/simple;
+	bh=HgwWgfAn32S0WUYg+phTBo9McyRRLx+6LXyBgReCFog=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HDiNlvSbEXaUkFRNq7+GZtUGmYnNt4n2UJ/ByxNllNK/10eCLMvCOzpHYsKa88Dzvd4VHbTehFC7vYAt3nmnFitIm4jk1lsC1r8gdf8s7b7EUO7QBNtISHLkOx7fmu2V4PYYu/c00y8TZ6WsvAs7pxT3ku8ySzuEMsVHkz9wCcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jBHwIdN/; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UU+loouH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 767B81F0089B;
-	Sat,  3 Oct 2026 09:03:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791018241;
-	bh=NITJ8yWQ1OUFlY+k5bUccAdy4sUgfCl1c+vQ6EKuHAU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UU+loouHu/X9/2nGZUM3yCjbj4m/KC/TpyT2T7f6ukoZ0E8xdeCQhCux5NhqFywrK
-	 emhXMJF4ztWEAjcQUfNwmoOfmxWibJrgcS0Y14+/3QYIKiQ5kMD+QrEiMuTQiog1N8
-	 HdzT/Ef9+BC0kDIPVp13fKjpTa3KnJQlYUuTeVVgi+gEshYQcDbogRYzy1bU/u88qg
-	 37uls/VRrrDFxVnS7En+EP+D0EmvYFVAJfg454GL12+afZ6I3k3lu7HdNKAXHgZG9u
-	 cVstBTuY/reLAY7kfSL/oJgi0aXYVR8zFlCr4BXzJpC7jM5kV2qrlq5ymtar6nRky1
-	 2H6/ZXoDRdmXg==
-Date: Sat, 3 Oct 2026 10:03:31 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 15/40] mm/vma: add vma[_flags]_is_kernel_owned()
- predicates
-Message-ID: <asDDLXqBduWVX0k8@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-15-4583d8a23bca@kernel.org>
- <0623ee06-00e5-421e-a24a-ed605abb559b@kernel.org>
- <ar_CYfkR5Pfb7J9b@gremlin>
- <83bf4650-7339-4fc9-89a6-378a327f4f6e@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jBHwIdN/"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-4a022e9cbebso4505895e9.0
+        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 02:38:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791020314; x=1791625114; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KvxVLxua6Tw50aLhIwUcC7cdFZF352a+MrKefzPbwHs=;
+        b=jBHwIdN//G847k8hhe+xrGNCXG/8G1wpxmr3PSZDkmWIdBvGmRo9RzrXW+Q02nX5e0
+         RNm4vx5ab57SxHCbrWdOz0GVD38ZYiCliHovOFa2aAi0zp63ex9dzCnJYKVtTMc4a7CV
+         XExwoZRSgujmMhXGHK6FlMlX+IRHAZMOLAb0EFIqFURd5LHzFHU3yEiqpTnxvJ7l4SvO
+         oHLsx1K+3aqH6Ub3aPidndbtXJLBN967v2IAvRzOj9dn5AioSyNztkCki+xSdXgmRItc
+         iSObjqYQsJKVUsPoAkecGZJFFeQdjn/PSr/PfHj7GZoZ3TKujILEy6WYYLWe7KfqN0sg
+         lmlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791020314; x=1791625114;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KvxVLxua6Tw50aLhIwUcC7cdFZF352a+MrKefzPbwHs=;
+        b=dxndtIWjK7GijG9SIy2Q7zO7f6/Hp+Wm7E3wJOj3HU/w3xwrkZfSq5cKV5Hq1P9B73
+         EcOKFo9Z9HvTJPEh2wKBX86GKgD/mtHHOroKN8ZYKOyx/XCXjK6sZSdbcDNLrYoXrpP0
+         AhEfIAl2f8hFGWAqSkxBWl8W1UuLT4aFwrV1CunAzqhTtqJO7v8fR4BQ08BhvSz9Rk5u
+         zj3vOjp1cUOVDTPUzSIv09tVyQYvlxTQ/Da6/LE6sSpDWMmEEEPXzE0ek3rRuAHrkWXz
+         0gMqdZ345DBZxZS6uH338Gc6ik/IGzQuSmnaLD4BhWCGHSnwV0fA8ds9gBPuRKgUSzWn
+         s3pA==
+X-Forwarded-Encrypted: i=1; AKwUvBwhZ9CK0npCKWo477tznM1SvW5ZJ2sgb8f2hSkWjjcci8cZuk1XiAc5H1Cff9Uk8Cuzj6rrFK5Wsl4=@vger.kernel.org
+X-Gm-Message-State: AFuF++mHq67zroTpQ0POl5pOYkI0ZrW7TQQS0D4pe20qkFaRl7QpzDZ5
+	XjcyD+f7LLLC37ZKnwJnsoItrYjixz6XkbEGgvWlqOUvjGe+KtdFOeWT
+X-Gm-Gg: AYBFou3yJRTFtkWFRN7desvt8fRnTp/ZAsGQJxpcFxmUr/ZkRhnDgSPmBmAJ6cYHE9G
+	wvmxv4S4zTFl3jCly5E1IauykMVzh4apbY5+1OkDGR4dP7CcgIev+capYiwZx9jopcF1fy2oNGr
+	RP0C0n/wdUfIro6qqZN57Rz5PGENT2H0m6q32INEOJk597zvMFwF9X2VdH/RdyzrhmFxxXzIvVZ
+	iNWfDwHaxhwXOm2l3y5qx8vNpD/LGXmunDPwzsIlR64ZbuHTjNyUrfdujftAkYeSDT7N55+ASow
+	jpeP1Uwe9shaLKCOytBzZQytFTyQ+ElW6cGYGcEPQnbYjGKJxg06xjPZOFmiB+mCaAOA574TXhX
+	plg6p861uL1rxR6Iq/2+kUHcMJUoC3gqRolyna7PuUI43oM9s9zdYZlwdS0fQPFUhEcLaQdPHii
+	P6Xb5XtwRrLlheu35MT+eQqmL/Bk2t1ttTEPgzGa2UgE/3wT6d3akUHYV6Xn/vxRf1lVIIAJTV7
+	+XlJnLCAAM7sDc6NQI3ewVbalehYUJ12CV0fUeq9BKZQCM+3V25v5DQJxL3fXORuKyNkelw822i
+	Wbk0TLi6ylaSHZ67RJEb6T4IIkFKzhq4FDRTl5uGhyjmpp2h96m3jrDZCy5XpmGAHMMEwRrlgxy
+	WPzif3c8=
+X-Received: by 2002:a05:600c:4505:b0:4a1:62b8:9e8c with SMTP id 5b1f17b1804b1-4a162b8ae34mr55253055e9.33.1791020313486;
+        Sat, 03 Oct 2026 02:38:33 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-b2e2-2001-c47f-5a89-3d9a-cd2d.310.pool.telefonica.de. [2a02:3100:b2e2:2001:c47f:5a89:3d9a:cd2d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a02770e8f2sm136528375e9.6.2026.10.03.02.38.31
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 03 Oct 2026 02:38:33 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Russell King <linux@armlinux.org.uk>,
+	Miguel Ojeda <ojeda@kernel.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Christian Schrefl <chrisi.schrefl@gmail.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org,
+	llvm@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] ARM: rust: Enable Rust support for ARMv5TE
+Date: Sat,  3 Oct 2026 11:38:25 +0200
+Message-Id: <20261003093827.77857-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <83bf4650-7339-4fc9-89a6-378a327f4f6e@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 02, 2026 at 11:19:32PM +0200, David Hildenbrand (Arm) wrote:
+Rust is currently limited to ARMv7 on 32-bit ARM. This series extends
+it to ARMv5TE.
 
-> > So indeed, vs. user-owned.
->
-> Right, I read "contents of the VMA are owned by the kernel rather than the core
-> mm?" and that confused me, because the opposite of the kernel is to me not core-mm.
->
-> Maybe it would be clearer to focus on the opposite direction, then we wouldn't
-> have to find a word to describe "not core-mm".
+Linus Walleij asked for older ARM cores during review of the ARMv7
+support [1]. Christian Schrefl tried ARMv5 with the armv5te-none-eabi
+target at the time [2]. He hit missing core atomics, missing
+__aeabi_mem* symbols and a floating-point helper reached from
+pr_info!() formatting. None of these show up anymore. The kernel crate
+now implements atomics through the C helpers, and the
+armv5te-unknown-linux-gnueabi target used here keeps the Linux EABI.
 
-Yeah, it is hard to know how to express that.
+The only remaining problem was a link error. Pre-ARMv6 __arch_xchg()
+has no 2-byte case, which the Rust Atomic<i16> helpers need. Patch 1
+adds it the way the other pre-ARMv6 atomics work, with interrupts
+disabled. Patch 2 enables Rust for ARMv5TE.
 
-> > I think the issue here is you're confusing this with other things like the
-> > rmap and refcounting, etc.
->
-> I think it all weirdly interacts.
->
-> In !vma_is_kernel_owned(), would we only expect ordinary folios
-> (anon/pagecache/hugetlb/dax, maybe shared zero folio)?
->
-> That's my best guess looking at
->
-> 	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
-> 				  VMA_IO_BIT);
->
-> So one option would be to focus instead on that aspect (folios that are managed
-> by core-mm vs. random other stuff not managed by core-mm). But thinking about
-> it, I'd prefer if we can leave the "folio" bits out, because COW mappings also
-> map (some) folios. See below.
+Bradley Morgan's two-byte cmpxchg() emulation series [3] does not
+overlap with this. Its ARMv6 part was dropped in v2 and it never
+covered xchg() or pre-ARMv6.
 
-Mostly it does indeed come down to 'can I rely on core mm to do the refcounting,
-mapcounting, rmap, etc.'
+Tested on v7.3-rc1 with clang 22.1.8, rustc 1.99.0 and bindgen 0.73.2.
 
-But folios are not quite there yet until the memdesc stuff is done as you say,
-so best to leave that out of any description.
+- QEMU versatilepb (ARM926EJ-S). The Rust samples, all Rust KUnit
+  suites and 355 doctests pass.
+- Microchip SAM9X75 Curiosity board (ARM926EJ-S), at91_dt_defconfig
+  without the ARMv4T AT91RM9200. The samples, all Rust KUnit suites and
+  356 doctests pass. The Rust sample modules (rust_minimal, rust_print,
+  rust_misc_device, rust_driver_faux) load and unload cleanly.
+- Build test with every Rust driver, abstraction and sample that can be
+  selected on ARMv5TE (rnull, binder, the two PHY drivers, cpufreq-dt,
+  the DRM panic QR code). PWM_TH1520 is the exception. It uses a native
+  u64 division, which does not link on 32-bit ARM.
 
-> > VDSO/VVAR, perf ring buffers, shmem mapped via PFN map, uprobes, etc. are
-> > all in this category and I doubt people would consider those driver-owned.
->
-> Agreed. They are all special things and won't be folios in the future. (shmem
-> mapped through PFN tells us to ignore its folio background and treat it just as
-> some PFN range).
+As a further test I ported the Atmel PWM driver to Rust and ran it next
+to the C driver on the SAM9X75 board. The port is not part of this
+series. The comparison found a prescaler bug in the C driver for
+periods of 2^32 clock cycles or more [4].
 
-Yep the shmem mapped via pfnmap is a special case of the 'hands off the folios'
-variety.
+I plan to get a Raspberry Pi 1 Model B+ and then add ARMv6K support as
+a separate patch.
 
-> > The distinction is - who put them there and who's allowed to change them
-> > and who owns the lifecycle.
->
-> Lol, I asked AI for better names and it told me "vma_is_special_mapping()".
-> Thanks, I guess.
+The ARMv7 enablement went in through Russell's patch system as
+"ARM: 9441/1". Unless someone prefers another route I would submit
+this series there after review.
 
-Yeah you see my point? :)
+[1] https://lore.kernel.org/rust-for-linux/CACRpkdYF0sVB2-qgy=GzETSR3+2sagVQPGdunDQDJrn8KqJorA@mail.gmail.com/
+[2] https://lore.kernel.org/rust-for-linux/b13d37bd-ec68-4713-94e5-e9ed4d6a6354@gmail.com/
+[3] https://lore.kernel.org/lkml/20260922173354.14404-1-brads@mainlining.org/
+[4] https://lore.kernel.org/linux-pwm/20261003083036.21584-1-kmehltretter@gmail.com/
 
-That's why I want to steer away from ordinary vs. 'not ordinary' (otherwise
-known as special).
+Karl Mehltretter (2):
+  ARM: cmpxchg: support 2-byte xchg() on pre-ARMv6 CPUs
+  ARM: rust: Enable Rust support for ARMv5TE
 
-The semantics have to be meaningful more than that.
+ Documentation/rust/arch-support.rst |  2 +-
+ arch/arm/Kconfig                    |  2 +-
+ arch/arm/Makefile                   |  4 ++++
+ arch/arm/include/asm/cmpxchg.h      | 14 +++++++++++---
+ 4 files changed, 17 insertions(+), 5 deletions(-)
 
->
-> I assume for the reverse, we really just want to say "just an ordinary core-mm
-> vma that you would get from a simple mmap() as long as no weird non-mm drivers
-> or subsystems are involved. Core MM fully manages this thing.".
->
-> * vma_is_mm_managed()
-> * vma_is_mm_controlled()
 
-OK, great, that works!
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+-- 
+2.39.5 (Apple Git-154)
 
-I think vma_is_mm_managed() works best out of those two.
-
-I'll update v4 to reflect that, I plan to send the respin out today before
-LPC :)
-
-> >>> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> >>> index 2a92193ac6a5..cab29d6e15c1 100644
-> >>> --- a/include/linux/mm.h
-> >>> +++ b/include/linux/mm.h
-
-> >>> +static inline bool vma_flags_is_kernel_owned(const vma_flags_t *flags)
-> >>> +{
-> >>> +	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
-> >>> +				  VMA_IO_BIT);
-> >>
-> >> I thought we have cases where we drivers insert pages and neither set
-> >> VMA_PFNMAP_BIT nor VMA_MIXEDMAP_BIT.
-> >
-> > There were 4 - defio, cmt_speech, uprobes and the bpf arena, and I fixed
-> > all of them :)
->
-> Great, that helps to identify these things. I didn't look at all patches yet,
-> but we should definitely document that.
-
-You mean the fact that this is required? It's documented certainly insofar that
-this series makes it a literal WARN_ON() error to do that ;)
-
-I'm not sure exactly where you'd document it in the kernel documentation though.
-
-But having this enforced now as a strict requirement is very powerful, because
-it means core mm can assume things that before it couldn't due to drivers doing
-'weird stuff'.
-
-Which I think has been a large part of the problem with the VMA flags - not
-being certain that VM_xxx means y because hey I remember that driver z does
-weird stuff with it suddenly means the flag doesn't have a clear meaning any
-more.
-
-So this I think is a very useful step to take.
-
->
-> >
-> > Other than the DAX-only case below of course.
->
-> Right, as DAX uses real folios.
-
-Yup. And FUSE DAX now too :) Another 'weird byproduct of this series' that :P
-
-> > I could also add a patch to this series to do that too if you wanted?
->
-> We can do a follow up. Not giving others the chance to abuse these interfaces
-> would be great.
-
-OK cool, will add to todo!
-
---
-Cheers, Lorenzo
