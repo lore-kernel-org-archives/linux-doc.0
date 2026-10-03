@@ -1,102 +1,175 @@
-Received: from mta0.migadu.com (out-231.mta0.migadu.com [91.218.175.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507C035F18B
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 14:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6043382CB;
+	Sat,  3 Oct 2026 15:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791037484; cv=none; b=LBPvn+8QRV6Ffk69jjGzYKxpFCOeU9EjXytq4eDNuRN2RyGBXYvSthB6wfZamcSrLFnJGz8FnA/EwmaRImiCs5Fxuf3YP8l1sQPEGCm+inkEU/eGfmKXVx1QUmQTjkCJHxouw6UsnXN3KaRJXe18+DBmyw3HosDr/ONyvrfXhhc=
+	t=1791041824; cv=none; b=isuWTrJ1o1wsPSCnOB6zytupWc39lz7KZlc1RxHKrkZmFEQ2Ag3unAZKeVQTsEp+PAASlr9xNtR0YwgbJnsTusNKzIJi67aZUlVPeveVi0tlGjyXfiT2oyPnd1gXDl/96+1RhsP7JabA1gu2JilhmQ6m9+CtqwAFK1shq3HE2PE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791037484; c=relaxed/simple;
-	bh=1pQTwGTEOYrVLPSMg1T+ZlkoNQLfO8VBMQicrt8OIYM=;
+	s=arc-20240116; t=1791041824; c=relaxed/simple;
+	bh=P+t00OnuGzY0L5xQoewWtaL++U09V2T+k7ZFg5Yjqtw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JxcsfBa78XuABA7uoENaFQFzY5rAE5tnKymlPRnM+C50bflLhXV0L6M6WTMYqFPWNj9RqN0bNJ8wdI8O/chC7AB3Y6fXdKMhMvXNuj/GZQ8MG1CcuircgN/gTKmhLXbfTCi3N0/zDdDpZlPgjHHs7pwK8yq3nHVxzC7SiKXB5kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=P73C0ela; arc=none smtp.client-ip=91.218.175.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=MYawimNwemrA+12vCe5vyDK20k589bhE/cJLjd0shihvbwqd4kcVo3vAek/h2aK7F+uoEl68iEtfA0c/P3V4/CccUQTnQ7eDgcYijV42X95OkgE0sMysCRzj6K/E6krIPSHm/aZYYRx7xkd8HlwWDR1045ig0rntYqkbAPeL8wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ExrrNucL; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="P73C0ela"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=1pQTwGTEOYrVLPSMg1T+ZlkoNQLfO8VBMQicrt8OIYM=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791037477; v=1; x=1791642277;
- b=P73C0elavRHobrTzPc7b9k0l+Ie4TdzByybgepdZB5999t40vE2JxO4J2BXFc+VgsVgw4JKt
- rB1SNO8b3CCmG+NhgkhRiI4ESHLsWl4fnTIdSgsA0EK7ED6W2U7E6qXwDPTaZ9gfb6sS/OP5hzP
- XuGYuXY3K+7NptWtZPUbh14CFE4t7UUbknuJUBTS9sYBn01yE9uHlenmKDUNpEQkmhqInVcgLlj
- MOIvw6XkfiGk8kAs+pu4yEuUJfhOQ5VwQgcn2iwguKIwvTc5wW1KMauIK0YRoVodo9OlitOTHXQ
- /6rv2ejn7mm6NC3y5mwh/XP017l5AiJ7gUUg2YIZe25VQ==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 58b5df2f8a1b9a13;
-	Sat, 03 Oct 2026 14:24:27 +0000
-X-Mizu-Trace-ID: 58b5df2f8a1b9a13
-X-Migadu-Flow: FLOW_OUT
-Date: Sat, 3 Oct 2026 22:24:20 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Jiaming Ouyang <jiamingouyang13@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	alexs@kernel.org, corbet@lwn.net, Dongliang Mu <dzm91@hust.edu.cn>,
-	si.yanteng@linux.dev, skhan@linuxfoundation.org,
-	gregkh@linuxfoundation.org, rdunlap@infradead.org
-Subject: Re: [PATCH v3] docs/zh_CN: add Chinese translation for usb/ohci.rst
-Message-ID: <asEQFPeGY46qogz1@wyuan.org>
-References: <CAMnqnYy5Jt-DWtYrjdekr=M=NBvdW+tu340BLf=GXQv-qi2gQw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ExrrNucL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791041822; x=1822577822;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P+t00OnuGzY0L5xQoewWtaL++U09V2T+k7ZFg5Yjqtw=;
+  b=ExrrNucLni4m92ol4u70gyaDESoMNQnLJU/jVg9EbVQPQX6WEpCOArlr
+   NMGKkfMHr0nfveNHgnf39/R0S5Wx5iLHY+U1nCyjuk1GlL6G7jfBFbM0I
+   Kr3hWAqlTC4o99GfnMculhZe4HmiJF+oyKX3kvnJq0PW3mEmavU+p5+Uq
+   u+po83QT3eiULr6Eox6S728SGHVCpiamLLiQCjQdYSfcW9klKnjM6I6Nl
+   cSlCz+mQpSAGne1LL4BewCHwuiosmP72lo1sZgw9TQI/0zGz+aJGajfau
+   64H51VPYf0IhtnnqO59Ko6Lkd8MVnpYgvBFxtNSM5lbII2+0URlvhd7K1
+   Q==;
+X-CSE-ConnectionGUID: SRg+GF7ETY2DtksNRrNEsw==
+X-CSE-MsgGUID: kxMVpemcQxGSgALBi43yRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="79338284"
+X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
+   d="scan'208";a="79338284"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 08:37:01 -0700
+X-CSE-ConnectionGUID: RYv1bP9xS7udNAN9jt62PQ==
+X-CSE-MsgGUID: 2T49n9CQQDWkG0afqOemkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
+   d="scan'208";a="280207548"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.245.78])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 08:36:51 -0700
+Date: Sat, 3 Oct 2026 18:36:49 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Bill Wendling <morbo@google.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Gow <david@davidgow.net>, Petr Mladek <pmladek@suse.com>,
+	Shuvam Pandey <shuvampandey1@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Shivaprasad G Bhat <sbhat@linux.ibm.com>,
+	Thorsten Blum <blum@kernel.org>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Ira Weiny <iweiny@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v4 05/11] seq_buf: Add seq_buf_strlen()
+Message-ID: <asEhEe0Urb5Wx7yi@ashevche-desk.local>
+References: <20261003035906.too.263-kees@kernel.org>
+ <20261003035921.1918874-5-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMnqnYy5Jt-DWtYrjdekr=M=NBvdW+tu340BLf=GXQv-qi2gQw@mail.gmail.com>
+In-Reply-To: <20261003035921.1918874-5-kees@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 2026-10-03 15:59:30 +0200, Jiaming Ouyang <jiamingouyang13@gmail.com> wrote:
-
-> Translate Documentation/usb/ohci.rst into Chinese Simplified.
+On Fri, Oct 02, 2026 at 08:59:10PM -0700, Kees Cook wrote:
+> Several strlcat() call sites being converted to seq_buf need behavior
+> seq_buf doesn't currently provide. The return from seq_buf_used() is
+> not the length of the string in a seq_buf. Once the buffer is full or
+> has overflowed it returns the buffer size, which counts the byte that
+> seq_buf_str() replaces with the NUL, so a caller that needs the string
+> and its length has to call seq_buf_str() and then walk the string with
+> strlen().
 > 
-> The translation covers OHCI driver overview, hardware protocol
-> differences (OHCI vs UHCI), improvements since 2.4 kernel,
-> queueable interrupt transfers, and non-PCI support.
+> Move the termination out of seq_buf_str() into a helper that returns
+> where it put the NUL, and add seq_buf_strlen(), which terminates the
+> buffer in the same way and returns that offset.
 > 
-> Signed-off-by: Jiaming Ouyang <jiamingouyang13@gmail.com>
-> ---
+> As discussed in review, don't add WARN_ON() for seq_buf_strlen() and
+> drop it from seq_buf_str().
 > 
-> Changes in v3:
-> - Correct the docs list in index.rst
-> ---
+> Add tests comparing seq_buf_strlen() against strlen() of seq_buf_str()
+> for empty, appended, truncated, exactly full, and overflowed buffers,
+> checking that seq_buf_strlen() alone terminates a full buffer, and
+> checking that a zero-sized seq_buf reports an empty string from both
+> accessors without touching the buffer.
+> 
+> Tests passed under qemu on ARCH=x86_64 with GCC 16.2.0 and CONFIG_KASAN=y,
+> and on big-endian ARCH=s390 with GCC s390x-linux-gnu 16.2.0.
 
-If you merely want to resend the patch to achieve the effect of a ping,
-then please change the title to [PATCH RESEND v3] or similar. And this
-is documented in our docs. But generally speaking, this is too early.
+...
 
-And I cannot apply this on the tip of Alex's docs-next now as well:
+>  static inline const char *seq_buf_str(struct seq_buf *s)
+>  {
+> -	if (WARN_ON(s->size == 0))
+> +	if (s->size == 0)
+>  		return "";
+>  
+> -	if (seq_buf_buffer_left(s))
+> -		s->buffer[s->len] = 0;
+> -	else
+> -		s->buffer[s->size - 1] = 0;
+> +	__seq_buf_terminate(s);
+>  
+>  	return s->buffer;
+>  }
 
-$ b4 shazam https://lore.kernel.org/linux-doc/CAMnqnYy5Jt-DWtYrjdekr=M=NBvdW+tu340BLf=GXQv-qi2gQw@mail.gmail.com/
-Looking up CAMnqnYy5Jt-DWtYrjdekr=M=NBvdW+tu340BLf=GXQv-qi2gQw@mail.gmail.com
-Checking for newer revisions
-Grabbing search results from lore.kernel.org
-Analyzing 1 messages in the thread
-Looking for additional code-review trailers on lore.kernel.org
-Analyzing 23 code-review messages
-Checking attestation on all messages, may take a moment...
----
-  ✓ [PATCH v3] docs/zh_CN: add Chinese translation for usb/ohci.rst
-  ---
-  ✓ Signed: DKIM/gmail.com
----
-Total patches: 1
----
-Applying: docs/zh_CN: add Chinese translation for usb/ohci.rst
-Patch failed at 0001 docs/zh_CN: add Chinese translation for usb/ohci.rst
-error: git diff header lacks filename information when removing 1 leading pathname component at /Volumes/Linux/linux/.git/rebase-apply/patch:11
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
-hint: When you have resolved this problem, run "git am --continue".
-hint: If you prefer to skip this patch, run "git am --skip" instead.
-hint: To restore the original branch and stop patching, run "git am --abort".
-hint: Disable this message with "git config set advice.mergeConflict false"
+Looking at this again, can't it be rewritten now using _strlen()?
 
-If it's not on me, you might try git-send-email(1) or b4.
+	if (seq_buf_strlen(s))
+		return s->buffer;
 
-Thanks.
+	return "";
+
+?
+
+...
+
+> +static inline size_t seq_buf_strlen(struct seq_buf *s)
+> +{
+> +	if (s->size == 0)
+> +		return 0;
+> +
+> +	return __seq_buf_terminate(s);
+> +}
+
+(Left for the context to the above.)
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
