@@ -1,570 +1,232 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9CC3905EC;
-	Sat,  3 Oct 2026 07:54:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4F51DF75B;
+	Sat,  3 Oct 2026 09:04:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791014068; cv=none; b=Z85L9tIbQccXArTxB2ZFbE9irGKMjiJrmty4AdbhSSbxHfpv8ZvaX3/0fK2zddo1/+oynBKPjvC8YTxAuewlcC10nOrlvs2qEoU1zYzPscQUR/6jBrHb/CdkyW8RhWfJ2XZKJQfc+OH974kYtuNEezJmR/xQVgKK4Cgdg7qI9KI=
+	t=1791018243; cv=none; b=PL7UBZi9abnBNfYCTJqmgs1mIlnFGFPTt8YvMMpwyzH3PEQW5He7OXl8oJPq8Cph58qYNxx72H/HceB449V/lqZ7tFw4pctDvar6IzZt05bdC6uIHa/RTDj4esVb7k3hKaXKAwZHC8FVJRwW3lk2RMUnlXJxq1o2h/zh2Oy0oX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791014068; c=relaxed/simple;
-	bh=fskrN8wpHeBMg9wlFg565WjKwqm5GCMj6N23c+gwUTE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tg3y//6oj9Y8NAU73PnWUPt63jLoGIbU+vb3mbroP+DR9QVBBr3hDbOi9KdzIoFt2jXdxo+XNLuJt9UmLjy+HE9EZ5ff7zug2sDsN4WlNpqzABhX1l2EH/JoaDZmR/kO1uUSfOsF9xV+mnCwagJyzKlSrbdPs/WxRmokiTGwiuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NusGeM4I; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791018243; c=relaxed/simple;
+	bh=ySVPAx6FaV3b8M7WMt7yxSlRhPhy0oNRcPgzmnCJNSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wg6m51J5JdeRNoH7nrBAfXINIhtt/jk9jjUsH3MvWswIIbUG4ao3XDbCZpWyq2HEsiYsasr0uvY1HJFY8WRW+kR+rYkc77MNrlu/htTi3zzbG6+PCF1sUKo7EqB8fb3j1/xdePAJoBe9eBnUGpwnbME15mc7PAx+zulBlwKjbTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UU+loouH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NusGeM4I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D8891F0089B;
-	Sat,  3 Oct 2026 07:54:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UU+loouH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 767B81F0089B;
+	Sat,  3 Oct 2026 09:03:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791014066;
-	bh=9kdICNF36dlDcblK42B8LBZnE/ru2id1u0UxvE8DIyc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=NusGeM4InnA107+eOwD362t+4ZVtZGqb60TfxykcPa0vFZdYFx9SJr0vzJAF4tCaf
-	 47MulNd1rPWy0P1DxDnOTxLP0t0PS4dE7NcPxwct7oeMZAbWsK/CFDVcltljI2IEpJ
-	 5a6N20xeBzfM4rGZtMYxlfgUnx+bRDOkQL2zaxPKyWBbMiOUrujOeoMxWkkuJ4pGKe
-	 o70lghs1PZmCmDtYpUbzU2He3YNPad9Amf0l1wBmYGcCoBoB7ci9WUeLLpV0kyEJAp
-	 o5nwvaCKdaDfgk5Fa/EJqrsvzUT13Q+YHrjJSHw/THvan2AeZGeiM8H/ter0dvG5Jr
-	 KdYYJKhRTzUFA==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>
-Cc: Jinchao Wang <wangjinchao600@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Ian Rogers <irogers@google.com>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	x86@kernel.org
-Subject: [PATCH v19 11/11] tracing/wprobe: Support BTF struct offset resolution in set_wprobe trigger
-Date: Sat,  3 Oct 2026 16:54:21 +0900
-Message-ID: <179101406102.22872.9377441683742556335.stgit@devnote2>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <179101393469.22872.5895666191299551553.stgit@devnote2>
-References: <179101393469.22872.5895666191299551553.stgit@devnote2>
-User-Agent: StGit/0.19
+	s=k20260515; t=1791018241;
+	bh=NITJ8yWQ1OUFlY+k5bUccAdy4sUgfCl1c+vQ6EKuHAU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UU+loouHu/X9/2nGZUM3yCjbj4m/KC/TpyT2T7f6ukoZ0E8xdeCQhCux5NhqFywrK
+	 emhXMJF4ztWEAjcQUfNwmoOfmxWibJrgcS0Y14+/3QYIKiQ5kMD+QrEiMuTQiog1N8
+	 HdzT/Ef9+BC0kDIPVp13fKjpTa3KnJQlYUuTeVVgi+gEshYQcDbogRYzy1bU/u88qg
+	 37uls/VRrrDFxVnS7En+EP+D0EmvYFVAJfg454GL12+afZ6I3k3lu7HdNKAXHgZG9u
+	 cVstBTuY/reLAY7kfSL/oJgi0aXYVR8zFlCr4BXzJpC7jM5kV2qrlq5ymtar6nRky1
+	 2H6/ZXoDRdmXg==
+Date: Sat, 3 Oct 2026 10:03:31 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 15/40] mm/vma: add vma[_flags]_is_kernel_owned()
+ predicates
+Message-ID: <asDDLXqBduWVX0k8@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-15-4583d8a23bca@kernel.org>
+ <0623ee06-00e5-421e-a24a-ed605abb559b@kernel.org>
+ <ar_CYfkR5Pfb7J9b@gremlin>
+ <83bf4650-7339-4fc9-89a6-378a327f4f6e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <83bf4650-7339-4fc9-89a6-378a327f4f6e@kernel.org>
 
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+On Fri, Oct 02, 2026 at 11:19:32PM +0200, David Hildenbrand (Arm) wrote:
 
-Allow set_wprobe trigger to use BTF struct offset resolution to specify
-the target address field.
+> > So indeed, vs. user-owned.
+>
+> Right, I read "contents of the VMA are owned by the kernel rather than the core
+> mm?" and that confused me, because the opposite of the kernel is to me not core-mm.
+>
+> Maybe it would be clearer to focus on the opposite direction, then we wouldn't
+> have to find a word to describe "not core-mm".
 
-Link: https://lore.kernel.org/all/59637b96946653393a7ad3c7de094094796b39c2.1785067572.git.wangjinchao600@gmail.com/
+Yeah, it is hard to know how to express that.
 
-Assisted-by: LLM
-Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
----
-Changes in v18:
- - In get_offset_of_field(), rename mtype to container and document that
-   it represents the containing structure/union type (handling anonymous
-   structures/unions) rather than member's own type.
- - In get_offset_of_field(), verify bit offset is byte-aligned before
-   returning byte offset.
- - Add "set_wprobe:<wprobe-event>":README to requires line in
-   trigger-wprobe-btf-offset.tc so the test is skipped if
-   CONFIG_WPROBE_TRIGGERS is disabled.
-Changes in v15:
- - Duplicate field string to avoid modifying glob in place in
-   wprobe_trigger_typecast_parse() so tracing_log_err() prints pristine
-   command string.
- - Remove leftover offset and adjust debug print in wprobe_trigger_print().
- - Document BTF struct offset resolution syntax in wprobetrace.rst.
- - Add explicit failure checks with fail helper in
-   trigger-wprobe-btf-offset.tc.
- - Declare fprobe README requirement in trigger-wprobe-btf-offset.tc.
-Changes in v14:
- - Update dummy wprobe event definition to use '-1' instead of '0'.
- - Pass member_type to btf_find_struct_member() and check its kflag in
-   get_offset_of_field().
-Changes in v13:
- - Check for field token before calling wprobe_trigger_field_parse() in
-   clear_wprobe to avoid spurious error log entries on numeric counts.
-Changes in v12:
- - Refactor field parsing logic into wprobe_trigger_field_parse().
- - Remove unused variable count_str in wprobe_trigger_cmd_parse().
----
- Documentation/trace/wprobetrace.rst                |    7 
- kernel/trace/trace_wprobe.c                        |  304 +++++++++++++++-----
- .../test.d/trigger/trigger-wprobe-btf-offset.tc    |   85 ++++++
- 3 files changed, 318 insertions(+), 78 deletions(-)
- create mode 100644 tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
+> > I think the issue here is you're confusing this with other things like the
+> > rmap and refcounting, etc.
+>
+> I think it all weirdly interacts.
+>
+> In !vma_is_kernel_owned(), would we only expect ordinary folios
+> (anon/pagecache/hugetlb/dax, maybe shared zero folio)?
+>
+> That's my best guess looking at
+>
+> 	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
+> 				  VMA_IO_BIT);
+>
+> So one option would be to focus instead on that aspect (folios that are managed
+> by core-mm vs. random other stuff not managed by core-mm). But thinking about
+> it, I'd prefer if we can leave the "folio" bits out, because COW mappings also
+> map (some) folios. See below.
 
-diff --git a/Documentation/trace/wprobetrace.rst b/Documentation/trace/wprobetrace.rst
-index 20a11443c6db..1d9b32d02d53 100644
---- a/Documentation/trace/wprobetrace.rst
-+++ b/Documentation/trace/wprobetrace.rst
-@@ -90,10 +90,17 @@ Combination with trigger action
- The event trigger action can extend the utilization of this wprobe.
- 
- - set_wprobe:WPEVENT:FIELD[+|-ADJUST][:COUNT]
-+- set_wprobe:WPEVENT:(STRUCT[,ASGN])EVENT_FIELD->MEMBER[+|-ADJUST][:COUNT]
- - clear_wprobe:WPEVENT[:FIELD[+|-ADJUST][:COUNT]]
-+- clear_wprobe:WPEVENT[:(STRUCT[,ASGN])EVENT_FIELD->MEMBER[+|-ADJUST][:COUNT]]
- 
- Set these triggers to the target event, then the WPROBE event will be
- setup to trace the memory access at FIELD[+|-ADJUST] address.
-+If BTF is supported, the target address can also be resolved using BTF
-+struct offset resolution: `(STRUCT[,ASGN])EVENT_FIELD->MEMBER[+|-ADJUST]`.
-+Here, EVENT_FIELD is an event field containing a pointer to STRUCT (or to
-+the ASGN member if ASGN is specified), and MEMBER is the struct member whose
-+offset is resolved automatically via BTF.
- When clear_wprobe is hit, if FIELD is NOT specified, the WPEVENT is
- forcibly cleared. If FIELD[+|-ADJUST] is set, it clears WPEVENT only
- if its watching address is the same as the FIELD[+|-ADJUST] value.
-diff --git a/kernel/trace/trace_wprobe.c b/kernel/trace/trace_wprobe.c
-index 31de7dd5bfd9..a79439cbfe6b 100644
---- a/kernel/trace/trace_wprobe.c
-+++ b/kernel/trace/trace_wprobe.c
-@@ -29,6 +29,7 @@
- #include <asm/ptrace.h>
- 
- #include "trace.h"
-+#include "trace_btf.h"
- #include "trace_dynevent.h"
- #include "trace_probe.h"
- #include "trace_probe_kernel.h"
-@@ -1194,6 +1195,223 @@ static void wprobe_trigger_free(struct event_trigger_data *data)
- 	}
- }
- 
-+#ifdef CONFIG_PROBE_EVENTS_BTF_ARGS
-+
-+static int get_offset_of_field(struct btf *btf, const struct btf_type *type, char *field_name)
-+{
-+	const struct btf_member *field;
-+	const struct btf_type *container;
-+	int bitoffs = 0;
-+	u32 anon_offs;
-+	char *next;
-+
-+	do {
-+		next = strchr(field_name, '.');
-+		if (next)
-+			*next++ = '\0';
-+
-+		anon_offs = 0;
-+		/*
-+		 * btf_find_struct_member() returns the actual containing
-+		 * structure/union type in @container (which can be an
-+		 * inner anonymous struct/union rather than @type).
-+		 */
-+		field = btf_find_struct_member(btf, type, field_name, &anon_offs, &container);
-+		if (IS_ERR_OR_NULL(field))
-+			return -ENOENT;
-+
-+		if (btf_type_kflag(container)) {
-+			/* Reject bitfield member access */
-+			if (BTF_MEMBER_BITFIELD_SIZE(field->offset))
-+				return -EINVAL;
-+			bitoffs += anon_offs + BTF_MEMBER_BIT_OFFSET(field->offset);
-+		} else {
-+			bitoffs += anon_offs + field->offset;
-+		}
-+
-+		field_name = next;
-+		if (next) {
-+			type = btf_type_skip_modifiers(btf, field->type, NULL);
-+			if (!type)
-+				return -ENOENT;
-+		}
-+	} while (next);
-+
-+	if (bitoffs % BITS_PER_BYTE)
-+		return -EINVAL;
-+
-+	return bitoffs / BITS_PER_BYTE;
-+}
-+
-+/* btf_put(NULL) is acceptable. */
-+DEFINE_FREE(btf_put, struct btf *, btf_put(_T))
-+
-+/* parse typecast: (TYPE[,ASGN])EVENT_FIELD->FIELD[.SUBFIELD...][+-OFFS] and set adjust. */
-+static int wprobe_trigger_typecast_parse(char *field_str,
-+					 struct trace_event_file *file,
-+					 struct wprobe_trigger_data *wprobe_data,
-+					 const char *glob)
-+{
-+	struct btf *btf __free(btf_put) = NULL;
-+	char *buf __free(kfree) = NULL;
-+	struct ftrace_event_field *field;
-+	const struct btf_type *type;
-+	char *assign_field;
-+	char *event_field;
-+	char *type_field;
-+	char *type_name;
-+	char *offs;
-+	long val = 0;
-+	int base_offset = field_str - glob;
-+	int event_field_offset;
-+	int id, adjust;
-+
-+	buf = kstrdup(field_str, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	type_name = buf + 1;
-+	event_field = strchr(type_name, ')');
-+	if (!event_field) {
-+		wprobe_trigger_log_err(file, glob,
-+				       base_offset + (type_name - buf),
-+				       DEREF_OPEN_BRACE);
-+		return -EINVAL;
-+	}
-+	*event_field++ = '\0';
-+
-+	/* Check the optional assign field. */
-+	assign_field = strchr(type_name, ',');
-+	if (assign_field)
-+		*assign_field++ = '\0';
-+
-+	/* Get the type field name. */
-+	type_field = strstr(event_field, "->");
-+	if (!type_field) {
-+		wprobe_trigger_log_err(file, glob,
-+				       base_offset + (event_field - buf),
-+				       TYPECAST_REQ_FIELD);
-+		return -EINVAL;
-+	}
-+	*type_field = '\0';
-+	type_field += 2;
-+
-+	offs = strpbrk(type_field, "+-");
-+	if (offs) {
-+		if (kstrtol(offs, 0, &val) < 0) {
-+			wprobe_trigger_log_err(file, glob,
-+					       base_offset + (offs - buf),
-+					       BAD_DEREF_OFFS);
-+			return -EINVAL;
-+		}
-+		*offs = '\0';
-+	}
-+
-+	/* find type from BTF */
-+	id = bpf_find_btf_id(type_name, BTF_KIND_STRUCT, &btf);
-+	if (id < 0) {
-+		wprobe_trigger_log_err(file, glob,
-+				       base_offset + (type_name - buf),
-+				       BAD_BTF_TID);
-+		return id;
-+	}
-+
-+	type = btf_type_by_id(btf, id);
-+	if (!type) {
-+		wprobe_trigger_log_err(file, glob,
-+				       base_offset + (type_name - buf),
-+				       BAD_BTF_TID);
-+		return -EINVAL;
-+	}
-+
-+	adjust = get_offset_of_field(btf, type, type_field);
-+	if (adjust < 0) {
-+		wprobe_trigger_log_err(file, glob,
-+				       base_offset + (type_field - buf),
-+				       NO_BTF_FIELD);
-+		return adjust;
-+	}
-+	wprobe_data->adjust = adjust + val;
-+
-+	if (assign_field) {
-+		/* assign_field should be a struct field */
-+		adjust = get_offset_of_field(btf, type, assign_field);
-+		if (adjust < 0) {
-+			wprobe_trigger_log_err(file, glob,
-+					       base_offset + (assign_field - buf),
-+					       NO_BTF_FIELD);
-+			return adjust;
-+		}
-+		wprobe_data->adjust -= adjust;
-+	}
-+
-+	event_field_offset = base_offset + (event_field - buf);
-+	field = trace_find_event_field(file->event_call, event_field);
-+	if (!field) {
-+		wprobe_trigger_log_err(file, glob, event_field_offset, NO_EVENT_FIELD);
-+		return -ENOENT;
-+	}
-+	if (field->size != sizeof(void *)) {
-+		wprobe_trigger_log_err(file, glob, event_field_offset, WPROBE_BAD_FIELD);
-+		return -ENOEXEC;
-+	}
-+	wprobe_data->offset = field->offset;
-+	wprobe_data->field = kstrdup(event_field, GFP_KERNEL);
-+	if (!wprobe_data->field)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+#else
-+static int wprobe_trigger_typecast_parse(char *field_str,
-+					 struct trace_event_file *file,
-+					 struct wprobe_trigger_data *wprobe_data,
-+					 const char *glob)
-+{
-+	wprobe_trigger_log_err(file, glob, field_str - glob, NOSUP_BTFARG);
-+	return -EOPNOTSUPP;
-+}
-+#endif /* CONFIG_PROBE_EVENTS_BTF_ARGS */
-+
-+static int wprobe_trigger_field_parse(char *field_str, struct trace_event_file *file,
-+					struct wprobe_trigger_data *wprobe_data,
-+					const char *glob)
-+{
-+	struct ftrace_event_field *field;
-+	char *offs;
-+
-+	if (field_str[0] == '(')
-+		return wprobe_trigger_typecast_parse(field_str, file, wprobe_data, glob);
-+
-+	offs = strpbrk(field_str, "+-");
-+	if (offs) {
-+		long val;
-+
-+		if (kstrtol(offs, 0, &val) < 0) {
-+			wprobe_trigger_log_err(file, glob, offs - glob, BAD_DEREF_OFFS);
-+			return -EINVAL;
-+		}
-+		wprobe_data->adjust = val;
-+		*offs = '\0';
-+	}
-+
-+	field = trace_find_event_field(file->event_call, field_str);
-+	if (!field) {
-+		wprobe_trigger_log_err(file, glob, field_str - glob, NO_EVENT_FIELD);
-+		return -ENOENT;
-+	}
-+	if (field->size != sizeof(void *)) {
-+		wprobe_trigger_log_err(file, glob, field_str - glob, WPROBE_BAD_FIELD);
-+		return -ENOEXEC;
-+	}
-+	wprobe_data->offset = field->offset;
-+	wprobe_data->field = kstrdup(field_str, GFP_KERNEL);
-+	if (!wprobe_data->field)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+
- static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 				    struct trace_event_file *file,
- 				    char *glob, char *cmd,
-@@ -1206,10 +1424,8 @@ static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 	struct wprobe_trigger_data *wprobe_data = NULL;
- 	struct event_trigger_data *trigger_data = NULL;
- 	struct trace_event_file *wprobe_file;
-+	char *event_str, *comment;
- 	struct trace_array *tr = file->tr;
--	char *event_str, *field_str, *comment;
--	struct ftrace_event_field *field;
--	struct trace_event_call *event;
- 	bool remove, clear = false;
- 	unsigned long orig_addr = 0;
- 	struct trace_wprobe *tw;
-@@ -1270,93 +1486,25 @@ static int wprobe_trigger_cmd_parse(struct event_command *cmd_ops,
- 
- 	/* clear_wprobe does not need field, but can have optional field. */
- 	if (!clear) {
--		char *offs;
-+		char *field_str = strsep(&param, ":");
- 
--		/* Find target field, which must be equivalent to "void *" */
--		field_str = strsep(&param, ":");
- 		if (!field_str) {
- 			wprobe_trigger_log_err(file, glob, strlen(glob), WPROBE_NEED_FIELD);
- 			ret = -EINVAL;
- 			goto out_free;
- 		}
--
--		offs = strpbrk(field_str, "+-");
--		if (offs) {
--			long val;
--
--			if (kstrtol(offs, 0, &val) < 0) {
--				wprobe_trigger_log_err(file, glob, offs - glob, BAD_DEREF_OFFS);
--				ret = -EINVAL;
--				goto out_free;
--			}
--			wprobe_data->adjust = val;
--			*offs = '\0';
--		}
--
--		event = file->event_call;
--		field = trace_find_event_field(event, field_str);
--		if (!field) {
--			wprobe_trigger_log_err(file, glob, field_str - glob, NO_EVENT_FIELD);
--			ret = -ENOENT;
--			goto out_free;
--		}
--
--		if (field->size != sizeof(void *)) {
--			wprobe_trigger_log_err(file, glob, field_str - glob, WPROBE_BAD_FIELD);
--			ret = -ENOEXEC;
--			goto out_free;
--		}
--		wprobe_data->offset = field->offset;
--		wprobe_data->field = kstrdup(field_str, GFP_KERNEL);
--		if (!wprobe_data->field) {
--			ret = -ENOMEM;
-+		ret = wprobe_trigger_field_parse(field_str, file, wprobe_data, glob);
-+		if (ret < 0)
- 			goto out_free;
--		}
--	} else if (param && (isalpha(param[0]) || param[0] == '_')) {
-+	} else if (param && (isalpha(param[0]) || param[0] == '_' || param[0] == '(')) {
- 		if (strncmp(param, "count=", 6) != 0 &&
- 		    (strcmp(param, "unlimited") != 0 ||
- 		     trace_find_event_field(file->event_call, "unlimited"))) {
--			char *offs;
--
--			field_str = strsep(&param, ":");
--			offs = strpbrk(field_str, "+-");
--			if (offs) {
--				long val;
--
--				if (kstrtol(offs, 0, &val) < 0) {
--					wprobe_trigger_log_err(file, glob,
--							       offs - glob,
--							       BAD_DEREF_OFFS);
--					ret = -EINVAL;
--					goto out_free;
--				}
--				wprobe_data->adjust = val;
--				*offs = '\0';
--			}
--
--			event = file->event_call;
--			field = trace_find_event_field(event, field_str);
--			if (!field) {
--				wprobe_trigger_log_err(file, glob,
--						       field_str - glob,
--						       NO_EVENT_FIELD);
--				ret = -ENOENT;
--				goto out_free;
--			}
-+			char *field_str = strsep(&param, ":");
- 
--			if (field->size != sizeof(void *)) {
--				wprobe_trigger_log_err(file, glob,
--						       field_str - glob,
--						       WPROBE_BAD_FIELD);
--				ret = -ENOEXEC;
-+			ret = wprobe_trigger_field_parse(field_str, file, wprobe_data, glob);
-+			if (ret < 0)
- 				goto out_free;
--			}
--			wprobe_data->offset = field->offset;
--			wprobe_data->field = kstrdup(field_str, GFP_KERNEL);
--			if (!wprobe_data->field) {
--				ret = -ENOMEM;
--				goto out_free;
--			}
- 		}
- 	}
- 
-diff --git a/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
-new file mode 100644
-index 000000000000..eda6584c286f
---- /dev/null
-+++ b/tools/testing/selftests/ftrace/test.d/trigger/trigger-wprobe-btf-offset.tc
-@@ -0,0 +1,85 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# description: event trigger - test set_wprobe trigger with BTF struct offset
-+# requires: dynamic_events "w[:[<group>/][<event>]] [r|w|rw]@<addr>[:<len>]":README "f[:[<group>/][<event>]] <func-name>[%return] [<args>]":README events/sched/sched_process_fork/trigger "[(structname[,field])]<argname>[->field[->field|.field...]]":README "set_wprobe:<wprobe-event>":README
-+
-+fail() { #msg
-+  echo "$1"
-+  exit_fail
-+}
-+
-+rmmod trace-events-sample ||:
-+if ! modprobe trace-events-sample ; then
-+  echo "No trace-events sample module - please make CONFIG_SAMPLE_TRACE_EVENTS=m"
-+  exit_unresolved
-+fi
-+
-+cleanup_wprobe_triggers() {
-+  if [ -f events/fprobes/testevent/trigger ]; then
-+    reset_trigger_file events/fprobes/testevent/trigger || true
-+  fi
-+  echo 0 > events/enable 2>/dev/null || true
-+  echo > dynamic_events 2>/dev/null || true
-+  sleep 1
-+  rmmod trace-events-sample 2>/dev/null || true
-+  return 0
-+}
-+
-+trap cleanup_wprobe_triggers EXIT
-+
-+echo 0 > tracing_on
-+
-+# we will skip this test if fprobe is not supported.
-+if ! grep -Fq "f[:[<group>/][<event>]] <func-name>[%return] [<args>]" README; then
-+    echo "UNRESOLVED: fprobe is not supported"
-+    exit_unresolved
-+fi
-+
-+# we will skip this test if the target function does not exist.
-+if ! grep -wq "sample_timer_cb" /proc/kallsyms; then
-+    echo "UNRESOLVED: sample_timer_cb not found"
-+    exit_unresolved
-+fi
-+
-+:;: "Add a wprobe event watching 8 bytes" ;:
-+echo 'w:watch rw@-1:8 address=$addr value=$value' >> dynamic_events
-+
-+:;: "Add fprobe event for sample_timer_cb" ;:
-+# sample_timer_cb(struct timer_list *t)
-+# container_of(t, struct foo_timer_data, timer)
-+echo 'f:fprobes/testevent sample_timer_cb timer=t' >> dynamic_events
-+
-+:;: "Enable all events before setting triggers" ;:
-+echo 1 > tracing_on
-+echo 1 >> events/fprobes/testevent/enable
-+
-+:;: "Set set_wprobe trigger using BTF struct offset resolution" ;:
-+# Syntax: set_wprobe:WPEVENT:(STRUCT,FIELD)EVENT_FIELD->MEMBER
-+# (foo_timer_data,timer) is the BTF struct type and field name
-+# timer->expires is the struct member whose offset is resolved automatically via BTF
-+echo 'set_wprobe:watch:(foo_timer_data,timer)timer->timer.expires' >> events/fprobes/testevent/trigger
-+if ! grep -q ^set_wprobe events/fprobes/testevent/trigger; then
-+  fail "Failed to set set_wprobe trigger"
-+fi
-+
-+# Wait for sample_timer_cb to fire and set_wprobe trigger to activate
-+sleep 3
-+
-+:;: "Check set_wprobe trigger activated the watchpoint" ;:
-+if ! grep -q watch trace; then
-+  fail "Failed to trigger watchpoint"
-+fi
-+
-+:;: "Remove wprobe triggers" ;:
-+# Since we don't know actual offset of timer->expires in foo_timer_data, we use reset_trigger_file
-+reset_trigger_file events/fprobes/testevent/trigger
-+if grep -q ^set_wprobe events/fprobes/testevent/trigger; then
-+  fail "Failed to remove set_wprobe trigger"
-+fi
-+
-+:;: "Disable events and remove dynamic events" ;:
-+echo 0 > events/enable
-+echo > dynamic_events
-+clear_trace
-+
-+exit 0
+Mostly it does indeed come down to 'can I rely on core mm to do the refcounting,
+mapcounting, rmap, etc.'
 
+But folios are not quite there yet until the memdesc stuff is done as you say,
+so best to leave that out of any description.
+
+> > VDSO/VVAR, perf ring buffers, shmem mapped via PFN map, uprobes, etc. are
+> > all in this category and I doubt people would consider those driver-owned.
+>
+> Agreed. They are all special things and won't be folios in the future. (shmem
+> mapped through PFN tells us to ignore its folio background and treat it just as
+> some PFN range).
+
+Yep the shmem mapped via pfnmap is a special case of the 'hands off the folios'
+variety.
+
+> > The distinction is - who put them there and who's allowed to change them
+> > and who owns the lifecycle.
+>
+> Lol, I asked AI for better names and it told me "vma_is_special_mapping()".
+> Thanks, I guess.
+
+Yeah you see my point? :)
+
+That's why I want to steer away from ordinary vs. 'not ordinary' (otherwise
+known as special).
+
+The semantics have to be meaningful more than that.
+
+>
+> I assume for the reverse, we really just want to say "just an ordinary core-mm
+> vma that you would get from a simple mmap() as long as no weird non-mm drivers
+> or subsystems are involved. Core MM fully manages this thing.".
+>
+> * vma_is_mm_managed()
+> * vma_is_mm_controlled()
+
+OK, great, that works!
+
+I think vma_is_mm_managed() works best out of those two.
+
+I'll update v4 to reflect that, I plan to send the respin out today before
+LPC :)
+
+> >>> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> >>> index 2a92193ac6a5..cab29d6e15c1 100644
+> >>> --- a/include/linux/mm.h
+> >>> +++ b/include/linux/mm.h
+
+> >>> +static inline bool vma_flags_is_kernel_owned(const vma_flags_t *flags)
+> >>> +{
+> >>> +	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
+> >>> +				  VMA_IO_BIT);
+> >>
+> >> I thought we have cases where we drivers insert pages and neither set
+> >> VMA_PFNMAP_BIT nor VMA_MIXEDMAP_BIT.
+> >
+> > There were 4 - defio, cmt_speech, uprobes and the bpf arena, and I fixed
+> > all of them :)
+>
+> Great, that helps to identify these things. I didn't look at all patches yet,
+> but we should definitely document that.
+
+You mean the fact that this is required? It's documented certainly insofar that
+this series makes it a literal WARN_ON() error to do that ;)
+
+I'm not sure exactly where you'd document it in the kernel documentation though.
+
+But having this enforced now as a strict requirement is very powerful, because
+it means core mm can assume things that before it couldn't due to drivers doing
+'weird stuff'.
+
+Which I think has been a large part of the problem with the VMA flags - not
+being certain that VM_xxx means y because hey I remember that driver z does
+weird stuff with it suddenly means the flag doesn't have a clear meaning any
+more.
+
+So this I think is a very useful step to take.
+
+>
+> >
+> > Other than the DAX-only case below of course.
+>
+> Right, as DAX uses real folios.
+
+Yup. And FUSE DAX now too :) Another 'weird byproduct of this series' that :P
+
+> > I could also add a patch to this series to do that too if you wanted?
+>
+> We can do a follow up. Not giving others the chance to abuse these interfaces
+> would be great.
+
+OK cool, will add to todo!
+
+--
+Cheers, Lorenzo
