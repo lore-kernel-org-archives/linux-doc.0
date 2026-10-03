@@ -1,164 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882EB3515CF;
-	Sat,  3 Oct 2026 23:05:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC793B47E2;
+	Sat,  3 Oct 2026 23:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791068742; cv=none; b=pX8quyo+IprWef4YG5a3I0LpwFrapRw1/w56AmYn8pv4A80YjTlsAjPZrGC56RF9wr/w5zT2Vndv4xNie4e7cK1//SqiwgSUnRxB/VL9kK93BGeYOkP7Zd11uIW6XrH3JAHepCPfOt1hlkqctZc2an+3EsHvO4zr9hE/S6YjZ1w=
+	t=1791070481; cv=none; b=gCcOCZQ6ZT5EXrECpKtkBAHkjaY6KwJeOGx2FEfXXHW9CAWO/vMGvvyqUE1G9PDVFgFR50FnscGlRQHdE1FlATODOYEbftTwtb4Wl8+pUegzG8eMpVySWeqnydmx02ZRM54LGwXjRz1q5qFtzIZijyk7cHBOx/C7HZDXnOCqNiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791068742; c=relaxed/simple;
-	bh=2gsRRtMv2Z4FqxHe/61bLUyhh3qkJGX/eKsWJFWpMFA=;
+	s=arc-20240116; t=1791070481; c=relaxed/simple;
+	bh=ChtEv5Gs/odsv1gaJSaXotF2IXOOEMl3n2Kr1I5juAE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HZrhHPSC78l0iI4QN0BxJFsmyv02eBlcq1lY2Di0OtmxXk/slsaeJmw3olYRftEUoHKykDUr9mVeVbaU8BWYWlTz2Z3u5PWboJEf7z0HkNPS8E4/u7qCh0KQ+oWvJAdak5hw5hHsAveDGI/QtzgmRY+nW+ngn8fEJx6uMarp/e4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MwRAgnL8; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=NhzCThDs22izecrU2eXIrcx6h+AjE+I2Uh81K0nvb2wiqMIrKYb1U+RJjSzzct3GGSCYt0GzhYbVKP50YMd1E5RuVpLVp++GK0GnkKevTrm1aNVXiS3oyuSoE6InRLxqEiqYDut777kZqLKjF9C39CzA+fnt/P8nTXKk0bpWaBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YKYjrD04; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MwRAgnL8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3F381F0089B;
-	Sat,  3 Oct 2026 23:05:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YKYjrD04"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD351F0089E;
+	Sat,  3 Oct 2026 23:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791068741;
-	bh=qao+pMIXUl/3i+MsEDsveP1/Me4CRSfOmI5CYiqCK+A=;
+	s=k20260515; t=1791070480;
+	bh=McNvrbaXa8pRLURHJC626TEpOy+lAMWBxLS6cgVjDHM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MwRAgnL8lAyCUXMe36JHwaAodmcSouJYauA3IM8z14WIPK+DfnG/cELmPbQvl67sS
-	 qapc24g8S7xAsl7wCQNvqZ+k4sqdAgB2j7noay3+L2KFERFhTmz0Ngp1yX8yA7F04a
-	 W4bKCzAh87bwZ7GwILqRTPTeBQ3ecoj5I/RYOZui62pJVySnNsQKRBCH2EC9uepham
-	 DSZ1SaOrONw1vEBn3fdIpGS9RTVQ1saYWm5YWdYV1R9mfvmGIhGvuH0sovCbEEpbB4
-	 x84xGRl4fnXz0W9L+7abCaL+YAMrRAEFN/hXbXWR6ctRbLAKvjGmqinRDLm9qAlXv6
-	 9FUOXDzN8iJOw==
-Date: Sun, 4 Oct 2026 00:05:31 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Drew Fustini <fustini@kernel.org>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Tony Luck <tony.luck@intel.com>,
-	Vasudevan Srinivasan <vasu@rivosinc.com>,
-	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	x86@kernel.org, devicetree@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 4/5] dt-bindings: riscv: Add binding for CBQRI
- controllers
-Message-ID: <20261004-fender-oink-1646de550f3b@spud>
-References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
- <20261003-dfustini-atl-sc-cbqri-dt-v9-4-52fd8be98dcf@kernel.org>
+	b=YKYjrD04ggURlFPKc1Vix6lrnkAR1oOBLG4eEPU4ljnqd1Tz0nmhKLafGe6AnqqxV
+	 d6BdpYUI1yV0EuT02SJba4pY3pe3XOwINxr7997soIB7rmH3gybXUJcSIeZH2ifWo4
+	 rZvfpw/i4LerKgqZX6tQ63XaA1qgSr8t7Tm435aQuqUJBI7G8RC1QkybgXD5y/c9Cj
+	 ATaJdHVWvBEZvBrQTffTB192KOnIwVmpCeazB7HHPv5pLMvDI6Dwm4u8wp33/+xP9v
+	 SNllzi3B1DfwKrCBLe2trEaZohwCtIRe8Xl+71x5EAJKH+132rimFkXVJne1j8bIxh
+	 EUQlErFdzmFUw==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.ams.internal (Postfix) with ESMTP id D8EE5198003A;
+	Sat,  3 Oct 2026 19:34:35 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Sat, 03 Oct 2026 19:34:37 -0400
+X-ME-Sender: <xms:C5HBasxVVLk6p18CVsx9YwRdV6isHzVuA-PBDRaOpeVEkHXG0Oz8Xg>
+    <xme:C5HBakMXOHy3TjE5Nc2HsA16s7JQUGvPpMOLXWnKcxlwoy4k0hIAphMhFFaZdIaF6
+    iJDMFV44rxn7dOc36xHAEZrfL1CkECqVCI2Rw8EP0sVf8jQPLcORQBL>
+X-ME-Received: <xmr:C5HBam1ZSR0iYNPWX7LoGst8448ULPFH8bfI-HQbe99Ip9a9ZrzlPfAM3YE>
+X-ME-Proxy-Cause: dmFkZTEdHe940eMECZiWakIif7cd+T/iqkkgGwdGKD6o5Y3YI6YAy4zxNQlyF890iSqBlD
+    WIo7gM+kuyvs6ffFMZzz36iAAXIZRNW9iLFCxtGfOmIxr240HqvHyzHdLljN2T67P8GTuL
+    y5jVbyBYWhjAAULmBB6sCstWvmhU2/SywInr9NsjCW4+udjjakE1JnpVSK9M83QfWnY45J
+    i0ur14UsVGe9TZf0A15Kt4eX1jocS2GvO+4c5JB1OlidDy3j70GRSQdrcn71jV/015xwFw
+    WkA620GdOPCCDHNiGSI1aumLRBXCBZe1e8Zhucc99LyPx2bBckvUO/r6XcuvifqT7SWQBs
+    BINBB1OfjPOUG7W8dPY/1ImIqzWnOkVeIFBLHCwoLfGoXGopsLsSAEO6QKOH3ogWWU3epB
+    I0h7YztqaCd12PQDpK7+5RFoAPH0y/Y0kGxT0F1NIWbnSRnOs7VDGThfcSXtUlcxTMQGqa
+    Pi7FsR24cj7JMPoH1p6jAK4Y7/6OQQNfkrm7a1eWiLJ9GMqnT3LtJscRDQcVVBqbi6GGbT
+    dIDGU39MLfxezW3ytMPGcFl72sI6QmgyD22J3sgKJs/dJk1GhpTB2G1FlIn/WrM3/j3xd3
+    NgW6B2z1Y9usNjJsprcimxt5T3OINYAgtjI354xSwxVwPVPQ+Qo61TAe1LjA
+X-ME-Proxy: <xmx:C5HBakES68ZgUATiGiYmmD62wFwN7X9BgDacj9w5SbAZ56A0v1g1uA>
+    <xmx:C5HBalh-MeXoOPEkAUKiukpdz4KbfrWUZdsS9ul1q9h9Eajq9pHgOw>
+    <xmx:C5HBalft_tUbkIogweCujQ7VBTgTeQUXfpJnkDQMBLI3Vduqb1PZPg>
+    <xmx:C5HBajxe7LRZ5RnvwOxwliFvZwDiQ2mlv1D0H99ly8TFHNW-dPFjTg>
+    <xmx:C5HBanY2QKVSLGKKCeI6nybtn61WOiEGmHFBmcx1Pm0JkpqFnjEq7_lY>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 3 Oct 2026 19:34:34 -0400 (EDT)
+Date: Sun, 4 Oct 2026 00:34:33 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "Verma, Vishal L" <vishal.l.verma@intel.com>
+Cc: "corbet@lwn.net" <corbet@lwn.net>, 
+	"rdunlap@infradead.org" <rdunlap@infradead.org>, "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, 
+	"x86@kernel.org" <x86@kernel.org>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Subject: Re: [PATCH v3 2/2] x86/early_printk: Add earlyprintk=tdx to drive
+ the UART with TDVMCALLs
+Message-ID: <asGQ6wkOmLGkeYsL@thinkstation>
+References: <20260922-b4-tdx_earlyprintk_tdcalls-v3-0-6ebaa599df10@intel.com>
+ <20260922-b4-tdx_earlyprintk_tdcalls-v3-2-6ebaa599df10@intel.com>
+ <arZbBqArD9NqWPry@thinkstation>
+ <c41ffc542bd677b71bcecbe4e2c2e2a3b605ffcf.camel@intel.com>
+ <ar_GLgzxdWUdXn0Z@thinkstation>
+ <dfe6e3aa7bd37679d2d5e559b9af8e254d88044f.camel@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9U6MfxL1eoZMWu+O"
-Content-Disposition: inline
-In-Reply-To: <20261003-dfustini-atl-sc-cbqri-dt-v9-4-52fd8be98dcf@kernel.org>
-
---9U6MfxL1eoZMWu+O
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <dfe6e3aa7bd37679d2d5e559b9af8e254d88044f.camel@intel.com>
 
-On Sat, Oct 03, 2026 at 12:12:29AM -0700, Drew Fustini wrote:
-> Document the device tree binding for RISC-V CBQRI capacity and bandwidth
-> controllers. Each controller is named by a device-specific compatible
-> followed by the generic compatible. The binding also describes the
-> common riscv,cbqri-rcid and riscv,cbqri-mcid properties, and the
-> optional riscv,cbqri-cache phandle that links a capacity controller to
-> the cache whose capacity it allocates.
->=20
-> Assisted-by: LLM
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> Signed-off-by: Drew Fustini <fustini@kernel.org>
-> ---
->  .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 97 ++++++++++++++++=
-++++++
->  MAINTAINERS                                        |  1 +
->  2 files changed, 98 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml b/D=
-ocumentation/devicetree/bindings/riscv/riscv,cbqri.yaml
-> new file mode 100644
-> index 000000000000..0924758ebdde
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
-> @@ -0,0 +1,97 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/riscv/riscv,cbqri.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: RISC-V Capacity and Bandwidth QoS Register Interface (CBQRI) cont=
-roller
-> +
-> +description: |
-> +  The RISC-V CBQRI specification defines capacity-controller and
-> +  bandwidth-controller register blocks that allocate cache capacity and =
-memory
-> +  bandwidth to resource-control IDs (RCIDs) and monitor usage per
-> +  monitoring-counter ID (MCID):
-> +  https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.pdf
-> +
-> +  Allocation and monitoring share one register block, and a controller m=
-ay
-> +  implement either or both. A driver discovers which at runtime from the
-> +  capabilities register, so the compatible names only the controller typ=
-e. It
-> +  does not distinguish allocation-only, monitoring-only or combined
-> +  controllers, and no property declares monitoring support.
-> +
-> +maintainers:
-> +  - Drew Fustini <fustini@kernel.org>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - tenstorrent,ascalon-shared-cache-controller
-> +          - const: riscv,cbqri-capacity-controller
-> +      - items:
-> +          - {}
-> +          - const: riscv,cbqri-bandwidth-controller
+On Fri, Oct 02, 2026 at 07:31:00PM +0000, Verma, Vishal L wrote:
+> > +/* Only referenced when X86_FEATURE_TDX_GUEST is enabled, no stubs needed */
+> > +unsigned int tdx_serial_in(unsigned long addr, int offset);
+> > +void tdx_serial_out(unsigned long addr, int offset, int value);
+> > +
+> > 
+> 
+> .. Should these also be:
+> 
+> +__noendbr unsigned int tdx_serial_in(unsigned long addr, int offset);
+> +__noendbr void tdx_serial_out(unsigned long addr, int offset, int value);
 
-I think I lead you up the garden path here actually, it needs to be
-"- not: {}", "- {}" permits anything.
+Yes, my bad.
 
---9U6MfxL1eoZMWu+O
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCasGKOwAKCRB4tDGHoIJi
-0rh3AQC9sn2b3xtbezq/LLuqtE017LIOfCkf9Vkinzo7mFnwOwD7Bl1MMdeB57Aj
-9puacBsqArtCXFVPNVGPEdBW+bcqtgE=
-=Hv6j
------END PGP SIGNATURE-----
-
---9U6MfxL1eoZMWu+O--
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
