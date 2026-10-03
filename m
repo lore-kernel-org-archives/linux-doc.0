@@ -1,56 +1,56 @@
 Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC82493D4D
-	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 21:22:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E994915B0
+	for <linux-doc@vger.kernel.org>; Sat,  3 Oct 2026 21:22:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791062577; cv=none; b=szgfo1gw45c167k5kypZM8TRPSwvVIUqm66rs671K4zgFmWMgdg+1qFQp/wlI7KBQ7mDuOOlrtZCoFQmNxLwv/xC4Je78tmNcSgDy5iNI7TrNoySOsGdH4hcgJ48e/SOr6l0QM2PJ6VSExkD8X8o37EezavBLf+5KE+BcU9WlX4=
+	t=1791062579; cv=none; b=ObdWEFtfxu+4n1B/wtNUQy/igo+rsjM/kPOmTpgxSO/SXHC7wTnPCsijDwjh8swhhPoRM4F6g/1zpi8wQXkk3AYhVcwwx/iicESPiGI2XfqPgeeMlENLuPRbdOC3jhaXBteDrAn60wHx6TgexvYo3VrfB9GKXJcsQNHAbbYwYNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791062577; c=relaxed/simple;
-	bh=C7ufT8KVq72MWzFJIoRk0UJZVOPIfdSL5MWcPH3Ufkc=;
+	s=arc-20240116; t=1791062579; c=relaxed/simple;
+	bh=zOQ1rS4eSbFBjRJ2zGSmRLmDG1vgXnryVdljsvOfr1A=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=lKknReP+W2hHYpkUiqUpOIcJzJe/iZ1rMeoT5v914QdFlgQu40rdivVIEfzJ5eTDY2jV7w9FroJtOwAL1pRC6ZzvtkKmtdwIrUNug03zvbYcmIygs1i1Gk5uQu7yaesgrG3imzHYWFkqGIiJYWXkiivuiXnDvEnNrVG2IKp2lIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D5NVe3oA; arc=none smtp.client-ip=209.85.218.70
+	 To:Cc:Content-Type; b=iFxI5QaVZuPKQ6diHUm+laXVTt4HIhrwq0nP+oW+KQKS7rcRkB5xpHFa+G+OL3XgaNc3l7cbpYeaHDCmAW24gihtSej/nxKOHRLqcXQ6BYaK8xpOaq1IOPD8o4m3gzcvPGUta3a8HDWIlxK63WoWcvTxN6HXcvnbjMKwGNq/H/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RZSpuaO4; arc=none smtp.client-ip=209.85.218.70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--lrizzo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D5NVe3oA"
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c252a2ae8e1so90249566b.1
-        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 14:22:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RZSpuaO4"
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c2e48dc5363so98845766b.0
+        for <linux-doc@vger.kernel.org>; Sat, 03 Oct 2026 14:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791062571; x=1791667371; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1791062573; x=1791667373; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sxA7oyLrSoVNihu+TTEed7Cv84XwkDi44oXKTt9irD0=;
-        b=D5NVe3oA3ByG2oKIeo7cXKXz/j7WZOplaiJ6JVMDaRjrTDsgw/Kxw0uNF7qtq+8ZKy
-         xbqUKQrbViL5kueCtvyHluGSIg32HS798Fy+KVHzeCOecP59wvd74/9G0iTdjZQiESJB
-         oB58b8n0s2Jnx4HgAExmDGaZ2I6UFJFVcHPX6uHw9lomgkED/6drutHNUIxOwy1b6y0D
-         9HzeqvLw6+hAqiqOiGypLPTP/WAAo1u4hU0DTUjtIsgLyQHzhP1erDxHgpC0i4IPcLlY
-         Qor1QYYWrz4LpsuIa92QedhU9cOzO33/W/HFLZPzL6cz1oomH8RsXh3SsS2d0axiBNgl
-         nq2w==
+        bh=ILXebACN7PwS4fPLD7OqPMsk7FAR2TMHjyWjGbbeypE=;
+        b=RZSpuaO437hQp1CLYhih56pBzEewcLCx2p/FP3ImOve+PUV4aPiEyvyBt4MzgnH+4Z
+         5ynwBAwnWWR1JuSq9JVxSOiRPJVBOusfBruKmrqOKcTKVdDrJrzmeFN9BF4epqgr9fGo
+         tiq6gv8i4sRfor7bwJJWh34sPtZdXVGCRjM4k3yydnNa/Ym3GZf+RZLQ2faFeySypwLh
+         DUQPAapgyVIAraJP3zVRPWei7+Iy+2rPyybyxDbonPp3lJkqsZLX3jD8eZh4x3NMAArc
+         KxEOrmJtW8OesYLr0PtdvA1U1o/L72H3G1Gcwj1+t8XF5EbIFKyJUgJeQfVQaR6bI13Y
+         eC7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791062571; x=1791667371;
+        d=1e100.net; s=20260707; t=1791062573; x=1791667373;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=sxA7oyLrSoVNihu+TTEed7Cv84XwkDi44oXKTt9irD0=;
-        b=XBwL/u7AR5VwkdIilfcqhtjMMNZ8fq69mWJd+tW0q9AG+fqHDvYFRAVRBGsPh1v3js
-         GrQl8U3rEhVphe38ulYmJVSdj2imhR6KUAtoY0lghRKdYYuIGJyo9zQMsXwls+qs37uo
-         bSplYkxd/+OHWRrBT2VLBoQsPvoYn/9SH9oUkYLFW9+wh6H831iWpXpCNTAiO+oWAByl
-         LaPWrgaOX3UrS/+23gLUm6Tsmjye9sEzveBKANAdgIvxRgJ/NwDHeJhoOVD6Ljv5EXls
-         KaBwJ34lPs6tB5ulNcUDEmPa3qp5FXbA2LsiRtyvstrJDQ39XQsTYduYx6wZ83hufq+F
-         NsCQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwfMVTHF3c5zvA56V7MkJ77XIE125ETywOd4O9BDZV/9u/KFygSFy0VCtxvj9VJJc/Jg/meaHaOEt4=@vger.kernel.org
-X-Gm-Message-State: AFuF++lljxe2Gk/gnPNSLTNnS9o549+K0R1dKEruzflZMxQkCvd5MJ6m
-	8vL9YWUYv2c8TlIUtKL1AXHH9o8HG0PwuZGpm7GdZkz29ho7BXknh0Jdg47Bg3JkflgsOH8jaf6
-	SReF3+A==
-X-Received: from ejcay23.prod.google.com ([2002:a17:907:9017:b0:c2d:d3a7:21fe])
- (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:97d3:b0:c2e:3ed7:7db4
- with SMTP id a640c23a62f3a-c2e6ed3f0fcmr244265366b.23.1791062569971; Sat, 03
- Oct 2026 14:22:49 -0700 (PDT)
-Date: Sat,  3 Oct 2026 21:22:22 +0000
+        bh=ILXebACN7PwS4fPLD7OqPMsk7FAR2TMHjyWjGbbeypE=;
+        b=ElsW+9yMEevV3Xvfj9xkMJ2JDHo89V56unMp5HtwbJ8g8umUVMbS08dU7KsaggTJTT
+         XSOUhyFCAzjYuX1V4R8Yi2TZoCg2W+xPt9VvlefuFUUFPqg3l9j8d5A4uAF2OH2HduSc
+         PyUgeoOoYpdel6gAc9GRtpouEZ+QK7BCrauKdudbq+x2pXGr3mlRVNiOPEaK59+gKAqS
+         yzIiU3pNRx71Fpyj5vbERfZh3xGLT4LDxoQoDIyyTH+TlsK41QcLD0IfVcEOr1N3SyUs
+         ZIZ0AgbeSBn5YPEj4eDhgNdHsPFX5g0sMTWGa76cCaSeVsIhHgC60YTslosiKnqAQb4L
+         2qcQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzR4M3Xpa8q0kzvci8FUw8woqI6CLJQhXGldaLDy/H0gqW1x3/2pXUG4VRI2FbB0M9uzoJtAGXle68=@vger.kernel.org
+X-Gm-Message-State: AFuF++mesovHX0g0KlzgNAXBjslU6MeNZQZ0qCGOQOfv8mmJ8lj3QZne
+	5Io+CUVvQv9HaJ8qt7Mxm7KyvoMupST7unl9maYB9k0EzS3TTKxoZkLpcdGssII/8W2Ipte0TkM
+	YGzhHmA==
+X-Received: from ejbhb21.prod.google.com ([2002:a17:906:b895:b0:c2e:845f:6dab])
+ (user=lrizzo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:e003:20b0:c2e:4b90:3c53
+ with SMTP id a640c23a62f3a-c2e4b9042a4mr380528166b.1.1791062572894; Sat, 03
+ Oct 2026 14:22:52 -0700 (PDT)
+Date: Sat,  3 Oct 2026 21:22:24 +0000
 In-Reply-To: <20261003212241.3432303-1-lrizzo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -60,8 +60,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20261003212241.3432303-1-lrizzo@google.com>
 X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
-Message-ID: <20261003212241.3432303-4-lrizzo@google.com>
-Subject: [RFC: DMA_PMD 03/22] mm: Add split_page_compound()
+Message-ID: <20261003212241.3432303-6-lrizzo@google.com>
+Subject: [RFC: DMA_PMD 05/22] iommu/dma: Global cap and shrinker for DMA_PMD
+ pool memory
 From: Luigi Rizzo <lrizzo@google.com>
 To: Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
 	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>, 
@@ -82,285 +83,302 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafae
 	linux-kernel@vger.kernel.org, Luigi Rizzo <lrizzo@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Add split_page_compound(), which splits an order-@old_order page into
-independently refcounted order-@new_order compound pages (or order-0
-pages when @new_order == 0). This is the high-order counterpart of
-split_page(), used by DMA_PMD pools to carve PMD pages into smaller
-compound blocks.
+Each pool holds some idle pages, for faster future allocations, but on
+large systems there is one pool per CPU and the number may become large.
 
-All resulting pieces are returned frozen (refcount 0) so the caller can
-park them in a pool and publish each piece with page_ref_unfreeze(piece, 1)
-when handed out.
+Add two mechanism to bound the number of unused DMA_PMD pages:
 
-Also add a KUnit test suite (CONFIG_SPLIT_PAGE_COMPOUND_KUNIT_TEST) in
-mm/split_page_compound_kunit.c.
+ - a global ceiling on the number of DMA_PMD pages pinned across all
+   pools, defaulting to one eighth of RAM with a floor for small machines
+   if not configured via /sys/module/kernel/parameters/dma_pmd_max_pages
+   It is checked before each DMA_PMD page allocation and is meant to bound
+   a pathological configuration, not to be reached in normal operation.
+
+ - a shrinker that, under reclaim, offers every completely idle page in
+   every pool and retires as many as the reclaim path asks for, stopping
+   there. Idle pages are detached under the pool lock and retired outside
+   it, since retiring one unmaps it from the IOMMU.
 
 Signed-off-by: Luigi Rizzo <lrizzo@google.com>
 ---
- include/linux/mm.h             |   2 +
- mm/Kconfig.debug               |  11 ++++
- mm/Makefile                    |   1 +
- mm/page_alloc.c                |  85 +++++++++++++++++++++++++
- mm/split_page_compound_kunit.c | 113 +++++++++++++++++++++++++++++++++
- 5 files changed, 212 insertions(+)
- create mode 100644 mm/split_page_compound_kunit.c
+ drivers/iommu/dma-pmd-kunit.c |  21 ++++-
+ drivers/iommu/dma-pmd-pool.c  | 146 +++++++++++++++++++++++++++++++++-
+ drivers/iommu/dma-pmd-priv.h  |   2 +
+ 3 files changed, 165 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index dd09c438fa23e..799a42005627f 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1985,6 +1985,8 @@ static inline struct folio *virt_to_folio(const void *x)
- void __folio_put(struct folio *folio);
+diff --git a/drivers/iommu/dma-pmd-kunit.c b/drivers/iommu/dma-pmd-kunit.c
+index 24978a5123f54..4e38cc5970433 100644
+--- a/drivers/iommu/dma-pmd-kunit.c
++++ b/drivers/iommu/dma-pmd-kunit.c
+@@ -88,8 +88,8 @@ static void test_meta_pooled_toggle(struct kunit *test)
  
- void split_page(struct page *page, unsigned int order);
-+int split_page_compound(struct page *page, unsigned int old_order,
-+			unsigned int new_order);
- void folio_copy(struct folio *dst, struct folio *src);
- int folio_mc_copy(struct folio *dst, struct folio *src);
+ static void test_pool_alloc_and_recycle(struct kunit *test)
+ {
+-	struct dma_pmd_pool *pool;
+-	struct page *p1, *p2;
++	struct dma_pmd_pool *pool, *pool_wm;
++	struct page *p1, *p2, *b1, *b2, *b3;
+ 	unsigned int order;
  
-diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
-index 15dca19dd07da..e1a04671c3b0d 100644
---- a/mm/Kconfig.debug
-+++ b/mm/Kconfig.debug
-@@ -347,3 +347,14 @@ config MEM_ALLOC_PROFILING_DEBUG
- 	help
- 	  Adds warnings with helpful error messages for memory allocation
- 	  profiling.
-+
-+config SPLIT_PAGE_COMPOUND_KUNIT_TEST
-+	bool "KUnit test for split_page_compound() (built-in)" if !KUNIT_ALL_TESTS
-+	depends on KUNIT=y
-+	default KUNIT_ALL_TESTS
-+	help
-+	  Builds KUnit unit tests for split_page_compound() in mm/page_alloc.c,
-+	  verifying compound splitting, sub-block freezing, and speculative
-+	  reference handling.
-+
-+	  If unsure, say N.
-diff --git a/mm/Makefile b/mm/Makefile
-index e7245cb88c665..448c0f5f783f3 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -148,3 +148,4 @@ obj-$(CONFIG_EXECMEM) += execmem.o
- obj-$(CONFIG_TMPFS_QUOTA) += shmem_quota.o
- obj-$(CONFIG_LAZY_MMU_MODE_KUNIT_TEST) += tests/lazy_mmu_mode_kunit.o
- obj-$(CONFIG_MEM_ALLOC_PROFILING) += alloc_tag.o
-+obj-$(CONFIG_SPLIT_PAGE_COMPOUND_KUNIT_TEST) += split_page_compound_kunit.o
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index e8e9905cdea5b..a663ec81a588b 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -3133,6 +3133,91 @@ void split_page(struct page *page, unsigned int order)
- }
- EXPORT_SYMBOL_GPL(split_page);
- 
-+/*
-+ * split_page_compound() - split an order-@old_order page into compound pages
-+ *			   of order @new_order
-+ * @page: the page to split
-+ * @old_order: the current order of @page
-+ * @new_order: the order of the resulting pages
-+ *
-+ * Unlike split_page(), which produces order-0 pages, this produces
-+ * 1 << (@old_order - @new_order) compound pages, each with its own head.
-+ * @page must not be compound, and the caller must hold the only reference to
-+ * it: the block is frozen while the new heads are built.
-+ *
-+ * All pieces (including @page at index 0) are returned frozen, with a zero
-+ * refcount. Publish each piece with
-+ * page_ref_unfreeze(piece, 1) before handing it out: its release store orders
-+ * the compound layout built here against anyone who then observes the
-+ * refcount. A relaxed set_page_count() would not, and on a weakly ordered
-+ * machine a PFN walker could see a live refcount on a head whose layout is
-+ * not visible yet.
-+ *
-+ * Memcg-charged pages are rejected: the accounting helpers assume a split
-+ * produces order-0 pages and would mis-attribute the new compound heads.
-+ *
-+ * Return: 0 on success, -EINVAL if @page cannot be split or if @new_order is
-+ * larger than @old_order, -EBUSY if anyone but the caller holds a reference
-+ * to it.
-+ */
-+int split_page_compound(struct page *page, unsigned int old_order,
-+			unsigned int new_order)
-+{
-+	unsigned int i, step = 1U << new_order, nr = 1U << old_order;
-+
-+	if (WARN_ON_ONCE(PageCompound(page) || !page_count(page)))
-+		return -EINVAL;
-+
-+	if (WARN_ON_ONCE(new_order > old_order))
-+		return -EINVAL;
-+
-+	if (WARN_ON_ONCE(memcg_kmem_online() && PageMemcgKmem(page)))
-+		return -EINVAL;
+ 	KUNIT_EXPECT_NULL(test, dma_pmd_pool_destroy(NULL));
+@@ -121,6 +121,23 @@ static void test_pool_alloc_and_recycle(struct kunit *test)
+ 		if (p2)
+ 			__free_pages(p2, order);
+ 	}
 +
 +	/*
-+	 * Shape the new compound pages while the block is frozen, which is
-+	 * the order __alloc_pages_noprof() itself uses: prep_new_page()
-+	 * builds the page with a zero refcount and the set_page_refcounted()
-+	 * that follows is what makes it visible.
-+	 *
-+	 * Freezing stops a speculative PFN walker from resolving a compound
-+	 * page that is only half built: get_page_unless_zero() fails for as
-+	 * long as the layout below is being written. It does not order
-+	 * against memory_failure(), which sets PG_hwpoison before taking any
-+	 * reference, so the non-atomic __SetPageHead() below can still lose a
-+	 * concurrent poison bit - exactly as it can for every other
-+	 * prep_compound_page() caller, the page allocator included.
-+	 *
-+	 * A failed freeze is not a bug, it means someone holds a speculative
-+	 * reference. Every PFN walker in the tree gates
-+	 * get_page_unless_zero() on PageLRU, which a freshly allocated block
-+	 * is not, so in practice only the hwpoison machinery gets here. Let
-+	 * the caller fall back rather than warn: a machine running
-+	 * panic_on_warn should not die of a condition the caller handles.
++	 * Exercise max_idle_2m = 1 watermark release: an order-(PMD_ORDER - 1)
++	 * pool has 2 blocks per 2M page, so 3 allocations span two 2M pages.
 +	 */
-+	if (!page_ref_freeze(page, 1))
-+		return -EBUSY;
++	pool_wm = dma_pmd_pool_create(PMD_ORDER - 1, 1);
++	KUNIT_ASSERT_NOT_NULL(test, pool_wm);
++	b1 = dma_pmd_pool_alloc(pool_wm, GFP_KERNEL);
++	b2 = dma_pmd_pool_alloc(pool_wm, GFP_KERNEL);
++	b3 = dma_pmd_pool_alloc(pool_wm, GFP_KERNEL);
++	if (b1)
++		__free_pages(b1, PMD_ORDER - 1);
++	if (b2)
++		__free_pages(b2, PMD_ORDER - 1);
++	if (b3)
++		__free_pages(b3, PMD_ORDER - 1);
++	dma_pmd_pool_destroy(pool_wm);
+ }
+ 
+ static struct kunit_case dma_pmd_meta_test_cases[] = {
+diff --git a/drivers/iommu/dma-pmd-pool.c b/drivers/iommu/dma-pmd-pool.c
+index e6e5ba7c65f27..78f2537772d1d 100644
+--- a/drivers/iommu/dma-pmd-pool.c
++++ b/drivers/iommu/dma-pmd-pool.c
+@@ -39,6 +39,17 @@ static LLIST_HEAD(dma_pmd_free_list);
+ /* Dedicated WQ_MEM_RECLAIM workqueue, can run without allocations. */
+ static struct workqueue_struct *dma_pmd_wq __ro_after_init;
+ 
++/*
++ * Running total and global ceiling on DMA_PMD pages pinned across all pools.
++ * If zero, it is set at boot at 1/8 of total RAM.
++ * Without this the bound is per-pool, so the footprint scales with the number
++ * of pools (one per RX queue, two per CPU for sockets) with nothing watching
++ * the aggregate.
++ */
++static atomic_long_t dma_pmd_nr_pages __cacheline_aligned_in_smp;
++static unsigned long dma_pmd_max_pages __read_mostly;
++core_param(dma_pmd_max_pages, dma_pmd_max_pages, ulong, 0644);
 +
-+	if (!new_order) {
+ /* All live pools. */
+ static LIST_HEAD(dma_pmd_pools);
+ static DEFINE_MUTEX(dma_pmd_pools_lock);
+@@ -101,6 +112,8 @@ static void dma_pmd_release_page_rcu(struct rcu_head *head)
+ 		__free_pages(block, order);
+ 	}
+ 
++	atomic_long_dec(&dma_pmd_nr_pages);
++
+ 	spin_lock_irqsave(&pool->lock, flags);
+ 	pool->pmd_free_cnt++;
+ 	spin_unlock_irqrestore(&pool->lock, flags);
+@@ -115,7 +128,7 @@ static void dma_pmd_release_page_rcu(struct rcu_head *head)
+  * Cost: Slow path; clears the membership bit. The blocks themselves are
+  *       returned after an RCU grace period.
+  * Locking: Must not hold @pool->lock.
+- * Frequency: Rare (background reclaim workqueue, pool destruction).
++ * Frequency: Rare (background reclaim workqueue, shrinker, pool destruction).
+  */
+ static void dma_pmd_release_page(struct dma_pmd_meta *meta)
+ {
+@@ -168,7 +181,9 @@ static void dma_pmd_schedule_reclaim(void)
+  * @order: Block order to dispense, must be <= PMD_ORDER.
+  * @max_idle_pages: Maximum number of completely idle PMD pages to keep cached in
+  *               the pool before asynchronously releasing excess PMD pages to buddy
+- *               (0 uses default of 16 = 32 MB).
++ *               (0 uses default of 16 = 32 MB). This is a per-pool bound; the
++ *               aggregate across all pools is additionally capped by
++ *               dma_pmd_max_pages and trimmed by the shrinker.
+  *
+  * New PMD physical pages are allocated on demand on the NUMA node of the
+  * calling CPU (the NAPI CPU for RX queue refill, or the application CPU for TX).
+@@ -294,6 +309,15 @@ static struct dma_pmd_meta *dma_pmd_add_page(struct dma_pmd_pool *pool,
+ 	if (!can_block && time_before(jiffies, READ_ONCE(pool->next_alloc_attempt)))
+ 		return NULL;
+ 
++	/* Aggregate ceiling across every pool, independent of max_idle_pages. */
++	if (atomic_long_inc_return(&dma_pmd_nr_pages) > READ_ONCE(dma_pmd_max_pages)) {
++		atomic_long_dec(&dma_pmd_nr_pages);
++		if (!can_block)
++			WRITE_ONCE(pool->next_alloc_attempt,
++				   jiffies + DIV_ROUND_UP(HZ, 100));
++		return NULL;
++	}
++
+ 	/*
+ 	 * The following flags are discarded:
+ 	 *
+@@ -324,6 +348,7 @@ static struct dma_pmd_meta *dma_pmd_add_page(struct dma_pmd_pool *pool,
+ 
+ 	page = alloc_pages_node(nid, alloc_gfp, PMD_ORDER);
+ 	if (!page) {
++		atomic_long_dec(&dma_pmd_nr_pages);
+ 		/* Retry backoff; could be made shorter or tunable in future. */
+ 		if (!can_block)
+ 			WRITE_ONCE(pool->next_alloc_attempt,
+@@ -338,12 +363,14 @@ static struct dma_pmd_meta *dma_pmd_add_page(struct dma_pmd_pool *pool,
+ 	 */
+ 	if (unlikely(!dma_pmd_meta_ensure_pfn(page_to_pfn(page), can_block))) {
+ 		__free_pages(page, PMD_ORDER);
++		atomic_long_dec(&dma_pmd_nr_pages);
+ 		return NULL;
+ 	}
+ 
+ 	/* Fails with -EBUSY if a concurrent PFN walker holds a speculative ref. */
+ 	if (split_page_compound(page, PMD_ORDER, pool->order)) {
+ 		__free_pages(page, PMD_ORDER);
++		atomic_long_dec(&dma_pmd_nr_pages);
+ 		return NULL;
+ 	}
+ 
+@@ -642,8 +669,112 @@ bool __dma_pmd_free_page(struct page *page)
+ }
+ EXPORT_SYMBOL(__dma_pmd_free_page);
+ 
++/*
++ * Idle PMD pages are retained per pool up to max_idle_pages, which is a throughput
++ * knob and deliberately does not react to memory pressure. The shrinker is
++ * what makes that safe: under reclaim every completely idle PMD page in every
++ * pool becomes available, so the pools give the memory back instead of
++ * pinning their high-water mark for the lifetime of the machine.
++ *
++ * Both callbacks use mutex_trylock() rather than mutex_lock(): a thread that
++ * already holds dma_pmd_pools_lock can enter direct reclaim from an
++ * allocation it makes under that lock, and reclaim calls straight back in
++ * here. Giving up is always correct, since there is nothing this shrinker
++ * could free that the holder is not already about to account for.
++ */
++static unsigned long dma_pmd_shrink_count(struct shrinker *shrink,
++					  struct shrink_control *sc)
++{
++	struct dma_pmd_pool *pool;
++	unsigned long nr = 0;
++
++	if (!mutex_trylock(&dma_pmd_pools_lock))
++		return 0;
++
++	list_for_each_entry(pool, &dma_pmd_pools, node)
++		nr += READ_ONCE(pool->num_idle_pages);
++
++	mutex_unlock(&dma_pmd_pools_lock);
++
++	return nr << PMD_ORDER;
++}
++
++static unsigned long dma_pmd_shrink_scan(struct shrinker *shrink,
++					 struct shrink_control *sc)
++{
++	struct dma_pmd_meta *meta, *tmp;
++	struct dma_pmd_pool *pool;
++	unsigned long freed = 0;
++	LIST_HEAD(release_list);
++	unsigned long flags;
++
++	if (!mutex_trylock(&dma_pmd_pools_lock))
++		return SHRINK_STOP;
++
++	list_for_each_entry(pool, &dma_pmd_pools, node) {
 +		/*
-+		 * The subpages of a non-compound block are already
-+		 * independent frozen pages, so only the bookkeeping applies.
++		 * Every PMD page on @idle is a candidate, so this detaches one
++		 * per iteration and stops as soon as the reclaim path has
++		 * what it asked for: the IRQs-off section is bounded by the
++		 * work done, not by how many PMD pages the pool holds.
 +		 */
-+		split_page_owner(page, old_order, 0);
-+		pgalloc_tag_split(page_folio(page), old_order, 0);
-+		split_page_memcg(page, old_order);
++		spin_lock_irqsave(&pool->lock, flags);
++		list_for_each_entry_safe(meta, tmp, &pool->idle, list) {
++			if (freed >= sc->nr_to_scan)
++				break;
++			list_move(&meta->list, &release_list);
++			pool->num_idle_pages--;
++			freed += 1UL << PMD_ORDER;
++		}
++		spin_unlock_irqrestore(&pool->lock, flags);
++
++		if (freed >= sc->nr_to_scan)
++			break;
++	}
++
++	mutex_unlock(&dma_pmd_pools_lock);
++
++	/* Retiring must not run under @pool->lock. */
++	list_for_each_entry_safe(meta, tmp, &release_list, list) {
++		list_del(&meta->list);
++		dma_pmd_release_page(meta);
++	}
++
++	/*
++	 * Both counts are in pages, matching dma_pmd_shrink_count(). A
++	 * 2M page is 512 of them and cannot be freed in parts, so a
++	 * SHRINK_BATCH sized request always overshoots. Report what was
++	 * really reclaimed so that do_shrink_slab() charges its budget for
++	 * the whole PMD page instead of the 128 pages it asked for, and does
++	 * not come back four times over for the same pressure.
++	 *
++	 * Zero scanned pages would leave that budget untouched and spin,
++	 * so a scan that reclaimed nothing has to say SHRINK_STOP.
++	 */
++	sc->nr_scanned = freed;
++
++	return freed ?: SHRINK_STOP;
++}
++
+ static int __init dma_pmd_init(void)
+ {
++	struct shrinker *shrink;
++
++	/*
++	 * Hard ceiling on memory diverted from the buddy allocator into 2MB
++	 * pools, in PMD pages. One eighth of RAM is far above what the per-pool
++	 * watermarks should ever reach; it exists to bound a pathological
++	 * configuration (many queues, many CPUs, all pools at their high
++	 * water mark) rather than to be hit in normal operation. The floor
++	 * keeps small machines usable. Zero here means the dma_pmd_max_pages=
++	 * boot parameter did not override it.
++	 *
++	 * Lowering the cap later only stops pools from growing; the PMD pages
++	 * already held are returned by the shrinker as they fall idle.
++	 */
++	if (!dma_pmd_max_pages)
++		dma_pmd_max_pages = max(totalram_pages() >> (PMD_ORDER + 3), 16UL);
++
+ 	/*
+ 	 * Reclaim frees memory, so it must not queue behind arbitrary work on
+ 	 * system_wq when the machine is already short of it. Failure is not
+@@ -653,6 +784,17 @@ static int __init dma_pmd_init(void)
+ 	if (!dma_pmd_wq)
+ 		pr_warn("dma_pmd: no reclaim workqueue, falling back to system_wq\n");
+ 
++	shrink = shrinker_alloc(0, "dma_pmd");
++	if (!shrink) {
++		pr_warn("dma_pmd: shrinker registration failed\n");
 +		return 0;
 +	}
 +
-+	split_page_owner(page, old_order, new_order);
-+	pgalloc_tag_split(page_folio(page), old_order, new_order);
++	shrink->count_objects = dma_pmd_shrink_count;
++	shrink->scan_objects = dma_pmd_shrink_scan;
++	shrink->seeks = DEFAULT_SEEKS;
++	shrinker_register(shrink);
 +
-+	for (i = 0; i < nr; i += step)
-+		prep_compound_page(page + i, new_order);
-+
-+	return 0;
-+}
-+
- int __isolate_free_page(struct page *page, unsigned int order)
- {
- 	struct zone *zone = page_zone(page);
-diff --git a/mm/split_page_compound_kunit.c b/mm/split_page_compound_kunit.c
-new file mode 100644
-index 0000000000000..bb0ac908bbc1e
---- /dev/null
-+++ b/mm/split_page_compound_kunit.c
-@@ -0,0 +1,113 @@
-+// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-+/*
-+ * KUnit tests for split_page_compound().
-+ */
-+#include <kunit/test.h>
-+#include <linux/gfp.h>
-+#include <linux/mm.h>
-+
-+static void test_split_compound_pieces(struct kunit *test)
-+{
-+	const unsigned int old_order = 5, new_order = 2;
-+	const unsigned int step = 1U << new_order;
-+	const unsigned int nr = 1U << old_order;
-+	struct page *page;
-+	unsigned int i, j;
-+	int ret;
-+
-+	page = alloc_pages(GFP_KERNEL, old_order);
-+	KUNIT_ASSERT_NOT_NULL(test, page);
-+	KUNIT_EXPECT_FALSE(test, PageCompound(page));
-+
-+	ret = split_page_compound(page, old_order, new_order);
-+	if (ret)
-+		__free_pages(page, old_order);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	for (i = 0; i < nr; i += step) {
-+		struct page *sub = page + i;
-+
-+		/* All heads 0..N-1 are returned frozen (refcount 0). */
-+		KUNIT_EXPECT_EQ(test, page_count(sub), 0);
-+		KUNIT_EXPECT_TRUE(test, PageHead(sub));
-+		KUNIT_EXPECT_EQ(test, compound_order(sub), new_order);
-+
-+		for (j = 1; j < step; j++) {
-+			KUNIT_EXPECT_TRUE(test, PageTail(sub + j));
-+			KUNIT_EXPECT_PTR_EQ(test, compound_head(sub + j), sub);
-+		}
-+
-+		page_ref_unfreeze(sub, 1);
-+
-+		/* Tail get_page()/put_page() must operate on this piece's head. */
-+		get_page(sub + 1);
-+		KUNIT_EXPECT_EQ(test, page_count(sub), 2);
-+		put_page(sub + 1);
-+		KUNIT_EXPECT_EQ(test, page_count(sub), 1);
-+	}
-+
-+	/* Each compound piece frees independently at new_order. */
-+	for (i = 0; i < nr; i += step)
-+		__free_pages(page + i, new_order);
-+}
-+
-+static void test_split_order0_pieces(struct kunit *test)
-+{
-+	const unsigned int old_order = 3, nr = 1U << old_order;
-+	struct page *page;
-+	unsigned int i;
-+	int ret;
-+
-+	page = alloc_pages(GFP_KERNEL, old_order);
-+	KUNIT_ASSERT_NOT_NULL(test, page);
-+
-+	ret = split_page_compound(page, old_order, 0);
-+	if (ret)
-+		__free_pages(page, old_order);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	for (i = 0; i < nr; i++) {
-+		struct page *sub = page + i;
-+
-+		KUNIT_EXPECT_FALSE(test, PageCompound(sub));
-+		KUNIT_EXPECT_EQ(test, page_count(sub), 0);
-+		page_ref_unfreeze(sub, 1);
-+		__free_pages(sub, 0);
-+	}
-+}
-+
-+static void test_split_ebusy_extra_ref(struct kunit *test)
-+{
-+	const unsigned int old_order = 4;
-+	const unsigned int new_order = 2;
-+	struct page *page;
-+	int ret;
-+
-+	page = alloc_pages(GFP_KERNEL, old_order);
-+	KUNIT_ASSERT_NOT_NULL(test, page);
-+
-+	/* Simulate a concurrent speculative reference. */
-+	get_page(page);
-+	ret = split_page_compound(page, old_order, new_order);
-+	KUNIT_EXPECT_EQ(test, ret, -EBUSY);
-+	KUNIT_EXPECT_FALSE(test, PageCompound(page));
-+
-+	put_page(page);
-+	__free_pages(page, old_order);
-+}
-+
-+static struct kunit_case split_page_compound_test_cases[] = {
-+	KUNIT_CASE(test_split_compound_pieces),
-+	KUNIT_CASE(test_split_order0_pieces),
-+	KUNIT_CASE(test_split_ebusy_extra_ref),
-+	{}
-+};
-+
-+static struct kunit_suite split_page_compound_test_suite = {
-+	.name = "split_page_compound",
-+	.test_cases = split_page_compound_test_cases,
-+};
-+
-+kunit_test_suite(split_page_compound_test_suite);
-+MODULE_DESCRIPTION("KUnit tests for split_page_compound()");
-+MODULE_LICENSE("Dual BSD/GPL");
+ 	return 0;
+ }
+ subsys_initcall(dma_pmd_init);
+diff --git a/drivers/iommu/dma-pmd-priv.h b/drivers/iommu/dma-pmd-priv.h
+index 99bd7d77fd4ef..39295d0add51d 100644
+--- a/drivers/iommu/dma-pmd-priv.h
++++ b/drivers/iommu/dma-pmd-priv.h
+@@ -21,6 +21,8 @@
+  *			when can_block is true. It is not nested with pool->lock
+  *			or meta->map_lock, and sits inside dma_pmd_pools_lock
+  *			when dma_pmd_pool_create() calls dma_pmd_meta_init().
++ *			The only reverse edge on dma_pmd_pools_lock is the
++ *			shrinker's mutex_trylock(), which cannot block.
+  *
+  * dma_pmd_pools_lock	Mutex over the list of live pools. Outermost of the
+  *			three, and it must not be taken from a context that
 -- 
 2.56.0.rc1.315.gc6ed9934b7-goog
 
