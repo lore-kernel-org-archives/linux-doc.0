@@ -1,300 +1,195 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-ed2-f32.google.com (mail-ed2-f32.google.com [74.125.228.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DD546D2BF
-	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 17:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791134055; cv=pass; b=L2DowvQ06PCn3tb6Lm3nanVj0kkABiEEkHyWVpS+TFQ0kiA/vfIQ0Xd0xqFuEfqSeLRZKEVlfXLnTwAhv8Q7DaGWMTq4HnLKM94mWnth5ojV/7BfIhtxAnEiM2Y1MAib4auyYzC7DApOQAFuQWG3TuTMPeFsTXTwugm1gL9tlt8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791134055; c=relaxed/simple;
-	bh=DPQmWisOarX73EV4DX8xr1LZtE2t1IZvvp+wtV1goOg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=StdyelJp5yAJ2pO1fCAOWdqhNg/RyV1OtBUmKCOlV2Lf9zzBEBRgTQx5G+UIezg5D/P+yfeHs8Iub1ArZT5CiLS11xeqJeawQpNAGrEQnRGc4eleN6+YvlsvFGFeU+f7fBOn5GAu6wp3kqFG06rOnKd8gsNvCjpBUKEbkQDiltc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZfM0PfdC; arc=pass smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2BC471420
+	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 17:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.96
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791134206; cv=none; b=KX5/eE09vIdHucVWK/aHNSaIudpCerXCrAnT/XKCyI7+mMNTiiZLwAufbkys93xwln5Bg29jZ64YnRuqycYyvAjPa4HtKKmXH6I1iqvscXAHXpPzAtOpYXpF+hYSHtAR5n8oySI2sV2fEgE/YB440dH5dMZ+A4x4YSotO4q9AbI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791134206; c=relaxed/simple;
+	bh=nXd/4LFPlNEFAa0PUcYz+6AQtYlG+zgB4vefordwf/g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hACsD3NMTRIqwLUfyeufEIyZ49JDQQccbCyjIjVExNQxor59wdliVNuelwQM77xv4447VT9UP6atZScn3kzaJQm12F9rO+a2Se8cJ/0jqUkpfbo/qZ5MeVBAu7xlgXkZ3Pw4YfMufoOym3yje9mMKZWsfMujlk3cMSlaH7pK0HU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de; spf=pass smtp.mailfrom=bairaktaris.de; dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.b=DswtWeql; arc=none smtp.client-ip=74.125.228.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bairaktaris.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZfM0PfdC"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-5337c7b9937so258381cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 10:14:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791134051; cv=none;
-        d=google.com; s=arc-20260327;
-        b=k9DqztP3ziX5+jHHrvxT1eWZot4qMaHWK5chIwKrAQSEctn79xwk/OtMKeVQUXraDP
-         qFTKBN79dlKPlKvn/q3AdIcicrIuApxJFvPqaydXuwreNPPrchmPumeCKN8j9CLSuoIF
-         W6lvqLLx2d9mr2rWn/uH/0bgbnV8bulLAc6C4oy6hTPGfHhpHJiZORDSf7smdDuhKEMk
-         kJh5I7BHowsjcdJ2Sv0jAsLelHQywGiBaTX4olwnh1uaUBsDl62cH4LGJCLqgd0Z35D/
-         1FWi9+hEbE9RjUlgQVQcy8JsiIijwIbCX9a/hyg/0Xb+tKn0tGpsaVEWCGv2mCYkkuWg
-         Q1kA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oK+gurncHWXSmmPtPu9hgAMG8GgRdX+XUQo4lUX1RzQ=;
-        fh=zqjX3tRmok8CO44TRiw/zYCH9aPVgnQEaPu0uMc6LpM=;
-        b=HkitSAtbAtIzstPwLnjZFdNrl9vflg0zPD0XzolTfN2sRxuxQMSEK9EBhveAYqFfbT
-         U+FjSgVx6e9gCpaVQ2agSZukzRap02e4Obwf2yCu/ByotxZK/HWkE9ikoDUhgtrmRxbP
-         whihe5WKYzDv6VWzD1dx3EbE4GI6Jx9NwguMO3DjLmkz8f/mE8Px2xpPsCDFSRECa0DD
-         10+bY9Wh+tfLuYBOpmIBCSWgFrVykvPtWpHzzTCKskClifM11Fb9lMPNDMS/PWVayCsW
-         sWL3Jj2D+TxMnl3MNe7nnrDNnsZ5e+12MX0HXww7zUkZdFppVt52EA/y+61zjJAy4JlT
-         BPqw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.b="DswtWeql"
+Received: by mail-ed2-f32.google.com with SMTP id 4fb4d7f45d1cf-6af7d702c76so1313739a12.1
+        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 10:16:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791134051; x=1791738851; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oK+gurncHWXSmmPtPu9hgAMG8GgRdX+XUQo4lUX1RzQ=;
-        b=ZfM0PfdCG6H44xOr3YlYxlWsbWe96HV3PNCQY5sPyElCBZVf+BxgvzNI88RLpJJyz8
-         Cy+ygj496VOBma1ceboQuwkeweq79Nd0djZaIfHLbNjskIOh8ejk0SkutUNTrE0vnzwO
-         sT7GwQnvX7Dk4IIEmOBKYRxolAbWEwAyi0CIQpUsLNhPsxgl4nu6sX+IKjmK7KaOMLrh
-         LNb7DMdXDOZqcqx1gbhk81oef9Nbk4m9ZBPrte8o6M9IAA/KgUBK4hgU5PgJ1wqOxVgD
-         ciebZjreurPkCRPkA19W7odS8TPrImTSYx0XwAtAW/7ISf6RgC2wGcR8eNAukSGafNYy
-         BE7Q==
+        d=bairaktaris.de; s=google; t=1791134200; x=1791739000; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aLYtPbQjZgcuVs2CGURwKTgeknAxIQmlp31jFys2sGU=;
+        b=DswtWeqlhhaRjYDSnFlxmYoIL1ItD9tb4pm9l9TAY00Zmv3jmmlCQVvDTXg5805Ixj
+         GgQIQvTeN5irSsyHpCvsPnYDMP0GFpzujovHF8ISuNRtEZhl+qDZYI0EzTjRCYY0FJe3
+         11itbIg+ZDnArcUEfqme1OefcMlC7VR6rMnaT3iFlYXI+S9OlppROZRcfGe1n9itSZb3
+         +cY2Kk1tA+0FqRv3PxJ2ioOkPEa0vTq/kdpP+eIKyL6Nin4MXYLyZy9cWuAjcKq2QKhq
+         b5HZCTXouGYcopBpbEnNG/DR6+UZl9R1+md9IsJiD8Do4ycE0q5DlnXZwgEdcXLlon3f
+         coeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791134051; x=1791738851;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oK+gurncHWXSmmPtPu9hgAMG8GgRdX+XUQo4lUX1RzQ=;
-        b=x7i5QqqW2LGMGPozkuT0KRGMeuEc0K8WfxTzZHx2ec3XTXd4Fo5qKZkYPv8XBLPuQN
-         JV89lu9FhwdRGfItzrwEeiCsKhRJUneJKCwB6YcZ5pwqKTL539OM+A09v2pjYUrOJZaN
-         y1Jw9DxP2p6LCSH2CARRMewNt/CdklDgi5An/D9xc8s4ZnGdm4+ujcPpvS3zHkGRz8K3
-         yacdrK3Vw0xbdocwAg8VdL/+tv0FbGS+Uau7xOuXkf1IFNdxgEcHX3SvB1WfyrM4RQU6
-         92S+x72fMIHsSx47uJCjBpM20LB+83Suv0h8Xtr4nLwISOtjDyjxf1SzESpkOmMmgtX3
-         oMbQ==
-X-Forwarded-Encrypted: i=1; AKwUvByIdpZu3+/4AgXqp7whHMgjd+mycZU4iSVkKFm23bvLSRUKYA60ZXCYraLPjUKTS5JlGkgJtfO7aRA=@vger.kernel.org
-X-Gm-Message-State: AFuF++m3ckepDd++2s/x0q/rU0+13aVx635OhU5E+CiCzetrXN9tf5wc
-	PU5OZNWk5hFtiFbV/70CrMCPs90LUikY7+A9lO0JYnXEbndlRGYU+6zu+PeCLL+idynsALgBauy
-	ou2km0/eEJC8KYMJYst46TWl7YX1H2Ybk14fOGfzc
-X-Gm-Gg: AYBFou2pxIXOD+WdOAcpF6yqtxUqbXqPVMyetQbgiFOV1H5QRNM/cN/cCD0kgspLOQ6
-	PUFw/FXmzh7BgHeYuxXzW+dI0fcglrbAV7wY1/EfdeUHqgYTNxEcnqJ38LOYZhgRJTbf9m/XDSl
-	qj2QrO9LzgfsdKFswoKpr+MHdpLXc/IK00sK83CmqysZLa4ShMbQ+DEsK24hMc9Y5TIR+M82Pka
-	q38h7RdaFIUGOZCee1SXxAzSiJ3QFHBRVuYj+3OOhO6V+ods5a5cc4e2eYjRs9RKPrqiuCJSfqG
-	UlhzLGpDag21adfMNe/D13OsPJip7vErG+4JFBMYLp/kmiNEH0z0DF4z
-X-Received: by 2002:ac8:574c:0:b0:531:475:4ce6 with SMTP id
- d75a77b69052e-535131b2b85mr16314281cf.9.1791134050552; Sun, 04 Oct 2026
- 10:14:10 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791134200; x=1791739000;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aLYtPbQjZgcuVs2CGURwKTgeknAxIQmlp31jFys2sGU=;
+        b=fQTWy1VwZv7hkI/JhwVigg+W1sUqUlxwZQ6hxCF2D1VrW/QQ4oj3+z7B4HgzkxsMio
+         zUpbXLDa6VhhHk9Yq0G+uCOS+ppNnyXuTe2B6PpnuvwlriRIaeFzflGxfBGZEnegapes
+         3KAKLP9LizlhfnGPH7KjyJylyfRwQfoQ3sJFV+VI09vaLthTq7Gh5vRf8vctaqCPLZg+
+         EBby6ds+8qO7/yNu46UliYtlWwnnDl5sfr94wo7KWsePY5A11tf9u5y03gTUfQRmYkZV
+         sX3/QUpj4ecW/i0HUcN6JWQlC4AqV5p2BEJ5jkLo95SJL5FlXUVBqhImoYu4bKT4G8PY
+         hgmA==
+X-Forwarded-Encrypted: i=1; AKwUvByxcnmHjISBhymS/hgQzcQR30TyjWMsDxYDd+77Meox4NThxAUR/jrmBIuSRVhp1o7jxbPo/3qDFKw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLJc+01rMJ6sPBAw0tGX35UtNOAVfkgsj8V0jtDvNlmd27Q2/Ya
+	4lrjP2G4WttoEij0b7SPNagw8vNhUy318AHDXY1BfpAeWh5IQ6t0pvzEfX30gjtLLA==
+X-Gm-Gg: AYBFou10h2KnCQbmqFDNiOYjpaYQdwstKnhav5Yo2FwHPCu3oSHv+c1d7otSd8QOXgL
+	AEkto7CFvpT5lH+EC8sZnItllry6j+lxf4VhXiWKdxKMfsUmv/UbOPuyvBVOL6FHW+R3SXknfZs
+	nVpn8BNv1zd+slGwHusyAXlqGDCujIY7p0Z+tW+J/aK93LejIrZa8uJ1I9AsgmgtKzFtS0zj0b4
+	jP2D0oGaetPcrYgXv6ZS858LWoipUF8bNEFMfMNOX8rrHPda9cBtBWebSIQ+qxRnGbhU4Eiv4os
+	tZ/IyFEV8aU6/zfAz11vye3kipzaOxqzORC+YjQGWJ7EENj3d3wnjzTK/TxtMs5mPIzrLDtc8oH
+	h7CiVKWIyouirSku8/xmqeP0W2yy9oB5yWqXs+GApgPQa8eSYZ66FA6XG99b3jkn61QF+BAv+UU
+	Ok3w4DODX5UdextB91ZBstB7q8MePW6dd/YZhxGGsEDNco1poGwLggvlcYkH38jHaTlvCN4QW4g
+	sy/niGRMxpVMvTYem29TjfFXClapA4M14gDW1St5Tw+GET8c8HZIo0SbE9y3ZIv/yMxOFYKkN0C
+	ERYMgPN/jIHB54HHg9baSEm7PXqSlythta1EeMcLfeQSLvwC0Urr0aYDWoxZy3XfS2XFgS72JMW
+	IkDd5GFRyIAnJ/RPvAA3Fsns+4A1Dg/kyoHZjWYQCjWtHP1MLRfpHMTfzoAjDtG1VpSHCeUu5w1
+	FF+/mBZem+XTG/czOAXw6exE5J
+X-Received: by 2002:a05:6402:3905:b0:6aa:e46b:2ca with SMTP id 4fb4d7f45d1cf-6af9e2fe4ddmr6623554a12.30.1791134200443;
+        Sun, 04 Oct 2026 10:16:40 -0700 (PDT)
+Received: from Desktop (pd9513667.dip0.t-ipconnect.de. [217.81.54.103])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6afb014784bsm2256819a12.3.2026.10.04.10.16.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 10:16:39 -0700 (PDT)
+From: Julius Bairaktaris <julius@bairaktaris.de>
+To: pablo@netfilter.org,
+	fw@strlen.de
+Cc: phil@nwl.cc,
+	netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org,
+	netdev@vger.kernel.org,
+	lorenzo@kernel.org,
+	nbd@nbd.name,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	saeedm@nvidia.com,
+	leon@kernel.org,
+	tariqt@nvidia.com,
+	mbloch@nvidia.com,
+	linux-rdma@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH nf-next v3 1/3] net/mlx5e: Ignore FLOW_ACTION_PRIORITY on flowtable offload
+Date: Sun,  4 Oct 2026 19:16:34 +0200
+Message-ID: <20261004171636.3545085-2-julius@bairaktaris.de>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261004171636.3545085-1-julius@bairaktaris.de>
+References: <20261004171636.3545085-1-julius@bairaktaris.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
- <20261003-b4-mmap-prepare-vma-flag-sanify-v4-8-a1f052500fd7@kernel.org>
-In-Reply-To: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-8-a1f052500fd7@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 4 Oct 2026 10:13:59 -0700
-X-Gm-Features: AclHuK_YbQsPp6UkU1wteVM53NVi6nuDg9G6v9WzIHWTTGIprDqvC1DHCMGs6A8
-Message-ID: <CAJuCfpHPcgvpR+=CtNVJeFkTn4EkF=hSPH3ZvvpkZQqHS5kzug@mail.gmail.com>
-Subject: Re: [PATCH v4 08/38] docs: filesystems: update mmap_prepare docs for
- discontig kernel pgs
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 3, 2026 at 6:35=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
-g> wrote:
->
-> Describe the newly introduced discontiguous kernel page mapping mechanism=
-,
-> detailing how to use it sensibly and how the API looks.
->
-> Explicitly detail the various discontiguous actions available and how to
-> use them.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+The next patch makes the flowtable emit FLOW_ACTION_PRIORITY for flows
+with a non-zero skb->priority, which on IPv4 includes the priority
+ip_forward() derives from the TOS by default. mlx5 would reject these
+rules and stop offloading flows it offloads today.
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+The eswitch does not use skb->priority for these flows, so accept the
+action on flowtable flows and ignore it. tc flower rules with skbedit
+priority are still rejected.
 
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Julius Bairaktaris <julius@bairaktaris.de>
+---
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |  2 +-
+ .../mellanox/mlx5/core/en/tc/act/act.c        |  1 +
+ .../mellanox/mlx5/core/en/tc/act/act.h        |  1 +
+ .../mellanox/mlx5/core/en/tc/act/prio.c       | 22 +++++++++++++++++++
+ 4 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/prio.c
 
-> ---
->  Documentation/filesystems/mmap_prepare.rst | 81 ++++++++++++++++++++++++=
-++++++
->  1 file changed, 81 insertions(+)
->
-> diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentation/f=
-ilesystems/mmap_prepare.rst
-> index 82c99c95ad85..ddb4434d919a 100644
-> --- a/Documentation/filesystems/mmap_prepare.rst
-> +++ b/Documentation/filesystems/mmap_prepare.rst
-> @@ -164,5 +164,86 @@ pointer. These are:
->    sufficient entries in the page array to cover the entire range of the
->    described VMA.
->
-> +* mmap_action_map_discontig_kernel_pages() - Maps a discontiguous range =
-of
-> +  `struct page` pointers over the VMA. They must span from the start of =
-the VMA,
-> +  but may terminate prior to the end (leaving the remainder unmapped).
-> +
->  **NOTE:** The ``action`` field should never normally be manipulated dire=
-ctly,
->  rather you ought to use one of these helpers.
-> +
-> +Discontiguous Actions
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Some actions can be performed across discontiguous ranges.
-> +
-> +Map kernel pages
-> +----------------
-> +
-> +To map kernel pages discontiguously, you must provide hooks using ``stru=
-ct
-> +discontig_kernel_page_ops``:
-> +
-> +.. code-block:: C
-> +
-> +    struct discontig_kernel_page_ops {
-> +        int (*init)(void *vm_private_data, void **private);
-> +        int (*get)(struct discontig_kernel_page_state *state);
-> +    };
-> +
-> +The ``init`` hook is optional and allows state to be established before =
-the
-> +operation starts, for instance taking a reference count. Nothing is invo=
-ked
-> +after the operation, so ``init`` must not leave locks held, and state th=
-at must
-> +be released once the mapping goes away should be released in
-> +``vm_ops->close``.
-> +
-> +The ``init`` hook, if provided, is invoked prior to the operation starti=
-ng. It
-> +may update what is pointed to by ``vm_private_data`` and/or ``private``.=
- If an
-> +error is returned, then the operation is aborted. The ``private`` field =
-can be
-> +reassigned.
-> +
-> +**NOTE:** The operation may sleep between invocations of ``get``, so loc=
-ks
-> +needed to stabilise state must be taken and released within each hook.
-> +
-> +The ``get`` handler is the key means through which the operation is
-> +executed. The current state of the operation is provided through ``struc=
-t
-> +discontig_kernel_page_state``:
-> +
-> +.. code-block:: C
-> +
-> +    struct discontig_kernel_page_state {
-> +        /* Map state. */
-> +        unsigned long start;            /* Start address of VMA. */
-> +        unsigned long end;              /* End address of VMA. */
-> +        unsigned long addr;             /* The current address to be map=
-ped. */
-> +        pgoff_t pgoff;                  /* The current pgoff to be mappe=
-d. */
-> +        unsigned long nr_pages_mapped;  /* The number of pages mapped. *=
-/
-> +        unsigned long nr_pages_remain;  /* The number of pages remaining=
-. */
-> +
-> +        /* User-defined state. */
-> +        void *vm_private_data;          /* VMA private data. */
-> +        void *private;                  /* Mapping private data. */
-> +
-> +        /* Users should not touch these, use discontig_kernel_map_*() he=
-lpers. */
-> +        ... internal fields ...
-> +    };
-> +
-> +With ``private`` being an additional user-controllable state variable,
-> +initialised via ``mmap_action_map_discontig_kernel_pages()``, and
-> +``vm_private_data`` being equal to the ``desc->private_data`` field set =
-in
-> +the ``mmap_prepare()`` hook.
-> +
-> +In the ``get`` hook, the user must choose how to map kernel pages:
-> +
-> +* ``discontig_kernel_map_abort()`` - Call this to abort the operation, w=
-hatever
-> +  has been mapped so far will be retained, the rest of the mapping will =
-SIGBUS
-> +  if accessed.
-> +* ``discontig_kernel_map_page()`` - Maps a single page, correctly handli=
-ng
-> +  compound pages (if the compound page is bigger than the remaining page=
-s in the
-> +  VMA, then only those pages that fit will be mapped). For a compound pa=
-ge, the
-> +  head page must be passed.
-> +* ``discontig_kernel_map_page_range()`` - Map an array of pages of a spe=
-cified
-> +  size. As with a compound page, if more pages are specified than remain=
- in
-> +  the VMA then only those that fit will be mapped.
-> +
-> +If an error arises after ``init`` succeeded, the core unmaps the VMA, in=
-voking
-> +``vm_ops->close`` if set, which is therefore the place to release any st=
-ate
-> +that ``init`` established.
->
-> --
-> 2.55.0
->
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/Makefile b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
+index 19e50f0d55af..8bd352e7f20d 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/Makefile
++++ b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
+@@ -54,7 +54,7 @@ mlx5_core-$(CONFIG_MLX5_CLS_ACT)     += en/tc/act/act.o en/tc/act/drop.o en/tc/a
+ 					en/tc/act/accept.o en/tc/act/mark.o en/tc/act/goto.o \
+ 					en/tc/act/tun.o en/tc/act/csum.o en/tc/act/pedit.o \
+ 					en/tc/act/vlan.o en/tc/act/vlan_mangle.o en/tc/act/mpls.o \
+-					en/tc/act/mirred.o en/tc/act/mirred_nic.o \
++					en/tc/act/mirred.o en/tc/act/mirred_nic.o en/tc/act/prio.o \
+ 					en/tc/act/ct.o en/tc/act/sample.o en/tc/act/ptype.o \
+ 					en/tc/act/redirect_ingress.o en/tc/act/police.o
+ 
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/act.c b/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/act.c
+index 0380a04c3691..91a3bab5e498 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/act.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/act.c
+@@ -23,6 +23,7 @@ static struct mlx5e_tc_act *tc_acts_fdb[NUM_FLOW_ACTIONS] = {
+ 	[FLOW_ACTION_ADD] = &mlx5e_tc_act_pedit,
+ 	[FLOW_ACTION_CSUM] = &mlx5e_tc_act_csum,
+ 	[FLOW_ACTION_PTYPE] = &mlx5e_tc_act_ptype,
++	[FLOW_ACTION_PRIORITY] = &mlx5e_tc_act_prio,
+ 	[FLOW_ACTION_SAMPLE] = &mlx5e_tc_act_sample,
+ 	[FLOW_ACTION_POLICE] = &mlx5e_tc_act_police,
+ 	[FLOW_ACTION_CT] = &mlx5e_tc_act_ct,
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/act.h b/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/act.h
+index 2e528b2c34d6..bacbc862970e 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/act.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/act.h
+@@ -81,6 +81,7 @@ extern struct mlx5e_tc_act mlx5e_tc_act_goto;
+ extern struct mlx5e_tc_act mlx5e_tc_act_tun_encap;
+ extern struct mlx5e_tc_act mlx5e_tc_act_tun_decap;
+ extern struct mlx5e_tc_act mlx5e_tc_act_csum;
++extern struct mlx5e_tc_act mlx5e_tc_act_prio;
+ extern struct mlx5e_tc_act mlx5e_tc_act_pedit;
+ extern struct mlx5e_tc_act mlx5e_tc_act_vlan;
+ extern struct mlx5e_tc_act mlx5e_tc_act_vlan_mangle;
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/prio.c b/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/prio.c
+new file mode 100644
+index 000000000000..2a047059574b
+--- /dev/null
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/prio.c
+@@ -0,0 +1,22 @@
++// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
++
++#include "act.h"
++#include "en/tc_priv.h"
++
++static int
++tc_act_parse_prio(struct mlx5e_tc_act_parse_state *parse_state,
++		  const struct flow_action_entry *act,
++		  struct mlx5e_priv *priv,
++		  struct mlx5_flow_attr *attr)
++{
++	/* The eswitch does not apply skb->priority to flowtable flows. */
++	if (mlx5e_is_ft_flow(parse_state->flow))
++		return 0;
++
++	NL_SET_ERR_MSG_MOD(parse_state->extack, "skbedit priority is not supported");
++	return -EOPNOTSUPP;
++}
++
++struct mlx5e_tc_act mlx5e_tc_act_prio = {
++	.parse_action = tc_act_parse_prio,
++};
+-- 
+2.53.0
+
