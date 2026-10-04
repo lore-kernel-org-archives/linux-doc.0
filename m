@@ -1,118 +1,82 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4BE3F888A
-	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 18:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B98247F3DD;
+	Sun,  4 Oct 2026 19:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791140210; cv=none; b=drsFAv3Q0gc1mM3hyJ2bJCceqn3YPWYhnqCHxw+lJaL7176G7lPSQ2ZPjSTmunrmWBvBSX814fAfK+vvLUfmSB2HyW6QCricR5UJZ/nnuMKkHiAFBoHnfcsl+87P2Q3eqhIjg/xbpq6vkWlqR5QpAybU7k2owX9+FqDHfG/WL3w=
+	t=1791142557; cv=none; b=V/CrAFeVNGQcztAAOnZ2CyUyOLKNbJUuroyorpzu8ZvEDgNKvfSlGyhZNjjK4n1qU+R3uipCyVSv87uvwn6h7ygbzoVzvICDv//+N/Ob5or/ok0y3D+9vFUbQvDYn/oSr3j+HMgRqkwPQB560fgR7a6JofghY/lpK9fEQYGZmRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791140210; c=relaxed/simple;
-	bh=VTj3CjFmC5z/dk0JCaA0IK0lT5Ac/9t7urJwAwDbeYc=;
+	s=arc-20240116; t=1791142557; c=relaxed/simple;
+	bh=bt2JdkcXMBehZKJasoAZGjWRpnEzVcFRF57GBH0wCq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PRJPBQzV+9SdSclSgHXM1lkRd4c2URnRXrgRuDDQHIJm5IE8+hAEHQV0awsVxszUOfNhrHavxFOb8ggAojPo+ivfSdsIIVrEIMBf3l6m83l8l1BGsaW/cSXX+qIOticJhZmJkjUmENwahplqqG2WFjmuAPkzqJ4exm3MgCONPBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rs53PO8a; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=csJc1S9lgl0lUWoUTQeS+orVesvsVmiJ4/1R/gjCPgICtS+kQx8vKXZHbwTWp41K7HdR+0bMSL4JxD5W/T250RtgfNUqBYr3NiS1gKmoa9xJbZkex9r0n5jMlSzWLIWW/3EkZP3dGBK7zK1Rvn6t3lJQj7r0s0OgLVKUksryBxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UEGLs4Y/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rs53PO8a"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-4a024e16179so6050315e9.2
-        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 11:56:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791140207; x=1791745007; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yLp7Ndo/7k4Ng8+ohcODGZItHn+YB7X4XQ/xgVicdsE=;
-        b=Rs53PO8aGtje+RESDecn/lmAHXtNqojJu8nzqQalVgLSX4H00TW/wvMbJCecyvLB4v
-         q9t8bY2emZpOPGa1h7F+9ij25uVvPaO3yl5lE2kSPQ6XLJUCzBpoZ1llZgfln5jLmRTK
-         VNypW6hrgWjmRPL3CYiDoSCwuSLqFu3Y/pjQRN58QSEBC886UYEs6uxuWvj9idcGtiAo
-         NS6wC10/8ngy8GvKFJwYkrXp245ZG6t1C3d79nqfTsbnsgyGNpDAH5TNdgVYZHwpp/LF
-         ZWSQAl3biIQ0zVkTFFJDdvM3TZuSeaC3PDpO8J5dvLeIF5K3eSFauR4Cdrr2I/r70KUd
-         BdDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791140207; x=1791745007;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=yLp7Ndo/7k4Ng8+ohcODGZItHn+YB7X4XQ/xgVicdsE=;
-        b=JH15Vul6M5MSW0c0my4g6g9N94Ol4ouW+irqrUYY0haAclXrrfK6+eqGOQcja38v6b
-         ncFBtqqa3vt17zIiwusSoZShiCvAdCzVmn3dvQs1Wd5B2Hsm3IHZ1KImbvjnhC+dotIf
-         j022hLyImv9z0MFPeq6YKEmHqatMqLdTYdjM7JTJtdf3JO2z2dcDSew63gwhR25geCHJ
-         oWaFc2GNWj+5coAgEmKQ4WiOw3kxP8K8YZFnYb1kfBhpc0WCc11lyllBcvLsdLIlqgOI
-         B+/JrRVUDpsmYCK9J+/Tig+JkfdgqI9/xThs98Y7h1mDZUVa65sLW4CCPEIXL1h/+yYt
-         tB6g==
-X-Forwarded-Encrypted: i=1; AKwUvBwgXD5Z15JD90AUi9wFy4hwvVemwuNmkTAVd0gGmvoVk6B2dCzAFaIqdXbnrUqjX5K2S0OE5hM9o9s=@vger.kernel.org
-X-Gm-Message-State: AFuF++nb2k+mp05Bxgfsl86xpJNdCqjnwLanoDYsfGEG3bME5HW79TY0
-	M/KlnoBF0phE+bS9DpgVVazkKUF2e2oujpjt0C13VSFOniDNKqHDNXf9
-X-Gm-Gg: AYBFou19twmQR0JdB5Ire5ofc8pbuWvUvN/OhIYtaHDRr1WKaQYthn38TTJ+yicBMOo
-	FWOc9T/oc92vLp/m5lIytpecHCWOz+D32aXsEzL99QPu9ilRo82svFoGsAe/SXYQDa0v3SP7v69
-	qCVfxzJYqBATlBA0GOs/YzglhLeFBt79HTK6jEUI5qis2P5h2p+VPB2Dh4DaqY2vqg3jgSN6FgV
-	EmNf3++LJe1rFbUh5q1UUtVHfvK1TBCpLPaEKg4+987G1R5NxfWV0toxhBjMEiPZ7jb9nLOdKXO
-	wIRYfHb+jT49BXmPSz/uKfZ1GwWf8nRSJyOv92tv16fVjyLPSSEYaHk3Nllg6rPRcb8YSLoD8E3
-	HJ3DwPV7qYYA6aSpjYPoMRwMuRImab4A7aCHaadQ9e/MojsGHbtE6hm1KOaQy0bdKrG8D10jqsa
-	wKxrcazH3dYrI5lRm1gDCfW6Tscc4ijTiRv+2TYlY3Ja9rexXEMjgM8EgjGwllnHd10K6sJdztL
-	QYyd4kggVoVRLQ+Xlc33fVOlZJrQHVFqZqNaB8n/rNjJ+jEtGBntZco22h5IOZlbSmkW+EGhZpV
-	jGz0T1skWBsXE8x2WQBba+rxdOE6XCUrcoeDo/d1QaV+ywcRaYSahN2yFYgzj+Z5ovi0jWm2exn
-	71kVnOGY=
-X-Received: by 2002:a05:600c:6212:b0:49c:fa20:cbfc with SMTP id 5b1f17b1804b1-4a02758405cmr139001325e9.19.1791140206606;
-        Sun, 04 Oct 2026 11:56:46 -0700 (PDT)
-Received: from MacBook-Pro-von-Karl (dynamic-2a02-3100-a190-7401-a90c-9d77-a1b8-e6a2.310.pool.telefonica.de. [2a02:3100:a190:7401:a90c:9d77:a1b8:e6a2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0280bcf0fsm318633385e9.6.2026.10.04.11.56.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2026 11:56:46 -0700 (PDT)
-Date: Sun, 4 Oct 2026 20:56:43 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Russell King <linux@armlinux.org.uk>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, 
-	Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linusw@kernel.org>, 
-	Christian Schrefl <chrisi.schrefl@gmail.com>, Bradley Morgan <brads@mainlining.org>, 
-	"Paul E . McKenney" <paulmck@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-arm-kernel@lists.infradead.org, 
-	rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ARM: rust: Enable Rust support for ARMv5TE
-Message-ID: <asKgtWX7q-mgvnOc@gmail.com>
-References: <20261003093827.77857-1-kmehltretter@gmail.com>
- <20261003093827.77857-3-kmehltretter@gmail.com>
- <CANiq72kGay03jqFOfFcJOjr9Poy+yc2u0=Ep_9LQ+KMy=1JtRQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UEGLs4Y/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 740C71F000FF;
+	Sun,  4 Oct 2026 19:35:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791142554;
+	bh=bVzs3nKi3STeEpl2UyULOorVsImcNQe0xcTlZn/ds2A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UEGLs4Y/E+ufn6rjORVJC4qBwgayQk201Ab5LdI8A/H7kAObN2X4rwybWoGYOlAWn
+	 LBFThAKr195RP5Ck1itiVbU4NaQfSVJXpD9eWcyhjrbUqsu0x7xZ/jqkZ6Rrfy+8iC
+	 XY5u/vO197mG/W9DHiQnps2O8KPAOKyYUHhZ4jzAbChKXRhthIlKDCnBx7jrrI7h0f
+	 FbqfrInglgzFvLYf103tXFSztmxkW3vvJp6wgmvarLpcqfi8LnFJ3yyiM+G4/xXnxC
+	 aSW3xwivPyy21guZRkVkIeXFzIXsA6Yu6PoTuwyb5fGwR4jNqy2x2jqcccHmb96IMS
+	 2dt7+vLU7bbnA==
+Date: Sun, 4 Oct 2026 21:35:49 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH] docs: kernel-parameters: adjust reserve_mem build option
+Message-ID: <asKqlZFS_A42w2hb@kernel.org>
+References: <20261003213457.96408-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72kGay03jqFOfFcJOjr9Poy+yc2u0=Ep_9LQ+KMy=1JtRQ@mail.gmail.com>
+In-Reply-To: <20261003213457.96408-1-rdunlap@infradead.org>
 
-On Sat, Oct 03, 2026 at 12:24:35PM +0100, Miguel Ojeda wrote:
-> On Sat, Oct 3, 2026 at 11:38 AM Karl Mehltretter <kmehltretter@gmail.com> wrote:
-> >
-> > Tested on v7.3-rc1 with clang 22.1.8, rustc 1.99.0 and bindgen 0.73.2
+On Sat, Oct 03, 2026 at 02:34:57PM -0700, Randy Dunlap wrote:
+> "[RAM]" means that the command line option is applicable when
+> "RAM disk support is enabled." However, the reserve_mem command line
+> option is not related to RAM disk support, so modify its build option
+> relevance to "[MM]" instead.
 > 
-> Great to see more arch support! Just to confirm, are there any
-> toolchain requirements to be aware of?
-> 
-> If yes, then we should add them to Kconfig, `scripts/min-tool-version.sh` etc.
-> 
-> If not, then please test with the minimum versions too! :)
-> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-Thanks for suggesting that! No extra requirements as far as I can tell.
-I now also test with the minimum versions (LLVM 17.0.1 and gcc 8.1.0,
-with rustc 1.85.0 and bindgen 0.71.1).
+Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-So far I found one small issue with gcc 8.1.0. A fix for that will be in
-the v2 series.
+> ---
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: linux-mm@kvack.org
+> 
+>  Documentation/admin-guide/kernel-parameters.txt |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- linux-next-20261002.orig/Documentation/admin-guide/kernel-parameters.txt
+> +++ linux-next-20261002/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6693,7 +6693,7 @@ Kernel parameters
+>  			them.  If <base> is less than 0x10000, the region
+>  			is assumed to be I/O ports; otherwise it is memory.
+>  
+> -	reserve_mem=	[RAM]
+> +	reserve_mem=	[MM]
+>  			Format: nn[KMG]:<align>:<label>
+>  			Reserve physical memory and label it with a name that
+>  			other subsystems can use to access it. This is typically
 
-Karl
+-- 
+Sincerely yours,
+Mike.
