@@ -1,771 +1,336 @@
-Received: from mail-pz2-f38.google.com (mail-pz2-f38.google.com [74.125.228.38])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8014718CE
-	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 17:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.38
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791135362; cv=none; b=QKoN91VF8xVuYJjOjS+9JrX+VhU/9m9ByNRSpkcB73F6yPCHz0e6pAMlr25C/ZRfQb+nZLkGRuQmAkzFJYg3Hodh0Ylfng+VFrZPT6LOyZcMoblDWWIClLX1Ewz1yUjWNF+BS0g5GPeWJ2sECIp7WomyvF+i4te2ZSfbdOCqFQs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791135362; c=relaxed/simple;
-	bh=YNR9yvZkv71QFDocexJw2DhYAV/gIV2TrR99LpBZzBs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lWjQ+Q86hPjkGGV0OEK2X+TTyW92XgKG8CVtXWu+b/b9pysHaln172U4HEKNLY1zUS+v1wBcTC8xPZafIrTCizfbHOEZAF99wN79KUWH89fybB4c7zAxMrFyloH8AdZV7DuelTtNnY+QHQ7ZqBrtvadyFT2nE0xkcB6oRjYSCCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EWdd0sGf; arc=none smtp.client-ip=74.125.228.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8AA471406
+	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 17:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791135816; cv=pass; b=WgAzVmDn3ct9llUovm2P5+Y6bL1R0RGUGXCkbCEd/YRTecV3VQw2ahvGFaH9MwK+cbuqkpT2pTgM5Ko5WLycPi6y80nU9n/F9fT/FTJCNYuICvS5SSle7lIMG9bw+11i9MmVDG2LL+kM2OdIEmfw1VqV95vbNGYX+E+VJWyeNi0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791135816; c=relaxed/simple;
+	bh=kLTbSagc0N48D5iLz2IHv2jwZa7qPxl4pR47fwwH0D8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I42nngpMtdJ5UtLQJLCq5Nt0Vr0h/z41nCLSDM2JezpQ1833puhpXTkW/bqQTunO7HVM3ZFmU9HIsN8pbb5YT8KNwzn2itdZCDaujYnV9iz9foC0zBlCQJWJAPw6TeE8XiQvx/rxunh8658I+M3ywRsEW1KECm5JHugRLt+FsLI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ES7oeIxC; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EWdd0sGf"
-Received: by mail-pz2-f38.google.com with SMTP id d2e1a72fcca58-881a3a28e72so210743b3a.2
-        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 10:35:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ES7oeIxC"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5351f9dbfe0so96111cf.1
+        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 10:43:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791135811; cv=none;
+        d=google.com; s=arc-20260327;
+        b=GdHU9Gcan25ZfXdRosySOpzEKCw69ovubFOS5adTh4frgWY2ZnqONMqBrjcgq2cn0l
+         HhsqNunR3OViONdPyAL+i5EnsOi/HdwZPkXRb+jnm5jbqgHUKiILClHxlt1BMYXRGAr7
+         W0FNgkVnDoKgCnn900nQejlRoUDSwLcQT6f05M4cMGcuURPo2YFEloISlRLUBzGjnf/k
+         ofhnV9EG0tA/F+uHdsReG3tCc3JIdj0pmUUbkvW9YiKO1Z/Na00leqTW+5j4v53dPR+t
+         B7QQaoZVRBx9RvZrAkbBYbSuYtH+F3xXp0HkO4kVDIQURQRpEEsoRhlnSWdFJJTtKnKP
+         +10w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vMNQ59LV7QrrLF0PW8JXbsDZwLj1dza/KEaeRbY4SzE=;
+        fh=oS5YEnhbmdB8UOXkPXow7ODdrnU1U8OKViL0xlqZD4s=;
+        b=nXyr3Q2UrcfbeGZfc0YpmMF4i+6EHAZDySaPSIB+qc+XvrDPJYdPHBA63w7pant0iC
+         OoXEEDkuy/qyJy88EszyGbBqMohMtM/mllaXT9JVJirb58x2MWOMJ7TKvhFrTNRovJju
+         ip70V7LQHJSPnueP9SPairYq8EDLoxIue2/y0fThyeUwO5HfXUqLpuMm8OPBCrgAAHDv
+         5Xf/X55QEQYA50KGFnsINFNeeP75yTOg8hmthTAB9V7TDHA19fxfQ3EAN1LVO+L+f+CG
+         aZ5y4aSCBXX9ntfwnB3ljtzHB2hXh8GPCkwvQrhMWLasVZQmLapbOV6XFz+9BNNQfs22
+         p9NA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791135348; x=1791740148; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=F2xR/GADUr0drPkp+DIyMXz+1Et+1ehqr2V+ubl8dxA=;
-        b=EWdd0sGfYI6FWGusB2tsXLrYMNtE4D2yWUARh5JoifZrEuQ2w7z58G7NWgvxEl39I5
-         vzTpYhN8DauU58A6otQmWGrdda8MQhEeuY6ekX+PKu6lutzZhJv3Z4EcMFKVpItoSkoo
-         ePC8AQnbGgVjxLfl/NqNq4P81qZ1WHZECLTuuF3qqpzSXIaGw/SnV95Ah2s8Ekge57v6
-         /07/Bb1Ny4jvLbt8bCym2CeYh4Rz0iU1pu7H/nt8Leul7ChWhv4MU/LUQXDoCnpqNSRR
-         9Ouk2b85b8+goz0lfkfbr/APiY35QQtFPcxu4DJCvnGbFvxEO9JttCJYxE0s8X/RXmj+
-         VuZg==
+        d=google.com; s=20251104; t=1791135811; x=1791740611; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vMNQ59LV7QrrLF0PW8JXbsDZwLj1dza/KEaeRbY4SzE=;
+        b=ES7oeIxCMYXbczDPyt7XA5z9Ij09lL8c9BgmtjQHX7E6P05QmIToK3BjkYWQ3J1BQa
+         48d5ZTQ6DeFif/PpVJrUI09VigAaByshX9zzR3ydSnkd0ygjDAEoKVQ3lwQj6Np+vE2V
+         7o3qsyF8B9o1uIjDgkLuoFXfmERglrgcWVcE4/OLuYVkBRXTAiq0+nqwOfrw90uvohou
+         5bP7mWJawSf2U5SqaD/zJX9f/NZjTfkuUScECR7+9IJ6mbR72egFT/Qr4VmmGQw1lLoc
+         FVXDmh9dBk4PP5Ny2hxAh9HpcWryBUIVm7PSxJREWa0Y79YDMJCRFzw3EbSxQVSNdYOg
+         Nvqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791135348; x=1791740148;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=F2xR/GADUr0drPkp+DIyMXz+1Et+1ehqr2V+ubl8dxA=;
-        b=Fd5nN/o0grPToMZiYK7Z72pomFf/FTrCadSevIilyFZGnam8dQrKgqxxh5jniO4Wq2
-         4sjNC5ueIz1qbEbU4lxaZfy2/SowpBxDSgpCvh/DxX0m87BVTG4pn014M20XxwPha+1Q
-         cbsIGpoe1LX/iViWK/ofUJGYyeBZSZm/Z3RXDEvgvaw5leQw4UtKqI0GCu7tKOAb2TJ4
-         U6OuHES37HHhdAZKLfLFwOFiImj9E0A6k2fU3ZyjaxKIL9zyJhHIrCGQzXugp+ukO0gU
-         ShUoWKdYBvtpFFFsO8ib3Ab5tNKAZ45xYMHh4H9LQbrOtCKdv9qKi8G64rH00GjbYVUh
-         Bbcg==
-X-Forwarded-Encrypted: i=1; AKwUvBylvqyGKCMKnnIrK062+scFeFx+JBmvWuztCmsiSeVJyeJcs/FBcfN3Wkh/WO9GnhzanQ5p48ZLSuc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL92ghDId4OHyFF5zk7viFVWGhrluW2R+BR+/7d5OR4ikrUMajB
-	9AC6t+2RngIaYHlcPZRJz7F1JLXo/pwljZsmafzwZBg3bZ5lGIuJtQv9
-X-Gm-Gg: AYBFou3qPCx0tW4n/JoT6YlJdbayt0ZCuDXG70hZ633XyThpvfg95H4nWQm0/XQJyvR
-	6kRW8KNNwTjVip1CihRM1NLn1iFtUrwAYMcPmEWqNvE7K2uJFEI5oRR810KxnEtXuscC0F0lBN5
-	sr+BhFxSsCEOSpPCcf4sPRFr8LnXDj+BMYzbSPwrD+0+t6qjA4/WqqzecxwckrS8Pkkb2PEnniV
-	cBIEqyXlfunT1LnUbbmjGx7K5P+JQ40bAZfMu77doC6kYpxWcvvDv09vafCoR+l+jSLF5r3zzhr
-	SsdPcnxl5WVCNO3OUrQbZy3EU5IbHFDgejzjzm5yFYG/Y/pUnFTCwXlpk8yk84xUsZAPMJIfSxl
-	+Y1r+FrtZ2LB+WgP1hPR764m29czlxaLrpqElA30cngzBvIYtm/qYCE/n8Ga5yCYZEeCt4spyZg
-	NmwiJ9Noov7n4mposVX2jUyVDA8v1GoNmNMkxpcoKNgPawJEv/j+sfSSFJggownLxM/jbCIzLEt
-	oc2pjxfrmGWCnx3YaGZNoEzPKUgfg==
-X-Received: by 2002:a05:6a00:909e:b0:874:705d:f648 with SMTP id d2e1a72fcca58-88af56e71a9mr7636318b3a.42.1791135347657;
-        Sun, 04 Oct 2026 10:35:47 -0700 (PDT)
-Received: from kernel.tail6741c6.ts.net ([216.195.201.24])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88b0d247930sm2678370b3a.54.2026.10.04.10.35.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2026 10:35:45 -0700 (PDT)
-From: Kunwu Chan <kunwu.chan@gmail.com>
-To: peterz@infradead.org,
-	mingo@redhat.com,
-	acme@kernel.org,
-	namhyung@kernel.org
-Cc: sj@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org,
-	irogers@google.com,
-	adrian.hunter@intel.com,
-	james.clark@linaro.org,
-	akpm@linux-foundation.org,
-	lianux.mm@gmail.com,
-	kunwu.chan@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH 5/5] selftests/perf_events: add AUX kernel API selftest script
-Date: Mon,  5 Oct 2026 01:34:57 +0800
-Message-ID: <20261004173458.837842-6-kunwu.chan@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261004173458.837842-1-kunwu.chan@gmail.com>
-References: <20261004173458.837842-1-kunwu.chan@gmail.com>
+        d=1e100.net; s=20260707; t=1791135811; x=1791740611;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vMNQ59LV7QrrLF0PW8JXbsDZwLj1dza/KEaeRbY4SzE=;
+        b=vHQE2c5kopWDmEaY8v/WmGQOmZkrNZ4tZdful1gUJSTGZC2M1LdVH4l+2+/OxELTkt
+         sO8z4cOIh1mATvasy8iyIB47bcRJ396ay0xO3qbIRSX2rA/E8v7gZN+q2iDUQlZ1IPrt
+         At2r5YzrgU9r0Iv1WdXipTcjCxn6WJXh+y+5Jwwx3aev0GzOqOcXXNBVp97OiUuXsmO6
+         Rf9XJYLuLV84vKl+3h4Hz0PE+8ELlhY7/wvvi4zoHf6tt+R8CwCfwgnIXjmtbtO02lYs
+         zgmja/X11OJ41RcVryaHBqIzO4oH9JMWotawARLMbOPlPoKjf8yIpU0hR8J3eQegUr9e
+         pWeg==
+X-Forwarded-Encrypted: i=1; AKwUvBw15Db4Mke866FgOe6ZM3K+kQ0quCBpx3KnxbOE5i4J3yb2uxZLOH5VDZKs6c6VOLT4qTemrlc+4L4=@vger.kernel.org
+X-Gm-Message-State: AFuF++kE0RuxPviU1Tg29iFbb5kdcC3EYyReHj8cEHE8nbQvmf2HIi9j
+	Dii6koub+zE9nx8bwhChFEZJhGtGkJIALLhmqZilfArWfGykNdnWzPCN0EjZo2vFPjfiPD70fbr
+	xbM5EkPsg8IU8l/b5rKS0Ufh1f9E8c+K+dVUe0vYn
+X-Gm-Gg: AYBFou3cAKJjthCwHlPMcTtAjMj9iWKWOTntEtgJzWbGkREMmbaQN9Hb/rduFnW9z4W
+	VCtpa3HXtoa486L8GbZsg0JXlNdLcU///sXdPG3edTt4z/IXmOqEHEtMW18yimwoz6eRhOgJpZn
+	XXWWTF4v8jqs4wxJ7bVNbykqsl3peG7fwm22xd+wTamUFbQlRMNwdpd0LlQ18j8PQu6TomvNnMR
+	0lHmVHDQrRG2+M8j3o3NfZ0quHxsJizmoaYRl3KfwqWPliuQg7RsBNTPTABB31aK9o5HIgWH3SQ
+	TK/R4e5+KWqbrt5x+U8/1IMzmSeK3URpKqIxb6sV1UtNDZGLyOcyZ7Yx
+X-Received: by 2002:a05:622a:5c09:b0:532:eff8:3491 with SMTP id
+ d75a77b69052e-5351497bae9mr16844861cf.14.1791135809929; Sun, 04 Oct 2026
+ 10:43:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
+ <20261003-b4-mmap-prepare-vma-flag-sanify-v4-14-a1f052500fd7@kernel.org>
+In-Reply-To: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-14-a1f052500fd7@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sun, 4 Oct 2026 10:43:17 -0700
+X-Gm-Features: AclHuK-Z2ieyqrFQLh5f1D20FCqfsVRqEWMyJIzhNXdOxd9iUhJDwyyLAY8lrcs
+Message-ID: <CAJuCfpFounkD97p9iJ8zUunAMoOv+h8Tnxf2NOkp7qs3cfqs7w@mail.gmail.com>
+Subject: Re: [PATCH v4 14/38] mm/vma: add vma[_flags]_is_mm_managed() predicates
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a shell script that runs the perf_aux_kernel KUnit suite through
-debugfs, builds and runs the userspace regression program, and
-performs static-analysis checks on the source tree (memory barriers,
-refcount types, boundary validation, EXPORT_SYMBOL_GPL coverage).
+On Sat, Oct 3, 2026 at 6:38=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
+g> wrote:
+>
+> Rather than referring to VMA flags with uncertain meaning, add a new
+> predicate that explicitly describes what absence of the VMA_PFNMAP_BIT an=
+d
+> VMA_MIXEDMAP_BIT flags means, and then refer to that function for
+> determining VMA mergeability.
+>
+> If neither of these flags are set, that means the contents of the mapping
+> are managed by core mm.
+>
+> Otherwise they are instead owned by some other kernel component, usually =
+a
+> driver: the memory may be MMIO, kernel-allocated pages or even ordinary
+> pages the driver maps itself, but core mm must not populate, reclaim,
+> migrate, copy-on-write or merge the range itself.
+>
+> We initially also treat VMA_IO_BIT as implying a mapping is not mm-manage=
+d,
+> as by implication it cannot be. (mlock() also sets VMA_IO_BIT transiently
+> on ordinary VMAs while locking them, which is addressed later in this
+> series.)
+>
+> However the intent is to in future remove this, as no mapping should be
+> marked as an I/O mapping without also being marked with VMA_PFNMAP_BIT.
+>
+> This forms the basis of further work intended to improve how we express V=
+MA
+> properties such as this.
+>
+> Also update the VMA userland tests to reflect the change.
+>
+> No functional change intended.
+>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-When an AUX-capable PMU is present, the script also runs a live
-perf record and checks dmesg for errors.
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
-The script works both in-tree and from an installed selftest location:
-the source-level static checks are SKIPped when no kernel source tree
-is found instead of failing, the installed userspace binary is run
-as-is when its source is absent, and runtime rebuilds honour $CC
-instead of hardcoding gcc.
-Usage:  sudo ./aux_kernel.sh [--pmu arm_spe_0]
 
-Co-developed-by: Lian Wang <lianux.mm@gmail.com>
-Signed-off-by: Lian Wang <lianux.mm@gmail.com>
-Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
----
- tools/testing/selftests/perf_events/Makefile  |   1 +
- .../selftests/perf_events/aux_kernel.sh       | 631 ++++++++++++++++++
- 2 files changed, 632 insertions(+)
- create mode 100755 tools/testing/selftests/perf_events/aux_kernel.sh
-
-diff --git a/tools/testing/selftests/perf_events/Makefile b/tools/testing/selftests/perf_events/Makefile
-index fbafbd43f097..9b82c7ee1238 100644
---- a/tools/testing/selftests/perf_events/Makefile
-+++ b/tools/testing/selftests/perf_events/Makefile
-@@ -4,4 +4,5 @@ LDFLAGS += -lpthread
- 
- TEST_GEN_PROGS := sigtrap_threads remove_on_exec watermark_signal mmap
- TEST_GEN_PROGS += aux_kernel_usermode
-+TEST_PROGS += aux_kernel.sh
- include ../lib.mk
-diff --git a/tools/testing/selftests/perf_events/aux_kernel.sh b/tools/testing/selftests/perf_events/aux_kernel.sh
-new file mode 100755
-index 000000000000..2271f105f55b
---- /dev/null
-+++ b/tools/testing/selftests/perf_events/aux_kernel.sh
-@@ -0,0 +1,631 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Perf AUX Kernel-Consumer API - Comprehensive Selftest
-+#
-+# Validates the perf-core AUX kernel-consumer API added by the
-+# perf_aux_support patch series:
-+#   - perf_event_setup_aux() / perf_event_release_aux()
-+#   - perf_event_aux_head() / perf_event_aux_tail_set() / perf_event_aux_copy()
-+#
-+# Test layers:
-+#   1. Build-time checks (Kconfig, Makefile, symbol exports, source)
-+#   2. KUnit suite (API contract: error paths, lifecycle, validation)
-+#   3. Userspace AUX regression (mmap AUX still works, aux_mmap_count
-+#      independent, userspace+kernel coexistence)
-+#   4. Hardware AUX live test (if ARM SPE or Intel PT is available)
-+#   5. DAMON integration verification
-+#   6. Memory ordering/barrier static analysis
-+#   7. Boundary validation static analysis
-+#   8. Concurrency safety checks
-+#   9. User/kernel AUX isolation checks
-+#
-+# Usage:  sudo ./aux_kernel.sh [--pmu arm_spe_0|intel_pt]
-+#
-+# The script also works from an installed selftest location (make
-+# install): when no kernel source tree is found, the source-level
-+# static checks (sections 1 partial, 6-9) are SKIPped rather than
-+# failed, and the prebuilt aux_kernel_usermode binary is used as-is.
-+# Source-only rebuilds honour $CC (and $CROSS_COMPILE) instead of
-+# hardcoding gcc.
-+#
-+# Requirements:
-+#   - CONFIG_PERF_EVENTS=y
-+#   - CONFIG_PERF_AUX_KERNEL_KUNIT_TEST=y and CONFIG_KUNIT_DEBUGFS=y
-+#   - Root privileges for most sections
-+
-+set -e
-+PASSED=0; FAILED=0; SKIPPED=0
-+pass() { echo "  [PASS] $1"; PASSED=$((PASSED + 1)); }
-+fail() { echo "  [FAIL] $1"; FAILED=$((FAILED + 1)); }
-+skip() { echo "  [SKIP] $*"; SKIPPED=$((SKIPPED + 1)); }
-+
-+# mktemp(1) creates an unpredictable, collision-free directory, so a
-+# local user cannot pre-create a symlink at the expected path and have
-+# this (possibly root-run) script overwrite a file of their choosing.
-+RESULTS_DIR=$(mktemp -d /tmp/perf_aux_kernel_test.XXXXXX)
-+exec > >(tee "$RESULTS_DIR/output.log") 2>&1
-+
-+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-+ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
-+if [[ -z "$ROOT" ]]; then
-+	ROOT="/usr/src/linux"
-+fi
-+
-+# Source-level checks need the kernel tree; installed runs have none.
-+SRC_EVENTS="$ROOT/kernel/events"
-+if [[ -f "$SRC_EVENTS/core.c" ]]; then
-+	HAVE_SRC=1
-+else
-+	HAVE_SRC=0
-+	ROOT=""
-+fi
-+
-+# Compiler for the runtime rebuild of the userspace program; the
-+# kselftest build system exports CC (with CROSS_COMPILE prefixed).
-+CC="${CC:-gcc}"
-+
-+PMU_ARG="${1:-}"
-+if [[ "$PMU_ARG" == "--pmu" ]]; then
-+	PMU_NAME="${2:-arm_spe_0}"
-+elif [[ -n "$PMU_ARG" ]]; then
-+	PMU_NAME="$PMU_ARG"
-+else
-+	PMU_NAME="arm_spe_0"
-+fi
-+
-+echo "=========================================="
-+echo " Perf AUX Kernel-Consumer API Test"
-+echo "=========================================="
-+echo "Kernel tree:  $ROOT"
-+echo "Results dir:  $RESULTS_DIR"
-+echo "Target PMU:   $PMU_NAME"
-+echo "Script dir:   $SCRIPT_DIR"
-+echo ""
-+
-+# ---- Section 1: Build-time checks ----
-+echo "--- 1. Build-time Configuration ---"
-+
-+# Check that the KUnit test is built
-+KUNIT_SUITE="/sys/kernel/debug/kunit/perf_aux_kernel"
-+if [[ -d "$KUNIT_SUITE" ]]; then
-+	pass "KUnit suite 'perf_aux_kernel' is registered"
-+else
-+	skip "KUnit suite 'perf_aux_kernel' not registered" \
-+		"(CONFIG_PERF_AUX_KERNEL_KUNIT_TEST not set)"
-+fi
-+
-+# Check that required symbols are exported
-+SYMBOLS_FILE="/proc/kallsyms"
-+if [[ -r "$SYMBOLS_FILE" ]]; then
-+	for sym in perf_event_setup_aux perf_event_release_aux \
-+		perf_event_aux_head perf_event_aux_tail_set perf_event_aux_copy; do
-+		if grep -q "$sym" "$SYMBOLS_FILE" 2>/dev/null; then
-+			pass "Symbol exported: $sym"
-+		else
-+			fail "Symbol not exported: $sym (patch not applied?)"
-+		fi
-+	done
-+else
-+	skip "Symbol check" "/proc/kallsyms not readable"
-+fi
-+
-+# Check that the source files exist (in-tree runs only; installed
-+# environments have no kernel source, which is a skip, not a failure)
-+SRC_EVENTS="$ROOT/kernel/events"
-+if [[ "$HAVE_SRC" -eq 1 ]]; then
-+	for f in core.c ring_buffer.c internal.h; do
-+		if [[ -f "$SRC_EVENTS/$f" ]]; then
-+			pass "Source file: kernel/events/$f"
-+		else
-+			fail "Source file: kernel/events/$f missing"
-+		fi
-+	done
-+
-+	# Check that the KUnit test source exists
-+	if [[ -f "$SRC_EVENTS/aux_kernel_test.c" ]]; then
-+		pass "Source file: kernel/events/aux_kernel_test.c"
-+	else
-+		skip "Source file: kernel/events/aux_kernel_test.c not found"
-+	fi
-+else
-+	skip "Source tree" "kernel source not available (installed run)"
-+fi
-+
-+# Check that aux_kernel_count is in internal.h
-+if [[ "$HAVE_SRC" -eq 1 ]] && grep -q 'aux_kernel_count' "$SRC_EVENTS/internal.h" 2>/dev/null; then
-+	pass "struct perf_buffer: aux_kernel_count field present"
-+elif [[ "$HAVE_SRC" -eq 1 ]]; then
-+	fail "struct perf_buffer: aux_kernel_count field missing"
-+fi
-+
-+# Check that aux_kernel_count is used in perf_aux_output_begin()
-+if [[ "$HAVE_SRC" -eq 1 ]]; then
-+	if grep -q 'aux_kernel_count' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null; then
-+		pass "ring_buffer.c: aux_kernel_count guard in perf_aux_output_begin()"
-+	else
-+		fail "ring_buffer.c: aux_kernel_count guard missing in perf_aux_output_begin()"
-+	fi
-+fi
-+
-+# Check that the new API functions are in core.c / ring_buffer.c
-+if [[ "$HAVE_SRC" -eq 1 ]]; then
-+	for func in perf_event_setup_aux perf_event_release_aux; do
-+		if grep -q "int $func\|void $func" "$SRC_EVENTS/core.c" 2>/dev/null; then
-+			pass "core.c: $func() defined"
-+		else
-+			fail "core.c: $func() not found"
-+		fi
-+	done
-+	for func in perf_event_aux_head perf_event_aux_tail_set perf_event_aux_copy; do
-+		if grep -q "$func" "$SRC_EVENTS/ring_buffer.c" 2>/dev/null; then
-+			pass "ring_buffer.c: $func() defined"
-+		else
-+			fail "ring_buffer.c: $func() not found"
-+		fi
-+	done
-+fi
-+
-+# Check that EXPORT_SYMBOL_GPL is present
-+if [[ "$HAVE_SRC" -eq 1 ]]; then
-+	for func in perf_event_setup_aux perf_event_release_aux \
-+		perf_event_aux_head perf_event_aux_tail_set perf_event_aux_copy; do
-+		if grep -q "EXPORT_SYMBOL_GPL($func)" "$SRC_EVENTS/core.c" \
-+			"$SRC_EVENTS/ring_buffer.c" 2>/dev/null; then
-+			pass "EXPORT_SYMBOL_GPL: $func"
-+		else
-+			fail "EXPORT_SYMBOL_GPL: $func not found"
-+		fi
-+	done
-+fi
-+
-+# ---- Section 2: KUnit API contract tests ----
-+echo ""
-+echo "--- 2. KUnit API Contract Tests ---"
-+
-+KUNIT_DIR="/sys/kernel/debug/kunit/perf_aux_kernel"
-+if [[ -d "$KUNIT_DIR" ]]; then
-+	if [[ -f "$KUNIT_DIR/run" ]]; then
-+		echo run > "$KUNIT_DIR/run" 2>/dev/null || true
-+	fi
-+	RES="$KUNIT_DIR/results"
-+	if [[ -f "$RES" ]]; then
-+		cp "$RES" "$RESULTS_DIR/kunit-results.log"
-+
-+		if grep -Eq "^[[:space:]]*not ok" "$RES"; then
-+			fail "KUnit API contract suite has failing cases"
-+			grep -E "^[[:space:]]*not ok" "$RES" | sed 's/^/    /'
-+		elif grep -Eq "^[[:space:]]*ok " "$RES"; then
-+			pass "KUnit API contract suite: all cases pass"
-+		else
-+			fail "KUnit API contract suite produced no completed cases"
-+		fi
-+		echo "    $(grep '# Totals:' "$RES" | tail -1)"
-+
-+		# Spot-check all 39 test cases (deterministic, dummy PMU)
-+		for c in "test_setup_rejects_non_power_of_two" \
-+			"test_setup_accepts_power_of_two" \
-+			"test_setup_rejects_double" \
-+			"test_setup_parent_event_rejected" \
-+			"test_setup_rejects_negative_watermark" \
-+			"test_setup_with_explicit_watermark" \
-+			"test_writer_admitted_after_setup" \
-+			"test_writer_blocked_after_release" \
-+			"test_release_noop_without_rb" \
-+			"test_setup_release_roundtrip" \
-+			"test_multi_setup_release_cycle" \
-+			"test_double_release_clean" \
-+			"test_two_events_independent" \
-+			"test_release_one_does_not_affect_other" \
-+			"test_user_kernel_coexistence" \
-+			"test_concurrent_release" \
-+			"test_head_initial_zero" \
-+			"test_head_advances_after_produce" \
-+			"test_head_no_rb_zero" \
-+			"test_copy_full_window" \
-+			"test_copy_wrap" \
-+			"test_copy_zero_len" \
-+			"test_copy_data_correctness" \
-+			"test_copy_rejects_rewound" \
-+			"test_copy_rejects_future" \
-+			"test_copy_rejects_oversized" \
-+			"test_copy_rejects_null_buf" \
-+			"test_copy_rejects_already_consumed" \
-+			"test_copy_no_rb_enoent" \
-+			"test_tail_set_valid_frees_space" \
-+			"test_tail_set_rejects_future" \
-+			"test_tail_set_accepts_within_ring_window" \
-+			"test_tail_set_rejects_behind_ring" \
-+			"test_tail_set_noop" \
-+			"test_tail_set_consume_all" \
-+			"test_tail_set_no_rb_enoent" \
-+			"test_multi_produce_copy_cycle" \
-+			"test_output_end_zero_size" \
-+			"test_buffer_full_stops_producer"; do
-+			if grep -Eq "^[[:space:]]*ok .*$c" "$RES"; then
-+				pass "KUnit case: $c"
-+			else
-+				fail "KUnit case: $c"
-+			fi
-+		done
-+	else
-+		skip "KUnit results" "no results file (suite did not run)"
-+	fi
-+else
-+	skip "KUnit API contract" "CONFIG_PERF_AUX_KERNEL_KUNIT_TEST" \
-+		"or CONFIG_KUNIT_DEBUGFS missing"
-+fi
-+
-+# ---- Section 3: Userspace AUX regression (C program) ----
-+echo ""
-+echo "--- 3. Userspace AUX Regression (api-level) ---"
-+
-+# Run the C regression test program.
-+#
-+# Prefer an existing (installed or prebuilt) binary; make install
-+# installs TEST_GEN_PROGS binaries but not their sources, so requiring
-+# the source would skip the test exactly in CI pipelines that install
-+# selftests.  Rebuild only in-tree, when the source is newer than the
-+# binary or the binary is missing, and honour $CC then.
-+UMODE_SRC="$SCRIPT_DIR/aux_kernel_usermode.c"
-+UMODE_BIN="$SCRIPT_DIR/aux_kernel_usermode"
-+
-+if [[ -x "$UMODE_BIN" && ( ! -f "$UMODE_SRC" || ! "$UMODE_SRC" -nt "$UMODE_BIN" ) ]]; then
-+	:
-+elif [[ -f "$UMODE_SRC" ]]; then
-+	echo "  Building aux_kernel_usermode with ${CC}..."
-+	if "$CC" -o "$UMODE_BIN" "$UMODE_SRC" -Wall -Wextra -O2; then
-+		:
-+	else
-+		echo "  $CC build failed"
-+		UMODE_BIN=""
-+	fi
-+else
-+	UMODE_BIN=""
-+fi
-+
-+if [[ -n "$UMODE_BIN" && -x "$UMODE_BIN" ]]; then
-+	if "$UMODE_BIN" "$PMU_NAME" 2>&1 | tee "$RESULTS_DIR/usermode.log" | \
-+		grep -c '\[PASS\]' > /dev/null; then
-+		# Count pass/fail from the output
-+		UMODE_PASS=$(grep -c '\[PASS\]' "$RESULTS_DIR/usermode.log" || true)
-+		UMODE_FAIL=$(grep -c '\[FAIL\]' "$RESULTS_DIR/usermode.log" || true)
-+		UMODE_SKIP=$(grep -c '\[SKIP\]' "$RESULTS_DIR/usermode.log" || true)
-+		pass "Userspace API regression: $UMODE_PASS passed," \
-+			" $UMODE_FAIL failed, $UMODE_SKIP skipped"
-+		if [[ "$UMODE_FAIL" -gt 0 ]]; then
-+			fail "Userspace API regression: $UMODE_FAIL failures"
-+		fi
-+	else
-+		fail "Userspace API regression: C program failed"
-+	fi
-+else
-+	skip "Userspace API regression" "binary or source not available"
-+fi
-+
-+# Check that aux_mmap_count refcount is not affected by aux_kernel_count
-+# (static analysis: verify the two refcounts are separate in internal.h)
-+if [[ "$HAVE_SRC" -eq 1 ]]; then
-+	if grep -q 'aux_mmap_count' "$SRC_EVENTS/internal.h" 2>/dev/null && \
-+	   grep -q 'aux_kernel_count' "$SRC_EVENTS/internal.h" 2>/dev/null; then
-+		pass "Refcount separation: aux_mmap_count and aux_kernel_count are distinct"
-+	else
-+		fail "Refcount separation: aux_mmap_count or aux_kernel_count missing"
-+	fi
-+fi
-+
-+# ---- Section 4: Hardware AUX live test ----
-+echo ""
-+echo "--- 4. Hardware AUX Live Test ---"
-+
-+PMU_DIR="/sys/bus/event_source/devices/$PMU_NAME"
-+PERF_BIN=$(which perf 2>/dev/null || true)
-+if [[ -d "$PMU_DIR" ]]; then
-+	PMU_TYPE=$(cat "$PMU_DIR/type" 2>/dev/null || true)
-+	if [[ -n "$PMU_TYPE" ]]; then
-+		pass "AUX PMU $PMU_NAME present (type=$PMU_TYPE)"
-+
-+		if [[ -f "$PMU_DIR/caps/aux_output" ]]; then
-+			pass "PMU $PMU_NAME: aux_output capability present"
-+		else
-+			skip "PMU $PMU_NAME: aux_output capability not found"
-+		fi
-+
-+		if [[ -n "$PERF_BIN" ]]; then
-+			DMESG_BEFORE=$(dmesg 2>/dev/null | wc -l)
-+			if "$PERF_BIN" record -e "$PMU_NAME/period=100000/" \
-+				-o "$RESULTS_DIR/perf_hw.data" -- sleep 0.5 2>/dev/null; then
-+				pass "Hardware AUX: perf record with $PMU_NAME succeeded"
-+			else
-+				fail "Hardware AUX: perf record with $PMU_NAME failed"
-+			fi
-+
-+			DMESG_AFTER="$RESULTS_DIR/dmesg-hardware.log"
-+			dmesg 2>/dev/null > "$DMESG_AFTER" || true
-+			DMESG_LINES_AFTER=$(wc -l < "$DMESG_AFTER")
-+			if [[ "$DMESG_LINES_AFTER" -ge "$DMESG_BEFORE" ]]; then
-+				NEW_DMESG=$(tail -n "+$((DMESG_BEFORE + 1))" "$DMESG_AFTER")
-+			else
-+				NEW_DMESG=$(cat "$DMESG_AFTER")
-+			fi
-+			FAIL_LINES=$(printf '%s\n' "$NEW_DMESG" | \
-+				grep -Ei "perf.*(fail|warn|error).*aux|"\
-+"WARNING:|BUG:|Oops:|lockdep" || true)
-+			if [[ -n "$FAIL_LINES" ]]; then
-+				fail "dmesg: errors during hardware AUX test"
-+				echo "$FAIL_LINES" | sed 's/^/    /'
-+			else
-+				pass "dmesg: clean during hardware AUX test"
-+			fi
-+		fi
-+	else
-+		skip "Hardware AUX" "PMU type not readable"
-+	fi
-+else
-+	skip "Hardware AUX" "PMU $PMU_NAME not available"
-+fi
-+
-+# ---- Section 5: DAMON integration check ----
-+echo ""
-+echo "--- 5. DAMON Integration Verification ---"
-+
-+DAMON_ADMIN="/sys/kernel/mm/damon/admin"
-+if [[ -d "$DAMON_ADMIN" ]]; then
-+	pass "DAMON sysfs interface available"
-+
-+	if [[ -d "$DAMON_ADMIN/kdamonds/0/contexts/0/monitoring_attrs/sample/perf_events" ]] || \
-+	   [[ -d "/sys/kernel/debug/damon/perf_stats" ]]; then
-+		pass "DAMON perf observe infrastructure detected"
-+	else
-+		skip "DAMON perf observe" "debugfs or sysfs interface not available"
-+	fi
-+
-+	DAMON_TEST_DIR="$ROOT/tools/testing/selftests/damon"
-+	if [[ -d "$DAMON_TEST_DIR" ]]; then
-+		pass "DAMON selftest directory present"
-+	else
-+		skip "DAMON selftest directory" "not found at $DAMON_TEST_DIR"
-+	fi
-+else
-+	skip "DAMON integration" "DAMON admin interface not available"
-+fi
-+
-+# ---- Section 6: Memory ordering and concurrency checks ----
-+echo ""
-+echo "--- 6. Memory Ordering & Concurrency ---"
-+
-+if [[ "$HAVE_SRC" -ne 1 ]]; then
-+	skip "Memory ordering checks" "kernel source not available (installed run)"
-+else
-+
-+# Verify smp_rmb() in perf_event_aux_head()
-+if grep -q 'smp_rmb' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null; then
-+	pass "perf_event_aux_head(): smp_rmb() barrier present"
-+else
-+	fail "perf_event_aux_head(): smp_rmb() barrier missing"
-+fi
-+
-+# Verify smp_mb() in perf_event_aux_tail_set()
-+if grep -A30 'perf_event_aux_tail_set' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null | \
-+	grep -q 'smp_mb'; then
-+	pass "perf_event_aux_tail_set(): smp_mb() barrier present"
-+else
-+	fail "perf_event_aux_tail_set(): smp_mb() barrier missing"
-+fi
-+
-+# Verify aux_refcount protection in perf_event_aux_copy()
-+if grep -A80 'perf_event_aux_copy' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null | \
-+	grep -q 'aux_refcount'; then
-+	pass "perf_event_aux_copy(): aux_refcount protection present"
-+else
-+	fail "perf_event_aux_copy(): aux_refcount protection missing"
-+fi
-+
-+# Verify mmap_mutex serialization in setup/release
-+if grep -A30 'perf_event_setup_aux' "$SRC_EVENTS/core.c" 2>/dev/null | \
-+	grep -q 'mmap_mutex'; then
-+	pass "perf_event_setup_aux(): mmap_mutex serialization present"
-+else
-+	fail "perf_event_setup_aux(): mmap_mutex serialization missing"
-+fi
-+if grep -A30 'perf_event_release_aux' "$SRC_EVENTS/core.c" 2>/dev/null | \
-+	grep -q 'mmap_mutex'; then
-+	pass "perf_event_release_aux(): mmap_mutex serialization present"
-+else
-+	fail "perf_event_release_aux(): mmap_mutex serialization missing"
-+fi
-+
-+# Verify aux_mutex protection in release
-+if grep -A60 'perf_event_release_aux' "$SRC_EVENTS/core.c" 2>/dev/null | \
-+	grep -q 'aux_mutex'; then
-+	pass "perf_event_release_aux(): aux_mutex protection present"
-+else
-+	fail "perf_event_release_aux(): aux_mutex protection missing"
-+fi
-+
-+fi
-+
-+# ---- Section 7: Boundary validation checks ----
-+echo ""
-+echo "--- 7. API Contract: Boundary Validation ---"
-+
-+if [[ "$HAVE_SRC" -ne 1 ]]; then
-+	skip "Boundary validation checks" "kernel source not available (installed run)"
-+else
-+
-+# perf_event_setup_aux() rejects non-power-of-2
-+if grep -q 'is_power_of_2' "$SRC_EVENTS/core.c" 2>/dev/null; then
-+	pass "perf_event_setup_aux(): is_power_of_2() check present"
-+else
-+	fail "perf_event_setup_aux(): is_power_of_2() check missing"
-+fi
-+
-+# perf_event_setup_aux() checks is_kernel_event()
-+if grep -q 'is_kernel_event' "$SRC_EVENTS/core.c" 2>/dev/null; then
-+	pass "perf_event_setup_aux(): is_kernel_event() check present"
-+else
-+	fail "perf_event_setup_aux(): is_kernel_event() check missing"
-+fi
-+
-+# perf_event_setup_aux() checks event->parent
-+if grep -A20 'perf_event_setup_aux' "$SRC_EVENTS/core.c" 2>/dev/null | \
-+	grep -q 'event->parent'; then
-+	pass "perf_event_setup_aux(): event->parent check present"
-+else
-+	fail "perf_event_setup_aux(): event->parent check missing"
-+fi
-+
-+# perf_event_aux_copy() validates window size
-+if grep -A80 'perf_event_aux_copy' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null | \
-+	grep -q 'available.*aux_size'; then
-+	pass "perf_event_aux_copy(): window bounds check present"
-+else
-+	fail "perf_event_aux_copy(): window bounds check missing"
-+fi
-+
-+# rb_has_kernel_aux() helper
-+if grep -q 'rb_has_kernel_aux' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null; then
-+	pass "ring_buffer.c: rb_has_kernel_aux() helper defined"
-+else
-+	fail "ring_buffer.c: rb_has_kernel_aux() helper missing"
-+fi
-+
-+# perf_event_aux_tail_set() validates advance <= head - old_tail
-+if grep -A20 'perf_event_aux_tail_set' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null | \
-+	grep -q 'advance.*head.*old_tail'; then
-+	pass "perf_event_aux_tail_set(): advance bounds check present"
-+else
-+	fail "perf_event_aux_tail_set(): advance bounds check missing"
-+fi
-+
-+# perf_event_aux_copy() validates from/to in [tail, head]
-+if grep -A80 'perf_event_aux_copy' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null | \
-+	grep -q 'start.*available\|len.*available.*start'; then
-+	pass "perf_event_aux_copy(): from/to bounds check present"
-+else
-+	fail "perf_event_aux_copy(): from/to bounds check missing"
-+fi
-+
-+fi
-+
-+# ---- Section 8: Concurrency safety checks ----
-+echo ""
-+echo "--- 8. Concurrency Safety ---"
-+
-+if [[ "$HAVE_SRC" -ne 1 ]]; then
-+	skip "Concurrency safety checks" "kernel source not available (installed run)"
-+else
-+
-+# Check that aux_kernel_count uses refcount_t (atomic)
-+if grep -q 'refcount_t.*aux_kernel_count' "$SRC_EVENTS/internal.h" 2>/dev/null; then
-+	pass "aux_kernel_count: refcount_t (atomic) type"
-+else
-+	fail "aux_kernel_count: not refcount_t"
-+fi
-+
-+# Check that release drops the kernel-owner refcount under mmap_mutex
-+# (serialising concurrent perf_event_release_aux() callers)
-+if grep -A60 'perf_event_release_aux' "$SRC_EVENTS/core.c" 2>/dev/null | \
-+	grep -q 'refcount_dec_and_test(&rb->aux_kernel_count)'; then
-+	pass "aux_kernel_count: owner refcount dropped in release"
-+else
-+	fail "aux_kernel_count: owner refcount not dropped in release"
-+fi
-+
-+# Check that aux_refcount is incremented in copy
-+if grep -A80 'perf_event_aux_copy' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null | \
-+	grep -q 'refcount_inc_not_zero.*aux_refcount'; then
-+	pass "perf_event_aux_copy(): aux_refcount_inc_not_zero() present"
-+else
-+	fail "perf_event_aux_copy(): aux_refcount_inc_not_zero() missing"
-+fi
-+
-+# Check that rb_free_aux is called at end of copy (release refcount)
-+if grep -A80 'perf_event_aux_copy' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null | \
-+	grep -q 'rb_free_aux'; then
-+	pass "perf_event_aux_copy(): rb_free_aux() at exit (balanced refcount)"
-+else
-+	fail "perf_event_aux_copy(): rb_free_aux() missing at exit"
-+fi
-+
-+# Check that is_kernel_event guard is on both setup and release
-+if grep -A20 'perf_event_setup_aux' "$SRC_EVENTS/core.c" 2>/dev/null | \
-+	grep -q 'is_kernel_event'; then
-+	pass "setup side: is_kernel_event() guard present"
-+else
-+	fail "setup side: is_kernel_event() guard missing"
-+fi
-+if grep -A20 'perf_event_release_aux' "$SRC_EVENTS/core.c" 2>/dev/null | \
-+	grep -q 'is_kernel_event'; then
-+	pass "release side: is_kernel_event() guard present"
-+else
-+	fail "release side: is_kernel_event() guard missing"
-+fi
-+
-+# Check that event->parent guard is on both setup and release
-+if grep -A20 'perf_event_setup_aux' "$SRC_EVENTS/core.c" 2>/dev/null | \
-+	grep -q 'event->parent'; then
-+	pass "setup side: event->parent guard present"
-+else
-+	fail "setup side: event->parent guard missing"
-+fi
-+if grep -A20 'perf_event_release_aux' "$SRC_EVENTS/core.c" 2>/dev/null | \
-+	grep -q 'event->parent'; then
-+	pass "release side: event->parent guard present"
-+else
-+	fail "release side: event->parent guard missing"
-+fi
-+
-+fi
-+
-+# ---- Section 9: User/kernel AUX isolation ----
-+echo ""
-+echo "--- 9. User/Kernel AUX Isolation ---"
-+
-+if [[ "$HAVE_SRC" -ne 1 ]]; then
-+	skip "User/kernel isolation checks" "kernel source not available (installed run)"
-+else
-+
-+if grep -A30 'perf_event_setup_aux' "$SRC_EVENTS/core.c" 2>/dev/null | \
-+	grep -q 'EBUSY'; then
-+	pass "setup_aux: -EBUSY when event->rb exists (user+kernel exclusion)"
-+else
-+	fail "setup_aux: missing -EBUSY guard"
-+fi
-+
-+if grep -q 'aux_mmap_count' "$SRC_EVENTS/internal.h" 2>/dev/null && \
-+   grep -q 'aux_kernel_count' "$SRC_EVENTS/internal.h" 2>/dev/null; then
-+	pass "aux_mmap_count and aux_kernel_count are distinct fields"
-+else
-+	fail "aux_mmap_count or aux_kernel_count missing"
-+fi
-+
-+if grep -B2 -A2 'aux_mmap_count' "$SRC_EVENTS/ring_buffer.c" 2>/dev/null | \
-+	grep -q 'aux_kernel_count'; then
-+	pass "perf_aux_output_begin: checks both owner counts"
-+else
-+	fail "perf_aux_output_begin: does not check both counts"
-+fi
-+
-+if grep -q 'aux_kernel_count' "$SRC_EVENTS/core.c" 2>/dev/null; then
-+	pass "release_aux: checks aux_kernel_count ownership"
-+else
-+	fail "release_aux: missing aux_kernel_count check"
-+fi
-+
-+fi
-+
-+# ---- Summary ----
-+echo ""
-+echo "=========================================="
-+echo " SUMMARY: $PASSED passed, $FAILED failed, $SKIPPED skipped"
-+echo "=========================================="
-+echo "Results saved to: $RESULTS_DIR"
-+
-+if [[ "$FAILED" -gt 0 ]]; then
-+	echo "Overall: FAIL"
-+	exit 1
-+else
-+	echo "Overall: PASS"
-+	exit 0
-+fi
--- 
-2.43.0
-
+> ---
+>  include/linux/mm.h              | 53 +++++++++++++++++++++++++++++++++++=
++++++-
+>  tools/testing/vma/include/dup.h | 29 +++++++++++++++++++++-
+>  2 files changed, 80 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 97e1eb4fe3a4..83953757735a 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -1612,6 +1612,41 @@ static inline bool vma_is_shared_maywrite(const st=
+ruct vm_area_struct *vma)
+>         return is_shared_maywrite(&vma->flags);
+>  }
+>
+> +/**
+> + * vma_flags_is_mm_managed() - Do the specified VMA flags indicate that =
+the
+> + * contents of the VMA are managed by core mm?
+> + * @flags: The VMA flags to test.
+> + *
+> + * Such a mapping is one established by a simple mmap() or brk() with no=
+ driver
+> + * or other kernel component involved.
+> + *
+> + * They are rmappable, and core mm services rmap operations including re=
+claim,
+> + * as well as population, CoW and merge/split (if eligible).
+> + *
+> + * Mappings which fail this test are those where this is not the case -
+> + * e.g. MMIO, user-mapped kernel pages, udmabuf (pfnmap shmem), etc.
+> + *
+> + * Returns: true if the flags indicate an mm-managed mapping.
+> + */
+> +static inline bool vma_flags_is_mm_managed(const vma_flags_t *flags)
+> +{
+> +       return !vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BI=
+T,
+> +                                  VMA_IO_BIT);
+> +}
+> +
+> +/**
+> + * vma_is_mm_managed() - Are the contents of @vma managed by core mm?
+> + * @vma: The VMA to test.
+> + *
+> + * See vma_flags_is_mm_managed() for a description of this property.
+> + *
+> + * Returns: true if the VMA is mm-managed.
+> + */
+> +static inline bool vma_is_mm_managed(const struct vm_area_struct *vma)
+> +{
+> +       return vma_flags_is_mm_managed(&vma->flags);
+> +}
+> +
+>  /**
+>   * vma_flags_can_merge() - Do the specified VMA flags permit the VMA to =
+be
+>   * merged with another?
+> @@ -1620,7 +1655,23 @@ static inline bool vma_is_shared_maywrite(const st=
+ruct vm_area_struct *vma)
+>   */
+>  static inline bool vma_flags_can_merge(const vma_flags_t *flags)
+>  {
+> -       return !vma_flags_test_any_mask(flags, VMA_SPECIAL_FLAGS);
+> +       /*
+> +        * VMA merging assumes that a VMA's flags and fields completely d=
+escribe
+> +        * its state.
+> +        *
+> +        * However, mappings which are not mm-managed may have establishe=
+d state
+> +        * upon mapping not embodied in any attribute of the VMA.
+> +        *
+> +        * Additionally, private (CoW) PFN maps encode the source PFN of =
+the
+> +        * range in vma->vm_pgoff, which may otherwise cause spurious mer=
+ges.
+> +        */
+> +       if (!vma_flags_is_mm_managed(flags))
+> +               return false;
+> +       /* VMA explicitly marked as being unmergeable. */
+> +       if (vma_flags_test(flags, VMA_DONTEXPAND_BIT))
+> +               return false;
+> +
+> +       return true;
+>  }
+>
+>  /**
+> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/=
+dup.h
+> index a6a8e53c4b38..89c645a6ad60 100644
+> --- a/tools/testing/vma/include/dup.h
+> +++ b/tools/testing/vma/include/dup.h
+> @@ -1665,7 +1665,34 @@ static inline bool file_is_dev_zero(const struct f=
+ile *file)
+>         return file && file->f_op =3D=3D &zero_fops;
+>  }
+>
+> +static inline bool vma_flags_is_mm_managed(const vma_flags_t *flags)
+> +{
+> +       return !vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BI=
+T,
+> +                                  VMA_IO_BIT);
+> +}
+> +
+> +static inline bool vma_is_mm_managed(const struct vm_area_struct *vma)
+> +{
+> +       return vma_flags_is_mm_managed(&vma->flags);
+> +}
+> +
+>  static inline bool vma_flags_can_merge(const vma_flags_t *flags)
+>  {
+> -       return !vma_flags_test_any_mask(flags, VMA_SPECIAL_FLAGS);
+> +       /*
+> +        * VMA merging assumes that a VMA's flags and fields completely d=
+escribe
+> +        * its state.
+> +        *
+> +        * However, mappings which are not mm-managed may have establishe=
+d state
+> +        * upon mapping not embodied in any attribute of the VMA.
+> +        *
+> +        * Additionally, private (CoW) PFN maps encode the source PFN of =
+the
+> +        * range in vma->vm_pgoff, which may otherwise cause spurious mer=
+ges.
+> +        */
+> +       if (!vma_flags_is_mm_managed(flags))
+> +               return false;
+> +       /* VMA explicitly marked as being unmergeable. */
+> +       if (vma_flags_test(flags, VMA_DONTEXPAND_BIT))
+> +               return false;
+> +
+> +       return true;
+>  }
+>
+> --
+> 2.55.0
+>
