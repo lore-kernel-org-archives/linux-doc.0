@@ -1,65 +1,67 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed2-f31.google.com (mail-ed2-f31.google.com [74.125.228.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8E2471422
-	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 17:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1AA471CF2
+	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 17:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791134208; cv=none; b=tfrRUxBhLVpYINs+N4dcNCTGc/AxuAYnzDuY/PbmqVI1P/SRxFzFR6bQeAvLUht7JIBjUoaDFovDYv8z6uee4DN+t6nglsRbckeNd8+ElvfSIw9ed241koCzCQMvLAhHT3ADwvnZfGbo6Pk4LtHNlfiIE9wGIQu17Cnx9vv4rcI=
+	t=1791134209; cv=none; b=MFTPE+KEWE3AW4FDAHOGRWYwU/F+G42vDpPI5bIhUBEh+zTK/+PZVwijgLpWOidVHz4aBxeiNRZJGJ5gpKqmKdjkF7T0Bbromc2h1joScI4UUyKbjOsTL5qrKZ1u0BzhCmSQoUgzTk0Xdzt9VvSl1IY0gqstKlh1VUytdqgbYMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791134208; c=relaxed/simple;
-	bh=bmE6DJq5mQYt8ACvF1ZIyWP9iLVRBzWtezcMwXt3IsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q8Z0xkCKiRLGbw4S7tyd8+UzjUiJfh16figPXYxwvk0PPn8Y/P0hIu8Al6za9PyoCSR7JL4LYXo3+vf1eSp8sTJyN5k76MRu7wXb0h9gtJjyqNZOqO2KU5UK37HUpTICy4hNYLMB+0EKN3JTHSg1rMXAUV9N2IBx4URC2VGlb8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de; spf=pass smtp.mailfrom=bairaktaris.de; dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.b=zxAXwcy0; arc=none smtp.client-ip=209.85.208.48
+	s=arc-20240116; t=1791134209; c=relaxed/simple;
+	bh=Y5qEOgngxBaCHA/kBWEYUs6H+TGmwJHQkFWp/hzC6bs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WyQdZmRzL1wGf1ZMoNUzA1LR2o6QB8IeCcMNBgRGdXe8fXRK4Hix+yZ+E6ChyftcVZrmxURYRtT1T1i6hho1h42riCjYKqOcYpFe9xvEijeZbSOUeaqC71M42XOrfecqs9ipbhkWBdJtbZXhMdJwz7Z0rDlG78w2+QOkyzjuo8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de; spf=pass smtp.mailfrom=bairaktaris.de; dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.b=kWkRmFKX; arc=none smtp.client-ip=74.125.228.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bairaktaris.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.b="zxAXwcy0"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6ae14eecc64so1277775a12.1
-        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 10:16:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.b="kWkRmFKX"
+Received: by mail-ed2-f31.google.com with SMTP id 4fb4d7f45d1cf-6ae19959791so1140308a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 10:16:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bairaktaris.de; s=google; t=1791134199; x=1791738999; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TlaQzqtT4L/X0UVb7t9+uS9vqwfYnLXqmrlooszQDxo=;
-        b=zxAXwcy08QW2QkJf7VIp31UHdQhVL68lgB0JEDGWR8QA7h8+7jE3REcLYMDKnYl6Q+
-         RAutXssSpHHCf9kvoNGCMCvnGfeX4WsvnrLV/anvM1CSC5Qc9CVP+2208Also9XwOdr1
-         tHFWcKmmNenZE+Owe3aFaSC6WFqdlZDRo3E5gCH3kxbsu5bEJ7qsrLCPML6IvXUvNi41
-         mZMpcX595P5a2+Fg0bv6qEiNhmXK4TxfqlYdg4lI4epAgMOZ6Y80KzuNAVUFvLkrlbbz
-         nIzZmJQQFaokpafRbamYcVTwNJA/CFHVjQTyl6HA9zLYAL2VVQnWXHMvlHDy0NDXDiz1
-         +KTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791134199; x=1791738999;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=bairaktaris.de; s=google; t=1791134204; x=1791739004; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TlaQzqtT4L/X0UVb7t9+uS9vqwfYnLXqmrlooszQDxo=;
-        b=TgE6dNqPEEAb5IgJ7kQ107eRKIPrQVd6VuGa04bav85RSy9IVzF3JLxTLgEUYkHyjE
-         WQ4KuxXKN6/NUX8SPG9w/9RoInioQMxsi+P2iNluFYafPzmTEkUWS9VDIWr9UbSkR/md
-         bWgDqER3Mp4mUG0ftKz2GsKSuK0dLMeCi7dBK/N5oCmli3+Yy2vDUT3ofPGEPE8ZFaqX
-         /+dVbEubvlCsXkObF32yoXB3UbjL8lhLlbMJhcPBXNmkm1ojemCltJNdAoDms2RCQc++
-         XBfoEiMYuerEPjYPEmHDNXZbxnTh1rkkNYwKZH1c0Tu30SitA4LX6neQHOBb0qOqb82z
-         bWgA==
-X-Forwarded-Encrypted: i=1; AKwUvBwEc4tzl9ylmT8xsy5c8/qHliqft+uyuLo02iKPTrdSpwziUxsJa01kbCSBhuCBPFPO6frHU+1lkOQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJO1F1K4kR2GU26lDKe9zAVSUYHYqC7aYbXw17gUYhNyKiSDxqJ
-	2283hdYCKeQiXHqTjBd5EhfLrB6kZU0/7SH/v529q/44ia8M/CUjy/wTvJpIowEUhA==
-X-Gm-Gg: AYBFou3g9PqP0l+gUsN3IVaICQxR48BJm3tHM9hbLzk9yxkVeoKNrGoGen2G0pcsB0G
-	eap2geerLdTBPDdlXilK5KDj0j80SWY3SZQW5Ve9Btf4YtnFxNDTdi2pveL6o9B7eXplnvoaGV3
-	QslXteupOK5wV51WnfohYBJa70dYf8oTc17FX0LzjHtqMqQzqflpFMuiCmAB/Co103BJNoMZ/9N
-	8y0k23oyf9U6Yt+BysXGLnv+Va1WD42dvtjEmvt4JCNq+Yq/WkN/KHp/CN1FVsKIZ7DcPvN8lNr
-	oIG7E75BP8wqud7Lm0NOZhSwir71psFv9K3XDAtRFuPHO8BkfKET1q/GfFqOX4Ar+3DsgfIvBPL
-	UJog4miDszDgt0kOp1B85TRrJU0IgDEqeELnL0NyC70VdQfX6VVWCAjHJHhi9XDR/5H9QJ/bIDq
-	JvJmaALuh6wNtYeT9WVZCgPwnw4Y0Qb1jvxWZnTddjHSWxwfaxtGEsE04vtndt1fCeb8+mMfGtk
-	wSqNiWxXG22aKrDlm4yjEDFYH03XCaCKypFhUPxWYF29tum7I2pRWoJNdCz4tVvv9fRaePIBENs
-	uGf4+5EqKUeuw9FZm9wOle9pf07gnDRQFDkB9SwHoPwnIrJTWs7+t7IaHfQgB46bwlLU6RWDi/k
-	9VXzdMWzVtoO+i3GGzt1928MGFA2CMsplKtALcAprFt4egwzLbAGlzW7Cts5/yxJ7vI/9YMxXdD
-	p73m/I3KnghtP5SWrjm8qfjKc=
-X-Received: by 2002:a05:6402:2709:b0:6af:a64f:bd44 with SMTP id 4fb4d7f45d1cf-6afada35853mr4633290a12.45.1791134198617;
-        Sun, 04 Oct 2026 10:16:38 -0700 (PDT)
+        bh=dHUtQGoQ43VDmpGd3bfBB5J/hFSSTUqRFc74DU6+NPk=;
+        b=kWkRmFKXjXM0xC0FxMJnO6LoQmczqio07l6m6t4SxoS4hPuty0vr9Go9RpcM2pzb8M
+         Vub2TL42Hh8czBNXgG7kSK41MKL8rit7M0ndzb2aTmo9gNhWWQjzHO1W41FmooNv/V7S
+         sYdaVys5n3zPm7S2exm1tEhNyfTSmVOseZSG1j384ijQ5oC6upYTTEQQ/im9yp6mk22C
+         1IRRDgl9Uvs8qWXYKtWcb1eBYpznbB1Zhr11Mu31e7jESXOdA3FvJXPh2CO+ZF9w2tEz
+         JWV+m5Ib4rsI0zRyU07aWI5+pSvv3StVIWrxr2JYWQuc/qRG4guds8OXo/k/7YpZiLNW
+         Rkag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791134204; x=1791739004;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dHUtQGoQ43VDmpGd3bfBB5J/hFSSTUqRFc74DU6+NPk=;
+        b=Ckj1JPgxyT5UCRH6ncnzcSnmRScNNbruWgnKVVn2nrG4rmtt1SFUN1lulSxGA1ggoU
+         xLcMGbzpEH9CGVgdckzGb9VR6bH+Y4CQ4sgzCnnfuk2z4+eX/biYB2mcVH21LsfFlICU
+         ArCZVfTZBsveTwhvi8dcntg+gqPaKkvgoTBflhFz/kTXuJfuEmCp8TtNtbxB+JZ2XYrb
+         w+AIX/4MFf2AfirOCBBhlVdvonBW5VWeJ7/Fuxn/Y8kb+D40wpwhIVYLf/bWxHeSoAgr
+         swkVsm2fwSJ37JnRpL/jJluIVUFQEBNwlGOR2dQtbDpzIDfoIPHFANa3e0NHuHT/LsH8
+         emcw==
+X-Forwarded-Encrypted: i=1; AKwUvBzc437YYWCM60AaIOQaiKXTSctBFHm2NY70UoyDIktR4Xj3AQ1sIMg9zmlw3w8xxo9Flxq2x8ABQMY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKzqTBva6DrfY491wUNiJyEN6XEXkPsLKnvToDzmMZPID/gsSmk
+	aFo5GvOdyvDBiREpjwwnUU3+RhU2wKsxfWH6WVvzybRguZNmuSNXAZwUxTEkMPmKMA==
+X-Gm-Gg: AYBFou2ByM1soHdIuUQN++LNYuXK0z2EytENDHYSlfoAY7aOlHLFO6f+03XRHK2IPJP
+	DEOETYVJs+mpTREmPLAlevjNVkwJi53rhwkA/V/wCzC/pTOdzEEHIDdFZEyfa0D73cbVcgpxsYO
+	50mbtCcsRtmWE/5yoEbUeOFO9n2SHVaLoAN62yvBigsgJdQZvD/tVjRSgNalx2+kDt7AHlIuedp
+	+axwq3fM0mk8qB2cKKhQ7lJB3Emyv6PB4XikmRl/L4tiRjX1C3DKPMxVIpQBx0ZCprblxNzWIbW
+	myZy9mvatsxmnI2Yq6h+dLyw0Z4um4eQB0Kul4Kw3g/9H4MHCok+VpLunYxmtU0XIfxPqfalFmP
+	x9TNCDP67AVj882XzdaHvObJzsuGZx7Eh0KMnoxcWBxx5Tbefey7xbhbQjozYLfdajX9JDG/SLr
+	+L/HoDLtXST4V6/40Ye6Ec1TjDyXrSDoSIje4tyuUXrj3Ir4uVpD+IAIkL/C5Zyr6E0WhYtuzGD
+	C9JCFX5mF25NkIDpSp9/5dLfrgwvzBUp9MBMwjiujB6+W/pkPN00fuRUq1Rgqbw5QkyV23LRPFq
+	8NUpAHegw6+Zk3H9ayvKNVlFLBCZjkI6WYSvJi0gtwPriHkHMOqt8f8H5U2usluae54c10fYElb
+	5V9Wo9mK1Hz5k9HBB0mrxr3WCNqRBSgXQ7cTxNp2wUSYBM8ZPM1tVjQXKgEL1DNn/VBrc6DoGzJ
+	PaDoD9yHrT7AOLj10zPs2voVM=
+X-Received: by 2002:a05:6402:52c1:b0:6ac:7737:e50d with SMTP id 4fb4d7f45d1cf-6af9e2fd054mr5882545a12.29.1791134203816;
+        Sun, 04 Oct 2026 10:16:43 -0700 (PDT)
 Received: from Desktop (pd9513667.dip0.t-ipconnect.de. [217.81.54.103])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6afb014784bsm2256819a12.3.2026.10.04.10.16.37
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6afb014784bsm2256819a12.3.2026.10.04.10.16.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2026 10:16:37 -0700 (PDT)
+        Sun, 04 Oct 2026 10:16:42 -0700 (PDT)
 From: Julius Bairaktaris <julius@bairaktaris.de>
 To: pablo@netfilter.org,
 	fw@strlen.de
@@ -90,10 +92,12 @@ Cc: phil@nwl.cc,
 	mbloch@nvidia.com,
 	linux-rdma@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH nf-next v3 0/3] netfilter: flowtable: carry a priority into the offload
-Date: Sun,  4 Oct 2026 19:16:33 +0200
-Message-ID: <20261004171636.3545085-1-julius@bairaktaris.de>
+Subject: [PATCH nf-next v3 3/3] selftests: netfilter: nft_flowtable.sh: check the priority a flow carries
+Date: Sun,  4 Oct 2026 19:16:36 +0200
+Message-ID: <20261004171636.3545085-4-julius@bairaktaris.de>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261004171636.3545085-1-julius@bairaktaris.de>
+References: <20261004171636.3545085-1-julius@bairaktaris.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -102,64 +106,153 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Packets forwarded by the flowtable skip the ruleset, so a priority set
-with "meta priority set" before "flow add" is lost after the first
-packets. Patch 2 stores skb->priority in the flow, applies it in the
-software fast path and passes it to drivers as FLOW_ACTION_PRIORITY.
-Patch 1 makes mlx5 ignore that action on flowtable flows, so flows it
-offloads today stay offloaded. Patch 3 adds a selftest.
+Count the forwarded TCP packets that leave with priority 0:3 and those
+that leave with none, first without a priority and then with "meta
+priority set 0:3" ahead of "flow add". With the priority set, every
+packet must carry it, including those the flowtable forwards. Runs for
+IPv4 and IPv6.
 
-v2 review asked whether this should be a flowtable attribute instead.
-A per-flow priority covers both one class per flowtable and a class
-chosen per connection, with existing syntax:
-
-  meta priority set 1:3 flow add @ft
-  udp dport 5060 meta priority set 1:3 flow add @ft
-
-An attribute needs one flowtable per class. nft rejects a device in
-two flowtables of the same table with -EEXIST, so it also needs one
-table per class. Pablo, is the per-flow approach fine with you?
-
-mlx5 maintainers: patch 1 is needed before patch 2 and is meant to go
-through nf-next; an Acked-by would allow that.
-
-The selftest passes with the series, and its priority checks fail with
-only patch 3 applied (QEMU, three runs). The mlx5, airoha and mtk
-changes are compile-tested only; Lorenzo, a Tested-by on airoha would
-be welcome. struct flow_offload grows by 8 bytes.
-
-Changes in v3:
-- new patch 1 for mlx5
-- airoha uses the priority for its QoS queue (Lorenzo Bianconi)
-- describe the tc flower effect and the TOS-derived priority
-- rebased onto nf-next
-
-v2: https://lore.kernel.org/netfilter-devel/20260902155136.4963-1-julius@bairaktaris.de/
-v1: https://lore.kernel.org/netfilter-devel/20260901092632.369248-1-julius@bairaktaris.de/
-
-Julius Bairaktaris (3):
-  net/mlx5e: Ignore FLOW_ACTION_PRIORITY on flowtable offload
-  netfilter: flowtable: carry a priority into the offload
-  selftests: netfilter: nft_flowtable.sh: check the priority a flow
-    carries
-
- Documentation/networking/nf_flowtable.rst     |   4 +-
- drivers/net/ethernet/airoha/airoha_ppe.c      |   3 +
- .../net/ethernet/mediatek/mtk_ppe_offload.c   |   1 +
- .../net/ethernet/mellanox/mlx5/core/Makefile  |   2 +-
- .../mellanox/mlx5/core/en/tc/act/act.c        |   1 +
- .../mellanox/mlx5/core/en/tc/act/act.h        |   1 +
- .../mellanox/mlx5/core/en/tc/act/prio.c       |  22 ++++
- include/net/netfilter/nf_flow_table.h         |   1 +
- net/netfilter/nf_flow_table_ip.c              |   6 +
- net/netfilter/nf_flow_table_offload.c         |  11 ++
- net/netfilter/nft_flow_offload.c              |   2 +
+Assisted-by: Claude:claude-fable-5-1
+Signed-off-by: Julius Bairaktaris <julius@bairaktaris.de>
+---
  .../selftests/net/netfilter/nft_flowtable.sh  | 110 ++++++++++++++++++
- 12 files changed, 162 insertions(+), 2 deletions(-)
- create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/tc/act/prio.c
+ 1 file changed, 110 insertions(+)
 
-
-base-commit: 87b80c2f6b05cad9f0ff9136709c62a0f59923e3
+diff --git a/tools/testing/selftests/net/netfilter/nft_flowtable.sh b/tools/testing/selftests/net/netfilter/nft_flowtable.sh
+index 449c518bd947..73c7b1ec2208 100755
+--- a/tools/testing/selftests/net/netfilter/nft_flowtable.sh
++++ b/tools/testing/selftests/net/netfilter/nft_flowtable.sh
+@@ -458,6 +458,106 @@ fi
+ 	check_dscp "dscp_fwd" "$pmtu"
+ }
+ 
++check_priority()
++{
++	local what="$1"
++	local pmtu="$2"
++	local ok=1
++
++	local counter
++	counter=$(ip netns exec "$nsr1" nft reset counter netdev priocheck prio3 | grep packets)
++	local pc3=${counter%*bytes*}
++	pc3=${pc3#*packets}
++
++	counter=$(ip netns exec "$nsr1" nft reset counter netdev priocheck prio0 | grep packets)
++	local pc0=${counter%*bytes*}
++	pc0=${pc0#*packets}
++
++	local failmsg="FAIL: pmtu $pmtu: $what counters do not match, expected"
++
++	case "$what" in
++	"prio_none")
++		if [ "$pc3" -gt 0 ] || [ "$pc0" -eq 0 ]; then
++			echo "$failmsg prio3 == 0, prio0 > 0, but got $pc3,$pc0" 1>&2
++			ret=1
++			ok=0
++		fi
++		;;
++	"prio_fwd")
++		if [ "$pc3" -eq 0 ] || [ "$pc0" -gt 0 ]; then
++			echo "$failmsg prio3 > 0, prio0 == 0, but got $pc3,$pc0" 1>&2
++			ret=1
++			ok=0
++		fi
++		;;
++	*)
++		echo "FAIL: pmtu $pmtu: unknown priority check $what" 1>&2
++		ret=1
++		ok=0
++	esac
++
++	if [ "$ok" -eq 1 ] ;then
++		echo "PASS: $what: priority packet counters match"
++	fi
++}
++
++test_tcp_forwarding_set_priority()
++{
++	local pmtu="$3"
++	local proto="$4"
++	local dstip="$5"
++	local dstport="$6"
++	local lret=0
++
++ip netns exec "$nsr1" nft -f - <<EOF
++table netdev priocheck {
++   counter prio0 { }
++   counter prio3 { }
++
++   chain egress0 {
++      type filter hook egress device "veth0" priority 0; policy accept
++      meta l4proto tcp meta priority 0:3 counter name "prio3"
++      meta l4proto tcp meta priority none counter name "prio0"
++   }
++
++   chain egress1 {
++      type filter hook egress device "veth1" priority 0; policy accept
++      meta l4proto tcp meta priority 0:3 counter name "prio3"
++      meta l4proto tcp meta priority none counter name "prio0"
++   }
++}
++EOF
++	if [ $? -ne 0 ]; then
++		echo "SKIP: Could not load netdev:egress for veth0 and veth1"
++		return 0
++	fi
++
++	if ! test_tcp_forwarding_ip "$1" "$2" "$pmtu" "$proto" "$dstip" "$dstport"; then
++		lret=1
++	fi
++	check_priority "prio_none" "$pmtu"
++
++	# The flow stores the priority set before it is added, so the packets
++	# the flowtable forwards leave with it too, in both directions.
++ip netns exec "$nsr1" nft -f - <<EOF
++table inet prioset {
++   chain forward {
++      type filter hook forward priority -1; policy accept
++      meta priority set 0:3
++   }
++}
++EOF
++	if ! test_tcp_forwarding_ip "$1" "$2" "$pmtu" "$proto" "$dstip" "$dstport"; then
++		lret=1
++	fi
++	check_priority "prio_fwd" "$pmtu"
++
++	ip netns exec "$nsr1" nft delete table inet prioset
++	ip netns exec "$nsr1" nft delete table netdev priocheck
++
++	return $lret
++}
++
+ test_tcp_forwarding_nat()
+ {
+ 	local nsa="$1"
+@@ -516,6 +616,11 @@ else
+ 	ret=1
+ fi
+ 
++if ! test_tcp_forwarding_set_priority "$ns1" "$ns2" 0 6 "[dead:2::99]" 12345; then
++	echo "FAIL: IPv6 flow offload for ns1/ns2 with priority update" 1>&2
++	ret=1
++fi
++
+ # delete default route, i.e. ns2 won't be able to reach ns1 and
+ # will depend on ns1 being masqueraded in nsr1.
+ # expect ns1 has nsr1 address.
+@@ -572,6 +677,11 @@ if ! test_tcp_forwarding_set_dscp "$ns1" "$ns2" 1 4 10.0.2.99 12345; then
+ 	exit 0
+ fi
+ 
++if ! test_tcp_forwarding_set_priority "$ns1" "$ns2" 1 4 10.0.2.99 12345; then
++	echo "FAIL: flow offload for ns1/ns2 with priority update and pmtu discovery" 1>&2
++	ret=1
++fi
++
+ ip netns exec "$nsr1" nft reset counters table inet filter >/dev/null
+ 
+ if ! test_tcp_forwarding_nat "$ns1" "$ns2" 1 ""; then
 -- 
 2.53.0
 
