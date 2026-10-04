@@ -1,153 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934CC1D6DA9;
-	Sun,  4 Oct 2026 07:26:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F7C3B42FE;
+	Sun,  4 Oct 2026 07:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791098803; cv=none; b=QARK3jehm3+F+AZM2AMwmpJpp5JzocVl7wtcyfugqaruTZK8XO69Jg6nvW8d9Ym7D3YfSQgeFogbuSoAEARkT0AXTMLXJY5g50ofdpuY6b6V5dke9Dt1pr5bFCYA5ScKBeeBCBOOIkjwc3SppPD7/iAqQ4TA6dTRgF+oQdFQPRw=
+	t=1791100753; cv=none; b=MIY1KJj0QSXht+2/k/gTBQJnek8W6DtXifyd/Eh2rOjvk+fcD89xHcEszN/kr1R76uS1zTT28vnu2+fUIEYMpKbarjFXvLOTkdDLRFzvggMtcSKdhqv+oEzL6VUa5bWgMh4cfy4aXvnbGMX5gIH40Vggrq3XGSCKjY1fXbkwIzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791098803; c=relaxed/simple;
-	bh=VHq+Xt/JtwMsfGBSvjM3m1W1JPpNGES8AGlkxECeziU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rJRqkrkty2KwxMmC/wyRJsWwdEJ6DXEKELavP/3ame5UiNWdvhKb0QSlxLn42yFg7CIIxw+FsnC32PyOHiTsSw+oKocRY5h9ApULC03UODwkR6P80L8JPfDCsgnOvm1Yd2uSbMKskI4Kjst5bwCDf20tH+AhTciquf5HTLnyBbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nU5ReT3j; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791100753; c=relaxed/simple;
+	bh=ip5zwZmfrhsFTFJJSlPPKEZZ+EmEl88CikM38xxmG+g=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Pw0qTzJ9hhajvtCwYaRAot1ButzNFVqKXa2VU4+3VXUMCwRb30B+VrrzCVKwAnCpss+uToYN9dX6pP2k+8UkejJvEsJb51KR5Sam7M/Gi3jx9bUeEn47VcgbTSbLEgx23cE9Wo0Zq4J6eIfT6FvrFJuZQ+G+3l26dkMGI02PvQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eTIY7hjK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nU5ReT3j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 761B31F000FF;
-	Sun,  4 Oct 2026 07:26:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eTIY7hjK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AF411F000FF;
+	Sun,  4 Oct 2026 07:59:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791098799;
-	bh=cgIqnoufaHq6AdaBd0wZxGfVHkwrfWk/BsoFED6yW28=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nU5ReT3jHCTKrC3vFlt6lFhBY2qzd5TcweumZDdG4PoYUxRdUjykUFoBgFNWA1PjY
-	 T9Yu+RIKP64tp84D9IUIBtDjfeFi3o967G8MkqSZgLs5zg6QgwCaZo2Pxoykxskztl
-	 biV5O05MJfDy50y8GDgflF67Yd7yP+x3fcZ/CTySFwAWfFHWKch8vNf6E6pnkc8Req
-	 OzpDMqE/uOHVQp8wJMzmgk75NkJ+Q6sBYYfXWMn9gwMNio09Jz0A1FkvjaPxByIoTx
-	 USuuhCbzR7WCiikqNFCVjzo7VO44aK7kcE+i2spiWR4WgjRoXKk74e4z7OK8rvjehn
-	 Jk/eIKWbHt2nQ==
-Date: Sun, 4 Oct 2026 00:26:39 -0700
-From: Kees Cook <kees@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bill Wendling <morbo@google.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Gow <david@davidgow.net>, Petr Mladek <pmladek@suse.com>,
-	Shuvam Pandey <shuvampandey1@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Shivaprasad G Bhat <sbhat@linux.ibm.com>,
-	Thorsten Blum <blum@kernel.org>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guangshuo Li <lgs201920130244@gmail.com>,
-	Ira Weiny <iweiny@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	nvdimm@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v4 05/11] seq_buf: Add seq_buf_strlen()
-Message-ID: <202610040023.A3865A6@keescook>
-References: <20261003035906.too.263-kees@kernel.org>
- <20261003035921.1918874-5-kees@kernel.org>
- <asEhEe0Urb5Wx7yi@ashevche-desk.local>
+	s=k20260515; t=1791100751;
+	bh=ip5zwZmfrhsFTFJJSlPPKEZZ+EmEl88CikM38xxmG+g=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=eTIY7hjKl6/ZEFLqsHkTJZfahJrWYIhbkVRAtXOQZnxggiX+r1VbgU6aR+qSzp69T
+	 HPZhLNysQoNXZI/VUt4xhevnzGmbvd3qGHpnrs3Aob4coSNRQGfFcQrAoUTSSdqRo7
+	 gnjOGwwkW8xHiMdktBH3cIjVOQUBbuN/pPhuoU/PpT7tqkT7LU4ppu8C3a1en6Ge5i
+	 fzQ79JE6bARUNP3HqejO7VJiemYT7O8i6DkykDJ+mBrv6h5tTwuniM3tKlBDr5S0Jn
+	 iSGRg2Xdi6eMrvYoFugiBjlB85c9JhiViIlB4/LU0+7/oBzXY1Ms9YKjFQ9Bm8juws
+	 FrTigHwsKHx5g==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id E26DF198003A;
+	Sun,  4 Oct 2026 03:59:08 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Sun, 04 Oct 2026 03:59:08 -0400
+X-ME-Sender: <xms:SQfCap6qTSTVetAJBUV8gdXl9JhptjSuK4NWLF2OzYPImCobNmJMQA>
+    <xme:SQfCahttkmV9PZoaZLcGPxAa9_lpSOWAIszXqlwor--k032meahulYqFHOcxOg42e
+    casPIKhOkQyTc4aRWyQnbdZn7wV_ApxjmX6u7vDBRFvhBYRxTg5a2g>
+X-ME-Proxy-Cause: dmFkZTGcfh3kb6i3UZvVBmS3UPTh4zYgtegthaQzX1uGiLADSMtq8j1AbGaOmxoTrrlmkL
+    sQwsJ7+WXfIEVRZYxb+1XrepinD4fxRoREBJuZwfE4l3nIcCaNg43EqxpVBclLJeIpXR/w
+    4vfOKKVzmBldF2SNSvypKRJ+eItI3rzAmsKdWlNoi3lEoL1ek8QppdLQNN7aN7BX/hsGhL
+    7hjll2pb1buxolwdq04sgfey1ognkma879vWRNTga7zK4/wP1HGVw8bougW0bBc/UZsZmo
+    PMfLcQ/OAQe7K/Bmy21dQHZWvwbnfjmHnGmJO56ie91GWlhMtaxon/qiU3x93hIHtgXsTe
+    Z+p6rUHxORFmbmaphIxW2xzG9eZB40SC/v7Hnzh3xRhXgUMC3Y+4znbIQDtNSmcjzfP+aG
+    E/1Fsnv4WoQIXPG0mZMhRJ70rsU0p/8c4eBDf4Kvp3N62cppUcWrdBW8gb7h3pgAJL3kDJ
+    8PTHKCTfsywseebdNy76QsBQ1F/28pAVgkgoBEtVyhAshX+ic6bt0TCFPRKXUvEbLh+DW7
+    1gknJlECY3tTspLKHiSU8lk54fyrRy293EeoKXgQI5ejnpx7RAjY08opmGFy796T2OnKws
+    XXbXs30tXvqgPVMQRlxbb2up38w4aW4OH+fNwESJI2fd09DWZlRC8tFZ9Vdw
+X-ME-Proxy: <xmx:TAfCanJI787GI1WvB8JnVrFUpc5M50bmnZYKZMRMXNLRXb2CIWiDgQ>
+    <xmx:TAfCalhZRUM02qYes0s2xQarV8O9UT2WGVzWD1Jgd09Vit6UW_LfYA>
+    <xmx:TAfCal26skyv5yIwCd1d0u5HewZtodtm2oFjHPRxsCYmR1wDywnE5A>
+    <xmx:TAfCargLrMq9kb6n0h57JXF5dA8N3nFtevEYm6oY7R3rHtHH5-0W5A>
+    <xmx:TAfCam9Sk8_ObNI9INf30KjmKxfaM0kOW_iTKe24d4qicTf2KcDv79L2>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id BE055F80086; Sun,  4 Oct 2026 03:59:05 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <asEhEe0Urb5Wx7yi@ashevche-desk.local>
+Date: Sun, 04 Oct 2026 09:58:44 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Prashant Singh" <singhpra@juniper.net>,
+ "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: "Jeremy Kerr" <jk@ozlabs.org>, "Clark Williams" <clrkwllms@kernel.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+ "Steve McIntyre" <93sam@debian.org>, linux-efi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Message-Id: <4491d728-64f6-4ab1-aae2-22bce34a9b18@app.fastmail.com>
+In-Reply-To: <20261001012011.30525-1-singhpra@juniper.net>
+References: <20260928203445.72318-1-singhpra@juniper.net>
+ <20260929074312.v3jT8uel@linutronix.de>
+ <59d5452c-42b1-4784-a593-5e549a2a0f12@app.fastmail.com>
+ <20260929151401.doOQX7D0@linutronix.de>
+ <20260930013500.10273-1-singhpra@juniper.net>
+ <20260930063217.eWGJ_JpZ@linutronix.de>
+ <20261001012011.30525-1-singhpra@juniper.net>
+Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Sat, Oct 03, 2026 at 06:36:49PM +0300, Andy Shevchenko wrote:
-> On Fri, Oct 02, 2026 at 08:59:10PM -0700, Kees Cook wrote:
-> > Several strlcat() call sites being converted to seq_buf need behavior
-> > seq_buf doesn't currently provide. The return from seq_buf_used() is
-> > not the length of the string in a seq_buf. Once the buffer is full or
-> > has overflowed it returns the buffer size, which counts the byte that
-> > seq_buf_str() replaces with the NUL, so a caller that needs the string
-> > and its length has to call seq_buf_str() and then walk the string with
-> > strlen().
-> > 
-> > Move the termination out of seq_buf_str() into a helper that returns
-> > where it put the NUL, and add seq_buf_strlen(), which terminates the
-> > buffer in the same way and returns that offset.
-> > 
-> > As discussed in review, don't add WARN_ON() for seq_buf_strlen() and
-> > drop it from seq_buf_str().
-> > 
-> > Add tests comparing seq_buf_strlen() against strlen() of seq_buf_str()
-> > for empty, appended, truncated, exactly full, and overflowed buffers,
-> > checking that seq_buf_strlen() alone terminates a full buffer, and
-> > checking that a zero-sized seq_buf reports an empty string from both
-> > accessors without touching the buffer.
-> > 
-> > Tests passed under qemu on ARCH=x86_64 with GCC 16.2.0 and CONFIG_KASAN=y,
-> > and on big-endian ARCH=s390 with GCC s390x-linux-gnu 16.2.0.
-> 
-> ...
-> 
-> >  static inline const char *seq_buf_str(struct seq_buf *s)
-> >  {
-> > -	if (WARN_ON(s->size == 0))
-> > +	if (s->size == 0)
-> >  		return "";
-> >  
-> > -	if (seq_buf_buffer_left(s))
-> > -		s->buffer[s->len] = 0;
-> > -	else
-> > -		s->buffer[s->size - 1] = 0;
-> > +	__seq_buf_terminate(s);
-> >  
-> >  	return s->buffer;
-> >  }
-> 
-> Looking at this again, can't it be rewritten now using _strlen()?
-> 
-> 	if (seq_buf_strlen(s))
-> 		return s->buffer;
-> 
-> 	return "";
-> 
-> ?
 
-It could, but I'm vaguely nervous about the difference between
-	s->buffer[0] == '\0'
-and
-	.data ""
+On Thu, 1 Oct 2026, at 03:20, Prashant Singh wrote:
+> Thanks Ard and Sebastian for the comments.
+>
+...
+>>AFAICT, that would potentially leave KCSAN instrumentation on the reboot
+>>path, which might trigger and interfere with the reboot. So instead,
+>>I'd like to put this in efi_reboot_required if we can. If it is needed
+>>in more places to address an actual KCSAN splat, I don't mind. If it is
+>>just to make Sashiko happy, then we shouldn't bother.
+>
+> Could you please clarify what you mean by efi_reboot_required here? nostatfs
+> is only read in efivarfs_statfs(), efivarfs_show_options() and
+> efivarfs_init_fs_context(), none of which run on the reboot path, so I'm
+> not sure how it would apply.
+>
 
-i.e. we only force the return of seq_buf_str() to be _not_ just
-s->buffer when s->buffer is weirdly impossible (due to size == 0).
-I'd rather not make all 0-len strings return the .data segment's const
-"" string...
+Apologies, I managed to completely confuse myself here. Forget what I said
+here, please :-)
 
--- 
-Kees Cook
+> On the annotation itself: an internal review flagged a potential KCSAN
+> data race rather than an observed splat -- statfs() can run concurrently
+> with a remount updating the flag, so it is a genuine (benign) concurrent
+> access. I ran concurrent statfs/remount loops on separate CPUs under
+> KCSAN and didn't trigger a report in a bounded run, which could be
+> expected given KCSAN samples accesses, so it doesn't disprove the race.
+> Since KCSAN only needs one side of the pair marked, data_race() on the
+> write covers both readers and the reads stay plain. I'm happy to drop it
+> entirely if you'd prefer to keep the benign race unannotated.
+>
+
+No, let's keep it as you suggest.
+
+>>Please keep this description _here_ where you have it. Once this is
+>>merged, you could send another patch, extending the documentation with
+>>the statfs option (I think the workqueue change is in).
+>
+> Sure -- I'll keep it in Documentation/filesystems/efivarfs.rst for now
+> and send a follow-up extending Documentation/core-api/real-time/hardware.rst
+> once this is merged.
+>
+>>You still have the problem that someone reading the variable leads to
+>>the same problem but this requires a privileged user. And if I am not
+>>mistaken, someone sent patches to have efi-runtime runtime disabled/
+>>enabled.
+>
+> Agreed -- the variable-read path is the same, but needs a privileged
+> user unlike the unprivileged statfs()/df trigger.
+>
+
+Indeed - this is only about anyone with read permissions on the mount
+point being able to trigger this. And looking at your results, the
+rate limit we added recently might be a bit too permissive as well.
