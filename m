@@ -1,222 +1,183 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F82846EF99
-	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 17:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791134680; cv=pass; b=kYn3Inerdjf5rdJbGDtY0WxFWdCRx3Mfq0xqvusWUbg20O6pQ+p8mhR5rwMvvsDcrdLe2SdAingVq7PGHkAMqyFwv9WLDGW2WI5CoXadoYSGS+NokNnt+r82PtmdqeBBYd8dKNl18Egj6iMJrD91dSmyHMC2fQWDIE5ooSyo3j0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791134680; c=relaxed/simple;
-	bh=4B6T8K8eUucXVsVxRTncDC2MG3zHAWjPPggaTDLiRRk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=to/9xCB58llo2WlkRmujU8vLC6Ewq4t6kQTE/nNjHgGKofeSgRx5Z+SZoScU2EZjFm/OqcrxhIv3yNyHlsJ4PXiFY8zG+oJl6YP8mGIYHXlBmQoS09Q7+kQShSlP9N+ccTbxlHD2WR3w0s9hNCOKa9EGepwxBinvT8EKVlbxMHc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LTu4m/1d; arc=pass smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854E6471CEC
+	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 17:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791135316; cv=none; b=nCndP0+4QAVVKHNcp/8YL9pqNrkajyC6tc1vjMlVvRfw58D+ui99wwjsrgS1LH88hqBdNhZd44hZ17x4J9G+31Z1v5XKH/N+d7Ya+yyv1dzdJcKwV6Ytw60oXBtaaPS5pQbHzaqaROPeNPjnKkfdcs/NFHEjUpRpuyzNidaW41Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791135316; c=relaxed/simple;
+	bh=bP6kDGyFt3pSjYQAf41QGrRFuGNBrE/A6VLuZxy0aRs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Pg3k2R9YDJbGOJY1/v0xJh3g2YNfXC+FScFwCBj7KbHyyfFItKNWHnMZiRFRZcAUhn9w05HWrqBpa1vPOMvrKiG+q3GUs7sgWJFy4JoN4IVZTV8mg/Jt6vyrlGKq/KTLJrZ7Ckz1/J5EQDwdX8DtF/tBF8xUOS/OqC7TSfOhuIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hW1M8NOy; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LTu4m/1d"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-5337fa12431so182021cf.1
-        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 10:24:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791134674; cv=none;
-        d=google.com; s=arc-20260327;
-        b=p9tKEK4PlpEFlxCkn7GeniiSwgximTuA+p/XAf0MctCvHjNuFO8SsIjhVqG9tdACe8
-         pPEF83GT0SmUlZU0HBiO0YpxVmBTykYS6bgBoi507KB42/bagFpKMekgfdoUYYAS11Hu
-         Jbd+0aYSXSgtpytEli7j84H4fcGtLPaxbrRLsHFmqeEn/aS9eKy/YgtaEjXNEWvil2od
-         E09YmEbaFDOGuAs5jCWUg0213YVTb2EQ0unmfMG0/wQd9+i6Qnh8MU9rbVWNzm1gZsj3
-         58e48drAe/lZC/kR5x7r/xwiBgVARp5hh8l0lkzv56ifq5SXoJyRcSJz8JtFDeN4+yfl
-         5tnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=c+M84/MVcGEHYdv8UiC0womKlZljWSjBnuX6fRyYL/I=;
-        fh=oIqkgAYCJmZZcHVicgoNxN9aYAguHvLWAkdhs4iTZwc=;
-        b=sMMH8OOq+vPNxfWuMLWAa+Vt+N5HkODTJPKMePuv8mgQh3hf/nDA1aIBB+AWSXvuL9
-         Ruo40REIjnRudJ79jNaS1HTv8Ao3fkARLv2cRXrmTdckgB3tWWCVXHnH4Z5aQpT1tyvj
-         ftbVIGXqqVzlTX+/w3+Nne5JAeWNEpuQoa1ZiYX0deAx6Lw3oiCUWzN/Yq6KiypYmvWM
-         2ZUBSuJJ0fIoUgJtpWqTe4BKEJIxNdUbstkxkxlwBVoqGZ4dCtGtMXetwSYKMaHBq0fi
-         gCmvxJNvO8eHSe8tt5+Q1ym+g2LRo9oxVAC27tef+ZPPqyOnT/y5yZP8wVISDPMA23MX
-         AI0A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hW1M8NOy"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-873a4edb243so760231b3a.0
+        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 10:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791134674; x=1791739474; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=c+M84/MVcGEHYdv8UiC0womKlZljWSjBnuX6fRyYL/I=;
-        b=LTu4m/1davKLoUNKr6Uy6tIgim1fKNGo5e273mXMTbhp+NMSr4rca9qK4ug6PNyHnd
-         UjGZ2IvJP8SNUFIk1lnppsqn1KxS1Yah3mt3RFw+P6ehmACj7FqCqwPN2hen5rZqXiv+
-         vR7tVQmN985GIGs22scrgxRvH+V7iads4ZarxZ5hbzwg7qU4gStOclaAsmGpOkNR0Fkw
-         a50oT32/ZBNwn2+nEPSFkjFGRHVqB9umb7IXSo5ZW/zcuIYl7I4hB11FTQ6DqZMlVZtx
-         eK18i8lzbUNqkAibhKB7obz2YWKH1wx9wJoa2PDEBRCf+JouNbsTnM1hdOC8e6L/97nR
-         44HQ==
+        d=gmail.com; s=20251104; t=1791135310; x=1791740110; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Dn1khiiBx/qPuh1ccNEwWHRK3a1yYP7lWHo8iux0ST8=;
+        b=hW1M8NOynorLTGeADroRWa0mMR78MWCWfsuGs9+pw3qRqNzAXPBnN7usRSoGV69YyP
+         L3YL7XuOR/o5yBR8yJjTQMNu3FDJQ0mopx05LXlWQ/THHM1TLvZHdQceSDoZfVH6wTre
+         e0DUXdOdbxx4UydQRkL7CAFlmrw1rFFhDgEq99u6Fz6ktxMgVF90rr7sf4294QA1Keq4
+         dsN+My6X91Bq7raS10CntJr7HJQ4tco6f/BX3ALvgM2PTl2tQOdEAIslMbhMwmgsX/uT
+         lVcP21YLuxX7gb7PiuVAk4BmWwu86mtJumF2h3g4nKjNHx1SMd2U4cB8YEW+ryfSkZBs
+         8OYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791134674; x=1791739474;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=c+M84/MVcGEHYdv8UiC0womKlZljWSjBnuX6fRyYL/I=;
-        b=Ikx0NVRYJFwrKq0wf0iBN1GpKkEbOl8NQLJmWUeM2UsUWPdkpJt3rt1QI8Fin0D7Y4
-         0waoJVEiCa8B+H1Zx9ovAdChWaB4A4K2TyHT3KOfcZSSFEjMnt8p2/WkdzEGle2HHRMn
-         fwNe3u/oE5iq8L7AVyjk6/8JqfxaZG7k7fJQ3LEEAf8EKeLtLjZjfS3jQNACPBf+Ouks
-         bE0I3gaQZLL/lm/sq2CI1crp0lbNsNB/EYjFLEOArEfYii1WfrcqahSH8LpLx7kKtdvz
-         8HGpEgJVTXs1AJsJ0eLeL9t4P3HcdciAlpM6jhpYaIIk7VfA+SFXJAo5GgSql33B6zez
-         K7jQ==
-X-Forwarded-Encrypted: i=1; AKwUvBylqOJVhEdEh2lqyAWzVrR/LtFHZwBIMk+Zs/3uXxiUoLw5o4K8ZeY49nhaka+sXkHLOGFpqQRq4fw=@vger.kernel.org
-X-Gm-Message-State: AFuF++nS4OoSnzLzoS7A6AVtgj5zSlqIGNm5sdA4d51OALQTuk6W3Ook
-	hu2PKeszgbhCfOt7yMeQZ3NrhWxdoyZyJlkYDQkNyLXMKXtbFoFVVyZdTL8B72OrMggvD8CPEgm
-	Cbz/jS6u5MK8emnLBtCZ9EIBCTIByG4S6CBppLT70
-X-Gm-Gg: AYBFou3jFR+LkCgtYk99gtCDpyFB141xnSNDY6WAuo2W+gO5yiiBwN/43PjtyV0yVph
-	Q21RU+mfr4oknIkGlac1rCvuVBkUp0Z87i6sK23d62K83KNCR5iqRLWGpTr3yDelg3qmuwR4MZ4
-	IaPGZ8lHGoYvh2Gv6r+u4ZUT9YOQCSHgAeJM+DLidPeHBYruXffPNkTtWJFEvOSnCddpTLcD90E
-	d5Owq8sC6gAlYzhmXsA9PBulEWCcmYqv0LNgb1AX6mJN59rh4u+qn4JbPUTFkaRdwbl5QV2Xfjx
-	QsfuxDSNWvveZD23hBELXl7lyQjcR2mPh/QrqC32el47MfkvtPSd/51j
-X-Received: by 2002:a05:622a:606:b0:532:84d3:abb with SMTP id
- d75a77b69052e-535131b5a84mr14345371cf.7.1791134673403; Sun, 04 Oct 2026
- 10:24:33 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791135310; x=1791740110;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Dn1khiiBx/qPuh1ccNEwWHRK3a1yYP7lWHo8iux0ST8=;
+        b=AnospfY2fRGJXecLJB3+npKU6mggzkGBPu0tutHi7L+ZRRBmkYh83GRqH7EST0jJQe
+         yXuL++IgIXrVJDJM4k3kQeQlDPOJACIBoo3T4tSMh80WjRNCXTJVqUfMNMbxjizN3Ymj
+         hloSyOgZz/9Rt/CWi8ROKPZKb66/1JDjLpjZIEDNekQ0V7wHAqqOn9tUJMGDq+GQjyC/
+         8uhFZPFV+aFmfj+9xVJe/uP3XSioXL1b725PFXS83o0fyjWVr/9lctW/3/Bw26Yg5Vqe
+         X0Lp3GolWoiDPmzfxkSMKqUpttQTgoXjOovZCF4wJ4QSrhdYxhFwu59cwoYE4wrN7khs
+         zbcw==
+X-Forwarded-Encrypted: i=1; AKwUvBzSJ/oIw+ZpWlQDrgtWcSUHgolQ4/4vdqqTxMvrJj8FfSJMgxwCOo8NsgG0ttRkOYk/xa3PO/M377M=@vger.kernel.org
+X-Gm-Message-State: AFuF++mP2ZzGkBOY6j27FpDWX6nMSCT88gZfZxukpcITnsmAVgcnO6zo
+	LusAFqSy6mxZg+jCAh5zl3I8ooqkz6PzPpym31M0j/u8s6FLgSvvIl+B
+X-Gm-Gg: AYBFou2AQVuFAu3UgFsm72evrtVp2hYLXM66xQ5kIArleKvvnNyIKb7TB4HCJIlJw9x
+	8pLCK3QlX0Enp0IYhjsfKK5zAGcUOK7KujfdMB6h9FY9NR5UeV3Wph86S2yUfIOlolmTVD2GS1s
+	U/7ChRdP/MY3nDP+GygPG5UQYQQ6uvwd1zqxceryH2pGZbh7V3Y0Vaw6E9EwsHfcr7luLdbfIL3
+	9xufAMERmt0illjPpTXqZyAVVM4672eDQ2JIQMl9SMRpvpjnznzxOi6xQLLo1vfJKXnZycyeko/
+	Po1aJso9rQQ+PanKBTx1IR/y5eCXOjtP1CWiWwsKX8WZwbDtlQn2+YBcLaw92rTJrajGFdHzl7E
+	iGrCBRmvTsjDVaElX0V6YjaW/Kd4TpFheOnKTxS59+pgIQkqn0JOso7WuQainHnaQWyTJnYe07S
+	bHWb9tuK6hkcs/2vDVUU6K0fnfdfMtmAlw1MoGfKPdjbfKxCiZDFwJbCqZ9lE7d2SxbzFxhwFvE
+	WVHUhOqNokkpZmNzsoDbx+dPiTAaFefbqUUwKi1
+X-Received: by 2002:a05:6a00:4197:b0:88b:af3d:2886 with SMTP id d2e1a72fcca58-88c6398df4bmr5157775b3a.23.1791135309729;
+        Sun, 04 Oct 2026 10:35:09 -0700 (PDT)
+Received: from kernel.tail6741c6.ts.net ([216.195.201.24])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88b0d247930sm2678370b3a.54.2026.10.04.10.35.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 10:35:09 -0700 (PDT)
+From: Kunwu Chan <kunwu.chan@gmail.com>
+To: peterz@infradead.org,
+	mingo@redhat.com,
+	acme@kernel.org,
+	namhyung@kernel.org
+Cc: sj@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	mark.rutland@arm.com,
+	alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org,
+	irogers@google.com,
+	adrian.hunter@intel.com,
+	james.clark@linaro.org,
+	akpm@linux-foundation.org,
+	lianux.mm@gmail.com,
+	kunwu.chan@gmail.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH 0/5] perf/core: add AUX buffer kernel-consumer API
+Date: Mon,  5 Oct 2026 01:34:52 +0800
+Message-ID: <20261004173458.837842-1-kunwu.chan@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
- <20261003-b4-mmap-prepare-vma-flag-sanify-v4-13-a1f052500fd7@kernel.org>
-In-Reply-To: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-13-a1f052500fd7@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 4 Oct 2026 10:24:22 -0700
-X-Gm-Features: AclHuK9jHlOUV2ZRb5fsxUCRxMZ3OpnGbWN3MVyf3rU51TqoB71rd8PxNlF0WhY
-Message-ID: <CAJuCfpE7W7uFZfztCHRCouc9z49wPV96usW2QewJNZwprK7bRw@mail.gmail.com>
-Subject: Re: [PATCH v4 13/38] bpf: arena: mark arena_map_mmap() mappings VM_MIXEDMAP
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, Emil Tsalapatis <emil@etsalapatis.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 3, 2026 at 6:37=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
-g> wrote:
->
-> The bpf_map->ops->map_mmap callback invoked by bpf_map_mmap() can be set =
-to
-> one of ringbuf_map_mmap_kern(), ringbuf_map_mmap_user(), array_map_mmap()
-> or arena_map_mmap().
->
-> It is convention in mm to mark mappings whose pages the kernel manages
-> itself with VM_MIXEDMAP, so core mm knows not to treat them as ordinary
-> page cache or anonymous memory.
->
-> The map_mmap callbacks ringbuf_map_mmap_kern() and ringbuf_map_mmap_user(=
-)
-> use remap_vmalloc_range(), which ultimately invokes vm_insert_page() and =
-so
-> marks the ranges VM_MIXEDMAP, and array_map_mmap() sets VM_MIXEDMAP
-> explicitly.
->
-> However, the exception to this is arena_map_mmap(), which doesn't set the
-> flag.
->
-> This patch corrects this and updates the comment to reflect it.
->
-> The pages are refcounted and vm_normal_page() finds them regardless of th=
-e
-> flag, and VM_DONTEXPAND remains set (marking the memory as VM_SPECIAL and
-> thus unmergeable). The one effect is that NUMA balancing now skips these
-> VMAs, as it already does for the other bpf map mappings, which is the
-> reason array_map_mmap() gives for setting the flag.
->
-> The intent of this patch is to be able to establish the invariant that on=
-ly
-> PFN-mapped or mixed map ranges may clear the VM_MAYWRITE flag, as is done
-> in bpf_map_mmap().
->
-> Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+ARM SPE and other tracing PMUs write records directly to perf AUX
+buffers.  Unlike ordinary sampling PMUs, they do not necessarily
+generate a perf_event_overflow() callback for each record.  A kernel
+consumer therefore needs to own and drain an AUX buffer rather than
+rely on the overflow path.
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+Userspace obtains AUX storage through perf_event_open() and mmap().
+Kernel consumers created through perf_event_create_kernel_counter()
+currently have no interface to allocate and manage AUX buffers.
+
+This series adds the minimal perf-core interfaces needed for that use
+case.  It was previously posted as RFC [1]; this version incorporates
+feedback from that posting and is intended for review toward merging.
+Patches 1-2 add the AUX owner interface, lifecycle helpers, and
+cursor/copy operations without exposing perf's internal page layout.
+Patches 3-5 exercise the new interfaces with KUnit, a userspace
+regression test, and a selftest script.  The first consumer is a DAMON
+ARM SPE backend, but this series is independent of DAMON and adds no
+consumer-specific policy to perf.
+
+The API follows the existing non-overwrite AUX ring-buffer protocol.
+Setup and release serialise buffer lifetime transitions through
+event->mmap_mutex.  Cursor reads/writes use the same ordering rules as
+the userspace mmap consumer, and copy validates ranges in the absolute
+cursor domain before applying the ring mask.
+
+Testing
+=======
+
+The series builds cleanly at each step.
+
+arm64 (Kunpeng 920, 256 CPUs, SPEv1.1), Image built from this series
+and booted on the hardware:
+
+KUnit: pass:39 fail:0 skip:0.  Userspace regression (arm_spe_0): full
+pass; the producer head advances with live SPE traffic.  Selftest
+script: 92 passed, 0 failed, 2 skipped (both environment skips).
+perf record with arm_spe_0 captures data; dmesg stays clean.
+
+x86_64 (vmlinux build, qemu/kvm): KUnit pass:39 fail:0 skip:0, also
+under KASAN + lockdep (PROVE_LOCKING) and 15 repeated boots with no
+splat.  Userspace regression (Intel PT): full pass.  The selftest
+script also runs from installed selftest locations.
+
+Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
+
+Changes since RFC [1]:
+
+- Serialize AUX teardown under event->mmap_mutex and fix lifetime
+  handling around ring_buffer_attach().
+- Improve KUnit cleanup, concurrent-release coverage, and buffer-full
+  assertions.
+- Extend userspace and selftest coverage, including environment
+  handling fixes and installed selftest support.
+- Clarify AUX lifecycle, ordering, and cursor validation
+  documentation.
+
+[1] https://lore.kernel.org/linux-perf-users/20260814144927.489172-1-kunwu.chan@linux.dev/
+
+Kunwu Chan (3):
+  perf/core: add AUX buffer ownership for kernel events
+  perf/core: add AUX ring accessors for kernel consumers
+  selftests/perf_events: add AUX kernel API selftest script
+
+Lian Wang (2):
+  perf/core: add KUnit tests for AUX kernel-consumer API
+  selftests/perf_events: add userspace AUX regression test
+
+ .../userspace-api/perf_ring_buffer.rst        |   62 +-
+ include/linux/perf_event.h                    |   18 +
+ kernel/events/Makefile                        |    1 +
+ kernel/events/aux_kernel_test.c               | 1152 +++++++++++++++++
+ kernel/events/core.c                          |  164 +++
+ kernel/events/internal.h                      |    6 +
+ kernel/events/ring_buffer.c                   |  211 ++-
+ lib/Kconfig.debug                             |   14 +
+ tools/testing/selftests/perf_events/Makefile  |    2 +
+ .../selftests/perf_events/aux_kernel.sh       |  631 +++++++++
+ .../perf_events/aux_kernel_usermode.c         |  627 +++++++++
+ tools/testing/selftests/perf_events/config    |    2 +
+ 12 files changed, 2885 insertions(+), 5 deletions(-)
+ create mode 100644 kernel/events/aux_kernel_test.c
+ create mode 100755 tools/testing/selftests/perf_events/aux_kernel.sh
+ create mode 100644 tools/testing/selftests/perf_events/aux_kernel_usermode.c
 
 
-> ---
->  kernel/bpf/arena.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
-> index 7b6847200b43..b69fe5e34339 100644
-> --- a/kernel/bpf/arena.c
-> +++ b/kernel/bpf/arena.c
-> @@ -620,8 +620,9 @@ static int arena_map_mmap(struct bpf_map *map, struct=
- vm_area_struct *vma)
->          * clears VM_MAYEXEC. Set VM_DONTEXPAND to avoid potential change
->          * of user_vm_start. Set VM_DONTCOPY to prevent arena VMA from
->          * being copied into the child process on fork.
-> +        * This is a kernel page so set VM_MIXEDMAP.
->          */
-> -       vm_flags_set(vma, VM_DONTEXPAND | VM_DONTCOPY);
-> +       vm_flags_set(vma, VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTCOPY);
->         vma->vm_ops =3D &arena_vm_ops;
->         return 0;
->  }
->
-> --
-> 2.55.0
->
+base-commit: 6350de8671b94afb7691d110f63bcda42f658a69
+-- 
+2.43.0
+
