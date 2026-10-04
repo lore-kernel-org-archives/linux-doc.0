@@ -1,143 +1,225 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A0E4048A3
-	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 09:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791105311; cv=pass; b=GtKEGc9Hugc3Z/pKMrGgCbpPYCeJqUYKCFH7TMXWuszNx9g+RkVaL3wzDFwHQzfmBnLOrUAiiceFMa+D0xCRWVy04UB3wo1xBURQxB9rdTnKs7pCR5wpRIj+CPFU4I5QgWH3o6w8SANaeUUee+nHXh5gs47+xpFs37uJKsuq0ik=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791105311; c=relaxed/simple;
-	bh=t/n84oizsmqf30Qmzu71biJDzzYUFf3OYTLdCk6ENu4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aTt+fto9DO49Wl5mRSSjpR1q6O2BllT6OSAVBsZcvU09HQIyLrpK1ad/8hJXI1NgBYen6rBzMse36dBBpVC4VJcNRtnUMpQgRRpY71Mfi+Ht+7SL7i8Ae4d6AADB0asGWYjACgXps3h/KHgQNHahe2CD88W8a+ISYRx9mgGSf10=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XDFFpk3l; arc=pass smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9761F91F6
+	for <linux-doc@vger.kernel.org>; Sun,  4 Oct 2026 10:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791109028; cv=none; b=M1BSu+dXWqWUvOzu2vIjVA2sRxe4l5w7IOogLMIHjBDgFB/uNVYuMey/H57gY2PFNo+XnRj/yIxu75rrjvATbc33tLxgjop/vYdBoJB5NsZpXC0cD2npXW6YSWLpdh921OOuoY1kLk5lFqZAvZPVvQrWVljEVu7Ob8nfnbrkj6M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791109028; c=relaxed/simple;
+	bh=TqOTmq/yqt4X48ByT3CHpiQMcfSnIr6FZTijTvhLnCw=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=DTXMSWjt0i0593LSTB6isAsBl8Nb9oHkK+ZylAAXadPLs/v+QgRirlAXiuasQcljq9QnFFn3+Si+g16AZgE5vuz1hpm4PnI4uT+I9YszPTSHSIvQwQ3o+Y1GXp4EqeYi3NjWbbj6EQooyIVt2d84dpT+LIfZ2IjW1qMIgkOSD0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WhGhCdk1; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XDFFpk3l"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-398a5aad413so450178a91.3
-        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 02:15:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791105310; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IIxLcttQufxci98L2Lw6N+8/SWrfIZNMA2Q1Jh15V06P/3ubFYp2YDDViJnOw/PKN+
-         fKEFQXMJny8kTF4mIrbAIkvaYZm/QN2FfFPieGS3T2a5GqyQeeDc6On6ToW0gvdgw8l3
-         OtIbXDWnYLooDvCit7FvpWzpq9CEb4o9bhcbxTDmNo4kgfOCfbAhN3FM7RxVaJ2hg4bV
-         OfES0pCvr5tqaLS1gnrtXUx+7bhFGTEsQv7Yz3jCoDS5ju5xowFEvHUnlF9BcvMgSemg
-         6nqHNz5VUsLPPhPQ1Fd5N+Q/G24KfqAB2zhyZwMOp02pWJaVn+6qIfvGZg9yY8ZIeuHF
-         eguw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kaMhgqh0cNyzIJvdM7MdSJL/gkpQL52j+U/jEExbMjs=;
-        fh=Xba3Rt14SPsvgKL9gslqVR/2XsptQwEcqgHfXC9SlCM=;
-        b=IN02HNfRyC8ia5fOPxqdHlBnhmPk1/NO125syqbOluojV7DMF4tBU9A85LyoUE14bK
-         /xBSaNFcgiNcSm+j2Tg94qJUIbnUxR+FT+fQcyP7ltna6SEBgy3hXJhzpJWEL7MI3y32
-         l6TfQhe+K0wxHB5cv8qaWhApq0YAmGCHqkkZYB1syJykCfdgg4m/mt0jIkk79g6qZpeV
-         LJVryuRxpdhU/DNn6mn9Z73wUKgVSaOQ0TLeH8YvJdnHyNx+kSLf8VtDfs844GynmX0F
-         FcjM59/PYCvm3VXxwqhKK8AfmBOxk+uFlytCfz7RTRT4zA+AeYFc2j42ncM9n5PGvGZ8
-         iivw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WhGhCdk1"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-4a16aaf1fb2so225725e9.0
+        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 03:17:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791105310; x=1791710110; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kaMhgqh0cNyzIJvdM7MdSJL/gkpQL52j+U/jEExbMjs=;
-        b=XDFFpk3lPoJkVJWIf1wXLbSoEYqk9fpO4H1N+Fudy5xgeOHUMsLPvSZ+L4U39y+wPY
-         urxf6CuDd9dMS20bIG3ZwnPehHVUcNquv79hggpTBcmM5ZpwW+nCHAkaWy+4XGZoBHMO
-         4R2GIXs7LWgUBgHf+ZVe8Nz1lrKgCm057DopRvVzaLb1JqqQPcNvW6EDP2VFesftZP5N
-         TJNde97Fa6D5E9fb6e84rnZDF6gWEkdlpc/tgPAZVz5HLkYJot94YfakfvbfeJikINkI
-         /4eXxy1/AoRtjM876zUIT8VS2y0zoGrF33XMVHpNxsSYeLhaABeZRJXwRnstDbVNzHM4
-         GYhw==
+        d=gmail.com; s=20251104; t=1791109025; x=1791713825; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OW15eEn6Sigou5G6oIcfaDItgZ8Hirf/PtUeQhnIzDY=;
+        b=WhGhCdk1Bse4HMDh1yqDpzXVcAt5oolGHxv3LXshhYbdUzd7rxCBEzjcxV54Ts1mFa
+         kbZywKPHd4HJu4yZlNy8EyGiAp1wTRstR64iPA7HUon8VamEYbehVfk31wzWoX44gPyy
+         /aBddSTAkFoMYw6GnLppCqZn/Mzc7pELI7+ECi5XPHMWOZRmDCO+IC29XNgDzk5NzNus
+         wFIyBwOu7ayxP50TTsY15XNtoXhb8JHl1SORXsJYikz6APV+GUG+EIm8CC0DJWgQFuXe
+         sCcEh81CDSYJt1SvP2r1aGf4chJ3B5cm5sESs013uPR1OFt8b+7KaUXB0mITBo86MB6Y
+         vo1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791105310; x=1791710110;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kaMhgqh0cNyzIJvdM7MdSJL/gkpQL52j+U/jEExbMjs=;
-        b=UmukdH/7ttmMHmpCR12XFsEDhZar2EkPfheL33uFjMZqi+3kHBviUDFyOHzGKE7ozq
-         ZLldaAuURms520v+rf+Yfj0Tyip7yhPEewPwXIhsP+TOnnlmjbtNLx4N9AncAfMBIP5e
-         XkjW8aYSoZzvRPz6qL2G1o2PX7LhummtPvdGkVnznrIGwqx0jSt5yZyKAFRsfcx+0c3o
-         +USRiS+tHeYU+k8p52zDz9vUIkEPLR7VNHAnrquS1sf2JCKMm9ulfcHMtgMG+5a2QUp8
-         cblu8jBfU40Jw6JnJxkpTPqQ4nkrXAL5mrX2hOOQYTNegJBCNmnvj1wBprOHYEer7cZh
-         KcjQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzfP+6jD18X2xJPbgtOiedtLOacIQ3hlcxgmNghlUvPERlIcPQh3HEbXP8uNSaJu3FW/17ajlywURY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLHzxY5/c48q3goYoXT1HVBe/Uc2G1fcPSSYqjVupJMSrbL7FWE
-	kK7U1WogV/CoblS58dAKpxnhMe8KFk/E8Zu6XE5J320/JHUmq2I1hDPdErvHXQr0dV/6L5GovMG
-	bk78NBq6mLYjr9ANL7C+r3Xa8daDGRNU=
-X-Gm-Gg: AYBFou38eO70AjiJeR0oaL0jJBBFlV4VwXWHfSBWM8xbkUKtGAxU7qHVC18b20Rbjkm
-	P0O3yUNzvhObaFzUC+S5wacISM9eSCCoSJ7Dx/b5qU930qcqirzJ3NYnwS42nOEtdRfjFmuwxQp
-	60dRLZwj4Nr3eianMN6kO86UuACHTghwCFL8tlRQboISLvgP6wbZOfgEHMZ4U6Ro7boUoLOryGj
-	CgNr8IGwSEQrORhAr1rEqipS2r7CtVKwNBhZkcFJmilcFRGnzaZk5pYlT/hLBWbOuflZ3/Zmtxd
-	sUpy6Twepc1j5ItAAjO4OMgYXd3PrUIU2Ao9HAYyv+NXbSeW7ZRapg==
-X-Received: by 2002:a17:90b:2548:b0:3a0:d651:3957 with SMTP id
- 98e67ed59e1d1-3a7873ac66fmr3158501a91.35.1791105309539; Sun, 04 Oct 2026
- 02:15:09 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791109025; x=1791713825;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=OW15eEn6Sigou5G6oIcfaDItgZ8Hirf/PtUeQhnIzDY=;
+        b=EgIE/4c4qIo5FxsFxTsdMP9DXqpqBnftq8FY4uLP8Gy2o9FfuaiGBKyC2PN3IaQ6pt
+         1PdnnUj4zpaVLnvd8iUULwCo74suB+zj+moyT9ZmuLPUXvojS+1mOJpl6KA99+6UWtsq
+         XnEVNUMFBJNf55B/nimTnUK2OEKBamqRAX3F8p4ZU5lWcvhQu65wd+UVyLqBEKp7TjFM
+         KEu61bHjBR8ChThj9w5ijylxzV49S00ufbNOXZ8N35EXkGAtCW+J+5nKpFo4tfpryGXv
+         iq3AkSI0LDTExnUA6s2ohzbvOpw356HY5aytXiwQq4x+ZyHzdN0fZEpWjz3SwWYQ4Voq
+         OEJg==
+X-Forwarded-Encrypted: i=1; AKwUvBy3u+D6B4BfrZtYnZ0BgvMHvmEuWperHeOGsYfBiBQCE/9qqjIcKSxOyyNeUopOmLF2KoGGOOxwV3o=@vger.kernel.org
+X-Gm-Message-State: AFuF++mAp7Jy45OaKV2v0boOvGpCODuBJMNPsJcMml5ME23ZHW+E98eB
+	FE3/oXfMnXeWMcg0oiRPcHX5tTZvL/wpS0Z1fhg+5BRO//kBU8wydf+J
+X-Gm-Gg: AYBFou1npMNPTb7XSrrC9fqTqd87o8JS4xx24RiYB6DHf4TuqRm3ZfQFtxdT88bKGtT
+	ZHFKJF9S5gNpyokQkUQE/T1EcUAKqllEAha/yTmOBR9jdYfqC3vfiyKR9y5e0Lm29o+u6PC9yBx
+	Y5kIDXzlhseA5iUpmHWdMEQxHooCtxIGAL6UEZwc1OgfZTCwP+6MYkvXxjqyivDCZClOUEX5hrU
+	Z1z+3dfbRUNSJbpPYrM3cL/4aZq2OGDs0VxlkA4uV3PqRm6L26blAyLBXsjc8kWjsrXL77hBq72
+	XriOq7HhE0oAWW364NoBF5xSEIeKu+bnobqGs6f28/FDcR23VrD+NwhIvxiaU/iHmCiwLqOeBTr
+	qkFEtVs2YxguDZWvGayG83YGbDWd2Qxka6IHbh2sa/ChUqhFnUV+TuOSMiubj1DQfhEKObTfHmi
+	Up2ZlE43Q+WLh7KGvcweI2MpAIT+umNNCImK1pvCSJSmpvBKyMfu/faAcdNkUm/tlZnyRyXyVpB
+	jbe4F4YR3U4igiI/kk=
+X-Received: by 2002:a05:600c:601:b0:4a0:73b:a222 with SMTP id 5b1f17b1804b1-4a02744cc57mr88146065e9.0.1791109024484;
+        Sun, 04 Oct 2026 03:17:04 -0700 (PDT)
+Received: from L-P-ITAIH2-L-RF.rf.local ([193.169.70.108])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1698f7910sm73030505e9.3.2026.10.04.03.17.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 03:17:04 -0700 (PDT)
+From: Itai Handler <itai.handler@gmail.com>
+To: Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	dm-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Milan Broz <gmazyland@gmail.com>,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: [PATCH v3 0/1] dm-crypt: allow encryption sector size up to PAGE_SIZE
+Date: Sun,  4 Oct 2026 13:16:21 +0300
+Message-Id: <20261004101622.2184287-1-itai.handler@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261003212241.3432303-1-lrizzo@google.com> <20261003212241.3432303-2-lrizzo@google.com>
- <7ce092a4-5c85-4391-809a-3d04b638a722@infradead.org>
-In-Reply-To: <7ce092a4-5c85-4391-809a-3d04b638a722@infradead.org>
-From: Luigi Rizzo <rizzo.unipi@gmail.com>
-Date: Sun, 4 Oct 2026 11:14:58 +0200
-X-Gm-Features: AclHuK-h1jLN5HUM25V1KDJrvXlK_1XFkjlYVZ2OmcSjQmXYi39ZO7A1D8RAYWw
-Message-ID: <CA+hQ2+ieCiXpnRzv7t003cHKG-YL+jSOSgVO_KavGEkbKfOeuw@mail.gmail.com>
-Subject: Re: [RFC: DMA_PMD 01/22] iommu/dma: introduce CONFIG_DMA_PMD and
- metadata table
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Luigi Rizzo <lrizzo@google.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 3, 2026 at 11:44=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
->
->
->
-> On 10/3/26 2:22 PM, Luigi Rizzo wrote:
-> > diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-> > index 6e07bd69467a3..1bb347fd9da4a 100644
-> > --- a/drivers/iommu/Kconfig
-> > +++ b/drivers/iommu/Kconfig
-> > @@ -158,6 +158,38 @@ config IOMMU_DMA
-> >       select NEED_SG_DMA_LENGTH
-> >       select NEED_SG_DMA_FLAGS if SWIOTLB
-> >
-> > +# PMD_SIZE IOMMU backing for DMA-coherent devices
-> > +config DMA_PMD
-...
-> > +       Costs 128KB of metadata per GB of DMA_PMD buffers, allocated on=
- demand.
->
-> Paragraph 1 of the patch description says 64KB per 1GB, not 128KB.
-> Or am I mixing things up?
+dm-crypt caps the "sector_size:" option at 4096 bytes.  Commit
+8f0009a22517 ("dm crypt: optionally support larger encryption sector
+size") gives the reason: the sector has to fit the page limit, so the
+cap was set to the smallest page size any architecture has.  This
+resolves that same rule against the kernel being built instead, so a
+kernel with larger pages is not held to another architecture's limit.
 
-256B per 2MB page, 128KB per 1GB is the correct version.
-The number in the patch description is a leftover from an earlier
-version, I will update.
+v2: https://lore.kernel.org/dm-devel/20260922120330.127262-1-itai.handler@gmail.com/
+v1: https://lore.kernel.org/dm-devel/CAFpOueRBb9y_Fgb3-c6_eFTKZR9DoAXZmxqqx0UH1Yb2rbV0RQ@mail.gmail.com/
 
-cheers
-luigi
+Changes since v2
+----------------
+
+- Dropped the dm-verity comparison.  Milan pointed out that dm-verity is
+  read-only, so its PAGE_SIZE bound says nothing about a writable
+  target.  It was never load-bearing; it is just gone.
+
+- Dropped qce as the motivation.  Eric was right that it is slower than
+  the CPU cipher and marked BROKEN, so numbers from it argue for
+  nothing.  The commit message now works from the reason the limit was
+  given when it was introduced, and mentions DMA offload only as a
+  possibility that depends on the driver.
+
+- Documented in dm-crypt.rst that a sector larger than the device's
+  atomic write unit can be torn by a power failure, and what that costs
+  in each cipher mode, AEAD included.
+
+- Used MIN_T() rather than min_t() for the bound, so it stays usable as
+  a constant expression; min_t() expands to a statement expression.
+
+- Dropped the claim that the documented range tops out at 65536.  It
+  does not: without transparent hugepages BLK_MAX_BLOCK_SIZE is
+  PAGE_SIZE, so on a 256K-page configuration the bound is PAGE_SIZE.
+  The documentation now states the rule rather than a number.
+
+On refusing other cipher modes
+------------------------------
+
+Mikulas asked for sector sizes above 4096 to be refused for modes other
+than XTS and ECB.  This version does not do that.  Since the decision is
+his rather than mine, the patch for it is written and tested and will go
+out on request.
+
+What gives me pause is only this:
+
+- An allow-list of two mode names has to be revisited whenever a mode is
+  added, by someone who remembers why it is there.
+
+- It gives 4096 a safety meaning that the block layer declines to give
+  it.  nvme_configure_atomic_write() trusts only NAWUPF and otherwise
+  falls back to a single logical block, and nvme_update_disk_info() caps
+  physical_block_size by atomic_bs precisely so nothing above it assumes
+  a physical block is written atomically.  A drive advertising no atomic
+  write unit, which is the common case, can already tear a 4096-byte
+  sector.
+
+- Selecting on tear-tolerance alone admits ecb(), which nobody should
+  use for disk encryption, while refusing cbc().
+
+Against that, his point that the modes differ in how badly a tear hurts
+is right, and v3 writes it down per mode in dm-crypt.rst - which is the
+part I should have done in v2 instead of only arguing.
+
+On a 64K-page kernel the restriction refuses aes-cbc-essiv:sha256 at
+65536 while leaving XTS and ECB working, including ESSIV-wrapped XTS,
+and changes nothing at or below 4096.  Either form works - patch 2/2 of
+a v4, or a standalone follow-up - whichever is preferred.
+
+Answering Milan on NVMe
+-----------------------
+
+"Which NVMe supports 64K sectors?" - none, and none has to.  The
+encryption sector is dm-crypt's own chunking unit, not something the
+backing device has to support.  bdev_logical_block_size() appears once
+in the whole target, inside a max() that aligns the I/O size.  The
+mapped device announces the larger block upward through
+dm_stack_bs_limits(); the device underneath keeps its own.  In the
+testing below the backing device is /dev/ram0 with a 512-byte logical
+block, carrying a 65536-byte encryption sector.
+
+Testing
+-------
+
+Built for x86_64 and for arm64 with 4K and with 64K pages; no new
+warnings.  A temporary static_assert confirmed the bound is 4096 on
+x86_64 and on arm64/4K - so the patch is a no-op on both - and 65536 on
+arm64 with 64K pages.
+
+Booted under qemu-system-aarch64, loading crypt tables over /dev/ram0
+with dmsetup and reading back what the kernel recorded:
+
+  sector_size   v1.29.0        v1.30.0, 4K   v1.30.0, 64K
+       512      ok             ok            ok
+      1024      ok             ok            ok
+      4096      ok             ok            ok
+     65536      EINVAL         EINVAL        ok, lbs 65536
+     69632      ok, 4096 (!)   EINVAL        EINVAL
+    131072      EINVAL         EINVAL        EINVAL
+         0      EINVAL         EINVAL        EINVAL
+
+Every row was run with aes-xts-plain64, aes-cbc-essiv:sha256 and
+aes-ecb, and the result was the same for all three: this version refuses
+nothing on the basis of the cipher.
+
+The 69632 row is the truncation the patch fixes.  It wraps to 4096
+today, the table loads, and the device announces a 4096-byte logical
+block.  logical_block_size in sysfs followed the recorded sector size in
+every accepted case.
+
+Also exercised at 65536 on 64K pages: aes-xts-essiv:sha256, the capi:
+form of xts(aes), and iv_large_sectors, which is where sector_shift
+reaches 7.  256 KiB round-tripped through the mapped device
+byte-identical at sector_size 65536 and 4096, with the ciphertext on
+/dev/ram0 confirmed to differ from the plaintext.
+
+Not covered: dm-integrity caps its block_size at 4096, so the AEAD and
+integrity-tag paths cannot be driven above that today and were tested
+only at 4096 and below.
+
+Userspace
+---------
+
+Nothing is needed for this patch.  cryptsetup caps the sector size at
+4096 on every path that writes a LUKS header, so no LUKS device gains a
+larger sector however new the kernel is; on-disk format policy stays in
+userspace, which was Milan's point in v2 and is why no LUKS2 change is
+proposed here.  The LUKS2 header-validation patch posted alongside v2
+was withdrawn - Ondrej was right that the missing bound is deliberate.
+
+Itai Handler (1):
+  dm-crypt: allow encryption sector size up to PAGE_SIZE
+
+ .../admin-guide/device-mapper/dm-crypt.rst    | 20 ++++++++++++-
+ drivers/md/dm-crypt.c                         | 30 +++++++++++++++----
+ 2 files changed, 43 insertions(+), 7 deletions(-)
+
+
+base-commit: c0df022cb0fa2bbee74bd9b90c66790bcd4e3050
+-- 
+2.34.1
+
