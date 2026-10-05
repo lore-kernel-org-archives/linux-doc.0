@@ -1,350 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1B62D8379
-	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 03:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F4D2F0680
+	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 04:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791169222; cv=none; b=HKUskEtrHVEZoQdXeAQg9hfa35z+4EucjMXYMctP9Cy0DPxsutbMeLKLQYhlisuYrJ3F+CBBcKgS5laGAzF0+sPQGFNT4rjWcpKMWNTJUjZg0wJo+18T+jCttB1lL8v/j8LlquHMtJmt3ToYNz8ocSL0thxYBOj1GyKmNwt7BKE=
+	t=1791174009; cv=none; b=TWvLQCrBGBlNXceXErtT4bBk8ZqTccfEKOLGZzewTL8twcr+JX7y2MbH3hPxpXXXxgWLPnUwRVahO44myd/ddvvu0EgwZunb+Vmt54867cCBsOzWPPLpWWi+fNxXhraw+KaIFeSVDrx+LVxd/FFhHJ7bP9xZU3/bNWNoBCl0Ulc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791169222; c=relaxed/simple;
-	bh=bC9X6LnH8kxWvXsHIfkd8ZYJszZznM/tPJD9yaOxWs8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=JBH3/iPp9IdyR768IZOoma40MivXU7BrkeBVmJWboo8JEbbLrKKLTLNqPwe8nb2KPFQIS5wKA9WiPa/OAzfGjsSlF7KciqeCG2L13UaqPbZgoTk7e/wnSR09wapkALg2Tard2HXbinHlibS92BQ+aA22NHY6Sc7p4oqNlvjTTmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cEciERoF; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791174009; c=relaxed/simple;
+	bh=HoMA9XEjkkd65DXJKPcYLGl2KH3SaKVzwVNL3VSg7LE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ACq9bFYfbA3YimjOp+3er+pi2B6VK1sS1yTuXsGgWhPo9dAtY8wP8lzrz1dOXCUScu/x54p/JaYDH6eQpjz15bLKebwBDNkrW3IziaK/QKUKiZ6GmykNuviCrYOTWltJlmJOQeesSp9IebCSZuYwbVQiU8TR7pq79OXawpl/g9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rjBINzSq; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cEciERoF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791169217; x=1822705217;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=bC9X6LnH8kxWvXsHIfkd8ZYJszZznM/tPJD9yaOxWs8=;
-  b=cEciERoFtUbSxZtoEnfWPU5B5MF8uLO8elPbAugZvK+a/xvUfGwOPjjj
-   GYQfcnLtSf5OwUAujE9NNVt0vMOX+wGTdRC6jULUkRbonf1VMkHEGJfay
-   6KCxLCUytoX9qKv8H2nvu9K8srgEI/SUAQxX4f4I/EUl/jTLMIh7VjijT
-   aBEjb/uCix2dd1OhPZR/EafE3GqdPosrGIK4y1SQG2Sk2Yl/RrUDcRQfF
-   w0U2RohERelmdItFOizcx3Zd8rsDPCnmB1JF11P96Xw+6MOG1P+CK5OwS
-   3KyFgF1yX8fssQBSox4hZjm7izi9dypLcUxhvtPYbaVFdxucmxkwhiF12
-   w==;
-X-CSE-ConnectionGUID: sAYPHPBhSOKsXBPfLhkIQA==
-X-CSE-MsgGUID: yyzDtuiiRoiHw6Wrv+TsIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="117355940"
-X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
-   d="scan'208";a="117355940"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 20:00:16 -0700
-X-CSE-ConnectionGUID: rBVf0aP6RlqvIPpcceZLmw==
-X-CSE-MsgGUID: X/n5YoE6TJyuNp8UxwSNKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
-   d="scan'208";a="275812374"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3a02ec7efc9f) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 04 Oct 2026 20:00:14 -0700
-Received: from kbuild by 3a02ec7efc9f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xDYw0-000000000XJ-1HXD;
-	Mon, 05 Oct 2026 03:00:12 +0000
-Date: Mon, 05 Oct 2026 04:59:32 +0200
-From: kernel test robot <lkp@intel.com>
-To: =?utf-8?Q?"Iv=C3=A1n?= Ezequiel Rodriguez" <ivanrwcm25@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-doc@vger.kernel.org
-Subject: [sre-power-supply:for-next 45/66] htmldocs:
- Documentation/power/power_supply_class.rst:211: WARNING: Inline emphasis
- start-string without end-string. [docutils]
-Message-ID: <202610050416.L69x2Wpo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rjBINzSq"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49d1fb0cf5eso11216355e9.3
+        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 21:20:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791174005; x=1791778805; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=znHr15ngoIrnyD0Loh8A8gjvgvi//2QapaxdSU8F3XU=;
+        b=rjBINzSqDWzLpbPoliBSwcjAWA2ygu0kAsPCf8pIokS39ABeOf7AG+vPwB48+ldof1
+         bVB6sBwMjBTrv2U9OShkJ7QgirhwRPMYYecTDh4iipckMjLP8TOotZekcia38+C+Pq+D
+         VDe+nH6VJT5b5Qetrr1SVy114LnKzECd9tXu9XNrBRVaPwcn2wLOCxrBSFbA0mESXVPT
+         2s0QMa77W805CZrxkoOTsOdIU//A7Azv5a7ydKsYevPzGRmvZkRRAywcovnGGy+dG9y8
+         FkzD4bpnkcsSAlpXTJEn9fb//dq739LgURrW0GLcrBL3Sml6U2kfaTuWBBJ5IPatxHtQ
+         GUTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791174005; x=1791778805;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=znHr15ngoIrnyD0Loh8A8gjvgvi//2QapaxdSU8F3XU=;
+        b=GFOawmGe1n9+A2di3u7Q1sK7rbbbFEbfkZneMuZDQsJXH2jep3QLwaLmLjbpc1F1Ih
+         muKLo0qZYotAajeJYolsKD99IPPlAb39fwh3jshv/3iF6Z3Ji6xkht6Oc+UsHDuJ9zAJ
+         ex3zDpSvspp297PfcCPwFiy+LzqjS0CRsov/bOhL7cKp54Idnd65TxE7LZVttV9OTMfI
+         GOxNaEKFAk+6Qa9/6Wg8UhuY55H1Px/oi9HqXm29wa0tEn7n1kWehXzQ2J60v72m8olp
+         ITQAx9F1emE73t0nAeMYEe1gO9OIZMj52iw4RbmgwUwjkJcXET9g7THUiPjzs1pErZMp
+         1Q7A==
+X-Forwarded-Encrypted: i=1; AKwUvBzVz277MUYCXQZBbKw0hN/UiI1GvCPNno8M31dsqQnFJ+cBExz2VwpGi9V2eSmu4wP2gsfq+MEAj0c=@vger.kernel.org
+X-Gm-Message-State: AFuF++kTHUwHPt/nWhP6aPBoVBvZ+CTeUpAVKMCsOoOHx3xBN0ykspUB
+	Yj9s8YOkzCH5ZA9KS+yDk8u4ZzQn1U/41QHR9YRHNul2bbdn/3VM+hp0
+X-Gm-Gg: AYBFou2/3Rvvq5PTR5UG1qGu2eCNFGFFleUsh4x+fbYLKK7ZLfPn6hQ1Jl8TlX8RrpH
+	6vkXGZyJm5dPQhZ5ws6W6yaV0qoVwjb5GV4aIQ9+JJdV68LOjvVFmO+mg/6T5+lHnk5KtChEgW5
+	881e+6R8S+cV9amQ0hrUVB1eLPWyxLhkpSVLLIm1w3xxHBa4RRWSKEyZip951Sih7yhyJoffWNR
+	lkJ4llfnNaUCICcJ3gQyh7M85T03r2bcS8cbbtj5IVtIKOvHIlN05cY/z9kolQKl/9C9RudjN68
+	vN1mUSI2c1W4Nfz9//AnpF/YIa8pz4rSfg8eM0r2tm2RRB6zFoHKy9KaO/GO6l7xYoQ4cVw3RlV
+	yaXlq5U9IGZjZdnZ7FG4aMyUcUYiBZr/ujnRJyg4HLFr2YEQ2+LHBXl2zcFQGvd/tCjeKEnlqwd
+	JKuwHWbX2iuDfefMRxvj9uTqu9CuehGOLu2qQYbJCQHV4KcaVV/SvGmz7Ry8ybDShZDtRzlmS8C
+	2wPHfpH4TvLsAD/jAx0V5/Vb3pnLKRTpBvr+wX+85nFOmBwokq/GB1kiBELLaHZGG5M4jQgdRtx
+	e5iFnt7y632YAbSclRgsWH6iNjZpWilJ5paRxNJrEKny72IXMgYCmH3AWeEiFqCfWg==
+X-Received: by 2002:a05:600c:3e06:b0:4a1:6ad5:257d with SMTP id 5b1f17b1804b1-4a16d3d5c54mr77517745e9.29.1791174005080;
+        Sun, 04 Oct 2026 21:20:05 -0700 (PDT)
+Received: from MBP-von-Karl (dynamic-2a02-3100-b305-2001-39fa-3d24-821a-4eae.310.pool.telefonica.de. [2a02:3100:b305:2001:39fa:3d24:821a:4eae])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027725c6asm355769085e9.8.2026.10.04.21.20.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 21:20:04 -0700 (PDT)
+Date: Mon, 5 Oct 2026 06:20:01 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Russell King <linux@armlinux.org.uk>, Miguel Ojeda <ojeda@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, 
+	Linus Walleij <linusw@kernel.org>, Christian Schrefl <chrisi.schrefl@gmail.com>, 
+	Bradley Morgan <brads@mainlining.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	linux-arm-kernel@lists.infradead.org, rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] ARM: rust: Enable Rust support for ARMv5TE
+Message-ID: <asMj2D6_Zx4ZIfrw@gmail.com>
+References: <20261003093827.77857-1-kmehltretter@gmail.com>
+ <20261003093827.77857-3-kmehltretter@gmail.com>
+ <33197b82-3eff-4c87-b370-c677ca31a02a@app.fastmail.com>
+ <asEzZ1wOQ_MbgEsk@gmail.com>
+ <3436fcef-a052-4261-afb5-677b0bbf28c2@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3436fcef-a052-4261-afb5-677b0bbf28c2@app.fastmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-sup=
-ply.git for-next
-head:   5c1c602463d597c5189ddc5a73dece588ba2c57a
-commit: 420a1e2763b5df3ed90f92d97cf30fe43822bba8 [45/66] docs: power: suppl=
-y: fix power_supply_class.rst status, health and time_to
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933=
-e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20261005/202610050416.L=
-69x2Wpo-lkp@intel.com/reproduce)
+On Sat, Oct 03, 2026 at 10:54:28PM +0100, Arnd Bergmann wrote:
+> How do you build ARMv7-A rust code in user space? If the default is
+> ARMv6, doesn't that rule out things like thumb2, vfpv3 and sensible
+> (inlined) atomics?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610050416.L69x2Wpo-lkp@i=
-ntel.com/
+With another target, armv7-unknown-linux-gnueabi (soft-float ABI, no
+NEON). The kernel never used it. It fits the same scheme
 
-All warnings (new ones prefixed by >>):
+  rust-target-$(CONFIG_CPU_32v7)   :=armv7-unknown-linux-gnueabi
+  rust-target-$(CONFIG_CPU_32v6)   :=arm-unknown-linux-gnueabi
 
-   Implicit creation
-   ----------------- [docutils]
-   WARNING: ./include/net/page_pool/types.h:105 Excess struct member 'fast'=
- description in 'page_pool_params' (did you mean one of: 'flags', 'offset')
-   WARNING: ./include/net/page_pool/types.h:105 Excess struct member 'slow'=
- description in 'page_pool_params'
->> Documentation/power/power_supply_class.rst:211: WARNING: Inline emphasis=
- start-string without end-string. [docutils]
->> Documentation/power/power_supply_class.rst:211: WARNING: Inline emphasis=
- start-string without end-string. [docutils]
-   Documentation/trace/events-landlock:314: ./include/trace/events/landlock=
-.h:155: ERROR: Unexpected section title.
+A v6K+v7 kernel stays ARMv6 like its C code. My planned v2 has this as
+last patch. It changes the Rust code of all ARMv7-only kernels from
+ARMv6 to ARMv7.
 
+> In the kernel, we don't normally allow neon code, but it sounds like
+> we may need to make rust depend on !CONFIG_THUMB2_KERNEL, as that
+> may be problematic when linking with v6 code.
 
-vim +211 Documentation/power/power_supply_class.rst
+You are right, for modules. Built-in Rust code works on a Thumb-2
+kernel (Pi 400 and QEMU). Rust modules do not load
 
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   73 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   74  Postfixes:
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   75 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   76  _AVG
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   77    *hardware* avera=
-ged value, use it if your hardware is really able to
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   78    report averaged =
-values.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   79  _NOW
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   80    momentary/instan=
-taneous values.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   81 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   82  STATUS
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   83    this attribute r=
-epresents operating status (charging, full,
-06b54f2d741b63e Randy Dunlap            2025-10-14   84    discharging (i.e=
-., powering a load), etc.). This corresponds to
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31   85    `POWER_SUPP=
-LY_STATUS_*` values, as defined in
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31   86    include/lin=
-ux/power_supply.h.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   87 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   88  CHARGE_TYPE
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   89    batteries can ty=
-pically charge at different rates.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   90    This defines tri=
-ckle and fast charges.  For batteries that
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   91    are already char=
-ged or discharging, 'n/a' can be displayed (or
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   92    'unknown', if th=
-e status is not known).
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   93 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   94  AUTHENTIC
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   95    indicates the po=
-wer supply (battery or charger) connected
-06b54f2d741b63e Randy Dunlap            2025-10-14   96    to the platform =
-is authentic(1) or non-authentic(0).
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   97 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13   98  HEALTH
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31   99    represents =
-health of the battery. Values correspond to
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31  100    POWER_SUPPL=
-Y_HEALTH_*, defined in include/linux/power_supply.h.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  101 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  102  VOLTAGE_OCV
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  103    open circuit vol=
-tage of the battery.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  104 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  105  VOLTAGE_MAX_DESIGN=
-, VOLTAGE_MIN_DESIGN
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  106    design values fo=
-r maximal and minimal power supply voltages.
-06b54f2d741b63e Randy Dunlap            2025-10-14  107    Maximal/minimal =
-means values of voltages when battery is considered
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  108    "full"/"empty" a=
-t normal conditions. Yes, there is no direct relation
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  109    between voltage =
-and battery capacity, but some dumb
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  110    batteries use vo=
-ltage for very approximated calculation of capacity.
-06b54f2d741b63e Randy Dunlap            2025-10-14  111    A battery driver=
- also can use this attribute just to inform userspace
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  112    about maximal an=
-d minimal voltage thresholds of a given battery.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  113 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  114  VOLTAGE_MAX, VOLTA=
-GE_MIN
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  115    same as _DESIGN =
-voltage values except that these ones should be used
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  116    if hardware coul=
-d only guess (measure and retain) the thresholds of a
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  117    given power supp=
-ly.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  118 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  119  VOLTAGE_BOOT
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  120    Reports the volt=
-age measured during boot
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  121 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  122  CURRENT_BOOT
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  123    Reports the curr=
-ent measured during boot
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  124 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  125  CHARGE_FULL_DESIGN=
-, CHARGE_EMPTY_DESIGN
-06b54f2d741b63e Randy Dunlap            2025-10-14  126    design charge va=
-lues, when battery is considered full/empty.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  127 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  128  ENERGY_FULL_DESIGN=
-, ENERGY_EMPTY_DESIGN
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  129    same as above bu=
-t for energy.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  130 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  131  CHARGE_FULL, CHARG=
-E_EMPTY
-06b54f2d741b63e Randy Dunlap            2025-10-14  132    These attributes=
- mean "last remembered value of charge when battery
-06b54f2d741b63e Randy Dunlap            2025-10-14  133    became full/empt=
-y". They also could mean "value of charge when battery is
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  134    considered full/=
-empty at given conditions (temperature, age)".
-06b54f2d741b63e Randy Dunlap            2025-10-14  135    I.e., these attr=
-ibutes represents real thresholds, not design values.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  136 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  137  ENERGY_FULL, ENERG=
-Y_EMPTY
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  138    same as above bu=
-t for energy.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  139 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  140  CHARGE_COUNTER
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  141    the current char=
-ge counter (in =C2=B5Ah).  This could easily
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  142    be negative; the=
-re is no empty or full value.  It is only useful for
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  143    relative, time-b=
-ased measurements.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  144 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  145  PRECHARGE_CURRENT
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  146    the maximum char=
-ge current during precharge phase of charge cycle
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  147    (typically 20% o=
-f battery capacity).
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  148 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  149  CHARGE_TERM_CURRENT
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  150    Charge terminati=
-on current. The charge cycle terminates when battery
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  151    voltage is above=
- recharge threshold, and charge current is below
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  152    this setting (ty=
-pically 10% of battery capacity).
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  153 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  154  CONSTANT_CHARGE_CU=
-RRENT
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  155    constant charge =
-current programmed by charger.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  156 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  157  CONSTANT_CHARGE_CU=
-RRENT_MAX
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  158    maximum charge c=
-urrent supported by the power supply object.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  159 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  160  CONSTANT_CHARGE_VO=
-LTAGE
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  161    constant charge =
-voltage programmed by charger.
-06b54f2d741b63e Randy Dunlap            2025-10-14  162 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  163  CONSTANT_CHARGE_VO=
-LTAGE_MAX
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  164    maximum charge v=
-oltage supported by the power supply object.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  165 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  166  INPUT_CURRENT_LIMIT
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  167    input current li=
-mit programmed by charger. Indicates
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  168    the current draw=
-n from a charging source.
-5fe7b600a116187 Linus Torvalds          2019-07-15  169  INPUT_VOLTAGE_LIMIT
-5fe7b600a116187 Linus Torvalds          2019-07-15  170    input voltage li=
-mit programmed by charger. Indicates
-5fe7b600a116187 Linus Torvalds          2019-07-15  171    the voltage limi=
-t from a charging source.
-5fe7b600a116187 Linus Torvalds          2019-07-15  172  INPUT_POWER_LIMIT
-5fe7b600a116187 Linus Torvalds          2019-07-15  173    input power limi=
-t programmed by charger. Indicates
-5fe7b600a116187 Linus Torvalds          2019-07-15  174    the power limit =
-from a charging source.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  175 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  176  CHARGE_CONTROL_LIM=
-IT
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  177    current charge c=
-ontrol limit setting
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  178  CHARGE_CONTROL_LIM=
-IT_MAX
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  179    maximum charge c=
-ontrol limit setting
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  180 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  181  CALIBRATE
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  182    battery or coulo=
-mb counter calibration status
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  183 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  184  CAPACITY
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  185    capacity in perc=
-ents.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  186  CAPACITY_ALERT_MIN
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  187    minimum capacity=
- alert value in percents.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  188  CAPACITY_ALERT_MAX
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  189    maximum capacity=
- alert value in percents.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  190  CAPACITY_LEVEL
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  191    capacity level. =
-This corresponds to POWER_SUPPLY_CAPACITY_LEVEL_*.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  192 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  193  TEMP
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  194    temperature of t=
-he power supply.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  195  TEMP_ALERT_MIN
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  196    minimum battery =
-temperature alert.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  197  TEMP_ALERT_MAX
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  198    maximum battery =
-temperature alert.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  199  TEMP_AMBIENT
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  200    ambient temperat=
-ure.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  201  TEMP_AMBIENT_ALERT=
-_MIN
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  202    minimum ambient =
-temperature alert.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  203  TEMP_AMBIENT_ALERT=
-_MAX
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  204    maximum ambient =
-temperature alert.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  205  TEMP_MIN
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31  206    minimum ope=
-rable temperature
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  207  TEMP_MAX
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31  208    maximum ope=
-rable temperature
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  209 =20
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31  210  TIME_TO_EMPTY=
-_NOW, TIME_TO_EMPTY_AVG
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13 @211    seconds left for=
- battery to be considered empty
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31  212    (i.e., whil=
-e battery powers a load). *_NOW is a
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31  213    momentary r=
-eading; *_AVG is averaged over a fixed period.
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31  214  TIME_TO_FULL_=
-NOW, TIME_TO_FULL_AVG
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  215    seconds left for=
- battery to be considered full
-420a1e2763b5df3 Iv=C3=A1n Ezequiel Rodriguez 2026-08-31  216    (i.e., whil=
-e battery is charging). Same now/avg distinction.
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  217 =20
-151f4e2bdc7a040 Mauro Carvalho Chehab   2019-06-13  218 =20
+  rust_minimal: section 8 reloc 24 sym 'rust_helper_krealloc_node_align': unsupported interworking call (ARM -> Thumb)
 
-:::::: The code at line 211 was first introduced by commit
-:::::: 151f4e2bdc7a04020ae5c533896fb91a16e1f501 docs: power: convert docs t=
-o ReST and rename to *.rst
+Same on v7.3-rc1. rustc has no Thumb-2 target with the soft-float ABI.
+!THUMB2_KERNEL would also remove the built-in case, so v2 leaves it
+alone.
 
-:::::: TO: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+I have a first module loader patch instead. bl to a Thumb function
+becomes blx, other branches go through a PLT veneer. Rust modules then
+load on a Thumb-2 kernel in QEMU. I would send it separately after more
+testing. Or do you prefer !(THUMB2_KERNEL && MODULES) for now?
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> >   --target=arm-unknown-linux-gnueabi -Ctarget-cpu=arm926ej-s
+> 
+> Ok, so I guess this is more like -mtune= in clang and gcc?
+
+More like -mcpu. 
+It adds features but does not override the +v6 of the target.
+
+> Maybe this should be "+v7-a" instead of "-v6" to allow allow the
+> compiler to use all ARMv7-A features instead? It would be surprising
+> if they added 32-bit Arm support to Rust without a way to target what
+> is in almost every single chip and Linux distro today.
+
+rustc does not know +v7-a. +v7 works but warns about an unstable
+feature. The separate target avoids that.
+
+On the CP15 barriers. With the generic target a fence(SeqCst) from
+core::sync::atomic becomes
+
+  mcr p15, #0, r0, c7, c10, #5
+
+and with the armv7 target dmb ish. No kernel Rust code does that today,
+the Rust objects I looked at have no CP15 access and no swp. But
+nothing prevents it.
+
+> I would leave out CPU_V7M as well, it's not worth trying to
+
+It is left out already. HAVE_RUST needs CPU_32v6K, CPU_32v5 or
+CPU_32v4T.
+
+Thanks
+Karl
