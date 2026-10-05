@@ -1,245 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF28F43F4BB;
-	Mon,  5 Oct 2026 22:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B87D417BD9;
+	Mon,  5 Oct 2026 23:10:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791240629; cv=none; b=gzTxTfJsRoKOGm8tweTLnkTyt55+WI3xt4jjdfSP7wXa6povGauT2s78qBe/juAFXqWoXwFscs+i1zgjdSHuoukQNT6nLtjt+YyUbMmbXFlFH5iMOwT3MOOocYlVr5gK+pXUplbSOYteCLyFlU8p/orIQfcvQTWn9ruLxUWyX+A=
+	t=1791241810; cv=none; b=r6kKUtxbR2wrFuYkjQW8x7bpBCpAQ7o8swmrcELx8bB5Vz9+/duJLRh/aZ7pLShXmSDVR1SFn98hbf+KIyhz30UPPGOQqfzcG4PvJdkBN+31PIEEXEvEtN+7qTz7ybF8uUfGSXQhPhyXV8CzwpmcG46i9eZTw6lAXnt8xApc7Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791240629; c=relaxed/simple;
-	bh=3hZBFPyundk9tWeTI4sVuy9MK+787aojzii6KnOyxzs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZyAcLEGUc7Z5HbnXx/xffGZlt5FBRAQjGg/CBmkXIW4U9mNlElsbAbfZNtB4uKUJwQJ9q93BIk9DYVGsCBSF0lHhd9e948MLMKsrleQiA9bciqq/RXi0uW8u4s/5LHAf8JYHozDv3gDPNUJjIGh9i5XyRuoQphYuvux5qA4Fx1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqUUedpF; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791241810; c=relaxed/simple;
+	bh=pFVq7EyUWiAO2x9UCfbCOL+Tvyu7St4sCWxEG6aWj1U=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=bSuOpRvNDEi3gbEL1MFNOP1aHVRdX3qtscj/phxuJ8xh/XXXkiP5m2JPwEvKeWA9Dihs4YoaS2CCbdJPgaotnYV3wAz6214HgUpLKply1BgdsBOlQXNhmXuL5vzcLxf1jE9WBPe9V11LOhQJq0tEWmqeNs7vu34aXZXH665qd94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R+uNdNmQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqUUedpF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791240627; x=1822776627;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=3hZBFPyundk9tWeTI4sVuy9MK+787aojzii6KnOyxzs=;
-  b=CqUUedpFm2qziXXYkKjuyI9TDn5uZbSTiNmTVuk1aLsEBjLxvRNMEhuJ
-   8wWF5eUOEuP8cLtQ9Ay+Pew5/m5wt4H0m/9WC6k05ltDJR8975/AZ98Zv
-   tcOb7OyY8bGpoCzO0rp/i/6rY29+VkMGt/sTy55yxTQ27ESpLyWHlD4E1
-   te+FaXkguTfMTqQ+erxChC5MF194/yujSAs5YSAEojVufkx2AoY57kR8o
-   YG/kyyI5w47aXbInGVamVeA5+hPwxYKfgZ282IqGjcw/QIcypIYu63+oj
-   iylW66WYDdU7oTirjjWAEqpPlhfB74l2TdRP3OUFM9mBYb93H1C6rnMWd
-   Q==;
-X-CSE-ConnectionGUID: VGb9JJY6RQ6nOwj8q3yCdw==
-X-CSE-MsgGUID: /WCwaojDSgyd2PdDsriv1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="94798749"
-X-IronPort-AV: E=Sophos;i="6.27,142,1787036400"; 
-   d="scan'208";a="94798749"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 15:50:24 -0700
-X-CSE-ConnectionGUID: GKpV9rDMQqqowMkUjPtYEg==
-X-CSE-MsgGUID: BKKM73jTQLyAR0W89EJEpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,142,1787036400"; 
-   d="scan'208";a="277063571"
-Received: from vverma7-desk1.amr.corp.intel.com (HELO [192.168.1.200]) ([10.125.108.147])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 15:50:23 -0700
-From: Vishal Verma <vishal.l.verma@intel.com>
-Date: Mon, 05 Oct 2026 16:50:07 -0600
-Subject: [PATCH v4 2/2] x86/early_printk: Add earlyprintk=tdx to drive the
- UART with TDVMCALLs
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+uNdNmQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD241F000FF;
+	Mon,  5 Oct 2026 23:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791241809;
+	bh=mko6wnpcut6renAqsMWAKfh65elAm2cIdKuh57kIYtE=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=R+uNdNmQLltggaHHcnAoPak34Fa30ICjS42sYW2wdD9Rm6VGIwL+7yBuyMXuEHAE1
+	 4LpxBlgc/cY7OUYAWyRvE+Lko8IeuKwEEwTm9HAhMr7zY1qWKMBm7rZBUVKAmSm4b7
+	 XR4jPnZd64m67DMstxUDfcJJasAPNADftPYEGE683zwhBylRY0hUDTfDwpxI0U1eyC
+	 O9SgqIsuccf0kx3R2RPWasnGz9Oj+vlsZdThhdLX8ko7RuI4FbJf+IkEcAzz70aO28
+	 /vCplD7UBFfIbhLxkRcRgH9aVD9NzeBFQb7+QE0goz6EDorOt/pMNMJX345WSeCVDi
+	 WJn4h11pvEVUw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F15F83926677;
+	Mon,  5 Oct 2026 23:10:08 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261005-b4-tdx_earlyprintk_tdcalls-v4-2-3f7c56dd568a@intel.com>
-References: <20261005-b4-tdx_earlyprintk_tdcalls-v4-0-3f7c56dd568a@intel.com>
-In-Reply-To: <20261005-b4-tdx_earlyprintk_tdcalls-v4-0-3f7c56dd568a@intel.com>
-To: x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>, 
- Kiryl Shutsemau <kas@kernel.org>, 
- Rick Edgecombe <rick.p.edgecombe@intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev, 
- kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
- Vishal Verma <vishal.l.verma@intel.com>
-X-Mailer: b4 0.17-dev-e5168
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6350;
- i=vishal.l.verma@intel.com; h=from:subject:message-id;
- bh=3hZBFPyundk9tWeTI4sVuy9MK+787aojzii6KnOyxzs=;
- b=owGbwMvMwCXGf25diOft7jLG02pJDFlHNFdu2fVRT/W+belffyaT41NXbMkvbXvUOZsl8omiz
- 98UxqlTOkpZGMS4GGTFFFn+7vnIeExuez5PYIIjzBxWJpAhDFycAjCRh4UM/wOOLLJ4IHVbtO5V
- ToLAqUX7/Rt3f7HlPDK7K+X/34mimQEMv5gcuC9NjvGL9go5LukTwrI7IerDbaFk5TDHubcmnJC
- I5QQA
-X-Developer-Key: i=vishal.l.verma@intel.com; a=openpgp;
- fpr=F8682BE134C67A12332A2ED07AFA61BEA3B84DFF
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2 0/4] net: psp: require an established
+ connection for association setup
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179124180778.1932101.4292835619556166599.git-patchwork-notify@kernel.org>
+Date: Mon, 05 Oct 2026 23:10:07 +0000
+References: <20260930-psp-defeat-v2-0-f266e7447129@gmail.com>
+In-Reply-To: <20260930-psp-defeat-v2-0-f266e7447129@gmail.com>
+To: Daniel Zahka <daniel.zahka@gmail.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, shuah@kernel.org,
+ willemdebruijn.kernel@gmail.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, kuniyu@google.com,
+ willemb@google.com, netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 
-A TDX guest cannot execute port I/O instructions directly, but
-earlyprintk's serial console still issues plain inb()/outb() and lets
-each one fault into the #VE handler to be emulated as a TDVMCALL.
+Hello:
 
-While that works, it is a roundabout way to get a character out.
-early_serial_putc() polls the LSR, and then writes a byte, but since the
-TDX guest can't directly do port I/O, a #VE exception is raised. The #VE
-handler must call TDG.VP.VEINFO.GET to find out what faulted, and then
-it can issue the TDVMCALL that does the actual work.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-This makes #VE a functional mechanism for doing I/O, which is not
-desirable, is unnecessarily complicated and fragile, and results in
-twice the number of calls into the TDX module.
+On Wed, 30 Sep 2026 16:46:45 -0700 you wrote:
+> This series removes support for using PSP's assoc uapi on TCP sockets
+> not in established state.
+> 
+> The PSP uapi and connection upgrade described in psp.rst is only fleshed
+> out for established TCP connections. Installing PSP assoc state on a
+> listen socket, or closed socket ahead of connect() is possible, but not
+> something that results in useful outcomes.
+> 
+> [...]
 
-Instead, add an earlyprintk=tdx option, which can issue the TDVMCALLs
-directly. Add a pair of tdx_serial_in() and tdx_serial_out() accessors
-and set them up in this case.
+Here is the summary with links:
+  - [net-next,v2,1/4] selftests: drv-net: psp: swap closed for connected sockets in assoc tests
+    https://git.kernel.org/netdev/net-next/c/e404a2de7ed1
+  - [net-next,v2,2/4] net: psp: require an established connection for association setup
+    https://git.kernel.org/netdev/net-next/c/86a19284425f
+  - [net-next,v2,3/4] net: psp: drop psp assoc clear in sk_clone()
+    https://git.kernel.org/netdev/net-next/c/c135ee9f4975
+  - [net-next,v2,4/4] selftests: drv-net: psp: test that rx-assoc fails on closed and listen socks
+    https://git.kernel.org/netdev/net-next/c/ab1f1ed8e0bb
 
-Note that the output does not appear any earlier - "earlyprintk=" is an
-early_param(), so the console is still registered from
-parse_early_param(). This only changes how the bytes leave the guest
-once it is up.
-
-LLMs were used under supervision to create this patch, to help
-understand the scope and mechanisms, create testing instrumentation
-(throwaway) to count #VEs in the serial vs tdx earlyprintk setups,
-and to drive lab machines to do this testing.
-
-Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>
----
- Documentation/admin-guide/kernel-parameters.txt |  8 +++++++
- arch/x86/include/asm/tdx.h                      |  4 ++++
- arch/x86/coco/tdx/tdx.c                         | 29 +++++++++++++++++++++++++
- arch/x86/kernel/early_printk.c                  | 20 +++++++++++++++++
- 4 files changed, 61 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index e75344f4e0cd..3e43e7c7385c 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1546,6 +1546,7 @@ Kernel parameters
- 			earlyprintk=serial[,ttySn[,baudrate]]
- 			earlyprintk=serial[,0x...[,baudrate]]
- 			earlyprintk=ttySn[,baudrate]
-+			earlyprintk=tdx
- 			earlyprintk=dbgp[debugController#]
- 			earlyprintk=mmio32,membase[,{nocfg|baudrate}]
- 			earlyprintk=pciserial[,force],bus:device.function[,{nocfg|baudrate}]
-@@ -1559,6 +1560,13 @@ Kernel parameters
- 			Use "nocfg" to skip UART configuration, assume
- 			BIOS/firmware has configured UART correctly.
- 
-+			On x86, "tdx" is a fixed COM1 console, and takes no
-+			options. In a TDX guest the port is driven with
-+			TDVMCALLs rather than port I/O instructions, avoiding
-+			the #VE exception that would otherwise be taken to
-+			emulate every access. Outside a TDX guest it falls back
-+			to port I/O, behaving like "earlyprintk=serial".
-+
- 			Append ",keep" to not disable it when the real console
- 			takes over.
- 
-diff --git a/arch/x86/include/asm/tdx.h b/arch/x86/include/asm/tdx.h
-index 89e97d5761d8..eac298979498 100644
---- a/arch/x86/include/asm/tdx.h
-+++ b/arch/x86/include/asm/tdx.h
-@@ -95,6 +95,10 @@ static inline bool tdx_early_handle_ve(struct pt_regs *regs) { return false; }
- 
- #endif /* CONFIG_INTEL_TDX_GUEST */
- 
-+/* Only referenced when X86_FEATURE_TDX_GUEST is enabled, no stubs needed */
-+__noendbr unsigned int tdx_serial_in(unsigned long addr, int offset);
-+__noendbr void tdx_serial_out(unsigned long addr, int offset, int value);
-+
- #if defined(CONFIG_KVM_GUEST) && defined(CONFIG_INTEL_TDX_GUEST)
- long tdx_kvm_hypercall(unsigned int nr, unsigned long p1, unsigned long p2,
- 		       unsigned long p3, unsigned long p4);
-diff --git a/arch/x86/coco/tdx/tdx.c b/arch/x86/coco/tdx/tdx.c
-index 7d1a93ee2534..c5e16ea3844d 100644
---- a/arch/x86/coco/tdx/tdx.c
-+++ b/arch/x86/coco/tdx/tdx.c
-@@ -194,6 +194,35 @@ u64 tdx_hcall_get_quote(u8 *buf, size_t size)
- }
- EXPORT_SYMBOL_GPL(tdx_hcall_get_quote);
- 
-+/*
-+ * early_printk accessors for a TDX guest. Ask the VMM to do the port I/O with
-+ * TDG.VP.VMCALL<Instruction.IO> instead of executing IN/OUT and having the
-+ * resulting #VE emulate it.
-+ */
-+__noendbr unsigned int tdx_serial_in(unsigned long addr, int offset)
-+{
-+	struct tdx_module_args args = {
-+		.r10 = TDX_HYPERCALL_STANDARD,
-+		.r11 = hcall_func(EXIT_REASON_IO_INSTRUCTION),
-+		.r12 = 1,
-+		.r13 = TDVMCALL_PORT_READ,
-+		.r14 = addr + offset,
-+	};
-+
-+	if (__tdx_hypercall(&args))
-+		return 0xFF;
-+
-+	return args.r11;
-+}
-+ANNOTATE_NOENDBR_SYM(tdx_serial_in);
-+
-+__noendbr void tdx_serial_out(unsigned long addr, int offset, int value)
-+{
-+	_tdx_hypercall(hcall_func(EXIT_REASON_IO_INSTRUCTION), 1,
-+		       TDVMCALL_PORT_WRITE, addr + offset, value);
-+}
-+ANNOTATE_NOENDBR_SYM(tdx_serial_out);
-+
- static void __noreturn tdx_panic(const char *msg)
- {
- 	struct tdx_module_args args = {
-diff --git a/arch/x86/kernel/early_printk.c b/arch/x86/kernel/early_printk.c
-index cba75306e5b6..04dadcd73b85 100644
---- a/arch/x86/kernel/early_printk.c
-+++ b/arch/x86/kernel/early_printk.c
-@@ -21,6 +21,7 @@
- #include <linux/usb/xhci-dbgp.h>
- #include <asm/pci_x86.h>
- #include <linux/static_call.h>
-+#include <asm/tdx.h>
- 
- /* Simple VGA output */
- #define VGABASE		(__ISA_IO_base + 0xb8000)
-@@ -196,6 +197,20 @@ static __init void early_serial_init(char *s)
- 	early_serial_hw_init(divisor);
- }
- 
-+/*
-+ * Use early_serial_base (COM1) and same default baud rate as
-+ * "earlyprintk=serial"
-+ */
-+static __init void early_serial_tdx_init(void)
-+{
-+	if (cpu_feature_enabled(X86_FEATURE_TDX_GUEST)) {
-+		static_call_update(serial_in, tdx_serial_in);
-+		static_call_update(serial_out, tdx_serial_out);
-+	}
-+
-+	early_serial_hw_init(115200 / DEFAULT_BAUD);
-+}
-+
- static __noendbr void mem32_serial_out(unsigned long addr, int offset, int value)
- {
- 	u32 __iomem *vaddr = (u32 __iomem *)addr;
-@@ -414,6 +429,11 @@ static int __init setup_early_printk(char *buf)
- 			early_serial_init(buf + 4);
- 			early_console_register(&early_serial_console, keep);
- 		}
-+		if (!strncmp(buf, "tdx", 3)) {
-+			early_serial_tdx_init();
-+			early_console_register(&early_serial_console, keep);
-+			break;
-+		}
- #ifdef CONFIG_PCI
- 		if (!strncmp(buf, "pciserial", 9)) {
- 			buf += 9; /* Keep from match the above "pciserial" */
-
+You are awesome, thank you!
 -- 
-2.55.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
