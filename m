@@ -1,285 +1,474 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pj2-f7.google.com (mail-pj2-f7.google.com [74.125.227.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C367C531AED
-	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 17:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161F64D6C46
+	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 17:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791220772; cv=none; b=gb1Vcn9J2pRvRIl+1o2E/Swcv+s88TT5rD6VSdhVEph+AzSlWmSEwoDNv/9WKu3bTMuQVheW7w/11jRvt4sKIs7wKvPlEZ7gVKOmHLbOvt4mGL1W7+5M2JEgd4069uYrRMfOyhRXGOIcfKc8ZN+rOOMcV+8o2PDn5weWhmUSO3s=
+	t=1791222689; cv=none; b=jXPmTqUbLeqOFUvcDzhSyb12LTPvfJyRmowr27L8U/W3hBIReeFnwx9jap37z1Z8e1dfYrdTrxono9H0y0Mblk03L+7r4ZLIYbGCIGFEghCIRPeRGdFwAxBJpe5DyEE079kDvaZBmZjRDG7cPiv9EU1cDGkRO99Xa8fwIDey1YI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791220772; c=relaxed/simple;
-	bh=DSy90Vi1pYW2azdUTwrc0TT6kW6QsQGO8Rlo/8MHFWI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U+3nGHCV47LPG9LbiTog27ScxvOYJt970H61XPmOixp4mwUuGWMUq/0Um9BGA+WWwsc6yEntRbPd3bNi6CHnBbX5820EzoXAZQqBDR9KsTk+MPmnENliwTtIkKgFAo5FieWEm/PyXVvpxcM5BZwBCtWBDUCfv27LK9zXKX6IjwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gGnt2UfA; arc=none smtp.client-ip=209.85.216.49
+	s=arc-20240116; t=1791222689; c=relaxed/simple;
+	bh=OQ7plgGKu5CgQUx2/iXDOGGHD+OFijUMETEJKpvdY5E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tjYXWR1QqjyK6qO7xLSxmrPRnAW4bBCiFzSr1OXrYMhaOfXMyNncnk4kvCSomernbJTZYUzRLDWugvnwKf5ALMIN25YRQmSfw43w5yqQ9ztsG//8tg4ABAGVGt/fApO2y4fwA+NSfdeJV7pPDfAEDkokGpFdfEAZFTqKvTz1BoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TbbMBTou; arc=none smtp.client-ip=74.125.227.135
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gGnt2UfA"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so1237279a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 10:19:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TbbMBTou"
+Received: by mail-pj2-f7.google.com with SMTP id 98e67ed59e1d1-39e501442e2so726348a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 10:51:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791220768; x=1791825568; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=j4yfFb6320kdlQ6cch251gfqYxfn4Y6pwvS8rFGl1n0=;
-        b=gGnt2UfAUg8JGW1bFWJFnF7t2rGWUEm8RerDWNKaHe0IPoU+2PYQczquL4Y/sP1+K6
-         /xwns+zHRaVLuX5NbVo4kPcLLWJ+KSbbhC6Y9cjktEFpPYmQDegqOnRceQpPFZ3/jSgT
-         tX46Nt+1DaDU06KHwCjTq14Jmz0NeNtHge1pAmCJwUQBGx5STGlxVHxDAhuUA9lcdH2S
-         8+mYO+2lDIWMgmOIlB+CxKC9e8HogVa3aS3QaHjakCTysQQ/xT1uV7efuW0pAcKpXd2d
-         ptUfmOrUB/w9dEY8138jPEq3eazJO3NDawGjapb/04CPKcRVixg5F/hKHtE/6vRtfyp8
-         ScdQ==
+        d=gmail.com; s=20251104; t=1791222686; x=1791827486; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SPtuLJ5oSKS7MVMeJrd5D+AH05MZCPxwBahqJmCRhG4=;
+        b=TbbMBTouibUPo880oNVELLWlkIHTH5TPDztKhDSEwAw1BI58yFVm9N38wzp8Zp38bL
+         56zaoD9odRoSG6TZLb+ScFg5+qkfsWGW17UQsnaVTwEHy06cYtpjMgxrZQS6Uf6F3cg9
+         Y8SW5YVSee0o7Hug2gcGfahy+WWG8Y3ui80u9yFWit0HLVwx8oAGHCo3frCt87e2jPJe
+         UZjLEZco+yF8TkylL7RdEfmZe8PJj/lHw2aBaJGf8VQ8XPZgShm77Xw/WNeV3XWRe56x
+         fjdq3OT84I4apTOSFm18E0jLtRqY/9UUzbAb8w3VELbvNEFCIfk8pmodMGtAHfMyODSx
+         pOSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791220768; x=1791825568;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=j4yfFb6320kdlQ6cch251gfqYxfn4Y6pwvS8rFGl1n0=;
-        b=1uX5oNLYBwhIjL8S5kZ++Bv8PzGvFjRr8aT9qVVmLHDxwhFGpSP0kagwIj2kuW/ilp
-         lUPq+qlLxZPjRTOvsrvPM6uLzjo1LjPlPC1hxU3gLFghcyv/JDWwCN/wZ/STAqgMWEcC
-         XAv/5cyTJiwUqwV3Itf6cK3r4Vamf0n1DbtJfC9PFR8hqBW+Es6rtPj5z815U7botSQv
-         5SrqFS6lq/FCnXz9zkpqnt/mVNeC0qZPkNTN6HtQpIPtaVA7gT3nBx1ajlM6/CGO9vnO
-         2kuOE55luxKwMmpP3KvKc+l7dBKJTZAo3Wxc+EZajo7Mc4C7EFNADOK9TRMn9Jfl9HTo
-         p3JA==
-X-Forwarded-Encrypted: i=1; AKwUvBwEl5dKuLc7x1eHyiqwN0nhHK8E9XSr2Uc2SO5mdg7ELCgWLTt+23L2zozaL59smpKwimSY0dxX7+g=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLeCj/wc+EJ4/2QWOrHboS3NEwNBxpT4NYf7bGRwyk1WsW4FSD1
-	vuNXCumWXkM0t+RRwlZQ6p2JBhSgsAr5oob1TR3gmdAuRoL1J5bptLER
-X-Gm-Gg: AYBFou1eTGpab2G1BDT/sGTegTB+ZadNloorCG4/UjlQAPzzwwGg0eG/98a/kdqGIkM
-	qWbRuAE6k694KvfiOIszB1CnH26idYqCpa/l3D2KbMfXFpAmsgBO6k0JwVLsa4Kvim82HOSG+8j
-	WEB0LMJ0dHZxsYmaKApJF0SuciuUyMOnTkAhU8du9ZCasQP27MNtvHj+VyHWQ1jye7AhdRewRkQ
-	9rymkr4KDGXxOjQ7lDtEdCO4B+3fk27QgiGz5NPXFHvjgjsjRWSwZmlYysqMKC5ZxKQhzWJXmQX
-	fuJIPNnXzH1Ts08VxXipzl3y2BHN0v/Z3TzKLzUKtuQnbWfOvD6vbNBFioH0mRCB6pWNDFkdQ0w
-	bOeNEwkUjsobtwSRoRRyur33H2+8X+vL3pUkqs8qJRaHIW5DbWuoMGrsFAbvn3eQPAmfltTpulV
-	MXsXLJZMqMcdJs3bgNJqcuofKd9WzuAePBg0fvpmDAzlbBiNK+od/msYOXKDuj87LAVccdr90wS
-	0b+UPYE6UFeQREUSIlAP9rn6J/8cQ==
-X-Received: by 2002:a17:90a:2cc4:b0:398:c3ca:1ebc with SMTP id 98e67ed59e1d1-3a78eca8911mr3952064a91.18.1791220767601;
-        Mon, 05 Oct 2026 10:19:27 -0700 (PDT)
-Received: from kernel.tail6741c6.ts.net ([216.195.201.24])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a853cafddesm406910a91.10.2026.10.05.10.19.12
+        d=1e100.net; s=20260707; t=1791222686; x=1791827486;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=SPtuLJ5oSKS7MVMeJrd5D+AH05MZCPxwBahqJmCRhG4=;
+        b=ziNJ1UlGlukOAjupale7rRqJLU7AE5nqT+j4ovQqS6FZdzydHIHqz9XlG5p26AgMXB
+         qNMde17HCD52eolFVfbgQXFvUPtRJUSi0kAc/KCN0G6pPll5AkaHxS7k6N5nCPfktFbr
+         GAgR8cOHMbK1MoRiM+aKgDuuWC1Dhp1+7frkJ787+f0qJ+01fwbR2fJNP9/VvGhU5KCw
+         EQ0OzghybqebDHASsUFHnh+mX2s9joCpL6TlAvRAQSsEpmJ9q049PIyMZ63pc/ck//32
+         d5LUDGxnF0IQBg1lV8bwWlblAHNjI08ReJlTepEMaUfg6dM8JMEMS/Ekzx/JgFMwSIOD
+         95QQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz8rw1+0DsoYM6Dw4jWTAGqHOZvKTMW6E7ublw4g2GBF4iLn7djtT7LQN5inIIwSOnur+abTXW6XH4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLoaDOQ2wDkMB3tpuqwzbe2vy5paEssdqdMhaX+aGxQbmlvtYkV
+	tbJVKv2HUXLIO2ngtrv5v47II2IUom1mfCuJzY2fvw/xuxzVJzfEdBlG
+X-Gm-Gg: AYBFou2fYgoHUcCS4DHpq7f0vbhsXmbV9mNiW+mo/Hna0qBR4IsopNhXKev0GeLt9Rj
+	/x+C4OUuxiM52jfdh0z5XpyrbfWhglx7T0/neh7VNX8mpSftK7I+O2lzOfRqyMrBwtVQnTx/BNI
+	4RG5/2q9gd9nw18qLOToIdDpuZDneAADDpv8P8mhGTjXmWHyI9IGr1e277Cw3G7XMoPlubv7rAf
+	6o3KY2MS12dFJSgC09/MruzV5aMfUj0wI/jXzZZLIGDjUwWCp3/i4D/wNWJx9b3nQBdvUi/Ouvj
+	dmqjFdqoaTjBXMCqmjINU+4gmLZOdGy6Vb6xfZ8ri6ymh53JfO6S1xhs3qBwFvGjiTM2iaICVPG
+	RgtTXIEqu9Bh7tW/Shgwt86EoB/9GXEAdY9p9PWiMfBnrs3fzW3CELbq3eB91Kyk+nLedJs4UeC
+	NkvnQQ/h2j1frpvbqjK2ND8RuR+IdZHdP6txYiJOQQIgGp4/sK4LFX8HA28We5AcRm
+X-Received: by 2002:a17:90b:58c5:b0:3a4:f8da:2478 with SMTP id 98e67ed59e1d1-3a6cec6044emr8959513a91.29.1791222686180;
+        Mon, 05 Oct 2026 10:51:26 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:73::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a853ce2b46sm548796a91.14.2026.10.05.10.51.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 10:19:26 -0700 (PDT)
-From: Kunwu Chan <kunwu.chan@gmail.com>
-To: paulmck@kernel.org,
-	corbet@lwn.net,
-	mingo@redhat.com,
-	frederic@kernel.org,
-	neeraj.upadhyay@kernel.org,
-	josh@joshtriplett.org,
-	urezki@gmail.com,
-	dave@stgolabs.net,
-	lianux.mm@gmail.com
-Cc: stern@rowland.harvard.edu,
-	parri.andrea@gmail.com,
-	will@kernel.org,
-	peterz@infradead.org,
-	boqun@kernel.org,
-	npiggin@gmail.com,
-	dhowells@redhat.com,
-	j.alglave@ucl.ac.uk,
-	luc.maranget@inria.fr,
-	akiyks@gmail.com,
-	dlustig@nvidia.com,
-	joelagnelf@nvidia.com,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	longman@redhat.com,
-	rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com,
-	jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev,
-	kunwu.chan@gmail.com,
-	brads@mainlining.org,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	lkmm@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	rcu@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH RFC v3 15/15] selftests/rcutorture: add hazptr torture test script
-Date: Tue,  6 Oct 2026 01:15:29 +0800
-Message-ID: <20261005171529.1378809-16-kunwu.chan@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261005171529.1378809-1-kunwu.chan@gmail.com>
-References: <20261005171529.1378809-1-kunwu.chan@gmail.com>
+        Mon, 05 Oct 2026 10:51:25 -0700 (PDT)
+Date: Mon, 5 Oct 2026 10:38:36 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, bpf@vger.kernel.org, 
+	io-uring@vger.kernel.org, "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, 
+	Weiming Shi <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, 
+	David Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Mina Almasry <almasrymina@google.com>
+Subject: Re: [RFC net-next 09/15] xsk: Add a page-pool memory provider for
+ UMEM
+Message-ID: <asPfprbzjNAgKabP@devvm7509.cco0.facebook.com>
+References: <20261002190018.696925-1-bjorn@kernel.org>
+ <20261002190018.696925-10-bjorn@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261002190018.696925-10-bjorn@kernel.org>
 
-Add hazptr.sh as a one-command regression test for the hazptr
-torture configs.
+On 10/02, Björn Töpel wrote:
+> AF_XDP zero-copy drivers get RX buffers from an xsk_buff_pool. A
+> driver built on page_pool would need a second RX allocator for that.
+> Instead, let an XSK buffer pool act as a page-pool memory provider.
+> It hands out UMEM chunks as NET_IOV_XSK net_iovs, and the driver
+> uses the normal page_pool API.
+> 
+> A driver calls xsk_pool_setup_page_pool() for XDP_SETUP_XSK_POOL.
+> For now only 4 KiB pages and aligned UMEM with 4 KiB chunks work;
+> other setups get -EOPNOTSUPP. A bind without XDP_ZEROCOPY then falls
+> back to copy mode, as before. The exception is a failed setup that
+> leaves an old page pool being destroyed. That page pool still uses
+> the DMA mapping, so the bind fails.
+> 
+> The provider reads the FILL ring in batches of the page-pool cache
+> refill size, and it handles RX need-wakeup. Each allocation reads at
+> most one batch, which limits the work spent on bad descriptors in
+> NAPI. Addresses outside the UMEM, and addresses that are already in
+> use, count as invalid descriptors and are dropped. refill_done keeps
+> NAPI scheduled while the FILL ring has entries. When the ring is
+> empty, it sets NEED_WAKEUP and then checks the ring once more.
+> 
+> The provider asks for page-sized buffers with the UMEM headroom plus
+> XDP_PACKET_HEADROOM. It refuses a page pool whose DMA sync range
+> goes past the chunk.
+> 
+> During a queue restart, two page pools can use one provider at the
+> same time. A provider lock protects the FILL ring, the reuse stack
+> and need-wakeup. Allocation takes it once per page-pool cache refill
+> of up to 64 buffers. A packet that is copied into a socket with a
+> provider takes it once per packet, because the copy also reads the
+> FILL ring.
+> 
+> A buffer has one owner at a time, as a normal page-pool page does.
+> Allocation claims a buffer by setting its page pool under the
+> provider lock. Release clears the link, so destroying the provider
+> does not need to scan the UMEM.
+> 
+> Generic XDP and synthetic RX queues, such as CPUMAP, would write to
+> the socket RX ring outside the queue's NAPI. While the provider is
+> installed, generic XDP drops such packets and counts them in
+> rx_dropped, and synthetic queues get -EINVAL. Classic zero-copy
+> sockets do not change.
+> 
+> A failed queue restart can leave the old page pool draining. Keep
+> the UMEM, the DMA mapping and the netdev until the provider's last
+> page pool is destroyed. Charge the provider arrays, whose size grows
+> with the UMEM, to the memory cgroup of the socket owner.
+> XDP_SOCKETS now selects PAGE_POOL.
+> 
+> Signed-off-by: Björn Töpel <bjorn@kernel.org>
+> ---
+>  include/net/xdp_sock_drv.h  |  12 +
+>  include/net/xsk_buff_pool.h |   6 +-
+>  net/core/page_pool.c        |   4 +-
+>  net/xdp/Kconfig             |   1 +
+>  net/xdp/xsk.c               |  50 ++-
+>  net/xdp/xsk.h               |  58 ++++
+>  net/xdp/xsk_buff_pool.c     | 654 +++++++++++++++++++++++++++++++++++-
+>  7 files changed, 756 insertions(+), 29 deletions(-)
+> 
+> diff --git a/include/net/xdp_sock_drv.h b/include/net/xdp_sock_drv.h
+> index d94aeb506379..b9288f5dd48b 100644
+> --- a/include/net/xdp_sock_drv.h
+> +++ b/include/net/xdp_sock_drv.h
+> @@ -9,6 +9,8 @@
+>  #include <net/xdp_sock.h>
+>  #include <net/xsk_buff_pool.h>
+>  
+> +struct netlink_ext_ack;
+> +
+>  #define XDP_UMEM_MIN_CHUNK_SHIFT 11
+>  #define XDP_UMEM_MIN_CHUNK_SIZE (1 << XDP_UMEM_MIN_CHUNK_SHIFT)
+>  
+> @@ -28,6 +30,8 @@ void xsk_tx_completed(struct xsk_buff_pool *pool, u32 nb_entries);
+>  bool xsk_tx_peek_desc(struct xsk_buff_pool *pool, struct xdp_desc *desc);
+>  u32 xsk_tx_peek_release_desc_batch(struct xsk_buff_pool *pool, u32 max);
+>  void xsk_tx_release(struct xsk_buff_pool *pool);
+> +int xsk_pool_setup_page_pool(struct net_device *dev, struct xsk_buff_pool *pool,
+> +			     u16 queue_id, struct netlink_ext_ack *extack);
+>  struct xsk_buff_pool *xsk_get_pool_from_qid(struct net_device *dev,
+>  					    u16 queue_id);
+>  void xsk_set_rx_need_wakeup(struct xsk_buff_pool *pool);
+> @@ -370,6 +374,14 @@ static inline void xsk_tx_release(struct xsk_buff_pool *pool)
+>  {
+>  }
+>  
+> +static inline int xsk_pool_setup_page_pool(struct net_device *dev,
+> +					   struct xsk_buff_pool *pool,
+> +					   u16 queue_id,
+> +					   struct netlink_ext_ack *extack)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +
+>  static inline struct xsk_buff_pool *
+>  xsk_get_pool_from_qid(struct net_device *dev, u16 queue_id)
+>  {
+> diff --git a/include/net/xsk_buff_pool.h b/include/net/xsk_buff_pool.h
+> index 77264c4902c0..9eed8796a356 100644
+> --- a/include/net/xsk_buff_pool.h
+> +++ b/include/net/xsk_buff_pool.h
+> @@ -11,6 +11,7 @@
+>  #include <net/xdp.h>
+>  
+>  struct xsk_buff_pool;
+> +struct xsk_pp;
+>  struct xdp_rxq_info;
+>  struct xsk_cb_desc;
+>  struct xsk_queue;
+> @@ -52,7 +53,8 @@ struct xsk_buff_pool {
+>  	spinlock_t xsk_tx_list_lock;
+>  	refcount_t users;
+>  	struct xdp_umem *umem;
+> -	struct work_struct work;
+> +	struct xsk_pp *pp;
+> +	struct delayed_work work;
+>  	/* Protects generic receive in shared and non-shared umem mode. */
+>  	spinlock_t rx_lock;
+>  	struct list_head free_list;
+> @@ -117,10 +119,8 @@ int xp_alloc_tx_descs(struct xsk_buff_pool *pool, struct xdp_sock *xs,
+>  void xp_destroy(struct xsk_buff_pool *pool);
+>  void xp_get_pool(struct xsk_buff_pool *pool);
+>  bool xp_put_pool(struct xsk_buff_pool *pool);
+> -void xp_clear_dev(struct xsk_buff_pool *pool);
+>  void xp_add_xsk(struct xsk_buff_pool *pool, struct xdp_sock *xs);
+>  void xp_del_xsk(struct xsk_buff_pool *pool, struct xdp_sock *xs);
+> -
+>  /* AF_XDP, and XDP core. */
+>  void xp_free(struct xdp_buff_xsk *xskb);
+>  
+> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> index e36ae6123adf..1f446e9a10d7 100644
+> --- a/net/core/page_pool.c
+> +++ b/net/core/page_pool.c
+> @@ -1397,8 +1397,8 @@ void net_mp_release_page_pool_bulk(struct page_pool *pool,
+>  		atomic_add(count, release_cnt);
+>  }
+>  
+> -/* Disassociate a niov from a page pool. Should only be used in the
+> - * ->release_netmem() path.
+> +/* Disassociate a niov from a page pool. Memory providers may do this either
+> + * from ->release_netmem() or from ->destroy() after all objects were released.
+>   */
+>  void net_mp_niov_clear_page_pool(struct net_iov *niov)
+>  {
+> diff --git a/net/xdp/Kconfig b/net/xdp/Kconfig
+> index 71af2febe72a..c9c68d3b3712 100644
+> --- a/net/xdp/Kconfig
+> +++ b/net/xdp/Kconfig
+> @@ -2,6 +2,7 @@
+>  config XDP_SOCKETS
+>  	bool "XDP sockets"
+>  	depends on BPF_SYSCALL
+> +	select PAGE_POOL
+>  	default n
+>  	help
+>  	  XDP sockets allows a channel between XDP programs and
+> diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
+> index b68dda9c37d1..90c98b42a18a 100644
+> --- a/net/xdp/xsk.c
+> +++ b/net/xdp/xsk.c
+> @@ -464,7 +464,9 @@ static int xsk_rcv_check(struct xdp_sock *xs, struct xdp_buff *xdp, u32 len)
+>  static void xsk_flush(struct xdp_sock *xs)
+>  {
+>  	xskq_prod_submit(xs->rx);
+> -	__xskq_cons_release(xs->pool->fq);
+> +	/* Provider pools publish FILL consumption under the provider lock. */
+> +	if (!READ_ONCE(xs->pool->pp))
+> +		__xskq_cons_release(xs->pool->fq);
+>  	sock_def_readable(&xs->sk);
+>  }
+>  
+> @@ -474,16 +476,40 @@ int xsk_generic_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
+>  	int err;
+>  
+>  	err = xsk_rcv_check(xs, xdp, len);
+> -	if (!err) {
+> -		spin_lock_bh(&xs->pool->rx_lock);
+> -		err = __xsk_rcv(xs, xdp, len);
+> -		xsk_flush(xs);
+> +	if (err)
+> +		return err;
+> +	spin_lock_bh(&xs->pool->rx_lock);
+> +	if (unlikely(READ_ONCE(xs->pool->pp))) {
+> +		xs->rx_dropped++;
+>  		spin_unlock_bh(&xs->pool->rx_lock);
+> +		return -EOPNOTSUPP;
+>  	}
+> +	err = __xsk_rcv(xs, xdp, len);
+> +	xsk_flush(xs);
+> +	spin_unlock_bh(&xs->pool->rx_lock);
+>  
+>  	return err;
+>  }
+>  
+> +/* Copy into the socket's UMEM. A provider-backed pool shares its FILL ring
+> + * with provider allocation, which can run for another page pool of the queue
+> + * while the queue is replaced.
+> + */
+> +static int xsk_rcv_copy(struct xdp_sock *xs, struct xdp_buff *xdp, u32 len)
+> +{
+> +	struct xsk_pp *provider = READ_ONCE(xs->pool->pp);
+> +	int err;
+> +
+> +	if (likely(!provider))
+> +		return __xsk_rcv(xs, xdp, len);
+> +
+> +	spin_lock_bh(&provider->lock);
+> +	err = __xsk_rcv(xs, xdp, len);
+> +	__xskq_cons_release(xs->pool->fq);
+> +	spin_unlock_bh(&provider->lock);
+> +	return err;
+> +}
+> +
+>  static int xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
+>  {
+>  	u32 len = xdp_get_buff_len(xdp);
+> @@ -498,7 +524,15 @@ static int xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
+>  		return xsk_rcv_zc(xs, xdp, len);
+>  	}
+>  
+> -	err = __xsk_rcv(xs, xdp, len);
+> +	/* The socket RX ring has a single producer, the queue's poll context.
+> +	 * Reject synthetic RX queues before their remote context produces
+> +	 * into a provider-backed socket.
+> +	 */
+> +	if (unlikely(READ_ONCE(xs->pool->pp) &&
+> +		     !xdp_rxq_info_is_reg(xdp->rxq)))
+> +		return -EINVAL;
+> +
+> +	err = xsk_rcv_copy(xs, xdp, len);
+>  	if (!err)
+>  		xdp_return_buff(xdp);
+>  	return err;
+> @@ -2149,8 +2183,8 @@ static int xsk_notifier(struct notifier_block *this,
+>  
+>  				xsk_unbind_dev(xs);
+>  
+> -				/* Clear device references. */
+> -				xp_clear_dev(xs->pool);
+> +				/* Unregister cannot hold a device reference. */
+> +				xp_clear_dev(xs->pool, XSK_POOL_CLEAR_FORCE);
+>  			}
+>  			mutex_unlock(&xs->mutex);
+>  		}
+> diff --git a/net/xdp/xsk.h b/net/xdp/xsk.h
+> index 7c811b5cce76..8770778cd322 100644
+> --- a/net/xdp/xsk.h
+> +++ b/net/xdp/xsk.h
+> @@ -4,6 +4,64 @@
+>  #ifndef XSK_H_
+>  #define XSK_H_
+>  
+> +#include <net/netmem.h>
+> +
+> +struct xsk_buff_pool;
+> +
+> +enum xsk_pool_clear_mode {
+> +	XSK_POOL_CLEAR_NORMAL,
+> +	XSK_POOL_CLEAR_FORCE,
+> +};
+> +
+> +struct xsk_pp_info {
+> +	struct net_iov_area area;
+> +	struct xsk_buff_pool *pool;
+> +	u32 chunk_shift;
+> +};
+> +
+> +/* Keep page_pool descriptors independent from direct-driver XSK buffers.
+> + * Queue replacement creates the new page_pool before it stops the old queue
+> + * and destroys the old page_pool after the new queue started, so two
+> + * page_pools can use one provider. @lock serializes the state they share.
+> + * Generic XDP cannot deliver to a provider-backed socket.
+> + */
+> +struct xsk_pp {
+> +	struct xsk_pp_info info;
+> +	struct xsk_queue __rcu *fq;
+> +	/* FILL consumers, @reuse and RX need_wakeup state */
+> +	spinlock_t lock;
+> +	u32 reuse_cnt;
+> +	u32 nr_pools;
+> +	u64 chunk_mask;
+> +	u64 addrs_cnt;
+> +	u8 release_retries;
+> +	bool dma_need_sync;
+> +	bool detached;
+> +	u32 reuse[];
+> +};
+> +
+> +void xp_clear_dev(struct xsk_buff_pool *pool, enum xsk_pool_clear_mode mode);
+> +
+> +static inline bool xp_netmem_is_xsk(netmem_ref netmem)
+> +{
+> +	return netmem_is_net_iov(netmem) &&
+> +	       netmem_to_net_iov(netmem)->type == NET_IOV_XSK;
+> +}
+> +
+> +static inline struct xsk_pp_info *xp_netmem_to_pp(netmem_ref netmem)
+> +{
+> +	struct net_iov *niov = netmem_to_net_iov(netmem);
+> +
+> +	return container_of(net_iov_owner(niov), struct xsk_pp_info, area);
+> +}
+> +
+> +static inline bool xp_netmem_is_from_pool(netmem_ref netmem,
+> +					  const struct xsk_buff_pool *pool)
+> +{
+> +	return xp_netmem_is_xsk(netmem) &&
+> +	       xp_netmem_to_pp(netmem)->pool == pool;
+> +}
+> +
+>  struct xdp_ring_offset_v1 {
+>  	__u64 producer;
+>  	__u64 consumer;
+> diff --git a/net/xdp/xsk_buff_pool.c b/net/xdp/xsk_buff_pool.c
+> index 244776a72961..e25347f8c208 100644
+> --- a/net/xdp/xsk_buff_pool.c
+> +++ b/net/xdp/xsk_buff_pool.c
+> @@ -1,7 +1,11 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  
+>  #include <linux/netdevice.h>
+> +#include <linux/sizes.h>
+>  #include <net/netdev_lock.h>
+> +#include <net/netdev_queues.h>
+> +#include <net/netdev_rx_queue.h>
+> +#include <net/page_pool/helpers.h>
+>  #include <net/page_pool/memory_provider.h>
+>  #include <net/xsk_buff_pool.h>
+>  #include <net/xdp_sock.h>
+> @@ -12,6 +16,20 @@
+>  #include "xsk.h"
+>  
+>  #define ETH_PAD_LEN (ETH_HLEN + 2 * VLAN_HLEN  + ETH_FCS_LEN)
+> +#define XSK_PAGE_POOL_DMA_ATTR	(DMA_ATTR_WEAK_ORDERING | \
+> +				 DMA_ATTR_SKIP_CPU_SYNC)
+> +#define XSK_POOL_RELEASE_RETRY_MAX	(60 * HZ)
+> +
+> +static bool xp_pp_teardown(struct xsk_buff_pool *pool);
+> +static void xp_pp_retry_release(struct xsk_buff_pool *pool);
+> +static void xp_destroy_unbound_deferred(struct work_struct *work);
+> +
+> +static void __xp_destroy(struct xsk_buff_pool *pool)
+> +{
+> +	kvfree(pool->tx_descs);
+> +	kvfree(pool->heads);
+> +	kvfree(pool);
+> +}
+>  
+>  void xp_add_xsk(struct xsk_buff_pool *pool, struct xdp_sock *xs)
+>  {
+> @@ -38,9 +56,22 @@ void xp_destroy(struct xsk_buff_pool *pool)
+>  	if (!pool)
+>  		return;
+>  
+> -	kvfree(pool->tx_descs);
+> -	kvfree(pool->heads);
+> -	kvfree(pool);
+> +	/* A failed queue replacement can leave a page_pool waiting for an
+> +	 * in-flight buffer.  Keep the UMEM and pool alive until its provider
+> +	 * destroy callback has run.
+> +	 */
 
-Run NOPREEMPT, PREEMPT, READERS0, and READERS4, followed by
-LOCKDEP with wq_churn and SLOWPATH with CONFIG_PROVE_LOCKING=y.
-The latter two also check the console for lockdep warnings.
+[..]
 
-With --allcpus, repeat the PREEMPT test at CPU counts 8, 16, 32,
-and so on up to 256.
+> +	if (pool->pp) {
 
-Follow the pattern of the existing srcu_lockdep.sh script.
 
-Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
----
- .../selftests/rcutorture/bin/hazptr.sh        | 146 ++++++++++++++++++
- 1 file changed, 146 insertions(+)
- create mode 100755 tools/testing/selftests/rcutorture/bin/hazptr.sh
-
-diff --git a/tools/testing/selftests/rcutorture/bin/hazptr.sh b/tools/testing/selftests/rcutorture/bin/hazptr.sh
-new file mode 100755
-index 000000000000..ef636e519a55
---- /dev/null
-+++ b/tools/testing/selftests/rcutorture/bin/hazptr.sh
-@@ -0,0 +1,146 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0+
-+#
-+# Run hazptr torture tests and report any that fail.
-+#
-+# Usage: hazptr.sh [ --cpus N ] [ --allcpus ] [ --datestamp string ]
-+#
-+# Copyright (C) 2026 Kunwu Chan
-+#
-+# Authors: Kunwu Chan <kunwu.chan@gmail.com>
-+
-+usage () {
-+	echo "Usage: $scriptname optional arguments:"
-+	echo "       --cpus N       override CPU count (default: auto-detect)"
-+	echo "       --allcpus      test at CPU counts 8,16,32,...,256"
-+	echo "       --datestamp string"
-+	exit 1
-+}
-+
-+ds=`date +%Y.%m.%d-%H.%M.%S`-hazptr
-+scriptname="$0"
-+
-+RCUTORTURE="`pwd`/tools/testing/selftests/rcutorture"; export RCUTORTURE
-+PATH=${RCUTORTURE}/bin:$PATH; export PATH
-+. functions.sh
-+
-+cpus=""		# empty = let kvm.sh auto-detect
-+allcpus=0
-+
-+while test $# -gt 0
-+do
-+	case "$1" in
-+	--datestamp)
-+		checkarg --datestamp "(relative pathname)" "$#" "$2" '^[a-zA-Z0-9._/-]*$' '^--'
-+		ds=$2
-+		shift
-+		;;
-+	--cpus)
-+		checkarg --cpus "(number)" "$#" "$2" '^[0-9]\+$' '^--'
-+		cpus="$2"
-+		shift
-+		;;
-+	--allcpus)
-+		allcpus=1
-+		;;
-+	*)
-+		echo Unknown argument $1
-+		usage
-+		;;
-+	esac
-+	shift
-+done
-+
-+nerrs=0
-+
-+run_kvm () {
-+	local ds_suffix="$1"
-+	local configs="$2"
-+	local cpu_arg="$3"
-+	local kconfig="$4"
-+	local resdir="$RCUTORTURE/res/$ds/$ds_suffix"
-+
-+	mkdir -p "$resdir"
-+
-+	tools/testing/selftests/rcutorture/bin/kvm.sh \
-+		--torture hazptr \
-+		--duration 5s \
-+		--configs "$configs" \
-+		${cpu_arg:+--cpus "$cpu_arg"} \
-+		${kconfig:+--kconfig "$kconfig"} \
-+		--trust-make \
-+		--datestamp "$ds/$ds_suffix" > "$resdir/kvm.sh.out" 2>&1
-+	return $?
-+}
-+
-+check_lockdep () {
-+	local ds_suffix="$1" config_dir="$2" label="$3"
-+	local resdir="$RCUTORTURE/res/$ds/$ds_suffix"
-+	local console="$resdir/$config_dir/console.log"
-+
-+	if ! test -f "$console"
-+	then
-+		echo "Missing console.log for $label ($ds_suffix)" > "$resdir/kvm.sh.err"
-+		return 1
-+	fi
-+	if grep -qE "WARNING: possible (recursive locking|circular locking dependency)" "$console"
-+	then
-+		echo "Lockdep warning in $label" > "$resdir/kvm.sh.err"
-+		return 1
-+	fi
-+	return 0
-+}
-+
-+# Basic torture: all hazptr configs, CPU count auto-detected
-+
-+echo "--- hazptr basic torture${cpus:+ ($cpus CPUs)} ---"
-+run_kvm basic "NOPREEMPT PREEMPT READERS0 READERS4" "$cpus" || nerrs=$((nerrs+1))
-+
-+# LOCKDEP: verify no lockdep splats with PROVE_LOCKING + wq_churn
-+
-+echo "--- hazptr lockdep + wq_churn ---"
-+if run_kvm lockdep-wq LOCKDEP "$cpus"
-+then
-+	check_lockdep lockdep-wq LOCKDEP "LOCKDEP wq_churn" ||
-+		nerrs=$((nerrs+1))
-+else
-+	nerrs=$((nerrs+1))
-+fi
-+
-+# SLOWPATH + PROVE_LOCKING: verify forced-slowpath does not deadlock
-+
-+echo "--- hazptr SLOWPATH + lockdep ---"
-+if run_kvm slowpath-lockdep SLOWPATH "$cpus" \
-+	"CONFIG_PROVE_LOCKING=y"
-+then
-+	check_lockdep slowpath-lockdep SLOWPATH \
-+		"SLOWPATH+PROVE_LOCKING" ||
-+		nerrs=$((nerrs+1))
-+else
-+	nerrs=$((nerrs+1))
-+fi
-+
-+# CPU scaling: optionally test at multiple CPU counts
-+
-+if test "$allcpus" -ne 0
-+then
-+	max_cpus=`grep '^processor' /proc/cpuinfo 2>/dev/null | wc -l`
-+	for n in 8 16 32 64 128 256
-+	do
-+		if test "$n" -le "$max_cpus"
-+		then
-+		echo "--- hazptr CPU=$n ---"
-+		run_kvm "cpu$n" "PREEMPT" "$n" "CONFIG_NR_CPUS=$n" || nerrs=$((nerrs+1))
-+		fi
-+	done
-+fi
-+
-+# Report
-+
-+if test "$nerrs" -ne 0
-+then
-+	echo "hazptr.sh: $nerrs test(s) failed"
-+	exit 1
-+fi
-+echo "hazptr.sh: all tests passed"
-+exit 0
--- 
-2.43.0
-
+Would be nice to do a cleanup in xsk_buff_pool: separate it into
+common/generic parts and pp vs non-pp parts. And maybe pp vs non-pp can
+be a union? With the addition of pp, it's gonna be hard to understand
+what is new/shiny vs old/deprecated. I'm assuming, at some point, when
+every driver is backed by pp umem, we can drop the non-umem path?
