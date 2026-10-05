@@ -1,193 +1,802 @@
-Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D35737F735;
-	Mon,  5 Oct 2026 23:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.143.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791243362; cv=fail; b=Wd3W1UHJGtsWp05fTHYhRjXqyZkVMSIQhzwxe6/o5roKZrVAKjh6IRzFa9VYOmZaO+v77mVSxXB1ZksE+AAMsHm3n/vvuvZAjbugijHGZR97Nb5vH6JslBRy/wpiHkZduj2SsWyAY3sdnlPrZ1EhUWFk51OT/gAZX9crjUDlBEs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791243362; c=relaxed/simple;
-	bh=8/tEN7PRIkKmWJje5Ehqrjv3yQ5rS+IT1L5dsKBt1pQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fZFoM+udgI3OOtWpRjg4rul/Q+/L9fOB6+mi5E4A2Dv8S9cml4APnzmF8d5/aJfQTdab2bq05gb+fHeTxHuaY9rSeW1LQNxq0ohtdc8+pBS3OmZ24bj0msvZXUdA33a+V9Uscf0iNnFOnDBqPQqIqSYs8tQJdr2l6+Ddv5MyPBY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=0UUxyETC; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=Qwxgie70; arc=fail smtp.client-ip=148.163.143.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AAD34A76F;
+	Mon,  5 Oct 2026 23:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791244281; cv=none; b=tKjtxtcivUBOcLq71oLmdaPX6Ra/0/mz4YlO03GVaVjfFf+6ShK2tNmgLDISgUN2phtcYTLcF6CFg/qLhhjcyxg1ZyJvqma40V9kE6O6xzBsqsK5+7xqOzaK4stDRPVQOV0GXDFKTyu7EE3vhtCluTiH9t/OLMy3AIuyjvmkm5Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791244281; c=relaxed/simple;
+	bh=DhXBLtzVOsKnJyHBcGjhq9GUTZRjso8u7MumreG5fIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dRxgYJ7HVYao8X0sxFzBV32KArY4S21wWyfMtxPgw7HSjH8/6P1y3kw+XDkEOWP8a72Zc9eXYR7KvXA6zbv9Y9EpoFgi//3FfH+rstbjoyLJmRnKvi/wMsYKrrdZW+nzSPmOOQrxZnCsgPKIVB6Oe8Y5G6kWXX+OKcdSVUGitaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=SRp/7sLI; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="0UUxyETC";
-	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="Qwxgie70"
-Received: from pps.filterd (m0134424.ppops.net [127.0.0.1])
-	by mx0b-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 695L25qH3423629;
-	Mon, 5 Oct 2026 23:35:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=jnprhpepp0429;
-	 bh=ETSMSqnPmIL152q5IMgnx6Ra3EN5nC+EEXGpiRWnfIo=; b=0UUxyETCRfU3
-	2lVhSkAUGYTRLzXOJK+U9lHKmR2y7220JB8yK55Ln1gvaGJgwcdQ+H1LH8CYVa9m
-	0RAScZH3y9pcvFFmuzIGrFbv1p/0bCXAxbfke+aXCPQ4ViOFnkVS9XtmUQAnj802
-	isJoWoyIZ/DcT82HpuwbzpLqhgVER1dF3BHBaHM6UCIZUHDymIGK2TVCY4Ork5Jo
-	SSveqcWpDFmVS2qpO0DJvOpNsxfLE0GSuQ1UuyRodNjWHSPvaGEQpZG9MbEod6Wn
-	LQPjdBN8O2EqG0lECh/cpILKFlb+rcTqFFmzWrv0CatGwetbZrIEFBTGRv7DFQIl
-	CjmToRWpfg==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010044.outbound.protection.outlook.com [52.101.56.44])
-	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 4h4jtdapgn-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 05 Oct 2026 23:35:31 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y2DaPCO5faN3pP2ZAAGbvDfN1qROOYWuMPtmUl/KL3MmZKlfZcXBx8hhujNsdQbmSorH32yBjRdZnxF3QZ2pMiKdwOqJ8GH/31c7q8HpLXrzQTe481MS1K9qflf/ShYwfrHbceXa8T+H3hkOA+2WNDCJZ+9nMgdqNlFo2Vn9J5DpIKhD904nFBionl2TaOuKHDexJULGznQk/9R7MLqW2eYndjZrCZK6VdpSptMq0DLkA5oE/6TugWDTn0T4Bjrm9CblneD/R0BKZ+Qtet80eAHZ3mY4mOMhGTXy2z+Ez3FbiBXIYwiKmunWsrWcoOI9d98Zo4Q8fITAwztV8o0Luw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=ETSMSqnPmIL152q5IMgnx6Ra3EN5nC+EEXGpiRWnfIo=;
- b=HhuXYbZdV57evi52JbNGqcGpiKpStmPpGwpfD0EfF/M/Zehbvp8uoS+xBn3Gq6hTW7TX3DA6t1FiWHC0364yb0wK9EVIBdoEkDu8mZ7Tb4S9m727fwo6kbJRlqyxTrtJxTZFoX17xGw+0qm0LjS1YTXB1nM9tRF8vxOQwTfAbkRAorxC4QjbeRwr8P/DRukcHmxCFSIKRmCPD+fNLLQp4K6WtzkpnwZ/gu9vx/PIiriL6jn6QyWgY+fZQFpBoqePJ/nVPpdwZ6IxaJm1LB6pkXxGzgJ+SQZaYBHCVq0ukorjNsKZ9kzTzWlfQCcQpTjiLqkqCNhyqRbDpK7V2XYxdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none (sender ip is
- 66.129.239.19) smtp.rcpttodomain=debian.org
- smtp.mailfrom=ebf951f79306.juniper.net; dmarc=fail (p=reject sp=reject
- pct=100) action=oreject header.from=juniper.net; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ETSMSqnPmIL152q5IMgnx6Ra3EN5nC+EEXGpiRWnfIo=;
- b=Qwxgie70uSR9asZCjkEM21SExN6va0jcCiMppX/srhB21s27WevWblucCsoL7Hhb4mnM8aipNdh3u1R/Iex+Em0w1us6Pi1stxkSLdTsEFM2dJWOTNRiXRDSy5sGIZRLS+rRAT/dszvJCPWSY+kMECRC7hXtHVAY+X6eK46Z7iTiXPUaKYNQTdxEKGVzkxiqMa0Ho4xlcvW2cVPDzu3/1HCX2I4eZCgI5gusYqbtAF+2mMlKzY5KAqFS4MPrpvsoNXDkmL9QY5Ghlc1gllh3G4vXb/WjgeiVx+5fptsYAhDio1+3/3L07tPUbt1u2ittUrexurfZWzrZX95IikecBg==
-Received: from SJ0PR03CA0025.namprd03.prod.outlook.com (2603:10b6:a03:33a::30)
- by BY1PR05MB10798.namprd05.prod.outlook.com (2603:10b6:a03:5a5::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
- 2026 23:35:27 +0000
-Received: from SJ1PEPF00002315.namprd03.prod.outlook.com
- (2603:10b6:a03:33a:cafe::47) by SJ0PR03CA0025.outlook.office365.com
- (2603:10b6:a03:33a::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20 via Frontend Transport; Mon, 5
- Oct 2026 23:35:27 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=none (sender IP
- is 66.129.239.19) smtp.mailfrom=ebf951f79306.juniper.net; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject header.from=juniper.net;
-Received-SPF: None (protection.outlook.com: ebf951f79306.juniper.net does not
- designate permitted sender hosts)
-Received: from juniper.net (66.129.239.19) by
- SJ1PEPF00002315.mail.protection.outlook.com (10.167.242.169) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.496.14 via Frontend Transport; Mon, 5 Oct 2026 23:35:27 +0000
-Received: from p-exchbe-eqx-04.jnpr.net (10.104.9.87) by
- p-exchfe-eqx-04.jnpr.net (10.104.9.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 5 Oct 2026 16:35:27 -0700
-Received: from p-exchbe-eqx-04.jnpr.net (10.104.9.87) by
- p-exchbe-eqx-04.jnpr.net (10.104.9.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 5 Oct 2026 16:35:26 -0700
-Received: from ebf951f79306.juniper.net (10.104.20.6) by
- p-exchbe-eqx-04.jnpr.net (10.104.9.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 5 Oct 2026 16:35:26 -0700
-Received: by ebf951f79306.juniper.net (Postfix, from userid 14867)
-	id 55E85152679C; Mon,  5 Oct 2026 16:35:26 -0700 (PDT)
-From: Prashant Singh <singhpra@juniper.net>
-To: MaeeFilho FL <joaoanandalima@gmail.com>
-CC: Prashant Singh <singhpra@juniper.net>, Ard Biesheuvel <ardb@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Jeremy Kerr
-	<jk@ozlabs.org>, Clark Williams <clrkwllms@kernel.org>,
-        Steven Rostedt
-	<rostedt@goodmis.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan
-	<skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Luis
- Claudio R. Goncalves" <lgoncalv@redhat.com>,
-        Steve McIntyre
-	<93sam@debian.org>, <linux-efi@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH v4] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-Date: Mon, 5 Oct 2026 16:35:24 -0700
-Message-ID: <20261005233524.3022-1-singhpra@juniper.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <CAFA5sMdHPz-H1EOw3y4RFjHMO9_ZmyV45SwvqF7wh8E4spKujg@mail.gmail.com>
-References: <CAFA5sMdHPz-H1EOw3y4RFjHMO9_ZmyV45SwvqF7wh8E4spKujg@mail.gmail.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="SRp/7sLI"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 794FE40E0484;
+	Mon,  5 Oct 2026 23:51:14 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id wX6bKpY2eaV0; Mon,  5 Oct 2026 23:51:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1791244261; bh=6PtKXNlR6RF9r3le5yynzMgHattv6up6/3C+nJHtcGI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SRp/7sLI8GaZGoZVNVd1vlXJrPzeDx0CkTPy7r0Gq77y3UihSaNHx8PitxImifOQD
+	 ug8oUTjf4kGcpza+BnrQGp6H+AgYoyKTfNC6AyOl8+EY9264p7A1TxPFQEb+O7Si98
+	 LotngJYcA/dXQDrurvAsa3VxdGYnObcAXfWHE2h5K9x6e5tub0hXg0fsJ2WJdsAeYh
+	 fawFOrBppxbwcXiOVJjwVkLOMTihK3JtT/TbrpzSOAghEoMnXXZVnkNYn41lwbAnXw
+	 Umou11OrzUOze5AuVzNg2n5/lhyejvsKA30vbmKsT/5/x06WyAelKBZ3LY3te2sX14
+	 9hBGmIJgk5J0BF5P72yCn9cNM39Q9O4OsDMWAwJFtCbCsMvDIwj5j9/lqKvd7/OeNG
+	 LF2naBDAmPtoWQmJNzs6+pSNsry0An/kJ/HA6TuXLAPcx46Jdhobx4FkBLdU8U1RCy
+	 X4FDJ2uAeaDhzwCfbX/i/WglN1I+ZFwSV1wxS9xIKK73vyXGhIX15YAJnrG2SBJyHt
+	 iRmNCvCifBPwZmau3yYY+oRncKdSV4Msdk81w/rWKhmHzvcMSK8zyrM96YPoNaCmuz
+	 Iuo9JEcISmu2flxcHeg2GOBeVHDJQVlX6VvYLEVeZjqEkS8W1O52fevSe/puNWUZuK
+	 EK6NX5poChwaYitYTPyrPBR4=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DCDFC40E03BE;
+	Mon,  5 Oct 2026 23:50:24 +0000 (UTC)
+Date: Mon, 5 Oct 2026 16:50:21 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: shijujose2008@gmail.com
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	ashok.raj@oss.qualcomm.com, jic23@kernel.org, linuxarm@huawei.com,
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	gthelen@google.com, wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com
+Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Message-ID: <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-2-shijujose2008@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002315:EE_|BY1PR05MB10798:EE_
-X-MS-Office365-Filtering-Correlation-Id: b472414d-a658-4200-2ff4-08df233955f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|35950700016|1800799024|7416014|376014|6133799003|18002099003|10067099003|22082099003|3023799007|13003099007|56012099006|5023799004|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	Ir9B8AMiybpkkr4qfYHgbtxatBxJwVHT42Ni+LKqvj2XOFkhjHkvKRgctdKk9k9U7v7JsxKYF/Ia5odwp9BBbbYPcPeW6sYNP+5+C6qdyLkgXEYIqkWhoijUtW6WErFpqy8ramZJ6T5Sy7ZJ2RBdJwA1WuAt2tZA1sJ7nwKWYibrMcG0yT9D5OdXuZyunO4K5XASjr/qBD3M/AgAuQdib6RdGsbHgWEVPSXOgJZo6Z34UwGRzy6vknCYwIwUIuv5B2J5kiqLDG6GfKgh+qIsWlFP3chSZgrlYyua/BI+UkS1ndsSZ383AJO6pL5psUM4a3uRcbp9MB31c6c7mZ9C7cICohUDS5/M/4MdDylHIIQChuG3zXEB7yY05faC7qTYaM0L8QGP8M4Sae700lH2ZcFZdX3kJAAIqqvS0i+wCBwZZvogC2P8CklWgywXMVgyN6Yc49cLX9GMal7RTjNksa+EAcZdHs0qWD1xFidI2ltVzsSgsYgd64kVBEGDffSll50OhrnjacT2Zu40hntdM9E1YZ+Us4cwxu6/RaJmMUq8kvF20cbRCWom4PUAx13Ik1IvuYVUBC/nyO7sNGTnqrqH8TLu5ZHjUDDGY+TRart/a+dzRcRlBpEOXv0V9nDbe/sDraiw6OShJaBynzZbYDmIxL29/4jh5M/QiDiZW3BkDPQcv0LcoAtz4g7WsK8MR8eYFmCjPHPY3wuEEb7hZw==
-X-Forefront-Antispam-Report:
-	CIP:66.129.239.19;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:juniper.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(35950700016)(1800799024)(7416014)(376014)(6133799003)(18002099003)(10067099003)(22082099003)(3023799007)(13003099007)(56012099006)(5023799004)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	X3J2+LwLo/VT9+KndujxgYf9hxHdumdQ+PCziInNc8FZvwXxGOV4zRqdcDmO1OIIbLGoPnrObAy5IhLTgcpnggSAVywscFzwldoE2GfdOe2/ee+qN12N7iO/fL/3ms6zO7GAOrQdf0O3XUgyEjT+kfOBfB/stwX/krhipmivV45EFAqmuVmH9I0dkVTb1cTs6QeTXCz8OzEcz5aBTSRMo+lu5ZZBwVYHVooE1fu6TSv9HlYjGl50CkDQtSBvH/kUYuPSLfrIhpiByDYAor+9jWfb14IZjQZuZNns8AQ9ExFGUpAGDiQSnqMSiETS027UCd1JvHHYPAMQS7L4ruBstNIGzrrby7h8ksF7tGeQcLPooafSklU0TBlzjaxfgobEtixNKvvDvOKqmTugxKFQu9P+vEdgNHkh+6Zirn8CXAZM6uEw0nNxJ9qUp3kXkJPi
-X-Exchange-RoutingPolicyChecked:
-	zcfKloEUC8ouZ+EaCGl8qx5hMJuFgnAHAN1y0eUhdpRFYZkFcqqmgExT7rFp+S1EVJ27Zh36DmMmMTQletOCMPr62ymZQA9EIC3/EHxEB8TfW1UFTGdqMyOfk/QTDzZQMC1dfdJ5IE+fFXIoFhxPu9pxRoDXjxtWSUpEOhu0HiSXCKONbyTXWG6p7yIvzcILNtpmFAeu0oBAOp67nZIE91FZca92u9oE1PuRcCR8Ixmw1kKUapba+5u1xpR52iZMd/F9OESO2OYppc3wZZuuCQlP2SO8Kf+v9IZ8568zfCFC/mgfuPEE+AttyJ4eiQvRCDUVX6Zgk33qB9Cwb7Y+rg==
-X-OriginatorOrg: juniper.net
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 23:35:27.2117
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b472414d-a658-4200-2ff4-08df233955f7
-X-MS-Exchange-CrossTenant-Id: bea78b3c-4cdb-4130-854a-1d193232e5f4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bea78b3c-4cdb-4130-854a-1d193232e5f4;Ip=[66.129.239.19];Helo=[juniper.net]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002315.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR05MB10798
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA1MDA5MiBTYWx0ZWRfX389n7EPGJjz1
- 754ALCOdMcKFG8A6epfY8bkABbRsp7EsU/4EEh6fxdwUEKXZFClIIeMvB27yK7eRqNT2CmVEWMX
- a0vrvahC2JxxGRkeMv9iBstQKwbfS+c=
-X-Proofpoint-GUID: XgbfJ1Fm8E7XxjlCSPtLout-OwxBw02Z
-X-Authority-Analysis: v=2.4 cv=AM6lcTYI c=1 sm=1 tr=0 ts=6ac43443 cx=c_pps
- a=wV2zXAf6sYQQ4uINbIt3+g==:117 a=SKdRtqzh2DBFgDMvUaaGnA==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10
- a=f7IdgyKtn90A:10 a=rhJc5-LppCAA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gQcMVamqm3wCPoSYhaRC:22 a=3haJ9R1Aw3gUfsUHDaCR:22 a=VwQbUJbxAAAA:8
- a=OUXY8nFuAAAA:8 a=LsB0FKVtz1UnEB54oekA:9 a=cAcMbU7R10T-QSRYIcO_:22
-X-Proofpoint-ORIG-GUID: XgbfJ1Fm8E7XxjlCSPtLout-OwxBw02Z
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA1MDA5MiBTYWx0ZWRfXxH3vYPhvkdej
- 78nOUvW3qXrIeSWK2zFjBqx+QL1no2L1WQ768XKcvfvld5oOryqy1kT6XFqnJ6OWGUduIVY3uup
- yv8Vj4QIbhH7QQ/bp1EGMXWL6olERf+LDfQwet+Cq4Ul1HTfLdLYihVj84f+xOrDOa9NSo8oEtZ
- v3EzdRaHS7SV2tzsMQxKcxXUKG3Bedqzz7J1bnj9mBXE8hJ/0ubxi9L9VKkDk8G5O8nSmeHmLvY
- GyYJ8Ni8StbtvFYO4Tmp4B4lOYHprJ/2CnNBTsxAoMgvlygiD8AbGsFEl52i50y/2OqiWqI9OH3
- D9nI8OobtZdO3jQ889IDmtV47Is5V2b5Shdjqd/lcsWFmLnOVHIPH0nWZqToytpipi4dA6gpupx
- VV4OxveL92WKPi0wRZSoYd+G7zd8Nmnb6cN74AL4nd+9Lzei2U71QsiJ1gRPQTPYz+qR20tWR0A
- /ybx+IqNZCMx8TmDbyg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-05_05,2026-10-05_01,2025-10-01_01
-X-Proofpoint-Spam-Reason: orgsafe
-X-Proofpoint-Spam-Details: rule=outbound_safe policy=outbound score=0
- priorityscore=1501 suspectscore=0 adultscore=0 impostorscore=0 bulkscore=0
- clxscore=1015 lowpriorityscore=0 malwarescore=0 spamscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=orgsafe scancount=1 engine=8.22.0-2609040000
- definitions=main-2610050092
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260726212812.89266-2-shijujose2008@gmail.com>
 
-On Sun, Oct 04, 2026 at 11:43:25AM -0300, MaeeFilho FL wrote:
-> For the final v5 patch spin, keeping the commit log focused on the
-> preemption-disabled context and dropping the verbose raw strace outputs
-> as suggested makes the patch documentation extremely tight and industrial
-> grade.
+On Sun, Jul 26, 2026 at 10:28:11PM +0100, shijujose2008@gmail.com wrote:
+> From: Shiju Jose <shijujose2008@gmail.com>
+> 
+> ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS2).
+> Driver adds support for RAS2 feature table, which provides interfaces for
+> platform RAS features, e.g., for HW-based memory scrubbing, and logical to
+> PA translation service. RAS2 uses PCC channel subspace for communicating
+> with the ACPI compliant HW platform.
+> 
+> Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
+> Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
+> Co-developed-by: Jonathan Cameron <jic23@kernel.org>
+> Signed-off-by: Jonathan Cameron <jic23@kernel.org>
+> Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+> Reviewed-by: Ashok Raj <ashok.raj@oss.qualcomm.com>
+> Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
+> ---
+>  drivers/acpi/Kconfig  |  11 +
+>  drivers/acpi/Makefile |   1 +
+>  drivers/acpi/bus.c    |   3 +
+>  drivers/acpi/ras2.c   | 509 ++++++++++++++++++++++++++++++++++++++++++
+>  include/acpi/ras2.h   |  57 +++++
+>  5 files changed, 581 insertions(+)
+>  create mode 100644 drivers/acpi/ras2.c
+>  create mode 100644 include/acpi/ras2.h
 
-Thanks, Joao. Done in v5: the commit log now keeps only the
-preemption-disabled rationale and the raw strace dumps are gone.
+Ok, went through it one last time, I hope. Caught a bunch of things, see
+changelog. See below if it still does what it should.
 
-> No, let's keep it as you suggest.
+Thx.
 
-Done -- kept as-is in v5.
+---
+From: Shiju Jose <shijujose2008@gmail.com>
+Date: Sun, 26 Jul 2026 22:28:11 +0100
+Subject: [PATCH] ACPI:RAS2: Add a driver for the ACPI RAS2 feature table
 
-v5 is posted here:
-  https://lore.kernel.org/all/20261005232250.2620-1-singhpra@juniper.net/
+The ACPI 6.5 Specification, section 5.2.21, defines a RAS2 feature table
+(RAS2). Add a driver supporting that RAS2 feature table and which provides
+interfaces for platform RAS features, e.g., for HW-based memory scrubbing, and
+logical to PA translation service. RAS2 uses PCC channel subspace for
+communicating with the ACPI compliant HW platform.
 
-Thanks,
-Prashant
+  [ bp:
+   - Massage commit message
+   - in ras2_send_pcc_cmd():
+    - check check_pcc_chan() retval
+    - remove else assignment to rc = 0 after mbox_send_message() call
+   - Do proper error unwinding in register_pcc_channel()
+   - Do proper error unwinding for auxiliary_device_init() in
+     add_aux_device()
+   - Cleanup parse_ras2_table() some
+   - drop ras2_ prefix from all static functions
+   - unbreak long lines
+   - minor touchups ]
+
+Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
+Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
+Co-developed-by: Jonathan Cameron <jic23@kernel.org>
+Signed-off-by: Jonathan Cameron <jic23@kernel.org>
+Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Reviewed-by: Ashok Raj <ashok.raj@oss.qualcomm.com>
+Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+Link: https://patch.msgid.link/20260726212812.89266-2-shijujose2008@gmail.com
+---
+ drivers/acpi/Kconfig  |  10 +
+ drivers/acpi/Makefile |   1 +
+ drivers/acpi/bus.c    |   3 +
+ drivers/acpi/ras2.c   | 517 ++++++++++++++++++++++++++++++++++++++++++
+ include/acpi/ras2.h   |  57 +++++
+ 5 files changed, 588 insertions(+)
+ create mode 100644 drivers/acpi/ras2.c
+ create mode 100644 include/acpi/ras2.h
+
+diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+index f165d14cf61a..4be96f42d97c 100644
+--- a/drivers/acpi/Kconfig
++++ b/drivers/acpi/Kconfig
+@@ -294,6 +294,16 @@ config ACPI_CPPC_LIB
+ 	  If your platform does not support CPPC in firmware,
+ 	  leave this option disabled.
+ 
++config ACPI_RAS2
++	bool "ACPI RAS2 driver"
++	select AUXILIARY_BUS
++	depends on MAILBOX && PCC
++	help
++	  Add support for the RAS2 feature table and provide interfaces for
++	  platform RAS features, such as hardware-based memory scrubbing.
++
++	  If unsure, select N.
++
+ config ACPI_PROCESSOR
+ 	tristate "Processor"
+ 	depends on X86 || ARM64 || LOONGARCH || RISCV
+diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
+index d1b0affb844f..abfec6745724 100644
+--- a/drivers/acpi/Makefile
++++ b/drivers/acpi/Makefile
+@@ -105,6 +105,7 @@ obj-$(CONFIG_ACPI_EC_DEBUGFS)	+= ec_sys.o
+ obj-$(CONFIG_ACPI_BGRT)		+= bgrt.o
+ obj-$(CONFIG_ACPI_CPPC_LIB)	+= cppc_acpi.o
+ obj-$(CONFIG_ACPI_SPCR_TABLE)	+= spcr.o
++obj-$(CONFIG_ACPI_RAS2)		+= ras2.o
+ obj-$(CONFIG_ACPI_DEBUGGER_USER) += acpi_dbg.o
+ obj-$(CONFIG_ACPI_PPTT) 	+= pptt.o
+ obj-$(CONFIG_ACPI_PFRUT)	+= pfr_update.o pfr_telemetry.o
+diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+index 808c6746be14..2589f46c59f7 100644
+--- a/drivers/acpi/bus.c
++++ b/drivers/acpi/bus.c
+@@ -31,6 +31,7 @@
+ #include <acpi/apei.h>
+ #include <linux/suspend.h>
+ #include <linux/prmt.h>
++#include <acpi/ras2.h>
+ 
+ #include "internal.h"
+ 
+@@ -1504,6 +1505,8 @@ static int __init acpi_init(void)
+ 	acpi_debugger_init();
+ 	acpi_setup_sb_notify_handler();
+ 	acpi_viot_init();
++	acpi_ras2_init();
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/acpi/ras2.c b/drivers/acpi/ras2.c
+new file mode 100644
+index 000000000000..24514e2b99e9
+--- /dev/null
++++ b/drivers/acpi/ras2.c
+@@ -0,0 +1,517 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * ACPI RAS2 feature table driver.
++ *
++ * Copyright (c) 2024-2026 HiSilicon Limited.
++ *
++ * Support for RAS2 table - ACPI 6.5 Specification, section 5.2.21, which
++ * provides interfaces for platform RAS features, e.g., for HW-based memory
++ * scrubbing, and logical to physical address translation service. RAS2 uses
++ * PCC channel subspace for communicating with the ACPI compliant HW platform.
++ */
++
++#undef pr_fmt
++#define pr_fmt(fmt) "ACPI RAS2: " fmt
++
++#include <linux/delay.h>
++#include <linux/export.h>
++#include <linux/iopoll.h>
++#include <linux/ktime.h>
++#include <acpi/pcc.h>
++#include <acpi/ras2.h>
++
++/**
++ * struct ras2_sspcc - Data structure for PCC communication
++ * @mbox_client:	struct mbox_client object
++ * @pcc_chan:		Pointer to struct pcc_mbox_chan
++ * @comm_addr:		Pointer to RAS2 PCC shared memory region
++ * @elem:		List for registered RAS2 PCC channel subspaces
++ * @pcc_lock:		PCC lock to provide mutually exclusive access
++ *			to PCC channel subspace
++ * @deadline_us:	Poll PCC status register timeout in microsecs
++ *			for PCC command completion
++ * @pcc_mpar:		Maximum Periodic Access Rate (MPAR) for PCC channel
++ * @pcc_mrtt:		Minimum Request Turnaround Time (MRTT) in microsecs
++ *			OS must wait after completion of a PCC command before
++ *			issuing next command
++ * @last_cmd_cmpl_time: Completion time of last PCC command
++ * @last_mpar_reset:	Time of last MPAR count reset
++ * @mpar_count:		MPAR count
++ * @pcc_id:		Identifier of the RAS2 platform communication channel
++ * @last_cmd:		Last PCC command
++ * @kref:		kref object
++ */
++struct ras2_sspcc {
++	struct mbox_client		mbox_client;
++	struct pcc_mbox_chan		*pcc_chan;
++	struct acpi_ras2_shmem __iomem	*comm_addr;
++	struct list_head		elem;
++	struct mutex			pcc_lock;
++	u64				deadline_us;
++	unsigned int			pcc_mpar;
++	unsigned int			pcc_mrtt;
++	ktime_t				last_cmd_cmpl_time;
++	ktime_t				last_mpar_reset;
++	unsigned int			mpar_count;
++	int				pcc_id;
++	u16				last_cmd;
++	struct kref			kref;
++};
++
++/*
++ * Arbitrary retries for PCC commands because the remote processor could be
++ * much slower to reply. Keep it high enough to cover emulators where the
++ * processors run painfully slow.
++ */
++#define PCC_NUM_RETRIES 600ULL
++#define PCC_CHNL_DEFAULT_LATENCY 1000
++#define PCC_MIN_POLL_USECS 3
++
++#define RAS2_MAX_NUM_PCC_DESCS 100
++#define RAS2_FEAT_TYPE_MEMORY 0x00
++
++/* RAS2 PCC subspaces list and guard */
++static DEFINE_MUTEX(sspcc_lst_lock);
++static LIST_HEAD(sspcc_lst);
++
++static int check_pcc_chan(struct ras2_sspcc *sspcc)
++{
++	struct acpi_ras2_shmem __iomem *gen_comm_base = sspcc->comm_addr;
++	u32 cap_status;
++	u16 status;
++	int rc;
++
++	/*
++	 * As per ACPI spec, the PCC space will be initialized by the
++	 * platform and should have set the command completion bit when
++	 * PCC can be used by OSPM.
++	 *
++	 * Poll PCC status register every PCC_MIN_POLL_USECS for maximum of
++	 * PCC_NUM_RETRIES * PCC channel latency until PCC command complete
++	 * bit is set.
++	 */
++	rc = readw_relaxed_poll_timeout(&gen_comm_base->status, status,
++					status & PCC_STATUS_CMD_COMPLETE,
++					PCC_MIN_POLL_USECS, sspcc->deadline_us);
++	if (rc) {
++		pr_warn("PCC ID: 0x%x: PCC check channel timeout for last command: 0x%x rc=%d\n",
++			sspcc->pcc_id, sspcc->last_cmd, rc);
++
++		return rc;
++	}
++
++	if (status & PCC_STATUS_ERROR) {
++		pr_warn("PCC ID: 0x%x: Error in executing last command: 0x%x\n",
++			sspcc->pcc_id, sspcc->last_cmd);
++		status &= ~PCC_STATUS_ERROR;
++		iowrite16(status, &gen_comm_base->status);
++		iowrite32(0x0, &gen_comm_base->set_caps_status);
++		return -EIO;
++	}
++
++	/* Ensure PCC status is up-to-date. */
++	rmb();
++	cap_status = ioread32(&gen_comm_base->set_caps_status);
++	switch (cap_status) {
++	case ACPI_RAS2_NOT_VALID:
++	case ACPI_RAS2_NOT_SUPPORTED:
++		rc = -EPERM;
++		break;
++	case ACPI_RAS2_BUSY:
++		rc = -EBUSY;
++		break;
++	case ACPI_RAS2_FAILED:
++	case ACPI_RAS2_ABORTED:
++	case ACPI_RAS2_INVALID_DATA:
++		rc = -EINVAL;
++		break;
++	default:
++		rc = 0;
++	}
++
++	iowrite32(0x0, &gen_comm_base->set_caps_status);
++
++	return rc;
++}
++
++/**
++ * ras2_send_pcc_cmd() - Send RAS2 command via PCC channel
++ * @ras2_ctx:	pointer to the RAS2 context structure
++ * @cmd:	RAS2 command to send
++ *
++ * Returns: 0 on success, an error otherwise
++ */
++int ras2_send_pcc_cmd(struct ras2_mem_ctx *ras2_ctx, u16 cmd)
++{
++	struct acpi_ras2_shmem __iomem *gen_comm_base;
++	struct mbox_chan *pcc_channel;
++	struct ras2_sspcc *sspcc;
++	s64 time_delta;
++	u16 val;
++	int rc;
++
++	/* The ACPI 6.5 Specification supports only PCC_CMD_EXEC_RAS2. */
++	if (!ras2_ctx || cmd != PCC_CMD_EXEC_RAS2) {
++		pr_warn("%s: Invalid parameters ras2_ctx: %p command: 0x%x\n",
++			__func__, ras2_ctx, cmd);
++		return -EINVAL;
++	}
++
++	lockdep_assert_held(ras2_ctx->pcc_lock);
++	sspcc = ras2_ctx->sspcc;
++	gen_comm_base = sspcc->comm_addr;
++
++	rc = check_pcc_chan(sspcc);
++	if (rc < 0)
++		return rc;
++
++	pcc_channel = sspcc->pcc_chan->mchan;
++
++	/*
++	 * Handle the Minimum Request Turnaround Time (MRTT): the minimum
++	 * amount of time that OSPM must wait after the completion of
++	 * a command before issuing the next command, in microseconds.
++	 */
++	if (sspcc->pcc_mrtt) {
++		time_delta = ktime_us_delta(ktime_get(), sspcc->last_cmd_cmpl_time);
++		if (sspcc->pcc_mrtt > time_delta)
++			fsleep(sspcc->pcc_mrtt - time_delta);
++	}
++
++	/*
++	 * Handle the non-zero Maximum Periodic Access Rate (MPAR): the
++	 * maximum number of periodic requests that the subspace channel can
++	 * support, reported in commands per minute. 0 indicates no
++	 * limitation.
++	 *
++	 * This parameter should be ideally zero or large enough so that it
++	 * can handle maximum number of requests that all the cores in the
++	 * system can collectively generate. If it is not, follow the spec and
++	 * just not send the request to the platform after hitting the MPAR
++	 * limit in any 60s window.
++	 */
++	if (sspcc->pcc_mpar) {
++		if (!sspcc->mpar_count) {
++			time_delta = ktime_ms_delta(ktime_get(), sspcc->last_mpar_reset);
++			if ((time_delta < 60 * MSEC_PER_SEC) && sspcc->last_mpar_reset) {
++				dev_dbg(ras2_ctx->dev,
++					"PCC command 0x%x not sent due to MPAR limit", cmd);
++				return -EIO;
++			}
++			sspcc->last_mpar_reset = ktime_get();
++			sspcc->mpar_count = sspcc->pcc_mpar;
++		}
++		sspcc->mpar_count--;
++	}
++
++	/* Write to the shared comm region */
++	iowrite16(cmd, &gen_comm_base->command);
++
++	/* Flip CMD COMPLETE bit */
++	iowrite16(0, &gen_comm_base->status);
++
++	/* Ring doorbell */
++	rc = mbox_send_message(pcc_channel, &cmd);
++	/*
++	 * mbox_send_message() returns a non-negative integer for successful submission
++	 * and a negative value on failure.
++	 */
++	if (rc < 0) {
++		dev_warn(ras2_ctx->dev,
++			 "Error sending PCC mbox message command: 0x%x, rc:%d\n", cmd, rc);
++		/* Restore CMD COMPLETE bit on error */
++		val = ioread16(&gen_comm_base->status);
++		val |= PCC_STATUS_CMD_COMPLETE;
++		iowrite16(val, &gen_comm_base->status);
++		return rc;
++	}
++
++	sspcc->last_cmd = cmd;
++
++	/* Wait for completion and check for PCC error bit */
++	rc = check_pcc_chan(sspcc);
++	if (rc < 0)
++		return rc;
++
++	/*
++	 * If Minimum Request Turnaround Time is non-zero, need to record the
++	 * completion time of both READ and WRITE commands for proper handling
++	 * of MRTT, so need to check for pcc_mrtt.
++	 */
++	if (sspcc->pcc_mrtt)
++		sspcc->last_cmd_cmpl_time = ktime_get();
++
++	if (!pcc_channel->mbox->txdone_irq)
++		mbox_client_txdone(pcc_channel, rc);
++
++	return rc;
++}
++EXPORT_SYMBOL_FOR_MODULES(ras2_send_pcc_cmd, "acpi_ras2");
++
++static void sspcc_list_release(struct kref *kref)
++{
++	struct ras2_sspcc *sspcc = container_of(kref, struct ras2_sspcc, kref);
++
++	guard(mutex)(&sspcc_lst_lock);
++	list_del(&sspcc->elem);
++	pcc_mbox_free_channel(sspcc->pcc_chan);
++	kfree(sspcc);
++}
++
++static void sspcc_put(struct ras2_sspcc *sspcc)
++{
++	kref_put(&sspcc->kref, &sspcc_list_release);
++}
++
++static struct ras2_sspcc *sspcc_get(int pcc_id)
++{
++	struct ras2_sspcc *sspcc;
++
++	guard(mutex)(&sspcc_lst_lock);
++	list_for_each_entry(sspcc, &sspcc_lst, elem) {
++		if (sspcc->pcc_id != pcc_id)
++			continue;
++
++		if (!kref_get_unless_zero(&sspcc->kref))
++			break;
++
++		return sspcc;
++	}
++
++	return NULL;
++}
++
++static int register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int pcc_id)
++{
++	struct pcc_mbox_chan *pcc_chan;
++	struct ras2_sspcc *sspcc;
++	int ret;
++
++	if (pcc_id < 0)
++		return -EINVAL;
++
++	sspcc = sspcc_get(pcc_id);
++	if (sspcc) {
++		ras2_ctx->sspcc	    = sspcc;
++		ras2_ctx->comm_addr = sspcc->comm_addr;
++		ras2_ctx->dev	    = sspcc->pcc_chan->mchan->mbox->dev;
++		ras2_ctx->pcc_lock  = &sspcc->pcc_lock;
++
++		return 0;
++	}
++
++	sspcc = kzalloc(sizeof(*sspcc), GFP_KERNEL);
++	if (!sspcc)
++		return -ENOMEM;
++
++	pcc_chan = pcc_mbox_request_channel(&sspcc->mbox_client, pcc_id);
++	if (IS_ERR(pcc_chan)) {
++		ret = PTR_ERR(pcc_chan);
++		goto ret_err_mbox;
++	}
++
++	if (!pcc_chan->shmem || pcc_chan->shmem_size < sizeof(struct acpi_ras2_shmem)) {
++		ret = -EINVAL;
++		goto ret_err_shmem;
++	}
++
++	sspcc->pcc_id		= pcc_id;
++	sspcc->pcc_chan		= pcc_chan;
++	sspcc->comm_addr	= pcc_chan->shmem;
++
++	if (pcc_chan->latency)
++		sspcc->deadline_us = PCC_NUM_RETRIES * pcc_chan->latency;
++	else
++		sspcc->deadline_us = PCC_NUM_RETRIES * PCC_CHNL_DEFAULT_LATENCY;
++
++	sspcc->pcc_mrtt		= pcc_chan->min_turnaround_time;
++	sspcc->pcc_mpar		= pcc_chan->max_access_rate;
++
++	sspcc->mbox_client.knows_txdone	= true;
++
++	mutex_init(&sspcc->pcc_lock);
++	kref_init(&sspcc->kref);
++
++	mutex_lock(&sspcc_lst_lock);
++	list_add(&sspcc->elem, &sspcc_lst);
++	mutex_unlock(&sspcc_lst_lock);
++
++	ras2_ctx->sspcc		= sspcc;
++	ras2_ctx->comm_addr	= sspcc->comm_addr;
++	ras2_ctx->dev		= pcc_chan->mchan->mbox->dev;
++	ras2_ctx->pcc_lock	= &sspcc->pcc_lock;
++
++	return 0;
++
++ret_err_shmem:
++	pcc_mbox_free_channel(pcc_chan);
++
++ret_err_mbox:
++	kfree(sspcc);
++
++	return ret;
++}
++
++static DEFINE_IDA(ida);
++static void release(struct device *device)
++{
++	struct auxiliary_device *auxdev = to_auxiliary_dev(device);
++	struct ras2_mem_ctx *ras2_ctx = container_of(auxdev, struct ras2_mem_ctx, adev);
++
++	ida_free(&ida, auxdev->id);
++	sspcc_put(ras2_ctx->sspcc);
++	kfree(ras2_ctx);
++}
++
++static struct ras2_mem_ctx *add_aux_device(char *name, int channel, u32 pxm_inst)
++{
++	struct ras2_mem_ctx *ras2_ctx;
++	u32 comp_nid;
++	int id, rc;
++
++	comp_nid = pxm_to_node(pxm_inst);
++	if (comp_nid == NUMA_NO_NODE) {
++		pr_debug("Invalid NUMA node, channel=%d pxm_inst=%d\n", channel, pxm_inst);
++		return ERR_PTR(-ENXIO);
++	}
++
++	ras2_ctx = kzalloc(sizeof(*ras2_ctx), GFP_KERNEL);
++	if (!ras2_ctx)
++		return ERR_PTR(-ENOMEM);
++
++	ras2_ctx->sys_comp_nid = comp_nid;
++
++	rc = register_pcc_channel(ras2_ctx, channel);
++	if (rc < 0) {
++		pr_debug("Failed to register PCC channel=%d pxm_inst=%d rc=%d\n", channel,
++			 pxm_inst, rc);
++		goto ctx_free;
++	}
++
++	id = ida_alloc(&ida, GFP_KERNEL);
++	if (id < 0) {
++		rc = id;
++		goto pcc_free;
++	}
++
++	ras2_ctx->adev.id		= id;
++	ras2_ctx->adev.name		= name;
++	ras2_ctx->adev.dev.release	= release;
++	ras2_ctx->adev.dev.parent	= ras2_ctx->dev;
++
++	rc = auxiliary_device_init(&ras2_ctx->adev);
++	if (rc)
++		goto ida_free;
++
++	rc = auxiliary_device_add(&ras2_ctx->adev);
++	if (rc)
++		goto aux_free;
++
++	return ras2_ctx;
++
++aux_free:
++	auxiliary_device_uninit(&ras2_ctx->adev);
++ida_free:
++	ida_free(&ida, id);
++pcc_free:
++	sspcc_put(ras2_ctx->sspcc);
++ctx_free:
++	kfree(ras2_ctx);
++
++	return ERR_PTR(rc);
++}
++
++static void remove_aux_device(struct ras2_mem_ctx *ras2_ctx)
++{
++	if (!ras2_ctx)
++		return;
++
++	auxiliary_device_delete(&ras2_ctx->adev);
++	auxiliary_device_uninit(&ras2_ctx->adev);
++}
++
++static int parse_ras2_table(struct acpi_table_ras2 *ras2_tab)
++{
++	const size_t ras2_tbl_sz = sizeof(struct acpi_table_ras2);
++	struct acpi_ras2_pcc_desc *pcc_desc_list;
++	struct ras2_mem_ctx **pctx_list;
++	struct ras2_mem_ctx *ras2_ctx;
++	u16 tot_tbl_len;
++	u16 i;
++
++	if (ras2_tab->header.length < ras2_tbl_sz) {
++		pr_warn(FW_WARN "ACPI RAS2 table present but broken (too short, size=%u)\n",
++			ras2_tab->header.length);
++		return -EINVAL;
++	}
++
++	if (!ras2_tab->num_pcc_descs || ras2_tab->num_pcc_descs > RAS2_MAX_NUM_PCC_DESCS) {
++		pr_warn(FW_WARN "No/Invalid number of PCC descs(%d) in ACPI RAS2 table\n",
++			ras2_tab->num_pcc_descs);
++		return -EINVAL;
++	}
++
++	tot_tbl_len = ras2_tbl_sz + ras2_tab->num_pcc_descs * sizeof(*pcc_desc_list);
++	if (ras2_tab->header.length < tot_tbl_len) {
++		pr_warn(FW_WARN "RAS2 table is not large enough to contain PCC descs=%d size=%u)\n",
++			ras2_tab->num_pcc_descs, ras2_tab->header.length);
++		return -EINVAL;
++	}
++
++	pctx_list = kcalloc(ras2_tab->num_pcc_descs, sizeof(*pctx_list), GFP_KERNEL);
++	if (!pctx_list)
++		return -ENOMEM;
++
++	pcc_desc_list = (struct acpi_ras2_pcc_desc *)(ras2_tab + 1);
++	for (i = 0; i < ras2_tab->num_pcc_descs; i++, pcc_desc_list++) {
++		if (pcc_desc_list->feature_type != RAS2_FEAT_TYPE_MEMORY)
++			continue;
++
++		ras2_ctx = add_aux_device(RAS2_MEM_DEV_ID_NAME, pcc_desc_list->channel_id,
++					  pcc_desc_list->instance);
++		/* Invalid NUMA node, continue parsing next node */
++		if (PTR_ERR(ras2_ctx) == -ENXIO)
++			continue;
++
++		if (IS_ERR(ras2_ctx)) {
++			pr_warn("Failed to add RAS2 auxiliary device rc=%ld\n", PTR_ERR(ras2_ctx));
++			for (; i > 0; i--) {
++				if (pctx_list[i - 1])
++					remove_aux_device(pctx_list[i - 1]);
++			}
++			kfree(pctx_list);
++			return PTR_ERR(ras2_ctx);
++		}
++		pctx_list[i] = ras2_ctx;
++	}
++	kfree(pctx_list);
++
++	return 0;
++}
++
++/**
++ * acpi_ras2_init - RAS2 driver initialization function.
++ *
++ * Extracts the ACPI RAS2 table and retrieves ID for the PCC channel subspace
++ * for communicating with the ACPI compliant HW platform. Driver adds an
++ * auxiliary device, which binds to the memory ACPI RAS2 driver, for each RAS2
++ * memory feature.
++ *
++ * Returns: none.
++ */
++void __init acpi_ras2_init(void)
++{
++	struct acpi_table_ras2 *ras2_tab;
++	acpi_status status;
++
++	status = acpi_get_table(ACPI_SIG_RAS2, 0, (struct acpi_table_header **)&ras2_tab);
++	if (ACPI_FAILURE(status)) {
++		pr_debug("Failed to get table, %s\n", acpi_format_exception(status));
++		return;
++	}
++
++	if (parse_ras2_table(ras2_tab))
++		pr_debug("Failed to parse RAS2 table\n");
++
++	acpi_put_table((struct acpi_table_header *)ras2_tab);
++}
+diff --git a/include/acpi/ras2.h b/include/acpi/ras2.h
+new file mode 100644
+index 000000000000..f4574e8e0a12
+--- /dev/null
++++ b/include/acpi/ras2.h
+@@ -0,0 +1,57 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * ACPI RAS2 (RAS Feature Table) methods.
++ *
++ * Copyright (c) 2024-2026 HiSilicon Limited
++ */
++
++#ifndef _ACPI_RAS2_H
++#define _ACPI_RAS2_H
++
++#include <linux/acpi.h>
++#include <linux/auxiliary_bus.h>
++#include <linux/mailbox_client.h>
++#include <linux/mutex.h>
++#include <linux/types.h>
++
++struct device;
++
++/*
++ * ACPI spec 6.5 Table 5.82: PCC command codes used by
++ * RAS2 platform communication channel.
++ */
++#define PCC_CMD_EXEC_RAS2 0x01
++
++#define RAS2_AUX_DEV_NAME "ras2"
++#define RAS2_MEM_DEV_ID_NAME "acpi_ras2_mem"
++
++/**
++ * struct ras2_mem_ctx - Context for RAS2 memory features
++ * @adev:		Auxiliary device object
++ * @comm_addr:		Pointer to RAS2 PCC shared memory region
++ * @dev:		Pointer to device backing struct mbox_controller for PCC
++ * @sspcc:		Pointer to local data structure for PCC communication
++ * @pcc_lock:		Pointer to PCC lock to provide mutually exclusive access
++ *			to PCC channel subspace
++ * @sys_comp_nid:	Node ID of the system component that the RAS feature
++ *			is associated with. See ACPI spec 6.5 Table 5.80: RAS2
++ *			Platform Communication Channel Descriptor format,
++ *			Field: Instance
++ */
++struct ras2_mem_ctx {
++	struct auxiliary_device		adev;
++	struct acpi_ras2_shmem __iomem	*comm_addr;
++	struct device			*dev;
++	void				*sspcc;
++	struct mutex			*pcc_lock;
++	u32				sys_comp_nid;
++};
++
++#ifdef CONFIG_ACPI_RAS2
++void __init acpi_ras2_init(void);
++int ras2_send_pcc_cmd(struct ras2_mem_ctx *ras2_ctx, u16 cmd);
++#else
++static inline void acpi_ras2_init(void) { }
++#endif
++
++#endif /* _ACPI_RAS2_H */
+-- 
+2.53.0
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
