@@ -1,240 +1,204 @@
-Received: from mail-pj2-f0.google.com (mail-pj2-f0.google.com [74.125.227.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11020112.outbound.protection.outlook.com [52.101.85.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9955530ACEE
-	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 17:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.128
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791219725; cv=none; b=koMxiTZV/3Fn1hbOCUch6tU0wZHRy6LtEmgL7a/cwDdHULX0lATtji8a2s2AxJIxXIibMV4gd3v46+c6m7t9SNT6Bd8FZ9sTpQ853Jh/zYataS9/89Cvyhtw7GmzhZgT+5NqeK9qwIDD2Qc9Aids0tdOfoOkdgw/Pn2hm3CQNvc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791219725; c=relaxed/simple;
-	bh=p2r4gcb42xTsxaNA5xPh+LYVuA5ynBc9KIAfNKRT2l0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b3gfEm72I6hhVIOviSfC6EwPZRsOZ+wpzXT9kHD+3eEX87BLaN5dCoorYiMcw6VD6+UndD0CwBXFE/zfFgnnlX0UBnhOWCqjAmrAO0zSw6bocg/C/oQwpJM/nj8k/rBY7UtlQCf/9WzZkCFi1qMJCpmQhXBNDUNtIdTtbZVMFFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HD+Ye1YG; arc=none smtp.client-ip=74.125.227.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B72734E745;
+	Mon,  5 Oct 2026 17:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791219871; cv=fail; b=EQa4QDjYQ3nhuv40V/gQzaGaIfFiaRQlH6+Zt5+qkdHGWNpc7HdlZD09Jct2G2mdA8VttJvN+OC7IDJRA0LP6Py9vWfMrWd5f9aMrSQjnC+BaRq11TXbyhAxjBnvFZZzigonkfif9woAxikB3IuJccZ55sCNctNQWAV3+scVkTI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791219871; c=relaxed/simple;
+	bh=rA/my2MlkTmkcIQaE/p1EUxZ6jkvJH4zbOF11QIwWx0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=DUAz/Ai1i1f95QdjRF67g3DHuDY4OeyCMFG48s2NKQxDl1XHIkS28RNOmcd0Y+L3Cd9J+/R2/Dgz/+CcFh9LFq26/bfwZlwPquYKxOWYyREkYEG10sLgNnpoTyP830paL0Wx/8s1MVzR+LO7NEn0YibXUIm7xbU5h8UngRlaJ5A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com; spf=fail smtp.mailfrom=rambus.com; dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b=29piLxEb; arc=fail smtp.client-ip=52.101.85.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rambus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=rambus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HD+Ye1YG"
-Received: by mail-pj2-f0.google.com with SMTP id 98e67ed59e1d1-3a476ee8669so790183a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 10:02:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791219723; x=1791824523; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZsfW1R9N4QPstXuCZT7OiJ7xuKBOf1oZsvEYYuLcZDU=;
-        b=HD+Ye1YGzIXiImlWR3zGYVXshBf+UxHvyW7WDosAG2jHVh4LfYnJv7ANuRxbCqS9aO
-         2lMPunBqHs7dLxeOQAdlsEnuw7CR3QARePr80Pz8vQe7f9vMhXqZhN+tdAmYzIgsBP9x
-         Vo9rJAM4G03+ppu0QNv7DR62GA0fsExz8xWjyPR8M6vbrqyb5RDwagt5rcs+je8xB+86
-         qXPRC5HjoJAV59b/KiHMuvnEahkwc9gQNGWhRmr4Z3UmYyEUD6dh+S+mQ68kpn+OPUJI
-         wiDWT8B8fzc+5lRXwEJVCOW4DBKFTC4m6cUmX0Gz+4OIjb6d38elRh3kDMTZqCQrOAQt
-         FxKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791219723; x=1791824523;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ZsfW1R9N4QPstXuCZT7OiJ7xuKBOf1oZsvEYYuLcZDU=;
-        b=WbCAt2MXm/oRvIWeDjHPHT9kd6GV++4tMuQU1vT6/4Xlq6KAUHffLN18VdoEHWSAdE
-         dvvFY75+V1xfnWj8OZtesqbIi+Spvqfh6OdnQNm5TCsqH2v47on7R64LGd+cGbDuMGxP
-         ysdXavkbGpxCJDVgylj1q7ADvdw/5k5VSgmMBSrAkVNMq/htRab0Gyl7E2wsH66Npxbi
-         qiF5+wbfOX95WEfKHZv9463rvknf165EfXQopnK1HTRFkRocSOFaNmSRYDSeTQmRA07i
-         nAF+V8ljvurHvx/yipAI8nkCckMzPVDRBY4simyST7yoFTpjB94d+lnaDpJNrrnxVBUG
-         f/cA==
-X-Forwarded-Encrypted: i=1; AKwUvBwnoiVpY01XXzMMJKz2kPOGgT1gcGbhax4CrFRqgGHswwaju6N9k6t/c5d4yH2yzXNo+xsS4aQW2BI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKoGD8XOVGGjxN7Zu6noPvGunHgVc2exfTqEkeHPtTKBR2F3Col
-	t8udxKtvULf1tMoo98B8hyrLTbA4o8U6AuimYYfj2pfkRNDeVsqFnCjf
-X-Gm-Gg: AYBFou3397Z5f0tDlqOqEUy3uEdBPzyti8ebudAmFmtpXw52U1O0+nwwTqRcyGc7fFS
-	b2GJqlG/ireBQGgrY8P064a2BT6LA51+pOCdbdkII1DMxnKuGBLsQGsaPoi/x2wio+IFcng+Zkb
-	smSJK1StgzdmKpBVLfw8yvzPxUJxIaiaKgXlnUOyAG40upSnQRlwq/PhToVuJ3cE4r9V7LGiT9Q
-	VmrYRBBPGPtnjX1vM8JMhEU8h/+ystwfa4P2yUnYPf52E65oLBqM9zKrSOmKfKnbTF/QJS4Uwc1
-	lm/157s7dqoNwO2jS5D/V7S/DUwv2ZqESSs6c0tvazwgJNCVqjMv0bzfgUmZf+lYbZdQ8QVikr9
-	I4KJn6NvQcz2MHNjW914ThObXMci92Xk59V5+05VBkbav9sZiQNqNNYNLW4cFN76PQFJr+Q9Q16
-	Sve2K+M5fof9vKzKpz1bZYU4BnDFgFo7EZdrs7IyzVlZ4hW1GIMSBQQ9k2ZPTGR8k=
-X-Received: by 2002:a17:90b:57c6:b0:3a0:c276:1ec0 with SMTP id 98e67ed59e1d1-3a7872b6af0mr6425813a91.28.1791219722834;
-        Mon, 05 Oct 2026 10:02:02 -0700 (PDT)
-Received: from localhost ([2a03:2880:2ff:3::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a6dd0cd76bsm9240167a91.2.2026.10.05.10.02.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 10:02:02 -0700 (PDT)
-Date: Mon, 5 Oct 2026 10:01:57 -0700
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-To: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
-	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, bpf@vger.kernel.org, 
-	io-uring@vger.kernel.org, "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, 
-	Weiming Shi <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, 
-	David Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Mina Almasry <almasrymina@google.com>
-Subject: Re: [RFC net-next 06/15] xdp: Track non-page netmem in receive
- buffers
-Message-ID: <asPXa7k-_drxXiI0@devvm7509.cco0.facebook.com>
-References: <20261002190018.696925-1-bjorn@kernel.org>
- <20261002190018.696925-7-bjorn@kernel.org>
+	dkim=pass (2048-bit key) header.d=rambus.com header.i=@rambus.com header.b="29piLxEb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y4k30nW8vlysqOD+tegvpygvvVZ5ewiGyRDv0XqkUBT2O3tys5DRQWoCkHq/QRUtjfjbHItzQplYObMMMKmE7zOA1ni9txx4C9ChfAOQFxjTrxoToE2LsZVkm3rnObL3UAXtHzSj99KEfBcpeJkDF4Oy9JsfHnQyYxhlV5VfgPDWV6+9E9DFTzlwDtJPguaiA2kfe+I/MFEoBS+KKXAlc+kNPW7Ka44n8CaEVpnRFMCKmfC5iw+Gt4qs+g7HN27SwUjkOCbPaFapPLos5kl/Cu1Qu19kkD/SCL4Yw0wnSovM0mc6fZ78MNpeOurI0Sc7FGCVyRyvcjgDEjIs9hZDRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SfTWZmLKTZLaPNd0GyMSgq6m1WohaMbyoIjQM3jKHwA=;
+ b=rDtNNqPN+JfsTjJCgcZVnTLasj25nE42tteDbJ+WWlzhRvlGZez6/xZLkyUsZi+2rxZxDt08mvhxgCU6sXCB6fAIMtV3/rQ/ZfzhsEHLCm9Qn/Hvw6sKXhJohNHpjAQ1YC44eV3N72Hm04PaHiT5RABgDSJj4Z8Uk9r6EhXhtkszB5TdLr86g+J4i11kuAobJ0K7R4BuaaSxmCOYwiT+1GmJbegDDFAyR+eM56M/2Y6gnkdpz2n5qUIy4haGPlziRNCcFsNRLCaZ8uaeGudHJvC/vPcbteud5Kxc6T8lFz99vFWijnSOTEDYSZb5mqRpx/bBCJGLq7/XQCWQZMSpxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=rambus.com; dmarc=pass action=none header.from=rambus.com;
+ dkim=pass header.d=rambus.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rambus.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SfTWZmLKTZLaPNd0GyMSgq6m1WohaMbyoIjQM3jKHwA=;
+ b=29piLxEbZqwhYeNJcabVnsWz1yfUnV/irJiTJBYroCap+vpw9KOmKer0tEsf/5fIfXgTHceqgvEukkPhmhl9e2yDn8dTDiYQHglV17Vv2sODZbv4PQw6UF+2hQSHZaW9lWDunLi0e5mV1N40wIVnqcnEtsILetEiGxpp6uHczGbpbTJ8ZGAnfMqWRadTptZKHn9WgWj5tenya8qT52RrIJsDBb5bRxk8beln//Qa6gfE4pjm93mNbIE9dmEzpioxdMQOO1Zg3XYh5iu2LOC4ztT5qM4GXEG/tlNZlWJNaD4kqcV6Sm1ao3tuOnqlJUF32hHTLW6PehZSEOdDU+hOnA==
+Received: from SJ0PR04MB8406.namprd04.prod.outlook.com (2603:10b6:a03:3d3::14)
+ by BN0PR04MB8032.namprd04.prod.outlook.com (2603:10b6:408:15b::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
+ 2026 17:04:25 +0000
+Received: from SJ0PR04MB8406.namprd04.prod.outlook.com
+ ([fe80::cbad:dfcc:82:7dbf]) by SJ0PR04MB8406.namprd04.prod.outlook.com
+ ([fe80::cbad:dfcc:82:7dbf%6]) with mapi id 15.21.0472.016; Mon, 5 Oct 2026
+ 17:04:25 +0000
+From: "Ousherovitch, Alex" <aousherovitch@rambus.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Palmer Dabbelt
+	<palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, Rob Herring
+	<robh@kernel.org>, "Krishnamoorthy, Saravanakrishnan"
+	<skrishnamoorthy@rambus.com>, Shuah Khan <shuah@kernel.org>, Alexandre Ghiti
+	<alex@ghiti.fr>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"Wittenauer, Joel" <Joel.Wittenauer@cryptography.com>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, Shuah
+ Khan <skhan@linuxfoundation.org>, "Nguyen, Thi" <thin@rambus.com>
+Subject: RE: [PATCH v5 04/19] crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
+Thread-Topic: [PATCH v5 04/19] crypto: cmh - add SHA-2/SHA-3/SHAKE ahash
+Thread-Index: AQHdRvg30t1+45dAjEm+KmT5OENVbLbbsCeAgAD8JwCABtcDgIALxW1Q
+Date: Mon, 5 Oct 2026 17:04:25 +0000
+Message-ID:
+ <SJ0PR04MB8406AD1C92438FBCBA2EEED4D7962@SJ0PR04MB8406.namprd04.prod.outlook.com>
+References: <20260917225929.2494111-1-aousherovitch@rambus.com>
+ <20260917225929.2494111-5-aousherovitch@rambus.com>
+ <arNn_fjy4jamSitO@gondor.apana.org.au>
+ <LV8PR04MB9006374FD8621EBF3C7E7F6CD7822@LV8PR04MB9006.namprd04.prod.outlook.com>
+ <arn4XYwPYt6i2k7d@gondor.apana.org.au>
+In-Reply-To: <arn4XYwPYt6i2k7d@gondor.apana.org.au>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+dlp-product: dlpe-windows
+dlp-version: 11.11.2.117
+dlp-reaction: no-action
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=rambus.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ0PR04MB8406:EE_|BN0PR04MB8032:EE_
+x-ms-office365-filtering-correlation-id: 529269b6-74ea-4048-1c33-08df2302b574
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|23010399003|376014|1800799024|366016|18002099003|22082099003|10067099003|3023799007|38070700021|4143699003|56012099006|11063799006;
+x-microsoft-antispam-message-info:
+ 3Zjv3WHoOvXtirZW77/U4Z6YT4qYclr7DPlqLQ6x6YZC32CU6IMzjSC/OcJMtmISJo80VDfI3PNbUeS/0yxHMtdVrVzd9Sv3XNT6tiT6iIeNyLwFtZcJQ52wycbmU1P5UU8ph6dSB5dvCOuO8iU+WIowfORnFZfFtyqGEeDvl/NXOmkpy4epgAul0qjxnnMPb2X8ESkS/lWqqYCC9tBaetuoi9RYxnZb2csQwP/L6z1KLTwPYtLKJJEy8vDO3nZmBJRK90XpbfjYxjdiG6y9yI+FaJfZWH3ZXJ7EDYbL/HI0vUJIFaNNh1I8uC70CDzV+oZxQpndislsYMuZy56fWvWRUMGze/T/QBdPg9TQQIX6zPJp9MHlxA+zhrr8GnvIUI/Es6t6sKqn6pNhj+Him5qcm/OeqV7jEmJki2/vXmmLhsmc31ktKUWg6SpLF/q5xmJ3SHlAak3hHAFIzcwC2RjlpRLgSL60X0Ww9bqCBPwlFqI7cb7mgRl+uNpNdWxK0kvrWpVR4vvRSDi0yjntm9LIZYI/qRELwYnRgTEvBT47g+6bCKWX3LKxy92uA5s/UxM8HlI6TJqj2Bq/D2qDPjuJk51Qsk2k6vYMdTqh65ezTPNZup8mXpz89QJCD2QnjwXehsVp4IT2i1WISbPSrxjSz+WlIPq82F8B9Fs5kry6CaLz+A15DZz2hMtgHemJKwF8gJV7hxKmHVgRdqbs5b/HYRw/jGxzVqiOjJunO1E=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR04MB8406.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(1800799024)(366016)(18002099003)(22082099003)(10067099003)(3023799007)(38070700021)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?8OT9OS4Vm83hSkCYv2nySyx91k13fmMk6z+WvaR2QJJvRs3qNJ9jnNBQ1VFB?=
+ =?us-ascii?Q?c5j+4VZp5C07UFF4hWYucq9RT9nHX5Z6BTzN/hnaAomUT4y1vq33eYqUkNDP?=
+ =?us-ascii?Q?lv/aHAVSt+2qwiTjj2qVu/PrrAd0a+3u7VbSLLo3rZdZ+q44v6OsDgmxy7Jq?=
+ =?us-ascii?Q?YCXM/QPANs0mSd4E21IRsXnYnoyePEgogHlDbujS4qB4waTXhA24qJmN2Xhl?=
+ =?us-ascii?Q?Pd+Dn2c7eB5IXTdmSawPz4GbzWz+rwcKBnVDSM1azCNeaYcqrfBnVb/tQ038?=
+ =?us-ascii?Q?RUYUplC0XUsFQpD8E51oVnYqj+W6BcYbZQ9LUF4P/cHZvxu7lwWFddrVOEDP?=
+ =?us-ascii?Q?68CcLOzRNFiJHfXVsYUwsIJLpI3eidOeSZfHk5ARTxhX/A7JR85g69vOfpC+?=
+ =?us-ascii?Q?d1hqd/ayfwRgFArIJYoGZ1j03wiAaNUlmKHOAKo5Pbk1tfLUy1RboLkDGr7+?=
+ =?us-ascii?Q?YX+Y92ZITXByYNWwGvxqumTNcnM8vB9HBiSngi2y/9j9iR0Pkkzqq3YZG+1l?=
+ =?us-ascii?Q?Ryq8hGdn8dVXEXBLtHXFYJsJ6tuRzQNSBh5CO7PXgHtCG8Cs2qzt7X3HoFBN?=
+ =?us-ascii?Q?5Ag0Fnk74v6uXDCJ1Cq/jrOx5pUdClEQTdFFA8Q5koX0v6H8W9mm/QmcMl/o?=
+ =?us-ascii?Q?qlJmHOqct0CnhPVat3CRlIHFnM88rMxq7XwbIAY6WGMCAxOlOkicy1rofgoR?=
+ =?us-ascii?Q?e+ADK3k9Z1HdrhQf38ber483C1Vd3jxUrNt9fFH9vsnQkw5ei6F9JhTL3cLT?=
+ =?us-ascii?Q?/yQOtRRnJiFV0nI4EhkCtePy1AJelZSMiwuLTdyxjFMpW9Ha5tZLyMgl1CkG?=
+ =?us-ascii?Q?ABngTKpn0r9STbw/EYEiKBeD6nbkrLvQ5v8totWjbwR9R633vlWspn/9iEU0?=
+ =?us-ascii?Q?wOAD685KHKL5QWJgxS1RlFMlmjn/AW1nbJbXTCNNuUo9VuwtQmJHqxTJ1ULg?=
+ =?us-ascii?Q?1X31s2TdgEIh7Ojv37QJnvRFUHvEPj3haiUyLVvs/MvkjXBzqzVBs6T00Jdc?=
+ =?us-ascii?Q?d9tXGdsx5vfisZKHHsFKkYXHYQWEoCjcqqCmE2URPdC14KNEVPVFjmYeCk+Q?=
+ =?us-ascii?Q?JJMT4rcVlVf4jlf8zQyOnOS9KlfGOmiuTl1JCMcqRBJtrlNiz+LpryduOOzd?=
+ =?us-ascii?Q?hF2UqknnFYG2Xqod3r86RbpGR3Yff230bu4Rtl+yk51ex3Yedcp6aQN3UR+4?=
+ =?us-ascii?Q?6K65erILpQ4tmf0FSexKnXexp2XrCZKmT0IDXLzqgRpImAw03mF851E0Mn5F?=
+ =?us-ascii?Q?togqXDAuUGjiwz1qe4yS5V5Q9as6ODhQ7sOToVtpt248X0Z+CMdpgulNpZxq?=
+ =?us-ascii?Q?Bh04DQoMS9FXS1JCwbYRftiLFDBc+1lY+iDxhOhtouO2deOXC62tD11Png24?=
+ =?us-ascii?Q?skhimaE+XVBG4P51RhdGYxNN+oH+ujWmoGE1lFoRI08bJDdhAimR4GSCGVuX?=
+ =?us-ascii?Q?YoINieIUa6O081k/Q9QcBHcIgO0C9yisqYBCisuWysIXmvOEPUojI2xaPe/E?=
+ =?us-ascii?Q?g9BFAqamdWMvis6eAQLYsB6KHJTgEjn0vD9i5u2WAViDdOkVsMdAHKdMtarG?=
+ =?us-ascii?Q?rFJz5zbw3w/57FAD6dCYzQIwQsqNk3lHFm0kIKLS5uEfiJlCGheC/CI+u+Nv?=
+ =?us-ascii?Q?SnwD0pdbr2OCAyns65tAJFePMyL0PXbaBv2mhWtQRdey7zbykvfF2Aa3bDhI?=
+ =?us-ascii?Q?+DJGi2IYaSLbaHRoR2SQKxYt2VL/mVqFgBDRIL9mWzVYeb0WFzL8XHgk7h9O?=
+ =?us-ascii?Q?HqZm5aVmaA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261002190018.696925-7-bjorn@kernel.org>
+X-OriginatorOrg: rambus.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR04MB8406.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 529269b6-74ea-4048-1c33-08df2302b574
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2026 17:04:25.0666
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bd0ba799-c2b9-413c-9c56-5d1731c4827c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HYjXi+pDqBRb0M4Po1Ei3IkjOSxMUIv7Hndm2wtJ3ix2G+tP/OF+hB4eNeWnz/mKdl38rov643pAqx3qOS6YTjho67cYzYUW++nNL4N/qXk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR04MB8032
 
-On 10/02, Björn Töpel wrote:
-> A page-pool memory provider can give net_iov buffers, and
-> virt_to_page() does not work for them. An xdp_buff holds only the
-> data pointer, so code that returns or converts a buffer cannot find
-> its net_iov.
-> 
-> Add NET_IOV_XSK, the net_iov type for AF_XDP. Add the internal flag
-> XDP_FLAGS_HAS_NETMEM. When it is set, the xdp_buff holds a netmem
-> reference in the union with the devmap TX queue, which only devmap
-> egress uses. The flag is cleared when flags are copied to an skb or
-> an xdp_frame. xdp_convert_buff_to_frame() sends such a buffer to the
-> zero-copy copy path.
-> 
-> A fragment from a readable net_iov area no longer marks the buffer's
-> fragments as unreadable. The skb layer still treats every net_iov as
-> unreadable, so such a buffer must be copied before it becomes an
-> skb. Later patches in this series do that.
-> 
-> skb_shared_info holds kernel pointers, so it cannot be in UMEM,
-> which userspace can write. A netmem xdp_buff points to a
-> skb_shared_info that the RX queue keeps in kernel memory instead.
-> xdp_init_buff_from_netmem() sets this up. Page-backed buffers still
-> use their tailroom.
-> 
-> On 64-bit, struct xdp_buff grows from 56 to 64 bytes. struct
-> xdp_buff_xsk stays at 128 bytes on x86-64. Where the largest
-> alignment is 8 bytes, as on s390, it grows from 120 to 128 bytes, so
-> a pool needs 8 more bytes per UMEM chunk. Only helpers that need the
-> netmem or the fragment info test the new flag. Page-backed receive
-> and return paths do not.
-> 
-> Signed-off-by: Björn Töpel <bjorn@kernel.org>
-> ---
->  include/net/netmem.h |  1 +
->  include/net/xdp.h    | 56 ++++++++++++++++++++++++++++++++++++++++----
->  2 files changed, 52 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/net/netmem.h b/include/net/netmem.h
-> index e6dff0b01581..76e4fe878863 100644
-> --- a/include/net/netmem.h
-> +++ b/include/net/netmem.h
-> @@ -68,6 +68,7 @@ DECLARE_STATIC_KEY_FALSE(page_pool_mem_providers);
->  enum net_iov_type {
->  	NET_IOV_DMABUF,
->  	NET_IOV_IOURING,
-> +	NET_IOV_XSK,
->  };
->  
->  /* A memory descriptor representing abstract networking I/O vectors,
-> diff --git a/include/net/xdp.h b/include/net/xdp.h
-> index 07231adfb5f8..80931490ca3a 100644
-> --- a/include/net/xdp.h
-> +++ b/include/net/xdp.h
-> @@ -11,6 +11,7 @@
->  #include <linux/netdevice.h>
->  #include <linux/skbuff.h> /* skb_shared_info */
->  
-> +#include <net/netmem.h>
->  #include <net/page_pool/types.h>
->  
->  /**
-> @@ -81,6 +82,8 @@ enum xdp_buff_flags {
->  	 * XDP program is not attached.
->  	 */
->  	XDP_FLAGS_FRAGS_UNREADABLE	= BIT(2),
-> +	/* The txq/netmem union contains a receive netmem reference. */
-> +	XDP_FLAGS_HAS_NETMEM		= BIT(3),
->  };
->  
->  struct xdp_buff {
-> @@ -89,7 +92,12 @@ struct xdp_buff {
->  	void *data_meta;
->  	void *data_hard_start;
->  	struct xdp_rxq_info *rxq;
-> -	struct xdp_txq_info *txq;
-> +	union {
-> +		/* Valid for DEVMAP egress programs. */
-> +		struct xdp_txq_info *txq;
-> +		/* Valid for receive buffers backed by non-page netmem. */
-> +		netmem_ref netmem;
-> +	};
->  
->  	union {
->  		struct {
-> @@ -104,6 +112,8 @@ struct xdp_buff {
->  		u64 frame_sz_flags_init;
->  #endif
->  	};
-> +	/* Kernel-owned fragment metadata for non-page netmem. */
-> +	struct skb_shared_info *sinfo;
->  };
->  
->  static __always_inline void xdp_reinit_buff(struct xdp_buff *xdp)
-> @@ -138,7 +148,7 @@ static __always_inline void xdp_buff_set_frag_unreadable(struct xdp_buff *xdp)
->  
->  static __always_inline u32 xdp_buff_get_skb_flags(const struct xdp_buff *xdp)
->  {
-> -	return xdp->flags;
-> +	return xdp->flags & ~XDP_FLAGS_HAS_NETMEM;
->  }
->  
->  static __always_inline void xdp_buff_clear_frag_pfmemalloc(struct xdp_buff *xdp)
-> @@ -150,6 +160,10 @@ static __always_inline void
->  xdp_init_buff(struct xdp_buff *xdp, u32 frame_sz, struct xdp_rxq_info *rxq)
->  {
->  	xdp->rxq = rxq;
-> +	/* Do not initialize the txq/netmem union here. DEVMAP generic XDP
-> +	 * sets txq before this helper is called; receive drivers set netmem
-> +	 * explicitly.
-> +	 */
->  
->  #ifdef __LITTLE_ENDIAN
->  	/*
-> @@ -176,6 +190,33 @@ xdp_prepare_buff(struct xdp_buff *xdp, unsigned char *hard_start,
->  	xdp->data_meta = meta_valid ? data : data + 1;
->  }
->  
-> +static __always_inline bool xdp_buff_has_netmem(const struct xdp_buff *xdp)
-> +{
-> +	return !!(xdp->flags & XDP_FLAGS_HAS_NETMEM);
-> +}
-> +
+On Mon, Sep 28, 2026 at 03:17:17PM +1000, Herbert Xu wrote:
+> Hang on, if an algorithm isn't even implemented in generic C for
+> the Crypto API, then it should not be implemented by a driver
+> either.
+>
+> The reason these algorithms aren't in the Crypto API is because
+> they have no users.
+>
+> So please drop them.
 
-[..]
+Understood.  v6 drops SHAKE-128/256, cSHAKE-128/256, KMAC-128/256 and
+the standalone Poly1305.
 
-> +static __always_inline netmem_ref
-> +xdp_buff_get_netmem(const struct xdp_buff *xdp)
-> +{
-> +	if (xdp_buff_has_netmem(xdp))
-> +		return xdp->netmem;
-> +
-> +	return virt_to_netmem(xdp->data);
-> +}
+> Sorry, that is not supported by our API.  If you cannot export the
+> hash state in a compatible format, then you will have to switch over
+> to fallbacks and only support digest operations.
 
-You keep adding methods that are not used in the patch where they are added.
-I keep getting confused :-p
+Will do.  For the algorithms that have a generic provider -- SHA-2,
+SHA-3, SM3, HMAC(SHA-2/SHA-3), CMAC(AES), CMAC(SM4) and XCBC(SM4) --
+v6 switches to the fallback/digest-only model:
 
-For virt_to_netmem, maybe a meta question: does xsk pool need a treatment
-similar to the socket path? Where we did s/page/netmem_ref/ ? Then might
-be less reasons to special case?
+  - drop the NO_FALLBACK / BLOCK_ONLY / REQ_VIRT flags and the
+    hand-rolled partial-block and fallback handling, and let the Crypto
+    API install the generic fallback;
+  - hardware-accelerate .digest() only;
+  - route everything else -- .init()/.update()/.final()/.finup()/
+    .export()/.import(), and .setkey() for the keyed ones -- through the
+    fallback, so the statesize and the exported state are the generic
+    ones.
+
+That also answers your NO_FALLBACK question: the flag is gone.
+
+> Please also elaborate what you mean by opaque checkpoint, does it
+> contain the entire hash state or not?
+
+It holds everything needed to resume, but not in a portable layout.  The
+SAVE output is a fixed-size hardware container (600 bytes worst case)
+holding the core's internal state, the buffered partial block, the block
+counters, the mode and a CRC.  The state portion varies by algorithm:
+
+  - SHA-3/SHAKE: the 200-byte Keccak state is stored as two shares (the
+    core is DPA/side-channel protected), so it is not the canonical
+    state.
+  - SHA-2: a single 64-byte register block plus the partial block and
+    byte count, in a hardware-internal layout.
+  - Keyed SHA-3 HMAC state cannot be saved by the hardware at all.
+
+None of these is the canonical export format the API needs, so the
+fallback/digest-only model above is the right fit and we are not pursuing
+incremental hashing upstream.
+
+One process question, if you don't mind: we would like to fold as much as
+possible into v6 rather than spinning several revisions.  Have you had a
+chance to look at the rest of the series, or should we expect further
+comments on the remaining patches?  No rush at all -- it would just help
+us decide whether to post v6 now or hold it until the rest of your
+feedback has landed.
+
+Thanks for the review.
+
+Alex
