@@ -1,57 +1,32 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E17530E0F2;
-	Mon,  5 Oct 2026 08:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85AF41A57D;
+	Mon,  5 Oct 2026 08:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791187712; cv=none; b=CADeh9gxTKCE3MfbN8oNaYos6ilAajcmn9MtJYMD4CFT8Mh7IH1UGBuuYKBvrnxc+OIfqKEkiZzWuXD5De51pk/nQvKWltOaqQZW78Su0G1jdTTtTFie9pqVV0NGCCVB6OdUfX+incp8lbSkiByNWKHWxUkc9MwzuiNV8RUCbLM=
+	t=1791190165; cv=none; b=ir+FL9jq4+Bbt4Ea9DyGi90n4V+a8Q96FTXWIHftjiwn0s5+DTskt2E0uRyS/ZkQfO9jpQICpQKNDH/II0mbknj6MzSoBLAJC19X2LwBHY8YPHUR6/WDd+fMTFrJIuo3cTWurhuIYsrM9uAOan3trGXnlrxKBFsxIlBqXGcyqCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791187712; c=relaxed/simple;
-	bh=nwOcxLH3Q6mUbHlJpRBPnf70GLs/nZjTxnotzVVRqWg=;
+	s=arc-20240116; t=1791190165; c=relaxed/simple;
+	bh=BRHpivnfsreuPPDvprMRRzoL7r3zQjMBdXjcrpgtSnY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aUu3dCpch/dJAnORxqo6XCsecLJ2fn1hTGEr8b7PLfni/T8Wo/ElSFFGFZkgHgjP8a0B7b952J6bezgpZR3pNqCOFwMZzV06ehKpfWWtjks1+ZYLhpFZ63Uz5Yy7Yn1cfJBo4yCDimVGHc63eHuv9uiRQN5aCfV2AfBUB9CbE3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=pc46WDqn; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="pc46WDqn"
-Received: from francesco-nb (93-33-55-11.ip43.fastwebnet.it [93.33.55.11])
-	by mail11.truemail.it (Postfix) with ESMTPA id 384511FCC5;
-	Mon,  5 Oct 2026 10:08:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1791187709;
-	bh=D+Y6d8UnrGoNFXVY4j5x4i4B2RwDWSIwdnLaT7QqWYA=; h=From:To:Subject;
-	b=pc46WDqn850L7lcIP9Fhgqz50KA3iyT13iys3P83fFFH2WP1JTTiUdlzjxtjMHvVV
-	 HCtW83/A9eD1cpccAu9bCoFi7j0aSvw1PCz7wjrMaLb92gfV/RsN5zPJtscGFMubg9
-	 /ZOsBaI0zujfilGLjnXmUYIQgnSpMRoEd8ewqvtkR2KzSYgmVqFDG/CjdDsBJ2Doeq
-	 O2WWifHY6ZjZMBtZ+WMQLB8d9W7V6g+UOJ/VGVty3Ri5/ppfw9BGBiLUwBJK92vu0a
-	 dRA0n3+jy7CbCP75Dk8d+Cuea+2T9TgZEVE/IxwCusznJrIDAZnnQrCsLH7SrmB55M
-	 S/AfgUIpKsrjg==
-Date: Mon, 5 Oct 2026 10:08:22 +0200
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	"Ivan T. Ivanov" <iivanov@suse.de>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Frank Li <frank.li@nxp.com>, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev, imx@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v4] arm64: errata: Add NXP iMX8QM workaround for A53
- cache coherency issue
-Message-ID: <20261005080822.GA13120@francesco-nb>
-References: <20260824-imx8qm-cache-coherency-v4-v4-1-b2e528c7d05e@nxp.com>
- <aqleHm4stDi3Pt//@shlinux89>
+	 Content-Type:Content-Disposition:In-Reply-To; b=J0AHHWSZWWTIJc9R14z2HZcBENdpc2kK4HDnQvYCHIjTtKHLkrpSomvlGHX0+EXV/n3LVcH4gqHlQfBm/AwFbYqN5cns/k5qwERxwRcCECJMEcgHoqwgvf/rqvt3Ecu1RE1D9G3unKgHH1qipO2B0fAdJ9QHQdju0na+KaFWHCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 1657368BFE; Mon,  5 Oct 2026 10:49:18 +0200 (CEST)
+Date: Mon, 5 Oct 2026 10:49:17 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Md Haris Iqbal <haris.iqbal@linux.dev>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: Re: [v3 for-next 1/3] block: Reject unknown status tags in error
+ injection rules
+Message-ID: <20261005084917.GA9160@lst.de>
+References: <20260928221634.43239-1-haris.iqbal@linux.dev> <20260928221634.43239-2-haris.iqbal@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,25 +35,111 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aqleHm4stDi3Pt//@shlinux89>
+In-Reply-To: <20260928221634.43239-2-haris.iqbal@linux.dev>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hello,
-
-On Tue, Sep 15, 2026 at 11:02:54PM +0800, Peng Fan wrote:
-> On Mon, Aug 24, 2026 at 12:02:04PM +0800, Peng Fan (OSS) wrote:
-> >From: Peng Fan <peng.fan@nxp.com>
-> >
-> >According to NXP errata document IMX8_1N94W[1], the i.MX8QuadMax SoC
-> >suffers from a cache coherency issue (ERR050104). The upper bits, above
-> >bit 35, of the ARADDR and ACADDR buses within the Arm A53 subsystem
-> >have been incorrectly connected. This causes some TLBI and IC
-> >maintenance operations exchanged between the A53 and A72 core clusters
-> >to be corrupted.
-> >
+On Tue, Sep 29, 2026 at 12:16:32AM +0200, Md Haris Iqbal wrote:
+> tag_to_blk_status() returns BLK_STS_OK both for the "OK" tag and for a
+> tag it does not recognize, so a caller cannot tell the two apart. The
+> block error injection code (which is the sole user of this function
+> currently) relies on error_inject_add() later to reject adding a rule with
+> status=BLK_STS_OK. This is okay for the current state of error injection.
 > 
-> Any comments?
+> The delay option added in the next commit makes the rule with status=OK
+> valid, meaning the function tag_to_blk_status() now needs to explicitly
+> match BLK_STS_OK for it, and fail for a tag it does not recognize. Hence
+> make tag_to_blk_status() take a second param to update the matched status,
+> and return true in case of a successful match. If a match is not found,
+> the function tag_to_blk_status() returns false and *status remains
+> unchanged.
+> 
+> A repeated status= where an invalid tag comes first is now rejected
+> instead of being overridden by the later one.
+> 
+> Cc: Christoph Hellwig <hch@lst.de>
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Md Haris Iqbal <haris.iqbal@linux.dev>
+> ---
+>  block/blk-core.c        | 14 ++++++--------
+>  block/blk.h             |  2 +-
+>  block/error-injection.c |  7 ++++---
+>  3 files changed, 11 insertions(+), 12 deletions(-)
+> 
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index 13dc70e8f55d..c45846b9c50d 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -225,21 +225,19 @@ const char *blk_status_to_tag(blk_status_t status)
+>  	return blk_errors[idx].tag;
+>  }
+>  
+> -blk_status_t tag_to_blk_status(const char *tag)
+> +bool tag_to_blk_status(const char *tag, blk_status_t *status)
+>  {
+>  	int i;
+>  
+>  	for (i = 0; i < ARRAY_SIZE(blk_errors); i++) {
+>  		if (blk_errors[i].tag &&
+> -		    !strcmp(blk_errors[i].tag, tag))
+> -			return (__force blk_status_t)i;
+> +		    !strcmp(blk_errors[i].tag, tag)) {
+> +			*status = (__force blk_status_t)i;
+> +			return true;
+> +		}
+>  	}
+>  
+> -	/*
+> -	 * Return BLK_STS_OK for mismatches as this function is intended to
+> -	 * parse error status values.
+> -	 */
+> -	return BLK_STS_OK;
+> +	return false;
+>  }
+>  
+>  /**
+> diff --git a/block/blk.h b/block/blk.h
+> index 2cc03aa54c53..5fa54162c686 100644
+> --- a/block/blk.h
+> +++ b/block/blk.h
+> @@ -52,7 +52,7 @@ void blk_free_flush_queue(struct blk_flush_queue *q);
+>  
+>  const char *blk_status_to_str(blk_status_t status);
+>  const char *blk_status_to_tag(blk_status_t status);
+> -blk_status_t tag_to_blk_status(const char *tag);
+> +bool tag_to_blk_status(const char *tag, blk_status_t *status);
+>  enum req_op str_to_blk_op(const char *op);
+>  
+>  bool __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic);
+> diff --git a/block/error-injection.c b/block/error-injection.c
+> index e14bc4b723ef..db543fe27630 100644
+> --- a/block/error-injection.c
+> +++ b/block/error-injection.c
+> @@ -171,15 +171,16 @@ static int match_op(substring_t *args, enum req_op *op)
+>  static int match_status(substring_t *args, blk_status_t *status)
+>  {
+>  	const char *tag;
+> +	bool found;
+>  
+>  	tag = match_strdup(args);
+>  	if (!tag)
+>  		return -ENOMEM;
+> -	*status = tag_to_blk_status(tag);
+> -	if (!*status)
+> +	found = tag_to_blk_status(tag, status);
+> +	if (!found)
+>  		pr_warn("invalid status '%s'\n", tag);
+>  	kfree(tag);
+> -	return 0;
+> +	return found ? 0 : -EINVAL;
 
-Any plan to have this merged?
+	if (!found) {
+  		pr_warn("invalid status '%s'\n", tag);
+		return -EINVAL;
+	}
+	return 0;
 
-Francesco
+to keep the code a bit more readable.
 
+Otherwise looks good:
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
