@@ -1,81 +1,92 @@
-Received: from mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+Received: from mail-pj2-f0.google.com (mail-pj2-f0.google.com [74.125.227.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C5E49A3C2
-	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 16:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9955530ACEE
+	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 17:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791219285; cv=none; b=sI/IOFaUQIN/4svKzCSNzBMnkey7qWyPRDjMfA1EYnq6Svt5B41d7HKpwHJtR7B4FLBjKIWT6FnLcbZ7hefm6dreJIJspoq/PORu6PIKqdSAKQB2ZJQNVp2BZrLWV4pGPCgdnKiJck3SEQe1OGbxkW7X/mbb7M2kXHUMD3psGbM=
+	t=1791219725; cv=none; b=koMxiTZV/3Fn1hbOCUch6tU0wZHRy6LtEmgL7a/cwDdHULX0lATtji8a2s2AxJIxXIibMV4gd3v46+c6m7t9SNT6Bd8FZ9sTpQ853Jh/zYataS9/89Cvyhtw7GmzhZgT+5NqeK9qwIDD2Qc9Aids0tdOfoOkdgw/Pn2hm3CQNvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791219285; c=relaxed/simple;
-	bh=hn8aHMI48l5z8pToxeJAfl6ZBqelawA03wL2kfg//EU=;
+	s=arc-20240116; t=1791219725; c=relaxed/simple;
+	bh=p2r4gcb42xTsxaNA5xPh+LYVuA5ynBc9KIAfNKRT2l0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jPBiVDis1KQEfgHSHyDRiSnB947QTT0KhlP4nxSZkX4EmNGguma/B8Q8zCpDL+L6amtyACqRTO5d92xrLxm8xdRA7PPaS2JfJCBjs+EQqYokArhv4awA1FzWVQXZGM7yySXKmWM8NkxDUn/eW9zUY2nbvjJKeuy71ulpc4ByUbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org; spf=pass smtp.mailfrom=wyuan.org; dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b=SQ8jI0ob; arc=none smtp.client-ip=95.215.58.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=b3gfEm72I6hhVIOviSfC6EwPZRsOZ+wpzXT9kHD+3eEX87BLaN5dCoorYiMcw6VD6+UndD0CwBXFE/zfFgnnlX0UBnhOWCqjAmrAO0zSw6bocg/C/oQwpJM/nj8k/rBY7UtlQCf/9WzZkCFi1qMJCpmQhXBNDUNtIdTtbZVMFFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HD+Ye1YG; arc=none smtp.client-ip=74.125.227.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wyuan.org header.i=@wyuan.org header.b="SQ8jI0ob"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=hn8aHMI48l5z8pToxeJAfl6ZBqelawA03wL2kfg//EU=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791219276; v=1; x=1791824076;
- b=SQ8jI0obmtw1AwepLXpe/I6A6GcwYhJw8xaWBiE8Tbu+Nm+0qqjLferG1WaAo77OD890njoF
- M11eYEsFJCLtSG366tFpmH7RM0Js+7BJoxtjQdvD5/6Ya8voG+ieDcRcVH5naoKA4jCvUV2lrV+
- vxBw6moObK7tfOYAb4hTH6GsctYzPvsC6ehHa+SofyxOc8KLCEW6CrY70cSSdmEBKhJwPT4dQMv
- rkdB9V7T5SMo5kJ/bWKp2LJrnMIeaHNBs74t84EBi8Yp+VMEcbY44tlu/Dkqs1JTsXgHrcDJHez
- ZYyieMCACEWYzqguKUW1Ml3qJhYmg9BnF2a2vzONGazGg==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 058e47cfa9d0fb6c;
-	Mon, 05 Oct 2026 16:54:36 +0000
-X-Mizu-Trace-ID: 058e47cfa9d0fb6c
-X-Migadu-Flow: FLOW_OUT
-Date: Tue, 6 Oct 2026 00:54:27 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>
-Cc: corbet@lwn.net, alexs@kernel.org, dzm91@hust.edu.cn,
-	si.yanteng@linux.dev, srcres258@furdevs.cn,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andy Deng <theandy.deng@gmail.com>, Bailu Lin <bailu.lin@vivo.com>,
-	Bernard Zhao <bernard@vivo.com>, Bryan Wu <bryan.wu@analog.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Chucheng Luo <luochucheng@vivo.com>,
-	Dave Martin <Dave.Martin@arm.com>,
-	Dave Young <hidave.darkstar@gmail.com>,
-	Dongsheng Song <dongshneg.song@gmail.com>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	Eugene Teo <eugeneteo@kernel.sg>, Fu Wei <tekkamanninja@gmail.com>,
-	Fu Wei <wefu@redhat.com>, gao chao <gaochao49@huawei.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hailong Liu <liu.hailong6@zte.com.cn>,
-	Harry Wei <harryxiyou@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Junhua Huang <huang.junhua@zte.com.cn>,
-	Kangkai Yin <e12051@motorola.com>,
-	Leigang Zang <zangleigang@hisilicon.com>,
-	Li Yang <leoyang.li@nxp.com>, Li Zefan <lizf@cn.fujitsu.com>,
-	Maggie Chen <chenqi@beyondsoft.com>,
-	Nicolas Pitre <nico@fluxnic.net>,
-	Punit Agrawal <punitagrawal@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Tang Yizhou <tangyeechou@gmail.com>,
-	TripleX Chung <xxx.phy@gmail.com>,
-	Wang Chen <wangchen@cn.fujitsu.com>,
-	Wang Cong <xiyou.wangcong@gmail.com>,
-	Wang Wenhu <wenhu.wang@vivo.com>, Wan Jiabing <wanjiabing@vivo.com>,
-	wheelz <kernel.zeng@gmail.com>, Will Deacon <will@kernel.org>,
-	Wu XiangCheng <bobwxc@email.cn>,
-	Xiaochen Wang <wangxiaochen0@gmail.com>,
-	Xudong Guan <xudong.guan@gmail.com>, xu xin <xu.xin16@zte.com.cn>,
-	yaxinsn <yaxinsn@163.com>, Yinglin Luan <synmyth@gmail.com>,
-	Zhang Le <r0bertz@gentoo.org>
-Subject: Re: [PATCH v2 0/7] docs/zh_TW: remove duplicated maintainer contact
- information
-Message-ID: <asPWQ2ysbTgW9Uib@wyuan.org>
-References: <20260929115956.229610-1-chenyou910331@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HD+Ye1YG"
+Received: by mail-pj2-f0.google.com with SMTP id 98e67ed59e1d1-3a476ee8669so790183a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 10:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791219723; x=1791824523; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZsfW1R9N4QPstXuCZT7OiJ7xuKBOf1oZsvEYYuLcZDU=;
+        b=HD+Ye1YGzIXiImlWR3zGYVXshBf+UxHvyW7WDosAG2jHVh4LfYnJv7ANuRxbCqS9aO
+         2lMPunBqHs7dLxeOQAdlsEnuw7CR3QARePr80Pz8vQe7f9vMhXqZhN+tdAmYzIgsBP9x
+         Vo9rJAM4G03+ppu0QNv7DR62GA0fsExz8xWjyPR8M6vbrqyb5RDwagt5rcs+je8xB+86
+         qXPRC5HjoJAV59b/KiHMuvnEahkwc9gQNGWhRmr4Z3UmYyEUD6dh+S+mQ68kpn+OPUJI
+         wiDWT8B8fzc+5lRXwEJVCOW4DBKFTC4m6cUmX0Gz+4OIjb6d38elRh3kDMTZqCQrOAQt
+         FxKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791219723; x=1791824523;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ZsfW1R9N4QPstXuCZT7OiJ7xuKBOf1oZsvEYYuLcZDU=;
+        b=WbCAt2MXm/oRvIWeDjHPHT9kd6GV++4tMuQU1vT6/4Xlq6KAUHffLN18VdoEHWSAdE
+         dvvFY75+V1xfnWj8OZtesqbIi+Spvqfh6OdnQNm5TCsqH2v47on7R64LGd+cGbDuMGxP
+         ysdXavkbGpxCJDVgylj1q7ADvdw/5k5VSgmMBSrAkVNMq/htRab0Gyl7E2wsH66Npxbi
+         qiF5+wbfOX95WEfKHZv9463rvknf165EfXQopnK1HTRFkRocSOFaNmSRYDSeTQmRA07i
+         nAF+V8ljvurHvx/yipAI8nkCckMzPVDRBY4simyST7yoFTpjB94d+lnaDpJNrrnxVBUG
+         f/cA==
+X-Forwarded-Encrypted: i=1; AKwUvBwnoiVpY01XXzMMJKz2kPOGgT1gcGbhax4CrFRqgGHswwaju6N9k6t/c5d4yH2yzXNo+xsS4aQW2BI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKoGD8XOVGGjxN7Zu6noPvGunHgVc2exfTqEkeHPtTKBR2F3Col
+	t8udxKtvULf1tMoo98B8hyrLTbA4o8U6AuimYYfj2pfkRNDeVsqFnCjf
+X-Gm-Gg: AYBFou3397Z5f0tDlqOqEUy3uEdBPzyti8ebudAmFmtpXw52U1O0+nwwTqRcyGc7fFS
+	b2GJqlG/ireBQGgrY8P064a2BT6LA51+pOCdbdkII1DMxnKuGBLsQGsaPoi/x2wio+IFcng+Zkb
+	smSJK1StgzdmKpBVLfw8yvzPxUJxIaiaKgXlnUOyAG40upSnQRlwq/PhToVuJ3cE4r9V7LGiT9Q
+	VmrYRBBPGPtnjX1vM8JMhEU8h/+ystwfa4P2yUnYPf52E65oLBqM9zKrSOmKfKnbTF/QJS4Uwc1
+	lm/157s7dqoNwO2jS5D/V7S/DUwv2ZqESSs6c0tvazwgJNCVqjMv0bzfgUmZf+lYbZdQ8QVikr9
+	I4KJn6NvQcz2MHNjW914ThObXMci92Xk59V5+05VBkbav9sZiQNqNNYNLW4cFN76PQFJr+Q9Q16
+	Sve2K+M5fof9vKzKpz1bZYU4BnDFgFo7EZdrs7IyzVlZ4hW1GIMSBQQ9k2ZPTGR8k=
+X-Received: by 2002:a17:90b:57c6:b0:3a0:c276:1ec0 with SMTP id 98e67ed59e1d1-3a7872b6af0mr6425813a91.28.1791219722834;
+        Mon, 05 Oct 2026 10:02:02 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:3::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a6dd0cd76bsm9240167a91.2.2026.10.05.10.02.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2026 10:02:02 -0700 (PDT)
+Date: Mon, 5 Oct 2026 10:01:57 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, bpf@vger.kernel.org, 
+	io-uring@vger.kernel.org, "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, 
+	Weiming Shi <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, 
+	David Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Mina Almasry <almasrymina@google.com>
+Subject: Re: [RFC net-next 06/15] xdp: Track non-page netmem in receive
+ buffers
+Message-ID: <asPXa7k-_drxXiI0@devvm7509.cco0.facebook.com>
+References: <20261002190018.696925-1-bjorn@kernel.org>
+ <20261002190018.696925-7-bjorn@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,298 +96,145 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260929115956.229610-1-chenyou910331@gmail.com>
+In-Reply-To: <20261002190018.696925-7-bjorn@kernel.org>
 
-Hi all,
-
-Since there are already so many recipients, I'll simply reply to the
-cover letter directly to avoid unnecessary noise.
-
-On 2026-09-29 19:59:48 +0800, Chen-Yu Yeh <chenyou910331@gmail.com> wrote:
-
-> MAINTAINERS already records who to contact about the zh_TW
-> translations, yet every zh_TW file repeats that information in a
-> per-file contact block.
-
-And it is probably due to historical reasons that the styles of these
-annotations are all different.
-
-> The duplication has a concrete cost: the listed zh_TW maintainer
-> address appeared in 58 files and there have been three separate
-> attempts to rewrite it across the tree.  In the MAINTAINERS discussion
-> Jon Corbet's conclusion was that, rather than churning all of those
-> addresses once more, the best thing is simply to remove them.
+On 10/02, Björn Töpel wrote:
+> A page-pool memory provider can give net_iov buffers, and
+> virt_to_page() does not work for them. An xdp_buff holds only the
+> data pointer, so code that returns or converts a buffer cannot find
+> its net_iov.
 > 
-> There is a second reason.  The zh_TW tree was produced by converting
-> zh_CN, and the credit blocks came across with the text: nearly every
-> address removed here also appears in
-> Documentation/translations/zh_CN/, several in more than a hundred
-> files.  They credit the simplified-Chinese translation rather than
-> zh_TW work, so keeping them would leave the wrong attribution in
-> place.
-
-Oh yes. This viewpoint might also come from me, so feel free to blame
-me. ;-)
-
-> Removed:
+> Add NET_IOV_XSK, the net_iov type for AF_XDP. Add the internal flag
+> XDP_FLAGS_HAS_NETMEM. When it is set, the xdp_buff holds a netmem
+> reference in the union with the devmap TX queue, which only devmap
+> egress uses. The flag is cleared when flags are copied to an skb or
+> an xdp_frame. xdp_convert_buff_to_frame() sends such a buffer to the
+> zero-copy copy path.
 > 
->   - the :Translator: / :翻譯: / :校譯: / :譯者: credit blocks and the
->     譯者:: literal blocks
->   - the "please contact the ... maintainer" prose that introduces them
->   - the 英文版/中文版/繁體中文版 維護者|翻譯者|校譯者 lines, including
->     their continuation lines
->   - the maintainer metadata lines in the legacy headers (M:, zh_CN:,
->     zh_TW:, Maintainer:, Chinese maintainer:, Traditional Chinese
->     maintainer:)
+> A fragment from a readable net_iov area no longer marks the buffer's
+> fragments as unreadable. The skb layer still treats every net_iov as
+> unreadable, so such a buffer must be copied before it becomes an
+> skb. Later patches in this series do that.
 > 
-> Left alone: :Original:, :作者: (the author of the English original),
-> :日期:, :更新:, the C: sync-commit references, copyright notices, and
-> every address that is part of a document body, such as
-> stable@vger.kernel.org and the examples in submitting-patches.
+> skb_shared_info holds kernel pointers, so it cannot be in UMEM,
+> which userspace can write. A netmem xdp_buff points to a
+> skb_shared_info that the RX queue keeps in kernel memory instead.
+> xdp_init_buff_from_netmem() sets this up. Page-backed buffers still
+> use their tailroom.
 > 
-> Attribution for past work is preserved in the git history.
+> On 64-bit, struct xdp_buff grows from 56 to 64 bytes. struct
+> xdp_buff_xsk stays at 128 bytes on x86-64. Where the largest
+> alignment is 8 bytes, as on s390, it grows from 120 to 128 bytes, so
+> a pool needs 8 more bytes per UMEM chunk. Only helpers that need the
+> netmem or the fragment info test the new flag. Page-backed receive
+> and return paths do not.
 > 
-> Changes in v2:
->  - Rebased onto docs-next now that the zh_TW process/ series has
->    landed.  v1 no longer applied: that series added a translator entry
->    to fifteen of the blocks 1/7 removes, so 1/7 now removes those
->    entries too (they are mine; the same reasoning applies).
->  - Each patch now has its own commit message instead of sharing one
->    paragraph (Weijie).  The messages also no longer claim that the
->    Chinese credit lines of the legacy headers are kept; they were
->    removed in v1 as well, as this cover letter said.
->  - 7/7: the disclaimer's warning and note said much the same thing;
->    merge them into a single note, as disclaimer-zh_CN.rst has (Weijie).
->    It points readers at the zh_TW maintainers and reviewers rather than
->    at "the file's translator", since this series removes the
->    translator fields.
->  - Copied everyone whose address the series removes, as Jon asked on
->    v1, using current addresses where MAINTAINERS or .mailmap has one.
->    (IRQ.txt spells Eric Biederman's address "ebiederman@"; his address
->    is ebiederm@xmission.com.)
-
-So for the whole v2 series:
-
-Acked-by: Weijie Yuan <wy@wyuan.org>
-
-(It doesn't seem to be complicated enough to give a "Reviewed-by" tag?)
-
+> Signed-off-by: Björn Töpel <bjorn@kernel.org>
+> ---
+>  include/net/netmem.h |  1 +
+>  include/net/xdp.h    | 56 ++++++++++++++++++++++++++++++++++++++++----
+>  2 files changed, 52 insertions(+), 5 deletions(-)
 > 
-> Not changed: IRQ.txt, io_ordering.txt and the other plain-text files
-> still lose their contact lines here, so that this series stands on its
-> own; as agreed in the zh_TW scope discussion [1], they are removed
-> altogether by a separate series.  The "聯繫譯者" wording in
-> dev-tools/testing-overview.rst is left as it is, as Weijie suggested.
-> 
-> v1: https://lore.kernel.org/linux-doc/20260819145808.291567-1-chenyou910331@gmail.com/
-> [1] https://lore.kernel.org/linux-doc/CAKspUhJAbCWoxgh2eq8R5g_MiNK=oXgKPUWqGOpHh0w1-Fv74A@mail.gmail.com/
-> 
-> Chen-Yu Yeh (7):
->   docs/zh_TW: process: remove maintainer contact information
->   docs/zh_TW: admin-guide: remove maintainer contact information
->   docs/zh_TW: arch: remove maintainer contact information
->   docs/zh_TW: dev-tools: remove maintainer contact information
->   docs/zh_TW: filesystems: remove maintainer contact information
->   docs/zh_TW: cpu-freq: remove maintainer contact information
->   docs/zh_TW: remove the last maintainer contact references
-> 
->  Documentation/translations/zh_TW/IRQ.txt       |  8 --------
->  .../translations/zh_TW/admin-guide/README.rst  |  5 -----
->  .../zh_TW/admin-guide/bootconfig.rst           |  2 --
->  .../zh_TW/admin-guide/bug-bisect.rst           |  5 -----
->  .../zh_TW/admin-guide/bug-hunting.rst          |  5 -----
->  .../zh_TW/admin-guide/clearing-warn-once.rst   |  2 --
->  .../zh_TW/admin-guide/cpu-load.rst             |  2 --
->  .../zh_TW/admin-guide/cputopology.rst          |  4 ----
->  .../translations/zh_TW/admin-guide/index.rst   |  2 --
->  .../translations/zh_TW/admin-guide/init.rst    |  5 -----
->  .../zh_TW/admin-guide/lockup-watchdogs.rst     |  1 -
->  .../zh_TW/admin-guide/mm/damon/index.rst       |  6 ------
->  .../zh_TW/admin-guide/mm/damon/lru_sort.rst    |  6 ------
->  .../zh_TW/admin-guide/mm/damon/reclaim.rst     |  6 ------
->  .../zh_TW/admin-guide/mm/damon/start.rst       |  6 ------
->  .../zh_TW/admin-guide/mm/damon/usage.rst       |  6 ------
->  .../zh_TW/admin-guide/mm/index.rst             |  5 -----
->  .../translations/zh_TW/admin-guide/mm/ksm.rst  |  5 -----
->  .../zh_TW/admin-guide/reporting-issues.rst     |  6 ------
->  .../admin-guide/reporting-regressions.rst      |  5 -----
->  .../zh_TW/admin-guide/security-bugs.rst        |  5 -----
->  .../translations/zh_TW/admin-guide/sysrq.rst   |  8 --------
->  .../zh_TW/admin-guide/tainted-kernels.rst      |  5 -----
->  .../translations/zh_TW/admin-guide/unicode.rst |  5 -----
->  .../translations/zh_TW/arch/arm/Booting        |  7 -------
->  .../zh_TW/arch/arm/kernel_user_helpers.txt     | 10 ----------
->  .../translations/zh_TW/arch/arm64/amu.rst      |  3 ---
->  .../translations/zh_TW/arch/arm64/booting.txt  |  8 --------
->  .../zh_TW/arch/arm64/elf_hwcaps.rst            |  3 ---
->  .../zh_TW/arch/arm64/hugetlbpage.rst           |  3 ---
->  .../translations/zh_TW/arch/arm64/index.rst    |  2 --
->  .../zh_TW/arch/arm64/legacy_instructions.txt   | 11 -----------
->  .../translations/zh_TW/arch/arm64/memory.txt   |  9 ---------
->  .../translations/zh_TW/arch/arm64/perf.rst     |  3 ---
->  .../zh_TW/arch/arm64/silicon-errata.txt        |  8 --------
->  .../zh_TW/arch/arm64/tagged-pointers.txt       |  9 ---------
->  .../zh_TW/arch/loongarch/booting.rst           |  4 ----
->  .../zh_TW/arch/loongarch/features.rst          |  1 -
->  .../zh_TW/arch/loongarch/index.rst             |  1 -
->  .../zh_TW/arch/loongarch/introduction.rst      |  1 -
->  .../zh_TW/arch/loongarch/irq-chip-model.rst    |  1 -
->  .../translations/zh_TW/arch/mips/booting.rst   |  4 ----
->  .../translations/zh_TW/arch/mips/features.rst  |  4 ----
->  .../translations/zh_TW/arch/mips/index.rst     |  4 ----
->  .../zh_TW/arch/mips/ingenic-tcu.rst            |  4 ----
->  .../translations/zh_TW/arch/openrisc/index.rst |  4 ----
->  .../zh_TW/arch/openrisc/openrisc_port.rst      |  4 ----
->  .../translations/zh_TW/arch/openrisc/todo.rst  |  4 ----
->  .../zh_TW/arch/parisc/debugging.rst            |  4 ----
->  .../translations/zh_TW/arch/parisc/index.rst   |  4 ----
->  .../zh_TW/arch/parisc/registers.rst            |  4 ----
->  .../translations/zh_TW/cpu-freq/core.rst       |  8 --------
->  .../zh_TW/cpu-freq/cpu-drivers.rst             |  8 --------
->  .../zh_TW/cpu-freq/cpufreq-stats.rst           |  8 --------
->  .../translations/zh_TW/cpu-freq/index.rst      |  4 ----
->  .../translations/zh_TW/dev-tools/gcov.rst      |  1 -
->  .../zh_TW/dev-tools/gdb-kernel-debugging.rst   |  1 -
->  .../translations/zh_TW/dev-tools/index.rst     |  1 -
->  .../translations/zh_TW/dev-tools/kasan.rst     |  1 -
->  .../translations/zh_TW/dev-tools/sparse.rst    |  5 -----
->  .../zh_TW/dev-tools/testing-overview.rst       |  1 -
->  .../translations/zh_TW/disclaimer-zh_TW.rst    | 12 ++++--------
->  .../translations/zh_TW/filesystems/debugfs.rst | 10 ----------
->  .../translations/zh_TW/filesystems/index.rst   |  2 --
->  .../translations/zh_TW/filesystems/sysfs.txt   | 10 ----------
->  .../zh_TW/filesystems/virtiofs.rst             |  8 --------
->  Documentation/translations/zh_TW/index.rst     |  2 +-
->  .../translations/zh_TW/io_ordering.txt         |  6 ------
->  .../translations/zh_TW/process/1.Intro.rst     | 10 ----------
->  .../translations/zh_TW/process/2.Process.rst   | 10 ----------
->  .../zh_TW/process/3.Early-stage.rst            |  9 ---------
->  .../translations/zh_TW/process/4.Coding.rst    |  9 ---------
->  .../translations/zh_TW/process/5.Posting.rst   | 10 ----------
->  .../zh_TW/process/6.Followthrough.rst          |  9 ---------
->  .../zh_TW/process/7.AdvancedTopics.rst         | 10 ----------
->  .../zh_TW/process/8.Conclusion.rst             |  9 ---------
->  .../process/code-of-conduct-interpretation.rst |  3 ---
->  .../zh_TW/process/code-of-conduct.rst          |  2 --
->  .../zh_TW/process/coding-style.rst             | 14 --------------
->  .../zh_TW/process/development-process.rst      |  2 --
->  .../zh_TW/process/email-clients.rst            | 12 ------------
->  .../process/embargoed-hardware-issues.rst      |  3 ---
->  .../translations/zh_TW/process/howto.rst       | 18 ------------------
->  .../translations/zh_TW/process/index.rst       |  3 ---
->  .../zh_TW/process/kernel-driver-statement.rst  |  2 --
->  .../process/kernel-enforcement-statement.rst   |  2 --
->  .../zh_TW/process/license-rules.rst            |  3 ---
->  .../zh_TW/process/magic-number.rst             |  8 --------
->  .../zh_TW/process/management-style.rst         |  2 --
->  .../zh_TW/process/programming-language.rst     |  3 ---
->  .../zh_TW/process/stable-api-nonsense.rst      | 10 ----------
->  .../zh_TW/process/stable-kernel-rules.rst      | 12 ------------
->  .../zh_TW/process/submit-checklist.rst         |  4 ----
->  .../zh_TW/process/submitting-patches.rst       | 12 ------------
->  .../process/volatile-considered-harmful.rst    | 12 ------------
->  95 files changed, 5 insertions(+), 525 deletions(-)
-> 
-> Range-diff against v1:
-> 1:  b30ed7154694 ! 1:  57561af2e7e1 docs/zh_TW: process: remove maintainer contact information
->     @@ Metadata
->       ## Commit message ##
->          docs/zh_TW: process: remove maintainer contact information
->      
->     -    The zh_TW translations duplicate, in every file, contact information
->     -    that MAINTAINERS already records.  Those addresses have been churned
->     -    repeatedly: the listed zh_TW maintainer address alone appears in 58
->     -    files and there have now been three attempts to update it across the
->     -    tree.  Jon Corbet's conclusion in the MAINTAINERS discussion was that,
->     -    rather than rewriting all of them again, the best thing is simply to
->     -    remove them.
->     -
->     -    Most of the names in the credit blocks belong to the zh_CN translators:
->     -    the zh_TW tree was produced by converting zh_CN, so the credits came
->     -    across with the text.  Of the addresses removed here, nearly all also
->     -    appear in Documentation/translations/zh_CN/, several in more than a
->     -    hundred files.  They credit the simplified-Chinese translation, not
->     -    zh_TW work.
->     -
->     -    Remove the :Translator:/:翻譯:/:校譯:/:譯者: credit blocks and the
->     -    "please contact the ... maintainer" prose that introduces them, and
->     -    drop the maintainer metadata lines (M:, zh_CN:, zh_TW:, Maintainer:,
->     -    Chinese maintainer:, Traditional Chinese maintainer:) from the legacy
->     -    headers.  The translated bodies of the legacy files, including their
->     -    own credit lines, are left untouched.
->     -
->     -    Attribution for past work is preserved in the git history.
->     -
->     +    The zh_TW translations repeat, file by file, contact information that
->     +    MAINTAINERS already records.  Those addresses keep going stale: the
->     +    listed zh_TW maintainer address alone appeared in 58 files, and there
->     +    have been three attempts to update it across the tree.  In the
->     +    MAINTAINERS discussion Jon Corbet concluded that, rather than rewriting
->     +    them all again, they should simply be removed.
+> diff --git a/include/net/netmem.h b/include/net/netmem.h
+> index e6dff0b01581..76e4fe878863 100644
+> --- a/include/net/netmem.h
+> +++ b/include/net/netmem.h
+> @@ -68,6 +68,7 @@ DECLARE_STATIC_KEY_FALSE(page_pool_mem_providers);
+>  enum net_iov_type {
+>  	NET_IOV_DMABUF,
+>  	NET_IOV_IOURING,
+> +	NET_IOV_XSK,
+>  };
+>  
+>  /* A memory descriptor representing abstract networking I/O vectors,
+> diff --git a/include/net/xdp.h b/include/net/xdp.h
+> index 07231adfb5f8..80931490ca3a 100644
+> --- a/include/net/xdp.h
+> +++ b/include/net/xdp.h
+> @@ -11,6 +11,7 @@
+>  #include <linux/netdevice.h>
+>  #include <linux/skbuff.h> /* skb_shared_info */
+>  
+> +#include <net/netmem.h>
+>  #include <net/page_pool/types.h>
+>  
+>  /**
+> @@ -81,6 +82,8 @@ enum xdp_buff_flags {
+>  	 * XDP program is not attached.
+>  	 */
+>  	XDP_FLAGS_FRAGS_UNREADABLE	= BIT(2),
+> +	/* The txq/netmem union contains a receive netmem reference. */
+> +	XDP_FLAGS_HAS_NETMEM		= BIT(3),
+>  };
+>  
+>  struct xdp_buff {
+> @@ -89,7 +92,12 @@ struct xdp_buff {
+>  	void *data_meta;
+>  	void *data_hard_start;
+>  	struct xdp_rxq_info *rxq;
+> -	struct xdp_txq_info *txq;
+> +	union {
+> +		/* Valid for DEVMAP egress programs. */
+> +		struct xdp_txq_info *txq;
+> +		/* Valid for receive buffers backed by non-page netmem. */
+> +		netmem_ref netmem;
+> +	};
+>  
+>  	union {
+>  		struct {
+> @@ -104,6 +112,8 @@ struct xdp_buff {
+>  		u64 frame_sz_flags_init;
+>  #endif
+>  	};
+> +	/* Kernel-owned fragment metadata for non-page netmem. */
+> +	struct skb_shared_info *sinfo;
+>  };
+>  
+>  static __always_inline void xdp_reinit_buff(struct xdp_buff *xdp)
+> @@ -138,7 +148,7 @@ static __always_inline void xdp_buff_set_frag_unreadable(struct xdp_buff *xdp)
+>  
+>  static __always_inline u32 xdp_buff_get_skb_flags(const struct xdp_buff *xdp)
+>  {
+> -	return xdp->flags;
+> +	return xdp->flags & ~XDP_FLAGS_HAS_NETMEM;
+>  }
+>  
+>  static __always_inline void xdp_buff_clear_frag_pfmemalloc(struct xdp_buff *xdp)
+> @@ -150,6 +160,10 @@ static __always_inline void
+>  xdp_init_buff(struct xdp_buff *xdp, u32 frame_sz, struct xdp_rxq_info *rxq)
+>  {
+>  	xdp->rxq = rxq;
+> +	/* Do not initialize the txq/netmem union here. DEVMAP generic XDP
+> +	 * sets txq before this helper is called; receive drivers set netmem
+> +	 * explicitly.
+> +	 */
+>  
+>  #ifdef __LITTLE_ENDIAN
+>  	/*
+> @@ -176,6 +190,33 @@ xdp_prepare_buff(struct xdp_buff *xdp, unsigned char *hard_start,
+>  	xdp->data_meta = meta_valid ? data : data + 1;
+>  }
+>  
+> +static __always_inline bool xdp_buff_has_netmem(const struct xdp_buff *xdp)
+> +{
+> +	return !!(xdp->flags & XDP_FLAGS_HAS_NETMEM);
+> +}
+> +
 
-Offtopic & micronit: What's the point of rephrasing this paragraph?
+[..]
 
->     +
->     +    Most of the names also credit the wrong work.  zh_TW was produced by
->     +    converting zh_CN and the credit blocks came across with the text, so
->     +    they name the simplified-Chinese translators; nearly every address
->     +    removed in this series also appears under
->     +    Documentation/translations/zh_CN/.
+> +static __always_inline netmem_ref
+> +xdp_buff_get_netmem(const struct xdp_buff *xdp)
+> +{
+> +	if (xdp_buff_has_netmem(xdp))
+> +		return xdp->netmem;
+> +
+> +	return virt_to_netmem(xdp->data);
+> +}
 
-.. and this paragraph.
+You keep adding methods that are not used in the patch where they are added.
+I keep getting confused :-p
 
->     +
->     +    Start with process/, the largest area.  Remove the :Translator:, :譯者:
->     +    and :校譯: fields, the 譯者:: literal blocks in howto.rst and
->     +    stable-api-nonsense.rst, and the "contact the maintainer" paragraphs
->     +    that introduce the credits in magic-number.rst, stable-kernel-rules.rst
->     +    and volatile-considered-harmful.rst.  This includes the entries that the
->     +    recent process/ update added to fifteen of these blocks.  Attribution
->     +    for all of it stays in the git history.
->     +
->     +    Assisted-by: Claude:claude-opus-5-5
->          Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
-
-Oh, forget to meantion. Now "Aissisted-by: LLM" is preferred. But if
-it's not necessary, then that's fine too.
-
-
-[...]
-
-
->     +-.. warning::
->     +-     此文件的目的是爲讓中文讀者更容易閱讀和理解，而不是作爲一個分支。因此，
->     +-     如果您對此文件有任何意見或改動，請先嘗試更新原始英文文件。如果要更改或
->     +-     修正某處翻譯文件，請將意見或補丁發送給維護者（聯繫方式見下）。
->     +-
->       .. note::
->      -     如果您發現本文檔與原始文件有任何不同或者有翻譯問題，請聯繫該文件的譯者，
->      -     或者發送電子郵件給胡皓文以獲取幫助：<2023002089@link.tyut.edu.cn>。
->     -+     如果您發現本文檔與原始文件有任何不同或者有翻譯問題，請發建議或者補丁給
->     -+     繁體中文文件的維護者和審閱者（見 MAINTAINERS 檔案）。
->     - 
->     +-
->     ++     此文件的目的是讓中文讀者更容易閱讀與理解，而不是作為一個分支。
->     ++     因此，如果您對此文件有任何意見或更新，請先嘗試更新原始英文文件。
->     ++     如果您發現本文件與原始文件有任何不同，或有翻譯問題，請向繁體中文
->     ++     文件的維護者與審閱者提交建議或補丁（見MAINTAINERS檔案）。
->      
->       ## Documentation/translations/zh_TW/index.rst ##
->      @@
->     @@ Documentation/translations/zh_TW/index.rst
->       .. note::
->          內核文檔繁體中文版的翻譯工作正在進行中。如果您願意並且有時間參與這項工
->      -   作，歡迎提交補丁給胡皓文 <2023002089@link.tyut.edu.cn>。
->     -+   作，歡迎將補丁提交給繁體中文文件的維護者（見 MAINTAINERS 檔案）。
->     ++   作，歡迎將補丁提交給繁體中文文件的維護者（見MAINTAINERS檔案）。
-
-OK, you prefer no space between CJK and ascii. ;-)
-
->       
->       與Linux 內核社區一起工作
->       ------------------------
-> -- 
-> 2.43.0
-> 
-
-Thanks!
+For virt_to_netmem, maybe a meta question: does xsk pool need a treatment
+similar to the socket path? Where we did s/page/netmem_ref/ ? Then might
+be less reasons to special case?
