@@ -1,168 +1,197 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013007.outbound.protection.outlook.com [40.93.196.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f4.google.com (mail-pj2-f4.google.com [74.125.227.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28E54C33D8;
-	Mon,  5 Oct 2026 16:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791219064; cv=fail; b=BqCOPIacz9SyZTg/HIElzZznp6W88EzvDs3R9tO0cnOt08GYcwXmBSFiXOtawTZ1MNFBdbsFTOiLm68+ZeDS/GNVdCEsCvImy0SZ2NnPxkWIxoNupMtwm26i2pooiz66Ld6Vb1P7UGlQyyU4hUquab4Cqd4cN7h7YNKdVhxsH+k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791219064; c=relaxed/simple;
-	bh=klMcg9B20Ox15l5HCuc0nXKSkmI3LHYliL0S6foxG7A=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=r1RL+8hCvDsECUNyrzosnOHANFv2yIIQ5BFLonglODviO7YfY8Yx8VbHM6MZ+CSapMZcj7QHfUQRAQJNh3lEPGObK8XVqPqw3q5nA5XIboS3wLEX0NOUeeJNnH1EAknLSPGi1+k2NLUx7onAQVGjsytYSg8qYF3XrBprka0rHu8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=eVLsFep0; arc=fail smtp.client-ip=40.93.196.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3534C4D09F1
+	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 16:51:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.132
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791219083; cv=none; b=uB3qaPQUAmCRRZRn1uxGB4u3O8ZTQ6RP/HRD+ovlx/Tqonka2V5P0gMsHfznU+AvZe/jnM2C65cM1XpI+7dVUgTq3QmV9N8OD5tNlxaYcgMsfm4N/ymO3mvYW8zEPqMmLe8rZkqJXqZlIdykfIyraaQW6P2PwsgQR9ogIzGchOs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791219083; c=relaxed/simple;
+	bh=ZtOtfI8xTZljtzEITNuddg7KMK3dN7NLgg7QIotbHg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L5b2NPlRU4a+t2tA/w/h1oxh7YA7zp0n+pNLYZ+Gzz64Wl2wKIFVxi69Qa+fMUKe6pXyxsZrhGhamlY+u2ZK3NPATJE74ZUurrB4FzXSqItwhfLls2uO1v8qBeaBR9CS+J4XFvdcCZ7aIu0YsV7+rkmE0brQxg43sjhzk4/kUqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jYBEAguj; arc=none smtp.client-ip=74.125.227.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="eVLsFep0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uHVtJCg9uTzNLSgshdGNDOLPloH1UgnH5WKMjb8bJYBVI9sLNdgZeus5x6D7Ai9d997Qk7xnvpdTXeCaXgmxJ6lKKuQBSSK3jOBxhLby70mPAtF1tk5pXmMAOwJqwkVUKOhWqEIKeOJKoSGSz83rd8HPp8UzuGqluOVFYvE8acLhJIv8Dj2B2JV/Kl/5oOSUPn2msj1yZ4x6KrJP3nH+AV1SMlkmev/OMGnRt6J3sdwBPyoj51S3kisopniEZbge7P8wOllY7kYTb+rb4LR1+C0z/J343on9+rb0KbFjcp51RNT1JmY4YNtOz4qzdcJ3jvsrw8jfbGXyCflNlCXcDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UlOzOv6W/QLtU1IupRu6E8N7ux/KYq+FY94KWCaJTd8=;
- b=GYpfaAovJoxfgxZ7rmVfr44pL780V1erFsnatyGra5OaRG+g6snl4rbcv9dxuID0PSWr0PWgc0RE2k1rfjTosLcZbOwZo67XQn8j0YRJZafNnV+VwHNhMx3jinPrM+yBVBVe8zYa5wcZczl/swsBrO82w5TjQmERSLghYbEdESkexCv3GuBn39YOdjt+zhgAcTosDvNokB7o5oq7Ech90uN2MKB5TDxHl9mshyPb4DiGbFPZIWhucEqOJ0omwXbQ4IH6jf2oSixvHXWp5PCqFMtA/sagcIPkRpZHR8pgcef4Vlp4DpycH5xOESbeWqwy6x2WQyg8bhwD/2VZOgvF8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UlOzOv6W/QLtU1IupRu6E8N7ux/KYq+FY94KWCaJTd8=;
- b=eVLsFep0yBtZPQWXsS5+aAhSuEwtsM+aEOSVSUAMaQ+7Qb14NrB/2C2eJleVaiJ4P3nWYlwv7y2FmjuFth64z8q94+Qj30GjRgGNBMPAzU8UMCZSYWKLxa0ZcK+A3lRjGgF1tffvED8/TWpIdbGn0caSkMW00yYXR5LrslP/Qpc=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS0PR12MB6559.namprd12.prod.outlook.com (2603:10b6:8:d1::6) by
- SAVPR12MB999145.namprd12.prod.outlook.com (2603:10b6:806:4e5::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
- 2026 16:50:50 +0000
-Received: from DS0PR12MB6559.namprd12.prod.outlook.com
- ([fe80::3f99:f532:cf6b:ea46]) by DS0PR12MB6559.namprd12.prod.outlook.com
- ([fe80::3f99:f532:cf6b:ea46%4]) with mapi id 15.21.0451.022; Mon, 5 Oct 2026
- 16:50:49 +0000
-Message-ID: <19b787d8-fac9-4925-b17b-f66d5ab8e940@amd.com>
-Date: Mon, 5 Oct 2026 22:20:40 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] thunderbolt: Reset the host interface before reusing
- a DMA HopID
-To: Mika Westerberg <mika.westerberg@linux.intel.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
- Mario Limonciello <Mario.Limonciello@amd.com>, Sanath S <Sanath.S@amd.com>
-References: <cover.1790854235.git.Basavaraj.Natikar@amd.com>
- <a7e066c3da8e1a92fb018008861775b33909ab0a.1790854235.git.Basavaraj.Natikar@amd.com>
- <20261005143535.GM176164@black.igk.intel.com>
-Content-Language: en-US
-From: Basavaraj Natikar <bnatikar@amd.com>
-In-Reply-To: <20261005143535.GM176164@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0023.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:25::28) To DS0PR12MB6559.namprd12.prod.outlook.com
- (2603:10b6:8:d1::6)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jYBEAguj"
+Received: by mail-pj2-f4.google.com with SMTP id 98e67ed59e1d1-3a854dffb5dso6917a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 09:51:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791219080; x=1791823880; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=b4mkDJheIxHRdMD7TqVn4ykGrzx67Q/w28iQIL9i/AE=;
+        b=jYBEAguj/HXC2O9ml4GkNN/+9pMpbTf40fb8JKLkjR7FD8OKSyr70p61oJulOnjdra
+         kQaMEQjqyv7sgrI2g2fg6PPmcYTR8lSmBlH090Iui9CcaC+IW37lvow5Ppb4NrXhAkO2
+         IUUbQTvR8oSRFHXnBVOn4p7dae5R/an/Hk/XbBVSAfbNwhQWqhTg9eyVfwJuFg/U1L7j
+         TW4UrRlz0bYBlxFVVvbKXXheqRt+HGKxQJJjuqIluT7hvwbwkHHQEyKPKJCKrRlbR9jh
+         fqoadKhkTSprHmHkHPhqDaUgY3EKNIo4K78uf9PO/TOVsW6IOOw9qLPh+UHkye4inhDv
+         KQvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791219080; x=1791823880;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=b4mkDJheIxHRdMD7TqVn4ykGrzx67Q/w28iQIL9i/AE=;
+        b=W9rLCwoavHev89TeDKNFJcEE8RogvBDGhmy1DWP+ojXDTCiuLN3yiDNokS4gduMtGe
+         IGV4lgqe0cdO4VKrj5bmB8B2020FRIUL62terLeIVc0laey8wKCkYaY2ywVqwd+/vOU8
+         xsSNlfF2Qfj/wW8SMPJ42iEqxODTgx9+iyUI/TMU45U4xYL+f9gW0gGN7eUfEFpAmlvF
+         FQM+WVKGubvDU6HM05WZZETTzPfkI5VCbr0RkOiBVWk92Hr30cKh/I6BR1wFKIqumGI+
+         FsQYQFeycBWSf1F75mrtEFdTWCPUB9GU66DbYAYnkUBURZhzpA/sK+yPT4r2tbIstSpA
+         +nGA==
+X-Forwarded-Encrypted: i=1; AKwUvBwmuvImb/7sYbzlKx6dAkgnC0ZJ0OJaYkEUzOuaozD1cf4NsaT3z4uoI3cTy3LAhI/FoVZFQQzY4lc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJnrLxkLGwPiu1zivbN7kNgKFpWg/KW8dXgVjKTFXBQeoRmF/W7
+	eYw7AZOihzpNKlrUDz/yqIXie2Pd5+e8xv47lObyoFGuXWlGDdE6yoQ1
+X-Gm-Gg: AYBFou235sYVCCIIPXqqApe5i8w+6oVRmQe4EE/tz7EKNZ+1e88axntvnic7NsDlbE3
+	PMbXAzrC/vk7N7Xd11dSBdFxBhFj6TW79hFo3L24RPQanw+SJVZuH5GSGOqBJb6/v7/nqisuJ0A
+	T2W+NlB+sNUVMfpulOtkUcplWPt6+IXNs7XJ4X0zyh+9s0pzDToonQ4mZk5dMG3Qy/BBmwdUmyh
+	IFjed7UZxCFbXp00Bo1n6YIcEyZWdfBpHG32374WuEEUCDpOU6tO6eVM0RsTmo1IgvMoAfMWNb6
+	WVSDTFM8n6qY11IjSjka95k9JwxXtndPPq763Pa6JjvYC3NqdVeU7eIv739M6XdGycYggU2NREr
+	jl2hEg6VAsaOA7Cr3j81OsXm0V/Seulkt/PVewY5blNcR8V29GbJyF88GT6ya5gX/ruLBYTecFw
+	79F1XNWTu9mbrj/0qnsHB5fQsR9XBJCu2tExSAoLBcbGbuCqPkLrTzKZNk30K8+Uk=
+X-Received: by 2002:a17:90b:2ec3:b0:3a6:fec5:c184 with SMTP id 98e67ed59e1d1-3a6fec5d190mr6627900a91.7.1791219080418;
+        Mon, 05 Oct 2026 09:51:20 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:1::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a851525bffsm261628a91.0.2026.10.05.09.51.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2026 09:51:20 -0700 (PDT)
+Date: Mon, 5 Oct 2026 09:51:15 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, bpf@vger.kernel.org, 
+	io-uring@vger.kernel.org, "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, 
+	Weiming Shi <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, 
+	David Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Mina Almasry <almasrymina@google.com>
+Subject: Re: [RFC net-next 05/15] page_pool: Extend memory provider operations
+Message-ID: <asPUZ8DPllHd6Yu9@devvm7509.cco0.facebook.com>
+References: <20261002190018.696925-1-bjorn@kernel.org>
+ <20261002190018.696925-6-bjorn@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6559:EE_|SAVPR12MB999145:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2236d1b2-e3d7-4f94-0e08-08df2300cf48
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|23010399003|11063799006|56012099006|4143699003|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	1vj9R6lriCnLUbpdt/zH4oBraP8y8VBF9SK529aj9iF1eUf0E3hTw1Vyn3PHMwXvsnhijPS9qX5W93tRB+DYV9PP3j9GfThLavveFwH0R7b7GgEmTWYpGtQIG4EM/cc8UUh5jYpyt2MxgfXxXlwSHC1JTwWnPDc4kJzzq493J4HIbWraIjupPZRJGULl7Lbck+BLRkks0ssRpWaQ5CvTszCo0MWmxB6NKzE2VEOOnS0dp1fB9b/SGBQ+lQgPVFhS72aQtpwgBLL/XOG8mfhbjfEWaAjV7mzPXuBSIhQjw+eXQWPMYzss7YtuKIWVBjLDpvQofPKi+DYUAaJNCcvgBWL3ofkAbpGQIXIxpjg6U+9xkatHz0d2kp37NGzDYVtqWaRgVgf4+erxOW8/g/aCVPrBswiHYano4lCzzKZkbaT/V2tkSkUf20rAtzEmhMISQ0cwZfR0HhVDr1F7NkLSUk9vGA6XNzhcBa4V79+G+FPv4hyUQlQ70i3CHC/Lwfo+uXN3F+9Q1dluaMy6VXct38NvC1gZUHh53bVRjCoZdlITKRoKf1KGsBc3Whyb5h2aNOmvw/6ee6aJNDFyfcK+8zSXOyWv6fVH8XjFnD5zoM0ShDEiwEbya3e8BgJhMF5bvbJAwbCHJRvXVgtP0/INd2x99fNysj1KxpjgrhSQmO0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6559.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(23010399003)(11063799006)(56012099006)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ekhzZkRGMFBTMVIxR2xwT3NWOThNNWRWNnoxdEFPVFQ0WVh3eUd5dXJ3cndm?=
- =?utf-8?B?OEZ5YVNmVEEyTExoNEd2UGRma3pabDFYdDZJYmpsa3JYR1ZCaWFDbkQrV3F1?=
- =?utf-8?B?RXEwQmsvcjZrUDlYU2l1RkJ6eFNuYzZSYWg2UWtZdTRTdzlUL1lUclIraTRx?=
- =?utf-8?B?ZlgwYVp2TXRKcHJiaGtGZ1Q5dGdxdXNCWVBEZENPSHgwMVlYMmIrOHFTK3lI?=
- =?utf-8?B?dUpMUktJQi9kVnBKdjFhaHhqa0pRUDhpc0wxWWVlK3BVUHRwZlFOcTlnVnZC?=
- =?utf-8?B?RlI2SVdKM0FSVy80WCtXemg3ZEZpWlRJVW5lSGpEUit3bFRnRS9EcnpTc3F4?=
- =?utf-8?B?MEZZQ2lCYzFpZE5HenlpcHJXMXMzc1IyQ1RHT2plcTFrVElqbk1panhSOFA2?=
- =?utf-8?B?SWdJTUdYZjBKV3ljblBNWG5Bd2lqT0czQkltc3BsSStEeHM0V2cvTDRzTVBL?=
- =?utf-8?B?RU9GaEg5SzNhc21GRHZpNFVlQkNESnc5L3NaVlVBb3dYbXJQTWxxWE5PaHNi?=
- =?utf-8?B?WWpqYzlNQk56eHdYTEtNZC9wanJxeSt0dE9iWkNMZmIwZGFFQ0JjK2dGZEN5?=
- =?utf-8?B?NHVlcXdDRmxlWEJPZWtZYmRWSXhsV01rd1RJSEN3SncvbVZxK3R5QTRydFAy?=
- =?utf-8?B?ZHVWd0dmRnF2dHlrYlNOSmMxM0F2VUFZNnhuZkR5cnZmQ0RXM2F0b2RvbTFJ?=
- =?utf-8?B?aFhaSHNKcUNPTnJ0bElmYVQzcG8xak5OQ0RIRGFKVks5VzZQbGUxcGdjNEV4?=
- =?utf-8?B?V1dJZU4xSHZGa0FLaHRsL2RPWWk4aVVVVjBieEZtc3YzNEJ6UUpyRStmSzJh?=
- =?utf-8?B?cHRYWWFydk93NFdhL2pVbzdocGcybVJkczNkSG1oRXl0a1hRbk9tL2JSbTBl?=
- =?utf-8?B?NFFyZnhWVnBqQzdIbmY5R2M5WExWRUFlQVNJY21BWGFqZVNtdjAwYk5wR3px?=
- =?utf-8?B?QzZjL0lWd2FKREZJZzZ1Y0dKMEhiWFlPSEhhZXZoVk9CRk11WE9qM3BSdmxz?=
- =?utf-8?B?dFlpanhYd1JUdTF1R2crRjcxMUJBRHZpN0RuRlo5TkQvOVFqTS9VeGd0S2k1?=
- =?utf-8?B?V3UyNXBxSWk1Vy9MaFVmTUtVVUdpVEc0bUpNYnZpWHJqdE9Jb21uN1VQY0Zk?=
- =?utf-8?B?OVBRdm96QkJ1dVk2d3Q3bFQrZnV0aGMwaTRJelhzeHJkK0hveEIwTE1QZ01D?=
- =?utf-8?B?am9OVFdzZW9JWHBLVXg0dmNmSnpoNWRzNFRUTjNpTjJmM1Iwa3dGL0Y3dHVl?=
- =?utf-8?B?enlkR1d0LzRZWHowYTA0Z1lid2FqUW5GN1FLTk1iT0JQeVM2eWFsbEZ1T2sz?=
- =?utf-8?B?WFVFb3ZxOUFOOEhYNUVsTmZLWmZzYTBGcHJaNUlncWRQK3pnU2dWTEdraGln?=
- =?utf-8?B?ckJHZW1BV3RneVdQd3BIWlNpWFN1SlJKWExCL0hsdVZJQkxsbTFybkl0QkVx?=
- =?utf-8?B?Nmx5UUowakppS3NwMW9nWmJkK2VRS1Qvem11eG5ic2M0anI0ZnFvV0JVQ1Ix?=
- =?utf-8?B?dURwbzRMdFpZamNleTUwcDFhQ0wvSWpob21sY1U1ZmduaktjdmtlanpDLzdC?=
- =?utf-8?B?WEtOZERzNm1oYjd4ejQ0Tzd5clorRS9GcmVUSitQNVZHcDNEQzFabUN1RkdE?=
- =?utf-8?B?YWM4c1JkWHNKUXZvdUUvV3dCS0xLbTFpSEF2azVhNExRbmIrU2VTZkF0NGM4?=
- =?utf-8?B?RU5YYmtUN01FdzV3NW5tTVRWVzUvZVk1dE55bEp6c25pWWFJZ1Q3V1BzSUtp?=
- =?utf-8?B?aXozYlE2V3NhQjhrTklqS0N1TUVEMnhuZUx6K0taUnI1aWJ0T01tV2hnamEx?=
- =?utf-8?B?MWpmSzd4RWtBQWZWT2xMOENzeEpjZ2Z6VStFc3BmaHdjYWpLc3NTd1NxYUg1?=
- =?utf-8?B?Zitxa3E2cC9Vbk16TEI1cWRuc1VrUWpBdXBkQW9JWUd3RlRRRzh5TER5ZVVD?=
- =?utf-8?B?Uzhxa21NN1FXNFJHcHYwNndwcUxmdk5BL0JVMExob3hRYkNISXVYR1NJMFZq?=
- =?utf-8?B?bVo3ZHpZdjFiSXB6Q0kxalA2U2cyUEt4dWU5eFFBVEhMVHlmT2JKSXhqelQx?=
- =?utf-8?B?eTlyUXZRSFo1aHZYbkgyUC9EZjFBZWpwU0xnNUdsK0J0MndCbWkxRkpHdFJ4?=
- =?utf-8?B?WkVmcDFscjVPd2hCcDdMWG1KY2VJdFZoQlhLczVnUll0THM1MUhEUlF5eTVr?=
- =?utf-8?B?Wkl4cU95Y001aVJuQjZqZUE2MWhIaklzdE1RV1laVWtyNTEvZnFTSmhNQ1FP?=
- =?utf-8?B?SGlWcmxhd2tiTmpVMzNocnFNcGtrRG5GVWE3MStrUU5YOWVkZXJmTXBVaWVt?=
- =?utf-8?B?NDNmVHdscldsTkxqS003WHdqQTl6SW9FbXhRT2MwWWRFRFZ5NHpTQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2236d1b2-e3d7-4f94-0e08-08df2300cf48
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6559.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 16:50:49.8399
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rzlbdid09Jvngsc6JACX8yAn6zvdz9v7NJUUzBNncPx79Bn2h8bjrgHXETKMEjnvTl/3qev6MLVE1V8aFRTlkg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAVPR12MB999145
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261002190018.696925-6-bjorn@kernel.org>
 
-Hi Mika,
+On 10/02, Björn Töpel wrote:
+> The current memory providers give memory that the CPU cannot read,
+> and they can always refill. An AF_XDP provider is different. The CPU
+> can read its memory, it has only the buffers that userspace puts in
+> the FILL ring, and its buffers go back to userspace instead of being
+> freed. It needs four things from page_pool:
+> 
+> - A CPU address for each net_iov. A provider can set the address of
+>   the first net_iov in its net_iov_area and the size each net_iov
+>   covers. netmem_address() then computes the address without a call
+>   into the provider; drivers call it for every packet. A
+>   net_iov_area without an address stays unreadable.
+>   page_pool_is_unreadable() is false for a readable provider.
+> 
+> - A way to say that the refill is not done. The new refill_done
+>   callback tells the driver whether it may stop refilling. A
+>   provider that still has buffers returns false, and the driver
+>   keeps NAPI scheduled.
+> 
+> - A way to give up a buffer without freeing it. Add a batched call
+>   that ends page_pool ownership of buffers that leave through the
+>   provider, for example to userspace. It clears the page_pool link,
+>   so a later page pool can take the buffer. Add the matching batched
+>   call that sets the link, and a DMA sync helper for drivers that
+>   post a buffer again directly.
+> 
+> - No buffer splitting, because a split buffer has several owners.
+>   Add MP_CAP_FRAG. page_pool refuses fragment allocation from a
+>   provider without it.
+> 
+> devmem and io_uring set MP_CAP_FRAG and keep their fragment
+> behaviour. Their refill paths now use the batched call that sets the
+> link.
+> 
+> Signed-off-by: Björn Töpel <bjorn@kernel.org>
+> ---
+>  include/net/netmem.h                    | 31 ++++++++++-
+>  include/net/page_pool/helpers.h         | 62 +++++++++++++++++++++-
+>  include/net/page_pool/memory_provider.h | 28 +++++-----
+>  io_uring/zcrx.c                         |  4 +-
+>  net/core/devmem.c                       |  7 ++-
+>  net/core/page_pool.c                    | 68 ++++++++++++++++++++-----
+>  6 files changed, 165 insertions(+), 35 deletions(-)
+> 
+> diff --git a/include/net/netmem.h b/include/net/netmem.h
+> index cc97611632dc..e6dff0b01581 100644
+> --- a/include/net/netmem.h
+> +++ b/include/net/netmem.h
+> @@ -105,6 +105,12 @@ struct net_iov_area {
+>  
 
+[..]
 
-On 10/5/2026 8:05 PM, Mika Westerberg wrote:
-> Hi,
->
-> On Mon, Oct 05, 2026 at 07:13:40PM +0530, Basavaraj Natikar wrote:
->> +++ b/drivers/thunderbolt/nhi.c
->> @@ -17,6 +17,7 @@
->>   #include <linux/iommu.h>
->>   #include <linux/lockdep.h>
->>   #include <linux/module.h>
->> +#include <linux/pci.h>
-> I haven't looked at the code at all yet but this one is no-go. We are
-> trying to make the NHI code generic that can work with any interconnect,
-> like the controllers on ARM based SoCs (aka platform bus) and that's why we
-> have pci.c for the PCIe based NHIs.
+>  	/* Offset into the dma-buf where this chunk starts.  */
+>  	unsigned long base_virtual;
 
-I rebased the series onto thunderbolt/next
-a93a8e3200002f0c345fec4c340390e9a60aabc7. The reworked v2 removes
-the PCI-specific dependency from generic nhi.c and uses the existing
-reset_interface operation instead.
+Will send a patch to drop this one, don't think we use it anymore..
 
+[..]
 
-Thanks,
---
-Basavaraj
+> +	/* CPU address of the first net_iov's memory, or NULL when the CPU
+> +	 * cannot read the area. Each net_iov covers 1 << @niov_shift bytes.
+> +	 */
+> +	void *vaddr;
 
+Who is setting this? Somewhere in another patch? Can we keep it here?
 
+> +	u8 niov_shift;
+
+If we need niov_shift at area level, let's move the one from binding here?
+Then the existing callers can do binding->area.niov_shift.
+
+>  };
+>  
+>  static inline struct net_iov_area *net_iov_owner(const struct net_iov *niov)
+> @@ -117,6 +123,23 @@ static inline unsigned int net_iov_idx(const struct net_iov *niov)
+>  	return niov - net_iov_owner(niov)->niovs;
+>  }
+>  
+> +static inline bool net_iov_is_readable(const struct net_iov *niov)
+> +{
+> +	return net_iov_owner(niov)->vaddr;
+> +}
+> +
+> +static inline void *net_iov_address(const struct net_iov *niov)
+> +{
+> +	const struct net_iov_area *area = net_iov_owner(niov);
+> +	unsigned long off;
+> +
+> +	if (!area->vaddr)
+> +		return NULL;
+> +
+> +	off = (unsigned long)net_iov_idx(niov) << area->niov_shift;
+> +	return area->vaddr + off;
+
+Or, alternatively, store dma_base in area and do:
+
+return niov->dma_addr - area.dma_base + vadd ?
