@@ -1,162 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FDC4CEE48;
-	Mon,  5 Oct 2026 15:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588B14CDA3A;
+	Mon,  5 Oct 2026 15:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791215842; cv=none; b=NKBj+frME5ywMmgaHWmc+UyVrBJi+ALY0bayvRDl/J9dV+gi9J4B4bLqbQULviq9i4M94UoBR7Tkzqkjjonsni68H3H6oeSJPvc0Lzb4Pn4d6yYC9RehQdCipBOEyZOh9n+17Bc6n/QuN8lxg3h4H5C0D07qkurnoL0Nkddxlfo=
+	t=1791215927; cv=none; b=uKAmB7AdZzEMj/xAfQ7kH0YPf/0hiGzgefXKH24ugtN8JheUqgKYBcrTGubUviSlDn8lTMdimNLNa7ZHGN5yhpPNaXXDAvM7rfFgiiFL6Zt2f7hhltV6cHAvnYTa4L/gxkYRT8FEWFlN956TSEX3M9KhQkclJ/0LcUGmYgHju44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791215842; c=relaxed/simple;
-	bh=Fc4YPUymT7fzfMypmfysrvoMXIOU0vKJ/PytFjq1/dI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LeZqOgD2hGOHs1Qzd9eVxwb2yAj/YWb1FhqfOInxvnCAnbZ1zFqIu3XlCwhMWZ6xgaG6kJt3Zb/QjL2XyraRLtIi/PkeWZj/WbuvjlDbgmVBqrAakgCxQAHhU1bYBOZ0BVkJ1ETz3wQQaerO7XgEe3VIbSr72l5k/SaC25xtacA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=exco2V/O; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791215927; c=relaxed/simple;
+	bh=b4IJqXx+udUexVuL32KrcEb1C/aYXq6Fd7NuBJSyaa8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZnJ4FFyR3LSLSBiWRHhh4d8Rn+Fy+XGC2lQ/Lgg36PX5maUJGja9F3/PkJRO067TWOr7GpmakRBi1nI3gwm1ma6SOfegn55fbL4GP0UCOojUcXzVqMhwHSFNEYDtu1E5y+nFipJoYaSYafp5xTEmFwWXiomPmnz5Ti+uRbFYru0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LF24PVnR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="exco2V/O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08FF91F00899;
-	Mon,  5 Oct 2026 15:57:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LF24PVnR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E04021F00893;
+	Mon,  5 Oct 2026 15:58:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791215839;
-	bh=2iOJNj5LTyOJpP9+jn+s4cOp/LpOXOOTjS6VN88a9wU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=exco2V/OoEoB5MlcEMxMiAuk+qU2tEoGIG2Gn6PMuOJ7g9czYQkxQVDkRPobhTEJO
-	 5hW7vrGewbpvaUb4WemZNPLBZqcCJwXLqfIv7UapP6XLl/qWTTaaqbgus/vP1dEPlu
-	 Z5fi6gNAj+W0kJ91HUB/uwjH4dWyC3XW53CDx8wJzC+JR2hCyWELz79yF3ROBX6GCE
-	 OFX2vishOGq/qpckdFp4GlO+XB81U/EmiW0V/7vohP+Vc4QFmghfawFCQJ4Ms4JxgH
-	 EhoTskkSAb9KM1Ym4vseRMVMRxv5WZiV1htcW1sbJJcBv0cRQac17el67Q255+GMGB
-	 orKv+jbyZzAsg==
+	s=k20260515; t=1791215926;
+	bh=unJVs8XKy/ViJvkyFC1zJx/IWmn39RPVHGP+T8Nd3dY=;
+	h=Date:From:List-Id:To:Cc:Subject:References:In-Reply-To;
+	b=LF24PVnRFhTlc9BEimSTExr9zUlpqrHyxrAGI7xZb/ZfXouE0BCbuO9zcuJ+RBZdF
+	 yjoRuFTSMwvI1Ht6xWt/tMJsOlO8nZgrwWDePGsDn0+YsY438uvxaRnwjBDS2H+37x
+	 nTSG5Fpy2ERh7+9AbNJtIdfvqrEhlyYcZFmuE02ErrDhiqyqYJjJaR4+Cv5TTevh4U
+	 MfMeMSspVc6JWVpoCQhOlEEB8m7p/vh96oV2ehORFdvGBW1VcAgYqnIQi+ruFsOetu
+	 ST40EqgKy44/Q0XqKG4whbJGBeuYc59+yMzF2LeMixthMp3KyWpBUEPr5MEZQSYPs7
+	 ijRBPuBdWa62w==
+Date: Mon, 5 Oct 2026 08:58:45 -0700
 From: Kees Cook <kees@kernel.org>
-To: Bill Wendling <morbo@google.com>
-Cc: Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
+To: Alejandro Colomar <alx+linux-hardening@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bill Wendling <morbo@google.com>,
 	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Petr Mladek <pmladek@suse.com>,
+	David Gow <david@davidgow.net>, Petr Mladek <pmladek@suse.com>,
+	Shuvam Pandey <shuvampandey1@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Shivaprasad G Bhat <sbhat@linux.ibm.com>,
+	Thorsten Blum <blum@kernel.org>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Ira Weiny <iweiny@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Vishal Verma <vishal.l.verma@intel.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev, linux-doc@vger.kernel.org,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v5 12/12] docs: core-api: Document the seq_buf API
-Date: Mon,  5 Oct 2026 08:57:02 -0700
-Message-ID: <20261005155708.1471260-12-kees@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261005155653.late.426-kees@kernel.org>
-References: <20261005155653.late.426-kees@kernel.org>
+Subject: Re: [PATCH v4 05/11] seq_buf: Add seq_buf_strlen()
+Message-ID: <20261005155839.d5d200-kees@kernel.org>
+References: <20261003035906.too.263-kees@kernel.org>
+ <20261003035921.1918874-5-kees@kernel.org>
+ <asEhEe0Urb5Wx7yi@ashevche-desk.local>
+ <202610040023.A3865A6@keescook>
+ <asIPlnb0noMd33rr@ashevche-desk.local>
+ <20261005112209.1e47fa-kees@kernel.org>
+ <asOKvhT01aNb5-Dg@debian>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3434; i=kees@kernel.org; h=from:subject; bh=Fc4YPUymT7fzfMypmfysrvoMXIOU0vKJ/PytFjq1/dI=; b=owGbwMvMwCVmps19z/KJym7G02pJDFmHT5wzNS7I/nbEYGv47mjH0t6tr0yVRXW/3dzw7+VTu +JJ9zZyd5SyMIhxMciKKbIE2bnHuXi8bQ93n6sIM4eVCWQIAxenAEzkhjHD/9RpsdnPPNd9d7R3 vji9QqA5eLp2RsrrsrNxWQFNC2d0ajMytGfNv9n4wyr/hf3tuwWrc56YrD9ZZHtRWmDin/ceUmK yLAA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <asOKvhT01aNb5-Dg@debian>
 
-The kernel-doc in include/linux/seq_buf.h and lib/seq_buf.c documents
-the seq_buf interface, but no .rst file pulls either of them in, so none
-of it reaches the generated documentation.
+On Mon, Oct 05, 2026 at 01:34:10PM +0200, Alejandro Colomar wrote:
+> > Yeah, reasonable. :) For v5 I've added this to seq_buf_str()'s kernel-doc:
+> >
+> >  * A zero-sized seq_buf has nowhere to put a NUL, so the empty string
+> >  * is returned instead of writing to @s->buffer. Any other seq_buf
+> >  * returns @s->buffer, even when it holds an empty string, so callers
+> >  * always get their own buffer back.
+>
+> Are such buffers actually used on purpose anywhere?  Why not keep the
+> WARN_ON?
 
-Add the missing kernel-doc for seq_buf_clear() and seq_buf_init(), and a
-Sequence Buffers section to the kernel API documentation. The static
-internal helper seq_buf_can_fit() is left out. Additionally fix
-seq_buf_hex_dump() indentation to avoid the reported Sphinx error:
+Yes, though not often: the sched_ext debug dump builds a nested per-CPU
+seq_buf from seq_buf_get_buf(), which returns a size of 0 once the dump
+buffer has overflowed, and it handles that case on purpose (see the
+"$s may already have overflowed" comment in kernel/sched/ext/ext.c).
 
-  ERROR: Unexpected indentation.
-  WARNING: Block quote ends without a blank line; unexpected unindent.
+Greg asked about the WARN_ON() in v2[1]: a size that comes from a device
+or from userspace would have to be checked before every seq_buf_init(),
+or it becomes a crash under panic_on_warn, and an empty buffer can just
+hold the empty string. So the accessors do that instead.
 
-Verified with "make SPHINXDIRS=core-api htmldocs", which rendered
-happily into core-api/kernel-api.html.
+[1] https://lore.kernel.org/all/2026091953-cherub-empty-ef35@gregkh/
 
-Assisted-by: LLM
-Co-developed-by: Bill Wendling <morbo@google.com>
-Signed-off-by: Bill Wendling <morbo@google.com>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Kees Cook <kees@kernel.org>
----
- Documentation/core-api/kernel-api.rst |  9 +++++++++
- include/linux/seq_buf.h               | 12 ++++++++++++
- lib/seq_buf.c                         | 13 +++++++------
- 3 files changed, 28 insertions(+), 6 deletions(-)
+-Kees
 
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index 4c4a57c1c094..f5a0aedbbb48 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -96,6 +96,15 @@ Error Pointers
- .. kernel-doc:: include/linux/err.h
-    :internal:
- 
-+Sequence Buffers
-+----------------
-+
-+.. kernel-doc:: include/linux/seq_buf.h
-+   :internal:
-+
-+.. kernel-doc:: lib/seq_buf.c
-+   :no-identifiers: seq_buf_can_fit
-+
- Sorting
- -------
- 
-diff --git a/include/linux/seq_buf.h b/include/linux/seq_buf.h
-index be979089228f..f006f2654e4c 100644
---- a/include/linux/seq_buf.h
-+++ b/include/linux/seq_buf.h
-@@ -31,6 +31,10 @@ struct seq_buf {
- 		.size = SIZE,				\
- 	}
- 
-+/**
-+ * seq_buf_clear - reset the seq_buf to be read / appended from the beginning
-+ * @s: the seq_buf handle
-+ */
- static inline void seq_buf_clear(struct seq_buf *s)
- {
- 	s->len = 0;
-@@ -38,6 +42,14 @@ static inline void seq_buf_clear(struct seq_buf *s)
- 		s->buffer[0] = '\0';
- }
- 
-+/**
-+ * seq_buf_init - initialize a seq_buf
-+ * @s: the seq_buf handle
-+ * @buf: pointer to the buffer
-+ * @size: total size of @buf
-+ *
-+ * The contents of the buffer are ignored.
-+ */
- static inline void
- seq_buf_init(struct seq_buf *s, char *buf, unsigned int size)
- {
-diff --git a/lib/seq_buf.c b/lib/seq_buf.c
-index 8da2e9447adf..54b76044e4ba 100644
---- a/lib/seq_buf.c
-+++ b/lib/seq_buf.c
-@@ -409,12 +409,13 @@ int seq_buf_to_user(struct seq_buf *s, char __user *ubuf, size_t start, int cnt)
-  *
-  * Function is an analogue of print_hex_dump() and thus has similar interface.
-  *
-- * linebuf size is maximal length for one line.
-- * 32 * 3 - maximum bytes per line, each printed into 2 chars + 1 for
-- *	separating space
-- * 2 - spaces separating hex dump and ASCII representation
-- * 32 - ASCII representation
-- * 1 - terminating '\0'
-+ * linebuf size is maximal length for one line::
-+ *
-+ *	32 * 3 - maximum bytes per line, each printed into 2 chars + 1 for
-+ *		 separating space
-+ *	2 - spaces separating hex dump and ASCII representation
-+ *	32 - ASCII representation
-+ *	1 - terminating '\0'
-  *
-  * Returns: zero on success, -1 on overflow.
-  */
 -- 
-2.55.0
-
+Kees Cook
