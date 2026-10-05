@@ -1,64 +1,64 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B171F4DF4BE
-	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 17:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0B34E323A
+	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 17:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791220578; cv=none; b=snqB6jjp9u4B0tSiiGgYEcXGLCqhDXS0WKb5Wnn2RyDkuqWYkWNamhkY6pLm+f16P2Q8XFLaxDRgg9tQBVDpvtimI+ruhjrOOfsTEq6xkbL+PTnV/49xHxHmZxFqgUbuXxvapH/jQmKWbX8BeHmEve+xcPz6LP/vcgZLL/heExo=
+	t=1791220592; cv=none; b=MYZFf5Y7uTM3/MmzGkbzQmE9CCjjPEis2y2uiui+0pLFZs52woWDQjyyATyCLuy2Ek+xqZ8j5+mKJwZLVTdyViuiPjZDTA4oOjgNTcIsx/NF9CqJmwY/u5+qVmI/FAajMPYSdchx9WdJWuKiCC3ggaVJDACO1niRhVnUI6+zWHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791220578; c=relaxed/simple;
-	bh=LfZ5/lSdai4qmcULNQ0sZLI2MsuRTJuBplORHvku1dE=;
+	s=arc-20240116; t=1791220592; c=relaxed/simple;
+	bh=SrwdHIX17te8vYpXerlPrT9uvUAXxdpliS9rJVsJABc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lDDozvBZgEvLEoqzsaC5In04KrR0OlbTol5IsYl0N73pimMLs8D28vzxGMzp24DZye9u9E2pbJzog0x2gi5cd8tG0aonspIgTZ/mlgY9tngYh2pZ0Iscqb24wW+xQKooy8gmmhto8LGRTouu5C+E0r0OkQd7A2N37u3sCdc+j+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GV0Gh6fA; arc=none smtp.client-ip=209.85.215.170
+	 MIME-Version; b=kXpfdwQQQA5ht8beDdJsoRbMp47FyOPrCnDw5+5zUzC4KCNv4XLbxwseZLg6l5SlVyANAZdgHtUl7GP0RQIhlQ9gY9ZkD6HhBpx1e32xbFmzpMGL6bbvsH/ppsZi8RmcI6zg3XAoircJEnMK7/bNfbWZoRF2XhWaIzSV/h6Swuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FuCetfeQ; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GV0Gh6fA"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cc4c02ddd62so788110a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 10:16:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FuCetfeQ"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3a7bf792424so1193528a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 10:16:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791220576; x=1791825376; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791220590; x=1791825390; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HaUov767om1ufidMBuv+Qa8IE9x5ePpDXkwVM9ozpyI=;
-        b=GV0Gh6fA3xe81BoLIjJ5x8qfv4Tq4+ZBfVb+9dcQnRuWDWr04LMlzhUV6dzNTgoXvA
-         6ibd8NZ5ee8H+3y+7g0YOR08PWSCkj7UPEeJfANL3iosLKyvX+Zf6gumjpv17uP0Mgam
-         rdQn+iPWBzLVJI9Lg2AkYF0NDNJBrnPgGevESJGTynQTZGXjjRvXhMkBc/BJf51dGlrk
-         VcIQvNmS3HbVkzjYi7m52WTGUTaO2okjTzs8qw4Jf8Xyh+LAriBayO6Tb0v5sST5O7dP
-         ZOjXVbiSeXfFiX6YXk36FKzJsR4OmwadjQdD7+OCb8zz4n8Y6DqyX9liGTKTOZzw1R8x
-         6PHA==
+        bh=kkxMy1Mx1AmQEa8UR49QVnQhvwoc8QcMpxJihofQjBM=;
+        b=FuCetfeQPYQ9q6XoNLb/0FiUiLdxi1QAwveu3hX0y7bSaevicbnvYYZEQSO3e2eFSU
+         va2AOxzfeDfJpeRA08mdu1+HUxFDUxfrufRPOvuck1GPc6Oxr/9c94CzhUtW9kk2mvPF
+         ai5n9S7tVnkiw2aZZ0KQTG6fXu/a7Y7VfCSD30vAjIJzWvTlCS9RtWLF1vpb752OQnMM
+         IvydeE7qYQjH4QN3ljwwwh+cVzZ/jR7O5Whc1Nedysqeak2ebXKTJP2+3lDtScCYjq5x
+         nXzET6ELaiE2DYg9tUeKXN4EdFpZBki4EQtLcTHcb+0n8EAhWK5uVldFKNPvG2g7O1XH
+         YdHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791220576; x=1791825376;
+        d=1e100.net; s=20260707; t=1791220590; x=1791825390;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HaUov767om1ufidMBuv+Qa8IE9x5ePpDXkwVM9ozpyI=;
-        b=Sa35AtjQ3KHGRIu9BGKc9jf4xF+oRSTFIAlMkh82KSXnHEIr+fjLC3QiVJdeU2Wd+K
-         QLgunDX9Gzls2y8dJoSut4opj+N7M3FcO0OAnpHqXQTnibYqVOkCavyGylPD9tg5EyKg
-         beorOtcayNyo73tPuSH0g5pkmGhoLAgfRumNfhpGvmrHFeRDHXq/XW9lGP9KyQKvbk6a
-         IqV46zMWlvZEIrK55FcrZ9OX2DU8rqQLMAXQufDHmEKoramfpFz0nyw0zTzaEM9mE/qm
-         ShbMl9z5Y4vrhGF3GgfY+Nb7Huq3yZrAEFlM/3LoDVB87e6OXoPUi7rDlbJTnfnqYKRa
-         RaTw==
-X-Forwarded-Encrypted: i=1; AKwUvBxM0nqw2+V8uZWTMXDZuJMSS0wYDHBQorRM4BzWvajVpdQkEzAdIb+B/RmrFsXwEpNtNlGId31xgAo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLvVM53/3kPlZWfAgkcnTJUoZ//Hco8kNsC4/6hTx9dzARt192g
-	zI05+KH/4xOok4aHEYHrXaGk/QJpaDNX8SxrNHAhbAT7rbcsmjqd1ATV
-X-Gm-Gg: AYBFou3NqoUzYA/Gi3hG6ZLvFkd8QPt2bvOnSEdI4QJT9QVatoKEGQl50COhjuADWV1
-	Nr+WTcuRnoPxkXk4EUTXJtyChZ3xF0AyZ/mk4pUaKQH+nB9GgQWHyrafZle8GMpoH3urN7kQbBT
-	72jd6g76kyilniOy2mdtEbPljrJJA7XcDQ6G5bVDh9reBeazZYtMfIBJyGDibcEeHcs7RvSeU80
-	qfZCdOj0y4eJtdyrTyR8ex6Vpwy4qlHO8wS4pkuOZBbFB9h4ETdQKtRmzD7MBH9hVjTwFVkVPyy
-	k1qnscboB8geFTOsP++ZhdUawOsv/YV7pX7rsN0VH5XL/VM620ureUSNrto2P63vzP9KjqJ7cDf
-	nifjvIJfiwwdsAMBhC5jkoC0oNyltM7XbCR9hHbRV+BDYFMjQ+tXqbHPRpfD/7D9QTMlHsabVc8
-	xCXxPG53n/BtDfTFHmKpvgKRlUX5CANByYz1Rnl390mdOi2GYk+p/2vJmH5cvEXDztYtNZ2fj3S
-	XDF7ctVECPtTzxUNZ5st4srCK8JWg==
-X-Received: by 2002:a17:90b:4a48:b0:39e:4c81:6c5f with SMTP id 98e67ed59e1d1-3a7872b63bdmr7172810a91.26.1791220575398;
-        Mon, 05 Oct 2026 10:16:15 -0700 (PDT)
+        bh=kkxMy1Mx1AmQEa8UR49QVnQhvwoc8QcMpxJihofQjBM=;
+        b=EWuq5GWpTwyNT/2h4F7v66a5UvJh8l09pJISbhaPYrTReSINxutezO3KJ/SxDrJLtz
+         uK/uuwjTI5b0PP+78krGaweDXGVxhMmgihvqiHgBid2tia7+BUzeo/xCjYFBzLlmOPxe
+         y9SUcVNwmD0YFTISMjPYzMjP4rP+QK2r0n1/ulwEhGBgGX3CAyzMCO8vm8FPtIX9o4+t
+         ehK7x4sB27TSNZbhmVOkdIaFP0Eb617TX2L1jDk/2QDApLTEEkCM8pfitmSkv6UoQTIV
+         JEkkVqCTy0TE/45K3rUd3+Xzd3jd8CSlHjlNK9iKfIHCGQLsJgGZ4BQ5AqRNhcESWMsd
+         ra6A==
+X-Forwarded-Encrypted: i=1; AKwUvBwQB1bbnuKbghXh32MwEg188dHgP4epPPyPhNGhTUEUmUjzZn3Rz+0hIDJtjboHez7WlN/ykyAehRM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLPHyeECY/RZFfDfN6o3ZjFIYUrbswcPJD6g7zNchTj3+pmq8zl
+	FRdp1Y7fbkWdr34zblgO6btOihA9lg6ytQVYISTO5vbBMQ7rTIPqr9Yf
+X-Gm-Gg: AYBFou2fibgX26vY+ithS9fziJt6X1hMa4SYk8ve1czDlCNUwAx83vULoks4kFX7kYm
+	OOaO6j3q/FHRYHsvkgXoMInW9Ef95sq3hwFor1kGIZk6gXErhPzB0xC/xotNvurZtwCkn0KSKkX
+	2q913rgzoVTxjZ3Hq7A0pTKa0lB16hibj5CCXfd1eApqvBnNRY+jIb8mL6NcEiMJWgRvMtTAFBG
+	BdFVZD0X4WcTcVUnl3y8J//JEHnJ5iCUhqM9wKLQBEiBDDTq13rRQsp3jSJxssCONO78kdHvYos
+	09gQiGdP6bLWuvA+AaGVfXZmn0j2bpssQDbpNzzeA12gKk2W624i7UDKPA40UeWsFW0e4Nf85x1
+	QUw7Qwy5qtjxAneFZQ1yIjg9xgx2Cv2ZpKb6LXorK4aLd/KOxMPUul0GxvbMDmayjaXNj5QSn53
+	Zy5BiI4ccujsSSBtI2wdxdji41k4ef48Ij4VBWLbVEK6a5xvnGf8X/idjHC5vfOc6Wq6UvmPeHS
+	8UoHqymJo8i98XnT+QbmpoCJEJOxA==
+X-Received: by 2002:a17:90b:4a0a:b0:39e:6a82:afda with SMTP id 98e67ed59e1d1-3a7873ea58amr6998626a91.44.1791220589334;
+        Mon, 05 Oct 2026 10:16:29 -0700 (PDT)
 Received: from kernel.tail6741c6.ts.net ([216.195.201.24])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a853cafddesm406910a91.10.2026.10.05.10.16.03
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a853cafddesm406910a91.10.2026.10.05.10.16.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 10:16:14 -0700 (PDT)
+        Mon, 05 Oct 2026 10:16:28 -0700 (PDT)
 From: Kunwu Chan <kunwu.chan@gmail.com>
 To: paulmck@kernel.org,
 	corbet@lwn.net,
@@ -96,9 +96,9 @@ Cc: stern@rowland.harvard.edu,
 	linux-doc@vger.kernel.org,
 	rcu@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH RFC v3 02/15] hazptr: use Bloom filter for shared scan waiters
-Date: Tue,  6 Oct 2026 01:15:16 +0800
-Message-ID: <20261005171529.1378809-3-kunwu.chan@gmail.com>
+Subject: [PATCH RFC v3 03/15] hazptr: scan all per-CPU slots before overflow lists
+Date: Tue,  6 Oct 2026 01:15:17 +0800
+Message-ID: <20261005171529.1378809-4-kunwu.chan@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261005171529.1378809-1-kunwu.chan@gmail.com>
 References: <20261005171529.1378809-1-kunwu.chan@gmail.com>
@@ -110,195 +110,231 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the per-waiter exact-match scan with a shared Bloom filter
-built during the second drain pass: each observed non-wildcard
-address sets three bits, so a waiter whose address hashes to an
-unset bit can be completed without another slot walk.
+Boqun Feng pointed out that a promote racing a scan can cause the
+scan to miss a hazard pointer: hazptr_promote_to_backup_slot()
+chains the backup slot into an overflow list before clearing the
+per-CPU slot, so the scan must observe the old location before the
+new one.  The scan currently visits each CPU's overflow lists right
+after that CPU's per-CPU slots, so a promote that moves a hazard
+pointer from a per-CPU slot of a later-scanned CPU into an overflow
+list of an earlier-scanned CPU can be missed.
 
-A Bloom filter has no false negatives, so an address absent from
-the final drain scan cannot be held by an observed slot; false
-positives only delay completion to a later scan cycle.
+The direct two-phase scan has a related race because the overflow
+list selection follows the wildcard phase: a promote racing the
+wildcard flip can move a backup slot to the list not covered by the
+second phase.
 
-The filter uses a one-page bitmap with three multiply-shift hash
-functions.  It lives in the hazptr_scan_state and is only touched
-by the scan kthread, so waiter state remains on the caller's stack
-and no dynamic allocation is needed.
+Fix this by scanning all per-CPU slots before any overflow-list
+slot, in both the shared-scan walk and the direct fallback scan.
+Give the overflow lists a flip phase of their own, independent of
+the wildcard, so each list is scanned while it is the non-live one:
+new backup slots are chained to the other list, preserving forward
+progress.
 
-Suggested-by: Boqun Feng <boqun@kernel.org>
+The same race was also addressed by Mathieu Desnoyers.
+
+Fixes: 0b8114b25f17 ("hazptr: Implement two-phase wildcard scan")
+Reported-by: Boqun Feng <boqun@kernel.org>
+Link: https://lore.kernel.org/all/20260925195958.4766-1-mathieu.desnoyers@efficios.com/
 Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
 ---
- kernel/hazptr.c | 93 +++++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 83 insertions(+), 10 deletions(-)
+ kernel/hazptr.c | 88 +++++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 64 insertions(+), 24 deletions(-)
 
 diff --git a/kernel/hazptr.c b/kernel/hazptr.c
-index 9e274a691af5..900ba35de2cb 100644
+index 900ba35de2cb..799784f698ed 100644
 --- a/kernel/hazptr.c
 +++ b/kernel/hazptr.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/hazptr.h>
-+#include <linux/bitops.h>
- #include <linux/percpu.h>
- #include <linux/spinlock.h>
- #include <linux/mutex.h>
-@@ -16,6 +17,7 @@
- #include <linux/kthread.h>
- #include <linux/swait.h>
- #include <linux/sched.h>
-+#include <linux/bitmap.h>
- 
- /*
+@@ -23,13 +23,20 @@
   * The current hazard pointer wildcard. Flips between 1UL and 2UL to guarantee
-@@ -213,6 +215,55 @@ void hazptr_scan_period(void *addr, void *scan_wildcard)
- 	}
+  * hazptr_synchronize forward progress even with a steady stream of readers.
+  * This wildcard value is used by acquire to temporarily tag the per-CPU slots.
+- * This also affects the overflow list selection: the current list used by
+- * readers is array[(unsigned long) hazptr_wildcard - 1].
+  */
+-static DEFINE_MUTEX(hazptr_wildcard_lock);	/* Protect the wildcard flip. */
++static DEFINE_MUTEX(hazptr_phase_lock);
++/* Protect the wildcard and overflow-list phase flips. */
+ void *hazptr_wildcard = (void *) 1UL;
+ EXPORT_SYMBOL_GPL(hazptr_wildcard);
+ 
++/*
++ * The current overflow list phase. Independent from the wildcard so that the
++ * overflow list scan can be placed after the per-CPU slot scan while still
++ * scanning the non-live list: the current list used by readers is
++ * array[hazptr_overflow_list_phase].
++ */
++static unsigned int hazptr_overflow_list_phase;
++
+ struct hazptr_overflow_list {
+ 	raw_spinlock_t lock;		/* Lock protecting overflow list and list generation. */
+ 	struct hlist_head head;		/* Overflow list head. */
+@@ -59,6 +66,12 @@ void *flip_wildcard(void *wildcard)
+ 	return ((unsigned long) wildcard == 1UL) ? (void *) 2UL : (void *) 1UL;
  }
  
-+/* Number of hash functions for the Bloom filter. */
-+#define HAZPTR_BLOOM_HASHES 3
-+
-+/* Number of bits in the Bloom filter bitmap: one page. */
-+#define HAZPTR_BLOOM_NBITS (PAGE_SIZE * 8)
-+
-+struct hazptr_bloom {
-+	unsigned long map[PAGE_SIZE / sizeof(unsigned long)];
-+};
-+
-+/*
-+ * Multiply @addr by a per-hash odd constant and use the high bits
-+ * as the Bloom filter index.
-+ */
-+static unsigned long hazptr_bloom_hash(void *addr, unsigned int i)
++static
++unsigned int flip_list_phase(unsigned int phase)
 +{
-+	static const u64 mult[HAZPTR_BLOOM_HASHES] = {
-+		0x9E3779B97F4A7C15ULL,
-+		0xC2B2AE3D27D4EB4FULL,
-+		0x165667B19E3779F9ULL,
-+	};
-+	u64 hash = (u64)(unsigned long)addr * mult[i];
-+
-+	return hash >> (64 - ilog2(HAZPTR_BLOOM_NBITS));
++	return 1 - phase;
 +}
 +
-+static void hazptr_bloom_reset(struct hazptr_bloom *bloom)
-+{
-+	bitmap_zero(bloom->map, HAZPTR_BLOOM_NBITS);
-+}
-+
-+static void hazptr_bloom_add(struct hazptr_bloom *bloom, void *addr)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < HAZPTR_BLOOM_HASHES; i++)
-+		__set_bit(hazptr_bloom_hash(addr, i), bloom->map);
-+}
-+
-+static bool hazptr_bloom_contains(const struct hazptr_bloom *bloom, void *addr)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < HAZPTR_BLOOM_HASHES; i++)
-+		if (!test_bit(hazptr_bloom_hash(addr, i), bloom->map))
-+			return false;
-+	return true;
-+}
-+
- struct hazptr_waiter {
- 	struct list_head node;
- 	void *addr;
-@@ -226,17 +277,26 @@ struct hazptr_scan_state {
- 	struct mutex lock;
- 	struct list_head pending;
- 	struct list_head scanning;	/* kthread only */
-+	struct hazptr_bloom bloom;	/* kthread only */
- };
- static struct hazptr_scan_state hazptr_scan;
- 
- /*
-- * Check per-CPU slots before overflow-list slots to match the
-- * acquisition ordering of promoted slots.
-+ * Walk all slots and return true if @watch is present.  If @bloom
-+ * is non-NULL, record observed non-wildcard addresses in it.
-+ *
-+ * Per-CPU slots are examined before overflow-list slots on each CPU
-+ * to preserve the acquisition ordering required by the promote path:
-+ * synchronize must observe the per-CPU slot release before the
-+ * overflow-list entry can be missed.
-  */
--static bool hazptr_value_present(void *val)
-+static bool hazptr_scan_walk(void *watch, struct hazptr_bloom *bloom)
+ static
+ bool is_wildcard(void *addr)
  {
+@@ -184,15 +197,12 @@ void hazptr_synchronize_cpu_slots(int cpu, void *addr, void *scan_wildcard)
+ }
+ 
+ static
+-void hazptr_scan_period(void *addr, void *scan_wildcard)
++void hazptr_scan_cpu_slots_period(void *addr, void *scan_wildcard)
+ {
+-	unsigned int scan_idx = (unsigned long) scan_wildcard - 1;
  	int cpu;
  
-+	if (bloom)
-+		hazptr_bloom_reset(bloom);
+ 	/* Scan all CPUs slots. */
+ 	for_each_possible_cpu(cpu) {
+-		struct hazptr_overflow_list_flip *overflow_list_flip = per_cpu_ptr(&percpu_overflow_list_flip, cpu);
+-
+ 		/*
+ 		 * Scan CPU slots.
+ 		 * Forward progress against recurring wildcards is guaranteed
+@@ -205,12 +215,22 @@ void hazptr_scan_period(void *addr, void *scan_wildcard)
+ 		 * to acquire that same hazard pointer value.
+ 		 */
+ 		hazptr_synchronize_cpu_slots(cpu, addr, scan_wildcard);
++	}
++}
 +
++static
++void hazptr_scan_overflow_list_period(void *addr, unsigned int scan_idx)
++{
++	int cpu;
++
++	/*
++	 * Scan backup slots in percpu overflow lists.
++	 * Forward progress is guaranteed by scanning one list
++	 * while new elements are added into the other list.
++	 */
++	for_each_possible_cpu(cpu) {
++		struct hazptr_overflow_list_flip *overflow_list_flip = per_cpu_ptr(&percpu_overflow_list_flip, cpu);
+ 
+-		/*
+-		 * Scan backup slots in percpu overflow lists.
+-		 * Forward progress is guaranteed by scanning one list
+-		 * while new elements are added into the other list.
+-		 */
+ 		hazptr_synchronize_overflow_list(&overflow_list_flip->array[scan_idx], addr);
+ 	}
+ }
+@@ -285,10 +305,13 @@ static struct hazptr_scan_state hazptr_scan;
+  * Walk all slots and return true if @watch is present.  If @bloom
+  * is non-NULL, record observed non-wildcard addresses in it.
+  *
+- * Per-CPU slots are examined before overflow-list slots on each CPU
+- * to preserve the acquisition ordering required by the promote path:
+- * synchronize must observe the per-CPU slot release before the
+- * overflow-list entry can be missed.
++ * All per-CPU slots are examined before any overflow-list slot: a
++ * promote (hazptr_detach() or a context switch) moves a hazard
++ * pointer from a per-CPU slot to an overflow list by chaining the
++ * backup slot before clearing the per-CPU slot, see
++ * hazptr_promote_to_backup_slot().  Therefore the scan must observe
++ * the old location before the new location for every slot/list
++ * pair, including pairs on different CPUs.
+  */
+ static bool hazptr_scan_walk(void *watch, struct hazptr_bloom *bloom)
+ {
+@@ -297,9 +320,9 @@ static bool hazptr_scan_walk(void *watch, struct hazptr_bloom *bloom)
+ 	if (bloom)
+ 		hazptr_bloom_reset(bloom);
+ 
++	/* Scan all per-CPU slots before any overflow-list slot. */
  	for_each_possible_cpu(cpu) {
  		struct hazptr_percpu_slots *percpu_slots = per_cpu_ptr(&hazptr_percpu_slots, cpu);
- 		struct hazptr_overflow_list_flip *overflow_list_flip = per_cpu_ptr(&percpu_overflow_list_flip, cpu);
-@@ -244,10 +304,14 @@ static bool hazptr_value_present(void *val)
+-		struct hazptr_overflow_list_flip *overflow_list_flip = per_cpu_ptr(&percpu_overflow_list_flip, cpu);
+ 		unsigned int idx;
  
  		for (idx = 0; idx < NR_HAZPTR_PERCPU_SLOTS; idx++) {
- 			struct hazptr_slot_item *item = &percpu_slots->items[idx];
-+			void *v;
- 
- 			/* Pairs with smp_store_release in hazptr_release(). */
--			if (smp_load_acquire(&item->slot.addr) == val)
-+			v = smp_load_acquire(&item->slot.addr);
-+			if (v == watch)
- 				return true;
-+			if (bloom && v && !is_wildcard(v))
-+				hazptr_bloom_add(bloom, v);
+@@ -313,6 +336,10 @@ static bool hazptr_scan_walk(void *watch, struct hazptr_bloom *bloom)
+ 			if (bloom && v && !is_wildcard(v))
+ 				hazptr_bloom_add(bloom, v);
  		}
++	}
++	for_each_possible_cpu(cpu) {
++		struct hazptr_overflow_list_flip *overflow_list_flip = per_cpu_ptr(&percpu_overflow_list_flip, cpu);
++
  		for (int i = 0; i < 2; i++) {
  			struct hazptr_overflow_list *list = &overflow_list_flip->array[i];
-@@ -256,11 +320,16 @@ static bool hazptr_value_present(void *val)
+ 			struct hazptr_backup_slot *b;
+@@ -359,14 +386,14 @@ static void hazptr_scan_do_cycle(void)
+ 	struct hazptr_waiter *w, *n;
+ 	LIST_HEAD(done);
  
- 			raw_spin_lock_irqsave(&list->lock, flags);
- 			hlist_for_each_entry(b, &list->head, overflow_node) {
-+				void *v;
-+
- 				/* Pairs with smp_store_release in hazptr_release(). */
--				if (smp_load_acquire(&b->slot.addr) == val) {
-+				v = smp_load_acquire(&b->slot.addr);
-+				if (v == watch) {
- 					raw_spin_unlock_irqrestore(&list->lock, flags);
- 					return true;
- 				}
-+				if (bloom && v && !is_wildcard(v))
-+					hazptr_bloom_add(bloom, v);
- 			}
- 			raw_spin_unlock_irqrestore(&list->lock, flags);
- 		}
-@@ -276,7 +345,7 @@ static bool hazptr_value_present(void *val)
-  */
- static void hazptr_drain_wildcard(void *wc)
- {
--	while (hazptr_value_present(wc))
-+	while (hazptr_scan_walk(wc, NULL))
- 		cond_resched();
- }
+-	mutex_lock(&hazptr_wildcard_lock);
++	mutex_lock(&hazptr_phase_lock);
  
-@@ -309,12 +378,16 @@ static void hazptr_scan_do_cycle(void)
- 	WRITE_ONCE(hazptr_wildcard, scan_wildcard);
- 	old_wildcard = flip_wildcard(scan_wildcard);
+ 	mutex_lock(&hazptr_scan.lock);
+ 	list_splice_tail_init(&hazptr_scan.pending, &hazptr_scan.scanning);
+ 	mutex_unlock(&hazptr_scan.lock);
  
--	/* Pass 2: drain the old wildcard. */
--	hazptr_drain_wildcard(old_wildcard);
-+	/*
-+	 * Pass 2: drain the old wildcard while collecting observed
-+	 * addresses into the Bloom filter.
-+	 */
-+	while (hazptr_scan_walk(old_wildcard, &hazptr_scan.bloom))
-+		cond_resched();
+ 	if (list_empty(&hazptr_scan.scanning)) {
+-		mutex_unlock(&hazptr_wildcard_lock);
++		mutex_unlock(&hazptr_phase_lock);
+ 		return;
+ 	}
  
--	/* Complete waiters whose address is no longer held by any slot. */
-+	/* Complete waiters whose address is not in the filter. */
- 	list_for_each_entry_safe(w, n, &hazptr_scan.scanning, node) {
--		if (!hazptr_value_present(w->addr))
-+		if (!hazptr_bloom_contains(&hazptr_scan.bloom, w->addr))
+@@ -391,7 +418,7 @@ static void hazptr_scan_do_cycle(void)
  			list_move(&w->node, &done);
  	}
+ 
+-	mutex_unlock(&hazptr_wildcard_lock);
++	mutex_unlock(&hazptr_phase_lock);
+ 
+ 	list_for_each_entry_safe(w, n, &done, node) {
+ 		list_del_init(&w->node);
+@@ -463,6 +490,7 @@ static void hazptr_synchronize_queued(void *addr)
+ void hazptr_synchronize(void *addr)
+ {
+ 	void *scan_wildcard;
++	unsigned int scan_list_phase;
+ 
+ 	/*
+ 	 * Busy-wait should only be done from preemptible context.
+@@ -486,18 +514,30 @@ void hazptr_synchronize(void *addr)
+ 	}
+ 
+ 	/* Fallback: use the direct scan path. */
+-	guard(mutex)(&hazptr_wildcard_lock);
++	guard(mutex)(&hazptr_phase_lock);
+ 	scan_wildcard = flip_wildcard(hazptr_wildcard);
+-	hazptr_scan_period(addr, scan_wildcard);
++	/* Scan per-CPU slots. */
++	hazptr_scan_cpu_slots_period(addr, scan_wildcard);
+ 	WRITE_ONCE(hazptr_wildcard, scan_wildcard);	/* Flip the current wildcard. */
+-	hazptr_scan_period(addr, flip_wildcard(scan_wildcard));
++	hazptr_scan_cpu_slots_period(addr, flip_wildcard(scan_wildcard));
++
++	/*
++	 * Scan overflow lists *after* scanning all per-CPU slots, see
++	 * hazptr_promote_to_backup_slot().  Flip the overflow list phase
++	 * between the two lists so that each list is scanned while it is
++	 * the non-live one.
++	 */
++	scan_list_phase = flip_list_phase(hazptr_overflow_list_phase);
++	hazptr_scan_overflow_list_period(addr, scan_list_phase);
++	WRITE_ONCE(hazptr_overflow_list_phase, scan_list_phase);
++	hazptr_scan_overflow_list_period(addr, flip_list_phase(scan_list_phase));
+ }
+ EXPORT_SYMBOL_GPL(hazptr_synchronize);
+ 
+ struct hazptr_slot *hazptr_chain_backup_slot(struct hazptr_ctx *ctx)
+ {
+ 	struct hazptr_overflow_list_flip *overflow_list_flip = this_cpu_ptr(&percpu_overflow_list_flip);
+-	unsigned int list_idx = (unsigned long) READ_ONCE(hazptr_wildcard) - 1;
++	unsigned int list_idx = READ_ONCE(hazptr_overflow_list_phase);
+ 	struct hazptr_overflow_list *overflow_list = &overflow_list_flip->array[list_idx];
+ 	struct hazptr_slot *slot = &ctx->backup_slot.slot;
  
 -- 
 2.43.0
