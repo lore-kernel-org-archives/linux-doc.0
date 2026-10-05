@@ -1,117 +1,222 @@
-Received: from mta0.migadu.com (out-28.mta0.migadu.com [91.218.175.28])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7169831D730
-	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 19:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E49F305674
+	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 19:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791226896; cv=none; b=oCVfaYpPnHGi11AeT3fiqaAg9t1KouNR0Clj+K0+TEZ8p0XPpHi4RWKFWmEOy1WzfEqjJ+eYil/m69UKK36tFPlLy+9H+sZ/Uhmrda1k1Ea6mRVx4105Jy4dR6ouL6Tdsrq0MSuIiI3XGI5c/arCbkIHd8h5FqfSxJZ8xuAUxcQ=
+	t=1791226934; cv=none; b=sV3A0C8n8Tnu6A/VseA8F1X2hloy27bXY6ze+KADflBv0PozP0ObB47vgj+5DobofkwJgRu8CXvJ/zKAKycgv29BcauP+nDUSqscyQf7tROawpDkQ65GiYk/Iq2M5QoIDssdP4rPfUgmH/HvwCnjbuztP1pH5GwWYJXYjLi+7DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791226896; c=relaxed/simple;
-	bh=rJT8G0sgga4UeEHY50WFHahh2k7AQRpW/V4C83LPcM4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CxIzsQGuat4oZmrsArD/iLi4l96WgF+u5sUucKR8UB2WQd3x0SjH5Le0Ix8WmUNeYp+NIyX3nv6QuBTMxrlTlA2cPlRleVLqPg2IqTJYHqjGLB3lDDQFhSs8qaWDwcsRmeiEIcYLyJQXY6dteANcUyOGaZvoSUac++/ML8r3rxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rpgOxRCu; arc=none smtp.client-ip=91.218.175.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1791226934; c=relaxed/simple;
+	bh=Q4n0AERx9QUP0tEzrHnmQ2XFk0zGGiZpIszcYMPYv7A=;
+	h=Message-ID:In-Reply-To:References:From:Date:Subject:To:Cc; b=kH3/5vFOVTzqfyDiB6cadtUUn6aj+nCihUvcvq08PdEQzXbIbCCgaCA27S8c1BEo7CPNb2jhMaaIuMySnKT/SHEcWLkZaP93+WwU0s8sFIW8REgp8VypTvUhGY2TYnJh4+pXna5JITZaYwlLeay/xwBgVW87SJFmNpR9VXL2QJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com; spf=pass smtp.mailfrom=toxicpanda.com; dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b=RTo/lvJk; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toxicpanda.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rpgOxRCu"
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=rJT8G0sgga4UeEHY50WFHahh2k7AQRpW/V4C83LPcM4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791226891; v=1; x=1791831691;
- b=rpgOxRCuBdRBG9Cruva0qem46KyAXqHLWajd0ZjIRz0kgD8tNqxyOJ2IoAc2uiVFYp0AWqwU
- fYK9s+nOEwPq6TEVKyQTb7ZG9spRm+B0UmWQ9BG569oC3jH+5BUQFc768yIcjo1AEuCsOtbT9Nt
- bjqyL+C+m3j1OwXepyyLRNU0=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 3eee9485e3972e9f;
-	Mon, 05 Oct 2026 19:01:30 +0000
-X-Mizu-Trace-ID: 3eee9485e3972e9f
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <7844ef03-d9b2-4a10-8f14-1b498ada9043@linux.dev>
-Date: Mon, 5 Oct 2026 12:01:17 -0700
+	dkim=pass (2048-bit key) header.d=toxicpanda.com header.i=@toxicpanda.com header.b="RTo/lvJk"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8ac525c1f05so19380017b3.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 12:02:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda.com; s=google; t=1791226931; x=1791831731; darn=vger.kernel.org;
+        h=cc:to:subject:date:from:references:in-reply-to:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=+Z7syrAz4LfxPjZQqKgbErbAJrKi+mPtI/lIkPWRbxU=;
+        b=RTo/lvJkzOP2jHwV3xNFaElkvXfwbGxgcyeOqBa16n33QrjSyqdYp8vx58qOUcrSuK
+         vcjNJ8luAmXg0kHIHjs8JY0BMSyU0FwSho50vdStGWnW35Qb1bQN2xpevvY5gPlRBic8
+         wCblcBrm30QEDSQmIuscbiqn2YAiGvKL0+CjMku8QJxprLQ1zdb3aaOK9I+OIDaO8xSd
+         prNqlwfzhxXNdwGkAOsDWCkcA0h6puKKN4T0Il/hdC52vx985Skh2rnUG+rImX2mYlgy
+         smBpAp6m+JBn1zffJCtbYfa+60ADLnF9vQSJoBOTGSxJv/F4lEcZ+TnpRCaOPvgegt1a
+         R5mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791226931; x=1791831731;
+        h=cc:to:subject:date:from:references:in-reply-to:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+Z7syrAz4LfxPjZQqKgbErbAJrKi+mPtI/lIkPWRbxU=;
+        b=iusZcfNVL3NjBE2REDcO77s19pZehIP3g0PP/lgnmnWrq290dY7UFm4aXHjg1ivpc9
+         5e2z7yxhK8OX6Mj59AfsK19rWGp8MMIe5EMdWe1p793UeJv0YgDpASxIl6O2mGl+4xW5
+         CXUWSU0O5jCxZ4vuPhjlLkb0X5m7i3XiA9h3ZV2UOvXHuqj3CIhMrC3WBQba774UBdGV
+         LH1n4qjr/QiuSx+7IHurvVlAhFtorCNjr8nP24p6LV0dueHCoMsu92gMzKtLWEV7lnyv
+         XUszmTGdOCu16uFQjMcVmdK8ymFE6hbo0046kUKPz7eHOGe18B4yeOtlSlQ4q0p7phlZ
+         nAIQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxN8fSDEyd/5smlimdKcYHd2KguKyOCzr0bt6cdlOAZpNFYgic4wOak8gcReakn7mdz2ITOrvsYN48=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJmxtO3FphMJBN07WbHHyOcPY7TeBa2qLByh0T/nL0EDs0WkGwQ
+	7Io7zpp7dNKn3FLqkx3OJ8V2+Shk6miw6eh/I7M4V+Lh3hf1k7lpu2wmkp2M6Hw9Zzw=
+X-Gm-Gg: AYBFou3rH83V4saxPLVflT6Y804nopdbrW1PwDP6g2hV1BKzTuIF+A22/7/X0oHOSrQ
+	4dytJ7dJnuFR4/Ob/WXlg7yN4qY00BIIBovZKN3TDZx1VPpE01bUld03iM/UTQNtCrdwt/zLp8U
+	zBOjWVY1VO4SQr6vdvvoQjDmMnc2ckEyzEfkfVZt0J/9RpI0YXtsZfPmKgKeSEUdIfl6BNN8nmp
+	CDLNxSZqsdhbJCzIWqhuXQ7uPDQek8s7tlosoQgzeWg6bVv6mU3xYtBzjOuD0laeqQ/Y+usLaNf
+	5MYk6UbpQKzMAyqbXokYISsdRpTm79Yzh1MMTHQDmPiz0eBqnCjCDacsk54sdkvq3h2m4QDwsWC
+	RR394CHXvhAJa0+JN41Qq/6XOtY1pWeQ7udYdG2CkA6Y+Pxnf7zE37IjFlRIeEg3lqmi3YGQsGA
+	HAlDXQP5KzquEG+xKiWQpY7R+9P7X2LWjHxx5NmvzJT942jlUZQhufhEp7BuXztoA7DOrLklUGA
+	PR2+UJClARDAmk=
+X-Received: by 2002:a05:690e:e84:b0:677:bf19:f063 with SMTP id 956f58d0204a3-677bf19f74cmr3098451d50.9.1791226930786;
+        Mon, 05 Oct 2026 12:02:10 -0700 (PDT)
+Received: from toxicpanda.com ([153.61.196.250])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-917e0b67172sm93369286d6.20.2026.10.05.12.02.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2026 12:02:10 -0700 (PDT)
+Message-ID: <9b876f2c061abc401ec4b9b3c2529eda.josef@toxicpanda.com>
+In-Reply-To: <20261001125422.1364260-1-tom.leiming@gmail.com>
+References: <20261001125422.1364260-1-tom.leiming@gmail.com>
+From: Josef Bacik <josef@toxicpanda.com>
+Date: Mon, 5 Oct 2026 16:23:51 +0000
+Subject: [PATCH] ublk: refuse to go live after an io command was canceled
+To: Ming Lei <tom.leiming@gmail.com>,
+    Jens Axboe <axboe@kernel.dk>
+Cc: Caleb Sander Mateos <csander@purestorage.com>,
+    linux-block@vger.kernel.org,
+    linux-kernel@vger.kernel.org,
+    linux-doc@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v4 00/12] bpf: make the vmlinux BTF an on-demand
- loadable module (CONFIG_DEBUG_INFO_BTF=m) to save ~5.4 MB memory
-To: Jay Wang <wanjay@amazon.com>, bpf@vger.kernel.org, ast@kernel.org,
- daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com
-Cc: alan.maguire@oracle.com, martin.lau@linux.dev, yonghong.song@linux.dev,
- jolsa@kernel.org, qmo@kernel.org, nathan@kernel.org, nsc@kernel.org,
- linux-kbuild@vger.kernel.org, linux@weissschuh.net, christian@heusel.eu,
- mcgrof@kernel.org, petr.pavlu@suse.com, samitolvanen@google.com,
- linux-modules@vger.kernel.org, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, linux-trace-kernel@vger.kernel.org,
- acme@kernel.org, namhyung@kernel.org, irogers@google.com,
- linux-perf-users@vger.kernel.org, jikos@kernel.org, bentiss@kernel.org,
- linux-input@vger.kernel.org, tj@kernel.org, void@manifault.com,
- arighi@nvidia.com, changwoo@igalia.com, sched-ext@lists.linux.dev,
- shuah@kernel.org, linux-kselftest@vger.kernel.org, ojeda@kernel.org,
- rust-for-linux@vger.kernel.org, arnd@arndb.de, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, abuehaze@amazon.com, doebel@amazon.de,
- mpohlack@amazon.de, jay.wang.upstream@gmail.com
-References: <44315425-c505-46fe-8379-f19d78ff3abb@linux.dev>
- <20261004222127.31128-1-wanjay@amazon.com>
-Content-Language: en-US
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <20261004222127.31128-1-wanjay@amazon.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 10/4/26 3:21 PM, Jay Wang wrote:
->>    - If I know I don't need BPF on the workload, and these 5.4 MB
->>      bite me, I can just turn off BPF
-> 
-> They cannot, even when they know they do not need it.  As the cover
-> letter says, the cloud provider usually ships one kernel build to all of
-> its customers. [...]
+Since commit "ublk: keep a canceled FETCH round canceling until the
+server is gone", a device whose FETCH round saw a cancel keeps its
+queues canceling until the server goes away, but START_DEV and
+END_USER_RECOVERY still bring it up. Without UBLK_F_USER_RECOVERY, or
+with UBLK_F_USER_RECOVERY_FAIL_IO, every request of the new disk fails.
+With UBLK_F_USER_RECOVERY, requests are requeued and never kicked: after
+START_DEV the partition scan hangs under disk->open_mutex, and after
+END_USER_RECOVERY every read parks while the command returned 0. The
+server cannot fetch the canceled commands again, so the device can't
+serve I/O until it restarts anyway.
 
-Ah, I get it now. Thanks.
+Return -ENODEV from START_DEV and END_USER_RECOVERY while ub->canceling
+is set. In ublk_ctrl_start_dev() check it and publish ub->ub_disk in one
+cancel_mutex section, and have ublk_start_cancel() read the disk in its
+cancel_mutex section. Today ublk_start_cancel() samples the disk before
+taking the mutex, so a server dying during its own START_DEV can mark
+the queues without quiescing a disk START_DEV published in between, with
+its first I/O past the canceling check. Now either START_DEV sees the
+cancel, or the cancel sees the disk and quiesces it before marking. The
+END_USER_RECOVERY check is best effort: the disk exists there, and a
+cancel after it is the ordinary death of the new server, which
+ublk_start_cancel() handles by quiescing and marking.
 
-So the constraint is that the cloud provider ships a single kernel
-revision to all users, and there is currently no mechanism to on/off
-BPF other than a kernel build flag.
+Assisted-by: LLM
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+---
+This applies on top of Ming's "[PATCH 0/8] ublk: don't dispatch to
+canceled io commands" and needs patch 1 of it for ub->canceling to stay
+set for the whole FETCH round. generic_18 still passes with it.
 
-I'd be tempted to say "just ship two kernels", it's simpler than the
-upstream change. But I understand the downsides of that as well.
+ Documentation/block/ublk.rst | 10 ++++++++--
+ drivers/block/ublk_drv.c     | 38 ++++++++++++++++++++++++++++++++++--
+ 2 files changed, 44 insertions(+), 4 deletions(-)
 
-And obviously a good upstream feature may benefit many more users.
-
-> [...]
->>      Keep zstd-compressed blob in the kernel image and decompress and
->>      parse it synchronously on first use.
-> 
-> Thanks for putting this forward.  This compression approach is simpler 
-> than loading a module.  I expect the overall code complexity to stay similar
-> to v3, since both need to find the first user and defer the module BTF parsing
-> until then, but it should be easier to merge into mainline because it avoids
-> the request_module() deadlocks.
-> 
-> Would you like to prepare it for a formal submission, or would you
-> like me to do so?  Either works for me.  Ideally it lands in time for
-> the next LTS kernel, so that we can adopt it there.
-
-Please go ahead and submit the compression approach. Looks like we are
-converging on that. Feel free to use the prototype code if it's
-useful, it uses parts of your series anyway.
-
-> 
-> From what I can see, most of the work left is in that deferral.
-> Whoever needs the BTF first also parses the waiting module BTFs and
-> replays the queued registrations, struct_ops ->init() included, under
-> whatever locks it holds at that point, e.g. event_mutex or
-> bpf_verifier_lock, or inside the module notifier.  So the
-> cand_cache_mutex ABBA you found may not be the only deadlock.  Besides
-> that, only x86_64 was touched so far, so it needs extending to the
-> other architectures as well.
-
-Yes, I think you are right that the hard part here is the deferral,
-because everything expects vmlinux BTF to just be there.  I don't
-think this is avoidable whatever memory saving approach we choose.
+diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
+index 28300fee22bf..b7875a3cf3fc 100644
+--- a/Documentation/block/ublk.rst
++++ b/Documentation/block/ublk.rst
+@@ -118,7 +118,11 @@ managing and controlling ublk devices with help of several control commands:
+   After the server prepares userspace resources (such as creating I/O handler
+   threads & io_uring for handling ublk IO), this command is sent to the
+   driver for allocating & exposing ``/dev/ublkb*``. Parameters set via
+-  ``UBLK_CMD_SET_PARAMS`` are applied for creating the device.
++  ``UBLK_CMD_SET_PARAMS`` are applied for creating the device. The command
++  fails with ``-ENODEV`` if an I/O command fetched by the current server
++  was canceled, because its io_uring is gone. The server can't fetch it
++  again, and the device can be started again once the server has closed
++  ``/dev/ublkc*``.
+ 
+ - ``UBLK_CMD_STOP_DEV``
+ 
+@@ -195,7 +199,9 @@ managing and controlling ublk devices with help of several control commands:
+   command is accepted after ublk device is quiesced and a new process has
+   opened ``/dev/ublkc*`` and get all ublk queues be ready. When this command
+   returns, ublk device is unquiesced and new I/O requests are passed to the
+-  new process.
++  new process. It fails with ``-ENODEV`` if an I/O command of the new
++  process was canceled already. The recovery can be started over once the
++  new process has closed ``/dev/ublkc*``.
+ 
+ - user recovery feature description
+ 
+diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
+index f57d544c1da2..39eb7775a351 100644
+--- a/drivers/block/ublk_drv.c
++++ b/drivers/block/ublk_drv.c
+@@ -2759,9 +2759,11 @@ static void ublk_abort_queue(struct ublk_device *ub, struct ublk_queue *ubq)
+ 
+ static void ublk_start_cancel(struct ublk_device *ub)
+ {
+-	struct gendisk *disk = ublk_get_disk(ub);
++	struct gendisk *disk;
+ 
++	/* sync with ublk_ctrl_start_dev() publishing the disk */
+ 	mutex_lock(&ub->cancel_mutex);
++	disk = ublk_get_disk(ub);
+ 	if (ub->canceling)
+ 		goto out;
+ 
+@@ -4575,6 +4577,7 @@ static int ublk_ctrl_start_dev(struct ublk_device *ub,
+ 		.dma_alignment		= 3,
+ 	};
+ 	struct gendisk *disk;
++	bool canceled;
+ 	int ret = -EINVAL;
+ 
+ 	if (ublksrv_pid <= 0)
+@@ -4665,8 +4668,24 @@ static int ublk_ctrl_start_dev(struct ublk_device *ub,
+ 	disk->fops = &ub_fops;
+ 	disk->private_data = ub;
+ 
++	/*
++	 * A command of this FETCH round was canceled and can't be fetched
++	 * again, don't bring up a disk over it.  Check and publish the disk
++	 * in one cancel_mutex section: either this sees ub->canceling, or
++	 * ublk_start_cancel() sees the disk and quiesces it before marking
++	 * the queues.
++	 */
++	mutex_lock(&ub->cancel_mutex);
++	canceled = ub->canceling;
++	if (!canceled)
++		ub->ub_disk = disk;
++	mutex_unlock(&ub->cancel_mutex);
++	if (canceled) {
++		put_disk(disk);
++		ret = -ENODEV;
++		goto out_unlock;
++	}
+ 	ub->dev_info.ublksrv_pid = ub->ublksrv_tgid;
+-	ub->ub_disk = disk;
+ 
+ 	ublk_apply_params(ub);
+ 
+@@ -5238,6 +5257,7 @@ static int ublk_ctrl_end_recovery(struct ublk_device *ub,
+ 		const struct ublksrv_ctrl_cmd *header)
+ {
+ 	int ublksrv_pid = (int)header->data[0];
++	bool canceled;
+ 	int ret = -EINVAL;
+ 
+ 	pr_devel("%s: Waiting for all FETCH_REQs, dev id %d...\n", __func__,
+@@ -5261,6 +5281,20 @@ static int ublk_ctrl_end_recovery(struct ublk_device *ub,
+ 		ret = -EBUSY;
+ 		goto out_unlock;
+ 	}
++
++	/*
++	 * As in ublk_ctrl_start_dev(), a canceled command can't be fetched
++	 * again.  Best effort: the disk exists here, and a cancel after this
++	 * check is the ordinary death of the new server, which
++	 * ublk_start_cancel() handles by quiescing and marking.
++	 */
++	mutex_lock(&ub->cancel_mutex);
++	canceled = ub->canceling;
++	mutex_unlock(&ub->cancel_mutex);
++	if (canceled) {
++		ret = -ENODEV;
++		goto out_unlock;
++	}
+ 	ub->dev_info.ublksrv_pid = ub->ublksrv_tgid;
+ 	ub->dev_info.state = UBLK_S_DEV_LIVE;
+ 	pr_devel("%s: new ublksrv_pid %d, dev id %d\n",
+-- 
+2.55.0
 
