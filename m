@@ -1,160 +1,174 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F4D2F0680
-	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 04:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9754530F7FF;
+	Mon,  5 Oct 2026 05:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791174009; cv=none; b=TWvLQCrBGBlNXceXErtT4bBk8ZqTccfEKOLGZzewTL8twcr+JX7y2MbH3hPxpXXXxgWLPnUwRVahO44myd/ddvvu0EgwZunb+Vmt54867cCBsOzWPPLpWWi+fNxXhraw+KaIFeSVDrx+LVxd/FFhHJ7bP9xZU3/bNWNoBCl0Ulc=
+	t=1791178895; cv=none; b=YHFV+EKf6ryTcf2PMtaNFULw2nhTbXjhqKQzukETKs+W5vj/vK8Fd72rNl7Y+sfSzIgrmfRjZdPYmU0Ta/J6darALR863uJ7YVLT4f0f6Edv8LnftGWeXfjsLSjMq2vOjeiY37T4TbCBvnnz6TNEZGvXymHsZN2HjorLHyLAvmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791174009; c=relaxed/simple;
-	bh=HoMA9XEjkkd65DXJKPcYLGl2KH3SaKVzwVNL3VSg7LE=;
+	s=arc-20240116; t=1791178895; c=relaxed/simple;
+	bh=hsw9NSPhz5CedlJYWGP0Mi1O/i0VaMefug0YlhuqREg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ACq9bFYfbA3YimjOp+3er+pi2B6VK1sS1yTuXsGgWhPo9dAtY8wP8lzrz1dOXCUScu/x54p/JaYDH6eQpjz15bLKebwBDNkrW3IziaK/QKUKiZ6GmykNuviCrYOTWltJlmJOQeesSp9IebCSZuYwbVQiU8TR7pq79OXawpl/g9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rjBINzSq; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QI8Vx7dKSJ6P7LFE8CeTsRLPFHOMsBMOu1PzzZm4gCVEjNzj9liCNDzhePbT5deaPhW62G6+ZIVTFSYWL/h/KkwpxpDEjmm+LQLPnFVnu+tcZQURCSNzE9gcVp2Kj+rDdMGQQDOIV8Fxr2omTD35ZTrQHA0Ju7moq0DxAizwEDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXMeP0jW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rjBINzSq"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49d1fb0cf5eso11216355e9.3
-        for <linux-doc@vger.kernel.org>; Sun, 04 Oct 2026 21:20:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791174005; x=1791778805; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=znHr15ngoIrnyD0Loh8A8gjvgvi//2QapaxdSU8F3XU=;
-        b=rjBINzSqDWzLpbPoliBSwcjAWA2ygu0kAsPCf8pIokS39ABeOf7AG+vPwB48+ldof1
-         bVB6sBwMjBTrv2U9OShkJ7QgirhwRPMYYecTDh4iipckMjLP8TOotZekcia38+C+Pq+D
-         VDe+nH6VJT5b5Qetrr1SVy114LnKzECd9tXu9XNrBRVaPwcn2wLOCxrBSFbA0mESXVPT
-         2s0QMa77W805CZrxkoOTsOdIU//A7Azv5a7ydKsYevPzGRmvZkRRAywcovnGGy+dG9y8
-         FkzD4bpnkcsSAlpXTJEn9fb//dq739LgURrW0GLcrBL3Sml6U2kfaTuWBBJ5IPatxHtQ
-         GUTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791174005; x=1791778805;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=znHr15ngoIrnyD0Loh8A8gjvgvi//2QapaxdSU8F3XU=;
-        b=GFOawmGe1n9+A2di3u7Q1sK7rbbbFEbfkZneMuZDQsJXH2jep3QLwaLmLjbpc1F1Ih
-         muKLo0qZYotAajeJYolsKD99IPPlAb39fwh3jshv/3iF6Z3Ji6xkht6Oc+UsHDuJ9zAJ
-         ex3zDpSvspp297PfcCPwFiy+LzqjS0CRsov/bOhL7cKp54Idnd65TxE7LZVttV9OTMfI
-         GOxNaEKFAk+6Qa9/6Wg8UhuY55H1Px/oi9HqXm29wa0tEn7n1kWehXzQ2J60v72m8olp
-         ITQAx9F1emE73t0nAeMYEe1gO9OIZMj52iw4RbmgwUwjkJcXET9g7THUiPjzs1pErZMp
-         1Q7A==
-X-Forwarded-Encrypted: i=1; AKwUvBzVz277MUYCXQZBbKw0hN/UiI1GvCPNno8M31dsqQnFJ+cBExz2VwpGi9V2eSmu4wP2gsfq+MEAj0c=@vger.kernel.org
-X-Gm-Message-State: AFuF++kTHUwHPt/nWhP6aPBoVBvZ+CTeUpAVKMCsOoOHx3xBN0ykspUB
-	Yj9s8YOkzCH5ZA9KS+yDk8u4ZzQn1U/41QHR9YRHNul2bbdn/3VM+hp0
-X-Gm-Gg: AYBFou2/3Rvvq5PTR5UG1qGu2eCNFGFFleUsh4x+fbYLKK7ZLfPn6hQ1Jl8TlX8RrpH
-	6vkXGZyJm5dPQhZ5ws6W6yaV0qoVwjb5GV4aIQ9+JJdV68LOjvVFmO+mg/6T5+lHnk5KtChEgW5
-	881e+6R8S+cV9amQ0hrUVB1eLPWyxLhkpSVLLIm1w3xxHBa4RRWSKEyZip951Sih7yhyJoffWNR
-	lkJ4llfnNaUCICcJ3gQyh7M85T03r2bcS8cbbtj5IVtIKOvHIlN05cY/z9kolQKl/9C9RudjN68
-	vN1mUSI2c1W4Nfz9//AnpF/YIa8pz4rSfg8eM0r2tm2RRB6zFoHKy9KaO/GO6l7xYoQ4cVw3RlV
-	yaXlq5U9IGZjZdnZ7FG4aMyUcUYiBZr/ujnRJyg4HLFr2YEQ2+LHBXl2zcFQGvd/tCjeKEnlqwd
-	JKuwHWbX2iuDfefMRxvj9uTqu9CuehGOLu2qQYbJCQHV4KcaVV/SvGmz7Ry8ybDShZDtRzlmS8C
-	2wPHfpH4TvLsAD/jAx0V5/Vb3pnLKRTpBvr+wX+85nFOmBwokq/GB1kiBELLaHZGG5M4jQgdRtx
-	e5iFnt7y632YAbSclRgsWH6iNjZpWilJ5paRxNJrEKny72IXMgYCmH3AWeEiFqCfWg==
-X-Received: by 2002:a05:600c:3e06:b0:4a1:6ad5:257d with SMTP id 5b1f17b1804b1-4a16d3d5c54mr77517745e9.29.1791174005080;
-        Sun, 04 Oct 2026 21:20:05 -0700 (PDT)
-Received: from MBP-von-Karl (dynamic-2a02-3100-b305-2001-39fa-3d24-821a-4eae.310.pool.telefonica.de. [2a02:3100:b305:2001:39fa:3d24:821a:4eae])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027725c6asm355769085e9.8.2026.10.04.21.20.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2026 21:20:04 -0700 (PDT)
-Date: Mon, 5 Oct 2026 06:20:01 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Russell King <linux@armlinux.org.uk>, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>, 
-	Linus Walleij <linusw@kernel.org>, Christian Schrefl <chrisi.schrefl@gmail.com>, 
-	Bradley Morgan <brads@mainlining.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	linux-arm-kernel@lists.infradead.org, rust-for-linux@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ARM: rust: Enable Rust support for ARMv5TE
-Message-ID: <asMj2D6_Zx4ZIfrw@gmail.com>
-References: <20261003093827.77857-1-kmehltretter@gmail.com>
- <20261003093827.77857-3-kmehltretter@gmail.com>
- <33197b82-3eff-4c87-b370-c677ca31a02a@app.fastmail.com>
- <asEzZ1wOQ_MbgEsk@gmail.com>
- <3436fcef-a052-4261-afb5-677b0bbf28c2@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jXMeP0jW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5637D1F000FF;
+	Mon,  5 Oct 2026 05:41:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791178894;
+	bh=kEvPPDlseXzo0VIEtns5Uo5OEVsIzZ5vK243j+h4K6A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jXMeP0jWqoqNrZhtOmvSchDhn3bNHe6vW/ozxHYYcIL5McnHyeVgS7Q95L6P+lEKE
+	 1fmOaHh2gm2yH923I7eiWIAjkC8eu05eLFkokl+MZUoigplShMS4YdChUwy9yN+Kgr
+	 F4NB7Tdf09vOzpaZgSDgxhpH/34X7zuG6kw0ga2bbbwRs4HAIMrLR/wbTBIfTzjIAu
+	 OZ75zMRYuKhWsSjx8fRzNlQyenMiYLe66ADtlq/F66hxqt3/pQXG55E8oIIrB8hErL
+	 9l9SEuzyCsvRdzK4gt5qgTyIaoPPmJjbDFmh1Th/DdGGDSW/xWHDb3D485A3m3jdOI
+	 q6g47SDuM3kkA==
+Date: Sun, 4 Oct 2026 22:41:24 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Rob Herring <robh@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tony Luck <tony.luck@intel.com>,
+	Vasudevan Srinivasan <vasu@rivosinc.com>,
+	Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 4/5] dt-bindings: riscv: Add binding for CBQRI
+ controllers
+Message-ID: <asM4hITT4dNVIndy@x1gen8.tail89d63.ts.net>
+References: <20261003-dfustini-atl-sc-cbqri-dt-v9-0-52fd8be98dcf@kernel.org>
+ <20261003-dfustini-atl-sc-cbqri-dt-v9-4-52fd8be98dcf@kernel.org>
+ <20261004-fender-oink-1646de550f3b@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="maNOYJSQl7XIC3wz"
+Content-Disposition: inline
+In-Reply-To: <20261004-fender-oink-1646de550f3b@spud>
+
+
+--maNOYJSQl7XIC3wz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3436fcef-a052-4261-afb5-677b0bbf28c2@app.fastmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 03, 2026 at 10:54:28PM +0100, Arnd Bergmann wrote:
-> How do you build ARMv7-A rust code in user space? If the default is
-> ARMv6, doesn't that rule out things like thumb2, vfpv3 and sensible
-> (inlined) atomics?
+On Sun, Oct 04, 2026 at 12:05:31AM +0100, Conor Dooley wrote:
+> On Sat, Oct 03, 2026 at 12:12:29AM -0700, Drew Fustini wrote:
+> > Document the device tree binding for RISC-V CBQRI capacity and bandwidth
+> > controllers. Each controller is named by a device-specific compatible
+> > followed by the generic compatible. The binding also describes the
+> > common riscv,cbqri-rcid and riscv,cbqri-mcid properties, and the
+> > optional riscv,cbqri-cache phandle that links a capacity controller to
+> > the cache whose capacity it allocates.
+> >=20
+> > Assisted-by: LLM
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Drew Fustini <fustini@kernel.org>
+> > ---
+> >  .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 97 ++++++++++++++=
+++++++++
+> >  MAINTAINERS                                        |  1 +
+> >  2 files changed, 98 insertions(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml b=
+/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+> > new file mode 100644
+> > index 000000000000..0924758ebdde
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/riscv/riscv,cbqri.yaml
+> > @@ -0,0 +1,97 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/riscv/riscv,cbqri.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: RISC-V Capacity and Bandwidth QoS Register Interface (CBQRI) co=
+ntroller
+> > +
+> > +description: |
+> > +  The RISC-V CBQRI specification defines capacity-controller and
+> > +  bandwidth-controller register blocks that allocate cache capacity an=
+d memory
+> > +  bandwidth to resource-control IDs (RCIDs) and monitor usage per
+> > +  monitoring-counter ID (MCID):
+> > +  https://github.com/riscv-non-isa/riscv-cbqri/blob/main/riscv-cbqri.p=
+df
+> > +
+> > +  Allocation and monitoring share one register block, and a controller=
+ may
+> > +  implement either or both. A driver discovers which at runtime from t=
+he
+> > +  capabilities register, so the compatible names only the controller t=
+ype. It
+> > +  does not distinguish allocation-only, monitoring-only or combined
+> > +  controllers, and no property declares monitoring support.
+> > +
+> > +maintainers:
+> > +  - Drew Fustini <fustini@kernel.org>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - tenstorrent,ascalon-shared-cache-controller
+> > +          - const: riscv,cbqri-capacity-controller
+> > +      - items:
+> > +          - {}
+> > +          - const: riscv,cbqri-bandwidth-controller
+>=20
+> I think I lead you up the garden path here actually, it needs to be
+> "- not: {}", "- {}" permits anything.
 
-With another target, armv7-unknown-linux-gnueabi (soft-float ABI, no
-NEON). The kernel never used it. It fits the same scheme
+Ah, good point. I will change it to "- not: {}" in the next rev.
 
-  rust-target-$(CONFIG_CPU_32v7)   :=armv7-unknown-linux-gnueabi
-  rust-target-$(CONFIG_CPU_32v6)   :=arm-unknown-linux-gnueabi
+Thanks,
+Drew
 
-A v6K+v7 kernel stays ARMv6 like its C code. My planned v2 has this as
-last patch. It changes the Rust code of all ARMv7-only kernels from
-ARMv6 to ARMv7.
+--maNOYJSQl7XIC3wz
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> In the kernel, we don't normally allow neon code, but it sounds like
-> we may need to make rust depend on !CONFIG_THUMB2_KERNEL, as that
-> may be problematic when linking with v6 code.
+-----BEGIN PGP SIGNATURE-----
 
-You are right, for modules. Built-in Rust code works on a Thumb-2
-kernel (Pi 400 and QEMU). Rust modules do not load
+iHUEABYKAB0WIQSy8G7QpEpV9aCf6Lbb7CzD2SixDAUCasM4dwAKCRDb7CzD2Six
+DHDzAPoDfbP02+kZlbXNjkO9p6YVGEPpNzVD/2lUwGTPtG8jrgEAmupMZOgQVR3D
+O+0kZ5PUEUvEiYg7LLv7Xo/SkiA+fAo=
+=sKfI
+-----END PGP SIGNATURE-----
 
-  rust_minimal: section 8 reloc 24 sym 'rust_helper_krealloc_node_align': unsupported interworking call (ARM -> Thumb)
-
-Same on v7.3-rc1. rustc has no Thumb-2 target with the soft-float ABI.
-!THUMB2_KERNEL would also remove the built-in case, so v2 leaves it
-alone.
-
-I have a first module loader patch instead. bl to a Thumb function
-becomes blx, other branches go through a PLT veneer. Rust modules then
-load on a Thumb-2 kernel in QEMU. I would send it separately after more
-testing. Or do you prefer !(THUMB2_KERNEL && MODULES) for now?
-
-> >   --target=arm-unknown-linux-gnueabi -Ctarget-cpu=arm926ej-s
-> 
-> Ok, so I guess this is more like -mtune= in clang and gcc?
-
-More like -mcpu. 
-It adds features but does not override the +v6 of the target.
-
-> Maybe this should be "+v7-a" instead of "-v6" to allow allow the
-> compiler to use all ARMv7-A features instead? It would be surprising
-> if they added 32-bit Arm support to Rust without a way to target what
-> is in almost every single chip and Linux distro today.
-
-rustc does not know +v7-a. +v7 works but warns about an unstable
-feature. The separate target avoids that.
-
-On the CP15 barriers. With the generic target a fence(SeqCst) from
-core::sync::atomic becomes
-
-  mcr p15, #0, r0, c7, c10, #5
-
-and with the armv7 target dmb ish. No kernel Rust code does that today,
-the Rust objects I looked at have no CP15 access and no swp. But
-nothing prevents it.
-
-> I would leave out CPU_V7M as well, it's not worth trying to
-
-It is left out already. HAVE_RUST needs CPU_32v6K, CPU_32v5 or
-CPU_32v4T.
-
-Thanks
-Karl
+--maNOYJSQl7XIC3wz--
