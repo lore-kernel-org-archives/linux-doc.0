@@ -1,43 +1,146 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5022840A95F;
-	Mon,  5 Oct 2026 08:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F17C443C32
+	for <linux-doc@vger.kernel.org>; Mon,  5 Oct 2026 09:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791190618; cv=none; b=IStvgBSPMPTau+Y3R6U8nssylEqPejqCgRrO8O7OKiJLJyl78qVk5uNHXwmKlfZL9SN0+gKHs1Uc6ELC438fFC/k0VmjhQZAkb+dvruNeMk3Pi7VcZrujfnn3xMO2ykH0k+WPB4hUcqbwkNAfEiIVuefqAdpqcC+k7Eq/YJ2lWo=
+	t=1791192774; cv=none; b=cGmqjwRaGQlec4wqDR6TZIWDwUzWgBStqWvQP8GFXptfQ1m21YIIquRC1dz4F0LM80pX0HfY4YMPAnOSHPuW4et0jrXNAxRb4OJOjEPvU2MnKV8MQIZL2CRztj6BdRULOEExUX5F/geAId6tYVNTDk6fhCJ2JWIzAp5BlQJh6f4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791190618; c=relaxed/simple;
-	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RZJuAQLw0xCG2WvQcByQ7VCeUJ0md/1v5fJ9B4+pDFOLvADV8jxhhhFbyDLME38MMIkvKPnCKrd/KYssvBLZNcY+8CVj8KcatMmNU1thrc3RcLeA+JWuPb8RIctdtfDfKA7gdMruHqbrWTDi/wVA/DaAB7P/Ajmoym3WSd25SMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8593F68BFE; Mon,  5 Oct 2026 10:56:53 +0200 (CEST)
-Date: Mon, 5 Oct 2026 10:56:53 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Md Haris Iqbal <haris.iqbal@linux.dev>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: Re: [v3 for-next 3/3] Documentation: block: document error
- injection delay feature
-Message-ID: <20261005085653.GC9160@lst.de>
-References: <20260928221634.43239-1-haris.iqbal@linux.dev> <20260928221634.43239-4-haris.iqbal@linux.dev>
+	s=arc-20240116; t=1791192774; c=relaxed/simple;
+	bh=z93LGO+UPJaJAjNOaTQi26mWJ8c9Z+eSpQPos8SSoxs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Z5B2JX9ZvNu0xR+UwBg3fcunxVY2V2QXmL7Zxf6+Bt3RKQoYvvQg5SUA0ooQpC4/CjFvovSISIsnmNLESOKF3u9UwXZRZNvktukVbB+n63Ln/C0tFCzWFk2ciRt4F4w19kgXjRm62T9yrFBby3QtKPz3CKkgSqbHIlt08+wxOI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nbXfv1uy; arc=none smtp.client-ip=74.125.227.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nbXfv1uy"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a4c8262465so1183546a91.2
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 02:32:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791192767; x=1791797567; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=boIFBQ+tpIa9t/mSu2WrDlTP5P2+g8QXC7E1hIEs7a0=;
+        b=nbXfv1uyMToMIsHe8FsEQS1/uruGLSpnJ0KmJc3wx8LPpYvYQOMGryFbqSbU5fJwhR
+         j80l68ar3jUwoi2wTbA7CRA9V4jPgyjTYmfgWSk1b5MstOAIbwGWE6ehK3IvzCMZpG9a
+         lftwpWoXV8YEITqs48p4j4XwSRqQvYnVQjjO/YqLwUxS0WkD1mgKE3Y3i8QJCZm+ZgMQ
+         FjqkfssguFvGAeBtidOqyNzT+OoLNG7VlE+0EiBXLrN6w4HHgsXM2dVCD3ow138YX4nY
+         wNVB0OW0o3VKW/VCcsfh7PEoUIzCxeU9oFB9266Rhe3W0ns6UxxD4iGgM80OoNGGyksI
+         0eiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791192767; x=1791797567;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=boIFBQ+tpIa9t/mSu2WrDlTP5P2+g8QXC7E1hIEs7a0=;
+        b=l4XQ2JSvr1vSitji4DimTb6GnggmhjJcToU+mWkbY2dt1pipieVk4pTmd2nzOO0wBc
+         +5JJJJN9SF0srBT+xfPDGlDF2ZFzdYZJsT3bj1cg38fIz3roXMUUsci6be9++mLkh1x2
+         ySfjD4Jk5oXJDezYVaZHJz4mp9QZ0EWuRKlKdyGsAKcgak5N44Q0dg/NzpNSZxDWTLed
+         Ef2u+VyZoagAgvCwAfdT1fExG95pelDh+tk0kUadUHczMDCUJnJwFCD+FTasO0+gsIG6
+         ANVISGOlEMjpmyd8RqT88tq5m/S2Pk+4mPL1w8KnhjqFFUKriB7PXTLQLEo7ttG2FSJ8
+         YPjg==
+X-Forwarded-Encrypted: i=1; AKwUvByMWs2zTCO44WcP6uXIv7pyv9AZgHm3fLFcjn5gJvNp+/TOhpVwhB768z8f5qd2/h2eNM6pwq3g93c=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIuuAPS6fi+rgf02N5fqzIeEUl+ObBYWA6um0u9mvRggEU/sABm
+	r/wweEq9NykZ0+S3Y/OG6nnQJ4hAEAFymEibfAyw0Hrdyul97SazAV6/
+X-Gm-Gg: AYBFou2hViuNS/+lwFywowq+C64l7JRZApnMnt+waNv3ofUmt6IS+g72mp3WzAC51EG
+	FlXpS07nl7y12DdE+bBUF28ljJKyOqj2eUCWyXtrFEZOEQbLmt6l7mETaizfDUrImVOo9+8L3iC
+	dLk35yt7ric1mbSKqdsF1cQKbR6ypYnMUvzVRTt4SG/Sp9lqXxE+R04d4cPxKgCY7OeIx8AjcyT
+	nEW6Xo478VFQaTVeYRe+L6RD7JTGlTTEZn+3rRDtZu3akikTYr7yAt7g3wviBYUp+5/3Xd8KSKl
+	1vFc2O3K9A+Yf+KWtuIX1lyah8augMfh7zLXAR0TPsdIDDy1lN0nCzqlSJy8t7/sAKyptID63td
+	iGjNjsGV9oE3msdIsaX37s+J8jSY72HRNHf+4e65FN4OlNJTwAow5RHq25ylV+XQ7tYQdZCOUWf
+	svMH+FzxNYg7h6oWxLLEQcY+O1ndrhkcwfFPmPMGMmUwoe9p6KQ+CoX248CkMcKXNZi3stzL18c
+	hIeleQZK07jy0p5XQc=
+X-Received: by 2002:a17:90b:3c4d:b0:3a7:8350:49a5 with SMTP id 98e67ed59e1d1-3a783505109mr6012348a91.32.1791192767402;
+        Mon, 05 Oct 2026 02:32:47 -0700 (PDT)
+Received: from NV-9MNJ414.tailae2068.ts.net ([72.25.121.34])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a7ad87874esm4527886a91.0.2026.10.05.02.32.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2026 02:32:46 -0700 (PDT)
+From: Yiwei Lin <s921975628@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: Yiwei Lin <s921975628@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jon Maloy <jmaloy@redhat.com>,
+	netdev@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] rbtree: declare augmented callbacks per field, fix rb_add_augmented_cached() descent
+Date: Mon,  5 Oct 2026 17:32:32 +0800
+Message-Id: <20261005093236.62702-1-s921975628@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260928221634.43239-4-haris.iqbal@linux.dev>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 
-Looks good:
+rbtree_test open-codes the insertion of every flavour of rbtree it
+exercises, while the generic rb_add*() helpers have been the way most
+users insert nodes for years now.  Patches 1 and 4 make the test use the
+helpers where the helper does exactly what the test did, so the helpers
+themselves get covered.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Patch 2 is Peter's RB_AUG() rework from the v1 thread: each augmented
+field is described by its per-node value, its aggregate member and how
+two aggregates combine, and the template derives every callback from
+that, per field and in a local; RB_DECLARE_CALLBACKS_MULTI() goes
+away, RB_DECLARE_CALLBACKS_MAX() becomes a one-line wrapper and its
+RBCOMPUTE is renamed RBVALUE.  One change on top of what was posted:
+the third argument is a fold(a, b) rather than a "replace?" compare,
+which keeps the same register-local recompute, lets sums and counts be
+expressed, and replaces RB_MIN/RB_MAX with the existing min()/max().
+
+Converting the cached augmented test exposed the cost of the
+"suboptimal" propagate-from-parent path in rb_add_augmented_cached(),
+2-12% on the augmented insert+delete benchmark against the documented
+update-on-the-way-down pattern.  Patch 3 adds a ->merge() callback to
+struct rb_augment_callbacks, derived from the RB_AUG() list, and uses
+it during the descent, which gets the helper to parity before the test
+starts relying on it.
+
+checkpatch has plenty to say about the RB_FOR_EACH() machinery in
+patches 2 and 3 (unused macro arguments, values without parentheses);
+all of it is inherent to the token-pasting dispatch, as for __MAP() in
+linux/syscalls.h.  The tools/ copy of rbtree_augmented.h is left alone.
+
+v2: https://lore.kernel.org/r/20260929152439.91443-1-s921975628@gmail.com
+v1: https://lore.kernel.org/r/20260928122611.336351-1-s921975628@gmail.com
+
+Changes since v2:
+- Keep the 'exit' early return of the old RB_DECLARE_CALLBACKS_MAX()
+  recompute in the per-field recompute
+
+Changes since v1:
+- New patch 2: Peter's per-field RB_AUG() templates, taking a fold
+- ->merge() is derived from the RB_AUG() list instead of being a new
+  template argument; the propagate-from-parent removal is now patch 3
+- Numbers re-measured on the final code, on the Pi and on x86
+
+Peter Zijlstra (Intel) (1):
+  rbtree: declare augmented callbacks per field with RB_AUG()
+
+Yiwei Lin (3):
+  rbtree_test: use rb_add() and rb_add_cached() for the basic tests
+  rbtree: update augmented data on the way down in
+    rb_add_augmented_cached()
+  rbtree_test: use rb_add_augmented_cached() for the cached augmented
+    test
+
+ Documentation/core-api/rbtree.rst |  27 ++++-
+ include/linux/rbtree_augmented.h  | 194 +++++++++++++++++++++---------
+ kernel/sched/fair.c               |  70 ++---------
+ lib/rbtree_test.c                 |  62 ++--------
+ net/tipc/name_table.c             |   7 +-
+ 5 files changed, 181 insertions(+), 179 deletions(-)
+
+-- 
+2.34.1
+
