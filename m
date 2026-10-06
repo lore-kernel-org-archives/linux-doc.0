@@ -1,325 +1,185 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FFD42CAE0;
-	Tue,  6 Oct 2026 12:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1787D4503E1;
+	Tue,  6 Oct 2026 12:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791290948; cv=none; b=MsfC31GX2nDSlcoztUGR+yJ4mXbSv1DQwzMD+gjSHlUM3vB4F4G5+pCkPemjQa6xGgz9e6prtwTIr4tRkh27DCBS7Eax/VWlPNtMflnH4zTm9WEo5WUJ55ET34FrLA2raZL35weCbMEk1XGWOGJ9MqkZMHo9PCCVDJ4UbT0nZHA=
+	t=1791291275; cv=none; b=Z++8g3J2LOajDPI0TbKSebDwlYF86//rpr++brF8jOqRAVMCvfCBGnoDgJw3OPvg9csN8NKtbXtoHMtgpcxvN5DAd/9Thqzr61g3IgGieW46FzFuCINKK6nYTeHTnTw+vN+DjtfgTciEU3oS0JEtZS8FRo/wVuEzt5tCwLfTvhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791290948; c=relaxed/simple;
-	bh=bt2Kyyd45F3UQpAxqVewFKugC8GodJpfuF+rBuT+ioc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dRAScBen7QYTHZAk+8zU2coOx/mzoi8S1GI07lLVvyr6jI53i07j7SlxNaBGGel4InBSs4Hfs74PU3nrCscHx+pU0L2oV63MGVFQuzPn7ySiIOBfUqH/ymX6ytyzuwbZNjX1Q0SBZMX9CBkZzg0Ila6PtJo41poNUXbf6FJn2t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=o2urgcrk; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1791291275; c=relaxed/simple;
+	bh=f6IAYwcrCk+Y0JiLWHhRpS+GzXmDGgNOUxGjDzM874c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TsSTa7OO7BQcinby3tmSfFGKXpCeaR2XvjH56Vaj1NAptXY1p1xdXUBHZByzUFGYb3uBlY4NLLnm1PT7NVLI0YWLNjvdIHVgPITv9uG1VULOv+9ykmK4mkI2YWWGAX5oDaQ22utpEkkkBY/0wBneCnTO1j3RtgDLNsXrJw5s8qE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BKJepJvA; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="o2urgcrk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=5YiNPITWqK30Kiy9ZsIp5HIBNcsrtx+hz6EOp6QsdvI=; b=o2
-	urgcrkxx98UQ4nvGw1KmJDCALdhVySQncwHuegOxmEvSHVZp2JbT70ymGZ3iSA72fMPmYyQczCI8m
-	W/KzUS8RSVrcDIMaWmEcWIou6zBjVS973Tnk2no4U3NT+jk/XYNAt+e6LULlUVTycf8zF7Jyax9WV
-	Ow+saoE4kPd4Mm4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xE4ax-009GK2-Gj; Tue, 06 Oct 2026 14:48:35 +0200
-Date: Tue, 6 Oct 2026 14:48:35 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Selvamani.Rajagopal@onsemi.com
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Piergiorgio Beruto <pier.beruto@onsemi.com>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jerry Ray <jerry.ray@microchip.com>
-Subject: Re: [PATCH net-next v8 05/11] net: ethernet: oa_tc6: Support for
- hardware timestamp
-Message-ID: <89dadff0-d78a-4d4d-8ac2-be299e00ae9b@lunn.ch>
-References: <20260928-s2500-mac-phy-support-v8-0-7e011aacc309@onsemi.com>
- <20260928-s2500-mac-phy-support-v8-5-7e011aacc309@onsemi.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BKJepJvA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791291272; x=1822827272;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:to:cc;
+  bh=f6IAYwcrCk+Y0JiLWHhRpS+GzXmDGgNOUxGjDzM874c=;
+  b=BKJepJvAlhx2BSAuQ9flurUbyLrbYH1mz20PYQT5qDrSpU7neBn4YMXV
+   Inr7KYzEGArRd+0xrGOT8rQa4Mzk2Xh9G2SEn46BS5SjJ1FVJJXQjZeL8
+   z+Ljm0+sthPat7MzAW9GQ5dC0Q0Dz0uPFtg/p5Eoi3juoeVVuaj+9BvM9
+   fZB+UF3SudwBAuDvLt89VYx4SjMggoabs/HAjHjeNIH69echTrFaA3aiV
+   +N52xU1Y+dK6aaCGMIcDIEeroBAw0BZIm6I1AnqMZaYPg6rppTeJ5sYvt
+   vaNUnOWpU9ngQ8wmhJgV54dRyPmdS4YCgmB4he3UKBIRzBMbRVv2iWi4z
+   g==;
+X-CSE-ConnectionGUID: MaBKzO15TxWhHBVbQXA3Hw==
+X-CSE-MsgGUID: zIZUrMLOQIaw5TTkYWEJsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="94850388"
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="94850388"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 05:54:29 -0700
+X-CSE-ConnectionGUID: iDDkTCUdSWWyE/9g+d/VRw==
+X-CSE-MsgGUID: D42SBJwdTOOTaBhVhxHqAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="285044250"
+Received: from unknown (HELO [172.25.112.21]) ([172.25.112.21])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 05:54:29 -0700
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Date: Tue, 06 Oct 2026 06:04:56 -0700
+Subject: [PATCH v2] hwmon: (coretemp) Return -ENODATA for invalid
+ temperature readings
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260928-s2500-mac-phy-support-v8-5-7e011aacc309@onsemi.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261006-coretemp-enodata-v2-1-64e788acc7dc@linux.intel.com>
+X-B4-Tracking: v=1; b=H4sIAPfxxGoC/x3MsQqAIBRG4VeJOyeYWkOvEg1mf3WHVDQikN49a
+ fyGcwplJEamsSmUcHPm4CtU25A7rN8heK0mJdXQSamFCwkXzijgw2ovK2CU6Y2EXoyjmsWEjZ9
+ /Oc3v+wEIoHBIYgAAAA==
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: david.nystrom@est.tech, linux-hwmon@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ ricardo.neri@intel.com, 
+ Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791291906; l=4497;
+ i=ricardo.neri-calderon@linux.intel.com; s=20250602;
+ h=from:subject:message-id; bh=f6IAYwcrCk+Y0JiLWHhRpS+GzXmDGgNOUxGjDzM874c=;
+ b=2I0MHVe9AlES+YTQAJKs6o4vH7sVhPPuXlENeEJKMHcJEW9shBZ1s+z5Y2o2Qqa0jIywksgTo
+ G58h0AI2Pd3AIn/qkDxEL97RtlxL1YWdItD5U9Xlg9ms7DmhnWVEFd2
+X-Developer-Key: i=ricardo.neri-calderon@linux.intel.com; a=ed25519;
+ pk=NfZw5SyQ2lxVfmNMaMR6KUj3+0OhcwDPyRzFDH9gY2w=
 
-> +static bool oa_tc6_req_tx_hwtstamp(struct oa_tc6 *tc6, struct sk_buff *skb)
-> +{
-> +	bool drop = false;
-> +	u8 tsc;
-> +	u8 i;
-> +
-> +	lockdep_assert_held(&tc6->tx_skb_lock);
-> +
-> +	if (!skb || !(skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP))
-> +		return drop;
-> +
-> +	if (!tc6->hw_tstamp_enabled)
-> +		goto out;
-> +	if (tc6->ts_config.tx_type != HWTSTAMP_TX_ON) {
-> +		tc6->tx_hwtstamp_lost++;
-> +		goto out;
-> +	}
-> +
-> +	tsc = tc6->ttsc_current_id;
-> +	for (i = 0; i < OA_TC6_TTSCC_REG_ID; i++) {
-> +		if (!(tc6->ts_ttsc_pending & BIT(tsc -
-> +		    OA_TC6_TTSCA_REG_ID)))
-> +			goto slot_found;
+IA32_THERM_STATUS and IA32_PACKAGE_THERM_STATUS have a valid bit, bit 31.
+The Intel SDM documents it only for the former, but the package register
+implements it too: x86_pkg_temp_thermal has required it since commit
+f1a18a105660 ("Thermal: CPU Package temperature thermal").
 
-The indentation is a bit off. Generally the whole of BIT(...) would be
-on the next line.
+This driver checked the bit for both registers as well, until
+commit bf6ea084ebb5 ("hwmon: (coretemp) Do not return -EAGAIN for low
+temperatures") made it ignore the bit because some CPUs clear it while
+the temperature is too low to be measured. Since then, temp%d_input
+reports such a reading as a real temperature. Userspace cannot tell it
+apart from a genuinely low one.
 
-> +		tsc = oa_tc6_next_tsc(tsc);
-> +	}
-> +
-> +	/* All the three slots are waiting for its event. This skb
-> +	 * can't request timestamp. Marking it to be dropped.
-> +	 */
-> +	tc6->tx_hwtstamp_lost++;
-> +	drop = true;
-> +	goto out;
-> +
-> +slot_found:
-> +	tc6->ts_ttsc_pending |= BIT(tsc - OA_TC6_TTSCA_REG_ID);
-> +	tc6->ttsc_current_id = oa_tc6_next_tsc(tsc);
-> +	oa_tc6_tsinfo_tx(skb)->tsc = tsc;
-> +	skb_shinfo(skb)->tx_flags |= SKBTX_IN_PROGRESS;
-> +out:
-> +	return drop;
+Fail the read with -ENODATA while the CPU reports the reading as invalid.
+On a CPU that clears the bit, reading temp%d_input now fails where it
+used to return a low value. sensors(1) shows N/A in its place.
 
-The goto's here are a bit spaghetti code like. Since all out: does is
-return, maybe just use "return true" above.
+Suggested-by: Guenter Roeck <linux@roeck-us.net>
+Link: https://lore.kernel.org/all/46f9f319-de71-412f-a424-6cb801478456@roeck-us.net/
+Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+---
+Changes in v2:
+- Patches 1 and 2 of v1 have been applied. This is a rework of patch 3.
+- Drop temp%d_fault and fail temp%d_input with -ENODATA instead. (Guenter)
+- Link to v1: https://lore.kernel.org/r/20260924-coretemp-temp-fault-v1-0-1884f0ff97d5@linux.intel.com
+---
+ Documentation/hwmon/coretemp.rst |  3 +++
+ drivers/hwmon/coretemp.c         | 21 +++++++++++++++------
+ 2 files changed, 18 insertions(+), 6 deletions(-)
 
->  static int oa_tc6_process_extended_status(struct oa_tc6 *tc6)
->  {
-> +	u32 regs[OA_TC6_STATUS0_TTSC_REG_COUNT];
-> +	bool ts_valid = !!tc6->ptp_clock;
->  	u32 value;
->  	int ret;
->  
-> -	ret = oa_tc6_read_register(tc6, OA_TC6_REG_STATUS0, &value);
-> +	/* When timestamp is disabled, there is no behavior change
-> +	 * as it reads only STATUS0 register. When enabled,
-> +	 * TTSCA_HIGH..TTSCC_LOW are fetched together with STATUS0
-> +	 * to avoid having to make second SPI transaction. Reading few
-> +	 * extra registers, even it may not be needed every time this
-> +	 * function is called, it is more efficient than making second
-> +	 * SPI transaction, when needed.
-> +	 */
-> +	ret = oa_tc6_read_registers(tc6, OA_TC6_REG_STATUS0, regs,
-> +				    ts_valid ?
-> +				    OA_TC6_STATUS0_TTSC_REG_COUNT : 1);
->  	if (ret) {
->  		netdev_err(tc6->netdev, "STATUS0 register read failed: %d\n",
->  			   ret);
->  		return ret;
->  	}
-> +	value = regs[0];
+diff --git a/Documentation/hwmon/coretemp.rst b/Documentation/hwmon/coretemp.rst
+index 349301683381..09f885a847e3 100644
+--- a/Documentation/hwmon/coretemp.rst
++++ b/Documentation/hwmon/coretemp.rst
+@@ -50,6 +50,9 @@ All sysfs entries are named with their core_id (represented here by 'X').
+ 
+ ================= ========================================================
+ tempX_input	  Core temperature (in millidegrees Celsius).
++		  Reading fails with -ENODATA while the CPU reports the
++		  temperature as invalid. Some CPUs do this when the
++		  temperature is too low to be measured.
+ tempX_max	  Maximum recommended operating temperature (Tcontrol).
+ 		  All cooling devices should be turned on.
+ tempX_crit	  Maximum junction temperature (in millidegrees Celsius).
+diff --git a/drivers/hwmon/coretemp.c b/drivers/hwmon/coretemp.c
+index 0ab6bbff5637..a9edbb4924a7 100644
+--- a/drivers/hwmon/coretemp.c
++++ b/drivers/hwmon/coretemp.c
+@@ -60,6 +60,8 @@ enum coretemp_attr_index {
+ 
+ /*
+  * Per-Core Temperature Data
++ * @temp_valid: Whether the CPU reported @temp as valid. @temp is not
++ *		reported when this is false.
+  * @tjmax: The static tjmax value when tjmax cannot be retrieved from
+  *		IA32_TEMPERATURE_TARGET MSR.
+  * @last_updated: The time when the current temperature value was updated
+@@ -72,6 +74,7 @@ enum coretemp_attr_index {
+  */
+ struct temp_data {
+ 	int temp;
++	bool temp_valid;
+ 	int tjmax;
+ 	unsigned long last_updated;
+ 	unsigned int cpu;
+@@ -398,7 +401,8 @@ static ssize_t show_temp(struct device *dev,
+ {
+ 	struct msr val;
+ 	struct temp_data *tdata = container_of(devattr, struct temp_data, sd_attrs[ATTR_TEMP]);
+-	int tjmax;
++	int tjmax, temp;
++	bool valid;
+ 
+ 	mutex_lock(&tdata->update_lock);
+ 
+@@ -407,17 +411,22 @@ static ssize_t show_temp(struct device *dev,
+ 		tjmax = get_tjmax(tdata, dev);
+ 		rdmsrq_on_cpu(tdata->cpu, tdata->status_reg, &val.q);
+ 		/*
+-		 * Ignore the valid bit. In all observed cases the register
+-		 * value is either low or zero if the valid bit is 0.
+-		 * Return it instead of reporting an error which doesn't
+-		 * really help at all.
++		 * Bit 31 indicates whether the reading is valid. Some CPUs
++		 * clear it while the temperature is too low to be measured.
++		 * Such a reading is not a temperature. Do not report it.
+ 		 */
++		tdata->temp_valid = (val.l >> 31) & 1;
+ 		tdata->temp = tjmax - ((val.l >> 16) & 0xff) * 1000;
+ 		tdata->last_updated = jiffies;
+ 	}
+ 
++	valid = tdata->temp_valid;
++	temp = tdata->temp;
+ 	mutex_unlock(&tdata->update_lock);
+-	return sprintf(buf, "%d\n", tdata->temp);
++
++	if (!valid)
++		return -ENODATA;
++	return sprintf(buf, "%d\n", temp);
+ }
+ 
+ static int create_core_attrs(struct temp_data *tdata, struct device *dev)
 
-I assume there is a #define for register 0? It would be more readable
-to use the name.
+---
+base-commit: 4781ca52761e666cf18b591e6bb0478396c90320
+change-id: 20261003-coretemp-enodata-e424540e3b4c
 
-> +int oa_tc6_ptp_register(struct oa_tc6 *tc6, struct ptp_clock_info *info)
-> +{
-> +	int ret = 0;
-> +
-> +	/* Not supporting hardware timestamp isn't an error */
-> +	if (!tc6->hw_tstamp_supported)
-> +		return ret;
-> +
-> +	snprintf(info->name, sizeof(info->name), "%s",
-> +		 "OA TC6 PTP clock");
+Best regards,
+-- 
+Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 
-Are names meant to be unique? Have you tested this on a board with
-multiple devices?
-
-
-> +	tc6->ptp_clock = ptp_clock_register(info, &tc6->spi->dev);
-> +	if (IS_ERR(tc6->ptp_clock)) {
-> +		ret = PTR_ERR(tc6->ptp_clock);
-> +		tc6->ptp_clock = NULL;
-> +		dev_err(&tc6->spi->dev, "Registration of %s failed\n",
-> +			info->name);
-> +	}
-> +
-> +	if (tc6->ptp_clock)
-> +		dev_info(&tc6->spi->dev, "%s registered. index %d\n",
-> +			 info->name, ptp_clock_index(tc6->ptp_clock));
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(oa_tc6_ptp_register);
-> +
-> +/**
-> + * oa_tc6_ptp_unregister - Unregisters clock related callbacks
-> + * @tc6: oa_tc6 struct.
-> + */
-> +void oa_tc6_ptp_unregister(struct oa_tc6 *tc6)
-> +{
-> +	if (tc6->ptp_clock) {
-> +		ptp_clock_unregister(tc6->ptp_clock);
-> +		tc6->ptp_clock = NULL;
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(oa_tc6_ptp_unregister);
-> diff --git a/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h b/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h
-> index 403a9c22b5f1..06fe88f1ed7c 100644
-> --- a/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h
-> +++ b/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h
-> @@ -18,6 +18,9 @@
->  #include <linux/wait.h>
->  #include <linux/phy.h>
->  
-> +/* Tx timestamp capture register A (high) */
-> +#define OA_TC6_REG_TTSCA_HIGH			(0x10)
-> +
->  /* Control command header */
->  #define OA_TC6_CTRL_HEADER_DATA_NOT_CTRL	BIT(31)
->  #define OA_TC6_CTRL_HEADER_WRITE_NOT_READ	BIT(29)
-> @@ -33,6 +36,7 @@
->  #define OA_TC6_DATA_HEADER_START_WORD_OFFSET	GENMASK(19, 16)
->  #define OA_TC6_DATA_HEADER_END_VALID		BIT(14)
->  #define OA_TC6_DATA_HEADER_END_BYTE_OFFSET	GENMASK(13, 8)
-> +#define OA_TC6_DATA_HEADER_TSC_OFFSET		GENMASK(7, 6)
->  #define OA_TC6_DATA_HEADER_PARITY		BIT(0)
->  
->  /* Data footer */
-> @@ -44,6 +48,8 @@
->  #define OA_TC6_DATA_FOOTER_START_VALID		BIT(20)
->  #define OA_TC6_DATA_FOOTER_START_WORD_OFFSET	GENMASK(19, 16)
->  #define OA_TC6_DATA_FOOTER_END_VALID		BIT(14)
-> +#define OA_TC6_DATA_FOOTER_RTSA_VALID		BIT(7)
-> +#define OA_TC6_DATA_FOOTER_RTSP_VALID		BIT(6)
->  #define OA_TC6_DATA_FOOTER_END_BYTE_OFFSET	GENMASK(13, 8)
->  #define OA_TC6_DATA_FOOTER_TX_CREDITS		GENMASK(5, 1)
->  
-> @@ -70,6 +76,22 @@
->  
->  #define OA_TC6_REG_MMS_MASK		GENMASK(19, 16)
->  
-> +#define OA_TC6_TSTAMP_SZ			8
-> +
-> +#define OA_TC6_TTSCA_REG_ID			1
-> +#define OA_TC6_TTSCB_REG_ID			2
-> +#define OA_TC6_TTSCC_REG_ID			3
-> +
-> +/* STATUS0 and the TTSCA/B/C capture registers are contiguous in MMS 0, so
-> + * they are fetched with a single control transaction while timestamping is
-> + * available.
-> + */
-> +#define OA_TC6_TTSC_REG_OFFSET		(OA_TC6_REG_TTSCA_HIGH - \
-> +					 OA_TC6_REG_STATUS0)
-> +#define OA_TC6_TTSC_REG_COUNT		(2 * OA_TC6_TTSCC_REG_ID)
-> +#define OA_TC6_STATUS0_TTSC_REG_COUNT	(OA_TC6_TTSC_REG_OFFSET + \
-> +					 OA_TC6_TTSC_REG_COUNT)
-> +
->  /* Internal structure for MAC-PHY drivers */
->  struct oa_tc6 {
->  	struct net_device *netdev;
-> @@ -95,6 +117,16 @@ struct oa_tc6 {
->  	bool prot_ctrl;
->  	enum oa_tc6_quirk_flag quirk_flags;
->  	struct gpio_desc *reset_gpio;
-> +	struct hwtstamp_config ts_config;
-> +	struct list_head tx_ts_skb_q;
-> +	struct ptp_clock *ptp_clock;
-> +	bool hw_tstamp_supported;
-> +	bool hw_tstamp_enabled;
-> +	u64 tx_hwtstamp_pkts;
-> +	u64 tx_hwtstamp_lost;
-> +	u64 tx_hwtstamp_err;
-> +	u8 ts_ttsc_pending;
-> +	u8 ttsc_current_id;
->  };
->  
->  enum oa_tc6_header_type {
-> @@ -121,5 +153,8 @@ enum oa_tc6_data_end_valid_info {
->  	OA_TC6_DATA_END_INVALID,
->  	OA_TC6_DATA_END_VALID,
->  };
-> +
-> +void oa_tc6_cleanup_tx_tstamp_skbs(struct oa_tc6 *tc6);
-> +
->  #endif /* OA_TC6_STD_DEF_H */
->  
-> diff --git a/drivers/net/ethernet/oa_tc6/oa_tc6_tstamp.c b/drivers/net/ethernet/oa_tc6/oa_tc6_tstamp.c
-> new file mode 100644
-> index 000000000000..d83f6ad9373a
-> --- /dev/null
-> +++ b/drivers/net/ethernet/oa_tc6/oa_tc6_tstamp.c
-> @@ -0,0 +1,224 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * OPEN Alliance 10BASE‑T1x MAC‑PHY Serial Interface framework
-> + *
-> + * Author: Selva Rajagopal <selvamani.rajagopal@onsemi.com>
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/mdio.h>
-> +#include <linux/phy.h>
-> +#include <linux/oa_tc6.h>
-> +
-> +#include "oa_tc6_std_def.h"
-> +
-> +static int oa_tc6_set_hwtstamp_settings(struct oa_tc6 *tc6,
-> +					const struct hwtstamp_config *ts_cfg)
-> +{
-> +	u32 regs[OA_TC6_REG_INT_MASK0 - OA_TC6_REG_CONFIG0 + 1];
-> +	u32 cfg0, irqm, status0;
-> +	bool disabled;
-> +	int ret;
-> +
-> +	if (tc6->ts_config.flags == ts_cfg->flags &&
-> +	    tc6->ts_config.tx_type == ts_cfg->tx_type &&
-> +	    tc6->ts_config.rx_filter == ts_cfg->rx_filter)
-> +		return 0;
-> +
-> +	spin_lock_bh(&tc6->tx_skb_lock);
-> +	disabled = tc6->disable_traffic;
-> +	spin_unlock_bh(&tc6->tx_skb_lock);
-> +	if (disabled)
-> +		return -EIO;
-> +
-> +	/* CONFIG0, STATUS0 and INT_MASK0 span one register block, so a
-> +	 * single control transaction covers all three.
-> +	 */
-> +	ret = oa_tc6_read_registers(tc6, OA_TC6_REG_CONFIG0, regs,
-> +				    ARRAY_SIZE(regs));
-> +	if (ret) {
-> +		dev_err(&tc6->spi->dev, "Failed to read CFG0 block\n");
-> +		goto out;
-> +	}
-> +
-> +	cfg0 = regs[0];
-
-OA_TC6_REG_CONFIG0 - OA_TC6_REG_CONFIG0?
-
-> +	status0 = regs[OA_TC6_REG_STATUS0 - OA_TC6_REG_CONFIG0];
-> +	irqm = regs[OA_TC6_REG_INT_MASK0 - OA_TC6_REG_CONFIG0];
-
-It then follow the pattern?
-
-   Andrew
