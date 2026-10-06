@@ -1,302 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f8.google.com (mail-pj2-f8.google.com [74.125.227.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C21134CCF;
-	Tue,  6 Oct 2026 21:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8AB3803D0
+	for <linux-doc@vger.kernel.org>; Tue,  6 Oct 2026 22:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791323342; cv=none; b=rtyBuGrMEsoFU5mJZIfvYgwBTtchWeYFwI8eqhHdUUKKUHGriYvx8ztFv6+UGM5hTH0V/894p6OgQVTTsbP3PDdjEgI46/qgpBxJiSFaa3X/9FAnUVCVvYNlprp1Z3WPds3v0GOOh4PJ9C2+JUk/TRXpME06YVtcGEEdlHUVP/M=
+	t=1791324425; cv=none; b=YEgdRoe1jm4o3xdjCEsG+nmE8TJj039Yx8qUYxmWoUnPNWLqskPvwvzMZ4CQJfcmXwZbWtltU9bqB+gq8aipi1uKv9R4iSOLKK197r9DzLZUhoLgL2MWmjN6L9UIdAkn+a5/bwBisYMhsjpuJ9AID/SWixeFkNm/BloBUekTG9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791323342; c=relaxed/simple;
-	bh=9/kIwIroF3I78IKmLSDuil+2CDGn0X72S83yzgqd7/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=BSrlAfsrj0OZzKhi+9OpUllWeFarU8x9UB+jQTvhZ2WIwQd/VIFRI2bUDYmExoN0ag1FyUBK9eftNG4SJsgiO7d/QA5VsMOJKkBsyIrinEv0lp+7mc4kEgL1g58kFTT1A34o3M8A8pymts5eNLWqFfhxBEn1bvowM5d2MXUqJHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5v2niIJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791324425; c=relaxed/simple;
+	bh=oLowqW4kTT1TNYX2A/gZw2hQoXAMth+pOFnbIsMCdaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nU1POd4zZC4oGYVTUbiG3EbCfc5oO18qHndoYhqwftrSsXaAxbD2r7IRd3oZdqqNO8X1DwVKDuqc3sr/MhoyFXPMJVtq0nI4ZyeJx+nmPAAyJdZE1Lw4RZffC8D9aE/xXlWPp7EKt+BsnhEPEjJL27zkdVXSJOcWvLjXxYxvNbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IG54vHzI; arc=none smtp.client-ip=74.125.227.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5v2niIJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D35B91F0089B;
-	Tue,  6 Oct 2026 21:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791323340;
-	bh=DOWWt1KJLFYMrWcgT4FQO58tS9UYRaxA2t0lKYqxiTY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=Q5v2niIJ5LRiKoDFZltL3IbLPktOJr5pP30s5DSLcbt7GSEtaOrjaS2MbGXva/rHo
-	 QphiZGiboKLj+JYKWvdvZpAQTI1HZk7dqUpSR/BsyAJVl8JlvzTyBSdXtc0qxOSAcP
-	 UJTUQDck9g0spi4EUe2Cg6f0RMqY//NeuZoQxvXlx5fsAMPtQY3ETYBtdfyd82pqd5
-	 17Tyk3Zpyh8Smibz0CdsEbfty1JqfiHQogouoEZZnJilPhni1gh7ZN5IwXEFOcsHz5
-	 xpn7wVe6vIYIfBKbZXDwfXxj3/7Nfo9zSphjycYssaD1pFvLPuV7NEvEe/THhy/u8k
-	 rlMDKf7O8JzeA==
-Date: Tue, 6 Oct 2026 16:48:58 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH v9 06/18] PCI/P2PDMA: Collect the path's ACS controls
- before deciding
-Message-ID: <20261006214858.GA717151@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IG54vHzI"
+Received: by mail-pj2-f8.google.com with SMTP id 98e67ed59e1d1-398b9f722abso1643586a91.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Oct 2026 15:07:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791324423; x=1791929223; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OGTI2frF8RrBIeT4/ePn5rUSGsgZXEb1V8OC+n96/mk=;
+        b=IG54vHzImmmbr4Y8m8Xp5wLUFkdbL5HQMXRvk5+2kzRzDWQ1XYvbucB8zomHoFZEyN
+         2cxY0CzNuGA/CTE7qWYzflmyq43AaCW+NGmUJZEjahy8uJX4DMn8yRL02+S1WCj6I29r
+         oCH0qxtCxvtbPBEGASxKTFqOnVuvtZKE060GVzbEkHeV7XMKByEcSA7yhChHP7mausVe
+         mMcE9lLNvuBbc8q4bFyH9hcPnOlH3iDPtcPDk27UpjAFoGu5qhCt7bdUmkq5bW0tPUoe
+         de40QR6/vQG6nelaYJ7WdooNLi+cI4AV7wpOmmvqApwCeteBDHcWTV7iX6Nydt+h4y6F
+         n8GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791324423; x=1791929223;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=OGTI2frF8RrBIeT4/ePn5rUSGsgZXEb1V8OC+n96/mk=;
+        b=SMZdrX9IWjaq6PU9xGyjQJob2U0+913iH+VTzEsb4bxfJhZBh+1jGeWv4rmZ5HD9Lv
+         WbhPZHOaUxZr1PtS7kBKNFmFG74lLjtDrc0ukSAEpPSNzmHnetcdajcOHbJpO10ePoc1
+         1rgBX6pmYjr2ITzVxgayLZTf9iyhJ/QLeiLBRJTYDeHjxYnVBVhIEA+YjdgJ/y/dLLgK
+         N5PDg1A/NlUpw5HKxslWgPJF+d8rncZ7h2gN37esrywq//iDooE0vAb7CCpYYimkZ2jD
+         EyMJtbaStLj99UOPuav8NH7avJ8BdEvJK+hIG/9UGqDPsUrZ8AVyv/UJA5Up5NqzwNtg
+         RtVA==
+X-Forwarded-Encrypted: i=1; AKwUvBwaLVblDHfAjghnankXnRjYvYMw7DBL3xWfAuCYfZbi6u4Tn17G+qpBrRQOuzs4mE7DoLL62YIHNNo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIoTFLmPtRT7V6JRVPiMzYhd+sDtWvZTexYk/tweoEeqzEUstrA
+	eSbVOOP+y0LsaxAWhVB7AONiz9Ys/UMMV4YLK2AGbZmP57gTBvLEsnnG
+X-Gm-Gg: AYBFou2aEUE9XJZulr0s0PdK8WmtSIq2ASKyQQpxRC6piDN3db9hVRhT6O5gs3aLOnY
+	jymoihFKfTgfOzWXdPN1Dj/xMZncf9nEzY2SEcoMMAB8uteAHXE/GdNvbZshCrGzR49v+1CF/jd
+	JDrUbnNjfHjgwpN+Xnj6l6yqw8CqhbEiivbGymxXTrQoopyHSqg6LNF1YsdG+BIqfD+I6N7IT0g
+	q5+1T2F4v52kvP8MSuK8/0iulAUEEf7dOOhufa0EtFvLpZdx/ixr+tEIEZJqujL/siZENeZA88r
+	2bPk56oL/pSkHnTMajgCJoclAE57dS8HhlZiaG7qCK4y+w9LFQEGXu1czsvj8+wovY8z3/0x8MV
+	NT+jedv553RwbvsFsoEwQFTC838X+372ZYVV8eu3sGeLY/nJQoGLoRhqDTJ9DZs124ECaf3nHKS
+	CA2S0WDv5o5fFvt/jygOWlS2U1UAoHHVyXL4z4XsiGjY5DA1SNv8VuUnkoCsoTBu9v
+X-Received: by 2002:a17:90b:1c0a:b0:3a0:42a9:9c75 with SMTP id 98e67ed59e1d1-3a8a1b5d361mr332289a91.43.1791324422809;
+        Tue, 06 Oct 2026 15:07:02 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:54::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a89d5ced5asm504062a91.0.2026.10.06.15.07.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2026 15:07:01 -0700 (PDT)
+Date: Tue, 6 Oct 2026 15:02:42 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Luigi Rizzo <lrizzo@google.com>, 
+	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>
+Subject: Re: [PATCH net-next v1 2/2] docs: netmem: document netmem and memory
+ provider design principles
+Message-ID: <asVvzDm8rf5BMl3b@devvm7509.cco0.facebook.com>
+References: <20261005004958.3603059-1-almasrymina@google.com>
+ <20261005004958.3603059-3-almasrymina@google.com>
+ <asPNJ2V8Tv2Z05n-@devvm7509.cco0.facebook.com>
+ <CAHS8izOvea3eas4i09pMds2zzqbCtf8VL0Zdvo3fBT_+AM1TBg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261001-fix-p2p-acs-v4-0-v9-6-1a8e0f50ddd9@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHS8izOvea3eas4i09pMds2zzqbCtf8VL0Zdvo3fBT_+AM1TBg@mail.gmail.com>
 
-On Thu, Oct 01, 2026 at 02:55:14PM +0300, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On 10/05, Mina Almasry wrote:
+> On Mon, Oct 5, 2026 at 9:19 AM Stanislav Fomichev <sdf.kernel@gmail.com> wrote:
+> >
+> > On 10/05, Mina Almasry wrote:
+> > > Add a Design Principles section to Documentation/networking/netmem.rst
+> > > covering the netmem_ref abstraction, the prohibition on direct
+> > > downcasting in callers, decoupling memory providers from net_iov,
+> > > decoupling net_iov from unreadability, delegating provider/type logic to
+> > > memory_provider_ops and netmem helpers, and the homogeneous skb fragment
+> > > memory type invariant.
+> > >
+> > > Cc: Luigi Rizzo <lrizzo@google.com>
+> > > Cc: Björn Töpel <bjorn@kernel.org>
+> > > Cc: Stanislav Fomichev <sdf@fomichev.me>
+> > > Cc: Pavel Begunkov <asml.silence@gmail.com>
+> > > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> > > ---
+> > >  Documentation/networking/netmem.rst | 46 +++++++++++++++++++++++++++++
+> > >  1 file changed, 46 insertions(+)
+> > >
+> > > diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
+> > > index 217869d1108dd..57e52a947663d 100644
+> > > --- a/Documentation/networking/netmem.rst
+> > > +++ b/Documentation/networking/netmem.rst
+> > > @@ -19,6 +19,52 @@ Benefits of Netmem :
+> > >  * Simplified Development: Drivers interact with a consistent API,
+> > >    regardless of the underlying memory implementation.
+> > >
+> > > +Design Principles
+> > > +=================
+> > > +
+> > > +Memory providers (or the default ``page_pool`` allocator) allocate underlying
+> > > +memory (``struct net_iov`` or ``struct page``), cast it to ``netmem_ref``, and
+> > > +supply it to ``page_pool``. The ``page_pool``, drivers, and networking stack
+> > > +operate on ``netmem_ref`` as the abstract type. Existing ``page_pool`` APIs
+> > > +that allocate or free ``struct page`` are legacy compatibility wrappers for
+> > > +drivers that do not yet support ``netmem_ref``. Code that is not yet
+> > > +``netmem``-aware should be converted to ``netmem_ref`` unless it will never
+> > > +need to support ``netmem``.
+> > > +
+> > > +1. **Operate on netmem_ref, do not downcast**: ``page_pool``, drivers, and the
+> > > +   core networking stack should deal with ``netmem_ref`` rather than
+> > > +   ``struct net_iov`` or ``struct page``. Downcasting ``netmem_ref`` to
+> > > +   ``struct net_iov`` or ``struct page`` is not allowed unless a code path
+> > > +   strictly cannot function without knowing the underlying memory type (for
+> > > +   example, ``kmap_local_page()``). In those cases, to keep call sites simple,
+> > > +   add a ``netmem`` helper that performs the operation on behalf of the caller,
+> > > +   cleanly handles all ``net_iov`` and ``page`` cases, and returns an error if
+> > > +   the ``netmem`` type cannot support the requested operation.
+> >
+> > [..]
+> >
+> > > +2. **Decouple memory providers from net_iov**: Memory providers are not limited
+> > > +   to ``struct net_iov``. A memory provider that returns ``struct page``-backed
+> > > +   ``netmem_ref``\ s to upper layers is allowed. Code must not assume that using
+> > > +   a memory provider implies ``net_iov`` memory.
+> > > +
+> > > +3. **Decouple net_iov from unreadability**: ``struct net_iov`` is flexible and
+> > > +   has no inherent restrictions. While current ``net_iov`` implementations are
+> > > +   unreadable by the CPU, future readable ``net_iov`` implementations are
+> > > +   allowed. Code must not assume ``net_iov`` is unreadable; check readability
+> > > +   via ``netmem_address()`` or ``skb_frags_readable()`` instead.
+> >
+> > For these, idk, I do agree in principle, but it is not true right now? And
+> > there needs to be a bunch of work to generalize?
+> >
 > 
-> calc_map_type_and_dist() reads each divergence port's ACS Control register
-> and folds the result into running counters as it goes. Any routing property
-> that depends on the kind of TLP being routed would have to be threaded
-> through that code, so there is nowhere to put one without reading the
-> registers again for each kind.
+> I may have misunderstood, but I think Bjorn is creating readable
+> net_iovs for his work (patch 5). And I think that's great work and I
+> plan to support the series. So this will become true very soon.
+> 
+> https://lore.kernel.org/netdev/20261002190018.696925-1-bjorn@kernel.org/
+> 
+> > Should we document where we are right now (mp return niov, niov == unreadable)
+> > and where we wanna be (mp can return whatever, niov can imply readable or
+> > unreadable). And when Bjorn's xsk work lands, he can update the mp section.
+> > And sometime later maybe we'll lift niov == unreadable.
+> 
+> I think that's a good idea with 1 addendum. I'll say something like,
+> "This is where we are right now, but new code should, as much as
+> possible, update existing limitations to generalize and match the
+> design principles.""I basically don't want LLMs lazily reward hacking
+> and say "I'll just write code matching where we are right now and
+> ignore the design principles." WDYT?
 
-What is the "one" that there's nowhere to put?  I guess the routing
-property?  So this is an optimization to avoid some config reads?
-
-> Collect the two ports' ACS Control values into struct pci_p2pdma_acs_path
-> first, then decide from it. pci_p2pdma_route() applies the same rule as
-> before: a path routes directly only when both directions do.
-> 
-> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> Tested-by: Tushar Dave <tdave@nvidia.com>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/pci/p2pdma.c | 148 +++++++++++++++++++++++++++++++++------------------
->  1 file changed, 96 insertions(+), 52 deletions(-)
-> 
-> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> index 550e6c7346ef..841c86be31bb 100644
-> --- a/drivers/pci/p2pdma.c
-> +++ b/drivers/pci/p2pdma.c
-> @@ -553,6 +553,80 @@ static void seq_buf_print_bus_devfn(struct seq_buf *buf, struct pci_dev *pdev)
->  	seq_buf_printf(buf, "%s;", pci_name(pdev));
->  }
->  
-> +/*
-> + * What the topology walk found out about one provider/client path. Producing
-> + * this costs a walk and one config read per divergence port, none of which
-> + * depends on the TLP being routed.
-> + *
-> + * @req_ctrl:	ACS Control of the client-side divergence port. That is the
-> + *		first port at which a Request can route toward the peer rather
-> + *		than upstream, so it is where the Request controls apply.
-> + * @cpl_ctrl:	ACS Control of the provider-side divergence port, likewise for
-> + *		the Completions travelling back.
-> + * @unreadable:	First port whose ACS Control could not be read, if any.
-> + */
-> +struct pci_p2pdma_acs_path {
-> +	u16 req_ctrl;
-> +	u16 cpl_ctrl;
-> +	struct pci_dev *unreadable;
-> +};
-> +
-> +/*
-> + * Combine both directions into a mapping type. Only a path that routes the
-> + * Request and the Completions it generates directly can be programmed with
-> + * the peer's bus addresses.
-> + */
-> +static enum pci_p2pdma_map_type
-> +pci_p2pdma_route(const struct pci_p2pdma_acs_path *path)
-> +{
-> +	if (path->unreadable)
-> +		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
-> +
-> +	if (pci_acs_p2pdma_request(path->req_ctrl) == PCI_ACS_P2PDMA_DIRECT &&
-> +	    pci_acs_p2pdma_completion(path->cpl_ctrl) == PCI_ACS_P2PDMA_DIRECT)
-> +		return PCI_P2PDMA_MAP_BUS_ADDR;
-> +
-> +	return PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
-> +}
-> +
-> +/*
-> + * Name the ports that keep this path off a direct route, so that the admin
-> + * can hand them to pci=disable_acs_redir=.
-> + */
-> +static void pci_p2pdma_warn_path(struct pci_dev *client,
-> +				 struct pci_dev *provider,
-> +				 const struct pci_p2pdma_acs_path *path,
-> +				 struct pci_dev *a_child,
-> +				 struct pci_dev *b_child)
-> +{
-> +	struct seq_buf acs_list;
-> +	char buf[128];
-> +
-> +	if (path->unreadable) {
-> +		pci_warn(client,
-> +			 "ACS Control is unreadable for provider %s at %s\n",
-> +			 pci_name(provider), pci_name(path->unreadable));
-> +		return;
-> +	}
-> +
-> +	seq_buf_init(&acs_list, buf, sizeof(buf));
-> +	if (pci_acs_p2pdma_completion(path->cpl_ctrl) != PCI_ACS_P2PDMA_DIRECT)
-> +		seq_buf_print_bus_devfn(&acs_list, a_child);
-> +	if (pci_acs_p2pdma_request(path->req_ctrl) != PCI_ACS_P2PDMA_DIRECT)
-> +		seq_buf_print_bus_devfn(&acs_list, b_child);
-> +
-> +	/* Drop the final semicolon; the list is not empty here. */
-> +	if (!seq_buf_has_overflowed(&acs_list))
-> +		acs_list.buffer[acs_list.len - 1] = '\0';
-> +
-> +	pci_warn(client,
-> +		 "ACS redirect is set between the client and provider (%s)\n",
-> +		 pci_name(provider));
-> +	pci_warn(client,
-> +		 "to disable ACS controls for this path, add the kernel parameter: pci=disable_acs_redir=%s\n",
-> +		 seq_buf_str(&acs_list));
-> +}
-> +
->  static bool cpu_supports_p2pdma(void)
->  {
->  #ifdef CONFIG_X86
-> @@ -751,19 +825,13 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
->  		int *dist, bool verbose)
->  {
->  	enum pci_p2pdma_map_type map_type = PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
-> -	enum pci_acs_p2pdma_state state = PCI_ACS_P2PDMA_NOT_SUPPORTED;
->  	struct pci_dev *a = provider, *b = client, *bb;
->  	struct pci_dev *a_child = NULL, *b_child = NULL;
-> -	struct pci_dev *acs_unreadable = NULL;
-> +	struct pci_p2pdma_acs_path path = {};
->  	struct pci_p2pdma *p2pdma;
-> -	struct seq_buf acs_list;
-> -	int acs_redirect_cnt = 0;
-> +	bool cpu_p2pdma, host_whitelisted = false;
->  	int dist_a = 0;
->  	int dist_b = 0;
-> -	char buf[128];
-> -	u16 ctrl;
-> -
-> -	seq_buf_init(&acs_list, buf, sizeof(buf));
->  
->  	/*
->  	 * Note, we don't need to take references to devices returned by
-> @@ -806,61 +874,35 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
->  	 * branch is upstream, so redirect controls do not affect the path.
->  	 */
->  	if (a_child && b_child) {
-> -		if (pci_acs_p2pdma_ctrl(a_child, &ctrl))
-> -			state = pci_acs_p2pdma_completion(ctrl);
-> -		if (state != PCI_ACS_P2PDMA_DIRECT) {
-> -			seq_buf_print_bus_devfn(&acs_list, a_child);
-> -			if (state == PCI_ACS_P2PDMA_REDIRECT)
-> -				acs_redirect_cnt++;
-> -			else if (!acs_unreadable)
-> -				acs_unreadable = a_child;
-> -		}
-> -
-> -		state = PCI_ACS_P2PDMA_NOT_SUPPORTED;
-> -		if (pci_acs_p2pdma_ctrl(b_child, &ctrl))
-> -			state = pci_acs_p2pdma_request(ctrl);
-> -		if (state != PCI_ACS_P2PDMA_DIRECT) {
-> -			seq_buf_print_bus_devfn(&acs_list, b_child);
-> -			if (state == PCI_ACS_P2PDMA_REDIRECT)
-> -				acs_redirect_cnt++;
-> -			else if (!acs_unreadable)
-> -				acs_unreadable = b_child;
-> -		}
-> +		if (!pci_acs_p2pdma_ctrl(a_child, &path.cpl_ctrl))
-> +			path.unreadable = a_child;
-> +		if (!pci_acs_p2pdma_ctrl(b_child, &path.req_ctrl) &&
-> +		    !path.unreadable)
-> +			path.unreadable = b_child;
->  	}
->  
->  	/*
->  	 * Below a shared upstream bridge, a path whose divergence ports do not
->  	 * redirect routes the request directly.
->  	 */
-> -	if (!acs_unreadable && !acs_redirect_cnt) {
-> -		map_type = PCI_P2PDMA_MAP_BUS_ADDR;
-> +	map_type = pci_p2pdma_route(&path);
-> +	if (map_type == PCI_P2PDMA_MAP_BUS_ADDR)
->  		goto done;
-> -	}
->  
-> -	if (verbose) {
-> -		/* Drop the final semicolon; the list is not empty here. */
-> -		if (!seq_buf_has_overflowed(&acs_list))
-> -			acs_list.buffer[acs_list.len - 1] = '\0';
-> -		if (acs_unreadable)
-> -			pci_warn(client, "ACS Control is unreadable for provider %s at %s\n",
-> -				 pci_name(provider), pci_name(acs_unreadable));
-> -		else {
-> -			pci_warn(client, "ACS redirect is set between the client and provider (%s)\n",
-> -				 pci_name(provider));
-> -			pci_warn(client, "to disable ACS controls for this path, add the kernel parameter: pci=disable_acs_redir=%s\n",
-> -				 seq_buf_str(&acs_list));
-> -		}
-> -	}
-> +	if (verbose)
-> +		pci_p2pdma_warn_path(client, provider, &path, a_child, b_child);
->  
->  	/* An unreadable control does not establish an upstream redirect. */
-> -	if (acs_unreadable) {
-> -		map_type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
-> +	if (path.unreadable)
->  		goto done;
-> -	}
->  
->  map_through_host_bridge:
-> -	if (!cpu_supports_p2pdma() &&
-> -	    !host_bridge_whitelist(provider, client, verbose)) {
-> +	cpu_p2pdma = cpu_supports_p2pdma();
-> +	if (!cpu_p2pdma)
-> +		host_whitelisted = host_bridge_whitelist(provider, client,
-> +							  verbose);
-> +
-> +	if (!cpu_p2pdma && !host_whitelisted) {
->  		if (verbose)
->  			pci_warn(client, "cannot be used for peer-to-peer DMA as the client and provider (%s) do not share an upstream bridge or whitelisted host bridge\n",
->  				 pci_name(provider));
-> @@ -1193,8 +1235,9 @@ enum pci_p2pdma_map_type pci_p2pdma_map_type(struct p2pdma_provider *provider,
->  {
->  	enum pci_p2pdma_map_type type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
->  	struct pci_dev *pdev = to_pci_dev(provider->owner);
-> -	struct pci_dev *client;
->  	struct pci_p2pdma *p2pdma;
-> +	unsigned long cache_index;
-> +	struct pci_dev *client;
->  	int dist;
->  
->  	if (!pdev->p2pdma)
-> @@ -1204,13 +1247,14 @@ enum pci_p2pdma_map_type pci_p2pdma_map_type(struct p2pdma_provider *provider,
->  		return PCI_P2PDMA_MAP_NOT_SUPPORTED;
->  
->  	client = to_pci_dev(dev);
-> +	cache_index = map_types_idx(client);
->  
->  	rcu_read_lock();
->  	p2pdma = rcu_dereference(pdev->p2pdma);
->  
->  	if (p2pdma)
->  		type = xa_to_value(xa_load(&p2pdma->map_types,
-> -					   map_types_idx(client)));
-> +					   cache_index));
->  	rcu_read_unlock();
->  
->  	if (type == PCI_P2PDMA_MAP_UNKNOWN)
-> 
-> -- 
-> 2.55.0
-> 
+SGTM!
