@@ -1,107 +1,94 @@
-Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA43353A6B;
-	Tue,  6 Oct 2026 08:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.143.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791276245; cv=fail; b=TMVj4P8dj4/WiW45PzpWH8w7aJ2k/EeIEPkSiuhuBqbMpSAwao/RXHmrupOwllJCSj5NeGY5t4iL8o3FYd8VvsVIcy7eH7e9UAueY0X0D7IyJyFe2xurlDUbIXiyYj89sWQutQux9995sR0ci80WLge533L8gFqtZpjLt1rWNuY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791276245; c=relaxed/simple;
-	bh=0M00IJzf+LUazCnnSbCNCN14kp4IfgCejd9kUucSFfQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bRXai1NZezw1GQNlr8auDrrmulmgAyS2D4yIaa+miwLuJUm3+kmsZuKwdmfTD4qgihQVrzs38KPYzSKnRyGmVpV6ECcXVRVT7/lTnJ3/sYbcl81/TJiPRGOxyLq0o1H/npWKH5e/sSTeNpQWfar2qJlEO5XMlNzPGbWmskmOhQM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=1L/1X4EN; dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b=r44ySSyA; arc=fail smtp.client-ip=148.163.143.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=juniper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=junipernetworks.onmicrosoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EE53C3429
+	for <linux-doc@vger.kernel.org>; Tue,  6 Oct 2026 08:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791277011; cv=none; b=tBXAgeZoE8VRcnXLFPE10Uisf4+K2c2EuqO36L9dk6+8H5cSKePiezKdhpYPWquA6e16beYw08XmhwvKxl2D+rlF+9zGoNvdzEvkXzGopNWgywhjho8/rAYP4RGDjTWCIS19bU29aGmsE3JL95y+THDRZ67bykKlTJK9keajGYw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791277011; c=relaxed/simple;
+	bh=JqOr+QH0eB1KZyAyZM/EYKd/SdOkih1C5MUT8GSFyMw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HjpXnZrSuKYvWxXXH2Uf9+kZDruMLq5fru9QR+Hvsvh2i2efxU+cfn1jjyYtGoCaEGGMvvYRwLJzDflki1PO16ofo2Yf8w32GvGHFY1IqRDlwfulwhNKDQOej7K0hA4jtNAo3ZvGiUDxgfGYoe+vS4NTrQ1S8OriNfDkJquLeRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pa3Ru1eM; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="1L/1X4EN";
-	dkim=pass (2048-bit key) header.d=juniper.net header.i=@juniper.net header.b="r44ySSyA"
-Received: from pps.filterd (m0134423.ppops.net [127.0.0.1])
-	by mx0b-002e3701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6966dHVw3348829;
-	Tue, 6 Oct 2026 08:42:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=jnprhpepp0429;
-	 bh=YBjBgg5lJ/MSQCFerbG8H/+RNIlSkg6D3rsrQ8jqt90=; b=1L/1X4ENNrjy
-	w7+YTdUscNnpH1v876jShUiR/OuJuVzglUhxzBYy87/Dy+/BQbydZsVm9yhUVRPW
-	q/WNZ0k2M1aqDhrNUy2J5dL5nHapYwnwNkaBEl7gY1+SNVuXwXT6Pme8JeNvWCh7
-	fE9gHpcesshASq17QeSXMdttlL+BDzbSq87zSbxM4P3fdOZVJNVb1MD2gPKT3TiS
-	0MLVs/5MeCyuSRlYdSu1WmdpdjIjSc0B9+MHA6oiShDyfcFhR3P5OfHr5FdR2fkB
-	d+HKqWO2k979nv0zIP9i+C0PlEyzmX1s0wV/lSQYptZK5qOehIXRY9u/YvfZKpGB
-	7XBVaCSKNQ==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010037.outbound.protection.outlook.com [52.101.201.37])
-	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 4h4t65u6q1-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 06 Oct 2026 08:42:09 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ncg7EJjAdFQ9FGkUbwKf6WZ8GBKya9YLwH/TWIidG5wWXZBxeXgNGKDiW13rB8B/xPbPUiZyFa3TCdUjQ8vbGnXK8gUKUfQ4mND+p8fNVpoxZL6SCyEVbnNxe8o1ynYkgJqz/mTFSgIbvaxa0fdO5eBirCxSFdFRK1SIwno8PTyia+ZbtGjLMdPS62DAyvX/4NjpQDJSQx0V25JF3y+z4e55JBCSB2Vb2ACq5UCDtO0+XgO1oUB62E4lZSBHx0T3PqP2KE6j6qLOx9huq0OCmBn49zKHw9AR1MWcwDvJBwpuxRDZ+udiDr6iYszvk+E/waSPpoqFGni4gYLL1OgSNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=YBjBgg5lJ/MSQCFerbG8H/+RNIlSkg6D3rsrQ8jqt90=;
- b=j4XHV5ceOTqSpAi+cxz6ujp5RZZwxYfzgpy9fWZ68XjSddw5BMRrpcIg0dafyHmTHC0/wBkjO/yxVrNmII409gsGXZ1gnMbD/6IFFSdb26xuzSrn0/WqYbm1ZroxY+9M9pGKYG/78CMlGdyCA5xU2YXYSBhPGvBY94ltN8ZjqHhr9UFlejlrG8yg4T0kZ78Gn9H7kqJlR590WamZRngutjM+JOXP4vckEmEAqTNg7DJhybR70Uv/qNiuzTtVgryNRmlOtXxXcisPKZy3VLb6WOvWrL4EacpKOq7d5QENA/tFtFVdmJar7Jds4RLwqntCUfyu2jxIBaqEZocDoDD1iA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
- is 66.129.239.19) smtp.rcpttodomain=debian.org
- smtp.mailfrom=ebf951f79306.juniper.net; dmarc=temperror action=none
- header.from=juniper.net; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=juniper.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YBjBgg5lJ/MSQCFerbG8H/+RNIlSkg6D3rsrQ8jqt90=;
- b=r44ySSyAnCPXghsdA806rldR1yQkm71QSw8/9HUmoas91XfJ8bwYZ2XsbNkY9EGLx0KfuNLSTs2UDgJbM/CqLeyfYBSWy4/jhxwWyPqMn0IN/HmZ2lxjHaJ7P9q6R/0fML6Pa1JRkhrzKWqZR8Zy3iI4m5AW2e9Qg4aY0AzG+k/D7Q+5VRO0OQALGCgAsc4QjJWPGu7LJEjhDqtk0YqwHAH/e//7fhJUTRBZxz269q+f6WNH/xoH88vrC/htAaBTk+SAdRvN40wOYmEhVVuGCBSLZSkCqE+J3gfdNMVw3wxFchOCeX8hGZfeXXOLVEPw5h6pSoU0iKUQAJ45DVsHWw==
-Received: from CH0P223CA0020.NAMP223.PROD.OUTLOOK.COM (2603:10b6:610:116::10)
- by DS6PR05MB434985.namprd05.prod.outlook.com (2603:10b6:8:46a::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Tue, 6 Oct
- 2026 08:42:02 +0000
-Received: from CH2PEPF0000013F.namprd02.prod.outlook.com
- (2603:10b6:610:116:cafe::a5) by CH0P223CA0020.outlook.office365.com
- (2603:10b6:610:116::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20 via Frontend Transport; Tue, 6
- Oct 2026 08:42:02 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=temperror
- (sender IP is 66.129.239.19) smtp.mailfrom=ebf951f79306.juniper.net;
- dkim=none (message not signed) header.d=none;dmarc=temperror action=none
- header.from=juniper.net;
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of ebf951f79306.juniper.net: DNS Timeout)
-Received: from juniper.net (66.129.239.19) by
- CH2PEPF0000013F.mail.protection.outlook.com (10.167.244.71) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.496.14 via Frontend Transport; Tue, 6 Oct 2026 08:42:00 +0000
-Received: from p-exchbe-eqx-04.jnpr.net (10.104.9.87) by
- p-exchfe-eqx-04.jnpr.net (10.104.9.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 6 Oct 2026 01:42:00 -0700
-Received: from ebf951f79306.juniper.net (10.104.20.6) by
- p-exchbe-eqx-04.jnpr.net (10.104.9.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 6 Oct 2026 01:42:00 -0700
-Received: by ebf951f79306.juniper.net (Postfix, from userid 14867)
-	id EA3FD152679C; Tue,  6 Oct 2026 01:41:59 -0700 (PDT)
-From: Prashant Singh <singhpra@juniper.net>
-To: Ard Biesheuvel <ardb@kernel.org>, Jeremy Kerr <jk@ozlabs.org>,
-        "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>
-CC: Prashant Singh <singhpra@juniper.net>,
-        Clark Williams
-	<clrkwllms@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jonathan Corbet
-	<corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap
-	<rdunlap@infradead.org>,
-        "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
-        Steve McIntyre <93sam@debian.org>, <joaoanandalima@gmail.com>,
-        <linux-efi@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH v5] efivarfs: add nostatfs mount option to skip QueryVariableInfo()
-Date: Tue, 6 Oct 2026 01:41:58 -0700
-Message-ID: <20261006084158.11523-1-singhpra@juniper.net>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <fd8750f7-a30c-4b60-9254-395858bc9aca@app.fastmail.com>
-References: <20261005232250.2620-1-singhpra@juniper.net> <fd8750f7-a30c-4b60-9254-395858bc9aca@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pa3Ru1eM"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3a82223ca9aso236722a91.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 Oct 2026 01:56:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791277010; x=1791881810; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QI6VWWfK9pDI+BJghbGgcQFx9nHMTF0rsPh7AoTup44=;
+        b=Pa3Ru1eMVrJ0adohcksQOK9r99fMywz5cSgJsDR9nf2Op1n104pAK/65zdeARA3aAt
+         bE7Ld4+SCDiP71kBLAZk2ax2Uran5dVRC7NxAbQsqb/6/m4xK0zZXNcjmT4swLEJt5R4
+         XlV3olhgGiCWfobXuhYu7nrUxmiXgC8CpQ2TF+3WbwnyJRbDvrw1TRyqvNxC8MmbX8x7
+         zDQIJAtKtuU7laUr+Lfs9Yka8vIc1U9eVbdguApJW8lIwpSEsFoJXZMtn91OhsITfBhH
+         dg37tgcRBy5mqI8MzetHmL77CDzH6L8APAydRUsoM3aw+ResOtABzqvoFhkKRUVIlnUJ
+         WPsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791277010; x=1791881810;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QI6VWWfK9pDI+BJghbGgcQFx9nHMTF0rsPh7AoTup44=;
+        b=dfbarIn9UTMj+OHNa5/UsXkY6SU1u6hwHi7pBsJ9hdYwaabtn+ZSAmXlwoKpd8xyo7
+         2gBVRbCFgVFguckUPHCqfntNcypAuICL5Vb8B152c3uESJWVFI1jZ2cLWHbpdmeB5PX4
+         SP2vW87ZTxQP6gmIGSRmWcopaGg5PXflea6iv3CbVm4iPoqyB7KKl9oHe5SbgUnsci+a
+         JTp/3haEvYX8GUFxi1BZaewK3snNlqcEEBd1sDZq6XYR+Fjuculj7TW9eo++vqkVy11Q
+         McHkZ7cW1D7YMF7+w2AjmY6voYuXMYRA3tZQVswUVxZvp+RIu2OPOavb26w7aEpDzhMT
+         /WNQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzqc8F7ro5jXv4mHdUdHUm4huMAQyl+Y5UGmV5qTmLhU46dImxhd4zDooh8rxCLEa9GOFLbrjj+jQg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLvoQd8e91lYPELGBLD5MDwug/+RspXwEx3fsZjZZBuBwd6uyiR
+	JCmbp7bluE1X1ZN9BtudqLuVvBuqQS08+igU8JHm3YKhqX15ES8yBeBe
+X-Gm-Gg: AYBFou0Vp/kZM3omNPJpgA3/w7JjO4AcW+aCyWPuZMxmE73nz37A/SbnnO6FuvulOhz
+	IzGfn2kOMdEaNf0ngodebYVp5EM7aXHHb+H56iHm5vEOJS8Z0nR4IvIObQWFTQTb3Nmm42594X7
+	/ajgLYnp+ty12+7ocpsjtOHcx5THC4fbyEO40oEqvYsZWy1dhPAaDXa9eAn7EnCIwOUVfseNdZW
+	bvVETBLHSNpqthtMyWAm2CsKQA1xV6grXD1Lyb0psbZmK0Kmt30b5/Ie85f3Acalj+SBvMtggXu
+	uoq8e5f/7tNHB4QKvrXyTwnjO580vXpSX2tv03kId2e3pJmdX6Vdg4ApSle2m0HebTaUvFd9B4I
+	H+MyeSnmxYiMo68YmxiQg6W5QvHwSRH3ctAhhFsohrEx6RygXJO9GPXzOPYiHP3IXrNp/NsLaW6
+	xyiZDSkE/H02vyiNjL5r0J6TILjP0QiYaeMohyCmm2UJt/ryFeuF81O6HQFB4LQ35uyQZ6g7AwE
+	3ObMbhG2CL0bH21MyJSlVaNGvBFTxCn011m8xd0LY/wJkXLhlgdz4SjjLJOYh8/Fre8fxdsUmhG
+	hjfESdm4ZbGnRQRQ22d2D+/E1H0r4xth2FZlinr3aCpjRfXnBjeVMHuBM2sWpQ==
+X-Received: by 2002:a17:90b:3c12:b0:3a4:c52e:8126 with SMTP id 98e67ed59e1d1-3a8736af0d8mr491188a91.40.1791277009678;
+        Tue, 06 Oct 2026 01:56:49 -0700 (PDT)
+Received: from ikb-h07-29-noble.in.iijlab.net ([202.214.97.5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a853d00fc5sm3931542a91.16.2026.10.06.01.56.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2026 01:56:49 -0700 (PDT)
+Received: by ikb-h07-29-noble.in.iijlab.net (Postfix, from userid 1010)
+	id D975216FBFCF; Tue,  6 Oct 2026 17:56:47 +0900 (JST)
+From: Hajime Tazaki <thehajime@gmail.com>
+To: linux-mm@kvack.org,
+	liam@infradead.org,
+	rbm@suse.com,
+	akpm@linux-foundation.org,
+	luto@amacapital.net,
+	brendan.jackman@linux.dev,
+	david@kernel.org,
+	liuhangbin@gmail.com,
+	corbet@lwn.net,
+	kees@kernel.org,
+	ljs@kernel.org,
+	broonie@kernel.org,
+	mhocko@suse.com,
+	rppt@kernel.org,
+	shuah@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	wad@chromium.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-um@lists.infradead.org
+Cc: geert@linux-m68k.org,
+	daniel@thingy.jp,
+	Hajime Tazaki <thehajime@gmail.com>
+Subject: [PATCH v5 0/2] support kselftest on nommu platform
+Date: Tue,  6 Oct 2026 17:56:40 +0900
+Message-ID: <20261006085642.3852152-1-thehajime@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -109,87 +96,66 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000013F:EE_|DS6PR05MB434985:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68dc7fae-e5be-40fa-af67-08df2385b091
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|7416014|376014|35950700016|1800799024|18002099003|22082099003|10067099003|4143699003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	0HHIi2+q2SVkVlyBkCBIRzyVPF8/WLD1dwZS0hSdGF9RekwCMtag5cqpia9DD6WFF1DjvC1pNtV4NjBorrynpGPN5/7dccIvomcl1nD1GITHRzQQ4AZKAfAGLeiZRZsnWGMKAT9g71S5Im9mA/NbUNzAz2ptQhLenG/LDAet4Meq14LzTv0eWAwJClQ2Av9G9kq+epNyk3G8iB6LF8KF5RcLlWApJZhEpvOKQOcnwqtSx6lsLCXVYuQhkvfTnSCBlWkM6/3xyEP9CV7blFgGS+WWInxGBMqmMC66xZ0/KxyW2KpX0pSK6CQQ/bIzNIfex+5Zyu7O6bLIwWFXAFIcimXZxwir/2VlmXYrKSptdipqWMY3MtdJo4U0DNWH8uJViHvr9nkZwipQWCkaOoI63ZAX9jdMA1nmaymmE8Uxyto5+LtSWEVnSpc1h83tXRcTCB3U4YN8cnnfTTZPABCTO8O6CYgGxQtt/oYxfW2LokIwWFe1fzU2m6HvGfqHLHoGJLVCOsEpQLMqnre5m2bDELnT952PzAtpvjzaL2zjcoBhv2HgFEBej5wSVZuqPuNYsgAk5bSto2EEsYk1ISXDEQ3OIA5BYMXjs+rw5RE6Qpi7z69eiPBsXrDTGzlwa/H/Zn66CiVfjKInfopJFcxCoqbb28oEpCrBsvQnmqQTn4yyzoOSL9dMkm/7HeTZ47ossx/nTy6ZXpF+zWFIyIpWhA==
-X-Forefront-Antispam-Report:
-	CIP:66.129.239.19;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:juniper.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(35950700016)(1800799024)(18002099003)(22082099003)(10067099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	hVn1U0KZdM5T+DD7g5URU22yva86uJxsMPzMEsk6m7Omv69FHsElQBbrZzyTxt2UM3odQ+2RFc4Mprh53OclkoB0SWkmOncuNXQes3gDInh0eMtzJ8ZHR4+YynKTCWWOV7KQu6fzTaz1kRdzcBXCmNJeZ6zdr3IT3hTNcODBkpa1vNKDiUzGyfLDb3u8NADCMt/lSku+yU0vfTyWjq3eUprBdgn3F+LUJT00Zt+D7XqYvYtAnwmkQdrZ/Y1tCV3rjfXc5w2bBqWh4LTX9ElLgQ/5kOJDE67wKuPD3jo7Laj6Bm07jYrQwIGGFO7+hBaUN9LJtShnV22JkLof6Qz5+Lm2rNbtLh6p29ZvYVU4aJcALd744hgBb3oqJT/yGDmwsyUsTzE6EF5/bn5X+jlyDfoJM3IrPFO0KOKNle6YGF/JPrviwpm6mrDd6HvFtCb3
-X-Exchange-RoutingPolicyChecked:
-	InF3YwzZV3jhTG4bq/IR+bktHsej/o9eAR7xmuEKISSAlWPJXu4/vWfPbRGuGrahjYvwRWN6UhWMB+vFFEUlGy9FSiQecXjYoXEh6czDB7xrZ6F2BgczrMJKJ/SSOMupYYKSerIRdwoJMjXj1iK52QjzYqqzwYRX85Hjt94Dv6ISNwYzEi0nS17HPubGRvVLOykGW/JKRxY+Kznou+6+PNeLf9mrXdIWbxN4a83iyRZ1FxJ732J+Kew1XGQGh12c4InSM/+UCfuXVUkvPy0QN6joxE9rK/P7tlqcpStjcWNojJtWIlc81LB/Hnp5aqi49EirY6iifD/HX0+5m6rY3g==
-X-OriginatorOrg: juniper.net
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2026 08:42:00.8868
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68dc7fae-e5be-40fa-af67-08df2385b091
-X-MS-Exchange-CrossTenant-Id: bea78b3c-4cdb-4130-854a-1d193232e5f4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bea78b3c-4cdb-4130-854a-1d193232e5f4;Ip=[66.129.239.19];Helo=[juniper.net]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF0000013F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS6PR05MB434985
-X-Proofpoint-GUID: FCA4Ubc0HQolFAruznWMHtnZ4G5H06o_
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA2MDAzNCBTYWx0ZWRfX1kHnbFsUONyI
- h28AZ+OM+gUldGulj9G8OqcvHH5feozir0TT0dWqyVvg3V1STUyDKpDj2eGIF6e1yz3mO6ahnKW
- np7PkWfBM3vNLweD+SUTEbj/X1m/ZAQ=
-X-Proofpoint-ORIG-GUID: FCA4Ubc0HQolFAruznWMHtnZ4G5H06o_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA2MDAzNCBTYWx0ZWRfX/7cnnzioLMy6
- Tl3KLOC6vu9VuX4Wh/msaPyik1sJHqjzcPrCIFHu/cvEQ5rLRbs7XWRTjGMaRNZzlF9zyQchKxl
- jbz4I+GaO3mOZy7YcLstWhVICRrCzT628+BUPYzbrahfYhPjdF477Eb5AdpOrwq38kU/12sf78j
- G8lCoWhDbY/euF6fDpykdq2Az7TbX7fZh1n0iBEYdtd1wx+g1FHWhEo4fCe7Kp+yeYVsKWz1uK7
- JnlVcBouZ8Lr78iQZ8J2rZ5ilMsC/En8zEuAR32kLjj94Je0iUS57C10OS28XwfJFJDsKxHk4DK
- duISXWf8PxWsjUQRQlKqIVefyeiLvTcL9DRkYINo40eLTFclMstdYGPB1HtDAbFgsZkf6GOzbh1
- oiGVEKJb9dVvZEzjBqaZORcVwWeza9knL4EF4HcJnhcMbd2suIzJQZu3YkU/REbYHyAQg4v4xDl
- KsQ97cguvjbbnOh5YMg==
-X-Authority-Analysis: v=2.4 cv=Y7ptIReN c=1 sm=1 tr=0 ts=6ac4b461 cx=c_pps
- a=fIWvqWWOoOps8dVAlNTpGg==:117 a=SKdRtqzh2DBFgDMvUaaGnA==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10
- a=f7IdgyKtn90A:10 a=rhJc5-LppCAA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=gQcMVamqm3wCPoSYhaRC:22 a=g3u0LPWLDYfGfufhFw6-:22 a=hmfSGiSs7xPFuiQWvfIA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-06_02,2026-10-05_01,2025-10-01_01
-X-Proofpoint-Spam-Reason: orgsafe
-X-Proofpoint-Spam-Details: rule=outbound_safe policy=outbound score=0
- impostorscore=0 clxscore=1015 adultscore=0 phishscore=0 priorityscore=1501
- bulkscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=orgsafe scancount=1 engine=8.22.0-2609040000
- definitions=main-2610060034
 
-On Tue, 06 Oct 2026 09:09:33 +0200, Ard Biesheuvel wrote:
-> So what happens with uid=/gid= in this case. Do they get reset to the
-> default or not? And before this patch?
+This patchset adds an ability to execute kselftest on nommu platforms.
 
-Preserved, not reset to the GLOBAL_ROOT default -- and unchanged from
-before this patch.
+Currently there are several issues if we wish to run kselftests on nommu
+targets:
 
-efivarfs_reconfigure() applies only nostatfs to the live superblock; it
-never touches uid/gid. uid/gid are parsed in efivarfs_parse_param() and
-stamped onto inodes at creation in efivarfs_get_inode() (inode->i_uid/i_gid
-= opts->uid/gid); reconfigure() has never re-applied them, so they are
-effectively mount-time-only. A uid=/gid= given on remount lands in the
-throwaway reconfigure fs_context and is ignored -- the live inodes and
-show_options keep the original mount values.
+- it cannot compile/build test binaries because the current files mainly
+  assume to build with glibc,
+- some of the tests are not able to run on nommu targets as there are no
+  fork(2) syscall.
 
-Before this patch efivarfs_reconfigure() only had the ro/rw guard
-(efivar_supports_writes()) and never applied uid/gid, so there is no
-behavioural change; the patch only adds the nostatfs line.
+The first issue can be avoided if we can build static PIE binaries (if
+targets support it), but in our case (build on ubuntu/glibc and run on
+alpine/musl-libc), it fails to invoke due to lack of the GNU ifunc
+mechanism.  Thus, we need to cross-compile with musl toolchain, which
+needs to be solved the first issue.
 
-Verified on 6.12 (Xeon), identical on a stock 6.12 without the patch:
-  mount -o uid=1000,gid=1000   -> uid=1000,gid=1000  (opts + inode owner)
-  mount -o remount             -> still 1000:1000     (preserved)
-  mount -o remount,uid=2000    -> still 1000:1000     (ignored)
+The second issue is the lack of fork(2) syscall on those platforms.
+Especially the test harness helper (kselftest_harness.h) uses the
+syscall, which cannot be simply with vfork(2).  `timeout` command used
+in `runner.sh` never works for nommu platform as it uses fork(2).
 
-Thanks,
-Prashant
+nommu component in the mm subsystem has several known issues and having
+test cases should help this situation, thus this patchset is very first
+step toward enriching test environment which has not been well tested
+for a while.  The test cases is implemented based on the document
+(Documentation/admin-guide/mm/nommu-mmap.rst).
+
+Initial shape for this patches is implemented as an opt-in TARGET, not
+built/invoked automatically if users don't specify this nommu target.
+
+--
+
+- v4:
+https://lore.kernel.org/all/20260929235711.2287931-1-thehajime@gmail.com/
+- v3:
+https://lore.kernel.org/linux-mm/20260926010819.604346-1-thehajime@gmail.com/
+- v2:
+https://lore.kernel.org/linux-mm/20260825015945.141739-1-thehajime@gmail.com/
+- rfc:
+https://lore.kernel.org/linux-mm/20260813063401.1786548-1-thehajime@gmail.com/
+
+Hajime Tazaki (2):
+  selftests: run tests on nommu architecture
+  selftests/nommu: add nommu mmap and mremap behavior tests
+
+ Documentation/dev-tools/kselftest.rst         |  18 +
+ tools/testing/selftests/kselftest/runner.sh   |  11 +-
+ tools/testing/selftests/nommu/Makefile        |   7 +
+ tools/testing/selftests/nommu/nommu.h         |  33 ++
+ .../testing/selftests/nommu/nommu_mmap_test.c | 264 +++++++++++++
+ .../selftests/nommu/nommu_mremap_test.c       | 356 ++++++++++++++++++
+ 6 files changed, 688 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/nommu/Makefile
+ create mode 100644 tools/testing/selftests/nommu/nommu.h
+ create mode 100644 tools/testing/selftests/nommu/nommu_mmap_test.c
+ create mode 100644 tools/testing/selftests/nommu/nommu_mremap_test.c
+
+
+base-commit: e8d0f6a1b2a447d02845984fa6288787543cb03c
+-- 
+2.52.0
+
