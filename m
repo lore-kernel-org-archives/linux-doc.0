@@ -1,243 +1,188 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010001.outbound.protection.outlook.com [52.101.56.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76893B6366
-	for <linux-doc@vger.kernel.org>; Tue,  6 Oct 2026 14:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791296105; cv=none; b=O2rB4NXbwkDxucmy3WzF5Ci4wAv0U0MESMNH3tGc3A9bQIlbj03yHEP3G9CIWrCBL1BAF+juiIzidBzo/Ny3bucqx5mk+MhrcNWxJRL6YouuXE/VR6SX4/Mcp8a9QISDn/898kyrBtEbaojlCTF6mBcq+VecInztTXTNO/BKoQE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791296105; c=relaxed/simple;
-	bh=Nt8VaQlj73La3K/WOXPeZWp5Egiw8ElYDzr2tV/tnAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KB7R6bLO7xeynE6KNQr6ra6CmlYxLg54fCYIsT39FYGh0YeiSDKsZ2wUdsU+YRFMKOYmPgf/5sXj8Zs7SCHgGFeQQgIxTqquRRKZ52YgXYWpSatoGh329Rtx38+2Pkjn+uER086aV3F3ArTPvexLQmSpyMNSiAqHjZB3tdqj7H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C0fr23E8; arc=none smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F9737FF46;
+	Tue,  6 Oct 2026 14:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791298068; cv=fail; b=uiwNaR4hFmxSO1TUqZhfyKQqZEfCJyUnMatfwPJ5B6O1z5ZYpV0Qhl8kFaUB6H3ji5er0Iy0gQS9Uexxm0aeHvOtDt80ynBo2h3ML2lu9E6FRRZKec9X1zsB4KcaTPxcDbeQahBf6ogkSEeLMYWPkK+AQWxiLstRc6zONe++P1Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791298068; c=relaxed/simple;
+	bh=JeIx8kmcLxuuotHnfzZnSCcvkAsezVYayZea6h/gsv4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=QADMhE4Jts1K8YQKM+ivys6RDOdspcnKSHHuEyPpOeacJDP9l8Wjz+mjMh3xvQW2UyLb994y5d3FAwtCrWRYaMrzYmhf+KGHFxfwtLVQC7tEMcbxEXKYmj5iCAeFNEEBJ1rQhlGfYsEN+506TcceK4hZ6BjwZX7HsUP7t8WE1yY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Tkc/b3pn; arc=fail smtp.client-ip=52.101.56.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C0fr23E8"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-81ba09a5d23so3027071a34.3
-        for <linux-doc@vger.kernel.org>; Tue, 06 Oct 2026 07:15:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791296101; x=1791900901; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=iyocPZgXU+y/fKJyewKMKQMG8bpfMm3V+MoJuTgAH+Q=;
-        b=C0fr23E8OkKiRLmpkJ8gBXyQ3l9t1BuX+90uFkhhPKSw8OOXKAGvU5s4IRpyg6yOyX
-         VK3n5Ux1dxLZBviRlBO011IFfOhNPCHypcjCsNQUfTjvwZQRbOpehQOSjmWIGoFK1loz
-         NEcyu7noCvoD9gsP4yrIgaNIVQTzeHOi5q4i33uTZvo53tud5x+Ki7DQFrrR/izyO076
-         4vhMfFFu4FfBdQW6aC6laVF4pCHesds0SvAWxALMl3iZgVAsc77xAmLYBFbNkMdG6tN+
-         GuzsJTiHmrrbnqU1aRgapNiCDSsMEKBRJAAHJGpWZBUQqqOJ4GqfAsRzvEWJra9aIGng
-         Co0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791296101; x=1791900901;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iyocPZgXU+y/fKJyewKMKQMG8bpfMm3V+MoJuTgAH+Q=;
-        b=0QAaVxsZ6Dw75qoLuMM8DRDWmjEu6crnjysJm5mSze9Y+9ko0qDmxBGG2Osh4FwDHU
-         AXLPv16DVq8Pv/rxnVB8dY47CtLsITYfEAOEqs+x8ILTftt0o9iaPlqOsY20r7ahCcB1
-         G1wrC0Xd8ZJwd37XxtkrfO9t7SsWXHYXCKStFVM6jGk30idaMjKUxfs9lGnGptatzOBL
-         94Vo8jNJ4uKZwxZ8PjVWTsqS2SL7j70ST5lc3cryNQ7Lo8psSP6csBVhuQbcRkKnkjU9
-         Gga3+KxZdhcHVPv4oRBzMTPg9QAow+f/hhP0uDMFxJXB1QugzKu193sxSmPt9i8tcAms
-         t7Ow==
-X-Forwarded-Encrypted: i=1; AKwUvBy3HN8XmxNDSwaLaAnaWBsrH1JbH09ovWsN38OvR0TAlvvRy4xDmsxwaQUDZkxvePtGtif/N6gCAXI=@vger.kernel.org
-X-Gm-Message-State: AFuF++n8kSOqxPMWYTB45kFx0e/5bKZFVxRpO5LBoA0Mhmb4RKidQRAB
-	2PuVrJ1P/eF2Yzv9rwpRgclkmkUiVWawATAAqKLjrwN/RleLoYq3LTlL
-X-Gm-Gg: AYBFou1DTyR4pfTWqunMn751b5h2zuaZyAlriqs2JxPpEqnwotSFx055cIvg8RMOoJH
-	FNgdLNb9TpDsfWR9F36tntiblY2lmSHE3Bpn6yyyFdHhcISAO+1N7fGBOwQJxvuIolEi4rMVsD/
-	jWUMDJRyIF4DkvTyeXSpekpWVpX/WmNclZMVY85VzEXfozHYa1Ntp+sCV4Zi5Y358d6btZFhxWh
-	NyaFTT+39zbyhqF8wEcEEhR9KZacGmknefNqPnBSKuWH6bj9YOz8OZNPfdeZUzDp3I181Rav7fK
-	2I/bFY9TAvKwxtFNQ7h3No0qX3FATbM89G1ORELIgkIecAxJpmzMBXkNF0eqCYjlmzrgA2l2WUb
-	uTe32jCp/kHHYLh6v/wnl9XlmShAtf4y/cSD006207i8rJRtMr4j8qoNX2Zo83aeZsUKLAoYSY7
-	+/LyORlR8zE6NnFXh9R/lQfVSFGkN+w0pQhD3q22hvfVbjLJ+6gPFT6IBIxkivMCayOIr7+rNTy
-	OMeuTPycKLi6kxFgzm7fgDd4rFsteuDhY8Wnhbmf2CVR0lHQAgYvRog6W6kohs7zUq/pAIWoZwR
-	T837+sbVfLn4kw==
-X-Received: by 2002:a05:6830:349b:b0:81d:8057:9b7f with SMTP id 46e09a7af769-828a30409b5mr1482854a34.28.1791296101506;
-        Tue, 06 Oct 2026 07:15:01 -0700 (PDT)
-Received: from fedora-laptop ([172.245.82.59])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8281acf807csm2432876a34.0.2026.10.06.07.14.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 07:15:00 -0700 (PDT)
-Date: Tue, 6 Oct 2026 09:14:50 -0500
-From: Ming Lei <tom.leiming@gmail.com>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] ublk: refuse to go live after an io command was canceled
-Message-ID: <asUCWjKXMxXFwBNQ@fedora-laptop>
-References: <20261001125422.1364260-1-tom.leiming@gmail.com>
- <9b876f2c061abc401ec4b9b3c2529eda.josef@toxicpanda.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Tkc/b3pn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ToDruz2vnC3rl5Kv0mA2ohUKKgVZZIo/spAR1Qs4mWzyEQrk+2N9mcW1xKmi4YIrUPsoK6brwn2rqtio2Fg9cwnY3V3cLCv4Yh4Dfgfgp5Rse/PGNCLTv4hBOURkjbdXaTp+Gc8LPW+1T0/pVY1jRSPWfuS7pabWK7lEaRUIJowr5QzBxqvM+VphoNgMKDMACOfx4Bmo7/qFCo13VxhITxl5nqUDb6rxuy4U5ryuxycOib1EglVBuzyYvPtEhsMfr6X2Q953ijNDO5pa5YX6EdvmNelK4nk1egb2W7VFJq0lJVZlL+FN30QCh60b9NffamQO0gve2Ls2v+pvLHjvPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JeIx8kmcLxuuotHnfzZnSCcvkAsezVYayZea6h/gsv4=;
+ b=yfJW6qJF5tC3A9dxjoJhJ5gDs720sgMxtw7Yg/0qB/nVeAOJ1f6n5fxrCvciTNu3M7Mzw0rdTGrDIOkWoEyL0zdJMKOlyAfxe1FCgWjkwaf3p0UewwiUDuefVzUvimPFetdM5KLWAwCfYoz5DkuliYiSD6299AqCoUDDeQd8lGvwBF8H9nKPk5F3lzMEKs2w3ej3vcwQ5liHVVTqC4a9+E48nSr3WVHrTFX5Wb72tJmWIvPouqfrzFNZ+rvX96AlsjIFCwHE+0dpE3eRf3wNXh+8dm48o9MjL0pCr+1K7BXRqTmEJElgPGWkS5WF0RnCXu2huRVJigYxiyAhU1r95Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JeIx8kmcLxuuotHnfzZnSCcvkAsezVYayZea6h/gsv4=;
+ b=Tkc/b3pnE4zzp6WFaWVwolS7FDYBUvqdXBrql9Wn97ie5aYRTTmw3kW0uu4ZWwExkjHukQK5HhVeMmiIcBNtFNHy56QIkBl3ZKf5XwvmqzqHi2vBLYr8a8YoP2a8hlKPkQ6sQIgzdYWPTXG105LhduHrh8c1qjZxMewjtTddo2Q=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS0PR12MB6559.namprd12.prod.outlook.com (2603:10b6:8:d1::6) by
+ DS4PR12MB9817.namprd12.prod.outlook.com (2603:10b6:8:2ab::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.496.15; Tue, 6 Oct 2026 14:47:40 +0000
+Received: from DS0PR12MB6559.namprd12.prod.outlook.com
+ ([fe80::3f99:f532:cf6b:ea46]) by DS0PR12MB6559.namprd12.prod.outlook.com
+ ([fe80::3f99:f532:cf6b:ea46%4]) with mapi id 15.21.0451.022; Tue, 6 Oct 2026
+ 14:47:40 +0000
+Message-ID: <2338ba8b-ddec-4727-89c7-7760937d690b@amd.com>
+Date: Tue, 6 Oct 2026 20:17:30 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] thunderbolt: Reset the host interface before reusing
+ a DMA HopID
+To: Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ Mario Limonciello <Mario.Limonciello@amd.com>, Sanath S <Sanath.S@amd.com>
+References: <cover.1790854235.git.Basavaraj.Natikar@amd.com>
+ <a7e066c3da8e1a92fb018008861775b33909ab0a.1790854235.git.Basavaraj.Natikar@amd.com>
+ <20261006043306.GO176164@black.igk.intel.com>
+Content-Language: en-US
+From: Basavaraj Natikar <bnatikar@amd.com>
+In-Reply-To: <20261006043306.GO176164@black.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0028.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:97::7) To DS0PR12MB6559.namprd12.prod.outlook.com
+ (2603:10b6:8:d1::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9b876f2c061abc401ec4b9b3c2529eda.josef@toxicpanda.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6559:EE_|DS4PR12MB9817:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8b0ab4dd-3e28-48f5-8816-08df23b8c544
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|23010399003|1800799024|366016|10067099003|56012099006|5023799004|11063799006|4143699003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	oL2nt5p4OvTl3HlFyxZXwaBKJnFCuzmUJmPV56LLcx7oSNFXAnKE2kJ8lSgadTXF2fA872RNg+TZVOQn7jC2Y7cb58E8FZyQE47/noSE1lZOiLltSCMc6JLUrjAplmqgnj+z5J4BvMwQLH9yd3KVkJr8kdjEmVjW4nAPwOsTt/RDpUma5dAoHv1b/MFyXt0M5L/9d9EEGKf8u760iJ31GSxbEwLHNhBST1C6zOoMuAv9TOv/hg4Gh66Xw6yKR52WGfT/I6vlw9rP2eLrrWeRkwlczytVRcmcMfyQFP5ha0nNRRxyGiQlUyWDyvI9rvBlLrBfSpLMl31wufq4g4+Wub/fT5omvIywg+hELLsJulAkgLpLEpTyAiNDzziGJB4zvqrWWgb4vu1GTDsTYmyzS8wOguxNiN0r+cDKEtTjpqdFsVOv2uGpNFLW6L2JLTysXprujqYRvVHRZMmDXBPWAv+95A/ZTq4hzakbEuA/Pu4p+nPs1C6luUSF9cfoIcLng7EcYHlWJqrTvRehA2X1nPVbL4lxMqHt5GqJRpQXtvM1xb4wUnNL1iYY+qYAUPJvJhvivq0bdZC3DoJAi3Fc3LfScxIAxAQRYR+aQOln+s1JvEu9yeIbrRlT9OK4sH4DGrSkJHRLkMK4RhOZsuCOOXKy0fgIeQmTi5U/0JIv6A4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6559.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(1800799024)(366016)(10067099003)(56012099006)(5023799004)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZmRvWkVraUNsSGZGRFpXZ2luL2JEYUpmbXYvKzR3aGUrQ0RyTHlYY1hzTElJ?=
+ =?utf-8?B?bjVaZmJ1VzVrRm94RmRGaGNMcW9NWTFFMmRZL2NqcEZaRTNGUFNVVlBOdXgw?=
+ =?utf-8?B?TkhUZGdxSU5hN00yeXVCWkV2Q3loZmZ1eEEyVlQvR2E0TFJKUjhDN0FWWG93?=
+ =?utf-8?B?U0V4bW9oQlVxM1AwSmpaeDFZQkNRMnpFS3VNVGNGd2o2alRMbkVZeEt5cHZZ?=
+ =?utf-8?B?R2s2dVdYVmVzMndHRGdPUnFxcG5XS0s2K1ZlSWxmRmtqQTFDTTRNTVlEZFda?=
+ =?utf-8?B?SlFJZ0t4NEhZWlhocExkRDZvUUY2Q1VnY1YyakJMMjR3WkV0cjBvNjNLc3VI?=
+ =?utf-8?B?YWRqajlMbzJnK0FwKzlUelhycnRxU2plNE1RZy9MSndyUHNXOFNlcjUrdDNH?=
+ =?utf-8?B?TGJXbU1KcmpuV1p4bytsWlJmK2N1M2ZOWWlYeXZkRU9lNGJzbXVSa3hEYUg4?=
+ =?utf-8?B?UEhLdnhYRXZsb2VST2JwTXJMck80YjdMbzVudE9LbDRxVGJPMjF4SGJxaWM2?=
+ =?utf-8?B?RGlzZkRkNHFhd3lLLzh5WllGQklXd3diWFZDSEpFQStYV2ZVNG9aZUxIS0tJ?=
+ =?utf-8?B?aTBXMkdCVXlVbWI2NW9mMG14WXVFd0NDb01SanY1T1Y5clFFRnNodUFFaDRr?=
+ =?utf-8?B?VDJsMk9ZRDJjTStTdGxnWllBczdLWXhrVDFCNFAyTlNYOUY0ZE8vVzFBN3RZ?=
+ =?utf-8?B?eUl5TWlWK0MzRGxERGJaM1VsVWQvczZ1WVdlWnU1TVJRTi90T3I0d2p3ZG42?=
+ =?utf-8?B?QVdVSmx4M3AzS29KaUV1cWNUMkg0N1VRaTVQM1BENDZZWlYrT21DN0lZQUxX?=
+ =?utf-8?B?RkQ2UHhRQ2hsWEZJTFI3dTB3T09Ibyt3NUZsY3ZIdWg1N20vWXZsZmc1QVp2?=
+ =?utf-8?B?dEpYZGRnZW9TMWtFdDRMOTFjYjJUVnhDWGNCVHZIT3Jjb3RYYkNleHRhOGhY?=
+ =?utf-8?B?STZKRW4zcDVjVW8xK2lraTFEZXZ4cGU0cG50MUVGcmZ2cVNwS1grbk9BaDJS?=
+ =?utf-8?B?djI1b0orRGlNa1lod21Pdm5MTXNnM21SZVgvd2lkZkNmUFEvY1pCMlNNamcv?=
+ =?utf-8?B?T2tvWkZhbVUrcktDT05Tb01QMytCK3lIZ2QrWm5uRmVTSlZYbmQxVHRHQnQ4?=
+ =?utf-8?B?VHZQWEQwOEIwWGpUZFZFM2Q4bzV0QUVBL2REaXg2NnJ2eEYwcWM5QVNXZ2Fs?=
+ =?utf-8?B?UE5jdDZ2bDBJVlpHY3hkY25ybUxRUm1BdjV3cmZCT3RzM2ZtclcrRkx6cEQy?=
+ =?utf-8?B?dVM1NjB2cVpBaFVKQSthYnBYMm8vb2NIZTlKVnRNOHh3U05DeUNrSjFQN3Vj?=
+ =?utf-8?B?bTdTQ3lkWm85bExHL29GelpvakFkZjkxNlJsaXhNUHJONDlzWk0va0hFU1lV?=
+ =?utf-8?B?NnA3Zm5veVFsdlE1eUFldmdFaUZDd29xNjVoWU01cW1IOU1KTGZKc0NuVTF1?=
+ =?utf-8?B?cUpqS3dkQ2tsQTFtTi9WbGxTTThEelZtYzVFSmVCejFKTWlpTG5TR3VmeEpw?=
+ =?utf-8?B?SmRtclFpZXhvcUcxOHdMZ2hrcXFVRUZLT0pXekFmV2pPN1BwUHBsMjNMdDla?=
+ =?utf-8?B?RTZJdXlkaWdOY2ZhaDA0VjBYVjVaWVVNSHFrRWU1Z2cyRC9TTUdBTWJoOGZM?=
+ =?utf-8?B?Y2k3NzRNOGVTWDZXdTh4UHgycHU3UTU1dzlZejU5dFkwQ0F4RFRBanhXVVAy?=
+ =?utf-8?B?aUdzUlVscHhkTGpLQW05NU5sVGdkcTBXRThhMWUzb2xDN3R3dk1UUmorbzNx?=
+ =?utf-8?B?Y0xXeGpFVzZFSWVkb3VsN2xoV0VLWGVYdW9sVkgrQzYzTkRCVENEQ3BHTUdM?=
+ =?utf-8?B?OHlDVXE5bmM1NTRCbmJ3VW5lU3lnUk8vQ2F2OUhJWFZJZ0d1d0VuSFZPdHdX?=
+ =?utf-8?B?aXcwclMzM1lza1lIcDBreHVCWXFidGM2dlIxeFFWRWs4Y0N0azlBWjY1TnBz?=
+ =?utf-8?B?TGczNWE1VTcxV3c0ampvS1RsQnNPbG5KZThyQjI5eGpYTDNqaVlDcTNkOUJT?=
+ =?utf-8?B?SzFaUDdjYVpyL3dTUTVNeVdJYnpodGp3d1RqQVRRYnIwWU50bmk3YnFWZXZH?=
+ =?utf-8?B?SEtwUVRkL1RhY3k5REZBNDBrenRtdTlJMFM1V0FoSGFodXVlQ0NiOTQvMEp4?=
+ =?utf-8?B?eVhZWDVtRk83REtoUFF6UmJ2NGttd0kwY3ovSEk0MUk1VU9IeC82TEdJdEJz?=
+ =?utf-8?B?UVkvTEJUR1FURUJVM1BWVVN3SmJVaUMrblVvUnFaWGlOVUhvdUs1NUdzQitC?=
+ =?utf-8?B?ZUdNYjZ0alpibGJXcnRVajBsRHZJSmZZSHhnNVJsK1YzRy9wMmRBb1FhUVNa?=
+ =?utf-8?B?cTBqN3ZJQlhGYnlJeTYwVkljZG9lWUUyUXNPT2xlSTFLMTRYZ3JBUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b0ab4dd-3e28-48f5-8816-08df23b8c544
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6559.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2026 14:47:40.1823
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7cBFe405dUMdK93GMB2jKkQeGz7NvbS1xQysYYF7JHPNECqWInpL/+QlvkPNNmt8cIYkskWl1/HyroiOqG5byA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9817
 
-On Mon, Oct 05, 2026 at 04:23:51PM +0000, Josef Bacik wrote:
-> Since commit "ublk: keep a canceled FETCH round canceling until the
-> server is gone", a device whose FETCH round saw a cancel keeps its
-> queues canceling until the server goes away, but START_DEV and
-> END_USER_RECOVERY still bring it up. Without UBLK_F_USER_RECOVERY, or
-> with UBLK_F_USER_RECOVERY_FAIL_IO, every request of the new disk fails.
-> With UBLK_F_USER_RECOVERY, requests are requeued and never kicked: after
-> START_DEV the partition scan hangs under disk->open_mutex, and after
-> END_USER_RECOVERY every read parks while the command returned 0. The
-> server cannot fetch the canceled commands again, so the device can't
-> serve I/O until it restarts anyway.
-> 
-> Return -ENODEV from START_DEV and END_USER_RECOVERY while ub->canceling
-> is set. In ublk_ctrl_start_dev() check it and publish ub->ub_disk in one
-> cancel_mutex section, and have ublk_start_cancel() read the disk in its
-> cancel_mutex section. Today ublk_start_cancel() samples the disk before
-> taking the mutex, so a server dying during its own START_DEV can mark
-> the queues without quiescing a disk START_DEV published in between, with
-> its first I/O past the canceling check. Now either START_DEV sees the
-> cancel, or the cancel sees the disk and quiesces it before marking. The
-> END_USER_RECOVERY check is best effort: the disk exists there, and a
-> cancel after it is the ordinary death of the new server, which
-> ublk_start_cancel() handles by quiescing and marking.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> ---
-> This applies on top of Ming's "[PATCH 0/8] ublk: don't dispatch to
-> canceled io commands" and needs patch 1 of it for ub->canceling to stay
-> set for the whole FETCH round. generic_18 still passes with it.
-> 
->  Documentation/block/ublk.rst | 10 ++++++++--
->  drivers/block/ublk_drv.c     | 38 ++++++++++++++++++++++++++++++++++--
->  2 files changed, 44 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
-> index 28300fee22bf..b7875a3cf3fc 100644
-> --- a/Documentation/block/ublk.rst
-> +++ b/Documentation/block/ublk.rst
-> @@ -118,7 +118,11 @@ managing and controlling ublk devices with help of several control commands:
->    After the server prepares userspace resources (such as creating I/O handler
->    threads & io_uring for handling ublk IO), this command is sent to the
->    driver for allocating & exposing ``/dev/ublkb*``. Parameters set via
-> -  ``UBLK_CMD_SET_PARAMS`` are applied for creating the device.
-> +  ``UBLK_CMD_SET_PARAMS`` are applied for creating the device. The command
-> +  fails with ``-ENODEV`` if an I/O command fetched by the current server
-> +  was canceled, because its io_uring is gone. The server can't fetch it
-> +  again, and the device can be started again once the server has closed
-> +  ``/dev/ublkc*``.
->  
->  - ``UBLK_CMD_STOP_DEV``
->  
-> @@ -195,7 +199,9 @@ managing and controlling ublk devices with help of several control commands:
->    command is accepted after ublk device is quiesced and a new process has
->    opened ``/dev/ublkc*`` and get all ublk queues be ready. When this command
->    returns, ublk device is unquiesced and new I/O requests are passed to the
-> -  new process.
-> +  new process. It fails with ``-ENODEV`` if an I/O command of the new
-> +  process was canceled already. The recovery can be started over once the
-> +  new process has closed ``/dev/ublkc*``.
->  
->  - user recovery feature description
->  
-> diff --git a/drivers/block/ublk_drv.c b/drivers/block/ublk_drv.c
-> index f57d544c1da2..39eb7775a351 100644
-> --- a/drivers/block/ublk_drv.c
-> +++ b/drivers/block/ublk_drv.c
-> @@ -2759,9 +2759,11 @@ static void ublk_abort_queue(struct ublk_device *ub, struct ublk_queue *ubq)
->  
->  static void ublk_start_cancel(struct ublk_device *ub)
->  {
-> -	struct gendisk *disk = ublk_get_disk(ub);
-> +	struct gendisk *disk;
->  
-> +	/* sync with ublk_ctrl_start_dev() publishing the disk */
->  	mutex_lock(&ub->cancel_mutex);
-> +	disk = ublk_get_disk(ub);
->  	if (ub->canceling)
->  		goto out;
->  
-> @@ -4575,6 +4577,7 @@ static int ublk_ctrl_start_dev(struct ublk_device *ub,
->  		.dma_alignment		= 3,
->  	};
->  	struct gendisk *disk;
-> +	bool canceled;
->  	int ret = -EINVAL;
->  
->  	if (ublksrv_pid <= 0)
-> @@ -4665,8 +4668,24 @@ static int ublk_ctrl_start_dev(struct ublk_device *ub,
->  	disk->fops = &ub_fops;
->  	disk->private_data = ub;
->  
-> +	/*
-> +	 * A command of this FETCH round was canceled and can't be fetched
-> +	 * again, don't bring up a disk over it.  Check and publish the disk
-> +	 * in one cancel_mutex section: either this sees ub->canceling, or
-> +	 * ublk_start_cancel() sees the disk and quiesces it before marking
-> +	 * the queues.
-> +	 */
-> +	mutex_lock(&ub->cancel_mutex);
-> +	canceled = ub->canceling;
-> +	if (!canceled)
-> +		ub->ub_disk = disk;
-> +	mutex_unlock(&ub->cancel_mutex);
-> +	if (canceled) {
-> +		put_disk(disk);
-> +		ret = -ENODEV;
-> +		goto out_unlock;
-> +	}
->  	ub->dev_info.ublksrv_pid = ub->ublksrv_tgid;
-> -	ub->ub_disk = disk;
->  
->  	ublk_apply_params(ub);
->  
-> @@ -5238,6 +5257,7 @@ static int ublk_ctrl_end_recovery(struct ublk_device *ub,
->  		const struct ublksrv_ctrl_cmd *header)
->  {
->  	int ublksrv_pid = (int)header->data[0];
-> +	bool canceled;
->  	int ret = -EINVAL;
->  
->  	pr_devel("%s: Waiting for all FETCH_REQs, dev id %d...\n", __func__,
-> @@ -5261,6 +5281,20 @@ static int ublk_ctrl_end_recovery(struct ublk_device *ub,
->  		ret = -EBUSY;
->  		goto out_unlock;
->  	}
-> +
-> +	/*
-> +	 * As in ublk_ctrl_start_dev(), a canceled command can't be fetched
-> +	 * again.  Best effort: the disk exists here, and a cancel after this
-> +	 * check is the ordinary death of the new server, which
-> +	 * ublk_start_cancel() handles by quiescing and marking.
-> +	 */
-> +	mutex_lock(&ub->cancel_mutex);
-> +	canceled = ub->canceling;
-> +	mutex_unlock(&ub->cancel_mutex);
-> +	if (canceled) {
-> +		ret = -ENODEV;
-> +		goto out_unlock;
-> +	}
->  	ub->dev_info.ublksrv_pid = ub->ublksrv_tgid;
->  	ub->dev_info.state = UBLK_S_DEV_LIVE;
->  	pr_devel("%s: new ublksrv_pid %d, dev id %d\n",
-
-Hi Josef,
-
-Thanks for the follow-up. The check and the cancel_mutex ordering
-look right to me, but I'd suggest -EBUSY instead of -ENODEV.
-
--ENODEV means the ublk device is gone, and it isn't true in the
-START_DEV/END_RECOVERY cases.
-
-With -EBUSY:
-
-Reviewed-by: Ming Lei <tom.leiming@gmail.com>
+Hi Mika,
 
 
-thanks,
-Ming
+On 10/6/2026 10:03 AM, Mika Westerberg wrote:
+> Hi,
+>
+> On Mon, Oct 05, 2026 at 07:13:40PM +0530, Basavaraj Natikar wrote:
+>> Reusing a DMA HopID without an intervening host interface reset can hang
+>> the TX ring on some host routers. Resetting on every DMA tunnel teardown
+>> clears the state but, as the reset affects all rings, also disturbs
+>> unrelated active tunnels.
+>>
+>> Hence, track the DMA HopIDs programmed since the last reset, prefer unused
+>> HopIDs when allocating rings, and check for reuse at tb_ring_start() too,
+>> since networking retains its rings across reconnect. Return -EAGAIN instead
+>> of programming a HopID that still needs a reset.
+>>
+>> Run the reset from a work item once all DMA rings are idle: serialize it
+>> with the connection manager, stop the control channel around it, and block
+>> DMA rings from starting during the reset. Fence the work across domain
+>> removal and PM transitions, preserve live DMA rings across freeze/thaw, and
+>> restore the interrupt-mask shadow under the NHI lock after the reset.
+>>
+>> On -EAGAIN, retry the networking login asynchronously and block the work
+>> producers before teardown cancels the workers. Keep peer disconnection
+>> separate from administrative shutdown so it cannot reopen the login gate,
+>> while stream and DMA-test callers unwind immediately and return the error
+>> to userspace.
+>>
+>> Enable this only for reset-capable host interfaces marked with
+>> QUIRK_RESET_DMA_ON_REUSE. A competing DMA tunnel must stop before its dirty
+>> HopID can be reused, and retrying does not interrupt that tunnel.
+>>
+>> Suggested-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Yeah, I'm not really sure I suggested this :(
+>
+> My idea was to done it so that it is nicely contained inside nhi.c without
+> distracting the service drivers. What you are doing is complete opposite of
+> that.
+>
+> Given the complexity I would then rather just take the previous quirk with
+> the deadlock fixed.
+
+Agreed. The current approach spreads the handling into the service drivers
+and is more complex than intended.
+
+Thanks,
+--
+Basavaraj
+
