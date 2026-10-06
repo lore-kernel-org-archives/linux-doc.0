@@ -1,178 +1,117 @@
-Received: from mail-pj2-f8.google.com (mail-pj2-f8.google.com [74.125.227.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8AB3803D0
-	for <linux-doc@vger.kernel.org>; Tue,  6 Oct 2026 22:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0FE37F00C;
+	Tue,  6 Oct 2026 22:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791324425; cv=none; b=YEgdRoe1jm4o3xdjCEsG+nmE8TJj039Yx8qUYxmWoUnPNWLqskPvwvzMZ4CQJfcmXwZbWtltU9bqB+gq8aipi1uKv9R4iSOLKK197r9DzLZUhoLgL2MWmjN6L9UIdAkn+a5/bwBisYMhsjpuJ9AID/SWixeFkNm/BloBUekTG9M=
+	t=1791325272; cv=none; b=lNsXG5D+KHBNcJI9eoJWspjQ2es9Ba4WQLbEXRFsdH1mLVsN5hBk6h+RP9TXEjlMe5nqS4zTPeBFdkEQqgwHtc9ugwywVuftxHfH3aA+Kmu94u3uMXrqlShaes5y7MIivWLG6kEaHYO30jFXC7aZQOW8GHkZckwnZ4+7jVpXgqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791324425; c=relaxed/simple;
-	bh=oLowqW4kTT1TNYX2A/gZw2hQoXAMth+pOFnbIsMCdaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nU1POd4zZC4oGYVTUbiG3EbCfc5oO18qHndoYhqwftrSsXaAxbD2r7IRd3oZdqqNO8X1DwVKDuqc3sr/MhoyFXPMJVtq0nI4ZyeJx+nmPAAyJdZE1Lw4RZffC8D9aE/xXlWPp7EKt+BsnhEPEjJL27zkdVXSJOcWvLjXxYxvNbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IG54vHzI; arc=none smtp.client-ip=74.125.227.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791325272; c=relaxed/simple;
+	bh=MoO9vgW9a3cnb7uJYv4Pp/f04GYp/V+VqdxQZcRfd5c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=cqycdkrrjoqotaA5Fs/IrvebhFpaiMliLSDXglf8g9Pwlu1P1xHVkopdalV6vnXllV85CTU4PwhrsP91XiAAEX45T09NK3y0HMyUZp7ilkyxhi9yUAMjJw+nSFSdCPn6kth7pYhzTxDlIzDVEFOeV5A5pY2GLFOpNqCWYq+1Bjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iVNBsQT2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IG54vHzI"
-Received: by mail-pj2-f8.google.com with SMTP id 98e67ed59e1d1-398b9f722abso1643586a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 06 Oct 2026 15:07:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791324423; x=1791929223; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OGTI2frF8RrBIeT4/ePn5rUSGsgZXEb1V8OC+n96/mk=;
-        b=IG54vHzImmmbr4Y8m8Xp5wLUFkdbL5HQMXRvk5+2kzRzDWQ1XYvbucB8zomHoFZEyN
-         2cxY0CzNuGA/CTE7qWYzflmyq43AaCW+NGmUJZEjahy8uJX4DMn8yRL02+S1WCj6I29r
-         oCH0qxtCxvtbPBEGASxKTFqOnVuvtZKE060GVzbEkHeV7XMKByEcSA7yhChHP7mausVe
-         mMcE9lLNvuBbc8q4bFyH9hcPnOlH3iDPtcPDk27UpjAFoGu5qhCt7bdUmkq5bW0tPUoe
-         de40QR6/vQG6nelaYJ7WdooNLi+cI4AV7wpOmmvqApwCeteBDHcWTV7iX6Nydt+h4y6F
-         n8GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791324423; x=1791929223;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=OGTI2frF8RrBIeT4/ePn5rUSGsgZXEb1V8OC+n96/mk=;
-        b=SMZdrX9IWjaq6PU9xGyjQJob2U0+913iH+VTzEsb4bxfJhZBh+1jGeWv4rmZ5HD9Lv
-         WbhPZHOaUxZr1PtS7kBKNFmFG74lLjtDrc0ukSAEpPSNzmHnetcdajcOHbJpO10ePoc1
-         1rgBX6pmYjr2ITzVxgayLZTf9iyhJ/QLeiLBRJTYDeHjxYnVBVhIEA+YjdgJ/y/dLLgK
-         N5PDg1A/NlUpw5HKxslWgPJF+d8rncZ7h2gN37esrywq//iDooE0vAb7CCpYYimkZ2jD
-         EyMJtbaStLj99UOPuav8NH7avJ8BdEvJK+hIG/9UGqDPsUrZ8AVyv/UJA5Up5NqzwNtg
-         RtVA==
-X-Forwarded-Encrypted: i=1; AKwUvBwaLVblDHfAjghnankXnRjYvYMw7DBL3xWfAuCYfZbi6u4Tn17G+qpBrRQOuzs4mE7DoLL62YIHNNo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIoTFLmPtRT7V6JRVPiMzYhd+sDtWvZTexYk/tweoEeqzEUstrA
-	eSbVOOP+y0LsaxAWhVB7AONiz9Ys/UMMV4YLK2AGbZmP57gTBvLEsnnG
-X-Gm-Gg: AYBFou2aEUE9XJZulr0s0PdK8WmtSIq2ASKyQQpxRC6piDN3db9hVRhT6O5gs3aLOnY
-	jymoihFKfTgfOzWXdPN1Dj/xMZncf9nEzY2SEcoMMAB8uteAHXE/GdNvbZshCrGzR49v+1CF/jd
-	JDrUbnNjfHjgwpN+Xnj6l6yqw8CqhbEiivbGymxXTrQoopyHSqg6LNF1YsdG+BIqfD+I6N7IT0g
-	q5+1T2F4v52kvP8MSuK8/0iulAUEEf7dOOhufa0EtFvLpZdx/ixr+tEIEZJqujL/siZENeZA88r
-	2bPk56oL/pSkHnTMajgCJoclAE57dS8HhlZiaG7qCK4y+w9LFQEGXu1czsvj8+wovY8z3/0x8MV
-	NT+jedv553RwbvsFsoEwQFTC838X+372ZYVV8eu3sGeLY/nJQoGLoRhqDTJ9DZs124ECaf3nHKS
-	CA2S0WDv5o5fFvt/jygOWlS2U1UAoHHVyXL4z4XsiGjY5DA1SNv8VuUnkoCsoTBu9v
-X-Received: by 2002:a17:90b:1c0a:b0:3a0:42a9:9c75 with SMTP id 98e67ed59e1d1-3a8a1b5d361mr332289a91.43.1791324422809;
-        Tue, 06 Oct 2026 15:07:02 -0700 (PDT)
-Received: from localhost ([2a03:2880:2ff:54::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a89d5ced5asm504062a91.0.2026.10.06.15.07.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 15:07:01 -0700 (PDT)
-Date: Tue, 6 Oct 2026 15:02:42 -0700
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Luigi Rizzo <lrizzo@google.com>, 
-	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>
-Subject: Re: [PATCH net-next v1 2/2] docs: netmem: document netmem and memory
- provider design principles
-Message-ID: <asVvzDm8rf5BMl3b@devvm7509.cco0.facebook.com>
-References: <20261005004958.3603059-1-almasrymina@google.com>
- <20261005004958.3603059-3-almasrymina@google.com>
- <asPNJ2V8Tv2Z05n-@devvm7509.cco0.facebook.com>
- <CAHS8izOvea3eas4i09pMds2zzqbCtf8VL0Zdvo3fBT_+AM1TBg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iVNBsQT2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 013941F0089B;
+	Tue,  6 Oct 2026 22:21:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791325271;
+	bh=cfp7iysnIwOqsRhNGcF+6fkeHEEsvMikccHQN1B4900=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=iVNBsQT2JyG7a+snUA5nIQ1ulrZjmPQ+zyhqCKUU6vQrX82EgZ9XU+IxZZtaq65Hf
+	 Wk+SbIc2uKAYC7oQNgHgWLE9McyajhTdjK5dHAhg8P8lDoHyKRVkT1XBnoGz6FBVPd
+	 mvk28ogpARegCJX/y95b8aVtrLJPwsY8A6A8YxdVU/scKs5dhnhXHMjwPo4kXOYW3m
+	 dcQGBbQF/dykB7LV5e3KX8WKAMKbiuOmzbQ8LSwDlorzpUt01HxkTtsWx9ctQCMR2R
+	 a03y7NGZtZyN/hSJWkuqlv8hurAKLT+8wPJ7+g2JP12OjsQdyDgbj0KwE/r7CCgSLy
+	 fvfn6E2kqjO6Q==
+Date: Tue, 6 Oct 2026 17:21:09 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v9 08/18] PCI/P2PDMA: Route Relaxed Ordering Completions
+ directly
+Message-ID: <20261006222109.GA719055@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHS8izOvea3eas4i09pMds2zzqbCtf8VL0Zdvo3fBT_+AM1TBg@mail.gmail.com>
+In-Reply-To: <20261001-fix-p2p-acs-v4-0-v9-8-1a8e0f50ddd9@nvidia.com>
 
-On 10/05, Mina Almasry wrote:
-> On Mon, Oct 5, 2026 at 9:19 AM Stanislav Fomichev <sdf.kernel@gmail.com> wrote:
-> >
-> > On 10/05, Mina Almasry wrote:
-> > > Add a Design Principles section to Documentation/networking/netmem.rst
-> > > covering the netmem_ref abstraction, the prohibition on direct
-> > > downcasting in callers, decoupling memory providers from net_iov,
-> > > decoupling net_iov from unreadability, delegating provider/type logic to
-> > > memory_provider_ops and netmem helpers, and the homogeneous skb fragment
-> > > memory type invariant.
-> > >
-> > > Cc: Luigi Rizzo <lrizzo@google.com>
-> > > Cc: Björn Töpel <bjorn@kernel.org>
-> > > Cc: Stanislav Fomichev <sdf@fomichev.me>
-> > > Cc: Pavel Begunkov <asml.silence@gmail.com>
-> > > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> > > ---
-> > >  Documentation/networking/netmem.rst | 46 +++++++++++++++++++++++++++++
-> > >  1 file changed, 46 insertions(+)
-> > >
-> > > diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
-> > > index 217869d1108dd..57e52a947663d 100644
-> > > --- a/Documentation/networking/netmem.rst
-> > > +++ b/Documentation/networking/netmem.rst
-> > > @@ -19,6 +19,52 @@ Benefits of Netmem :
-> > >  * Simplified Development: Drivers interact with a consistent API,
-> > >    regardless of the underlying memory implementation.
-> > >
-> > > +Design Principles
-> > > +=================
-> > > +
-> > > +Memory providers (or the default ``page_pool`` allocator) allocate underlying
-> > > +memory (``struct net_iov`` or ``struct page``), cast it to ``netmem_ref``, and
-> > > +supply it to ``page_pool``. The ``page_pool``, drivers, and networking stack
-> > > +operate on ``netmem_ref`` as the abstract type. Existing ``page_pool`` APIs
-> > > +that allocate or free ``struct page`` are legacy compatibility wrappers for
-> > > +drivers that do not yet support ``netmem_ref``. Code that is not yet
-> > > +``netmem``-aware should be converted to ``netmem_ref`` unless it will never
-> > > +need to support ``netmem``.
-> > > +
-> > > +1. **Operate on netmem_ref, do not downcast**: ``page_pool``, drivers, and the
-> > > +   core networking stack should deal with ``netmem_ref`` rather than
-> > > +   ``struct net_iov`` or ``struct page``. Downcasting ``netmem_ref`` to
-> > > +   ``struct net_iov`` or ``struct page`` is not allowed unless a code path
-> > > +   strictly cannot function without knowing the underlying memory type (for
-> > > +   example, ``kmap_local_page()``). In those cases, to keep call sites simple,
-> > > +   add a ``netmem`` helper that performs the operation on behalf of the caller,
-> > > +   cleanly handles all ``net_iov`` and ``page`` cases, and returns an error if
-> > > +   the ``netmem`` type cannot support the requested operation.
-> >
-> > [..]
-> >
-> > > +2. **Decouple memory providers from net_iov**: Memory providers are not limited
-> > > +   to ``struct net_iov``. A memory provider that returns ``struct page``-backed
-> > > +   ``netmem_ref``\ s to upper layers is allowed. Code must not assume that using
-> > > +   a memory provider implies ``net_iov`` memory.
-> > > +
-> > > +3. **Decouple net_iov from unreadability**: ``struct net_iov`` is flexible and
-> > > +   has no inherent restrictions. While current ``net_iov`` implementations are
-> > > +   unreadable by the CPU, future readable ``net_iov`` implementations are
-> > > +   allowed. Code must not assume ``net_iov`` is unreadable; check readability
-> > > +   via ``netmem_address()`` or ``skb_frags_readable()`` instead.
-> >
-> > For these, idk, I do agree in principle, but it is not true right now? And
-> > there needs to be a bunch of work to generalize?
-> >
+On Thu, Oct 01, 2026 at 02:55:16PM +0300, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> I may have misunderstood, but I think Bjorn is creating readable
-> net_iovs for his work (patch 5). And I think that's great work and I
-> plan to support the series. So this will become true very soon.
-> 
-> https://lore.kernel.org/netdev/20261002190018.696925-1-bjorn@kernel.org/
-> 
-> > Should we document where we are right now (mp return niov, niov == unreadable)
-> > and where we wanna be (mp can return whatever, niov can imply readable or
-> > unreadable). And when Bjorn's xsk work lands, he can update the mp section.
-> > And sometime later maybe we'll lift niov == unreadable.
-> 
-> I think that's a good idea with 1 addendum. I'll say something like,
-> "This is where we are right now, but new code should, as much as
-> possible, update existing limitations to generalize and match the
-> design principles.""I basically don't want LLMs lazily reward hacking
-> and say "I'll just write code matching where we are right now and
-> ignore the design principles." WDYT?
+> ACS P2P Completion Redirect leaves Completions carrying the Relaxed
+> Ordering attribute alone. PCIe r7.0 sec 6.12.1.1 redirects only those "that
+> do not have the Relaxed Ordering Attribute bit set", and sec 7.7.12.5
+> describes the enable bit as "applicable only to Completions whose Relaxed
+> Ordering Attribute is clear". P2PDMA reports one answer for every kind of
+> TLP, so a client whose provider returns such Completions is sent through
+> the host bridge for a redirect that never happens to it.
 
-SGTM!
+I guess pci_acs_p2pdma_completion() returned PCI_ACS_P2PDMA_REDIRECT
+even for RO Completions?  But that didn't change the hardware
+behavior -- maybe the caller *thought* Completions were routed through
+the host bridge, but they actually weren't.
+
+I kind of lost the plot here.  What does the caller do with this
+information?  I don't think a device is *required* to set RO even when
+it is enabled, and it may set RO on some transactions but not others.
+
+> Add enum pci_p2pdma_tlp_flags and let a caller state that property.
+> 
+> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> Tested-by: Tushar Dave <tdave@nvidia.com>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/pci/p2pdma.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index 43e225cc5735..1fadef6d0609 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -544,11 +544,15 @@ pci_acs_p2pdma_request(u16 ctrl, unsigned int tlp_flags)
+>  /*
+>   * Decide how a peer-to-peer Completion at an ACS-capable ingress port routes.
+>   * PCIe r7.0 sec 6.12.1.1: no ACS control other than P2P Completion Redirect
+> - * affects a Completion.
+> + * affects a Completion, and that one leaves Completions carrying the Relaxed
+> + * Ordering attribute alone.
+>   */
+>  static enum pci_acs_p2pdma_state
+>  pci_acs_p2pdma_completion(u16 ctrl, unsigned int tlp_flags)
+>  {
+> +	if (tlp_flags & PCI_P2PDMA_TLP_RELAXED_CPL)
+> +		return PCI_ACS_P2PDMA_DIRECT;
+> +
+>  	return ctrl & PCI_ACS_CR ? PCI_ACS_P2PDMA_REDIRECT :
+>  				   PCI_ACS_P2PDMA_DIRECT;
+>  }
+> 
+> -- 
+> 2.55.0
+> 
