@@ -1,328 +1,131 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73F14A3D30
-	for <linux-doc@vger.kernel.org>; Tue,  6 Oct 2026 18:20:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EC24A0EF6;
+	Tue,  6 Oct 2026 19:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791310807; cv=none; b=Y8cw9tAFFm00D55FEcpHfyQIW8UzAqHAWddFUDo3wRvMVe8uDG8nWY15al9YrM7d+n2YoV76pinmp7uasF07f5TiQUr8Of8Lnl+D7/fYgBCe5VVTEuX/tCHYTifxC6nB7jSRUOV9R1v3ORxyzTohmvJg7IE6iXA4kozfW/cHGuk=
+	t=1791314998; cv=none; b=IlCU1etm2m2cLROZbRMSc3z7dzSdxF+QIBP9GvrVcnzUxWl/7WwAUY2v3lqg0FmXDxAEViE3NSjSSh/1eX9/KzFN+AxbEjt74pOcLbLUkD8L6esxJAONSbgfmXxBJuAkQ52O1aS65DyMZ0VXjkQwmdQs9cvgWQ89sQetjyLtV+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791310807; c=relaxed/simple;
-	bh=Wod9oGeD5WufeLQ9GfctH6+LN61xeZrD+JrPx+0eSfo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pI+QR8v/PsIF6PQVv2oqOCMY07hbjc9C5K2lNwhkzR+SVthYs9iGEZhfbtnHBKwYbl8v9HMY54uGX2ZMVAFvF6I85VIOdfDn/uWOtjebKvZv09F22/vTDBhxkiOhFLxazVo6yF9G9GkhquMsGkF7IjBvMa27jFqqpoYI85Hzs7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=I285338H; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kG6iVKjo; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1791314998; c=relaxed/simple;
+	bh=3tAzhzFSkj3K+S01ftkQWvUsVPs0Vx/11VP42amP9qQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=AYHMyxdGQbrginFhAQQN0HuyqBw9wLf3eDGB51lHYrKE2lMSGZ8Rpo6bGRYO0P/sNz50lNurfBEPOzO3UuyRZxOdEX8rJ11GGoHDCuGX8pWlwSzdWivyrV8QZFQ4FKYasFNjZsAJA/heT4KimuyOxGJiyoAn0sHzxzpvFUJU8rU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bcJS+scZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="I285338H";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kG6iVKjo"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 696HfJoZ1386293
-	for <linux-doc@vger.kernel.org>; Tue, 6 Oct 2026 18:20:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=eErMTVv+GI4Tv4XbuyvCgn3L
-	WQksVnWHpw5fdcoGEqI=; b=I285338HN6WS3wZTHKFiclQi87+58QmBhveu9Oaa
-	PirLWkvMUxQq9UvUOJUFIolv122tUDXOUsE2Ugw0sbxN2xK3T6NtgIcUocti9/JO
-	7zL3yfK9ZvPTjfcY/t7ETBBvxtrbwWwAvt79vZizt4yyt4S/gSym3vBxwvikiJ55
-	JnnwprW3rdM7rM3GKSy2EZTo3n+YrFr1/GgvJtZ5JU2XIN8edDF3+I7woCzQCyDv
-	9hLMhqokP0+KLqFq/UwL5A7uWW9ug59X7o0dk8rUrMz6vXVTdPgb80ezqbY5/TIY
-	3D067Coff3bBeq/dJzDuRhvapbZQs5Yh3KdIJ/+Ny3M0CQ==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h541ugqmc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 06 Oct 2026 18:20:02 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-313d1015161so9383312eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 Oct 2026 11:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791310802; x=1791915602; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eErMTVv+GI4Tv4XbuyvCgn3LWQksVnWHpw5fdcoGEqI=;
-        b=kG6iVKjoPU+/n/lIiiPNG01G4kdHbmT0tjcrLz/qMrhc7z3QXPL73B/w7RxqsQi4j8
-         iolVopH/P76mCAzIZA1uZOTRlMVWIdsF3lp82AZBq8DWdpDtBybxkyPSUyTOqwRiuN8q
-         +YPD507Q8n+rdl2KiT1Brm1TYopk6N1T1/fSF6cABOCtMg8m4PQHMHybQYS426RHC97+
-         iwnNJV36xEYbcjiD91SI7dvULzp4az5txVDBNU8Q8jBu2Sj+12Okj9aiJZl0+RPu4nPU
-         uamQygzKt1tMA6WxkPX/mrAQZNR4fOdnm7xIyAbJWhayvIG68aOzNy4Db9Gjq2gg/1Bx
-         ltvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791310802; x=1791915602;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eErMTVv+GI4Tv4XbuyvCgn3LWQksVnWHpw5fdcoGEqI=;
-        b=BPuGziDuP+ftHmSNWlJoLHae9GJfqacGQiBKqPYVhGjibweHR2wb3ZEW2L700UYaUp
-         DNSXK0SGo/kyF2g6xy0Fn842wrIvZ62+lBURzvRmlCfHbAJB8H3sYX8Xzw/iYyhZB47r
-         Cxn/J7D+lfYy+Ba6UlbDs7aob4EAEASoUBbYGoShocgL2YgekYqWUq0WSeIWAQtdNJk8
-         fAeUWQ2Mqw/d8ucZ5AwmlfS+t2FYKdMeNuo8UdVEVT2TWyEnQ6GlrZMCrorsnLctFa+S
-         CEFarUOXnXlQLoBEOlRUIWtQW8SLz/hEigp4Bp3y/Ud0jH4qsimZqsydJstQ2F7BTlMe
-         6qiw==
-X-Forwarded-Encrypted: i=1; AKwUvBzLhZBr5BaKJBo+aHSn9Kmdg7dH4bs1fyyCD85c8yM1K6x/Nk0CuV28HJl9W1rZ7dXlsAuUJoQ+7aA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIKxBJYFYr8eVTSgssYDTMs5C+0KBOe8l4yEWcXZtRPY3F56HFZ
-	mmOPvQpLTX9s/WSpnnZb5AerFqiVpqkNH9ddrG7Y8uGlJer4HIAszu0CLGcRr87z8TqpGbZ7UEe
-	qWHyaGO96Ic0Jq1EJyKKn6NUA6b9HAfRiROCIxjnfANkQbJwmR7u8x+B6K8EvMpU=
-X-Gm-Gg: AYBFou11zAse07WJ5SMiER4trDqBLqyaM1ME0s4Nj8gb6Jss8CvGD6w0PjzrdFH+NRO
-	xZfx64zfPaD7bk7juJtiHcgHorrqINusevvNW5ot+Y3MzUUfneH+hXK1snpQS+RMdsMd16GOLCI
-	EpLst46+28nbgzOFkHydSiMUHMFACjoMUZ8rkaIyLYN6cxekoO01TkOFcTmJ08t+8jlqcfEarAi
-	8rbmNegXBPbQZEyYZx4lYvb8y6fMle4LMD40a2hGc/fNVzwNIk2YjAHil45eLX/DPf0o9TOeuvN
-	xyZ9DexBP8qrGXa8/TWaxbFU3gB36Zk6JU4Ylhsd5GdAXrd29d5GOk9h+ltYgIv+nXtwiB8fIQ6
-	TqR3O1vHR2ddiY6bgRueEeW7ETSYdv0wIpnRPzJsedzXkUiuJ
-X-Received: by 2002:a05:7300:e9d9:10b0:34c:bc38:e2ee with SMTP id 5a478bee46e88-3514e2f4ca6mr2600524eec.8.1791310801800;
-        Tue, 06 Oct 2026 11:20:01 -0700 (PDT)
-X-Received: by 2002:a05:7300:e9d9:10b0:34c:bc38:e2ee with SMTP id 5a478bee46e88-3514e2f4ca6mr2599280eec.8.1791310773165;
-        Tue, 06 Oct 2026 11:19:33 -0700 (PDT)
-Received: from hu-ashoraj-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3515abb67e5sm302800eec.4.2026.10.06.11.19.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 11:19:32 -0700 (PDT)
-Date: Tue, 6 Oct 2026 11:19:30 -0700
-From: Ashok Raj <ashok.raj@oss.qualcomm.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: shijujose2008@gmail.com, rafael@kernel.org, akpm@linux-foundation.org,
-        rppt@kernel.org, dferguson@amperecomputing.com,
-        linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org, tony.luck@intel.com,
-        lenb@kernel.org, Yazen.Ghannam@amd.com, mchehab@kernel.org,
-        jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
-        jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-        naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-        somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
-        duenwen@google.com, gthelen@google.com, wschwartz@amperecomputing.com,
-        wbs@os.amperecomputing.com, nifan.cxl@gmail.com, tanxiaofei@huawei.com,
-        prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
-        kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
-        Ashok Raj <ashok.raj@oss.qualcomm.com>, ashoraj@qti.qualcomm.com
-Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
- table
-Message-ID: <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
-References: <20260726212812.89266-1-shijujose2008@gmail.com>
- <20260726212812.89266-2-shijujose2008@gmail.com>
- <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bcJS+scZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 231CB1F0089B;
+	Tue,  6 Oct 2026 19:29:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791314997;
+	bh=E3R9izeh7FIJECvgCCVpi1mo2nxrzOBff+skIfgO+Rs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=bcJS+scZy/6Ervd4affik0znYY7JZa8yo9ks/hJ/Wi8kEV6e/KSbN6DLhH4cvTpEi
+	 iv1i3WiOGk68dleHJ296gqU0BhMCEJVAVOZytyc3QKyrYEr2/tnG/0UFyIPfrIj3tg
+	 SItyEr00wVeaV0//cgD/K4SQvOZOLnemHSI1OJAFgTEBCV+hiT1KtsppspX2evocA7
+	 ZCQ0Wl20EzvOsu1/yNFVx6Xg4cGeVs0hzCrznBNfgOi0wFN/Avs81GC98fmWJ7AFoR
+	 B0uvsH9pjMZFUorJQnadwi8SHKWnKBdfcOjggeubITjVyfME5vEDwO1ixmFyhMjfNP
+	 GU6veX6QcYM6Q==
+Date: Tue, 6 Oct 2026 14:29:55 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v9 00/18] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
+Message-ID: <20261006192955.GA703309@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
-X-Proofpoint-GUID: sie9FQDfun5KBi1711LBxBspMz__Kvi6
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA2MDA3MyBTYWx0ZWRfX0xNcPsNQUtBi
- 4FZ6WJAKMSxwg4lv2oHL9A0DIUbcdNOYgc6pjrvgboIs3iABRDutap5bkQCjJfo4GpWHTx63RU5
- OfWk6n6R2SnwJr/7ov8fzl83ClaCYSU=
-X-Authority-Analysis: v=2.4 cv=XZYcX455 c=1 sm=1 tr=0 ts=6ac53bd2 cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=bC-a23v3AAAA:8 a=pGLkceISAAAA:8 a=MvuuwTCpAAAA:8 a=VwQbUJbxAAAA:8
- a=vzhER2c_AAAA:8 a=EUspDBNiAAAA:8 a=NDcxwIbCrCWPj7GKXwgA:9 a=QEXdDO2ut3YA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22 a=FO4_E8m0qiDe52t0p3_H:22 a=0YTRHmU2iG2pZC6F1fw2:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA2MDA3MyBTYWx0ZWRfX1V4t+xn06TDO
- k7jymDyO63twj2ijenbJGK0wtYwjVvPcZkIPzeTTNTgamHzXQI+AG3eUS4ptmjQFwqtkad/14Nd
- iYbb3UdcQ9P3Z77sscQVttkkoGGE/JYlPpQMP0xeLHQwEG/jiIupCoF01ONjituZs4zBDqO/uT8
- nyY3sG4c6PiFN6hPySWo5eOcgPR29EV9p5s5U81ypan5oKFr9GlsrvewWUqQr3gd/9vrxpj8wW7
- oM8mcCl4OIWL//DEZ9UDcYfUA/l3ZOraSklpu3wsxDOGguK6DM0uULfqALMsmPr0ytrnJQbFmRg
- CRHORHquXjbmR8eTmmHhCiEN4AVT48/AmH8zx+cVz+IVCpysxkMj/Fi2AzaoaO11guNjwk/FTK1
- Kt5S+6zbwJJnIQxIJZmEMJsr1t0Zw422D1YXn222JUzQK62UmUMzsIMxuicCQgrAXI3cVVfn7fO
- 2jjEufxLoDNeIj5cLuw==
-X-Proofpoint-ORIG-GUID: sie9FQDfun5KBi1711LBxBspMz__Kvi6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-06_05,2026-10-06_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0 suspectscore=0
- clxscore=1011 phishscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610060073
+In-Reply-To: <20261001-fix-p2p-acs-v4-0-v9-0-1a8e0f50ddd9@nvidia.com>
 
-Boris, Hi
-
-everything looks great, just one minor ordering bug we discovered, noted
-below.
-
-
-On Mon, Oct 05, 2026 at 04:50:21PM -0700, Borislav Petkov wrote:
-> On Sun, Jul 26, 2026 at 10:28:11PM +0100, shijujose2008@gmail.com wrote:
-> > From: Shiju Jose <shijujose2008@gmail.com>
-> > 
-> > ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS2).
-> > Driver adds support for RAS2 feature table, which provides interfaces for
-> > platform RAS features, e.g., for HW-based memory scrubbing, and logical to
-> > PA translation service. RAS2 uses PCC channel subspace for communicating
-> > with the ACPI compliant HW platform.
-> > 
-> > Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
-> > Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
-> > Co-developed-by: Jonathan Cameron <jic23@kernel.org>
-> > Signed-off-by: Jonathan Cameron <jic23@kernel.org>
-> > Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-> > Reviewed-by: Ashok Raj <ashok.raj@oss.qualcomm.com>
-> > Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
-> > ---
-> >  drivers/acpi/Kconfig  |  11 +
-> >  drivers/acpi/Makefile |   1 +
-> >  drivers/acpi/bus.c    |   3 +
-> >  drivers/acpi/ras2.c   | 509 ++++++++++++++++++++++++++++++++++++++++++
-> >  include/acpi/ras2.h   |  57 +++++
-> >  5 files changed, 581 insertions(+)
-> >  create mode 100644 drivers/acpi/ras2.c
-> >  create mode 100644 include/acpi/ras2.h
+On Thu, Oct 01, 2026 at 02:55:08PM +0300, Leon Romanovsky wrote:
+> PCI P2PDMA applies Request and Completion Redirect throughout both paths.
+> This misclassifies asymmetric and nested switches, and reports one answer
+> for every kind of TLP.
 > 
-> Ok, went through it one last time, I hope. Caught a bunch of things, see
-> changelog. See below if it still does what it should.
+> Three ACS controls act on TLP attributes the client chooses rather than
+> on the topology: Translation Blocking and Direct Translated P2P act on
+> a Request's Address Type, and Completion Redirect skips Completions carrying
+> Relaxed Ordering.
 > 
-> Thx.
+> Evaluate each direction at the path divergence, decide every class from the
+> one walk, and treat a client with ATS enabled as translating unless its
+> driver declares per-mapping ATS.
 > 
+> This completes the P2PDMA side; dma-buf and mlx5 follow separately.
+> ...
+
+> Leon Romanovsky (18):
+>       PCI/P2PDMA: Document the TLP attribute assumptions
+>       PCI/P2PDMA: Derive routing from directional ACS controls
+>       PCI: Reject unreadable ACS controls in isolation checks
+>       PCI/P2PDMA: Evaluate ACS controls at the path divergence
+>       PCI/P2PDMA: Document directional ACS routing
+>       PCI/P2PDMA: Collect the path's ACS controls before deciding
+>       PCI/P2PDMA: Answer routing per TLP class
+>       PCI/P2PDMA: Route Relaxed Ordering Completions directly
+>       PCI/P2PDMA: Reject Translated Requests blocked by Translation Blocking
+>       PCI/P2PDMA: Route Translated Requests under Direct Translated P2P
+>       PCI/P2PDMA: Log detailed ACS routing diagnostics
+>       PCI/P2PDMA: Add KUnit tests for the ACS routing decisions
+>       PCI/P2PDMA: Test the ACS P2P routing walk
+>       PCI: Add KUnit coverage for ACS isolation checks
+>       PCI/P2PDMA: Document TLP-class routing
+>       PCI/P2PDMA: Let a client declare that it selects ATS per mapping
+>       PCI/P2PDMA: Evaluate the ATS path for clients with ATS enabled
+>       PCI/P2PDMA: Test the routing of clients with ATS enabled
+> 
+>  Documentation/admin-guide/kernel-parameters.txt |  15 +-
+>  Documentation/driver-api/pci/p2pdma.rst         |  80 +++
+>  drivers/pci/Kconfig                             |  15 +
+>  drivers/pci/Makefile                            |   1 +
+>  drivers/pci/p2pdma.c                            | 719 ++++++++++++++++++--
+>  drivers/pci/pci.c                               |   7 +-
+>  drivers/pci/pci.h                               |  58 ++
+>  drivers/pci/pci_acs_test.c                      | 860 ++++++++++++++++++++++++
+>  drivers/pci/quirks.c                            |   6 +-
+>  include/linux/pci-p2pdma.h                      |  12 +-
+>  10 files changed, 1687 insertions(+), 86 deletions(-)
 > ---
-> From: Shiju Jose <shijujose2008@gmail.com>
-> Date: Sun, 26 Jul 2026 22:28:11 +0100
-> Subject: [PATCH] ACPI:RAS2: Add a driver for the ACPI RAS2 feature table
-> 
-> The ACPI 6.5 Specification, section 5.2.21, defines a RAS2 feature table
-> (RAS2). Add a driver supporting that RAS2 feature table and which provides
-> interfaces for platform RAS features, e.g., for HW-based memory scrubbing, and
-> logical to PA translation service. RAS2 uses PCC channel subspace for
-> communicating with the ACPI compliant HW platform.
-> 
->   [ bp:
->    - Massage commit message
->    - in ras2_send_pcc_cmd():
->     - check check_pcc_chan() retval
->     - remove else assignment to rc = 0 after mbox_send_message() call
->    - Do proper error unwinding in register_pcc_channel()
->    - Do proper error unwinding for auxiliary_device_init() in
->      add_aux_device()
->    - Cleanup parse_ras2_table() some
->    - drop ras2_ prefix from all static functions
->    - unbreak long lines
->    - minor touchups ]
+> base-commit: 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72
+> change-id: 20260821-fix-p2p-acs-v4-0-e72455e3a261
+> prerequisite-message-id: <20260830-batch-p2p-fixes-v1-0-5044e8dfbe2e@nvidia.com>
+> prerequisite-patch-id: 6b25c7fcf164cdfc14e9fac5b908d97fcf6509d7
+> prerequisite-patch-id: 0d083c281001365aae4b35544cf28891a6ab9a96
+> prerequisite-patch-id: bfd9dabf271f3cc9a3a61f46387d20c20311363d
+> prerequisite-patch-id: fad0275efc722830fc591509506c0a5e4f581073
+> prerequisite-patch-id: 0c83bee688fec1f6d1564654df7c630fa6a4a978
 
-Your cleanup and unwind path is good!
+This seems like material for the PCI tree, but I'm not sure how to
+apply it.  It doesn't apply cleanly on the current pci/p2pdma
+(https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=p2pdma),
+which does contain your series from
+20260830-batch-p2p-fixes-v1-0-5044e8dfbe2e@nvidia.com.
 
-> 
-> Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
-> Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
-> Co-developed-by: Jonathan Cameron <jic23@kernel.org>
-> Signed-off-by: Jonathan Cameron <jic23@kernel.org>
-> Signed-off-by: Shiju Jose <shijujose2008@gmail.com>
-> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> Reviewed-by: Ashok Raj <ashok.raj@oss.qualcomm.com>
-> Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-> Link: https://patch.msgid.link/20260726212812.89266-2-shijujose2008@gmail.com
-> ---
->  drivers/acpi/Kconfig  |  10 +
->  drivers/acpi/Makefile |   1 +
->  drivers/acpi/bus.c    |   3 +
->  drivers/acpi/ras2.c   | 517 ++++++++++++++++++++++++++++++++++++++++++
->  include/acpi/ras2.h   |  57 +++++
->  5 files changed, 588 insertions(+)
->  create mode 100644 drivers/acpi/ras2.c
->  create mode 100644 include/acpi/ras2.h
-> 
+I could probably fix the conflicts but I don't know why there should
+be conflicts, since the only commits on pci/p2pdma other than yours
+are a few trivial allow-list updates.
 
-[snip]
-
-> +
-> +static struct ras2_sspcc *sspcc_get(int pcc_id)
-> +{
-> +	struct ras2_sspcc *sspcc;
-> +
-> +	guard(mutex)(&sspcc_lst_lock);
-> +	list_for_each_entry(sspcc, &sspcc_lst, elem) {
-> +		if (sspcc->pcc_id != pcc_id)
-> +			continue;
-> +
-> +		if (!kref_get_unless_zero(&sspcc->kref))
-> +			break;
-> +
-> +		return sspcc;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static int register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int pcc_id)
-> +{
-> +	struct pcc_mbox_chan *pcc_chan;
-> +	struct ras2_sspcc *sspcc;
-> +	int ret;
-> +
-> +	if (pcc_id < 0)
-> +		return -EINVAL;
-> +
-> +	sspcc = sspcc_get(pcc_id);
-> +	if (sspcc) {
-> +		ras2_ctx->sspcc	    = sspcc;
-> +		ras2_ctx->comm_addr = sspcc->comm_addr;
-> +		ras2_ctx->dev	    = sspcc->pcc_chan->mchan->mbox->dev;
-> +		ras2_ctx->pcc_lock  = &sspcc->pcc_lock;
-> +
-> +		return 0;
-> +	}
-> +
-> +	sspcc = kzalloc(sizeof(*sspcc), GFP_KERNEL);
-> +	if (!sspcc)
-> +		return -ENOMEM;
-> +
-	__mbox_bind_client() reads knows_txdone at bind time to promote the
-	channel off MBOX_TXDONE_BY_POLL. It must be set before requesting the
-	channel, otherwise the channel stays on polling and mbox_client_txdone()
-	later hits the mailbox core's "Client can't run the TX ticker" guard.
-
-	sspcc->mbox_client.knows_txdone = true;
-
-> +	pcc_chan = pcc_mbox_request_channel(&sspcc->mbox_client, pcc_id);
-> +	if (IS_ERR(pcc_chan)) {
-> +		ret = PTR_ERR(pcc_chan);
-> +		goto ret_err_mbox;
-> +	}
-> +
-> +	if (!pcc_chan->shmem || pcc_chan->shmem_size < sizeof(struct acpi_ras2_shmem)) {
-> +		ret = -EINVAL;
-> +		goto ret_err_shmem;
-> +	}
-> +
-> +	sspcc->pcc_id		= pcc_id;
-> +	sspcc->pcc_chan		= pcc_chan;
-> +	sspcc->comm_addr	= pcc_chan->shmem;
-> +
-> +	if (pcc_chan->latency)
-> +		sspcc->deadline_us = PCC_NUM_RETRIES * pcc_chan->latency;
-> +	else
-> +		sspcc->deadline_us = PCC_NUM_RETRIES * PCC_CHNL_DEFAULT_LATENCY;
-> +
-> +	sspcc->pcc_mrtt		= pcc_chan->min_turnaround_time;
-> +	sspcc->pcc_mpar		= pcc_chan->max_access_rate;
-> +
-> +	sspcc->mbox_client.knows_txdone	= true;
-
-        ^^^^ This needs to be set before request_channel above. 
-> +
-> +	mutex_init(&sspcc->pcc_lock);
-> +	kref_init(&sspcc->kref);
-> +
-> +	mutex_lock(&sspcc_lst_lock);
-> +	list_add(&sspcc->elem, &sspcc_lst);
-> +	mutex_unlock(&sspcc_lst_lock);
-> +
-> +	ras2_ctx->sspcc		= sspcc;
-> +	ras2_ctx->comm_addr	= sspcc->comm_addr;
-> +	ras2_ctx->dev		= pcc_chan->mchan->mbox->dev;
-> +	ras2_ctx->pcc_lock	= &sspcc->pcc_lock;
-> +
-> +	return 0;
-> +
-> +ret_err_shmem:
-> +	pcc_mbox_free_channel(pcc_chan);
-> +
-> +ret_err_mbox:
-> +	kfree(sspcc);
-> +
-
-
-Cheers,
-Ashok
+Bjorn
