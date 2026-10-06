@@ -1,117 +1,138 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D053DDDDD;
-	Tue,  6 Oct 2026 14:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791298163; cv=none; b=PZcOiM3QnHw3/V5ndSmd2JmYJfiQpIlm1iHS8vp+9HTOKF3sN4cM0BoVpBFAaajGJxN4HT7HxC9XIKtxNcCdG5xo5ubx90SFd5HqfxNLgnCBIL0YX8HNR1khYFUrYw9l9j+3KscXc2AEt94vg/oPUzRbl+z55lVyhisY9SBWDxQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791298163; c=relaxed/simple;
-	bh=4X1Vvp5rp+7dv6kgDluoOVz7aVwaiJATABVivOetwjw=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=rttWncuAk5qrFwftJugmYoDSnNXge21eA7ADweqysVMK+9IZMhSQyFaUq4kJmDqqTh90rZISQ7J1V4rhZiej5jf9MrljfHDRFwqysfEt6Tz3zCX/WKpdEb9KLkbVImbIQ/DPv7UL/sctgHa1RmRuUsjZ8eR6N3aN+ZUy3r2bQiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.helo=mail.mainlining.org; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.helo=mail.mainlining.org
-Date: Tue, 06 Oct 2026 15:48:59 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Miguel Ojeda <ojeda@kernel.org>
-CC: Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?ISO-8859-1?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?ISO-8859-1?Q?Onur_=D6zkan?= <work@onurozkan.dev>,
- Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linusw@kernel.org>,
- Christian Schrefl <chrisi.schrefl@gmail.com>,
- "Paul E . McKenney" <paulmck@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, linux-arm-kernel@lists.infradead.org,
- rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] ARM: cmpxchg: support 2-byte xchg() on pre-ARMv6 CPUs
-In-Reply-To: <20261003093827.77857-2-kmehltretter@gmail.com>
-References: <20261003093827.77857-1-kmehltretter@gmail.com> <20261003093827.77857-2-kmehltretter@gmail.com>
-Message-ID: <61F2A44F-8A05-41FA-8A9A-8483A229E607@mainlining.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBFC4734C5
+	for <linux-doc@vger.kernel.org>; Tue,  6 Oct 2026 15:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791299920; cv=pass; b=RYxdfuWucSsrbVry//j+3Fr678HocHXy5qM3NrmjcNswocirfpgxQ32wk5f2g/ybAev1dQ1ySM2TgI2y+mH/RW+RtQxDpLj3p8m2Fe1ixNovpmjaIVy9OBbw4MYuUrUG2JGOiEJvgETCxLuLmv1GdMCq3c38DmtEMbWhGxX+MKA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791299920; c=relaxed/simple;
+	bh=Z6WbsAnp0/k5TRam8CoApQG5u2b0ang3JjfGRsR4/LE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A5/b2SsPOAZlK7jRkT8IZsd2Myco4I9tvWGwza6JCRNX1GKeLN7U01oCTdMScH+jvm0nfY8y6PCJ4eyGKi6ZgPCeUsG9qD0ELMgr46N74BVuQrj69g+A9xOPC/2lVGmdc2WhgiTqNNFfb7WhFW+HbgLedjdZfwGmkscmLtwJGxg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vinJemxj; arc=pass smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vinJemxj"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6acb57c2b88so4221797a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 06 Oct 2026 08:18:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791299916; cv=none;
+        d=google.com; s=arc-20260327;
+        b=e8n8jsNYqhytQ0wF5SZIefVLSc4Ng2oR7fiX3qrPjKFTyKppTuDAdE4xWqmYhE0EdO
+         21AMHQeBl162HkfvbNdgzjt2y/F8uBOuC73TY3fovBOVuZqlNexzEmFWwpOQasenL6s5
+         MUsfNMloQiAz5J3Cwl9l5frkAFmblSv9h47/UBUur9MwNDaFwg5DNpdP2SVGeQ5oijE+
+         CcXFj/v215BOJFQv34da+U71TFD13R9zX5fumf5kBdCEXK73RbHBRvlxLFecXYudQxnf
+         pxeEBO4On6CdJWLjVVpvH0Iw3jAYQBY5YfidPmZZY4y6G4h2da1gr+HOwfahaA49SZ+4
+         FZXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=S8HNQKq2PFFrdWWXN5HW5t8uFb87m5DPyp4zd5PK5G0=;
+        fh=yUim5gdLL4LLmV0m2JJckHoojjFjgfTicD96/45pNjE=;
+        b=qn8GnyvzPImusHwSxoDo2VzEaJxFif125pXwc6ydtn85Dii9XBD9UHmT/aOEiGGscN
+         54DNVQ7dXbQEXiS3aJCFe15bEFfehd33Ke3PmJwYr3BUURWMNideLLCMzBW/pDiPV7Xz
+         RW9KpMJO/OIGwix5sG5iJPS4DOswaBBomo78SEPxIdwPPCnDYFvQhSX9KwHM6MZYasny
+         JvFHUHvghF6Uu4YtSHWlPXD7nadULSjN4XCqbh30AE86YM7beGozT3BjwVbUyZrBdKY4
+         wphhgMMlxT/PBt8VBESxZVxoNJQYzODLOa7kXfwBhmeWOnrLyJZ+Mo7e3/hFdBfmtcif
+         ZzFA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1791299916; x=1791904716; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=S8HNQKq2PFFrdWWXN5HW5t8uFb87m5DPyp4zd5PK5G0=;
+        b=vinJemxjfo0wtpRpFAgFolIEmK5h1JEjPQcX/AMCwCwhdtc+zvrWlULgduJ50Pr9VO
+         xJX9/pmQZFWu0hcikEmrYOWlRLmLDMxRZuf60EZ+XAlxd8fuVz7tyIxfQcxqxTAOq021
+         qh0RQqMV161mW7VccuYWu+k8wFFtFyKkK5sgM0yybLeW5h0iOBx/RmkZyTLDOY0segSM
+         +24sbA92JaazYatCvTIfx3KBp2ZyoGvIwavOILBdB7oYuVHNCayu1x3d7J4dP02weV2z
+         N99S/vtuJlv34K4IhkZSwh8a/JPfbU8CbQGg1p0CTAJLX0L4vsAGNozXrFWsb9OngU22
+         h9jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791299916; x=1791904716;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=S8HNQKq2PFFrdWWXN5HW5t8uFb87m5DPyp4zd5PK5G0=;
+        b=cBRBb8SXr7g+9k1JumGZeq5QZ2MdSZcFjK43OUnhlwukzZ+tq+ciWNEozf5/tnQ8vP
+         MTZnsQwvuL9HtSOCu0/WjSS0448y7Ta/tsnu0gajvC85LcGfSHi8KtM/VgwcVQHqHKMS
+         PFDRL9FN4rX3hZT+miCYwLQu3pnMREkoSEgTBpAc6Jsm0H5glHvyPcIUnIjwpLqROjLX
+         ERtE5RuM/3vh7CMpytMD1T6byjmpTy+wJJ2ICCo3VnENIR+wa0nthIvGsVw2g90U6+2Q
+         /iGWJgQShNQlYXh3yN0h1UklEZoCmcF5J3gHd6f3q3t3yb82F87AiSap6fh+yfjHJH+b
+         pqaQ==
+X-Forwarded-Encrypted: i=1; AKwUvBySwowp7/1f+EDF9WV5NaoApXn4K/5LPEr9lz04CJ3m4I209CsgqgzyT2My976wdICOJbaH95X/vTw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJPakZ2zT9Iuki/3KC9AsNzqwKD6DuBrtGakiAaLvA/mp0IlzBJ
+	QEfLkwDsftDHuXCzAmAuuHkghUh0Xg6P/5oJi2MZykiaPPeOCE0m5poEFgYW/KgSMA2+bzWvapt
+	Stmk8AsvMKWjPunv3F81rSVnk+RErTpHQ/Y9EnNo5lA==
+X-Gm-Gg: AYBFou0VFnNSiR/ThBqLItGsH/GGeGilW4i0Jdjh4cf1T58JPi89zWg1H2CsTl38nv9
+	XLeuz/Fp4mST2XQLCx3VsTcM+PUPVin13n3UHcGxJxoqSMVWnquowO+ZpI5shh3IQBgVQNT2Z1V
+	1uI0ZIDwset7BJRBVuCLsGPO9pwLuFPUvxPm8n/3FrDJTY1f7OwDm/WvIdMxBdUVjsMmmduqoLX
+	BHVAxMNYbUQ3FM2TA4dWfLChaecmFjlIyQySmiF/bUUv17zcgag8psGtc1630qvfo6o0aNpdGap
+	FLMo6vTGVOVLyYKLlvpWOdNkBbzzKHHiLO/Ojq+8845OAb1cLeKm1w==
+X-Received: by 2002:a05:6402:52d2:b0:6a9:a5d6:622d with SMTP id
+ 4fb4d7f45d1cf-6afad731ef8mr8879468a12.3.1791299916262; Tue, 06 Oct 2026
+ 08:18:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+References: <20260923184255.299034-1-shenwei.wang@oss.nxp.com>
+ <20260923184255.299034-3-shenwei.wang@oss.nxp.com> <20261006030739.GA3457522-robh@kernel.org>
+In-Reply-To: <20261006030739.GA3457522-robh@kernel.org>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Tue, 6 Oct 2026 09:18:23 -0600
+X-Gm-Features: AclHuK9X3bTaGpN7i7UclAS_3sT01qVYKxTd90Hh58vpFwo0cpRNFUaLVMAbBaM
+Message-ID: <CANLsYkzcqapDYvKAEa2ZjA=q07iO=RM4TVNUbSqDrB0EmjeKyQ@mail.gmail.com>
+Subject: Re: [PATCH v16 2/5] dt-bindings: remoteproc: imx_rproc: Add "rpmsg"
+ subnode support
+To: Rob Herring <robh@kernel.org>
+Cc: Shenwei Wang <shenwei.wang@oss.nxp.com>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com, 
+	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, b-padhi@ti.com, Andrew Lunn <andrew@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
 
-On 3 October 2026 10:38:26 BST, Karl Mehltretter <kmehltretter@gmail.com>
-wrote:
->Pre-ARMv6 CPUs have no halfword swp, so __arch_xchg() only handles 1-
->and 4-byte exchanges there and turns any other size into a link error
->via __bad_xchg().
+On Mon, 5 Oct 2026 at 21:07, Rob Herring <robh@kernel.org> wrote:
 >
->No C code needs a 16-bit xchg() on these CPUs, but the Rust atomic
->helpers in rust/helpers/atomic_ext.c provide xchg() for Atomic<i16>
->unconditionally, so building with CONFIG_RUST=y for ARMv5 fails:
+> On Wed, Sep 23, 2026 at 01:42:29PM -0500, Shenwei Wang wrote:
+> > From: Shenwei Wang <shenwei.wang@nxp.com>
+> >
+> > Remote processors may announce multiple GPIO controllers over an RPMSG
+> > channel. These GPIO controllers may require corresponding device tree
+> > nodes, especially when acting as providers, to supply phandles for their
+> > consumers.
+> >
+> > Define an RPMSG node to work as a container for a group of RPMSG channels
+> > under the imx_rproc node. Each subnode within "rpmsg" represents an
+> > individual RPMSG channel. The name of each subnode corresponds to the
+> > channel name as defined by the remote processor.
 >
->  ld.lld: error: undefined symbol: __bad_xchg
->  >>> referenced by helpers.c
->  >>>               rust/helpers/helpers.o:(rust_helper_atomic_i16_xchg)
+> Sorry, but DT defines the names of nodes. If it's a gpio-controller,
+> then 'gpio'.
 >
->Implement the 2-byte case with interrupts disabled, as the pre-ARMv6
->atomic_t operations already do. This is safe because SMP requires
->ARMv6K or later.
->
->Assisted-by: LLM
-
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
-
-
->Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
->---
-> arch/arm/include/asm/cmpxchg.h | 14 +++++++++++---
-> 1 file changed, 11 insertions(+), 3 deletions(-)
->
->diff --git a/arch/arm/include/asm/cmpxchg.h b/arch/arm/include/asm/cmpxchg.h
->index 9beb64d30586..3077f7d7f520 100644
->--- a/arch/arm/include/asm/cmpxchg.h
->+++ b/arch/arm/include/asm/cmpxchg.h
->@@ -31,11 +31,10 @@ __arch_xchg(unsigned long x, volatile void *ptr, int size)
-> {
-> 	extern void __bad_xchg(volatile void *, int);
-> 	unsigned long ret;
->-#ifdef swp_is_buggy
->-	unsigned long flags;
->-#endif
-> #if __LINUX_ARM_ARCH__ >= 6
-> 	unsigned int tmp;
->+#else
->+	unsigned long flags;
-> #endif
-> 
-> 	prefetchw((const void *)ptr);
->@@ -106,6 +105,15 @@ __arch_xchg(unsigned long x, volatile void *ptr, int size)
-> 			: "r" (x), "r" (ptr)
-> 			: "memory", "cc");
-> 		break;
->+#endif
->+#if __LINUX_ARM_ARCH__ < 6
->+	case 2:
->+		/* swp has no halfword form. Pre-ARMv6 is never SMP. */
->+		raw_local_irq_save(flags);
->+		ret = *(volatile unsigned short *)ptr;
->+		*(volatile unsigned short *)ptr = x;
->+		raw_local_irq_restore(flags);
->+		break;
-> #endif
-> 	default:
-> 		/* Cause a link-time error, the xchg() size is not supported */
+> I still don't understand where the unit address gets defined. 0 and 1
+> look a bit made up. I'm sure you explained it before, but *this patch*
+> needs to explain it. When you define a second protocol, the 0 and 1
+> addresses are taken already, so you can't have 'clock-controller@0' for
+> example.
 >
 
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+I had a conversation with Krzysztof about this here in Prague.  We
+have decided to adopt the bindings proposed by Francesco in this
+thread [1].
+
+[1].  https://lore.kernel.org/all/20260916-remoteproc_virtio_map-v1-8-dac8c5eb4aa9@valla.it/
+
+> Rob
