@@ -1,65 +1,65 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56FC139E162
-	for <linux-doc@vger.kernel.org>; Tue,  6 Oct 2026 06:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1297C39902D
+	for <linux-doc@vger.kernel.org>; Tue,  6 Oct 2026 06:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791267430; cv=none; b=OQUMXJ92SGk/ib342pZnCbk2/ZTDBAarnYan1mxQ2KFYnm1Ukheoen0w3i4RcDoEXUvp6ynotPoE28iNnm/ftljWe9zG7qMyi6rWBjkYlthyUrKqz3JbTdpaUnESASVrlCo/hEDsrFrjFYtuvd4F2S4Ndmgj3hwuiu2QdgA/QB8=
+	t=1791267434; cv=none; b=l9s8+/TtlHhvMhpvxUlP2ADcKPYoTQvYm5HLU44ILu1LmpZGXZSOVaeYbbfOxew5uCNnLI4+K6DQnrLSIkZHCztnPxXLUfG1eru107LSNTV+QBBJPLTR48QcgVmBMOnE+HlSLoemjwDJ3i7k4unQTixZlYMIjUWFgXUkSAjFrbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791267430; c=relaxed/simple;
-	bh=c52s+1rtQJ0Q70cxAwYJIZomn2o6AOpxotKtFgeYSpI=;
+	s=arc-20240116; t=1791267434; c=relaxed/simple;
+	bh=FHrnFnUSAWmZNX0SWBNQDgoJTqUbfpq0tVyXroLnvKk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ld+qYpWB0nlUZjR8WiylI4k1QBImxCOAEGIb7fGERoYHW8HHfgZBchq7zNgVAyEzsHLR+QuvITakLBCd/Rwk+jzmPdahheXRTIiD2fnbRzzPOHamEIkJ9Jjfg1ifUiFoqu3JoHVFkNQr2GUUPIVzod7FXws7nZgKi6EuT57YAuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lB8Ymg67; arc=none smtp.client-ip=209.85.216.52
+	 MIME-Version; b=k9RxTGgDEgGLZaEgyR7J0MJj7r+z9exJPcFQYPmc3D0NWO45nSxdhNbimrpTbzYfI2lXF7SE+rGj86khRO3/CwUTVjjXCI6MRW7bhVbSxOnP2Hx/za4EdEpcoi2rgCfXe9uPtGlk3EgbIv3tXdwR2nAZm6aAb7jpXweFgAkrPWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CC0M9Kdj; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lB8Ymg67"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3a0a911e8d6so1216283a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 23:17:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CC0M9Kdj"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3a6cf104827so230702a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 05 Oct 2026 23:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791267427; x=1791872227; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791267430; x=1791872230; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kXj+ppi34PaHFxHHINamngQe5IHrKp/NnyfjPYvY7jg=;
-        b=lB8Ymg67Vr1k5jHMVO1wyN5wHdZfhnqsLSE2fe6Coo0bDvsdOiCMMYASR4kVu6FgEU
-         Hwlb6lEo9ex6IWXGHzzVsfJAX2ZfrV04foCSuNESncAPMGbjJblcgK7NUcwSJQI973gQ
-         qxUr3tJZ82e0k4ouSbFSLdEDNwSr0NhUz8uB061pXN1SwRFBbfxDlshah97ah8UB1y/F
-         h/GHkT3oJMarwrA1oCHopaISB7vWzQKhKbufhNBeYzBaJskg6G0wfQM0FTYpCMgMZ1RN
-         h2uIBaMEs/0m76RT0nd9bYOtVa84dSL19ChwNgBv/PZiE5lI9neNoXg1KcWBYdB/zmSz
-         h/LQ==
+        bh=OoJmGRoqngODEsvXRKt/ZMhZp/J8z+h3M6E+QYGZLJw=;
+        b=CC0M9KdjjqleMFVkCq91Om5KVMt+hQA9h8DxJ1BK9h6c1t3bWIE37uVrLhOcgGGgS8
+         6yAna/KrwDkPrc+arRSyoo/uOB/+bGI7xjv6Hv8WTBp9+0lBwvZh3tRDNxtm53qvf9g2
+         RZU/+2sLXP0PYVDDJ5Y/mQ4La46Ho0FvnxOzq2a9r4aIUeMxTV6/eG9ho9/oyeDeKRLW
+         7EfeqsTekYzNDUqrmfff9EOm1jBOOFUVUyWt3R0cK07BJj4UQj0McsRz9J9xxRVGgY10
+         ATUHaIqnhWBRkdD0Fo/bOotFXS5+UZOrxvtbTD4/EnXJF1y53AOZqfkWgIBJ5EaZePEX
+         XuaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791267427; x=1791872227;
+        d=1e100.net; s=20260707; t=1791267430; x=1791872230;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kXj+ppi34PaHFxHHINamngQe5IHrKp/NnyfjPYvY7jg=;
-        b=X0WPs3MHhfVXcEAbtaz5jM7dx8N22Da7JCSulHy+6an5EMZu5+AuEbjj9eSLpizUL1
-         ZgVixY/g/7/a60Surob4EaGjKJH55gBoVrDkgc1MYx6DD0yLdQxhncqO6+CqDCS7Htdm
-         nQ5dfFdhwKlz8ZdAMQqCTKadkXUrG9Wj1HL/vKVkJPGVo80Jo/xIQSN8lXtAg3u1pR3M
-         lvtrvQarFmi8yOnnBxF9Rovv65bZGcOYIQy3LLaCkj1B98i6L0z9gLaVz5B6mk/6g0M2
-         d9aBzRwmSih60nuNUy6K1HwZKcX6I9crHTrDakAhBSIs4iPryv8EX8dCt+8SwETbQFd0
-         kHCw==
-X-Forwarded-Encrypted: i=1; AKwUvBy++bKAe0es0B5xuR97C/BwWraCC84FCQbyT5be25GSrhfJb88PaCWH4Pw9LYz/Bw6b8AFs+NPkFWw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJeaeL5q6OHIw1HD9I1BiO3jkk5PAp21HsjdjSF0Jl6AePwNb7s
-	mOQyIwz1GjzRaL4eFqa4zilabuHc6BaN88CtT3I19JDoPSMWsCJaYbs3
-X-Gm-Gg: AYBFou0o1s3yjKJCTPhOd3Qz5dT+uDAWsxp8JNRlhPJdFMz6PVyDMZ1IaTnqbP+T0Jv
-	4CZQS3XveGgXUkXPHZYvoCYCib3WGSiCl/AKdFDt86kcI5bjcbJyEjoYVnlGVL3pJj1u/giFtF9
-	lTNiw0ilviypRcF0ap/rXV6XK3ldTJ4BnBalxM6nkTqKfuquSCeT5IWgE5L74zY9pdCcWNadmii
-	w7x98SbY+P50vjO79W0/D0IuBbg0YC8leVgyoUKVsDq8hJBhkLt9gJEmRa80YLBORzvb7iSAu2W
-	cQyoTPg1r+z+y8CKk53NiHawxTGIfquu0kylylLBwdIY07kT60uN4/mksZPA0SHKmHoad2GTsfJ
-	4ueIBFgeEkbmwCqTnp8fC1pHticNomSEfUO/E+IMOgicVHipfq1ezqpW5uRwdDdfmN5ruUGgdgi
-	5vHsDrfJr+FWQIdlm5ZqG+ldkQv/leDmcXE+L0M11W7NMJlAMp1KAHZJSJPgyZPM/qhEB2sEuCa
-	+LcX2+qm/3FB/ihNQ8TNqowruF2FGdM3srxNGIS5EBAxggqq4q2efFtJkXEJPC00pb6QcOs1z1Z
-	mPE4wxOX6uToYNUz
-X-Received: by 2002:a17:90b:3912:b0:3a4:bc68:e867 with SMTP id 98e67ed59e1d1-3a87268878cmr360148a91.7.1791267427477;
-        Mon, 05 Oct 2026 23:17:07 -0700 (PDT)
+        bh=OoJmGRoqngODEsvXRKt/ZMhZp/J8z+h3M6E+QYGZLJw=;
+        b=lc5orgX4A2p7yRypXo8HKRLJ63a4cAKo65JdkIWeHPuY0+Si4A6h/bqqCxQIJ3NnDk
+         5yr1+whbqHbMSHzyPRqGgQQ93V8jSgBDT93bHUW9pg8mBj+ni/49lAyzDGFwpBX8gkI9
+         25QK9/LpiBd3ya6X4Bzlxfvjd9oTYxFyufQePrsUjbzQNuch+sFxqHHXdCOAWE22Vjoe
+         DMJXiKKFTcyaPypzR1QGODfGZvmd79d5qYRtk3U/K6uWsFIW3C5Keqt4ZXOZI/h3nPeS
+         GxBTEAspcqa8olxqUA1jiTpDJVezh8pf+J1UYzJGv+R0B/vmcm9MJCyxTm/MuQwB2vEU
+         ihGQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwcek0VdMEKU4oqF7RQVzBYBgnA+x4PfUWjQKRCN8G2U4pJklrEQVT6+Np6T2HPfNKj1Xpy+bLHx0k=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL8nJLTQCMShcw3PELavJCs25ILEu8JDnmLDjs8Iwkl8EjJTsRA
+	+64VbJx4FGkjceUTs0uZM/aYYxnwyzgf7ErG5DRxt8lpTBnCgmJxlep8
+X-Gm-Gg: AYBFou06WT+YRfaiLzOLuwPGKNYXH+KGRY6XmAR3/dW58VrAmc4E2YaKKwYg8loen/R
+	q9SOVNfV4bOovAJ7dS2zHzGTwsgy5XqTbUEgJ7IEZJY3V+VpjCSh2RMnD5cJXR42vsW5E9r0nJr
+	h/fyPfGMSxlOL+vJoP1GTbl5imHIVk8JN7tBqwWk6ZFUdAEHeCTwv2mzwJb3Ug8yvTaZLLlGLC2
+	LcoY4gd85ng3yPIVsDo5uNJKtaRWJ+0DHHNuYpClLz/2bVRj0bJDhBuf3+nHJJGQ82JvLeicUDj
+	TcJJQJjnjEKz1UquvhaK6pGEIak6b4Y9d/bUQ/Q6PGofg6aGLuf8RMIFL94OHzaKNA6Lv/8jOJl
+	eIh8UDkue0CgNEZQV4lH4BRYrZP9QNvUZhRnZtWQG8ouxK0M+DOZiqUi4kNxpeV3+4Wt4Qzcv6/
+	79GCC5P+YZVup380qEcvFP0JNs4CtsXKYps4swq+2AvjOd0gWF3vF7+PedRI/UhQ4E9ARMEKSrz
+	SFjhdUeg9gMHX4VOGL/CSMM8km2LHW+PIkUnZJI9isFoX1t8MeWsTAzCJoZuGxbKQQFgtZ86QPS
+	pb25z441vPX/MKmgl8c8k+DONX4=
+X-Received: by 2002:a17:90b:2f88:b0:3a8:6b84:235b with SMTP id 98e67ed59e1d1-3a8726c1d9fmr135343a91.7.1791267430371;
+        Mon, 05 Oct 2026 23:17:10 -0700 (PDT)
 Received: from AHUANG12-3ZHH9X.lenovo.com (61-221-208-111.hinet-ip.hinet.net. [61.221.208.111])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a8533aba95sm3662789a91.2.2026.10.05.23.17.04
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a8533aba95sm3662789a91.2.2026.10.05.23.17.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 23:17:07 -0700 (PDT)
+        Mon, 05 Oct 2026 23:17:09 -0700 (PDT)
 From: "Adrian Huang (Lenovo)" <adrianhuang0701@gmail.com>
 To: SJ Park <sj@kernel.org>,
 	Andrew Morton <akpm@linux-foundation.org>
@@ -72,9 +72,9 @@ Cc: damon@lists.linux.dev,
 	Randy Dunlap <rdunlap@infradead.org>,
 	ahuang12@lenovo.com,
 	"Adrian Huang (Lenovo)" <adrianhuang0701@gmail.com>
-Subject: [PATCH 1/3] Docs/admin-guide/mm/damon: Fix various typos
-Date: Tue,  6 Oct 2026 14:15:47 +0800
-Message-Id: <20261006061549.627-2-adrianhuang0701@gmail.com>
+Subject: [PATCH 2/3] Docs/admin-guide/mm/damon/lru_sort: Fix copy-paste mistakes
+Date: Tue,  6 Oct 2026 14:15:48 +0800
+Message-Id: <20261006061549.627-3-adrianhuang0701@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20261006061549.627-1-adrianhuang0701@gmail.com>
 References: <20261006061549.627-1-adrianhuang0701@gmail.com>
@@ -86,96 +86,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix several spelling mistakes found while reading the DAMON
-documentation:
-  * trusworthy -> trustworthy
-  * DAMON_RCLAIM -> DAMON_RECLAIM
-  * charget -> charge
-  * hetmap -> heatmap
-  * colun -> column
-  * evelenth -> eleventh
-  * idlee -> idle
+The DAMON_LRU_SORT documentation mistakenly refers to DAMON_RECLAIM
+in a few places.
+
+Fix these copy-paste mistakes to correctly refer to DAMON_LRU_SORT.
 
 Signed-off-by: Adrian Huang (Lenovo) <adrianhuang0701@gmail.com>
 ---
- Documentation/admin-guide/mm/damon/lru_sort.rst | 2 +-
- Documentation/admin-guide/mm/damon/reclaim.rst  | 4 ++--
- Documentation/admin-guide/mm/damon/start.rst    | 6 +++---
- Documentation/admin-guide/mm/damon/stat.rst     | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ Documentation/admin-guide/mm/damon/lru_sort.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
-index b93ca9b0853d..c3b688385681 100644
+index c3b688385681..0c04d238edc4 100644
 --- a/Documentation/admin-guide/mm/damon/lru_sort.rst
 +++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
-@@ -7,7 +7,7 @@ DAMON-based LRU-lists Sorting
- DAMON-based LRU-lists Sorting (DAMON_LRU_SORT) is a static kernel module that
- aimed to be used for proactive and lightweight data access pattern based
- (de)prioritization of pages on their LRU-lists for making LRU-lists a more
--trusworthy data access pattern source.
-+trustworthy data access pattern source.
+@@ -264,7 +264,7 @@ addr_unit
+ A scale factor for memory addresses and bytes.
  
- Where Proactive LRU-lists Sorting is Required?
- ==============================================
-diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
-index ec7e3e32b4ac..e4e2ffa52e26 100644
---- a/Documentation/admin-guide/mm/damon/reclaim.rst
-+++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-@@ -55,7 +55,7 @@ enabled
+ This parameter is for setting and getting the :ref:`address unit
+-<damon_design_addr_unit>` parameter of the DAMON instance for DAMON_RECLAIM.
++<damon_design_addr_unit>` parameter of the DAMON instance for DAMON_LRU_SORT.
  
- Enable or disable DAMON_RECLAIM.
- 
--You can enable DAMON_RCLAIM by setting the value of this parameter as ``Y``.
-+You can enable DAMON_RECLAIM by setting the value of this parameter as ``Y``.
- Setting it as ``N`` disables DAMON_RECLAIM.  Note that DAMON_RECLAIM could do
- no real monitoring and reclamation due to the watermarks-based activation
- condition.  Refer to below descriptions for the watermarks parameter for this.
-@@ -125,7 +125,7 @@ quota_reset_interval_ms
- 
- The time/size quota charge reset interval in milliseconds.
- 
--The charget reset interval for the quota of time (quota_ms) and size
-+The charge reset interval for the quota of time (quota_ms) and size
- (quota_sz).  That is, DAMON_RECLAIM does not try reclamation for more than
- quota_ms milliseconds or quota_sz bytes within quota_reset_interval_ms
- milliseconds.
-diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation/admin-guide/mm/damon/start.rst
-index ec8c34b2d32f..d98b0eb8e771 100644
---- a/Documentation/admin-guide/mm/damon/start.rst
-+++ b/Documentation/admin-guide/mm/damon/start.rst
-@@ -69,16 +69,16 @@ monitored access pattern of the process from DAMON and shows the pattern in a
- human readable format.
- 
- The first line of the output shows the relative access temperature (hotness) of
--the regions in a single row hetmap format.  Each column on the heatmap
-+the regions in a single row heatmap format.  Each column on the heatmap
- represents regions of same size on the monitored virtual address space.  The
--position of the colun on the row and the number on the column represents the
-+position of the column on the row and the number on the column represents the
- relative location and access temperature of the region.  ``[...]`` means
- unmapped huge regions on the virtual address spaces.  The second line shows
- additional information for better understanding the heatmap.
- 
- Each line of the output from the third line shows which virtual address range
- (``addr XX size XX``) of the process is how frequently (``access XX %``)
--accessed for how long time (``age XX``).  For example, the evelenth region of
-+accessed for how long time (``age XX``).  For example, the eleventh region of
- ~9.5 MiB size is being most frequently accessed for last 3.7 seconds.  Finally,
- the fourth command stops DAMON.
- 
-diff --git a/Documentation/admin-guide/mm/damon/stat.rst b/Documentation/admin-guide/mm/damon/stat.rst
-index 46c5dd96aa2e..4a9db755a526 100644
---- a/Documentation/admin-guide/mm/damon/stat.rst
-+++ b/Documentation/admin-guide/mm/damon/stat.rst
-@@ -81,7 +81,7 @@ Per-byte idle time (milliseconds) percentiles of the system.
- DAMON_STAT calculates how long each byte of the memory was not accessed until
- now (idle time), based on the current DAMON results snapshot.  For regions
- having access frequency (nr_accesses) larger than zero, how long the current
--access frequency level was kept multiplied by ``-1`` becomes the idlee time of
-+access frequency level was kept multiplied by ``-1`` becomes the idle time of
- every byte of the region.  If a region has zero access frequency (nr_accesses),
- how long the region was keeping the zero access frequency (age) becomes the
- idle time of every byte of the region.  Then, DAMON_STAT exposes the
+ ``monitor_region_start`` and ``monitor_region_end`` should be provided in this
+ unit.  For example, let's suppose ``addr_unit``, ``monitor_region_start`` and
+@@ -347,7 +347,7 @@ memory regions that not accessed for 120 seconds.  The prioritization and
+ deprioritization is limited to be done using only up to 1% CPU time to avoid
+ DAMON_LRU_SORT consuming too much CPU time for the (de)prioritization.  It also
+ asks DAMON_LRU_SORT to do nothing if the system's free memory rate is more than
+-50%, but start the real works if it becomes lower than 40%.  If DAMON_RECLAIM
++50%, but start the real works if it becomes lower than 40%.  If DAMON_LRU_SORT
+ doesn't make progress and therefore the free memory rate becomes lower than
+ 20%, it asks DAMON_LRU_SORT to do nothing again, so that we can fall back to
+ the LRU-list based page granularity reclamation. ::
 -- 
 2.43.0
 
