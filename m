@@ -1,91 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA5C3D88F6;
-	Tue,  6 Oct 2026 10:22:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B85381724;
+	Tue,  6 Oct 2026 10:31:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791282124; cv=none; b=QPocp6e6ao/uplK6nPrfMtD4X+QhPlgwJQH+EkcAYFN161UL9jpjpw9kZTHql6Rm1jVPtUqWM3ubc5jX5jJ/PS2RepAq3JLibbPNsVItPsAoHuNN5bGM8v0z44C0Bn2DsQDnOl5S60yBVXuKkkpGcfcpbH8Vffv1B0G7gWzlLi4=
+	t=1791282679; cv=none; b=VbNCvav146giEPaEO/f3A9w0WbKggklbu5LwLFBtYDDhhfS7hzjaVlZgq6YdjkdoB5CPEdHdTLfXDZ7i6jF1zwrpt9Vty5QRECfNiF8HbBRUKqrUDTVFOHr8PdFZo63ihtMDsFjpGXKyoRognluj3ukaq1QfKhjIiqPBjRvNfY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791282124; c=relaxed/simple;
-	bh=H/0IBsqQnXm4Zcf8F5gvrhFBxYY23PJO+BseCi64kEc=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Pnij1i1KsZXi71reJWkzoIlCPIDxlgmGTCqc413QnAp2ynEEZea79XCK7UMKdjjwbBJyKtkEFKoAr3Mzxxy9RNdsWWPHThCvRstcW9daLTQpZ7lX2bs6h4Tol4rEzVhzy/fRycHqbv0Asdwc+Xs2n2IPbrsNrJF6J46ZIulaytA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J1U5RfrK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791282679; c=relaxed/simple;
+	bh=aI+9f6gBPu0M/vQ973hOPuaVfSloZHq5oBgKDhlM498=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=so1jZaC9IEjGcnePfaatAuFP9C6wDfBcv3/RLJeSeh2LK7Ahnqk+qwY1Sh0ycwnAqcpDPkhBXcLz2+4kvsoquk6nwjQCF+xWBrdBoGfksjBpYnCMIcttL5YKt1puPFU9jqa8coSKovK35ct5oOwwr+S6wPurdOhYhGqd/ElE754=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ol9YmwxO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J1U5RfrK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC6B1F000FF;
-	Tue,  6 Oct 2026 10:21:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ol9YmwxO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B20CE1F00893;
+	Tue,  6 Oct 2026 10:31:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791282122;
-	bh=tvi6puQA0J0hA9rYePYBkk/sQ0USpeIPJk0WcZ47PBs=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References;
-	b=J1U5RfrKVeP+O4jqaKDHgViRN05qb9EM9Ow1h1Wq3zq++FQwMjOceD42csp5T2HCP
-	 i4SQN58VQayxBkq/PLuKIXLU+KdLNU9LT0f6v3i5OyTx3dwvfYPKAgq1fvXfLrF0bM
-	 /QcMGDDxqEEv/AaEnXTMVA5Z2b19XuC+aLAR6Bnw9DJxQT36qn3BCzvnXP3mkPMC49
-	 Rqi68kedr200C4HRCqsVLWgsyVU0VK6suF3v8YaykyMc4wf5GKLPSdbWX8zBA7gKqX
-	 HoBRJ3r01WmcEZLIAyF5w1Uzxv8mxRmPnxv1ODiOYAx/mqEnviAm2uzXFHPcXoI7yz
-	 qkeItwitvc/sA==
-Date: Tue, 6 Oct 2026 04:21:53 -0600 (MDT)
-From: Paul Walmsley <pjw@kernel.org>
-To: Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-    Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-    Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>, 
-    Conor Dooley <conor@kernel.org>, Anup Patel <anup@brainfault.org>, 
-    =?ISO-8859-15?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>, 
-    Yunhui Cui <cuiyunhui@bytedance.com>, Atish Patra <atish.patra@linux.dev>, 
-    Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-    Arnaldo Carvalho de Melo <acme@kernel.org>, 
-    Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-    Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-    Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-    Adrian Hunter <adrian.hunter@intel.com>, 
-    James Clark <james.clark@linaro.org>, Will Deacon <will@kernel.org>, 
-    Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-    Randy Dunlap <rdunlap@infradead.org>, 
-    Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
-    Yuanzhu <yuanzhu@bytedance.com>, Yicong Yang <yang.yicong@picoheart.com>, 
-    Susheng Yang <yang.susheng@zte.com.cn>, linux-riscv@lists.infradead.org, 
-    linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-    linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-    linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v10 0/9] riscv: add SBI Supervisor Software Events
- support
-In-Reply-To: <20260911121456.33223-1-zhangzhanpeng.jasper@bytedance.com>
-Message-ID: <29e631f0-c135-bea4-0a3b-81dd715cef54@kernel.org>
-References: <20260911121456.33223-1-zhangzhanpeng.jasper@bytedance.com>
+	s=k20260515; t=1791282678;
+	bh=ALpN1Maj9EHVWlBdbWojDECYyuYPzFGmL3crn6hvyc8=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=ol9YmwxOTJV2ajvh2DQPaO3GJQHwWDfoIdhumtwFIh8TDephvBCPYF1tSs7t3SjHR
+	 Ii8NiCuW1gEl25wbUbJ99mlc83gMbENr90LDiabLWhKEfvMFuHdVT8PAG9s5ea2ho5
+	 Gum2fnt+KjmkyvLDcuf0IFWGHFZ1tqcEJENca2U1Zou8MVRHRQI4EZs1RFUIkYKvl2
+	 MFjOfamExjIGEmzfIpQMNe/tju3QMf4lXsf7BP9BWrpCL2CTuM99JCEGV4T73Kq2yv
+	 B86sw3xuvK0dCtoSaSDDLyTScs7mQqHlsFEYqNxSEUkQomWJQR5WM9aNfZtkoOukxH
+	 rsehSQWb4+HhQ==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 2EA9D198003A;
+	Tue,  6 Oct 2026 06:31:15 -0400 (EDT)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Tue, 06 Oct 2026 06:31:15 -0400
+X-ME-Sender: <xms:7c3EairCLg3yVpK4hsQL87XbeTZz0qqK97feUdhHMqKUPUmwE4Fm4Q>
+    <xme:7c3Earc7oeXbL0vktWcCiT2vaJMzHxsdvDMlL2q5uHMMDi07cSffHdlWGNmKiBZVU
+    e6B1nVgh8R7i0FLJkqrVwrkkuJxqggTGfHNhNNupIBDkcrG8gRDC67z>
+X-ME-Proxy-Cause: dmFkZTEsDdnX9Y3ZJDxPCrw6tc0zS1iA5aGPrVX9TtkSIvacA0aBhZUTjX4nyhSQkLvqa9
+    DmJLo+mkZ/vcnM5+2ypJbQSA4I/Zc7oR4UPvExYMwwU2Q2tCsRwj9uTpKEr0bxWC0yYLrv
+    iL5LvHBWucAIdDDcbC36/9xav+t2BKAPGcEG75hTocgUXNYq/e0RIvYO2ZoXMtdy+N3HvC
+    P4aWLEQuWh0xp/TA7hWqQ26F0CXYHIj6GFdluDUGAoLo7BEpfXsmQJvf1R8DibG2s5wmMY
+    TA3tFKFlaArn15B2GKsPRs21f5EkS9yXuUJVRRTftwuKKQ14eC/W9mR+f592ITAwQ7n6rd
+    XjT/kFbXnLkqTzP9mLuMg4R0k8rLkof2AATMIgV7+nGkDz78hszK3q7e8cR0iNEN+trEeS
+    9e9FOcKP3HcDFO2p+Z0Qmsa264H0yYnADcEov1bOQzpqtbe/QAiZoCj6+RWWVibb6EG0C0
+    dg7PjFuLMRjF655zY2vHRbJHQn5NAg0Lk+RrzeAJh+kqksBLvrg25ryG/d4z8DpeEy0LUJ
+    AyhzcTfVdtP9OGgfo+CQJHj2NAaf0o0efQU365eZQvV2guAOiNdgJDdtkSbNBXxZR6Wsss
+    7Kmth4q4tbSlqPSgErGW0Ggiey8t1VNVdsrlXHkVMQlunYj4q/J82Coh9vDQ
+X-ME-Proxy: <xmx:883EaqbFk9J2X19clUCTNwkmExxeL5YEvgYu31KiMlF8dKt9qaCIqg>
+    <xmx:883Ear1oFzNmKL3xeFUQJFaGlcHKcECrpQv-WRHnUA-pFXIQwJw7HA>
+    <xmx:883EankWHW2yqE2pSkoiiyJTOV2rVpwiZXRBhMh0Z_SOVAZSfD5_mA>
+    <xmx:883Ean9dlEcmspj88ogYncv1tKmRElqHzdWkjU4bmkfVugVRkdwtXg>
+    <xmx:883EauHQsLeXiDNeaMO4hBD7vplWFRkth1sWFg3wIZ3_y74Vm5hMEY0g>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 91AB0F80090; Tue,  6 Oct 2026 06:31:09 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 06 Oct 2026 12:30:47 +0200
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Jason Gunthorpe" <jgg@nvidia.com>, "Alexandre Ghiti" <alex@ghiti.fr>,
+ "Albert Ou" <aou@eecs.berkeley.edu>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "David Sterba" <dsterba@suse.com>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>, linux-arch@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-riscv@lists.infradead.org,
+ "Mark Rutland" <mark.rutland@arm.com>, "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Paul Walmsley" <pjw@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
+ "Simon Glass" <sjg@chromium.org>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Nick Terrell" <terrelln@fb.com>, "Will Deacon" <will@kernel.org>
+Cc: "Alexandre Ghiti" <alexghiti@rivosinc.com>,
+ "Conor Dooley" <conor.dooley@microchip.com>,
+ "Jonathan Cameron" <jonathan.cameron@oss.qualcomm.com>,
+ linux-integrity@vger.kernel.org, "Palmer Dabbelt" <palmer@rivosinc.com>,
+ patches@lists.linux.dev, =?UTF-8?Q?Piotr_Kr=C3=B3l?= <piotr.krol@3mdeb.com>,
+ "Ross Philipson" <ross.philipson@gmail.com>,
+ "Sami Tolvanen" <samitolvanen@google.com>,
+ "Song Shuai" <songshuaishuai@tinylab.org>
+Message-Id: <4c482b32-390c-4fc7-9cb1-002eb88bfe58@app.fastmail.com>
+In-Reply-To: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+Subject: Re: [PATCH v2 00/15] arm64: DRTM, boot portion
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Zhanpeng Zhang,
+Hi Jason,
 
-On Fri, 11 Sep 2026, Zhanpeng Zhang wrote:
+On Sat, 3 Oct 2026, at 01:31, Jason Gunthorpe wrote:
+> This is the first series for an implementation of ARM's DEN 0113
+> v1.4b Dynamic Root of Trust for Measurement (DRTM) launch protocol.
+> It is built on some generic changes to the EFI stubs that provide for
+> a simple, direct DRTM launch directly into vmlinux.
+>
+...
+>
+> Jason Gunthorpe (15):
+>   efi/libstub: Fix error unwind freeing fdt in
+>     allocate_new_fdt_and_exit_boot()
+>   efi/riscv: libstub: Don't set image_size in handle_kernel_image()
+>   efi/libstub: Free cmdline_ptr in efi_pe_entry
 
-> RISC-V does not architecturally define a supervisor-mode non-maskable
-> interrupt (NMI). An interrupt that arrives while Linux has cleared SIE stays
-> pending and is not observed until interrupts are enabled again. That is
-> correct for ordinary interrupt handling, but some kernel work needs an
-> NMI-like notification that can run even inside an interrupt-disabled region:
-> sampling a PMU overflow at the instruction that caused it, or taking a
-> high-priority RAS report promptly, cannot wait for the next unmask boundary.
-> 
-> The SBI Supervisor Software Events (SSE) extension [1] fills this gap. It lets
-> Linux register handlers for events that the SBI implementation can deliver
-> ahead of ordinary traps and interrupts, giving RISC-V the NMI-like supervisor
-> notification mechanism it otherwise lacks.
+I've picked up these fixes for v7.4. I'll need some more time to go through
+the rest.
 
-Thanks for taking this series forward.  Could you please rebase this 
-series against the current riscv/for-next branch and repost?  I tried 
-pulling the series in, but it needs quite a few updates since we've 
-queued up quite a few patches that touch SBI.
-
-thanks,
-
-
-- Paul
