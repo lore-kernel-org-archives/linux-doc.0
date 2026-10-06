@@ -1,138 +1,142 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBFC4734C5
-	for <linux-doc@vger.kernel.org>; Tue,  6 Oct 2026 15:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791299920; cv=pass; b=RYxdfuWucSsrbVry//j+3Fr678HocHXy5qM3NrmjcNswocirfpgxQ32wk5f2g/ybAev1dQ1ySM2TgI2y+mH/RW+RtQxDpLj3p8m2Fe1ixNovpmjaIVy9OBbw4MYuUrUG2JGOiEJvgETCxLuLmv1GdMCq3c38DmtEMbWhGxX+MKA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791299920; c=relaxed/simple;
-	bh=Z6WbsAnp0/k5TRam8CoApQG5u2b0ang3JjfGRsR4/LE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A5/b2SsPOAZlK7jRkT8IZsd2Myco4I9tvWGwza6JCRNX1GKeLN7U01oCTdMScH+jvm0nfY8y6PCJ4eyGKi6ZgPCeUsG9qD0ELMgr46N74BVuQrj69g+A9xOPC/2lVGmdc2WhgiTqNNFfb7WhFW+HbgLedjdZfwGmkscmLtwJGxg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vinJemxj; arc=pass smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB0B1DEFE8;
+	Tue,  6 Oct 2026 15:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791300269; cv=none; b=KL8MqKG04tCTppGPmdWb7G4znAKGBCGJouhQWu2aIPJE60WtrbQD6m6eAYLnSIIo2+UyRWAAygXT/B79XEXs6m3LSmXhEzv/YDAdiXBUnOg+Esu3EQVEZruXnM40i92h6uTVE9JnHtfDUEyrB4EVMcKLoj9KooB0vcHIdJeflRg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791300269; c=relaxed/simple;
+	bh=cQZRfzS2KhOMkAkgm8EaH2oFcdBoIYJioDuvAhj8GmY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ju5Ookx7CSuU8vA+k0uCVl2iUSkDk2g3NBNU7pInYDV6zxSVChrUYsaoFvCZpnmw5MLxIP9C6A0ERa2LTYTmmpH8/47m6fTFYOJ6IX63GLsWMZXaeA3+mgTUDjF9wa4t+WY7rcnVxLF39LsKz1xmQTzrCIiLFJyeA5A9j/akuI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lD12VJ64; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vinJemxj"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6acb57c2b88so4221797a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 06 Oct 2026 08:18:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791299916; cv=none;
-        d=google.com; s=arc-20260327;
-        b=e8n8jsNYqhytQ0wF5SZIefVLSc4Ng2oR7fiX3qrPjKFTyKppTuDAdE4xWqmYhE0EdO
-         21AMHQeBl162HkfvbNdgzjt2y/F8uBOuC73TY3fovBOVuZqlNexzEmFWwpOQasenL6s5
-         MUsfNMloQiAz5J3Cwl9l5frkAFmblSv9h47/UBUur9MwNDaFwg5DNpdP2SVGeQ5oijE+
-         CcXFj/v215BOJFQv34da+U71TFD13R9zX5fumf5kBdCEXK73RbHBRvlxLFecXYudQxnf
-         pxeEBO4On6CdJWLjVVpvH0Iw3jAYQBY5YfidPmZZY4y6G4h2da1gr+HOwfahaA49SZ+4
-         FZXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=S8HNQKq2PFFrdWWXN5HW5t8uFb87m5DPyp4zd5PK5G0=;
-        fh=yUim5gdLL4LLmV0m2JJckHoojjFjgfTicD96/45pNjE=;
-        b=qn8GnyvzPImusHwSxoDo2VzEaJxFif125pXwc6ydtn85Dii9XBD9UHmT/aOEiGGscN
-         54DNVQ7dXbQEXiS3aJCFe15bEFfehd33Ke3PmJwYr3BUURWMNideLLCMzBW/pDiPV7Xz
-         RW9KpMJO/OIGwix5sG5iJPS4DOswaBBomo78SEPxIdwPPCnDYFvQhSX9KwHM6MZYasny
-         JvFHUHvghF6Uu4YtSHWlPXD7nadULSjN4XCqbh30AE86YM7beGozT3BjwVbUyZrBdKY4
-         wphhgMMlxT/PBt8VBESxZVxoNJQYzODLOa7kXfwBhmeWOnrLyJZ+Mo7e3/hFdBfmtcif
-         ZzFA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1791299916; x=1791904716; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=S8HNQKq2PFFrdWWXN5HW5t8uFb87m5DPyp4zd5PK5G0=;
-        b=vinJemxjfo0wtpRpFAgFolIEmK5h1JEjPQcX/AMCwCwhdtc+zvrWlULgduJ50Pr9VO
-         xJX9/pmQZFWu0hcikEmrYOWlRLmLDMxRZuf60EZ+XAlxd8fuVz7tyIxfQcxqxTAOq021
-         qh0RQqMV161mW7VccuYWu+k8wFFtFyKkK5sgM0yybLeW5h0iOBx/RmkZyTLDOY0segSM
-         +24sbA92JaazYatCvTIfx3KBp2ZyoGvIwavOILBdB7oYuVHNCayu1x3d7J4dP02weV2z
-         N99S/vtuJlv34K4IhkZSwh8a/JPfbU8CbQGg1p0CTAJLX0L4vsAGNozXrFWsb9OngU22
-         h9jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791299916; x=1791904716;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=S8HNQKq2PFFrdWWXN5HW5t8uFb87m5DPyp4zd5PK5G0=;
-        b=cBRBb8SXr7g+9k1JumGZeq5QZ2MdSZcFjK43OUnhlwukzZ+tq+ciWNEozf5/tnQ8vP
-         MTZnsQwvuL9HtSOCu0/WjSS0448y7Ta/tsnu0gajvC85LcGfSHi8KtM/VgwcVQHqHKMS
-         PFDRL9FN4rX3hZT+miCYwLQu3pnMREkoSEgTBpAc6Jsm0H5glHvyPcIUnIjwpLqROjLX
-         ERtE5RuM/3vh7CMpytMD1T6byjmpTy+wJJ2ICCo3VnENIR+wa0nthIvGsVw2g90U6+2Q
-         /iGWJgQShNQlYXh3yN0h1UklEZoCmcF5J3gHd6f3q3t3yb82F87AiSap6fh+yfjHJH+b
-         pqaQ==
-X-Forwarded-Encrypted: i=1; AKwUvBySwowp7/1f+EDF9WV5NaoApXn4K/5LPEr9lz04CJ3m4I209CsgqgzyT2My976wdICOJbaH95X/vTw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJPakZ2zT9Iuki/3KC9AsNzqwKD6DuBrtGakiAaLvA/mp0IlzBJ
-	QEfLkwDsftDHuXCzAmAuuHkghUh0Xg6P/5oJi2MZykiaPPeOCE0m5poEFgYW/KgSMA2+bzWvapt
-	Stmk8AsvMKWjPunv3F81rSVnk+RErTpHQ/Y9EnNo5lA==
-X-Gm-Gg: AYBFou0VFnNSiR/ThBqLItGsH/GGeGilW4i0Jdjh4cf1T58JPi89zWg1H2CsTl38nv9
-	XLeuz/Fp4mST2XQLCx3VsTcM+PUPVin13n3UHcGxJxoqSMVWnquowO+ZpI5shh3IQBgVQNT2Z1V
-	1uI0ZIDwset7BJRBVuCLsGPO9pwLuFPUvxPm8n/3FrDJTY1f7OwDm/WvIdMxBdUVjsMmmduqoLX
-	BHVAxMNYbUQ3FM2TA4dWfLChaecmFjlIyQySmiF/bUUv17zcgag8psGtc1630qvfo6o0aNpdGap
-	FLMo6vTGVOVLyYKLlvpWOdNkBbzzKHHiLO/Ojq+8845OAb1cLeKm1w==
-X-Received: by 2002:a05:6402:52d2:b0:6a9:a5d6:622d with SMTP id
- 4fb4d7f45d1cf-6afad731ef8mr8879468a12.3.1791299916262; Tue, 06 Oct 2026
- 08:18:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lD12VJ64"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E856C1F0089B;
+	Tue,  6 Oct 2026 15:24:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791300268;
+	bh=2QqwhX9nYV+ydjceTGIVFqWwDaA6mKlrf3O2s0MXKBk=;
+	h=From:Subject:Date:To:Cc;
+	b=lD12VJ64apAUlEj0IsekoQ9A0UR5rU1AWK5MDj7zOcHDtLvjjl3YI3Gpfq4ph45RA
+	 MUUwIqav0VLh7sASLhaNlnKtS/1wpRkN+lFNBDbq1Kp2YHXA80Q/YVAKfp9+LNQaWe
+	 3VwN2+0gznJbiE5v5qFhGA+AMpFNJPbvmsbEBxpPPZyjY+EhpxM6Du/QaqYldy4aQE
+	 gqqMYK2Wu1nnahMD4SQXnOOHV1wkJXfPZ5VhX+7upM/7fKm9IlUuVHL2vqH1xyQLzs
+	 0Tzh7oXoftLtshgewz08LczChYwS9hV9CZY7mj3Y4/EHPqdfrNIXQw2empNSsGpMpV
+	 sMWwlZJYeWLFw==
+From: Chuck Lever <cel@kernel.org>
+Subject: [PATCH RFC v3 0/5] NFS: isolate mTLS client credentials by network
+ namespace
+Date: Tue, 06 Oct 2026 11:24:01 -0400
+Message-Id: <20261006-nfs-mtls-identity-v3-0-58a69fb107cc@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260923184255.299034-1-shenwei.wang@oss.nxp.com>
- <20260923184255.299034-3-shenwei.wang@oss.nxp.com> <20261006030739.GA3457522-robh@kernel.org>
-In-Reply-To: <20261006030739.GA3457522-robh@kernel.org>
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-Date: Tue, 6 Oct 2026 09:18:23 -0600
-X-Gm-Features: AclHuK9X3bTaGpN7i7UclAS_3sT01qVYKxTd90Hh58vpFwo0cpRNFUaLVMAbBaM
-Message-ID: <CANLsYkzcqapDYvKAEa2ZjA=q07iO=RM4TVNUbSqDrB0EmjeKyQ@mail.gmail.com>
-Subject: Re: [PATCH v16 2/5] dt-bindings: remoteproc: imx_rproc: Add "rpmsg"
- subnode support
-To: Rob Herring <robh@kernel.org>
-Cc: Shenwei Wang <shenwei.wang@oss.nxp.com>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com, 
-	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, b-padhi@ti.com, Andrew Lunn <andrew@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22OQQ7CIBBFr2JYiym0BXRlYuIB3BoXFKYtWqkBJ
+ BrTu0urC026/H9m3psX8uAMeLRZvJCDaLzpbQr5coFUK20D2OiUEc0oy9aEY1t7fA2dTz3YYMI
+ TZ4UiRc3qvBAapbubg9o8JuYRHfY7dPqU/l6dQYWRNq5V0gOunLSqHavIVzl2io2j1vjQu+f0V
+ CQT5+sXM/5IcIbJmkPJhOZC8u0FnIVu1btmckf6g6DlHIImhJS51IRrzZT4QwzD8Abc8zEbKAE
+ AAA==
+X-Change-ID: 20260917-nfs-mtls-identity-04c14f6f348d
+To: Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Christian Brauner <brauner@kernel.org>, David Howells <dhowells@redhat.com>, 
+ Sagi Grimberg <sagi@grimberg.me>, Eric Dumazet <edumazet@kernel.org>
+Cc: linux-nfs@vger.kernel.org, keyrings@vger.kernel.org, 
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Chuck Lever <cel@kernel.org>
+X-Mailer: b4 0.16-dev-da966
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2939; i=cel@kernel.org;
+ h=from:subject:message-id; bh=cQZRfzS2KhOMkAkgm8EaH2oFcdBoIYJioDuvAhj8GmY=;
+ b=owEBbQKS/ZANAwAKATNqszNvZn+XAcsmYgBqxRKWgSzhVs+LcAfSOfiFfNuFF8HW/NXB3f5V6
+ 9GsqkJH18SJAjMEAAEKAB0WIQQosuWwEobfJDzyPv4zarMzb2Z/lwUCasUSlgAKCRAzarMzb2Z/
+ lxo8D/42lrs7+cvxdZNWhesO1iAldFm5m7vBoSFr1rL+HizOHrgNlKafdsqN0bZnPRqoBmPPbRT
+ ts9wTUgtzRKcVfr2L0iJvvwhzKFNZwCcF0EMi8ZNsQUmED/Fa+0X3GgCkuKl+KR86CRVMcu9kvj
+ RxNeMpyfOqob/8Uc6SXedRzxq8Nfid9iJDuBHCbmW6Aug1gv1fdMDBbtAapjrpH16HKPCvDtGuu
+ +gzZOduL2+kRQ3iPXeHaxbpQ/0wfiEibTraUTyKJyCnu94+cmdHzCJJuRpviBoACHvQC1Pctmtb
+ SJ+MfGa1VsfdKDx/bWAlFsYE0woyIvub1XCrECvij3KI/Y7S3ppVyNoUQ05yx7VsOUrhiwaJJwg
+ KBg8xRVALvNCi4YeOtTRCpkZ9VEeBWeekVJk3MIPpIhot8eXjXov6piKLcdHF6ykuqtur2AGDoJ
+ QEEp4wgYbQ57BvoI28Yoir8xGr3WDx5gm8DWHZGzrqoGwUqgIXE7t3/j3oKTvreQ7TYbjxrP/eE
+ p0blVQt6j+xLUasqgmMGGVZvapJrPxHK4jzCmPRKAjCNlgboaECc6vqFpU0wdTcADFdBAZF1kuo
+ T8omCGHSFnZztpUqwLXGfBfYrVtS3zqcTps2Beq8HIJE5Sqx7g7Nj1q5n9V+EdYfiBVnttJIK9C
+ xMXjTiTT/3VAXZQ==
+X-Developer-Key: i=cel@kernel.org; a=openpgp;
+ fpr=28B2E5B01286DF243CF23EFE336AB3336F667F97
 
-On Mon, 5 Oct 2026 at 21:07, Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, Sep 23, 2026 at 01:42:29PM -0500, Shenwei Wang wrote:
-> > From: Shenwei Wang <shenwei.wang@nxp.com>
-> >
-> > Remote processors may announce multiple GPIO controllers over an RPMSG
-> > channel. These GPIO controllers may require corresponding device tree
-> > nodes, especially when acting as providers, to supply phandles for their
-> > consumers.
-> >
-> > Define an RPMSG node to work as a container for a group of RPMSG channels
-> > under the imx_rproc node. Each subnode within "rpmsg" represents an
-> > individual RPMSG channel. The name of each subnode corresponds to the
-> > channel name as defined by the remote processor.
->
-> Sorry, but DT defines the names of nodes. If it's a gpio-controller,
-> then 'gpio'.
->
-> I still don't understand where the unit address gets defined. 0 and 1
-> look a bit made up. I'm sure you explained it before, but *this patch*
-> needs to explain it. When you define a second protocol, the 0 and 1
-> addresses are taken already, so you can't have 'clock-controller@0' for
-> example.
->
+An xprtsec=mtls mount names its client certificate and private key
+by keyring serial number. tlshd reads those keys with its own
+credentials. Each key has to grant user read permission, and any
+tlshd on the host that learns a serial number can read it.
 
-I had a conversation with Krzysztof about this here in Prague.  We
-have decided to adopt the bindings proposed by Francesco in this
-thread [1].
+The RFC thread asked whether the user or mount namespace is a
+better binding than the network namespace. tlshd services the
+handshake socket of one network namespace, so that is the namespace
+tlshd already lives in.
 
-[1].  https://lore.kernel.org/all/20260916-remoteproc_virtio_map-v1-8-dac8c5eb4aa9@valla.it/
+  https://lore.kernel.org/linux-nfs/20260602154740.49861-1-cel@kernel.org/
 
-> Rob
+After this series each network namespace has its own .nfs keyring,
+and the keyring's serial number travels with each handshake (patches
+3-4). Possessing that keyring lets tlshd read a key that does not
+grant user read permission. tls_handshake_accept() and tlshd already
+link a keyring named in the handshake. The handshake genetlink ABI
+and the cert_serial= and privkey_serial= mount options are not
+changed.
+
+The owner of the network namespace's user namespace now owns the
+keyring, so global root on the host cannot write to a container's
+keyring from outside.
+
+nfstlskey, the provisioning tool that consumes the key type, is in
+https://github.com/linux-nfs/ktls-utils/ .
+
+Tested on v7.3-rc4 plus this series, on one Fedora VM as both NFS
+client and NFSD, with tlshd from ktls-utils 1.4.0.
+
+---
+Changes in v3:
+- Rebased on v7.3-rc6
+- No reviews received; stripped the "RFC" Subject prefix
+- Link to v2: https://patch.msgid.link/20260925-nfs-mtls-identity-v2-0-aa3ad17dd6c8@kernel.org
+
+Changes in v2:
+- Write "serial number" rather than "serial" throughout (Randy)
+- Give the .nfs keyring to the netns's user_ns owner (sashiko)
+- Link to v1: https://patch.msgid.link/20260918-nfs-mtls-identity-v1-0-197e568d78a7@kernel.org
+
+---
+Chuck Lever (5):
+      NFS: name the init_nfs_fs() error labels
+      NFS: allocate the .nfs keyring per network namespace
+      SUNRPC: pass a keyring serial number to the TLS handshake
+      NFS: name the namespace .nfs keyring in the x509 handshake
+      NFS: add a key type that reveals the namespace .nfs keyring serial number
+
+ Documentation/filesystems/nfs/index.rst   |   1 +
+ Documentation/filesystems/nfs/keyring.rst |  69 ++++++++++
+ fs/nfs/client.c                           |   9 +-
+ fs/nfs/fs_context.c                       |   1 +
+ fs/nfs/inode.c                            | 211 ++++++++++++++++++++++--------
+ fs/nfs/netns.h                            |   9 ++
+ fs/nfs/nfs3client.c                       |   1 +
+ fs/nfs/nfs4client.c                       |   1 +
+ include/linux/sunrpc/xprt.h               |   1 +
+ net/sunrpc/xprtsock.c                     |   1 +
+ 10 files changed, 248 insertions(+), 56 deletions(-)
+---
+base-commit: a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
+change-id: 20260917-nfs-mtls-identity-04c14f6f348d
+
+Best regards,
+--  
+Chuck Lever <cel@kernel.org>
+
