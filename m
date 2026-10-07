@@ -1,135 +1,150 @@
-Received: from relay12.grserver.gr (relay12.grserver.gr [88.99.38.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B594B0481
-	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 10:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.99.38.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2CE4534AD;
+	Wed,  7 Oct 2026 11:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791370707; cv=none; b=dh64m9veOAR5U0o4uayINPmxt2oztXj0mBsMvvgpbbMb1Qw6pqcKp/4aYoF8w0+ZOagSwFINQbMp0r7dkaz+YvxGlT4y+nV5BtMbqDniRtwQ28a4hfQoiYAPH+mZFtD6hdSTY99zFrev9wllmo4Yr6m7GnxTUrsTxdI0ikf/uz4=
+	t=1791372715; cv=none; b=nzIvUzOreqH594Xabtfye8IJZyjzZ2cKb/mEVYXedr+qJRxsFakijmQko/WTWijHjHID9WfzRPq2RpiTxUP+vQxAD8AawiyTBPvM7DNppnZDxsaVS70WErYQNEfQLBIEj2FYaQKykvNaB+a63e0s0vBVLn1pTbBdRMzVccW78VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791370707; c=relaxed/simple;
-	bh=LWqH4rnKhkaeqZsMRrWYyA8Vi+baDRXZJhcaHBpXDjY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FMXaN0ovcmUvldwE66ZpCtYC9kv3ccoQat3FLT4vZI5I+aAog/fQEscSUD+4OnWX9VQ2W/fU4e92fjUNX0LzmwH5krjv8OlA/mfPND0O+u2EQLWO8Irmcr3Ful8SzZVB+QsHgslsW53RzEd+CXMJrbEk0cmh04xEQAwHfDuvLWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=FDH/1SM5; arc=none smtp.client-ip=88.99.38.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1791372715; c=relaxed/simple;
+	bh=rdAatqRx/H+z1DGz0KSj0GARhUoGmygYSsIZPvWiIr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ifHkjR3CIFQ5HollEMPbVoVKyr2KzKmS6m96N4YIdCgQqLkjBI/hfcO9z3wT9l6rOLhspInuRmWxj20411IvtIMyLw1jm25ZmFE3XfRn6TY+PgtPnKM0H/D/NwRGxLBOgpEwYyXyO5CDF1/R4YQCM5kjUlbCYlIm4ovIQ8pEwQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4g53Oqo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="FDH/1SM5"
-Received: from relay12 (localhost [127.0.0.1])
-	by relay12.grserver.gr (Proxmox) with ESMTP id F375CBC657
-	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 13:57:48 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay12.grserver.gr (Proxmox) with ESMTPS id 6EA8CBC638
-	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 13:57:48 +0300 (EEST)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 78A1D1FF391
-	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 13:57:47 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1791370668;
-	bh=ddvlJM2l+2DMR1hq6/JuDx9Ck+W72pk1Eaag+1Bwh1A=;
-	h=Received:From:Subject:To;
-	b=FDH/1SM5g2MGVP6swVakK8V1rZysjcuod/8du6lqjMhrRco7ABqy3cDliaFbM/ZDy
-	 IOkSXRlwwVZwnI+z1i67MPn77jCsoDmuPUXPAicJXuje/qLfhUp7C/JFjwvc95G/M2
-	 en2082llMqDUdiIi1Cl3wJpm+tviu3hUcmy5XOnNcR+3onxa83P0CbY4bNnWEbM9Yt
-	 Ap2XwYj1Q2T49O5RbLu8AdLnF3T6JvKn2C99C+8QKvwX0QpGX+9euut9cwwlaMCCnv
-	 dO4Jl+BJB3zRNuIxj1tYnqm3vuig7hUGvlhKoolnYMd3RzdkhV+l4eN6iu4ajDLbc7
-	 aJ0tTeBX1DHZA==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.214.169) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pl1-f169.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-2e618db81c0so2439845ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2026 03:57:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AKwUvBxJ40Txvn84iKE/j2jAoCCEsmUUXG3ZnuTtK95l8VtBR83UwaSY+J0t+8NKTxYXma/ibXpC1dj9ZTU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIMa75C4BYOENWCaftorc/ecr6SoFWSWEYGodXJi7GA1EHE2vZC
-	HwZ5DXdiqKCb8CrUIdjwKWOCeXu5ZxcoBV5CSDNVJLOL43/DKmyd9S6Y4UPWyJFxDoVztdS8rbR
-	ghvEpvs9W0pTq4vDnxNmqavSjYesawN8=
-X-Received: by 2002:a17:903:3c2b:b0:2e2:d26c:df9f with SMTP id
- d9443c01a7336-2e6003c5d79mr19039435ad.51.1791370666132; Wed, 07 Oct 2026
- 03:57:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4g53Oqo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 734551F0089B;
+	Wed,  7 Oct 2026 11:31:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791372697;
+	bh=Zh2Z9eMDzLLM/mnhB0kR2U8FWPmYZDiC/akWXoko2MI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=a4g53OqoEdPogyxv5cSD3kb3ZWOELARzSSSNDblKciRHB6zNzfGrRAdff7b07NR5D
+	 bxAbx6NqswKP3cfnn65pu64Krhg43YkJ6bHoLZ4A8AKBmcHOyy4B2ua56HB/EziKwL
+	 uWcysDUBAl/lvTdLr3S1oDVM/C6pzqvYbwlWqabvfOGUqCwyx978TUoy+lQGS4Ac+K
+	 o7YYMM7tBllaeVNFRL+OuDOVVJhLn4z/UXxG++MA5nq/QGnsUIkQknbdF19Ka8dHZu
+	 Z1esAl4BCMogg/wKurS5dKXUzEBMSHhs8II6zlw0xn5D4xcDEEw53sz/MGDjuDSU/z
+	 ct56KEDXPqLjQ==
+Date: Wed, 7 Oct 2026 06:31:36 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v9 00/18] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
+Message-ID: <20261007113136.GA755180@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: 
- <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
- <arfpV7IXRAHREMzO@laps>
- <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
- <arhtsrVb82vr6U-p@laps>
- <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
- <arkiyMt2NIydrPhE@laps>
- <CAGwozwGc62HAJnLeYL+jq_PnJq1LsV3Ex9LtQTE1pX3144MdtA@mail.gmail.com>
- <arvFBqreU0qahkXx@laps>
- <CAGwozwEfN7cUZm8usUsSR2bu23ux57QCPxyXJRfwv0tU34gEkQ@mail.gmail.com>
- <CAGwozwHOttyNkC=sdVFCZYKZzhSE=cmUMgNd7cukpEE-WXm9Vw@mail.gmail.com>
- <asYINZIUxBL8I4n9@laps>
-In-Reply-To: <asYINZIUxBL8I4n9@laps>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Wed, 7 Oct 2026 12:57:34 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwFfS8qzy9K_WZRWJ_3UD_8YR6MVn6QZ1HaKPSNVsyHVLQ@mail.gmail.com>
-X-Gm-Features: AclHuK_BeZbeRs6xrVuF5xmld8_euALCHxim7-h_g1D573GzFHOgEnKcEC6QxnA
-Message-ID: 
- <CAGwozwFfS8qzy9K_WZRWJ_3UD_8YR6MVn6QZ1HaKPSNVsyHVLQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-To: Sasha Levin <sashal@kernel.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <179137066772.274946.16383311000385329700@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261007105409.GE7822@unreal>
 
-On Wed, 7 Oct 2026 at 10:52, Sasha Levin <sashal@kernel.org> wrote:
->
-> On Tue, Sep 29, 2026 at 06:10:42PM +0200, Antheas Kapenekakis wrote:
-> >The kernel forces you to have a local version file, otherwise it adds
-> >a .test wart. At least on Fedora. So there is precedent for requiring
-> >the user to create a file to disable some default behavior.
-> >
-> >Similarly, you swap this series into a two parter.
-> >
-> >The first patch gitignores agents.md.
-> >
-> >The second patch adds a phony rule to the makefile that symlinks
-> >agents.md to the coding assistants rst or similar if it does not
-> >exist. People that do not want that, like me, touch that file. Not to
-> >the current readme, please. Be reasonable. Yes the coding assistants
-> >rst file is not ideal either but that can be fixed later.
->
-> But then you would need to run make to "generate" the symlink, which would not
-> normally happen.
+On Wed, Oct 07, 2026 at 01:54:09PM +0300, Leon Romanovsky wrote:
+> On Wed, Oct 07, 2026 at 01:56:44AM -0500, Bjorn Helgaas wrote:
+> > On Tue, Oct 06, 2026 at 04:36:50PM -0500, Bjorn Helgaas wrote:
+> > > On Wed, Oct 07, 2026 at 12:22:27AM +0300, Leon Romanovsky wrote:
+> > > > On Tue, Oct 06, 2026 at 02:29:55PM -0500, Bjorn Helgaas wrote:
+> > > > > On Thu, Oct 01, 2026 at 02:55:08PM +0300, Leon Romanovsky wrote:
+> > > > > > PCI P2PDMA applies Request and Completion Redirect throughout both paths.
+> > > > > > This misclassifies asymmetric and nested switches, and reports one answer
+> > > > > > for every kind of TLP.
+> > > > > > 
+> > > > > > Three ACS controls act on TLP attributes the client chooses rather than
+> > > > > > on the topology: Translation Blocking and Direct Translated P2P act on
+> > > > > > a Request's Address Type, and Completion Redirect skips Completions carrying
+> > > > > > Relaxed Ordering.
+> > > > > > 
+> > > > > > Evaluate each direction at the path divergence, decide every class from the
+> > > > > > one walk, and treat a client with ATS enabled as translating unless its
+> > > > > > driver declares per-mapping ATS.
+> > > > > > 
+> > > > > > This completes the P2PDMA side; dma-buf and mlx5 follow separately.
+> > > > > > ...
+> > > > > 
+> > > > > > Leon Romanovsky (18):
+> > > > > >       PCI/P2PDMA: Document the TLP attribute assumptions
+> > > > > >       PCI/P2PDMA: Derive routing from directional ACS controls
+> > > > > >       PCI: Reject unreadable ACS controls in isolation checks
+> > > > > >       PCI/P2PDMA: Evaluate ACS controls at the path divergence
+> > > > > >       PCI/P2PDMA: Document directional ACS routing
+> > > > > >       PCI/P2PDMA: Collect the path's ACS controls before deciding
+> > > > > >       PCI/P2PDMA: Answer routing per TLP class
+> > > > > >       PCI/P2PDMA: Route Relaxed Ordering Completions directly
+> > > > > >       PCI/P2PDMA: Reject Translated Requests blocked by Translation Blocking
+> > > > > >       PCI/P2PDMA: Route Translated Requests under Direct Translated P2P
+> > > > > >       PCI/P2PDMA: Log detailed ACS routing diagnostics
+> > > > > >       PCI/P2PDMA: Add KUnit tests for the ACS routing decisions
+> > > > > >       PCI/P2PDMA: Test the ACS P2P routing walk
+> > > > > >       PCI: Add KUnit coverage for ACS isolation checks
+> > > > > >       PCI/P2PDMA: Document TLP-class routing
+> > > > > >       PCI/P2PDMA: Let a client declare that it selects ATS per mapping
+> > > > > >       PCI/P2PDMA: Evaluate the ATS path for clients with ATS enabled
+> > > > > >       PCI/P2PDMA: Test the routing of clients with ATS enabled
+> > > > > > 
+> > > > > >  Documentation/admin-guide/kernel-parameters.txt |  15 +-
+> > > > > >  Documentation/driver-api/pci/p2pdma.rst         |  80 +++
+> > > > > >  drivers/pci/Kconfig                             |  15 +
+> > > > > >  drivers/pci/Makefile                            |   1 +
+> > > > > >  drivers/pci/p2pdma.c                            | 719 ++++++++++++++++++--
+> > > > > >  drivers/pci/pci.c                               |   7 +-
+> > > > > >  drivers/pci/pci.h                               |  58 ++
+> > > > > >  drivers/pci/pci_acs_test.c                      | 860 ++++++++++++++++++++++++
+> > > > > >  drivers/pci/quirks.c                            |   6 +-
+> > > > > >  include/linux/pci-p2pdma.h                      |  12 +-
+> > > > > >  10 files changed, 1687 insertions(+), 86 deletions(-)
+> > > > > > ---
+> > > > > > base-commit: 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72
+> > > > > > change-id: 20260821-fix-p2p-acs-v4-0-e72455e3a261
+> > > > > > prerequisite-message-id: <20260830-batch-p2p-fixes-v1-0-5044e8dfbe2e@nvidia.com>
+> > > > > > prerequisite-patch-id: 6b25c7fcf164cdfc14e9fac5b908d97fcf6509d7
+> > > > > > prerequisite-patch-id: 0d083c281001365aae4b35544cf28891a6ab9a96
+> > > > > > prerequisite-patch-id: bfd9dabf271f3cc9a3a61f46387d20c20311363d
+> > > > > > prerequisite-patch-id: fad0275efc722830fc591509506c0a5e4f581073
+> > > > > > prerequisite-patch-id: 0c83bee688fec1f6d1564654df7c630fa6a4a978
+> > > > > 
+> > > > > This seems like material for the PCI tree, but I'm not sure how to
+> > > > > apply it.  It doesn't apply cleanly on the current pci/p2pdma
+> > > > > (https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=p2pdma),
+> > > > > which does contain your series from
+> > > > > 20260830-batch-p2p-fixes-v1-0-5044e8dfbe2e@nvidia.com.
+> > > > > 
+> > > > > I could probably fix the conflicts but I don't know why there should
+> > > > > be conflicts, since the only commits on pci/p2pdma other than yours
+> > > > > are a few trivial allow-list updates.
+> > > > 
+> > > > So maybe this is related to these trivial updates, my series was based
+> > > > on the clean p2pdma branch:
+> > > > https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=fix-p2p-acs-v9
+> > > 
+> > > Ah, yeah, it must be the allow-list additions that I have but you
+> > > don't.  I wouldn't have thought the offsets would have been a problem.
+> > 
+> > It applies fine if I move the Haswell and Alibaba allowlist patches t
+> > to the end so the base matches fix-p2p-acs-v9, thanks.
+> 
+> Bjorn,
+> 
+> It is unclear to me if I should to resend.
 
-We would make the dependency part of a basic rule, so it runs whenever
-someone e.g., compiles a kernel. Yes a naked checkout would not have
-it, but after an initial make it would appear.
-
-Something like:
-
-AGENTS.md:
-  ln -s Documentation/process/coding-assistants.rst AGENTS.md
-
-basic-dependency: ... AGENTS.md
-
-This would cause the file to be created only if it does not exist.
-since : is empty afterwards, the rule only runs when AGENTS.md does
-not exist and does not replace any existing ones.
-
-Best,
-Antheas
-
-> --
-> Thanks,
-> Sasha
->
-
+No need.
