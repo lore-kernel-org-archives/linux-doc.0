@@ -1,564 +1,136 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11022091.outbound.protection.outlook.com [52.101.53.91])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53641ABEDE;
-	Wed,  7 Oct 2026 02:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791338620; cv=fail; b=hVIFmKgIlx+ZJvh1dnVjU6GeRBK6C6pktUhJZBUkD1FWPOO+dhA6zg1E8SS8Xhp8cOggY2q2I6Ye3h1ZUs8XPoLFsyyXSNFpxnU4aYfBpiT9DLuGavJeNKB/6H3lQYFa7jBefR1hkcAoyfVyqztJqjSgxX+gzjnYVmBXitQZiCc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791338620; c=relaxed/simple;
-	bh=GB+BWImuq2fehFPCqWlD/3DqMVBK4OfnFct5I2Oadhw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=U72qWuIKJjtHsujGH82hYNQdhAFz3z/coijmZAjnupk6wlY7S2NKSdX9gER6LrAb4y8EPthFixF1YeE86uOWRATqfuTrER7zbZcu1wAU98P7aXwv9mL0iH5XNVnsgAbgcVQFyOXzqv+PDdIBFIqnjRNBHEBNkCP5teMZBYcmkS0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=DLylmah3; arc=fail smtp.client-ip=52.101.53.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD193659FB
+	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 02:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791341808; cv=none; b=HhVofd+Hy4tBNCK7J8IH/SNGz47FNrI1AWgfRPvc2/eiKyLVEGU2JGEfInpqklYJ0rlBQnMoznUazPEUj62HLGW74P9NZQxfDZOByIYiT77P6WOiHe1MBNC6Mfe/CGlUItrdhIYMjUg+NcTR+VW6CrwLKR3Hq7fLUWwR+R9+ejs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791341808; c=relaxed/simple;
+	bh=aTGbHorcC7spW+tVRUG766lW2N40Ap2NyU66RpBUSzk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=DLLlkB/tVLzPRWjxCyrZhKoYtk1Ot/Y+xcYtWoqsGWl2PWXmw6yVgXLpVU5R0Tdzz17//G2WRhzGvFRFzhPWT8BTjrlXqwJsevuH2g/U+S7MAkxiLtwkKtgQU4DvwalkOHOd98CRGIckApZY5qJrbUiicr061ykvFbEHpmCw7Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o065dOHQ; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="DLylmah3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M+uf60tFbx7EhYJSWWq5sDVb2XAybGGaeTG9GAj+YLf4CL1G5R3RcPZMTVWsWoXeXUoKtMhp4h88HZQgiI69G1y65aO+/zH9POWPvVfdlkKbx8OzlRDtnByftWzCPUUh/GYlymwHPS7UNuJpYdYXuiqhBK8vuezPvL7+tpmM21iyGYAQzmtic58gYOt3USvwG+a/95tIdjQUcaiFyEcm4QZm0SokfkO3dne18hyvSZZOmUCEUdYfwiEjNbZASCkJX7TyfpDySW8ykER1WFCW0wWAjeVDQTo3ovsZDYdH8bF5NURPzlJkwmRkBZdf+bz7rzSK2uWg487IqRu0CzHW8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/yzVwqG+gu09eGYrNf0Y2eApirQYiRpz6bXn2qWBpOw=;
- b=EyL71FWfID3ow3G0h5CpI4KUS81f4CK0P+39CvOD3i7oxAdvALwmAYvbgOI6UTqSd7Kv5AlfDBPvW39LYv4eRZLdK9EsfSukDQde1i/Ijaqp2Gt2yJfgLbAWjmS+kai7bhiTDstcnuKw39pCjH64VLgVRxGoBj+B5S9xkhV9Y3QB9EUK8gLhG7OdpyNDej2vMnzAh+k0Y6aqkWCKc8B/DmsBlkU6D1ZZcH14ixHy/URIgXGCfVhjKhu6aBVIlpoJ8x+KU5Uonp/DvatVoJz3I9pUoJ8Oj7ZieCt4fzlc+nqA+GEQKi5YKSsrYUoUVFFTujtAZrepKkBQC0ap0WSDxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o065dOHQ"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2dd9cbb661bso11028375ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 Oct 2026 19:56:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/yzVwqG+gu09eGYrNf0Y2eApirQYiRpz6bXn2qWBpOw=;
- b=DLylmah3DmtK6Pt39PFShwr35UgRcNrzHFNd6bIssXzmUUVx4t7sAqcc0lIlgM03xmuWy3Bpktsg3bTYfpHIz7j8MSiiiKTnNrew2Bb3TVCBCg68iyA5ITzHmxcGmiwHKgCzyStxNK6nuA8ssg9dJLFT0ZcGvwHwwB3KJReehHU=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-Received: from DS0PR01MB994109.prod.exchangelabs.com (2603:10b6:8:2f1::9) by
- LV1PR01MB994424.prod.exchangelabs.com (2603:10b6:408:2ce::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.472.20; Wed, 7 Oct 2026 02:03:34 +0000
-Received: from DS0PR01MB994109.prod.exchangelabs.com
- ([fe80::9262:65a4:c559:e413]) by DS0PR01MB994109.prod.exchangelabs.com
- ([fe80::9262:65a4:c559:e413%3]) with mapi id 15.21.0496.010; Wed, 7 Oct 2026
- 02:03:34 +0000
-Date: Tue, 6 Oct 2026 19:03:32 -0700
-From: Vanshidhar Konda <vanshikonda@os.amperecomputing.com>
-To: Jeremy Linton <jeremy.linton@arm.com>
-Cc: Christian Loehle <christian.loehle@arm.com>, rafael@kernel.org, 
-	zhenglifeng1@huawei.com, zhongqiu.han@oss.qualcomm.com, viresh.kumar@linaro.org, 
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>, 
-	K Prateek Nayak <kprateek.nayak@amd.com>, Huang Rui <ray.huang@amd.com>, Perry Yuan <perry.yuan@amd.com>, 
-	"Gautham R . Shenoy" <gautham.shenoy@amd.com>, Shubhang Kaushik <sh@gentwo.org>, 
-	Pierre Gondois <pierre.gondois@arm.com>, Beata Michalska <beata.michalska@arm.com>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Ionela Voinescu <ionela.voinescu@arm.com>, 
-	Sudeep Holla <sudeep.holla@kernel.org>, Lukasz Luba <lukasz.luba@arm.com>, 
-	Peter Zijlstra <peterz@infradead.org>, jonathanh@nvidia.com, zhanjie9@hisilicon.com, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 2/3] cpufreq: CPPC: Resolve frequencies to performance
- levels
-Message-ID: <20261006-electric-ibex-of-beauty-5aadbf-vanshikonda@os.amperecomputing.com>
-References: <20260929102957.2591657-1-christian.loehle@arm.com>
- <20260929102957.2591657-3-christian.loehle@arm.com>
- <fcfc5d26-b3ec-47dc-9d17-0e4c1d9a36ae@arm.com>
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <fcfc5d26-b3ec-47dc-9d17-0e4c1d9a36ae@arm.com>
-X-ClientProxiedBy: MW4PR04CA0193.namprd04.prod.outlook.com
- (2603:10b6:303:86::18) To DS0PR01MB994109.prod.exchangelabs.com
- (2603:10b6:8:2f1::9)
+        d=gmail.com; s=20251104; t=1791341806; x=1791946606; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:mail-followup-to:references:in-reply-to:message-id
+         :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JfwUS945YBdly7tT5sHJsRnusEwHVI6ntMLloizipfE=;
+        b=o065dOHQ1whVJXQK9NV6DfVVYRTUi6B1XsP8/B2y1+R7MSwboHHvcSE+WreQ3YN/So
+         mP2F36RWrp1JJdJQ0kNGtf70xTGqimrVA/SsBOgTMVo+PeHTlMhgZT82+8lGGO9zyK6D
+         n03t4rh/VWxXV/9zrPNfQ33QSbndRV910TWSaXiRKTN3eLoB99Whtp4Mj3MU13GjG8nK
+         Ab0hHLr3g0MpQRYkfBRnWa1FSAt9+kWeTfXRvoG65wDh6bu1Hxcy84e+3+5a5XIybZfj
+         MSNsUeV5V6ErvytYWvR7lNFe4f+6LmRmqmEBdhpF5CKrkKc/F2Yrq7wh4nC0+/Zi+Os4
+         Zq1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791341806; x=1791946606;
+        h=content-transfer-encoding:content-disposition:content-type
+         :mime-version:mail-followup-to:references:in-reply-to:message-id
+         :date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=JfwUS945YBdly7tT5sHJsRnusEwHVI6ntMLloizipfE=;
+        b=FkupGxXNj5Gz8IetEKNkPznBkJ+zVX0erOGvfw1a/30ItthMfB88C9/RaaILsslN8a
+         UwxNtQnhpSchKooTevc+eGBvl5P4/+QMVjFm1wPa6rUaET3VGy6d5Rq6/LAe3rynn0lz
+         DT52KXnRqEYfWv3bpDEG436pBpUz9RK7w8EGcIAf+du/+4hKHHgNZy5FwWonPByG/+TG
+         Vzs+6KnU5zquYMhOQc5KNyZyH/ciS8/E7D3wBNnqT2QYyN3/uGSCHrk88WLRFy3bpsvc
+         XN8z0D88imDUdYiJYsmdei/sZVXYmlo7wEk5xJhUM5RPqMdViUhFQdXTd8LA6hsn1jll
+         kfGQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwuPLsozLxPpEpexfQwt/KiW//UAxrO6ScmqupXEKblcLSsftwbr5oCC6sO6vKFcRvWvRlC6ZanvKg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIrsTdmR3QEzenrJ6zmn7srvRPS9120sWHB9w2AnFhZLk+ERp98
+	KJJxABqPzhi/HveTV9qBNaR5FaxAL5DHk+GnjUC/6b32SrpAXkPH+iVn
+X-Gm-Gg: AYBFou39SNTdnN3MtIyCKqHhfpWYsPoFOWwZF7lmm3dkf+uPwk9LzZbI214medf1+xE
+	oE6Qfd6KfQpdLrJx8P7fwkQVVkTcyT4HOJVnSjNa1IcvqQfmT5sycrbMPnyh44iOO+fmqInX1vI
+	iQ7+tmeUqniMfpWHqrEI1gUlMYIXLBeP3oiBEDt9vaTtchmBDTpBAKchWDUchdSZvFLzO/Pc1BH
+	VIe23NzU1IKYA/WSSgKMZItXZU7CpdUuhsuuioUGeD1mHQSUx3yH2HipF4WcA84BVEWnx8rZgkv
+	69vYipwercljeeRcU+KScFxfYwNmr2yvn+wkW6d6Dc98UL/66Psr33DaoJedET8eISkEuq0bvpI
+	1YyiGA52p2x8SF4iqMIPfvpj226azAQ0PjPOstwBGQLSinA2Ucnm4m5foWfC/Q7n+XvORIKNMXB
+	mPOMn0nGXmJLS3GDZYtDFNvlczByaMb4oHtrUIiaMi60tlpRw64nkLuy7oKWRFr9Hlhk0DtdxBK
+	4qQBlCEmg==
+X-Received: by 2002:a17:902:7206:b0:2dd:ad74:ac7e with SMTP id d9443c01a7336-2e6003c3090mr7227615ad.25.1791341806478;
+        Tue, 06 Oct 2026 19:56:46 -0700 (PDT)
+Received: from localhost.localdomain ([8.139.245.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e60f6626afsm812225ad.44.2026.10.06.19.56.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2026 19:56:46 -0700 (PDT)
+From: Cunlong Li <shenxiaogll@gmail.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"rcu@vger.kernel.org" <rcu@vger.kernel.org>
+Subject: Re: [PATCH] rcu: Enable runtime reset of the RCU stall panic count
+Date: Wed,  7 Oct 2026 10:56:39 +0800
+Message-ID: <asW059of9u0ohxQI@63b45mr6s164qmn>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <53383f19-3d54-405b-85af-f597b69befe6@nvidia.com>
+References: <20261004-rcu-v1-1-3799a44367f1@gmail.com> <00F6D386-FE41-42E3-9B89-07381A49E061@nvidia.com> <asThhHxoFP2L25Nc@63b45mr6s164qmn> <A522703D-CBCE-4F3A-9CA2-968BA382166C@nvidia.com> <asT08QHOiIJrfIIZ@63b45mr6s164qmn> <53383f19-3d54-405b-85af-f597b69befe6@nvidia.com>
+Mail-Followup-To: Cunlong Li <shenxiaogll@gmail.com>, Joel Fernandes <joelagnelf@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, "Paul E. McKenney" <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "rcu@vger.kernel.org" <rcu@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR01MB994109:EE_|LV1PR01MB994424:EE_
-X-MS-Office365-Filtering-Correlation-Id: 556f651f-8f45-49cc-4a76-08df241731b5
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|7416014|366016|1800799024|6133799003|18002099003|55112099003|22082099003|10067099003|4143699003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	VhyTcDp/k1Ce5h/kJD7oykaG/w+iKfn0HEO/en/mLc5Ynok7sAI5ZF64ckCKjT01I75YFxpLguDrl4AUh8rzGdbn8Ys3KAAtUd1s2K3ms/TzEpiBL0lKKByXTse4JuOkHt4k0ThScN3XuGhmUZvlSPgmZ8zh3KA89Z93wwO4riSSrIBrddz6+piVkjatV6bjY4bh5KdsabKhCEi7HKQ0auS2hbMA40CRzolb7tLRdCEVXGOY3Y+Y0fk7sTBOKuKhSyLGSvXpOqUHN1hqVuj+QRqb5nyrzI8ln33rh1YbNgyC8OrAp+IyQs6rFt8XXuCE08LMe/i41XdOB3okp4hZRRleLc/8yNe13MiH/3UuVus2mdx2A4Ljw1Hexdik1nDdT1QS/gKpggVfkPHRE8wKm+IJkAJuu0jX47PKJ9lQedgtOvs1XAzVBcZFPu0vY6ljO4mRE2HBiVvaCwoER5pHbXCA+3Q5HMTUOXA1DHerOqSyMKA8iVPPxYlrQL3eQaDmeD4SN/oyb2Hwf0NCT7ZsktJds3Pk4NLiWeI+hufCyhwKl4D5r0mi9GQ5WOwATuZuMh/ti3BAFiiTCGoT+av5FJKY2K91rqno3840jpZfOwyS8DQx70S8IXPX6Vd+CQam
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR01MB994109.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(1800799024)(6133799003)(18002099003)(55112099003)(22082099003)(10067099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?RMd28fDM6BEndKsvN59S1nu95zjS04sEIYCGSrt0PFb3odbmnJKt6vVmONsA?=
- =?us-ascii?Q?UX+tFaSAVCYtsf77nHfADN836+Vwvnk98USnyAqjtG4sv+IirFCr2bU27Cs7?=
- =?us-ascii?Q?3v2qiawMjriiSnVeY4PXBkuWRlhPZ5qsWfs/Iv3PN+izln5BS755rRycEloc?=
- =?us-ascii?Q?ajk2haxxKnkoVCdOo/Bfr7YAx5U4EK/ffVefxwaAacpnX8cmjn+9XOWS+u1L?=
- =?us-ascii?Q?S2nMMWftqYW19AjQ26oJ1guvIVVGBDrugHPX8gDszIOQd8ZgME7khIF0nz9V?=
- =?us-ascii?Q?iyu6GGtshGeTcbdWALyYs2vHxPHmpns7evwX9bfe2DYUHoNBvYiPb3npPJaH?=
- =?us-ascii?Q?wS+iT+7hDo4OBIkQEgcsOYV6y4chDPjfi4Y/xemd7E8DiWO5jKHCq9rPofVu?=
- =?us-ascii?Q?6OGpY6alCCMy5wu2i6S1cyaQbNfsjjoAnM/VD5L5qtN3n51PneYFUCWrdB3C?=
- =?us-ascii?Q?24NswhI3TQlI2dbRc92kyejHVDfmfl4cZO6M1RpVUuX9llL0fvArcnOKZGAp?=
- =?us-ascii?Q?H/Q+nXmSQ8JH3IqW3z6ZOdkxAaGbo8Zn9FRzzO3G87ulARNJxyIrQh6rM4aV?=
- =?us-ascii?Q?bAET6Qz//0hPqroBXaWIMzGQ31JsKyeC8y1CM1N66eIJMNm9cF6jvGSCu1XA?=
- =?us-ascii?Q?bPKP3WDHUf5pXt0a4OVM6BILpE36ogKDFj6vwMrgp19MWrPVAEkc9nfyMcPK?=
- =?us-ascii?Q?JVO4DCJuEIa3zU1Pb+LUlUVUhCNXyz61Rih4KjunAD6kFqIIqgQUIqfr2je1?=
- =?us-ascii?Q?M8GJ+2ecR103DDmV/7l/eeZx/vvna9KVznn4obN7MsPHRXrUcK2XLn/KezEq?=
- =?us-ascii?Q?9wCTEYoCQbQcx2GFlKO1CAe+yla2IqXquSRuLJm3zgEB1V7l6CIkPi/u9pSG?=
- =?us-ascii?Q?yyI0Gfxwll0VQKTFu4vIAFa4l8jtxYHOS24fCVnHGGEaC8AePMkEZ7TTbi8P?=
- =?us-ascii?Q?jDtYCveT+Q1Gv+8rSzdY6M5CwGcn4e0Nry/IPGvmyAwSOFTLwQCnSQL7acSy?=
- =?us-ascii?Q?4YMVpIJnTKg/j+boyTG3F+y33M1j1U7yic3Iq7Voogj7DU6LyXH0I+U7ljMt?=
- =?us-ascii?Q?+qTaJbPZxuWMbB0rBpjWteUN1pr6LEfkrCs3bsvY1fuGFTE/F6bIl/KBBp3p?=
- =?us-ascii?Q?tYODTc1ATWki08XFrtZRV+lLUnEgpvt9c4HMRiOfb/p//Ybl/BTa1gVWU3pL?=
- =?us-ascii?Q?rkFSQOlQ7/uKf8gXvD8fpIM2jccAHPJxkkh2Mlam/utGyc1zEiTvcVKczrSg?=
- =?us-ascii?Q?iOuyWquZxkmk/FMQEfM8vYiXViwBzGU8ZNND3bWDCz5HWvfe/6afvfdlyNup?=
- =?us-ascii?Q?7XdF2tUGq4+eyxpLvYlg/pr6ltyP+9yPdoK8ewxtjqWx5RqyYHh83aYDUEms?=
- =?us-ascii?Q?ULMTmleV+HX1bTF9nzReo9R0DQcdlLST53PSk0UuXcNQZcUrls4F00fgLN/w?=
- =?us-ascii?Q?gieon8UCl4g+icuNJzN6Pnt8pU6Rr69SptVHqJnbfwq71SH0lVSejqrdudPe?=
- =?us-ascii?Q?/IZ+UTQVTnYNq7ZcgWzj+yQnp9PnrxFTKr2FBB78mQtB0sS9e1SvyKgEWm6Z?=
- =?us-ascii?Q?4yGn8qokdVORu6s98Q4GIYOpB9hNsQV53nYu/DB4DR3bA6N168PAmIUkaexP?=
- =?us-ascii?Q?rJ92wHx2ULa3voyEJZ5h3RnDm0KBIPR+onwcCSI7a5ACTCEWM4hMbiAVNQ2J?=
- =?us-ascii?Q?yx9atbYoxPpQZvhGd35GywuzyW9bmMOyaOUmT7Q4cwjh4YKOZ6GjMDKSoiOg?=
- =?us-ascii?Q?oE3IM4eynL7CF56TQVqhzasg80buuXI2LJG7/lOoLOvkoNsVPTX3?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 556f651f-8f45-49cc-4a76-08df241731b5
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR01MB994109.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2026 02:03:34.8529
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vKHErafpkZd7LPWm4pxGjwv6b6WlQH9/n8ew97af1+hCwhiHdH3GznjCQcOh+js93zstfwUFVdEUf3NovKs4clwORfAsKeFH/fUo/WWPiZtpuwxtYqrkBrqDHfXHKEMU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR01MB994424
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 05, 2026 at 08:14:11PM -0500, Jeremy Linton wrote:
->Hi,
->
->
->At a high level this helps, but it also means cppc_cpufreq is 
->depending more heavily on lowest_freq/nominal_freq for control 
->decisions. ACPI documents those fields as reporting aids rather than 
->control inputs. CPPC perf is the abstract control space and may encode 
->platform behavior beyond frequency. Longer term it seems that we 
->should be moving away from synthesizing frequences like this.
->
+On Tue, Oct 06, 2026 at 05:27:51PM -0400, Joel Fernandes wrote:
+> 
+> 
+> On 10/6/2026 9:17 AM, Cunlong Li wrote:
+> >> It sounds like you do know that it is likely transient - but based on this description and the below, it sounds like you have not yet found a use of this patch.
+> >>
+> >>
+> > To be precise, we worry that some of the stalls were transient, so a
+> > panic reboot would affect the users.  But we have no hard evidence
+> > either way: every incident ended in a forced reset, and the dmesg was
+> > lost.  Going forward, we plan to enable the NMI and kdump to keep
+> > investigating the cause of the RCU stalls. We will also monitor dmesg
+> > to confirm whether transient RCU stalls actually occur.
+> 
+> 
+> Right, I just worry that if you're not seeing recoverable/transient stalls and
+> you start using this patch, then you might be causing side-effects that don't
+> really help your problem and might be masking the real issue. It would be good
+> to debug this further, and fix the right way IMO.
+> 
+> If you show that this patch indeed helps your problem, we can consider it for
+> 7.5, but there's little bit of time. :-)
 
-I have additional concerns with using lowest and nominal frequency fields in
-this series. These fields are marked as "Optional" in the specification.
+Hi Joel,
 
-As Jeremy mentioned, the ACPI spec clearly calls out that these are for
-information only and should not be used for functional decisions.
+Understood, thanks.  We will keep monitoring dmesg for the root cause.
+Once we observe self-recovering RCU stalls, we will resubmit the patch
+with the evidence.
 
-Table 8.23 - Continuous Performance Control Package Values in ACPI 6.6
-specification [1]:
+Thanks,
+Cunlong
 
-Nominal Frequency:
-
-"Optional. If supported, indicates the nominal frequency for this processor in
-MHz. It should correspond roughly to the Nominal Performance value, but is not
-guaranteed to have any precise correlation. This value should only be used for
-the purpose of reporting processor performance in absolute frequency rather than
-on an abstract scale, and not for functional decisions or platform
-communication."
-
-[1] - https://uefi.org/specs/ACPI/6.6/08_Processor_Configuration_and_Control.html#continuous-performance-control-package-values
-
-Regards,
-Vanshidhar
-
->code comment inline.
->
->On 9/29/26 5:29 AM, Christian Loehle wrote:
->>Different kHz requests can select the same CPPC performance level.
->>Implement ->resolve_freq() so governors such as schedutil can skip
->>redundant writes.
->>
->>Precompute the affine conversion and invert its integer rounding directly.
->>Share bounded conversions with ->target() and ->fast_switch(), choosing the
->>first performance level when several share a kHz value. Recompute limits
->>from each policy snapshot to avoid caching sysfs-shared mutable controls.
->>
->>Cap intervals at or below nominal kHz at Nominal Performance, excluding
->>boosted levels that alias it. Unchanged frequency limits then imply
->>unchanged performance limits across boost toggles.
->>
->>After clamping to CPU limits, snap the limits to supported frequencies.
->>If none lies in the interval, collapse both limits to the highest supported
->>frequency not above its maximum, as frequency-table verification does.
->>
->>Signed-off-by: Christian Loehle <christian.loehle@arm.com>
->>---
->>  drivers/cpufreq/cppc_cpufreq.c | 257 ++++++++++++++++++++++++++++++---
->>  1 file changed, 239 insertions(+), 18 deletions(-)
->>
->>diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
->>index 4ea444ff889e..fa85efb9f701 100644
->>--- a/drivers/cpufreq/cppc_cpufreq.c
->>+++ b/drivers/cpufreq/cppc_cpufreq.c
->>@@ -18,8 +18,10 @@
->>  #include <linux/cpufreq.h>
->>  #include <linux/irq_work.h>
->>  #include <linux/kthread.h>
->>+#include <linux/math64.h>
->>  #include <linux/mutex.h>
->>  #include <linux/time.h>
->>+#include <linux/units.h>
->>  #include <linux/vmalloc.h>
->>  #include <uapi/linux/sched/types.h>
->>@@ -29,6 +31,24 @@
->>  static struct cpufreq_driver cppc_cpufreq_driver;
->>+struct cppc_perf_freq_map {
->>+	s64 offset;
->>+	u64 multiplier;
->>+	u32 divisor;
->>+};
->>+
->>+struct cppc_cpufreq_data {
->>+	struct cppc_cpudata cpu_data;
->>+	struct cppc_perf_freq_map map;
->>+	unsigned int nominal_khz;
->>+};
->>+
->>+static struct cppc_cpufreq_data *
->>+cppc_cpufreq_data(struct cppc_cpudata *cpu_data)
->>+{
->>+	return container_of(cpu_data, struct cppc_cpufreq_data, cpu_data);
->>+}
->>+
->>  #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
->>  static enum {
->>  	FIE_UNSET = -1,
->>@@ -302,11 +322,159 @@ static inline void cppc_freq_invariance_exit(void)
->>  }
->>  #endif /* CONFIG_ACPI_CPPC_CPUFREQ_FIE */
->>+/* Precompute the affine mapping used by cppc_perf_to_khz(). */
->>+static void cppc_cpufreq_init_perf_map(struct cppc_perf_caps *caps,
->>+				       struct cppc_perf_freq_map *map)
->>+{
->>+	if (caps->lowest_freq && caps->nominal_freq) {
->>+		if (caps->lowest_freq == caps->nominal_freq) {
->>+			map->multiplier = (u64)caps->nominal_freq * KHZ_PER_MHZ;
->>+			map->divisor = caps->nominal_perf;
->>+			map->offset = 0;
->>+		} else {
->>+			map->multiplier = (u64)(caps->nominal_freq -
->>+					   caps->lowest_freq) * KHZ_PER_MHZ;
->>+			map->divisor = caps->nominal_perf - caps->lowest_perf;
->>+			map->offset = (s64)caps->nominal_freq * KHZ_PER_MHZ -
->>+				div64_u64(caps->nominal_perf * map->multiplier,
->>+					  map->divisor);
->>+		}
->>+	} else {
->>+		map->multiplier = cppc_get_dmi_max_khz();
->>+		map->divisor = caps->highest_perf;
->>+		map->offset = 0;
->>+	}
->>+}
->
->This appears be a rework of the scaling computation code in 
->cppc_khz_to_perf() from cppc_acpi.c. And it appears that all the 
->callers of that function are in this module, so is there a reason that 
->the implementation of cppc_khz_to_perf() couldn't be moved here and 
->make use of cppc_cpufreq_init_perf_map() to generate a map and then 
->compute perf as its inverse (freq - map->offset) * map.div/map.mul?
->
->That can preserve the rouding/etc if i'm understanding this.
->
->
->
->>+
->>+static unsigned int
->>+cppc_cpufreq_perf_to_khz(const struct cppc_perf_freq_map *map, u32 perf)
->>+{
->>+	s64 freq = map->offset + div64_u64(perf * map->multiplier,
->>+					    map->divisor);
->>+
->>+	return freq > 0 ? freq : 0;
->>+}
->>+
->>+/*
->>+ * Invert integer-kHz rounding: L finds the first level at or above the
->>+ * target frequency, H the last at or below it, within the supplied bounds.
->>+ */
->>+static u32 cppc_cpufreq_perf_for_freq(const struct cppc_perf_freq_map *map,
->>+				      unsigned int target_freq,
->>+				      u32 min_perf, u32 max_perf,
->>+				      unsigned int relation)
->>+{
->>+	s64 scaled_freq = (s64)target_freq - map->offset;
->>+	u64 perf;
->>+
->>+	switch (relation) {
->>+	case CPUFREQ_RELATION_L:
->>+		if (!target_freq || scaled_freq <= 0)
->>+			perf = 0;
->>+		else
->>+			perf = mul_u64_u64_div_u64_roundup(scaled_freq,
->>+							   map->divisor,
->>+							   map->multiplier);
->>+		break;
->>+
->>+	case CPUFREQ_RELATION_H:
->>+		if (scaled_freq < 0) {
->>+			perf = 0;
->>+		} else {
->>+			perf = mul_u64_u64_div_u64_roundup(scaled_freq + 1,
->>+							   map->divisor,
->>+							   map->multiplier);
->>+			perf--;
->>+		}
->>+		break;
->>+
->>+	default:
->>+		WARN_ON_ONCE(1);
->>+		return min_perf;
->>+	}
->>+
->>+	return clamp_t(u64, perf, min_perf, max_perf);
->>+}
->>+
->>+static void cppc_cpufreq_perf_limits(struct cppc_perf_caps *caps,
->>+				     struct cppc_cpufreq_data *data,
->>+				     unsigned int min_freq,
->>+				     unsigned int max_freq,
->>+				     u32 *min_perf, u32 *max_perf)
->>+{
->>+	u32 policy_max_perf;
->>+
->>+	/* Do not include boosted levels that alias the nominal frequency. */
->>+	policy_max_perf = max_freq <= data->nominal_khz ?
->>+			  caps->nominal_perf : caps->highest_perf;
->>+	*min_perf = cppc_cpufreq_perf_for_freq(&data->map, min_freq,
->>+					       caps->lowest_perf,
->>+					       policy_max_perf,
->>+					       CPUFREQ_RELATION_L);
->>+	*max_perf = cppc_cpufreq_perf_for_freq(&data->map, max_freq,
->>+					       caps->lowest_perf,
->>+					       policy_max_perf,
->>+					       CPUFREQ_RELATION_H);
->What is the actual consequence of not just picking min_perf = 
->caps->lowest_perf and max_perf as nominal/highest? Is it possible the 
->HW is never instructed into either its highest or lowest state since 
->its rounding away from the firmware provided min/max?
->
->>+}
->>+
->>+static unsigned int
->>+cppc_cpufreq_resolve_freq(struct cpufreq_policy *policy,
->>+			  unsigned int target_freq,
->>+			  unsigned int min_freq,
->>+			  unsigned int max_freq,
->>+			  unsigned int relation)
->>+{
->>+	struct cppc_cpudata *cpu_data = policy->driver_data;
->>+	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
->>+	struct cppc_cpufreq_data *data = cppc_cpufreq_data(cpu_data);
->>+	const struct cppc_perf_freq_map *map = &data->map;
->>+	u32 min_perf, max_perf, perf;
->>+
->>+	cppc_cpufreq_perf_limits(caps, data, min_freq, max_freq,
->>+				 &min_perf, &max_perf);
->>+	if (WARN_ON_ONCE(min_perf > max_perf))
->>+		return cppc_cpufreq_perf_to_khz(map, max_perf);
->>+
->>+	switch (relation) {
->>+	case CPUFREQ_RELATION_L:
->>+	case CPUFREQ_RELATION_H:
->>+		perf = cppc_cpufreq_perf_for_freq(map, target_freq,
->>+						  min_perf, max_perf, relation);
->>+		break;
->>+	case CPUFREQ_RELATION_C: {
->>+		u32 lower = cppc_cpufreq_perf_for_freq(map, target_freq,
->>+							min_perf, max_perf,
->>+							CPUFREQ_RELATION_H);
->>+		u32 upper = cppc_cpufreq_perf_for_freq(map, target_freq,
->>+							min_perf, max_perf,
->>+							CPUFREQ_RELATION_L);
->>+		unsigned int lower_freq = cppc_cpufreq_perf_to_khz(map, lower);
->>+		unsigned int upper_freq = cppc_cpufreq_perf_to_khz(map, upper);
->>+
->>+		if (lower_freq >= target_freq)
->>+			perf = lower;
->>+		else if (upper_freq <= target_freq)
->>+			perf = upper;
->>+		else if (target_freq - lower_freq < upper_freq - target_freq)
->>+			perf = lower;
->>+		else
->>+			perf = upper;
->>+		break;
->>+	}
->>+	default:
->>+		WARN_ON_ONCE(1);
->>+		return target_freq;
->>+	}
->>+
->>+	return cppc_cpufreq_perf_to_khz(map, perf);
->>+}
->>+
->>  static void cppc_cpufreq_get_perf_limits(struct cppc_cpudata *cpu_data,
->>  					 struct cpufreq_policy *policy,
->>  					 u32 *min_perf, u32 *max_perf)
->>  {
->>  	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
->>+	struct cppc_cpufreq_data *data = cppc_cpufreq_data(cpu_data);
->>  	unsigned int min_freq, max_freq;
->>  	u32 min, max;
->>@@ -315,11 +483,11 @@ static void cppc_cpufreq_get_perf_limits(struct cppc_cpudata *cpu_data,
->>  	if (unlikely(min_freq > max_freq))
->>  		min_freq = max_freq;
->>-	min = cppc_khz_to_perf(caps, min_freq);
->>-	max = cppc_khz_to_perf(caps, max_freq);
->>+	cppc_cpufreq_perf_limits(caps, data, min_freq, max_freq,
->>+				 &min, &max);
->>-	*min_perf = clamp_t(u32, min, caps->lowest_perf, caps->highest_perf);
->>-	*max_perf = clamp_t(u32, max, caps->lowest_perf, caps->highest_perf);
->>+	*min_perf = min(min, max);
->>+	*max_perf = max;
->>  }
->>  static void cppc_cpufreq_update_perf_limits(struct cppc_cpudata *cpu_data,
->>@@ -330,6 +498,26 @@ static void cppc_cpufreq_update_perf_limits(struct cppc_cpudata *cpu_data,
->>  				     &cpu_data->perf_ctrls.max_perf);
->>  }
->>+static unsigned int
->>+cppc_cpufreq_update_perf_ctrls(struct cppc_cpudata *cpu_data,
->>+			       struct cpufreq_policy *policy,
->>+			       unsigned int target_freq)
->>+{
->>+	struct cppc_cpufreq_data *data = cppc_cpufreq_data(cpu_data);
->>+	u32 min_perf, max_perf, desired_perf;
->>+
->>+	cppc_cpufreq_get_perf_limits(cpu_data, policy, &min_perf, &max_perf);
->>+	/* Use the first level when several share the same integer-kHz value. */
->>+	desired_perf = cppc_cpufreq_perf_for_freq(&data->map, target_freq,
->>+						  min_perf, max_perf,
->>+						  CPUFREQ_RELATION_L);
->>+	cpu_data->perf_ctrls.min_perf = min_perf;
->>+	cpu_data->perf_ctrls.max_perf = max_perf;
->>+	cpu_data->perf_ctrls.desired_perf = desired_perf;
->>+
->>+	return cppc_cpufreq_perf_to_khz(&data->map, desired_perf);
->>+}
->>+
->>  static int cppc_cpufreq_set_target(struct cpufreq_policy *policy,
->>  				   unsigned int target_freq,
->>  				   unsigned int relation)
->>@@ -339,12 +527,9 @@ static int cppc_cpufreq_set_target(struct cpufreq_policy *policy,
->>  	struct cpufreq_freqs freqs;
->>  	int ret = 0;
->>-	cpu_data->perf_ctrls.desired_perf =
->>-			cppc_khz_to_perf(&cpu_data->perf_caps, target_freq);
->>-	cppc_cpufreq_update_perf_limits(cpu_data, policy);
->>-
->>  	freqs.old = policy->cur;
->>-	freqs.new = target_freq;
->>+	freqs.new = cppc_cpufreq_update_perf_ctrls(cpu_data, policy,
->>+						   target_freq);
->>  	cpufreq_freq_transition_begin(policy, &freqs);
->>  	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
->>@@ -361,13 +546,12 @@ static unsigned int cppc_cpufreq_fast_switch(struct cpufreq_policy *policy,
->>  					      unsigned int target_freq)
->>  {
->>  	struct cppc_cpudata *cpu_data = policy->driver_data;
->>+	unsigned int resolved_freq;
->>  	unsigned int cpu = policy->cpu;
->>-	u32 desired_perf;
->>  	int ret;
->>-	desired_perf = cppc_khz_to_perf(&cpu_data->perf_caps, target_freq);
->>-	cpu_data->perf_ctrls.desired_perf = desired_perf;
->>-	cppc_cpufreq_update_perf_limits(cpu_data, policy);
->>+	resolved_freq = cppc_cpufreq_update_perf_ctrls(cpu_data, policy,
->>+						       target_freq);
->>  	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
->>  	if (ret) {
->>@@ -376,12 +560,39 @@ static unsigned int cppc_cpufreq_fast_switch(struct cpufreq_policy *policy,
->>  		return 0;
->>  	}
->>-	return target_freq;
->>+	return resolved_freq;
->>  }
->>  static int cppc_verify_policy(struct cpufreq_policy_data *policy)
->>  {
->>+	struct cpufreq_policy *cur_policy;
->>+	struct cppc_cpudata *cpu_data;
->>+	struct cppc_cpufreq_data *data;
->>+	struct cppc_perf_caps *caps;
->>+	unsigned int min_freq, max_freq;
->>+	u32 min_perf, max_perf;
->>+
->>  	cpufreq_verify_within_cpu_limits(policy);
->>+
->>+	cur_policy = cpufreq_cpu_get_raw(policy->cpu);
->>+	if (WARN_ON_ONCE(!cur_policy || !cur_policy->driver_data))
->>+		return -ENODEV;
->>+
->>+	cpu_data = cur_policy->driver_data;
->>+	data = cppc_cpufreq_data(cpu_data);
->>+	caps = &cpu_data->perf_caps;
->>+	cppc_cpufreq_perf_limits(caps, data, policy->min, policy->max,
->>+				 &min_perf, &max_perf);
->>+	min_freq = cppc_cpufreq_perf_to_khz(&data->map, min_perf);
->>+	max_freq = cppc_cpufreq_perf_to_khz(&data->map, max_perf);
->>+
->>+	/* Favor the maximum if no supported frequency lies in the interval. */
->>+	if (min_perf > max_perf || min_freq > policy->max ||
->>+	    max_freq < policy->min)
->>+		min_freq = max_freq;
->>+
->>+	policy->min = min_freq;
->>+	policy->max = max_freq;
->>  	return 0;
->>  }
->>@@ -618,12 +829,14 @@ static void populate_efficiency_class(void)
->>  static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
->>  {
->>+	struct cppc_cpufreq_data *data;
->>  	struct cppc_cpudata *cpu_data;
->>  	int ret;
->>-	cpu_data = kzalloc_obj(struct cppc_cpudata);
->>-	if (!cpu_data)
->>+	data = kzalloc_obj(struct cppc_cpufreq_data);
->>+	if (!data)
->>  		goto out;
->>+	cpu_data = &data->cpu_data;
->>  	if (!zalloc_cpumask_var(&cpu_data->shared_cpu_map, GFP_KERNEL))
->>  		goto free_cpu;
->>@@ -640,6 +853,10 @@ static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
->>  		goto free_mask;
->>  	}
->>+	cppc_cpufreq_init_perf_map(&cpu_data->perf_caps, &data->map);
->>+	data->nominal_khz = cppc_cpufreq_perf_to_khz(&data->map,
->>+						     cpu_data->perf_caps.nominal_perf);
->>+
->>  	ret = cppc_get_perf(cpu, &cpu_data->perf_ctrls);
->>  	if (ret) {
->>  		pr_debug("Err reading CPU%d perf ctrls: ret:%d\n", cpu, ret);
->>@@ -651,7 +868,7 @@ static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
->>  free_mask:
->>  	free_cpumask_var(cpu_data->shared_cpu_map);
->>  free_cpu:
->>-	kfree(cpu_data);
->>+	kfree(data);
->>  out:
->>  	return NULL;
->>  }
->>@@ -659,9 +876,12 @@ static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
->>  static void cppc_cpufreq_put_cpu_data(struct cpufreq_policy *policy)
->>  {
->>  	struct cppc_cpudata *cpu_data = policy->driver_data;
->>+	struct cppc_cpufreq_data *data;
->>+
->>+	data = container_of(cpu_data, struct cppc_cpufreq_data, cpu_data);
->>  	free_cpumask_var(cpu_data->shared_cpu_map);
->>-	kfree(cpu_data);
->>+	kfree(data);
->>  	policy->driver_data = NULL;
->>  }
->>@@ -1056,6 +1276,7 @@ static struct cpufreq_driver cppc_cpufreq_driver = {
->>  	.flags = CPUFREQ_CONST_LOOPS | CPUFREQ_NEED_UPDATE_LIMITS,
->>  	.verify = cppc_verify_policy,
->>  	.target = cppc_cpufreq_set_target,
->>+	.resolve_freq = cppc_cpufreq_resolve_freq,
->>  	.get = cppc_cpufreq_get_rate,
->>  	.fast_switch = cppc_cpufreq_fast_switch,
->>  	.init = cppc_cpufreq_cpu_init,
->
+> 
+> Thanks,
+> 
+> Joel Fernandes
+> 
+> 
