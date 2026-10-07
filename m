@@ -1,142 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from tpecef21.compal.com (exmail3.compal.com [59.120.207.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECEE3D5C31;
-	Wed,  7 Oct 2026 06:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F8E5B206;
+	Wed,  7 Oct 2026 07:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791356207; cv=none; b=FLp/pboOQR2VfkcX2Je25Het7X6lJErNTVG7yVYpVibPApukpl8r4uc6NCbkOV/kKNRaYftrwSL7StkBhjdM6u7kpuuYyOsWPWOKDzf2DAZOHZBlBa5Uysj8V1zjZ5eejuxfsEanlLQqAZM1+xEbEdNQOGKI8rK4WtCaTELpiBE=
+	t=1791358987; cv=none; b=GTbc60LcDe2s0wBygmpZCsfq4j+kZg+g+Zhb8sI5sgezR1w4valiadjh3eScWNIOg1z8LOv13eoQ6i5vgM07tXLRE8/Zi1pwnQVDp1SMhzoFQeubf/0OfAvRoDOjQtnhLOj6s79iWA77KXeFP1GWhKWbcHs4DT8EGz8hD0oEm/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791356207; c=relaxed/simple;
-	bh=i/w6aSs6ipqVcxMHyaaayLag4mGXnleBhYq5m0XB8W4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=jSxp3vi/5AAmSxGMMXPoAaI9Gc+5xd19chEnh35z6EsJEWrSj9dTFf+nyn1ZAHIYd0x5aSzQdrxEY1tU1kohk10esouCQGpd1nd97ZU//lDsnKWR95gIN44TThr2YLuQ7M9LdqL6qXUZcMuhGOGyItrbVaqr8KuzAFAnaDkQlxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fy8Ej3IW; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fy8Ej3IW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC48A1F0089C;
-	Wed,  7 Oct 2026 06:56:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791356206;
-	bh=HisrRVGC92tKPD0LAPWqgT9gHnJ0s7URX0WuhC80XCg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=fy8Ej3IWg/dlOU4KkZAF3x3+hrnWc512SaYuqdY7pw5tpa5ZO895yxE3XrZ72vCMp
-	 3XrduMnI5oRfjbLc0PsgllK/yBo5vEaPmkbqhjF7t60tRtHsHt9iC9frDT0tD1LSnu
-	 aE72rRQJCbH9QFZt9tW1OBMVGaOhgkA/v17ZwS8SO7ztvOPmuCcAhCen6OWoKgyMQT
-	 oxkPPCRkc3djhtsrufoRq8ZWXI3S0Mks2rB5uMTpkhGCusu+z+rWd3Sh3oaUdOm60q
-	 pThw/8mSpVd59birDXemOo47ZJsh+5xqtF5TuPrLqmiFcIvYNQvZrJSFoFkIIwfn+F
-	 lmw1+pf6dpxUw==
-Date: Wed, 7 Oct 2026 01:56:44 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH v9 00/18] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
-Message-ID: <20261007065644.GA738981@bhelgaas>
+	s=arc-20240116; t=1791358987; c=relaxed/simple;
+	bh=wqxFuqPylaUS1LXc+FHFuUQaNSePIvD5zwAoA2qmKOI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=aWJ7GT+KI0zdUjC6CAW2ZSSrYDXcAhiR5R3jiIwYaD3h3G62bbLkYtHcunbMmKlGT0PW5P42/JdIO19CsIe2rDUmC+Pbe05JwskdxfwMQjh7yDVJZhIfo3URMMoeGZwKbJ+lkXDTZQV0c4tmNUiLg1i7p1gd9BHgM6ba1oYkeSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
+X-UUID: b76af376c22211f1b2470fb4f881575f-20261007
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.20,REQID:a9e13632-4abf-465c-8623-73c6d3a175e0,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:291e20b,CLOUDID:18104dfd-c023-4c3d-8087-71be3f81564e,B
+	ulkID:nil,BulkQuantity:0,SF:80|81|82|83|102|110|111|836|865|888|898,TC:-5,
+	Content:0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:n
+	il,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: b76af376c22211f1b2470fb4f881575f-20261007
+Received: from sdmg12.sdbg.compal.com [(10.113.168.10)] by tpecef21.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 430474169; Wed, 07 Oct 2026 15:42:58 +0800
+X-UUID: b57019d4c22211f1a9f9c99e036204b4-20261007
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:d4ed7548-1c97-47f8-a774-33b185806792,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:db267256-66df-4ed9-ba9a-e32623d07625,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
+	898,TC:-5,Content:0|15|50|99,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS
+	:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,A
+	RC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: b57019d4c22211f1a9f9c99e036204b4-20261007
+Received: from sdbmbx11.tpe.compalcomm.com [(10.113.2.135)] by sdmg12.sdbg.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
+	with ESMTP id 1315189451; Wed, 07 Oct 2026 15:42:55 +0800
+Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
+ SDBMBX11.tpe.compalcomm.com (10.113.2.135) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
+ Wed, 7 Oct 2026 15:42:53 +0800
+Received: from SDBMBX13.tpe.compalcomm.com ([fe80::d3a3:2665:d306:e36a]) by
+ SDBMBX13.tpe.compalcomm.com ([fe80::d3a3:2665:d306:e36a%11]) with mapi id
+ 15.02.2562.043; Wed, 7 Oct 2026 15:42:53 +0800
+From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+To: "netdev-bot+sashiko@kernel.org" <netdev-bot+sashiko@kernel.org>
+CC: "loic.poulain@oss.qualcomm.com" <loic.poulain@oss.qualcomm.com>,
+	"ryazanov.s.a@gmail.com" <ryazanov.s.a@gmail.com>,
+	"johannes@sipsolutions.net" <johannes@sipsolutions.net>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "davem@davemloft.net"
+	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+	"wen-zhi.huang@mediatek.com" <wen-zhi.huang@mediatek.com>,
+	"shi-wei.yeh@mediatek.com" <shi-wei.yeh@mediatek.com>,
+	"Minano.tseng@mediatek.com" <Minano.tseng@mediatek.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	"angelogioacchino.delregno@collabora.com"
+	<angelogioacchino.delregno@collabora.com>, "horms@kernel.org"
+	<horms@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "Yu. Robert (GSM)"
+	<robert_yu@compal.com>, "Chang. Jeff (GSM)" <Jeff_Chang@compal.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v9 2/6] net: wwan: t9xx: Add control plane transaction
+ layer
+Thread-Topic: [PATCH v9 2/6] net: wwan: t9xx: Add control plane transaction
+ layer
+Thread-Index: AQHdVi92CCkXrAbMD0Sm9T9DLl0WdA==
+Date: Wed, 7 Oct 2026 07:42:53 +0000
+Message-ID: <a742cc87225c4faeb288032b19ee7fe0@compal.com>
+References: <20260930-t9xx_driver_v1-v9-2-3248b9256956@compal.com>,<179110515297.434549.13978731531634280399@kernel.org>
+In-Reply-To: <179110515297.434549.13978731531634280399@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-30242.005
+x-tm-as-result: No-10--11.516100-8.000000
+x-tmase-matchedrid: TS/yG7dSaeIuv++HU7VXryRFbfQbCufdN0X64jGy2dZJTOxleK2tZuZd
+	NI5cmL7EsYqOZUHi5O+REYy4Kg5qG1PMBVDvxMolGG92L3YEEC5lA1b7yNeDy2Q68uvIXW1erf8
+	wz4ESzw8mU9XoXRWM6whejRXOq4Wu2SDCYhxkuA8nDrpxCH9HlxvlZxq14kYA8mB4uBzst3zyvS
+	e8Im+It52CWWcsc9G2eqHcSQLZw+WTSX0ss3g67VZB3ebKuqDZNIT72OEr+MihLyngtWA7kEN3O
+	J0Jv5josaRxslIYMb1VWWiPV6/GV6EW6WHtEhY9CqJ0RbJ3bb1qsngdQNC7B3vXWVrbHZDJWiYJ
+	b0MO1BmEizXChXdpjKRl3NoCwksl+f1v71xAsKSmuS2h5T5tPhE+ekmiD9TP8gZH2u1Mu0BT1iZ
+	2rzURygkcl33Ur3ZsZ0QO3a9gW7eZBafbv3rGvoWEan0Y08OtN/wwc82rdwQSCDdzAMeX/T9TGs
+	4C8xEFcYO7LzLWqS4ibGdC+CRqLVYHXldrySG2zv7Ee4WB+8PZzcYLrduMvDAzk4iHqLcpoJ5CW
+	l63ULR02BvmJZL/xA==
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--11.516100-8.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-30242.005
+x-tm-snts-smtp: 9FA824996A4421DD2595263C526FC5A78337750C22B7152F709394DC17E592A52000:8
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261006213650.GA716945@bhelgaas>
 
-On Tue, Oct 06, 2026 at 04:36:50PM -0500, Bjorn Helgaas wrote:
-> On Wed, Oct 07, 2026 at 12:22:27AM +0300, Leon Romanovsky wrote:
-> > On Tue, Oct 06, 2026 at 02:29:55PM -0500, Bjorn Helgaas wrote:
-> > > On Thu, Oct 01, 2026 at 02:55:08PM +0300, Leon Romanovsky wrote:
-> > > > PCI P2PDMA applies Request and Completion Redirect throughout both paths.
-> > > > This misclassifies asymmetric and nested switches, and reports one answer
-> > > > for every kind of TLP.
-> > > > 
-> > > > Three ACS controls act on TLP attributes the client chooses rather than
-> > > > on the topology: Translation Blocking and Direct Translated P2P act on
-> > > > a Request's Address Type, and Completion Redirect skips Completions carrying
-> > > > Relaxed Ordering.
-> > > > 
-> > > > Evaluate each direction at the path divergence, decide every class from the
-> > > > one walk, and treat a client with ATS enabled as translating unless its
-> > > > driver declares per-mapping ATS.
-> > > > 
-> > > > This completes the P2PDMA side; dma-buf and mlx5 follow separately.
-> > > > ...
-> > > 
-> > > > Leon Romanovsky (18):
-> > > >       PCI/P2PDMA: Document the TLP attribute assumptions
-> > > >       PCI/P2PDMA: Derive routing from directional ACS controls
-> > > >       PCI: Reject unreadable ACS controls in isolation checks
-> > > >       PCI/P2PDMA: Evaluate ACS controls at the path divergence
-> > > >       PCI/P2PDMA: Document directional ACS routing
-> > > >       PCI/P2PDMA: Collect the path's ACS controls before deciding
-> > > >       PCI/P2PDMA: Answer routing per TLP class
-> > > >       PCI/P2PDMA: Route Relaxed Ordering Completions directly
-> > > >       PCI/P2PDMA: Reject Translated Requests blocked by Translation Blocking
-> > > >       PCI/P2PDMA: Route Translated Requests under Direct Translated P2P
-> > > >       PCI/P2PDMA: Log detailed ACS routing diagnostics
-> > > >       PCI/P2PDMA: Add KUnit tests for the ACS routing decisions
-> > > >       PCI/P2PDMA: Test the ACS P2P routing walk
-> > > >       PCI: Add KUnit coverage for ACS isolation checks
-> > > >       PCI/P2PDMA: Document TLP-class routing
-> > > >       PCI/P2PDMA: Let a client declare that it selects ATS per mapping
-> > > >       PCI/P2PDMA: Evaluate the ATS path for clients with ATS enabled
-> > > >       PCI/P2PDMA: Test the routing of clients with ATS enabled
-> > > > 
-> > > >  Documentation/admin-guide/kernel-parameters.txt |  15 +-
-> > > >  Documentation/driver-api/pci/p2pdma.rst         |  80 +++
-> > > >  drivers/pci/Kconfig                             |  15 +
-> > > >  drivers/pci/Makefile                            |   1 +
-> > > >  drivers/pci/p2pdma.c                            | 719 ++++++++++++++++++--
-> > > >  drivers/pci/pci.c                               |   7 +-
-> > > >  drivers/pci/pci.h                               |  58 ++
-> > > >  drivers/pci/pci_acs_test.c                      | 860 ++++++++++++++++++++++++
-> > > >  drivers/pci/quirks.c                            |   6 +-
-> > > >  include/linux/pci-p2pdma.h                      |  12 +-
-> > > >  10 files changed, 1687 insertions(+), 86 deletions(-)
-> > > > ---
-> > > > base-commit: 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72
-> > > > change-id: 20260821-fix-p2p-acs-v4-0-e72455e3a261
-> > > > prerequisite-message-id: <20260830-batch-p2p-fixes-v1-0-5044e8dfbe2e@nvidia.com>
-> > > > prerequisite-patch-id: 6b25c7fcf164cdfc14e9fac5b908d97fcf6509d7
-> > > > prerequisite-patch-id: 0d083c281001365aae4b35544cf28891a6ab9a96
-> > > > prerequisite-patch-id: bfd9dabf271f3cc9a3a61f46387d20c20311363d
-> > > > prerequisite-patch-id: fad0275efc722830fc591509506c0a5e4f581073
-> > > > prerequisite-patch-id: 0c83bee688fec1f6d1564654df7c630fa6a4a978
-> > > 
-> > > This seems like material for the PCI tree, but I'm not sure how to
-> > > apply it.  It doesn't apply cleanly on the current pci/p2pdma
-> > > (https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=p2pdma),
-> > > which does contain your series from
-> > > 20260830-batch-p2p-fixes-v1-0-5044e8dfbe2e@nvidia.com.
-> > > 
-> > > I could probably fix the conflicts but I don't know why there should
-> > > be conflicts, since the only commits on pci/p2pdma other than yours
-> > > are a few trivial allow-list updates.
-> > 
-> > So maybe this is related to these trivial updates, my series was based
-> > on the clean p2pdma branch:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=fix-p2p-acs-v9
-> 
-> Ah, yeah, it must be the allow-list additions that I have but you
-> don't.  I wouldn't have thought the offsets would have been a problem.
-
-It applies fine if I move the Haswell and Alibaba allowlist patches t
-to the end so the base matches fix-p2p-acs-v9, thanks.
+VGhhbmtzIGZvciB0aGUgcmV2aWV3Lg0KDQpPbiBTdW4sIDQgT2N0IDIwMjYgMTc6MTI6MDAgKzA4
+MDAgbmV0ZGV2LWJvdCtzYXNoaWtvQGtlcm5lbC5vcmcgd3JvdGU6DQo+IFRoaXMgaXNuJ3QgYSBi
+dWcsIGJ1dCBhdCB0aGlzIHBvaW50IGluIHRoZSBzZXJpZXMgbm90aGluZyBjYWxscw0KPiBtdGtf
+Y3RybF9pbml0KCkgb3IgbXRrX2N0cmxfZXhpdCgpLiBUaGF0IG1lYW5zOg0KWy4uLl0NCj4gVGhl
+IHN1YmplY3Qgc2F5cyAiQWRkIGNvbnRyb2wgcGxhbmUgdHJhbnNhY3Rpb24gbGF5ZXIiLCBidXQg
+dGhpcyBwYXRjaA0KPiBvbmx5IGFkZHMgc3RydWN0dXJlcyBhbmQgaGVscGVycyB0aGF0IG5vdGhp
+bmcgY2FuIHJlYWNoIHlldC4NClsuLi5dDQo+IENvdWxkIHRoZXNlIGhlbHBlcnMgYW5kIHRoZSBp
+bmNsdWRlIG1vdmUgaW50byB0aGUgcGF0Y2ggdGhhdCBhZGRzIHRoZWlyDQo+IGNhbGxlcnM/IE90
+aGVyd2lzZSwgY291bGQgdGhlIHN1YmplY3Qgc2F5IHRoYXQgdGhpcyBwYXRjaCBvbmx5IGFkZHMg
+dGhlDQo+IHNjYWZmb2xkaW5nPw0KDQpXaWxsIGZpeCBpbiB2MTAsIHRoZSBzZWNvbmQgd2F5OiB0
+aGUgc3ViamVjdCBiZWNvbWVzICJuZXQ6IHd3YW46IHQ5eHg6DQpBZGQgY29udHJvbCBwbGFuZSB0
+cmFuc2FjdGlvbiBsYXllciBmcmFtZXdvcmsiLCBhbmQgdGhlIGNvbW1pdCBtZXNzYWdlDQpnYWlu
+cyBhIGxpbmUgbmFtaW5nIHRoZSBwYXRjaCB3aGVyZSB0aGUgY2FsbGVycyBhcnJpdmUuDQoNClRo
+YXQgbGlmdHMgaW50byB0aGUgc3ViamVjdCB3aGF0IHRoZSBtZXNzYWdlIGJvZHkgYWxyZWFkeSBz
+YXlzIHRocmVlDQp0aW1lcyAtICJJbnRyb2R1Y2UgdGhlIGNvbnRyb2wgcGxhbmUgYW5kIHRyYW5z
+YWN0aW9uIGxheWVyIGZyYW1ld29yayIsDQoiaW5pdGlhbGl6YXRpb24gZW50cnkgcG9pbnRzIHRo
+YXQgc3Vic2VxdWVudCBwYXRjaGVzIGJ1aWxkIHVwb24iLCAiVGhlDQphY3R1YWwgRE1BIGVuZ2lu
+ZSBhbmQgVFgvUlggc2VydmljZSBpbXBsZW1lbnRhdGlvbnMgYXJlIGFkZGVkIGluDQpzdWJzZXF1
+ZW50IHBhdGNoZXMiLiAgSXQgaXMgbm90IGEgbmV3IGNsYWltLCBvbmx5IG9uZSB0aGF0IHdhcyBp
+bnZpc2libGUNCnVubGVzcyB5b3UgcmVhZCBwYXN0IHRoZSBzdWJqZWN0IGxpbmUuDQoNCj4gVGhp
+cyBpc24ndCBhIGJ1ZywgYnV0IG10a19jdHJsX2luaXQoKSBhbGxvY2F0ZXMgY3RybF9ibGsgd2l0
+aA0KPiBkZXZtX2t6YWxsb2MoKSwgYW5kIG10a19jdHJsX2V4aXQoKSBvbmx5IGNsZWFycyBtZGV2
+LT5jdHJsX2Jsay4gU3VwcG9zZQ0KPiBpbml0IGFuZCBleGl0IHJhbiBtb3JlIHRoYW4gb25jZSB3
+aGlsZSB0aGUgZGV2aWNlIHN0YXllZCBib3VuZC4gRWFjaA0KPiBtdGtfY3RybF9pbml0KCkgY2Fs
+bCB3b3VsZCBhZGQgYW5vdGhlciBkZXZyZXMgYWxsb2NhdGlvbiBhbmQgb3ZlcndyaXRlDQo+IG1k
+ZXYtPmN0cmxfYmxrIHdpdGhvdXQgZnJlZWluZyB0aGUgb2xkIGJsb2NrLg0KWy4uLl0NCj4gV291
+bGQgaXQgaGVscCB0byBhZGQgYSBjb21tZW50IHNheWluZyBtdGtfY3RybF9pbml0KCkgbWF5IG9u
+bHkgcnVuIG9uY2UNCj4gcGVyIGJpbmQ/IFRoYXQgd291bGQga2VlcCBhIGZ1dHVyZSByZXNldCBw
+YXRoIGZyb20gY2FsbGluZyBpdCBhZ2Fpbi4NCg0KV2lsbCBmaXggaW4gdjEwIHdpdGggdGhlIGNv
+bW1lbnQgeW91IHN1Z2dlc3QsIG9uIG10a19jdHJsX2luaXQoKToNCg0KICAgIC8qIE1heSBvbmx5
+IHJ1biBvbmNlIHBlciBiaW5kLiAgVGhlIGN0cmxfYmxrIGFsbG9jYXRpb24gaXMgZGV2cmVzDQog
+ICAgICogbWFuYWdlZCBhbmQgaXMgcmVsZWFzZWQgYXQgdW5iaW5kLCBub3QgYnkgbXRrX2N0cmxf
+ZXhpdCgpLg0KICAgICAqLw0KDQo+IFRoaXMgaXNuJ3QgYSBidWcsIGJ1dCBub3RoaW5nIGFzc2ln
+bnMgY3RybF9ibGstPnRyYW5zIGluIHRoaXMgcGF0Y2guDQpbLi4uXQ0KPiBtdGtfY3RybF9wbGFu
+ZS5oIGlzIGEgZ2VuZXJpYyBoZWFkZXIsIGJ1dCBpdCBuYW1lcyB0aGUgcGNpZS1vbmx5IHN0cnVj
+dA0KPiBtdGtfY3RybF90cmFucy4gSXQgZG9lcyBub3QgaW5jbHVkZSBvciBmb3J3YXJkLWRlY2xh
+cmUgdGhlIGhlYWRlciB0aGF0DQo+IGRlZmluZXMgaXQuDQpbLi4uXQ0KPiBDb3VsZCB0aGUgY3Ry
+bF9od19wcml2IG1lbWJlciBiZSBhZGRlZCBoZXJlIGRpcmVjdGx5PyBUaGF0IHdvdWxkIGF2b2lk
+DQo+IGFkZGluZyBhIHRyYW5zIG1lbWJlciB0aGF0IGlzIHJlbW92ZWQgb25lIHBhdGNoIGxhdGVy
+Lg0KDQpXaWxsIGZpeCBpbiB2MTAsIGV4YWN0bHkgdGhhdDogc3RydWN0IG10a19jdHJsX2JsayBp
+cyBpbnRyb2R1Y2VkIHdpdGgNCnZvaWQgKmN0cmxfaHdfcHJpdiBpbnN0ZWFkIG9mIHN0cnVjdCBt
+dGtfY3RybF90cmFucyAqdHJhbnMuICBUaGUgbWVtYmVyDQppcyB0aGVuIG5vdCByZW5hbWVkIG9u
+ZSBwYXRjaCBsYXRlciwgYW5kIHRoZSBnZW5lcmljIGhlYWRlciBzdG9wcyBuYW1pbmcNCmEgUENJ
+ZS1vbmx5IHR5cGUsIHdoaWNoIGl0IHNob3VsZCBub3QgaGF2ZSBkb25lLg0KDQoNClRoYW5rcywN
+CkphY2s=
