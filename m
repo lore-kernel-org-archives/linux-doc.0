@@ -1,82 +1,40 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A584854F0
-	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 16:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791391672; cv=pass; b=DLZZsCJWxrR39CjnWNtbkAG8BH5BdOC8F6Q6LTY9SP90eetURkaj47Vp/pF7Dh44O4n5uaG7S2tE9vBJeXpD2+GLNDWboupqDu48t3dfDp1Wa5dMphJWhd3Z7Ulw0FrLzG7l+vk4YScVIRUovhuPmEDQlq0U3mdNRI/F1sKthwE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791391672; c=relaxed/simple;
-	bh=mUg8bGzuDc1hntbJS6/jkPP2umt4kBrIq8LnvLb+dZA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A6042F708
+	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 16:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791392102; cv=none; b=RGAOUWC6QOWc4eQENbzVnUFi80aTmTpLOieBw/Nhf0tRU+5J0f7YQBasZTYdMjkvcl2mzcrUapwjF0obcp47AJ5+I+B7Ie/Ywvld9RuQdwma6pzWADEA2m27eSW0GYINDHzm2Ugz/BkKdteG9NK8uwR8VINOW9+8SBxA2SjvW0I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791392102; c=relaxed/simple;
+	bh=feQbNDosn/G0wuU19MK7YPSXaXPT3Dkc2lbt5afIcIw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LuJgcfWb1uXlzYhtmgWMkoA7z7XSkQyTfONJ97Wh8f6/SHZZlEXBsskdGxvpQYaRiGr1+4sT1DWUmyEgo9yeafcuE0DLfjOXvTivTHKR4XrqhnP5p4pu4MQTtVl5eOSwLhZUFk88P+6SPgM8a0aKZzLIQmMzsj/NgYJA8K9AUlo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CYE0ZNhR; arc=pass smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=ePaEJthrpPivhFgyzpoFN83pMJFYjGEcKtrkc+xUSbpgsZ+YdwywiqNLwjDCGVBVApDEofoM/Qnlr5KABD6opqOlUA1IFotx5nKzy8t7kbAdUthdJ1QkUXuQA61AH8b6wquv1kaVTtITQqRKfOh3JPwgzOYkUr+iV0izUU4Roe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NPb6JUbI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CYE0ZNhR"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48b02a2359aso1921094f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2026 09:47:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791391668; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iRUdThYbymYyasDx032OhEDjNcf5IrLW8PX8KM5uTdQHei8uEF+hFGCQv6S2Um1rCg
-         NebeJnNGUHvE7GQFBTZk6NM5BpXSEEQCkZMfAsV8Zh964hXwjepmewXB3isSJwCZ7Gs3
-         5c6Q3CXDyME/J2aZW8gXIS/h+DOYw910TAcrq3m/rbmeUF43OBrX7SjGhTa3nhRmXBFn
-         CpW9NwZOoqDM2g53zgupNTSjg7Onel6hNCim5ijnxHT68/4tVclnO2azi9f3GzvLK/BQ
-         wX8hklRTz5VtRpILZAQuLY5aLb9DUikLsRvWdcj4vTctbSRtGCffYYfQ2xG7v6Yjxtah
-         tvCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mUg8bGzuDc1hntbJS6/jkPP2umt4kBrIq8LnvLb+dZA=;
-        fh=hypKbjfOyzXA+BCvtpz41j4zye7EgwTpvhkhKbqx4E8=;
-        b=lltxZcuUh3ImyubMvHGKhn2d5hlSQe18LielXuUfNYS9ifcE72i5Cbe0JKgeR4Ufku
-         Rrop9MVSXvCV4btqW4nudhWlDbSsPUm7lac5xsEKSAjpaBI5G9HzuJW9tJ76gGMS43Ps
-         yarqOU4d/Ei4IMeCkJfpTZ1D6N9kqDCCPekM/nwnqSdTYaGuv2ZsmZtV6/ZseTsdTxoD
-         7O82gldpo3FbvqamkaPjSO92uOlVPUMCTsqIK40HgS8MQNK5RGpXP0I2KebOUsWhsHs2
-         KuKsEahsa/uJDabNRBF752NnI9ikCT4/QO9BGZ6ucnIsoly5XPpew834kWxzvHfw3REA
-         TXGw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791391668; x=1791996468; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mUg8bGzuDc1hntbJS6/jkPP2umt4kBrIq8LnvLb+dZA=;
-        b=CYE0ZNhRW7efU8KTspmjqXfyMHO4ZYVWRTFgwe7fP+knJzS7VUE2CH1STR36Eny10m
-         RFiUt0tFf3UIrJ4nKHc4trvWnPwCYxnep2REErqho/RImTVdXsCgSjMFWI4Caz5Gecga
-         QvWjQ/QSAeaxJrRiVNvpHuXlZYxH0VFjCQK1gV8u3+ALDz7E0ITRPhhx0huF5fi/0vSY
-         2RKlARcRv6d8+0/F176Hmxyv5jTIZCTNCn3AoR3A/rWhaWEMPNMsgfuMyarfUK0KeFaI
-         TkUV4o91p7LAaG1PN/pk1NA29u1HSq88X1T4R7Ufn7hWBo2WyC9dWFVLAjtW/l8UYuWU
-         ojkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791391668; x=1791996468;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mUg8bGzuDc1hntbJS6/jkPP2umt4kBrIq8LnvLb+dZA=;
-        b=e4dmN+4I+sNCoSteXvsEhA8k+DBioRagsKuizIQGWa8N+5WFp7jndjFeTu59M8zndd
-         Vgq6nwyRGejLmXfgRUzUmZSp5FSzwmY4R9Q8ZZ4r7I/Mi3boIyTyJNw8fn53EDrBQ1kr
-         sJicSHfOfPqIqzO6hQ+yZgRZCYN3GbmaTncAlQP0FkH0MI0ps8Mr1oF5wVOpIlpd0WRn
-         sTP5YsLUrKAFMltM4O3Qd84z/R9jRgYf1uOcjLRFsscWgxg/uCLQixZseboFFHUSjLPr
-         4ruaGbOgbTetctubkGOIw148WDOpc5UsrJXm9yFYe4aZiaY0oWvXCWaZn/qv7Xjjee3n
-         wSWg==
-X-Forwarded-Encrypted: i=1; AKwUvBxPaMW3PR06y9io0FXkZkBk4NlfpY/H0wnb3d3W+lvwCcF8hC65dNsNLc8des143hCcAKK+hPw9q+E=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIfKv8GggPBcHxbH0dN1ccpYxuIlssgrewaV6ZppuuwmbaCFGYo
-	4uBJfq2SSRKDhirv1dsSHQTLPUvJaGBaRxriMndwfZRPppFPH45ie7zP7kdW5hzq61wmy/5Ta7c
-	ic4gHgdvBXPcoAZr2FLfFlJrRf6FlKCg=
-X-Gm-Gg: AYBFou315My4edsYXzMPG+Ilcin76MDfWaEOoyXJdo3GEh803lvCkV5awSSacfLEWtx
-	cxeeNi4PdJR+F/xPPMWZBPwTpiNHevXCrdfnduVC8RuBvjHNCWC9TfiVCYWPhmGVtQZ0KhzN3ba
-	XI2cSCkY6Z00t49nWl7tm3BNGRticN03TCbcwB9rl1AZyt/VXlsLazg3O7vvbQOrBxGZLB6meE2
-	4+vjNRv7CjjJc/A7F2P1M4SQrzqvO5CI/ovc5XkBu9C/WZoY4KBXR8AEVllu90uWQoOAor0Tp1F
-	LlsuqSJrDWdGmt5UflF6nF46JUs11/Vq9B5BVQ0D30Bs+6Z76ycrNu4Votn/Ow1f/PmAehCjLcz
-	OX0/ELjoipjZq
-X-Received: by 2002:adf:f088:0:b0:488:5468:c23a with SMTP id
- ffacd0b85a97d-48c7277b307mr5249685f8f.17.1791391667725; Wed, 07 Oct 2026
- 09:47:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NPb6JUbI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55E891F00898
+	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 16:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791392101;
+	bh=feQbNDosn/G0wuU19MK7YPSXaXPT3Dkc2lbt5afIcIw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=NPb6JUbIkRztvv2mJsLvgFDiWS7hJQ6jonrR3KtPJFhTMA5kVcMkXErePIrQ/6Dlw
+	 06CKkUAj16mQ2JJE+7d1zKSI8Pu4u2UIhKtOmkqX2MfbZzsQzmWShfgwvsnh/KJHN1
+	 ALrHcM3D0LcmnRdtLiNrB4sglQqC0Dn0ZUwFZ4ieoNTYTb3CcgHg13Huu2sJRbC1rc
+	 tjEY/HC6L3PRGgQlR/LXHkDQC24VfqmBiBSXaL3aC/YcuTVluRSIkwCtBLxEbRkNWZ
+	 2LaEaeE4A6b7Y6/YrIuVj6uvvUQVKyakdsAN8jATRP9v2s4LyTGHZuqdXbaoV5cSWv
+	 LG9BL5HfMeOww==
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c315a445752so301953566b.3
+        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2026 09:55:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBygp/+hZzHnlkqrzZ6f0PPuh6CDTrpH8FtHSkF9i4pPxBJSPORabGTLDhk6Ji2m9te6x0lj0hjxA2g=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJlamGt62qwPtEaH9ahVjE/tXV7dK+H1mr8jEnX4AQkyWkvE2z4
+	fjduCYNSr3TSVN75TlccPZyq9Mj67YOeTQjfLiNHKcrD8akuyDuGBJBNg8OT444DlaOMgxTbioT
+	VL8y5GhqsG3f60FK6qXqKnT6XGKS6RyQ=
+X-Received: by 2002:a17:907:c604:10b0:c31:82aa:dd60 with SMTP id
+ a640c23a62f3a-c3182aae430mr164122266b.15.1791392099666; Wed, 07 Oct 2026
+ 09:54:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,22 +47,24 @@ References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
  <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
  <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
  <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
- <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com> <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
-In-Reply-To: <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Wed, 7 Oct 2026 18:47:34 +0200
-X-Gm-Features: AclHuK-gd21Gfnuh5UQqK7_tIu770TUyW0AwEOlzN_uNtFL1qi4hjnyF8DTH4ZQ
-Message-ID: <CAKEwX=N28g4T8mqniB-e+e57ie9D3Koaeq-EmV-TEk-u41FBPA@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com>
+ <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org> <CAKEwX=N28g4T8mqniB-e+e57ie9D3Koaeq-EmV-TEk-u41FBPA@mail.gmail.com>
+In-Reply-To: <CAKEwX=N28g4T8mqniB-e+e57ie9D3Koaeq-EmV-TEk-u41FBPA@mail.gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Wed, 7 Oct 2026 09:54:46 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zMCp2wsePz0DLs0B3X=urXmE2tD9P8mm3r8omgRhAL9Ag@mail.gmail.com>
+X-Gm-Features: AclHuK98dP9awLd-NBKuJA3ihGk1PaIzKHPWkhcUxdhHKgbZN_qVBJw0GCQiETI
+Message-ID: <CAO9r8zMCp2wsePz0DLs0B3X=urXmE2tD9P8mm3r8omgRhAL9Ag@mail.gmail.com>
 Subject: Re: Path forward for Virtualized Swap?
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
-	Kairui Song <ryncsn@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Chris Li <chrisl@kernel.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Kairui Song <ryncsn@gmail.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
 	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Yosry Ahmed <yosry@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
-	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Barry Song <baohua@kernel.org>, YoungJun Park <youngjun.park@lge.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
 	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
 	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
 	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
@@ -120,54 +80,63 @@ Cc: Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 5, 2026 at 2:19=E2=80=AFPM David Hildenbrand (Arm) <david@kerne=
-l.org> wrote:
+On Wed, Oct 7, 2026 at 9:47=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote:
 >
-> On 9/22/26 15:38, Chris Li wrote:
-> > On Mon, Sep 21, 2026 at 8:56=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> w=
-rote:
-> >>
-> >> On Fri, Sep 18, 2026 at 11:50=E2=80=AFPM Chris Li <chrisl@kernel.org> =
-wrote:
-> >>> No that time slot is too late for Asia developers. I don't think we
-> >>> should use that time slot for swap alignment.
-> >>>
-> >>> We should find a time slot more friendly to Asia.
-> >>
-> >> Any time slot would have that kind of problem. We're spread out across
-> >> the globe.
-> >>
-> >> Let's just use a standardized time slot we have for MM alignment sessi=
-ons.
+> On Mon, Oct 5, 2026 at 2:19=E2=80=AFPM David Hildenbrand (Arm) <david@ker=
+nel.org> wrote:
 > >
-> > There are more swap maintainers in Asia than in the US + Europe, at
-> > least based on the maintainer file. Please be more inclusive. If the
-> > alignment is done without key stakeholders, it miss the point.
+> > On 9/22/26 15:38, Chris Li wrote:
+> > > On Mon, Sep 21, 2026 at 8:56=E2=80=AFAM Nhat Pham <nphamcs@gmail.com>=
+ wrote:
+> > >>
+> > >> On Fri, Sep 18, 2026 at 11:50=E2=80=AFPM Chris Li <chrisl@kernel.org=
+> wrote:
+> > >>> No that time slot is too late for Asia developers. I don't think we
+> > >>> should use that time slot for swap alignment.
+> > >>>
+> > >>> We should find a time slot more friendly to Asia.
+> > >>
+> > >> Any time slot would have that kind of problem. We're spread out acro=
+ss
+> > >> the globe.
+> > >>
+> > >> Let's just use a standardized time slot we have for MM alignment ses=
+sions.
+> > >
+> > > There are more swap maintainers in Asia than in the US + Europe, at
+> > > least based on the maintainer file. Please be more inclusive. If the
+> > > alignment is done without key stakeholders, it miss the point.
+> > >
+> > > Sigh, we can't even align on a time slot.
+> > >
+> > > In that case, let's keep discussing on the mailing list. At least it
+> > > is accessible to every one.
 > >
-> > Sigh, we can't even align on a time slot.
+> > Looking at the mailing list, that approach doesn't seem to work.
 > >
-> > In that case, let's keep discussing on the mailing list. At least it
-> > is accessible to every one.
+> > Finding a time slot that makes US, Europe and Asia happy is ... tricky.
+> >
+> > 1 AM is certainly unpleasant.
+> >
+> > US vs. Asia is also tricky, but doable.
+> >
+> > China 8AM vs. US West Coast 5PM?
+> >
+> > China 9AM vs. US West Coast 6PM?
+> >
+> > (Europe is 2AM vs. 3AM, who besides me from Europe would join?)
 >
-> Looking at the mailing list, that approach doesn't seem to work.
+> Thanks for suggesting the time slots, and for offering to stay up for it =
+:)
 >
-> Finding a time slot that makes US, Europe and Asia happy is ... tricky.
+> Either one is good for me. But there are folks in east coast who might
+> wanna join (Johannes).
 >
-> 1 AM is certainly unpleasant.
+> Johannes, do you have a preference? How about the first one?
 >
-> US vs. Asia is also tricky, but doable.
->
-> China 8AM vs. US West Coast 5PM?
->
-> China 9AM vs. US West Coast 6PM?
->
-> (Europe is 2AM vs. 3AM, who besides me from Europe would join?)
+> And would next week work for everyone? Say on Wednesday?
 
-Thanks for suggesting the time slots, and for offering to stay up for it :)
-
-Either one is good for me. But there are folks in east coast who might
-wanna join (Johannes).
-
-Johannes, do you have a preference? How about the first one?
-
-And would next week work for everyone? Say on Wednesday?
+I know I have been quiet, but please count me in. Next week works for
+me, most days should be fine, and both time slots (although I
+naturally prefer the former, and I believe others in the east coast
+might do as well).
