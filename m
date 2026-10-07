@@ -1,77 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A79445D188;
-	Wed,  7 Oct 2026 08:52:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C697B45D5E2
+	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 08:54:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791363130; cv=none; b=O+EWduRoDtbkavMYJhL2vyts4Ou2bqkoCKwgSyBWPoVF0ol9UW1HGEB5JL1HTBYmZkCPXvOc2WR5fZBwegk2xT3tvO6Fy8vdvRWgvjq9D0MSurlSIju/AqFd+h97rmkBOVcC2nplXernwr3TjNZPMOrqVNUAM4/2hG68DKCGy7A=
+	t=1791363262; cv=none; b=SjSrAZpxD/KQ4r297ZpOO/Ghq+04JjzDukXefjkmeV79sVNou7GqHW/0d+EC30SSS3sdlCobkVeytnhCkJgdzgI3cS0ynhRjIWs1hzSM1wyLIK22Vjmbu+VG0oyE2kMO5y1i831pZ5rPNEb5+UBFVdWKyKtVtJ+cdqe+AKK2dS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791363130; c=relaxed/simple;
-	bh=qfKx8kVgUoZSdHy+qHZUw0wNX3pyueJqPOUZRCeJy58=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sjjlZdORE1NyI2x1h0hW1Te6lkxYhGCw8svtf6cNLqogIUwndkEcumeM9Jncrpq7z9X1ilEhnmmevtFDMjLWYdICPD4Z03CMMPRnuHVwNgRpqDztyVAL48F8/b8awL84RzJc5iw1hScRqeCPquaLABlnaXLv/02g3wqdepv3t4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=My4a+2Jv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791363262; c=relaxed/simple;
+	bh=jvP2m86V8Ms+/XIQ0TGAxHznHjZQi/k3WTX2Zvv9c40=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YnGg/umEJ8DV7M65MznnwVZz/yWSoWJLhZpsLShN0HT+lu1SUB/Pz41NWdqd/hYbV2XlOj5oChlMYTzGLAxVfKKmCrEFeNxLkDMMXP9yjbafxstCxJa+J1gsqjf7WwIig2mVgIO6ItMG1OCjHKtoTb8YuzC0cjTndsfBuIn4C94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IBUZ2dU6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="My4a+2Jv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81E9F1F0089B;
-	Wed,  7 Oct 2026 08:52:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IBUZ2dU6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 801071F0089D
+	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 08:54:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791363129;
-	bh=2IzwT/l0Lzn0mFWdIM+oQZhTsq5+DhNcbTaJhC3I8TY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=My4a+2JvUPoDyESLa0Os6NTAJXhnmqhg1DoX8qYsCq2NSE8YP5bfXRSG3SK0U+RPA
-	 6D94l2quta4uz20fCy1en6a5lHyZq1AxTEldMhB9HeODOjti1wo9XRQdLROLvSR2RU
-	 9+LJ2Ti193QxpGrCUAT/5SdfEHHdeDFSB5wactNKVYoILGZZDZ5QY2vXOZS6zVNGv/
-	 CdeoBR6Sm6jmtrj12CV0Z7m3e78Kjo2DLNi1INdYqi939Ssbma3cl0EZtwr1/NqNbI
-	 nFUgXAq3bVatbnAP8pdlkrpbpBmmu2sFmPaKgv8x+SUKwotZX+XImUeCrl8sFx+nIj
-	 JRjgL7pLaoRwA==
-Date: Wed, 7 Oct 2026 04:52:05 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Antheas Kapenekakis <lkml@antheas.dev>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org, "kees@kernel.org" <kees@kernel.org>
-Subject: Re: [PATCH] docs: add AGENTS.md as a symlink to README
-Message-ID: <asYINZIUxBL8I4n9@laps>
-References: <CAGwozwG0F88Ah8AEYf2u2BM-4bP+QnZe5p1qTFb4_H5acvaFkA@mail.gmail.com>
- <arfpV7IXRAHREMzO@laps>
- <CAGwozwHY7FsYQZaNf22S-nWGPkc4qekk3H=Hno5a0d0iWVtSJw@mail.gmail.com>
- <arhtsrVb82vr6U-p@laps>
- <CAGwozwE5pJaW14ePjeUQ_w=i1W-Kg=QQOzLY_33qV0W-Urmgjw@mail.gmail.com>
- <arkiyMt2NIydrPhE@laps>
- <CAGwozwGc62HAJnLeYL+jq_PnJq1LsV3Ex9LtQTE1pX3144MdtA@mail.gmail.com>
- <arvFBqreU0qahkXx@laps>
- <CAGwozwEfN7cUZm8usUsSR2bu23ux57QCPxyXJRfwv0tU34gEkQ@mail.gmail.com>
- <CAGwozwHOttyNkC=sdVFCZYKZzhSE=cmUMgNd7cukpEE-WXm9Vw@mail.gmail.com>
+	s=k20260515; t=1791363261;
+	bh=bo/OVrYg2qQT1iDucGnp3tANPYjn3p6qdDSUcFomjbc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=IBUZ2dU6BUyVMrpjiCojr6AdMT5i+gsokjXiKHMBCd0qwhWBBtClDMiIcUTYlSfnj
+	 du69Ub+hyYSuwPRuDy4S3Ey9ckMfdTD20JYH8T92wif4urrG8E0EBog4MhVQ3sXRdN
+	 9hKUJSztQRviMrK9vok4svJ3UswOIt/p71UXb+UqlxoNMLyZ7ZVRWToOY2AfPxCSWE
+	 KE6qp6M1oNlIkfPeq36GDBaRbLtytAZw4sQ58bERGanJqx6z0VkHT5lEcDUfwyaXfl
+	 Cqn5z5fp0a6wM4qPLZH9L3z3PHk9j5ugRSEBRUXX0OO2J7MIMFGJ3OhyWs+Q+bNNxt
+	 u6Ei8GQj2NyXA==
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-49e13495e5cso1315758fac.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2026 01:54:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxS97yDzDXRd1CbvjrEoj5Omee9ZH2tMDMeVRZTu61OIWEZ2ntG2BvhPNjnp35hJrhuUy8VmK8zlPA=@vger.kernel.org
+X-Gm-Message-State: AFuF++mvwVgGa8r5i4DKCvA0mV4uLOxEHM1I36gMKpA1cWEnOsb6jEIe
+	+uaK1y/YW54+4dmKecOwgm83s9GuhsQHKdu7yjgTGzTmNbgxSoQjs8aX68YTZmKJR1veBXWXlLV
+	fc3SAjUMQ8HKm6qoUmOl3N9EVVtj5fT4=
+X-Received: by 2002:a05:6870:196:b0:49e:1e15:e4a with SMTP id
+ 586e51a60fabf-49f4ed21696mr3799705fac.12.1791363260860; Wed, 07 Oct 2026
+ 01:54:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAGwozwHOttyNkC=sdVFCZYKZzhSE=cmUMgNd7cukpEE-WXm9Vw@mail.gmail.com>
+References: <20261006224118.50200-1-kylebot@openai.com> <20261007082500.GA918849@shredder>
+In-Reply-To: <20261007082500.GA918849@shredder>
+From: Eric Dumazet <edumazet@kernel.org>
+Date: Wed, 7 Oct 2026 10:54:09 +0200
+X-Gmail-Original-Message-ID: <CAL4Wiipq9-tOvYxXuhcrJeQFd+ZySeipm1XcZVKSjSL75z8-HA@mail.gmail.com>
+X-Gm-Features: AclHuK9OQF83_b1FmCMK7oKfyWoYo1hH90vTYjzwFB5Xuxj_NJhofnmhfHrr6zA
+Message-ID: <CAL4Wiipq9-tOvYxXuhcrJeQFd+ZySeipm1XcZVKSjSL75z8-HA@mail.gmail.com>
+Subject: Re: [PATCH net] neighbour: stop using device addresses in hashes
+To: Ido Schimmel <idosch@nvidia.com>
+Cc: Kyle Zeng <kylebot@openai.com>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dsahern@kernel.org, 
+	outbounddisclosures@openai.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 29, 2026 at 06:10:42PM +0200, Antheas Kapenekakis wrote:
->The kernel forces you to have a local version file, otherwise it adds
->a .test wart. At least on Fedora. So there is precedent for requiring
->the user to create a file to disable some default behavior.
+Le mer. 7 oct. 2026 =C3=A0 10:25, Ido Schimmel <idosch@nvidia.com> a =C3=A9=
+crit :
 >
->Similarly, you swap this series into a two parter.
+> On Tue, Oct 06, 2026 at 03:41:18PM -0700, Kyle Zeng wrote:
+> > RTM_GETNEIGHTBL exposes the live hash multiplier and bucket mask. For
+> > ARP, that multiplier is applied to the IPv4 key XOR hash32_ptr(dev).
+> > Since hash32_ptr() merely folds the address, timing chosen-key misses
+> > through the unprivileged SIOCGARP ioctl can reveal the folded address
+> > of the loopback net_device. NDISC uses the same address-dependent
+> > first hash term.
+> >
+> > Give each net_device an independent random neighbour hash discriminator
+> > at allocation time and use it in both protocol hashes. Keep it immutabl=
+e
+> > so that lookups, insertion and rehashing agree even if the device's
+> > ifindex or network namespace changes. This retains the cross-namespace
+> > hash distribution that motivated using the device pointer, without
+> > putting a kernel address into the observable hash. A dedicated value
+> > also avoids making a salt used by unrelated network hashes observable.
+> >
+> > The existing NDTA_CONFIG fields and neighbour key comparisons can stay
+> > unchanged. Update the net_device cacheline documentation and assertions
+> > for the new read-mostly field.
+> >
+> > Fixes: b14f243a42c7 ("net: Dont use ifindices in hash fns")
+> > Assisted-by: Codex:gpt-6-astra
+> > Signed-off-by: Kyle Zeng <kylebot@openai.com>
+> > ---
+> >  Documentation/networking/net_cachelines/net_device.rst | 1 +
+> >  include/linux/netdevice.h                              | 2 ++
+> >  include/net/arp.h                                      | 3 +--
+> >  include/net/ndisc.h                                    | 3 +--
+> >  net/core/dev.c                                         | 4 +++-
+> >  5 files changed, 8 insertions(+), 5 deletions(-)
 >
->The first patch gitignores agents.md.
+> Eric,
 >
->The second patch adds a phony rule to the makefile that symlinks
->agents.md to the coding assistants rst or similar if it does not
->exist. People that do not want that, like me, touch that file. Not to
->the current readme, please. Be reasonable. Yes the coding assistants
->rst file is not ideal either but that can be fixed later.
+> Given [1], do you think this should be targeted at net-next?
+>
+> In net-next the neighbour tables are per-netns, so we can return to
+> hashing based on the device index instead of its pointer. Something like
+> [2].
 
-But then you would need to run make to "generate" the symlink, which would not
-normally happen.
-
--- 
-Thanks,
-Sasha
+Definitely this can target net-next and avoid merge conflicts.
