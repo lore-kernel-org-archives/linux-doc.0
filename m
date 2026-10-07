@@ -1,91 +1,58 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD193659FB
-	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 02:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5F23D3CF2;
+	Wed,  7 Oct 2026 06:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791341808; cv=none; b=HhVofd+Hy4tBNCK7J8IH/SNGz47FNrI1AWgfRPvc2/eiKyLVEGU2JGEfInpqklYJ0rlBQnMoznUazPEUj62HLGW74P9NZQxfDZOByIYiT77P6WOiHe1MBNC6Mfe/CGlUItrdhIYMjUg+NcTR+VW6CrwLKR3Hq7fLUWwR+R9+ejs=
+	t=1791354752; cv=none; b=Bhxgfio3wtsUABhaabVdkjfqlqh2TJCMYjEoURkfU2LDMbCwGd2gdFQXfOP4fysuVKgTIWLdetIwx6loZPSihg7xIVr9T6s47f0biC8DrsPMbXhAzTr6j4olexQje8yTFCM6Zwxzl7fkzlvYiRx5xeun1ocLdzp1fM4VJ5s+h64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791341808; c=relaxed/simple;
-	bh=aTGbHorcC7spW+tVRUG766lW2N40Ap2NyU66RpBUSzk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=DLLlkB/tVLzPRWjxCyrZhKoYtk1Ot/Y+xcYtWoqsGWl2PWXmw6yVgXLpVU5R0Tdzz17//G2WRhzGvFRFzhPWT8BTjrlXqwJsevuH2g/U+S7MAkxiLtwkKtgQU4DvwalkOHOd98CRGIckApZY5qJrbUiicr061ykvFbEHpmCw7Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o065dOHQ; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791354752; c=relaxed/simple;
+	bh=vK02Arew/xoK/SEhK+ZOF9gf1+RD+J2G1rphi2B2vFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H//l0cbaJOnya+D/AA/9sqkMV3H4QqTozb4pJsDBlWt7Kvl6bYkh+qziWrHbnJdJ3T/m4L+OQlpl0RyyFUR4OaflypBdD6qrxpI6FAHlvFGAuz4QnI48DNhCpKpjgIiWWQbh5EE9zihuaVs9WF+3612EhCH5rSHi/spqrKbwzgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JsS3Dv1k; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o065dOHQ"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2dd9cbb661bso11028375ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 06 Oct 2026 19:56:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791341806; x=1791946606; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:mail-followup-to:references:in-reply-to:message-id
-         :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JfwUS945YBdly7tT5sHJsRnusEwHVI6ntMLloizipfE=;
-        b=o065dOHQ1whVJXQK9NV6DfVVYRTUi6B1XsP8/B2y1+R7MSwboHHvcSE+WreQ3YN/So
-         mP2F36RWrp1JJdJQ0kNGtf70xTGqimrVA/SsBOgTMVo+PeHTlMhgZT82+8lGGO9zyK6D
-         n03t4rh/VWxXV/9zrPNfQ33QSbndRV910TWSaXiRKTN3eLoB99Whtp4Mj3MU13GjG8nK
-         Ab0hHLr3g0MpQRYkfBRnWa1FSAt9+kWeTfXRvoG65wDh6bu1Hxcy84e+3+5a5XIybZfj
-         MSNsUeV5V6ErvytYWvR7lNFe4f+6LmRmqmEBdhpF5CKrkKc/F2Yrq7wh4nC0+/Zi+Os4
-         Zq1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791341806; x=1791946606;
-        h=content-transfer-encoding:content-disposition:content-type
-         :mime-version:mail-followup-to:references:in-reply-to:message-id
-         :date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=JfwUS945YBdly7tT5sHJsRnusEwHVI6ntMLloizipfE=;
-        b=FkupGxXNj5Gz8IetEKNkPznBkJ+zVX0erOGvfw1a/30ItthMfB88C9/RaaILsslN8a
-         UwxNtQnhpSchKooTevc+eGBvl5P4/+QMVjFm1wPa6rUaET3VGy6d5Rq6/LAe3rynn0lz
-         DT52KXnRqEYfWv3bpDEG436pBpUz9RK7w8EGcIAf+du/+4hKHHgNZy5FwWonPByG/+TG
-         Vzs+6KnU5zquYMhOQc5KNyZyH/ciS8/E7D3wBNnqT2QYyN3/uGSCHrk88WLRFy3bpsvc
-         XN8z0D88imDUdYiJYsmdei/sZVXYmlo7wEk5xJhUM5RPqMdViUhFQdXTd8LA6hsn1jll
-         kfGQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwuPLsozLxPpEpexfQwt/KiW//UAxrO6ScmqupXEKblcLSsftwbr5oCC6sO6vKFcRvWvRlC6ZanvKg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIrsTdmR3QEzenrJ6zmn7srvRPS9120sWHB9w2AnFhZLk+ERp98
-	KJJxABqPzhi/HveTV9qBNaR5FaxAL5DHk+GnjUC/6b32SrpAXkPH+iVn
-X-Gm-Gg: AYBFou39SNTdnN3MtIyCKqHhfpWYsPoFOWwZF7lmm3dkf+uPwk9LzZbI214medf1+xE
-	oE6Qfd6KfQpdLrJx8P7fwkQVVkTcyT4HOJVnSjNa1IcvqQfmT5sycrbMPnyh44iOO+fmqInX1vI
-	iQ7+tmeUqniMfpWHqrEI1gUlMYIXLBeP3oiBEDt9vaTtchmBDTpBAKchWDUchdSZvFLzO/Pc1BH
-	VIe23NzU1IKYA/WSSgKMZItXZU7CpdUuhsuuioUGeD1mHQSUx3yH2HipF4WcA84BVEWnx8rZgkv
-	69vYipwercljeeRcU+KScFxfYwNmr2yvn+wkW6d6Dc98UL/66Psr33DaoJedET8eISkEuq0bvpI
-	1YyiGA52p2x8SF4iqMIPfvpj226azAQ0PjPOstwBGQLSinA2Ucnm4m5foWfC/Q7n+XvORIKNMXB
-	mPOMn0nGXmJLS3GDZYtDFNvlczByaMb4oHtrUIiaMi60tlpRw64nkLuy7oKWRFr9Hlhk0DtdxBK
-	4qQBlCEmg==
-X-Received: by 2002:a17:902:7206:b0:2dd:ad74:ac7e with SMTP id d9443c01a7336-2e6003c3090mr7227615ad.25.1791341806478;
-        Tue, 06 Oct 2026 19:56:46 -0700 (PDT)
-Received: from localhost.localdomain ([8.139.245.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e60f6626afsm812225ad.44.2026.10.06.19.56.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 19:56:46 -0700 (PDT)
-From: Cunlong Li <shenxiaogll@gmail.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JsS3Dv1k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D0E41F0089C;
+	Wed,  7 Oct 2026 06:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791354750;
+	bh=l2L4StRud6VKnWJLizrYPJpAWtLjtw/B6kHwcJg+Mm0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JsS3Dv1kRWzQotpwuewh//UeSyfmkPJJkE+mwKLwFO4G5FdMIONZZ7Ahkd5MZ60hI
+	 7m6CXy/QS4j/6BaYrlxzDg0PgvvF8tG0WR1rr03foPSIElWbzRJqEbeJNZnG1hX9mv
+	 LTrHS+Lc+AS1wOrNiXTu821Dl11fHMWlY4CVf1JbvYlY05OFcFmSX1JSEFeYbGY/Je
+	 /bWNpYvx0lRvsWmmez92yyYm8uZB5FDe0H615VR7sk182sVK0KMvzlwfS0lIGjWgV2
+	 gx99D6OTKYXV3lBZlVs0bmUuC6Aj2UnZN/xUifsdb/0/db3t6IUDZi3uI9KxR/nhWd
+	 V3q25hUqVfVzA==
+Date: Wed, 7 Oct 2026 09:32:27 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"rcu@vger.kernel.org" <rcu@vger.kernel.org>
-Subject: Re: [PATCH] rcu: Enable runtime reset of the RCU stall panic count
-Date: Wed,  7 Oct 2026 10:56:39 +0800
-Message-ID: <asW059of9u0ohxQI@63b45mr6s164qmn>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <53383f19-3d54-405b-85af-f597b69befe6@nvidia.com>
-References: <20261004-rcu-v1-1-3799a44367f1@gmail.com> <00F6D386-FE41-42E3-9B89-07381A49E061@nvidia.com> <asThhHxoFP2L25Nc@63b45mr6s164qmn> <A522703D-CBCE-4F3A-9CA2-968BA382166C@nvidia.com> <asT08QHOiIJrfIIZ@63b45mr6s164qmn> <53383f19-3d54-405b-85af-f597b69befe6@nvidia.com>
-Mail-Followup-To: Cunlong Li <shenxiaogll@gmail.com>, Joel Fernandes <joelagnelf@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, "Paul E. McKenney" <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "rcu@vger.kernel.org" <rcu@vger.kernel.org>
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v9 02/18] PCI/P2PDMA: Derive routing from directional ACS
+ controls
+Message-ID: <20261007063227.GC7822@unreal>
+References: <20261001-fix-p2p-acs-v4-0-v9-2-1a8e0f50ddd9@nvidia.com>
+ <20261006204947.GA708098@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -94,43 +61,201 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261006204947.GA708098@bhelgaas>
 
-On Tue, Oct 06, 2026 at 05:27:51PM -0400, Joel Fernandes wrote:
+On Tue, Oct 06, 2026 at 03:49:47PM -0500, Bjorn Helgaas wrote:
+> On Thu, Oct 01, 2026 at 02:55:10PM +0300, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > pci_bridge_has_acs_redir() treats Request and Completion Redirect as
+> > interchangeable. On asymmetric fabrics, a control for only the reverse TLP
+> > direction can unnecessarily force P2PDMA through the host bridge.
 > 
-> 
-> On 10/6/2026 9:17 AM, Cunlong Li wrote:
-> >> It sounds like you do know that it is likely transient - but based on this description and the below, it sounds like you have not yet found a use of this patch.
-> >>
-> >>
-> > To be precise, we worry that some of the stalls were transient, so a
-> > panic reboot would affect the users.  But we have no hard evidence
-> > either way: every incident ended in a forced reset, and the dmesg was
-> > lost.  Going forward, we plan to enable the NMI and kdump to keep
-> > investigating the cause of the RCU stalls. We will also monitor dmesg
-> > to confirm whether transient RCU stalls actually occur.
-> 
-> 
-> Right, I just worry that if you're not seeing recoverable/transient stalls and
-> you start using this patch, then you might be causing side-effects that don't
-> really help your problem and might be masking the real issue. It would be good
-> to debug this further, and fix the right way IMO.
-> 
-> If you show that this patch indeed helps your problem, we can consider it for
-> 7.5, but there's little bit of time. :-)
+> Does "the reverse TLP direction" refer to Completions?
 
-Hi Joel,
+In general, the P2P code treats TLPs flowing from device A to device B the
+same as TLPs flowing from device B to device A.
 
-Understood, thanks.  We will keep monitoring dmesg for the root cause.
-Once we observe self-recovering RCU stalls, we will resubmit the patch
-with the evidence.
-
-Thanks,
-Cunlong
+However, in the context of this commit message, yes: completions flow in the
+opposite direction from the device's perspective.
 
 > 
-> Thanks,
+> > Evaluate Request Redirect for client Requests and Completion Redirect for
+> > provider read Completions. Continue treating enabled Egress Control
+> > conservatively as a Request redirect.
 > 
-> Joel Fernandes
+> Completion Redirect is intended to avoid ordering rule violations
+> between Completions and Requests when Requests are redirected (PCIe
+> r7.0, sec 6.12.1.1).  I assume this patch preserves the ordering rule,
+> but does the commit log need to say something about that?  I don't
+> know enough about P2P DMA for it to be obvious to me.
+
+I don't think so, i didn't change anything related to ordering.
+
 > 
+> Not really a question for this series, but p2pdma.c and p2pdma.rst
+> refer to "clients" and "providers", neither of which are mentioned in
+> the PCIe spec.  In this case it sounds like a client is a Requester
+> and a provider is a Completer in spec terms.  Is that always the case?
+> If so, "client" and "provider" in this paragraph are not adding any
+> information.
 > 
+> If "client" is not the same concept as "Requester" and "provider" not
+> the same as "Completer", maybe p2pdma.rst could explain the
+> difference?
+
+Client vs. provider are actual target vs. initiator. They express the
+device role in the flow.
+
+Thanks
+
+> 
+> > Fixes: 52916982af48 ("PCI/P2PDMA: Support peer-to-peer memory")
+> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> > Tested-by: Tushar Dave <tdave@nvidia.com>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  drivers/pci/p2pdma.c | 75 ++++++++++++++++++++++++++++++++++++++++------------
+> >  1 file changed, 58 insertions(+), 17 deletions(-)
+> > 
+> > diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> > index 4e4d2df17a45..12612b82d80d 100644
+> > --- a/drivers/pci/p2pdma.c
+> > +++ b/drivers/pci/p2pdma.c
+> > @@ -21,6 +21,8 @@
+> >  #include <linux/seq_buf.h>
+> >  #include <linux/xarray.h>
+> >  
+> > +#include "pci.h"
+> > +
+> >  struct pci_p2pdma {
+> >  	struct gen_pool *pool;
+> >  	bool p2pmem_published;
+> > @@ -490,26 +492,56 @@ static struct pci_dev *find_parent_pci_dev(struct device *dev)
+> >  	return NULL;
+> >  }
+> >  
+> > +enum pci_acs_p2pdma_state {
+> > +	PCI_ACS_P2PDMA_DIRECT,
+> > +	PCI_ACS_P2PDMA_REDIRECT,
+> > +};
+> > +
+> >  /*
+> > - * Check if a PCI bridge has its ACS redirection bits set to redirect P2P
+> > - * TLPs upstream via ACS. Returns 1 if the packets will be redirected
+> > - * upstream, 0 otherwise.
+> > + * Decide how a peer-to-peer Request at an ACS-capable ingress port routes,
+> > + * from that port's ACS Control register.
+> > + *
+> > + * Linux does not read the Egress Control Vector, so Egress Control is treated
+> > + * conservatively as a redirect. Per PCIe r7.0 Table 6-11 the outcomes it
+> > + * selects are a direct route and an ACS Violation, and neither one lets peer
+> > + * bus addressing be assumed.
+> >   */
+> > -static int pci_bridge_has_acs_redir(struct pci_dev *pdev)
+> > +static enum pci_acs_p2pdma_state
+> > +pci_acs_p2pdma_request(u16 ctrl)
+> >  {
+> > -	int pos;
+> > -	u16 ctrl;
+> > +	return ctrl & (PCI_ACS_RR | PCI_ACS_EC) ?
+> > +		PCI_ACS_P2PDMA_REDIRECT : PCI_ACS_P2PDMA_DIRECT;
+> > +}
+> >  
+> > -	pos = pdev->acs_cap;
+> > -	if (!pos)
+> > -		return 0;
+> > +/*
+> > + * Decide how a peer-to-peer Completion at an ACS-capable ingress port routes.
+> > + * PCIe r7.0 sec 6.12.1.1: no ACS control other than P2P Completion Redirect
+> > + * affects a Completion.
+> > + */
+> > +static enum pci_acs_p2pdma_state
+> > +pci_acs_p2pdma_completion(u16 ctrl)
+> > +{
+> > +	return ctrl & PCI_ACS_CR ? PCI_ACS_P2PDMA_REDIRECT :
+> > +				   PCI_ACS_P2PDMA_DIRECT;
+> > +}
+> >  
+> > -	pci_read_config_word(pdev, pos + PCI_ACS_CTRL, &ctrl);
+> > +/*
+> > + * Read @pdev's ACS Control register. A device without an ACS capability has
+> > + * no peer-to-peer controls at all, which routes the same as having them all
+> > + * clear. Returns false when the register is present but cannot be read; @ctrl
+> > + * is then meaningless.
+> > + */
+> > +static bool pci_acs_p2pdma_ctrl(struct pci_dev *pdev, u16 *ctrl)
+> > +{
+> > +	int pos;
+> >  
+> > -	if (ctrl & (PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC))
+> > -		return 1;
+> > +	pos = pdev->acs_cap;
+> > +	if (!pos) {
+> > +		*ctrl = 0;
+> > +		return true;
+> > +	}
+> >  
+> > -	return 0;
+> > +	return !pci_read_config_word(pdev, pos + PCI_ACS_CTRL, ctrl);
+> >  }
+> >  
+> >  static void seq_buf_print_bus_devfn(struct seq_buf *buf, struct pci_dev *pdev)
+> > @@ -698,6 +730,10 @@ static unsigned long map_types_idx(struct pci_dev *client)
+> >   * then to Device B. The mapping type returned depends on the ACS
+> >   * redirection setting of the ports along the path.
+> >   *
+> > + * The client initiates Requests to provider memory. Check Request Redirect
+> > + * on the client path and Completion Redirect for read Completions on the
+> > + * provider path.
+> > + *
+> >   * If ACS redirect is set on any port in the path, traffic between the
+> >   * devices will go through the host bridge, so return
+> >   * PCI_P2PDMA_MAP_THRU_HOST_BRIDGE; otherwise return
+> > @@ -721,6 +757,7 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
+> >  	int dist_a = 0;
+> >  	int dist_b = 0;
+> >  	char buf[128];
+> > +	u16 ctrl;
+> >  
+> >  	seq_buf_init(&acs_list, buf, sizeof(buf));
+> >  
+> > @@ -732,7 +769,9 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
+> >  	while (a) {
+> >  		dist_b = 0;
+> >  
+> > -		if (pci_bridge_has_acs_redir(a)) {
+> > +		if (!pci_acs_p2pdma_ctrl(a, &ctrl) ||
+> > +		    pci_acs_p2pdma_completion(ctrl) ==
+> > +			    PCI_ACS_P2PDMA_REDIRECT) {
+> >  			seq_buf_print_bus_devfn(&acs_list, a);
+> >  			acs_cnt++;
+> >  		}
+> > @@ -761,7 +800,9 @@ calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
+> >  		if (a == bb)
+> >  			break;
+> >  
+> > -		if (pci_bridge_has_acs_redir(bb)) {
+> > +		if (!pci_acs_p2pdma_ctrl(bb, &ctrl) ||
+> > +		    pci_acs_p2pdma_request(ctrl) ==
+> > +			    PCI_ACS_P2PDMA_REDIRECT) {
+> >  			seq_buf_print_bus_devfn(&acs_list, bb);
+> >  			acs_cnt++;
+> >  		}
+> > @@ -1109,10 +1150,10 @@ EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
+> >  /**
+> >   * pci_p2pdma_map_type - Determine the mapping type for P2PDMA transfers
+> >   * @provider: P2PDMA provider structure
+> > - * @dev: Target device for the transfer
+> > + * @dev: Client device that initiates the transfer
+> >   *
+> >   * Determines how peer-to-peer DMA transfers should be mapped between
+> > - * the provider and the target device. The mapping type indicates whether
+> > + * the provider and the client device. The mapping type indicates whether
+> >   * the transfer can be done directly through PCI switches or must go
+> >   * through the host bridge.
+> >   */
+> > 
+> > -- 
+> > 2.55.0
+> > 
