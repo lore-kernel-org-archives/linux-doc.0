@@ -1,210 +1,173 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B874839E6FD;
-	Wed,  7 Oct 2026 16:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791391103; cv=none; b=ZVczPKHW5bsnlK+dbkjxlfTbddkijAtRrWOvqag5uu1qLPaNuGExY1vrva7QrNf+6CULEOpWPXjAXQ4IrNeiW+DqLJ5HFU0zPGUDz+LKvbEXBSTVC0qnd745//u4E7BxGEH3yqJvGg+d1AlQ7kgzNXIcuu2yI9EqaoIcQgcwVKw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791391103; c=relaxed/simple;
-	bh=rt+DI0Zaj7t1gLzFkXpDITiac40k4MGIO8meOBYmFCU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FkP7yUos9Fhl6rmiMQMHaAu9wUfnZqHJuKYFkZUbOE2liiYghr9Wki0SIwx0jqQCJFUMwdjivS8uOzCMQGm7q4ct/XmJKkZftYRB4hkqPNMY3Kn4rMmsJu2PEEz0LjY1iqBBgUfDrEiLkCTT2xUNL1U5GUcLUyvm/e0ji6o3DGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=UkFfAXte; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A584854F0
+	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 16:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791391672; cv=pass; b=DLZZsCJWxrR39CjnWNtbkAG8BH5BdOC8F6Q6LTY9SP90eetURkaj47Vp/pF7Dh44O4n5uaG7S2tE9vBJeXpD2+GLNDWboupqDu48t3dfDp1Wa5dMphJWhd3Z7Ulw0FrLzG7l+vk4YScVIRUovhuPmEDQlq0U3mdNRI/F1sKthwE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791391672; c=relaxed/simple;
+	bh=mUg8bGzuDc1hntbJS6/jkPP2umt4kBrIq8LnvLb+dZA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LuJgcfWb1uXlzYhtmgWMkoA7z7XSkQyTfONJ97Wh8f6/SHZZlEXBsskdGxvpQYaRiGr1+4sT1DWUmyEgo9yeafcuE0DLfjOXvTivTHKR4XrqhnP5p4pu4MQTtVl5eOSwLhZUFk88P+6SPgM8a0aKZzLIQmMzsj/NgYJA8K9AUlo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CYE0ZNhR; arc=pass smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="UkFfAXte"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4j0Jhn135gzKnYC;
-	Wed, 07 Oct 2026 18:38:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1791391097;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2Ezflyex2QCq4IDhV46iLXvD5SXyLtu7Un9mXAhjKQE=;
-	b=UkFfAXtexXMe4siEWkyoHJ7MLt9nnrmneb00G00NlXzSKyG2mdf+UNnktckKGk2nPnUkki
-	ueDkpfo5Yq1KIJJq7XvES43wbpRTJOFu57yqBFD4LUn3Uofvxo/kEj3P07j9/axs+NKdwv
-	CxUfTARcVHCHVOMSj7gnaFOEWz+UOxUlgM0ZTBjbV59KzB1vG1UVFJkvjVf8FIte5lgjYd
-	jRVVoTd2irs6lA9k09ObJEmN8vp9J5joXIGZmHwK8MG3tuzF2dzXF0tnpXF37HRDV2SWZ2
-	KqH91ITWRUWJvrK0lSp9YBxYVeHbhsx5vUzZzElveAvuHNYEMjjg/0dVg7AsDQ==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-kbuild@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	linux-debuggers@vger.kernel.org,
-	tools@linux.kernel.org,
-	workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Nicolas Schier <n.schier@fritz.com>
-Subject: [PATCH RFC] changes.rst: introduce 'Required for'-column
-Date: Wed,  7 Oct 2026 18:37:37 +0200
-Message-ID: <20261007163736.3942745-2-manuelebnerli@mailbox.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CYE0ZNhR"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48b02a2359aso1921094f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2026 09:47:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791391668; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iRUdThYbymYyasDx032OhEDjNcf5IrLW8PX8KM5uTdQHei8uEF+hFGCQv6S2Um1rCg
+         NebeJnNGUHvE7GQFBTZk6NM5BpXSEEQCkZMfAsV8Zh964hXwjepmewXB3isSJwCZ7Gs3
+         5c6Q3CXDyME/J2aZW8gXIS/h+DOYw910TAcrq3m/rbmeUF43OBrX7SjGhTa3nhRmXBFn
+         CpW9NwZOoqDM2g53zgupNTSjg7Onel6hNCim5ijnxHT68/4tVclnO2azi9f3GzvLK/BQ
+         wX8hklRTz5VtRpILZAQuLY5aLb9DUikLsRvWdcj4vTctbSRtGCffYYfQ2xG7v6Yjxtah
+         tvCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mUg8bGzuDc1hntbJS6/jkPP2umt4kBrIq8LnvLb+dZA=;
+        fh=hypKbjfOyzXA+BCvtpz41j4zye7EgwTpvhkhKbqx4E8=;
+        b=lltxZcuUh3ImyubMvHGKhn2d5hlSQe18LielXuUfNYS9ifcE72i5Cbe0JKgeR4Ufku
+         Rrop9MVSXvCV4btqW4nudhWlDbSsPUm7lac5xsEKSAjpaBI5G9HzuJW9tJ76gGMS43Ps
+         yarqOU4d/Ei4IMeCkJfpTZ1D6N9kqDCCPekM/nwnqSdTYaGuv2ZsmZtV6/ZseTsdTxoD
+         7O82gldpo3FbvqamkaPjSO92uOlVPUMCTsqIK40HgS8MQNK5RGpXP0I2KebOUsWhsHs2
+         KuKsEahsa/uJDabNRBF752NnI9ikCT4/QO9BGZ6ucnIsoly5XPpew834kWxzvHfw3REA
+         TXGw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791391668; x=1791996468; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mUg8bGzuDc1hntbJS6/jkPP2umt4kBrIq8LnvLb+dZA=;
+        b=CYE0ZNhRW7efU8KTspmjqXfyMHO4ZYVWRTFgwe7fP+knJzS7VUE2CH1STR36Eny10m
+         RFiUt0tFf3UIrJ4nKHc4trvWnPwCYxnep2REErqho/RImTVdXsCgSjMFWI4Caz5Gecga
+         QvWjQ/QSAeaxJrRiVNvpHuXlZYxH0VFjCQK1gV8u3+ALDz7E0ITRPhhx0huF5fi/0vSY
+         2RKlARcRv6d8+0/F176Hmxyv5jTIZCTNCn3AoR3A/rWhaWEMPNMsgfuMyarfUK0KeFaI
+         TkUV4o91p7LAaG1PN/pk1NA29u1HSq88X1T4R7Ufn7hWBo2WyC9dWFVLAjtW/l8UYuWU
+         ojkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791391668; x=1791996468;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mUg8bGzuDc1hntbJS6/jkPP2umt4kBrIq8LnvLb+dZA=;
+        b=e4dmN+4I+sNCoSteXvsEhA8k+DBioRagsKuizIQGWa8N+5WFp7jndjFeTu59M8zndd
+         Vgq6nwyRGejLmXfgRUzUmZSp5FSzwmY4R9Q8ZZ4r7I/Mi3boIyTyJNw8fn53EDrBQ1kr
+         sJicSHfOfPqIqzO6hQ+yZgRZCYN3GbmaTncAlQP0FkH0MI0ps8Mr1oF5wVOpIlpd0WRn
+         sTP5YsLUrKAFMltM4O3Qd84z/R9jRgYf1uOcjLRFsscWgxg/uCLQixZseboFFHUSjLPr
+         4ruaGbOgbTetctubkGOIw148WDOpc5UsrJXm9yFYe4aZiaY0oWvXCWaZn/qv7Xjjee3n
+         wSWg==
+X-Forwarded-Encrypted: i=1; AKwUvBxPaMW3PR06y9io0FXkZkBk4NlfpY/H0wnb3d3W+lvwCcF8hC65dNsNLc8des143hCcAKK+hPw9q+E=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIfKv8GggPBcHxbH0dN1ccpYxuIlssgrewaV6ZppuuwmbaCFGYo
+	4uBJfq2SSRKDhirv1dsSHQTLPUvJaGBaRxriMndwfZRPppFPH45ie7zP7kdW5hzq61wmy/5Ta7c
+	ic4gHgdvBXPcoAZr2FLfFlJrRf6FlKCg=
+X-Gm-Gg: AYBFou315My4edsYXzMPG+Ilcin76MDfWaEOoyXJdo3GEh803lvCkV5awSSacfLEWtx
+	cxeeNi4PdJR+F/xPPMWZBPwTpiNHevXCrdfnduVC8RuBvjHNCWC9TfiVCYWPhmGVtQZ0KhzN3ba
+	XI2cSCkY6Z00t49nWl7tm3BNGRticN03TCbcwB9rl1AZyt/VXlsLazg3O7vvbQOrBxGZLB6meE2
+	4+vjNRv7CjjJc/A7F2P1M4SQrzqvO5CI/ovc5XkBu9C/WZoY4KBXR8AEVllu90uWQoOAor0Tp1F
+	LlsuqSJrDWdGmt5UflF6nF46JUs11/Vq9B5BVQ0D30Bs+6Z76ycrNu4Votn/Ow1f/PmAehCjLcz
+	OX0/ELjoipjZq
+X-Received: by 2002:adf:f088:0:b0:488:5468:c23a with SMTP id
+ ffacd0b85a97d-48c7277b307mr5249685f8f.17.1791391667725; Wed, 07 Oct 2026
+ 09:47:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: dddea4e6f5fbbada107
-X-MBO-RS-META: rx4z7z4tgdgubcmsyy11wmkig53ae4fe
+References: <CAKEwX=MP=zuTnLT=coS_EpXe2KwXq=79yBnsEGXwcZZsW3S=Yw@mail.gmail.com>
+ <5fdb3777-95a2-48f9-bb38-aa4ba3c96a81@kernel.org> <CAKEwX=MuW6q354nB3tyFTM8d3ox7LRaqcSfUxeATR=Sop5mZPw@mail.gmail.com>
+ <5ca344de-bc34-4a9b-ab85-f553811a1d9c@kernel.org> <CAKEwX=N05iOC4hmiyTt5OxjAsOfU7_V8xGfmK_RgUyrKtuyUTA@mail.gmail.com>
+ <CAMgjq7DJwGCHCAchcfi2Kcu+XHx2YnKXDj53e0t2kpG_GSejkQ@mail.gmail.com>
+ <aqgMCIOFi0dKx_6L@fedora> <CACePvbVMFA9N0nQers=sOnSXGbNhtNE0ewq47AJEH5Cr8imQXA@mail.gmail.com>
+ <CAKEwX=OMYhUs3tt7jUzEzxsOW3yA2JmzpwwxVBP2eZuHOFu=vw@mail.gmail.com>
+ <CACePvbUMjRgK=dQzLjECgBXaUtQSPdAnBXL1Y4=Kh5d15swYvQ@mail.gmail.com> <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
+In-Reply-To: <5c8a2b7b-b76d-4bba-92e1-ec3d66794273@kernel.org>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Wed, 7 Oct 2026 18:47:34 +0200
+X-Gm-Features: AclHuK-gd21Gfnuh5UQqK7_tIu770TUyW0AwEOlzN_uNtFL1qi4hjnyF8DTH4ZQ
+Message-ID: <CAKEwX=N28g4T8mqniB-e+e57ie9D3Koaeq-EmV-TEk-u41FBPA@mail.gmail.com>
+Subject: Re: Path forward for Virtualized Swap?
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Chris Li <chrisl@kernel.org>, Baoquan He <baoquan.he@linux.dev>, 
+	Kairui Song <ryncsn@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Yosry Ahmed <yosry@kernel.org>, Muchun Song <muchun.song@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Barry Song <baohua@kernel.org>, 
+	YoungJun Park <youngjun.park@lge.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	"Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	"Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Qi Zheng <qi.zheng@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Rik van Riel <riel@surriel.com>, 
+	Gregory Price <gourry@gourry.net>, Wenchao Hao <haowenchao22@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Tejun Heo <tj@kernel.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Kunwu Chan <kunwu.chan@linux.dev>, 
+	Meta kernel team <kernel-team@meta.com>, Linux Memory Management List <linux-mm@kvack.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The optional tag isn't obvious nor defined. Therefore remove the tag and
-add column 'Required for' to make it easier to define the need for the tools.
+On Mon, Oct 5, 2026 at 2:19=E2=80=AFPM David Hildenbrand (Arm) <david@kerne=
+l.org> wrote:
+>
+> On 9/22/26 15:38, Chris Li wrote:
+> > On Mon, Sep 21, 2026 at 8:56=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> w=
+rote:
+> >>
+> >> On Fri, Sep 18, 2026 at 11:50=E2=80=AFPM Chris Li <chrisl@kernel.org> =
+wrote:
+> >>> No that time slot is too late for Asia developers. I don't think we
+> >>> should use that time slot for swap alignment.
+> >>>
+> >>> We should find a time slot more friendly to Asia.
+> >>
+> >> Any time slot would have that kind of problem. We're spread out across
+> >> the globe.
+> >>
+> >> Let's just use a standardized time slot we have for MM alignment sessi=
+ons.
+> >
+> > There are more swap maintainers in Asia than in the US + Europe, at
+> > least based on the maintainer file. Please be more inclusive. If the
+> > alignment is done without key stakeholders, it miss the point.
+> >
+> > Sigh, we can't even align on a time slot.
+> >
+> > In that case, let's keep discussing on the mailing list. At least it
+> > is accessible to every one.
+>
+> Looking at the mailing list, that approach doesn't seem to work.
+>
+> Finding a time slot that makes US, Europe and Asia happy is ... tricky.
+>
+> 1 AM is certainly unpleasant.
+>
+> US vs. Asia is also tricky, but doable.
+>
+> China 8AM vs. US West Coast 5PM?
+>
+> China 9AM vs. US West Coast 6PM?
+>
+> (Europe is 2AM vs. 3AM, who besides me from Europe would join?)
 
-CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC: Nicolas Schier <n.schier@fritz.com>
----
-If anybody has info to add to or refine the new column I would appreciate it a lot.
-Please forward this to list or people which can contribute to this patch.
+Thanks for suggesting the time slots, and for offering to stay up for it :)
 
-There's also the option to remove the 'Command to check the version'-column
-and refer to scripts/ver_linux - and with this also removing the duplicated
-information-issue.
+Either one is good for me. But there are folks in east coast who might
+wanna join (Johannes).
 
-[v3]
- Rearange column space of the table in order to add column instead of replacing column
- add some requirements to the table
+Johannes, do you have a preference? How about the first one?
 
-[v2]
- Ditch footnotes in favor of a column
- Replace 'Check Version Command'-column with optional-column
- https://lore.kernel.org/all/20260831152523.638881-1-manuelebnerli@mailbox.org/
-
-[v1]
- https://lore.kernel.org/all/20260812122426.1636227-2-manuelebnerli@mailbox.org/
----
- Documentation/process/changes.rst | 97 ++++++++++++++++---------------
- 1 file changed, 51 insertions(+), 46 deletions(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 28f2ca633..dafe0530f 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -1,13 +1,14 @@
- .. _changes:
- 
--Minimal requirements to compile the Kernel
--++++++++++++++++++++++++++++++++++++++++++
-+Minimal requirements to interact with the Kernel
-+++++++++++++++++++++++++++++++++++++++++++++++++
- 
- Intro
- =====
- 
--This document is designed to provide a list of the minimum levels of
--software necessary to run the current kernel version.
-+This document is designed to provide a list of the minimum versions of
-+software necessary to change code, compile, install and boot the current
-+kernel version.
- 
- This document is originally based on my "Changes" file for 2.0.x kernels
- and therefore owes credit to the same people as that file (Jared Mauch,
-@@ -27,48 +28,52 @@ running a Linux kernel.  Also, not all tools are necessary on all
- systems; obviously, if you don't have any PC Card hardware, for example,
- you probably do not need to concern yourself with pcmciautils.
- 
--====================== ===============  ========================================
--        Program        Minimal version       Command to check the version
--====================== ===============  ========================================
--bash                   4.2              bash --version
--bc                     1.06.95          bc --version
--bindgen (optional)     0.71.1           bindgen --version
--binutils               2.30             ld -v
--bison                  2.0              bison --version
--btrfs-progs            0.18             btrfs --version
--Clang/LLVM (optional)  17.0.1           clang --version
--e2fsprogs              1.41.4           e2fsck -V
--flex                   2.5.35           flex --version
--gdb                    7.2              gdb --version
--GNU awk (optional)     5.1.0            gawk --version
--GNU C                  8.1              gcc --version
--GNU make               4.0              make --version
--GNU tar                1.28             tar --version
--GRUB                   0.93             grub --version || grub-install --version
--gtags (optional)       6.6.5            gtags --version
--iptables               1.4.2            iptables -V
--jfsutils               1.1.3            fsck.jfs -V
--kmod                   13               kmod -V
--mcelog                 0.6              mcelog --version
--mkimage (optional)     2017.01          mkimage --version
--nfs-utils              1.0.5            showmount --version
--openssl & libcrypto    1.0.0            openssl version
--pahole                 1.26             pahole --version
--pcmciautils            004              pccardctl -V
--pigz (optional)        2.4              pigz --version
--PPP                    2.4.0            pppd --version
--procps                 3.2.0            ps --version
--Python                 3.9.x            python3 --version
--quota-tools            3.09             quota -V
--Rust (optional)        1.85.0           rustc --version
--Sphinx\ [#f1]_         3.4.3            sphinx-build --version
--squashfs-tools         4.0              mksquashfs -version
--udev                   081              udevadm --version
--util-linux             2.10o            mount --version
--xfsprogs               2.6.0            xfs_db -V
--====================== ===============  ========================================
--
--.. [#f1] Sphinx is needed only to build the Kernel documentation
-+==============  ========  =======================  ========================================
-+    Program     Minimal      Command to check                  Required for
-+                version         the version
-+==============  ========  =======================  ========================================
-+bash            4.2       bash --version           general requirement
-+bc              1.06.95   bc --version             Kbuild (
-+bindgen         0.71.1    bindgen --version        CONFIG_RUST=y
-+binutils        2.30      ld -v
-+bison           2.0       bison --version          Kbuild (.config)
-+btrfs-progs     0.18      btrfs --version
-+Clang/LLVM      17.0.1    clang --version          alternative to GNU C (gcc)
-+e2fsprogs       1.41.4    e2fsck -V                ext4
-+flex            2.5.35    flex --version           Kbuild (.config)
-+gdb             7.2       gdb --version            Debugging
-+GNU awk         5.1.0     gawk --version           objtool, CONFIG_SYSTEM_BLACKLIST_HASH_LIST=y
-+GNU C           8.1       gcc --version            alternative to Clang/LLVM (clang)
-+GNU make        4.0       make --version
-+GNU tar         1.28      tar --version
-+GRUB            0.93      grub --version ||
-+                          grub-install --version
-+gtags           6.6.5     gtags --version          to generate tag files through ``make gtags``
-+iptables        1.4.2     iptables -V
-+jfsutils        1.1.3     fsck.jfs -V
-+kmod            13        kmod -V
-+mcelog          0.6       mcelog --version
-+mkimage         2017.01   mkimage --version        Flat Image Tree (FIT) or ARCH=arc, arm or powerpc
-+nfs-utils       1.0.5     showmount --version
-+openssl         1.0.0     openssl version
-+pahole          1.26      pahole --version
-+pcmciautils     004       pccardctl -V
-+pigz            2.4       pigz --version           Compile and boot with KPGZIP=y
-+PPP             2.4.0     pppd --version
-+procps          3.2.0     ps --version
-+Python          3.9.x     python3 --version
-+quota-tools     3.09      quota -V
-+Rust            1.85.0    rustc --version          CONFIG_RUST=y
-+Sphinx          3.4.3     sphinx-build --version   build kernel documentation
-+squashfs-tools  4.0       mksquashfs -version
-+udev            081       udevadm --version
-+util-linux      2.10o     mount --version
-+xfsprogs        2.6.0     xfs_db -V
-+==============  ========  =======================  ========================================
-+    Program     Minimal      Command to check                  Required for
-+                version      check the version
-+==============  ========  =======================  ========================================
-+
- 
- Kernel compilation
- ******************
--- 
-2.55.0
-
+And would next week work for everyone? Say on Wednesday?
