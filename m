@@ -1,667 +1,177 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010019.outbound.protection.outlook.com [52.101.201.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B354B2049
-	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 23:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791414898; cv=none; b=BL7GukHFl0x3mgsR5shOSOV2w25vO0QvGJPk/vdK+be2YnBG/po51/Vl6k6atAAzOOSurxAWKqZRWkY/vlnSK589ar7ioLLOo7S1ciu9RmWhx2blq3FtFscsHB8Kge+krckKj17mtj6fxT6q/oOICWWc0aFfnDyHdet/wuWkoH4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791414898; c=relaxed/simple;
-	bh=STXrYHLXEh5sR1ZldvOJqbL4TMifpgj24LBW3510hqQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KWoO9cgj4Vn2YNG5W2Ml5W/KCFpwtKIJjd5xC1txoDcHvm1G/ct7DM7S3q2do7Bw/CyLDZmTxCIiYphQ6cGumFNX6j5YJzMCwcAeJw4SmpblQbKPMYIFZ9AFESe8A1grNkGbdVDmHBHoryNtiD0dFL0WpB5rcfWVQzC/+wUz5Ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rECpZPiI; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B50D38F95B;
+	Wed,  7 Oct 2026 23:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791416724; cv=fail; b=sSIE96m7elQBHEDzS5bkf5DLxJM+yHsbWR3J7vT5vdtojvjtlmr0ov8PKoqNAYtL5pDJfzdwYVB9KYOiaST0i/4crU73c4t2+sblcrCaLNuPGXmYTTSv4RiGwvo82laMEIuGhOzjE/2EAw2kdFqwZUqNDs6G7FgftOha0drwnE4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791416724; c=relaxed/simple;
+	bh=JHy3BdiHCoMAt2HQOyST+ja8m2cFuvwrWpMe67lai+U=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ClEiA2SYb+XsRkNKzcl9zTjSWXw5hoDq29+fUBALFKrU+ZnxX4pBat86BXyrjHzUY/zFwuTjb/oFmBz8wGV3ySXLbZqE5o585UwXd5obIquVs2Y+CyEnagZ/ack9OpTPkUGm+cXHxGe6Ef8/vFMhw39SvYDerqyZsRKRD46/g4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Iup9yB4g; arc=fail smtp.client-ip=52.101.201.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rECpZPiI"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3a4cdc9025bso1759922a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2026 16:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791414896; x=1792019696; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XWFRSjDzEne61Ym+hfFjmLxkYw4IdsRdD630mJbxa3c=;
-        b=rECpZPiIgSBvMVWgKtAsqQXrzsu0ZzAUCn37fYajwG/qNZ0isejHKl2YxIUGarRgg5
-         lh0dcprL+RX1vHwfHe4fq47Brm6iXsRnstwU68LG87KVQrbYtZabc+RKYfKcHEmHUB+l
-         EdL+C/Nl8VskGVBrCns+J6rLYfXc4ehLlyQkueduSCk+BkTEpEKEmd5kSFIWhb2gv8cO
-         Pq0lxz/+noP+e5V6rLWknMu8eit40Oate7ho/thzsIh+TIuMYAsLb6rAYU9vEy6yhEv8
-         gg0TX71qmNKUiuAI7peFJoRTEKDwcXRvcIdjEiPJVrt7rC/IdOfDf52mIKvNYOF3++Ur
-         WUiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791414896; x=1792019696;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XWFRSjDzEne61Ym+hfFjmLxkYw4IdsRdD630mJbxa3c=;
-        b=Y7y09ZEF8uUUjQo8Ri3BSfOxEMtqSsG/3mOZIOuv4/EkLM5iPt5Xx91vJrmJHTnQu+
-         Yzfy/6b39ThWIbo9tBao242ucy31uc9tmjwAT/aAM9lb+Ez0S4IKkJ8gD0C7Uwzf1Dbi
-         wFZwg15m0pX7IhRnPo2L+4YRXZ248nivAOssybQ4qaz3y4VnxWKGseUjUDeQiCm2X5C0
-         aUBCThO0S9NA+SOaE6KrchgcjbYJxKgR2mkE+zVXolcLjSs2CffWWda4B4ZSuzI9fTPx
-         RNxdHvA3qcqACH4QXNCOrGbnTh2F09iIZnRZOZI/HN+EBV3MIF+rPKDsZ4ubeTWlZyeU
-         bz1w==
-X-Forwarded-Encrypted: i=1; AKwUvBwt4wo4xe5Zn6aZrj8+wpj0ZP8pvZ6XimVjag61bjnTK9kKP+lnf1riPFfMf3uN9qNMhFsgutLUzHM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYItMva3YqiOOJOj/CcHlcfgbs8xvkRkzSgfFA7M9s9P5XzUedOC
-	4Rzj1i6/iu6TOyBH2kOGlYNkgl9nENjrcAXtpYKp/HxbgQLEOxBk78g9
-X-Gm-Gg: AYBFou2aTD7bG8Ad8E5UzN9UfJSPOOXtVHHvY4H/+FkTHm9wtTbWBAthvmLHxHhaHzT
-	2qNlsuRDfPlgUYW/IevGmQQSx+Jmaxy/aDzfQnaXEiwLyYWpbgYYgeZB3Z7joZjB0gYVrBZ+1NK
-	JEGNtiqQnS8K59nOneWaRkcYCMnNRSqELQZIg3GUQijD42tNUzgMVMOHNLnY1uwNELYMcOLY0xc
-	seVlAa7reNCWC3gltjxxZsaB6PGiMbcl5MkbkSTzM1HRhC6+5CXe+MZmGh3J56Vm9bjfIzutog5
-	6yb/esgZYxmRLhFHSSipVQwKYBItlawaHTL/KV4FAwuGOcKSQbB9DkxiJwhXrEO+X83PAOutvEx
-	7nzasEP5OA8/x/A9GfjPSTtElqJyNCGC0+UFgdUR75liJTK6uETvWwEEroMf5J49XrC9mVv4KsD
-	5Qfa5Xwbnb5lCNRo8kCNXMt3RqfDCjzYWMdtKvsSGDKCcmhU/rl6s0Sg2ox7qhSEOCihjwFTvne
-	f1dDTU=
-X-Received: by 2002:a17:90b:28c8:b0:39e:6a81:c923 with SMTP id 98e67ed59e1d1-3a8a0a921bfmr2438093a91.22.1791414895859;
-        Wed, 07 Oct 2026 16:14:55 -0700 (PDT)
-Received: from [192.168.0.160] ([76.135.114.51])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a9ff7ff13esm1356270a91.7.2026.10.07.16.14.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 16:14:53 -0700 (PDT)
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-Date: Wed, 07 Oct 2026 16:14:35 -0700
-Subject: [PATCH 2/2] selftests: fuse: test per-inode open suppression
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Iup9yB4g"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EYzGV0lQf6peqQdYw6LQUoQHo4wPquLD1PLKMfH3W1ueq8R22Yz+I2MgjUnxgeXOAm79FZlWbxNsl0zda7SDwp+yVFoiRQHF0hG5Ycz0WdnDQDfIjnwjON1YeogNOyYOvDFM3RwDpKLdtmgwANHpWzNlzhblOa7yL3vuR4I/4NeRSg24ANJz5seIyClyjNhe1PxotUevRACOLGxR44z1gtYh4sJNxQoH/0KkQ2uDWAL3FJogtVdyH5O0zNitmdXrNcvZ5UaNFjAcqTYQcVOgah32dHfrLZeNNEIlvBqTm6vmu+oWjtVvt0Kh6TEL6nYBqQkR7/7t3T+LZauqs56guA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9kDd+XIjVcwbHS5+92QmB9fqvS/31RYC6YHWRdSYBF4=;
+ b=wa0pnEgeTCVUkGk7iC8ywleIFBhBRGRt0DKPhKU1ilrHIv5lolPnDxDzU8jmGJYXMI3C8WhAJVOTR/nXbsFf4z/pU9Him4DZU/Es2RaV3m1Oc/GHXNG5o2uB+stOkdbOwMqqxUC+EkBOFgqQIJ//brKQhkNTaL9YkWPC+Z9ER+2hn++yu21xM+Ccb3kRJvmJlBwLa4vFeqwwoI/kashye/rTzvc3YRe6XPg1MHX/ywmnhyolqDA6HIegvR/7PTRMW+7vqz+IpJx5FxX50NsemV9ebKEw7xn83G9hpBFIO2A0N5LF9md2rj7S6+tAvLOqt40zDePYM36iDlTEd+M2sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9kDd+XIjVcwbHS5+92QmB9fqvS/31RYC6YHWRdSYBF4=;
+ b=Iup9yB4gCS+j402tbXAtrptfJW+8EQyn1jRYc/9tnDQZhLnp5KrSAHywB0mEg8U80g5TI32jEDsfmYL7uoZEiXUIPC6Ji4JxuGsXbvORmY56vBbVi3k0bHW1V8+N1l8tBElLVbSgr6snaXNK11bBFyNKY37+DNghdKD3rMZ1zkk=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com (2603:10b6:208:314::17)
+ by SA1PR12MB9471.namprd12.prod.outlook.com (2603:10b6:806:458::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.15; Wed, 7 Oct
+ 2026 23:45:18 +0000
+Received: from BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1]) by BL1PR12MB5320.namprd12.prod.outlook.com
+ ([fe80::1876:4a6d:2cf5:b8d1%5]) with mapi id 15.21.0496.015; Wed, 7 Oct 2026
+ 23:45:18 +0000
+Message-ID: <fca1c9b5-b895-48a2-8c01-84cd7668d10c@amd.com>
+Date: Wed, 7 Oct 2026 18:45:15 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] fs/resctrl: Assign counters to existing groups
+ when enabling mbm_event
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, tony.luck@intel.com, bp@alien8.de
+Cc: x86@kernel.org, Dave.Martin@arm.com, james.morse@arm.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, tglx@kernel.org,
+ mingo@redhat.com, dave.hansen@linux.intel.com, hpa@zytor.com,
+ kas@kernel.org, rick.p.edgecombe@intel.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-coco@lists.linux.dev, kvm@vger.kernel.org
+References: <cover.1790976400.git.babu.moger@amd.com>
+ <09f0e27da685476211c43fa8ed85b49646305078.1790976400.git.babu.moger@amd.com>
+ <4afdd80e-45cd-4d42-b871-fb25e1fd5fa9@intel.com>
+ <d40a16dd-2e3f-49b4-a36e-33b0ca8adf3f@amd.com>
+ <a174730e-147e-4b7b-a8f8-e62f5709fef1@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <a174730e-147e-4b7b-a8f8-e62f5709fef1@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR13CA0058.namprd13.prod.outlook.com
+ (2603:10b6:806:22::33) To BL1PR12MB5320.namprd12.prod.outlook.com
+ (2603:10b6:208:314::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261007-fuse-per-inode-no-open-v1-2-be5229fe89f5@gmail.com>
-References: <20261007-fuse-per-inode-no-open-v1-0-be5229fe89f5@gmail.com>
-In-Reply-To: <20261007-fuse-per-inode-no-open-v1-0-be5229fe89f5@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
-Cc: Robert Byrnes <byrnes@wildpumpkin.net>, fuse-devel@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, 
- Stanislav Kinsburskii <skinsburskii@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791414890; l=17133;
- i=skinsburskii@gmail.com; s=20260722; h=from:subject:message-id;
- bh=STXrYHLXEh5sR1ZldvOJqbL4TMifpgj24LBW3510hqQ=;
- b=L/uX88NY954ggxY7kOAkKFSqiee2S+LoNJ6pQcYnTzaPDzeKe6eWkooQJmXIgTTfYCBYpEG15
- wONy8Jl3H3CCJZ8JRcKfsO1IoRSrZ3uKfTiWnuq6WuO365Ay/lS3Jcg
-X-Developer-Key: i=skinsburskii@gmail.com; a=ed25519;
- pk=bDpriHBYgeTdkIDweZDCemxsU93neJBOCn3YLIuJpnE=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5320:EE_|SA1PR12MB9471:EE_
+X-MS-Office365-Filtering-Correlation-Id: 89fa195f-bf68-495d-efd8-08df24cd0afd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|11063799006|56012099006|4143699003|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	kpB0tYrGWn1ZGotMA5NvFPwzeBiNV1YUwZldRFDmXdMa5jwgh7AYxPHpwNWLjvMhM9Uxy9XEv/lv2uV0oXVdBZjmbyy0vgBxf3b+30ibFLyBAeKqlqzsnABMLH/gRQKL23TLS4dBBWXmzGU4SVHHr2TG1h1KUtwbdrzgHomi3bNHM30PPRD/DiUoeKJ/bxfFLlN+bXbdoANgVD6fId9nCvEzHEygDtjmPt+3OGhpjoQi57ETVTvjqhUMWX3KYbT9E/C3yaYM5iCyo7cE7U7MXZM5wEuPSyP2/o+UNkMafJYpQ4F9FB0U0cZFBEXWK7121XAgpDxQCWN2BCycHs8V5sdqrBwqIDW0EShIfkEu6CKYsr7yz4vz7OlDkDJy2FC5Fg1ZtmFDtLHrqjh3sa7+cYR0E+DWTnfCooiX9ZyRhlGD0jHkDHiJutQBcKqaA/pFgwY1PGUIaEHbQHnyovwpKJMwpXin7BIFDnp6Y3CN7PMOcv0gqsGpVUKNHsAA746Q+SvAPWc0XDBgkJJ+Gl2DHcKixdHPKZg9SK53gbdZ0za5ZOBKzvIaqofsYoqcdnmI7QL7HDjVy45X8i8mYnUowmYf1WCtZWGzJ/x1WMEGG3TAceRBWwumPFznfJal9djbAHv9HUNGlrcidkwOmxSj5LMA0kiq/SpwL0oUw0TPk/0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5320.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(11063799006)(56012099006)(4143699003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ck5TV2NaTnB1THRQKzdSb3ZkWGZCN0g0VW5mWkxOSC81VlVOSEpyYk5FeXRE?=
+ =?utf-8?B?eE0yVnBoZExZb0FsaWRGN3ptTER1MFl2dFFsWVllRDFMVUQ3SXIreXFJYndO?=
+ =?utf-8?B?b1oyRG1IR1lYdG5EZzUrWnZIK29MS0EweXM5Kzg0OHMxNFNhbXl3a0x6L3hF?=
+ =?utf-8?B?b3k1NGNZOUl2cG5RNXpCL1lvdWRYa0J4d2RhVTc5TTFJYnRGMEV1NGE2RWgz?=
+ =?utf-8?B?NVhYbFJ0TjZBeW82UHdyOWVuT05kLzhmV09EaXlaWDIzeEs2YzRsVHlHR0RW?=
+ =?utf-8?B?cnlwb1JjSUhVUlJVVFN4Vy9HNkhlMXYraWVQWEhsVkZ1UkV4cVBtNFo5cEFL?=
+ =?utf-8?B?Uk1waEdVU0JLZmlKR0t5bndxR05QY0RBSHhGdHM5UHhIWGNvdm92WDlQS1hJ?=
+ =?utf-8?B?dnhqenpOQ1Y1TlVuWVBzKzZ4M2xWdkVubm1ZL3g2azFZZ08zTWNORnpGU2ts?=
+ =?utf-8?B?V1N2emRjK3pZZDlpVUVxUWI5NytWMDBzc2ZIdFg5L1M3UWgrc0tjRGtPSVRI?=
+ =?utf-8?B?a0I4anMyd0FJUGxNYjFqVUxHS0U5bVRwam9mZTRDY0h0Rlo4aGUwdGNIU3Jx?=
+ =?utf-8?B?V3p5bG91RkNta2YzdGNrV3N6SzgxZUZTMVZSYy9NVENFRXdvbUliVmlsUXBW?=
+ =?utf-8?B?TjlZR1BrL3l0RVdpeHByK2t3bnptbldqVDN3RGxNRm41OEVIeENsRkVrdTV4?=
+ =?utf-8?B?NEQ0SkpVUEZOMFhpaG93RWVIYUQ0dk1FY0xGUUkrTzRpWG12blh0Yi9RQm9G?=
+ =?utf-8?B?Z2loRVpBenQwTTUySXpzdGxzTnBtVXJJc1I0QlRFNmtXMHFZZzZON0tzaXpz?=
+ =?utf-8?B?RElTUFZDaitoWUJzRlFpMFBqbFh2Ulk5K09YaWJES2syZEFySU5KYnRnLzhz?=
+ =?utf-8?B?NUV3R1JyZmJidWFCY3ZMcE8vRHN0SXpwZUJqUnFNMGs0eldmb0U3U1VFczFX?=
+ =?utf-8?B?TjlYc0NyZ0FYTjE2MGxZNGNBYmp3NHRCV0o4TlFFWEhEMFAyRmhPc25rYWs4?=
+ =?utf-8?B?MFFxNE52cE5CRXVKMzRmL1dRN25EOGdwbEZ1MmNKaHIwOHZtZHdCRnphdGdJ?=
+ =?utf-8?B?bE5OTVNzL3M5eXN4ODBHeSswU2Y0eUdQclFOeFR3TzNWb2pYbW0wdUUzR29l?=
+ =?utf-8?B?QktVQU5TUTQxMWl2M2tVK2FsMllFWmFHTHBIZEV3TS81OEFVdnFrR01qeE9T?=
+ =?utf-8?B?SzJxVUlic0U2a09LS2V2aXJuVytMNFZCVktFcGNNV29ud2FYOXRkNnFrYWkv?=
+ =?utf-8?B?N0tTa0wzaVRYYjVIbmMySDRTMHg5aGNnVVdkdHUraVEyS2tpMkR6RENwTG41?=
+ =?utf-8?B?MXRMVnMzL2FiN1dCNmtlaGlZa2VvSS9sbHNHcHdVc1BSQmJVb296M01mc3hM?=
+ =?utf-8?B?cEVHNXVLMXVPSlZNWGYyajQyZERRc3V5d0VMU0o4emxLZHdTVTB1VWNOY3Mz?=
+ =?utf-8?B?UHhtWDhzRmxHNTA0SnFuSFNKbHM5Z3NrZnJodWNiYjlkZkFHVkl6S3hjNlhv?=
+ =?utf-8?B?enZzTlhIS1V5VmZSdDlnMy9IUmhScmVYbWRnTkFHMWhWdjFId29LTHJYV3cz?=
+ =?utf-8?B?a1BwdmpMZHVkbzBSRXl4cS81VU5SR1lkdU5Iekx4MVg3WFpIZXU3ckFmdEdm?=
+ =?utf-8?B?WDR2Q01RVVNnMDFBTU94WDBwN3ZZc2pBbmI2dTZEVFFwanpWQk13c3RCWTEr?=
+ =?utf-8?B?eFIraGcwSzlta1lEL2xwQnVpejZZc1BCZm83OVpURUpyNlNZdVRYOEpwVWxh?=
+ =?utf-8?B?aDhXOEpvbDNjU2lLZWlBckRsbHhzZ1RjNlVMRVBmZFQ5N2IyMDFFVTdVMVA2?=
+ =?utf-8?B?TkFXcDRVZjE5SzdhWThmUHJRNzZiVVlWY1NJU2k5OFk2Wi9YOW9vNVVCVGJS?=
+ =?utf-8?B?amdyazZXZldaUGowV2kzNStmd1Jta2dHRk1OSWVHaHFlR2lpWjNwV3ZnbGR4?=
+ =?utf-8?B?MVVMRDFCRWw0S1FyZUIxNDM1VFBxZGZpbS9uNi92VEY4MzVEWlcxNkxodWNF?=
+ =?utf-8?B?Z01wUng1ZFNja3l1QmNkeFl3TXE1QU80dU9FVzZGajdHUm9SQW5pWEJoOGM3?=
+ =?utf-8?B?bTROZU9lekg0Ti9tbXlFaHpqM0E5eUhTdTNDM0pjRVNZNXdaL2FKbCtOckNr?=
+ =?utf-8?B?OC9HVkV5K1VjR05tbnRvWDlwYVBOQ1NZaEQ3Mk9KZUhiUFJkYldjUlRyL25w?=
+ =?utf-8?B?Z0svUmRjT0F2WlVMU0VtTUJsOHpVYTNJaU0yMktSNlRuQlFObVNkM1NramFt?=
+ =?utf-8?B?dUxvenorZG5YUGVmMmtUMUVOM2J5cnA0dzAwNTNSbitoVVA2WmVERFVWc0pw?=
+ =?utf-8?Q?3nKA5J+AHiLsHZZECL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89fa195f-bf68-495d-efd8-08df24cd0afd
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5320.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2026 23:45:18.3631
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z3k7DiWMeCb7NeNBQor+WddiK3mDMALabF3ShdQhv1lWATSUkIA/5bQ2StaMuMt4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9471
 
-Add a raw /dev/fuse server and tests for FUSE_PER_INODE_NO_OPEN, without
-requiring libfuse to support the new capability or attribute flag.
+Hi Reinette,
 
-Check files and directories marked by LOOKUP and READDIRPLUS, unmarked
-control files, zero file handles on reads, and hint changes through
-GETATTR while handles remain open. Verify that STATX preserves the hint,
-atomic O_TRUNC reaches the server, and CREATE retains its release.
-Return an unknown OPEN reply flag to check that wire flags cannot
-suppress release of server-opened handles.
+On 10/7/2026 5:21 PM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 10/7/26 11:16 AM, Babu Moger wrote:
+>> How about this?
+>>
+>> /*
+>>   * rdtgroup_assign_cntrs() - Assign counters to MBM events.
+>>   *
+>>   * Each group can accommodate two counters per domain: one for the total
+>>   * event and one for the local event. Assignments may fail due to the limited
+>>   * number of counters. However, it is not necessary to return failure.
+> 
+> This drops the original motivation for why an error is not returned, leaving
+> the claim that "it is not necessary" to return a failure without an explanation
+> why.
+> 
+> An example that adds a motivation:
+> 
+>   /*
+>    * rdtgroup_assign_cntrs() - Assign counters to enabled MBM events of a
+>    *                         resource group
+>    *
+>    * Each group can accommodate two counters per domain: one for the total
+>    * event and one for the local event. Assignments may fail due to the limited
+>    * number of counters.
+>    *
+>    * Intended to be called in auto assignment scenarios ("mbm_assign_on_mkdir"
+>    * enabled in "mbm_event" counter assignment mode) where counter assignment is
+>    * not required to succeed. Thus no failure is returned. Users can modify the
+>    * counter assignments afterwards if needed.
+>    */
+> 
 
-Run each case with the capability disabled, enabled, enabled with atomic
-truncation, and enabled with atomic truncation and writeback caching.
-Unmount and join the server before checking request counts so asynchronous
-RELEASE requests are accounted for. Skip when mounting is unavailable or
-the kernel does not advertise the requested capability.
-
-The test needs permission to create a mount namespace and mount FUSE.
-
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
----
- .../testing/selftests/filesystems/fuse/.gitignore  |   1 +
- tools/testing/selftests/filesystems/fuse/Makefile  |   2 +
- .../selftests/filesystems/fuse/no_open_test.c      | 511 +++++++++++++++++++++
- 3 files changed, 514 insertions(+)
-
-diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/testing/selftests/filesystems/fuse/.gitignore
-index b5b03db1118c..a4cb079c4bc6 100644
---- a/tools/testing/selftests/filesystems/fuse/.gitignore
-+++ b/tools/testing/selftests/filesystems/fuse/.gitignore
-@@ -3,3 +3,4 @@ fuse_mnt
- fusectl_test
- test_syncfs
- write_extend_eof_test
-+no_open_test
-diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/testing/selftests/filesystems/fuse/Makefile
-index c2de8d225447..b9682e7a2aef 100644
---- a/tools/testing/selftests/filesystems/fuse/Makefile
-+++ b/tools/testing/selftests/filesystems/fuse/Makefile
-@@ -4,6 +4,7 @@ CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
- 
- TEST_GEN_PROGS := fusectl_test test_syncfs
- TEST_GEN_PROGS += write_extend_eof_test
-+TEST_GEN_PROGS += no_open_test
- TEST_GEN_FILES := fuse_mnt
- 
- # fuse_acl_cache_test requires libfuse3; add it only when the library is present.
-@@ -16,6 +17,7 @@ endif
- include ../../lib.mk
- 
- $(OUTPUT)/write_extend_eof_test: LDLIBS += -lpthread
-+$(OUTPUT)/no_open_test: LDLIBS += -lpthread
- 
- VAR_CFLAGS := $(shell pkg-config fuse --cflags 2>/dev/null)
- ifeq ($(VAR_CFLAGS),)
-diff --git a/tools/testing/selftests/filesystems/fuse/no_open_test.c b/tools/testing/selftests/filesystems/fuse/no_open_test.c
-new file mode 100644
-index 000000000000..fd36dc96bb98
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fuse/no_open_test.c
-@@ -0,0 +1,511 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Exercise the wire protocol without requiring new libfuse interfaces. */
-+#define _GNU_SOURCE
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <linux/fuse.h>
-+#include <pthread.h>
-+#include <sched.h>
-+#include <stdatomic.h>
-+#include <stdint.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/uio.h>
-+#include <unistd.h>
-+
-+#include "../../kselftest_harness.h"
-+
-+enum { FILE_ID = 2, DIR_ID, CONTROL_ID, CREATE_ID, NR_INODES };
-+
-+struct server {
-+	int fd;
-+	bool negotiate;
-+	bool atomic_trunc;
-+	bool writeback;
-+	atomic_bool supported;
-+	atomic_uint attr_flags;
-+	unsigned int opens[NR_INODES];
-+	unsigned int releases[NR_INODES];
-+	unsigned int zero_reads;
-+	unsigned int zero_readdirs;
-+	unsigned int statx_count;
-+	unsigned int lookup_count;
-+	unsigned int plus_count;
-+	unsigned int truncates;
-+	unsigned int size;
-+	bool created;
-+	int error;
-+};
-+
-+static void reply(struct server *s, uint64_t unique, int error,
-+		  void *data, size_t len)
-+{
-+	struct fuse_out_header out = {
-+		.len = sizeof(out) + len,
-+		.error = error,
-+		.unique = unique,
-+	};
-+	struct iovec iov[] = { { &out, sizeof(out) }, { data, len } };
-+
-+	if (writev(s->fd, iov, len ? 2 : 1) != out.len)
-+		s->error = errno ?: EIO;
-+}
-+
-+static void fill_attr(struct server *s, struct fuse_attr *attr, uint64_t id)
-+{
-+	bool isdir = id == FUSE_ROOT_ID || id == DIR_ID;
-+
-+	attr->ino = id;
-+	attr->mode = (isdir ? S_IFDIR : S_IFREG) | 0755;
-+	attr->nlink = isdir ? 2 : 1;
-+	attr->size = isdir ? 0 : s->size;
-+	attr->blksize = 4096;
-+	if (id != FUSE_ROOT_ID && id != CONTROL_ID)
-+		attr->flags = atomic_load(&s->attr_flags);
-+}
-+
-+static void fill_entry(struct server *s, struct fuse_entry_out *out, uint64_t id)
-+{
-+	out->nodeid = id;
-+	out->generation = 1;
-+	out->entry_valid = 3600;
-+	out->attr_valid = 3600;
-+	fill_attr(s, &out->attr, id);
-+}
-+
-+static void *serve(void *arg)
-+{
-+	struct server *s = arg;
-+	union {
-+		struct fuse_in_header header;
-+		char bytes[16384];
-+	} buf;
-+
-+	for (;;) {
-+		struct fuse_in_header *in = &buf.header;
-+		void *payload = in + 1;
-+		ssize_t len = read(s->fd, &buf, sizeof(buf));
-+		uint64_t id;
-+
-+		if (len < 0 && errno == EINTR)
-+			continue;
-+		if (len < 0 && errno == ENODEV)
-+			return NULL;
-+		if (len < (ssize_t)sizeof(*in)) {
-+			s->error = EIO;
-+			return NULL;
-+		}
-+		id = in->nodeid;
-+		if (id >= NR_INODES) {
-+			s->error = EINVAL;
-+			reply(s, in->unique, -EINVAL, NULL, 0);
-+			continue;
-+		}
-+		switch (in->opcode) {
-+		case FUSE_INIT: {
-+			struct fuse_init_in *init = payload;
-+			struct fuse_init_out out = {
-+				.major = FUSE_KERNEL_VERSION,
-+				.minor = FUSE_KERNEL_MINOR_VERSION,
-+				.max_write = 4096,
-+				.flags = FUSE_INIT_EXT | FUSE_DO_READDIRPLUS,
-+			};
-+			uint64_t flags = init->flags;
-+
-+			if (init->flags & FUSE_INIT_EXT)
-+				flags |= (uint64_t)init->flags2 << 32;
-+			atomic_store(&s->supported, flags & FUSE_PER_INODE_NO_OPEN);
-+			if (out.minor > init->minor)
-+				out.minor = init->minor;
-+			if (s->negotiate)
-+				out.flags2 = (flags & FUSE_PER_INODE_NO_OPEN) >> 32;
-+			if (s->atomic_trunc)
-+				out.flags |= FUSE_ATOMIC_O_TRUNC;
-+			if (s->writeback)
-+				out.flags |= FUSE_WRITEBACK_CACHE;
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_LOOKUP: {
-+			struct fuse_entry_out out = {};
-+			const char *name = payload;
-+
-+			s->lookup_count++;
-+			if (!strcmp(name, "file")) {
-+				id = FILE_ID;
-+			} else if (!strcmp(name, "dir")) {
-+				id = DIR_ID;
-+			} else if (!strcmp(name, "control")) {
-+				id = CONTROL_ID;
-+			} else if (!strcmp(name, "created") && s->created) {
-+				id = CREATE_ID;
-+			} else {
-+				reply(s, in->unique, -ENOENT, NULL, 0);
-+				break;
-+			}
-+			fill_entry(s, &out, id);
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_GETATTR:
-+		case FUSE_SETATTR: {
-+			struct fuse_attr_out out = { .attr_valid = 3600 };
-+
-+			if (in->opcode == FUSE_SETATTR) {
-+				struct fuse_setattr_in *attr = payload;
-+
-+				if (attr->valid & FATTR_SIZE) {
-+					s->size = attr->size;
-+					s->truncates++;
-+				}
-+			}
-+			fill_attr(s, &out.attr, id);
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_STATX: {
-+			struct fuse_statx_out out = { .attr_valid = 3600 };
-+			struct fuse_attr attr = {};
-+
-+			s->statx_count++;
-+			fill_attr(s, &attr, id);
-+			out.stat.mask = STATX_BASIC_STATS | STATX_BTIME;
-+			out.stat.ino = attr.ino;
-+			out.stat.mode = attr.mode;
-+			out.stat.nlink = attr.nlink;
-+			out.stat.size = attr.size;
-+			out.stat.blksize = attr.blksize;
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_OPEN:
-+		case FUSE_OPENDIR: {
-+			struct fuse_open_in *open = payload;
-+			struct fuse_open_out out = {
-+				.fh = 100 + id,
-+				.open_flags = FOPEN_KEEP_CACHE,
-+			};
-+
-+			s->opens[id]++;
-+			/* Unknown wire bits must not act as private release flags. */
-+			out.open_flags |= 1U << 30;
-+			if (open->flags & O_TRUNC) {
-+				s->size = 0;
-+				s->truncates++;
-+			}
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_CREATE: {
-+			struct {
-+				struct fuse_entry_out entry;
-+				struct fuse_open_out open;
-+			} out = {};
-+
-+			s->created = true;
-+			fill_entry(s, &out.entry, CREATE_ID);
-+			out.open.fh = 100 + CREATE_ID;
-+			out.open.open_flags = FOPEN_KEEP_CACHE;
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_READ: {
-+			struct fuse_read_in *read = payload;
-+			char data = 'x';
-+
-+			if (!read->fh)
-+				s->zero_reads++;
-+			reply(s, in->unique, 0, &data,
-+			      read->offset < s->size && read->size ? 1 : 0);
-+			break;
-+		}
-+		case FUSE_READDIR:
-+		case FUSE_READDIRPLUS: {
-+			struct fuse_read_in *read = payload;
-+			union {
-+				struct fuse_direntplus entry;
-+				char data[FUSE_DIRENT_ALIGN(FUSE_NAME_OFFSET_DIRENTPLUS + 4)];
-+			} out = {};
-+			struct fuse_direntplus *entry = &out.entry;
-+
-+			if (!read->fh)
-+				s->zero_readdirs++;
-+			if (id != FUSE_ROOT_ID || read->offset ||
-+			    in->opcode != FUSE_READDIRPLUS) {
-+				reply(s, in->unique, 0, NULL, 0);
-+				break;
-+			}
-+			s->plus_count++;
-+			fill_entry(s, &entry->entry_out, FILE_ID);
-+			entry->dirent.ino = FILE_ID;
-+			entry->dirent.off = 1;
-+			entry->dirent.namelen = 4;
-+			entry->dirent.type = DT_REG;
-+			memcpy(entry->dirent.name, "file", 4);
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_RELEASE:
-+		case FUSE_RELEASEDIR: {
-+			struct fuse_release_in *release = payload;
-+
-+			s->releases[id]++;
-+			if (release->fh != 100 + id)
-+				s->error = EINVAL;
-+			reply(s, in->unique, 0, NULL, 0);
-+			break;
-+		}
-+		case FUSE_FLUSH:
-+		case FUSE_FSYNC:
-+		case FUSE_ACCESS:
-+		case FUSE_DESTROY:
-+			reply(s, in->unique, 0, NULL, 0);
-+			break;
-+		case FUSE_FORGET:
-+		case FUSE_BATCH_FORGET:
-+			break;
-+		default:
-+			reply(s, in->unique, -ENOSYS, NULL, 0);
-+		}
-+	}
-+}
-+
-+FIXTURE(no_open) {
-+	struct server server;
-+	pthread_t thread;
-+	bool running;
-+	bool mounted;
-+	char dir[64];
-+	int root;
-+};
-+
-+FIXTURE_VARIANT(no_open) {
-+	bool negotiate;
-+	bool atomic_trunc;
-+	bool writeback;
-+};
-+
-+FIXTURE_VARIANT_ADD(no_open, unnegotiated) {};
-+
-+FIXTURE_VARIANT_ADD(no_open, negotiated) { .negotiate = true };
-+
-+FIXTURE_VARIANT_ADD(no_open, atomic_trunc) {
-+	.negotiate = true, .atomic_trunc = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(no_open, writeback) {
-+	.negotiate = true, .atomic_trunc = true, .writeback = true,
-+};
-+
-+static void cleanup(FIXTURE_DATA(no_open) * self)
-+{
-+	if (self->root >= 0)
-+		close(self->root);
-+	if (self->mounted)
-+		umount2(self->dir, MNT_DETACH);
-+	if (self->running) {
-+		pthread_cancel(self->thread);
-+		pthread_join(self->thread, NULL);
-+	}
-+	if (self->server.fd >= 0)
-+		close(self->server.fd);
-+	if (self->dir[0])
-+		rmdir(self->dir);
-+}
-+
-+FIXTURE_SETUP(no_open)
-+{
-+	struct server *s = &self->server;
-+	struct stat st;
-+	char opts[128];
-+	int err;
-+
-+	self->root = -1;
-+	s->fd = -1;
-+	if (unshare(CLONE_NEWNS))
-+		SKIP(return, "need a mount namespace: %s", strerror(errno));
-+	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-+	s->fd = open("/dev/fuse", O_RDWR | O_CLOEXEC);
-+	if (s->fd < 0)
-+		SKIP(return, "cannot open /dev/fuse: %s", strerror(errno));
-+	strcpy(self->dir, "/tmp/fuse_no_open_XXXXXX");
-+	ASSERT_NE(mkdtemp(self->dir), NULL);
-+	snprintf(opts, sizeof(opts),
-+		 "fd=%d,rootmode=40000,user_id=%u,group_id=%u,default_permissions",
-+		 s->fd, getuid(), getgid());
-+	if (mount("fuse", self->dir, "fuse", MS_NOSUID | MS_NODEV, opts)) {
-+		err = errno;
-+		cleanup(self);
-+		SKIP(return, "cannot mount FUSE: %s", strerror(err));
-+	}
-+	self->mounted = true;
-+	s->negotiate = variant->negotiate;
-+	s->atomic_trunc = variant->atomic_trunc;
-+	s->writeback = variant->writeback;
-+	s->size = 1;
-+	atomic_init(&s->attr_flags, FUSE_ATTR_NO_OPEN);
-+	atomic_init(&s->supported, false);
-+	err = pthread_create(&self->thread, NULL, serve, s);
-+	if (err) {
-+		cleanup(self);
-+		ASSERT_EQ(err, 0);
-+	}
-+	self->running = true;
-+	ASSERT_EQ(stat(self->dir, &st), 0);
-+	if (variant->negotiate && !atomic_load(&s->supported)) {
-+		cleanup(self);
-+		SKIP(return, "kernel lacks FUSE_PER_INODE_NO_OPEN");
-+	}
-+	self->root = open(self->dir, O_PATH | O_DIRECTORY);
-+	ASSERT_GE(self->root, 0);
-+}
-+
-+FIXTURE_TEARDOWN(no_open)
-+{
-+	cleanup(self);
-+}
-+
-+/* Drain asynchronous releases before checking both presence and absence. */
-+static void finish(struct __test_metadata *_metadata, FIXTURE_DATA(no_open) * self)
-+{
-+	ASSERT_EQ(close(self->root), 0);
-+	self->root = -1;
-+	ASSERT_EQ(umount(self->dir), 0);
-+	self->mounted = false;
-+	ASSERT_EQ(pthread_join(self->thread, NULL), 0);
-+	self->running = false;
-+	ASSERT_EQ(self->server.error, 0);
-+}
-+
-+static void refresh_attr(struct __test_metadata *_metadata,
-+			 FIXTURE_DATA(no_open) * self, unsigned int mask)
-+{
-+	struct statx st;
-+
-+	ASSERT_EQ(statx(self->root, "file", AT_STATX_FORCE_SYNC, mask, &st), 0);
-+}
-+
-+TEST_F(no_open, files_and_directories)
-+{
-+	int fd = openat(self->root, "file", O_RDONLY);
-+	DIR *dir;
-+	char data;
-+
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(read(fd, &data, 1), 1);
-+	EXPECT_EQ(data, 'x');
-+	ASSERT_EQ(close(fd), 0);
-+	fd = openat(self->root, "dir", O_RDONLY | O_DIRECTORY);
-+	ASSERT_GE(fd, 0);
-+	dir = fdopendir(fd);
-+	ASSERT_NE(dir, NULL);
-+	errno = 0;
-+	ASSERT_EQ(readdir(dir), NULL);
-+	ASSERT_EQ(errno, 0);
-+	ASSERT_EQ(closedir(dir), 0);
-+	fd = openat(self->root, "control", O_RDONLY);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+	finish(_metadata, self);
-+	EXPECT_EQ(self->server.opens[FILE_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.releases[FILE_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.opens[DIR_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.releases[DIR_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.opens[CONTROL_ID], 1);
-+	EXPECT_EQ(self->server.releases[CONTROL_ID], 1);
-+	EXPECT_EQ(self->server.zero_reads, variant->negotiate);
-+	EXPECT_EQ(self->server.zero_readdirs, variant->negotiate);
-+}
-+
-+TEST_F(no_open, hint_changes_with_open_handles)
-+{
-+	int local, remote, local_again;
-+
-+	local = openat(self->root, "file", O_RDONLY);
-+	ASSERT_GE(local, 0);
-+	atomic_store(&self->server.attr_flags, 0);
-+	refresh_attr(_metadata, self, STATX_BASIC_STATS);
-+	remote = openat(self->root, "file", O_RDONLY);
-+	ASSERT_GE(remote, 0);
-+	/* Clearing the hint must not cause a RELEASE for the first handle. */
-+	ASSERT_EQ(close(local), 0);
-+	atomic_store(&self->server.attr_flags, FUSE_ATTR_NO_OPEN);
-+	refresh_attr(_metadata, self, STATX_BASIC_STATS);
-+	local_again = openat(self->root, "file", O_RDONLY);
-+	ASSERT_GE(local_again, 0);
-+	/* Setting the hint must not lose the server's existing handle. */
-+	ASSERT_EQ(close(remote), 0);
-+	ASSERT_EQ(close(local_again), 0);
-+	finish(_metadata, self);
-+	EXPECT_EQ(self->server.opens[FILE_ID], variant->negotiate ? 1 : 3);
-+	EXPECT_EQ(self->server.releases[FILE_ID], variant->negotiate ? 1 : 3);
-+}
-+
-+TEST_F(no_open, statx_preserves_hint)
-+{
-+	int fd;
-+
-+	refresh_attr(_metadata, self, STATX_BASIC_STATS | STATX_BTIME);
-+	fd = openat(self->root, "file", O_RDONLY);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+	finish(_metadata, self);
-+	EXPECT_EQ(self->server.statx_count, 1);
-+	EXPECT_EQ(self->server.opens[FILE_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.releases[FILE_ID], !variant->negotiate);
-+}
-+
-+TEST_F(no_open, truncate)
-+{
-+	int fd = openat(self->root, "file", O_WRONLY | O_TRUNC);
-+	bool server_open = !variant->negotiate || variant->atomic_trunc;
-+	struct stat st;
-+
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(fstat(fd, &st), 0);
-+	EXPECT_EQ(st.st_size, 0);
-+	ASSERT_EQ(close(fd), 0);
-+	finish(_metadata, self);
-+	EXPECT_EQ(self->server.size, 0);
-+	EXPECT_EQ(self->server.truncates, 1);
-+	EXPECT_EQ(self->server.opens[FILE_ID], server_open);
-+	EXPECT_EQ(self->server.releases[FILE_ID], server_open);
-+}
-+
-+TEST_F(no_open, create_releases_handle)
-+{
-+	int fd = openat(self->root, "created", O_CREAT | O_EXCL | O_RDWR, 0600);
-+
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+	finish(_metadata, self);
-+	EXPECT_TRUE(self->server.created);
-+	EXPECT_EQ(self->server.opens[CREATE_ID], 0);
-+	EXPECT_EQ(self->server.releases[CREATE_ID], 1);
-+}
-+
-+TEST_F(no_open, readdirplus_populates_hint)
-+{
-+	int fd = openat(self->root, ".", O_RDONLY | O_DIRECTORY);
-+	struct dirent *entry;
-+	DIR *dir;
-+
-+	ASSERT_GE(fd, 0);
-+	dir = fdopendir(fd);
-+	ASSERT_NE(dir, NULL);
-+	entry = readdir(dir);
-+	ASSERT_NE(entry, NULL);
-+	ASSERT_STREQ(entry->d_name, "file");
-+	ASSERT_EQ(closedir(dir), 0);
-+	fd = openat(self->root, "file", O_RDONLY);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+	finish(_metadata, self);
-+	EXPECT_EQ(self->server.plus_count, 1);
-+	EXPECT_EQ(self->server.lookup_count, 0);
-+	EXPECT_EQ(self->server.opens[FILE_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.releases[FILE_ID], !variant->negotiate);
-+}
-+
-+TEST_HARNESS_MAIN
-
--- 
-2.43.0
-
+Sounds good.
+Thanks,
+Babu
