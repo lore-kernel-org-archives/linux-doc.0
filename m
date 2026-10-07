@@ -1,86 +1,47 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFA74AF14F
-	for <linux-doc@vger.kernel.org>; Wed,  7 Oct 2026 15:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 432713B9618;
+	Wed,  7 Oct 2026 16:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791387027; cv=none; b=qVsfDLedi7HWbxgrIb6SaC+mCWF4HQpmv2ioeqLj4vcCbgc0Qia/dA0BmdzLGFLUn1JtZOibkkb/bT96YxwsdYnTP3r5KDFrtcydUjAASGSaaR4lCV+kLC8sM+KjM1Hwj5x44jr58IrgkplVP99EG5E1OyjbwLrpLMNO9n5uPhc=
+	t=1791390252; cv=none; b=C3IOhj/B8GmeRfsTY+/Kw5ykf0jMhxeUVcCew2fy08fjtvFpKm2Hqn/adAemk2R9NFW2vL5oWIFepnuUmrxP9R12Y/HoAu48jqYtB5U8YgyN+BkeDTEwghox8vOs9lTxViHG3kpAApBV5skMbYFIuAQok1lvmCmRqFAdakqoPws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791387027; c=relaxed/simple;
-	bh=5kpnZ69rpIeJK7I/vVJI1/Sd58TTWJsQUlkCNqKOhyI=;
+	s=arc-20240116; t=1791390252; c=relaxed/simple;
+	bh=yjjIU+Tw4JjtanQbUdQJJ1qJuMR0XZ51UjxvYTHvYtQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JdIR9rEEKyuC4k5lJ8LBZZl3+9+sIWv/TjdqD6gO5JXYY5nBxnw6JEFnTjNxrryw4h5jTKC7o8t9k5MAaw/e69vwvchAKZzQdQ5IHF9HxvPlu2/nfE6A3qOrhiZmxo5M3HnuhuL2RKiB34ZPf93t//vR9Wne/4IZXZ/wmPaBVIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b=YnRLPHMi; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=VtoM/0+gUj0wtfNqGFxQNTMysYjsns+uELLcYozdCw6UhX1dkjbz2YY6YKZgWD3FlY+NMCij4p2re2AqZUtE/rKzb1KFhrQKWRtTlY7wokir7274/b0wwMFnRZMWxD5Kh3FmaZc2z490flQ73wmTNidtW/uCJufFShmIAnSqtUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=SALH/rlh; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b="YnRLPHMi"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8a83d2706fdso35686467b3.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2026 08:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20251104.gappssmtp.com; s=20251104; t=1791387019; x=1791991819; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=fxMsGMJoi15xhCerKdZHKbDFnpM/+Dr7cx060hZaVDo=;
-        b=YnRLPHMiCGr5unS/o2c2EHvTVZtDLbNOMEOwpd1emzZ9X7nI/Gocgnbxthvcq+VLnu
-         m48QAP1/vPGB9oDTrrKC7Bo+unLlCLwhVA0saPLhPW1jvSP4ewxx2JLky82lJE975xJj
-         SCKdzRZDTnb2ISXI9sBkydjuiJhmpwYY1hI3Ey7dgIVXcoRJN+4tgwR3HB0ggPXc4MOa
-         9NlCL+H8UUddsFhIjUecIk0R+RAZ8hkEGx4AbJspsUeCI08jOlOBawdMppoeN/t5r5Ur
-         3RGfeYp0YyHPy74bXPTdoANsMdK8g5jDlk5C8I3+7FptOoV35TKSO8aDhYI4BtN+aCJg
-         67Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791387019; x=1791991819;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fxMsGMJoi15xhCerKdZHKbDFnpM/+Dr7cx060hZaVDo=;
-        b=HwYeilvqZDjH85xPz+uVm1AOYE0m3Kn5dJtMqj0Or1wjg083doYutCw6IJP0kIrU9r
-         5INyP583zvhe7ZqgW2tQzSilU7skXfQNzjeo9iloKxh4H34asnhjwjn7vIkaY81I/0YX
-         KPN0HMNRWoBPaLqUctN+a8XAnxhBo1y+zHEi6TO4v705MgkdVvL5jrd+O1Q8UFjv8Bcn
-         llX2XAoGAwW547q+z4Tl9gBWkljyhW+GF2zWbERmH+/r1NDgT3FL5ucDl8MqQLy+S/fu
-         Lwzoi2pT7X1S05gGXpJpDw/e5Cx2b/kq/RPSZrlodSBgbUQtPhmVZ5/YB8m9kx2aKfnP
-         VDaw==
-X-Forwarded-Encrypted: i=1; AKwUvBzxnqHYUaMHZ9JoPrFggJn61oocSA5Lmervf0RUIgmkG7QeH+N27DB6IWrV4739nlFWBxTDM4lJLPI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLGt+1MQkinwI8rQGBEpTTQTxZ5fruQf8H/Pg3UbHpdJXyBrvkb
-	AJzZW7RGkmFSHgc6U7AtN1klSVjRqZPPu7Sv2fMvd09KWgg5UdEZ3f2gB7mrC51r78J6
-X-Gm-Gg: AYBFou2plUbGciFDuRtvqWkr83aYdt/JxbMFzOcHni/Tad/IH5nNr5DW0S+VdGU0BIm
-	feJBNNZQxj2KJky0Gu9cO7GE0fL1Ny0WkMX7XZk6vhKji8JZdbj5FUefn9NcJtLj+QAdgqu6Sws
-	D1qE5r/YsFsQc+m918hWb5BvIyCiCLnorGe8M5N98dspNFoPhAyL697Njy0GdtF3Z2HZMHr+xBB
-	HghSy853pENuRnSxeY3PtUs+4SwZyxuMRauMrVdpzChfM7vOB+w6zfCgeV/OhaK32IsFl8nKmup
-	3SvqjneI29dquBZU1myQD4WgZoh/NEUB3ujs4Qr4GLkRfTbNht0gdWBGiXP3lqSnTiLEt1LSaLQ
-	CK5Q1EeM+AM9VangAd64SF0zGAM7PAIXfJ//BLeL4SsGd9FV5VFcJJZo2xNM/nDRoaN3qZ9YZKY
-	42vFrndcxpvHvtjs4QtilL6dcL4asS7/s1I0MURq8VnJdg+EGHf8iADIQvE7npL03jItQ6EKbA7
-	MXU/AkJiSG9uaFBv+nAVD6PWNC+Ec0/GbEW16ua6dc=
-X-Received: by 2002:a05:690c:6b01:b0:873:5bb2:6c3d with SMTP id 00721157ae682-8b05b14e894mr18727417b3.68.1791387018749;
-        Wed, 07 Oct 2026 08:30:18 -0700 (PDT)
-Received: from toolbx (104-53-165-62.lightspeed.stlsmo.sbcglobal.net. [104.53.165.62])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b05a9b8806sm9897427b3.1.2026.10.07.08.30.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 08:30:18 -0700 (PDT)
-Date: Wed, 7 Oct 2026 10:30:14 -0500
-From: Andrew Halaney <andrew@amutable.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: David Howells <dhowells@redhat.com>, Alasdair Kergon <agk@redhat.com>, 
-	Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, 
-	Benjamin Marzinski <bmarzins@redhat.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, dm-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	keyrings@vger.kernel.org, linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
-	fsverity@lists.linux.dev, linux-doc@vger.kernel.org, 
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
-Message-ID: <asZlNEFdvidvMdJ5@toolbx>
-References: <aqyiCavj3xeNqyAo@kernel.org>
- <20260914-ajhalaney-dmverity-key-identifier-v1-0-01922dc1366a@amutable.com>
- <20260914-ajhalaney-dmverity-key-identifier-v1-1-01922dc1366a@amutable.com>
- <715249.1789718726@warthog.procyon.org.uk>
- <aq2VxlttdlTNlHo6@toolbx>
- <arYzQN1ViuiCBemo@kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="SALH/rlh"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC3C31595;
+	Wed,  7 Oct 2026 09:24:05 -0700 (PDT)
+Received: from localhost (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9ED823F763;
+	Wed,  7 Oct 2026 09:24:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791390249; bh=yjjIU+Tw4JjtanQbUdQJJ1qJuMR0XZ51UjxvYTHvYtQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SALH/rlhsuECLnfRoBi+9Im5qe3uBK7HtkricsHfkXsuI6HZBVSorEjoSjXHhUWmH
+	 XZGHhBf4+xmnKy8w8Ko3xjrl7bfy1AWctHvs7Mb5rplMip6eUnodLdhEqt7ZV1WZpq
+	 ywmVgf9rDHrGwOxpI6uUu1+9aOjvLy+7d+cGrX/M=
+Date: Wed, 7 Oct 2026 17:24:06 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: Amir Ayupov <aaupov@fb.com>
+Cc: James Clark <james.clark@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] coresight: etm4x: Report whether the PMU counts
+ external output 1
+Message-ID: <20261007162406.GA26205@e132581.arm.com>
+References: <20261001063744.2143819-1-aaupov@fb.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,79 +50,105 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <arYzQN1ViuiCBemo@kernel.org>
+In-Reply-To: <20261001063744.2143819-1-aaupov@fb.com>
 
-On Fri, Sep 25, 2026 at 11:39:28AM +0300, Jarkko Sakkinen wrote:
-> On Fri, Sep 18, 2026 at 02:59:49PM -0500, Andrew Halaney wrote:
-> > On Fri, Sep 18, 2026 at 09:05:26AM +0100, David Howells wrote:
-> > > Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> > > 
-> > > > This is great for discussion but what we want for the commit message
-> > > > is just motivation and resolution.
-> > > 
-> > > Actually, I think it's useful that Andrew wrote up the issues in the commit
-> > > message - and I think it shows part of the motivation.  The 'writing a fake
-> > > /proc/keys line in the description' is something I hadn't considered.
-> > 
-> > I'll defer to what you all want in the message here, I found it valuable
-> > but I trend on the side of overly verbose admittedly!
-> > 
-> > > 
-> > > > I don't think we need all this just to say that /proc/keys in a racy
-> > > > query mechanism for production, which is an issue for dm-verity, given
-> > > > that nothing else is available.
-> > > 
-> > > I think at some point, we will need a system call to search all for all
-> > > accessible keys matching certain criteria by actually walking the key
-> > > database.  The problem there is that there may be multiple hits, so we may
-> > > need something like:
-> > > 
-> > > 	int count = find_key(key_serial_t start_id,
-> > > 			     const char *type, const char *desc_prefix,
-> > > 			     key_serial_t *results, size_t results_size,
-> > > 			     unsigned int flags);
-> > > 
-> > > Allowing you to do:
-> > > 
-> > > 	key_serial_t dm_key;
-> > > 	int n = find_key(0, "keyring", ".dm_verity", &dm_key, 1,
-> > > 			 FIND_KEY_EXACT_DESC);
-> > > 
-> > > This wouldn't be as fast as a direct lookup since it would have to walk the
-> > > key tree, doing name comparisons and perm checks on each key of the type.
-> > > 
-> > > > And secondly special keys are meant for implicit keyrings so isn't
-> > > > that all there's to it?
-> > > 
-> > > I have no particular objection to setting aside a block of negative key IDs
-> > > for special keyrings that need to be accessed a lot - though I would make
-> > > common reg/unreg functions that take the ID to be registered and, say, set the
-> > > block at -257..-512.  Moving the BFP keyring to -257 and DM to -258.
-> > 
-> > To be clear are you suggesting I do that for v2 here? Happy to make the
-> > change and add some reuse to the registration functions, etc. I'm
-> > guessing its fine to change the bpf id since its still only in -next?
-> > 
-> > The only awkward bit with making that more generic is that dm-verity
-> > isn't __ro_after_init since its coming from a module possibly, and
-> > because of the module usage I also protected it with a spinlock in case
-> > someone's accessing it while you unload the module. Could just use one
-> > spinlock for the whole generic array, and drop the __ro_after_init I
-> > suppose.
-> > 
-> > Let me know if I'm not following properly!
-> 
-> I just read David's response and I think he made fair arguments,
-> and patches look fine to me.
-> 
-> David, did you have anything? I could pick these.
-> 
-> Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
-> 
+Hi Amir,
 
-Gentle ping :)
+Thanks for the patch. I have a few initial comments below. We may have
+further feedback after our internal review.
 
-Are we happy with these to get picked up?
+On Wed, Sep 30, 2026 at 11:37:43PM -0700, Amir Ayupov wrote:
+
+[...]
+
+>  #define CS_CFG_MATCH_CLASS_SRC_ALL	0x0001	/* match any source */
+>  #define CS_CFG_MATCH_CLASS_SRC_ETM4	0x0002	/* match any ETMv4 device */
+> +/* ETM external output 1 is countable by the PMU as TRCEXTOUT1 */
+> +#define CS_CFG_MATCH_CAP_PMU_EXTOUT1	0x0004
+
+Do we need to tie this capability to TRCEXTOUT1? For example, Neoverse
+V2 exposes TRCEXTOUT0 through TRCEXTOUT3 as PMU events.
+
+>  /* flags defining device instance matching - used in config match desc data. */
+>  #define CS_CFG_MATCH_INST_ANY		0x80000000 /* any instance of a class */
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> index e1a59b4345052..2847d2d7f7bed 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> @@ -174,9 +174,14 @@ static int etm4_cfg_load_feature(struct coresight_device *csdev,
+>  
+>  int etm4_cscfg_register(struct coresight_device *csdev)
+>  {
+> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+>  	struct cscfg_csdev_feat_ops ops;
+> +	u32 match_flags = CS_CFG_ETM4_MATCH_FLAGS;
+>  
+>  	ops.load_feat = &etm4_cfg_load_feature;
+>  
+> -	return cscfg_register_csdev(csdev, CS_CFG_ETM4_MATCH_FLAGS, &ops);
+> +	if (drvdata->pmu_extout1)
+> +		match_flags |= CS_CFG_MATCH_CAP_PMU_EXTOUT1;
+> +
+> +	return cscfg_register_csdev(csdev, match_flags, &ops);
+
+The current matching logic succeeds if a device and feature share any
+flag bit. If the feature sets both CS_CFG_MATCH_CLASS_SRC_ETM4 and
+CS_CFG_MATCH_CAP_PMU_EXTOUT1, it will still load on an ETM4 device that
+lacks the capability.
+
+Could we check the capability separately when loading the feature,
+perhaps in cscfg_load_feat_csdev(), and skip it on unsupported devices?
+
+> +static bool etm4_pmu_has_extout1(struct etmv4_drvdata *drvdata)
+> +{
+> +	int pmuver = read_pmuver();
+> +
+> +	if (!is_midr_in_range_list(etm4_pmu_extout1_cpus))
+> +		return false;
+
+Based on specific CPU variant, we should already have identified
+TRCEXTOUT has supported.
+
+So either we only base on MIDR list or we can figure out a reliable
+way to detect the feature dynamically.
+
+> +
+> +	/* PMCEID0_EL0[63:32] describe events 0x4000-0x401f from PMUv3p1 */
+> +	if (!pmuv3_implemented(pmuver) || pmuver < ID_AA64DFR0_EL1_PMUVer_V3P1)
+> +		return false;
+> +	if (!(read_pmceid0() & BIT_ULL(32 + ARMV8_PMUV3_PERFCTR_TRCEXTOUT1 -
+> +				       ARMV8_PMUV3_EXT_COMMON_EVENT_BASE)))
+> +		return false;
+> +
+> +	/* nr_event is TRCIDR0.NUMEVENT, the number of events minus one */
+> +	return drvdata->nr_event >= 1;
+> +}
+
+[...]
+
+> @@ -1116,6 +1116,13 @@ int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+>  
+>  		if (err)
+>  			cscfg_config_desc_put(config_desc);
+> +	} else {
+> +		/*
+> +		 * The configuration is active but was not loaded on this
+> +		 * device, for example because the device lacks a capability
+> +		 * its features require. Fail rather than trace without it.
+> +		 */
+> +		err = -EINVAL;
+>  	}
+
+This fixes a pre-existing issue. It is worther to put it in a separate
+patch with fixes tag:
+
+An early return would also avoid the normal enable path's indentation:
+
+	if (!config_csdev_active)
+		return -EINVAL;
+
+	err = cscfg_csdev_enable_config(config_csdev_active, preset);
+	...
 
 Thanks,
-Andrew
+Leo
