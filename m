@@ -1,78 +1,92 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB99A36194C;
-	Thu,  8 Oct 2026 21:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A510435FF6C;
+	Thu,  8 Oct 2026 21:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791493791; cv=none; b=NjjEQF43CzFQHtwb8VY8jW7hDC6MotuHVv06L4Q0ZIvsjRnG8iIOj3XVF8/1NZOjwxk7FsrH6FahzqikFoJHQ+n8bwA6rjj+1aQzNCpf1fsrX+PWkdMUmSGQk4aCO0ygpUFyNrsT30hT2mxMJbIbhSefud+uLKEVAmrPds5gQyo=
+	t=1791495890; cv=none; b=fcbFMeqlt678+BHM11LrjCF/IwdoxczAMM2VT9A+d+FO4WDkTJcoVqGV9qqlfmV+QWT2Q08n8ULGHxkg2HLS7rkQaWB1mzwL9+lH7xt1UB1NQeFVB1jp19oho1LHBiSaRrj2G3xiDFDN6InP+zuaq+sLb0QMbBrA/zi0TqWlYls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791493791; c=relaxed/simple;
-	bh=GmXQ5SxYhRzI/e2c38oVygRqTxUrgnmGAt1AI6EQLCs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ovnOU+sNX+ST9Hd/gFTwmFKWyeVULJi8IOKALb1bb4B14raNNsbP7Hgco8HikBUVrvYzxyUiOsQaBTSad6hlgpS7CmhdgrJpNUtE0K6lOYYvKyLsHUbnywhfzDWP7IUBe8vCoONXlx6GL6F6IMvMU0VyiDjPKhnFyKOmnkX6qgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AhLoOiUn; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1791495890; c=relaxed/simple;
+	bh=V5hyUjce0dyiGY9B38zdGs+bp16nnUtkw0t3Xbr0hrI=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=Zc1jSI+JvlBTzMJWpZLHb9ndSk6Tiq36RIdz8A/6Hwm1Qx0Xl2f1kOeld0/MB03kPgUyGbOWfYE/lp8KdfZ++Ra38FvLFERxNASUifTwC2LD+Fuj1tXI88xg9bo39nj2lV5HDaAjWEm+IGShbLBWCXpSDtNmtFp9MB4HLAsV3O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jWzmUdqj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AhLoOiUn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=dEaNN5QaqfENY+W8IMAdAhQJTg7qgggAe6er7ZK5B6g=; b=AhLoOiUnODXkJFR+hF+L2u6duR
-	6SvFyuDOGm5c5bD4g03iniYvYALEoAZYU4zUzKlMkPoccrAkBbbW2sZUneSFB9GUdz7IbSYvgaEIP
-	XMcMMAjMrZA1dAsBnWXIkV/wIBanLxtexmFR0UkotVlWzbRPbynRDnXB/W9prwSPGN0GwjKUo3N4i
-	sqdykw1bnyuSAO9qhyX1uGz+rF7dNLUJjEH1FFxhIVcs9AguvMv7F6HnxSorwyx0iA5zM9kjUQJb/
-	bOPcj+/mNhzeryQi+xJI0FZrheUKGUKp82umZEjBVU5Na38wROn1QxSAQYuz1pAn2rGpNUzUnsTFu
-	ca9GCMSw==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xEvN2-000000053vb-0pQ9;
-	Thu, 08 Oct 2026 21:09:44 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] docs: ioctl-decoding: use a list for bit meanings
-Date: Thu,  8 Oct 2026 14:09:43 -0700
-Message-ID: <20261008210943.3297085-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jWzmUdqj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D1BC1F000FF;
+	Thu,  8 Oct 2026 21:44:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791495889;
+	bh=AQbyI5xskQ8NVKHXl0zWyTvdWxuuhblMJj4vmGkU8hE=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=jWzmUdqjRh7znL9SYL0fjYFqVaiT7ifzU/aR2GHWmToi4lUxGzOk3WYRxhFPAONnE
+	 9ZAnf08DAHjPniwJKjinTZiD6wVWOcac3VtD8JBj4/vncHe55h6bFFETLQCz+Qo5Fq
+	 ZeD/XucbA3D2AV1jpDWHd3lXijHNwJgFUGkRbN5PJf+axnGLzvrparOgo5PJI2i5uu
+	 nstUWvg20aN1BdU9xcUPwCX402bWFKS2as1U9XPvHUAiz7EdIW6gz5WHqb0+NET1bK
+	 JkRMbPGHfdAytedhghy5zoio6YW1UGA6Kk1lFAHjasiGk+IkYLxkz9iYZ2v1uB7Gyw
+	 WiyeVIwUFZwrA==
+Content-Type: multipart/mixed; boundary="===============6446318386397627273=="
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <910460850fd4163dadb804fbdf6c17f6a9dfec060f4d865a17df87336ea3e165@mail.kernel.org>
+In-Reply-To: <20261008-ajhalaney-dmverity-key-identifier-v2-1-008456d189cb@amutable.com>
+References: <20261008-ajhalaney-dmverity-key-identifier-v2-1-008456d189cb@amutable.com>
+Subject: Re: [PATCH bpf-next v2 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
+From: bot+bpf-ci@kernel.org
+To: andrew@amutable.com,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,agk@redhat.com,snitzer@kernel.org,mpatocka@redhat.com,bmarzins@redhat.com,dhowells@redhat.com,jarkko@kernel.org,paul@paul-moore.com,jmorris@namei.org,serge@hallyn.com,ebiggers@kernel.org,tytso@mit.edu,corbet@lwn.net,skhan@linuxfoundation.org,rdunlap@infradead.org
+Cc: dm-devel@lists.linux.dev,linux-kernel@vger.kernel.org,keyrings@vger.kernel.org,linux-security-module@vger.kernel.org,bpf@vger.kernel.org,fsverity@lists.linux.dev,linux-doc@vger.kernel.org,andrew@amutable.com,brauner@kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
+Date: Thu,  8 Oct 2026 21:44:46 +0000 (UTC)
 
-Make a list of the bits 31-30 meanings so that they don't all
-run together in the rendered output.
+--===============6446318386397627273==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> keys: add KEY_SPEC_DM_VERITY_KEYRING
+
+TL;DR: Design/uapi question: was David Howells' v1 suggestion (reserved
+negative key ID block, common register functions) intentionally dropped? The
+new uapi value -10 should be settled before release.
+
+> diff --git a/include/uapi/linux/keyctl.h b/include/uapi/linux/keyctl.h
+> --- a/include/uapi/linux/keyctl.h
+> +++ b/include/uapi/linux/keyctl.h
+> @@ -25,6 +25,7 @@
+>  #define KEY_SPEC_REQKEY_AUTH_KEY	-7	/* - key ID for assumed request_key auth key */
+>  #define KEY_SPEC_REQUESTOR_KEYRING	-8	/* - key ID for request_key() dest keyring */
+>  #define KEY_SPEC_BPF_KEYRING		-9	/* - key ID for the BPF-specific keyring */
+> +#define KEY_SPEC_DM_VERITY_KEYRING	-10	/* - key ID for the .dm-verity keyring */
+
+On v1, David Howells wrote:
+
+  I have no particular objection to setting aside a block of negative key
+  IDs for special keyrings that need to be accessed a lot - though I would
+  make common reg/unreg functions that take the ID to be registered and,
+  say, set the block at -257..-512.  Moving the BFP keyring to -257 and
+  DM to -258.
+
+  (<715249.1789718726@warthog.procyon.org.uk>)
+
+The question of whether this was being asked for v2 was raised in reply, but
+there was no answer, and this version still continues the one-off -9/-10
+sequence with a dm-verity specific key_register_dm_verity_keyring() and
+dm_verity_keyring_lock.
+
+Was the suggestion to use a reserved ID block with common register and
+unregister functions intentionally dropped, or should it still be addressed?
+
+Since KEY_SPEC_DM_VERITY_KEYRING is a UAPI value, would it be possible to
+settle this before the -10 value is released?
+
+
 ---
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
- Documentation/userspace-api/ioctl/ioctl-decoding.rst |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
---- linext-2026-1007.orig/Documentation/userspace-api/ioctl/ioctl-decoding.rst
-+++ linext-2026-1007/Documentation/userspace-api/ioctl/ioctl-decoding.rst
-@@ -11,10 +11,10 @@ uses 3 bits to encode read/write and 13
-  ====== ==================================
-  bits   meaning
-  ====== ==================================
-- 31-30	00 - no parameters: uses _IO macro
--	10 - read: _IOR
--	01 - write: _IOW
--	11 - read/write: _IOWR
-+ 31-30	* 00 - no parameters: uses _IO macro
-+	* 10 - read: _IOR
-+	* 01 - write: _IOW
-+	* 11 - read/write: _IOWR
- 
-  29-16	size of arguments
- 
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/37844805282
+--===============6446318386397627273==--
