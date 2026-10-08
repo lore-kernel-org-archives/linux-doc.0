@@ -1,194 +1,220 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4DD37FF53;
-	Thu,  8 Oct 2026 03:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782D0386441
+	for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2026 05:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791430282; cv=none; b=jZhLjal5X8w72wm5pWX1mTaVTKVwHcuxexXndawb9jhfrK5mfWwEKkKpw/I9W8ILBgvdfm5cfbTU8bSd40pnyR4qbxHVdl553gMtxyLJ4Eg8PefQ6QcKoQwSD5jb1QsrJtFlDwceevorUTob9zXqMHURVuCHcaXiT+WRVqnUolU=
+	t=1791437878; cv=none; b=EQ3DFpXnAQb/03erJJHwTOhjs20yGTHVVi1i4k2x4F2eDb9BGRpS6tvA9mLbeui8i7Y1IPtu+f69DD8FJ5z/ZElk3yV3CXZp6Hfu4Qjsb8BtYoQ1meRpoxGtFUH50pOUn2M9pL5teYC/+G0Ch7FjAjeEGW11CefrAXRF3+o+jq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791430282; c=relaxed/simple;
-	bh=Rsk8qalhAFrI7bNXjDuRHfYdKBM4cNyRHBGNeCntXgU=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gge6VBwg/0Q/ylsYr2ugsWkz4PWU9f9pz5BuKJ2pKQfsZjcmGzaEDEdjXuFargoLrYmMF4LucFmy80/k5sOHQprf1P3ESNPg0Xd9lQVjPXQ6kwFw+3AtYWA6crGGNQxRr/lYCQT31h0E8FS5xhYofSqfDJrVh+02Pm9vbGnCFOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SuTyKB8P; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791437878; c=relaxed/simple;
+	bh=E+Z6phyE5KtVT1dh0BRUp8GniqmY3N7HTAQ1ZDrVxXg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ixPsT5tzILVB84m6huZw/corqN0fx6LsigEpsIe11H136sNQwGkpUp+oFUfbVJ2Y279s1KfzHRrkHzNmiPr8hvPzwLnxOJoDrhA86anBaj2lEmseaOg3NccBTCLnbOGKYvsyaleIMOm2GUTCg5BkWXDi+ilo+SBkujVEAw+81Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qoxW+9io; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SuTyKB8P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32AA01F000FF;
-	Thu,  8 Oct 2026 03:31:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791430280;
-	bh=doKya4TAuwuHLjF27X1lAAmDyISiCJjGAuVsJzbKKn8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=SuTyKB8PKCpuXQRpNNMteStsvgdrrTq2oVSPKL1hgKIngWsnJNqMsCeOMPeokbN3J
-	 +zzkePmdsXkyx29wm5SIejSGty1eVdM8tJXkuJwxrwbi+ki0Sir7RWcrD33lQJNjpG
-	 DbuZXEhScB1+Crbc+ehCF6MXNxJqPwTzc55mFDWNR6ca8ChFRG8ycFsH7yE1J6tWfX
-	 Yo3eKm9IYYhAZ+n7MqeGhZk8oH32Ou7W3btRNvGo6SUZ/dSeLawd1ApR4KZY09Yi/O
-	 LoZ8BxVw1v6vIHiLyPfJtxgN4NrgFt3QlDivG8m8mJrBGScsdyaHuo1+kiuk8omp0e
-	 LtI8yrqJImX4Q==
-Subject:
- Re: [PATCH net-next 4/4] net: ethernet: qualcomm: ppe: Add IPQ5332 support
-From: netdev-bot+sashiko@kernel.org
-To: mail@tk154.de
-Cc: netdev@vger.kernel.org, jie.luo@oss.qualcomm.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, horms@kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- quic_leiwei@quicinc.com, quic_suruchia@quicinc.com, quic_pavir@quicinc.com,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Thu, 08 Oct 2026 03:31:18 +0000
-Message-ID: <179143027873.434549.15034517641240789690@kernel.org>
-In-Reply-To: <20261005152915.101780-5-mail@tk154.de>
-References: <20261005152915.101780-5-mail@tk154.de>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qoxW+9io"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48b03f23305so4051873f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2026 22:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791437875; x=1792042675; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zY5H8Ld+yTEStTJ845AFIVQiXLDAAM2/XkAD8HwKJ8I=;
+        b=qoxW+9ioLaqKc7TtWCDQpoGQtZA6oNJZ329NByvU1jtZUxssnxl+vrgpNgmyd9C+P+
+         a2b9teFBn8riaFmJH7UKdIR6ZQwi0z1UgyiLbAMQ1Q+Z5MIA//V/oojAhhspVoa/0qYc
+         Aw1xpg6ADmko5Htp2WUWcQL5VL+hHGgpm+HjBarPVbF2iJTiRLQF3Zp0aFP7oVrAHXFd
+         sNj8DryUzmQMb1LNtxQnar+A2kg8O8ucHbgnq3D6+0FhLa/Vl5HOvXuTSQIk9EB3AzWA
+         UVV8awoJ9HNxpbcqTLVQMZsBKSYTDM8qoedt9tHsXOr4+XzC6mBeJDJBwgZbz49kHz0V
+         /xWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791437875; x=1792042675;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zY5H8Ld+yTEStTJ845AFIVQiXLDAAM2/XkAD8HwKJ8I=;
+        b=khYfG2C/5XkSf5eeCb47uLjQip6EBXcT3XT0ZH8X4iC4i3yiMP4slcE5pNl4To1Tk4
+         BhT4YIDgg9SoAr7+8phODSU9/pp8cPlfsHSQrVCnVCrZ3sQAfQvchLvtMqTE5Lc29OhG
+         CJ0Rn8JQ1Jj+Belc3P7vlsxYiqPF5whciARUGmese29SB8S5yUOxJLWlOBOdxcNXiqVp
+         hVWxD5G2PxNbz6o/pLr+gQpWTLg7U9v25ZaqMek29GAiJbkvJSCKaTF8m2tLDG8bXDCv
+         bVAzKMrPsBYU18l1fN3bInzqEyIqAH32Jh8QD9gnd4PoXYeSwDA2f6pUoH7TIFxkFBxu
+         C5Ag==
+X-Forwarded-Encrypted: i=1; AKwUvBy9FCPoLyYqNz7n4BVoer++1VSzqMK/bB9x01ptshJ7xpEt2komSO1RqbGckNZVI/z7KgVpxm6N200=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLlqMjEeV2sy5NRlbQ0zssbS9uqvk5zsxwLEJFLemIGhqpbcKYD
+	JfSTb0lYiDOXTtPIUCmwLCd5y1iKm+It076ixsCeYmlDpsK4i8D9g2Mx
+X-Gm-Gg: AYBFou1ITQnoEL+IacupbQRgLw04FpPmo14TP4KY1LJNi67inY3FV7Bnjw4wbwomgMj
+	UB592Xw7BP7RmSDXPCGaJutzMzb86hZd0R6ejdrZB9wyYn3GczErZNriu5UBPiudNDuiTAOHj73
+	GEhRaL48bzjLEum36c2tOdwPXEaj8AhXWt3bn8S/FoCbinWyhqVdnDB7UQWKQldIaN52oN7kSog
+	HDBwDk0R2mkzFZhh6YLHqHU0pWfm6IvP0t3rGLmW+UIWhrdoWhbm+EzRO3BeNjdHDB5cWJM4pXq
+	hFogi1SXvdzIMc/9krRyOPyXkce5LwSu7GE/krmL7GefTEVBdw7Xr5wgEMY94v3vBLWpM4gJOzM
+	2WNMmatR4g97c3vwDG3lwLUePSna+pfevmV0JAkpSsFVegYK0NYsgj/A6f/r58nwYuLwl87aBai
+	focsmJTIsXDhbnyXS4/xS78rQcwXY58559kHYRYSjy0uCDd1geJ3g+cRK0BueuP3U9zqLqPK1FH
+	21RBJkrne6FCmE+uoxNoLVOnL7ETMQeQM+Nm/4Ym5fyn9Eky1Y5dGBnJB1LG5Czjoi4SQQHzyR9
+	8ACX4iRSqaCKRWo0xbyWinb2IeSOOLv8HSaTcXx2+9qWHEcrBh7VENJ7JaxDa0AzegqIs3gwC8R
+	pwu66rIs=
+X-Received: by 2002:adf:f001:0:b0:48a:fbcf:6f43 with SMTP id ffacd0b85a97d-48c72897157mr6171337f8f.54.1791437874320;
+        Wed, 07 Oct 2026 22:37:54 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-ad61-5a01-743c-891f-b33c-cae7.310.pool.telefonica.de. [2a02:3100:ad61:5a01:743c:891f:b33c:cae7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d1f8fbsm8458219f8f.33.2026.10.07.22.37.52
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 07 Oct 2026 22:37:53 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Russell King <linux@armlinux.org.uk>,
+	Miguel Ojeda <ojeda@kernel.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linusw@kernel.org>,
+	Christian Schrefl <chrisi.schrefl@gmail.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org,
+	llvm@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/6] ARM: rust: Enable Rust support for ARMv4T, ARMv5TE and ARMv6K
+Date: Thu,  8 Oct 2026 07:37:40 +0200
+Message-Id: <20261008053746.49631-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+Rust on 32-bit ARM is limited to kernels that contain an ARMv7 CPU.
+This series extends it to ARMv6K-only, ARMv5TE and ARMv4T kernels.
+Based on v7.3-rc1.
 
-Low priority / nit picks for your consideration:
+Linus Walleij asked for older ARM cores during review of the ARMv7
+support [1]. Christian Schrefl's earlier ARMv5 attempt [2] hit atomic
+and ABI problems. The kernel crate now uses C atomic helpers, and the
+*-linux-gnueabi targets used here keep the Linux EABI.
 
-- [Low] On IPQ5332, the comment in ppe_clock_init_and_reset() (ppe.c
-  lines 187-190) is no longer true.
+Patch 1 fixes a Rust build failure with gcc 8.1.0 and
+CC_OPTIMIZE_FOR_SIZE on ARMv7, without the rest of this series. It can
+be merged separately and is tagged for stable.
 
-Pre-existing issues:
-- [Medium] This problem wasn't introduced by this patch, but the patch
-  depends on it.
+Patches 4 and 5 depend on patch 2 for 16-bit xchg() on pre-ARMv6 CPUs.
+Patch 6 switches ARMv7 kernels to the ARMv7 Rust target and can be left
+out. Combined ARMv6K and ARMv7 kernels keep the generic ARMv6 target.
 
---
+Arnd suggested -Ctarget-cpu with arm-unknown-linux-gnueabi. Its explicit
++v6 remains in effect with -Ctarget-cpu=arm926ej-s, so libcore contains
+ARMv6 instructions. Disabling +v6 produces ARMv5TE code but warns about
+an unstable target feature. The ARMv4T and ARMv5TE targets also declare
+32-bit atomics rather than 64-bit. The series selects the target next
+to -march.
 
-net: ethernet: qualcomm: ppe: Add IPQ5332 support
+ARMv4 without Thumb, ARMv7-M and plain ARMv6 (ARM1136r0) stay excluded.
 
-This patch adds qcom,ipq5332-ppe match data to the PPE driver: a 200 MHz
-PPE clock, four interconnect paths and three ports. It also adds IPQ5332
-specific BM/QM limits, thresholds and scheduler arbitration tables, and
-reuses the IPQ9574 scheduler resource table for ports 0-2.
+The Rust samples, Rust KUnit suites and doctests passed in the following
+ARM-mode kernels on v7.3-rc1.
 
-> diff --git a/drivers/net/ethernet/qualcomm/ppe/ppe.c b/drivers/net/ethernet/qualcomm/ppe/ppe.c
-> index 0ef72c20364be..69e970db4a78b 100644
-> --- a/drivers/net/ethernet/qualcomm/ppe/ppe.c
-> +++ b/drivers/net/ethernet/qualcomm/ppe/ppe.c
+QEMU:
 
-[ ... ]
+- ARMv4T: sx1 (OMAP310, ARM925T), omap1_defconfig, 360 doctests.
+  CPU_DCACHE_WRITETHROUGH was disabled because QEMU does not implement
+  the CP15 register it writes.
+- ARMv5TE: versatilepb (ARM926EJ-S), versatile_defconfig, 355 doctests.
+- ARMv6K: raspi0 (ARM1176), bcm2835_defconfig without ARCH_MULTI_V7,
+  368 doctests.
+- ARMv7: virt (Cortex-A15), 371 doctests. With clang 22.1.8, Rust
+  modules also loaded, including the PCI and DMA samples on pci-testdev.
 
-> @@ -65,6 +89,14 @@ static const struct icc_bulk_data ipq9574_icc_data[] = {
->  	},
->  };
->  
-> +static const struct ppe_plat_data ipq5332_ppe_data = {
-> +	.soc_cfg = &ipq5332_soc_config,
-> +	.icc_data = ipq5332_icc_data,
-> +	.ppe_clk_rate = 200000000,
+The ARMv4T, ARMv5TE and ARMv6K QEMU runs used these toolchains:
 
-[Severity: Low]
-This isn't a bug, but now that IPQ5332 goes through
-ppe_clock_init_and_reset(), is the comment there still accurate?
+- clang 22.1.8, rustc 1.99.0, bindgen 0.73.2
+- gcc 15.2.0, rustc 1.98.0, bindgen 0.72.1
+- minimum LLVM 17.0.1, rustc 1.85.0, bindgen 0.71.1
+- minimum gcc 8.1.0, binutils 2.30, rustc 1.85.0, bindgen 0.71.1
 
-drivers/net/ethernet/qualcomm/ppe/ppe.c:ppe_clock_init_and_reset() {
-    ...
-	/* The PPE clocks have a common parent clock. Setting the clock
-	 * rate of "ppe" ensures the clock rate of all PPE clocks is
-	 * configured to the same rate.
-	 */
-	clk = devm_clk_get(dev, "ppe");
-    ...
-}
+ARMv7 virt also passed with both minimum toolchains. No additional
+toolchain requirement was found.
 
-In this series, the qcom,ipq9574-ppe.yaml binding requires a fifth clock
-for qcom,ipq5332-ppe. It is described as "PPE sleep clock from GCC" and
-does not share the NSSCC parent of the other PPE clocks.
+Hardware:
 
-devm_clk_bulk_get_all_enabled() enables that clock at its own rate. Only
-"ppe" gets clk_set_rate().
+- Microchip SAM9X75 Curiosity (ARM926EJ-S), clang 22.1.8, 356 doctests.
+  Tested with an ARMv5-only config and with at91_dt_defconfig, which is
+  built for ARMv4T. Rust sample modules loaded and unloaded.
+- Raspberry Pi 400 (Cortex-A72), 32-bit LPAE kernel, 371 doctests.
+  Both ARMv6 and ARMv7 Rust targets were tested with clang 22.1.8 and
+  with gcc 8.1.0 at CC_OPTIMIZE_FOR_SIZE. With the ARMv7 target and both
+  compilers, Rust sample modules loaded and unloaded. rnull read and
+  write tests passed, and Rust cpufreq-dt switched between 600 MHz and
+  1.8 GHz.
 
-Could the comment be updated so it no longer claims that all PPE clocks
-end up at the same rate?
+The optional panic QR renderer was disabled for the GCC build with the
+ARMv7 Rust target. With rustc 1.85.0 and size optimization, its object
+references __aeabi_uldivmod, which the ARM kernel does not provide.
+An unpatched v7.3-rc1 QR object has the same reference.
 
-> +	.num_icc = ARRAY_SIZE(ipq5332_icc_data),
-> +	.num_ports = 3,
-> +};
+ARMv6K has been tested in QEMU only.
 
-[ ... ]
+Built-in Rust code ran on Thumb-2 kernels on the Pi 400 and in QEMU,
+with both ARMv6 and ARMv7 Rust targets. Tested Rust modules failed with
+"unsupported interworking call (ARM -> Thumb)", also on unpatched
+v7.3-rc1. One open question is whether HAVE_RUST should exclude
+THUMB2_KERNEL && MODULES or leave module loading to a follow-up.
 
-> diff --git a/drivers/net/ethernet/qualcomm/ppe/ppe_config.c b/drivers/net/ethernet/qualcomm/ppe/ppe_config.c
-> index 65ac6c0841d5a..91e6ee9524a60 100644
-> --- a/drivers/net/ethernet/qualcomm/ppe/ppe_config.c
-> +++ b/drivers/net/ethernet/qualcomm/ppe/ppe_config.c
+I plan to submit the enablement patches through Russell's patch system
+unless the ARM and Rust maintainers agree on another route.
 
-[ ... ]
+Changes in v2:
+- Select the rustc target next to -march and explain why -Ctarget-cpu
+  on the generic target is not enough (Arnd).
+- Add ARMv4T and ARMv6K-only support (Arnd).
+- Add optional patch 6 for the ARMv7 Rust target (Arnd).
+- Keep ARMv7-M and plain ARMv6 excluded (Arnd, Bradley).
+- Test Thumb-2 kernels and document the Rust module failure (Arnd).
+- Test gcc and the minimum tool versions (Miguel).
+- Add patch 1 for the build failure found with gcc 8.1.0.
+- Patch 2: unchanged code, collected Arnd's Acked-by and Reviewed-by
+  tags from Linus Walleij and Bradley Morgan, and explained the plain
+  ARMv6 exclusion (Arnd).
+- Update the atomic-helper architecture lists and architecture table.
 
-> @@ -264,6 +298,30 @@ static const struct ppe_qm_queue_config ipq9574_ppe_qm_queue_config[] = {
->  	},
->  };
->  
-> +/* IPQ5332 unicast and multicast queue thresholds. */
-> +static const struct ppe_qm_queue_config ipq5332_ppe_qm_queue_config[] = {
+v1: https://lore.kernel.org/rust-for-linux/20261003093827.77857-1-kmehltretter@gmail.com/
 
-[ ... ]
+[1] https://lore.kernel.org/rust-for-linux/CACRpkdYF0sVB2-qgy=GzETSR3+2sagVQPGdunDQDJrn8KqJorA@mail.gmail.com/
+[2] https://lore.kernel.org/rust-for-linux/b13d37bd-ec68-4713-94e5-e9ed4d6a6354@gmail.com/
 
-> +	{
-> +		/* QM settings for multicast queues 256 to 299. */
-> +		.queue_start	= 256,
-> +		.queue_end	= 299,
-> +		.prealloc_buf	= 0,
-> +		.ceil		= 50,
-> +		.weight		= 0,
-> +		.resume_offset	= 18,
-> +		.dynamic	= false,
-> +	},
-> +};
+Karl Mehltretter (6):
+  ARM: cmpxchg: always inline __arch_xchg() and __cmpxchg()
+  ARM: cmpxchg: support 2-byte xchg() on pre-ARMv6 CPUs
+  ARM: rust: Enable Rust support for ARMv6K-only kernels
+  ARM: rust: Enable Rust support for ARMv5TE
+  ARM: rust: Enable Rust support for ARMv4T
+  ARM: rust: Build Rust code for ARMv7 on ARMv7 kernels
 
-[Severity: Medium]
-This is a pre-existing issue, but do these multicast thresholds ever reach
-the hardware? ppe_config_qm() indexes the multicast admission control
-table with the global queue ID:
+ Documentation/rust/arch-support.rst |  8 ++++----
+ arch/arm/Kconfig                    |  8 +++++++-
+ arch/arm/Makefile                   | 10 +++++++++-
+ arch/arm/include/asm/cmpxchg.h      | 26 +++++++++++++++++---------
+ rust/helpers/atomic_ext.c           |  4 ++--
+ 5 files changed, 39 insertions(+), 17 deletions(-)
 
-drivers/net/ethernet/qualcomm/ppe/ppe_config.c:ppe_config_qm() {
-    ...
-	} else {
-		reg = PPE_AC_MULTICAST_QUEUE_CFG_TBL_ADDR +
-		      PPE_AC_MULTICAST_QUEUE_CFG_TBL_INC * queue_id;
-    ...
-}
 
-The multicast config table is a separate table with 44 entries:
-
-#define PPE_AC_MULTICAST_QUEUE_CFG_TBL_ADDR	0x84a000
-#define PPE_AC_MULTICAST_QUEUE_CFG_TBL_ENTRIES	44
-#define PPE_AC_MULTICAST_QUEUE_CFG_TBL_INC	0x10
-
-With that indexing, queue 256 maps to 0x84b000 and queue 299 maps to
-0x84b2b0. Both addresses are past the end of the table at 0x84a2c0 and
-before PPE_AC_GRP_CFG_TBL_ADDR (0x84c000).
-
-The debugfs code for the matching multicast counter table subtracts the
-unicast entry count first:
-
-drivers/net/ethernet/qualcomm/ppe/ppe_debugfs.c:ppe_queue_counter_get() {
-    ...
-			int mq_offset = i - PPE_AC_UNICAST_QUEUE_CFG_TBL_ENTRIES;
-    ...
-}
-
-If that is the intended indexing, neither these IPQ5332 values (ceil 50,
-resume_offset 18) nor the IPQ9574 ones are ever written. The real
-multicast entries keep their reset values, and the read-modify-write
-cycles hit undocumented QM addresses instead.
-
-This looks like it goes back to commit 806268dc7efd ("net: ethernet:
-qualcomm: Initialize PPE queue management for IPQ9574").
-
-Should ppe_config_qm() use queue_id - PPE_AC_UNICAST_QUEUE_CFG_TBL_ENTRIES
-as the multicast table index?
-
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261005152915.101780-1-mail%40tk154.de
+2.39.5 (Apple Git-154)
+
