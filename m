@@ -1,333 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DDC4848B5;
-	Thu,  8 Oct 2026 22:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE56448D02;
+	Thu,  8 Oct 2026 23:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791500105; cv=none; b=K+mH9zfVeuO4owvSLonjwqSA8V98kWTa+5jTMiWGaCfzsiwajvckqqugYfosRPjAyJz3ZFTkW4stYKyu4nILeGdb7pBO9epyJMLFgVKde4GvCdhHXn0la1Un1iYC8QM3/Td3RwqTlykPIi40bb6eTBaJOMDjJ2qmhllmgHtbu+8=
+	t=1791503999; cv=none; b=mWxUf6IHknxfFd2UUN9jHlyga/TgOuiLApKgQQuQltia91T0aNySYFIVJh9i3WU+NN4G4HJgwpTOLwLKmhmpVnC/AmdyjcaIeXUCif5YG8/2ML/Zx83ywORPgbHhs/8CdvY89r6QcvGU+8jeC0ACx66BToW0957kfkLs62DqqzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791500105; c=relaxed/simple;
-	bh=7J9EuwtDQ/aJTnDVN5RY+Uhe+Rzm4bzCV5p6YYw8Wb0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MGXNEkxs0lqwCa5K9kL9AA6sddsOVAqnV+0RFGQt2Z1dmeG3piYjKYRMqVYPkzO7ydr40oBo50Dl/Iy3Ml2Bg5R6qewfhJ3xmeZeXz38vRh6e3pWiQtT1M524dJ39Duiif8/f9+n/titdJOcKhvH/J+d5CSOKW3I9jcLhYqAeAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I+nKlPXO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791503999; c=relaxed/simple;
+	bh=8O7QGNoYuQknRz+b/JCuamzNlQi9OXLlLH8Pn9qIFCI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YP422ir0SKMsCPiB1IQEBD99mZA2aNSZCEN8b/PDmVvUA8Vmg4kv/H5EuJOKC9lTPHYzyaTIfP1wxrUa19eFnh3hxyPlFF5Bs0IjmKtwz62wYAc3i7hyx7jusDlZ1FG/Fvl6jnY++uCQVmklbQpEsfxvpN8aeDcXHv4G+bFMAmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OBHc1Hin; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I+nKlPXO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6EC71F000FF;
-	Thu,  8 Oct 2026 22:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791500104;
-	bh=cskik24SCULW545upNBNpo8eAO0Ae33CcgUL2MM5UfQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=I+nKlPXOe9R4Nh1AtLxMseykatglNaHXn6TwqOzNVTM9foznXnf4LKAd1FSA5424F
-	 KdjN/Vb73MMlETH/nZyeuu2zDlGKWGzIrwKVoMLtZgbCCL8e0+dlZB5UJnBWb6uceo
-	 TvBnsE8HeSYP1ot2hbpJtktPvRiLFh/Hk/W9ErKGuD7Y0lKD8DouR5CtZzU1zcVuiI
-	 8X3kd23nnIU13Qeb8ubizVpaZwaQBJ5OlQwc7DexNAgsvbqfCofeBHoZmcYeorYm0M
-	 2R7zVJidN2FZBdBQIdeQhA4joSuNs8P7j1Y0z5Q4wtZ64KbPZbsGH3IBvLImPh6EQd
-	 gZVlQU2FncKQw==
-From: Sasha Levin <sashal@kernel.org>
-To: workflows@vger.kernel.org,
-	ksummit@lists.linux.dev
-Cc: linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OBHc1Hin"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791503998; x=1823039998;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8O7QGNoYuQknRz+b/JCuamzNlQi9OXLlLH8Pn9qIFCI=;
+  b=OBHc1HingMF3S8xnBR6A2xihagE2CIdWqUmPDqiT0ZtQfyKPpSFl3jev
+   0JpTaELHbVb7wK043cYPda4DnwTMRnm0N1mS4wiUcIgMFHRXeI8YNS5Nb
+   wKMIrHgdspUc5H5bfkEO5c3KWtnc6zrYjtvy99it333QhUsavg4D0fO75
+   HaxY1IsSjEiksX2uC+RMGXtfMsfsfyj8md2MCKlK8Ii6ppIrIgTXfsYfS
+   l8lg6Z3sHmIyRNlTTvz2NVcNqZD9ImldOlvg7n2A7kYqVMRbnrnphY9Pp
+   utVkjPIpNClwuHkuXxMf6o8cCXjzTYE1p0e4zCZf/QDHIVoDRJtZ506cl
+   g==;
+X-CSE-ConnectionGUID: wwsRKxhfTuuda6CTxdbv6A==
+X-CSE-MsgGUID: 2xMN1ASRQ2KBgnJ5+/6X7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="199528"
+X-IronPort-AV: E=Sophos;i="6.27,147,1787036400"; 
+   d="scan'208";a="199528"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 16:59:57 -0700
+X-CSE-ConnectionGUID: 1AKn2IkRTtqk7ZR9LfAblA==
+X-CSE-MsgGUID: AE+TyOCrSLe0te4G7jjtyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,147,1787036400"; 
+   d="scan'208";a="277701"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 08 Oct 2026 16:59:53 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xEy1e-0000000054C-0Eo3;
+	Thu, 08 Oct 2026 23:59:50 +0000
+Date: Fri, 9 Oct 2026 07:59:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Subash Abhinov Kasiviswanathan <subash.a.kasiviswanathan@oss.qualcomm.com>,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, andrew+netdev@lunn.ch, corbet@lwn.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, horms@kernel.org,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	broonie@kernel.org,
-	tytso@mit.edu,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 2/2] agents: add a skill to determine Fixes tags
-Date: Thu,  8 Oct 2026 18:54:53 -0400
-Message-ID: <7fa126fd22b4449cf63a7045f7cd959e106fac87.1791499378.git.sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1791499378.git.sashal@kernel.org>
-References: <cover.1791499378.git.sashal@kernel.org>
+	Subash Abhinov Kasiviswanathan <subash.a.kasiviswanathan@oss.qualcomm.com>,
+	Sean Tranchetti <sean.tranchetti@oss.qualcomm.com>
+Subject: Re: [PATCH net-next v2 7/8] net: qualcomm: rmnet: Add DL coalescing
+ statistics
+Message-ID: <202610090707.TY5x2Oyd-lkp@intel.com>
+References: <20261008005543.2630828-8-subash.a.kasiviswanathan@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261008005543.2630828-8-subash.a.kasiviswanathan@oss.qualcomm.com>
 
-Blame and existing Fixes tags can point to code movement instead of the
-change that introduced a bug. Add a read-only investigation procedure
-that traces historical behavior and checks candidate commits against
-their parents before returning a tag with supporting evidence.
+Hi Subash,
 
-Keep the skill entry point and procedure together under
-agents/skills/find-fixes/. Connect the procedure to the coding-assistant
-guidance so bug fixes get verified attribution before finalization.
+kernel test robot noticed the following build warnings:
 
-If the origin cannot be established, return no trailer and keep the fix
-as a draft. Applying the tag and writing the commit message remain outside
-the skill.
+[auto build test WARNING on net-next/main]
+[also build test WARNING on next-20261008]
+[cannot apply to linux-review/Subash-Abhinov-Kasiviswanathan/uapi-if_link-Add-RMNET_FLAGS_INGRESS_COALESCE/20260929-221339 net/main lwn/docs-next linus/master v7.3-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Validated with controlled histories covering moved code, changed
-preconditions, incorrect tags, shallow history, and reintroduction after
-a revert, as well as a real kernel fix.
+url:    https://github.com/intel-lab-lkp/linux/commits/Subash-Abhinov-Kasiviswanathan/net-qualcomm-rmnet-Update-MTU-handling-during-format-changes/20261007-175538
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20261008005543.2630828-8-subash.a.kasiviswanathan%40oss.qualcomm.com
+patch subject: [PATCH net-next v2 7/8] net: qualcomm: rmnet: Add DL coalescing statistics
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20261009/202610090707.TY5x2Oyd-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 242243a5814307de825db3428662d67b064e2cbc)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610090707.TY5x2Oyd-lkp@intel.com/reproduce)
 
-Assisted-by: LLM
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/process/coding-assistants.rst |  23 ++-
- agents/skills/find-fixes/SKILL.md           |  23 +++
- agents/skills/find-fixes/guide.rst          | 177 ++++++++++++++++++++
- 3 files changed, 220 insertions(+), 3 deletions(-)
- create mode 100644 agents/skills/find-fixes/SKILL.md
- create mode 100644 agents/skills/find-fixes/guide.rst
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610090707.TY5x2Oyd-lkp@intel.com/
 
-diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-index 3288b32e993f5..8d42d3c10f9ce 100644
---- a/Documentation/process/coding-assistants.rst
-+++ b/Documentation/process/coding-assistants.rst
-@@ -70,6 +70,21 @@ Example::
- 
-   Assisted-by: LLM coccinelle sparse
- 
-+Determining Fixes tags
-+======================
-+
-+Before finalizing a bug-fix patch or its commit message, an assistant must
-+follow agents/skills/find-fixes/guide.rst to determine and verify the
-+introducing commit. This also applies to fixes for externally reported
-+bugs and to checking an existing Fixes tag during review. The skill entry
-+point is agents/skills/find-fixes/SKILL.md.
-+
-+The skill returns an attribution result only. It does not modify files or
-+commit messages, and invoking it does not authorize creating or amending a
-+commit. If the origin remains unresolved, report the missing evidence and
-+keep the fix as a draft. The calling workflow must hold finalization until
-+the attribution is resolved.
-+
- Procedure for finding and fixing bugs
- =====================================
- 
-@@ -93,9 +108,11 @@ these steps:
-    re-running a complete analysis; drop any fix that doesn't work and try
-    another one. The fix must not add build warnings and must pass the
-    checkpatch.pl checks (see submitting-patches.rst).
--6. Commit the working fix with a detailed message describing the problem, the
--   solution and a Fixes tag. Do not add a Signed-off-by tag, and add an
--   Assisted-by tag, as described above.
-+6. Determine the Fixes tag as described above. Once attribution is resolved,
-+   commit the working fix with a detailed message describing the problem,
-+   the solution and the verified Fixes tag. This commit is part of the
-+   fix-preparation workflow, not the attribution skill. Do not add a
-+   Signed-off-by tag, and add an Assisted-by tag, as described above.
- 7. Identify the maintainers and lists using scripts/get_maintainer.pl.
-    Documentation/process/security-bugs.rst shows how to do that.
- 8. Indicate what could not be done. If the fix could not be built or tested, or
-diff --git a/agents/skills/find-fixes/SKILL.md b/agents/skills/find-fixes/SKILL.md
-new file mode 100644
-index 0000000000000..14978976fdd46
---- /dev/null
-+++ b/agents/skills/find-fixes/SKILL.md
-@@ -0,0 +1,23 @@
-+---
-+# SPDX-License-Identifier: GPL-2.0-only
-+name: find-fixes
-+description: >-
-+  Determine the bug-introducing commit and return a verified Fixes tag for
-+  a Linux kernel fix. Use when preparing or reviewing bug-fix patches,
-+  drafting their commit messages, or checking an existing Fixes tag.
-+---
-+
-+# Determine a Fixes tag
-+
-+Read and follow [the investigation procedure](guide.rst), relative to this
-+skill directory. The canonical path in the kernel repository is
-+`agents/skills/find-fixes/guide.rst`. If necessary, locate the
-+repository root with `git rev-parse --show-toplevel`.
-+
-+Perform attribution only. Return the tag and its supporting evidence, or
-+an unresolved result explaining the missing evidence. Return no other
-+trailers or commit-message draft as part of the skill. Do not change files,
-+the index, refs, or commit messages, and do not apply the tag or create a
-+commit. An unresolved result must contain no Fixes trailer or placeholder;
-+it tells the calling workflow to hold finalization. Applying a determined
-+tag belongs to that workflow.
-diff --git a/agents/skills/find-fixes/guide.rst b/agents/skills/find-fixes/guide.rst
-new file mode 100644
-index 0000000000000..7b58c526f3149
---- /dev/null
-+++ b/agents/skills/find-fixes/guide.rst
-@@ -0,0 +1,177 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+.. _find_fixes:
-+
-+Finding the commit to name in a Fixes tag
-+=========================================
-+
-+A ``Fixes:`` tag identifies the commit that introduced the bug being fixed.
-+Finding that commit requires an explanation of the failure and evidence from
-+the history. The last commit touching a line, the oldest matching text, an
-+existing tag, and a reproducer's first failure are useful leads; none alone
-+establishes the answer.
-+
-+This procedure applies to bug fixes, including fixes for externally reported
-+issues and reviews of proposed Fixes tags. It determines a tag using read-only
-+inspection. It does not authorize changing files, applying patches, checking
-+out revisions, fetching history, or creating or amending commits. Any additional
-+testing or changes require the authority of the surrounding task.
-+
-+Establish the issue and the history
-+-----------------------------------
-+
-+Record the issue, the proposed fix, and the version being fixed:
-+
-+* For a commit, resolve its full object ID and inspect its message, diff, and
-+  parents. For an ordinary commit, its parent is the pre-fix base. For a merge,
-+  identify which parent or combined state the fix addresses.
-+* For a patch, identify its base revision. For uncommitted changes, distinguish
-+  the staged and unstaged changes and record the base commit. Do not include
-+  unrelated work in the analysis. Note relevant untracked files separately.
-+* Explain the exact failure: the operation, inputs or interleaving, affected
-+  configuration, and invariant that is violated. Identify the functions and
-+  callers needed to explain it, not just the lines changed by the fix.
-+
-+Resolve revisions against the repository being inspected. For example, with
-+``fix`` set to the supplied revision::
-+
-+    git rev-parse --show-toplevel
-+    git rev-parse --verify --end-of-options "$fix^{commit}"
-+    git show --no-patch --format=fuller "$fix"
-+    git rev-list --parents -n 1 "$fix"
-+    git show --format= --find-renames "$fix"
-+
-+Use ``git diff --cached`` and ``git diff`` to inspect staged and unstaged work.
-+Read the surrounding code at the pre-fix base with ``git show <base>:<path>``.
-+Do not assume the current checkout contains the historical implementation.
-+
-+If the base or failure mechanism cannot be established, report what is missing
-+before selecting an introducer. A broad description such as "a race" is not
-+enough to distinguish different bugs in the same function.
-+
-+Trace candidate introductions
-+-----------------------------
-+
-+Start with the operations responsible for the failure. Inspect their history
-+and the history of relevant callers, contracts, guards, and data structures.
-+Treat any supplied Fixes tag, blame result, or bisection result as a candidate
-+to investigate, rather than as the conclusion.
-+
-+Useful read-only searches include the following. Here ``base``, ``path``,
-+``old_path``, ``new_path``, and ``candidate`` refer to identified revisions or
-+paths; replace the example line range and expressions with relevant ones::
-+
-+    git blame -M -C -L 100,140 "$base" -- "$path"
-+    git log --follow -p "$base" -- "$path"
-+    git log -p -S 'relevant expression' "$base" -- "$old_path" "$new_path"
-+    git log -p -G 'relevant.*pattern' "$base" -- "$old_path" "$new_path"
-+    git show --find-renames "$candidate" -- "$old_path" "$new_path"
-+    git rev-list --parents -n 1 "$candidate"
-+
-+Blame and pickaxe narrow the search; they do not prove causality. ``-S`` finds
-+changes in occurrence counts, while ``-G`` finds matching changed lines. Follow
-+renames, copies, splits, and equivalent older implementations explicitly when
-+a search stops at code movement. Inspect complete candidate changes and their
-+context, including relevant files outside the fix's diff.
-+
-+Search all relevant ancestry, not just first-parent history. Choose history
-+endpoints from the actual base and repository refs; do not assume a remote
-+named ``origin`` or a branch named ``master``. When examining history outside
-+the base's ancestry, explain how it relates to the affected tree.
-+
-+Prove the causal transition
-+---------------------------
-+
-+For each plausible candidate, compare its relevant parent state with the state
-+after the commit. Explain the invariant before and after the change, why the
-+candidate introduces the defect, and how the proposed fix addresses that same
-+defect. Inspect the earlier implementation even if the function or filename
-+did not yet exist under its current name.
-+
-+Distinguish three events:
-+
-+* Introduction of the code or pattern. This is provenance, and may predate any
-+  defect in it.
-+* Introduction of the semantic defect. This is the change that makes the
-+  implementation violate the applicable contract or invariant.
-+* A later trigger, newly reachable path, or change that makes the failure easier
-+  to observe. This may expose an existing defect, or may itself introduce the
-+  defect by changing the contract or execution context.
-+
-+Do not select a rename or refactor if it merely carries an existing defect.
-+Conversely, do not blame old code that was correct under the earlier contract.
-+When a later change exposes a latent defect, identify both commits and explain
-+why the older implementation was already defective. The location of the fix
-+does not prove that the oldest version of the modified code was wrong. If the
-+distinction cannot be justified, keep the result unresolved.
-+
-+A reproducer that fails after the candidate and succeeds before it provides
-+useful evidence when both tests exercise equivalent conditions. Build failures,
-+missing features, unsupported configurations, and changes to the test itself
-+are not evidence of a good parent. A bisection may locate an activation change
-+rather than the semantic origin. Historical source analysis is acceptable when
-+it establishes the transition; describe its reasoning and limits without
-+claiming tests were run.
-+
-+Handle discontinuities in history
-+---------------------------------
-+
-+* **Merges:** inspect each relevant parent. A bad merge resolution or the
-+  interaction of two branches can introduce a defect absent from either parent;
-+  do not assume that the first parent alone explains the transition.
-+* **Reverts and reintroductions:** trace whether the defect was removed and
-+  subsequently restored. Establish the introduction relevant to the affected
-+  lineage instead of automatically choosing the earliest occurrence.
-+* **Backports:** distinguish the upstream commit from its downstream copy and
-+  inspect any adaptation. For an upstream defect, identify the upstream origin
-+  and document its relationship to the affected branch. If the defect exists
-+  only because of a backport adaptation, identify that downstream introduction.
-+  An upstream SHA need not be an ancestor of a downstream base; verify the
-+  correspondence from the changes rather than ancestry or subjects alone.
-+* **Multiple causes:** keep independent bugs separate. If a single fix repairs
-+  distinct introductions, justify each separately before proposing multiple
-+  tags. Do not list competing guesses as multiple Fixes tags.
-+* **Incomplete history:** check ``git rev-parse --is-shallow-repository`` and
-+  whether the required commits and historical blobs are available. A shallow
-+  boundary, missing object, or initial import is not proof of introduction.
-+  If the defect predates available history, including pre-Git history, report
-+  that limit rather than assigning the first available commit by default.
-+
-+Existing tags and external reports can suggest candidates, but inspect the
-+actual historical changes. Reject alternatives with a concrete reason, such
-+as unchanged behavior across a file split or a caller that could not supply
-+the problematic input under the earlier contract.
-+
-+Return a conclusion supported by evidence
-+-----------------------------------------
-+
-+Return the attribution result to the caller. Drafting a commit message or
-+adding other trailers is outside this procedure.
-+
-+For a determined result, provide:
-+
-+* The issue and fix/base revisions analyzed.
-+* The full introducing commit ID and an explanation of the parent-to-candidate
-+  transition, citing the relevant historical code or test results.
-+* Any distinct activation commit, material rejected candidates, and limitations
-+  such as tests not run or history not available.
-+* The proposed Fixes tag, rendered from the verified commit's Git metadata.
-+
-+For example, after resolving ``candidate`` to the selected full commit ID::
-+
-+    git rev-parse --verify --end-of-options "$candidate^{commit}"
-+    git show --no-patch --abbrev=12 --format='Fixes: %h ("%s")' "$candidate"
-+
-+Git extends the abbreviation if necessary to make it unique in the available
-+repository. Preserve the exact subject and keep the tag on one line, as
-+described in Documentation/process/submitting-patches.rst. Formatting checks
-+such as ``scripts/checkpatch.pl`` do not validate the causal conclusion.
-+
-+For an unresolved result, provide the candidates, evidence, missing information,
-+and the next investigation that could distinguish them. Do not emit a Fixes
-+trailer or placeholder. The calling bug-fix workflow must hold finalization
-+and surface the unresolved origin instead of fabricating a tag or silently
-+treating the investigation as complete.
-+
-+Determining a Fixes tag does not establish stable eligibility or replace the
-+requirements in Documentation/process/stable-kernel-rules.rst.
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/ethernet/qualcomm/rmnet/rmnet_vnd.c:286:13: warning: stack frame size (1392) exceeds limit (1280) in 'rmnet_get_ethtool_stats' [-Wframe-larger-than]
+     286 | static void rmnet_get_ethtool_stats(struct net_device *dev,
+         |             ^
+   1 warning generated.
+
+
+vim +/rmnet_get_ethtool_stats +286 drivers/net/ethernet/qualcomm/rmnet/rmnet_vnd.c
+
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  285  
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15 @286  static void rmnet_get_ethtool_stats(struct net_device *dev,
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  287  				    struct ethtool_stats *stats, u64 *data)
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  288  {
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  289  	struct rmnet_priv *priv = netdev_priv(dev);
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  290  	struct rmnet_priv_stats total_stats = { };
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  291  	struct rmnet_pcpu_stats *pcpu_ptr;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  292  	struct rmnet_priv_stats snapshot;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  293  	unsigned int cpu, start;
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  294  
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  295  	if (!data)
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  296  		return;
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  297  
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  298  	for_each_possible_cpu(cpu) {
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  299  		pcpu_ptr = per_cpu_ptr(priv->pcpu_stats, cpu);
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  300  
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  301  		do {
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  302  			start = u64_stats_fetch_begin(&pcpu_ptr->syncp);
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  303  			u64_stats_copy(&snapshot, &pcpu_ptr->priv_stats,
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  304  				       sizeof(snapshot));
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  305  		} while (u64_stats_fetch_retry(&pcpu_ptr->syncp, start));
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  306  
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  307  		total_stats.csum_ok += snapshot.csum_ok;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  308  		total_stats.csum_ip4_header_bad += snapshot.csum_ip4_header_bad;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  309  		total_stats.csum_valid_unset += snapshot.csum_valid_unset;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  310  		total_stats.csum_validation_failed += snapshot.csum_validation_failed;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  311  		total_stats.csum_err_bad_buffer += snapshot.csum_err_bad_buffer;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  312  		total_stats.csum_err_invalid_ip_version +=
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  313  			snapshot.csum_err_invalid_ip_version;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  314  		total_stats.csum_err_invalid_transport +=
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  315  			snapshot.csum_err_invalid_transport;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  316  		total_stats.csum_fragmented_pkt += snapshot.csum_fragmented_pkt;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  317  		total_stats.csum_skipped += snapshot.csum_skipped;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  318  		total_stats.csum_sw += snapshot.csum_sw;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  319  		total_stats.csum_hw += snapshot.csum_hw;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  320  		/* Custom rmnet coalescing diagnostics follow. */
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  321  		total_stats.coal_alloc_fail += snapshot.coal_alloc_fail;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  322  		total_stats.coal_rx += snapshot.coal_rx;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  323  		total_stats.coal_pkts += snapshot.coal_pkts;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  324  		total_stats.coal_hdr_err += snapshot.coal_hdr_err;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  325  		total_stats.coal_hdr_pkt_err += snapshot.coal_hdr_pkt_err;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  326  		total_stats.coal_bounds_err += snapshot.coal_bounds_err;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  327  		total_stats.coal_csum_err += snapshot.coal_csum_err;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  328  		total_stats.coal_csum_drop += snapshot.coal_csum_drop;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  329  		total_stats.coal_reconstruct += snapshot.coal_reconstruct;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  330  		total_stats.coal_ip_invalid += snapshot.coal_ip_invalid;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  331  		total_stats.coal_trans_invalid += snapshot.coal_trans_invalid;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  332  		total_stats.coal_close_non_coal += snapshot.coal_close_non_coal;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  333  		total_stats.coal_close_ip_miss += snapshot.coal_close_ip_miss;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  334  		total_stats.coal_close_trans_miss += snapshot.coal_close_trans_miss;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  335  		total_stats.coal_close_hw_nl += snapshot.coal_close_hw_nl;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  336  		total_stats.coal_close_hw_pkt += snapshot.coal_close_hw_pkt;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  337  		total_stats.coal_close_hw_byte += snapshot.coal_close_hw_byte;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  338  		total_stats.coal_close_hw_time += snapshot.coal_close_hw_time;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  339  		total_stats.coal_close_hw_evict += snapshot.coal_close_hw_evict;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  340  		total_stats.coal_close_coal += snapshot.coal_close_coal;
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  341  	}
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  342  
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  343  	/* The first four fields are reported through netdev queue statistics. */
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  344  	memcpy(data, &total_stats.csum_ok,
+2a458504868286e Subash Abhinov Kasiviswanathan 2026-10-07  345  	       sizeof(total_stats) - offsetof(struct rmnet_priv_stats, csum_ok));
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  346  }
+bbde32d38bfbbc4 Subash Abhinov Kasiviswanathan 2018-05-15  347  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
