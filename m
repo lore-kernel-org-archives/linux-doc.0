@@ -1,371 +1,243 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020089.outbound.protection.outlook.com [52.101.195.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FD94734CF;
-	Thu,  8 Oct 2026 08:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791449489; cv=none; b=I/FvVGphQFtTPJFMP6LoP76bDyi592WCS+kCPSez0H8vbizb8VL2Oh/E1bEHB8Cgwcjsxt4EYyuUlaSgNaQ9uE59CEphp5ot+tWNFCixcMnGbAOtreFq5GLZHjkO94D+5V9vpqGsXZvCZH7WsqqClLfxPxYcfzdjBqhJ1B+tBaw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791449489; c=relaxed/simple;
-	bh=y3mksDWJ1cnx2vUcwBui9kRBD7D1m6dYAJo/BBdmKFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YxoKqOJ3FPHlCOKCU6erPyYzDvBd9k8jcxKlS6aKcAS0rHiuBaKtciy1ph8N/NFm020E+dTVpkZPXxp+Nf3H/TUTBx904c19UkJzMK6EPVccxR0RP0i+hSta5xLKGbfJI89P7V5ravFdc5UYct23rtMw+5aBgBi6A0bFhnmz5k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E+QZGOj7; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02C43DAAB7;
+	Thu,  8 Oct 2026 09:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.89
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791450101; cv=fail; b=XdAHeUtChSy6sfaTt2Pk5sfSBPZb6qRFSmUQU6xpKo2WquzMom4EmUf4jY0WvZE86S3YQ3VC30LV1qY7jxtSYzgiSVAJdwkqWxXRm0+dnfolbvFBuqjJB3epWRuvdFQW5QXhslsLKyQ9ewkIG5Bsctk7ifBxpifpTn9ShLP+/TA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791450101; c=relaxed/simple;
+	bh=tUJ1CAvzqSnr7EJsvsq9KzFUpM4Ps+wu/ItDk33YRjQ=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=l+LlBcHv9CCFy9IZcQ2Nvuy/0ZGwUU54OwT16n94e0d0BtJhFsD87nO8rbONpekek/B23r3EMGTxyNsSlWPdnJp21jpWwjkDkHy0pOeywQXPevNVNJ1WcND93sxTX7cO1n0KP7R7KNAEtrI4BiiZNDCDhA43CQjechW5lr9P2PE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=vqVNxh6N; arc=fail smtp.client-ip=52.101.195.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E+QZGOj7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14291F00898;
-	Thu,  8 Oct 2026 08:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791449487;
-	bh=9HBsK9JWrsaB9tSfr6Gh6KHk9xHWrytrLennN91BCx4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=E+QZGOj7Ry9R0+RX0ixIWYO29bD2e9nS/g09b8uihB6NY3mfwAg2JGWMCm4adYndW
-	 tXaVADQVVoxNQABaq0QKTeAo/HTao57IsZCrp1D57QeHg8NdR73hb2ksTz8VTIeu1W
-	 mPFAl1FYOb5Xh6+S3RZdQbF15hU1DNK+E0h6Yn/JuXBmaOrFR0sVfbdmrFw9fo39vN
-	 WGi4Df/NyfOWMnv2KD5paQx+8pL7RL39bk0T9NP3qVX+Vhi0A+9Zun0RqchYsvQoZk
-	 /gqaDj+9Ofd4O1f0UI8XbUmrGKpuw8xXZGyNWeFHAPdXGWSHQmA5x6sa0qDpsAn7kV
-	 Gvimn4EdY4pUg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Sasha Levin <sashal@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org,
-	tools@kernel.org,
-	x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>,
-	Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: [PATCH v5 11/11] kernel/api: add syscall enter/exit tracepoints
-Date: Thu,  8 Oct 2026 04:49:51 -0400
-Message-ID: <20261008084956.2911790-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261008084956.2911790-1-sashal@kernel.org>
-References: <20261008084956.2911790-1-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="vqVNxh6N"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Gu2Rr8FWyNVEIEJVl2hSSEm3BnBBe7dHfRKi8Q3uRajdjrcZ2v66hgbXKx53F+RmYty3wiFvaMJeAYMxXSvsPBYHr+Cm8CZ6vfBrco8BBWXvlSeOrwjYRZi9+sJKqj2Jb/spjWFWPxUbDJ2cmqQ0fOHxsP6I6JbQiL3k6r0M/zGt3Jywioj0T3ZGd18aa3sAIL9ipfFUEKsSUrD57y2pe70ayDQ5DQSpDDNePkRFsuu0LEJ5SD5EZFRigrnN7QjwqIXIOeRn/PTVRNDOZKy2+/E3MKn2Vw1Xgs9ArHA+0gFe4FOxvEZeMuxPTHeep6yby22QwWW+ARDPEdjFMeP+Ww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ouOAMQyWVowsJM1zyurKGDRQXpGvt5Pel5QcyYczK60=;
+ b=PHCI+ll5MBIoInN+uckV+62H6RMNnbkh7l1fEcT3bqwp4tPquNyvfLXJVT12Azf+dhmGFJklpOU3d9um4Jbmo0qgA8GhBQ62yQCjT5cRw2OuGvOTrUTNnKtfPzawNRKYbTxxCGzug0SD6gtX2nr504JcZ3bmsTBFDjzjn6FUNNMPUCNbYreXMa3QrtpMi+XAOgqyI1eXrg06gZ/wx96pTKHD/DbosNBxQk6dVeWUQrf+v/D5DJms1n5DMSqkm9tOmUvmfsl3QMDK8L4kH2GwTdDqEwUdE7QJd+wpNR1XpFesmEjd26IPfQrx28XqDxfgRetQzN7bvIzGozaXPCDUhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ouOAMQyWVowsJM1zyurKGDRQXpGvt5Pel5QcyYczK60=;
+ b=vqVNxh6N/MzvuxrfFoAZvidRzS/TwtpCZr4LXY2IaqJAeqZH43cNSgbRQixzkwHdOzoPD2rnMg3gWYlvgT/0uOphpNWjA74rByuQUVjHCrmIeDKuqKFgv+M8NBd2OQaat9Li+Rg/h4athMSOX5THtad7braW9QAxbTLuc8EEmPw=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
+ by LO3P265MB1946.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:10b::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.17; Thu, 8 Oct
+ 2026 09:01:35 +0000
+Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0496.015; Thu, 8 Oct 2026
+ 09:01:35 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 08 Oct 2026 11:01:32 +0200
+Message-Id: <DLZC239PAA53.3S5GIQRJNU1V2@garyguo.net>
+Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
+ Krummrich" <dakr@kernel.org>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "Arnd Bergmann" <arnd@arndb.de>, "Linus Walleij"
+ <linusw@kernel.org>, "Christian Schrefl" <chrisi.schrefl@gmail.com>,
+ "Bradley Morgan" <brads@mainlining.org>, "Paul E . McKenney"
+ <paulmck@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>, "Nick
+ Desaulniers" <ndesaulniers@google.com>, "Bill Wendling" <morbo@google.com>,
+ "Justin Stitt" <justinstitt@google.com>,
+ <linux-arm-kernel@lists.infradead.org>, <rust-for-linux@vger.kernel.org>,
+ <llvm@lists.linux.dev>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/6] ARM: cmpxchg: always inline __arch_xchg() and
+ __cmpxchg()
+From: "Gary Guo" <gary@garyguo.net>
+To: "Karl Mehltretter" <kmehltretter@gmail.com>, "Russell King"
+ <linux@armlinux.org.uk>, "Miguel Ojeda" <ojeda@kernel.org>
+X-Mailer: aerc 0.22.0
+References: <20261008053746.49631-1-kmehltretter@gmail.com>
+ <20261008053746.49631-2-kmehltretter@gmail.com>
+In-Reply-To: <20261008053746.49631-2-kmehltretter@gmail.com>
+X-ClientProxiedBy: VE1PR03CA0011.eurprd03.prod.outlook.com
+ (2603:10a6:802:a0::23) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:4ab::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO3P265MB1946:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9308408-0403-44d8-822d-08df251ac180
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|23010399003|376014|366016|1800799024|56012099006|4143699003|10067099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	mbJc6wZrlT4rRciVXa/i7rS3+QTAsl9E4m+FuEbsfGdvPZpguy+oQjoHp5HkGNrVeJ5IrKU6lnP+QP8az7M84m7dTvzJ4Zpqm57i8RvgfqwUKlIOwFx+2iTbYBKY4ynEJ072E0D31ezTPwXWjeXH8m6Zz331ODOqqcNT9vZJzwuNmpNEXVHyNQZ1zuRRWDWMoYrb69bztoun4b1IQ5FBcK/4DSVowtF71v5IF74UVp350EtRxstC6cHarYjJmFfdN/U3DKFIpIdHvuBBbjlPDz7gL+akv2nv9f+Zs+vqhfQSdwP0eGeCVMsG2OluKkq7kY76kHEsYPIQP2GyeHOlQ7jHHYg7UFojvyZ8eNYnNHj+128yeMDid4k5U1Nl8luzLHRrj8nUvIty5IkUD0qLonrCFGZ+CgrUOgWVT1FAcogSuWI2pguQdyiSp/1yQA+KUzvWENNRoi9kdky2i2x0CnFVPyjNXzxC2mCRbs/LCJ0NKZ2aiv7c1uzjCS6FkzqnYbXOC3fvmXLb4OIG7q21lCVXyc6gsp1N7/RnXn3I0Pspb7AiAjEV1iHO4Vj78/AjLN3mQKSNibdA0hm2ZbiBQ3Z5Hih0b51tOonpg028hCwLSGBcJXVvSUbe66pGrQzy2Kl9WFgL3ipPZ8aX+E7Nf86/pCeUbWxoKFamxsqpWzk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(366016)(1800799024)(56012099006)(4143699003)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VG03eCs1bU10OEJEbnJwb0lVYmRuSEluck9aZXgwL1lYZEhVRmZKQjRpaVhU?=
+ =?utf-8?B?aS9JaVpLN1d0cFVhOVBIb1RuM29mZTBSTS81UURZSzhwRTJxQVZXTFZRNjcv?=
+ =?utf-8?B?Y2hmZFJpTFh4a1VRdVZkNnRvQkVUZ3VSOTVlMURKMVkzQ3ZGTEtlbWcrc0wv?=
+ =?utf-8?B?bzZSYVdBYXZFWEhDSFl5anp3VHJIMW00dnpLYjNRMUFYM1NKUkNxUHRodUx3?=
+ =?utf-8?B?L29nU3lTbk9oTlJjam9vUitmakpuaW8rK3JnNFZoZm1ONFphcHdGVXY4aTNr?=
+ =?utf-8?B?a1ZjeVFFcitDREpJYmxTVVY1aW5iR2p6dy9pTTBBUnVSMUQ3UytXSXMydzVF?=
+ =?utf-8?B?c2Ivd3AvVFFNQ096ZnNzZ3M2RW5YcGV1K0hhTWkwZVkyNG4rSE83SWVaa1R3?=
+ =?utf-8?B?QjlpSFpKUi9RSmNFVXJSQjU5RHZJcyt1d3l5czhqWjlHZFVPdVBOQlNDbWNF?=
+ =?utf-8?B?WlVQa2Z5WjhHUFBjYWx0b2psdFJURFhYRlM5RTJLVm96ZXBxdXV4Und0QlJO?=
+ =?utf-8?B?VjNjNytQcllOK2NaU1FjTlh3b3dDM3hQUHVzb1lHQXZzZ2RvN0VmeUxacmpt?=
+ =?utf-8?B?bDhKV1VUcDExRUo0Nlc1MjdmY2xBN2kvcXpEV2FsOW1UbmtCeVhwNWpoWGZH?=
+ =?utf-8?B?SktzVytQT1RNTmZYbWU3WWphQm9OOTdsSEthWjhXMzZGdkZkWEhPYzdGNDlG?=
+ =?utf-8?B?cTFtOWRFdDNNMDZwTURRSFpxRStjalg0eGNUWUJEcWtCZmN0N0V6dUZBOXpz?=
+ =?utf-8?B?RUhsWU11THZRcFNhSXA5R0NWejlGc2pVeTNnR3d6VlNWQVlMdk5IeWpsRGx1?=
+ =?utf-8?B?QnVBVjgxbFdCSWdaK2RTdlM5cWxMTnZWVXdNaGYxRDNmNXRkRklUTU1yNHYy?=
+ =?utf-8?B?VVZKNEJCQTA3Ylp3Sk5iYjZKNGlPcEo0R0hSc2pWeXFMR0RCQUJDUE9YMmsw?=
+ =?utf-8?B?OG9NMFVsMHVJNDlyOEpqaUxtczNidjZuTkIwRWkrcmprQmhYbEgrUnVNekEw?=
+ =?utf-8?B?bFlKdXZ0aUdycS9EMzMvMjRSdmlWSk51dE1NQXNVY3kyZkkyTXV6OGwvVE1h?=
+ =?utf-8?B?S25TRlJpTjJoek5zMkR0TVFxQ29WYzczUktJVStDTEMxVEtjNTZvUDcvdDJi?=
+ =?utf-8?B?Q3BzZWREdkJoUmtCRzc5U1daR3pMQ3hxNXRGTTVoSXp6Y2h3engyNkNTSUlR?=
+ =?utf-8?B?ZUxrcWErSGNCZ09ySEFHVkliRWJwcHF5UXRyNyszc1lRb2ppenJuaFlueUJ3?=
+ =?utf-8?B?UHhBWDFwZEp3cFQrZG5KZWtlOGpReDZZNnVPanV5WkxNY0VSaVBhdnZ0dzFF?=
+ =?utf-8?B?QlhaMDR0M1Bxa0FKWm5mRW4zOG1zOHRFbjdFZEY4WWdnNVA3aFIzZlVQNTFQ?=
+ =?utf-8?B?di9UdnI5SUJNb1JMZVhYRTh4cEcvaFZCZHlINkJKMlM3eHYxS1FBaXQ4RWtN?=
+ =?utf-8?B?QXc3K1NMZkFsSEd3dHAxZFdtSHNjYnRBYnJyek5RRFl1VkNtNjZNcmNOTm9v?=
+ =?utf-8?B?aUdBaDMyNlBiMWQ3SVNQdG9hcks1TlVCMzhGNS9vVlhJWmVkcUhUcmJ3Ymxt?=
+ =?utf-8?B?TUt2UXN0OHYwOHlWbXRwcVh6Ly9tU05mK3pxMjNFWUdhc0tHTnozczhTRnVE?=
+ =?utf-8?B?cENQN2dIQlJ6dTJJR1hUcFZFYjYxUEFBNHRsUmVhbU5ZbVdrU2hoVUQ5cFVz?=
+ =?utf-8?B?Z01MUUxRUmx5T3ZENlR6TkNnNzdnZWJqV0x1NEFOUC9WeCtSSmMwazM0UTZa?=
+ =?utf-8?B?T0hxczNMRW1NYkVRNDlNNnp1c3cvbzUweTk5Z0ZtSTlIS3l1YmdHcjVFV3lo?=
+ =?utf-8?B?aXUxdDJjM2tjTlc5SUE2N3VMTitXNmZzL2ZYWXVqNVFLZHNRYW1abmQ2ZEtX?=
+ =?utf-8?B?aUFNRk51WGZ3cVE2WHZjNFhwWUY3UGlJbWswR2lLNGJEVnFIcHU1b0xyNmhz?=
+ =?utf-8?B?SmtxK2dwZGZEVDgwVjF1bVlhbjFhVlRmWFY5OXBvV3daSkZ0eVhHaDNRWVlV?=
+ =?utf-8?B?aXhPNy9kdVJsWlNBbXlEaXNPTUhGMTFsMDFtVXQ2MndSQlg4dXp3bkNPMG5G?=
+ =?utf-8?B?NGhKcUVCSXZxOUJsZGt4clowV2JER004VmJ2MGpXcUxrMEUraEorWE9wZU5H?=
+ =?utf-8?B?WmM0WjY2WVhCOVM3NGZNWDdjcFlKU092UmJpcFYvUlRsTnJkMldaLzNySktm?=
+ =?utf-8?B?MksyK0E3bnRBOVhIWTRKY0JtT2lDU09KdC9NKzhId1YrWVJPbjRIdDZuZUhn?=
+ =?utf-8?B?YVhnVWZ4L2hkVEI0aVpHSWJ2RUJKRGpncFptODN3aHpwZGw3dGlJSFBZUThs?=
+ =?utf-8?Q?g5CO58ASKMUL68whJx?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9308408-0403-44d8-822d-08df251ac180
+X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2026 09:01:35.6942
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mq1Q/ESfZZktgYqc7J/tKLiZehI78vsynsC15xAAK4fdrBzr1md5BeX4lXLlDnqGCNosE1G4+ib8oAkIPas68Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO3P265MB1946
 
-Add two tracepoints to the CONFIG_KAPI_RUNTIME_CHECKS syscall validation
-path so the framework's behavior can be observed without the noise and
-loss of pr_warn_ratelimited():
+On Thu Oct 8, 2026 at 7:37 AM CEST, Karl Mehltretter wrote:
+> __arch_xchg(), __cmpxchg() and __cmpxchg_local() end in a default case
+> that calls an undefined function. That turns an unsupported size into a
+> link error. It relies on the functions being inlined, so that the
+> compiler can drop the default case for a constant size.
+>
+> They are only marked inline. gcc 8.1.0 with CC_OPTIMIZE_FOR_SIZE does
+> not inline them in rust/helpers/helpers.c, which calls xchg() and
+> cmpxchg() from many small helpers. The out-of-line copies keep the
+> default case and the link fails.
+>
+>   helpers.c:(.text+0x424): undefined reference to `__bad_xchg'
+>   helpers.c:(.text+0x4ac): undefined reference to `__bad_cmpxchg'
+>
+> Seen with bcm2835_defconfig and CONFIG_RUST=3Dy on v7.3-rc1. The same
+> config links with CONFIG_RUST=3Dn. It also links with gcc 15.2.0 and
+> with clang.
+>
+> v6.19 links. Commit ab717dd98bee ("rust: helpers: Add i8/i16 atomic
+> xchg_acquire helpers") in v7.0 triggers __bad_xchg. Commit
+> ac8f06ade38a ("rust: sync: atomic: Add Atomic<*{mut,const} T> support")
+> in v7.1 also triggers __bad_cmpxchg.
 
-  kapi_syscall_enter - the spec name, the raw argument values, and a
-                       rendered "name=value" list of the specified
-                       parameters (pointer-like values in hex, signed
-                       integers and file descriptors in decimal)
-  kapi_syscall_exit  - the spec name, the return value, and whether it
-                       matched the specification (spec_match)
+I think the issue is that when you get multiple function calls in a functio=
+n,
+GCC starts to think that not inlining can result in code deduplication wher=
+e
+that is not actually true.
 
-Both fire only for syscalls that have a KAPI specification and live
-inside the existing CONFIG_KAPI_RUNTIME_CHECKS region, so they exist
-exactly when the runtime checks do; they compile to no-ops without
-CONFIG_TRACEPOINTS and stay dormant until enabled. The parameter list
-is rendered only when the enter tracepoint is enabled.
+But I am surprised that it hasn't been seen in the past, perhaps there're o=
+nly
+calls with single size from any translation unit previously?
 
-kapi_syscall_exit is also emitted on the parameter-validation rejection
-path -- where the validator returns -EINVAL and the real handler is
-skipped -- with spec_match=0, so every kapi_syscall_enter has a matching
-exit.
+The fix LGTM, but Sashiko's report is worth looking into.
 
-Assisted-by: LLM
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/dev-tools/kernel-api-spec.rst | 31 ++++++++
- MAINTAINERS                                 |  1 +
- include/trace/events/kapi.h                 | 74 +++++++++++++++++++
- kernel/api/kernel_api_spec.c                | 79 +++++++++++++++++----
- 4 files changed, 173 insertions(+), 12 deletions(-)
- create mode 100644 include/trace/events/kapi.h
+Best,
+Gary
 
-diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
-index 95b72060f8ef8..818c9b966a0c0 100644
---- a/Documentation/dev-tools/kernel-api-spec.rst
-+++ b/Documentation/dev-tools/kernel-api-spec.rst
-@@ -312,6 +312,37 @@ specification. Kerneldoc annotations cannot set it, so it is only available to a
-     .constraint_type = KAPI_CONSTRAINT_CUSTOM,
-     .validate = validate_buffer_size,
- 
-+Tracepoints
-+-----------
-+
-+When ``CONFIG_KAPI_RUNTIME_CHECKS`` is enabled, the syscall validation path emits
-+two ftrace tracepoints (in the ``kapi`` trace system) for every syscall that has a
-+specification:
-+
-+- ``kapi_syscall_enter`` -- fired before parameter validation, recording the spec
-+  name, the raw syscall argument values, and -- when the spec provides parameter
-+  metadata -- a rendered ``name=value`` list: signed integer and file descriptor
-+  values are shown in decimal, all other values in hex, and an unnamed parameter
-+  as ``arg``.
-+- ``kapi_syscall_exit`` -- fired after the handler returns, or in place of the
-+  handler when parameter validation rejects the call (the handler is skipped and
-+  ``-EINVAL`` is returned). Records the spec name, the return value, and
-+  ``spec_match``: 0 when the parameters were rejected or a successful ``fd`` return
-+  was not a valid file descriptor, and 1 otherwise. Error codes missing from the
-+  spec do not clear it.
-+
-+Unlike the ``pr_warn_ratelimited`` violation reports, the tracepoints capture every
-+spec'd call rather than only violations, and can be filtered with the usual ftrace
-+facilities. They require ``CONFIG_TRACEPOINTS`` and stay dormant
-+until enabled::
-+
-+    # echo 1 > /sys/kernel/tracing/events/kapi/enable
-+    # cat /sys/kernel/tracing/trace
-+     ...  kapi_syscall_enter: sys_read(fd=3, buf=0x7ffd46780b58, count=0x340)
-+     ...  kapi_syscall_exit: sys_read = 832 spec_match=1
-+     ...  kapi_syscall_enter: sys_open(filename=0x480300, flags=268435456, mode=0x0)
-+     ...  kapi_syscall_exit: sys_open = -22 spec_match=0
-+
- DebugFS Interface
- =================
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1d9e55b6bf5ff..20020705921a6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14125,6 +14125,7 @@ S:	Maintained
- F:	Documentation/dev-tools/kernel-api-spec.rst
- F:	include/linux/kapi_syscall.h
- F:	include/linux/kernel_api_spec.h
-+F:	include/trace/events/kapi.h
- F:	kernel/api/
- F:	tools/kapi/
- F:	tools/lib/python/kdoc/kdoc_apispec.py
-diff --git a/include/trace/events/kapi.h b/include/trace/events/kapi.h
-new file mode 100644
-index 0000000000000..47828f3338828
---- /dev/null
-+++ b/include/trace/events/kapi.h
-@@ -0,0 +1,74 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM kapi
-+
-+#if !defined(_TRACE_KAPI_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_KAPI_H
-+
-+#include <linux/tracepoint.h>
-+
-+/* Max length of the rendered "name=value, ..." parameter list. */
-+#define KAPI_TP_PARAMS_LEN 256
-+
-+/*
-+ * Emitted from the CONFIG_KAPI_RUNTIME_CHECKS syscall validation path for
-+ * syscalls that have a KAPI specification: kapi_syscall_enter fires before
-+ * parameter validation, kapi_syscall_exit after the handler returns.
-+ * @name is the spec name, e.g. "sys_open".
-+ *
-+ * kapi_syscall_enter carries both the raw argument values (args[]) and, when
-+ * the spec provides parameter metadata, a rendered "name=value" list (params,
-+ * built by the caller): pointer-like values in hex, integers and fds in decimal.
-+ */
-+TRACE_EVENT(kapi_syscall_enter,
-+
-+	TP_PROTO(const char *name, int nargs, const s64 *args, const char *params),
-+
-+	TP_ARGS(name, nargs, args, params),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,	name	)
-+		__field(	int,	nargs	)
-+		__array(	u64,	args,	6	)
-+		__string(	params,	params	)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->nargs = nargs;
-+		memset(__entry->args, 0, sizeof(__entry->args));
-+		if (args && nargs > 0)
-+			memcpy(__entry->args, args,
-+			       min_t(int, nargs, 6) * sizeof(__entry->args[0]));
-+		__assign_str(params);
-+	),
-+
-+	TP_printk("%s(%s)", __get_str(name), __get_str(params))
-+);
-+
-+TRACE_EVENT(kapi_syscall_exit,
-+
-+	TP_PROTO(const char *name, long ret, bool spec_match),
-+
-+	TP_ARGS(name, ret, spec_match),
-+
-+	TP_STRUCT__entry(
-+		__string(	name,		name		)
-+		__field(	long,		ret		)
-+		__field(	bool,		spec_match	)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(name);
-+		__entry->ret = ret;
-+		__entry->spec_match = spec_match;
-+	),
-+
-+	TP_printk("%s = %ld spec_match=%d",
-+		  __get_str(name), __entry->ret, __entry->spec_match)
-+);
-+
-+#endif /* _TRACE_KAPI_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
-diff --git a/kernel/api/kernel_api_spec.c b/kernel/api/kernel_api_spec.c
-index c3b220104c04b..993674ce67789 100644
---- a/kernel/api/kernel_api_spec.c
-+++ b/kernel/api/kernel_api_spec.c
-@@ -751,6 +751,45 @@ EXPORT_SYMBOL_GPL(kapi_export_json);
- 
- #ifdef CONFIG_KAPI_RUNTIME_CHECKS
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/kapi.h>
-+
-+/*
-+ * Render a syscall's parameters as a "name=value, ..." string for the
-+ * kapi_syscall_enter tracepoint.  Names come from the spec; pointer-like
-+ * values are shown in hex, integers and file descriptors in decimal.
-+ */
-+static void kapi_trace_format_params(const struct kernel_api_spec *spec,
-+				     const s64 *args, int nargs,
-+				     char *buf, size_t size)
-+{
-+	int i, used = 0;
-+
-+	buf[0] = '\0';
-+	/* Bound by the caller-supplied arg count; the spec arity may differ. */
-+	for (i = 0; args && i < nargs && i < 6; i++) {
-+		const char *name = "arg";
-+		bool dec = false;
-+
-+		if (i < spec->param_count) {
-+			const struct kapi_param_spec *ps = &spec->params[i];
-+
-+			if (ps->name)
-+				name = ps->name;
-+			dec = ps->type == KAPI_TYPE_INT || ps->type == KAPI_TYPE_FD;
-+		}
-+
-+		used += scnprintf(buf + used, size - used, "%s%s=",
-+				  i ? ", " : "", name);
-+		if (dec)
-+			used += scnprintf(buf + used, size - used, "%lld",
-+					  (long long)args[i]);
-+		else
-+			used += scnprintf(buf + used, size - used, "0x%llx",
-+					  (unsigned long long)args[i]);
-+	}
-+}
-+
- /**
-  * kapi_validate_fd - Validate that a file descriptor value is in valid range
-  * @fd: File descriptor to validate
-@@ -1211,16 +1250,24 @@ EXPORT_SYMBOL_GPL(kapi_validate_param_with_context);
- int kapi_validate_syscall_params(const struct kernel_api_spec *spec,
- 				 const s64 *params, int param_count)
- {
--	int i;
-+	int i, ret = 0;
- 
- 	if (!spec || !params)
- 		return 0;
- 
-+	if (trace_kapi_syscall_enter_enabled()) {
-+		char pbuf[KAPI_TP_PARAMS_LEN];
-+
-+		kapi_trace_format_params(spec, params, param_count, pbuf, sizeof(pbuf));
-+		trace_kapi_syscall_enter(spec->name, param_count, params, pbuf);
-+	}
-+
- 	/* Validate that we have the expected number of parameters */
- 	if (param_count != spec->param_count) {
- 		pr_warn_ratelimited("API %s: parameter count mismatch (expected %u, got %d)\n",
- 			spec->name, spec->param_count, param_count);
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto out;
- 	}
- 
- 	/* Validate each parameter with context */
-@@ -1230,12 +1277,22 @@ int kapi_validate_syscall_params(const struct kernel_api_spec *spec,
- 		if (!kapi_validate_param_with_context(param_spec, params[i], params, param_count)) {
- 			if (strncmp(spec->name, "sys_", 4) == 0) {
- 				/* For syscalls, we can return EINVAL to userspace */
--				return -EINVAL;
-+				ret = -EINVAL;
-+				goto out;
- 			}
- 		}
- 	}
- 
--	return 0;
-+out:
-+	/*
-+	 * Emit the exit event on the rejection path too (the wrapper
-+	 * short-circuits the handler on a non-zero return), so every
-+	 * kapi_syscall_enter has a matching kapi_syscall_exit.
-+	 */
-+	if (ret)
-+		trace_kapi_syscall_exit(spec->name, ret, false);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(kapi_validate_syscall_params);
- 
-@@ -1353,18 +1410,16 @@ EXPORT_SYMBOL_GPL(kapi_validate_return_value);
-  */
- int kapi_validate_syscall_return(const struct kernel_api_spec *spec, s64 retval)
- {
-+	bool valid = true;
-+
- 	if (!spec)
- 		return 0;
- 
--	/* Skip return validation if return spec was not defined */
--	if (spec->return_magic != KAPI_MAGIC_RETURN)
--		return 0;
-+	/* Validate against the return spec when one was defined */
-+	if (spec->return_magic == KAPI_MAGIC_RETURN)
-+		valid = kapi_validate_return_value(spec, retval);
- 
--	if (!kapi_validate_return_value(spec, retval)) {
--		/* Log the violation but don't change the return value */
--		pr_warn_ratelimited("KAPI: Syscall %s returned unspecified value %lld\n",
--				    spec->name, retval);
--	}
-+	trace_kapi_syscall_exit(spec->name, retval, valid);
- 
- 	return 0;
- }
--- 
-2.53.0
+>
+> Mark the functions __always_inline.
+>
+> Fixes: ab717dd98bee ("rust: helpers: Add i8/i16 atomic xchg_acquire helpe=
+rs")
+> Fixes: ac8f06ade38a ("rust: sync: atomic: Add Atomic<*{mut,const} T> supp=
+ort")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> ---
+>  arch/arm/include/asm/cmpxchg.h | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/arch/arm/include/asm/cmpxchg.h b/arch/arm/include/asm/cmpxch=
+g.h
+> index 9beb64d30586..0ce5225af442 100644
+> --- a/arch/arm/include/asm/cmpxchg.h
+> +++ b/arch/arm/include/asm/cmpxchg.h
+> @@ -26,7 +26,7 @@
+>  #define swp_is_buggy
+>  #endif
+> =20
+> -static inline unsigned long
+> +static __always_inline unsigned long
+>  __arch_xchg(unsigned long x, volatile void *ptr, int size)
+>  {
+>  	extern void __bad_xchg(volatile void *, int);
+> @@ -155,8 +155,8 @@ extern void __bad_cmpxchg(volatile void *ptr, int siz=
+e);
+>   * cmpxchg only support 32-bits operands on ARMv6.
+>   */
+> =20
+> -static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long =
+old,
+> -				      unsigned long new, int size)
+> +static __always_inline unsigned long
+> +__cmpxchg(volatile void *ptr, unsigned long old, unsigned long new, int =
+size)
+>  {
+>  	unsigned long oldval, res;
+> =20
+> @@ -220,9 +220,9 @@ static inline unsigned long __cmpxchg(volatile void *=
+ptr, unsigned long old,
+>  				      sizeof(*(ptr)));			\
+>  })
+> =20
+> -static inline unsigned long __cmpxchg_local(volatile void *ptr,
+> -					    unsigned long old,
+> -					    unsigned long new, int size)
+> +static __always_inline unsigned long
+> +__cmpxchg_local(volatile void *ptr, unsigned long old, unsigned long new=
+,
+> +		int size)
+>  {
+>  	unsigned long ret;
+> =20
+
 
