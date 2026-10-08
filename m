@@ -1,84 +1,84 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF60744C51B
-	for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2026 12:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D079127E1DC
+	for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2026 13:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791464154; cv=none; b=JBY3dYxXRam8AdVyw8O2aXsiVijeTKChEuY0NJe2y+If7h4pzjwXL+JIV8IpfAkZgh1+IJe26+8Hmssjm9T7D+nxYeN/VftIjj4WG13TdGDD65X/KXzBv/M56uyX7UMj9SDto17KKR42vbW4pWCCZMZltPBPgTmqpgObptv+5W4=
+	t=1791464522; cv=none; b=qSLUoIKxT2utm9L3SDMQkUB4Nq1BBA7qXDJlvqpSFQ5b8IBbeSHfbzTBz75lrpzNcYsmOcj1BaYWQ7/tnQxN8OM/FVXZQWUZOYGGDeQgzirPUnJ+0G6AmcbiEbGeN78SeloHjkus/MNTPZChXyaFCu+HV1xNmeBkXqSHyNKRDWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791464154; c=relaxed/simple;
-	bh=hcMe2LEaGKIqGNVLs9Ml3fZ/uvrjzyPZHHynwgsJCEE=;
+	s=arc-20240116; t=1791464522; c=relaxed/simple;
+	bh=SW0joU4tSFdHbVrE5yufPWqGMWLiwjIXdBMK8MgSOdw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CcLbV5+HHHk3F8tJLFjKStO74UYOijs+VhD71lEZ9xyVh/DK/r+9j9x3VJ3Zd1vzbv+QtdUZ1nE0qtvFaDcQ7bz5C2c+ioNI5MLl3iU5THSZhQsi/1KsICBdTGkECwK++Gol9jSnv3KCtsF6PX+80F4YTRmmTGFM7RU7MlZTAp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=duglzlqV; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=LIKnxodr; arc=none smtp.client-ip=170.10.133.124
+	 Content-Type:Content-Disposition:In-Reply-To; b=NkV0LJs8jOftiq/EhsaBMGVrKLbynkvtsFacS6SgJ/ufaRwiWIXzwEIxbNkmHkyfcYNi+O7Tg+oq7NhKVy62ATn42cEJb+jT0LrIJM88431UBvmCUtxFR0z7Q3g+3rV68Lb88jtXFB8ePKMZZcBnl1GPMxEEyXVqBMpW29kjC1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Nl5Qotpp; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=SGZa8QfM; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="duglzlqV";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="LIKnxodr"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nl5Qotpp";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="SGZa8QfM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791464150;
+	s=mimecast20190719; t=1791464519;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pHDa4z9jnDXGGb+hEZleBywrVCv4SURdHVsUl7weYzs=;
-	b=duglzlqVS+r4Hqg4+wVLNm89KIQ9mvGWKdjTf/r0tWpy7b9eLhaP0IUuhr8HjzlhVHFc/D
-	3MFQnh41QyfwVVqst/hqbuppU3F3mghPXGnCOCEWsvNkcHRyfZRUtst+9jifWhFDMHyfoR
-	reIRG406jLX1XnJn7ME54HOzeh9x7ss=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=RwPHHsgpMs6zbZHghQO2vU/k/AkZ7EfAHxPKWnb9ZmU=;
+	b=Nl5QotppE8O3x3aevPG2ATBwSbldHJz+n4Af98uAGf+TaT8/thvbsLUErwBeQVecsd2HKb
+	ZLrQ+Lc17uzhfWaBsixCwLXhIV2/GVK6DZz9v11zNnnS5v/GBUHGk7zuYe98C5zCIkxwmJ
+	rgIwgFqLeNQc5gh1CZQlkSk7wFTfs3Q=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-300-TGgYfVIxO3SeK7x81urSNw-1; Thu, 08 Oct 2026 08:55:49 -0400
-X-MC-Unique: TGgYfVIxO3SeK7x81urSNw-1
-X-Mimecast-MFC-AGG-ID: TGgYfVIxO3SeK7x81urSNw_1791464148
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a17c024b89so25483025e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 05:55:49 -0700 (PDT)
+ us-mta-395-IB3AjCMzNPe6_Ap0y07ACA-1; Thu, 08 Oct 2026 09:01:58 -0400
+X-MC-Unique: IB3AjCMzNPe6_Ap0y07ACA-1
+X-Mimecast-MFC-AGG-ID: IB3AjCMzNPe6_Ap0y07ACA_1791464517
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4a01b112fa2so70972135e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 06:01:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1791464148; x=1792068948; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1791464517; x=1792069317; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pHDa4z9jnDXGGb+hEZleBywrVCv4SURdHVsUl7weYzs=;
-        b=LIKnxodr/CWkMz1CD+ALEe491w//nAbbbwUtReQ/ISs9FnQgWA1bO5jAsvwbTnHpYV
-         M2OUda2LDGGRXciJhGYb70drbK9JnAa4B7FmIIbzAIH+KGg0vr8VbF9MwetG1Jot5uoH
-         1jB7plwoJ9xYZq6PyemJXGNzNP7Lm+M14k/9nE50bOfIYXqdNleJrfYQuf5oKZrWiDRY
-         e9lyEAQoildubV0S1JmEpZQTn1JqfliYs/mG8t2rzl188Xed+3j7c1x9/KkFUj0W9U3j
-         qQoSXS7IhXYBgMyYCO1NNnMZPeZXjycI7fe3UgcqMUy0FZTpEKpVmvOQw/Bp9V5JH0vE
-         f+CA==
+        bh=RwPHHsgpMs6zbZHghQO2vU/k/AkZ7EfAHxPKWnb9ZmU=;
+        b=SGZa8QfMUjT2feee+Qe2o6y9WGCYS9N0gF+SrodoYmJxCkzlo2yWGz1iG37fl6c7Wq
+         7dghoe01p4M5RAM8udOdSDcEI+Ig5QZ1ZKF8RcXE5vVllKvAFIggZmL2z76PWkEXNJxv
+         K54g6KHeDiI3LdWkueD0oHt8vHsPFLCpVRHFH8T9URpma7qa1IGsoGAxZBTwnqlghi//
+         gUPzp2eJQ+Yp5zcJ4GHoNhq7Drj+EEyM3c8NW9LkbvDnGjykyPkuGuZMP0AhZC4qnsO0
+         gpej0KKn+UymdwB7lO3yBv9k5iTSvvNSl6RZHPqxXyUFIBilNlmLmSJM2KHrGaoCSErJ
+         UBYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791464148; x=1792068948;
+        d=1e100.net; s=20260707; t=1791464517; x=1792069317;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=pHDa4z9jnDXGGb+hEZleBywrVCv4SURdHVsUl7weYzs=;
-        b=gfUSH/5nojSw9beSNWkHTSy4bf9jKuwEB3PKP4oZr8WWfVJhjE/FmTCr3oS//A9QIO
-         UFpfeN2WCinABAoQgoLyWGnzRVg4MUNSxCJdcZFg7bwx5VWiGIZG8nmvwnRoL36RHw6H
-         d+RD9wPCzmazV/PuiOaEonf1ux+MAeFcMowc5RcyvHzDn7fyRFK1QqxniKIZwCgSKc3d
-         4FdRzYafXPPi/f30wTNGCkQCuRRulkLqG+bUicNfDwPMcR5rOl7XcgFJ2b3hTVRIec9B
-         HxgqXveIPm3Qji0nVljwqe6ZusfbbieE4IXCBr/j1L3DRZEt59YrJjjkwdCOE2LG+ZY+
-         +rvw==
-X-Forwarded-Encrypted: i=1; AKwUvBwG6kmfCedGChdxuYq8anVe5ixP5wZjPR39SSQPV3s+67YoQdC2pPcAiDhY5Vch7XSDjnioU0aLpvE=@vger.kernel.org
-X-Gm-Message-State: AFuF++koUKxDpiZLF/BYiUVB8bKcBS/8zzeRldScwxAS46vUVhVp6chq
-	XfNGT2Slpwc0u0ZHskEge0iYRW/lLtiizOHX+XZk1VKqD01jxzCfG+xCswzgEWzFlty2dV42w/P
-	98e6Io1UpWzRN4Gv+pnWbYJekK7sUtQFZllTLw9FdEd72MLS+jhOLCehB7cGa7A==
-X-Gm-Gg: AYBFou1tDl4v3/+QxBYlpWawt7EOQ1kFd2OCMsvnDZ+TsBNjsTg2mhsfph+x1WjUljb
-	boCwP0YSAcaA9HpBOUhztIbtf94piZkPmLPfGA2ewVHO9xYXPVteXcReaAAqx9r29V0ED9JvIoZ
-	OFqbwBAgy0AkyDoEPaDWTQOveP4kzoD6aSR04JeDz4rLpZCkbjWaCU9hjYZlyJkMsy4UY++1PqE
-	Bbh/qlorUAmaB0Bq997dSf1zIlueUdkVVZugkgWuZTPqTfv8VkGOqn4x+KxNEHVE9xLua1aENlS
-	1PcQ6NdduWsEPL5R7f5McBFRnbcOkPs/eBRmi7ePkoLlxeVcbhf/Qk0PkbgsD5GIFeNoHiC5WDU
-	NjDYJSWutOb7wfC3aZ1ZNF3ZVJaR5qQxy
-X-Received: by 2002:a05:600c:e548:10b0:4a1:813f:2a65 with SMTP id 5b1f17b1804b1-4a1813f2d75mr65665295e9.15.1791464147990;
-        Thu, 08 Oct 2026 05:55:47 -0700 (PDT)
-X-Received: by 2002:a05:600c:e548:10b0:4a1:813f:2a65 with SMTP id 5b1f17b1804b1-4a1813f2d75mr65664965e9.15.1791464147562;
-        Thu, 08 Oct 2026 05:55:47 -0700 (PDT)
+        bh=RwPHHsgpMs6zbZHghQO2vU/k/AkZ7EfAHxPKWnb9ZmU=;
+        b=oKVVzfFvLtJgYlkjASIUti3af2jjO5evQ07z/xWZvO+xjIU5MM6td+2cpytQjXnE2Z
+         0Rh2n/evkgRldEYRvT5HX1VIlmLfc+AMQEZwkoZnxKktIZ7v+SfsTK3bWUD4YLRiU9Vu
+         m+shmCOTK606uR9u7qGFfNLvhXfTqldRPSKZNG5JkYAV4CX5Y7b8024n5V4G0fcZRhUE
+         M52pLP/gKJLKsyMlFVK5rZkbL2iW8Zv0QMXRUgbBdyE8CeGueLQq1WE3G+4hOJ4TTlY/
+         MtkFkOXnO5GgD3HlqglEThiZ9P9uvNocGP8wwkgB4H4D4Ojf7Fv1sbzYmKZWbKvCE2wH
+         Ot9g==
+X-Forwarded-Encrypted: i=1; AKwUvBxvA2YFDtZaflbX2aZa/rgzkj+MR3m3l7atVJ4Opt+r/RVjqJskGMrTkigQPtdFWGyN7Purdd9a3aA=@vger.kernel.org
+X-Gm-Message-State: AFuF++mVc3b8q/fuuGK4b/bb89Oalb9o9Ga2TUZvcEq0dDNuReMbl56i
+	q864zbOpT4tbhTVGihKIH21UORFNm3ZVffxWWbKgJPbFFegbw28d428Y1Y01m86upTXelhZEVZu
+	3stjmhfj8qmYf7+6qyXzSae9aW8dUctp6GgnaGJkEO6OCVoeOvJ1saR6gIeDFfg==
+X-Gm-Gg: AYBFou3qf9kbgh6Rnfcu3jFIbMcxYZ8b8AwXgdeKAPOC+xUukISxeNu+wQZ8VkUfPXq
+	W/34xhgyOnyiPsstR5Wyp/7lUP7vuVInuGygBxpkCGS33fBMIUpKVBS7820YfWoIZuQBqc2RJnL
+	kpn1GmxZOcv5ZBhLj+bT8w8nxlZPJSde8eaQ3RxLqEavX8DDD9gXPvZSOoVct9PEjN8NNfdOZnz
+	6/CUpSjN2uSDkrnh6/HZEB9eeRFfHkyQ3h70GEByGFlcaQsVZ6cLiys8Sep1UkyHu3y5xG5yggD
+	eLJmhKiDTSEQDEt2gRahIa0MSkg9YZp9TMTaDZZi8WCW1Twgb0+CAr36ggC8Dx44/i3l+13ZYpD
+	qZ2JSqLnbjkWR+0eGwtN4kDr4WK8UeJLM
+X-Received: by 2002:a05:600c:4fcb:b0:4a1:746e:589a with SMTP id 5b1f17b1804b1-4a18045579amr88641985e9.18.1791464517016;
+        Thu, 08 Oct 2026 06:01:57 -0700 (PDT)
+X-Received: by 2002:a05:600c:4fcb:b0:4a1:746e:589a with SMTP id 5b1f17b1804b1-4a18045579amr88641325e9.18.1791464516349;
+        Thu, 08 Oct 2026 06:01:56 -0700 (PDT)
 Received: from mheib-thinkpadp16vgen1.rmtil.csb ([216.128.14.248])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1802cdf24sm93045815e9.2.2026.10.08.05.55.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1842a349bsm70150905e9.2.2026.10.08.06.01.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 05:55:47 -0700 (PDT)
-Date: Thu, 8 Oct 2026 15:55:19 +0300
+        Thu, 08 Oct 2026 06:01:55 -0700 (PDT)
+Date: Thu, 8 Oct 2026 16:01:39 +0300
 From: Mohammad Heib <mheib@redhat.com>
 To: netdev-bot+sashiko@kernel.org
 Cc: anthony.l.nguyen@intel.com, davem@davemloft.net, kuba@kernel.org, 
@@ -86,11 +86,11 @@ Cc: anthony.l.nguyen@intel.com, davem@davemloft.net, kuba@kernel.org,
 	netdev@vger.kernel.org, przemyslaw.kitszel@intel.com, jiri@resnulli.us, horms@kernel.org, 
 	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
 	linux-doc@vger.kernel.org, sx.rinitha@intel.com
-Subject: Re: [PATCH net-next 1/3] i40e: move ATR sample rate from ring to PF
- level
-Message-ID: <aseRoSoLr-obT5Ms@mheib-thinkpadp16vgen1.rmtil.csb>
-References: <20260917204541.3072415-2-anthony.l.nguyen@intel.com>
- <179002634029.2160803.4618287131417011270@kernel.org>
+Subject: Re: [PATCH net-next 2/3] i40e: add devlink parameter for Flow
+ Director ATR sample rate
+Message-ID: <aseTIxAIWeH5uSaR@mheib-thinkpadp16vgen1.rmtil.csb>
+References: <20260917204541.3072415-3-anthony.l.nguyen@intel.com>
+ <179002634197.2160803.3910890717187021181@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -100,13 +100,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <179002634029.2160803.4618287131417011270@kernel.org>
+In-Reply-To: <179002634197.2160803.3910890717187021181@kernel.org>
 
-On Mon, Sep 21, 2026 at 09:32:20PM +0000, netdev-bot+sashiko@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential
+On Mon, Sep 21, 2026 at 09:32:21PM +0000, netdev-bot+sashiko@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 3 potential
 > issue(s) to consider.
 > 
-> Critical: 0 · High: 1 · Medium: 1 · Low: 0
+> Critical: 0 · High: 0 · Medium: 2 · Low: 1
 > 
 > If you believe none of the issues are legitimate, please reply to each
 > issue of Medium severity or higher and explain why the AI is wrong.
@@ -114,133 +114,220 @@ On Mon, Sep 21, 2026 at 09:32:20PM +0000, netdev-bot+sashiko@kernel.org wrote:
 > know by including "pw-bot: cr" as a separate line at the end of your reply
 > (one such reply per series is enough).
 > 
-> - [High] Concern (discarded on baseline verification): removing the per-
->   ring atr_sample_rate decoupled the software ATR gate from…
-> - [Medium] Undisclosed user-visible behaviour change: "i40e: move ATR
->   sample rate from ring to PF level" is written as a pure storage…
+> - [Medium] The new devlink `atr_sample_rate` setter
+>   (drivers/net/ethernet/intel/i40e/i40e_devlink.c:36-46) makes the value…
+> - [Medium] The new documentation
+>   (Documentation/networking/devlink/i40e.rst, lines 54-59) states that…
+> - [Low] In the new documentation entry the lines 'Setting to ``0``
+>   disables ATR sampling (no filters will be programmed)' and 'The…
 > 
 > --
 > 
-> i40e: move ATR sample rate from ring to PF level
+> i40e: add devlink parameter for Flow Director ATR sample rate
 > 
-> This moves atr_sample_rate out of struct i40e_ring and into struct i40e_pf,
-> initializing it once in i40e_sw_init() instead of in i40e_configure_tx_ring().
-> i40e_atr() now reads the PF-level value, and ring->atr_count grows from u8 to
-> u32.
+> This adds a runtime devlink parameter, atr_sample_rate, that lets the
+> Flow Director ATR sampling interval be changed without rebuilding the
+> driver.  The value is stored in pf->atr_sample_rate and read by the Tx
+> path, and a new entry documents it in the i40e devlink documentation.
 > 
-> > diff --git a/drivers/net/ethernet/intel/i40e/i40e_main.c b/drivers/net/ethernet/intel/i40e/i40e_main.c
-> > index abbc71e815ae3..0a4272e1ab070 100644
-> > --- a/drivers/net/ethernet/intel/i40e/i40e_main.c
-> > +++ b/drivers/net/ethernet/intel/i40e/i40e_main.c
-> > @@ -3458,12 +3458,7 @@ static int i40e_configure_tx_ring(struct i40e_ring *ring)
-> >  		ring->xsk_pool = i40e_xsk_pool(ring);
+> > diff --git a/Documentation/networking/devlink/i40e.rst b/Documentation/networking/devlink/i40e.rst
+> > index 51c887f0dc833..2cea98b631baa 100644
+> > --- a/Documentation/networking/devlink/i40e.rst
+> > +++ b/Documentation/networking/devlink/i40e.rst
+> > @@ -40,6 +40,26 @@ Parameters
 > >  
-> >  	/* some ATR related tx ring init */
-> > -	if (test_bit(I40E_FLAG_FD_ATR_ENA, vsi->back->flags)) {
-> > -		ring->atr_sample_rate = I40E_DEFAULT_ATR_SAMPLE_RATE;
-> > -		ring->atr_count = 0;
-> > -	} else {
-> > -		ring->atr_sample_rate = 0;
-> > -	}
-> > +	ring->atr_count = 0;
+> >          The default value is ``0`` (internal calculation is used).
+> >  
+> > +.. list-table:: Driver specific parameters implemented
+> > +    :widths: 5 5 90
+> > +
+> > +    * - Name
+> > +      - Mode
+> > +      - Description
+> 
+> [Severity: Low]
+> This isn't a bug, but the third column here is labelled Description while
+> the generic parameter table above it in the same file uses Notes.  Was the
+> difference intended?
+Fixed in v5, changed to Notes for consistency.
+> 
+> > +    * - ``atr_sample_rate``
+> > +      - runtime
+> > +      - Controls how frequently Flow Director ATR updates flow steering
+> > +        information for active TCP flows.
+> > +
+> > +        ATR programs Flow Director entries based on sampled transmitted
+> > +        packets. The sampling interval is specified as the number of
+> > +        transmitted packets between ATR updates.
+> > +
+> > +        Lower values increase Flow Director programming activity, while
+> > +        higher values reduce the update frequency.
 > 
 > [Severity: Medium]
-> The commit message describes this as a storage relocation: "Since the sample
-> rate is a global policy that applies uniformly across all rings, it makes more
-> sense to store it at the PF level."  Does dropping this conditional also change
-> when the writable "flow-director-atr" private flag takes effect?
+> Is "the number of transmitted packets between ATR updates" the unit the
+> code actually implements?  Three details in i40e_atr() seem to differ.
 > 
-> Before this patch, the per-ring rate was latched from I40E_FLAG_FD_ATR_ENA at
-> the time the Tx ring was configured, and i40e_atr() bailed out on
-> !tx_ring->atr_sample_rate.  i40e_set_priv_flags() does not add
-> I40E_FLAG_FD_ATR_ENA to reset_needed and only handles the disable direction:
+> The counter compared against the configured value is per Tx ring, not
+> per device:
 > 
+> drivers/net/ethernet/intel/i40e/i40e_txrx.c:i40e_atr() {
+> 	...
+> 	tx_ring->atr_count++;
+> 
+> 	/* sample on all syn/fin/rst packets or once every atr sample rate */
+> 	if (!th->fin &&
+> 	    !th->syn &&
+> 	    !th->rst &&
+> 	    (tx_ring->atr_count < sample_rate))
+> 		return;
+> 	...
+> }
+> 
+> atr_count lives in struct i40e_ring, so on an N-queue device the
+> aggregate programming rate is up to N times what a device-wide packet
+> interval would suggest.  Given the commit message mentions "systems with
+> a large number of queues", should the documentation say the interval is
+> per Tx queue?
+> 
+> The increment is also only reached for TCP after the IP version and
+> protocol checks:
+> 
+> drivers/net/ethernet/intel/i40e/i40e_txrx.c:i40e_atr() {
+> 	...
+> 	if (l4_proto != IPPROTO_TCP)
+> 		return;
+> 	...
+> }
+> 
+> so non-TCP transmitted packets never advance the interval.
+> 
+> Finally, the threshold is bypassed for SYN, FIN and RST, so raising the
+> value does not reduce programming activity for connection-churn
+> workloads.  Should the text mention that exception?
+> 
+> > +
+> > +        Setting to ``0`` disables ATR sampling (no filters will be programmed)
+> > +        The default value is ``20``.
+> 
+
+Fixed in v5. The documentation now says "TCP packets per Tx queue" and
+clarifies the interval is per queue, not per device.
+
+> [Severity: Low]
+> These two lines have no blank line between them and the first one has no
+> terminating period, so reStructuredText joins them into a single
+> paragraph and renders as "... (no filters will be programmed) The default
+> value is 20.".  The max_mac_per_vf entry just above puts a blank line
+> before its "The default value is ..." sentence.
+> 
+> >  
+> >  Info versions
+> >  =============
+> > diff --git a/drivers/net/ethernet/intel/i40e/i40e_devlink.c b/drivers/net/ethernet/intel/i40e/i40e_devlink.c
+> > index 229179ccc1319..6df7eb217073d 100644
+> > --- a/drivers/net/ethernet/intel/i40e/i40e_devlink.c
+> > +++ b/drivers/net/ethernet/intel/i40e/i40e_devlink.c
+> > @@ -33,12 +33,48 @@ static int i40e_max_mac_per_vf_get(struct devlink *devlink,
+> >  	return 0;
+> >  }
+> >  
+> > +static int i40e_atr_sample_rate_set(struct devlink *devlink,
+> > +				    u32 id,
+> > +				    struct devlink_param_gset_ctx *ctx,
+> > +				    struct netlink_ext_ack *extack)
+> > +{
+> > +	struct i40e_pf *pf = devlink_priv(devlink);
+> > +	u32 sample_rate = ctx->val.vu32;
+> > +
+> > +	WRITE_ONCE(pf->atr_sample_rate, sample_rate);
+> > +	return 0;
+> > +}
+> 
+> [Severity: Medium]
+> Setting the value to 0 is now reachable at runtime while
+> I40E_FLAG_FD_ATR_ENA stays set.  Does this leave already programmed ATR
+> entries resident in the Flow Director table with no way to remove them?
+> 
+
+Fixed in v5. The devlink setter now flushes existing ATR entries when
+rate is set to 0, using the same mechanism as the ethtool ATR-disable
+path (__I40E_FD_ATR_AUTO_DISABLED + __I40E_FD_FLUSH_REQUESTED).
+> In i40e_atr() the zero-rate return happens before the FIN/RST handling
+> and before the descriptor build that emits the remove command:
+> 
+> drivers/net/ethernet/intel/i40e/i40e_txrx.c:i40e_atr() {
+> 	...
+> 	/* if sampling is disabled do nothing */
+> 	sample_rate = READ_ONCE(pf->atr_sample_rate);
+> 	if (!sample_rate)
+> 		return;
+> 	...
+> 	dtype_cmd |= (th->fin || th->rst) ?
+> 		     (I40E_FILTER_PROGRAM_DESC_PCMD_REMOVE <<
+> 		      I40E_TXD_FLTR_QW1_PCMD_SHIFT) :
+> 	...
+> }
+> 
+> That PCMD_REMOVE descriptor is the only software removal path, and it is
+> only redundant when hardware eviction is available:
+> 
+> drivers/net/ethernet/intel/i40e/i40e_txrx.c:i40e_atr() {
+> 	...
+> 	if (test_bit(I40E_FLAG_HW_ATR_EVICT_ENA, pf->flags)) {
+> 		/* HW ATR eviction will take care of removing filters on FIN
+> 		 * and RST packets.
+> 		 */
+> 	...
+> }
+> 
+> I40E_FLAG_HW_ATR_EVICT_ENA is only set in i40e_sw_init() when
+> pf->hw.caps has I40E_HW_CAP_ATR_EVICT, and it can also be cleared by the
+> hw-atr-eviction ethtool private flag.  On such a device, after any TCP
+> traffic has programmed ATR filters, a
+> 
+>   devlink dev param set pci/<bdf> name atr_sample_rate value 0 cmode runtime
+> 
+> appears to leave those entries steering received packets for flows that
+> have since closed, while fd_atr_cnt and i40e_get_current_atr_cnt() still
+> report ATR as active.
+> 
+> The existing way to turn ATR off via the flow-director-atr private flag
+> does the teardown explicitly:
+> 
+> drivers/net/ethernet/intel/i40e/i40e_ethtool.c:i40e_set_priv_flags() {
+> 	...
 > 	/* Flush current ATR settings if ATR was disabled */
 > 	if (test_bit(I40E_FLAG_FD_ATR_ENA, changed_flags) &&
 > 	    !test_bit(I40E_FLAG_FD_ATR_ENA, new_flags)) {
 > 		set_bit(__I40E_FD_ATR_AUTO_DISABLED, pf->state);
 > 		set_bit(__I40E_FD_FLUSH_REQUESTED, pf->state);
 > 	}
+> 	...
+> }
 > 
-> So on a live interface whose rings were configured while ATR was off,
-> "ethtool --set-priv-flags ethX flow-director-atr on" did not resume sampling
-> until an ifdown/ifup or a PF reset.  With the PF-level rate now always
-> non-zero, the flag alone re-enables descriptor generation immediately.
+> Should the devlink setter do the same when the new rate is 0, or should
+> 0 be rejected by a validate callback instead?  Note the later patch in
+> the series that triggers a PF reset when re-enabling ATR via ethtool only
+> touches i40e_set_priv_flags(), so it does not add this flush.
 > 
-> Could the commit message mention this user-visible semantic change, and should
-> it carry a Fixes tag if the old latching behaviour was considered a bug?
-
-Yes, this is a real behavior change. The v5 commit message now documents
-it explicitly.
-> 
-> [ ... ]
-> 
-> > @@ -12740,6 +12735,8 @@ static int i40e_sw_init(struct i40e_pf *pf)
-> >  		}
-> >  	}
-> >  
-> > +	pf->atr_sample_rate = I40E_DEFAULT_ATR_SAMPLE_RATE;
 > > +
-> >  	if ((pf->hw.func_caps.fd_filters_guaranteed > 0) ||
-> >  	    (pf->hw.func_caps.fd_filters_best_effort > 0)) {
-> >  		set_bit(I40E_FLAG_FD_ATR_ENA, pf->flags);
-> 
-> [Severity: High]
-> This assignment is unconditional and happens before the Flow Director
-> capability detection below it.  Can that decouple the software ATR gate from
-> the Flow Director enable bit programmed into the Tx queue context?
-> 
-> i40e_configure_tx_ring() still snapshots the flags into the HMC context:
-> 
-> 	if (test_bit(I40E_FLAG_FD_SB_ENA, vsi->back->flags) ||
-> 	    test_bit(I40E_FLAG_FD_ATR_ENA, vsi->back->flags))
-> 		tx_ctx.fd_ena = 1;
-> 
-> The matching software snapshot (ring->atr_sample_rate) is what this patch
-> removes, so after toggling "flow-director-atr" on without a reconfiguration,
-> i40e_atr() would pass the new gate:
-> 
-> 	sample_rate = READ_ONCE(pf->atr_sample_rate);
-> 	if (!sample_rate)
-> 		return;
-> 
-> and go on to write an I40E_TX_DESC_DTYPE_FILTER_PROG descriptor and advance
-> tx_ring->next_to_use on a queue whose context was programmed with fd_ena = 0.
-> Would that produce an MDD event or bogus FD programming status on that queue?
-> 
-> For completeness, the later patch in this series, "i40e: trigger PF reset when
-> re-enabling ATR via ethtool", adds a reset on the enable transition in
-> i40e_set_priv_flags(), which re-programs the queue contexts and addresses this
-> for the series as a whole.  It does leave a window between
-> bitmap_copy(pf->flags, new_flags) and i40e_do_reset(), and it means this
-> intermediate commit alone is not bisect-clean in that respect.  Would it make
-> sense to fold the reset change into this patch, or to order it first?
-
-Addressed in v5 by folding the PF reset patch (was 3/3) into this
-commit. The reset on ATR re-enable now lands in the same commit that
-removes the per-ring gate, so the tree is bisect-clean at every commit.
-
+> > +static int i40e_atr_sample_rate_get(struct devlink *devlink,
 > 
 > [ ... ]
 > 
-> > diff --git a/drivers/net/ethernet/intel/i40e/i40e_txrx.c b/drivers/net/ethernet/intel/i40e/i40e_txrx.c
-> > index 7f68adb5109b0..e045f9c71c944 100644
-> > --- a/drivers/net/ethernet/intel/i40e/i40e_txrx.c
-> > +++ b/drivers/net/ethernet/intel/i40e/i40e_txrx.c
-> > @@ -2882,7 +2883,8 @@ static void i40e_atr(struct i40e_ring *tx_ring, struct sk_buff *skb,
-> >  		return;
-> >  
-> >  	/* if sampling is disabled do nothing */
-> > -	if (!tx_ring->atr_sample_rate)
-> > +	sample_rate = READ_ONCE(pf->atr_sample_rate);
-> > +	if (!sample_rate)
-> >  		return;
-> >  
-> >  	/* Currently only IPv4/IPv6 with TCP is supported */
+> >  static const struct devlink_param i40e_dl_params[] = {
 > 
 > [ ... ]
 > 
-pw-bot: cr
+> > +	DEVLINK_PARAM_DRIVER(I40E_DEVLINK_PARAM_ID_ATR_SAMPLE_RATE,
+> > +			     "atr_sample_rate",
+> > +			     DEVLINK_PARAM_TYPE_U32,
+> > +			     BIT(DEVLINK_PARAM_CMODE_RUNTIME),
+> > +			     i40e_atr_sample_rate_get,
+> > +			     i40e_atr_sample_rate_set,
+> > +			     NULL),
+> >  };
+> 
 > -- 
 > Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260917204541.3072415-1-anthony.l.nguyen%40intel.com
 
