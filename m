@@ -1,134 +1,91 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3696397343;
-	Thu,  8 Oct 2026 15:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA414D4882;
+	Thu,  8 Oct 2026 15:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791472886; cv=none; b=hMMLTZcukl7oZcy1taHMZkCwoh61xLqIx5QJAW9yZx/KL6Lg/shWc7wzSh96vqJE6BORb5bNGzjo+tT/0cC9l1EMv4PFZOb8d6Y2FjdmPQOUbJ8SAXAmXClBKyRx3Zaq1yINKXd1lYtudhyAHf/knMj+rc+hdpUDcxbMxCnvbQQ=
+	t=1791473012; cv=none; b=oHu9RZ8FjZSKa0Zsv/1IjXakqcET1noAI0fYH4XdVz9aJ/se7AT6A1wqs3bc0+pjLwh2BXSKoDisV5CmH3x41RAto/q52NPtX+bktIxhWJcGKFDvG/GsyIH/2q8WTX7lnNCXL6cDljr9kZveCZJlX9ffq4aMeKsJuBYetzLB9HQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791472886; c=relaxed/simple;
-	bh=nwD9UJJcQf/I3uCj4G6DesPKqOSQnRqeOvO2oJEDD/c=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=ZsxBT/PrdeeQ+A6JwH/CEsCh9o6+Je1pW+Q8ae5OrOeZgmoQ90dsiQ6p6LJazM3kClAiug7bfadUXv7jo7tR67dIhSbd7Jog5jpeHoRJlAZYvfzyvBuHkBf3TFkcJc37DkyxezsWXHPAKGsI/usv1YBbqgEUxsD7wIcoI8VYH3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.helo=mail.mainlining.org; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.helo=mail.mainlining.org
-Date: Thu, 08 Oct 2026 16:20:54 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: Karl Mehltretter <kmehltretter@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Miguel Ojeda <ojeda@kernel.org>
-CC: Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?ISO-8859-1?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?ISO-8859-1?Q?Onur_=D6zkan?= <work@onurozkan.dev>,
- Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linusw@kernel.org>,
- Christian Schrefl <chrisi.schrefl@gmail.com>,
- "Paul E . McKenney" <paulmck@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, linux-arm-kernel@lists.infradead.org,
- rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_1/6=5D_ARM=3A_cmpxchg=3A_alway?=
- =?US-ASCII?Q?s_inline_=5F=5Farch=5Fxchg=28=29_and_=5F=5Fcmpxchg=28=29?=
-In-Reply-To: <20261008053746.49631-2-kmehltretter@gmail.com>
-References: <20261008053746.49631-1-kmehltretter@gmail.com> <20261008053746.49631-2-kmehltretter@gmail.com>
-Message-ID: <C3287647-5059-432B-A621-EF428A0B1A15@mainlining.org>
+	s=arc-20240116; t=1791473012; c=relaxed/simple;
+	bh=d/577wEUSbn6X5ZPIoRW4VsvgqrlFtdBkNcXl7EbiEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WbgzbNfhd/Tp3bKsAxTvct47f0EoHrVDXivTOKbeE2rJFtgdmNiiUCkJJ90ehDNjIBRiyEQRNj0Daf0ILjZgQGm+gyidfs9upcD/oz57tXf3juD+it6Tcrkg9HxJ3clUxvZbxhFh5YGxMXWkWy86Fraa3Hc4IcnwAvEnQYpb/FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a0VjaNfl; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a0VjaNfl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 709631F000FF;
+	Thu,  8 Oct 2026 15:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791473008;
+	bh=lXPTEFqRzwTPeuTho68EfUuQN7bLJC0vw2xwMTTAJXY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=a0VjaNflmJMH1Rs3dHCed0pgOoUOBYUYqNeP3E0zb2FHNW9jQPCjPQMoWnjNpALdv
+	 rGhlhagAHjOLLDhgY6wSOiPeym974dEzQ+D4h+yI2me0wYsVbirGKeoJKBjHSgy1+l
+	 1oYmKBoNTrQOj6cdPy/F69WuVyBZwzGbnOylxrqyPI0wMiQJ1bAOCdc5ALvwh3iuNT
+	 0xNVGLnqtPcCvNc2dJtj0hFbKe4eRErp2kbSQfuEzz4IEXJ6ojWN1N0krKb6xkYS7L
+	 aUbOJnXLZTXNaEEW9FKQ9FJtMv365eLlQA8nbhJFYcJocLk+iJ808F9UzJhup7MfWo
+	 LugZ1P09Aa67Q==
+Date: Thu, 8 Oct 2026 11:23:25 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Gregory Price <gourry@gourry.net>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH v5 05/11] kernel/api: add API specification for sys_open
+Message-ID: <ase1bUUdnxMdVubo@laps>
+References: <20261008084956.2911790-1-sashal@kernel.org>
+ <20261008084956.2911790-6-sashal@kernel.org>
+ <aseRXi7hMWBBc0tB@hallyn.com>
+ <aseWPV6ZRQM3JOMN@gourry-fedora-PF4VCD3F>
+ <asemkQ2v0di0Eea3@hallyn.com>
+ <aseqx-uc_QySDiiw@laps>
+ <asesqWv1gv0lPZhD@hallyn.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <asesqWv1gv0lPZhD@hallyn.com>
 
-On 8 October 2026 06:37:41 BST, Karl Mehltretter <kmehltretter@gmail.com>
-wrote:
->__arch_xchg(), __cmpxchg() and __cmpxchg_local() end in a default case
->that calls an undefined function. That turns an unsupported size into a
->link error. It relies on the functions being inlined, so that the
->compiler can drop the default case for a constant size.
->
->They are only marked inline. gcc 8.1.0 with CC_OPTIMIZE_FOR_SIZE does
->not inline them in rust/helpers/helpers.c, which calls xchg() and
->cmpxchg() from many small helpers. The out-of-line copies keep the
->default case and the link fails.
->
->  helpers.c:(.text+0x424): undefined reference to `__bad_xchg'
->  helpers.c:(.text+0x4ac): undefined reference to `__bad_cmpxchg'
->
->Seen with bcm2835_defconfig and CONFIG_RUST=y on v7.3-rc1. The same
->config links with CONFIG_RUST=n. It also links with gcc 15.2.0 and
->with clang.
->
->v6.19 links. Commit ab717dd98bee ("rust: helpers: Add i8/i16 atomic
->xchg_acquire helpers") in v7.0 triggers __bad_xchg. Commit
->ac8f06ade38a ("rust: sync: atomic: Add Atomic<*{mut,const} T> support")
->in v7.1 also triggers __bad_cmpxchg.
->
->Mark the functions __always_inline.
->
->Fixes: ab717dd98bee ("rust: helpers: Add i8/i16 atomic xchg_acquire helpers")
->Fixes: ac8f06ade38a ("rust: sync: atomic: Add Atomic<*{mut,const} T> support")
->Cc: stable@vger.kernel.org
->Assisted-by: LLM
+On Thu, Oct 08, 2026 at 09:46:01AM -0500, Serge E. Hallyn wrote:
+>My point was just that whether the docs are inline or not, they will go
+>stale without that automation.  So if that's the case, then the docs do
+>not need to be inline.
 
-Looks fine cmpxchg ended 
+Ah, sorry - got it.
 
-Reviewed-by: Bradley Morgan <brads@mainlining.org>
+The way I saw it working out is that the core part would be inline, but the
+"speccy" part would move to a different location.  
 
+Ultimately, this is the call of the subsystem where those specs live, and I see
+different subsystems taking different approaches to this.
 
->Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
->---
-> arch/arm/include/asm/cmpxchg.h | 12 ++++++------
-> 1 file changed, 6 insertions(+), 6 deletions(-)
->
->diff --git a/arch/arm/include/asm/cmpxchg.h b/arch/arm/include/asm/cmpxchg.h
->index 9beb64d30586..0ce5225af442 100644
->--- a/arch/arm/include/asm/cmpxchg.h
->+++ b/arch/arm/include/asm/cmpxchg.h
->@@ -26,7 +26,7 @@
-> #define swp_is_buggy
-> #endif
-> 
->-static inline unsigned long
->+static __always_inline unsigned long
-> __arch_xchg(unsigned long x, volatile void *ptr, int size)
-> {
-> 	extern void __bad_xchg(volatile void *, int);
->@@ -155,8 +155,8 @@ extern void __bad_cmpxchg(volatile void *ptr, int size);
->  * cmpxchg only support 32-bits operands on ARMv6.
->  */
-> 
->-static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
->-				      unsigned long new, int size)
->+static __always_inline unsigned long
->+__cmpxchg(volatile void *ptr, unsigned long old, unsigned long new, int size)
-> {
-> 	unsigned long oldval, res;
-> 
->@@ -220,9 +220,9 @@ static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long old,
-> 				      sizeof(*(ptr)));			\
-> })
-> 
->-static inline unsigned long __cmpxchg_local(volatile void *ptr,
->-					    unsigned long old,
->-					    unsigned long new, int size)
->+static __always_inline unsigned long
->+__cmpxchg_local(volatile void *ptr, unsigned long old, unsigned long new,
->+		int size)
-> {
-> 	unsigned long ret;
-> 
->
-
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+-- 
+Thanks,
+Sasha
