@@ -1,146 +1,159 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010003.outbound.protection.outlook.com [52.101.201.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C2D48F825;
-	Thu,  8 Oct 2026 09:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791453600; cv=fail; b=MqFfDOxTzMHAZdXl0iIz3P9/tGg7ghcSQv27sVm63bYtxu5VYNXm0o1T4hbE5X7aaYUylvL498as2TizVu4OwQocdYJQgJd+yu+xLn5+hdAp3Q9npk4mkxBse5xjQXdgFDnYV6BB6C1GtaBfpUaQJug68ICciYu6dd02plbyuOA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791453600; c=relaxed/simple;
-	bh=axgRTAQOk96PfEwH7j1B2Zx4cLiqo/jTHxZQw9m7yJ0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KF+ftLkNZld6wi1m3vqpOncTatUwEzKNMwfXvj3n1pkSwyU9ILtqub/9ylLQFwxczQvTks1pbJuyD5vzkQNdDnVYkSsn9qVQX8dP8+iuFxKPu7G2QVrn/S4xw8VyhillRyZ0KciNopFiWsxWksP/sGY2t0+efYurHmohelgEbS0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=h3lQnUli; arc=fail smtp.client-ip=52.101.201.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74EDD435537
+	for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2026 10:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791454617; cv=none; b=nVJUweqRBolmrLWq59arZbdg+hsihUVWdYL9Y9dLC5J4PNwi9yJGDTafr4OSljOp+hc7i9C4DO7zDUpRuAxy+ozpKi3Ixmqcu94L74/ChBdfSfP8lD8IGpnQvN4ohUI6GAME+PGB22dyTyFnfiuwA+lrne2dhlpwKN1WSV0reBY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791454617; c=relaxed/simple;
+	bh=zr57d1ZsF5kLXjGYob37OWc0jqT5c2OOuPZtQUr/tHE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NVlRu9sYUYIUjjWgGdoHSft4xOmayhTAabwbggqjeotpwhrX6IYYmux1MHr5eGoRjYZ44+eoxml/9LssPRAkLIcCxMRPKSGH0x/cResrfyDiXZerskj/fKnm1BL1YifKiaSjadmELZNY4VRzLKGwcKcRk9rJdBRQN+WorYW4o00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q2DpU49c; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="h3lQnUli"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PTgwK1ig4BMLFi8bXzV/0uN7xX+pQbU4ZMEVviWpdOxbIAKC5bpyWMX0gRCO3+ez4qIwpu6VmtgXe+2ytxgmUCDhFae9cldtxE3pBcPWAxKvYYehsVbSFVdBUA7UT0t4jAOWujEZFjaAwwMPmx6RrIGibBo5Y/H/NE35h4XMaREs0vO6+4csKhUKUluy37jqTwWqxlCW0nTei2oBgIJic4q/tDXvqoJltfftSt+nduvWSgor2mpDKVObJZ4Ac5GAXSXDFqdNj+Or5BLn6iskbKpg0eEHlVllWA9Y2ng6t7brI5cyP1t1gfotIiqN1/WJnJUu0u7YlJ0/eEZRPbLODg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OoB9+8XVJHzGyCna6cDgDNU0VLG0oGZB/qwoVR0qCIg=;
- b=KJQGOpct3tWzp2SitSpGpNacjWf9p1myqarK4TRIqrv3m5Gu+jfrLUXvD2xZQm3XdyGltxq6oUkbq4r7dWQa9ZAP3zUHjRUvLZeGADM2548B/Qofq4ikXbLcTDYsSotkErkwxBMaYjtM+lgsqefN3Z1ukKBKenmgPli4VqWEYniNo9dhHC3nBGT1AFWBWjZptMF4wnuP1X/1nLPuftsJwPrPmyJwWTwh+obWyfOFjpiSwSca3ePT8j/ExKA2O5Ayio0+wQSIJfjp6TxDkQ6yKaNsL7yPpVIqeab2KLqcAq+fHA07gHq/g7JbJ+RLlkSbhqmZjaFqR4xyiDA4M6y0EA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OoB9+8XVJHzGyCna6cDgDNU0VLG0oGZB/qwoVR0qCIg=;
- b=h3lQnUliaslh1x65zk+mb8vFtiMBvzqNOE+N6lxcNDF3Rr0a7PKitC1VNS9jel6zPnH7n4sHIpy84FCDf86WP+eBmt8CdBjAHv/Hj9UWR31ie5gWNmVSroQ8OAu+z0u7Kp+wHpVsGOLPHjU6jgHLvdBh8JhAkcp6aDv/sBq7bUk=
-Received: from BN9PR03CA0153.namprd03.prod.outlook.com (2603:10b6:408:f4::8)
- by PH7PR12MB8121.namprd12.prod.outlook.com (2603:10b6:510:2b5::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.17; Thu, 8 Oct
- 2026 09:59:54 +0000
-Received: from BN1PEPF0000468C.namprd05.prod.outlook.com
- (2603:10b6:408:f4:cafe::37) by BN9PR03CA0153.outlook.office365.com
- (2603:10b6:408:f4::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Thu, 8
- Oct 2026 09:59:53 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BN1PEPF0000468C.mail.protection.outlook.com (10.167.243.137) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.522.6 via Frontend Transport; Thu, 8 Oct 2026 09:59:53 +0000
-Received: from purico-abeahost.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 8 Oct
- 2026 04:59:46 -0500
-From: Shivansh Dhiman <shivansh.dhiman@amd.com>
-To: <seanjc@google.com>, <pbonzini@redhat.com>
-CC: <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-	<nikunj.dadhania@amd.com>, <shivansh.dhiman@amd.com>
-Subject: [PATCH] Documentation: KVM: x86: Update nested live migration status on AMD
-Date: Thu, 8 Oct 2026 09:59:35 +0000
-Message-ID: <20261008095935.1237325-1-shivansh.dhiman@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q2DpU49c"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a0213948d3so18061155e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 03:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1791454614; x=1792059414; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EnmV+GF5F+3o4WuN9B2P/gYsWL8ntjLMdxMPioE157g=;
+        b=q2DpU49cazvBa8h/9Y3/aKQvCqqyMXujNpWce5qkh+Pz7NJ5azihH2TYIi5Fa8c6+4
+         ZGn1VVjePLPkj0vU7+/MA2s4pma5ot5b0w210hQ+Ydxa5obyvUX6nUrBNMGaG8rVzMy/
+         0uTMJq/cT7Vvww3W9BZIEqRL69XZG+1lrnK1OHtjUEe1Tle6bmjTsv2Brh2vmHP0dn19
+         EH5F2RKvJuBUrBGoRkqupsChDLsA+ZnCvKdqZXV+KZJoY2vwtC6HiMYwQ4uuPNHTagAF
+         jHGc0bhmNC113B54v6+p0QNM3noORXCfh1URt+bblLkJ1sfJw3uULjvLlbBYkCKGaBCU
+         JDHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791454614; x=1792059414;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EnmV+GF5F+3o4WuN9B2P/gYsWL8ntjLMdxMPioE157g=;
+        b=PEtUwOLG5O0h9WPdt34GbsEZkuV7cVXFmCpA1DuF5qvyKL4SgM5NodDX0TR0YvX1Kq
+         gBBqI2p1cWH19KNwjcE3OQcBDgVlJyK0NkQKd53U1mUpbQQFGSlr7Bf8ki6AvE333J6J
+         NW33IOhucgMYdJgQMNMP+6VzSOeXnUIIVNwA+K4i3mHCYMfBvay12NJfT4xyvv80jrNg
+         REmuFXBrIk1lq1Pa+GcqvQR3mYgrCNfWOttYV9C0TzY0hxsAU14A4TGKSc7EKEq5HxdC
+         m2rM8kUpcU+7ueahcYf8VpJ4HsyyzbeAVUXrivKvoJRyvhTwCSSXvAnTvLk2TOR4/We4
+         z8LQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzreAaFwpU0eyRbWsNsSQMBv7OOIRmd/g89jGVtdKnvCnjBgA4C8uyy4DI/6IC2qspF/F0SG5Z6ZZc=@vger.kernel.org
+X-Gm-Message-State: AFuF++mG8kLHOltpkQGDBL79pRahRosGT+N6WmAc+0mKYHkTMBkmNWJi
+	CcsGwYhNteSaIXa1+2y3EhbmkJyBJv+UmzRRbSlCSbJ23nx7wa5nIk9w0bQK+Ut4ZUs=
+X-Gm-Gg: AYBFou1tVffOqwDcOIK0scps4cDvY3H97t6NMF0r0uuf70yd5YOIf53zmXiugsGGmfV
+	r0w6XokC3Sny6UxXcB3GClFMtRIcHRQ3n7AxYBqD6Th/cj9ZUxQ0EyXtGrYz0mDwpwJ6T/hfGaP
+	Y0XGDHZcve1NIUZjGg3NMkYEyck/6WcGF9H16Td54sKFwUG4V1Gpax5ZQO+3FcokS55xcPHbJng
+	dVzl+R/Sa2Sz/xIiV0D7Y0BJv0fU7c4WwTsYosK4dcjkyOFVSuXYmF0k2nOZRAlTU6Ax8CTF15I
+	4TB/AkWkdLABKVOOeYNhGtnwvBl9sD0n9973vZxobolVy/eb6ftQRo/yYYhmiNYNSF4JADbZcnc
+	9i+hz9rpqkrVeLbUW5p/WGrKW9QAfuu5TbHchMKKjF91GF5zTUxs9W9xLaFLcdoDTWKlWF/cRXJ
+	51XSvHrU92k2vpTDUb1555jHURONFiknx7LWC5zbbrjU9y6v4J/gF38SqiHD3S09MZ0v16UEZOf
+	ZI=
+X-Received: by 2002:a05:600c:820d:b0:49f:fe39:5bc8 with SMTP id 5b1f17b1804b1-4a180423b6bmr85575205e9.12.1791454611842;
+        Thu, 08 Oct 2026 03:16:51 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1842abdb9sm57441605e9.6.2026.10.08.03.16.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Oct 2026 03:16:51 -0700 (PDT)
+Message-ID: <a8373961-8ca5-4e8f-9f81-69d099bcaf3c@linaro.org>
+Date: Thu, 8 Oct 2026 11:16:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF0000468C:EE_|PH7PR12MB8121:EE_
-X-MS-Office365-Filtering-Correlation-Id: b40dc215-ba48-42f0-ccbb-08df2522e682
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|23010399003|376014|82310400026|56012099006|11063799006|10067099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	rqx1QGT3npT+YAAfGvHe0F9GDYbjfSbRYcRlzk8VYSh4iS43MOieHjKRIZ8ZyNF4bqWXYZUVrvH/My3ac1vPPiU1TNgyIx2BLXhHWCNkn7Kbsp3FHq0qWM1jJ8RrOfRYMC1ZdMhUESPWJs7lxg22+CT10V20LdV36jAb6/Rps3zTgc01lbie3IkYxdyAMLk0dZ8qo0VpiN3cK9/oWdY6DkqS3SJGRCfAnRxJPyrfyeyytousdWbqdUuqR4aWOTA5zOtNEpvTHqRhUemcs2z6xmTj/x/wzwarrO2iYonKZsdHhlVaMN6+es+EqB374a6bq3eTJchq5EjoFSSnkzbA6lJHzhlYipH5ziNDqEtXj7R55VgCtUiXLpyuhS0v64pqmvKW+mAEfw0uzYqL9e6rf5qFIKNRU+91aWrfiqMNvfhupxuRUxKqSguBfDknUeRJ8mD7lwoI55yY326YETowiExihz9j2aKpmwFh+7/n2lPOIS47NO/A9lFY9xUBXQj2xRQb/4cX2eZTjG4g7Wj5/TFhDDG+xgKBN8LQebGzmtKKOiNeRBeO+d3xf50iYKHWANQW8UOJ8Z6mFeJyNOcr1YL4GzfQrVX3gGRhSNVyEeHekNiWsoJl4JFUYzoFEY+NqBudxezYcrFi48j9mTPC4feCn3U7+xy6X5Vz6GGqOBxc62j8bsjSodOwPrfMpKhQmFkJ4V7xfPkGLB0/p2nL1A==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(23010399003)(376014)(82310400026)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	J2A0hIy85GjcUR8afnD7haFfSjRA7wyrxfXcKR7iCAVFOiz2ksYc4JZJN3y12J+D0H4qpdbykFGEPODkHYwIuapUmCq1ROHVRjHZjIIQVrzgvi19l1wAK1E6d/d6btc9tKvyt07id2LeI3V7OTZBXVclLC/TExcsyoXq8WUU/NA4FYj1YvFFwZGug1/03XKxSDqQmdmL0CatFJhITej8gB+WvBDjJb2tTgVD2AJ3iw+uso7FEV342PGCImV4eSyqJHyVQ1qL6gBqa2e1NPoaxwzdXkCwzN3GitjaclpXXAHXbj5IFJqVJgNiiH81DLhRJX0iSVmivQ4/VPqkO6PcwJlg4l4YDeCQ4c/GpuU02reRiT7/wpeC/h92tURpI9LBeEIgLa2lopHiXzy/bWCTXkioJBtAzN0Q2emUCmgBTAMooHJSXWELHBfmJ3JeDemD
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2026 09:59:53.5924
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b40dc215-ba48-42f0-ccbb-08df2522e682
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF0000468C.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8121
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/14] perf cs-etm: Turn on context packet timestamps
+ in per-thread mode
+To: Leo Yan <leo.yan@arm.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
+ <mike.leach@arm.com>, John Garry <john.g.garry@oracle.com>,
+ Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
+ Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org,
+ coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Arnaldo Carvalho de Melo <acme@redhat.com>,
+ linux-doc@vger.kernel.org
+References: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
+ <20260821-james-cs-unformatted-per-thread-fix-v2-3-00c4fd0701b4@linaro.org>
+ <20260826153648.GK8904@e132581.arm.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20260826153648.GK8904@e132581.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The "Live migration with nested KVM" section is stale for AMD systems
-and needs an update.  Migrating an SVM L1 guest with a live L2 guest in
-it works, and has been tested with Linux 7.2 and QEMU 11.1.0.  So,
-replace the AMD-specific caveats accordingly.
 
-Signed-off-by: Shivansh Dhiman <shivansh.dhiman@amd.com>
----
- .../virt/kvm/x86/running-nested-guests.rst       | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/virt/kvm/x86/running-nested-guests.rst b/Documentation/virt/kvm/x86/running-nested-guests.rst
-index 87326413d5c7..e41a50816058 100644
---- a/Documentation/virt/kvm/x86/running-nested-guests.rst
-+++ b/Documentation/virt/kvm/x86/running-nested-guests.rst
-@@ -186,21 +186,11 @@ Live migration with nested KVM
- 
- Migrating an L1 guest, with a  *live* nested guest in it, to another
- bare metal host, works as of Linux kernel 5.3 and QEMU 4.2.0 for
--Intel x86 systems, and even on older versions for s390x.
--
--On AMD systems, once an L1 guest has started an L2 guest, the L1 guest
--should no longer be migrated or saved (refer to QEMU documentation on
--"savevm"/"loadvm") until the L2 guest shuts down.  Attempting to migrate
--or save-and-load an L1 guest while an L2 guest is running will result in
--undefined behavior.  You might see a ``kernel BUG!`` entry in ``dmesg``, a
--kernel 'oops', or an outright kernel panic.  Such a migrated or loaded L1
--guest can no longer be considered stable or secure, and must be restarted.
--Migrating an L1 guest merely configured to support nesting, while not
--actually running L2 guests, is expected to function normally even on AMD
--systems but may fail once guests are started.
-+Intel x86 systems, and even on older versions for s390x.  On AMD x86
-+systems, it works with Linux kernel 7.2 and QEMU 11.1.0, or later.
- 
- Migrating an L2 guest is always expected to succeed, so all the following
--scenarios should work even on AMD systems:
-+scenarios should work:
- 
- - Migrating a nested guest (L2) to another L1 guest on the *same* bare
-   metal host.
+On 26/08/2026 16:36, Leo Yan wrote:
+> On Fri, Aug 21, 2026 at 10:49:01AM +0100, James Clark wrote:
+> 
+>> @@ -453,13 +453,22 @@ static int cs_etm_recording_options(struct auxtrace_record *itr,
+>>   	 */
+>>   	evsel__set_sample_bit(cs_etm_evsel, CPU);
+>>   
+>> -	/*
+>> -	 * Also the case of per-cpu mmaps, need the contextID in order to be notified
+>> -	 * when a context switch happened.
+>> -	 */
+>>   	if (!perf_cpu_map__is_any_cpu_or_is_empty(cpus)) {
+>> +		/*
+>> +		 * Timestamps are required to interleave samples from different
+>> +		 * CPUs.
+>> +		 */
+>>   		evsel__set_config_if_unset(cs_etm_evsel, "timestamp", 1);
+>> +		/* Context IDs are required to associate trace to a process */
+>>   		evsel__set_config_if_unset(cs_etm_evsel, "contextid", 1);
+>> +	} else {
+>> +		/*
+>> +		 * Enable context packet timestamps only (no periodic
+> 
+>> +		 * timestamps). Even in per-thread mode with a single process we
+>> +		 * still need to correlate trace to a specific mmap around
+>> +		 * execs, which can be done with just context packet timestamps.
+> 
+> Could we use terminology that is aligned with the ETM spec?
+> 
+>    "Disable periodic timestamps but generate timestamps for trace
+>     synchronization  ... to a specific mmap around execs, which
+>     can be done with just timestamps of trace synchronization."
+> 
 
-base-commit: 6bd2905303c58679e303941b7d8ae8c074cd95ce
--- 
-2.43.0
+Done.
+
+>> +		 */
+>> +		evsel__set_config_if_unset(cs_etm_evsel, "timestamp", UINT64_MAX);
+> 
+> It seems this will eventually convert UINT64_MAX to 0xf for the
+> timestamp bit field. Why not use 0xf directly to avoid confusion?
+> 
+
+Then it wouldn't support the size of the field changing. I thought that 
+was the point of the kernel publishing the fields dynamically. Hard 
+coding widths and positions in userspace only caused issues in the past.
+
+I don't think "...MAX" is confusing for what the intention is, but maybe 
+a comment would be better than hard coding it?
+
+>>   	}
+>>   
+>>   	/*
+>>
+>> -- 
+>> 2.43.0
+>>
 
