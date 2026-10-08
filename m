@@ -1,122 +1,184 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D47731ED7C;
-	Thu,  8 Oct 2026 03:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F2626158B;
+	Thu,  8 Oct 2026 03:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791428827; cv=none; b=QSCgv9IEHrv0hrUVlD7CTMS+pk4Ujd5H7IlmXJWc6+15SS/FteVY1FBvC50r4CBQxw8arCTgZXxqcwNzE5YVRd99Y6/WVaHVnKLr2peNrwRxrBH7wO065zWrCEmYjOdAlK5bjruCO8bg/6JrkyOYSoFoHAKDMxgRx+utyRLsuCA=
+	t=1791430278; cv=none; b=Dpr70VY+wVBHc+Ar4Z0ztBmsP8K2+/keDzXWrh79Mk0f6Q2xYiD9SKYvBcFPruQ/kqaAyhtX5zeFEjeXQi2nGrbHIs1b7F5DZslkSklSyCyvUIZrhDPQvnMF37ZsstbsqfmKhtXFMfxOuBzTFw9gjpZjlqOr1nTa+qjMzm1L1GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791428827; c=relaxed/simple;
-	bh=IzLKLBvBJvQ90dp5Fr7AoL4y/c6CHUQCMulASK2sAN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=USw+jF66sv5sVGFfhpwMd34JkFYog5ZJWF2y9pFwh2xj+G/0Z3dPbKeAuzZITx6JEm2XsAYmOO79NpSzFf4+wGK4vqL1H2VHC/722KJLwwJg9Z/jqRMq0DECzTcyzKfg6GfQp+Bndg2VM02XNPIK/BcLjSYIPzdsVVOXiF4Ywds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MTvM4QRE; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1791430278; c=relaxed/simple;
+	bh=aTBV22tb5rCe4fmyv+Cz8akZ7WXnE+6J/Dlj0OCzqFY=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MuxR5a5+eRi7b6uTisU2w9FaSNCnYLHH/1RCNS675ALU6zbpPpVf8SwJ8H2F6x84lZXYuEQ2eF/mSKJ6VsUdLXSqHyy+eRCNmvGRoHITbP+3KuCIZ87CPjcIPkWZ+GUa+6eozLLuFddtSFySZbB0wBmifcGlMe6eo3n8BkiP07M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jgJueFK9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MTvM4QRE"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id BE0B840E00E5;
-	Thu,  8 Oct 2026 03:06:54 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id mgqvtUb_NHYt; Thu,  8 Oct 2026 03:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1791428804; bh=cyhM1nUNozz0bBiV0uhM/z9n5mfCAa1GSAZkjkT7ZwA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MTvM4QRENWPPyXa1ccOMqG0xWEftwSJsaexQPCdfxBkXP7aZz3Em5whU2pQk5U3et
-	 G+uyGfmeEELkGkv+0ctFdA81yHntZDUoz4GPNiRNbGWn5VIaI7rw28qh8cX08XPtY0
-	 m3V+1VmUS2w/Ua3WMxQzU38Kc6eCVUT1YCfM7qq+Uq2x45slABOTqqLuA+FNRdHTMg
-	 gOfTMGMnSd+YlKNdxUoyIdYWOWwKGJOBMLiVSZAzhO3EZTFBHKOFduhuvZhHzIywWv
-	 aK3/lZ3bo5qaaeSkaegusJbhR+Ij2ZdbsRvOEB5Exrbwlnt1WhZgmrWgGAgVDQg7Rh
-	 p8LBRs2ECOzNSXNfJGtnTqEmy2XqWiUglM1iHXsNTo/T7LcVABevxKWAXggygRJUN8
-	 WndUwCBiS7EvIW77HYvqxGuTi1tPhLBGCuBkVCDzEskMRaviNtXGckj9unOsth17KZ
-	 DsjhwknwklTzWaCtfOR9k1uvCQgcJ/QuBCfEsSDJGuycQ2GeLCPG+31za9DrnM3r9Y
-	 9OI5AdS0SYsRO1sUZnE6vX3sk2Q/a9iu2TtHC/326UTNyOvlUSoHNclJf0WEkMcfYp
-	 uQtJUSOhCCCJIlpg8tKX4tYXYfBgAxG8kVbecegnZmJI+es8vUz6myXMDT3AgzcbqQ
-	 JVbpZWFtomeYaCZJInqDT6xs=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C1C9940E021A;
-	Thu,  8 Oct 2026 03:06:06 +0000 (UTC)
-Date: Wed, 7 Oct 2026 20:06:03 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Ashok Raj <ashok.raj@oss.qualcomm.com>
-Cc: shijujose2008@gmail.com, rafael@kernel.org, akpm@linux-foundation.org,
-	rppt@kernel.org, dferguson@amperecomputing.com,
-	linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, tony.luck@intel.com,
-	lenb@kernel.org, Yazen.Ghannam@amd.com, mchehab@kernel.org,
-	jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
-	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
-	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
-	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
-	duenwen@google.com, gthelen@google.com,
-	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
-	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
-	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
-	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
-	ashoraj@qti.qualcomm.com
-Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
- table
-Message-ID: <20261008030603.GAascImzt4cv8Gz49p@fat_crate.local>
-References: <20260726212812.89266-1-shijujose2008@gmail.com>
- <20260726212812.89266-2-shijujose2008@gmail.com>
- <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
- <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jgJueFK9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B9EC1F000FF;
+	Thu,  8 Oct 2026 03:31:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791430276;
+	bh=MAdIzT5K3jeSj8cPsQf4M6G1Hao344SAaHz8q1wewsU=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=jgJueFK9r4q/rS0YTMEyGxKdNMDB2fRnYkWd7rcKxdarcJuzXxzam2mDMVb3LK4jh
+	 Dkw+rTlbvjW2aVvhbQ7Hw7fZ02Eoyu3T3gL331rF9Wel+/eBpX0YeibKIo+pTJMhMY
+	 /2V+/AcoIzevPV396ECQT+7zH2i0d051IwjAW5bI+WP1C1ZjAH0h2kP8lR1XATc+ky
+	 LUT6i0D5qMJlNWAI3lfoOc+Fr/wYtiQlONHOfdaCdtGLXYBt9AYf7kanocJYuuR4VW
+	 hxKu5LAgZquv9x4qHxe0ykGDZRExYW644mUMbsDLCbvrQClLaZbuZi1a5GqtQlpi07
+	 eSwiyv/ScZxCQ==
+Subject: Re: [PATCH net-next 2/4] dt-bindings: net: qcom,ipq9574-ppe: Tighten
+ ethernet port node constraints
+From: netdev-bot+sashiko@kernel.org
+To: mail@tk154.de
+Cc: netdev@vger.kernel.org, jie.luo@oss.qualcomm.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, horms@kernel.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ quic_leiwei@quicinc.com, quic_suruchia@quicinc.com, quic_pavir@quicinc.com,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Date: Thu, 08 Oct 2026 03:31:15 +0000
+Message-ID: <179143027505.434549.14985682962873043848@kernel.org>
+In-Reply-To: <20261005152915.101780-3-mail@tk154.de>
+References: <20261005152915.101780-3-mail@tk154.de>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
 
-On Tue, Oct 06, 2026 at 11:19:30AM -0700, Ashok Raj wrote:
-> > +static int register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int pcc_id)
-> > +{
-> > +	struct pcc_mbox_chan *pcc_chan;
-> > +	struct ras2_sspcc *sspcc;
-> > +	int ret;
-> > +
-> > +	if (pcc_id < 0)
-> > +		return -EINVAL;
-> > +
-> > +	sspcc = sspcc_get(pcc_id);
-> > +	if (sspcc) {
-> > +		ras2_ctx->sspcc	    = sspcc;
-> > +		ras2_ctx->comm_addr = sspcc->comm_addr;
-> > +		ras2_ctx->dev	    = sspcc->pcc_chan->mchan->mbox->dev;
-> > +		ras2_ctx->pcc_lock  = &sspcc->pcc_lock;
-> > +
-> > +		return 0;
-> > +	}
-> > +
-> > +	sspcc = kzalloc(sizeof(*sspcc), GFP_KERNEL);
-> > +	if (!sspcc)
-> > +		return -ENOMEM;
-> > +
-> 	__mbox_bind_client() reads knows_txdone at bind time to promote the
-> 	channel off MBOX_TXDONE_BY_POLL. It must be set before requesting the
-> 	channel, otherwise the channel stays on polling and mbox_client_txdone()
-> 	later hits the mailbox core's "Client can't run the TX ticker" guard.
-> 
-> 	sspcc->mbox_client.knows_txdone = true;
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Yah, I can see that happening but I don't have the hw to even poke at this.
+Critical: 0 · High: 1 · Medium: 0 · Low: 1
 
-Shiju, what's up?
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [High] This patch only closes off the `ethernet-ports` spelling of the
+  port container.
+- [Low] The commit fixes schema-validation defects already present in the
+  binding, but it has no `Fixes:` tag.
+
+--
+
+dt-bindings: net: qcom,ipq9574-ppe: Tighten ethernet port node constraints
+
+This patch drops the stray '+' from the ethernet-port node pattern in the
+qcom,ipq9574-ppe binding, so only single-digit unit addresses match. It
+also gives the ethernet-ports container type: object and
+additionalProperties: false, plus explicit #address-cells and #size-cells
+constraints.
+
+> Also restrict the ethernet-ports object to its declared properties.
+> Without this, nodes outside the port pattern are accepted through the
+> generic ethernet-switch schema.
+>
+> Signed-off-by: Til Kaiser <mail@tk154.de>
+
+[Severity: Low]
+This fixes validation problems that have been in the binding since it was
+added. Should it carry a Fixes: tag?
+
+Both the unclosed ethernet-ports block and the "^ethernet-port@[1-6]+$"
+pattern come from this commit:
+
+Fixes: 1898fc572118 ("dt-bindings: net: Add PPE for Qualcomm IPQ9574 SoC")
+
+> diff --git a/Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml b/Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml
+> index 6d0b21a10732a..1a78e2c82b90c 100644
+> --- a/Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml
+> +++ b/Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml
+> @@ -174,8 +174,17 @@ properties:
+>        - interrupt-names
+>  
+>    ethernet-ports:
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +      '#size-cells':
+> +        const: 0
+> +
+>      patternProperties:
+> -      "^ethernet-port@[1-6]+$":
+> +      "^ethernet-port@[1-6]$":
+
+[Severity: High]
+This closes off the ethernet-ports container. Can the same nodes still get
+through if the container is named ports instead?
+
+The binding pulls in the generic schema:
+
+    allOf:
+      - $ref: ethernet-switch.yaml
+
+ethernet-switch.yaml accepts either container name, and accepts any
+port@ or ethernet-port@ child with a hex unit address:
+
+    '^(ethernet-)?ports$':
+      type: object
+      unevaluatedProperties: false
+      ...
+      patternProperties:
+        '^(ethernet-)?port@[0-9a-f]+$':
+          type: object
+          description: Ethernet switch ports
+    ...
+    oneOf:
+      - required:
+          - ports
+      - required:
+          - ethernet-ports
+
+qcom,ipq9574-ppe.yaml has no ports entry, and it does not list
+ethernet-ports under its top-level required: list. Because ports is
+evaluated through the allOf $ref, the top-level unevaluatedProperties:
+false does not reject it either.
+
+So it looks like a PPE node like this would still validate:
+
+    ports {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        port@7 { };
+        ethernet-port@11 { };
+    };
+
+None of the PPE per-port constraints apply to that node. That covers the
+reg 1..6 range, the required clocks/clock-names/resets/reset-names, the
+unevaluatedProperties: false on the port node, and the new single-digit
+pattern.
+
+That means the case described in the commit message, "nodes outside the
+port pattern are accepted through the generic ethernet-switch schema", can
+still happen.
+
+The later patch in this series, "dt-bindings: net: qcom,ipq9574-ppe: Add
+IPQ5332 support", also constrains only ethernet-ports in its IPQ5332
+if/then block. That includes the "^ethernet-port@[3-6]$": false rule, so
+ports { port@3 { }; } would also get past the IPQ5332 port-count limit.
+
+Other bindings with per-port constraints match '^(ethernet-)?ports$', so
+both spellings are covered. Examples are dsa/qca8k.yaml,
+dsa/mediatek,mt7530.yaml, dsa/microchip,ksz.yaml and dsa/nxp,sja1105.yaml.
+
+Could this binding do the same? Another option would be to forbid the
+other spelling with ports: false, and add ethernet-ports to the top-level
+required: list.
+
+>          type: object
+>          unevaluatedProperties: false
+>          $ref: ethernet-switch-port.yaml#
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261005152915.101780-1-mail%40tk154.de
