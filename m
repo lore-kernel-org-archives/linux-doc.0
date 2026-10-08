@@ -1,139 +1,123 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+Received: from mail-pj2-f5.google.com (mail-pj2-f5.google.com [74.125.227.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA87447D930
-	for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2026 21:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6443F9294
+	for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2026 22:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791496648; cv=none; b=YnE+lOqE9Fdg8IhPc5muSHqhOerje3DXQ7jXLic8EOaytlso1y0WJQHdRQdwrhk9xiYh2po9EGKfD0fu/dKHPxaZLKk1La42JjK2Ixpjdn8Ed4mNrui0iDt7pqVAlJwIzmgoXMNpCGiTqYrNvqPcSB0wCkirkUibiRgvWlp5+lE=
+	t=1791497614; cv=none; b=fhFgDFRTbgD8Lje9td73WTNMerznOgNd1EA7yfBe7M85gXFqcw5PBxpF3LzREtGUlGrtXcFLTrud1MTs0sQhFrMc5Hwg5tugV0xZod1xxJiA0lc5upGGgViYwR5qDcioklouRUxZyRh913cpEktpBNgeao8ggckOuJJznkU+x38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791496648; c=relaxed/simple;
-	bh=TinDgVFxFR2tgZfjdVwALy4/9vsweDfT6mfWVmqTMUo=;
+	s=arc-20240116; t=1791497614; c=relaxed/simple;
+	bh=XhbvqjOdjhVKjaUTw6zflrPNgueBqC/aiLfFiC3naJY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j4qCMYZw9jHCUKFe12R4djaoUXBwifPiu5OlX0eqzj1ZwWc7PjXj15SWcy7/zBxxhoHSYIoEUtULyDiRTlqn4C6bcrbKbF9XnSWcbcMje1tzO9gPEbkKWzXbmTcQ1NY2UZKEXnfZ6PH6RFPQGBNN/lzS1aw887bsUNq+gXGETps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com; spf=pass smtp.mailfrom=amutable.com; dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b=z6qriq0p; arc=none smtp.client-ip=74.125.224.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y9ZvQXirTvjMn1ZZkcFp6hXlKisdTC28kkCujD70ovbP9Fhotunbm2n+SqYknCG6IEkJevYSR9z5kU+MEzdrbKwIBu3ONZEFVWJVlscZVPptsxEkheiYYO1D69ZbfBeEjQWH7qwAUP/9mNmRQM/U+qPWLvQW943DcjVIpv6+CwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q8qgeY0z; arc=none smtp.client-ip=74.125.227.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20251104.gappssmtp.com header.i=@amutable-com.20251104.gappssmtp.com header.b="z6qriq0p"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-675676afc3cso4101136d50.3
-        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 14:57:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q8qgeY0z"
+Received: by mail-pj2-f5.google.com with SMTP id d9443c01a7336-2e7c8213b09so6039575ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 15:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20251104.gappssmtp.com; s=20251104; t=1791496646; x=1792101446; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Fco4QMlc4mAm6FzCcL+SMMWE++sU0VPdNedp39umucs=;
-        b=z6qriq0phDdFdiH+a9lOEwK2s1YMdgvpqYSYv26lJOAtdljC0S8EprwYZBciwDJkhU
-         VDZynNv/a1n044+ErEvfXTG3sPZAd/XibqG6QqOcRGh/J8OuSvDs0xtYkCPbsLFDinAk
-         Mx3FXqGd1Rzgtxvxm6RHO/A70o0pZXhsmZW2ZgDHqgvxZ11XmEzUF0flImDctfVYhDKw
-         un/tVizYPLyAR7sHKgskkf7MGVOQjN41k6K79CxXoNDjOxJjE8FcQJT9iGn4IDwjyu2K
-         1HS/Z+kzyoQGY18Iwfpr4gaiTU5TMU0HIBYlRN8QK76duawAFd+uFPXVZhxidemnLcqM
-         1bEg==
+        d=gmail.com; s=20251104; t=1791497612; x=1792102412; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wR6B1DFYSH6KdPY/ts+nWKN+fn4/J9gqpkYviWx1rk0=;
+        b=Q8qgeY0zhMbaeiJHpdP5JltSzND6Rijq+U/cRwVd5f9NqZPLpS6Da5DZsCZUKf7rfO
+         uPM1mXY1iGXmryRnT8FnJaLFqcA0kjShFr7+wx2QKss+5l8XaxNIWuGeH+GNI0HWaws5
+         j9t63WxZc38wX30FUAR5cABtBNCruLJI5pmc4sFqtL2co133g18UZmezAq78L15Iq+8R
+         JuW7sySL3Efws4SchAvE0Il45p9PFTLCABdeC0WDKDdsJWaaygtJ5uGU2Ju1ArJ6NRV4
+         5eFnoEI7N3IrMo2KNoIKeLoswMMgXkG+7yQKYMs9QXVPGCPuKBjgnTZ82NtbzhG3ekQP
+         SbHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791496646; x=1792101446;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Fco4QMlc4mAm6FzCcL+SMMWE++sU0VPdNedp39umucs=;
-        b=s14BFR3Ntno8ojdBAYGKjHA2cnLULO+sAcDjwYIMKQclkg1yuT9cRFuuea31pogYOJ
-         /MTKGcwfZ1G376rymVdQNlwljtAsFphr+t2BOUKiAjRrTEfWORaA5tUxWi8ZZ9xjB9tS
-         pSz694Ku9ExYiaWRKwWh9FwY5C1CqG7IM1fJ++9LxkLm9yeN5PJn9WHynRuTov7JazK1
-         ZiihdrGnv93nAy4YDglXEWomu8qdYEKI3g4b24bpUA2bCvpqPOl4wMmLyo1x/VAcUinj
-         VcTc5fu9vEOPfsiH2LOM8VgEWYY0IjOGqofV/931xLniedODgCOpUI76Y6KILBmDl4Mj
-         Hgrw==
-X-Forwarded-Encrypted: i=1; AKwUvBzrBm1jXlxCoCc2FGchQ92gkZVi0mbhM6xQn/LcArUTSE7tpCcjXATGZ/HgVU0X1smE+ly4yeZjwdk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK5yGAMqm+tp5UjYDPzEW9s7ncrPCe9b4t+ilb8ef7fVHD5HOsX
-	MqlrWuaeSRYO4qbyxzMzYPw3P6OhpfHKvL9OJQm4sSCUkb9CMlD7lWOG3L0pHyEcXlWr
-X-Gm-Gg: AYBFou3j/Pnw6ZTEsfgGfNV+a2fga4RMcD5/BUk1WOvhyOGB3mayCM51wqj+Qsd4nBH
-	RQuiJTM+K388y/1Ar39izFb2g0owqfVFYlfwv0QkHNnR9X0ZmO0EOSS1hM8gH85XPgoalyjm2mn
-	o1vK7neobCsepQi6cRC+wC1p4DAQe9slHIF272UU7qMxJKXVn7iU5Dq+vT5xrdPJFZGEru8Snvj
-	YnamGcNd1si7uLzHnRl/Si8VWhj+ptIbOEPFkwxaiAxr6J2TnCWJ3R13eddyUOfI0ATLYVN9OMe
-	2cNzyGtqLC7te5jzOFhdSJuhv2r22fr28S/ZtZd3yxOerIbr85ZLN6fcQIsxlvlrWn1iDhbR65u
-	YB+T2FGIwsbyZYK18JMjIBDr7FMI6rk7cFRUDpsuXhoZ9o1QODDAMkpNqw7zc8JsPWRXaf/vGZH
-	PrbQsv5j8pdnjmGtR4DRAXtOH8IBMk3lwspQZZHPVEqurl13IdIvZWb3N9RkcYhbcFNcACAo6j1
-	eV1dijZFs4wvlgbtZtn+GUL6oWvf82v/OJsgpwLpmlb3rutkIqzZg==
-X-Received: by 2002:a05:690e:4881:10b0:677:ed83:7ef2 with SMTP id 956f58d0204a3-679362620bemr51250d50.72.1791496645626;
-        Thu, 08 Oct 2026 14:57:25 -0700 (PDT)
-Received: from toolbx (104-53-165-62.lightspeed.stlsmo.sbcglobal.net. [104.53.165.62])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679356ef60fsm121969d50.21.2026.10.08.14.57.24
+        d=1e100.net; s=20260707; t=1791497612; x=1792102412;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=wR6B1DFYSH6KdPY/ts+nWKN+fn4/J9gqpkYviWx1rk0=;
+        b=XbjRy/5MpzPTJh8aN4snYAd15l6M0qew1zd3sGEK3sMwsfMg2X1rE9LPeEAA4uecYo
+         xh4xyTfNJQ+YYu8V43UQMkD0Sk8ihbmzeudq/6DkbEbrFsJu1Kl/q/W2PIWMWoz/Dip0
+         imkVykFmE14VMQp3F0jAFRQtz+f/klUxyqvJ5VE//y7eSOciDN/Ng+6yQ8ZidurrgzPm
+         6/I6hzyjS9lUsjoVFoZ4nB6u8thWl47jzrGEy89udoN8cpBYu1HQc3SobSsDlNuZ4fTM
+         nBaE6gtfLaVZUmNb9yyrq0qZfpD+KxTVUPP9C0O3GRBhb0SZDaNCj8GaZcaHULdx0sbZ
+         m4XA==
+X-Forwarded-Encrypted: i=1; AKwUvBx54DpJxnyEdotjHPDHtGt6SL3AmJEe/9BBMi8cxgWLDI9LaavpNFMw/5lJhqDuq3qxXgHhqF94vg4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI1SaDLOkWPGxiw3hqNjmEiQEuWGJfzBR1P7kl3WGwV2hzyqisN
+	WO7rW2GSy6fY/Coq3XkNBoTMnjvIPWNUymO+wPYqHOdHblLS3axoWFN8
+X-Gm-Gg: AYBFou3tOorrOogiqV1Fh3TVtBaIps/cepmUZzJ88UKMGxp4YZFTdFFeDLfzHMIfm43
+	ChCSk+ysv6A118OuJF0fNrw5LE/ElAJ90x7zeC6os76aLpt1cMcPXaQJqbffKQiPOv2iZLrLZgQ
+	KwN1Rg3D61FlQwOis3z6mgObr1bQxNDDqCIY5CMDWphda4LVBN4TZs7so2KsExVejE7RdE4WExr
+	/fU4gXdvkFUQfNFldVeTBaU51Qz++jNzZVze4uChE6e5S+1XTZR/lYnrY+Zh1ZsgfKNxYKasg7e
+	0JWqHC/cmrYRLSQDhXIa2lQV5cSDqZXZqXoX5BLzJhS9IuPVuMv4Ue/qsUcboUdaPUOhp57nyoO
+	9NoMMipC3tskptAiSm3N7xebiw++LUKHzr1iQa9sskIiDkPUIcYHbPjDAZi3i0TO3bZ9M4Aqm9H
+	f9ZwXzgrXfnlGy5HBW00rFLaU8eya7+KGllpWTD3o/+zlRDnqa0vpWK8gHQaXlBTJ/
+X-Received: by 2002:a17:903:19e7:b0:2e6:1a6c:abcd with SMTP id d9443c01a7336-2e84280a68fmr108075ad.3.1791497612535;
+        Thu, 08 Oct 2026 15:13:32 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:55::])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422b8c57sm337035ad.53.2026.10.08.15.13.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 14:57:25 -0700 (PDT)
-Date: Thu, 8 Oct 2026 16:57:22 -0500
-From: Andrew Halaney <andrew@amutable.com>
-To: bot+bpf-ci@kernel.org
-Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
-	agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com, bmarzins@redhat.com, 
-	dhowells@redhat.com, jarkko@kernel.org, paul@paul-moore.com, jmorris@namei.org, 
-	serge@hallyn.com, ebiggers@kernel.org, tytso@mit.edu, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, dm-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	bpf@vger.kernel.org, fsverity@lists.linux.dev, linux-doc@vger.kernel.org, 
-	brauner@kernel.org, martin.lau@kernel.org, eddyz87@gmail.com, 
-	yonghong.song@linux.dev, mason@kernel.org, ihor.solodrai@linux.dev
-Subject: Re: [PATCH bpf-next v2 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
-Message-ID: <asgQxTE-6YtEgvYZ@toolbx>
-References: <20261008-ajhalaney-dmverity-key-identifier-v2-1-008456d189cb@amutable.com>
- <910460850fd4163dadb804fbdf6c17f6a9dfec060f4d865a17df87336ea3e165@mail.kernel.org>
+        Thu, 08 Oct 2026 15:13:31 -0700 (PDT)
+Date: Thu, 8 Oct 2026 15:09:56 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Luigi Rizzo <lrizzo@google.com>, 
+	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, Pavel Begunkov <asml.silence@gmail.com>
+Subject: Re: [PATCH net-next v2 0/2] net: netmem: document design principles
+ and intended direction
+Message-ID: <asgUroVsxJq7gut1@devvm7509.cco0.facebook.com>
+References: <20261008023030.1089616-1-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <910460850fd4163dadb804fbdf6c17f6a9dfec060f4d865a17df87336ea3e165@mail.kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261008023030.1089616-1-almasrymina@google.com>
 
-On Thu, Oct 08, 2026 at 09:44:46PM +0000, bot+bpf-ci@kernel.org wrote:
-> > keys: add KEY_SPEC_DM_VERITY_KEYRING
+On 10/08, Mina Almasry wrote:
+> Because the networking stack and drivers are only partially converted to
+> netmem_ref and current memory providers only supply unreadable net_iovs,
+> automated code review and analysis tools (such as LLMs) frequently infer
+> the wrong architectural invariants from existing code. Specifically,
+> they often assume that page_pool's struct page APIs are primary rather
+> than legacy wrappers, that memory providers always imply net_iov, that
+> net_iov is inherently unreadable, or that callers should branch on or
+> downcast netmem_ref directly.
 > 
-> TL;DR: Design/uapi question: was David Howells' v1 suggestion (reserved
-> negative key ID block, common register functions) intentionally dropped? The
-> new uapi value -10 should be settled before release.
+> Document the intended netmem, memory provider, page_pool, and skb
+> fragment design principles concisely in the relevant headers, code
+> comments, and netmem documentation so both developers and automated
+> tools follow the intended abstractions. This series adds comments and
+> documentation rather than performing a large refactor all at once, so
+> that future incremental changes nudge the codebase in the intended
+> direction.
 > 
-> > diff --git a/include/uapi/linux/keyctl.h b/include/uapi/linux/keyctl.h
-> > --- a/include/uapi/linux/keyctl.h
-> > +++ b/include/uapi/linux/keyctl.h
-> > @@ -25,6 +25,7 @@
-> >  #define KEY_SPEC_REQKEY_AUTH_KEY	-7	/* - key ID for assumed request_key auth key */
-> >  #define KEY_SPEC_REQUESTOR_KEYRING	-8	/* - key ID for request_key() dest keyring */
-> >  #define KEY_SPEC_BPF_KEYRING		-9	/* - key ID for the BPF-specific keyring */
-> > +#define KEY_SPEC_DM_VERITY_KEYRING	-10	/* - key ID for the .dm-verity keyring */
+> This reflects my mental model of the netmem, page_pool, and memory
+> provider architecture; I welcome feedback and disagreements,
+> particularly from major contributors to page_pool and memory providers.
 > 
-> On v1, David Howells wrote:
-> 
->   I have no particular objection to setting aside a block of negative key
->   IDs for special keyrings that need to be accessed a lot - though I would
->   make common reg/unreg functions that take the ID to be registered and,
->   say, set the block at -257..-512.  Moving the BFP keyring to -257 and
->   DM to -258.
-> 
->   (<715249.1789718726@warthog.procyon.org.uk>)
-> 
-> The question of whether this was being asked for v2 was raised in reply, but
-> there was no answer, and this version still continues the one-off -9/-10
-> sequence with a dm-verity specific key_register_dm_verity_keyring() and
-> dm_verity_keyring_lock.
-> 
-> Was the suggestion to use a reserved ID block with common register and
-> unregister functions intentionally dropped, or should it still be addressed?
-> 
-> Since KEY_SPEC_DM_VERITY_KEYRING is a UAPI value, would it be possible to
-> settle this before the -10 value is released?
-> 
-
-With the BPF keyring ID already being merged here in bpf-next, plus
-Jarkko's feedback/RB, I continued following the current pattern instead of
-walking back the BPF keyring ID, and dealing with the
-builtin/module/rodata differences I alluded to that would make that
-approach a little more annoying (at least with how I thought it thru).
-
-> 
+> Cc: Luigi Rizzo <lrizzo@google.com>
+> Cc: Björn Töpel <bjorn@kernel.org>
+> Cc: Stanislav Fomichev <sdf@fomichev.me>
+> Cc: Pavel Begunkov <asml.silence@gmail.com>
 > ---
-> AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-> See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-> 
-> CI run summary: https://github.com/kernel-patches/bpf/actions/runs/37844805282
+> v2:
+> - Document both current implementation status (memory providers currently
+>   supply net_iov, and net_iov is currently unreadable) and target design
+>   principles, and clarify that new code should generalize existing
+>   limitations as much as possible (Stanislav Fomichev).
 
+Acked-by: Stanislav Fomichev <sdf@fomichev.me>
