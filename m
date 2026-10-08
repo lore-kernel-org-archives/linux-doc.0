@@ -1,387 +1,129 @@
-Received: from nbd.name (nbd.name [46.4.11.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3954B8269;
-	Thu,  8 Oct 2026 14:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.4.11.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1453739CCEA;
+	Thu,  8 Oct 2026 14:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791470010; cv=none; b=fPdlGMGPLHCFubBwH8302Yte6DSbY343Q/EUXgycxgyn3VSeo9pKvIIziaddONe1AQEhvU+lhaT71q9tnzMbNytkMdYpIrY5+kEEFrw0SocFdVrD5FH9+J9ZZhdAg0P5rkauZBfDkVdogeSAE5vUBwrcfspk1Ppuuj4lAxkpKcE=
+	t=1791470283; cv=none; b=HSOFVcE6i0FQY9kDdDcN6ZNazQQx2MlGE2XJzfAHY7aok9EmN5mu1syMY/qv4JRO3PlA9iqSULnUsJtJaBVvHVtOguuBqt3w5k1S4bacSHTAlkY7gzvoHhA5CctfYPfI/rsNLYAej8IahnN3Y9je5COuWF0pYIiVeMftncwT0eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791470010; c=relaxed/simple;
-	bh=apGysMN8ag5mG+aHKPof6+kV76o5XHEIa5Ym4INFaeM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QBmoA4Idta01xUSCg6M67V5PjIrzuymIt8C0mj+1yjHyefWlX24ly6pLaiiiXVJBJmPBzLrBk5OELLcvJKjcdRXzp/KvdmgMKw4hRqM911sqfO6NK309iQTBrPD5NXKj9H7Al4WTuOsbK+8vpkwf8owmgOnpJvMPhbJZUpl7BsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phrozen.org; spf=pass smtp.mailfrom=phrozen.org; arc=none smtp.client-ip=46.4.11.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phrozen.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phrozen.org
-Received: from [2a04:4540:1400:26fc:ddc6:af15:b0f7:2808] (helo=bertha10..)
-	by ds12 with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <john@phrozen.org>)
-	id 1xEpBE-000l4X-0S;
-	Thu, 08 Oct 2026 16:33:08 +0200
-From: John Crispin <john@phrozen.org>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Simon Horman <horms@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+	s=arc-20240116; t=1791470283; c=relaxed/simple;
+	bh=rA5skIoCPcE42+Tf+tp2deQs6rPoqGyBply0MRs54XA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qxVHmU/yKp+awz6Be3OUc2mSCtF3YnCFFatgmcBLX+GHKdLSPX2C/5gLVeoyLAP9bg1hzKH80jBM6p1bRFvYtbevJue27J21EFvBadbwj+Ce2VK2BEhbrYPFlrIfP0o04uTBNV8xXSU0h02MiVJxCcSof2TWR1hRbOt2lyDcau0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mHURRbAE; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mHURRbAE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A5781F000FF;
+	Thu,  8 Oct 2026 14:38:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791470281;
+	bh=SuXikuDg/o2Bvv984UEjh+nVNNI4IGW7vLUJASo/KyQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mHURRbAERL6hsbzO0EGp8LzMrgdikEX61u06/oPEjQbQfE0aHNcdbo9ejcrbdFfsX
+	 qk4UT8bfDS3zpZLHFgKwrb6kkcDFSoibGyk1psqW1+m9Z/+UpZP52uM/D0tIIvrWRp
+	 jeXok6zLGO8c+DY6OjvNnQFGKU8oUw87I42Zu/OkiVG6ejcOHda7PPqpY637yTh0ht
+	 qc9wzIiY3Uod7Wxvoljd335t/GzNQQIlVmY5FOh0m6gtwD6SQw/hKikdRE8OZEmrXv
+	 l+sICVjVvZuCjc6szJ962iirblfKDtDpXHd8kTYiwZucDSoRjtS2dQ8Fz18hBIPRAm
+	 4p5/IX6FDjrgg==
+Date: Thu, 8 Oct 2026 10:37:59 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: Gregory Price <gourry@gourry.net>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Christian Marangi <ansuelsmth@gmail.com>
-Subject: [RFC net-next 11/12] Documentation: networking: describe the PON subsystem
-Date: Thu,  8 Oct 2026 16:32:48 +0200
-Message-Id: <20261008143249.3439762-12-john@phrozen.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261008143249.3439762-1-john@phrozen.org>
-References: <20261008143249.3439762-1-john@phrozen.org>
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: [PATCH v5 05/11] kernel/api: add API specification for sys_open
+Message-ID: <aseqx-uc_QySDiiw@laps>
+References: <20261008084956.2911790-1-sashal@kernel.org>
+ <20261008084956.2911790-6-sashal@kernel.org>
+ <aseRXi7hMWBBc0tB@hallyn.com>
+ <aseWPV6ZRQM3JOMN@gourry-fedora-PF4VCD3F>
+ <asemkQ2v0di0Eea3@hallyn.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <asemkQ2v0di0Eea3@hallyn.com>
 
-pon.rst describes the model, activation and why its state machine runs
-in the driver, the activation log, the objects across a loss of the
-link, the lent context, the OMCI channel, the conduit and the netlink
-interface. It says which modes the uapi reserves and that the core
-refuses a mode the device does not list.
+On Thu, Oct 08, 2026 at 09:20:01AM -0500, Serge E. Hallyn wrote:
+>On Thu, Oct 08, 2026 at 09:13:38AM -0400, Gregory Price wrote:
+>> On Thu, Oct 08, 2026 at 07:49:34AM -0500, Serge E. Hallyn wrote:
+>> > On Thu, Oct 08, 2026 at 04:49:45AM -0400, Sasha Levin wrote:
+>> > > Add KAPI-annotated kerneldoc for the sys_open system call in fs/open.c.
+>> > >
+>> > > The specification documents parameter constraints (pathname, flags
+>> > > bitmask, permission mode), 24 error conditions, locking requirements,
+>> > > side effects, required capabilities, and usage examples.
+>> > >
+>> > > Assisted-by: LLM
+>> > > Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> >
+>> > I know Kees and Jonathan and others asked for exactly this.  But one
+>> > downside to this is it makes just paging through fs/open.c a lot more
+>> > painful.  Maybe it's worth it.  Maybe "noone will ever do that again" bc
+>> > that's why we have ai and tools.  But a) that's how I've historically
+>> > done a lot of code research, b) IMO something like a manpages section 2
+>> > under Documentation/ would be a great place for this, and c) we can also
+>> > use tools to always sync these, or even show/edit in a single view when
+>> > you want  ('kdocedit fs/open.c').
+>> >
+>>
+>> In many, many other projects i've worked on, these docs are placed in
+>> the header as opposed to the .c file, but I understand there is some
+>> pain that comes with ifdef.
+>>
+>> Keeping it in the header ties the definition to exactly the location
+>> external users import to find the function - so it makes sense.
+>>
+>> But separating the contracts from the code guarantees they'll go stale,
 
-Assisted-by: LLM
-Signed-off-by: John Crispin <john@phrozen.org>
----
- Documentation/networking/index.rst |   1 +
- Documentation/networking/pon.rst   | 302 +++++++++++++++++++++++++++++
- 2 files changed, 303 insertions(+)
- create mode 100644 Documentation/networking/pon.rst
+My plan is to be able to have the more detailed part of these specs somewhere
+else, specially as they will grow some more, but I didn't want to add this
+complexity right now.
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 44a422ad3b05..05eaac7212f3 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -96,6 +96,7 @@ Contents:
-    phy-port
-    pktgen
-    plip
-+   pon
-    ppp_generic
-    proc_net_tcp
-    pse-pd/index
-diff --git a/Documentation/networking/pon.rst b/Documentation/networking/pon.rst
-new file mode 100644
-index 000000000000..732e6449d522
---- /dev/null
-+++ b/Documentation/networking/pon.rst
-@@ -0,0 +1,302 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===========================
-+Passive optical network ONU
-+===========================
-+
-+Overview
-+========
-+
-+``net/pon`` is the kernel side of an optical network unit, the subscriber end
-+of a passive optical network. One optical line terminal in the exchange serves
-+many ONUs over a shared fiber. Downstream is a broadcast the ONU filters.
-+Upstream is time division multiple access and an ONU may only transmit inside
-+the windows the OLT grants it.
-+
-+The subsystem implements ITU-T G.9807.1 (XGS-PON): the PLOAM codec and the
-+identifier ranges are those of G.9807.1. The uapi also
-+reserves the modes of G.984 (GPON) and G.987 (XG-PON) for later drivers, as
-+well as the activation state o3 of G.984.3. The core implements none of those
-+systems. A device lists the modes it supports in its capabilities. The core
-+refuses any other mode. The subsystem does not cover EPON, which is IEEE
-+802.3ah and a different access method.
-+
-+The model
-+=========
-+
-+Three objects carry the datapath and they nest:
-+
-+Device
-+  One PON MAC. It has an identity the OLT authenticates, a mode and an
-+  activation state.
-+
-+T-CONT
-+  A transmission container: the entity the OLT grants upstream windows to,
-+  named by an alloc-id the OLT assigns over PLOAM. Upstream bandwidth is
-+  arbitrated between T-CONTs by the OLT and within one T-CONT by the ONU.
-+
-+GEM port
-+  A flow, named by a GEM port id the OLT assigns over OMCI. Several GEM ports
-+  ride one T-CONT. A GEM port id is a label in the frame header, not a
-+  scheduling entity. G.9807.1 Table C.6.6 reserves 0 to 1020 for the default
-+  GEM port (equal to the ONU-ID, OMCI only) and 65535 for the idle GEM port,
-+  so the uapi takes only 1021 to 65534.
-+
-+One more object supports them:
-+
-+Classifier rule
-+  What upstream traffic maps onto which GEM port, matched on VLAN tag state,
-+  VLAN id, priority or DSCP.
-+
-+Activation
-+==========
-+
-+An ONU reaches the operational state O5 through the PLOAM state machine of
-+G.984.3 or G.9807.1: serial number exchange, ONU-ID assignment, ranging and
-+finally O5, which is the only state in which the OMCI management channel
-+carries traffic.
-+
-+**The state machine runs in the driver, not in the core.** That is a
-+deliberate choice and the reason this subsystem has no software MAC layer.
-+On the hardware it was written against, the key hierarchy of G.9807.1 clause
-+C.15.3 runs inside the MAC's key generator and the OMCI integrity key never
-+leaves it, so no generic layer can compute the OMCI message integrity check.
-+A core that owned the state machine would be a core that could not finish the
-+job.
-+
-+What the core owns instead is the vocabulary and the object model:
-+
-+* the ITU-T constants and message layouts, in ``include/net/pon/ploam.h``
-+* the PLOAM message codec, which builds and parses standard message bodies and
-+  holds no state, no timer and no policy
-+* the objects above, which it stores
-+* the activation state, which the driver reports and the core validates and
-+  publishes
-+* the network devices, their carrier and the OMCI channel
-+* the netlink uapi
-+
-+The driver owns the state machine, its timers, the key hierarchy and every
-+register.
-+
-+Why the core validates the state
-+--------------------------------
-+
-+``ploam-ntf`` and the activation state in the netlink reply are uapi. If each
-+driver published its own state, each vendor would invent its own notification
-+timing and an OMCI daemon would behave differently per MAC. So the driver
-+reports through ``pon_dev_state_report()`` and the core checks the transition
-+against the state machine of the standard, publishes it and updates the
-+carrier. An out of range value is refused. An illegal edge is published
-+anyway and warned about: the hardware is the truth and a driver that reports
-+something the standard does not permit is a bug to find, not a state to hide.
-+
-+Everything the uapi carries follows the ITU-T recommendations. Where a MAC
-+deviates from them, its driver translates the hardware to the standard before
-+it reports, as a quirk of that driver. The core and the uapi never carry a
-+vendor state or a vendor meaning. The states are the union of G.984.3 and
-+G.9807.1: G.9807.1 has one Serial Number state, O2-3 (Table C.12.1), which a
-+driver reports as ``o2``. Only a G.984.3 device reports ``o3``.
-+
-+The core logs every edge it publishes at info level, one line per edge, for
-+example ``pon0: PLOAM state O5 -> O6``. The log names the Serial Number state
-+``O2-3`` in every mode but G-PON. A repeated report logs nothing. A work
-+item outside the instance's context prints the line, so a slow console never
-+delays the PLOAM exchange. A driver logs its own lines the same way through
-+``pon_dev_log()``. All lines keep their order.
-+
-+Objects outlive the link
-+========================
-+
-+A GEM port is OMCI configuration and the ONU keeps it when the link goes and
-+a new activation starts: G.9807.1 clause C.6.1.5.8 has the ONU retain every
-+XGEM port id the OMCI assigned when it enters O1 and discard only the default
-+one that carries the OMCC. So the driver keeps its GEM ports across a loss of
-+the link and the core keeps the objects, exactly as an address on an ethernet
-+device outlives a cable pull. Nothing is handed back when the link returns,
-+because nothing was taken away.
-+
-+What the ONU does discard are the alloc-ids (clause C.6.1.5.7). The OLT assigns
-+them again over PLOAM once the ONU is back in O5 and the driver binds each one
-+to a transmit channel and reports that to the core through
-+``pon_dev_event()``. The default alloc-id, equal to the ONU-ID, is not assigned
-+by a message. The driver binds it with the ONU-ID and it may carry user traffic
-+as well as the OMCC. A GEM port whose
-+alloc-id has no channel yet is held and carries no traffic. The carrier of the
-+PON interfaces is up in O5 and O6 while at least one GEM port rides an alloc-id
-+that has a channel and a conduit (see below) is paired with the device and up.
-+The core follows the conduit with a netdev notifier: the carrier falls when the
-+conduit starts to go down and when its driver takes it back.
-+
-+Classifier rules are objects of their own. In G.988 they come from their own
-+managed entities, which reference a GEM port rather than belonging to it, so a
-+rule outlives the GEM port it names, in the core and in the driver.
-+
-+The lent context
-+================
-+
-+A PON MAC runs the activation state machine itself, but it must not run it in
-+hard interrupt context and it must not run it against a half finished netlink
-+transaction. The core therefore lends the driver its own serialized context:
-+one ordered workqueue per instance and one lock that the netlink handlers
-+take in their ``pre_doit``.
-+
-+A driver queues a ``pon_work`` from any context, hard interrupt included. The
-+handler runs with the instance lock held, so it may sleep. One worker drains
-+the list one item at a time, so the ordering a driver sees is the order it
-+queued in.
-+
-+The OMCI channel
-+================
-+
-+OMCI is the management protocol of G.988 and it is userspace's job. The kernel
-+carries it over the netlink family, the way nl80211 carries management frames
-+to hostapd. A daemon sends ``omci-register`` for a device and from then on
-+receives every OMCI PDU of that device as an ``omci-ntf`` message, sent to
-+its socket alone. It sends a PDU with ``omci-tx``. One socket owns the OMCI
-+channel of a device at a time: another socket is refused with ``EBUSY`` and
-+only the owner may send. The registration ends when the socket closes, so a
-+daemon that restarts registers again and nothing is left behind.
-+
-+A PDU crosses the boundary bare, from the transaction correlation id to the
-+end of the message contents, in both directions and in both the baseline and
-+the extended format. It carries no integrity field, because the MAC computes
-+the upstream one and checks the downstream one. A PDU is therefore at most
-+1976 bytes: G.988 clause 11.2.5 limits an extended message to 1980 bytes
-+and 4 of them are the integrity field.
-+
-+The downstream check works like a receive checksum offload. The MAC that
-+checks the integrity field says so in its receive descriptor, per PDU and
-+the core takes such a PDU as verified and stripped. A PDU the MAC passed up
-+unchecked still ends with its integrity field, so the core accepts it up to
-+1980 bytes and hands it to the driver's ``omci_verify``, which checks and
-+strips the field. That check cannot be a generic helper of the core: the
-+field is an AES-CMAC with the OMCI integrity key (G.9807.1 clause C.15.7.2) and
-+the key belongs to the key hierarchy the driver runs. On some MACs it never
-+leaves the key generator.
-+
-+No network device and no
-+EtherType is involved: the OMCC carries the PDU on its own GEM port with no
-+Ethernet header and the core knows that port, so there is nothing to
-+classify.
-+
-+A received PDU waits in the instance's context until it reaches the owner. A
-+PDU that finds no owner, a full queue or a full socket is dropped. The OLT
-+retries. The exchange can be captured on an ``nlmon`` device like any other
-+netlink traffic.
-+
-+No OMCI managed entity is modeled in the kernel. The daemon reads the OLT's
-+intent from the MIB and expresses it through the netlink family below.
-+
-+The conduit
-+===========
-+
-+A PON MAC on a system on chip has no DMA of its own: its frames ride the rings
-+of an ethernet port of the same chip. That port is the conduit, in the sense
-+DSA gives the word and its driver registers it with ``pon_conduit_register()``
-+when the port's firmware node names the MAC through a ``pon-handle``
-+reference. The core pairs the two by that node, in whichever order they
-+probe and neither waits for the other.
-+
-+Per frame information crosses the boundary as explicit arguments and never in
-+``skb->cb`` or in a frame tag. On transmit the MAC driver names the GEM port,
-+the T-CONT channel, the queue and, for an OMCI PDU, the integrity key index
-+and the conduit's driver builds its descriptor from them. On receive the
-+conduit's driver reads the GEM port and the OMCI and integrity flags from its
-+descriptor and hands the frame to ``pon_conduit_rx()``, which delivers it to
-+the OMCI channel, to the GEM port's own network device when it has one, or to
-+the PON data interface. The MAC driver verifies an OMCI PDU the hardware
-+passed up unchecked through ``omci_verify``. Without that callback such a PDU
-+is dropped. Such a PDU still carries its integrity field, so the core accepts
-+it at up to 1980 bytes and the conduit's MTU never drops below that.
-+
-+The conduit keeps the address of the PON data interface, because the frame
-+engine behind it recognizes the ONU's frames by the conduit's own address.
-+The core sets it when the two are paired. When the data interface's address
-+changes afterwards, the MAC driver calls ``pon_conduit_addr_set()`` from its
-+``ndo_set_mac_address``.
-+
-+The conduit also takes the largest MTU among the PON network devices, because
-+the frames of all of them ride its rings. The core sets it when the two are
-+paired and when a GEM port's network device is created or changes its MTU. The
-+MAC driver calls ``pon_conduit_mtu_set()`` from the ``ndo_change_mtu`` of the
-+data interface. A change that the conduit's driver refuses is refused.
-+
-+Netlink interface
-+=================
-+
-+The generic netlink family ``pon`` is specified in
-+``Documentation/netlink/specs/pon.yaml`` and the uapi header is generated from
-+it. Every object can be listed, watched and read back:
-+
-+=================  ==============================================
-+``dev-get``        devices, with a dump
-+``tcont-get``      T-CONTs, with a dump
-+``gem-get``        GEM ports, with a dump
-+``gem-map-get``    classifier rules, a dump
-+=================  ==============================================
-+
-+Notifications share the reply format of the matching get, so a listener parses
-+one message shape whether it asked for an object or was told about it. There
-+is no sequence number: a listener that overruns its socket re-reads.
-+``dev-del-ntf`` stands for the removal of every object of that device. The
-+objects go without a notification of their own.
-+
-+The dumps of the T-CONTs, the GEM ports and the classifier rules take an
-+optional device ID and then list the objects of that device only. A
-+device ID that names no device ends the dump with ``-ENODEV``. A dump that
-+does not fit one message resumes by count, so the kernel sets
-+``NLM_F_DUMP_INTR`` when an object joined or left a list in between and the
-+reader repeats the dump.
-+
-+``omci-register``, ``omci-tx`` and ``omci-ntf`` are the OMCI channel, described
-+above. ``omci-ntf`` goes to the owner of the channel alone and to no
-+multicast group.
-+
-+``ploam-ntf`` reports every activation transition.
-+
-+An operation is a ``set`` when it can change an object that already exists
-+and a ``new`` when it can only create one. ``tcont-set`` rebinds a T-CONT,
-+while ``gem-new`` and ``gem-map-new`` refuse an object that exists with other
-+attributes.
-+
-+A GEM port reaches an alloc-id only through its T-CONT. ``tcont-set`` that
-+changes the alloc-id moves the GEM ports of the T-CONT too. If the driver
-+refuses one, the core restores the old alloc-id on the T-CONT and on its GEM
-+ports and returns the error. ``tcont-del`` answers ``-EBUSY`` while a GEM port
-+names the T-CONT, so userspace deletes the GEM ports first. ``tcont-set``
-+answers ``-EEXIST`` for an alloc-id that another T-CONT holds: G.988 clause
-+9.2.2 relates alloc-ids and T-CONTs one to one, so userspace that moves an
-+alloc-id releases it first.
-+
-+``dev-set`` refuses to start the link until userspace gave the device a serial
-+number. The driver carries no serial of its own, so an ONU that has not been
-+provisioned stays silent rather than range under a vendor default.
-+
-+No key material crosses this interface in either direction. ``gem-new`` selects
-+the key ring of each GEM port, as G.988 clause 9.2.3 defines it. The key
-+ring alone decides whether a GEM port is encrypted and in which direction. The
-+keys themselves are derived and rotated below. The broadcast key ring is
-+refused, because the OLT distributes those keys over the OMCI and the kernel
-+takes none.
-+
-+Internals
-+=========
-+
-+The kernel-internal interfaces, pulled from the source.
-+
-+.. kernel-doc:: net/pon/pon_main.c
-+   :doc: PON locking
-+
-+.. kernel-doc:: net/pon/pon_work.c
-+   :doc: The lent context
-+
-+.. kernel-doc:: include/net/pon/ploam.h
-+   :doc: The PLOAM vocabulary
-+
-+.. kernel-doc:: include/net/pon/ploam_msg.h
-+   :doc: The PLOAM message codec
-+
-+.. kernel-doc:: include/net/pon/types.h
-+   :internal:
-+
-+.. kernel-doc:: include/net/pon/functions.h
+>OTOH these descriptions are so long that IMO they are guaranteed to go
+>stale anyway :)  While I'm editing a return value at the bottom of the
+>fn, most or all of the description is already going to be off my
+>terminal.
+>
+>> so I don't think shoving it in Documentation/ does anyone any good.
+>
+>If every build auto-generates an update and then looks for and flags
+>meaningful changes (API breakages), then a) that is more reliable and b)
+>it doesn't matter where the docs are.
+>
+>Even if there's just a three line comment above a fn, history proves
+>that it will not reliably stay in sync as the fn changes.  An automation
+>step/check is needed.
+
+Please see CONFIG_KAPI_RUNTIME_CHECKS added by this series.
+
 -- 
-2.34.1
-
+Thanks,
+Sasha
