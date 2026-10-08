@@ -1,225 +1,146 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021119.outbound.protection.outlook.com [52.101.100.119])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010003.outbound.protection.outlook.com [52.101.201.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE8B47D94B;
-	Thu,  8 Oct 2026 09:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C2D48F825;
+	Thu,  8 Oct 2026 09:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.3
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791450547; cv=fail; b=NVElxZxc5f7lFe8p2kacAksClM/b8XWq740Kxiu8E1HVJOzYB5BID1gnx6tpTt1mDCylFkxnVi524FSI6NtmTSKzgsX2rrqc3tQ2Z9RYtgmKsMFLVIH6cW7nxqwScucVeVlLI2UMqdlJRSy4rVPVTAMdlC4NAdQZX+UHovNidTo=
+	t=1791453600; cv=fail; b=MqFfDOxTzMHAZdXl0iIz3P9/tGg7ghcSQv27sVm63bYtxu5VYNXm0o1T4hbE5X7aaYUylvL498as2TizVu4OwQocdYJQgJd+yu+xLn5+hdAp3Q9npk4mkxBse5xjQXdgFDnYV6BB6C1GtaBfpUaQJug68ICciYu6dd02plbyuOA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791450547; c=relaxed/simple;
-	bh=HkFKRwGlfP84KcOc8YHxWCRin4ZXkOJirCQtxlbpWNw=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=XvxoKx66Kr7uuAl4dMRgxLzc/ZYpsnvMwPBwISiZrVELJCaW2xN27DFgDgZYWQB6z+h+qySIzxBgccjI9g+jmidbg9ssDLF5Sq4ceCyur6GMjstHM6NqpJWSA2QBOVdGVP8tqWm7altPjzDFDAszTYiz+Emfyjpa1H9q4kWis84=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=If/oS1UH; arc=fail smtp.client-ip=52.101.100.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	s=arc-20240116; t=1791453600; c=relaxed/simple;
+	bh=axgRTAQOk96PfEwH7j1B2Zx4cLiqo/jTHxZQw9m7yJ0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KF+ftLkNZld6wi1m3vqpOncTatUwEzKNMwfXvj3n1pkSwyU9ILtqub/9ylLQFwxczQvTks1pbJuyD5vzkQNdDnVYkSsn9qVQX8dP8+iuFxKPu7G2QVrn/S4xw8VyhillRyZ0KciNopFiWsxWksP/sGY2t0+efYurHmohelgEbS0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=h3lQnUli; arc=fail smtp.client-ip=52.101.201.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="If/oS1UH"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="h3lQnUli"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=prsQtAixPqDQRwzRAr9K5g2u3VbiI7AmZs3XCXcZf8q1Gsrffdj+GQw82b7dQpWkzSPqrFVJ+L/qvsJl5dM9/i3r/64zw5JAk4Pzikg1i84WcQxdvD99ZLvcec8A7BjnL5Hx07vYWyjzmRig6iu6ctyyyy8ELSD+d8kYCpGb+65St67PirVeGNgLiaWYCK30Du/Z+C88R7CNOE37XhzdEq5nmVZsTVIWV8KJwTYvRWoXrlbq7o6hpCq3dG8CuiMuW++sy2bQR62CKKs6d8B3HLkvVomyFnlGajaNyGh/Z8yKU5TYhBUmWFAKZ2TdSlDlVeqGotjNWvCu0ZTLO1RUkw==
+ b=PTgwK1ig4BMLFi8bXzV/0uN7xX+pQbU4ZMEVviWpdOxbIAKC5bpyWMX0gRCO3+ez4qIwpu6VmtgXe+2ytxgmUCDhFae9cldtxE3pBcPWAxKvYYehsVbSFVdBUA7UT0t4jAOWujEZFjaAwwMPmx6RrIGibBo5Y/H/NE35h4XMaREs0vO6+4csKhUKUluy37jqTwWqxlCW0nTei2oBgIJic4q/tDXvqoJltfftSt+nduvWSgor2mpDKVObJZ4Ac5GAXSXDFqdNj+Or5BLn6iskbKpg0eEHlVllWA9Y2ng6t7brI5cyP1t1gfotIiqN1/WJnJUu0u7YlJ0/eEZRPbLODg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b6/W734l20vSRm7iGS5nauwlAEkH0I0vAYkP+aZ0uIg=;
- b=GJwLHEmiKHLQ3BvykT0NXtBKbVhgHyJWQZW7TS6tpfc2hBcB4blL7uneUJk1WdgVfoU+NlrhgToH2shFCvUs0Ru6zTcdb+/OGbsKT5M2kqCgLRm+8jkkIkVjm/Oh5bMmYAN+boAgMS7th2qA9Rcpv1A4tztgv4MmG/j00f+GSh43cmcXhg+/6ssdsA1ig5b08o3MV7DaeA7bjfq8PyYxIKkIEm89P12nwCBnvWjjuEZ+zt/ZAbd4dceUdmOnFhnr1eaIuqfl9PzmmYqH0FtFInNdeGeBb0gDo/C9fxKeHusw0JEQzeBJWlg3Vt+JtiHyRKRcBqi+iojcuZhnbSyMkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
+ bh=OoB9+8XVJHzGyCna6cDgDNU0VLG0oGZB/qwoVR0qCIg=;
+ b=KJQGOpct3tWzp2SitSpGpNacjWf9p1myqarK4TRIqrv3m5Gu+jfrLUXvD2xZQm3XdyGltxq6oUkbq4r7dWQa9ZAP3zUHjRUvLZeGADM2548B/Qofq4ikXbLcTDYsSotkErkwxBMaYjtM+lgsqefN3Z1ukKBKenmgPli4VqWEYniNo9dhHC3nBGT1AFWBWjZptMF4wnuP1X/1nLPuftsJwPrPmyJwWTwh+obWyfOFjpiSwSca3ePT8j/ExKA2O5Ayio0+wQSIJfjp6TxDkQ6yKaNsL7yPpVIqeab2KLqcAq+fHA07gHq/g7JbJ+RLlkSbhqmZjaFqR4xyiDA4M6y0EA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b6/W734l20vSRm7iGS5nauwlAEkH0I0vAYkP+aZ0uIg=;
- b=If/oS1UHdTys3jo5HTFRqEszJKrIdaaeOfOAn8UjzwEa4lGXklOYpIkHG+Q4L+UciCuqz0h/NEoCYIQhma0LcvJ3RnMneMg+tW2+VBHnpS5dUR342EJSLzYZBNCSCsZdVUDG101aVvDWn5j3+hFMHQ1Q+2EGe27I3TQ++pBg+mE=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by LO4P265MB6089.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:293::7) with
+ bh=OoB9+8XVJHzGyCna6cDgDNU0VLG0oGZB/qwoVR0qCIg=;
+ b=h3lQnUliaslh1x65zk+mb8vFtiMBvzqNOE+N6lxcNDF3Rr0a7PKitC1VNS9jel6zPnH7n4sHIpy84FCDf86WP+eBmt8CdBjAHv/Hj9UWR31ie5gWNmVSroQ8OAu+z0u7Kp+wHpVsGOLPHjU6jgHLvdBh8JhAkcp6aDv/sBq7bUk=
+Received: from BN9PR03CA0153.namprd03.prod.outlook.com (2603:10b6:408:f4::8)
+ by PH7PR12MB8121.namprd12.prod.outlook.com (2603:10b6:510:2b5::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.17; Thu, 8 Oct
- 2026 09:08:56 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0496.015; Thu, 8 Oct 2026
- 09:08:55 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 08 Oct 2026 11:08:52 +0200
-Message-Id: <DLZC7PFV4O75.VPMF8KDNW8JY@garyguo.net>
-Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
- Krummrich" <dakr@kernel.org>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Tamir Duberstein" <tamird@kernel.org>,
- "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, "Arnd Bergmann" <arnd@arndb.de>, "Linus Walleij"
- <linusw@kernel.org>, "Christian Schrefl" <chrisi.schrefl@gmail.com>,
- "Bradley Morgan" <brads@mainlining.org>, "Paul E . McKenney"
- <paulmck@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>, "Nick
- Desaulniers" <ndesaulniers@google.com>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>,
- <linux-arm-kernel@lists.infradead.org>, <rust-for-linux@vger.kernel.org>,
- <llvm@lists.linux.dev>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 5/6] ARM: rust: Enable Rust support for ARMv4T
-From: "Gary Guo" <gary@garyguo.net>
-To: "Karl Mehltretter" <kmehltretter@gmail.com>, "Russell King"
- <linux@armlinux.org.uk>, "Miguel Ojeda" <ojeda@kernel.org>
-X-Mailer: aerc 0.22.0
-References: <20261008053746.49631-1-kmehltretter@gmail.com>
- <20261008053746.49631-6-kmehltretter@gmail.com>
-In-Reply-To: <20261008053746.49631-6-kmehltretter@gmail.com>
-X-ClientProxiedBy: BE1P281CA0174.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:66::20) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+ 2026 09:59:54 +0000
+Received: from BN1PEPF0000468C.namprd05.prod.outlook.com
+ (2603:10b6:408:f4:cafe::37) by BN9PR03CA0153.outlook.office365.com
+ (2603:10b6:408:f4::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Thu, 8
+ Oct 2026 09:59:53 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN1PEPF0000468C.mail.protection.outlook.com (10.167.243.137) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.6 via Frontend Transport; Thu, 8 Oct 2026 09:59:53 +0000
+Received: from purico-abeahost.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 8 Oct
+ 2026 04:59:46 -0500
+From: Shivansh Dhiman <shivansh.dhiman@amd.com>
+To: <seanjc@google.com>, <pbonzini@redhat.com>
+CC: <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<nikunj.dadhania@amd.com>, <shivansh.dhiman@amd.com>
+Subject: [PATCH] Documentation: KVM: x86: Update nested live migration status on AMD
+Date: Thu, 8 Oct 2026 09:59:35 +0000
+Message-ID: <20261008095935.1237325-1-shivansh.dhiman@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|LO4P265MB6089:EE_
-X-MS-Office365-Filtering-Correlation-Id: eaeb9e78-3b02-47c4-94a0-08df251bc7e5
+X-MS-TrafficTypeDiagnostic: BN1PEPF0000468C:EE_|PH7PR12MB8121:EE_
+X-MS-Office365-Filtering-Correlation-Id: b40dc215-ba48-42f0-ccbb-08df2522e682
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|366016|6133799003|18002099003|22082099003|10067099003|3023799007|4143699003|5023799004|56012099006;
+	BCL:0;ARA:13230040|36860700016|1800799024|23010399003|376014|82310400026|56012099006|11063799006|10067099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	isCRE0MZbKpsU7LaFZLzkqBBk3PFGA7ZB/HeOfHW0tJyWNRnZ6AnJYslcDYRyFXd++jD/EjUG6Aby9GZ149qQ19S2AmshWNWP1qVkcGKa/Ulkv9d+Zs7ECU+dOy0WdV8GaotrNTFwdyjsWOh1C7AiFv021Bvv6jg+FktD4ausezTvkKx6hz4r33UIYrbK3dae5BPvg3iOziN2SA6nBNGzcIgjiAuthTsV+PcHe0lK+vooodUg/sQc+xex4aR3ki/s6OPLKdm4Jny8VWlakZFHRLs2qwP7ZZSa63cnysJxP4G+Qa5GI8hoBfCl4YutyqxBf1xjUZnWZYUOErgmMq6ooa+jK5397F+iaU99PUHiq295544ZFFLKU61WHIMQ2MvvYKfHeiUvSJY/eM1CzuOL1kwFrdwnWqZq0J0kjsP0nR6CN7aCDXCj3G8JZ6vKSY3TuJ2Oj/2VpvTxTThhaqnyDuSDwju2L5xOu2hJYZPECldt5qQ7HQAn5mDHjuM3vWUHeBea4XZUGOCJ+150ZOmcC7F/VS3Sj5anDNZHyGgnqar1kEimi1lu/5PRZVx5/VkcBepd8SDSZdiLTdQT8eAHIXQbCz87CBN10LZWu6REizcEnxWsVjlnrXpmRO0KBnQ3Zbk2dWiPgJNj4YOJ2IUS/xAQy5z8pqkTHcOaBewLkY=
+	rqx1QGT3npT+YAAfGvHe0F9GDYbjfSbRYcRlzk8VYSh4iS43MOieHjKRIZ8ZyNF4bqWXYZUVrvH/My3ac1vPPiU1TNgyIx2BLXhHWCNkn7Kbsp3FHq0qWM1jJ8RrOfRYMC1ZdMhUESPWJs7lxg22+CT10V20LdV36jAb6/Rps3zTgc01lbie3IkYxdyAMLk0dZ8qo0VpiN3cK9/oWdY6DkqS3SJGRCfAnRxJPyrfyeyytousdWbqdUuqR4aWOTA5zOtNEpvTHqRhUemcs2z6xmTj/x/wzwarrO2iYonKZsdHhlVaMN6+es+EqB374a6bq3eTJchq5EjoFSSnkzbA6lJHzhlYipH5ziNDqEtXj7R55VgCtUiXLpyuhS0v64pqmvKW+mAEfw0uzYqL9e6rf5qFIKNRU+91aWrfiqMNvfhupxuRUxKqSguBfDknUeRJ8mD7lwoI55yY326YETowiExihz9j2aKpmwFh+7/n2lPOIS47NO/A9lFY9xUBXQj2xRQb/4cX2eZTjG4g7Wj5/TFhDDG+xgKBN8LQebGzmtKKOiNeRBeO+d3xf50iYKHWANQW8UOJ8Z6mFeJyNOcr1YL4GzfQrVX3gGRhSNVyEeHekNiWsoJl4JFUYzoFEY+NqBudxezYcrFi48j9mTPC4feCn3U7+xy6X5Vz6GGqOBxc62j8bsjSodOwPrfMpKhQmFkJ4V7xfPkGLB0/p2nL1A==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(366016)(6133799003)(18002099003)(22082099003)(10067099003)(3023799007)(4143699003)(5023799004)(56012099006);DIR:OUT;SFP:1102;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(23010399003)(376014)(82310400026)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MFR5NzhqaWN2QXJzNmJoYW5yeEFaSkIyWGxsdnlhQStiY3FCbHlJclQxTjRX?=
- =?utf-8?B?Yy9aSlZnRHQ1QjgxVnprQTNrUm9ZdDZnTEgrV2xRakZxK1NnaytpM25sUVhm?=
- =?utf-8?B?OVhhZWhrOGNoQUJxamYrdjdOR2RnVks3WGJ6M3NGbzJ3eDZacDl1cThmRlV1?=
- =?utf-8?B?UVZUY1VFSUdKZEhpVUo3ZmdZZVNYZTZLVGZudHJPSjdEM05nNTFFUzZVWlpW?=
- =?utf-8?B?MFkySjNYeTI4NDl5ekhTcEpiR3JNMW9rSWhsVTJ5VXFDVVpTZUx1eW5adVJl?=
- =?utf-8?B?VmNXRFVqVlgrSUNTbjhDZGRGcUFjYjVpMU00T3psSkpHV2UrMW1KeW14VllT?=
- =?utf-8?B?ZUFoa3RNTklTYkkvTlZEK1c5amJFREV0NE81RnNzMndkck8wNktVZWgwL0Fn?=
- =?utf-8?B?MHUwdWJ1NTdwTVREQXJoL0Mrb09XV0VQRTBiRWJkYzJBNHp4emFIc0Zlei93?=
- =?utf-8?B?c3ZJb2tYRzRCOHZqVENoZGV5UzBpdlhLV2VEKzJ1WDdMNUVsQzd3T0dtcU12?=
- =?utf-8?B?VnA3MjFzc0g0aEE1MU1lQlkrcVNkYkxSaTJyMmZTaVZrODdKUmJFZzMvaUZp?=
- =?utf-8?B?SzkwcXZwQTVBalR3a2Q0aEptazFPOXFOUTdCMEYxT2k0bVpXd2ptOW93THB2?=
- =?utf-8?B?VGQwMGJSelM2K3QvRG9lTjBjSmFMTG1yNEpQUUpUZDZXL2NLZG5KUmlFY0s1?=
- =?utf-8?B?c0c5dytzdEdiWFFhYW9NL0RBQmVqQ2Z4dkg5V09zTmtmU3EzZ0xwUEV6Vmgr?=
- =?utf-8?B?RTlCckJBbElBcTN0M1IvRDdKemYxQTczNGZES3AycFBtUEhMZGpEMElvaEk0?=
- =?utf-8?B?SHRNdjBQYUpGVGNBc2lHdGlRTWtlbzVCRDc2aUZacXUrTXJXMW9VTmk0QXha?=
- =?utf-8?B?eHo5OUFNbGplSmV2aTJYOC9jRDN2V1BIVDgyYmFkanFTWmxUTmRzdVZSUDRl?=
- =?utf-8?B?S254ZGQzUjlVOE1aanh4cENLVTdqZTB6MzF3MS9Qckx5MlNOSlNsK0hyckNX?=
- =?utf-8?B?QnhkOXEycll4TjBlL1BaalhNakVtNGROSVVLeDhQUng5K0duQ3Jqa1VGZ1N5?=
- =?utf-8?B?RFRRNWlMYjVOSWprMFY1U3RzQTdFUFEwQ0J6Q2YwZ2l2QWlVbEZtQ3BaVmJu?=
- =?utf-8?B?K3JSWjZPaHIvV2Fpai9LbElRcHVtODEwYWFqVmt4MExVOUdJWFBoMHRKVmNS?=
- =?utf-8?B?cEJwNlNYZ000bzU0RC81OFYwVkV0eno3ck5VMGlWcDcxV0N0V0dxdzl6T2Rl?=
- =?utf-8?B?YUg0dzZaeDVSWXE4eHdpcjVWOGFLOGVzVmFrWFF0NVAxajJsTEtwL2VZYm8w?=
- =?utf-8?B?SUZxS1dFL2oyTHVvNjNpZUlFVnJZRGlnNUZaR1RGNmFmY28vM2tMSUpyMUxN?=
- =?utf-8?B?MUJXdGVvZkFnNHcrZUdlOHdxME4vbyttNWo4SlFxVFd6Y1ZzOEdaaFVjekVX?=
- =?utf-8?B?bURzT0lSNnpWU3Z3K2xmejJYVXNEOGFhQmRhYUNONGo4R0RNN2xyL1F1TU1Z?=
- =?utf-8?B?K0YxallONFBNRk1KQkduMFNxZE1PaTg1N0ZzUGFPbmRjUXhFVzgvQU1lZnVH?=
- =?utf-8?B?NXc2SXBqcnlXL3FsckZ6eE1BUEdiblRrN1dBQlNJeVhmTWZ3MWtNRDlWUkJn?=
- =?utf-8?B?VW1uUUl1a0pwL0pneGtDVmE5aG1BVGg4bUF5ellBVW5QV05MWkxpWlFpU0hM?=
- =?utf-8?B?OVFaZGRaK1ppWEdXRnF3YjlZRnpDUnlaNmFnTlhuUU52YjJnVGtKdHpKbDhs?=
- =?utf-8?B?UmtCQkVjSnY1aGdLQkpzQmN2a1RPSGMrdzlKTGVDRVliVTcvaWZhcHNRdEdX?=
- =?utf-8?B?YlAycndxdUJCQ2k4aFJHWmgvYjUycXlUc0RwaWorSGZVUTNzdnRiL1Zjb3Rw?=
- =?utf-8?B?blQrVVdnbDdDTk5oc3QweDZTVUlEdlV3VDE1L2NNUWViNm42RGd1ejAwOWxo?=
- =?utf-8?B?RGU1VnBwZmpncUMvdVNqM3M2ZXkwTEFubVpUelRITkF3MmN1bkwvYmdoeVBE?=
- =?utf-8?B?Q2R1MDF1VEpIb0pyZUIvbldtVWthQ29WTjgvQkU4YXc0Qkxwb2tFVWNmYzlM?=
- =?utf-8?B?Rk9RWmJDK2t5WWkrTEcyS2NSbGV0cDFvRFpJTmRySUcyaGZTYzdabUdIeW9E?=
- =?utf-8?B?R2lzQSt4VVZGUGxNcmNuckNENHA2bDVKcEswV1h0Y0twZENDZ0tCejdhemdL?=
- =?utf-8?B?VXhxZWFlVHd6QjA1aFM3WGc3L2VSclFObUJSTjN6d01PSG1IWlBadEloSjVQ?=
- =?utf-8?B?RUxaSTdTM1pSbVpqd3d2dkVVOGlMMzBxczJjVi84UjJDdk9sdUE4Vmo3UWFa?=
- =?utf-8?B?aWw3YVEvajdVVklEYXlJdHV5MEd0NDI4WWtHZVVXek9lS2ZxUERFdz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: eaeb9e78-3b02-47c4-94a0-08df251bc7e5
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2026 09:08:55.8875
+	J2A0hIy85GjcUR8afnD7haFfSjRA7wyrxfXcKR7iCAVFOiz2ksYc4JZJN3y12J+D0H4qpdbykFGEPODkHYwIuapUmCq1ROHVRjHZjIIQVrzgvi19l1wAK1E6d/d6btc9tKvyt07id2LeI3V7OTZBXVclLC/TExcsyoXq8WUU/NA4FYj1YvFFwZGug1/03XKxSDqQmdmL0CatFJhITej8gB+WvBDjJb2tTgVD2AJ3iw+uso7FEV342PGCImV4eSyqJHyVQ1qL6gBqa2e1NPoaxwzdXkCwzN3GitjaclpXXAHXbj5IFJqVJgNiiH81DLhRJX0iSVmivQ4/VPqkO6PcwJlg4l4YDeCQ4c/GpuU02reRiT7/wpeC/h92tURpI9LBeEIgLa2lopHiXzy/bWCTXkioJBtAzN0Q2emUCmgBTAMooHJSXWELHBfmJ3JeDemD
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2026 09:59:53.5924
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YuX1oJNLI0BiR9qjmt6h8RlAYg3j55qm35vmW7gB3cwZ6z/Ek6Yw8ycNBu5ENCCWiWN4BD4fXzlygE9fM1T5NA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6089
+X-MS-Exchange-CrossTenant-Network-Message-Id: b40dc215-ba48-42f0-ccbb-08df2522e682
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF0000468C.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8121
 
-On Thu Oct 8, 2026 at 7:37 AM CEST, Karl Mehltretter wrote:
-> The armv5te target emits clz and blx, which ARMv4T lacks. Kernels that
-> contain an ARMv4T CPU are excluded from Rust for that reason.
->
-> Nothing else in the Rust code depends on ARMv5. Use rustc's
-> armv4t-unknown-linux-gnueabi target for these kernels. Like the C code,
-> the Rust code of a combined ARMv4T and ARMv5 kernel is then built for
-> ARMv4T.
->
-> ARMv4 (StrongARM, FA526) stays excluded. It has no bx and rustc has no
-> target for it.
->
-> Tested in QEMU sx1 (OMAP310, ARM925T) with omap1_defconfig. The Rust
-> samples, all Rust KUnit suites and the doctests pass with the current
-> and with the minimum tool versions.
->
-> at91_dt_defconfig combines ARMv4T and ARMv5 and is built for ARMv4T.
-> That kernel passes the same tests on a Microchip SAM9X75 Curiosity
-> board (ARM926EJ-S).
->
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
->  Documentation/rust/arch-support.rst | 8 ++++----
->  arch/arm/Kconfig                    | 2 +-
->  arch/arm/Makefile                   | 1 +
->  3 files changed, 6 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arc=
-h-support.rst
-> index d6d1bef44c8f..3f39cf55b6f4 100644
-> --- a/Documentation/rust/arch-support.rst
-> +++ b/Documentation/rust/arch-support.rst
-> @@ -12,15 +12,15 @@ which uses ``libclang``.
->  Below is a general summary of architectures that currently work. Level o=
-f
->  support corresponds to ``S`` values in the ``MAINTAINERS`` file.
-> =20
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  Architecture   Level of support  Constraints
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> -``arm``        Maintained        ARMv5TE, ARMv6K and ARMv7, Little Endia=
-n only.
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +``arm``        Maintained        ARMv4T, ARMv5TE, ARMv6K and ARMv7, Litt=
-le Endian only.
+The "Live migration with nested KVM" section is stale for AMD systems
+and needs an update.  Migrating an SVM L1 guest with a live L2 guest in
+it works, and has been tested with Linux 7.2 and QEMU 11.1.0.  So,
+replace the AMD-specific caveats accordingly.
 
-Can we say "ARMv4T or above" or something similar?
+Signed-off-by: Shivansh Dhiman <shivansh.dhiman@amd.com>
+---
+ .../virt/kvm/x86/running-nested-guests.rst       | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
-Best,
-Gary
+diff --git a/Documentation/virt/kvm/x86/running-nested-guests.rst b/Documentation/virt/kvm/x86/running-nested-guests.rst
+index 87326413d5c7..e41a50816058 100644
+--- a/Documentation/virt/kvm/x86/running-nested-guests.rst
++++ b/Documentation/virt/kvm/x86/running-nested-guests.rst
+@@ -186,21 +186,11 @@ Live migration with nested KVM
+ 
+ Migrating an L1 guest, with a  *live* nested guest in it, to another
+ bare metal host, works as of Linux kernel 5.3 and QEMU 4.2.0 for
+-Intel x86 systems, and even on older versions for s390x.
+-
+-On AMD systems, once an L1 guest has started an L2 guest, the L1 guest
+-should no longer be migrated or saved (refer to QEMU documentation on
+-"savevm"/"loadvm") until the L2 guest shuts down.  Attempting to migrate
+-or save-and-load an L1 guest while an L2 guest is running will result in
+-undefined behavior.  You might see a ``kernel BUG!`` entry in ``dmesg``, a
+-kernel 'oops', or an outright kernel panic.  Such a migrated or loaded L1
+-guest can no longer be considered stable or secure, and must be restarted.
+-Migrating an L1 guest merely configured to support nesting, while not
+-actually running L2 guests, is expected to function normally even on AMD
+-systems but may fail once guests are started.
++Intel x86 systems, and even on older versions for s390x.  On AMD x86
++systems, it works with Linux kernel 7.2 and QEMU 11.1.0, or later.
+ 
+ Migrating an L2 guest is always expected to succeed, so all the following
+-scenarios should work even on AMD systems:
++scenarios should work:
+ 
+ - Migrating a nested guest (L2) to another L1 guest on the *same* bare
+   metal host.
 
->  ``arm64``      Maintained        Little Endian only.
->  ``loongarch``  Maintained        \-
->  ``riscv``      Maintained        ``riscv64`` and LLVM/Clang only.
->  ``s390``       Maintained        ``CONFIG_EXPOLINE`` must be disabled.
->  ``um``         Maintained        \-
->  ``x86``        Maintained        ``x86_64`` only.
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+base-commit: 6bd2905303c58679e303941b7d8ae8c074cd95ce
+-- 
+2.43.0
 
