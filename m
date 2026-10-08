@@ -1,201 +1,122 @@
-Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D373A6B9D
-	for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2026 02:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D47731ED7C;
+	Thu,  8 Oct 2026 03:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791426637; cv=none; b=KOSHFls0gd2QK2GN88tRro1h8KvfzgalrlzKurftDXj6N8hSemKme49D/O8licFaK0By+pJxe2MwHoPFKoc44JgX/ZnUowXdf89EJch3sfLqSzZI3dznaVVQIKbipDin+GcImNLYopSwGJi+G9FnQ6T9dceAV98LIHfDieHIO1M=
+	t=1791428827; cv=none; b=QSCgv9IEHrv0hrUVlD7CTMS+pk4Ujd5H7IlmXJWc6+15SS/FteVY1FBvC50r4CBQxw8arCTgZXxqcwNzE5YVRd99Y6/WVaHVnKLr2peNrwRxrBH7wO065zWrCEmYjOdAlK5bjruCO8bg/6JrkyOYSoFoHAKDMxgRx+utyRLsuCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791426637; c=relaxed/simple;
-	bh=+zYtguWatrWyIflqePQK6y02u6AwxFk3BoZDlKXZmL4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ucTY4/DF2RhgIyGrI5MV2LpjWvJ4iqmJh6Jt8GXl10E4SNIsgM410rY1hgRVI//wMZqv1dynlNVg6i6P+CntdTSYnvmO5XAkFEIyp3Selks1yJTsbiAdlFsDTbrQ71GEEkXq9D5jzCs+13rlYNRa0bLNHYy2t3DOMLs7DxQuOGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DVdl2+Wg; arc=none smtp.client-ip=74.125.82.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+	s=arc-20240116; t=1791428827; c=relaxed/simple;
+	bh=IzLKLBvBJvQ90dp5Fr7AoL4y/c6CHUQCMulASK2sAN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=USw+jF66sv5sVGFfhpwMd34JkFYog5ZJWF2y9pFwh2xj+G/0Z3dPbKeAuzZITx6JEm2XsAYmOO79NpSzFf4+wGK4vqL1H2VHC/722KJLwwJg9Z/jqRMq0DECzTcyzKfg6GfQp+Bndg2VM02XNPIK/BcLjSYIPzdsVVOXiF4Ywds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=MTvM4QRE; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DVdl2+Wg"
-Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-1665200f4c2so207326c88.0
-        for <linux-doc@vger.kernel.org>; Wed, 07 Oct 2026 19:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791426634; x=1792031434; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=nZL0mSdzCiqxdjcNFF6pKnqZLGjfb8O3XawG/UgZryY=;
-        b=DVdl2+WgIWfl/HxUOKNmwcC/DpsL2QnlyAiBmTX2I7y/vjdyZTn7TFaXyRpntEu1Iz
-         MnG1L+d+/PYgkLCxGwaWsJ5BmqgEqVLdL2tVcg8g/4pd9/eMp5rPiwnwy2pluxRiFinx
-         D0VK4z5oaUwKuexe5r1Nim2U8cRksDmNi/9p8GpVqsKuBq2t2memWZumbfCPLFbIktBX
-         sa4jmyP3Y9YDhYkJGU4vQbcQsgZEcjq7I3DWS+0HdgxJf2HFrvAEEAawaD9fkqgnFVmq
-         +b4V5PXDWqyEQzmFpyVRdIEOMcWdhM9O19WVm9WrezLudY4aEF+a05u7WQmpGAhHgRtb
-         PjNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791426634; x=1792031434;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nZL0mSdzCiqxdjcNFF6pKnqZLGjfb8O3XawG/UgZryY=;
-        b=pzreMxGQImn6/+Y6/pUCDmyWvAQkF2nWxJfj8g5GPG0qm73gQN2wTlXHxJFMeYiYjk
-         QjDfclraV0bc1JqpFsOGloogLB2/48ItHIQizMrMUXo6ti3LK6WM4SGqsk4wwi5qy1S5
-         53Xxi0v0Hr7nZ7LYG4cDgFbkISO0kn5+Jul/DcgmGXFzQZBc8nSpInUB9Y3OzpXpE2oF
-         MGmbxHoYs5m/PqpKDgvGAXsQaSn+IoGtGoquTj0Fbill/0Eg3a4u57X8PyeZwHIEVY8h
-         +aRE1LmnZVrqXKF6gAKsWbDkUnXVOL+5zyP40nfUJD2nlYu77FayRHnzPnVgwMSz5Fp/
-         GwWQ==
-X-Forwarded-Encrypted: i=1; AKwUvByKqJXg66nSOaUoPYK1zi7DyAcDYR/BqfV0p1KgtxSuk6bronKpzQoWOmJzt/I+sf8nd0wuhNa39m4=@vger.kernel.org
-X-Gm-Message-State: AFuF++m/r+mq8lRxSzjm5gKM8jZlAb/YytJ2v/gO8ysof/Dp+xl4UqeG
-	aPhIRMin/9dGZJ9i0nUeyQy1f3emEQS5JYN85fWKPsgbjXXBMvKF6/0zlz0kdcbZhIeYR/mtrsD
-	YDRBeQkSqCARUs/QD6yxwJat24w==
-X-Received: from dlep17-n2.prod.google.com ([2002:a05:701b:4591:20b0:14a:c841:ce30])
- (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:701b:4506:10b0:144:c128:4c4d with SMTP id a92af1059eb24-162081524cdmr4103908c88.38.1791426633534;
- Wed, 07 Oct 2026 19:30:33 -0700 (PDT)
-Date: Thu,  8 Oct 2026 02:30:18 +0000
-In-Reply-To: <20261008023030.1089616-1-almasrymina@google.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="MTvM4QRE"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id BE0B840E00E5;
+	Thu,  8 Oct 2026 03:06:54 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id mgqvtUb_NHYt; Thu,  8 Oct 2026 03:06:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1791428804; bh=cyhM1nUNozz0bBiV0uhM/z9n5mfCAa1GSAZkjkT7ZwA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MTvM4QRENWPPyXa1ccOMqG0xWEftwSJsaexQPCdfxBkXP7aZz3Em5whU2pQk5U3et
+	 G+uyGfmeEELkGkv+0ctFdA81yHntZDUoz4GPNiRNbGWn5VIaI7rw28qh8cX08XPtY0
+	 m3V+1VmUS2w/Ua3WMxQzU38Kc6eCVUT1YCfM7qq+Uq2x45slABOTqqLuA+FNRdHTMg
+	 gOfTMGMnSd+YlKNdxUoyIdYWOWwKGJOBMLiVSZAzhO3EZTFBHKOFduhuvZhHzIywWv
+	 aK3/lZ3bo5qaaeSkaegusJbhR+Ij2ZdbsRvOEB5Exrbwlnt1WhZgmrWgGAgVDQg7Rh
+	 p8LBRs2ECOzNSXNfJGtnTqEmy2XqWiUglM1iHXsNTo/T7LcVABevxKWAXggygRJUN8
+	 WndUwCBiS7EvIW77HYvqxGuTi1tPhLBGCuBkVCDzEskMRaviNtXGckj9unOsth17KZ
+	 DsjhwknwklTzWaCtfOR9k1uvCQgcJ/QuBCfEsSDJGuycQ2GeLCPG+31za9DrnM3r9Y
+	 9OI5AdS0SYsRO1sUZnE6vX3sk2Q/a9iu2TtHC/326UTNyOvlUSoHNclJf0WEkMcfYp
+	 uQtJUSOhCCCJIlpg8tKX4tYXYfBgAxG8kVbecegnZmJI+es8vUz6myXMDT3AgzcbqQ
+	 JVbpZWFtomeYaCZJInqDT6xs=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C1C9940E021A;
+	Thu,  8 Oct 2026 03:06:06 +0000 (UTC)
+Date: Wed, 7 Oct 2026 20:06:03 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Ashok Raj <ashok.raj@oss.qualcomm.com>
+Cc: shijujose2008@gmail.com, rafael@kernel.org, akpm@linux-foundation.org,
+	rppt@kernel.org, dferguson@amperecomputing.com,
+	linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org, tony.luck@intel.com,
+	lenb@kernel.org, Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	jic23@kernel.org, linuxarm@huawei.com, rientjes@google.com,
+	jiaqiyan@google.com, Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
+	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
+	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
+	duenwen@google.com, gthelen@google.com,
+	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
+	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
+	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
+	ashoraj@qti.qualcomm.com
+Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Message-ID: <20261008030603.GAascImzt4cv8Gz49p@fat_crate.local>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-2-shijujose2008@gmail.com>
+ <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
+ <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20261008023030.1089616-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261008023030.1089616-3-almasrymina@google.com>
-Subject: [PATCH net-next v2 2/2] docs: netmem: document netmem and memory
- provider design principles
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Luigi Rizzo <lrizzo@google.com>, "=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?=" <bjorn@kernel.org>, 
-	Pavel Begunkov <asml.silence@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
 
-Add a Design Principles section to Documentation/networking/netmem.rst
-covering the netmem_ref abstraction, the prohibition on direct
-downcasting in callers, decoupling memory providers from net_iov,
-decoupling net_iov from unreadability, delegating provider/type logic to
-memory_provider_ops and netmem helpers, and the homogeneous skb fragment
-memory type invariant.
+On Tue, Oct 06, 2026 at 11:19:30AM -0700, Ashok Raj wrote:
+> > +static int register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int pcc_id)
+> > +{
+> > +	struct pcc_mbox_chan *pcc_chan;
+> > +	struct ras2_sspcc *sspcc;
+> > +	int ret;
+> > +
+> > +	if (pcc_id < 0)
+> > +		return -EINVAL;
+> > +
+> > +	sspcc = sspcc_get(pcc_id);
+> > +	if (sspcc) {
+> > +		ras2_ctx->sspcc	    = sspcc;
+> > +		ras2_ctx->comm_addr = sspcc->comm_addr;
+> > +		ras2_ctx->dev	    = sspcc->pcc_chan->mchan->mbox->dev;
+> > +		ras2_ctx->pcc_lock  = &sspcc->pcc_lock;
+> > +
+> > +		return 0;
+> > +	}
+> > +
+> > +	sspcc = kzalloc(sizeof(*sspcc), GFP_KERNEL);
+> > +	if (!sspcc)
+> > +		return -ENOMEM;
+> > +
+> 	__mbox_bind_client() reads knows_txdone at bind time to promote the
+> 	channel off MBOX_TXDONE_BY_POLL. It must be set before requesting the
+> 	channel, otherwise the channel stays on polling and mbox_client_txdone()
+> 	later hits the mailbox core's "Client can't run the TX ticker" guard.
+> 
+> 	sspcc->mbox_client.knows_txdone = true;
 
-Cc: Luigi Rizzo <lrizzo@google.com>
-Cc: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
-Cc: Stanislav Fomichev <sdf@fomichev.me>
-Cc: Pavel Begunkov <asml.silence@gmail.com>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
----
-v2:
-- Document both current implementation status (mp returns net_iov,
-  net_iov is unreadable) and target design principles in items 2 & 3,
-  and note that new code should generalize existing limitations as much
-  as possible (Stanislav Fomichev).
-- Link to v1: https://lore.kernel.org/netdev/20261005004958.3603059-1-almas=
-rymina@google.com/
----
- Documentation/networking/netmem.rst | 52 +++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+Yah, I can see that happening but I don't have the hw to even poke at this.
 
-diff --git a/Documentation/networking/netmem.rst b/Documentation/networking=
-/netmem.rst
-index 217869d1108dd..e023f4c69d2a6 100644
---- a/Documentation/networking/netmem.rst
-+++ b/Documentation/networking/netmem.rst
-@@ -19,6 +19,58 @@ Benefits of Netmem :
- * Simplified Development: Drivers interact with a consistent API,
-   regardless of the underlying memory implementation.
-=20
-+Design Principles
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Memory providers (or the default ``page_pool`` allocator) allocate underly=
-ing
-+memory (``struct net_iov`` or ``struct page``), cast it to ``netmem_ref``,=
- and
-+supply it to ``page_pool``. The ``page_pool``, drivers, and networking sta=
-ck
-+operate on ``netmem_ref`` as the abstract type. Existing ``page_pool`` API=
-s
-+that allocate or free ``struct page`` are legacy compatibility wrappers fo=
-r
-+drivers that do not yet support ``netmem_ref``. Code that is not yet
-+``netmem``-aware should be converted to ``netmem_ref`` unless it will neve=
-r
-+need to support ``netmem``.
-+
-+1. **Operate on netmem_ref, do not downcast**: ``page_pool``, drivers, and=
- the
-+   core networking stack should deal with ``netmem_ref`` rather than
-+   ``struct net_iov`` or ``struct page``. Downcasting ``netmem_ref`` to
-+   ``struct net_iov`` or ``struct page`` is not allowed unless a code path
-+   strictly cannot function without knowing the underlying memory type (fo=
-r
-+   example, ``kmap_local_page()``). In those cases, to keep call sites sim=
-ple,
-+   add a ``netmem`` helper that performs the operation on behalf of the ca=
-ller,
-+   cleanly handles all ``net_iov`` and ``page`` cases, and returns an erro=
-r if
-+   the ``netmem`` type cannot support the requested operation.
-+
-+2. **Decouple memory providers from net_iov**: Memory providers are not
-+   architecturally limited to ``struct net_iov``; a memory provider that r=
-eturns
-+   ``struct page``-backed ``netmem_ref``\ s to upper layers is allowed. To=
-day,
-+   in-tree memory providers only supply ``struct net_iov`` and some existi=
-ng
-+   code still reflects that limitation, but new code must not assume that =
-using
-+   a memory provider implies ``net_iov`` memory and should, as much as pos=
-sible,
-+   generalize existing limitations to match the design principles.
-+
-+3. **Decouple net_iov from unreadability**: ``struct net_iov`` is flexible=
- and
-+   has no inherent restrictions; it may represent either CPU-readable or
-+   unreadable memory. Today, in-tree ``net_iov`` implementations are unrea=
-dable
-+   by the CPU (``netmem_address()`` returns ``NULL``) and some existing co=
-de
-+   still reflects that limitation, but new code must not assume ``net_iov`=
-`
-+   implies unreadable memory (check readability via ``netmem_address()`` o=
-r
-+   ``skb_frags_readable()`` instead) and should, as much as possible, gene=
-ralize
-+   existing limitations to match the design principles.
-+
-+4. **Delegate complexity to the lowest layer**: Each layer must respect it=
-s
-+   abstraction boundary. ``page_pool`` must not implement per-memory-provi=
-der
-+   custom logic in its main code; instead, it delegates provider-specific
-+   handling to ``struct memory_provider_ops``. Similarly, core networking =
-code
-+   should avoid per-``netmem``-type branching and instead delegate operati=
-ons
-+   to ``netmem`` helpers that handle the underlying memory type.
-+
-+5. **Homogeneous skb fragment memory types**: An ``sk_buff``'s ``frags[]``=
- are
-+   always backed by ``netmem_ref``\ s of the same memory type. Mixing frag=
-ments
-+   from different memory types within a single ``sk_buff`` is not allowed,
-+   keeping ``sk_buff`` handling simple. Consequently, coalescing ``sk_buff=
-``\ s
-+   with different fragment memory types must not happen.
-+
- Driver RX Requirements
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
---=20
-2.56.0.385.gd3acb90ef8-goog
+Shiju, what's up?
 
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
