@@ -1,124 +1,111 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747293B2FCC
-	for <linux-doc@vger.kernel.org>; Thu,  8 Oct 2026 17:40:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791481217; cv=pass; b=FsB81BRwrzEcg1ocW4IODbX9y0IZF7P4n+ukESdNwTP/NNTmQ0oQVAExjhbripBTb2FbUHwdXLd/3iXkIoxWNIC6fYo32b9oZ/Oqoj0bViF7SjH+3VIqrBu/CgsYSwWmM7uLzCqDzdnfZUcz00jMNSXjTVh39WpG3T2n8IiKCbQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791481217; c=relaxed/simple;
-	bh=XsMGwnJeuIE4BfymYHt2Sa8OULDQXiO0Y08zPXKAnKo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tP2Y2WWtY5OZvrWF89ZgB/5BwWDsXgA2ltxNvMGWeKoDIkgt12WWOmWy8Tv4J0w9p8p1lYw0XpvdEIjIEQaf14mv57MBXxAXn2b52K3vTkQeat5XsW6jXVtd327aB08UCTFaTqKbYoakKWDV+cO4x1Pzc+Ix/9IAIX6WQUNmC7U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NI+HIhnz; arc=pass smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7CC35AC14;
+	Thu,  8 Oct 2026 17:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791481349; cv=none; b=kTTJwN6ZCESjeUVXni9WE0IISdf5kaSreRAXLZNNgNa7HkILj3i/L2KtnP13202ErWsB+qH1h1eQ/QzTEBGqWFbtGAf3nu6diMUc6qumP+wvQSlwJXlD8eFlDhwR2hXl7wBX/MJL6JZT3FGPEhtkwfYbEYag5005os4vq1iBsaw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791481349; c=relaxed/simple;
+	bh=Wj95BA6tHW3eFwdf2BjqBoT01JOXddheyPo32tSgJYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bdxqgatfnBcTkPuPqDdQp+8d/VbX50fNovUyVA1uwaIcang9BwDcDBpzi5ekxpJhVU/FvRdRWqzqjj9BphCMzDObfbWeAZdyldz69OzajhoapnBjO8KdDmA4KIy2UTJSXjxuDxvfSglaSpSQyL22sdqtZBSxkwE7CUGtdBqb8CI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=NCznZq0m; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NI+HIhnz"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5bcb7c57d27so106473e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 10:40:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791481214; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GFTsbCXLU1MRuYyaTwrmU+wSfpgm9Pz3S1azws6k1NtZVqJ5EBLxQBvpa4Wd/BeSSV
-         UXGMxgPF5gJ0spsUcqL4356kf7wkCBb9bVeC2/xvjVBk275YrjC4Ckrx1nhppfbc7XXn
-         yz8fwmoc9FiOgF02Ltll4ncoHkO0smd9m7HB1xGgQnVVJt80OYDeEaiVQKzDweT1a1ax
-         99nQZOu8XVdxAGfaXME6q8SeQvpHNUBwmbFTegHX0u49J5hJdlsQf4T9MwHOsajXVEM8
-         YTSZUks8iuOfNCSs0ELmmLR/mWu33M/C1wYQBzHW3VtvLTV5LUN9955kWUnwan5/bx5b
-         SlYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=XsMGwnJeuIE4BfymYHt2Sa8OULDQXiO0Y08zPXKAnKo=;
-        fh=DWGw7bxBadMCAKytW8sne+iYqA8AjCqxSbXa43iBBVk=;
-        b=i0eM8Op9ziY8Hl8dLDBfT7l7FQ89fvG0sbxVO3vfS9hxa2GDPf4WfrR1AhFw+wpO8F
-         GwjsvpKrJ0Np1rCZkhJFRxEF20rLSXkTEpejerTv/8AWi3VytM8TIASczVj/eruy4dI+
-         TEBbMjI3T4lX4Ilyb+/y+aX6PaM99MehUX3yCGtv/2dD33L3KRJOzc1Wses84tYq4tIg
-         eRTSwLo81sFhEJaQlOo58UEdxIvHbxjReh6zFWfuCDHoy+KRD74/qYzrZ5OwF5I8DKCQ
-         g8awkdvDScZpnY4ZObo1CC1YbOOqYq5Tbo+mFb1hXjUaw1du8JP5O5MJSRsuwyarcPfa
-         c8qg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791481214; x=1792086014; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XsMGwnJeuIE4BfymYHt2Sa8OULDQXiO0Y08zPXKAnKo=;
-        b=NI+HIhnzgq29EcKNdRN26tOvMAyXP+9f3wvQmqx1OCOo5/pAeVYyBC5N1AXLtFSQeP
-         afPGm7WK1y1tt0IUZTSxC6+kIfLpaeteyXwEYOwTfPDHkV4To1PXM8E1oT9YUo0K5FF0
-         MvEg8JqKKTdrVW34HSUZDtDo7I3KYuDPJKUTW4/Vka+lpsCp1PTX5r66DFzlJ45SgS7o
-         ji87GeyM4fE4IJGCrUIRfprqUC5oPhRhNu4Ud1WaAxiJwxeCaGjfAMrmBBB41g+XZX26
-         BCmBGeJYwSxuY/fNfyyK3/DfjPniQ7xqpoENEqdMXQSVJp42kZ12kfSmCjy7X21NuWzi
-         ZYXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791481214; x=1792086014;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=XsMGwnJeuIE4BfymYHt2Sa8OULDQXiO0Y08zPXKAnKo=;
-        b=syjas0LUIwaj+o4opZscsKwLNmU8TRPnA23HS9U/Ja0xvb8HZQtO+YinxUo4JojD7b
-         DR+ZkEI1INA/FfFHgS9PTndhIg4ZF3GiPs74XEUeLmdlN7xD3Owdr+rTxFRtJLqjgi9f
-         OKUOCD0HlEYP4ZWNQMXWdfmiHASdw82z9WjQTEjnGwl4brse6I5KLljCoOT7t1vt28Zt
-         jxAfbz2zzZ3fMPa/SV0Nr87+c918h9btLsUcdgvNg5NHJF8H3YDymdFrTwZEAS+EG4VE
-         ear01+0wj70zI3GCe9QJYVAJDdwEp3p/Cn1xcAi+lD+T5UGVQguQW291Jt+TluSo9wa/
-         AOmQ==
-X-Forwarded-Encrypted: i=1; AKwUvByhkQDtBAqVITeLkeqF1p3aE0zF89n+0x3PDcRp5DeXDr1boPHM7oflAMxCqWaOW9dduZaQ0Zn/qhQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIul2YyCpbncVNLmhgRDnQsGEcjPJEtLGfKHolHpucjOMiU1xYn
-	GH1k4L9iH6Z+0mPag1RTB0SkqYtJZN9l39qv+15qIFN3y1uao+IjQRZc9A71Wl4RVyH2tVYreFB
-	rvuN6Qvelioc8xSv2GXZOL/lEATLIdSA=
-X-Gm-Gg: AYBFou0X1hKPaG8kXzJQhiPT9GVT8rJXiKyDlmBVknzcjF6u+cpzc5iVt0rOujCdT6C
-	AGgE+QZe2fuMjFAxrl6QuM3JUO5oFDUrk7G100j5fqgUoeYOhZUdFchaVlWdesOuL8jJWCcQ+ZM
-	kfjFtb9zB9qwkoCNFQq4dRB+NzEh5uYksJlpcm9HZPHE6FH7MZ7gE2vDLb4knstqY1VvveuQmk9
-	jbGnw+u/xvoeQH9WgnipIPsYFjqSB3TUzFs7u3/HG1IplhopQ9Po+UOWCRKf+S8XCgsrGfhhuRD
-	Xi02mRnw++6/RGYBrFQNnd6P3hcGE6+RfpnusiX/4AfKVGcIRa3N+iATb+3jCN8CLPd3pMmK8ph
-	oEVct4JIjk6z4rHxSCnWh+F3QfIv/6vFZmG8dHw==
-X-Received: by 2002:a05:6512:2354:b0:5ba:3c46:bc44 with SMTP id
- 2adb3069b0e04-5bcd42e4cc5mr1286510e87.4.1791481214176; Thu, 08 Oct 2026
- 10:40:14 -0700 (PDT)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="NCznZq0m"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 75B7840E0481;
+	Thu,  8 Oct 2026 17:42:22 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id OKouzmO8Va4z; Thu,  8 Oct 2026 17:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1791481323; bh=hdlvJ6GRE4eEi92AN9Q6cxqjIVJ+FUtN2muCFrP3Q1o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NCznZq0m5VBhiWjABNT9rFCDm2F4DYHj58BkQssq80FfrUR0v23C2czScOQdVuSZp
+	 IMcA6OrpfGdplnp6dBR0qeLw/53OCHaVIjzgIjrKM3OK4FXO0Tcf5th1jLKU1vmvrV
+	 kimWGi2pDHy4FeRMNbOMVeyBj9Vec3meLIRjeV0yMtLWMTts9praD9ajdOA4DUZUJM
+	 X9scQIYHAPk63NubnCEDkaDhFb9p/eYanBZTwcHhaYl4//cCoPmpeOT80COsi+8xNx
+	 gLoR5QhFcnYqYbeLMoFzI5C9mgqsrpGrAzBJKpxtYlat76NOEMKBfYNjSmGeq6gjGX
+	 4Kd3grbCcOchUGoiflZeJRyu9i2s+8HAJ9a+bR0u7z4eJsOhmsM/qe4de25emwxc1a
+	 U078jLI/Z1ums7Yruv+WMkW9Nwb/0lu72Cxhk0cDPJ3pA+y7gIqfdig+gZ6CT3zAvg
+	 ZnBhPMqQcJyIfK1WvzihEg5flP8bvZpNTbWueTcX5WTno0ObeXgmTxiVlCM8qql7Kg
+	 DL+RB4RimWDgFWpsJHl12FGixkFOmonpgb33duJXTrbQucqrZEnpyQrFXzMyWRR1Te
+	 iolENDns/XXemAV6wzM1Huy/CUWUU6Yu9Z5AUlwvHd/8X6lX1+AgIglHE/a4Ws/y1n
+	 oCWEvJRitqxcIUvJrfLb2V3k=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5107D40E01B4;
+	Thu,  8 Oct 2026 17:41:25 +0000 (UTC)
+Date: Thu, 8 Oct 2026 10:41:14 -0700
+From: Borislav Petkov <bp@alien8.de>
+To: Shiju Jose <shijujose2008@gmail.com>
+Cc: Ashok Raj <ashok.raj@oss.qualcomm.com>, rafael@kernel.org,
+	akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	Yazen.Ghannam@amd.com, mchehab@kernel.org, jic23@kernel.org,
+	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com,
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
+	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
+	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
+	duenwen@google.com, gthelen@google.com,
+	wschwartz@amperecomputing.com, wbs@os.amperecomputing.com,
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com,
+	prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
+	kangkang.shen@futurewei.com, wanghuiqiang@huawei.com,
+	ashoraj@qti.qualcomm.com
+Subject: Re: [PATCH v23 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Message-ID: <20261008174114.GAasfVutvsmAk8JGsD@fat_crate.local>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-2-shijujose2008@gmail.com>
+ <20261005235021.GBasQ3vXTivT3NLbBq@fat_crate.local>
+ <asU7svV8g2Hb5DZl@hu-ashoraj-lv.qualcomm.com>
+ <20261008030603.GAascImzt4cv8Gz49p@fat_crate.local>
+ <CAG4KcRLhN9=6xeT4qfqKLFdukiZLUc7akGcWwXJUU1-qrfxTUQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260929115956.229610-1-chenyou910331@gmail.com> <asPWQ2ysbTgW9Uib@wyuan.org>
-In-Reply-To: <asPWQ2ysbTgW9Uib@wyuan.org>
-From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Date: Fri, 9 Oct 2026 01:40:02 +0800
-X-Gm-Features: AclHuK-qJQ_eUnn0n5swdUT0B7x9k5T5hInCfBDUfhqIPKtNFsPf2EXJq_lKTwU
-Message-ID: <CAKspUh+hw3oqigFkHkwUiB_7ZmRrpECA2OstRS_jNF0f1uC9ng@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] docs/zh_TW: remove duplicated maintainer contact information
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>, 
-	Yanteng Si <si.yanteng@linux.dev>, linux-doc@vger.kernel.org, 
-	open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAG4KcRLhN9=6xeT4qfqKLFdukiZLUc7akGcWwXJUU1-qrfxTUQ@mail.gmail.com>
 
-On Tue, Oct 06, 2026 at 12:54:27AM +0800, Weijie Yuan wrote:
-> So for the whole v2 series:
->
-> Acked-by: Weijie Yuan <wy@wyuan.org>
+Shiju,
 
-Thanks.
+On Thu, Oct 08, 2026 at 08:18:14AM +0100, Shiju Jose wrote:
+> Thanks Ashok for reporting this issue.
+> 
+> I debug this. nows_txdone used to set before requesting the channel
+> until v16 and was changed in v17
+> following a review comment by claude.
+> Found this issue occurs when txdone_poll set and  setting nows_txdone
+> before requesting the channel, solved.
+> In my test setup,  I missed this issue, because txdone_irq was set in
+> pcc_mbox_probe()
+> with the acpi pcct flag set to ACPI_PCCT_DOORBELL by the firmware.
 
-> Offtopic & micronit: What's the point of rephrasing this paragraph?
+What?!? I can barely understand what you're writing here.
 
-No change in substance. In v1 all seven patches shared those
-paragraphs word for word; when I gave each patch its own message, as
-you suggested, 1/7 kept the shared reasoning because it comes first,
-and I tightened it on the way. Nothing more to it.
+And tell me, how many times do I need to remind you not to top-post on public
+mailing lists?
 
-> Oh, forget to meantion. Now "Aissisted-by: LLM" is preferred. But if
-> it's not necessary, then that's fine too.
+Geez.
 
-Thanks, I had missed that change. I will use it from now on.
+-- 
+Regards/Gruss,
+    Boris.
 
-> OK, you prefer no space between CJK and ascii. ;-)
-
-Ha -- that is the glossary as it reads today, which still says no
-space, because I still owe you the change we agreed on. I will send
-it, and new text will follow it from then on.
-
-Thanks,
-Chen-Yu
+https://people.kernel.org/tglx/notes-about-netiquette
