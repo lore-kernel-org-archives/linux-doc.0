@@ -1,95 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E6B347FC0;
-	Fri,  9 Oct 2026 10:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C69E4C10F7;
+	Fri,  9 Oct 2026 10:47:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791542115; cv=none; b=hXyCtpEUOq4JU11KzoFDCqoYprxpjtWbHDMsoe37fdBDG4FjnzlIArAa3T5rSZreZXWxCfTD76ySm+0gbsrUvGo0Rj+Mzn46DUcl1YmSOCV3CEVYC50Rec3zQjcaqVcSgK3+JpNSoC25RL9AxPNt/QW5faSFTtHb9RAzSQGbGac=
+	t=1791542866; cv=none; b=XFsiwQqu2rQ36TwJMfPsdVfXa6QPzKrM+GvK3A3n1N7AQ43bz2lgZmzY1rtQZ4Pi56eXbSslQ+dGCLh2nSZ750ufJZPo1ysYjXxwQEZkfbJ25Gs05RQstaBKf7lTTLKIwo5tCBllbKyPZBeN+KclboxPM9eMsnkyYcxBUy4hhWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791542115; c=relaxed/simple;
-	bh=Eb8/KNN8EfLJ7R3Abs+8Pt3d74ukyPzW4D4nNuT7GmQ=;
+	s=arc-20240116; t=1791542866; c=relaxed/simple;
+	bh=ylULkrpgAWeXNslY94k8ycylLjhAxvfwZBKME9NRzE8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JaOeFtvFnKJKyXsZkg+/JSqOh5HO2XcRn8aaBtVq2piBEes9qCYOV9WS/g4g54GlhiMqQVIXyMZ8AO9virqITvrckCcsiaqJ2w+9vOJu13tSgOBfp6KmVcLw3LSQ5+9wvoer5DZx1LsTcEtU6c+4naYjFYPH2fI7Y/mnWcwu3V0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lk1MuDMr; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=aWwMF9O6RhYHlFzzerEtnDWrz1LletgJWbyoZpoIPMQF4n+mpQYOS2NHvhNancuIHNy78dfCDKZxumM4+Pl87EzRS9+syInR1qKPjlDUwOwyxyhU3brLwVnLLlaS/A8ieJgvWbJc2Q5wXS19i6NfGXqOI60vyojvDLv5Fmf4eiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IueHLKsY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lk1MuDMr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 341CB1F000FF;
-	Fri,  9 Oct 2026 10:35:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IueHLKsY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DFC11F000FF;
+	Fri,  9 Oct 2026 10:47:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791542113;
-	bh=DXf9yi1dSguNLEcV5pJRx2gwlhKsWloD62GcFwg+xzw=;
+	s=k20260515; t=1791542858;
+	bh=zKerr0FX9/TEUUMoq6+3Hew/hjlzTQEY7QDXvKwB0rI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lk1MuDMrDsiMRFX9FVcn6UX0P92CEmUnbgvnScjEKf+Q8vGtEVDqqg28tfZerQ2mK
-	 lB62T9HFcngi5h9ZE5JWhc9RWxM03sIXY6QPITcB0Ti0Ed0FPCyqyvV2KMsAyFqnbL
-	 O4rq7g3T7qOW4y0+zjeYKqjhVl6EpYFg3+Lo4a04gQQDe30AON6qKReIK6FSM3hagN
-	 ktJOGI1TUQmBdnE9IbQhjgc+MIi8aFenvLTvHOTT3UOA5+t+A6mS+KI55mCbkUtVsv
-	 Dr71X+ruSClTnQUkuBZJTSSBoeURHlnXKEQWUCJG8WLhFiyYYIeFhIXjIy39mHNiTP
-	 5f7bQuCHX4cwA==
-Date: Fri, 9 Oct 2026 06:35:10 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	broonie@kernel.org, tytso@mit.edu
-Subject: Re: [PATCH 1/2] agents: add infrastructure for agent resources
-Message-ID: <asjDXvZI1J2KIqgj@laps>
-References: <cover.1791499378.git.sashal@kernel.org>
- <5dfafd6f79165526fe17774c55b553b7dfe4b3fe.1791499378.git.sashal@kernel.org>
- <2026100955-enchanted-magnetize-0d26@gregkh>
+	b=IueHLKsYQPiPnEBmyXML4wvVU/If8AORkQEh9OFpXe5hULxH/5Ktnxy3+E/iLCmVi
+	 KLKrWunvSe8PYoS8XxZwhOUUJ/AgGnrOsNlp8lRfvCXIRS6EzEV10pVB2ssyYhW7rf
+	 pCPLHVxVV5jwwHvyPl4w6paBeYwiHbXygiTS4TtPRxKN97GNlOhzwIbhiGWq3qQC6Z
+	 Y10T7l+alKtGvuJGe+1An4TMOn8vnBFsZz2B5bEq0GUO8usUVMX18724io6MBHMBmW
+	 M5pHdzzRqB8J0lQEI0VdvtGDVq5iGjpn3nGGPCuUgImDlBqSLshVDkzS590KjId5kA
+	 iAzkCXGVysWiw==
+Date: Fri, 9 Oct 2026 12:47:35 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Abdurrahman Hussain <abdurrahman@nexthop.ai>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add TDK Corporation
+Message-ID: <20261009-broad-formidable-collie-7f0f6e@quoll>
+References: <20261008-hwmon-pmbus-fs1412-v1-0-0ae7e5ee4e41@nexthop.ai>
+ <20261008-hwmon-pmbus-fs1412-v1-1-0ae7e5ee4e41@nexthop.ai>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2026100955-enchanted-magnetize-0d26@gregkh>
+In-Reply-To: <20261008-hwmon-pmbus-fs1412-v1-1-0ae7e5ee4e41@nexthop.ai>
 
-On Fri, Oct 09, 2026 at 12:27:33PM +0200, Greg KH wrote:
->On Thu, Oct 08, 2026 at 06:54:52PM -0400, Sasha Levin wrote:
->> Add agents/ as a home for skills, prompts, and other resources for coding
->> assistants. Describe the skill layout and how to read the procedures in
->> coding-assistants.rst, and add a MAINTAINERS entry covering agents/.
->>
->> Assisted-by: LLM
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> ---
->>  Documentation/process/coding-assistants.rst | 12 ++++++++++++
->>  MAINTAINERS                                 |  6 ++++++
->>  2 files changed, 18 insertions(+)
->>
->> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
->> index 051f0d819f68e..3288b32e993f5 100644
->> --- a/Documentation/process/coding-assistants.rst
->> +++ b/Documentation/process/coding-assistants.rst
->> @@ -19,6 +19,18 @@ For guidelines on content generated by AI coding assistants see:
->>
->>  * Documentation/process/generated-content.rst
->>
->> +Agent resources
->> +===============
->> +
->> +The ``agents/`` directory holds skills, prompts, and other resources for
->> +coding assistants.
->> +
->> +Skills live under ``agents/skills/<name>/``, with a ``SKILL.md`` entry point
->> +in the `Agent Skills format
->> +<https://agentskills.io/specification>`_. Read the relevant resource
->> +directly from its repository path. Links within a skill are relative to
->> +that skill's directory.
->
->Will this "solve" the issue where AGENTS.md is not present and so some
->do not actually read this file?  Or is that a separate issue that will
->be resolved with the symlink patch?
+On Thu, Oct 08, 2026 at 05:56:02PM -0700, Abdurrahman Hussain wrote:
+> Add the vendor prefix for TDK Corporation, the maker of the FS1412
+> point-of-load regulator.
+> 
+> Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
-It's a separate issue that will be resolved with the symlink patch.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-This patch will only allow us to add agent skills in-tree ("how do I add the
-correct Fixes: tag?" , "Do I need to tag this for stable@?" , ...).
+Best regards,
+Krzysztof
 
--- 
-Thanks,
-Sasha
