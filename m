@@ -1,86 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94224F30FE;
-	Fri,  9 Oct 2026 16:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586533B38B5;
+	Fri,  9 Oct 2026 16:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.35.192.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791563788; cv=none; b=UtK9w1tM7wbsVNJFUtoP0T0TZ7arr/M6YbvMUrlrPA7M7s0CyNb0dbonWJb/KgLzM+124vCBhfE5Fk7ilsgeAIN42yo1Zp+QhMeDumnkaTUcwyRwA7u1l/825vvDP45gLfSZUaIcrLJ9xwzXNtLq9KDzzTXbGi1M8SzxzYNEXn8=
+	t=1791564641; cv=none; b=SLRrPWUkmlX4mlw67vcfCm6Iwt86Ze+OWrROyJu3STvXrLLtETlh6BqI4/dLalHEBsLK717fKiYDo/s/O7kjAZeBEw23LOUkyGYOhryZIJpPpw4w+S9fMStV8WXiOhpMlEe3WXdlfJsZ9F1mcQKH0kmUrcxQlBXLRCaTLjTILtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791563788; c=relaxed/simple;
-	bh=tMO6b3aiEb4TwjQopVgaQRTIA5G9uFm2SlKp5jJQxoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qDMqs7+qzEIr6iS11je+R7C4WGEWNyNEFnjexgEiX+HtfAFNHu+zZvffhongXYukXBIs+L7CsuOPUVcM1TDR7SGMxjTobKnBaDDXmeBhGkgK8F27hEc2pRYnUkafpE2eUBqwDhIg1XzPuAr5Sr2ckFo1iES9HBAu/DlEYfJp1Pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OHliIY7C; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791564641; c=relaxed/simple;
+	bh=LIFsaO3fsvEhD6wKg9EfgPe8fhHtTQ9Cyr4ksp9R8xo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gp8DjzfzlgiI03eoSvrN2LgnSqZ7JTBGFQMAFHwtEhVjkKVdIsyQ2FuLQrkzVRTFTOKsPvh/JII2jI8H4lBaXu1CS/U8FAxF05qt7uOg9cSC8Czqe007goAD1oojq8E+K51Q3SISoYOQrcndEh/+BTeOkwMHxBzVRsw86OnASRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=fKiuW4Nm; arc=none smtp.client-ip=52.35.192.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OHliIY7C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A5941F000FF;
-	Fri,  9 Oct 2026 16:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791563782;
-	bh=FLCIB1FcuL1VxORbnyLrAoSq+yTqg5ybnZ2V+FGxcfM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OHliIY7Cvw7EseTXNWKN30qKeXuokOihdK1UHJXnUP1zypHui/Haj6INKUgfA/0Q/
-	 9fO+qQPc9TJhMeoC1nXh1KdLksi6pO9Lo7K3fA1RqVgC+w9tU8SmfpcvuMmQPfNXcq
-	 25h2Vtszqrd0FutV4Q+qHu07ZnN23bbIJRDqOLPeOm7F0pald7XXro39L7NjQ2sYIs
-	 7e+z6RxWmp3kTgYyrNzn9Xf3CZsPFkxsNAto6VTT179m0I46Ecqeb8xB7vLgG07AKe
-	 CzrVdknn1pQNmP46t5ii4TyOcnEl928wwe/lYFE9M7T7yg9v+iKxzAUD/lHpbTBdBH
-	 hGPzhcW6yEd8w==
-Date: Fri, 9 Oct 2026 19:36:17 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
-	ksummit@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	broonie@kernel.org, tytso@mit.edu
-Subject: Re: [PATCH 1/2] agents: add infrastructure for agent resources
-Message-ID: <20261009163617.GB11438@unreal>
-References: <cover.1791499378.git.sashal@kernel.org>
- <5dfafd6f79165526fe17774c55b553b7dfe4b3fe.1791499378.git.sashal@kernel.org>
- <20261009134025.GA11438@unreal>
- <asj4FCbBoca8TUK6@laps>
- <20261009-nebulous-prophetic-caiman-c7842c@lemur>
+	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="fKiuW4Nm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
+  t=1791564640; x=1823100640;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0kAPpWGj1DC84kxfJatA2C4pxii/3PkUflvl6jcTUWU=;
+  b=fKiuW4Nm58rJxOUYPRZ+PwjouBuQAzXpuzOt2wJkSrSY5b3n/XQJCacQ
+   /IM0aWVWJzKtjYlYzPdxF9d3wrRQAO5idMO2l18kamYTFcbPnUzz22+31
+   7oJMqoPrDuAKMysTpd3fRE2AaxQVdo2plktYhUYHDT+o5NfR48bJoef7o
+   OC1DZmEKdvgbp7tPeXmPiJWdhBiXdC7sO0RRaxl4GDBikUr025ZvtHUip
+   wR52RIg1XwhqQhbHBKVhYuNyrcpUKocyax+W2/JhOWiEhELbDgaNZFxgF
+   5HpytFVEbiysislftvsJ2gr8Ny+YuCoeUdWoKrdjgvARdokF5ZmObmS3q
+   w==;
+X-CSE-ConnectionGUID: f2UJQ553Tn23QdDbD8h91Q==
+X-CSE-MsgGUID: ATqxIQTtRLSTP+W/nH5mfA==
+X-IronPort-AV: E=Sophos;i="6.27,148,1787011200"; 
+   d="scan'208";a="30616529"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 16:50:37 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:25422]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.7.115:2525] with esmtp (Farcaster)
+ id 744db98d-fcae-4ba0-bbf3-9974e881881a; Fri, 9 Oct 2026 16:50:37 +0000 (UTC)
+X-Farcaster-Flow-ID: 744db98d-fcae-4ba0-bbf3-9974e881881a
+Received: from EX19D001UWA002.ant.amazon.com (10.13.138.236) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
+ Fri, 9 Oct 2026 16:50:36 +0000
+Received: from localhost (10.106.82.18) by EX19D001UWA002.ant.amazon.com
+ (10.13.138.236) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49; Fri, 9 Oct 2026
+ 16:50:36 +0000
+Date: Fri, 9 Oct 2026 18:50:33 +0200
+From: Roman Kagan <rkagan@amazon.de>
+To: Christian Loehle <christian.loehle@arm.com>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
+	<daniel.lezcano@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	<linux-pm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <nh-open-source@amazon.com>
+Subject: Re: [PATCH] cpuidle: Add the shallow governors
+Message-ID: <askbWVeX1pDtYC60@ub9ea591b72db54.ant.amazon.com>
+Mail-Followup-To: Roman Kagan <rkagan@amazon.de>,
+	Christian Loehle <christian.loehle@arm.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	nh-open-source@amazon.com
+References: <20261008-b4-cpuidle-shallow-v1-1-c19e71127b14@amazon.de>
+ <e18bd763-0d6d-4bfd-b59e-78f952c94aa2@arm.com>
+ <faf34e6e-ecd9-471a-b30e-3aa79e3ee063@arm.com>
+ <asjaR_aPwevvBw_O@ub9ea591b72db54.ant.amazon.com>
+ <2e635fc7-3d5c-4555-b92b-9e6e405f1b23@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20261009-nebulous-prophetic-caiman-c7842c@lemur>
+In-Reply-To: <2e635fc7-3d5c-4555-b92b-9e6e405f1b23@arm.com>
+X-ClientProxiedBy: EX19D031UWA004.ant.amazon.com (10.13.139.19) To
+ EX19D001UWA002.ant.amazon.com (10.13.138.236)
 
-On Fri, Oct 09, 2026 at 10:22:44AM -0400, Konstantin Ryabitsev wrote:
-> On Fri, Oct 09, 2026 at 10:20:04AM -0400, Sasha Levin wrote:
-> > > > +AGENT RESOURCES
-> > > > +M:	Sasha Levin <sashal@kernel.org>
-> > > > +L:	linux-kernel@vger.kernel.org
-> > > > +S:	Maintained
-> > > > +F:	agents/
-> > > 
-> > > If you choose a separate entry instead of adding this to the existing
-> > > "Documentation Process" entry, let's update the mailing list to
-> > > workflows@vger.kernel.org. This is where all process changes are announced.
+On Fri, Oct 09, 2026 at 01:45:40PM +0100, Christian Loehle wrote:
+> On 10/9/26 13:12, Roman Kagan wrote:
+> > On Thu, Oct 08, 2026 at 07:29:43PM +0100, Christian Loehle wrote:
+> >> On 10/8/26 19:17, Christian Loehle wrote:
+> >>> On 10/8/26 19:06, Roman Kagan wrote:
+> >>>> The idle states offered by a platform trade wakeup latency for energy
+> >>>> savings, and there are situations where the trade is not worth making:
+> >>>> while a latency-sensitive workload is running, or during a live update
+> >>>> via kexec, where everything from the outgoing kernel stopping the
+> >>>> workload to the incoming kernel resuming it is downtime, and deep idle
+> >>>> states may lengthen it.
+> >>>>
+> >>>> The mechanisms currently available for that are all one-way.
+> >>>> cpuidle.off=1, idle=poll and idle=halt can only be requested in the
+> >>>> kernel command line and cannot be undone, and the PM QoS interfaces
+> >>>> (/dev/cpu_dma_latency and the per-CPU pm_qos_resume_latency_us
+> >>>> attribute) can only be used once user space is up, so they cannot cover
+> >>>> the boot of the incoming kernel.
+> >>>
+> >>> You can also disable all but the shallowest idle state in sysfs:
+> >>> echo 1 > /sys/devices/system/cpu/cpuX/cpuidle/stateX/disable
+> >>>
+> >>
+> >> And I'd probably prefer having that exposed via the cmdline rather than
+> >> two separate governors...
 > > 
-> > Hm... What do you think Konstantin?
+> > Doing this cmdline configuration per-cpu per-state is non-realistic.  I
+> > guess you mean a single option that would express a policy, like "for
+> > all cpus in the system, disable all but the shallowest state" or "...
+> > all but the shallowest non-polling".  But policy is exactly what
+> > governors are for.
+> 
+> Yes, I had something like
+> cpuidle.max_exit_latency_us=<N>
+> in mind that then sets the disable attribute for the applicable states.
+> 
 > > 
-> > I remember the workflows@ list was originally created to share our
-> > secret/magical workflows, and I'm not sure that this one qualifies. We can
-> > start a new list too if it's easier.
+> > Why exactly does having two more separate simple, narrow-purpose
+> > governors sound wrong to you?
 > 
-> Eh. At this point I'm trying to shove everyone towards "just use dfn: queries
-> for your stuff, stop relying on actual 'lists'". I'd just leave it as
-> linux-kernel@vger, honestly, since the automated patch churn may annoy those
-> people on the workflows list that we actually want to keep there.
+> Because it's a lot of duplicate code we have to maintain (and the
+> documentation).
 
-Konstantin,
+Fair.  But then PM QoS model appears to fit better.  I'll see to
+reconcile it with the need to be able to set at boot and clear later.
 
-The "Documentation Process" entry already points to the workflow@ mailing list.
-Changes proposed in "AGENT RESOURCES" will affect everyone, so sending such
-important patches to LKML (/dev/null) does not seem right to me.
-
-Thanks
-
-> 
-> -K
+Thanks,
+Roman.
