@@ -1,66 +1,67 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9274503FA
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 22:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CDB3D669D
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 22:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791584801; cv=none; b=fKWcV0EchqvJOt+3FUuz8hRGmMEgtH0DVpmE3Tj0IbZyWzl+bDrWwU7fVnsY7kB83xr4i/oHS4Wfiysln0XbSaIBkhRSyL6cTaFv8lxXb9RpY1CaF3CcrFxi0uxwvevXu6cuhRgNY4pMg5bNcrKV/Ogpokgvd8i4It6iB3Dgsh8=
+	t=1791584802; cv=none; b=VK7wck2L2NpjH2n/HCbZgGGKNh9kVQlkXskdY1kk32BLGEz6IiccKqsaMh5N4GebUidx/T+jCW45Pae2anQ32daX4pAfn5Y9BhFjMy5DOJB2GKcDA5AV2/BEFH2rWElpwCZ2iV0GR26L9Ba5WFQdAjkW4mcczACJdxl9rMYpK68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791584801; c=relaxed/simple;
-	bh=To/N6sKAD/JUTbP1/yzbIz3c5H7WcyV26UjvmgEl9WI=;
+	s=arc-20240116; t=1791584802; c=relaxed/simple;
+	bh=KuiQ3IKUB2w9nXq1YX3MmqHIvFA2tKtv5n9Cp1iq7qA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uT1zuM0RRhGMcXY0Ioi1TzSStG83+2Lixx28++89GhIPGxRFcrCf1/xjGWsGKoRgce3gSAQlyriqyzvAytZbhIfVRoQbnEM77GukTrz+3kJYraFPwTwK/2zNNststiSjpD30tNWHA8jsZogZBXb5ManiNxesOTRx1s487XInguE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=F3FJbA61; arc=none smtp.client-ip=209.85.214.174
+	 In-Reply-To:To:Cc; b=mIWpbtI6jeq5t9E+GyUTO8qNrtkIX9/evpotzAZYNl7B2wXKrZkQV8qt34IWIWDKTNmJFkrVrWYUdvAwE/sfxuWD1GPti3oK0rTW3P8DLcJr//Ef5UpafYGv47t+41A0dr288eHXvjeYsMcV9rGvAdhu3TV65LqOfNLLQn51m4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=H1/cKE/2; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="F3FJbA61"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2e4af975346so1347715ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 15:26:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H1/cKE/2"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2df8c28a0b1so941175ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 15:26:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1791584799; x=1792189599; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MvdzzoNUmS3cRm++6obW+ZK5PMthoIQu11Q/B6OTMpM=;
-        b=F3FJbA611llD7M5Fym+v/csGgtk7YlyMS/perdq81TDF9QXpxd9JiENLHDCgy9rpSK
-         wUObdWpray+nzTtfVS3ryzlusHagFRnIQuc7I+KLyLdZMpu3JC1OV9blRo/CSmpyF1di
-         gV1d2mhI7rlto7/ZYhCkw+JYU/wQBcBB3hnXo=
+        bh=n5eNaZ9lIvV3v/dwCQY0Acm5f+QB1YMzWWisiwjAWsk=;
+        b=H1/cKE/2FGv/Bv8WHfilld0NlAKTUL095Vr6Y3cWSGhph1i5ZT9b20vqmABEF5M5bR
+         OcJjWgxNUPmDQyhfiADI9ws6xEhUr+GXFDG9HwCgzUgNNIhqqScYH14LXI9RWqSFINQR
+         gXUARLZMgkUWyBdluml5zL1S0EIejjvAMiEfI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1791584799; x=1792189599;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=MvdzzoNUmS3cRm++6obW+ZK5PMthoIQu11Q/B6OTMpM=;
-        b=p0R0EShPQsIWT04aXe1juBbho6D52K6jVSHuyJV+mP18HoqnFAIjwN4y6yaHAMPPNl
-         zuZAu6mIts/CAd3zUKbrtWqfhX/0PcryCvXgxsC9iiBcym7jJMNmV9LUiGtDy0Jqj/ra
-         A84YnOtbl/lKj6VLUgWpq9G2lMe3661JabKYTkLHeAEGn+d9A+ORR6fuwlPgy8mPZoBs
-         uasQXqapNKS76hVYb7HHGVUxVseTtfaEwKdCFnPjqfuumQ2Sr8Q4w2ksh3GFL50L3+U7
-         lK472dbVZ4fcSrWSjZ4RgHeeFGqDZ6gXp15MYUYGRgrsFgNmmrg9LgvX0NPmM5Aaucvg
-         /4/Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwj42rdfCWzZNgo0WP7AiMruW7ZB3E+ElMybbTXLWlZAEJImoWWASiWxoN+O3B0gDNmtdBRdQEYgj8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIaN0+pCjl/8VKvE9sxYlAGmFub3l0qtVDa2ZFPDOvuyFQ+ND5e
-	TOcgfT9v9lKs3ZRCz9Pw39aI375EYYv+eMRoaTwmUkhTv4bFJVNCckW4yQSkx/l7Ow==
-X-Gm-Gg: AYBFou1WxSbZVlWTUOEWOH4RV/6mtkeMhINQAHDW54uAKbx1/kl8x4MKPATGJe9HExl
-	BIlyMsAxVQX4VmMKcdtEsVbiR2WzLYW0LuDw+lmSIV9ocQkJTat8MfKGYWktOmbeT8Qs2y3A7Hm
-	I5+zt6xafXNZ2EcmU9aSPLzZt6tNXH0sgDXNOkiMCNtqLeLHY+u6Vr2zLFjF1ViruVl7IXiA/GA
-	YW0inmntMEZXeWBQT3A5nSVpuX1xpBdtrKRuEEHLMmfxezbIqXD/JiAyLqMPY56lIxP+FiLgHHo
-	JgxsDDFYjaY+YuI6Uf4ZEE2bj+bIHoBtB3yGB/wQhK2/fbAcdaJiL/VLstQvuQfTVBzitPieDbQ
-	WX8ycrzq/X91wiWruyLX3NDNAF+SmSW7GJ+tJgSm73tPq0+ZaeRBZhcG3KlbQpV6shl2Xe/zNKc
-	bJecLXG77hrKXTWqL98dt+5k2Hygd7c5eVda64swVyXIthw/njW2IYocUng6wVOCN9y/GR3y+MX
-	4ZAXsJb/7HSfM/muLgp+qD+9XApbaYyAOKC5V2/9yQncF6oy9fvcd0yfCdnVR04TKbVflyGARxl
-X-Received: by 2002:a17:902:c943:b0:2dd:c100:3133 with SMTP id d9443c01a7336-2e842f30fa7mr27271395ad.47.1791584799011;
+        bh=n5eNaZ9lIvV3v/dwCQY0Acm5f+QB1YMzWWisiwjAWsk=;
+        b=yAzCsQzOlA5uNFETzdTEPOPVg6vOfpZt/+UOUr++3tcFUKJeQnF7CC7CdTzj7OC2Ew
+         rGJ45W259ILP3xDPK/JBthtU/Wp/MkbIpKS9KiZCeNg+RGNYlgWqbTpUBT/pjvgjL+bx
+         eAzv4TXKvpbmBDsKP7sUhoaYpOrogjxO8gIdjUf8dIy8W5HGxMEt/ay/9g1GP4kcWD46
+         oq9pcRV8ZOw32BmKtdpVwxvs0jNoJwa//lsGv9V1cJ6t6pT1gsrF/QaDMFY/GQqrw/FE
+         S3HIhuQufrwdbW9gzNsAOAKBg8OdmeitBRrmUNOgjZafdDDReJFfIQcGTT4Py2rOYJK5
+         rodQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwR+8FnMGp5eWnyIGz1QJAgeNzF/UDLAT/suVwUI3U+7TcXCtvFry7KLhv5kTGf9SD2K6cSmVlWlJE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI1USj17RgUkrIktDBVK3mCLWiSozPU/Ch8WYRrZ+Re8G073Nrk
+	X+DqvuCW0KPHU2APFCEg7trHWOUejZyrdyWMRam6uBziU6eoGdouEoILRRjHmCtHVg==
+X-Gm-Gg: AYBFou1HPz5ngW1GMx+z0E1RfaWeU0Vu4gHf7a9XeW+0duHMG2iiJbqiCKGi/xWzHHh
+	dqumfXPeDVD5ImEybV2EA/JhSZfoC8kO/Mw133E+3XHM6+AE/5S5d7SGNJEnl6wEAKg9Hgjdo4T
+	8J760RVDKiZCUxsxNDBxL3cllsjFTxM2R+EIQ+sPU7ciqhmYW17jPtwkEigGDI5CQqM1p3AMnbw
+	+S4zTKeP/ptYtunZVzPOIb+wKu+J03Gzlq1kX9vnMVJ2vJJ95SN67wBHxai2lgVIg4fgH7pJnjY
+	xYqJVg9cwl6lzWeUcSSjkG1hPHpdRszpKM9KxpkvUsTXQNGiMDxWeLGW3KPgHhhqGMQjUsIPxW1
+	dm4Q4WuxpVd1C0gacVof00R/k5wJaWibgwOvTbn/7gaRYhFOqczskeZpVxAMgbSOU0+kQ+bVInr
+	V+uYBgYB/y+L61f5gaor35HBUOUI4IS6XJemwpqBxsBsXfEGw5lAWs6RwQgd09BbzFS3bbiYmHC
+	lmXw3Uqyd3wHvGxSBeCrmpds2JHijhRAvjWo9QjDEpH7tRK+NMT2eH3DTdhbMPXkqyt0szfbvzH
+	KA==
+X-Received: by 2002:a17:903:11cf:b0:2df:8aea:7d99 with SMTP id d9443c01a7336-2e842bc8073mr26181935ad.59.1791584799610;
         Fri, 09 Oct 2026 15:26:39 -0700 (PDT)
 Received: from jingyliang-input-linux.c.googlers.com (35.152.82.34.bc.googleusercontent.com. [34.82.152.35])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e84219e503sm16660725ad.17.2026.10.09.15.26.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e84219e503sm16660725ad.17.2026.10.09.15.26.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 15:26:38 -0700 (PDT)
+        Fri, 09 Oct 2026 15:26:39 -0700 (PDT)
 From: Jingyuan Liang <jingyliang@chromium.org>
-Date: Fri, 09 Oct 2026 22:25:26 +0000
-Subject: [PATCH v5 01/11] Documentation: Correction in HID output_report
- callback description.
+Date: Fri, 09 Oct 2026 22:25:27 +0000
+Subject: [PATCH v5 02/11] HID: Add BUS_SPI support and define
+ HID_SPI_DEVICE macro
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261009-send-upstream-v5-1-384af01da3ee@chromium.org>
+Message-Id: <20261009-send-upstream-v5-2-384af01da3ee@chromium.org>
 References: <20261009-send-upstream-v5-0-384af01da3ee@chromium.org>
 In-Reply-To: <20261009-send-upstream-v5-0-384af01da3ee@chromium.org>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
@@ -88,43 +89,58 @@ Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
  Jarrett Schultz <jaschultz@microsoft.com>, 
  Dmitry Antipov <dmanti@microsoft.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791584797; l=1256;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791584797; l=1445;
  i=jingyliang@chromium.org; s=20260213; h=from:subject:message-id;
- bh=aFkj0W7tNOjBci2pknGWJKhsT02OsUboxe/LcEHUTNI=;
- b=IbSutf0zd2qYpnyGDgn4KNESCycWkwDCX7TOGkSC6MXTFypJDD9VDtz+YmrNGl729DbFEHvvo
- LcNPMDv4SPaA4aOAuHecBFRmpXSqIJ+au1itt9MXiiW/Nq5XKf3Fj5g
+ bh=K9qWpa5CElybzpEomRWCeuxEJVuPby2HN/39jIN2wOY=;
+ b=DAEBq1NSgXCcSRGDgv7mTSvfFXvZQUxWlGT7XyleRhM2NYQY9lknT//0P6rdifesIsq82ZxJy
+ juVP+wOX5jeBzOvl9RenjkrrlGZi02gGUzA4gQiUAcSPO6BQhaniy5p
 X-Developer-Key: i=jingyliang@chromium.org; a=ed25519;
  pk=VTYSdqslTtYOjWWoIGgYoWupGWqNSidrggReKMgfPo4=
 
 From: Jarrett Schultz <jaschultz@microsoft.com>
 
-Originally output_report callback was described as must-be asynchronous,
-but that is not the case in some implementations, namely i2c-hid.
-Correct the documentation to say that it may be asynchronous.
+If connecting a hid_device with bus field indicating BUS_SPI print out
+"SPI" in the debug print.
+
+Macro sets the bus field to BUS_SPI and uses arguments to set vendor
+product fields.
 
 Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
 Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Tested-by: Dale Whinham <daleyo@gmail.com>
 Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
 ---
- Documentation/hid/hid-transport.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hid/hid-core.c | 3 +++
+ include/linux/hid.h    | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/Documentation/hid/hid-transport.rst b/Documentation/hid/hid-transport.rst
-index 6f1692da296c..2008cf432af1 100644
---- a/Documentation/hid/hid-transport.rst
-+++ b/Documentation/hid/hid-transport.rst
-@@ -327,8 +327,8 @@ The available HID callbacks are:
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index a3ff0514f9cd..1b9dbb7515ad 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -2373,6 +2373,9 @@ int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
+ 	case BUS_I2C:
+ 		bus = "I2C";
+ 		break;
++	case BUS_SPI:
++		bus = "SPI";
++		break;
+ 	case BUS_SDW:
+ 		bus = "SOUNDWIRE";
+ 		break;
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 8d17b741638c..45f713fe9982 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -821,6 +821,8 @@ struct hid_descriptor {
+ 	.bus = BUS_BLUETOOTH, .vendor = (ven), .product = (prod)
+ #define HID_I2C_DEVICE(ven, prod)				\
+ 	.bus = BUS_I2C, .vendor = (ven), .product = (prod)
++#define HID_SPI_DEVICE(ven, prod)				\
++	.bus = BUS_SPI, .vendor = (ven), .product = (prod)
  
-    Send raw output report via intr channel. Used by some HID device drivers
-    which require high throughput for outgoing requests on the intr channel. This
--   must not cause SET_REPORT calls! This must be implemented as asynchronous
--   output report on the intr channel!
-+   must not cause SET_REPORT calls! This call might be asynchronous, so the
-+   caller should not expect an immediate response!
- 
-    ::
- 
+ #define HID_REPORT_ID(rep) \
+ 	.report_type = (rep)
 
 -- 
 2.56.0.385.gd3acb90ef8-goog
