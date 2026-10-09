@@ -1,66 +1,66 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC07A509EFE
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 22:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86E3503BD7
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 22:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791584811; cv=none; b=qY7S4ARuSuqZUlnf9czojpNTV+D+QsKQCsGJfZJg8k2DWHsejsGxV9M53t1XMFAUujYSOf/ykYcG83VGcSZoX4zye2c0WhVnrAuY2vaHlCeqNLvPxdxeuPpVTCGGQjyPBgbHQUmwkZW3AjygQil0OrtIfVQXUdzHszGpXw5rH+E=
+	t=1791584811; cv=none; b=ad+6EawwtMgzTtCybg7T3vWIZAPDrMmydGKrMB1EdzSynMg6xBJ3HOUshCnsAhu/pkvQ0gdbfC4E1obxi+U11w1/LXx5vBv+y0Ai6vhadXszIQzAVquLVcXjQkhGS9As275QDkGE7dzXF4k80Kilx5wwqq1UCLbPG2hK01lm3zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791584811; c=relaxed/simple;
-	bh=72Nm2xPACBMza4dpmAjiF+9Mji7R6ngQlpvq8pPnER4=;
+	bh=WbdBJfp8+7Rjry8GQJ6Z1HrYPQJgIggBbwO6uZQzXuk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=V0jZCSuDqP/+UGKlWBp3uJiR8FOSAKxeBX78NR+bIOEENVVCUHudy6NnaRsfDtvX3+4DOhYPXcMl5bNJG19M2tldtty73EUI/fgleGnXR1QNVU5CMvbrEJyawsywUu23lmnTT09B+nCaP26KFIoNPn1DnGjNjk4x+iVS8w1c+7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BtGj9MVI; arc=none smtp.client-ip=209.85.214.178
+	 In-Reply-To:To:Cc; b=hTt7TOHffL5nvC/zYRI46CGGLjH0pmgCjQDuYHnN34dLntVNJ/ry6zURJ4AyDEPxk78STQhXX8x2xeg/4/lCgplTj+OUAx7wbJd6hci+3Dx2HiNrKoE0LohwferXPIbsKU2VssWMhUD29uN47J6UEt0/Davyyt+HyW69M00FDfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TpvWeqZG; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BtGj9MVI"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2e6038cebefso1574835ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 15:26:45 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TpvWeqZG"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2e608cd460eso975905ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 15:26:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1791584805; x=1792189605; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1791584803; x=1792189603; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=PBu3xWQl0zj63Pw/WrczlkLjQSRA1otgNmqx45WtYLU=;
-        b=BtGj9MVI65pUQpo0bBT4GquTh6PQF5U5JBMtgv79jVkAf+iQvZC2D6OJlhd19vRbRO
-         FBz60UDUX0GwJqbuR+oMqwG1LEt2cZ7bNy+OlePCapySx2UpZMou2fJ4A3j3r0eWB2lb
-         /T6a6y2/PZSf53ZuHjMfGIzrT+HbmTgczlhTQ=
+        bh=3WwsxxWRlg6RupoSWv1FviQVZva9S/r01tPGEo8srbc=;
+        b=TpvWeqZGXYIpck6VwJ/FlDwa4+hQAa3mbLLD762nmXzgJ3ue/LxICvy/J3tJ43ZIUq
+         hUldj6QhWsAKjL17ziAyFOiHFXgBDPUlwPDPpv/nbglAphThn5KYJz7fH26zcr26OM+0
+         uxobYz+7EvfGURt3Zu4a84tyU1fD3tExvnIuw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791584805; x=1792189605;
+        d=1e100.net; s=20260707; t=1791584803; x=1792189603;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PBu3xWQl0zj63Pw/WrczlkLjQSRA1otgNmqx45WtYLU=;
-        b=TOe1JQHjbojJ/m5g1KF3C0Ty6jPf+CVzxtr1zlKneQfUTszLreF9MCQ06Sz+C6KumS
-         XPkwB9K2n5ox3gO88Niq7GHhZJCSLm6uqJNz30Q42o+PVTlzsOU+slL//StXmmvmYMPX
-         895IAXZvHhe+ckWBj6+iKJOZIUfr093mreYeuR1329PjTcq4MiAbU4J0veNhqP6PMlQa
-         QJxQvESin9YLVTQ9GnmjrVADFklIywxMOV/vvsNSth6RBz7FvDs8d63ZAym2HmzrvtCh
-         P2wYnuiZpFaPRgKv0gRRgBob+cC9WimA4jeHG1ndr+aly/H4DVDB4Pu64CDqvruLilIU
-         H5gw==
-X-Forwarded-Encrypted: i=1; AKwUvBxNGKrDG6k1RHNr2EVe45sJVkqobbRq2XNAOeKdlGPbYu3+yv9InMdQh/mYSgAVgXRpA7NYT6NVsaQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLDUXMXjIKkmdDUkvXNerdq03ocTILPHPYrI8Xn7hRDjaj9WRlC
-	WG6/HASsrZU5KKAY7RH/Ho5T5phfIyMTRZDczqZafiYCZkxFvw5ATU4a0XrrEjGCBw==
-X-Gm-Gg: AYBFou3NXEHex4IxNDigu9lDQqpq8f5ge5F6Yad0ERtVquNzDT5N1KlqzbYDhtNtd7Z
-	4CvvVS7ic2Z5qWm/VqerXMfg7XNMkfArABVZid2T7za3kS2oKYcTXlZi8P8saMZ4/V4/6EW9JLo
-	tE2zvNs2VleNsg1N1euU150z/j2w386de9kXoQ9ZvPgdWdf1GIUows2oqIF/cD5V4FoAkka0jwv
-	H7KN5mX/yrIXSwo1RA0/gOG3Ep3ikbJ7uvyhnr87dhx25JQN0K4wBT3EOKAqpYo1o0tVjvCRrcC
-	/3xVlg5kzFGJjob+nyrMcLBxV2cS3Cv/ZjDp75J5VSXQpSN3OtMWiXAprjB1GrW7aimTsfAKkBB
-	ewXUogMLSWJKpsx5PqrOB4Fd0Rgz51OtReJB3mzWYAQHOHtlqqADyUanm4+XyM1mXNvXz37/LTo
-	qZ6qaOcINzJ0vdB4pQkhHf/mSpz6llKaP/kuhpBRHkR27/fDUpC63WHfoNIhE2Et9efPay+fFmr
-	UQKJj95R6X+bK8aLwXqfYRybTYToQX1MtA7S+DewGGNrIy6h0a/fCt8Umm1aM/fWZ8p1R8hfjdp
-X-Received: by 2002:a17:903:1585:b0:2dd:c100:9433 with SMTP id d9443c01a7336-2e842cd0d8dmr30724495ad.49.1791584805029;
-        Fri, 09 Oct 2026 15:26:45 -0700 (PDT)
+        bh=3WwsxxWRlg6RupoSWv1FviQVZva9S/r01tPGEo8srbc=;
+        b=o6TQQJstfFd3Lla/411ZicP/JJQA3kVa78uBI7FvQIt0ICrZ3Ll0H2glomwQbUGlDq
+         c/BrdE139dWeZlSgLZfbZH5kfUv5Z4kQuQBgDXuthUT+2DZIjT3I7eJPOytVjFC68Z5B
+         rmyI4IpJVD9ikrcgIjDJlCIwitv+gaBxWX/bKyn4UCFMC6KJ2LB7FoTs3Yr4NTtxZarP
+         NuBcuvRwucvcJiV3GTRrjhMQ9AQ/rpIkCw7DYbVjJVTwSMbk5OnoAkAteal2jqkPHw38
+         MiWLWWQc0aqSH29tdIpD8zBFYHZ77GBFPCAGJwUw08ApTEggWS7xSIGMZc7saUO2KGpH
+         DZIA==
+X-Forwarded-Encrypted: i=1; AKwUvBxH5qRCRIJNAHmPy1ZAEtxUD4ITYBZ0gSnaj2e11mv8J0EfFnQOp5GklkvF756/APeyhJt6sP738zY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLhRfKPm7SyIwjqIVKKj/Q9mWooWqtm4zx+KPM+JNBcBnYIlwLU
+	V1olT+Fmd3TikpWQHtO6vJoSQMbHrGk53m1Y0RQ/qjq/PNhVHsWkd9Bs9XeOgh52RQ==
+X-Gm-Gg: AYBFou0UcX/tFUamXJPer2uS+xcf7lZKaX4DSYzO4yNaJjtmrieezlEE+SeXWcZEmln
+	Hady5J6WDObBUa9KfZEz18ocZEg5TrFNaTXNKSN4Y4tnIj6HSrrZu+5U/vHp9dVaDx0Ts1VVfgA
+	OFR3Xzwmb4zS0Y+7TUtCcmd4hWyZysf3NZ3S28N6yAyO84UDRHGDCDPX2+9mem0zBAMC64KQMb/
+	nh459bfRd2ZOe+n1bnbwlazUZ2d9nXC9vk3UG/J8F3FIa1h4+vLETJAzPR2YwaXb6+FaqKvu+R7
+	p7Hb4p1djIRMstTNwlo0Jbv07PNbyAj782WgiFXDflnJbU5HDaFvjK4pW3CCR+gOqyd/Rfq4znT
+	E/oaRevWoSd7sk8EXVSwjT6fKXz7P0y3jkqFlvfPik/wt44AOWJ/wI0gp5lDXRpYtFEc+DvP1YM
+	EYBlI88Y2/kQ6fUor41qB7aawkv4AFMRBu0jkUbxB0GOqiN+8pv3EEXwtE3tniqn3DbY44GVxOS
+	UQKKgTglvJbVzqpAYz5u3C9+t2OW4SvzcI99StVGt+me7BE9Zz5oxuXgof/ws1Agt5vfBvqnijr
+	R8qEWv8x09Y=
+X-Received: by 2002:a17:902:ce84:b0:2e6:5ef:abe9 with SMTP id d9443c01a7336-2e8429addfcmr24339815ad.37.1791584802851;
+        Fri, 09 Oct 2026 15:26:42 -0700 (PDT)
 Received: from jingyliang-input-linux.c.googlers.com (35.152.82.34.bc.googleusercontent.com. [34.82.152.35])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e84219e503sm16660725ad.17.2026.10.09.15.26.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e84219e503sm16660725ad.17.2026.10.09.15.26.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 15:26:44 -0700 (PDT)
+        Fri, 09 Oct 2026 15:26:42 -0700 (PDT)
 From: Jingyuan Liang <jingyliang@chromium.org>
-Date: Fri, 09 Oct 2026 22:25:34 +0000
-Subject: [PATCH v5 09/11] dt-bindings: input: Document hid-over-spi DT
- schema
+Date: Fri, 09 Oct 2026 22:25:31 +0000
+Subject: [PATCH v5 06/11] HID: spi-hid: add spi_hid traces
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261009-send-upstream-v5-9-384af01da3ee@chromium.org>
+Message-Id: <20261009-send-upstream-v5-6-384af01da3ee@chromium.org>
 References: <20261009-send-upstream-v5-0-384af01da3ee@chromium.org>
 In-Reply-To: <20261009-send-upstream-v5-0-384af01da3ee@chromium.org>
 To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
@@ -85,167 +85,591 @@ Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
  hbarnor@chromium.org, tfiga@chromium.org, fqwqf@fqwqf.xyz, daleyo@gmail.com, 
  Jingyuan Liang <jingyliang@chromium.org>, 
- Dmitry Antipov <dmanti@microsoft.com>, 
- Jarrett Schultz <jaschultz@microsoft.com>
+ Dmitry Antipov <dmanti@microsoft.com>, Angela Czubak <acz@semihalf.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791584797; l=5021;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791584797; l=19082;
  i=jingyliang@chromium.org; s=20260213; h=from:subject:message-id;
- bh=72Nm2xPACBMza4dpmAjiF+9Mji7R6ngQlpvq8pPnER4=;
- b=XESZK185fOwWrPZ4glwRC6/Im76uCbwmPk+s0WAzP8HshRks8rpkdjeNqdiN4VhlVHpQ/yP9Z
- cSXImZpNeakDSGJtVH0n9pQLrL2+dFpcOYiDwHaQZJIqm4gvbyyQoaP
+ bh=WbdBJfp8+7Rjry8GQJ6Z1HrYPQJgIggBbwO6uZQzXuk=;
+ b=RS0c6vViBccrNe4uzpQf7nbKT7YZ4a/PN6KQaZL5MGG0eAoCT9gnOIUvZeEMYYGisB9nr757N
+ 56R52FYwh2/C0avlGfhp4whDMM8NAWQ2S2VgD4GtMpfe2sb58k82EwY
 X-Developer-Key: i=jingyliang@chromium.org; a=ed25519;
  pk=VTYSdqslTtYOjWWoIGgYoWupGWqNSidrggReKMgfPo4=
 
-Documentation describes the required and optional properties for
-implementing Device Tree for a Microsoft G6 Touch Digitizer that
-supports HID over SPI Protocol 1.0 specification.
-
-The properties are common to HID over SPI.
+Add traces for the purpose of debugging spi_hid driver.
 
 Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
-Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
+Signed-off-by: Angela Czubak <acz@semihalf.com>
 Tested-by: Dale Whinham <daleyo@gmail.com>
 Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
 ---
- .../devicetree/bindings/input/hid-over-spi.yaml    | 130 +++++++++++++++++++++
- 1 file changed, 130 insertions(+)
+ drivers/hid/spi-hid/Makefile        |   1 +
+ drivers/hid/spi-hid/spi-hid-core.c  | 132 ++++++++------------------
+ drivers/hid/spi-hid/spi-hid-core.h  | 109 +++++++++++++++++++++
+ drivers/hid/spi-hid/spi-hid-trace.h | 184 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 334 insertions(+), 92 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/hid-over-spi.yaml b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
+diff --git a/drivers/hid/spi-hid/Makefile b/drivers/hid/spi-hid/Makefile
+index 92e24cddbfc2..733e006df56e 100644
+--- a/drivers/hid/spi-hid/Makefile
++++ b/drivers/hid/spi-hid/Makefile
+@@ -7,3 +7,4 @@
+ 
+ obj-$(CONFIG_SPI_HID_CORE)	+= spi-hid.o
+ spi-hid-objs 			= spi-hid-core.o
++CFLAGS_spi-hid-core.o 		:= -I$(src)
+diff --git a/drivers/hid/spi-hid/spi-hid-core.c b/drivers/hid/spi-hid/spi-hid-core.c
+index 447ba178d5bf..83678e683581 100644
+--- a/drivers/hid/spi-hid/spi-hid-core.c
++++ b/drivers/hid/spi-hid/spi-hid-core.c
+@@ -44,6 +44,11 @@
+ #include <linux/wait.h>
+ #include <linux/workqueue.h>
+ 
++#include "spi-hid-core.h"
++
++#define CREATE_TRACE_POINTS
++#include "spi-hid-trace.h"
++
+ /* Protocol constants */
+ #define SPI_HID_READ_APPROVAL_CONSTANT		0xff
+ #define SPI_HID_INPUT_HEADER_SYNC_BYTE		0x5a
+@@ -86,13 +91,6 @@
+  */
+ #define SPI_HID_STARTED	6
+ 
+-/* Raw input buffer with data from the bus */
+-struct spi_hid_input_buf {
+-	u8 header[HIDSPI_INPUT_HEADER_SIZE];
+-	u8 body[HIDSPI_INPUT_BODY_HEADER_SIZE];
+-	u8 content[];
+-};
+-
+ /* Processed data from input report header */
+ struct spi_hid_input_header {
+ 	u8 version;
+@@ -109,12 +107,6 @@ struct spi_hid_input_report {
+ 	u8 *content;
+ };
+ 
+-/* Raw output report buffer to be put on the bus */
+-struct spi_hid_output_buf {
+-	u8 header[SPI_HID_OUTPUT_HEADER_LEN];
+-	u8 content[];
+-};
+-
+ /* Data necessary to send an output report */
+ struct spi_hid_output_report {
+ 	u8 report_type;
+@@ -123,19 +115,6 @@ struct spi_hid_output_report {
+ 	u8 *content;
+ };
+ 
+-/* Processed data from a device descriptor */
+-struct spi_hid_device_descriptor {
+-	u16 hid_version;
+-	u16 report_descriptor_length;
+-	u16 max_input_length;
+-	u16 max_output_length;
+-	u16 max_fragment_length;
+-	u16 vendor_id;
+-	u16 product_id;
+-	u16 version_id;
+-	u8 no_output_report_ack;
+-};
+-
+ /* struct spi_hid_conf - Conf provided to the core */
+ struct spi_hid_conf {
+ 	u32 input_report_header_address;
+@@ -161,72 +140,6 @@ struct spihid_ops {
+ 	void (*sleep_minimal_reset_delay)(struct spihid_ops *ops);
+ };
+ 
+-/* Driver context */
+-struct spi_hid {
+-	struct spi_device	*spi;	/* spi device. */
+-	struct hid_device	*hid;	/* pointer to corresponding HID dev. */
+-
+-	struct spi_transfer	input_transfer[2];	/* Transfer buffer for read and write. */
+-	struct spi_message	input_message;	/* used to execute a sequence of spi transfers. */
+-
+-	struct spihid_ops	*ops;
+-	struct spi_hid_conf	*conf;
+-
+-	struct spi_hid_device_descriptor desc;	/* HID device descriptor. */
+-	struct spi_hid_output_buf *output;	/* Output buffer. */
+-	struct spi_hid_input_buf *input;	/* Input buffer. */
+-	struct spi_hid_input_buf *response;	/* Response buffer. */
+-
+-	u16 response_length;
+-	u16 bufsize;
+-	/* Response type awaited by a sync request, 0 if none. Protected by io_lock. */
+-	u8 expected_response;
+-	/* Content ID of that request. Protected by io_lock. */
+-	u8 expected_content_id;
+-
+-	enum hidspi_power_state power_state;
+-
+-	u8 reset_attempts;	/* The number of reset attempts. */
+-
+-	unsigned long flags;	/* device flags. */
+-
+-	struct work_struct reset_work;
+-
+-	/*
+-	 * Serializes request/response transactions: held from sending a
+-	 * request until its response in shid->response has been consumed.
+-	 * Taken before io_lock.
+-	 */
+-	struct mutex output_lock;
+-	/* Power lock to make sure one power state change at a time. */
+-	struct mutex power_lock;
+-	/*
+-	 * Serializes SPI bus transfers (output writes vs. IRQ-thread reads) and
+-	 * protects shid->expected_response, updates to shid->desc and
+-	 * publication of shid->hid. Held only briefly and never while waiting
+-	 * for a response, since the IRQ thread needs it to deliver that
+-	 * response. Nests inside output_lock.
+-	 *
+-	 * It does not keep the hid_device alive: the IRQ must be quiesced with
+-	 * disable_irq() before the hid_device is destroyed.
+-	 */
+-	struct mutex io_lock;
+-
+-	struct completion output_done;
+-
+-	u32 report_descriptor_crc32;	/* HID report descriptor crc32 checksum. */
+-
+-	u32 regulator_error_count;
+-	int regulator_last_error;
+-	u32 bus_error_count;
+-	int bus_last_error;
+-	u32 dir_count;	/* device initiated reset count. */
+-
+-	/* DMA-safe transfer buffers */
+-	u8 read_approval_header[SPI_HID_READ_APPROVAL_LEN] ____cacheline_aligned;
+-	u8 read_approval_body[SPI_HID_READ_APPROVAL_LEN];
+-};
+-
+ static struct hid_ll_driver spi_hid_ll_driver;
+ 
+ static void spi_hid_populate_read_approvals(const struct spi_hid_conf *conf,
+@@ -309,6 +222,11 @@ static int spi_hid_input_sync(struct spi_hid *shid, void *buf, u16 length,
+ 	spi_message_init_with_transfers(&shid->input_message,
+ 					shid->input_transfer, 2);
+ 
++	/* rx_buf is not filled yet; received data is traced by *_complete. */
++	trace_spi_hid_input_sync(shid, shid->input_transfer[0].tx_buf,
++				 shid->input_transfer[0].len,
++				 shid->input_transfer[1].rx_buf, 0, 0);
++
+ 	error = spi_sync(shid->spi, &shid->input_message);
+ 	if (error) {
+ 		dev_err(&shid->spi->dev, "Error starting sync transfer: %d\n", error);
+@@ -367,6 +285,8 @@ static void spi_hid_error_handler(struct spi_hid *shid)
+ 	struct device *dev = &shid->spi->dev;
+ 	int error;
+ 
++	trace_spi_hid_error_handler(shid);
++
+ 	guard(mutex)(&shid->power_lock);
+ 	if (shid->power_state == HIDSPI_OFF)
+ 		return;
+@@ -544,6 +464,8 @@ static void spi_hid_reset_response(struct spi_hid *shid)
+ 	};
+ 	int error;
+ 
++	trace_spi_hid_reset_response(shid);
++
+ 	if (test_bit(SPI_HID_READY, &shid->flags)) {
+ 		dev_err(dev, "Spontaneous FW reset!\n");
+ 		clear_bit(SPI_HID_READY, &shid->flags);
+@@ -571,6 +493,8 @@ static int spi_hid_input_report_handler(struct spi_hid *shid,
+ 	int error = 0;
+ 
+ 	scoped_guard(mutex, &shid->io_lock) {
++		trace_spi_hid_input_report_handler(shid);
++
+ 		if (!test_bit(SPI_HID_READY, &shid->flags) ||
+ 		    !test_bit(SPI_HID_STARTED, &shid->flags) ||
+ 		    test_bit(SPI_HID_REFRESH_IN_PROGRESS, &shid->flags) || !shid->hid) {
+@@ -673,6 +597,8 @@ static int spi_hid_response_handler(struct spi_hid *shid,
+ 	}
+ 	shid->expected_response = 0;
+ 
++	trace_spi_hid_response_handler(shid);
++
+ 	shid->response_length = body->content_length;
+ 	if (body->report_type == REPORT_DESCRIPTOR_RESPONSE ||
+ 	    body->report_type == GET_FEATURE_RESPONSE) {
+@@ -736,6 +662,8 @@ static int spi_hid_create_device(struct spi_hid *shid)
+ 	struct device *dev = &shid->spi->dev;
+ 	int error;
+ 
++	trace_spi_hid_create_device(shid);
++
+ 	hid = hid_allocate_device();
+ 	error = PTR_ERR_OR_ZERO(hid);
+ 	if (error) {
+@@ -780,6 +708,8 @@ static void spi_hid_refresh_device(struct spi_hid *shid)
+ 	u32 new_crc32 = 0;
+ 	int error = 0;
+ 
++	trace_spi_hid_refresh_device(shid);
++
+ 	/* Keep shid->response stable until the CRC is computed. */
+ 	scoped_guard(mutex, &shid->output_lock) {
+ 		error = spi_hid_report_descriptor_request(shid);
+@@ -867,6 +797,8 @@ static int spi_hid_process_input_report(struct spi_hid *shid,
+ 	struct spi_hid_input_report body;
+ 	struct device *dev = &shid->spi->dev;
+ 
++	trace_spi_hid_process_input_report(shid);
++
+ 	spi_hid_populate_input_header(buf->header, &header);
+ 	spi_hid_input_report_prepare(buf, &body);
+ 
+@@ -1038,6 +970,9 @@ static irqreturn_t spi_hid_dev_irq(int irq, void *_shid)
+ 	struct spi_hid_input_header header;
+ 	int error = 0;
+ 
++	trace_spi_hid_dev_irq(shid, irq);
++	trace_spi_hid_header_transfer(shid);
++
+ 	scoped_guard(mutex, &shid->io_lock) {
+ 		if (shid->power_state == HIDSPI_OFF) {
+ 			dev_warn(dev, "Device is off, ignoring interrupt\n");
+@@ -1051,6 +986,13 @@ static irqreturn_t spi_hid_dev_irq(int irq, void *_shid)
+ 			return spi_hid_irq_error(shid);
+ 		}
+ 
++		trace_spi_hid_input_header_complete(shid,
++						    shid->input_transfer[0].tx_buf,
++						    shid->input_transfer[0].len,
++						    shid->input_transfer[1].rx_buf,
++						    shid->input_transfer[1].len,
++						    shid->input_message.status);
++
+ 		if (shid->input_message.status < 0) {
+ 			dev_warn(dev, "Error reading header: %d\n",
+ 				 shid->input_message.status);
+@@ -1082,6 +1024,12 @@ static irqreturn_t spi_hid_dev_irq(int irq, void *_shid)
+ 			return spi_hid_irq_error(shid);
+ 		}
+ 
++		trace_spi_hid_input_body_complete(shid, shid->input_transfer[0].tx_buf,
++						  shid->input_transfer[0].len,
++						  shid->input_transfer[1].rx_buf,
++						  shid->input_transfer[1].len,
++						  shid->input_message.status);
++
+ 		if (shid->input_message.status < 0) {
+ 			dev_warn(dev, "Error reading body: %d\n",
+ 				 shid->input_message.status);
+diff --git a/drivers/hid/spi-hid/spi-hid-core.h b/drivers/hid/spi-hid/spi-hid-core.h
 new file mode 100644
-index 000000000000..2a5fa0868a09
+index 000000000000..1d8356f787f3
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
-@@ -0,0 +1,130 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/hid-over-spi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/hid/spi-hid/spi-hid-core.h
+@@ -0,0 +1,109 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2021 Microsoft Corporation
++ * Copyright (c) 2026 Google LLC
++ */
 +
-+title: HID over SPI Devices
++#ifndef SPI_HID_CORE_H
++#define SPI_HID_CORE_H
 +
-+maintainers:
-+  - Benjamin Tissoires <benjamin.tissoires@redhat.com>
-+  - Jiri Kosina <jkosina@suse.cz>
-+  - Jingyuan Liang <jingyliang@chromium.org>
++#include <linux/hid-over-spi.h>
++#include <linux/spi/spi.h>
 +
-+description: |+
-+  HID over SPI provides support for various Human Interface Devices over the
-+  SPI bus. These devices can be for example touchpads, keyboards, touch screens
-+  or sensors.
++/* Protocol message size constants */
++#define SPI_HID_READ_APPROVAL_LEN		5
++#define SPI_HID_OUTPUT_HEADER_LEN		8
 +
-+  The specification has been written by Microsoft and is currently available
-+  here: https://www.microsoft.com/en-us/download/details.aspx?id=103325
++/* Raw input buffer with data from the bus */
++struct spi_hid_input_buf {
++	u8 header[HIDSPI_INPUT_HEADER_SIZE];
++	u8 body[HIDSPI_INPUT_BODY_HEADER_SIZE];
++	u8 content[];
++};
 +
-+  The HID over SPI specification does not define fixed values for the
-+  read/write opcodes and the input/output report addresses. The host
-+  retrieves them from platform firmware (ACPI _DSM), and they differ
-+  between devices. These properties provide the same values on Device
-+  Tree systems, so devices that fully comply with the specification work
-+  with the "hid-over-spi" fallback compatible.
++/* Raw output report buffer to be put on the bus */
++struct spi_hid_output_buf {
++	u8 header[SPI_HID_OUTPUT_HEADER_LEN];
++	u8 content[];
++};
 +
-+allOf:
-+  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++/* Processed data from a device descriptor */
++struct spi_hid_device_descriptor {
++	u16 hid_version;
++	u16 report_descriptor_length;
++	u16 max_input_length;
++	u16 max_output_length;
++	u16 max_fragment_length;
++	u16 vendor_id;
++	u16 product_id;
++	u16 version_id;
++	u8 no_output_report_ack;
++};
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - microsoft,g6-touch-digitizer
-+      - const: hid-over-spi
++/* Driver context */
++struct spi_hid {
++	struct spi_device	*spi;	/* spi device. */
++	struct hid_device	*hid;	/* pointer to corresponding HID dev. */
 +
-+  reg:
-+    maxItems: 1
++	struct spi_transfer	input_transfer[2];	/* Transfer buffer for read and write. */
++	struct spi_message	input_message;	/* used to execute a sequence of spi transfers. */
 +
-+  interrupts:
-+    maxItems: 1
++	struct spihid_ops	*ops;
++	struct spi_hid_conf	*conf;
 +
-+  reset-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO specifier for the device's reset line. The HID over SPI
-+      specification requires a dedicated, host-driven, active-low reset
-+      line. The line must be flagged with GPIO_ACTIVE_LOW.
++	struct spi_hid_device_descriptor desc;	/* HID device descriptor. */
++	struct spi_hid_output_buf *output;	/* Output buffer. */
++	struct spi_hid_input_buf *input;	/* Input buffer. */
++	struct spi_hid_input_buf *response;	/* Response buffer. */
 +
-+  vdd-supply:
-+    description:
-+      Regulator for the VDD supply voltage.
++	u16 response_length;
++	u16 bufsize;
++	/* Response type awaited by a sync request, 0 if none. Protected by io_lock. */
++	u8 expected_response;
++	/* Content ID of that request. Protected by io_lock. */
++	u8 expected_content_id;
 +
-+  input-report-header-address:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 0xffffff
-+    description:
-+      A value to be included in the Read Approval packet, listing an address of
-+      the input report header to be put on the SPI bus. This address has 24
-+      bits.
++	enum hidspi_power_state power_state;
 +
-+  input-report-body-address:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 0xffffff
-+    description:
-+      A value to be included in the Read Approval packet, listing an address of
-+      the input report body to be put on the SPI bus. This address has 24 bits.
++	u8 reset_attempts;	/* The number of reset attempts. */
 +
-+  output-report-address:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 0
-+    maximum: 0xffffff
-+    description:
-+      A value to be included in the Output Report sent by the host, listing an
-+      address where the output report on the SPI bus is to be written to. This
-+      address has 24 bits.
++	unsigned long flags;	/* device flags. */
 +
-+  read-opcode:
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    description:
-+      Value to be used in Read Approval packets. 1 byte.
++	struct work_struct reset_work;
 +
-+  write-opcode:
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    description:
-+      Value to be used in Output Report packets. 1 byte.
++	/*
++	 * Serializes request/response transactions: held from sending a
++	 * request until its response in shid->response has been consumed.
++	 * Taken before io_lock.
++	 */
++	struct mutex output_lock;
++	/* Power lock to make sure one power state change at a time. */
++	struct mutex power_lock;
++	/*
++	 * Serializes SPI bus transfers (output writes vs. IRQ-thread reads) and
++	 * protects shid->expected_response, updates to shid->desc and
++	 * publication of shid->hid. Held only briefly and never while waiting
++	 * for a response, since the IRQ thread needs it to deliver that
++	 * response. Nests inside output_lock.
++	 *
++	 * It does not keep the hid_device alive: the IRQ must be quiesced with
++	 * disable_irq() before the hid_device is destroyed.
++	 */
++	struct mutex io_lock;
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - reset-gpios
-+  - vdd-supply
-+  - input-report-header-address
-+  - input-report-body-address
-+  - output-report-address
-+  - read-opcode
-+  - write-opcode
++	struct completion output_done;
 +
-+unevaluatedProperties: false
++	u32 report_descriptor_crc32;	/* HID report descriptor crc32 checksum. */
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/gpio/gpio.h>
++	u32 regulator_error_count;
++	int regulator_last_error;
++	u32 bus_error_count;
++	int bus_last_error;
++	u32 dir_count;	/* device initiated reset count. */
 +
-+    spi {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
++	/* DMA-safe transfer buffers */
++	u8 read_approval_header[SPI_HID_READ_APPROVAL_LEN] ____cacheline_aligned;
++	u8 read_approval_body[SPI_HID_READ_APPROVAL_LEN];
++};
 +
-+      hid@0 {
-+        compatible = "microsoft,g6-touch-digitizer", "hid-over-spi";
-+        reg = <0x0>;
-+        interrupts-extended = <&gpio 42 IRQ_TYPE_EDGE_FALLING>;
-+        reset-gpios = <&gpio 27 GPIO_ACTIVE_LOW>;
-+        vdd-supply = <&pm8350c_l3>;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&ts_d6_int_bias>;
-+        input-report-header-address = <0x1000>;
-+        input-report-body-address = <0x1004>;
-+        output-report-address = <0x2000>;
-+        read-opcode = /bits/ 8 <0x0b>;
-+        write-opcode = /bits/ 8 <0x02>;
-+      };
-+    };
++#endif /* SPI_HID_CORE_H */
+diff --git a/drivers/hid/spi-hid/spi-hid-trace.h b/drivers/hid/spi-hid/spi-hid-trace.h
+new file mode 100644
+index 000000000000..a36e07b95001
+--- /dev/null
++++ b/drivers/hid/spi-hid/spi-hid-trace.h
+@@ -0,0 +1,184 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2021 Microsoft Corporation
++ */
++
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM spi_hid
++
++#if !defined(_SPI_HID_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _SPI_HID_TRACE_H
++
++#include <linux/types.h>
++#include <linux/tracepoint.h>
++#include "spi-hid-core.h"
++
++/*
++ * Maximum number of tx/rx bytes copied into the ring buffer per event. This
++ * matches the most %*ph will print, keeps events small, and ensures the copy
++ * never depends on the caller-supplied length fitting inside the buffer.
++ */
++#define SPI_HID_TRACE_BUF_MAX	64
++
++DECLARE_EVENT_CLASS(spi_hid_transfer,
++	TP_PROTO(struct spi_hid *shid, const void *tx_buf, int tx_len,
++		 const void *rx_buf, u16 rx_len, int ret),
++
++	TP_ARGS(shid, tx_buf, tx_len, rx_buf, rx_len, ret),
++
++	TP_STRUCT__entry(
++		__field(int, bus_num)
++		__field(int, chip_select)
++		__field(int, ret)
++		__field(int, tx_len)
++		__field(u16, rx_len)
++		__dynamic_array(u8, rx_buf,
++				min_t(u16, rx_len, SPI_HID_TRACE_BUF_MAX))
++		__dynamic_array(u8, tx_buf,
++				min_t(int, tx_len, SPI_HID_TRACE_BUF_MAX))
++	),
++
++	TP_fast_assign(
++		__entry->bus_num = shid->spi->controller->bus_num;
++		__entry->chip_select = spi_get_chipselect(shid->spi, 0);
++		__entry->ret = ret;
++		__entry->tx_len = tx_len;
++		__entry->rx_len = rx_len;
++
++		memcpy(__get_dynamic_array(tx_buf), tx_buf,
++		       __get_dynamic_array_len(tx_buf));
++		memcpy(__get_dynamic_array(rx_buf), rx_buf,
++		       __get_dynamic_array_len(rx_buf));
++	),
++
++	TP_printk("spi%d.%d: len=%d tx=[%*phD] rx=[%*phD] --> %d",
++		  __entry->bus_num, __entry->chip_select,
++		  __entry->tx_len + __entry->rx_len,
++		  __get_dynamic_array_len(tx_buf), __get_dynamic_array(tx_buf),
++		  __get_dynamic_array_len(rx_buf), __get_dynamic_array(rx_buf),
++		  __entry->ret)
++);
++
++DEFINE_EVENT(spi_hid_transfer, spi_hid_input_sync,
++	     TP_PROTO(struct spi_hid *shid, const void *tx_buf, int tx_len,
++		      const void *rx_buf, u16 rx_len, int ret),
++	     TP_ARGS(shid, tx_buf, tx_len, rx_buf, rx_len, ret));
++
++DEFINE_EVENT(spi_hid_transfer, spi_hid_input_header_complete,
++	     TP_PROTO(struct spi_hid *shid, const void *tx_buf, int tx_len,
++		      const void *rx_buf, u16 rx_len, int ret),
++	     TP_ARGS(shid, tx_buf, tx_len, rx_buf, rx_len, ret));
++
++DEFINE_EVENT(spi_hid_transfer, spi_hid_input_body_complete,
++	     TP_PROTO(struct spi_hid *shid, const void *tx_buf, int tx_len,
++		      const void *rx_buf, u16 rx_len, int ret),
++	     TP_ARGS(shid, tx_buf, tx_len, rx_buf, rx_len, ret));
++
++DECLARE_EVENT_CLASS(spi_hid_irq,
++	TP_PROTO(struct spi_hid *shid, int irq),
++
++	TP_ARGS(shid, irq),
++
++	TP_STRUCT__entry(
++		__field(int, bus_num)
++		__field(int, chip_select)
++		__field(int, irq)
++	),
++
++	TP_fast_assign(
++		__entry->bus_num = shid->spi->controller->bus_num;
++		__entry->chip_select = spi_get_chipselect(shid->spi, 0);
++		__entry->irq = irq;
++	),
++
++	TP_printk("spi%d.%d: IRQ %d",
++		  __entry->bus_num, __entry->chip_select, __entry->irq)
++);
++
++DEFINE_EVENT(spi_hid_irq, spi_hid_dev_irq,
++	     TP_PROTO(struct spi_hid *shid, int irq), TP_ARGS(shid, irq));
++
++DECLARE_EVENT_CLASS(spi_hid,
++	TP_PROTO(struct spi_hid *shid),
++
++	TP_ARGS(shid),
++
++	TP_STRUCT__entry(
++		__field(int, bus_num)
++		__field(int, chip_select)
++		__field(int, power_state)
++		__field(u32, flags)
++
++		__field(int, vendor_id)
++		__field(int, product_id)
++		__field(int, max_input_length)
++		__field(int, max_output_length)
++		__field(u16, hid_version)
++		__field(u16, report_descriptor_length)
++		__field(u16, version_id)
++	),
++
++	TP_fast_assign(
++		__entry->bus_num = shid->spi->controller->bus_num;
++		__entry->chip_select = spi_get_chipselect(shid->spi, 0);
++		__entry->power_state = shid->power_state;
++		__entry->flags = shid->flags;
++
++		__entry->vendor_id = shid->desc.vendor_id;
++		__entry->product_id = shid->desc.product_id;
++		__entry->max_input_length = shid->desc.max_input_length;
++		__entry->max_output_length = shid->desc.max_output_length;
++		__entry->hid_version = shid->desc.hid_version;
++		__entry->report_descriptor_length =
++					shid->desc.report_descriptor_length;
++		__entry->version_id = shid->desc.version_id;
++	),
++
++	TP_printk("spi%d.%d: (%04x:%04x v%d) HID v%d.%d state p:%d len i:%d o:%d r:%d flags 0x%08x",
++		  __entry->bus_num, __entry->chip_select,
++		  __entry->vendor_id, __entry->product_id, __entry->version_id,
++		  __entry->hid_version >> 8, __entry->hid_version & 0xff,
++		  __entry->power_state,	__entry->max_input_length,
++		  __entry->max_output_length, __entry->report_descriptor_length,
++		  __entry->flags)
++);
++
++DEFINE_EVENT(spi_hid, spi_hid_header_transfer, TP_PROTO(struct spi_hid *shid),
++	     TP_ARGS(shid));
++
++DEFINE_EVENT(spi_hid, spi_hid_process_input_report,
++	     TP_PROTO(struct spi_hid *shid), TP_ARGS(shid));
++
++DEFINE_EVENT(spi_hid, spi_hid_input_report_handler,
++	     TP_PROTO(struct spi_hid *shid), TP_ARGS(shid));
++
++DEFINE_EVENT(spi_hid, spi_hid_reset_response, TP_PROTO(struct spi_hid *shid),
++	     TP_ARGS(shid));
++
++DEFINE_EVENT(spi_hid, spi_hid_create_device, TP_PROTO(struct spi_hid *shid),
++	     TP_ARGS(shid));
++
++DEFINE_EVENT(spi_hid, spi_hid_refresh_device, TP_PROTO(struct spi_hid *shid),
++	     TP_ARGS(shid));
++
++DEFINE_EVENT(spi_hid, spi_hid_response_handler, TP_PROTO(struct spi_hid *shid),
++	     TP_ARGS(shid));
++
++DEFINE_EVENT(spi_hid, spi_hid_error_handler, TP_PROTO(struct spi_hid *shid),
++	     TP_ARGS(shid));
++
++#endif /* _SPI_HID_TRACE_H */
++
++/*
++ * The following must be outside the protection of the above #if block.
++ */
++#undef TRACE_INCLUDE_PATH
++#undef TRACE_INCLUDE_FILE
++#define TRACE_INCLUDE_PATH .
++
++/*
++ * It is required that the TRACE_INCLUDE_FILE be the same
++ * as this file without the ".h".
++ */
++#define TRACE_INCLUDE_FILE spi-hid-trace
++#include <trace/define_trace.h>
 
 -- 
 2.56.0.385.gd3acb90ef8-goog
