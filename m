@@ -1,67 +1,68 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E379344021
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 20:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D94A3E63A2
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 20:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791578838; cv=none; b=SuXQpdrhq8K4hH7FhNMK/yBNsz5Zfn8Gt74j6nHHugDeXAfFbRwdfLKUS1VZ8jErT6gLuxoTmz41yX/RBdaF9Ptvps60yEZS45pNkoyB5l8qzuEHZwQ6XxOR8ND6GqMGhx+iSlyDSfXkgCKE3rAbJO/Z/wpRLgnHED6uM9C13ag=
+	t=1791578839; cv=none; b=fzCdFHHzdiO2VekEQhRA1ekvXb1xLPnDKEFCFSJIpx9E3AShA/WQZyB+SqB+SGKI2XZJ6Z5eZMah9gNcYKJk/3jNDTp1evQlceRcxdy6OL6gAyEMT+g1OMqNEqhYkm5pGjT3n9TzlvURqbXzt+77IDTInzKwHsMYnRFkQfopC9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791578838; c=relaxed/simple;
-	bh=OePpKhBXmJC78+A1HXEYYCJqFBEywwH+gx8tEf8w0Dw=;
+	s=arc-20240116; t=1791578839; c=relaxed/simple;
+	bh=LBwl+SzL4uAe4dJCVrnFKcpS3FQeoy1u1iGROM2mTIs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HqSU0iCVFdSFGaQ8XjtG3LmiHyQytdLp5RJ8Q9hwOttQi2b+aK74K0jQ8IGLkN0doUpkW9HoyQZEf/fFv5zSLt11IdJE/105GwOdHGZHSX5nJbIu2/akWNCyl0M31EHwCV8DJCfQKXsKLU5ab6r53Acx3G26fM7hkrK3E7eBBCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMns8kvU; arc=none smtp.client-ip=209.85.161.49
+	 In-Reply-To:To:Cc; b=BUmu8schO3EksRjTKMUK6nqMFs1/VdvD3w4pr70lGNA/yUpKpPxeeutVa5cpsk3SqzGIj083aH496oUpEWQVtJa37Qnt/R6zmcQP9EuO3qL3d5mf6o22DbQJjFAhOLb22PhGcTO/MwnvV2ypa7lh+UHrnpSfKfSvgaB1/u22eVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UNtxPOLJ; arc=none smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMns8kvU"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-6dd7070699eso198264eaf.3
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 13:47:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UNtxPOLJ"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-828f4eeba13so173705a34.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 13:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791578833; x=1792183633; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791578836; x=1792183636; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5ogejZwGA6axWkGqBQEcMQILJ70+KH5RvMyJjg3ijBI=;
-        b=PMns8kvUpP91KVWP12TuRI744ZPKvqaFZhachOofwdpSC3iPzeXcLuqX2QUCShRn/Y
-         8oMY33SzAh1zS3ZCdqtH1+z6xkleblvcfTpp3XZ6Ced3696zadS8htKWvYn0I8xhBcTl
-         XYN3iBZeXQYrzQgklQOjBS4Vc/7V0C0TUr6WFB/U7Wm/6cHnRP+iqFQkacsXxm3HsYbN
-         Kjc+XK8XWYRcTNofkOcwDQVSiNgFLOuLsMCvw9z+84AKi1UbyH+YuOqjmgIieVLODuw0
-         8eDVivxOJK8Tcux8wgTv+tQZNwvdcTAWniat8JYN9s2JeUtopoTvGHa0kL8kzMvCsnMs
-         9KqA==
+        bh=rkPDFYijzQZJ2NGaKP+B4N2cwOmAwTIMH1IeAG6Lc2Y=;
+        b=UNtxPOLJZfM0oJ4th9IJfabEiQJssKNwXnM3t/hCUDh22zqDfLVndDrhHLG/10NcmD
+         4Ob2slwhVQKkfjayiGwtEL2vEoGvgkXlLLqWoAI5NnQnDu96Y/cLLCR1v3Dy6wbBcrPq
+         ol4wap2uwpOWNqCOE2VBc10d/u6e9SWLZdKVeve1TVUIaBCWgSY0CAK09afrM7S83sme
+         ttO9s0tEai6PfSxRSCSJQmvBinAWLmgviWClXWoGhAU/kkWPWvlrHTZoE5aomLSbBrDa
+         1PnkL+Yg7jem0btdlGq4CsaZ103wSAz3k/3CZtBz5AIrDW6oEnmnTIJT7rlX61RKicq0
+         sRlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791578833; x=1792183633;
+        d=1e100.net; s=20260707; t=1791578836; x=1792183636;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5ogejZwGA6axWkGqBQEcMQILJ70+KH5RvMyJjg3ijBI=;
-        b=EKISdMw1s81ssR8y3j9RvKaWMQ+UqKzHi/GOM8zsEdZRnZSq60RJdrvsCjf2v5jotY
-         VMaS4RWFjUYaocQtU2T59Ma7C8tmq8hsBUXKa48AKXPJYlKTyVGCz2PMFNVNDR/OKR+8
-         4xBfFkyGBeOkUjvVmB0zGyMFZRl7bmc6muGQDTA5SXnFDKYBBrMejSkatFJJrdnpn5Ne
-         91FJaEH2DX3TsM3djhu5d2iR+4z2ymAzbbFygWGnKrQ9BteYXeiT7rR/wGYGmnSpj8bl
-         fCBxypuoIMfdswQXq60XV0YHdjTh3xpIDPdX/DWO1Sn22uUVv01eygSNqCVsuqGvcdGj
-         I7Cw==
-X-Forwarded-Encrypted: i=1; AKwUvBxSHc0u4RpEW17RMgAaUb42iLk9wEhnJPlO9iMtQ7Z4w53rNtgnK21m4JkeJ8LFuSZaIP5gouWI/cs=@vger.kernel.org
-X-Gm-Message-State: AFuF++nxblbE0dJsQsbclJzFppIyyqI/66sIzrHCVp9uLuUhVvXtfMvT
-	hlIVy2qaGsFZLpudzIY0vxU9sMq8JThp6b2lZAiGpGw2EWYIOgZD4slL
-X-Gm-Gg: AYBFou0lDJd+crWfgi4GWprBNc3gDBQFEq+kD/EEwyB5TCsmlzOXWftkb/N6chrtZJS
-	hMALIGcnQyrkZX4cAk0ZjdTzDSP3Cdiy2Cbadam5F3Dn/kCKGNNdZ4iEDjt9qicR9mbN+wC/mWa
-	nRe0L5YoZmy3I8RdHS7oQ8TjM8Hgmht9qOdduc63oPfdpGS0l8eL+POjW2DrZxSUlxZNMxr4E/b
-	6dxsZVdYIq4/tLKcoaa3+0x8CDAcSTm4CI7IpdVIlzSc3rN3v0/nd+8222NMcFh5T7fCcWx5n/w
-	v+MMKIcBcvRvVz5I0Xjzlcv3r3FrHRb2Nf0vfU+BS38+fdxdvzHKqxqj4DRS+ncZXX8qknS1nOp
-	369zWZ/t4twA3Iy3Ld7PxtmWvXvq1UCy4nO3AQyuvoWScM2PGpy1xN4GLXTJ7BEqahLY9eBbN5c
-	QBh4pFcoIHl/4w2GxFmvI1230SWfr2TZ3wqkSGWKfQkaIwfuWvKkI6y6FUehruHBd3g20=
-X-Received: by 2002:a05:6820:4de8:b0:6c4:6699:53b7 with SMTP id 006d021491bc7-6ef10e74e14mr2264921eaf.52.1791578832624;
-        Fri, 09 Oct 2026 13:47:12 -0700 (PDT)
-Received: from localhost ([2a03:2880:30ff:7::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-830385ba23csm2799808a34.7.2026.10.09.13.47.10
+        bh=rkPDFYijzQZJ2NGaKP+B4N2cwOmAwTIMH1IeAG6Lc2Y=;
+        b=zeQ95AV8HpBO2erCj2LZqIpnicyg9NdLMO23DbgUhEJY2Aq07lWRFlDxK6RtNCZMH/
+         6XggCnCcBQnzPdgEVCy8gWGcwCcy6dcHXylPSxsPzSndCJVggIFSTQKxwyGDOhagsm7o
+         1ct+gQ/eAW+wstuFHgaXNO34/WmfJveidDlWkqaaKlVSvHGwD9czMk0roOOgE7fc6zBN
+         +R0qfBub7EqjmtSNdG3x6x2C+y1Yo7eNOifNBDWf3IAIkFFlZTvzmHaV9R4+snDtW7+4
+         3j7PliYDckmVrrGXPjbL9sW2oY67T2DyjaFoxAqKow4t9VcAwSVSkxYoQznA+8pgR6pT
+         JkHw==
+X-Forwarded-Encrypted: i=1; AKwUvBx5m2n2q1A3Z/h5LCmn06AtN/W0gcjHsVIww2/5mG7MCCRJU7OCj+z3cZ12MvoUepkrE6Mv1OzYuDI=@vger.kernel.org
+X-Gm-Message-State: AFuF++lLMrXpPVIetsdfZ7Bqr+z2LVNRQpkblsuZe/981Jbcz7asf/Q9
+	eMviw0BFjR2C0fqKFOAqqCHYJHMN1ZqhNsI+bc8FPKV1moBnqeP6Uc55
+X-Gm-Gg: AYBFou0b29HE7X4ohBD/eF4nEtBaztX2L/zn+O7WVTBK+mldIA4JrVizK9u6ghrh3kB
+	FVTWvYqoC8gohZ6id5C7a3QsAWj8sywqHwFupb2A51s48gY1srP3/CCjHSp30OaHHZU0SyBSQGM
+	RJeydSBOZfHbkQeoWVS5jxtfx7k5alm99vpbdIfWDKiqmsTEym0M83etkW18lbSneMLvP6A1c4P
+	f3DD1/5prVu7uaWCqsfrDqBYnitXtaX3Vy7JpeO03l5r/IcD3WbqW0xqee5LWvQxryfZIOTUtsq
+	3z57e8IZoEYT8GpYDq6mr4hpRCN6KDdWEvV10WEUkuNeePEmvFWlUcW1WVuJtwuVlzvBXFDFMvG
+	cYQ4CM7Yz1dv32sP/6NeiB/dTfzDLEBCgp4qE7srzBuzULWfhO8KcdpB1dfbUYCspLVc301ZoEw
+	Hzq2tAYcQyELqi5JhKy+bXkDYs87kS1b7ZzeDIkYJ0XskKBk5jfY4pNat/qWx3tHaXVmw=
+X-Received: by 2002:a05:6830:6d45:b0:822:978:f7bd with SMTP id 46e09a7af769-8309815eac7mr2560571a34.28.1791578836162;
+        Fri, 09 Oct 2026 13:47:16 -0700 (PDT)
+Received: from localhost ([2a03:2880:30ff:8::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-830385ba23csm2799922a34.7.2026.10.09.13.47.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 13:47:11 -0700 (PDT)
+        Fri, 09 Oct 2026 13:47:15 -0700 (PDT)
 From: Daniel Zahka <daniel.zahka@gmail.com>
-Date: Fri, 09 Oct 2026 13:46:46 -0700
-Subject: [PATCH net-next v2 6/7] selftests: drv-net: psp: add rekey tests
+Date: Fri, 09 Oct 2026 13:46:47 -0700
+Subject: [PATCH net-next v2 7/7] selftests: drv-net: psp: add a tx rekey
+ drain test for SADB drivers
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261009-psp-v2-6-5596ab50f677@gmail.com>
+Message-Id: <20261009-psp-v2-7-5596ab50f677@gmail.com>
 References: <20261009-psp-v2-0-5596ab50f677@gmail.com>
 In-Reply-To: <20261009-psp-v2-0-5596ab50f677@gmail.com>
 To: Jakub Kicinski <kuba@kernel.org>, 
@@ -85,508 +86,97 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
 X-Mailer: b4 0.13.0
 
-Add testcases for rekeying psp connections.
+Drivers that export the tx-key-count stat, should drain queued tx key
+deletions in a timely manner.
 
-Tests include coverage for different cases where rx-assoc and tx-assoc
-should fail based on mismatched psp version and psp state.
+Add a test that performs multiple tx rekeys on a connection and waits
+to make sure tx-key-count returns to pre-rekey level.
 
-Add rpc endpoints for tx-assoc, rx-assoc, and key-rotate netlink calls
-to the psp_responder.
+There is a bit of noise in tx-key-count due to stale timewait sockets
+from prior tests. If these sockets die between the initial and final
+readings, it could only serve to cover up for a queued key deletion
+that is not actually drained, so the test should not flake, but may
+fail to detect an actual driver bug.
+
+This test will likely not work if other processes on the system are
+using psp on the DUT, because then the tx-key-count will be completely
+unrelated to what we are doing in our tests.
 
 Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
 ---
-v2:
-- add tests for rekeys rejected due to psp state and version mismatch
-- add test for rx rekey rejected without a device key rotation
-- add rx-assoc, tx-assoc, and key-rotate rpcs to psp_responder
----
- tools/testing/selftests/drivers/net/psp.py         | 273 ++++++++++++++++++++-
- .../testing/selftests/drivers/net/psp_responder.c  | 111 +++++++++
- 2 files changed, 382 insertions(+), 2 deletions(-)
+ tools/testing/selftests/drivers/net/psp.py | 38 +++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
 diff --git a/tools/testing/selftests/drivers/net/psp.py b/tools/testing/selftests/drivers/net/psp.py
-index 71eeade62ad2..af67c9e8c40f 100755
+index af67c9e8c40f..b22891b7f5ce 100755
 --- a/tools/testing/selftests/drivers/net/psp.py
 +++ b/tools/testing/selftests/drivers/net/psp.py
-@@ -28,6 +28,10 @@ from lib.py import ip
- TCP_ULP = 31
+@@ -15,7 +15,7 @@ from contextlib import contextmanager
+ 
+ from lib.py import defer
+ from lib.py import ksft_run, ksft_exit, ksft_pr
+-from lib.py import ksft_true, ksft_eq, ksft_ne, ksft_gt, ksft_raises
++from lib.py import ksft_true, ksft_eq, ksft_ne, ksft_ge, ksft_gt, ksft_raises
+ from lib.py import ksft_not_none
+ from lib.py import ksft_variants, KsftNamedVariant
+ from lib.py import KsftSkipEx, KsftFailEx
+@@ -30,6 +30,8 @@ TCP_ULP = 31
+ 
+ _PSP_MAX_KEY_LEN = 32
+ _PSP_ASSOC_MSG = f'!IB3x{_PSP_MAX_KEY_LEN}s'
++_TX_REKEY_ROUNDS = 20
++_TX_KEY_DRAIN_TIMEOUT = 5
  
  
-+_PSP_MAX_KEY_LEN = 32
-+_PSP_ASSOC_MSG = f'!IB3x{_PSP_MAX_KEY_LEN}s'
-+
-+
  def _get_outq(s):
-     one = b'\0' * 4
-     outq = fcntl.ioctl(s.fileno(), termios.TIOCOUTQ, one)
-@@ -80,6 +84,36 @@ def _close_psp_conn(cfg, s):
-     _close_conn(cfg, s)
- 
- 
-+def _recv_all(s, target):
-+    data = b''
-+    while len(data) < target:
-+        chunk = s.recv(target - len(data))
-+        if not chunk:
-+            raise KsftFailEx(f"peer closed after {len(data)} of {target} bytes")
-+        data += chunk
-+    return data
-+
-+
-+def _psp_key_len(version):
-+    return 16 if version in (0, 2) else 32
-+
-+
-+def _remote_rx_assoc(cfg):
-+    _send_with_ack(cfg, b'rx assoc\0')
-+    msg = _recv_all(cfg.comm_sock, struct.calcsize(_PSP_ASSOC_MSG))
-+    spi, version, key = struct.unpack(_PSP_ASSOC_MSG, msg)
-+    return version, {'spi': spi, 'key': key[:_psp_key_len(version)]}
-+
-+
-+def _remote_tx_assoc(cfg, version, rx):
-+    msg = struct.pack(_PSP_ASSOC_MSG, rx['spi'], version, rx['key'])
-+    _send_with_ack(cfg, b'tx assoc\0' + msg)
-+
-+
-+def _remote_key_rotate(cfg):
-+    _send_with_ack(cfg, b'key rotate\0')
-+
-+
- def _spi_xchg(s, rx):
-     s.send(struct.pack('I', rx['spi']) + rx['key'])
-     tx = s.recv(4 + len(rx['key']))
-@@ -130,6 +164,41 @@ def _check_data_outq(s, exp_len, force_wait=False):
-     ksft_eq(outq, exp_len)
- 
- 
-+def _recv_careful(s, target, timeout=2):
-+    """Read exactly target bytes, tolerating short reads"""
-+    data = b''
-+    end = time.monotonic() + timeout
-+    while time.monotonic() < end:
-+        try:
-+            data += s.recv(target - len(data), socket.MSG_DONTWAIT)
-+            if len(data) == target:
-+                return data
-+        except BlockingIOError:
-+            time.sleep(0.001)
-+    raise KsftFailEx(f"short read, got {len(data)} of {target} bytes")
-+
-+
-+def _req_echo(cfg, s):
-+    """Ask the peer to echo, and check the reply arrives intact"""
-+    _send_with_ack(cfg, b'data echo\0')
-+    ksft_eq(_recv_careful(s, 5), b'echo\0')
-+
-+
-+def _psp_txrx(cfg, s, rounds, sent=0):
-+    """Send data both ways, and return the total bytes sent to the peer"""
-+    sent += _send_careful(cfg, s, rounds)
-+    _check_data_rx(cfg, sent)
-+    _req_echo(cfg, s)
-+    return sent
-+
-+
-+def _require_version(cfg, version):
-+    """Skip the test unless the device supports the given PSP version"""
-+    name = cfg.pspnl.consts["version"].entries_by_val[version].name
-+    if name not in cfg.psp_info['psp-versions-cap']:
-+        raise KsftSkipEx("PSP version not supported", name)
-+
-+
+@@ -202,6 +204,19 @@ def _require_version(cfg, version):
  def _get_stat(cfg, key):
      return cfg.pspnl.get_stats({'dev-id': cfg.psp_dev_id})[key]
  
-@@ -489,6 +558,204 @@ def _data_basic_send(cfg, version, ipver):
-     _close_psp_conn(cfg, s)
++
++def _get_tx_key_count(cfg):
++    return cfg.pspnl.get_stats({'dev-id': cfg.psp_dev_id}).get('tx-key-count')
++
++
++def _wait_tx_key_drain(cfg, base):
++    cnt = _get_tx_key_count(cfg)
++    end = time.monotonic() + _TX_KEY_DRAIN_TIMEOUT
++    while cnt > base and time.monotonic() < end:
++        time.sleep(0.1)
++        cnt = _get_tx_key_count(cfg)
++    ksft_ge(base, cnt, comment="tx keys not removed from device after rekey")
++
+ #
+ # Test case boiler plate
+ #
+@@ -730,6 +745,27 @@ def rekey_tx_basic(cfg, version):
+         _close_psp_conn(cfg, s)
  
  
-+def _rekey_rx(cfg, s, version, sent):
-+    """Rekey the Rx direction, running traffic after each step"""
-+    rx_assoc = cfg.pspnl.rx_assoc({"version": version,
-+                                   "dev-id": cfg.psp_dev_id,
-+                                   "sock-fd": s.fileno()})
-+    sent = _psp_txrx(cfg, s, 1, sent)
-+
-+    _remote_tx_assoc(cfg, version, rx_assoc['rx-key'])
-+    return _psp_txrx(cfg, s, 1, sent)
-+
-+
-+def _rekey_tx(cfg, s, sent):
-+    """Rekey the Tx direction, running traffic after each step"""
-+    version, tx = _remote_rx_assoc(cfg)
-+    sent = _psp_txrx(cfg, s, 1, sent)
-+
-+    cfg.pspnl.tx_assoc({"dev-id": cfg.psp_dev_id,
-+                        "version": version,
-+                        "tx-key": tx,
-+                        "sock-fd": s.fileno()})
-+    return _psp_txrx(cfg, s, 1, sent)
-+
-+
-+def rekey_rx_incomplete(cfg):
-+    """Test rejecting Rx rekey until the PSP connection is established"""
-+    psp_ver = 0
++def rekey_tx_drain(cfg):
++    """Test that Tx rekeys do not leak keys on the device"""
 +    _init_psp_dev(cfg)
 +
-+    with _make_lo_conn() as s:
-+        assoc = cfg.pspnl.rx_assoc({"version": psp_ver,
-+                                    "dev-id": cfg.psp_dev_id,
-+                                    "sock-fd": s.fileno()})
-+
-+        # Reject rekey before Tx state is configured.
-+        with ksft_raises(NlError) as cm:
-+            cfg.pspnl.rx_assoc({"version": psp_ver,
-+                                "dev-id": cfg.psp_dev_id,
-+                                "sock-fd": s.fileno()})
-+        ksft_eq(cm.exception.nl_msg.error, -errno.EBUSY)
-+
-+        cfg.pspnl.tx_assoc({"dev-id": cfg.psp_dev_id,
-+                            "version": psp_ver,
-+                            "tx-key": assoc['rx-key'],
-+                            "sock-fd": s.fileno()})
-+
-+        # Reject rekey until authenticated PSP traffic has been received.
-+        with ksft_raises(NlError) as cm:
-+            cfg.pspnl.rx_assoc({"version": psp_ver,
-+                                "dev-id": cfg.psp_dev_id,
-+                                "sock-fd": s.fileno()})
-+        ksft_eq(cm.exception.nl_msg.error, -errno.EBUSY)
-+
-+
-+def rekey_tx_incomplete(cfg):
-+    """Test rejecting Tx rekey until the PSP connection is established"""
-+    psp_ver = 0
-+    _init_psp_dev(cfg)
-+
-+    with _make_lo_conn() as s:
-+        assoc = cfg.pspnl.rx_assoc({"version": psp_ver,
-+                                    "dev-id": cfg.psp_dev_id,
-+                                    "sock-fd": s.fileno()})
-+
-+        cfg.pspnl.tx_assoc({"dev-id": cfg.psp_dev_id,
-+                            "version": psp_ver,
-+                            "tx-key": assoc['rx-key'],
-+                            "sock-fd": s.fileno()})
-+
-+        # Reject rekey until authenticated PSP traffic has been received.
-+        with ksft_raises(NlError) as cm:
-+            cfg.pspnl.tx_assoc({"dev-id": cfg.psp_dev_id,
-+                                "version": psp_ver,
-+                                "tx-key": assoc['rx-key'],
-+                                "sock-fd": s.fileno()})
-+        ksft_eq(cm.exception.nl_msg.error, -errno.EBUSY)
-+
-+
-+def rekey_rx_same_gen(cfg):
-+    """Test rejecting an Rx rekey without an intervening key rotation"""
-+    _init_psp_dev(cfg)
++    if _get_tx_key_count(cfg) is None:
++        raise KsftSkipEx("Device does not track Tx keys")
 +
 +    s = _establish_psp_conn(cfg, 0)
 +    try:
-+        _psp_txrx(cfg, s, 1)
++        data_len = _psp_txrx(cfg, s, 1)
++        base = _get_tx_key_count(cfg)
 +
-+        with ksft_raises(NlError) as cm:
-+            cfg.pspnl.rx_assoc({"version": 0,
-+                                "dev-id": cfg.psp_dev_id,
-+                                "sock-fd": s.fileno()})
-+        ksft_eq(cm.exception.nl_msg.error, -errno.EINVAL)
++        for _ in range(_TX_REKEY_ROUNDS):
++            _remote_key_rotate(cfg)
++            data_len = _rekey_tx(cfg, s, data_len)
 +
-+        cfg.pspnl.key_rotate({"id": cfg.psp_dev_id})
-+        cfg.pspnl.rx_assoc({"version": 0,
-+                            "dev-id": cfg.psp_dev_id,
-+                            "sock-fd": s.fileno()})
++        _wait_tx_key_drain(cfg, base)
 +    finally:
 +        _close_psp_conn(cfg, s)
 +
 +
-+def rekey_rx_version_mismatch(cfg):
-+    """Test rejecting an Rx rekey whose version does not match socket state"""
-+    _init_psp_dev(cfg)
-+    _require_version(cfg, 1)
-+
-+    s = _establish_psp_conn(cfg, 0)
-+    try:
-+        _psp_txrx(cfg, s, 1)
-+
-+        cfg.pspnl.key_rotate({"id": cfg.psp_dev_id})
-+
-+        with ksft_raises(NlError) as cm:
-+            cfg.pspnl.rx_assoc({"dev-id": cfg.psp_dev_id,
-+                                "version": 1,
-+                                "sock-fd": s.fileno()})
-+        ksft_eq(cm.exception.nl_msg.error, -errno.EINVAL)
-+    finally:
-+        _close_psp_conn(cfg, s)
-+
-+
-+def rekey_tx_version_mismatch(cfg):
-+    """Test rejecting a Tx rekey whose version does not match socket state"""
-+    _init_psp_dev(cfg)
-+    _require_version(cfg, 1)
-+
-+    s = _establish_psp_conn(cfg, 0)
-+    try:
-+        _psp_txrx(cfg, s, 1)
-+
-+        with ksft_raises(NlError) as cm:
-+            cfg.pspnl.tx_assoc({"dev-id": cfg.psp_dev_id,
-+                                "version": 1,
-+                                "tx-key": {'spi': 0x12345678,
-+                                           'key': b'\xa5' * 32},
-+                                "sock-fd": s.fileno()})
-+        ksft_eq(cm.exception.nl_msg.error, -errno.EINVAL)
-+    finally:
-+        _close_psp_conn(cfg, s)
-+
-+
-+def _get_psp_ver_variants():
-+    for ver in range(4):
-+        yield KsftNamedVariant(f"v{ver}", ver)
-+
-+
-+@ksft_variants(_get_psp_ver_variants())
-+def rekey_rx_basic(cfg, version):
-+    """Test rekeying the Rx key of an established connection"""
-+    _init_psp_dev(cfg)
-+
-+    s = _establish_psp_conn(cfg, version)
-+    try:
-+        data_len = _psp_txrx(cfg, s, 10)
-+        cfg.pspnl.key_rotate({"id": cfg.psp_dev_id})
-+        _rekey_rx(cfg, s, version, data_len)
-+    finally:
-+        _close_psp_conn(cfg, s)
-+
-+
-+@ksft_variants(_get_psp_ver_variants())
-+def rekey_tx_basic(cfg, version):
-+    """Test rekeying the Tx key of an established connection"""
-+    _init_psp_dev(cfg)
-+
-+    s = _establish_psp_conn(cfg, version)
-+    try:
-+        data_len = _psp_txrx(cfg, s, 10)
-+        _remote_key_rotate(cfg)
-+        _rekey_tx(cfg, s, data_len)
-+    finally:
-+        _close_psp_conn(cfg, s)
-+
-+
-+@ksft_variants(_get_psp_ver_variants())
-+def rekey_both_sides(cfg, version):
-+    """Test rekeying both directions"""
-+    _init_psp_dev(cfg)
-+
-+    s = _establish_psp_conn(cfg, version)
-+    try:
-+        data_len = _psp_txrx(cfg, s, 10)
-+
-+        cfg.pspnl.key_rotate({"id": cfg.psp_dev_id})
-+        _remote_key_rotate(cfg)
-+
-+        # first, rx then tx
-+        data_len = _rekey_rx(cfg, s, version, data_len)
-+        data_len = _rekey_tx(cfg, s, data_len)
-+
-+        cfg.pspnl.key_rotate({"id": cfg.psp_dev_id})
-+        _remote_key_rotate(cfg)
-+
-+        # now, tx then rx
-+        data_len = _rekey_tx(cfg, s, data_len)
-+        _rekey_rx(cfg, s, version, data_len)
-+    finally:
-+        _close_psp_conn(cfg, s)
-+
-+
- def __bad_xfer_do(cfg, s, tx, version='hdr0-aes-gcm-128'):
-     # Make sure we accept the ACK for the SPI before we seal with the bad assoc
-     _check_data_outq(s, 0)
-@@ -1181,7 +1448,8 @@ def main() -> None:
-                                                           cfg.comm_port),
-                                                          timeout=1)
- 
--                cases = [data_basic_send, data_mss_adjust]
-+                cases = [data_basic_send, data_mss_adjust,
-+                         rekey_rx_basic, rekey_tx_basic, rekey_both_sides]
- 
-                 if has_cont:
-                     cases += [
-@@ -1197,7 +1465,8 @@ def main() -> None:
-                     ]
- 
-                 ksft_run(cases=cases, globs=globals(),
--                         case_pfx={"dev_", "data_", "assoc_", "removal_"},
-+                         case_pfx={"dev_", "data_", "assoc_", "rekey_",
-+                                   "removal_"},
-                          args=(cfg, ))
- 
-                 cfg.comm_sock.send(b"exit\0")
-diff --git a/tools/testing/selftests/drivers/net/psp_responder.c b/tools/testing/selftests/drivers/net/psp_responder.c
-index 57425ecb9561..b3e0fe6d6975 100644
---- a/tools/testing/selftests/drivers/net/psp_responder.c
-+++ b/tools/testing/selftests/drivers/net/psp_responder.c
-@@ -5,6 +5,7 @@
- #include <sys/poll.h>
- #include <sys/socket.h>
- #include <sys/time.h>
-+#include <arpa/inet.h>
- #include <netinet/in.h>
- #include <unistd.h>
- 
-@@ -23,6 +24,7 @@ static bool should_quit;
- struct opts {
- 	int port;
- 	int ifindex;
-+	int devid;
- 	bool verbose;
- };
- 
-@@ -155,6 +157,100 @@ static void send_str(int sock, int value)
- 	send(sock, buf, ret + 1, MSG_WAITALL);
- }
- 
-+#define PSP_MAX_KEY_LEN		32
-+
-+struct assoc_msg {
-+	__be32 spi;
-+	__u8 version;
-+	__u8 pad[3];
-+	char key[PSP_MAX_KEY_LEN];
-+};
-+
-+static void
-+handle_rx_assoc(struct ynl_sock *ys, int data_sock, int comm_sock)
-+{
-+	struct assoc_msg msg = {};
-+	__u32 spi;
-+
-+	if (data_sock < 0) {
-+		fprintf(stderr, "WARN: rx assoc but no data sock\n");
-+		send_err(comm_sock);
-+		return;
-+	}
-+
-+	if (rx_assoc(ys, &spi, msg.key, data_sock)) {
-+		fprintf(stderr, "ERROR: rx_assoc() failed\n");
-+		send_err(comm_sock);
-+		return;
-+	}
-+
-+	msg.spi = htonl(spi);
-+	msg.version = psp_vers.rx;
-+	send_ack(comm_sock);
-+	send(comm_sock, &msg, sizeof(msg), MSG_WAITALL);
-+}
-+
-+static void
-+handle_tx_assoc(struct ynl_sock *ys, char *data, int data_sock, int comm_sock)
-+{
-+	struct assoc_msg msg;
-+
-+	if (data_sock < 0) {
-+		fprintf(stderr, "WARN: tx assoc but no data sock\n");
-+		send_err(comm_sock);
-+		return;
-+	}
-+
-+	memcpy(&msg, data, sizeof(msg));
-+	if (tx_assoc(ys, msg.version, ntohl(msg.spi), msg.key, data_sock)) {
-+		fprintf(stderr, "ERROR: tx_assoc() failed!\n");
-+		send_err(comm_sock);
-+		return;
-+	}
-+
-+	send_ack(comm_sock);
-+}
-+
-+static int rotate_key(struct ynl_sock *ys, int devid)
-+{
-+	struct psp_key_rotate_rsp *rsp;
-+	struct psp_key_rotate_req *req;
-+
-+	req = psp_key_rotate_req_alloc();
-+
-+	psp_key_rotate_req_set_id(req, devid);
-+
-+	rsp = psp_key_rotate(ys, req);
-+	psp_key_rotate_req_free(req);
-+
-+	if (!rsp) {
-+		perror("ERROR: failed to rotate key");
-+		return -1;
-+	}
-+
-+	psp_key_rotate_rsp_free(rsp);
-+
-+	return 0;
-+}
-+
-+static void
-+handle_key_rotate(struct ynl_sock *ys, struct opts *opts, int comm_sock)
-+{
-+	if (opts->devid < 0) {
-+		fprintf(stderr, "WARN: key rotate but no PSP device\n");
-+		send_err(comm_sock);
-+		return;
-+	}
-+
-+	if (rotate_key(ys, opts->devid)) {
-+		fprintf(stderr, "ERROR: rotate_key() failed\n");
-+		send_err(comm_sock);
-+		return;
-+	}
-+
-+	send_ack(comm_sock);
-+}
-+
- static void
- run_session(struct ynl_sock *ys, struct opts *opts,
- 	    int server_sock, int comm_sock)
-@@ -247,6 +343,9 @@ run_session(struct ynl_sock *ys, struct opts *opts,
- 			match;						\
- 		})
- 
-+#define cmd_w_msg(_name, _type)						\
-+		(off >= sizeof(_name) + sizeof(_type) && cmd(_name))
-+
- 			do {
- 				consumed = false;
- 
-@@ -261,6 +360,16 @@ run_session(struct ynl_sock *ys, struct opts *opts,
- 						fprintf(stderr, "WARN: echo but no data sock\n");
- 					send_ack(comm_sock);
- 				}
-+				if (cmd("rx assoc"))
-+					handle_rx_assoc(ys, data_sock,
-+							comm_sock);
-+				if (cmd_w_msg("tx assoc", struct assoc_msg)) {
-+					handle_tx_assoc(ys, buf, data_sock,
-+							comm_sock);
-+					__consume(sizeof(struct assoc_msg));
-+				}
-+				if (cmd("key rotate"))
-+					handle_key_rotate(ys, opts, comm_sock);
- 				if (cmd("data close")) {
- 					if (data_sock >= 0) {
- 						close(data_sock);
-@@ -291,6 +400,7 @@ run_session(struct ynl_sock *ys, struct opts *opts,
- 				}
- 				if (cmd("exit"))
- 					should_quit = true;
-+#undef cmd_w_msg
- #undef cmd
- 
- 				if (!consumed) {
-@@ -486,6 +596,7 @@ int main(int argc, char **argv)
- 		}
- 	}
- 	psp_dev_get_list_free(dev_list);
-+	opts.devid = devid;
- 
- 	if (opts.ifindex && devid < 0)
- 		fprintf(stderr,
+ @ksft_variants(_get_psp_ver_variants())
+ def rekey_both_sides(cfg, version):
+     """Test rekeying both directions"""
 
 -- 
 2.52.0
