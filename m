@@ -1,469 +1,206 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012048.outbound.protection.outlook.com [52.101.43.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8853C819C
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 23:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791588362; cv=none; b=UezPskCt4U4jKdQltXErOsnLc3Kec3qg8mpndpU4do4YPOLjm+hunVW35dGCnX3PZpq4g3rsAbOl7R46fvzKqZNYAlZaNq/Y13unG9xgOV5UdY0MKevoIfHzUuUjIKTJYT1pH/qP+sb6hOGz6mzoiH6u292UfDeyEb9m6UDPk08=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791588362; c=relaxed/simple;
-	bh=uYt60oee/In9t1c2qabunzcdRHKHgSXLng16ByJ1kII=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PeCjis2SfIpIAagPx2DCTm8Qc/BWbAgiIbuUAaic1ML12VzX9fU2qS8YeaGMySpv8RpYUsaTmRZtMgI4+gIz+fr8iBWYVlus6XXTAzN024g3/tJMclHP/2q5M2ye2uZ/Cau83OzebmYXU9omjcv/m42YvSgNq0k4V4zSoPlvSF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IV0pGk5p; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9A5381AF;
+	Fri,  9 Oct 2026 23:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791589471; cv=fail; b=TZCQlmjIENDpHGOl27VVW1pAoNhZodl+BNo6RkQ9Rqmd4WHT7YoQb9As4ajmn8nv14skDvb5YkJjN4Vxf1No9ZuXgu7YnUNyIApdGyhQI8S3Wq9TembSH2umuj6h9VZil0NTVAOoE+0cCdAcDKepjBb5aag54229/Q0zbHYEfmU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791589471; c=relaxed/simple;
+	bh=ZWbUVrSauXWjhTjrjaU5hDUoht3m8KYB7X7tY5AaR1E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JJbko01BH9bFLhAvhirUVLYLW7lRBIPfXL/FIYySccRUGsj2+UboTTeWcWlF4HMxUA0U5rsM/UIlKsTlp+9Pg2yQoTFn8GyvZ8MibWP+3kj0jnZpx10pO4P0p6IJ50ammdf8utuQ/fmEcV2+m7KGO1c6Yiwois+jGyY/wKdHa4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=WGWmO7vX; arc=fail smtp.client-ip=52.101.43.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IV0pGk5p"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38d489b6b71so70503a91.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 16:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791588359; x=1792193159; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=26JRsfgM9VyJ6ZcFNAllh5rsj4q2lBsZqcBIlrvxCeA=;
-        b=IV0pGk5puZnFscVvsm/6+mpGoNRYTmg+HZ7T2dMjtq3lFVQ61eU0tc+AZ7v0nF1/0O
-         7jX7j3hklqrDp5daIQncD3qhfeUDKXKqi6TeuLLssgc4+UhoXSG3htj6EhoL3UoQ9y3L
-         CznvCiy27E+zp5T1V9OMaYR9yldftPJpu2SG778kNZhROGG5ESFrtOYTbSd8HUIkSrLx
-         8n2B9iPUeYv10usK79zBSRaUvSfMhw7Va0g+EIQPtEyKCgst8ruKW3iyg7jF/oQGrwkK
-         zCz20j4mVY//PflIK9bZDjqvpinxJN4rfK0JKlmc+gq7Yqi230nRPwv3mCDqSBT+7LRA
-         Nr1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791588359; x=1792193159;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=26JRsfgM9VyJ6ZcFNAllh5rsj4q2lBsZqcBIlrvxCeA=;
-        b=2vQWrqqK+QTNZIdh4hEELf9jkGR7i5cgBmSyU7o0CeMeAd1ygh3DGNUXm4DRYfNapg
-         vY9Hsk68Vdm4N0iwZDYePja38nfZfjHNyLL+pR3OJMsy+uqV/vNx6nUvfsYIOCAYz/f1
-         u7ThL/WIjbq9ZQKuxsz0e/4mtSfP5NGIiDZAtWl3RvFlp4DBRr0ABoCQNIW0s0+pJ30w
-         wwaYoob5T8Q7UYUgrNXAHhUDkcmvsB6GJHZf4xLcxhbtBiK24cdI+na1GOguM2vlSPtQ
-         0hHWpCrCLlWNOdHEOIaUgSKOBFvN3AJcNte/Ty9VLDrBxrj5aTHfJJVS4i/rIwfxeQCM
-         95BA==
-X-Forwarded-Encrypted: i=1; AKwUvByetBAQsNKEaKEE4wLs7AWdQRPq0hzGFnKCSEjEcsmB75cUkKKXTlpMtQd607bp6SNnrBxUTGfmvww=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLMkROl7EFueF+VZ3F5eOlZHeaqrcMFdUUEKL4lS1/sqwXf0L4X
-	GCT625+NErUXvaIszTVn2apmDsOVDfq1sIsXsEdmQBMG2ZCZUwcdNoMVp3tpLA==
-X-Gm-Gg: AYBFou1rrF7njPuj9CiudQhL1AvcuSIyDbcoW9SMTlaDvVQNoFRxlrxtz/63PP38faG
-	v5ujLg/LH3rDCxlHUvI/S94VmDKO/iGKZ1LrHZ0tFxHjeGSl3nrEM0Gt2FpSK+/3cy5d1Ab0U5X
-	IdWDvLL23TDnYhOHTVwm7ywZt5gGlYxIzHuOEMcgXcF112yV/sKg9IukrRptoZIzEiw3brbbVlg
-	A1gZNb5INQVVsyFA6GJfHmTLO+zrZDxwADQIxFYLxC0Z9mnwFs7fUcXGpZj4bJthHUyx/tYuF8w
-	wpsXGzJS7zmgNORIxkZ9ShbemCtbscAKGjO+gSiZIPttYllnTc9QGsA3yOZtEW3/Jz5bhhNifM4
-	+pUg2iHu3UYsLrGQyaT61soaP9337FO6+dXb/UnrAbRgwo3AN5n30uWewYaiE6HumOg+hltC/2q
-	nnIlDxZeF7XjW3v+uaEejgFyC4Qsyb5PxA8bhaSLA5N3hy7Fd3dYMnVJIV+sM1aPWf2ILLg0+yy
-	ac=
-X-Received: by 2002:a17:90b:2886:b0:3a6:fec5:c186 with SMTP id 98e67ed59e1d1-3ab3acf7535mr2978454a91.46.1791588358923;
-        Fri, 09 Oct 2026 16:25:58 -0700 (PDT)
-Received: from skinsburskii ([76.135.114.51])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab38b9638fsm5273139a91.3.2026.10.09.16.25.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 16:25:58 -0700 (PDT)
-Date: Fri, 9 Oct 2026 16:25:56 -0700
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>,
-	Robert Byrnes <byrnes@wildpumpkin.net>, fuse-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] fuse: add negotiated per-inode open and release
- suppression
-Message-ID: <asl4BJhIO6aIZnIm@skinsburskii>
-References: <20261008-fuse-per-inode-no-open-v3-0-99cfd3dbc06b@gmail.com>
- <20261008-fuse-per-inode-no-open-v3-1-99cfd3dbc06b@gmail.com>
- <5d69dce1-ba9b-4eca-8949-94f4a29cea57@bsbernd.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="WGWmO7vX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nHGyaVE1ZeliwIItgjfp2brDbD4YF/lwb0p/tn2qywqL+FWo3Y1Xd1HxVZ7DiWQ0uUY6ZGKO1pc+9cw6y5H6vrF8QUYeY22okraFNisxG0rIxJ3F6lRR/RtZEFNUP8tDH7gksUaND9AZyPL14Q25XMusY0S273SEVjPVYCLp8j96R5Jus9gnzL0l4sSkrf5Xmq+bjg6fE1l6f0ca2Ip1Yg1vVvYnZWjD5K51oJssiyA+qJc1z5WfWhUdsZMv5RA9Wt0mWd1jCgZyPo+kk/0V1Zhxh9YIsdSVtNXaPWRk4tPuIRSrISWIDdaADWwPU/SE9s5OUh3HPgpU2vCf/WHpiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=afs7wO4B1RbTKybyw5EPZBa1xny/KObecDZy2pzyqog=;
+ b=caXuFLfxI9JIYprr30CGWnv4TQnunVeeBB7hCdJ1r7I7iHcoIXUXi9tJfD4SL5zMAjUlrINAN/eIpJLe8R8B0Cse0Ldw7adaEuN4fJs8IEByZWZXFz1HvI+KmfnUjII7OB5//AK6S6Ao738/YwSMij63cz6G9RScX7vGPuNV/yEZb5nUhG3ZgPEXiXqcur9c2ogHhFceYUmxmutU9vsDrY9Yr+lkakS7G8aiFa4bsi2SO6eDgRNzjdVSQ4mdwBu6iY1D620LMAoPc5MGujyi7xxvmW3MDoFwcPm5zkUpU3UjI4KgT58oBEXr/wsG9XcwnzgKjnmHpZkXEhzJS2fTKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=afs7wO4B1RbTKybyw5EPZBa1xny/KObecDZy2pzyqog=;
+ b=WGWmO7vXbXoNJpPArnqP5k2BfaSXzHYNASMijLS80EU2Hxz5iouStOj58jdW3/ae8ABA0exEUWqmzDAAClLf0I4vnaMCJ0bt5QHxGRBsLXOFn0P5n1dMLFp77gJILs3DED8PIV8gOcrFApMKFVAiQjyU6hi4J9hgMYDtiytjOjM=
+Received: from BN0PR04CA0018.namprd04.prod.outlook.com (2603:10b6:408:ee::23)
+ by SJ5PPFA5F0E981D.namprd12.prod.outlook.com (2603:10b6:a0f:fc02::99d) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.15; Fri, 9 Oct
+ 2026 23:44:27 +0000
+Received: from BN2PEPF0000A98E.namprd04.prod.outlook.com
+ (2603:10b6:408:ee:cafe::9) by BN0PR04CA0018.outlook.office365.com
+ (2603:10b6:408:ee::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Fri, 9
+ Oct 2026 23:44:26 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN2PEPF0000A98E.mail.protection.outlook.com (10.167.248.133) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.6 via Frontend Transport; Fri, 9 Oct 2026 23:44:26 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Fri, 9 Oct
+ 2026 18:44:20 -0500
+From: Babu Moger <babu.moger@amd.com>
+To: <babu.moger@amd.com>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
+	<bp@alien8.de>
+CC: <x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
+	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<tglx@kernel.org>, <mingo@redhat.com>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <kas@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-coco@lists.linux.dev>, <kvm@vger.kernel.org>
+Subject: [PATCH v4 0/3] x86,fs/resctrl: Keep default MBM mode at boot and fix ABMC programming
+Date: Fri, 9 Oct 2026 18:44:06 -0500
+Message-ID: <cover.1791589412.git.babu.moger@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5d69dce1-ba9b-4eca-8949-94f4a29cea57@bsbernd.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF0000A98E:EE_|SJ5PPFA5F0E981D:EE_
+X-MS-Office365-Filtering-Correlation-Id: ffa58ac9-b7c1-4805-ff08-08df265f4129
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|82310400026|1800799024|376014|36860700016|10067099003|56012099006|260925021911599003|11063799006|3023799007|6133799003|261009223027099003|260925022911599003|18002099003|260925021311599003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	4jP4ZDf01N/sHu/WzXqKMw/EG7SOlS4dx0a68gqVnTRheVidtd6lrtGhioDg4CkhVmhGsDN3GpklT4pdDHiuo5nX0jkpo4zO0sagUpzHhUoZSZiMChBulpkRVPJt0FXBakAEYjz365/5cHH1tsrT1Yce9d3xZmhLJNWmW+3CwH51hyDFSg+jaHh7e+fmOBCMVfAVvR48Teg4j38FCtwPZ7YLqMtedYGOkQruzZ/Q9CcBkELITExL/wDN33wSDvjMFYc8wB6jpdQgSEWgI4DkA11lNQIrVjsrs9XpwrkFvgWi2KyoQVQB3GuhmhBPc7GRyzOt3eRmsHaDEyasYNBOx8SoeeUvg6g9gVS2tH6Hbo+erMaUOefwl0LPCsUV1upMLEfU8FvTTDkpm9tdz0c+YwAMPmcWxZc1QKEqJSPcH+1nYbhXkXPdNBFKsEtiDjvXLWsIIsNwJEM6lR8Q5Dqn0S25kZwJcA6QrG0IdusOBSBQ70zDEhhCBs3nzxO6Yb5SZaQgR+9kX/3Jtqgh4CTDN88Gvxi0cieYW2Dh7wrzhAbjbhVn7FJofV9gJV/58S0QznWgS8RafiIb9FER25OT9LSW4sQURacha5baF9TUFzMxTbaOpGGS6EdRYqyRYaqg1ZMbx26Gc2nEadV2VHvWSQ==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(82310400026)(1800799024)(376014)(36860700016)(10067099003)(56012099006)(260925021911599003)(11063799006)(3023799007)(6133799003)(261009223027099003)(260925022911599003)(18002099003)(260925021311599003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	cU70orAOwNiFYHv08DLdeugwVNFlEt3V7GkPmLDQ3KxDgOgLk3e3XMNIs421T4TozZ2pm+KoQbNStdkejOme4GHyHreTPfLN3CRkTTWQrG/DeNhGx2iyyhv1/1dSyrehQiMwAE97Qp8LPU7YYPkElFvBqsKTYNdFiy4jVMd91XO6FVr9PJsbl9bRRZJAmcUwGHPoehWlOd45F2Jj/D6OFILfsP6N30Nl8XTY9DbOJ0hwdxZNZMivPePn0qDj685IVjSgAXESEBv4WhdkOrMbIIRrjt6TooTMgZRsMnoag0k/1JXwGJY9khn7PV+G7aGP3XeocdQOZ3x7sOszKFBQQCURc+wYSGdu1Yv1q0r1WpHySBPZK6ISP81SiktRaEsPzYxulJfdWKk3RHlKnO38R+hfMMJ+STio7ytxxn3TlzcnAF2SoCzLrVX+o3DIXpuY
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2026 23:44:26.6484
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffa58ac9-b7c1-4805-ff08-08df265f4129
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF0000A98E.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFA5F0E981D
 
-On Fri, Oct 09, 2026 at 08:34:30PM +0200, Bernd Schubert wrote:
-> 
-> 
-> On 10/8/26 21:20, Stanislav Kinsburskii wrote:
-> > Filesystems serving cached content may not need per-open state for most
-> > inodes, while still relying on OPEN for control files. The connection-wide
-> > no-open behavior selected by ENOSYS cannot express this distinction.
-> > 
-> > Add FUSE_PER_INODE_NO_OPEN to INIT negotiation and FUSE_ATTR_NO_OPEN to
-> > inode attributes. For marked inodes, use the existing zero-handle defaults
-> > and normally omit OPEN/OPENDIR and the corresponding RELEASE/RELEASEDIR.
-> > Remember whether each handle was opened locally, so later attribute updates
-> > do not determine the release behavior of existing handles.
-> > 
-> > Retain RELEASE after a successful remote flock operation, even when OPEN
-> > was skipped, so FUSE_RELEASE_FLOCK_UNLOCK can clean up server-side locks.
-> > Servers negotiating remote flock must accept this RELEASE with a zero file
-> > handle and no preceding OPEN, including after an explicit unlock.
-> 
-> fuse_file_put() would get a lot easier if FUSE_PER_INODE_NO_OPEN is ignored 
-> when FUSE_PER_INODE_NO_OPEN gets ignore if FUSE_FLOCK_LOCKS is set. 
-> I personally don't like the idea of release without an open.
-> 
-> Do you really need flock and this per-inode no-open feature?
-> 
 
-I'm fine with making remote flock and per-inode open suppression mutually
-exclusive for a given handle. However, FUSE_FLOCK_LOCKS is negotiated per
-connection, while FUSE_ATTR_NO_OPEN applies per inode. Disabling the new
-capability at INIT would also prevent suppressing opens on cached content
-files when remote flock is needed only for unmarked control files.
+Hi All,
 
-Would keeping both capabilities, but rejecting remote flock on handles
-opened locally through FUSE_ATTR_NO_OPEN, be acceptable?
-That would avoid RELEASE without OPEN while preserving remote flock for
-other files.
+This series restores default MBM assignment mode at boot, assigns counters
+when switching to mbm_event, and fixes ABMC programming for more than 32
+counters.
 
-> > 
-> > Keep the release argument allocation for regular files, which pins the
-> > inode while asynchronous I/O completes. Honor the hint for internal opens
-> > used by file-attribute ioctls as well. The capability check excludes CUSE
-> > before accessing its non-FUSE inode as a fuse_inode.
-> > 
-> > The per-inode hint does not suppress OPEN for atomic O_TRUNC, since the
-> > server must perform the truncation. CREATE retains its existing handle
-> > lifecycle. Connection-wide no-open/no-opendir behavior selected by ENOSYS
-> > continues to take precedence.
-> > 
-> > Update the cached hint from LOOKUP, GETATTR, SETATTR and READDIRPLUS
-> > attributes. Preserve it across STATX replies, which do not carry
-> > fuse_attr.flags.
-> > 
-> > Document negotiation, cache and handle semantics, and the server's
-> > responsibilities. No additional access-time or open-reference accounting
-> > is introduced.
-> > 
-> > Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
-> > ---
-> >  Documentation/filesystems/fuse/fuse-no-open.rst | 49 +++++++++++++++++++++++++
-> >  Documentation/filesystems/fuse/index.rst        |  1 +
-> >  fs/fuse/file.c                                  | 26 ++++++++++---
-> >  fs/fuse/fuse_i.h                                | 17 ++++++++-
-> >  fs/fuse/inode.c                                 |  9 +++++
-> >  fs/fuse/ioctl.c                                 |  3 +-
-> >  include/uapi/linux/fuse.h                       | 13 ++++++-
-> >  7 files changed, 110 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/Documentation/filesystems/fuse/fuse-no-open.rst b/Documentation/filesystems/fuse/fuse-no-open.rst
-> > new file mode 100644
-> > index 000000000000..2e0cf43f9ef7
-> > --- /dev/null
-> > +++ b/Documentation/filesystems/fuse/fuse-no-open.rst
-> > @@ -0,0 +1,49 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Per-inode open suppression
-> > +==========================
-> > +
-> > +A filesystem can avoid OPEN and RELEASE requests for individual inodes by
-> > +negotiating FUSE_PER_INODE_NO_OPEN in INIT and setting FUSE_ATTR_NO_OPEN in
-> > +``fuse_attr.flags``.  For directories, the flag suppresses OPENDIR and
-> > +RELEASEDIR instead.  This allows, for example, cached content files to avoid
-> > +open round trips while control files on the same connection retain their
-> > +open handlers.  Without the negotiated capability the attribute is ignored.
-> > +
-> > +The kernel updates the hint when it accepts attributes in replies such as
-> > +LOOKUP, GETATTR, SETATTR and READDIRPLUS.  STATX replies do not carry
-> > +``fuse_attr.flags`` and leave the hint unchanged.  The hint is cached inode
-> > +state; it is not independently revalidated on every open.  A server changing
-> > +the hint must arrange for fresh attributes to reach the kernel and tolerate
-> > +concurrent opens using the previous value.
-> > +
-> > +For an open served locally, the file handle is zero, FOPEN_KEEP_CACHE is
-> > +set, and directories also have FOPEN_CACHE_DIR set.  Subsequent requests
-> > +identify the object by the node ID and may carry a zero file handle.  The
-> > +server must support these requests without per-open state.  Whether OPEN was
-> > +sent is recorded for each handle and is not changed by later attribute
-> > +updates.  An existing server-opened handle still receives its matching
-> > +RELEASE if the inode hint subsequently becomes set.
-> > +
-> > +Remote flock locking is an exception to RELEASE suppression.  When
-> > +FUSE_FLOCK_LOCKS is negotiated and a handle has successfully performed a
-> > +server-side flock operation, its final close sends RELEASE with
-> > +FUSE_RELEASE_FLOCK_UNLOCK and the lock owner, even if OPEN was suppressed.
-> > +The server must accept this RELEASE with a zero file handle and no preceding
-> > +OPEN, and use the node ID and lock owner to remove any remaining flock locks.
-> > +This also applies after an explicit unlock, since the kernel records whether
-> > +a flock operation succeeded rather than tracking the server's current locks.
-> > +
-> > +When FUSE_ATOMIC_O_TRUNC is negotiated, an open with O_TRUNC still sends
-> > +OPEN and receives a matching RELEASE, so the server can perform truncation.
-> > +CREATE also retains its usual open and release semantics.  Connection-wide
-> > +no-open behavior selected by an ENOSYS response continues to take precedence.
-> > +
-> > +The hint does not make an inode immutable, grant permissions, or suppress
-> > +other operations such as FLUSH, FSYNC, locking or data I/O.  Servers supporting
-> > +remote flock must implement the RELEASE cleanup described above.  A server must
-> > +only set it when its access policy and file semantics permit the default
-> > +open behavior described above.  Servers needing per-open authorization,
-> > +nonzero handles, direct I/O, passthrough or other OPEN reply flags must keep
-> > +handling OPEN for those inodes.  No additional access-time or open-reference
-> > +accounting is performed by this feature.
-> > diff --git a/Documentation/filesystems/fuse/index.rst b/Documentation/filesystems/fuse/index.rst
-> > index 3dada6c4057a..6dd9192f74fe 100644
-> > --- a/Documentation/filesystems/fuse/index.rst
-> > +++ b/Documentation/filesystems/fuse/index.rst
-> > @@ -12,4 +12,5 @@ FUSE (Filesystem in Userspace) Technical Documentation
-> >     fuse-io
-> >     fuse-io-uring
-> >     fuse-passthrough
-> > +   fuse-no-open
-> >     uapi/fuse-uapi-io-uring
-> > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> > index 3d209e2b71ba..31c22ff5c8c1 100644
-> > --- a/fs/fuse/file.c
-> > +++ b/fs/fuse/file.c
-> > @@ -108,8 +108,9 @@ static void fuse_file_put(struct fuse_file *ff, bool sync)
-> >  			fuse_file_io_release(ff, ra->inode);
-> >  
-> >  		if (!args) {
-> > -			/* Do nothing when server does not implement 'opendir' */
-> > -		} else if (args->opcode == FUSE_RELEASE && ff->fm->fc->no_open) {
-> > +			/* No release needed when OPENDIR was skipped. */
-> > +		} else if (args->opcode == FUSE_RELEASE &&
-> > +			   (ff->fm->fc->no_open || (ff->no_open && !ff->flock))) {
-> >  			fuse_release_end(args, 0);
-> 
-> I think this could be become
-> 
-> if (!args) {
->         /* No release needed when OPENDIR was skipped. */
-> } else if (ff->no_open) {
->         fuse_release_end(args, 0);
-> } else if (sync) {
-> 
-> just in fuse_file_open() you could set ff->no_open for the -ENOSYS condition and
-> if FUSE_PER_INODE_NO_OPEN gets ignored when FUSE_RELEASE_FLOCK_UNLOCK is set.
-> 
-> 
-> What do you think?
-> 
+Commit 0f1576e43adc ("x86/resctrl: Configure mbm_event mode if supported")
+enabled ABMC at boot. That breaks the pqos tool from intel-cmt-cat [1],
+which treats a non-numeric event read as zero bandwidth. pqos creates 16
+or more groups and uses two counters per group. On a platform with 32
+counters per domain, that consumes the pool, so further groups read
+"Unassigned" and pqos reports 0 MB/s.
 
-I agree.
+Leaving the mode at default does not make pqos correct. pqos still
+treats "Unavailable" as zero. Once the default-mode counter pool is
+exceeded, hardware can re-allocate a counter between reads and pqos can
+report that as a wraparound. That shows up only after the pool is
+exceeded. Default mode uses one counter per monitoring group. On existing
+AMD platforms that pool is 64 counters and may be larger on newer
+hardware, so common deployments stay within it. mbm_event mode uses two
+counters per group, so the same 32 counters cover only 16 groups.
 
-Thanks,
-Stanislav
+mbm_event remains available as an opt-in. Users that need stable
+measurements beyond the default-mode pool should enable it and rotate
+assignments. The limitation of default mode is documented.
 
-> 
-> Thanks,
-> Bernd
-> 
-> 
-> >  		} else if (sync) {
-> >  			fuse_simple_request(ff->fm, args);
-> > @@ -130,13 +131,26 @@ static void fuse_file_put(struct fuse_file *ff, bool sync)
-> >  	}
-> >  }
-> >  
-> > +static bool fuse_open_needed(struct fuse_conn *fc, unsigned int open_flags,
-> > +			     bool isdir, bool no_open)
-> > +{
-> > +	if (isdir ? fc->no_opendir : fc->no_open)
-> > +		return false;
-> > +
-> > +	/* Atomic truncation must still be performed by the server's OPEN. */
-> > +	if ((open_flags & O_TRUNC) && fc->atomic_o_trunc)
-> > +		return true;
-> > +
-> > +	return !no_open;
-> > +}
-> > +
-> >  struct fuse_file *fuse_file_open(struct fuse_mount *fm, u64 nodeid,
-> > -				 unsigned int open_flags, bool isdir)
-> > +				 unsigned int open_flags, bool isdir, bool no_open)
-> >  {
-> >  	struct fuse_conn *fc = fm->fc;
-> >  	struct fuse_file *ff;
-> >  	int opcode = isdir ? FUSE_OPENDIR : FUSE_OPEN;
-> > -	bool open = isdir ? !fc->no_opendir : !fc->no_open;
-> > +	bool open = fuse_open_needed(fc, open_flags, isdir, no_open);
-> >  	bool release = !isdir || open;
-> >  
-> >  	/*
-> > @@ -152,6 +166,7 @@ struct fuse_file *fuse_file_open(struct fuse_mount *fm, u64 nodeid,
-> >  		return ERR_PTR(-ENOMEM);
-> >  
-> >  	ff->fh = 0;
-> > +	ff->no_open = !open;
-> >  	/* Default for no-open */
-> >  	ff->open_flags = FOPEN_KEEP_CACHE | (isdir ? FOPEN_CACHE_DIR : 0);
-> >  	if (open) {
-> > @@ -189,7 +204,8 @@ struct fuse_file *fuse_file_open(struct fuse_mount *fm, u64 nodeid,
-> >  int fuse_do_open(struct fuse_mount *fm, u64 nodeid, struct file *file,
-> >  		 bool isdir)
-> >  {
-> > -	struct fuse_file *ff = fuse_file_open(fm, nodeid, file->f_flags, isdir);
-> > +	struct fuse_file *ff = fuse_file_open(fm, nodeid, file->f_flags, isdir,
-> > +					    fuse_inode_no_open(fm->fc, file_inode(file)));
-> >  
-> >  	if (!IS_ERR(ff))
-> >  		file->private_data = ff;
-> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> > index 87e2bd9d4bb1..76157a84db22 100644
-> > --- a/fs/fuse/fuse_i.h
-> > +++ b/fs/fuse/fuse_i.h
-> > @@ -257,6 +257,8 @@ enum {
-> >  	 * or the fuse server has an exclusive "lease" on distributed fs
-> >  	 */
-> >  	FUSE_I_EXCLUSIVE,
-> > +	/* Server does not need OPEN/OPENDIR for this inode */
-> > +	FUSE_I_NO_OPEN,
-> >  };
-> >  
-> >  struct fuse_conn;
-> > @@ -322,6 +324,9 @@ struct fuse_file {
-> >  
-> >  	/** @flock: Has flock been performed on this file? */
-> >  	bool flock:1;
-> > +
-> > +	/** @no_open: Open was served locally without an OPEN/OPENDIR request */
-> > +	bool no_open:1;
-> >  };
-> >  
-> >  struct fuse_release_args {
-> > @@ -556,6 +561,9 @@ struct fuse_conn {
-> >  	/** @no_opendir: Is opendir/releasedir not implemented by fs? */
-> >  	unsigned no_opendir:1;
-> >  
-> > +	/** @per_inode_no_open: Honor FUSE_ATTR_NO_OPEN */
-> > +	unsigned per_inode_no_open:1;
-> > +
-> >  	/** @no_fsync: Is fsync not implemented by fs? */
-> >  	unsigned no_fsync:1;
-> >  
-> > @@ -833,6 +841,13 @@ static inline struct fuse_inode *get_fuse_inode(const struct inode *inode)
-> >  	return container_of(inode, struct fuse_inode, inode);
-> >  }
-> >  
-> > +static inline bool fuse_inode_no_open(struct fuse_conn *fc, struct inode *inode)
-> > +{
-> > +	/* CUSE uses a non-FUSE inode and cannot negotiate this capability. */
-> > +	return fc->per_inode_no_open &&
-> > +		test_bit(FUSE_I_NO_OPEN, &get_fuse_inode(inode)->state);
-> > +}
-> > +
-> >  static inline u64 get_node_id(struct inode *inode)
-> >  {
-> >  	return get_fuse_inode(inode)->nodeid;
-> > @@ -1261,7 +1276,7 @@ void fuse_file_io_release(struct fuse_file *ff, struct inode *inode);
-> >  
-> >  /* file.c */
-> >  struct fuse_file *fuse_file_open(struct fuse_mount *fm, u64 nodeid,
-> > -				 unsigned int open_flags, bool isdir);
-> > +				 unsigned int open_flags, bool isdir, bool no_open);
-> >  void fuse_file_release(struct inode *inode, struct fuse_file *ff,
-> >  		       unsigned int open_flags, fl_owner_t id, bool isdir);
-> >  
-> > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> > index cbb10e19e7e8..63924d95caa3 100644
-> > --- a/fs/fuse/inode.c
-> > +++ b/fs/fuse/inode.c
-> > @@ -299,6 +299,11 @@ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
-> >  	 * anyway. Its less efficient but should be safe.
-> >  	 */
-> >  	inode->i_flags &= ~S_NOSEC;
-> > +
-> > +	/* STATX replies do not carry fuse_attr.flags. */
-> > +	if (fc->per_inode_no_open && !sx)
-> > +		assign_bit(FUSE_I_NO_OPEN, &fi->state,
-> > +			   attr->flags & FUSE_ATTR_NO_OPEN);
-> >  }
-> >  
-> >  u32 fuse_get_cache_mask(struct inode *inode)
-> > @@ -1432,6 +1437,8 @@ static void process_init_reply(struct fuse_args *args, int error)
-> >  
-> >  			if (fuse_syncfs_enable(fc, flags))
-> >  				fc->sync_fs = 1;
-> > +			if (flags & FUSE_PER_INODE_NO_OPEN)
-> > +				fc->per_inode_no_open = 1;
-> >  		} else {
-> >  			ra_pages = fc->max_read / PAGE_SIZE;
-> >  			fc->no_lock = 1;
-> > @@ -1510,6 +1517,8 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
-> >  	if (fuse_uring_enabled())
-> >  		flags |= FUSE_OVER_IO_URING | FUSE_HAS_IO_URING_BUFPOOL;
-> >  
-> > +	flags |= FUSE_PER_INODE_NO_OPEN;
-> > +
-> >  	ia->in.flags = flags;
-> >  	ia->in.flags2 = flags >> 32;
-> >  
-> > diff --git a/fs/fuse/ioctl.c b/fs/fuse/ioctl.c
-> > index ce1807704da6..7fc11bb3eee9 100644
-> > --- a/fs/fuse/ioctl.c
-> > +++ b/fs/fuse/ioctl.c
-> > @@ -492,7 +492,8 @@ static struct fuse_file *fuse_priv_ioctl_prepare(struct inode *inode)
-> >  	if (!S_ISREG(inode->i_mode) && !isdir)
-> >  		return ERR_PTR(-ENOTTY);
-> >  
-> > -	return fuse_file_open(fm, get_node_id(inode), O_RDONLY, isdir);
-> > +	return fuse_file_open(fm, get_node_id(inode), O_RDONLY, isdir,
-> > +			      fuse_inode_no_open(fm->fc, inode));
-> >  }
-> >  
-> >  static void fuse_priv_ioctl_cleanup(struct inode *inode, struct fuse_file *ff)
-> > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> > index 10a7f31c4bdf..1b5699407e11 100644
-> > --- a/include/uapi/linux/fuse.h
-> > +++ b/include/uapi/linux/fuse.h
-> > @@ -251,6 +251,9 @@
-> >   *
-> >   *  7.47
-> >   *  - add FUSE_HAS_SYNCFS opt-in flag for privileged userspace servers
-> > + *
-> > + *  7.48
-> > + *  - add FUSE_PER_INODE_NO_OPEN and FUSE_ATTR_NO_OPEN
-> >   */
-> >  
-> >  #ifndef _LINUX_FUSE_H
-> > @@ -286,7 +289,7 @@
-> >  #define FUSE_KERNEL_VERSION 7
-> >  
-> >  /** Minor version number of this interface */
-> > -#define FUSE_KERNEL_MINOR_VERSION 47
-> > +#define FUSE_KERNEL_MINOR_VERSION 48
-> >  
-> >  /** The node ID of the root inode */
-> >  #define FUSE_ROOT_ID 1
-> > @@ -473,6 +476,7 @@ struct fuse_file_lock {
-> >   *		with CAP_SYS_ADMIN in the initial user namespace (the same
-> >   *		privilege that mounting virtiofs or fuseblk requires).
-> >   *		Insufficiently privileged servers ignore it.
-> > + * FUSE_PER_INODE_NO_OPEN: honor FUSE_ATTR_NO_OPEN in inode attributes
-> >   */
-> >  #define FUSE_ASYNC_READ		(1 << 0)
-> >  #define FUSE_POSIX_LOCKS	(1 << 1)
-> > @@ -522,6 +526,7 @@ struct fuse_file_lock {
-> >  #define FUSE_REQUEST_TIMEOUT	(1ULL << 42)
-> >  #define FUSE_HAS_IO_URING_BUFPOOL (1ULL << 43)
-> >  #define FUSE_HAS_SYNCFS		(1ULL << 44)
-> > +#define FUSE_PER_INODE_NO_OPEN	(1ULL << 45)
-> >  
-> >  /**
-> >   * CUSE INIT request/reply flags
-> > @@ -605,9 +610,15 @@ struct fuse_file_lock {
-> >   *
-> >   * FUSE_ATTR_SUBMOUNT: Object is a submount root
-> >   * FUSE_ATTR_DAX: Enable DAX for this file in per inode DAX mode
-> > + * FUSE_ATTR_NO_OPEN: Skip OPEN/OPENDIR and matching RELEASE/RELEASEDIR;
-> > + *                   requires FUSE_PER_INODE_NO_OPEN. Atomic O_TRUNC opens
-> > + *                   still go to the server. RELEASE is also sent after a
-> > + *                   successful remote flock operation to clean up locks,
-> > + *                   even when OPEN was skipped and the file handle is zero.
-> >   */
-> >  #define FUSE_ATTR_SUBMOUNT      (1 << 0)
-> >  #define FUSE_ATTR_DAX		(1 << 1)
-> > +#define FUSE_ATTR_NO_OPEN	(1 << 2)
-> >  
-> >  /**
-> >   * Open flags
-> > 
-> 
+Patch 1: widen cntr_id in L3_QOS_ABMC_CFG from 5 bits to 12 bits, and
+limit the enumerated counter count to 4096, which is what that field can
+encode. The APM [2] at [3] will be updated for the expanded cntr_id field.
+
+Patch 2: when switching to mbm_event, assign counters to existing
+groups, including the default group, matching mkdir auto-assignment.
+
+Patch 3: leave mbm_assign_mode as "default" at boot. This seems to be
+the patch that has generated the most discussion. Let me know, if additional
+justification in the documentation would be helpful, I'd be happy to add it.
+
+Based on tip/master:
+  6b27d3127c05 Merge branch into tip/master: 'x86/tdx'
+
+[1] https://github.com/intel/intel-cmt-cat/issues/311
+[2] AMD64 Architecture Programmer's Manual Volume 2: System Programming,
+    Publication #24593, Revision 3.41, Section 19.3.3.3 "Assignable
+    Bandwidth Monitoring (ABMC)"
+[3] https://bugzilla.kernel.org/show_bug.cgi?id=206537
+
+v4:
+ - Patch 1: Updated changelog(from Reinette's input).
+ - Patch 2: Changelog update (Reinette's input).
+            Function comment update for rdtgroup_assign_cntrs().
+            Tag order update.
+ - Patch 3: Introduced mbm_event counter pool and default active counter pool.
+            Removed duplicate texts in resctrl.rst.
+            Re-arranged the tag order.
+v3:
+- Patch 1: drop the 32-bit u64 change and the bw_src widening. Cap the
+  enumerated counter count at 4096 instead of truncating the CPUID field.
+- Patch 2: clean up comments. Add Reported-by, Closes, and Cc: stable.
+- Patch 3: document one counter per group in default mode and two counters
+  per group in mbm_event mode. Describe the default-mode pool and the pqos
+  wraparound once that pool is exceeded.
+
+v2:
+- Added patch 2 to address Sashiko's comment regarding the documentation
+  issue. In fact, it exposed a real issue. When switching to mbm_event mode,
+  existing monitoring groups should be assigned counters whenever counters
+  are available. This provides a smooth transition between modes and aligns
+  the behavior with the existing auto-assignment mechanism.
+  https://sashiko.dev/#/patchset/8cb66e18e32e4087a9712c1e68ee6da614efe244.1784322818.git.babu.moger%40amd.com
+
+- Combine the two v1 patches and add patch 2 (assign existing groups
+  on mbm_event switch; Sashiko review).
+- Keep boot-default separate from the encoding/truncation fixes.
+- Document the default-mode counter-pool limitation.
+
+Previous versions:
+
+v1: https://lore.kernel.org/lkml/980f39d3a0e0d9f73925e362f835aeef070a1bc5.1784322818.git.babu.moger@amd.com/
+v2: https://lore.kernel.org/lkml/cover.1788545152.git.babu.moger@amd.com/
+v3: https://lore.kernel.org/lkml/cover.1790976400.git.babu.moger@amd.com/
+
+Thanks
+Babu Moger
+
+
+Babu Moger (3):
+  x86/resctrl: Fix ABMC counter programming
+  fs/resctrl: Assign counters to existing groups when enabling mbm_event
+  x86,fs/resctrl: Keep mbm_assign_mode in default mode at boot
+
+ Documentation/filesystems/resctrl.rst  | 50 +++++++++++++++++---------
+ arch/x86/kernel/cpu/resctrl/internal.h |  4 +--
+ arch/x86/kernel/cpu/resctrl/monitor.c  |  4 +--
+ fs/resctrl/monitor.c                   | 47 +++++++++++++++++++-----
+ 4 files changed, 75 insertions(+), 30 deletions(-)
+
+-- 
+2.43.0
+
