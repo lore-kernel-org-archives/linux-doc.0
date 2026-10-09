@@ -1,123 +1,182 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7733C8C7D
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 09:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9001E49BD83;
+	Fri,  9 Oct 2026 09:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791537955; cv=none; b=YY7Q66pVzgceuHqyt6pSM/UdcdcUv5WWSGUPk5FicDkysOR9Ujx2OoEcViIyxi/nk1k0g59sdzIJQEZ0K0NjKVb0Doy9PlzrPMLLyiVFuioAYeTN1LO4f4KuJXmItJ3tk4hPoGaYp5kqPwHb3S3cFLNuhnIcYIwKHPb+4GR+gF0=
+	t=1791538730; cv=none; b=tffU63ffrX0pFOzwu2xnUJSTeLY2Bt4ptQSuVTmAWfih4qsyHLZpvi8q5cOlM2nZ6YPMlbG9WHNacYNTv6GdRrPiQRK5lRfSOnlGiBmA51iWURaTC4olpstlcaaubjhWNO4LNoMAfNbQ/zhjW974j1DTBJFliWFrg4X+KgY+0bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791537955; c=relaxed/simple;
-	bh=i098y0mnHm57TQorRg/tN8rNvRK0uv5JFbnfSKqREz8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aKCDX9Um+5/BTGq1D3WlOoHFVVWDjkzCTtGEg7QdUFLWAyEqxZSdRjJhlG9faEfYG/5ShS/3mKZAn/HHX62DA6o7kvNbJXP2CPs+2ZYyE3t4eyz0X8vkN2ef2mqyi70F0SwWmlrBl4pu6pkmB44f2W5ofpeAjTIQNL61kFyoA24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ugBAGAhD; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1791538730; c=relaxed/simple;
+	bh=t/8BTFDSs8/NUSurdImhQN1o+FHvkF4zuRilT1jO360=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=twjaoGiK/d9o59ufZCmCWo8CQPHbVewdSCBKf73l8KWBvtFRpuTwSrGbnxlrdYSDlsJxOOTYJIzQzy2Kgkfq1hmr3xszbLhxtUDo7/uzSkg1f7+81KvB2TaJgw+IiqRfxcHl+K0l3+pscino8YjvAMds7RX2nl8u8pVxxn6DfxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K7ouyRcx; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ugBAGAhD"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48b0ef9c76eso4662388f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 02:25:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1791537952; x=1792142752; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fgzMN7GSKW7bwxrlr1yTEXEUokyD0aM/o483mXV6npk=;
-        b=ugBAGAhDkwUDNRWXTqCR9hlFdBb6S4w/BffoywkkgsDPKAIT2JmGqu/4olI4juJMZp
-         g8ZFm5Ekfo2i7sTMScylHScoDFB2zTag2n5ZAMq+c5NMgmz9QmcfV5PgRFWLgFvDO93W
-         dPZA0K6dKisa5+fFw319aAGmM5EOlFd5BbEERcBysSTH0pVvFVNBD2/pbinG5Q6SIPf+
-         Y8qHcxQzXXNG+Wn5VG4YnWNxLC6LWqOoUttgsWL3lEawWe0g5sJ4WZ01rPtFiN24tcf0
-         HVgZeEIG/BYfUt8wfwkfT3/iXRQReYGbbWYMCqOBt2J7s+6ULdOy5nSV7C+WcfMmadyU
-         LTJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791537952; x=1792142752;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fgzMN7GSKW7bwxrlr1yTEXEUokyD0aM/o483mXV6npk=;
-        b=KeG6lHBIlcHnitRJP1CPdxbb1qCULTEd8wjgk3Rlcw+AnuQ8NCFIRfizOuOUeO+Ir8
-         29wVhI8/5kezj9MNYvsq0zfq55I7vUuRZs7KLMX3+y5w4D7t9tjaKoMZzMQkLd+owH7z
-         uzvjb7Vj1g22wIBtePgxAxljd4yXqZlT2VtQn4o+JBWqbrDh85n3F4tk8cJC7cMWb1MB
-         r1Yxw4qyX4xcKl6XLZbm7bstJA+7BvJoBsfC64dgPWj1tuOWWnGVODvQdPDMF22CcxNi
-         K0q3jU9J7PyWIiZaeGegLrO+p6HmZe9BwYeT56Us4dznASEsVlQxyRgFVF9lvPosxKlt
-         kdeg==
-X-Forwarded-Encrypted: i=1; AKwUvBywK+7KHHRY9rCFGGW1PDKynV4NZUsmcOsTH2QPmShJ6AUZxa3SnfSQ5b/iQr30KinCjLL3uW+0z2o=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKCp0uQF/Ic8Q9hUpsGnkHW+3rcsU6wnonQ51+uoFyXPzaLKlsV
-	OdZ5WieagKHopXRi2yGym9ThS9KDr8u3LYTbcm653fs76FwhPW3J/hSeChk04biNbY0=
-X-Gm-Gg: AYBFou16g9nlIA9n97uGR76OR9GVjMJrUojG6JfLvO6lzGdp0Z8UofjpRL8v5d3km1X
-	CsxMuJde3WDYQDkPYCRXUuSvn3lRXsA+zIB5aMggo9Abowdxgw7FiTYLPx1zcbVhutQqBDaE9MD
-	Huxq5Dkk4DH7r99wMf/IibW/B5Lfj9dNPoDUJyliVY6Vd6+wR4Wbso3VQ9R+qVvbcEMXYbfoWiA
-	IklXhWw+/avRjm8NQb6gpghzkBnbhlf818AwOsh8cdfrpOtN7BLetxsvIvO0KzDb62kA4L76Ogw
-	TK5rFuDvd1ireFEFM82pydf+EKxDzThia+i12mMr1lW/RYu++Nal/p/bD12ZspncUv3jjewXPnE
-	o1/OQAVn48EgDcMet72VbIa1Q4eCiXtdqcmBmOiSv9K5Ysn892je91ENpmk8LWWVjcCC3wRuUUW
-	j8JRuwlH4sUmSyR0BAzHmxi5XPyfoyMYEJerWOJRQagt6qnmWu+VeOZbxTPLv3XLX2YanM6vUl1
-	/Ya/i6wIx2ydg==
-X-Received: by 2002:a05:6000:2301:b0:488:8ab9:f74c with SMTP id ffacd0b85a97d-48dba77cd61mr2451398f8f.3.1791537952139;
-        Fri, 09 Oct 2026 02:25:52 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9462ebcsm3297499f8f.8.2026.10.09.02.25.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Oct 2026 02:25:51 -0700 (PDT)
-Message-ID: <f66a803f-6355-45df-83d0-bb6d29afb4c5@linaro.org>
-Date: Fri, 9 Oct 2026 10:25:50 +0100
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K7ouyRcx"
+Received: from killaraus.ideasonboard.com (dynamic-2a00-1028-8389-0276-8139-a635-2d39-b80f.ipv6.o2.cz [IPv6:2a00:1028:8389:276:8139:a635:2d39:b80f])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C904324A;
+	Fri,  9 Oct 2026 11:36:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1791538598;
+	bh=t/8BTFDSs8/NUSurdImhQN1o+FHvkF4zuRilT1jO360=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K7ouyRcx/r1kBYBhaKHmONrS3ZOqNIj3HkP41itKyufp0xxHmFupGuoa+2vA/NCE4
+	 84nQBJ6HzLux2/HFF1V+jcIiRoRoI/FBNcKPkKyQUWj9e5NNkrwCKTAAiEKd4HOgms
+	 laT24Sx7LgkJbKUTtC5SlNhq3XfIgc/bMeTbq3fM=
+Date: Fri, 9 Oct 2026 11:38:35 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <20261009093835.GA680229@killaraus.ideasonboard.com>
+References: <20261009083137.3-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/14] perf cs-etm: Queue partial AUX records
-To: Leo Yan <leo.yan@arm.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach
- <mike.leach@arm.com>, John Garry <john.g.garry@oracle.com>,
- Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
- Leo Yan <leo.yan@linux.dev>, linux-arm-kernel@lists.infradead.org,
- coresight@lists.linaro.org, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, Arnaldo Carvalho de Melo <acme@redhat.com>,
- linux-doc@vger.kernel.org
-References: <20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org>
- <20260821-james-cs-unformatted-per-thread-fix-v2-9-00c4fd0701b4@linaro.org>
- <20260827170936.GO8904@e132581.arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260827170936.GO8904@e132581.arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261009083137.3-1-sashal@kernel.org>
 
+Hi Sasha,
 
+On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote:
+> The Maintainers Summit reached consensus to deprecate the Assisted-by
+> tag. Remove the documentation requiring it.
 
-On 27/08/2026 18:09, Leo Yan wrote:
-> On Fri, Aug 21, 2026 at 10:49:07AM +0100, James Clark wrote:
->> In snapshot mode AUX records may straddle the boundary of multiple trace
->> buffers. Currently we only queue AUX records whose range is contained
->> wholly within a single buffer.
->>
->> Fix it by queuing any partial AUX range that overlaps any buffer.
+Please explain the rationale in the commit message. I'm sure you know
+how sensitive this topic is for many people, the more opaque changes are
+the more questions and frustration they will generate.
+
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  Documentation/process/coding-assistants.rst   | 21 +------------------
+>  Documentation/process/submitting-patches.rst  | 10 ---------
+>  .../it_IT/process/submitting-patches.rst      | 10 ---------
+>  scripts/checkpatch.pl                         | 11 ----------
+>  4 files changed, 1 insertion(+), 51 deletions(-)
 > 
-> This issue has already existed before this series, so need a fix tag?
-> 
+> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+> index 051f0d819f68e..509dbf23a099b 100644
+> --- a/Documentation/process/coding-assistants.rst
+> +++ b/Documentation/process/coding-assistants.rst
+> @@ -40,24 +40,6 @@ is responsible for:
+>  * Adding their own Signed-off-by tag to certify the DCO
+>  * Taking full responsibility for the contribution
+>  
+> -Attribution
+> -===========
+> -
+> -When AI tools contribute to kernel development, proper attribution
+> -helps track the evolving role of AI in the development process.
+> -Contributions should include an Assisted-by tag in the following format::
+> -
+> -  Assisted-by: LLM [TOOL1] [TOOL2]
+> -
+> -* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+> -  (e.g., coccinelle, sparse, smatch, clang-tidy)
+> -
+> -Basic development tools (git, gcc, make, editors) should not be listed.
+> -
+> -Example::
+> -
+> -  Assisted-by: LLM coccinelle sparse
+> -
+>  Procedure for finding and fixing bugs
+>  =====================================
+>  
+> @@ -82,8 +64,7 @@ these steps:
+>     another one. The fix must not add build warnings and must pass the
+>     checkpatch.pl checks (see submitting-patches.rst).
+>  6. Commit the working fix with a detailed message describing the problem, the
+> -   solution and a Fixes tag. Do not add a Signed-off-by tag, and add an
+> -   Assisted-by tag, as described above.
+> +   solution and a Fixes tag. Do not add a Signed-off-by tag.
+>  7. Identify the maintainers and lists using scripts/get_maintainer.pl.
+>     Documentation/process/security-bugs.rst shows how to do that.
+>  8. Indicate what could not be done. If the fix could not be built or tested, or
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 7ae79452e1b46..5f4e0156cca78 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -632,16 +632,6 @@ bugzilla.kernel.org is a public place in this sense, but email addresses
+>  used there are private; so do not expose them in tags, unless the person
+>  used them in earlier contributions.
+>  
+> -Using Assisted-by:
+> -------------------
+> -
+> -If you used any sort of advanced coding tool in the creation of your patch,
+> -you need to acknowledge that use by adding an Assisted-by tag.  Failure to
+> -do so may impede the acceptance of your work.  Please see
+> -Documentation/process/coding-assistants.rst for details regarding the
+> -acknowledgment of coding assistants.
+> -
+> -
+>  .. _the_canonical_patch_format:
+>  
+>  The canonical patch format
+> diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
+> index a742610cb0709..d0e0d6c9ecc2e 100644
+> --- a/Documentation/translations/it_IT/process/submitting-patches.rst
+> +++ b/Documentation/translations/it_IT/process/submitting-patches.rst
+> @@ -691,16 +691,6 @@ un luogo pubblico, ma gli indirizzi email usati lì sono privati; quindi non
+>  esponeteli nelle etichette, a meno che la persona non li abbia già usati in
+>  contributi precedenti.
+>  
+> -Usare Assisted-by:
+> --------------------
+> -
+> -Se avete usato un qualsiasi tipo di strumento di assistenza avanzata alla
+> -scrittura del codice per la creazione della vostra patch, dovete darne atto
+> -aggiungendo un'etichetta Assisted-by.  Non farlo può ostacolare
+> -l'accettazione del vostro lavoro.  Fate riferimento a
+> -Documentation/process/coding-assistants.rst per i dettagli su come dare
+> -atto dell'uso di assistenti alla scrittura del codice.
+> -
+>  .. _it_the_canonical_patch_format:
+>  
+>  Il formato canonico delle patch
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 8a7787d228a63..c9840f5219c2a 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -655,7 +655,6 @@ our $signature_tags = qr{(?xi:
+>  	Reviewed-by:|
+>  	Reported-by:|
+>  	Suggested-by:|
+> -	Assisted-by:|
+>  	To:|
+>  	Cc:
+>  )};
+> @@ -3124,16 +3123,6 @@ sub process {
+>  				}
+>  			}
+>  
+> -			# Assisted-by uses a free-form value (e.g. "LLM"), not an
+> -			# email address, so skip the email format checks below.
+> -			if ($sign_off =~ /^Assisted-by:/i) {
+> -				if ($email =~ /^\s*$/) {
+> -					WARN("BAD_SIGN_OFF",
+> -					     "Assisted-by requires a value\n" . $herecurr);
+> -				}
+> -				next;
+> -			}
+> -
+>  			my ($email_name, $name_comment, $email_address, $comment) = parse_email($email);
+>  			my $suggested_email = format_email(($email_name, $name_comment, $email_address, $comment));
+>  			if ($suggested_email eq "") {
 
-I saw it as more of an improvement than a fix. I was hesitant to put fix 
-tags on everything because there can be so many different interactions 
-between the changes.
+-- 
+Regards,
 
-Maybe we can leave the fix tags for the actual blockers and asserts etc?
-
->> Signed-off-by: James Clark <james.clark@linaro.org>
-> 
-> Otherwise:
-> 
-> Reviewed-by: Leo Yan <leo.yan@arm.com>
-
+Laurent Pinchart
