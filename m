@@ -1,105 +1,175 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3158F3E9C3C;
-	Fri,  9 Oct 2026 07:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56D8175A95;
+	Fri,  9 Oct 2026 08:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791530584; cv=none; b=k6plCuZv+gePhNzoRVAIpdsv+ymCQcEZ5/BgZARFQUk3FV7v4l5GOdmCUOFXqKrt/z30/GF8Rsev7K9peIQGGY+w2D7uG2xmZBhOgMtUXyJ0XuNMyLmawP8eKB9/d+sOOQVDYBg1Gh1tSFhuoAbexl6baEQIWTeoh+rZ8vUbPEg=
+	t=1791534705; cv=none; b=RwrsQP8cumxnAA+YFPtaCjRWcwA74x2G1RzJjpYfTGr3Q2+9QNavRuMdBxQ6t76Jb7+asUmfOQ8YE4fFRzkWusEj9uOEUmZo/2EgG22xZVm7rd+Ixjw8sFx+rkGqPV9gkScxKacZwpTkj9W/gLSUOgi/TfpWd+JK1DhmQkw3t+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791530584; c=relaxed/simple;
-	bh=WsYk4mwXHGtEeA9/sqqtPLloNXN/PsNfk1fSu7KICtk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QXefCkkFe5FKSOTbUuVCLLEMQCo/4me2aywLsk/KgVdt8IY7FwPdKfoz/gXeCz8E3yTr7c3YjAtQiomVvFFkvJMqpdXHQw/ZLPiRWSS0UaWcsCwb67oZSLDP97qsz7cPT6vL8zttXNzXAJJaYQXXn4/CDA7O8hGiOyZAepk6+QA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=t8CehVv4; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1791534705; c=relaxed/simple;
+	bh=NJjxCp+nRN3fdBFPvl6wi7Uel1u9jaZRB/mdtdoRkPQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KhLVCdBzE0Gj2ye6GYKsOg1gaPuSugaQMJiENXz9L4SUD94OEpXoWWRIbFljb9Qf9BfrTSma/3P+fOfJ0o1Ohm13Hic61QOVHEeRSvtKVrH6zULAWRaZXvv3NrWhyerfFEysolIS4MbRdpNNW0Tc4aFCoFDfY/0qdxFcSaqDsDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nKWEH9rz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="t8CehVv4"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE6991692;
-	Fri,  9 Oct 2026 00:22:57 -0700 (PDT)
-Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 29DE03F8C6;
-	Fri,  9 Oct 2026 00:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1791530581; bh=WsYk4mwXHGtEeA9/sqqtPLloNXN/PsNfk1fSu7KICtk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=t8CehVv4+Lz8Ugsv96BmQeZ1twjOPHaeTSryLFZ8XK8XZigz5W+IYmOHxXvNgxCos
-	 N7BdEXolPVcgXabranRPAkc3TgIpNDG7vL7on5JnWLSDBD8O+6Xi8OgL/yfdqoaAGW
-	 FrYeFAl55KJTNtuwLj3854pSMLI1wyh9ufDn1hq0=
-Date: Fri, 9 Oct 2026 08:22:55 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Peng Fan <peng.fan@oss.nxp.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Steffen Eiden <seiden@linux.ibm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	"Ivan T. Ivanov" <iivanov@suse.de>,
-	Francesco Dolcini <francesco@dolcini.it>,
-	Frank Li <frank.li@nxp.com>, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev, imx@lists.linux.dev,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH v4] arm64: errata: Add NXP iMX8QM workaround for A53
- cache coherency issue
-Message-ID: <asiWTxgGxJ5JIFcl@arm.com>
-References: <20260824-imx8qm-cache-coherency-v4-v4-1-b2e528c7d05e@nxp.com>
- <asTZEhzMDs869r_n@arm.com>
- <aseZUwi0CYTXuE/I@shlinux89>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nKWEH9rz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 511FD1F000FF;
+	Fri,  9 Oct 2026 08:31:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791534702;
+	bh=m6NKVUXFhmaB2VeLEuRbp4QVcPVBGXLpktP7Gc0p9Ow=;
+	h=From:To:Cc:Subject:Date;
+	b=nKWEH9rzWGfGGeTk5ASF1fecG+mhdIr1uabgLHWaF4jjTYWVpZ7pBSzhnwEW/VljW
+	 W6WgYzvMyZ/Ybeu/9uTV0wiXGn7tea/xUyx4RY/SlwGFKu9UBH28EtY71InHLMWt1K
+	 0Z5GzwWOITxOeEdlw6VK8hh3WN7IsdOe1kDhZRktK6tApgBwSrERr0XP26+Nq2GwDG
+	 n/QdunDvKl04MmU4kPNPtjaOpJ7WJ4ZZ+BgyMwvaa2uZox+DAUmJWKLuU2DG+vnKhL
+	 fw1qoJCz3UhAb8hOih7kO8deUVcDMSMXmsEAjAGRXQNxZoYyeVO6tENxEuek+7kVgs
+	 FW9vHfEcuqRJQ==
+From: Sasha Levin <sashal@kernel.org>
+To: corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	federico.vaga@vaga.pv.it,
+	apw@canonical.com,
+	joe@perches.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH] docs: remove Assisted-by references
+Date: Fri,  9 Oct 2026 04:31:37 -0400
+Message-ID: <20261009083137.3-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aseZUwi0CYTXuE/I@shlinux89>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 08, 2026 at 09:23:31PM +0800, Peng Fan wrote:
-> On Tue, Oct 06, 2026 at 12:18:42PM +0100, Catalin Marinas wrote:
-> >On Mon, Aug 24, 2026 at 12:02:04PM +0800, Peng Fan (OSS) wrote:
-> >>   - Disabling KVM since correct TLB maintenance cannot be guaranteed
-> >>     for guests.
-> >
-> >Do you need virtualisation on such platform? An alternative would be for
-> 
-> We not have KVM support in our software release for i.MX8QM.
-> 
-> >the guests to be aware of the erratum as well and use the right TLBI/IC
-> >ops. But you'd also need to upgrade the VMID-aware ops in KVM (unless
-> >the hardware can't work around stage 2 TLBI at all).
-> 
-> We not have test cases for this since KVM is not in our release scope. 
-> Could we take this as a future enablement to avoid uneccessary churn
+The Maintainers Summit reached consensus to deprecate the Assisted-by
+tag. Remove the documentation requiring it.
 
-Yes, you can leave it out if you don't care about the KVM use-cases.
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/process/coding-assistants.rst   | 21 +------------------
+ Documentation/process/submitting-patches.rst  | 10 ---------
+ .../it_IT/process/submitting-patches.rst      | 10 ---------
+ scripts/checkpatch.pl                         | 11 ----------
+ 4 files changed, 1 insertion(+), 51 deletions(-)
 
-> >There's a precedent with 4311569 to wire up a SoC erratum into the CPU
-> >errata framework. That one is a system wide feature, so only probed once
-> >for the CPUs coming up at boot (though still probed for each late CPUs).
-> >For iMX, you need this turned on early, hence the boot probing. But
-> >calling it a strict boot CPU feature is a bit of a stretch. It also gets
-> >probed on every CPU, unnecessarily.
-> >
-> >I think we could do with something like below (maybe as a preparatory
-> >patch). We could also add it to 4311569 even if it changes its scope
-> >from system to boot CPU (the early param is available).
-> >
-> >Only compile-tested and haven't tried wiring up your workaround:
-> 
-> With type set to ARM64_CPUCAP_SOC_ERRATUM for i.MX8QM and your patch
-> applied, I not see issues in my test.
-> 
-> Would you post it as a formal patch or need me to include your patch
-> with i.MX8QM errata patch in a patchset?
-
-Please post it with your patchset. Feel free to add a co-developed-by or
-suggested-by me on the new cpucap proposal.
-
+diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+index 051f0d819f68e..509dbf23a099b 100644
+--- a/Documentation/process/coding-assistants.rst
++++ b/Documentation/process/coding-assistants.rst
+@@ -40,24 +40,6 @@ is responsible for:
+ * Adding their own Signed-off-by tag to certify the DCO
+ * Taking full responsibility for the contribution
+ 
+-Attribution
+-===========
+-
+-When AI tools contribute to kernel development, proper attribution
+-helps track the evolving role of AI in the development process.
+-Contributions should include an Assisted-by tag in the following format::
+-
+-  Assisted-by: LLM [TOOL1] [TOOL2]
+-
+-* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
+-  (e.g., coccinelle, sparse, smatch, clang-tidy)
+-
+-Basic development tools (git, gcc, make, editors) should not be listed.
+-
+-Example::
+-
+-  Assisted-by: LLM coccinelle sparse
+-
+ Procedure for finding and fixing bugs
+ =====================================
+ 
+@@ -82,8 +64,7 @@ these steps:
+    another one. The fix must not add build warnings and must pass the
+    checkpatch.pl checks (see submitting-patches.rst).
+ 6. Commit the working fix with a detailed message describing the problem, the
+-   solution and a Fixes tag. Do not add a Signed-off-by tag, and add an
+-   Assisted-by tag, as described above.
++   solution and a Fixes tag. Do not add a Signed-off-by tag.
+ 7. Identify the maintainers and lists using scripts/get_maintainer.pl.
+    Documentation/process/security-bugs.rst shows how to do that.
+ 8. Indicate what could not be done. If the fix could not be built or tested, or
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 7ae79452e1b46..5f4e0156cca78 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -632,16 +632,6 @@ bugzilla.kernel.org is a public place in this sense, but email addresses
+ used there are private; so do not expose them in tags, unless the person
+ used them in earlier contributions.
+ 
+-Using Assisted-by:
+-------------------
+-
+-If you used any sort of advanced coding tool in the creation of your patch,
+-you need to acknowledge that use by adding an Assisted-by tag.  Failure to
+-do so may impede the acceptance of your work.  Please see
+-Documentation/process/coding-assistants.rst for details regarding the
+-acknowledgment of coding assistants.
+-
+-
+ .. _the_canonical_patch_format:
+ 
+ The canonical patch format
+diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
+index a742610cb0709..d0e0d6c9ecc2e 100644
+--- a/Documentation/translations/it_IT/process/submitting-patches.rst
++++ b/Documentation/translations/it_IT/process/submitting-patches.rst
+@@ -691,16 +691,6 @@ un luogo pubblico, ma gli indirizzi email usati lì sono privati; quindi non
+ esponeteli nelle etichette, a meno che la persona non li abbia già usati in
+ contributi precedenti.
+ 
+-Usare Assisted-by:
+--------------------
+-
+-Se avete usato un qualsiasi tipo di strumento di assistenza avanzata alla
+-scrittura del codice per la creazione della vostra patch, dovete darne atto
+-aggiungendo un'etichetta Assisted-by.  Non farlo può ostacolare
+-l'accettazione del vostro lavoro.  Fate riferimento a
+-Documentation/process/coding-assistants.rst per i dettagli su come dare
+-atto dell'uso di assistenti alla scrittura del codice.
+-
+ .. _it_the_canonical_patch_format:
+ 
+ Il formato canonico delle patch
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 8a7787d228a63..c9840f5219c2a 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -655,7 +655,6 @@ our $signature_tags = qr{(?xi:
+ 	Reviewed-by:|
+ 	Reported-by:|
+ 	Suggested-by:|
+-	Assisted-by:|
+ 	To:|
+ 	Cc:
+ )};
+@@ -3124,16 +3123,6 @@ sub process {
+ 				}
+ 			}
+ 
+-			# Assisted-by uses a free-form value (e.g. "LLM"), not an
+-			# email address, so skip the email format checks below.
+-			if ($sign_off =~ /^Assisted-by:/i) {
+-				if ($email =~ /^\s*$/) {
+-					WARN("BAD_SIGN_OFF",
+-					     "Assisted-by requires a value\n" . $herecurr);
+-				}
+-				next;
+-			}
+-
+ 			my ($email_name, $name_comment, $email_address, $comment) = parse_email($email);
+ 			my $suggested_email = format_email(($email_name, $name_comment, $email_address, $comment));
+ 			if ($suggested_email eq "") {
 -- 
-Catalin
+2.53.0
+
