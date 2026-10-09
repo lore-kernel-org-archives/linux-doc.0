@@ -1,133 +1,128 @@
-Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 586533B38B5;
-	Fri,  9 Oct 2026 16:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.35.192.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7532A2D8378;
+	Fri,  9 Oct 2026 16:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791564641; cv=none; b=SLRrPWUkmlX4mlw67vcfCm6Iwt86Ze+OWrROyJu3STvXrLLtETlh6BqI4/dLalHEBsLK717fKiYDo/s/O7kjAZeBEw23LOUkyGYOhryZIJpPpw4w+S9fMStV8WXiOhpMlEe3WXdlfJsZ9F1mcQKH0kmUrcxQlBXLRCaTLjTILtM=
+	t=1791564992; cv=none; b=elEOgTtEHsPhwjmcjbQep2msLS/L+KTzU4uVeWecuz+Tk7AQU+E93GTQoGXA2kxAzKKaXIRA/afUyQlA/o9NrXFYpDsz3lesUcs/X9hNHR+XQ+RQyY3WwIXHDpoI3OsgutVqDFWaZ6SDVXBQTlTHW4RFvGYejBq0bDnkL+12WJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791564641; c=relaxed/simple;
-	bh=LIFsaO3fsvEhD6wKg9EfgPe8fhHtTQ9Cyr4ksp9R8xo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gp8DjzfzlgiI03eoSvrN2LgnSqZ7JTBGFQMAFHwtEhVjkKVdIsyQ2FuLQrkzVRTFTOKsPvh/JII2jI8H4lBaXu1CS/U8FAxF05qt7uOg9cSC8Czqe007goAD1oojq8E+K51Q3SISoYOQrcndEh/+BTeOkwMHxBzVRsw86OnASRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b=fKiuW4Nm; arc=none smtp.client-ip=52.35.192.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	s=arc-20240116; t=1791564992; c=relaxed/simple;
+	bh=Gsc13vUDcqHhR9WqLn+uEOJ3bL2AXkQlfX0gpVkBRts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MkvG/1pLRqmKNPgkDjWOd+M2g2fz3TDtk49oOlUHUdVn96aty4ScJ6PblUBstN+NcMwmtEoa0RfWT9hpXFio6RF0m7tWe5JTU1O2J0NJII8pn0waq0LXE0axgTItNb+SkByVBBnslwEb28h/8Nenj6UzPP8um5c4a0lx/WhTP7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUsl9XnU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.de header.i=@amazon.de header.b="fKiuW4Nm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazoncorp2;
-  t=1791564640; x=1823100640;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0kAPpWGj1DC84kxfJatA2C4pxii/3PkUflvl6jcTUWU=;
-  b=fKiuW4Nm58rJxOUYPRZ+PwjouBuQAzXpuzOt2wJkSrSY5b3n/XQJCacQ
-   /IM0aWVWJzKtjYlYzPdxF9d3wrRQAO5idMO2l18kamYTFcbPnUzz22+31
-   7oJMqoPrDuAKMysTpd3fRE2AaxQVdo2plktYhUYHDT+o5NfR48bJoef7o
-   OC1DZmEKdvgbp7tPeXmPiJWdhBiXdC7sO0RRaxl4GDBikUr025ZvtHUip
-   wR52RIg1XwhqQhbHBKVhYuNyrcpUKocyax+W2/JhOWiEhELbDgaNZFxgF
-   5HpytFVEbiysislftvsJ2gr8Ny+YuCoeUdWoKrdjgvARdokF5ZmObmS3q
-   w==;
-X-CSE-ConnectionGUID: f2UJQ553Tn23QdDbD8h91Q==
-X-CSE-MsgGUID: ATqxIQTtRLSTP+W/nH5mfA==
-X-IronPort-AV: E=Sophos;i="6.27,148,1787011200"; 
-   d="scan'208";a="30616529"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 16:50:37 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:25422]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.7.115:2525] with esmtp (Farcaster)
- id 744db98d-fcae-4ba0-bbf3-9974e881881a; Fri, 9 Oct 2026 16:50:37 +0000 (UTC)
-X-Farcaster-Flow-ID: 744db98d-fcae-4ba0-bbf3-9974e881881a
-Received: from EX19D001UWA002.ant.amazon.com (10.13.138.236) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
- Fri, 9 Oct 2026 16:50:36 +0000
-Received: from localhost (10.106.82.18) by EX19D001UWA002.ant.amazon.com
- (10.13.138.236) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49; Fri, 9 Oct 2026
- 16:50:36 +0000
-Date: Fri, 9 Oct 2026 18:50:33 +0200
-From: Roman Kagan <rkagan@amazon.de>
-To: Christian Loehle <christian.loehle@arm.com>
-CC: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
-	<daniel.lezcano@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
-	<linux-pm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <nh-open-source@amazon.com>
-Subject: Re: [PATCH] cpuidle: Add the shallow governors
-Message-ID: <askbWVeX1pDtYC60@ub9ea591b72db54.ant.amazon.com>
-Mail-Followup-To: Roman Kagan <rkagan@amazon.de>,
-	Christian Loehle <christian.loehle@arm.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-pm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nh-open-source@amazon.com
-References: <20261008-b4-cpuidle-shallow-v1-1-c19e71127b14@amazon.de>
- <e18bd763-0d6d-4bfd-b59e-78f952c94aa2@arm.com>
- <faf34e6e-ecd9-471a-b30e-3aa79e3ee063@arm.com>
- <asjaR_aPwevvBw_O@ub9ea591b72db54.ant.amazon.com>
- <2e635fc7-3d5c-4555-b92b-9e6e405f1b23@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUsl9XnU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA2421F000FF;
+	Fri,  9 Oct 2026 16:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791564991;
+	bh=fE0OAfD+VvZZQlsp7SZETT3KsGTWZ99jT3uHHIgYDkQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RUsl9XnUQdex4hYDI/nvqZumtgOTjlWiX0N56fVGal9ZXTElbzreII28hFeRkApJB
+	 NHo6FTkv1s0R1SKHMxFh2yoyGgEj94FI2YTZ5R2m7lwDx9O3N5/dtVzHCZ7rRFHg+b
+	 AtSEfYi+n++t5xP6H8VImwwnXKYhoLn2R1W0Koa99MOWI+o8HHqK2kIurxPlAU0Yri
+	 ygANXuDjupNkgl+uor72EiN8FZ3fmo02D0/KSu5wQ2x84hwaNSlHgKIyyR/PugD/c9
+	 1rQuaM8k2AyO9mDtnEOKbWctVlZ0WY0IhSQdg1dl1SdQIKXtdsg79DgnHAMkLcGLF5
+	 UTDY8ujTUNlMg==
+Date: Fri, 9 Oct 2026 17:56:08 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v4 07/38] mm: add mmap action for discontiguous kernel
+ page mapping
+Message-ID: <askajMD6aWnRZzwK@gremlin>
+References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
+ <20261003-b4-mmap-prepare-vma-flag-sanify-v4-7-a1f052500fd7@kernel.org>
+ <CAJuCfpGj2Q092+zB=Z-d1iAOD6n1_HXVZQAL+YM6x_CeUEMpcw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2e635fc7-3d5c-4555-b92b-9e6e405f1b23@arm.com>
-X-ClientProxiedBy: EX19D031UWA004.ant.amazon.com (10.13.139.19) To
- EX19D001UWA002.ant.amazon.com (10.13.138.236)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpGj2Q092+zB=Z-d1iAOD6n1_HXVZQAL+YM6x_CeUEMpcw@mail.gmail.com>
 
-On Fri, Oct 09, 2026 at 01:45:40PM +0100, Christian Loehle wrote:
-> On 10/9/26 13:12, Roman Kagan wrote:
-> > On Thu, Oct 08, 2026 at 07:29:43PM +0100, Christian Loehle wrote:
-> >> On 10/8/26 19:17, Christian Loehle wrote:
-> >>> On 10/8/26 19:06, Roman Kagan wrote:
-> >>>> The idle states offered by a platform trade wakeup latency for energy
-> >>>> savings, and there are situations where the trade is not worth making:
-> >>>> while a latency-sensitive workload is running, or during a live update
-> >>>> via kexec, where everything from the outgoing kernel stopping the
-> >>>> workload to the incoming kernel resuming it is downtime, and deep idle
-> >>>> states may lengthen it.
-> >>>>
-> >>>> The mechanisms currently available for that are all one-way.
-> >>>> cpuidle.off=1, idle=poll and idle=halt can only be requested in the
-> >>>> kernel command line and cannot be undone, and the PM QoS interfaces
-> >>>> (/dev/cpu_dma_latency and the per-CPU pm_qos_resume_latency_us
-> >>>> attribute) can only be used once user space is up, so they cannot cover
-> >>>> the boot of the incoming kernel.
-> >>>
-> >>> You can also disable all but the shallowest idle state in sysfs:
-> >>> echo 1 > /sys/devices/system/cpu/cpuX/cpuidle/stateX/disable
-> >>>
-> >>
-> >> And I'd probably prefer having that exposed via the cmdline rather than
-> >> two separate governors...
-> > 
-> > Doing this cmdline configuration per-cpu per-state is non-realistic.  I
-> > guess you mean a single option that would express a policy, like "for
-> > all cpus in the system, disable all but the shallowest state" or "...
-> > all but the shallowest non-polling".  But policy is exactly what
-> > governors are for.
-> 
-> Yes, I had something like
-> cpuidle.max_exit_latency_us=<N>
-> in mind that then sets the disable attribute for the applicable states.
-> 
-> > 
-> > Why exactly does having two more separate simple, narrow-purpose
-> > governors sound wrong to you?
-> 
-> Because it's a lot of duplicate code we have to maintain (and the
-> documentation).
+On Sun, Oct 04, 2026 at 10:11:18AM -0700, Suren Baghdasaryan wrote:
+> On Sat, Oct 3, 2026 at 6:35 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
 
-Fair.  But then PM QoS model appears to fit better.  I'll see to
-reconcile it with the need to be able to set at boot and clear later.
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index 448342883e9d..45b21bb04a18 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
 
-Thanks,
-Roman.
+> > +static void __map_kernel_pages_prepare(struct vm_area_desc *desc)
+> > +{
+> > +       if (vma_desc_test(desc, VMA_MIXEDMAP_BIT))
+> > +               return;
+> > +
+> > +       VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
+>
+> Sorry I missed this before and it is pre-existing code but is this a
+> weird way of asserting that mmap_lock is write-locked? If so, why not
+> just use mmap_assert_write_locked()?
+
+Ah yeah, this weirdness is duplicated from the existing code. Will fix up on
+resin!
+
+--
+Cheers, Lorenzo
