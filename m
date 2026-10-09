@@ -1,41 +1,62 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9612D592D;
-	Fri,  9 Oct 2026 14:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F7D38F94F;
+	Fri,  9 Oct 2026 14:54:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791555768; cv=none; b=CRgL83RAUybyueEDvPU85aQcpowNgDA25DegUr8h3N3gFs5OZhujGhHXRo16P0OuPz3Ws1Ew8sxo8kvk4lCk5Fa4mGfs9srcRzAZNiBAPw1nDxBLOXlRz2l8s3zic2oOXv+WIqWU6W4y/CTJEncgPWkalJPrybrBFVfTtQmch9o=
+	t=1791557665; cv=none; b=Rtyo+65lwBUD6V4J1ZnfzGFiG14DQr9sawMv+AFAEPsWdovGK8AiNa1uVk5+C1ux0FunFcv114OcYSm1OAYhTw+5BwPbItKzlJyov12MKaeEKZZLhXtkZ6ozUuVm83lUDCRnxJ6CTrlMcxIg/sTJ8Ok9WIfND9cj1gkxvu4pXzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791555768; c=relaxed/simple;
-	bh=fQbqETrk+6hHLAWxiWRSbCCRBONqw5Hry4DTx6uTvk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MS1wSMAD90vsBx8yqxoIylyLQ9Gmf05PxzXzvNs1Pz8gehfUi5SkqnE6e0Rrg6DqIlkB2u3eTOItcw/nWtC8okyppWomI4lyrlnjwwnupDt7CIdEWPkdMa4JF4aOF0NOJz9oKzdDo11TwUG9Cc07Ua9FCMGpum9b/HLVra1aE6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Qs50c1fv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791557665; c=relaxed/simple;
+	bh=mjLRswS6bYNfNkqCUU3C/HEsiq7eO6CnV8GdKO2vuFs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UkTd9sdMVEN572eX7nqVwTeKgJCw8B720gSixBu719Qs0J9TYSeWh0HezwPqk/MYT91tHTrm9IsUv3t0f2wU8MOtW1FdS2FPdiKTatv43g1v32JzR04XcOd4kG4r3405JuAjumO/eHbNbngQ3vM1/5HHV7BTboKzwKk2CVUjzIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N453kPhc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qs50c1fv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5C951F00893;
-	Fri,  9 Oct 2026 14:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791555766;
-	bh=k5u0nEAirOWqi1VCaxdmJQ4JqrSlci3pWXWjeAqH/8A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Qs50c1fvAAJGbUqZVjnk06seG8+SFM7f/mLMzFePbxQmD6so/orpPKgaMhTjrPUEH
-	 ZqYjQ5CMSb0UNsAg+RnaPsTwAyUxN4a5/zUchKuQkk11K7zsamNpDZj/2E7aD5St/3
-	 FVZXsiqqNzVWF8vzv0sSt3dXwvOvR8C9sUJJhUiU=
-Date: Fri, 9 Oct 2026 10:22:44 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Leon Romanovsky <leon@kernel.org>, workflows@vger.kernel.org, 
-	ksummit@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	broonie@kernel.org, tytso@mit.edu
-Subject: Re: [PATCH 1/2] agents: add infrastructure for agent resources
-Message-ID: <20261009-nebulous-prophetic-caiman-c7842c@lemur>
-References: <cover.1791499378.git.sashal@kernel.org>
- <5dfafd6f79165526fe17774c55b553b7dfe4b3fe.1791499378.git.sashal@kernel.org>
- <20261009134025.GA11438@unreal>
- <asj4FCbBoca8TUK6@laps>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N453kPhc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D700B1F00893;
+	Fri,  9 Oct 2026 14:54:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791557664;
+	bh=mjLRswS6bYNfNkqCUU3C/HEsiq7eO6CnV8GdKO2vuFs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=N453kPhcceyGWefpyyMkh8h9XNCBS2zyx62fLFCZRLojtnDUsuAvNuscHX53gFm3s
+	 IM1CCByH5Tjo8ZftWEx2BWhhWgfCQiJf6R/N1J5CNQtEIkPYX0fuTCQEY+96lpkm/V
+	 LysX3sYmqrMmYl/WoitGXFB9HBGQ2JhmyBkQAyMgkgNIKvli4t6LSjnGOxcqPBlLeK
+	 yoa4+nK87WviVIJbuBSYG/hc7yw83vA0zitOFAt8XRHSasbv0q9CqQSBVesQ57fRXi
+	 5dGc/vpGcRPbgap7ZChLUq9K+QwoakuIsoGHYItI0pyBE0OP/LM6BygspXkHlvq//v
+	 0ACTE6QqbckhA==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Mina Almasry <almasrymina@google.com>, Luigi Rizzo <lrizzo@google.com>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
+ Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
+ Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
+ Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
+ <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
+ "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi
+ <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, David
+ Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC net-next 03/15] net: Add memory provider capabilities
+In-Reply-To: <CAHS8izP1vXB9ro7coamL7MUvTJu0kWzej71T2o5y_GYpJzFB+w@mail.gmail.com>
+References: <20261002190018.696925-1-bjorn@kernel.org>
+ <20261002190018.696925-4-bjorn@kernel.org>
+ <CAHS8izP1vXB9ro7coamL7MUvTJu0kWzej71T2o5y_GYpJzFB+w@mail.gmail.com>
+Date: Fri, 09 Oct 2026 16:54:21 +0200
+Message-ID: <87zewmq602.fsf@all.your.base.are.belong.to.us>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,29 +64,19 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <asj4FCbBoca8TUK6@laps>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 09, 2026 at 10:20:04AM -0400, Sasha Levin wrote:
-> > > +AGENT RESOURCES
-> > > +M:	Sasha Levin <sashal@kernel.org>
-> > > +L:	linux-kernel@vger.kernel.org
-> > > +S:	Maintained
-> > > +F:	agents/
-> > 
-> > If you choose a separate entry instead of adding this to the existing
-> > "Documentation Process" entry, let's update the mailing list to
-> > workflows@vger.kernel.org. This is where all process changes are announced.
-> 
-> Hm... What do you think Konstantin?
-> 
-> I remember the workflows@ list was originally created to share our
-> secret/magical workflows, and I'm not sure that this one qualifies. We can
-> start a new list too if it's easier.
+Mina Almasry <almasrymina@google.com> writes:
 
-Eh. At this point I'm trying to shove everyone towards "just use dfn: queries
-for your stuff, stop relying on actual 'lists'". I'd just leave it as
-linux-kernel@vger, honestly, since the automated patch churn may annoy those
-people on the workflows list that we actually want to keep there.
+[...]
 
--K
+> Thanks,
+> Mina
+
+Mina (back from LPC, sorry about the delay...)!
+
+Thanks for spending time on the series! I'll try to address all your
+comments! Need to think about the napi kicking a bit more...
+
+
+Bj=C3=B6rn
