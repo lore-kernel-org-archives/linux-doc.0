@@ -1,63 +1,63 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B840175A74
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 02:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9E632E68D
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 03:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791513283; cv=none; b=kMfF1n9yjUZ/gtMy8OOVuA6qwEqYAUXXe+my/Us3G2dV6btbB6JnlBTVguxKse/4c3iXAeOhe/WMf7R2cYQbLyFdEhZiEs8VJGG4ZvvlLTdWXPy7+zAQHn3wBHjHJELdr1OA44hVpgLdVGgoDVN904yBvi9Vo7MP7RdDR7mCjoY=
+	t=1791515206; cv=none; b=aBGrywSMk3W7zayBXiNx3cPN2DH7ikN/57Swd0G5faL7EEpJBaChGpkPY0vk6iHM0lsIlrD9tULvsjveY0kC+zEqfemYVySOIR1view98egbtStvTU34sxmy5k6J3YvM6BpBENfdTgjOCY4vjsEquLbM5cPbjRjdTd1ExqOxgxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791513283; c=relaxed/simple;
-	bh=jpiR0aLhQz9mG3D0OMsxcuino1XjDqzBMsXVOBoP7nc=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=mdK2LGhQbZRKhOg/3rxvHiwIyovbm3MxAXY6JmwAaR4MPu/IyrSA7fONgMuO7wTj7I0EMGZW7xlm7jIyp6Pw7vl5kMAJJHaJ1rj0zC9J7tmd4UDsi4JiRPKjD9BoCtgQN/0E+zbDoytHLglbzMbfs2vdWYAUdds+sy3pZ7lqnAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W0J5wBpA; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1791515206; c=relaxed/simple;
+	bh=5Uz2zi/HaHZ9scqnUVj7yk+2fytGfDAxOLNXAwt2vw4=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=gG9y63IEzg0U4RDTVlHowCWq+eDwmKM1d4OnWRY+iiblvdsQ0rVcygFJbrKDrGGtS49G43Sva2sdqh9uIRyiG5Vs/Vp7okQyDTtEchckd/ZQacy7Nuwkz2YQ6BMovEevPUxlFECoYxHp6A3JU4/KTBDM0xYjfYRxGJYNybV+Zu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gmiwYATY; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W0J5wBpA"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-885cd98d226so662891b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 19:34:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gmiwYATY"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-88bda150550so2218458b3a.2
+        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 20:06:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791513281; x=1792118081; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791515204; x=1792120004; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:reply-to:message-id:date
          :subject:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=T1IhimdTnvN9Dj3ritIUyhz+heh3blfQviu7Hl/psV0=;
-        b=W0J5wBpAs4pYB4GwYmxwwMvAWQp1pU26U5e2lGfsiNktC0tGVoqZexNUSTA6ton9+j
-         mUUwxSF/6jSFBvn9AMcNvhhYNzlPMLXh6WhHUrmzCRj8xhJ/HiDSbcGYC5lgg9VK0sp7
-         /E1XWmASu3DvTfkAt1e4rGsI5DzLnPWsglZY/qTne3WgYkMXX5quoSwUjm3UXwEPfMU1
-         Ru0aFBMXrf3x+Pmdu8k+fqufYWw19BU7kz1kiVW6g65+hihgrj9Ab65JJpG07blQCFbr
-         8+hV8F7trNbtKE9nyAJYfsZ74H7hk2QNWWNZlUr0+7bHiPNBn61w55yaO98ERMCN4piE
-         mQow==
+        bh=KrdVnUhtPNK/Av17PhvpBtm9fsARY9axkUcpxdE9xCo=;
+        b=gmiwYATYJDVsrjbDD631PuI+E1Bodn447DUDkztIwobHVVaY6Tl9cwqDDtalGnjCCh
+         d2IFLrQEBmM9JlR96GifgEEyp8Fj2tgUSMeQr/u4XPyIO/+RcgYdOg1OnWYwTft1ktzh
+         gA0eNgrOcmxsdQNazDWxwCTV1kT9aP/8m0sHi+JYY40vp5K8dwI9KN4eZ1JxvnwOTOIX
+         IBI5fwfLpMruw3GT1CwWfkZHTyVyRqDFr9JIU4cxYOy0fe6hbQrN36k8cPMUSsL54+PL
+         /nR1sFvJJuYj4Hd3WDjucQtPhlWFbMXHy7j3bd1Dwg7y2BoX2TIBqkMwqohbL5kNju3R
+         jKOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791513281; x=1792118081;
+        d=1e100.net; s=20260707; t=1791515204; x=1792120004;
         h=content-transfer-encoding:mime-version:reply-to:message-id:date
          :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=T1IhimdTnvN9Dj3ritIUyhz+heh3blfQviu7Hl/psV0=;
-        b=Gg0Pdb/IkSy/TtzbxFDLRCTjMm+cn41jwmMdHHE+8ZJQF0q8IgYH5rzVn51kaYIv9g
-         ZjGNMJKlrvUa+Hs2XSGab0k8Dmchl8s3mPkobMZnQnh6TP5gUAIDohZzogyBTsEdWCGx
-         Crz7Dx5DPSU6HAl2CYNvt0J9+SUY3AL9iW1Z4Igv1yGVcMA41UIZNZPZNc9x4Irro9jN
-         aGh4wC5gUowt0azRkFOEhVsoT6uFeXuvzHBoWBRP0SqQo+6gsMO+S9pt47WAS5u5HfqQ
-         at+qUOT+seBRDhxMSLJ5MlYpMOZI4lfohpmnStsyqP+5XshvCtwFUcCFXySJXYk3cH5R
-         SIDA==
-X-Forwarded-Encrypted: i=1; AKwUvBxtwr/kpAwmasvysELmwYLRS7RjJNYyQDuzgzeGWCLei/lA9zSDc9FsZIzlYyOUL7BPIRA2IkyCr/U=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI9BBmgMZrBx23t5236p7V6E+oNWGExMJ5F2ahFlyLFFg8+AGFO
-	OL4XgYELizZUKzfi/sv3ZWg/c1+av1Qb8UTokLPr6Eja9KF4gas/GVhYif7+ng==
-X-Gm-Gg: AYBFou1qSZ/awHRdLfKeSAMluCrhaiTfF7saw4wG2VC0mZWBbsEd3GKi83ekbZx5pa5
-	3YrkPXy8phDp4Kl5hD7AwCxJeTV82Qq3y/D9WOdM4xl+I8PqcWLJi+eyTHL8T9mUKxSFNZSRNvB
-	vOkLPQBcH8dnhZkLnpDehNLmNjb3aQbOUKnub3wEUDtsS1mvjzebPTogRtDR7nUKPChENfInZni
-	/ftlI/YKG/PymVMzi0sUbg6UrPo6PYkrIZk9GROxjGJC9vkrRxqv/eX5h5fT5CE6mQXUFWiLDwy
-	s+ha09xFNwsN2DvALLpGlhxg9JfW+vCqfoYkIydJLW9deNXQEQSxd0tP41i0MCFriMoY9o7nMsJ
-	hk78vhPufskIVQ1jHGZpq8c2cpClRp08PVDUb9nfw569bskiWV7q0TxrmGzUC1wGr3BVHfXsYPo
-	1PGK8qJ03szSTVTunK48ldJ18z6ec7EeTIqI8TG08nJ5sSLLNS+uiL0tyMyj7qn1+/HUqS4xYUP
-	IatOs4StduUwYOWtrOh86rTn8iOAN8iEUpgjbI28TlfjQLWqV5dgaIgF1ID3lMC
-X-Received: by 2002:a05:6a00:4307:b0:891:41ae:ad68 with SMTP id d2e1a72fcca58-89695ebf3d9mr752401b3a.23.1791513281482;
-        Thu, 08 Oct 2026 19:34:41 -0700 (PDT)
+        bh=KrdVnUhtPNK/Av17PhvpBtm9fsARY9axkUcpxdE9xCo=;
+        b=ipBwrRedaZgCJErMVPkjc2rIrygeg9CSdalN8ohDxn76YRZ+I0B5XQgn5C5MLU6kMH
+         9cZPZcwhxtlH0NtSf/kBfBt/xVFhKOwH/vRxgEQ6plsYONYm6x74gwZ4URHYe9kTCqZi
+         AUvuI5c7AgNJfNmPke1i/Eho7ZaGttripXcKJyRMkIhqeRJokC/aHQOxuoLf78NNgUQb
+         TDPeHIC2T8GYk+oDf/5xjxnb36O9quQq5YBM9BJ8UWKUArDQxoPQEr0FK1WyeZ5ZAo9f
+         XUJ3wB5BbaEaGfZAi5e5nFlhni1gWipSBk6z9zDssbbblCYJU+o0MYmkIZXjZ0pV2gNN
+         L3AA==
+X-Forwarded-Encrypted: i=1; AKwUvBypNu3o6punqEt7iBaESOjw/PhTqoE8yQce4C63Vp2x/Zk5O6q5oVbvjjZy/7dMUidyd/D/92zJzHc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKUcjtdWYzr2nMlOaxcnzcGvl2J8EswFbf8OdyhiWU4vAbeqdLJ
+	yJmxEB7lDS7astDB0EYY+6Ib+n2LX0J67TXPInhU9W3DWDFzRmnJiOhQcK+5Sw==
+X-Gm-Gg: AYBFou0y/f8Zps1hWiCtfOAmb1Ob46TqBbtfc7GUu4s2tDdT/udBXe+B8nFW45yDb0o
+	rgKHPam2yaSPthE3OFTU9JucjVLGXmGPfEa9IQG+ycRt5qrPVACdz8Iii7HuBVnTNIRgT8WkNVC
+	aENeno6lbwbLj8lR+0hjguaxlj0po6ZToPrcgwuwUjzZNk2VvFj4sw8R/anqjL+tgqiITp60Cmm
+	od+TPoWTB9KIFAfPIpgZNrticoOzCfctJ2VrcHOo1/RzaV4EyUlKTe37QDKdRAu8ni3KB6IYHTu
+	sCFAfi9KGf90OhIxhEhDyHhNjyZ2p4JFq5ck7f9qmV6PgcudQbIFxxIAGt7/yd6MuM83/i1SGYS
+	KQR34NcEzvXQYqe2IKTwLEgVVbGdd81oUCvJAKUvNN5wkgC/Yue9/V6FMBlHxZJS/AiRgKkrG3S
+	76RgZKBVeIEwwTZu2l4623ksuoW6iu996qwXAPqKhOfItxei8esuk0sAfWZOVSqUQ8fnzBQWj4T
+	5SXpxOpeVMEYp9abWvsCu/YVCaOFuGQvkv7O0e7OQVbmUtpwo8yMqjYpJxdars80sc=
+X-Received: by 2002:a05:6a00:1254:b0:882:bba:8791 with SMTP id d2e1a72fcca58-897c73f9603mr484203b3a.34.1791515204273;
+        Thu, 08 Oct 2026 20:06:44 -0700 (PDT)
 Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-896c4a99b28sm296770b3a.59.2026.10.08.19.34.40
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-896c3ecb01dsm320656b3a.36.2026.10.08.20.06.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 19:34:41 -0700 (PDT)
+        Thu, 08 Oct 2026 20:06:43 -0700 (PDT)
 From: Michael Kelley <mhkelley58@gmail.com>
 X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
 To: haiyangz@microsoft.com,
@@ -69,9 +69,9 @@ To: haiyangz@microsoft.com,
 	linux-kernel@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 1/1] Documentation: hyperv: Remove support for guests on Hyper-V 2012/2012R2
-Date: Thu,  8 Oct 2026 19:34:37 -0700
-Message-Id: <20261009023437.3326-1-mhklinux@outlook.com>
+Subject: [PATCH 1/1] Documentation: hyperv: Update documentation for sending VMBus packets
+Date: Thu,  8 Oct 2026 20:06:37 -0700
+Message-Id: <20261009030637.3869-1-mhklinux@outlook.com>
 X-Mailer: git-send-email 2.25.1
 Reply-To: mhklinux@outlook.com
 Precedence: bulk
@@ -82,56 +82,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Support for running Linux guests on Windows Server 2012/2012 R2 Hyper-V
-hosts and Windows 8/8.1 hosts has been removed, which includes removing
-support for operating Hyper-V synthetic timers in other than Direct Mode.
-Update the documentation to reflect these removals.
+The functions for sending VMBus packets have been simplified.
+vmbus_sendpacket_mpb_desc() can target multiple ranges, and
+vmbus_sendpacket_pagebuffer() has been removed. Update the
+documentation accordingly.
 
+Fixes: 45a442fe369e ("Drivers: hv: vmbus: Remove vmbus_sendpacket_pagebuffer()")
+Cc: stable@vger.kernel.org
 Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 ---
-This patch reflects changes that are already in linux-next for merging
-into the 7.4 kernel.
+The Fixes: tag reflects the code change that was made. The
+documentation update should have been included with the
+original code change.
 
- Documentation/virt/hyperv/clocks.rst   | 8 ++------
- Documentation/virt/hyperv/overview.rst | 6 +++---
- 2 files changed, 5 insertions(+), 9 deletions(-)
+ Documentation/virt/hyperv/vmbus.rst | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/virt/hyperv/clocks.rst b/Documentation/virt/hyperv/clocks.rst
-index 176043265803..9527e6073654 100644
---- a/Documentation/virt/hyperv/clocks.rst
-+++ b/Documentation/virt/hyperv/clocks.rst
-@@ -64,12 +64,8 @@ applying the scale and offset to get the constant 10 MHz clock.
+diff --git a/Documentation/virt/hyperv/vmbus.rst b/Documentation/virt/hyperv/vmbus.rst
+index 654bb4849972..77a437969b49 100644
+--- a/Documentation/virt/hyperv/vmbus.rst
++++ b/Documentation/virt/hyperv/vmbus.rst
+@@ -137,18 +137,13 @@ control message contains a list of GPAs that describe the data
+ buffer.  For example, the storvsc driver uses this approach to
+ specify the data buffers to/from which disk I/O is done.
  
- Linux clockevents are based on Hyper-V synthetic timer 0 (stimer0).
- While Hyper-V offers 4 synthetic timers for each CPU, Linux only uses
--timer 0. In older versions of Hyper-V, an interrupt from stimer0
--results in a VMBus control message that is demultiplexed by
--vmbus_isr() as described in the Documentation/virt/hyperv/vmbus.rst
--documentation. In newer versions of Hyper-V, stimer0 interrupts can
--be mapped to an architectural interrupt, which is referred to as
--"Direct Mode". Linux prefers to use Direct Mode when available. Since
-+timer 0. stimer0 is operated in what Hyper-V calls "Direct Mode"
-+where timer interrupts are mapped to an architectural interrupt. Since
- x86/x64 doesn't support per-CPU interrupts, Direct Mode statically
- allocates an x86 interrupt vector (HYPERV_STIMER0_VECTOR) across all CPUs
- and explicitly codes it to call the stimer0 interrupt handler. Hence
-diff --git a/Documentation/virt/hyperv/overview.rst b/Documentation/virt/hyperv/overview.rst
-index 77408a89d1a4..c4c262b77aa3 100644
---- a/Documentation/virt/hyperv/overview.rst
-+++ b/Documentation/virt/hyperv/overview.rst
-@@ -157,9 +157,9 @@ when accessing data shared with Hyper-V.
- Versioning
- ----------
- Current Linux kernels operate correctly with older versions of
--Hyper-V back to Windows Server 2012 Hyper-V. Support for running
--on the original Hyper-V release in Windows Server 2008/2008 R2
--has been removed.
-+Hyper-V back to Windows Server 2016 Hyper-V and Windows 10. Support for
-+running on Windows Server 2012/2012 R2, Windows Server 2008/2008 R2,
-+and Windows 8.1 and earlier has been removed.
+-Three functions exist to send VMBus channel messages:
++Two functions exist to send VMBus channel messages:
  
- A Linux guest on Hyper-V outputs in dmesg the version of Hyper-V
- it is running on.  This version is in the form of a Windows build
+ 1. vmbus_sendpacket():  Control-only messages and messages with
+    embedded data -- no GPAs
+-2. vmbus_sendpacket_pagebuffer(): Message with list of GPAs
+-   identifying data to transfer.  An offset and length is
+-   associated with each GPA so that multiple discontinuous areas
+-   of guest memory can be targeted.
+-3. vmbus_sendpacket_mpb_desc(): Message with list of GPAs
+-   identifying data to transfer.  A single offset and length is
+-   associated with a list of GPAs.  The GPAs must describe a
+-   single logical area of guest memory to be targeted.
++2. vmbus_sendpacket_mpb_desc(): Message with one or more data ranges
++   to target. Each range consists of a single offset and length plus
++   a list of GPAs that describe a logical area of guest memory.
+ 
+ Historically, Linux guests have trusted Hyper-V to send well-formed
+ and valid messages, and Linux drivers for synthetic devices did not
 -- 
 2.25.1
 
