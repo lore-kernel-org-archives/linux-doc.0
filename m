@@ -1,63 +1,64 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE674A68A8
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 15:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EAB4D4888
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 15:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791560371; cv=none; b=K/NxA+6SkblxYnYJit+ySjZPZIHPoqK9X0psxcJMA/kmaXOazxATwyrMscvkkbcVAKAG9+3cG+DHS0yiGgDeVDymA+Plp1pPyiMeE4jYYZ6Nd7/4unoAPpxfFKcpDd1S4Pz+Y7Occ4EP1ToltpLf+/2VY+hyXTMrFQ6gndc5eqE=
+	t=1791560373; cv=none; b=L2iSskI+QtSuZ1ISkb8eWIoUU0w7tvBglQmLlWinNBEnxOzNvg/KqK9TmZGkXKEPivm6bu0q0Wv9ZXZCYRylDKSyqM8TZgzM5eSUAhzAxwP1CBytd6gmikWbnVaVGFoxKV+SJMlvI2I9PckXi6/acgHTHch1WH4fcxnvzNTOY5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791560371; c=relaxed/simple;
-	bh=+Rw07kfriWEyCGpVzJxK6mSgxAao1ypqtfUdivitgpc=;
+	s=arc-20240116; t=1791560373; c=relaxed/simple;
+	bh=GbihQDT60TkSUyG8sRpe6wSrJ+mv6j+gTgXLREuoT34=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UQzenJEKmUrB2rBq07vh3SXo5Qqel/nrEp1I1PuY0LG0EtAmM61ol9WKnX2Deg/86nAJ0+ShUjc8S7La6/cBNYoTn0Mn897uSxasAmEqp1VoslZ9SbTqn3W112b4Yg3EhvnF86amfMC77FfHL5/UVMdYlB0W4oPZmpMd1Q9qnK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YZPJFDXB; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=awXC2FhrtMbE5fvXPwarsMgYG3ZTeiAnXlNWnG+X9jiTFCZuQfAFEwESyvhhEJOXCNHQ5u7V5K3c/z5+6JlfW6xrxMTHX7WqLymPAeJCbhMkT6NWVfNjX1eScTpqg614fZYhL/GodAmxQDxtB+ljtvjf2veEGiqczVfJIj/kWoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gFOlrWbV; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YZPJFDXB"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2e623eda81cso17877615ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 08:39:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gFOlrWbV"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cc758830601so4456599a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 08:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791560368; x=1792165168; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791560370; x=1792165170; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=PkPwa+ResHmZ7LdsIwsHxXNe9JhyIG2QiRNQ9+4WsYI=;
-        b=YZPJFDXBJhN9r7Gztqxrun5SPp3gutm/XTwS4a6fqz2Hvw8mfZc1msshKuE7TcfxMr
-         Pa6tjSLYvKouIWUn4WTHt0Efjmtsp8lpvXAHl/KvFACdaKswrKM5nDYxciQA4ni2ykue
-         5Gb2/1W/8k6LiuW6Sg/AmJvwzwrjzzRazja97aY06/h9JOTKvSyLUJJTkIM8Qixj6TqL
-         ZqMCQfocCth6rRq6kuezcc05NR7Zapyhjwk0crenHOFvTvX7IiOsI1yQqSqUXE+je10a
-         BUnkyDN/4QrETulYIALYgGPJUZA9GLBd94cZdQb1kT4CJIyGgzMLdeWcK6ZvFIBl3Z1J
-         RLMw==
+        bh=Oc43EGm7NUZeK/eRaBYRasWqtzt/BRe/LMfh582Cs/s=;
+        b=gFOlrWbVchPXW7Fv1lrAWM7LwrJzN6r4LFXrTby/IRpy2rTuTYO4/E0iVyV8m92wWV
+         fzzFTFSI2cCRmzkblMtob7vTQLRW3rRuS25RAPWXFoa5mqRD97SGCNV0WP4THCJMLvhM
+         aMxRlvGLV2W2JuwHVhsHJcbyw978meTN4JbPTjj/u/E9RsP5JkOKdBu3zJ/2tf4mer3v
+         OFiZdGBUwjgTvyC8K+YAlBdOJ6+6W1QaMJOC8bL4ue1eU+0gsQfwwIrtUjCdLQ503jPH
+         V3IlyjfKfwtLsavmygJA43G4vrXhYr6QNzEFgVOqROopUemQPCxhY5pxFsg6K85XqDn3
+         qvNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791560368; x=1792165168;
+        d=1e100.net; s=20260707; t=1791560370; x=1792165170;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PkPwa+ResHmZ7LdsIwsHxXNe9JhyIG2QiRNQ9+4WsYI=;
-        b=WSYyNm+fCvrgDU8rapeb9cPeYWfaAPDmmF5Imxwt+tF6aO7S51UgcU72o39lUgOpvW
-         TKK4ZoHI8TNuinUxMIN6ogTKjnmBWdD0zP9GcmfBGtRejk3b89N0qCnZb+eMad1kwuxO
-         wgcU2Mxa9H5GtH7FnWyMU8cp4I1BK6cDAmal4wP5xWBXx0nfsOs4iA23BB3ItXamvdri
-         bskaaIxTByh/7CGU8/4/ZCJxC6ssZhqdSVdVP0xPQpmzGR46fijCHs40126hRF1wn4VQ
-         jFkxXbHgtuAJs5mR9BfxGJ6yeBZCk/XayJ6N8+34VQ9R/Qy2CFFIY4uxE4tcvganIYSQ
-         l9tA==
-X-Forwarded-Encrypted: i=1; AKwUvByRQqXyEYs6B76sFMUL3SAf1rVQGSJqTy7DfX+S3Fz0Z4eBQQpaxoXS/MB3qRMDfaHF4ouJOWKJ7f4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ/6Ug30ssIChutvGHUh/zFfHrapLE5Ds3vJUC0pbk8dwBI4i4m
-	hnNPfX+2t306coL1cqcuq022hCXbL9HLDLOawkj2gcT8nqkOAlIWzXMG
-X-Gm-Gg: AYBFou3VxhWUdxbD4wpJj4TZcR9U509ODaCoJ0T2mWakB8aZIEOiZ7DEGu/3R+8S1OI
-	Y3b4lCY0ckyxkmu70KOAYeIV6Zevgo0EmiysKwbLcp4aZgdnZJETZwwPm8wMIlmx2c9r23AqycJ
-	7zEeafFLHIAZz/qOCsHnGjQigt+Csn+kuXQM8HnyvOY7ti/8QRzmxv2UYy6grnX9eD394AQgsBj
-	Mu5BH5FI4aliDkr+ReusBKZqTLt21j4gtFRzT9zYux1ruHKwwm+aKTSgs2f/GblzCR6Gus46a65
-	ILj38QXqb3r3Pk1//JQi1UvRrmKbUxwtQekw8DPJ8OujVxYPvhwmqe5+ITWOAC8llFcTbqwHVzM
-	+TawmBx3kxxdvjuguj8F8hI72bOes7wFnu3NXf2sphulZhCdVJxzpn+LGjqkceT/0NtDDR5tPwd
-	+2Y2GkR1qt5R3fbdU2ai9cExMAhuW8Wn3UOsEZuL8xyDUwF+YG7ouPNnWJwupNvoyBp6FsrA==
-X-Received: by 2002:a17:903:41c1:b0:2dd:c053:82f3 with SMTP id d9443c01a7336-2e842ce20a2mr18707215ad.42.1791560367626;
-        Fri, 09 Oct 2026 08:39:27 -0700 (PDT)
+        bh=Oc43EGm7NUZeK/eRaBYRasWqtzt/BRe/LMfh582Cs/s=;
+        b=m0kc1zXBlLNo7dPNx2A6iTjfCllvrzrzMqy01Nd/C8R4ojT0Bkyp0WSYI0l3SQTSpA
+         zZ7/ADWMcMP252diaHQCztpNhqkXX0o00A/JsoPNT442skyZUVNekFlv3Q+t172FGKSZ
+         sWkTbAC0eGETz/ijTTAcvAPIneobcc8vstJMBfZkzWvYtc+LcpFRBuSv9r/JQXoi4PIz
+         rnhll1TG727i/bUASoU12uMcigSYa5yrck6BN8IVARdLvSwRJYHXZAbv0DpwzgQ5Eb6G
+         d/M9uPN4xM80fjXFfpe16bvs3LYmbbcAKjfPVcixoz+3b3YfTknN9WKwHZpN/bcf2RdQ
+         q59w==
+X-Forwarded-Encrypted: i=1; AKwUvBwaVAdbnH0j/ynEhF6IC1NTDD7dwV0Z5JvrTH6dJZe5eXIW184gNmHMdpBaNuk11ZwXorLUXK31hrM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLZOCwPlEmnuQGKwYTw1N1Z8H5gLYZh6zC/zcNotM52xlHYpebT
+	Kmofc/KSkbqIiDdRhET3fEdPrsrxNt5gW+8AOwCm7t9oF/tibjtIAoRN
+X-Gm-Gg: AYBFou29tVXbzbvujO7gyRRHYPY/+km3pvi8fo5WQU8xfKXdJQMmolj3eIyql0f+V7N
+	/cp6bLu4adtx1u82YMRXG9qNA3EtSx6/4C8ka6IvbDF+pfbaROxB6rhz8QfMpgQ5nQRaFtpRVS2
+	j22AUwc7REZUaxnvUUw6xq3vFBEhAW/DzE0bWmx9kz5GWJY/xB8wrggpK7k87q0z9b0btwBsGVv
+	9cGGEW8minwCN/G+vOw/ynUlH6DbsIJIE//VQk0rgTxJKaPbNJ9AMj4d5UEmr30zk3OoOqKvAs0
+	DQPsL/9HjScbcE4IO3lbG5jYvvbBuMukCeetUg/eLZ49eqCDGw17GTMBQ/ldKXfS2a2yrZdPd7q
+	iFWRad8sQHZVNwCFck3roldUVHczK+Odu9YLeSO2pdB8Byx6gDHTadxTnkUWHJwEVURMFWLcWsr
+	0fTmGiAhFR4Sn8Ur0/JJIwMBci4Rgqdj2bn1R0uObDrLnoY7GOeDIyi7+2jMCzIfEAg+1Qqvzut
+	ZCt6Zg=
+X-Received: by 2002:a17:902:d50a:b0:2e3:1bb4:610d with SMTP id d9443c01a7336-2e842f31562mr21457435ad.50.1791560370363;
+        Fri, 09 Oct 2026 08:39:30 -0700 (PDT)
 Received: from mincom1 ([14.67.155.18])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421ae999sm11847705ad.31.2026.10.09.08.39.25
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421ae999sm11847705ad.31.2026.10.09.08.39.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 08:39:27 -0700 (PDT)
+        Fri, 09 Oct 2026 08:39:29 -0700 (PDT)
 From: Jihong Min <hurryman2212@gmail.com>
 To: Guenter Roeck <linux@roeck-us.net>,
 	linux-hwmon@vger.kernel.org
@@ -67,9 +68,9 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-api@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/5] hwmon: Reject truncated attribute names
-Date: Sat, 10 Oct 2026 00:38:43 +0900
-Message-ID: <c9a2e5f5a8bf08545a999c6ab70aa058eae947dc.1791559095.git.hurryman2212@gmail.com>
+Subject: [PATCH 5/5] docs: hwmon: Document the uhwmon userspace interface
+Date: Sat, 10 Oct 2026 00:38:44 +0900
+Message-ID: <c02aeee5b7e7a5d159d4df5baabe925e16814e94.1791559095.git.hurryman2212@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1791531025.git.hurryman2212@gmail.com>
 References: <cover.1791531025.git.hurryman2212@gmail.com>
@@ -81,31 +82,174 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Large channel numbers can produce truncated or conflicting attribute
-names. Return -EOVERFLOW if a generated name does not fit its buffer.
+Document the uhwmon UAPI for developers implementing userspace hwmon
+drivers. Cover device registration, request handling, notifications
+and device lifetime.
 
 Assisted-by: Codex:gpt-6-astra
 Signed-off-by: Jihong Min <hurryman2212@gmail.com>
 ---
- drivers/hwmon/hwmon.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ Documentation/hwmon/index.rst  |   1 +
+ Documentation/hwmon/uhwmon.rst | 141 +++++++++++++++++++++++++++++++++
+ 2 files changed, 142 insertions(+)
+ create mode 100644 Documentation/hwmon/uhwmon.rst
 
-diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-index bed16cfd4f1c..288f356980e4 100644
---- a/drivers/hwmon/hwmon.c
-+++ b/drivers/hwmon/hwmon.c
-@@ -553,8 +553,12 @@ static const struct attribute *hwmon_genattr(const void *drvdata,
- 	if (type == hwmon_chip) {
- 		name = template;
- 	} else {
--		scnprintf(hattr->name, sizeof(hattr->name), template,
--			  index + hwmon_attr_base(type));
-+		if (snprintf(hattr->name, sizeof(hattr->name), template,
-+			     index + hwmon_attr_base(type)) >=
-+		    sizeof(hattr->name)) {
-+			kfree(hattr);
-+			return ERR_PTR(-EOVERFLOW);
-+		}
- 		name = hattr->name;
- 	}
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index 9955a525436a..88c6388e7c5c 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -12,6 +12,7 @@ Hardware Monitoring
+    submitting-patches
+    sysfs-interface
+    userspace-tools
++   uhwmon
  
+ Hardware Monitoring Kernel Drivers
+ ==================================
+diff --git a/Documentation/hwmon/uhwmon.rst b/Documentation/hwmon/uhwmon.rst
+new file mode 100644
+index 000000000000..155f1a965d16
+--- /dev/null
++++ b/Documentation/hwmon/uhwmon.rst
+@@ -0,0 +1,141 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++Userspace hardware monitoring
++=============================
++
++Copyright (C) 2026 Jihong Min <hurryman2212@gmail.com>
++
++``uhwmon`` connects userspace drivers to ``hwmon_ops`` through the control
++device ``/dev/uhwmon``. The hwmon core creates and formats sysfs attributes.
++The daemon supplies values in the units defined by :doc:`sysfs-interface`.
++
++Enable ``CONFIG_HWMON`` and ``CONFIG_SENSORS_UHWMON`` and load ``uhwmon``.
++Include ``<linux/uhwmon.h>``.
++
++Register a device
++-----------------
++
++Open ``/dev/uhwmon`` with ``O_RDWR`` for each device. Zero-initialize all
++UAPI structures.
++
++Call ``UHWMON_CREATE`` with the NUL-terminated chip name, attribute array and
++its count in ``struct uhwmon_create``. Each ``struct uhwmon_attribute`` contains:
++
++* ``type``, ``attr``: hwmon enum IDs, not ``HWMON_*`` bitmasks.
++* ``channel``: zero-based index; zero for chip attributes.
++* ``mode``: nonzero permissions using only bits from 0644.
++* ``flags``: zero, or ``UHWMON_ATTR_CONSTANT`` for read-only constants.
++* ``value``: a constant number, otherwise zero.
++* ``text``: pointer to a constant label, otherwise zero.
++* ``size``: NUL-inclusive label capacity from 1 to ``PAGE_SIZE``; zero
++  for numbers.
++
++Labels are read-only, NUL-terminated and omit the trailing newline.
++
++Handle requests
++---------------
++
++Read a ``struct uhwmon_request`` and write a ``struct uhwmon_reply`` on the
++owning file. Request and reply headers are 24 bytes. Only successful label
++replies append ``size`` bytes of text. Buffers smaller than the message are
++rejected with ``EINVAL``.
++
++``struct uhwmon_request``:
++
++* ``id``: request identifier; copy it into the reply.
++* ``attr``: index in the registered attribute array.
++* ``op``: ``UHWMON_READ`` or ``UHWMON_WRITE``.
++* ``value``: number to apply for a write; zero for a read.
++
++``struct uhwmon_reply``:
++
++* ``id``: the request's identifier.
++* ``status``: zero on success or a negative errno; use ``-ENODATA`` for
++  unavailable or stale readings. Return ``-EINTR`` only before applying a write.
++* ``reserved``: zero.
++* ``value``: successful numeric read result; ignored otherwise.
++* ``text``: NUL-terminated result of a successful label read; absent otherwise.
++
++Numbers use signed 64-bit fields and must fit the kernel's ``long``,
++except for energy64 reads.
++Discard replies rejected with ``ESTALE`` (canceled request).
++
++This example registers ``temp1_input`` and ``temp1_enable`` and reports
++42000 millidegrees Celsius while enabled:
++
++.. code-block:: c
++
++	struct uhwmon_attribute attrs[] = {
++		{ .type = hwmon_temp, .attr = hwmon_temp_input, .mode = 0444 },
++		{ .type = hwmon_temp, .attr = hwmon_temp_enable, .mode = 0644 },
++	};
++	struct uhwmon_create create = {
++		.name = (uintptr_t)"example",
++		.attrs = (uintptr_t)attrs,
++		.num_attrs = 2,
++	};
++	struct uhwmon_request req;
++	struct uhwmon_reply reply = {};
++	int enabled = 1;
++
++	if (ioctl(fd, UHWMON_CREATE, &create) < 0)
++		return;
++
++	for (;;) {
++		if (read(fd, &req, sizeof(req)) < 0) {
++			if (errno == EINTR)
++				continue;
++			break;
++		}
++		reply.id = req.id;
++		reply.status = -EINVAL;
++		if (req.attr == 0 && req.op == UHWMON_READ) {
++			reply.value = 42000;
++			reply.status = enabled ? 0 : -ENODATA;
++		} else if (req.attr == 1 && req.op == UHWMON_READ) {
++			reply.value = enabled;
++			reply.status = 0;
++		} else if (req.attr == 1 && req.op == UHWMON_WRITE &&
++			   (req.value == 0 || req.value == 1)) {
++			enabled = req.value;
++			reply.status = 0;
++		}
++		if (write(fd, &reply, sizeof(reply)) < 0 && errno != ESTALE)
++			break; // Fatal error.
++	}
++
++Disconnect and reconnect
++------------------------
++
++Sysfs requests can be interrupted or restarted before delivery to the daemon.
++After delivery, they wait for a reply or disconnection; only fatal signals
++can interrupt this wait. Completed replies take precedence over signals.
++
++Releasing the last control file reference disconnects the daemon: dynamic
++reads return ``ENODATA``, writes return ``ENODEV``, and constants remain readable.
++Closing an fd does not cancel I/O in another thread; duplicated fds retain
++ownership. Interrupt blocked control reads or use ``UHWMON_DESTROY``.
++
++The device persists after disconnection. To reconnect, open a new control fd
++and register the same name and attribute array, including constant values.
++
++``UHWMON_DESTROY`` removes the device. Close and reopen the control file
++before registering another device.
++
++Notify changes
++--------------
++
++The kernel cannot detect changes to values held by the daemon. After changing
++a value, call ``UHWMON_NOTIFY`` with its 32-bit attribute index. This wakes
++sysfs pollers waiting for ``POLLPRI`` and sends a ``KOBJ_CHANGE`` uevent with
++``NAME=<attribute>``. Applications read the attribute again from offset 0 to
++get the new value. The notification carries no value and does not replace a
++read reply.
++
++For example, after changing ``enabled``, notify listeners of ``temp1_enable``:
++
++.. code-block:: c
++
++	__u32 index = 1; /* attrs[1]: temp1_enable */
++	if (ioctl(fd, UHWMON_NOTIFY, &index) < 0)
++		return;
