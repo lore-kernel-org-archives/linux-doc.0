@@ -1,102 +1,95 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD9A35E1AA;
-	Fri,  9 Oct 2026 23:02:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA22397338
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 23:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791586941; cv=none; b=c9FcLltGfWrpOC9mksGpfWdYrJf5xVaZoLn3EXsk92s0oZJs+FH0b4MXNL5iKLP75SAP/xG3BF2+YNX7s3oQF7zMRpkBMLDCKy6u38QqCo729I811094vdDdEbNHkR3/bkqZLOBlecV4brQA6HrdFg1ZY/xG6tZCMBZNjO5Q0z4=
+	t=1791587430; cv=none; b=c87ExfniZRfaLPcZEsECNQcSARxcnWGyeAIwFNkYHZdgoBzG43XIN17AKThNbAlEysj7iIXsOJaZF40vto9nJsADbIVNskHs+rbGIqHr910Bwfx+pI2MJijLU5WnWY57pg5nwsV+6wRqvUUCk20Ia4azgpvOsZlWix/cb/FFHHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791586941; c=relaxed/simple;
-	bh=WFbgsXq9x5wQl6fZmgFSgE0d1Fm4i8XPFbd7Mig7AU4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SjwgAQl7WrQROlAHNuM4M25SG01uoV2LazyopUuq+HBNzzms0GG5GK7I2wNLy9Uzob+cfCxLPMaPIx2F6P4n8cZpQUcrlWb+DDG+ZLe3uki1/jJupAYhFCwNvPlrhzeSg/zy7VfE++kKgm84v9b3laUCcR1PG5Jo7zkyTmqRXCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=M/M2RrrN; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1791587430; c=relaxed/simple;
+	bh=RCyTDOyBE7v77RBlt3+V5XW087r34HortVVWRin37eI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qu1o4T3+kihpc/i3bfYTxIHFvWkoJLFJX7kNCeE4QwXWbCnUVVUtSYAWqD1gh5zLK1YsMdddZUtGqvZ0ZC4KZtH68MeA5h/JDPIJwjhPY+lgDtqKnPyKsKnCRcyehNo1Roa3SKNma2rsD5VgvFXgMR8G+Nh3PHL7VzOz2IF2Z3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rcjtj3WB; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="M/M2RrrN"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=1ZIyz1/OPj/Af2dLzTUaE10fWPUAL1OAIW2ByRolxEU=; b=M/M2RrrNvH1etedYXYR9wGmAtn
-	Pf6JPKhphvDIpBfHJuR33YHRYFvMkwuotmu7rZ9EJFsZ0bLYZyXvKBZ+hAgsNeWr0T1cNnDussnKU
-	SrL81owTsYR9jAKxCHemaooWhBmlptqpAu9LMzT9S90o18mUTNvmpPB9XROJJSeLhdRic9I7HZNVp
-	0Ty2oK1U087XXykX49ThZY9Z9Wz6Z+QLSTfI0qIA9jQojaQbfv537O+mdoq7GDNJzIOOuD+bfUu1o
-	WT88UBUgEedvFOBorL1Iyx/K5T5Dwly/CvJjGZugfP4nPLgajVWJR+FxsbqqROZcDLKEd8b5XWRD6
-	3bqy1pAw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1xFJbP-00000007JyH-2CFW;
-	Fri, 09 Oct 2026 23:02:11 +0000
-Message-ID: <d6e094cd-3341-498e-9591-3544908db069@infradead.org>
-Date: Fri, 9 Oct 2026 16:02:09 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rcjtj3WB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791587428; x=1823123428;
+  h=date:from:to:cc:subject:message-id;
+  bh=RCyTDOyBE7v77RBlt3+V5XW087r34HortVVWRin37eI=;
+  b=Rcjtj3WB/13bmHyhZ7kEDCeK9zQOlebQHavSsY2T7AGk5UujspaBeVxn
+   a8yxOKqTmpf+8C1hAX9QX56QbRAOF7YFBvPz/8hyd3VKKMdWUt8CSI7m1
+   8of51TamhO4tjZAcule417Lc4ri5RubcRrxTirIUX8hYr05njAoCl12Xa
+   CDIpi6c7G00P+0O+MHqbVqOok7osd/aVshtkGmc2g3MsPy4rMhGo5DDbH
+   CiM+oY081f1XUqlT0htL3CEs3lTo49bz72+LSRguTEbPzyX/BpHK3nry6
+   rq519abgxQlr3QBiZ2FsIyhcktZbAod2EEJkzDSo2jOurePNffeJ4WkiC
+   Q==;
+X-CSE-ConnectionGUID: 9Pyj+ghZT3CIhIspxIEvWg==
+X-CSE-MsgGUID: pSyg72erQe656e8/pdBksA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="394656"
+X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
+   d="scan'208";a="394656"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 16:10:28 -0700
+X-CSE-ConnectionGUID: X9LKO0AQT3Oo0SYqCUqKHA==
+X-CSE-MsgGUID: e0B1J3IOTaqZ7hB1HaxGwg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
+   d="scan'208";a="736897"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 09 Oct 2026 16:10:25 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xFJjL-000000007NH-2cRd;
+	Fri, 09 Oct 2026 23:10:23 +0000
+Date: Sat, 10 Oct 2026 01:09:29 +0200
+From: kernel test robot <lkp@intel.com>
+To: Honglei Huang <honghuan@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Matthew Brost <matthew.brost@intel.com>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 3138/15343] htmldocs:
+ Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:70: WARNING:
+ Lexing literal_block 'struct driver_range {\n        struct drm_gpusvm_range
+ base;\n        unsigned int num_pages; // 1: inline_pages, >1: pages[]\n
+        union {\n  ...
+Message-ID: <202610100125.d4Kk60aL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v9 08/11] onsemi: s2500: Add driver support for
- S2500 MAC-PHY
-To: Selvamani.Rajagopal@onsemi.com, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Eric Dumazet <edumazet@kernel.org>,
- Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Jerry Ray <jerry.ray@microchip.com>, Ciprian Regus <ciprian.regus@analog.com>
-References: <20261009-s2500-mac-phy-support-v9-0-dcefe1d0bf0d@onsemi.com>
- <20261009-s2500-mac-phy-support-v9-8-dcefe1d0bf0d@onsemi.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261009-s2500-mac-phy-support-v9-8-dcefe1d0bf0d@onsemi.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+Hi Honglei,
 
+FYI, the error/warning still remains.
 
-On 10/9/26 10:12 AM, Selvamani Rajagopal via B4 Relay wrote:
-> diff --git a/drivers/net/ethernet/onsemi/s2500/Kconfig b/drivers/net/ethernet/onsemi/s2500/Kconfig
-> new file mode 100644
-> index 000000000000..abd967448af0
-> --- /dev/null
-> +++ b/drivers/net/ethernet/onsemi/s2500/Kconfig
-> @@ -0,0 +1,21 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# onsemi S2500 Driver Support
-> +#
-> +
-> +config S2500_MACPHY
-> +	tristate "S2500 support"
-> +	depends on SPI
-> +	depends on PTP_1588_CLOCK_OPTIONAL
-> +	imply NET_SELFTESTS
-> +	select BITREVERSE
-> +	select NCN26000_PHY
-> +	select OA_TC6
-> +	help
-> +	  Support for the onsemi S2500 MACPHY Ethernet chip.
-> +	  It works under the framework that conform to OPEN Alliance
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   aac26bee2287c88af5be5a5ff96d783b19a28790
+commit: cc2a6cbd6823678fe70ba76f88623827a6e06a87 [3138/15343] drm/gpusvm: let drm_gpusvm_get_pages() map an array of pages
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20261010/202610100125.d4Kk60aL-lkp@intel.com/reproduce)
 
-	                                    conforms
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610100125.d4Kk60aL-lkp@intel.com/
 
-> +	  10BASE-T1x Serial Interface specification.
-> +
-> +	  To compile this driver as a module, choose M here. The module will be
-> +	  called s2500.
+All warnings (new ones prefixed by >>):
 
--- 
-~Randy
+   Documentation/userspace-api/landlock:621: ./include/uapi/linux/landlock.h:58: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:621: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:621: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:630: ./include/uapi/linux/landlock.h:241: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:630: ./include/uapi/linux/landlock.h:264: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:70: WARNING: Lexing literal_block 'struct driver_range {\n        struct drm_gpusvm_range base;\n        unsigned int num_pages; // 1: inline_pages, >1: pages[]\n        union {\n                struct drm_gpusvm_pages inline_pages;\n                struct drm_gpusvm_pages *pages;\n        };\n};\n\nstatic struct drm_gpusvm_pages *\ndriver_pages(struct driver_range *drange)\n{\n        return drange->num_pages == 1 ? :c:type:`drange->inline_pages <drange>` :\n                                        drange->pages;\n}' as "c" resulted in an error at token: '`'. Retrying in relaxed mode. [misc.highlighting_failure]
+>> Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:102: WARNING: Lexing literal_block '// GPU fault handler: one fault, one DMA mapping per device\nerr = drm_gpusvm_get_pages(gpusvm, driver_pages(drange),\n                           drange->num_pages, gpusvm->mm,\n                           :c:type:`range->notifier <range>`->notifier,\n                           drm_gpusvm_range_start(range),\n                           drm_gpusvm_range_end(range), :c:type:`ctx`);\n\n// Notifier callback: mark every instance unmapped in one call\ndrm_gpusvm_range_set_unmapped(range, driver_pages(drange),\n                              drange->num_pages, mmu_range);' as "c" resulted in an error at token: '`'. Retrying in relaxed mode. [misc.highlighting_failure]
+   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
