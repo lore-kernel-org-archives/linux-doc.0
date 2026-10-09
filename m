@@ -1,163 +1,159 @@
-Received: from sonic.asd.mail.yahoo.com (sonic-usea1-0019.asd.mail.yahoo.com [34.2.64.18])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE42448B98
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 06:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.64.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791527673; cv=none; b=hg4aZUM/mSrGSinJqOZ1UYygqSL/8Yibk9Pwm5sR2B+Tpiccdd7dCyrnGlnHKmeg3oazDFzun/zbW4I4n07P8ePFnUZOQHu3fDRep+HJxnZYWY0W1PFahYhBoQapJh8PSt8BuqwN6M5LsVIwquGbx/15R63wGr3Jfuf92il7+cs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791527673; c=relaxed/simple;
-	bh=RBiqQ+1JOIjRLJ2qPLzzWrhZ+V5A3kv6qj66FnkpEeM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 Content-Type:MIME-Version; b=DW22IycbnJevhXGmY4RhsnvsZ1/W1VKzRl9+X10sFQvbKUS9vZtXeqhaSgRnH0P88IddjQU7YddMgh/ghJseJKQjmW7e5okg36BTA2P1DTj28t5vilg9nBQk5Y+qwtAAwzc9o5Mm5HMoWhoiW3jj74CySjk3JTDvpmagHkhXuYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=UBgFPZSF; arc=none smtp.client-ip=34.2.64.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4559645A2A0
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 06:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791528754; cv=pass; b=YZEc1WuxiArsqKakwFmsRBCWZeEEvvTwRr2H2Sueo0x2S4Y8iNFvJdXHLagWRvRzhesQbfRpjV71ARjr0uWuWxoiObXRsJjlHu/ZYDU7VFTEdE23+ce95goJvsHn5jHS7FYLrArpAyrdb+HzfoNfLMYFX4twhePvzW3i2X1IhUw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791528754; c=relaxed/simple;
+	bh=4NY3b/9uFqqbJNZv2e54a4GGP4HJaG4h9wCOURl2pcs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jpxOrCpYiVzRai1U+9bh6Gz05AO1A6lr+OWWtjsX08YdUz0H51zE3R/zNfuCbfkKUzV8pUu9fxt/2L0qN6tUpglCBzqR7ESZ4tqNQEC0+KjIPDSmbCk5LGTU8GOzGcVeyx6GoxQBzitRM9Hg1nCzZaYuCQy1fhSSZnYgN/XcHOQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JdAMV4Ni; arc=pass smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="UBgFPZSF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791527670; bh=53F8eeZQg3g1Nqk6SIiKM9bUNM7Hn0PGxCtMlom1If0=; h=From:To:Cc:Subject:In-Reply-To:References:Date:From:Subject:Reply-To; b=UBgFPZSFju7HOd1z+ho2EmlQLYaFvndsTPVjD5QF94xMVRlOW56x4xmYmJo3nwAA7qpkvAQRbtBG/yLwF1CS5zds5cUWrH9qZg99AS+R8KrOyq3JswspF0o3j2kfbQnTjmRzkgfQKpm+nTOaHq5Ve6dC1j5fCW9ZM/SiyN4WasONFV5X27m+/wXjUI6Sda253R9CM1NW2fM8xW2hivw3wi57ICOlEYKj3/LkQj5tsQ6Lho/R00JzAYlvR+K1ejsEgJrPDgFRzEQA6C6lw9CLTJHNR7fy35rVXSeDsnPuE2BMKpuV5kpyvM0VK0CJtqS+N5w9CryalCRmVZb6Ru0bpA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1791527670; bh=G8FnG61slJSrLsnZtJnhkqzfzmrElK3JWnf83kE32pM=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=gK5N3k86gqvxfgCf/X6w7xwtjS1bVsElrxmFWH6nH7b1ZCBQJKgRSdbHC8sb0ilKm++OVHFFKLg5tAlSb4biK+gBclKJlkiioeOIqKAK4C2BsKFdNJyqUI+g2asFKQ4uNVHf0mGB6X13hKFGU651AiowFMXaH94h7cNqNAS2nZQ2NTRyB87jBxj/Nw0Hi/ym4AWX3pRrSiprFQSJ8atnMxbvnvhnFcVX4RnX4EvzeSPsUxgZEvyvKs/HViW2BIfbNdYkOFC8h194BTFjJQy8ECFMO2JskleuohnVKDJyISPEfaVkaVZOwuAUpn4Aj+WpCEFlHKWanMEZF0XvnEG0xQ==
-X-YMail-OSG: seHmNZIVM1nkfqqNvwtHcWmHQHqnphrWihU8eMmzVSuyS_RuQ2j.WDpUsRSavaU
- jZYfRatP1_4DA4f5KUios8OJz1tdtRvSLo3dUe5QdQCPyocBgjmsPQwtirVOqLHJ_RUQvuHXV6sM
- gd5ExRd1fsASC3LMFmZPq73krtwxAGawILY6ZXKqFGmshYJyj65KZF1nptAf.8USkkuCWuZiRY1p
- o082CsTR4w3.wIygu1h7hYKpG_GRK18sdPCHojfEVqVKG1aq6w.qixlx.lxhFpFGAU5eaGQ4YXhJ
- wBuuUNRxY.vT5Bc_AABN6_njxEFydpQroSGfUQZkLKVMg4bQqDOcEuj8SYv5j7NRAFw2I4mQEsxW
- 2ufI6ScADggGo1J0sY1wu75wnZU1t.ZT380QqtzwzsgOMp75xTHPVzCyPQbVMI.1Z.6Zwsv3DJ1r
- buS4IXCb7JBgkORah9pXNUFJNvfYvBFqmKo87oDCnajnX.as2BKxQLcijHjt6HLF7m4GxR271MhJ
- HgajYuYQj2152Wk2wUt5sOzxSVyPdbSd5kFT86kl0NR8w9xIdQiqfNqviJKkGzhzVFiWJiwOwWA9
- e9Gb4k9_IWwMoc6PTIWdXQn0f7Y_T6Iew2u6IYqDiDwqoDGpQtPHsvX1YX0UupKJ3exeRy3mwgLs
- xypQzSqsT4LuG3vFAUhT5yar1Ca0_SELMOmfznOQrUx9K2WwLKP9oHNyk0SPj2Mhd7veylOEW.XN
- biYjAmgTW57x_eHYUehbadMm33w5e1Anridq5yjDPRwgNcz7iMobMptpt.8JY_b4Ld9yqUnIFPM6
- kWlDq7nDiJvv9SNvnKoYe2kZtPOWVe1JZ_GsSA6GbtxcXHRqk9XUg07JG_dd8pN5dasD5Vca6UmY
- _MMYTB.ncp9vriGX1lyQgW22OqYreNcaggxTCd9jvgOtE7WVKMqTr5HRNrTguV4SALW3AYx_iZIy
- bRl2qOqhI_Ot6bGeEHZu.cV5nWvnoaTcQsQNpoP08NGbKWpeG82MiBI4vaX_vmAEDryzjpHGREw6
- ETV5KQO3ttNig8mW9xXhVlJPKvoycJNPbo3lhVAP9xOhHorDIAc5q02i9MLXdQx8A3P32RaG5_Vv
- Ws5D5.t2o5L6CP2dnBrvHG0cnsVfi.OnbfG2B0xEve7MTb6mes8TrlgYtOxw_JyVsWjo.TerftFy
- KCQY6I8dRjZJMN583sYvZYV2Tawp5Yh02hZrx4wTxALAAfVN1k_XbbofXtyxPfYhBn0DVcEAVaOz
- HoJpnEy4ocEvum0mt0MN7.vf8t19a8cpcfFbOBtD3RQ1RECeJSvkVb.VPoQKPlJddOpGZcpIkf0K
- RXD1rBkdxPAav5d8.f8w3AhjxOpTbaYzEIE11hMNXO9vN8W2C6UuQ.VSmSBhmnqlBuDDeZ2o3wq.
- GP05skzBvCztwh24uPfm1veqfBNdpYAF2hRNa7iQt66TBGmrlMeQUn_8IZf1YSSP5c1IkoaIf1YF
- _Sx9zSwtxUJg02nUscQ8nEsJ4dKpwPeQMyk5mA9fIRy9JKsUfuITETERC2njJ1bFNh8TC07bYBHe
- amIaHHWvnaa1RwKtYgi83m5dVG.iQVp0aGkTG5KFlXUWucJUofSHBNz8AIxaBWdys6DcK0VIY6uz
- EH2MogkL80MyOODhabyo1bJ4rH12ocw60LTQb0xp5FV591hhiotiffFTNKogREL9Smp5A5Gk8o5M
- PEOdJ8OZhqMUPvBxkfBU8lvRVQnVXfsfIzgJcIiS63NRd0tOOezBJ5UURhV9j7TETD8j622oCqwm
- L5r5hZJ.6.Wjvsak97WltV9DMvxyLcwYjH03brYZhqHFf2VoxnhOvWCqLk7foGObXzAfeX3AbYz6
- CnfwfPbk5s1DA.K77VR65LBDAli3FHxUPj1ZqxiBWQ6_yqTDVAtEH0UllQo86UZLXmRWTcdaSC9D
- asgEYe3l.4tVfRpw6uf6M7RSQKlV3KdSKtZBNQGbP7KhEsgYERZTOripn2c42wdyahpsw4cdzq5V
- Wl7f4nUK1tuFRZxtuo5mSbwBm_dGn
-X-Sonic-MF: <Capitain_Jack@yahoo.com>
-X-Sonic-ID: 49b055a9-9390-4c2c-a8a1-4757ae31f10a
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-usea1-prod-sonicconsumer-svc-101 with HTTP; Fri, 9 Oct 2026 06:34:30 +0000
-Received: from dip104.lsn.bf1.yahoo.com ([67.195.177.113])
-          by hello (SMTP) with SMTP ID b587e42b02226132a0e74996d08f2e41;
-          Fri, 09 Oct 2026 06:34:27 +0000 (UTC)
-From: Daniel Campos Ramos <Capitain_Jack@yahoo.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Kory Maincent <kory.maincent@bootlin.com>, victoria@system76.com,
- sebastian.wick@redhat.com, thomas.petazzoni@bootlin.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v5 37/38] drm/vkms: Add connector parent configuration in
- vkms_config
-In-Reply-To: <20260627-vkms-all-config-v5-37-854aa0840926@bootlin.com>
-References: <20260627-vkms-all-config-v5-0-854aa0840926@bootlin.com>
- <20260627-vkms-all-config-v5-37-854aa0840926@bootlin.com>
-Date: Fri, 09 Oct 2026 03:34:21 -0300
-Message-ID: <179152766117.1436711.17646397822774209185@yahoo.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JdAMV4Ni"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c263415982eso525304066b.0
+        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 23:52:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791528748; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ANiKS9FFVoHZxg11H++0jUgt3oUB/idvTULDp6hYVzug/3mAl+gPYNVcxqG/mBD/0C
+         IhwJGgjGz9ONCKVbgBChwgSTTIpRu94HKGOp2f8TFgYoZuKdphC+SZWJqhe788c5rP1Q
+         QwIv8cmWd9ZA8QEfTvdQYR7FO7ZO7jL+pvxzkf373KE/meYfsPI7Z6aDudJ/7K0uvwJR
+         UuNV2nfFODR47lQad1bgtBNL+8ivpzsm3boosonFVQoqaWz8aYnG+PZQlpHhxueMnfGe
+         3UfC+mJJxzQaeblF7Ukq1ec6/0u/1G1P8HFI149R4NjKnLKLqjmTCcT0gPEUjgJFgKUA
+         cW8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+dS3K8yuawIJTpHR5tebZaf9aB405AvauMGqVL4l6U0=;
+        fh=D0qLIaGTUbUvwad9NaeayyEVRAtPnky/fQK4rzLYSXM=;
+        b=CkG+pj3silCV3BOGxBdHwFh769gLYNx3dm7GmLFcmQMro/TilhkcH8GD7scyukCdxM
+         yfKX2xuFv4YNqZDrR7gX94juUTHu+17D7dHmu+ITeJtf9HEpE6/vUEMo4X4mAIcgn3bM
+         Sl0YjX+xV+wL3jpVhbQnfmMT7dJLyNwNHqZGYszUI1WwfyyxoEbwPD5EV+dMKghgWWRZ
+         TwmDyUoEqUlFQn3vu1XJ57eQpgD6NwZhdPcgqlHxLAKgEwWP0vbWqNB2TH0pJ6FC7EPm
+         I+jMeupw81zByWmBDY9MKujpH4Pdam7/4HH8FboyRgnR7InObT+JsmgIVUFub/g0KqZS
+         fwew==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791528748; x=1792133548; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+dS3K8yuawIJTpHR5tebZaf9aB405AvauMGqVL4l6U0=;
+        b=JdAMV4NiOsNnKzodZ1REyjHh9rZxhax/u/cAmbUKdeMyaIR1WVQqMK33pFmHUGKWWT
+         w4CEDkbEG6hiL+/e3UBo2iR65oNMPZsAOB2f8jGB4KEyQJduOVe94SuDO74cK6ZNbJh6
+         XQMPcVq7tNvG5KZqLov5JgUtSx5+OYkh3UA6ePd+Y4ec7M3sFMCs2Ktw17qA9QbeiHKw
+         epCwfJskhgIKdvANnwtSmb1t4TvjvaOfO9DXT1RdC54oQ43n6PKnkTQxR1kAc2E+dBWZ
+         69EIHWDrKqZqb/7/q2WQVkY3UDPYX1pzoI62PVaqmpP0CXR1MFDXzGt+VRcereBHzpcU
+         Ouhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791528748; x=1792133548;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+dS3K8yuawIJTpHR5tebZaf9aB405AvauMGqVL4l6U0=;
+        b=UKEe/5P3BAPjApuGKq2pMtK4TrxIGkOxnv2G9ee/6h/wXCvWEksN4vojPhbqbsGRjF
+         Z80FduF80jhHMJSedeiAeD8g12bsJdmCIuhg2QYfMqeNHPnJPchY3wqEjcmtdRUwoy4X
+         SrH9TmLkx5l/LLeVS4bwHRD4jYdHNrRzEvGx4Xt4pgYMy//ou65quoN/w8/9aCi+1OI7
+         E/VNzrPYi3Tha5iBo9vplEom9A/lHKwHnqDyzSmTpoTDrINFBZst26WRydEBb3T3Y76Q
+         SuTRMjEV3vj84jBYLiOCwN76Q3gmCBtkYD2EKwy20CmrVZWFHA55r/wnzPM+Q4CQ7vKv
+         hOxA==
+X-Forwarded-Encrypted: i=1; AKwUvBz5vkhoUBsAKs5W1Mt282fukQPyh0pae8jxheDYaENLZqkCuuSDxD/SNHlPG4Qm6Sac0mTTxMW6tR0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJZGB3FU+VoYuo6F0QiJCT7zMKyzJ9Kpr6TZdVEpNXMWMTsqVz8
+	o/Gef7/jFEpw+m0BxNAPR7gCYxesUpuzwjckvXrnSmJ6WlPRLnwX0WcoTWQk1YshdMv7/+W85cQ
+	u3MapYHxQGkSkVUg0I0nlQBtYyixF2fQ=
+X-Gm-Gg: AYBFou37rlAaM9oAcvtzYdaoLDFZhOIXeGnfbF32dZF9e4G/w4DeSYACx+J03DaW3Mi
+	8JI/kEbqIuCd69IoJXwJuL0bOSA2K8RIKOA6gzXh1LFSBAK+TsMiUabtdv7ulRj+B+0TN9B7/G3
+	t94KSbV16EIW7X20jU5xD9wgtn/BCa/GWzTNzfjnEX9a4zAwlBnDe5UPjJg4NEvOAon7boY2eyO
+	BfHBsCshs0aphT6abIRI9AoqIqba5AkuB29IgQtuHeCaSkldXLrtqoE8wOVbPjR63OpeyST/CDl
+	DmLM4NpYpVQP7OQRUzg4HBDf1BS6zMMRjnUM6OoIPbzVS25EcOuEp78barNLCv8eNJuph4ZB7Du
+	Q46Ydwh7eACr6GAK1zmUMLZbnwRk6cCO2zq7ez+5yww==
+X-Received: by 2002:a17:907:a089:b0:c2d:cbc9:3529 with SMTP id
+ a640c23a62f3a-c31a9ffd78amr101019566b.20.1791528748116; Thu, 08 Oct 2026
+ 23:52:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mailer: WebService/1.1.26668 mail.core.serving.mcws.prd.acl:role.token.mcws.jsmtp.yahoo
+References: <20260905-arch-kconfig-options-v2-v2-0-83e8245761a2@gmail.com> <20260905-arch-kconfig-options-v2-v2-8-83e8245761a2@gmail.com>
+In-Reply-To: <20260905-arch-kconfig-options-v2-v2-8-83e8245761a2@gmail.com>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Fri, 9 Oct 2026 08:52:16 +0200
+X-Gm-Features: AclHuK9oTCyjIBQo-KDpBuWM_JxhK4IiThl5vFb7lnINqfE-VDcwwfdZ-Pom2sQ
+Message-ID: <CA+=Fv5RJpeusA2W4rRHOJMPRn8iF=OngRy05X22Myurs0wA-sQ@mail.gmail.com>
+Subject: Re: [PATCH v2 08/22] alpha: select ARCH_SUPPORTS_INT128
+To: Matt Turner <mattst88@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, Kees Cook <kees@kernel.org>, 
+	Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Louis,
+Hi Matt,
 
-On Sat, 27 Jun 2026 05:30:54 +0200, Louis Chauvet wrote:
-> @@ -150,6 +220,8 @@ static int __must_check vkms_connector_init(struct vkms_connector *connector,
->  		}
->  	}
->  
-> +	drm_object_attach_property(&connector->base.base, connector->base.dev->mode_config.path_property, 0);
-> +
->  	return 0;
->  }
+On Sat, Sep 5, 2026 at 9:29=E2=80=AFPM Matt Turner <mattst88@gmail.com> wro=
+te:
+>
+> gcc supports __int128 on Alpha, and the 64x64 to 128-bit multiply that
+> the users in the scheduler and in lib/ care about maps onto mulq/umulh
+> rather than an out-of-line libgcc helper.
+>
+> Gate the select on CC_HAS_INT128 as the other 64-bit architectures do.
+>
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Matt Turner <mattst88@gmail.com>
+> Tested-by: Magnus Lindholm <linmag7@gmail.com>
+> Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
+> ---
+>  arch/alpha/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+> index 2672971b83f3..bed3f1c8d9d2 100644
+> --- a/arch/alpha/Kconfig
+> +++ b/arch/alpha/Kconfig
+> @@ -16,6 +16,7 @@ config ALPHA
+>         select ARCH_NO_PREEMPT
+>         select ARCH_NO_SG_CHAIN
+>         select ARCH_SUPPORTS_ATOMIC_RMW
+> +       select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
+>         select ARCH_USE_CMPXCHG_LOCKREF
+>         select FORCE_PCI
+>         select PCI_DOMAINS if PCI
+>
+> --
+> 2.54.0
+>
 
-With this, every VKMS connector has a PATH property, and a connector
-without a parent keeps the value 0, no blob. IGT reads a PATH property
-as "this connector has a path blob": kmstest_get_path_blob() asserts
-the blob whenever the property exists, and igt_display_require()
-reaches it through igt_output_refresh(), so IGT tests built on
-igt_display stop before their first subtest.
+The kernel test robot reported undefined references to __ashlti3,
+__ashrti3 and __lshrti3 with CONFIG_CC_OPTIMIZE_FOR_SIZE=3Dy.
 
-Measured in QEMU on your base commit with v5 applied, IGT master of
-2026-10-08, on the default VKMS device: kms_atomic fails with
+Alpha doesn't currently provide these helpers. CC_HAS_INT128 confirms
+support for the type, but doesn't guarantee that the generated code
+can link without libgcc.
 
-  igt_kms-CRITICAL: Test assertion failure function kmstest_get_path_blob, file ../igt/lib/igt_kms.c:2287:
-  igt_kms-CRITICAL: Failed assertion: path_blob
-  ...
-    #3 ../igt/lib/igt_kms.c:2618 igt_output_refresh()
-    #4 ../igt/lib/igt_kms.c:2953 igt_display_reset_outputs()
-    #5 ../igt/lib/igt_kms.c:3244 igt_display_require()
-    #6 ../igt/tests/kms_atomic.c:1470 __igt_unique____real_main1460()
+I suggest dropping "alpha: select ARCH_SUPPORTS_INT128" for now and
+bringing it back once the required helpers are implemented and tested
+with size-optimized builds, including UBSAN. Removing the select
+eliminates the missing references in the affected objects.
 
-The vkms:none job of drivers/gpu/drm/ci runs IGT on that device.
+There are no functional dependencies on this patch in the rest of
+for-next. I tested rebasing without it: the page-table-check and
+hugetlb patches each needed a small Kconfig context conflict resolved,
+keeping their own selects and omitting ARCH_SUPPORTS_INT128. The
+remaining commits replayed cleanly, and the resulting tree differs
+only by that one-line removal.
 
-Drivers attach PATH to MST connectors only, and set the blob at the
-same time. With the change below, which attaches PATH only to
-connectors that have a parent, kms_atomic plane-primary-legacy passes
-on the default device and on a configfs device with an HDMI-A
-connector, and kms_3d passes with the stereo series I am about to
-post. A parent can only be linked while the connector is disabled,
-and enabling a connector goes through vkms_connector_init() again, so
-the property is there whenever a connector has a parent.
-
--- >8 --
-From: Daniel Campos Ramos <Capitain_Jack@yahoo.com>
-Subject: [PATCH] drm/vkms: Attach PATH only to connectors that have a parent
-
-Every VKMS connector gets the PATH property, but only connectors with a
-parent ever get a path blob, so a connector without a parent exposes
-PATH = 0. Drivers attach PATH to MST connectors only, and set the blob
-with it, and IGT relies on that: kmstest_get_path_blob() asserts a
-blob whenever the property exists, so igt_display_require() and
-kmstest_get_connector_config() fail on every VKMS device, and with
-them kms_atomic and kms_3d.
-
-Attach PATH only to connectors that have a parent.
-
-Assisted-by: LLM
-Signed-off-by: Daniel Campos Ramos <Capitain_Jack@yahoo.com>
----
- drivers/gpu/drm/vkms/vkms_connector.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_connector.c b/drivers/gpu/drm/vkms/vkms_connector.c
-index 3449c4c213..5d43201cff 100644
---- a/drivers/gpu/drm/vkms/vkms_connector.c
-+++ b/drivers/gpu/drm/vkms/vkms_connector.c
-@@ -222,7 +222,9 @@ static int __must_check vkms_connector_init(struct vkms_connector *connector,
- 		}
- 	}
- 
--	drm_object_attach_property(&connector->base.base, connector->base.dev->mode_config.path_property, 0);
-+	if (vkms_config_connector_get_parent(connector_cfg))
-+		drm_object_attach_property(&connector->base.base,
-+					   connector->base.dev->mode_config.path_property, 0);
- 
- 	return 0;
- }
+Magnus
