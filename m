@@ -1,64 +1,63 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600B84E8DE4
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 15:39:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA334E9C1D
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 15:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791560361; cv=none; b=NJzIDUCtxMwPVtQ+psb6407k3ClTaw5ZHi2YeljOe2zA0r+AkbkoJUHtbTgOG4aiYZ2x3vSJvynAIUko4nTJt4h9NmEigyRR6kPeZ2iobN40iIlYKclxvsQN6+ph/pTPkEnqEHTi8sLDy05OgSV1aLLJZOnPQCTrQydC4RgyXps=
+	t=1791560365; cv=none; b=VA1xVLECdmt4LGSBL8U8KB3NBu3QzpLYtPfF/zzClwf9LznnkkVtNNkU8MzffC6a8SI4H9bhV8bPLDdGfEvP6HArdR+JKwrA8ckLcYm3h6z6mTVWgthVElejmuDK1WPCvzzNsZXBNnrSqX9RjLSOWvgOgOEVvfG3t+5rbyU8Ejg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791560361; c=relaxed/simple;
-	bh=1Q9ss7gwW7Js4Ee2aM8XMcWq4OPlhdSY81inMwukryk=;
+	s=arc-20240116; t=1791560365; c=relaxed/simple;
+	bh=7KQOT4/YmaGTqbBEFf/jux4/hF/llbFyRPtq++sAfS0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Pp8JoBmp1Gw/RON46JZ6HH4rtSANJzqAMp9MdS/P5T+w/kb26opPje/BqsRqyssyA9kiXwWLfw4ak7SL8eqhdWW7rjgKfsbzUHczcAgHRoXTqoWE5xtaJmNSXxNQg3f1XnuQLJK1OHAFR9Z5P4619OFvSZZ3+Mh7MNktnyPuk6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IpdjYJyX; arc=none smtp.client-ip=209.85.214.179
+	 MIME-Version; b=sTgmGpqGMzJzURS1iyXBgvsMxUSUZSi0lGyPw0zc/A2QkIF5KJmdX+MLKs7WczPXWz5c9AqzUs8pPPL3Kz+os8JcJBxAhhRNjY356I998AuzK1iuJEmbqQYUC3mwyuzLp2xeYgtCwqAfUePDLL1JcURmIGUJu9or024rN0YvYzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MfRm3k1G; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IpdjYJyX"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2d6d28aa26cso32959195ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 08:39:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MfRm3k1G"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cd5c9e52398so321478a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 08:39:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791560359; x=1792165159; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791560362; x=1792165162; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=UJr8MEL/MFFt0jx2WIiKTin57SN9MC0NE/wSa+YPiXM=;
-        b=IpdjYJyX5XtN+TZxoyXg/WLDk7tMvY0OE9vAMJf89x4J43CRRiT9TUCFr+cSl3kWSe
-         L2HTp1GB3a749Q/m9li7e7yX9rFJ75HKQyhivTSavdvUSQ4vvULdZtySGXWIkXyxW+AW
-         6231OJkPeM8+xwAaZCx1zYEcgjTen8tHxfCrbosk2d+Np8cTZCb22/bffe6GB2WnxFgG
-         7BRo3tTKfgjf8KP+RTK3SzQHwhgo9xlR6B9RtVl1PvQMUF2ifxM6ENELZfRo6wPMDOzf
-         LnbfIpa+WaKnaa1turJ1QfsLWWPV/rPUJUcyVe/Gjp6e4B8igDH9mUaP4W7ghDI24y7f
-         AyPw==
+        bh=QCWuqJzkl7WxbzU0hxEOW4t98SL56glPEqj/2QQfXyk=;
+        b=MfRm3k1Gurq5irLB6I1YCyEttfZSKz2kGuhEAWHa+hiJpeBCrkVwoHLenFn0WWqJfy
+         i4kryNpyG6CIPw24s11vdNDm3LbwogVKQ0yj2w0+OvACB0jZIjF3EqKiDqpgq1YiWbnt
+         QH4Jx7RxcRGzeGICrbB4JTeQlZYF2iWdv0tPsieMmV6HkT1WPWDwhtRgJCvt6nBTC+3G
+         gLQFQ2fgZmqismVRiZLfzSdDHj+Je+bQKLjNz550VbLh0rrl6+oaPj3IEQGfnkgy0s1B
+         6K1t+pZUg7ceYG7mxBSOWK7hsQ4yVDNzeD4YE2kzAtfYxIKMfgi2+k/Z30ITnndRd/03
+         XlnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791560359; x=1792165159;
+        d=1e100.net; s=20260707; t=1791560362; x=1792165162;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UJr8MEL/MFFt0jx2WIiKTin57SN9MC0NE/wSa+YPiXM=;
-        b=Wewqp+0hSlaQ1AbwYHB17M2njC0ac0qGTfcDzblCRlJMM+f1CKQRUK4UPXnScAOi6q
-         6mpGZY4o+jGzJOZcVjd5g9kAM0FUH6F80+8M1nDvzTQUb2lTpHO1k1vc0dWRLzDiwP0f
-         hUiWigCJpIRGxVnk6qXJ3KwTKxnsjHDpKUhXaLfJ5wKw8nSq+ingVyHLw2oTTqka80W5
-         Jdvw85yhyqtlUKeiz38G20r1lVtGsbP+7ItQV99di6y6p5aEGUPZ07bqiqV15glblMxq
-         7Caix1fbpNbKDCcWv2I5tTRN4m7yiaKjWnEX8RnhkPD685Ys+m5cSR6RffUC0Fsi8K3x
-         wQeg==
-X-Forwarded-Encrypted: i=1; AKwUvByLy+3J7cBvv0nyEzBHaP5+Cv73L/fWTvaW/wedPoEJgSv2hem8IOEX8+8GuCOD/D11O9fAx/9M2tQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJotC+R+rfl5sMV1TPQG8IKxuWCWyCH/oW7tqXI9y4gf50IYMsw
-	3Z5xPJ/vW+2dMdiHJ5om9M0CvdYJOx936M6QbUrBsUNewX8lAPm7XQFN
-X-Gm-Gg: AYBFou2EVMx57CPSv0KdoPMow8/A6dLaFm2+MiWLH9SWZUdUD5wKXXndcB0LBMAV2Qu
-	BKb+dJNY5/ZIpM61cUbMiocq9r6Zv0Kg8+6CvAL4ypfLsWiO0qS+xexw1qYLSlLWZ59x9GV5bOD
-	zAP5uQVHeL4UbW+fFukSQE1+6ZUtK1jLnyHRJ6CamkvSoSY3aI7fbvC0tzbJjq86OyohwfpAZcV
-	DtGkOb3jGx9m35RBrttIv9JeBCupRknlCCYnOw31t4Tn/IySjYAHd+OWsMDZ//6c6K9IKH+Xgpe
-	95SvuPnHpgxbXPvBFH8HoaS73ROkN4vioI3wsUgDguoWmyqVZPpVh/VeSEWbWsHQzOn4zc31pvp
-	Y+v1aZdT9tQmyiXq0VNHVqQfNv/q8saz+zBvDlWcKB/jsYnluUhGuC0a7/voAmRtgKcwdLdLLyr
-	YujSaeBefH8+CVhmf/u3+fFRBB4lqHmUWVKjCXGD5X3+necAj+wlPsfemqMBst93UiMF+Md8fIl
-	3gJEjo=
-X-Received: by 2002:a17:903:41c1:b0:2e5:33a5:36ec with SMTP id d9443c01a7336-2e84280af99mr20072915ad.4.1791560358556;
-        Fri, 09 Oct 2026 08:39:18 -0700 (PDT)
+        bh=QCWuqJzkl7WxbzU0hxEOW4t98SL56glPEqj/2QQfXyk=;
+        b=cLlnIYsAp2riSsVAK/nLfhITpNY/pmxpERaNT7TRmLZPdZdLPkRQNdFu6yoFJXS+9e
+         EruPpcGcrgUX/FANatrQEsIfPmRdiSPqHwmSEKuO5rdJ/rwRehN8DDBhTFzeglzWozKI
+         KLUhUUAI0rhApdSoZTV0QVlyim0L6wVyVCPtVHKO7Iz4v/QjBUi27Z4dMFQ7GqoTjY70
+         TZwcO6JUisGz8efu5JmT63era7kHaTSV2cSVQHgzV2PSoE2SwlELnJqsUsw8ztXvzMZb
+         Pm4BHVg69kyZ5Kn+IUgQBG7oM3SlGz4gXCBIOxPrghEN1q306sl/McnyrRDVC7PNn0bl
+         56YA==
+X-Forwarded-Encrypted: i=1; AKwUvBwGBVzG85c+4yHSkgmTsBUWmY3ghxDvXrRIeXWsrsXkKUpikTZWuviSLE0UwqE/yGUbP6JQOLT4BGQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIFWaNCNr4wNCH77cxjyNjdA2AHymCdW9/Tdr/zIlBVqKhPwp7t
+	4KvbRg8qX/8DE1dpPpPgcdBjzY//kPtxAMihu+h/VHNen4uEZMi1orF1
+X-Gm-Gg: AYBFou3xb6JB7G7Xyh9jcqyavDtL+xDyg93pIR8vb0zMcc4q6nwz163VyCW5Otkkv4p
+	qUjRPncSTI6JnJRVNOI1//JBR6Wk2+n1sp1uQDxUd4XU2gckdmecplcw2MFGsv6ePCkWrWg3KmJ
+	GV4TVdW1PbCDrSAkzPIWdVtPhhnhBbNxGEDuwXTvNXutsbUJQc7gqhPnSJX8Mp9Bk7H/lc74AEV
+	zsPmAGJfD9AaKlfS3P9Ews6tX9UiPdg6LCR0HpapdTeLup/aAt6ZCiIF6o9DWYQCo08PHOigaOI
+	ackaN3J3V8ZTEfh143fsdAovqGJmGUW7gdlkJX8NQCGc12PZzd+r+KHFzKOIGTokmLx6o3v/1se
+	JR2AagqK8kKO0QxQLk6OybNrkWGintDkRdcAYlxxJg/781lZU3fBE/bC5D6ziBm6h7OvPasgf8l
+	+RnMVJl2nc7S2uu9BIFOyDehAUEEKmHyt/p7kjfOop3v4StaWXChYPSE+lJp9gb06YVQyq
+X-Received: by 2002:a17:903:2a8b:b0:2e8:3d48:4d82 with SMTP id d9443c01a7336-2e842dfd143mr19132405ad.60.1791560361898;
+        Fri, 09 Oct 2026 08:39:21 -0700 (PDT)
 Received: from mincom1 ([14.67.155.18])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421ae999sm11847705ad.31.2026.10.09.08.39.16
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421ae999sm11847705ad.31.2026.10.09.08.39.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 08:39:18 -0700 (PDT)
+        Fri, 09 Oct 2026 08:39:20 -0700 (PDT)
 From: Jihong Min <hurryman2212@gmail.com>
 To: Guenter Roeck <linux@roeck-us.net>,
 	linux-hwmon@vger.kernel.org
@@ -68,9 +67,9 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	linux-api@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/5] hwmon: Export sensor and attribute definitions to userspace
-Date: Sat, 10 Oct 2026 00:38:40 +0900
-Message-ID: <583573c30df45e4498737a89138e6f4f8911c631.1791559095.git.hurryman2212@gmail.com>
+Subject: [PATCH 2/5] hwmon: Expose attribute validation and string helpers
+Date: Sat, 10 Oct 2026 00:38:41 +0900
+Message-ID: <c0e04710f5a3a555e9d7b42b8f9ee369311cca4c.1791559095.git.hurryman2212@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1791531025.git.hurryman2212@gmail.com>
 References: <cover.1791531025.git.hurryman2212@gmail.com>
@@ -82,777 +81,112 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move sensor types, attribute identifiers and configuration bits to
-linux/hwmon.h in the UAPI so kernel and userspace drivers share them.
-Keep existing values unchanged and use userspace-safe bit definitions.
+Expose the core's string classification and sysfs template validation
+through the kernel hwmon API. Let drivers query these properties without
+maintaining separate attribute tables.
 
-Keep operations, channel structures and registration helpers in the
-kernel header.
+Reuse the helpers when creating attributes.
 
 Assisted-by: Codex:gpt-6-astra
 Signed-off-by: Jihong Min <hurryman2212@gmail.com>
 ---
- MAINTAINERS                |   1 +
- include/linux/hwmon.h      | 353 +----------------------------------
- include/uapi/linux/hwmon.h | 372 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 374 insertions(+), 352 deletions(-)
- create mode 100644 include/uapi/linux/hwmon.h
+ drivers/hwmon/hwmon.c | 30 +++++++++++++++++++++++++-----
+ include/linux/hwmon.h |  3 +++
+ 2 files changed, 28 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 65e8a4b5c90b..f3f0292832bb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11492,6 +11492,7 @@ F:	Documentation/hwmon/
- F:	drivers/hwmon/
- F:	include/linux/hwmon*.h
- F:	include/trace/events/hwmon*.h
-+F:	include/uapi/linux/hwmon.h
- K:	(devm_)?hwmon_device_(un)?register(|_with_groups|_with_info)
+diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
+index 10d2df3efdfa..bed16cfd4f1c 100644
+--- a/drivers/hwmon/hwmon.c
++++ b/drivers/hwmon/hwmon.c
+@@ -502,7 +502,14 @@ static ssize_t hwmon_attr_store(struct device *dev,
+ 	return count;
+ }
  
- HARDWARE RANDOM NUMBER GENERATOR CORE
+-static bool is_string_attr(enum hwmon_sensor_types type, u32 attr)
++/**
++ * hwmon_is_string_attr - test whether an attribute returns a string
++ * @type: sensor type
++ * @attr: attribute identifier
++ *
++ * Return: true for string attributes, false otherwise.
++ */
++bool hwmon_is_string_attr(enum hwmon_sensor_types type, u32 attr)
+ {
+ 	return (type == hwmon_temp && attr == hwmon_temp_label) ||
+ 	       (type == hwmon_in && attr == hwmon_in_label) ||
+@@ -513,6 +520,7 @@ static bool is_string_attr(enum hwmon_sensor_types type, u32 attr)
+ 	       (type == hwmon_humidity && attr == hwmon_humidity_label) ||
+ 	       (type == hwmon_fan && attr == hwmon_fan_label);
+ }
++EXPORT_SYMBOL_GPL(hwmon_is_string_attr);
+ 
+ static const struct attribute *hwmon_genattr(const void *drvdata,
+ 					     enum hwmon_sensor_types type,
+@@ -526,7 +534,7 @@ static const struct attribute *hwmon_genattr(const void *drvdata,
+ 	struct attribute *a;
+ 	umode_t mode;
+ 	const char *name;
+-	bool is_string = is_string_attr(type, attr);
++	bool is_string = hwmon_is_string_attr(type, attr);
+ 
+ 	mode = hwmon_is_visible(ops, drvdata, type, attr, index);
+ 	if (!mode)
+@@ -776,6 +784,20 @@ static const int __templates_size[] = {
+ 	[hwmon_intrusion] = ARRAY_SIZE(hwmon_intrusion_attr_templates),
+ };
+ 
++/**
++ * hwmon_is_valid_attr - test whether an attribute has a sysfs template
++ * @type: sensor type
++ * @attr: attribute identifier
++ *
++ * Return: true for supported sysfs attributes, false otherwise.
++ */
++bool hwmon_is_valid_attr(enum hwmon_sensor_types type, u32 attr)
++{
++	return (unsigned int)type < ARRAY_SIZE(__templates) &&
++	       attr < __templates_size[type] && __templates[type][attr];
++}
++EXPORT_SYMBOL_GPL(hwmon_is_valid_attr);
++
+ int hwmon_notify_event(struct device *dev, enum hwmon_sensor_types type,
+ 		       u32 attr, int channel)
+ {
+@@ -843,14 +865,12 @@ static int hwmon_genattrs(const void *drvdata,
+ 			  const struct hwmon_channel_info *info)
+ {
+ 	const char * const *templates;
+-	int template_size;
+ 	int i, aindex = 0;
+ 
+ 	if (info->type >= ARRAY_SIZE(__templates))
+ 		return -EINVAL;
+ 
+ 	templates = __templates[info->type];
+-	template_size = __templates_size[info->type];
+ 
+ 	for (i = 0; info->config[i]; i++) {
+ 		u32 attr_mask = info->config[i];
+@@ -861,7 +881,7 @@ static int hwmon_genattrs(const void *drvdata,
+ 
+ 			attr = __ffs(attr_mask);
+ 			attr_mask &= ~BIT(attr);
+-			if (attr >= template_size || !templates[attr])
++			if (!hwmon_is_valid_attr(info->type, attr))
+ 				continue;	/* attribute is invisible */
+ 			a = hwmon_genattr(drvdata, info->type, attr, i,
+ 					  templates[attr], ops);
 diff --git a/include/linux/hwmon.h b/include/linux/hwmon.h
-index dd713e193d0c..d48e0aa82bc5 100644
+index d48e0aa82bc5..b026aa317630 100644
 --- a/include/linux/hwmon.h
 +++ b/include/linux/hwmon.h
-@@ -14,362 +14,11 @@
+@@ -138,6 +138,9 @@ devm_hwmon_device_register_with_info(struct device *dev,
  
- #include <linux/bitops.h>
- #include <linux/cleanup.h>
-+#include <uapi/linux/hwmon.h>
+ void hwmon_device_unregister(struct device *dev);
  
- struct device;
- struct attribute_group;
++bool hwmon_is_valid_attr(enum hwmon_sensor_types type, u32 attr);
++bool hwmon_is_string_attr(enum hwmon_sensor_types type, u32 attr);
++
+ int hwmon_notify_event(struct device *dev, enum hwmon_sensor_types type,
+ 		       u32 attr, int channel);
  
--enum hwmon_sensor_types {
--	hwmon_chip,
--	hwmon_temp,
--	hwmon_in,
--	hwmon_curr,
--	hwmon_power,
--	hwmon_energy,
--	hwmon_energy64,
--	hwmon_humidity,
--	hwmon_fan,
--	hwmon_pwm,
--	hwmon_intrusion,
--	hwmon_max,
--};
--
--enum hwmon_chip_attributes {
--	hwmon_chip_temp_reset_history,
--	hwmon_chip_in_reset_history,
--	hwmon_chip_curr_reset_history,
--	hwmon_chip_power_reset_history,
--	hwmon_chip_register_tz,
--	hwmon_chip_update_interval,
--	hwmon_chip_update_interval_us,
--	hwmon_chip_alarms,
--	hwmon_chip_samples,
--	hwmon_chip_curr_samples,
--	hwmon_chip_in_samples,
--	hwmon_chip_power_samples,
--	hwmon_chip_temp_samples,
--	hwmon_chip_beep_enable,
--	hwmon_chip_pec,
--};
--
--#define HWMON_C_TEMP_RESET_HISTORY	BIT(hwmon_chip_temp_reset_history)
--#define HWMON_C_IN_RESET_HISTORY	BIT(hwmon_chip_in_reset_history)
--#define HWMON_C_CURR_RESET_HISTORY	BIT(hwmon_chip_curr_reset_history)
--#define HWMON_C_POWER_RESET_HISTORY	BIT(hwmon_chip_power_reset_history)
--#define HWMON_C_REGISTER_TZ		BIT(hwmon_chip_register_tz)
--#define HWMON_C_UPDATE_INTERVAL		BIT(hwmon_chip_update_interval)
--#define HWMON_C_UPDATE_INTERVAL_US	BIT(hwmon_chip_update_interval_us)
--#define HWMON_C_ALARMS			BIT(hwmon_chip_alarms)
--#define HWMON_C_SAMPLES			BIT(hwmon_chip_samples)
--#define HWMON_C_CURR_SAMPLES		BIT(hwmon_chip_curr_samples)
--#define HWMON_C_IN_SAMPLES		BIT(hwmon_chip_in_samples)
--#define HWMON_C_POWER_SAMPLES		BIT(hwmon_chip_power_samples)
--#define HWMON_C_TEMP_SAMPLES		BIT(hwmon_chip_temp_samples)
--#define HWMON_C_BEEP_ENABLE		BIT(hwmon_chip_beep_enable)
--#define HWMON_C_PEC			BIT(hwmon_chip_pec)
--
--enum hwmon_temp_attributes {
--	hwmon_temp_enable,
--	hwmon_temp_input,
--	hwmon_temp_type,
--	hwmon_temp_lcrit,
--	hwmon_temp_lcrit_hyst,
--	hwmon_temp_min,
--	hwmon_temp_min_hyst,
--	hwmon_temp_max,
--	hwmon_temp_max_hyst,
--	hwmon_temp_crit,
--	hwmon_temp_crit_hyst,
--	hwmon_temp_emergency,
--	hwmon_temp_emergency_hyst,
--	hwmon_temp_alarm,
--	hwmon_temp_lcrit_alarm,
--	hwmon_temp_min_alarm,
--	hwmon_temp_max_alarm,
--	hwmon_temp_crit_alarm,
--	hwmon_temp_emergency_alarm,
--	hwmon_temp_fault,
--	hwmon_temp_offset,
--	hwmon_temp_label,
--	hwmon_temp_lowest,
--	hwmon_temp_highest,
--	hwmon_temp_reset_history,
--	hwmon_temp_rated_min,
--	hwmon_temp_rated_max,
--	hwmon_temp_beep,
--};
--
--#define HWMON_T_ENABLE		BIT(hwmon_temp_enable)
--#define HWMON_T_INPUT		BIT(hwmon_temp_input)
--#define HWMON_T_TYPE		BIT(hwmon_temp_type)
--#define HWMON_T_LCRIT		BIT(hwmon_temp_lcrit)
--#define HWMON_T_LCRIT_HYST	BIT(hwmon_temp_lcrit_hyst)
--#define HWMON_T_MIN		BIT(hwmon_temp_min)
--#define HWMON_T_MIN_HYST	BIT(hwmon_temp_min_hyst)
--#define HWMON_T_MAX		BIT(hwmon_temp_max)
--#define HWMON_T_MAX_HYST	BIT(hwmon_temp_max_hyst)
--#define HWMON_T_CRIT		BIT(hwmon_temp_crit)
--#define HWMON_T_CRIT_HYST	BIT(hwmon_temp_crit_hyst)
--#define HWMON_T_EMERGENCY	BIT(hwmon_temp_emergency)
--#define HWMON_T_EMERGENCY_HYST	BIT(hwmon_temp_emergency_hyst)
--#define HWMON_T_ALARM		BIT(hwmon_temp_alarm)
--#define HWMON_T_MIN_ALARM	BIT(hwmon_temp_min_alarm)
--#define HWMON_T_MAX_ALARM	BIT(hwmon_temp_max_alarm)
--#define HWMON_T_CRIT_ALARM	BIT(hwmon_temp_crit_alarm)
--#define HWMON_T_LCRIT_ALARM	BIT(hwmon_temp_lcrit_alarm)
--#define HWMON_T_EMERGENCY_ALARM	BIT(hwmon_temp_emergency_alarm)
--#define HWMON_T_FAULT		BIT(hwmon_temp_fault)
--#define HWMON_T_OFFSET		BIT(hwmon_temp_offset)
--#define HWMON_T_LABEL		BIT(hwmon_temp_label)
--#define HWMON_T_LOWEST		BIT(hwmon_temp_lowest)
--#define HWMON_T_HIGHEST		BIT(hwmon_temp_highest)
--#define HWMON_T_RESET_HISTORY	BIT(hwmon_temp_reset_history)
--#define HWMON_T_RATED_MIN	BIT(hwmon_temp_rated_min)
--#define HWMON_T_RATED_MAX	BIT(hwmon_temp_rated_max)
--#define HWMON_T_BEEP		BIT(hwmon_temp_beep)
--
--enum hwmon_in_attributes {
--	hwmon_in_enable,
--	hwmon_in_input,
--	hwmon_in_min,
--	hwmon_in_max,
--	hwmon_in_lcrit,
--	hwmon_in_crit,
--	hwmon_in_average,
--	hwmon_in_lowest,
--	hwmon_in_highest,
--	hwmon_in_reset_history,
--	hwmon_in_label,
--	hwmon_in_alarm,
--	hwmon_in_min_alarm,
--	hwmon_in_max_alarm,
--	hwmon_in_lcrit_alarm,
--	hwmon_in_crit_alarm,
--	hwmon_in_rated_min,
--	hwmon_in_rated_max,
--	hwmon_in_beep,
--	hwmon_in_fault,
--};
--
--#define HWMON_I_ENABLE		BIT(hwmon_in_enable)
--#define HWMON_I_INPUT		BIT(hwmon_in_input)
--#define HWMON_I_MIN		BIT(hwmon_in_min)
--#define HWMON_I_MAX		BIT(hwmon_in_max)
--#define HWMON_I_LCRIT		BIT(hwmon_in_lcrit)
--#define HWMON_I_CRIT		BIT(hwmon_in_crit)
--#define HWMON_I_AVERAGE		BIT(hwmon_in_average)
--#define HWMON_I_LOWEST		BIT(hwmon_in_lowest)
--#define HWMON_I_HIGHEST		BIT(hwmon_in_highest)
--#define HWMON_I_RESET_HISTORY	BIT(hwmon_in_reset_history)
--#define HWMON_I_LABEL		BIT(hwmon_in_label)
--#define HWMON_I_ALARM		BIT(hwmon_in_alarm)
--#define HWMON_I_MIN_ALARM	BIT(hwmon_in_min_alarm)
--#define HWMON_I_MAX_ALARM	BIT(hwmon_in_max_alarm)
--#define HWMON_I_LCRIT_ALARM	BIT(hwmon_in_lcrit_alarm)
--#define HWMON_I_CRIT_ALARM	BIT(hwmon_in_crit_alarm)
--#define HWMON_I_RATED_MIN	BIT(hwmon_in_rated_min)
--#define HWMON_I_RATED_MAX	BIT(hwmon_in_rated_max)
--#define HWMON_I_BEEP		BIT(hwmon_in_beep)
--#define HWMON_I_FAULT		BIT(hwmon_in_fault)
--
--enum hwmon_curr_attributes {
--	hwmon_curr_enable,
--	hwmon_curr_input,
--	hwmon_curr_min,
--	hwmon_curr_max,
--	hwmon_curr_lcrit,
--	hwmon_curr_crit,
--	hwmon_curr_average,
--	hwmon_curr_lowest,
--	hwmon_curr_highest,
--	hwmon_curr_reset_history,
--	hwmon_curr_label,
--	hwmon_curr_alarm,
--	hwmon_curr_min_alarm,
--	hwmon_curr_max_alarm,
--	hwmon_curr_lcrit_alarm,
--	hwmon_curr_crit_alarm,
--	hwmon_curr_rated_min,
--	hwmon_curr_rated_max,
--	hwmon_curr_beep,
--};
--
--#define HWMON_C_ENABLE		BIT(hwmon_curr_enable)
--#define HWMON_C_INPUT		BIT(hwmon_curr_input)
--#define HWMON_C_MIN		BIT(hwmon_curr_min)
--#define HWMON_C_MAX		BIT(hwmon_curr_max)
--#define HWMON_C_LCRIT		BIT(hwmon_curr_lcrit)
--#define HWMON_C_CRIT		BIT(hwmon_curr_crit)
--#define HWMON_C_AVERAGE		BIT(hwmon_curr_average)
--#define HWMON_C_LOWEST		BIT(hwmon_curr_lowest)
--#define HWMON_C_HIGHEST		BIT(hwmon_curr_highest)
--#define HWMON_C_RESET_HISTORY	BIT(hwmon_curr_reset_history)
--#define HWMON_C_LABEL		BIT(hwmon_curr_label)
--#define HWMON_C_ALARM		BIT(hwmon_curr_alarm)
--#define HWMON_C_MIN_ALARM	BIT(hwmon_curr_min_alarm)
--#define HWMON_C_MAX_ALARM	BIT(hwmon_curr_max_alarm)
--#define HWMON_C_LCRIT_ALARM	BIT(hwmon_curr_lcrit_alarm)
--#define HWMON_C_CRIT_ALARM	BIT(hwmon_curr_crit_alarm)
--#define HWMON_C_RATED_MIN	BIT(hwmon_curr_rated_min)
--#define HWMON_C_RATED_MAX	BIT(hwmon_curr_rated_max)
--#define HWMON_C_BEEP		BIT(hwmon_curr_beep)
--
--enum hwmon_power_attributes {
--	hwmon_power_enable,
--	hwmon_power_average,
--	hwmon_power_average_interval,
--	hwmon_power_average_interval_max,
--	hwmon_power_average_interval_min,
--	hwmon_power_average_highest,
--	hwmon_power_average_lowest,
--	hwmon_power_average_max,
--	hwmon_power_average_min,
--	hwmon_power_input,
--	hwmon_power_input_highest,
--	hwmon_power_input_lowest,
--	hwmon_power_reset_history,
--	hwmon_power_accuracy,
--	hwmon_power_cap,
--	hwmon_power_cap_hyst,
--	hwmon_power_cap_max,
--	hwmon_power_cap_min,
--	hwmon_power_min,
--	hwmon_power_max,
--	hwmon_power_crit,
--	hwmon_power_lcrit,
--	hwmon_power_label,
--	hwmon_power_alarm,
--	hwmon_power_cap_alarm,
--	hwmon_power_min_alarm,
--	hwmon_power_max_alarm,
--	hwmon_power_lcrit_alarm,
--	hwmon_power_crit_alarm,
--	hwmon_power_rated_min,
--	hwmon_power_rated_max,
--};
--
--#define HWMON_P_ENABLE			BIT(hwmon_power_enable)
--#define HWMON_P_AVERAGE			BIT(hwmon_power_average)
--#define HWMON_P_AVERAGE_INTERVAL	BIT(hwmon_power_average_interval)
--#define HWMON_P_AVERAGE_INTERVAL_MAX	BIT(hwmon_power_average_interval_max)
--#define HWMON_P_AVERAGE_INTERVAL_MIN	BIT(hwmon_power_average_interval_min)
--#define HWMON_P_AVERAGE_HIGHEST		BIT(hwmon_power_average_highest)
--#define HWMON_P_AVERAGE_LOWEST		BIT(hwmon_power_average_lowest)
--#define HWMON_P_AVERAGE_MAX		BIT(hwmon_power_average_max)
--#define HWMON_P_AVERAGE_MIN		BIT(hwmon_power_average_min)
--#define HWMON_P_INPUT			BIT(hwmon_power_input)
--#define HWMON_P_INPUT_HIGHEST		BIT(hwmon_power_input_highest)
--#define HWMON_P_INPUT_LOWEST		BIT(hwmon_power_input_lowest)
--#define HWMON_P_RESET_HISTORY		BIT(hwmon_power_reset_history)
--#define HWMON_P_ACCURACY		BIT(hwmon_power_accuracy)
--#define HWMON_P_CAP			BIT(hwmon_power_cap)
--#define HWMON_P_CAP_HYST		BIT(hwmon_power_cap_hyst)
--#define HWMON_P_CAP_MAX			BIT(hwmon_power_cap_max)
--#define HWMON_P_CAP_MIN			BIT(hwmon_power_cap_min)
--#define HWMON_P_MIN			BIT(hwmon_power_min)
--#define HWMON_P_MAX			BIT(hwmon_power_max)
--#define HWMON_P_LCRIT			BIT(hwmon_power_lcrit)
--#define HWMON_P_CRIT			BIT(hwmon_power_crit)
--#define HWMON_P_LABEL			BIT(hwmon_power_label)
--#define HWMON_P_ALARM			BIT(hwmon_power_alarm)
--#define HWMON_P_CAP_ALARM		BIT(hwmon_power_cap_alarm)
--#define HWMON_P_MIN_ALARM		BIT(hwmon_power_min_alarm)
--#define HWMON_P_MAX_ALARM		BIT(hwmon_power_max_alarm)
--#define HWMON_P_LCRIT_ALARM		BIT(hwmon_power_lcrit_alarm)
--#define HWMON_P_CRIT_ALARM		BIT(hwmon_power_crit_alarm)
--#define HWMON_P_RATED_MIN		BIT(hwmon_power_rated_min)
--#define HWMON_P_RATED_MAX		BIT(hwmon_power_rated_max)
--
--enum hwmon_energy_attributes {
--	hwmon_energy_enable,
--	hwmon_energy_input,
--	hwmon_energy_label,
--};
--
--#define HWMON_E_ENABLE			BIT(hwmon_energy_enable)
--#define HWMON_E_INPUT			BIT(hwmon_energy_input)
--#define HWMON_E_LABEL			BIT(hwmon_energy_label)
--
--enum hwmon_humidity_attributes {
--	hwmon_humidity_enable,
--	hwmon_humidity_input,
--	hwmon_humidity_label,
--	hwmon_humidity_min,
--	hwmon_humidity_min_hyst,
--	hwmon_humidity_max,
--	hwmon_humidity_max_hyst,
--	hwmon_humidity_alarm,
--	hwmon_humidity_fault,
--	hwmon_humidity_rated_min,
--	hwmon_humidity_rated_max,
--	hwmon_humidity_min_alarm,
--	hwmon_humidity_max_alarm,
--};
--
--#define HWMON_H_ENABLE			BIT(hwmon_humidity_enable)
--#define HWMON_H_INPUT			BIT(hwmon_humidity_input)
--#define HWMON_H_LABEL			BIT(hwmon_humidity_label)
--#define HWMON_H_MIN			BIT(hwmon_humidity_min)
--#define HWMON_H_MIN_HYST		BIT(hwmon_humidity_min_hyst)
--#define HWMON_H_MAX			BIT(hwmon_humidity_max)
--#define HWMON_H_MAX_HYST		BIT(hwmon_humidity_max_hyst)
--#define HWMON_H_ALARM			BIT(hwmon_humidity_alarm)
--#define HWMON_H_FAULT			BIT(hwmon_humidity_fault)
--#define HWMON_H_RATED_MIN		BIT(hwmon_humidity_rated_min)
--#define HWMON_H_RATED_MAX		BIT(hwmon_humidity_rated_max)
--#define HWMON_H_MIN_ALARM		BIT(hwmon_humidity_min_alarm)
--#define HWMON_H_MAX_ALARM		BIT(hwmon_humidity_max_alarm)
--
--enum hwmon_fan_attributes {
--	hwmon_fan_enable,
--	hwmon_fan_input,
--	hwmon_fan_label,
--	hwmon_fan_min,
--	hwmon_fan_max,
--	hwmon_fan_div,
--	hwmon_fan_pulses,
--	hwmon_fan_target,
--	hwmon_fan_alarm,
--	hwmon_fan_min_alarm,
--	hwmon_fan_max_alarm,
--	hwmon_fan_fault,
--	hwmon_fan_beep,
--};
--
--#define HWMON_F_ENABLE			BIT(hwmon_fan_enable)
--#define HWMON_F_INPUT			BIT(hwmon_fan_input)
--#define HWMON_F_LABEL			BIT(hwmon_fan_label)
--#define HWMON_F_MIN			BIT(hwmon_fan_min)
--#define HWMON_F_MAX			BIT(hwmon_fan_max)
--#define HWMON_F_DIV			BIT(hwmon_fan_div)
--#define HWMON_F_PULSES			BIT(hwmon_fan_pulses)
--#define HWMON_F_TARGET			BIT(hwmon_fan_target)
--#define HWMON_F_ALARM			BIT(hwmon_fan_alarm)
--#define HWMON_F_MIN_ALARM		BIT(hwmon_fan_min_alarm)
--#define HWMON_F_MAX_ALARM		BIT(hwmon_fan_max_alarm)
--#define HWMON_F_FAULT			BIT(hwmon_fan_fault)
--#define HWMON_F_BEEP			BIT(hwmon_fan_beep)
--
--enum hwmon_pwm_attributes {
--	hwmon_pwm_input,
--	hwmon_pwm_enable,
--	hwmon_pwm_mode,
--	hwmon_pwm_freq,
--	hwmon_pwm_auto_channels_temp,
--};
--
--#define HWMON_PWM_INPUT			BIT(hwmon_pwm_input)
--#define HWMON_PWM_ENABLE		BIT(hwmon_pwm_enable)
--#define HWMON_PWM_MODE			BIT(hwmon_pwm_mode)
--#define HWMON_PWM_FREQ			BIT(hwmon_pwm_freq)
--#define HWMON_PWM_AUTO_CHANNELS_TEMP	BIT(hwmon_pwm_auto_channels_temp)
--
--enum hwmon_intrusion_attributes {
--	hwmon_intrusion_alarm,
--	hwmon_intrusion_beep,
--};
--#define HWMON_INTRUSION_ALARM		BIT(hwmon_intrusion_alarm)
--#define HWMON_INTRUSION_BEEP		BIT(hwmon_intrusion_beep)
--
- /**
-  * struct hwmon_ops - hwmon device operations
-  * @visible:	Static visibility. If non-zero, 'is_visible' is ignored.
-diff --git a/include/uapi/linux/hwmon.h b/include/uapi/linux/hwmon.h
-new file mode 100644
-index 000000000000..274f9c9dcb87
---- /dev/null
-+++ b/include/uapi/linux/hwmon.h
-@@ -0,0 +1,372 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+ * Hardware monitoring sensor types, attributes and configuration bits.
-+ *
-+ * Copyright (C) 2005 Mark M. Hoffman <mhoffman@lightlink.com>
-+ * Copyright (C) 2026 Jihong Min <hurryman2212@gmail.com>
-+ */
-+
-+#ifndef _UAPI_LINUX_HWMON_H
-+#define _UAPI_LINUX_HWMON_H
-+
-+#include <linux/const.h>
-+
-+/*
-+ * Existing identifiers are ABI: never change their values. Append new attributes
-+ * at the end of their enum and new sensor types before hwmon_max.
-+ */
-+
-+enum hwmon_sensor_types {
-+	hwmon_chip = 0,
-+	hwmon_temp = 1,
-+	hwmon_in = 2,
-+	hwmon_curr = 3,
-+	hwmon_power = 4,
-+	hwmon_energy = 5,
-+	hwmon_energy64 = 6,
-+	hwmon_humidity = 7,
-+	hwmon_fan = 8,
-+	hwmon_pwm = 9,
-+	hwmon_intrusion = 10,
-+	hwmon_max = 11,
-+};
-+
-+enum hwmon_chip_attributes {
-+	hwmon_chip_temp_reset_history = 0,
-+	hwmon_chip_in_reset_history = 1,
-+	hwmon_chip_curr_reset_history = 2,
-+	hwmon_chip_power_reset_history = 3,
-+	hwmon_chip_register_tz = 4,
-+	hwmon_chip_update_interval = 5,
-+	hwmon_chip_update_interval_us = 6,
-+	hwmon_chip_alarms = 7,
-+	hwmon_chip_samples = 8,
-+	hwmon_chip_curr_samples = 9,
-+	hwmon_chip_in_samples = 10,
-+	hwmon_chip_power_samples = 11,
-+	hwmon_chip_temp_samples = 12,
-+	hwmon_chip_beep_enable = 13,
-+	hwmon_chip_pec = 14,
-+};
-+
-+#define HWMON_C_TEMP_RESET_HISTORY _BITUL(hwmon_chip_temp_reset_history)
-+#define HWMON_C_IN_RESET_HISTORY _BITUL(hwmon_chip_in_reset_history)
-+#define HWMON_C_CURR_RESET_HISTORY _BITUL(hwmon_chip_curr_reset_history)
-+#define HWMON_C_POWER_RESET_HISTORY _BITUL(hwmon_chip_power_reset_history)
-+#define HWMON_C_REGISTER_TZ _BITUL(hwmon_chip_register_tz)
-+#define HWMON_C_UPDATE_INTERVAL _BITUL(hwmon_chip_update_interval)
-+#define HWMON_C_UPDATE_INTERVAL_US _BITUL(hwmon_chip_update_interval_us)
-+#define HWMON_C_ALARMS _BITUL(hwmon_chip_alarms)
-+#define HWMON_C_SAMPLES _BITUL(hwmon_chip_samples)
-+#define HWMON_C_CURR_SAMPLES _BITUL(hwmon_chip_curr_samples)
-+#define HWMON_C_IN_SAMPLES _BITUL(hwmon_chip_in_samples)
-+#define HWMON_C_POWER_SAMPLES _BITUL(hwmon_chip_power_samples)
-+#define HWMON_C_TEMP_SAMPLES _BITUL(hwmon_chip_temp_samples)
-+#define HWMON_C_BEEP_ENABLE _BITUL(hwmon_chip_beep_enable)
-+#define HWMON_C_PEC _BITUL(hwmon_chip_pec)
-+
-+enum hwmon_temp_attributes {
-+	hwmon_temp_enable = 0,
-+	hwmon_temp_input = 1,
-+	hwmon_temp_type = 2,
-+	hwmon_temp_lcrit = 3,
-+	hwmon_temp_lcrit_hyst = 4,
-+	hwmon_temp_min = 5,
-+	hwmon_temp_min_hyst = 6,
-+	hwmon_temp_max = 7,
-+	hwmon_temp_max_hyst = 8,
-+	hwmon_temp_crit = 9,
-+	hwmon_temp_crit_hyst = 10,
-+	hwmon_temp_emergency = 11,
-+	hwmon_temp_emergency_hyst = 12,
-+	hwmon_temp_alarm = 13,
-+	hwmon_temp_lcrit_alarm = 14,
-+	hwmon_temp_min_alarm = 15,
-+	hwmon_temp_max_alarm = 16,
-+	hwmon_temp_crit_alarm = 17,
-+	hwmon_temp_emergency_alarm = 18,
-+	hwmon_temp_fault = 19,
-+	hwmon_temp_offset = 20,
-+	hwmon_temp_label = 21,
-+	hwmon_temp_lowest = 22,
-+	hwmon_temp_highest = 23,
-+	hwmon_temp_reset_history = 24,
-+	hwmon_temp_rated_min = 25,
-+	hwmon_temp_rated_max = 26,
-+	hwmon_temp_beep = 27,
-+};
-+
-+#define HWMON_T_ENABLE _BITUL(hwmon_temp_enable)
-+#define HWMON_T_INPUT _BITUL(hwmon_temp_input)
-+#define HWMON_T_TYPE _BITUL(hwmon_temp_type)
-+#define HWMON_T_LCRIT _BITUL(hwmon_temp_lcrit)
-+#define HWMON_T_LCRIT_HYST _BITUL(hwmon_temp_lcrit_hyst)
-+#define HWMON_T_MIN _BITUL(hwmon_temp_min)
-+#define HWMON_T_MIN_HYST _BITUL(hwmon_temp_min_hyst)
-+#define HWMON_T_MAX _BITUL(hwmon_temp_max)
-+#define HWMON_T_MAX_HYST _BITUL(hwmon_temp_max_hyst)
-+#define HWMON_T_CRIT _BITUL(hwmon_temp_crit)
-+#define HWMON_T_CRIT_HYST _BITUL(hwmon_temp_crit_hyst)
-+#define HWMON_T_EMERGENCY _BITUL(hwmon_temp_emergency)
-+#define HWMON_T_EMERGENCY_HYST _BITUL(hwmon_temp_emergency_hyst)
-+#define HWMON_T_ALARM _BITUL(hwmon_temp_alarm)
-+#define HWMON_T_MIN_ALARM _BITUL(hwmon_temp_min_alarm)
-+#define HWMON_T_MAX_ALARM _BITUL(hwmon_temp_max_alarm)
-+#define HWMON_T_CRIT_ALARM _BITUL(hwmon_temp_crit_alarm)
-+#define HWMON_T_LCRIT_ALARM _BITUL(hwmon_temp_lcrit_alarm)
-+#define HWMON_T_EMERGENCY_ALARM _BITUL(hwmon_temp_emergency_alarm)
-+#define HWMON_T_FAULT _BITUL(hwmon_temp_fault)
-+#define HWMON_T_OFFSET _BITUL(hwmon_temp_offset)
-+#define HWMON_T_LABEL _BITUL(hwmon_temp_label)
-+#define HWMON_T_LOWEST _BITUL(hwmon_temp_lowest)
-+#define HWMON_T_HIGHEST _BITUL(hwmon_temp_highest)
-+#define HWMON_T_RESET_HISTORY _BITUL(hwmon_temp_reset_history)
-+#define HWMON_T_RATED_MIN _BITUL(hwmon_temp_rated_min)
-+#define HWMON_T_RATED_MAX _BITUL(hwmon_temp_rated_max)
-+#define HWMON_T_BEEP _BITUL(hwmon_temp_beep)
-+
-+enum hwmon_in_attributes {
-+	hwmon_in_enable = 0,
-+	hwmon_in_input = 1,
-+	hwmon_in_min = 2,
-+	hwmon_in_max = 3,
-+	hwmon_in_lcrit = 4,
-+	hwmon_in_crit = 5,
-+	hwmon_in_average = 6,
-+	hwmon_in_lowest = 7,
-+	hwmon_in_highest = 8,
-+	hwmon_in_reset_history = 9,
-+	hwmon_in_label = 10,
-+	hwmon_in_alarm = 11,
-+	hwmon_in_min_alarm = 12,
-+	hwmon_in_max_alarm = 13,
-+	hwmon_in_lcrit_alarm = 14,
-+	hwmon_in_crit_alarm = 15,
-+	hwmon_in_rated_min = 16,
-+	hwmon_in_rated_max = 17,
-+	hwmon_in_beep = 18,
-+	hwmon_in_fault = 19,
-+};
-+
-+#define HWMON_I_ENABLE _BITUL(hwmon_in_enable)
-+#define HWMON_I_INPUT _BITUL(hwmon_in_input)
-+#define HWMON_I_MIN _BITUL(hwmon_in_min)
-+#define HWMON_I_MAX _BITUL(hwmon_in_max)
-+#define HWMON_I_LCRIT _BITUL(hwmon_in_lcrit)
-+#define HWMON_I_CRIT _BITUL(hwmon_in_crit)
-+#define HWMON_I_AVERAGE _BITUL(hwmon_in_average)
-+#define HWMON_I_LOWEST _BITUL(hwmon_in_lowest)
-+#define HWMON_I_HIGHEST _BITUL(hwmon_in_highest)
-+#define HWMON_I_RESET_HISTORY _BITUL(hwmon_in_reset_history)
-+#define HWMON_I_LABEL _BITUL(hwmon_in_label)
-+#define HWMON_I_ALARM _BITUL(hwmon_in_alarm)
-+#define HWMON_I_MIN_ALARM _BITUL(hwmon_in_min_alarm)
-+#define HWMON_I_MAX_ALARM _BITUL(hwmon_in_max_alarm)
-+#define HWMON_I_LCRIT_ALARM _BITUL(hwmon_in_lcrit_alarm)
-+#define HWMON_I_CRIT_ALARM _BITUL(hwmon_in_crit_alarm)
-+#define HWMON_I_RATED_MIN _BITUL(hwmon_in_rated_min)
-+#define HWMON_I_RATED_MAX _BITUL(hwmon_in_rated_max)
-+#define HWMON_I_BEEP _BITUL(hwmon_in_beep)
-+#define HWMON_I_FAULT _BITUL(hwmon_in_fault)
-+
-+enum hwmon_curr_attributes {
-+	hwmon_curr_enable = 0,
-+	hwmon_curr_input = 1,
-+	hwmon_curr_min = 2,
-+	hwmon_curr_max = 3,
-+	hwmon_curr_lcrit = 4,
-+	hwmon_curr_crit = 5,
-+	hwmon_curr_average = 6,
-+	hwmon_curr_lowest = 7,
-+	hwmon_curr_highest = 8,
-+	hwmon_curr_reset_history = 9,
-+	hwmon_curr_label = 10,
-+	hwmon_curr_alarm = 11,
-+	hwmon_curr_min_alarm = 12,
-+	hwmon_curr_max_alarm = 13,
-+	hwmon_curr_lcrit_alarm = 14,
-+	hwmon_curr_crit_alarm = 15,
-+	hwmon_curr_rated_min = 16,
-+	hwmon_curr_rated_max = 17,
-+	hwmon_curr_beep = 18,
-+};
-+
-+#define HWMON_C_ENABLE _BITUL(hwmon_curr_enable)
-+#define HWMON_C_INPUT _BITUL(hwmon_curr_input)
-+#define HWMON_C_MIN _BITUL(hwmon_curr_min)
-+#define HWMON_C_MAX _BITUL(hwmon_curr_max)
-+#define HWMON_C_LCRIT _BITUL(hwmon_curr_lcrit)
-+#define HWMON_C_CRIT _BITUL(hwmon_curr_crit)
-+#define HWMON_C_AVERAGE _BITUL(hwmon_curr_average)
-+#define HWMON_C_LOWEST _BITUL(hwmon_curr_lowest)
-+#define HWMON_C_HIGHEST _BITUL(hwmon_curr_highest)
-+#define HWMON_C_RESET_HISTORY _BITUL(hwmon_curr_reset_history)
-+#define HWMON_C_LABEL _BITUL(hwmon_curr_label)
-+#define HWMON_C_ALARM _BITUL(hwmon_curr_alarm)
-+#define HWMON_C_MIN_ALARM _BITUL(hwmon_curr_min_alarm)
-+#define HWMON_C_MAX_ALARM _BITUL(hwmon_curr_max_alarm)
-+#define HWMON_C_LCRIT_ALARM _BITUL(hwmon_curr_lcrit_alarm)
-+#define HWMON_C_CRIT_ALARM _BITUL(hwmon_curr_crit_alarm)
-+#define HWMON_C_RATED_MIN _BITUL(hwmon_curr_rated_min)
-+#define HWMON_C_RATED_MAX _BITUL(hwmon_curr_rated_max)
-+#define HWMON_C_BEEP _BITUL(hwmon_curr_beep)
-+
-+enum hwmon_power_attributes {
-+	hwmon_power_enable = 0,
-+	hwmon_power_average = 1,
-+	hwmon_power_average_interval = 2,
-+	hwmon_power_average_interval_max = 3,
-+	hwmon_power_average_interval_min = 4,
-+	hwmon_power_average_highest = 5,
-+	hwmon_power_average_lowest = 6,
-+	hwmon_power_average_max = 7,
-+	hwmon_power_average_min = 8,
-+	hwmon_power_input = 9,
-+	hwmon_power_input_highest = 10,
-+	hwmon_power_input_lowest = 11,
-+	hwmon_power_reset_history = 12,
-+	hwmon_power_accuracy = 13,
-+	hwmon_power_cap = 14,
-+	hwmon_power_cap_hyst = 15,
-+	hwmon_power_cap_max = 16,
-+	hwmon_power_cap_min = 17,
-+	hwmon_power_min = 18,
-+	hwmon_power_max = 19,
-+	hwmon_power_crit = 20,
-+	hwmon_power_lcrit = 21,
-+	hwmon_power_label = 22,
-+	hwmon_power_alarm = 23,
-+	hwmon_power_cap_alarm = 24,
-+	hwmon_power_min_alarm = 25,
-+	hwmon_power_max_alarm = 26,
-+	hwmon_power_lcrit_alarm = 27,
-+	hwmon_power_crit_alarm = 28,
-+	hwmon_power_rated_min = 29,
-+	hwmon_power_rated_max = 30,
-+};
-+
-+#define HWMON_P_ENABLE _BITUL(hwmon_power_enable)
-+#define HWMON_P_AVERAGE _BITUL(hwmon_power_average)
-+#define HWMON_P_AVERAGE_INTERVAL _BITUL(hwmon_power_average_interval)
-+#define HWMON_P_AVERAGE_INTERVAL_MAX _BITUL(hwmon_power_average_interval_max)
-+#define HWMON_P_AVERAGE_INTERVAL_MIN _BITUL(hwmon_power_average_interval_min)
-+#define HWMON_P_AVERAGE_HIGHEST _BITUL(hwmon_power_average_highest)
-+#define HWMON_P_AVERAGE_LOWEST _BITUL(hwmon_power_average_lowest)
-+#define HWMON_P_AVERAGE_MAX _BITUL(hwmon_power_average_max)
-+#define HWMON_P_AVERAGE_MIN _BITUL(hwmon_power_average_min)
-+#define HWMON_P_INPUT _BITUL(hwmon_power_input)
-+#define HWMON_P_INPUT_HIGHEST _BITUL(hwmon_power_input_highest)
-+#define HWMON_P_INPUT_LOWEST _BITUL(hwmon_power_input_lowest)
-+#define HWMON_P_RESET_HISTORY _BITUL(hwmon_power_reset_history)
-+#define HWMON_P_ACCURACY _BITUL(hwmon_power_accuracy)
-+#define HWMON_P_CAP _BITUL(hwmon_power_cap)
-+#define HWMON_P_CAP_HYST _BITUL(hwmon_power_cap_hyst)
-+#define HWMON_P_CAP_MAX _BITUL(hwmon_power_cap_max)
-+#define HWMON_P_CAP_MIN _BITUL(hwmon_power_cap_min)
-+#define HWMON_P_MIN _BITUL(hwmon_power_min)
-+#define HWMON_P_MAX _BITUL(hwmon_power_max)
-+#define HWMON_P_LCRIT _BITUL(hwmon_power_lcrit)
-+#define HWMON_P_CRIT _BITUL(hwmon_power_crit)
-+#define HWMON_P_LABEL _BITUL(hwmon_power_label)
-+#define HWMON_P_ALARM _BITUL(hwmon_power_alarm)
-+#define HWMON_P_CAP_ALARM _BITUL(hwmon_power_cap_alarm)
-+#define HWMON_P_MIN_ALARM _BITUL(hwmon_power_min_alarm)
-+#define HWMON_P_MAX_ALARM _BITUL(hwmon_power_max_alarm)
-+#define HWMON_P_LCRIT_ALARM _BITUL(hwmon_power_lcrit_alarm)
-+#define HWMON_P_CRIT_ALARM _BITUL(hwmon_power_crit_alarm)
-+#define HWMON_P_RATED_MIN _BITUL(hwmon_power_rated_min)
-+#define HWMON_P_RATED_MAX _BITUL(hwmon_power_rated_max)
-+
-+enum hwmon_energy_attributes {
-+	hwmon_energy_enable = 0,
-+	hwmon_energy_input = 1,
-+	hwmon_energy_label = 2,
-+};
-+
-+#define HWMON_E_ENABLE _BITUL(hwmon_energy_enable)
-+#define HWMON_E_INPUT _BITUL(hwmon_energy_input)
-+#define HWMON_E_LABEL _BITUL(hwmon_energy_label)
-+
-+enum hwmon_humidity_attributes {
-+	hwmon_humidity_enable = 0,
-+	hwmon_humidity_input = 1,
-+	hwmon_humidity_label = 2,
-+	hwmon_humidity_min = 3,
-+	hwmon_humidity_min_hyst = 4,
-+	hwmon_humidity_max = 5,
-+	hwmon_humidity_max_hyst = 6,
-+	hwmon_humidity_alarm = 7,
-+	hwmon_humidity_fault = 8,
-+	hwmon_humidity_rated_min = 9,
-+	hwmon_humidity_rated_max = 10,
-+	hwmon_humidity_min_alarm = 11,
-+	hwmon_humidity_max_alarm = 12,
-+};
-+
-+#define HWMON_H_ENABLE _BITUL(hwmon_humidity_enable)
-+#define HWMON_H_INPUT _BITUL(hwmon_humidity_input)
-+#define HWMON_H_LABEL _BITUL(hwmon_humidity_label)
-+#define HWMON_H_MIN _BITUL(hwmon_humidity_min)
-+#define HWMON_H_MIN_HYST _BITUL(hwmon_humidity_min_hyst)
-+#define HWMON_H_MAX _BITUL(hwmon_humidity_max)
-+#define HWMON_H_MAX_HYST _BITUL(hwmon_humidity_max_hyst)
-+#define HWMON_H_ALARM _BITUL(hwmon_humidity_alarm)
-+#define HWMON_H_FAULT _BITUL(hwmon_humidity_fault)
-+#define HWMON_H_RATED_MIN _BITUL(hwmon_humidity_rated_min)
-+#define HWMON_H_RATED_MAX _BITUL(hwmon_humidity_rated_max)
-+#define HWMON_H_MIN_ALARM _BITUL(hwmon_humidity_min_alarm)
-+#define HWMON_H_MAX_ALARM _BITUL(hwmon_humidity_max_alarm)
-+
-+enum hwmon_fan_attributes {
-+	hwmon_fan_enable = 0,
-+	hwmon_fan_input = 1,
-+	hwmon_fan_label = 2,
-+	hwmon_fan_min = 3,
-+	hwmon_fan_max = 4,
-+	hwmon_fan_div = 5,
-+	hwmon_fan_pulses = 6,
-+	hwmon_fan_target = 7,
-+	hwmon_fan_alarm = 8,
-+	hwmon_fan_min_alarm = 9,
-+	hwmon_fan_max_alarm = 10,
-+	hwmon_fan_fault = 11,
-+	hwmon_fan_beep = 12,
-+};
-+
-+#define HWMON_F_ENABLE _BITUL(hwmon_fan_enable)
-+#define HWMON_F_INPUT _BITUL(hwmon_fan_input)
-+#define HWMON_F_LABEL _BITUL(hwmon_fan_label)
-+#define HWMON_F_MIN _BITUL(hwmon_fan_min)
-+#define HWMON_F_MAX _BITUL(hwmon_fan_max)
-+#define HWMON_F_DIV _BITUL(hwmon_fan_div)
-+#define HWMON_F_PULSES _BITUL(hwmon_fan_pulses)
-+#define HWMON_F_TARGET _BITUL(hwmon_fan_target)
-+#define HWMON_F_ALARM _BITUL(hwmon_fan_alarm)
-+#define HWMON_F_MIN_ALARM _BITUL(hwmon_fan_min_alarm)
-+#define HWMON_F_MAX_ALARM _BITUL(hwmon_fan_max_alarm)
-+#define HWMON_F_FAULT _BITUL(hwmon_fan_fault)
-+#define HWMON_F_BEEP _BITUL(hwmon_fan_beep)
-+
-+enum hwmon_pwm_attributes {
-+	hwmon_pwm_input = 0,
-+	hwmon_pwm_enable = 1,
-+	hwmon_pwm_mode = 2,
-+	hwmon_pwm_freq = 3,
-+	hwmon_pwm_auto_channels_temp = 4,
-+};
-+
-+#define HWMON_PWM_INPUT _BITUL(hwmon_pwm_input)
-+#define HWMON_PWM_ENABLE _BITUL(hwmon_pwm_enable)
-+#define HWMON_PWM_MODE _BITUL(hwmon_pwm_mode)
-+#define HWMON_PWM_FREQ _BITUL(hwmon_pwm_freq)
-+#define HWMON_PWM_AUTO_CHANNELS_TEMP _BITUL(hwmon_pwm_auto_channels_temp)
-+
-+enum hwmon_intrusion_attributes {
-+	hwmon_intrusion_alarm = 0,
-+	hwmon_intrusion_beep = 1,
-+};
-+
-+#define HWMON_INTRUSION_ALARM _BITUL(hwmon_intrusion_alarm)
-+#define HWMON_INTRUSION_BEEP _BITUL(hwmon_intrusion_beep)
-+
-+#endif /* _UAPI_LINUX_HWMON_H */
