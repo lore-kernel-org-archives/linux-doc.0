@@ -1,265 +1,149 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020080.outbound.protection.outlook.com [52.101.196.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2023D6673;
-	Fri,  9 Oct 2026 09:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791539441; cv=fail; b=SwMwgRJs8jo6v1Z7CPS+qUCjfUWeGBsvqMdVOHdw+6Vovi13sr+yE+bPdnqsMdxM7d8z0ZVYL7Po+2IGXQGPAs/cgFgsKYhON22dZPWYfwdszaQJrGeeJo9o+UUzI6PsJx1dJOyXw/xL6SfZ4/EpqAP5HaNyx6Rbq4SficLifvw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791539441; c=relaxed/simple;
-	bh=nTZEDOzhZ55HuPQeg3dyNDPgS1GmJOtXFEUcftsIn1g=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=gPHZP8cCD46HdrcS8UpV0NAsIdoqUEzFR3/XvmNYaHnlPuNidaOr29JD78XMpizuIBsH+NsHdNIA2/FwC73ncPUIF1xQBvr0toGMKU3ZCEzO0Awwfy26jMXFZ3QuC9GsiWhkv195pDTF64Q6sGwJGnm8goUVjuDfSCg5RedJKcA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Hg/CbHhO; arc=fail smtp.client-ip=52.101.196.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6FB3B27F3
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 10:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791540281; cv=none; b=jahcgBsslNtPLaBfxhHYqauZHJEb4bznozQzSmS40+ciSDg9Xdpz5w1HveVoTGRrz7X9mrP6XEytGUZDoWeY0x8BRqLoQDyHkTFH5V4hQkf3YV1FCWEo9Pu4I6EiPGJSSix8OJujF5MHBhMn6pFVs6ElXg4WTvzU18v409hJZrw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791540281; c=relaxed/simple;
+	bh=5yLkz2OZBQ4ipEjXEN7/lCEXtkQpCiwl45030Q1M6lA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K21634kKaJZyZiQOoGd25UMC6Xq+7XIrsNnp87y0YfmfGi/W+3/Lr1kMgHWIkVYMnxJeBBTEEiyMVvBwGWlZiGks15f5OqJmuSw6HmLlFcvCiRPaEkLi0j/7+pxkHkRQQcNA+oij9MRO+/bGG/XIjyECs31IbWv6kCIiuem1ZDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mv0bXuY/; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Hg/CbHhO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ouKtVNah6Ierv+mzATw0yf5Ovo46JeBGTBeZrtcBWuuSFGm8BJBhoiDA1k62KxcEMrvS3xZulzSEsOoNlByE29On5Jf72ZUQRSW5l6ovRuWi7MYN3NsGiwX5XHMxItn3WUEabHIZyRV/uC4tEBuhf2sYw8Hf2weE6AMNQ+7DBYBn4Kkg9IZh0DfLvaeqIbPTpXtUOr2BUnqXOZOfNUqeDtLO5AVYtCxBWQb960gkTzbPfCG1OJkHKGQBQsjGgZLSJr4uvgpGGucxtkFgOSi8IBKZd9Zo+2zGEwiSOJd0wAS504A12mVBc5J39ujBZgD7GvFCZzIUj6Pa01COui+78Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dk00sA80zl+Hon9W94aNroHratLRiqzvmUuJQZmfDaQ=;
- b=qJeF94wK5yZIbwvnL5X1dMyjfa0Bz+qegJzbRkSzBsrB5MLhgzRs6x4TV0YmLFU2IiW4fY1It1BnF/jeSowmEZ9IX468YjHIJF9BGH4JVjUWolanFfGprs1Hl9dDXFRi1a/R6thu3/1I6mOcoBvZ1bq30J4XJfovDBBBFrDrLXxU2qbqREidB/seRVYq5FZtiYj6saYMunLI2QDrC+LZqZIKoDUaK3iryBNV3fwobiSZFa3KzuLuVk+tsOIKJPjm1+Npr4ceovfiq2DDYQfCxf66fwludxGv31/dM4WmccMuJ12m9kTouV0Uhf9s6ODFLD9fOgsbo3DxW/kkbiYGYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dk00sA80zl+Hon9W94aNroHratLRiqzvmUuJQZmfDaQ=;
- b=Hg/CbHhOHu0xS5dz4BshKV4Lg+l6R3GGRzJ8mbP0phiceCChgdHFdJLZAduYcEHcupHiTuNQ1BGYi5XgM4eeXI5vCHxfJ3kxEPk2tQcYAWC6eDK5dECNXRrcSRTVhIJV+bSj5QPa+3McKgd8GwAl4I5Iy5cdz9OW/EjLESJ7ZAg=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:4ab::19)
- by CW1P265MB551473.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:283::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.17; Fri, 9 Oct
- 2026 09:50:36 +0000
-Received: from LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1]) by LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- ([fe80::f60b:1537:68d7:4fc1%6]) with mapi id 15.21.0496.015; Fri, 9 Oct 2026
- 09:50:36 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 09 Oct 2026 10:50:35 +0100
-Message-Id: <DM07Q6JIZEB5.2D30XB0MBD232@garyguo.net>
-To: "Karl Mehltretter" <kmehltretter@gmail.com>, "Russell King"
- <linux@armlinux.org.uk>, "Miguel Ojeda" <ojeda@kernel.org>
-Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Danilo
- Krummrich" <dakr@kernel.org>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Tamir Duberstein" <tamird@kernel.org>,
- "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
- <work@onurozkan.dev>, "Arnd Bergmann" <arnd@arndb.de>, "Linus Walleij"
- <linusw@kernel.org>, "Christian Schrefl" <chrisi.schrefl@gmail.com>,
- "Bradley Morgan" <brads@mainlining.org>, "Paul E . McKenney"
- <paulmck@kernel.org>, "Nathan Chancellor" <nathan@kernel.org>, "Nick
- Desaulniers" <ndesaulniers@google.com>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>,
- <linux-arm-kernel@lists.infradead.org>, <rust-for-linux@vger.kernel.org>,
- <llvm@lists.linux.dev>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/6] ARM: cmpxchg: always inline __arch_xchg() and
- __cmpxchg()
-From: "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.22.0
-References: <20261008053746.49631-1-kmehltretter@gmail.com>
- <20261008053746.49631-2-kmehltretter@gmail.com>
-In-Reply-To: <20261008053746.49631-2-kmehltretter@gmail.com>
-X-ClientProxiedBy: LO4P123CA0044.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:152::13) To LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:4ab::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mv0bXuY/"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48afe75f055so5582803f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 03:04:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791540276; x=1792145076; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WCfrYFQWaB6ljrpcA5mB+GvPCr6ztXX1INv06kJj6BA=;
+        b=Mv0bXuY/dbslJrVlIeMtcxPdMhLIu3/yZLmI50/So5GHoEeQlXlcQKfT0SUHwVk5Kx
+         R+6aWsPXaKh/7fFnAtl0/YG7zxU8j2j3kckVubW399a9rtWIpvskoUxAs+X9xngQygCx
+         a87s25iG26dO4mAjyHuF+kQ5cJQzgxTIO5J10VcL44URFMev9rQ5ejJNZmdKtmIVQS79
+         ueEOTvGWtd0OeaYefX23YBmg4pzUxHliPw8wAeyYfjXk9OmTmGyJvy41qBBG1HPkACTt
+         q1rc+IgaRF5GB88OVPs2YFDDbyW2l/GfwVAgW5E6rPwMieA0a+R+g2K8thOHn0su1y/G
+         YWOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791540276; x=1792145076;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WCfrYFQWaB6ljrpcA5mB+GvPCr6ztXX1INv06kJj6BA=;
+        b=KAEbMvEky987Bk24fUnzgE2rxdfrp/ykWgCUfXYQrfOzdttL9/syydiWMlRnrdHPLk
+         oqFPodRiW9Hct5ReZLuboEdVeTinJoSj7llBxd2Nk4buN8GW5QIrLqgZ1+zkYxOWcAsE
+         tfuAHNkDuV1PeWIFxni4lFVaO4LX6HsHMh/LG5vhWh4QuZbxsZ415CcbVoNE5bL1HgKB
+         KNrRGv5PFBd4RCgNdWMKCtpRx3AnJsCzmZQJa8ba3FvT38JXPse9/VaMWzPCJkdiFuP7
+         aS3e8xAr1JW8p5daAUUaUVs68fPVoSfCEMYvwoPJywGVrZlp3k02/qwK1/6MbGysg1v6
+         vClQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy/NoJc0TTHzKLxitqPezaCbus3GHdwPiMQ3lXw6JFIAP3ggKz42wmkFt98wjz9c6lI6I5GQhUoPrY=@vger.kernel.org
+X-Gm-Message-State: AFuF++kN8Lbjbm7U6Hh72lTQ6M3h5RS2P167sAP99BUQDJo9XUkIKsvK
+	jj4KeIkMVVyaskuyErqgrokmJfAFRfEAgzNe/J1gvJILgO/a7eEQd4Xz
+X-Gm-Gg: AYBFou2UikWDOyS+3g1Yj2eeI+FvzKRzqR0Ive286Pc4ys0s2rWkqgLkA5P27LN5lqg
+	JWyPZp9yXx5GZtIhLd9WuLcmwgLc0Pt2ksGUgbECYU42GlqI2rqiRs53LIu64p6SwJxsqdJrndJ
+	KmmXNq3HdOZtqJRF93TYD+g5CqNjJOnItnu4u7xbwT3gavqo1ceQ9XAcidOFF03Rl/RARaKfCBL
+	Ig4RrzpcXerQG3J2jkN1MQl+ytGlpJ6RSYdH3DVoozyzbxsj54CRTk9DNVKMjobqgMGKh3G/lf4
+	6R9gTlFf3D3TzFRkU35ZVzpJ99EjQOMLNodam+CxNW3lutgrpcHsREBbZ8/Fmbeklvn2pvmBjeQ
+	pCLMMoFo77P+9xkLNQKx1SR3e+4ZsR72QvrIKYTyoSs3Ephr2dV6ElmX9DDnIaVYZNkCyRIzE1i
+	g70WSh3g7yHmh/ed28DfRMRYNOLkV52qxdLwJGXSlvDnGLqQK+8+5DxxJeXa+30eIOSuU+4zt1m
+	q3AHpRbqc4HbidLTDs/JEMCFXIZkCYsZKipf632ucNrCwc/ZxU7TpmTLb1gvBek8BceomdTz+BG
+	B8jQZlwATJ3Xa0J17/UIUqSYA/yC+VYcNGHW6lJKi2wgtlcmXHtkce1pozHfCv1bpBUGTVn5MSL
+	reEsXxjeZzqtOdu4=
+X-Received: by 2002:a05:600c:3f16:b0:4a0:2150:55fb with SMTP id 5b1f17b1804b1-4a18e44395bmr24842945e9.4.1791540276044;
+        Fri, 09 Oct 2026 03:04:36 -0700 (PDT)
+Received: from unknown748F3CBA5068 (dynamic-2a02-3100-a128-aa01-297a-7094-853e-a20c.310.pool.telefonica.de. [2a02:3100:a128:aa01:297a:7094:853e:a20c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bf2caf4sm53382635e9.10.2026.10.09.03.04.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2026 03:04:35 -0700 (PDT)
+Date: Fri, 9 Oct 2026 12:04:33 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Harry Yoo <harry@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	David Stevens <stevensd@google.com>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Shuah Khan <shuah@kernel.org>, Amery Hung <ameryhung@gmail.com>, 
+	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, cgroups@vger.kernel.org
+Subject: Re: [RFC PATCH v2 0/3] locking, mm: Add atomic allocator trylocks on
+ RT
+Message-ID: <asi6Kj3TcCd6HAM5@gmail.com>
+References: <20261005070625.8871-1-kmehltretter@gmail.com>
+ <asZ8jmWNoGk5tYce@thinkpad>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOAP265MB8560:EE_|CW1P265MB551473:EE_
-X-MS-Office365-Filtering-Correlation-Id: b45fac5e-c20e-40d8-9e7f-08df25eac474
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|10070799003|7416014|6133799003|10067099003|22082099003|18002099003|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	+bS1+GOa9Z+kKBKUEETmSaexmifJR8VLjeNkgxr3byFNHZ6CDiGvm3BP++4wlmPmb2RMXoplDPN/y22YppnCw8iBcr6F180M6n6PkhamQg6J9tS11T8cUjE1catGqFG3Cb3yLn5uSu0M/v6Ot8P+Un4drtsf06a+jU5nY8CtlL48d79/fl/UFqSaESIX52o64fRO7SoIJLmPmLPyrbYwBNKDQjSPkhtoE+uKIky76pU2XEOuUiu7D5Rjjj+M2IhMv5tGfqQRWu/cFG6uITp19bbCmp4GjNRSZjROpKh4HJo+KIlkOXd2+JXAdJx4jRI5l1TOPSzLQDpRLKvNX10zxa2xcYjnl/iCyXSDmFtfGmkmPakLFbSWLf1gZGZcOXYYOlYVEVYSZc1htdMPKOuhgT/I4fdFST1Ps8+BUoDBlNxgBeBPR0HWVSTeHPodRvHRevuYWYVaT0Z0PFQiNAmOQJ/ucGxy5ZWIhVoPdXw1yRXw2KMIhQC9A2vZpR+sLk4evlXKvwugjpGsVgOXCrYAvrH3WZMDjdDzwuWagANpLT7kGcTYlW8G/7dbOjcLejo1PZt2bbx5BkVkSCzvN9XOwxQ1xaDeF8YUr4+PRN3uHRQv8LEPizfw+lBNBRxXHHK4fwUAxn53RUGXe7Lvr0JuQX17z+CG1cOfK4JucMXq3g4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(10070799003)(7416014)(6133799003)(10067099003)(22082099003)(18002099003)(4143699003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RVJNc05BOUd2OS82VGhDZTVjL0wxd1ZaaVJpSnFyK0xLdXcrcGp3Z0p6ZVZK?=
- =?utf-8?B?TElDSFJCV0NiQVVTV2t4MzNLMG1qS3lkWVppT1NyWFdPbE5uZVVwRjZ3dXBx?=
- =?utf-8?B?dEIyRDBaSHFZS2swbVY3OHJkSUg5WlFiYWRSTFNZd0xIdDFqcnovbmdLS01Z?=
- =?utf-8?B?djZvOWxJaWFaYnFBQ05NYUFnTzJZMXRkcVg4Vmc1REM4QUt1Z3hBMWtsWUhu?=
- =?utf-8?B?NnpmVnhoVUdaUk5YZllPeEVXUGdoN1hlRG9jZmZjWGtUcldTLzdEOUYxc2Y1?=
- =?utf-8?B?ZE93WEY0NFVoWCs1eHJKYlU3UEhvR2JFQ0VpSUU0YnlUbDFsYjdKT011dzF1?=
- =?utf-8?B?Z3loZXFNZWZranphOVdqZEZkOEc0SXV4MnVQcERocGVhbmovTzN0RTdjZDU0?=
- =?utf-8?B?OVlMdDhSNTYwRkF6NlNleSthOVJEd1hXSm1BSFBQOXdTbEdjWlFYVTl0RGNL?=
- =?utf-8?B?ZUFIQUFzTXJFMWtTT3Y0QjY5VHRTMUR0bHZkOC90em9BRk0wRFZwaHVMdmFK?=
- =?utf-8?B?d2VjSTBSMWNJWEVBZUM5U3k5cEx6cTNsK0ZmT0FzekpIRURxUTZnbEtndUNS?=
- =?utf-8?B?dXhQK0Z0a2J1Z3lDQnY5YlVKQUloWmVha0tKTi9vWUtZVUdjdGZjQklUZEwx?=
- =?utf-8?B?U1VoV2Q2NW9lVkJ3bi9ZNml4a2todllNK1A5VDVpK0EzNFhySEZHbDBpWVFF?=
- =?utf-8?B?a05LVUFKdXg2VkFka2xob1RrazhsQnpqU3J5NmtCNWNYQXI2OStNL1A2ek1a?=
- =?utf-8?B?cE03M3pHQmNjR21Nb1IvWERtZWtKTFlDQmYxWjhUTzg1dDdwaUYzQU5aRU1G?=
- =?utf-8?B?aDE0a3NCK0VNZlBBYVgvQVBoQXVtYStSTWpuRnhJNVBqV0haRDQxSmQ3Nk1K?=
- =?utf-8?B?WHFuWGxtTTgxUk1ZUTlYaUIyMWRNcVNYSnc1bHN5bmM0UVJZbDdqckRuYWxB?=
- =?utf-8?B?ZkM4MzhmRnpDZitmZ0kvMmM4cW0valVtQkRZY0FSQjg4eG1sM244VzBwOWk2?=
- =?utf-8?B?aHA4b2lNaWl4RUNZRmp4YmRLQmdMUjVTODRFSUtvamF1dEc3d2tXL1JKc1Aw?=
- =?utf-8?B?ODNESCtpVUFLcE5Tai9uL0NBUVBLZ2FzL1RDckJVK0JwQ3NBL3NiU213Ni8r?=
- =?utf-8?B?V1pML0VxQkwzZGRpRTBIZkJJZm5MSzRDSExxb3lPdURaMUxaekZBZE1VV1Ux?=
- =?utf-8?B?bmE1UUhOZHg2b1ZYcXRvWFJRaVRGamMxMFhiWEJRd0tpbWkyQkVsaWxFZGZu?=
- =?utf-8?B?NEJpWmlqeHFaSnhZS284NmFoa1pEMElrTlJqcmZWUHI2TVc2eHUrNzRMb2I0?=
- =?utf-8?B?N1dpYWdScEU3VFRkaDR4cEpUU1JMN1Z3clUvdzV6QittR0k5WEJ1VW9yMU5P?=
- =?utf-8?B?dEUzNkJZVUtqTjIyNGpHbG84anpNNTB2Y1lnVTFNbHduSWlhUjZhQ0dDMzZo?=
- =?utf-8?B?TVk0RmtYOENYSkI3bHhhcFN6ZW8vaG1iZDhxcmxPS0Qrby9XbC9hVHRqMlJ4?=
- =?utf-8?B?TThXYmlQUHh0d2pVRTVQTjZRTmFlRDJrTGI4dDc1R051UGc3dmxBbHV5SVBL?=
- =?utf-8?B?S3hSMFVtTlJma3ljUi9OdDZrYmpGamZVenBqMHdiODVQc0wya1JmYjJPLzNp?=
- =?utf-8?B?ZGVGQmpJakFWZFRRdCtsNkhLYVZqeGJHZHE2WmtkcGhjZlc0YlNXMVNhYWhm?=
- =?utf-8?B?YnQ1ODNvWXg3cmFYMkdNQjVobHovbmk3eEdRQXRMWlNIdzZiZFRINDFia0Fi?=
- =?utf-8?B?bjkwdzFZQW1ZMWk1UU5FOCtXUm44Q0dXazR0d2htRlNTbDFTb2ZLQnhvQ2N5?=
- =?utf-8?B?SE55YlFYVEpaYUxQa0hXcFZZY3hCMFlaejAvYnVIcWdWeUV3UWVPWkxXc1NY?=
- =?utf-8?B?ejFMdkR5VyswUG1zUFVBRzU1eHU1cGttZEtZY1V4Y2JPL3BzS094SDVhRCtW?=
- =?utf-8?B?Z0NSZWhyVjNJd2x5dkdMYlUrRmNmbnRaUFN2VXdxWHhxMnRUdy9aaHNhTXpq?=
- =?utf-8?B?VDVxNmoyL0NZRzVFcU9sc1RtWXhXYndnek9UNDBKTXY4ZlFXY1hrekFIOWhr?=
- =?utf-8?B?OWpFaFlNKzlCMjBvajkya2hHSUFvK1ppWjRJUkhTZHV4dUxQZWN5SHMva3dz?=
- =?utf-8?B?K2lTdUtHNzJTa2dYZ000MXJUM2F3bEZZRVVjVkJNTGpSNldtbFJvRmFkK1pP?=
- =?utf-8?B?WDNUOVdTU1FsU2FrUzE4QzluM21xNGxoVTRnRHRBS2xUd2dKdXlsVGxhbHNh?=
- =?utf-8?B?NWNPcDIxWUVTeFJ0V05BZUJiSEJobUJIMTFIbXhCUy9BcjdSSSt3REFORThj?=
- =?utf-8?B?ZldsQnVBK3lyWVMrMkppRGNaT1VCSHhXTGFlS3dCVEZHTnpIUkFMZz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: b45fac5e-c20e-40d8-9e7f-08df25eac474
-X-MS-Exchange-CrossTenant-AuthSource: LOAP265MB8560.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2026 09:50:35.9777
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B+AelRTn/LzVAY8s+GOq9+c5bN4lXQtyMmpT2fFIb818hYm72tgLbBsBflfwNTUCMgCGfiz9n8IOfllYkG5C+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB551473
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <asZ8jmWNoGk5tYce@thinkpad>
 
-On Thu Oct 8, 2026 at 6:37 AM BST, Karl Mehltretter wrote:
-> __arch_xchg(), __cmpxchg() and __cmpxchg_local() end in a default case
-> that calls an undefined function. That turns an unsupported size into a
-> link error. It relies on the functions being inlined, so that the
-> compiler can drop the default case for a constant size.
->
-> They are only marked inline. gcc 8.1.0 with CC_OPTIMIZE_FOR_SIZE does
-> not inline them in rust/helpers/helpers.c, which calls xchg() and
-> cmpxchg() from many small helpers. The out-of-line copies keep the
-> default case and the link fails.
->
->   helpers.c:(.text+0x424): undefined reference to `__bad_xchg'
->   helpers.c:(.text+0x4ac): undefined reference to `__bad_cmpxchg'
->
-> Seen with bcm2835_defconfig and CONFIG_RUST=3Dy on v7.3-rc1. The same
-> config links with CONFIG_RUST=3Dn. It also links with gcc 15.2.0 and
-> with clang.
->
-> v6.19 links. Commit ab717dd98bee ("rust: helpers: Add i8/i16 atomic
-> xchg_acquire helpers") in v7.0 triggers __bad_xchg. Commit
-> ac8f06ade38a ("rust: sync: atomic: Add Atomic<*{mut,const} T> support")
-> in v7.1 also triggers __bad_cmpxchg.
+On Wed, Oct 07, 2026 at 07:15:29PM +0100, Harry Yoo wrote:
+> > This RFC instead adds an atomic owner state for bounded PREEMPT_RT spinlock
+> > trylocks. Atomic acquisition succeeds only from the completely free state.
+> 
+> Please don't skip discussion stage and jump into submitting a very
+> intrusive change across locking and mm, assisted by LLM? :/
+> 
+> I don't think attempts to tackle this problem will make progress without
+> discussing and getting buy-in from (PREEMPT_RT) locking folks.
+> 
 
-The change is okay, but the commit message is typical Claude style verbosit=
-y.
-Especially this paragraph. Just describe what is the issue and what is the =
-fix.
-The mention of what other okay config you tried can be stripped. Mentions o=
-f
-v6.19, v7.0 and v7.1 are completely unnecessary information.
+Sorry, I should have followed up on the additional v1 replies before
+posting this v2.
 
-Consider something like this:
+On the alternatives in [1], Alexei [2] preferred detecting
+scheduler-lock contexts and returning NULL. He confirmed that NULL
+returns are allowed, rejected restoring the local-storage allocator, and
+raised the RT unlock/wakeup objection.
 
-    ...
+I initially tried that detection, tracking pi_lock, rtmutex wait_lock
+and rq locks. With RT, lockdep and slab_debug enabled, task-storage
+allocation under an independently held hrtimer base lock reported this
+cycle:
 
-    They are only marked inline. gcc 8.1.0 with CC_OPTIMIZE_FOR_SIZE decide=
-s to
-    not inline them in rust/helpers/helpers.c, which calls xchg() and
-    cmpxchg() from many small helpers. With bcm2835_defconfig and CONFIG_RU=
-ST=3Dy,
-    linking fails with:
+  hrtimer_bases.lock -> rtmutex wait_lock -> pi_lock -> rq->__lock
+    -> hrtimer_bases.lock
 
-        helpers.c:(.text+0x424): undefined reference to `__bad_xchg'
-        helpers.c:(.text+0x4ac): undefined reference to `__bad_cmpxchg'
+I don't know whether my changes introduced or exposed the dependency.
+The timer lock was not covered by that guard. This was a lockdep warning
+and the workload completed.
 
-    Since the absence of inlining always produce a linker error, mark these
-    functions as __always_inline instead.
+I then tried atomic ownership in v2 to avoid that unlock path, at
+the cost of IRQ-disabled spinning without PI boosting of the owner.
 
-With a better commit message:
+One possible interpretation of "raw_local_trylock_t" would be preserving
+the non-RT local_trylock semantics on RT for short per-CPU cache
+operations, with allocation failing when it needs an rtmutex-backed
+fallback.
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
+Would that be worth exploring? Sebastian suggested
+consolidating the existing local-lock variants first. What should that
+cover?
 
->
-> Mark the functions __always_inline.
->
-> Fixes: ab717dd98bee ("rust: helpers: Add i8/i16 atomic xchg_acquire helpe=
-rs")
-> Fixes: ac8f06ade38a ("rust: sync: atomic: Add Atomic<*{mut,const} T> supp=
-ort")
-> Cc: stable@vger.kernel.org
+For arena user faults, backing-page allocation failure returns
+VM_FAULT_SIGSEGV on the RFC base. next-20261007 preallocates outside the
+raw lock. Failed fallback allocation returns VM_FAULT_SIGBUS. If
+restricting that fallback increases fault failures, is that acceptable?
 
-Arguably the commit in the fixed tags are not buggy themselves. They just a=
-dd a
-ok user that triggers the symptom of lack of inlining on an archaic GCC.
+Thanks,
+Karl
 
-Best,
-Gary
-
-> Assisted-by: LLM
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
->  arch/arm/include/asm/cmpxchg.h | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/arch/arm/include/asm/cmpxchg.h b/arch/arm/include/asm/cmpxch=
-g.h
-> index 9beb64d30586..0ce5225af442 100644
-> --- a/arch/arm/include/asm/cmpxchg.h
-> +++ b/arch/arm/include/asm/cmpxchg.h
-> @@ -26,7 +26,7 @@
->  #define swp_is_buggy
->  #endif
-> =20
-> -static inline unsigned long
-> +static __always_inline unsigned long
->  __arch_xchg(unsigned long x, volatile void *ptr, int size)
->  {
->  	extern void __bad_xchg(volatile void *, int);
-> @@ -155,8 +155,8 @@ extern void __bad_cmpxchg(volatile void *ptr, int siz=
-e);
->   * cmpxchg only support 32-bits operands on ARMv6.
->   */
-> =20
-> -static inline unsigned long __cmpxchg(volatile void *ptr, unsigned long =
-old,
-> -				      unsigned long new, int size)
-> +static __always_inline unsigned long
-> +__cmpxchg(volatile void *ptr, unsigned long old, unsigned long new, int =
-size)
->  {
->  	unsigned long oldval, res;
-> =20
-> @@ -220,9 +220,9 @@ static inline unsigned long __cmpxchg(volatile void *=
-ptr, unsigned long old,
->  				      sizeof(*(ptr)));			\
->  })
-> =20
-> -static inline unsigned long __cmpxchg_local(volatile void *ptr,
-> -					    unsigned long old,
-> -					    unsigned long new, int size)
-> +static __always_inline unsigned long
-> +__cmpxchg_local(volatile void *ptr, unsigned long old, unsigned long new=
-,
-> +		int size)
->  {
->  	unsigned long ret;
-> =20
-
-
+[1] https://lore.kernel.org/r/arIY0wMQjCCsqidI@gmail.com
+[2] https://lore.kernel.org/r/DLO3RV3IQUOV.21BNLF4QS9T4W@gmail.com
