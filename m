@@ -1,255 +1,105 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EAB4D4888
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 15:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B9A36B934;
+	Fri,  9 Oct 2026 15:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791560373; cv=none; b=L2iSskI+QtSuZ1ISkb8eWIoUU0w7tvBglQmLlWinNBEnxOzNvg/KqK9TmZGkXKEPivm6bu0q0Wv9ZXZCYRylDKSyqM8TZgzM5eSUAhzAxwP1CBytd6gmikWbnVaVGFoxKV+SJMlvI2I9PckXi6/acgHTHch1WH4fcxnvzNTOY5M=
+	t=1791561424; cv=none; b=IPLwN0dSvHcijLQyVINP+9ZHhjUQeAOCEN+DUt2ZHUgVpTEraF5trU9F0JFuHrsY8IHRlK9JsTFst5fmNYxGxW4xiGb7o8k2UECGB1xfX1eY7HybG8I+mlDQJFlxKM6Kw92BXqMeeCXNBdsSV7KKW+SjhyThlmLeuymWgBm5ftk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791560373; c=relaxed/simple;
-	bh=GbihQDT60TkSUyG8sRpe6wSrJ+mv6j+gTgXLREuoT34=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=awXC2FhrtMbE5fvXPwarsMgYG3ZTeiAnXlNWnG+X9jiTFCZuQfAFEwESyvhhEJOXCNHQ5u7V5K3c/z5+6JlfW6xrxMTHX7WqLymPAeJCbhMkT6NWVfNjX1eScTpqg614fZYhL/GodAmxQDxtB+ljtvjf2veEGiqczVfJIj/kWoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gFOlrWbV; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791561424; c=relaxed/simple;
+	bh=mVDw3558qi2dmbH+1SMnQnVGN6LG7PdfxcI2x2CWViE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nkmuGV9eLAXHYh7vsriQaeIQP5nU2v5MOtoK7I3RY0kgQ52uI1V1YJ5/0xgwiP5/br475HaNS3DN5BjxJdJN24QYDHvo0gaK0l26UsfgYXZZmzmRxZ4WSbVsp3X1Z9mf/oeviUiinpize43ObX68do7/r9i7oruKl/XEijDLsV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JfSUF17F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gFOlrWbV"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cc758830601so4456599a12.2
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 08:39:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791560370; x=1792165170; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Oc43EGm7NUZeK/eRaBYRasWqtzt/BRe/LMfh582Cs/s=;
-        b=gFOlrWbVchPXW7Fv1lrAWM7LwrJzN6r4LFXrTby/IRpy2rTuTYO4/E0iVyV8m92wWV
-         fzzFTFSI2cCRmzkblMtob7vTQLRW3rRuS25RAPWXFoa5mqRD97SGCNV0WP4THCJMLvhM
-         aMxRlvGLV2W2JuwHVhsHJcbyw978meTN4JbPTjj/u/E9RsP5JkOKdBu3zJ/2tf4mer3v
-         OFiZdGBUwjgTvyC8K+YAlBdOJ6+6W1QaMJOC8bL4ue1eU+0gsQfwwIrtUjCdLQ503jPH
-         V3IlyjfKfwtLsavmygJA43G4vrXhYr6QNzEFgVOqROopUemQPCxhY5pxFsg6K85XqDn3
-         qvNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791560370; x=1792165170;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Oc43EGm7NUZeK/eRaBYRasWqtzt/BRe/LMfh582Cs/s=;
-        b=m0kc1zXBlLNo7dPNx2A6iTjfCllvrzrzMqy01Nd/C8R4ojT0Bkyp0WSYI0l3SQTSpA
-         zZ7/ADWMcMP252diaHQCztpNhqkXX0o00A/JsoPNT442skyZUVNekFlv3Q+t172FGKSZ
-         sWkTbAC0eGETz/ijTTAcvAPIneobcc8vstJMBfZkzWvYtc+LcpFRBuSv9r/JQXoi4PIz
-         rnhll1TG727i/bUASoU12uMcigSYa5yrck6BN8IVARdLvSwRJYHXZAbv0DpwzgQ5Eb6G
-         d/M9uPN4xM80fjXFfpe16bvs3LYmbbcAKjfPVcixoz+3b3YfTknN9WKwHZpN/bcf2RdQ
-         q59w==
-X-Forwarded-Encrypted: i=1; AKwUvBwaVAdbnH0j/ynEhF6IC1NTDD7dwV0Z5JvrTH6dJZe5eXIW184gNmHMdpBaNuk11ZwXorLUXK31hrM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLZOCwPlEmnuQGKwYTw1N1Z8H5gLYZh6zC/zcNotM52xlHYpebT
-	Kmofc/KSkbqIiDdRhET3fEdPrsrxNt5gW+8AOwCm7t9oF/tibjtIAoRN
-X-Gm-Gg: AYBFou29tVXbzbvujO7gyRRHYPY/+km3pvi8fo5WQU8xfKXdJQMmolj3eIyql0f+V7N
-	/cp6bLu4adtx1u82YMRXG9qNA3EtSx6/4C8ka6IvbDF+pfbaROxB6rhz8QfMpgQ5nQRaFtpRVS2
-	j22AUwc7REZUaxnvUUw6xq3vFBEhAW/DzE0bWmx9kz5GWJY/xB8wrggpK7k87q0z9b0btwBsGVv
-	9cGGEW8minwCN/G+vOw/ynUlH6DbsIJIE//VQk0rgTxJKaPbNJ9AMj4d5UEmr30zk3OoOqKvAs0
-	DQPsL/9HjScbcE4IO3lbG5jYvvbBuMukCeetUg/eLZ49eqCDGw17GTMBQ/ldKXfS2a2yrZdPd7q
-	iFWRad8sQHZVNwCFck3roldUVHczK+Odu9YLeSO2pdB8Byx6gDHTadxTnkUWHJwEVURMFWLcWsr
-	0fTmGiAhFR4Sn8Ur0/JJIwMBci4Rgqdj2bn1R0uObDrLnoY7GOeDIyi7+2jMCzIfEAg+1Qqvzut
-	ZCt6Zg=
-X-Received: by 2002:a17:902:d50a:b0:2e3:1bb4:610d with SMTP id d9443c01a7336-2e842f31562mr21457435ad.50.1791560370363;
-        Fri, 09 Oct 2026 08:39:30 -0700 (PDT)
-Received: from mincom1 ([14.67.155.18])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421ae999sm11847705ad.31.2026.10.09.08.39.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 08:39:29 -0700 (PDT)
-From: Jihong Min <hurryman2212@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>,
-	linux-hwmon@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] docs: hwmon: Document the uhwmon userspace interface
-Date: Sat, 10 Oct 2026 00:38:44 +0900
-Message-ID: <c02aeee5b7e7a5d159d4df5baabe925e16814e94.1791559095.git.hurryman2212@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1791531025.git.hurryman2212@gmail.com>
-References: <cover.1791531025.git.hurryman2212@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JfSUF17F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227F71F000FF;
+	Fri,  9 Oct 2026 15:57:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791561423;
+	bh=KuCaZxCYMdZZgfvi4rJIGQNSUWpQj/i0u1SZL9YwMIM=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=JfSUF17FIQ5uG0WgMZv5K8JlPGc6Lo0UfZBDoM/LH9OrsUGdFbx4LmEuxkgZYxsZi
+	 7uwQzI0RWf7VvVp3UiIXgWXdMZsMpWCCi+eFXZzQ5MJuDrudaKVWa6XjrFbinmLX6i
+	 BQhM0qI6lv2pjur4K1esNmz8j+IO3sD0D/FpbrFy3hlgStSiid/Sykt+1oHIiFvXh8
+	 t5rcKW0wOEHOpM3EfEPYJVb4HlNHf+QNyIYQAYNi+55C9yBOo97BVA4wjzlpnZ2l/B
+	 G7Y5x4mB4IrbM21jjIk1KN5kSxtpJrN5r+FgArJ2ooFrxgcsus3xzk4+hHyut3FJHt
+	 WNi41848auhXQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id BDF91CE0B28; Fri,  9 Oct 2026 08:57:02 -0700 (PDT)
+Date: Fri, 9 Oct 2026 08:57:02 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Manuel Ebner <manuelebnerli@mailbox.org>,
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	linux-next@vger.kernel.org
+Subject: Re: [BUG] Build failure in next-20261007 and next-20261008
+Message-ID: <51aa9736-6e78-40db-9d4f-95dc7142e222@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <0ddb5e5e-f801-444c-aa98-0cfe814a3026@paulmck-laptop>
+ <202610082200.752C6C08A5@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202610082200.752C6C08A5@keescook>
 
-Document the uhwmon UAPI for developers implementing userspace hwmon
-drivers. Cover device registration, request handling, notifications
-and device lifetime.
+On Thu, Oct 08, 2026 at 10:11:14PM -0700, Kees Cook wrote:
+> On Thu, Oct 08, 2026 at 05:56:21PM -0700, Paul E. McKenney wrote:
+> > Building a kernel on CentOS Stream 9 from next-20261007 and next-20261008
+> > (and maybe others?)  on an x86 or arm64 system results in a strange
+> > build failure featuring:
+> > 
+> > WARNING: Unable to reopen jobserver read-side pipe: FileNotFoundError(2, 'No such file or directory')
+> 
+> What are your make and python versions? (Oh, the answer is going to be
+> "CentOS-patched make 4.3")
 
-Assisted-by: Codex:gpt-6-astra
-Signed-off-by: Jihong Min <hurryman2212@gmail.com>
----
- Documentation/hwmon/index.rst  |   1 +
- Documentation/hwmon/uhwmon.rst | 141 +++++++++++++++++++++++++++++++++
- 2 files changed, 142 insertions(+)
- create mode 100644 Documentation/hwmon/uhwmon.rst
+I get "GNU Make 4.3", so maybe I need to patch or upgrade or something?
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 9955a525436a..88c6388e7c5c 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -12,6 +12,7 @@ Hardware Monitoring
-    submitting-patches
-    sysfs-interface
-    userspace-tools
-+   uhwmon
- 
- Hardware Monitoring Kernel Drivers
- ==================================
-diff --git a/Documentation/hwmon/uhwmon.rst b/Documentation/hwmon/uhwmon.rst
-new file mode 100644
-index 000000000000..155f1a965d16
---- /dev/null
-+++ b/Documentation/hwmon/uhwmon.rst
-@@ -0,0 +1,141 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+Userspace hardware monitoring
-+=============================
-+
-+Copyright (C) 2026 Jihong Min <hurryman2212@gmail.com>
-+
-+``uhwmon`` connects userspace drivers to ``hwmon_ops`` through the control
-+device ``/dev/uhwmon``. The hwmon core creates and formats sysfs attributes.
-+The daemon supplies values in the units defined by :doc:`sysfs-interface`.
-+
-+Enable ``CONFIG_HWMON`` and ``CONFIG_SENSORS_UHWMON`` and load ``uhwmon``.
-+Include ``<linux/uhwmon.h>``.
-+
-+Register a device
-+-----------------
-+
-+Open ``/dev/uhwmon`` with ``O_RDWR`` for each device. Zero-initialize all
-+UAPI structures.
-+
-+Call ``UHWMON_CREATE`` with the NUL-terminated chip name, attribute array and
-+its count in ``struct uhwmon_create``. Each ``struct uhwmon_attribute`` contains:
-+
-+* ``type``, ``attr``: hwmon enum IDs, not ``HWMON_*`` bitmasks.
-+* ``channel``: zero-based index; zero for chip attributes.
-+* ``mode``: nonzero permissions using only bits from 0644.
-+* ``flags``: zero, or ``UHWMON_ATTR_CONSTANT`` for read-only constants.
-+* ``value``: a constant number, otherwise zero.
-+* ``text``: pointer to a constant label, otherwise zero.
-+* ``size``: NUL-inclusive label capacity from 1 to ``PAGE_SIZE``; zero
-+  for numbers.
-+
-+Labels are read-only, NUL-terminated and omit the trailing newline.
-+
-+Handle requests
-+---------------
-+
-+Read a ``struct uhwmon_request`` and write a ``struct uhwmon_reply`` on the
-+owning file. Request and reply headers are 24 bytes. Only successful label
-+replies append ``size`` bytes of text. Buffers smaller than the message are
-+rejected with ``EINVAL``.
-+
-+``struct uhwmon_request``:
-+
-+* ``id``: request identifier; copy it into the reply.
-+* ``attr``: index in the registered attribute array.
-+* ``op``: ``UHWMON_READ`` or ``UHWMON_WRITE``.
-+* ``value``: number to apply for a write; zero for a read.
-+
-+``struct uhwmon_reply``:
-+
-+* ``id``: the request's identifier.
-+* ``status``: zero on success or a negative errno; use ``-ENODATA`` for
-+  unavailable or stale readings. Return ``-EINTR`` only before applying a write.
-+* ``reserved``: zero.
-+* ``value``: successful numeric read result; ignored otherwise.
-+* ``text``: NUL-terminated result of a successful label read; absent otherwise.
-+
-+Numbers use signed 64-bit fields and must fit the kernel's ``long``,
-+except for energy64 reads.
-+Discard replies rejected with ``ESTALE`` (canceled request).
-+
-+This example registers ``temp1_input`` and ``temp1_enable`` and reports
-+42000 millidegrees Celsius while enabled:
-+
-+.. code-block:: c
-+
-+	struct uhwmon_attribute attrs[] = {
-+		{ .type = hwmon_temp, .attr = hwmon_temp_input, .mode = 0444 },
-+		{ .type = hwmon_temp, .attr = hwmon_temp_enable, .mode = 0644 },
-+	};
-+	struct uhwmon_create create = {
-+		.name = (uintptr_t)"example",
-+		.attrs = (uintptr_t)attrs,
-+		.num_attrs = 2,
-+	};
-+	struct uhwmon_request req;
-+	struct uhwmon_reply reply = {};
-+	int enabled = 1;
-+
-+	if (ioctl(fd, UHWMON_CREATE, &create) < 0)
-+		return;
-+
-+	for (;;) {
-+		if (read(fd, &req, sizeof(req)) < 0) {
-+			if (errno == EINTR)
-+				continue;
-+			break;
-+		}
-+		reply.id = req.id;
-+		reply.status = -EINVAL;
-+		if (req.attr == 0 && req.op == UHWMON_READ) {
-+			reply.value = 42000;
-+			reply.status = enabled ? 0 : -ENODATA;
-+		} else if (req.attr == 1 && req.op == UHWMON_READ) {
-+			reply.value = enabled;
-+			reply.status = 0;
-+		} else if (req.attr == 1 && req.op == UHWMON_WRITE &&
-+			   (req.value == 0 || req.value == 1)) {
-+			enabled = req.value;
-+			reply.status = 0;
-+		}
-+		if (write(fd, &reply, sizeof(reply)) < 0 && errno != ESTALE)
-+			break; // Fatal error.
-+	}
-+
-+Disconnect and reconnect
-+------------------------
-+
-+Sysfs requests can be interrupted or restarted before delivery to the daemon.
-+After delivery, they wait for a reply or disconnection; only fatal signals
-+can interrupt this wait. Completed replies take precedence over signals.
-+
-+Releasing the last control file reference disconnects the daemon: dynamic
-+reads return ``ENODATA``, writes return ``ENODEV``, and constants remain readable.
-+Closing an fd does not cancel I/O in another thread; duplicated fds retain
-+ownership. Interrupt blocked control reads or use ``UHWMON_DESTROY``.
-+
-+The device persists after disconnection. To reconnect, open a new control fd
-+and register the same name and attribute array, including constant values.
-+
-+``UHWMON_DESTROY`` removes the device. Close and reopen the control file
-+before registering another device.
-+
-+Notify changes
-+--------------
-+
-+The kernel cannot detect changes to values held by the daemon. After changing
-+a value, call ``UHWMON_NOTIFY`` with its 32-bit attribute index. This wakes
-+sysfs pollers waiting for ``POLLPRI`` and sends a ``KOBJ_CHANGE`` uevent with
-+``NAME=<attribute>``. Applications read the attribute again from offset 0 to
-+get the new value. The notification carries no value and does not replace a
-+read reply.
-+
-+For example, after changing ``enabled``, notify listeners of ``temp1_enable``:
-+
-+.. code-block:: c
-+
-+	__u32 index = 1; /* attrs[1]: temp1_enable */
-+	if (ioctl(fd, UHWMON_NOTIFY, &index) < 0)
-+		return;
+And "Python 3.12.15+meta", so maybe I need to talk to people here.  ;-)
+
+> > The failing systems have a pigz command (which complains bitterly when
+> > run without arguments), and the immune system does not.  On the failing
+> > systems, "pigz --version" gives me "pigz 2.5".
+> > 
+> > Do I need a specific version of pigz?  Does this commit need a
+> > version-number check?  Are my systems pigz-intolerant?  ;-)
+> > 
+> > Less flippantly, is this a known problem?  If not, what debugging
+> > information can I provide?
+> 
+> Having pigz just means the parallelism logic kicks in, so I'm suspecting
+> something in scripts/jobserver-exec. That would point to something
+> specific to python or make.
+> 
+> I haven't seen this reported before, no.
+> 
+> Ah, and before I could even finish writing this email, my ever helpful
+> LLM has reported: "pre-4.4 make (like CentOS's 4.3) closes jobserver
+> pipe descriptors in non-recursive recipes but still exports
+> --jobserver-auth=R,W via MAKEFLAGS, whereas 4.4+ uses a named FIFO
+> instead, explaining why it doesn't appear here." And has further found
+> that this is CentOS-specific, since they appear to have incorrectly
+> backported a patch ("make-4.3-cloexec.patch"), as stock make 4.3 doesn't
+> have this problem.
+> 
+> I'll go figure out if there is some proper way to work around CentOS's
+> broken make...
+> 
+> (And given this, I would suspect you can't do a '-j...' build of the
+> "htmldocs" target either?)
+
+I will install sphinx &c and give it a try.  ;-)
+
+							Thanx, Paul
