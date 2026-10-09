@@ -1,130 +1,164 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9E632E68D
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 03:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A2D3A2572
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 03:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791515206; cv=none; b=aBGrywSMk3W7zayBXiNx3cPN2DH7ikN/57Swd0G5faL7EEpJBaChGpkPY0vk6iHM0lsIlrD9tULvsjveY0kC+zEqfemYVySOIR1view98egbtStvTU34sxmy5k6J3YvM6BpBENfdTgjOCY4vjsEquLbM5cPbjRjdTd1ExqOxgxE=
+	t=1791516717; cv=none; b=Mgc/ZD9ENyQ7m05399IDiurrQFEma7lpdh0il9bhf0nn6K3hftjGQTIfd6PLNXXN6Z2C/ZUeCEYqbUV4M1aZTfgzHmATFBYr37AWLsa0bpev+Y5o+uu2ZvYumgOaod8kjHGHm+uvyary8l7pPLRIcY+xom3i+hWpp3wifnSnc44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791515206; c=relaxed/simple;
-	bh=5Uz2zi/HaHZ9scqnUVj7yk+2fytGfDAxOLNXAwt2vw4=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=gG9y63IEzg0U4RDTVlHowCWq+eDwmKM1d4OnWRY+iiblvdsQ0rVcygFJbrKDrGGtS49G43Sva2sdqh9uIRyiG5Vs/Vp7okQyDTtEchckd/ZQacy7Nuwkz2YQ6BMovEevPUxlFECoYxHp6A3JU4/KTBDM0xYjfYRxGJYNybV+Zu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gmiwYATY; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791516717; c=relaxed/simple;
+	bh=rNak045CwDCOU451ibRemMagPDtfh/3R0XJ1GMY76l4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lu0ViURlpcdvdVWllr64i0usfDUV+gct35gXrVnboPDHq2G0J/L1GPRUIP2z1RihjYwDFWsV2OpfIjk92UQTKz5Z1+HjK9aId16FZkfqIhG8KbODtD5gQ1/gzxTd30pjQJYj1yWfgv7oo4bQyp543kMMiSb5y0p2m/v9sywjovc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CqW79SLn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=K71OqO+8; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gmiwYATY"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-88bda150550so2218458b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 20:06:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CqW79SLn";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="K71OqO+8"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6993HWQK1089751
+	for <linux-doc@vger.kernel.org>; Fri, 9 Oct 2026 03:31:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	wEnLDH2m6lUj6/37jS7qDQEqUbgy6NmPp9J9mV/0Wfg=; b=CqW79SLnNJ76LSVJ
+	c8qVNjY/8Pd3x9FdTYUeCaWsgUEXYETX/jkd/ulF0lqYcXkRmzSIUJU7yOzvcFYR
+	BPFW/ioPgLr2sA3neAt0c0XrpgfAYvcv/8xNTTkb0xjGx5pH6H9sUyXxgfuJUDaG
+	fAOVA9LJPeNdeIjM1mvoc6PS7bihJqf2NK7I32enRpk/cQVan/Nu/w0NI6aqZxtL
+	kSg6inFBQtAcFjfM+44f6Y/3AAIO+P884U8rKY5GkoOjVnknTzyuM37mEAg4olpW
+	rxAXpJAJrjRO5WkC+3fmtDrlKRxD76RIo/HV1ZdyOTyLYA0G347+pft+ZethtqwD
+	vOs2xw==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h6ekva0sa-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 03:31:50 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2e767948f7cso20958735ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 08 Oct 2026 20:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791515204; x=1792120004; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1791516710; x=1792121510; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KrdVnUhtPNK/Av17PhvpBtm9fsARY9axkUcpxdE9xCo=;
-        b=gmiwYATYJDVsrjbDD631PuI+E1Bodn447DUDkztIwobHVVaY6Tl9cwqDDtalGnjCCh
-         d2IFLrQEBmM9JlR96GifgEEyp8Fj2tgUSMeQr/u4XPyIO/+RcgYdOg1OnWYwTft1ktzh
-         gA0eNgrOcmxsdQNazDWxwCTV1kT9aP/8m0sHi+JYY40vp5K8dwI9KN4eZ1JxvnwOTOIX
-         IBI5fwfLpMruw3GT1CwWfkZHTyVyRqDFr9JIU4cxYOy0fe6hbQrN36k8cPMUSsL54+PL
-         /nR1sFvJJuYj4Hd3WDjucQtPhlWFbMXHy7j3bd1Dwg7y2BoX2TIBqkMwqohbL5kNju3R
-         jKOQ==
+        bh=wEnLDH2m6lUj6/37jS7qDQEqUbgy6NmPp9J9mV/0Wfg=;
+        b=K71OqO+8kHZO1TagIWrRYputoK+sg6AFpBCW0zcRImsM2kGTTyc2ZJ3DV8oBG2//yk
+         G7vqAjrl4tMYEJm0v6arRm97eavvorEL8SvYwlO9eZEKt6iJQ+tZahs+gjQugXMd6SbG
+         g1TPhS3o3oESJQF299W4vr8dlJVwi3pvTgRzVigGyo+v7ZTojQz7j625K0cLCkIKEYix
+         qiWojmlRhitwErqJmOD4f3qcW2dfbvmHt2avpQWA0r4m6VNqErxBGnKvwdCGI3IW+Hyl
+         g6jj3vRfaHDZBegj74GRLgMc/yanyzaYEPeHaQUoXBDk0Innf/F8pBJcQn2xYszXTIao
+         vIGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791515204; x=1792120004;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1791516710; x=1792121510;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KrdVnUhtPNK/Av17PhvpBtm9fsARY9axkUcpxdE9xCo=;
-        b=ipBwrRedaZgCJErMVPkjc2rIrygeg9CSdalN8ohDxn76YRZ+I0B5XQgn5C5MLU6kMH
-         9cZPZcwhxtlH0NtSf/kBfBt/xVFhKOwH/vRxgEQ6plsYONYm6x74gwZ4URHYe9kTCqZi
-         AUvuI5c7AgNJfNmPke1i/Eho7ZaGttripXcKJyRMkIhqeRJokC/aHQOxuoLf78NNgUQb
-         TDPeHIC2T8GYk+oDf/5xjxnb36O9quQq5YBM9BJ8UWKUArDQxoPQEr0FK1WyeZ5ZAo9f
-         XUJ3wB5BbaEaGfZAi5e5nFlhni1gWipSBk6z9zDssbbblCYJU+o0MYmkIZXjZ0pV2gNN
-         L3AA==
-X-Forwarded-Encrypted: i=1; AKwUvBypNu3o6punqEt7iBaESOjw/PhTqoE8yQce4C63Vp2x/Zk5O6q5oVbvjjZy/7dMUidyd/D/92zJzHc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKUcjtdWYzr2nMlOaxcnzcGvl2J8EswFbf8OdyhiWU4vAbeqdLJ
-	yJmxEB7lDS7astDB0EYY+6Ib+n2LX0J67TXPInhU9W3DWDFzRmnJiOhQcK+5Sw==
-X-Gm-Gg: AYBFou0y/f8Zps1hWiCtfOAmb1Ob46TqBbtfc7GUu4s2tDdT/udBXe+B8nFW45yDb0o
-	rgKHPam2yaSPthE3OFTU9JucjVLGXmGPfEa9IQG+ycRt5qrPVACdz8Iii7HuBVnTNIRgT8WkNVC
-	aENeno6lbwbLj8lR+0hjguaxlj0po6ZToPrcgwuwUjzZNk2VvFj4sw8R/anqjL+tgqiITp60Cmm
-	od+TPoWTB9KIFAfPIpgZNrticoOzCfctJ2VrcHOo1/RzaV4EyUlKTe37QDKdRAu8ni3KB6IYHTu
-	sCFAfi9KGf90OhIxhEhDyHhNjyZ2p4JFq5ck7f9qmV6PgcudQbIFxxIAGt7/yd6MuM83/i1SGYS
-	KQR34NcEzvXQYqe2IKTwLEgVVbGdd81oUCvJAKUvNN5wkgC/Yue9/V6FMBlHxZJS/AiRgKkrG3S
-	76RgZKBVeIEwwTZu2l4623ksuoW6iu996qwXAPqKhOfItxei8esuk0sAfWZOVSqUQ8fnzBQWj4T
-	5SXpxOpeVMEYp9abWvsCu/YVCaOFuGQvkv7O0e7OQVbmUtpwo8yMqjYpJxdars80sc=
-X-Received: by 2002:a05:6a00:1254:b0:882:bba:8791 with SMTP id d2e1a72fcca58-897c73f9603mr484203b3a.34.1791515204273;
-        Thu, 08 Oct 2026 20:06:44 -0700 (PDT)
-Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-896c3ecb01dsm320656b3a.36.2026.10.08.20.06.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 20:06:43 -0700 (PDT)
-From: Michael Kelley <mhkelley58@gmail.com>
-X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
-To: haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 1/1] Documentation: hyperv: Update documentation for sending VMBus packets
-Date: Thu,  8 Oct 2026 20:06:37 -0700
-Message-Id: <20261009030637.3869-1-mhklinux@outlook.com>
-X-Mailer: git-send-email 2.25.1
-Reply-To: mhklinux@outlook.com
+        bh=wEnLDH2m6lUj6/37jS7qDQEqUbgy6NmPp9J9mV/0Wfg=;
+        b=UFmbn4b3vrKQqGBsb8hcLng5BLfnJspUYBthHb6p7xd1Ms9PwmumxHHpmXmXuree/U
+         KBc6A2NPTCuG2jQG1gYejf8b4RrDl2PsjEMqnr4ExaTCGyk+6roCV5GQ2wHyN4laacCE
+         1cYTbDyEFPVOSTjGkznujd98TLHraz0MpDwqk1cPaFITVZh6LnZj1ezxg6gCtjgx+xfU
+         EfAU2k9r7EyeOrDbTfm5iFtoOTJZ1bEiiLTiFUg4jwiNVH1uk2hTgXLaYOeaP6jld/OO
+         dM1I1Wbtd3E6iRczdaAx+AhDmSe4+icG9LVLpIQw4ZEz3Vcr3h8AWj1r6nWFmAmhz0DB
+         JgJg==
+X-Forwarded-Encrypted: i=1; AKwUvBy+FS5Cv6XUlhwBCLurR00ZmuTwEUVF7QcDwRV+TcpM+39E/HaWNikBgSoyin1HENCcAtBt+sM/d7w=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI3m5GFMfYJ+ZbKTe2No6IS782vbEV7ZKDNAqeCboh57QYpXwbH
+	VcCD5QX4GHzYZLkF7ErzKogJNbJviIWSXAY06vlHXgaI3MnTUoe5IXpSOXCqdGzzQEe7TBFLnNz
+	tZmJBukfMy4kkDIY/0lAeZCNLBJhs7jeeulDXvvDlegiWvu7BAKPn3auY9JjFdOk=
+X-Gm-Gg: AYBFou2rmt6oNGNgKAsC/X5ggu7OGff+Ql0L76+lK0ycb4BwvbZqNUiKWtI6EJyA2C7
+	Anb43WYlz1iZ/tWlH1XDJ0+LJmo5iiS1RGxtW9nTa2vQaaWF6xs5ioHj4A/SKP9dodjndKOB5BE
+	GXCtxfWrdkK+XZy2fSa3tocc2sur/kecTicWNHK1Z4pHfmmUc6ycsMjSSvXczhqiIjbQ73iYU8e
+	rk7zQAqE7PtUaE9yb0SnZiXTLRE3dxFpb7yftjgJEEs3GUXyoAwDRoXtf07BUCq0VxpA5Dc6xld
+	BX9Qj93EZKzY+I7BGBmdqFF6DGfwwXxckzeABX4WziN2Iv2K5NjmVRyouajuEZThM9LpKN8AE6o
+	TytPBGhnuZ9K4ztIrBTio
+X-Received: by 2002:a17:903:11c7:b0:2dd:c100:a5e3 with SMTP id d9443c01a7336-2e842dfc284mr5839965ad.55.1791516709829;
+        Thu, 08 Oct 2026 20:31:49 -0700 (PDT)
+X-Received: by 2002:a17:903:11c7:b0:2dd:c100:a5e3 with SMTP id d9443c01a7336-2e842dfc284mr5839835ad.55.1791516709379;
+        Thu, 08 Oct 2026 20:31:49 -0700 (PDT)
+Received: from [10.92.18.229] ([114.94.8.36])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421b1562sm2615075ad.34.2026.10.08.20.31.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Oct 2026 20:31:48 -0700 (PDT)
+Message-ID: <bf446881-61bb-4186-96ae-cab428da6226@oss.qualcomm.com>
+Date: Fri, 9 Oct 2026 11:31:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 00/11] net: ethernet: qualcomm: ppe: Add support
+ for IPQ5424 SoC
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+ <davem@davemloft.net>,
+        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
+        Suruchi Agarwal <quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com
+References: <20261008-qcom_ipq5424_ppe-v1-0-16caf43e44ee@oss.qualcomm.com>
+ <b3863c53-c97f-45ff-bfd0-cdde5bebb176@lunn.ch>
+Content-Language: en-US
+From: Jie Luo <jie.luo@oss.qualcomm.com>
+In-Reply-To: <b3863c53-c97f-45ff-bfd0-cdde5bebb176@lunn.ch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 9vqd8VRh9ndOnPsiHDrrnVUsyIWq9wOl
+X-Authority-Analysis: v=2.4 cv=csYOAF4i c=1 sm=1 tr=0 ts=6ac86026 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=+dQloWKbpC4JZN4npCJT8A==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=rCs85jqDWIXh2BF-714A:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA5MDAxMyBTYWx0ZWRfX0eQkeUwEXVnI
+ UMvF8JxpdLv4XCBFZLdgmLSHFaHM2EtbKo+JAFUYNUTkz4wqDsSPy1JC4s0SpHE+7S5XK6hQQD9
+ +fJsrR14CxwE9kaFbkLGdQBjhgoJJtFICUeNSN9kuZoSIoujH2cgAJ4iR/xXO8uI/YIzsk/e6f9
+ jEB28uv8p05MANsbeNbcGg/+7Y1lkTp8LPDtbF31PfpDpZ74p/9qNoMnMfyp97mkMNz77t2OM1I
+ W4OZDVcoZ4AVNXvM0r7mUMOSSn+BpMa5+q63JBoN4ADwRHp2uRzWGu+F1W72buEg6EA7VHq+/Pk
+ 3xjPjg4G3NTD066XhQU2VA4S5tEokXxTncSj/2/d90YXQxIWcpNH3ds60Q+L3aN+DqNBJR2LZMW
+ cNnqWzYHgpLpUCa2aYISgWGTnM9H0k1btzkLTpA7QLJXIZrwKpAhSemNfBXeqQ9fPMF85sLme5W
+ /HywTwvRU0IRFV3DC4A==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA5MDAxMyBTYWx0ZWRfX7aUk2YInakk+
+ n6xg87/nt3n4Rzi+K5JdsbvqLIkC6P0LCQRrBH02OT25KZsw9jZ/atxmdyh00puzIQ8NQG3oZ6P
+ nogdwuxGiXm3zYxPnx1NurHcaPKYf1o=
+X-Proofpoint-GUID: 9vqd8VRh9ndOnPsiHDrrnVUsyIWq9wOl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-09_02,2026-10-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610020000 definitions=main-2610090013
 
-The functions for sending VMBus packets have been simplified.
-vmbus_sendpacket_mpb_desc() can target multiple ranges, and
-vmbus_sendpacket_pagebuffer() has been removed. Update the
-documentation accordingly.
 
-Fixes: 45a442fe369e ("Drivers: hv: vmbus: Remove vmbus_sendpacket_pagebuffer()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Michael Kelley <mhklinux@outlook.com>
----
-The Fixes: tag reflects the code change that was made. The
-documentation update should have been included with the
-original code change.
 
- Documentation/virt/hyperv/vmbus.rst | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+On 10/9/2026 3:07 AM, Andrew Lunn wrote:
+>> The first two patches are fixes, independent of the IPQ5424 support:
+>>  - Split the EDMA reset in the devicetree binding into the separate system
+>>    and APB resets.
+>>  - Fix the multicast queue configuration table index, which is out of range
+>>    for every multicast queue on both IPQ9574 and IPQ5424.
+> 
+> Since you posted these to net-next, i assume they are theoretical
+> problems, not something which bothers people? Please drop the Fixes:
+> tag.
+> 	 
+>     Andrew
+> 
+> ---
+> pw-bot: cr
 
-diff --git a/Documentation/virt/hyperv/vmbus.rst b/Documentation/virt/hyperv/vmbus.rst
-index 654bb4849972..77a437969b49 100644
---- a/Documentation/virt/hyperv/vmbus.rst
-+++ b/Documentation/virt/hyperv/vmbus.rst
-@@ -137,18 +137,13 @@ control message contains a list of GPAs that describe the data
- buffer.  For example, the storvsc driver uses this approach to
- specify the data buffers to/from which disk I/O is done.
- 
--Three functions exist to send VMBus channel messages:
-+Two functions exist to send VMBus channel messages:
- 
- 1. vmbus_sendpacket():  Control-only messages and messages with
-    embedded data -- no GPAs
--2. vmbus_sendpacket_pagebuffer(): Message with list of GPAs
--   identifying data to transfer.  An offset and length is
--   associated with each GPA so that multiple discontinuous areas
--   of guest memory can be targeted.
--3. vmbus_sendpacket_mpb_desc(): Message with list of GPAs
--   identifying data to transfer.  A single offset and length is
--   associated with a list of GPAs.  The GPAs must describe a
--   single logical area of guest memory to be targeted.
-+2. vmbus_sendpacket_mpb_desc(): Message with one or more data ranges
-+   to target. Each range consists of a single offset and length plus
-+   a list of GPAs that describe a logical area of guest memory.
- 
- Historically, Linux guests have trusted Hyper-V to send well-formed
- and valid messages, and Linux drivers for synthetic devices did not
--- 
-2.25.1
-
+Yes, neither issue has been reported by users. The EDMA binding has no
+in-tree user yet, and the multicast queue issue was found by code
+review. I will drop the Fixes: tags in v2. Thanks.
