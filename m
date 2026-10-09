@@ -1,161 +1,130 @@
-Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3F850B8A8
-	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 18:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9926750AC23
+	for <linux-doc@vger.kernel.org>; Fri,  9 Oct 2026 18:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791571264; cv=none; b=gRV1tHAjMD0ZLkrFGa6M4hJh/3M4R6+zrEsyjCaL+5UuxtQkBu8JiFSd+pPkGrDox1RO8NAK898kPQHAkh6k162b0UyWB0jSS2bVlMURH57sdcJsiHV9t6gjxvB3t29OXYaIaq9u+a909m9CgtfMOs0KIlx8cfYjp4yxu/HrnJ8=
+	t=1791571266; cv=none; b=eJXJ4F+FhxmOVuZSxhOf9bcMnT3IWPdQbfpY9EcG7dcElZn8bq98q7KWnsKSBdLy+dWkkNSDvwTeFUwfKdXaK2kzo/fgOGTOyWpZ0jjOeg46cz6LojElyoXJuV7bTiYUdT0XWTShv6pmRNYAzCrJB3B6bfPBEL8Bh6gdDjtNxpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791571264; c=relaxed/simple;
-	bh=SWVZH4/QVAM/2E1mrrO0hPf7djQF9YbTvA34SJHL8IQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=mQHh8laliktV/hiF+OrSqK0FudSxNALMHb86u1ZtoTmryQSLXa+wJNESAV8zm6cSj+YUXBM+FOJEdjSQTRTSQjyY6ZjAJSY5sApCUSyLXYJ59j5LdQ0QeUurcBN3vuBegJ1rKhsowX2TKMMfZAtGO/WGnVj5nL+VTwrgBQE1seo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=ZFSz2283; arc=none smtp.client-ip=170.10.153.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+	s=arc-20240116; t=1791571266; c=relaxed/simple;
+	bh=51IUJ7oH2GDK0isWUJ8WivKZY3H+6fuok9bV/QpC9Rc=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=pJzYkoJqmiu4ErOqOrv/QuNqNtYwyFgHJqcS0+1/6hGxDTjBfKlyn/TwCX5v1VtuCuaxxxPwLUvLJOgmOEPSiUgfApWRXUGm8Cf6IDObmRAMfpqaqN9NREs2YIgSGFfwZq/C+Tsv5Z1ULBJ5GCnlDdN5Z9kO6tTpb5ApfiJwrfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BA3j6mVD; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="ZFSz2283"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
-	s=mimecast20250127; t=1791571253;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SWVZH4/QVAM/2E1mrrO0hPf7djQF9YbTvA34SJHL8IQ=;
-	b=ZFSz2283c/7Ed7804uIUHsXIUD3tMlQPL5VBGkiJ0S9OUvOy5Tb1ZEbC7gkIOuci/Nrjg2
-	ws8lcVUqNYNGCkH4SpZV/NsCxcixx6QKXCYS2oO3A2hvIpAfZW4PFgxqzFMXWYUxhZijUg
-	tFYjJc1XZUccB6nC8MdJ5IR8G1Bv1Wu5JZu6+SgixFQPMsmO0PVPxV470xui+l1F0XWv7Y
-	umNdYzuB9cw5ZqpqUXZs5gmqPt0f7hg92iO4c3bLH19MCgpmANmB5YPmaopaa7oMav5fBE
-	FHVkiYAbRpyGlVcCe2sAp9r+VtPn7n58kCcTmLK8+cjvE/DhFLlGCv3uLBK9Tg==
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011044.outbound.protection.outlook.com
- [40.93.194.44]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- usb-mta-72-I2ADaxXoNzOppauNlcnfCw-1; Fri, 9 Oct 2026 18:40:46 +0000
-X-MC-Unique: I2ADaxXoNzOppauNlcnfCw-1
-X-Mimecast-MFC-AGG-ID: I2ADaxXoNzOppauNlcnfCw_1791571240
-Received: from CH0PR02MB7867.namprd02.prod.outlook.com (2603:10b6:610:110::22)
- by LV0PR02MB11298.namprd02.prod.outlook.com (2603:10b6:408:32e::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.17; Fri, 9 Oct
- 2026 18:40:38 +0000
-Received: from CH0PR02MB7867.namprd02.prod.outlook.com
- ([fe80::d722:d686:a9cb:6c2e]) by CH0PR02MB7867.namprd02.prod.outlook.com
- ([fe80::d722:d686:a9cb:6c2e%6]) with mapi id 15.21.0496.015; Fri, 9 Oct 2026
- 18:40:38 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Parthiban Veerasooran
-	<parthiban.veerasooran@microchip.com>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Richard Cochran
-	<richardcochran@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
-	<hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Eric Dumazet
-	<edumazet@kernel.org>, Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jerry Ray
-	<jerry.ray@microchip.com>, Ciprian Regus <ciprian.regus@analog.com>
-Subject: RE: [PATCH net-next v9 03/11] net: ethernet: oa_tc6: Move oa_tc6.c to
- its own directory
-Thread-Topic: [PATCH net-next v9 03/11] net: ethernet: oa_tc6: Move oa_tc6.c
- to its own directory
-Thread-Index: AQHdWBF4M/EMxq6bWUq+jfBhDl2vh7b1ioCA
-Date: Fri, 9 Oct 2026 18:40:38 +0000
-Message-ID: <CH0PR02MB786772ED51E929003F855A5283922@CH0PR02MB7867.namprd02.prod.outlook.com>
-References: <20261009-s2500-mac-phy-support-v9-0-dcefe1d0bf0d@onsemi.com>
- <20261009-s2500-mac-phy-support-v9-3-dcefe1d0bf0d@onsemi.com>
-In-Reply-To: <20261009-s2500-mac-phy-support-v9-3-dcefe1d0bf0d@onsemi.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH0PR02MB7867:EE_|LV0PR02MB11298:EE_
-x-ms-office365-filtering-correlation-id: 8bb85d67-ed75-47d7-04e3-08df2634d03a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016|23010399003|4143699003|921020|38070700021|56012099006|11063799006|10067099003|18002099003|22082099003|6133799003
-x-microsoft-antispam-message-info: o+ZA8S32FxhD9bFlciEKrp1WPaNiCy2AJ6mxhqwMcgJ1GgwUqoNZV1ehU8p9evOfjujWopT4InTWEipf3HtWT/2AZs+irohdJhW6ujP3m355IJ5joK3eTnrD461Xnfzef2EoWovfv8YyGlhZ613dgxPS+0vFpcMmIZXcwPhHT9FS6SXBBsfHktHSMNpudcx5RzByq6Uc5xgZnjzFoYJiHyWelYQddUu2PrZkpO6fYimZebCa2jhseYlPQvFmUId7omIK0FugW7p+MEGY2BHrc0h0nFz8GgHlSt1nJiYPGACadJmfGqS6Ciys6B3q6FHeW20lhXUI28sfQsL7nTahYdPJQHE+/uvctdkOC7uUef8fwPitTNMM+NTRwvK7lUWvz66CTNTCZdcvskp3pzDYipmyTP+ev28K2DmRJQhVfPrLVxbZe3l82XRoQiTMApUBZrFYH4VV+9VTeKidMIrUFFxb2sBogJuaQzi4FG9bMX/Nh2+1S9GjS4/uBHEooKZ9O9uXvf7d++y0HErXO9VvS8rc2aa5th8j81qH8nrf565D3swLYNQTfTeNs/2Yhff2kTfhh7nGnf4UVR1QVWjQTmnz5xsX4KcsftpCsayF2U32raha8ZZl7Qf8SL5gk7PkmCLgdFDyZWIems1YLJrp2IvgIYkEXemaTfrsAio6Zo1fp4Sv5PC3uyKfhKu3uSZksZxDyOsVhjgHaqpIaq9BsXdRaeT4yvUdXAkwLo/BLI4cvjlX30kzvMsoY1oNswKM
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR02MB7867.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(23010399003)(4143699003)(921020)(38070700021)(56012099006)(11063799006)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T2wzRklETmVnU3p2QW1tVFl2OHVVclk4TXRWbzltSGQ1YjhOQmZtck5EWHAw?=
- =?utf-8?B?SE05R2pPc0NQVUZjWVFXWTFQQVo3L2haWUxIZlNuTml5L3ZVVVJRMWpoODNI?=
- =?utf-8?B?bEw1Qlp1KzgvV2lGOEcwYzV1V1g3NmpVemhWa0pmWFNwbStQTjZycTNCTkFW?=
- =?utf-8?B?eHB1Q2EzTUVkRHZqRVlVWmtSejhpR3JUU0wzWXVCNWZ5Kzg4VWZkSSt5Ni9M?=
- =?utf-8?B?WXRKcEdIUGdJQkhoT3RTS2FxSFptR3k2aGpjRDg5RjBWbm45RGU4S2lnM214?=
- =?utf-8?B?RjdWZU5UVDM2VGZoQWxyOFpUQlJRRW9yakJSOGcrMEhuUVNZekFlWG5pY01F?=
- =?utf-8?B?VmhpUi9QeHVHK3NnSUVkZGNXeWpzNkJlRlZ0RkQzNWpLcG5VeE50ZTc3WHVj?=
- =?utf-8?B?Nm1GdzRDcVJ0Wk5DSmI3bldhZWR1dmJGNG9rVk5mMzBydy9hQkpLd2hDV0x5?=
- =?utf-8?B?bHRtRncwelBpajY2OWhtVmpTa0Z1WXdsRHVkazR2N2R5MkJJb0huN3I0WjNF?=
- =?utf-8?B?U051STk4RWhBUG1GSjhQVzRsV015aXFGN2lyVURUYXlQTWxQeTVQN1lONW1U?=
- =?utf-8?B?b1NUQkdBei9FOWxrdnYxbUlRZTdXVlVZNSsvS0lDNk5GU3laczB4RWlpcDA2?=
- =?utf-8?B?bUNzOE8rV3hQNG9tT1hIZlhkZEsrMUxMSTF0TXowWUc4ZjF4RXNFNllHUng2?=
- =?utf-8?B?NHNiTFROMWFDNjlkYWdGU2pPS3Y1UjFvcE9NRDdMZUFSYU5zakUvUjNuLzUw?=
- =?utf-8?B?R3ExcjA1NjRoMkhEZVVSUU9idVIveS9GMHdWTzRDWTVIZmlJcGg0NjNVY2Fx?=
- =?utf-8?B?SWR5OHIwOXlXTkx5SldiZitGaWExdWFXZ0lnYnMvekJySXdDdWpWbm8wTmEx?=
- =?utf-8?B?elpsSVhncEdUNm1wckhIS3FOMENGSDdzemhKWFlPRkhCdnViMW91Qk5Sb1Rp?=
- =?utf-8?B?MkZvQ2haak5OWGRXT3ZuVlNJQ2VRUDRoNGZySDIxWkg1L21kdG9ucHVkbURq?=
- =?utf-8?B?U0JSeHorR3hjVHg2RExVVnNYaXdjb290WnVlS29SKzJMalZmeWJHTnFnNFZR?=
- =?utf-8?B?TVVpanIzSUR6eDhKY1U4eHJDVU1FdDVPU2Rka3ZhRGVVYWdyUExPZ3FoVUxX?=
- =?utf-8?B?YnllbDdmOVFDVTdDdmY1YUtpUEIzeWptSkY2ZnUySzdYVVRNNFZmZm9aUnJl?=
- =?utf-8?B?a3pnMVRGWHpENzIxVGxZTm5zYUpqYkx6UVUwY1dBRU1zaVVVTVVENUVXVW54?=
- =?utf-8?B?RU1SK0xuUHJHdDYwZFl4K1dFTnJWVW96QXo3Y3greG5XQUtiU0diM28rZWpV?=
- =?utf-8?B?c1B2L00xOHoyVXJzNjVvZStjcWF2QzhJSkJnT3NRVkV0VGxBSWN6TUZpamNM?=
- =?utf-8?B?eGc5T0wzWno1Mmg2U3NUSG0yNHFPQVMxWVhoOGVHbktYdFdqcDUvdVE2Yjg2?=
- =?utf-8?B?czRBMkJnNTJEbXhVejlXcUh4TEpuV0Exc3hoZUp3TnBQSXdpSGovbi9GYWRl?=
- =?utf-8?B?ZE1VWlFoVkd0VWY2NTRxc09oYTNIdThGTVp5VHZCYWY0OVJQQW16cDQxSzlK?=
- =?utf-8?B?WjRiSFpkNlpYYVAya0RPWGtkYkJucll2OVZsanIxNGhkenhzQS9MWXR4ZkJ3?=
- =?utf-8?B?TlpNazNxRWp2d1BvVmtsTTNOcEhjWXM1Z1JKd1NuaEZ5Z2VTUFloYU1PaHhT?=
- =?utf-8?B?cnUyWmhQQUdVNmZFNkxjbmNaSG5ocm04eHJ0cDRqYWhKV0JwZ0tkNTM2bFcx?=
- =?utf-8?B?THZ0clJKL2dlampIeTJZQ1VnUlQrc09sTEFnNlQzRC90OHhFN2lLYk9zYzVj?=
- =?utf-8?B?Snh4blZEeUorSVB6T1hVUi9mQ3Z4TTVDL3hZcklnNUJZYVdYN3RaMnpDTWJl?=
- =?utf-8?B?MllvTzFybEVLb2VRdUxRYWI2ZGRIcjRRaEIrcFJ5M3N3WDJtdzU3VTZqYTBG?=
- =?utf-8?B?TWtqRGRod3hMeGplNzRXNXNlR0JxWitVSFAxMWpleldFWXFXWlhiOWlpQi9Y?=
- =?utf-8?B?TWhwQkNSTWxhdFphODJ4a2drZEFiaHJEckNtdzBWUEFCclN2U1dBUHFNZ1E1?=
- =?utf-8?B?YXpFdEJsZktEVzBXTldIZTkreG1LUzBhM0MxSTVTbUhvYXJQK0ttYjl6RE9x?=
- =?utf-8?B?WldWd2hVRXgvUmh1SnlIWmpCOWY1cmVMK1hsaFY2QTMvRHRXZVlCRnVIYjZJ?=
- =?utf-8?B?aTQxKzNXVE4rYkxDRVdvOVFjNTNCNkUzbzZIRnRnbVh0aFIwODVWOE9mbVVl?=
- =?utf-8?B?UWtLNTZ6czlCUXA2VUxRZktMVmxxOWJLYXpnQ3pBN3RLajZJalpWcVQwUFVL?=
- =?utf-8?B?NkVNZDRKcEtzNFgyOEhzdit4ckliOHFLc2Z4UllyV25kUWkxSHcvOWFsNllI?=
- =?utf-8?Q?Yvoe13x9TU42nm9Q=3D?=
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BA3j6mVD"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8917c712f32so8243b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 11:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791571261; x=1792176061; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=v7IaqPQoEOi+imp/PK24+/AW3BiTVn/zY6gW+WBVBCE=;
+        b=BA3j6mVD5e+PCI8eZX4xwf0R+z3JEUR4vmzNqItQ9Ec/YBmpkbSJgX6qnm07C9YgP2
+         pzLILEDo6wyHmbjB/NW7/Wyqnyg5ISfZHiF65M/27KSHzxhKHdS7s/nLI1BChRDrQdwj
+         IX42spVLHKhguGVXnUnNRXdxjH4lBOSDfs4UjcVzQbxxfJd6DdrhoeqFVK4kf3eVTkAY
+         jtHFN2lVGsehCJWqKtEZyvRgA/azXYGYeYE52wu8KOj2ufjJlpaQAKH7T4X08s9gswmD
+         oHMdk/EgrtqX7JnJENcB/M6XaEewa7NlX6h9qJVs02YxV7ICni0jrJ8Pdo014LqxMxbB
+         yoGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791571261; x=1792176061;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v7IaqPQoEOi+imp/PK24+/AW3BiTVn/zY6gW+WBVBCE=;
+        b=CfnOk7ercVfhqcEKuKekAt+m7Lqr29h2DLHSx9ieux6Y2EI7bHp2Hpy7elgbDvA+8Z
+         uRQlcwa5tyMBQ84fYdFuiyJk+Dk1zYWmtBYplOCtumG797HsqR4P5sEozuiir2h/PuYu
+         T5A8rPoLY3VE8fLKZGA/OIWypOvSWzE1QTwXz7oP80YyTbHcMBs5cfbInNVNDoOccBNx
+         IGpx3err7j6g6fewJCiULppfUOS821gUKWuRc9AaT3u0SI7OONXeF7MCrNTwx4XDMA0o
+         TkW3JenDhDNnwL+o9/a3tm3y5k9jlrwiW+HsW88KbtVqpZ6kPcS+3kgHGNiGxQiAkuvn
+         zb3w==
+X-Forwarded-Encrypted: i=1; AKwUvBzjWyLR6D5boJr9dYALyvclL69LvH0mJWZVHeYYY3TRD156GFoLRI5TUValmDLNywTUfhurDwgZ7z4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJf/S0BV0opY4Jz0aVAS4zTvm91hrCTV7dfwVQ7o5z3rz8i777j
+	lLUlE2xjqCkodQ95XVqK4xfBKpqv0rD6FqOGboeAepE+L2WJ7UTc+55k
+X-Gm-Gg: AYBFou2BE5OrDl5Z8rpQryIZjUD+4tYPRhnZrtcX5Fyrg34U+IDcCAS+jVkvIPiGW8F
+	+SLYCzpqGyFWqIbK8vHEdDm4cLHj0zkxehVphVcKTZIo3TekKvPIoTd2cXTnp7hi7S/y5MEwIOM
+	vbe4wJ4EMejailVAa5t++d8duSJH72cql5iJ/q2iUxJwbIsB1Kh/pfBaBlgq8I9o0VeglfNP2ii
+	DgbZ2CRdQGsfmGKI/aNvvJac3s70trt3pJywHoixHqcimwr7hDvaZmO8hQku04CVGhxv4euU87s
+	CTJE2s87S2PaNvlbNHwvK8levFwA9IQd9BVFc53zNBRPDBeGcREoMHb82ET/JCnKPXMHiPM1Z8m
+	nHcwIe/kHfVVuY540RZxb5aEFezwczdijrXupS0pyWsGM8Cd3PMPJsfSQZKb0YD93U8LWSieWqL
+	9qJVqkHPTp8drgXZK2cZH8/tcfqvb3LNNxLO/1e9RyZ3lHmBzcFhArUH9/0fdCOJ1a+0SLuvwE8
+	BHlUxl1F6CVcSuDM9PYRqx8Mi4f8A8KlPH1XtxlCrPnhdnPr5x0LYSu3v/M8M1GyK7+Dy10/Zgy
+X-Received: by 2002:a05:6a21:70cb:b0:3de:b120:bbad with SMTP id adf61e73a8af0-3e16be898a4mr2712134637.15.1791571261345;
+        Fri, 09 Oct 2026 11:41:01 -0700 (PDT)
+Received: from localhost.localdomain (c-174-165-208-10.hsd1.wa.comcast.net. [174.165.208.10])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd3d9e1ee81sm1513576a12.12.2026.10.09.11.41.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2026 11:41:01 -0700 (PDT)
+From: Michael Kelley <mhkelley58@gmail.com>
+X-Google-Original-From: Michael Kelley <mhklinux@outlook.com>
+To: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 1/1] Documentation: hyperv: Update documentation for sending VMBus packets
+Date: Fri,  9 Oct 2026 11:40:56 -0700
+Message-Id: <20261009184056.7382-1-mhklinux@outlook.com>
+X-Mailer: git-send-email 2.25.1
+Reply-To: mhklinux@outlook.com
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: f5bdws82KKWj8K5caSMDoLlbUmKCfXg3pELafq7AG34evCxwKkVBfma5D7cfUAVgdC8WMGyenjODGb/UCcymfIdbo0PmFl2nk5Ya948jiYKY+yCwPn7WvVhMWQnzOCs7rCS7C4hS4nGbCbiOw4LMroi8ktBECZiXq0iyMF/RaMXHkpKwodm9E8sYZvs7QmG3g4cMhEjDen3E7/Gj+amSNDg0KgtZx3LeSKFXh0LRkMInvURbks20CG8mjlDQGyVFIxdTdGrAVIHzEKDIDmjWSYr3xd7zuLcH0rFZ91hKnbOs/TgG0uibH1kdlaF5JQ8y9ouRQffvIYj2O2irwBazVw==
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB7867.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8bb85d67-ed75-47d7-04e3-08df2634d03a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2026 18:40:38.3425
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SECfRi51qRh0IPi15Gkrvv/GkUBFWqjTaqRgWCKjwM1z0+/bAcMhph1Ewy63uLAIgbDVef6oHFeFzSpt1YRjl/j91ZM4WYSbRE0/lmylzk8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR02MB11298
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 2f4OvU4_uBGzQzQwN8XUMriRqTvSOiXzyW8KoR8Uw1k_1791571240
-X-Mimecast-Originator: onsemi.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-QW5kcmV3LA0KDQpKdXN0IHdhbnQgdG8gbWVudGlvbiB0aGF0IHRoZXJlIHdlcmUgY291cGxlIG9m
-IG1pbm9yIGNoYW5nZXMgdG8gdGhpcyBwYXRjaCBhZnRlciB5b3UgZ2F2ZSAicmV2aWV3ZWQtYnki
-Lg0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogU2VsdmFtYW5pIFJh
-amFnb3BhbCB2aWEgQjQgUmVsYXkNCj4gU3ViamVjdDogW1BBVENIIG5ldC1uZXh0IHY5IDAzLzEx
-XSBuZXQ6IGV0aGVybmV0OiBvYV90YzY6IE1vdmUgb2FfdGM2LmMgdG8gaXRzIG93biBkaXJlY3Rv
-cnkNCg0KDQogDQo+IA0KPiBSZXZpZXdlZC1ieTogQW5kcmV3IEx1bm4gPGFuZHJld0BsdW5uLmNo
-Pg0KPiBTaWduZWQtb2ZmLWJ5OiBTZWx2YW1hbmkgUmFqYWdvcGFsIDxTZWx2YW1hbmkuUmFqYWdv
-cGFsQG9uc2VtaS5jb20+DQoNCg0KDQo+IGNoYW5nZXMgaW4gdjkNCj4gLSBDaGFuZ2VkIE1BSU5U
-QUlORVJTIHRvIGFkZCAiYWxsIGZpbGVzIiB1bmRlciBvYV90YzYNCj4gLSBBZGRlZCB0aGUgbWlz
-c2luZyAiaWYgQ09NUElMRV9URVNUIg0KPiAtIEFkZGVkIFJldmlld2VkIGJ5IHRhZw0KDQo=
+The functions for sending VMBus packets have changed.
+vmbus_sendpacket_mpb_desc() can target multiple ranges, and
+vmbus_sendpacket_pagebuffer() has been removed. vmbus_sendpacket_getid()
+has been added. Update the documentation accordingly.
+
+Fixes: 45a442fe369e ("Drivers: hv: vmbus: Remove vmbus_sendpacket_pagebuffer()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+---
+Changes in v2:
+* Add vmbus_sendpacket_getid() to the documentation. [Naman Jain]
+
+ Documentation/virt/hyperv/vmbus.rst | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/virt/hyperv/vmbus.rst b/Documentation/virt/hyperv/vmbus.rst
+index 654bb4849972..9c5b712c6e39 100644
+--- a/Documentation/virt/hyperv/vmbus.rst
++++ b/Documentation/virt/hyperv/vmbus.rst
+@@ -141,14 +141,15 @@ Three functions exist to send VMBus channel messages:
+ 
+ 1. vmbus_sendpacket():  Control-only messages and messages with
+    embedded data -- no GPAs
+-2. vmbus_sendpacket_pagebuffer(): Message with list of GPAs
+-   identifying data to transfer.  An offset and length is
+-   associated with each GPA so that multiple discontinuous areas
+-   of guest memory can be targeted.
+-3. vmbus_sendpacket_mpb_desc(): Message with list of GPAs
+-   identifying data to transfer.  A single offset and length is
+-   associated with a list of GPAs.  The GPAs must describe a
+-   single logical area of guest memory to be targeted.
++2. vmbus_sendpacket_getid(): Similar to vmbus_sendpacket() but returns
++   a transaction ID that is matched against a reply from the Hyper-V
++   host. Useful when the struct completion (or other rendezvous data)
++   must reside on the caller's stack. By invalidating the transaction
++   ID before exiting the function due to a timeout or other error, a
++   late arrving interrupt is assured to not trash the stack.
++3. vmbus_sendpacket_mpb_desc(): Message with one or more data ranges
++   to target. Each range consists of a single offset and length plus
++   a list of GPAs that describe a logical area of guest memory.
+ 
+ Historically, Linux guests have trusted Hyper-V to send well-formed
+ and valid messages, and Linux drivers for synthetic devices did not
+-- 
+2.25.1
 
