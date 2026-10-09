@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B23A371CF8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF313B19D8;
 	Fri,  9 Oct 2026 17:12:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791565946; cv=none; b=KbQXrROoSWOvTs7uC4VkG69mhKc9J7ZSzFCtgUa6I9wP+y8JeMjwYD6I0Eo787SWMUjRuDfTYssTwb/gQYjDUIWgSwjSpBqaiCj1znoJEZP/eP/5AKT/0N5XaRMKLKLNoEvtiQgeOLt6/tTorFO6nATglzs7ebiL3bnrYOycZ0Q=
+	t=1791565946; cv=none; b=kffBHdyD9sSxQ2NBsg/kt+6ASAD3oy1NWAMyb0a/eapYVYck1lanpZMtpJvxzlUJKlBW7Qw9zCmbQV/MIvhyV3amEWT2zL9xEw1U6YifQqSRoZtfRi7YSoctaCudr/PhD2SYM+DbnaSLXJBzTkb7xMwKjn0X2TMUU7e8hMlieaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791565946; c=relaxed/simple;
-	bh=BW7jrtmZHq51xtqtQPmZZEBAMqcTF1RuxnJEY6lwZQk=;
+	bh=eoMsT2kCEP4o4UL9QMr5FxOgSuR6AD6RXds8ExxdYzY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=U1MrcQbU3Z4emQqKKlQQEY2GuMPRq05e7shhKhlBwkuZ0rb2eepCLtczcCaIDK154G6EPZwxKzZYfS/AdHxjlbJOVTOztA0Zm7Ts5mJQVLnngGJazwP3kIcmPtLX5CRXB0+Et5hOm9H+MxcdAIG5STPrXfuBd32WlOu6OFSCge8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K0KE+eFg; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=Sh5tWfzSfPdBO0OXy/u379ea94M0Dv/7qgl26dBjrw5pVNx5FQuTiNFLkWH+LxBbDJl3HvWcAZaLvjbCJGyDk7mQKvZRi0frX54DgRWRHOZQgPRJptsO03DYc1hgmWJbNnp4b+18E48NtfluxGEl4XZqeAtXr3LmSI7GnZG+Jl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ArEgJb1n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K0KE+eFg"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2CE30C2BD05;
-	Fri,  9 Oct 2026 17:12:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ArEgJb1n"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 01C07C2BCFB;
+	Fri,  9 Oct 2026 17:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1791565946;
-	bh=BW7jrtmZHq51xtqtQPmZZEBAMqcTF1RuxnJEY6lwZQk=;
+	bh=eoMsT2kCEP4o4UL9QMr5FxOgSuR6AD6RXds8ExxdYzY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=K0KE+eFgeUZMkSdUHY6Q0YQZVKBiR747/F1TGVamTP00AN/KYuP5TnpJOSc+zajav
-	 jgEIInJKk5bvH9ApWlNzutCdsAmBzGjNDqe7AXRhb53ieb0DkPAiU08omu/x8g7jed
-	 iKlD5GYtFuYaUJN+xkLsDWEmon8j9qm6OY08KE/OGUnVsdIQtnSgHDMm9srIfhIstO
-	 C2O10qPZK4RO3kb1UpztRHjC30f6LAbfCj4Blbg5UcTIMTG3oQ87kfbpLYroE0huFx
-	 Esy/4BxeHx3X4MJGGz6xD9NydVBtH2iWoecr6PO3wt3RDw/3zQs37xaRsDN3ADVQsu
-	 1sXPfEpeQ4y3A==
+	b=ArEgJb1n5HkOQxdpblcoiOMQP0KSaPubSN0xKxpbO8FbTXXmwIxhry2/pwWcNqyzK
+	 n6KVixQJXi3j0wZ321qQmdDDwypr4wqWF37bgESOfYl4GYxhZq6FUxgxKzKkq57XBA
+	 woqf12/RBIyyYDQitm6vJhX9x/nNvXo+AWPQLX27SYHLzkyxB32X2n97BoRcuoONHR
+	 Z2/rMbreDQU9R2BuZrE3WpiOqmmSxpQb/+IUxPTJwzzy9CZORP1jM+nKjjKObGULJg
+	 2E57hqiNbQMqM/IK7lvcNMdhNLZmUqT5kxdRwwrZu0jqayFMGcED8xnkLEPkBQ5SP7
+	 1AAGJ45vBkYJQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14D2FCA9EC3;
-	Fri,  9 Oct 2026 17:12:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF7ABCA601E;
+	Fri,  9 Oct 2026 17:12:25 +0000 (UTC)
 From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
-Date: Fri, 09 Oct 2026 10:12:24 -0700
-Subject: [PATCH net-next v9 04/11] net: ethernet: oa_tc6: Move constant
- definitions to header file
+Date: Fri, 09 Oct 2026 10:12:21 -0700
+Subject: [PATCH net-next v9 01/11] dt-bindings: net: add onsemi's S2500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20261009-s2500-mac-phy-support-v9-4-dcefe1d0bf0d@onsemi.com>
+Message-Id: <20261009-s2500-mac-phy-support-v9-1-dcefe1d0bf0d@onsemi.com>
 References: <20261009-s2500-mac-phy-support-v9-0-dcefe1d0bf0d@onsemi.com>
 In-Reply-To: <20261009-s2500-mac-phy-support-v9-0-dcefe1d0bf0d@onsemi.com>
 To: Selva Rajagopal <selvamani.rajagopal@onsemi.com>, 
@@ -63,13 +62,14 @@ Cc: Selva Rajagopal <Selvamani.Rajagopal@onsemi.com>,
  netdev@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Jerry Ray <jerry.ray@microchip.com>, 
- Ciprian Regus <ciprian.regus@analog.com>
+ Ciprian Regus <ciprian.regus@analog.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791565943; l=9228;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791565943; l=4254;
  i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
- bh=E5XFpwvxxG9SD14oTLtZFnIlhsAzC9ADiaJeiWC+qPU=;
- b=vQ9kuQtqxKSaS1kgzOjs4171ADMBqengjlmJzLswCOo5ClYL6aEBGlApWVPRW2GFo9UKZtAwq
- CDrLW7eQd2pCzG9017ds3n2Vs2HDm68dd2yjiXKVy9a446CyzU2ggp7
+ bh=s24W9rfrSnDGEraYMyIz+8oVGuuQME40cNuCCXkoi2I=;
+ b=PVLto1/digtMJugP/RSsOAXlyCygY97EyxW06D3C302SvYr/5+PDuk8zAGyl+zEjiEMcppElJ
+ doTUOPM3+d+DHb42IttwIZZz2UcRYJzBtoUPJOngylCyZPs5JnMLRvB
 X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
  pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
 X-Endpoint-Received: by B4 Relay for
@@ -79,288 +79,140 @@ Reply-To: Selvamani.Rajagopal@onsemi.com
 
 From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-To help other source files within the module share the
-constant definitions, some of the definitions from oa_tc6.c
-are moved to a header file. This header file is still
-private to OA TC6 framework.
+Add device tree binding for the onsemi S2500 IEEE 802.3cg
+compliant Ethernet transceiver device.
 
-oa_tc6 structure is also moved to this header file as it is
-needed for other source files that are part of OA TC6
-framework.
+S2500 has both Media Access Controller (MAC) and 10Base-T1S
+Ethernet PHY. MAC implements 10 Mbps half duplex Ethernet
+MAC. Communication between the host and MAC-PHY is defined in
+OPEN Alliance 10BASE-T1x MACPHY Serial Interface document
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
 ---
 changes in v9
-  - Added Reviewed tag
-changes in v8:
-  - Merged with latest base version's changes
-  - Added Reviewed tag
+  - No changes
+changes in v8
+  - Changed the interrupt type to level triggered
+  - Added reset-gpio entry that was recently supported.
 changes in v7
-  - No change
+  - Added the missing review tag
+  - Removed the word YAML from the commit message
 changes in v6
-  - No change
+  - Moved the signed off information to the right place.
 changes in v5
-  - No change
-changes in v4
-  - Added MMS values 1 and 12, which are used now
+  - no changes
+changes in v4:
+  - added spi-max-frequency as suggested by AI review
+  - changed interrupt to IRQ_TYPE_EDGE_FALLING as it is
+    being taken care in net (stable) branch
 changes in v3
-  - Moved constant definitions from the source to newly created
-    header file for other sources in the directory to share.
-  - Standard specific defines are moved to Linux common header file
-  - First patch
+  - Removed URL link that failed verification
+changes in v2
+  - removed spi-max-frequency entry
+  - changed the compatible string to s2500
+changes in v1
+  - Added the first version of YAML file for onsemi MAC-PHY
 ---
- drivers/net/ethernet/oa_tc6/oa_tc6.c         | 104 +---------------------
- drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h | 125 +++++++++++++++++++++++++++
- 2 files changed, 126 insertions(+), 103 deletions(-)
+ .../devicetree/bindings/net/onnn,s2500.yaml        | 71 ++++++++++++++++++++++
+ MAINTAINERS                                        |  6 ++
+ 2 files changed, 77 insertions(+)
 
-diff --git a/drivers/net/ethernet/oa_tc6/oa_tc6.c b/drivers/net/ethernet/oa_tc6/oa_tc6.c
-index 364027c39fa4..f8e9309a72f1 100644
---- a/drivers/net/ethernet/oa_tc6/oa_tc6.c
-+++ b/drivers/net/ethernet/oa_tc6/oa_tc6.c
-@@ -14,109 +14,7 @@
- #include <linux/phy.h>
- #include <linux/oa_tc6.h>
- 
--/* Control command header */
--#define OA_TC6_CTRL_HEADER_DATA_NOT_CTRL	BIT(31)
--#define OA_TC6_CTRL_HEADER_WRITE_NOT_READ	BIT(29)
--#define OA_TC6_CTRL_HEADER_MEM_MAP_SELECTOR	GENMASK(27, 24)
--#define OA_TC6_CTRL_HEADER_ADDR			GENMASK(23, 8)
--#define OA_TC6_CTRL_HEADER_LENGTH		GENMASK(7, 1)
--#define OA_TC6_CTRL_HEADER_PARITY		BIT(0)
--
--/* Data header */
--#define OA_TC6_DATA_HEADER_DATA_NOT_CTRL	BIT(31)
--#define OA_TC6_DATA_HEADER_DATA_VALID		BIT(21)
--#define OA_TC6_DATA_HEADER_START_VALID		BIT(20)
--#define OA_TC6_DATA_HEADER_START_WORD_OFFSET	GENMASK(19, 16)
--#define OA_TC6_DATA_HEADER_END_VALID		BIT(14)
--#define OA_TC6_DATA_HEADER_END_BYTE_OFFSET	GENMASK(13, 8)
--#define OA_TC6_DATA_HEADER_PARITY		BIT(0)
--
--/* Data footer */
--#define OA_TC6_DATA_FOOTER_EXTENDED_STS		BIT(31)
--#define OA_TC6_DATA_FOOTER_RXD_HEADER_BAD	BIT(30)
--#define OA_TC6_DATA_FOOTER_CONFIG_SYNC		BIT(29)
--#define OA_TC6_DATA_FOOTER_RX_CHUNKS		GENMASK(28, 24)
--#define OA_TC6_DATA_FOOTER_DATA_VALID		BIT(21)
--#define OA_TC6_DATA_FOOTER_START_VALID		BIT(20)
--#define OA_TC6_DATA_FOOTER_START_WORD_OFFSET	GENMASK(19, 16)
--#define OA_TC6_DATA_FOOTER_END_VALID		BIT(14)
--#define OA_TC6_DATA_FOOTER_END_BYTE_OFFSET	GENMASK(13, 8)
--#define OA_TC6_DATA_FOOTER_TX_CREDITS		GENMASK(5, 1)
--
--#define OA_TC6_CTRL_PROT_REPLY_SIZE		4
--#define OA_TC6_CTRL_HEADER_SIZE			4
--#define OA_TC6_CTRL_REG_VALUE_SIZE		4
--#define OA_TC6_CTRL_IGNORED_SIZE		4
--#define OA_TC6_CTRL_MAX_REGISTERS		128
--#define OA_TC6_CTRL_SPI_BUF_SIZE	(OA_TC6_CTRL_HEADER_SIZE +\
--					(OA_TC6_CTRL_MAX_REGISTERS *\
--					(OA_TC6_CTRL_REG_VALUE_SIZE +\
--					OA_TC6_CTRL_PROT_REPLY_SIZE)) +\
--					OA_TC6_CTRL_IGNORED_SIZE)
--
--#define OA_TC6_CHUNK_PAYLOAD_SIZE		64
--#define OA_TC6_DATA_HEADER_SIZE			4
--#define OA_TC6_CHUNK_SIZE			(OA_TC6_DATA_HEADER_SIZE +\
--						OA_TC6_CHUNK_PAYLOAD_SIZE)
--#define OA_TC6_MAX_TX_CHUNKS			48
--#define OA_TC6_SPI_DATA_BUF_SIZE		(OA_TC6_MAX_TX_CHUNKS *\
--						OA_TC6_CHUNK_SIZE)
--#define STATUS0_RESETC_POLL_DELAY		1000
--#define STATUS0_RESETC_POLL_TIMEOUT		1000000
--
--#define OA_TC6_REG_MMS_MASK		GENMASK(19, 16)
--
--/* Internal structure for MAC-PHY drivers */
--struct oa_tc6 {
--	struct net_device *netdev;
--	struct phy_device *phydev;
--	struct mii_bus *mdiobus;
--	struct spi_device *spi;
--	struct mutex spi_ctrl_lock; /* Protects spi control transfer */
--	spinlock_t tx_skb_lock; /* Protects tx skb handling */
--	void *spi_ctrl_tx_buf;
--	void *spi_ctrl_rx_buf;
--	void *spi_data_tx_buf;
--	void *spi_data_rx_buf;
--	struct sk_buff *ongoing_tx_skb;
--	struct sk_buff *waiting_tx_skb;
--	struct sk_buff *rx_skb;
--	u16 tx_skb_offset;
--	u16 spi_data_tx_buf_offset;
--	u16 tx_credits;
--	u8 rx_chunks_available;
--	bool wait_until_start_valid;
--	bool int_flag;
--	bool disable_traffic;
--	bool prot_ctrl;
--	enum oa_tc6_quirk_flag quirk_flags;
--	struct gpio_desc *reset_gpio;
--};
--
--enum oa_tc6_header_type {
--	OA_TC6_CTRL_HEADER,
--	OA_TC6_DATA_HEADER,
--};
--
--enum oa_tc6_register_op {
--	OA_TC6_CTRL_REG_READ = 0,
--	OA_TC6_CTRL_REG_WRITE = 1,
--};
--
--enum oa_tc6_data_valid_info {
--	OA_TC6_DATA_INVALID,
--	OA_TC6_DATA_VALID,
--};
--
--enum oa_tc6_data_start_valid_info {
--	OA_TC6_DATA_START_INVALID,
--	OA_TC6_DATA_START_VALID,
--};
--
--enum oa_tc6_data_end_valid_info {
--	OA_TC6_DATA_END_INVALID,
--	OA_TC6_DATA_END_VALID,
--};
-+#include "oa_tc6_std_def.h"
- 
- static int oa_tc6_spi_transfer(struct oa_tc6 *tc6,
- 			       enum oa_tc6_header_type header_type, u16 length)
-diff --git a/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h b/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h
+diff --git a/Documentation/devicetree/bindings/net/onnn,s2500.yaml b/Documentation/devicetree/bindings/net/onnn,s2500.yaml
 new file mode 100644
-index 000000000000..403a9c22b5f1
+index 000000000000..fadd656629f1
 --- /dev/null
-+++ b/drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h
-@@ -0,0 +1,125 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Register and driver related definitions to support
-+ * OPEN Alliance 10BASE‑T1x MAC‑PHY Serial Interface framework.
-+ *
-+ * Author: Selva Rajagopal <selvamani.rajagopal@onsemi.com>
-+ */
++++ b/Documentation/devicetree/bindings/net/onnn,s2500.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/onnn,s2500.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+#ifndef OA_TC6_STD_DEF_H
-+#define OA_TC6_STD_DEF_H
++title: onsemi S2500 10BASE-T1S MACPHY Ethernet Controllers
 +
-+#include <linux/ptp_clock_kernel.h>
-+#include <linux/net_tstamp.h>
-+#include <linux/netdevice.h>
-+#include <linux/spi/spi.h>
-+#include <linux/skbuff.h>
-+#include <linux/sched.h>
-+#include <linux/wait.h>
-+#include <linux/phy.h>
++maintainers:
++  - Selva Rajagopal <Selvamani.Rajagopal@onsemi.com>
 +
-+/* Control command header */
-+#define OA_TC6_CTRL_HEADER_DATA_NOT_CTRL	BIT(31)
-+#define OA_TC6_CTRL_HEADER_WRITE_NOT_READ	BIT(29)
-+#define OA_TC6_CTRL_HEADER_MEM_MAP_SELECTOR	GENMASK(27, 24)
-+#define OA_TC6_CTRL_HEADER_ADDR			GENMASK(23, 8)
-+#define OA_TC6_CTRL_HEADER_LENGTH		GENMASK(7, 1)
-+#define OA_TC6_CTRL_HEADER_PARITY		BIT(0)
++description:
++  The S2500 combines a Media Access Controller (MAC) and an
++  Ethernet PHY to enable 10BASE‑T1S networks. The Ethernet Media Access
++  Controller (MAC) module implements a 10 Mbps half duplex Ethernet MAC,
++  compatible with the IEEE 802.3 standard and a 10BASE-T1S physical layer
++  transceiver integrated into the S2500. The communication between
++  the host and the MAC-PHY is specified in the OPEN Alliance 10BASE-T1x
++  MACPHY Serial Interface (TC6).
 +
-+/* Data header */
-+#define OA_TC6_DATA_HEADER_DATA_NOT_CTRL	BIT(31)
-+#define OA_TC6_DATA_HEADER_DATA_VALID		BIT(21)
-+#define OA_TC6_DATA_HEADER_START_VALID		BIT(20)
-+#define OA_TC6_DATA_HEADER_START_WORD_OFFSET	GENMASK(19, 16)
-+#define OA_TC6_DATA_HEADER_END_VALID		BIT(14)
-+#define OA_TC6_DATA_HEADER_END_BYTE_OFFSET	GENMASK(13, 8)
-+#define OA_TC6_DATA_HEADER_PARITY		BIT(0)
++allOf:
++  - $ref: /schemas/net/ethernet-controller.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
 +
-+/* Data footer */
-+#define OA_TC6_DATA_FOOTER_EXTENDED_STS		BIT(31)
-+#define OA_TC6_DATA_FOOTER_RXD_HEADER_BAD	BIT(30)
-+#define OA_TC6_DATA_FOOTER_CONFIG_SYNC		BIT(29)
-+#define OA_TC6_DATA_FOOTER_RX_CHUNKS		GENMASK(28, 24)
-+#define OA_TC6_DATA_FOOTER_DATA_VALID		BIT(21)
-+#define OA_TC6_DATA_FOOTER_START_VALID		BIT(20)
-+#define OA_TC6_DATA_FOOTER_START_WORD_OFFSET	GENMASK(19, 16)
-+#define OA_TC6_DATA_FOOTER_END_VALID		BIT(14)
-+#define OA_TC6_DATA_FOOTER_END_BYTE_OFFSET	GENMASK(13, 8)
-+#define OA_TC6_DATA_FOOTER_TX_CREDITS		GENMASK(5, 1)
++properties:
++  compatible:
++    const: onnn,s2500
 +
-+#define OA_TC6_CTRL_PROT_REPLY_SIZE		4
-+#define OA_TC6_CTRL_HEADER_SIZE			4
-+#define OA_TC6_CTRL_REG_VALUE_SIZE		4
-+#define OA_TC6_CTRL_IGNORED_SIZE		4
-+#define OA_TC6_CTRL_MAX_REGISTERS		128
-+#define OA_TC6_CTRL_SPI_BUF_SIZE	(OA_TC6_CTRL_HEADER_SIZE +\
-+					(OA_TC6_CTRL_MAX_REGISTERS *\
-+					(OA_TC6_CTRL_REG_VALUE_SIZE +\
-+					OA_TC6_CTRL_PROT_REPLY_SIZE)) +\
-+					OA_TC6_CTRL_IGNORED_SIZE)
++  reg:
++    maxItems: 1
 +
-+#define OA_TC6_CHUNK_PAYLOAD_SIZE		64
-+#define OA_TC6_DATA_HEADER_SIZE			4
-+#define OA_TC6_CHUNK_SIZE			(OA_TC6_DATA_HEADER_SIZE +\
-+						OA_TC6_CHUNK_PAYLOAD_SIZE)
-+#define OA_TC6_MAX_TX_CHUNKS			48
-+#define OA_TC6_SPI_DATA_BUF_SIZE		(OA_TC6_MAX_TX_CHUNKS *\
-+						OA_TC6_CHUNK_SIZE)
-+#define STATUS0_RESETC_POLL_DELAY		1000
-+#define STATUS0_RESETC_POLL_TIMEOUT		1000000
++  interrupts:
++    description:
++      Interrupt from MAC-PHY asserted in the event of Receive Chunks
++      Available, Transmit Chunk Credits Available and Extended Status
++      Event.
++    maxItems: 1
 +
-+#define OA_TC6_REG_MMS_MASK		GENMASK(19, 16)
++  reset-gpios:
++    description:
++      GPIO connected to the active-low RST_N pin of the MAC-PHY.
++    maxItems: 1
 +
-+/* Internal structure for MAC-PHY drivers */
-+struct oa_tc6 {
-+	struct net_device *netdev;
-+	struct phy_device *phydev;
-+	struct mii_bus *mdiobus;
-+	struct spi_device *spi;
-+	struct mutex spi_ctrl_lock; /* Protects spi control transfer */
-+	spinlock_t tx_skb_lock; /* Protects tx skb handling */
-+	void *spi_ctrl_tx_buf;
-+	void *spi_ctrl_rx_buf;
-+	void *spi_data_tx_buf;
-+	void *spi_data_rx_buf;
-+	struct sk_buff *ongoing_tx_skb;
-+	struct sk_buff *waiting_tx_skb;
-+	struct sk_buff *rx_skb;
-+	u16 tx_skb_offset;
-+	u16 spi_data_tx_buf_offset;
-+	u16 tx_credits;
-+	u8 rx_chunks_available;
-+	bool wait_until_start_valid;
-+	bool int_flag;
-+	bool disable_traffic;
-+	bool prot_ctrl;
-+	enum oa_tc6_quirk_flag quirk_flags;
-+	struct gpio_desc *reset_gpio;
-+};
++  spi-max-frequency:
++    maximum: 25000000
 +
-+enum oa_tc6_header_type {
-+	OA_TC6_CTRL_HEADER,
-+	OA_TC6_DATA_HEADER,
-+};
++required:
++  - compatible
++  - reg
++  - interrupts
++  - spi-max-frequency
 +
-+enum oa_tc6_register_op {
-+	OA_TC6_CTRL_REG_READ = 0,
-+	OA_TC6_CTRL_REG_WRITE = 1,
-+};
++unevaluatedProperties: false
 +
-+enum oa_tc6_data_valid_info {
-+	OA_TC6_DATA_INVALID,
-+	OA_TC6_DATA_VALID,
-+};
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    spi {
++      #address-cells = <1>;
++      #size-cells = <0>;
 +
-+enum oa_tc6_data_start_valid_info {
-+	OA_TC6_DATA_START_INVALID,
-+	OA_TC6_DATA_START_VALID,
-+};
++      ethernet@0 {
++        compatible = "onnn,s2500";
++        reg = <0>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&eth0_pins>;
++        interrupt-parent = <&gpio>;
++        interrupts = <25 IRQ_TYPE_LEVEL_LOW>;
++        spi-max-frequency = <15000000>;
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 509b35b5a0e7..abf9a8f7ee53 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20440,6 +20440,12 @@ S:	Supported
+ W:	http://www.onsemi.com
+ F:	drivers/net/phy/ncn*
+ 
++ONSEMI S2500 10BASE-T1S MACPHY ETHERNET DRIVER
++M:	Selva Rajagopal <selvamani.rajagopal@onsemi.com>
++L:	netdev@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/net/onnn,s2500.yaml
 +
-+enum oa_tc6_data_end_valid_info {
-+	OA_TC6_DATA_END_INVALID,
-+	OA_TC6_DATA_END_VALID,
-+};
-+#endif /* OA_TC6_STD_DEF_H */
-+
+ OP-TEE DRIVER
+ M:	Jens Wiklander <jenswi@kernel.org>
+ L:	op-tee@lists.trustedfirmware.org (moderated for non-subscribers)
 
 -- 
 2.43.0
