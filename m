@@ -1,201 +1,360 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F31E38B157;
-	Sat, 10 Oct 2026 02:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791601178; cv=none; b=A+O3YdbYh5FGHfT7eWwT18Vh1EaB9lnBr0eUeTupq9WWGf+M3vwDTO/i5Ecn4idrfjAm/mY1KXEBUpPrLGdMIYdpu9rxSBaR9ru7Q2S4epzipISvymM0o/Eco5JtvcaKReJvTGBtsWZJ9bWlwym8jr/G/Nx+2t2Wxnm8rpVDAKo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791601178; c=relaxed/simple;
-	bh=Lmzi9xD+MtFDsvia7u2Hw0Yuu44BmeRtKvAQ5SQT7cY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bQzBAfXuemi5vH+Yv3shWtkRTAp7jHKtjz1aZJFUjHaRwxesgzkHEq/r9jUt/2OngZea86RT0jD8rMQReByzRfnUiisZ/DlvolukVuDxOaJCadmX6dsortbQ0nicB15+Aag23Yppa08o9AtccZjl4zGCuk9Jn85dON1JlJb4NC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ll9asCl7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837F838E8B9
+	for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2026 03:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791601628; cv=pass; b=akGqosUmkopmQFDLsaR4gN7sNG0lN95TAQK2kxqwDwFRX8G6QWzF9Hw8T/FiaFShhcQ9202kZAOne1FAyQsG2DEd9ZHnOu9G+8pHayPJF2MNT/jmxJ5MmsffLllLby29DyyX/FNcxtMKzyd//RS9uu/miSPQMVRgJnFy6MX3OWk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791601628; c=relaxed/simple;
+	bh=R6kdKGPzHjoG5KZKNq2uo8LKEj9Go4FuT1d2+2J7s5E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jhHgygLMh3KbI2cp/fV0hSm5kXPY1BkUtJQcPcLR9yapRXrp8tgmstItGH43J6pNxT++dW4Va0EcK4jtxS7pan0tovF/Qv0T40UnCrYn1no+jXpZmuQ8AwYoiSZ45UwMJO0JADVGtya+pDc8cYPPjiAPqaKbXiiTA+G6gwYy/0k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sPUNvBga; arc=pass smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ll9asCl7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791601177; x=1823137177;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=Lmzi9xD+MtFDsvia7u2Hw0Yuu44BmeRtKvAQ5SQT7cY=;
-  b=Ll9asCl7J9FeNzw4ss6mw9sOis9ptCgIt/ckN2vz+/t/l+bgNb+E1kza
-   zOiMIoG52kzx62AwzrzpdjyE3vmU3yGM23vV6GKeiulf3wITwF/0tedvR
-   Fif3uCqUeBu4Sgy3R932Djjwxw6zl8ltzPAg5gtTz0KLiDHBFMx7zpjoV
-   BSmLZ7lsQscWUQmF4HX5UD4+kzEb/SZR19kotWv6UxVJr22JLa8rcnioa
-   nF9dWVKdUgOZmKGBuXkZAWFR57R4i9+5vOq+atPFZMjv92/ak4qapfn59
-   mWqQrYYmcYsNNcDHzhiiDGdyz70QPj0EMUDh65771yFlmgg/QIhkN7ft0
-   w==;
-X-CSE-ConnectionGUID: PV97uAovSDqis5+jX/HGzg==
-X-CSE-MsgGUID: qNsRusgbSnepU5VygGXvXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="297252"
-X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
-   d="scan'208";a="297252"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 19:59:36 -0700
-X-CSE-ConnectionGUID: D0WT4WvpRAWa+I2cCRGTnA==
-X-CSE-MsgGUID: 5I+VBCSRRdyWLhvWpsksMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
-   d="scan'208";a="541414"
-Received: from ly-workstation.sh.intel.com (HELO ly-workstation) ([10.239.182.64])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 19:59:27 -0700
-Date: Sat, 10 Oct 2026 10:59:24 +0800
-From: kernel test robot <yi1.lai@intel.com>
-To: Luigi Rizzo <lrizzo@google.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Joshua Washington <joshwash@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>, netdev@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	Luigi Rizzo <lrizzo@google.com>, yi1.lai@intel.com
-Subject: Re: [RFC: DMA_PMD 02/22] iommu/dma: add DMA_PMD pool lifecycle and
- page recycle hook
-Message-ID: <202610101013.706708d0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sPUNvBga"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a16bc2278aso2689365e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 20:07:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791601623; cv=none;
+        d=google.com; s=arc-20260327;
+        b=P6s8zSkIrTbnSUaOvSaEEGkFD7BmE7YZ6yXygvp3cmgjJMTyrRtdZAvvGR8M9xPFI9
+         pdNlLPezG9JWFtsWTSLOeBufPgk79umCrKjeRQvfO/y6RO5MbH7KMsoq8QfgQQ24kSJU
+         oSckfSPWFZod1bUq9GLlHWNGF5kNkv7XZLfFVrHO2DKNNWWFGN3909GX5Ps/VtTPmIkw
+         5/2atpTePJLUjK44uJW1SdiTcvV5XYe5JHfFhTNqL/RlpwU8wT95h1MFh7v7Z/EhA7v+
+         8HpHUFaPrYBo7uaCCik0j13XE0hIF2w4EqiqJCxcXRd8+pgOhhV+GaEb+6W6CG9hpQld
+         p+uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DqBvVGuFj0GZrAgGWRG+Z1DSJ+1TnkbYLAFeT5xo12I=;
+        fh=IVKGPYUjXr8DtfRtPSJW+LpNfXGKmHC6nKp0vRsh9kI=;
+        b=mgxQ8vTmJznOq/yftQHZCHd9j+9DRm128h0nhbMdcJ/PcmhclkbJBwOuzqobDf7Isr
+         Yi9+J8FtcMCCrWxxcJAOsgDXTCInNn42r6TvKFJaZJsE5UZ60hd8SMvkLi+TBvKszflJ
+         5Hw7hZScsjlry6ZO5J+i4NFleUtKbKlgJEfJ3fBiuaiWUFhi9Jkyx1tkw0h8iVYSHGPh
+         qJJUFyq/qV+tqheVlrl40aRdVciqRiRWgbRILPRhav1fNHOv2cL8VIZkBuLrg/2iwuDz
+         tnqSbAJgXUYEJI07wwSVGlJX/lQZGPw8rLbDaulU17CPH6hLxlGguVpat6eJ98Rj47W5
+         a69Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791601623; x=1792206423; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DqBvVGuFj0GZrAgGWRG+Z1DSJ+1TnkbYLAFeT5xo12I=;
+        b=sPUNvBgaLCkSRBNytttrTwdYEnhRQ60ZUO3A6pleOplw9/XkWo7FWyZNWmpEAXsLje
+         nnT9jAG+grc2Oq6wAx2spJfQSYGXEhDzHQwn2ZzufM5xHmhaZZrI8BpqYb2uKreRza4e
+         bRCMO5OVUe2QsPBkdDO/7V16ATF7++ASWdc+IL8rvxw99OBhmin/OhONkHvuQ7y67okf
+         dOYc/adrro23l8tJ/CwiMoXJ628GXT+BhN12OQMGsTO48tVErBA6wHqL3zwnNAtGmd26
+         E9SBAG4AVluaIgJ6RsZjj99r3zM+9i/P9ESp3/ayJT12EfAWnfue27NP4JG/szw7tF9i
+         D/EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791601623; x=1792206423;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DqBvVGuFj0GZrAgGWRG+Z1DSJ+1TnkbYLAFeT5xo12I=;
+        b=HU45goMEipA1PW5bOKASR2rddf2XkYe7iJrkcrVCZfm2IM58N2C4iGY9zM0kyZVEVb
+         Tk+7io4D5+7JQgPgRmy5m0ABNqelVAHZo87zsu/u8L08YrpA2Nr1i+DitZ0i/7Zo2RSH
+         asFDXfn0E9g5D+Y4j6PkvA+ikrNBXZAh95K3+UZNpDQ8oj58zQFLOtLacwDjX0IP03N6
+         MRBy3g3yxBtFjgxni0eN/iexnX0Cd9CyVyqzmSl3JWFBwxjZDbQOEpj7vTHHb0kTDOUe
+         PVyC60oHb8jpsaK69MbYA/Xao8tK69reUx4ofovvHEmpFJxBA6yQ/bDPJwFlRknBgJwX
+         DzWw==
+X-Forwarded-Encrypted: i=1; AKwUvBzXLffLOlVk2ggWjIF8zXfm5ELWIx8kQL2gaAHJJ9R5uWso1XKNO2I/0yj95vwO/eCRP+UC9ulI6Hg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJMUIBRMeRBEvrL9QTvQ6N7/tiBquv12yiNQY4A5t909fgO0FOk
+	NqO6FhdLN70KhpoiSP9OBpY/FqLb++bTOqqGtwaXYEfXzZlk+QMtJbLjtV1GnZSrN2Jins04QYy
+	kRPXbcNj0ZXV5RB3fnsK7zW45qEOdbDo=
+X-Gm-Gg: AYBFou1KbmMc+gLzeYgzLucFm7uh8D/55cwcUp05HT1Pmr/iGyMW4FiQybMUaIgrMF4
+	6teOVK2m+gj9VujPXlQiaAtAoKBMyqYCOZokIms0A4dBgI8/CAOpvZHAG+EItQ5a7ULBaFQZKJC
+	vDX1DnOVgwCEG1HjjEYJ4qozKk0fhvXSB9O4mROX3OToER3y5D1gfpOCzzYNVTtsHCANOcsNqtn
+	CSz9dBXmAinJ56Xp8UDUOXCW1Pt50pE8mEqQO0Ku+J/0Go7IPi+rprEyqIyooQKyyssb2nSa77N
+	G44jfNbc/Me+28smlWh1d9J3CfbO2pF0ZYaAAsrGuqc55AiJrt3smi/2
+X-Received: by 2002:a05:600c:548e:b0:4a0:1aa0:7cfa with SMTP id
+ 5b1f17b1804b1-4a18e4aa724mr72284475e9.12.1791601623170; Fri, 09 Oct 2026
+ 20:07:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261003212241.3432303-3-lrizzo@google.com>
+References: <20261005171529.1378809-1-kunwu.chan@gmail.com>
+ <20261005171529.1378809-3-kunwu.chan@gmail.com> <bedc399a-151c-42e5-b33e-d78221702fa5@efficios.com>
+In-Reply-To: <bedc399a-151c-42e5-b33e-d78221702fa5@efficios.com>
+From: KunWu Chan <kunwu.chan@gmail.com>
+Date: Sat, 10 Oct 2026 11:06:52 +0800
+X-Gm-Features: AclHuK8NpqoYHGNF8qem9_9ttNaOwl-7fp6vIe9jVutVGCveZrXPQMrRKkOozbM
+Message-ID: <CAN_Opa99g5MiWp6L8d_c=eUNcfxH8eb1Am6MKRjx+zjUTYXs0w@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 02/15] hazptr: use Bloom filter for shared scan waiters
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: paulmck@kernel.org, corbet@lwn.net, mingo@redhat.com, frederic@kernel.org, 
+	neeraj.upadhyay@kernel.org, josh@joshtriplett.org, urezki@gmail.com, 
+	dave@stgolabs.net, lianux.mm@gmail.com, stern@rowland.harvard.edu, 
+	parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org, 
+	boqun@kernel.org, npiggin@gmail.com, dhowells@redhat.com, j.alglave@ucl.ac.uk, 
+	luc.maranget@inria.fr, akiyks@gmail.com, dlustig@nvidia.com, 
+	joelagnelf@nvidia.com, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	longman@redhat.com, rostedt@goodmis.org, jiangshanlai@gmail.com, 
+	qiang.zhang@linux.dev, brads@mainlining.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, lkmm@lists.linux.dev, linux-doc@vger.kernel.org, 
+	rcu@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Oct 6, 2026 at 1:51=E2=80=AFPM Mathieu Desnoyers
+<mathieu.desnoyers@efficios.com> wrote:
+>
+> On 2026-10-05 13:15, Kunwu Chan wrote:
+> > Replace the per-waiter exact-match scan with a shared Bloom filter
+> > built during the second drain pass: each observed non-wildcard
+> > address sets three bits, so a waiter whose address hashes to an
+> > unset bit can be completed without another slot walk.
+> >
+> > A Bloom filter has no false negatives, so an address absent from
+> > the final drain scan cannot be held by an observed slot; false
+> > positives only delay completion to a later scan cycle.
+> >
+> > The filter uses a one-page bitmap with three multiply-shift hash
+> > functions.  It lives in the hazptr_scan_state and is only touched
+> > by the scan kthread, so waiter state remains on the caller's stack
+> > and no dynamic allocation is needed.
+> >
+> > Suggested-by: Boqun Feng <boqun@kernel.org>
+>
+> I actually suggested that to Boqun in the first place. Feel
+> free to add my suggested-by tag as well. :)
+>
+> Did you run your Bloom filter in a test program on the side to
+> see how it behaves with pointers, and confirm that the false
+> positive rate is not too high due to hashing algorithm/constants
+> concerns ?
+>
 
-Hello,
+Hi Mathieu,
 
-kernel test robot noticed "WARNING:at_kernel/workqueue.c:#alloc_workqueue_va" on:
+I ran a standalone test using the hash functions and constants from
+the patch, with random,
+page-aligned, cacheline-aligned, sequential, and two synthetic
+kernel-like address patterns.
 
-commit: 3311715530328ddf9249e312fa817c89b767fde9 ("[RFC: DMA_PMD 02/22] iommu/dma: add DMA_PMD pool lifecycle and page recycle hook")
-url: https://github.com/intel-lab-lkp/linux/commits/Luigi-Rizzo/iommu-dma-introduce-CONFIG_DMA_PMD-and-metadata-table/20261003-212220
-base: https://git.kernel.org/cgit/linux/kernel/git/akpm/mm.git mm-everything patch link: https://lore.kernel.org/all/20261003212241.3432303-3-lrizzo@google.com/
-patch subject: [RFC: DMA_PMD 02/22] iommu/dma: add DMA_PMD pool lifecycle and page recycle hook
+With 768 inserted addresses, the measured false-positive rates were
+0.025%=E2=80=930.034% across
+these patterns, compared with an ideal Bloom-filter estimate of about
+0.031%. I also tested larger
+ insertion counts as stress cases. The results were consistent across
+three seeds,
+with only minor variation for the random distribution.
 
-in testcase: boot
+These are synthetic address distributions rather than measurements
+from actual kernel waiter
+ addresses, but they provide an initial check of the hash functions
+against several structured
+address patterns.
 
-config: x86_64-rhel-9.4-rust
-compiler: clang-22
-test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 4 -m 16G
+Thanks,
+Kunwu
 
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yi1.lai@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202610101013.706708d0-lkp@intel.com
-
-
-[    0.966875][    T1] ------------[ cut here ]------------
-[    0.972831][    T1] workqueue: dma_pmd is using neither WQ_PERCPU or WQ_UNBOUND. Setting WQ_PERCPU.
-[    0.978823][    T1] WARNING: kernel/workqueue.c:5939 at alloc_workqueue_va+0x75a/0x7c0, CPU#3: swapper/0/1
-[    0.983827][    T1] Modules linked in:
-[    0.985221][    T1] CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Not tainted 7.3.0-rc5+ #1 PREEMPT(lazy)
-[    0.988734][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[    0.991819][    T1] RIP: 0010:alloc_workqueue_va (workqueue.c:5938)
-[    0.993522][    T1] Code: 00 08 00 00 e8 40 08 f0 ff e9 cb f9 ff ff 0f 0b e9 cd fe ff ff 0f 0b e9 c6 fe ff ff 48 8d 3d 66 07 18 02 49 8d b6 b8 00 00 00 <67> 48 0f b9 3a 41 81 cc 00 01 00 00 e9 75 f9 ff ff 48 8d 3d 57 07
-All code
-========
-   0:	00 08                	add    %cl,(%rax)
-   2:	00 00                	add    %al,(%rax)
-   4:	e8 40 08 f0 ff       	call   0xfffffffffff00849
-   9:	e9 cb f9 ff ff       	jmp    0xfffffffffffff9d9
-   e:	0f 0b                	ud2
-  10:	e9 cd fe ff ff       	jmp    0xfffffffffffffee2
-  15:	0f 0b                	ud2
-  17:	e9 c6 fe ff ff       	jmp    0xfffffffffffffee2
-  1c:	48 8d 3d 66 07 18 02 	lea    0x2180766(%rip),%rdi        # 0x2180789
-  23:	49 8d b6 b8 00 00 00 	lea    0xb8(%r14),%rsi
-  2a:*	67 48 0f b9 3a       	ud1    (%edx),%rdi		<-- trapping instruction
-  2f:	41 81 cc 00 01 00 00 	or     $0x100,%r12d
-  36:	e9 75 f9 ff ff       	jmp    0xfffffffffffff9b0
-  3b:	48                   	rex.W
-  3c:	8d                   	.byte 0x8d
-  3d:	3d                   	.byte 0x3d
-  3e:	57                   	push   %rdi
-  3f:	07                   	(bad)
-
-Code starting with the faulting instruction ===========================================
-   0:	67 48 0f b9 3a       	ud1    (%edx),%rdi
-   5:	41 81 cc 00 01 00 00 	or     $0x100,%r12d
-   c:	e9 75 f9 ff ff       	jmp    0xfffffffffffff986
-  11:	48                   	rex.W
-  12:	8d                   	.byte 0x8d
-  13:	3d                   	.byte 0x3d
-  14:	57                   	push   %rdi
-  15:	07                   	(bad)
-[    0.999820][    T1] RSP: 0000:ffffcb9d00013a90 EFLAGS: 00010246
-[    1.001542][    T1] RAX: 0000000000000000 RBX: ffff8b7380b46400 RCX: 33ebeeb162fc7d00
-[    1.004550][    T1] RDX: 0000000000000007 RSI: ffff8b7380b464b8 RDI: ffffffff8e484980
-[    1.006818][    T1] RBP: 0000000000000000 R08: 00000000646d705f R09: 000000000000000f
-[    1.008790][    T1] R10: ffff8b7381cec680 R11: ffffffff8ea6ca80 R12: 0000000000000008
-[    1.011630][    T1] R13: ffffffff8da42c29 R14: ffff8b7380b46400 R15: ffffcb9d00013b10
-[    1.013818][    T1] FS:  0000000000000000(0000) GS:ffff8b7721089000(0000) knlGS:0000000000000000
-[    1.016639][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    1.018818][    T1] CR2: 0000000000000000 CR3: 00000003e4e20000 CR4: 00000000000406f0
-[    1.021819][    T1] Call Trace:
-[    1.022829][    T1]  <TASK>
-[    1.023829][    T1]  ? iommu_dma_forcedac_setup (dma-iommu.c:?)
-[    1.025515][    T1]  alloc_workqueue_noprof (workqueue.c:6049)
-[    1.026818][    T1]  ? blake2s_update (crypto/blake2s.c:131)
-[    1.028234][    T1]  ? intel_cleanup_irq_remapping (irq_remapping.c:?)
-[    1.029818][    T1]  dma_pmd_init (iommu/dma-pmd-pool.c:373)
-[    1.031195][    T1]  do_one_initcall (main.c:1358)
-[    1.032833][    T1]  ? get_random_u32 (char/random.c:396 char/random.c:541)
-[    1.033826][    T1]  ? __get_random_u32_below (char/random.c:555)
-[    1.036270][    T1]  ? alloc_from_new_slab (linux/spinlock.h:425 slub.c:4519)
-[    1.037829][    T1]  ? refill_objects (slub.c:7424)
-[    1.038818][    T1]  ? irqentry_exit (linux/irq-entry-common.h:539)
-[    1.040264][    T1]  ? asm_sysvec_apic_timer_interrupt (x86/include/asm/idtentry.h:674)
-[    1.045448][    T1]  ? parameq (params.c:91 params.c:99)
-[    1.046722][    T1]  ? parameq (linux/fortify-string.h:218 params.c:99)
-[    1.051786][    T1]  ? do_initcall_level (linux/srcutree.h:?)
-[    1.054571][    T1]  ? parse_args (params.c:153)
-[    1.056827][    T1]  do_initcall_level (main.c:1420)
-[    1.058834][    T1]  do_initcalls (main.c:1436)
-[    1.060827][    T1]  kernel_init_freeable (main.c:1671)
-[    1.063560][    T1]  ? rest_init (main.c:?)
-[    1.065827][    T1]  kernel_init (main.c:1561)
-[    1.067786][    T1]  ret_from_fork (x86/kernel/process.c:158)
-[    1.069828][    T1]  ? rest_init (main.c:?)
-[    1.072821][    T1]  ret_from_fork_asm (x86/entry/entry_64.S:245)
-[    1.074826][    T1]  </TASK>
-[    1.076251][    T1] ---[ end trace 0000000000000000 ]---
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20261010/202610101013.706708d0-lkp@intel.com
-
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
+> Thanks!
+>
+> Mathieu
+>
+> > Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
+> > ---
+> >   kernel/hazptr.c | 93 +++++++++++++++++++++++++++++++++++++++++++-----=
+-
+> >   1 file changed, 83 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/kernel/hazptr.c b/kernel/hazptr.c
+> > index 9e274a691af5..900ba35de2cb 100644
+> > --- a/kernel/hazptr.c
+> > +++ b/kernel/hazptr.c
+> > @@ -7,6 +7,7 @@
+> >    */
+> >
+> >   #include <linux/hazptr.h>
+> > +#include <linux/bitops.h>
+> >   #include <linux/percpu.h>
+> >   #include <linux/spinlock.h>
+> >   #include <linux/mutex.h>
+> > @@ -16,6 +17,7 @@
+> >   #include <linux/kthread.h>
+> >   #include <linux/swait.h>
+> >   #include <linux/sched.h>
+> > +#include <linux/bitmap.h>
+> >
+> >   /*
+> >    * The current hazard pointer wildcard. Flips between 1UL and 2UL to =
+guarantee
+> > @@ -213,6 +215,55 @@ void hazptr_scan_period(void *addr, void *scan_wil=
+dcard)
+> >       }
+> >   }
+> >
+> > +/* Number of hash functions for the Bloom filter. */
+> > +#define HAZPTR_BLOOM_HASHES 3
+> > +
+> > +/* Number of bits in the Bloom filter bitmap: one page. */
+> > +#define HAZPTR_BLOOM_NBITS (PAGE_SIZE * 8)
+> > +
+> > +struct hazptr_bloom {
+> > +     unsigned long map[PAGE_SIZE / sizeof(unsigned long)];
+> > +};
+> > +
+> > +/*
+> > + * Multiply @addr by a per-hash odd constant and use the high bits
+> > + * as the Bloom filter index.
+> > + */
+> > +static unsigned long hazptr_bloom_hash(void *addr, unsigned int i)
+> > +{
+> > +     static const u64 mult[HAZPTR_BLOOM_HASHES] =3D {
+> > +             0x9E3779B97F4A7C15ULL,
+> > +             0xC2B2AE3D27D4EB4FULL,
+> > +             0x165667B19E3779F9ULL,
+> > +     };
+> > +     u64 hash =3D (u64)(unsigned long)addr * mult[i];
+> > +
+> > +     return hash >> (64 - ilog2(HAZPTR_BLOOM_NBITS));
+> > +}
+> > +
+> > +static void hazptr_bloom_reset(struct hazptr_bloom *bloom)
+> > +{
+> > +     bitmap_zero(bloom->map, HAZPTR_BLOOM_NBITS);
+> > +}
+> > +
+> > +static void hazptr_bloom_add(struct hazptr_bloom *bloom, void *addr)
+> > +{
+> > +     unsigned int i;
+> > +
+> > +     for (i =3D 0; i < HAZPTR_BLOOM_HASHES; i++)
+> > +             __set_bit(hazptr_bloom_hash(addr, i), bloom->map);
+> > +}
+> > +
+> > +static bool hazptr_bloom_contains(const struct hazptr_bloom *bloom, vo=
+id *addr)
+> > +{
+> > +     unsigned int i;
+> > +
+> > +     for (i =3D 0; i < HAZPTR_BLOOM_HASHES; i++)
+> > +             if (!test_bit(hazptr_bloom_hash(addr, i), bloom->map))
+> > +                     return false;
+> > +     return true;
+> > +}
+> > +
+> >   struct hazptr_waiter {
+> >       struct list_head node;
+> >       void *addr;
+> > @@ -226,17 +277,26 @@ struct hazptr_scan_state {
+> >       struct mutex lock;
+> >       struct list_head pending;
+> >       struct list_head scanning;      /* kthread only */
+> > +     struct hazptr_bloom bloom;      /* kthread only */
+> >   };
+> >   static struct hazptr_scan_state hazptr_scan;
+> >
+> >   /*
+> > - * Check per-CPU slots before overflow-list slots to match the
+> > - * acquisition ordering of promoted slots.
+> > + * Walk all slots and return true if @watch is present.  If @bloom
+> > + * is non-NULL, record observed non-wildcard addresses in it.
+> > + *
+> > + * Per-CPU slots are examined before overflow-list slots on each CPU
+> > + * to preserve the acquisition ordering required by the promote path:
+> > + * synchronize must observe the per-CPU slot release before the
+> > + * overflow-list entry can be missed.
+> >    */
+> > -static bool hazptr_value_present(void *val)
+> > +static bool hazptr_scan_walk(void *watch, struct hazptr_bloom *bloom)
+> >   {
+> >       int cpu;
+> >
+> > +     if (bloom)
+> > +             hazptr_bloom_reset(bloom);
+> > +
+> >       for_each_possible_cpu(cpu) {
+> >               struct hazptr_percpu_slots *percpu_slots =3D per_cpu_ptr(=
+&hazptr_percpu_slots, cpu);
+> >               struct hazptr_overflow_list_flip *overflow_list_flip =3D =
+per_cpu_ptr(&percpu_overflow_list_flip, cpu);
+> > @@ -244,10 +304,14 @@ static bool hazptr_value_present(void *val)
+> >
+> >               for (idx =3D 0; idx < NR_HAZPTR_PERCPU_SLOTS; idx++) {
+> >                       struct hazptr_slot_item *item =3D &percpu_slots->=
+items[idx];
+> > +                     void *v;
+> >
+> >                       /* Pairs with smp_store_release in hazptr_release=
+(). */
+> > -                     if (smp_load_acquire(&item->slot.addr) =3D=3D val=
+)
+> > +                     v =3D smp_load_acquire(&item->slot.addr);
+> > +                     if (v =3D=3D watch)
+> >                               return true;
+> > +                     if (bloom && v && !is_wildcard(v))
+> > +                             hazptr_bloom_add(bloom, v);
+> >               }
+> >               for (int i =3D 0; i < 2; i++) {
+> >                       struct hazptr_overflow_list *list =3D &overflow_l=
+ist_flip->array[i];
+> > @@ -256,11 +320,16 @@ static bool hazptr_value_present(void *val)
+> >
+> >                       raw_spin_lock_irqsave(&list->lock, flags);
+> >                       hlist_for_each_entry(b, &list->head, overflow_nod=
+e) {
+> > +                             void *v;
+> > +
+> >                               /* Pairs with smp_store_release in hazptr=
+_release(). */
+> > -                             if (smp_load_acquire(&b->slot.addr) =3D=
+=3D val) {
+> > +                             v =3D smp_load_acquire(&b->slot.addr);
+> > +                             if (v =3D=3D watch) {
+> >                                       raw_spin_unlock_irqrestore(&list-=
+>lock, flags);
+> >                                       return true;
+> >                               }
+> > +                             if (bloom && v && !is_wildcard(v))
+> > +                                     hazptr_bloom_add(bloom, v);
+> >                       }
+> >                       raw_spin_unlock_irqrestore(&list->lock, flags);
+> >               }
+> > @@ -276,7 +345,7 @@ static bool hazptr_value_present(void *val)
+> >    */
+> >   static void hazptr_drain_wildcard(void *wc)
+> >   {
+> > -     while (hazptr_value_present(wc))
+> > +     while (hazptr_scan_walk(wc, NULL))
+> >               cond_resched();
+> >   }
+> >
+> > @@ -309,12 +378,16 @@ static void hazptr_scan_do_cycle(void)
+> >       WRITE_ONCE(hazptr_wildcard, scan_wildcard);
+> >       old_wildcard =3D flip_wildcard(scan_wildcard);
+> >
+> > -     /* Pass 2: drain the old wildcard. */
+> > -     hazptr_drain_wildcard(old_wildcard);
+> > +     /*
+> > +      * Pass 2: drain the old wildcard while collecting observed
+> > +      * addresses into the Bloom filter.
+> > +      */
+> > +     while (hazptr_scan_walk(old_wildcard, &hazptr_scan.bloom))
+> > +             cond_resched();
+> >
+> > -     /* Complete waiters whose address is no longer held by any slot. =
+*/
+> > +     /* Complete waiters whose address is not in the filter. */
+> >       list_for_each_entry_safe(w, n, &hazptr_scan.scanning, node) {
+> > -             if (!hazptr_value_present(w->addr))
+> > +             if (!hazptr_bloom_contains(&hazptr_scan.bloom, w->addr))
+> >                       list_move(&w->node, &done);
+> >       }
+> >
+>
+>
+> --
+> Mathieu Desnoyers
+> EfficiOS Inc.
+> https://www.efficios.com
