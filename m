@@ -1,110 +1,141 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235D538F64E;
-	Sat, 10 Oct 2026 19:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9BD311977;
+	Sat, 10 Oct 2026 21:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791661552; cv=none; b=F7pwYo3/FPRL5sDNwHGbJR9ADziH6v5RN4t4D2ZOLkI7pKIXvTI9esEM2/L3fuMGM9ZuM3lawIMXUvaIKRxck72S+MXmu1XLi2KkqmXo1Goh8+t6ggsFlf88hi0XOYyyPVPZ0jz3ZUQaZt4P3uacyGPm9Hmrrw0kknd4zQ7/thg=
+	t=1791668623; cv=none; b=uz1iDGIm9NGu20y2sWSDNL3+qWquhFSmAmWqBWl87J0kROEPGKamJ0vwCVBKxRoYJ21VlqvRk5ZPWFjXQ3XEEa8IFIBL9mwIQmRxvIyQWCe7dPVjrZkfr1yKam5Yt3Rutj7Z7PE/pjQmnmMWEDI69TtmR7cyMk7tbe/u0S+P0Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791661552; c=relaxed/simple;
-	bh=ZQA+UGeOpmsIvKDIwLxf/GJRNePdvN2NiMqcQ08Pks8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=co+fLj2GnGZUq6CFZp4YboIP9CFHnlKR4E6Rwn0+jcPRnXPDN1+phBXZw6ppOGaxbUswio8eRoLF44PpPE3WTgj0Om496jYi/T3y5bbecAB/OF2t15/PIMW8EvE73Gjw8xTlRWiEOV5UvVFnz9yYoelJpc226WBTESfhqX9y9No=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=NtlXGB2z; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1791668623; c=relaxed/simple;
+	bh=Z4zvWxNOlAXMv4+BqWk77s1JGJ6Rfo2Eyf/Lv3n4hpw=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HrwsVq4qzLiWUOtXZ3yECpKyxXY04Kxb9BuB98nyyWjWDq3DmJxMs0PzEPMc13QMcXHBN8KFnWNuapKWUcc5aut29am2Rk8G1DKwtKIVHcMIivfspJJYNunqXhCc563jcDUI/jblVmzCA7/DdA72sYVjQTnbcA/99+M+bTCG+bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DIoirPlr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="NtlXGB2z"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3156440E03BE;
-	Sat, 10 Oct 2026 19:45:47 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id w-LaY5QRolKJ; Sat, 10 Oct 2026 19:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1791661537; bh=mXRiDOsjBGT9aPzVeIlvnBf2bqdjcsKrL2pwp5FX8u4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NtlXGB2zI1Tp8ML/9s+L4WmD4SskcKXDb7xA2UEOSjQhjmuiplx2ne1+UzlvSK3NT
-	 4TQRjxp5fbh1Qu4P3EQmjqwgAEYaimfZKz9YN4dbIXJUxrOBAZ+6ye6oC8l2Ro6ae7
-	 5v62SYa0b+RDzkQ6m3cfh8ytEDUSmdPAPTBcTyqug/9+d067qSWxGFIcVynen6r+oy
-	 zM3qJPr0wV/w16kor8jJXnTD16rhuMRbr4vbYDkbe23/A/ywspbqOjytbUzti9Yj/N
-	 dAVDNiQcrGWr5/LPJM+EFeyrGgv8jxbyXm4zkA7hYOUra98b3oDIMmCwG1PmyNdGir
-	 YkodN1DzAbJFSkIlJ5wFNc0EENcGH1/hi/GHFHPWBiC+BbGtB3n6jPyx9+yuPazdAu
-	 0aajcH1abQqiX9wcgIDl6d9e8FRWwFE5qdCqq2jpwHRTUVLAGlA8LwaVaaxcH8Alog
-	 vP/mriUp+86o5fLsVLlpVcUR1Fq5DveHk1slS6Q+MSUhntUtqn1VhC7jbyARFK4oGt
-	 ER0hAa29b4Xa7PETteud0bL4bVdoWnSoBxcSDZZV5sD6gRKGEOEPQ4ePSKhF2o6Rty
-	 AobwbsvH9QoigkOB5gWmO3O+Im+8/yNBbK2IuFI/FZ2m04nqGUoeou3cAbbG11bexR
-	 G94QgDodOyZJg6LVhnX5NUvo=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::3a])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 87D0C40E0488;
-	Sat, 10 Oct 2026 19:45:23 +0000 (UTC)
-Date: Sat, 10 Oct 2026 12:45:19 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Luiz Capitulino <luizcap@redhat.com>
-Cc: x86@kernel.org, tglx@kernel.org, mingo@redhat.com,
-	dave.hansen@linux.intel.com, hpa@zytor.com,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	corbet@lwn.net, rppt@kernel.org, blum@kernel.org, david@kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v3] x86/corruption-check: Remove the BIOS memory
- corruption check feature
-Message-ID: <20261010194519.GAasqVz2brXiOLegQi@fat_crate.local>
-References: <20261010153604.1885381-1-luizcap@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DIoirPlr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A66201F000FF;
+	Sat, 10 Oct 2026 21:43:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791668621;
+	bh=rfAIQc/a9miUTb2D/TmtkkBVV0nIM16y9N9qMwyTwi8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=DIoirPlrYhPoNTFZ+KoJUP4dOPFy0wApk25okUdSRq1W3kkEBZmBSSYkyb5qUkcX4
+	 UzIubpS6uWLn/dqwy+1IQZKhvAv7E2x1YX53VaXcCH55NwdwPK3d+S9WJP1FJQ+IB8
+	 7ksLeSRUuoKfH8aqT+LoOtIyTGLlgqpL10/Z8GVtDmbJmUnnH3Ej6ne+avouhBP/HL
+	 OPfYrRJSL+8zAkH6ePIXm5+bihPwC74UDbvEhlFOVUtQ7YBttnWJThe1W2eQaRm7aS
+	 n99/2uv/vPVvzV676b2YjDALfGidbvqNpfy+M6pzogEBCjscPfVfcO0b21B0Ir06tO
+	 IYW1y5vEKI+2A==
+Subject: Re: [PATCH net-next v2 1/7] psp: support rx rekey operation
+From: netdev-bot+sashiko@kernel.org
+To: daniel.zahka@gmail.com
+Cc: kuba@kernel.org, willemdebruijn.kernel@gmail.com, davem@davemloft.net,
+ edumazet@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, donald.hunter@gmail.com,
+ andrew+netdev@lunn.ch, shuah@kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Date: Sat, 10 Oct 2026 21:43:40 +0000
+Message-ID: <179166862015.434549.17532933495669454971@kernel.org>
+In-Reply-To: <20261009-psp-v2-1-5596ab50f677@gmail.com>
+References: <20261009-psp-v2-1-5596ab50f677@gmail.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261010153604.1885381-1-luizcap@redhat.com>
 
-On Sat, Oct 10, 2026 at 11:36:04AM -0400, Luiz Capitulino wrote:
-> By default, the BIOS memory corruption check works by reserving the
-> first 64 KiB physical area from memblock, zeroing it and then scanning it
-> periodically.
-> 
-> However, this functionality has been broken in its default configuration
-> since v5.13 by two commits:
-> 
-> - Commit a799c2bd29d1 ("x86/setup: Consolidate early memory reservations").
->   Moved trim_low_memory_range() into early_reserve_memory(), which runs
->   earlier in setup_arch(), causing the first 64 KiB to be reserved (when
->   CONFIG_X86_RESERVE_LOW=64) before setup_bios_corruption_check() runs
-> 
-> - Commit f1d4d47c5851 ("x86/setup: Always reserve the first 1M of RAM").
->   Hardcodes the reservation of the first 64 KiB early in
->   early_reserve_memory()
-> 
-> It might be possible to get the default case to work by allowing
-> setup_bios_corruption_check() to run first, but it's just not worth it
-> given that the kernel will never access the first 64 KiB area anyway.
-> 
-> Lastly, note that it's possible to get the corruption check to work with
-> a different region by passing memory_corruption_check_size=. However,
-> the main goal of the feature was to check the first 64 KiB. Besides,
-> the region picked will be almost random as setup_bios_corruption_check()
-> will pick a region by size.
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-And?
+Low priority / nit picks for your consideration:
 
-Do I want this or should it be fixed or the first 64K are not worth it to
-check or...?
+- [Low] Data race on the new field psp_assoc::prev_generation.
 
-That whole "rationale" is not really clear to me. Yes, it is broken,
-apparently. So let's remove it but we might get it work still... So which is
-it and why?
+--
+
+psp: support rx rekey operation
+
+This commit lets a socket that already has PSP state install a new rx
+key. The new psp_assoc copies the existing tx state and keeps the
+previous rx spi and generation as a fallback. Packets matching either
+the current or the previous rx spi/generation are accepted.
+
+> diff --git a/include/net/psp/functions.h b/include/net/psp/functions.h
+> index b23c30898389c..fb80e15e43681 100644
+> --- a/include/net/psp/functions.h
+> +++ b/include/net/psp/functions.h
+> @@ -77,10 +77,12 @@ psp_is_allowed_nondata(struct sk_buff *skb, struct psp_assoc *pas)
+>  static inline bool
+>  psp_pse_matches_pas(struct psp_skb_ext *pse, struct psp_assoc *pas)
+>  {
+> -	return pse && pas->rx.spi == pse->spi &&
+> -	       pas->generation == pse->generation &&
+> -	       pas->version == pse->version &&
+> -	       pas->dev_id == pse->dev_id;
+> +	return pse && pas->version == pse->version &&
+> +	       pas->dev_id == pse->dev_id &&
+> +	       ((pas->rx.spi == pse->spi &&
+> +		 pas->generation == pse->generation) ||
+> +		(pas->prev_spi && pas->prev_spi == pse->spi &&
+> +		 pas->prev_generation == pse->generation));
+>  }
+
+[ ... ]
+
+> diff --git a/net/psp/psp_sock.c b/net/psp/psp_sock.c
+> index a6b1c42dd626f..b5887171c84e7 100644
+> --- a/net/psp/psp_sock.c
+> +++ b/net/psp/psp_sock.c
+
+[ ... ]
+
+> @@ -304,6 +338,10 @@ void psp_assocs_key_rotated(struct psp_dev *psd)
+>  		pas->generation |= ~PSP_GEN_VALID_MASK;
+>  		psd->stats.stales++;
+>  	}
+> +
+> +	list_for_each_entry(pas, &psd->active_assocs, assocs_list)
+> +		pas->prev_generation |= ~PSP_GEN_VALID_MASK;
+> +
+
+[Severity: Low]
+Is this new write to prev_generation racing with the reader in
+psp_pse_matches_pas()?
+
+psp_assocs_key_rotated() runs with only psd->lock held, which is taken
+in the key-rotate pre_doit before psp_nl_key_rotate_doit() calls it.
+It does a plain read-modify-write on associations that are already
+published through sk->psp_assoc.
+
+The new prev_generation comparison in psp_pse_matches_pas() runs on the
+receive path without psd->lock:
+
+  tcp_v4_do_rcv() / tcp_v6_do_rcv()
+    psp_sk_rx_policy_check()
+      __psp_sk_rx_policy_check()
+        psp_pse_matches_pas()
+
+psp_twsk_rx_policy_check() also reads it with only RCU held.
+
+Neither side uses READ_ONCE()/WRITE_ONCE() or data_race(). KCSAN would
+probably report this whenever a device key rotation overlaps PSP rx on
+a socket that has been rekeyed. Since this is a u8 there is no tearing,
+so the worst effect is that a reader briefly still accepts packets on
+the previous spi during a rotation.
+
+pas->generation already has the same unannotated pattern, but this
+patch adds a second field and a new write loop over active, published
+associations. Should these new accesses be annotated with
+WRITE_ONCE()/READ_ONCE() or data_race()?
+
+>  	list_splice_init(&psd->prev_assocs, &psd->stale_assocs);
+>  	list_splice_init(&psd->active_assocs, &psd->prev_assocs);
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261009-psp-v2-0-5596ab50f677%40gmail.com
