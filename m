@@ -1,176 +1,146 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC0237C0EB;
-	Sat, 10 Oct 2026 14:50:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71E137F73A
+	for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2026 15:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791643862; cv=none; b=iyyv7I5y+x61R1YXUQjy0MRmh+vOMrhl1In2FGFJd20wnv6wGEpQPFzAN1yQ63AwxVKIywWpoNQIq8iPU0xdWsUM3i6xEfTMWKs0bHloBlhVJxVvy/L91ED70XPaImqiLNCFwb7KVBLkRE1TpohuETXzzzFoBhxUDLmRaKQdjVg=
+	t=1791645368; cv=none; b=jJw1ZBRlTASSarsQdrHNrDm750eQ/idClTGW0sCCm/d9Vt8bKKtcgtYC+b/RXuaZ2SOPTHuPodGnz2v2+N0O3web6I6YGWhQwcEd4h1FPzQn6BZHYS3amFTF9AU4X2EXBqcSE51zR4zbSYUlvBc6s8GkF+OpiYUOjOAudchc8Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791643862; c=relaxed/simple;
-	bh=j/oH5ATLbObupLH2XkSJosKQrJrrkyzykZ7wCEKR1ZI=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=tvMfE4SkEJ0GajnjTEHL60VAhxp945CYewc9lj0AL18n1iywJZS24lT7X91gehIhKpKWS7wzURCZAfcsTqaN+CSy9FI/kDli9nN5VqOqEpZAILo/Tyd2+/7p8MjPlGDcLFlS7ozeTAzJ4F7Et9fgEaTBJrRMdzqCwg9wL/q2nK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=PGO+qOHs; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1791645368; c=relaxed/simple;
+	bh=pBu865joFVe85JVTOBwNVQFZC3vq13cNHGr43GQYHcQ=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:In-Reply-To:
+	 References:MIME-Version; b=bLIQsOZKZ9rrA8qeM9v+DMOATv/hOh8co/a5QzKg6NzbtlM+Yzq6U+vAbVVSsDxG1K/gBqxTIWTMODqY/IDi+1Bkv1t6D7uJ75WoWI8ZRo8dWV3JRaYpN0Jk8yYlILffRrCECmGr0+tN2IU//gvNF0RDi936o4+fk7Cb7kU/eA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kr3kEv5V; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="PGO+qOHs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1791643833; x=1792248633; i=markus.elfring@web.de;
-	bh=oTfUhhafjezSPneDU3UoSdRYujnZnCEweY05ZJZWYNs=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=PGO+qOHsSag6floqx+1dJqpP9O8NNc9sZJZnMOG8CFAX5//Ip0lCKc4nxMAUBbVF
-	 Oc1QqgFbMm1BNWvdeYolmQx6yREwZyfH44C6/K8nukgybkMU47EuNdnE4s1JJ0RiY
-	 edgiaq3MJFyx2QcVkgJVhl3ozVWrcWe2c5VD1Vd9zKNdJAIOTPXj3t2T1Z47mYRuR
-	 2YV8tF/VieLu3ZomnxeIw805SuoiXj41adhRlj7ppjG7M6/GyOrrNwJOLgTXvh+ZV
-	 dQ9wDeiDk4u5u4k2j9EEO84IKKWYer2hwvZes7zDQjU/c42hXgd45NZELf9RoPF5K
-	 48mSN/VQF8D4Xcd95Q==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MgANA-1wjEzH1cfW-00h3Ry; Sat, 10
- Oct 2026 16:50:33 +0200
-Message-ID: <d08d3437-c4ef-4b88-938d-71962c2f1e88@web.de>
-Date: Sat, 10 Oct 2026 16:50:29 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kr3kEv5V"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3ab98332238so153984a91.3
+        for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2026 08:16:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791645366; x=1792250166; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CAhU/f94yA5MJ19+HwlVBcw68pCp5HAO2C8k5hVfaXY=;
+        b=Kr3kEv5VYzpCLDV+fk/Po0cxqP7Eiayod/RuRukGZQGi3WOv6SICRRBD1KiHLRHOgg
+         WnmS0KODbqrf32a3YTR949CZWAI+v/LTR2bnyzz8hmJKzEbQNjMLJmIh7V8oceKaWG8M
+         +tE+hYhRYmgk7rS6pmI0Ed4A8Us5bVoJ+M3a4Yggaed4CnOBNNMKZQ+mEfue5Ki8WRxj
+         foq3rg6qu/mCFF3OBrdgO31QEWEC3tl5++8YGM8iscivBu0LCSu1RCrcqTgk1dZXUE26
+         MjhbMCZB7q59AddRhjkOMlikkyoa4arlqjMJsNNaHaywrykSy2HGI4w6xvlq/YO/iLgn
+         eL7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791645366; x=1792250166;
+        h=mime-version:content-transfer-encoding:references:in-reply-to:to
+         :from:subject:cc:message-id:date:content-type:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CAhU/f94yA5MJ19+HwlVBcw68pCp5HAO2C8k5hVfaXY=;
+        b=UUsNmruRv0n6VvXB2m3p6Sz4o81mqlvDq0HmQnlS4ZOvgST30BMdP0L+KhNgSSoUZc
+         mM6UVqpvlHaVk3Iyt9att6Y5gmKTsC1CgUjOhOuJK1slKuDLzbrUTDmugvIojcdWdc84
+         Hposs0ZM7ocuFhkBWeHV/wO38a4OWDaY2rqlwh7Q72P60yc/5G+dCRpLzU19f+nU/U67
+         G/TgJOcP+ywummALtk2OJvwOOFaa933WO+jOdTA+ngKZriyIBe9KlpmjXj151M2JvNIc
+         PjWoUqrKfuBG4E2xaV8o8N4rljoN92ntO3RKLCu7dRJzKhUvnznwHk/Xf1x9fhCE9eyV
+         UGmw==
+X-Forwarded-Encrypted: i=1; AKwUvBwKxPeKhmmoCAJZG4bzdK4iKVT0siDDkzltuTDx0t6PHOwaWevHMQAabv853PmOolaaTWNGGftMqjI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJvgp1/vzIF0xw89YIAS9lBK5+epPWtFkKEcvvfR4KF2q47ysz5
+	sISG9UCUAvPHJlbVLV1QEewhJcmYnDham26zbA+YYIZcVbPw8EOi9jRHQb7cgmctbvo=
+X-Gm-Gg: AYBFou2YAQlzMo5DRhYebj04Do9iaAPKIpMIXgF7mA9pOeraq6E3JQKVbfRiDbEFnv9
+	Xl6VUG3jc1WPQA9RqVGqopxbpbjZ0Gkdt83owwYI4N1CQmX9aNzgq5e4XV1poWcC4HznGqrtJS5
+	mnwKuCqwBOelWN/H9XpCHqnVsHBIOiW5qN14JNaQ0cNGQsYqkNH0/xzUCs1JnBljc6s0zult6q0
+	dSQspbmVBgmQ+MH/7+n+A42QCHsF+n5rF3wRSLiHlLengHXONZUoriURnK3LxjtoG9w8QCo9dBZ
+	Qdf6Dfg45WaqXcYfLHsr28o2+wwzPg7ShBAF0CGEUOc5MRh1YSdzY+zRcAnnEugk8ByQrhLNLKa
+	tUCXRn1QCuBhly25QzpJ3Vz94fNWi3i10sJn6bJYSFETfx55WgSSTbLcZVqzPcJ1c6l2Y0cb4GJ
+	gTCMW6UuqT7pFHfC3Ck8zF0QqKKGJcgEvTLUBPNiEy7TknkU5I8G0rFLdxEF1Zh7nOuMCjJN2U5
+	Fmg8jAaz/oyxe3mw4zLfTugVQF/8dCVg8blqZEB8aotF86pNtP/2T7br0M7a9u3Q2oPp3USI3EH
+	D/OH
+X-Received: by 2002:a17:90a:d44b:b0:3a8:e1e:3390 with SMTP id 98e67ed59e1d1-3ab3afd49c9mr4437717a91.56.1791645366135;
+        Sat, 10 Oct 2026 08:16:06 -0700 (PDT)
+Received: from localhost ([153.61.198.243])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab36f4737esm8539860a91.7.2026.10.10.08.16.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 10 Oct 2026 08:16:05 -0700 (PDT)
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 10 Oct 2026 15:16:04 +0000
+Message-Id: <DM199Y25XQ6Q.X5YFLA8I7RSJ@gmail.com>
+Cc: <rdunlap@infradead.org>, <martin.lau@linux.dev>, <song@kernel.org>,
+ <yonghong.song@linux.dev>, <jolsa@kernel.org>, <emil@etsalapatis.com>,
+ <ihor.solodrai@linux.dev>, <jserv@ccns.ncku.edu.tw>,
+ <marscheng@google.com>, <eleanor15x@gmail.com>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-m68k@lists.linux-m68k.org>, <bpf@vger.kernel.org>, "Daniel Palmer"
+ <daniel@thingy.jp>
+Subject: Re: [PATCH v7] m68k, bpf: Add initial BPF JIT compiler support
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+To: "Kuan-Wei Chiu" <visitorckw@gmail.com>, <corbet@lwn.net>,
+ <skhan@linuxfoundation.org>, <geert@linux-m68k.org>,
+ <daniel@iogearbox.net>, <eddyz87@gmail.com>, <memxor@gmail.com>,
+ <andrii@kernel.org>, <gerg@linux-m68k.org>
+In-Reply-To: <20261005185251.2422114-1-visitorckw@gmail.com>
+References: <20261005185251.2422114-1-visitorckw@gmail.com>
+X-Mailer: mkdraft (claude review draft; edit before sending)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Jihong Min <hurryman2212@gmail.com>, linux-hwmon@vger.kernel.org,
- linux-api@vger.kernel.org, =?UTF-8?B?R8O8bnRlciBSw7Zjaw==?=
- <linux@roeck-us.net>
-Cc: linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <27071a389536dfbc35b628a50e90636ce012c21f.1791559095.git.hurryman2212@gmail.com>
-Subject: Re: [PATCH 3/5] hwmon: Add a generic interface for userspace
- implementations
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <27071a389536dfbc35b628a50e90636ce012c21f.1791559095.git.hurryman2212@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:H86UT/2XdX8J5fmFIgDf4Z1Ej/Mg+CLH6U4GMuVAqDBqtpXJ2Hj
- j06lHT1DXGXuTtK6mobVHv9Ps7mmr1pfeogjJJVmZQI5bspHVvDyXKoUiN68aVvYOg/xX7D
- aHV0GLjS97e96iXPS8EaFOd0XwB0c2pol+gTTJjU6TApM0qjpGjfLuE9thWmcf+uUg1xDE/
- wQCTpHWcEPd8RY53F9dGA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:tN9BGFI92iE=;12VBivF9vy+koQUqXzSJ663z9qt
- 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
 
-=E2=80=A6
-> +++ b/drivers/hwmon/uhwmon.c
-> @@ -0,0 +1,641 @@
-=E2=80=A6
-> +static void uhwmon_disconnect(struct uhwmon_device *data)
+On Mon, Oct 05, 2026 at 06:52 PM Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
+> Tested with the test_bpf.ko:
+> test_bpf: Summary: 1061 PASSED, 0 FAILED, [1049/1049 JIT'ed]
+> test_bpf: test_tail_calls: Summary: 10 PASSED, 0 FAILED, [10/10 JIT'ed]
+
+test_bpf.ko doesn't go through the verifier.
+It has no bpf-to-bpf calls and no callbacks.
+
+> Changes in v7:
+> - Size subprog stack frames from stack_depth instead of MAX_BPF_STACK.
+> - Preserve callee's r2 across BPF_PSEUDO_CALL for aggregate returns.
+> - Clean up state on extra_pass failure in bpf_int_jit_compile().
+
+So these are fixes for bot findings in the code that was never run.
+It doesn't work. See below.
+
+[...]
+
+> +	emit_16(ctx, 0x4ee8);					/* jmp d16(%a0) */
+> +	emit_16(ctx, CPU_IS_COLDFIRE ? 48 : 44);
+
+When the target prog has subprogs its prologue is the is_func flavor.
+It's 110 bytes, and 44 is in the middle of
+move.l %d0, BPF_R2_LO(%fp). The cpu executes 0xfff0.
+
+> +static void build_prologue(struct jit_ctx *ctx)
 > +{
-> +	mutex_lock(&data->lock);
-> +	data->online =3D false;
-=E2=80=A6
-> +	mutex_unlock(&data->lock);
-> +	wake_up_all(&data->wait);
-> +}
-=E2=80=A6
+> +	int bpf_stack = ctx->prog->is_func ?
+> +			round_up(ctx->prog->aux->stack_depth, 4) : MAX_BPF_STACK;
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&data->lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v7.3-rc6/source/include/linux/mutex.h#L25=
-3
+stack_depth can be more than MAX_BPF_STACK.
+may_goto adds 8 bytes on top of what the prog uses.
+See stack_depth_extra in bpf_do_misc_fixups().
+When the prog uses 512 bytes the counter is at r10 - 520.
+That's where movem.l saved %d4 and %d5, so the C caller of the prog
+gets them back corrupted.
+The target of a tail call reuses the frame, so every frame needs
+that extra space.
 
-Regards,
-Markus
+> +	if (ctx->prog->is_func) {
+> +		const s8 arg_regs[] = { BPF_REG_1, BPF_REG_2, BPF_REG_3, BPF_REG_4, BPF_REG_5 };
+> +
+> +		for (i = 0; i < 5; i++) {
+> +			int offset = 8 + i * 8;
+
+jit_subprogs() sets is_func for func[0] too, which is the main prog.
+It's called from C as bpf_func(ctx, insnsi), so 8(%fp) is ctx and
+12(%fp) is insnsi. This loop makes R1 = (u64)ctx << 32 | insnsi.
+Every prog that has a subprog or a callback reads its ctx
+out of prog->insnsi.
+
+arm32 and x86-32 JITs don't support bpf-to-bpf calls.
+Drop them from this patch.
+Add them in a follow up when you can run test_progs.
+
+pw-bot: cr
