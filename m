@@ -1,146 +1,138 @@
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [194.59.206.189])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827E33955C1;
-	Sat, 10 Oct 2026 09:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.59.206.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCB8360751
+	for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2026 10:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791625906; cv=none; b=T+xGwoIsd4858J+Io0Mmme5bCdJhSp+ybHaoH/1tYWd/dIXUOGuRfxg85SiPejGbBzy5FFxXDyFJcpcz80F0HbFLqP2xCLizkOkZPyJir33fpT/vck2UpBUHnetocjB5KZ71CyhpK/ayg8oJphbeG7+EvDh9EOHqFYyBuS5B84o=
+	t=1791628397; cv=none; b=IiGQFUR8miV/Qtm0/OLnq5GKZBGMgxetncuO7kvINh8WTefoSR3jovhdLZcDDc1dX/r+8om/nz3BZ+taqRh6s9iA+ZOuZ5OVxvFI/xToYBBCjPixQkVQzrjbpi9Ji7rBDjfTANhYQ613PKdUPr/vtMo2VvDyw4FZxKshiGJAurY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791625906; c=relaxed/simple;
-	bh=opp8oHVhyNCR93d5n+rZmYHPcTGKbDwJyOeFvaKT8ps=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rpIHiEz6jIslWhKqoV3nF7EhRbOKOJaJOsXSlmyGC84OBXzT6QESey2APOuZ4+P6RekI0fpnwrTf+2jYMKp+9cyuloZLhHhbbsQQxMp1KQMlLqlVOJkNPxBKuaxKJEu5wNJii1zd459LdAb1jH4jEipnY4/P4CHQc7ifiINnbiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=jIyD87qo; arc=none smtp.client-ip=194.59.206.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1791628397; c=relaxed/simple;
+	bh=cXpXyyAxJEQk85gzl9TTiU5pF79hr7iF/5HP6KNcpRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ehrdfzocq97gT1qYfl0Vs5hqNMKXcj0DS3TVjGVBAWBhvTgsu3SDHPZgfMrlrTioVjtUdxWOZn+BUqAl79kryWjG5dSHsYtzHFGQx42OoSa5FeVryKR7iphze/noMLYke+2gM9vOf75MV94SiwFtizgkY27ni/Kh+7RcDUJpr48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ATVqcYuM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=XngCrKkV; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="jIyD87qo"
-Received: from relay02-mors.netcup.net (localhost [127.0.0.1])
-	by relay02-mors.netcup.net (Postfix) with ESMTPS id 4j1zJ14qYDz4CcM;
-	Sat, 10 Oct 2026 11:41:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
-	s=key2; t=1791625265;
-	bh=opp8oHVhyNCR93d5n+rZmYHPcTGKbDwJyOeFvaKT8ps=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jIyD87qoeGUvy2eVvGOcqyZL+99TnSxrUAqozWokLCFKimpjGD06/roPDdjOv4GPt
-	 LcFf5y4wl3C2GydmVVNgkaUl8yKsqdTf68hhPBh7JZJM9hYYXZOF9fGOJe4Wl1U/y1
-	 uJEwFaNfvMba3dPg3YHMVMEScVfZdt007NoSOjV8F/3DOjJLtmUSk/kVLG7w/b4YTu
-	 brFK49OjVb+E/WL6U6LCAbwaRRANXQbgG8CljQA3GxyT7PUBCPZ1kpPmM9QI1Qu3FO
-	 jQInUU2jaeRGGv6DY9JBSoslDHiOb7vEeVYljH1h1MjRALFbCZztR7uZMJi5w9qPZi
-	 E7IfIq3lyHgeg==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-	by relay02-mors.netcup.net (Postfix) with ESMTPS id 4j1zJ146gZz7x6w;
-	Sat, 10 Oct 2026 11:41:05 +0200 (CEST)
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4j1zJ05DKlz8svW;
-	Sat, 10 Oct 2026 11:41:02 +0200 (CEST)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
-	by mxe9fb.netcup.net (Postfix) with ESMTPSA id BAB395FB49;
-	Sat, 10 Oct 2026 11:40:57 +0200 (CEST)
-Authentication-Results: mxe9fb;
-        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=linux@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <c3ce794d-1ac2-4ef3-9e5c-1e171bd77a89@leemhuis.info>
-Date: Sat, 10 Oct 2026 11:40:56 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ATVqcYuM";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="XngCrKkV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791628394;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uW5cF2qGp1fynNQG0JX/YHgwzhjHkih1Eex3WwO1Nwo=;
+	b=ATVqcYuMR+07F8ir3rGrmamv8fVVIjTw01DV0Aic0HFJDvLxOyewAOWUAGM7ONmLIYRdyH
+	ZijZHYmhOcGRehU+hBP5gRw3U7GEHAw9RoaCOBqZ9g2GH5WJ6bQDhFEbbt7X7avFsoxh5u
+	kXHwlcNyc5O/hmXdJwCZ/sp2fcWtqy8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-153-Fkovu24pM4eF7NPm8fZyPw-1; Sat, 10 Oct 2026 10:33:13 +0000
+X-MC-Unique: Fkovu24pM4eF7NPm8fZyPw-1
+X-Mimecast-MFC-AGG-ID: Fkovu24pM4eF7NPm8fZyPw_1791628392
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-49e6b5c5f44so8767435e9.2
+        for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2026 03:33:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1791628392; x=1792233192; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uW5cF2qGp1fynNQG0JX/YHgwzhjHkih1Eex3WwO1Nwo=;
+        b=XngCrKkV/WIDqh5TFby4SQkW3Hzd9vfekSIdkJTlDixE9QnIsqmo9Bm6NsXySM++94
+         6p+/+l5AD+GGJuCPkKpEVbLkNj6lGUlDLSNy5dg64ECyG8LKXg7HB4Pusa5fWnN8+Aw1
+         baZBXH1oOyw3GL2YmjEFmBD4lCT8jW5CuIR2ujywSUqAcdZkaxIogO08F4b8l42xd7CK
+         dMMu933HeAY4f88tC4SSgSWLxcsto0ErfxcOlER4v87tF6NWEM49EFvh//vIz37kBKdG
+         XT23zMJTDC0rAEG3QBXUVyh32rsveYbK1SkYxrPgB1qJdo8zqo1MFpbmWQB06XrgNJpL
+         Pg3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791628392; x=1792233192;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=uW5cF2qGp1fynNQG0JX/YHgwzhjHkih1Eex3WwO1Nwo=;
+        b=O762Sf9kRJxvVp4c64x8pTNAW6oPkOZw4/dxqzRQvrYcJOzr/m/V15gzsm2oPUKz9B
+         vvaM8EItK+GmcYZl0lMTVdOzOwvRh9n984HrjUb7pvTi1+eEjuX8Jjsnc1zrx+iCEclf
+         fPnmmHDhMyy+nKE6tijF58ybrfoXzLLxWsc1ttsSElVzwT/XHwGwNVfM87wmVvdmEuWa
+         IuLmpL+gY5vwD3RsQeKM7HVNSU08vvUxAby9VQ/E+ZtKyQw6GZcLcawjVIMKKBhrFXqZ
+         +OiciEpUXNiYqDPZ+8BzyX5lmBO9IiPdXkkg5fApT8wpfrTY17ukFmNha4FZxGYiFPGf
+         Hg7Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxU/qWY6im12ifc5KPaKp+MaRVXM6CGDQfbtkQ/ZFh4qpyWSQZU/hlHK+dPN/iWadlzplrCOJKbVNI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLv6ECyyJzTg2oQmG4ElvHFRC51q3wEeG6wkhnZW4sDj2h7cDCw
+	IAsu/oG85VCdJv/UkpZHHJwtKfz89fv9dFaJQftaHO86IMxOkRjkwrRMYUFL4ppz1oKhhldIzF8
+	tecXPldouAEuCAURJDtTuireCzJS/iGOYGfQdT2AmpxG1Ztdp2SZxsj0kEPkDMw==
+X-Gm-Gg: AYBFou3kjwnnneAPBx6nBNMDWog63W/D8mitcSs6jy6vjS3ZiSiN9WNPbg7b4rwICqJ
+	UC+XKrQdqaSnk1YA3DyXqS4ywfE2cPyLbY1s/AGv3NxB9Hj7bytodsW1UHlgloZr7491zXceZw3
+	lMbCDHCPXKg9/RwCOVOOPCV1USbm+HCXGSndvZeuOsok3c+Zi5fVFU2ciqdICqOLxqvDKWvZSdJ
+	bVpjEn95/3EOazUnkMXhVyMF6aepcbEWzYTgyQtt2u5OFtMbOIcLc9A1VgKheya+HwcYImsSzhf
+	1y3Hcnk2pLLLc9rTa+wL84PF8T0L7IsSXBN6zkSnORPAOnbpPOTMCJM1CoZp1OvJ7DWpHUI=
+X-Received: by 2002:a05:600c:3510:b0:4a1:7033:5b55 with SMTP id 5b1f17b1804b1-4a18e4cc437mr94489275e9.21.1791628391856;
+        Sat, 10 Oct 2026 03:33:11 -0700 (PDT)
+X-Received: by 2002:a05:600c:3510:b0:4a1:7033:5b55 with SMTP id 5b1f17b1804b1-4a18e4cc437mr94487985e9.21.1791628390226;
+        Sat, 10 Oct 2026 03:33:10 -0700 (PDT)
+Received: from redhat.com ([2a06:c701:73fb:d100:601d:d7d4:d03f:527b])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db98c3a13sm8328544f8f.25.2026.10.10.03.33.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2026 03:33:08 -0700 (PDT)
+Date: Sat, 10 Oct 2026 06:33:05 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
+	ksummit@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	broonie@kernel.org, tytso@mit.edu,
+	Linux kernel regressions list <regressions@lists.linux.dev>
+Subject: Re: [PATCH 2/2] agents: add a skill to determine Fixes tags
+Message-ID: <20261010063228-mutt-send-email-mst@kernel.org>
+References: <cover.1791499378.git.sashal@kernel.org>
+ <7fa126fd22b4449cf63a7045f7cd959e106fac87.1791499378.git.sashal@kernel.org>
+ <c3ce794d-1ac2-4ef3-9e5c-1e171bd77a89@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] agents: add a skill to determine Fixes tags
-To: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
- ksummit@lists.linux.dev
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, broonie@kernel.org,
- tytso@mit.edu, Linux kernel regressions list <regressions@lists.linux.dev>
-References: <cover.1791499378.git.sashal@kernel.org>
- <7fa126fd22b4449cf63a7045f7cd959e106fac87.1791499378.git.sashal@kernel.org>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Content-Language: de-DE, en-US
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 MEK4
-In-Reply-To: 
- <7fa126fd22b4449cf63a7045f7cd959e106fac87.1791499378.git.sashal@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <179162525823.2787901.7623817167327795640@mxe9fb.netcup.net>
-X-Rspamd-Server: rspamd-worker-8404
-X-Rspamd-Queue-Id: BAB395FB49
-X-NC-CID: welBqYu8cFJwe4FTKu6lRRT90+XB8MpoYFGu9dFGmz+AdRG2FHM=
+In-Reply-To: <c3ce794d-1ac2-4ef3-9e5c-1e171bd77a89@leemhuis.info>
 
-On 10/9/26 00:54, Sasha Levin wrote:
->
-> +A ``Fixes:`` tag identifies the commit that introduced the bug being fixed. [...]
+On Sat, Oct 10, 2026 at 11:40:56AM +0200, Thorsten Leemhuis wrote:
+> On 10/9/26 00:54, Sasha Levin wrote:
+> >
+> > +A ``Fixes:`` tag identifies the commit that introduced the bug being fixed. [...]
+> 
+> Sorry for partly hijacking this, but it seems appropriate while we are
+> at it:
+> 
+> What exactly is the right commit to specify when it comes to a
+> regression caused by a change that exposed a way older bug? The change
+> that exposed it? The change that introduced it in the first place? Both?
+> I'd tend to "both", but I guess some people might consider this as too
+> noisy.
+> 
+> I've seen occasional discussions about this and our docs for humans are
+> a bit vague here:
+> 
+> Documentation/process/submitting-patches.rst says:
+> ""If your patch fixes a bug in a specific commit, e.g. you found an
+> issue using git bisect, please use the ‘Fixes:’ tag with at least the
+> first 12 characters of the SHA-1 ID, and the one line summary.
+> [...]
+> A Fixes: tag indicates that the patch fixes a bug in a previous commit.
+> It is used to make it easy to determine where an issue originated""
+> 
+> And Documentation/process/5.Posting.rst says:
+> ""One tag is used to refer to earlier commits which introduced problems
+> fixed by the patch:""
+> 
+> Ciao, Thorsten
 
-Sorry for partly hijacking this, but it seems appropriate while we are
-at it:
+I'd say the one exposed it. this way it is useful to answer
+the question "do i need this fix".
 
-What exactly is the right commit to specify when it comes to a
-regression caused by a change that exposed a way older bug? The change
-that exposed it? The change that introduced it in the first place? Both?
-I'd tend to "both", but I guess some people might consider this as too
-noisy.
-
-I've seen occasional discussions about this and our docs for humans are
-a bit vague here:
-
-Documentation/process/submitting-patches.rst says:
-""If your patch fixes a bug in a specific commit, e.g. you found an
-issue using git bisect, please use the ‘Fixes:’ tag with at least the
-first 12 characters of the SHA-1 ID, and the one line summary.
-[...]
-A Fixes: tag indicates that the patch fixes a bug in a previous commit.
-It is used to make it easy to determine where an issue originated""
-
-And Documentation/process/5.Posting.rst says:
-""One tag is used to refer to earlier commits which introduced problems
-fixed by the patch:""
-
-Ciao, Thorsten
