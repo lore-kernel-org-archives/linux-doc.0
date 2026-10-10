@@ -1,65 +1,69 @@
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6BA3655C4
-	for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2026 03:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9223138E8B9
+	for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2026 03:36:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791603393; cv=none; b=dzjUuPeaCUqzCnH4uxzWvp2Y5tIPPmno26LeI8CByCXCw3+17FBRtWSQ/6b/syjkx69Ew1+NplO09QjgWJDlQd5o+IVIlFxd97aJ517xwbKpdgoZfSPK6LywpQGJq6cLkvBxB0aOjezlIWf9un6ZJefoIT21hfjHsWrg1Em2ANg=
+	t=1791603396; cv=none; b=s3W0TiNtnXc55+Wo8pecRw82utGvnAAJextC+VpkROh3c+DDunIkLmqyUp90wz2PbiFmdlSSaCpVfeGV6CAA55AK1GbWfNcXAddEf+Pge4XO5O7M53pr7a/EOtC2PJO4L6Od8svcTqJJhldCWRimAJjk/K8OA0ytWJeT+zrZvSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791603393; c=relaxed/simple;
-	bh=70YgM1Mt4Z5YsyjAZUstuPenINMCxDg+GnCsfmv86Gg=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=O+nzwMzJKH91mn5kuO2I4fLIlzzRPxIf07EduOPXX7y2KNTb4AIxzmzQhkcuzXwvgcTQYeBV6uhsPGuh28vpzmdYpnfLT0CuvZjOVueZ39qFWDSgkJIt7s2pnwNlc+3bopy0rn/Vy2apt5Y3/441yEkEMaokYL7apk1SgQYRpxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BAv4n9k7; arc=none smtp.client-ip=74.125.82.72
+	s=arc-20240116; t=1791603396; c=relaxed/simple;
+	bh=59RRrGspd5iUtNZ1bAJjKiLsiHSiAQJ2Y5SqHeIZ5z8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=msgWtWlnvLbv7+yBoGWKszTNWIfEGybwBJW8mJRv+5OkUcU7GfMzjfZYZSBDU1lQR++eDKmPOIt6V5WC04Jn1+SV4qoJdxnnWPULCTxAV5XZMAjmX6TORoDMPm0O6ecU5sr19YfIzFG613wbMa5Ek87AjoveAAjhB1HpgMupkc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G58X8FhI; arc=none smtp.client-ip=74.125.82.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BAv4n9k7"
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-147be78cd56so1409302c88.1
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 20:36:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G58X8FhI"
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-33713e5e6daso494011eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 20:36:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791603391; x=1792208191; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1791603394; x=1792208194; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:mime-version:date:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=FN3jzVFTvR1bxiOc6QpulyJ81OKLo+adR8/+V0xSoVo=;
-        b=BAv4n9k7qo0iGS78shwAnpM0hJ0JrIvnLuJe+dQEzMYB1WdD13FKwuUtCLuiknAeY8
-         NY5CJqaRrlSGV3qcZGmIzkUAWHrJg9UQkrWOR9p5sDgEg5rPq5Kj/KYA3CJ1zmGUSVTN
-         W90ROwzX28DJFAby2WC7s7gKa4YPkysX7KmlZs8aRSLB+8mBQ08FmIu8rCiK4PT6cMUh
-         FFCo+2FlGR8he+DM4lohEJMbTvv9mkECL2U5CgqdWlgt35hi68lwSqwU92JC2hZTmdE5
-         yRDI9FRoQ1HfV/3AtUMauF15SxcXeRV82Bp9L2sN+/ovMtNPvgAeoCBs68+DmCenegfU
-         dc5A==
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=M2GB1ttRU2va4gCDaGhpGqvhJfE04jyHCmKo6H7UcmI=;
+        b=G58X8FhI1xzxpbOxwe9sYgNID7CzN3dOuZzdQEaBvHC960gBGRzD24X2VK6HQq3Sm7
+         ZlXRcMw4R6c0h1gyQpkocAn2oMxdEeAXldMr/i1AeMGfoyU6sPr7OVYnCZUjfmSe5Eni
+         8jswRqadq1ky2aYtkanixRgNGqb7ttu8fyp7e0lbgFf2sBebkgfb4lBLTw4/8rzbtdqJ
+         hv33M+g//KXHOu0MJQBqmt95BnR2yaimKDBfKTKNCms27zrA+wc1b2pMK+IcPAHS9mB0
+         sIrV+rTDQyDqg8p/Bs7adHaTUxzG78rTvibqSW7IuGjBYFab+h8JOwXaKoEHXiQvnPEN
+         fmiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791603391; x=1792208191;
+        d=1e100.net; s=20260707; t=1791603394; x=1792208194;
         h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:mime-version:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FN3jzVFTvR1bxiOc6QpulyJ81OKLo+adR8/+V0xSoVo=;
-        b=xQ1D1y+E/5KvAHDDsf2N+SYdpJyjpdkcssZcMZ+ufRLNcAb614UL7Ai77JhdT03DSJ
-         T4uqbKOvYisagc78eoFFdJ8OWPh2JnkIV4HsJM+hJn2k/GksmhZipTQ5mJcQHY8RmDQ2
-         hZe2CzjtaiGSlW9LpGagMSskHoZHvG2OZnjs4afbfuBTgOPWBnTZLdEt8GrdezKFDcCp
-         J1BtJ63aSvD20oqjjP9cJS8QHhnOesL4a9AH2HtdvqiWBFRO46DY3En9ar5WKRJ99RM0
-         Iq2tfFBRhB6wvvtszZdApF37yXucH5pHaw49N+gqtmQC6rTcD/BRhnBZynhOrbc9pb4y
-         Lnsw==
-X-Forwarded-Encrypted: i=1; AKwUvBzqXXB1R9MR+713+Cy0Qo8gBaroqA/WJa1xJlY4ccXIDmWi5Zv0RxIjbbrW6d5S8y4wdENp9m7PkUY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLgSy1LJxZTCvdaqOaF2jbV9ZP+CPYPf78GpLSqCda80I+779di
-	i2fLwtkGDpqiadIKgjiCaRsVCuy50Zjyt9e/sxSuuRN1efOZzV40HtVYt6vHmy9HyMeX9NyXX/G
-	dGFDc9u/hSIwdweGE7kOZrndEsg==
-X-Received: from dlep17-n2.prod.google.com ([2002:a05:701b:4591:20b0:14a:c841:ce30])
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=M2GB1ttRU2va4gCDaGhpGqvhJfE04jyHCmKo6H7UcmI=;
+        b=vrFCOqVRaS3zM1v/qTiUCovkoySPjWfsOJeWgI15HlPOlBHjLDK3j/GOyow6B0iObX
+         q865HEcQv4kDd9W94Xrt25Ui30jTy3yeQ2rH+3+HKcUvu6zEvMLU6QZ1ZBxVC/EkrIQY
+         +UN6SbOweEFJFb1RFURDS+PT3QNrIYxpJ2y/yO53igFKvHxYj+gUH1+jFFk2ULWi3kZ2
+         VmJNxw5UOd0BjBoHFxyvJD3ysJbL7+W7fGaFwWc806oR2VfbbgCl8lrg0u/+5ObLooH7
+         8mmApdzjPOIItMAbZPL7tRlqi8ZeyOEP6q5aieQzRe/MLQ+SfsqXaKi3lj9zck04njCF
+         B3VQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy+kARevPfzg51oF8JNTNM4a3C0hL9ooIZwt+l0l01x+rY9y2YiMCl35AXI+zEI5c/MDqCH6+BA5GI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIauJ7Bd8UDN83iy2LqQdU2AV/7RCxC8Sa+oCSAPanqFQVntFIY
+	hB/79q8GvQgyaAdlOpHINOtooS3ciAysYuCPB/3Ltn+GwUx7svMrhoBQpEkybxWVzQtNZ9t/Uaj
+	J/9A5/TKWVVrnRh0+rFeiXedaZw==
+X-Received: from dyos4.prod.google.com ([2002:a05:7300:6c84:b0:351:5945:17bc])
  (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7022:e11:b0:145:3a5:d918 with SMTP id a92af1059eb24-16a640fd0admr7318681c88.33.1791603391029;
- Fri, 09 Oct 2026 20:36:31 -0700 (PDT)
-Date: Sat, 10 Oct 2026 03:36:07 +0000
+ 2002:a05:7300:6c9e:b0:33c:e82:70c9 with SMTP id 5a478bee46e88-3537e252b4fmr7095741eec.32.1791603393362;
+ Fri, 09 Oct 2026 20:36:33 -0700 (PDT)
+Date: Sat, 10 Oct 2026 03:36:09 +0000
+In-Reply-To: <20261010033630.1171692-1-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
+References: <20261010033630.1171692-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261010033630.1171692-1-almasrymina@google.com>
-Subject: [PATCH net-next v3 0/2] net: netmem: document design principles and
- intended direction
+Message-ID: <20261010033630.1171692-3-almasrymina@google.com>
+Subject: [PATCH net-next v3 2/2] docs: netmem: document netmem and memory
+ provider design principles
 From: Mina Almasry <almasrymina@google.com>
 To: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
@@ -75,62 +79,128 @@ Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.ne
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Because the networking stack and drivers are only partially converted to
-netmem_ref and current memory providers only supply unreadable net_iovs,
-automated code review and analysis tools (such as LLMs) frequently infer
-the wrong architectural invariants from existing code. Specifically,
-they often assume that page_pool's struct page APIs are primary rather
-than legacy wrappers, that memory providers always imply net_iov, that
-net_iov is inherently unreadable, or that callers should branch on or
-downcast netmem_ref directly.
-
-Document the intended netmem, memory provider, page_pool, and skb
-fragment design principles concisely in the relevant headers, code
-comments, and netmem documentation so both developers and automated
-tools follow the intended abstractions. This series adds comments and
-documentation rather than performing a large refactor all at once, so
-that future incremental changes nudge the codebase in the intended
-direction.
-
-This reflects my mental model of the netmem, page_pool, and memory
-provider architecture; I welcome feedback and disagreements,
-particularly from major contributors to page_pool and memory providers.
+Add a Design Principles section to Documentation/networking/netmem.rst
+covering the netmem_ref abstraction, the prohibition on direct
+downcasting in callers, decoupling memory providers from net_iov,
+decoupling net_iov from unreadability, delegating provider/type logic to
+memory_provider_ops and netmem helpers, and the rule against mixing skb
+fragment memory sources.
 
 Cc: Luigi Rizzo <lrizzo@google.com>
-Cc: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
-Cc: Stanislav Fomichev <sdf@fomichev.me>
-Cc: Pavel Begunkov <asml.silence@gmail.com>
+Signed-off-by: Mina Almasry <almasrymina@google.com>
+Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
+Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+Acked-by: Stanislav Fomichev <sdf@fomichev.me>
 ---
 v3:
 - Collect Reviewed-by/Acked-by tags from Bj=C3=B6rn, Pavel, and Stanislav.
-- Clarify skb fragment homogeneity rule: all frags in an skb must either
-  be struct page-backed or belong to the same memory provider instance
-  (Pavel Begunkov).
+- Clarify item 5: all frags in an skb must either be struct page-backed
+  or belong to the same memory provider instance (Pavel Begunkov).
 - Link to v2: https://lore.kernel.org/netdev/20261008023030.1089616-1-almas=
 rymina@google.com/
 v2:
-- Document both current implementation status (memory providers currently
-  supply net_iov, and net_iov is currently unreadable) and target design
-  principles, and clarify that new code should generalize existing
-  limitations as much as possible (Stanislav Fomichev).
+- Document both current implementation status (mp returns net_iov,
+  net_iov is unreadable) and target design principles in items 2 & 3,
+  and note that new code should generalize existing limitations as much
+  as possible (Stanislav Fomichev).
 - Link to v1: https://lore.kernel.org/netdev/20261005004958.3603059-1-almas=
 rymina@google.com/
+---
+ Documentation/networking/netmem.rst | 53 +++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
-Mina Almasry (2):
-  net: netmem: document netmem and memory provider design in comments
-  docs: netmem: document netmem and memory provider design principles
-
- Documentation/networking/netmem.rst     | 53 +++++++++++++++++++++++++
- include/linux/skbuff.h                  |  6 +++
- include/net/netmem.h                    | 30 +++++++++-----
- include/net/page_pool/helpers.h         | 18 ++++++---
- include/net/page_pool/memory_provider.h | 10 +++++
- include/net/page_pool/types.h           |  6 +--
- net/core/skbuff.c                       |  4 ++
- 7 files changed, 109 insertions(+), 18 deletions(-)
-
-
-base-commit: d8674294aefef02266c4d47ad10131f1bffbe534
+diff --git a/Documentation/networking/netmem.rst b/Documentation/networking=
+/netmem.rst
+index 217869d1108dd..6871dcdd700cc 100644
+--- a/Documentation/networking/netmem.rst
++++ b/Documentation/networking/netmem.rst
+@@ -19,6 +19,59 @@ Benefits of Netmem :
+ * Simplified Development: Drivers interact with a consistent API,
+   regardless of the underlying memory implementation.
+=20
++Design Principles
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++Memory providers (or the default ``page_pool`` allocator) allocate underly=
+ing
++memory (``struct net_iov`` or ``struct page``), cast it to ``netmem_ref``,=
+ and
++supply it to ``page_pool``. The ``page_pool``, drivers, and networking sta=
+ck
++operate on ``netmem_ref`` as the abstract type. Existing ``page_pool`` API=
+s
++that allocate or free ``struct page`` are legacy compatibility wrappers fo=
+r
++drivers that do not yet support ``netmem_ref``. Code that is not yet
++``netmem``-aware should be converted to ``netmem_ref`` unless it will neve=
+r
++need to support ``netmem``.
++
++1. **Operate on netmem_ref, do not downcast**: ``page_pool``, drivers, and=
+ the
++   core networking stack should deal with ``netmem_ref`` rather than
++   ``struct net_iov`` or ``struct page``. Downcasting ``netmem_ref`` to
++   ``struct net_iov`` or ``struct page`` is not allowed unless a code path
++   strictly cannot function without knowing the underlying memory type (fo=
+r
++   example, ``kmap_local_page()``). In those cases, to keep call sites sim=
+ple,
++   add a ``netmem`` helper that performs the operation on behalf of the ca=
+ller,
++   cleanly handles all ``net_iov`` and ``page`` cases, and returns an erro=
+r if
++   the ``netmem`` type cannot support the requested operation.
++
++2. **Decouple memory providers from net_iov**: Memory providers are not
++   architecturally limited to ``struct net_iov``; a memory provider that r=
+eturns
++   ``struct page``-backed ``netmem_ref``\ s to upper layers is allowed. To=
+day,
++   in-tree memory providers only supply ``struct net_iov`` and some existi=
+ng
++   code still reflects that limitation, but new code must not assume that =
+using
++   a memory provider implies ``net_iov`` memory and should, as much as pos=
+sible,
++   generalize existing limitations to match the design principles.
++
++3. **Decouple net_iov from unreadability**: ``struct net_iov`` is flexible=
+ and
++   has no inherent restrictions; it may represent either CPU-readable or
++   unreadable memory. Today, in-tree ``net_iov`` implementations are unrea=
+dable
++   by the CPU (``netmem_address()`` returns ``NULL``) and some existing co=
+de
++   still reflects that limitation, but new code must not assume ``net_iov`=
+`
++   implies unreadable memory (check readability via ``netmem_address()`` o=
+r
++   ``skb_frags_readable()`` instead) and should, as much as possible, gene=
+ralize
++   existing limitations to match the design principles.
++
++4. **Delegate complexity to the lowest layer**: Each layer must respect it=
+s
++   abstraction boundary. ``page_pool`` must not implement per-memory-provi=
+der
++   custom logic in its main code; instead, it delegates provider-specific
++   handling to ``struct memory_provider_ops``. Similarly, core networking =
+code
++   should avoid per-``netmem``-type branching and instead delegate operati=
+ons
++   to ``netmem`` helpers that handle the underlying memory type.
++
++5. **Do not mix skb fragment memory sources**: All ``frags[]`` in an
++   ``sk_buff`` must either be ``struct page``-backed or belong to the same
++   memory provider instance (for example, the same ``devmem`` binding or
++   ``io_uring`` area). Mixing ``struct page`` and memory-provider fragment=
+s,
++   or mixing fragments from different memory providers within a single
++   ``sk_buff``, is not allowed (including when coalescing ``sk_buff``\ s).
++
+ Driver RX Requirements
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
 --=20
 2.56.0.385.gd3acb90ef8-goog
 
