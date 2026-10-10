@@ -1,281 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [194.59.206.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9E444A72C;
-	Sat, 10 Oct 2026 09:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827E33955C1;
+	Sat, 10 Oct 2026 09:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.59.206.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791624555; cv=none; b=bEEruscwIoDME9qUl49iIE0ySi8LusBKEIVOx8Lcd5U8EAGOt5DjTELEzOusCusNcyNiyhqd8SPy9u2xVdiBCWdjR2LDOiiV9e5wQULKb4Tjjq3TkPsnTROXL8bvY9KGQvrnxsjZji6kV1EiQIFlGyf2OiBxAk7uhoJ5MAOv1yE=
+	t=1791625906; cv=none; b=T+xGwoIsd4858J+Io0Mmme5bCdJhSp+ybHaoH/1tYWd/dIXUOGuRfxg85SiPejGbBzy5FFxXDyFJcpcz80F0HbFLqP2xCLizkOkZPyJir33fpT/vck2UpBUHnetocjB5KZ71CyhpK/ayg8oJphbeG7+EvDh9EOHqFYyBuS5B84o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791624555; c=relaxed/simple;
-	bh=IoKbd3Cj9/XqlRQ0qbxAPyFZpvebMhplNjTK9hDfJyM=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OUXKXjlKi1ddwd5TKpWKqQnoD88WQvaJy2Vr6mtoP9sZv2XDP4l3LvLc0uqrRB9iGFHb4beY6H0fvM4X0qy9EsrwS+CkhXwfR3mQEzDP6f8ry2SToE7Tx3LPszaYHA8D6wc1WTRaSCN+TFWSZY0oxyUQizt0wLim3IBDI3nc1tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aBOh2A/u; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791625906; c=relaxed/simple;
+	bh=opp8oHVhyNCR93d5n+rZmYHPcTGKbDwJyOeFvaKT8ps=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rpIHiEz6jIslWhKqoV3nF7EhRbOKOJaJOsXSlmyGC84OBXzT6QESey2APOuZ4+P6RekI0fpnwrTf+2jYMKp+9cyuloZLhHhbbsQQxMp1KQMlLqlVOJkNPxBKuaxKJEu5wNJii1zd459LdAb1jH4jEipnY4/P4CHQc7ifiINnbiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=jIyD87qo; arc=none smtp.client-ip=194.59.206.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aBOh2A/u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3E2B1F000FF;
-	Sat, 10 Oct 2026 09:29:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791624553;
-	bh=JJCD+BM8OQRbbhmPIh55knqUKVnl+PPt4F6+rgNpE5A=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=aBOh2A/upk6xLoWHrEzvdjT8jqyG/nXy6ZE6VLzCIamKi0oRNE2lUTou9+6w2rIHD
-	 SyT+Fk1MLp5NbMfrzlOknM+TYnKU3tkqzHGBu16+Ecj0uis2+Aus6uZuiqY5IwHzSR
-	 n0pjdGfd/HovfuCC+UrtuNXT6oCHwWEZ6nWyOyKnC4FdXvga04gQLGEeMmdgiDF3fV
-	 308l77hCpsRM+epAfcozSQFn6WxKno5sCjIw4lO/57Oc5De6ARbNOT8nT/PtxI+lkp
-	 9wdKiYs3iskTLOu0fEzo6qo8vz0w9u5XtVhr/TDRMH+RRXy8qfqvl+JOtEMVZrWpkc
-	 ryAl6I2CkOVlQ==
-Subject: Re: [PATCH net-next v3 8/8] docs: networking: Add documentation for
- the coalescing support in rmnet
-From: netdev-bot+sashiko@kernel.org
-To: subash.a.kasiviswanathan@oss.qualcomm.com
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, andrew+netdev@lunn.ch, corbet@lwn.net, horms@kernel.org,
- skhan@linuxfoundation.org, rdunlap@infradead.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, lkp@intel.com,
- sean.tranchetti@oss.qualcomm.com
-Date: Sat, 10 Oct 2026 09:29:12 +0000
-Message-ID: <179162455218.434549.13807583931507621107@kernel.org>
-In-Reply-To:
- <20261009084351.317632-9-subash.a.kasiviswanathan@oss.qualcomm.com>
-References:
- <20261009084351.317632-9-subash.a.kasiviswanathan@oss.qualcomm.com>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="jIyD87qo"
+Received: from relay02-mors.netcup.net (localhost [127.0.0.1])
+	by relay02-mors.netcup.net (Postfix) with ESMTPS id 4j1zJ14qYDz4CcM;
+	Sat, 10 Oct 2026 11:41:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1791625265;
+	bh=opp8oHVhyNCR93d5n+rZmYHPcTGKbDwJyOeFvaKT8ps=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jIyD87qoeGUvy2eVvGOcqyZL+99TnSxrUAqozWokLCFKimpjGD06/roPDdjOv4GPt
+	 LcFf5y4wl3C2GydmVVNgkaUl8yKsqdTf68hhPBh7JZJM9hYYXZOF9fGOJe4Wl1U/y1
+	 uJEwFaNfvMba3dPg3YHMVMEScVfZdt007NoSOjV8F/3DOjJLtmUSk/kVLG7w/b4YTu
+	 brFK49OjVb+E/WL6U6LCAbwaRRANXQbgG8CljQA3GxyT7PUBCPZ1kpPmM9QI1Qu3FO
+	 jQInUU2jaeRGGv6DY9JBSoslDHiOb7vEeVYljH1h1MjRALFbCZztR7uZMJi5w9qPZi
+	 E7IfIq3lyHgeg==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by relay02-mors.netcup.net (Postfix) with ESMTPS id 4j1zJ146gZz7x6w;
+	Sat, 10 Oct 2026 11:41:05 +0200 (CEST)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4j1zJ05DKlz8svW;
+	Sat, 10 Oct 2026 11:41:02 +0200 (CEST)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id BAB395FB49;
+	Sat, 10 Oct 2026 11:40:57 +0200 (CEST)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=linux@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <c3ce794d-1ac2-4ef3-9e5c-1e171bd77a89@leemhuis.info>
+Date: Sat, 10 Oct 2026 11:40:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] agents: add a skill to determine Fixes tags
+To: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
+ ksummit@lists.linux.dev
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, broonie@kernel.org,
+ tytso@mit.edu, Linux kernel regressions list <regressions@lists.linux.dev>
+References: <cover.1791499378.git.sashal@kernel.org>
+ <7fa126fd22b4449cf63a7045f7cd959e106fac87.1791499378.git.sashal@kernel.org>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 MEK4
+In-Reply-To: 
+ <7fa126fd22b4449cf63a7045f7cd959e106fac87.1791499378.git.sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <179162525823.2787901.7623817167327795640@mxe9fb.netcup.net>
+X-Rspamd-Server: rspamd-worker-8404
+X-Rspamd-Queue-Id: BAB395FB49
+X-NC-CID: welBqYu8cFJwe4FTKu6lRRT90+XB8MpoYFGu9dFGmz+AdRG2FHM=
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+On 10/9/26 00:54, Sasha Levin wrote:
+>
+> +A ``Fixes:`` tag identifies the commit that introduced the bug being fixed. [...]
 
-Low priority / nit picks for your consideration:
+Sorry for partly hijacking this, but it seems appropriate while we are
+at it:
 
-- [Low] The new rmnet.rst text never says that rmnet itself drops packets
-  that the CSUM error bitmap flags, and it states the single-packet…
-- [Low] The MAPv4/MAPv5 checksum mutual-exclusion rule is documented only
-  under RMNET_FLAGS_INGRESS_COALESCE, and its wording is ambiguous:…
-- [Low] The comment for the rmnet_map_header flags field in
-  include/linux/if_rmnet.h still says 'NEXT_HEADER: 1 = packet contains…
-- [Low] The comment above rmnet_map_segment_coal_skb()
-  (rmnet_map_data.c:1116) says 'NLOs with checksum errors are dropped.'…
-- [Low] The new section 'e.
+What exactly is the right commit to specify when it comes to a
+regression caused by a change that exposed a way older bug? The change
+that exposed it? The change that introduced it in the first place? Both?
+I'd tend to "both", but I guess some people might consider this as too
+noisy.
 
---
+I've seen occasional discussions about this and our docs for humans are
+a bit vague here:
 
-docs: networking: Add documentation for the coalescing support in rmnet
+Documentation/process/submitting-patches.rst says:
+""If your patch fixes a bug in a specific commit, e.g. you found an
+issue using git bisect, please use the ‘Fixes:’ tag with at least the
+first 12 characters of the SHA-1 ID, and the one line summary.
+[...]
+A Fixes: tag indicates that the patch fixes a bug in a previous commit.
+It is used to make it easy to determine where an issue originated""
 
-This commit documents the MAPv5 coalescing header layout and field
-semantics in rmnet.rst. It also documents the IFLA_RMNET_FLAGS ingress and
-egress flags, the rules for combining coalescing with checksum offload,
-and when coalesced frames are delivered as GSO skbs.
+And Documentation/process/5.Posting.rst says:
+""One tag is used to refer to earlier commits which introduced problems
+fixed by the patch:""
 
-> diff --git a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-> index 5aedbabb73827..52f92d2fba311 100644
-> --- a/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-> +++ b/Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
-> @@ -125,8 +125,8 @@ Command (1)/ Data (0) bit value is to indicate if the packet is a MAP command
->  or data packet. Command packet is used for transport level flow control. Data
->  packets are standard IP packets.
->  
-> -Next header is used to indicate the presence of another header, currently is
-> -limited to checksum header.
-> +Next header is used to indicate the presence of another header, currently
-> +limited to the checksum and coalescing headers.
-
-[Severity: Low]
-This text now disagrees with the flags comment in include/linux/if_rmnet.h.
-The series did not update that comment:
-
-/* rmnet_map_header flags field:
- ...
- *  NEXT_HEADER: 1 = packet contains V5 CSUM header 0 = no V5 CSUM header
- */
-#define MAP_NEXT_HEADER_FLAG		BIT(6)
-
-After this series, MAP_NEXT_HEADER_FLAG can also indicate a coalescing
-header. rmnet_map_validate_packet_len() handles the length of that type
-differently:
-
-		if (hdr_type == RMNET_MAP_HEADER_TYPE_CSUM_OFFLOAD)
-			packet_len += sizeof(*next_hdr);
-		else if (hdr_type != RMNET_MAP_HEADER_TYPE_COALESCING)
-			return 0;
-
-Should the comment in if_rmnet.h also mention the coalescing header?
-
-[ ... ]
-
-> @@ -162,8 +162,109 @@ indicates that the calculated packet checksum is invalid.
->  
->  Reserved bits must be zero when sent and ignored when received.
->  
-> -e. MAP packet v1/v5 (command specific)
-> ---------------------------------------
-> +e. Coalescing header v5
-> +------------------------
-> +
-> +Hardware can coalesce multiple same-flow IP packets into a single MAP frame
-> +to reduce per-packet overhead at high data rates.  Packets are grouped into
-> +NLOs, with all packets in each NLO having the same length.  The coalescing
-> +header (header type 1) describes the coalesced content.
-
-[Severity: Low]
-Sections a through d each say their fields are in big endian format. This
-new section gives no byte order.
-
-The NLO Pkt length field is big endian on the wire:
-
-include/linux/if_rmnet.h:
-struct rmnet_map_v5_nl_pair {
-	__be16 pkt_len;
-	u8  csum_error_bitmap;
-	u8  num_packets;
-} __aligned(1);
-
-Could this section add a sentence such as "Coalescing header fields are in
-big endian format."?
-
-[ ... ]
-
-> +CSUM error bitmap is one 48-bit stream formed by concatenating the
-> +``csum_error_bitmap`` bytes from all six NLO slots in slot order. Packet 0
-> +corresponds to bit 0 of slot 0's bitmap byte, and bits are consumed from
-> +least significant bit to most significant bit. The bit stream is indexed by
-> +the packet's absolute position in the frame and does not restart at an NLO
-> +boundary. If an NLO contains more than eight packets, its error bits
-> +continue into the bitmap byte of the following slot. Bitmap bytes in slots
-> +after the active NLO prefix may therefore contain continuation bits and must
-> +not be ignored.
-
-[Severity: Low]
-This description matches rmnet_map_coal_segment_loop(). The comment above
-rmnet_map_segment_coal_skb() in rmnet_map_data.c says something different:
-
-/* Expand a coalesced SKB into individual IP packets placed on the list.
- * NLOs with checksum errors are dropped. __rmnet_map_ingress_handler will
- * free the SKB in the error case.
- */
-
-rmnet_map_coal_segment_loop() checks the flat bitmap once per packet:
-
-			csum_err = nlo_err_mask & 1;
-
-It flushes the good packets collected so far, drops only the errored
-packet, and carries on within the same NLO.
-
-Should that comment say that individual packets are dropped, not whole
-NLOs?
-
-[Severity: Low]
-This section explains how the bitmap is encoded, but not what rmnet does
-with the packets it flags. __rmnet_map_segment_coal_skb() drops a flagged
-packet and counts it:
-
-	if (!csum_valid && coal_meta->zero_csum)
-		csum_valid = true;
-
-	if (!csum_valid) {
-		...
-		u64_stats_add(&pcpu_ptr->priv_stats.rx_dropped, coal_meta->pkt_count);
-		u64_stats_inc(&pcpu_ptr->priv_stats.coal_csum_drop);
-		...
-		goto next_pkt;
-	}
-
-Could the doc say that these packets are dropped and counted in
-rx_dropped?
-
-The zero checksum exemption appears only in the single-packet quirk
-paragraph ("IPv4 UDP packets with a zero checksum remain valid ..."). In
-the code, zero_csum overrides the bitmap for every rebuilt segment, not
-only in that case.
-
-The RMNET_FLAGS_INGRESS_COALESCE entry further down says "A coalesced
-frame containing one packet is delivered as a normal non-GSO skb." Does
-that still hold when RX checksum offload and rx-gro-hw are both enabled?
-
-Take a single-NLO, single-packet frame where:
-
-  - CSUM valid is clear
-  - the close reason is not on the quirk list (for example close type 0,
-    1 or 2)
-  - bit 0 of the bitmap is set
-  - the packet is not zero-checksum IPv4 UDP
-
-The path looks like this:
-
-rmnet_map_segment_coal_skb()
-  rmnet_map_v5_csum_fixup() returns false
-  rmnet_map_coal_gro_fast_path() returns false
-  rmnet_map_coal_segment_loop()
-    __rmnet_map_segment_coal_skb(..., false)   <- packet dropped
-
-The list stays empty, rmnet_map_process_next_hdr_packet() frees the skb,
-and nothing is delivered.
-
-[ ... ]
-
-> @@ -208,3 +309,39 @@ rmnet userspace configuration is done through netlink using iproute2
->  https://git.kernel.org/pub/scm/network/iproute2/iproute2.git/
->  
->  The driver uses rtnl_link_ops for communication.
-> +
-> +The data format flags controlling the ingress and egress processing
-> +pipeline are set via the ``IFLA_RMNET_FLAGS`` attribute
-> +(``struct ifla_rmnet_flags``).
-> +
-> +Relevant ingress flags:
-> +
-> +``RMNET_FLAGS_INGRESS_DEAGGREGATION``
-> +  Enable MAP frame de-aggregation.
-> +
-> +``RMNET_FLAGS_INGRESS_MAP_CKSUMV4``
-> +  Enable MAPv4 downlink checksum offload.
-> +
-> +``RMNET_FLAGS_INGRESS_MAP_CKSUMV5``
-> +  Enable MAPv5 downlink checksum offload (header type 2).
-> +
-> +``RMNET_FLAGS_INGRESS_COALESCE``
-> +  Enable MAPv5 downlink hardware coalescing (header type 1).
-> +  This flag requires ``RMNET_FLAGS_INGRESS_MAP_CKSUMV5``. MAPv4 and
-> +  MAPv5 checksum flags cannot be enabled together in either direction.
-> +  A direction may leave checksum offload disabled. Invalid combinations
-> +  are rejected.
-
-[Severity: Low]
-"cannot be enabled together in either direction" reads like a rule
-applied to each direction separately. rmnet_config_data_format_valid()
-applies it to the whole device, whether or not
-RMNET_FLAGS_INGRESS_COALESCE is set:
-
-	u32 v4_mask = RMNET_FLAGS_INGRESS_MAP_CKSUMV4 |
-		      RMNET_FLAGS_EGRESS_MAP_CKSUMV4;
-	u32 v5_mask = RMNET_FLAGS_INGRESS_MAP_CKSUMV5 |
-		      RMNET_FLAGS_EGRESS_MAP_CKSUMV5;
-
-	if ((data_format & v4_mask) && (data_format & v5_mask))
-		return false;
-
-This means rmnet_newlink() and rmnet_changelink() reject
-RMNET_FLAGS_INGRESS_MAP_CKSUMV5 plus RMNET_FLAGS_EGRESS_MAP_CKSUMV4 with
--EINVAL, even with no coalescing.
-
-The rule applies to the checksum flags by themselves. Could it go in the
-RMNET_FLAGS_INGRESS/EGRESS_MAP_CKSUMV4/V5 entries, worded to say that only
-one checksum version may be enabled across both directions?
-
-The comment above rmnet_config_data_format_valid() ("selected
-independently for ingress and egress, but only one version may be enabled
-across the device") is also ambiguous on this point.
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261009084351.317632-1-subash.a.kasiviswanathan%40oss.qualcomm.com
+Ciao, Thorsten
