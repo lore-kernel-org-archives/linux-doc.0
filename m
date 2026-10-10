@@ -1,324 +1,84 @@
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB182E7631
-	for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2026 03:36:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E874332907;
+	Sat, 10 Oct 2026 04:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791603396; cv=none; b=QEP8IXMvTh+2YBNc6jsZxojbn5XQrxH+D31nns43bqiPUHm0Wr+i3CtmJJTNqrWce29+mB9c8wGKpGaAJjeBIqGFm2Qy5e8trhBuaGdkP+6c3I2jYb3F9Do9zTNJfZHt8ejhZh5XDXkCXEkLcEz6hNcnWsSAUpAIP1XDuHWAyLo=
+	t=1791606512; cv=none; b=KSr+E/q7yysremqFI6TIxSPqT0L7FD6RzM1GetVtkSkaTowyztCfQjD8gOT4Ky4trlSnyPOhu+birbHoejWlqVcKZ7eYIvvr6Y7nLyuA7Y4xzdOCM/D+HrTyFZd/QlrWBmM42qnzfe5a4wAZGsV2vFAUB1SLeIM2a/cC4ilVFK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791603396; c=relaxed/simple;
-	bh=IOF7eaG/olLYObLtJxwO6rrwHjLL8fVMYqs6nFWBb34=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=JNstZ04ULcsDARSwBpfshaz783htGEeYL6pCsVfR0OWwsOI9V8xOAuI6xRf2IJXlu96vmm7CTJKkX/WgBRMZtSAbcmdFQ08ZYzRY5bFWvgR7B78dExUoF+Vc+Y/X56IUDniFiPj3tXDdfxnC5OKCYBxksjQEd1AdBH5yGtZ2YmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aSu3dvYV; arc=none smtp.client-ip=74.125.82.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+	s=arc-20240116; t=1791606512; c=relaxed/simple;
+	bh=qLa17zDzqAWX06CSTIht6/3ZKuRGd3pqG1TQ6XIR/Bo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ol8V0yvhDGRXknzfokzzDgrntGkNHmxsyO26UCDG4P3L/hH1qJPDwFELHn21Oo+Ozt27ePI1g4SogYImTm/AQldCgyfEikz0IVJ/V/2cw5jCVy6t1kcGyNVZAn+bafejFDAjpAn0FLTiu/0+Evv8hgw7sw1bcDLn5YT6QUmHLGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kcsbVGhx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aSu3dvYV"
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-3552883bd19so1418478eec.1
-        for <linux-doc@vger.kernel.org>; Fri, 09 Oct 2026 20:36:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791603393; x=1792208193; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=woacYuG0xz8CaoIm3rAgvR40HPJJlH/YZ3rvE69Oh/c=;
-        b=aSu3dvYVOqMgN8cLoF7Uk1Kwm35wHMucdqCWEG1/3NzIVjJ7FZrKAte0afsx8QpxaR
-         UwdyBA2M7E2hO+RVu5EQmHrduIwVGFUCx63Y1yxzCVi/IsjV3fnO+cMRSoucadIT9ENS
-         mCQODdg/S1X36XY+V9TzZ27en96E9SSD37/bEu3kv7ePORhlbbA/HFMhnBPD6xIpR/A8
-         tFumtfCRGHKpPhtprMTPmhzxGAQevzJqLVhjYaGdGcosniCR55+eWeSP2tXQWWb2mFuQ
-         APscjklVUOQueM1HTvCyPsryyeR3iDnEqQAlt04jsn+urWKUQhq4UTURIOdhDH2mIyW2
-         qk0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791603393; x=1792208193;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=woacYuG0xz8CaoIm3rAgvR40HPJJlH/YZ3rvE69Oh/c=;
-        b=HG9iueVzlLgb/Uk/tZc3EfEXwGQ61L4UNkNOmIaZ4cYcs0Y1nDpcbcgfhQl4t0DCLL
-         n+mzTdPN1TYnwRibSUNUzfrQ6j4pwgFvplO32O6OcfJTCs0eW2ffyGCwg8RXuOou+h0K
-         HZ2A+nrr8+f2ibXyog/uOnrjrDkHMR6DlFqhyt7+SPFMy+bJt0c0ArD64l2yxlGk9iwi
-         jZHBQLoD0dkxfJf3ivIoUURor5HlR0hB7b2psLub2MlMg5RpTqIm+0AEfPxfQw1A5mpf
-         WqR3z6/6PX7VOkn/HXHcsyyf4R3l9JfH9MyxTnHjwszDftp0V+Oy/MYyJH+1ucUkCoVH
-         qpLw==
-X-Forwarded-Encrypted: i=1; AKwUvByTvYHevBq8EgfeYXXaweiWnovNIyY6L0w6BtIOOHhEl8tLQQ78kuNE9Toac43F3x3LIekA6X03fnU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJTpXTPEF7eVOOFtJ3r5PF/h/ZlPuS1iaUyYuyUiQCf8hDEviDn
-	EopMtNmJp4YHywZ2WheLMH1UmRVh1ph/QReCFWIbEN4efcYa+Pf1PmzIsLzuEe28LzL/LvMLjyu
-	bgUGY2suKZ7rZE+yqVt5QfMAA1g==
-X-Received: from dyz18.prod.google.com ([2002:a05:693c:4092:b0:34d:46b2:7513])
- (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7300:7fa3:b0:352:2e10:10c3 with SMTP id 5a478bee46e88-3537e0858edmr7462976eec.36.1791603392171;
- Fri, 09 Oct 2026 20:36:32 -0700 (PDT)
-Date: Sat, 10 Oct 2026 03:36:08 +0000
-In-Reply-To: <20261010033630.1171692-1-almasrymina@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kcsbVGhx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 970E01F000FF;
+	Sat, 10 Oct 2026 04:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791606511;
+	bh=ZZTc9D1V8A2+OS/p3LTBWh2BWyf0o66OW3k/3rcAAuM=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=kcsbVGhxmyULjTAHnqJr9seeINcnzWsxe3nH+clEfYzFRGZVnQi6rpqKYFR/SfGp2
+	 3ZjFAp2T2Lsj/ElIcFcC8bg6ypaGzUaZKkJdX8uNOCgEy7UbziEFgA7w7H77wizOPs
+	 qa65UMKUiZJ9e/R9vJN+AbAG0m5yIMhiWPwae5WGucWVFfsS/wgDDpAtkfe7lmeGiz
+	 aewAlRW6XkiDDDCkTt2tz6kcnqCK18pWnk3XRUAxpd/o/99Yf3JhnsH1OitGJ1lHRr
+	 2DB12g294SqmGphqJ59N+AxmtOceKIpaWyewKoKlob/RtsvSlL6dO0UPW7ecDTZF2k
+	 YbGaUJMFRbTqA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 651BBCE0D77; Fri,  9 Oct 2026 21:28:31 -0700 (PDT)
+Date: Fri, 9 Oct 2026 21:28:31 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Manuel Ebner <manuelebnerli@mailbox.org>,
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	linux-next@vger.kernel.org
+Subject: Re: [BUG] Build failure in next-20261007 and next-20261008
+Message-ID: <62bd2378-d908-47fc-8c33-4e2f8dc04920@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <0ddb5e5e-f801-444c-aa98-0cfe814a3026@paulmck-laptop>
+ <202610082200.752C6C08A5@keescook>
+ <51aa9736-6e78-40db-9d4f-95dc7142e222@paulmck-laptop>
+ <202610091922.19792FDA8@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20261010033630.1171692-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261010033630.1171692-2-almasrymina@google.com>
-Subject: [PATCH net-next v3 1/2] net: netmem: document netmem and memory
- provider design in comments
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Luigi Rizzo <lrizzo@google.com>, "=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?=" <bjorn@kernel.org>, 
-	Pavel Begunkov <asml.silence@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202610091922.19792FDA8@keescook>
 
-Clarify the netmem, memory provider, page_pool, and skb fragment design
-principles in header and code comments:
+On Fri, Oct 09, 2026 at 07:23:29PM -0700, Kees Cook wrote:
+> On Fri, Oct 09, 2026 at 08:57:02AM -0700, Paul E. McKenney wrote:
+> > On Thu, Oct 08, 2026 at 10:11:14PM -0700, Kees Cook wrote:
+> > > On Thu, Oct 08, 2026 at 05:56:21PM -0700, Paul E. McKenney wrote:
+> > > > Building a kernel on CentOS Stream 9 from next-20261007 and next-20261008
+> > > > (and maybe others?)  on an x86 or arm64 system results in a strange
+> > > > build failure featuring:
+> > > > 
+> > > > WARNING: Unable to reopen jobserver read-side pipe: FileNotFoundError(2, 'No such file or directory')
+> > > 
+> > > What are your make and python versions? (Oh, the answer is going to be
+> > > "CentOS-patched make 4.3")
+> > 
+> > I get "GNU Make 4.3", so maybe I need to patch or upgrade or something?
+> > 
+> > And "Python 3.12.15+meta", so maybe I need to talk to people here.  ;-)
+> 
+> I meant, it looks like CentOS has a patched version of "make". But I
+> think that just changes the nature of the bug; it's still a bug that
+> needs to be fixed even with unpatched "make".
 
-- Memory providers allocate struct net_iov or struct page, cast them to
-  netmem_ref, and pass them to page_pool; page_pool, drivers, and the
-  core stack operate on netmem_ref and must not downcast to page or
-  net_iov outside dedicated netmem helpers.
-- While current memory providers supply struct net_iov, they are not
-  architecturally restricted to net_iov and may supply page-backed
-  netmems.
-- While current net_iov types are CPU-unreadable, net_iov has no
-  inherent restrictions and may be readable or unreadable.
-- New code should generalize existing limitations as much as possible to
-  match these design principles.
-- Per-provider logic belongs in memory_provider_ops, and per-netmem-type
-  logic belongs in netmem helpers.
-- All frags in an skb must either all be struct page-backed or all
-  belong to the same memory provider instance; mixing them (including
-  via coalescing) is not allowed.
+Whew!!!
 
-Cc: Luigi Rizzo <lrizzo@google.com>
-Cc: Pavel Begunkov <asml.silence@gmail.com>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-Acked-by: Jesper Dangaard Brouer <hawk@kernel.org>
-Reviewed-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
----
-v3:
-- Collect Bj=C3=B6rn's Reviewed-by and Stanislav's Acked-by tags.
-- Clarify skb fragment comments: all frags must be struct page-backed or
-  belong to the same memory provider instance (Pavel Begunkov).
-- Link to v2: https://lore.kernel.org/netdev/20261008023030.1089616-1-almas=
-rymina@google.com/
-v2:
-- Add Jesper's Acked-by tag.
-- Note current implementation status (memory providers currently supply
-  net_iov, and net_iov is currently unreadable) alongside target design
-  principles and expectation for new code to generalize existing
-  limitations (Stanislav Fomichev).
-- Link to v1: https://lore.kernel.org/netdev/20261005004958.3603059-1-almas=
-rymina@google.com/
----
- include/linux/skbuff.h                  |  6 +++++
- include/net/netmem.h                    | 30 ++++++++++++++++---------
- include/net/page_pool/helpers.h         | 18 ++++++++++-----
- include/net/page_pool/memory_provider.h | 10 +++++++++
- include/net/page_pool/types.h           |  6 ++---
- net/core/skbuff.c                       |  4 ++++
- 6 files changed, 56 insertions(+), 18 deletions(-)
+And thank you very much for looking into this!
 
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 27ec1e38c8283..af1cbc2799b77 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -358,6 +358,12 @@ struct sk_buff;
-  */
- #define GSO_BY_FRAGS	0xFFFF
-=20
-+/* All frags in an skb must either all be struct page-backed or all belong=
- to
-+ * the same memory provider instance (e.g. the same devmem binding or io_u=
-ring
-+ * area). Mixing page and memory-provider frags, or mixing frags from diff=
-erent
-+ * memory providers within a single skb (including via coalescing), is not
-+ * allowed.
-+ */
- typedef struct skb_frag {
- 	netmem_ref netmem;
- 	unsigned int len;
-diff --git a/include/net/netmem.h b/include/net/netmem.h
-index 0cc8572f62caf..c4beb6fbc1306 100644
---- a/include/net/netmem.h
-+++ b/include/net/netmem.h
-@@ -70,16 +70,18 @@ enum net_iov_type {
- 	NET_IOV_IOURING,
- };
-=20
--/* A memory descriptor representing abstract networking I/O vectors,
-- * generally for non-pages memory that doesn't have its corresponding
-- * struct page and needs to be explicitly allocated through slab.
-+/* A memory descriptor representing abstract networking I/O vectors.
-  *
-  * net_iovs are allocated and used by networking code, and the size of
-  * the chunk is PAGE_SIZE.
-  *
-- * This memory can be any form of non-struct paged memory.  Examples
-- * include imported dmabuf memory and imported io_uring memory.  See
-- * net_iov_type for all the supported types.
-+ * Examples include imported dmabuf memory and imported io_uring memory. S=
-ee
-+ * net_iov_type for all the supported types. While current net_iov types a=
-re
-+ * unreadable by the CPU, net_iov has no inherent restrictions and may be
-+ * CPU-readable or unreadable. New code must not assume net_iov implies
-+ * unreadable memory (check readability via netmem_address() or
-+ * skb_frags_readable() instead) and should, as much as possible, generali=
-ze
-+ * existing limitations to match the design principles.
-  *
-  * @pp_magic:	pp field, similar to the one in struct page/struct
-  *		netmem_desc.
-@@ -131,8 +133,17 @@ static inline void net_iov_init(struct net_iov *niov,
-  * network memory.
-  *
-  * A netmem_ref can be a struct page* or a struct net_iov* underneath.
-+ * Memory providers (or the default page_pool allocator) allocate struct
-+ * net_iov or struct page, cast them to netmem_ref, and hand them to
-+ * page_pool.
-  *
-- * Use the supplied helpers to obtain the underlying memory pointer and fi=
-elds.
-+ * The page_pool, drivers, and core networking stack should operate on
-+ * netmem_ref rather than struct page or struct net_iov. Downcasting
-+ * netmem_ref via netmem_to_page() or netmem_to_net_iov() in callers is
-+ * not allowed unless a code path strictly requires a specific backing
-+ * type (e.g., kmap_local_page()). In such cases, add a netmem helper here
-+ * that handles both page and net_iov cases and returns an error if the
-+ * underlying type cannot support the operation.
-  */
- typedef unsigned long __bitwise netmem_ref;
-=20
-@@ -297,9 +308,8 @@ static inline atomic_long_t *netmem_get_pp_ref_count_re=
-f(netmem_ref netmem)
-=20
- static inline bool netmem_is_pref_nid(netmem_ref netmem, int pref_nid)
- {
--	/* NUMA node preference only makes sense if we're allocating
--	 * system memory. Memory providers (which give us net_iovs)
--	 * choose for us.
-+	/* NUMA node preference only applies to struct page; net_iovs are
-+	 * managed by their memory provider.
- 	 */
- 	if (netmem_is_net_iov(netmem))
- 		return true;
-diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helper=
-s.h
-index cd021832c3fa3..28635ce9454e8 100644
---- a/include/net/page_pool/helpers.h
-+++ b/include/net/page_pool/helpers.h
-@@ -8,12 +8,20 @@
- /**
-  * DOC: page_pool allocator
-  *
-- * The page_pool allocator is optimized for recycling page or page fragmen=
-t used
-- * by skb packet and xdp frame.
-+ * The page_pool allocator is optimized for recycling network memory
-+ * (netmem_ref) or fragments used by skb packets and xdp frames.
-  *
-- * Basic use involves replacing any alloc_pages() calls with page_pool_all=
-oc(),
-- * which allocate memory with or without page splitting depending on the
-- * requested memory size.
-+ * page_pool natively operates on netmem_ref, which abstracts the underlyi=
-ng
-+ * memory type (struct page or struct net_iov) supplied by the page alloca=
-tor
-+ * or a memory provider. Drivers and core networking code should use the
-+ * netmem-based APIs (e.g. page_pool_alloc_netmem(), page_pool_put_netmem(=
-)).
-+ * The struct page-based APIs (e.g. page_pool_alloc(), page_pool_alloc_pag=
-es(),
-+ * page_pool_put_page()) are legacy compatibility wrappers for drivers not=
- yet
-+ * converted to netmem.
-+ *
-+ * Basic use involves replacing any alloc_pages() calls with
-+ * page_pool_alloc_netmem() (or legacy page_pool_alloc()), which allocate =
-memory
-+ * with or without splitting depending on the requested memory size.
-  *
-  * If the driver knows that it always requires full pages or its allocatio=
-ns are
-  * always smaller than half a page, it can use one of the more specific AP=
-I
-diff --git a/include/net/page_pool/memory_provider.h b/include/net/page_poo=
-l/memory_provider.h
-index 255ce4cfd9755..137cfc50833ac 100644
---- a/include/net/page_pool/memory_provider.h
-+++ b/include/net/page_pool/memory_provider.h
-@@ -9,6 +9,16 @@ struct netdev_rx_queue;
- struct netlink_ext_ack;
- struct sk_buff;
-=20
-+/* Memory providers allocate underlying memory (struct net_iov or struct p=
-age),
-+ * cast it to netmem_ref, and supply it to page_pool. While current memory
-+ * providers only return struct net_iov, they are not architecturally limi=
-ted to
-+ * net_iov; a provider returning page-backed netmems is allowed. New code =
-must
-+ * not assume a memory provider implies net_iov and should, as much as pos=
-sible,
-+ * generalize existing limitations to match the design principles.
-+ *
-+ * Per-provider custom logic must be delegated to memory_provider_ops rath=
-er
-+ * than handled directly in page_pool core code.
-+ */
- struct memory_provider_ops {
- 	netmem_ref (*alloc_netmems)(struct page_pool *pool, gfp_t gfp);
- 	bool (*release_netmem)(struct page_pool *pool, netmem_ref netmem);
-diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
-index 03da138722f58..6d543076a0c0b 100644
---- a/include/net/page_pool/types.h
-+++ b/include/net/page_pool/types.h
-@@ -22,9 +22,9 @@
- 					*/
- #define PP_FLAG_SYSTEM_POOL	BIT(2) /* Global system page_pool */
-=20
--/* Allow unreadable (net_iov backed) netmem in this page_pool. Drivers set=
-ting
-- * this must be able to support unreadable netmem, where netmem_address() =
-would
-- * return NULL. This flag should not be set for header page_pools.
-+/* Allow unreadable netmem in this page_pool. Drivers setting this must be=
- able
-+ * to support unreadable netmem, where netmem_address() returns NULL. This=
- flag
-+ * should not be set for header page_pools.
-  *
-  * If the driver sets PP_FLAG_ALLOW_UNREADABLE_NETMEM, it should also set
-  * page_pool_params.slow.queue_idx.
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index d56f4f0102f75..69d3d27e29d97 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -6210,6 +6210,10 @@ bool skb_try_coalesce(struct sk_buff *to, struct sk_=
-buff *from,
- 	if (to->pp_recycle !=3D from->pp_recycle)
- 		return false;
-=20
-+	/* All frags in an skb must either all be struct page-backed or all
-+	 * belong to the same memory provider instance; do not coalesce skbs
-+	 * that would mix them.
-+	 */
- 	if (skb_frags_readable(from) !=3D skb_frags_readable(to))
- 		return false;
-=20
---=20
-2.56.0.385.gd3acb90ef8-goog
-
+							Thanx, Paul
