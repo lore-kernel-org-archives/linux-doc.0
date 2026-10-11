@@ -1,128 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-32.mta1.migadu.com [95.215.58.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E8B3043CF;
-	Sun, 11 Oct 2026 06:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FA6376A06
+	for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 07:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791700787; cv=none; b=BDJauqXA4jyhbipcdHcExDLUIvpqR4wlrrtJm7J/nfrhsQYKj/+d52wPVBLAdw/Vgan3Ad3POOMbfA+78csni8iOSzTIFKv38dt56ruIOBZQtr2NUuPdCMiDtqzTg/jI35MEqR/1ERrS6fyZ73eCWPeKa2XLc+Pc08pJmt3rHgI=
+	t=1791703587; cv=none; b=UjnsKVYycRzc801Z8CCD2KJqhcN1cOBoPy1XpQMiHLgNBJ7OyZCG/PzEijM8HLhJyHlAGgq/OHbW8zaji41KJLOfdBfR10sUXxLxoSxD/9jnfWCTSa2G5lMNhJMZTI9KR84NQIFO81vdSb6e3872oSN55l35F9AufeuDg3w/Tvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791700787; c=relaxed/simple;
-	bh=C5Rxy1xxYjielGyndIfYhv706RkItB1VEhDqvVi8v7c=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=df7llGZ50gBKWIgQjHs/B1BsgD9KwAeW0cVw1AiImLhwsdNec+nn9bVFOJ2Yumw4FnlLsd75w8wG1I8cksQceIGzz6c0BgN1Vjj2XQL7HgqKpU0gft04CktMc8qHTNITG0gcQ/BJgBsHCaT54/4k/+Jk6rSrG5sQOrnVKBunYQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VD4cxtcp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791703587; c=relaxed/simple;
+	bh=zeYhOKLAEK6plYt1ei/97MDQNIKutEUyTKAyLEF+q9o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SrDB68VQnCR6ffK5kumYhuaijbWL47/T7YY6laxiKNsDwG/GIVLHtHVkhvvkz7PPDEuX0bw2tSIQ2+hIi5MWim5+wiw/NkXpY58kQFpsaayl8RFooxsjHBBU26WsRk1PJwRDXZmmwhxgH2leAQS/f8e8CUHUTBbpVxStlXbzzZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VO+EyQMf; arc=none smtp.client-ip=95.215.58.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VD4cxtcp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98B601F0089B;
-	Sun, 11 Oct 2026 06:39:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791700786;
-	bh=JeEJOoAQZinF5jq024suht+rQLWI0JuvVje59ye2Z2Y=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VD4cxtcp2VHzq/DBwXdVnu5D5j5jn5CglTljQvtMyrb1dqq+SQFvM645n8iCbAzcF
-	 dXKqNLD+sKGIByrnQFRnyWibE2Kj4MCOFmCjWWtpHwsGwFltqXjdWoIOLLAhvwCwQn
-	 EOWrANlTKFLOJ7AyYVZ1Pv7FEF6ltg2qTohkYd74hvnELAVNXiV5uHshM6wS3zFlvz
-	 xy8R2xjwsBnz/DGEERXErbv1ZfMAbbpAO/I8Anhx/kCnq/9pTZSQusePEERtWyQ4DM
-	 PR8WAn/hrggKSn86zA45KJtLqfDQpwdXVEqRkYrzK+4r9XZN5/gZNnjX36adO0oWTv
-	 K5aDZmlRDdxQw==
-Message-ID: <sashiko-outbox-167073@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 3/3] MIPS: Octeon: flash: use the simple map
- accessors without a shared eMMC
-Reply-To: sashiko-reviews@lists.linux.dev
-To: tsbogend@alpha.franken.de, "Orgad Shaneh" <orgads@gmail.com>, miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com
-Cc: linux-mips@vger.kernel.org, nico@fluxnic.net, corbet@lwn.net, linux-doc@vger.kernel.org, john@phrozen.org, kaloz@openwrt.org, ulli.kroll@googlemail.com, linusw@kernel.org, linux-kernel@vger.kernel.org, dwmw2@infradead.org, linux-mtd@lists.infradead.org
-In-Reply-To: <20261011062908.2365879-4-orgads@gmail.com>
-References: <20261010172142.2138956-1-orgads@gmail.com>
- <20261011062908.2365879-1-orgads@gmail.com>
- <20261011062908.2365879-4-orgads@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 11 Oct 2026 06:39:45 +0000
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VO+EyQMf"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=zeYhOKLAEK6plYt1ei/97MDQNIKutEUyTKAyLEF+q9o=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1791703583; v=1; x=1792308383;
+ b=VO+EyQMfkdoCAzZRmZ8Q1gzeNbt2A1w1Qihdx9B6DOJ0ha5zWAz8ayJz5O5gcYCqEFXXoa5o
+ 5ulxgtOWHUhYpFPOxVDBF3wyfeRAnt9hbhlCjaweLu+Jvu4vQ321wKPL26A6vRMgYtUsAcIVcbN
+ wa0IwO3jWcHI564/cHO74XrM=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id d16cbc721758f4e6;
+	Sun, 11 Oct 2026 07:26:23 +0000
+X-Mizu-Trace-ID: d16cbc721758f4e6
+X-Migadu-Flow: FLOW_OUT
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5ba40832934so2451e87.1
+        for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 00:26:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzF32jNkm2wM1WCDCUdZ/LGPPyR37OCTgdaYpkUDSXcYZYhFevsDPpbtax7wWjtTbcQ1FTXGNqf5io=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ2/c4o6eUpLQzaeK/xBLe/GN5z7lliL4cQIwWjYPTzn6smxQ8H
+	Dzbx4gVBk/3sH2czIT3PEWxzYyGYWnxq5W44NztuNttYguKhEUsxvVRxigNzd/NEpSHcp0kTDsG
+	ahUzEPTbtt4f1EyPqb9nQKUbTiQF06VvNjPQQpJH9
+X-Received: by 2002:a05:6512:3b11:b0:5bb:ff6f:b4bd with SMTP id
+ 2adb3069b0e04-5bcea610359mr46362e87.14.1791703578480; Sun, 11 Oct 2026
+ 00:26:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260928152507.2116110-1-fuad.tabba@linux.dev>
+ <20260928152507.2116110-4-fuad.tabba@linux.dev> <k6hsxo35ou3b5bcdo5xiew56zo25c4dmxqocnxszjvuqd7ct44@owruwfstprrh>
+In-Reply-To: <k6hsxo35ou3b5bcdo5xiew56zo25c4dmxqocnxszjvuqd7ct44@owruwfstprrh>
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Sun, 11 Oct 2026 08:25:42 +0100
+X-Gmail-Original-Message-ID: <CA+EHjTwe73HZ5u3LWgeYjDC2t1n4aLdwF=r-on5hSzCeTg+WPA@mail.gmail.com>
+X-Gm-Features: AclHuK-7n7d2SMrcaEI2aS0U2QLkxfWQsDtE5UfiVO1913-p3Vb7V7WrGlc9y-0
+Message-ID: <CA+EHjTwe73HZ5u3LWgeYjDC2t1n4aLdwF=r-on5hSzCeTg+WPA@mail.gmail.com>
+Subject: Re: [PATCH v1 03/10] KVM: arm64: nv: Don't loop on AT S12E{0,1}{R,W}
+ with an invalid VTCR_EL2
+To: Kajetan Puchalski <kajetan.puchalski@arm.com>
+Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Steffen Eiden <seiden@linux.ibm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Jing Zhang <jingzhangos@google.com>, Karl Mehltretter <kmehltretter@gmail.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] mtd: cavium: global state corruption of flash_map on multiple prob=
-es
---
+  Hi Kajetan,
 
-commit c32cf6c857e3356732452178a52a4e739fcaf273
-Author: Orgad Shaneh <orgads@gmail.com>
+  On Fri, 09 Oct 2026 17:30:59 +0100, Kajetan Puchalski
+<kajetan.puchalski@arm.com> wrote:
+  [...]
+  > Currently we just clear out the upper bits of an address larger
+than the IA size and proceed, but
+  > the architecture requires that to cause a L0 translation fault.
+Not that it's a particularly common case.
+  > That is to say, I'm suggesting something like the following:
+  >
+  > + if (input_size > 48 || input_size < 25 || (ipa >> input_size) ||
+  > +    check_base_s2_limits(vcpu, wi, level, input_size, stride)) {
 
-MIPS: Octeon: flash: use the simple map accessors without a shared eMMC
+  Thanks, I'll add this to v2 as its own patch, since it's a missing
+check rather than the loop this patch fixes. I'll add
+  an at.c test for it too.
 
-This commit modifies the Octeon flash driver to conditionally use simple map
-accessors when the bootbus is not shared with an eMMC host. Doing so avoids
-unnecessary semaphore usage and enables MTD to use the point() method
-for faster jffs2 mounts. It also adds early bank width validation before
-mapping memory.
-
-> diff --git a/arch/mips/cavium-octeon/flash_setup.c b/arch/mips/cavium-oct=
-eon/flash_setup.c
-> index 3395acde4d60a..5448d5139c640 100644
-> --- a/arch/mips/cavium-octeon/flash_setup.c
-> +++ b/arch/mips/cavium-octeon/flash_setup.c
-
-[ ... ]
-
-> @@ -102,11 +119,20 @@ static int octeon_flash_probe(struct platform_devic=
-e *pdev)
->  		flash_map.virt =3D ioremap(flash_map.phys, flash_map.size);
->  		pr_notice("Bootbus flash: Setting flash for %luMB flash at "
->  			  "0x%08llx\n", flash_map.size >> 20, flash_map.phys);
-> -		WARN_ON(!map_bankwidth_supported(flash_map.bankwidth));
-> -		flash_map.read =3D octeon_flash_map_read;
-> -		flash_map.write =3D octeon_flash_map_write;
-> -		flash_map.copy_from =3D octeon_flash_map_copy_from;
-> -		flash_map.copy_to =3D octeon_flash_map_copy_to;
-> +		/*
-> +		 * The boot bus semaphore only serializes the flash against
-> +		 * an eMMC host that shares the bus (the CIU3 parts have
-> +		 * their own). Without one, use the simple accessors: they
-> +		 * let MTD point at the flash, so jffs2 scans it in place.
-> +		 */
-> +		if (octeon_flash_bus_shared()) {
-> +			flash_map.read =3D octeon_flash_map_read;
-> +			flash_map.write =3D octeon_flash_map_write;
-> +			flash_map.copy_from =3D octeon_flash_map_copy_from;
-> +			flash_map.copy_to =3D octeon_flash_map_copy_to;
-> +		} else {
-> +			simple_map_init(&flash_map);
-> +		}
->  		mymtd =3D do_map_probe("cfi_probe", &flash_map);
-
-[Severity: High]
-Can this cause global state corruption if multiple flash devices are probed?
-
-Looking at arch/mips/cavium-octeon/flash_setup.c, flash_map is defined as a
-single static struct map_info instance:
-
-static struct map_info flash_map;
-
-If multiple cfi-flash devices are present on the platform bus,
-octeon_flash_probe() will be called for each of them. A second probe will
-overwrite the phys, virt, size, and bankwidth fields of the shared flash_map
-instance.
-
-Since do_map_probe() passes a pointer to flash_map to the CFI layer, both
-mtd_info instances will retain a reference to this single map via mtd->priv=
-. Any
-I/O on the first flash device would then use the mapped memory, size, and C=
-FI
-state of the second device, which could lead to data corruption.
-
-Does it make sense to allocate struct map_info dynamically per device inste=
-ad?
-
->  		if (mymtd) {
->  			mymtd->owner =3D THIS_MODULE;
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261011062908.2365=
-879-1-orgads@gmail.com?part=3D3
+  Cheers,
+  /fuad
