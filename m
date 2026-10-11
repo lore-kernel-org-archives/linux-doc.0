@@ -1,286 +1,109 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+Received: from mta1.migadu.com (out-226.mta1.migadu.com [95.215.58.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7929645D928
-	for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 20:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EB13876D5
+	for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 20:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791749821; cv=none; b=dvvmrAp27fN8bSRMot+9IIFPi4NeHNJ/cWXQfOxUbo/Egsh9D2L9sUC0sJcHpBNskN4uzPqU6cGsyX1QVPwPp4qQuiKoNR8ad8/h993/SL52bgVfWTAgo0rR5RQT7yuZ13lP7FFy9Q3ojEyNpcwW5B6yO9x43u9eUnHA1SSLbyc=
+	t=1791751408; cv=none; b=OrRCJ04Q1E5OBn5QKihiGlETvUYYB+ZxSljsqbZuN+1TihbQPoa388N5MbURTyacPAdUi2Dl0EVCbkpxEqZjzWDN3oOL7xd0SjM5QONgyBfqqk+l1HTaLQCYKKZXCO09mjh7UlwwgM4o18m/kbs9j4h+W/9WA7ekBzRgXxebavs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791749821; c=relaxed/simple;
-	bh=HKwdMYyKmRuchbP4c1XxhY0dQ26+OiRri0424Ox1MNM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QU60XhujrDMU/2kIkhdyH6CcurWVWwS+/kKVCiRGJ7FD+CJRlwkvkk2Cpy69mfl9qt8vudIqTcCGzlf3JV19yTe80KboTGDmiqUvwcVFfbXNLYsuwgbWOvawhGEhJZpM1HozR6GMdI/DJKqsQFQNxMINIP3ZmL9emnHrFe/icdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iXvF7HXK; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791751408; c=relaxed/simple;
+	bh=rqaA0XuWiDskP9yuqwcegfvbvYXBfuaFoAbZjxFS4is=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gwka9BYvD+DVJStAeIW1fSC+03+X9lgs1QQaNZBW7dMqfNla8D87ElIyTtW6XTPWC0BhGZcWo6p3qDJA2aUR2vjl3YkRG50Mp0yIkj9jcQ6QbfstqeqbrNfw9Ek2HAq6n2fW0xqFOOsErr0RlFC+TKXJ4eMyJfmSghVztulHw2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=F/+0Zmhj; arc=none smtp.client-ip=95.215.58.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iXvF7HXK"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-677dbe051d4so979868d50.0
-        for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 13:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791749817; x=1792354617; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8UfLUE/KJOT5M/bL0VV01RXMRIPvbS9JV6u+siHBB/k=;
-        b=iXvF7HXKteUsiEgHRSA+ARKG6LRzLDjMLwZivqykKZwcZx2GXY7wxgnfn+yQBt7sk1
-         GvdFD+M9bWt5Ge09vMD5KwzNHnc/sIgOM0VwuK7dRWzgMrt5zfVcEd0+bUgdU2JAqgod
-         o5iVXcafe9UDNrRNGJu4cGIaqpnw7jeQcxlxI1MwBuz6bqJvnQRU3kdHMJncqZxvfFHe
-         AWUXgy9wLv5tRENI8nyBr7PjWciSwqaSzfUO1e6eYtptKppOCIs5xlZH9woKgUFgRyQ0
-         R3BtviFk5atAPkIpqrDeMsGge+tZM1MVBn3pUmMX9fgSA8FJoWfo8EQ4x3QU2UZN/J3C
-         sHKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791749817; x=1792354617;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8UfLUE/KJOT5M/bL0VV01RXMRIPvbS9JV6u+siHBB/k=;
-        b=nr6WeXR42vEKeqWx6EcjyIw1EGMslmbvsRxNu//iE4JckwPiJzwH39AukU1u12YIXV
-         J5XfIzW8gaLj/YojEbbcJBeOpoZ3onSkNr3sYxecr9x1SEMcQ+ISKSciJKg8q221cuKu
-         i65ZaSozZWb7zzUAtyRJffdCIEzXEyy5Mxflocv/0TC3HhAIeklA+OAPrPZCqnYYsZM/
-         0mFiAmW52y51HWwyAN4fw3Eekjv60NQ/KHUzwgVQiWz9BNdGDvYjME4afJ7X0N6ejQYU
-         LH621f3P1MBllRH62Bd86ZVfzFa3EHRAc4fe8u3uQdE8GQszA6gvSswc+h87U3F3VVJM
-         gM3w==
-X-Forwarded-Encrypted: i=1; AKwUvBzMGVlODvbbahCjQ3xBSDUupx/HhHkOWQnEUpH2Lu2tr8GbkKezccf4uC/Q2lxWhG05ALH/LP2gwkU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIz0bDZMKCPDK6+zM9CREvQndUUyUbgPPuRDmUIKISHwwQaiSYq
-	RrnctUfBEYNWT5otjngh10hLKJi3U5fxtWgkrErH/KGT3f7Sa7d3rDZ7lVshAhBe
-X-Gm-Gg: AYBFou2kw00qEb+bDHnYz9lqdF+LJ30JZooTddJZRHaKJ2LxEEgewTqU3xFDX4+wrFl
-	CCGiEA+OZuHYe1pLsTDlmW3oPTprahqyhnsaaA/9wT42SCJjLeODHJ9brcttzNcvU7ljO4Qkf3Q
-	irK4jsKvSJg3DHht/OYVUq8s9lSy9X8M3Iw/l5uPhFjWTQjFz7VT19pxlZcboE3fd6jNfVRtRSZ
-	xxxCZxNptlat6iZS+q989AN/re6UFTzoXU8PpTY0FWXY5pOg7aipR5ftwSLQcAX7Xpa9BgiSoS2
-	9FUi+9TmYTWYo37xWyMKGZ6XQ4uNkpy1y7chdKu0EXCh4YneodFDslRa7n2hjdaAy5BJ3N5LTof
-	ZkcGEHWTgYiQMNfIkI+gZ7/1nkj5iW2uYXMZnQ9PIB9RouKto2pPyndVjmTc7HFFRSaDa7mR749
-	UkscbsiZmPLs/e/Ns+MsNKcXQzcrtScWdxL7KnuiSP4v5BeXWnGZ1EvRDbCelvntx/IU/QicHpi
-	Sa8D6V0GL9FMwzF7PdxhCwMZjCaokSyMA10PJXbeDRKPH0H5z0ccMch
-X-Received: by 2002:a05:690e:4199:b0:676:bf92:2520 with SMTP id 956f58d0204a3-6793627473bmr1908818d50.89.1791749817201;
-        Sun, 11 Oct 2026 13:16:57 -0700 (PDT)
-Received: from localhost ([2600:1702:7a90:6f9f:8bc4:8aec:108d:7a04])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-679356ae586sm2953786d50.15.2026.10.11.13.16.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 13:16:55 -0700 (PDT)
-From: Matt Turner <mattst88@gmail.com>
-Date: Sun, 11 Oct 2026 16:16:44 -0400
-Subject: [PATCH 4/4] alpha: add HAVE_PERF_REGS and
- HAVE_PERF_USER_STACK_DUMP support
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="F/+0Zmhj"
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=rqaA0XuWiDskP9yuqwcegfvbvYXBfuaFoAbZjxFS4is=;
+ c=simple/simple; d=packett.cool;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1791751403; v=1; x=1792356203;
+ b=F/+0Zmhj1z1Nxe891pHNxIFQxl6ZLKuxQjJ/S1GeoYNI04cReDkv29E2IZhawz95sRDUsrWY
+ ji1Cw/u6zD969atYB+7KQHu24XEUuITa6E48MXGEsKFMyp6kiSrinZisukW2wyMDZ6BtlY3Xjs+
+ zfAcBfHTGvTHo5JRHAr2kk0pbg9v3sb5J6+uODWdQq27JmJj1pczZCgcLPn7aNrTbKiWiOy71zi
+ S6qg5un16aS1Qku6Lwsny8svrporRTgB6NYZukWFv4J9UfjYv+ySOgrlEXGg8pkbP5HFQ6ON9oR
+ 1mGCw1q4Mhrb5eMifNlNnrx+qOd8k5Yl2Dyzz9LxU6wBg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id e9d61ac877c13462;
+	Sun, 11 Oct 2026 20:43:22 +0000
+X-Mizu-Trace-ID: e9d61ac877c13462
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <c5051b9d-2657-4852-809e-37ce2839e728@packett.cool>
+Date: Sun, 11 Oct 2026 17:43:11 -0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 0/9] drm/panel: add atomic state
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Jessica Zhang
+ <jesszhan0024@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20261008-panel-atomic-state-v1-0-b157fddb8de1@oss.qualcomm.com>
+Content-Language: en-US
+From: Val Packett <val@packett.cool>
+In-Reply-To: <20261008-panel-atomic-state-v1-0-b157fddb8de1@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261011-alpha-perf-regs-v3-v1-4-eaa625a39712@gmail.com>
-References: <20261011-alpha-perf-regs-v3-v1-0-eaa625a39712@gmail.com>
-In-Reply-To: <20261011-alpha-perf-regs-v3-v1-0-eaa625a39712@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>, 
- Magnus Lindholm <linmag7@gmail.com>
-Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, 
- Matt Turner <mattst88@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6348; i=mattst88@gmail.com;
- h=from:subject:message-id; bh=HKwdMYyKmRuchbP4c1XxhY0dQ26+OiRri0424Ox1MNM=;
- b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLJOv1vFYbApjvmsY3vtyT/c3ZelpJ44pzzY7LztzcFDE
- 7LkOcSPdHxkYRDjYpgppsgSt16RZVbbjqU+p6V/wcxhZQIZIi3SwAAELAx8uYl5pUY6Rnqm2oZ6
- hkCGjlE8RE6PQSOzuLg0tUg3raDIIS+/JLEkMz+vWC+/IDWvIL1ALy0zrSQjI7+oOBVohF5eaom
- pq6ObkaGBiaWjhZmThaOpibOzk6GTm6Ojs6uTkaW5iYGzpaOJq6U5AxenAMw1qccY/rtWbWib+v
- fi5rUPNzYev3hx3fw366xvb1z51l5l4fwp3bPaGBkWz3T1vS9Ya8D3/8V/bZvI8q6EtoaDjPH5S
- 5U/8LGemcEBAA==
-X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
- fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
 
-Let perf sample registers and dump the user stack, which is what the
-perf tool needs for --call-graph dwarf.
 
-The register indices follow the hardware numbering, so r0-r30 map
-directly to DWARF register numbers, with pc after them. r9-r15
-are callee-saved and live in switch_stack rather than pt_regs, so they
-cannot be sampled. Without r15 an unwinder cannot recover the CFA of a
-first frame that uses $15 as its frame pointer.
+On 10/8/26 10:14 AM, Dmitry Baryshkov wrote:
+> Panel drivers don't have an atomic state and so they can't handle
+> additional data to be stored at the atomic_check time or to be retrieved
+> at the enable/disable time. For example, it prevents panel drivers from
+> supporting multiple display modes or making DSC being optional in a
+> clean way. Drivers like panel-novatek-nt35950, save the connector
+> pointer in get_modes() and later dereference
+> connector->state->crtc->state from prepare() without holding any locks.
+> The panels also have no way to reject the configuration they cann't
+> handle, as it doesn't take part in the atomic check.
+>
+> The panel already embeds a drm_bridge, and the bridge has an atomic
+> state which is property handled. Subclass it to provide atomic state for
+> the panels. The callbacks can find the state of the other related
+> objects (e.g. CRTC state to get the display mode).
+>
+> The atomic state is opt-in. A panel that doesn't implement the state
+> callbacks keeps working exactly as before, with the plain bridge state,
+> so there is no need to touch the existing drivers. The panels which do
+> implement them can only be driven through the embedded bridge, since
+> there is no commit to hand over when the host calls drm_panel_prepare()
+> and friends directly. Those entry points warn and refuse to handle such
+> panels. There are still a dozen of display drivers calling these
+> functions, and the panels used with them can not be converted until the
+> hosts are switched to the panel bridge.
+>
+> The previous attempt by Val Packett <val@packett.cool> ([1]), but it had
+> issues with the API design, passing NULL for the state. This approach
+> follows closer the path that was chosen for drm_bridge conversion.
+>
+> The series is marked as RFC as it is only compiled-tested only.
+>
+> [1] https://lore.kernel.org/r/20260425001130.233935-1-val@packett.cool/
 
-sp is not in pt_regs either: for user frames it comes from
-user_stack_pointer(), and for kernel frames (PERF_SAMPLE_REGS_INTR) it
-is the end of the trap frame, as in stacktrace.c.
+Tested-by: Val Packett <val@packett.cool>
 
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Matt Turner <mattst88@gmail.com>
----
- .../features/perf/perf-regs/arch-support.txt       |  2 +-
- .../features/perf/perf-stackdump/arch-support.txt  |  2 +-
- arch/alpha/Kconfig                                 |  2 +
- arch/alpha/include/uapi/asm/perf_regs.h            | 45 +++++++++++++++++
- arch/alpha/kernel/Makefile                         |  1 +
- arch/alpha/kernel/perf_regs.c                      | 56 ++++++++++++++++++++++
- 6 files changed, 106 insertions(+), 2 deletions(-)
+Converted my nt37701 WIP to this, temporarily at:
 
-diff --git a/Documentation/features/perf/perf-regs/arch-support.txt b/Documentation/features/perf/perf-regs/arch-support.txt
-index 4c9a5a012075..7d736d678fd4 100644
---- a/Documentation/features/perf/perf-regs/arch-support.txt
-+++ b/Documentation/features/perf/perf-regs/arch-support.txt
-@@ -6,7 +6,7 @@
-     -----------------------
-     |         arch |status|
-     -----------------------
--    |       alpha: | TODO |
-+    |       alpha: |  ok  |
-     |         arc: | TODO |
-     |         arm: |  ok  |
-     |       arm64: |  ok  |
-diff --git a/Documentation/features/perf/perf-stackdump/arch-support.txt b/Documentation/features/perf/perf-stackdump/arch-support.txt
-index dd362b5cb638..17b84ea7769d 100644
---- a/Documentation/features/perf/perf-stackdump/arch-support.txt
-+++ b/Documentation/features/perf/perf-stackdump/arch-support.txt
-@@ -6,7 +6,7 @@
-     -----------------------
-     |         arch |status|
-     -----------------------
--    |       alpha: | TODO |
-+    |       alpha: |  ok  |
-     |         arc: | TODO |
-     |         arm: |  ok  |
-     |       arm64: |  ok  |
-diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index b2c359b947f6..8fafbfabd1e5 100644
---- a/arch/alpha/Kconfig
-+++ b/arch/alpha/Kconfig
-@@ -41,6 +41,8 @@ config ALPHA
- 	select HAVE_PAGE_SIZE_8KB
- 	select HAVE_PCSPKR_PLATFORM
- 	select HAVE_PERF_EVENTS
-+	select HAVE_PERF_REGS
-+	select HAVE_PERF_USER_STACK_DUMP
- 	select NEED_DMA_MAP_STATE
- 	select NEED_SG_DMA_LENGTH
- 	select GENERIC_IRQ_PROBE
-diff --git a/arch/alpha/include/uapi/asm/perf_regs.h b/arch/alpha/include/uapi/asm/perf_regs.h
-new file mode 100644
-index 000000000000..da96a31b12fb
---- /dev/null
-+++ b/arch/alpha/include/uapi/asm/perf_regs.h
-@@ -0,0 +1,45 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef _UAPI_ASM_ALPHA_PERF_REGS_H
-+#define _UAPI_ASM_ALPHA_PERF_REGS_H
-+
-+/*
-+ * Indices 0-30 match the hardware (and DWARF) register numbers.
-+ * r9-r15 are not saved in pt_regs and cannot be sampled.
-+ */
-+enum perf_event_alpha_regs {
-+	PERF_REG_ALPHA_R0,
-+	PERF_REG_ALPHA_R1,
-+	PERF_REG_ALPHA_R2,
-+	PERF_REG_ALPHA_R3,
-+	PERF_REG_ALPHA_R4,
-+	PERF_REG_ALPHA_R5,
-+	PERF_REG_ALPHA_R6,
-+	PERF_REG_ALPHA_R7,
-+	PERF_REG_ALPHA_R8,
-+	PERF_REG_ALPHA_R9,
-+	PERF_REG_ALPHA_R10,
-+	PERF_REG_ALPHA_R11,
-+	PERF_REG_ALPHA_R12,
-+	PERF_REG_ALPHA_R13,
-+	PERF_REG_ALPHA_R14,
-+	PERF_REG_ALPHA_R15,
-+	PERF_REG_ALPHA_R16,
-+	PERF_REG_ALPHA_R17,
-+	PERF_REG_ALPHA_R18,
-+	PERF_REG_ALPHA_R19,
-+	PERF_REG_ALPHA_R20,
-+	PERF_REG_ALPHA_R21,
-+	PERF_REG_ALPHA_R22,
-+	PERF_REG_ALPHA_R23,
-+	PERF_REG_ALPHA_R24,
-+	PERF_REG_ALPHA_R25,
-+	PERF_REG_ALPHA_R26,
-+	PERF_REG_ALPHA_R27,
-+	PERF_REG_ALPHA_R28,
-+	PERF_REG_ALPHA_GP,
-+	PERF_REG_ALPHA_SP,
-+	PERF_REG_ALPHA_PC,
-+	PERF_REG_ALPHA_MAX,
-+};
-+
-+#endif /* _UAPI_ASM_ALPHA_PERF_REGS_H */
-diff --git a/arch/alpha/kernel/Makefile b/arch/alpha/kernel/Makefile
-index 4ea5c189e60e..0c04b89676ed 100644
---- a/arch/alpha/kernel/Makefile
-+++ b/arch/alpha/kernel/Makefile
-@@ -18,6 +18,7 @@ obj-$(CONFIG_PCI)	+= pci.o pci_iommu.o pci-sysfs.o
- obj-$(CONFIG_SRM_ENV)	+= srm_env.o
- obj-$(CONFIG_MODULES)	+= module.o
- obj-$(CONFIG_PERF_EVENTS) += perf_event.o
-+obj-$(CONFIG_HAVE_PERF_REGS) += perf_regs.o
- obj-$(CONFIG_RTC_DRV_ALPHA) += rtc.o
- obj-$(CONFIG_AUDIT)	+= audit.o
- 
-diff --git a/arch/alpha/kernel/perf_regs.c b/arch/alpha/kernel/perf_regs.c
-new file mode 100644
-index 000000000000..10afe4e205e9
---- /dev/null
-+++ b/arch/alpha/kernel/perf_regs.c
-@@ -0,0 +1,56 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/bits.h>
-+#include <linux/perf_event.h>
-+#include <asm/perf_regs.h>
-+
-+#define REG(idx, field) \
-+	[PERF_REG_ALPHA_##idx] = offsetof(struct pt_regs, field)
-+
-+#define REG_RESERVED	(~GENMASK_ULL(PERF_REG_ALPHA_MAX - 1, 0) | \
-+			 GENMASK_ULL(PERF_REG_ALPHA_R15, PERF_REG_ALPHA_R9))
-+
-+static const unsigned int pt_regs_offset[PERF_REG_ALPHA_MAX] = {
-+	REG(R0, r0),	REG(R1, r1),	REG(R2, r2),	REG(R3, r3),
-+	REG(R4, r4),	REG(R5, r5),	REG(R6, r6),	REG(R7, r7),
-+	REG(R8, r8),	REG(R16, r16),	REG(R17, r17),	REG(R18, r18),
-+	REG(R19, r19),	REG(R20, r20),	REG(R21, r21),	REG(R22, r22),
-+	REG(R23, r23),	REG(R24, r24),	REG(R25, r25),	REG(R26, r26),
-+	REG(R27, r27),	REG(R28, r28),	REG(GP, gp),	REG(PC, pc),
-+};
-+
-+u64 perf_reg_value(struct pt_regs *regs, int idx)
-+{
-+	if (idx == PERF_REG_ALPHA_SP) {
-+		if (user_mode(regs))
-+			return user_stack_pointer(regs);
-+		/* Same kernel sp approximation as stacktrace.c. */
-+		return (unsigned long)(regs + 1);
-+	}
-+
-+	if (WARN_ON_ONCE((u32)idx >= PERF_REG_ALPHA_MAX ||
-+			 BIT_ULL(idx) & REG_RESERVED))
-+		return 0;
-+
-+	return *(unsigned long *)((void *)regs + pt_regs_offset[idx]);
-+}
-+
-+int perf_reg_validate(u64 mask)
-+{
-+	if (!mask || mask & REG_RESERVED)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+u64 perf_reg_abi(struct task_struct *task)
-+{
-+	return PERF_SAMPLE_REGS_ABI_64;
-+}
-+
-+void perf_get_regs_user(struct perf_regs *regs_user,
-+			struct pt_regs *regs)
-+{
-+	regs_user->regs = task_pt_regs(current);
-+	regs_user->abi = perf_reg_abi(current);
-+}
+https://github.com/valpackett/linux-qclaptops/commit/a0a3a25e1ce484ffe072e4399014ced605c78852
 
--- 
-2.55.0
+Everything works as it did with my initial hacky attempt. :)
+
+~val
 
