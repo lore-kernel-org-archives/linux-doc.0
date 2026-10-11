@@ -1,125 +1,299 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C082E7380;
-	Sun, 11 Oct 2026 08:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D756521ABBB
+	for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 09:03:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791708014; cv=none; b=nOxo1n0aHJjAHST/OsNs1QxT8O9tlczuJhU5IYmXaFsNBffRjrZgjRqfgO/aYOD23LjS3LU9zcoEoH5urtgYiiL3DFNajEvX8Pn991PFEh3hX+lZnMayziMZlB5Hy/75uFFa16J9yfwj8k2KX5Q0C0XV3mAHUsEesE086ysUM7o=
+	t=1791709388; cv=none; b=g9VxUvdZlqVe5kDWDFSvvyQ8rh4Cxrb3VMgDH8aycpjEjIvuqR1hXljCYvRlDL66HzpHoVDxAsOHAsXaOTWIQqh0t0LdKYwaCZjzYdjIlCI6kb0RzLh1Zo4aCZuwQB/n5jNnlD1PCmNpZM0FVyXjxC/5UdJK115F5fOWReuxruU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791708014; c=relaxed/simple;
-	bh=TbktEhj1a1+7ugqE0PLzbE7QRnJvyRaedk6Ba1R3byU=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=LB1jJTzEkiOlw/F6JaeCFi09uMKQxCfc1OD9XSIby7B4lRRzeT012a3xqtPI4gD0zX3Do8PL7v5Alh61DXPnJ3KTW6h0WMv5fiVPZV4D2JCXIcH/oLpkwv8zDNOGkVsfSzAvcuD/HBJ0Wmp0aD5L4jcXW3hA9HYvQ7i2zJXLsyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3vvTbLk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791709388; c=relaxed/simple;
+	bh=yQNy5NpswkjkGeyFIb6D2Av/9wJgprKZuQYo7hdra8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uRs2sFcZeaaaoSIA80JJPEb36hOoiFoMKbGPjKzdiawGHwNxBpb41DSip6zwn+UOkaAK+XJ/F7i0xq9B+yGub3GFZ+yuzfqTTIm7CvA8WJWaCx7tLNDLyxgzl6XTeDW49WXVvDP8AUqVrnLRcoYXUbms+8v9IH+WyacVD8kJPWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=j4xQ8vwC; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S3vvTbLk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 585021F0089C;
-	Sun, 11 Oct 2026 08:40:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791708013;
-	bh=hp9xX2dUrZlCXONwEL+JCIXeQEQv5+IPQxFX1fAUAtU=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=S3vvTbLk8vDK/+zaU6Tcbk3NTdv6/y9sz6lzuZywie9orctLkEC8RJqWcFseS3hYy
-	 X8GEnMj62twLs5faSpFFlObTtlg70L9tnSh4RCthWeq64cXP34Z51VOXZk4ckw7+Je
-	 DmgMGjwcbutPLm4ZltlD2fMPAJamA6nhbz8ugzMx4QBKQfC8ZZarQ3xe4Oakpjbk+/
-	 PbH2woZ92BjGp+lwC1aJ0WyBY3gUO8a0daHQOw2uao9VpDduJ/fIF0N/8l85PxLxC5
-	 Yc644TnqDcz+9qtRiUd5sm8agF48aXszEO33NS6ZRY8i0Z0qzfps2am+a1GhzpoGpH
-	 Mj944qFof0Z6Q==
-Content-Type: multipart/mixed; boundary="===============0635665488301257032=="
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="j4xQ8vwC"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-151de818519so771c88.0
+        for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 02:03:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791709386; x=1792314186; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mnvvNDQ4QSwr11mN2HQofr10EXpSOnRYT1GPrI43QCA=;
+        b=j4xQ8vwCkRJ3h+Yq0L5RgGi4wbfxdv4ubSyYVAHIAQIQCvbT/Eab8s+CWlwAa5FaDA
+         rQy1qsn7fL+GVTn8PXTUr+cPkRI74Ck55+vjDtVNjeSoxmZgT4865ESmV5GHgJ/w6tWW
+         WKtXgSgrY3CciXleoRdGBetatrjC5mgeXGx0Y+hXwRULEjIGYmjceQtIYK0okyQgLSmt
+         fDexy9wOOcB1rPrPrcmBaVr2mcKP6+G/qUuIo0LmwSe/jLtY5E5suba+A4/ko9SETbmE
+         NOuW6Db/A8Ukdujfn4juL70ZHPxgJI3IgmEIBtdImaW1TAR0nwBftW8O5R9qKto6ebKQ
+         GxGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791709386; x=1792314186;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mnvvNDQ4QSwr11mN2HQofr10EXpSOnRYT1GPrI43QCA=;
+        b=SXXLbw4WMwB1wUFLy7SDKyPmL54X+z0SdRDfKsdiQkoQ5wtVQQdyKJLhQFw6DBxWMG
+         mTcJt82Ee45G0vb4u07i7EW62i1rYpg/wbKtJ0oN8VrhzWfLAhuorAEvgARuXwimpQRH
+         lZyrZXqH2E/W9I4dDoGU7BgAWsH5sH5UBpYCW8aXdlAM+SClU21qYJ4uVdN1FmPv+Vu8
+         84GQjfnB5AECzqMDGy/8ElcohKKVOsa5VOu67k7sPN7MtOkALR0XWPrQ7j4wmY6M2gZu
+         NO3cVhqeR4nj2lf+uvO3nXaHubQPpmBhbV6CQgXtpBOxzBW3INjNjRFJAA/lgqz/eyLt
+         ED8w==
+X-Forwarded-Encrypted: i=1; AKwUvBwFsizX1ggJYtr7rHrSVu9ZBol/dkDz42YREDvCNobgXFpyq36QydOQ4GtoWL98ou3mze8uQNuWcrc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKLPeBMhvoMkfsXCIOCUiyBunWdzZ+lq0qXhop3tYrl7/6IL5N/
+	fcWMl3wAOYBu686+ll+B6vSn4/lLmejmOUoHktnxbSl4pMrro26aZjg+y1PTKKgoNQ==
+X-Gm-Gg: AYBFou3FrH1xs+t2yalImIbZ7T0zNkNYWU/Au3FSTzD9o8VGo9RP6nWkfCvZYLYBowu
+	cjaST/jVvlWhI3k3HT4sb1jvvIdBQE0GOMHTxD4Tvw7n+i3XlX62SuhatB3xW3/P0HMf3rUO/Bb
+	zQAWbuG1x3ntX+fQQ2omj3sugETqzjnw6qFTzExRGUJTegKndKbFX7Efyb+4l51OhhXaAg3diNJ
+	WMwYoUqYe7cWRyhn+WGj2RbwAxAWDs4fgD3WTqXGO1TNkYPoqB7NDHYoyJM/QSwaK+ASl1nuN9r
+	HkgPiw0Q9IOYjExTaLsfYf0tIutbul+VJODuq1YNf864QPuWOFvB7OfnZot2ubCkQDj8Mro55b5
+	wRjj238mygLbtoPUyUgKmAoXeARyC6SdkcMo+HKGSTNSAv3xJAJ651UAqsWUy561rO/S935OlyS
+	i+1uwGKD4QJRd9VbqoaBthR/zbObs5fAz3Si6Z502NUDVoYG/O3hMD90qLV+nnE4gLZREJf3+05
+	kIrGD7ppQLu08jNyfEBgMlBVETH
+X-Received: by 2002:a05:7022:103:b0:144:cad0:b472 with SMTP id a92af1059eb24-16ef25fdbdbmr175230c88.9.1791709384349;
+        Sun, 11 Oct 2026 02:03:04 -0700 (PDT)
+Received: from google.com (57.45.87.34.bc.googleusercontent.com. [34.87.45.57])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537ca1b556sm28915417eec.9.2026.10.11.02.02.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Oct 2026 02:03:02 -0700 (PDT)
+Date: Sun, 11 Oct 2026 09:02:51 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Luigi Rizzo <lrizzo@google.com>
+Cc: Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Willem de Bruijn <willemb@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Joshua Washington <joshwash@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
+	netdev@vger.kernel.org, linux-mm@kvack.org,
+	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+Message-ID: <astQu7_kbZRnbwng@google.com>
+References: <20261003212241.3432303-1-lrizzo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <e81d8aa1c5fef5135717607342f2564d58907fb0e8e7bd9c32eea76b2eb2b2d9@mail.kernel.org>
-In-Reply-To: <20261011072930.3879724-1-visitorckw@gmail.com>
-References: <20261011072930.3879724-1-visitorckw@gmail.com>
-Subject: Re: [PATCH v9] m68k, bpf: Add initial BPF JIT compiler support
-From: bot+bpf-ci@kernel.org
-To: visitorckw@gmail.com,corbet@lwn.net,skhan@linuxfoundation.org,geert@linux-m68k.org,ast@kernel.org,daniel@iogearbox.net,eddyz87@gmail.com,memxor@gmail.com,andrii@kernel.org,gerg@linux-m68k.org
-Cc: rdunlap@infradead.org,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,ihor.solodrai@linux.dev,jserv@ccns.ncku.edu.tw,marscheng@google.com,eleanor15x@gmail.com,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,linux-m68k@lists.linux-m68k.org,bpf@vger.kernel.org,visitorckw@gmail.com,daniel@thingy.jp,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Sun, 11 Oct 2026 08:40:10 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261003212241.3432303-1-lrizzo@google.com>
 
---===============0635665488301257032==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Sat, Oct 03, 2026 at 09:22:19PM +0000, Luigi Rizzo wrote:
 
-> m68k, bpf: Add initial BPF JIT compiler support
+Hi Luigi,
 
-TL;DR: Nit only: in the m68k JIT's emit_math_call(), the BPF_CLASS checks on
-the signed div/mod selection look redundant given is_64, and could be folded
-into the switch cases. Not a bug.
+> Here is a subsystem called DMA_PMD on which I would like feedback on
+> architecture, possible enhancements, or kernel components that could be
+> reused to avoid duplication.
+> 
 
-> diff --git a/arch/m68k/net/bpf_jit_comp.c b/arch/m68k/net/bpf_jit_comp.c
-> new file mode 100644
-> index 000000000000..e585cbcd7564
-> --- /dev/null
-> +++ b/arch/m68k/net/bpf_jit_comp.c
+Thanks for posting this series, it solves more than one problems.
+I went through the whole series and the following is my take on the
+overall design (I might wait before replying to individual patches
+hence this might be verbose).
 
-[ ... ]
+> I think it can be extremely useful for those affected by the HW/SW overhead
+> of IOMMU (especially IOTLB thrashing, see [1]), or confidential computing,
+> or preemptable VMs.
+> 
+> The (not too exaggerated) pitch line is
+> 
+> DMA_PMD has the performance of identity, guarantees that only IO buffers
+> can ever have active IOMMU or IOTLB mappings, removes the bounce buffer
+> overhead in confidential computing and preemptable VMs, and integrates
+> smoothly with existing kernel APIs.
+> 
+> === ARCHITECTURE
+> 
+> DMA_PMD was initially designed to address IOTLB thrashing (details in [1]),
+> but turned out to also resolve nicely the strict IOMMU overhead, and avoid
+> the bounce buffer overhead in preemptible VMs and Confidential Computing.
+> 
 
-> +static void emit_math_call(const struct bpf_insn *insn, struct jit_ctx *ctx, bool is_64)
-> +{
+I'm thinking if we can re-work the dma pools here to fit the needs of
+DMA PMD. Apart from that my main concern is the isolation model. 
+As implemented:
 
-[ ... ]
+- dma_unmap_*() of a pooled buffer is a no-op, i.e. unmap doesn't happen
+  till the page is retired.
+- the whole 2M page is mapped IOMMU_READ | IOMMU_WRITE, regardless of
+  the direction of the buffer that triggered the mapping
+- the mapping stays in every domain that ever mapped any block of the
+  page until the page is retired, which under steady traffic may be
+  never
+- the TX pools are per-CPU and shared by all sockets and devices.
 
-> +	if (is_64) {
-> +		switch (op) {
-> +		case BPF_MUL:
-> +			func = (void *)jit_mul64;
-> +			break;
-> +		case BPF_DIV:
-> +			func = (void *)jit_div64;
-> +			break;
-> +		case BPF_MOD:
-> +			func = (void *)jit_mod64;
-> +			break;
-> +		}
-> +		if (BPF_CLASS(insn->code) == BPF_ALU64 && op == BPF_DIV && insn->off == 1)
-> +			func = (void *)jit_sdiv64;
-> +		if (BPF_CLASS(insn->code) == BPF_ALU64 && op == BPF_MOD && insn->off == 1)
-> +			func = (void *)jit_smod64;
-> +	} else {
-> +		switch (op) {
-> +		case BPF_MUL:
-> +			func = (void *)jit_mul32;
-> +			break;
-> +		case BPF_DIV:
-> +			func = (void *)jit_div32;
-> +			break;
-> +		case BPF_MOD:
-> +			func = (void *)jit_mod32;
-> +			break;
-> +		}
-> +		if (BPF_CLASS(insn->code) == BPF_ALU && op == BPF_DIV && insn->off == 1)
-> +			func = (void *)jit_sdiv32;
-> +		if (BPF_CLASS(insn->code) == BPF_ALU && op == BPF_MOD && insn->off == 1)
-> +			func = (void *)jit_smod32;
-> +	}
+So, a NIC ends up with long-lived RW access to other sockets' data in
+the same 2M pages, including loopback payloads and kTLS SW plaintext
+(both come from sk_page_frag), and a DMA after unmap no longer faults
+but silently hits whoever owns the block next. For pooled memory this
+is identity-like isolation and weaker than DMA-FQ, whose exposure is
+bounded by the flush timeout. Thus, I'm not fully sure of the claim:
+"security guarantees comparable to strict IOMMU". 
 
-This isn't a bug, but since is_64 already encodes the instruction class, are
-the BPF_CLASS(insn->code) == BPF_ALU64 and BPF_CLASS(insn->code) == BPF_ALU
-tests in these four conditions always true?
+It also isn't opt-in: dma_is_pmd_phys() is checked for every device in
+iommu_dma_map_phys(), thus, any device that is handed a pooled page gets
+a window, including in domains where the admin asked for strict mode.
+I think DMA_PMD has to be an explicit per-group default-domain policy,
+like DMA-FQ: selectable through iommu_groups/N/type and/or a boot
+option, off by default, decided when the default domain is set up and
+recorded in the cookie and the map path can check it before doing any
+pool lookup.
 
-Could the signed/unsigned choice be made inside the BPF_DIV and BPF_MOD cases
-of the switch instead, for example:
+That is also the natural place to refuse untrusted devices. Today the
+window path runs after the swiotlb decision in iommu_dma_map_phys(),
+which for untrusted devices only bounces buffers that aren't
+granule-aligned, so a page-aligned pooled block gives an
+external-facing device a permanent RW 2M window over unrelated data.
+iommu_get_default_domain_type() already forces strict DMA for such groups
+DMA_PMD must not undo that.
 
-	case BPF_DIV:
-		func = insn->off ? (void *)jit_sdiv64 : (void *)jit_div64;
-		break;
+I'm thinking If pooled memory is going to be shared across opt-in
+devices anyway, would an explicit shared domain for opted-in devices
+be cleaner?
 
-That would drop the redundant class checks and the second assignment that
-overrides the one made in the switch.
+It removes the per-domain machinery, but those devices then lose 
+isolation from each other for all DMA, and the core would need to 
+support a default domain shared across groups
 
-[ ... ]
+Additionally, we should handle edge cases where the dma unmap (or it's
+TLB flush) fails for some reason but the page is freed to buddy..
 
+> It works by combining several known techniques:
+> 
+> - transparently feed allocators of device memory (skb_page_frag_refill(),
+>   dma_alloc_attrs(), pagepool, ...) with DMA_PMD pages, i.e. physically
+>   contiguous PMD_SIZE (2MB) pages mapped via PDE_SIZE IOMMU entries
+> 
+> - heavy recycling of DMA_PMD pages (like pagepool) and lazy IOMMU unmapping
+>   (like DMA-FQ), BUT:
+> 
+> - like strict IOMMU (DMA), safely release memory back to the kernel only
+>   after destroying all of its IOMMU mappings and a synchronous IOTLB flush
+> 
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+That's one of the strict-mode properties that this series keeps and two
+things undermine it today, dma_pmd_unmap_all() ignores the iommu_unmap()
+retval after it has already cleared the per-domain bits (for fellow 
+reviewers this is in patch 7). And window PTEs outlive driver unbind and
+DMA ownership trasnfer because  dma_pmd_domain_release() only runs when
+the cookie is freed, if a device is handed back from VFIO, it'll regain
+access to live host pages and patch 13 additionally gives up page_pool's
+destroy unmap of in-flight pafes.. The mappings need to go when the last
+DMA API user of the domain goes away not only at domain free..
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/38122863281
---===============0635665488301257032==--
+> - on allocation, DMA_PMD pages can be configured to be pinned in the host
+>   (hence suitable for preemptible VMs) and/or unencrypted (hence suitable
+>   for Confidential Computing), removing the need for bounce buffers
+> 
+
+In CoCo guests, dma_pmd.decrypt is swtiched on silently and applied to
+every pool. inclusing the per-CPU skb_page_frag_refill pools that serve
+every socket. Enabling tx_enable_dma_pmd thenmakes loopback payloads and
+kTLS plaintext host readable & writable before encyrption. Similarly
+decrypted Rx pages lose the private copythat swiotlb had making it
+possible for the host to change packets after the stack has looked at
+them.. Can we make it much more explicit to the Guest/ Guest user that
+they're opting in to sharing their data with host for performance?
+
+> - there are global and per-device optin /sys/device/.../dma_pmd_*
+>   and /proc/sys/net/core/tx_enable_dma_pmd
+> 
+
+Bools with sysfs files on every device having a dma_mask doesn't seem
+too nice.. the iommu policy belongs to the group's default domain..
+
+> NIC drivers can typically use dma_pmd with no modifications for rings,
+> tx buffers, rx buffers (if they use pagepool), and rx headers. For tx
+> headers, almost all drivers need changes (see later patches in the series)
+> to implement cheap bounce buffers and avoid individual 4K mappings.
+> 
+> The series has the following main components:
+> 
+> - a sparse array (similar to pageblock_flags) to quickly attach metadata
+>   to a 2MB page without fiddling with the struct page. Cost is 128B per 2MB
+>   page used as an IO buffer, totally negligible.
+> 
+
+IIUC, the entries are 256B and the array is sized from theoretical
+phys_addr space rather that from memory: up to 8G of KVA on x86 4-level,
+32G on arm64 with 48-bit PA and 512G 52-bit PA, where the chunk bitmap no
+longer fits in kmalloc, failing the init. Init also populates metadata
+for the entire RAM.. it'd be nice to size it from real memory ranges or
+use an xarray or per-section array with lazy population..
+
+> - dma_pmd_pool, a replacement for alloc_pages() that can be instantiated
+>   per-CPU or per receive queue. It handles the split of PMD_SIZE pages
+>   into order-N blocks, handles dma_map and unmap, and aggressively recycles
+>   entries. It is used to feed skb_page_frag_refill(), pagepool, and
+>   receive buffers for drivers that do not use pagepool.
+>   See [2] for "WHY NOT PAGEPOOL FOR TX AND EVERYTHING"
+> 
+
+I am seeing that the recycles page blocks bypass KASAN/KMSAN poisoning,
+page owner, alloc tagging and bad_page checks.. which might make a UAF
+go undetected. We might have to use it or a similar technique to ensure
+the UAF of a polled buffer remains safe in such a case.. IIRC,
+kasan_mempool_(un)poison_pages are used for such cache (I'd let the mm
+folks chime in on this). 
+
+> - dma_pmd_arena, is another allocator backed by DMA_PMD pages and
+>   is used exclusively as the backend for dma_alloc_attrs().
+>   Used for longer-lived allocations (descriptor/completion rings,
+>   rx and tx header buffers)
+> 
+> - glue code to hook DMA_PMD into pagepool [2], skb_page_frag_refill(),
+>   dma_alloc_attrs(), dma_map/unmap...
+> 
+
+On the IOMMU side there are also a few structural limits:
+
+- the domain registry has BITS_PER_LONG entries, and a decline is
+  cached in the cookie forever. Default domains are per IOMMU group,
+  often one per function (VFs included) on ACS-capable machines, and TX
+  pages reach every NIC, so a limit of 64 is reachable, and which 
+  devices get to pool would depend on probe order.
+- the per-domain window is a multi-TB alloc_iova() carved on the first
+  map, under a global IRQ-off lock, sized from iomem_resource.end and
+  from whichever device in the group maps firstF
+- I'm wondering it iova - base == PA (plus a fixed 16G offset), is safe? 
+  As devices learn host physical addresses.
+
+Can we consider giving each PMD page a dense slot number when it
+enters a pool, and using iova = base + slot * 2M? That keeps the O(1)
+map and the range-check unmap, shrinks the window to cap * 2M, works
+with narrower masks and stops exposing PAs, and per-domain tracking of
+mapped slots would lift the 64-domain limit as well. The window could
+then be reserved in iommu_dma_init_domain() through a dma-iommu helper,
+instead of handing the iova_domain to dma-pmd-map.c.
+
+Thanks,
+Praan
