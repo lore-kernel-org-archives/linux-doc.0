@@ -1,269 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013045.outbound.protection.outlook.com [40.107.201.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DD91A683D;
-	Sat, 10 Oct 2026 22:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791669627; cv=none; b=pvoSx4+58RJt/pZ3LW/aDh8aVfcXnvuIsCVf4SMHeUqU03UIF60qOlHr2fBnANy53S5xaYPwrwCaK9vVXDrbYfWO5AZ3riFu3LwKYe/ymIgpa8AJsQtPAcajJPMkUj30jqmLPhKLkSP4AthoXZGWHZoifKuhq5mOzXwjoAht/Q8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791669627; c=relaxed/simple;
-	bh=uTIIgXvNGRKidYtT9y9d/j9O/uWBWM1pGuwQpiO4cmw=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=LxMbN4FMd8LTIFjiPea+nzZKCbl9pWue4MSjHuNEHXw8edbBTn5aa++6NGrRpEtSCEfwX13SoWeZ2wNQ3RrWp5xUIhhJ+2XPHi7ITvpMZa1z5TZgNagyttUk0wpBrTgKFuexBZfsUQWi2ziBmDZ6ZWxse3V+cxAJqVpfdWWVHLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ffP+TPLt; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262E417BB21;
+	Sun, 11 Oct 2026 00:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791679577; cv=fail; b=Avy/WkeQMoRwQXrYvsbxpVI0YhAbsr02AOQCCkKSvNfHAHMI0Qqcibi+nzeMqkO7TqZH2MczAkW9E6uLIp/2DHHjAqVrDn31XPlHJWhI8f0VsbnfckO8Bej+AzFryarmB+DN5I3vDWqkmEoUPaThOEbPoHvgdFvruNypJpdGZVc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791679577; c=relaxed/simple;
+	bh=P0FX4F2mIJPuMw/UxSwEjW48nBLqaYBH1MX2bsJctOQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Cxhs8oPGtB4MJ4QnRxPoI4NiApnbqsmSU+mdGQfqjvlQhQR0QgZ45aKEhiKva7VhJ4omwaaTZUPLYq21BCuI7BJ4/sVlxVJCrjaIeHQzda+iUuLWhun8ynugzV1F7VOvQrnaNPDcq5GhAvDG80bRChTqZcsCP4fqzigzEW+t/s8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=nAhRZFfr; arc=fail smtp.client-ip=40.107.201.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ffP+TPLt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AADC1F000FF;
-	Sat, 10 Oct 2026 22:00:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1791669625;
-	bh=N2jYfqmPt2es1xuCkTol8NOahRHgRnTcTOUiwhGzkTU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ffP+TPLt1hBG2zdntJGpA4a6eo1Kktyl63gUdmTPWoDV5PB8j6QZDH7O5pu6DND18
-	 83jrFOWryJ2h63yrCPBw+Uh9wavAQ633twrY1q8Eu4fcsINr1B1dFygd9ev9/B+B/N
-	 PiED0VbjIV4o5yPrrgsINTWJg6/2ZfXlko4ls4sM=
-Date: Sat, 10 Oct 2026 15:00:20 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato
- <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dennis Dalessandro
- <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov
- <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
- <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya
- Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, Ryan
- Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
- <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert
- <dgilbert@interlog.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, Helge Deller
- <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard
- <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra
- <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo
- <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Mark Rutland
- <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo
- <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
- <vincent.guittot@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V"
- <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann
- <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
- <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, Oliver Upton
- <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul
- Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda
- <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens
- <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller"
- <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Alexander
- Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
- <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
- <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, Chris
- Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kemeng Shi
- <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He
- <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, Johannes
- Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
- <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Chengming
- Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, Miklos
- Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
- selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev, Ihor Solodrai <ihor.solodrai@linux.dev>, Bert
- Karwatzki <spasswolf@web.de>, Takashi Iwai <tiwai@suse.de>, Emil Tsalapatis
- <emil@etsalapatis.com>
-Subject: Re: [PATCH v5 00/38] mm: make VMA flag semantics explicit,
- eliminate VM_SPECIAL
-Message-Id: <20261010150020.cbd6ce3038e3b6d72e2c92c9@linux-foundation.org>
-In-Reply-To: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
-References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="nAhRZFfr"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aXo8cgKS2TztwtwI14N2nVoA8OEUK8+1mgLfCano2mMfhXPG1mAwFkpl6g7IMNJq+Gwgx0ShNUD791UxtrPfbofKAH2LfBwGbPN30K+x0f3toBaYRLkjWQtzsBG1/jqOryldtNwcOZZ/Hj67ivikDVAaL0Y30g7MyGSlcZhfdHiEZdhqp0ItXmg6m4xh9niu21bJ3f4BYJs2ysGnASpNoWPkEkvbqwE7lRNTJYeKX0mgyLL9k0fFrWcFeYrTrTxiXkhzoKCZAsi1K6O3vwZtBaiy7EhxoN7mctaa2S3TJioCFGTF1XFdrXuz1cwC9IKaXSud2Msrq5vAV8XR/fzL5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pZagbk3k4KX50LvFVjBCy9VrphaRcx9bhc1cFLh+Tog=;
+ b=gtQZQIgxocAszglYMYQINj7H7Zp40lM5REvxGqxrI7EcPGHprjz+Bjp5i3yKcxLsNX2+OvSFVsTh7JpwjwEDuz3kxKLDlEmu5t4Rjyx5gVFh05p2gtPPvoUOuU0qp8V8iatYdKatFNNzDCVIBay7XdjHYHn3mpGC2De/ahgMCCo9Y8aN+Ua8OyAK+V1Zyn+onrlPWQOISe60nQygLNRLuMbLnBYqn96w1IEaCs3FJAkrU5BpxFEGyDUskmZXSVlHmqg2NVuV7xi5MdGz43WKc/Bd/To+YTWrLI2REezyJcm7cmHG35zXOTq7SlrsgaUbPGz9eU1HQsjbrWyYDug41w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pZagbk3k4KX50LvFVjBCy9VrphaRcx9bhc1cFLh+Tog=;
+ b=nAhRZFfrNkIhQcUsDKN9CVQJi4lkn1RTToq5GuKcJb9K46+W4joHsb4n9trYwV7IY3rYOamUeg1bu74xbBW4akwcZQVPqfHFABnPnIyh14lGrtvTzIzMY9j90b9ZSZtB4/vluZHVyguS+H4OZsRZPmMNUhVVaYqSpqwHzJVnpXkczDVXEo1vYSbtWwfy8rToU3DMISUJoaItTVxLfew1vPJbCJOK8Z2PIDgkAEBelU8HoGGFJH5RwyHcx5qO8WZwJkIqTC/OJ4mWilt0+zd22t6YWjE2Po32i+QZWHRreJxV3Op+/aYxmlHbFWFBMrKpKT++VZiE0V2pNW/FQYB1Vg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ DM4PR12MB6399.namprd12.prod.outlook.com (2603:10b6:8:b7::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.496.20; Sun, 11 Oct 2026 00:46:09 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%6]) with mapi id 15.21.0496.019; Sun, 11 Oct 2026
+ 00:46:08 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: linux-kernel@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: rcu@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] doc: Document atomic SRCU in Design/Requirements/Requirements.rst
+Date: Sat, 10 Oct 2026 20:45:52 -0400
+Message-ID: <20261011004553.2905142-1-joelagnelf@nvidia.com>
+X-Mailer: git-send-email 2.54.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: DS7P220CA0104.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:8:25d::19) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|DM4PR12MB6399:EE_
+X-MS-Office365-Filtering-Correlation-Id: dadfb3b0-479f-4e5d-27a5-08df273109e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|11063799006|5023799004|921020|56012099006|18002099003|6133799003|261009223027099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	MXrwlB+eraXIGxnblbppGk8Nw/xPCXm5QxiLOJnp+noxbc9URb2ggJNGJdkOlFaEIP1sFihDOz0QywzDfoKZMkouBTAdPWuL5oApYC8IeimTWF1CUjhla5aKJu7RbJfB9UNvBwu8ZSn4qKjkSv7yTkrJv6PoTl088gqmMH9lrBXqOi3cdYIwe6CaV0rOrclhBoaiTySjpFjHaPsctZOBO7aFtkyn0+RWi94bCiyVw7xwGj8nHvX5LP11G+CsGKWevMW1ZU53A1tFIsxHRUai2l8lSviFchxvkC094jOub2h1KsHcs4HUFzFL1esTcYZiAyr/jV+sLUYtYjVHjuPRWSgtfa+vpDsXTT3GpXcTL1FaUuEWI2QwbFdGmTqLs/HxbprhJ+EHSwbcUO6aL/RWWhp8ch+afFU+CCsM1tnUW6+42+jiJAZADrZbTocxcxSCTdk6BD89rlBh5GQksPNkXXAUSTVXjjPvbGhL4OdSIfrf76tk9t4mnzk53PSMBXlD3FN7rJuyTGTAipFHjIcksRyyVGerxPF0uPiYKlIiZgJOWUaaDccDU3w9AN1SSzNvot4VGyIyVFEtgj+cqMHIRM0v3jKToa7goO8DaFcjWwuGDQILdJt0mjF2vIYFqm522WXWnUQZfDVVNbFHDVSNMC9YQMsWEhcNLPR05Wc0uGzVENgRDkBeefEvE7h35AVZDU/8FM4niL/3PunPJoLgww==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(11063799006)(5023799004)(921020)(56012099006)(18002099003)(6133799003)(261009223027099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?LqAc8oJuTCVbutR6C5GG+zEiteOAdVLEMOazE2Pjm4/HS1M9mfP3jOJ+SEaI?=
+ =?us-ascii?Q?s3+2ZSnyUEivJsa8glnX/kjnOtfj+amxaqiKIMk0ioK+gXjiZVrb9/CKCNwn?=
+ =?us-ascii?Q?XGfoYX+g+JDkwkC70s5RGzOTEQqFIUTtdAhFphYexjaIKqjat4s/vULnd0lk?=
+ =?us-ascii?Q?a8ghJTapzlqZ7OHS7TwSHUHHCX5mdkW6YZN7OhM40HXFkhVNhgvNk8kotMqH?=
+ =?us-ascii?Q?w6Qnzlv4gBgwUJ1Rg27EGWZBgnwWh73nEZ+mQivFPFi3MDWP/LpvQnbGbJer?=
+ =?us-ascii?Q?uI93KWo2BEBouFM5wYGpam1Du+JIwrLW6QH/iQJsmV2Dv6+sijA/jdELz4jD?=
+ =?us-ascii?Q?dTjBbdDIOL1UnrR3OEgCeSoqt0Pm3yN4o4vXQQlYVFYvuqLmoFkl985EfdRn?=
+ =?us-ascii?Q?t3pt6vTZkP+nTCtnL8EjMvcjnd+9wGqDtYicFB6FZ7+ki5ov0zuNht+Ge8p3?=
+ =?us-ascii?Q?3azkBnt2c5dzyWQwr0W7r42YPuWwImmcIhLNkQ9o7r0gaNrUnGLszVSUZzOu?=
+ =?us-ascii?Q?6T+CiBdkDsOVHvNXDLTgkOac4NjHvBPbZUf6Ktl1eB5kzhMlGlQR2V07jRnx?=
+ =?us-ascii?Q?FFqTYIJcdg+cqekjlj7MMOqbDRszdjdkOLoygNqn9O/H1I1QLqVyDPBNVeOC?=
+ =?us-ascii?Q?tKgfSxve65vg3VRSR9WMWX6pGQx6mqpALO7GcOuBvgHxSdaLEIYaC2shrnNW?=
+ =?us-ascii?Q?aW4uIbZI/EK8ke4JiSSNA2Nz4xaJgBOjII9cyOr8p61kLEfMvMotZxNX6h2K?=
+ =?us-ascii?Q?2gvxC8XOzf9JQR0gaKEGM4eFG2gw9rGTTYbaGTeSRbTpjwLBrl24HYYKcFUO?=
+ =?us-ascii?Q?ASq1CNlmN2lfTnpH/7zvETYm3iCvYNjI3Lzj6lFXKsZwwPuNdX3M6C14sff9?=
+ =?us-ascii?Q?rFLbr7G2XDk+wLhv/yWUbFfBaAPAI6/6+EEhMQzUQr2gxfTrPAvDlXQ1G7zF?=
+ =?us-ascii?Q?ZOKhsUYW9yhH46K9VNNEK700/EG8UyjpdoZQYXGnmmUID507HePcwQBaSWox?=
+ =?us-ascii?Q?0yxzgEzGMTNnJFbO6NI0F4hoM/GAKhJJX9C60G+tL5xiOLpfuskAlkStaZV8?=
+ =?us-ascii?Q?0KQLFETo2vNui2GdqKsynfoMCCV42oaLkixHZEZA4K+5IcAYxEq4Tf3vMHCO?=
+ =?us-ascii?Q?a+bEzd4MQnxRjHrC0qe70cbSCoOscQN++g/ZCrHpC8nKspjAS82na7WplWKr?=
+ =?us-ascii?Q?xbYmOcaxxotb36PgF1bURDdrC2DOPXrnBVjiC3dd13UBnWMOWbvLwBL6GVqf?=
+ =?us-ascii?Q?kbi/h3MNfbDGYp/xRGRtU1qHjCLsZJgv8vmO8Sz8sBqLMR7hZzjJSO3dmpl3?=
+ =?us-ascii?Q?LGn/kwSu46YJGWDl+rbST47CuQpSy6h8rl5IBjjHt7q7wdB9+wIAKRywhKjl?=
+ =?us-ascii?Q?WUcW6C8xAXLP9aIL6SaYEOHfHf82tnDDZ8Fr6OjAG4HS2WeRpaUN8XvK9CS6?=
+ =?us-ascii?Q?OTpFGFTrc+N2IJ2m0E/DRZ8cqll44gIq7hka4lVlgbWNHBf7ZCWSZCTsh49T?=
+ =?us-ascii?Q?a7axxdc4tSPpgbwu+FILpOwDPPffLnMhno11zgDEMUFvlMHh2dPq+5mE+E8G?=
+ =?us-ascii?Q?hzQG0KB2NunkNjypkf+LnjWZBbgLOxUAEUDZl96IETBebScx0Ta8vxs2UvAV?=
+ =?us-ascii?Q?jczmO2NpAdHw9eKJC4v/SKaPa9a/2p8V3auzTfuDEew80emjqvz6IwXPQvuA?=
+ =?us-ascii?Q?KcmQssBPCwZSPDlA37KbyBNZLGo8Loff8WWEIPX2BgjmcR0ufGVa1cbU/5da?=
+ =?us-ascii?Q?yoDDGGqNLQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dadfb3b0-479f-4e5d-27a5-08df273109e7
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2026 00:46:08.4846
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1ve2STpk7u96LtT0rsagXNdPvqc9UmDUONdEdNlFiv3mK40JD/o+qXS4pffywPb09OsVbWUAU/woP5kYAN90CA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6399
 
-On Fri, 09 Oct 2026 19:03:54 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+Atomic SRCU (srcu_read_lock_atomic(), srcu_read_unlock_atomic(),
+synchronize_srcu_atomic(), init_srcu_struct_atomic(), and friends)
+added readers that do not sleep or block, plus an update side that spins
+rather than sleeping.
 
-> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
-> properties:
-> 
-> * Is this managed by core mm, or by a driver mapping MMIO, kernel-allocated
->   pages, or even ordinary pages itself?
-> * Can it be expanded or merged?
-> * Is this a 'weird' case like mlock where migration might race and we
->   'have' to set invalid flags to notify?
-> * Is it another 'weird' case where we just want to stop GUP from touching
->   it?
-> 
-> Driver writers have often been confused about this, and who can blame them?
-> 
-> It also interacts badly with the eternal edgecase known as hugetlb - which
-> sets VMA_DONTEXPAND_BIT but doesn't also want to be treated like a
-> 'special' flag.
-> 
-> Another issue is that we cannot make sensible assumptions about flag
-> use. It's not possible to assume VMA_IO_BIT means iommu because drivers
-> abuse it and mlock abuses it.
-> 
-> Special is also an overloaded term in mm. VDSO and VVAR mappings are also
-> called 'special' but they're special in a... special way.
-> 
-> Sometimes things are called special that are a subset of
-> VMA_SPECIAL_FLAGS (VMA_PFNMAP_BIT and VMA_MIXEDMAP_BIT for instance when it
-> comes to zapping or vm_normal_folio()).
-> 
-> There's a specific kind of special for THP too, which considers
-> PFN map, mixed map 'special' but DAX not.
-> 
-> It's all rather a mess.
-> 
-> This series brings some order to things by both limiting what drivers can
-> do with VMA flags and switching to using predicates that describe
-> behaviour, not arbitrary flags.
+These are missing from Requirements.rst. Add them.
 
-Thanks, I've updated mm-unstable to this version.
+Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+---
+ .../RCU/Design/Requirements/Requirements.rst  | 28 +++++++++++++++----
+ 1 file changed, 23 insertions(+), 5 deletions(-)
 
-For some reason, new versions of this series aren't applying when I
-drop the new series in place of the old.  I made the same old bunch of
-reject-fixups, so the below interdiff will show if I messed any of them up.
-
-> v5:
-> * Applied tags (thanks everybody!)
-> * Updated 3/38 to fix a bug in __mmap_new_file_vma() by zapping + closing
->   the VMA before setting vma->vm_file NULL to avoid an i_mmap_writable
->   imbalance. A repro was tested before/after and confirmed fixed.
-> * Updated 7/38 to make __map_kernel_pages_prepare() use
->   mmap_assert_write_locked() rather than the weird
->   assert-on-mmap_read_trylock() pattern, as per Suren.
-> * Also update vm_insert_page(), vm_insert_pages() to fix the same pattern
->   and to use the new VMA API, and converted a BUG_ON to a
->   VM_WARN_ON_ONCE().
-
-Here's how v5 altered mm.git:
-
- mm/memory.c                       |   20 +++++++++++---------
- mm/vma.c                          |   16 ++++++++--------
- tools/testing/vma/include/stubs.h |    4 ++++
- 3 files changed, 23 insertions(+), 17 deletions(-)
-
---- a/mm/memory.c~b
-+++ a/mm/memory.c
-@@ -2611,10 +2611,11 @@ int vm_insert_pages(struct vm_area_struc
+diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+index 8101fe6229d5..d43668595872 100644
+--- a/Documentation/RCU/Design/Requirements/Requirements.rst
++++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+@@ -2686,11 +2686,13 @@ The `SRCU API
+ <https://lwn.net/Articles/609973/#RCU%20Per-Flavor%20API%20Table>`__
+ includes srcu_read_lock(), srcu_read_unlock(),
+ srcu_dereference(), srcu_dereference_check(), synchronize_srcu(),
+-synchronize_srcu_expedited(), call_srcu(), srcu_barrier(),
+-and srcu_read_lock_held(). It also includes DEFINE_SRCU(),
+-DEFINE_STATIC_SRCU(), DEFINE_SRCU_FAST(), DEFINE_STATIC_SRCU_FAST(),
+-init_srcu_struct(), and init_srcu_struct_fast() APIs for defining and
+-initializing ``srcu_struct`` structures.
++synchronize_srcu_expedited(), synchronize_srcu_atomic(), call_srcu(),
++srcu_barrier(), and srcu_read_lock_held(). It also includes
++DEFINE_SRCU(), DEFINE_STATIC_SRCU(), DEFINE_SRCU_FAST(),
++DEFINE_STATIC_SRCU_FAST(), DEFINE_SRCU_ATOMIC(),
++DEFINE_STATIC_SRCU_ATOMIC(), init_srcu_struct(),
++init_srcu_struct_fast(), and init_srcu_struct_atomic() APIs for
++defining and initializing ``srcu_struct`` structures.
  
- 	if (!range_in_vma(vma, addr, end))
- 		return -EFAULT;
--	if (!(vma->vm_flags & VM_MIXEDMAP)) {
--		VM_WARN_ON_ONCE(mmap_read_trylock(vma->vm_mm));
--		VM_WARN_ON_ONCE(vma->vm_flags & VM_PFNMAP);
--		vm_flags_set(vma, VM_MIXEDMAP);
-+	if (!vma_test(vma, VMA_MIXEDMAP_BIT)) {
-+		mmap_assert_write_locked(vma->vm_mm);
-+		VM_WARN_ON_ONCE(vma_test(vma, VMA_PFNMAP_BIT));
-+		vma_start_write(vma);
-+		vma_set_flags(vma, VMA_MIXEDMAP_BIT);
- 	}
- 	/* Defer page refcount checking till we're about to map that page. */
- 	return insert_pages(vma, addr, pages, num, vma->vm_page_prot);
-@@ -2626,7 +2627,7 @@ static void __map_kernel_pages_prepare(s
- 	if (vma_desc_test(desc, VMA_MIXEDMAP_BIT))
- 		return;
+ More recently, the SRCU API has added polling interfaces:
  
--	VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
-+	mmap_assert_write_locked(desc->mm);
- 	VM_WARN_ON_ONCE(vma_desc_test(desc, VMA_PFNMAP_BIT));
- 	vma_desc_set_flags(desc, VMA_MIXEDMAP_BIT);
- }
-@@ -2785,10 +2786,11 @@ int vm_insert_page(struct vm_area_struct
- {
- 	if (addr < vma->vm_start || addr >= vma->vm_end)
- 		return -EFAULT;
--	if (!(vma->vm_flags & VM_MIXEDMAP)) {
--		BUG_ON(mmap_read_trylock(vma->vm_mm));
--		BUG_ON(vma->vm_flags & VM_PFNMAP);
--		vm_flags_set(vma, VM_MIXEDMAP);
-+	if (!vma_test(vma, VMA_MIXEDMAP_BIT)) {
-+		mmap_assert_write_locked(vma->vm_mm);
-+		VM_WARN_ON_ONCE(vma_test(vma, VMA_PFNMAP_BIT));
-+		vma_start_write(vma);
-+		vma_set_flags(vma, VMA_MIXEDMAP_BIT);
- 	}
- 	return insert_page(vma, addr, page, vma->vm_page_prot, false);
- }
---- a/mm/vma.c~b
-+++ a/mm/vma.c
-@@ -2631,21 +2631,21 @@ static int __mmap_new_file_vma(struct mm
- 	map->vm_file = vma->vm_file;
+@@ -2710,6 +2712,22 @@ certain types of buffer-cache algorithms having multi-stage age-out
+ mechanisms.  The idea is that by the time the block has aged completely
+ from the cache, an SRCU grace period will be very likely to have elapsed.
  
- 	if (error) {
--		struct file *file = vma->vm_file;
- 		UNMAP_STATE(unmap, vmi, vma, vma->vm_start, vma->vm_end,
- 			    map->prev, map->next);
- 
-+		if (vma->vm_ops->close) {
-+			zap_vma(vma);
-+			/* Safe, because VMA zapped. */
-+			vma_close(vma);
-+		}
-+		if (map_same_file(map))
-+			fput(map->vm_file);
++A more recent addition to the SRCU API is the atomic flavor:
++srcu_read_lock_atomic(), srcu_read_unlock_atomic(), and
++synchronize_srcu_atomic(). An atomic-SRCU reader runs with preemption
++disabled, must invoke srcu_read_lock_atomic() and
++srcu_read_unlock_atomic() on the same CPU from the same context, and
++must never sleep nor block on anything that might itself depend on
++memory allocation, which allows synchronize_srcu_atomic() to spin
++rather than sleep while waiting for pre-existing readers. This
++requires that all other SRCU usage be excluded from a given atomic
++``srcu_struct`` structure: every reader must use
++srcu_read_lock_atomic() and srcu_read_unlock_atomic() rather than
++srcu_read_lock() or any other SRCU reader flavor, and the structure
++must not be passed to call_srcu(), synchronize_srcu(),
++synchronize_srcu_expedited(), start_poll_synchronize_srcu(),
++srcu_barrier(), or srcu_expedite_current().
 +
- 		vma->vm_file = NULL;
- 		vma_iter_set(vmi, vma->vm_end);
- 		/* Undo any partial mapping done by a device driver. */
- 		unmap_region(&unmap);
--		vma->vm_file = file;
--		/* Only safe once unmapped. */
--		vma_close(vma);
--
--		if (map_same_file(map))
--			fput(map->vm_file);
--		vma->vm_file = NULL;
- 		return error;
- 	}
+ Tasks RCU
+ ~~~~~~~~~
  
---- a/tools/testing/vma/include/stubs.h~b
-+++ a/tools/testing/vma/include/stubs.h
-@@ -329,6 +329,10 @@ static inline void vma_close(struct vm_a
- {
- }
- 
-+static inline void zap_vma(struct vm_area_struct *vma)
-+{
-+}
-+
- static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
- {
- 	return 0;
-_
+-- 
+2.54.0
 
