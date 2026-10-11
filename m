@@ -1,217 +1,369 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755643BFE2B;
-	Sun, 11 Oct 2026 03:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03CEF34A78F
+	for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 06:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791690679; cv=none; b=dCmjjIgrjdOqEQ4O8qKY/6E6b1C6q0UD35O4i+43B7snO6dFt/Pu9PlJbnUz9Zk5GvwJgCHbyVHPia+nnRaABBCz7vktakp5BNsNkNsHuHlHjYj7pSix0p/ZrD7BpbVczudzqgwoJUlT8PJ3cdlPv+wzUjeVA8TG8sh0tmj/vhk=
+	t=1791698883; cv=none; b=pNaV3JAFU8FKc3GDvbtcC79Vi3a95sZYy6zxQ8njnQHXjLD5OOKwzO+ds5gF0/qYXHuTnvLdjtZShQoXnVaiosDO0V3+7mtXyzdq/dyzNhiXFFTbsXDHWAylueZ2glsmWRTaC65CT4m6KH9LG4DjbzEEPBcGDZ5LXQQkxZ1nxdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791690679; c=relaxed/simple;
-	bh=ZvqOF+v/s082r9S8506nNWLLgfVXF4V04WTvyqOsRDE=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qUeuGOydKgyWUQYb6XWtmY3vL8jBxVJVG4WOFmeb6wn75dy1gRiRscMPdW740HjeaJ1PQc3VhuQ16J5kHGAlK1QTKJwTGOFXoZJX0pL49000eNMHRNzh22FSk8y3RDnOPudG4+zlBrxeWYElVqJOY3BsHjgQvs4/1TQZOoP1CyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b510PXK8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791698883; c=relaxed/simple;
+	bh=LoQfu2WFhFb7I7CXB6hcrQiqkzCUkLE4CzLYOc1+HTM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jX+mHoZe32/GM9V/I/wpB288TnERZueI95dwdrJGxv+90FjtO8gysO9tN8PKHE6aw7tsS639DUbEO0Q2BbGrOHpOTH4r1zi6076qmwe8JoDKduvuauxUKW6C8bTklT2rLkwl0HJcg2ak1N5moLLt4pJMvoOXGEegaVhfh4p3nOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lUK7MdeA; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b510PXK8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D86C1F00893;
-	Sun, 11 Oct 2026 03:51:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791690677;
-	bh=BxIG9RGXtPeoCRfraWyVT7uMTEzIpuY6URyi2+XVd/I=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=b510PXK8t7+e5mIzuaKO7Ly8zesK021UNW57R1CeMEbqp4pAfZSvRQdG/oeWkRkbo
-	 Yih1wVc9W/Y2hVbWXTmkH4NNNrcbHpWBKNb8Fv/qLnFh4z9L+yhpG9Ddej1u2vw+6u
-	 JIKlSFC+ZYTOM5slXJXobtDAV6n0Qaslt0gDG1wqQmstX/mrQlmEgODLRyiwntGT39
-	 ePaIUTT8i3lBKwAXtVRI7UKJttIOEWTQYriEbCVDUGMs+/zKD6us5NJoIzzQ48TygH
-	 o4bLuzptQZQM6UQktHNo1fccCxik0jbhySsOzqBBaox8RiGZGX3kSxHObIsTuHw2vw
-	 oJ5ytWqxcGNgg==
-Subject: Re: [PATCH net-next v3 2/2] docs: netmem: document netmem and memory
- provider design principles
-From: netdev-bot+sashiko@kernel.org
-To: almasrymina@google.com
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org, davem@davemloft.net,
- edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org,
- daniel@iogearbox.net, john.fastabend@gmail.com, sdf@fomichev.me,
- lrizzo@google.com, bjorn@kernel.org, asml.silence@gmail.com
-Date: Sun, 11 Oct 2026 03:51:15 +0000
-Message-ID: <179169067595.434549.16209693488880004107@kernel.org>
-In-Reply-To: <20261010033630.1171692-3-almasrymina@google.com>
-References: <20261010033630.1171692-3-almasrymina@google.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lUK7MdeA"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a061a13884so8089995e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 10 Oct 2026 23:08:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791698879; x=1792303679; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wLPfyyzZnXx9ps6Css6vbcFog+sE8xY9CJOiW8YPbMY=;
+        b=lUK7MdeA1Sc60EJJea2rysAJ6la88mjREq59sODiIp5HQJK4XgOzzUvXOouJfuZhR6
+         aVtzMniYM7gFAcPHZQygx2E1mODww837BsuPyP/guZkPu8uTM5rZKU/BNDhIS9+Xmu/2
+         QwxAWLmMaYaeEdxNP5u/qbGDynOfLjQ4t8kW/+rtnEb16bsbsQ5+SrwzdpFYegRk7nvs
+         TFQ0ClK6s6kUsFa/YM6YK6VST9tsAx+0nPrI8hvckq6QeD8/7ummter7FC13O3A5NTgh
+         mTvYMNnpVbXobabqER6kSeEhZuG0NKeWKRJMnCN0vfOZqOEh4D6UtbGwiSfNbzs+5XON
+         J5dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791698879; x=1792303679;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wLPfyyzZnXx9ps6Css6vbcFog+sE8xY9CJOiW8YPbMY=;
+        b=u8QAHwktZW98JSPCP/paO6KZlcAt+3PnxNSKfv52UVZoTPyFb2f2cnd7+8jgv+EYKJ
+         7Wep76yNcGLe/7uvTZ9iT/B/Gig9x/xEPIBl3qkER/S1CFJ17VtLeu+XI4/MdHOUXisK
+         wObnZW+iryXExTjRFZ6RKTkx4Uwg5z2hDjfBvV+zIhss3jWiFZChaBCaSfEcLuK4lKM0
+         TheZW5ju+46JFJhzhiPf/NyCX7a8/GS/lisRuRV3AkGjCqicgN//7+d5eKyMYFDbb7Mi
+         VBM5kYwuHP99fb8JLlIbPmjQ9s5Tx4mkaG/6eMvlKP+YgIXHi403LYT1cnQCBd09GApH
+         i67A==
+X-Forwarded-Encrypted: i=1; AKwUvBwhHq/B+YbeoySb5hICIez0/3UrnGnOSehG74vb2SwWVHdZ3WsJWv0rP6+/SwUpVCQRycK3dHiLsrk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKZd8P6+eMUQwmk8VSP7+T9GU/KcWTKooTXzHeiYlShXBddQ4HF
+	fipn+G9x9YcOO1NkTvKM1zOJ4g+IKOhFUGTrJ/O02aqpU31k9/YDclO8
+X-Gm-Gg: AYBFou3QGHHrVbF9mvGxNkyor0D42TvpbxRzAgfjOiMYkxeEa/ravcmZjuvtUtIkfzE
+	DLDgawddmKQIphgaq5Tno5YmYif9m3EcMgoR1hD/aR2P4TaZwJjUN84SEjOSKWPS9rXRcgTsKOP
+	Z7P+1b7EARrceMWPa2ygGu/MOs+f9RyP3iUDOlWdydee2+NL5gO6qfirlvv9WD8HB8rM1kb8+js
+	JJemzIOQNjYxSddKA2FOPOh8Ka2ewNNFfyK6g6zGOEEDp5MMbz62uQrwmrR+qOP1+PLkefkujIB
+	XqhXsNpwp0l29pZupqPXUT3qy8rBGTz1IXX+Z86cVQ6YegNCjfQu4xw+QYOBo2Q/7W9ZWWDPRo/
+	1t5w8e0ITd+66A2trKRnQeSh7eibLha8hZWXw2dhOYJy3NoqE+WToMU32xkCllWBQpUVSVvlg0e
+	23FcDXkm3V2DjwiV02VVzmYciTYG4qVrCWOCYyrjWnASdcvXyf4y+Q0a6PYfsDG2h1uKEzk5AnN
+	w7DR8pcK6gNKPFpoxaLgHoYj4Txr2kvUoxLVHsSYTw/kFdgxqgA4CW88Sz5IgV6YXyWXOipU+V4
+	9Mi1PcoC6nuc24rv23bgldNnukaxmcYc1Gkv+e3YJDD/8NFzNMGOJRLIlVr3wh124KB0cKSrXCH
+	4r9wTtdpCgdYw
+X-Received: by 2002:a05:600c:840c:b0:4a1:8515:2d25 with SMTP id 5b1f17b1804b1-4a18e3e3604mr139433265e9.0.1791698878807;
+        Sat, 10 Oct 2026 23:07:58 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a124-4001-d491-d32f-6b9f-21c5.310.pool.telefonica.de. [2a02:3100:a124:4001:d491:d32f:6b9f:21c5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a198b0cfe3sm58764425e9.3.2026.10.10.23.07.57
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 10 Oct 2026 23:07:58 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bradley Morgan <brads@mainlining.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
+Subject: [PATCH v6] softirq: Preserve interrupt context during IRQ exit
+Date: Sun, 11 Oct 2026 08:07:42 +0200
+Message-Id: <20261011060742.30584-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider.
+__irq_exit_rcu() removes HARDIRQ_OFFSET from preempt_count() before
+the IRQ exit work. On the outermost IRQ exit, with no NMI or softirq
+state remaining, this makes context checks report task context. The
+softirq-dispatch, timer-wakeup and tick-exit checks account for the early
+decrement, but other code reached in this window sees the wrong context:
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 2
+  - ftrace, perf and the ring buffer record task context and use the
+    task recursion and context slots.
+  - KCSAN attributes accesses to the interrupted task. KMSAN uses and
+    changes the interrupted task's KMSAN context. KCOV and the printk
+    caller id see a task.
+  - On PREEMPT_RT can_spin_trylock() and local_trylock() reject hard
+    interrupt context to avoid interfering with PI when the interrupted
+    task is blocked on a lock. Those checks do not reject calls made in
+    this window. BPF programs attached to sched_waking or sched_wakeup
+    can reach the trylock path through kmalloc_nolock().
+  - An oops kills the interrupted task instead of ending in "Fatal
+    exception in interrupt".
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+The early decrement predates git. No failure caused by this
+misclassification is known. lockdep is unaffected because
+lockdep_hardirq_exit() is the last operation in irq_exit().
 
-- [Medium] Item 5 of the new Design Principles section in
-  Documentation/networking/netmem.rst says every frag in an skb must be…
-- [Low] Items 2 and 5 of the new Design Principles section contradict
-  each other once a page-backed memory provider exists.
-- [Low] Item 3 of netmem.rst, and the matching net_iov comment in
-  include/net/netmem.h added by the commit "net: netmem: document netmem…
+Keep HARDIRQ_OFFSET until the end of __irq_exit_rcu(), including
+tick_irq_exit(). Softirq handlers must run in BH context, so replace
+HARDIRQ_OFFSET with SOFTIRQ_OFFSET while they run and restore it
+afterwards. Use one raw counter update for each transition to preserve
+the preemption disable location recorded by irq_enter_rcu(), and update
+lockdep explicitly. Detect IRQ exit with in_hardirq() in
+softirq_handle_begin() because __do_softirq() can be reached through
+do_softirq_own_stack() and cannot take an argument.
 
---
+Adjust the exit checks for HARDIRQ_OFFSET still being present. Use
+irq_count() == HARDIRQ_OFFSET for softirq dispatch, as in irq_enter_rcu().
+Use hardirq_count() == HARDIRQ_OFFSET for the timer thread wakeup and
+tick_irq_exit(). NMI exits use a separate path. An IRQ nested in an NMI
+has an extra HARDIRQ_OFFSET from NMI entry, so it is excluded too. The
+timer thread check must ignore softirq_count() to allow wakeups when an
+IRQ interrupts softirq processing or a BH-disabled section. The timer
+thread handles all pending softirqs, including any raised during its
+wakeup.
 
-docs: netmem: document netmem and memory provider design principles
+A softirq raised from a tracepoint on the final preempt_count_sub()
+waits for the next interrupt exit and can trigger NOHZ tick-stop
+warnings. Handling that instrumentation case does not justify a check
+on every interrupt exit. A tracepoint on tick_irq_exit() can also raise
+a softirq after the normal softirq handling has finished.
 
-This commit adds a Design Principles section to
-Documentation/networking/netmem.rst. The section covers the netmem_ref
-abstraction, the rule against downcasting, decoupling memory providers
-from net_iov and net_iov from unreadability, and delegating type-specific
-logic to the lower layers. It also adds a rule against mixing skb fragment
-memory sources.
+The number of counter updates and interrupt time accounting are
+unchanged. The preemptoff tracer now reports the interrupt and subsequent
+softirq processing as one section. With nofuncgraph-irqs, function graph
+tracing also skips the IRQ exit work, including the __do_softirq() frame.
 
-> diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
-> index 217869d1108dd..6871dcdd700cc 100644
-> --- a/Documentation/networking/netmem.rst
-> +++ b/Documentation/networking/netmem.rst
-> @@ -19,6 +19,59 @@ Benefits of Netmem :
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Link: https://lore.kernel.org/r/20260813130826.GW687043@noisy.programming.kicks-ass.net
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
 
-[ ... ]
+Changes in v6:
+- Keep HARDIRQ_OFFSET through tick_irq_exit() and use
+  hardirq_count() == HARDIRQ_OFFSET for its nesting check (Frederic).
+- Update entry.rst to document NOHZ handling before the final
+  preemption-count decrement.
+- Test in_hardirq() directly in softirq_handle_begin() (Frederic).
+- Drop the in_nmi() test from the timer thread wakeup condition
+  (Frederic). NMI entry adds HARDIRQ_OFFSET, so the equality check
+  excludes IRQs nested in an NMI.
+- Drop the earlier Reviewed-by tags pending reconfirmation of the
+  tick_irq_exit() behavior change.
 
-> +3. **Decouple net_iov from unreadability**: ``struct net_iov`` is flexible and
-> +   has no inherent restrictions; it may represent either CPU-readable or
-> +   unreadable memory. Today, in-tree ``net_iov`` implementations are unreadable
-> +   by the CPU (``netmem_address()`` returns ``NULL``) and some existing code
-> +   still reflects that limitation, but new code must not assume ``net_iov``
-> +   implies unreadable memory (check readability via ``netmem_address()`` or
-> +   ``skb_frags_readable()`` instead) and should, as much as possible, generalize
-> +   existing limitations to match the design principles.
+Testing:
+QEMU IRQ-exit probes (v5/v6):
 
-[Severity: Low]
-Can netmem_address() reliably test readability for page-backed netmem?
-For pages, it ends up calling page_address():
+                                                        v5          v6
+  Tick-exit calls (hardirq/total)                   0/5553   5339/5339
+  Tick-exit function-graph records                    5555           0
+  KMSAN selections (task/total)             427205/3492324   0/2992433
 
-include/net/netmem.h:netmem_address() {
-	if (netmem_is_net_iov(netmem))
-		return NULL;
+The two tick-exit rows count tick_nohz_irq_exit(); function-graph
+tracing used nofuncgraph-irqs. Captures had timer activity and zero
+trace loss.
+Each KMSAN kernel passed all 28 KUnit tests; those tests generated all
+KMSAN reports.
 
-	return __netmem_address(netmem);
-}
+Additional testing covered 67 guest boots and 10 kernel/softirq.o builds
+across five architectures, including RT/non-RT stress, KCOV
+configurations and 600-second rcutorture.
+The KCSAN probe deliberately triggered reports to check IRQ-exit
+context.
 
-With CONFIG_HIGHMEM, page_address() in mm/highmem.c returns NULL for a
-highmem page that has no permanent mapping. The CPU can still read that
-page through kmap_local_page(), which item 1 uses as its example.
+Matched configurations of the unpatched base and v6 were compared on
+Pi 400, Pi 500+, BeagleV Ahead, AMD/KVM and UP ARMv6 Pi 1B+. Pi 500+ and
+AMD tick-exit traces confirmed hardirq context with v6 and zero trace
+loss. The NOHZ_FULL tick stopped on both versions on Pi 500+ and BeagleV
+Ahead. Pi 1B+ base/v6 workloads completed without reported errors.
 
-Highmem page frags are normal in skbs on 32-bit kernels. They come from
-sendfile/splice or from MSG_ZEROCOPY user pages.
+On physical SAM9X75 (cpuidle-at91), base/v6 tick-exit traces showed
+hardirq flags in 0/556 and 540/540 calls, with 558 and zero
+function-graph records under nofuncgraph-irqs. Both kernels showed idle
+and Ethernet activity, with zero trace loss.
 
-Could new code that follows this advice and treats a NULL return from
-netmem_address() as "unreadable" wrongly reject or skip valid highmem page
-frags?
+On Pi 500+, accounted CPU time exceeded wall time under intermittent
+workloads on both the unpatched base and v6. No v6-specific regression
+was established.
 
-The same advice appears in the struct net_iov comment in
-include/net/netmem.h. That comment was added by "net: netmem: document
-netmem and memory provider design in comments".
+v5: https://lore.kernel.org/r/20260930191432.62760-1-kmehltretter@gmail.com
+ Documentation/core-api/entry.rst | 16 +++++----
+ kernel/softirq.c                 | 60 +++++++++++++++++++++++++-------
+ 2 files changed, 57 insertions(+), 19 deletions(-)
 
-Would it be more accurate to say that a NULL netmem_address() means "no
-permanent kernel mapping"? Another option is to point only to
-skb_frags_readable() or to a dedicated netmem readability helper.
+diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
+index 79fdaed954d9..09942135aad1 100644
+--- a/Documentation/core-api/entry.rst
++++ b/Documentation/core-api/entry.rst
+@@ -197,8 +197,9 @@ return true, handles NOHZ tick state and interrupt time accounting. This
+ means that up to the point where irq_enter_rcu() is invoked in_hardirq()
+ returns false.
+ 
+-irq_exit_rcu() handles interrupt time accounting, undoes the preemption
+-count update and eventually handles soft interrupts and NOHZ tick state.
++irq_exit_rcu() handles interrupt time accounting, handles soft interrupts if
++possible, handles the NOHZ tick state and finally undoes the preemption count
++update.
+ 
+ In theory, the preemption count could be updated in irqentry_enter(). In
+ practice, deferring this update to irq_enter_rcu() allows the preemption-count
+@@ -207,10 +208,13 @@ irqentry_exit(), which are described in the next paragraph. The only downside
+ is that the early entry code up to irq_enter_rcu() must be aware that the
+ preemption count has not yet been updated with the HARDIRQ_OFFSET state.
+ 
+-Note that irq_exit_rcu() must remove HARDIRQ_OFFSET from the preemption count
+-before it handles soft interrupts, whose handlers must run in BH context rather
+-than irq-disabled context. In addition, irqentry_exit() might schedule, which
+-also requires that HARDIRQ_OFFSET has been removed from the preemption count.
++Note that soft interrupt handlers must run in BH context rather than in hard
++interrupt context. irq_exit_rcu() therefore replaces HARDIRQ_OFFSET with
++SOFTIRQ_OFFSET in the preemption count while it handles soft interrupts and
++puts HARDIRQ_OFFSET back afterwards, so that the remaining interrupt exit work
++is still attributed to the interrupt. HARDIRQ_OFFSET is removed before
++irq_exit_rcu() returns because irqentry_exit() might schedule, which requires
++that HARDIRQ_OFFSET has been removed from the preemption count.
+ 
+ Even though interrupt handlers are expected to run with local interrupts
+ disabled, interrupt nesting is common from an entry/exit perspective. For
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 5d02c36c40e3..be49e6469f3a 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -350,8 +350,8 @@ static inline void ksoftirqd_run_end(void)
+ 	local_irq_enable();
+ }
+ 
+-static inline void softirq_handle_begin(void) { }
+-static inline void softirq_handle_end(void) { }
++static inline bool softirq_handle_begin(void) { return false; }
++static inline void softirq_handle_end(bool from_irq_exit) { }
+ 
+ static inline bool should_wake_ksoftirqd(void)
+ {
+@@ -481,15 +481,38 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
+ }
+ EXPORT_SYMBOL(__local_bh_enable_ip);
+ 
+-static inline void softirq_handle_begin(void)
++static inline bool softirq_handle_begin(void)
+ {
+-	__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
++	if (!in_hardirq()) {
++		__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
++		return false;
++	}
++
++	/*
++	 * Only reached from irq_exit(), with HARDIRQ_OFFSET still set.
++	 * Replace it with SOFTIRQ_OFFSET before handle_softirqs() enables
++	 * interrupts. Use the raw operation to preserve the preemption
++	 * disable location recorded by irq_enter_rcu(), and update lockdep
++	 * directly.
++	 */
++	__preempt_count_sub(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
++	lockdep_softirqs_off(_RET_IP_);
++	WARN_ON_ONCE(irq_count() != SOFTIRQ_OFFSET);
++
++	return true;
+ }
+ 
+-static inline void softirq_handle_end(void)
++static inline void softirq_handle_end(bool from_irq_exit)
+ {
+-	__local_bh_enable(SOFTIRQ_OFFSET);
+-	WARN_ON_ONCE(in_interrupt());
++	if (!from_irq_exit) {
++		__local_bh_enable(SOFTIRQ_OFFSET);
++		WARN_ON_ONCE(in_interrupt());
++		return;
++	}
++
++	lockdep_softirqs_on(_RET_IP_);
++	__preempt_count_add(HARDIRQ_OFFSET - SOFTIRQ_OFFSET);
++	WARN_ON_ONCE(irq_count() != HARDIRQ_OFFSET);
+ }
+ 
+ static inline void ksoftirqd_run_begin(void)
+@@ -605,6 +628,7 @@ static void handle_softirqs(bool ksirqd)
+ 	unsigned long old_flags = current->flags;
+ 	int max_restart = MAX_SOFTIRQ_RESTART;
+ 	struct softirq_action *h;
++	bool from_irq_exit;
+ 	bool in_hardirq;
+ 	__u32 pending;
+ 	int softirq_bit;
+@@ -618,7 +642,7 @@ static void handle_softirqs(bool ksirqd)
+ 
+ 	pending = local_softirq_pending();
+ 
+-	softirq_handle_begin();
++	from_irq_exit = softirq_handle_begin();
+ 	in_hardirq = lockdep_softirq_start();
+ 	account_softirq_enter(current);
+ 
+@@ -670,7 +694,7 @@ restart:
+ 
+ 	account_softirq_exit(current);
+ 	lockdep_softirq_end(in_hardirq);
+-	softirq_handle_end();
++	softirq_handle_end(from_irq_exit);
+ 	current_restore_flags(old_flags, PF_MEMALLOC);
+ }
+ 
+@@ -716,7 +740,7 @@ static inline void tick_irq_exit(void)
+ 
+ 	/* Make sure that timer wheel updates are propagated */
+ 	if ((sched_core_idle_cpu(cpu) && !need_resched()) || tick_nohz_full_cpu(cpu)) {
+-		if (!in_hardirq())
++		if (hardirq_count() == HARDIRQ_OFFSET)
+ 			tick_nohz_irq_exit();
+ 	}
+ #endif
+@@ -748,8 +772,12 @@ static inline void __irq_exit_rcu(void)
+ 	lockdep_assert_irqs_disabled();
+ #endif
+ 	account_hardirq_exit(current);
+-	preempt_count_sub(HARDIRQ_OFFSET);
+-	if (!in_interrupt() && local_softirq_pending()) {
++
++	/*
++	 * HARDIRQ_OFFSET is still set. Only the outermost interrupt handles
++	 * softirqs, and only if it did not hit a softirq or BH disabled section.
++	 */
++	if (irq_count() == HARDIRQ_OFFSET && local_softirq_pending()) {
+ 		/*
+ 		 * If we left hrtimers unarmed, make sure to arm them now,
+ 		 * before enabling interrupts to run softirq.
+@@ -758,11 +786,17 @@ static inline void __irq_exit_rcu(void)
+ 		invoke_softirq();
+ 	}
+ 
++	/*
++	 * Wake the timer thread even if the interrupt hit a softirq or a
++	 * section with BHs disabled. Only the outermost interrupt can wake it.
++	 */
+ 	if (IS_ENABLED(CONFIG_IRQ_FORCED_THREADING) && force_irqthreads() &&
+-	    local_timers_pending_force_th() && !(in_nmi() | in_hardirq()))
++	    local_timers_pending_force_th() &&
++	    hardirq_count() == HARDIRQ_OFFSET)
+ 		wake_timersd();
+ 
+ 	tick_irq_exit();
++	preempt_count_sub(HARDIRQ_OFFSET);
+ }
+ 
+ /**
 
-[ ... ]
-
-> +5. **Do not mix skb fragment memory sources**: All ``frags[]`` in an
-> +   ``sk_buff`` must either be ``struct page``-backed or belong to the same
-> +   memory provider instance (for example, the same ``devmem`` binding or
-> +   ``io_uring`` area). Mixing ``struct page`` and memory-provider fragments,
-> +   or mixing fragments from different memory providers within a single
-> +   ``sk_buff``, is not allowed (including when coalescing ``sk_buff``\ s).
-
-[Severity: Medium]
-Is this invariant enforced anywhere today? Items 2 and 3 note that some
-existing code does not follow them yet, but this item has no such note.
-
-The companion commit "net: netmem: document netmem and memory provider
-design in comments" adds this comment in skb_try_coalesce():
-
-net/core/skbuff.c:skb_try_coalesce() {
-    ...
-	/* All frags in an skb must either all be struct page-backed or all
-	 * belong to the same memory provider instance; do not coalesce skbs
-	 * that would mix them.
-	 */
-	if (skb_frags_readable(from) != skb_frags_readable(to))
-		return false;
-    ...
-}
-
-skb_frags_readable() only returns !skb->unreadable. Two unreadable skbs
-can carry net_iovs from different devmem bindings, or from a devmem
-binding and an io_uring zcrx area. Both would pass this check, and their
-frags would then be merged.
-
-Other places look similar:
-
-- tcp_skb_can_collapse() in include/net/tcp.h compares only readability.
-- skb_gro_receive() in net/core/gro.c checks pp_recycle and skb_zcopy(),
-  but not readability or provider identity.
-
-On TX, tcp_sendmsg_locked() looks up the binding again on every sendmsg
-call with net_devmem_get_binding(sk, sockc.dmabuf_id). Before it appends
-to the tail skb, it only checks:
-
-	if (copy <= 0 || !tcp_skb_can_collapse_to(skb) ||
-	    unlikely(skb_frags_readable(skb) != !binding)) {
-
-msg_zerocopy_realloc() then extends the tail skb's uarg. Because of that,
-the -EEXIST check in skb_zerocopy_iter_stream() never triggers.
-
-bind-tx does not require privileges. Could a user bind two dmabufs to one
-netdev, then send two back-to-back MSG_ZEROCOPY sendmsg calls with
-different dmabuf_ids? That would leave net_iovs from two bindings in one
-skb.
-
-validate_xmit_unreadable_skb() in net/core/dev.c already relies on this
-invariant, because it only checks frags[0]:
-
-	niov = netmem_to_net_iov(skb_frag_netmem(&shinfo->frags[0]));
-	if (net_is_devmem_iov(niov) &&
-	    READ_ONCE(net_devmem_iov_binding(niov)->dev) != dev)
-		goto out_free;
-
-Should these places get a provider-identity check? Otherwise, could this
-item and the skb_try_coalesce() comment say that only readability is
-enforced today, the way items 2 and 3 describe their own limitations?
-
-[Severity: Low]
-Do items 2 and 5 conflict once a page-backed memory provider exists?
-
-Item 2 says "a memory provider that returns struct page-backed
-netmem_refs to upper layers is allowed". A frag from such a provider
-fits both categories in the first sentence here: "struct page-backed"
-and "same memory provider instance". Read that way, it could share an
-skb with ordinary page frags, or with page frags from a different
-page-backed provider. skb_try_coalesce() would allow that today.
-
-The second sentence, however, forbids "Mixing struct page and
-memory-provider fragments, or mixing fragments from different memory
-providers".
-
-The new skb_frag_t comment in include/linux/skbuff.h uses the same
-wording.
-
-Could the two categories be stated so they don't overlap? For example,
-"non-provider struct pages" versus "frags from a single provider
-instance, whatever their backing".
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261010033630.1171692-1-almasrymina%40google.com
+base-commit: 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e
