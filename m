@@ -1,116 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B806F329E46;
-	Sun, 11 Oct 2026 16:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C677B35C68D
+	for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 20:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791736438; cv=none; b=T3SKtqU8nWkqmc77LSfVSUP3P/v/I2unxAcaDKKwRIMF2VjstQSPiMrYNxR7YtrL3+NcLnFq5fpa7KU4Stmkn13B57YBjOAs4s7bmGSGGjqqj+aQ/+0EjM2Dg3DxNd2D3DBqiSxh0vMsxSFeHPaqDJCM6ZOKi84x+83v73DvI0k=
+	t=1791749808; cv=none; b=Jm7Ob415hqCV8E3poZnjrKVqAeQFJciANuAGMXlcvyb/XBO6uItn/P4m9IdNjsr6gFSvz1BkJdofJjxCw8vk0uicrOEC0nkW41Goj08MhL4iWnvFRZwIwGX0neg9mM9uTDVtXSLSFiWa3ed2td6NPt6S2rlnrOc67zTqF22d8uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791736438; c=relaxed/simple;
-	bh=hCRE45XjhKXrN8c722TjGH7Wk3k9K7UtQ4LB3qPXv2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mufhMg/BQY13yi7g9pJhu1fLpm21hfWfvEiDtI00FjckAqXtrhoXhu4CJ9kyUm9UVCRRPopwthUGtcbMLiqjzCVXbNCX+KT0FLkF6cR4PDD8gqI75HGBF7IC3c8Qopz0ZRXpH9p6/NV9eEkQPip3vtTJ9Tq6zZRHB92eGKv1u7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SvOfPrKI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791749808; c=relaxed/simple;
+	bh=mUa5JfPytUIBNId27ct+pI+y+lXe6dkBu7TtmZ2Okr0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EdSyO17M+MjCZBJWTYCJu8lQz4S8KPkX+OujRgk5Z27ZlLBZzRIqrTI36gZC37gNZsKVu3oZDuNIbp/3OCb5dzpM5J3avk7AbzS9Na3tJ3lKRobj5zF9lfKDJs+ZxNaKzldAXbjQv22heA/WqP5Jouh7Aupe5L4zUA3JZO5Hwyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxG8KF6k; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SvOfPrKI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A7C11F0089B;
-	Sun, 11 Oct 2026 16:33:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791736435;
-	bh=uD3Wpx0T5ehE2s2XDi6c8Jflhb+BEWrMVlMvLIr9wUM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SvOfPrKIsuAy3Yzm/IKedxehCl2JX7hwYkEtsXUpRExj2E0YBkTdYbW8Z08BUEDN6
-	 cHILVVL8NP5NFIm6/EX/oNLBWNX6sFG945FePUzqIJ5sq69jBszbnUf+g8sY+wE+ps
-	 UpupgxwVgKP8l3Wqsbq4iojBuPERqq4OPMBg6pSBXyaWNLCPOKle9kxUkTlXKNLU4n
-	 T+6Ps05ZkMQA7sPpewoC4T+tjrEjejQZUVA5Kmo9s1rCtM8ZtH0bz8fVK89hRFS0UN
-	 VQ6oXKNk5XD2n1C3YVvflQNB0dsQZaLoFprWAD2DJIlnNo2ynAHWnN5uGJaga+zHH8
-	 G6nZ2nw/tD7fw==
-Date: Sun, 11 Oct 2026 22:03:46 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
-	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	mhi@lists.linux.dev
-Subject: Re: [PATCH v7 0/7] Qualcomm Sahara protocol enhancements
-Message-ID: <asu5x72z9-p0U8G0@debian>
-References: <20261008-sahara_protocol_new_v2-v7-0-90d278bd7414@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxG8KF6k"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8b0a36f1c95so1714647b3.2
+        for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 13:16:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791749806; x=1792354606; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=LMIFt4Dv9YYDb9vJ6+cJXhs5xmH9sVe/KBqI/bov4Ps=;
+        b=fxG8KF6k5+mW6gdTNTG4F67fBO+eA4n5qdO34dC9x5APqsqi4uaQ8CyYedrMMEiBWt
+         UAo/sFIm2V1ZmlPWeWJr1CdOyWs+WZjnBCyihF3bRTIy3klYKMd9ceBGWF+/i4DxDMBe
+         SBWvTI0CVPSSS73Obasmzh+SkbTwl9TaWx+xPLFU+suSQNmYCglKIU6LBN3kD+Chq2ic
+         PvmWkQHj1UTFyMb0TPAv0Ru4zFIzAsWg/6dEQhTWsNR91niQvCmFY/csPLNlqTE2zc6e
+         uAhyBNm410MaLyAxeqEQ3gCkY3o8COIIu6va8k/deJghbt9MtvlmHYmmxh8Q8+lyM2fD
+         s1tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791749806; x=1792354606;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=LMIFt4Dv9YYDb9vJ6+cJXhs5xmH9sVe/KBqI/bov4Ps=;
+        b=n/l6zMsCItfvqhT8CYzt83g8EDaOssW29vHWCRvD3DYRGplNWUnjl5YdAmt2bLbT48
+         DESPnFjI62dVpAusCJXHOsOEkFre1efmabxK11qPq5aKe+jZhMwFVXAttqWkCX2tVgad
+         vsLsopEMdegv/raWhwdhPAzsQss8rRw0c0MqsluyVBmLk7m1u2Tt9khzBm/x+2/42nCq
+         kQJHSqX6LVrWJFEYyn/QRppeN1Rdb/Wf98hOxABwqqPCP+elgaqDZJAz3UWbyYuDBfK+
+         36w56BesKSR3d8P/DOqL63Cq01rTuixyWXt+glGTPaViwZCL/JaZZWjVx0NjU5UYEn02
+         k3+g==
+X-Forwarded-Encrypted: i=1; AKwUvBwD2Xxav6BB4/684CyU5pPTT7vOog72oQxaBTy2yH7XUNpb/rO/Ub9SX483Gv0QlDSMuBpqFJ9/O6w=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIQrZmttbM5sALeK07Uvtz165lX13/LwEnkoSOxy+jsWXz8LEKy
+	mBegAPicOtMRU2bWA4ocSYeLIN0bXkEJ93/K7zywlKHugqlOhox8Zr0D
+X-Gm-Gg: AYBFou1LOEadeQ+SIzPtd3mYh4OmPT7R/sddA4RJwkxZjaSp66lHBM3Iur+rLaeurrS
+	Ulk/xQ117DXZsWZ0lkbHyDPdQXejXm4y50SobXonpyJ6djvGpe4Ua5BQW/3bFxB8ar7boj0lFFE
+	ENHHLtrIg/zN9QYyxjBpJQb4iPoHnUyklpfESGUpdmB/oZ2vpDxn7gsO+bfu3xpCb2Uk7S7pNT/
+	+7v63rAz1Vbw8sM7NxGPVeKNBmqeT2KSRqiHZJjVB/9dqBmVlYmyNDZxdYX79e4iUm7pn/oMK/t
+	QMLkzTZNvNObX5d4vxfPQVzVasU4gLjEIx6fzkY2m1hxu/nOJHbv0wJ5pE3qDYXRHwvvXS7gOiC
+	JSz61z9xLis/cReMlNhsyECQt2wve9EOuRnFie9z3Fbi+sGQL8QjT9zVVAtVlhrLMSsdAOYk3wr
+	x6n2xOEoXjx6phnZbVgWmf0kL8GoIZHUPU3pdcpAbGIA6Efg8lWhYLyhEQZpm15OsXghpHmq2Uq
+	HyaAUt4zPGP7MXY4COStVcedSvNg83yTbSawFIQIszyJBEClcnUpv7G
+X-Received: by 2002:a05:690c:6e85:b0:8b0:a352:f96d with SMTP id 00721157ae682-8b0a352fd2bmr4001297b3.11.1791749805566;
+        Sun, 11 Oct 2026 13:16:45 -0700 (PDT)
+Received: from localhost ([2600:1702:7a90:6f9f:8bc4:8aec:108d:7a04])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b07f1ea845sm28267397b3.24.2026.10.11.13.16.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Oct 2026 13:16:43 -0700 (PDT)
+From: Matt Turner <mattst88@gmail.com>
+Subject: [PATCH 0/4] alpha: perf register sampling and user stack dumps
+Date: Sun, 11 Oct 2026 16:16:40 -0400
+Message-Id: <20261011-alpha-perf-regs-v3-v1-0-eaa625a39712@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261008-sahara_protocol_new_v2-v7-0-90d278bd7414@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MSQqAMAxA0auUrA10wAGvIi5KjRoQLSkUofTuF
+ pdv8X+BRMKUYFYFhDInfu4G0ykIp78PQt6awWo7GK0N+iueHiPJjkJHwuxwJOt6PQUTvIUWRqG
+ d33+6rLV+S01NGGQAAAA=
+X-Change-ID: 20261001-alpha-perf-regs-v3-7e23508c1ca2
+To: Richard Henderson <richard.henderson@linaro.org>, 
+ Magnus Lindholm <linmag7@gmail.com>
+Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+ Matt Turner <mattst88@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1840; i=mattst88@gmail.com;
+ h=from:subject:message-id; bh=mUa5JfPytUIBNId27ct+pI+y+lXe6dkBu7TtmZ2Okr0=;
+ b=owGbwMvMwCW25rVmCc8sv+mMp9WSGLJOv1uptCh8YuRrwxtOx3f+klebfddBfEKC3JNCEUmFt
+ ctMreJNOz6yMIhxMcwUU2SJW6/IMqttx1Kf09K/YOawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
+ QyBDxygeIqfHoJFZXFyaWqSbVlDkkJdfkliSmZ9XrJdfkJpXkF6gl5aZVpKRkV9UnAo0Qi8vtcT
+ U1dHNyNDAxNLRwszJwtHUxNnZydDJzdHR2dXJyNLcxMDZ0tHE1dKcgYtTAOaaa4sZGXo7mf1+B+
+ z12/Eu/shBuwOFs9f1RPd5T66Yfn13a9Os2HJGhkel4i1b+KpcHhzx1so9zvd5YZnmqdYzFw/NM
+ lGfOpWvgBsA
+X-Developer-Key: i=mattst88@gmail.com; a=openpgp;
+ fpr=3BB639E56F861FA2E86505690FDD682D974CA72A
 
-On Thu, Oct 08, 2026 at 11:53:44AM +0530, Kishore Batta wrote:
-> Hi All,
-> 
-> This series reworks the Sahara protocol driver to make it reusable for
-> multiple MHI based devices and adds support for capturing, restoring and
-> exposing DDR training data using the Sahara command mode.
-> 
-> The Sahara protocol is transported over the MHI bus and is used by multiple
-> flashless devices to transfer firmware images, retrieve memory dumps and
-> exchange command mode data during early boot. However, the current
-> implementation lives under the QAIC accelerator driver and contains
-> device-specific assumptions that limit reuse.
-> 
-> Some MHI devices (for example, QDU100) expose the sahara protocol directly
-> on a "SAHARA" MHI channel and rely on command mode to exchange DDR training
-> data with the host. The existing driver does not bind to such devices and
-> ignores Sahara command mode packets, causing training data to be dropped.
-> 
-> This series addresses these issues by relocating the Sahara driver to the
-> MHI subsystem, centralizing device specific configuration and adding command
-> mode handling for DDR training data.
-> 
-> Overview of the changes in this series -
-> 1. Move Sahara under the MHI subsystem:
->    a. Relocate the sahara protocol driver from QAIC accelerator tree to
->       drivers/bus/mhi/host/clients directory.
->    b. Register Sahara as an independent MHI protocol driver.
-> 
-> 2. Generalize device matching and configuration
->    a. Allow the driver to bind to devices exposing the protocol on a
->       SAHARA MHI channel.
->    b. Centralize firmware image table selection at probe time using a variant
->       table, instead of scattered conditionals.
->    c. Preserve existing behavior on AIC devices.
-> 
-> 3. Add QDU100 firmware image table support
->    a. Add a QDU100 image table and select it based on the matched MHI channel.
->    b. No separate client driver or registration mechanism is required.
-> 
-> 4. Add Sahara command mode support for DDR training.
->    a. Handle command mode packets(CMD_READY, EXECUTE, EXECUTE_DATA).
->    b. Query supported commands and retrieve DDR training data from the device.
->    c. Allocate receive buffers based on the reported payload size and copy
->       raw data from the MHI DL.
->    d. Store training data in controller-scoped memory using devres so it
->       survives sahara channel teardown.
-> 
-> 5. Expose DDR training data to userspace
->    a. Add a read-only binary sysfs attribute under the MHI controller device.
->    b. The attribute reads directly from controller-scoped storage and remains
->       available after the Sahara channel device is removed.
->    c. Cleanup is handled automatically via device-managed resources.
-> 
-> 6. Document the sysfs ABI
->    a. Add ABI documentation describing the DDR training data sysfs node.
-> 
-> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+This lets perf sample registers and dump the user stack on alpha, which
+perf record --call-graph dwarf needs to unwind user space.
 
-Series fails to apply to mhi-next branch. Please rebase and resend. Since I'm
-about to send the PR for v7.4, this will miss the upcoming cycle. But I can
-queue it once v7.4-rc1 is released.
+r9-r15 are not in pt_regs, so they cannot be sampled. An unwinder
+therefore cannot get past a first frame that uses $15 as its frame
+pointer (-O0 code or alloca).
 
-- Mani
+The perf tool side is a separate patch for perf-tools-next. libdw also
+needs alpha unwinding support, which I am sending to elfutils-devel.
 
+---
+Matt Turner (4):
+      alpha: fix stale user_stack_pointer()
+      alpha: stop storing the user stack pointer in pt_regs
+      alpha: use user_stack_pointer() in KSTK_ESP() and dump_elf_thread()
+      alpha: add HAVE_PERF_REGS and HAVE_PERF_USER_STACK_DUMP support
+
+ .../features/perf/perf-regs/arch-support.txt       |  2 +-
+ .../features/perf/perf-stackdump/arch-support.txt  |  2 +-
+ arch/alpha/Kconfig                                 |  2 +
+ arch/alpha/include/asm/processor.h                 |  3 +-
+ arch/alpha/include/asm/ptrace.h                    |  7 +--
+ arch/alpha/include/uapi/asm/perf_regs.h            | 45 +++++++++++++++++
+ arch/alpha/include/uapi/asm/ptrace.h               |  2 +-
+ arch/alpha/kernel/Makefile                         |  1 +
+ arch/alpha/kernel/asm-offsets.c                    |  1 -
+ arch/alpha/kernel/entry.S                          |  5 --
+ arch/alpha/kernel/perf_regs.c                      | 56 ++++++++++++++++++++++
+ arch/alpha/kernel/process.c                        |  2 +-
+ arch/alpha/kernel/ptrace.c                         | 12 +++++
+ arch/alpha/kernel/traps.c                          |  8 ----
+ 14 files changed, 122 insertions(+), 26 deletions(-)
+---
+base-commit: 8f5dbfb93440d1aba216a1a34369a65654b94be9
+change-id: 20261001-alpha-perf-regs-v3-7e23508c1ca2
+
+Best regards,
 -- 
-மணிவண்ணன் சதாசிவம்
+Matt Turner <mattst88@gmail.com>
+
