@@ -1,66 +1,67 @@
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F5A4BEE3B
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 20:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6884DE719
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 20:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791838681; cv=none; b=mTnP1N43lg0xMUl7zKgIaBQipIcndQngGdww2DerXgFhDscYAPXeykHa3BHiCPfEd0qSCD5sABwdxNlVPo7Ewnyb94XnbI9hb3PlEoq5xVlmWCnMsRK4zkql5RAPuYBrC8cWb8YQbNpKKLqUadMGXv6fy26FWmGcRkuHQaRoPSQ=
+	t=1791838684; cv=none; b=tESE01mmzDR25DpE/s1kpwhols+OLWkOTxaC9zZHO6U7SIRSKCONO47K1+Xup5kqZY+nwJetzPNgMVr+PIuZoDh7vuYgtzM2DEV/CyQX7zecYT3aIGAzXq56J+7RnsD64AMpaL2WgYHGVA27nKORf72NC1hcs2zpTDURkwScUsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791838681; c=relaxed/simple;
-	bh=69wTGs4Xn/TUvF1hRWSuKqp7L2UjaEJpt8IiVUoiboQ=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=LZYn1E1ELmQqFmjSczVFi+eK0G29xV7xiTLxE48mklh5SWZB54D2iJyNLu1wbvVpJgwCIBo1Xx8QGIN1ghl6/Vu1g5AxTvCtjo/Jkd1/6hIRR08uYHM0QJdxCGnHC9HO6Z5/ev/k0aXreL6QBrJ4WnDAJSogP2D/EJ2DIwB35rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NP+l9G46; arc=none smtp.client-ip=74.125.82.197
+	s=arc-20240116; t=1791838684; c=relaxed/simple;
+	bh=RxCh5zE+UQ0/MWzCgj/JQGj6sEaA7qIBjeupNA/8Oo4=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=cJ6DD/UbVSSxYmRxUdqnrDDhulxZPm2wjq8cNM/jsSOxEtNwMb4cIB2p3or9maWDJhFLPOCiLH8mSDitpj3BUv3aYr+BaRfyvCGQu/VrhYH9Li/LIvVmErVgxpZXHooCNFMxVzLS0v04hTyS3fcUFhryE6SFnihA/Fdlb4gEwCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lM2Nuhzy; arc=none smtp.client-ip=74.125.82.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NP+l9G46"
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-33713e5e6daso3639901eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 13:57:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lM2Nuhzy"
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-357e2bc3b1bso3993673eec.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 13:58:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791838679; x=1792443479; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/3lYEjUykJzoWYMUJo97frndFTA57IALGq9VPrtnj7o=;
-        b=NP+l9G468y3hSZlhhcR8SUp5CwE4FrZZ33kvgu/64agUXmXe3+Zwbv4BUHiS2wJlLI
-         kkq/sRwSJxMgpL/SQDlfkN4oGpcfHWJV8K/7vgb5jFBmXTG4enHdYQg9uuAT+6wClOat
-         AF59SEas0WQQ33g9e5+Mi/LnlmaEaA8tHfhYD0JuXIT027U/cwB7KYpzpXdv7HwK8Cwx
-         JLmRP3ItceTJTfrxbq1JHkX83vRe1dMnth0XxPXfNetVYCpaY+GbaAMgvsPcGWfAPWT4
-         DgWGuhwr5o5poGLptRDFH0iyoVeSXqbvbXAV0NB4eZgpTYygCTmcBnPOt0LBxtGWpmHW
-         cwlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791838679; x=1792443479;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20251104; t=1791838681; x=1792443481; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/3lYEjUykJzoWYMUJo97frndFTA57IALGq9VPrtnj7o=;
-        b=mndFbs/CxpbQSfWRpcbAEfwpyNetPwYZXWw9JZWXpIIoMKNskNAV0CcbnCIz/pCn+h
-         1qlkiFjP1YxWMTrbt3ni6HHIQC7oRGWtooqZgYIrz1dOgySpPUsZ7xHQTBRU7LXJxLHu
-         ByhWayEmOjdECApS5CbdszUAJQCKzKiUl0+D5uEhWvNYyhe/gUIVmBV2B2YmwLV8pStw
-         g3ivx+uFiiRfKGT7I0ihJRoaxavfDnhuM1r/ukAfr8ZzzBHXBhU2KGczWl8PIgyUGdNx
-         4xOgt9SNqGu4vUcBv12bvLbO5dYQsosPONzj9ESKKETjhQNIc0okrawAIWCj8mFCGZjD
-         UHQQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwRKuwOGPNc4yZpj6oOyoFJP5tLQo2oHwuC6pJvlUHH4Gkmryqb2dpIVQa2ZrvdyA6s/MsdDcEVi5s=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJYCRxzbC2Vry2I+j5d/+5nwix6lemF1Dv6IcJ2zK+EQllHut2k
-	ucbt3nUSLbe1KRTYhT6ztCTZr8Oub0D+AOtKBj2M3VSVX0tY2cq3MWc8NTJH5EGLh0rVD7AQ0nB
-	X6Ojj1QP1c/PRapr2sgqTIgevaRPWIw1/ZA==
-X-Received: from dycmb8-n1.prod.google.com ([2002:a05:693c:20c8:10b0:351:731f:c917])
+        bh=I+N9VyGNF26XmaN2XZ3JfOSfSC5tyF4fG/G7UM7Jl4c=;
+        b=lM2Nuhzyt5TYTsoXVE/aXYbc7QWo8srWeEU8kRdMQ4ZFtAWyAg1302WcnkSQb8Krrk
+         n0tqatmXSAe7hFhESyznEWY6fHqoYwX8OwDRruStNoIoY3yUJqNGsSt32lRPi35ONZhR
+         zwc9xUMBbM7pGVYu7cs99lHcQeysQATcSpKPe/aPfaW/1lg5fOJ+pMBLSTcctufs/PAc
+         pa4VVKvFvofQaaxSpEULRcMt37yj8wfdHTwqlCA7F+ROLOPJK/qJxjtqjp1Wznxs9hmj
+         PrxbQwCHhH+wJmSgFCfNzNDpmqNmA3VaxUrkPJzhUfQYF9hQ8RUBkCOv1/iD7DFDoadR
+         n5Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791838681; x=1792443481;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=I+N9VyGNF26XmaN2XZ3JfOSfSC5tyF4fG/G7UM7Jl4c=;
+        b=qmwFnH6x884XU5RQ/2I/WgVK6cGDY25r5Nzqplsss+aAi/kMT4YeWkDLVnLcBqfHSh
+         saOyhf+H1xue8Rs3wD3STEXXXrPenDRgGsQUxnQTFPvzitULTmgMED5WXWnBS5f4XZcJ
+         T9uJBZRljvsxfvv+SlZUcX/HyW26SosDsqA5G/leSHDC6uPTVz80OUdDqwK8NFQvk9tV
+         nVvNVU1WoQ/M9/1gDlEoIJ6No8zMxcz/IoZx7zDHhuYt86TaJtC3ULyuJD5PWYId56uR
+         hivlce1xg8jSMHMrmKf+QKcyNXv0Sp0WShBKutJEfs5viJKo99HZQI+FTJnsh6PdmuhN
+         U66Q==
+X-Forwarded-Encrypted: i=1; AKwUvBx4J9LWOxmF9PDJUwcxQlakzaaHAhBiKvD2IjRjMC3hG41tg/XGjKrW6ZZ+sac6UY380SKzFD9e4xo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKEJGFK28q2eHFUBH519GmqLI8j+Y0H3RkvTOisPBVEpDsG10Gp
+	JQ3VnhUOYowh6Koev8ADHawoNfT3PkJrFJUNA2w8pgpM69UYqM4MnMH8eIUL3HnxdXBJKQd6qls
+	DbpQnocSMtIvRRxuEkhler2yZk6Pv5chYwg==
+X-Received: from dlbtu14.prod.google.com ([2002:a05:7022:3c0e:b0:15a:d2bd:6a16])
  (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:693c:638e:20b0:351:7bdb:6eb1 with SMTP id 5a478bee46e88-3537e03ce72mr14556990eec.11.1791838678452;
- Mon, 12 Oct 2026 13:57:58 -0700 (PDT)
-Date: Mon, 12 Oct 2026 13:53:35 -0700
+ 2002:a05:7022:3a8d:b0:15c:1679:1cc7 with SMTP id a92af1059eb24-16a63099055mr19171119c88.37.1791838680421;
+ Mon, 12 Oct 2026 13:58:00 -0700 (PDT)
+Date: Mon, 12 Oct 2026 13:53:36 -0700
+In-Reply-To: <20261012-fix-aer-mask-override-v1-0-49a0d7aeaea0@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAM9IzWoC/x2MWwqAIBAAryL73UJaGHSV6MN0qyV6sIIE4t2TP
- gdmJkMkYYowqgxCiSPfVwXdKPC7uzZCDpXBtMbqVhtc+UVHgqeLB96JRDgQ2mUIvba+C4OH2j5 CVfy/01zKB+uEsTBnAAAA
-X-Change-Id: 20261012-fix-aer-mask-override-6b7d416c3d7c
+References: <20261012-fix-aer-mask-override-v1-0-49a0d7aeaea0@google.com>
 X-Mailer: b4 0.14.3
-Message-ID: <20261012-fix-aer-mask-override-v1-0-49a0d7aeaea0@google.com>
-Subject: [PATCH 0/2] PCI/AER: Fix and document aer_inject's aer_mask_override
+Message-ID: <20261012-fix-aer-mask-override-v1-1-49a0d7aeaea0@google.com>
+Subject: [PATCH 1/2] PCI/AER: Make aer_mask_override effective for injected errors
 From: Priyank Rathod <rathodpriyank@google.com>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Lukas Wunner <lukas@wunner.de>, 
@@ -72,146 +73,265 @@ Cc: Lukas Wunner <lukas@wunner.de>,
 	Priyank Rathod <rathodpriyank@google.com>, Jonathan Cameron <jic23@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 
-The aer_mask_override parameter of aer_inject does not work for
-Correctable or Non-Fatal injections: the hardware Mask registers are
-restored before the threaded AER handler reads them, so
-aer_get_device_error_info() drops the injected error as masked.  The
-only injections for which the parameter ever produced a handled error
-were Fatal errors on device types whose AER registers
-aer_get_device_error_info() doesn't read (e.g., Endpoints or Upstream
-Ports), and even there only because the -EINVAL pre-check was skipped,
-not because of the mask writes.  The '!' vs '~' operator bug in the
-same code is a separate defect that transiently unmasks every error of
-the device.
+The aer_mask_override module parameter of aer_inject is meant to allow
+injecting errors that the device masks in PCI_ERR_COR_MASK or
+PCI_ERR_UNCOR_MASK.  It does not work for Correctable or Non-Fatal
+errors, nor for Fatal errors on Root Ports and Downstream Ports,
+because the modified masks are restored before the AER driver reads
+them.
 
-Why fix rather than remove the parameter: it dates from 2011
-(457d9d088b02 ("PCI: aer-inject: Override PCIe AER Mask Registers"))
-and is mentioned in the RHEL 6.2 Technical Notes, so test scripts may
-still rely on it; it is also the only way to exercise handling of
-errors that are masked by default (e.g., Header Log Overflow or
-Poisoned TLP Egress Blocked, or the Internal Errors on non-CXL
-devices) without reprogramming the device via setpci, which the
-kernel's own pci_restore_aer_state() may later undo.
+aer_inject() writes the modified masks to hardware and restores them
+from cor_mask_orig/uncor_mask_orig right after inject_lock is released,
+before irq_inject_interrupt() is even called.  The injected error is
+consumed asynchronously by the threaded handler aer_isr(), whose
+helpers is_error_source(), aer_get_device_error_info() and
+aer_get_anfe_status() read the Mask registers.  Those reads go through
+the emulated config space, but find_pci_config_dword() does not
+intercept PCI_ERR_COR_MASK/PCI_ERR_UNCOR_MASK, so they return the
+already restored hardware value.  aer_get_device_error_info() then
+sees !(info->status & ~info->mask) and drops the injected error,
+leaving the emulated status bit pending.  With aer_mask_override=1 the
+write to /dev/aer_inject succeeds and the Root Port logs "Correctable
+Error message received", but the error is neither decoded nor counted
+in the aer_dev_* sysfs attributes and, for a Non-Fatal error, no
+recovery takes place.
 
-Patch 1 stops touching the hardware Mask registers, emulates the
-override in config space reads while the injected error is pending in
-the emulated Status registers, like the status emulation itself, and
-keeps the emulated value from being written back to hardware by
-pci_restore_state().  The '!' vs '~' fix is folded in because on its
-own it has no observable effect on the injection outcome (the masks
-were restored before the interrupt anyway) and the lines are removed
-by the emulation.
+Only Fatal errors on other device types, e.g., Endpoints or Upstream
+Ports, "worked": for those aer_get_device_error_info() doesn't read the
+device's AER registers at all, so recovery is triggered without the
+injected bits ever being decoded.
 
-Patch 2 documents the parameter in the AER HOWTO, which never
-mentioned it.
+The mask modification itself is wrong, too.  aer_inject() uses the
+logical-not instead of the bitwise-not operator when clearing the
+injected bits:
 
-What the mask writes in aer_inject() do today, with the register
-values of the sample session below (PCI_ERR_COR_MASK 0000c040 with
-BadTLP masked, PCI_ERR_UNCOR_MASK 02400000 untouched, COR_STATUS
-BAD_TLP = 00000040 injected):
+  cor_mask &= !(einj->cor_status);
+  uncor_mask &= !(einj->uncor_status);
 
-  intended:  cor_mask   &= ~00000040   0000c040 -> 0000c000
-             uncor_mask &= ~00000000   02400000 -> 02400000
-  actual:    cor_mask   &= !00000040   0000c040 & 0 -> 00000000
-             uncor_mask &= !00000000   02400000 & 1 -> 00000000
+"!x" evaluates to 0 or 1, so a non-zero injected status zeroes the
+whole Mask register while a zero injected status clears bits 31:1 and
+preserves only bit 0.  Both registers are rewritten on every injection,
+so e.g., a Correctable-only injection zeroes PCI_ERR_COR_MASK and
+clears bits 31:1 of PCI_ERR_UNCOR_MASK, transiently unmasking every
+error of the device, including those masked by default such as
+Advisory Non-Fatal Error and Uncorrectable Internal Error.
 
-So between the write and the restore every Correctable and every
-Uncorrectable error of the device is unmasked, including the ones it
-masks by default (CorrIntErr, HeaderOF, UncorrIntErr, ...).  Both
-registers are restored to 0000c040/02400000 before
-irq_inject_interrupt() is called, so when the threaded AER handler
-reads them through the emulated config space it gets the hardware
-value and evaluates
+Writing the hardware Mask registers was never necessary: aer_inject
+doesn't make the device detect an error; it emulates the Error Status
+and Header Log registers and triggers the Root Port's (or RCEC's) AER
+interrupt.  The hardware masks only decide whether the device reports
+an error it detected itself, i.e., sends an ERR_* Message and logs the
+header (PCIe r7.0, sec 6.2.3.2.2); the only consumer of the masks in
+the injected flow is the AER driver, reading them through the emulated
+config space.
 
-  status & ~mask == 00000040 & ~0000c040 == 0
+So emulate the override there instead: while injected error bits are
+pending in the emulated Status registers, reads of PCI_ERR_COR_MASK and
+PCI_ERR_UNCOR_MASK report those bits as unmasked.  aer_inject no longer
+modifies the hardware Mask registers, which also removes the window in
+which all errors were unmasked and the possibility of two concurrent
+injections restoring each other's modified value.  Also describe the
+parameter with MODULE_PARM_DESC().
 
-i.e. it drops the injected error as masked and the emulated status bit
-is left pending.  With the patch the hardware is never written and the
-override is applied where it is consumed, in the read:
+The emulation ends when the injected status is cleared (RW1C), e.g.,
+by the AER driver once a Correctable error has been handled or
+Non-Fatal recovery has succeeded, or by pci_restore_state() from a
+driver's slot_reset().  Otherwise, e.g., for a Fatal error on a Root
+Port or any Uncorrectable error after a failed recovery, the injected
+status stays pending until pci_restore_state() clears it, the device
+is re-enumerated or aer_inject is unloaded.
 
-  aer_isr() reads PCI_ERR_COR_MASK while 00000040 is pending in the
-  emulated COR_STATUS:  0000c040 & ~00000040 -> 0000c000, so
-  status & ~mask == 00000040 and "[ 6] BadTLP" is handled.
-  Any read after the status was cleared, or after rmmod: 0000c040.
+Like the emulated Status registers, the emulated mask value is returned
+to every dword config read done through the PCI core, including
+pci_save_state(), and nothing would keep it from being written back: a
+pci_save_state() issued while an injected error is pending, e.g., by
+pci_reset_function() or pci_try_reset_function() (sysfs "reset", VFIO)
+or by a system or runtime suspend, records the Mask register with the
+bit clear; pci_restore_state() then clears the injected status and
+writes the saved value to the device, leaving the error unmasked in
+hardware for good, even after aer_inject is unloaded.  So also record
+in struct aer_error which hardware Mask bits were hidden from a reader
+and set them again in every dword write to the Mask registers.  Only
+bits that were actually masked when a reader saw them as unmasked are
+recorded, so all other bits stay writable and aer_inject itself still
+never writes the hardware Mask registers.  Byte and word accesses are
+not emulated, like for the Status registers.
 
-The write side, for a pending Unsupported Request with
-PCI_ERR_UNCOR_MASK 02500000 (UR masked):
+Like the rest of struct aer_error, the record lives until aer_inject is
+unloaded.  Once the injected error has been cleared, the recorded bits
+read as masked again, but until the unload no dword write can unmask
+them in hardware, not even a legitimate one such as a 32-bit setpci
+access, pci_aer_init() after a rescan or pci_aer_unmask_internal_errors()
+for CXL devices.  That seems acceptable for a test module and is the
+conservative failure mode compared to leaving an error unmasked for
+good.  The protection also lasts only as long as aer_inject is loaded:
+a state saved while the error was pending (e.g., by VFIO at open or for
+a device in runtime suspend) and restored after the unload still writes
+the emulated value.
 
-  pci_save_state()     reads 02500000 & ~00100000 -> 02400000
-  pci_restore_state()  writes 02400000; aer_inject sets the hidden bit
-                       again: 02400000 | 00100000 -> 02500000
+Tested in a QEMU q35 VM (pcie-root-port + e1000e) by masking BadTLP in
+PCI_ERR_COR_MASK and injecting it with aer_mask_override=1.  Before:
+only "Correctable Error message received", nothing decoded,
+aer_dev_correctable unchanged, emulated status left pending.  After:
+"[ 6] BadTLP" is decoded, the sysfs counter is incremented, the
+emulated status is cleared and PCI_ERR_COR_MASK is unchanged.  A masked
+Unsupported Request (UR) injected the same way is now decoded and
+recovery is triggered; it fails in the VM because the Root Port doesn't
+report Data Link Layer Link Active within 100 ms of the Secondary Bus
+Reset, so pcie_do_recovery() gives up and leaves the injected status
+pending.  Resetting the device through sysfs in that state leaves UR
+masked in PCI_ERR_UNCOR_MASK after aer_inject has been unloaded; with
+the read-side emulation alone it ended up unmasked.
 
-Sample session in a QEMU q35 VM (pcie-root-port + e1000e at 01:00.0,
-pcie_ports=native, v7.3-rc1 with aer_inject built before and after the
-patch, injections done with the aer-inject tool):
-
-  # setpci -s 01:00.0 ECAP_AER+0x14.L
-  0000c000
-  # setpci -s 01:00.0 ECAP_AER+0x14.L=0000c040        (mask BadTLP)
-  # insmod aer_inject.ko aer_mask_override=1
-  # aer-inject -s 01:00.0 cor.conf                    (COR_STATUS BAD_TLP)
-
-Before:
-
-  pcieport 0000:00:01.0: AER: Correctable Error message received from 0000:01:00.0
-  # grep BadTLP /sys/bus/pci/devices/0000:01:00.0/aer_dev_correctable
-  BadTLP 0
-  # setpci -s 01:00.0 ECAP_AER+0x10.L                 (emulated COR_STATUS)
-  00000040                                            (left pending)
-
-After:
-
-  pcieport 0000:00:01.0: AER: Correctable Error message received from 0000:01:00.0
-  e1000e 0000:01:00.0: PCIe Bus Error: severity=Correctable
-  e1000e 0000:01:00.0:   device [8086:10d3] error status/mask=00000040/0000c000
-  e1000e 0000:01:00.0:   [ 6] BadTLP            | Receiver    | Data Link Layer
-  # grep BadTLP /sys/bus/pci/devices/0000:01:00.0/aer_dev_correctable
-  BadTLP 1
-  # setpci -s 01:00.0 ECAP_AER+0x10.L
-  00000000
-  # rmmod aer_inject; setpci -s 01:00.0 ECAP_AER+0x14.L
-  0000c040                                            (hardware untouched)
-
-The same with a masked Unsupported Request (UNCOR_STATUS UNSUP,
-PCI_ERR_UNCOR_MASK 02500000): before, only "Uncorrectable (Non-Fatal)
-Error message received", UnsupReq count 0 and the emulated status
-00100000 left pending; after, "[20] UnsupReq" is decoded, the count is
-1 and pcie_do_recovery() runs.  Recovery fails in this VM ("Data Link
-Layer Link Active not set in 100 msec"), which leaves the injected
-error pending for the last test.  With aer_mask_override=0 the
-injection is still refused: "The correctable error(s) is masked by
-device".
-
-Reset while the injected UR is still pending, i.e. pci_save_state()
-reads the Mask register through the emulation and pci_restore_state()
-writes it back:
-
-  # setpci -s 01:00.0 ECAP_AER+0x08.L           (emulated: UR unmasked)
-  02400000
-  # echo 1 > /sys/bus/pci/devices/0000:01:00.0/reset
-  # rmmod aer_inject; setpci -s 01:00.0 ECAP_AER+0x08.L
-  02500000                                            (hardware untouched)
-
-With the read-side emulation alone (an earlier version of this patch)
-the last read returned 02400000: pci_restore_state() had written the
-emulated value to the device and UR stayed unmasked in hardware after
-the unload.  That is why the patch also keeps the hidden Mask bits set
-in writes to the Mask registers.
-
+Fixes: 457d9d088b02 ("PCI: aer-inject: Override PCIe AER Mask Registers")
 Signed-off-by: Priyank Rathod <rathodpriyank@google.com>
 ---
-Priyank Rathod (2):
-      PCI/AER: Make aer_mask_override effective for injected errors
-      Documentation: PCI: Document aer_inject's aer_mask_override parameter
+ drivers/pci/pcie/aer_inject.c | 73 +++++++++++++++++++++++++++++--------------
+ 1 file changed, 50 insertions(+), 23 deletions(-)
 
- Documentation/PCI/pcieaer-howto.rst | 23 ++++++++++++
- drivers/pci/pcie/aer_inject.c       | 73 +++++++++++++++++++++++++------------
- 2 files changed, 73 insertions(+), 23 deletions(-)
----
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-change-id: 20261012-fix-aer-mask-override-6b7d416c3d7c
+diff --git a/drivers/pci/pcie/aer_inject.c b/drivers/pci/pcie/aer_inject.c
+index 09bfc7194ef3..98289004e4c7 100644
+--- a/drivers/pci/pcie/aer_inject.c
++++ b/drivers/pci/pcie/aer_inject.c
+@@ -27,9 +27,16 @@
+ 
+ #include "portdrv.h"
+ 
+-/* Override the existing corrected and uncorrected error masks */
++/*
++ * Allow injecting errors that are masked in PCI_ERR_COR_MASK or
++ * PCI_ERR_UNCOR_MASK.  aer_inject never writes the hardware Mask registers
++ * itself: aer_inj_read_config() emulates the override and
++ * aer_inj_write_config() keeps the emulated value from being written back.
++ */
+ static bool aer_mask_override;
+ module_param(aer_mask_override, bool, 0);
++MODULE_PARM_DESC(aer_mask_override,
++		 "Allow injecting errors that the device masks");
+ 
+ struct aer_error_inj {
+ 	u8 bus;
+@@ -59,6 +66,9 @@ struct aer_error {
+ 	u32 header_log3;
+ 	u32 root_status;
+ 	u32 source_id;
++	/* Hardware Mask bits hidden from readers by aer_inj_read_config() */
++	u32 uncor_mask_hidden;
++	u32 cor_mask_hidden;
+ };
+ 
+ struct pci_bus_ops {
+@@ -218,7 +228,7 @@ static int aer_inj_read_config(struct pci_bus *bus, unsigned int devfn,
+ 			       int where, int size, u32 *val)
+ {
+ 	u32 *sim;
+-	struct aer_error *err;
++	struct aer_error *err = NULL;
+ 	unsigned long flags;
+ 	int domain;
+ 	int rv;
+@@ -241,6 +251,26 @@ static int aer_inj_read_config(struct pci_bus *bus, unsigned int devfn,
+ 	}
+ out:
+ 	rv = aer_inj_read(bus, devfn, where, size, val);
++	/*
++	 * Report the injected errors as unmasked while they are pending in
++	 * the emulated Status registers, and remember which hardware Mask
++	 * bits were hidden that way so that aer_inj_write_config() can keep
++	 * a value derived from this read (e.g., by pci_save_state()) from
++	 * clearing them.  *val is unspecified if the read failed and ~0 if
++	 * the device is gone, so leave it alone then.
++	 */
++	if (!rv && !PCI_POSSIBLE_ERROR(*val) && aer_mask_override && err) {
++		switch (where - err->pos_cap_err) {
++		case PCI_ERR_UNCOR_MASK:
++			err->uncor_mask_hidden |= *val & err->uncor_status;
++			*val &= ~err->uncor_status;
++			break;
++		case PCI_ERR_COR_MASK:
++			err->cor_mask_hidden |= *val & err->cor_status;
++			*val &= ~err->cor_status;
++			break;
++		}
++	}
+ 	spin_unlock_irqrestore(&inject_lock, flags);
+ 	return rv;
+ }
+@@ -249,7 +279,7 @@ static int aer_inj_write_config(struct pci_bus *bus, unsigned int devfn,
+ 				int where, int size, u32 val)
+ {
+ 	u32 *sim;
+-	struct aer_error *err;
++	struct aer_error *err = NULL;
+ 	unsigned long flags;
+ 	int rw1cs;
+ 	int domain;
+@@ -275,6 +305,22 @@ static int aer_inj_write_config(struct pci_bus *bus, unsigned int devfn,
+ 		return 0;
+ 	}
+ out:
++	/*
++	 * Set the hardware Mask bits hidden from readers again, so that a
++	 * value derived from such a read (e.g., by pci_save_state()) can't
++	 * clear them.  The record is never cleared, so until aer_inject is
++	 * unloaded no dword write can unmask those bits.
++	 */
++	if (aer_mask_override && err) {
++		switch (where - err->pos_cap_err) {
++		case PCI_ERR_UNCOR_MASK:
++			val |= err->uncor_mask_hidden;
++			break;
++		case PCI_ERR_COR_MASK:
++			val |= err->cor_mask_hidden;
++			break;
++		}
++	}
+ 	rv = aer_inj_write(bus, devfn, where, size, val);
+ 	spin_unlock_irqrestore(&inject_lock, flags);
+ 	return rv;
+@@ -326,7 +372,7 @@ static int aer_inject(struct aer_error_inj *einj)
+ 	unsigned long flags;
+ 	unsigned int devfn = PCI_DEVFN(einj->dev, einj->fn);
+ 	int pos_cap_err, rp_pos_cap_err;
+-	u32 sever, cor_mask, uncor_mask, cor_mask_orig = 0, uncor_mask_orig = 0;
++	u32 sever, cor_mask, uncor_mask;
+ 	int ret = 0;
+ 
+ 	dev = pci_get_domain_bus_and_slot(einj->domain, einj->bus, devfn);
+@@ -371,18 +417,6 @@ static int aer_inject(struct aer_error_inj *einj)
+ 		goto out_put;
+ 	}
+ 
+-	if (aer_mask_override) {
+-		cor_mask_orig = cor_mask;
+-		cor_mask &= !(einj->cor_status);
+-		pci_write_config_dword(dev, pos_cap_err + PCI_ERR_COR_MASK,
+-				       cor_mask);
+-
+-		uncor_mask_orig = uncor_mask;
+-		uncor_mask &= !(einj->uncor_status);
+-		pci_write_config_dword(dev, pos_cap_err + PCI_ERR_UNCOR_MASK,
+-				       uncor_mask);
+-	}
+-
+ 	spin_lock_irqsave(&inject_lock, flags);
+ 
+ 	err = __find_aer_error_by_dev(dev);
+@@ -447,13 +481,6 @@ static int aer_inject(struct aer_error_inj *einj)
+ 	}
+ 	spin_unlock_irqrestore(&inject_lock, flags);
+ 
+-	if (aer_mask_override) {
+-		pci_write_config_dword(dev, pos_cap_err + PCI_ERR_COR_MASK,
+-				       cor_mask_orig);
+-		pci_write_config_dword(dev, pos_cap_err + PCI_ERR_UNCOR_MASK,
+-				       uncor_mask_orig);
+-	}
+-
+ 	ret = pci_bus_set_aer_ops(dev->bus);
+ 	if (ret)
+ 		goto out_put;
 
-Best regards,
 -- 
-Priyank Rathod <rathodpriyank@google.com>
+2.56.0.385.gd3acb90ef8-goog
 
