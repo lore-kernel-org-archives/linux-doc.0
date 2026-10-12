@@ -1,125 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCF846C840;
-	Sun, 11 Oct 2026 23:36:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2D23515DD;
+	Mon, 12 Oct 2026 00:56:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791761821; cv=none; b=UERgJfJVo4ALFLNRf2HT2Gq5LUOEF7uz93rQbs7CdYCQW9SuqpRoYQ0G0fBsXr+9cvMcX8jK74mOW5NbiBa57Ix1eZfgYPybSWpVSE4XwOEs539cOUjf4WHwKMeHSRoYwRrniHZZoaCupfSbJKjfQ0CQwMSWU97f+nGyhQE4aZg=
+	t=1791766592; cv=none; b=enSrSU/U3mhbA/pZ3fb5WsNJ1KH4GHYpVI5ug+ZYqibRWkfkZ6qEubwa68SB7FYjawzOzbYYURYZCv3FYhPVdKq6hPNIGEVgleo83PHL/8ktWCyNTCOTH5IJIF9wqERQhNjtSRaYCAnALMPmA3F1dSjmAdumOMRb+mE0kLJIDrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791761821; c=relaxed/simple;
-	bh=FBfaI0cmoDsi8R69uUeDrIYyoOXNUDuV7jIj7az660k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eMfZLQ3E54Kc50TgWTqmxXYjlV2oHXmRQA46AY6xzYUNf+dKLg0WmQ+L6hSMNnJs9Gfzeg3Zz6pRWXaD7m14EoIidf2z8Absq/lbYbbtakdAx6SEsGVI2rnOs/9jy/jmLAoV7ieJ3F8LZPMPzWKROifNpEfs0WqIh0rWpEJJsl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ReMBvRhI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791766592; c=relaxed/simple;
+	bh=fgEYWGJ2o79ZogsVquNbtLGhVkZVUJInYR7e8viFy64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aDitourqXx+jK9w4W3SwUwyiUMQ55gfocm/6Y2qJJtogTHAngkBTNh5BDVAlZBc8oJ31i9InerWBcRlpfjcHBfhiHXLtemkQAQwo1nBIAgc3tevPR9KYeysVnAzrE04hXNulGZB7G4cfW+Mv01wkXFJt2rMFqwDcUbEcVCdIezY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Srp4lxTv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ReMBvRhI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869EC1F0089C;
-	Sun, 11 Oct 2026 23:36:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Srp4lxTv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37FB71F0089B;
+	Mon, 12 Oct 2026 00:56:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791761819;
-	bh=Hhwt7NcqlK2UG3MHM+AwzpIyGFQ3Rmp336tlJmGcn88=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ReMBvRhIiypYU7sn9qiRgDIK4TXAt7b8wkePMzbSb/OfBM03rfkmP2FCdxl3RFW6n
-	 ur8VsZPIN5QsyGJ/mhCz/KRjIyh4LgjZVhwyFE6trZ5KKmmwol9hGebiWADHk/zU7g
-	 di8aTQdfEzOnkAuf17JtPiAtJ39KU9+QE3Iue9o5LoCyZpD4ST/Z3kgKxr29uMsHVJ
-	 6G7mP4h6e+n73I1x/ZlkV5/muyKKP3oo1xeEGsJHSuaCUFzt8XB2Mqv2dA01xh2+jw
-	 6ejXPGvpKRQHPsCAgyDNc35WeTk+udOGzOYKgkh34N/SSpr+OKu9Y0cVKpogFGx5D2
-	 CCWZooqelbwFg==
-From: Sasha Levin <sashal@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Cc: Shuah Khan <shuah@kernel.org>,
-	linux-kselftest@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sasha Levin <sashal@kernel.org>,
+	s=k20260515; t=1791766588;
+	bh=hxf53qqklnBrLDOnVa563Rz7Xv1pTGUtJCKz14BmezI=;
+	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To;
+	b=Srp4lxTvswzQGSZurZdIgokznIEj5wyrJNY9T77hd+9PMBPDY7gvvfunlGvn3ilAt
+	 c3UqltVrr8pDMp7TpDjaT+8DWh+uNsnVzDM/cCacLNCkmQrqU91rplRALKRe2zQEwJ
+	 jMlbkTkanGJ47er7L6/E5P3rPXC8cQsk79+DBESejMhm2sHhgCTx5z2mewZh/Q+eCS
+	 F8OdoYFePL+Ri0/RcYD/MmZKZu+FdwiV3IGzDWFNxqUREJ9KJfdvF45vhgPbd5Rpxn
+	 5C0t0G6buQIudJ3rTCmzqaMebg7XdlTR/4PYtBXFKymc2w62JaoqVSbDQu81sYb3fr
+	 9hXGvCVno8tUA==
+Date: Sun, 11 Oct 2026 17:56:27 -0700
+From: Kees Cook <kees@kernel.org>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Alejandro Colomar <alx+linux-hardening@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Bill Wendling <morbo@google.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Gow <david@davidgow.net>, Petr Mladek <pmladek@suse.com>,
+	Shuvam Pandey <shuvampandey1@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
 	Jonathan Corbet <corbet@lwn.net>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Shivaprasad G Bhat <sbhat@linux.ibm.com>,
+	Thorsten Blum <blum@kernel.org>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Ira Weiny <iweiny@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Vishal Verma <vishal.l.verma@intel.com>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [RFC PATCH 6/6] Documentation: describe building tools with the kernel
-Date: Sun, 11 Oct 2026 19:36:45 -0400
-Message-ID: <20261011233647.2454648-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261011233647.2454648-1-sashal@kernel.org>
-References: <20261011233647.2454648-1-sashal@kernel.org>
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v4 05/11] seq_buf: Add seq_buf_strlen()
+Message-ID: <20261012005620.466497-kees@kernel.org>
+References: <20261003035906.too.263-kees@kernel.org>
+ <20261003035921.1918874-5-kees@kernel.org>
+ <asEhEe0Urb5Wx7yi@ashevche-desk.local>
+ <202610040023.A3865A6@keescook>
+ <asIPlnb0noMd33rr@ashevche-desk.local>
+ <20261005112209.1e47fa-kees@kernel.org>
+ <asOKvhT01aNb5-Dg@debian>
+ <20261005155839.d5d200-kees@kernel.org>
+ <asPSYn7sLqiH39Fu@debian>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <asPSYn7sLqiH39Fu@debian>
 
-Mention CONFIG_TOOLS_BUILD and "make tools_build" in the submit
-checklist, ask for libc-only selftests to be added to tools/Kconfig,
-and note that USERCFLAGS and USERLDFLAGS also apply to the tools.
+On Mon, Oct 05, 2026 at 06:43:23PM +0200, Alejandro Colomar wrote:
+> > Yes, though not often: the sched_ext debug dump builds a nested per-CPU
+> > seq_buf from seq_buf_get_buf(), which returns a size of 0 once the dump
+> > buffer has overflowed, and it handles that case on purpose (see the
+> > "$s may already have overflowed" comment in kernel/sched/ext/ext.c).
+>
+> Hmmmm, so IIUC, it is a sentinel value, and not really a buffer size?
 
-Assisted-by: LLM
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/dev-tools/kselftest.rst      | 4 ++++
- Documentation/kbuild/kbuild.rst            | 5 ++++-
- Documentation/process/submit-checklist.rst | 5 +++++
- 3 files changed, 13 insertions(+), 1 deletion(-)
+It's the real size of what's left. seq_buf_get_buf() hands out the
+unused tail of the seq_buf. Once that has overflowed there is no tail,
+so it returns NULL for the buffer and 0 for the size, and sched_ext
+initializes the nested seq_buf with both. So that case does get the NULL;
+the 0 is how much room it has.
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index 64c0ec7428a27..407d539e49b01 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -315,6 +315,10 @@ Contributing new tests (details)
- 
-     TARGETS += android
- 
-+ * If the test builds with only a C library, add an entry for it to the
-+   "Kernel selftests" menu in tools/Kconfig and to tools/Makefile.kbuild,
-+   so that it is built together with the kernel.
-+
-  * All changes should pass::
- 
-     kselftest-{all,install,clean,gen_tar}
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 5a9013bacfb75..3e8e076a262fa 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -114,12 +114,15 @@ Additional libraries to link against when building host programs.
- 
- USERCFLAGS
- ----------
--Additional options used for $(CC) when compiling userprogs.
-+Additional options used for $(CC) when compiling userprogs and the tools
-+selected in tools/Kconfig.
- 
- USERLDFLAGS
- -----------
- Additional options used for $(LD) when linking userprogs. userprogs are linked
- with CC, so $(USERLDFLAGS) should include "-Wl," prefix as applicable.
-+The tools selected in tools/Kconfig get these options on the compiler
-+command line.
- 
- KBUILD_KCONFIG
- --------------
-diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
-index beb7f94279fdb..9857b05824c2d 100644
---- a/Documentation/process/submit-checklist.rst
-+++ b/Documentation/process/submit-checklist.rst
-@@ -91,6 +91,11 @@ Build your code
-      Use ``make htmldocs`` or ``make pdfdocs`` to check the build and
-      fix any issues.
- 
-+  e) Changes to tools/ or to UAPI headers do not break the userspace tools
-+     selected by ``CONFIG_TOOLS_BUILD``. ``allmodconfig`` turns it on when
-+     the compiler can link glibc programs for the target (currently x86_64
-+     and arm64), and ``make tools_build`` builds only the tools.
-+
- 2) Builds on multiple CPU architectures by using local cross-compile tools
-    or some other build farm.
-    Note that testing against architectures of different word sizes
+> Did you consider not holding the size of the buffer, but rather an end
+> pointer?  It also allows you to find how much you can write to the
+> buffer, but has slightly better semantics: the end doesn't change if you
+> advance the position.  'end' can only change through reallocations
+> (which I don't know if you do in the kernel).
+
+The size doesn't change either: it is set by seq_buf_init(), and writers
+advance "len", an offset from the start of the buffer. seq_buf never
+reallocates.
+
+An end pointer wouldn't remove the empty case: buffer == end is the same
+condition as size == 0, so the accessors would still need the check. It
+also makes overflow harder to record. seq_buf marks it with len == size +
+1, and the matching position pointer, end + 1, would be weird.
+
+Changing the representation would also means changes outside
+lib/seq_buf.c, since tracing reads seq.len and seq.size directly
+(trace_seq treats a zero size as "not yet initialized", for one). I'm
+not saying that's a good thing to bypass the API, but rather that such
+a change should be its own series.
+
+-Kees
+
 -- 
-2.53.0
-
+Kees Cook
