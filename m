@@ -1,169 +1,207 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BE518FDBD
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 02:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC593A4F2F;
+	Mon, 12 Oct 2026 04:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791772832; cv=none; b=kPldSbR+01wp5xTFGPMfEaIQxP38wo5m8uVCfrbGnKrnr3RceYkmHA9qQnhFeR3V2Te2X4ieBPqUKJ5TIuFGAQl2YNtoRajmkaq4GQYI2VRyk0gCfSCTmUraV6g8IApUqIdAx81exRodR1UEOr92XxSdWhch0rljl3RSo9rCSRQ=
+	t=1791780041; cv=none; b=AMW7xcCB/2IHwyZW2tdOkbFuFnbcFGuWZR48zuxIhhCPuSVJNhdYnYCNPEGf6dZXZR3WzZk6rejnEjgoZL90hVS7shrs6le2kGM67pR/EYPmckGq0kofK17nnYSKFtNdvDfX6e92HYJf3zNhrckAVWcBs05CwfuLhvPbg+u/TWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791772832; c=relaxed/simple;
-	bh=Rg7Ti2nrCcjndaSwC/tc8Lpj9MG69++gVxXMtW61Alc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=huLH9TEr47a7Qwj5KZWUi3HnBZ07slkzSk91GnMd7/oab+iQwxWRNae7RNCn6KwF3/7Y4SMGJxd1KQYsnDGMQxWzPsLzwdl5zTVUdJR4e/3H/ACsLYyk5gyyOOCdTlkdnxWy/Apc3C5YIW84+mA0vDaNkjvrjIOw6qa49bv2B/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ESP+wt37; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1791780041; c=relaxed/simple;
+	bh=AYLUr7O2YDjGAXY+xte2hQSWrH8GRUTx37fIOJSk+Gw=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WvDhrbvy/qFW1ME7iNfdLWrokj5N/PuHOJprQLQVWagVaulOZrwnDJSpTiS5hzSykxO3YRq9sJ6FwTsIPbG7J6QUlh/ItIHT5P6bRByf8MzkXDC3sD9TnYt8o+XUTB/6MfKLZYY/mUO9kpwT1jwj0ETG7UPgDdE7hKoUSZaOWxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=SaGSDK95; arc=none smtp.client-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ESP+wt37"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791772829;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mptis6qqMpkv7ium90UiEIS1Bva/bRNNiMhKtY2RI7I=;
-	b=ESP+wt378y2jySy+w+ZOWz/6ffx3Bmeapmfd6Gtn/pKnkfIwxmCESiTSetewPBPLs1EsPj
-	VAZq9hUHd1eZjMCk43/rrXyhccXQo+57UedmpQkqS2lllCLSvZA74jq25RtHPipoMJnns3
-	aKYX5FeMAIq8l9sXMyfeGOtza3/4jq4=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-365-jGzoXvl4Mq24jjldOuHSDQ-1; Mon, 12 Oct 2026 02:40:28 +0000
-X-MC-Unique: jGzoXvl4Mq24jjldOuHSDQ-1
-X-Mimecast-MFC-AGG-ID: jGzoXvl4Mq24jjldOuHSDQ_1791772828
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5338ff2cf14so28304191cf.1
-        for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 19:40:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791772828; x=1792377628;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mptis6qqMpkv7ium90UiEIS1Bva/bRNNiMhKtY2RI7I=;
-        b=Xi/4KcQk8gNeT/gYr62UQYjPQRZGHSI/9yts7QTOwRlMOLGKPfPywIIMQo62QN46uh
-         qVtpHx5TJ++dZ1b3ErZ5YAxXqHzuS6mBfOxVpHx68ZGcAVZqwY2iYlDokwPlymY6b/QE
-         LQvliCgrcTv0AB31bOkw2TA2pFh4j4NViG0TfVkXDQA5M/XbEcZ4QsbXRxUUVxNKxDK7
-         Ezmm9O49UIrD0jRZ2lXBYRf/KA99ze9LTyh1x0vVTFht8K0Jg9eoy5qlxEx7YPN85ipa
-         ddixnlOSp3q1/jUqSQ7sO1Vn2L/fISE55VzwLwWsWARqHpZGnkb0Q6VnbNL7R3FsFnUd
-         e3zQ==
-X-Forwarded-Encrypted: i=1; AKwUvBysECWL7EeE3bk1UD6SIqlCTglC2DXt0ZNjLTPp0AT6B3f912sm/EkLgGN4aDWATOPso5LKAqkeoQY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK2Z/tqCvIR301nd/pPCl3jnZdipapBfBEgB00q4SKGENXxzp2j
-	jXcULfoz2IclgVpCuwr4DpT+R8Rf8z6qgCqeKMBl87qiooXFhdNGui0yf2NwtEHmVy+uS1Vvjht
-	Jfc/LfcBNTUjuw0C1d/aBT01DrBMsJTZRHoJEFvCp6tPf29GNtw1d+0tbF6bOjA==
-X-Gm-Gg: AYBFou1v+4jJYxSBsmVZsTxdzmhZAEUhQbh7FeAtzgqAIhsMUFlXzNwhYrZK70uhkv6
-	qLNL/8Lkjf2wyeiG2ankR3vuieKDCzR8VWozRq6YZxhNJPX/bxMXEyijtOjHPCpdZf6QfiJA1df
-	cq+pN9UlhQSDMnh0hKpC0REeVMGLbSdf5JJajviWfdSkGiPkVl1t6Sl0bJ5ptZTJq1NU67Y3l/o
-	qSLE9uXMt1xVQFhzxaO3blMF5jy4Ag0B0dLmFpFeJsZrnSYJDm2DYw1RwjmNLivQ4z+lV8yUUdL
-	GzphshxOmJXmbcMmVOs/6imM5bx7IL9Iqw3Z3+g6amOpRT29GgFfkns7Vd0G49Rx9B2EYmKdRWS
-	JUYM=
-X-Received: by 2002:ac8:5f4e:0:b0:533:97ab:dd45 with SMTP id d75a77b69052e-5359fb3dceemr148577491cf.36.1791772827792;
-        Sun, 11 Oct 2026 19:40:27 -0700 (PDT)
-X-Received: by 2002:ac8:5f4e:0:b0:533:97ab:dd45 with SMTP id d75a77b69052e-5359fb3dceemr148577221cf.36.1791772827331;
-        Sun, 11 Oct 2026 19:40:27 -0700 (PDT)
-Received: from [192.168.2.110] ([142.172.30.162])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b812ba8c7sm15440366d6.38.2026.10.11.19.40.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Oct 2026 19:40:27 -0700 (PDT)
-Message-ID: <aae9d468-2dd4-48fb-8e2d-d6997ac8e723@redhat.com>
-Date: Sun, 11 Oct 2026 22:40:26 -0400
+	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="SaGSDK95"
+Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
+	by m0089730.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 69C3AVkd3251527;
+	Sun, 11 Oct 2026 21:40:17 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	pps82601-s2048-2026-q3; bh=NkB50UzYJCQh16dgTRv6tLMDdkIikj7Vi9Ra7
+	q8PbBs=; b=SaGSDK95sViE3fbrO4S4uJM+rcVk67ClMOvHE7UT4XeBjDSs/0N3M
+	eG90hLjpbQCjFaPt4c6yjOSux8HxJRejN7WkQ2TW1DM9rtG751d42dF9wpCnvSrv
+	tJmEEpqhHlb0XqFCrI4uXwSFeyk4NXpDcjARVPlfri11wRQlpbhw2dF57ZGqu5+w
+	Eknv/MoFHw2P3r912cg+n5Wz19/HKQnWzLxhvyX9P/jfOPJMdtfCENOMd6RcmfcA
+	547r9KtfjXzdNXhGT3nzNhZVuvhlcfY4F4x9fQdD/Da17LHWEwvUNHtKyJc3pxqh
+	Nx8JrlVYXLieNFuw3CNDxo7VwYCm6LK4w==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by m0089730.ppops.net (PPS) with ESMTPS id 4h7gunabxr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 11 Oct 2026 21:40:17 -0700 (PDT)
+Received: from localhost (2620:10d:c0a8:1b::30) by mail.thefacebook.com
+ (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.49; Mon, 12 Oct
+ 2026 04:40:16 +0000
+From: Amir Ayupov <aaupov@fb.com>
+To: Leo Yan <leo.yan@arm.com>
+CC: James Clark <james.clark@linaro.org>,
+        Suzuki K Poulose
+	<suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@arm.com>,
+        Alexander Shishkin
+	<alexander.shishkin@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah
+ Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, <coresight@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] coresight: etm4x: Report whether the PMU counts external output 1
+Date: Sun, 11 Oct 2026 21:39:47 -0700
+Message-ID: <20261012044012.1563168-1-aaupov@fb.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20261007162406.GA26205@e132581.arm.com>
+References:
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] x86/corruption-check: Remove the BIOS memory
- corruption check feature
-To: Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org, tglx@kernel.org, mingo@redhat.com,
- dave.hansen@linux.intel.com, hpa@zytor.com, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, corbet@lwn.net, rppt@kernel.org, blum@kernel.org,
- david@kernel.org, linux-mm@kvack.org
-References: <20261010153604.1885381-1-luizcap@redhat.com>
- <20261010194519.GAasqVz2brXiOLegQi@fat_crate.local>
-Content-Language: en-US
-From: Luiz Capitulino <luizcap@redhat.com>
-In-Reply-To: <20261010194519.GAasqVz2brXiOLegQi@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDAxOCBTYWx0ZWRfXyUPfzkURkRhu
+ zzt0Gu9QDo9MOSPL11c5qYTLxwoF0siaIMu+FUIrIGf2xpxyLCeuV0oCLMZMAcpUi60KmB5dJnb
+ g4QtwtRgcaXjuHLJFw6DGkMR1umzux8=
+X-Authority-Analysis: v=2.4 cv=AOHP7KQI c=1 sm=1 tr=0 ts=6acc64b1 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=855S8uPTkML1Oy45N9_h:22 a=NEAV23lmAAAA:8 a=7CQSdrXTAAAA:8
+ a=Cti6sqq06muRrUYK3wwA:9 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-GUID: 6VqFM9uOa62AnW96puqzb8JKtYfXxMID
+X-Proofpoint-ORIG-GUID: 6VqFM9uOa62AnW96puqzb8JKtYfXxMID
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDAxOCBTYWx0ZWRfXyg2riyfGUl3v
+ v8VRJgBQDgrvY1wFqfJb/5fbCIrkX2Qh4mgFnth1FgxDmNRnIZZRa5qOP+0n5RUbB5wAph+JxDZ
+ CtoPkHNeH/GzpClrU/npWGprYZKcVNDlB9qpMLHTOvok4OHcxrQWxJhl/GGM3iPnvP6Ak620Y7l
+ DrQNmkmbpRrA44j2Hgeu/2ghbCcG/cSEumNntKmwhL1Xc90rL4oOxUobebMEwRBGTJ19HHifaxK
+ Qo++DHzNRgRNeo6NO7DhvX6LPf+4bzQhCPkTNJEfF+oWojOf+ucIK7y5PDIOT1767ij1/T8nq/1
+ vvMmzuAuu6e2Mtc3Y4qIQ7e675ZArjl7Fhe+VY0m5GOzKVahs/rIy3FlHSHNrnEr45tV8+UDk1C
+ 9CMcBIufPSs0o+GUH5qYVhgItc3rUu3YJbT3kmsXKsl5z3Ie2k47KAT2WjM6aijcODjF0upw7D1
+ Ad5Y08VLlBu2Zz3tk8g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-12_01,2026-10-09_01,2025-10-01_01
 
+Hi Leo,
 
+Thank you for the review. See responses inline:
 
-On 10/10/26 3:45 PM, Borislav Petkov wrote:
-> On Sat, Oct 10, 2026 at 11:36:04AM -0400, Luiz Capitulino wrote:
->> By default, the BIOS memory corruption check works by reserving the
->> first 64 KiB physical area from memblock, zeroing it and then scanning it
->> periodically.
->>
->> However, this functionality has been broken in its default configuration
->> since v5.13 by two commits:
->>
->> - Commit a799c2bd29d1 ("x86/setup: Consolidate early memory reservations").
->>    Moved trim_low_memory_range() into early_reserve_memory(), which runs
->>    earlier in setup_arch(), causing the first 64 KiB to be reserved (when
->>    CONFIG_X86_RESERVE_LOW=64) before setup_bios_corruption_check() runs
->>
->> - Commit f1d4d47c5851 ("x86/setup: Always reserve the first 1M of RAM").
->>    Hardcodes the reservation of the first 64 KiB early in
->>    early_reserve_memory()
->>
->> It might be possible to get the default case to work by allowing
->> setup_bios_corruption_check() to run first, but it's just not worth it
->> given that the kernel will never access the first 64 KiB area anyway.
->>
->> Lastly, note that it's possible to get the corruption check to work with
->> a different region by passing memory_corruption_check_size=. However,
->> the main goal of the feature was to check the first 64 KiB. Besides,
->> the region picked will be almost random as setup_bios_corruption_check()
->> will pick a region by size.
+On Wed, 7 Oct 2026 17:24:06 +0100 Leo Yan <leo.yan@arm.com> wrote:
+
+> Hi Amir,
 > 
-> And?
+> Thanks for the patch. I have a few initial comments below. We may have
+> further feedback after our internal review.
 > 
-> Do I want this or should it be fixed or the first 64K are not worth it to
-> check or...?
+> On Wed, Sep 30, 2026 at 11:37:43PM -0700, Amir Ayupov wrote:
 > 
-> That whole "rationale" is not really clear to me. Yes, it is broken,
-> apparently. So let's remove it but we might get it work still... So which is
-> it and why?
+> [...]
+> 
+> >  #define CS_CFG_MATCH_CLASS_SRC_ALL	0x0001	/* match any source */
+> >  #define CS_CFG_MATCH_CLASS_SRC_ETM4	0x0002	/* match any ETMv4 device */
+> > +/* ETM external output 1 is countable by the PMU as TRCEXTOUT1 */
+> > +#define CS_CFG_MATCH_CAP_PMU_EXTOUT1	0x0004
+> 
+> Do we need to tie this capability to TRCEXTOUT1? For example, Neoverse
+> V2 exposes TRCEXTOUT0 through TRCEXTOUT3 as PMU events.
+> 
 
-Right, the changelog got convoluted because I tried to document all the
-options. Just to make it clear: I don't think it's worth fixing this, so
-I'm proposing to remove it.
+No, don't need to tie to 1, can use any one from 1 to 3.
 
-Here's a rewritten changelog, if you think this is good I'll send v4.
+> >  /* flags defining device instance matching - used in config match desc data. */
+> >  #define CS_CFG_MATCH_INST_ANY		0x80000000 /* any instance of a class */
+> > diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> > index e1a59b4345052..2847d2d7f7bed 100644
+> > --- a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> > +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> > @@ -174,9 +174,14 @@ static int etm4_cfg_load_feature(struct coresight_device *csdev,
+> >  
+> >  int etm4_cscfg_register(struct coresight_device *csdev)
+> >  {
+> > +	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+> >  	struct cscfg_csdev_feat_ops ops;
+> > +	u32 match_flags = CS_CFG_ETM4_MATCH_FLAGS;
+> >  
+> >  	ops.load_feat = &etm4_cfg_load_feature;
+> >  
+> > -	return cscfg_register_csdev(csdev, CS_CFG_ETM4_MATCH_FLAGS, &ops);
+> > +	if (drvdata->pmu_extout1)
+> > +		match_flags |= CS_CFG_MATCH_CAP_PMU_EXTOUT1;
+> > +
+> > +	return cscfg_register_csdev(csdev, match_flags, &ops);
+> 
+> The current matching logic succeeds if a device and feature share any
+> flag bit. If the feature sets both CS_CFG_MATCH_CLASS_SRC_ETM4 and
+> CS_CFG_MATCH_CAP_PMU_EXTOUT1, it will still load on an ETM4 device that
+> lacks the capability.
+> 
+> Could we check the capability separately when loading the feature,
+> perhaps in cscfg_load_feat_csdev(), and skip it on unsupported devices?
+> 
 
-"""
-x86/corruption-check: Remove the BIOS memory corruption check feature
+ack, will do in v2.
 
-By default, the BIOS memory corruption check works by reserving the
-first 64 KiB physical area from memblock, zeroing it and then scanning it
-periodically.
+> > +static bool etm4_pmu_has_extout1(struct etmv4_drvdata *drvdata)
+> > +{
+> > +	int pmuver = read_pmuver();
+> > +
+> > +	if (!is_midr_in_range_list(etm4_pmu_extout1_cpus))
+> > +		return false;
+> 
+> Based on specific CPU variant, we should already have identified
+> TRCEXTOUT has supported.
+> 
+> So either we only base on MIDR list or we can figure out a reliable
+> way to detect the feature dynamically.
+> 
 
-However, in its default configuration it has been broken since v5.13 by
-two commits:
+Agreed, fixed in v2.
+> > +
+> > +	/* PMCEID0_EL0[63:32] describe events 0x4000-0x401f from PMUv3p1 */
+> > +	if (!pmuv3_implemented(pmuver) || pmuver < ID_AA64DFR0_EL1_PMUVer_V3P1)
+> > +		return false;
+> > +	if (!(read_pmceid0() & BIT_ULL(32 + ARMV8_PMUV3_PERFCTR_TRCEXTOUT1 -
+> > +				       ARMV8_PMUV3_EXT_COMMON_EVENT_BASE)))
+> > +		return false;
+> > +
+> > +	/* nr_event is TRCIDR0.NUMEVENT, the number of events minus one */
+> > +	return drvdata->nr_event >= 1;
+> > +}
+> 
+> [...]
+> 
+> > @@ -1116,6 +1116,13 @@ int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+> >  
+> >  		if (err)
+> >  			cscfg_config_desc_put(config_desc);
+> > +	} else {
+> > +		/*
+> > +		 * The configuration is active but was not loaded on this
+> > +		 * device, for example because the device lacks a capability
+> > +		 * its features require. Fail rather than trace without it.
+> > +		 */
+> > +		err = -EINVAL;
+> >  	}
+> 
+> This fixes a pre-existing issue. It is worther to put it in a separate
+> patch with fixes tag:
+> 
+> An early return would also avoid the normal enable path's indentation:
+> 
+> 	if (!config_csdev_active)
+> 		return -EINVAL;
+> 
+> 	err = cscfg_csdev_enable_config(config_csdev_active, preset);
+> 	...
+> 
+> Thanks,
+> Leo
 
-- Commit a799c2bd29d1 ("x86/setup: Consolidate early memory reservations").
-   Moved trim_low_memory_range() into early_reserve_memory(), which runs
-   earlier in setup_arch(), causing the first 64 KiB to be reserved
-   before setup_bios_corruption_check() runs
+Will split out in v2.
 
-- Commit f1d4d47c5851 ("x86/setup: Always reserve the first 1M of RAM").
-   Hardcodes the reservation of the first 64 KiB early in
-   early_reserve_memory()
-
-This has been broken for years and nobody reported it, which suggests the
-feature might have no users.
-
-It may be possible to fix this by running setup_bios_corruption_check()
-earlier, but that's not worth doing: the feature was intended to detect
-corruption in the first 64 KiB but the kernel will never access that
-range anyway.
-
-Note that one case still "works", which is passing
-memory_corruption_check_size= to scan a larger region. But this is not
-useful either: the parameter takes a size, not an address range, so what
-gets scanned is whatever memblock happens to have free below that size.
-
-Remove the feature.
-"""
-
+Sent using hkml (https://github.com/sjp38/hackermail)
