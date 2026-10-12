@@ -1,244 +1,329 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E5E3E44ED;
-	Mon, 12 Oct 2026 17:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6FE38A728
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 17:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791826316; cv=fail; b=g6ICoHl9Egd8odk4A5wwLwy2xyv5GykGaEkmAySaLDYLtrPw/U2Cel//gY4QUaDn7+clDeY7huepuY/+CqNJXsH0pU8K//69oeYPdnY0YUwvDHomn//+5WZYXmlPw3zHzxuRg31V9YEZztvdEYsZj0vVVBpCA6IWzkZ0Mv0G1jk=
+	t=1791826467; cv=pass; b=RK72GxHMkmh3YItn+8gCCWkOdkJY5rz85eiZHS25IUEjSEdgXtFvZ+4XYuRB44WDZAKy+o7iu5gbDwTHHbwqCrXwbPU+SyFL4A3esTlBjD8m98tqg8qh4kjyMuZLdCjTc/x6aPJQ4gG3j2/BgzafCqiVtWqfhTpudtWWw0C0+hw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791826316; c=relaxed/simple;
-	bh=a6BoidNJXDNax5sz7N6Eh8M7Q95ZeGQDdkCEkNL1/j4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=jduy9QjC1nuqKI5lqBP1jHAfwZ4WQJTAg0ET0mlw2G1Ykfk56uNMBkxOe8miK6WUDmHBI5oOO0NlZfGTutZq2mAzFbYEwsvlZneBllUu2sQ3HuR8/bHM0pReKqQXACB5T4mVQ6ybhWO+Bo66ZEm4w6NMgT6MLNn+wZc90TNpbyo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxVjnw2t; arc=fail smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791826467; c=relaxed/simple;
+	bh=NAHjeGgZ3zAuGz0muoly9fF6Hx+UWmxL0tmIFC5MVuE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LiH4KxIo8unQ8uO/lp0o6P2Q3KOLLLm+NEPS2qgVLXKTq9fE4FFBrgF0X9sqHfSoRlO+nVq/P+S7Ep4dmDbcQwElj3kOcI1Is5iVcmeqbKORwKnan79vA9+cr8/0RQ+omgpVwWfy5TZmczvCD9hnvuvIywv91rXURPopcuRDq+Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G1+K5kqK; arc=pass smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxVjnw2t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791826315; x=1823362315;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=a6BoidNJXDNax5sz7N6Eh8M7Q95ZeGQDdkCEkNL1/j4=;
-  b=cxVjnw2twnxfrhgDVwB8gAAy/M9DX2e4EFG9qeUL89oe4tzonv1jlp4B
-   HSGjQTzbVTJbDYaIeaDL262xs2O3EKk95x6W7rwU4b4NdZesOb3lZit39
-   jq1nBew1ywW5JGT8Ah3JOOP23uyMJ+9NI9bn8dAY22QKg+8WbtJyj8Rsu
-   h5BkOBPC4Agyl7BkoGD2oWRt/6/f2XScsaRK5p8uszlcBFdNX+HHE22bU
-   EBnpl47hiZv4BcBmRnpfVi8aRDguNWyFlrxR9bv28a1rZz7enyumb6AFE
-   2hIIMtLjyeUZYqDNkqyhsTeOWZ/nQoJTSx4OJcTFC9EJqsMA6iE0vfm5s
-   Q==;
-X-CSE-ConnectionGUID: 1mdhDzrjSzKGyKrlGGSKYg==
-X-CSE-MsgGUID: Ev6Sn3KlTymS321+xVgSWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="566725"
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="566725"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 10:31:54 -0700
-X-CSE-ConnectionGUID: gKWIKN4PThqtQQzwORd74Q==
-X-CSE-MsgGUID: 10H8mcF7Q3SWXF8ye+4D5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="859341"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 10:31:50 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Mon, 12 Oct 2026 10:31:48 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49 via Frontend Transport; Mon, 12 Oct 2026 10:31:48 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.18) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Mon, 12 Oct 2026 10:31:48 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DNQtLbCecsUoDnVChkPdXK7GiBANsxnl0fGRkTh5vQChcVGrdyajpPkwsCaU6+j5XkY37UYwhvZsCftUBE4/qPaFWFApuC9hbOtA4L0JbEbq5xBo5Z0YGXrYUi73VVlmyOw50xu1EE5oRpQfRe5RggAgvhepeA3f0TYZnpeRUWD1cJ92VaY7i18E/z4IJA4F/NB2ev0twx73YleUETox6yqTC2x3S2DfywPxC8b7VgMf0zlYco6YHbpNlKOqHg5Cs7TmQhmiv9eNZ1CykYJ5qQUI37SZeg8WgjEbR2CJ3vFrbBdGhRv/P2rZLQ/sFM86dkiXc+ZQaGatYf4kQAEqJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hd++Y4gVYeYpdrZGNd5YNVfWi6hI2lZvYBJyuES0mzk=;
- b=BAo5SJGbNkMjmxhMjvw5LhJjY9kGU9AeuBpL8Jd5AClCsCU8aKLykt6PscpSRLrwgYG3L9Dp6hDDGtzt6ONikfEnGJxj4HvnRuTJE6rLnM0bsUq5FN2KdiXcoI197RMkR5GKX7MkXbGcpIz0DFg6PHU5M5HUyVDXiG4DAh8cLQ9AxjkNbHU9hqqUtZJc/BhuCNJ5xHpTG+6q38orCmRs+ZO52lbdZSVBULMk4mQojPBHiuB4rZkKv2dsFCyiveLJCzOmOLDZpjEta9fTTDk5ZZPf2NX7yvRntMNeaqZiX1uEtQC4CU4xxxDqwjuSWMJZ/53fL1tuHUfWoh+MdZl48A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by SA3PR11MB537784.namprd11.prod.outlook.com (2603:10b6:806:52d::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Mon, 12 Oct
- 2026 17:31:40 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6%4]) with mapi id 15.21.0496.010; Mon, 12 Oct 2026
- 17:31:40 +0000
-Date: Mon, 12 Oct 2026 10:31:38 -0700
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-CC: Drew Fustini <fustini@kernel.org>, Adrien Ricciardi
-	<aricciardi@baylibre.com>, Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra
-	<atishp@rivosinc.com>, Atish Patra <atish.patra@linux.dev>, Babu Moger
-	<babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>, Borislav Petkov
-	<bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>, Conor Dooley
-	<conor.dooley@microchip.com>, Conor Dooley <conor+dt@kernel.org>, Dave Hansen
-	<dave.hansen@linux.intel.com>, Dave Martin <Dave.Martin@arm.com>, Fenghua Yu
-	<fenghuay@nvidia.com>, Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai
-	<gsh517@gmail.com>, <guo.wenjia23@zte.com.cn>, James Morse
-	<james.morse@arm.com>, Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, <liu.qingtao2@zte.com.cn>, "Liu
- Zhiwei" <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <pjw@kernel.org>, Peter Newman <peternewman@google.com>, Radim
- =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>, Rob Herring
-	<robh@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, Vasudevan Srinivasan
-	<vasu@rivosinc.com>, Ved Shanbhogue <ved@rivosinc.com>, Weiwei Li
-	<liwei1518@gmail.com>, yunhui cui <cuiyunhui@bytedance.com>, Zhanpeng Zhang
-	<zhangzhanpeng.jasper@bytedance.com>, <linux-kernel@vger.kernel.org>,
-	<linux-riscv@lists.infradead.org>, <x86@kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v7 2/5] riscv_cbqri: resctrl: Add cache allocation via
- capacity block mask
-Message-ID: <as0Zeoyjiy5CW1DT@agluck-desk3>
-References: <20260901-dfustini-atl-sc-cbqri-dt-v7-0-ca2935d85622@kernel.org>
- <20260901-dfustini-atl-sc-cbqri-dt-v7-2-ca2935d85622@kernel.org>
- <8230dae2-2cb0-4b46-8cec-dc4e281d4e4a@intel.com>
- <aqwN1szItGPg4Qjh@agluck-desk3>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aqwN1szItGPg4Qjh@agluck-desk3>
-X-ClientProxiedBy: SJ2PR07CA0023.namprd07.prod.outlook.com
- (2603:10b6:a03:505::9) To SJ1PR11MB6083.namprd11.prod.outlook.com
- (2603:10b6:a03:48a::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G1+K5kqK"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b1d8944cb0so1090915a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 10:34:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791826463; cv=none;
+        d=google.com; s=arc-20260327;
+        b=g4K8ueOVhpuvwGG43we8ONac/LWm7W6gT6t4gmUeo8SzXP/78C9U/0q9KcitAeWnJc
+         Ateu7GRtKvhcnSlWMC8wJQ3DuPxWoo5XkKdpq43HUzXYzZbtspn3bK6ZVSY4A/fOYxGg
+         8QPMJRKWjJZV/acAOXaCYWzUXkkSUIPg5NgZ5u/wEsz6ZQUY1E18hW/ZBy1mKehdOyoj
+         pKOzceKcGEh95VCGXtN4pv1giZ9+XCnNVCtmTf05z7cdj3rguS3vAPcMfb2gUvU6BBgD
+         QhrgFI4Qp08Y6W/05DKo6UtC+1nW6UxhjAoxIVYFqk8KMsPkr+sJHHj7U7G6Y3lSl3v4
+         t+8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=henkAkl7u761gKlux5gr52zn0ik2NkHxM17QmChnkBo=;
+        fh=SnpvvLKrVGafGht1epVExrPyYviBYoc52nPSNWVVIwA=;
+        b=YGDaAuRuHbcb8zhH1di7PiW/lLNU+BXvAdjdaBjg0FUyir3BSM8G5cmu9/TktubW/n
+         RLF0NAGtKDetWXnJpJnAPtD4Sz5y6DOoxxgFaKqdyzLxj7/P7Qh9/4qTUI4eIy1Q+S0Q
+         P/ty9Unj0StmMIr3px5hj+i/2KKtGZvgvpUPsf149jqHT0rTtrEy/g7qjck5ABAYoro0
+         tz5QOAOWIAQ+sxUq80e45LQ5acFz6Sri9pmO8C3ShL0ezA933bicgZHsUnjvY4vN+fe2
+         wjQl6ndGV/b07sZjNgXs+NmgIYeSE5OPHZpS3rGt2YXNQsDUczqeqBFgGIcZJTxdkojO
+         zCGQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791826463; x=1792431263; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=henkAkl7u761gKlux5gr52zn0ik2NkHxM17QmChnkBo=;
+        b=G1+K5kqK3xniCRDcPw4xiRznvoC5yg95pry3/lHWF6hA/uJJsFN23nJk5LAG5S6cfD
+         vmLU3OiIsJJqHPqKnKE1bD/XduHJA2x42ku3y9X4jxJ16P3IS0YUVo3OCxxPHTfjseu3
+         +y6tDhkE040YQny+nRSc25aGi4OTC74hg6RtoRx792EgwskxD8bJsA8zQwVfRSMY9dRv
+         VGt7eD1vEfR8lzU9xqWVAmJWuYk7EM5svpogxR7W6lT/kfY/kw9esi1MWUjcMfCBq95Q
+         ZpCDvzV6BU29z8ADNSWiZxK+FgQPiZibr3ne1IWn3xGxOIp2LDeZqluIZyqPEw3kEg/P
+         MBrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791826463; x=1792431263;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=henkAkl7u761gKlux5gr52zn0ik2NkHxM17QmChnkBo=;
+        b=vIo0agHFkndTzEeqxJ70JLT/dO/tAWN6B3xdV+Y0cKmE3fe+dprAF/xbgLzHcg2yrl
+         pRfVsxcYnXBb4DqqQO/VR7PkuF2m2KlMP1Oi2NZuGVhAhX1555eTF9eJ8NH7e92vk4jY
+         Jis6Rzb3Y/lokelh2/s0d81oxJAYSCFowGTu1P+FsUiwT8jwhkIUOdkyOT0lMb2QOq0U
+         CPkH2++INhwUS8vdwRWxGkpy3yNtfhfJZiE/v4n3qdwvTuCBRpie7cmpGvhDU0ZCQZKv
+         +BRsQi+jGuiZOdojbH4YegRGZAFiB+NzW/i9YgKomaTHoZqDZBI6bOUMnVU5OD/vumUV
+         utxA==
+X-Forwarded-Encrypted: i=1; AKwUvByXXqMghJZMtdI2hNKK1AyRAkqxW5s7zQQlWAUCg1M+8+xpCY4FgmOt+mkTYz+VjpA9r48rhULflcA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKwfry7sMvsq5PtWVC3YQhYw/AHlxCzUotKzPRRQr4mqMVD+4ym
+	WTGjvQcCZs8asJEqOOR+h9MnGfnVtpvT/ODsvhYd6lGGMoT8CheyiHU6Ser4aTBDmnfjkaEnjqW
+	DN/f64i0B4yBwGvXX2rTrSIH4i6bUhe3GhloOFWw=
+X-Gm-Gg: AYBFou0WsZNFlknSwrok03Z6SnJqaYLqI3dB3R9ofTsDZZKtDUlKgOoHriPjlaR5eql
+	995XEy+lOFKxd1DRpZGMfuPPSh0c53q824zQcSjQ7rKKvodKjcFKkVlTz3DucS5/NnDpqMTRKGv
+	U6fMnY7xzBRnTGyt8b5SYopH8yIbc7HoAgFxr6M0uDOMFucm5y3jdDGG7M/1wskERxHZ0MLUCJ3
+	Q3elc7hL4lU/1baF+wrbRqcZJPWme1pLBv2y1jm4nb1JZEb5P7CQ4RLRpUrM76LQlt6eVFP4i/u
+	r0MQFst6HQa3gtnpl0UWqG2NIEYR33ioLKOuFGjz1rw0ppLfCRxJkpfWv0xHIWlWrlg7/CNgKlF
+	c8mq0PeCvVuAPmaeOQ4Yyc8dM7OHJRiI7nzsCdapQVA==
+X-Received: by 2002:a17:907:1997:b0:c2d:c98f:4824 with SMTP id
+ a640c23a62f3a-c31aa057064mr966455366b.30.1791826462665; Mon, 12 Oct 2026
+ 10:34:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|SA3PR11MB537784:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1fc6934-4d62-4fe4-5e5d-08df2886acd4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|4143699003|11063799006|56012099006|22082099003|18002099003|6133799003|261009223027099003|3023799007|10067099003;
-X-Microsoft-Antispam-Message-Info: RqaEqjQqGYSZ8JZ0LzOXpRXrmlZgX3EKCU3tYYmRgyoPAmPDrdXJZKFDOvF3QQC5BQsngLu0jmXKMbYzuMp4HBC495X/T7GWvOi5NIQYFlnms935dOAebdYCpEuGG2uNmdcj6Xy44sXqHcjYnc26tDDEa02pXa51S1KyahLLbIOQfQN//VsAdN921xNC3oEGHDuPkBQv5wOn9+RKJsqlJRhLnesvN9FWA2GbGCMaQdIa2QLzfrcOfKOCZ7LBwee5KRVwEajtykoEMK2FCKob226P+Muu7/TX61BHqumIH6IcNsgGJwYz8JFQWYRp9n71fwqh0jYdrfBhO6jLcLkK92h6bI2SkLZ8QotCdYkQ1BUyNaP+4SvYO48TLYsK2QBmlRiQo+53Xgcq8ULXkRSy5r0T8NVfhFyVNERsRVkxKNc9AS1+ijqLYa1bX3IHy4XsuKzlOxLVKX+G0RDm4Bc104abO6JUFkEdt5MqkNZ9tOiFzmmved9Felqz/TYVO1mEMP6UjtIihYYSgTcZrLsrEjdGocuNJsPoSBX5OtvOB+sTFydoRcHEpbIIaVPxXNhfM8ahcdnN65YVLLXWkclg3gcT7NFfKZNsKf6XuD2qJQNjrq+zVNjnaRfiDd0Vp8Ou0AhqT6e8qkdM3qVTya0JiQFVKvY3vdh0dXnJiTbEt1c=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003)(6133799003)(261009223027099003)(3023799007)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XcC9WohqzPWr1bOV+2JjSWHpKkPi0JVMN6lPfP5bfEbkGbeatMNmo4z5E3+N?=
- =?us-ascii?Q?ByL4JGp4RJm4iH0movHoMj0pz9TGYe3OpM1z08LOLDHy4+ZcJVmVKFdSEHDq?=
- =?us-ascii?Q?hciHaBnLT3Drrs+zH3FB/fvXnQnaPyUtbLguDUfEAkhc/5fXmDBErFELlVk6?=
- =?us-ascii?Q?8g2zQVSjv+ijfpZOmdrmj/IdamNPq+rh536+Bd0/eH4KNRquKxsFcPN+gbWf?=
- =?us-ascii?Q?bx3o985v0WF9JqVzk9C5HRwvp27nv1u29MXg7sVwU3eyD4C3uVxS9X8fRUPu?=
- =?us-ascii?Q?ggc/u4ww8oPq+3RsvUC7adLrzAqiTA84S2fjKtF+BSKaPduBC1MqAusYNHg7?=
- =?us-ascii?Q?Ronhb65bkmVAa8q0+K2FIvUPiwx8Mvs3cU/ZeFJWe+pkWDiCUCVHAeMKc/4o?=
- =?us-ascii?Q?adv9rty6IrfEbZULHhNo3+WLjSDGyo+3F/nrhXNRFeDABwdK3ro5dBpWnVWC?=
- =?us-ascii?Q?++jolTO7+lSGR2b+rIVdVIkm8KA6V8noZDndPafX2LVzZE19QZjIS+B5DupI?=
- =?us-ascii?Q?UJKppJWbwnd9m0papcLIuTWawtJwBF04IpI8mziD1tYcf1X5Z15Yr1yuDEXK?=
- =?us-ascii?Q?r5gUvXDGBte0af5bsjvZ6QldO+xmefg9HHeBdi07RbPdwL3v792ICZLDvxR7?=
- =?us-ascii?Q?SP/1+Uu8end5wzlzCA+YUB4sSOnozgZxMDQ/JoWahXsIcKbGrlRUe82kRP2Z?=
- =?us-ascii?Q?uxz1VRTL3EJb4GTAMReuCEAoIhBaGIDZhsg5ney0bquNFXUSzjedNvhv1rln?=
- =?us-ascii?Q?TEf89Uj0tmgs4uW7yY5VsG96pTxwZS7X7uRTpdJfRdsa0Pb0tXly4p1sIUf3?=
- =?us-ascii?Q?Nrqu8yhVH7jItcQHBsPBsaQbSmR3PRMD+hRB+GP8CzyeTTDe+dNEgf05Igo2?=
- =?us-ascii?Q?o+HEUHLpHXXCp5KhNxvbeBnCVlUAxdtwVZCAqLIpd2HKr0oDyKScoDv1hSw5?=
- =?us-ascii?Q?43chXmxM/WU0uuoyhB0KwbhAYMsSF6etqtwfPkI9tZIfGW82SB7ZHmQ5LBa4?=
- =?us-ascii?Q?ypyvyvEjyylSfZN7T05/h+N/h0XcmNKOFRHpsyps2rSagsYYsYtOrdanj1jH?=
- =?us-ascii?Q?Hhdlg5kNMfr9E79BbzWgyR8Tjzbuh+vdBKUy5zlSAihMs6EKXsYhbItJRaa8?=
- =?us-ascii?Q?SrOjJk3kY/XeEVJOFelchLggSWboT8Totc3XSBGqV630wW/heWPHXZEvDsqq?=
- =?us-ascii?Q?8JrJSDs/acuAgFcCScdIddw2U1w8sJSWoNKTG6ArrpI6WoiZnfmw5P/62ZKn?=
- =?us-ascii?Q?8vWb4ld41bNzA8Yvf8hcRNSqjs02NiBzrWGdA/tRh8WZ7HI/+JxzRFhky4bV?=
- =?us-ascii?Q?8aX/RjQiCJ+sT2ojxa+nUCvdLrG63yRcJrsDHTWj4zbE3EH/KEfFTFIwB4D0?=
- =?us-ascii?Q?j/GVxYyDsWtrtxZafyP8MxCWiUzY54TPqp/z118J7d1kSb8q4NAfMAyPDXku?=
- =?us-ascii?Q?faLG5qVYlgvxDH8sOjtq2cpEQkuDr24EjTxJQX8ehzvtTwWXUKmo7XnlFDsK?=
- =?us-ascii?Q?noPom4Iv4FISw6gbu9m7PQkjM9qKCwpFsnc3UpRZHTrchTtOJGLBA0mVnfwZ?=
- =?us-ascii?Q?VCZimOIvvB9JQVN4OyG/Tw/Mgugwh1VNnGjvPzd2yIebxw7FORzri9wMzn6P?=
- =?us-ascii?Q?XeKtiTY7Xx2PQSZRmXKWKrY0k6mc74dgU2uDjPdabfmYEP7KOya7q27oqYN4?=
- =?us-ascii?Q?VDAhE34m5cSHd0WOtoE7GeZBq2BPt/W+w1sqUTgHVO5WW6gyhrTOTwucukVC?=
- =?us-ascii?Q?ppSUnz7Lsw=3D=3D?=
-X-Exchange-RoutingPolicyChecked: UQ4MktU3YEV89jnccXL2XnwrJqkaNNqru5ynfF2FqDEIhTh34iX1MeC2ND7tvtN60cDZ+dggvp50WTprW0bwZcW5wwJx44S9qqJFN9DFl3/VwBR62FNMgpdZjUvI42js/F6CkkWYn7wuT2Otr/XQnZrz8K74SBP74g2hki8MHycNPGpmTzNl+LFR0hcVqvOfkqJv/c7kGlqM3e5UnooLk7Ir2KoTG4HGOaaf3LmQ5fkqbTB5fdzTeUA3hXJA70pIaPnzzRC5RIIla44BhNKS18GqvACzNErZc8Me21Zx3k6BK7F9E47lq+MABD6Qmk6+aNd99JY8y06AFFG6TnrZ7A==
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1fc6934-4d62-4fe4-5e5d-08df2886acd4
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 17:31:40.2370
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FNZkfRnhsqnKN6dl5rTtpAsKyFZzzykVJMPVtceWmUOoWipCGxjpwMNA2Q2PCG9Lx81IpBC9WJJSwHYwApGJ9A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB537784
-X-OriginatorOrg: intel.com
+References: <20261011-alpha-perf-regs-v3-v1-0-eaa625a39712@gmail.com> <20261011-alpha-perf-regs-v3-v1-4-eaa625a39712@gmail.com>
+In-Reply-To: <20261011-alpha-perf-regs-v3-v1-4-eaa625a39712@gmail.com>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Mon, 12 Oct 2026 19:34:11 +0200
+X-Gm-Features: AclHuK-PwSMImsJT1HaG65lEZ2a3K4FcOsF41-r_kcaxLM87kRjslrSwrNkGcrQ
+Message-ID: <CA+=Fv5S8-Zk8-LUpZnWiBfTGSQXthepmRc_-a9O+pEPmVW0mRA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] alpha: add HAVE_PERF_REGS and HAVE_PERF_USER_STACK_DUMP
+ support
+To: Matt Turner <mattst88@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, linux-alpha@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 17, 2026 at 08:57:10AM -0700, Luck, Tony wrote:
-> On Thu, Sep 17, 2026 at 08:37:43AM -0700, Reinette Chatre wrote:
-> > Hi Drew,
-> > 
-> > On 9/1/26 3:31 PM, Drew Fustini wrote:
-> > > resctrl exposes a single cap set per rid, so when more than one capacity
-> > > controller backs a cache level they must agree on those caps. A level
-> > > whose controllers disagree is left unexposed. Other levels are
-> > > unaffected.
-> > If I understand correctly, while attempting to translate to resctrl terms,
-> > this means that a cache resource with several domains may support different
-> > capacity masks in the domains?
-> > 
-> > I believe the "single cap set per rid" you refer to is
-> > /sys/fs/resctrl/info/L3/cbm_mask and /sys/fs/resctrl/info/L2/cbm_mask that
-> > exposes a single capacity bitmask representing the maximum allocation.
-> > 
-> > As you know, resctrl is in the process of changing the way in which schema
-> > formats are described. The most recent PoC [1] added new bitmap description
-> > files but it kept a single value "max" file to describe the highest allocation
-> > possible for a bitmap schema.
-> > 
-> > To support asymmetrical cache instances it looks like changing the interface
-> > to describe the maximum per domain (instead of one global value) could address
-> > the gap?
-> > 
-> > For example, if there is a hypothetical system with two L2 cache instances, one
-> > with a 0xFF max CBM and the other with a 0XF max CBM then resctrl could expose it
-> > as:
-> 
-> That sounds like the not-at-all-hypothetical Intel hybrid client parts
-> where P-core and E-core have different L2 masks.
-> 
-> > 
-> > 	# cat /sys/fs/resctrl/info/L2/schemata/L2/max
-> > 	0=ff;1=f
-> > 
-> > The schemata file currently and will continue to display the allocations per domain.
-> > 
-> > resctrl will need more changes to support different CBM per domain internally and
-> > until then all these CBMs will be the same, but adding this change to user interface now
-> > may set resctrl up to support these systems in the future?
-> 
-> I think Fenghua once worked on patches to support this. But I don't
-> think they were every posted to LKML. One of the open issues at the time
-> was how to handle the info/L2/cbm_mask file.
+Hi Matt,
 
-I took git://git.kernel.org/pub/scm/linux/kernel/git/reinette/linux.git
-branch resctrl/controls_rfc_v2.4 and added some patches to support L2
-per-domain cache allocation bitmasks. Seems to be working OK. I can
-share the patches if anyone is interested, but they aren't even up to
-RFC quality yet.
+On Sun, Oct 11, 2026 at 10:16=E2=80=AFPM Matt Turner <mattst88@gmail.com> w=
+rote:
+>
+> Let perf sample registers and dump the user stack, which is what the
+> perf tool needs for --call-graph dwarf.
+>
+> The register indices follow the hardware numbering, so r0-r30 map
+> directly to DWARF register numbers, with pc after them. r9-r15
+> are callee-saved and live in switch_stack rather than pt_regs, so they
+> cannot be sampled. Without r15 an unwinder cannot recover the CFA of a
+> first frame that uses $15 as its frame pointer.
+>
+> sp is not in pt_regs either: for user frames it comes from
+> user_stack_pointer(), and for kernel frames (PERF_SAMPLE_REGS_INTR) it
+> is the end of the trap frame, as in stacktrace.c.
+>
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Matt Turner <mattst88@gmail.com>
+> ---
+>  .../features/perf/perf-regs/arch-support.txt       |  2 +-
+>  .../features/perf/perf-stackdump/arch-support.txt  |  2 +-
+>  arch/alpha/Kconfig                                 |  2 +
+>  arch/alpha/include/uapi/asm/perf_regs.h            | 45 ++++++++++++++++=
++
+>  arch/alpha/kernel/Makefile                         |  1 +
+>  arch/alpha/kernel/perf_regs.c                      | 56 ++++++++++++++++=
+++++++
+>  6 files changed, 106 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/features/perf/perf-regs/arch-support.txt b/Doc=
+umentation/features/perf/perf-regs/arch-support.txt
+> index 4c9a5a012075..7d736d678fd4 100644
+> --- a/Documentation/features/perf/perf-regs/arch-support.txt
+> +++ b/Documentation/features/perf/perf-regs/arch-support.txt
+> @@ -6,7 +6,7 @@
+>      -----------------------
+>      |         arch |status|
+>      -----------------------
+> -    |       alpha: | TODO |
+> +    |       alpha: |  ok  |
+>      |         arc: | TODO |
+>      |         arm: |  ok  |
+>      |       arm64: |  ok  |
+> diff --git a/Documentation/features/perf/perf-stackdump/arch-support.txt =
+b/Documentation/features/perf/perf-stackdump/arch-support.txt
+> index dd362b5cb638..17b84ea7769d 100644
+> --- a/Documentation/features/perf/perf-stackdump/arch-support.txt
+> +++ b/Documentation/features/perf/perf-stackdump/arch-support.txt
+> @@ -6,7 +6,7 @@
+>      -----------------------
+>      |         arch |status|
+>      -----------------------
+> -    |       alpha: | TODO |
+> +    |       alpha: |  ok  |
+>      |         arc: | TODO |
+>      |         arm: |  ok  |
+>      |       arm64: |  ok  |
+> diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
+> index b2c359b947f6..8fafbfabd1e5 100644
+> --- a/arch/alpha/Kconfig
+> +++ b/arch/alpha/Kconfig
+> @@ -41,6 +41,8 @@ config ALPHA
+>         select HAVE_PAGE_SIZE_8KB
+>         select HAVE_PCSPKR_PLATFORM
+>         select HAVE_PERF_EVENTS
+> +       select HAVE_PERF_REGS
+> +       select HAVE_PERF_USER_STACK_DUMP
+>         select NEED_DMA_MAP_STATE
+>         select NEED_SG_DMA_LENGTH
+>         select GENERIC_IRQ_PROBE
+> diff --git a/arch/alpha/include/uapi/asm/perf_regs.h b/arch/alpha/include=
+/uapi/asm/perf_regs.h
+> new file mode 100644
+> index 000000000000..da96a31b12fb
+> --- /dev/null
+> +++ b/arch/alpha/include/uapi/asm/perf_regs.h
+> @@ -0,0 +1,45 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +#ifndef _UAPI_ASM_ALPHA_PERF_REGS_H
+> +#define _UAPI_ASM_ALPHA_PERF_REGS_H
+> +
+> +/*
+> + * Indices 0-30 match the hardware (and DWARF) register numbers.
+> + * r9-r15 are not saved in pt_regs and cannot be sampled.
+> + */
+> +enum perf_event_alpha_regs {
+> +       PERF_REG_ALPHA_R0,
+> +       PERF_REG_ALPHA_R1,
+> +       PERF_REG_ALPHA_R2,
+> +       PERF_REG_ALPHA_R3,
+> +       PERF_REG_ALPHA_R4,
+> +       PERF_REG_ALPHA_R5,
+> +       PERF_REG_ALPHA_R6,
+> +       PERF_REG_ALPHA_R7,
+> +       PERF_REG_ALPHA_R8,
+> +       PERF_REG_ALPHA_R9,
+> +       PERF_REG_ALPHA_R10,
+> +       PERF_REG_ALPHA_R11,
+> +       PERF_REG_ALPHA_R12,
+> +       PERF_REG_ALPHA_R13,
+> +       PERF_REG_ALPHA_R14,
+> +       PERF_REG_ALPHA_R15,
+> +       PERF_REG_ALPHA_R16,
+> +       PERF_REG_ALPHA_R17,
+> +       PERF_REG_ALPHA_R18,
+> +       PERF_REG_ALPHA_R19,
+> +       PERF_REG_ALPHA_R20,
+> +       PERF_REG_ALPHA_R21,
+> +       PERF_REG_ALPHA_R22,
+> +       PERF_REG_ALPHA_R23,
+> +       PERF_REG_ALPHA_R24,
+> +       PERF_REG_ALPHA_R25,
+> +       PERF_REG_ALPHA_R26,
+> +       PERF_REG_ALPHA_R27,
+> +       PERF_REG_ALPHA_R28,
+> +       PERF_REG_ALPHA_GP,
+> +       PERF_REG_ALPHA_SP,
+> +       PERF_REG_ALPHA_PC,
+> +       PERF_REG_ALPHA_MAX,
+> +};
+> +
+> +#endif /* _UAPI_ASM_ALPHA_PERF_REGS_H */
+> diff --git a/arch/alpha/kernel/Makefile b/arch/alpha/kernel/Makefile
+> index 4ea5c189e60e..0c04b89676ed 100644
+> --- a/arch/alpha/kernel/Makefile
+> +++ b/arch/alpha/kernel/Makefile
+> @@ -18,6 +18,7 @@ obj-$(CONFIG_PCI)     +=3D pci.o pci_iommu.o pci-sysfs.=
+o
+>  obj-$(CONFIG_SRM_ENV)  +=3D srm_env.o
+>  obj-$(CONFIG_MODULES)  +=3D module.o
+>  obj-$(CONFIG_PERF_EVENTS) +=3D perf_event.o
+> +obj-$(CONFIG_HAVE_PERF_REGS) +=3D perf_regs.o
+>  obj-$(CONFIG_RTC_DRV_ALPHA) +=3D rtc.o
+>  obj-$(CONFIG_AUDIT)    +=3D audit.o
+>
+> diff --git a/arch/alpha/kernel/perf_regs.c b/arch/alpha/kernel/perf_regs.=
+c
+> new file mode 100644
+> index 000000000000..10afe4e205e9
+> --- /dev/null
+> +++ b/arch/alpha/kernel/perf_regs.c
+> @@ -0,0 +1,56 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/bits.h>
+> +#include <linux/perf_event.h>
+> +#include <asm/perf_regs.h>
+> +
+> +#define REG(idx, field) \
+> +       [PERF_REG_ALPHA_##idx] =3D offsetof(struct pt_regs, field)
+> +
+> +#define REG_RESERVED   (~GENMASK_ULL(PERF_REG_ALPHA_MAX - 1, 0) | \
+> +                        GENMASK_ULL(PERF_REG_ALPHA_R15, PERF_REG_ALPHA_R=
+9))
+> +
+> +static const unsigned int pt_regs_offset[PERF_REG_ALPHA_MAX] =3D {
+> +       REG(R0, r0),    REG(R1, r1),    REG(R2, r2),    REG(R3, r3),
+> +       REG(R4, r4),    REG(R5, r5),    REG(R6, r6),    REG(R7, r7),
+> +       REG(R8, r8),    REG(R16, r16),  REG(R17, r17),  REG(R18, r18),
+> +       REG(R19, r19),  REG(R20, r20),  REG(R21, r21),  REG(R22, r22),
+> +       REG(R23, r23),  REG(R24, r24),  REG(R25, r25),  REG(R26, r26),
+> +       REG(R27, r27),  REG(R28, r28),  REG(GP, gp),    REG(PC, pc),
+> +};
+> +
+> +u64 perf_reg_value(struct pt_regs *regs, int idx)
+> +{
+> +       if (idx =3D=3D PERF_REG_ALPHA_SP) {
+> +               if (user_mode(regs))
+> +                       return user_stack_pointer(regs);
+> +               /* Same kernel sp approximation as stacktrace.c. */
+> +               return (unsigned long)(regs + 1);
+> +       }
+> +
 
-I do have some questions:
+Tested on my ES40: register masks, SP/PC sampling and user stack dumps
+passed with software-clock, page-fault and hardware-cycle events.
 
-1) The repeated "L2" in the path seems awkward. The first is the
-resource name, the second the control name. Makes sense for MBA where
-there may be multiple control names. But for cache ... is there a better
-name for the control than repeating the resource name?
+For context-switch events, however, regs points to the per-CPU
+__perf_regs[0], not an on-stack trap frame. This therefore returns
+a per-CPU address as SP.
 
-2) Should the format of /sys/fs/resctrl/info/L2/schemata/L2/max depend
-on whether the platform is asymmetric? Or just enumerate the per-domain
-values even on symmetric systems? Likely easier for users to list all
-domains.
+I reproduced this with:
 
-3) What should happen to the legacy /sys/fs/resctrl/info/L2/cbm_mask?
-Just hide it? I also considered renaming the resource to "L2A" to
-avoid surprising legacy code.
+  perf record -e context-switches -c 1 -Isp,pc -- sleep 1
 
--Tony
+The sample reported SP=3D0xfffffc00045b4310 and PC=3D0. The missing PC
+predates this patch, but the incorrect SP is newly exposed here.
+
+One limitation I noticed: for context-switch events, regs points to
+the per-CPU synthetic frame, so regs + 1 reports its address rather
+than a kernel SP. Alpha already lacks perf_arch_fetch_caller_regs(),
+so perhaps synthetic-event register capture is better handled as a
+follow-up. Could we document that limitation here?
+
+
+> +       if (WARN_ON_ONCE((u32)idx >=3D PERF_REG_ALPHA_MAX ||
+> +                        BIT_ULL(idx) & REG_RESERVED))
+> +               return 0;
+> +
+> +       return *(unsigned long *)((void *)regs + pt_regs_offset[idx]);
+> +}
+> +
+> +int perf_reg_validate(u64 mask)
+> +{
+> +       if (!mask || mask & REG_RESERVED)
+> +               return -EINVAL;
+> +
+> +       return 0;
+> +}
+> +
+> +u64 perf_reg_abi(struct task_struct *task)
+> +{
+> +       return PERF_SAMPLE_REGS_ABI_64;
+> +}
+> +
+> +void perf_get_regs_user(struct perf_regs *regs_user,
+> +                       struct pt_regs *regs)
+> +{
+> +       regs_user->regs =3D task_pt_regs(current);
+> +       regs_user->abi =3D perf_reg_abi(current);
+> +}
+>
+> --
+> 2.55.0
+>
+
+Tested-by: Magnus Lindholm <linmag7@gmail.com>
