@@ -1,121 +1,130 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9033E3E5ED1
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 13:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57F33EC81F;
+	Mon, 12 Oct 2026 13:51:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791813105; cv=none; b=qTHPc7XvcVwWZfG8O66bBdDWC+pYc2nx4M2UMd2d7xfR0+f/1vRDZWEMvqLrulciP4PeChWG/jfxTgPJvR8aSe+WsLMZdPklwZNKE6dTxkZkIU/D0nk7qD755JLbUPynnXTFsnXruik7Ado1I0zNWP7VWGemJbh7A6DW65LA/ZI=
+	t=1791813109; cv=none; b=ApEOCBpQYVbvfu9ZYLl9EeoScJmlI0q5ETom9Pr0J3Lb5frIaLKQer/e9c4UghAxET8Gls2Wm8JW9kMMjytcsTsa3Dq1WRsMEXrYhY0h67pGkIzo6Dh1QDKRON2IJOb/zJsQ98GYdwGMDiyTWRS2NSPdxJCs0haP5ZQb7LnV9DM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791813105; c=relaxed/simple;
-	bh=JNLvSKsWbpNpU+kVfR1ZUgo0qtFkPeJnN9n/3eiEcSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B7rNl8YuFvG1KV04REHpguUJDwZHRkaK4z+xhriPNfFCpVsVuPSEUpWokyCjvE6QtKT/NEUZT7eXaktBwMJ51IkE0vXje7yRWmIU5r/1DEUOvCrtIjf8tWyjbRYovsl4F4XGlw8XsQvrnXxxsGINL0BVZifxeV8nN8PTJsXTqeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kWW/dfsY; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791813109; c=relaxed/simple;
+	bh=D8b9Gp9SrpJ6GeBRaBAklzcISw35XYnUMsD+GI9OWHQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VyexahOINoMP17O92pTX4HYaLlx47pCfXEKo406PSSvzNBE9RZ3hwBZSA00uQaFQzx6U0wq/6F4GCD+9wefaif1Dl1wMuRBJ0AYd4T756GPfArARcZn1TXr3ibV4ImOwT2Y8lMSDJOMAyIiC9pzccJNtTEGOVY6o+89G3heEalY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lM0hHZTF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kWW/dfsY"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4956869750eso15046195e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 06:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791813103; x=1792417903; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oLOrbPkiMwYxELk182ZPfeiCmk/lFJpYO2IK6N8cvrs=;
-        b=kWW/dfsYmSuWUUAmOtu9ANV87tPPKXFs3Wu2Zf4c9BjI1gxqJUEUYZR6eDFV2eSFzZ
-         9IkrgEcM0UNHqTeDzb/fi3vsTrHLpX8HoUz5MUT/ec4oVQM/Hn7YR1hQKx2S4bXHnt8x
-         HZxqhhXXxfOQHbq0nRBwIiB/iVLkCNWky+C4Nztk3wkwVLqubb1dIZgHm8VrsCgo0+l1
-         +QBbPfQpacUPyQXJpH8kkT9EOWM6v+WRMqagJdpxEPH4lyd2x0hXl+3tEGACJyTaAZYQ
-         ejnhHfdKYevn5S4de9Sl/q+i/lSmbVR2Iqwqep7Rwp95GrwKUTAE8N9A8EAhFoiIpmOl
-         LFhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791813103; x=1792417903;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oLOrbPkiMwYxELk182ZPfeiCmk/lFJpYO2IK6N8cvrs=;
-        b=RzfZ+sZQqrOLqM+LFT6zIfJkf8OtZy+yn5U19inYrBkV+2L/5yrLpSM9H6R6JdWx9p
-         sysOqeHiNsb47+Kyat60HKpIKflknm7ac3gFbf654bjp0CfoqHTZCxd1a49fC5kwHJn5
-         L33HuQwsSWtXnEB2cks79gPLPSP/dN51+3QeiuQZixjTgM01gUTQ1hrBrR7V4G/uHWE2
-         buHG4be0PnNm3G7G0cBWk2lMcCjMKjoIQCnAa0TQ5mXmEsIQH4s2+vi7VwJFyPrZzWJM
-         sqrhXqtOeIEdeHTQNv5q79UgKDX5QTAFrbOLTzspyOhHApGYwNon0vawGV+XQgR6IlTv
-         lEoA==
-X-Forwarded-Encrypted: i=1; AKwUvBzm8BiPhOPd2HmRtlZaNOaGbZeLoOwnr447NcEUkDM6A2ElaDN8BQuYor0M0WwmYAKndLIafhXN19c=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLhIFREVJqxUf7qHkbRynkq87t16agZHjM6f5+KWFZQjtP5ISxF
-	86MDEdZNpXxOGFqt5Vp0G/zh0hugUIAI405yB/wqzii2e5qxTZARHXPF
-X-Gm-Gg: AYBFou2PzkWTsSWMROAvfie8rJIkFLmDh7DT9rANOwIwxcTY1wF/l/M3sfqT6PA4+ac
-	y9gWIUpku5afk3gIzJjw/WErGJeWkrlx7dI+bbAQsq4BsjyDPACcPWgEWrOzAmd1ZF+2cKs/DyQ
-	Ccx/ZtI6rGducOFFWJJCN/r58s29D0Dzk5u4cn41i+wdsMQ4x5ILqcUEOasKd5C3r6eHiMIUp6g
-	/F02ZiuhjxFEtBLkM3oIRnQgTG6S+XHHd4av1QBEQbXtZB62ESg3S0q/YYEF731Yi7JLcs8lNjq
-	cjiznMDjnA3tS18ip6SUT36FT5b+5WoKDv8b/eOZtFhVVmFYtZBGtTiMmh2jWMUaHXp8d4Sa25i
-	vHIvmA6se+K/3bn3riFew2ZCxLb67uo5Er9XD82b+E6oyPUkMAudeoihIZXNUV/TPQfAA1UaRJZ
-	EpBdm9AjDzuGDxynsAlYgb2MgUti1gNb5U3htxLBCWWR8BHQuz69YKPUXJ6O80pNwmZTtbJxQCO
-	WzBqi7c+PMW9cvvI/kRvLu6fJ2xWeFelE1oouyOVV3hhJVrAgswP75enjpZieb+IC1rarLE4RUx
-	GveMlGk3Wk5p8Ifn1L9FCrNTBlzvHnw6/TfgmpjMXchWYZVI9eSPfVursplpT39633stYkjHHpG
-	Bcv9QUkFrbm91/lEjyXy1OsXnBKNuT0BIE5v6WKCjjet5fyKLn8ZRTJsc83uJDTuDDwG1POzZlJ
-	78NrbRq3KonuGbMPQ=
-X-Received: by 2002:a05:600c:3e0a:b0:4a0:1c10:1419 with SMTP id 5b1f17b1804b1-4a18e4cd667mr179122395e9.26.1791813102687;
-        Mon, 12 Oct 2026 06:51:42 -0700 (PDT)
-Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db98c3a13sm19399336f8f.25.2026.10.12.06.51.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 06:51:42 -0700 (PDT)
-Date: Mon, 12 Oct 2026 15:51:38 +0200
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-To: Antoniu Miclaus <antoniu.miclaus@analog.com>
-Cc: Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, David
- Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Marcelo Schmitt
- <marcelo.schmitt@analog.com>, Radu Sabau <radu.sabau@analog.com>, Janani
- Sunil <janani.sunil@analog.com>, Salih Erim <salih.erim@amd.com>, Jishnu
- Prakash <jishnu.prakash@oss.qualcomm.com>, Jakub Szczudlo
- <jakubszczudlo40@gmail.com>, <linux@analog.com>,
- <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 1/4] iio: adc: ade9000: parameterise the reactive power
- channel
-Message-ID: <20261012155138.0000726c@gmail.com>
-In-Reply-To: <20261012111342.48040-2-antoniu.miclaus@analog.com>
-References: <20261012111342.48040-1-antoniu.miclaus@analog.com>
-	<20261012111342.48040-2-antoniu.miclaus@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lM0hHZTF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EFD21F0089B;
+	Mon, 12 Oct 2026 13:51:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791813108;
+	bh=sy0tOZL5muoOOj5/SzuLSHHZra65UzlPYGgPa55GTM8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=lM0hHZTF2mkh9fZMXoW6EwN4MlP8QMBI+4vZOhjSLdxNiA3yY2oH3Bf3LDxTXxpog
+	 2lPpUIY/NoiEFNUzFfRv1fGWTuG38zl3wTrl13oeTVesh7Dv3w3rlIC+6V/K5VXqqv
+	 IuAspCH3e+lRirW5gpc+xUdJnYpeOh+VU2meNf+KHQuvv5XtiDectnC+1rNJSwJcK0
+	 kPr+n55XDM58Tph7T1sxflfPg8qPjMOlRCrTk/Z4FBU0DdVzsF/5lvR7wqbF9utWvR
+	 3RbUTFlH7cEqTshzl1vZKn+DhUncPea51W3H6huQ8cBDdLqsA48yQyfh1P52iPjfYi
+	 1dbrGbEZBxu/A==
+Message-ID: <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
+Date: Mon, 12 Oct 2026 15:51:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+To: Luigi Rizzo <lrizzo@google.com>, Luigi Rizzo <rizzo.unipi@gmail.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima
+ <kuniyu@google.com>, Joshua Washington <joshwash@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Chan <michael.chan@broadcom.com>,
+ Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
+ netdev@vger.kernel.org, linux-mm@kvack.org, driver-core@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261003212241.3432303-1-lrizzo@google.com>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20261003212241.3432303-1-lrizzo@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Mon, 12 Oct 2026 14:13:37 +0300
-Antoniu Miclaus <antoniu.miclaus@analog.com> wrote:
+On 10/3/26 23:22, Luigi Rizzo wrote:
+> Here is a subsystem called DMA_PMD on which I would like feedback on
+> architecture, possible enhancements, or kernel components that could be
+> reused to avoid duplication.
 
-> The channel array is declared once by ADE9000_DECLARE_CHANNELS() and
-> specialised per part through the altvoltage_rms argument, which lets parts
-> without dip/swell hardware drop those events. Some parts in the family do
-> not compute total reactive power at all and have no AVAR register, so they
-> need to drop the reactive power channel as well.
-> 
-> Add a second argument that selects the reactive power entry and introduce
-> the ADE9000_POWER_REACTIVE_ENTRY()/ADE9000_NO_POWER_REACTIVE_ENTRY() pair
-> for it. The entry macros include their own trailing comma so that the
-> variant for parts lacking the register can expand to nothing.
-> 
-> No functional change: the preprocessed ade9000_channels and
-> ade9078_channels tables are unchanged.
-> 
-> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> ---
+Here is a feedback to a subsystem called DMA_PMD ;)
 
-Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
+Why is basing this on PMDs (and embedding it in the name) the right approach?
+
+On architctures with large PMDs (512 MiB on arm64 with 64k), would we really
+want to use 512 MiB pages, or rather something smaller (e.g., 2 MiB) that might
+possibly also have TLB benefits (cont-pte)?
 
 -- 
-Kind regards,
-Joshua Crofts
+Cheers,
+
+David
