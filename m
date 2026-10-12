@@ -1,91 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D76F3E120E
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 22:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84A33B42E6;
+	Mon, 12 Oct 2026 22:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791843000; cv=none; b=NKvndiV31anm9kogCsscz43IUP3EaDHu3DhD1Ji3ZCeR5cwBZEByjIK4qOCYekMVNAP5wAZ0B5DSiM5g/IDZr8gf7pZT84q/zbtUjs4fIvi0I9puAgdbPdtIakoZ0VCaWp9nC8cSI+JY1KmgcJfRWSK+jvPg9BCiOoFGd3eQ3yY=
+	t=1791844634; cv=none; b=EizfeDrUJwFm7dPhMeZeUMr6cD7YPYREm/6rprw3Xj7Zp0Xi3lXlL/XrxjbhGabJrwRWec2wcn/rKcQXDCLvaPWtHgadsRSa/Z6C0R7MxK8vZIj1BytWc5E7d5sIq4LWJ0wDQtJ9q5NygFNLOULuEZLcLPxyOlby6Bfe0Kc8SNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791843000; c=relaxed/simple;
-	bh=RQaMg4stu4Mw7yUuuWffifyspigE1cjz6hc5rDYt+U8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MfWVh2yuYZ9f1Dzt2K9etp714N3pNv1zK0MqhjGDM59YwPAehxHmPFF9kEpSMMgwcTlM52CRKN1mcIt4aWDp57I3Mok6UDZBDVDHv2KDfgnV7eRtROwH5gYbNUSOjZ8gr48Had8gVQpRWxfkg9eeqcEDEtFSseLCRbJmMzOkNSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEetze2m; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791844634; c=relaxed/simple;
+	bh=FdwbozunUCc7zuPRwq9GYUfaTcQ565a3OSXnMSsVAbI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=T6RoSINZkUs2FpPaAlaLL/qS0wOd99GAHg5Ry5VhjhU7rU853GZdffvK1O/cKDn+rjznpJNhMOK0jPZ3EyhSSddcOrCr7hFGaxz5QclINBxl4egXb2WNOiqOKhuXnYLT1tNwBF1W+Ld3SMlFtnWJcOfzHRDRurYPl4CjkCwgRqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EhTjnUtB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEetze2m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791842999; x=1823378999;
-  h=date:from:to:cc:subject:message-id;
-  bh=RQaMg4stu4Mw7yUuuWffifyspigE1cjz6hc5rDYt+U8=;
-  b=hEetze2m3tNvwQn8r13OvR8dn3Kbwnkk6FpNCbywjhfBPBXLXQ0f8uul
-   RNEtV5WMM5nr1ZKBwmooFEAm/0spbyiuNzgw90NmaqCnsGjR6YPhkXLZm
-   p+27wrIJnjeLtBsQZJZLfPhxp2dPCMWQj+bMfWWDZ0BSFJJUJbJ7x4paY
-   CUyMSYP0x1XIBdznP7xdQEWBjw/JeU7Pn3R8KTthzFc5RAsk4RKU+jplg
-   YDezQNNElQ7NUg/2mMeOOD6LqjSRUCr6qOpTIvhkayGxtkmMfCV8rSJPC
-   Fj4+SfsM6paGwpAbvlkvkpRzUAo8wZOxAWmDLQVaSTog9pdfKge9jnNkO
-   A==;
-X-CSE-ConnectionGUID: IgbXXr4vQw6Ygf5Zm8w07Q==
-X-CSE-MsgGUID: AQ9TB21gS2qxFqpWP0sdFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="458081"
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="458081"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 15:09:58 -0700
-X-CSE-ConnectionGUID: esFocDqiRj+JymSBLJrwiQ==
-X-CSE-MsgGUID: 1rB4ID2iQ6uSdWuV28o4jw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
-   d="scan'208";a="1369482"
-Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Oct 2026 15:09:57 -0700
-Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xGODT-00000000AEB-1en9;
-	Mon, 12 Oct 2026 22:09:55 +0000
-Date: Tue, 13 Oct 2026 00:08:56 +0200
-From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [leon-rdma:rxe-rust-v1 88/88] htmldocs:
- Documentation/infiniband/rxe-rust-design.rst:139: WARNING: Title underline
- too short.
-Message-ID: <202610130036.FDXRfpRS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EhTjnUtB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B96441F0089B;
+	Mon, 12 Oct 2026 22:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791844633;
+	bh=oUGbcqLCEbhdugpJCrgg19ejdVgr04nu9YdlTnXgGEQ=;
+	h=Date:From:Subject:Cc:To:References:In-Reply-To;
+	b=EhTjnUtBMlBY9vB+/mNO/C3HMLjZJkXGicJvnUxDon0cM+ECRf2X0M0Etl/ejTyLG
+	 CZRi+26dBISL4Njxidz63wzMsLEr8O+4piRbc7urBrXyizxvIuCC42W8yAspELTUvg
+	 /CefZYPngjm01mwZ368ZtR2y3HPKq8Hh9Sa1/3E2Uo2Xqcp0i5W6DtE5+jnnhwUyJx
+	 jMkuc6VatwUyWRODXYpRcwoP+AaKC1EAp+eCHcO4+LX3DO9WeJMaQ87tIQ7Ol/MZTj
+	 AV2zQXdFSXriGQtsBOszLcP3tSLTF4Nps3x+yB4C12EfwxptY9vywyHhLRbwAvvoQQ
+	 KzUNkh23YrHBQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 13 Oct 2026 00:37:10 +0200
+Message-Id: <DM37WR9GUVEO.1ZJWESPXVQ8X5@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH] debugfs: clarify return values when disabled
+Cc: <linux-kernel@vger.kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ <driver-core@lists.linux.dev>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>, "Johan
+ Hovold" <johan@kernel.org>
+To: "Randy Dunlap" <rdunlap@infradead.org>
+References: <20261008171547.3084466-1-rdunlap@infradead.org>
+In-Reply-To: <20261008171547.3084466-1-rdunlap@infradead.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rxe-rust-v1
-head:   fe52737deab42b438e356282106b9418915da058
-commit: fd6a83d0d7b4aba0032f93ea9c03613a0ba09a19 [88/88] Documentation: RDMA: Describe the Rust RXE ownership model
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20261013/202610130036.FDXRfpRS-lkp@intel.com/reproduce)
+On Thu Oct 8, 2026 at 7:15 PM CEST, Randy Dunlap wrote:
+> @@ -820,6 +826,10 @@ EXPORT_SYMBOL_GPL(debugfs_lookup_and_rem
+>   *
+>   * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+>   * returned.
+> + * If debugfs is not enabled in the kernel build, the value %-ENODEV
+> + * will be returned. If debugfs is enabled in the kernel build but is di=
+sabled
+> + * by using "debugfs=3Doff" on the kernel command line, the value %-EPER=
+M
+> + * will be returned.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610130036.FDXRfpRS-lkp@intel.com/
+This keeps the old *and* the new text.
 
-All warnings (new ones prefixed by >>):
+Besides that, when debugfs is disabled via kernel command line
+debugfs_change_name() checks
 
-   Runtime Survivability
-   ===================== [docutils]
->> Documentation/infiniband/rxe-rust-design.rst:139: WARNING: Title underline too short.
+	if (IS_ERR_OR_NULL(dentry))
+		return 0;
 
+and if disabled via kernel command line dentry would have been an ERR_PTR a=
+nd
+hence it would just return 0.
 
-vim +139 Documentation/infiniband/rxe-rust-design.rst
+(There may be more functions of this sort, I didn't check all of them.)
 
-   137	
-   138	Queues and userspace mappings
- > 139	============================
-   140	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Danilo
