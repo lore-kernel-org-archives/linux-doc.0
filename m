@@ -1,89 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.126.com (m16.mail.126.com [117.135.210.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DBB30D406;
-	Mon, 12 Oct 2026 13:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E62368D7E;
+	Mon, 12 Oct 2026 13:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791810784; cv=none; b=YycgwS7yLFFdqp+x++6FziUVfH8BY4hi9p/jG2ilDR6vox0DV9g2sVperbhvzpKN02RrpgkRjA8usiO6OVwjlcsrLNmSowTZIhV4ADFnDMnHUOlLoK6egYfWX5dmqMit2XbjsyRTA5K79WpMQ1LWcN9zKBGCPVc5JWusuODwp2s=
+	t=1791811816; cv=none; b=jMYToVC1NRfblk/naRwjBX0aD5hhqylUIjrFJzU1V+K3cVfVwNKmNZdf84zcsIat22BW3wiF/oBCQgmbnNu5dM9fnHlQTybe+LUOIPwkzqVMpyazvDbpYxXAKRuZA533KoOcbc/e1yyWRO1yBtSFUWwjnzwH8xuwFUU46i0ocTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791810784; c=relaxed/simple;
-	bh=P454wXS9DdByiiPHUTNVgjn5IjNWcOJRLu+jD4eg/Pc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SaZB67FFtnOccWeiE8SGdaYjGF927nWfvHEiEXHSUdjtQKIYJpINvWYlW1cQ7yXzS2qUCqSF9pX8MmUu/McZt92qpq07Ql+L7u1QhNM+mFLct0cQBC15CYek6XZeV7CpdfuU8JQW75PKHDXtkRUGW/h3jFnOnJH5/MXiA1YR1ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KDpfWVnL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791811816; c=relaxed/simple;
+	bh=Sbsx+feZ80i7o5fv5826kgA4Rel0zblyuQEjCT3J4zk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nLN/InmiQyz44HtPHrjrMpv/2jcci6bHxGuPlrv9g6hajJHJ3U3IlX0yUwQ8YycGogRxSEYJ80c1p1/Ta9I/vlSOEUEEdBbYZKxRshQVpsazVN1RSnWwXjqWbYMVMy1tCml8x2rvlWNwHXplKmgpEOUyy5ai7JfljsFhw8VaaBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=PkcBejTi; arc=none smtp.client-ip=117.135.210.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KDpfWVnL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B66A21F0089C;
-	Mon, 12 Oct 2026 13:12:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791810782;
-	bh=4I5B7wBeXWUXzc9QUIb5L0wjsowp8PcPTfJjf0v/5MY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KDpfWVnLq9UsVjiuPGdSN9B+cXar5q+l6DBPzhmkDs+Ueb+r/Z8+7AbiaQcbXCLc9
-	 VNOnSmW8xS6bS/TAcyQ0f/pSevPXUEVgqfdbxP3WlBTOMB/gY12NSlqp3+whay9o8u
-	 SfYjiqBSX2o4k3933OLtpyYsadTur2naFzobQrigUJwNpGTMCuSa4cotQ63NgKCJiU
-	 Si3VBhD4g2S5Nx4OULNzEaPPu0qIdUIZ8JnRW+28Kb7x0GLpy8BBhN8su+PDY+YWum
-	 JGXgi0p0A69k2YrSGKqWSjLUZW1fpovIgDPH9GwXKDR+IKcL1JCaw4IqS7rJkndVkz
-	 3pDHjpNGHf+kA==
-Date: Mon, 12 Oct 2026 15:12:53 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Manuel Huber <manuelh@nvidia.com>
-Cc: Andrew Halaney <andrew@amutable.com>, 
-	"bot+bpf-ci@kernel.org" <bot+bpf-ci@kernel.org>, "ast@kernel.org" <ast@kernel.org>, 
-	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>, 
-	"agk@redhat.com" <agk@redhat.com>, "snitzer@kernel.org" <snitzer@kernel.org>, 
-	"mpatocka@redhat.com" <mpatocka@redhat.com>, "bmarzins@redhat.com" <bmarzins@redhat.com>, 
-	"dhowells@redhat.com" <dhowells@redhat.com>, "jarkko@kernel.org" <jarkko@kernel.org>, 
-	"paul@paul-moore.com" <paul@paul-moore.com>, "jmorris@namei.org" <jmorris@namei.org>, 
-	"serge@hallyn.com" <serge@hallyn.com>, "ebiggers@kernel.org" <ebiggers@kernel.org>, 
-	"tytso@mit.edu" <tytso@mit.edu>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "rdunlap@infradead.org" <rdunlap@infradead.org>, 
-	"dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"keyrings@vger.kernel.org" <keyrings@vger.kernel.org>, 
-	"linux-security-module@vger.kernel.org" <linux-security-module@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"fsverity@lists.linux.dev" <fsverity@lists.linux.dev>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"martin.lau@kernel.org" <martin.lau@kernel.org>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, "mason@kernel.org" <mason@kernel.org>, 
-	"ihor.solodrai@linux.dev" <ihor.solodrai@linux.dev>, Fan Wu <wufan@kernel.org>
-Subject: Re: [PATCH bpf-next v2 1/3] keys: add KEY_SPEC_DM_VERITY_KEYRING
-Message-ID: <20261012-wusste-werfen-loben-94aac9fd9cbe@brauner>
-References: <20261008-ajhalaney-dmverity-key-identifier-v2-1-008456d189cb@amutable.com>
- <910460850fd4163dadb804fbdf6c17f6a9dfec060f4d865a17df87336ea3e165@mail.kernel.org>
- <asgQxTE-6YtEgvYZ@toolbx>
- <DM4PR12MB61364B4F81AE7A8D1FB71E1BDE902@DM4PR12MB6136.namprd12.prod.outlook.com>
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="PkcBejTi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=6X
+	MoCoxsxJbwrxJPrcBZACpAAbXCdOzJjPbpwaSB00M=; b=PkcBejTiCF3a6277hC
+	IZGOe1O6O2BTTAzgDc1uKK4mpvID7bK3UyF/BnRGZJhN0gsJ5jwh+qXPNC6dXsD6
+	uLG70Aot9Wm8pf6971koBwC6+Kn+3UjrsSptTt70155htV4OFbmmR1SNjZYm1XEy
+	vGFiNq0Tm0sbAkmbtsMQbtkLA=
+Received: from song-MS-7E28.. (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wD3n7am4MxqMdzZBA--.33230S4;
+	Mon, 12 Oct 2026 21:29:18 +0800 (CST)
+From: Song Chen <chensong_2000@126.com>
+To: dsterba@suse.com,
+	mason@kernel.org,
+	akinobu.mita@gmail.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	arnd@arndb.de,
+	akpm@linux-foundation.org,
+	ees@kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Song Chen <chensong_2000@126.com>
+Subject: [PATCH v3 2/2] btrfs: Allow error injection on btrfs_data_csum_ok
+Date: Tue, 13 Oct 2026 05:29:10 +0800
+Message-ID: <20261012212910.54623-3-chensong_2000@126.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261012212910.54623-1-chensong_2000@126.com>
+References: <20261012212910.54623-1-chensong_2000@126.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DM4PR12MB61364B4F81AE7A8D1FB71E1BDE902@DM4PR12MB6136.namprd12.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3n7am4MxqMdzZBA--.33230S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uFWfZr4kWFykJw1UAFyxKrg_yoW8Xw1Dpr
+	yUG345urWDXr97Gr4kGayv9ryFgw4DWw4vgFnxJw4UKw4a9w1Fvr92y3WxGa40krZrZa43
+	Z3Z0qr17ZF1DAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07bYVysUUUUU=
+X-CM-SenderInfo: xfkh02prqjsjqqqqqiyswou0bp/xtbBsg4xsGrM4K6yAgAA3l
 
-On Sun, Oct 11, 2026 at 09:35:43AM +0000, Manuel Huber wrote:
-> On Thu, Oct 08, 2026 at 02:57:00PM -0700, Andrew Halaney wrote:
-> > With the BPF keyring ID already being merged here in bpf-next, plus
-> > Jarkko's feedback/RB, I continued following the current pattern instead
-> > of walking back the BPF keyring ID, and dealing with the
-> > builtin/module/rodata differences I alluded to that would make that
-> > approach a little more annoying (at least with how I thought it thru).
-> 
-> Another data point for this design choice: after initial discussions
-> with Fan Wu, I am about to propose a dedicated .ipe keyring for IPE
-> policy-signature verification. The keyring would be exposed to
-> userspace so that a trusted entity can provision keys, modeled after
-> the .dm-verity keyring.
-> 
-> I do not want to introduce churn to this discussion. I am happy to
-> establish the reserved ID range and generic registration interface
-> upon proposing my changeset, to establish this separately, or to
-> follow any other suggestions. Getting guidance for this subject ahead
-> of time for the case where 'yet another keyring' is introduced would be
-> highly appreciated.
+btrfs_data_csum_ok validates the checksum of a data block
+after a read I/O completes. A mismatch between the on-disk
+checksum and the one computed from the read data indicates
+silent data corruption, which can be caused by bit flips due
+to DRAM errors, storage media degradation, or bus transmission
+faults.
 
-I think another keyring for just .ipe is fine if they want that. I
-wonder what you use ipe for. I've implemented ipe via a simple bpf lsm
-in userspace (well, for dm-verity. We don't use IMA or fsverity.). It's
-available in systemd itself. 
+Testing the error handling path that responds to such
+corruption, normally requires reproducing the hardware
+fault, which is not always feasible.
+
+Mark btrfs_data_csum_ok with ALLOW_ERROR_INJECTION so that
+the fail_function infrastructure can override its return value
+to false, simulating a checksum mismatch without requiring
+actual data corruption. This enables validation of the full
+error detection and reporting path in a controlled environment.
+
+Usage:
+        cd /sys/kernel/debug/fail_function
+        echo btrfs_data_csum_ok > inject
+        echo 0 > btrfs_data_csum_ok/retval
+        echo 100 > probability
+        echo N > times
+
+Acked-by: David Sterba  <dsterba@suse.com>
+Signed-off-by: Song Chen <chensong_2000@126.com>
+---
+ fs/btrfs/inode.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
+index 93ef3cec191e..73c801197934 100644
+--- a/fs/btrfs/inode.c
++++ b/fs/btrfs/inode.c
+@@ -3586,6 +3586,7 @@ bool btrfs_data_csum_ok(struct btrfs_bio *bbio, struct btrfs_device *dev,
+ 		memzero_page(phys_to_page(paddrs[i]), offset_in_page(paddrs[i]), step);
+ 	return false;
+ }
++ALLOW_ERROR_INJECTION(btrfs_data_csum_ok, FALSE);
+ 
+ /*
+  * Perform a delayed iput on @inode.
+-- 
+2.43.0
+
