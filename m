@@ -1,105 +1,163 @@
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9837D486427;
-	Mon, 12 Oct 2026 12:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791807474; cv=pass; b=p7bwAel4f56tTNWitUqoZGgjnE5hNj4Q+fdEpaKe2Ra8xdEZ4zMHBZV3U3n+a7yt7HZfG5tcNrPhzQvvaqNLvvi9jEITSvfpCvYjPr/BwAYHN43mUQfmhYqFBoR+wemi2zKhZsaQr9kcU9SBoYrZrm1NpC4KYdHBC9ejmkbfJ9w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791807474; c=relaxed/simple;
-	bh=tstwZcU0Dw+ukFEZjsuZ+eVU82pedwqD4wTjSoDjD+Y=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Zw9fnR3z0Fm7VQ6M6i/2YPDmV8Njp56YZGuX0Nm0ZI2ha6L15CclATtzARCbBo0nVfx896QrP+qz5FhiuDnbf9LXnCSnjYwGZ3Opt/K3fjOs5WTSriihEPfzLJF2U5KMFbR+CMPwEgywV9KKJtyKC3CW2fYNUiyFHRZBDGG4BuM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iokpp.de; spf=none smtp.mailfrom=iokpp.de; dkim=pass (2048-bit key) header.d=iokpp.de header.i=@iokpp.de header.b=AKV4cpjH; dkim=permerror (0-bit key) header.d=iokpp.de header.i=@iokpp.de header.b=iabDJt0u; arc=pass smtp.client-ip=85.215.255.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iokpp.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=iokpp.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD15489FCB
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 12:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791809353; cv=none; b=Q48CPNGwcMHq2XwqASw0W1IUaKgrzHzn/6tW+FNDLMP2WYp5XyjMTgzOcykLH08vhDjW5nzX31m9R3rJFy4DMG2IQ2ewCmqaFL0JQAwf/4YFxB0lFt3wu6cd8tB7QZLUhz+VHKXKUtWDrJeMP2gL2SW6Rc+qr8vkl8jhXu10iLE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791809353; c=relaxed/simple;
+	bh=14phVvYRrJPhd267XL2Fy1Y5N819k4Yyec3jG7Q2YLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ewG+gSB9IXp6zpqOnBodXl7KvDnAq1gM6BIDciyWEyRhZtDwoCYcEPVwU9w4CIPt5Eb6lCiIO5R6+tY4MH1DsUu+zEX1JOZ71cl3xPZGOTwkHdT4q527Qwkn/o+vrh2HpF1u93jGmzKZrtTt4qUfuS02CNJiVWaNRwO+7CAcJkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=n17K2Z3s; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iokpp.de header.i=@iokpp.de header.b="AKV4cpjH";
-	dkim=permerror (0-bit key) header.d=iokpp.de header.i=@iokpp.de header.b="iabDJt0u"
-ARC-Seal: i=1; a=rsa-sha256; t=1791806745; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=DgLDJmv8l2VkZB0ZdoGZQ2cxu+N8CoFAvbXmAEGA7Zhg3Y4DIMNqajgcNYh9Ppqmmn
-    3ymwx4YYGGdHcstM+uJ5t7JRpyL9AtfswCaRmJKnBCAiASF0tlnWREluc3WdLU9yVyp0
-    iiUI67ZpZmuoihJFTk5Djt3GsdSLYLTDNtgt1qWR7AVORVRN3carRtY18+JYX6TOsFQa
-    wUd+b38W6clU0U9Z/Q/E+G4CB5judaiLtvMhnFPsu+XZQU3fO38PJEFkCHJBm4onp3pP
-    9/xTPVpVWLNAiinfGzeby32XNFYxlb5AhPBptS5rycM1CChj0MTCP74QvGOgUjzPozvs
-    y+fw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1791806745;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=tstwZcU0Dw+ukFEZjsuZ+eVU82pedwqD4wTjSoDjD+Y=;
-    b=Toy/jR6HCMjoQRj6lijLXrtSSB4X/KnqDeHVIKjGqus/ofkwKB3fRfIIDmTYTqzDrq
-    Sk7P0obuac5dCVSDk1NgeYgtsogjRwYCEOvxxnSm2leVZLDl3Hy9L0WSN4f5SsjtGOjH
-    a8ODXK/1+39dfZoqTca+Ja7qWGjmayIWl4ChIZKAc1UhSfZHIc0z1vZRPhFdj/4n+b/z
-    d9C+tPgiCEp27uAGEiHTRyKLHsm46jMARRNoWnQ/l33C1/utRXv7mF9FulhlvzrJsUTY
-    BKTYA3MaZ2Y7AzswJ5QtcA42bCEhVrNRa3aJX5sxTtuLpUVQ9aUdyWfXHJBVSQODGxpv
-    S8GA==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1791806745;
-    s=strato-dkim-0002; d=iokpp.de;
-    h=References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=tstwZcU0Dw+ukFEZjsuZ+eVU82pedwqD4wTjSoDjD+Y=;
-    b=AKV4cpjHbQcDdCIUZ2B+Hh6lR8KVAFwEr1DRyVIISVFsoCTIhXYii7l5/YEJBg32cL
-    SNISX6uL8b6I0csEZxFwau24pHaw4SEZfPtXzCwF5eJqw4hRsZ03YtGdoEledjAfIZzP
-    FNWvKRrx3n1JLYWe3c27zQyX7MPEBx77XVTPqv8uh+NijZK8IjTGfw0ZGyqJ/etdAZ5M
-    2mjYJkuJvaEXHEq6XhT4iJ84A/yGWasUQVKOHohx3jasb3fUFUPO7czozm3nLYt/cUAb
-    iepdsFoNk1DkWWc0M49gGXx0AhZOTloEqF9rs5VnHz2YibCGQqYcgIbMI7AdE/ykuxsA
-    kR7w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1791806745;
-    s=strato-dkim-0003; d=iokpp.de;
-    h=References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=tstwZcU0Dw+ukFEZjsuZ+eVU82pedwqD4wTjSoDjD+Y=;
-    b=iabDJt0umTVto3Az4m3wl1LeQYVeDnsuZMwwrc1WtiAxPAyYJV6DNKuGUqA0wvK1VE
-    2hKdx09UKsnRb3uOIrAQ==
-X-RZG-AUTH: ":LmkFe0i9dN8c2t4QQyGBB/NDXvjDB6pBSe9tgBDSDt0V0DBslXBtZUxPOub3IZuk"
-Received: from [10.176.237.108]
-    by smtp.strato.de (RZmta 55.6.2 AUTH)
-    with ESMTPSA id z04e1c29CC5i6aw
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Mon, 12 Oct 2026 14:05:44 +0200 (CEST)
-Message-ID: <b8d939225d06c95111395dbf83cc628245e6e907.camel@iokpp.de>
-Subject: Re: [PATCH v2] scsi: ufs: docs: Describe how to test with QEMU
-From: Bean Huo <beanhuo@iokpp.de>
-To: Stanley Jhu <stanleyjhu@google.com>, "Martin K. Petersen"
- <mkp@kernel.org>,  "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Bart Van Assche <bvanassche@acm.org>, Alim Akhtar
- <alim.akhtar@samsung.com>,  Shuah Khan <skhan@linuxfoundation.org>, Randy
- Dunlap <rdunlap@infradead.org>, Jeuk Kim <jeuk20.kim@samsung.com>,
- linux-scsi@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Date: Mon, 12 Oct 2026 14:05:43 +0200
-In-Reply-To: <20261012120059.1371653-1-stanleyjhu@google.com>
-References: <20261012120059.1371653-1-stanleyjhu@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2.1 
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="n17K2Z3s"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48c4d99c32bso1790839f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 05:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1791809350; x=1792414150; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aJj4Wm615H/imfpMwNI2qT79o5fgFKI50ixCq2u6D9Q=;
+        b=n17K2Z3sCsrvRyCFf3XCqLh0PNSd40bmMvV3lmOzu3+V59KUsn8qhBTVd1IIwiqYem
+         zt1NEQ6L7l54SBCAgL10DkSfF4k7Ofdqh+lUb4FDnlId0CrWJnzW6g09yYdIBIyvL/jB
+         gG4+8nfWMTpcHVsbgdNjeprKD2RvXpaY/B/FlJaOHzgOwYmDT+ihz2IkLNzfEg3g2FZR
+         8HI4QpFNzlFUMKt1wKecqqhYvRQpk2c3LZrVIaWgo1/u1BLPhGPMF88JWL7z09eHTXSg
+         988D/7eiVFvcSJaPMrW/HHrcIa8xgKY8Bp5OhBlcbDK4X/ny0dzNWK49DSulVoXVyHp/
+         VLtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791809350; x=1792414150;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aJj4Wm615H/imfpMwNI2qT79o5fgFKI50ixCq2u6D9Q=;
+        b=F/jmt+7F8AXf0wPkXLnWQilcc6zbrtF9Z0d8G27Ob9OF8waMGNPiZWp3YjVtxMY7X9
+         1AaJy9Nbkz/Tj4dWZ9e8TdEexVhTf+9MYawDWYCzDhorzzA9UqNIgJzr5EkR+4X/XQ9k
+         sWDYjrQFLnyX+DFAdt3/z8xCNqJfCHdwRg2+cRegoU2cj5se3ISJodkymWA5qB+3DSU8
+         r5ISdXuSsZtsAIv4rqpxvTBpQbTaZSiKKn+R9nfxdPGLQuNdeTHftwSJEN3hTz7RfsjA
+         2JMGvKTa2mVJountUAFBVRtnUue79Qy2lOZBg/ODzUx3tWu8/p+E1Zw4zrHbm46GsROT
+         47+g==
+X-Forwarded-Encrypted: i=1; AKwUvBy3+Xljsm327nJK3pS89nTkuOBBLZYDYqAqddvYHlKAgvMz0oeQK3TMG6UYKqkY02oictT206Zl3uA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL68oT4UVnua4I4pvXkamjeF0+A5kYukdA4uisQomjuOoPdKnaL
+	AGcsONMbT9iffqBDqE+VHwzqlXjqGkDHoQfGwhIuqzXeTGhWP5ATbKAI/RmkSYiFUXI=
+X-Gm-Gg: AYBFou18fI+M5ufibks1mKz4Ojp8yyEqR+kj9hDh5qg1bYPSMxgfI8/4k55lZy1qEZO
+	Gj0EccBLA9ZyCm6eqMT6UfcnX0/tFK35IgoNT1ZN8lqiZDECKZP6eM/y70c89oh8Tn4kTEH9GeM
+	dn9MVf8s3z5nJDE4Ry/qfe1TeDESAgoj5eeAm9YW5PXDZjP+yzcuL6Zs6o9ukOlf6ZurRgzOrty
+	16j7CQJBNOclT5r4/W+oN7vlDXWGqajH3YZhTB4ANkENkHU8jIQBTHf5dj8Bws8TClAl7xoGhI4
+	/6I9/nzKk4O387FcZ+Vb7k4ApOwAYal/u4CMUTCJt5/237QoGRnI87aBozniebk0ijTTY+1q1Fr
+	GbAqIkaRwMu8y8udz0q8fMMarLYmKWpmi1c0oFS+E7UCTSFxocpe/6kv8JiyDsl8Rzspi89EZc/
+	KxNLerWT6N32BLYTOtWC9/Akyd8zMWVmlh6m9NLsfloqBkk9qW5q0uYUksRKJk
+X-Received: by 2002:a5d:43c4:0:b0:48d:ba3b:af36 with SMTP id ffacd0b85a97d-48dbaae8e33mr13956577f8f.37.1791809348520;
+        Mon, 12 Oct 2026 05:49:08 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-48db97ce3aasm19818827f8f.21.2026.10.12.05.49.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 05:49:07 -0700 (PDT)
+Date: Mon, 12 Oct 2026 14:49:06 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Jingyuan Liang <jingyliang@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, hbarnor@chromium.org, 
+	tfiga@chromium.org, fqwqf@fqwqf.xyz, daleyo@gmail.com, 
+	Jarrett Schultz <jaschultz@microsoft.com>, Dmitry Antipov <dmanti@microsoft.com>
+Subject: Re: [PATCH v5 08/11] HID: spi-hid: add device tree support for HID
+ over SPI
+Message-ID: <aszWnnc6RR9d5SYw@monoceros>
+References: <20261009-send-upstream-v5-0-384af01da3ee@chromium.org>
+ <20261009-send-upstream-v5-8-384af01da3ee@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ey244vnbkokc4rpq"
+Content-Disposition: inline
+In-Reply-To: <20261009-send-upstream-v5-8-384af01da3ee@chromium.org>
 
-On Mon, 2026-10-12 at 20:00 +0800, Stanley Jhu wrote:
-> +QEMU emulates a UFS host controller as a PCI device named "ufs" and
-> +logical units named "ufs-lu". This can be used to test changes to the
-> +UFS core and to ufshcd-pci without UFS hardware.
+
+--ey244vnbkokc4rpq
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v5 08/11] HID: spi-hid: add device tree support for HID
+ over SPI
+MIME-Version: 1.0
+
+Hello,
+
+On Fri, Oct 09, 2026 at 10:25:33PM +0000, Jingyuan Liang wrote:
+> +#include <linux/mod_devicetable.h>
+> [...]
+> +#include <linux/spi/spi.h>
+
+Drop <linux/mod_devicetable.h>, the spi header already provides the
+needed *_device_id with less dependencies.
+
+> +static const struct of_device_id spi_hid_of_match[] = {
+> +	{ .compatible = "hid-over-spi", .data = &timing_data },
+> +	{}
+
+{ } please
+
+> +};
+> +MODULE_DEVICE_TABLE(of, spi_hid_of_match);
 > +
-> +The "ufs" and "ufs-lu" devices are available since QEMU 8.2, and the
-> +"mcq" property since QEMU 9.1.
+> +static const struct spi_device_id spi_hid_of_id_table[] = {
+> +	{ "hid", 0 },
+> +	{ "hid-over-spi", 0 },
+> +	{ }
+> +};
 
-Thanks for v2. The 8.2 and 9.1 versions match the QEMU history.
+Please use named initializers and drop the unused zeros.
 
-Reviewed-by: Bean Huo <beanhuo@micron.com>
+> +MODULE_DEVICE_TABLE(spi, spi_hid_of_id_table);
+> +
+> +static struct spi_driver spi_hid_of_driver = {
+> +	.driver = {
+> +		.name	= "spi_hid_of",
+> +		.owner	= THIS_MODULE,
+> +		.of_match_table = spi_hid_of_match,
+> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> +		.dev_groups = spi_hid_groups,
+> +	},
+> +	.probe		= spi_hid_of_probe,
+> +	.remove		= spi_hid_core_remove,
+> +	.id_table	= spi_hid_of_id_table,
 
-thanks,=20
-Bean
+Very inconsistent alignment of =, if you ask me, just use a single space
+before a =.
+
+> +};
+
+Best regards
+Uwe
+
+--ey244vnbkokc4rpq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrM1z8ACgkQj4D7WH0S
+/k5u4wf8DQCuk6roFME/n1pKDY6+qOflxre3Nf6NmaZ05olJWzf7xMLHiGj0xlvH
+rCXdQWSaJaWnBK8rKxyK28S+MmDDqDnW+WAK6FXQVv8Srv4/7Uiy7+5hoTWAw9CP
+Vxuzr9RagEgpRyi0DyMZlaoFh3bqtZmx/IDNDD22FCwEJcVhvEpBv4TVYHn9L/wj
+XXmPB4PiOuJszPGD+WIhrsdC1Zz17JoO0v9K42vVKKAkYir7a9ABA4fxMMjVxgqf
+ixRyg7HTQo8ggOzmpFjoj/atoZ3XOBVYSQ7RLbU8ZgRcEu4xgL4yKP96cUXwQ334
+ebpZbkR6VGklGZOq1SeOk7zN55irKQ==
+=nzgN
+-----END PGP SIGNATURE-----
+
+--ey244vnbkokc4rpq--
