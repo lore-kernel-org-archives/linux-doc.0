@@ -1,124 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAAB1F8691;
-	Mon, 12 Oct 2026 20:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F5A4BEE3B
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 20:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791837900; cv=none; b=mgpsRuivS7VRms4j3wIjFvRDtJFBifscOv8KlTJNJR3gqltoji18w6cBt3GrsetfPqg0TxcjoOQgxgkTJbn4z9HF6cnsNp97wF4xxvvGMrH/d0yViD3RHypqQp9awjC0Oidbt5H5iowDfTAtYJPzreKUt5uGpISmvAaxWMiTe6I=
+	t=1791838681; cv=none; b=mTnP1N43lg0xMUl7zKgIaBQipIcndQngGdww2DerXgFhDscYAPXeykHa3BHiCPfEd0qSCD5sABwdxNlVPo7Ewnyb94XnbI9hb3PlEoq5xVlmWCnMsRK4zkql5RAPuYBrC8cWb8YQbNpKKLqUadMGXv6fy26FWmGcRkuHQaRoPSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791837900; c=relaxed/simple;
-	bh=5WyS8VsuTcJFIQzu1exfYTiK0PGHYbFWmaG1Myti1FY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L3SWWUcF1kGflN7o1K9z4DqAeD8qDINdgq5P1SmhAbfDP/U1Qxo543JKKOV6hX8csiPJPMqqI3j+uX+p30LkE3LXwcUcyAX4/cswJOOU/7x5crrZSUdiupuf7Wxe+WE0JH/VJzPX3zbuLK9fkOfhHQHDnuNL8WISdb2jxXIKC4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BZZ8ZW7X; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791838681; c=relaxed/simple;
+	bh=69wTGs4Xn/TUvF1hRWSuKqp7L2UjaEJpt8IiVUoiboQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=LZYn1E1ELmQqFmjSczVFi+eK0G29xV7xiTLxE48mklh5SWZB54D2iJyNLu1wbvVpJgwCIBo1Xx8QGIN1ghl6/Vu1g5AxTvCtjo/Jkd1/6hIRR08uYHM0QJdxCGnHC9HO6Z5/ev/k0aXreL6QBrJ4WnDAJSogP2D/EJ2DIwB35rE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NP+l9G46; arc=none smtp.client-ip=74.125.82.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BZZ8ZW7X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B119E1F0089B;
-	Mon, 12 Oct 2026 20:44:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791837898;
-	bh=1gRKTET9i7Xola75xFYMm1KXoj9OrdPlfT4u6/YGeco=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=BZZ8ZW7X+mvuIKRkvCrLgmXTR78XKlwGR6mJmX7sw7egW4N0VvHqW9OrqNJwBQMza
-	 NHQ6EQqjtC/yvi0PhIpvkVorUH6s/QXbkH4a6xsJEW9lT1UuTqZWYSreVCBY8PQgCG
-	 o3YzFWxHdWVkUdHALvygBXQZgpk9ul1yKRFdxuJFrDqKZGtIwIdbfM7qqkv5ZiycH3
-	 OF7Y+WGVI1xHihOWx2OuedDZXriVv41HmTFwn80PxJ9VZukac8qrfBhU1TFpTEuzx7
-	 58bvYyOO5OMW3MceeiU/bNgDC7dXlXQKSPMLVAvFAs4v3bb2gVuh7exy+l/scFOXsL
-	 FWl/FZAbdt/9Q==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 64126CE04A0; Mon, 12 Oct 2026 13:44:58 -0700 (PDT)
-Date: Mon, 12 Oct 2026 13:44:58 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, rcu@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: Document atomic SRCU in
- Design/Requirements/Requirements.rst
-Message-ID: <0dd2509a-4ac2-4759-9017-ce32438b5afb@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20261011004553.2905142-1-joelagnelf@nvidia.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NP+l9G46"
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-33713e5e6daso3639901eec.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 13:57:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791838679; x=1792443479; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/3lYEjUykJzoWYMUJo97frndFTA57IALGq9VPrtnj7o=;
+        b=NP+l9G468y3hSZlhhcR8SUp5CwE4FrZZ33kvgu/64agUXmXe3+Zwbv4BUHiS2wJlLI
+         kkq/sRwSJxMgpL/SQDlfkN4oGpcfHWJV8K/7vgb5jFBmXTG4enHdYQg9uuAT+6wClOat
+         AF59SEas0WQQ33g9e5+Mi/LnlmaEaA8tHfhYD0JuXIT027U/cwB7KYpzpXdv7HwK8Cwx
+         JLmRP3ItceTJTfrxbq1JHkX83vRe1dMnth0XxPXfNetVYCpaY+GbaAMgvsPcGWfAPWT4
+         DgWGuhwr5o5poGLptRDFH0iyoVeSXqbvbXAV0NB4eZgpTYygCTmcBnPOt0LBxtGWpmHW
+         cwlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791838679; x=1792443479;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/3lYEjUykJzoWYMUJo97frndFTA57IALGq9VPrtnj7o=;
+        b=mndFbs/CxpbQSfWRpcbAEfwpyNetPwYZXWw9JZWXpIIoMKNskNAV0CcbnCIz/pCn+h
+         1qlkiFjP1YxWMTrbt3ni6HHIQC7oRGWtooqZgYIrz1dOgySpPUsZ7xHQTBRU7LXJxLHu
+         ByhWayEmOjdECApS5CbdszUAJQCKzKiUl0+D5uEhWvNYyhe/gUIVmBV2B2YmwLV8pStw
+         g3ivx+uFiiRfKGT7I0ihJRoaxavfDnhuM1r/ukAfr8ZzzBHXBhU2KGczWl8PIgyUGdNx
+         4xOgt9SNqGu4vUcBv12bvLbO5dYQsosPONzj9ESKKETjhQNIc0okrawAIWCj8mFCGZjD
+         UHQQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwRKuwOGPNc4yZpj6oOyoFJP5tLQo2oHwuC6pJvlUHH4Gkmryqb2dpIVQa2ZrvdyA6s/MsdDcEVi5s=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJYCRxzbC2Vry2I+j5d/+5nwix6lemF1Dv6IcJ2zK+EQllHut2k
+	ucbt3nUSLbe1KRTYhT6ztCTZr8Oub0D+AOtKBj2M3VSVX0tY2cq3MWc8NTJH5EGLh0rVD7AQ0nB
+	X6Ojj1QP1c/PRapr2sgqTIgevaRPWIw1/ZA==
+X-Received: from dycmb8-n1.prod.google.com ([2002:a05:693c:20c8:10b0:351:731f:c917])
+ (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:693c:638e:20b0:351:7bdb:6eb1 with SMTP id 5a478bee46e88-3537e03ce72mr14556990eec.11.1791838678452;
+ Mon, 12 Oct 2026 13:57:58 -0700 (PDT)
+Date: Mon, 12 Oct 2026 13:53:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261011004553.2905142-1-joelagnelf@nvidia.com>
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAM9IzWoC/x2MWwqAIBAAryL73UJaGHSV6MN0qyV6sIIE4t2TP
+ gdmJkMkYYowqgxCiSPfVwXdKPC7uzZCDpXBtMbqVhtc+UVHgqeLB96JRDgQ2mUIvba+C4OH2j5 CVfy/01zKB+uEsTBnAAAA
+X-Change-Id: 20261012-fix-aer-mask-override-6b7d416c3d7c
+X-Mailer: b4 0.14.3
+Message-ID: <20261012-fix-aer-mask-override-v1-0-49a0d7aeaea0@google.com>
+Subject: [PATCH 0/2] PCI/AER: Fix and document aer_inject's aer_mask_override
+From: Priyank Rathod <rathodpriyank@google.com>
+To: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Lukas Wunner <lukas@wunner.de>, 
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>, 
+	"=?utf-8?q?Ilpo_J=C3=A4rvinen?=" <ilpo.jarvinen@linux.intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Prarit Bhargava <prarit@redhat.com>, Huang Ying <ying.huang@linux.alibaba.com>, 
+	Terry Bowman <terry.bowman@amd.com>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Priyank Rathod <rathodpriyank@google.com>, Jonathan Cameron <jic23@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 
-On Sat, Oct 10, 2026 at 08:45:52PM -0400, Joel Fernandes wrote:
-> Atomic SRCU (srcu_read_lock_atomic(), srcu_read_unlock_atomic(),
-> synchronize_srcu_atomic(), init_srcu_struct_atomic(), and friends)
-> added readers that do not sleep or block, plus an update side that spins
-> rather than sleeping.
-> 
-> These are missing from Requirements.rst. Add them.
-> 
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+The aer_mask_override parameter of aer_inject does not work for
+Correctable or Non-Fatal injections: the hardware Mask registers are
+restored before the threaded AER handler reads them, so
+aer_get_device_error_info() drops the injected error as masked.  The
+only injections for which the parameter ever produced a handled error
+were Fatal errors on device types whose AER registers
+aer_get_device_error_info() doesn't read (e.g., Endpoints or Upstream
+Ports), and even there only because the -EINVAL pre-check was skipped,
+not because of the mask writes.  The '!' vs '~' operator bug in the
+same code is a separate defect that transiently unmasks every error of
+the device.
 
-Acked-by: Paul E. McKenney <paulmck@kernel.org>
+Why fix rather than remove the parameter: it dates from 2011
+(457d9d088b02 ("PCI: aer-inject: Override PCIe AER Mask Registers"))
+and is mentioned in the RHEL 6.2 Technical Notes, so test scripts may
+still rely on it; it is also the only way to exercise handling of
+errors that are masked by default (e.g., Header Log Overflow or
+Poisoned TLP Egress Blocked, or the Internal Errors on non-CXL
+devices) without reprogramming the device via setpci, which the
+kernel's own pci_restore_aer_state() may later undo.
 
-> ---
->  .../RCU/Design/Requirements/Requirements.rst  | 28 +++++++++++++++----
->  1 file changed, 23 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
-> index 8101fe6229d5..d43668595872 100644
-> --- a/Documentation/RCU/Design/Requirements/Requirements.rst
-> +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
-> @@ -2686,11 +2686,13 @@ The `SRCU API
->  <https://lwn.net/Articles/609973/#RCU%20Per-Flavor%20API%20Table>`__
->  includes srcu_read_lock(), srcu_read_unlock(),
->  srcu_dereference(), srcu_dereference_check(), synchronize_srcu(),
-> -synchronize_srcu_expedited(), call_srcu(), srcu_barrier(),
-> -and srcu_read_lock_held(). It also includes DEFINE_SRCU(),
-> -DEFINE_STATIC_SRCU(), DEFINE_SRCU_FAST(), DEFINE_STATIC_SRCU_FAST(),
-> -init_srcu_struct(), and init_srcu_struct_fast() APIs for defining and
-> -initializing ``srcu_struct`` structures.
-> +synchronize_srcu_expedited(), synchronize_srcu_atomic(), call_srcu(),
-> +srcu_barrier(), and srcu_read_lock_held(). It also includes
-> +DEFINE_SRCU(), DEFINE_STATIC_SRCU(), DEFINE_SRCU_FAST(),
-> +DEFINE_STATIC_SRCU_FAST(), DEFINE_SRCU_ATOMIC(),
-> +DEFINE_STATIC_SRCU_ATOMIC(), init_srcu_struct(),
-> +init_srcu_struct_fast(), and init_srcu_struct_atomic() APIs for
-> +defining and initializing ``srcu_struct`` structures.
->  
->  More recently, the SRCU API has added polling interfaces:
->  
-> @@ -2710,6 +2712,22 @@ certain types of buffer-cache algorithms having multi-stage age-out
->  mechanisms.  The idea is that by the time the block has aged completely
->  from the cache, an SRCU grace period will be very likely to have elapsed.
->  
-> +A more recent addition to the SRCU API is the atomic flavor:
-> +srcu_read_lock_atomic(), srcu_read_unlock_atomic(), and
-> +synchronize_srcu_atomic(). An atomic-SRCU reader runs with preemption
-> +disabled, must invoke srcu_read_lock_atomic() and
-> +srcu_read_unlock_atomic() on the same CPU from the same context, and
-> +must never sleep nor block on anything that might itself depend on
-> +memory allocation, which allows synchronize_srcu_atomic() to spin
-> +rather than sleep while waiting for pre-existing readers. This
-> +requires that all other SRCU usage be excluded from a given atomic
-> +``srcu_struct`` structure: every reader must use
-> +srcu_read_lock_atomic() and srcu_read_unlock_atomic() rather than
-> +srcu_read_lock() or any other SRCU reader flavor, and the structure
-> +must not be passed to call_srcu(), synchronize_srcu(),
-> +synchronize_srcu_expedited(), start_poll_synchronize_srcu(),
-> +srcu_barrier(), or srcu_expedite_current().
-> +
->  Tasks RCU
->  ~~~~~~~~~
->  
-> -- 
-> 2.54.0
-> 
+Patch 1 stops touching the hardware Mask registers, emulates the
+override in config space reads while the injected error is pending in
+the emulated Status registers, like the status emulation itself, and
+keeps the emulated value from being written back to hardware by
+pci_restore_state().  The '!' vs '~' fix is folded in because on its
+own it has no observable effect on the injection outcome (the masks
+were restored before the interrupt anyway) and the lines are removed
+by the emulation.
+
+Patch 2 documents the parameter in the AER HOWTO, which never
+mentioned it.
+
+What the mask writes in aer_inject() do today, with the register
+values of the sample session below (PCI_ERR_COR_MASK 0000c040 with
+BadTLP masked, PCI_ERR_UNCOR_MASK 02400000 untouched, COR_STATUS
+BAD_TLP = 00000040 injected):
+
+  intended:  cor_mask   &= ~00000040   0000c040 -> 0000c000
+             uncor_mask &= ~00000000   02400000 -> 02400000
+  actual:    cor_mask   &= !00000040   0000c040 & 0 -> 00000000
+             uncor_mask &= !00000000   02400000 & 1 -> 00000000
+
+So between the write and the restore every Correctable and every
+Uncorrectable error of the device is unmasked, including the ones it
+masks by default (CorrIntErr, HeaderOF, UncorrIntErr, ...).  Both
+registers are restored to 0000c040/02400000 before
+irq_inject_interrupt() is called, so when the threaded AER handler
+reads them through the emulated config space it gets the hardware
+value and evaluates
+
+  status & ~mask == 00000040 & ~0000c040 == 0
+
+i.e. it drops the injected error as masked and the emulated status bit
+is left pending.  With the patch the hardware is never written and the
+override is applied where it is consumed, in the read:
+
+  aer_isr() reads PCI_ERR_COR_MASK while 00000040 is pending in the
+  emulated COR_STATUS:  0000c040 & ~00000040 -> 0000c000, so
+  status & ~mask == 00000040 and "[ 6] BadTLP" is handled.
+  Any read after the status was cleared, or after rmmod: 0000c040.
+
+The write side, for a pending Unsupported Request with
+PCI_ERR_UNCOR_MASK 02500000 (UR masked):
+
+  pci_save_state()     reads 02500000 & ~00100000 -> 02400000
+  pci_restore_state()  writes 02400000; aer_inject sets the hidden bit
+                       again: 02400000 | 00100000 -> 02500000
+
+Sample session in a QEMU q35 VM (pcie-root-port + e1000e at 01:00.0,
+pcie_ports=native, v7.3-rc1 with aer_inject built before and after the
+patch, injections done with the aer-inject tool):
+
+  # setpci -s 01:00.0 ECAP_AER+0x14.L
+  0000c000
+  # setpci -s 01:00.0 ECAP_AER+0x14.L=0000c040        (mask BadTLP)
+  # insmod aer_inject.ko aer_mask_override=1
+  # aer-inject -s 01:00.0 cor.conf                    (COR_STATUS BAD_TLP)
+
+Before:
+
+  pcieport 0000:00:01.0: AER: Correctable Error message received from 0000:01:00.0
+  # grep BadTLP /sys/bus/pci/devices/0000:01:00.0/aer_dev_correctable
+  BadTLP 0
+  # setpci -s 01:00.0 ECAP_AER+0x10.L                 (emulated COR_STATUS)
+  00000040                                            (left pending)
+
+After:
+
+  pcieport 0000:00:01.0: AER: Correctable Error message received from 0000:01:00.0
+  e1000e 0000:01:00.0: PCIe Bus Error: severity=Correctable
+  e1000e 0000:01:00.0:   device [8086:10d3] error status/mask=00000040/0000c000
+  e1000e 0000:01:00.0:   [ 6] BadTLP            | Receiver    | Data Link Layer
+  # grep BadTLP /sys/bus/pci/devices/0000:01:00.0/aer_dev_correctable
+  BadTLP 1
+  # setpci -s 01:00.0 ECAP_AER+0x10.L
+  00000000
+  # rmmod aer_inject; setpci -s 01:00.0 ECAP_AER+0x14.L
+  0000c040                                            (hardware untouched)
+
+The same with a masked Unsupported Request (UNCOR_STATUS UNSUP,
+PCI_ERR_UNCOR_MASK 02500000): before, only "Uncorrectable (Non-Fatal)
+Error message received", UnsupReq count 0 and the emulated status
+00100000 left pending; after, "[20] UnsupReq" is decoded, the count is
+1 and pcie_do_recovery() runs.  Recovery fails in this VM ("Data Link
+Layer Link Active not set in 100 msec"), which leaves the injected
+error pending for the last test.  With aer_mask_override=0 the
+injection is still refused: "The correctable error(s) is masked by
+device".
+
+Reset while the injected UR is still pending, i.e. pci_save_state()
+reads the Mask register through the emulation and pci_restore_state()
+writes it back:
+
+  # setpci -s 01:00.0 ECAP_AER+0x08.L           (emulated: UR unmasked)
+  02400000
+  # echo 1 > /sys/bus/pci/devices/0000:01:00.0/reset
+  # rmmod aer_inject; setpci -s 01:00.0 ECAP_AER+0x08.L
+  02500000                                            (hardware untouched)
+
+With the read-side emulation alone (an earlier version of this patch)
+the last read returned 02400000: pci_restore_state() had written the
+emulated value to the device and UR stayed unmasked in hardware after
+the unload.  That is why the patch also keeps the hidden Mask bits set
+in writes to the Mask registers.
+
+Signed-off-by: Priyank Rathod <rathodpriyank@google.com>
+---
+Priyank Rathod (2):
+      PCI/AER: Make aer_mask_override effective for injected errors
+      Documentation: PCI: Document aer_inject's aer_mask_override parameter
+
+ Documentation/PCI/pcieaer-howto.rst | 23 ++++++++++++
+ drivers/pci/pcie/aer_inject.c       | 73 +++++++++++++++++++++++++------------
+ 2 files changed, 73 insertions(+), 23 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20261012-fix-aer-mask-override-6b7d416c3d7c
+
+Best regards,
+-- 
+Priyank Rathod <rathodpriyank@google.com>
+
