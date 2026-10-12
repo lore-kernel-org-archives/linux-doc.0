@@ -1,129 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE94741167F;
-	Mon, 12 Oct 2026 10:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2B7415B8A
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 10:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791802637; cv=none; b=WrZ4Ze4LGcKo3I4G2fsTWH2gfVSXKN3zKFfbW+XzXqpWhulry3UwFQ3zWgWZ1dXZeT8clNr4oZ3u0yIHS0/vW+RTaOGHA95aeMDHJY6qnpSilwtj1fBKK7kBPtT0rA4yqj2OtaiQR5uLNZeH5kg6OK1uVpFCivTSt+t7GVbpQKk=
+	t=1791802662; cv=none; b=Te6nEOZTYSg/kfz08w7HGCfpNnaFwTtqg1Q/TQPG/ZatIK3FNbtdUiLUeLGqCPMt9vFvYSptFwhtcl4ioccEkXAzyiRgFUtbnyNPOReb9T00Nz0U8WbT1sE1CMbyHue0aXNV2qOP72JiJWHzFNH7SoEavRe2gqcjPQYZZdUBeJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791802637; c=relaxed/simple;
-	bh=LKhSCJ5F6yxqjFh5cS8xS7fTK9cfNzXKPzVsS6EDDt8=;
+	s=arc-20240116; t=1791802662; c=relaxed/simple;
+	bh=BDqmE2ovCASMLGpvn0PIbmd0++tdc88S3TIXBLKQRbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hQiVKn5KWoDd9GfFf/zmRY15WimuURvqPSEedXXlAZLyF2/ZVGXtbGmBZAnCVe84ng84PeWp3eqIELXTqWy93guIKgZc0ZgEcmTUftimm6O5dyBq5YYyXcnEm2xOGyXy8cb0jO0ixZqEAeGRYGqp+wjkZQTr4rzUM+fyG1p1a8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ww/TM8pW; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=JP+s96KaSczf8F7IEWPZGMFEJrQg7Ebz7hFL62LbP3lKLezKKPMqGyXfPJzvMW0sniob1llOkMPQqjAWEQUDR3Fo3CjxRwdgBoVAdVJz2L9AmPxrYz7P51nLCmvfGJe8qfFx4ku3JsPROPM/IGUty45Tla7ZrHHzMlQKKczCOgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=c3DUoYg6; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ww/TM8pW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 758B41F0089B;
-	Mon, 12 Oct 2026 10:57:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791802635;
-	bh=xbC+yf7W/9NgxGXA244OT/ptq9frA+41G9nWB1s/IoE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ww/TM8pWebbCbnXF049H+rr5GcvdFwXDLefJVHvquehv7bwCLS/7dsU0TF1GAQprI
-	 kmiiNk3wePjVKitVm/2wqe197cD5bjwFPdUYRAU0uF+4MjEE6xXnVdOtI+sJbSATqU
-	 /C3h/1fbIAo+n9oQyWo7GBNM7AjgcRJ8cInlz/0OjhJ6H56qbu9/ypRlanmOgv8nXe
-	 OWFb6JuIa8226F5DYNHSHKcSrbpm/PZSWWwOLPdsqyDnQtywvzGe+0KGu9YmjWuNSF
-	 jSslVmt2y4vuW7csg5UndDYBd4bih4gOYdg/sIHzpcsx0nXuK46DBipQkgS2kTxkPr
-	 CREpK16ec3WLQ==
-Date: Mon, 12 Oct 2026 13:57:10 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH v9 08/18] PCI/P2PDMA: Route Relaxed Ordering Completions
- directly
-Message-ID: <20261012105710.GC219304@unreal>
-References: <20261001-fix-p2p-acs-v4-0-v9-8-1a8e0f50ddd9@nvidia.com>
- <20261006222109.GA719055@bhelgaas>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="c3DUoYg6"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a172eb31f0so12246335e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 03:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1791802656; x=1792407456; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RLup6P06ESS7erm0ADUuu6e9Di2cilyz4zC5+dpI2eU=;
+        b=c3DUoYg6LPcnSwfJ9IP9UFG7dMc9d6cAdw6B+Iy9+LjdNdnSS46nitKhEWuwsWAC74
+         5tbFsTgKDfSp7OXifP9xaoQNnLRJp6kZqmlyNcAAasMOUbuANEfUYtmUbIoteDwiXGSk
+         KJa2Nu5OiofBgnUMPu3FBGnF04P3ee42wYjO8qzLeWeSpzkrAXDIeFXGEPZmegFaMWhf
+         bxIcCj9fJL+VsCwerMoyoyehrWcKVU7VIF3vl2ZbZ1DIAc1z50PoSaPscxFhiR9sOAYW
+         vuzfG06DvAdMGH85P3zSr5aUkgaL6wvNPocXZDpWNoTXi7CLuKNijrLaZmoXcx4Ek4Bq
+         3LQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791802656; x=1792407456;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RLup6P06ESS7erm0ADUuu6e9Di2cilyz4zC5+dpI2eU=;
+        b=LsFzgYXlCZLxpaLyKzHKuA5RuLtA/F2waOm91Ttcq8struZWQkz6oOgJfvq9XXCpBx
+         WHGtjA4H2tOGXY/rE0/n/rlzxrYpskXaQC1b0zphOiLdREUbdkEP9lsbdiSVrfgWAB2e
+         TTHTYc/sFEFAvynJyHOTTRl2LwM77n1eUGqBEv/OGtM7GqGAhN+UxuevMDr81RTg86dv
+         jEVLuqdlnXgXLr8gOHMVTtXA1PQSAhyBdOlOCPNwo/K1zCzUhyMiqnSrDQ53B3XCIZh/
+         rEt4hU9BtTYozWZZGtu7dy9RQlLnmYltTvq64ZapYuEWPaBn1gEX0fowZGYBqOBL88uC
+         Je0g==
+X-Forwarded-Encrypted: i=1; AKwUvBxsr5X2YsFdmC9HDoou+yOMZ2RYra5IACNInCuzsuxvBsyIEVW70cQZpAc31wRZzfSObh1huLKB2KI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIGBaF4e+C0MZV7d0rtkpzAjU9q/10DbPsC1nuaK1/uoEYGYjPa
+	+PdoBHC2khbZ6RfFr1J915LAgJ3s/ZiNqWOwfNAO7BoAObcjynDE89blGBwoR71iTLQ=
+X-Gm-Gg: AYBFou1Zq0vEYbL37gJX+ISRQ4n0PWrP9dO+PM3CMznLYD7ju/SrBZrGwOl7y287ToM
+	eUb5kreJ6Hkyl7L7/m0SlQ/toKLqsLvQTDk5QER8kPCcpRgeKb2fBDmEF3aXnWL6tRLoSG/RVwZ
+	JfrpLzNc4VXWxIfpkkzPljplQS+auq83axs1Fd7JjgzWB6aBloeoUFwYOM+FCxXjoYVqqlrPMC+
+	q0q7SUZn90CuQeNnPwW8zX0Hh0aY/+E1ELXyGUZZufOve1H7jUUd5Vmo4MJV14ZdZu/ajpfq92l
+	9841e49VKrUuVeND28jn01IY4gpKU9wDGMcmeviOxbieh0PIUeqq7NjP7IzVOximT/rTI2ZJfMh
+	HS1Ln7OiQLrV12EGMVYLLsn06E7oINYWs5dPxqOkjfD4Mn3cJFG0U/EeNuC6C65hceXFloc+oU3
+	Dgm10BI7h0U/Ek0R0YlsBCbU9uklCK9I7izjNyBYE6XjwBhWwObaSIC1HcjKVkG9mM39/1WL265
+	TJuc8BgdajiNr/xhl5B3m4HY7fX+Q7jcWq1vnHzMb694oo5U55DGocH3F9fJg==
+X-Received: by 2002:a05:600c:3b1a:b0:49c:fa20:cbfd with SMTP id 5b1f17b1804b1-4a18e4b91f8mr158595575e9.20.1791802656360;
+        Mon, 12 Oct 2026 03:57:36 -0700 (PDT)
+Received: from localhost (p200300f65f19a904ade4f69ba751c34c.dip0.t-ipconnect.de. [2003:f6:5f19:a904:ade4:f69b:a751:c34c])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a18bf2343asm525197235e9.9.2026.10.12.03.57.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 03:57:35 -0700 (PDT)
+Date: Mon, 12 Oct 2026 12:57:34 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Luna Hart <lhart.opensource@witekio.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Flaviu Nistor <flaviu.nistor@gmail.com>
+Subject: Re: [PATCH 2/2] hwmon: (tps38900x) Add driver for TI
+ TPS389004/TPS389006/TPS389008
+Message-ID: <asy8rKc0bLUo2xCK@monoceros>
+References: <20260929-lhart-dev-tps38900x-v1-0-7045c5894152@witekio.com>
+ <20260929-lhart-dev-tps38900x-v1-2-7045c5894152@witekio.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jub6o62xngj3zzzr"
 Content-Disposition: inline
-In-Reply-To: <20261006222109.GA719055@bhelgaas>
+In-Reply-To: <20260929-lhart-dev-tps38900x-v1-2-7045c5894152@witekio.com>
 
-On Tue, Oct 06, 2026 at 05:21:09PM -0500, Bjorn Helgaas wrote:
-> On Thu, Oct 01, 2026 at 02:55:16PM +0300, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > ACS P2P Completion Redirect leaves Completions carrying the Relaxed
-> > Ordering attribute alone. PCIe r7.0 sec 6.12.1.1 redirects only those "that
-> > do not have the Relaxed Ordering Attribute bit set", and sec 7.7.12.5
-> > describes the enable bit as "applicable only to Completions whose Relaxed
-> > Ordering Attribute is clear". P2PDMA reports one answer for every kind of
-> > TLP, so a client whose provider returns such Completions is sent through
-> > the host bridge for a redirect that never happens to it.
-> 
-> I guess pci_acs_p2pdma_completion() returned PCI_ACS_P2PDMA_REDIRECT
-> even for RO Completions?  But that didn't change the hardware
-> behavior -- maybe the caller *thought* Completions were routed through
-> the host bridge, but they actually weren't.
-> 
-> I kind of lost the plot here.  What does the caller do with this
-> information?  I don't think a device is *required* to set RO even when
-> it is enabled, and it may set RO on some transactions but not others.
 
-The mlx5 patch, which is currently on hold, uses the
-PCI_P2PDMA_TLP_RELAXED_CPL TLP flag to dynamically enable or
-disable ATS.
+--jub6o62xngj3zzzr
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH 2/2] hwmon: (tps38900x) Add driver for TI
+ TPS389004/TPS389006/TPS389008
+MIME-Version: 1.0
 
-https://lore.kernel.org/all/20260920-fix-p2p-acs-v4-0-v7-19-ca0828ab697c@nvidia.com/
+Hello,
 
-Thanks
+On Tue, Sep 29, 2026 at 04:04:05PM -0700, Luna Hart wrote:
+> +#include <linux/i2c.h>
+> +#include <linux/mod_devicetable.h>
 
-> 
-> > Add enum pci_p2pdma_tlp_flags and let a caller state that property.
-> > 
-> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> > Tested-by: Tushar Dave <tdave@nvidia.com>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  drivers/pci/p2pdma.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-> > index 43e225cc5735..1fadef6d0609 100644
-> > --- a/drivers/pci/p2pdma.c
-> > +++ b/drivers/pci/p2pdma.c
-> > @@ -544,11 +544,15 @@ pci_acs_p2pdma_request(u16 ctrl, unsigned int tlp_flags)
-> >  /*
-> >   * Decide how a peer-to-peer Completion at an ACS-capable ingress port routes.
-> >   * PCIe r7.0 sec 6.12.1.1: no ACS control other than P2P Completion Redirect
-> > - * affects a Completion.
-> > + * affects a Completion, and that one leaves Completions carrying the Relaxed
-> > + * Ordering attribute alone.
-> >   */
-> >  static enum pci_acs_p2pdma_state
-> >  pci_acs_p2pdma_completion(u16 ctrl, unsigned int tlp_flags)
-> >  {
-> > +	if (tlp_flags & PCI_P2PDMA_TLP_RELAXED_CPL)
-> > +		return PCI_ACS_P2PDMA_DIRECT;
-> > +
-> >  	return ctrl & PCI_ACS_CR ? PCI_ACS_P2PDMA_REDIRECT :
-> >  				   PCI_ACS_P2PDMA_DIRECT;
-> >  }
-> > 
-> > -- 
-> > 2.55.0
-> > 
+You can rely on <linux/i2c.h> to provide of_device_id and i2c_device_id
+and drop <linux/mod_devicetable.h>.
+
+The mod_devicetable.h header pulls in many unneeded dependencies and is
+bad for this reason.
+
+> [...]
+> +static const struct i2c_device_id tps38900x_id[] = {
+> +	{ .name = "tps389004", .driver_data = 4 },
+> +	{ .name = "tps389006", .driver_data = 6 },
+> +	{ .name = "tps389008", .driver_data = 8 },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, tps38900x_id);
+> +
+> +static const struct of_device_id tps38900x_of_match[] = {
+> +	{ .compatible = "ti,tps389004", .data = (void *)4 },
+> +	{ .compatible = "ti,tps389006", .data = (void *)6 },
+> +	{ .compatible = "ti,tps389008", .data = (void *)8 },
+> +	{}
+
+Please use { } with a space in the list terminator.
+
+
+--jub6o62xngj3zzzr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrMvRsACgkQj4D7WH0S
+/k5rDQf/ZR/aBJ51FBzSPY3CLIfaH0pvP1Gj2j3CUzW0Vom/XobHRZB1Ti3CNv7u
+FoToTijxGUAgNf01mcy4kAsKlH51piW9LmhgAhDt9yk8TrD8rDwuHcGKn2xThTdq
+SyUWpDvd1KLJt1BrIbb0XLxVKJQWrwi0T1KjX2cc/Kub2y8u0KMPQmSm1hJnYY83
+Dzjl4aJmfNJ8lFZwpV8Dm5a/cJDaFS6fcjmbiqrskHLo3DAJQGTINdxMT1k/y6nM
+5ApNcvwdC0zs0csER7LQtHsMvu5zTGaXJhDOnhVEQzof7auCFJyoC6WlaaAWpDsr
+sGnCLL/cr+GS8SOeZDlFvyWuLBjnTg==
+=0D0m
+-----END PGP SIGNATURE-----
+
+--jub6o62xngj3zzzr--
