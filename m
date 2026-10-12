@@ -1,160 +1,222 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EA747143B
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 14:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791814285; cv=pass; b=bEXljEOQ3jKrI3Paa+gbrZToi2P5pM+44Hh9J21giX1UExiJt1wwZQwg0S57B5b98PGkheGKx03ytxjA3sH1C/7dcv74me3wVa+GvhQUMVHdpXZ37UfOOvmJR2b11btubo5bQCldZevXXFKn6Z0j1n8byC2HhV/n0f818mjJ4l8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791814285; c=relaxed/simple;
-	bh=toTfP3XAamHR53tLn5nTeuCeveBATzueww87oO23fhc=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RA1YH2BvEaYfR367wZD0k6m1kGF8jpwCoTRW0K65ypI+oh4aXxn9/jDbMHzZqO23scfbWchpQk39ct4eGJoD2FectqSwYxS/WPQIYjlF5E5DQDq23p7oCD4OgR4OtIo+7WJiwrAd1w40xE4+BF7v7YSbENdda1pQlGCoJ/u3Y3k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kgyuT6Gh; arc=pass smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAD3418353;
+	Mon, 12 Oct 2026 14:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791814378; cv=none; b=jMXPnpBZ83XQ3PbVAPm1z42vwuUGsTnG2JZit+RYNuoTut4dPW31S3LsqShC71/QslmQhi/tXytlvEVBHpgulAfBAhUn+4HyHmz7HhCqX2DbjwuacwPUprVGn2IQmAt6e9tfPxN+XGIpoOQ1wKP098gggW863hRHe1xFLT9eSBg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791814378; c=relaxed/simple;
+	bh=2RJ4HPmBZNcpkWoZbXPtJ7mrUpVAX499W0ndI01jdT8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GIaMKedaoSWGR+VWLpZMaAnW/jPpwf2NBh0/iZJcKi02WFNLvHxmAxxn7sAzIZr/XDEOiTG17fnutaHvw+GjKcN8WBKgx7U5uFfbqNqN6D7dIEkrcNjk8pwTsrmhLlNOqK+BROUp1cIA5m96Xz0LoaifH4ZBf4dwt2jwd6GP+kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Raj/wj1d; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kgyuT6Gh"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-91986c5cb75so26065886d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 07:11:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791814282; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nP2cl91CvsPbDfd4R70mTmZxe2p6ZBlAM/oldNxqGquaesssV5hOOGzJKcrHEW19eV
-         yX/7VO0CrghcN8iEUTdhHQEljcd6Ma/BN1j/tLXJQceJQWwOY3EAocEcSBVr0lxUNFuW
-         bHoJRgJYFtkphE6SyT2KAft3grpgoUiDREb9arFf5RA2c2KOLK7tDaeEd3wVm/E53jsm
-         pCs5Ul8AQdQMfJSTyFv+csOq951bUFzHw8a+6dj+RnGY5SwtKm13eYzTBKx7VYqje2cP
-         EYzNxUlclL/L305no0eb0GIx8v9hGptludrAhHshREsWoowi2Ec1GZqQ2jA9jr0HPkgz
-         b8Yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=K2I843zxPr9lME1nSEmz+NsS/OxECT+sAh7A1cwprg8=;
-        fh=WDGguqbPI9lGu2TA0qjgllwJqWYtJ4yy2qkRpWthiX8=;
-        b=QX7D/TL5FttjV95K70FWQ0EZZIc7cRnO1O3aOgvxzw7Jf3eVRi5Yiq/kCTcCxQNhRt
-         0ZZarYmrvqH3HAlP8BQ48vkEDEZkYFwtduWeM5BTpx+BQsOtLIVGI+MegIifJbhm6sQ4
-         itMJ6NXU3asRqtnuH3WmkDA8rvFCzBbAPLk8f9PCflzQJpz67/3Xezs+2I+PKbD7dPcT
-         XCzvWVXynQS1IzIrq+qzL686rE+wlkLAlGYCsH/G7+6iwbqfsrub0npKGr88ZBYKVafx
-         JkvUBOdiQbsw0jyxFDiBoaCRV/yTO78QgqYEQUbdORUn9+fv/XPwduPYYqKEwlWvW73v
-         HgyQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791814282; x=1792419082; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=K2I843zxPr9lME1nSEmz+NsS/OxECT+sAh7A1cwprg8=;
-        b=kgyuT6GhZP2e9wAIVNjBLLQdg7WYJCEfwbZZ3pzwwtudHTwoLBIyGS+t/Ea+YoLBHh
-         aE6CtqGG7HQYO3Uy7dxQ/4sQvYXQKUj1ifbxHbc5a4FfQZCqn5m6vHsdo/42whasPFwm
-         E7tTJQ+yiDRxegK8OB81+eSKEsiPjv2Ik88d5AnBWv6H8U0R538hFDu3FdAAIrpxV1oU
-         8CVw7KQmqAACDvBycdq2u7goeOC0KA3UG3VSI54VqzgDThMEX6r3tIX9JhC7DFYIoAPV
-         S4Qj1EWvR2qDDLHQbOJh1wvaQsNgj+8l+ps8XX0sZcLcPWRoEXBzSuM3XTW8j+fmmU0D
-         haPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791814282; x=1792419082;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=K2I843zxPr9lME1nSEmz+NsS/OxECT+sAh7A1cwprg8=;
-        b=b8FPXVsiPSZwlYRkzPM2v0pO04PvNyQBlLiTuAitVs7n3+SVrb8usrRnrvcd7RupZU
-         GZSfbhBwvafFURZnjP1f+yE++9W3t1Xzy9wqMV9AgtlHw5A5jk48O4a0i/VRp70eL4SH
-         5htXnG3LS1OU/lSdoQ3Bo4Fk5V6XB5e5trGY8orZJm6u4uMmSnuD6cZ3e8eYHDGVhLth
-         shA1jJuGmnivqI3Axz4FmD9Sw+AVfUFDRbH7SvHapsMr3IGnS0HtzQxEMK/G0bncPhMs
-         FA6zFD83KSzYXjxE23SYxf5zLRPvlHPhVA8AOLzAoveATbeTZzcHISUnGldJ1Eb6KtTO
-         5nRw==
-X-Forwarded-Encrypted: i=1; AKwUvBwvAs74CVbyq5eXs3yLe37R82iogsfERl8xCe2g71QTfIG8XSrY7vESAgxNqja8euCDOG+qniPMAro=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJh8lCOy8Hukvh0vBxcU3VpBGeUb62XJtvPw1CooCQSq4qKR25O
-	Kgvk7zGIaqJ91jiwTo8chFN4eWDek00EiR94TejwmpJmzS1LQEPVgD4fgcD3HPuImC4wZG3LoAG
-	fFzaC034VO6H340Sp+xWquGr4PiJQxlpSf6uqtbPu
-X-Gm-Gg: AYBFou2UYbnzjEY9NCxeXDDDzQa2xxVmoplXVyO053G/QEtY9sKBvElieBYLyZ9OchN
-	+OSp5bCCOiDwPj7frrax/j9og0WLROVQR0hWonA6Lm6v5qaoC74AMeGlIwE+DC9Se7HYFZdY9Ip
-	l/9UAKE8rnjAVVWNrRkQCQ2LzRnr3I4ILqlYgp+qxlXZLOJBLZz7J6U6uhqFxDN3rfUcCPkfPpO
-	ZUAHFDQ7V88yl/GmaNBZUI1PFNdS/K1Zqhagp5MFaFpI6PT/8cY0xR31NBBhcZ8QNbxTbrI+tGn
-	vy2pM0ILVX/7+cT3YlrUTJPeTfQXjDkzHuue+3eKokcJFvPh5RztO2LsmGmKAs5iM9jZAA8eioE
-	A6Z39gc3U9soCoitjaKbS
-X-Received: by 2002:a05:6214:23ca:b0:91b:8e83:e4b0 with SMTP id
- 6a1803df08f44-91b8e83f3b3mr19792736d6.20.1791814281518; Mon, 12 Oct 2026
- 07:11:21 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 12 Oct 2026 07:11:20 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 12 Oct 2026 07:11:20 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <ar5iaaLcyz9dCXQI@gourry-fedora-PF4VCD3F>
-References: <20260925-gmem-tmpfs-backend-v1-0-d36159822d18@google.com> <ar5iaaLcyz9dCXQI@gourry-fedora-PF4VCD3F>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Raj/wj1d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF93E1F0089F;
+	Mon, 12 Oct 2026 14:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791814376;
+	bh=QH4R+MXlZktJnQ9gXtfrNIn8C2oUJYsTrp0hNj3REYQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=Raj/wj1dyfGFTt33LIR1X3CPI64HfWpaHxFyDhHgvoQoGrHVRVaXOUUG1AfnFhyth
+	 VGD57dZkUumcCgZXB1mmDyHk2vzxkB01XDCC7vGqOSp5kvqYPPbmTpYh0wztpdFDm6
+	 IoH95i0PaLqyN2lx7c++hq94g1+dcI5IVT7+LLZT6kINPuXBqReUfgJA9EHVzn4dx2
+	 QW0+KyyMnn5o+bMOWpvZ8X1xH12SbPjPDYPDYBJreMETATwU2tiwD4qWdR6spnZzlm
+	 ndYwfQCTz3M9K/NOF0ABv5empEWCPdgcj76+opmy+yojOWJVro+ltkN8RjvxLacxs+
+	 8F7AbWDE+yUTw==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Stanislav Fomichev <sdf.kernel@gmail.com>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
+ Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
+ Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
+ Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
+ <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
+ "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi
+ <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, David
+ Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Mina Almasry
+ <almasrymina@google.com>
+Subject: Re: [RFC net-next 06/15] xdp: Track non-page netmem in receive buffers
+In-Reply-To: <asPXa7k-_drxXiI0@devvm7509.cco0.facebook.com>
+References: <20261002190018.696925-1-bjorn@kernel.org>
+ <20261002190018.696925-7-bjorn@kernel.org>
+ <asPXa7k-_drxXiI0@devvm7509.cco0.facebook.com>
+Date: Mon, 12 Oct 2026 16:12:53 +0200
+Message-ID: <8733ubc8ii.fsf@all.your.base.are.belong.to.us>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 12 Oct 2026 07:11:20 -0700
-X-Gm-Features: AclHuK-GAlH1JSAYNCIS06aJZxJfvunIjbH1E5FXsRqa5lYNWWJsyEqAXZVZwzo
-Message-ID: <CAEvNRgFO5FUFwU2GEEbHogLmT+SXVu1asLe5uzvRte2jqXthUg@mail.gmail.com>
-Subject: Re: [PATCH RFC 00/17] Allow guest_memfd to be created using a
- resource (pool) fd
-To: Gregory Price <gourry@gourry.net>
-Cc: Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Sean Christopherson <seanjc@google.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Shuah Khan <shuah@kernel.org>, vannapurve@google.com, erdemaktas@google.com, 
-	jxgao@google.com, rientjes@google.com, fvdl@google.com, jthoughton@google.com, 
-	tarunsahu@google.com, pratyush@kernel.org, fuad.tabba@linux.dev, 
-	David Woodhouse <dwmw2@infradead.org>, yan.y.zhao@intel.com, michael.roth@amd.com, 
-	suzuki.poulose@arm.com, Christian Brauner <brauner@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Nicolin Chen <nicolinc@nvidia.com>, Xu Yilun <yilun.xu@linux.intel.com>, aik@amd.com, 
-	aneesh.kumar@kernel.org, Vlastimil Babka <vbabka@kernel.org>, kernel-team@android.com, 
-	kernel-team@meta.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Gregory Price <gourry@gourry.net> writes:
+Stanislav Fomichev <sdf.kernel@gmail.com> writes:
 
-> On Fri, Sep 25, 2026 at 05:50:47PM -0700, Ackerley Tng wrote:
->> + e.g. for tmpfs,
->>     + Use mount page size.
->>     + Respect mount size limits.
->>     + Use guest_memfd mpol and fall back to mount mpol.
->>         + Gregory, now you can set mpol upfront on a mount! [3])
+> On 10/02, Bj=C3=B6rn T=C3=B6pel wrote:
+>> A page-pool memory provider can give net_iov buffers, and
+>> virt_to_page() does not work for them. An xdp_buff holds only the
+>> data pointer, so code that returns or converts a buffer cannot find
+>> its net_iov.
+>>=20
+>> Add NET_IOV_XSK, the net_iov type for AF_XDP. Add the internal flag
+>> XDP_FLAGS_HAS_NETMEM. When it is set, the xdp_buff holds a netmem
+>> reference in the union with the devmap TX queue, which only devmap
+>> egress uses. The flag is cleared when flags are copied to an skb or
+>> an xdp_frame. xdp_convert_buff_to_frame() sends such a buffer to the
+>> zero-copy copy path.
+>>=20
+>> A fragment from a readable net_iov area no longer marks the buffer's
+>> fragments as unreadable. The skb layer still treats every net_iov as
+>> unreadable, so such a buffer must be copied before it becomes an
+>> skb. Later patches in this series do that.
+>>=20
+>> skb_shared_info holds kernel pointers, so it cannot be in UMEM,
+>> which userspace can write. A netmem xdp_buff points to a
+>> skb_shared_info that the RX queue keeps in kernel memory instead.
+>> xdp_init_buff_from_netmem() sets this up. Page-backed buffers still
+>> use their tailroom.
+>>=20
+>> On 64-bit, struct xdp_buff grows from 56 to 64 bytes. struct
+>> xdp_buff_xsk stays at 128 bytes on x86-64. Where the largest
+>> alignment is 8 bytes, as on s390, it grows from 120 to 128 bytes, so
+>> a pool needs 8 more bytes per UMEM chunk. Only helpers that need the
+>> netmem or the fragment info test the new flag. Page-backed receive
+>> and return paths do not.
+>>=20
+>> Signed-off-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
+>> ---
+>>  include/net/netmem.h |  1 +
+>>  include/net/xdp.h    | 56 ++++++++++++++++++++++++++++++++++++++++----
+>>  2 files changed, 52 insertions(+), 5 deletions(-)
+>>=20
+>> diff --git a/include/net/netmem.h b/include/net/netmem.h
+>> index e6dff0b01581..76e4fe878863 100644
+>> --- a/include/net/netmem.h
+>> +++ b/include/net/netmem.h
+>> @@ -68,6 +68,7 @@ DECLARE_STATIC_KEY_FALSE(page_pool_mem_providers);
+>>  enum net_iov_type {
+>>  	NET_IOV_DMABUF,
+>>  	NET_IOV_IOURING,
+>> +	NET_IOV_XSK,
+>>  };
+>>=20=20
+>>  /* A memory descriptor representing abstract networking I/O vectors,
+>> diff --git a/include/net/xdp.h b/include/net/xdp.h
+>> index 07231adfb5f8..80931490ca3a 100644
+>> --- a/include/net/xdp.h
+>> +++ b/include/net/xdp.h
+>> @@ -11,6 +11,7 @@
+>>  #include <linux/netdevice.h>
+>>  #include <linux/skbuff.h> /* skb_shared_info */
+>>=20=20
+>> +#include <net/netmem.h>
+>>  #include <net/page_pool/types.h>
+>>=20=20
+>>  /**
+>> @@ -81,6 +82,8 @@ enum xdp_buff_flags {
+>>  	 * XDP program is not attached.
+>>  	 */
+>>  	XDP_FLAGS_FRAGS_UNREADABLE	=3D BIT(2),
+>> +	/* The txq/netmem union contains a receive netmem reference. */
+>> +	XDP_FLAGS_HAS_NETMEM		=3D BIT(3),
+>>  };
+>>=20=20
+>>  struct xdp_buff {
+>> @@ -89,7 +92,12 @@ struct xdp_buff {
+>>  	void *data_meta;
+>>  	void *data_hard_start;
+>>  	struct xdp_rxq_info *rxq;
+>> -	struct xdp_txq_info *txq;
+>> +	union {
+>> +		/* Valid for DEVMAP egress programs. */
+>> +		struct xdp_txq_info *txq;
+>> +		/* Valid for receive buffers backed by non-page netmem. */
+>> +		netmem_ref netmem;
+>> +	};
+>>=20=20
+>>  	union {
+>>  		struct {
+>> @@ -104,6 +112,8 @@ struct xdp_buff {
+>>  		u64 frame_sz_flags_init;
+>>  #endif
+>>  	};
+>> +	/* Kernel-owned fragment metadata for non-page netmem. */
+>> +	struct skb_shared_info *sinfo;
+>>  };
+>>=20=20
+>>  static __always_inline void xdp_reinit_buff(struct xdp_buff *xdp)
+>> @@ -138,7 +148,7 @@ static __always_inline void xdp_buff_set_frag_unread=
+able(struct xdp_buff *xdp)
+>>=20=20
+>>  static __always_inline u32 xdp_buff_get_skb_flags(const struct xdp_buff=
+ *xdp)
+>>  {
+>> -	return xdp->flags;
+>> +	return xdp->flags & ~XDP_FLAGS_HAS_NETMEM;
+>>  }
+>>=20=20
+>>  static __always_inline void xdp_buff_clear_frag_pfmemalloc(struct xdp_b=
+uff *xdp)
+>> @@ -150,6 +160,10 @@ static __always_inline void
+>>  xdp_init_buff(struct xdp_buff *xdp, u32 frame_sz, struct xdp_rxq_info *=
+rxq)
+>>  {
+>>  	xdp->rxq =3D rxq;
+>> +	/* Do not initialize the txq/netmem union here. DEVMAP generic XDP
+>> +	 * sets txq before this helper is called; receive drivers set netmem
+>> +	 * explicitly.
+>> +	 */
+>>=20=20
+>>  #ifdef __LITTLE_ENDIAN
+>>  	/*
+>> @@ -176,6 +190,33 @@ xdp_prepare_buff(struct xdp_buff *xdp, unsigned cha=
+r *hard_start,
+>>  	xdp->data_meta =3D meta_valid ? data : data + 1;
+>>  }
+>>=20=20
+>> +static __always_inline bool xdp_buff_has_netmem(const struct xdp_buff *=
+xdp)
+>> +{
+>> +	return !!(xdp->flags & XDP_FLAGS_HAS_NETMEM);
+>> +}
+>> +
 >
-> I haven't had time to quite give this the read it deserves yet (have
-> been traveling this past week), but I think this mpol/mount issue can
-> be solved with a new dax driver (which maybe provides this provider
-> interface) without needing to involve numa policy at all.
+> [..]
 >
-> Essentially
+>> +static __always_inline netmem_ref
+>> +xdp_buff_get_netmem(const struct xdp_buff *xdp)
+>> +{
+>> +	if (xdp_buff_has_netmem(xdp))
+>> +		return xdp->netmem;
+>> +
+>> +	return virt_to_netmem(xdp->data);
+>> +}
 >
-> fd = open("/dev/cxl_dev", ...); /* backed by anondax driver */
+> You keep adding methods that are not used in the patch where they are add=
+ed.
+> I keep getting confused :-p
 >
-> then later when a fault on that fd happens, the driver provides an
-> anon-memory allocation that explicitly requests the node associated
-> with that device - as opposed to trying to jam this into mempolicy.
->
-> If you're planning to be at LPC, happy to discuss this in person, but I
-> think this provider pattern is likely much cleaner without mempolicy at
-> all if you can just make the provider do that allocation path for you.
->
+> For virt_to_netmem, maybe a meta question: does xsk pool need a treatment
+> similar to the socket path? Where we did s/page/netmem_ref/ ? Then might
+> be less reasons to special case?
 
-Nice meeting you at LPC :)
-
-I agree with you, I don't mean to require some kind of mempolicy setup
-for every provider.
-
-IIUC you're saying the entire /dev/cxl_dev is some fixed NUMA node, any
-allocations from /dev/cxl_dev is from that NUMA node?
-
-In that case, if /dev/cxl_dev is used with guest_memfd, guest_memfd's
-configured mpol, as in kvm_gmem_set_policy [1], just can't apply
-then. /dev/cxl_dev fully controls where the memory is allocated.
-
-On traditional mounts like HugeTLBfs or tmpfs mounts where the mount
-config supports mpol definitions, we first apply guest_memfd's
-configured mpol, and fallback to the mount's policy if there was no
-configured mpol for guest_memfd.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/virt/kvm/guest_memfd.c#n400
-
-> ~Gregory
+Fair point! I'll move the helpers with their users and see what
+netmem_ref can unify. UMEM still needs the saved descriptor for
+returning buffers and kernel-owned fragment info...
