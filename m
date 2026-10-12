@@ -1,150 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AEF4A8FC2;
-	Mon, 12 Oct 2026 15:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB09A4AB1AE
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 16:09:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791820579; cv=none; b=XMlr4rjASxVMPlaek7kHdUETpFPm2InPWAGJSDWZJjoCgannqLrAUO66dVllJOFOwBaG1NpqFLWhDYIxmF1+5aYdS4dGxkrGh1mZXXG5UdgaSqt//VDblKS4+6NhFfKU930RFiGo6Q6pntQmhI/jbl3uUfN3XKk+9DOjOgMXLsA=
+	t=1791821373; cv=none; b=botiLySbb69nSzzEH9dwT7i+phIlgNyUzQH2vkYUcruNH3+36WWlyYRbFX43JsYY1SnEaW7HFq5RVbCPhjOf8mD6QJcdWqIgjZ46xfHRJ7HPrzD7LeKCf1MNjCCfUP4FtFBxolmjJKXOoJpoRFRiv7tk1DELXTFeIBjdZPVQM20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791820579; c=relaxed/simple;
-	bh=Msp9ikSwVnULK/6DWYXJFuVVmnxjiRI6tilrQPvf9sc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lEyy1SVc25ByWpuaeECuUF+HlptxiXy4lCjQl/1kVxqgv4MVTom9+kMwwetFq0UblXm3GmaH64oPn1kxosHdSyEMBMW8SoF1dybx8m3ePtqFTcqtDmjnfKODC/mC77Rm9d3qFpZmHtbwmIW0yWZe6dL6FDqhgwdZ+jcb77DB3rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lcCuIdrm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791821373; c=relaxed/simple;
+	bh=zKpWoq1v8R3ZCCPppr6bgcRZ+BeB2lhIXtanKXaglDI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=b0TUY0NeQzzTKbRQU9NfeJjSij7ncacNbdjgku75PwTC/wVdP878c8DrmQTLu+ErtO7d4+kjpoS1L06a85R9orCRqwWPVQmSWN+gCmx7HSPZt5z1RDIJZo7XCo08S1nZ5g56ptEuNUxl/gfw6fGGkf6nBeEoiK33pATjtgFXjbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XrOPkYIP; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lcCuIdrm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFCE21F0089B;
-	Mon, 12 Oct 2026 15:55:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791820577;
-	bh=rFbms1O2vgiDwDr5XNy7hfOQCE1GiDGN4QD7DcgiMNU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lcCuIdrmMQTUiPwLl5e5Z+CrC201P9TaW7VntAlAQ0wuTIeWArybWpskzP1Cw5dV6
-	 ylJBpTsnaVkD11Tx3RuJLQfK/a8MthDkbqh/N2Qo+NL+mbeJ3F+l2nHLzRgl2fwWrH
-	 B2VMH6xZ4mSRm44O1aVrnpq4KXOYj1KBkqJhj4Zhsip2ZHKhYDPIEZ9S25S3KUpDrh
-	 0/izKAMAcRM9eWvuTZfpYIL58pwYVIybump371ArBjzbMrNsvpmDwuL9EdnDMlpqUp
-	 x6n3EvLO70LPCbwLxz+x7mIQrXQvvZz8TgmnlRpMjxmuB8UzGsynS78NvOMo7KMLyg
-	 CQyvIZ4fN7eXw==
-Date: Mon, 12 Oct 2026 16:55:44 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, Bert Karwatzki <spasswolf@web.de>, 
-	Emil Tsalapatis <emil@etsalapatis.com>
-Subject: Re: [PATCH v5 13/38] bpf: arena: mark arena_map_mmap() mappings
- VM_MIXEDMAP
-Message-ID: <as0Buhi_-VCC7xLZ@gremlin>
-References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
- <20261009-b4-mmap-prepare-vma-flag-sanify-v5-13-923b70125b1e@kernel.org>
- <5b8ef0ce-7429-4d74-b4da-a0561c59b1e2@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XrOPkYIP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791821372; x=1823357372;
+  h=date:from:to:cc:subject:message-id;
+  bh=zKpWoq1v8R3ZCCPppr6bgcRZ+BeB2lhIXtanKXaglDI=;
+  b=XrOPkYIP6Rpsk9tQZ1/gw2dv+vQDM3/rCrztLp8c4cGyKbEcNtHaI6FS
+   mw+kqk5AmKC+t69+TP+HcZVVBxvI2Tc7bGvYOrrq6kOev4ov83RFo5438
+   O2HATF7AW1PRzRpAYlSEW57kx7358rOYaJsPiL6o6Nsit/mPCUegatq3T
+   6jmLnQFg6GXnI8Xhf9EMmtcciWGw23d9d4P0xJzO9LSnfo4oqWu1SwP/B
+   QBFZKK93gMox58YPhGaZmCPcRUVG/IJJ9NSB7hMwvS5ZBMV2/FbcyNzVr
+   AifJHW1g+nHzb0Tqx83n3EPn5xd1V63HtEWtw+CytgHZe3WD8jZu+V5wx
+   Q==;
+X-CSE-ConnectionGUID: GtMJ/e/rQ4Svf2kEpcS6Qw==
+X-CSE-MsgGUID: ou7YIsGORZOGqpr9sxh6FA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="539343"
+X-IronPort-AV: E=Sophos;i="6.27,153,1787036400"; 
+   d="scan'208";a="539343"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 09:09:32 -0700
+X-CSE-ConnectionGUID: AXHF8C7OS/W5kniZIBMW8w==
+X-CSE-MsgGUID: MiFFVLdGTDGcF4Bqn5Acdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,153,1787036400"; 
+   d="scan'208";a="893329"
+Received: from igk-lkp-server01.igk.intel.com (HELO d0de6c2a75a7) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 12 Oct 2026 09:09:30 -0700
+Received: from kbuild by d0de6c2a75a7 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xGIad-00000000A7L-0Fw1;
+	Mon, 12 Oct 2026 16:09:27 +0000
+Date: Mon, 12 Oct 2026 18:08:43 +0200
+From: kernel test robot <lkp@intel.com>
+To: Ricardo Robaina <rrobaina@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Justin M. Forbes" <jforbes@fedoraproject.org>,
+ linux-doc@vger.kernel.org
+Subject: [snitzer:kernel-7.3/trond-nfs-next 6048/7306] htmldocs:
+ Warning: Documentation/admin-guide/kernel-parameters.txt references a file
+ that doesn't exist: Documentation/admin-guide/rh-waived-features.rst
+Message-ID: <202610121831.4ay2Qrkd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5b8ef0ce-7429-4d74-b4da-a0561c59b1e2@kernel.org>
 
-On Mon, Oct 12, 2026 at 05:08:09PM +0200, David Hildenbrand (Arm) wrote:
-> On 10/9/26 20:04, Lorenzo Stoakes (ARM) wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git kernel-7.3/trond-nfs-next
+head:   8ed84ae4d26a6885be7dd8995bb73d8b7d1cefe9
+commit: c49fa66a4dcc9b00c08e5a0d75ccf36244cb00a4 [6048/7306] kernel: extend rh_waived to cope better with the CVE mitigations case
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20261012/202610121831.4ay2Qrkd-lkp@intel.com/reproduce)
 
-> > diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
-> > index 7b6847200b43..b69fe5e34339 100644
-> > --- a/kernel/bpf/arena.c
-> > +++ b/kernel/bpf/arena.c
-> > @@ -620,8 +620,9 @@ static int arena_map_mmap(struct bpf_map *map, struct vm_area_struct *vma)
-> >  	 * clears VM_MAYEXEC. Set VM_DONTEXPAND to avoid potential change
-> >  	 * of user_vm_start. Set VM_DONTCOPY to prevent arena VMA from
-> >  	 * being copied into the child process on fork.
-> > +	 * This is a kernel page so set VM_MIXEDMAP.
-> >  	 */
-> > -	vm_flags_set(vma, VM_DONTEXPAND | VM_DONTCOPY);
-> > +	vm_flags_set(vma, VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTCOPY);
-> >  	vma->vm_ops = &arena_vm_ops;
-> >  	return 0;
-> >  }
-> >
->
-> Historically, VM_MIXEDMAP really just means: can contain refcounted and
-> non-refcounted things. Everything with a struct page is refcounted.
->
-> I think we are now changing the semantics to mean "maps kernel pages". I think
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610121831.4ay2Qrkd-lkp@intel.com/
 
-Yes.
+All warnings (new ones prefixed by >>):
 
-It was sort of implicit before given insert_page() etc. but still really meaning
-that it _might_ be both.
-
-> this is fine, but we really have to update the documentation (and possibly
-> rename this thing to something more expressive?)
-
-Yeah I completely agree.
-
-I will rename it, but I think that's best for 7.5 obviously! :)
-
->
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-
-Thanks!
+>> Warning: Documentation/admin-guide/kernel-parameters.txt references a file that doesn't exist: Documentation/admin-guide/rh-waived-features.rst
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+--
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:58: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:63: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:596: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:228: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:605: ./include/uapi/linux/landlock.h:251: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/admin-guide/rh-waived-items.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/checksum-offloads:157: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
 
 --
-Cheers, Lorenzo
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
