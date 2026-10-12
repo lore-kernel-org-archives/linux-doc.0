@@ -1,329 +1,458 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010046.outbound.protection.outlook.com [52.101.46.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6FE38A728
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 17:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20364BE457;
+	Mon, 12 Oct 2026 17:36:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791826467; cv=pass; b=RK72GxHMkmh3YItn+8gCCWkOdkJY5rz85eiZHS25IUEjSEdgXtFvZ+4XYuRB44WDZAKy+o7iu5gbDwTHHbwqCrXwbPU+SyFL4A3esTlBjD8m98tqg8qh4kjyMuZLdCjTc/x6aPJQ4gG3j2/BgzafCqiVtWqfhTpudtWWw0C0+hw=
+	t=1791826596; cv=fail; b=HQP9dKDXyZa8Pl2MIdYuu/uT4ACMq9DJa63/u2WQLan9j8IhDfpEK/JO65Xc+xSyHaiDPVUKkza7N6Za9yja2TdeeEKJNzapJ57330d/YBffh8/NHMcBBxi8fhMYfmCW3B5/ZiU/y4Y35QuqRJtb/b/E/f6YEreTOrkz2Y6HL9s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791826467; c=relaxed/simple;
-	bh=NAHjeGgZ3zAuGz0muoly9fF6Hx+UWmxL0tmIFC5MVuE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LiH4KxIo8unQ8uO/lp0o6P2Q3KOLLLm+NEPS2qgVLXKTq9fE4FFBrgF0X9sqHfSoRlO+nVq/P+S7Ep4dmDbcQwElj3kOcI1Is5iVcmeqbKORwKnan79vA9+cr8/0RQ+omgpVwWfy5TZmczvCD9hnvuvIywv91rXURPopcuRDq+Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G1+K5kqK; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791826596; c=relaxed/simple;
+	bh=dQuItktdMAPfSq3OFcBN+BGM4Ycf/gJ6DM6HyOLspK4=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=NJlh1gYRgGsTVOr1lEKkti0x2RoNinrxhXUbIEvkSglw4A825xnyDLSZU6+DWWLjRqACtVsIitxSm20UYf3yd6zcxUoJdkVaGqBXG3SfQP3Unl6/XXAMFFfCXZqPguattkaU88rXON0QQzb7mBQF3DawRLeg9RnMC1Z/m7BZvhw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YrqXXTgg; arc=fail smtp.client-ip=52.101.46.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G1+K5kqK"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6b1d8944cb0so1090915a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 10:34:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791826463; cv=none;
-        d=google.com; s=arc-20260327;
-        b=g4K8ueOVhpuvwGG43we8ONac/LWm7W6gT6t4gmUeo8SzXP/78C9U/0q9KcitAeWnJc
-         Ateu7GRtKvhcnSlWMC8wJQ3DuPxWoo5XkKdpq43HUzXYzZbtspn3bK6ZVSY4A/fOYxGg
-         8QPMJRKWjJZV/acAOXaCYWzUXkkSUIPg5NgZ5u/wEsz6ZQUY1E18hW/ZBy1mKehdOyoj
-         pKOzceKcGEh95VCGXtN4pv1giZ9+XCnNVCtmTf05z7cdj3rguS3vAPcMfb2gUvU6BBgD
-         QhrgFI4Qp08Y6W/05DKo6UtC+1nW6UxhjAoxIVYFqk8KMsPkr+sJHHj7U7G6Y3lSl3v4
-         t+8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=henkAkl7u761gKlux5gr52zn0ik2NkHxM17QmChnkBo=;
-        fh=SnpvvLKrVGafGht1epVExrPyYviBYoc52nPSNWVVIwA=;
-        b=YGDaAuRuHbcb8zhH1di7PiW/lLNU+BXvAdjdaBjg0FUyir3BSM8G5cmu9/TktubW/n
-         RLF0NAGtKDetWXnJpJnAPtD4Sz5y6DOoxxgFaKqdyzLxj7/P7Qh9/4qTUI4eIy1Q+S0Q
-         P/ty9Unj0StmMIr3px5hj+i/2KKtGZvgvpUPsf149jqHT0rTtrEy/g7qjck5ABAYoro0
-         tz5QOAOWIAQ+sxUq80e45LQ5acFz6Sri9pmO8C3ShL0ezA933bicgZHsUnjvY4vN+fe2
-         wjQl6ndGV/b07sZjNgXs+NmgIYeSE5OPHZpS3rGt2YXNQsDUczqeqBFgGIcZJTxdkojO
-         zCGQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791826463; x=1792431263; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=henkAkl7u761gKlux5gr52zn0ik2NkHxM17QmChnkBo=;
-        b=G1+K5kqK3xniCRDcPw4xiRznvoC5yg95pry3/lHWF6hA/uJJsFN23nJk5LAG5S6cfD
-         vmLU3OiIsJJqHPqKnKE1bD/XduHJA2x42ku3y9X4jxJ16P3IS0YUVo3OCxxPHTfjseu3
-         +y6tDhkE040YQny+nRSc25aGi4OTC74hg6RtoRx792EgwskxD8bJsA8zQwVfRSMY9dRv
-         VGt7eD1vEfR8lzU9xqWVAmJWuYk7EM5svpogxR7W6lT/kfY/kw9esi1MWUjcMfCBq95Q
-         ZpCDvzV6BU29z8ADNSWiZxK+FgQPiZibr3ne1IWn3xGxOIp2LDeZqluIZyqPEw3kEg/P
-         MBrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791826463; x=1792431263;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=henkAkl7u761gKlux5gr52zn0ik2NkHxM17QmChnkBo=;
-        b=vIo0agHFkndTzEeqxJ70JLT/dO/tAWN6B3xdV+Y0cKmE3fe+dprAF/xbgLzHcg2yrl
-         pRfVsxcYnXBb4DqqQO/VR7PkuF2m2KlMP1Oi2NZuGVhAhX1555eTF9eJ8NH7e92vk4jY
-         Jis6Rzb3Y/lokelh2/s0d81oxJAYSCFowGTu1P+FsUiwT8jwhkIUOdkyOT0lMb2QOq0U
-         CPkH2++INhwUS8vdwRWxGkpy3yNtfhfJZiE/v4n3qdwvTuCBRpie7cmpGvhDU0ZCQZKv
-         +BRsQi+jGuiZOdojbH4YegRGZAFiB+NzW/i9YgKomaTHoZqDZBI6bOUMnVU5OD/vumUV
-         utxA==
-X-Forwarded-Encrypted: i=1; AKwUvByXXqMghJZMtdI2hNKK1AyRAkqxW5s7zQQlWAUCg1M+8+xpCY4FgmOt+mkTYz+VjpA9r48rhULflcA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKwfry7sMvsq5PtWVC3YQhYw/AHlxCzUotKzPRRQr4mqMVD+4ym
-	WTGjvQcCZs8asJEqOOR+h9MnGfnVtpvT/ODsvhYd6lGGMoT8CheyiHU6Ser4aTBDmnfjkaEnjqW
-	DN/f64i0B4yBwGvXX2rTrSIH4i6bUhe3GhloOFWw=
-X-Gm-Gg: AYBFou0WsZNFlknSwrok03Z6SnJqaYLqI3dB3R9ofTsDZZKtDUlKgOoHriPjlaR5eql
-	995XEy+lOFKxd1DRpZGMfuPPSh0c53q824zQcSjQ7rKKvodKjcFKkVlTz3DucS5/NnDpqMTRKGv
-	U6fMnY7xzBRnTGyt8b5SYopH8yIbc7HoAgFxr6M0uDOMFucm5y3jdDGG7M/1wskERxHZ0MLUCJ3
-	Q3elc7hL4lU/1baF+wrbRqcZJPWme1pLBv2y1jm4nb1JZEb5P7CQ4RLRpUrM76LQlt6eVFP4i/u
-	r0MQFst6HQa3gtnpl0UWqG2NIEYR33ioLKOuFGjz1rw0ppLfCRxJkpfWv0xHIWlWrlg7/CNgKlF
-	c8mq0PeCvVuAPmaeOQ4Yyc8dM7OHJRiI7nzsCdapQVA==
-X-Received: by 2002:a17:907:1997:b0:c2d:c98f:4824 with SMTP id
- a640c23a62f3a-c31aa057064mr966455366b.30.1791826462665; Mon, 12 Oct 2026
- 10:34:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YrqXXTgg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XUCiQHG5N+qlOYBmTb46Fx8ozPVRob5QxbUPiy+cPqK8yPVnPcUMYA1wMAcWtjdt/S9WylBTjZ1Hc7n2g1Cpp+/q4ntbdLy+L2YTrUOzcYUXAfaLxJtMjgA7leA6d5IzTFzDPMS1/welToeSLiwV4vTWd9FD66cPfASf3/7wrSKIhF3G5wk1wgtZEpLsJbVQhry1gKYdQ7dkFhMGjM1vo7637w7VE4lJNQycQ+MnNLnlzVM6+2ueoIsWjOHm6BrXT2Lw7ALEITP6PltPJ1/Ju9S6uSAf2K8C4MMiDDoNRJmeRCVIbMIzmYOc8iCfO/a3C6hX5YruSnwEPQ+JRi1Gfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BaJm1RRcxQASpKfrfDq5hyVKw8O2UHkzYYvkyWeqfQ0=;
+ b=Mk3SLzVv5DL22zzN9f2XY+7Z4ibHsTkuN1ssb57bfYssxzvOdebf+Ha/Jnn6o9Aq30ny/cTW9+nIv7NCfalYnM0djuvAmDE64por1svQXEghoRvHqQBlfooArhyAQWieBOq/tEo3lmGFjVWGyOlQaYDajYGqPpox0KJa0tmbiVVzSUX27qmE1RxasGjI8TppIU+flZYblsKBKt4eRFpsAeDZmDWGk2Galfxar9g927C1nufh7RW3toZtBfRslJF8CinrAG9pwhwzBZaydwqyBZzS4X0Co2D9F0a/YW/AmhqhpF8Jpu6hibQ97D+TFm+FfXaAUQ5ln9+2Cfvx12GTkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BaJm1RRcxQASpKfrfDq5hyVKw8O2UHkzYYvkyWeqfQ0=;
+ b=YrqXXTgg3rbiyrXUvSLZDAJzAGP/SMyaJaMcBp/IBhisYQasCFzzydcpK4hEWW0DOiuk7biTDsl3FBZJhDVdoZG3lqzsHzJpQao+FEYj5/x+RkV7PSZWykT1TbwRrr3CdZ4vE2qMEzafRhYl1jKJCPjtrQf4wJw6VaPnltBswEOUfG9AgR8Wq8DGnNsXNXDSUfX6/2iakgVhpVoS7JoA6ClgK3pbUyJwmDfbS2djUqNVuF4fcgAmRDpHTZ0sbzQldN5j46GMVRnao5KST13KDapHnUxz+XtEgMgcT8fXMBzudHzhzQOqh745xIe4pWGGtlMJdr9fSY1H0BvYgN7IDQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB5974.namprd12.prod.outlook.com (2603:10b6:510:1d9::19)
+ by PH0PR12MB7012.namprd12.prod.outlook.com (2603:10b6:510:21c::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Mon, 12 Oct
+ 2026 17:36:25 +0000
+Received: from PH7PR12MB5974.namprd12.prod.outlook.com
+ ([fe80::f5a5:bbc3:e9da:f8a0]) by PH7PR12MB5974.namprd12.prod.outlook.com
+ ([fe80::f5a5:bbc3:e9da:f8a0%3]) with mapi id 15.21.0496.010; Mon, 12 Oct 2026
+ 17:36:24 +0000
+From: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Donald Shannon <donalds@nvidia.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Corey Minyard <corey@minyard.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Lixu Zhang <lixu.zhang@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Oliver Neukum <oneukum@suse.com>,
+	Quan Nguyen <quan@os.amperecomputing.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-leds@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
+Date: Mon, 12 Oct 2026 20:35:58 +0300
+Message-ID: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PN4PR01CA0002.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:272::17) To PH7PR12MB5974.namprd12.prod.outlook.com
+ (2603:10b6:510:1d9::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261011-alpha-perf-regs-v3-v1-0-eaa625a39712@gmail.com> <20261011-alpha-perf-regs-v3-v1-4-eaa625a39712@gmail.com>
-In-Reply-To: <20261011-alpha-perf-regs-v3-v1-4-eaa625a39712@gmail.com>
-From: Magnus Lindholm <linmag7@gmail.com>
-Date: Mon, 12 Oct 2026 19:34:11 +0200
-X-Gm-Features: AclHuK-PwSMImsJT1HaG65lEZ2a3K4FcOsF41-r_kcaxLM87kRjslrSwrNkGcrQ
-Message-ID: <CA+=Fv5S8-Zk8-LUpZnWiBfTGSQXthepmRc_-a9O+pEPmVW0mRA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] alpha: add HAVE_PERF_REGS and HAVE_PERF_USER_STACK_DUMP
- support
-To: Matt Turner <mattst88@gmail.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, linux-alpha@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5974:EE_|PH0PR12MB7012:EE_
+X-MS-Office365-Filtering-Correlation-Id: a220c9bb-87f7-4a93-495a-08df2887561b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|23010399003|5023799004|11063799006|56012099006|18002099003|6133799003|261009220027099003|261009221227099003|261009223327099003|261009223027099003|261009221727099003|3023799007|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	/Re8rcOMisVIfc1bftCEWJ3iwKTQC12IYfIwED7J6fxR4242VIZWORGNqIIkK4W6iDeYFpsyNU+lzfhXV87h2eZVIwEjYm48c8Rn4dgXaDuTZ7H0BY24fNQbUONY5PlZk7RVuQgUvPaeqUR11uDwWCkXDWaW2H/MyEZXKllSydrNb9LkJmCPaVB4ydEe5VTw7t5KkMbZ0jACM5ga/Lvh164S3UOtotf7iC6VYOirGhtcD9XAjBIsNPszVVUfTZzXKuCU3XYqCBfxnsMfoirRLy0f/MrDOrXJ8lydtKFREc0UCD0HqQAUhEHYAptWy2QGAz2HO9BK1qhQIJVmXFIiFzd52Nw7rnIB+hDm8Z8Tqez82RfB92x9Clk5RU3doAPMWoWcd8KYhCVbOmfDKU3xXJLj4YxrWEYJqZtWVKmTMt9LRF94BoGlGkFwNA0XPz489aFSubgV56NmvDwbUEbec612c5eE74ln3PjV7XfdvsHxa8767ZcsQva6okXAUY9aAuTwT3qb6/qxRHCaBnMKYgz8JunmsQx8FVlOUApzxAZ2W3mD9KnsZoySJrs2db82GE44q+ziKY6zLcJvf0Clt5PHn6SgZQlz6oREfbzXI+sGdW0hLMnzlgew7ZgpxGQpMVc1bFwBL2Fj8b4U/ZxXVGZDeEJrzyhXP4p/dFpFZg8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5974.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(23010399003)(5023799004)(11063799006)(56012099006)(18002099003)(6133799003)(261009220027099003)(261009221227099003)(261009223327099003)(261009223027099003)(261009221727099003)(3023799007)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?cyQ1Se406MtVGl+13gPbsanXiS4CLpwUS/1HyMkTa4UxBRksJFxJj7AWeqxY?=
+ =?us-ascii?Q?eHZR5DHMEvMMDrOBHVz8hIW2+71WA7E4GFlI1XnK0VC2vpUWy93MofPNuTwK?=
+ =?us-ascii?Q?UvBHy9QmkaxXBuztsdf9PzBUWwWUinlAdHpQY8wu7PtPUAISuwtwb+3BeGVN?=
+ =?us-ascii?Q?ZFsZClHojlisU/qxISbR0uyiARGKXHDf3vLwXAz0yLka7ewTTyQYTh4Pr0Zh?=
+ =?us-ascii?Q?GyUOslIx8nLRz3WRAbolltmNHZk+kqdG2U9kI+Edfs9tW4jLoMXM2QJ+pgJr?=
+ =?us-ascii?Q?ECFnIBf5VWsDUmj9S+nmUbO9JcHZeH5qbwe9NUzgAjw8ibJSnwKkM+zFsMMz?=
+ =?us-ascii?Q?Y+ocFFbO4TXxYiOyp4Rus/h7sxD5+egoS0cLArWyayWR0lioZ+X+l5HhMJuA?=
+ =?us-ascii?Q?GCHNoBvWNs84dDpLuWVcGIyNbAyiXcsWpBOkr/jLmsEuYSEXTCkH5ZE+PtSi?=
+ =?us-ascii?Q?FIKTDH4X1v8TkkyF0yrXG3HMDC6PMRD3LQyzwB5RoUR2Kv3AP7O0jnIecn5q?=
+ =?us-ascii?Q?lNnzBsF8DjiNdYSstiXN0+6IpceFFWgu+AdZ9KoyYfkjNPST8gbh8WkHdEUp?=
+ =?us-ascii?Q?hQgAcRyrvrg9Iya6fNGLToJp3o0b/HsYzZiI7oW4Wkmz4MDdJKSTmv3ZnKkg?=
+ =?us-ascii?Q?NrBx/Lv33gj923FOmnuIJWUCqBPu1j8tmYTQguT608eTb4KynmheWYCaH9+5?=
+ =?us-ascii?Q?pNKUwCDiV9FbCwZn3SAVOPxl7oxivezbv0Js+HG91+wbr4Ag37+hTQMrJXY5?=
+ =?us-ascii?Q?LBvaEJBTi/iFQEWFkj115gPAlygtDeIVYI3jhrdVlnbMdV0l+KBdaWI6Nj2i?=
+ =?us-ascii?Q?U9W3Zgpx6NKD6MBslKFr4tPepOCKDbbo/qvTnbZ4J7/oATtClfE24daAPHbz?=
+ =?us-ascii?Q?zaZLyW9AEDGEOef4xhH7YzokcGp7DVFeER7JFADixpx4mCSvY9vQd5oxA3Ct?=
+ =?us-ascii?Q?6IPd3y2oUCxYaGWQneyr5QtBS3+W5p6TtHvmB0lr1kIXXzFUf+OOkFFqnFso?=
+ =?us-ascii?Q?g8KK7kypDXG1oK2Y2wLYxSHDmr9lF7ZcZM+68zk5uh1I/aQhzPoR+BrS+AId?=
+ =?us-ascii?Q?vK2NDu1Ifm6x7xgzwbsAxCg8iM3nJRdramsfGv5k/DcVmOv/6IQVpQzN4Hrc?=
+ =?us-ascii?Q?NsAMLC2SyyybMcUo3wejEQoG4/P4SZLs4eGZCN9UPt7igfIxYBLgxbDMq1So?=
+ =?us-ascii?Q?wa3OJ9a697tGoCcZaQc6JJbeZBPV7a3zV20SgXpJspdT1jYovEcwHLdlrBdi?=
+ =?us-ascii?Q?u4p5BT3htzVgT/6N/R22EtcLkx0oFTbD96ow5PZOU7J3UnjU1cf1vBN+KBlS?=
+ =?us-ascii?Q?YsB129IEDsQyBwbgpFB+zCXOuP0VFo3jYRAbhZFHvCTPcKX+ATd12mDe3lq8?=
+ =?us-ascii?Q?441mKwAzSvi34yMERgxq17VJ4sbQY4hU1H+fuegPIuv5efd7OvxcxvxEwf2J?=
+ =?us-ascii?Q?dJBja/i9qsqTBLMn0RBckTZIB52y/V5rVhboaYXNGPkWRnrcj27T0Cmmw2/2?=
+ =?us-ascii?Q?oZ5qq5ffe+MmgAXWhXGrMLsCHJY6c0C4u0+h0x3kPjWcPa9ZNYF8wFpPJpxy?=
+ =?us-ascii?Q?cWxDBRCym8SeSJs5M6oIBw5ml7Gq4LZs5Z/zs2xHnPl2Z5X3aESwkBIZLsG+?=
+ =?us-ascii?Q?dWP2z/X7yB5xpRnmHceWk9JnnZtKTuKqz/QNrXq0iegAw8gxuB7MZ8g/trCi?=
+ =?us-ascii?Q?ExoGHnn7AdEidpkZcjw6Dv/b4XNBdRMFJLFi70aWVYjyBm4bXs9mVItunDjR?=
+ =?us-ascii?Q?wWPQTr8TFA=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a220c9bb-87f7-4a93-495a-08df2887561b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5974.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 17:36:24.1364
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hXAhmWJ7Hynl1ltVwtRdke0wblSsqms37Jbwmnv6t8++P3VpcU8LKb4gUdHbi7otzvtiZGpkfSAvH2zVItVHoQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7012
 
-Hi Matt,
+This series adds drivers for the NVIDIA LSTP USB adapter: a USB core
+driver and GPIO, LED, I2C, SPI, UART and BMC-side IPMI function drivers,
+with their device tree bindings, an ACPI description document and the
+sysfs ABI.
 
-On Sun, Oct 11, 2026 at 10:16=E2=80=AFPM Matt Turner <mattst88@gmail.com> w=
-rote:
->
-> Let perf sample registers and dump the user stack, which is what the
-> perf tool needs for --call-graph dwarf.
->
-> The register indices follow the hardware numbering, so r0-r30 map
-> directly to DWARF register numbers, with pc after them. r9-r15
-> are callee-saved and live in switch_stack rather than pt_regs, so they
-> cannot be sampled. Without r15 an unwinder cannot recover the CFA of a
-> first frame that uses $15 as its frame pointer.
->
-> sp is not in pt_regs either: for user frames it comes from
-> user_stack_pointer(), and for kernel frames (PERF_SAMPLE_REGS_INTR) it
-> is the end of the trap frame, as in stacktrace.c.
->
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Matt Turner <mattst88@gmail.com>
-> ---
->  .../features/perf/perf-regs/arch-support.txt       |  2 +-
->  .../features/perf/perf-stackdump/arch-support.txt  |  2 +-
->  arch/alpha/Kconfig                                 |  2 +
->  arch/alpha/include/uapi/asm/perf_regs.h            | 45 ++++++++++++++++=
-+
->  arch/alpha/kernel/Makefile                         |  1 +
->  arch/alpha/kernel/perf_regs.c                      | 56 ++++++++++++++++=
-++++++
->  6 files changed, 106 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/features/perf/perf-regs/arch-support.txt b/Doc=
-umentation/features/perf/perf-regs/arch-support.txt
-> index 4c9a5a012075..7d736d678fd4 100644
-> --- a/Documentation/features/perf/perf-regs/arch-support.txt
-> +++ b/Documentation/features/perf/perf-regs/arch-support.txt
-> @@ -6,7 +6,7 @@
->      -----------------------
->      |         arch |status|
->      -----------------------
-> -    |       alpha: | TODO |
-> +    |       alpha: |  ok  |
->      |         arc: | TODO |
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
-> diff --git a/Documentation/features/perf/perf-stackdump/arch-support.txt =
-b/Documentation/features/perf/perf-stackdump/arch-support.txt
-> index dd362b5cb638..17b84ea7769d 100644
-> --- a/Documentation/features/perf/perf-stackdump/arch-support.txt
-> +++ b/Documentation/features/perf/perf-stackdump/arch-support.txt
-> @@ -6,7 +6,7 @@
->      -----------------------
->      |         arch |status|
->      -----------------------
-> -    |       alpha: | TODO |
-> +    |       alpha: |  ok  |
->      |         arc: | TODO |
->      |         arm: |  ok  |
->      |       arm64: |  ok  |
-> diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-> index b2c359b947f6..8fafbfabd1e5 100644
-> --- a/arch/alpha/Kconfig
-> +++ b/arch/alpha/Kconfig
-> @@ -41,6 +41,8 @@ config ALPHA
->         select HAVE_PAGE_SIZE_8KB
->         select HAVE_PCSPKR_PLATFORM
->         select HAVE_PERF_EVENTS
-> +       select HAVE_PERF_REGS
-> +       select HAVE_PERF_USER_STACK_DUMP
->         select NEED_DMA_MAP_STATE
->         select NEED_SG_DMA_LENGTH
->         select GENERIC_IRQ_PROBE
-> diff --git a/arch/alpha/include/uapi/asm/perf_regs.h b/arch/alpha/include=
-/uapi/asm/perf_regs.h
-> new file mode 100644
-> index 000000000000..da96a31b12fb
-> --- /dev/null
-> +++ b/arch/alpha/include/uapi/asm/perf_regs.h
-> @@ -0,0 +1,45 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +#ifndef _UAPI_ASM_ALPHA_PERF_REGS_H
-> +#define _UAPI_ASM_ALPHA_PERF_REGS_H
-> +
-> +/*
-> + * Indices 0-30 match the hardware (and DWARF) register numbers.
-> + * r9-r15 are not saved in pt_regs and cannot be sampled.
-> + */
-> +enum perf_event_alpha_regs {
-> +       PERF_REG_ALPHA_R0,
-> +       PERF_REG_ALPHA_R1,
-> +       PERF_REG_ALPHA_R2,
-> +       PERF_REG_ALPHA_R3,
-> +       PERF_REG_ALPHA_R4,
-> +       PERF_REG_ALPHA_R5,
-> +       PERF_REG_ALPHA_R6,
-> +       PERF_REG_ALPHA_R7,
-> +       PERF_REG_ALPHA_R8,
-> +       PERF_REG_ALPHA_R9,
-> +       PERF_REG_ALPHA_R10,
-> +       PERF_REG_ALPHA_R11,
-> +       PERF_REG_ALPHA_R12,
-> +       PERF_REG_ALPHA_R13,
-> +       PERF_REG_ALPHA_R14,
-> +       PERF_REG_ALPHA_R15,
-> +       PERF_REG_ALPHA_R16,
-> +       PERF_REG_ALPHA_R17,
-> +       PERF_REG_ALPHA_R18,
-> +       PERF_REG_ALPHA_R19,
-> +       PERF_REG_ALPHA_R20,
-> +       PERF_REG_ALPHA_R21,
-> +       PERF_REG_ALPHA_R22,
-> +       PERF_REG_ALPHA_R23,
-> +       PERF_REG_ALPHA_R24,
-> +       PERF_REG_ALPHA_R25,
-> +       PERF_REG_ALPHA_R26,
-> +       PERF_REG_ALPHA_R27,
-> +       PERF_REG_ALPHA_R28,
-> +       PERF_REG_ALPHA_GP,
-> +       PERF_REG_ALPHA_SP,
-> +       PERF_REG_ALPHA_PC,
-> +       PERF_REG_ALPHA_MAX,
-> +};
-> +
-> +#endif /* _UAPI_ASM_ALPHA_PERF_REGS_H */
-> diff --git a/arch/alpha/kernel/Makefile b/arch/alpha/kernel/Makefile
-> index 4ea5c189e60e..0c04b89676ed 100644
-> --- a/arch/alpha/kernel/Makefile
-> +++ b/arch/alpha/kernel/Makefile
-> @@ -18,6 +18,7 @@ obj-$(CONFIG_PCI)     +=3D pci.o pci_iommu.o pci-sysfs.=
-o
->  obj-$(CONFIG_SRM_ENV)  +=3D srm_env.o
->  obj-$(CONFIG_MODULES)  +=3D module.o
->  obj-$(CONFIG_PERF_EVENTS) +=3D perf_event.o
-> +obj-$(CONFIG_HAVE_PERF_REGS) +=3D perf_regs.o
->  obj-$(CONFIG_RTC_DRV_ALPHA) +=3D rtc.o
->  obj-$(CONFIG_AUDIT)    +=3D audit.o
->
-> diff --git a/arch/alpha/kernel/perf_regs.c b/arch/alpha/kernel/perf_regs.=
-c
-> new file mode 100644
-> index 000000000000..10afe4e205e9
-> --- /dev/null
-> +++ b/arch/alpha/kernel/perf_regs.c
-> @@ -0,0 +1,56 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/bits.h>
-> +#include <linux/perf_event.h>
-> +#include <asm/perf_regs.h>
-> +
-> +#define REG(idx, field) \
-> +       [PERF_REG_ALPHA_##idx] =3D offsetof(struct pt_regs, field)
-> +
-> +#define REG_RESERVED   (~GENMASK_ULL(PERF_REG_ALPHA_MAX - 1, 0) | \
-> +                        GENMASK_ULL(PERF_REG_ALPHA_R15, PERF_REG_ALPHA_R=
-9))
-> +
-> +static const unsigned int pt_regs_offset[PERF_REG_ALPHA_MAX] =3D {
-> +       REG(R0, r0),    REG(R1, r1),    REG(R2, r2),    REG(R3, r3),
-> +       REG(R4, r4),    REG(R5, r5),    REG(R6, r6),    REG(R7, r7),
-> +       REG(R8, r8),    REG(R16, r16),  REG(R17, r17),  REG(R18, r18),
-> +       REG(R19, r19),  REG(R20, r20),  REG(R21, r21),  REG(R22, r22),
-> +       REG(R23, r23),  REG(R24, r24),  REG(R25, r25),  REG(R26, r26),
-> +       REG(R27, r27),  REG(R28, r28),  REG(GP, gp),    REG(PC, pc),
-> +};
-> +
-> +u64 perf_reg_value(struct pt_regs *regs, int idx)
-> +{
-> +       if (idx =3D=3D PERF_REG_ALPHA_SP) {
-> +               if (user_mode(regs))
-> +                       return user_stack_pointer(regs);
-> +               /* Same kernel sp approximation as stacktrace.c. */
-> +               return (unsigned long)(regs + 1);
-> +       }
-> +
+What LSTP is
+------------
 
-Tested on my ES40: register masks, SP/PC sampling and user stack dumps
-passed with software-clock, page-fault and hardware-cycle events.
+LSTP (Low-Speed Transport Protocol or Low-Speed Tunnelling Protocol) is
+a vendor-specific USB interface (class 0xff, subclass 0x3f) that
+multiplexes several low-speed "channels" over one pair of bulk
+endpoints. It is implemented by NVIDIA's SMA, an MCU (0955:cf11), and
+by other vendors' parts: two hub/bridge chips have it built in
+(0424:4940, 174c:2214). Boards use it to
+reach SPI flash, I2C sensors, GPIOs and LEDs, a UART and a host-to-BMC
+IPMI path, on both BMCs and host systems.
 
-For context-switch events, however, regs points to the per-CPU
-__perf_regs[0], not an on-stack trap frame. This therefore returns
-a per-CPU address as SP.
+The channel types are SPI host, I2C host, GPIO (with interrupts and LED
+pins), UART, IPMI and MMIO. Channel 0 is the control channel: at probe
+the driver reads the channel table from it, which gives each channel's
+ID, type and configuration. The set of channels is decided by the
+firmware, so the same VID:PID carries different channels on different
+boards. No firmware description is needed for the channels to work.
 
-I reproduced this with:
+Series layout
+-------------
 
-  perf record -e context-switches -c 1 -Isp,pc -- sleep 1
+   1  dt-bindings: gpio: Add NVIDIA LSTP GPIO
+   2  dt-bindings: i2c: Add NVIDIA LSTP I2C
+   3  dt-bindings: spi: Add NVIDIA LSTP SPI
+   4  dt-bindings: usb: Add NVIDIA LSTP USB adapter
+   5  usb: misc: Add NVIDIA LSTP USB adapter driver
+   6  gpio: Add NVIDIA LSTP GPIO driver
+   7  leds: Add NVIDIA LSTP LED driver
+   8  i2c: Add NVIDIA LSTP I2C driver
+   9  spi: Add NVIDIA LSTP SPI driver
+  10  tty: Add NVIDIA LSTP UART driver
+  11  ipmi: Add NVIDIA LSTP IPMI BMC driver
 
-The sample reported SP=3D0xfffffc00045b4310 and PC=3D0. The missing PC
-predates this patch, but the incorrect SP is newly exposed here.
+Patch 4 $refs the schemas from patches 1-3, so it comes last among the
+bindings; it also defines the serial@N and ipmi@N channel nodes inline.
+The MAINTAINERS entry starts in patch 1 and gains each later patch's
+files. Patch 5 carries:
+- the core in drivers/usb/misc/;
+- include/linux/usb/lstp.h for the function drivers;
+- the sysfs ABI file;
+- Documentation/driver-api/usb/lstp.rst;
+- Documentation/firmware-guide/acpi/lstp.rst.
 
-One limitation I noticed: for context-switch events, regs points to
-the per-CPU synthetic frame, so regs + 1 reports its address rather
-than a kernel SP. Alpha already lacks perf_arch_fetch_caller_regs(),
-so perhaps synthetic-event register capture is better handled as a
-follow-up. Could we document that limitation here?
+Patches 6 and 8-11 each depend only on patch 5; patch 7 (LEDs) also
+needs patch 6, whose GPIO driver hands the LED pins to it.
+
+Why the auxiliary bus, and why not MFD
+--------------------------------------
+
+The core binds the USB interface and owns everything shared:
+- URBs and packet framing;
+- request/response matching and the IRQ-style event path;
+- channel 0 discovery.
+
+Each channel the device reports is then created as an auxiliary device,
+lstp.<type>.<id>, and the function drivers in their subsystems bind
+those. They reach the device only through functions the core exports in
+the "LSTP" symbol namespace, such as lstp_request() and lstp_send().
+
+The closest model in tree is LJCA (drivers/usb/misc/usb-ljca.c), and
+the series follows it. LJCA is a USB adapter that muxes GPIO, I2C and
+SPI over its bulk endpoints. At probe it asks the device which
+functions it has, creates one auxiliary device per reported function,
+and exports a transfer and an event interface to the function drivers.
+LSTP does the same with more channel types, with channel IDs assigned
+by the device firmware, and with device tree as well as ACPI.
+
+A channel has no registers, no MMIO and no interrupt lines of its own;
+it is a logical function of one protocol stream, and its driver needs
+nothing but the core's API. That is the use the auxiliary bus
+documentation describes (Documentation/driver-api/auxiliary_bus.rst):
+no dependency on a physical bus, device, register accesses or regmap.
+It names MFD as the wrong fit for that case, because MFD relies on the
+function devices being physical devices: an MFD cell is a platform
+device, and its resources are ranges of the parent's memory and
+interrupts (struct mfd_cell). Firmware matching does not decide between
+the two, since MFD cells can also match DT nodes and ACPI _ADR children.
+
+The same documentation says auxiliary devices "are not physical devices
+that are controlled by DT/ACPI". An LSTP channel is not enumerated from
+firmware either: it exists because the device reported it. Firmware
+only describes it and what is attached to it. Before
+auxiliary_device_add(), the core resolves each channel's node and sets
+it with device_set_node():
+- device tree: a child of the interface node the USB core attached;
+- ACPI: a Device() under the interface's Device(), which is a child of
+  the port companion (Documentation/firmware-guide/acpi/lstp.rst);
+- neither: the channel has no firmware node and works as reported.
+A channel matches on its address (reg, or _ADR on ACPI) plus
+compatible. The I2C, SPI and GPIO cores then enumerate children and
+resolve references as for any other controller.
+
+The UART: a plain tty_driver (patch 10)
+---------------------------------------
+
+The firmware owns the UART line: baud rate, framing, parity and flow
+control are provisioned on the device and only read at probe. The host
+cannot read or set modem control lines; it can send a fixed-length
+break, and a carrier loss reported by the device hangs the tty up unless
+CLOCAL is set. Most of serial_core's uart_ops would be stubs, and
+usb-serial does not fit because it binds the whole USB interface, where
+the UART is one function among several. So patch 10 registers a plain
+tty_driver (TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV) with one
+tty_port per channel, the structure cdc-acm uses for a UART behind USB.
+
+set_termios keeps the hardware fields at the firmware's values, so stty
+reports the real line settings. The nodes are /dev/ttyLSTP<n>, parented
+on the channel's auxiliary device. Jiri, Ilpo: if you would rather see
+this on serial_core despite the empty uart_ops, please say so on
+patch 10.
+
+The IPMI channel: BMC side, with a message number (patch 11)
+------------------------------------------------------------
+
+On a BMC, the IPMI channel carries the host's IPMI requests to BMC
+userspace and the responses back, like ssif_bmc does for SSIF; it is
+not an SSIF transport and has no host-side (ipmi_si) part. Each channel
+is a character device, /dev/ipmi-lstp<n>.
+
+By default, each message on that node carries a one-byte message number
+between the length and the payload, and a response must echo the number
+of the request it answers. The number exists only on the node, not in
+the LSTP protocol, and no other BMC-side IPMI driver has it. It names
+the request a response is for: when the host has sent a newer request,
+a late response to the older one is dropped, even if userspace has
+already read the newer request. Without the number, a response answers
+the request read last. With CONFIG_USB_LSTP_IPMI_MSG_NUM=n the node uses
+ssif_bmc's struct ipmi_ssif_msg layout instead, so userspace written for
+ssif_bmc works unchanged. Corey: is the message-number layout
+acceptable as an LSTP-specific extension, or would you prefer it as an
+option of the generic BMC message format (and ssif_bmc)?
+
+Responses carry no tag
+----------------------
+
+The protocol has no request tag: the first response after a request is
+its answer. Two places in the series depend on that:
+- The core (patch 5) drops a response that arrives when no request is
+  waiting, or after the waiting request already has its answer, and
+  counts it in the channel's rx_late statistic. A surplus response (a
+  reply to a request that timed out, one left from before a rebind, or
+  a device answering twice) therefore cannot overwrite a response the
+  waiter is still reading.
+- The GPIO driver (patch 6) reads every pin's interrupt configuration
+  at probe. A late reply can answer the next request and shift every
+  later pin's state by one, so a single read is not retried on its
+  own: after a timeout, all pins are read again, in alternating order,
+  until two consecutive passes without a timeout agree. That is at most
+  five passes, ending within 10 s of the first timeout, or the probe
+  fails as it would without the re-read. The bound is there because
+  the probe runs in the context that added the device, often the hub's
+  worker.
+
+The DT nodes for IPMI and UART channels
+---------------------------------------
+
+The USB binding (patch 4) defines serial@N and ipmi@N channel nodes with
+only compatible, reg and status. They exist for status = "disabled",
+which stops a channel the firmware reports from being created on a
+board where it must not be exposed. Without a node, a channel is still
+created. The binding shape, including one vendor property
+(nvidia,retries on the I2C channel), is discussed in a separate mail to
+the DT maintainers sent with this series:
+https://lore.kernel.org/r/20261012-lstp-dt-rfc-v1-aambrozewicz@nvidia.com
+
+What is not in this series
+--------------------------
+
+- The MMIO channel stays out of tree: raw register access, with no
+  binding and no kernel consumer.
+- No auto-created spidev. The out-of-tree driver has a module parameter
+  that creates a spidev on every chip select of an undescribed SPI
+  channel; it is not part of this series. With CONFIG_SPI_DYNAMIC,
+  userspace does that through the controller's new_device attribute:
+
+    echo "spidev <cs>" > /sys/class/spi_master/spi<B>/new_device
+
+  (Documentation/ABI/testing/sysfs-class-spi-master)
+- No separate IPMI POST-code node and no debug fault injection; both
+  stay in the out-of-tree package.
+
+Testing
+-------
+
+The drivers were tested on arm64 and x86_64 with four kinds of device:
+- real endpoints, the SMA and other vendors' implementations, driven by
+  the hardware test suite of the out-of-tree package on Raspberry Pi
+  hosts;
+- a real SMA passed through over USB to QEMU guests running
+  v7.3-rc5 with this series;
+- an emulated endpoint, a raw-gadget program on dummy_hcd, playing
+  scripted protocol scenarios;
+- the same emulator mutating its replies at random.
+
+The test plan covers:
+- every channel type end to end: SPI flash identification, write and
+  read-back verification and throughput through spidev; I2C transfers;
+  GPIO values, interrupts, line names and hogs; LED default states,
+  brightness and hardware patterns; UART and IPMI traffic; concurrent
+  traffic on all channels;
+- firmware descriptions: ACPI SSDTs and device tree overlays in many
+  variants, including incomplete, mismatched and outdated ones;
+- lifetime: channel driver, USB interface and module unbind, rebind and
+  removal, USB disconnect and reset, with nodes open and consumers
+  attached, under load, and with nodes opened as soon as they appear;
+- protocol faults: late, duplicate, missing and malformed replies, and
+  a disconnect in the middle of a transfer;
+- allocation failures injected across the interface bind and unbind,
+  the function driver probes, open, read and module load.
+
+The kernels used KASAN with kmemleak, KCSAN and KMSAN; lockdep with
+PROVE_RCU, DEBUG_OBJECTS, DEBUG_LIST, DEBUG_KOBJECT_RELEASE,
+DEBUG_ATOMIC_SLEEP and UBSAN; and failslab, fail_page_alloc and
+fail-nth for fault injection. None of them reported a problem in these
+drivers. The only reports involving them came from gpiolib when a GPIO
+chip is removed with lines still requested; the fixes are posted
+separately:
+https://lore.kernel.org/r/20261012-gpiolib-chip-removal-v1-0-aambrozewicz@nvidia.com
+
+Per patch, on the posted base: each patch builds (allmodconfig, W=1,
+LSTP objects) on x86_64 with gcc and clang and on arm64 and arm with
+gcc; sparse; kernel-doc; checkpatch --strict (clean apart from two
+MACRO_ARG_REUSE checks in patch 5); dt_binding_check on each binding;
+make htmldocs adds no warnings.
+
+The out-of-tree package these drivers come from is at
+https://github.com/NVIDIA/lstp_module; the version these patches match
+is the public-next-v1 tag:
+https://github.com/NVIDIA/lstp_module/tree/public-next-v1
+It stays as the backport for kernels without this series.
+
+Base: usb-next at bbf6b99a57b2 ("usb: typec: ucsi_ccg: Add retry
+mechanism in ccg_read").
+
+Adrian Ambrozewicz (11):
+  dt-bindings: gpio: Add NVIDIA LSTP GPIO
+  dt-bindings: i2c: Add NVIDIA LSTP I2C
+  dt-bindings: spi: Add NVIDIA LSTP SPI
+  dt-bindings: usb: Add NVIDIA LSTP USB adapter
+  usb: misc: Add NVIDIA LSTP USB adapter driver
+  gpio: Add NVIDIA LSTP GPIO driver
+  leds: Add NVIDIA LSTP LED driver
+  i2c: Add NVIDIA LSTP I2C driver
+  spi: Add NVIDIA LSTP SPI driver
+  tty: Add NVIDIA LSTP UART driver
+  ipmi: Add NVIDIA LSTP IPMI BMC driver
+
+ .../ABI/testing/sysfs-bus-usb-devices-lstp    |  331 ++
+ .../bindings/gpio/nvidia,lstp-gpio.yaml       |  276 ++
+ .../bindings/i2c/nvidia,lstp-i2c.yaml         |   71 +
+ .../bindings/spi/nvidia,lstp-spi.yaml         |   68 +
+ .../devicetree/bindings/usb/nvidia,lstp.yaml  |  280 ++
+ Documentation/driver-api/usb/index.rst        |    1 +
+ Documentation/driver-api/usb/lstp.rst         |  276 ++
+ Documentation/firmware-guide/acpi/index.rst   |    1 +
+ Documentation/firmware-guide/acpi/lstp.rst    |  419 +++
+ MAINTAINERS                                   |   21 +
+ drivers/char/ipmi/Kconfig                     |   32 +
+ drivers/char/ipmi/Makefile                    |    1 +
+ drivers/char/ipmi/ipmi-lstp.c                 |  464 +++
+ drivers/gpio/Kconfig                          |   14 +
+ drivers/gpio/Makefile                         |    1 +
+ drivers/gpio/gpio-lstp.c                      | 1194 +++++++
+ drivers/i2c/busses/Kconfig                    |   13 +
+ drivers/i2c/busses/Makefile                   |    1 +
+ drivers/i2c/busses/i2c-lstp.c                 |  573 ++++
+ drivers/leds/Kconfig                          |   14 +
+ drivers/leds/Makefile                         |    1 +
+ drivers/leds/leds-lstp.c                      |  404 +++
+ drivers/spi/Kconfig                           |   13 +
+ drivers/spi/Makefile                          |    1 +
+ drivers/spi/spi-lstp.c                        |  316 ++
+ drivers/tty/Kconfig                           |   13 +
+ drivers/tty/Makefile                          |    1 +
+ drivers/tty/lstp_tty.c                        |  829 +++++
+ drivers/usb/misc/Kconfig                      |   15 +
+ drivers/usb/misc/Makefile                     |    1 +
+ drivers/usb/misc/lstp.c                       | 2983 +++++++++++++++++
+ include/linux/usb/lstp.h                      |  219 ++
+ 32 files changed, 8847 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-usb-devices-lstp
+ create mode 100644 Documentation/devicetree/bindings/gpio/nvidia,lstp-gpio.yaml
+ create mode 100644 Documentation/devicetree/bindings/i2c/nvidia,lstp-i2c.yaml
+ create mode 100644 Documentation/devicetree/bindings/spi/nvidia,lstp-spi.yaml
+ create mode 100644 Documentation/devicetree/bindings/usb/nvidia,lstp.yaml
+ create mode 100644 Documentation/driver-api/usb/lstp.rst
+ create mode 100644 Documentation/firmware-guide/acpi/lstp.rst
+ create mode 100644 drivers/char/ipmi/ipmi-lstp.c
+ create mode 100644 drivers/gpio/gpio-lstp.c
+ create mode 100644 drivers/i2c/busses/i2c-lstp.c
+ create mode 100644 drivers/leds/leds-lstp.c
+ create mode 100644 drivers/spi/spi-lstp.c
+ create mode 100644 drivers/tty/lstp_tty.c
+ create mode 100644 drivers/usb/misc/lstp.c
+ create mode 100644 include/linux/usb/lstp.h
 
 
-> +       if (WARN_ON_ONCE((u32)idx >=3D PERF_REG_ALPHA_MAX ||
-> +                        BIT_ULL(idx) & REG_RESERVED))
-> +               return 0;
-> +
-> +       return *(unsigned long *)((void *)regs + pt_regs_offset[idx]);
-> +}
-> +
-> +int perf_reg_validate(u64 mask)
-> +{
-> +       if (!mask || mask & REG_RESERVED)
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +}
-> +
-> +u64 perf_reg_abi(struct task_struct *task)
-> +{
-> +       return PERF_SAMPLE_REGS_ABI_64;
-> +}
-> +
-> +void perf_get_regs_user(struct perf_regs *regs_user,
-> +                       struct pt_regs *regs)
-> +{
-> +       regs_user->regs =3D task_pt_regs(current);
-> +       regs_user->abi =3D perf_reg_abi(current);
-> +}
->
-> --
-> 2.55.0
->
+base-commit: bbf6b99a57b2479bf51c3c8ad0946f4b8c33ed69
+-- 
+2.43.0
 
-Tested-by: Magnus Lindholm <linmag7@gmail.com>
