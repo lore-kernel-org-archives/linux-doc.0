@@ -1,87 +1,87 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A2D4D0CF7
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 18:18:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C664F4D17A7
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 18:18:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791829115; cv=none; b=t5p/8knA9Y1wLjg0P2Ma17rsDHFU2Hc5xc/BhJBxQ6XRKUCrSWTiB9H61C/Q1S6lX8kvgvnRPPtmPF6p+lA3EHqg7CFUQIKA85OoLwVMscgNZo5w7zW+wFsFQuxoRody/LqeXTTOnX4UqL9dI2fXUkTsxpZ5lY9qp2twgF8Vehk=
+	t=1791829120; cv=none; b=Lo8hN6H/HV4fijzrAnQFz2F7nUBGD5DMKbrF6AJYo/LBWeBJ+a8/nNZBcqsOo34eyTja5d5Vqe2BMM7VP52fwnM6tgMyVsw+sb2G4RuK9zfGzR2nScKaVyaTGpq8ZcNCYuQlCOXyX6QDaQ7TiBdV5p3C92aiFHSMLJEYCixELZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791829115; c=relaxed/simple;
-	bh=LI2epAdNTVUimdncg6NOtNOZI6PyMoXM1ZEtdy3pDbc=;
+	s=arc-20240116; t=1791829120; c=relaxed/simple;
+	bh=VkPrxkJqsqM3JMRUSMdLvFLYTODuntM5UO+1g8Zzfgc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sjH99LYh1Gp8INcPFZMNNff6hBvKaecyJPk4HQTTKAXYnGzcMsY0CnH6pGPBV3CDi/8Glatm2ZdJWGm4M7L3ElU5sTgXtKjeuZD5Rd9BMgvAZTFTUK9Eb94zni8suDByLR8JouCGWH27Bsf7k+/Plo3xFFG1PS2o5DPm/FRfDmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fE4hAalx; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FI9v/idp; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=jdQ49AHIAF+/Y/TLKV/xir09z4Ihl038YjnKrj4ptbBZK0vZ0R2T0TR0GO3Tp8lL2QdDq3aL4WLD6Cd/PPFvzTeiXv55WQDH7inXU/XBSTkfiHXBbtBR5QyljhGmzWXwTGtJ5Z/IMjY/PbLoC/JidyP43VPFhs2qjLrwQqmSlNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HYGolGSl; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TXQOGvhC; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fE4hAalx";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FI9v/idp"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69CHv67d3466864
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 18:18:33 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HYGolGSl";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TXQOGvhC"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69CHvDMl2879056
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 18:18:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Sw8RZE7vSFZG1vO/uYgqWWGk6n7nko8KiavfyPAl2eQ=; b=fE4hAalxnWjSKUtK
-	yphQJfoTZYgpMshM4D8ddx3i1Om+AEV/u40RjGOi32xYvqlIxQXl9q3cFpPowTG/
-	SIEYKcJ7RAfyFhK0y8L07l80A/ozcwQ4Mo865DE8GCmOEudsHsiv4fxmQqwDV7qR
-	JOQ9yHQ2M5ry1KXyJNENs3Gjx0RArji5Ue1gNGsn6JCJPjXC0ZGI7pV7cK4gB5nC
-	wREyiSwm+IrCo4fUG134GEDdaPjcpflI0PxBdGJ46Usz2IzNK5vFy3CxipG4ix/O
-	Roivrrtzg/vbU8a/C6HXyiV8zyXan4lPe1KGUZ+xXIsjfqsvxIaXT5GrnOYHt6Se
-	Vba9Sg==
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h8sd1udhj-1
+	lLxL9awAk419qzBctCiH67jNF66X+ZqDVOqGlMQ9peA=; b=HYGolGSlwfYtoBjN
+	Tx0Q/JUifUU5LAzpZViLLH5uxn1PVr6PNzSBa/D4gJfQiPtE6rh2ED9L4JTbMOSG
+	bI014oW9Ri40/EHZJdP2Srtts7wOkY33q0L/5dvXHoIJONmBrpnqo+MAWSABN05A
+	vf6qjNCtwfTQhD8GFtXc5zRO6xtV5dKm10ylVEbKjH2dzAzWc+uk1zk8cu/iJTsz
+	FyMLkgR2k3K3kGJkz7Btjpe+fqUaZoWiRlMMCifx+36xqMJPBBBFNcHNHiBi//9k
+	67P8QWk3nORt8hWfXsOUq5+PnhT433WaHeyTfpfve0+YXDULXLDCCZimN6DB6xws
+	44Ifeg==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h8sgu3cjn-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 18:18:33 +0000 (GMT)
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-35a04491c56so1381573eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 11:18:32 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 18:18:37 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-33713e5e6daso3479554eec.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 11:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791829112; x=1792433912; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1791829117; x=1792433917; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Sw8RZE7vSFZG1vO/uYgqWWGk6n7nko8KiavfyPAl2eQ=;
-        b=FI9v/idpJ11ZOCwVCjfzKRAIkQ9VWRgKSfGuniCZR+vjzDBWuwNFoDOLAwiPjt234x
-         BkzSO3inXhYAiA0WqOH/XMpOqAmzsvtkADtYR1vG89lcC8+9I6fkFGs/UpDd0Dq7gIdg
-         SsLaXCzzeSeATip37GgEHESrGjysOwdKsQmTWx6FzHtVDiCNl+sNbDUEEBpS9l3RyHqd
-         6B2M2S3oeAXiWEzt1tZoSwAMpoV5s6KOiFRxmCawezcDNjmw7hO9oE4JxQTTX4EAxRq/
-         1s1NjsHgVpr8hGx4990E/yDxIKFKFXp7eea5G4/YthSbAJk5zAAvvJy5zaabh03Ms2VC
-         KvZw==
+        bh=lLxL9awAk419qzBctCiH67jNF66X+ZqDVOqGlMQ9peA=;
+        b=TXQOGvhC+KI4PacXx1cYO3qA+5iQ977a21eanNl4m2k6kdWxA3HzbnA0HOKJUVr0Ak
+         cTsBb6gYgfe/2Xzi+V/hw1NFobaKCoP4nElYG3zzJuxJWc8HIgnCJjp82bz2CmtKCkls
+         pO8mFY6IOfvKbwhzcgfwYLQdj2Z0N2qPmKn/StR2s4ptPxxPSK+l7Hicx91SynsKZawv
+         Y1V3isd+7rMkbT+QK+ZVpjjTKs4afGcMsYRhdlwBBDlxtaJOnF8ZcpAg42WT3gKejw8s
+         OJvGiIwThgew2N4qTKjovx4tWRcCK5Ii3UA6iP53mdiUwR654XJ/mq+a/wKV57KQ0czX
+         Uinw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791829112; x=1792433912;
+        d=1e100.net; s=20260707; t=1791829117; x=1792433917;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Sw8RZE7vSFZG1vO/uYgqWWGk6n7nko8KiavfyPAl2eQ=;
-        b=imGGXkmvok2m0SdulK4k8uVkxyDgqSBVJF9DHygBBZq/Sfu7QV1Q6jHGmmM+ZjUKx9
-         lJfoIb8HXGVxvCqU2/zhjonv0nwzAYmuu4IXFmWpdXcBPQYeFt+m925JojSnJkP8D/nt
-         6CZtzTbsfFNQsRZ4bvNeM54ZgAgEY2h8HC+i6gQm+v8ura5Bcm6DrGrte7EdH7p/YHL/
-         c7cFLYT3iqk0O/v85ArZ3GYeKzppedpDzJBAoFaiiqKZ9XqA47f+55feCLlmcVDfTgZK
-         DiYut23n4wmnx9sU9vYN7dzWI6iHKlKW/rsOPhBdb1OKSfKR+m+7JdrVHT/2yxlpJGTu
-         YQYw==
-X-Gm-Message-State: AFq9FYIQ7NFRWH1XPBZayBW4VkGFvZkLR+pXy/Oyrf2qLL/65MuqOFj4
-	lKMdU5ds10uU0Vg3vQ2Lmf/bw4gVchsjM74bITonPrZtQl0Z2tgATD1z4B1qpQnK0gqozVLunV0
-	Ogu6xt/x4+9bGx8GKls1g66pO8pXP5nxuRhM62ll7SDlwU7oiysQzDpOwVma0qAs=
-X-Gm-Gg: AYBFou2PpND4yhZTDvvoAc+CMP0LuWydl8PoXlxIUnI4zp3CbcGUUXVw68yloxoz6vp
-	MO0v1t+nrsS+ouOlmrwJD8u+ny7XBF6ngzc7v9gSxjVQhm5JlYZv8bwlP3Z44HtGd9EZqKS2LAp
-	k0jZJpZm/HiOCmc7hh0YIS/zpVu0WtedQVJ5ThecQLSevsoq+T1jOE8BaWWXiy3Blcx3PB8ckYw
-	pjMe09Du7WByL7i+9bqhHovSTONqh+e7izUYkqVu6Q1L7YgLJk9q5PDqpmB22gi2saqK1GaBkE4
-	a1/I4sgPgrwq5FSlNrrO/HVbe8vQxFBcvwmjY8FFl1F7VTXjQyWPX/hZYc/8OqMBfzQqlftm0fX
-	Z24m7IAWXH12IAFwlzYYzc6j7lYWP
-X-Received: by 2002:a05:7301:550d:b0:353:ba38:789d with SMTP id 5a478bee46e88-353ba388140mr13485328eec.0.1791829111893;
-        Mon, 12 Oct 2026 11:18:31 -0700 (PDT)
-X-Received: by 2002:a05:7301:550d:b0:353:ba38:789d with SMTP id 5a478bee46e88-353ba388140mr13485293eec.0.1791829111326;
-        Mon, 12 Oct 2026 11:18:31 -0700 (PDT)
+        bh=lLxL9awAk419qzBctCiH67jNF66X+ZqDVOqGlMQ9peA=;
+        b=AQR0Q6Ds7rAlrk501KRyi/kzFK7SoLceayq204L9sgtExFgJx5BDo6x1veIVg3oL33
+         21jEM4dmxLx0I8vFptLt8f2XAm8csjC0lfwjbY/DSH6NrbmJD5lBzS4EECNUkggQ2jJ7
+         Tx7Qd+o9Jyrx9uqYQphHiVJXRtEsxbQmLk4rcpK89yieVXkanqe2GOXraeghjV2zw//f
+         Ks1TMWlilyeD7cIo4pzls3hdsC60SVpCe4AmQBZdFTPRt43H4UgsjTsJP9f4eENtIh5W
+         tK3DcV5i08ve/JQqzJ9hcj4u3l9c/wgtmBcqEVrGZQzH2ECRbJ1pnE30W5yuzefEWTeF
+         MeMw==
+X-Gm-Message-State: AFq9FYIK5rjeuLrM9/Yq3C9Vg25oPqWIOLxj4o2nZBZRLvdvBGdezVOT
+	3tPiL0l7DUHxFz3BXqA14QuGNoa9wIHA8yU+Pwofk48mIgOFw4VEw7ZC9DdP5ymQPO0w6jB4drc
+	R1HJPQVSGC2nJTQ304lDSxJkCvbZMAKwIyaggUBsxynulpPcA/wAv9b5ttMHOGWE=
+X-Gm-Gg: AYBFou0QR3dkGw9IBx3f6tTlzSi86FHnj+/G/bI1lI/oVchaElSCeFnN5UEGnIq5zc1
+	i+SdvuK56/ZZSTHPD5BfZzjSghGqPUo0fnrQ2Bx/4dAfARAOPiAgktJv7p/6YMTxkN4QEpj7Ekb
+	VOXJpZjA+f9XiQD0tBT4derrDgbThgEArB1tgDKyVK4LqXxzUI6AX5OJTKH6ihQ0cmJiF0RDRUx
+	qXkQyIUyg3zcX610zoJ9o1SFW4OwzKWzg8N+qqbb8eETpWBKkbUcrG5n9HXVc37FnWr7zjFyZ3Y
+	1DO25CG2HIV4oFiI6YQkqgV4Vtw/gHhCU9s3DQzVl1DLKvlIPiouSyJFNMD+DDGuX1Tgl5j90l5
+	4ASE5NXOd8af/2TABJ3TKcJw/G9ic
+X-Received: by 2002:a05:7300:ac81:b0:353:7e33:664c with SMTP id 5a478bee46e88-3537e3369c5mr21147285eec.37.1791829116575;
+        Mon, 12 Oct 2026 11:18:36 -0700 (PDT)
+X-Received: by 2002:a05:7300:ac81:b0:353:7e33:664c with SMTP id 5a478bee46e88-3537e3369c5mr21147215eec.37.1791829115791;
+        Mon, 12 Oct 2026 11:18:35 -0700 (PDT)
 Received: from hu-batta-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-358de54fe47sm22827311eec.31.2026.10.12.11.18.26
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-358de54fe47sm22827311eec.31.2026.10.12.11.18.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 11:18:30 -0700 (PDT)
+        Mon, 12 Oct 2026 11:18:35 -0700 (PDT)
 From: Kishore Batta <kishore.batta@oss.qualcomm.com>
-Date: Mon, 12 Oct 2026 23:48:02 +0530
-Subject: [PATCH v8 4/7] bus: mhi: Add QDU100 Sahara variant and firmware
- fallback
+Date: Mon, 12 Oct 2026 23:48:03 +0530
+Subject: [PATCH v8 5/7] bus: mhi: Load DDR training data using device
+ serial number
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,7 +90,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261012-sahara_protocol_new_v2-v8-4-e12939d229a1@oss.qualcomm.com>
+Message-Id: <20261012-sahara_protocol_new_v2-v8-5-e12939d229a1@oss.qualcomm.com>
 References: <20261012-sahara_protocol_new_v2-v8-0-e12939d229a1@oss.qualcomm.com>
 In-Reply-To: <20261012-sahara_protocol_new_v2-v8-0-e12939d229a1@oss.qualcomm.com>
 To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
@@ -103,88 +103,84 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
         mhi@lists.linux.dev, Kishore Batta <kishore.batta@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791829086; l=5671;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791829086; l=2312;
  i=kishore.batta@oss.qualcomm.com; s=20260206; h=from:subject:message-id;
- bh=LI2epAdNTVUimdncg6NOtNOZI6PyMoXM1ZEtdy3pDbc=;
- b=wkC+OVvFRtY8UHddDtkJpmNFwHGJW7RpfoVcHn+HpC9M0lCTNm93O6U0Gn77n16mtWnzvZXCy
- Z9ybBBVceZ+CIUa02TCidoT1WSPyB5TW0Q3x/BelsiymE6APDmujaPl
+ bh=VkPrxkJqsqM3JMRUSMdLvFLYTODuntM5UO+1g8Zzfgc=;
+ b=ZpCO9GOHQmxmSwwG63+gYndvPFgU1yjA7PkqDcVwq7tg7+t+/k2WztsK7jewmcQJx4SJnS0Cg
+ 8QZrLuBr5IDDxqp8aU5o8mPtE07eD02TC2jLh2utDGUFJH+LQE5DLDd
 X-Developer-Key: i=kishore.batta@oss.qualcomm.com; a=ed25519;
  pk=vJo8RvTf+HZpRLK2oOIljmbn9l3zFkibCGh+blaqZCw=
-X-Proofpoint-ORIG-GUID: PgXc8slt_R6f21yTZ6qXKvY1RFxkfjGS
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDA3MiBTYWx0ZWRfXwgDSWYGA/OcB
- ZeH2Hzcxy9gZ54UBwVv9qVAJk/vkhpQLDnX+miaRExQI+0bFAZRu4ekZGKmyRjXI0Bs5kqDALmv
- z6l5TsDLhTFxdism47wr9cxY++eXlxw=
-X-Authority-Analysis: v=2.4 cv=QtHLTlyd c=1 sm=1 tr=0 ts=6acd2479 cx=c_pps
- a=cFYjgdjTJScbgFmBucgdfQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Authority-Analysis: v=2.4 cv=QdzzLcbv c=1 sm=1 tr=0 ts=6acd247d cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=EUspDBNiAAAA:8 a=3TBL8zyTcm-CCHetwZgA:9 a=QEXdDO2ut3YA:10
- a=scEy_gLbYbu1JhEsrz4S:22
-X-Proofpoint-GUID: PgXc8slt_R6f21yTZ6qXKvY1RFxkfjGS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDA3MiBTYWx0ZWRfX4IAr19/1KxcO
- qgHC4KF/mQaS0qTFv1vo3K8jnBXjYkIymnGElop6yaw7okcPj8eLR58DJN+GuVrxF4rRN/Qvg3H
- u+pMV3v70hEUj/At5N6wBeIT1t2vLUx7xuxViAgPPpyVi1JD2+NLnGOVE4lIFTlA9FRW52l3C5i
- l/92Le8U5dydUeQplaKcRLudrxMU6T311Aa22Iiv31LPPBYAYP6IT/akb8lOc56DRHl7Jlfm5hs
- gDOi6f6Opx9CsGtfSsVgTXNNmRYGpSW9MT0GBlvmVk1JMAmogft8bdfmjaNmdG59eJq5Em7pTtS
- tw2fLPVxZL24x2U81T24PjKR651UHgdCM+O90YDiir0OMclBMBEN/xdZdhgMEmx4pcJHFaFGDpr
- 9HBV5T+pO7YPTO89ND2LXvQ+jx+mTf024APC6bxjtOw9yqeaViNSZRCN0fGtdSobR7dykOnZ+AR
- NNnn4d5VARKtBkCz2Cw==
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=EUspDBNiAAAA:8 a=ICgrKnnyuXbdZ-Zkjz4A:9 a=QEXdDO2ut3YA:10
+ a=PxkB5W3o20Ba91AHUih5:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDA3MiBTYWx0ZWRfX22fFYzVFNsGw
+ 9xRTz4n4WzoDppNahYD3VgEMLMWRVpKI3T4PT/MRZNHHDf3PmIFrINnGKnmQavdwxSMAK9Me8Fi
+ S5jL4CALs7qxft2MhBTVoKt1Oq9sCfQ2tHVJ0eyIu7bnrS4zWAbIVMrJ1uNDzoMs3tnBhyOw/BT
+ sBO7e0qUEAbs37HDAsYil2uXnhMirNoU7qZ9MREXu6EHopygKFhbJWv8AGLVxNSnxwe5X+2TrBq
+ qs4WQ00BGqX194Z7V/ChJyJ2wbu30v0rI9eWzlkh+rGDqEvt4luNDBTGDdZFZYyTodN5z+A8cUc
+ iQAMVa1E3fJor9BBXP8H+S+NzaaxzR/Go97qUKCcX6PSVe6LjKFCk3SMoJi/XIsOSTg6B0KyGAf
+ gmK0XcSH0HXLz6dFI/vTWLg58CONdAd76/Y6zyo69HUslNfrIHXF4UsumTFT+bSeNHV4oQHl8UN
+ IVvLI08s85ZKg/V8u8w==
+X-Proofpoint-ORIG-GUID: Qh3ajj8Rj5FKlaveB4YrftcFgbM1TmlF
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDA3MiBTYWx0ZWRfXxQ2FSczsAsFj
+ lFZ039Mc2j/lsD3e1UOSZonK8dFpR7Zzu4By5JzubJCu5r2OzQhIblnpJ5F295vvreIlzHERD4b
+ DFV/WHVMJRXjx2V0cLE4i2AbtZnU8wY=
+X-Proofpoint-GUID: Qh3ajj8Rj5FKlaveB4YrftcFgbM1TmlF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-12_05,2026-10-09_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 bulkscore=0 clxscore=1015
- lowpriorityscore=0 suspectscore=0 impostorscore=0 phishscore=0 adultscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
+ bulkscore=0 impostorscore=0 phishscore=0 spamscore=0 suspectscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 malwarescore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
  definitions=main-2610120072
 
-The Sahara driver currently selects a firmware image table based on the
-attached device, but it does not recognize QDU100 devices that expose the
-protocol on the SAHARA MHI channel. As a result, the host cannot associate
-QDU100 devices with the correct firmware namespace during image transfer.
+Devices may provide device specific DDR training data that can be reused
+across boot to avoid retraining and reduce boot time. The Sahara driver
+currently always falls back to the default DDR training image, even when
+serial specific training data is available.
 
-Extend the probe time variant selection to match the SAHARA MHI channel and
-associate it with the QDU100 firmware folder. Add a firmware lookup
-fallback for cases where an image does not have an explicit entry in the
-device's firmware table. This allows required images to be provisioned by
-the platform.
+Extend the firmware loading logic for the DDR training image to first
+attempt loading a per-device image dervied from the device serial number.
+If the serial-specific image is not present, fall back to the existing
+default image, preserving current behavior.
 
-This change only affects devices matched on the SAHARA MHI channel and
-does not change behavior for existing AIC100 and AIC200 devices.
+This allows reuse of previously generated DDR training data when available,
+while keeping the existing training flow unchanged for devices without
+saved data or for all other firmware images.
 
 Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
 ---
- drivers/bus/mhi/host/clients/sahara/sahara.c | 27 ++++++++++++++++--
- drivers/bus/mhi/host/pci_generic.c           | 41 ++++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+), 2 deletions(-)
+ drivers/bus/mhi/host/clients/sahara/sahara.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
-index 74bf57f02873e463d0c2cfdd2673237840169df2..4baa47d0b94e326b5bfcaa80c8ddf008881c85c9 100644
+index 4baa47d0b94e326b5bfcaa80c8ddf008881c85c9..afb72910fd67b225cd77c44d7e835cae138c2ffb 100644
 --- a/drivers/bus/mhi/host/clients/sahara/sahara.c
 +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
-@@ -189,6 +189,7 @@ static bool is_streaming(struct sahara_context *context)
+@@ -59,6 +59,7 @@
+ #define SAHARA_RESET_LENGTH		0x8
+ #define SAHARA_MEM_DEBUG64_LENGTH	0x18
+ #define SAHARA_MEM_READ64_LENGTH	0x18
++#define SAHARA_DDR_TRAINING_IMG_ID	34
  
- static int sahara_find_image(struct sahara_context *context, u32 image_id)
- {
-+	char *fw_path;
- 	int ret;
- 
- 	if (image_id == context->active_image_id)
-@@ -201,8 +202,28 @@ static int sahara_find_image(struct sahara_context *context, u32 image_id)
+ struct sahara_packet {
+ 	__le32 cmd;
+@@ -226,6 +227,27 @@ static int sahara_find_image(struct sahara_context *context, u32 image_id)
+ 		return 0;
  	}
  
- 	if (image_id >= context->table_size || !context->image_table[image_id]) {
--		dev_err(&context->mhi_dev->dev, "request for unknown image: %d\n", image_id);
--		return -EINVAL;
-+		if (!context->fw_folder) {
-+			dev_err(&context->mhi_dev->dev,
-+				"Request for unknown image: %u (no fw folder)\n", image_id);
-+			return -EINVAL;
-+		}
++	/* DDR training special case: Try per-serial number file first */
++	if (image_id == SAHARA_DDR_TRAINING_IMG_ID && context->fw_folder) {
++		u32 serial_num = context->mhi_dev->mhi_cntrl->serial_number;
 +
-+		fw_path = kasprintf(GFP_KERNEL, "qcom/%s/%u",
-+				    context->fw_folder, image_id);
++		fw_path = kasprintf(GFP_KERNEL,
++				    "qcom/%s/mdmddr_0x%x.mbn",
++				    context->fw_folder, serial_num);
 +		if (!fw_path)
 +			return -ENOMEM;
 +
@@ -192,102 +188,16 @@ index 74bf57f02873e463d0c2cfdd2673237840169df2..4baa47d0b94e326b5bfcaa80c8ddf008
 +					      fw_path,
 +					      &context->mhi_dev->dev);
 +		kfree(fw_path);
-+		if (ret) {
-+			dev_err(&context->mhi_dev->dev,
-+				"request for unknown image: %d\n", image_id);
-+			return -EINVAL;
++
++		if (!ret) {
++			context->active_image_id = image_id;
++			return 0;
 +		}
-+		context->active_image_id = image_id;
-+		return 0;
- 	}
- 
++	}
++
  	/*
-@@ -870,8 +891,10 @@ static void sahara_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result
- 
- static const struct mhi_device_id sahara_mhi_match_table[] = {
- 	{ .chan = "QAIC_SAHARA", },
-+	{ .chan = "SAHARA", },
- 	{},
- };
-+MODULE_DEVICE_TABLE(mhi, sahara_mhi_match_table);
- 
- static struct mhi_driver sahara_mhi_driver = {
- 	.id_table = sahara_mhi_match_table,
-diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
-index 7193a384cca477be9e4f48cdf5f67e680ef55fc5..dcd49cd15074a20cab62a304143abbd0c0614cec 100644
---- a/drivers/bus/mhi/host/pci_generic.c
-+++ b/drivers/bus/mhi/host/pci_generic.c
-@@ -47,10 +47,12 @@
-  *		   of inband wake support (such as sdx24)
-  * @no_m3: M3 not supported
-  * @reset_on_remove: Set true for devices that require SoC during driver removal
-+ * @sahara_fw: Sahara firmware mapping
-  */
- struct mhi_pci_dev_info {
- 	const struct mhi_controller_config *config;
- 	const struct mhi_controller_config *vf_config;
-+	const struct mhi_sahara_fw_table *sahara_fw;
- 	const char *name;
- 	const char *fw;
- 	const char *edl;
-@@ -287,11 +289,49 @@ static const struct mhi_controller_config mhi_qcom_qdu100_config = {
- 	.event_cfg = mhi_qcom_qdu100_events,
- };
- 
-+static const char * const qdu100_image_table[] = {
-+	[5] = "qcom/qdu100/uefi.elf",
-+	[8] = "qcom/qdu100/qdsp6sw.mbn",
-+	[16] = "qcom/qdu100/efs1.bin",
-+	[17] = "qcom/qdu100/efs2.bin",
-+	[20] = "qcom/qdu100/efs3.bin",
-+	[23] = "qcom/qdu100/aop.mbn",
-+	[25] = "qcom/qdu100/tz.mbn",
-+	[29] = "qcom/qdu100/zeros_1sector.bin",
-+	[33] = "qcom/qdu100/hypvm.mbn",
-+	[34] = "qcom/qdu100/mdmddr.mbn",
-+	[36] = "qcom/qdu100/multi_image_qti.mbn",
-+	[37] = "qcom/qdu100/multi_image.mbn",
-+	[38] = "qcom/qdu100/xbl_config.elf",
-+	[39] = "qcom/qdu100/abl_userdebug.elf",
-+	[40] = "qcom/qdu100/zeros_1sector.bin",
-+	[41] = "qcom/qdu100/devcfg.mbn",
-+	[42] = "qcom/qdu100/zeros_1sector.bin",
-+	[45] = "qcom/qdu100/tools_l.elf",
-+	[46] = "qcom/qdu100/Quantum.elf",
-+	[47] = "qcom/qdu100/quest.elf",
-+	[48] = "qcom/qdu100/xbl_ramdump.elf",
-+	[49] = "qcom/qdu100/shrm.elf",
-+	[50] = "qcom/qdu100/cpucp.elf",
-+	[51] = "qcom/qdu100/aop_devcfg.mbn",
-+	[52] = "qcom/qdu100/fw_csm_gsi_3.0.elf",
-+	[53] = "qcom/qdu100/qdsp6sw_dtbs.elf",
-+	[54] = "qcom/qdu100/qupv3fw.elf",
-+};
-+
-+static const struct mhi_sahara_fw_table qdu100_sahara_fw = {
-+	.image_table = qdu100_image_table,
-+	.table_size = ARRAY_SIZE(qdu100_image_table),
-+	.fw_folder = "qdu100",
-+	.non_streaming = false,
-+};
-+
- static const struct mhi_pci_dev_info mhi_qcom_qdu100_info = {
- 	.name = "qcom-qdu100",
- 	.fw = "qcom/qdu100/xbl_s.melf",
- 	.edl_trigger = true,
- 	.config = &mhi_qcom_qdu100_config,
-+	.sahara_fw = &qdu100_sahara_fw,
- 	.bar_num = MHI_PCI_DEFAULT_BAR_NUM,
- 	.dma_data_width = 32,
- 	.vf_dma_data_width = 40,
-@@ -1426,6 +1466,7 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
- 	mhi_cntrl->mru = info->mru_default;
- 	mhi_cntrl->name = info->name;
-+	mhi_cntrl->sahara_fw = info->sahara_fw;
- 
- 	mhi_pdev->no_m3 = info->no_m3;
- 
+ 	 * This image might be optional. The device may continue without it.
+ 	 * Only the device knows. Suppress error messages that could suggest an
 
 -- 
 2.34.1
