@@ -1,313 +1,186 @@
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97825377567
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 13:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A133033E6
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 13:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791812530; cv=none; b=dHsm7UH8rXYWMa+w79R0kHtl3imZj84dDsBzKPWq3riT1tFiCfaMfzqmxR/VjKP22aRLwbz3qj1AiyN0CY1iUFIZa/Fy+aOmvLR1FSeNNWm9IHvnx7Ih2YClW/yEyzq0nTd2Jl7mZS6GfMiiFYAIDaoC5u8tROKoVLN0+hLCydI=
+	t=1791812819; cv=none; b=J7adXv54rv9qGqWIE4OGOoPxp3ammOdVKhI0m4TuB5h/7DpDh+/YPVADP+CRRFIJcEVIgLCi9hV1Zz+wJQ2dfUy9oio/5ZNn1juljaG3x/L0A705zJFqqUEi19N5kM4ICDq6avH7GhbnmAgeaj/Uk2WiR/+tfEXXwFaeQJrVB9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791812530; c=relaxed/simple;
-	bh=Rg6cJAv6ZUUI6IKmwS6DVaUEOkrHublyHQ8IOYSpW4E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=UgusH+LWi3tU16DvJtHMFr6lWnqCxtOvCDAhfqI68QYf4H9md+fQTes1oWz7wZH4SlFIKb25BAtvBnl83+zZSy9iHvDHLBpyduTK6vKC89GOR2p4X984nUxVZpgbkkFZXhyhJ4z/69pwu/q58mPI0iOXOlOEty2vgZoS55+e8As=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elver.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oCsBICku; arc=none smtp.client-ip=209.85.221.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elver.bounces.google.com
+	s=arc-20240116; t=1791812819; c=relaxed/simple;
+	bh=qjaI97jXVDe8RUjWaIZn/0Z/bG3SM2HUqYlAbco6hkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gjINEaDYj4ddQlrkKOqJ8fTLcaolG4kBroCQJVk2pgswUpm6Kz23nlJZYrBvjL4HwT4rV7Xes9hh+67LmZx28SwIneb9mz5jTQu0TWFaarBNW5Dr+SciIOBVIJIwV3ShUGVUbA3V5B/ECWOAZXnQxJjXaOs3/bt1UpLvYBiLu5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gA8ujL9J; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oCsBICku"
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-48c4445512dso1608771f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 06:42:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gA8ujL9J"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48c4d99c32bso1853620f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 06:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791812526; x=1792417326; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VXSOc9CMrvtsfjOt0Sddq/wNROQxYDyqZfPwUsE1PWU=;
-        b=oCsBICkuWl77QUtELk4WrEKBMqEtlVNqz6aktoWUshxqZB+fVVJnii8fDbHN+jPBge
-         jN3YyPGzKAvbA9qn6an/eDA/5H1ksSHygF9Z2WE5+g/cDcXvs7TzXAU3HgFtPmkbflHe
-         FfLG4zIhLVrHVAe+xXU/7c0Waz2JZpMMaLtbHH85oLoHZfMeIU+3aZ/SbD1HT2+xfiVf
-         7e2JkOPBaIYJ9BxOuHtcHQmRHfi3gqsQJyXvsXmyrmxZFiCBoT0j2P3O1eKhw/zD1dfV
-         xEEbiqqIoIFuLK0SMurepNYF2t6iq4aPII53g22ZPTQwv7xEzn93MxlvHIBJRIV/LhId
-         4mMA==
+        d=gmail.com; s=20251104; t=1791812816; x=1792417616; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3qFNfYV+xp2TW71TFMQFiYJu/H+Cb9LjfXq783Ex4Js=;
+        b=gA8ujL9J7sKs00uG9+ognaN/ZhA4HLhKQxKPbcifuFCvdHzvpk7dRXx1iHXKbPyVW2
+         LkHtBp1oH5Ozs4KNutcxzZyiH4wfnnCifYmw9Cl25Xcn2nJBuYEawNylcYlbQqPpeNBC
+         +4HsZtO1FFVNKKjmnf7ZRa8lHFGM2uBNoFbTXELEtUU44dfys22vifsROEgylpihJIlo
+         NymA3iS+HXw+zu6rCwdMqPAg6HWsIABHuQcEZsnkxZkKeLg1/jDLLpIkxnPMgDjPtUNb
+         dWNokotvCKC8DH8NjJX6YC3NYmbmnRl7exHK+JmyprO8Mb2pceu8ZaN+/2V51Cl3FhG2
+         XqNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791812526; x=1792417326;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VXSOc9CMrvtsfjOt0Sddq/wNROQxYDyqZfPwUsE1PWU=;
-        b=q002f0GfWAdd/ClX3IIjQrRybPMDlYkcvOnLNuQ+YMPtQ99nnFd49B1P6VMLEYhUC8
-         q4Dkkzb3R4tzMq66LXqXK9JLmSOf5XDeqqxCbo9/BN7NziGiRAkRvzGThvFiSgCXyWVX
-         O/BgjqTj2THtTloadqYHesosLYrI3oBcbtamlRX3M/rii2ac94BGU1qbg9nXER+Si/GL
-         YTxUZmPPf9rem2e7EEanBdnVk5Lf3DhaJ+eZ8+RtmhD+UeYvpNVvWen3TbZ6tpV6v2ZP
-         ESGcSlz114mQNNj3uFtTvjGWn7uVlwZvGJoSsTNYng+6fFlbIRCS8DzSYK5QViD5Pq6k
-         h+6g==
-X-Forwarded-Encrypted: i=1; AKwUvBz7Zzin0LtVzfrS2pTktY8SYBO4rr9XuGeIZbHSlx/u98y3uNxeRgPm7/mNgdGKEtRTKnXJWXxEL+0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYILY9JahJQG4REG0m0khS78s765ghfXAN0PekpVA9DwDWCfOMeU
-	KLoK/Q590h+e8XbhStenOmznn1JS8QLY1YOxnJUyFyxcDHLL7n1AvMqcwrZpizfIkO3KwyaDZFV
-	s0g==
-X-Received: from wrvb8.prod.google.com ([2002:a5d:5508:0:b0:48c:4566:c9eb])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a5d:5590:0:b0:48c:6cdd:ba89
- with SMTP id ffacd0b85a97d-48dbaaefa6emr12665508f8f.36.1791812525412; Mon, 12
- Oct 2026 06:42:05 -0700 (PDT)
-Date: Mon, 12 Oct 2026 13:39:15 +0000
-In-Reply-To: <20261012134159.912183-1-elver@google.com>
+        d=1e100.net; s=20260707; t=1791812816; x=1792417616;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3qFNfYV+xp2TW71TFMQFiYJu/H+Cb9LjfXq783Ex4Js=;
+        b=bzvMuYzpqat08uUgDClBshGy/TX+PnR0U+s42Aqqnhv8PNnn+OQ6d2/7VVSW+JkAtG
+         aX3SDdhGIc/5B7BaW+ERFSwDOFkjBqkxaLKzMA0blKF7vNRFnKpvz3NLUXE0z1Z1ZBWd
+         LqM5ojyev9/c5Qu3CA2arRyR1cL3JotalBjBX8462MkyYWgaiVHga7D+857EeOQlyxKs
+         aUu1mbco4sb4pydByxL3keBL2DEnH2a107DaV9jPnGSxlSWxgWRbz45L5sZ6nPpvpioe
+         UuQPjQkkfretKgAj3btgClgsOri9FShkbHeIzsXO+gyyqow0vYS1qQV+FsSi6VjVfPwH
+         ZshQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy5T1vPD15PYrIG2wEWSiHXnN8RHL2xjV8gVqw9uOkui3s4Tm0hmO938Ji6Jt6XA0xq2vsyLYqXDUo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL4Q8pcwUG8WsTv7RKCOrx+TE62P425JFO1vOlUxunO7D5Ahiu2
+	BIOXHYTM6CCrWuVjDlrZiUAQtqxTdibjybSrZM08E1hcnM4KuH7B6jsy
+X-Gm-Gg: AYBFou0O5ZY4N9npI7CbL0JWRqv2YRvWaR/RQ4StlROQ0rTDefgDA8eHO6CxitiwWTp
+	9M8W4BLaN0FyI+7IeUYiiXTKU7QQypxFD8ela8Nbb7HwZajlP07ydzrlLBrAhCdxkcdkaEdmwYk
+	sKFaYGTQTfFfbEEgSk8XE8Nvf/MPs2W5nzOwkPcUenofjr4gp90S7UFOTmc632sZXIxudRYvDEL
+	vuOu2t7jNvhOexYGRaPN/Nrp07KuR7a+K7Tvi9HKPIlSBk7sBJfLCmuQMWoUUNlgUigqgAHJeZ3
+	ySlIP4FdZvH4+KJXb9MzHm2CqsCtfL6UyB2b1j04jX/QbY03Hl2Lt+oTaLYgV66Lc5DO3xrKaRr
+	0V2KGjYMK1o4+AQOHCw+XYuScR+lRUr2fb5xDH12BfG71Ob97hBP22s72/m1ygmd+K2znohADFN
+	+NKKuPw2/L52Ln6sMctkX5M+Q57QmEtDHe78PZ4bpAI3ZyDWtKu4lPepjg0mfmsrtXUcYKZk0K6
+	Z2a/YbPviWofTsGrkLqFpFNLjtMR29t301yhBmUbTm6I9peIJdU8PR/QlsznKjWb59h/hpGpqf1
+	j64zjP3e5QS2Tfs5UmNMYgepKL9wma5SeqIa140PCIZE2tK3jhq8RRj8GFz062ckZWgxRcOvODc
+	bJ1s8aFIpyR4qq1fRE3kMOVClNFMIqb9DByT++f12EqfJMli1NohKRIyXXZpY7BzXK2E/6yZiJK
+	sbs7I+
+X-Received: by 2002:a05:6000:469b:b0:487:f31:8037 with SMTP id ffacd0b85a97d-48dba9db1a1mr11110656f8f.14.1791812815713;
+        Mon, 12 Oct 2026 06:46:55 -0700 (PDT)
+Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9aadf9bsm19148872f8f.29.2026.10.12.06.46.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 06:46:55 -0700 (PDT)
+Date: Mon, 12 Oct 2026 15:46:52 +0200
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>
+Cc: Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, David
+ Lechner <dlechner@baylibre.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Marcelo Schmitt
+ <marcelo.schmitt@analog.com>, Radu Sabau <radu.sabau@analog.com>, Janani
+ Sunil <janani.sunil@analog.com>, Salih Erim <salih.erim@amd.com>, Jishnu
+ Prakash <jishnu.prakash@oss.qualcomm.com>, Jakub Szczudlo
+ <jakubszczudlo40@gmail.com>, <linux@analog.com>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 2/4] dt-bindings: iio: adc: adi,ade9000: add adi,ade9039
+ compatible
+Message-ID: <20261012154652.00004ed4@gmail.com>
+In-Reply-To: <20261012111342.48040-3-antoniu.miclaus@analog.com>
+References: <20261012111342.48040-1-antoniu.miclaus@analog.com>
+	<20261012111342.48040-3-antoniu.miclaus@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20261012134159.912183-1-elver@google.com>
-X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261012134159.912183-2-elver@google.com>
-Subject: [PATCH 2/2] rust: kcsan: add KUnit test for data race detection
-From: Marco Elver <elver@google.com>
-To: elver@google.com, Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Gary Guo <gary@garyguo.net>
-Cc: Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Boqun Feng <boqun@kernel.org>, 
-	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
-	Alexandre Courbot <acourbot@nvidia.com>, "=?UTF-8?q?Onur=20=C3=96zkan?=" <work@onurozkan.dev>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
-	Yury Norov <ynorov@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Add a minimal KUnit test that checks that KCSAN detects data races in
-Rust code: two threads concurrently increment a shared counter without
-synchronization, and a probe on the console tracepoint waits for the
-KCSAN report (similar to kcsan_test.c):
+On Mon, 12 Oct 2026 14:13:38 +0300
+Antoniu Miclaus <antoniu.miclaus@analog.com> wrote:
 
-| BUG: KCSAN: data-race in _RNvNtNtCskctMpSfuwL9_6kernel10kcsan_test5tests8racy_inc / _RNvNtNtCskctMpSfuwL9_6kernel10kcsan_test5tests8racy_inc
-|
-| read-write to 0xffffffffb751ae28 of 8 bytes by task 116 on cpu 5:
-|  _RNvNtNtCskctMpSfuwL9_6kernel10kcsan_test5tests8racy_inc+0x1c/0x30
-|  _RNvNtNtCskctMpSfuwL9_6kernel10kcsan_test5tests28kunit_rust_wrapper_data_race+0x28c/0x850
-|  kunit_try_run_case+0xdf/0x2a0
-|  kunit_generic_run_threadfn_adapter+0x48/0x80
-|  kthread+0x234/0x280
-|  ret_from_fork+0xf8/0x280
-|  ret_from_fork_asm+0x1a/0x30
-|
-| read-write to 0xffffffffb751ae28 of 8 bytes by task 12 on cpu 3:
-|  _RNvNtNtCskctMpSfuwL9_6kernel10kcsan_test5tests8racy_inc+0x1c/0x30
-|  _RNvXsb_NtCskctMpSfuwL9_6kernel9workqueueINtNtCs1G77UTwpz6o_4core3pin3PinINtNtNtB7_5alloc4kbox3BoxINtB5_11ClosureWorkNCNvNtNtB7_10kcsan_test5tests9data_races_0ENtNtB1d_9allocator7KmallocEEINtB5_15WorkItemPointerKy0_E3runB7_+0x55/0x120
-|  process_scheduled_works+0x4cd/0x970
-|  worker_thread+0x4de/0x6e0
-|  kthread+0x234/0x280
-|  ret_from_fork+0xf8/0x280
-|  ret_from_fork_asm+0x1a/0x30
-|
-| value changed: 0x000000000000022b -> 0x00000000000005a2
-| [...]
+> The ADE9039 is a polyphase energy metering device from the same family as
+> the ADE9000. It is register compatible with the ADE9000 for everything the
+> driver uses, provides the same on-chip dip/swell detection, and shares the
+> full-scale codes of the ADE9078.
+>=20
+> It computes only fundamental reactive power and has no total reactive pow=
+er
+> register, which is noted in the description. Like the ADE9078 it supports=
+ a
+> maximum serial clock frequency of 10 MHz rather than 20 MHz, so extend the
+> existing spi-max-frequency constraint to cover it.
+>=20
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> ---
+>  .../bindings/iio/adc/adi,ade9000.yaml         | 29 +++++++++++--------
+>  1 file changed, 17 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ade9000.yaml b=
+/Documentation/devicetree/bindings/iio/adc/adi,ade9000.yaml
+> index bcc166aad713..70106dd052ce 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ade9000.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ade9000.yaml
+> @@ -5,26 +5,28 @@
+>  $id: http://devicetree.org/schemas/iio/adc/adi,ade9000.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> =20
+> -title: Analog Devices ADE9000/ADE9078/ADE9430 High Performance, Polyphas=
+e Energy Metering
+> +title: Analog Devices ADE9000/ADE9078/ADE9430/ADE9039 High Performance, =
+Polyphase Energy Metering
+> =20
+>  maintainers:
+>    - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> =20
+>  description: |
+> -  The ADE9000, ADE9078 and ADE9430 are highly accurate, fully integrated,
+> -  multiphase energy and power quality monitoring devices. Superior analog
+> -  performance and a digital signal processing (DSP) core enable accurate=
+ energy
+> -  monitoring over a wide dynamic range. An integrated high end reference=
+ ensures
+> -  low drift over temperature with a combined drift of less than =B125 pp=
+m/=B0C
+> -  maximum for the entire channel including a programmable gain amplifier=
+ (PGA)
+> -  and an analog-to-digital converter (ADC). The ADE9078 and ADE9430 do n=
+ot
+> -  provide the on-chip dip/swell detection available on the ADE9000, and =
+the
+> -  ADE9430 has no on-chip digital integrator (it uses an external analog
+> -  integrator for Rogowski coils).
+> +  The ADE9000, ADE9078, ADE9430 and ADE9039 are highly accurate, fully
+> +  integrated, multiphase energy and power quality monitoring devices. Su=
+perior
+> +  analog performance and a digital signal processing (DSP) core enable a=
+ccurate
+> +  energy monitoring over a wide dynamic range. An integrated high end re=
+ference
+> +  ensures low drift over temperature with a combined drift of less than
+> +  =B125 ppm/=B0C maximum for the entire channel including a programmable=
+ gain
+> +  amplifier (PGA) and an analog-to-digital converter (ADC). The ADE9078 =
+and
+> +  ADE9430 do not provide the on-chip dip/swell detection available on the
+> +  ADE9000 and the ADE9039, and the ADE9430 has no on-chip digital integr=
+ator
+> +  (it uses an external analog integrator for Rogowski coils). The ADE903=
+9 only
+> +  computes fundamental reactive power and has no total reactive power re=
+gister.
+> =20
+>    https://www.analog.com/media/en/technical-documentation/data-sheets/AD=
+E9000.pdf
+>    https://www.analog.com/media/en/technical-documentation/data-sheets/AD=
+E9078.pdf
+>    https://www.analog.com/media/en/technical-documentation/data-sheets/AD=
+E9430.pdf
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/AD=
+E9039.pdf
 
-The test is intentionally kept minimal; comprehensive tests of KCSAN's
-runtime behaviour are in kernel/kcsan/kcsan_test.c.
+That is a very short datasheet :)
 
-Assisted-by: Antigravity
-Signed-off-by: Marco Elver <elver@google.com>
----
- MAINTAINERS                     |   1 +
- rust/bindings/bindings_helper.h |   1 +
- rust/kernel/Kconfig.test        |  11 +++
- rust/kernel/kcsan_test.rs       | 120 ++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs              |   2 +
- 5 files changed, 135 insertions(+)
- create mode 100644 rust/kernel/kcsan_test.rs
+Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cc3cae2e378b..3fbbfbb31f5d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14089,6 +14089,7 @@ F:	Documentation/dev-tools/kcsan.rst
- F:	include/linux/kcsan*.h
- F:	kernel/kcsan/
- F:	lib/Kconfig.kcsan
-+F:	rust/kernel/kcsan_test.rs
- F:	scripts/Makefile.kcsan
- 
- KDUMP
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index 4b31aa7f432f..b06d5142d6e1 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -97,6 +97,7 @@
- #include <linux/xarray.h>
- #include <net/genetlink.h>
- #include <net/netlink.h>
-+#include <trace/events/printk.h>
- #include <trace/events/rust_sample.h>
- 
- /*
-diff --git a/rust/kernel/Kconfig.test b/rust/kernel/Kconfig.test
-index e6a5c7a795f0..caf98a23de76 100644
---- a/rust/kernel/Kconfig.test
-+++ b/rust/kernel/Kconfig.test
-@@ -83,4 +83,15 @@ config RUST_BITFIELD_KUNIT_TEST
- 
- 	  If unsure, say N.
- 
-+config RUST_KCSAN_KUNIT_TEST
-+	bool "KUnit test for KCSAN instrumentation of Rust code" if !KUNIT_ALL_TESTS
-+	depends on KCSAN && HAVE_KCSAN_RUSTC && TRACEPOINTS
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This option enables a KUnit test checking that KCSAN detects data
-+	  races in Rust code. The test needs at least 2 CPUs to reliably
-+	  observe a data race.
-+
-+	  If unsure, say N.
-+
- endif
-diff --git a/rust/kernel/kcsan_test.rs b/rust/kernel/kcsan_test.rs
-new file mode 100644
-index 000000000000..5ddc9090cd6e
---- /dev/null
-+++ b/rust/kernel/kcsan_test.rs
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! KUnit test checking that KCSAN detects data races in Rust code.
-+
-+#[macros::kunit_tests(rust_kcsan)]
-+mod tests {
-+    use crate::{
-+        bindings,
-+        error::to_result,
-+        ffi::{c_char, c_void},
-+        prelude::*,
-+        sync::{
-+            atomic::{Atomic, Relaxed},
-+            Arc, Completion,
-+        },
-+        time::{Delta, Instant, Monotonic},
-+        types::ScopeGuard,
-+        workqueue,
-+    };
-+    use core::{cell::UnsafeCell, ptr, slice};
-+
-+    struct Racy(UnsafeCell<u64>);
-+
-+    // SAFETY: Not actually safe: unsynchronized concurrent access is the point of this test.
-+    unsafe impl Sync for Racy {}
-+
-+    static RACY: Racy = Racy(UnsafeCell::new(0));
-+
-+    /// Set by [`probe_console`] once KCSAN reported a data race in [`racy_inc`].
-+    static OBSERVED: Atomic<bool> = Atomic::new(false);
-+
-+    #[inline(never)]
-+    fn racy_inc() {
-+        let p = RACY.0.get();
-+        // SAFETY: `p` is valid; the data race is intentional. `wrapping_add()` keeps the load and
-+        // store in one basic block, so that the access is instrumented as a compound access (plain
-+        // writes may be assumed atomic with `CONFIG_KCSAN_ASSUME_PLAIN_WRITES_ATOMIC=y`).
-+        unsafe { *p = (*p).wrapping_add(1); }
-+    }
-+
-+    fn contains(haystack: &[u8], needle: &[u8]) -> bool {
-+        haystack.windows(needle.len()).any(|w| w == needle)
-+    }
-+
-+    /// Probe for the `console` tracepoint.
-+    ///
-+    /// # Safety
-+    ///
-+    /// `buf` must be non-null and valid for reads of `len` bytes.
-+    unsafe extern "C" fn probe_console(_data: *mut c_void, buf: *const c_char, len: usize) {
-+        // SAFETY: By the safety requirements of this function.
-+        let line = unsafe { slice::from_raw_parts(buf.cast::<u8>(), len) };
-+
-+        if contains(line, b"BUG: KCSAN: data-race in ") && contains(line, b"racy_inc") {
-+            OBSERVED.store(true, Relaxed);
-+        }
-+    }
-+
-+    #[pin_data]
-+    struct Ctx {
-+        stop: Atomic<bool>,
-+        #[pin]
-+        done: Completion,
-+    }
-+
-+    #[test]
-+    fn data_race() -> Result {
-+        // Do not pass on a report from a previous run of this suite.
-+        OBSERVED.store(false, Relaxed);
-+
-+        let ctx = Arc::pin_init(
-+            pin_init!(Ctx {
-+                stop: Atomic::new(false),
-+                done <- Completion::new(),
-+            }),
-+            GFP_KERNEL,
-+        )?;
-+
-+        // SAFETY: `probe_console` has the signature expected by the `console` tracepoint. Being
-+        // part of the kernel image, it and `OBSERVED` outlive the registration, so there is no
-+        // need to synchronize with in-flight probes after unregistering.
-+        to_result(unsafe {
-+            bindings::tracepoint_probe_register(
-+                &raw mut bindings::__tracepoint_console,
-+                probe_console as *mut c_void,
-+                ptr::null_mut(),
-+            )
-+        })?;
-+        let _unregister = ScopeGuard::new(|| {
-+            // SAFETY: The probe was registered above.
-+            unsafe {
-+                bindings::tracepoint_probe_unregister(
-+                    &raw mut bindings::__tracepoint_console,
-+                    probe_console as *mut c_void,
-+                    ptr::null_mut(),
-+                );
-+            }
-+        });
-+
-+        let worker = ctx.clone();
-+        workqueue::system_unbound().try_spawn(GFP_KERNEL, move || {
-+            while !worker.stop.load(Relaxed) {
-+                racy_inc();
-+            }
-+            worker.done.complete_all();
-+        })?;
-+
-+        let start = Instant::<Monotonic>::now();
-+        while !OBSERVED.load(Relaxed) && start.elapsed() < Delta::from_secs(10) {
-+            racy_inc();
-+        }
-+
-+        ctx.stop.store(true, Relaxed);
-+        ctx.done.wait_for_completion();
-+        drop(_unregister);
-+
-+        assert!(OBSERVED.load(Relaxed));
-+        Ok(())
-+    }
-+}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 4d5c96ddc49c..009efda9e7a4 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -94,6 +94,8 @@
- pub mod iov;
- pub mod irq;
- pub mod jump_label;
-+#[cfg(CONFIG_RUST_KCSAN_KUNIT_TEST)]
-+mod kcsan_test;
- #[cfg(CONFIG_KUNIT)]
- pub mod kunit;
- pub mod list;
--- 
-2.56.0.385.gd3acb90ef8-goog
-
+--=20
+Kind regards,
+Joshua Crofts
