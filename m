@@ -1,110 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A834348C7C;
-	Mon, 12 Oct 2026 11:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62CE03932CD;
+	Mon, 12 Oct 2026 11:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791802930; cv=none; b=RpEgxO8+f+Mhc9jRcHA0zM1vPLWEFQzfONlI9bGAiDJGp1jau9k8rg83AyFsoD/r1CaKNCr/LL210RCw3Sgs4MwtYBX3VXW/+Oq3XpVvYX5U2Gi+FgcO5CzlYnLe2ROs4INAtxGRt/Yj3NqB/LuZZNHLJJPiGy2JJK3FISFyEk4=
+	t=1791803054; cv=none; b=mpA8mDKA0EyUQGYBmtKrn1JW3Zh7/YAkFcTxM1wPxr8T5DTUMb7Lxfv36z7vAEGZ3C2Hk1yfYFQ393arKbvJoqIKDpzeSxCmKlqeP+smfRBRjYpCgds4dZxCAPHpnOGwrc8I6N9pEE/gW36znQYRIXOehx7yC+kRWlQ78aEMaVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791802930; c=relaxed/simple;
-	bh=aj+gYybFQdwaLzcOujCEl6Ayb88eLjuLhCdZZHUlOxE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AlEfr70YbN7dYy3XSTgFaTV+vCxOsMYZFigqOzhbzyG9TrgyMbAiqy0MNFaO1jOwvSpRGjnOSGg2oEfEU6Cp1sVwYtALHO+Y5Xs0s1kqOjIU4g8BaV/LdXAigQRK3NWfI1ATViyARkryRfXYs4eWYVM9JORkzIL6/M2FeR1Ufaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BtvBiCKV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791803054; c=relaxed/simple;
+	bh=Uoger/6i+U9R/3R8Mxjg0FsI30PjlNy00uruFl2bnhw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kT5yO9qFdY7aiOxFpvsSOqwCPv+jOhks359YztLP4UEaUqvwfkcTt5+sq97yO6fWlwrqmabpfI27FXhy0fXQG9+KgIoHumKTRz7QfHq9Hu4O5f0+eyI3eQHsGPtsIEtjG4EER9WW37WNafkk/Z7g7ZBMHyojLA/Vg6+FYCthjWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=oG9FLrOL; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BtvBiCKV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1728B1F0089B;
-	Mon, 12 Oct 2026 11:02:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791802929;
-	bh=MAfYAMjPNeKmn70tZ8yJzw3w1YF8t8B5YaHyVdbC17s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BtvBiCKVAPhg4YheaU0NRTp6NmOfBz71i/2zIRP+ixQZlDRLqv9KZ2Et0goaQhFpF
-	 1adHNcrWs0a7uEmFieyjjaBhTuH/edNCuGf5KUXuHN+d31KNWCXCjrDUDy/uY8IDLj
-	 ao5nVaaGaM3ZuU2zQAZKdppFM3eRolLpwvA45qAEDycS2m7tXyRi46Kzr4N+vK83o0
-	 krr9G8jYOmbF3ozKel1ofXEIzfyqphTOx0GaT0Id1f0N61X9eRhy9mKzsF/zW5S4mF
-	 sUDGOczGxsWpKhIstJfvyoiyO8ynN0redIjjsgQeIiEyNg9T4Pyqk0CnbhM/lWgwV3
-	 vkCX5+ikp0/xg==
-Date: Mon, 12 Oct 2026 14:02:05 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH v9 01/18] PCI/P2PDMA: Document the TLP attribute
- assumptions
-Message-ID: <20261012110205.GD219304@unreal>
-References: <20261001-fix-p2p-acs-v4-0-v9-1-1a8e0f50ddd9@nvidia.com>
- <20261007201257.GA781492@bhelgaas>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="oG9FLrOL"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3A5BF1655;
+	Mon, 12 Oct 2026 04:04:08 -0700 (PDT)
+Received: from [10.57.12.163] (unknown [10.57.12.163])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0ECCF3F882;
+	Mon, 12 Oct 2026 04:04:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791803051; bh=Uoger/6i+U9R/3R8Mxjg0FsI30PjlNy00uruFl2bnhw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oG9FLrOLY8KTiQ9oAF6jOpwHmMrnhcwd59ravjOZFd2iijqO6S2wzS8qd7dVww1p5
+	 oRQfMSvT/00lzftmGojNbzpu4nOZtHb27cBs3PHntwCrs4RTfXrcD3eEA44sNMsSLd
+	 REYGoD+8Qqm2n0Wuh0h8UtKv6BGHaFFI91oixOQs=
+Message-ID: <34106881-8ca0-4c9f-a4d2-0ff0b35460dc@arm.com>
+Date: Mon, 12 Oct 2026 12:04:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261007201257.GA781492@bhelgaas>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] PM: QoS: Add a sysfs CPU latency request with a
+ boot-time value
+To: Roman Kagan <rkagan@amazon.de>
+Cc: linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Mike Rapoport <rppt@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ Christian Loehle <christian.loehle@arm.com>,
+ Pratyush Yadav <pratyush@kernel.org>, kexec@lists.infradead.org,
+ nh-open-source@amazon.com, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Len Brown <lenb@kernel.org>
+References: <20261010-b4-cpuidle-shallow-v2-1-adede7dd9077@amazon.de>
+Content-Language: en-US
+From: Lukasz Luba <lukasz.luba@arm.com>
+In-Reply-To: <20261010-b4-cpuidle-shallow-v2-1-adede7dd9077@amazon.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 07, 2026 at 03:12:57PM -0500, Bjorn Helgaas wrote:
-> On Thu, Oct 01, 2026 at 02:55:09PM +0300, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > P2PDMA selects a mapping without receiving the Request's ordering or
-> > Address Type attributes. Its ACS handles only strictly ordered Requests
-> > carrying an Untranslated address.
-> > 
-> > Document that the result is not defined for Relaxed Ordering or
-> > ATS-translated Requests because those TLP attributes can select different
-> > routes through the fabric.
-> > 
-> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> > Tested-by: Tushar Dave <tdave@nvidia.com>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  Documentation/driver-api/pci/p2pdma.rst | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
-> > index 63cff9e4d2c9..80f8fec9b0e9 100644
-> > --- a/Documentation/driver-api/pci/p2pdma.rst
-> > +++ b/Documentation/driver-api/pci/p2pdma.rst
-> > @@ -15,6 +15,13 @@ then based on the ACS settings the transaction can route entirely within
-> >  the PCIe hierarchy and never reach the root port. The kernel will evaluate
-> >  the PCIe topology and always permit P2P in these well-defined cases.
-> >  
-> > +This evaluation assumes clients issue strictly ordered Requests carrying an
-> > +Untranslated address. Its result is not defined when clients use Relaxed
-> > +Ordering or issue ATS-translated Requests because those TLP attributes can
-> > +select different routes through the fabric. Unless ACS Translation Blocking
-> > +is enabled, a Port with ACS Direct Translated P2P enabled routes a
-> > +Translated Request directly to the peer regardless of the redirect controls.
+
+
+On 10/10/26 14:29, Roman Kagan wrote:
+> The idle states offered by a platform trade wakeup latency for energy
+> savings, and there are situations where the trade is not worth making:
+> while a latency-sensitive workload is running, or during a live update
+> via kexec, where everything from the outgoing kernel stopping the
+> workload to the incoming kernel resuming it is downtime, and deep idle
+> states may lengthen it.
 > 
-> This whole paragraph is removed later in the series, so kudos for
-> documenting the current state before it changes :)
+[snip]
 
-This may be a leftover from the prerequisite fixes you merged. I'll keep it
-in the series for historical context. :)
+For your scenario, when doing kexec to the new kernel, the normal
+disable procedure for idle states for each CPU doesn't work?
+You would like to keep this information also in the booting
+system (via bootcmd) so the CPUs are still not allowed to go deeper
+idle during boot, is that right?
+Isn't it FW responsibility?
 
-> 
-> Unrelated to anything in this series, but this doc mentions
-> "p2p_provider", which doesn't exist.  Should it be "p2pdma_provider"?
+BTW, I'm not a fun of one global knob for all CPUs. I would
+favor extending the usage of the new sysfs and make it per-CPU.
+That would allow more scenarios used by user-space daemons at
+runtime and not to create yet another sysfs interface.
 
-Yes.
+Regards,
+Lukasz
