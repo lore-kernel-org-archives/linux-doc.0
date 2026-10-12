@@ -1,136 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2D23515DD;
-	Mon, 12 Oct 2026 00:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BE518FDBD
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 02:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791766592; cv=none; b=enSrSU/U3mhbA/pZ3fb5WsNJ1KH4GHYpVI5ug+ZYqibRWkfkZ6qEubwa68SB7FYjawzOzbYYURYZCv3FYhPVdKq6hPNIGEVgleo83PHL/8ktWCyNTCOTH5IJIF9wqERQhNjtSRaYCAnALMPmA3F1dSjmAdumOMRb+mE0kLJIDrI=
+	t=1791772832; cv=none; b=kPldSbR+01wp5xTFGPMfEaIQxP38wo5m8uVCfrbGnKrnr3RceYkmHA9qQnhFeR3V2Te2X4ieBPqUKJ5TIuFGAQl2YNtoRajmkaq4GQYI2VRyk0gCfSCTmUraV6g8IApUqIdAx81exRodR1UEOr92XxSdWhch0rljl3RSo9rCSRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791766592; c=relaxed/simple;
-	bh=fgEYWGJ2o79ZogsVquNbtLGhVkZVUJInYR7e8viFy64=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aDitourqXx+jK9w4W3SwUwyiUMQ55gfocm/6Y2qJJtogTHAngkBTNh5BDVAlZBc8oJ31i9InerWBcRlpfjcHBfhiHXLtemkQAQwo1nBIAgc3tevPR9KYeysVnAzrE04hXNulGZB7G4cfW+Mv01wkXFJt2rMFqwDcUbEcVCdIezY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Srp4lxTv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791772832; c=relaxed/simple;
+	bh=Rg7Ti2nrCcjndaSwC/tc8Lpj9MG69++gVxXMtW61Alc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=huLH9TEr47a7Qwj5KZWUi3HnBZ07slkzSk91GnMd7/oab+iQwxWRNae7RNCn6KwF3/7Y4SMGJxd1KQYsnDGMQxWzPsLzwdl5zTVUdJR4e/3H/ACsLYyk5gyyOOCdTlkdnxWy/Apc3C5YIW84+mA0vDaNkjvrjIOw6qa49bv2B/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ESP+wt37; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Srp4lxTv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37FB71F0089B;
-	Mon, 12 Oct 2026 00:56:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791766588;
-	bh=hxf53qqklnBrLDOnVa563Rz7Xv1pTGUtJCKz14BmezI=;
-	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To;
-	b=Srp4lxTvswzQGSZurZdIgokznIEj5wyrJNY9T77hd+9PMBPDY7gvvfunlGvn3ilAt
-	 c3UqltVrr8pDMp7TpDjaT+8DWh+uNsnVzDM/cCacLNCkmQrqU91rplRALKRe2zQEwJ
-	 jMlbkTkanGJ47er7L6/E5P3rPXC8cQsk79+DBESejMhm2sHhgCTx5z2mewZh/Q+eCS
-	 F8OdoYFePL+Ri0/RcYD/MmZKZu+FdwiV3IGzDWFNxqUREJ9KJfdvF45vhgPbd5Rpxn
-	 5C0t0G6buQIudJ3rTCmzqaMebg7XdlTR/4PYtBXFKymc2w62JaoqVSbDQu81sYb3fr
-	 9hXGvCVno8tUA==
-Date: Sun, 11 Oct 2026 17:56:27 -0700
-From: Kees Cook <kees@kernel.org>
-To: Alejandro Colomar <alx@kernel.org>
-Cc: Alejandro Colomar <alx+linux-hardening@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Bill Wendling <morbo@google.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Gow <david@davidgow.net>, Petr Mladek <pmladek@suse.com>,
-	Shuvam Pandey <shuvampandey1@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Shivaprasad G Bhat <sbhat@linux.ibm.com>,
-	Thorsten Blum <blum@kernel.org>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guangshuo Li <lgs201920130244@gmail.com>,
-	Ira Weiny <iweiny@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	nvdimm@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v4 05/11] seq_buf: Add seq_buf_strlen()
-Message-ID: <20261012005620.466497-kees@kernel.org>
-References: <20261003035906.too.263-kees@kernel.org>
- <20261003035921.1918874-5-kees@kernel.org>
- <asEhEe0Urb5Wx7yi@ashevche-desk.local>
- <202610040023.A3865A6@keescook>
- <asIPlnb0noMd33rr@ashevche-desk.local>
- <20261005112209.1e47fa-kees@kernel.org>
- <asOKvhT01aNb5-Dg@debian>
- <20261005155839.d5d200-kees@kernel.org>
- <asPSYn7sLqiH39Fu@debian>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ESP+wt37"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791772829;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mptis6qqMpkv7ium90UiEIS1Bva/bRNNiMhKtY2RI7I=;
+	b=ESP+wt378y2jySy+w+ZOWz/6ffx3Bmeapmfd6Gtn/pKnkfIwxmCESiTSetewPBPLs1EsPj
+	VAZq9hUHd1eZjMCk43/rrXyhccXQo+57UedmpQkqS2lllCLSvZA74jq25RtHPipoMJnns3
+	aKYX5FeMAIq8l9sXMyfeGOtza3/4jq4=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-365-jGzoXvl4Mq24jjldOuHSDQ-1; Mon, 12 Oct 2026 02:40:28 +0000
+X-MC-Unique: jGzoXvl4Mq24jjldOuHSDQ-1
+X-Mimecast-MFC-AGG-ID: jGzoXvl4Mq24jjldOuHSDQ_1791772828
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5338ff2cf14so28304191cf.1
+        for <linux-doc@vger.kernel.org>; Sun, 11 Oct 2026 19:40:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791772828; x=1792377628;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mptis6qqMpkv7ium90UiEIS1Bva/bRNNiMhKtY2RI7I=;
+        b=Xi/4KcQk8gNeT/gYr62UQYjPQRZGHSI/9yts7QTOwRlMOLGKPfPywIIMQo62QN46uh
+         qVtpHx5TJ++dZ1b3ErZ5YAxXqHzuS6mBfOxVpHx68ZGcAVZqwY2iYlDokwPlymY6b/QE
+         LQvliCgrcTv0AB31bOkw2TA2pFh4j4NViG0TfVkXDQA5M/XbEcZ4QsbXRxUUVxNKxDK7
+         Ezmm9O49UIrD0jRZ2lXBYRf/KA99ze9LTyh1x0vVTFht8K0Jg9eoy5qlxEx7YPN85ipa
+         ddixnlOSp3q1/jUqSQ7sO1Vn2L/fISE55VzwLwWsWARqHpZGnkb0Q6VnbNL7R3FsFnUd
+         e3zQ==
+X-Forwarded-Encrypted: i=1; AKwUvBysECWL7EeE3bk1UD6SIqlCTglC2DXt0ZNjLTPp0AT6B3f912sm/EkLgGN4aDWATOPso5LKAqkeoQY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK2Z/tqCvIR301nd/pPCl3jnZdipapBfBEgB00q4SKGENXxzp2j
+	jXcULfoz2IclgVpCuwr4DpT+R8Rf8z6qgCqeKMBl87qiooXFhdNGui0yf2NwtEHmVy+uS1Vvjht
+	Jfc/LfcBNTUjuw0C1d/aBT01DrBMsJTZRHoJEFvCp6tPf29GNtw1d+0tbF6bOjA==
+X-Gm-Gg: AYBFou1v+4jJYxSBsmVZsTxdzmhZAEUhQbh7FeAtzgqAIhsMUFlXzNwhYrZK70uhkv6
+	qLNL/8Lkjf2wyeiG2ankR3vuieKDCzR8VWozRq6YZxhNJPX/bxMXEyijtOjHPCpdZf6QfiJA1df
+	cq+pN9UlhQSDMnh0hKpC0REeVMGLbSdf5JJajviWfdSkGiPkVl1t6Sl0bJ5ptZTJq1NU67Y3l/o
+	qSLE9uXMt1xVQFhzxaO3blMF5jy4Ag0B0dLmFpFeJsZrnSYJDm2DYw1RwjmNLivQ4z+lV8yUUdL
+	GzphshxOmJXmbcMmVOs/6imM5bx7IL9Iqw3Z3+g6amOpRT29GgFfkns7Vd0G49Rx9B2EYmKdRWS
+	JUYM=
+X-Received: by 2002:ac8:5f4e:0:b0:533:97ab:dd45 with SMTP id d75a77b69052e-5359fb3dceemr148577491cf.36.1791772827792;
+        Sun, 11 Oct 2026 19:40:27 -0700 (PDT)
+X-Received: by 2002:ac8:5f4e:0:b0:533:97ab:dd45 with SMTP id d75a77b69052e-5359fb3dceemr148577221cf.36.1791772827331;
+        Sun, 11 Oct 2026 19:40:27 -0700 (PDT)
+Received: from [192.168.2.110] ([142.172.30.162])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b812ba8c7sm15440366d6.38.2026.10.11.19.40.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Oct 2026 19:40:27 -0700 (PDT)
+Message-ID: <aae9d468-2dd4-48fb-8e2d-d6997ac8e723@redhat.com>
+Date: Sun, 11 Oct 2026 22:40:26 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <asPSYn7sLqiH39Fu@debian>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] x86/corruption-check: Remove the BIOS memory
+ corruption check feature
+To: Borislav Petkov <bp@alien8.de>
+Cc: x86@kernel.org, tglx@kernel.org, mingo@redhat.com,
+ dave.hansen@linux.intel.com, hpa@zytor.com, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, corbet@lwn.net, rppt@kernel.org, blum@kernel.org,
+ david@kernel.org, linux-mm@kvack.org
+References: <20261010153604.1885381-1-luizcap@redhat.com>
+ <20261010194519.GAasqVz2brXiOLegQi@fat_crate.local>
+Content-Language: en-US
+From: Luiz Capitulino <luizcap@redhat.com>
+In-Reply-To: <20261010194519.GAasqVz2brXiOLegQi@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 05, 2026 at 06:43:23PM +0200, Alejandro Colomar wrote:
-> > Yes, though not often: the sched_ext debug dump builds a nested per-CPU
-> > seq_buf from seq_buf_get_buf(), which returns a size of 0 once the dump
-> > buffer has overflowed, and it handles that case on purpose (see the
-> > "$s may already have overflowed" comment in kernel/sched/ext/ext.c).
->
-> Hmmmm, so IIUC, it is a sentinel value, and not really a buffer size?
 
-It's the real size of what's left. seq_buf_get_buf() hands out the
-unused tail of the seq_buf. Once that has overflowed there is no tail,
-so it returns NULL for the buffer and 0 for the size, and sched_ext
-initializes the nested seq_buf with both. So that case does get the NULL;
-the 0 is how much room it has.
 
-> Did you consider not holding the size of the buffer, but rather an end
-> pointer?  It also allows you to find how much you can write to the
-> buffer, but has slightly better semantics: the end doesn't change if you
-> advance the position.  'end' can only change through reallocations
-> (which I don't know if you do in the kernel).
+On 10/10/26 3:45 PM, Borislav Petkov wrote:
+> On Sat, Oct 10, 2026 at 11:36:04AM -0400, Luiz Capitulino wrote:
+>> By default, the BIOS memory corruption check works by reserving the
+>> first 64 KiB physical area from memblock, zeroing it and then scanning it
+>> periodically.
+>>
+>> However, this functionality has been broken in its default configuration
+>> since v5.13 by two commits:
+>>
+>> - Commit a799c2bd29d1 ("x86/setup: Consolidate early memory reservations").
+>>    Moved trim_low_memory_range() into early_reserve_memory(), which runs
+>>    earlier in setup_arch(), causing the first 64 KiB to be reserved (when
+>>    CONFIG_X86_RESERVE_LOW=64) before setup_bios_corruption_check() runs
+>>
+>> - Commit f1d4d47c5851 ("x86/setup: Always reserve the first 1M of RAM").
+>>    Hardcodes the reservation of the first 64 KiB early in
+>>    early_reserve_memory()
+>>
+>> It might be possible to get the default case to work by allowing
+>> setup_bios_corruption_check() to run first, but it's just not worth it
+>> given that the kernel will never access the first 64 KiB area anyway.
+>>
+>> Lastly, note that it's possible to get the corruption check to work with
+>> a different region by passing memory_corruption_check_size=. However,
+>> the main goal of the feature was to check the first 64 KiB. Besides,
+>> the region picked will be almost random as setup_bios_corruption_check()
+>> will pick a region by size.
+> 
+> And?
+> 
+> Do I want this or should it be fixed or the first 64K are not worth it to
+> check or...?
+> 
+> That whole "rationale" is not really clear to me. Yes, it is broken,
+> apparently. So let's remove it but we might get it work still... So which is
+> it and why?
 
-The size doesn't change either: it is set by seq_buf_init(), and writers
-advance "len", an offset from the start of the buffer. seq_buf never
-reallocates.
+Right, the changelog got convoluted because I tried to document all the
+options. Just to make it clear: I don't think it's worth fixing this, so
+I'm proposing to remove it.
 
-An end pointer wouldn't remove the empty case: buffer == end is the same
-condition as size == 0, so the accessors would still need the check. It
-also makes overflow harder to record. seq_buf marks it with len == size +
-1, and the matching position pointer, end + 1, would be weird.
+Here's a rewritten changelog, if you think this is good I'll send v4.
 
-Changing the representation would also means changes outside
-lib/seq_buf.c, since tracing reads seq.len and seq.size directly
-(trace_seq treats a zero size as "not yet initialized", for one). I'm
-not saying that's a good thing to bypass the API, but rather that such
-a change should be its own series.
+"""
+x86/corruption-check: Remove the BIOS memory corruption check feature
 
--Kees
+By default, the BIOS memory corruption check works by reserving the
+first 64 KiB physical area from memblock, zeroing it and then scanning it
+periodically.
 
--- 
-Kees Cook
+However, in its default configuration it has been broken since v5.13 by
+two commits:
+
+- Commit a799c2bd29d1 ("x86/setup: Consolidate early memory reservations").
+   Moved trim_low_memory_range() into early_reserve_memory(), which runs
+   earlier in setup_arch(), causing the first 64 KiB to be reserved
+   before setup_bios_corruption_check() runs
+
+- Commit f1d4d47c5851 ("x86/setup: Always reserve the first 1M of RAM").
+   Hardcodes the reservation of the first 64 KiB early in
+   early_reserve_memory()
+
+This has been broken for years and nobody reported it, which suggests the
+feature might have no users.
+
+It may be possible to fix this by running setup_bios_corruption_check()
+earlier, but that's not worth doing: the feature was intended to detect
+corruption in the first 64 KiB but the kernel will never access that
+range anyway.
+
+Note that one case still "works", which is passing
+memory_corruption_check_size= to scan a larger region. But this is not
+useful either: the parameter takes a size, not an address range, so what
+gets scanned is whatever memblock happens to have free below that size.
+
+Remove the feature.
+"""
+
