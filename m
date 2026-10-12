@@ -1,215 +1,209 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013004.outbound.protection.outlook.com [52.101.72.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB704A8A39;
-	Mon, 12 Oct 2026 16:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1074C4AB1BB
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 16:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791821940; cv=fail; b=l0hB4pK1dPGox1QRkNd4vNl2gm3ZJ1d1XP1i1DPKZIoCXJqFvEKRAZ/dLnT69SNyLpEtrTrHamWVGRlPy9Hc3o4yj5zpEoU0oeiGTdj3eaqwiyGniyZZLPk5NClSo1dPWrn/2Alo4xnwbyNkXv/rqXjA/s/HVb08KAN4VDJpB0I=
+	t=1791822072; cv=pass; b=giK0lJyQCIbHWdzUTWuaJrmSSUJfeRi+Y56IloZkRx2GO41XuOZIt2CJbyPbjxs1/gxQLfSd7UhGLI8FErYh/Y1LqHKSs1Kma03SlKC0n7NoaxuNnJywmwg1A42wCm3ssQqSQSn7ahNEqj5Rsf6rdj8BkP0LyTnIRYeKcwJHS9Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791821940; c=relaxed/simple;
-	bh=7z3IPNGuUtMgalLJlXBrFS5zIHhfP39D2s61JYRRw4k=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=U3OdlvAvHX27LPJiMNj/mMRzCGlqBEXr0wR4DBzcGF8e0+iIYamERpiPJ8mTL9GwZh07x70ObkQZFAJXOcTdjP0TxkJ3suCTwVQw6QrJZdZbG0Dj0nxfYEwBQVwMozcVZWqUsjiNqZBO5w6gVQbvk1YA4TmL7dt5e+3+Ssz/wIo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b=mDpVl/Sj; arc=fail smtp.client-ip=52.101.72.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siemens.com
+	s=arc-20240116; t=1791822072; c=relaxed/simple;
+	bh=ZtJuy+UREce1sg1peUoIDUZxf72qfaMwDaVEPJG8eTw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tZ1R6VMxdNNTEn2xMWWmIjxjwVZ3t+E7RRqSjZutDwERbKjYcQhX7VsrSno2D4SRj70U0YIC0kwPBDBdkyB39NzTORHgbPhCmODt2RDA5mTdFlAmCnkoBquAOcFpJAH1yssUjlcTFE/J3/tcgxJcmLfe/QPx4BO+Z1OMTO1F18o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mlQe5Rq1; arc=pass smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=siemens.com header.i=@siemens.com header.b="mDpVl/Sj"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Bgk9W4SNf9EkSa+Z2zK423Po73QYf6HLiK5G/Y1EQiiO0WNVRGzBWzH4enK4SGqhjfB5Uizr8Ypdrdw5GoQqBcIg/LAJsWmLxOKXoGg8ytGmmCTOU3FUB7e+OeBByF48UTN+W+7h7oo56pXly6yPuZIrcrLRSwxENo32HLTaSlCPN9HOlNYKCo2kJqQ7/9Bobngnmmpxa1Ph2vOo/quqIPK4CUXBoXk68an94FoBp2arbB3DG1ui3nhmqm8f41yuBezk/worGxh8B3ae2TeUvbE3lXGD7lZ9Amtr/xCwWD5TdNq67/vuBTxjCF7i6JKHO20SAViJtYokIJjE53Mzew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ux4aYlZq9Dg6Z/tKAXhH9ZW+uKlQFCALNJ4Y5RevYlY=;
- b=PmBpvHiDpriHtg00rua2yhScuukXJx7Rfr6avoPs63IvUkRMw6SVBKriv4f2Roo4VsGHizzxGDW14vm4Y6T2YiVLeBRxvvtvfQz+Z6mCj6Z0wNvhGohhjxNXW8mPCTjhm9VO85RgsVhwcDOvZtnvDfjaBVc5wjlVPLzK1ha/PJNzkVDGHw+ax8v8Pw6f8SYnvFZWl4Xagkz23zEvLOaFJfV+K+dDFEdF/4AynjCoTYw7JMZ/ognPXyNjbjqlyYDK7Be34W6r6X4gIn4KiaaOAQtgtD5aTsuZfCZAIo9sEmV9d3RmZWY0MVNqWqFd1DGgSP/Nrjs3LBVW9OEhl5/Dvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ux4aYlZq9Dg6Z/tKAXhH9ZW+uKlQFCALNJ4Y5RevYlY=;
- b=mDpVl/SjW2ZKWD8l1YPPLGVpKPx5TRlxtYvGAdW+yLpt/laEwXGnrW4v0+W2Jp7HYBEj+wvRMZXxN5r7u1eLfvA2rA6hkv2QSg/BG1o3kHtwWe5fwnGE//GKAiUBtXNJZcskE4twUAX/FJyNqaTUG6AnnfleULXskETFfwLjgYSA8UQ7XOSLqdBl6HZzcdrHOqspBLk9bmFSFw5QxgeB8TSvHb4x+gqlOR9gWIZQADvpGvuBchZDUHq5YfG8isuiRtPii2JO+KG60QIcSTTYW70/XSNAB81Z1iKz3F8PS0xW46wLZk/XaXOjcsjEVrdaSRaAOmfVlYm38miDzjBmWw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-Received: from AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:3dd::5)
- by MI3PR10MB500255.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:290:97::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Mon, 12 Oct
- 2026 16:18:54 +0000
-Received: from AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::5f49:b0e9:d295:22d8]) by AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::5f49:b0e9:d295:22d8%6]) with mapi id 15.21.0496.021; Mon, 12 Oct 2026
- 16:18:54 +0000
-Message-ID: <cfd7123a-e83d-490d-918b-154d45aad92d@siemens.com>
-Date: Mon, 12 Oct 2026 18:18:52 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] rv: per-edge dwell-time statistics for per-cpu
- monitors
-To: Gabriele Monaco <gmonaco@redhat.com>, Steven Rostedt <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- rpm@xenomai.org, jan.kiszka@siemens.com
-References: <20260911123439.463052-1-tobias.schaffner@siemens.com>
- <4759c9b0dacdf1f9c0cf47158895860dbd0ec401.camel@redhat.com>
-From: Tobias Schaffner <tobias.schaffner@siemens.com>
-Content-Language: en-US
-In-Reply-To: <4759c9b0dacdf1f9c0cf47158895860dbd0ec401.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0095.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9b::17) To AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:3dd::5)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mlQe5Rq1"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c2dc63f8d8aso343187266b.0
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 09:21:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791822068; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LHJ9KkXWye24OVhCw7XJyAqt8E05RvHDFPKOz1M7HWcAfv84suJ1RdUjxz/xAhfWsc
+         WcbQW56suom+mIIzHnhVZXt0Y/g/pGBV2EVvrg/AtOyeLlymdg1VrN63iUs19J5stUOq
+         EKvOcVjMGCe2MHK5UckPUlTjCdNAr0th7E6emZa5s1jz9UkYQl6pvFuOWUE10o9Hb1wN
+         GG3AjzahNyeBaZl36QrDDxpnkvWpu82rm4bRHr30VH7BJG6dkJkVZ9v+8FgXIbyrZqug
+         ijhUsheB1pg7xd5Teeo3+4O/zec0qwZtPPqs98mhFe3Vr7wRAuc+2Gwy14MjNTZfHI8n
+         HE5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rtrJmGwBJ7fFDAdke9R1Vl4DtHEPSg3jl6Ch4LlMUAA=;
+        fh=/VBy2cndCs9SWY4aYjmUtYCJJvWhZZI2n7I4kvV3O1s=;
+        b=KKThQiFT+yyxYKRxWtHmMVUY3hWzCdowdbWcJVk3YNl+MWyu61eZIEVosRdqG9bjsH
+         fdpd/FIeT+55BZQ9quAJW3XNQAKj3MlzkOsNGYt2gHReWoAEuoEfjsvAP0UmAxKjq0IU
+         /8Yy/x5ue6+z+LqdQ/AH81NZLEdXammPhiB+mv5xi5BGHqQ9QEU0WiCfyo4bp+ZvLUZP
+         YQikU0QAyu1B1L1CNxDN6sfkyPkKtHOVv3QBv5YbMMlotTSzdDAUoLBDjxpIKoy3QFaq
+         sv0GKPLwAleVxAq0EmlpQwrZyoRVjeffQQ+g3DSF6EIyTnrxR4zdNgRIwv3CEHoOmEi4
+         ATyQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791822068; x=1792426868; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rtrJmGwBJ7fFDAdke9R1Vl4DtHEPSg3jl6Ch4LlMUAA=;
+        b=mlQe5Rq1SzCNDLgbX91+TwnsTuHGb9Q1PNka/WwZ1b4omFf2cviF0DCRzMFQTxS/Cp
+         4kvi7eFoR2FXsAiQmzTBclVr20+xw9pf8erRlMoTnC6EOa6Nb0URMMYvwUdnax46HppO
+         MJattmjMAg9RomV8fBUTBVcfuqu2tohO/rFrE7PceK0NuWZP3XUib4YiXDwTNVOXJgNf
+         XDOD9IhgTmgK0dh1bR8BhZs+rS3AgOjEkgC5LyPj+grjMYHwj5KSZMTg4ASrcWpvAT3f
+         4UclTyagrWBXPz1Kz5qTpJwadd/mXeLakp6skbKaqbrPR6JSyJuSxmboPM5QmFYGbWUL
+         nGjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791822068; x=1792426868;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rtrJmGwBJ7fFDAdke9R1Vl4DtHEPSg3jl6Ch4LlMUAA=;
+        b=NtLd8Z2FlUMvxVhU+qUnDyzniJvNU7lSBJUYiyo//SkSscyikx5O9O1zQSF11e302+
+         sEpK4xaHIacQGdegp9eqFRaOzzvUPg/UNM/D6fVtchUa0KBt/zvrTVJFinA7sZAvBbdx
+         NtWs28yrKSRiMEi1xTO2MCbDheq2YmzcXXFrYChMOK2el9sqJtYHeSsh8KyDABHEvtgS
+         LNS0U89XiWGJ6R+3upuPMGcEZgXNLxUZpN4kG7uJ6T1zBp8rfwvshnagWu/PNxDQYZEK
+         /TqggTLng5KIaHK0ZyXIAHjyKMTcsVPLtRv7HJcu7JtwzKO/4VTOJzcrCpJA8B9o9UPB
+         SAsQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxj8qw9p0iIfW6qD4pb+GFU2Yy7Kch0PANQLTZBfIRBtVeIhGPoDafT7mTUuPubUUaeZVkFj50AZU0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKbgsJLg5K0LYZeaKBah15EkfRox0mftEtDTlCO3vFSnnAJnNse
+	Lymr/H7BHu8vHPcymORG4PPQIbRsnboZLoOWLo9vqK5Ztbwfl/7DvXjK9H9/hGLk5Yqy+BFAF9u
+	WpgaIC4J9PU0ubnEcJrWKv5Kj640g/fg=
+X-Gm-Gg: AYBFou2XlpjcNWDFWF2zlhMbBt0FpfaNeL4xvLRNCEgLknlWNMcDW8E8aC8wVHlJ350
+	Qvx84DfZE7in9S/qfv2IvjPHj5M+Vaal6JFfT4IwrV1SI7RJpinUY5ihp0VJjWdD/u4F2YYm1KR
+	NkP48+gFRSDTkYrr0Lgp//F6aK08snN8aUrdidqiHtKF1ET6CWHPGahvR+0iEgXLxths28x34OP
+	QP5JOIduKLsJRZlPioFkA22UYL+MWfD78jUemJ/FnXkwA/qZf+4cDTYQtcF1+HTZMkpMfFFkLx0
+	5gC2sAjsH5yTW85RbqHdSgpufr7ZoWsIzsJDnAAbctR7AGRTBigb3I9aRYcgHeC5WeRi2DPhOA4
+	42SRIgkrJpkbAoTlI+I4j2zFosr0/VZQQ0hMlV4NoJ34=
+X-Received: by 2002:a17:907:d92:b0:c2e:7daa:2399 with SMTP id
+ a640c23a62f3a-c31aa0b59aamr1021227866b.42.1791822068206; Mon, 12 Oct 2026
+ 09:21:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR10MB4992:EE_|MI3PR10MB500255:EE_
-X-MS-Office365-Filtering-Correlation-Id: f7298824-f61e-4637-6454-08df287c828e
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|56012099006|11063799006|4143699003|10067099003|18002099003|22082099003|55112099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	Tr7KJ0BJOEMcM3ZdGVQum0zVrajo3QmJQ9h7o98M3+JzL0TrR8MrdlNDjJPtygtT1iBAGOowysn5BA1w5B9qL/f1eJ71xL/Yo79U1GICCgD68z7niJQ5O0FYE+j/rleWj23oN1HHn/7kbyldQyOQDYB4yb6/wwWjuof4TxIbfvFWgZIfo8HLJlYzZ6XCTjKM1OxGQc0Wg02QAAnckxg/viX7dIcpXinck0F5dsuWxqZ9PPzfTCLL0cteXA8f5yFbH53BmtHqrhzZyjmFnQayY7Ec568iqvDBOCdXXmhRLMptKZSI7OmUiBOS+64F3BQ2wBTz1BtsyPtofxnmgTpRcXrtUzqSBFWGX7+erUmOXBu4ntQUtN/KTPrzM5/y0pIPmq8PDNTP02bjoCgT4DNRUACoRVlE+SMYu3bQSeEN5ozZneaf0yvN9DjeEgIoE9k1RYcCsp93C1qUQ1/QZyhpRwhMhzGOmMxXnXnYWO5koItu4Y0x6lu/YqxpgINdRl221ZIScUhkqApvTqKimJWxqXpgzkECG8ZW8zF3VQxsOh1bVF1HsmweROc/C7lhFf4epbQ0J2wlAuyq9G3I+fjiMpLLIv/eV42X0UHlIXfSckHvqGGeSjgTrLFDHB9qh7PLUNzqzer1GXqmr1n/evHGUv1s3Zt1hfjJpEHlsmK/IxM=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(56012099006)(11063799006)(4143699003)(10067099003)(18002099003)(22082099003)(55112099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cGQxT3N2WkJYcy9yR0hWSHBuNTlkRVNzbWMzMGl0OUJkWGo4UnVST1htN2o1?=
- =?utf-8?B?WGtyaCszdklYMjdXOXcvMHEySE14ejhVSkRDMGtscWljY1Q1SGpacmwrTzJp?=
- =?utf-8?B?K011eDA1a21XRFc4OVc2blYyWThEak9xbE1oU2EzZ0habHlyWnNDa3E2eExJ?=
- =?utf-8?B?U0FjRXk5b25WbFkvZ2d2NE5vR2VQY2FsZkZKNTZaaWRoWVRqWi9xdys3RndL?=
- =?utf-8?B?R2NxV0x3VDhLam1BOU1wS0JpQUwxUHdZL3pnS2N6ZUl2T1k4TUNpZnZ0QzNX?=
- =?utf-8?B?RWdwajc3RlpNa01MeEFHa3R2SFk5a0VPMWRsUnV0NHp6T2hERHNzbHVRdCtn?=
- =?utf-8?B?bm0xd2lkUXZSQ0hNSER2UHVkV3UyNFhWL1A5Q3g0QTlQajhOTFNYRG4vVVN0?=
- =?utf-8?B?SUowKzU3d3RqSWNvOEoxd3lBb0g5Y2ppeDBkL2pLQjcvUW5sbzFCQW5EaERG?=
- =?utf-8?B?Tnp3NHJXNzhKdWxidFBjaFBRV0JWMVJQdzJYWU5uTzAzVDVRSElDUTdiOTd1?=
- =?utf-8?B?TlN0MysxL3RnUFBQK1ZhYXVrc3ZTVUdHRW8vVUxFT3hVUXdndGxKL1hSUjlH?=
- =?utf-8?B?b0FaRklQaU80OWxNaUVYVnN1QnFTTUpackhUMEkyZ2xodmVwR0lBdjEwbVQr?=
- =?utf-8?B?blhYQ2JwNTFCNDVnWnFEUjFXR1ZaeENWbTN0T2o3LzYzMXhGYmtsczBnTjdY?=
- =?utf-8?B?b1BBUVVoVTJQZlFER1VwcUtHYnJKWnJocFFSbG1Xc1pXTXVrTEJ0c0pzR1ZJ?=
- =?utf-8?B?WFByUDVraDF0U1FCMUlRT2c1bzNJTTI4RXVITmpsY0I4MXBLdlFWcDB5R0o5?=
- =?utf-8?B?VXE5UnFqOU95UkhHRTdaRmVZQkhYaHQvSkFFQUFrTitOTm5rUkgyR1l3OFhT?=
- =?utf-8?B?K1FHbjVVL01qN3FSTUxzT204RTR5cm15eThGSHN4WFUrWWFkUFVkaThMQ2lz?=
- =?utf-8?B?MHQ2eWIwcCs1Z1J1MzZ6Zm1LTTFaKzFJMU5LV3NsSURvRG1BS1RNc09MTWNX?=
- =?utf-8?B?ejFrZXVEdjhQRDBjQTRjckhhWnRSNlMzQ1JsaEREbDYzL1RMU2RFSGVoSE1F?=
- =?utf-8?B?R1A3YzdIWFdFYWNOSis0NUxJQWpxeWpDbFNXN3lRM1FVcy9aVldKVGREZ3NL?=
- =?utf-8?B?OE5BUWwwWmlRSm5BenZwcEJnejg2aUx3TUk3WHJIbmJQVEh2VTdncGtVUzlL?=
- =?utf-8?B?dEFHUm84bHh4T0pwWWVZVDQvQXNwajFMY2dJeEl2Y2JDbWdJVVIwNmJhV1E4?=
- =?utf-8?B?VWZjWFd4L1FVU2pVVWdxakpxVjVXTDM4dGM1Z2tJdXBTSzZiajU3TExCYnhC?=
- =?utf-8?B?TTQxNnFVSWNaS1lMQmpEdzVDMGtFUHBPVGdUN05XaVFCdU1RSmY2QVBIaWxN?=
- =?utf-8?B?RlZTSkpmUC9PR1F2WjNNZ3NwZjdiVzVDUkpPYkFySEdTSXRqRU94U1YvM1po?=
- =?utf-8?B?RUwzbm1rRll0M21XTGo3bERybkZYcE1nb0FEZGlDRnFmWU9hUHZBTGVkOFZG?=
- =?utf-8?B?RjdRQ1RlQVlmdmRiaUxLN3FtVmhwTy9ucWJja1JmOEtoTzhSTmFrU0hLK0Y4?=
- =?utf-8?B?TnRINGt3M2xHNUgvbDdldmpzbmlnVFNlTXFCK0huaXBIQisxb20ySS80c3A2?=
- =?utf-8?B?eURqZXErNFdZMnc2eU0xYjZvdHlCK1Q2UlU4MjdFZWFVcExBck1memtKb0JG?=
- =?utf-8?B?M1grVXhPWXFxOTVOSk80ODQvUzJYczhubFBDNUdNZ2JLQ3ZJalJTVUttbHhJ?=
- =?utf-8?B?YzVWVjlQSGsyZ2pRbFhYbFJiRXF6MHRPMVRMdjdvMVhpQWRKNGZTUERYNmZv?=
- =?utf-8?B?ZmVxS0ZWN1ZhL25uZjhleit5YjVZNDBsSHU4bGRjTjBGWXcxTm43R2h2SlJ1?=
- =?utf-8?B?NHg5L2k0ZURWMHBJWTk0K0xGTGQrcGgvM0dLMUYyRWZVdWcyVGp3OUQyeGRG?=
- =?utf-8?B?Nm5xVXBxNFNiTFp5ZFIyODNGb2JpbksrbFAzRHZYbnREbncwRVBIdUlHT3Ju?=
- =?utf-8?B?N3hNdXJRZmY3M2xPRXJ4Ynh2SG9sNlZ1aTFiSktRMFZHdnBVR3lpYTM2WUtN?=
- =?utf-8?B?N3RYWmFaZEtwSSsvL3d6ekZDck9CQWhVSDhyVmZHUCtZeks4bG1yMjZNaVp0?=
- =?utf-8?B?OUswblRvb2Z4VzZVTGlPdS9XMnJYd1Q1VFdFK2xWVzB4WUZRa28rYm1hTDdj?=
- =?utf-8?B?eTZQU3VqUGdUSmRpWlR5Z1k3M2JRVmd2ZHFIQms5MDJ5b3M2RHZhVzhFczNt?=
- =?utf-8?B?Mm5DakJQODBQL05OM2l6SFFxYllMQ3N3eU02M3FjZUxPSUcxN3BaL3hRMDJx?=
- =?utf-8?B?THdSczRjNXhTREN5cTlkTVRic0p2Znl0SzZsVEp5cno0UnFMeUNtZk5uV1Fs?=
- =?utf-8?Q?awuT0jTOZMP6n/+k=3D?=
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7298824-f61e-4637-6454-08df287c828e
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4992.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 16:18:54.3698
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yZBJ/gwUuLRmmMUDooUvhbf9EyWvDxG7duo7wtQJP1KTzUXLMWbNvwh3unYUGZpeeuuydQBPgpGTXe/L13aMQam2a0uXEkzVJenDcZKJLPc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI3PR10MB500255
+References: <20261011-alpha-perf-regs-v3-v1-0-eaa625a39712@gmail.com> <20261011-alpha-perf-regs-v3-v1-2-eaa625a39712@gmail.com>
+In-Reply-To: <20261011-alpha-perf-regs-v3-v1-2-eaa625a39712@gmail.com>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Mon, 12 Oct 2026 18:20:56 +0200
+X-Gm-Features: AclHuK8ctq3ag-qDSt__fyD9TouOLhL0ONKOVT2c6PAyBUOuhZ4oNrOZClMtffw
+Message-ID: <CA+=Fv5R05SLcLkHRfVhqLbjWfp29gpR=R8JDktjOKkYw83Xwig@mail.gmail.com>
+Subject: Re: [PATCH 2/4] alpha: stop storing the user stack pointer in pt_regs
+To: Matt Turner <mattst88@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, linux-alpha@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/12/26 13:47, Gabriele Monaco wrote:
-> On Fri, 2026-09-11 at 14:34 +0200, Tobias Schaffner wrote:
->> Hi Steven, Gabriele,
->>
->> I am using the RV system for a downstream project called EVL (aka Xenomai4).
->> It is a small co-kernel system, small enough that I can model the whole
->> co-kernel with RV instead of just a fragment of it.
->>
->> The patches in this series add a per-monitor "stats" file that exposes how
->> often an edge has been visited and the dwell time in the prior state for
->> per-cpu monitors.
->>
->> This allows me to not only check if the model is correct but also to see if
->> all paths are exercised by my stress tooling and to decompose the latency of
->> the co-kernel's wakeup path.
->>
->> I think that some of the upstream monitors like e.g. the sts monitor could
->> also profit from this.
-> 
-> Hi Tobias,
-> 
-> there's been a conversation at LPC about completely migrating RV to BPF.
-> While we aren't sure of its feasibility yet, and it will take time, it's
-> something to keep in mind for new contributions.
+Hi Matt,
 
-Hi Gabriele,
 
-first thanks for the reviews and for keeping me in the loop, I really
-appreciate it. I unfortunately was not able to attend LPC this year, but
-I followed the discussions and watched your presentation.
+On Sun, Oct 11, 2026 at 10:16=E2=80=AFPM Matt Turner <mattst88@gmail.com> w=
+rote:
+>
+> Nothing reads pt_regs->usp now that user_stack_pointer() uses the PCB.
+> Drop the stores, which saves a PAL_rdusp call on every syscall, and
+> give the field back its old name.
+>
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Matt Turner <mattst88@gmail.com>
+> ---
+>  arch/alpha/include/uapi/asm/ptrace.h | 2 +-
+>  arch/alpha/kernel/asm-offsets.c      | 1 -
+>  arch/alpha/kernel/entry.S            | 5 -----
+>  arch/alpha/kernel/traps.c            | 8 --------
+>  4 files changed, 1 insertion(+), 15 deletions(-)
+>
+> diff --git a/arch/alpha/include/uapi/asm/ptrace.h b/arch/alpha/include/ua=
+pi/asm/ptrace.h
+> index 9d86b2a1526e..72ed913a910f 100644
+> --- a/arch/alpha/include/uapi/asm/ptrace.h
+> +++ b/arch/alpha/include/uapi/asm/ptrace.h
+> @@ -43,7 +43,7 @@ struct pt_regs {
+>         unsigned long trap_a1;
+>         unsigned long trap_a2;
+>  /* This makes the stack 16-byte aligned as GCC expects */
+> -       unsigned long usp;
+> +       unsigned long __pad0;
+>  /* These are saved by PAL-code: */
+>         unsigned long ps;
+>         unsigned long pc;
+> diff --git a/arch/alpha/kernel/asm-offsets.c b/arch/alpha/kernel/asm-offs=
+ets.c
+> index c89792c86044..22ed3c975b1c 100644
+> --- a/arch/alpha/kernel/asm-offsets.c
+> +++ b/arch/alpha/kernel/asm-offsets.c
+> @@ -30,7 +30,6 @@ static void __used foo(void)
+>
+>         DEFINE(HAE_CACHE, offsetof(struct alpha_machine_vector, hae_cache=
+));
+>         DEFINE(HAE_REG, offsetof(struct alpha_machine_vector, hae_registe=
+r));
+> -       DEFINE(PT_REGS_USP, offsetof(struct pt_regs, usp));
+>
+>         DEFINE(TI_FLAGS,        offsetof(struct thread_info, flags));
+>         DEFINE(TI_SYSCALL_WORK, offsetof(struct thread_info, syscall_work=
+));
+> diff --git a/arch/alpha/kernel/entry.S b/arch/alpha/kernel/entry.S
+> index bfa116d455fb..790389a15c3c 100644
+> --- a/arch/alpha/kernel/entry.S
+> +++ b/arch/alpha/kernel/entry.S
+> @@ -476,11 +476,6 @@ entSys:
+>         ldq     $1, 0($sp)      /* syscall nr from saved r0 */
+>         stq     $1, 8($sp)      /* regs->r1 =3D shadow syscall nr */
+>
+> -       mov     $0, $8
+> -       call_pal PAL_rdusp
+> -       stq     $0, PT_REGS_USP($sp)
+> -       mov     $8, $0
+> -
+>         lda     $8, 0x3fff
+>         bic     $sp, $8, $8
+>
+> diff --git a/arch/alpha/kernel/traps.c b/arch/alpha/kernel/traps.c
+> index cfaef96c4ce8..5882c65b7ef1 100644
+> --- a/arch/alpha/kernel/traps.c
+> +++ b/arch/alpha/kernel/traps.c
+> @@ -30,12 +30,6 @@
+>
+>  #include "proto.h"
+>
+> -static __always_inline void alpha_snapshot_usp(struct pt_regs *regs)
+> -{
+> -       if (user_mode(regs))
+> -               regs->usp =3D rdusp();
+> -}
+> -
+>  void
+>  dik_show_regs(struct pt_regs *regs, unsigned long *r9_15)
+>  {
+> @@ -186,7 +180,6 @@ do_entArith(unsigned long summary, unsigned long writ=
+e_mask,
+>  {
+>         long si_code =3D FPE_FLTINV;
+>
+> -       alpha_snapshot_usp(regs);
+>         if (summary & 1) {
+>                 /* Software-completion summary bit is set, so try to
+>                    emulate the instruction.  If the processor supports
+> @@ -208,7 +201,6 @@ do_entIF(unsigned long type, struct pt_regs *regs)
+>  {
+>         int signo, code;
+>
+> -       alpha_snapshot_usp(regs);
+>         if (type =3D=3D 3) { /* FEN fault */
+>                 /* Irritating users can call PAL_clrfen to disable the
+>                    FPU for the process.  The kernel will then trap in
+>
+> --
+> 2.55.0
+>
 
-> First of all, would dropping RV in-kernel support negatively affect your current
-> workflow?
+Looks good to me, I see the __pad0 is back again in pt_regs
+brings back memories from tracking down the stack alignment
+issues a while back.
 
-I am afraid it would, but first mine is a niche use case, and
-second I am not very experienced with BPF, so please weigh that in.
-
-> About this series, I believe we could implement the same using BPF maps without
-> too much effort, then the rv userspace tool could display them nicely.
-> 
-> What do you think?
-
- From an implementation perspective there may be a few pieces missing,
-both in EVL and in BPF, to make this work. But I guess most of them can
-use the patterns the kernel already has for NMIs, so I expect we would
-find a way.
-
-I have two more fundamental concerns though. One about verification and
-one about recording dwell times.
-
-Regarding verification:
-The path I verify is deliberately kept short and simple. RV fits well
-because the probe is a plain function call and the state update is a
-try_cmpxchg that cannot fail, so it adds very little. A BPF program
-brings more machinery into the probe path doesn't it? I fear that adding
-this would force me to verify that the new RV system does not change the
-behavior of the system we are trying to verify, and I suspect that could
-be harder than verifying the system itself.
-
-Regarding dwell timings:
-The numbers you presented look very good. But wouldn't we lose
-determinism by using BPF? If I want to use this as a measurement tool, I
-need it either not to add latency or to add a constant amount. The mean
-wake-up latency of EVL on my system is around 10 us, so an observer does
-not have to be very variable before I can no longer tell its jitter from
-the timings I am trying to measure.
-
-Really looking forward to your opinion on this.
-
-Thanks and all the best,
-Tobias
-
-> 
-> Thanks,
-> Gabriele
-> 
-
+Reviewed-by: Magnus Lindholm <linmag7@gmail.com>
+Tested-by: Magnus Lindholm <linmag7@gmail.com>
