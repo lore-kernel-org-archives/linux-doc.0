@@ -1,314 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9326939B94A;
-	Mon, 12 Oct 2026 14:16:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791814581; cv=none; b=doBnQ3GQy3aPMT4IMG/on0WOPKR63aTHjiN2l4VrEU45PBsUvpQvx4HLG9MINRG/WDc1qUb7QAJ4ASahWE82MYWq4Sw6dGDbTUgZwIgAeUvhuTuUkGCSFZ/epOoxxwxzT+c6J5QNDnuq6Lx/1wBVwF3aiwL6QXcnCDwxpBKCc84=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791814581; c=relaxed/simple;
-	bh=obtm2pJQXpPvJeHZ5dJoSxxASOKS7F3tPagSNJHyvoM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OgdBJlYSQLhBfmFdoQ0NBKJdqbejVy1oMgswbWpsBLvDfc7YUfIDn82ZJXEFjQTnXYqNgR3fAEt4x7HFUQxCct9oEpGze93XBZKa/Q9+Va+Y/fLNITK+0bCPiy5OGMGwIGzD0G/M7kG2LCHVGWuq5nLWsSDxBBGGgZHAu5XO/bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eigxJMr7; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4200C489FDF
+	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 14:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791814695; cv=pass; b=mxk4vDtiYS2TpInjIzU2BE1N160B+AvyMVC8WajTQBu3POOP3LGinelYVa2NMHyHqXrrk0YdzomZLD/68YwKEeNSkKMS6Z1NN3GRWQ7v6Lj75gYputOEu6jZkmgzfG7DfJtv3CbpRULqiyhDT6kSwUxxd9Vfe9LA5qOeLlkBoCE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791814695; c=relaxed/simple;
+	bh=g/BhmG4j9ffr0oFBvhz7lb5ueTvQbhXIGndnnY78eok=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ucnwNGjPfP7RB82j1jkKE3B7x0v0JGJWbE8srUHYtLZwL0XcbcYt2VQchFmSFqkKdrDHgnumL1ozY1eHFq8SjAjAkOH5faJKxOi2+r+Ao0+vd8Bv7Tu4xDQ7Q2DM5abG4At9A+bwAFPiz7rwF/ocK4IcqoHw2isT0rxiS4PVsek=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=My1OId9A; arc=pass smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eigxJMr7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B88F1F0089B;
-	Mon, 12 Oct 2026 14:16:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791814580;
-	bh=wkfKRTjp6/s95orK5T+FwDlOCT9z7CXe0scB7cxcwpo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=eigxJMr7QbJhMg4Wylwlyh3XTs3rt3CeVegIl9N7mWd0t2NVjNqQMHXMNVr4M9dNo
-	 FYh/nL+lX9/Mu49s24BMu5NoXFAGjJn6hde6bqsqxm0J11fvhp2553Psy+/l/Bu6J0
-	 XM6HUM6tTJWKg+d9Xwu5oezB7FdJ4G1fSHuIvXHbweyICjOw5MUVZpIAPFK8ZaPM51
-	 5iJNEgoJ+Dgp+Ge3Ni0ajp640O4dHlCEb6pqj7F60g/RrlRUJvCa9V/s2eRm2Qumpn
-	 sWc1BBRtRArvs4ceqwiafnTb/jJSVrfnh94Bi1txF4zgV+ie0QJ5vPSt4vEnbtTK4Z
-	 DNYbSkyynM+/A==
-From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To: Stanislav Fomichev <sdf.kernel@gmail.com>
-Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
- kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
- Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
- Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
- Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
- Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
- <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
- <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
- netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
- "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi
- <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, David
- Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Mina Almasry
- <almasrymina@google.com>
-Subject: Re: [RFC net-next 13/15] eth: fbnic: Support AF_XDP zero-copy receive
-In-Reply-To: <asPhAnm830qFxGMv@devvm7509.cco0.facebook.com>
-References: <20261002190018.696925-1-bjorn@kernel.org>
- <20261002190018.696925-14-bjorn@kernel.org>
- <asPhAnm830qFxGMv@devvm7509.cco0.facebook.com>
-Date: Mon, 12 Oct 2026 16:16:17 +0200
-Message-ID: <87tsmratse.fsf@all.your.base.are.belong.to.us>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="My1OId9A"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-34c522572bfso221430eec.3
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 07:18:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791814693; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NXT8IlyR4e/Hyl8HyL9cDiTQ++/BGnianXiC+hkOwVS6QSbqUT/1M1yp/1VjoKguzm
+         4iOzd0IioxQs6beQqUmnOjTt4+JF+v8ha703kgLT8L60sUD620/yKDXLSNucUg3q05y5
+         PSjubT+2sif+wOO4lCRqEOGDYlNQslhxoYi0tur4SOyRtbS6nSHYB+eIb9lXBMb5eu/Q
+         vtz/x5G7k+Voe/Pipj4k4qiss/QdQ9Y/Hj+uPGugLIwZRsHBTlI7ZhZ8AfVGEQnuADo/
+         +KfozNrBCXG3UTn+Zwxfc/pEn8ecLw6DL7Wwc7o9tfy659vvn4RraQczzpUQFUB6IBps
+         CIQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=qN3n/cIMeW0sefgec1U1C0Bcl140fSse8+Pudd7plIQ=;
+        fh=8PE/JYQggIya2quUePU8JYZfgi+HT5Y7zLUaSzib1xU=;
+        b=PEFcfLcrUyoArxh6eQr1xTctJpuCHFLrHciKiUlg3+Vd1yEzIVr1h7nujcff3/IV8J
+         wYlWbyCwWDyHIwk1rtG0bGGiNQRMJ3gJD9tIGVfCRPHZ/EQDLrQB8znbPMuhZYnn+6zF
+         xiSzeF6CD2cqBW13fMfepWpNl9HZKCxog2aYPf4BVmGBNLuC7s2wse/KH25pkMs7gcD0
+         DCJeZRQth3uOk52SyLg4NbOYM6Xwh9myBZbYGsL+Ej8gTp8OWWcg5AHs/HZjA/xBcOnS
+         CtHQJF1a04FaKMiDTcqm67KHAVs168XNi69PW3/PZFcxirqImcbJ8O1nSHMsSAs5A/y3
+         uOmQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791814693; x=1792419493; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=qN3n/cIMeW0sefgec1U1C0Bcl140fSse8+Pudd7plIQ=;
+        b=My1OId9Afu44hbY9lwaqcKNK3hVPzp8rPSGYolT6JXNPvKYoq4DQfBxJm5eeoJXLPE
+         LnEVGTrZuX+RqYI1veoEBDoEaHJ0XGtbCfJOw1YNRELMGZDHnFsmI08VMwcpW8q0F+AD
+         v5ZfpZVhTLtHNjxeG3QnsaMv1jj4zddz1L4yMn0P2j8BpqLraO8mASnlHu8kXrlT4G0c
+         MLRzDVtTDHSq9ocOFjs9CL4dC5zfsgE9m84pKgazql+TJ1BP5kNcPCNMod6lrfmLJDoC
+         aKqrtBEw69cKrJ/QfHKwQnTNVLNkRGOqTs66ioJZ3oD84yrKdYtggQ11+otgINcck2Wl
+         kEJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791814693; x=1792419493;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qN3n/cIMeW0sefgec1U1C0Bcl140fSse8+Pudd7plIQ=;
+        b=RRof/X3R3BqZYP2FYITh1x1ldyxKUtNbyy8RbLUAMwJEvC+Zlc6iD9bP3U0iBO3awx
+         8VXpKckWocZK8B+QGv35daMMKIpc4kUjmkAt8/hzjr3JqaX3pHZhc4OHobziNeEik/U3
+         g1tEn6i7JrA4IiNqvHYonRh//VcnwRWc51iex31ayjjjmFCSXbDG7iTNpJ1mj4E9rSps
+         95rpGGzaoNKf5ylALrhNTOHzlK/zZgfXKaWD1q8hoWoFwQNlNWdSyuXVWshH04cslXo7
+         kyyRtjZK0T9p1sOnx4iLymqwM0M6zbh9OS6GDfqg7gmVmG0uNDJFOMHJoUmkFLZZe1Ie
+         LUow==
+X-Forwarded-Encrypted: i=1; AKwUvBwffDKxxm8eYMQa5Sa+ry5zytC04UG0iM1j1Te9T4DknDRU4DUuj3a+WOB/2qtXrbQu+ovTBtjiky8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJMrT9Fh0R9Dl1HdEqsm1Nnm7ESa9GxzrNBCINX9feMYuKqj1NR
+	SDS8pwbSdvi0BgBFtI8RI5E0BgjxZUhW6r6KLRIAU4Vx+BW/qlxUFuKWI0I+6UPqYIKcMBMFNA5
+	ahMuXzvnh/6NnOv0inU4tYb553Vo7BsU=
+X-Gm-Gg: AYBFou1/xe66NG8iKKWCqbDHyldQ9Fm65P4yUH7Ik1uPxuCAcrRU5uz8aFTe0S5e+LW
+	y91GcUF4mY+JbLMmUDAXR03jj88Nl0XRAiPqtxGCZx2U5YShigxgxJCGS2Uo4asBBUepkCAS7vh
+	7bw3KGMPzXMMgcEyTE8XNVeKEhduuvOyqxqkN/51d0ysOWTShBQJQ04+ec62APxR6FpQbkgROIb
+	aQJixMrpW4YIlWbXOjmU4CDGRcS9Au2dc+yfcpdksp2O4X8guEOuPZG+aSvEGq5tmpkN8B9jDXh
+	VGl8v7LzcMJboXJHi4xPPfV37EUsyK2zrjYMiO/5aOMkgUaYIPDq+S51n5fr+cllWWyxyLx3BXH
+	MXnh12gihcfX9HLCqcgMLUH2nU7pLGkIpsp7Y9SNWXsaAfb8w4qZa87apxHd1E92SUmLxWiWGC7
+	oOEvHOAvzvH+wbQdeCsgTMFq97vddR3ELnXYXCsfquxQ9IDpP7EUCN5jQrRYU1bQ==
+X-Received: by 2002:a05:7301:428b:b0:358:7ed4:a049 with SMTP id
+ 5a478bee46e88-3587ee40938mr13997955eec.0.1791814693087; Mon, 12 Oct 2026
+ 07:18:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20261012134159.912183-1-elver@google.com>
+In-Reply-To: <20261012134159.912183-1-elver@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 12 Oct 2026 16:17:59 +0200
+X-Gm-Features: AclHuK-Ywlbcl-S8KQPaD-1cIH6SBhIHUu2wWCV_8Z4IN4dYEXXQbTyoeFpEilQ
+Message-ID: <CANiq72nsJw25w6sFbLKKSaWog5_2cpmBmJMat-zQW1rcveJA_A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: rust: enable KCSAN support
+To: Marco Elver <elver@google.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Boqun Feng <boqun@kernel.org>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
+	Yury Norov <ynorov@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Stanislav Fomichev <sdf.kernel@gmail.com> writes:
-
-> On 10/02, Bj=C3=B6rn T=C3=B6pel wrote:
->> fbnic gets RX buffers from page_pool. Use the XSK buffer pool as the
->> RX queue's page-pool memory provider, so allocation, DMA sync,
->> recycling and refill stay in page_pool. Only aligned 4 KiB UMEM
->> chunks are supported.
->>=20
->> Each UMEM frame on the header queue must hold one packet. Raise the
->> header-split threshold to at least 3072 bytes, more than half of a
->> 4 KiB page, so the device finishes the frame after one header. Cap
->> it to the space left in the frame after the headroom. An MTU above
->> the threshold needs a socket with XDP_USE_SG and an XDP program with
->> frags support. With XDP_USE_SG, the payload queue also uses UMEM
->> frames, and the device uses each frame for one descriptor only.
->> Without it, the payload queue uses a normal page pool. If the device
->> does not finish a provider frame after one descriptor, drop the
->> packet.
->>=20
->> The BDQ refill loop now alternates header and payload buffers on all
->> queues, so two rings that share one finite provider stay balanced.
->> It keeps NAPI scheduled while the provider still has buffers.
->>=20
->> Provider frames are never split, so they get no fragment bias. A
->> redirected frame can be recycled before its old BDQ slot is cleaned,
->> and a stale bias would corrupt the new allocation.
->>=20
->> The headroom comes from the queue configuration. It must be at least
->> XDP_PACKET_HEADROOM, a multiple of 128 bytes, and fit the hardware
->> field; otherwise queue validation fails. MTU, ring parameter and XDP
->> program changes that do not fit an active provider are rejected.
->>=20
->> fbnic did not support XDP_REDIRECT. Add it, with xdp_do_flush(), and
->> advertise it. This also enables copy-mode AF_XDP and the other
->> redirect targets on fbnic. Do not advertise AF_XDP zero copy until
->> TX support is added.
->>=20
->> Signed-off-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
->> ---
->>  .../net/ethernet/meta/fbnic/fbnic_ethtool.c   |   5 +
->>  .../net/ethernet/meta/fbnic/fbnic_netdev.c    | 140 ++++++-
->>  .../net/ethernet/meta/fbnic/fbnic_netdev.h    |   4 +
->>  drivers/net/ethernet/meta/fbnic/fbnic_txrx.c  | 350 +++++++++++++-----
->>  drivers/net/ethernet/meta/fbnic/fbnic_txrx.h  |   6 +
->>  5 files changed, 402 insertions(+), 103 deletions(-)
->>=20
->> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c b/drivers/n=
-et/ethernet/meta/fbnic/fbnic_ethtool.c
->> index e774740fcb5d..188abe0ead14 100644
->> --- a/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
->> +++ b/drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c
->> @@ -385,6 +385,11 @@ fbnic_set_ringparam(struct net_device *netdev, stru=
-ct ethtool_ringparam *ring,
->>  		return -EINVAL;
->>  	}
->>=20=20
->> +	err =3D fbnic_xsk_validate(fbn, fbn->xdp_prog, netdev->mtu,
->> +				 kernel_ring->hds_thresh, extack);
->> +	if (err)
->> +		return err;
->> +
->>  	if (!netif_running(netdev)) {
->>  		fbnic_set_rings(fbn, ring, kernel_ring);
->>  		return 0;
->> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c b/drivers/ne=
-t/ethernet/meta/fbnic/fbnic_netdev.c
->> index 8a6703afca38..038e91ef14e4 100644
->> --- a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
->> +++ b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
->> @@ -5,6 +5,8 @@
->>  #include <linux/ipv6.h>
->>  #include <linux/types.h>
->>  #include <net/netdev_queues.h>
->> +#include <net/netdev_rx_queue.h>
->> +#include <net/xdp_sock_drv.h>
->>=20=20
->>  #include "fbnic.h"
->>  #include "fbnic_netdev.h"
->> @@ -276,6 +278,8 @@ static int fbnic_set_mac(struct net_device *netdev, =
-void *p)
->>  static int fbnic_change_mtu(struct net_device *dev, int new_mtu)
->>  {
->>  	struct fbnic_net *fbn =3D netdev_priv(dev);
->> +	struct netlink_ext_ack extack =3D {};
->> +	int err;
->>=20=20
->>  	if (fbnic_check_split_frames(fbn->xdp_prog, new_mtu, fbn->hds_thresh))=
- {
->>  		dev_err(&dev->dev,
->> @@ -285,6 +289,15 @@ static int fbnic_change_mtu(struct net_device *dev,=
- int new_mtu)
->>  		return -EINVAL;
->>  	}
->>=20=20
->> +	err =3D fbnic_xsk_validate(fbn, fbn->xdp_prog, new_mtu,
->> +				 fbn->hds_thresh, &extack);
->> +	if (err) {
->> +		if (extack._msg)
->> +			netdev_err(dev, "%s\n", extack._msg);
->> +
->> +		return err;
->> +	}
->> +
->>  	WRITE_ONCE(dev->mtu, new_mtu);
->>=20=20
->>  	return 0;
->> @@ -534,26 +547,123 @@ bool fbnic_check_split_frames(struct bpf_prog *pr=
-og, unsigned int mtu,
->>  	return mtu + ETH_HLEN > hds_thresh;
->>  }
->>=20=20
->> +u32 fbnic_xsk_hds_thresh(u32 headroom, u32 hds_thresh)
->> +{
->> +	u32 max_hds;
->> +
->> +	/* Reserve more than half a device page for each header so the device
->> +	 * retires the provider frame after one descriptor.
->> +	 */
->> +	static_assert(2 * FBNIC_XSK_HDS_THRESH > FBNIC_BD_PAGE_SIZE);
->> +
->> +	max_hds =3D FBNIC_BD_PAGE_SIZE - headroom - FBNIC_RX_TROOM -
->> +		  FBNIC_RX_PAD;
->> +
->> +	return min(max_t(u32, hds_thresh, FBNIC_XSK_HDS_THRESH), max_hds);
->> +}
->> +
->> +static int fbnic_xsk_validate_frames(struct xsk_buff_pool *pool,
->> +				     struct bpf_prog *prog,
->> +				     unsigned int mtu, u32 hds_thresh,
->> +				     struct netlink_ext_ack *extack)
->> +{
->> +	u32 xsk_hds_thresh;
->> +
->> +	xsk_hds_thresh =3D fbnic_xsk_hds_thresh(xsk_pool_get_headroom(pool),
->> +					      hds_thresh);
->> +
->> +	if (mtu + ETH_HLEN <=3D xsk_hds_thresh)
->> +		return 0;
->> +
->> +	if (!xsk_pool_uses_sg(pool)) {
->> +		NL_SET_ERR_MSG_MOD(extack,
->> +				   "AF_XDP zero-copy socket requires XDP_USE_SG");
->> +		return -EOPNOTSUPP;
->> +	}
->> +
->> +	if (fbnic_check_split_frames(prog, mtu, xsk_hds_thresh)) {
->> +		NL_SET_ERR_MSG_MOD(extack,
->> +				   "AF_XDP zero-copy socket requires XDP frags");
->> +		return -EOPNOTSUPP;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +int fbnic_xsk_validate(struct fbnic_net *fbn, struct bpf_prog *prog,
->> +		       unsigned int mtu, u32 hds_thresh,
->> +		       struct netlink_ext_ack *extack)
->> +{
->> +	struct net_device *netdev =3D fbn->netdev;
->> +	struct xsk_buff_pool *pool;
->> +	unsigned int qid;
->> +	int err;
->> +
->> +	for (qid =3D 0; qid < fbn->num_rx_queues; qid++) {
->> +		pool =3D xsk_get_pool_from_rxq(netdev, qid);
->> +		if (!pool)
->> +			continue;
->> +
->> +		err =3D fbnic_xsk_validate_frames(pool, prog, mtu, hds_thresh,
->> +						extack);
->> +		if (err)
->> +			return err;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int fbnic_xsk_setup_pool(struct net_device *netdev,
->> +				struct xsk_buff_pool *pool, u16 queue_id,
->> +				struct netlink_ext_ack *extack)
->> +{
->> +	struct fbnic_net *fbn =3D netdev_priv(netdev);
->> +	int err;
->> +
->> +	if (queue_id >=3D fbn->num_rx_queues)
->> +		return -EINVAL;
->> +
->> +	if (!pool)
->> +		return xsk_pool_setup_page_pool(netdev, NULL, queue_id, extack);
->> +
->> +	err =3D fbnic_xsk_validate_frames(pool, fbn->xdp_prog, netdev->mtu,
->> +					fbn->hds_thresh, extack);
->> +	if (err)
->> +		return err;
->> +
->> +	return xsk_pool_setup_page_pool(netdev, pool, queue_id, extack);
->> +}
->> +
->>  static int fbnic_bpf(struct net_device *netdev, struct netdev_bpf *bpf)
->>  {
->>  	struct bpf_prog *prog =3D bpf->prog, *prev_prog;
->>  	struct fbnic_net *fbn =3D netdev_priv(netdev);
->> +	int err;
->>=20=20
->> -	if (bpf->command !=3D XDP_SETUP_PROG)
->> +	switch (bpf->command) {
->> +	case XDP_SETUP_PROG:
->> +		if (fbnic_check_split_frames(prog, netdev->mtu,
->> +					     fbn->hds_thresh)) {
->> +			NL_SET_ERR_MSG_MOD(bpf->extack,
->> +					   "MTU too high, or HDS threshold is too low for single buffer XD=
-P");
->> +			return -EOPNOTSUPP;
->> +		}
->> +
->> +		err =3D fbnic_xsk_validate(fbn, prog, netdev->mtu,
->> +					 fbn->hds_thresh, bpf->extack);
->> +		if (err)
->> +			return err;
->> +
->> +		prev_prog =3D xchg(&fbn->xdp_prog, prog);
->> +		if (prev_prog)
->> +			bpf_prog_put(prev_prog);
->> +		return 0;
+On Mon, Oct 12, 2026 at 3:42=E2=80=AFPM Marco Elver <elver@google.com> wrot=
+e:
 >
-> [..]
->
->> +	case XDP_SETUP_XSK_POOL:
->> +		return fbnic_xsk_setup_pool(netdev, bpf->xsk.pool,
->> +					    bpf->xsk.queue_id, bpf->extack);
->
-> Is there a good reason to ask drivers to call us back with
-> xsk_pool_setup_page_pool? For the PP mode, maybe we should add new
-> XSK_VALIDATE_POOL or something? So most of that fbnic_xsk_setup_pool stays
-> in core?
+> +Rust code is instrumented as well on architectures whose Rust target sup=
+ports
+> +it (currently only x86_64; see ``CONFIG_HAVE_KCSAN_RUSTC``).
 
-Makes sense. I'll try core-owned setup with driver opt-in and
-validation. Existing direct drivers can keep their setup.
+Maybe we can omit the x86_64 bit, to avoid maintaining the list in two
+places, although it is convenient to know in the docs (but risks
+getting out of date, of course).
 
-> I guess I'm mentally trying to have a clear separation between
-> pp vs non-pp modes. Even that whole xsk_buff_pool might be legacy non-pp
-> artifact? New drivers shouldn't bother with it? Or is it too much?
+> +  Note that ``rustc`` rejects linking crates built with and without KCSA=
+N
+> +  instrumentation, so ``KCSAN_SANITIZE`` and ``KCSAN_SANITIZE_<target>.o=
+``
+> +  cannot currently be used for Rust code.
 
-Hmm. New RX code shouldn't need allocator internals, but rings, DMA and
-TX state are still shared. I need to noodle a bit on it...
+Would `-Cunsafe-allow-abi-mismatch=3Dsanitizer` work? Not a blocker for
+the patch (and in fact I don't know if we would like to actually
+support it even if it works), but perhaps in the future we can relax
+it using that.
+
+(If it doesn't work for some reason, and we want it, then we can ask
+upstream for an "escape hatch" as we usually do, since things like
+this should normally have one...)
+
+> +# The minimum supported rustc's LLVM supports all of these options.
+
+Just to double-check: does this refer to the LLVM version of the
+upstream `rustc` binary (LLVM 19.1.7) or the actual minimum they
+support in that minimum `rustc` version (LLVM 18 major)?
+
+I think all the options exist for a long time, so it doesn't matter,
+but just to confirm...
+
+In any case, this sounds all reasonable:
+
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
+
+Thanks!
+
+Cheers,
+Miguel
