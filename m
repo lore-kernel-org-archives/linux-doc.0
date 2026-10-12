@@ -1,125 +1,113 @@
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9D44CC62D
-	for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 20:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC5D3B1014;
+	Mon, 12 Oct 2026 21:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791838686; cv=none; b=U5lOklPlK7Rm6tfTaxri2b4MimOPPQUe2L7SWb9vHOz/Z8fu3sPOXPrQ6DZaTZQucqdbj0LZAlKrO4ewIEDvOPJjML5PIJ2HQxFxWmQvCqnayfS7rAjh7WQ74m3N87SKu6aP4g5P/1v0WevWGMjFWCP8xESjnwPpGi/80Sghdzk=
+	t=1791840902; cv=none; b=KOcjhIN0XRHUj7A/kN0hLWJ+k5f/yyerV/Vi403XP3BY2HwOzHjfEkHGWBxpB+FDLZiqJYoJUWqHB6akDGc5SFqN+xWkPAZQD7kFXfa6EreblJ81s4xPL/3TqVFvPVNm5r6boXfA1KMQ4G7QHn8+VEOGwILw7Ah59P4HAzloTCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791838686; c=relaxed/simple;
-	bh=MMFMgWCczZHhmVE2F+jgXamjYo8yzRhDSVfG8+eQahI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=LiEK7WMQvgnrZGRE5xubVWy33ZTZNMu9yZu6iCmDZz9qTDsWBBjd65dWu8YLOIlGorPXhexqFv3qa2YXozq6TH4agIF7/ar+ikdLccUibAvHHt9MViiKhwRP7WEWNQpLY0sSySUOmo5oD5iK23BhJ13wLot6zE4pUqaPEUiF7+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=I7EqXgnI; arc=none smtp.client-ip=74.125.82.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
+	s=arc-20240116; t=1791840902; c=relaxed/simple;
+	bh=lvohTgcIUTdVv/3jTN8MfoCLwpL+LX1XFpsOAy0DpFM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CkgmdtvxTyKncbGEdW40ARM8jRsQgbnN380ztpbQepm+/0LELyp4BEsc4HeFrnQ9CWpNrQRx3wXE6FjlilkhoPpr+CP2WiHIIV+29UTMVuTF97BigDn59KrvWjg6AJq8tEZbiHKVamdoD/YOVlvqxM7OIvqx+yRdFfkLIKA7N08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K63OnYb0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="I7EqXgnI"
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-30c0d568830so4906394eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 13:58:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791838684; x=1792443484; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=13W6q7i4O/eZzoQLPHcgv9LUkm1ZdongNNGyBgoboDE=;
-        b=I7EqXgnInFQJyvAw4Z0EWw+CNgD1AI1qE8Yf3NUjyH0URORRGlqpwgUnq89FnpVcd1
-         7uNAPenVk+2iRTQzVRv12v5rVcUYicYH04l+HeZx45s66ow3orTtiuaibfvRkxnMHGW8
-         RfOLj+66fyiavdGkVxAJ26Saap3l4lzhviirBp9HOTJ7X26BtLRsRDq607f9qjoNiOF8
-         LAVLr02aBGz1AJCd9TXlcEJCPOk/IVEUsKLyWy5dsGnkUypl5cF99Vt4LSAyHAcl5S0t
-         kuMlsXMdou2z99kUPuiw1yfLqcshsMZO1Idt4ldicX825oCpSTuMkpQokk+RJ/2RfNug
-         Sv8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791838684; x=1792443484;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=13W6q7i4O/eZzoQLPHcgv9LUkm1ZdongNNGyBgoboDE=;
-        b=I+QimKnYRi55SlK4S4C1VOceUPBMLvkd4jbrTeJQ17miIDVMBSCIgkCMZuJ1+DX4Cp
-         ISikHRLepOBOUnZMgLoTMOkuoraBgnbZGNkjNVdnal5yJkdzwBuP/mctrEcYqjyj0Lnz
-         4uoRS0+waG8JiUaJKuTSYkhZXOzF1HHBTTd5k2A0JgaoqZb2iFYo2cotY1NAKg3WPezV
-         efuPmkeMAci7WnzNo7/Wl+3Rg3RvgfU0EWds3ITx/2IobSiL7bPJudaZHeuIDoGjIsnx
-         O/NHozkUte5Vdx8ctUsHDPAuZ7RdYFdtBsHGDePxKkv5J+aAkyjK/+UgR4lsOs66cUkg
-         hyig==
-X-Forwarded-Encrypted: i=1; AKwUvBw7+l0J7KkdERl6bHHPA+12b6prPIsGbKd8la3LPpuf3cDaY3h5+eoVfiiLBmC4xwFC0Cins3ih9WY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKQ6s9MgTioGaQbnCQCWroXpLoLSVfJqRtfddyx0/1l+gRPNXYy
-	28MI5rR0ikfx5sQ20LSW3fdUsBT5PFpXv1Ix1QYPYGMV3pRPhFndUF3ZEXOf6SRm9pWIU9YWx//
-	aV8AnAZb9SWXDLibyPuF0/SxX+LutOR8JPg==
-X-Received: from dycam26.prod.google.com ([2002:a05:7300:fc1a:b0:351:7ff8:2656])
- (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7300:c7c4:b0:353:7b29:54ec with SMTP id 5a478bee46e88-3537e2d8ec8mr15070766eec.40.1791838682637;
- Mon, 12 Oct 2026 13:58:02 -0700 (PDT)
-Date: Mon, 12 Oct 2026 13:53:37 -0700
-In-Reply-To: <20261012-fix-aer-mask-override-v1-0-49a0d7aeaea0@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K63OnYb0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA5E1F0089B;
+	Mon, 12 Oct 2026 21:34:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791840896;
+	bh=AjGnxhYlDCCv+1mZTi6vjoL/ULALKRwCdfDd9nM7DPY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=K63OnYb0FIgYNM1YEQf/+fS9poG3lwOlPfSHWTrT6NR4afYzDLUGjXhnZ6z4dNBl4
+	 OvZjY+2EnEaO3Y6/tYQIExAID0uJha5jnJxzz/MbMRhQs9z/bnDyPNiz2+FkopjR+D
+	 09h1uPhcz6mMCYhAjJ6sZ0jWCvaT6YGa42WlQ95hlZ/HhH+WM42fWMZy1gr8InApe+
+	 HqBgJkfhrGQgzoGet6T0HNmNjsuVGNTd8CSlBuoEKrrOz8JH1e/iF8CFRmXJsWth4P
+	 bpDV1DtpV9QiOyZ/nZSA8jMRN0f9XSH1CkGdnW8TlsGkshgfSPMzUSH2Lpw+d1FpJP
+	 aT/uW/6/Lqwmg==
+From: Sasha Levin <sashal@kernel.org>
+To: workflows@vger.kernel.org,
+	ksummit@lists.linux.dev
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mark Brown <broonie@kernel.org>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v2 1/5] agents: add infrastructure for agent resources
+Date: Mon, 12 Oct 2026 17:34:48 -0400
+Message-ID: <20261012213452.1863248-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261012213452.1863248-1-sashal@kernel.org>
+References: <20261012213452.1863248-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20261012-fix-aer-mask-override-v1-0-49a0d7aeaea0@google.com>
-X-Mailer: b4 0.14.3
-Message-ID: <20261012-fix-aer-mask-override-v1-2-49a0d7aeaea0@google.com>
-Subject: [PATCH 2/2] Documentation: PCI: Document aer_inject's
- aer_mask_override parameter
-From: Priyank Rathod <rathodpriyank@google.com>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Lukas Wunner <lukas@wunner.de>, 
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>, 
-	"=?utf-8?q?Ilpo_J=C3=A4rvinen?=" <ilpo.jarvinen@linux.intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Prarit Bhargava <prarit@redhat.com>, Huang Ying <ying.huang@linux.alibaba.com>, 
-	Terry Bowman <terry.bowman@amd.com>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Priyank Rathod <rathodpriyank@google.com>, Jonathan Cameron <jic23@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-aer_inject has had the aer_mask_override module parameter since commit
-457d9d088b02 ("PCI: aer-inject: Override PCIe AER Mask Registers"), but
-the AER HOWTO never mentioned it.  Describe what it is for (injecting
-errors that the device masks, in particular those masked by default)
-and how it behaves now that it works: the device's Mask registers are
-left alone, the injected bits are only reported as unmasked while they
-are pending, and the hidden Mask bits stay set in writes until the
-module is unloaded.
+Add agents/ as a home for skills, prompts, and other resources for coding
+assistants. Describe the skill layout and how to read the procedures in
+coding-assistants.rst, and add a MAINTAINERS entry covering agents/.
 
-Signed-off-by: Priyank Rathod <rathodpriyank@google.com>
+Assisted-by: LLM
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/PCI/pcieaer-howto.rst | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ Documentation/process/coding-assistants.rst | 12 ++++++++++++
+ MAINTAINERS                                 |  6 ++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/Documentation/PCI/pcieaer-howto.rst b/Documentation/PCI/pcieaer-howto.rst
-index 90fdfddd3ae5..71a9c2377b3b 100644
---- a/Documentation/PCI/pcieaer-howto.rst
-+++ b/Documentation/PCI/pcieaer-howto.rst
-@@ -265,3 +265,26 @@ from:
+diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
+index 051f0d819f68e..3288b32e993f5 100644
+--- a/Documentation/process/coding-assistants.rst
++++ b/Documentation/process/coding-assistants.rst
+@@ -19,6 +19,18 @@ For guidelines on content generated by AI coding assistants see:
  
- More information about aer-inject can be found in the document in
- its source code.
+ * Documentation/process/generated-content.rst
+ 
++Agent resources
++===============
 +
-+Injecting masked errors
-+-----------------------
++The ``agents/`` directory holds skills, prompts, and other resources for
++coding assistants.
 +
-+By default aer_inject refuses, with -EINVAL, to inject an error that the
-+device masks in its Correctable or Uncorrectable Error Mask register,
-+because the AER driver would ignore it just like a real masked error.
-+To exercise the handling of such errors anyway, e.g., of those that are
-+masked by default like Header Log Overflow or Poisoned TLP Egress
-+Blocked, load the module with::
++Skills live under ``agents/skills/<name>/``, with a ``SKILL.md`` entry point
++in the `Agent Skills format
++<https://agentskills.io/specification>`_. Read the relevant resource
++directly from its repository path. Links within a skill are relative to
++that skill's directory.
 +
-+    modprobe aer_inject aer_mask_override=1
+ Licensing and Legal Requirements
+ ================================
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f53047aa8d3c1..9e522cda56f1b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -713,6 +713,12 @@ F:	Documentation/filesystems/afs.rst
+ F:	fs/afs/
+ F:	include/trace/events/afs.h
+ 
++AGENT RESOURCES
++M:	Sasha Levin <sashal@kernel.org>
++L:	workflows@vger.kernel.org
++S:	Maintained
++F:	agents/
 +
-+or boot with aer_inject.aer_mask_override=1 if it is built in.
-+
-+The device's Mask registers are not modified.  Instead, as long as the
-+injected error bits are pending in the emulated Status registers, reads
-+of the Mask registers through the PCI core report them as unmasked, so
-+the AER driver handles the injected error as if the device had it
-+unmasked.  The Mask register bits hidden this way are kept set in
-+writes to the Mask registers until aer_inject is unloaded, so that a
-+value saved through the emulation (e.g., by pci_save_state()) cannot
-+unmask them in the device.
-
+ AGPGART DRIVER
+ M:	David Airlie <airlied@redhat.com>
+ L:	dri-devel@lists.freedesktop.org
 -- 
-2.56.0.385.gd3acb90ef8-goog
+2.53.0
 
