@@ -1,65 +1,65 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC67B3E5592
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 09:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE3D3F4DDA
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 09:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791883977; cv=none; b=vAcf4Wx1TYX2Iis4nT8aRbZGLPliOyTXSpZvLblGc0FIGWJ8bHFW8+2imFM/qfO5byc3nSlqSZBsvcDdRnVdhg9/lMq+DHT3CJwKQ3vC5DaOnkPoXTwIZZobZh9vJ87pboD93yNQD8DmiOPMw61ofA4DN6zsxF0GaHoFQlfzZD8=
+	t=1791883982; cv=none; b=qFtD4Uqlru29C+nCmaRdpmX8R0fHGw5jJfo8oK7sRPK6mbU5Czrq0XWjBTeliC8BI2JyzvfoTecW8zAd8nhywXzSj4MnRNx4UHqwgZnQl6HHL9qiYQ4BBfLyygA8u0OcQQa3kHaIbqI8N9+iiPjjSujJpjHd8cu8d4xrWDBkRcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791883977; c=relaxed/simple;
-	bh=AI9TykBgDRYyT96EaqkqSaNydivxgaXeejHoFob5uwc=;
+	s=arc-20240116; t=1791883982; c=relaxed/simple;
+	bh=aRtwvMv9yIklUEfwA2tgF7gNewrgncEQ/GN8vn8QiY4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HfbC57+psT//6KMmoT+p4t1AExMoYG09ZHkEdimYR0Yi/TLu4lyxFwXXCKsWQLwTM8yRq5JdLx6h3f+acwz96u2TvGveOUzBcOQp89FcTonGzD1sysd8k4eJLsVELfKLrd+x0xWCeDFRStHpRbFxguxIrvmN50fO23fOcfyuSbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bkcv8VxN; arc=none smtp.client-ip=209.85.221.47
+	 MIME-Version:Content-Type; b=l34mfljgQydi9U9Owsh0H4H8JSWu5xvx5mvZSSJ2f5g5YSEw6vCiyCb7DLEonqqb+vmSzTXy6bkKTEX2IXMc6TQbhfpqmpAEEfXYF2VmL0uHRTXXkihb8ZafPjEHE8Ge5RRDXjxUiS3emr5jTx6ay0g1/DlNfBRqQ1CnHG6WEcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r83duQ7n; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bkcv8VxN"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48b03f23305so2298316f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 02:32:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r83duQ7n"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-487049569b6so1892176f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 02:33:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791883973; x=1792488773; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791883978; x=1792488778; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=z6NPHx9LACWbH6+mzFH89ozzk12nlHrey7ZxWH5hggM=;
-        b=bkcv8VxNjkcIc0KV8GMyBZ6nJVg1lg/lRrTTbjC8lQe8wnjx38Ah4mrSVeEeOABxiL
-         uftV7+AB0/sRu/tPZU+w4wzjRPe/iXkUf3wG9iDwG51KZ3VXpdR2S4gL4wgzZEJ6E1QU
-         2G5XpJnxAMZa24KUdvmWo+eerave/NDWAsDh6ehwgGGjH77otg3Hk5IucsgaLm4LEA9u
-         nlsAHzFINw07FCy9GSMOdpNSApsqn916U8Cj+lkD1Kvub7vLDo1oIyHAY5JIUaFzlEzU
-         iDAgcUenMa4OUG994+xMRkixGRkYUg+2/DNycke1cOPUwBgq+KcSBYUoAVlMHtgRvWIw
-         Jpbw==
+        bh=6FMp4bmsFYk3mzSCH1/ElOs2cwgfyNFSJhXfclhOUCc=;
+        b=r83duQ7nXCBb1NxgMViTUYQnb/tZDDGslK4TR5GAYdQxkBIPuLZNmr5Z166cduMhx0
+         2VUQCwLEbbuJ6RSNG50hn3BZ60PZmFOcs9+Fh7PQEqS+tq+ow54LyDJE/J8hxjz3RTIa
+         9Vk56WZKCvpihlA/fyZ1ZUYXQqIck02WKZDlUhjyV1VF2kcWZgt0lkKUtWbeCGhf/4Z3
+         QJJqkUXHLJcELfmudn2bOKjvkKLOndN3/Uzl+m1YAXMvTaOU60JTtqill6b2LVgBU3Kf
+         343TU7z3DQa6zu+u8474OAY6oZpI6GDJU12nGIsEntUZnGXDxbocZcoFJC042EryN4PH
+         iu/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791883973; x=1792488773;
+        d=1e100.net; s=20260707; t=1791883978; x=1792488778;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=z6NPHx9LACWbH6+mzFH89ozzk12nlHrey7ZxWH5hggM=;
-        b=y3ymC/4UvKzWKj44vlj8rOwiKHvc9p5PwwiyP/N9TNN8mpfAA8mQyD3/8wYoGL8yqi
-         uY2gH5vP7uoa04mENnpDeSiZUR4FUAK18FQ/DSmZlsB7qEfphjYWG597oY6Wb0jPnBPX
-         eNj8DKPXrBxe4Eet3hswanlNxAFcLqSMsmHJefaRNWabN1I7swMW5qk2LPe6ffsXFsRi
-         W0g8aVL2cHUx45feYCxi5AMbZIWY5615uMzsPtVKMB7yJnSarZs8Bx2oR5r1DxFdn8Ln
-         t6qoSpkXkZs4/vAXJNJ+UNdSuAT4ZisKzO3NvHQ1O101thDTTL+uOUkz8+cqYQIph8BT
-         PQHQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxqo/+Hw9UFw/zqORXGF0DRcDPWnDf7a4kHnmHnLp+PBsyPAtaWgxYm5qx056vSKOKAOQUVhZdqeUo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLJg5X0R3flSTr3z2jpMxFXmO14XhyCVZbqz2YrHwdw0Uov1hpV
-	VyUaBua/N+sGqY6emKEVYsfPeM2MW1sVGa1M9aLyy/fYns8VMvdhp/md
-X-Gm-Gg: AYBFou3cqItKEgAaq54d9hE1vFTiI/HHVyQkI0WMdXG/MSiVdoUvpw1HDp3BIrVIVfa
-	awbjiP8rclJTNJZy4y5q0eoFVa1OGXhee1rPGe6NYmqkcCRRnItYm9lG95BgKzMPAl/SC9gW2A4
-	AQAbTk7GK+G2IddXwi8n2cKjvJavdOzE6E6vBo1rl1YBfMEGs0cEOyA5ueoeFqyidKn93Eh0nN/
-	R+DaG26zGgfrjQswXlidD5Z7XgQRZxqod/4nPy1RNi8EnMaKqEnUYpkbPQXnOGYWEqZgIo8+000
-	JY03G1XL/FtN5+aHzZ0UUVGiGM1sxbDL7IvyhZeKDXVwjgsD5yxuUXizt9M7Vrt00hCQi1KmuMs
-	U99xOpC6mPZ9JNmCPp/1yug+mHkOJ+Amc8eHki7ybOSwMz+QDXNPj68uGwe5Upz6+oql9fQRXgx
-	ussgZ8b01Nu+3LekMyyo2/7kSISmUQZYfoUQD4f1yBPBvpnevGYtd+m5yAQWJj+3ozJc9oW02ks
-	gPSQ9KoUpuiqGswZywzRd5L
-X-Received: by 2002:a05:6000:469b:b0:48b:a4b:5a2c with SMTP id ffacd0b85a97d-48dba7893e3mr15115259f8f.3.1791883972704;
-        Tue, 13 Oct 2026 02:32:52 -0700 (PDT)
+        bh=6FMp4bmsFYk3mzSCH1/ElOs2cwgfyNFSJhXfclhOUCc=;
+        b=lLhhgXpIwII4vX8ikv3k77HGXL0gZkSn4180QC92Z4lYldXKUGFvLNg7+lQVLVpXU1
+         WODE1oibI7ZJnhoOfvgHJjEpXC4LK+WZyMiuJbKncQ6PBZlv1E3YQgO30i6u7nKdF84v
+         hZ1qOheW8wS2/18q3SNs5JsHnkhXQywDSYYGcDFo3Kl48eUP9u9nbdhnVUlFbq3txKts
+         vIJTSwmVoc5ifACDCe0shuvwBj5YZ70Me5pjsjGU/+WqSRvEeXC6KQzyiFUYhTS7bUfJ
+         XB6+pdxcMnzxgqXNygIvDAJaqwEmRwL299ywPO23rR/L6imxNmvogympQlnXVNKUV1T0
+         9Eqw==
+X-Forwarded-Encrypted: i=1; AKwUvBzWtWrGIk7bxa1wjhSLSS9Oh4p1gJH6yxKtaAj1zAfbnbgCVeehS8ajsD3wFn4DdqMCQo2RNaLYrV8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLbakTLfutPV0kDu3PwE/12VVRPxUV41wY+rnAbR5Cp53KC5NBW
+	0tEUobS6+sC2racoWIEpbE6f4QORX6viavYwmdtWXxWWQmMWISch/HtC
+X-Gm-Gg: AYBFou0QbBHe+/tU6Htvtm76ubC40CdJRoRs8HrXb2EJRMITilOycvetAg9wETS5+2v
+	wXRs1O/Y8axCmtnmFxpRhSrJOufndQTn/4Nc1ID19mSMnaMN2W9hq9sP2KLfFuvVECiJz2jVyMP
+	ojqIXO1f8H+W29tgb9/AGgwvGtwlAT1/kz8Vfof12pPIl95vsk8upFkiIAlXy87F/0nkk1yV0ZN
+	akZpRNimHN+vtep6+zdExvWYl5ZkHNPKXThZm277m4sVxFlKrXAqUY+MPwsyB+p6l3ByuN4E2ws
+	AbzDQqE2C0X1NUrbeJE0fl+neXp855m7hgIk5F4caNP0PZRnZTUAJqO/B+BvHlUg6WkfngdLRrs
+	2FHpsWpM5ujt6yZp6Gxcdim/nALllZC36ZSSj2lfzL0EgQcZygjrcMYY4/4nEtqrttdVGKzhfa9
+	GJQbi7NfVgwaOsdz9SwXExI8o7dc1ZZqg0rnZJqpLq3T/NUOQCNaSyth/4Lxu8TFx+QUI97KTTO
+	gBmeMa8L3CaF6oqYRX3oQJg
+X-Received: by 2002:a05:6000:4313:b0:48c:77e3:6c8e with SMTP id ffacd0b85a97d-48dbacf4700mr22504037f8f.49.1791883978432;
+        Tue, 13 Oct 2026 02:32:58 -0700 (PDT)
 Received: from ingenieria31.oficinasStQ.local ([79.112.15.218])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0bc4ec6sm3986774f8f.48.2026.10.13.02.32.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0bc4ec6sm3986774f8f.48.2026.10.13.02.32.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 02:32:52 -0700 (PDT)
+        Tue, 13 Oct 2026 02:32:58 -0700 (PDT)
 From: =?UTF-8?q?M=C3=A0xim=20Pedraza=20Padilla?= <maximpedraza@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -86,9 +86,9 @@ Cc: Francesco Valla <francesco@valla.it>,
 	linux-doc@vger.kernel.org,
 	linux-embedded@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 02/13] efi: bgrt: add accessors for the boot graphics
-Date: Tue, 13 Oct 2026 11:32:32 +0200
-Message-Id: <20261013093243.505776-3-maximpedraza@gmail.com>
+Subject: [PATCH v5 04/13] MAINTAINERS: add entry for DRM splash client
+Date: Tue, 13 Oct 2026 11:32:34 +0200
+Message-Id: <20261013093243.505776-5-maximpedraza@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261013093243.505776-1-maximpedraza@gmail.com>
 References: <20261013093243.505776-1-maximpedraza@gmail.com>
@@ -101,176 +101,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The DRM splash client shows the boot graphics the firmware left behind,
-and needs the image address and size, its offsets and the status bits.
-Reading them from bgrt_tab and bgrt_image_size works with drm_client_lib
-built in, but it can be a module, and neither is exported:
+From: Francesco Valla <francesco@valla.it>
 
-  ERROR: modpost: drivers/gpu/drm/clients/drm_client_lib.ko: symbol 'bgrt_tab' undefined!
-  ERROR: modpost: drivers/gpu/drm/clients/drm_client_lib.ko: symbol 'bgrt_image_size' undefined!
+Add myself as maintainer for the DRM splash client.
 
-Rather than export the data, add an accessor for each of them, exported
-GPL only, with stubs in efi-bgrt.h for CONFIG_ACPI_BGRT=n so that users
-need no #ifdef of their own. The variables stay global for
-drivers/acpi/bgrt.c, and are only written by efi_bgrt_init(): mark them
-__ro_after_init.
-
-Reported-by: Mario Limonciello <mario.limonciello@amd.com>
-Closes: https://lore.kernel.org/dri-devel/5d7067de-97b7-4232-9cf6-e4b978696482@amd.com/
-Suggested-by: Jani Nikula <jani.nikula@linux.intel.com>
-Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Francesco Valla <francesco@valla.it>
+[Màxim: add myself as co-maintainer]
 Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
 ---
- drivers/firmware/efi/efi-bgrt.c | 74 ++++++++++++++++++++++++++++++++-
- include/linux/efi-bgrt.h        | 39 ++++++++++++++++-
- 2 files changed, 110 insertions(+), 3 deletions(-)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/firmware/efi/efi-bgrt.c b/drivers/firmware/efi/efi-bgrt.c
-index 1da451582812..01425c4d2e70 100644
---- a/drivers/firmware/efi/efi-bgrt.c
-+++ b/drivers/firmware/efi/efi-bgrt.c
-@@ -16,8 +16,8 @@
- #include <linux/efi.h>
- #include <linux/efi-bgrt.h>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a08087fb6e67..321ecb9f5b5b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9168,6 +9168,14 @@ F:	Documentation/gpu/drm-ras.rst
+ F:	drivers/gpu/drm/drm_ras*
+ F:	include/drm/drm_ras*
  
--struct acpi_table_bgrt bgrt_tab;
--size_t bgrt_image_size;
-+struct acpi_table_bgrt bgrt_tab __ro_after_init;
-+size_t bgrt_image_size __ro_after_init;
- 
- struct bmp_header {
- 	u16 id;
-@@ -89,3 +89,73 @@ void __init efi_bgrt_init(struct acpi_table_header *table)
- out:
- 	memset(bgrt, 0, sizeof(bgrt_tab));
- }
++DRM SPLASH
++M:	Francesco Valla <francesco@valla.it>
++M:	Màxim Pedraza Padilla <maximpedraza@gmail.com>
++L:	dri-devel@lists.freedesktop.org
++S:	Maintained
++T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
++F:	drivers/gpu/drm/clients/drm_splash.c
 +
-+/**
-+ * efi_bgrt_has_image() - Whether the firmware left a boot graphic
-+ *
-+ * Return: true if the BGRT points at a BMP image, which efi_bgrt_init()
-+ * checked and reserved.
-+ */
-+bool efi_bgrt_has_image(void)
-+{
-+	return bgrt_tab.image_address != 0;
-+}
-+EXPORT_SYMBOL_GPL(efi_bgrt_has_image);
-+
-+/**
-+ * efi_bgrt_image_address() - Physical address of the boot graphic
-+ *
-+ * Return: the address of the BMP image, or 0 if there is none.
-+ */
-+phys_addr_t efi_bgrt_image_address(void)
-+{
-+	return bgrt_tab.image_address;
-+}
-+EXPORT_SYMBOL_GPL(efi_bgrt_image_address);
-+
-+/**
-+ * efi_bgrt_image_size() - Size of the boot graphic
-+ *
-+ * Return: the size of the BMP image, as its header gives it, or 0 if there
-+ * is none.
-+ */
-+size_t efi_bgrt_image_size(void)
-+{
-+	return bgrt_image_size;
-+}
-+EXPORT_SYMBOL_GPL(efi_bgrt_image_size);
-+
-+/**
-+ * efi_bgrt_status() - Status field of the BGRT
-+ *
-+ * Return: the status byte. Bit 0 tells whether the image is still on
-+ * screen and, since ACPI 6.2, bits 1-2 how far it has to be turned to show
-+ * upright (ACPI_BGRT_ORIENTATION_OFFSET).
-+ */
-+u8 efi_bgrt_status(void)
-+{
-+	return bgrt_tab.status;
-+}
-+EXPORT_SYMBOL_GPL(efi_bgrt_status);
-+
-+/**
-+ * efi_bgrt_image_offset_x() - Horizontal position of the boot graphic
-+ *
-+ * Return: the X offset, in pixels, at which the firmware drew the image.
-+ */
-+u32 efi_bgrt_image_offset_x(void)
-+{
-+	return bgrt_tab.image_offset_x;
-+}
-+EXPORT_SYMBOL_GPL(efi_bgrt_image_offset_x);
-+
-+/**
-+ * efi_bgrt_image_offset_y() - Vertical position of the boot graphic
-+ *
-+ * Return: the Y offset, in pixels, at which the firmware drew the image.
-+ */
-+u32 efi_bgrt_image_offset_y(void)
-+{
-+	return bgrt_tab.image_offset_y;
-+}
-+EXPORT_SYMBOL_GPL(efi_bgrt_image_offset_y);
-diff --git a/include/linux/efi-bgrt.h b/include/linux/efi-bgrt.h
-index e6cd51005633..1c287e5fd388 100644
---- a/include/linux/efi-bgrt.h
-+++ b/include/linux/efi-bgrt.h
-@@ -9,7 +9,14 @@
- void efi_bgrt_init(struct acpi_table_header *table);
- int __init acpi_parse_bgrt(struct acpi_table_header *table);
- 
--/* The BGRT data itself; only valid if bgrt_image != NULL. */
-+bool efi_bgrt_has_image(void);
-+phys_addr_t efi_bgrt_image_address(void);
-+size_t efi_bgrt_image_size(void);
-+u8 efi_bgrt_status(void);
-+u32 efi_bgrt_image_offset_x(void);
-+u32 efi_bgrt_image_offset_y(void);
-+
-+/* The BGRT data itself; only valid if efi_bgrt_has_image(). */
- extern size_t bgrt_image_size;
- extern struct acpi_table_bgrt bgrt_tab;
- 
-@@ -21,6 +28,36 @@ static inline int __init acpi_parse_bgrt(struct acpi_table_header *table)
- 	return 0;
- }
- 
-+static inline bool efi_bgrt_has_image(void)
-+{
-+	return false;
-+}
-+
-+static inline phys_addr_t efi_bgrt_image_address(void)
-+{
-+	return 0;
-+}
-+
-+static inline size_t efi_bgrt_image_size(void)
-+{
-+	return 0;
-+}
-+
-+static inline u8 efi_bgrt_status(void)
-+{
-+	return 0;
-+}
-+
-+static inline u32 efi_bgrt_image_offset_x(void)
-+{
-+	return 0;
-+}
-+
-+static inline u32 efi_bgrt_image_offset_y(void)
-+{
-+	return 0;
-+}
-+
- #endif /* !CONFIG_ACPI_BGRT */
- 
- #endif /* _LINUX_EFI_BGRT_H */
+ DRM TTM SUBSYSTEM
+ M:	Natalie Vock <nat@pixelcluster.dev>
+ M:	Arun Pravin <arunpravin.paneerselvam@amd.com>
 -- 
 2.39.5
 
