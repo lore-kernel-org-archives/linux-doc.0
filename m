@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D78477E52;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AA0479890;
 	Tue, 13 Oct 2026 02:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791858999; cv=none; b=fizZ8VAIBkgy2g0C1B9x57bRYQV3pnto7AK2ePhZvet7hqjP7NBl55bAUlIUEFDIcQUlhYhkRft5EToTSiXVE1fTHPKvoYxTdApxravDXE2NpeCg+YlaDj4MbD1/viXlV62ELN085jDS3yYS+aFO2cea0YWn2kdUvgHxN1v1lPs=
+	t=1791858999; cv=none; b=UrQowI6j9Mrjns1DvDPuw6YqIK9LqmUQMtW0/ZdQpceSXQeEOed90dtfj8CfWA92MYb6M3jpICazqYYUZAokps57BWJLUWcvSf4rEUayTHBM2ZJ9HBLrBE4NJQCZJs+pq3+nmV0KxVsjJEE1/WeIlnsc6xwHq5GY/dMgA29uiDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791858999; c=relaxed/simple;
-	bh=tEdHym+9WR22v3ROEkN2aSRUNASWobMnDohZzYv+cL4=;
+	bh=3S5NgncGfB7sNfDWfROoI22dCDAFFPjTX/lo/at1SX0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=am6U0HGQbakyhb8vfY4EY+/oh7t5TVaEmow8jp32GKeaX/VthVuKc0J7SERYGH3EcoFn94mtpYuuZBCgnEV3rih6OLad3SPoYtKWPdGmquMCge5xkVZXaPzNIyFaZUSYcEtcEXw9G04CdkqAPBGd6YPpwMxRARnp4zL3o0r6/zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YsFUcNH7; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=BP1+CKCrmCMRmJaHmDOM+spDd4r9wYWANMFAMJt4Xjp9ZQlaallCOgBoqbHHNTmp89Ixo93f8lf5iE8lQUNdqkkAnNcqHQ45PxKBo2XeNtKvqdhnOFAdH1ufmAljOpFn8I9yRdaIHLlkRhhYbz+a3wUDlbVUYqXbDtes5Bs8Wg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O2nBr9Mv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YsFUcNH7"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2674AC2BCFB;
-	Tue, 13 Oct 2026 02:36:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O2nBr9Mv"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A8E4CC2BD05;
+	Tue, 13 Oct 2026 02:36:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791858999;
-	bh=tEdHym+9WR22v3ROEkN2aSRUNASWobMnDohZzYv+cL4=;
+	s=k20201202; t=1791858998;
+	bh=3S5NgncGfB7sNfDWfROoI22dCDAFFPjTX/lo/at1SX0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=YsFUcNH7I2OGq8sHdd25jz/J4I09rsO6kpTQwBCNSGpbjOFL58PWiVmh59QrVYRs0
-	 MZ8Ddok8Z1wjhlhmuQx8HiX8QGDJ7R5V4UG/NIJIsJZ+fbLYWmdNZU7eUfVcNBLmom
-	 RC/941IiOhaK+/R22eUn9dNe8E17Y8NPid6PuvfmWykTVV9+hWNI2VGHJKHWAVmzPC
-	 775zV+ceTXnHGVIoPHCUE5N39lK5gpNq73N2FublRRkz/iFu90IVJKg7Wmi8+oIqZN
-	 Vv92zPDVjJHjGcDsBVD85DsC68968pdc81/UmrWA0fOz+7EwhUJKtukmdnyWQ+1CKg
-	 S3sh0xeTnhU6g==
+	b=O2nBr9MvvSSB1EB2oi1a+oaACxqB9MZjsJrFuMvtJfZnfGcBGh/SDdL8FhfY+Uk3R
+	 I0YHJ++9U43Lf46qjf+9OWn3N/lM+mJKfhfRtR9iBrSk9OUqrRRWqo9tKyvm5xgeE3
+	 mhI6qTxyhV67iTauuNeHAKR0AY0YXOwECBdWd6LOQSGs0qhI6NF770Mp+y3azCFIaV
+	 EbzOWGnxO1Gl6lvcD8MparD/EcLvoVIV7StHK+xlOC8+oeAzTSllTDZ6Atu7/DKmeQ
+	 2rI1mstEMFI/K4rrIbqyoG/mb/yFE7omk60SloVL717VyMiXGI0fGkjQf5kopWp2pB
+	 gpfLbzV4Tv4Qg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13563CA9ED0;
-	Tue, 13 Oct 2026 02:36:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96116CC6B01;
+	Tue, 13 Oct 2026 02:36:38 +0000 (UTC)
 From: Jim Cromie via B4 Relay <devnull+jim.cromie.gmail.com@kernel.org>
-Date: Mon, 12 Oct 2026 20:36:49 -0600
-Subject: [PATCH v12 18/40] dyndbg: reduce class param storage to u32
+Date: Mon, 12 Oct 2026 20:36:43 -0600
+Subject: [PATCH v12 12/40] dyndbg: bump num-tokens in a query-cmd from 9 to
+ 15
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261012-dd-cmap-part2-clean-v12-18-3c8cc5725def@gmail.com>
+Message-Id: <20261012-dd-cmap-part2-clean-v12-12-3c8cc5725def@gmail.com>
 References: <20261012-dd-cmap-part2-clean-v12-0-3c8cc5725def@gmail.com>
 In-Reply-To: <20261012-dd-cmap-part2-clean-v12-0-3c8cc5725def@gmail.com>
 To: Jason Baron <jbaron@akamai.com>, Shuah Khan <shuah@kernel.org>, 
@@ -68,11 +69,11 @@ Cc: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
  linux-kbuild@vger.kernel.org, linux-pm@vger.kernel.org, 
  Jim Cromie <jim.cromie@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791858995; l=9166;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791858995; l=3086;
  i=jim.cromie@gmail.com; s=20260203; h=from:subject:message-id;
- bh=sL0rv0s8Xap2onhbgpfA/xiuEoB+JlAstbDdnM7/3ZU=;
- b=EN6rpnDUAKDsPeOCQ8Y2Pb6sRVbZuDAigAxXbJDdzxtDuoL8jpcMZ90I2WXvd/JgaPiPbaodB
- HCDMnAtcaGgANdwG5tPS14VWyc7sgJEFeo+2LvC+DHdYoPLE93hl8Em
+ bh=2qWyi6+YSKFFZjxBlAqzRhGNiwVTqFgEdchNvFaIvH0=;
+ b=XYTRrM+tZRfQZKJpa58fm0crxCszrz4MUeP11sSmCj5wE6AfzDJvwVPY7diCxnjscvdXyFaxv
+ M/lL81f1u04DjGyOuzaC7mvA7PH9bC5ZrElQyTUVDKE7QaOMK+g/7U9
 X-Developer-Key: i=jim.cromie@gmail.com; a=ed25519;
  pk=C6E5ODlPQo7ZBynATXH9wg7K6HxP0pIXyf4s38Qw0XE=
 X-Endpoint-Received: by B4 Relay for jim.cromie@gmail.com/20260203 with
@@ -82,244 +83,67 @@ Reply-To: jim.cromie@gmail.com
 
 From: Jim Cromie <jim.cromie@gmail.com>
 
-Currently, `struct ddebug_class_param` uses pointers to `unsigned
-long` values which store the state of `bits` and `lvl`, so it changes
-sizes depending upon the architecture.  Make it always u32 for
-consistency.
-
-The bits field references __drm_debug, which was unsigned int, before
-commit f158936b60a7 ("drm: POC drm on dyndbg - use in core, 2 helpers, 3 drivers.")
-changed it to unsigned long.  This patch changes it back.
-
-That enlargement was a thinko; although modules can have up to 63
-classes, and *could* have put all those classes in a single classmap,
-the reason for it is to support multiple classmaps (with
-non-overlapping class-id ranges).
-
-32 bits is a practical limit for a class-param's usability since all
-classes are set together with a single write of a hex value; 16 would
-be a realistic limit, drm.debug has ~12 classes.
-
-  #> echo 0x0fff > /sys/module/drm/parameters/debug
-
-Several followon patches add a number of compile-time validations,
-including a num-classes <=32 check.
+Current MAXWORDS in ddebug_exec_query() is too small to accept a legal
+query-command using all 6 keywords.  We *need* 13, but this adds a few
+extra to allow certain errors to fail on subsequent, more meaningful
+grammar checks.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
-v8: add a <32 limit to prevent undefined shifts on 32 bit number
-v5: u32 for all arches
-v4: undo change struct ddebug_class_param to _ddebug_class_param
+ lib/dynamic_debug.c                                      |  2 +-
+ tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-v3:
-fix undefd behavior when classmaps is all 64 bits.
-change module_param_named( type-arg from ulong to ullong)
-change struct ddebug_class_param to _ddebug_class_param
-
-in drivers/gpu/drm/drm_print.{c,h}
-api change later
-
-v2:
-
-patch was "make bits & lvl same size"
-but that size was unsigned long, only 32 bits on i386 etc
-use u64 for all bits, and %llu %llx
-
-u64-fix
-
-u64-drm-dbg
----
- drivers/gpu/drm/drm_print.c   |  4 ++--
- include/drm/drm_print.h       |  2 +-
- include/linux/dynamic_debug.h |  4 ++--
- lib/dynamic_debug.c           | 37 ++++++++++++++++++++-----------------
- lib/test_dynamic_debug.c      |  2 +-
- 5 files changed, 26 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-index 86cef1a37678..794417c62097 100644
---- a/drivers/gpu/drm/drm_print.c
-+++ b/drivers/gpu/drm/drm_print.c
-@@ -40,7 +40,7 @@
-  * __drm_debug: Enable debug output.
-  * Bitmask of DRM_UT_x. See include/drm/drm_print.h for details.
-  */
--unsigned long __drm_debug;
-+u32 __drm_debug;
- EXPORT_SYMBOL(__drm_debug);
- 
- MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
-@@ -56,7 +56,7 @@ MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug cat
- "\t\tBit 9 (0x200) will enable DRMRES messages (managed resources code)");
- 
- #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
--module_param_named(debug, __drm_debug, ulong, 0600);
-+module_param_named(debug, __drm_debug, uint, 0600);
- #else
- /* classnames must match vals of enum drm_debug_category */
- DECLARE_DYNDBG_CLASSMAP(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS, 0,
-diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-index 2adc5ac688e1..50b3ba0ae76d 100644
---- a/include/drm/drm_print.h
-+++ b/include/drm/drm_print.h
-@@ -39,7 +39,7 @@ struct drm_device;
- struct seq_file;
- 
- /* Do *not* use outside of drm_print.[ch]! */
--extern unsigned long __drm_debug;
-+extern u32 __drm_debug;
- 
- /**
-  * DOC: print
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index 9cd262a3fcba..36b7d341076d 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -94,8 +94,8 @@ struct _ddebug_info {
- 
- struct ddebug_class_param {
- 	union {
--		unsigned long *bits;
--		unsigned int *lvl;
-+		u32 *bits;
-+		u32 *lvl;
- 	};
- 	char flags[8];
- 	const struct ddebug_class_map *map;
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 84a311fac657..72bfbec0ac02 100644
+index a39144fd7c8c..a0723343e2a7 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -586,6 +586,7 @@ static int ddebug_exec_query(char *query_string, const char *modname)
- 		pr_err("query parse failed\n");
- 		return -EINVAL;
- 	}
-+
- 	/* actually go and implement the change */
- 	nfound = ddebug_change(&query, &modifiers);
- 	v3pr_info_dq(&query, nfound ? "applied" : "no-match");
-@@ -636,8 +637,7 @@ static int ddebug_exec_queries(char *query, const char *modname)
- 
- /* apply a new class-param setting */
- static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
--				     const unsigned long *new_bits,
--				     const unsigned long old_bits,
-+				     const u32 *new_bits, const u32 old_bits,
- 				     const char *query_modname)
+@@ -558,7 +558,7 @@ static int ddebug_exec_query(char *query_string, const char *modname)
  {
- #define QUERY_SIZE 128
-@@ -647,24 +647,27 @@ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
- 	int bi, ct;
+ 	struct flag_settings modifiers = {};
+ 	struct ddebug_query query = {};
+-#define MAXWORDS 9
++#define MAXWORDS 15
+ 	int nwords, nfound;
+ 	char *words[MAXWORDS];
  
- 	if (*new_bits != old_bits)
--		v2pr_info("apply bitmap: 0x%lx to: 0x%lx for %s\n", *new_bits,
-+		v2pr_info("apply bitmap: 0x%x to: 0x%x for %s\n", *new_bits,
- 			  old_bits, query_modname ?: "'*'");
- 
--	for (bi = 0; bi < map->length; bi++) {
--		if (test_bit(bi, new_bits) == test_bit(bi, &old_bits))
-+	for (bi = 0; bi < map->length && bi < 32; bi++) {
-+		bool new_b = !!(*new_bits & BIT(bi));
-+		bool old_b = !!(old_bits & BIT(bi));
-+
-+		if (new_b == old_b)
- 			continue;
- 
- 		snprintf(query, QUERY_SIZE, "class %s %c%s", map->class_names[bi],
--			 test_bit(bi, new_bits) ? '+' : '-', dcp->flags);
-+			 new_b ? '+' : '-', dcp->flags);
- 
- 		ct = ddebug_exec_queries(query, query_modname);
- 		matches += ct;
- 
--		v2pr_info("bit_%d: %d matches on class: %s -> 0x%lx\n", bi,
-+		v2pr_info("bit_%d: %d matches on class: %s -> 0x%x\n", bi,
- 			  ct, map->class_names[bi], *new_bits);
- 	}
- 	if (*new_bits != old_bits)
--		v2pr_info("applied bitmap: 0x%lx to: 0x%lx for %s\n", *new_bits,
-+		v2pr_info("applied bitmap: 0x%x to: 0x%x for %s\n", *new_bits,
- 			  old_bits, query_modname ?: "'*'");
- 
- 	return matches;
-@@ -673,7 +676,7 @@ static int ddebug_apply_class_bitmap(const struct ddebug_class_param *dcp,
- /* stub to later conditionally add "$module." prefix where not already done */
- #define KP_NAME(kp)	kp->name
- 
--#define CLASSMAP_BITMASK(width) ((1UL << (width)) - 1)
-+#define CLASSMAP_BITMASK(width) ((width) >= 32 ? ~0U : (1U << (width)) - 1)
- 
- /*
-  * param-setter helper to validate numeric input, clamp its value by
-@@ -685,10 +688,10 @@ static int param_set_dyndbg_module_classes(const char *instr,
- {
- 	const struct ddebug_class_param *dcp = kp->arg;
- 	const struct ddebug_class_map *map = dcp->map;
--	unsigned long inrep, new_bits, old_bits, old_val;
-+	u32 inrep, new_bits, old_bits, old_val;
- 	int rc, totct = 0;
- 
--	rc = kstrtoul(instr, 0, &inrep);
-+	rc = kstrtou32(instr, 0, &inrep);
- 	if (rc) {
- 		int len = strcspn(instr, "\n");
- 
-@@ -701,26 +704,26 @@ static int param_set_dyndbg_module_classes(const char *instr,
- 	case DD_CLASS_TYPE_DISJOINT_BITS:
- 		/* expect bits. mask and warn if too many */
- 		if (inrep & ~CLASSMAP_BITMASK(map->length)) {
--			pr_warn("%s: input: 0x%lx exceeds mask: 0x%lx, masking\n",
-+			pr_warn("%s: input: 0x%x exceeds mask: 0x%x, masking\n",
- 				KP_NAME(kp), inrep, CLASSMAP_BITMASK(map->length));
- 			inrep &= CLASSMAP_BITMASK(map->length);
- 		}
- 		old_val = READ_ONCE(*dcp->bits);
--		v2pr_info("bits:0x%lx > %s.%s\n", inrep, mod_name ?: "*", KP_NAME(kp));
-+		v2pr_info("bits:0x%x > %s.%s\n", inrep, mod_name ?: "*", KP_NAME(kp));
- 		totct += ddebug_apply_class_bitmap(dcp, &inrep, old_val, mod_name);
- 		WRITE_ONCE(*dcp->bits, inrep);
- 		break;
- 	case DD_CLASS_TYPE_LEVEL_NUM:
- 		/* input is bitpos, of highest verbosity to be enabled */
- 		if (inrep > map->length) {
--			pr_warn("%s: level:%ld exceeds max:%d, clamping\n",
-+			pr_warn("%s: level:%u exceeds max:%d, clamping\n",
- 				KP_NAME(kp), inrep, map->length);
- 			inrep = map->length;
- 		}
- 		old_val = READ_ONCE(*dcp->lvl);
- 		old_bits = CLASSMAP_BITMASK(old_val);
- 		new_bits = CLASSMAP_BITMASK(inrep);
--		v2pr_info("lvl:%ld bits:0x%lx > %s\n", inrep, new_bits, KP_NAME(kp));
-+		v2pr_info("lvl:%u bits:0x%x > %s\n", inrep, new_bits, KP_NAME(kp));
- 		totct += ddebug_apply_class_bitmap(dcp, &new_bits, old_bits, mod_name);
- 		WRITE_ONCE(*dcp->lvl, inrep);
- 		break;
-@@ -766,9 +769,9 @@ int param_get_dyndbg_classes(char *buffer, const struct kernel_param *kp)
- 
- 	switch (map->map_type) {
- 	case DD_CLASS_TYPE_DISJOINT_BITS:
--		return scnprintf(buffer, PAGE_SIZE, "0x%lx\n", *dcp->bits);
-+		return scnprintf(buffer, PAGE_SIZE, "0x%x\n", *dcp->bits);
- 	case DD_CLASS_TYPE_LEVEL_NUM:
--		return scnprintf(buffer, PAGE_SIZE, "%d\n", *dcp->lvl);
-+		return scnprintf(buffer, PAGE_SIZE, "%u\n", *dcp->lvl);
- 	default:
- 		return -1;
- 	}
-diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
-index 74d183ebf3e0..9e8e028461ad 100644
---- a/lib/test_dynamic_debug.c
-+++ b/lib/test_dynamic_debug.c
-@@ -40,7 +40,7 @@ module_param_cb(do_prints, &param_ops_do_prints, NULL, 0600);
-  * - tie together sysname, mapname, bitsname, flagsname
-  */
- #define DD_SYS_WRAP(_model, _flags)					\
--	static unsigned long bits_##_model;				\
-+	static u32 bits_##_model;					\
- 	static struct ddebug_class_param _flags##_model = {		\
- 		.bits = &bits_##_model,					\
- 		.flags = #_flags,					\
+diff --git a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+index c1475c755542..5e52d957e2fd 100755
+--- a/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
++++ b/tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
+@@ -320,8 +320,8 @@ function GOLDEN_RECORDS {
+ #K= b9a397e807148d13ba07da7db7e69817 FT_grammar_errs.2
+ #K= 5abefa504937a329f974504f1896e368 FT_grammar_errs.3
+ #K= 1d94d0f239bf40bf51280caeab499de0 FT_grammar_errs.4
+-#K= 135035c8a17ae100cc4ec954c4d75b2f FT_grammar_errs.5
+-#K= a9cc14244f91a12d3174ad1314144a8e FT_grammar_errs.6
++#K= 9a5e1c1856f1ebbe57a4afdfc4c9703a FT_grammar_errs.5
++#K= b3809a6f9f643f049f1ef30827d4b001 FT_grammar_errs.6
+ #K= 5d400aad1a7d71f548b6b81274d00a55 FT_grammar_errs.7
+ #K= 61cd359b10f9051862d3745eda07a295 FT_grammar_errs.8
+ #K= 567379f4f4d099f00f37d1469d9370bd FT_grammar_errs.9
+@@ -340,8 +340,8 @@ function GOLDEN_RECORDS {
+ #K= 1f6fedfe222af475211b3bfc6d08bc63 FT_grammar_errs.22
+ #K= c67dfeca97697b707acdd70672816dff FT_grammar_errs.23
+ #K= 9574dbfdac063409b41a44e6251fbcd9 FT_grammar_errs.24
+-#K= 644b81753949ac1285e38ac995eeba46 FT_grammar_errs.25
+-#K= 1bf2a93a39961f40e0c2dd4c5e2edc6d FT_grammar_errs.26
++#K= 3c694a0ee2cf3a1d39f2ca8a9f3b9094 FT_grammar_errs.25
++#K= c23be05426c8727be833ff055944aa96 FT_grammar_errs.26
+ #K= cdddf4ffd7fde3c12eb0c73770b872bf FT_grammar_errs.27
+ #K= cdf7a2e2740ec007efbd29feda478420 FT_grammar_errs.28
+ #K= f6650d69963cef433c50e1f2acb899fc FT_grammar_errs.29
+@@ -360,8 +360,8 @@ function GOLDEN_RECORDS {
+ #K= 1a402ada248d0d50cec13a1af150ea33 FT_grammar_errs.42
+ #K= 5b46a8eb0d74009462f74cf7553e3228 FT_grammar_errs.43
+ #K= 546e440044828d86135dd63f1eb9ed17 FT_grammar_errs.44
+-#K= 644b81753949ac1285e38ac995eeba46 FT_grammar_errs.45
+-#K= 1bf2a93a39961f40e0c2dd4c5e2edc6d FT_grammar_errs.46
++#K= 3c694a0ee2cf3a1d39f2ca8a9f3b9094 FT_grammar_errs.45
++#K= 37b7ab754e579683a28ce086c470cdc9 FT_grammar_errs.46
+ #K= 3e3acfb800cfb1bcb0cc07f33b75830a FT_grammar_errs.47
+ #K= 42dc6cb4fe938bb82b64c82924ef28d8 FT_grammar_errs.48
+ #K= cf9320d2188f5b48d508d610d95298b2 FT_grammar_errs.49
 
 -- 
 2.56.0
