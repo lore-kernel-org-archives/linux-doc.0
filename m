@@ -1,205 +1,153 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D717B4EE85B
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 11:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F9D4EDCD6;
+	Tue, 13 Oct 2026 11:37:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791891198; cv=none; b=QvD/T9H+a01VQ4eZhyEE1Ezbdjkn3oSMfaasv+XSYuEB8hD3ideYf20CHPtxlQL8D3mf4O76REfC1ucpZzXO+a8GVH/Jsju0zRvrEKQ3GRawQWX6C6j5yeh4Z3YptMP2a4OHpj80RZ4wA5hrUdalWZge+ycNXNCS8lsk3Dbd7hM=
+	t=1791891428; cv=none; b=HjXBTp4lGmtjWNKdx0YF8oaewpzBJbsq7cyDjLEiuDFv8KauFMuCn5IKKD7FriePIw8J8ezYA08skqI6y8TE4IKtejhIBkpcdhBwTO6M2KQCOOBY37TBQV/0aXIw/9+jB5PBxbrWKx70u+p/+4Ek6Clv9EG2h6pD6RrYSDkThuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791891198; c=relaxed/simple;
-	bh=SeTmFJlc7xESDzB6Iw10CIl8mg+WowrPSAr6+Ksx4bg=;
+	s=arc-20240116; t=1791891428; c=relaxed/simple;
+	bh=3WUSLzebOr2ySv4J/w7atqPmxuF+kPawmJ81BsoAz3o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qJx14aMv3HclqIEqaauPsPpAF3G4WgbSXwFtPAVPzKxzYRYsmn4ONZm49dV2hOhH6krnypwoNtrfIDJwIfJjdIEUtYsXMoSpJpQQ38YAh0SX48eDUuXjj2tuEb41i0SFw8FByRrW81YyoKRHyCY0KYHHakygMcDId730uD9Kl3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=WEsD157k; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBd8qirXq+EntcSo+vVSbp9jc+x+LevvswNNJHjTxS6gQMOuc84Ybt6iLuNt/O0SPAEA//bRdd8uVhtBRcmMV73GO31f90b7DctHUhiFSx1HqoS0ecrXDgifMnhN8d/6DNfm03+ujovoCDDMR8mqlR8XW+Jr1lhNcNGe/G75W24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=b7jZhXyZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="WEsD157k"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso1133955e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 04:33:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1791891194; x=1792495994; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=anitmvt5QBwY9lobKzDJl69qsHc8ScLJ3DQrPkwQ6aE=;
-        b=WEsD157k7Qj/mlLooqinrQqIsxoUT5P+6SBfFm06g+BC9fjZmtKtIWcYq3PKYdBf/5
-         v1K5OV5hOvlHwKAho5ml7OmPQKjvCA63/ZqIhoV6ePuDIH+e9KemMJxS36tdnccc1g2z
-         VxxaZba9DSrAnS9Lg7LBR6ADj7EZigCj/8J8kHCdzSWIYjU4qR6FIDY1IKPGjB+T+11F
-         Ghc6KQnSkqnFRFGqPxIdMtKxDqEz7XyUhMbZ/FWQDNcTQsyInBbXRLkXr8EC9N2iMY+D
-         nNCK5idnsJwe2kwWwvY7RVuw00blLrla7USHD+aA/4Naues3LqC76sQpXrxz38lia2i7
-         lzSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791891194; x=1792495994;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=anitmvt5QBwY9lobKzDJl69qsHc8ScLJ3DQrPkwQ6aE=;
-        b=fJHmnYohWlSSoynpzQWwmVIpiPX+sqzEgonhyCgHt0Yv11e1UBndx643aE2fWiMYc6
-         KC/LLK9riSrMCHX0cfTDlRB/Y/pla6c1RVKNgjr5fFYgzbbJAyKPCdVrsEVrZJNul8x5
-         xKdNko2m65ypl4qNTYqz4mc/78X0I8F+fayTPPd0JkU3xr2eo79ViL5okj144fYA6518
-         WSMp6Ruc2gHJVAa3ikVL+EiWjdL1GdT41VEpVOOpDazEwLmFnj0EFbNVzlkausvmo/dD
-         Y1iz6+ugvNgHnGVkOOS2yWYhFMW31oE2uLJYeEwonOy36MKQefBKe3uj8ey9VEgZIlZO
-         jZeA==
-X-Forwarded-Encrypted: i=1; AKwUvByVqXDpPWEmOiW5avRlfWqtmI6xCyOhbIwKAlNwBqa643On5HDi+moYebWymPqHz2gWL4y9RzX6Nwk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIdvkosRNFX9JzfKorj2Yr3HJbixmOG8MbF9Uwk7GJGEb3w9jf1
-	k/xkYC4G3QXyVdw7rM4JieIwUOaB4ULUCCxicZrtEjO4OmchBYcfwj3Tnk4wZ99GnAI=
-X-Gm-Gg: AYBFou1xvoXTQwNPGbasHH/rIMZhspojimKK/X3s8kPMpaM3StGGH7r1yojKBOEDE8l
-	iL+1OrTHFWMXAA7iqtDdBYZdrf+zl8iO1vILQWC1epHB3TA2GEiglIAz9xf7MUmZn+Ccil2hECd
-	uoEHaFCI1hzAKRdChwobj0W3nJu8vgG28MacAfRxJz4ccjT5yGK0GSYKOYBBXVuIgr/4dwk+7Fj
-	7ousz9t5QILKWw3QTDZi/vAlFlkbPupfmWNQg8G2JbmEf9tsbNWM5M/JcrLwDjELgOl/7cnc/wg
-	coTHoD1tI1X40KbHP0oIH+1ZPUKGHRwHNxolNxmyV3mhL75novhh9EF/Z5ORzEo9OcbfuzlXGG/
-	TfnIvTZIM/7hHL4nDCagVBdtk7mKpME5cSQFrxszyvoM3n7lPfndApv3NTp7jfr+ui6fnmWF1go
-	PrFrXznvLdSJbWgQhjpdOyC5lBph5GVO50OqK3ku2paV0rCSMhbSC33Nj/KgqSeZjbjGm6JPik
-X-Received: by 2002:a05:600c:46c5:b0:4a0:eae0:769a with SMTP id 5b1f17b1804b1-4a18e4cd224mr244258165e9.28.1791891193452;
-        Tue, 13 Oct 2026 04:33:13 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0bc50e0sm5960955f8f.49.2026.10.13.04.33.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 04:33:13 -0700 (PDT)
-Date: Tue, 13 Oct 2026 13:33:10 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: jim.cromie@gmail.com
-Cc: Jason Baron <jbaron@akamai.com>, Shuah Khan <shuah@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Jonathan Corbet <corbet@net.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b7jZhXyZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D11B01F000FF;
+	Tue, 13 Oct 2026 11:37:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791891426;
+	bh=whuCXrASEjiOa53ahdPLNNDh/L/dZAaNEwT+F9NvgAM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b7jZhXyZnbu6aYvE/wYID94SUUXIfeqUui/Keow3vDwWhhFGxKEZw+81dvRUz2clf
+	 3c6sv/uoWd4npQsr8kWdIc6DEpyMo5bMIGxKJSWiBEp5uq1324fWzqmyHBPAid4W1e
+	 /nlvLJfO2Xe9hyUP2HJ0/IIGkOQ/VBYAPaoZFdIc=
+Date: Tue, 13 Oct 2026 13:37:11 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
+Cc: Donald Shannon <donalds@nvidia.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+	Mark Brown <broonie@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Corey Minyard <corey@minyard.net>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Len Brown <lenb@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org,
-	linux-modules@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-pm@vger.kernel.org,
-	Philipp Hahn <phahn-oss@avm.de>
-Subject: Re: [PATCH v12 33/40] dyndbg: Ignore additional arguments from pr_fmt
-Message-ID: <as4W9hToBqAvbzJ-@pathway.suse.cz>
-References: <20261012-dd-cmap-part2-clean-v12-0-3c8cc5725def@gmail.com>
- <20261012-dd-cmap-part2-clean-v12-33-3c8cc5725def@gmail.com>
+	Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Oliver Neukum <oneukum@suse.com>,
+	Quan Nguyen <quan@os.amperecomputing.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
+Message-ID: <2026101355-species-glance-9ff8@gregkh>
+References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261012-dd-cmap-part2-clean-v12-33-3c8cc5725def@gmail.com>
+In-Reply-To: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
 
-On Mon 2026-10-12 20:37:04, Jim Cromie via B4 Relay wrote:
-> From: Philipp Hahn <phahn-oss@avm.de>
+On Mon, Oct 12, 2026 at 08:35:58PM +0300, Adrian Ambrozewicz wrote:
+> This series adds drivers for the NVIDIA LSTP USB adapter: a USB core
+> driver and GPIO, LED, I2C, SPI, UART and BMC-side IPMI function drivers,
+> with their device tree bindings, an ACPI description document and the
+> sysfs ABI.
+
+Why would a USB device have anything to do with device tree?
+
+> What LSTP is
+> ------------
 > 
-> pr_fmt can be used to add a common prefix to any output from a module:
-> 	#define pr_fmt(fmt) KBUILD_MODNAME ".%s " fmt, __func__
+> LSTP (Low-Speed Transport Protocol or Low-Speed Tunnelling Protocol) is
+> a vendor-specific USB interface (class 0xff, subclass 0x3f) that
+> multiplexes several low-speed "channels" over one pair of bulk
+> endpoints. It is implemented by NVIDIA's SMA, an MCU (0955:cf11), and
+> by other vendors' parts: two hub/bridge chips have it built in
+> (0424:4940, 174c:2214). Boards use it to
+> reach SPI flash, I2C sensors, GPIOs and LEDs, a UART and a host-to-BMC
+> IPMI path, on both BMCs and host systems.
+
+Cute, but that's a total abuse of the USB standard.  Why wasn't this
+implemented by the proper "each channel is a USB interface" model
+instead?  Have the firmware engineers there not read the USB spec?
+
+> The channel types are SPI host, I2C host, GPIO (with interrupts and LED
+> pins), UART, IPMI and MMIO. Channel 0 is the control channel: at probe
+> the driver reads the channel table from it, which gives each channel's
+> ID, type and configuration. The set of channels is decided by the
+> firmware, so the same VID:PID carries different channels on different
+> boards. No firmware description is needed for the channels to work.
+
+Again cute, but that's not how USB devices are supposed to work, why
+would we want to do this at all?
+
+> Series layout
+> -------------
 > 
-> But adding additional arguments breaks dynamic debug:
-> > error: macro "DEFINE_DYNAMIC_DEBUG_METADATA_CLS" passed 4 arguments, but takes just 3
-> > |         pr_debug_ratelimited("%s", "Hello world!");
-> > |                                                  ^
-> > note: macro "DEFINE_DYNAMIC_DEBUG_METADATA_CLS" defined here
-> > | #define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)       \
-> > |
-> > error: ‘DEFINE_DYNAMIC_DEBUG_METADATA_CLS’ undeclared (first use in this function)
-> > |         DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, _DPRINTK_CLASS_DFLT, fmt)
-> > |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    1  dt-bindings: gpio: Add NVIDIA LSTP GPIO
+>    2  dt-bindings: i2c: Add NVIDIA LSTP I2C
+>    3  dt-bindings: spi: Add NVIDIA LSTP SPI
+>    4  dt-bindings: usb: Add NVIDIA LSTP USB adapter
 
-I wonder what this error about undeclared macro means.
+USB devices do not have DT bindings.  It's a dynamic bus, with
+self-describing devices, don't make the mistake of thinking this is
+giong to work.
 
-> > note: in expansion of macro ‘DEFINE_DYNAMIC_DEBUG_METADATA’
-> > |         DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, pr_fmt(fmt));         \
-> > |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > note: in expansion of macro ‘pr_debug_ratelimited’
-> > |         pr_debug_ratelimited("%s", "Hello world!");
-> > |         ^~~~~~~~~~~~~~~~~~~~
+>    5  usb: misc: Add NVIDIA LSTP USB adapter driver
+>    6  gpio: Add NVIDIA LSTP GPIO driver
+>    7  leds: Add NVIDIA LSTP LED driver
+>    8  i2c: Add NVIDIA LSTP I2C driver
+>    9  spi: Add NVIDIA LSTP SPI driver
+>   10  tty: Add NVIDIA LSTP UART driver
+>   11  ipmi: Add NVIDIA LSTP IPMI BMC driver
+
+So you have a custom "bus" for a single USB device/interface?  Ick,
+again, why?  Please do this the "proper" way in your firmware and do
+this one-device-per-usb-interface like the rest of the world does
+please.
+
+Doing it that way will not cost any more hardware pins at all, it's all
+handled in firmware, and as you all have complete control over the
+firmware, you can fix this up now to do things properly.
+
+> Patch 4 $refs the schemas from patches 1-3, so it comes last among the
+> bindings; it also defines the serial@N and ipmi@N channel nodes inline.
+> The MAINTAINERS entry starts in patch 1 and gains each later patch's
+> files. Patch 5 carries:
+> - the core in drivers/usb/misc/;
+> - include/linux/usb/lstp.h for the function drivers;
+> - the sysfs ABI file;
+> - Documentation/driver-api/usb/lstp.rst;
+> - Documentation/firmware-guide/acpi/lstp.rst.
 > 
-> Add an additional ', ...' to DEFINE_DYNAMIC_DEBUG_METADATA_CLS to slurp
-> any additional argument, which `pr_fmt` might add.
+> Patches 6 and 8-11 each depend only on patch 5; patch 7 (LEDs) also
+> needs patch 6, whose GPIO driver hands the LED pins to it.
 > 
-> --- a/include/linux/dynamic_debug.h
-> +++ b/include/linux/dynamic_debug.h
-> @@ -351,7 +351,7 @@ void __dynamic_ibdev_dbg(struct _ddebug *descriptor,
->  		dump_stack();					\
->  }
->  
-> -#define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt)	\
-> +#define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt, ...)	\
->  	static struct _ddebug  __aligned(8)			\
->  	__section("__dyndbg_descs") name = {			\
->  		.modname = KBUILD_MODNAME,			\
-> diff --git a/include/linux/printk.h b/include/linux/printk.h
-> index f594c1266bfd..5d701952e739 100644
-> --- a/include/linux/printk.h
-> +++ b/include/linux/printk.h
-> @@ -742,7 +742,7 @@ do {									\
->  	static DEFINE_RATELIMIT_STATE(_rs,				\
->  				      DEFAULT_RATELIMIT_INTERVAL,	\
->  				      DEFAULT_RATELIMIT_BURST);		\
-> -	DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, pr_fmt(fmt));		\
-> +	DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, fmt);		\
+> Why the auxiliary bus, and why not MFD
+> --------------------------------------
 
-IMHO, this changes the existing behavior. The prefix added by
-pr_fmt() will no longer be stored in DEFINE_DYNAMIC_DEBUG_METADATA().
-Is this intentional, please?
+Neither is ok for USB devices, that's not an argument either way.
 
-Anyway, if we do not longer pass pr_fmt(fmt) then we should not
-need to add "..." into DEFINE_DYNAMIC_DEBUG_METADATA_CLS().
+Please go talk to some people with USB spec experience on how to make a
+multi-function device correctly.  This way sure does not look like it at
+all.
 
-By other words, we newly pass just the format "fmt" without the parametes.
-The 4th parameter was added by pr_fmt().
+thanks,
 
-
-IMHO, the right solution is to keep pr_fmt(fmt) here and extend both
-BEFINE_DYNAMIC_DEBUG_METADATA() and
-DEFINE_DYNAMIC_DEBUG_METADATA_CLS()
-to accept var args. I would expect something like:
-
-#define DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, cls, fmt, ...)	\
-...
-
-#define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt, ...)		\
-	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, _DPRINTK_CLASS_DFLT, fmt, ##__VA_ARGS__)
-
-
-or maybe, we could "eat" the extra parameters in
-DEFINE_DYNAMIC_DEBUG_METADATA. It would mean to keep
-DEFINE_DYNAMIC_DEBUG_METADATA_CLS() as is and just add the "..." into
-DEFINE_DYNAMIC_DEBUG_METADATA(), aka
-
-#define DEFINE_DYNAMIC_DEBUG_METADATA(name, fmt, ...)		\
-	DEFINE_DYNAMIC_DEBUG_METADATA_CLS(name, _DPRINTK_CLASS_DFLT, fmt)
-
-
-Or do I miss something, please?
-
-It is possible that the macros work another way. Or this depends
-on another change. I checked only this patch...
-
-Best Regards,
-Petr
-
-PS: I was curious what Sashiko says about this change and it seems
-    that it does not review this patchset from some reasons.
-
->  	if (DYNAMIC_DEBUG_BRANCH(descriptor) &&				\
->  	    __ratelimit(&_rs))						\
->  		__dynamic_pr_debug(&descriptor, pr_fmt(fmt), ##__VA_ARGS__);	\
+greg k-h
