@@ -1,399 +1,179 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5BA3D88F0;
-	Tue, 13 Oct 2026 09:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791884135; cv=none; b=aNS4NbzvzJTR0wrGMv10wqHYRfRbTYMrh5VqcxYXTHtRxXeGapzik2WYPGzA5JdkeU/5H+rYOOct+z2vN97tzpcA2f4MJh4udvb2GPLhYNv9b4SrS5XDU7JasTjbdVnj1Hjy7X66lr9TQC3MOiDcRCVNpzcwMnWqISfYAK/fYj0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791884135; c=relaxed/simple;
-	bh=U7ZCpIpWWq5gDMSlUaY+XST9UGs3lwR2+UMCbN2na34=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U0nvu9kqDesPm3aUIBJo5KgtBgpYPBx87rsQXhpoNegTccN0i0f3R55etOzczIY0mReioJjwrMpslcswFOCi9Oi42PdaTvW3bmbyrUHgWr1Fk/ZmKG3wbyJQTDsjH4OLYVR1fiErJTKbLvt08Rf2kf5chki40XWEEkTy8mt2wp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MTxd6m51; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FCA2BD09
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 09:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791884209; cv=pass; b=uAuF/ggp1BtImVWulSF2tHvDWv2HP2AF84ADslVtFEQul60cmYnfU+7MjfC95N0JFa9cs5p+Zet/hK+2XGQCTDWDCCSFq31j1upw6L6uYH3ILa72gRsmOIl6bP/9+b3mw3LDNcJuaI3MDGxp2SJ5oXpaGlO5BFTJhPPotiNxUAY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791884209; c=relaxed/simple;
+	bh=I2RdC5E/xdt6kf39B4bXuZ6oTCgSZu3FzLdqV73aXEA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gHlqQjdtHsJfckNX3FWAF4/Y9GqWCE/RZ5FS8kLHgN+QmZAtVNzETQ9pWD8g8UcwIy3fgX2pXSJVtaFd4KORmU8E5WUpve2ZY5L5NtQYdPiOGvQDTaq5IRAE0q/zJt/2vN4IcjL9/HMXydfwYTyVmE8tsJ3LwWz7ofzgZsNw8bU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jkmEkFH+; arc=pass smtp.client-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MTxd6m51"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 027734E411A5;
-	Tue, 13 Oct 2026 09:35:30 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C8B6B60362;
-	Tue, 13 Oct 2026 09:35:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2F8B511D70A85;
-	Tue, 13 Oct 2026 11:35:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791884124; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=k1awA2RR13sp+g6OFYZoMG9ULXxqjIX4aZc7giq7hxQ=;
-	b=MTxd6m51vdcuHkja9eob6I2oDMVnH7+zSXgkJfmo8gS/OXYGQHh49hh9QnomQ8CTQR60Dv
-	pWjh6GenCtZd4h64nhYRfqjxYBcGODJieDaCo0yGDOg7VrNPk0MtHUqi94XCCNHcTSzjvS
-	WCEYdCrmb/Mbqs4dJE06EpGN5TdZzTBFypmKkJD9UsjKHIUErmmNvWJeJbYC63a88S7bkz
-	XfRUzODG+57eEhcO1sQ9WbbJEAv8Afdo4OVywNwMMlSva8X1yJrtlXETJk6QR/56TMud4j
-	tpvvMud4Nan68x5P5VprbIQCO1Rf9kel2Ju7EzcfsnZIR3yk3h5Fmt6yqk7sAw==
-Message-ID: <40f413f0-1dfb-4968-b483-f03aa2f1bdbb@bootlin.com>
-Date: Tue, 13 Oct 2026 11:35:17 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jkmEkFH+"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-141395927feso4948241c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 02:36:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791884206; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cewtNOhVKgmjixAGL5UMLYxG7SVIi68JlqOwMQJCP05Y/wNsrt5z6+oqIBuoUTtKod
+         EKjW6cHelLdIY5ZKlgy+SyMGiMaIseGsC3Qtkm7txQ4p6THbG+SBGflAWNbOHnwcCIbs
+         BgfnNBh64aO1C0lezoSGllGPaUlkarVgyYfw71T8gacomrqyjq+9+94J5XxFGmF0BADC
+         K3NzT4Kh/Gh/4lENMxJJ6Ua6YewN6enWX+iJfY96JlZmOTKvgi82QlelCSvGd3e2kRZS
+         wvbZGWLdn740z/YEjmj4JjcCOK8P4JqB3c2Z7bQ88nkjz3yWMvimQV0cc8yS1T1yBl4h
+         N1Tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ncnpTCvGaFuShJ4tLE6dDK3qF1yOJrFsdmhxteIUYa4=;
+        fh=/BiCW6iDw8GTxi0D/NHJbq4sVyVz6grDxb1khDLEVp0=;
+        b=r7ENNGYekZSDkRjMMfxxuheA4ELJbkTOGjbGQL6VMy0jqnYQ2EA8CP4TOYD7KQ8Q9r
+         7epPE/B3SVOc95PKFoIQhITOurSjEEVAydZrWH3SLJg42Rp9Qt4wOHcyJqpJmLygQ5+0
+         PwMnnbztMadO9gXoNdmnPUtMvUiUQs7QXGDjMiJvVcRMhO2sjB0jzEYRe/S6+V+5wOQ2
+         Bp0KD9A1mE1FaGMfnTi6ClXmKlpJiiH8N+8vzR7Z41fWXvwmP+pm6wFXZNKiAfz/GF4J
+         vpZk9BdC4lqUZdpPbS4FKGBSZH2cknakoH5crrH7ixNqDUV845OfposzNg/4yoY1SfzN
+         dl1w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791884206; x=1792489006; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ncnpTCvGaFuShJ4tLE6dDK3qF1yOJrFsdmhxteIUYa4=;
+        b=jkmEkFH+T3MyeQjhmros28hqe0uiimDW20NShlJw9F/0Tlf/TWlx8270B9ZUpH+S4Y
+         fdviQ4G9wAntYM0lOgf3UxP/AXBy31A8ktqu/2Nva+3mMtKUONhwzthwXfZptuaoP7oc
+         Reo3vqOs6hGfaL3/qnHWDXL3/lj2hlEQ6s8oHgExR7tE2moOSR5rgy2ZdTvCrjJZ5OEL
+         qcYvIm5svJ6VmU7G1LQ8hC6vzkoGYwi5hjF6H2H579WDijm9QqQuTpV9wKXkJBY1lbPv
+         pKrq6zvIfgGajbsCLnbmKB/zINRFK84+fqjGUGVdVu36KV64qYGysfKSS0+fDbbQKCEh
+         TxBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791884206; x=1792489006;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ncnpTCvGaFuShJ4tLE6dDK3qF1yOJrFsdmhxteIUYa4=;
+        b=eYedvRN/Rw+9q7b8glIp1C2SyG1TfrAqvF5Z85oq7oYUaFnXnrXiQcZ4mz+GDat+2Z
+         Qtv1hvayumQzKkmaZxvuOYGwx5Gq3RDwraWzFz1VXGcGfEinVXXuBfkHyJcp6VOW/m+S
+         zHWaaJIpgdhUMtX/RmE173+lzUJ0ANz3yovV5wd7dXPPZBQSsKeFRNUL7YmfHvXjL/52
+         1Peb3GHPeHwwXHNT1/X+fV5wZJV13ECw7K+Tf7ecfUnkPclArMixn7uioW1YMTXo2b63
+         mv1AxvuRfWp43ZMFDI/oYFZE6WsS7tfgWUq5oaw5pu3m8mpLsB6xDc24OCWf8xoC3POa
+         5pgg==
+X-Forwarded-Encrypted: i=1; AKwUvBzN5smboZ08Rt2cWCvAQPAKjKWO/MF7JCpz2vc6o/q0wkeDjRKnzm9VSSwm7LAvQ2DcOYO6a5v2PNM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJobsjcg0kGsXH6u9ibiS21tllQmorCAvoIz0AK2dEhe6Cb8aeR
+	wY+F45N6D8fcOhrMoBcJwh0irIhNpZBZI7V6X16rnW96vQsywQ9yyiGP9D6c0nvR8aNimve13m6
+	Cv9NEEUzM1d62jJwWdaq9RuFMAlNmxjkXN7BY+Y8V
+X-Gm-Gg: AYBFou3IcVPLYBJvT7qg1IlW2jRm2+E02WSUpTRE6RaKbpIrVW3V4re2t1AoZQR2Hvq
+	xp6PUCgDQUmqmV91HyEB5BYuvNedmSlmRSeBj8xkWE6yI6sDgLQGFzKnYt1a1SVBQvoGnEpce+Z
+	G/Zoalo25o8wmBm72CcGIQJzR9yOFEdPc308SUIc7rp55YMwMfdBNQ+OQ5MXq4jK1Mf+CvxNf9E
+	D09MiGGPtU7aQDWaHePdWMWqnUHi/5gvPy4+U3b4XI9s9C/lCqlcYdkzXihMjKv95Cdljcm7MY+
+	x+0yVczSHZzeHjyklHENH823Gjzymao9nsPC98P/vxbK9whtgUcD5nzqEqsbgIwgKwIMboU5oDX
+	DIK/qlm8pPQ==
+X-Received: by 2002:a05:701b:260c:b0:14e:8d1:1012 with SMTP id
+ a92af1059eb24-16a5eb5248bmr15061808c88.19.1791884204773; Tue, 13 Oct 2026
+ 02:36:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 2/3] selftests: drv-net: pause: Validate the
- pause autonegotiation with a partner
-To: netdev-bot+sashiko@kernel.org
-Cc: andrew@lunn.ch, kuba@kernel.org, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
- linux@armlinux.org.uk, hkallweit1@gmail.com, corbet@lwn.net,
- skhan@linuxfoundation.org, o.rempel@pengutronix.de, vladimir.oltean@nxp.com,
- f.fainelli@gmail.com, thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260925182628.214667-3-maxime.chevallier@bootlin.com>
- <179065240018.434549.346139764454021625@kernel.org>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <179065240018.434549.346139764454021625@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20261012134159.912183-1-elver@google.com>
+In-Reply-To: <20261012134159.912183-1-elver@google.com>
+From: Alexander Potapenko <glider@google.com>
+Date: Tue, 13 Oct 2026 11:36:07 +0200
+X-Gm-Features: AclHuK_Q4zmkgXJ_aRet6tsAebmNwBt0xYiVjRfJ2laZogHRXSQmQgE1FE155EE
+Message-ID: <CAG_fn=Vx93UmT_Pp8F-JDeGM==UicNmMFEp3RW8+stzkm5+sbw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: rust: enable KCSAN support
+To: Marco Elver <elver@google.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
+	Yury Norov <ynorov@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+> +ifdef CONFIG_HAVE_KCSAN_RUSTC
+> +# The minimum supported rustc's LLVM supports all of these options.
+> +rustc-param =3D -Cllvm-args=3D-$(1)
+> +kcsan-rustflags :=3D -Zsanitizer=3Dthread \
+> +       $(call rustc-param,tsan-compound-read-before-write=3D1) \
+> +       $(call rustc-param,tsan-distinguish-volatile=3D1)
+
+Do we also need -fno-optimize-sibling-calls here?
 
 
-
-On 9/29/26 05:26, netdev-bot+sashiko@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 7 potential
-> issue(s) to consider.
-> 
-> Critical: 0 · High: 0 · Medium: 4 · Low: 3
-> 
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwork
-> know by including "pw-bot: cr" as a separate line at the end of your reply
-> (one such reply per series is enough).
-> 
-> - [Medium] In tools/testing/selftests/drivers/net/hw/pause.py, the
->   docstring of pause_aneg_resolution() says the test fails if 'the PHY…
-> - [Medium] controllable_lp() in pause.py runs `ip link set {cfg.ifname}
->   down` (line 152), then a remote `ethtool --json` poll loop, then `ip…
-> - [Medium] controllable_lp() only treats the remote as the direct link
->   partner if `ip link set <local> down` makes the remote lose carrier…
-> - [Medium] selftests: drv-net: pause: false test failure for unsupported
->   devices on no-op changes
-> - [Low] Several new peer helpers in pause.py have docstrings or messages
->   copied from the local helpers that do not match the code.
-> - [Low] pause_aneg_resolution() only handles EOPNOTSUPP from
->   set_local_pauseparams() (lines 693-695).
-> - [Low] All four advertisement checks in pause_aneg_resolution() (lines
->   715-738) only test that required bits are present (ksft_in over…
-> 
+> +ifndef CONFIG_KCSAN_WEAK_MEMORY
+> +kcsan-rustflags +=3D $(call rustc-param,tsan-instrument-func-entry-exit=
+=3D0)
+> +endif
+> +endif
+> +
+> +export RUSTFLAGS_KCSAN :=3D $(kcsan-rustflags)
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 0a4fdd8bd975..78f1c23e54be 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -98,6 +98,9 @@ ifeq ($(CONFIG_KCSAN),y)
+>  _c_flags +=3D $(if $(patsubst n%,, \
+>         $(KCSAN_SANITIZE_$(target-stem).o)$(KCSAN_SANITIZE)$(is-kernel-ob=
+ject)), \
+>         $(CFLAGS_KCSAN))
+> +_rust_flags +=3D $(if $(patsubst n%,, \
+> +       $(KCSAN_SANITIZE_$(target-stem).o)$(KCSAN_SANITIZE)$(is-kernel-ob=
+ject)), \
+> +       $(RUSTFLAGS_KCSAN))
+>  # Some uninstrumented files provide implied barriers required to avoid f=
+alse
+>  # positives: set KCSAN_INSTRUMENT_BARRIERS for barrier instrumentation o=
+nly.
+>  _c_flags +=3D $(if $(patsubst n%,, \
+> diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_targ=
+et.rs
+> index 7687b0dd5474..4b02bffa6b46 100644
+> --- a/scripts/generate_rust_target.rs
+> +++ b/scripts/generate_rust_target.rs
+> @@ -231,7 +231,7 @@ fn main() {
+>          }
+>          ts.push("features", features);
+>          ts.push("llvm-target", "x86_64-linux-gnu");
+> -        ts.push("supported-sanitizers", ["kcfi", "kernel-address"]);
+> +        ts.push("supported-sanitizers", ["kcfi", "kernel-address", "thre=
+ad"]);
+>          if cfg.rustc_version_atleast(1, 91, 0) {
+>              ts.push("target-pointer-width", 64);
+>          } else {
 > --
-> 
-> selftests: drv-net: pause: Validate the pause autonegotiation with a partner
-> 
-> This commit adds a pause_aneg_resolution test to pause.py. The test sets
-> pause parameters on both the local device and the link partner, then
-> checks the resulting 802.3 pause resolution for all 16 combinations. It
-> also adds helpers that detect whether the remote is the direct link
-> partner, and extends pause_advertising_test to check the remote's
-> lp_advertising.
-> 
->> diff --git a/tools/testing/selftests/drivers/net/hw/pause.py b/tools/testing/selftests/drivers/net/hw/pause.py
->> index f07db32715003..96ee730074f8c 100755
->> --- a/tools/testing/selftests/drivers/net/hw/pause.py
->> +++ b/tools/testing/selftests/drivers/net/hw/pause.py
->> @@ -124,6 +124,62 @@ def wait_for_link(cfg):
->>      # the remote to report link up, let's wait a bit less
->>      return wait_for_link_remote(cfg, timeout = 3)
->>  
->> +def controllable_lp(cfg):
-> 
-> [ ... ]
-> 
->> +    # Set both ends up, wait for up
->> +    ip(f"link set {cfg.ifname} up")
->> +    ip(f"link set {cfg.remote_ifname} up", host=cfg.remote)
->> +
->> +    # No link established
->> +    if not wait_for_link(cfg):
->> +        ksft_pr(f"{cfg.remote_ifname} is not the link partner: no link with both ends up")
->> +        cfg.lp_controllable = False
->> +        return False
->> +
->> +    ip(f"link set {cfg.ifname} down")
->> +
->> +    deadline = time.monotonic() + 3
->> +    dropped = False
->> +    while time.monotonic() < deadline and not dropped:
->> +        dropped = not ethtool(f"{cfg.remote_ifname}", json=True,
->> +                              host=cfg.remote)[0]["link-detected"]
->> +        time.sleep(0.1)
->> +
->> +    ip(f"link set {cfg.ifname} up")
-> 
-> [Severity: Medium]
-> What happens to cfg.ifname if something raises between the link down and
-> the link up here?
-> 
-> ethtool() goes through tool() and cmd() with the default fail=True. So any
-> of these would skip the "link set ... up" call:
-> 
-> - a failure or timeout of the remote command
-> - a KeyError on "link-detected"
-> - a JSON parse error
-> - a KeyboardInterrupt
-> 
-> Nothing like try/finally or defer() protects this window.
-> 
-> ksft_run() flushes defers when a test raises, but pause_setup() never
-> defers an admin-up. In pause_aneg_resolution(), require_controllable_lp()
-> also runs before pause_setup(), so that test has nothing deferred at all.
-> 
-> lp_controllable is not cached on exception, so a later test would retry
-> and bring the link back up. But if the exception happens in the last
-> caller of controllable_lp() in the run (pause_autoneg_link_autoneg by the
-> end of the series), or on an interrupt, is the DUT interface left
-> admin-down after the selftest exits?
-> 
-> Other drv-net tests restore the link with a defer. For example, queues.py
-> and stats.py use:
-> 
->     defer(ip, f"link set dev {cfg.dev['ifname']} up")
-> 
-> Also, both ends are forced admin-up here, and their original admin state
-> is never recorded or restored.
-
-I'm OK with forcing link state on both ends and don't try restoring. I'll add
-the missing defer.
-
-> 
->> +
->> +    if not dropped:
->> +        ksft_pr(f"{cfg.remote_ifname} is not the link partner: "
->> +                f"it kept its link through {cfg.ifname} going down")
->> +        cfg.lp_controllable = False
->> +        wait_for_link(cfg)
->> +        return False
-> 
-> [Severity: Medium]
-> Does taking the local interface admin-down reliably drop the physical
-> link on directly cabled setups?
-> 
-> In phylib, phy_suspend() leaves the PHY active on purpose in some cases:
-> 
-> drivers/net/phy/phy_device.c:phy_suspend() {
->     ...
-> 	if (phydev->wol_enabled && !(phydrv->flags & PHY_ALWAYS_CALL_SUSPEND))
-> 		return -EBUSY;
-> 
-> 	if (!phydrv->suspend)
-> 		return 0;
->     ...
-> }
-> 
-> Firmware-managed NICs such as ice also keep the link on close by default.
-> In drivers/net/ethernet/intel/ice/ice_main.c, the PHY is only taken down
-> on close when ICE_FLAG_LINK_DOWN_ON_CLOSE_ENA is set:
-> 
-> 	if (test_bit(ICE_FLAG_LINK_DOWN_ON_CLOSE_ENA, vsi->back->flags)) {
-> 		int link_err = ice_phy_cfg(vsi, false);
-> 
-> On this kind of hardware, a directly connected peer would be cached as
-> cfg.lp_controllable = False. pause_aneg_resolution(), and the four later
-> tests in the series, would then skip with "is not directly connected".
-> That message points at cabling, when the real cause is that the PHY
-> stayed powered.
-> 
-> The new remote lp_advertising checks in pause_advertising_test() would
-> also be skipped without any notice.
-
-Not much we can do if the peer doesn't behave as expected here. Not sure this
-requires attention.
-
-> 
-> This detection is not changed later in the series.
-> 
-> [ ... ]
-> 
->> @@ -170,6 +230,33 @@ def get_local_pauseparams(cfg):
->>      """
->>      return ethtool_ret(f"-a {cfg.ifname}", is_get=True)
->>  
->> +def set_peer_pauseparams(cfg, rx, tx, aneg):
->> +    """ set pauseparams : ethtool -A
->> +
->> +    Raise an error if the return is not 0 or EOPNOTSUPP
->> +    """
->> +    rx_param = onoff(rx)
->> +    tx_param = onoff(tx)
->> +    aneg_param = onoff(aneg)
->> +
->> +    ret, _ = ethtool_ret(f"-A {cfg.remote_ifname} rx {rx_param} tx {tx_param}"
->> +                         f" autoneg {aneg_param}",
->> +                         is_get = False, host=cfg.remote)
->> +
->> +    if ret != 0:
->> +        raise KsftSkipEx(f"Can't set pauseparams on peer: {errno.errorcode.get(ret, ret)}")
->> +
->> +    return ret
->> +
->> +def get_peer_pauseparams(cfg):
->> +    """ get pauseparams : ethtool -a
->> +
->> +    Raise an error if the return is not 0 or EOPNOTSUPP
->> +    """
->> +
->> +    return ethtool_ret(f"-a {cfg.remote_ifname}", is_get=True,
->> +                       host=cfg.remote)
-> 
-> [Severity: Low]
-> This isn't a bug, but the docstring of set_peer_pauseparams() says it
-> raises an error unless the return is 0 or EOPNOTSUPP. The code instead
-> raises KsftSkipEx on any non-zero return, EOPNOTSUPP included. A real
-> peer error such as EINVAL or EIO is reported as SKIP.
-> 
-> Several other new peer helpers have docstrings or messages that don't
-> match the code:
-> 
-> - get_peer_pauseparams() says "Raise an error if the return is not 0 or
->   EOPNOTSUPP", but it only returns the ethtool_ret() tuple.
-> 
-> - get_peer_pause_lp_advertising() says "Return the errcode and the local
->   pause lp_advertised linkmodes", but it queries cfg.remote_ifname.
-> 
-> - require_peer_pause_supported_allof() says "Skip if local device doesn't
->   support all of the passed modes", but it checks the remote.
-> 
-> - require_peer_pause_supported_anyof() checks the remote, but its skip
->   message is "Local device doesn't support any of ...". Nothing calls it,
->   in this patch or by the end of the series.
-
-OK
+> 2.56.0.385.gd3acb90ef8-goog
+>
 
 
-> 
->> +
->> +    # Check resolution
->> +    _, local_pauseparams = get_local_pauseparams(cfg)
->> +    ksft_eq(local_pauseparams["negotiated"]["rx"], expected_local_rx)
->> +    ksft_eq(local_pauseparams["negotiated"]["tx"], expected_local_tx)
->> +
->> +    ret, remote_pauseparams = get_peer_pauseparams(cfg)
->> +    if ret == 0 and "negotiated" in remote_pauseparams:
->> +        ksft_eq(remote_pauseparams["negotiated"]["rx"], expected_lp_rx)
->> +        ksft_eq(remote_pauseparams["negotiated"]["tx"], expected_lp_tx)
-> 
-> [Severity: Medium]
-> Where does the "negotiated" object come from?
-> 
-> The PAUSE netlink uAPI only has the HEADER, AUTONEG, RX, TX, STATS and
-> STATS_SRC attributes. pause_fill_reply() in net/ethtool/pause.c sends no
-> negotiated or resolved RX/TX result.
-> 
-> The ethtool utility builds "negotiated" in userspace from the
-> ETHTOOL_A_LINKMODES_OURS and PEER bitsets. Those are the same advertised
-> and lp_advertised bits checked just above.
-> 
-> On the kernel side, phylink_ethtool_get_pauseparam() in
-> drivers/net/phy/phylink.c reports the configured intent, not the resolved
-> state:
-> 
-> 	pause->autoneg = !!(pl->link_config.pause & MLO_PAUSE_AN);
-> 	pause->rx_pause = !!(pl->link_config.pause & MLO_PAUSE_RX);
-> 	pause->tx_pause = !!(pl->link_config.pause & MLO_PAUSE_TX);
-> 
-> So once the adv and lp_adv checks pass, these asserts are a pure function
-> of those bits. Would a MAC that programs its own flow control still pass
-> all 16 variants? What about a PHY driver that overwrites phydev->pause or
-> asym_pause without touching lp_advertising?
-> 
-> If so, the test can't detect the failure cases its docstring lists:
-> 
->      - that the PHY driver manually overwrites the Pause negotiation result
->      - that the MAC driver ignores the Pause resolution and sets its own
->        pause parameters regardless
-> 
-> The same applies to the docstring's "This test also verifies that the peer
-> resolved the parameters correctly". It also applies to this line in the
-> commit message:
-> 
->     Introduce a test that validates we're correctly resolving pause
->     parameters according to 802.3.
-> 
-> In practice, these checks test ethtool's userspace 802.3 resolution table.
-> 
-> This is not addressed later in the series.
-> 
-> [ ... ]
-> 
->> @@ -200,6 +336,32 @@ def require_pause_supported_allof(cfg, linkmodes):
->>          if lm not in pause_support:
->>              raise KsftSkipEx(f"Local device doesn't support {lm}")
->>  
->> +def require_peer_pause_supported_anyof(cfg, linkmodes):
->> +    """ Skip if remote device doesn't support any of the passed modes """
->> +
->> +    ret, _ = get_peer_pauseparams(cfg)
->> +    if ret != 0:
->> +        raise KsftSkipEx("Remote device doesn't allow getting pauseparams")
->> +
->> +    _, pause_support = get_peer_pause_supported(cfg)
->> +    for lm in linkmodes:
->> +        if lm in pause_support:
->> +            return
->> +
->> +    raise KsftSkipEx(f"Local device doesn't support any of {linkmodes}")
->> +
->> +def require_peer_pause_supported_allof(cfg, linkmodes):
->> +    """ Skip if local device doesn't support all of the passed modes """
->> +
->> +    ret, _ = get_peer_pauseparams(cfg)
->> +    if ret != 0:
->> +        raise KsftSkipEx("Remote device doesn't allow getting pauseparams")
->> +
->> +    _, pause_support = get_peer_pause_supported(cfg)
->> +    for lm in linkmodes:
->> +        if lm not in pause_support:
->> +            raise KsftSkipEx(f"Remote device doesn't support {lm}")
->> +
->>  def expect_pauseparams_set(ret, linkmodes, supported, note):
->>      """ Whether ethtool -A had to work or to be refused, given what the local
->>          device supports
-> 
-> [Severity: Medium]
-> expect_pauseparams_set() comes from the previous patch, but it shows
-> up in the context here. Can the empty supported branch fail on a
-> driver that behaves correctly?
-> 
-> ethnl_set_pause_validate() in net/ethtool/pause.c only returns
-> -EOPNOTSUPP when get_pauseparam or set_pauseparam is missing. After
-> that, ethnl_set_pause() reads the current state with get_pauseparam()
-> and merges the requested attributes with ethnl_update_bool32(). If
-> nothing changed, it returns without calling the driver:
-> 
-> 	if (!mod)
-> 		return 0;
-> 
-> Take a phylink MAC with neither Pause nor Asym_Pause in pl->supported.
-> phylink_ethtool_set_pauseparam() would reject a real change with
-> -EOPNOTSUPP. It is never called, though, when the requested rx, tx
-> and autoneg values match what get_pauseparam() already reports.
-> 
-> For such a request ethtool -A succeeds and ret is 0. The
-> ksft_eq(ret, errno.EOPNOTSUPP, note) check then reports a failure,
-> even though the device has no pause support and the kernel did
-> nothing wrong. On that hardware pause_test_support() would fail in
-> CI instead of passing or skipping.
-> 
-> Should expect_pauseparams_set() get the pauseparams before the set
-> and accept 0 when the request is a no-op? Or should the no-op
-> variants be skipped on devices whose supported list is empty?
+--
+Alexander Potapenko
+Software Engineer
 
-Correct, will fix.
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
 
-Maxime
-
-> 
-
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
