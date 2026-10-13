@@ -1,202 +1,247 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azolkn19012054.outbound.protection.outlook.com [52.103.10.54])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626623F0A8C;
-	Tue, 13 Oct 2026 14:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.10.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791901389; cv=fail; b=VYDaizCitVz1ngoD2UiZ5fyWKajkyOCpBgK6pMZI6YzXHvtmKK1OFO4w4IKEJC1n9Rds+HgAQeDYLie4ZlwHOGkHxcHNBdZqAIuO5BThtl21MJBrUeDJ7EM7BU/tk4TbVAXODJr5DgsqGxxgVG/nYT18xbEzNe52J/uTTW7qaQk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791901389; c=relaxed/simple;
-	bh=Cf936LCVtYMdN5B7F6WV8CRwbWcEqUQRA5K3Mn3t0cU=;
-	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=QcTUUuK/w4fLXpXxASegARy2KeVEITMMlDZfsJGQmj7MH5u0MZzXYytHP+tyAZh5uIYzpAAzZMjMz6Zyz2/xuxn5Ik2m+FVL5LH5Yz1F0QbpT0ab1HXo7sIhB/H8HmVlkubIluC8fHMwG97dDKNiEw7t72IlysrNSWiWfA0WVCc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=nFViFUOU; arc=fail smtp.client-ip=52.103.10.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861D63BCD28;
+	Tue, 13 Oct 2026 14:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791901539; cv=none; b=ph7ZwFPLDtZca17AyKBE5HmfGiqh35n6YyXSEDUjbmOH2xCh+Kfdwv2XRxaHD8XT3sM4c0NcBMQVFrQ9jAdMZMQXGdbe/1pJEvTI2JsC6l9eHiluIe9O4hCEnDE+lmq+ShZvbiNAA6bkyvBiVr/8q+mc0iudwlNbZoYDDviN7iM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791901539; c=relaxed/simple;
+	bh=woSG3ezPU/HpcNAtstlforMHNxGYAGXrh0pAjfLwREM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LoxkYeUjFVMOwa/xVP9YMjbBRRPTFUSwdXw7BDZIimVvGbD9GhTsLEYOrKTbZpZ7ZBQlcakKfmWAyjjKmWyoD9vv1enu2ZYF3fDkdJclg80GZT5k4ieD5uTQorx05XQZtQURu5ygYA++Hh7D44QBGqaBRpXI0h7v9EHS0AC/l7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fp3xQmHm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="nFViFUOU"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dCmgPhLKoWeWL8qnanbwdOpu04H11XV4L3AJLNbOiYIjx8i+c9TR5jydIXxTUOAkb6xOBDF3EYRMltkdiP4RNNWJZRh4pBzCW+6/s9LMWNeeMOWPFmguu/J3vTHBiBcD8kvUxuQzeLve50IdZ9KvsPdKw5OsVFU6+hrpxs3uDOpoBj+iTS7/NCuq/pTv6PxBCtjTLVKFfYK4ve+vCLz+C5v8B88dsXvIziZGlAP+EI7AbJ+HpzBOA06yQFGFgCZcoNTFN6nW27wIGVge3eugDzBpRfp9COHbZz5ZviGMnWagv86LT3BGYKvXmmJWIDDBhj1Bfj07cS2Ktb/lZeGeGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Cf936LCVtYMdN5B7F6WV8CRwbWcEqUQRA5K3Mn3t0cU=;
- b=FUyDfT98OkLCBFAWCONXD+xPgZEjDYlyGxH2urvhIxSQ6czRtGGDeUZw+cXojAKKlNcrzX+WDH+iA13M0wj5bPcVGQjjetQwb8x7kA+Yri/n/3MX1ywtkku9dD3YPNJzlaA+dG46feIf5irjGXf+S0no/zau39BU5QerM0nMJmY/zRT48liHBeO6Unyim3G6BPepbGteq6PljtwEfnwFxxmEwH6T9Wzc0bOmQlC8JgT7wsg6oKjMKWlyIFj7ylBisngvqRMcgX+LfPRupPz6keYEyzNT9ZktP75tN6kHGO3HA7fYBdokWtqd2d6M8+baJnslokAaWRqUTgrFwO7kxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cf936LCVtYMdN5B7F6WV8CRwbWcEqUQRA5K3Mn3t0cU=;
- b=nFViFUOUsV/9V6N4gxdVPXfv0JifXdF1P4G84yIgXo5xuzQPioLkzd6XCp5i9YrE0b0ANYtoaH0zI1sAzYISpSnNOx3XB9kKo1rihCJzuksdZD07VTcspZM7WwYd2+miXE4WezfAthE05u+RGopiwqiGNZvRZeREff9XcaYyQqHMEQ5BU4L7BHhwzp0APz5eAqaePt9NxXdHvDCdSe/7X+HCvlydGHek8JajYjamXtb+3swf0CHzlkC5e8wJyj2IG27zBIrjkB21vlDF7lRbPgtbShgz7oct3YN84CErf+r3FhwUPJtmiArvmZz2L/HCcJ6AtymEfwCJpjsgeqFITg==
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com (2603:10b6:208:1d7::20)
- by MW6PR02MB9820.namprd02.prod.outlook.com (2603:10b6:303:23c::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Tue, 13 Oct
- 2026 14:23:06 +0000
-Received: from MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53]) by MN2PR02MB6863.namprd02.prod.outlook.com
- ([fe80::da67:fd0f:d96d:ac53%4]) with mapi id 15.21.0522.012; Tue, 13 Oct 2026
- 14:23:06 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Naman Jain <namjain@linux.microsoft.com>, Michael Kelley
-	<mhklinux@outlook.com>, "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
-	"wei.liu@kernel.org" <wei.liu@kernel.org>, "decui@microsoft.com"
-	<decui@microsoft.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"rdunlap@infradead.org" <rdunlap@infradead.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v3 1/1] Documentation: hyperv: Update documentation for
- sending VMBus packets
-Thread-Topic: [PATCH v3 1/1] Documentation: hyperv: Update documentation for
- sending VMBus packets
-Thread-Index: AQK6UzDhe5HTrJmO78kNcIWbmlNys7VBNuqAgABfaZA=
-Date: Tue, 13 Oct 2026 14:23:05 +0000
-Message-ID:
- <MN2PR02MB6863BEA40F97A03E3E786C61D49E2@MN2PR02MB6863.namprd02.prod.outlook.com>
-References: <20261013014354.18023-1-mhklinux@outlook.com>
- <14013a11-b9e4-4cf9-b4ff-3253d179c991@linux.microsoft.com>
-In-Reply-To: <14013a11-b9e4-4cf9-b4ff-3253d179c991@linux.microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR02MB6863:EE_|MW6PR02MB9820:EE_
-x-ms-office365-filtering-correlation-id: 8dd44e9f-c233-4495-496c-08df29357f90
-x-microsoft-antispam:
- BCL:0;ARA:14566002|8022599003|37011999003|13091999003|31061999003|8062599012|19110799012|8060799015|15080799012|12121999013|25010399006|55001999006|24021099003|21061999006|102099032|440099028|3412199025|3071699003|2607281247196008|1710799026;
-x-microsoft-antispam-message-info:
- =?utf-8?B?UnhXdDVBVGlFTVhHcDFXeENsRlBhTldlaklXK3JDOXBTNWh5RnN6UzlRanFP?=
- =?utf-8?B?Wi96WGQ3UHo0NkNDVlFoRW9Xa1NTM1VUTWJsUGl2OUVQTWlyRDdKaDJPR2Mx?=
- =?utf-8?B?STNLNTVCNXdIaDNSaDdzeEF2YXZiNDdBaCtiQkd0ZmswNENHQTVFTjRaUkxa?=
- =?utf-8?B?TTh0ZWpFcFhpOWtpdzNiY0Y3WGxjQ2ptWThHaEhQQ0FDOG9UeW1LdDJLaHdt?=
- =?utf-8?B?aEp5Q1FXR2lWWFNQMXhFRFVlOWM2OHJPaHBKdFBreEFxYnZOZnVndHNvUXoz?=
- =?utf-8?B?N2JvS0pNRHNoTjdiZmZDWE93N3UrYkJQMkRDR1lBZ0pWODNrcm9NdWlVaVdT?=
- =?utf-8?B?YnNDZ2J1NEF1bXBoODhnM2RGQlltZHdPUnZaeFduL1ZBSTBEbGxLTjRaQ2FD?=
- =?utf-8?B?VVRYWVBBbHhjcS9DZFN0cjRiVFUvTldva3BUU0h0aEZlMi8xajVEbW56VkNu?=
- =?utf-8?B?TVN1YjJHU2hZY0FQQ0QrSTRPaDNmUGUrREdqaWNwRXI3blVsSnJ4ZEEwcTAx?=
- =?utf-8?B?b1RvUTlqNWlYYzJlNWpHR0t2MHJRaGJ6Rnk3bnNVNHVHL2o2cVRad3I1SXN1?=
- =?utf-8?B?WXIvckpzMnY5L01DVjhUbGVWcUFRUUlpai9tanRsdWhheXlLSm9qSVNGRTZF?=
- =?utf-8?B?d052RzF0ZStjclNTUDhKK2M1amxpSmNaQ2lqSWZWSGozNVJER3NVbmlIVHEw?=
- =?utf-8?B?Uk90a2JSWU1zWjFwWElNVUsweW1kMlpnS3c5cUlJVmVHVHNMRlQ5enFNNHY5?=
- =?utf-8?B?VDRKNUZXd3dINjRZNjdIbmlkZXFmd2tDck8rSnRLSVRmd3BlRHVaejA3RzlW?=
- =?utf-8?B?bjZsNlhYeWJQN1NidlowVXBYbXlNVWVNUkJxUWRMWTdpTjBiZ3g4eHJZaVQ4?=
- =?utf-8?B?Z0pRNjBCelgyYWxUMnZOVHlPcTZ0bnMzV3dHMmg3N2NjREF4ZUJBbmVpcGFs?=
- =?utf-8?B?bE9lSVRjUlZ6ZUNEY20yWXNrWGFRUm1wbUpUMWRJVFE3VWJHbVdVZ3JrSmxU?=
- =?utf-8?B?Ry9iQXByb3QxOWcvR2I4eW95Nk5IZHFRRVJ6NkxndC9BYXczaTZnZUtuTUsy?=
- =?utf-8?B?VWJ2RWJXd09IQVFpOSthR2NiN0Ywb2QzZlJ0aEl1WnJ5MUcvT1EyUlZXNnIy?=
- =?utf-8?B?R3dsUmFSa0RLSFk4YnZxVkh3Q0l1SldNK0JtTGVNSHYrTWZlb0g4ekpMWS9l?=
- =?utf-8?B?ZE9JVVJUQ1lRcWJKVWJxemlBaFhSQ2FUbXFQYzNPYXhhcFBVSU1qNFFBb2Iy?=
- =?utf-8?B?UDBCd2FrRjFnbW1iaXVKa2JxaFhxM0FVWlNQcEk3M2syekprWWZjaWpBejVn?=
- =?utf-8?B?emswQ0VmMnhxVngzTmNWU2Jkd2pUWGlkTURMalRFRlg0cis5cGJrSnRqYjBP?=
- =?utf-8?B?dy9wRUdIVnIybXI3Vk4rMnJrdHAyb2hrOFpWbUFuWThubytRTlJPOFlYU25n?=
- =?utf-8?B?OWREb2gvdUd2VTJ3c3N5WUF6ZGlDOGZ3QXFBK0hOQlVjK1dxcUpKcEVoN3R0?=
- =?utf-8?Q?YJYI6LtN6B3us0RYDzjALKaTL7U?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?bkJhOTYzL1lRQVpUeVUyeE95cTZncUdYbGZhSnJRa2VZaVRSZHVBalQzb29x?=
- =?utf-8?B?aW8yejJRZ3ZiR3ZSVE4rV3JHMzJoTmdFUmxPeHVPeEJvYmU1M3dGUzNRRDVl?=
- =?utf-8?B?VVBadmx0MVVFRGJ5UXZzbWJlSGkra0M1L0E0dzk2SUhjcXZoQnp1MVRYRStS?=
- =?utf-8?B?ZlR2eStEWE92ZDd4ZHRSRCtXbk9JVzcyc1E1TFk2QzM4NFNST3pPQkFSeWFv?=
- =?utf-8?B?WWFVSWVyZGJEa2NJZW93MCtLaXBlZi9rd0ZXVEFENU9JMVhoM0dMMWx6aGxk?=
- =?utf-8?B?WHZnWmdQcmVoZE9TNDJzOFF2dG1JQ1AzQjZCNTNWcEJwRDJZUjJqNUVOOEN1?=
- =?utf-8?B?MXlnUmw1NTB5dllLQVJYejVUczRtanFVQlFlbUZmd2dWdC9GOU5KZVBrWDhh?=
- =?utf-8?B?aTAwNDdvUnIvbDFUMjFzK0tXWDFLZ1VmaHlyZmtsaDhlTkRvQi9oU3dJTm14?=
- =?utf-8?B?M0d0bkNPODZtMmJkN1FMcFFENk9jdTRrVmcyVTlXVnNqS3dtb25iQzExeEtv?=
- =?utf-8?B?UjBZdUxmZ3UwSS8wd09JQjRBYUh5RHdvTDFZUnNvR21rSUJPektVd2hydXhB?=
- =?utf-8?B?V1BsQ0IwSGhYWVd6MmtKVzBmd1FNWTBLUWVaQ3dMRXU1QlZZVTc0K1piSG5s?=
- =?utf-8?B?MU41dDVQakZFdHlQc0NISjExdlIzNmhzVEdvOC9YRzllUDZzMWgwNDhzalUy?=
- =?utf-8?B?ZmJyOHF2TnRscFJBR3kwd1dxYk12Z2FrYURSUjUzNC9DR1NZMFVNTlIxaGtU?=
- =?utf-8?B?RVpiU3QrTkw4NENpVjFBS25NbmZXNFBqSFVzTnBkR3A5aDJBL0Y2U2xJTHE0?=
- =?utf-8?B?TUx6cDhyY1V1eStrdFlEUGpTRG55YUg0QVc3em9XTVdiN2FSeXdyRXlHUS9V?=
- =?utf-8?B?ZEdNMklQSUpPeXRKaGRWTlVUU1pwcWZGcTRPNDhzdlhEMW94aTVweU1vOFZY?=
- =?utf-8?B?UVB3eVhEUVBFZTJuSWdsTzlhQldxbzBiM2xGd0xJT1g0U2tsYTkvc0RjWmZt?=
- =?utf-8?B?ampCT0hKUmpCMnNsSXZhMnprdnpDcWgvVUVaSkk1b2k2TWdZL21xcmZDT1Mv?=
- =?utf-8?B?dUFmUWlPWUlCa2VKSEQwNFRYR29iVDVaTTBPNmN4dmFWa0JtSDdjZmNlLzc5?=
- =?utf-8?B?dENXSEdMN2lyNCtJd0tMUWI4cVpMcXBKY1lHQ3VUWnhianVxdktIYm5FUTF2?=
- =?utf-8?B?aHNXeEhYNzNpVEYrQSt4ZXlqZnZVd2NlZE90M1V5QVdnNlFmcDZidVJ4S1Zk?=
- =?utf-8?B?Vm91WXVObnVucjlGd09LTlZsdWdQRklhTHR3M1Y3R29WMnZ6eldMUHFKRERu?=
- =?utf-8?B?SFpYQW1ickJoZEQ3UGNTdytxNHhtNFNzSVpjZUhrR004OTVwVktna3NZSzNo?=
- =?utf-8?B?eUVmMEZXWC92RGNRWjhWd3pGREE4dktBcUIyMlg5aWpDcUpiUHJLa2xJZkdh?=
- =?utf-8?B?a0JZeVdIUEJXUDZjbHhEanpDQkFId29lRWdibHlxN0tsTjFDeUdpdVZRakVT?=
- =?utf-8?B?a0Q5TDlSRG1tMDJoRUtHMXJPVzYybWJYcGZMckNONWFNNUJ0bTkzeUlaY1dv?=
- =?utf-8?B?NmRqNWxnNzVreWNUczdRTGtoN2xIeVhKSlZhUzA0OXRwMzE3MUEybzlleFZI?=
- =?utf-8?B?dFlVMWhlZHJjWExEU2o5UXMvOVQvSnhId3cyaUpkZFltQUkzMCs5R0k1WVV4?=
- =?utf-8?B?YXBUTTY1bnowNDZDYlg1MVVBbUdncll6anhOTDZGWVZWVnZ1SWFZZG9LVUZh?=
- =?utf-8?B?NHBPYWJPRUduc3NPdjlWOWNxSng0LzZ6VlV4a3lRTkZlN0lmbVN3V040eGU4?=
- =?utf-8?Q?6sc11U88rgCgaRDbVDXH/89QQOG9OuNtNI0AQ=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fp3xQmHm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D507D1F000FF;
+	Tue, 13 Oct 2026 14:25:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791901538;
+	bh=BjTdMoFaO2CEchYCl9cp1x7qqKnBvpdTbTjUMlMqgVA=;
+	h=From:To:Cc:Subject:Date;
+	b=Fp3xQmHmj8lInW5fszvUA/8NO8UxDy9ieVVG+bfnIUti1PcPxhjFgYiYcTDbed06C
+	 waRCr2jkTTX9tDJC2W92dqecRYF6Mn4AbAMDFyy7UK3v/emGRYOqXm9F20RYFuoqVb
+	 wxPHdQJfYxE3DmDeR7Al26V8LYcB57pDi9aN2/7WMKzd0bzmhAla0y1gwqRgxvotKw
+	 4/0zjYX7g3n7nrfpiGPL04e/QNxLCRpygoWUYi5OFxZ8piqBYboogdq7vRXqfl66Sk
+	 2p/q9BXpV6tkRxgWzD5qTE2f7ptBu6+hlWTIzfpGd8HgF3E3qdgTy+qIsc5xKl6ImK
+	 LPLYKwJT/zWvA==
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	=?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org,
+	kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: [PATCH v11 00/19] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
+Date: Tue, 13 Oct 2026 17:25:08 +0300
+Message-ID: <20261013-fix-p2p-acs-v4-0-v11-0-72cf8c96e617@nvidia.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6863.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8dd44e9f-c233-4495-496c-08df29357f90
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2026 14:23:05.9450
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR02MB9820
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20260821-fix-p2p-acs-v4-0-e72455e3a261
+X-Mailer: b4 0.15-dev-18f8f
+Content-Transfer-Encoding: 8bit
 
-RnJvbTogTmFtYW4gSmFpbiA8bmFtamFpbkBsaW51eC5taWNyb3NvZnQuY29tPiBTZW50OiBUdWVz
-ZGF5LCBPY3RvYmVyIDEzLCAyMDI2IDE6NDIgQU0NCj4gDQo+IE9uIDEwLzEzLzIwMjYgNzoxMyBB
-TSwgTWljaGFlbCBLZWxsZXkgd3JvdGU6DQo+ID4gVGhlIGZ1bmN0aW9ucyBmb3Igc2VuZGluZyBW
-TUJ1cyBwYWNrZXRzIGhhdmUgY2hhbmdlZC4NCj4gPiB2bWJ1c19zZW5kcGFja2V0X21wYl9kZXNj
-KCkgY2FuIHRhcmdldCBtdWx0aXBsZSByYW5nZXMsIGFuZA0KPiA+IHZtYnVzX3NlbmRwYWNrZXRf
-cGFnZWJ1ZmZlcigpIGhhcyBiZWVuIHJlbW92ZWQuIHZtYnVzX3NlbmRwYWNrZXRfZ2V0aWQoKQ0K
-PiA+IGhhcyBiZWVuIGFkZGVkLiBVcGRhdGUgdGhlIGRvY3VtZW50YXRpb24gYWNjb3JkaW5nbHku
-DQo+ID4NCj4gPiBGaXhlczogNDVhNDQyZmUzNjllICgiRHJpdmVyczogaHY6IHZtYnVzOiBSZW1v
-dmUgdm1idXNfc2VuZHBhY2tldF9wYWdlYnVmZmVyKCkiKQ0KPiA+IENjOiBzdGFibGVAdmdlci5r
-ZXJuZWwub3JnDQo+ID4gU2lnbmVkLW9mZi1ieTogTWljaGFlbCBLZWxsZXkgPG1oa2xpbnV4QG91
-dGxvb2suY29tPg0KPiA+IC0tLQ0KPiA+IENoYW5nZXMgaW4gdjM6DQo+ID4gKiBGaXhlZCB0eXBv
-IGluIHRoZSBkb2N1bWVudGF0aW9uIHRleHQgW1Nhc2hpa29dDQo+ID4NCj4gPiBDaGFuZ2VzIGlu
-IHYyOg0KPiA+ICogQWRkIHZtYnVzX3NlbmRwYWNrZXRfZ2V0aWQoKSB0byB0aGUgZG9jdW1lbnRh
-dGlvbi4gW05hbWFuIEphaW5dDQo+ID4NCj4gPiAgIERvY3VtZW50YXRpb24vdmlydC9oeXBlcnYv
-dm1idXMucnN0IHwgMTcgKysrKysrKysrLS0tLS0tLS0NCj4gPiAgIDEgZmlsZSBjaGFuZ2VkLCA5
-IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9j
-dW1lbnRhdGlvbi92aXJ0L2h5cGVydi92bWJ1cy5yc3QgYi9Eb2N1bWVudGF0aW9uL3ZpcnQvaHlw
-ZXJ2L3ZtYnVzLnJzdA0KPiA+IGluZGV4IDY1NGJiNDg0OTk3Mi4uYzU0NmU4MjFjZTZiIDEwMDY0
-NA0KPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vdmlydC9oeXBlcnYvdm1idXMucnN0DQo+ID4gKysr
-IGIvRG9jdW1lbnRhdGlvbi92aXJ0L2h5cGVydi92bWJ1cy5yc3QNCj4gPiBAQCAtMTQxLDE0ICsx
-NDEsMTUgQEAgVGhyZWUgZnVuY3Rpb25zIGV4aXN0IHRvIHNlbmQgVk1CdXMgY2hhbm5lbCBtZXNz
-YWdlczoNCj4gPg0KPiA+ICAgMS4gdm1idXNfc2VuZHBhY2tldCgpOiAgQ29udHJvbC1vbmx5IG1l
-c3NhZ2VzIGFuZCBtZXNzYWdlcyB3aXRoDQo+ID4gICAgICBlbWJlZGRlZCBkYXRhIC0tIG5vIEdQ
-QXMNCj4gPiAtMi4gdm1idXNfc2VuZHBhY2tldF9wYWdlYnVmZmVyKCk6IE1lc3NhZ2Ugd2l0aCBs
-aXN0IG9mIEdQQXMNCj4gPiAtICAgaWRlbnRpZnlpbmcgZGF0YSB0byB0cmFuc2Zlci4gIEFuIG9m
-ZnNldCBhbmQgbGVuZ3RoIGlzDQo+ID4gLSAgIGFzc29jaWF0ZWQgd2l0aCBlYWNoIEdQQSBzbyB0
-aGF0IG11bHRpcGxlIGRpc2NvbnRpbnVvdXMgYXJlYXMNCj4gPiAtICAgb2YgZ3Vlc3QgbWVtb3J5
-IGNhbiBiZSB0YXJnZXRlZC4NCj4gPiAtMy4gdm1idXNfc2VuZHBhY2tldF9tcGJfZGVzYygpOiBN
-ZXNzYWdlIHdpdGggbGlzdCBvZiBHUEFzDQo+ID4gLSAgIGlkZW50aWZ5aW5nIGRhdGEgdG8gdHJh
-bnNmZXIuICBBIHNpbmdsZSBvZmZzZXQgYW5kIGxlbmd0aCBpcw0KPiA+IC0gICBhc3NvY2lhdGVk
-IHdpdGggYSBsaXN0IG9mIEdQQXMuICBUaGUgR1BBcyBtdXN0IGRlc2NyaWJlIGENCj4gPiAtICAg
-c2luZ2xlIGxvZ2ljYWwgYXJlYSBvZiBndWVzdCBtZW1vcnkgdG8gYmUgdGFyZ2V0ZWQuDQo+ID4g
-KzIuIHZtYnVzX3NlbmRwYWNrZXRfZ2V0aWQoKTogU2ltaWxhciB0byB2bWJ1c19zZW5kcGFja2V0
-KCkgYnV0IHJldHVybnMNCj4gPiArICAgYSB0cmFuc2FjdGlvbiBJRCB0aGF0IGlzIG1hdGNoZWQg
-YWdhaW5zdCBhIHJlcGx5IGZyb20gdGhlIEh5cGVyLVYNCj4gPiArICAgaG9zdC4gVXNlZnVsIHdo
-ZW4gdGhlIHN0cnVjdCBjb21wbGV0aW9uIChvciBvdGhlciByZW5kZXp2b3VzIGRhdGEpDQo+ID4g
-KyAgIG11c3QgcmVzaWRlIG9uIHRoZSBjYWxsZXIncyBzdGFjay4gQnkgaW52YWxpZGF0aW5nIHRo
-ZSB0cmFuc2FjdGlvbg0KPiA+ICsgICBJRCBiZWZvcmUgZXhpdGluZyB0aGUgZnVuY3Rpb24gZHVl
-IHRvIGEgdGltZW91dCBvciBvdGhlciBlcnJvciwgYQ0KPiA+ICsgICBsYXRlIGFycml2aW5nIGlu
-dGVycnVwdCBpcyBhc3N1cmVkIHRvIG5vdCB0cmFzaCB0aGUgc3RhY2suDQo+ID4gKzMuIHZtYnVz
-X3NlbmRwYWNrZXRfbXBiX2Rlc2MoKTogTWVzc2FnZSB3aXRoIG9uZSBvciBtb3JlIGRhdGEgcmFu
-Z2VzDQo+ID4gKyAgIHRvIHRhcmdldC4gRWFjaCByYW5nZSBjb25zaXN0cyBvZiBhIHNpbmdsZSBv
-ZmZzZXQgYW5kIGxlbmd0aCBwbHVzDQo+ID4gKyAgIGEgbGlzdCBvZiBHUEFzIHRoYXQgZGVzY3Jp
-YmUgYSBsb2dpY2FsIGFyZWEgb2YgZ3Vlc3QgbWVtb3J5Lg0KPiA+DQo+ID4gICBIaXN0b3JpY2Fs
-bHksIExpbnV4IGd1ZXN0cyBoYXZlIHRydXN0ZWQgSHlwZXItViB0byBzZW5kIHdlbGwtZm9ybWVk
-DQo+ID4gICBhbmQgdmFsaWQgbWVzc2FnZXMsIGFuZCBMaW51eCBkcml2ZXJzIGZvciBzeW50aGV0
-aWMgZGV2aWNlcyBkaWQgbm90DQo+IA0KPiBXZSBjYW4gcmV0YWluIHRoZSByZXZpZXcgdGFncyBm
-b3IgbWlub3IgZWRpdHMuDQo+IA0KPiBSZXZpZXdlZC1ieTogTmFtYW4gSmFpbiA8bmFtamFpbkBs
-aW51eC5taWNyb3NvZnQuY29tPg0KDQpJIGp1c3QgZm9yZ290IHRvIGNhcnJ5IHlvdXIgcHJldmlv
-dXMgUi1iIHRhZyBmb3J3YXJkLiA6LSggIFRoYW5rcyBmb3INCmRvaW5nIGl0IGFnYWluLg0KDQpN
-aWNoYWVsDQo=
+PCI P2PDMA applies Request and Completion Redirect throughout both paths.
+This misclassifies asymmetric and nested switches, and reports one answer
+for every kind of TLP.
+
+Three ACS controls act on TLP attributes the Requester chooses rather
+than on the topology: Translation Blocking and Direct Translated P2P act on
+a Request's Address Type, and Completion Redirect skips Completions carrying
+Relaxed Ordering.
+
+Evaluate each direction at the path divergence, decide every class from the
+one walk, and treat a client with ATS enabled as translating unless its
+driver declares per-mapping ATS.
+
+This completes the P2PDMA side; dma-buf and mlx5 follow separately.
+
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+Changes in v11:
+- Applied the client ATS policy in pci_p2pdma_distance_many() too, as
+  local Sashiko pointed out.
+- Read the ATS Enable bit once per query, so the class and the ATS policy
+  always agree.
+- Documented that pcim_p2pdma_set_ats_per_mapping() needs a successful
+  pcim_p2pdma_init().
+- The path diagnostics no longer read ACS Control or the bridge bus range,
+  and they report a failed cache store.
+- Added a KUnit case for Direct Translated P2P without a redirect.
+- Clarified the Relaxed Ordering and diagnostics commit messages.
+- Honored device-specific ACS redirection, such as Zhaoxin Downstream
+  Ports, in a new first patch with a KUnit case, as local Sashiko
+  pointed out. Relaxed Ordering Completions are redirected at such a
+  port too.
+- Clarified in the documentation that a quirk also redirects Relaxed
+  Ordering Completions and that Translation Blocking applies only to
+  upstream Requests, and labelled the ACS routing debug line with its
+  class, as local Sashiko pointed out.
+- Treated ACS registers that read as all ones as unreadable, and named
+  ports that a quirk redirects instead of suggesting
+  pci=disable_acs_redir= for them, as local Sashiko pointed out.
+- Ignored ACS quirks of endpoints, which only describe traffic between
+  their own functions.
+- Link to v10: https://patch.msgid.link/20261012-fix-p2p-acs-v4-0-v10-0-6ffe7b7a4517@nvidia.com
+
+Changes in v10:
+- Fixed the Relaxed Ordering description: a Completion carries the
+  attribute of its Request (PCIe r7.0 sec 2.2.9.1).
+- Used the PCIe terms Requester and Completer for TLPs, ACS and ports;
+  client and provider remain for P2PDMA objects.
+- Rebased on pci/p2pdma, which includes the prerequisite P2PDMA fixes.
+- Added a topology example to the path divergence patch.
+- Removed a repeated sentence from the disable_acs_redir documentation.
+- Explained the path divergence in the documentation.
+- Link to v9: https://patch.msgid.link/20261001-fix-p2p-acs-v4-0-v9-0-1a8e0f50ddd9@nvidia.com
+
+Changes in v9:
+- Removed dmabuf patches for now.
+- Removed mlx5 per-mapping ATS declaration for now; it comes back with
+  the dmabuf patches.
+- Link to v8: https://patch.msgid.link/20260928-fix-p2p-acs-v4-0-v8-0-404453b9c435@nvidia.com
+
+Changes in v8:
+- Added extra Reviewed-by from Logan.
+- Added patches to take care of ATS per-device vs. per-mapping option
+- Link to v7: https://patch.msgid.link/20260920-fix-p2p-acs-v4-0-v7-0-ca0828ab697c@nvidia.com
+
+Changes in v7:
+- Removed "Document pdev->p2pdma lifetime rules" patch, it gives nothing
+  after p2pmem fix.
+- Split dmabuf patch.
+- Tushar retested the series, so added his Tested-by.
+- Added Logan's ROB tags and fixed minor documentation issues pointed
+  by him.
+- Link to v6: https://lore.kernel.org/all/20260914-fix-p2p-acs-v4-0-v6-0-5ef07ec9ef06@nvidia.com/
+
+Changes in v6:
+- Changed DMABUF to use callbacks and not directly stored pointer.
+- Link to v5: https://patch.msgid.link/20260910-fix-p2p-acs-v4-0-v5-0-856087f63c0d@nvidia.com
+
+Changes in v5:
+- Rebase on the posted fixes.
+- Dropped tags from changed patches.
+- Remove Egress Control Vector interpretation and coverage.
+- Keep enabled Egress Control conservative as a Request redirect.
+- Use pci_dbg()/dev_dbg() for diagnostics and drop the "debug" prefix.
+- Removed code comments from "Document the pdev->p2pdma lifetime and RCU
+  rules" patch and reduced description to actual lifetime explanation.
+- Added note that Linux assumes that TLPs are in strict-ordering and
+  untranslated.
+- Added code to calculate p2p paths per-TLP type.
+- Converted mlx5 to use that new proposed API.
+- Link to https://patch.msgid.link/20260821-fix-p2p-acs-v4-0-v4-0-94426b96de73@nvidia.com
+
+Changes in v4:
+- Reject ACS Violations and unreadable routing state instead of treating
+  them as host-bridge redirects
+- Added Tested-by tags from Tushar Dave
+- Added support to asymmetric ACS routing
+- Limited redirect checks to the two ports at the path divergence
+- Added standalone ACS routing diagnostics for hardware retesting
+- Dropped " PCI: Account for Direct Translated P2P in ACS isolation checks" patch
+- Link to v3: https://patch.msgid.link/20260811-fix-p2p-acs-v3-0-efc488ee7c03@nvidia.com
+
+Changes in v3:
+- Fixed pci_p2pdma_add_resource() error unwinding
+- Made pdev->p2pdma teardown wait unconditionally for RCU readers
+- Restricted pci_p2pmem_find_many() to pool-backed providers
+- Documented the pdev->p2pdma lifetime and RCU rules
+- Fixed calc_map_type_and_dist() handling of the verbose argument
+- Required the ACS port and target to share a bus before indexing the
+  Egress Control Vector
+- Gave pci_acs_enabled() and pci_acs_path_enabled() a scope, so the ACS
+  Direct Translated P2P rule no longer stops pci_enable_pasid() from
+  enabling PASID
+- Dropped "Report ACS ports when the paths share no upstream bridge":
+  the mapping type cannot change without a shared upstream bridge, so
+  the pci=disable_acs_redir= hint was not actionable there and the ACS
+  walk only cost config space reads
+- Folded the Request Redirect rule into pci_acs_rr_ineffective(), so
+  pci_acs_flags_enabled() and the Intel SPT PCH quirk share one copy
+- Renamed pci_acs_egress_ctrl_set() to pci_acs_egress_ctrl_is_set(), it
+  reads the bit rather than setting it
+- Reworded the blocked-path warning: ACS may also leave the direct route
+  indeterminate rather than blocked
+- Added KUnit coverage for the shared-bus guard, a device with no ACS
+  capability and an unreadable ACS Control register
+- Added the missing Fixes: tags, a second one on the
+  pci_p2pdma_add_resource() unwinding fix (the dangling devres action
+  dates to f58ef9d1d135) and one on the Egress Control isolation change
+- Link to v2: https://patch.msgid.link/20260806-fix-p2p-acs-v2-0-0cec14812965@nvidia.com
+
+Changes in v2:
+- Added Logan's ROB tags
+- Added commas in Documentation patch
+- Link to v1: https://patch.msgid.link/20260802-fix-p2p-acs-v1-0-a7c5eb64fff6@nvidia.com
+
+---
+Leon Romanovsky (19):
+      PCI/P2PDMA: Honor device-specific ACS redirection
+      PCI/P2PDMA: Document the TLP attribute assumptions
+      PCI/P2PDMA: Derive routing from directional ACS controls
+      PCI: Reject unreadable ACS controls in isolation checks
+      PCI/P2PDMA: Evaluate ACS controls at the path divergence
+      PCI/P2PDMA: Document directional ACS routing
+      PCI/P2PDMA: Collect the path's ACS controls before deciding
+      PCI/P2PDMA: Answer routing per TLP class
+      PCI/P2PDMA: Route Relaxed Ordering Completions directly
+      PCI/P2PDMA: Reject Translated Requests blocked by Translation Blocking
+      PCI/P2PDMA: Route Translated Requests under Direct Translated P2P
+      PCI/P2PDMA: Log detailed ACS routing diagnostics
+      PCI/P2PDMA: Add KUnit tests for the ACS routing decisions
+      PCI/P2PDMA: Test the ACS P2P routing walk
+      PCI: Add KUnit coverage for ACS isolation checks
+      PCI/P2PDMA: Document TLP-class routing
+      PCI/P2PDMA: Let a client declare that it selects ATS per mapping
+      PCI/P2PDMA: Evaluate the ATS path for clients with ATS enabled
+      PCI/P2PDMA: Test the routing of clients with ATS enabled
+
+ Documentation/admin-guide/kernel-parameters.txt |   11 +-
+ Documentation/driver-api/pci/p2pdma.rst         |  105 ++
+ drivers/pci/Kconfig                             |   15 +
+ drivers/pci/Makefile                            |    1 +
+ drivers/pci/p2pdma.c                            |  942 +++++++++++++++--
+ drivers/pci/pci.c                               |    8 +-
+ drivers/pci/pci.h                               |   57 ++
+ drivers/pci/pci_acs_test.c                      | 1225 +++++++++++++++++++++++
+ drivers/pci/quirks.c                            |    8 +-
+ include/linux/pci-p2pdma.h                      |   12 +-
+ 10 files changed, 2292 insertions(+), 92 deletions(-)
+---
+base-commit: 36038f0e8377ef316b723d0d85b1510bc64069ab
+change-id: 20260821-fix-p2p-acs-v4-0-e72455e3a261
+
+Best regards,
+--  
+Leon Romanovsky <leonro@nvidia.com>
+
