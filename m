@@ -1,171 +1,200 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6021D3FA5E7
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 09:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791884288; cv=none; b=YKp4H+tn/DQ4+iF83gMW26sy+3OE7k1czubkwX+yjIT14Egp5e/5cpA6OsZepgJGx9NUdJk3mJ5ZMEr+wjAZocQTwpROMp/n3OdELm+RDl8oKPIPkTq7+MIEHSPeT9HS/UF3h7fYn7wuEdslDTUXQcHp6lVPpS6AAZJH3i/Tk7g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791884288; c=relaxed/simple;
-	bh=7CTQPPO2qQ2ZoSuCsvkYLKcbd9ZRQEFN8AaPBnDBHcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lf6kaOd5lGgUDZrTgTbfe7N633CBfubz7FrjwHlxHolxeGaa7uYySz+sYE3Rqn9VxuuwxK+WahHtQj3ZIxjzFIHEo9WRMIDxGjBRtI1vjv13dQ6tE+HcZkPvnQwTOi6oA5vtBnhHu6xAb0Zu61hWX9VvCmLGCG81WmaiyyEcDL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=d7Pj2hLV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DMS5V+0H; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD65A48CD5B
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 09:38:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791884329; cv=pass; b=qDIStSdlXxsrDD+HOppjrGUdy1BO7Cmv+KIYz+x8p+EQtOHzZlEhxnPd8gee9sCe0AiEFqhqJcx5IzK64o8AfaIXyhx84RAdT/xwWNQf24szKDCiw4lQCKIJRWJ5a70rlkXWftzy4iS7jwOzx3Hs7dSLWVReDrBQejw7jNezGwg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791884329; c=relaxed/simple;
+	bh=8mVe66GEzd6sAkunACXVynKdmNft5klxWxxBXtRex2s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jEKnBYLmD+VGiYT+6orxNxU5TgJXq06+u3saTA6IITPP4qepXtRaEjPqoBYKHueJIYbN+9v5kwgqhDSQYzLc2RNS6WKmAhwf4UYgRiviW9TIbyE5WMsFJY/j40LiNMHUhoOhcTP0YxP/+M1yQH4roA5IEC6R0E0pFVsLZXLoHf0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fMRxOVnx; arc=pass smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="d7Pj2hLV";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DMS5V+0H"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 6D202140016A
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 05:38:04 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Tue, 13 Oct 2026 05:38:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1791884284; x=
-	1791970684; bh=LQCntHHIX/z5AYDFTk7naJrzWzZHIxRMf2UeBMyYXa0=; b=d
-	7Pj2hLVNapNGRQ7wnzfXMXOgvRCR1WjokoAkJKXpfrqCNjb0EilV7mT4pbpdZ5SO
-	j7TZjIt2+iFi4ofhRFbOhKsFH6xTicEHXV6NTQ91Gs+clfytuuhpBNiDfkzWE8Vg
-	8EhpiQ3U2fufHakCY/sNtmIdfCZCPLWacUkSMCFrLvxv95LykjiaUP9vo3WnZCQV
-	+qXhpnGCPU2WHUZ4tu2MO7bdIeIOTS/vC9pdZpYPAMoHPU9LU9vDJhVH338tdnHj
-	FsmYXfTyq79KQqVHT1rL6yQ5WTnP6OsyopRi/xn/iHkPX86lVT/OU/vAn9N8Th3M
-	OA/YnAxWJOc/aiJ95h4zg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1791884284; x=1791970684; bh=LQCntHHIX/z5AYDFTk7naJrzWzZHIxRMf2U
-	eBMyYXa0=; b=DMS5V+0Hiq7+a/wm86w/K4lryF6eUVIC4wItQvci7eekzLMu/xn
-	BMRRurukeP/ZBa+BuLl10YYWknmYIzJc8JURAZbkfz5uiY9pXa2k2pYGwha53DcG
-	8+zS0A4+RrLlX62uCo83HNoNOt+zMfSlTPK5hhCiUfAi2BsehfLOiA7cw32IMMKc
-	ENwMtPXGG1Yqt8FwuWIA7x9h7eHclb2BlaHPMxHEluPSTJdiUXK4rwMe9LzKpBMP
-	ZBiKPzzhXWv4v41DySz/ijO0ACESyUTjfsDShAcUAIgXtrAwsMxrTrbNU2N/CnLn
-	Iee5iRLTcteLRkeR6hzv/20d/wv/fze1fZQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
-	action=sign d=queasysnail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1791884284; d=queasysnail.net;
-	mf=PHNkQHF1ZWFzeXNuYWlsLm5ldD4=;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm3:rsa-sha256:YXksLkf8DQEYkSG+zmvsO8M1S520fFhMj5cQ3z+5E5+8zxH
-	pEWY1lVA7zyEpwjoFGoHsl9tpNlwDWHT9tJCWRXTMuA9h4DsX9gi4UDh8khn/mo5
-	lrA1tzoN80WaJ0jjnfQDr+0Pk608bOb/8k1DpEUos5m1eD66kc0n/Bb9pkmRKN5N
-	OItCMciCGuA5kAN0XsR/wj47MGq5wNqKczdVTDTx5CzXkpdvrA/wXL3KO7iK6dzK
-	es/4PJmpoiymSleq+u1ix/1n3QpRTcOlR4UlEjGeay92hKcdtqSHMhFHePuBp7Y4
-	rIzrtCEOzu9XZP/dvPcvkguwjaKIwI0wHNInw5w==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-04; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-disposition,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:jq0AKZ0ZMZ52TQNweCflPClrPKpb6HhVfjSHA8skpjQ=:7CTQPPO2qQ2ZoSuCsvkYLKcbd9ZRQEFN8AaPBnDBHcU=;
-X-ME-Sender: <xms:-_vNaoUP1I29ZAE6SA9h4duVAo4gWSN7xbQykyKxTLowaiASwcmwlA>
-    <xme:-_vNagQNniucjAaY1V91uLTPzl51hcLHEBdKWFmpPgLdXocwDP336v7MRf84fi2Ya
-    U7Ivc1vM8ayA-uJF5Hbtdno6WMzxkelrTfc024lx8En12lSayOKxqJ->
-X-ME-Received: <xmr:-_vNalBwJNG9-akjHytwU_FWsobZlC47zpDxbofme75B90VO9-N2hQRGPaU>
-X-ME-Proxy-Cause: dmFkZTFa1h1u84m4cXgOhRTv63380DK+WDI1GkNmDzoEUq/xf5UHejNkra0evyB7asAR31
-    yn52SZAx2R9zdjUsHRnU9dp8FBIRzp+3dss2aUTpXsHANFdqRa9s0CRlyph3O/AR0EG/0S
-    OvM+gxGdAGvnMupgXXHufHuhCLzO7dI8JowinfWoYu2FmnDh6QBC8xDY56TTkCwp0J9BLz
-    /Q0mzHIFM5k5cMTOBIKgtjpRj3oJxfMFc7tyrR1r+v9vVo8moXn1pVhf9FGKnCXk5v2bIh
-    sXbkx/RpKyqeZ7XHuScTQXNYNuJWHsnAvwR2cpAKQqPxAsL72H6CTRPrZqXSwa8ew2EKAj
-    mqIeCbJngjEh2q0qCF3H1ZY5+GpKJSLhskAYzhgIrep+B/md2bmkbEia4wx9DLxqZrO/7Q
-    tTnJFsvv4TApfNaiPQecG5t69AWVJ1kzJtS7m/QAXeE98E1NJS0PNYYtq/vQRUd+QG5UgJ
-    U53e8oVlEN2TlnZKJUTvlDMykV0KtxoHV9r3CK3aUkvtk1XEQbKereA78SQkRQVIfN6X+m
-    fq3+g84a8TKl5pqwFIwUSly7oOq11mutNBbnW/B62YEt+7aNVaOmXHfA3xzStB3hCMQ2Cb
-    18zxwMp9fx2I4Z9gMQS8ELb0FheOxj8uEb3LzR9mJSpE/Ilh+itEHZwEA/og
-X-ME-Proxy: <xmx:-_vNaov5q-NbIGtN8DF-e5p4EYRbk7cay6Mqwv92RB9TBLidOitTBA>
-    <xmx:-_vNaj-q-iepGO2biJ0HTir1qhMX1sfxEuaVjAiap2qp2xxp7WH0fg>
-    <xmx:-_vNavRV4Ww0K_egHdmo8LHEcN96JtmTBMhqjWWZXNO6rOXh8Y9OfA>
-    <xmx:-_vNalVkloa3BASndxzqEFYGka7Rb8tnmdb_YYw6z72EGSw8pO9GIQ>
-    <xmx:_PvNakNbSIQX86AxZJ3DY9bUZugZ_TXWHVYGTn4dWQOhJ-FK5N-BNel2>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 13 Oct 2026 05:38:03 -0400 (EDT)
-Date: Tue, 13 Oct 2026 11:38:00 +0200
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Rishikesh Jethwani <rjethwani@purestorage.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net] tls: refuse RX records after record-number exhaustion
-Message-ID: <as37-A3DKONrFuxs@krikkit>
-References: <20261013002701.1957686-1-rjethwani@purestorage.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fMRxOVnx"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-157fe9d771bso684354c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 02:38:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791884327; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iRiAph2VEqzbOBC9/3pjE92MpoofSy8Pd3/LuDbIEfQ/yt8B7t49e0XumrsT1Wr2VC
+         nyOQxndVYebbr7sqsxbf6HNDAFYdtdK774ifOkXbLpPG8BN6O4Q++VBksRpElVxcIEmV
+         RuApmn1HTg7BvrwJw/WUIEbBgUTHu4l74uvS3Kg6RYl0ASj/KPof790SnSHqnR4Gdtnx
+         1LvodzXVHeBsx3c1pyadDgE8XObfCoFwvgnYxQ4kpUC8C5/KmwET/NVY4j6P3HUoJrOv
+         6vOlKVdn6Yhzi5fayw3/OxVoM+0Cxy3pa6NYu4nwTggB6k6GcASMp5wpMfQwP2Aki0oP
+         gDsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hjiBRpMUG3UtZRbPmQwOuJtx4+jqLwpDEaQOQPQts0M=;
+        fh=uhL/vzHtOPhnv2CpmWu2ASAMNGZ0StrEM4AwtB/8I2A=;
+        b=JQ6VyLrwrChgZ1aU/nvLhpMHLyQJMfAXxeLODqOLoBPFvM0a1uYhUHdRChmiy3dNoZ
+         iI0yeTxqSQ2XUyWWjXWU3np9Ob8q0wtBxpDUDnhaviVNL+jD/0bopG4ai5JA6ml24UyE
+         PEzGhWNZvC0J6fhthss07SSIYkEPOe1n8WCDwfR40wBU8ID/y8TZ3t2x/uydr+XLyDAY
+         SteeQirr+2fuDuzkugXlMiTHHDc+XolpJM8ZcsjTQHe8ehTBxjyIkIumXJmMWb/t6Zt7
+         urs7uOWVraStCdLKkNqZOGcVhxG+FMU7rEGzU39pnAuI74UFy29YYClKXtIk65PHwXcQ
+         v9Wg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791884327; x=1792489127; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hjiBRpMUG3UtZRbPmQwOuJtx4+jqLwpDEaQOQPQts0M=;
+        b=fMRxOVnxfGiRtuHQ9si2tnCUNmkYVlpuZbNO4B59qRQJs2WZVkN7Hc4e9FI4NnP2LM
+         5x+bmnQHAe+kOpwNrB8QQChHXAExdMJWVwh8TMgelJmsK4lqhoZXUo0eAksT+Rh1gtIl
+         zzjIR48i0ZQle18ZwgutnUmgorlj10HKyXOTbOynbog+3XPnAlqaClZOKNxuyKNohRGc
+         /yGnP0zNrfL+QEPlLuWDACcB+IsrXCaJuNI8cfhJyQNPXyshX5xERUlvpZRShgJPORfg
+         QLLeVg3U7N2iiA+HblkOI2vjOsDOaFaGgmOoW2+tms4zWVO4qq6K8loph1sr0+XXsVL/
+         xsIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791884327; x=1792489127;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hjiBRpMUG3UtZRbPmQwOuJtx4+jqLwpDEaQOQPQts0M=;
+        b=LjMOt2ozVehDHMRyOrrDQX9z0fC5c/v+i56i1mYiAws5NL3UAqFRU5uDkqWTaXSbxg
+         nE4Ra2LbTXPLHvkW1171TYK4IQZNSxvABdNz37U9tbFjueqVIN/3gKaU0eJIfX4xD5zc
+         IIXraoPg4Pup2Tv+MUM489yy+j+3D24Fiw2llnKU474Bwq35atelQT5sJk466gGWizjk
+         S6TICDAVfnAdLl920lj/eu+98ofpr09rCXxMRXqd/5VKy2PK6AgSlDEbpe/Fi0OKY5jJ
+         YdzEhvPpWfGSVp91QXGWx2BHuE9qTBCX+Ce592fSvlQXslvNbUkpsnrDIimATSfpcG90
+         7IfA==
+X-Forwarded-Encrypted: i=1; AKwUvByAK+pF4g/0DTfrBnWLQD/9d/YK0vx0+MEB7AfyUf1TVX5IcO7PI3CaQWNzXb58beHKhLSRrVqWPEw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKbbRNjaP6qjQqmx/ZQeqjAc6DRHQcQgT+Z8MKZefG2EIBwKLHD
+	AVtrC3kZuKK7EHv3yyduMQVYKjXHh/DeHhY1UK0fjuaWsRXq5yHaCmWugoSd5zdWR3/ttGU/lxf
+	9blzQS70+0PeQ3BLHcNYu8F+B5nST11+XU0BUybhh
+X-Gm-Gg: AYBFou12bgwUe338QDuBVy6fVh1ni8Ia0r/e1ytmY40TKqLBT6WomlOZwS10wvtopmj
+	6wJ7rh/04T0ZmOX3ylSl0C7IzjhaWdtWREr+KBuCt+jsUNpphg5K0RisOE982I1ppfU8XKlIw/3
+	+S3kBN0cWW7143XZi2U0i7IovZdiA1w7ohDJERjRjvINsM1DSPQjFMtETaRXcTZgCf+ljDu/EYX
+	inItFa7prBKQ+QT09STQY3GbVgLsNpIwBZEUq8VOCKkmNq9UMHvnMSbQjvHxlsg8wyf55EaWZQi
+	KbU91rf0Nu/GXi5163aDwo5rxoCCnufoGH6+eHL1Ur7pNCU/j03sMmBpCmgrKZJjYuHNDx9VF8B
+	cP+QbIFAkBg==
+X-Received: by 2002:a05:7022:3c89:b0:164:4e36:f956 with SMTP id
+ a92af1059eb24-16a5dcf688emr13638519c88.16.1791884325804; Tue, 13 Oct 2026
+ 02:38:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261013002701.1957686-1-rjethwani@purestorage.com>
+References: <20261012134159.912183-1-elver@google.com> <20261012134159.912183-2-elver@google.com>
+In-Reply-To: <20261012134159.912183-2-elver@google.com>
+From: Alexander Potapenko <glider@google.com>
+Date: Tue, 13 Oct 2026 11:38:08 +0200
+X-Gm-Features: AclHuK_RWeXl8fcFHu9JpahURaqcaQuQAyqWtIrLMC7fvirHYIMspTeFsZ9obG8
+Message-ID: <CAG_fn=UbARgkMYOHY9kbqvkCEE532_wnkKkv50H-JkuKWtCe=g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] rust: kcsan: add KUnit test for data race detection
+To: Marco Elver <elver@google.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	=?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Asahi Lina <lina+kernel@asahilina.net>, 
+	Yury Norov <ynorov@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-2026-10-12, 18:27:01 -0600, Rishikesh Jethwani wrote:
-> A receive socket records sequence-number exhaustion only in sk_err.
-> After processing record UINT64_MAX, it advances the counter to zero and
-> reports EBADMSG, but SO_ERROR or sock_error() can clear that error.
-
-I vaguely remember a discussion around making some fatal errors more
-permanent (ie not use sk_err).
-
-> parser-ready record also bypasses the socket-error check in the record
-> wait. The receiver can then accept a record authenticated for sequence
-> zero under the same exhausted key.
-
-I guess, but what's the problem with wrapping as long as we don't
-reuse the same record number?
-
-> Getting there needs an initial record number installed close to the
-> limit, since 2^64 records cannot be exchanged in practice, and a peer
-> that sends the wrapped record, which the Linux TX path refuses to do.
-> 
-> Mark the RX key exhausted when its record number wraps, and refuse to
-> wait for or decrypt another record under it, or to replace the key.
-> Plaintext that is already decrypted can still be read. RFC 8446 lets a
-> sender retire a key with a KeyUpdate as its last record, so in that
-> case leave sk_err alone, report the pending key update as usual and
-> let the new TLS_RX key clear the mark.
-> 
-> Add fixed AES-GCM wire vectors and TLS 1.2/1.3 selftests for queued
-> wrapped records, SO_ERROR clearing, splice, peek, partial reads, TLS
-> 1.3 key replacement and a KeyUpdate in the last record. Every case
-> first verifies the penultimate record succeeds. The vectors avoid a
-> userspace crypto dependency and the TX path's refusal to generate the
-> maximum-number record.
-
-For 1.3, just do a "silent rekey" (change the key but don't send a
-keyupdate) on the TX side to record number 0 with the same key? And it
-should be enough to test this with just 1.3.
-
-> diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
-> index fbb274287aa5..63bef0153182 100644
-> --- a/net/tls/tls_main.c
-> +++ b/net/tls/tls_main.c
-> @@ -730,6 +730,15 @@ static int do_tls_setsockopt_conf(struct sock *sk, sockptr_t optval,
->  			conf = TLS_SW;
->  		}
->  	} else {
-> +		struct tls_sw_context_rx *rx_ctx = tls_sw_ctx_rx(ctx);
+> +        // SAFETY: `probe_console` has the signature expected by the `co=
+nsole` tracepoint. Being
+> +        // part of the kernel image, it and `OBSERVED` outlive the regis=
+tration, so there is no
+> +        // need to synchronize with in-flight probes after unregistering=
+.
+> +        to_result(unsafe {
+> +            bindings::tracepoint_probe_register(
+> +                &raw mut bindings::__tracepoint_console,
+> +                probe_console as *mut c_void,
+> +                ptr::null_mut(),
+> +            )
+> +        })?;
+> +        let _unregister =3D ScopeGuard::new(|| {
+> +            // SAFETY: The probe was registered above.
+> +            unsafe {
+> +                bindings::tracepoint_probe_unregister(
+> +                    &raw mut bindings::__tracepoint_console,
+> +                    probe_console as *mut c_void,
+> +                    ptr::null_mut(),
+> +                );
+> +            }
+> +        });
 > +
-> +		/* Only a KeyUpdate may follow the last record number */
-> +		if (update && rx_ctx->rec_seq_exhausted &&
-> +		    !rx_ctx->key_update_pending) {
+> +        let worker =3D ctx.clone();
+> +        workqueue::system_unbound().try_spawn(GFP_KERNEL, move || {
 
-I'm really confused by this.
+I ran this locally and got the following warning:
 
-> +			rc = -EBADMSG;
-> +			goto err_crypto_info;
-> +		}
+[  623.232012] workqueue: work func
+_RNvXsb_NtCskctMpSfuwL9_6kernel9workqueueINtNtCs1G77UTwpz6o_4core3pin3PinIN=
+tNtNtB7_5alloc4kbox3BoxINtB5_11ClosureWorkNCNvNtNtB7_10kcsan_test5tests9dat=
+a_races_0ENtNtB1d_9allocator7KmallocEEINtB5_15WorkItemPointerKy0_E3runB7_
+enqueued on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
+
+Do we need to use a different workqueue?
+
+
+> +            while !worker.stop.load(Relaxed) {
+> +                racy_inc();
+> +            }
+> +            worker.done.complete_all();
+> +        })?;
 > +
+> +        let start =3D Instant::<Monotonic>::now();
+> +        while !OBSERVED.load(Relaxed) && start.elapsed() < Delta::from_s=
+ecs(10) {
+> +            racy_inc();
+> +        }
+> +
+> +        ctx.stop.store(true, Relaxed);
+> +        ctx.done.wait_for_completion();
+> +        drop(_unregister);
+> +
+> +        assert!(OBSERVED.load(Relaxed));
+> +        Ok(())
+> +    }
+> +}
+> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> index 4d5c96ddc49c..009efda9e7a4 100644
+> --- a/rust/kernel/lib.rs
+> +++ b/rust/kernel/lib.rs
+> @@ -94,6 +94,8 @@
+>  pub mod iov;
+>  pub mod irq;
+>  pub mod jump_label;
+> +#[cfg(CONFIG_RUST_KCSAN_KUNIT_TEST)]
+> +mod kcsan_test;
+>  #[cfg(CONFIG_KUNIT)]
+>  pub mod kunit;
+>  pub mod list;
+> --
+> 2.56.0.385.gd3acb90ef8-goog
+>
 
--- 
-Sabrina
+
+--
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Liana Sebastian
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
