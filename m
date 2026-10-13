@@ -1,257 +1,134 @@
-Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5D3413230;
-	Tue, 13 Oct 2026 20:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07DE54529D;
+	Tue, 13 Oct 2026 20:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791922252; cv=none; b=QLvgId/VHAHFGHKlj5fM5crMzvXZkFvhffZsQTwwvuXG3LFx5jWmL7G0kCGlxdavVuEEcMlQBrwcsGbJHdb8e0NIYZ0YWEV+SPVh0RUexAKMInLa2ovuaq4iNOfKtlUb5jcZth6j9sUgV8gT99rWl2dmNG7vs4GOlPDl65yd4ro=
+	t=1791922594; cv=none; b=Do6aA6yLY0eZxFWzLJ8F7K7+MSnEZma0+GeQqf/ha18S/ov0j9GDE2h05HNEngU8rkrqAxGSbl3XSTFErDw0MOdGat5fB0td+tL2U3WX9nLG6oOIIhm1sjbaenBWFuQNiOC107jiG70SVC8QOZSnzGipW+aX6EBwJ3VAlN//E+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791922252; c=relaxed/simple;
-	bh=L5nwg9AGG8iiskY6UFxYgjhcR654OetOjN3sd7vZFJY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KqYSSTxjFM1lzchDao0+Dpt+9zYxzRtvMz9L7TTwXWrJRfqO5RW+xfoAAo1XsI/oqLYTvizfG7cEf9977AxgaCH4lhiAp44XjXKr37qbjuzRHJFrdSa2tnLn+1tw5RZbpN0KV2gT9MBI7lndq3TaHhO/tNiEiplqf7XdND+YSjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=bFAK7Oxg; arc=none smtp.client-ip=52.26.1.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1791922594; c=relaxed/simple;
+	bh=G9fzofN7cMi8sVJA0pNWiJAX0zQLQeRDou9I5f76JS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YjOQ8Do06skyqZwKlwGdTNti4jQuEZppLPis2X+UCLAAQkxTE7GPdEuCcHdXqlXzvEdXrYftvKEP//odzCbnh0AeoSGngx/Ikl2tA3mnTvG7BcSDdvEk+8gMwpuAAeJaQZbmoRnh6hs/ow7vW1wDR3I/iMgczQiujszcPRA2gUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OYGZ2ecJ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="bFAK7Oxg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1791922251; x=1823458251;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=TrpveSit1wEH+8j/24R1ws6bYbF85HVwGd6ZkiaCh1M=;
-  b=bFAK7OxgME27tzUILfJ29DgcQm/ZhO/yHAPhGEvJ1lF8/Zm/xx+eUt8U
-   KYAFIcqtIjKWcbaClhbDgIYDlNxAI/WM+FJHQYIf8GrGzFO0oUZr9LuCw
-   Ll4x5ZwMTUTfSBmgin9i3GBrf2jb1OzO7L3zPBwBshjMIOd2dyzXtyvaa
-   f5PTL+ONflmFgkZZEb17EZHZ3LxFCR8nNL1khiQQ63t5dhWpXCZUm4v/R
-   SweDF6dgsoaO7zUEtV9wq/AACZlWJ6mHNHH0ZX1ivC2EODZNCBoyxv4sM
-   vEzlukgU9eHo08N1kfVB9VOxnU9FDNRd5jSsDn4zGkvRIC1AZWstNt723
-   Q==;
-X-CSE-ConnectionGUID: 1qb2flQ2Sjy41jOsd611Ow==
-X-CSE-MsgGUID: 2LNNa7r/SHauFUaqF4BpDw==
-X-IronPort-AV: E=Sophos;i="6.27,156,1787011200"; 
-   d="scan'208";a="31206066"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 20:10:50 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:6737]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.1.91:2525] with esmtp (Farcaster)
- id 00a69108-e302-402a-b9c6-73e7cbc38a1e; Tue, 13 Oct 2026 20:10:50 +0000 (UTC)
-X-Farcaster-Flow-ID: 00a69108-e302-402a-b9c6-73e7cbc38a1e
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
- Tue, 13 Oct 2026 20:10:50 +0000
-Received: from dev-dsk-sunnfeng-2b-e0a170ae.us-west-2.amazon.com
- (10.189.116.242) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.53; Tue, 13 Oct 2026
- 20:10:49 +0000
-From: Sunny Feng <sunnfeng@amazon.com>
-To: Bjorn Helgaas <bhelgaas@google.com>, Mahesh J Salgaonkar
-	<mahesh@linux.ibm.com>
-CC: Oliver O'Halloran <oohall@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
-	<linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] PCI/AER: Add a kernel parameter to skip the reset during AER recovery
-Date: Tue, 13 Oct 2026 20:10:45 +0000
-Message-ID: <20261013201045.33806-1-sunnfeng@amazon.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OYGZ2ecJ"
+Received: from killaraus.ideasonboard.com (unknown [109.141.100.247])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 448301E4;
+	Tue, 13 Oct 2026 22:14:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1791922468;
+	bh=G9fzofN7cMi8sVJA0pNWiJAX0zQLQeRDou9I5f76JS4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OYGZ2ecJvqeimtJQBVQPcRHZUEa+GYjEbuHzovpzwJFJnUfTtjOTLB3WVQhJh/ztu
+	 83g/06kbzhURrpXcMw3hrwwl5a3c0OWDL76mhNg7JNzwAkFqKGa9ieNZDe/FVEUIVz
+	 i+AhPniw9aHe/fynHayWyXN7RKtBNOfcVloN89vM=
+Date: Tue, 13 Oct 2026 22:16:28 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
+	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+	skhan@linuxfoundation.org, rdunlap@infradead.org,
+	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Subject: Re: [PATCH] docs: remove Assisted-by references
+Message-ID: <20261013201628.GO4214@killaraus.ideasonboard.com>
+References: <asz9AeFe3CutP73z@gremlin>
+ <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin>
+ <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin>
+ <FAD7F1E6-5FE0-47F5-8D10-40473B39A2D8@kernel.org>
+ <907933931.787284.1791903485683@kpc.webmail.kpnmail.nl>
+ <202610131000.43AB316FBC@keescook>
+ <20261013174243.GC178151@killaraus.ideasonboard.com>
+ <202610131216.C841415F01@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWC001.ant.amazon.com (10.13.139.241) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202610131216.C841415F01@keescook>
 
-After an uncorrectable error, AER recovery resets the hierarchy below
-the Root Port in aer_root_reset() (a Secondary Bus Reset, or an FLR for
-an RCEC or RCiEP). Some devices keep diagnostic state, in the device
-itself or in the retimers on its link, that is lost by that reset. To
-root cause the error, that state needs to be collected before the
-device is reset.
+On Tue, Oct 13, 2026 at 12:25:03PM -0700, Kees Cook wrote:
+> On Tue, Oct 13, 2026 at 07:42:43PM +0200, Laurent Pinchart wrote:
+> > I'm increasingly thinking that the Mesa policy of requiring commit
+> > messages to be manually written (possibly with machine translation)
+> > could be applied to the kernel.
+> > 
+> > I've heard multiple people saying how using LLMs made them more
+> > productive, with an extreme example during the maintainer summit of
+> > Linus talking about doing in a couple of months what would have likely
+> > taken multiple years. The same people like to tell how they're in charge
+> > of the whole process, how they control the machine, and how they have a
+> > deep understanding of what they're doing. If that's the case, surely
+> > writing a commit message will not increase the development time back
+> > from a few months to a few years, the extra effort would be negligible.
+> > 
+> > Most commit messages generated by LLMs are quite easy to identify today.
+> > Requiring a human-written message would be a good way to quickly ignore
+> > patches submitted by meat proxies. And before anyone tells me this will
+> > change very soon with <insert employer's new model>, I'll say we will
+> > update our process when that happens.
+> 
+> I agree on the face of it, but it's just as unenforceable as the
+> Assisted-by tag was. :(
 
-Add a "pci=error_reset_disable=<pci_dev>[; ...]" kernel parameter,
-using the same device format as "disable_acs_redir". When a device
-below the Root Port matches, aer_root_reset() skips the reset, leaves
-the devices in the state the error left them in and reports the
-recovery as failed. The Root Error Status is still cleared and the
-Root Port interrupts re-enabled, so later errors are still reported.
-The diagnostics can then be collected before the devices are recovered.
+Perhaps, but I think that's missing the point. The SoB line is not
+enforceable either. Very few of our requirements and assumptions can be
+enforced. We're not telling people they can get backdoors merged in the
+kernel because we can't guarantee 100% that one won't sneak in.
 
-Signed-off-by: Sunny Feng <sunnfeng@amazon.com>
----
- .../admin-guide/kernel-parameters.txt         | 10 +++++
- drivers/pci/pci.c                             | 41 ++++++++++++++++++-
- drivers/pci/pci.h                             |  1 +
- drivers/pci/pcie/aer.c                        | 27 +++++++++++-
- 4 files changed, 77 insertions(+), 2 deletions(-)
+What this is about is setting our expectations, telling what we want and
+what we don't want. There's still value in that, and I'd argue there's
+even more value now. There will be people who won't care, there will be
+people who cheat. We've always had those, we'll keep having them, and
+we'll keep rejecting their contributions. I really don't get the
+unenforceable argument here.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 68647ff4bdd2..eac6f72dcc2a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5329,6 +5329,16 @@ Kernel parameters
- 
- 				Note: this may remove isolation between devices
- 				and may put more devices in an IOMMU group.
-+		error_reset_disable=<pci_dev>[; ...]
-+				Specify one or more PCI devices (in the format
-+				specified above) separated by semicolons.
-+				AER recovery does not reset a hierarchy that
-+				contains one of these devices after an
-+				uncorrectable error. Recovery is not attempted:
-+				the devices are left in the state the error
-+				left them in and are reported as failed, so
-+				their diagnostics can be collected before they
-+				are recovered.
- 		force_floating	[S390] Force usage of floating interrupts.
- 		nomio		[S390] Do not use MIO instructions.
- 		norid		[S390] ignore the RID field and force use of
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index c5ed5da9cdc8..2b4a06f3a38e 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -901,6 +901,41 @@ void pci_request_acs(void)
- 
- static const char *disable_acs_redir_param;
- static const char *config_acs_param;
-+static const char *error_reset_disable_param;
-+
-+/**
-+ * pci_error_reset_disabled - should AER recovery leave a device unreset
-+ * @dev: the PCI device to test
-+ *
-+ * Returns true if @dev is listed in the "pci=error_reset_disable=" kernel
-+ * parameter, in which case AER recovery must not reset the hierarchy
-+ * that contains it.
-+ */
-+bool pci_error_reset_disabled(struct pci_dev *dev)
-+{
-+	const char *p = error_reset_disable_param;
-+	int ret;
-+
-+	if (!p)
-+		return false;
-+
-+	while (*p) {
-+		ret = pci_dev_str_match(dev, p, &p);
-+		if (ret < 0) {
-+			pr_info_once("PCI: Can't parse error_reset_disable parameter: %s\n",
-+				     error_reset_disable_param);
-+			return false;
-+		} else if (ret == 1) {
-+			return true;
-+		}
-+
-+		if (*p != ';' && *p != ',')
-+			return false;
-+		p++;
-+	}
-+
-+	return false;
-+}
- 
- struct pci_acs {
- 	u16 ctrl;
-@@ -6883,6 +6918,8 @@ static int __init pci_setup(char *str)
- 				disable_acs_redir_param = str + 18;
- 			} else if (!strncmp(str, "config_acs=", 11)) {
- 				config_acs_param = str + 11;
-+			} else if (!strncmp(str, "error_reset_disable=", 20)) {
-+				error_reset_disable_param = str + 20;
- 			} else {
- 				pr_err("PCI: Unknown option `%s'\n", str);
- 			}
-@@ -6894,7 +6931,8 @@ static int __init pci_setup(char *str)
- early_param("pci", pci_setup);
- 
- /*
-- * 'resource_alignment_param' and 'disable_acs_redir_param' are initialized
-+ * 'resource_alignment_param', 'disable_acs_redir_param' and
-+ * 'error_reset_disable_param' are initialized
-  * in pci_setup(), above, to point to data in the __initdata section which
-  * will be freed after the init sequence is complete. We can't allocate memory
-  * in pci_setup() because some architectures do not have any memory allocation
-@@ -6908,6 +6946,7 @@ static int __init pci_realloc_setup_params(void)
- 					   GFP_KERNEL);
- 	disable_acs_redir_param = kstrdup(disable_acs_redir_param, GFP_KERNEL);
- 	config_acs_param = kstrdup(config_acs_param, GFP_KERNEL);
-+	error_reset_disable_param = kstrdup(error_reset_disable_param, GFP_KERNEL);
- 
- 	return 0;
- }
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index a002fe1a3f4c..364c99e1a6a1 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -244,6 +244,7 @@ bool pci_reset_supported(struct pci_dev *dev);
- void pci_init_reset_methods(struct pci_dev *dev);
- int pci_bridge_secondary_bus_reset(struct pci_dev *dev);
- int pci_bus_error_reset(struct pci_dev *dev);
-+bool pci_error_reset_disabled(struct pci_dev *dev);
- int pci_try_reset_bridge(struct pci_dev *bridge);
- 
- struct pci_cap_saved_data {
-diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-index c376c3adbefd..1f403f0f5d25 100644
---- a/drivers/pci/pcie/aer.c
-+++ b/drivers/pci/pcie/aer.c
-@@ -1837,6 +1837,16 @@ static int aer_resume(struct pcie_device *dev)
- 	return 0;
- }
- 
-+/* pci_walk_bus() callback; returns 0 so the walk visits every device */
-+static int aer_check_error_reset_disabled(struct pci_dev *dev, void *data)
-+{
-+	bool *disabled = data;
-+
-+	if (pci_error_reset_disabled(dev))
-+		*disabled = true;
-+	return 0;
-+}
-+
- /**
-  * aer_root_reset - reset Root Port hierarchy, RCEC, or RCiEP
-  * @dev: pointer to Root Port, RCEC, or RCiEP
-@@ -1849,6 +1859,7 @@ static pci_ers_result_t aer_root_reset(struct pci_dev *dev)
- 	struct pci_dev *root;
- 	int aer;
- 	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
-+	bool reset_disabled = false;
- 	u32 reg32;
- 	int rc;
- 
-@@ -1872,7 +1883,21 @@ static pci_ers_result_t aer_root_reset(struct pci_dev *dev)
- 	if (host->native_aer && aer)
- 		aer_disable_irq(root);
- 
--	if (type == PCI_EXP_TYPE_RC_EC || type == PCI_EXP_TYPE_RC_END) {
-+	/*
-+	 * Leave the devices in the state the error left them in if one of
-+	 * them is listed in the error_reset_disable parameter, so their
-+	 * diagnostics can be collected before they are recovered.
-+	 */
-+	if (dev->subordinate)
-+		pci_walk_bus(dev->subordinate, aer_check_error_reset_disabled,
-+			     &reset_disabled);
-+	else
-+		aer_check_error_reset_disabled(dev, &reset_disabled);
-+
-+	if (reset_disabled) {
-+		rc = -ECANCELED;
-+		pci_info(dev, "not reset, error_reset_disable matches a device below\n");
-+	} else if (type == PCI_EXP_TYPE_RC_EC || type == PCI_EXP_TYPE_RC_END) {
- 		rc = pcie_reset_flr(dev, PCI_RESET_DO_RESET);
- 		if (!rc)
- 			pci_info(dev, "has been reset\n");
+> My own recent commit logs are, like the code, a
+> combination of work from me and the LLM. I trim and edit and reorganize
+> and add/remove stuff all the time (code or commit log). And all the
+> while, tweaking its rules for how to write prose, so I do less and less
+> editing. (And maybe my commit logs are now too verbose? I'm not sure;
+> I've regularly been told I was too terse before, so hopefully there will
+> be a balance found.)
 
-base-commit: 573bbee68354c1a3566b6451d5477416c3be9462
+What would be your issue with writing commit messages manually ?
+
+> And as far as spotting this kind of thing, I've already failed the
+> Reverse Turing Test[1], where I thought some of Lorenzo's (justifiably)
+> verbose commit logs were all LLM generated, so the inflection point for
+> clearly distinguishing is here or fast approaching.
+
+Again, we're not aiming for 100% accuracy, we've never considered that
+goal reachable, LLMs or not.
+
+> -Kees
+> 
+> [1] https://lore.kernel.org/all/202609150943.000EC9277@keescook/
+
 -- 
-2.47.3
+Regards,
 
+Laurent Pinchart
