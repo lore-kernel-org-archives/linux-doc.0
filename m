@@ -1,100 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDE94E3231
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 13:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99959217F27
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 13:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791898550; cv=none; b=TQzvRCVHIVMi+mDxUx2f6sR9k1ANp0wqflL2VAGZeFkaK59NwYfHXREzpJMCZK16IzX/UCJvjpegh4sLCNpIGhuMhpjL/NFFyD1zMbOS9IF/cxmazWi76w4G4qspodk15Qi0NT1kApEt0F6A2vUZdZPoUBkS4FrOWWCzjxr7op8=
+	t=1791898749; cv=none; b=mj7vygWD+OSEnrWG8jFQDDo4amyGqR0V6ZjRltoi8QQwjux3rBsoxNmCy8gNlyCMLBEJ8pmN4Qbr9tPkqWOpvwUpCcJ3yHfM+2aGEquILmN97gfhl5ZYvg/D1lAagzjHdG7TGIESPys622+Xjc7XpjJxftq1Q3zg1sYMo5betm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791898550; c=relaxed/simple;
-	bh=OQreSMZcizUiDdYivY39+NvIk9xrh+GNkFREYZHeZBA=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CZ+TMbVheYoZmh8y++MY7PFj0ogXMbKqzTpwzOrReNqtLPazRIdrmsmnvpZGbJPz6HRQDD/GFQUoqBqe23gVWrDpTpCk7WGQuCYVqHWI3VdtGcT41wilMEWXGHx9j7a/E3FPfQNle7D/kYHN2prVHb0VdX+LqphLQdB/ilRgwLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iAXWEmq4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791898749; c=relaxed/simple;
+	bh=Xibk7ZZrjCGxgBVlBWwqQKg2NMbn7mu9H6vK4Z+5BTo=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=jJpdt7ipisNncIQ8KqQUwloEVy9itErmkdT0up1Utjv/PqMhWiui/Z06sex5Si6J7DWZcFUfWmAFGid3SpxRIgAWmeQCAygyHBbKedWgS2P0m4N9BvJKoS/t6YmJl45sR8FCQjfFxuV+3TmPTzq8BnCnuDcCcQBOIT1xbghMe2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=CVoXSJgX; arc=none smtp.client-ip=195.121.94.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iAXWEmq4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72BBF1F008A4
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 13:35:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791898549;
-	bh=OQreSMZcizUiDdYivY39+NvIk9xrh+GNkFREYZHeZBA=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=iAXWEmq4fOp7iufBpwIRZp8Q/oZpUVrRQ9UZAUOeJiGuV6c0h3Ya8Mafdcgz/drBa
-	 22bRmdygV4uvvsyHt0c5TsL5UyDeBDSWTA6TffIBd4GmeP4ZhhuAjoHrOB7xbcPYcE
-	 eoer6fEuWwR+I3HwV7IYrbg1Zgk1UxpOmTG3QRpwzujN7EFQPWPvTXpPiT1lNXAiBE
-	 hoMnegD3N3xcSwmRI8TwiMKXxMx/UIE0rNMY8H3yf3NWdENi0IVdzd4e3HyHCp7gc3
-	 gjdMTtPsnpIs3DeS9M5ERUkyUmwN/FsE2Y+3kaoo81X3uKLRLnFvlEKeZTtvzUr8U0
-	 9N9CW0WGoUB8g==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3a7754c2471so25618181fa.2
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 06:35:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByihM/RMNPTusUc052PnIlzhJPKiR9ZKWsoMF4pUvwHtAU3dNAw7HGQIAA/WFAoxBzAHJFj8ln+86E=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL10FMrU3K6PtRKa0wXdW1xqOPJCeYR7c5kx7ghDENJMci3Y8Wg
-	OCsDna6dj7PT+GtVcuElrTgL52gcOuOmeeaeAg4K/SXBQf0xx3SEsUOR31APGn4zeqgJCbSIBbc
-	4zrFh+lO7TLUz5rXDg0Hj/CpHxpkBThnmr/X7s5rjjA==
-X-Received: by 2002:a05:6512:3f21:b0:5ba:4472:75d4 with SMTP id
- 2adb3069b0e04-5bcde6afa8cmr4940944e87.10.1791898548042; Tue, 13 Oct 2026
- 06:35:48 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 13 Oct 2026 09:35:43 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 13 Oct 2026 09:35:43 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <as4tep73cAI57Yk7@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="CVoXSJgX"
+X-KPN-MessageId: 4bdb38dd-c70b-11f1-8f57-005056992ed3
+Received: from mta.kpnmail.nl (unknown [10.31.161.190])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 4bdb38dd-c70b-11f1-8f57-005056992ed3;
+	Tue, 13 Oct 2026 15:37:55 +0200 (CEST)
+Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.189])
+	by mta.kpnmail.nl (Halon) with ESMTP
+	id 4bda04b6-c70b-11f1-b419-0050569977a2;
+	Tue, 13 Oct 2026 15:37:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=content-type:mime-version:subject:message-id:to:from:date;
+	bh=Z8yTwcTSluWZJY5ZBYBe2zIFDAQkmy5cR5V2a6VW3TA=;
+	b=CVoXSJgXLqX6kd9Ud2YpuOm/03GVxPUP0DlmfwHP+o0BCtrXrn4+VylSPFBbLL8gUDelfLmNJqYRe
+	 NG/z6H3YJxOGr/JuB6Cu+2kIStGT4sVW3grllcYSM9TEFJUMtdPVkQnJB6BBFJFmH4OJl+02qACbBV
+	 S0BLsKcZKUC9iA3Rr02dC9kBGXEFtzRKRKRA8Tx/Z/pXXz8Q8JsKtMvlPF/9P70fStMfbrxaXdneTY
+	 42cPMkNfrqdqkpXCEZnAGmigaWc8/d01OD1gcqBSEjyEwgsd5PV+FeBzaZSvBkurgDW2Cjw0lkkmbF
+	 4EMUqZKqMcGHYlbcHFrnIYnBrwI2C0Q==
+X-KPN-MID: 33|l8c3Ci0Mj6eVISZaXjsuexY9LszYX48mW+j2ZaJc8WBwGL9Q6QRdrEG+3XTjKZl
+ beBCdHagj4obboENe5zUK7WNMrCF6kKy69RE0d6nutec=
+X-CMASSUN: 33|VJawk7Wq0cGHKte5wFwkW2BUeGyb6UDcdZXyz48i9vDi0IVhSUHJuHVBrQWOJlR
+ lFiFqaQ9rdLg8kf20nVedNw==
+X-KPN-VerifiedSender: Yes
+Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
+	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
+	id 4bc3b32e-c70b-11f1-8edd-00505699eff2;
+	Tue, 13 Oct 2026 15:37:55 +0200 (CEST)
+Date: Tue, 13 Oct 2026 15:37:55 +0200 (CEST)
+From: Jori Koolstra <jkoolstra@xs4all.nl>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Brian Foster <bfoster@redhat.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
+	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>
+Message-ID: <1955936841.795627.1791898675484@kpc.webmail.kpnmail.nl>
+In-Reply-To: <as4xMnT8a75pIw9v@gremlin>
+References: <20261009083137.3-1-sashal@kernel.org>
+ <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
+ <asz9AeFe3CutP73z@gremlin>
+ <20261013123132.GC4214@killaraus.ideasonboard.com>
+ <as4pAEnLd4H68W4W@gremlin>
+ <20261013131243.GM56180@killaraus.ideasonboard.com>
+ <as4xMnT8a75pIw9v@gremlin>
+Subject: Re: [PATCH] docs: remove Assisted-by references
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260715185112.1323510-1-andriy.shevchenko@linux.intel.com>
- <CAD++jL=prd1KDZQawqsRmW3qp1-cJ=18-yhp861CQirOOjE5Ag@mail.gmail.com> <as4tep73cAI57Yk7@ashevche-desk.local>
-Date: Tue, 13 Oct 2026 09:35:43 -0400
-X-Gmail-Original-Message-ID: <CAMRc=Mcc2b2Z0zrkNQ80NpV-H1MsihgeNtPD5dD5g9xcbiLg4w@mail.gmail.com>
-X-Gm-Features: AclHuK8ITRAMzeZzyYNFuZDUAjI2-0MeXgfOXBannT48q8bMwCyFujpuburhehY
-Message-ID: <CAMRc=Mcc2b2Z0zrkNQ80NpV-H1MsihgeNtPD5dD5g9xcbiLg4w@mail.gmail.com>
-Subject: Re: [PATCH v1 0/7] gpiolib: kill gpio_request_one()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Linus Walleij <linusw@kernel.org>, Bradford Love <brad@nextdimension.cc>, linux-gpio@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-media@vger.kernel.org, Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Russell King <linux@armlinux.org.uk>, 
-	Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
 
-On Tue, 13 Oct 2026 15:09:14 +0200, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> said:
-> On Fri, Jul 24, 2026 at 11:40:59PM +0200, Linus Walleij wrote:
->> On Wed, Jul 15, 2026 at 8:51=E2=80=AFPM Andy Shevchenko
->> <andriy.shevchenko@linux.intel.com> wrote:
->>
->> > This is the finilazation of the work announced in the commit 61e1fd2ab=
-ca4
->> > ("gpiolib: legacy: Make sure we kill gpio_request_one() first"). With =
-this
->> > small series we kill gpio_request_one() and leave only two legacy call=
-s
->> > devm_gpio_request_one() and gpio_request(), where the managed one has =
-only
->> > a few users and high chances to be killed soon as well.
->> >
->> > The series is supposed to go via GPIO tree (due to nature of the last =
-patch)
->> > with possible immutable branch for others. Please, ack.
->>
->> The kernel is clearly a better place after these patches than before it,=
- so:
->> Reviewed-by: Linus Walleij <linusw@kernel.org>
->
-> Thanks!
-> Bart, anything needs to be done for this series to go in?
->
 
-We don't have Acks from MIPS maintainers. :(
+> Op 13-10-2026 15:29 CEST schreef Lorenzo Stoakes (ARM) <ljs@kernel.org>:
+> 
+>  
+> On Tue, Oct 13, 2026 at 03:12:43PM +0200, Laurent Pinchart wrote:
+> > On Tue, Oct 13, 2026 at 01:59:33PM +0100, Lorenzo Stoakes (ARM) wrote:
+> 
+> > > Ignoring is the only workable long-term solution.
+> >
+> > How do you decide which patches to ignore ?
+> 
+> Anything that looks schloppy. ATM it's very easy to tell.
+> 
+> In future it will be newcomers who do anything but the most trivial work. Or
+> they will at least be super-deprioritised.
+> 
+> Yes there will be collateral damage, but it's that or no more open source (we're
+> not the only ones going through this!)
+> 
 
-Bart
+This is the tragedy of things, and LLMs have made it much much worse. I am
+sure that in today's world Hardy would have missed Ramanujan. I find it
+distasteful and wish it were not like this, but it is better to spend energy
+on looking at what we can do, instead of wishing it wasn't so.
+
+> --
+> Cheers, Lorenzo
