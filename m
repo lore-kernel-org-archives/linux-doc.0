@@ -1,90 +1,91 @@
-Received: from va-1-115.ptr.blmpb.com (va-1-115.ptr.blmpb.com [209.127.230.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4255B476CEE
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 03:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECBF47F3CF;
+	Tue, 13 Oct 2026 03:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791861250; cv=none; b=Dd4/g2uMebDc0MMiHIK7bk64PQObI0rwlDfQBWkM0Mq+X/M6SupbmxLhdPzRZOP7qxz+7ENLF8NrzFyTN88vOIp6jHcGRVM9eELnHchD2OR3lFjaYoz+9tcS8W/MMdT7s4du4ODjF+pF1xu1VarPS1pqQrPzSqyA6xz4dCB9eS8=
+	t=1791863331; cv=none; b=G4qbkxSRLjAcZkOro99jIk2OcRD+XnKNIMFYaPNszD/bCP3iVo/96Mkd5Gg0pubAKvv9VWIfW+etL6hX57o/7vLaxZ6zrYNKFCkpdL1L8FyjRuLAVq49x3HOTw4LQBu4JP5gjl3smSOh06lbN5zm3mFH9//E6b4xA/CWdgoAHeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791861250; c=relaxed/simple;
-	bh=22LjuzCketjlkzgPm8qMqIEkXwfSP3UnBaL4SB50h+A=;
-	h=Mime-Version:Content-Type:Cc:Subject:Message-Id:In-Reply-To:To:
-	 From:Date:References; b=Y9RF8rJHTHc0QRriJ9r7LT+xFpikmSATA7GWTjj2j5lT0z9PDA1TooHvmpTI/bdDez3CfcZMjdU8RMfaLrpRtebtddaLmx8SOAg0aBC8HKgEwS26of5KnDggE0vLYNSEeuV6pM/FY/gN9r5nXFi60rir33mgj2CEUxHUAG8gutE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=fjitPJwM; arc=none smtp.client-ip=209.127.230.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1791863331; c=relaxed/simple;
+	bh=JcwwFdubjAuED0BflqpGNaarAgz/XSPFMNuF6gdyhqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eVt+RlM+LIwrPDBQf4mvAPiRJP9A6rh6iVTNZHHxL2d80nlnpYdnH07H2KSF8XbeeF6rHTWF+O7sfBokR+ccS2CNCQE1xmOPabTfS2KvjnJEwcpPww8FXC8+sR0Tmrmhs5BTR+mrqOZvFvasmWnEkQCv4SCPCREjPgplrTCnPEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D95J9WKE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="fjitPJwM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1791861243; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=22LjuzCketjlkzgPm8qMqIEkXwfSP3UnBaL4SB50h+A=;
- b=fjitPJwMGer1CFveE8wAMhQdtPxqz/bPkZL/xLGwoOLVN37NdPJcwR9D7X+e1Reyy32Q64
- 2tbrAcFTULrWKrcl41V9uFua51pLxXgxoYAxpovVWYBUt/OQ0EobOnsV+5FIkP8a1YbbPC
- tcMnqWJn61XtUjcf0Qd6pXW+eHQxT8Abl6JSIq8vt2CVxF5156Pk7E9+ONSxn/+0Z475GY
- PLjWEW3wS5+jUP+cZ1BWY4UjYxKf7zIepHKWVsbSxScgqS6kWKNXOaCw1e30AJlOh5erg/
- THknBh9GFjelc5K0KK+DdApXuLhgUtEd5e5YPlRBt/qBoX5IF6EA3D0vqwcYxQ==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D95J9WKE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F491F000FF;
+	Tue, 13 Oct 2026 03:48:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791863329;
+	bh=Gr68N5Yl3I741vmeAmNStLekMikbH3dgfcoR17xQsIU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=D95J9WKE3Uf43j5UiQBW/cK8Z7qjhItXmZ3caym8pge7R/DXS1mU14xH1my12eJD4
+	 lHr49nWApaljg+yObwUr9cylJiR5LF9guCkreEqK7fS7PM2d3rM5h2gzMlUMlRBxbC
+	 ldFFlIkQ9YAINRzG7T/aOHmqRtzYjcebH/sdl/AkaKTDcitrY746zk4JtHCYFAVH8S
+	 mxSnh04UkjmA+84orfAHkOi/2xAzuemgGqhX7AbnMUmE8mFiCtdfw7rKbjYJKCRuuU
+	 AGGJ0zGPporQzxXvfsyRXO0+WXGWHrA0q6kNV8lkyh9McFwVmfYZWPnsSgnBiASSln
+	 LAp+zOIU2xe2w==
+Date: Mon, 12 Oct 2026 20:48:48 -0700
+From: Kees Cook <kees@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Sasha Levin <sashal@kernel.org>, workflows@vger.kernel.org,
+	ksummit@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mark Brown <broonie@kernel.org>, Theodore Ts'o <tytso@mit.edu>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	"Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v2 0/5] agents: add skills for Fixes tags, stable tags,
+ similar bugs, and commit messages
+Message-ID: <202610122047.A9E381A@keescook>
+References: <20261012213452.1863248-1-sashal@kernel.org>
+ <87zewiy1sd.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Lms-Return-Path: <lba+26acda1f9+cc0e18+vger.kernel.org+lizhe.67@bytedance.com>
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Cc: <Liam.Howlett@oracle.com>, <akpm@linux-foundation.org>, 
-	<aubrey.li@intel.com>, <bsegall@google.com>, <corbet@lwn.net>, 
-	<daniel.m.jordan@oracle.com>, <jannh@google.com>, 
-	<juri.lelli@redhat.com>, <libo.chen@oracle.com>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>, <lorenzo.stoakes@oracle.com>, <mgorman@suse.de>, 
-	<mingo@redhat.com>, <pauld@redhat.com>, <peterz@infradead.org>, 
-	<pfalcato@suse.de>, <shakeel.butt@linux.dev>, <tim.c.chen@intel.com>, 
-	<tj@kernel.org>, <vbabka@suse.cz>, <vschneid@redhat.com>, 
-	<ying.huang@linux.alibaba.com>, <yu.c.chen@intel.com>
-Subject: Re: [PATCH v2] sched/numa: Introduce per cgroup numa balance control
-Message-Id: <20261013031333.10208-1-lizhe.67@bytedance.com>
-In-Reply-To: <ldyynnd3ngxnu3bie7ezuavewshgfepro5kjids6cuxy4imzy5@nt5id7nj5kt7>
-To: <mkoutny@suse.com>
-From: "Li Zhe" <lizhe.67@bytedance.com>
-Date: Tue, 13 Oct 2026 11:13:33 +0800
-References: <ldyynnd3ngxnu3bie7ezuavewshgfepro5kjids6cuxy4imzy5@nt5id7nj5kt7>
-X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87zewiy1sd.fsf@trenco.lwn.net>
 
-On Wed, 25 Jun 2025 12:19:35 +0000, mkoutny@suse.com wrote:
-> The balancing works with task granularity already and this new attribute
-> is not much of a resource to control.
-> Have you considered a per-task attribute? (sched_setattr(), prctl() or
-> similar) That one could be inherited and respective cgroups would be
-> seeded with a process with intended values. And cpuset could be
-> traditionally used to restrict the scope of balancing of such tasks.
->
-> WDYT?
+On Mon, Oct 12, 2026 at 04:47:14PM -0600, Jonathan Corbet wrote:
+> Sasha Levin <sashal@kernel.org> writes:
+> 
+> > At the Maintainers Summit, Ted asked whether the stable trees have a way
+> > to deal with incorrect Fixes tags. Hannes estimated that 15-20% of them
+> > are wrong, often because the author ran git blame and took the first
+> > commit that touched the line [1]. We use LLM workflows to find the
+> > commit that actually introduced a bug, and others asked us to share
+> > them.
+> >
+> > This series adds them as agent skills under agents/skills/, together
+> > with a skill for writing commit messages:
+> 
+> Time to argue for a more fuchsia shade of mauve without actually getting
+> into the substance of what you're doing...:)
+> 
+> I wonder about the top-level agents/ directory.  If we regard this
+> material as documentation, perhaps the "skills" should go there too?  As
+> readable text, they might just help to improve human skills as well,
+> assuming we think we still need those.  Under Documentation, they could
+> be built into the rendered docs and made more widely available.
+> 
+> Otherwise, if this is primarily a development tool, perhaps under tools/
+> makes sense?
+> 
+> I lack strong opinions here, but figured I would ask the question.
 
-Following this direction, I posted a per-process/thread-group prctl()
-series for automatic NUMA balancing control:
+I was expecting this to appear under Documentation/. The agents are
+designed to read human text, so let's make it at least passingly
+sensible for humans to read too. :)
 
-https://lore.kernel.org/all/20260908122446.56708-1-lizhe.67@bytedance.com/
-
-The series keeps kernel.numa_balancing as the global hard-off switch and
-uses a weak two-state process setting: disable to opt out, enable to
-allow participation when the global sysctl and memory policy allow it.
-The configured mode is stored in signal_struct, so CLONE_THREAD threads
-share it, fork inherits it, and exec preserves it. cpuset and memory
-policy still define the placement domain and VMA eligibility.
-
-This is intended to cover the use case raised in this thread without
-adding a cgroup-local NUMA balancing resource knob. Could you please have
-a look and let me know whether this matches the direction you had in
-mind, or whether you would prefer a different ABI such as sched_setattr()?
-
-If the direction looks acceptable, I would also appreciate guidance on
-whether the current series has any remaining blockers for being picked
-up.
-
-Thanks,
-Zhe
+-- 
+Kees Cook
