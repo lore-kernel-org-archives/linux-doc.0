@@ -1,129 +1,163 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6CF2BCF4C
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 01:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791855914; cv=pass; b=AIJSV0D1/Jj1ojVqg5LD2tIjXSCTSyOJRRaOEDd7aJWTonq/Vxw05AWAP1r/Ne4WzhzmBF07NRYVl0ardIAD6q5E8oiGk1UTYRj/sSjWhzAvtZXE8P8DykwAcMB4dmG227/JVEdRNmYVYSU1H5cROmrXOx53Lt/0xq30N2FbeqU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791855914; c=relaxed/simple;
-	bh=cz+gED3n3VMR1ENKlJ+1/sgawu/JrM1+H8MqpXBZQP4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AJd2HH2A5701jqNA3hB3mIcWd2emTDnIUWWFgntuZLmNcw8xSJqrbOiepZsylX2B5FfgVfK7s+8G0ud0IfTTtNyVJ12n2s3FWyFCfnXvB7R0xK+5sY589PYZFzGd396h80G1Ul4F8uPe9k/MHJSNBUHFhyf8LXA1NyLJO+ZEdC8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dXsEqth1; arc=pass smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7744C3C108D
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 02:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791857081; cv=none; b=GtMFYiwyDd93U4mhs3KPIyateYP7e0FdggOx0l8b2/cZKTdNnr6xXIM9yRgFit3FZkSv4tAH20fbEBNW9FUX7+wwNvhQKbpPwskp99JjDqwnVVDanbpS94yi0PvtqgGCemZF0l4gGUdqP6A2Aulm7fRCBiU6PER1osRdKoPCQV0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791857081; c=relaxed/simple;
+	bh=oATe/xxxHzH49/OQqmRsmMYhqHwx9MSd6ebsr9VOjqg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=eVlHanfQtbgf8AT4ow515IvuqEbOlhe7UvPIVrXzuaK1zBNCqhabNs+HB6AoRZuHmFNtLRZ1lHppfe4PFm1a2O0z9WFfeYzzlZP5NzHa0xfvrLPq2z/Ov637GCT5VGOzzcy/KyqD8WwFJ7YmBCMnv20F3x9MjfGPJ63Ewvv4MQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M3l0JufC; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dXsEqth1"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5351e6a2230so23640151cf.3
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 18:45:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791855911; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ljUavtrgkXhgEOLZ3tVe5b26ahGKdY+68xWMeb1aoPkswG2ovHDKsoXOXnpiqgKlho
-         D42aKwXEzB9NHWdGW74UwLgI3y8r9zZZdCIdu4eHyOTj9ha4dJbSfQt1YS7xXtqcwTRm
-         paUrKnqUDf+sb8bVlL3TOFZ99anKQcF1x/FsExyncgnwI0DSoTaUztyQdOX+yYQxW770
-         ddnqm0RrrRfiz3GRPZB7HoQ/O+/U9WbBL7/CX8b+7mZRRmaDZZtjuUa1W3d/kjVwaYaC
-         BXD1VrVIxCXmnjTeOwIdxwTkLkWpEP01VOtUT9zNQwcO45uIynfWlgAQbqAd6ZRSc/G1
-         76+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=cz+gED3n3VMR1ENKlJ+1/sgawu/JrM1+H8MqpXBZQP4=;
-        fh=PgttDRi4jzFIeGMNh54UMNt4+Z7HU+ff+EoFoGNRmHA=;
-        b=I3f0oJXp510/ULH9nu0fVn6+cDKPfR8NAnMxDIlSryJZn4KbcEREvJi6Hi/4hBf2H7
-         NiuFkJg6vuaOcspBY4vdHC2JKQCdyRwrvgrNzB3xDLacqG36zve4V3kc2CODBAH88e6I
-         GoWbjy6TlOi6s/nhKlnc41rLplZLYpzQ2udB98XZ2DxEgbm6eQMl6HB/aA/hTJYemNSi
-         pokORozhhWC9jw+PZorFV3GiahfEQRCbaE2PLbsepHYhkHq4GCphymZ7a5G6LLKmc3Sg
-         3VUwJrvEq0F3FSgh4dTcSB3K/Pj+7h5UeS6Zg8hgmrAU0PZhlP6SpawFc5wkyz9tS1H4
-         l5vg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M3l0JufC"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-cc52c1b8286so1281404a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 19:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791855911; x=1792460711; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cz+gED3n3VMR1ENKlJ+1/sgawu/JrM1+H8MqpXBZQP4=;
-        b=dXsEqth1P9jLVPPBygKZYVsdWxVsgJ001QvH6xJILCjdlHJNtXXFmUrPWXnAoaYPKf
-         2YaADamCfb47RAK/+GZ5046cFz9FJJpDnLJkI9it/4Hq3rdXleE7Hxrl/O75O0aL68CY
-         CcrmyphYhMN1nt6zk/rGRSdSOYgqW5fJK+YH8pY6JLdO/XMUNf06xVM9b1dvExYXqQ/2
-         3bqQxG5m06URnmTFSCqEPcyziNcgwqLJfg6ayLpJ/z2JHxdF9KE7gcNPeWzmfheCD1Gp
-         5mFlgszfUEdoVWbKZhQsP7WZsBQjnDTSjdR4BpWsN/47562yAJyrA1dDNr0BETOLfzg7
-         CVvg==
+        d=gmail.com; s=20251104; t=1791857080; x=1792461880; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3UKeflbCZ+vlTZlszfvtV7zcKynCF0qJdVDrDvGRXCc=;
+        b=M3l0JufC0pIt1aBGeAFZ3NUfc0uQsj3qO/TnKDAF9tQb21bckvHtNnpPpYB/a4WEFG
+         DgQSyaHfAK/guAkzKRrRbQKjeupwGoC5cOV6hAlHvYKLYHkoH39EnY/ciAXEAriNAqyD
+         TB+iiyG4cewE4fh+qfCziXN35z1fEzRyKuesgo+SolKO0h1CMpXOnleaChNhTdoyytFR
+         3GpjH5Kw4cRheD0xk9X+p7l7j3khnYX85xwS6nU8MmqYmBAFEFofjk/Bw1fRSiZhlFfZ
+         3JHq1HjYu64fRvzpyPok4DQOjsF/ECdfgBhufrAfUtHOxYlaZV1RxaHTMs9YKGbWaDXg
+         Y0GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791855911; x=1792460711;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cz+gED3n3VMR1ENKlJ+1/sgawu/JrM1+H8MqpXBZQP4=;
-        b=iNngoZ7qZLpqTTuZBy8UQsTTyOPgfSCzzFXtkYTFYMSkE5KvtplDrDb5m1MfWUG2Ea
-         UmSycHVzKRakCI0sRxdVYZD7ePaAaGok8TDWv2urWEQe4FNPDxfR+Y5RzJFD0ugD4xrn
-         TyEoDmS50i/I5nlqbb/f/p5OfgMGZ1xzLNTmHAcfqap5tpRSU3Ipb9iCBbH/G8OmVk+H
-         phQIIWwavcRkMGpy0EIGr6ADH4tx9KgNUTlGsPVk8kxbwJIMXqNLMOv5cHYJwyE1f6rV
-         K1mF0E6LgPL859uQSDAmwH7o3Pg/O8twwq49W8nh7ggTLuTPQ/tXV+5u9UqBQk8SwJ1r
-         lbwQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzRVEncFE+aGvePwkaMVX4f7yTliv84/QUuar8VXylfxvatB8PJ5gbK/WjWJFHPpoXeTzFSwEtKSAc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYId8u/xyajJLubmhW4Dauf1rYYa89/o2AApgZUr++XzD6wq24O0
-	2m7OZDVGQIxIzL96Obh66lNlHo98FVWWU7Tm2oPEV25IXm0Fdp35KHPRnJ0JFiShDjf43wbVO76
-	0OrrD1MpaUuhF1tFdpXvmEC0xiT4NaMQ=
-X-Gm-Gg: AYBFou1RvZCNLfdTlHL7CnxLzuxspQ1/BcmSc/WfjM3JiRLJpvQ0rk0B0/E+/3Oatyl
-	xhhFS8haFs5UKejbp8o6J9sMsoogGD+atyQP7MjZegnXWmCqhMr6tPNBh5oKHqcYl+7tpOQ60c4
-	+sncD2Iwno2vMmZcpRmhQhx6MwAj/+tKx9bMm3mf2ObpHSAZrhE0QA0/VZ8C9gnmdM+PQY2a6e9
-	nBUkeU3M+ZEXwNRd+MYkyjXAhRONFFURs8wA2KLfGhvjR6yQh6xWBHVk3ZJX39mu8rxLaXYe/d/
-	X2nhPskVxX5pBdTGdlrb6SSULDBZfWycJ5QsV6uKpjJ2OmXEcw5Wde78rJaU016DSdiuwJBBCSk
-	26vTqjcq4p+m+h/jS8M1Qvxe8J3nHDPOkNzbzsIuDdQIsagLlcVLWR7toeTzQ4bofOZ38lA==
-X-Received: by 2002:a05:622a:342:b0:530:430d:87f7 with SMTP id
- d75a77b69052e-5359fba77f7mr196535301cf.47.1791855910479; Mon, 12 Oct 2026
- 18:45:10 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791857080; x=1792461880;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3UKeflbCZ+vlTZlszfvtV7zcKynCF0qJdVDrDvGRXCc=;
+        b=SU7drozIk4ZxyDhql3x27KB4VIK8ieJt/eK6Q8aovB2VBqlWa7tu8CKrZ4oTiiZa5v
+         WtF7kIJqmGA6SGjl8kkx5ziBXI6IrLOQJdi5qSLn4AFKfXB2IYWwKHQzz8VYXwR+xrOL
+         eISkrt6QmKA2IB8f3cwx/bSV6d9Rg0ZFz/BVv6Q82ys/GzZRcOE1k/LLZRtiKEiS6913
+         XYgsSLgvlUKpz2xh/pjfQFl7yLD6aiqKnjorq6DN2uXHt2FhkViHHg21vonbh1VZltki
+         iNmMCIyDsgCNvFrc7jYIu7dG3EKu9fW/fZUOKt+Cgi4EbsKsOCGpsbbsEVc/RCRBewwO
+         szdQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwYzvt9YWkvkte3DC7fnIfev0GtA3gDgdPA+5zEmFVZPnvfeqLpO8ih+8dbuiO4+FDGnzYNuYHZBhE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ+KR5kiGy0F6nHIqKXIngvQQYCKKRi+Wrt4zC/aPe77+v0yF/P
+	f3OJiZ/WHK2q3yi/SBQhCqxbgZpm10Hb0tcU7tMPTzHfW0ZHHUSI0obz
+X-Gm-Gg: AYBFou2A5rzxKybWQwWL494xd0n/wjk8692HVGSfpjBdNGePz/9JRrcnoKM3sAOo4AM
+	bvK92YSsfG8e0XDHwlIEYvLtbkGt+Id3t4IGGq7NWgf6unci3eVNsboxYIDidEZsKpoEjoBi1Rf
+	ksICrF5dHAwqJ5sXNED5mhBBGGxhzwfSQ8XXjyENMFhZbHtUaSvawuLhc/bSRPhlQxf0d1/8Xd1
+	9tX3T/RB+M7HPDpwv7yk26xpPJmW7xDGnPHE0OCyMRX7ssR7yfA7AbWxaE5W9LIebpNkzW4Z71W
+	kwxebPMeW5PH5tes2xl6O2GB1XrwfiIVVD7FOqNn0ffGX7q/ELm/5nngWUKdCoTeMpU6MQEdEg+
+	dC9y5lEqaAuiWeXSrPFD3hF3VGhAWjK+HLx6NBXGXeQzXqLsQN37BEInlFYfqnNQ9FwCekradoI
+	6x8BxmOA6YVstZEgBHuiiN1FJsyCK0bMmJK8YrZ3EWSTfP5AVWIVN1UFfFM/9ioEVcyCb7SORHY
+	hmX9ZBnNUMWbSWS5p5mAcC+2tuUKB4yQzwlVNZy
+X-Received: by 2002:a17:90b:498f:b0:3ab:d26b:c2df with SMTP id 98e67ed59e1d1-3abd26bc4e0mr2979609a91.27.1791857079794;
+        Mon, 12 Oct 2026 19:04:39 -0700 (PDT)
+Received: from lipengfei28-ThinkStation-P368.mioffice.cn ([2408:8607:1b00:8:bf57:67b8:4e15:46a1])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab38dd5864sm18450258a91.8.2026.10.12.19.04.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 19:04:38 -0700 (PDT)
+From: Li Pengfei <ljdlns1987@gmail.com>
+X-Google-Original-From: Li Pengfei <lipengfei28@xiaomi.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: mathieu.desnoyers@efficios.com,
+	mark.rutland@arm.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	zhangbo56@xiaomi.com
+Subject: Re: [RFC PATCH v7 00/10] trace: stack trace deduplication for ftrace ring buffer
+Date: Tue, 13 Oct 2026 10:03:21 +0800
+Message-Id: <20261013020321.1898006-1-lipengfei28@xiaomi.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260912083753.3426176-1-lipengfei28@xiaomi.com>
+References: <20260912083753.3426176-1-lipengfei28@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261012-vsock-guest-ns-v3-0-b32447c66b23@meta.com> <20261012-vsock-guest-ns-v3-4-b32447c66b23@meta.com>
-In-Reply-To: <20261012-vsock-guest-ns-v3-4-b32447c66b23@meta.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Mon, 12 Oct 2026 22:44:55 -0300
-X-Gm-Features: AclHuK-kA8q05fe6Esk_oixM2BCHb47BieLQLjZDYfiDhY6CS2aMRdOMVHtXa5s
-Message-ID: <CAMAsx6fKVQaYLzkK34v5DRkmQS5Ym-XqwNh-+Jj_Uue8NJCNUg@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 4/7] vsock: add a netlink command to assign
- the g2h device to a netns
-To: bobbyeshleman@meta.com
-Cc: sgarzare@redhat.com, davem@davemloft.net, kuba@kernel.org, 
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, stefanha@redhat.com, mst@redhat.com, 
-	jasowangio@gmail.com, xuanzhuo@linux.alibaba.com, eperezma@redhat.com, 
-	shuah@kernel.org, rdunlap@infradead.org, donald.hunter@gmail.com, 
-	edumazet@kernel.org, virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com, 
-	bobbyeshleman@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em seg., 12 de out. de 2026 =C3=A0s 19:51, Bobby Eshleman
-<bobbyeshleman@meta.com> escreveu:
->
-[...]
-> + Movement to an unreachable local namespace results in sockets being
-> + closed with ECONNRESET. Peers are not guaranteed to be notified via
-> + an RST.
+Hi Steven, Masami,
 
-This reads a bit differently from the sysctl documentation in the same
-patch, which says:
+Open question 2 in the v7 cover letter was whether the map generation
+should be part of the ABI. I think it has to be, and I would rather
+settle the record format with you before sending a v8.
 
-Connections established before the move, from a namespace that can no
-longer reach the device, are closed with ``ECONNRESET``.
+The problem is that reset clears the map and resets the element cursor to
+zero, so a new stack takes slot 42 immediately afterwards. A stack_id 42
+recorded before the reset is still sitting in the ring buffer, and
+resolving it now yields the new occupant of that slot. Userspace cannot
+tell that apart from a correct lookup - it gets a plausible stack, not an
+error.
 
-The net.rst wording also covers moving the device back to init_net from
-a local namespace, which this sentence does not. Maybe use the same
-wording here:
+I first tried to fix it in the table, storing the generation per slot and
+comparing it with the current one on lookup. That does not work: the
+comparison tells you which generation the slot now holds, not which
+generation the caller's id came from, and the case that matters is
+exactly when those differ and the slot has already been refilled. The
+identity has to travel with the record.
 
-Connections established before the move, from a namespace that can
-no longer reach the device, are closed with ECONNRESET. Peers are not
-guaranteed to be notified via an RST.
+So for v8:
 
-Daniel
+	struct stack_id_entry {
+		struct trace_entry	ent;
+		u64			stack_cookie;	/* gen << 32 | id */
+	};
+
+A single opaque 64-bit cookie, high half generation, low half slot. An id
+is still only valid within its own generation; the cookie makes crossing
+that boundary detectable.
+
+stack_map_bin reports the generation of the dump in the header word that
+is currently reserved (ABI version 1 -> 2), so a dump and a record can be
+paired. Text output splits the cookie rather than printing it raw:
+
+	<stack_id 42 gen 3>
+
+Cost, against the workload measured in the v7 cover letter:
+
+	full stack, ~20 frames   trace_entry + size + 8*20 = 172 B
+	v7, 4-byte id            trace_entry + 4           =  12 B
+	v8, 8-byte cookie        trace_entry + 8           =  16 B
+
+Retention on that workload drops from about 2.17x to about 2.0x. I will
+re-measure rather than quote that from arithmetic.
+
+Two alternatives I rejected, in case you would have picked one:
+
+Packing the generation into the existing 32-bit id keeps the record at 4
+bytes, but with FTRACE_STACKMAP_BITS_MAX at 18 the slot index needs 19
+bits, leaving 12 bits of generation in a signed field. 4096 resets wrap,
+and a wrapped generation passes the check - the same failure, only
+rarer. It also ties the id layout to the capacity limit.
+
+Two separate u32 fields come to the same 16 bytes and would make the
+format file self-describing, so an event filter could match the slot
+directly. I went with the cookie because an opaque value says the whole
+thing is the identifier - two fields invite userspace to read the slot
+number on its own, which is exactly what is not meaningful without its
+generation. If the filtering matters more, that is an easy change.
+
+One consequence I had not expected. If a trace spans several resets,
+dumping stack_map_bin before each one keeps the whole timeline resolvable
+afterwards: every record says which generation it belongs to and every
+dump header says which generation it is. Without the tag, saving several
+dumps is pointless, since nothing says which dump a given record should
+be read against.
+
+Does that format look right?
+
+v7 split the series into 10 focused patches following Masami's review of
+v6, and the design is otherwise unchanged.
+
+Thanks,
+Pengfei
