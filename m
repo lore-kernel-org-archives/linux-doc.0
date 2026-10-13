@@ -1,163 +1,197 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+Received: from YT5PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11021103.outbound.protection.outlook.com [40.107.192.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0611B18CC13
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 13:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.186
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791896662; cv=none; b=Fifl0HDbe8VH1oYpOCJUudxFyls84j07LNCqGRgNl46bU3ZskoIkMjMPqH6+yW08dkqQ1r0UPoKyzbt3yUzdMwz/217lSRXwJKMrIqFBhWbLsnUsjGFR4YzTqkIQ1uqgFy6Vg0cNU3m/TJHfsnvSC1QPEoHSkLC4srRRhH4Wxnk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791896662; c=relaxed/simple;
-	bh=lrijtuWmKwDDILeCMwYY3Sd3CUnCrwDE7vsIgjD++7A=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=DTHueTL/tdgLirBiZoWV5CmN0Nat0+xOFQsNaXr20QMjpUTnEcNMV/Ce/jte2lmBP7UGyRDV0RDg7XaEIc5+V/rz+jNJ3rc24tqhLrMndcS5zfh0HsNbbslP2aHBruCaYwOyNE17zy6R2ZLAu63jKyrddUcK1MHZVUQXXiKMxqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=HJIqfHnN; arc=none smtp.client-ip=195.121.94.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E357211A09;
+	Tue, 13 Oct 2026 13:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.192.103
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791896697; cv=fail; b=POsgHW7oBsiH9zqy6KrHw+jCZhlgbQ6jTYFFKkSiQdMM7oQ7gCYI+FdguR8ko04i/AS3K4yhQU7fkOM80Y5m3j+h6hWE6nc3o2Kh7z6szGXQQtt2b1gvLNbZJ6wBl49LAYh3r3VGx2IxYdzWLkFvIt5sUAF54rkA+k/PGQ3V6CM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791896697; c=relaxed/simple;
+	bh=iJQByb/FGtIvqZEowcW2Ol8T4c8MLXForMorpqwwQUw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=HJ+xYGm3m2G+XQqvL05n6xHt5i4qKw2HVhSRSVvHKw96VB+eqPQJc/c9Vjt7W95pnRToS9pUCt8jVpjdihz8g0yDsYYv65s0cXTZGjMno6ZXyKZR33St2kYzTTJ6c0SWNCeO1b7YnSEPQiM5VJA7QXzseTYftLsvRdw/FSdyUfI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=XxIL5EHq; arc=fail smtp.client-ip=40.107.192.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="HJIqfHnN"
-X-KPN-MessageId: 6ffd0a7b-c706-11f1-bfc1-00505699b430
-Received: from mta.kpnmail.nl (unknown [10.31.161.188])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 6ffd0a7b-c706-11f1-bfc1-00505699b430;
-	Tue, 13 Oct 2026 15:03:08 +0200 (CEST)
-Received: from mtaoutbound.kpnmail.nl (unknown [10.128.135.190])
-	by mta.kpnmail.nl (Halon) with ESMTP
-	id 6ff27a77-c706-11f1-ac16-00505699693e;
-	Tue, 13 Oct 2026 15:03:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:subject:message-id:to:from:date;
-	bh=+vQgJL8MMGFhwYStVksSoppS6NdeKAy6mIy/hJhtSag=;
-	b=HJIqfHnNYGjyT668OaUoDe3gsYQQk2nGPABNaz8iL5iiAZHci+2hKcWWYGhWSG+rmvseLzkLUWBVh
-	 oSz5d+54F95pmsZD044t2nlPMM6kSG+7pmvAcbrM+jvV2U9epWbCSyUPqGqzL7OkiTn5CPPsjN8xvs
-	 SQvo2NBF+HpJZ68N1mHF6tnuWEmb1/5UXd9K8erm6WEc5oaVaQkguj8PlD09LNdS4CUKFjHOQeGDOG
-	 nwDKLTKAbwh6I0xEzRWcvc1ejYcD4EibpZbVcj/X4/+1CwGmBUADo9QjJ8hm2tmivTnjICN8gOpxqK
-	 cTMU8Q3/Mys3sn0+LnUWwDnPeDUG6pw==
-X-KPN-MID: 33|H4Vr3p2pgw67wyy+j6XhcwTitlw3OHPFMqwUz7Vjlwd2gL/tI8tzZP22Gdg7Opc
- XG4+qvfu0SUEZoYi26tVvaK9lCh1TKSKv1iGSaOhj7BM=
-X-CMASSUN: 33|JoxRtGfIGlM4EJ2UoF9A67B7jdn2tU0ZuGu9Leo4e2sOROFV2UBL2zT/b6Gbabb
- X22GoYSqAJ9ZO5FUkY3lmfw==
-X-KPN-VerifiedSender: Yes
-Received: from cpxoxapps-mh05 (cpxoxapps-mh05.personalcloud.so.kpn.org [10.128.135.211])
-	by mtaoutbound.kpnmail.nl (Halon) with ESMTPSA
-	id 6fe0ea2e-c706-11f1-916a-005056995d6c;
-	Tue, 13 Oct 2026 15:03:08 +0200 (CEST)
-Date: Tue, 13 Oct 2026 15:03:08 +0200 (CEST)
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kees Cook <kees@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-	skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
-	apw@canonical.com, joe@perches.com, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <158571150.788122.1791896588591@kpc.webmail.kpnmail.nl>
-In-Reply-To: <20261013125559.GG4214@killaraus.ideasonboard.com>
-References: <20261009083137.3-1-sashal@kernel.org>
- <202610122124.08E058768D@keescook>
- <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
- <202610130120.E43D236E@keescook> <as4gLo_6acb_zZu0@daedalus>
- <20261013125559.GG4214@killaraus.ideasonboard.com>
-Subject: Re: [PATCH] docs: remove Assisted-by reference
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="XxIL5EHq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qCC3Ujuv6lZnjDCuphaNQCnnaumL32SSRrAUUxZKyXF3pI5zjG6+qwwn2qdj+lfzKCwc6RRwB7MHHhVLIanZveGRA5ccpcbcoMpNsJ6fu5Nt85W1SiHlD12Tfl7BtFfFihfeb65l/Oi1v/0/tn6/gaiy7/3eZDc4kRiopm45u8qn61NmG0hDDx/0q6Bh1lMNyyDCuA3dLLyZ1Y3sF05/sq6cJc1bRWkTfcI4aVk1NzW3M6S5trFcidLDHr62g7TFZ3c/5UJGbPKZ/GNJSVKjibItI8I7ccaHFyOwrz3I6PsUxwBHRfWO0dZAOvJJ6p1u9OLeB/4OS1z4eLyevotHqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ppw/9csHXW4Hf416blW0GQFBukeiGeB7uSSv0wd2VMg=;
+ b=OI3vXV/lJJaaxgzmZ6PHpkguuZccFT2XhlBs0VMUqDzJEaKFMgBWw0cSl6gpznSWchGvtk2+3fwPoDNvXMK7hauN/ISPddlLgTKELcSeebCQQcJ8XmzjqSMtrxSbmTAr30aKJL5EFzOAs9OQQjCEcr5HvK9YVm5OFd/ezc/G+667H0MZibNTjIeZUoFmUM5xWEIWmpso70oOoXEZzPqt9i/EV6FAlzPIdQKBCLZFa74w0sixxTwkFn/iMT2KcyOyNVn3bADXNvtwGl8Cyan9edhdtrNZuB1jgHYvWW+F4a31rT45TCLMj5gvc6BbW+q5d83D05JKwdf/2IIq3bwn7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ppw/9csHXW4Hf416blW0GQFBukeiGeB7uSSv0wd2VMg=;
+ b=XxIL5EHqHOpOCJmF64W+driyI2oWqtgEnj1TpXGaNfDvdCVeWOrRgA/PRYQJ4P4vvuObWkZOwRR3vcSpr8p8AElPdBpg4KnyB2zQC62YH4nt6QWUbr2OME2kySuSSDp0rAwNl4AAwVlAzP4jy00bc1WRLi2GvC/FMwS38BorYjCAWLCrr14AgJ788mzQov4sw8lW13WwX2rd24d2K5NxRtk5rgN798SlsVsEHucjQnPyFNcMeyXw0R07oRDnvc5BNB8AzgV8I54W7wrK0JKSiU4D1vjW9rNkInI6f43rwUXXl3YBt5latgq9sxqpppzi1ZK4hcd7mRgfzLfmykh89A==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10) by YT3PR01MB987975.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1c6::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Tue, 13 Oct
+ 2026 13:04:52 +0000
+Received: from YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc]) by YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6b9e:a901:67c5:7ddc%6]) with mapi id 15.21.0522.011; Tue, 13 Oct 2026
+ 13:04:51 +0000
+Message-ID: <ef3fd68d-f35e-4071-9523-0cd14396d860@efficios.com>
+Date: Tue, 13 Oct 2026 09:04:50 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v3 08/15] locking/lockdep: use hazptr to wait for
+ dynamic key lookups
+To: Boqun Feng <boqun@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Kunwu Chan <kunwu.chan@gmail.com>, paulmck@kernel.org, corbet@lwn.net,
+ mingo@redhat.com, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+ josh@joshtriplett.org, urezki@gmail.com, dave@stgolabs.net,
+ lianux.mm@gmail.com, stern@rowland.harvard.edu, parri.andrea@gmail.com,
+ will@kernel.org, peterz@infradead.org, npiggin@gmail.com,
+ dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
+ akiyks@gmail.com, dlustig@nvidia.com, joelagnelf@nvidia.com,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, longman@redhat.com,
+ rostedt@goodmis.org, qiang.zhang@linux.dev, brads@mainlining.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ lkmm@lists.linux.dev, linux-doc@vger.kernel.org, rcu@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20261005171529.1378809-1-kunwu.chan@gmail.com>
+ <20261005171529.1378809-9-kunwu.chan@gmail.com>
+ <as3aMmPdCHCXW6Ci@U-YXDQC754-96.local> <as4ooZSWA2lAIceu@tardis.local>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <as4ooZSWA2lAIceu@tardis.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4P288CA0024.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:b01:d4::25) To YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:1d0::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT6PR01MB491026:EE_|YT3PR01MB987975:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7199de45-24a2-4eeb-9a65-08df292a914f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|56012099006|4143699003|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	I1byIJCGpjxpVXbBr6X8z0v8cmhYOqApp6OjyeMjUzLMP8OQ+d5CrVuM2ABsUN3AAx5WZv6/HrUAnlhMyLwP79Fqb0aGZ0JbUbwmLs65x3YlxJp4UxrG/KGZK34sEe4Yv+4YJwpF6660NFdEE2IiDVPrC7Cq6OALGr2oaLEHiqMdl5lME8xCQ3ABnqv39sVRtph3DvrRLHtOiyz/ducTSGRghivtjl4VTMEKzet1i/+MKzfeKC8Kwy13SXT+pMyffsDfKz/OHfu8Vob85c+FW39Q+p8vgSpaBxaYLq7F8ZYQ+fcRqyPplk2Gkhwon34TvwnmD7YM7G83sLl05A+Sa4W9BLnYr7LlvGWD3TjlTBRfMrc8EDrGOy85XS3hxaTZ69HtpWyfMG5V2bZ0Eja01xsXtqn+e4pbKIO6KF1XfFHUORljijj+auspTGqFzW5FJGABh8HjHhW4AHVVF5o9JPAdbF606gjM5SlYmLnyWkV9zf/WhHZFZWIFrVdHrBYuq9C+zRyH58ylNHGyklrzSLNPpAKnUI/1a43KFgVtlqMDUhhHae/egaIOGsyo37eMeoiE+L1+9CGaTbyqTmOMhmruE/d4zA+wkPaOXpbTEgg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(56012099006)(4143699003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TDB4VGVDSmwxMysyc3BSR2MveDYya0FuU1JMQTNhYVY3Si9YZnhPMSt0YmE2?=
+ =?utf-8?B?WkNKY3VxeHUzcnR3Rkt3VEFEZ1VESHliOGUwYVE2cGJtbG5VbEhWbVFNZ1NG?=
+ =?utf-8?B?TEdnUTBCdG5XZ1FPeEFrVkJSODlVb0c0MWVhK1ZkT1ltRG9aN1h3aWRWQzZL?=
+ =?utf-8?B?ZUJFN1EzTlFISzZ2bHJiWVFPaG5RaXIzMnd5aEZTRER3Y0pvbTVxcDJYaExW?=
+ =?utf-8?B?bTNYcWZmbnBnLzVhRmtQOXU2S3hsNE9JUXdvZTVlaCt5Vm1Icnc1VWVFSExo?=
+ =?utf-8?B?WG05c3JBeEdsYnoreXUrZW9xMEk4Ym40a1J0MGVTcEtSV1doYVoxUE9yalhH?=
+ =?utf-8?B?ZDFsV2FDT2dFcGovM09odzBDM3dXSGpiRVpvRFl3djErWWgzRkh5WEhXUFAw?=
+ =?utf-8?B?NWpNMHJoLzFjTlpvUDNHMVloMUQ5d0VPTmlZckJmdU52a0NCaG1ULzRSTXp3?=
+ =?utf-8?B?NnBjbHZ4YVp0VzR2MzRtNFBUSk95V3BQcisyQWE4bjlBNXRtOFRJd1Q0QXdp?=
+ =?utf-8?B?VWJra01HY0xkVnFlTjF5azdrSGtxcm5nd2w3Zyt1c3hxRG5USFpwbFBZZm53?=
+ =?utf-8?B?b3FRNzBmclFBd2VEOEhvOFZoNDRjQk4xNmdPUFJtVFdhYzRUcG45NjRDUGc4?=
+ =?utf-8?B?OEdVT1Y1MzE2MFc5Q21jV2tndXdlQlRFSmduQmFUWWo1QXFscENRaDhzOTM3?=
+ =?utf-8?B?dVQ0Mndwd2Y1U2loNStPcHFnOHR4UGF3R0c5TDUrc202ZzJDM0JoL2dKc0VK?=
+ =?utf-8?B?QXRGUFpGMzBZSml4VTJ1WnkwZGo0KzJNcERKNDBnVWUzS3hkNHFYNS9rTFNU?=
+ =?utf-8?B?b2NQZXVVck9aY3VjV3grRG12aDQvVHhDOTI3YTlNNWdFcy96RjR1Wk8yRkR6?=
+ =?utf-8?B?YVNlekM1UHhscWRveE5XQk4xZXErQlBadjdxZk9vUldZd3Q0ajNESDdJUFJT?=
+ =?utf-8?B?aWVzbkMxa3lvUUJFSXVNUnY2WE1qNk9rNndBSm1VSlArZWRxQm1uME8xZkpi?=
+ =?utf-8?B?OE1ZQzVsYWE4TGVUZHlnN2VuUllsWksyWUM4cHE0QVFkeU1mc0ZLNjBldFBD?=
+ =?utf-8?B?MXg1RmhlVnRXSi83NkZYVTVhQ1hDRHFRZHZRUHM4OWlIS01YcEdTNWFsWGhD?=
+ =?utf-8?B?MnRUVWw4QmRxUU5jZ1VmRFRlNlFuRTdMdGxRTklUOGVKb1BSZnovMlR4WUVs?=
+ =?utf-8?B?RkxtMHlpTGpjSFI5T3dJTWZSZ3B1Z1dxUWlsOGlIbitpVmQxeFl2Szg1Mitn?=
+ =?utf-8?B?UloyeHd0a0ZESU5iWnN1VktiRUNtZ2VRa1lSRHJETHhtWCtCV1kwS3RQUWRt?=
+ =?utf-8?B?RForcXZtR1UrYlBndXRZSFlYRVBxY2lWQXZFL2xERXp1Y1V5TktJeVkvSGxS?=
+ =?utf-8?B?cXk5R1UwMS9GdC9hZjlmNjVGZzdBbmdEMDZlWVVuYzdpalFkcmJNdXNqeEU3?=
+ =?utf-8?B?M0p1M2ZyREF0ejdEMDY3ZHFDTjdVL1lZcGpiV2h3UkczdjVDS3ZrZmNZRkhZ?=
+ =?utf-8?B?c0IyU1dZY1lZSkZwdE9KT08vczI5Q0pib0pCRGgxNWVMTTIzSEthM1hTajdO?=
+ =?utf-8?B?Q0QrQXoxbWdVUkdpVHY4ZG9UYmRIWnl0YUxXcFU3MFJpMzkyNStjUlNaTE9W?=
+ =?utf-8?B?YkFEV0ZUdGFMZVhGMnB0SGJDeXo2YmdITlRFZGtGcUxGdzRLcUprQlBmZkJX?=
+ =?utf-8?B?bTVLRlMwSVR2a01qVGRHTU93MDYvNytKY283VTV6aG93ZnhYYzAxcEpjRlYw?=
+ =?utf-8?B?YTZpVktBYXhMNjJhSC85a3FsVzFDUjN2SG9vZWFla2tHUVIzWFRrWUlDa3BE?=
+ =?utf-8?B?cnFmbVpXSzNjNERpa0pKMnNlSjhZcTIvempvdFllenlHK0VTRE94Rk0zbzdS?=
+ =?utf-8?B?MXZuYUJtUzZYU2o0SDh0QlJSdE1ndkxRK01DcGxDYTlQVytrenAvR1I3QXJ5?=
+ =?utf-8?B?bFMvZjRhc1RMWTBKdDk0WTNZWDNBSHY1RDdHVTNaZ2FIemFURDNBY3lybVJH?=
+ =?utf-8?B?d2xPNXVuSTdTMVBTNFB2ZldQeTNiK0hVb3poUTUwb3EvbW1iQnI5THlaVzhZ?=
+ =?utf-8?B?ZGpzam0xQXBOSEZsM2ZIejlPaHNFbmt3ZW4ycmF1eWdHSVgzTjREaFJ3TUh5?=
+ =?utf-8?B?akp6VnZWMW1PbmQ1WXp4Qm8yT3dnVVI2WCtZTGVDdldUclZHWVlwQytPb2RJ?=
+ =?utf-8?B?NDJlVWVwMFh3dHlGS0dnZ1ovRVNCTzNUcnFJS3UwZllrbHIzQW5vV3E0RkVs?=
+ =?utf-8?B?ZTh5aDg4aHU1Z2ZZSU5SdVdXYTQrekJLVmNhMFVyWTVmNXBuZ1ZNaFZqTE1s?=
+ =?utf-8?B?Z3RYenYyYjFnYlp3TjExaEZYMzd1WlJQN0FwaGdSc3lzd0pwd3VFUCt4VEdH?=
+ =?utf-8?Q?f7OX2JhGQSR33u8Y=3D?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7199de45-24a2-4eeb-9a65-08df292a914f
+X-MS-Exchange-CrossTenant-AuthSource: YT6PR01MB491026.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 13:04:51.7621
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RG6+KS5/8sqxcPd9N+1hGMSDIzzBc0vBq1qqjcIX+8Bwd+WPcN/2UmhCaw79opLznWXKaVONxO0klNliMpbKHTRjCHkOGlA/JVWqlavg6dk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YT3PR01MB987975
 
-
-> Op 13-10-2026 14:55 CEST schreef Laurent Pinchart <laurent.pinchart@ideasonboard.com>:
+On 2026-10-13 08:48, Boqun Feng wrote:
+> On Tue, Oct 13, 2026 at 03:40:36PM +0800, Lai Jiangshan wrote:
+[...]
+>>
+>> This breaks the forward-progress argument used by the underlying
+>> hazptr implementation: after removing an object from publication,
+>> there should not be a continuing stream of new readers acquiring
+>> that same object. Here, the bucket is never unpublished.
+>>
+>> For example, let B be the bucket containing key K:
+>>
+>>    Updater                    Reader                 Scan kthread
+>>    -------                    ------                 ------------
+>>    Unlink K from B
+>>    hazptr_synchronize(B)
+>>                               Acquire B
+>>                                                      Observe B;
+>>                                                      retain waiter
+>>                               Release B
+>>                               Acquire B again
+>>                                                      Observe B;
+>>                                                      retain waiter
+>>                               Release B
+>>                               ...                    ...
+>>
 > 
->  
-> On Tue, Oct 13, 2026 at 02:28:43PM +0200, Jori Koolstra wrote:
-> > On Tue, Oct 13, 2026 at 01:25:59AM -0700, Kees Cook wrote:
-> > > On Mon, Oct 12, 2026 at 10:56:59PM -0700, Randy Dunlap wrote:
-> > > > On 10/12/26 9:24 PM, Kees Cook wrote:
-> > > > > On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote:
-> > > > >> The Maintainers Summit reached consensus to deprecate the Assisted-by
-> > > > >> tag. Remove the documentation requiring it.
-> > > > >>
-> > > > >> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > > > > 
-> > > > > Yup, it has become as redundant as specifying what editor I use. ;)
-> > > > > 
-> > > > > Reviewed-by: Kees Cook <kees@kernel.org>
-> > > > 
-> > > > and for those of us who don't know details about the discussion,
-> > > > how is it redundant?
-> > > 
-> > > No, I mean I use an LLM constantly for almost all aspects of my
-> > > development work, in multiple dimensions, so if the old tag requirement
-> > > held, my email body template would just put "Assisted-by: LLM" in there
-> > > because at the very least, it drove the build and test stage. It was
-> > > redundant in the sense of "yeah, of course I used an LLM at some point
-> > > for this patch". ("This tag means nothing *from* me")
-> > > 
-> > > > Do you assume that everyone now uses it (LLM), just as everyone
-> > > > uses an editor?
-> > > 
-> > > I don't make that assumption, but I always held the position that the
-> > > tag was meaningless because it's the human wielding it that matters:
-> > > they either sent a good patch or a bad patch, and if it was mangled by
-> > > gmail or an LLM, it doesn't really matter. ("This tag means nothing *to*
-> > > me")
-> > 
-> > I think the tag did have a genuine purpose for a while. Now we have just
-> > decided to implicitly attach it to every new submitter (because
-> > basically that is the case.) The point was that a patch that was
-> > obviously LLM generated could be rejected for not carrying the tag, and
-> > a patch that carried the tag could be asked to explain further (if they
-> > had not done so.) Or at least, that is how I felt and have understood
-> > Greg, for instance :)
-> > 
-> > Essentially, the way I read it, is that Linus said we don't need this
-> > roundabout way because we can just reject effortless LLM generated
-> > patches outright. This is good and an improvement.
-> 
-> The absence of the tag on a suspicious series offered a low-effort way
-> for maintainers to push back. What's the proposed low-effort replacement
-> ?
-> 
+> This is more of an implementation issue,
+I agree with Boqun about the point that this is really an implementation
+issue.
 
-To ignore it, really. Even less effort :)
+If we care about forward progress in the scenario of a repeated
+address reuse, we just need to wire up a "0/1" low bit phase tag and
+make hazptr acquire pick it up and set it within its hazptr slot. This
+will ensure forward progress in that scenario. hazptr synchronzie
+would therefore flip this phase between 0 and 1, and check that the
+pointer it's looking for is not set in the other phase, in alternance,
+handling both phases within one synchronize. Indeed, this phase concept
+comes from the realm of RCU implementations.
 
-> > What do you think about requiring people to explain how they used an LLM
-> > for code generation? I don't care if someone uses it for review, or
-> > brainstorming, or whatever, and I have never understood the tag to be
-> > required for that. But if the code is LLM generated, it would be nice to
-> > know for instance what prompts you used. We should have some way to not
-> > devolve into the maze that Jonathan Corbet has sketched, where no one
-> > really knows what's going on.
-> 
-> Listing the prompts seems fairly useless to me. Not only do prompts
-> capture only a small submit of the information you would want (many
-> people use custom agent files with lots of rules that supplement the
-> prompts), they don't show that the submitter understands what they're
-> doing.
-> 
+I think that the overall mindset so far has been "RCU does this" and
+"Hazard pointers do this" as if those were entirely predefined
+mechanisms. I think the way forward is not "one or the other", but
+rather to combine the strengths of each of those mechanisms into
+something better.
 
-I'm not sure. Maybe requiring prompts is not the best way to go about it,
-it may be a lot of annoyance to go back through your conversations and
-see what prompts were relevant. I do think the prompts still likely show
-whether you understood what you're doing, assuming they were authentic.
+Thanks,
 
-> Mesa has a policy that LLM-generated code *must* have a human-written
-> commit message. They go one step further by requiring all comments in
-> the code to also be human-written. That seems a better (but possibly not
-> good enough) way to try and gauge the level of understand from the
-> submitter.
-> 
+Mathieu
 
-Yes, requiring human written commit message sounds like a good idea. Only
-leaves the issue of people using LLMs for translate. But I think we could
-find a way around that.
-
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
