@@ -1,364 +1,339 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5E7378D8D;
-	Tue, 13 Oct 2026 07:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179B237C0EB
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791876532; cv=none; b=tt8vCo2vgts93wL6Gnf1VIBDEWTbQMcjlgdBHGzawdoYw83x3BZLwMOI3pHCK73SL1K2qHT6B7IXF8rc2+8IRO04L5QPEBmcVuwe+Zog0+C27dWn2CHn8nLd+rc0Et+2UI/iZfu2u90apEhwVXR692SmZXvmSsYgXGIF8PvshYI=
+	t=1791876640; cv=none; b=dxPmtZpFdA8LDzJVX0UgylqU6EGqaQNrWfSjOEoG8cqShGdodjgxhKgKIvKBjcvqySVYKjhlE5SIYvQ9tOXB87gEtWd65aDdW9paZV+yjb8lBSvmI3itnLrO2lw+yl+nCT3ikgcwZpSPjOGXmeFAgY1Jf+5ra+uxaJwq0HHiKJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791876532; c=relaxed/simple;
-	bh=x1Lio54STtF2JnUF1rPy6jEqC70v0XDAcbPNLNYc0e8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=vCrCGyqyDVvxWLB1JfZjfcH8mWJBRWQPOg8vW/HR+61NGDM2rIC8/p1hJEn3reiIviYvmURoTMf5cORRtKe4ftyXnLS9E/iZjQbML+j7eCNbz8WYMfQ6lvoVekXh5RYyiEwPKZ/1j4/pRrnxRNCpcqaxNrARThtgRRrdgJaSonc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VWoP8aYh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1791876640; c=relaxed/simple;
+	bh=jxJNYrI22RlLexodQlZcE5ZvGLVCwiFJ8RVwNBj6iLQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MZ6MScVm3AffH3+BX6MPWvtZL3TW06sACL2MmeclMcBxIK2Woj3qzyqE61YIbAFjYEXotbb+HlmaZy2K00GTmTkv2evIcFIfAW8ckoWiGOnihunakF2b2UGCz/aPfSENAPoEoIj15YCGQR0N1NBTUJTHTYa9wx+PJROBlpTBZe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=E0DOOchF; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=R1EiZCc7; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VWoP8aYh"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 835C9C2BCF7;
-	Tue, 13 Oct 2026 07:28:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791876532;
-	bh=x1Lio54STtF2JnUF1rPy6jEqC70v0XDAcbPNLNYc0e8=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=VWoP8aYh7dr3ewiRs934auja9dpkYjd69Z6TE9ZwsFRaU6cVw20ALamfCYJCsTlfy
-	 AgyBmrVLOOtAwosfg71llhe9yGUxZVC++GMv7VYKz9LzJy+oRZ7CXQtf65AjGlKDS6
-	 8ucuUTfKpcBSojSsWnNAHK7WPG/G7uxGPXuLMBqyto8BZustm1cr8t33APSy2gj6M4
-	 Cf7feMjg9drkuhuARRQWbKSJv2zfk60zT3lT4/nlw6pp4kkZojRw6eJk1r+0GFIntW
-	 SVTRvr926U7taNTqcj9pHFuCyw52XVa9mZ6/XvXo9Qa3MIyR42XavGyoSA8LyXJYCz
-	 lGIzr5ecBuR6g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5983ACC6B03;
-	Tue, 13 Oct 2026 07:28:52 +0000 (UTC)
-From: Daejun Park via B4 Relay <devnull+daejun7.park.samsung.com@kernel.org>
-Date: Tue, 13 Oct 2026 16:28:52 +0900
-Subject: [PATCH] ext4: spread files of sibling directories over a flex
- group
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="E0DOOchF";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="R1EiZCc7"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D20pVN3907376
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:30:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	kHGYKtLSEbyUQdlpz97zgPVlOvItbLPmnAOXZGaC+co=; b=E0DOOchFG4ce55HI
+	0D0VDPA7pS2T5EwmXVziwVJk/UVFfKFBaXLK2sY6/rP+3Y+XSZyqCDtFhCqpF0ir
+	QoU5xzEZ2BaOyA0KzmCAE3x/Wjjv9wVEFxcFHXk54bR/u8eoNRszXTeA9Me74KAH
+	nFKDwXk5ESQMlsrktvzWAu7pWDNeB/04H4K/ko1jn8Q7X22zPSXGKHSwLlFPXrH1
+	E7BfytgTeIRyRBTijXfQ3nXBY3O39txVSi1eRVc3FK/A9OzRSwrhxrC9iTIKO5al
+	OxDXwnZ74V07+pX3VgCjosdehDZfrFgQyAZukjafgRyJHt18C8xa0KVrUv+CAMzT
+	LvVyAg==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h95xqt9gt-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:30:37 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e54b6556aso2074194a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 00:30:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1791876637; x=1792481437; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kHGYKtLSEbyUQdlpz97zgPVlOvItbLPmnAOXZGaC+co=;
+        b=R1EiZCc7eyXQZAqimcQUyBtj8AgVu2rASdY+HnAPiUhmSmqqiVg/3gpwTx1/5McDGQ
+         cjyiVXnC/xV5Fr+QJWHkGD+IHP+a+OPQhE+R90WcmIMTY85Wdm5mibBtASNFAEfRU0ew
+         +phx6Ru4oOXUCqR5prqIZHsKNqeuO8/H5QqBukFDDQiwSzrUy5btSebMi+a+ii4w4+j/
+         PL9B6OeS3BRF8W6Jy9M6Ypes3amZci/S9vRmui3SSWvxXIkyisnqS8a/aeBnmL3Io1G4
+         f3dVUBYmHFO9rT4dOOEMaN8BIGxb6aXhFAhO7QpAmx3exgXQJBsuoK5p6pwO054ZdRGf
+         sZmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791876637; x=1792481437;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kHGYKtLSEbyUQdlpz97zgPVlOvItbLPmnAOXZGaC+co=;
+        b=eH2xSX34kQJXZHvnR2A0tNbTOgiPZlKvctXg49WY8tV38L3YF+GQyNSaHm3ZpaBjbI
+         0iyDPB9ZpQRLCPAF5lkuPKg2YaKRZ4+2NPVhYJSW3JXsh/YiVyRpum0LSwJeD2eqM7rM
+         xVmP95kdIIPM9e2XcGFth9eZlAcJnrqoQttZrKZk/1MhRoOR9FunkBW/f2OR9s899d+c
+         Zr1RspSTrdIqH4/NzggOXg/FAsgvyV1lAWUyUvKhQiA5fjtJ6JbBdb0/UtZN6ztVXTP6
+         1zybmgGm3PVzDwWBtkUxhNRnBhFW4aVrjk1BZF8Tarb6g96eLtTVBd8Q/RtG3ohTArtb
+         Ii3Q==
+X-Gm-Message-State: AFq9FYL0uNT7kthPf+vFjLQjfisgAe3l4C0acx87DbcJLQ2wWSV3+ka6
+	/lJJDAOh04VtOtZDO9PDLX5zoiCf3JbswCPXDWRpC6yBdtnkOIXBFjLceBOD71u1bcDCiI0x7jK
+	hVldgXgibnxni7uwxbyqLHFVaXkZDNf/Jd+wf2z+TVXt4MVm7tU6xzdHWPYrv/j0=
+X-Gm-Gg: AYBFou1O5JqG6h2CRMNHXoIbjG4VDnGHmzZkpO5w7fO75DKmBu+dxFLX4A8ygSy/Myg
+	wpeHkPuZCnFf1J+YEl+Pj9qSzi91rZyj/8xzBBCBw80Z/uF/nQpwTsHIwyQvSah1wx47S1/qFpt
+	n3TaNU9rs+d5J31lPpa6InhSIwfAyzts0jVGPUzhV6Q3ZAoZSZ9lm2vzqedr9jkrwCAwVPIHqHG
+	JkLq1pXZYKlsKr2PDdC5YR+Mp6B3rGyAGa9oSy5xxFJ5DnEwwkxVoYcwauUJ1/AfMmhcpfqpAsK
+	oR0XAyaf2KY71jRQnWf+bjNpX+VlfE9CA8qI7GO8FAUWlB1qX2se1ElN+ZYwZulvMLGwukhh4W9
+	f4yldKBU/Iqyuf4eT3fbX/XkWPzXZkr/6
+X-Received: by 2002:a17:90a:c88b:b0:3a5:1b:34a5 with SMTP id 98e67ed59e1d1-3ab3af73a91mr9462460a91.49.1791876636815;
+        Tue, 13 Oct 2026 00:30:36 -0700 (PDT)
+X-Received: by 2002:a17:90a:c88b:b0:3a5:1b:34a5 with SMTP id 98e67ed59e1d1-3ab3af73a91mr9462411a91.49.1791876635809;
+        Tue, 13 Oct 2026 00:30:35 -0700 (PDT)
+Received: from [10.217.219.169] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab39234b62sm20398370a91.16.2026.10.13.00.30.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 00:30:35 -0700 (PDT)
+Message-ID: <a3a83688-0b85-4555-a9ec-4ac51b692f49@oss.qualcomm.com>
+Date: Tue, 13 Oct 2026 13:00:29 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/7] bus: mhi: Move Sahara protocol driver under MHI
+ host client drivers
+To: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        mhi@lists.linux.dev
+References: <20261012-sahara_protocol_new_v2-v8-0-e12939d229a1@oss.qualcomm.com>
+ <20261012-sahara_protocol_new_v2-v8-2-e12939d229a1@oss.qualcomm.com>
+ <2bf0a2e0-7466-4e90-b53d-f3fc0d26378c@oss.qualcomm.com>
+Content-Language: en-US
+From: Kishore Batta <kishore.batta@oss.qualcomm.com>
+In-Reply-To: <2bf0a2e0-7466-4e90-b53d-f3fc0d26378c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261013-ialloc-flex-spread-v1-1-9ea1d86961aa@samsung.com>
-X-B4-Tracking: v=1; b=H4sIALPdzWoC/x2MWwqAIBAArxL73YIPkOwq0YfaWgtioRBBePekz
- xmYeaFSYaowDy8UurnymTvIcYBwuLwT8tYZlFBGCqmRXUpnwJjowXoVchta66MxatLkNfSw28j
- PP13W1j4GiS1CZAAAAA==
-To: Theodore Ts'o <tytso@mit.edu>, linux-ext4@vger.kernel.org
-Cc: Andreas Dilger <adilger.kernel@dilger.ca>, 
- Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
- Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
- Zhang Yi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Daejun Park <daejun7.park@samsung.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791876531; l=13463;
- i=daejun7.park@samsung.com; s=20261006; h=from:subject:message-id;
- bh=mg/jfcNmWC8pM2DqUSNjC3QdbFh17Yt6NVqwfCiSRWw=;
- b=DYXmceJO8oubJijr9D10tb4scZy6oHObK6+XrsbhEIPFW2aMqYGD2xksCvHgVaNKNCDO+7hyt
- 31XhkmwsaF/BHnGW3EqJlGxvQVSXOKd91Kfn3ApJRS3e0c9HUtbcBiW
-X-Developer-Key: i=daejun7.park@samsung.com; a=ed25519;
- pk=4yUfDqGRZTIj0Ik43z1GoMZRWCNm/rgX6uJuM9dtNIg=
-X-Endpoint-Received: by B4 Relay for daejun7.park@samsung.com/20261006 with
- auth_id=1122
-X-Original-From: Daejun Park <daejun7.park@samsung.com>
-Reply-To: daejun7.park@samsung.com
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDAyOSBTYWx0ZWRfX8ZFTB5crdlx6
+ PtFK9zg1kLQm4EYlRQMOiANFGQcHmuVLYEWrD63+hN9MBN4r9Iihwp49WoY5XeaO+FhTwHOoXVU
+ lxp7ev2JWXWmtDvZmJ9l22Q98V1CllKD9xqdkhkKmLfOVm+3z0u6QeRtVmxZcDpB82r/xvNsSoL
+ 1erJ61jqBFssQKusQnnnE3UabGIEs4tFAquQ/Jaylj0+qZmE3dWbSftT8bDRLpcPtyB+rzjahdP
+ +t6EGh2rqxQu0eIMyPtDKe6CpnI63zw7UmI5PRRw2CA3cnqATtklg+IaAJ5ih875vu6ttItWbIO
+ UdxMyvCNMQEySIlslayZRTUxnTW4kVCFJ7JxGTiT2XeE/Qwdawdn105Gtwku2Wsh/KSA5gMcjH+
+ qoSdyZ/Q0e3x7+9eLhtt4+/UVoEdMf04jeT4jKleF5WuvM9q6NDHJCpBeCFUr8FhUWmH28IX0cB
+ xz96whBx044BJxE+JwA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDAyOSBTYWx0ZWRfX9YYx6XnMojIO
+ zZms+I5CUq63LJgoG7giXxYW+v2NDVC1Bq10B7KY0xUoZrZjX4XrRYY2Q245G3WkTaA2h2hN0G4
+ 8Ct/DYhJv9v0O50WRUxpqiN5qg9l3cg=
+X-Proofpoint-ORIG-GUID: iZezey1NPOT8E5uouSI2gAaQCOZ1nvA_
+X-Authority-Analysis: v=2.4 cv=EP+TQFZC c=1 sm=1 tr=0 ts=6acdde1d cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=EUspDBNiAAAA:8 a=YsTF_x4DAHpo6Sg_WHoA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-GUID: iZezey1NPOT8E5uouSI2gAaQCOZ1nvA_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 phishscore=0 clxscore=1015 spamscore=0
+ malwarescore=0 priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610130029
 
-From: Daejun Park <daejun7.park@samsung.com>
 
-On a flex_bg file system, find_group_other() puts a new file in the
-first group of the parent's flex group that has a free inode. Orlov
-usually keeps a directory below the top level in its parent's flex group
-and packs directory inodes at its start, so the files of sibling
-directories come from the same group and get consecutive inode numbers.
-The flex_bg path was added by commit a4912123b688 ("ext4: New
-inode/block allocation algorithms for flex_bg filesystems"). The
-non-flex_bg path instead adds the parent's inode number to the starting
-group once the parent's own group has no free inode or block, so that
-the files of different directories which share a group land in
-different groups.
+On 10/13/2026 3:05 AM, Trilok Soni wrote:
+> On 10/12/2026 11:18 AM, Kishore Batta wrote:
+>> The Sahara protocol driver currently lives under the QAIC accelerator
+>> subsystem even though the protocol is transported over MHI and is used by
+>> multiple Qualcomm flashless devices. This makes Sahara appear QAIC specific
+>> and complicates reuse by other MHI based devices.
+>>
+>> Move the Sahara protocol driver under drivers/bus/mhi as a host client
+>> driver and build it as an independent MHI protocol driver. This keeps the
+>> QAIC driver focused on the accelerator device while allowing other MHI
+>> users to enable Sahara without depending on QAIC.
+>>
+>> As part of the move, add a dedicated Kconfig/Makefile hierarchy under the
+>> MHI host client drivers and convert the driver to use module_mhi_driver()
+>> instead of register/unregister hooks.
+>>
+>> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+>> ---
+>>   drivers/accel/qaic/Kconfig                          |  1 +
+>>   drivers/accel/qaic/Makefile                         |  3 +--
+>>   drivers/accel/qaic/qaic_drv.c                       |  9 ---------
+>>   drivers/accel/qaic/sahara.h                         | 10 ----------
+>>   drivers/bus/mhi/host/Makefile                       |  2 +-
+>>   drivers/bus/mhi/host/clients/Kconfig                |  6 ++++++
+>>   drivers/bus/mhi/host/clients/Makefile               |  1 +
+>>   drivers/bus/mhi/host/clients/sahara/Kconfig         | 15 +++++++++++++++
+>>   drivers/bus/mhi/host/clients/sahara/Makefile        |  2 ++
+>>   .../qaic => bus/mhi/host/clients/sahara}/sahara.c   | 21 ++++++++-------------
+>>   10 files changed, 35 insertions(+), 35 deletions(-)
+>>
+>> diff --git a/drivers/accel/qaic/Kconfig b/drivers/accel/qaic/Kconfig
+>> index 116e42d152ca885b8c59e33c7a87519a0abc6bb3..af90fdfcf77eeb6dd5ad309b33d793d4fdc91b1e 100644
+>> --- a/drivers/accel/qaic/Kconfig
+>> +++ b/drivers/accel/qaic/Kconfig
+>> @@ -8,6 +8,7 @@ config DRM_ACCEL_QAIC
+>>   	depends on DRM_ACCEL
+>>   	depends on PCI && HAS_IOMEM
+>>   	depends on MHI_BUS
+>> +	depends on MHI_SAHARA
+>>   	select CRC32
+>>   	select WANT_DEV_COREDUMP
+>>   	help
+>> diff --git a/drivers/accel/qaic/Makefile b/drivers/accel/qaic/Makefile
+>> index 71f727b74da3bb4478324689f02a7cea24a05c2d..e7b8458800072aa627f7f36c3257883aa56f4ce4 100644
+>> --- a/drivers/accel/qaic/Makefile
+>> +++ b/drivers/accel/qaic/Makefile
+>> @@ -13,7 +13,6 @@ qaic-y := \
+>>   	qaic_ras.o \
+>>   	qaic_ssr.o \
+>>   	qaic_sysfs.o \
+>> -	qaic_timesync.o \
+>> -	sahara.o
+>> +	qaic_timesync.o
+>>   
+>>   qaic-$(CONFIG_DEBUG_FS) += qaic_debugfs.o
+>> diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
+>> index 0acf6cdd44f81430ec52c7120b8b50c60721a615..64e87dfaa560376ecdf1e6f8bf7abf6153160926 100644
+>> --- a/drivers/accel/qaic/qaic_drv.c
+>> +++ b/drivers/accel/qaic/qaic_drv.c
+>> @@ -32,7 +32,6 @@
+>>   #include "qaic_ras.h"
+>>   #include "qaic_ssr.h"
+>>   #include "qaic_timesync.h"
+>> -#include "sahara.h"
+>>   
+>>   MODULE_IMPORT_NS("DMA_BUF");
+>>   
+>> @@ -789,12 +788,6 @@ static int __init qaic_init(void)
+>>   		goto free_pci;
+>>   	}
+>>   
+>> -	ret = sahara_register();
+>> -	if (ret) {
+>> -		pr_debug("qaic: sahara_register failed %d\n", ret);
+>> -		goto free_mhi;
+>> -	}
+>> -
+>>   	ret = qaic_timesync_init();
+>>   	if (ret)
+>>   		pr_debug("qaic: qaic_timesync_init failed %d\n", ret);
+>> @@ -816,7 +809,6 @@ static int __init qaic_init(void)
+>>   
+>>   free_bootlog:
+>>   	qaic_bootlog_unregister();
+>> -free_mhi:
+>>   	mhi_driver_unregister(&qaic_mhi_driver);
+>>   free_pci:
+>>   	pci_unregister_driver(&qaic_pci_driver);
+>> @@ -845,7 +837,6 @@ static void __exit qaic_exit(void)
+>>   	qaic_ras_unregister();
+>>   	qaic_bootlog_unregister();
+>>   	qaic_timesync_deinit();
+>> -	sahara_unregister();
+>>   	mhi_driver_unregister(&qaic_mhi_driver);
+>>   	pci_unregister_driver(&qaic_pci_driver);
+>>   }
+>> diff --git a/drivers/accel/qaic/sahara.h b/drivers/accel/qaic/sahara.h
+>> deleted file mode 100644
+>> index 08037281c80e28f6c85b924c45ce2c2f9dc60c39..0000000000000000000000000000000000000000
+>> --- a/drivers/accel/qaic/sahara.h
+>> +++ /dev/null
+>> @@ -1,10 +0,0 @@
+>> -/* SPDX-License-Identifier: GPL-2.0-only */
+>> -
+>> -/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+>> -
+>> -#ifndef __SAHARA_H__
+>> -#define __SAHARA_H__
+>> -
+>> -int sahara_register(void);
+>> -void sahara_unregister(void);
+>> -#endif /* __SAHARA_H__ */
+>> diff --git a/drivers/bus/mhi/host/Makefile b/drivers/bus/mhi/host/Makefile
+>> index 2a16008aeb38127494782bbff4e1656428d2b776..2e8949f1a2fe6f3f3b2e1dc541f97d2c393d6a0f 100644
+>> --- a/drivers/bus/mhi/host/Makefile
+>> +++ b/drivers/bus/mhi/host/Makefile
+>> @@ -4,4 +4,4 @@ mhi-$(CONFIG_MHI_BUS_DEBUG) += debugfs.o
+>>   
+>>   obj-$(CONFIG_MHI_BUS_PCI_GENERIC) += mhi_pci_generic.o
+>>   mhi_pci_generic-y += pci_generic.o
+>> -obj-y += clients/
+>> +obj-$(CONFIG_MHI_BUS) += clients/
+>> diff --git a/drivers/bus/mhi/host/clients/Kconfig b/drivers/bus/mhi/host/clients/Kconfig
+>> index 8bb5715e61d0d6e64a51012b4e1594ba46e5bfc1..1932344157a5b1dc25c8d63f6d4ac38f896d08a7 100644
+>> --- a/drivers/bus/mhi/host/clients/Kconfig
+>> +++ b/drivers/bus/mhi/host/clients/Kconfig
+>> @@ -15,3 +15,9 @@ config MHI_BUS_LOOPBACK
+>>   
+>>   	  To compile this driver as a module, choose M here. The module
+>>   	  will be called mhi_loopback.
+>> +
+>> +menu "MHI host client drivers"
+>> +
+>> +source "drivers/bus/mhi/host/clients/sahara/Kconfig"
+>> +
+>> +endmenu
+>> diff --git a/drivers/bus/mhi/host/clients/Makefile b/drivers/bus/mhi/host/clients/Makefile
+>> index 3811b6928f42b38f94b1167941cf3b0fe512d32b..67e70de280369870164b4808f39d9b3340f2589b 100644
+>> --- a/drivers/bus/mhi/host/clients/Makefile
+>> +++ b/drivers/bus/mhi/host/clients/Makefile
+>> @@ -1,2 +1,3 @@
+>>   obj-$(CONFIG_MHI_BUS_LOOPBACK) += mhi_loopback.o
+>>   mhi_loopback-y += loopback.o
+>> +obj-$(CONFIG_MHI_SAHARA) += sahara/
+>> diff --git a/drivers/bus/mhi/host/clients/sahara/Kconfig b/drivers/bus/mhi/host/clients/sahara/Kconfig
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..f1fc7013a2dee0be645c50f32305659e591de7e7
+>> --- /dev/null
+>> +++ b/drivers/bus/mhi/host/clients/sahara/Kconfig
+>> @@ -0,0 +1,15 @@
+>> +config MHI_SAHARA
+>> +	tristate "Sahara protocol driver"
+>> +	depends on MHI_BUS
+>> +	help
+>> +	  Enable support for the Sahara protocol transported over the MHI bus.
+>> +
+>> +	  The Sahara protocol is used to transfer firmware images, retrieve
+>> +	  memory dumps and exchange command mode DDR calibration data between
+>> +	  host and device. This driver is not tied to a specific SoC and may be
+>> +	  used by multiple MHI based devices.
+>> +
+>> +	  If unsure, say N.
+>> +
+>> +	  To compile this driver as a module, choose M here: the module will be
+>> +	  called mhi_sahara.
+>> diff --git a/drivers/bus/mhi/host/clients/sahara/Makefile b/drivers/bus/mhi/host/clients/sahara/Makefile
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..fc02a25935011cbd7138ea8f24b88cf5b032a4ce
+>> --- /dev/null
+>> +++ b/drivers/bus/mhi/host/clients/sahara/Makefile
+>> @@ -0,0 +1,2 @@
+>> +obj-$(CONFIG_MHI_SAHARA) += mhi_sahara.o
+>> +mhi_sahara-y := sahara.o
+>> diff --git a/drivers/accel/qaic/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
+>> similarity index 99%
+>> rename from drivers/accel/qaic/sahara.c
+>> rename to drivers/bus/mhi/host/clients/sahara/sahara.c
+>> index c7c0b3eb4b65fb7776a6c724cb3105046cf6f7eb..dc64beae06ada6915a506ed8f4ae4d71c03158bb 100644
+>> --- a/drivers/accel/qaic/sahara.c
+>> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
+>> @@ -1,19 +1,20 @@
+>>   // SPDX-License-Identifier: GPL-2.0-only
+>> -
+>> -/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
+>> +/*
+>> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + *
+>> + */
+> Never delete the copyright lines please.  Is there any previous discussion on why we are doing it?
+>
+> ---Trilok Soni
 
-When several tasks create files in sibling directories at the same time,
-their new inodes share inode table blocks. __ext4_get_inode_loc() skips
-reading an inode table block only when no other inode in that block is
-in use in the inode bitmap. The bit of another task's new inode defeats
-that check, so the block is read from disk under the buffer lock while
-the other creators wait for the lock. When the other inodes in use in
-the block are new as well, as on a freshly made file system, the read
-is wasted, because ext4_do_update_inode() clears the on-disk copy of a
-new inode before filling it in.
 
-With 16 tasks each creating 60000 empty files in its own directory under
-a common parent on NVMe, the creators read inode table blocks from disk
-50000 times, nine in ten of their context switches were in lock_buffer()
-in __ext4_get_inode_loc(), and the throughput was 290k files/s.
-
-Pick the group inside the flex group by the parent's inode number first.
-When that group is full, keep using the group last picked for the
-directory, and after that prefer a group with no inode in use, which no
-other directory uses yet. Do the same inside the flex group last used
-and inside the one Orlov picks when those are full. The inode tables of
-a flex group are normally contiguous, so the inodes stay in the same
-region of the disk (32MiB for 16 groups with the mke2fs defaults), and
-the files of a directory mostly share inode table blocks with each other
-rather than with other directories. The data block goal from
-ext4_inode_to_goal_block() does not move for flex_bg sizes of 4 and
-more: it starts regular files at the second group of the flex group
-regardless of the inode's group. An external xattr block starts at the
-inode's own group, and the mballoc stream goal slot is picked by inode
-number.
-
-In the test above, the creators read inode table blocks 260 to 530
-times and the throughput is 780k files/s.
-
-When find_group_other() fails in the last flex group and the number of
-groups is a multiple of the flex size, it leaves *group, and so
-i_last_alloc_group, equal to the number of groups: parent_group +
-flex_size was reset to 0 only when it was larger, and
-find_group_orlov() does not read the value. Nothing used that value as
-a group before. The retry now passes it to find_group_in_flex() as the
-first group of a flex group, so reset it when it is equal too, and
-retry only with a group below the number of groups.
-
-Update the description in Documentation/filesystems/ext4/allocators.rst.
-
-Signed-off-by: Daejun Park <daejun7.park@samsung.com>
----
-Tested on ext4 dev 35aefefd7aba in a QEMU guest (32 vCPUs, 16G) with
-a Samsung 990 PRO partition passed through (cache=none, aio=native),
-mkfs.ext4 -E nodiscard with otherwise default options on 64G (4k
-blocks, flex_bg size 16), mounted with -o noinit_itable to keep the
-background inode table zeroing out of the timing, three runs each. Each
-task creates 60000 empty files with open(O_CREAT | O_EXCL) and close()
-in its own directory p/d<i>. "reads" are ext4_load_inode events during
-the creates, which matched the read I/Os on the disk there.
-
-  tasks  before                         after
-      8  238k-244k files/s, 17.5k-18.3k  373k-403k files/s, 1.2k-1.8k
-     16  290k-292k files/s, 49.6k-50.6k  779k-783k files/s, 0.3k-0.5k
-     32  457k-459k files/s, 102k         984k-1023k files/s, 15.5k-16.3k
-
-With the default mount options, 16 tasks: 286k-288k files/s before and
-774k-782k after (ext4lazyinit zeroed 164-230 and 53-79 inode tables
-during the runs).
-
-After a remount (first run of 8/16/32 tasks), "ls -l" of one of those
-directories took 0.61/0.76/1.04 s before and 0.50/0.49/0.50 s after
-(read I/Os 3093/5879/11357 before, 805/757/1209 after). stat of every
-file took 2.63/5.77/10.93 s before and 2.75/5.49/11.37 s after (one run
-each), and e2fsck -fn the same or slightly less time.
-
-Extracting a kernel tree (96039 files, 6283 directories) with one tar
-took 2.3 s before (one 3.5 s first run) and 2.2-2.3 s after. With 8 tars
-into sibling directories at once: 6.5-8.0 s before, 6.0-6.1 s after,
-inode table reads 20.5k-22.6k before and 1.4k-1.6k after. After a
-remount, stat of every file, "du -s drivers/" and e2fsck -fn took the
-same time, but inode table loads went up 7-33% and read I/Os 0.5-7%,
-presumably because a directory's files are no longer in the directory's
-own group.
-
-16 tasks writing 256 files of 1 MiB each (fallocate, buffered, O_DIRECT)
-or 32 files of 16 MiB (buffered), one directory each: the same or less
-time, the same extents per file and one group scanned per allocation in
-mb_stats on both.
-
-After deleting half of the files of each of 16 directories and
-remounting, refilling the holes with 16 tasks (file-backed, three runs)
-took 0.60-0.70 s before and 0.27 s after, with 12.1k-12.6k read I/Os
-before and 3.0k-3.2k after.
-
-One task creating 600000 files round-robin over 16 or 100 sibling
-directories (commit=1, file-backed, two runs): the same time and the
-same journal blocks per transaction. 16 tasks with mkfs -G 4 and -G 64
-(file-backed, one run each): 49840 -> 23506 and 49926 -> 1164 inode
-table reads; with -G 256 (three runs): 287k-331k files/s and 49.3k-49.9k
-reads before, 788k-800k files/s and 0-101 reads after. Running out of
-inodes with 1 to 16 creators (4G with -N 32768, 2G with -N 16384, one
-run each) creates the same number of files on both, with no EXT4-fs
-error, WARNING or BUG in dmesg. mkfs -O ^flex_bg is unchanged.
-
-xfstests -g quick (MKFS_OPTIONS=-F, TEST_DEV with -O fast_commit): the
-same results before and after, 341 passed, 335 not run, generic/563 and
-generic/791 fail on both (no CONFIG_CGROUP_WRITEBACK and no
-CONFIG_FANOTIFY in the test kernel).
-
-Why not skip the read in __ext4_get_inode_loc() instead: the inode
-bitmap and bg_itable_unused cannot tell a new inode that is still being
-set up from one on disk. The inode cache could (EXT4_STATE_NEW, as
-ext4_update_other_inodes_time() looks up the other inodes of a block),
-but only helps when every other inode in the block is new. Spreading
-also helps when they are old files (the hole refill above) and makes a
-cold "ls -l" of one directory faster. Creators in a single directory do
-not hit this; the VFS serializes them.
-
-Rotating disks were not tested. This is the case of
-https://lore.kernel.org/r/20131001160817.GA2295@kvack.org (round-robin
-creates over 100 directories), but the patch does not spread across
-flex groups, so the inodes stay within the flex group's inode tables,
-and the first data block goal does not change.
-
-Per directory rather than per CPU or hash slot as suggested in
-https://lore.kernel.org/r/6200e067-0ad1-4dc4-9694-05ee1e977f4c@huawei.com:
-a directory's files stay together for later lookups. It does change
-which mballoc stream goal slot (i_ino % s_mb_nr_global_goals)
-concurrently created files use: with 8192 inodes per group and 32
-slots, the n-th file of every sibling directory now has the same slot.
-The large-file runs above show no difference in time or extents.
----
- Documentation/filesystems/ext4/allocators.rst |  6 +-
- fs/ext4/ialloc.c                              | 91 ++++++++++++++++++++++-----
- 2 files changed, 80 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/filesystems/ext4/allocators.rst b/Documentation/filesystems/ext4/allocators.rst
-index 7aa85152ac..70a3930ca5 100644
---- a/Documentation/filesystems/ext4/allocators.rst
-+++ b/Documentation/filesystems/ext4/allocators.rst
-@@ -38,7 +38,11 @@ file's data blocks to begin I/O operations.
- The fourth trick is that all the inodes in a directory are placed in the
- same block group as the directory, when feasible. The working assumption
- here is that all the files in a directory might be related, therefore it
--is useful to try to keep them all together.
-+is useful to try to keep them all together. With flex_bg, the files of a
-+directory are kept in the directory's flex group instead, in a block
-+group chosen by the directory's inode number, so that the files of
-+different directories in the same flex group are less likely to share
-+inode table blocks.
- 
- The fifth trick is that the disk volume is cut up into 128MB block
- groups; these mini-containers are used as outlined above to try to
-diff --git a/fs/ext4/ialloc.c b/fs/ext4/ialloc.c
-index f97a2f4904..fbe11dcd03 100644
---- a/fs/ext4/ialloc.c
-+++ b/fs/ext4/ialloc.c
-@@ -569,11 +569,70 @@ static int find_group_orlov(struct super_block *sb, struct inode *parent,
- 	return -1;
- }
- 
-+static bool ext4_group_has_free_inode(struct super_block *sb, ext4_group_t g)
-+{
-+	struct ext4_group_desc *desc = ext4_get_group_desc(sb, g, NULL);
-+
-+	return desc && ext4_free_inodes_count(sb, desc);
-+}
-+
-+/*
-+ * Pick a group with a free inode in the flex group that starts at @first.
-+ * First try the group chosen by the parent's inode number, so that the
-+ * files of different directories in a flex group are less likely to share
-+ * an inode bitmap and inode table blocks. Once that group is full, keep
-+ * using @last, the group last picked for this directory, if it is in this
-+ * flex group, then prefer a group with no inode in use, which no other
-+ * directory uses yet, then take any group with a free inode. Return -1 if
-+ * no group in the flex group has a free inode.
-+ */
-+static int find_group_in_flex(struct super_block *sb, struct inode *parent,
-+			      ext4_group_t first, ext4_group_t last,
-+			      int flex_size, ext4_group_t *group)
-+{
-+	ext4_group_t ngroups = ext4_get_groups_count(sb);
-+	ext4_group_t n = min_t(ext4_group_t, flex_size, ngroups - first);
-+	ext4_group_t start = (unsigned int)parent->i_ino % n;
-+	ext4_group_t i, g, avail = ngroups;
-+
-+	if (ext4_group_has_free_inode(sb, first + start)) {
-+		*group = first + start;
-+		return 0;
-+	}
-+	if (last >= first && last < first + n &&
-+	    ext4_group_has_free_inode(sb, last)) {
-+		*group = last;
-+		return 0;
-+	}
-+	for (i = 1; i < n; i++) {
-+		struct ext4_group_desc *desc;
-+		unsigned int nr_free;
-+
-+		if (++start == n)
-+			start = 0;
-+		g = first + start;
-+		desc = ext4_get_group_desc(sb, g, NULL);
-+		if (!desc)
-+			continue;
-+		nr_free = ext4_free_inodes_count(sb, desc);
-+		if (nr_free == EXT4_INODES_PER_GROUP(sb)) {
-+			*group = g;
-+			return 0;
-+		}
-+		if (nr_free && avail == ngroups)
-+			avail = g;
-+	}
-+	if (avail == ngroups)
-+		return -1;
-+	*group = avail;
-+	return 0;
-+}
-+
- static int find_group_other(struct super_block *sb, struct inode *parent,
- 			    ext4_group_t *group, umode_t mode)
- {
- 	ext4_group_t parent_group = EXT4_I(parent)->i_block_group;
--	ext4_group_t i, last, ngroups = ext4_get_groups_count(sb);
-+	ext4_group_t i, ngroups = ext4_get_groups_count(sb);
- 	struct ext4_group_desc *desc;
- 	int flex_size = ext4_flex_bg_size(EXT4_SB(sb));
- 
-@@ -585,34 +644,34 @@ static int find_group_other(struct super_block *sb, struct inode *parent,
- 	 * group for future allocations.
- 	 */
- 	if (flex_size > 1) {
-+		ext4_group_t last_alloc = EXT4_I(parent)->i_last_alloc_group;
- 		int retry = 0;
- 
- 	try_again:
- 		parent_group &= ~(flex_size-1);
--		last = parent_group + flex_size;
--		if (last > ngroups)
--			last = ngroups;
--		for  (i = parent_group; i < last; i++) {
--			desc = ext4_get_group_desc(sb, i, NULL);
--			if (desc && ext4_free_inodes_count(sb, desc)) {
--				*group = i;
--				return 0;
--			}
--		}
--		if (!retry && EXT4_I(parent)->i_last_alloc_group != ~0) {
-+		if (!find_group_in_flex(sb, parent, parent_group, last_alloc,
-+					flex_size, group))
-+			return 0;
-+		if (!retry && last_alloc < ngroups) {
- 			retry = 1;
--			parent_group = EXT4_I(parent)->i_last_alloc_group;
-+			parent_group = last_alloc;
- 			goto try_again;
- 		}
- 		/*
- 		 * If this didn't work, use the Orlov search algorithm
- 		 * to find a new flex group; we pass in the mode to
--		 * avoid the topdir algorithms.
-+		 * avoid the topdir algorithms. Then pick the group inside
-+		 * the flex group Orlov chose the same way as above.
- 		 */
- 		*group = parent_group + flex_size;
--		if (*group > ngroups)
-+		if (*group >= ngroups)
- 			*group = 0;
--		return find_group_orlov(sb, parent, group, mode, NULL);
-+		if (find_group_orlov(sb, parent, group, mode, NULL))
-+			return -1;
-+		/* Keep Orlov's group if its flex group has no free inode now */
-+		find_group_in_flex(sb, parent, *group & ~(flex_size - 1),
-+				   last_alloc, flex_size, group);
-+		return 0;
- 	}
- 
- 	/*
-
----
-base-commit: 35aefefd7aba0801bab635b11943f932626be3b2
-change-id: 20261013-ialloc-flex-spread-99bf66283eb3
-
-Best regards,
--- 
-Daejun Park <daejun7.park@samsung.com>
+Hi Trilok, In Patch 1 series, I was asked to match the style of comment 
+matches the subsystem where this driver is moved to. Same has been 
+incorporated. This driver was not developed before 2024 and hence kept 
+same copyright.
 
 
