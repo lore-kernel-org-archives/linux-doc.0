@@ -1,184 +1,179 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE4C3CAE8D
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 10:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791886206; cv=none; b=LcbFwBihOGEHmIttbNANnYQk1sVCPTrJvuGzvohj5+hhXn+01a2CtSO66IGC5m05ovOx255qoYt7oTLrimkVqHVDUpsnQH8ELg6huAZ4Hxa/F12nJJfwrhZ0gnhbL4cJORi92mYxlVcmr0O1lGLxOcMl0uoI2qTOCohCkeAaYnk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791886206; c=relaxed/simple;
-	bh=wx1YOW8KjXNuf+3dwHeKK50OdpSvPEga59yBXcRepkA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F/JLWLCtLs3fsNvDJ22ufkhDrcNWWg7U4lcXvrFIisMEJ3OfghxGC/DL3KaBsniT2UeQSdujn9xyr8Wuio8FKz7c5uZEwsrB00niXYVe4S37NeF+Hga5pqdNAra7pp1iNf3TceP/EA/ueHSUv4599oS14C7M6HaaP+L1w5lW6io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=l1K6GBq0; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EBE36E466;
+	Tue, 13 Oct 2026 10:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791886304; cv=fail; b=ShPnTGGSXaskIW8NmaWWI4UfXS5y4FKW0bzfREr/WOzpssTEnAYgkY4Epn+mAr6+SjFHJRuwh6EAliLZqEjxjYHb1UXzFR5oSJzrYu0efMj7Ut0NxKzgFEPAvBR+HygtgDWX7bnWtNk5BonMf31HSawvziiJk+NHkpbkQ+M/3v0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791886304; c=relaxed/simple;
+	bh=7zRWJrCRF42qf8hGVJsHYaGXtl9pDqsx7rdcdwoTnOo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cEH6YVUNXK/hr+UGeu7FEc3Tgb6Tctkzb1N2oUOZdle4bvvvL3HFIxiGXF7JngfaAPeDpuwxQx1pg8CNwOy6ruIItNNEAqecHQrGaxW+SSj1cP6n/X+ZQ1zCKROZ9dG61gvthCFcVjXPFEJoh0evuskuVcU+/1fazCwv3PnW/hc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=GJA0Om6m; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=PxIhpsG3; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l1K6GBq0"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c169ae1cb26so847242266b.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 03:10:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="GJA0Om6m";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="PxIhpsG3"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D4Zf6g3569598;
+	Tue, 13 Oct 2026 05:11:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=hr4nmZSnweoxpPdVdy8uq1WcAQG0VQ+tpJsxGt163fA=; b=
+	GJA0Om6mwV/rv3d0loy7KZk0vNedgz2VFaO7UzbrkLA2n8OZw+OrwPLtIE/oKp8U
+	pKusEKpv0EWWvoRO+VJ97JbcrZHsuxOd2SZcCTLhLp2LY+cN71gcHXCMbMkwz4Ha
+	Agc+4/DkK4vSFFUglmys06YXb+kf0JGuKfwoYULpvdUJs2RUXxw0aCox62mAM/TO
+	+IdQ9tVtMFfnS2cTkhs1eZPKQ5l5i9ClJtE0iW+5n2AePDyB5h4SA12ZnN0l9snW
+	HW4bkcL1VpJMzafF9Bv3UncObm38fwFjJYzSM5iirPTypS9bJlf1Q5klMeNodocf
+	xkMY5Y+oPEhDZF+v62D9Jw==
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11021095.outbound.protection.outlook.com [52.101.62.95])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4h7hsg3jrr-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 13 Oct 2026 05:11:07 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=i5wP1IcVWgrOs6fx0dqRpd5WN5v5V8fpgRI4DD6gMuVp925sFgjYEW+4UYw5Sx1JXlAF688iy/G5CK7ZRtnC3yaqPjNNG7rV37ovgCBg1eMoxOAvtgba9HkBCc1S85xokx7ZsMJE2tkyiCLgzdegIdKSEE3B8l+YV/K8wgGobj1WZsCll5D7HfkBM6KTkhjEbkckPTF/nCZz/2MP61KDiEalQ9hgRTNK0ILsPDzRbRE9C2OFAGXDrv0xXKAVrDfqXVCzJnsmnBn1L3fjYj+j2YGGGX7NH0kec4siDhfQKyst1HQ21DZxQTezmqdlqYI1PDKeAP745WgL1oMPLhTBcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hr4nmZSnweoxpPdVdy8uq1WcAQG0VQ+tpJsxGt163fA=;
+ b=xZCJQ+gJv6aZGbF+cw3wPdvrJ2mRG02rEokpCktovsamrkvi4jj0cBCgVlX8S9eAx2GGO146lD6RqEz5gSov35orTKxVwtXz+WcXoFmAFHYqgZvbx8fREyIui6NBAmbfTju9Zz24L2xRYv+KiidudNjdqVkhy4cztuAbXy7dqWqSot1EtWKaRmbaZcbguczfLCOt2tDag0kGLuPlax2A+cm+KZ7V68/J+BvJuch8ccERgUYbM2mS7DtEUuU8b3TvFcpWyTsKhpOrzwRjo3Ps8e4L6zkYGy5ZqEdpWhTAiFn+a2DDcxacQhcvaLz80FstES47EpTL+l9RMy6dEhBADg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791886203; x=1792491003; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=LzdhV9lB9qXueovv0WwaiOHszHStN4aVPEcvSiAOmLE=;
-        b=l1K6GBq0UkNEm/tTOZqs50Uj4F8fYlTGnOJCudGEnuWEOZzxmnarLD6HtVCelfgjQn
-         JD1kr1mltkKl0NJNzmj83kzhuvIjGBiBDWv8nqEbBlmY/9/cSMQkhn+B2FJafdJfsCVE
-         aSlFwH72dz3dlQzX6QukWa7mOjQ6YMvsozCrwY4b8M0IGnoYusU+zpilKWFKzZ75DCNl
-         MF6XpjCX2l1B7QVhbNXFPBWUR5D1pxVjT8as4VxbHDJW/kIHQoQtZFQetBlWdMmQeyPI
-         HzOv2hGE1hf0Zwbqn7UAVScJxkqkdaQOez2PylJC4zIt1/CsXmrBVnaLuja5mD47v0SQ
-         6eQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791886203; x=1792491003;
-        h=user-agent:in-reply-to:content-disposition:content-type
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LzdhV9lB9qXueovv0WwaiOHszHStN4aVPEcvSiAOmLE=;
-        b=hWotlnfiX/0ay/VXUut+HghxLk9lRA+z4A/uizLvtQ4/kG5n+qvu3AWd/GCYb+ricz
-         Eczdrh3StL4mngTZfcw01cjWH4rNHpGItD3h+Dd4ZKpBDtAbSJJlSuW8rBHTAVUnEn+4
-         VU9Sjs4mQLgIg4/3qwY6XR64fxYLrKB4fAJyB8/AmdTiI797lBfDjX5EcoBx7eTapJu4
-         Gduy4YnKSnclX/e9XLN70S8cmkBdbnZaElKjVii83WYSYHKV88g5dN3BPgu0QaXYkP5d
-         6YAZn5ryTrHy5bE4esB2XKwDFL5cezsF2e7yVGrAWq/zOazDW2n61cLUXlyX5LOje/vm
-         tb8Q==
-X-Forwarded-Encrypted: i=1; AKwUvBz2elSh9WUddXzhu0c85ZMFdkTKMJpe3xJWpZnUxwLmJ/kET3LW02MmLHikg2W0JG2L+yIdasR6eho=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLT2YjQLkBHs+bome3feDffz+mTnSJq0GiiT4tMf2wVvizlTYGY
-	dtVAKc8qF80hZ0BCuQJWgB6EBqCwNaDBIeqBcuquQiOQ3YFopbgLxgxdDWhzIviaZVe6HTvbRL/
-	TovWr5w==
-X-Gm-Gg: AYBFou2Y2ugpoSxg2Qt0bGP58+0KA/RWHgqHVtkrSq5Zw3pAjHaOaguvV99KKdXuW6g
-	PsBwGyqdLzWiaxFIvOKvX8INwFOArZJEOHPeb53MCQZKxP42CRNljcO/MnF6X0YdRq+AzY+owNx
-	6SeGcgLQrtRegj80swl3+Rx2j4jbqt4LYujXfD5CwAiGyc/e1Q7MELKhi6unxapy3n1tdjsBsvO
-	VwTwZz2tmLNzTgKyDkxTH8zRZtP+wT6lYDJKQu5rr9jL+ylM/ZPaf7KMjCSCOng0Apc+tQuJdt0
-	vPy6ZhV9V9TqUmYMBZLIpA0QhUMgoaQtDZDYsf1M6Zh5kO0H/12x9z/SgClSmd6taOEIphgRRdW
-	VWF/y+oPekcPa7Pgv18n07d/MCW2xqBPxEmjE2ZHLYHGQe/yKlp57Bh4YcA1DGsPTMxpGq7+Wwi
-	i4lzXy/VX4eJN3pyqWm0PC9FLktQFKBKIkWTjA96bicnUK3rdcqdeIZzMk9xvV9sL4YgLDsGjIL
-	UW7pRwULl1SetrF/zubbrBiiW4o+nEVTvaWgOxEaBHM
-X-Received: by 2002:a17:907:7f86:b0:c2d:cdc6:8271 with SMTP id a640c23a62f3a-c31a702da86mr1287920466b.13.1791886202849;
-        Tue, 13 Oct 2026 03:10:02 -0700 (PDT)
-Received: from elver.google.com (124.100.205.35.bc.googleusercontent.com. [35.205.100.124])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b179dffb9fsm6059106a12.31.2026.10.13.03.10.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 03:10:01 -0700 (PDT)
-Date: Tue, 13 Oct 2026 10:09:57 +0000
-From: Marco Elver <elver@google.com>
-To: Alexander Potapenko <glider@google.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Gary Guo <gary@garyguo.net>, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Boqun Feng <boqun@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Asahi Lina <lina+kernel@asahilina.net>,
-	Yury Norov <ynorov@nvidia.com>,
-	Eliot Courtney <ecourtney@nvidia.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH 2/2] rust: kcsan: add KUnit test for data race detection
-Message-ID: <as4DdRqFKxuJNDnS@elver.google.com>
-References: <20261012134159.912183-1-elver@google.com>
- <20261012134159.912183-2-elver@google.com>
- <CAG_fn=UbARgkMYOHY9kbqvkCEE532_wnkKkv50H-JkuKWtCe=g@mail.gmail.com>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hr4nmZSnweoxpPdVdy8uq1WcAQG0VQ+tpJsxGt163fA=;
+ b=PxIhpsG3nbNF3WRZO3GSdY+FXWTKZHisc0JNfoVAUF5yaHptH79PQHUFI8vyFyCGIWoZa/ZC5R/gIUIwlbmC6PSYZzjXVsmPZzInj41Sqq5NPAiZnqgb+m9JoV2YhBCWiXzoMQWEyNvkcOfhr4xPO9b1KtIpvWPt51mDLsKnUrA=
+Received: from CH2PR14CA0047.namprd14.prod.outlook.com (2603:10b6:610:56::27)
+ by LV0PR19MB9613.namprd19.prod.outlook.com (2603:10b6:408:31f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Tue, 13 Oct
+ 2026 10:10:33 +0000
+Received: from CH2PEPF0000013B.namprd02.prod.outlook.com
+ (2603:10b6:610:56:cafe::51) by CH2PR14CA0047.outlook.office365.com
+ (2603:10b6:610:56::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.4 via Frontend Transport; Tue, 13
+ Oct 2026 10:10:33 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH2PEPF0000013B.mail.protection.outlook.com (10.167.244.68) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.6
+ via Frontend Transport; Tue, 13 Oct 2026 10:10:32 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 733E8406544;
+	Tue, 13 Oct 2026 10:10:31 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 599BE82024B;
+	Tue, 13 Oct 2026 10:10:31 +0000 (UTC)
+Message-ID: <8c7ccf3e-9d0b-4e05-9aa2-1a14e0946226@opensource.cirrus.com>
+Date: Tue, 13 Oct 2026 11:10:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAG_fn=UbARgkMYOHY9kbqvkCEE532_wnkKkv50H-JkuKWtCe=g@mail.gmail.com>
-User-Agent: Mutt/2.3.2 (2026-04-26)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/9] firmware: cs_dsp: Give the bin file KUnit cases
+ distinct names
+To: Mark <broonie@kernel.org>, Simon Trimmer <simont@opensource.cirrus.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+ <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>,
+        Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+        Zhang Yi <yi.zhang@huawei.com>, David Rhodes <david.rhodes@cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20261013-kunit-param-names-v1-0-4b22ec5b85b9@kernel.org>
+ <20261013-kunit-param-names-v1-7-4b22ec5b85b9@kernel.org>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20261013-kunit-param-names-v1-7-4b22ec5b85b9@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000013B:EE_|LV0PR19MB9613:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b22658a-8bf9-4b52-2f84-08df291237bf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700016|61400799027|7416014|82310400026|23010399003|921020|11063799006|56012099006|4143699003|10067099003|16102099003|22082099003|18002099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	BjefqVozCpyHgBakfW4fpBZX36oggcy3l0K/hTkMY00PISzftUef/hn26SNI3wft4BQjPQ1oPwiE3SKqCxMtv3jj0FFBFSb0Yccb4vFPKCCPHAuHXNsln4QUqONSKZCEKVurcIi+vheuow7jVLFiCDvnZOeXBoVFJazRcyNMUTKZY4XHmaA72WHAiU0TrTg5LBqET+hMxjGHK4dNpvEjA47PF7ufXTBBfZEtKIm/JRbhhhD0/rndrg1/2qPMULgbiy0w1f0PdlqOxgKrH535dnDzS0dTc94UmQc3oZiX7yPLzcmVVLOyOuroca9nBo0FnphJ9kQEUaF9Je5oEDY1IUjlAQgsgTkEModScKb//YtZ55fCtEUcSzH8qeLxAq8TqWvQSCirxAUG1HDPipBczSS2qYw43nvG1Cs5ubm+sAjfI3zCs2LenWcEVezYuaOyDM2l+fquVmf8tOqXdOINVeHOvcLVZTTH9r+2Eg5sYaYu5g2l0KIWpqjtfG1Z8O+J9lCJGMUX2w/9Iaut91a6gVrCZPc5pMgM8XUEpM5i+fwRQP/tHWoydC/KWeDC8x2TfXtvoGDPIkPgmy1ApIn0GeE4WdYDwLMJCZccEvu6ZI2XZOpGF7OFhcDldkL9/bbLfvVNbeZghvmRAUKnuoFVCT5lze6PTVmMZYRc7uD0EuomdbXWknB/yroy3lA/gGKyA1jJdKBElw7ikPdPoTmKMNZFUl9vA22edZhJnL8GePFzzyFHvr56RzZJIKuYzSbv
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(61400799027)(7416014)(82310400026)(23010399003)(921020)(11063799006)(56012099006)(4143699003)(10067099003)(16102099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	b98JAwAze4YlK5DJL77pI/RwKaT+4pQ2xs3IgTZ5iKYQehrBRIb3XNVXy5b0rzvgFHGQws1GWr0csmaXUTvxeTToM3R0zwsIkUNoe6dii4hKqWREB19cZ8INMHmPWMibG7cZT/2Nu03N2FFvApyFlXc1gn/dvUxi/Nuv/cvdw4Tiy4+Qs9JnApKmSlSOoDhFBntdVQKUquISpv+lqz0k/WU+xK/jUVnXNLvS09PvNY5AbzncDg7ceSluFRIF6LlZ1jH3Wcqpm6HfG93kaNhlwqPJ+iPQAlF0bbLzbGgEGdfQ1LtuPSvswaiyD3+K2XasJy4sNaisBj1mw9aDknHUqrGox8MSaBlXVRSuXftkaRM7NJx78wGmJrPR/FSA4SgSUJPipPossni2gvHkzjspvcIxBTK8s9PwVJaYztV96TFMR7IohAJU6aMMZATL+Uy6
+X-Exchange-RoutingPolicyChecked:
+	5l8o6V6dhUdh1J+TTQ5INo1Cosg6c0ktkUjJ3ffD19p7sSRl/3iW3Wc6CXPsqoFimGXzZerRWQzgdbSJf7L//fSyGqqCvQto1rcnGqvcINohJ4EKuJ5kQ+GtZgxTlRX+77enTdfswUwSWlHPlkdnTiJmmdOzydXnechMv4l9la/Y5Odun/VBuukVSEIu2bYUDUTazjLZdqT8TvfAXQrIWmYqcK/+Hev+rov6ELNkG6nQJO5IBgIRNuhtCJqtzl+oiy3s8Tgz55Cd2yd8KkdQRWip+TY8rtE12/73Fx4vvLNg+hrTFohOVceDmvPFKRdLB6ATCzPZCHtt9mSS1od0fg==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 10:10:32.9040
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b22658a-8bf9-4b52-2f84-08df291237bf
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF0000013B.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR19MB9613
+X-Proofpoint-ORIG-GUID: FFbGdePp6uCI6TjpIvn_BPf8khpv2IZ5
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDA0MCBTYWx0ZWRfX22Jj1KbxgTFi
+ aWpO8l+uWi7uht9GnYATlKnyIr4kav/GaUe+J71PXwtruWmqPg8/3CohhDlKwsJ4xXyYZM+gR3U
+ zRUEu7VYGH1uz6LnwA9rM5+zCRMDW9A=
+X-Proofpoint-GUID: FFbGdePp6uCI6TjpIvn_BPf8khpv2IZ5
+X-Authority-Analysis: v=2.4 cv=QufLTlyd c=1 sm=1 tr=0 ts=6ace03bb cx=c_pps
+ a=XQ5R8ZYH27Ke1DXIRfoPQQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=w1d2syhTAAAA:8 a=930lm7FSOLyZY908DsgA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDA0MCBTYWx0ZWRfX0J6IvGqfcPLK
+ R7fVIHCM/ScndafZIsM8w4ZnoeCVZOs73vIs0vNI4fP3SmfZ+HIhnmgna4ikX172uKiUsFNJ/SI
+ h0ad6Bs9ySPurQWS/D086325csQQSWS4FhB91b0SV2k3Vt3NYS/f34fTKDx3oZLb3JG0Qtb6ztg
+ 0ObW533krL5/RHS//7gRIhSEhl9zIeFetjpIZ/hpOfyv4DWEMTZNQXflo9K/0slZhzRuLgK40VH
+ P1cHV0V9P8RVJfkq48YxW83QSR5wNi3mcARdlzaLrd2pNjLYmm4phuaQ8okW2EPaMwbST5ffv3K
+ p8mPqYeKvDt7EMcxcjrdFCTlsisaS4/z+u3y7fkHhvYxoxZcealhjWy8p9O24p8h/9nO34IQOzF
+ 0QRatv9NszO74ecWf9wbKDfC2jCH0s2dSEm8u0WM6HNYSKquO0L3WTKuYNX4ddQxzp/ANHAZQ3R
+ hLp3YE7QH7sorXaRSmQ==
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, Oct 13, 2026 at 11:38AM +0200, Alexander Potapenko wrote:
-> > +        // SAFETY: `probe_console` has the signature expected by the `console` tracepoint. Being
-> > +        // part of the kernel image, it and `OBSERVED` outlive the registration, so there is no
-> > +        // need to synchronize with in-flight probes after unregistering.
-> > +        to_result(unsafe {
-> > +            bindings::tracepoint_probe_register(
-> > +                &raw mut bindings::__tracepoint_console,
-> > +                probe_console as *mut c_void,
-> > +                ptr::null_mut(),
-> > +            )
-> > +        })?;
-> > +        let _unregister = ScopeGuard::new(|| {
-> > +            // SAFETY: The probe was registered above.
-> > +            unsafe {
-> > +                bindings::tracepoint_probe_unregister(
-> > +                    &raw mut bindings::__tracepoint_console,
-> > +                    probe_console as *mut c_void,
-> > +                    ptr::null_mut(),
-> > +                );
-> > +            }
-> > +        });
-> > +
-> > +        let worker = ctx.clone();
-> > +        workqueue::system_unbound().try_spawn(GFP_KERNEL, move || {
+On 13/10/2026 12:10 am, Mark wrote:
+> The cs_dsp_bin suites run many of their test functions against more
+> than one set of parameters, listing the function once per set with
+> KUNIT_CASE_PARAM(), which names the case after the function:
 > 
-> I ran this locally and got the following warning:
+>   - the ADSP2 suites run the XM/YM tests again for ZM,
+>   - the WMDR v3 suite runs the whole set again with long offset blocks,
+>   - the multiple memory tests are run varying the offset and the
+>     algorithm.
 > 
-> [  623.232012] workqueue: work func
-> _RNvXsb_NtCskctMpSfuwL9_6kernel9workqueueINtNtCs1G77UTwpz6o_4core3pin3PinINtNtNtB7_5alloc4kbox3BoxINtB5_11ClosureWorkNCNvNtNtB7_10kcsan_test5tests9data_races_0ENtNtB1d_9allocator7KmallocEEINtB5_15WorkItemPointerKy0_E3runB7_
-> enqueued on deprecated workqueue. Use system_{percpu|dfl}_wq instead.
-> 
-> Do we need to use a different workqueue?
+> The resulting cases share a name, so they cannot be told apart in the
+> results.
 
-Looks like it, and we need this patch to use system_dfl_wq:
-
-
-From: Marco Elver <elver@google.com>
-Date: Tue, 13 Oct 2026 10:05:52 +0000
-Subject: [PATCH] rust: workqueue: add system_dfl()
-
-The C kernel deprecated system_unbound_wq in favor of system_dfl_wq
-(commit 64d8eae3f895 ("workqueue: Add warnings and fallback if
-system_{unbound}_wq is used")).
-
-Add `system_dfl()` to provide a safe wrapper around `system_dfl_wq`.
-
-Signed-off-by: Marco Elver <elver@google.com>
----
- rust/kernel/workqueue.rs | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/rust/kernel/workqueue.rs b/rust/kernel/workqueue.rs
-index 7e253b6f299c..e46d3acf903d 100644
---- a/rust/kernel/workqueue.rs
-+++ b/rust/kernel/workqueue.rs
-@@ -1063,6 +1063,16 @@ pub fn system_unbound() -> &'static Queue {
-     unsafe { Queue::from_raw(bindings::system_unbound_wq) }
- }
- 
-+/// Returns the system default work queue (`system_dfl_wq`).
-+///
-+/// Workers are not bound to any specific CPU, not concurrency managed, and all queued work items
-+/// are executed immediately as long as `max_active` limit is not reached and resources are
-+/// available.
-+pub fn system_dfl() -> &'static Queue {
-+    // SAFETY: `system_dfl_wq` is a C global, always available.
-+    unsafe { Queue::from_raw(bindings::system_dfl_wq) }
-+}
-+
- /// Returns the system freezable work queue (`system_freezable_wq`).
- ///
- /// It is equivalent to the one returned by [`system`] except that it's freezable.
--- 
-2.56.0.385.gd3acb90ef8-goog
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 
