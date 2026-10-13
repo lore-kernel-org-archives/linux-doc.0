@@ -1,152 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1163B1EC7;
-	Tue, 13 Oct 2026 08:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3340B3B47E9;
+	Tue, 13 Oct 2026 08:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791880644; cv=none; b=Dm+NAnhSUZJG+6Y5d9GThmxmClgIL/DFal0FEH0W04Uz7Wi8d3YbxLnzmwQ70Mn/vy0v/6d6wkk+nvDqFWhc1mtChXtY5lZ4rLvukOa/xEAI3F9+PlTh54dq0f21m35NwFYwk3d6T8ZNbrw9Py2GlpJGO/ScRDiMz65szyBsMHg=
+	t=1791880901; cv=none; b=AIyvo62eX99nCez6Si5XS+eNR+kMlZU56WI4M9T3DR4Qf+Zfzs/Hsyrae5J5lo/1eVF/BAMOILm0ZinIPgs/DylnQrGGksrQVigYLQs/qCXQ4ynVZdZAHreJZunIoRofi7ZwPeBfmwM7LvaSAHqFS2mMKuHknpkrL1NV0y10gp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791880644; c=relaxed/simple;
-	bh=WRpmvYv+ZNHPv0I7UH9P9Kj0D4/Ue1p27eqvcGdqnKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxByIgqSdpGN7AbEKLVWCzDvi2psCovztoRdaZHuB0pkvmu+X/SzymVwyVKw6T4MwPoW0pO91BHLx5J8M+9Y8Uj6PDrpxhKKgdGu12JhI6CS0P4661RuH8VyqBlt2W1oxFnGJpE7cnVcCJmL+3JWdQ6/MtiZVwwmNvtKfx+8s3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eiJ5VlVD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791880901; c=relaxed/simple;
+	bh=9GkcdBGWGjcROfqYz3vlsWuRZQVRN/tOO3UKwwsgXGw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=YDOl+lQ0k/Sfrv9m7rk4Iz18sxb4bLFrqjn3bKZ2dt8YsO/LEtAs9j90uUUEWaU3l9Ha7Y1G8RUz/Px0QOHfhfXDh4u8VRb6JM+L/gKIZm7ead0+eOKuYDGPe7Uy9jrOW3PHL2LiZ8AKKoxw4jTcaqMUC7w0nEv4/y8fLkscNZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=mBWgSNHd; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eiJ5VlVD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59A7A1F000FF;
-	Tue, 13 Oct 2026 08:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791880642;
-	bh=WRpmvYv+ZNHPv0I7UH9P9Kj0D4/Ue1p27eqvcGdqnKE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eiJ5VlVDu+UtR3o0UbErr8NQLnWfLuLzU18bppw7mY67CzJ62MegODL0S3vyVE40l
-	 ARmcEUb6vjfKBQOwsfAeO7UdzKmQ1aekbTlT/PnDMQ0u4x7UxKU5A8RCALumAJnGFI
-	 ff965vRfHrBzwkmDRdCmRahdAbvgn4L8Hi9S2mKMHGDDHBs5Bz6vIKoX+9gZJUTQl5
-	 rjtsvys512F+XvenGtUjLF5bitxr13v8ekaQOiWV2/fnx240C0pdbMFBfeo831900P
-	 0ZIdGGAy6pwI6EdlGGSf8Iirx320lLfxd4fYGQBnbBwFrQ7ko2ow3H9g/UeIiyXG3T
-	 QNFXH9uNGc3fQ==
-Date: Tue, 13 Oct 2026 10:37:19 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jessica Zhang <jesszhan0024@gmail.com>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Val Packett <val@packett.cool>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC 0/9] drm/panel: add atomic state
-Message-ID: <as3sI-N3VeG_pL0U@houat>
-References: <20261008-panel-atomic-state-v1-0-b157fddb8de1@oss.qualcomm.com>
- <asyAObcpbFy3OeE2@houat>
- <7pptulwzceqg7xozps5boncgcpd5fpw2pdabcslp4den34ixjn@rzgkoe36itwm>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mBWgSNHd"
+Received: from [192.168.1.70] (unknown [4.194.122.162])
+	by linux.microsoft.com (Postfix) with ESMTPSA id E6AFE20B7166;
+	Tue, 13 Oct 2026 01:41:33 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E6AFE20B7166
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1791880896;
+	bh=4F1RGKPtPfpJKOMQ/5NOZDdZGVwhfvIULiHyvea+tWM=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=mBWgSNHdYJIKf5nUC9iXnk0UVrCsl7Kg3F78YIS4svn8UIkNzSwe8oRLSmbyGfpJk
+	 BGE4FkpV7/7VgkVm9XHVDQK4Hv2tMpNHDuavMFHqKqvM0cdbbG5nPtw2dZ5WvrBF/S
+	 7L1ar4UruSxcpxyLr8jWjY+4HW0s0ybyB0Krs/rA=
+Message-ID: <14013a11-b9e4-4cf9-b4ff-3253d179c991@linux.microsoft.com>
+Date: Tue, 13 Oct 2026 14:11:33 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="krwoug773liv5dfc"
-Content-Disposition: inline
-In-Reply-To: <7pptulwzceqg7xozps5boncgcpd5fpw2pdabcslp4den34ixjn@rzgkoe36itwm>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/1] Documentation: hyperv: Update documentation for
+ sending VMBus packets
+To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20261013014354.18023-1-mhklinux@outlook.com>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <20261013014354.18023-1-mhklinux@outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---krwoug773liv5dfc
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC 0/9] drm/panel: add atomic state
-MIME-Version: 1.0
 
-On Tue, Oct 13, 2026 at 10:51:38AM +0300, Dmitry Baryshkov wrote:
-> On Mon, Oct 12, 2026 at 08:40:33AM +0200, Maxime Ripard wrote:
-> > On Thu, Oct 08, 2026 at 04:14:22PM +0300, Dmitry Baryshkov wrote:
-> > > Panel drivers don't have an atomic state and so they can't handle
-> > > additional data to be stored at the atomic_check time or to be retrie=
-ved
-> > > at the enable/disable time. For example, it prevents panel drivers fr=
-om
-> > > supporting multiple display modes or making DSC being optional in a
-> > > clean way. Drivers like panel-novatek-nt35950, save the connector
-> > > pointer in get_modes() and later dereference
-> > > connector->state->crtc->state from prepare() without holding any lock=
-s.
-> > > The panels also have no way to reject the configuration they cann't
-> > > handle, as it doesn't take part in the atomic check.
-> > >=20
-> > > The panel already embeds a drm_bridge, and the bridge has an atomic
-> > > state which is property handled. Subclass it to provide atomic state =
-for
-> > > the panels. The callbacks can find the state of the other related
-> > > objects (e.g. CRTC state to get the display mode).
-> > >=20
-> > > The atomic state is opt-in. A panel that doesn't implement the state
-> > > callbacks keeps working exactly as before, with the plain bridge stat=
-e,
-> > > so there is no need to touch the existing drivers. The panels which do
-> > > implement them can only be driven through the embedded bridge, since
-> > > there is no commit to hand over when the host calls drm_panel_prepare=
-()
-> > > and friends directly. Those entry points warn and refuse to handle su=
-ch
-> > > panels. There are still a dozen of display drivers calling these
-> > > functions, and the panels used with them can not be converted until t=
-he
-> > > hosts are switched to the panel bridge.
-> >=20
-> > I really don't think we should extend the panel API. All panels are
-> > bridges now, consumers only care about bridges as well, and the bridges
-> > API provides what you want already.
-> >=20
-> > Why not simply turn the panel drivers we want into bridges, possibly
-> > with a bunch of specialized helpers to manage a panel state, and call it
-> > a day?
->=20
-> I think that panels provide good abstraction on top of the drm_bridge.
-> For example, bridges don't have orientation, panels do.
+On 10/13/2026 7:13 AM, Michael Kelley wrote:
+> The functions for sending VMBus packets have changed.
+> vmbus_sendpacket_mpb_desc() can target multiple ranges, and
+> vmbus_sendpacket_pagebuffer() has been removed. vmbus_sendpacket_getid()
+> has been added. Update the documentation accordingly.
+> 
+> Fixes: 45a442fe369e ("Drivers: hv: vmbus: Remove vmbus_sendpacket_pagebuffer()")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> ---
+> Changes in v3:
+> * Fixed typo in the documentation text [Sashiko]
+> 
+> Changes in v2:
+> * Add vmbus_sendpacket_getid() to the documentation. [Naman Jain]
+> 
+>   Documentation/virt/hyperv/vmbus.rst | 17 +++++++++--------
+>   1 file changed, 9 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/virt/hyperv/vmbus.rst b/Documentation/virt/hyperv/vmbus.rst
+> index 654bb4849972..c546e821ce6b 100644
+> --- a/Documentation/virt/hyperv/vmbus.rst
+> +++ b/Documentation/virt/hyperv/vmbus.rst
+> @@ -141,14 +141,15 @@ Three functions exist to send VMBus channel messages:
+>   
+>   1. vmbus_sendpacket():  Control-only messages and messages with
+>      embedded data -- no GPAs
+> -2. vmbus_sendpacket_pagebuffer(): Message with list of GPAs
+> -   identifying data to transfer.  An offset and length is
+> -   associated with each GPA so that multiple discontinuous areas
+> -   of guest memory can be targeted.
+> -3. vmbus_sendpacket_mpb_desc(): Message with list of GPAs
+> -   identifying data to transfer.  A single offset and length is
+> -   associated with a list of GPAs.  The GPAs must describe a
+> -   single logical area of guest memory to be targeted.
+> +2. vmbus_sendpacket_getid(): Similar to vmbus_sendpacket() but returns
+> +   a transaction ID that is matched against a reply from the Hyper-V
+> +   host. Useful when the struct completion (or other rendezvous data)
+> +   must reside on the caller's stack. By invalidating the transaction
+> +   ID before exiting the function due to a timeout or other error, a
+> +   late arriving interrupt is assured to not trash the stack.
+> +3. vmbus_sendpacket_mpb_desc(): Message with one or more data ranges
+> +   to target. Each range consists of a single offset and length plus
+> +   a list of GPAs that describe a logical area of guest memory.
+>   
+>   Historically, Linux guests have trusted Hyper-V to send well-formed
+>   and valid messages, and Linux drivers for synthetic devices did not
 
-That's easy to add.
+We can retain the review tags for minor edits.
 
-> Also panels have followers, while bridges do not.
+Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
 
-Ditto
-
-> I don't think that either of those APIs make sense for bridge.
-
-Why not? In a world where we have bridge hotplug for example, it would
-make total sense to me to have bridge followers. I think Luca even had
-that at some point in his series (and still might?).
-
-> Last, but not least, we have drivers that were not converted to the
-> bridged approach (*).
-
-I'm not disputing that, but it's a matter of months at this point, Luca
-already did a significant part of it.
-
-> As such I think we should evolve the drm_panel, extending it to
-> support atomic state.
-
-I still think that drm_panel is on the way out with bridges taking over
-for years now, and we should accept it. Otherwise we'll just end up with
-two concepts with the same purpose which isn't great.
-
-Maxime
-
---krwoug773liv5dfc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCas3tvgAKCRAnX84Zoj2+
-dqdUAYDG1uETAxbovMuzj2lX6QLl8c6ZN+NPH2rJwTfXhWLIgRv253UOgKpAcO4g
-kuNDHrEBgIoCWY+u4UcbXTezQO7PslGrfeFXHodgFWdP4xUUu88iHQd0XVVIOoMs
-vvVCAFGAwg==
-=FeOJ
------END PGP SIGNATURE-----
-
---krwoug773liv5dfc--
+Regards,
+Naman
