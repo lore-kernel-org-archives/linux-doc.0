@@ -1,112 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A0752ED4A;
-	Tue, 13 Oct 2026 19:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791919505; cv=none; b=BLDVrdgdQXIRHdhASVTRtak6YooDrprLvO7JHBoiSpLVX4w51E5VLyWzSgT9rOtOnmQ+OZth1neO7o3+fVVmHn9LDuL0Bvpa/yY8ilaKvWLcWh3pjSpDCekhjspi6ni7z65EMmthhEomtFDfduoNgZVANsZKIKmW6p3GptvYIuI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791919505; c=relaxed/simple;
-	bh=fMlmvLkqNQUOT94y5OcvvMzpqKZZ8Hx6wrTM/nDYgxg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H11NUrN6l14A5tk0KGDyn+hJ5hvhiYhfwqbvfaSgucIncMx+F3CyO5vR214yoJssGt/NpwPEpmK0qXCJqUKaiWeATNYj7McknKYCmYzQJYbjsZXP/I3OIlrA0WLbsAmM//nwgjd5MlcLV8MRQuEPcnLO5XSsrRinlOP9BtdeN5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gFyyLFFE; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6909542EE1
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 19:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791921203; cv=pass; b=J+LhYqyR4wEkKTML91S6l+x40Y8M0Nvpy0AailLGlw6+YMuyhcZCoWwVxVM3qz08kRMyEwCMdeRF02QPX/5E9YTMUxwdFGFlcc8kCk4Ism0Lh1Dm26915fBTTaulLQPKCYwmesBjgazqQ/JBKyLfmn7fo8aY3RNm9y1VHmcztw0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791921203; c=relaxed/simple;
+	bh=kZcNHRKweJx+iHr6GYPUVcEw90YDQL8CUNxb6aSZzLw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iML0CJJvork3SRxvQtxknTpyMyRzV28b0lse8PtjEguIu69sn2yZhulZZlUzfd7GknTeY6fae1564qiq+vS7ceMZaELZtVzMshhbGeaJQvi+xlBzHCW9Ps5WbI3fZzNkAJpAIAFVSrpFeeqg6h/t2KPdbSJ8UHRzbgdcMHmPByY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QVGlPl2q; arc=pass smtp.client-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gFyyLFFE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E91A31F000FF;
-	Tue, 13 Oct 2026 19:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791919504;
-	bh=t8TaX7IWM3SX4npGRomcdK7PMdxLLeHzJJgaO/Kk+pI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gFyyLFFEGHE+fQ7Tw434vJJSxzxKXuG0G8iRbQ5zRRrXTsB8Qpqx7hUvYG06w2pKF
-	 nFlJr27POH2Jt6Qr292SXbjbS/EWlsSa9SIru9OFoiDuFyD/Rmqw0XRYHzbr6+Xld4
-	 XhcbfvdJ0PxKHnNMX2UtoX5v+70/Y266+TzDReK4vIgd87HiS+Se5H71X4HeRgmw87
-	 QFNmYITapuvCVvQHYUck8Id/t6CwV3ZOF/zeUCvkV8WMN5o8vgO+0PVq0eP1VkA3nN
-	 T15tCy0B7NcIWujL8NQBmyB5fDBdtKux/7V5ZIoqYfONyRPgHTRxZmLOII6XdSSlIg
-	 pkeBeYIIbHbTA==
-Date: Tue, 13 Oct 2026 12:25:03 -0700
-From: Kees Cook <kees@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>,
-	"Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-	skhan@linuxfoundation.org, rdunlap@infradead.org,
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH] docs: remove Assisted-by references
-Message-ID: <202610131216.C841415F01@keescook>
-References: <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
- <asz9AeFe3CutP73z@gremlin>
- <20261013123132.GC4214@killaraus.ideasonboard.com>
- <as4pAEnLd4H68W4W@gremlin>
- <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin>
- <FAD7F1E6-5FE0-47F5-8D10-40473B39A2D8@kernel.org>
- <907933931.787284.1791903485683@kpc.webmail.kpnmail.nl>
- <202610131000.43AB316FBC@keescook>
- <20261013174243.GC178151@killaraus.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QVGlPl2q"
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5e7834687easo728970e0c.3
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 12:53:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791921201; cv=none;
+        d=google.com; s=arc-20260327;
+        b=loEjXJ5+srBwRQzh7f9091j62awTwMOIj3w1xhDZJfkyeMCUYKN28KC15buPdCf1Yt
+         U4Tq1uymM9BbPSnRXNxG+ZNQu50mu+2PTCDQC21Vp8vVj2B69o/iwvPHFHYaKwaHq87Q
+         yfsdQzwEYnfIInEibMfUo++LL+hja8585l8pTUSI/n4hm0Uu9OkQcKDX/FiSqVaiXclE
+         WVeon2oHgnFqNlWaRXpZGiaupEYDdpIo7k/C2c5pOyBZifEYEEmP+TV5+Ghn/n67/6Tc
+         0Yf27g7uLoR15GGyljMQlktUPdMbq5rJvbRRpAKyPIpQH6IpPvm26U+JIX3ihEawHx9H
+         Fg+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Itq5Kt1Cpx9UyAaFaUspzDtgaSrQMGirNxVH3aVF5nQ=;
+        fh=3DvsyIWvMQMtP6mc3tnKuS3Bgi1bFQugdIKvTh4Wer8=;
+        b=VofCu0gWanoowByouC0gCsJINVE+VZoySiRmrVzviONf+nmP2qIjUs52lxO20cmOqR
+         R48OtKP5c6ywy6ieWDHhV6a6JX9a+L5D7/nVjyqgCVlWJUcxdC8iangghSQ6IyqlK+M9
+         /6TP3p6+Olnr7nR5wWhHG0tSeAMGjYBS2ZzoyHVZJpn7xRgqk3+jaszy7c+i+9ikoUSx
+         vunSA5+qxzNRvQ9W9az+PTmPaQBXOU+30EzRHfmKB4rldkxQFoDakrCcPb4W7x9th9HN
+         DxHc9hlJwo2AqRFH19zzCoYhs4oF6cnhT1mt0dSmOwYGx6XUh0g7WkhGbtmz2nQML4+8
+         CGrw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791921201; x=1792526001; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Itq5Kt1Cpx9UyAaFaUspzDtgaSrQMGirNxVH3aVF5nQ=;
+        b=QVGlPl2qfCpHQIJgYmlMoeB3u2b11/EgHKdBkxLXkrqIRszsvgZ+YS1iE/ALMsS5YL
+         INUhh1ygHTwoTIY1s3pQUTKlxAUo4Y1Bv6AAeRsigQmYuWgJNuWM4clCnXYDcAtXFg0y
+         2lW+5cpfox7mzC5lkBbHhJ5usDndqPbfUa5kZnL9vNSg3+BtacP+QtGjbL68xZNJe24w
+         UxYWt8lDGnk+tqtWuDiPkA/BkNRVpev4dJ81iDYcgQiuIazACV51jFpOw0xn4ZDoKkGh
+         nCyRZPWB8yNq+LuyVM+KDbaHWto9P86I9CssWfl0xIsugXxwuMSYw9ySa29knrR1zrpD
+         kJdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791921201; x=1792526001;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Itq5Kt1Cpx9UyAaFaUspzDtgaSrQMGirNxVH3aVF5nQ=;
+        b=fm1bi04GLbNanLfTvfe/jNAj85v3JhkexkbUM+PXBrsNrG7AAYTD82OIF23Z96h3s8
+         t8R6TeORvZxO+riVN2fHoUB9fPExyYCUvHAULWP2JKROkeITB2HLlR6kTCUqCQEjLWl8
+         EacVSiQFr48JpFtbupJSLXA2FAj0bEJiRqIVXbykmjc6NSSLrag18tdfLUDyRrOsRabf
+         95/ig6DiXLeCVZDecC2wmTKHmMYntMZGbk2cschEvysvdpvynkLGEL4MpSDT4+9bZpIq
+         +Eak373tXBerc9GmEl1nN7Id2drcv67dWLyXHWcWKaCqTpExAz+hAWT9eswl2LAvHCJ5
+         VkNw==
+X-Forwarded-Encrypted: i=1; AKwUvByI/cP84CsChXVfTZkQ/hd3uWewdDUq2kOjd8fwYo/p3h4RmZJYFG3Uc9G2b69Q/b9SPi6xfa5fkro=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJmMABTWlwausc7QeRAlCtNIAfurHnR4d1nUAsQc0zyjzNwCg8D
+	wj44bjI/9rUW7QpT4QLvhe2oDDNxOQ7baO6rIqhgqlR6oBnCk1Y3OvT0OfoEtVGdr/QBNdtj5qL
+	I6i1XnEcDCC464e01tbSSgW4S8nRFil0BTElLjDFz
+X-Gm-Gg: AYBFou33dHRLeI3sIkwjd9VSFPnMs/mudSvLuWVgQULY3avyfr/pFxF7N6oZ2QMos4f
+	jHhJ1AGjiyFI0OVjL1qQlEGwywRijDVQc1PBU4HJ+PoYYlaTaA9lhLcHjubHwm71o+bB2OKYkac
+	2Qw3l6p6JOGfCsxecpoiAXilcY0vpsDpZorJyTqDD+jNe7EL2rGUY5W8+nnsQzNdWjQ4KyvvCvX
+	Cu6aGSc21NdvQaDt/vgoWhsqngUusbwz3lSaQaaijstt7nUmqO+cvc4S6ddTvQdgPzmihctxA5x
+	FjaH4jC1dN4POWXfJIuQXd/EpBjW7yBQRQx0k+1Z3paRF1qLLD3Jl6povGh9b+qjKo/w/beUenm
+	iJizOMJXHZA==
+X-Received: by 2002:a05:6102:38ce:b0:7c3:3c75:db89 with SMTP id
+ ada2fe7eead31-7cb3a117b27mr3126273137.25.1791921199874; Tue, 13 Oct 2026
+ 12:53:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261013174243.GC178151@killaraus.ideasonboard.com>
+References: <20261013-kunit-parallel-v1-0-f4be28c895e5@kernel.org> <20261013-kunit-parallel-v1-6-f4be28c895e5@kernel.org>
+In-Reply-To: <20261013-kunit-parallel-v1-6-f4be28c895e5@kernel.org>
+From: Daniel Latypov <dlatypov@google.com>
+Date: Tue, 13 Oct 2026 12:53:08 -0700
+X-Gm-Features: AclHuK8z2hwcwxCnPzLLSbjbaXHYfi3CL2D7DyPENfay0wYMSMnrgT2M8XDF-Lw
+Message-ID: <CAGS_qxrRMoy2fB3zzpD=bOf7R4not5TqpDXE3a-dRKJOpyRt8A@mail.gmail.com>
+Subject: Re: [PATCH 6/7] kunit: tool: Serialise output written from multiple threads
+To: Mark Brown <broonie@kernel.org>
+Cc: Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Rae Moar <raemoar63@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 13, 2026 at 07:42:43PM +0200, Laurent Pinchart wrote:
-> I'm increasingly thinking that the Mesa policy of requiring commit
-> messages to be manually written (possibly with machine translation)
-> could be applied to the kernel.
-> 
-> I've heard multiple people saying how using LLMs made them more
-> productive, with an extreme example during the maintainer summit of
-> Linus talking about doing in a couple of months what would have likely
-> taken multiple years. The same people like to tell how they're in charge
-> of the whole process, how they control the machine, and how they have a
-> deep understanding of what they're doing. If that's the case, surely
-> writing a commit message will not increase the development time back
-> from a few months to a few years, the extra effort would be negligible.
-> 
-> Most commit messages generated by LLMs are quite easy to identify today.
-> Requiring a human-written message would be a good way to quickly ignore
-> patches submitted by meat proxies. And before anyone tells me this will
-> change very soon with <insert employer's new model>, I'll say we will
-> update our process when that happens.
+On Tue, Oct 13, 2026 at 8:52=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> Python's text streams are not thread safe. If two threads write to
+> sys.stdout at the same time the stream's internal buffer can be
+> corrupted, resulting in lost output and runs of NUL bytes or heap
+> garbage being written in its place. This isn't an issue currently, but
+> will be when we implement support for parallel test execution.
+>
+> Add a lock to kunit_printer which Printer.print() takes around each
 
-I agree on the face of it, but it's just as unenforceable as the
-Assisted-by tag was. :( My own recent commit logs are, like the code, a
-combination of work from me and the LLM. I trim and edit and reorganize
-and add/remove stuff all the time (code or commit log). And all the
-while, tweaking its rules for how to write prose, so I do less and less
-editing. (And maybe my commit logs are now too verbose? I'm not sure;
-I've regularly been told I was too terse before, so hopefully there will
-be a balance found.)
+Firstly, thanks for taking on test parallelization!
+In March 2022, I'd written a proof of concept that worked, it just
+leaked some memory on the C side so I never shared it.
+(Instead of using the existing test filter glob, I'd added the ability
+to specify arbitrary test indices to run a slice of tests)
 
-And as far as spotting this kind of thing, I've already failed the
-Reverse Turing Test[1], where I thought some of Lorenzo's (justifiably)
-verbose commit logs were all LLM generated, so the inflection point for
-clearly distinguishing is here or fast approaching.
+I'd have to reacquaint myself with the code to actually review the series.
+But one thing that sticks out immediately is, my version had added
+this new type to avoid the need for any locking:
 
--Kees
++class BufferPrinter(Printer):
++       """Like Printer, but only prints to an in-memory buffer."""
++
++       def __init__(self, parent: Printer):
++               """Creates a new printer that inherits parent's
+settings (use_color)."""
++               buf =3D io.StringIO()
++               super().__init__(buf)
++               self._use_color =3D parent._use_color
++
++               self._parent =3D parent
++               self._buf =3D buf
++
++       def close(self):
++               """Prints the contents to the parent printer and frees
+memory."""
++               self._parent.print(self._buf.getvalue().rstrip('\n'))
++               self._buf.close()
++
 
-[1] https://lore.kernel.org/all/202609150943.000EC9277@keescook/
+It required passing along kunit_printer.Printer objects to more
+functions, but I think it might be a cleaner end result.
+By explicitly calling `close()`, we could control when exactly output
+gets flushed so we can avoid weird interleaving.
+It seems in a later patch, you write each kernel's output to a file to
+get the same effect, but an object like this could be used in more
+places.
+Thoughts?
 
--- 
-Kees Cook
+-Daniel
