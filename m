@@ -1,107 +1,121 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703DE421245;
-	Tue, 13 Oct 2026 17:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8DB3BFACE;
+	Tue, 13 Oct 2026 17:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791912768; cv=none; b=ZoH7fJ6spMzuT1gtc1B/F1vj6lOsVYloxliOUAMd4ny8EzZoXkHEyyKXW9pyE9fGN/yeYVwvliY6BhGPZYXZrWDOTX/J2s4QN/7xS9/x+M6ZSWhSrOy430mAWt3F1zQFUx9syaSRwX85gQ5J+dXasQKiadeHilXMnWEHSuWm49o=
+	t=1791912888; cv=none; b=BUySVRZLIKYGIc3jahVOThLsYLLd/bLVVEH4vyhjldz6qi2tF8qj5Og+ldWJScB/DK6C/YvodqEMekuOleNlPVEgUGLQeiKM4EdThCDQnD5F9Gb+LA5iNpGXqdlRjwOjDUHBftwJTw83qHWv2rvW4yjJGRm0p+yQqhUn8cGbeWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791912768; c=relaxed/simple;
-	bh=xhyOmlY04l3SVooKPFR6wWaAfhoNF1ej31jWi9WMbns=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MB0RNubBryzXRs2Sywf3YVfdz3hM+CeRaJXiGMugM/WonT1xnbrhVYpFW99JcJgjbjjdXRKuLgpi06xsihrKaPJqbDJo8hwLUV86uWAP6gTWsQC0XpF5tLTdVdnjyhKRKOl/qyrACeeiGX2x0ahVvX2LwybRUY8DpdQSkVpRMk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=D+jcCMQO; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1791912888; c=relaxed/simple;
+	bh=D3UYt0i5hAKFhi8tFEEKwRghDne3HmZX19J1SbhWdwA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ui6mcEf7qc71jSTEeZ5QMSyadw7GRlWJU2h45y2zluYsWhtRbtsoSshfNqToRH+74pj2gYlppfANVDd62uS3atoNnF83spzJ1p1bEVaB6081/1jIb38bY8l0uz/IgTEzhbSXkdeqJawL7VN/hh1T0k3CtCw5a7PmOsIbrlD6N7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=AeJxApnX; arc=none smtp.client-ip=67.231.145.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D+jcCMQO"
-Received: from killaraus.ideasonboard.com (85-76-151-95-nat.elisa-mobile.fi [85.76.151.95])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3CC9619C;
-	Tue, 13 Oct 2026 19:30:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1791912642;
-	bh=xhyOmlY04l3SVooKPFR6wWaAfhoNF1ej31jWi9WMbns=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D+jcCMQOrybt5E0xK7HdqVioNujBVrA5c9LVXwD6sOnxWQ00hvUJbxK2GZzQ/JOmS
-	 3gqlFaUgO3vGZoobF9Sb3KUFdJHO3h0O313Xgg7ae9nz4vXkvon4ZERIDb2b3MSKRW
-	 PGyukK2XCLs74urx4TZN7Ki/fTc5kj1wZ/KBGXdY=
-Date: Tue, 13 Oct 2026 19:32:40 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Sasha Levin <sashal@kernel.org>,
-	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
-	federico.vaga@vaga.pv.it, apw@canonical.com, joe@perches.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Carlos Maiolino <cem@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Jori Koolstra <jkoolstra@xs4all.nl>,
-	Brian Foster <bfoster@redhat.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Disseldorp <ddiss@suse.de>, Mark Brown <broonie@kernel.org>,
-	Jani Nikula <jani.nikula@intel.com>, Jens Axboe <axboe@kernel.dk>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>
-Subject: Re: [PATCH] docs: remove Assisted-by references
-Message-ID: <20261013173240.GK4214@killaraus.ideasonboard.com>
-References: <20261009083137.3-1-sashal@kernel.org>
- <0914a106-bacf-4d95-854a-bfeefbff62a4@kernel.org>
- <asz9AeFe3CutP73z@gremlin>
- <20261013123132.GC4214@killaraus.ideasonboard.com>
- <as4pAEnLd4H68W4W@gremlin>
- <20261013131243.GM56180@killaraus.ideasonboard.com>
- <as4xMnT8a75pIw9v@gremlin>
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="AeJxApnX"
+Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69DH31Na1158838;
+	Tue, 13 Oct 2026 10:34:27 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	pps82601-s2048-2026-q3; bh=LWL/XRN8x3Z/WAwoivm6i1fVHwe3fxfm0cZor
+	ef+30w=; b=AeJxApnXUsz7mSwHpTEM8k99my3aArx+5CsRLETzTtoQj9yegU6AK
+	ghB/sP6YuSGn/oSUHNYIw6KYA9QMKS2Gokzzg5hkYEshs7DyrWvurUdQZhM7MDz4
+	JW6dULZw1HKgDh8olHw+QhkxDrh9AycpnMFOeYzDPvMlp8HrLEdn+uZW1659AzwH
+	tr7QUqt9YP5RlrI+0fk2mzr3yoPpn68OK03+DtnO9WDvFAxEEP75dZbauk2Bd0gy
+	z2MILJ/vsj1WlH+yTelF3WbvveRFDHH7cy62y6Am3ITo2ipKFe4CGqrV6bxZvKtq
+	T1IYGRh5vsa+kPpVmVYJng9Xkk7VYvhQg==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4h9hc43xva-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 13 Oct 2026 10:34:27 -0700 (PDT)
+Received: from localhost (2620:10d:c085:208::7cb7) by mail.thefacebook.com
+ (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.49; Tue, 13 Oct
+ 2026 17:34:26 +0000
+Date: Tue, 13 Oct 2026 10:34:26 -0700
+From: Bobby Eshleman <bobbyeshleman@meta.com>
+To: Daniel Pereira <danielmaraboo@gmail.com>
+CC: <sgarzare@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
+        <skhan@linuxfoundation.org>, <stefanha@redhat.com>, <mst@redhat.com>,
+        <jasowangio@gmail.com>, <xuanzhuo@linux.alibaba.com>,
+        <eperezma@redhat.com>, <shuah@kernel.org>, <rdunlap@infradead.org>,
+        <donald.hunter@gmail.com>, <edumazet@kernel.org>,
+        <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <sargun@sargun.me>, <jlinbox@meta.com>
+Subject: Re: [PATCH net-next v3 4/7] vsock: add a netlink command to assign
+ the g2h device to a netns
+Message-ID: <as5roqKrcZ+0WYIj@devvm29614.prn0.facebook.com>
+References: <20261012-vsock-guest-ns-v3-0-b32447c66b23@meta.com>
+ <20261012-vsock-guest-ns-v3-4-b32447c66b23@meta.com>
+ <CAMAsx6fKVQaYLzkK34v5DRkmQS5Ym-XqwNh-+Jj_Uue8NJCNUg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
-In-Reply-To: <as4xMnT8a75pIw9v@gremlin>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMAsx6fKVQaYLzkK34v5DRkmQS5Ym-XqwNh-+Jj_Uue8NJCNUg@mail.gmail.com>
+X-Authority-Analysis: v=2.4 cv=L86I0OT8 c=1 sm=1 tr=0 ts=6ace6ba3 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=8nJEP1OIZ-IA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=crHB47gyY4rKiduisYu9:22 a=VabnemYjAAAA:8
+ a=IhaVPjiSUfC3lUqgL44A:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDA2OSBTYWx0ZWRfXweRN4xWDXlRU
+ QYe3T0G1lTLn8kzE8+h7GJpNcWDizdt2gDMq2z3tkLHOR3BO/csllYNf97Aw8G79kjqnDYWx372
+ 9eHx3+N0IrJoKHmFhGifo1o6WS4qR/A=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDA2OSBTYWx0ZWRfX1QZzySfg7Iql
+ zY4V15sByE3oHUpSIIV3Q6s4f4/6Sj2GnR0xww2Mu1pj48pXZ2DnI/Bs48xyuChTigOYIb8Yg5v
+ oJSjFsdMsNNT3fYO+iYQ9oi6QCvFvxj6shYyvnd9XQTU6WWhk+tHBphaC/bn7YdpAcMQ+EN7jpB
+ jkMUMHocjxur1dOxBHRmAlzIcqsty66EfL58I6pq6k568m2Q9MxsQp9gtNbEMspz2rRBaQGu2ly
+ oWAZlq98ZCpTjGtprTUB2yLtOPvvmlpmO7UDoHPpCfEdJhIlP/xHk/c+BGGqzGATB+mFJS7ZY4B
+ bYrWl+/3dgk+OS42jgbLxfSqWWP1fqi9h0rjXsUoIJ4Kd9UsQAW0mkx3ys6CjCF9I9w6E4rtXN9
+ xVz3YLbRDUupyT9yfIIH5hO7No3g9GxGbHTJjBNnXzGWbJ6bD7r4kjklqwVdqNmUuC3rBkIbBpc
+ V4/EsVtkHqo+KLY4Ihg==
+X-Proofpoint-ORIG-GUID: crBcu5j1ETahNAP4cu-GvJGR3AqHg4Mk
+X-Proofpoint-GUID: crBcu5j1ETahNAP4cu-GvJGR3AqHg4Mk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
 
-On Tue, Oct 13, 2026 at 02:29:08PM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Tue, Oct 13, 2026 at 03:12:43PM +0200, Laurent Pinchart wrote:
-> > On Tue, Oct 13, 2026 at 01:59:33PM +0100, Lorenzo Stoakes (ARM) wrote:
-> 
-> > > Ignoring is the only workable long-term solution.
+On Mon, Oct 12, 2026 at 10:44:55PM -0300, Daniel Pereira wrote:
+> Em seg., 12 de out. de 2026 às 19:51, Bobby Eshleman
+> <bobbyeshleman@meta.com> escreveu:
 > >
-> > How do you decide which patches to ignore ?
+> [...]
+> > + Movement to an unreachable local namespace results in sockets being
+> > + closed with ECONNRESET. Peers are not guaranteed to be notified via
+> > + an RST.
 > 
-> Anything that looks schloppy. ATM it's very easy to tell.
+> This reads a bit differently from the sysctl documentation in the same
+> patch, which says:
 > 
-> In future it will be newcomers who do anything but the most trivial work. Or
-> they will at least be super-deprioritised.
+> Connections established before the move, from a namespace that can no
+> longer reach the device, are closed with ``ECONNRESET``.
+> 
+> The net.rst wording also covers moving the device back to init_net from
+> a local namespace, which this sentence does not. Maybe use the same
+> wording here:
+> 
+> Connections established before the move, from a namespace that can
+> no longer reach the device, are closed with ECONNRESET. Peers are not
+> guaranteed to be notified via an RST.
+> 
+> Daniel
 
-As people tend to quote Linus in this mail thread, it's important to
-recall what he (and others) said during the maintainer summit: the
-kernel developers who code without using LLMs are not just tolerated, we
-*want* them. We want them to learn and contribute, we *want* more
-juniors who are genuinely participating.
+Thanks Daniel, I forgot to update the docs with that change. Your
+rewording sounds good to me.
 
-It was very clear during the discussions that raising the barrier to
-entry applied to LLM-generated contributions ("they have no excuse for
-being anything but perfect" - not a litteral quote as I didn't record
-the conversation, but the closest I can do based on my memory), not to
-human coders.
-
-> Yes there will be collateral damage, but it's that or no more open source (we're
-> not the only ones going through this!)
-
-Think how you will feel the day you will be treated as collateral
-damage.
-
-I find this mail thread it taking an almost cynical and violent turn.
-Are people rejoicing at the prospect of actively discriminating against
-sincere contributors, or am I misreading it ? The kernel community needs
-more care.
-
--- 
-Regards,
-
-Laurent Pinchart
+Best,
+Bobby
