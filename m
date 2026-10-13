@@ -1,124 +1,257 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B313769EC
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 20:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5D3413230;
+	Tue, 13 Oct 2026 20:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791921683; cv=none; b=Ic+fkJJuwYKfsrxYzeyotRdJhocTutGrAnHVB9QtOQdUqmr5fefmcJyGvhZjh9bjRyf6GBxMIclZU0y/vB1rxvbx0xqpxDfcp3gfNIImfOvo53VM7M8A3pOZ66DysN+IIstBy83CHvPuxE6Kt/vLxkqCeYIefX/FmnkFfP2icS0=
+	t=1791922252; cv=none; b=QLvgId/VHAHFGHKlj5fM5crMzvXZkFvhffZsQTwwvuXG3LFx5jWmL7G0kCGlxdavVuEEcMlQBrwcsGbJHdb8e0NIYZ0YWEV+SPVh0RUexAKMInLa2ovuaq4iNOfKtlUb5jcZth6j9sUgV8gT99rWl2dmNG7vs4GOlPDl65yd4ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791921683; c=relaxed/simple;
-	bh=fQVY5chC60ZjBQjDFPKKF/d1XMZEKgL4x/CtPrZ0YQc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GD0lhcusuOBby7u+EGLXHBSdfGBEYwQK2iUKCUEsWFHMfq1/u0B+nh+vfSVxMALUeC4SA+LSiPZGV7VmU4k3eA726V+sMixKuIaVst5vdtKDr7aRz5ljSXLH+VpiX4MlP2xvqF9Qpb5gxWoJKSMm1gTWozfU6GOyHpwine3H4Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bHHNblJA; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1791922252; c=relaxed/simple;
+	bh=L5nwg9AGG8iiskY6UFxYgjhcR654OetOjN3sd7vZFJY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KqYSSTxjFM1lzchDao0+Dpt+9zYxzRtvMz9L7TTwXWrJRfqO5RW+xfoAAo1XsI/oqLYTvizfG7cEf9977AxgaCH4lhiAp44XjXKr37qbjuzRHJFrdSa2tnLn+1tw5RZbpN0KV2gT9MBI7lndq3TaHhO/tNiEiplqf7XdND+YSjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=bFAK7Oxg; arc=none smtp.client-ip=52.26.1.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bHHNblJA"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-81579d03929so2360701a34.2
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 13:01:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="bFAK7Oxg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1791921679; x=1792526479; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Yptnc6KUcr57HmaDPJW3YGRT6JlQRoFG6je5ZFpjWiE=;
-        b=bHHNblJAwI9TqaTiC/MFjsd0joApLpBanlzHeO5elCnR6Em9h4aL7Gki6LXOqQUBn4
-         HukHeCqAhzWt94MFMYsY/Bk1kxfCWaYFujo+AGDrMPB9B14AJFQMJFcXsh55J9LrWnPN
-         xu1tJBrHCaSm3ozS9XlCitZEEPO9GWn+rwM+U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791921679; x=1792526479;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Yptnc6KUcr57HmaDPJW3YGRT6JlQRoFG6je5ZFpjWiE=;
-        b=yNdAB0GijJHskkTXhkjc2Uk2DDfgJLnYkpnXSIrXkhZGlw///E1LrW0nDQJLK+WVzp
-         yWyr+0dvt/uCwQ7KgZY4D8EX4nwQ2rbjaB2Br0qVm97QWNU4fN6hNmyECRe7zypeoeDL
-         diwkrO0m6DzQXaIe7/MPESc20CHQArsbz+oT8k69IQ+i8LD8F0yV1O5vw0NKYixNEETa
-         hLPfaGy697A2AvNXzRQWF1K8qlQx9WrtVZt60ZHp4oxu6Q1Ku/ROjFBYWWGtMr2HIqWC
-         edGXIM1cPG4ZwBIbaCHfj3qWYnx2/lyD6HppuwtpcPRB6Sf6sBPFsjlHPgJSUbSoTPKv
-         d56Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzc1qL76fe7/qvWzwCoN8MWXXe0OYWwAaa+bllsISM/PIokRTgHZeBEQj6zt9tGHR65ZfFl1ZY1CXQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJnEh8Aibhs/wlgiU51tN0cwdAgLkQbhkKj3A22GU4xy9Eb/Sxt
-	s0KUykm1sUMEr+ozi5ks4UwGOhR8cKSJau/uyOZsCywp5Vzfegff9UWQGYxwsUZc8qE=
-X-Gm-Gg: AYBFou1k+U2oID0bjD3CdWxgcTiLPTPqTu7VvieGKtmKgO2oP2rA1Z7r4TdA371cqxI
-	Y4/+7bBYlJap8WswAZhTrw1xUoQGdhjBSkJOaBl/sK3ai1tr0pV5NvVFTEMku9EqYTt72mnZ6YV
-	8sNS1Y8ozfbMpb2N8N/g3qBBMKObJ1AzFWrppLJgFso03m4G66uFTLmSi7ZBqXFaDqeQv63UGrS
-	Ys/BHeHdalaKmM6+WrLCkt0B0lXpvW+X6/9ioY1P5bKWnUX9laKGj6KSujgfGUBM2y9+7mlAylf
-	ic9i/mzxufGbVTmfY5fm+w4v6RNInVrTmjodKYgO6qm+qBnnh0qDMVWLJ89dRQri885cyTjMCuS
-	zgwRLEHHIcPDNJa2XDx8I46p8Ka7d4OsFA/vAn2YwW/B3Qweqwk86eJUS2UYiJo+ooomIu0yxJB
-	oMoCZRl2W3uEPAhgXIeulVYGexYnjEO6EFkUCbaZVgR0wphEoEpJ/Xi/y/aEEkm2ggkJ226igqW
-	0OrvgUW7Q==
-X-Received: by 2002:a05:6830:680f:b0:81b:ac5b:ea0d with SMTP id 46e09a7af769-83096cc4e39mr13898778a34.19.1791921679468;
-        Tue, 13 Oct 2026 13:01:19 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-83039a3dfa1sm13350079a34.18.2026.10.13.13.01.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 13:01:18 -0700 (PDT)
-Message-ID: <3c45e083-4e08-4699-adea-1d758baf8d0e@linuxfoundation.org>
-Date: Tue, 13 Oct 2026 14:01:14 -0600
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1791922251; x=1823458251;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TrpveSit1wEH+8j/24R1ws6bYbF85HVwGd6ZkiaCh1M=;
+  b=bFAK7OxgME27tzUILfJ29DgcQm/ZhO/yHAPhGEvJ1lF8/Zm/xx+eUt8U
+   KYAFIcqtIjKWcbaClhbDgIYDlNxAI/WM+FJHQYIf8GrGzFO0oUZr9LuCw
+   Ll4x5ZwMTUTfSBmgin9i3GBrf2jb1OzO7L3zPBwBshjMIOd2dyzXtyvaa
+   f5PTL+ONflmFgkZZEb17EZHZ3LxFCR8nNL1khiQQ63t5dhWpXCZUm4v/R
+   SweDF6dgsoaO7zUEtV9wq/AACZlWJ6mHNHH0ZX1ivC2EODZNCBoyxv4sM
+   vEzlukgU9eHo08N1kfVB9VOxnU9FDNRd5jSsDn4zGkvRIC1AZWstNt723
+   Q==;
+X-CSE-ConnectionGUID: 1qb2flQ2Sjy41jOsd611Ow==
+X-CSE-MsgGUID: 2LNNa7r/SHauFUaqF4BpDw==
+X-IronPort-AV: E=Sophos;i="6.27,156,1787011200"; 
+   d="scan'208";a="31206066"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2026 20:10:50 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:6737]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.1.91:2525] with esmtp (Farcaster)
+ id 00a69108-e302-402a-b9c6-73e7cbc38a1e; Tue, 13 Oct 2026 20:10:50 +0000 (UTC)
+X-Farcaster-Flow-ID: 00a69108-e302-402a-b9c6-73e7cbc38a1e
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
+ Tue, 13 Oct 2026 20:10:50 +0000
+Received: from dev-dsk-sunnfeng-2b-e0a170ae.us-west-2.amazon.com
+ (10.189.116.242) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.53; Tue, 13 Oct 2026
+ 20:10:49 +0000
+From: Sunny Feng <sunnfeng@amazon.com>
+To: Bjorn Helgaas <bhelgaas@google.com>, Mahesh J Salgaonkar
+	<mahesh@linux.ibm.com>
+CC: Oliver O'Halloran <oohall@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	<linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] PCI/AER: Add a kernel parameter to skip the reset during AER recovery
+Date: Tue, 13 Oct 2026 20:10:45 +0000
+Message-ID: <20261013201045.33806-1-sunnfeng@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: remove Assisted-by reference
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Jori Koolstra <jkoolstra@xs4all.nl>, Kees Cook <kees@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Sasha Levin <sashal@kernel.org>,
- corbet@lwn.net, federico.vaga@vaga.pv.it, apw@canonical.com,
- joe@perches.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20261009083137.3-1-sashal@kernel.org>
- <202610122124.08E058768D@keescook>
- <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
- <202610130120.E43D236E@keescook> <as4gLo_6acb_zZu0@daedalus>
- <20261013125559.GG4214@killaraus.ideasonboard.com>
- <7524f3d6-02c0-488c-be76-23de8afc2b76@sirena.org.uk>
- <20261013170744.GA178151@killaraus.ideasonboard.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20261013170744.GA178151@killaraus.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWC001.ant.amazon.com (10.13.139.241) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On 10/13/26 11:07, Laurent Pinchart wrote:
-> On Tue, Oct 13, 2026 at 04:18:32PM +0100, Mark Brown wrote:
->> On Tue, Oct 13, 2026 at 02:55:59PM +0200, Laurent Pinchart wrote:
->>
->>> The absence of the tag on a suspicious series offered a low-effort way
->>> for maintainers to push back. What's the proposed low-effort replacement
->>> ?
->>
->> Greg's suggested asking "how did you test this?" or similar, a lot of
->> people just throwing stuff at the wall simply won't respond.
-> 
-> I've done that too. I still find it better to have multiple tools at my
-> disposal, I want to be able to tell people they're expected to disclose
-> that the code they submit was generated.
+After an uncorrectable error, AER recovery resets the hierarchy below
+the Root Port in aer_root_reset() (a Secondary Bus Reset, or an FLR for
+an RCEC or RCiEP). Some devices keep diagnostic state, in the device
+itself or in the retimers on its link, that is lost by that reset. To
+root cause the error, that state needs to be collected before the
+device is reset.
 
-Asking how the fix was found and tested has been helping me. I get silence
-or didn't test it and that ends the discussion.
+Add a "pci=error_reset_disable=<pci_dev>[; ...]" kernel parameter,
+using the same device format as "disable_acs_redir". When a device
+below the Root Port matches, aer_root_reset() skips the reset, leaves
+the devices in the state the error left them in and reports the
+recovery as failed. The Root Error Status is still cleared and the
+Root Port interrupts re-enabled, so later errors are still reported.
+The diagnostics can then be collected before the devices are recovered.
 
-> 
-> Maybe Documentation/process/generated-content.rst is enough. As I wrote,
-> what matters to me is the disclosure requirement, not the Assisted-by
-> tag as such. I'm however concerned that it's even easier for
-> contributors to ignore Documentation/process/generated-content.rst than
-> the tag.
-> 
+Signed-off-by: Sunny Feng <sunnfeng@amazon.com>
+---
+ .../admin-guide/kernel-parameters.txt         | 10 +++++
+ drivers/pci/pci.c                             | 41 ++++++++++++++++++-
+ drivers/pci/pci.h                             |  1 +
+ drivers/pci/pcie/aer.c                        | 27 +++++++++++-
+ 4 files changed, 77 insertions(+), 2 deletions(-)
 
-We could add documentation to call out the need for telling us why the patch
-is necessary and how the code was verified in the commit message.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 68647ff4bdd2..eac6f72dcc2a 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5329,6 +5329,16 @@ Kernel parameters
+ 
+ 				Note: this may remove isolation between devices
+ 				and may put more devices in an IOMMU group.
++		error_reset_disable=<pci_dev>[; ...]
++				Specify one or more PCI devices (in the format
++				specified above) separated by semicolons.
++				AER recovery does not reset a hierarchy that
++				contains one of these devices after an
++				uncorrectable error. Recovery is not attempted:
++				the devices are left in the state the error
++				left them in and are reported as failed, so
++				their diagnostics can be collected before they
++				are recovered.
+ 		force_floating	[S390] Force usage of floating interrupts.
+ 		nomio		[S390] Do not use MIO instructions.
+ 		norid		[S390] ignore the RID field and force use of
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index c5ed5da9cdc8..2b4a06f3a38e 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -901,6 +901,41 @@ void pci_request_acs(void)
+ 
+ static const char *disable_acs_redir_param;
+ static const char *config_acs_param;
++static const char *error_reset_disable_param;
++
++/**
++ * pci_error_reset_disabled - should AER recovery leave a device unreset
++ * @dev: the PCI device to test
++ *
++ * Returns true if @dev is listed in the "pci=error_reset_disable=" kernel
++ * parameter, in which case AER recovery must not reset the hierarchy
++ * that contains it.
++ */
++bool pci_error_reset_disabled(struct pci_dev *dev)
++{
++	const char *p = error_reset_disable_param;
++	int ret;
++
++	if (!p)
++		return false;
++
++	while (*p) {
++		ret = pci_dev_str_match(dev, p, &p);
++		if (ret < 0) {
++			pr_info_once("PCI: Can't parse error_reset_disable parameter: %s\n",
++				     error_reset_disable_param);
++			return false;
++		} else if (ret == 1) {
++			return true;
++		}
++
++		if (*p != ';' && *p != ',')
++			return false;
++		p++;
++	}
++
++	return false;
++}
+ 
+ struct pci_acs {
+ 	u16 ctrl;
+@@ -6883,6 +6918,8 @@ static int __init pci_setup(char *str)
+ 				disable_acs_redir_param = str + 18;
+ 			} else if (!strncmp(str, "config_acs=", 11)) {
+ 				config_acs_param = str + 11;
++			} else if (!strncmp(str, "error_reset_disable=", 20)) {
++				error_reset_disable_param = str + 20;
+ 			} else {
+ 				pr_err("PCI: Unknown option `%s'\n", str);
+ 			}
+@@ -6894,7 +6931,8 @@ static int __init pci_setup(char *str)
+ early_param("pci", pci_setup);
+ 
+ /*
+- * 'resource_alignment_param' and 'disable_acs_redir_param' are initialized
++ * 'resource_alignment_param', 'disable_acs_redir_param' and
++ * 'error_reset_disable_param' are initialized
+  * in pci_setup(), above, to point to data in the __initdata section which
+  * will be freed after the init sequence is complete. We can't allocate memory
+  * in pci_setup() because some architectures do not have any memory allocation
+@@ -6908,6 +6946,7 @@ static int __init pci_realloc_setup_params(void)
+ 					   GFP_KERNEL);
+ 	disable_acs_redir_param = kstrdup(disable_acs_redir_param, GFP_KERNEL);
+ 	config_acs_param = kstrdup(config_acs_param, GFP_KERNEL);
++	error_reset_disable_param = kstrdup(error_reset_disable_param, GFP_KERNEL);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index a002fe1a3f4c..364c99e1a6a1 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -244,6 +244,7 @@ bool pci_reset_supported(struct pci_dev *dev);
+ void pci_init_reset_methods(struct pci_dev *dev);
+ int pci_bridge_secondary_bus_reset(struct pci_dev *dev);
+ int pci_bus_error_reset(struct pci_dev *dev);
++bool pci_error_reset_disabled(struct pci_dev *dev);
+ int pci_try_reset_bridge(struct pci_dev *bridge);
+ 
+ struct pci_cap_saved_data {
+diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+index c376c3adbefd..1f403f0f5d25 100644
+--- a/drivers/pci/pcie/aer.c
++++ b/drivers/pci/pcie/aer.c
+@@ -1837,6 +1837,16 @@ static int aer_resume(struct pcie_device *dev)
+ 	return 0;
+ }
+ 
++/* pci_walk_bus() callback; returns 0 so the walk visits every device */
++static int aer_check_error_reset_disabled(struct pci_dev *dev, void *data)
++{
++	bool *disabled = data;
++
++	if (pci_error_reset_disabled(dev))
++		*disabled = true;
++	return 0;
++}
++
+ /**
+  * aer_root_reset - reset Root Port hierarchy, RCEC, or RCiEP
+  * @dev: pointer to Root Port, RCEC, or RCiEP
+@@ -1849,6 +1859,7 @@ static pci_ers_result_t aer_root_reset(struct pci_dev *dev)
+ 	struct pci_dev *root;
+ 	int aer;
+ 	struct pci_host_bridge *host = pci_find_host_bridge(dev->bus);
++	bool reset_disabled = false;
+ 	u32 reg32;
+ 	int rc;
+ 
+@@ -1872,7 +1883,21 @@ static pci_ers_result_t aer_root_reset(struct pci_dev *dev)
+ 	if (host->native_aer && aer)
+ 		aer_disable_irq(root);
+ 
+-	if (type == PCI_EXP_TYPE_RC_EC || type == PCI_EXP_TYPE_RC_END) {
++	/*
++	 * Leave the devices in the state the error left them in if one of
++	 * them is listed in the error_reset_disable parameter, so their
++	 * diagnostics can be collected before they are recovered.
++	 */
++	if (dev->subordinate)
++		pci_walk_bus(dev->subordinate, aer_check_error_reset_disabled,
++			     &reset_disabled);
++	else
++		aer_check_error_reset_disabled(dev, &reset_disabled);
++
++	if (reset_disabled) {
++		rc = -ECANCELED;
++		pci_info(dev, "not reset, error_reset_disable matches a device below\n");
++	} else if (type == PCI_EXP_TYPE_RC_EC || type == PCI_EXP_TYPE_RC_END) {
+ 		rc = pcie_reset_flr(dev, PCI_RESET_DO_RESET);
+ 		if (!rc)
+ 			pci_info(dev, "has been reset\n");
 
-This will save time asking those questions.
-
-thanks,
--- Shuah
+base-commit: 573bbee68354c1a3566b6451d5477416c3be9462
+-- 
+2.47.3
 
