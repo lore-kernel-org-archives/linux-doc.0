@@ -1,1082 +1,271 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E7D46EF90;
-	Tue, 13 Oct 2026 02:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791857724; cv=none; b=cNhuh5e9NcuWlJHvr21m708By6K6eE7JFJmqRm7fgTVMh68R/So3oY5uifMm2ZuNSb77ZtEphbixjGyBRpzzMuNH4H7/QEVjSG+ob9+5vpkAf1zj7bGGkE/FX8q8uqmbEST+ZdH30r3vlvKvlLMP6ST9u2s/o23xQvUmUY9IZSo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791857724; c=relaxed/simple;
-	bh=Xuj3VghWoCPbzVrkdJTKF42ABbwhWM1L8Xa+P0U2n5Y=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uocfCimL9vukf2ywmeXLxDRYwi6Upi46BtF2PkM+B1FeALZuavK3P0xwtzuS6H7OXsxp5RhWd3fTL1//SBjoib+1bkr6HouAVjkEZ6RpbwuVCAfIOY8wmlBmMVZSMrgArAKdRKqxLk4gD04aGiYEbzNPtFmf5TR95thYu3LhJVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ZYdUPaE5; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E0B360EED;
+	Tue, 13 Oct 2026 02:16:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791857812; cv=fail; b=iaBjvA2yxyN4t4lwaVURYfb9a/yUXDVI4L8pngctuwviwSBJsizrJeltEYZBxj9mrEtpeU6VbCl7QPSMcv+GqRixwyI/biv3wWYcMudY2sFqbH6xLUdoiZlKSNpXRfqxHt2Tb2cHwM/GqL54kIyesfQLMipW5SYkR/jejKWS6r4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791857812; c=relaxed/simple;
+	bh=6WtRmSQvfYL/h8mYnuwZ+VCU7BkLUfi1F1vx9URo2SU=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=dpqzOkIn5IWZ4RP42dM/ePSHxu05VMHUAQ/5AA51gaeBvfFxEubgck8vhnY4LNsJ+YzIevNr0POOhtwn3yU5KhPO4G9ZXPBrva81+gYPHn/esayW9+1TcjgKlYn4MDGaWd6UWi979rMUAWk0akUSHN5TC4jbfVcm/GD+CJC4jZM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dM34SxPL; arc=fail smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ZYdUPaE5"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=ITBcHwxmdrdnLHZwLmqxwLaMvpI8Mw/IRWC7zll1Y4I=;
-	b=ZYdUPaE5Jk29nb8n5swcvGNuD9O3PtrcHNFx22CiPM5V/XkycnopVwiaoBRs0VWpIcGg2m35h
-	h1GjtwQQKeT0g8OxDSewNApQc4q6f6ixvyulnQ4WIoOgTGzQLha3ZlM7n5k3h1p2+6C8lR9ztaG
-	Q5MFaR0dLuN3chS+ZDbBkG8=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4j3d034ShrzLlX5;
-	Tue, 13 Oct 2026 10:02:59 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2D1CE40572;
-	Tue, 13 Oct 2026 10:15:17 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.38) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dM34SxPL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791857810; x=1823393810;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=6WtRmSQvfYL/h8mYnuwZ+VCU7BkLUfi1F1vx9URo2SU=;
+  b=dM34SxPLCKfYNTTzTnbyxS15t2RpYOm7wJs0otxkNqaMy9UEimWrruPu
+   kJg6AS3AhWGpo1oik4bQ9ClPaV1Npj5Ybt1UwoEZA5620fJMxP0TRVgDn
+   /O3q4FSGYnw6GD7Q/ABsGCMFVWh7NuZkz+Ut1+tJr7npHUQfOCt/PBc5T
+   P3MuOTpfvZj5LKTIS6ujwC2aVKSLP/gSHOnBSxA1qGKEku8AP8VuRnHrq
+   SwtuY20wI3eBR380uOg1CF62FBxN/KcCh4KGksGP/M2JSiraYSqPQ4ft0
+   if8QrMeTXYNiLBRNrd3tYYBWICN5Eaet7lbLHyt942XpEBlZLIBgtA+86
+   w==;
+X-CSE-ConnectionGUID: 4xto8IKoSeGgc/E+rfCPRQ==
+X-CSE-MsgGUID: yyF4znwhS8GfKkJqXi4FWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11933"; a="578527"
+X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
+   d="scan'208";a="578527"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 19:16:49 -0700
+X-CSE-ConnectionGUID: 5l3R5duaTFq6rgBfs5z+uA==
+X-CSE-MsgGUID: 8ecGdL2oT6e88OrVdJX4aQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,154,1787036400"; 
+   d="scan'208";a="1047421"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2026 19:16:49 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 13 Oct 2026 10:15:15 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Wu Di <wudi234@huawei.com>, Teng Peisen
-	<tengpeisen@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei
-	<ioana.ciornei@nxp.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Mohsin Bashir <mohsin.bashr@gmail.com>, Dimitri Daskalakis
-	<dimitri.daskalakis1@gmail.com>, Harshitha Ramamurthy
-	<hramamurthy@google.com>, Larysa Zaremba <larysa.zaremba@intel.com>, Vadim
- Fedorenko <vadim.fedorenko@linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>
-Subject: [PATCH net-next v14 1/2] hinic3: Add ethtool statistic ops part1
-Date: Tue, 13 Oct 2026 10:15:03 +0800
-Message-ID: <441404dcc8af513f5c3dcee2fd88cefd5b888def.1791858167.git.gongfan1@huawei.com>
-X-Mailer: git-send-email 2.50.1.windows.1
-In-Reply-To: <cover.1791858167.git.gongfan1@huawei.com>
-References: <cover.1791858167.git.gongfan1@huawei.com>
+ 15.2.2562.49; Mon, 12 Oct 2026 19:16:48 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Mon, 12 Oct 2026 19:16:48 -0700
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.43) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Mon, 12 Oct 2026 19:16:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MjYXCDqBpcJ7hzIfUzorg0URuwMfdygKVfVdzihcGq42IOD7I3UJWbfPud2xCsSX/vUWvxZmY+tcHBdfSFRlyg2XFyrcVZF3yDJ2vOVM6LcT4Reh2WSNZ6jcdqcvcuWSe2njCAI6ysVewOy1HS+yPqtAts9WaRVgrFq8ZvpSdxpzCKxr8N00jDsdwKewcFTSdAYCruH4wLFzMzvQbxqbb69WI63BggyutUI//OsLYaUDfCCZjBR49rRepAi7Za/llZI8pqV8YbQCICT58+9jgoiGJVrtr558pZLOozSS+T39mPsCU5ef8Yd0STIlQjG7kQlCy7Gnzs1c/hOebL7mlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4v2WgawMy/03rSFqvkk+AL+teWnUkikeWe1L+jHUZiU=;
+ b=TCAnNhgzhd7/gcGdnd1+Kl2qILZzVVumpfN7dpwnjFn4Ts2XsyG1ugMuV3VMEFyPj2DGSBGeuIFyyNI3m++LEYG9lWCnkjMq7r0ObvA3rHQ7srSBOtsOQME5dnQi+mhn/CkpgywUZbcDoBRy7JsgRv+KWlsByBg2SzO8dJUh4bQwxqP6CK9JdjNGfgiZQoKlsZmQCJq2Qd2/I3+EIxfusnI5Wmq72ThjwNVprMviaiDLLOs+LXYg1q/vhpdG64dtzMU+5VYz9sbViYVg2LtBQT0nW8tMhmtQJzxpuU2HBxTohn+FzafivZsSKy44Jl3YYbWvhq2WUQttb+jqcqDYYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA0PR11MB8379.namprd11.prod.outlook.com (2603:10b6:208:488::20)
+ by SA2PR11MB4937.namprd11.prod.outlook.com (2603:10b6:806:118::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Tue, 13 Oct
+ 2026 02:16:45 +0000
+Received: from IA0PR11MB8379.namprd11.prod.outlook.com
+ ([fe80::549f:e4b3:e10d:aaa6]) by IA0PR11MB8379.namprd11.prod.outlook.com
+ ([fe80::549f:e4b3:e10d:aaa6%6]) with mapi id 15.21.0496.019; Tue, 13 Oct 2026
+ 02:16:45 +0000
+Message-ID: <3e7f1507-2a82-44a1-a06b-52b6a49d971c@intel.com>
+Date: Mon, 12 Oct 2026 19:16:41 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/3] fs/resctrl: Assign counters to existing groups
+ when enabling mbm_event
+To: "Moger, Babu" <bmoger@amd.com>, Babu Moger <babu.moger@amd.com>,
+	<tony.luck@intel.com>, <bp@alien8.de>
+CC: <x86@kernel.org>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
+	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<tglx@kernel.org>, <mingo@redhat.com>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <kas@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-coco@lists.linux.dev>, <kvm@vger.kernel.org>
+References: <cover.1791589412.git.babu.moger@amd.com>
+ <3d966ae2e051ef54e1aedb1a2839c812ab880bcb.1791589412.git.babu.moger@amd.com>
+ <918780dd-30ad-429d-ac35-25d79d47450d@intel.com>
+ <92529635-c9be-4edb-842d-7817fafd5523@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <92529635-c9be-4edb-842d-7817fafd5523@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR04CA0092.namprd04.prod.outlook.com
+ (2603:10b6:303:83::7) To IA0PR11MB8379.namprd11.prod.outlook.com
+ (2603:10b6:208:488::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR11MB8379:EE_|SA2PR11MB4937:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c040ac5-f102-4769-f14b-08df28d0079d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|23010399003|376014|1800799024|366016|18002099003|10067099003|22082099003|11063799006|4143699003|56012099006|261009223027099003;
+X-Microsoft-Antispam-Message-Info: ASFwd8EQJEFuszgUS922M/Ut0PyqGJO7Bc5uDioCmLBW34YDK0wmODmLwyDqmQ0Dih5EptEWYL4eRNLXngH2zizDIhxdo6GjhqE4p/V+FkZ3EE2hu/7ohwBEnS//jZbpu5Lro4BjmBnrv3LxEqRaMrVcDVNQ5kYVnNijUUAUS1IAHUd7RZxQ5+f+kXPQ7U8oG5rL9BNueVwuGk3NK/a/UxnlPm7EQzwdncw9p7Lst8Qu1NdH+a29lYb95SWTCFffMF3Y1GWBzlWKC/oF2sWzyZX9L/0JUD7joA7oswl29ZDQjZPVtF1YDta7FflnLx0ng9C+HqEFvWgCGt8PuAJAKkw8FvlA19YrspVu5Sir6IrvSpHdlkCP0hNvSPDWzmxMQvz89T5IM0owR6yio5hzlR9RERvOlP7NmpfaJqO/mG5h2i738glhK3qmeXfhte4AL39i7hxya7VyfqWPVNXGZb3UeUymAF+pVKHu/g+pu6Vm3DPztmE75SSDlsr4TXxP+4y/ym/7Z0R958b9Ah6w5MF76Dw6NSNOyp2gjkjz819XG8WU/4LuHmmIm09pJxH7cV+gtrOCFwk0WJKU7PrFTpVNj8as9c9FQ/jCWNPfupYEw6RJ7iXm3/xFHXcSwrpb2L25omVd4A9VM7H43ZRLWAUQIwb6LSxhW0Ybz4yNK/A=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB8379.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(1800799024)(366016)(18002099003)(10067099003)(22082099003)(11063799006)(4143699003)(56012099006)(261009223027099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z0ZBWWx3eGNadndZYTRWd3FoNkFsQUhRam8wWUh4S2M3Q2piSGdzdjhFN080?=
+ =?utf-8?B?MXNIb3k2MVRxK1QxWmE4V00yL1l0MWxKWEYxOXJLMWNFM1NnNllOaHEwa2hI?=
+ =?utf-8?B?VUU5M1FpcWRjV240T2MyMTdGZnJvUHFFdU1MVlZaR3YvWWIvWVRzaE9DYVli?=
+ =?utf-8?B?OVZST0ZpLzlwZUhGUDhicXZIb2ZFejZTSGdjL3dwcDQyQ0tvUjhOVnZYRnpW?=
+ =?utf-8?B?THY3N0ppQjFVTUFUc2ZuNDRiL0EyancwVkZUQStCYUttb0ZiSzYxSTkyZE5U?=
+ =?utf-8?B?TmhGUmpqT0tqTDVmcDYzekNYNnc2NDk4SGE1MFJveTdFNmsyQ25XWlVpMWFP?=
+ =?utf-8?B?dWFNQ0Vtb0pxcEU2RlVmV0Z0anVRdjBiM1pidFkzVkhLMlRmRWxZZklaUk9q?=
+ =?utf-8?B?MDd2emV2S3lQcHpmTDA0RUFXdTQrQUY4aHRXaWJBTGo4eXFFV0h0dm9qR0dH?=
+ =?utf-8?B?c2F5VUpGVlBkc2hMMk9GbWZxb1RIOHVaQ0RCTHNwMld4THpZbWtvS2dOWmM4?=
+ =?utf-8?B?OHdRZGZMTGFuK2p0Z2Y0MmtBN2NycWphbmV4TTF4SmlQN0NmZ25XUjQyZTcw?=
+ =?utf-8?B?aHREWTJiZVlWb2xZMkQrNG1UV3NaVVNJNEpKRlE0TmN1a3VFOUhiMUFpRmV3?=
+ =?utf-8?B?OEpqdE5GM1I2S2dSeEpNTVdmNXgzcXdUaGZ5WkViemh0eFk5TndjNHpXVGNZ?=
+ =?utf-8?B?eG00TjVDZ2JvbFgxcUNqVHpEYS9GVU1OeFl1YTR1YlVBT29ub1pZYWlQaUs4?=
+ =?utf-8?B?ekMyWit4RWs5VndJaXRQTGZhM1FPY3hwWkpEcTMwYzhKVHFIYjdWOUFYczFL?=
+ =?utf-8?B?VXUyU1MzSTNlclRINHM0eUdJanVjekFUdER3V0pVSXk0VnJTTjhsZDg2b3Uw?=
+ =?utf-8?B?LzJObzVDaXRTRmJnTW0zUDUwV0d2MC94NThZRHhwOEpoY2xjUlAvNkgrckZz?=
+ =?utf-8?B?T2F2eGRCQ1V0cVIyUU9KTWoxaExMOXNvZW55VkJvaFEwME5CZ0Ywakg2RXY5?=
+ =?utf-8?B?MWhhR1ErUXhmclNpeXJHb3Z4ekVzRzFMMWFCdTZ3OWc5b3lKWFNNOTdBVktC?=
+ =?utf-8?B?UlorUkdYcFM2SWRYamw0cHRJN1lUdnhIQzhGeGlqcVNmVUh4SjVHU2hrOXpL?=
+ =?utf-8?B?ZDZMMFY4YXhNaTh1YyswVkJ4dTU5dW5VZ1J4cnJ4aGFsbS9aWDN1SVFLcXA3?=
+ =?utf-8?B?LzlpNmtmcEdLWS9wd2xSR0hoN0I2cXlyaXMxRHBrZlk1NHRmRmFLRjhJSFNp?=
+ =?utf-8?B?MjVkU09BR0tYZkxOaUhlRFZUVGdoRzZ0OWZNQUh2WEpKOFVvNi85MXV5anZR?=
+ =?utf-8?B?QUJ4OU5Ld1M3S1JqUW5McFNBMFZ4Ri9EeHh6bVpEdGxoSlkzSnFWQkdCbG9B?=
+ =?utf-8?B?TXpmSXhvSmJ6SDlqNFZpSm44clVDTmhYOGlCcDFhRXpDb2twZXJreFFtUHhh?=
+ =?utf-8?B?NFlqRHZ4SmlDTVcvUnhyL0djUVpuYXJoamJaS2VlZzBoVTBkZ3A5WEM2MkdJ?=
+ =?utf-8?B?T2RZb09EOEFYVXcyenpKTDR4RVp3RksrMGhyRnZNYUpTVm8wS2Npc3hjaWVX?=
+ =?utf-8?B?TG13Z0Yyc1JoMEhLU1dBOVFIbTFXZ08vYkJHZjQwV1lUQzl3MXFiditzV2F4?=
+ =?utf-8?B?VW1sSmZ0b0k4bFJMdkRaRy9wMk00endvRFJYWnErbFZrL2kzVU9nUS9qMHFi?=
+ =?utf-8?B?d1JWcko1Z2hVT0NQT2hLNlN5MHBzWWZUd0V3cmRXYktXMUEwWk5KRytKaUFO?=
+ =?utf-8?B?WndHVlQ1MGVveDlHbVJGcXFkTGJSRDZFbzRDcW00MUxzMVlxWTNEUFNOZ01m?=
+ =?utf-8?B?S3hZdzJGVWRMSlpMUkgxeTRHR21ESW5jbUtaSFVEREc5VG1xaTN3bjZsb3hF?=
+ =?utf-8?B?MFRIUWl1dzBmNkxyd0s4c2p4bDZ6cDJaaFZBZld2MURway9oTTZVeGw5UE9k?=
+ =?utf-8?B?YnpjR1g3dTFrbHdpMnFDRENlQmFMeDVraFB4aUhDSHV5L29kRmZ2SVhnNmht?=
+ =?utf-8?B?WSs3T1h1a1FzZmRBMFh4MGZQSWl1L3JFWG1FUVVKSHBpa0RSTzZRbnJ6UWtW?=
+ =?utf-8?B?dFY1WUJ2NjFCTzZ6VVplK1FISkQxU1drL2ZuU3FacE5UNVJkMy9qelZZazh0?=
+ =?utf-8?B?aTdwSFIxWEwwaUpLMmxLcURwbldLVVE3bmpPanhGUkRSbjEvOFE1SlN5NGdQ?=
+ =?utf-8?B?ZlhYbVNnY0N5alBPK1NST2krVXJ1aGVPaXJxQmpVNGpsY2JGcSsrM09zNCtC?=
+ =?utf-8?B?U3owRG81SEZzLzBsenhVWGZraGo4M0s0VlNKaGxGY1Z4K3phd0RCc1VMOGxs?=
+ =?utf-8?B?QWI3WktIVFppdlgxWDhBVGZid005S0h2dWI2SUhOczVXYW9xZzVBOFd1YjBy?=
+ =?utf-8?Q?KusUnT0tv/lPLuDc=3D?=
+X-Exchange-RoutingPolicyChecked: VduDFQtZr/xbOITjUuVYrDb9x9YkIbOuuHwXuGx4SEMpuJ11kiORJmMsrrRaT3MSrQcH6IiIYJ5ukP8L2wsGD3MSJkhmdCrRjcyXm141myD8LIWXoyEpEARiKwmqN6S2Pxi5uGx2DiFLEsiWaMLqlmSlABM60y9JMyWot+RgoKEyWkIum+LUOa1PLpgczFlUFvp/Cd7A7pIw4C+/5fxsvAQvPNFexepO6eu4rNySedAcnwVgUoGMdL4LGfg48JAN/Mi8UiWbKeG2Eo2HRRpBoSWWOIAfZseO+zs+KBAY3oryKosxSclQFvKlwrJBPV/SWDTPK1jgxvcKlB4GSj9+Mw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c040ac5-f102-4769-f14b-08df28d0079d
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB8379.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 02:16:45.7254
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T+Ps5f14zQX5CU+Ka5YGD5D2LtkGgneY3jbEdCitu7hvFEMaZ+ZI8ey+JyMEsuHuM9j8pd8AN/d7VVb7yEZjuXWUjWiRG9Tl0OkmXsutV+w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4937
+X-OriginatorOrg: intel.com
 
-  Add PF/VF statistics functions in TX and RX processing.
-  Implement following ethtool callback function:
-    .get_strings
-    .get_sset_count
-    .get_ethtool_stats
+Hi Babu,
 
-  These callbacks allow users to utilize ethtool for detailed
-TX and RX netdev stats monitoring.
+On 10/12/26 6:02 PM, Moger, Babu wrote:
+> On 10/12/2026 1:44 PM, Reinette Chatre wrote:
+>> On 10/9/26 4:44 PM, Babu Moger wrote:
 
-Co-developed-by: Wu Di <wudi234@huawei.com>
-Signed-off-by: Wu Di <wudi234@huawei.com>
-Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../ethernet/huawei/hinic3/hinic3_ethtool.c   | 317 ++++++++++++++++++
- .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  11 +
- .../huawei/hinic3/hinic3_mgmt_interface.h     |  37 ++
- .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   |  64 ++++
- .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   | 108 ++++++
- .../net/ethernet/huawei/hinic3/hinic3_rx.c    |  80 ++++-
- .../net/ethernet/huawei/hinic3/hinic3_rx.h    |   7 +-
- .../net/ethernet/huawei/hinic3/hinic3_tx.c    |  67 +++-
- .../net/ethernet/huawei/hinic3/hinic3_tx.h    |   4 +-
- 9 files changed, 678 insertions(+), 17 deletions(-)
+...
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-index 90fc16288de9..3863d26542ad 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-@@ -13,8 +13,11 @@
- 
- #include "hinic3_lld.h"
- #include "hinic3_hw_comm.h"
-+#include "hinic3_hwif.h"
- #include "hinic3_nic_dev.h"
- #include "hinic3_nic_cfg.h"
-+#include "hinic3_tx.h"
-+#include "hinic3_rx.h"
- 
- #define HINIC3_MGMT_VERSION_MAX_LEN     32
- 
-@@ -409,6 +412,317 @@ hinic3_get_link_ksettings(struct net_device *netdev,
- 	return 0;
- }
- 
-+struct hinic3_stats {
-+	char name[ETH_GSTRING_LEN];
-+	int  offset;
-+};
-+
-+#define HINIC3_STAT_SIZE_CHECK(type, member) \
-+	BUILD_BUG_ON_ZERO(sizeof_field(type, member) != sizeof(u64))
-+
-+#define HINIC3_FUNC_STAT(_stat_item) {	\
-+	.name   = #_stat_item, \
-+	.offset = offsetof(struct l2nic_vport_stats, _stat_item) \
-+		  + 0 * HINIC3_STAT_SIZE_CHECK(struct l2nic_vport_stats, \
-+					       _stat_item) \
-+}
-+
-+static struct hinic3_stats hinic3_function_stats[] = {
-+	HINIC3_FUNC_STAT(tx_unicast_pkts_vport),
-+	HINIC3_FUNC_STAT(tx_unicast_bytes_vport),
-+	HINIC3_FUNC_STAT(tx_multicast_pkts_vport),
-+	HINIC3_FUNC_STAT(tx_multicast_bytes_vport),
-+	HINIC3_FUNC_STAT(tx_broadcast_pkts_vport),
-+	HINIC3_FUNC_STAT(tx_broadcast_bytes_vport),
-+
-+	HINIC3_FUNC_STAT(rx_unicast_pkts_vport),
-+	HINIC3_FUNC_STAT(rx_unicast_bytes_vport),
-+	HINIC3_FUNC_STAT(rx_multicast_pkts_vport),
-+	HINIC3_FUNC_STAT(rx_multicast_bytes_vport),
-+	HINIC3_FUNC_STAT(rx_broadcast_pkts_vport),
-+	HINIC3_FUNC_STAT(rx_broadcast_bytes_vport),
-+
-+	HINIC3_FUNC_STAT(tx_discard_vport),
-+	HINIC3_FUNC_STAT(rx_discard_vport),
-+	HINIC3_FUNC_STAT(tx_err_vport),
-+	HINIC3_FUNC_STAT(rx_err_vport),
-+};
-+
-+#define HINIC3_PORT_STAT(_stat_item) { \
-+	.name   = #_stat_item, \
-+	.offset = offsetof(struct mag_cmd_port_stats, _stat_item) \
-+		  + 0 * HINIC3_STAT_SIZE_CHECK(struct mag_cmd_port_stats, \
-+					       _stat_item) \
-+}
-+
-+static struct hinic3_stats hinic3_port_stats[] = {
-+	HINIC3_PORT_STAT(mac_tx_fragment_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_undersize_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_undermin_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_64_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_65_127_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_128_255_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_256_511_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_512_1023_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_1024_1518_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_1519_2047_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_2048_4095_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_4096_8191_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_8192_9216_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_9217_12287_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_12288_16383_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_1519_max_bad_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_1519_max_good_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_oversize_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_jabber_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_bad_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_bad_oct_num),
-+	HINIC3_PORT_STAT(mac_tx_total_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_uni_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri0_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri1_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri2_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri3_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri4_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri5_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri6_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_pfc_pri7_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_err_all_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_from_app_good_pkt_num),
-+	HINIC3_PORT_STAT(mac_tx_from_app_bad_pkt_num),
-+
-+	HINIC3_PORT_STAT(mac_rx_fragment_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_undersize_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_undermin_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_64_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_65_127_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_128_255_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_256_511_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_512_1023_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_1024_1518_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_1519_2047_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_2048_4095_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_4096_8191_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_8192_9216_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_9217_12287_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_12288_16383_oct_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_1519_max_bad_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_1519_max_good_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_bad_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_bad_oct_num),
-+	HINIC3_PORT_STAT(mac_rx_total_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_uni_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri0_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri1_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri2_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri3_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri4_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri5_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri6_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_pfc_pri7_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_send_app_good_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_send_app_bad_pkt_num),
-+	HINIC3_PORT_STAT(mac_rx_unfilter_pkt_num),
-+};
-+
-+#define HINIC3_TXQ_STAT(_stat_item) { \
-+	.name   = "txq%d_"#_stat_item, \
-+	.offset = offsetof(struct hinic3_txq_stats, _stat_item) \
-+		  + 0 * HINIC3_STAT_SIZE_CHECK(struct hinic3_txq_stats, \
-+					       _stat_item) \
-+}
-+
-+#define HINIC3_RXQ_STAT(_stat_item) { \
-+	.name   = "rxq%d_"#_stat_item, \
-+	.offset = offsetof(struct hinic3_rxq_stats, _stat_item) \
-+		  + 0 * HINIC3_STAT_SIZE_CHECK(struct hinic3_rxq_stats, \
-+					       _stat_item) \
-+}
-+
-+static struct hinic3_stats hinic3_tx_queue_stats[] = {
-+	HINIC3_TXQ_STAT(busy),
-+	HINIC3_TXQ_STAT(skb_pad_err),
-+	HINIC3_TXQ_STAT(offload_cow_skb_err),
-+	HINIC3_TXQ_STAT(map_frag_err),
-+	HINIC3_TXQ_STAT(unknown_tunnel_pkt),
-+};
-+
-+static struct hinic3_stats hinic3_rx_queue_stats[] = {
-+	HINIC3_RXQ_STAT(csum_errors),
-+	HINIC3_RXQ_STAT(other_errors),
-+	HINIC3_RXQ_STAT(rx_buf_empty),
-+	HINIC3_RXQ_STAT(alloc_skb_err),
-+	HINIC3_RXQ_STAT(alloc_rx_buf_err),
-+};
-+
-+static u16 hinic3_get_hw_stats_strings(struct hinic3_nic_dev *nic_dev, char *p)
-+{
-+	u16 i, cnt = 0;
-+
-+	for (i = 0; i < ARRAY_SIZE(hinic3_function_stats); i++) {
-+		memcpy(p, hinic3_function_stats[i].name, ETH_GSTRING_LEN);
-+		p += ETH_GSTRING_LEN;
-+		cnt++;
-+	}
-+
-+	if (!HINIC3_IS_VF(nic_dev->hwdev)) {
-+		for (i = 0; i < ARRAY_SIZE(hinic3_port_stats); i++) {
-+			memcpy(p, hinic3_port_stats[i].name, ETH_GSTRING_LEN);
-+			p += ETH_GSTRING_LEN;
-+			cnt++;
-+		}
-+	}
-+
-+	return cnt;
-+}
-+
-+static void hinic3_get_qp_stats_strings(struct hinic3_nic_dev *nic_dev, char *p)
-+{
-+	u8 *data = p;
-+	u16 i, j;
-+
-+	for (i = 0; i < nic_dev->q_params.num_qps; i++) {
-+		for (j = 0; j < ARRAY_SIZE(hinic3_tx_queue_stats); j++)
-+			ethtool_sprintf(&data,
-+					hinic3_tx_queue_stats[j].name, i);
-+	}
-+
-+	for (i = 0; i < nic_dev->q_params.num_qps; i++) {
-+		for (j = 0; j < ARRAY_SIZE(hinic3_rx_queue_stats); j++)
-+			ethtool_sprintf(&data,
-+					hinic3_rx_queue_stats[j].name, i);
-+	}
-+}
-+
-+static void hinic3_get_strings(struct net_device *netdev,
-+			       u32 stringset, u8 *data)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	char *p = (char *)data;
-+	u16 offset;
-+
-+	switch (stringset) {
-+	case ETH_SS_STATS:
-+		offset = hinic3_get_hw_stats_strings(nic_dev, p);
-+		hinic3_get_qp_stats_strings(nic_dev,
-+					    p + offset * ETH_GSTRING_LEN);
-+
-+		break;
-+	}
-+}
-+
-+static int hinic3_get_sset_count(struct net_device *netdev, int sset)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int count, q_num;
-+
-+	switch (sset) {
-+	case ETH_SS_STATS:
-+		q_num = nic_dev->q_params.num_qps;
-+		count = ARRAY_SIZE(hinic3_function_stats) +
-+			(ARRAY_SIZE(hinic3_tx_queue_stats) +
-+			 ARRAY_SIZE(hinic3_rx_queue_stats)) *
-+			q_num;
-+
-+		if (!HINIC3_IS_VF(nic_dev->hwdev))
-+			count += ARRAY_SIZE(hinic3_port_stats);
-+
-+		return count;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static u16 hinic3_get_ethtool_port_stats(struct net_device *netdev, u64 *data)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct mag_cmd_port_stats *ps;
-+	u16 i = 0, j;
-+	char *p;
-+	int err;
-+
-+	ps = kmalloc_obj(*ps);
-+	if (!ps)
-+		goto err_zero_stats;
-+
-+	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-+	if (err) {
-+		kfree(ps);
-+		netdev_err(netdev, "Failed to get port stats from fw\n");
-+		goto err_zero_stats;
-+	}
-+
-+	for (j = 0; j < ARRAY_SIZE(hinic3_port_stats); j++, i++) {
-+		p = (char *)ps + hinic3_port_stats[j].offset;
-+		data[i] = *(u64 *)p;
-+	}
-+
-+	kfree(ps);
-+
-+	return i;
-+
-+err_zero_stats:
-+	memset(&data[i], 0, ARRAY_SIZE(hinic3_port_stats) * sizeof(*data));
-+
-+	return i + ARRAY_SIZE(hinic3_port_stats);
-+}
-+
-+static void hinic3_get_drv_queue_stats(struct net_device *netdev, u64 *data)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct hinic3_txq_stats txq_stats = {};
-+	struct hinic3_rxq_stats rxq_stats = {};
-+	u16 i = 0, j, qid;
-+	char *p;
-+
-+	for (qid = 0; qid < nic_dev->q_params.num_qps; qid++) {
-+		hinic3_txq_get_stats(&nic_dev->txqs[qid], &txq_stats);
-+		for (j = 0; j < ARRAY_SIZE(hinic3_tx_queue_stats); j++, i++) {
-+			p = (char *)&txq_stats +
-+			    hinic3_tx_queue_stats[j].offset;
-+			data[i] = *(u64 *)p;
-+		}
-+	}
-+
-+	i = nic_dev->q_params.num_qps * ARRAY_SIZE(hinic3_tx_queue_stats);
-+	for (qid = 0; qid < nic_dev->q_params.num_qps; qid++) {
-+		hinic3_rxq_get_stats(&nic_dev->rxqs[qid], &rxq_stats);
-+		for (j = 0; j < ARRAY_SIZE(hinic3_rx_queue_stats); j++, i++) {
-+			p = (char *)&rxq_stats +
-+			    hinic3_rx_queue_stats[j].offset;
-+			data[i] = *(u64 *)p;
-+		}
-+	}
-+}
-+
-+static void hinic3_get_ethtool_stats(struct net_device *netdev,
-+				     struct ethtool_stats *stats, u64 *data)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct l2nic_vport_stats vport_stats = {};
-+	u16 i = 0, j;
-+	char *p;
-+	int err;
-+
-+	err = hinic3_get_vport_stats(nic_dev->hwdev,
-+				     hinic3_global_func_id(nic_dev->hwdev),
-+				     &vport_stats);
-+	if (err)
-+		netdev_err(netdev, "Failed to get function stats from fw\n");
-+
-+	for (j = 0; j < ARRAY_SIZE(hinic3_function_stats); j++, i++) {
-+		p = (char *)&vport_stats + hinic3_function_stats[j].offset;
-+		data[i] = *(u64 *)p;
-+	}
-+
-+	if (!HINIC3_IS_VF(nic_dev->hwdev))
-+		i += hinic3_get_ethtool_port_stats(netdev, data + i);
-+
-+	hinic3_get_drv_queue_stats(netdev, data + i);
-+}
-+
- static const struct ethtool_ops hinic3_ethtool_ops = {
- 	.supported_coalesce_params      = ETHTOOL_COALESCE_USECS |
- 					  ETHTOOL_COALESCE_PKT_RATE_RX_USECS,
-@@ -417,6 +731,9 @@ static const struct ethtool_ops hinic3_ethtool_ops = {
- 	.get_msglevel                   = hinic3_get_msglevel,
- 	.set_msglevel                   = hinic3_set_msglevel,
- 	.get_link                       = ethtool_op_get_link,
-+	.get_strings                    = hinic3_get_strings,
-+	.get_sset_count                 = hinic3_get_sset_count,
-+	.get_ethtool_stats              = hinic3_get_ethtool_stats,
- };
- 
- void hinic3_set_ethtool_ops(struct net_device *netdev)
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_intf.h b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_intf.h
-index cfc9daa3034f..6b0f486ba590 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_intf.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_intf.h
-@@ -53,6 +53,17 @@ static inline void mgmt_msg_params_init_default(struct mgmt_msg_params *msg_para
- 	msg_params->timeout_ms = 0;
- }
- 
-+static inline void
-+mgmt_msg_params_init_in_out(struct mgmt_msg_params *msg_params, void *in_buf,
-+			    void *out_buf, u32 in_buf_size, u32 out_buf_size)
-+{
-+	msg_params->buf_in = in_buf;
-+	msg_params->buf_out = out_buf;
-+	msg_params->in_size = in_buf_size;
-+	msg_params->expected_out_size = out_buf_size;
-+	msg_params->timeout_ms = 0;
-+}
-+
- enum cfg_cmd {
- 	CFG_CMD_GET_DEV_CAP = 0,
- };
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h b/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-index c5bca3c4af96..76c691f82703 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-@@ -143,6 +143,41 @@ struct l2nic_cmd_set_dcb_state {
- 	u8                   rsvd[7];
- };
- 
-+struct l2nic_port_stats_info {
-+	struct mgmt_msg_head msg_head;
-+	u16                  func_id;
-+	u16                  rsvd1;
-+};
-+
-+struct l2nic_vport_stats {
-+	u64 tx_unicast_pkts_vport;
-+	u64 tx_unicast_bytes_vport;
-+	u64 tx_multicast_pkts_vport;
-+	u64 tx_multicast_bytes_vport;
-+	u64 tx_broadcast_pkts_vport;
-+	u64 tx_broadcast_bytes_vport;
-+
-+	u64 rx_unicast_pkts_vport;
-+	u64 rx_unicast_bytes_vport;
-+	u64 rx_multicast_pkts_vport;
-+	u64 rx_multicast_bytes_vport;
-+	u64 rx_broadcast_pkts_vport;
-+	u64 rx_broadcast_bytes_vport;
-+
-+	u64 tx_discard_vport;
-+	u64 rx_discard_vport;
-+	u64 tx_err_vport;
-+	u64 rx_err_vport;
-+};
-+
-+struct l2nic_cmd_vport_stats {
-+	struct mgmt_msg_head     msg_head;
-+	u32                      stats_size;
-+	u32                      rsvd1;
-+	struct l2nic_vport_stats stats;
-+	u64                      rsvd2[6];
-+};
-+
- struct l2nic_cmd_lro_config {
- 	struct mgmt_msg_head msg_head;
- 	u16                  func_id;
-@@ -234,6 +269,7 @@ enum l2nic_cmd {
- 	L2NIC_CMD_SET_VPORT_ENABLE    = 6,
- 	L2NIC_CMD_SET_RX_MODE         = 7,
- 	L2NIC_CMD_SET_SQ_CI_ATTR      = 8,
-+	L2NIC_CMD_GET_VPORT_STAT      = 9,
- 	L2NIC_CMD_CLEAR_QP_RESOURCE   = 11,
- 	L2NIC_CMD_CFG_RX_LRO          = 13,
- 	L2NIC_CMD_CFG_LRO_TIMER       = 14,
-@@ -272,6 +308,7 @@ enum mag_cmd {
- 	MAG_CMD_SET_PORT_ENABLE = 6,
- 	MAG_CMD_GET_LINK_STATUS = 7,
- 
-+	MAG_CMD_GET_PORT_STAT   = 151,
- 	MAG_CMD_GET_PORT_INFO   = 153,
- };
- 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-index de5a7984d2cb..39dffbcf2141 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
-@@ -738,3 +738,67 @@ int hinic3_get_pause_info(struct hinic3_nic_dev *nic_dev,
- 	return hinic3_cfg_hw_pause(nic_dev->hwdev, MGMT_MSG_CMD_OP_GET,
- 				   nic_pause);
- }
-+
-+int hinic3_get_vport_stats(struct hinic3_hwdev *hwdev, u16 func_id,
-+			   struct l2nic_vport_stats *stats)
-+{
-+	struct l2nic_cmd_vport_stats vport_stats = {};
-+	struct l2nic_port_stats_info stats_info = {};
-+	struct mgmt_msg_params msg_params = {};
-+	int err;
-+
-+	stats_info.func_id = func_id;
-+
-+	mgmt_msg_params_init_in_out(&msg_params, &stats_info, &vport_stats,
-+				    sizeof(stats_info), sizeof(vport_stats));
-+
-+	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_L2NIC,
-+				       L2NIC_CMD_GET_VPORT_STAT, &msg_params);
-+
-+	if (err || vport_stats.msg_head.status) {
-+		dev_err(hwdev->dev,
-+			"Failed to get function statistics, err: %d, status: 0x%x\n",
-+			err, vport_stats.msg_head.status);
-+		return -EFAULT;
-+	}
-+
-+	memcpy(stats, &vport_stats.stats, sizeof(*stats));
-+
-+	return 0;
-+}
-+
-+int hinic3_get_phy_port_stats(struct hinic3_hwdev *hwdev,
-+			      struct mag_cmd_port_stats *stats)
-+{
-+	struct mag_cmd_get_port_stats_in ps_in = {};
-+	struct mag_cmd_get_port_stats_out *ps_out;
-+	struct mgmt_msg_params msg_params = {};
-+	int err;
-+
-+	ps_out = kzalloc_obj(*ps_out);
-+	if (!ps_out)
-+		return -ENOMEM;
-+
-+	ps_in.port_id = hinic3_physical_port_id(hwdev);
-+
-+	mgmt_msg_params_init_in_out(&msg_params, &ps_in, ps_out,
-+				    sizeof(ps_in), sizeof(*ps_out));
-+
-+	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_HILINK,
-+				       MAG_CMD_GET_PORT_STAT, &msg_params);
-+
-+	if (err || ps_out->head.status) {
-+		dev_err(hwdev->dev,
-+			"Failed to get port statistics, err: %d, status: 0x%x\n",
-+			err, ps_out->head.status);
-+		err = -EFAULT;
-+		goto out;
-+	}
-+
-+	memcpy(stats, &ps_out->counter, sizeof(*stats));
-+
-+out:
-+	kfree(ps_out);
-+
-+	return err;
-+}
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h
-index 5d52202a8d4e..3b8b595d7060 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h
-@@ -129,6 +129,110 @@ struct mag_cmd_get_xsfp_present {
- 	u8                   rsvd[2];
- };
- 
-+struct mag_cmd_port_stats {
-+	u64 mac_tx_fragment_pkt_num;
-+	u64 mac_tx_undersize_pkt_num;
-+	u64 mac_tx_undermin_pkt_num;
-+	u64 mac_tx_64_oct_pkt_num;
-+	u64 mac_tx_65_127_oct_pkt_num;
-+	u64 mac_tx_128_255_oct_pkt_num;
-+	u64 mac_tx_256_511_oct_pkt_num;
-+	u64 mac_tx_512_1023_oct_pkt_num;
-+	u64 mac_tx_1024_1518_oct_pkt_num;
-+	u64 mac_tx_1519_2047_oct_pkt_num;
-+	u64 mac_tx_2048_4095_oct_pkt_num;
-+	u64 mac_tx_4096_8191_oct_pkt_num;
-+	u64 mac_tx_8192_9216_oct_pkt_num;
-+	u64 mac_tx_9217_12287_oct_pkt_num;
-+	u64 mac_tx_12288_16383_oct_pkt_num;
-+	u64 mac_tx_1519_max_bad_pkt_num;
-+	u64 mac_tx_1519_max_good_pkt_num;
-+	u64 mac_tx_oversize_pkt_num;
-+	u64 mac_tx_jabber_pkt_num;
-+	u64 mac_tx_bad_pkt_num;
-+	u64 mac_tx_bad_oct_num;
-+	u64 mac_tx_good_pkt_num;
-+	u64 mac_tx_good_oct_num;
-+	u64 mac_tx_total_pkt_num;
-+	u64 mac_tx_total_oct_num;
-+	u64 mac_tx_uni_pkt_num;
-+	u64 mac_tx_multi_pkt_num;
-+	u64 mac_tx_broad_pkt_num;
-+	u64 mac_tx_pause_num;
-+	u64 mac_tx_pfc_pkt_num;
-+	u64 mac_tx_pfc_pri0_pkt_num;
-+	u64 mac_tx_pfc_pri1_pkt_num;
-+	u64 mac_tx_pfc_pri2_pkt_num;
-+	u64 mac_tx_pfc_pri3_pkt_num;
-+	u64 mac_tx_pfc_pri4_pkt_num;
-+	u64 mac_tx_pfc_pri5_pkt_num;
-+	u64 mac_tx_pfc_pri6_pkt_num;
-+	u64 mac_tx_pfc_pri7_pkt_num;
-+	u64 mac_tx_control_pkt_num;
-+	u64 mac_tx_err_all_pkt_num;
-+	u64 mac_tx_from_app_good_pkt_num;
-+	u64 mac_tx_from_app_bad_pkt_num;
-+
-+	u64 mac_rx_fragment_pkt_num;
-+	u64 mac_rx_undersize_pkt_num;
-+	u64 mac_rx_undermin_pkt_num;
-+	u64 mac_rx_64_oct_pkt_num;
-+	u64 mac_rx_65_127_oct_pkt_num;
-+	u64 mac_rx_128_255_oct_pkt_num;
-+	u64 mac_rx_256_511_oct_pkt_num;
-+	u64 mac_rx_512_1023_oct_pkt_num;
-+	u64 mac_rx_1024_1518_oct_pkt_num;
-+	u64 mac_rx_1519_2047_oct_pkt_num;
-+	u64 mac_rx_2048_4095_oct_pkt_num;
-+	u64 mac_rx_4096_8191_oct_pkt_num;
-+	u64 mac_rx_8192_9216_oct_pkt_num;
-+	u64 mac_rx_9217_12287_oct_pkt_num;
-+	u64 mac_rx_12288_16383_oct_pkt_num;
-+	u64 mac_rx_1519_max_bad_pkt_num;
-+	u64 mac_rx_1519_max_good_pkt_num;
-+	u64 mac_rx_oversize_pkt_num;
-+	u64 mac_rx_jabber_pkt_num;
-+	u64 mac_rx_bad_pkt_num;
-+	u64 mac_rx_bad_oct_num;
-+	u64 mac_rx_good_pkt_num;
-+	u64 mac_rx_good_oct_num;
-+	u64 mac_rx_total_pkt_num;
-+	u64 mac_rx_total_oct_num;
-+	u64 mac_rx_uni_pkt_num;
-+	u64 mac_rx_multi_pkt_num;
-+	u64 mac_rx_broad_pkt_num;
-+	u64 mac_rx_pause_num;
-+	u64 mac_rx_pfc_pkt_num;
-+	u64 mac_rx_pfc_pri0_pkt_num;
-+	u64 mac_rx_pfc_pri1_pkt_num;
-+	u64 mac_rx_pfc_pri2_pkt_num;
-+	u64 mac_rx_pfc_pri3_pkt_num;
-+	u64 mac_rx_pfc_pri4_pkt_num;
-+	u64 mac_rx_pfc_pri5_pkt_num;
-+	u64 mac_rx_pfc_pri6_pkt_num;
-+	u64 mac_rx_pfc_pri7_pkt_num;
-+	u64 mac_rx_control_pkt_num;
-+	u64 mac_rx_sym_err_pkt_num;
-+	u64 mac_rx_fcs_err_pkt_num;
-+	u64 mac_rx_send_app_good_pkt_num;
-+	u64 mac_rx_send_app_bad_pkt_num;
-+	u64 mac_rx_unfilter_pkt_num;
-+};
-+
-+struct mag_cmd_get_port_stats_in {
-+	struct mgmt_msg_head head;
-+
-+	u8                   port_id;
-+	u8                   rsvd0[3];
-+};
-+
-+struct mag_cmd_get_port_stats_out {
-+	struct mgmt_msg_head      head;
-+
-+	struct mag_cmd_port_stats counter;
-+	u64                       rsvd1[15];
-+};
-+
- enum link_err_type {
- 	LINK_ERR_MODULE_UNRECOGENIZED,
- 	LINK_ERR_NUM,
-@@ -215,4 +319,8 @@ int hinic3_del_vlan(struct hinic3_hwdev *hwdev, u16 vlan_id, u16 func_id);
- int hinic3_get_pause_info(struct hinic3_nic_dev *nic_dev,
- 			  struct hinic3_nic_pause_config *nic_pause);
- 
-+int hinic3_get_vport_stats(struct hinic3_hwdev *hwdev, u16 func_id,
-+			   struct l2nic_vport_stats *stats);
-+int hinic3_get_phy_port_stats(struct hinic3_hwdev *hwdev,
-+			      struct mag_cmd_port_stats *stats);
- #endif
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-index 309ab5901379..df55d65a8851 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
-@@ -28,10 +28,6 @@
- 
- #define HINIC3_LRO_PKT_HDR_LEN_IPV4     66
- #define HINIC3_LRO_PKT_HDR_LEN_IPV6     86
--#define HINIC3_LRO_PKT_HDR_LEN(cqe) \
--	(RQ_CQE_OFFOLAD_TYPE_GET((cqe)->offload_type, IP_TYPE) == \
--	 HINIC3_RX_IPV6_PKT ? HINIC3_LRO_PKT_HDR_LEN_IPV6 : \
--	 HINIC3_LRO_PKT_HDR_LEN_IPV4)
- 
- static void hinic3_rxq_clean_stats(struct hinic3_rxq_stats *rxq_stats)
- {
-@@ -46,7 +42,6 @@ static void hinic3_rxq_clean_stats(struct hinic3_rxq_stats *rxq_stats)
- 
- 	rxq_stats->alloc_skb_err = 0;
- 	rxq_stats->alloc_rx_buf_err = 0;
--	rxq_stats->restore_drop_sge = 0;
- 	u64_stats_update_end(&rxq_stats->syncp);
- }
- 
-@@ -147,6 +142,8 @@ static u32 hinic3_rx_fill_buffers(struct hinic3_rxq *rxq)
- {
- 	u32 i, free_wqebbs = rxq->delta - 1;
- 	struct hinic3_rx_info *rx_info;
-+	struct u64_stats_sync *syncp;
-+	unsigned long flags;
- 	dma_addr_t dma_addr;
- 	int err;
- 
-@@ -155,8 +152,13 @@ static u32 hinic3_rx_fill_buffers(struct hinic3_rxq *rxq)
- 
- 		err = rx_alloc_mapped_page(rxq->page_pool, rx_info,
- 					   rxq->buf_len);
--		if (unlikely(err))
-+		if (unlikely(err)) {
-+			syncp = &rxq->rxq_stats.syncp;
-+			flags = u64_stats_update_begin_irqsave(syncp);
-+			rxq->rxq_stats.alloc_rx_buf_err++;
-+			u64_stats_update_end_irqrestore(syncp, flags);
- 			break;
-+		}
- 
- 		dma_addr = page_pool_get_dma_addr(rx_info->page) +
- 			rx_info->page_offset;
-@@ -170,6 +172,11 @@ static u32 hinic3_rx_fill_buffers(struct hinic3_rxq *rxq)
- 				rxq->next_to_update << HINIC3_NORMAL_RQ_WQE);
- 		rxq->delta -= i;
- 		rxq->next_to_alloc = rxq->next_to_update;
-+	} else if (free_wqebbs == rxq->q_depth - 1) {
-+		syncp = &rxq->rxq_stats.syncp;
-+		flags = u64_stats_update_begin_irqsave(syncp);
-+		rxq->rxq_stats.rx_buf_empty++;
-+		u64_stats_update_end_irqrestore(syncp, flags);
- 	}
- 
- 	return i;
-@@ -330,10 +337,24 @@ static void hinic3_rx_csum(struct hinic3_rxq *rxq, u32 offload_type,
- 	struct net_device *netdev = rxq->netdev;
- 	bool l2_tunnel;
- 
-+	/* HW ensures that only 1 bit is set in csum_err. */
-+	if (unlikely(csum_err == HINIC3_RX_CSUM_IPSU_OTHER_ERR)) {
-+		u64_stats_update_begin(&rxq->rxq_stats.syncp);
-+		rxq->rxq_stats.other_errors++;
-+		u64_stats_update_end(&rxq->rxq_stats.syncp);
-+	}
-+
- 	if (!(netdev->features & NETIF_F_RXCSUM))
- 		return;
- 
- 	if (unlikely(csum_err)) {
-+		/* pkt type is recognized by HW, and csum is wrong */
-+		if (csum_err != HINIC3_RX_CSUM_HW_CHECK_NONE &&
-+		    csum_err != HINIC3_RX_CSUM_IPSU_OTHER_ERR) {
-+			u64_stats_update_begin(&rxq->rxq_stats.syncp);
-+			rxq->rxq_stats.csum_errors++;
-+			u64_stats_update_end(&rxq->rxq_stats.syncp);
-+		}
- 		/* pkt type is recognized by HW, and csum is wrong */
- 		skb->ip_summed = CHECKSUM_NONE;
- 		return;
-@@ -387,8 +408,12 @@ static int recv_one_pkt(struct hinic3_rxq *rxq, struct hinic3_rq_cqe *rx_cqe,
- 	u16 num_lro;
- 
- 	skb = hinic3_fetch_rx_buffer(rxq, pkt_len);
--	if (unlikely(!skb))
-+	if (unlikely(!skb)) {
-+		u64_stats_update_begin(&rxq->rxq_stats.syncp);
-+		rxq->rxq_stats.alloc_skb_err++;
-+		u64_stats_update_end(&rxq->rxq_stats.syncp);
- 		return -ENOMEM;
-+	}
- 
- 	/* place header in linear portion of buffer */
- 	if (skb_is_nonlinear(skb))
-@@ -553,8 +578,11 @@ int hinic3_configure_rxqs(struct net_device *netdev, u16 num_rq,
- int hinic3_rx_poll(struct hinic3_rxq *rxq, int budget)
- {
- 	struct hinic3_nic_dev *nic_dev = netdev_priv(rxq->netdev);
-+	u32 ip_type, offload_type, pkt_hdr_len;
- 	u32 sw_ci, status, pkt_len, vlan_len;
- 	struct hinic3_rq_cqe *rx_cqe;
-+	bool poll_again = false;
-+	u64 rx_bytes = 0;
- 	u32 num_wqe = 0;
- 	int nr_pkts = 0;
- 	u16 num_lro;
-@@ -575,18 +603,50 @@ int hinic3_rx_poll(struct hinic3_rxq *rxq, int budget)
- 			break;
- 
- 		nr_pkts++;
-+		rx_bytes += pkt_len;
- 		num_lro = RQ_CQE_STATUS_GET(status, NUM_LRO);
--		if (num_lro)
-+		if (num_lro) {
-+			offload_type = le32_to_cpu(rx_cqe->offload_type);
-+			ip_type = RQ_CQE_OFFOLAD_TYPE_GET(offload_type,
-+							  IP_TYPE);
-+			pkt_hdr_len = ip_type == HINIC3_RX_IPV6_PKT ?
-+				      HINIC3_LRO_PKT_HDR_LEN_IPV6 :
-+				      HINIC3_LRO_PKT_HDR_LEN_IPV4;
-+
-+			rx_bytes += (num_lro - 1) * pkt_hdr_len;
- 			num_wqe += hinic3_get_sge_num(rxq, pkt_len);
-+		}
- 
- 		rx_cqe->status = 0;
- 
--		if (num_wqe >= nic_dev->lro_replenish_thld)
-+		if (num_wqe >= nic_dev->lro_replenish_thld) {
-+			poll_again = true;
- 			break;
-+		}
- 	}
- 
- 	if (rxq->delta >= HINIC3_RX_BUFFER_WRITE)
- 		hinic3_rx_fill_buffers(rxq);
- 
--	return nr_pkts;
-+	u64_stats_update_begin(&rxq->rxq_stats.syncp);
-+	rxq->rxq_stats.packets += (u64)nr_pkts;
-+	rxq->rxq_stats.bytes += rx_bytes;
-+	u64_stats_update_end(&rxq->rxq_stats.syncp);
-+	return poll_again ? budget : nr_pkts;
-+}
-+
-+void hinic3_rxq_get_stats(struct hinic3_rxq *rxq,
-+			  struct hinic3_rxq_stats *stats)
-+{
-+	struct hinic3_rxq_stats *rxq_stats = &rxq->rxq_stats;
-+	unsigned int start;
-+
-+	do {
-+		start = u64_stats_fetch_begin(&rxq_stats->syncp);
-+		stats->csum_errors = rxq_stats->csum_errors;
-+		stats->other_errors = rxq_stats->other_errors;
-+		stats->rx_buf_empty = rxq_stats->rx_buf_empty;
-+		stats->alloc_skb_err = rxq_stats->alloc_skb_err;
-+		stats->alloc_rx_buf_err = rxq_stats->alloc_rx_buf_err;
-+	} while (u64_stats_fetch_retry(&rxq_stats->syncp, start));
- }
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-index 06d1b3299e7c..6faac81320e7 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-@@ -8,6 +8,10 @@
- #include <linux/dim.h>
- #include <linux/netdevice.h>
- 
-+/* rx cqe checksum err */
-+#define HINIC3_RX_CSUM_HW_CHECK_NONE    BIT(7)
-+#define HINIC3_RX_CSUM_IPSU_OTHER_ERR   BIT(8)
-+
- #define RQ_CQE_OFFOLAD_TYPE_PKT_TYPE_MASK           GENMASK(4, 0)
- #define RQ_CQE_OFFOLAD_TYPE_IP_TYPE_MASK            GENMASK(6, 5)
- #define RQ_CQE_OFFOLAD_TYPE_TUNNEL_PKT_FORMAT_MASK  GENMASK(11, 8)
-@@ -39,7 +43,6 @@ struct hinic3_rxq_stats {
- 	u64                   rx_buf_empty;
- 	u64                   alloc_skb_err;
- 	u64                   alloc_rx_buf_err;
--	u64                   restore_drop_sge;
- 	struct u64_stats_sync syncp;
- };
- 
-@@ -125,4 +128,6 @@ int hinic3_configure_rxqs(struct net_device *netdev, u16 num_rq,
- 			  u32 rq_depth, struct hinic3_dyna_rxq_res *rxqs_res);
- int hinic3_rx_poll(struct hinic3_rxq *rxq, int budget);
- 
-+void hinic3_rxq_get_stats(struct hinic3_rxq *rxq,
-+			  struct hinic3_rxq_stats *stats);
- #endif
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-index d19cfbe3ed3b..d6c4efd43b7c 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-@@ -25,11 +25,9 @@ static void hinic3_txq_clean_stats(struct hinic3_txq_stats *txq_stats)
- 	txq_stats->dropped = 0;
- 
- 	txq_stats->skb_pad_err = 0;
--	txq_stats->frag_len_overflow = 0;
- 	txq_stats->offload_cow_skb_err = 0;
- 	txq_stats->map_frag_err = 0;
- 	txq_stats->unknown_tunnel_pkt = 0;
--	txq_stats->frag_size_err = 0;
- 	u64_stats_update_end(&txq_stats->syncp);
- }
- 
-@@ -97,8 +95,12 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
- 
- 	dma_info[0].dma = dma_map_single(&pdev->dev, skb->data,
- 					 skb_headlen(skb), DMA_TO_DEVICE);
--	if (dma_mapping_error(&pdev->dev, dma_info[0].dma))
-+	if (dma_mapping_error(&pdev->dev, dma_info[0].dma)) {
-+		u64_stats_update_begin(&txq->txq_stats.syncp);
-+		txq->txq_stats.map_frag_err++;
-+		u64_stats_update_end(&txq->txq_stats.syncp);
- 		return -EFAULT;
-+	}
- 
- 	dma_info[0].len = skb_headlen(skb);
- 
-@@ -117,6 +119,9 @@ static int hinic3_tx_map_skb(struct net_device *netdev, struct sk_buff *skb,
- 						     skb_frag_size(frag),
- 						     DMA_TO_DEVICE);
- 		if (dma_mapping_error(&pdev->dev, dma_info[idx].dma)) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.map_frag_err++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			err = -EFAULT;
- 			goto err_unmap_page;
- 		}
-@@ -260,6 +265,9 @@ static int hinic3_tx_csum(struct hinic3_txq *txq, struct hinic3_sq_task *task,
- 		if (l4_proto != IPPROTO_UDP ||
- 		    ((struct udphdr *)skb_transport_header(skb))->dest !=
- 		    VXLAN_OFFLOAD_PORT_LE) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.unknown_tunnel_pkt++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			/* Unsupported tunnel packet, disable csum offload */
- 			return skb_checksum_help(skb);
- 		}
-@@ -487,6 +495,27 @@ static u16 hinic3_set_wqe_combo(struct hinic3_txq *txq,
- 					      num_sge + !!offload);
- }
- 
-+static void hinic3_get_pkt_stats(struct hinic3_txq *txq, struct sk_buff *skb)
-+{
-+	u32 hdr_len, tx_bytes;
-+	unsigned short pkts;
-+
-+	if (skb_is_gso(skb)) {
-+		hdr_len = (skb_shinfo(skb)->gso_segs - 1) *
-+			  skb_tcp_all_headers(skb);
-+		tx_bytes = skb->len + hdr_len;
-+		pkts = skb_shinfo(skb)->gso_segs;
-+	} else {
-+		tx_bytes = skb->len > ETH_ZLEN ? skb->len : ETH_ZLEN;
-+		pkts = 1;
-+	}
-+
-+	u64_stats_update_begin(&txq->txq_stats.syncp);
-+	txq->txq_stats.bytes += tx_bytes;
-+	txq->txq_stats.packets += pkts;
-+	u64_stats_update_end(&txq->txq_stats.syncp);
-+}
-+
- static void hinic3_prepare_sq_ctrl(struct hinic3_sq_wqe_combo *wqe_combo,
- 				   __le32 queue_info, int nr_descs, u16 owner)
- {
-@@ -542,8 +571,12 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 	int err;
- 
- 	if (unlikely(skb->len < MIN_SKB_LEN)) {
--		if (skb_pad(skb, MIN_SKB_LEN - skb->len))
-+		if (skb_pad(skb, MIN_SKB_LEN - skb->len)) {
-+			u64_stats_update_begin(&txq->txq_stats.syncp);
-+			txq->txq_stats.skb_pad_err++;
-+			u64_stats_update_end(&txq->txq_stats.syncp);
- 			goto err_out;
-+		}
- 
- 		skb->len = MIN_SKB_LEN;
- 	}
-@@ -561,10 +594,16 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 					hinic3_wq_free_wqebbs(&txq->sq->wq),
- 					txq->tx_start_thrs);
- 
-+		u64_stats_update_begin(&txq->txq_stats.syncp);
-+		txq->txq_stats.busy++;
-+		u64_stats_update_end(&txq->txq_stats.syncp);
- 		return NETDEV_TX_BUSY;
- 	}
- 
- 	if (unlikely(offload == HINIC3_TX_OFFLOAD_INVALID)) {
-+		u64_stats_update_begin(&txq->txq_stats.syncp);
-+		txq->txq_stats.offload_cow_skb_err++;
-+		u64_stats_update_end(&txq->txq_stats.syncp);
- 		goto err_drop_pkt;
- 	} else if (!offload) {
- 		wqebb_cnt -= 1;
-@@ -599,6 +638,7 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 				  txq->tx_stop_thrs,
- 				  txq->tx_start_thrs);
- 
-+	hinic3_get_pkt_stats(txq, skb);
- 	hinic3_prepare_sq_ctrl(&wqe_combo, queue_info, num_sge, owner);
- 	hinic3_write_db(txq->sq, 0, DB_CFLAG_DP_SQ,
- 			hinic3_get_sq_local_pi(txq->sq));
-@@ -608,6 +648,9 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- err_drop_pkt:
- 	dev_kfree_skb_any(skb);
- err_out:
-+	u64_stats_update_begin(&txq->txq_stats.syncp);
-+	txq->txq_stats.dropped++;
-+	u64_stats_update_end(&txq->txq_stats.syncp);
- 	return NETDEV_TX_OK;
- }
- 
-@@ -799,3 +842,19 @@ bool hinic3_tx_poll(struct hinic3_txq *txq, int budget)
- 
- 	return pkts == HINIC3_TX_POLL_WEIGHT;
- }
-+
-+void hinic3_txq_get_stats(struct hinic3_txq *txq,
-+			  struct hinic3_txq_stats *stats)
-+{
-+	struct hinic3_txq_stats *txq_stats = &txq->txq_stats;
-+	unsigned int start;
-+
-+	do {
-+		start = u64_stats_fetch_begin(&txq_stats->syncp);
-+		stats->busy = txq_stats->busy;
-+		stats->skb_pad_err = txq_stats->skb_pad_err;
-+		stats->offload_cow_skb_err = txq_stats->offload_cow_skb_err;
-+		stats->map_frag_err = txq_stats->map_frag_err;
-+		stats->unknown_tunnel_pkt = txq_stats->unknown_tunnel_pkt;
-+	} while (u64_stats_fetch_retry(&txq_stats->syncp, start));
-+}
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h
-index 00194f2a1bcc..9e429362b936 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.h
-@@ -106,11 +106,9 @@ struct hinic3_txq_stats {
- 	u64                   busy;
- 	u64                   dropped;
- 	u64                   skb_pad_err;
--	u64                   frag_len_overflow;
- 	u64                   offload_cow_skb_err;
- 	u64                   map_frag_err;
- 	u64                   unknown_tunnel_pkt;
--	u64                   frag_size_err;
- 	struct u64_stats_sync syncp;
- };
- 
-@@ -160,4 +158,6 @@ netdev_tx_t hinic3_xmit_frame(struct sk_buff *skb, struct net_device *netdev);
- bool hinic3_tx_poll(struct hinic3_txq *txq, int budget);
- void hinic3_flush_txqs(struct net_device *netdev);
- 
-+void hinic3_txq_get_stats(struct hinic3_txq *txq,
-+			  struct hinic3_txq_stats *stats);
- #endif
--- 
-2.43.0
+>>> @@ -1611,6 +1627,19 @@ ssize_t resctrl_mbm_assign_mode_write(struct kernfs_open_file *of, char *buf,
+>>>               mbm_cntr_free_all(r, d);
+>>>               resctrl_reset_rmid_all(r, d);
+>>>           }
+>>> +
+>>> +        /*
+>>> +         * Counters were freed above, so both new groups (via mkdir) and
+>>> +         * the groups that already exist need assignments. Groups created
+>>> +         * while in "default" mode have no counter assigned, including the
+>>> +         * default group created when resctrl is mounted. Assign counters
+>>
+>> This patch refers three times to how "default group" receives counters during auto assignment.
+>>
+>> How important is it that the default group is assigned counters when switching to "mbm_event" mode?
+>>
+>> This patch implies that auto assignment will always include the default group but that cannot be
+>> guaranteed since the default group is always at the end of the rdt_all_groups list. This means
+>> that when traversing rdt_all_groups in resctrl_assign_cntrs_allrdtgrp(), whether default group
+>> receives counters would depend on how many other CTRL_MON and MON groups there are.
+> 
+> Good point. I recreated the problem. It is not always guaranteed that the default group gets the counter with the current logic.
+> 
+>>
+>>
+>>> +         * to them so that enabling the mode leaves the same assignments
+>>> +         * that mkdir would have made.
+>>
+>> Related to previous comment is that the changelog mentions "same per-group state that auto-assignment
+>> would have produced" that repeats a similat claim made above that states "same assignments that mkdir
+>> would have made". This behavior assumes that a CTRL_MON group is created with all its MON groups before
+>> the next CTRL_MON group is created *and* that enough counters are available for all groups. If
+>> there are not enough counters then the most recent CTRL_MON groups will receive counters first potentially
+>> leaving the first "mkdir" created CTRL_MON groups without counters.
+>>
+>> It is not clear to me whether default group requires counters. Separately, I do not see whether resctrl
+>> can or should support the same ordering as what "mkdir" would have produced. If these are not actually
+>> requirements then the patch is fine but the comments, documentation change, and changelog need to change
+>> to match the code.
+>>
+>> If the default group does require counters then we either need to change how groups
+>> are added to rdt_all_groups or how resctrl_assign_cntrs_allrdtgrp() traverses the list.
+> 
+> 
+> We have always treated the default group as a special case. I think
+
+In general I think the special treatment results from the default group
+always being present. It is not clear to me that this implies that the default
+group needs to have counters assigned when switching to mbm_event mode.
+
+
+> we should ensure that the default group gets counters before any
+> other group. How about adding logic to give the default group
+> priority when assigning counters? 
+
+I do not find there to be a strong motivation for this assignment but it
+should be fine to establish such expectation at this point. Just to confirm, you
+explicitly only consider the default group and not also the monitoring groups
+belonging to the default group?
+
+> How about something like this?
+> 
+> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
+> index 9e705eafe873..5f3711d78a19 100644
+> --- a/fs/resctrl/monitor.c
+> +++ b/fs/resctrl/monitor.c
+> @@ -1339,8 +1339,10 @@ static void resctrl_assign_cntrs_allrdtgrp(void)
+>  {
+>         struct rdtgroup *prgrp, *crgrp;
+> 
+> +       rdtgroup_assign_cntrs(&rdtgroup_default);
+>         list_for_each_entry(prgrp, &rdt_all_groups, rdtgroup_list) {
+> -               rdtgroup_assign_cntrs(prgrp);
+> +               if(prgrp != &rdtgroup_default)
+> +                       rdtgroup_assign_cntrs(prgrp);
+> 
+>                 list_for_each_entry(crgrp, &prgrp->mon.crdtgrp_list, mon.crdtgrp_list)
+>                         rdtgroup_assign_cntrs(crgrp);
+> 
+> 
+
+ok. If you go this route, please add a small comment to highlight why the list
+traversal is done in this unexpected way. If you do so, please take care with
+potential duplicate comments between this function and its caller.
+
+I do not have a preference about which groups need counters assigned when
+switching to mbm_event mode. Please just ensure that the documentation (resctrl.rst,
+changelog, code comments) match the behavior and explains why.
+
+Thank you very much.
+
+Reinette
 
