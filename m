@@ -1,166 +1,393 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098E65187F2;
-	Tue, 13 Oct 2026 14:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791901611; cv=none; b=ZfGNX9RxW5dtxh40W1Lsd+ALeA/AVWnEx4p1+SRmxSZ4FOoJibFczGFNmYs9XD6IA7oNkayY1/GpqItBtC9cej55ggM3aXAXS2b4Tg9owi1mZ1Dlhs36oh5yTCvDOrjlBEhr0OkAbhXRgdi82hWqav2TOq1zwhKoxHQQR2t24FY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791901611; c=relaxed/simple;
-	bh=Zm7YvLjSd928d55gJQhk1qII9rpJSTPjLjNHslHAa1M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LLts/z5ZPXHPfrUbWZ0XktrzqA9oKSFf3ZEoRKlaqND7UX/mHiOakVQ57PsEGG5AsAkUnXedBJMxSEi+ecATYh4uJfy0ReFpoXk/ae5oUat/2AoHSYYcA8iN5LWYVmHrru2jnJMuRqkxJ26QGvo2W5Q1xFcwQbudh13auGcrAqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OBufTWZr; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3A151477C
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 14:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791902437; cv=pass; b=c7whDR0c/eMJwJSx8CJkZf/RbN2zzGb13kvnvpjGKz6/ZlChYVzAu+DN1VnEHQmN61aBN6J4w5+kuUpDDRHOTkpsuPaHmstbU10g2gfYSlknELXGq+EMkIhw/planEfkQ0+18wzWIdk2Bk8EXalVFuV/K+K+w+V6m0VXzxKBkl8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791902437; c=relaxed/simple;
+	bh=vIyuNaXPf/fVqFdgVoqBwfybiukFL5Xa7TqVJcyhTKQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j4Bf+ek3Gw3uADKmz+vU/m1sAX1BjY4ccQ4zlWttWePYJa3JviBLQhWqVQqCde51q2Y8ap270ugeWf9pvxrnkJTA6EwwUqC7GmhlGyc+ZScpl92Aykj4ej7J+9YObiTyDdCtn04lkQ9U87ywlsWHLJlKlGrt97qluVqLeDA1pC0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R1fhVwD+; arc=pass smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OBufTWZr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C13521F0089C;
-	Tue, 13 Oct 2026 14:26:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791901609;
-	bh=G6+HXzTIsdMXUDkB87K1SqwkQ8xKxvMiZmAMjtsCQwY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=OBufTWZrlibOe040ffQmM69yRylTDpkUoxGTJVtEhDmWx+4LCP+4Yg5ltBb7UcZTS
-	 Jy08ZMZVYk/HkcG8EwYDtLR96JATNGtZZpfGT8k/eq/g6Jss6LO6fS0jkunGihzrFl
-	 HyVvHTxNS+GNu7/xgJt58UjBFAexZ5+vzHL0VT+16bPvrkZnwFqyC46DfT5TIpoj8Q
-	 /0T6YW2Z6b64iz/te9Uq+7qi8DZpE+EfQpxLeUl9WG2iLlAGl331JithROmKCSanW6
-	 7bCXOPX7Ig1o/+DkQ8EEp0WYsH26NWoaU41xYFX4ASoL9HwVHZKuC7Tl/1kunRVSKl
-	 qk+I1qbzogTPg==
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	=?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org,
-	kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: [PATCH v11 17/19] PCI/P2PDMA: Let a client declare that it selects ATS per mapping
-Date: Tue, 13 Oct 2026 17:25:25 +0300
-Message-ID: <20261013-fix-p2p-acs-v4-0-v11-17-72cf8c96e617@nvidia.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261013-fix-p2p-acs-v4-0-v11-0-72cf8c96e617@nvidia.com>
-References: <20261013-fix-p2p-acs-v4-0-v11-0-72cf8c96e617@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R1fhVwD+"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91b8b456dbeso17773566d6.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:40:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791902435; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gzwgNixvHAFZvFL/UavHH+8LL7wfXzIXVToREQ3Zgnj4SVi/A5GkXaH4JOR2bDrZQa
+         I9dxGU8RPGvL4gcfmWJHuOT+5+VPqZ+GittaZbWecom84By4gdbaUaqb+6TTn8GinT/l
+         VDAu/sVtE5/EIZ9R/N4jXvqD58dh6sqiJrRO7YPPVx2gy4uKruoYYf1QHW3/AUzG2AEc
+         Ie+0YrGCDfHNcD3XGvcQRjXRG2sxyipgaHMHLdOxhkNDIjjJXPcQd8LObWHzvg15AzbZ
+         aGpL4/7rFKfXHQfrqjjEOYJB6DP6ZXxY96QngVykLpL8uhiODlnsuYO4NB+rbt0CHBhm
+         cACw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ur+fFzVvYF32ak9xx0wg1tr3/ez5Zf6MlIl+DWpbg80=;
+        fh=bjLiHUFtxwpdENGCmnERphJPP931xbLbb9I/Gt0z2yg=;
+        b=sDQ1CV324Baqoo5ZZHoClS9wN/OaN+eJa9x0X9x3xipMMiHDtOeHKeyKwpuox4CYkv
+         E/OxFk6bkgE86vsoEvCNOiNufnKtJNuL1uyzL49sX2M39jZUbt/HxxVMSf9gs0LvN9if
+         1i9bSN6vq8Xtlltzc3PUBTZM3bWYCQLDqsx2YCRGeiuFGPeljx6Uu8RzNWNHDKwTBj+B
+         fbaSU7qocxWPuxRKanPXgRdxURKlR1Ful4gBTAEO/SGuYHILknacZ3UH3nOSP5rMPyTq
+         KRdsloY4mGAT9sLCMSDRmZnsaCitplBgJcbC87oDingzeSuefgukV4iRnrcNfGOjf+2E
+         2xkQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791902435; x=1792507235; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ur+fFzVvYF32ak9xx0wg1tr3/ez5Zf6MlIl+DWpbg80=;
+        b=R1fhVwD+nBftut0ooyBiU9QLzlQ7+UC70po/m7xipubAJ2Tn4tWJi9YL0rwcJHgQMn
+         +irR2ZpX6SGFfRdxoVER4cJDg0TOS2wOp/xBbVeIQu543d9zWsUoL0+6bzQ24VdlxG/S
+         HEWPKVB/LTzjTbanAtUuOgJDeWFKKpmsXXwcRm8nXeUBrE46jwhSGPISJJT51bFSiv9w
+         vVZR0Er3qvczaOdPKVVU3O6P4f0EtkzZFd4IsgFAgSHiA0noIG+AACwp2TWnsHntnGgc
+         bAQdI3HAUkhjtyGo19pzDTojH0mJH0yJu0zHqTDmCd7/ZR+7PK6nJ5f3M7IXFpsEeWVg
+         FtVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791902435; x=1792507235;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ur+fFzVvYF32ak9xx0wg1tr3/ez5Zf6MlIl+DWpbg80=;
+        b=g6WeKjUQnerRUOaAFoJPA0UVYUUHWmyVhN28mf+TCVc9r0MdSWVRCtMp6kFIPRGSmh
+         GeKPt3RKUV4adGX9bV6yoo0WEic2fOiD79mdejySAqvlF+Jl8CV8H4rSBLsHsAOKy/0N
+         6MfliYgNIh5WXCrcZTfvA8Hvb5xEi7V3QqE//anoTFk61sQy5DSlOZlJoCkuYLcSfNT7
+         hQmnU9VWLbygO6758yB7Py2hanFU2uqmGo0n1mPPdWFYjon8wQ/8YbomItzxcMkGuLSA
+         7T4nTgp1y3NmukgrK2lIAZwtj3rwK9CYQZsxAmLG3ymzZY3OmScsygGnxarKjhTHgwA6
+         zH9g==
+X-Forwarded-Encrypted: i=1; AKwUvBxhTgUnYRCVympJvOkxdjEZDNM0xQhM1TbOjfch9INVSaLN773I93VvEcPAlmFLkOlQ6b5FLR+Lbls=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLeUfzv9/hUp0j3BgCAGfmiyPorpWfDrIiDVxRQZ28hqi37iFnK
+	aOiD5Hn/1MzxjF5E1vRRGjteYnmU/qoooVht2ZKBpdE0PI2OyI62PJjaaBis7t+5DQLRpLAmSDi
+	6j99Mod7LJOrxXcm0tk7ODFJGTykMyFo=
+X-Gm-Gg: AYBFou2ON+NdhCMqcdGcGfDdvYhAw62HJTtCPSQr97DMx80fUIsVPq7LqOR2Hd6iVSc
+	M3NYdiy4M801bf83Dgf+/L3odvZK+EgZInV9xfjbT2m5G+ti2O0uxT+vTwR/C8Pn7UZym0jPEBA
+	TNG9Ki88R/xTh06h2JYYvuPCUFAVQIF4D51q06neQ9cGhyfJFC2loGBjd4tJyEdG87oPGN0Wr0+
+	8PWHyGJpKOXclrv3j/m4lyKN2BGrDQXpbaJrywXcFL7kznHl/MhjWQuaoliJlLehcsySukUuqBa
+	4O3JFEgEiT33FvPejUepxdnTVcbIGv+op4zE8Ay/5mJA7f5IY1rBFR/e2I6kXq9PZT+hxJ7fjKE
+	hpetvdB3EWeXizv69mbmeqKmsufBGY0Op78UJisOg2UlzDngrRQWWQ9ApojTcktl1I0dM
+X-Received: by 2002:a05:6214:401a:b0:914:7df6:ca52 with SMTP id
+ 6a1803df08f44-91b555788ffmr233587636d6.9.1791902434413; Tue, 13 Oct 2026
+ 07:40:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: 8bit
+References: <20261013125825.3080-1-efraimvander64@gmail.com>
+In-Reply-To: <20261013125825.3080-1-efraimvander64@gmail.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Tue, 13 Oct 2026 11:40:22 -0300
+X-Gm-Features: AclHuK8jJ9JCEsX4JMkok-vG9E5rUqlzPeYagnBj5-Emes070Nban37h84QOnpQ
+Message-ID: <CAMAsx6cNwhdZGWa87ZcXhcbKvT5bPu+_MEK11D0rfiEV1_9vkg@mail.gmail.com>
+Subject: Re: [PATCH] docs: translations: pt_BR: translate cpu-load.rst
+To: "Efraim E. Vander" <efraimvander64@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "Efraim E . Vander" <fraimvander64@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Tue, Oct 13, 2026 at 09:59, Efraim E. Vander
+<efraimvander64@gmail.com> wrote:
+>
+> Translate cpu-load.rst into Brazilian Portuguese and
+> add it to the pt_BR admin-guide documentation index.
 
-The PCIe ATS Enable bit covers the whole device, so P2PDMA cannot tell
-from it whether a client will translate a given address. Most devices
-translate any address once ATS is enabled, but some choose ATS per DMA
-mapping and can still use bus addresses for the rest.
+The patch doesn't change pt_BR/admin-guide/index.rst. To be added to
+the index, cpu-load should be moved from the "Todolist" to the toctree,
+next to README and devices.
 
-Add pcim_p2pdma_set_ats_per_mapping() so the driver of such a device can
-declare that before P2PDMA starts treating clients with ATS enabled as
-translating everything. Keep it in the device's P2PDMA state, which
-already ends with the driver binding.
+> Assisted-by: LLM
+>
+> Signed-off-by: Efraim E. Vander <efraimvander64@gmail.com>
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/pci/p2pdma.c       | 30 ++++++++++++++++++++++++++++++
- include/linux/pci-p2pdma.h |  4 ++++
- 2 files changed, 34 insertions(+)
+Please keep both tags together, without a blank line between them.
 
-diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
-index 6a05a5019daf..144314ab5fae 100644
---- a/drivers/pci/p2pdma.c
-+++ b/drivers/pci/p2pdma.c
-@@ -26,6 +26,7 @@
- struct pci_p2pdma {
- 	struct gen_pool *pool;
- 	bool p2pmem_published;
-+	bool ats_per_mapping;
- 	struct xarray map_types;
- 	struct p2pdma_provider mem[PCI_STD_NUM_BARS];
- };
-@@ -1750,6 +1751,35 @@ void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- }
- EXPORT_SYMBOL_GPL(pci_p2pmem_publish);
- 
-+/**
-+ * pcim_p2pdma_set_ats_per_mapping - Declare per-mapping ATS for a client
-+ * @pdev: PCI device that initiates peer-to-peer DMA
-+ *
-+ * Declare that @pdev issues Translated Requests only for the DMA mappings its
-+ * driver sets up to use ATS, rather than for any address once ATS is enabled.
-+ * P2PDMA then routes this client's Requests with the Address Type each query
-+ * asks about, rather than the one its ATS Enable bit implies.
-+ *
-+ * Call it once pcim_p2pdma_init() has succeeded. Without P2PDMA state the
-+ * declaration is dropped and the ATS Enable bit keeps deciding.
-+ */
-+void pcim_p2pdma_set_ats_per_mapping(struct pci_dev *pdev)
-+{
-+	struct pci_p2pdma *p2p;
-+
-+	p2p = rcu_dereference_protected(pdev->p2pdma, 1);
-+	if (!p2p)
-+		/*
-+		 * ats_per_mapping is a performance optimization,
-+		 * if pcim_p2pdma_init() didn't set pdev->p2pdma pointer
-+		 * for some reason, let's simply use ATS global settings.
-+		 */
-+		return;
-+
-+	p2p->ats_per_mapping = true;
-+}
-+EXPORT_SYMBOL_GPL(pcim_p2pdma_set_ats_per_mapping);
-+
- /**
-  * pci_p2pdma_map_type_tlp - Determine the mapping type for P2PDMA transfers
-  * @provider: P2PDMA provider structure
-diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
-index dd17501ba1b6..ce389e18d023 100644
---- a/include/linux/pci-p2pdma.h
-+++ b/include/linux/pci-p2pdma.h
-@@ -82,6 +82,7 @@ struct scatterlist *pci_p2pmem_alloc_sgl(struct pci_dev *pdev,
- 					 unsigned int *nents, u32 length);
- void pci_p2pmem_free_sgl(struct pci_dev *pdev, struct scatterlist *sgl);
- void pci_p2pmem_publish(struct pci_dev *pdev, bool publish);
-+void pcim_p2pdma_set_ats_per_mapping(struct pci_dev *pdev);
- int pci_p2pdma_enable_store(const char *page, struct pci_dev **p2p_dev,
- 			    bool *use_p2pdma);
- ssize_t pci_p2pdma_enable_show(char *page, struct pci_dev *p2p_dev,
-@@ -138,6 +139,9 @@ static inline void pci_p2pmem_free_sgl(struct pci_dev *pdev,
- static inline void pci_p2pmem_publish(struct pci_dev *pdev, bool publish)
- {
- }
-+static inline void pcim_p2pdma_set_ats_per_mapping(struct pci_dev *pdev)
-+{
-+}
- static inline int pci_p2pdma_enable_store(const char *page,
- 		struct pci_dev **p2p_dev, bool *use_p2pdma)
- {
+> ---
+>  .../pt_BR/admin-guide/cpu-load.rst            | 126 +++++++++---------
+>  1 file changed, 65 insertions(+), 61 deletions(-)
+>
+> diff --git a/Documentation/translations/pt_BR/admin-guide/cpu-load.rst b/=
+Documentation/translations/pt_BR/admin-guide/cpu-load.rst
+> index 0c76acabe..f0bb48e82 100644
+> --- a/Documentation/translations/pt_BR/admin-guide/cpu-load.rst
+> +++ b/Documentation/translations/pt_BR/admin-guide/cpu-load.rst
 
--- 
-2.55.0
+This patch doesn't apply to docs-next. pt_BR/admin-guide/cpu-load.rst
+doesn't exist in the tree yet, but the patch modifies it instead of
+creating it. That's why it has removed lines: it seems it was generated
+from a second local commit on top of a first draft, so the "-" lines
+refer to text that only exists in your tree.
 
+Please squash your commits (or generate the patch against docs-next),
+so that the file is created from scratch ("new file mode",
+"--- /dev/null", only "+" lines).
+
+> +O Linux exporta diversas informa=C3=A7=C3=B5es por meio de `/proc/stat` =
+e `/proc/uptime`, que ferramentas do espa=C3=A7o do usu=C3=A1rio (*userland=
+*), como `top(1)`, utilizam para calcular o tempo m=C3=A9dio que o sistema =
+passou em determinado estado, por exemplo::
+
+The original uses ``/proc/stat`` and ``/proc/uptime`` (double
+backquotes, rendered as literals). With single backquotes they become
+interpreted text and render differently. The same applies to the other
+occurrences in the file.
+
+Also, please wrap the lines as in the original document, instead of
+keeping each paragraph in a single line.
+
+> +=C3=89 poss=C3=ADvel imaginar muitas outras situa=C3=A7=C3=B5es em que e=
+sse comportamento do kernel pode gerar informa=C3=A7=C3=B5es bastante incon=
+sistentes em `/proc/stat`:
+>
+>
+> +    /* gcc -o hog smallhog.c */
+> +    #include <time.h>
+
+The original ends this sentence with "::", which starts the literal
+block. With a single ":", the program below is rendered as a block
+quote, not as code.
+
+Also, please keep the example program exactly as in the original
+(indented with tabs, same formatting). It is code, so it shouldn't be
+changed by the translation.
+
+Before sending a v2, please apply it with "git am" on top of docs-next
+and check the result with "make htmldocs".
+
+Thanks,
+Daniel
+
+Em ter., 13 de out. de 2026 =C3=A0s 09:59, Efraim E. Vander
+<efraimvander64@gmail.com> escreveu:
+>
+> Translate cpu-load.rst into Brazilian Portuguese and
+> add it to the pt_BR admin-guide documentation index.
+>
+> Assisted-by: LLM
+>
+> Signed-off-by: Efraim E. Vander <efraimvander64@gmail.com>
+> ---
+>  .../pt_BR/admin-guide/cpu-load.rst            | 126 +++++++++---------
+>  1 file changed, 65 insertions(+), 61 deletions(-)
+>
+> diff --git a/Documentation/translations/pt_BR/admin-guide/cpu-load.rst b/=
+Documentation/translations/pt_BR/admin-guide/cpu-load.rst
+> index 0c76acabe..f0bb48e82 100644
+> --- a/Documentation/translations/pt_BR/admin-guide/cpu-load.rst
+> +++ b/Documentation/translations/pt_BR/admin-guide/cpu-load.rst
+> @@ -1,27 +1,26 @@
+> -
+> -
+>  .. SPDX-License-Identifier: GPL-2.0
+>
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  Carga da CPU
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -O Linux exporta diversas informa=C3=A7=C3=B5es por meio de `/proc/stat` =
+e `/proc/uptime`, que ferramentas do espa=C3=A7o do usu=C3=A1rio (*userland=
+*), como `top(1)`, utilizam para calcular o tempo m=C3=A9dio que o sistema =
+passou em determinado estado. Por exemplo:
+> -
+>
+> -$ iostat
+> -Linux 2.6.18.3-exp (linmac)     02/20/2007
+> +O Linux exporta diversas informa=C3=A7=C3=B5es por meio de `/proc/stat` =
+e `/proc/uptime`, que ferramentas do espa=C3=A7o do usu=C3=A1rio (*userland=
+*), como `top(1)`, utilizam para calcular o tempo m=C3=A9dio que o sistema =
+passou em determinado estado, por exemplo::
+>
+> -avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+> -           10.01    0.00    2.92    5.44    0.00   81.63
+> +    $ iostat
+> +    Linux 2.6.18.3-exp (linmac)     02/20/2007
+>
+> +    avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+> +               10.01    0.00    2.92    5.44    0.00   81.63
+>
+> -Nesse caso, o sistema considera que, durante o per=C3=ADodo de amostrage=
+m padr=C3=A3o, passou 10,01% do tempo executando tarefas no espa=C3=A7o do =
+usu=C3=A1rio, 2,92% no kernel e permaneceu ocioso durante 81,63% do tempo t=
+otal.
+> +Nesse caso, o sistema considera que, durante o per=C3=ADodo de amostrage=
+m padr=C3=A3o, passou 10,01% do tempo executando tarefas no espa=C3=A7o do =
+usu=C3=A1rio, 2,92% no kernel e permaneceu ocioso durante 81,63% do tempo.
+>
+> -Na maioria dos casos, as informa=C3=A7=C3=B5es de `/proc/stat` refletem =
+a realidade com bastante precis=C3=A3o. No entanto, devido =C3=A0 natureza =
+da forma como e do momento em que o kernel coleta esses dados, =C3=A0s veze=
+s essas informa=C3=A7=C3=B5es n=C3=A3o s=C3=A3o confi=C3=A1veis.
+> +Na maioria dos casos, as informa=C3=A7=C3=B5es de `/proc/stat` refletem =
+a realidade com bastante precis=C3=A3o. No entanto, devido =C3=A0 natureza =
+da forma como e do momento em que os dados s=C3=A3o coletados, esses valore=
+s podem apresentar imprecis=C3=B5es.
+>
+>  Ent=C3=A3o, como essas informa=C3=A7=C3=B5es s=C3=A3o coletadas?
+> -Sempre que uma interrup=C3=A7=C3=A3o do temporizador (*timer interrupt*)=
+ =C3=A9 sinalizada, o kernel verifica que tipo de tarefa estava em execu=C3=
+=A7=C3=A3o naquele instante e incrementa o contador correspondente ao tipo =
+ou estado dessa tarefa.
+> -O problema =C3=A9 que o sistema pode ter alternado entre v=C3=A1rios est=
+ados diversas vezes entre duas interrup=C3=A7=C3=B5es do temporizador. Aind=
+a assim, o contador =C3=A9 incrementado apenas para o =C3=BAltimo estado ob=
+servado.
+> +
+> +Sempre que uma interrup=C3=A7=C3=A3o do temporizador (*timer interrupt*)=
+ =C3=A9 sinalizada, o kernel verifica que tipo de tarefa estava em execu=C3=
+=A7=C3=A3o naquele instante e incrementa o contador correspondente.
+> +
+> +O problema =C3=A9 que o sistema pode ter alternado entre v=C3=A1rios est=
+ados diversas vezes entre duas interrup=C3=A7=C3=B5es do temporizador. Aind=
+a assim, o contador =C3=A9 incrementado apenas uma vez, de acordo com o est=
+ado observado no instante da interrup=C3=A7=C3=A3o.
+>
+>  Exemplo
+>  -------
+> @@ -35,67 +34,72 @@ Imagine um sistema com uma =C3=BAnica tarefa que, per=
+iodicamente, consome ciclos de
+>      |_ algo come=C3=A7a a trabalhar             |_ algo entra em suspens=
+=C3=A3o
+>                                                (mas =C3=A9 despertado pou=
+co depois)
+>
+> -
+> -Na situa=C3=A7=C3=A3o acima, de acordo com `/proc/stat`, a carga do sist=
+ema ser=C3=A1 de 0%, pois a interrup=C3=A7=C3=A3o do temporizador sempre oc=
+orrer=C3=A1 quando o sistema estiver executando o tratador de ociosidade (*=
+idle handler*).
+> +Na situa=C3=A7=C3=A3o acima, de acordo com `/proc/stat`, a carga do sist=
+ema ser=C3=A1 de 0%, pois a interrup=C3=A7=C3=A3o do temporizador sempre oc=
+orrer=C3=A1 quando o sistema estiver executando a tarefa ociosa.
+>
+>  Na realidade, por=C3=A9m, a carga estar=C3=A1 mais pr=C3=B3xima de 99%.
+>
+>  =C3=89 poss=C3=ADvel imaginar muitas outras situa=C3=A7=C3=B5es em que e=
+sse comportamento do kernel pode gerar informa=C3=A7=C3=B5es bastante incon=
+sistentes em `/proc/stat`:
+>
+>
+> -        /* gcc -o hog smallhog.c */
+> -
+> -        #include <time.h>
+> -        #include <limits.h>
+> -        #include <signal.h>
+> -        #include <sys/time.h>
+> -        #define HIST 10
+>
+> -        static volatile sig_atomic_t stop;
+> +    /* gcc -o hog smallhog.c */
+> +    #include <time.h>
+> +    #include <limits.h>
+> +    #include <signal.h>
+> +    #include <sys/time.h>
+>
+> -        static void sighandler(int signr)
+> -        {
+> -                (void) signr;
+> -                stop =3D 1;
+> -        }
+> +    #define HIST 10
+>
+> -        static unsigned long hog (unsigned long niters)
+> -        {
+> -                stop =3D 0;
+> -                while (!stop && --niters);
+> -                return niters;
+> -        }
+> +    static volatile sig_atomic_t stop;
+>
+> -        int main (void)
+> -        {
+> -                int i;
+> -                struct itimerval it =3D {
+> -                        .it_interval =3D { .tv_sec =3D 0, .tv_usec =3D 1=
+ },
+> -                        .it_value    =3D { .tv_sec =3D 0, .tv_usec =3D 1=
+ } };
+> -                sigset_t set;
+> -                unsigned long v[HIST];
+> -                double tmp =3D 0.0;
+> -                unsigned long n;
+> -                signal(SIGALRM, &sighandler);
+> -                setitimer(ITIMER_REAL, &it, NULL);
+> -
+> -                hog (ULONG_MAX);
+> -                for (i =3D 0; i < HIST; ++i) v[i] =3D ULONG_MAX - hog(UL=
+ONG_MAX);
+> -                for (i =3D 0; i < HIST; ++i) tmp +=3D v[i];
+> -                tmp /=3D HIST;
+> -                n =3D tmp - (tmp / 3.0);
+> -
+> -                sigemptyset(&set);
+> -                sigaddset(&set, SIGALRM);
+> -
+> -                for (;;) {
+> -                        hog(n);
+> -                        sigwait(&set, &i);
+> -                }
+> -                return 0;
+> -        }
+> +    static void sighandler(int signr)
+> +    {
+> +        (void) signr;
+> +        stop =3D 1;
+> +    }
+>
+> +    static unsigned long hog(unsigned long niters)
+> +    {
+> +        stop =3D 0;
+> +        while (!stop && --niters);
+> +        return niters;
+> +    }
+> +
+> +    int main(void)
+> +    {
+> +        int i;
+> +        struct itimerval it =3D {
+> +            .it_interval =3D { .tv_sec =3D 0, .tv_usec =3D 1 },
+> +            .it_value    =3D { .tv_sec =3D 0, .tv_usec =3D 1 }
+> +        };
+> +        sigset_t set;
+> +        unsigned long v[HIST];
+> +        double tmp =3D 0.0;
+> +        unsigned long n;
+> +
+> +        signal(SIGALRM, &sighandler);
+> +        setitimer(ITIMER_REAL, &it, NULL);
+> +
+> +        hog(ULONG_MAX);
+> +        for (i =3D 0; i < HIST; ++i)
+> +            v[i] =3D ULONG_MAX - hog(ULONG_MAX);
+> +
+> +        for (i =3D 0; i < HIST; ++i)
+> +            tmp +=3D v[i];
+> +
+> +        tmp /=3D HIST;
+> +        n =3D tmp - (tmp / 3.0);
+> +
+> +        sigemptyset(&set);
+> +        sigaddset(&set, SIGALRM);
+> +
+> +        for (;;) {
+> +            hog(n);
+> +            sigwait(&set, &i);
+> +        }
+>
+> +        return 0;
+> +    }
+>
+>  Refer=C3=AAncias
+>  -----------
+> --
+> 2.43.0
+>
