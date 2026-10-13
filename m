@@ -1,212 +1,158 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2951B37A825
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C203806C0
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791876376; cv=none; b=AdTv0eDPBkLj6yaPExWcVQI+a1flZHBlZZACgcEBddSwYAu5Np+b0dhtM0qQYMQqcji9EGiqXqxujiRRSzkiKQsOx255d0ABNnG9GBuMXEG7O38irgcO/V99y0taQpMQOlJ4Y4l5TlSUmldNBgsjJ7gLPRi/9EOqJSDHn40yejk=
+	t=1791876452; cv=none; b=mRbW1GzqhfS5kd2joEykdUvxVZHnWfHxh+j7PUpxezgpIUT4bEP8jsk0OYDJfTkeHWHgtL4+Kk9JheR/++v0r3uv25y+VQbUA6fLYTT5TI0OBRPCcMHA/cBxYUt/nROoKSR5KsfUuKZVd/H4Z02eefk/5q6cozEAORW8N499RsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791876376; c=relaxed/simple;
-	bh=ewrmg3I1S4qLQZ3a1imZbYrlzGASU5GuB3jWVBat8jo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=M9gN3lJfV1E6pfhYqK9Vb5N6YrbpGzCxvwADma9DEeOxUqlbRsLYCB/tWGRcN5mEYhudI9gYAfJg+Dj8zLvjcun2vtjfuZAEg5SySCapjOakF6PjP0q7AhQ0FbouohUT+U+uamMR2k4YPXCktXxFMaKOpDyYq66m6mTJkZStmJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IDL0Di4X; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=OYdyhAei; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1791876452; c=relaxed/simple;
+	bh=HNtZ6WxqkhhZxZcY0QGx+aYFkBcRDuHhTkZVnERgxgk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iCjocVwcBxH+U4cjKFy+5gVLhZQVomFtbIMgQ/3Wx+9b6AOrkr0/qj5ZHgYfSf0kFkIPPNxjbuBkeYU1rZSTh3oz/O18Tx5pvEDwmeb1YbbD300BPJnuM33U4/XwGq5OtsfeM3T0JqVeINmlSzUBrEeDkoCOSlsK+JAWdy7Q6Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gVEOvMuJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=X+XskqUr; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IDL0Di4X";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="OYdyhAei"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791876374;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ewrmg3I1S4qLQZ3a1imZbYrlzGASU5GuB3jWVBat8jo=;
-	b=IDL0Di4X7mKDL0lQ9YqqEN0k/ZKmsRpyDUNoLgPlopz+YOeoakmqZPdxZ0f/2B4RPyYk9F
-	DwkY58d9NOOHFko3wn12nqIzsDiEkBTaIj0oCjSsltAJRd2fM9exwhDItlVCo9/JKcSw+/
-	Vc8qUkMBQi2Z8wlSSlgMqrRLKRRv8qc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-446-kMAyIdMePiaEcF0JtH3Yvg-1; Tue, 13 Oct 2026 07:26:12 +0000
-X-MC-Unique: kMAyIdMePiaEcF0JtH3Yvg-1
-X-Mimecast-MFC-AGG-ID: kMAyIdMePiaEcF0JtH3Yvg_1791876372
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4a027f2e364so17519055e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 00:26:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gVEOvMuJ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="X+XskqUr"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D20pij3907367
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:27:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DvokiBRaiti5Y+UDOubxiXcM9bfVFYj7J+MMf4KQ2L4=; b=gVEOvMuJ29Cd8Tk8
+	E5fUCLBmjwGvP9eU7uoGzTempBz9i2mM6p0m4Uylu0RyfK1u7JiOpFhl7oD15R53
+	vV+eCkljybWYkfQQ9cFhdj/SMO1mu0oiUqOWr2cNK/HytSaovAYl/Rr0qALmOY7M
+	eYW4oe05hKpSvZ4B5PN70nhyFSeBkZ6aOOWeFm+jXrk7YycsYyRuEXS44IrU7/Zn
+	02uY9OWZy5iVEfmQ6Bnol8fvVNaanVP0eeAGF4v/x+e0e/QibwCWAQNYe3Y5uDqU
+	iFE/KIGxwzpslCoSkdszLbPJM+2dWuyNuzRxHPO/omGfk/43KNxscIR9k5XmCkQ0
+	sLGMwQ==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h95xqt928-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:27:29 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cc42a07d04aso1820812a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 00:27:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1791876371; x=1792481171; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ewrmg3I1S4qLQZ3a1imZbYrlzGASU5GuB3jWVBat8jo=;
-        b=OYdyhAei3xLoL/LLz+ezlSVbZqiQ9PYQ4/2BpBAMYl9YfQiwnBtJjk0hJElWsltTcI
-         gJRtwyE4ybWoSe9G393FeQUTiCLKXCftrP6Zo+b7UNYm5tMPxutxIUq4SowtgQKFzJgI
-         tjra5tLPi9ai5mTdXL2iUDFzzJNDVMi3R8q6aw8WniMDyTnG48YOIk8adC/yS6ijyq8+
-         W6F16ArcRHvMS6usmPMn8k8ngcw+LuiE+CEFla7rI5DblUr3kIlbYR9/q+fI5Azww3FY
-         6i0AIriUVa/3GUgGC6WCoY2tY64hERpzEL4M9XBbnGWJroMAe0TbqAr7jaqFMwBArdI0
-         GPxA==
+        d=oss.qualcomm.com; s=google; t=1791876449; x=1792481249; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DvokiBRaiti5Y+UDOubxiXcM9bfVFYj7J+MMf4KQ2L4=;
+        b=X+XskqUrAxJRNcW8UuN6AbfvZcAVC6WufGmuGJZqPY3xjmCUW6xhVzwx4IZTJgs/eS
+         mc09hYsqn6bObQFu3pK1hnnEtptEBMlVT4K8avwQ3VFIdkz9Aha24gx73hR/wM22L51f
+         C/3HHuw/jL/CBY1Ftj4QOJplHf8nDtyLwci1AMjwQLtLbsgLMWbSfn5EL13rsgsjEc5q
+         FcMmRGAGdgB3NTnjV5lRIvH04fp4nETvznpBkZJE1k1NeoDEwdQnOYLgw3BK+SMkSCNB
+         HIClTtKQ/K1itSoD09ix7LdTuBMNceeAeHZ4wOwmW0T3+av0IAuA1BPFsfVUVeeT6Gmc
+         5g9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791876371; x=1792481171;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ewrmg3I1S4qLQZ3a1imZbYrlzGASU5GuB3jWVBat8jo=;
-        b=luqpXtn2iX4b7c4SatZlbknM5CmuFKakdLN8NLQmzyl+GeS4/FplWGTkQwrJnLw2WS
-         L9CCourm2f+SKxm6qpZSmh0lJudB9e/urh+qEiM/mx5eG3I4G1REsjKfV51DE4hCc+Y+
-         AL4bg4g2Yc+U+zPjDsrrBDbAdCBM3aMpmPYOItkK+K9B4hWSPCYrLTfjUH1bZzK7NDr/
-         jc8nhAa1MnanVNGeYAE+IMIWhV9Aquu8EMmdIE9Y+IvCl9D6QOvaGB9O1ulIssWVF/tJ
-         GHSvdR9Qcmcge7d2DTafatD5+RZs0h3IC8pPCOvLJXCSsD+24KqdvXF0zi56JKD6YFHg
-         V00A==
-X-Forwarded-Encrypted: i=1; AKwUvBzyh9Cf7fSQM0DGepUPZwapeA45F11dr+qZXltMLZ7IG1PulnEIfuLEk1UfkRxMCqFIqsmxz4fDETk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJEb7jNkOjlciczhQflyi3jaoPe2VzNdbZ0icfjDVpQKKnz7xy/
-	cK1majsru4iJmzxdOr3f025mbux5OPX5TanNccAkUqDjee7sn6YoAdc4fzaI2Kt3WcYkxYedLXC
-	rGzdebSJviJQgX0KhSdUDifhBYh4Js4p+LUgo/L2lV+wmdPqZrjOoig/C+D2lZQ==
-X-Gm-Gg: AYBFou092uMoaEpRSEvbEtqn5fCsFDBb4n1MjTqtEPiysoi9upqp1Bj/Pc6gs31fXyw
-	t81OOq0Tv3yqNYAqeSPkiRCso6MyCSuXx+p5KKXxe4FB+J3dfI7fwtEBJqCf/IAIQUS9RVg5DhZ
-	dbCgaw5I+Lp+UoLQtd0on4BMRZXQiENrdnNk4RG04qV26KLO/86QwNj+mIc7ca1tjf7dZdwL/TU
-	Zr8rol6fA/BjMEZw3C6s8TDOGwvyRjPpLNrkHZGWzlqyfTUDabtSsmIDWaNrDVFBxmbKjgJZFkt
-	cOYyi99iAwURIRGU/ud+h5hZzyShqO8vnc+C6/25sG6PLAUAJHXahJmpl++0xNqPgvqUdQmol8d
-	8ilx0XNlct9RxiQM3q0JFiBRFPMHg
-X-Received: by 2002:a05:600c:c176:b0:4a0:c2a:485e with SMTP id 5b1f17b1804b1-4a18e4dce0cmr221459775e9.33.1791876371623;
-        Tue, 13 Oct 2026 00:26:11 -0700 (PDT)
-X-Received: by 2002:a05:600c:c176:b0:4a0:c2a:485e with SMTP id 5b1f17b1804b1-4a18e4dce0cmr221459285e9.33.1791876371161;
-        Tue, 13 Oct 2026 00:26:11 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([195.174.135.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0bd733fsm3581160f8f.58.2026.10.13.00.26.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 00:26:09 -0700 (PDT)
-Message-ID: <aa16855bc9ccc6b776ba4f513b86e3eadf889f74.camel@redhat.com>
-Subject: Re: [PATCH v2 0/3] rv: per-edge dwell-time statistics for per-cpu
- monitors
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Tobias Schaffner <tobias.schaffner@siemens.com>, Steven Rostedt
-	 <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- rpm@xenomai.org, 	jan.kiszka@siemens.com
-Date: Tue, 13 Oct 2026 09:26:07 +0200
-In-Reply-To: <cfd7123a-e83d-490d-918b-154d45aad92d@siemens.com>
-References: <20260911123439.463052-1-tobias.schaffner@siemens.com>
-	 <4759c9b0dacdf1f9c0cf47158895860dbd0ec401.camel@redhat.com>
-	 <cfd7123a-e83d-490d-918b-154d45aad92d@siemens.com>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+        d=1e100.net; s=20260707; t=1791876449; x=1792481249;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DvokiBRaiti5Y+UDOubxiXcM9bfVFYj7J+MMf4KQ2L4=;
+        b=W6gwj2mrPbQJ2pPQfQvcIuEpEWoOddnN2XzdDHlL78uawRLXNy2EMv4WjBYKN9Q3FP
+         qf0wNEkozaRlsK1xYXJ23cg3IVkeYu5noAUw7UFEWCQhaQZPFyYA/oodN7TVL+LBGxG2
+         VLDeFqI55RES/xt2/WlNI8nU7xM3MBXXx6BX6cduWT+X6N1EpvQGZuZgHv6nGa6wZ55L
+         G1sWn+peuMAXJ9kFMOvASx96CRbU885EPj3AKLMZJyZek/PaxT8jvoPXp5fjYYu72Mkq
+         R59Nkx2GtXXM/89hwu1B5Z18N7GiV69vR+ToUH12Y7mGSnFTcOnFn901rqZFsxiELiPo
+         iKMQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxaB7c1bVdouwjNdKNqqollkDGS2LEv0zQHPW8DpiK9D34wjkX9Gk3cA97Re0iasIVKg5JXhheC6ag=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJyVUkbAwHlCWyHrHFdqKK3a81XQVTh/UekxhU3NTZBujndNXvM
+	+qr32lrN7Zi/3DVvgv0TmU+JszjOGZf6uKIiq0MkkQ7k95ZSEpm5Yp+VvytJwXmq0+YSSUuFssS
+	T+24WvBewZMihXYW5oVVTVrEvCmgxz/1uUMsfFUbWmYUeXb//5LxzuTWPiQql4Rs=
+X-Gm-Gg: AYBFou3tXyRAYf32N9Cyz9zeR0CgF1ulpO+hgQgRZdD+Zmr4Sq4ZDgsAeS4z+o63Z32
+	ntJQQrJFkJtHploWUFILxZ554XLKyPb09APl8Ou84RyA/IVKG/xKCHyqJNljZq25w8eB/dGhcXP
+	8FRg9WOEq/o1IfsCAEtr2oqBOYYIGLDfJk/VayYkurZ0O2yCwyhQEYCPy3ts4Yp5rvJP3j3gEb6
+	InbeVPXsdr8Fz/kQrRJclMIqn7zUkyRuveqIekXWaqNdHhSE1NDdaSp6rCBhiphZrfaHfuXyuo0
+	zIcqozjzTu2XaFVoJRWLjv8dprCr+zMPFfDWuK4rsihtKC5qJPWq6st8K4BgI4uLRhkg4cQTKEb
+	/AzmsaQw9+Lp8xkvGXjQkDHMzRKcKqiI=
+X-Received: by 2002:a05:6a21:a02:b0:3de:5ce4:9e72 with SMTP id adf61e73a8af0-3e16c07d2c3mr9113738637.56.1791876448590;
+        Tue, 13 Oct 2026 00:27:28 -0700 (PDT)
+X-Received: by 2002:a05:6a21:a02:b0:3de:5ce4:9e72 with SMTP id adf61e73a8af0-3e16c07d2c3mr9113720637.56.1791876448142;
+        Tue, 13 Oct 2026 00:27:28 -0700 (PDT)
+Received: from [10.217.219.169] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd3da05caaesm5050788a12.32.2026.10.13.00.27.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 00:27:27 -0700 (PDT)
+Message-ID: <122f5f0b-6314-4b12-b9dc-8f983c9b5698@oss.qualcomm.com>
+Date: Tue, 13 Oct 2026 12:57:22 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/7] bus: mhi: Move Sahara protocol driver under MHI
+ host client drivers
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
+References: <20261012-sahara_protocol_new_v2-v8-0-e12939d229a1@oss.qualcomm.com>
+ <20261012-sahara_protocol_new_v2-v8-2-e12939d229a1@oss.qualcomm.com>
+ <as1F08YNeWz_1bre@monoceros>
+Content-Language: en-US
+From: Kishore Batta <kishore.batta@oss.qualcomm.com>
+In-Reply-To: <as1F08YNeWz_1bre@monoceros>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDAyOSBTYWx0ZWRfX7KfXB3Z5ERr/
+ Q4csy9vl6X8elq7lfziWyjyQnl0exOYEW2diInLuH3ohWnrh+NVTpMidnFaefHO8++85WIq5SII
+ cFxwb9Q9XfOpwjLrgJn8uuLMiJUUrO8mIfKfuwz9LKL/carekK04Zwm8Igie69+RVv/AlUTniZH
+ vAMiVuLRUkaZG2vDUOHOTCPB2aQ6uFOeeg4TjwH7iXmVMgsHM+KJsyg+C/4AuCRpbcS4sKqSRf6
+ jPN0jDYQKu6XyQvq1539Y4XPhM+ZwNQKQhOH2ABMNpgI9HUawXfDELuS6oXBDBnzYzQ76Zk9kaO
+ Ih+jtIi3Yxf2PEzl0vB+BIPPUfqvRGN49qtQsYrdpQhw7qrHnrbfRyIeSxWrGqPIv0+2KlHdcJM
+ EbM3s21rNy4zc2ELgbQyoz7Tzi8XurR/jf3o2iVPgzwDtfDU0zGC9isC0CnArI+YmxndxQxZg7z
+ qUgtCa872qYhPQPWWIA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDAyOSBTYWx0ZWRfX+72N0q9GkiGN
+ jXpLk+g2VTzmTUO61B1xQDw7Ze8Q9mHuJAAck3BRISXWMUdoyx6utY+jzEdcbz9iWOiKv6+MJB6
+ saEVzCb9MJ03RElZ0o0Sp69wKtih6UI=
+X-Proofpoint-ORIG-GUID: Xpca0JxZ7EBn7JeHtGs33llWmxGz8SDb
+X-Authority-Analysis: v=2.4 cv=EP+TQFZC c=1 sm=1 tr=0 ts=6acddd61 cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=qh2oGK4qJ8XON0oEHbUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=x9snwWr2DeNwDh03kgHS:22
+X-Proofpoint-GUID: Xpca0JxZ7EBn7JeHtGs33llWmxGz8SDb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 phishscore=0 clxscore=1015 spamscore=0
+ malwarescore=0 priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610130029
 
-On Mon, 2026-10-12 at 18:18 +0200, Tobias Schaffner wrote:
-> > First of all, would dropping RV in-kernel support negatively affect you=
-r
-> > current workflow?
->=20
-> I am afraid it would, but first mine is a niche use case, and
-> second I am not very experienced with BPF, so please weigh that in.
 
-Thanks for sharing, I'm asking this question precisely to find out all use
-cases. RV is itself a niche tool, so I'd rather not squash use-cases away!
+On 10/13/2026 2:13 AM, Uwe Kleine-König wrote:
+> On Mon, Oct 12, 2026 at 11:48:00PM +0530, Kishore Batta wrote:
+>>   #include <linux/devcoredump.h>
+>>   #include <linux/firmware.h>
+>>   #include <linux/limits.h>
+>>   #include <linux/mhi.h>
+>> +#include <linux/mod_devicetable.h>
+> Why? There isn't even a (new) usage of any *_device_id. There is a
+> mhi_device_id, please rely on linux/mhi.h to provide that. The main
+> effect of including linux/mod_devicetable.h is that the driver grows
+> many unneeded dependencies, so don't.
+>
+> Best regards
+> Uwe
 
-> > About this series, I believe we could implement the same using BPF maps
-> > without too much effort, then the rv userspace tool could display them
-> > nicely.
-> >=20
-> > What do you think?
->=20
-> =C2=A0From an implementation perspective there may be a few pieces missin=
-g,
-> both in EVL and in BPF, to make this work. But I guess most of them can
-> use the patterns the kernel already has for NMIs, so I expect we would
-> find a way.
 
-I'm curious to know how exactly you're tracing EVL right now. Are you havin=
-g it
-generate NMIs to linux and catch their tracepoints?
-
-RV attaches to tracepoints and BPF would do exactly the same.
-
-> I have two more fundamental concerns though. One about verification and
-> one about recording dwell times.
->=20
-> Regarding verification:
-> The path I verify is deliberately kept short and simple. RV fits well
-> because the probe is a plain function call and the state update is a
-> try_cmpxchg that cannot fail, so it adds very little. A BPF program
-> brings more machinery into the probe path doesn't it? I fear that adding
-> this would force me to verify that the new RV system does not change the
-> behavior of the system we are trying to verify, and I suspect that could
-> be harder than verifying the system itself.
-
-I had a few conversation with some Functional Safety folks over the past we=
-eks
-(the same people Daniel used to talk to), I now understand the problem bett=
-er.
-
-Their use-case was even stricter, that's why RV didn't take off for them,
-essentially they're trying to prove some more isolation from interference R=
-V
-doesn't really have out of the box.
-
-But back to the RV vs BPF case, I'm trying to reuse the exact same code in
-handlers, so the verification step should be mostly equivalent.
-
-Assuming you'd use tracepoints (BPF can have more probes but vanilla RV doe=
-s
-not), I guess you'd need to validate also the ftrace code that ends up call=
-ing
-your handler. BPF adds a bit more on top of that too, not much though.
-
-Then obviously there's the data representation: we use BPF maps that can be
-quite complex, though simple arrays (in per-cpu/global monitors) shouldn't =
-be.
-That would probably add more to the verification you need to make..
-
-> Regarding dwell timings:
-> The numbers you presented look very good. But wouldn't we lose
-> determinism by using BPF? If I want to use this as a measurement tool, I
-> need it either not to add latency or to add a constant amount. The mean
-> wake-up latency of EVL on my system is around 10 us, so an observer does
-> not have to be very variable before I can no longer tell its jitter from
-> the timings I am trying to measure.
-
-Ok that's a good point I'd like to investigate more. BPF shows great perfor=
-mance
-in the average case, though I fear it could have worst case spikes my quick
-tests didn't show.
-
-I'd need to run more numbers to be absolutely sure of that, I'm not aware o=
-f any
-internal locks in the simple maps we are using (though I only quickly check=
-ed).
-BPF maps are clearly heavier (memory indirection and/or function calls,
-sometimes mitigated by the JIT). But if we properly set them up we shouldn'=
-t
-expect big determinism issues.
-Nevertheless, this is definitely something I need to look into.
-
-The whole JIT thing shouldn't bring big problems either, once handlers are
-compiled, they should run almost natively, but again, I am not too familiar=
- with
-everything that happens under the hood so take this with a grain of salt.
-
-Thanks,
-Gabriele
+ACK. I will remove the redundant mod_devicetable.h include in the v9 
+version.
 
