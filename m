@@ -1,40 +1,84 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6705C3B6C18;
-	Tue, 13 Oct 2026 09:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791882313; cv=none; b=bPjytz2hYguT9W59VXLuj9bAhrN6k4mVAaQsupGl28eOdKQ1QQ0ZH4kAStg9DuiuUEh5HeFtDlkJ0ehQoYXUoZsykAMI1xGLG+bUg3r3yJQtLn46OAyEEZSoFgfxaq1JkEWhv8YmTG0VIBVesrNN/N7BzX+/pu8Ml3I2VywWTH4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791882313; c=relaxed/simple;
-	bh=FWphfVI7mjsyJQ8I6Mlj28S6c8u7xWbdAeuTFZuIGT4=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D198E3E9580;
+	Tue, 13 Oct 2026 09:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791883098; cv=fail; b=nSaaVjHO2vi0vAJ7NRtphbEFXBwGpj7wyRVThqldmyJaA00S3xP1oN4KayfIsh4o9Ob03dr8UVpaSCIzepRQLuJn3WDA7EbVR8a5f1Dfzw+8E50k97CS67JsJlJriIcG9qR2RWjzGFs4kdvXmyJRM2ZvLsOm5CpKx7rZmPQYXuI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791883098; c=relaxed/simple;
+	bh=9X8Tq3FFPOXQmNrAVRlBOl9oCQhChzVtC+iQOVV66I0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AP7bGQr/U2RSGigTvH5sw47BVuYWDwRuXtf53DFNUuEQmOUMq3W5lVrHbPjlD/ArDEf421aAIUnb9M4Cqg6mp9zp1PoV1jC+CSgTSL2muyDSgsUVcu4+C/z3ZvqpF99Ud2HlJ8NMVWf4iBT9h7zrJGAwQYq8tSJt5V18hp05/xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=G6/Vclg6; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 In-Reply-To:Content-Type; b=JN7PZwVv2O+zwoEhOJZmSHcZfzSzQVXfHbb4n9cn5SzZgjE3T6EjedSVwFZVAGIv2eCjijlvYbAaLcNo23feuNzy9ANVXLa465zT9RMLRrrDM+3key7ztDEYvnKj9H7tjWNPA1uTQ4oiDKDKtOjA4NtIiCYadH7y5FLEvfy3ras=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=VwZMnoOo; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=FkKDJt7Y; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="G6/Vclg6"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 71AACC653DE;
-	Tue, 13 Oct 2026 09:06:03 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E90FF60362;
-	Tue, 13 Oct 2026 09:05:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C846711D70DA6;
-	Tue, 13 Oct 2026 11:04:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791882306; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=R/XKbb75qHSPALWx5OZ4L1xUz8ST9rnW1ArtvCZ7Zgc=;
-	b=G6/Vclg6xIDatCguDn6jX3wDaaekxJf/HhTjZ9QyAye+xC7JC4G5Px3x+06I8pBEzSHBKL
-	qKIt1bux1Tzx1ZppNoDI/AxB9kALBi4vzuITa2ViZ4XfCgiqcSTZWVgyMR7A0a+BNx1+nl
-	mgrhtYXYoCCoT75Z6TUAUZXIzyDOM2lWcBXhKYC/sj7mT/zpxJNbSwKlDBB8CqLw/fGKqM
-	RTnDldZmglnQ604EpQPfXMmCbaBSfOloCQ2oF4q2Q1WomiGudm0M70DWbn+kk9L8LkRWQy
-	7YKazdzif5RJNWVq97P3YlO1Jd1DUW51gxDpzPdiyMey2m4i/Rvl1YhlLIRJ1w==
-Message-ID: <f06aba7f-0e5f-4c9e-b53a-b5b817b3e6c6@bootlin.com>
-Date: Tue, 13 Oct 2026 11:04:57 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="VwZMnoOo";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="FkKDJt7Y"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D7sIO32049197;
+	Tue, 13 Oct 2026 04:17:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=bYybdxALArWsMznilok5p85HZqXcPsJGhbTg/oNSCvA=; b=
+	VwZMnoOorAyDOMpGUIRyFSp4/Kc0dg61bV35YxsvogDDTkTlbhYvuIsLmcPvpCJO
+	MDmVAhXZedxKt1DM/hMSFZg+kPhSkfTL40V+oxFMmXV0UzYgRbSwoHYnV5Hw3Y/C
+	1KjjnmT5uy3CZMnymVmpSz3+WJdJRVZYk1ZU+QlKYF4cc+wQUxCjjJeG+SaGERYH
+	x9BGPCnqgBStBtReIuKBBNnhQh5YQN3ySoqLGWdWBG29DdrziFWSDq2UTArI2tOZ
+	qPzTvQuYNlCpI5gWCss4qMMxY+/Q2VYZcthqR4UxnKEyi90fzbniAqUygpGxbJaj
+	i6+u0mWWv30sWTDFYvPrmQ==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021082.outbound.protection.outlook.com [40.107.208.82])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4h7jrxbe6m-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 13 Oct 2026 04:17:19 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s5hDGIMEYsWFiYaxSWjgm6DBAqGTuRN2fhoovCl5Qkfbqub0I7CZ1qNc08P2ihrvPZ6qWbtnHICh+TFZEN7fUfnMMQkuBKA45kE3OZawEJIVzp8NM/J7Nk3CTtCzd9ri6FxSNOtUGDF8MkjnPgidY/bWSu5LBoa3DYDnoIUEsOJskBeO6r9G26PYUk43SqL5aWhzBdITnr2beHOMcnT0adYHghymednQzgI/ke0xqicbOTfTDMVHfMnYaL7+cxo6XyWGtGMRnCu0lZgLwBjpB49bg6FRoOl7GkrwGgeCdn1dvHhP8TjdLGnlOYHyzyOrUYmorZRKK7eHwnwbffRJmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bYybdxALArWsMznilok5p85HZqXcPsJGhbTg/oNSCvA=;
+ b=rn35WMyOrQszgHoyv8WImnRjizYuE+cg/Oi4ORH0EJNV821979r+uvQBuj4ljmcq4Tl/ITmiHEidONSVvegHDSHCuey4/KUfIefM7srdFOVHvs1Lg1T7IBsJ/P/ZuwhiKTHucGrWiNMdFAeLTX/4bdIOE6xH2GDrQLDNLfnP1bBdgB9dNdk//HoIP+EvTsOp6/6mSS5p8H+4b8uITluLobqX1xoyQs/ik8IcbfJVi6e8g42gaJFFdDvQOhlL0jUy8smPfPrHICSyWe2+YPlOcQfOwZDkvjRX/J+R0IyxAumxqb+m/V7QPwkCq/ynjyP3ASZYt9ROYRYUljo3x2mDIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bYybdxALArWsMznilok5p85HZqXcPsJGhbTg/oNSCvA=;
+ b=FkKDJt7Y8gkn1cnTh0aQ7yqzaIjJ7J6iZy97KMz8gpfC6rD0eZj78IJU2/C2ZclFWwT65Q2hvxF5nJuU379HzWgbcVdwGqP8f8kvdZuSV/mp4U6rnlwpZqKhdzBYvyxQBLHK3np7/D/ERDqI/05CwDCPSsmuH46JnAFCF/OARMk=
+Received: from SJ0PR13CA0202.namprd13.prod.outlook.com (2603:10b6:a03:2c3::27)
+ by BL1PR19MB5698.namprd19.prod.outlook.com (2603:10b6:208:386::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.19; Tue, 13 Oct
+ 2026 09:17:16 +0000
+Received: from MWH0EPF000C618F.namprd02.prod.outlook.com
+ (2603:10b6:a03:2c3:cafe::92) by SJ0PR13CA0202.outlook.office365.com
+ (2603:10b6:a03:2c3::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.4 via Frontend Transport; Tue, 13
+ Oct 2026 09:17:15 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ MWH0EPF000C618F.mail.protection.outlook.com (10.167.249.103) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.6
+ via Frontend Transport; Tue, 13 Oct 2026 09:17:14 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 9438A406544;
+	Tue, 13 Oct 2026 09:17:13 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 72A1882024B;
+	Tue, 13 Oct 2026 09:17:13 +0000 (UTC)
+Message-ID: <343061a0-3a3a-4b97-91be-43b1eb015c4d@opensource.cirrus.com>
+Date: Tue, 13 Oct 2026 10:17:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,311 +86,94 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 1/3] selftests: drv-net: Introduce a selftest
- for ethtool flow control
-To: netdev-bot+sashiko@kernel.org
-Cc: andrew@lunn.ch, kuba@kernel.org, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
- linux@armlinux.org.uk, hkallweit1@gmail.com, corbet@lwn.net,
- skhan@linuxfoundation.org, o.rempel@pengutronix.de, vladimir.oltean@nxp.com,
- f.fainelli@gmail.com, thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260925182628.214667-2-maxime.chevallier@bootlin.com>
- <179065239849.434549.14198730559380952270@kernel.org>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <179065239849.434549.14198730559380952270@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 1/9] firmware: cs_dsp: Run the wmfw payload error tests
+ with invalid block types
+To: Mark <broonie@kernel.org>, Simon Trimmer <simont@opensource.cirrus.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+ <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>,
+        Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+        Zhang Yi <yi.zhang@huawei.com>, David Rhodes <david.rhodes@cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20261013-kunit-param-names-v1-0-4b22ec5b85b9@kernel.org>
+ <20261013-kunit-param-names-v1-1-4b22ec5b85b9@kernel.org>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20261013-kunit-param-names-v1-1-4b22ec5b85b9@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000C618F:EE_|BL1PR19MB5698:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a55eb47-9a48-4ae2-74c3-08df290ac5a5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|36860700016|376014|61400799027|23010399003|16102099003|22082099003|18002099003|10067099003|921020|261009223027099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	yNKglfnyS8HpFA5DJfaEG01RBRXNlMSBPVbqsZks15hHg/OnQylzFbif9JV5PT0EAXnMHAxIR2oKFcsEwew0+DxSq/bI6tzua5csownSFdiCnj1F9v7n2R3QylyaIXgPLIZIFnl+oj3eC0OUlVcL9feboJk618IUf9n2USZUyjgcsNrnr+3iDkeV+ZH0MfMe6ZqZfik0P3zCQK4081M/TilHzy92JVvORmn7TrGrPpUddQwfIZKTSk8nYzL9A6Iv7tXrDBk8bwNxnEW2xjYPtEd7UbUzQ5959oY7cVtVdZr9uwEVWKbRB/WhCtgnGMrWRSMt6II4cc1KBppadCD9nUqsL9E/Wikx8Q3FPUz45BCaXZyvIl54KIaS4eBiDyzL0BdKTQHRqlKYa+PiaxSsdMPbWmwq9ALPBTr9IystLAYYOiBCoqbeY49RwI1bGancFVOxERqjBzf8YXvDLiY1YbFhPgj5k+P9fDg5d6i3nBBj+pby05pBRilRAfUdHyXQtWIJa9TuaEiy3oIcRE6YbF/4EOWTkGqnPxeYQpYZXopIuf09/dJ0mBizfxRFFCzn0i8LYF77r6Ej6034UXdFXQtUta7Qpu9ycwzW6iAGiZAHuVzw/VQxRaz/MTE//baa+us/LrZjbH4HWuUsQG6yyrNmONnqsCAeJ0jvbmPSQeGr+PqJCPwcH5A18q/2Xg++UccqTR7aEVObgWprXw7NgjVHnx0ZFUcW7Kk0UkdYWDYZ0Q9gEAGPBdPkKmxjuclv
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(36860700016)(376014)(61400799027)(23010399003)(16102099003)(22082099003)(18002099003)(10067099003)(921020)(261009223027099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	6SJf8Y3bGWfg4Xj1xQgWXOa9qsxwi0JXAsZrsf/hS+zkueJ/DKvGodMW6dP//dCkcX2LOBICOZA3pia6nYRCUqsxfanH24SFnGEdLLku8o3sLvmnkc83+d6jZS9s8rjUk3De34p6KAsldQ2epb6E8g4aScWAWgcy2O4l7IkXHJj26dNuSnvUPW20/FEdLg1krxPqzzSUPJC85ylm1sb4Ff1b9DhSFRNRD6fDKKSsezoWM/aVE5qNZ//tMkZrE9ub89h6rSPfNFbOLybOBrjZzYtb/FXiwy3n6SsJWjd5V54keD/VsR4N/ZjpBOuO70B8f3KfootzJQ+Tk36iVueO15mN11gEXiX4rWFQBdGEPyCny9eKY4BgLgnQyZt7nCqYWgqa19URa9Rt3A7yvHE6/OaTgvqvuVKp6auGdB0L0cyLh4rzL+7Fs+A5njk4Sjyj
+X-Exchange-RoutingPolicyChecked:
+	reQXlN9Io43VXZ4lmiy50+nTZfoKMOa1DMJsDpxf5YN0YwEZpjKRBAsQOjZGhMOBqb3l5TuAtcrTE5d3pIJ+nxoK7Yj/JvzaCWfHduzsMunP3MGtDcfbPL4HHVh2pwyPy9M/ChwLHo4oG4X9TvDm+4WWBk5zwh2+Gi/yA7DiLyuE5tpKbCD788cqYmMgh08zAVWM+iENPMXtxiYp4FxFwYnnh7vwpYVXKyzJkN/INfBV9K6L7VtlJYRI35AIfra860hVcKdQk6gapYt08xXyYAdvTccfGXEiGvpHu+WaLcgryjJ0o1eITD7S1SwbVihK9OqCbpXNSBbtC5Ydv/ayvw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 09:17:14.8979
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a55eb47-9a48-4ae2-74c3-08df290ac5a5
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MWH0EPF000C618F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR19MB5698
+X-Authority-Analysis: v=2.4 cv=A/n5rKWG c=1 sm=1 tr=0 ts=6acdf71f cx=c_pps
+ a=Wfyg2MIdxp6jvjeZNnPfXA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=w1d2syhTAAAA:8 a=RUru0zP0KRiyErOxrb8A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: cZon7zOdkI-v7nzpvImZrIPS4XJvbjbM
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDAzNiBTYWx0ZWRfXxEXKX/vj3zoJ
+ ONbuwK8pdsOjoXXYud8ey+mcNusdUgj8mU9P/+/7lbwAo4apHQjOmSVcuixYstAETLlBwTJj+Ip
+ gLkHaFU95mTwM3VkbFIR6VxrU3FG/JA=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDAzNiBTYWx0ZWRfX2CJrX1wsCYXM
+ 1GdRb/6k0xDRLxN9IEGpRJ6f3Bp5PQgDj1c3K41SCPVvsHTj69wxm1RSdm8z5gAafqraMCsIPKa
+ k4LjlB1+l0mcnMqMdVuCp8xji9WSETV69B3CmF/cP4yKEu9doMUnMHzZDqNI1TYPXOTv5YRtxpj
+ 19/2fwPUZUQ36uyYJtCOyKoT0zmEGQHloC7OMlnUE3PtQW+3VTkii2DrJiH1lx/qbkpt4KZ7vEH
+ AYGBzeUV8IDXn3ltDIhBcdmnKFZdkIJ+SYPPvW2hNw/ITpFp+id12BkmGWQ7U24PpPjpkGKccS3
+ CIitug467J9dY7rb1kIWq99BvxzMIyImcBLyN7xCY0fGh7vDViCCbmz3F8SA43d0LLrPYt82iVZ
+ 4dwlWastQsTpqO6yWK6/UcI+DGKfPkL5YNoq4M/E6DLTL5ucYmfmo1T9u2mEZYRfE21RAFJzLau
+ adOM3yyifjBAJg6+IMg==
+X-Proofpoint-ORIG-GUID: cZon7zOdkI-v7nzpvImZrIPS4XJvbjbM
+X-Proofpoint-Spam-Reason: safe
 
+On 13/10/2026 12:10 am, Mark wrote:
+> Each of the wmfw error suites lists the truncated block header, truncated
+> block payload and garbage payload length tests twice, once with valid
+> block types and once with invalid block types. For the payload and
+> garbage length tests the second entry names wmfw_too_short_for_block_header
+> rather than the test on the preceding line, so the block header test is
+> run four times with invalid block types while the other two are only ever
+> run with valid ones.
+> 
+> Point the second entries at the intended tests so that
+> wmfw_too_short_for_block_payload() and wmfw_block_payload_len_garbage()
+> are also run with invalid block types, as the header test already is.
 
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-On 9/29/26 05:26, netdev-bot+sashiko@kernel.org wrote:
-
->> +def get_local_pause_supported(cfg):
->> +    """ Return the errcode and the local pause supported linkmodes """
->> +
->> +    ret, data = ethtool_ret(f"{cfg.ifname}")
->> +    if ret != 0:
->> +        raise KsftFailEx(f"ethtool {cfg.ifname} failed: {ret}")
->> +
->> +    return ret, _ethtool_pause_use_to_linkmodes(data["supported-pause-frame-use"])
-> 
-> [Severity: Low]
-> What happens here on a device without get_link_ksettings?
-> 
-> ethtool only prints "supported-pause-frame-use", "advertised-pause-frame-use",
-> "auto-negotiation" and "supports-auto-negotiation" when the link modes reply
-> succeeds. Plain "ethtool <dev>" still exits 0 when other replies, such as
-> link-detected, are present.
-> 
-> In that case this line raises an uncaught KeyError. ksft_run() reports that
-> as a failure with a traceback, not as a skip.
-> 
-> require_pause_supported_allof() calls this function before any capability
-> check. pause_setup() also indexes link["auto-negotiation"] and
-> link["supports-auto-negotiation"] directly, for both the local and the
-> remote interface.
-> 
-> Speed and duplex are already guarded with "in" checks. Could these keys be
-> guarded the same way?
-
-There are a few of these drivers, will address.
-
-> 
-> [ ... ]
-> 
-
-> 
->> +def pause_setup(cfg):
->> +    """ The starting conditions every test counts on, restored on exit:
->> +        - both ports admin up
->> +        - link autoneg on on both sides ifsupported
->> +        - link actually up (carrier on)
->> +    """
->> +
->> +    # Get init pause parameters
->> +    ret, params = ethtool_ret(f"-a {cfg.ifname}")
->> +    if ret == 0:
->> +        defer(cmd, f"ethtool -A {cfg.ifname} rx {onoff(params['rx'])} "
->> +                   f"tx {onoff(params['tx'])} "
->> +                   f"autoneg {onoff(params['autonegotiate'])}")
->> +
->> +    # Get init link parameters
->> +    link = ethtool(f"{cfg.ifname}", json=True)[0]
->> +    if link["auto-negotiation"]:
->> +        defer(cmd, f"ethtool -s {cfg.ifname} autoneg on")
-> 
-> [Severity: Medium]
-> The defer queue is LIFO (ksft_flush_defer() pops from the end), so at
-> teardown the link restore runs first. The pause restore follows right
-> after it, with no wait for autoneg to complete.
-> 
-> Can the pause restore be refused in that window? i40e ties pause autoneg
-> to the link autoneg state:
-That's a i40e driver issue :) The tests aren't build around the HW behaviour.
-
-> 
->> +    elif "speed" in link and "duplex" in link:
->> +        defer(cmd, f"ethtool -s {cfg.ifname} autoneg off speed {link['speed']} "
->> +                   f"duplex {link['duplex'].lower()}")
->> +
->> +    # Local interface admin up, link aneg on
->> +    ip(f"link set {cfg.ifname} up")
->> +    if link["supports-auto-negotiation"] and not link["auto-negotiation"]:
->> +        ethtool(f"-s {cfg.ifname} autoneg on")
-> 
-> [Severity: Medium]
-> Is the original forced link configuration lost if autoneg is off but speed
-> or duplex is missing from the JSON?
-> 
-> In that case no defer is registered, but "ethtool -s <if> autoneg on" still
-> runs.
-> 
-> The patch already expects both keys can be missing. forced_link_settings()
-> falls back when duplex is missing. Speed is omitted when unknown, for
-> example while the port is admin down, and this function only brings the
-> port up after reading the settings.
-> 
-> The remote side below has the same if/elif with no fallback before
-> "ethtool -s <remote_ifname> autoneg on". That can leave a shared peer in
-> autoneg mode after the test exits.
-
-Ok I'll add a restore step here
-
-> 
-> [ ... ]
-> 
->> +def pause_test_support(cfg, pauseparams):
->> +    """ Verify that the supported linkmodes Pause and Asym_Pause match the
->> +        ability to configure the rx and tx pauseparams.
-> 
-> [ ... ]
-> 
->> +    The expectation is for drivers to refuse setting pauseparams that don't
->> +    match the Pause and Asym_Pause bits in the supported linkmodes with a
->> +    -EOPNOTSUPP return value. Unsupported pause params must be rejected.
-> 
-> [Severity: Low]
-> This isn't a bug, but expect_pauseparams_set() also accepts EINVAL for
-> unsupported combinations:
-> 
->     ksft_in(ret, (errno.EOPNOTSUPP, errno.EINVAL), note)
-> 
-> phylink_ethtool_set_pauseparam() also returns -EINVAL for rx != tx when
-> Asym_Pause is not supported. Should the docstring mention EINVAL too?
-
-Docstrings are gonna be shrunk down as pylint says the file's too big... I'll
-update.
-
-> 
-> [ ... ]
-> 
->> +    # We check that what we can configure in the pause params matches what we
->> +    # support under various contditions : Link aneg on/off, pause aneg on/off
->> +    ret, _ = ethtool_ret(f"-s {cfg.ifname} autoneg on", is_get = False)
->> +    if ret != 0:
->> +        ksft_pr("link autoneg on refused, not tested")
->> +    else:
-> 
-> [ ... ]
-> 
->> +    if not forced:
->> +        ksft_pr("link speed unknown, the forced link is not tested")
->> +        return
->> +
->> +    ret, _ = ethtool_ret(f"-s {cfg.ifname} autoneg off {forced}", is_get = False)
->> +    if ret != 0:
->> +        ksft_pr(f"link autoneg off {forced} refused, not tested")
->> +        return
-> 
-> [Severity: Low]
-> Can a variant be reported as passed without running a single pause
-> parameter assertion?
-> 
-> If "ethtool -s <if> autoneg on" fails, the first group is skipped and only
-> logged with ksft_pr(). If forced is then empty, or the forced
-> "ethtool -s ... autoneg off" fails, the function returns normally.
-> 
-> ksft_run() sets KSFT_RESULT = True before each case and does not check
-> whether the case made any assertions. The case is counted as a pass rather
-> than a skip.
-> 
-> Should these paths raise KsftSkipEx when nothing was tested?
-
-OK
-
-> 
->> +
->> +    ret, _ = ethtool_ret(f"-A {cfg.ifname} rx {rx} tx {tx} autoneg off",
->> +                         is_get = False)
->> +    expect_pauseparams_set(ret, linkmodes, supported, "link autoneg off")
->> +
->> +    ret, _ = ethtool_ret(f"-A {cfg.ifname} rx {rx} tx {tx} autoneg on",
->> +                         is_get = False)
->> +    expect_pauseparams_set(ret, linkmodes, supported, "link autoneg off")
-> 
-> [Severity: Medium]
-> Does this require pause autoneg to be accepted on a forced link? That goes
-> against the uAPI documentation for struct ethtool_pauseparam in
-> include/uapi/linux/ethtool.h:
-> 
->  * Drivers should reject a non-zero setting of @autoneg when
->  * autoneogotiation is disabled (or not supported) for the link.
-> 
-> expect_pauseparams_set() decides success only from Pause/Asym_Pause. Those
-> bits describe the MAC's pause frame abilities.
-
-No, MAC + PHY.
-
-> They don't say whether pause
-> can be negotiated, or forced while link autoneg is running.
-> 
-> Several drivers fail at least one of the four link autoneg / pause autoneg
-> combinations:
-> 
->   bnxt_set_pauseparam() returns -EINVAL for pause autoneg without
->   BNXT_AUTONEG_SPEED, which is what the uAPI describes.
-> 
->   mlx5e_ethtool_set_pauseparam() returns -EINVAL for any pause autoneg
->   request.
-> 
->   ixgbe_set_pauseparam() returns -EINVAL when
->   !ixgbe_device_supports_autoneg_fc().
-> 
->   i40e_set_pauseparam() returns -EOPNOTSUPP whenever pause->autoneg !=
->   is_an. That already fails the link autoneg on / pause autoneg off step.
-
-That's why we write those tests
-
-> 
-> pause_advertising_test() has a related problem because it only skips on
-> EOPNOTSUPP. It treats an EINVAL refusal of pause autoneg from mlx5, bnxt or
-> ixgbe as applied. It then checks the advertisement against a configuration
-> the device never accepted.
-> 
-> [ ... ]
-> 
->> +def pause_advertising_test(cfg, pauseparams):
->> +    """Pause advertisement
-> 
-> [ ... ]
-> 
->> +    The validation is made by looking at the advertised modes locally, as well
->> +    as what the peer's 'lp_advertising' values report.
->> +    """
-> 
-> [Severity: Low]
-> Is the lp_advertising part of this docstring accurate for this patch?
-> 
-> The body never queries the peer. It only reads the local
-> "advertised-pause-frame-use", which phy_ethtool_ksettings_get() copies from
-> the software phydev->advertising bitmap.
-> 
-> wait_for_aneg(cfg) also returns success if the link hasn't dropped within
-> 2 seconds:
-> 
->         if not link_drop and time.monotonic() > restart_by:
->             return wait_for_link(cfg)
-> 
-> Together, these mean a MAC that never restarts autoneg, or a PHY that
-> misprograms its advertisement register, would still pass.
-> 
-> A later commit in this series, "selftests: drv-net: pause: Validate the
-> pause autonegotiation with a partner", adds controllable_lp() and a
-> get_peer_pause_lp_advertising() check to pause_advertising_test(). That
-> closes the gap by the end of the series.
-> 
-> [ ... ]
-> 
->> +    # It's OK to skip here, we're already validating the EOPNOTSUPP behaviour
->> +    # the pause_test_support test.
->> +    ret = set_local_pauseparams(cfg, rx, tx, True)
->> +    if ret == errno.EOPNOTSUPP:
->> +        raise KsftSkipEx(f"RX {rx} TX {tx} not supported")
->> +
->> +    # Wait for link parameters to re-negotiate and link to come back up. It must
->> +    # come back up, otherwise that means changing pauseparams can bring the
->> +    # link down.
->> +    ret = wait_for_aneg(cfg)
-> 
-> [Severity: Medium]
-> What happens when set_local_pauseparams() fails with something other than
-> EOPNOTSUPP?
-> 
-> The docstrings of set_local_pauseparams() and get_local_pauseparams() say
-> "Raise an error if the return is not 0 or EOPNOTSUPP". Neither function
-> raises. Both just return the result of ethtool_ret(), which uses
-> cmd(..., fail=False).
-> 
-> Here, an EINVAL, an EBUSY, or ethtool's raw exit code 1 is silently dropped,
-> and ret is overwritten by wait_for_aneg(). The advertising checks then run
-> against whatever state was there before, because pause_setup() does not
-> put the pause params into a known state.
-
-Ok will address
-
-> 
-> require_pause_supported_allof() has already confirmed that the modes are
-> supported. So the result is either a false pass, or a failure with a
-> "must advertise" message that blames the PHY. For example,
-> mlx5e_ethtool_set_pauseparam() returns -EINVAL whenever pauseparam->autoneg
-> is set.
-> 
-> [ ... ]
-> 
->> +def main():
->> +    with NetDrvEpEnv(__file__, nsim_test=False) as cfg:
->> +        cfg.ethnl = EthtoolFamily()
-> 
-> [Severity: Low]
-> This isn't a bug, but cfg.ethnl doesn't seem to be used anywhere in
-> pause.py, since everything goes through the ethtool CLI. Can this
-> assignment and the EthtoolFamily import be dropped? As it stands, if the
-> ethtool genl family can't be resolved, the whole test aborts even though it
-> doesn't need that family.
-
-Ok
-
-Maxime
