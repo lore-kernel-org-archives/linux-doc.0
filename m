@@ -1,870 +1,673 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11020107.outbound.protection.outlook.com [52.101.229.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A0F390C8D
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 00:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791851839; cv=none; b=pBRSnS8kl3V0x53lQdO4euoRFl2FtnHTxjaWNpbasulw9un4P/BjOJ1HgzW292jGL56yl1C2Yt4GJYjcpqDZ+1qkCMbBkvjnsmU60htm7cso/9dhYOd3X/9Zpfb3PLB0K3KCOzyc+m2ur6SAOkOGL28FrIhyTPtvdOIplJ2hetc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791851839; c=relaxed/simple;
-	bh=cidYnd9HSs77Ym/L0ys2IlvOO0UQKTi/UDobKx7dYR0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P02cGkX9VGsx5c1d6oXSm0S61X7G16MecHrzFJ8DU+YngQjkMn8zx9X7bNJzJMym+tb8ton6RuY5D6E1htow0gvX5DzCGJCIWzrha/j2slsPH0IV16/6M/mgOdYBCHGfzfXbRkjMFRftHcTXGIR8TgnJPhgF90irx/NFYvcItdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DSBE3K9B; arc=none smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16203597B;
+	Tue, 13 Oct 2026 00:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.107
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791852405; cv=fail; b=ZYExWIVGL6P4VeiZp9b4yCwCJexf8mmOdppy8wyRjn4HjPzfWWyxVWnemYMfvcNJ0V0nau2ubI7RHSRBAgfVXqSg6ED6zPdCi3WuIVSoQ10FLTlrRSUi+5m/5dAFx7gE29dvK+WN+SEIcUB+2gCpQYFhauMNPrJNutycgVazRWc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791852405; c=relaxed/simple;
+	bh=X7ByJQDJh3PCvE5ROv3ZbEO0CBna7WDJ+dlKZ1nSZdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=fCfsE9DAivdOnBZWxoc59Geyyae6dBycIqmKgJ0X+s/XLQVceY9AjlayR9FsxTY6QifQDs5+uDZdPlT96+05iioZ+pMALfT2PJDy5T1WNcDMbBrfGTUvXFKImqHoMtfWMj2SSZr//jdWj9CU8PikywCY3iVHD0300C5nXwTAnnU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=euc17v1u; arc=fail smtp.client-ip=52.101.229.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DSBE3K9B"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-33fb4680717so4567873eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 12 Oct 2026 17:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791851836; x=1792456636; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=I3WlRBdnVWfabkV0pnDFpDCgywBgwyeP+IyW7zUCWSs=;
-        b=DSBE3K9BOhTqCmnEeupa6f+Vdl+wjPUEzA/WatEyqVJREZxjUV9DQFm8UznH48zYyq
-         4/5fpfuKOfn3zGttFXJU6aS5Yia159ZFOWhGSZU4SjFENWt2JzwYY6xF6yjPhitaP77H
-         okN2dz0A6kJ7w0pxR1ctXBwDWeoGMq90OYoXy7Kt3Fxn4mT8JBMj3+sSPoDTMjwa0Jga
-         nZegNqZPkf/Ce2nE9WNqWZt0XCshlZBaTVo2yI+zNzEavTQTy14aKtMPnxtep3Wjs629
-         VaPythCJcdbubVmnbpV6bN5NCDosPh6JEX0YWV4FrKvVmSQ1OqnxNSYDAohAiogFCSp6
-         ndGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791851836; x=1792456636;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I3WlRBdnVWfabkV0pnDFpDCgywBgwyeP+IyW7zUCWSs=;
-        b=LedMfD+yqifv+X1Uy1luBGtuqNGATn0M7I3wIhd52pHxuutmCk5T+usW2thRUii/6I
-         xYmz2q39DLAeXvbEbmwEVnNesnk0hFA8fSl6LgxhcuhunHlLXB4gx5+LiIDy1MgZylOG
-         jMWOdDUhMVgAnQE/vaODzPTgXDaSIbBUP/GU1xdkQDjxx0hvwvy4TmJl2HAzWf81nN8h
-         tMLFylchzNDZP1nWAQrDELAWA0IUr3VYfMIRbHbF9UmVB22IyhulQZGqXIl34NX8evDx
-         BJojsMyKqylI0LnY91uKoVtgWo/KQGOtQnDos4aY7rYBc8twIbzsZniG0PBHOyVo3+qV
-         0PXQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw65s8twyQumyTMDf4uJeJ43F2icac5vDlUpxNdE1TLW3pHHW/+pBr7yW2wcvFDgP3iut2/mmzUJ20=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKjr9mgrOPkifOH3xc/6t9X3WZcH+lTAINh5ndXGz5nCs8iVe3O
-	1y/Zl4uUwEhTnjtd5bwh+tr5JKGPmEzaFrP07BeLAO7XeLEAuNZZuuDn
-X-Gm-Gg: AYBFou3kijRn+MWLG1l9nHlMz2GtIJwzqllJFi2cPCjD6ne0IlmWo85L3S/ur4ytGLG
-	A49s+gidLStFu2cxLsfMBtVk8cwsLoSEHdkGbVkcmgPx2cC+MZBA9C3zAVxQzcn4qAPdA5Fqgj4
-	Mx+UtXqDxk2+o9dNqbSeI8pgHNKo/L3JnlrapHI5x9MALU9Ad6+ypn8llukpT4RgoQ+ndwc4OhI
-	nPI7uoiyZwGnNt3WUOkotp6lzDJl+nTc9cDfeOT/svw7NpplrvGr7Ui96ips8dVY7JsYWQCx6iu
-	veqdp8ICRocfSJ5NrBtphrI4U3yCipht4farstRK64Ra4NN3+DD/b3h95uotKg5A34itBR4vHqV
-	mQ30hDYgVFQZwTigtxBHnHGjD/k66NxDhEQnEjz23yWxThlNPKPSe7nRL9foFwyHuySzVGJmSz0
-	t1CPZpmbdnm+80t9IwWnvtPiUSsOmQoF4nfE1CJ7fndBGI2f0DqPn5rowFRl0L1UJmr+GytGCiC
-	vuEo49eVAv0neWbfisP/7BYs/vmd1/IATc9lAMyVGYwm0qmg0ZdojgneLH1p8mX0rv3OYECT3ff
-	njYDG3EvMLBbdodavFo3z2Q=
-X-Received: by 2002:a05:7300:da15:b0:359:6382:5e52 with SMTP id 5a478bee46e88-359638267cfmr9480619eec.17.1791851835313;
-        Mon, 12 Oct 2026 17:37:15 -0700 (PDT)
-Received: from penguin.bbrouter. ([200.218.229.14])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537ca1b556sm49947560eec.9.2026.10.12.17.37.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 17:37:14 -0700 (PDT)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Daniel Pereira <danielmaraboo@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] docs: pt_BR: translate doc-guide/translations.rst
-Date: Mon, 12 Oct 2026 21:37:02 -0300
-Message-ID: <20261013003702.5824-3-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261013003702.5824-1-danielmaraboo@gmail.com>
-References: <20261013003702.5824-1-danielmaraboo@gmail.com>
+	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="euc17v1u"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gulXaOAYCrK1nS7aDBnCpeivvEBEdXn3jQyZ4kzN8XE4n3IAQbcHR55x6KRSpmKusWMf6ymvVXIJmZJMCDO7nI4Fwff7zYOnI/3yvSXIXRzqUn1e4GfLAJgO4hp+/AtwsXDP34n4BG+pORmxpY/dnbEyP4UcBbYh1P9Eeu1ohgrISsoOIpt5b9wjKSnHseIeiQDqxRYuNwlUZ5EDG/CcEwA+ST7G9pF1TUja3h3bgt9UKBwBgxdUmWw2UZq5ScAyL4d9bvPwjzc4c0ta3OHwazyygYwuFgFFL19kiPVcJX1FtVvq4+TvO7D7/3pvthSczTz+J7uXkth1ZMs944AotQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OJreYdrECFzNsQ5qNS1fQZ4UlxAAGNSmdjRRjro1HP0=;
+ b=EvRd+A2mIgDTWOxD+wElHmm9vFF+j0Jd4zkW+hgYhz5dYWwyPncEhUBIAZfSu4Pykkv7vdbwy/z5dm5D6p988+DlN6zZ9nRTKJt2kZ63vmy9OE2jm+h/fC8mevm0ng8bzHg6JdIDPT+wOiLN094l4/xTOQz91YRvP56fOoemkqrbcYcdXAdh4UU3U74Uk7niMsPnWK9UfR/cB5lrcNiazR3vdazoXV4iXBK+EuY2ISZ7J3yVmxcKhMO+iupwRgZLUJE4+eNPzFzNfwEeoaEhHRGE4Ijs1CrwPa/6GSPjhYDInsMHYg7KjeyWzPn/oY624zpduqjTIfG7vR0tz9xEiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OJreYdrECFzNsQ5qNS1fQZ4UlxAAGNSmdjRRjro1HP0=;
+ b=euc17v1u/n16W7u9Gwi8NVcq2wqdj8gPOcw2DEUNjkDa50GgGT+a/btaMEDKPWUlKrT7amUCD2BQaNEd9p/ELXWEXm38lFe+KgMCGoOm5Q1ZaDZbD1JjoCFeWr8f1VZEDKMLSGvkDgKL2xwU7hlmOq/rxsvH5HMmWmuapdfXtUc=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:325::11)
+ by TYWP286MB3785.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:3fd::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Tue, 13 Oct
+ 2026 00:46:37 +0000
+Received: from TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::cce5:2aa8:53f9:dba9]) by TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::cce5:2aa8:53f9:dba9%5]) with mapi id 15.21.0496.021; Tue, 13 Oct 2026
+ 00:46:37 +0000
+Date: Tue, 13 Oct 2026 09:46:36 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Frank Li <Frank.li@oss.nxp.com>, 
+	Manivannan Sadhasivam <mani@kernel.org>
+Cc: Frank Li <Frank.Li@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>, 
+	Allen Hubbe <allenbh@gmail.com>, Niklas Cassel <cassel@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jingoo Han <jingoohan1@gmail.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>, linux-pci@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, ntb@lists.linux.dev
+Subject: Re: [PATCH v5 6/7] NTB: ntb_hw_epf: Discover vNTB-embedded DMA
+Message-ID: <vnae5ngbbkomapwx44zqszdwcx67kv7qpxuzrs6o67uo5qphs4@hxfu6p6ewgt4>
+References: <20261009045949.1109871-1-den@valinux.co.jp>
+ <20261009045949.1109871-7-den@valinux.co.jp>
+ <as09Xp_EMjPDdk4x@SMW015318>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <as09Xp_EMjPDdk4x@SMW015318>
+X-ClientProxiedBy: TY4PR01CA0074.jpnprd01.prod.outlook.com
+ (2603:1096:405:36c::18) To TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:325::11)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7P286MB6866:EE_|TYWP286MB3785:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b367397-1b71-469c-9464-08df28c36fe9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|1800799024|376014|10070799003|366016|7416014|6133799003|22082099003|18002099003|10067099003|4143699003|5023799004|261009223027099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	8eOTMjVqvWH0JT+DhGZusUFJmCK9/aq4UVJGz9ZKZY0NmoGQec1tzbTZSvEkhxNzkF+KwfdS6zwtKeaibYab6OlebYeF7Q/a9odVs048PmOC+/3xBmiNFQ2oKpWoJuXyih2tiBUwGeuH6NjDozlhdw3CZcrc3qrQN36euS7YYacyy2mCc2ndOgtjS42J5To5MWCUw0+9q1odSx4qHdACefPwbaW3KDItt2/3+xMTSbGXnynpB/ARb0N2igEELPTIyIyB+fKCBnAKuf4CgQ5zlkPyC3HWkhnBwNuWcEWpY4TqnCPdbTSQ38mLqGDwB0/Mwz3R8zn44ytaYCV+T2iZ2yhXyZFnyu8ehjR9zkryioqQIznOBx3kYIR/U4/P0SsJdsAzA/IJZlkSm9rCcO/nw8bak/0xF70xJeSKZix4xo0sNnBxrUdKr6nm4Qn2T05HPxz1EEUt6ArZ5a07FHl/NgjDDsuY8yc/4BpC2kKcphfk+TJ+Hpzxoj7HkfK84oSQbt69ohQuaPCkA5xTQt6g07mBpTkpiIoJkFnBHOQpEgNtm/FugQIjMrYZItLW5vlWLMpVJVLHNQm3oTq7Sk1U8jIA8rGZPbE30hXEGe5QbnOIXgfAtiW32eAVrPDCLLzJ
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(10070799003)(366016)(7416014)(6133799003)(22082099003)(18002099003)(10067099003)(4143699003)(5023799004)(261009223027099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?pOrqiUu18tDf8Aqb9tRqU2WU59qLEBkzB6C+ObEB7ancMmiyGYZlPqoQS7lW?=
+ =?us-ascii?Q?cWtAsq/CDjoNi10/1GRq3po5N42IzMeAYe4FC0t/h0q5r+pGwoE90VKNmc/Q?=
+ =?us-ascii?Q?qLsNTGITAQQHmSNNPpujtN06pXAx9EZtoSMrW1EkT/9HpM3taO9E9T/5AgJC?=
+ =?us-ascii?Q?yLSURvoqthIJm+gO+ng/w184JCst9oAvSM3c9sfyiUMW0UEjTwZOYKBlEbrt?=
+ =?us-ascii?Q?qoQSnWdebq2+PXsjCTflw2XkdLgEdeLrTV3STh7hcOPVF84BzXCZmOkC1r5M?=
+ =?us-ascii?Q?13o7nx027eFwUT3BKhYhAD56oOiGuaXeXWeLzUj74dTPQoBbrMbHBORw9A9m?=
+ =?us-ascii?Q?0y5TJ7b2JIbvug0lDQs/uwiNTSKLR1VuNHC+rhxQ0J1rINWAc9IplV0VN3Xz?=
+ =?us-ascii?Q?i4rhJWvNnTToo8y1ertQC7oarEsGjWvdwyespJWuCR62T14WQs/81r8Oj7HN?=
+ =?us-ascii?Q?s+f0dxIX5Y9mb2C4hBMA76zR4jyXLhYUXDjruo/iVBFZYCEIsZMLxoHiSKCj?=
+ =?us-ascii?Q?Hvnf1W98JAAnM+lAbyCKP+P4DjS3NATbA94oDhXnxveOS1/Y4TooV2vwTlJS?=
+ =?us-ascii?Q?18l058XoV8+nnXlCX+nhieFII4P9k3PQ2Y0zgTc2T+Dcb435R+iF4Y/g2tjk?=
+ =?us-ascii?Q?j+nMLE0FrNxedzWk2RibUEnt69Sqr/wrglyQbRiY1bBiDfN6SxRNYtmDgVLc?=
+ =?us-ascii?Q?MPNiFNHeAWrof/X7snpgS8LgyAv53sin79R/JvRaZeLiz6uDi0D8765Yli8J?=
+ =?us-ascii?Q?/7fmfEWpKSJ0sZ1FtUXekA8+awamfImmNSeOUuwUQW8TfEqmA1wtr6xX2sVf?=
+ =?us-ascii?Q?tirHcaCCkuFyom/d6VuzPJR77Nq+fdIDogkQUdgRctb6cdY2H6KUdLANEFm1?=
+ =?us-ascii?Q?fOkEOagEHsnOjFZRXK45Drb/z//C5bJHG6SAQLhNLAQSnId7lGWNGG61oG8U?=
+ =?us-ascii?Q?cgVocJ5KcKKU9dZhAI61OhAlAtkd4EVr4739/a04LqnuiCiLIJ6LB5MQ23M/?=
+ =?us-ascii?Q?T89umsIbkKAaO2LCBNFh1jqqqtmZzjFYECbJcRnP8hHiXJxyCABRFYhpcOCi?=
+ =?us-ascii?Q?dQKu46P9ngpM7Qk4CvbIU0LmQ4y6C6XszCy+YnFsOr8ntT0VjFVwxB+pyGGf?=
+ =?us-ascii?Q?EFkPrUfwNTZBnraqDEGrA/uO+uvK1YOeRdrPtVaAez/1I1AnsQZN+0gGjE01?=
+ =?us-ascii?Q?EeJpuk2z1kxLXWmSQ+dUykF/TGBdr/pGqFl2LAfj8718LGle1vmFtlYKGN4n?=
+ =?us-ascii?Q?PppjKqdm9aJS7puAWW3L16PJ6cs2gbZ8V34lWiiEhOJiV84FA9Y+JCwA22LE?=
+ =?us-ascii?Q?3ZoTcGSo3bFg5mpQU3B4P5OyrF9yIU63DdGVhcOm0VYzPhOW+4MIgqooeE+s?=
+ =?us-ascii?Q?o4/Ppc0EBK4PJ7hJb9WroIaQ3rH2eor8XOmo1+2hIJmcWStl3/MIwUVNcP6w?=
+ =?us-ascii?Q?OMfFhVZZgkTZ0dnBYa9PNSaLqdFuyNMU9j73C95cSXQdXCb9iv+zfZ90fWva?=
+ =?us-ascii?Q?y4uCh0fzb0+vt5hW9tLHQw6C8jxOV9RRJ8cZNnrzGtp+4fWqRd2pohuRS7rS?=
+ =?us-ascii?Q?7zo0zqFgBeeYC4y9Z6jqTdHYCBSmB4Re0FdwIKsRndF8l/JUG5CtrJ1jEaNm?=
+ =?us-ascii?Q?17RDzLMx44neZbjxtqB94lJYF/BOiWeSRNXy1LBiFaIejOORLXkjQglrHi9h?=
+ =?us-ascii?Q?p+xfNzkgWjUzxXnQxZt7FVtb6p3LX0ziJxmkSPG024MKUwHDv8DBwCclNMvb?=
+ =?us-ascii?Q?JP/G3olrfwrwxX1TtbcoWdRUjJCdA6UXAXduxqSZJthv+rAjpdm5?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b367397-1b71-469c-9464-08df28c36fe9
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB6866.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 00:46:37.3740
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ETu6xXtJYuYlTX6o3WVzrDP0fTLlLd7fk6vAr/EkuM8Kzqpsut5QY7v46Tlkle2qEVQJz+qfGl6PlSQyjTAMBg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWP286MB3785
 
-Translate the new guide for translators, added in the previous patch,
-into Brazilian Portuguese.  The translation is based on the original as
-added by that patch; since its commit hash is only known once the series
-is applied, the "Update the translation through commit" line suggested
-by the guide is left out here.
+On Mon, Oct 12, 2026 at 03:04:46PM -0500, Frank Li wrote:
+> On Fri, Oct 09, 2026 at 01:59:48PM +0900, Koichiro Den wrote:
+> > A vNTB PCI function can now expose endpoint-local DMA channels to its
+> > host. Decode the extension and register the advertised channels before
+> > the NTB device, so clients of that NTB device can use the DMA
+> > functionality in the same PCI function. Endpoints without the extension,
+> > or hosts without support for its DMA type or with no DMA IRQ available,
+> > continue without DMA.
+> >
+> > Only DW eDMA is supported for now. Dispatch on the advertised DMA type
+> > and keep type-specific setup in local helpers. Support for another
+> > implementation can add a new case and its own helpers.
+> >
+> > Signed-off-by: Koichiro Den <den@valinux.co.jp>
+> > ---
+> > Changes in v5:
+> >   - Simplify the implementation by using pcim_iomap_range()
+> >   - Drop the unrelated MW size-limit change for pci-epf-ntb bridges.
+> >
+> >  drivers/ntb/hw/epf/ntb_hw_epf.c | 336 ++++++++++++++++++++++++++++++--
+> >  1 file changed, 323 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/ntb/hw/epf/ntb_hw_epf.c b/drivers/ntb/hw/epf/ntb_hw_epf.c
+> > index c47607d4f8a7..7faa40d1ae00 100644
+> > --- a/drivers/ntb/hw/epf/ntb_hw_epf.c
+> > +++ b/drivers/ntb/hw/epf/ntb_hw_epf.c
+> > @@ -8,6 +8,7 @@
+> >
+> >  #include <linux/atomic.h>
+> >  #include <linux/delay.h>
+> > +#include <linux/dma/edma.h>
+> >  #include <linux/module.h>
+> >  #include <linux/pci.h>
+> >  #include <linux/slab.h>
+> > @@ -20,6 +21,7 @@
+> >  #define CMD_TEARDOWN_MW		4
+> >  #define CMD_LINK_UP		5
+> >  #define CMD_LINK_DOWN		6
+> > +#define CMD_SETUP_DMA_BAR	7
+> >
+> >  #define NTB_EPF_ARGUMENT	0x4
+> >  #define MSIX_ENABLE		BIT(16)
+> > @@ -44,6 +46,32 @@
+> >  #define NTB_EPF_DB_DATA(n)	(0x34 + (n) * 4)
+> >  #define NTB_EPF_DB_OFFSET(n)	(0xB4 + (n) * 4)
+> >
+> > +/* Private DMA wire extension produced by pci-epf-vntb. */
+> > +#define NTB_EPF_DMA_BASE	0x134
+> > +#define NTB_EPF_DMA_MAGIC	(NTB_EPF_DMA_BASE + 0x00)
+> > +#define NTB_EPF_DMA_REV_LEN	(NTB_EPF_DMA_BASE + 0x04)
+> > +#define NTB_EPF_DMA_TYPE	(NTB_EPF_DMA_BASE + 0x08)
+> > +#define NTB_EPF_DMA_REGION_BAR(base)	((base) + 0x00)
+> > +#define NTB_EPF_DMA_REGION_OFFSET(base)	((base) + 0x04)
+> > +#define NTB_EPF_DMA_REGION_SIZE(base)	((base) + 0x08)
+> > +#define NTB_EPF_DMA_REGION_SIZEOF	0x0C
+> > +#define NTB_EPF_DMA_SUBMAP_BASE	(NTB_EPF_DMA_BASE + 0x0C)
+> > +#define NTB_EPF_DMA_COMMON_SIZE	0x18
+> > +#define NTB_EPF_DMA_REG_BASE	(NTB_EPF_DMA_BASE + NTB_EPF_DMA_COMMON_SIZE)
+> > +#define NTB_EPF_DMA_CHAN_BASE	(NTB_EPF_DMA_REG_BASE + \
+> > +					 NTB_EPF_DMA_REGION_SIZEOF)
+> > +#define NTB_EPF_DMA_CHAN_SIZE	0x14
+> > +#define NTB_EPF_DMA_CHAN_DESC_BASE(n)	(NTB_EPF_DMA_CHAN_BASE + \
+> > +					 (n) * NTB_EPF_DMA_CHAN_SIZE + 0x00)
+> > +#define NTB_EPF_DMA_CHAN_DESC_ADDR_LO(n)	(NTB_EPF_DMA_CHAN_BASE + \
+> > +					 (n) * NTB_EPF_DMA_CHAN_SIZE + 0x0C)
+> > +#define NTB_EPF_DMA_CHAN_DESC_ADDR_HI(n)	(NTB_EPF_DMA_CHAN_BASE + \
+> > +					 (n) * NTB_EPF_DMA_CHAN_SIZE + 0x10)
+> > +
 
-Create Documentation/translations/pt_BR/doc-guide/ with an index that
-lists the translated document and the ones still to be translated, and
-link it from the pt_BR top-level index, in the same position as the
-"Development tools and processes" section of the English index.
+Hi Frank, thanks for the review.
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
----
- .../translations/pt_BR/doc-guide/index.rst    |  19 +
- .../pt_BR/doc-guide/translations.rst          | 709 ++++++++++++++++++
- Documentation/translations/pt_BR/index.rst    |  11 +
- 3 files changed, 739 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/doc-guide/index.rst
- create mode 100644 Documentation/translations/pt_BR/doc-guide/translations.rst
+> 
+> legacy use two sets define. Can we use common header files for both epf
+> drivers.
+> 
+> In ntb_hw_epf.c, it use readl(), in pci_endpont_vntb.c use direct memory
+> access.
+> 
+> Can use offsetof() to avoid these define? we can move more after common
+> head created.
 
-diff --git a/Documentation/translations/pt_BR/doc-guide/index.rst b/Documentation/translations/pt_BR/doc-guide/index.rst
-new file mode 100644
-index 000000000..557feb762
---- /dev/null
-+++ b/Documentation/translations/pt_BR/doc-guide/index.rst
-@@ -0,0 +1,19 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================================
-+Como escrever a documentação do kernel
-+======================================
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   translations
-+
-+Todolist:
-+
-+*   sphinx
-+*   kernel-doc
-+*   parse-headers
-+*   contributing
-+*   maintainer-profile
-+*   checktransupdate
-diff --git a/Documentation/translations/pt_BR/doc-guide/translations.rst b/Documentation/translations/pt_BR/doc-guide/translations.rst
-new file mode 100644
-index 000000000..edbbfdabd
---- /dev/null
-+++ b/Documentation/translations/pt_BR/doc-guide/translations.rst
-@@ -0,0 +1,709 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================================
-+Traduzindo a documentação do kernel
-+===================================
-+
-+A documentação do kernel é escrita em inglês, e o inglês é a única versão
-+oficial dela. As traduções existem para tornar essa documentação acessível
-+a quem se sente mais à vontade lendo em outro idioma; elas ficam em
-+``Documentation/translations/``, com um diretório por idioma.
-+
-+Este documento explica como contribuir com essas traduções: como escolher
-+o que traduzir, como um documento traduzido é organizado, como verificar
-+o seu trabalho, como enviá-lo, o que esperar da revisão e como manter uma
-+tradução atualizada depois que ela for integrada. Ele também descreve o
-+que é necessário para iniciar a tradução para um novo idioma.
-+
-+Ele não substitui os documentos gerais sobre como contribuir com o kernel;
-+um patch de tradução é um patch do kernel, e tudo o que está descrito em
-+:doc:`../process/submitting-patches` se aplica a ele. O que segue se
-+concentra nos detalhes específicos das traduções e nos erros que mais
-+frequentemente fazem com que patches de tradução sejam devolvidos.
-+
-+Algumas traduções têm orientações adicionais, específicas do idioma e
-+escritas nele; por exemplo, a equipe do chinês simplificado mantém
-+Documentation/translations/zh_CN/how-to.rst. Onde existir um guia assim,
-+leia-o também.
-+
-+
-+Princípios
-+==========
-+
-+Antes de começar, leia o aviso em
-+:ref:`Documentation/translations/index.rst <translations_disclaimer>`.
-+Seus pontos principais orientam todo o restante deste documento:
-+
-+- **O inglês é a referência.** Quando uma tradução e o original em inglês
-+  divergem, a versão em inglês é a correta.
-+
-+- **Uma tradução não é um fork.** Ela não deve acrescentar, remover nem
-+  alterar informações. Se você encontrar um erro, uma omissão ou uma
-+  afirmação desatualizada no original, corrija primeiro o documento em
-+  inglês, com um patch separado enviado aos mantenedores da documentação.
-+  Depois que essa alteração for integrada, a tradução pode acompanhá-la.
-+
-+- **Os mantenedores das traduções só aceitam trabalho de tradução**: novas
-+  traduções, atualizações que acompanham mudanças no original e correções
-+  em traduções existentes.
-+
-+- **Adaptar é permitido; mudar o sentido, não.** Cada idioma tem sua
-+  própria gramática e suas expressões, e uma tradução literal, palavra por
-+  palavra, muitas vezes fica errada. Reformule o quanto o seu idioma
-+  exigir, desde que o leitor termine com a mesma informação que um leitor
-+  do original.
-+
-+
-+Antes de começar
-+================
-+
-+Encontre a equipe da tradução
-+-----------------------------
-+
-+Cada tradução está listada no arquivo MAINTAINERS, com uma linha ``F:``
-+apontando para o seu diretório. Você pode encontrar os responsáveis por
-+uma tradução com::
-+
-+  $ scripts/get_maintainer.pl -f Documentation/translations/<lang>/
-+
-+Acompanhe as discussões recentes na lista de discussão linux-doc
-+(https://lore.kernel.org/linux-doc/) para ter uma ideia de como a equipe
-+trabalha, quais convenções segue e o que os revisores costumam pedir. Se
-+estiver em dúvida sobre algo, pergunte na lista antes de investir muito
-+trabalho; os mantenedores das traduções costumam ficar contentes em ajudar
-+quem está começando.
-+
-+Escolha o que traduzir
-+----------------------
-+
-+Bons candidatos são os documentos que muita gente lê: os documentos sobre
-+o processo de desenvolvimento em ``Documentation/process/``, o guia do
-+administrador e os guias sobre como escrever documentação. Documentos
-+longos, que mudam com frequência ou muito especializados são mais difíceis
-+de manter atualizados e é melhor deixá-los para depois.
-+
-+Verifique se o documento ainda não foi traduzido e se ninguém mais está
-+trabalhando nele:
-+
-+- procure em ``Documentation/translations/<lang>/``;
-+
-+- pesquise o nome do arquivo no arquivo da linux-doc em lore.kernel.org;
-+  um patch pendente, ou uma revisão recente, significa que alguém já está
-+  cuidando dele;
-+
-+- use o ``tools/docs/checktransupdate.py`` para listar os documentos que
-+  ainda não têm tradução::
-+
-+    $ tools/docs/checktransupdate.py -l <lang> --print-missing-translations
-+
-+  Veja Documentation/doc-guide/checktransupdate.rst para mais detalhes.
-+
-+Evite que várias pessoas traduzam arquivos do mesmo diretório ao mesmo
-+tempo. Nesse caso, os patches tendem a alterar o mesmo ``index.rst`` e
-+acabam entrando em conflito entre si. Se você pretende traduzir um
-+diretório inteiro, avise na lista.
-+
-+Se você é novo no desenvolvimento do kernel, comece com um documento
-+curto. É no primeiro patch que aparece a maioria dos problemas de
-+processo, e eles são muito mais fáceis de corrigir em um arquivo de 60
-+linhas do que em um de 2000.
-+
-+Prepare o seu ambiente
-+----------------------
-+
-+As traduções são integradas pela árvore da documentação, então baseie o
-+seu trabalho no branch ``docs-next`` dela (a linha ``T:`` da entrada
-+DOCUMENTATION no MAINTAINERS indica onde ela fica)::
-+
-+  $ git remote add docs git://git.lwn.net/linux.git
-+  $ git fetch docs
-+  $ git switch -c minha-traducao docs/docs-next
-+
-+Algumas traduções são reunidas primeiro em uma árvore própria; se a
-+entrada do MAINTAINERS do seu idioma tiver a sua própria linha ``T:``,
-+pergunte aos mantenedores da tradução qual branch usar.
-+
-+Você vai precisar de uma instalação do Sphinx funcionando para compilar a
-+documentação. O ``tools/docs/sphinx-pre-install`` verifica o seu sistema e
-+informa o que está faltando; Documentation/doc-guide/sphinx.rst traz os
-+detalhes.
-+
-+Você também vai precisar conseguir enviar e-mails em texto puro com o
-+``git send-email`` ou com um cliente de e-mail configurado como descrito
-+em :doc:`../process/email-clients`. As listas de discussão do
-+vger.kernel.org rejeitam e-mails em HTML, então respostas enviadas por uma
-+interface de webmail na configuração padrão nunca chegam à lista.
-+
-+
-+Anatomia de um documento traduzido
-+==================================
-+
-+Localização e nome do arquivo
-+-----------------------------
-+
-+Uma tradução reproduz o caminho do seu original dentro do diretório do
-+idioma e mantém o mesmo nome de arquivo::
-+
-+  Documentation/process/howto.rst
-+  Documentation/translations/<lang>/process/howto.rst
-+
-+Não traduza nomes de arquivos nem de diretórios. A compilação da
-+documentação usa essa correspondência para adicionar, no topo de cada
-+página, links para a mesma página nos outros idiomas; isso só funciona se
-+os caminhos coincidirem.
-+
-+O cabeçalho do arquivo
-+----------------------
-+
-+Comece o arquivo com o mesmo identificador de licença SPDX do original. A
-+maioria das traduções indica em seguida, de alguma forma, qual documento
-+foi traduzido e inclui o aviso do idioma. Por exemplo, a tradução para o
-+italiano usa::
-+
-+  .. include:: ../disclaimer-ita.rst
-+
-+  :Original: :ref:`Documentation/process/howto.rst <process_howto>`
-+  :Translator: Alessia Mantegazza <amantegazza@vaga.pv.it>
-+
-+O cabeçalho exato varia de um idioma para outro: alguns incluem o aviso em
-+todos os arquivos, outros apenas na página de índice, e alguns listam os
-+tradutores enquanto outros deixam as informações de contato para o
-+MAINTAINERS. Copie o cabeçalho de um documento integrado recentemente no
-+seu idioma, em vez de inventar o seu, e ajuste o caminho relativo de
-+qualquer diretiva ``include::`` à profundidade do seu arquivo.
-+
-+Se o seu idioma lista os tradutores em cada arquivo, evite duplicar
-+informações que já estão no MAINTAINERS. Endereços de e-mail em documentos
-+ficam desatualizados; o MAINTAINERS é o lugar onde eles são mantidos em
-+dia.
-+
-+Rótulos
-+-------
-+
-+Os rótulos do Sphinx (``.. _rotulo:``) são globais para toda a compilação
-+da documentação. Um rótulo copiado sem alteração do original, portanto,
-+define o mesmo nome duas vezes, o que quebra a compilação ou, na melhor
-+das hipóteses, faz as referências apontarem para o documento errado.
-+
-+- Os rótulos colocados bem no início de um arquivo normalmente não são
-+  necessários na tradução; basta removê-los.
-+
-+- Os rótulos necessários, por exemplo porque outras partes do documento
-+  traduzido se referem a eles, devem se tornar únicos com o acréscimo de
-+  um prefixo do idioma. Cada tradução já usa um; veja os arquivos
-+  existentes para descobrir qual (``it_``, ``sp_``, ``cn_``, ``tw_``,
-+  ``pt_``, ...)::
-+
-+    .. _it_process_howto:
-+
-+- Referências a rótulos da documentação em inglês são aceitáveis e
-+  esperadas. Quando o documento de destino ainda não foi traduzido, criar
-+  o link para a versão em inglês é a coisa certa a fazer.
-+
-+Citações e outros alvos com nome
-+--------------------------------
-+
-+As citações com nome também são globais. Se o original contém::
-+
-+  ... the C programming language [c-language]_ ...
-+
-+  .. [c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-+
-+então uma tradução que mantém o nome ``c-language`` gera um aviso de
-+"duplicate citation" para cada citação do arquivo. Acrescente o prefixo do
-+idioma tanto às definições quanto aos seus usos::
-+
-+  ... a linguagem de programação C [pt-c-language]_ ...
-+
-+  .. [pt-c-language] http://www.open-std.org/jtc1/sc22/wg14/www/standards
-+
-+O mesmo vale para qualquer outra construção que defina um nome visível
-+fora do arquivo.
-+
-+Referências cruzadas
-+--------------------
-+
-+Mantenha todas as referências cruzadas do original e decida, para cada
-+uma, para onde ela deve apontar:
-+
-+- se o documento de destino já estiver traduzido para o seu idioma, aponte
-+  para a tradução, para que os leitores continuem no seu idioma;
-+
-+- caso contrário, mantenha a referência ao documento em inglês.
-+
-+Dentro do diretório da tradução, o ``:doc:`` aceita caminhos relativos ao
-+arquivo atual; assim, um documento em
-+``Documentation/translations/<lang>/process/`` pode se referir ao
-+``howto.rst`` traduzido com ``:doc:`howto```. Caminhos absolutos, como
-+``:doc:`/process/howto```, sempre apontam para a documentação em inglês.
-+
-+Traduza o texto visível de uma referência quando for adequado, mas nunca o
-+seu destino::
-+
-+  :ref:`Criando um tracepoint <process/debugging/driver_development_debugging_guide:ftrace>`
-+
-+O que não deve ser traduzido
-+----------------------------
-+
-+Alguns conteúdos precisam permanecer exatamente como estão no original:
-+
-+- blocos literais (``::``), diretivas ``code-block``, linhas de comando e
-+  suas saídas, mensagens de log e exemplos de código; eles são copiados
-+  sem alteração, incluindo a indentação e os caracteres de tabulação;
-+
-+- identificadores: nomes de funções, estruturas, variáveis e macros,
-+  opções do Kconfig, nomes e caminhos de arquivos, nomes de comandos e
-+  suas opções, entradas do sysfs e do procfs;
-+
-+- os destinos das referências, as URLs e os argumentos de diretivas como
-+  ``kernel-doc``, ``include`` ou ``toctree``;
-+
-+- os nomes das tags e outros textos fixos que as pessoas precisam digitar,
-+  como ``Signed-off-by:`` ou ``Reviewed-by:``.
-+
-+O texto ao redor desses elementos é traduzido normalmente. Quando uma
-+frase cita um identificador, mantenha o identificador e a sua marcação e
-+traduza o restante da frase.
-+
-+Estrutura e formatação do documento
-+-----------------------------------
-+
-+Mantenha a estrutura do original: as mesmas seções, na mesma ordem, com os
-+mesmos níveis de título e, de preferência, os mesmos parágrafos. Isso
-+torna a tradução muito mais fácil de revisar, e muito mais fácil de
-+atualizar depois, porque uma mudança no original corresponde a um lugar
-+óbvio na tradução.
-+
-+Siga as regras habituais da documentação do kernel:
-+
-+- quebre as linhas em 80 colunas; blocos literais, tabelas e URLs longas
-+  são as exceções habituais;
-+
-+- faça o sublinhado (e o sobrelinhado) dos títulos pelo menos tão longo
-+  quanto o texto do título, levando em conta que os caracteres do leste
-+  asiático ocupam duas colunas;
-+
-+- use UTF-8, sem marca de ordem de bytes (BOM) e sem espaços em branco no
-+  fim das linhas;
-+
-+- mantenha a marcação reStructuredText válida. A marcação inline, como a
-+  ênfase ou os literais inline, precisa estar separada do texto ao redor
-+  por espaços ou pontuação, e a ordem das palavras de uma tradução pode
-+  mudar o que fica ao redor dela. Quando a marcação precisar ser seguida
-+  diretamente por texto, separe-os com um espaço escapado (uma barra
-+  invertida seguida de um espaço), que não aparece na saída::
-+
-+    ``vmstat``\ *, mas por processo*
-+
-+Se algo realmente precisar ser explicado aos leitores da tradução, como um
-+termo que não tem um equivalente estabelecido, marque-o claramente como
-+uma nota do tradutor (``.. note::``) em vez de misturá-lo ao texto
-+traduzido. Use essas notas com moderação; elas não são uma forma de
-+acrescentar conteúdo.
-+
-+
-+Qualidade da tradução
-+=====================
-+
-+Fidelidade
-+----------
-+
-+Compare a sua tradução com o original, parágrafo por parágrafo, antes de
-+enviá-la. Procure por:
-+
-+- frases ou itens de lista que foram omitidos ou acrescentados;
-+
-+- afirmações cujo sentido mudou, por exemplo um pronome relativo que,
-+  depois da tradução, passa a se referir a outro substantivo, ou um
-+  "should" que virou um "must";
-+
-+- números, versões, nomes de opções e caminhos que mudaram ao serem
-+  redigitados.
-+
-+Terminologia
-+------------
-+
-+Use os mesmos termos que o restante da tradução para o seu idioma. Antes
-+de escolher uma tradução para um termo técnico, pesquise nos documentos
-+existentes::
-+
-+  $ git grep -i "<termo>" Documentation/translations/<lang>/
-+
-+Algumas equipes mantêm um glossário (por exemplo,
-+Documentation/translations/zh_CN/glossary.rst); siga-o, se houver um.
-+Muitos termos em inglês (kernel, patch, commit, driver, ...) costumam ser
-+usados como estão por desenvolvedores que falam outros idiomas, e a
-+tradução deve seguir o uso estabelecido pela comunidade em vez de impor um
-+equivalente literal.
-+
-+Se você discorda de um termo estabelecido, proponha a mudança
-+separadamente, para toda a tradução, em vez de introduzir um segundo termo
-+em um documento novo.
-+
-+Idioma
-+------
-+
-+Escreva um texto natural e gramaticalmente correto no seu idioma. Um
-+revisor que precisa corrigir concordância, pontuação ou ordem das
-+palavras em cada parágrafo não consegue prestar atenção ao conteúdo. Ler a
-+página HTML gerada, em vez do arquivo-fonte, é uma boa forma de perceber
-+frases estranhas.
-+
-+Tradução automática e ferramentas de IA
-+---------------------------------------
-+
-+Você é responsável por cada palavra que envia. Se usar tradução automática
-+ou um assistente de IA, revise e corrija o resultado com o mesmo cuidado
-+que teria se o tivesse escrito; traduções enviadas sem esse trabalho
-+dificilmente são aceitas, e os revisores podem perguntar como uma tradução
-+foi produzida.
-+
-+As regras de :doc:`../process/coding-assistants` valem para as traduções
-+como para qualquer outra contribuição: o uso dessas ferramentas deve ser
-+informado com uma tag ``Assisted-by:``, e a tag ``Signed-off-by:`` só pode
-+ser adicionada pela pessoa que certifica a contribuição.
-+
-+
-+Adicionando o documento à compilação
-+====================================
-+
-+Um documento novo precisa estar listado em um ``toctree``; caso contrário,
-+o Sphinx avisa que ele "isn't included in any toctree" e os leitores não
-+conseguem encontrá-lo.
-+
-+Adicione-o ao ``index.rst`` do diretório no seu idioma, na mesma posição
-+que ele ocupa no ``index.rst`` em inglês. Se o diretório ainda não existir
-+na sua tradução, crie-o com um ``index.rst`` próprio e crie o link para
-+esse índice a partir do índice do diretório acima.
-+
-+Algumas traduções mantêm, nos seus arquivos de índice, uma lista dos
-+documentos que ainda não foram traduzidos. Se a sua mantiver, remova o
-+documento dessa lista no mesmo patch.
-+
-+
-+Compilando e verificando o seu trabalho
-+=======================================
-+
-+Compile a documentação
-+----------------------
-+
-+Compile a documentação HTML completa e verifique que a sua mudança não
-+introduz nenhum aviso novo::
-+
-+  $ make htmldocs
-+
-+Compilar apenas um subdiretório com ``SPHINXDIRS`` é mais rápido, e não há
-+problema em fazer isso enquanto você trabalha::
-+
-+  $ make SPHINXDIRS=translations/<lang> htmldocs
-+
-+mas não é suficiente antes do envio. Uma compilação parcial como essa não
-+contém os documentos em inglês; por isso, não consegue detectar rótulos ou
-+citações duplicados e informa como desconhecida toda referência a um
-+documento em inglês, o que esconde os problemas reais no meio do ruído.
-+
-+A compilação completa da árvore já gera alguns avisos que não têm relação
-+com a sua mudança. A forma mais simples de verificar que você não
-+acrescentou nenhum é comparar os avisos antes e depois do seu patch::
-+
-+  $ make cleandocs && make htmldocs 2>&1 | tee ../antes.log
-+  $ git am minha-traducao.patch      # ou mude para o seu branch
-+  $ make cleandocs && make htmldocs 2>&1 | tee ../depois.log
-+  $ diff <(grep -E 'WARNING|ERROR' ../antes.log | sort) \
-+         <(grep -E 'WARNING|ERROR' ../depois.log | sort)
-+
-+O ``make cleandocs`` é importante: o Sphinx só recompila os arquivos que
-+mudaram, então uma compilação incremental não repete os avisos dos
-+arquivos que ela ignorou.
-+
-+Confira o resultado
-+-------------------
-+
-+Abra a página gerada, em ``Documentation/output/``, em um navegador.
-+Verifique se títulos, listas, tabelas, blocos literais e links aparecem
-+como esperado, e se os links de idioma no topo da página levam ao original
-+e às outras traduções do mesmo documento.
-+
-+Para idiomas que precisam de fontes especiais, também vale a pena gerar a
-+saída em PDF (``make pdfdocs``) de vez em quando.
-+
-+Rode o checkpatch
-+-----------------
-+
-+Rode o ``scripts/checkpatch.pl`` no seu patch e corrija o que ele
-+apontar::
-+
-+  $ scripts/checkpatch.pl --strict -g HEAD
-+
-+Os avisos mais comuns em patches de tradução são:
-+
-+- a falta do identificador de licença SPDX;
-+
-+- linhas mais longas que o limite;
-+
-+- a falta da descrição do commit;
-+
-+- "added, moved or deleted file(s), does MAINTAINERS need updating?";
-+  este pode ser ignorado quando o diretório da tradução já é coberto por
-+  uma entrada do MAINTAINERS, o que acontece com todas as traduções
-+  existentes.
-+
-+
-+Preparando o patch
-+==================
-+
-+Escopo
-+------
-+
-+Envie um documento por patch. Vários documentos relacionados podem ser
-+enviados como uma série de patches, com um patch por documento.
-+
-+Nunca misture alterações na documentação em inglês e em uma tradução no
-+mesmo patch. Elas são revisadas por pessoas diferentes, e a alteração em
-+inglês pode precisar de várias revisões antes que a tradução possa
-+acompanhá-la.
-+
-+Linha de assunto
-+----------------
-+
-+Use o prefixo que a sua tradução já usa; ``git log --oneline --
-+Documentation/translations/<lang>/`` o mostra. Exemplos de prefixos em uso
-+atualmente são ``docs/zh_CN:``, ``docs/zh_TW:``, ``doc:it_IT:`` e
-+``docs: pt_BR:``. Em seguida, descreva a mudança de forma breve::
-+
-+  docs: pt_BR: translate process/programming-language.rst
-+
-+Mensagem de commit
-+------------------
-+
-+Escreva a mensagem de commit em inglês, para que todos os envolvidos na
-+integração do patch possam lê-la. Diga qual documento foi traduzido ou
-+atualizado e em qual estado do original a tradução se baseia. O script
-+``checktransupdate.py`` reconhece a frase abaixo, seguida do hash
-+abreviado (12 caracteres) e do assunto do último commit que alterou o
-+original::
-+
-+  Update the translation through commit 1234567890ab
-+  ("docs: some subject of the last change to the original")
-+
-+Com ela, o script consegue dizer exatamente quais mudanças do original
-+ainda faltam na tradução, mesmo que a tradução tenha sido escrita muito
-+depois desse commit. O hash e o assunto são mostrados por::
-+
-+  $ git log -1 --format='%h ("%s")' --abbrev=12 -- Documentation/<caminho>.rst
-+
-+Tags
-+----
-+
-+As tags de um patch ficam em um único bloco no fim da mensagem de commit,
-+sem linhas em branco entre elas. O git só interpreta o último parágrafo
-+da mensagem como trailers, então uma linha em branco no meio faz com que
-+ele ignore as tags acima dela::
-+
-+  Assisted-by: LLM
-+  Signed-off-by: Seu Nome <voce@example.org>
-+
-+O ``Signed-off-by:`` deve trazer o seu nome real; veja "Sign your work -
-+the Developer's Certificate of Origin" em
-+:doc:`../process/submitting-patches`.
-+
-+Quando você enviar uma nova versão de um patch, mantenha as tags
-+``Reviewed-by:`` e ``Acked-by:`` que recebeu, a menos que o patch tenha
-+mudado significativamente desde que elas foram dadas.
-+
-+
-+Enviando o patch
-+================
-+
-+Destinatários
-+-------------
-+
-+Rode o ``scripts/get_maintainer.pl`` no patch para obter a lista de
-+destinatários::
-+
-+  $ scripts/get_maintainer.pl 0001-docs-pt_BR-translate-something.patch
-+
-+Para uma tradução, isso normalmente inclui os mantenedores da tradução, o
-+mantenedor da documentação e a lista de discussão linux-doc. Envie o patch
-+para todos eles; deixar de fora o mantenedor da documentação, que aplica a
-+maioria dos patches de tradução, é uma forma comum de ter um patch
-+ignorado.
-+
-+Enviando
-+--------
-+
-+Envie o patch com o ``git send-email`` ou com um cliente de e-mail que não
-+o altere. É uma boa ideia enviá-lo primeiro para você mesmo e verificar se
-+ele se aplica sem problemas com o ``git am`` sobre o branch que você usou
-+como base.
-+
-+Mencione abaixo da linha ``---`` tudo o que os revisores devem saber, mas
-+que não deve entrar no histórico do git, como dúvidas sobre termos dos
-+quais você não tinha certeza.
-+
-+Novas versões
-+-------------
-+
-+Os revisores muitas vezes pedem mudanças. Responda aos comentários deles
-+na lista, intercalando as respostas no texto e em texto puro, e então
-+envie uma nova versão do patch:
-+
-+- identifique-a como tal no assunto, por exemplo ``[PATCH v2]``;
-+
-+- descreva o que mudou desde a versão anterior abaixo da linha ``---`` e
-+  acrescente links para as versões anteriores em lore.kernel.org::
-+
-+    ---
-+    Changes in v2:
-+    - Use "namespace de usuário", as in the other pt_BR documents.
-+    - Prefix the citation names to avoid duplicates.
-+
-+    v1: https://lore.kernel.org/linux-doc/<message-id>/
-+
-+- trate todos os comentários, seja alterando o patch, seja explicando por
-+  que não o fez;
-+
-+- não tenha pressa; dê aos revisores mais ou menos um dia para comentar
-+  uma versão antes de enviar a próxima.
-+
-+Não acrescente ``RESEND`` ao assunto de um patch modificado; essa palavra
-+é reservada para reenviar sem alterações um patch que não recebeu
-+resposta, como descrito em :doc:`../process/submitting-patches`.
-+
-+
-+O processo de revisão
-+=====================
-+
-+Os patches de tradução são revisados pelos mantenedores da tradução e por
-+outros falantes do idioma, e normalmente são aplicados pelo mantenedor da
-+documentação depois que o mantenedor da tradução fica satisfeito. Um
-+``Reviewed-by:`` do mantenedor da tradução costuma ser o sinal de que o
-+patch está pronto.
-+
-+Os revisores normalmente verificam:
-+
-+- se o patch se aplica e compila sem avisos novos;
-+
-+- o cabeçalho do arquivo, os rótulos, as citações e as entradas de índice
-+  descritos acima;
-+
-+- a fidelidade ao original;
-+
-+- a gramática, o estilo e a consistência da terminologia;
-+
-+- a mensagem de commit e as tags.
-+
-+Todos são bem-vindos para revisar patches de tradução. Revisões de outros
-+falantes do idioma são valiosas, e revisar o trabalho de outras pessoas é
-+também uma das melhores formas de aprender as convenções de uma tradução.
-+Se você revisou um patch com cuidado e concorda com ele, diga isso com uma
-+tag ``Reviewed-by:``.
-+
-+Tenha paciência. Os mantenedores das traduções são voluntários, e pode
-+levar uma ou duas semanas para receber uma resposta, mais durante a janela
-+de merge.
-+
-+
-+Mantendo as traduções atualizadas
-+=================================
-+
-+A documentação em inglês muda o tempo todo, e uma tradução desatualizada
-+pode ser pior do que nenhuma. O ``tools/docs/checktransupdate.py`` lista,
-+para cada arquivo traduzido, os commits no original que ainda não estão
-+refletidos na tradução::
-+
-+  $ tools/docs/checktransupdate.py -l <lang>
-+  $ tools/docs/checktransupdate.py Documentation/translations/<lang>/process/howto.rst
-+
-+Para atualizar uma tradução, aplique as mesmas mudanças que os commits
-+listados fizeram no original, e nada além disso. Mencione esses commits na
-+mensagem de commit, terminando com a frase "Update the translation through
-+commit" descrita acima, para que a próxima execução do script comece do
-+ponto certo.
-+
-+Quando um documento original for movido ou renomeado, mova a tradução da
-+mesma forma, para que os caminhos continuem coincidindo. Quando um
-+original for removido, remova também a tradução.
-+
-+
-+Iniciando uma nova tradução
-+===========================
-+
-+Um novo idioma é um compromisso de longo prazo: alguém precisa revisar as
-+contribuições e manter os documentos existentes atualizados por anos.
-+Antes de iniciar um, discuta a ideia na lista de discussão linux-doc.
-+
-+A primeira série de patches de uma nova tradução deve conter um pequeno
-+número de documentos traduzidos com cuidado, que compilem sem avisos, além
-+da infraestrutura de que toda tradução precisa:
-+
-+- um diretório ``Documentation/translations/<ll_CC>/``, com o nome formado
-+  pelos códigos do idioma e do país (por exemplo, ``pt_BR``);
-+
-+- um ``index.rst`` para o idioma, com uma tradução do aviso de
-+  :ref:`Documentation/translations/index.rst <translations_disclaimer>`,
-+  normalmente em um arquivo separado incluído pelo índice;
-+
-+- uma entrada no ``toctree`` de Documentation/translations/index.rst;
-+
-+- uma entrada no dicionário ``all_languages`` de
-+  ``Documentation/sphinx/translations.py``, que gera os links de idioma no
-+  topo de cada página.
-+
-+Essas duas últimas listas são ordenadas alfabeticamente pelo nome do
-+idioma em inglês; mantenha-as assim.
-+
-+Use o índice de uma tradução existente como modelo. Note que as diretivas
-+``raw:: latex`` encontradas nesses arquivos selecionam as fontes usadas na
-+saída em PDF, e que os idiomas escritos com caracteres do leste asiático
-+precisam de configurações diferentes das dos outros.
-+
-+Uma entrada no MAINTAINERS para a nova tradução não faz parte do primeiro
-+envio. Ela é algo que se conquista com um esforço demonstrado e
-+contínuo, e é melhor discuti-la com o mantenedor da documentação depois
-+que a tradução já existir há algum tempo.
-+
-+
-+Lista de verificação
-+====================
-+
-+Antes de enviar um patch de tradução, verifique se:
-+
-+- o documento original ainda não foi traduzido e ninguém mais está
-+  trabalhando nele;
-+
-+- o arquivo reproduz o caminho e o nome do original;
-+
-+- o cabeçalho segue as convenções do seu idioma, começando pelo
-+  identificador SPDX;
-+
-+- os rótulos do início do arquivo original foram removidos, e todos os
-+  rótulos e nomes de citações restantes têm o prefixo do idioma;
-+
-+- as referências apontam para os documentos traduzidos, quando existirem,
-+  e para os documentos em inglês, caso contrário;
-+
-+- os blocos literais, o código, os identificadores e os destinos das
-+  referências estão inalterados;
-+
-+- a estrutura do original foi preservada e as linhas cabem em 80 colunas;
-+
-+- a tradução é fiel, gramaticalmente correta e usa a terminologia
-+  estabelecida;
-+
-+- o documento está listado no ``index.rst`` correto;
-+
-+- a compilação completa com ``make htmldocs`` não acrescenta nenhum aviso,
-+  e a página HTML aparece corretamente;
-+
-+- o ``scripts/checkpatch.pl --strict`` não aponta nenhum problema;
-+
-+- a mensagem de commit está em inglês, descreve a mudança e diz em qual
-+  commit do original a tradução se baseia;
-+
-+- todas as tags estão em um único bloco, o ``Signed-off-by:`` usa o seu
-+  nome real e qualquer uso de ferramentas de IA está informado com
-+  ``Assisted-by:``;
-+
-+- o patch é enviado, em texto puro, para todos os listados pelo
-+  ``scripts/get_maintainer.pl``.
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 5557c5e4e..23d27813d 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -68,6 +68,17 @@ kernel e sobre como ver seu trabalho integrado.
- 
-    process/index
- 
-+Ferramentas e processos de desenvolvimento
-+==========================================
-+
-+Vários outros manuais com informações úteis para todos os desenvolvedores
-+do kernel.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   doc-guide/index
-+
- Guias do usuário e do administrador
- ===================================
- 
--- 
-2.47.3
+I personally don't think it is a good idea to leak such feature-specific
+definitions into include/linux, now that we agreed upon keeping this feature
+local to vNTB. This contrasts with the previous PCI EPF DMA approach, which
+added include/linux/pci-ep-dma.h:
+https://lore.kernel.org/r/20260813063757.3131865-3-den@valinux.co.jp/
 
+I'm aware of the duplication in the current form, but my gut is that it's still
+a tolerable amount, and can be seen as just an extention of the current way of
+defining epf_ntb_ctrl in pci-epf-vntb.c and hard-coding the offsets in
+ntb_hw_epf.c.
+
+So Frank, I'd appreciate it if you could elaborate a bit more, on what concrete
+header location and naming you have in mind. Maybe something like
+include/linux/pci-epf-vntb.h?
+
+Mani, I'd appreciate your thoughts on this as well, so we can avoid going back
+and forth any further.
+
+Best regards,
+Koichiro Den
+
+> 
+> Frank
+> 
+> > +#define NTB_EPF_DMA_MAGIC_VALUE	0x414d444e /* "NDMA": NTB DMA */
+> > +#define NTB_EPF_DMA_REVISION	1
+> > +#define NTB_EPF_DMA_TYPE_DW_EDMA	1
+> > +
+> >  /*
+> >   * Legacy doorbell slot layout when paired with pci-epf-*ntb:
+> >   *
+> > @@ -97,6 +125,24 @@ struct ntb_epf_irq_ctx {
+> >  	unsigned int irq_no;
+> >  };
+> >
+> > +struct ntb_epf_dma_region {
+> > +	unsigned int bar;
+> > +	resource_size_t offset;
+> > +	resource_size_t size;
+> > +};
+> > +
+> > +struct ntb_epf_dw_edma {
+> > +	struct dw_edma_chip chip;
+> > +	struct ntb_epf_dma_region reg;
+> > +	struct ntb_epf_dma_region ll[EDMA_MAX_RD_CH];
+> > +};
+> > +
+> > +struct ntb_epf_dma {
+> > +	struct ntb_epf_dma_region submap;
+> > +	unsigned int nr_irqs;
+> > +	u32 type;
+> > +};
+> > +
+> >  struct ntb_epf_dev {
+> >  	struct ntb_dev ntb;
+> >  	struct device *dev;
+> > @@ -108,6 +154,8 @@ struct ntb_epf_dev {
+> >  	unsigned int mw_count;
+> >  	unsigned int spad_count;
+> >  	unsigned int db_count;
+> > +	struct ntb_epf_dma dma;
+> > +	struct ntb_epf_dw_edma dw_edma;
+> >
+> >  	void __iomem *ctrl_reg;
+> >  	void __iomem *db_reg;
+> > @@ -162,6 +210,212 @@ static int ntb_epf_send_command(struct ntb_epf_dev *ndev, u32 command,
+> >  	return ret;
+> >  }
+> >
+> > +static bool ntb_epf_dma_region_parse(struct ntb_epf_dev *ndev, u32 base,
+> > +				     bool optional,
+> > +				     struct ntb_epf_dma_region *region)
+> > +{
+> > +	resource_size_t bar_len;
+> > +	u32 bar, offset, size;
+> > +
+> > +	bar = readl(ndev->ctrl_reg + NTB_EPF_DMA_REGION_BAR(base));
+> > +	offset = readl(ndev->ctrl_reg + NTB_EPF_DMA_REGION_OFFSET(base));
+> > +	size = readl(ndev->ctrl_reg + NTB_EPF_DMA_REGION_SIZE(base));
+> > +	region->bar = bar;
+> > +	region->offset = offset;
+> > +	region->size = size;
+> > +	if (!size)
+> > +		return optional && bar == U32_MAX && !offset;
+> > +	if (bar > BAR_5)
+> > +		return false;
+> > +
+> > +	bar_len = pci_resource_len(ndev->ntb.pdev, bar);
+> > +	if (offset > bar_len || size > bar_len - offset)
+> > +		return false;
+> > +
+> > +	return true;
+> > +}
+> > +
+> > +/* DW eDMA */
+> > +
+> > +static int ntb_epf_dw_edma_parse(struct ntb_epf_dev *ndev, u32 length)
+> > +{
+> > +	struct ntb_epf_dw_edma *edma = &ndev->dw_edma;
+> > +	struct dw_edma_chip *chip = &edma->chip;
+> > +	u32 count, chan_offset;
+> > +	unsigned int i;
+> > +
+> > +	chan_offset = NTB_EPF_DMA_CHAN_BASE - NTB_EPF_DMA_BASE;
+> > +	if (length < chan_offset + NTB_EPF_DMA_CHAN_SIZE ||
+> > +	    (length - chan_offset) % NTB_EPF_DMA_CHAN_SIZE)
+> > +		return -EINVAL;
+> > +
+> > +	count = (length - chan_offset) / NTB_EPF_DMA_CHAN_SIZE;
+> > +	if (count > EDMA_MAX_RD_CH)
+> > +		return -EINVAL;
+> > +
+> > +	if (!ntb_epf_dma_region_parse(ndev, NTB_EPF_DMA_REG_BASE, false,
+> > +				      &edma->reg) ||
+> > +	    !IS_ALIGNED(edma->reg.offset, sizeof(u32)))
+> > +		return -EINVAL;
+> > +
+> > +	chip->mf = EDMA_MF_EDMA_UNROLL;
+> > +	chip->ll_rd_cnt = count;
+> > +	chip->func_no = PCI_FUNC(ndev->ntb.pdev->devfn);
+> > +
+> > +	for (i = 0; i < count; i++) {
+> > +		u64 paddr;
+> > +
+> > +		if (!ntb_epf_dma_region_parse(ndev,
+> > +					      NTB_EPF_DMA_CHAN_DESC_BASE(i),
+> > +					      false, &edma->ll[i]) ||
+> > +		    !IS_ALIGNED(edma->ll[i].offset, sizeof(u32)))
+> > +			return -EINVAL;
+> > +
+> > +		paddr = readl(ndev->ctrl_reg +
+> > +			      NTB_EPF_DMA_CHAN_DESC_ADDR_LO(i));
+> > +		paddr |= (u64)readl(ndev->ctrl_reg +
+> Frank> +				    NTB_EPF_DMA_CHAN_DESC_ADDR_HI(i)) << 32;
+> > +		if (paddr == U64_MAX)
+> > +			return -EINVAL;
+> > +
+> > +		chip->ll_region_rd[i].sz = edma->ll[i].size;
+> > +		chip->ll_region_rd[i].paddr = paddr;
+> > +	}
+> > +	ndev->dma.nr_irqs = count;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int ntb_epf_dw_edma_irq_vector(struct device *dev, unsigned int nr)
+> > +{
+> > +	struct ntb_epf_dev *ndev = dev_get_drvdata(dev);
+> > +
+> > +	/* DMA vectors follow the NTB link and doorbell vector block. */
+> > +	return pci_irq_vector(ndev->ntb.pdev, ndev->db_count + 1 + nr);
+> > +}
+> > +
+> > +static const struct dw_edma_plat_ops ntb_epf_dw_edma_ops = {
+> > +	.irq_vector = ntb_epf_dw_edma_irq_vector,
+> > +};
+> > +
+> > +static void __iomem *
+> > +ntb_epf_dw_edma_map_region(struct pci_dev *pdev,
+> > +			   const struct ntb_epf_dma_region *region)
+> > +{
+> > +	return pcim_iomap_range(pdev, region->bar, region->offset, region->size);
+> > +}
+> > +
+> > +static int ntb_epf_dw_edma_init(struct ntb_epf_dev *ndev)
+> > +{
+> > +	struct ntb_epf_dw_edma *edma = &ndev->dw_edma;
+> > +	struct dw_edma_chip *chip = &edma->chip;
+> > +	struct pci_dev *pdev = ndev->ntb.pdev;
+> > +	unsigned int i;
+> > +	int ret;
+> > +
+> > +	/* Install BAR submaps before mapping the advertised DMA regions. */
+> > +	ret = ntb_epf_send_command(ndev, CMD_SETUP_DMA_BAR, 0);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	chip->reg_base = ntb_epf_dw_edma_map_region(pdev, &edma->reg);
+> > +	if (IS_ERR(chip->reg_base))
+> > +		return PTR_ERR(chip->reg_base);
+> > +	for (i = 0; i < chip->ll_rd_cnt; i++) {
+> > +		chip->ll_region_rd[i].vaddr.io =
+> > +			ntb_epf_dw_edma_map_region(pdev, &edma->ll[i]);
+> > +		if (IS_ERR(chip->ll_region_rd[i].vaddr.io))
+> > +			return PTR_ERR(chip->ll_region_rd[i].vaddr.io);
+> > +	}
+> > +
+> > +	chip->dev = ndev->dev;
+> > +	chip->nr_irqs = ndev->dma.nr_irqs;
+> > +	chip->ops = &ntb_epf_dw_edma_ops;
+> > +	chip->flags = DW_EDMA_CHIP_PARTIAL;
+> > +
+> > +	return dw_edma_probe(chip);
+> > +}
+> > +
+> > +static void ntb_epf_dw_edma_deinit(struct ntb_epf_dev *ndev)
+> > +{
+> > +	dw_edma_remove(&ndev->dw_edma.chip);
+> > +}
+> > +
+> > +/* Common endpoint DMA */
+> > +
+> > +static int ntb_epf_dma_parse(struct ntb_epf_dev *ndev)
+> > +{
+> > +	u32 magic, rev_len, length, type;
+> > +	u32 spad_off;
+> > +	int ret;
+> > +
+> > +	/*
+> > +	 * Legacy endpoints place scratchpads where this extension would begin.
+> > +	 * Once the extension is present, malformed metadata is fatal.
+> > +	 */
+> > +	spad_off = readl(ndev->ctrl_reg + NTB_EPF_SPAD_OFFSET);
+> > +	if (spad_off < NTB_EPF_DMA_BASE + NTB_EPF_DMA_COMMON_SIZE)
+> > +		return 0;
+> > +
+> > +	magic = readl(ndev->ctrl_reg + NTB_EPF_DMA_MAGIC);
+> > +	if (!magic)
+> > +		return 0;
+> > +	if (magic == U32_MAX)
+> > +		return -EIO;
+> > +	if (magic != NTB_EPF_DMA_MAGIC_VALUE)
+> > +		return -EINVAL;
+> > +
+> > +	rev_len = readl(ndev->ctrl_reg + NTB_EPF_DMA_REV_LEN);
+> > +	length = upper_16_bits(rev_len);
+> > +	if (lower_16_bits(rev_len) != NTB_EPF_DMA_REVISION ||
+> > +	    length < NTB_EPF_DMA_COMMON_SIZE ||
+> > +	    spad_off < NTB_EPF_DMA_BASE + length)
+> > +		return -EINVAL;
+> > +	if (!ntb_epf_dma_region_parse(ndev, NTB_EPF_DMA_SUBMAP_BASE, true,
+> > +				      &ndev->dma.submap))
+> > +		return -EINVAL;
+> > +
+> > +	type = readl(ndev->ctrl_reg + NTB_EPF_DMA_TYPE);
+> > +	if (type == U32_MAX)
+> > +		return -EIO;
+> > +
+> > +	switch (type) {
+> > +	case NTB_EPF_DMA_TYPE_DW_EDMA:
+> > +		if (!IS_REACHABLE(CONFIG_DW_EDMA))
+> > +			break;
+> > +		ret = ntb_epf_dw_edma_parse(ndev, length);
+> > +		if (!ret)
+> > +			ndev->dma.type = type;
+> > +		return ret;
+> > +	default:
+> > +		break;
+> > +	}
+> > +
+> > +	dev_warn(ndev->dev,
+> > +		 "Endpoint DMA type %u unavailable, continuing without DMA\n",
+> > +		 type);
+> > +	return 0;
+> > +}
+> > +
+> > +static int ntb_epf_dma_init(struct ntb_epf_dev *ndev)
+> > +{
+> > +	switch (ndev->dma.type) {
+> > +	case NTB_EPF_DMA_TYPE_DW_EDMA:
+> > +		return ntb_epf_dw_edma_init(ndev);
+> > +	default:
+> > +		return 0;
+> > +	}
+> > +}
+> > +
+> > +static void ntb_epf_dma_deinit(struct ntb_epf_dev *ndev)
+> > +{
+> > +	switch (ndev->dma.type) {
+> > +	case NTB_EPF_DMA_TYPE_DW_EDMA:
+> > +		ntb_epf_dw_edma_deinit(ndev);
+> > +		break;
+> > +	}
+> > +}
+> > +
+> >  static int ntb_epf_mw_to_bar(struct ntb_epf_dev *ndev, int idx)
+> >  {
+> >  	struct device *dev = ndev->dev;
+> > @@ -174,6 +428,23 @@ static int ntb_epf_mw_to_bar(struct ntb_epf_dev *ndev, int idx)
+> >  	return ndev->barno_map[BAR_MW1 + idx];
+> >  }
+> >
+> > +static resource_size_t ntb_epf_mw_offset(struct ntb_epf_dev *ndev, int idx)
+> > +{
+> > +	return !idx ? readl(ndev->ctrl_reg + NTB_EPF_MW1_OFFSET) : 0;
+> > +}
+> > +
+> > +static resource_size_t ntb_epf_mw_size(struct ntb_epf_dev *ndev, int bar)
+> > +{
+> > +	resource_size_t end;
+> > +
+> > +	end = pci_resource_len(ndev->ntb.pdev, bar);
+> > +	/* The DMA submap offset marks the end of an MW sharing this BAR. */
+> > +	if (ndev->dma.submap.size && ndev->dma.submap.bar == bar)
+> > +		end = min(end, ndev->dma.submap.offset);
+> > +
+> > +	return end;
+> > +}
+> > +
+> >  static int ntb_epf_mw_count(struct ntb_dev *ntb, int pidx)
+> >  {
+> >  	struct ntb_epf_dev *ndev = ntb_ndev(ntb);
+> > @@ -212,7 +483,7 @@ static int ntb_epf_mw_get_align(struct ntb_dev *ntb, int pidx, int idx,
+> >  		*size_align = 1;
+> >
+> >  	if (size_max)
+> > -		*size_max = pci_resource_len(ndev->ntb.pdev, bar);
+> > +		*size_max = ntb_epf_mw_size(ndev, bar);
+> >
+> >  	return 0;
+> >  }
+> > @@ -373,16 +644,20 @@ static int ntb_epf_init_isr(struct ntb_epf_dev *ndev, int msi_min, int msi_max)
+> >  {
+> >  	struct pci_dev *pdev = ndev->ntb.pdev;
+> >  	struct device *dev = ndev->dev;
+> > +	unsigned int dma_max = ndev->dma.nr_irqs;
+> > +	unsigned int dma_min;
+> >  	u32 argument = MSIX_ENABLE;
+> > +	unsigned int ntb_irqs;
+> >  	int irq;
+> >  	int ret;
+> >  	int i;
+> >
+> > -	irq = pci_alloc_irq_vectors(pdev, msi_min, msi_max, PCI_IRQ_MSIX);
+> > +	irq = pci_alloc_irq_vectors(pdev, msi_min,
+> > +				    msi_max + dma_max, PCI_IRQ_MSIX);
+> >  	if (irq < 0) {
+> >  		dev_dbg(dev, "Failed to get MSIX interrupts\n");
+> > -		irq = pci_alloc_irq_vectors(pdev, msi_min, msi_max,
+> > -					    PCI_IRQ_MSI);
+> > +		irq = pci_alloc_irq_vectors(pdev, msi_min,
+> > +					    msi_max + dma_max, PCI_IRQ_MSI);
+> >  		if (irq < 0) {
+> >  			dev_err(dev, "Failed to get MSI interrupts\n");
+> >  			return irq;
+> > @@ -390,8 +665,17 @@ static int ntb_epf_init_isr(struct ntb_epf_dev *ndev, int msi_min, int msi_max)
+> >  		argument &= ~MSIX_ENABLE;
+> >  	}
+> >
+> > -	ndev->db_count = irq - 1;
+> > -	for (i = 0; i < irq; i++) {
+> > +	dma_min = dma_max && irq > msi_min;
+> > +	/* Reserve one shared DMA IRQ when available, then give the rest to NTB. */
+> > +	ntb_irqs = min_t(unsigned int, irq - dma_min, msi_max);
+> > +	ndev->dma.nr_irqs = irq - ntb_irqs;
+> > +	if (dma_max && !ndev->dma.nr_irqs) {
+> > +		dev_warn(dev,
+> > +			 "No IRQ available for endpoint DMA, continuing without DMA\n");
+> > +		ndev->dma.type = 0;
+> > +	}
+> > +	ndev->db_count = ntb_irqs - 1;
+> > +	for (i = 0; i < ntb_irqs; i++) {
+> >  		ndev->irq_ctx[i].ndev = ndev;
+> >  		ndev->irq_ctx[i].irq_no = i;
+> >  		ret = request_irq(pci_irq_vector(pdev, i), ntb_epf_vec_isr,
+> > @@ -403,7 +687,7 @@ static int ntb_epf_init_isr(struct ntb_epf_dev *ndev, int msi_min, int msi_max)
+> >  	}
+> >
+> >  	ret = ntb_epf_send_command(ndev, CMD_CONFIGURE_DOORBELL,
+> > -				   argument | irq);
+> > +				   argument | ntb_irqs);
+> >  	if (ret) {
+> >  		dev_err(dev, "Failed to configure doorbell\n");
+> >  		goto err_free_irq;
+> > @@ -486,7 +770,7 @@ static int ntb_epf_mw_set_trans(struct ntb_dev *ntb, int pidx, int idx,
+> >  	if (bar < 0)
+> >  		return bar;
+> >
+> > -	mw_size = pci_resource_len(ntb->pdev, bar);
+> > +	mw_size = ntb_epf_mw_size(ndev, bar);
+> >
+> >  	if (size > mw_size) {
+> >  		dev_err(dev, "Size:%pa is greater than the MW size %pa\n",
+> > @@ -520,21 +804,20 @@ static int ntb_epf_peer_mw_get_addr(struct ntb_dev *ntb, int idx,
+> >  				    phys_addr_t *base, resource_size_t *size)
+> >  {
+> >  	struct ntb_epf_dev *ndev = ntb_ndev(ntb);
+> > -	u32 offset = 0;
+> > +	resource_size_t offset;
+> >  	int bar;
+> >
+> > -	if (idx == 0)
+> > -		offset = readl(ndev->ctrl_reg + NTB_EPF_MW1_OFFSET);
+> > -
+> >  	bar = ntb_epf_mw_to_bar(ndev, idx);
+> >  	if (bar < 0)
+> >  		return bar;
+> >
+> > +	offset = ntb_epf_mw_offset(ndev, idx);
+> > +
+> >  	if (base)
+> >  		*base = pci_resource_start(ndev->ntb.pdev, bar) + offset;
+> >
+> >  	if (size)
+> > -		*size = pci_resource_len(ndev->ntb.pdev, bar) - offset;
+> > +		*size = ntb_epf_mw_size(ndev, bar) - offset;
+> >
+> >  	return 0;
+> >  }
+> > @@ -630,12 +913,30 @@ static int ntb_epf_init_dev(struct ntb_epf_dev *ndev)
+> >  {
+> >  	struct device *dev = ndev->dev;
+> >  	int ret;
+> > +	int i;
+> >
+> >  	ndev->mw_count = readl(ndev->ctrl_reg + NTB_EPF_MW_COUNT);
+> >  	if (ndev->mw_count > NTB_EPF_MAX_MW_COUNT) {
+> >  		dev_err(dev, "Unsupported MW count: %u\n", ndev->mw_count);
+> >  		return -EINVAL;
+> >  	}
+> > +	ret = ntb_epf_dma_parse(ndev);
+> > +	if (ret) {
+> > +		dev_err(dev, "Invalid endpoint DMA layout\n");
+> > +		return ret;
+> > +	}
+> > +	if (ndev->dma.submap.size) {
+> > +		for (i = 0; i < ndev->mw_count; i++) {
+> > +			int bar = ntb_epf_mw_to_bar(ndev, i);
+> > +
+> > +			if (bar == ndev->dma.submap.bar &&
+> > +			    ntb_epf_mw_size(ndev, bar) <=
+> > +			    ntb_epf_mw_offset(ndev, i)) {
+> > +				dev_err(dev, "Invalid DMA/MW boundary\n");
+> > +				return -EINVAL;
+> > +			}
+> > +		}
+> > +	}
+> >
+> >  	/* One Link interrupt and rest doorbell interrupt */
+> >  	ret = ntb_epf_init_isr(ndev, NTB_EPF_MIN_DB_COUNT + 1,
+> > @@ -785,6 +1086,12 @@ static int ntb_epf_pci_probe(struct pci_dev *pdev,
+> >  		goto err_init_dev;
+> >  	}
+> >
+> > +	ret = ntb_epf_dma_init(ndev);
+> > +	if (ret) {
+> > +		dev_err(dev, "Failed to initialize endpoint DMA\n");
+> > +		goto err_dma_init;
+> > +	}
+> > +
+> >  	ret = ntb_register_device(&ndev->ntb);
+> >  	if (ret) {
+> >  		dev_err(dev, "Failed to register NTB device\n");
+> > @@ -794,6 +1101,8 @@ static int ntb_epf_pci_probe(struct pci_dev *pdev,
+> >  	return 0;
+> >
+> >  err_register_dev:
+> > +	ntb_epf_dma_deinit(ndev);
+> > +err_dma_init:
+> >  	ntb_epf_cleanup_isr(ndev);
+> >
+> >  err_init_dev:
+> > @@ -807,6 +1116,7 @@ static void ntb_epf_pci_remove(struct pci_dev *pdev)
+> >  	struct ntb_epf_dev *ndev = pci_get_drvdata(pdev);
+> >
+> >  	ntb_unregister_device(&ndev->ntb);
+> > +	ntb_epf_dma_deinit(ndev);
+> >  	ntb_epf_cleanup_isr(ndev);
+> >  	ntb_epf_deinit_pci(ndev);
+> >  }
+> > --
+> > 2.51.0
+> >
