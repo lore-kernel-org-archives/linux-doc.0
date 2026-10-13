@@ -1,57 +1,48 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBD749C4CC
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 12:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C7C4F68AD;
+	Tue, 13 Oct 2026 12:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791894522; cv=none; b=rR5w68ZAsBlQtMuZBN4OfP7Y+oVrKg8/b9sYyWPin7fLd4HpUkxICLOPTxX8+WSx1iRF2Vr6whrlwuvViV6wNQwELmDk93Cy+JywfZigIFsMvToPzsICYXerN98DtZg5gYi//NSA2tFJXTwF8aiTY3XnYt/uYUb3xKAPA4+pxEk=
+	t=1791894583; cv=none; b=npBVc3Ic7XmPZn2rM+0JFGPXVmTVJUmh503CQgnTR2ggUjUwOF5KidgDZKJ7MDMKRVFU3Nu5Rzl+LuOMMTXzexLYCoAO8jBTFgL0ySETYGqZ+Ak/YNZIpbmnvnYxIVEeffgaKxoyvuYy0+fdaE1sPQgSS4dW19DSSTqJ9G/Shdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791894522; c=relaxed/simple;
-	bh=JWf/7Ql3mg0wK7JVxD5fr/uHoFulazGk9KeOtknc5u4=;
+	s=arc-20240116; t=1791894583; c=relaxed/simple;
+	bh=Ks+ivWbh/7ENNKIaKS1rSGhKIOGZmaBTGcBcgYGw8mg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KxVDVAcIGyCSnQWUaavo0QNHdH8i7/8V1aVEX7PGqinspYHJ3JUkp1cVuG8aliTQIFkYwK0W7nBOC720yER4rVzs4z+Fxxf/EkixWrCZeqqjggF6p7eW7Z2XfrEeicJvNC0yZFzQm/OmuzlsKFsfARplb8tRc4FwLOj+P8xlza0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=uAhTfQ/K; arc=none smtp.client-ip=195.121.94.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qx092JwN52KnmXuGjQnzVwMa/CTjxNAuxiCACP/sy8Ti7AqcGS1pE5RZCDwwVzRzeSJJMA8Y6tVbLX2JOQDJGZ+2sJSKrJ/EoOR8cVN0VDRwKSf++tkqQPaCVOrphB16Jra0BVzIYR6C9ieEPj4nPlRtMvUttcAR28SZty4A4N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=D+ZwY1IO; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="uAhTfQ/K"
-X-KPN-MessageId: 7291b9eb-c701-11f1-a05e-005056abad63
-Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 7291b9eb-c701-11f1-a05e-005056abad63;
-	Tue, 13 Oct 2026 14:27:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:mime-version:message-id:subject:to:from:date;
-	bh=8xiPlt+dR34GNav402HcEF7QzICIXRbp/lrL5V9cJBA=;
-	b=uAhTfQ/KQ+zQbWjxCZV5Z+xBM0Xf0/owr1qRg2QdaOLjhyiEf0eJh+A5vqq2E6zUh+Gd7p4Cv2Mir
-	 Qx6E8TdHj1v9aOLMkQQuPT3sPB6d4LBxuslBQxuGtDNmnfhweXqPNFMoRYUZZaXzn1m9IrhFaG+ju8
-	 QoN7JyrYd8sXqwd0PDJLDXmaCtEpXfN5VxUPoKNb1b+FdyhlnuxNDLutXzqHnXPHNWijl/PAr7AkuK
-	 qt/Tw6SEPzqXBjprwZpnUFxGRTwg2N4Lo8ryFVQlIV2RFJmngw9a0MGOChRcNP+QADAdr0uibfQ+vw
-	 MQRtlX6YZlt5e1zNdpOCkiRY+iDyDHA==
-X-KPN-MID: 33|WhPSMgOYBNFpKbw6Mp+oTrHSoBniEy/7wiow5c4bm6YfptCFeSCtcnSfLWXj8Mh
- xyAFriXTzAmVJ/KjHVjny9n0FZG67eL/aT3zgwEeiZmU=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|JrogimTguernWkVNqpz7//pL7JtfgEQHZ0bj4mlN8QZVDLTZx9l1eRxLyCGb0ud
- dpjBhLrQVcu07a0pPa8bcuw==
-Received: from localhost (unknown [178.227.247.3])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 7262184a-c701-11f1-86d1-005056ab7584;
-	Tue, 13 Oct 2026 14:27:25 +0200 (CEST)
-Date: Tue, 13 Oct 2026 14:28:43 +0200
-From: Jori Koolstra <jkoolstra@xs4all.nl>
-To: Kees Cook <kees@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Sasha Levin <sashal@kernel.org>, 
-	corbet@lwn.net, skhan@linuxfoundation.org, federico.vaga@vaga.pv.it, 
-	apw@canonical.com, joe@perches.com, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: remove Assisted-by reference
-Message-ID: <as4gLo_6acb_zZu0@daedalus>
-References: <20261009083137.3-1-sashal@kernel.org>
- <202610122124.08E058768D@keescook>
- <ea3ff257-70e2-43e4-aba7-140e84994872@infradead.org>
- <202610130120.E43D236E@keescook>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="D+ZwY1IO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=8Ky6lT0aoZuMFsCpOe/FKT6ESRdNQBRkx3K4a3TZD5k=; b=D+ZwY1IO0GwIvxJpnHzHyIyfeT
+	CTnkDZgD4mmbWGyfEEG0PCjF3Vu5aqsqCSmdxntgh8Ogh10ok8tZNbLTxgsoI/RZuTYobtgZH4drb
+	zz3KDmYVCHjQYEjvi5CqwcmcUWaKbOZqN6aWOimnpqtsCkZBD1e1100A2y24AKgn8vO0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xGbdF-00AWWT-9F; Tue, 13 Oct 2026 14:29:25 +0200
+Date: Tue, 13 Oct 2026 14:29:25 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: netdev-bot+sashiko@kernel.org, kuba@kernel.org, davem@davemloft.net,
+	edumazet@google.com, pabeni@redhat.com, horms@kernel.org,
+	linux@armlinux.org.uk, hkallweit1@gmail.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, o.rempel@pengutronix.de,
+	vladimir.oltean@nxp.com, f.fainelli@gmail.com,
+	thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/3] selftests: drv-net: Introduce a selftest
+ for ethtool flow control
+Message-ID: <60fb2177-a08b-4c98-8242-3fa425c48d65@lunn.ch>
+References: <20260925182628.214667-2-maxime.chevallier@bootlin.com>
+ <179065239849.434549.14198730559380952270@kernel.org>
+ <f06aba7f-0e5f-4c9e-b53a-b5b817b3e6c6@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,64 +51,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202610130120.E43D236E@keescook>
+In-Reply-To: <f06aba7f-0e5f-4c9e-b53a-b5b817b3e6c6@bootlin.com>
 
-On Tue, Oct 13, 2026 at 01:25:59AM -0700, Kees Cook wrote:
-> On Mon, Oct 12, 2026 at 10:56:59PM -0700, Randy Dunlap wrote:
-> > On 10/12/26 9:24 PM, Kees Cook wrote:
-> > > On Fri, Oct 09, 2026 at 04:31:37AM -0400, Sasha Levin wrote:
-> > >> The Maintainers Summit reached consensus to deprecate the Assisted-by
-> > >> tag. Remove the documentation requiring it.
-> > >>
-> > >> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > > 
-> > > Yup, it has become as redundant as specifying what editor I use. ;)
-> > > 
-> > > Reviewed-by: Kees Cook <kees@kernel.org>
+> > [Severity: Medium]
+> > The defer queue is LIFO (ksft_flush_defer() pops from the end), so at
+> > teardown the link restore runs first. The pause restore follows right
+> > after it, with no wait for autoneg to complete.
 > > 
-> > and for those of us who don't know details about the discussion,
-> > how is it redundant?
-> 
-> No, I mean I use an LLM constantly for almost all aspects of my
-> development work, in multiple dimensions, so if the old tag requirement
-> held, my email body template would just put "Assisted-by: LLM" in there
-> because at the very least, it drove the build and test stage. It was
-> redundant in the sense of "yeah, of course I used an LLM at some point
-> for this patch". ("This tag means nothing *from* me")
-> 
-> > Do you assume that everyone now uses it (LLM), just as everyone
-> > uses an editor?
-> 
-> I don't make that assumption, but I always held the position that the
-> tag was meaningless because it's the human wielding it that matters:
-> they either sent a good patch or a bad patch, and if it was mangled by
-> gmail or an LLM, it doesn't really matter. ("This tag means nothing *to*
-> me")
+> > Can the pause restore be refused in that window? i40e ties pause autoneg
+> > to the link autoneg state:
+> That's a i40e driver issue :) The tests aren't build around the HW behaviour.
 
-I think the tag did have a genuine purpose for a while. Now we have just
-decided to implicitly attach it to every new submitter (because
-basically that is the case.) The point was that a patch that was
-obviously LLM generated could be rejected for not carrying the tag, and
-a patch that carried the tag could be asked to explain further (if they
-had not done so.) Or at least, that is how I felt and have understood
-Greg, for instance :)
+Seems like the AI has not understood this is a test to find such
+issues :-(
 
-Essentially, the way I read it, is that Linus said we don't need this
-roundabout way because we can just reject effortless LLM generated
-patches outright. This is good and an improvement.
-
-What do you think about requiring people to explain how they used an LLM
-for code generation? I don't care if someone uses it for review, or
-brainstorming, or whatever, and I have never understood the tag to be
-required for that. But if the code is LLM generated, it would be nice to
-know for instance what prompts you used. We should have some way to not
-devolve into the maze that Jonathan Corbet has sketched, where no one
-really knows what's going on.
-
-Best,
-Jori.
-
+> > [Severity: Low]
+> > This isn't a bug, but expect_pauseparams_set() also accepts EINVAL for
+> > unsupported combinations:
+> > 
+> >     ksft_in(ret, (errno.EOPNOTSUPP, errno.EINVAL), note)
+> > 
+> > phylink_ethtool_set_pauseparam() also returns -EINVAL for rx != tx when
+> > Asym_Pause is not supported. Should the docstring mention EINVAL too?
 > 
-> -Kees
+> Docstrings are gonna be shrunk down as pylint says the file's too big... I'll
+> update.
+
+Please do consider the alternatives if the documentations is useful
+for those trying to understand why a test has failed.
+
+# pylint: disable=too-many-lines
+
+> > Several drivers fail at least one of the four link autoneg / pause autoneg
+> > combinations:
+> > 
+> >   bnxt_set_pauseparam() returns -EINVAL for pause autoneg without
+> >   BNXT_AUTONEG_SPEED, which is what the uAPI describes.
+> > 
+> >   mlx5e_ethtool_set_pauseparam() returns -EINVAL for any pause autoneg
+> >   request.
+> > 
+> >   ixgbe_set_pauseparam() returns -EINVAL when
+> >   !ixgbe_device_supports_autoneg_fc().
+> > 
+> >   i40e_set_pauseparam() returns -EOPNOTSUPP whenever pause->autoneg !=
+> >   is_an. That already fails the link autoneg on / pause autoneg off step.
 > 
-> -- Kees Cook
+> That's why we write those tests
+
+:-)
+
+I wounder if saying in the commit message that this test is to find
+drivers who pause implementation is wrong will help get the AI into
+the 'right mind' about what it is reviewing'.
+
+> > [Severity: Medium]
+> > What happens when set_local_pauseparams() fails with something other than
+> > EOPNOTSUPP?
+> > 
+> > The docstrings of set_local_pauseparams() and get_local_pauseparams() say
+> > "Raise an error if the return is not 0 or EOPNOTSUPP". Neither function
+> > raises. Both just return the result of ethtool_ret(), which uses
+> > cmd(..., fail=False).
+> > 
+> > Here, an EINVAL, an EBUSY, or ethtool's raw exit code 1 is silently dropped,
+> > and ret is overwritten by wait_for_aneg(). The advertising checks then run
+> > against whatever state was there before, because pause_setup() does not
+> > put the pause params into a known state.
+> 
+> Ok will address
+
+EBUSY is an odd error code for these use cases. I would probably say
+that is a test fail. It at least needs investigating why it happens.
+
+	Andrew
