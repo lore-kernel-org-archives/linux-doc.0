@@ -1,263 +1,217 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BD14F648C
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 12:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791892861; cv=pass; b=EgUwFy3+tXSnz6UD/U0RuGAGyODit2oYIvBtelP/8nobCgBrwtrWd8Q6+bY7DBsu+WPzHYI3TUH9ouXEsJsIIukguZmQdX/xo1HlZjQSH3VdOo2HEwQCWjP/2SUnreTPiFWIvI30FGoAX72TeGxPGHdeDuwmIlQrBt9EbqYN9Rs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791892861; c=relaxed/simple;
-	bh=1slJAwzl2cxbNdWY1OKZEBi3uDMxGGoR+9c+sI89apc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VKI3xBya9fqBG1vgFngQ5hU34Q3YE4wKYh/caxcecG9LilO4aL3Aj9IhWm4cmWPcI80GgQIMbPIB3wRU2iZ/gMPfEMmx0NMvqyyadZBDixLhzILnpF22k/JYVECpbXiNLCdAMtexGFeKEejKjX/bCNyeRCHWka9wXtDHx0pF1CY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BCPyeYlM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ff0WNXEp; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD144F55C6
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 12:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791893603; cv=none; b=hsuKQvUCUGicAsJM3oUp2LUDLVdoD+rYttfHrqbT3KvuHfzwhYPQP1ojzkFGtUUi+Z6UfZXRTbALiKeWoRarvgBpXUcp9asaoB8hgs+DWAvUs7pS/4uhyQo6MTvwtYVD2IbIgScPevMUMhafC+oAKLi98SowQ1onmb/M+QoL2Yw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791893603; c=relaxed/simple;
+	bh=GmewS9MX/pMt0TQtYhdFbnW64zOueYVprrsOA812m8Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Lz0o0vyD94hH88lCcvrhkg+HLM/iEl2kMMshSUK1AvPGW11JvROyaZdNbOIbaomiXmUqGZ1KuM5+R/Tz79jdZUpvtagoaTFdV9Zlbh4sgkuoifaUV5owoeSnoBfVpPg1lGSPm83okAJ4OKS5KUu/aHhoZcxZkcBpxSkD7oeW2zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=e4mdUKVv; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BCPyeYlM";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ff0WNXEp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791892858;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MTh6w3t1LI7cFHlFOA6EXonuQhJfRF96d/zfPpAsgQU=;
-	b=BCPyeYlMDjOdJ4AKan2uS7TgpZu0Rl8EUHX2kU0zhIlN2DC4p2Hv24QTm1yQykkWR08qmI
-	LwRi/wgkwthCiemvaBeL9GSC4EyqZXsmBC7TDvvK696SjKQRLd4TDAnqdT3M4m9Uy1NfYF
-	hQdlsIVE2xAUu2KY7owhI033KDb2q00=
-Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
- [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-i4OWdHxZO5-z7gPjcf7Bpg-1; Tue, 13 Oct 2026 12:00:57 +0000
-X-MC-Unique: i4OWdHxZO5-z7gPjcf7Bpg-1
-X-Mimecast-MFC-AGG-ID: i4OWdHxZO5-z7gPjcf7Bpg_1791892856
-Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-6768c955661so3102814d50.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 05:00:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791892856; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PyzvW61SvH0c+I0yaiqVctZEMQCvQ8f5ueloCbhr1LyW3oZVFoHY/wc3vuBI22Faz/
-         pD8ZalnlM6vQQfdvt+v0J83ZH+YtlORpuGRj5ZlwJTAqeZbuMCEY9ZqOpV/A9OAQfjrf
-         RrxDTIGhlrqhR4qEGu/LZC2yurSdHvYmLbdeE22wagohwBxd+2cWDQ9gTYZ25HChQCGN
-         gvNzPGAsOnth5CVCD1XoT0vVYAYb2NjkEFnh93rcIVobFdZ6xh7rZ+SMyYej0cgfV1tE
-         kDl6Hq1qhGZaV40xWePgP+CMjLx115taYs08zyTnxlIEbfXo387IVYD2HNG4RsdsAkpQ
-         DuGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MTh6w3t1LI7cFHlFOA6EXonuQhJfRF96d/zfPpAsgQU=;
-        fh=5oFU8noYzBeT0kuOcEk/VFsngwe/FlCkdKI1mHsDyFA=;
-        b=XvXh1YfETwagr+/rGSjcS62WubCr6aI983pj5y4xWn+ElsMYsUuyaV+ilRg9AJEiCt
-         BIq/qcttm+FXyAPT0ocnEy9kQB5Hm62SF/ZxNsQDVGOCOuVrUY7dqnt7bwZkabo/Eu1k
-         3kYkzyA2JAdZc+51GdyEg+yeNwdzYxGu3o1ga1nLk/r1hSZ2f8Uz6JKKFvBBB3x2q+AD
-         2ijqXYuzuOTlQwCQYZiYJtdgk6lPtWBJD2fjSO0kaU2IAMAQiwqayKXk++HaFKbvRXSE
-         xIg4KAmBBmEdO/5NtwETXS2Kf+BZ+ScaTWC8xh2CwrZKCQYzxG0A6QTBdVI0jksTxiTY
-         Rwew==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="e4mdUKVv"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48b0ef9c76eso2317456f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 05:13:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1791892856; x=1792497656; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MTh6w3t1LI7cFHlFOA6EXonuQhJfRF96d/zfPpAsgQU=;
-        b=ff0WNXEpLUUdbEw2A+H6oD/iacV7IFB37i8BAUez0ZKelpi7n1JpuRMJEKN5epdppR
-         tzfYXzlfzQAdJQAYl6QGlJTrEVrJKuGzrslsyexkzJbqojp7GMvYU18X7oihEQ5FUq1e
-         30bytxjL9JIpNfaSEQbciHtG4eS+Dp+jVDG+hbkNKYTJfaoJvyvkdm5sutJ4qmrIja6D
-         3/9RzACw/FFp5IvYvWsCmjJdn9oDIDXINLXXO9/flHQqsgjisihy3biFUi/dWd98Vx2O
-         ZoxGa2/WRZ1PhWcWSfxbOY0uMDDMiUfqs2rqcrUsMXVhA8QYV2ObSvnJH4Es1K0LcUbx
-         IgkA==
+        d=suse.com; s=google; t=1791893600; x=1792498400; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=edUU9Hn3hyFtM1ngJWHa9pnhQIwExXlb5OPfjcFEs1c=;
+        b=e4mdUKVvX2QFZFAqZhyS3XKWTDGe5WE/vFc9b8SavFE6tFHsNpAMveofzH8UIR7X6W
+         BUQhPA2FVNP/q7kIY04R3J3S+YgzWfbdD+5GHDag8pGQ92byF9roQhOM38qHvri3NPNm
+         5AWBqxNNVhTLNX4r/hJtnA4OuoV90f2yFjInaMMXjTvg0hyJ+MBF+xoeWyXXhyqh4MW0
+         RutMB6IiwwjaZHWbUOi/fjrCFsBfwlTcMkHdlfBHnEPrPocoW+CuehAmVuPZ9oXJ+N7X
+         NdrHeBqQMG5rW+2FP92Oek8Smiu7aLM7AGhIXuDUNIaRS9Jlk4idLSh8aelDhfHD5fLh
+         188A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791892856; x=1792497656;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MTh6w3t1LI7cFHlFOA6EXonuQhJfRF96d/zfPpAsgQU=;
-        b=vnweU9Je0aJEK8231FdgI7Yg0DJOnJoAHeVRiGif0f04dr888UCGgVffH7m3jfp7PB
-         Nr9WFWtsExP6Ik+kmG1LjXd13ulUXkxr5nHduZnN78PyUbL2HoS2w8xjCAxWNP5PIUHu
-         YPfUu/+uidQZvs/KHv9z00OJ1K23uHfRaZWkyjTH+UESWsDjzEGfJudJMv6A5GjTJKaF
-         PJizDdyPWkiohYWldZG+tke9nRDqCTF6bRYRYYdXPZ4XZrrulSoAVyzz39I6oweAweWF
-         GjZSzselX0j9Mw1NLPj6S1HnNd/nblwEgyyEQpTwGvxmo1ZtFE4b0fCVojzDUZSdbHfJ
-         1X8w==
-X-Forwarded-Encrypted: i=1; AKwUvBwN6U++ehb6sry+yz3oDF08yJcHkI6L2caicPQtsm1DB4uv+RfGir7fEO+gVFkeurpE8Fexd6300o0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKVCZMRcPmoUge+glOFDA/4AP4UAoiSrFv3oRJQnYbf+k4ubdvl
-	iQmWhZbEy0VUmtZjsg/aQa7hDXULS1XUMhjk/at+f80urJbQc8GW/uiYrkHnVPVX3eadZeEWgbF
-	xKgR9NEt648/9f49ccdSKfscFMmiu11E7uRRkrwvncvDr9QfFYI0o3AoY9SzyPCIzkpE5gnHm5D
-	pNpIO8kX5NLmQjbdPOOtuEdd97emB3tE5BTFlfZ2WdC8a8
-X-Gm-Gg: AYBFou0Uqs5GpwxVuEEgYqJCeEMpgwDRp9qXDznlWxCIl0K7U8Wv9C6QK7HVHYmI3Vj
-	R4wAeRJA4KDPQpNHq5r2S7UKt90BSBFSAzM5jttZBpA2lqxtxWDDV2aBMe3CBCdOhH4npiyYi4t
-	NSEysm0RichrZcFPacmpC8FqbY6sJUD8Ey4jokLET/k1dGuUXGxKMz1A==
-X-Received: by 2002:a05:690e:13cb:b0:677:d4b0:47fd with SMTP id 956f58d0204a3-67936270e69mr5009421d50.23.1791892855796;
-        Tue, 13 Oct 2026 05:00:55 -0700 (PDT)
-X-Received: by 2002:a05:690e:13cb:b0:677:d4b0:47fd with SMTP id
- 956f58d0204a3-67936270e69mr5009396d50.23.1791892855071; Tue, 13 Oct 2026
- 05:00:55 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791893600; x=1792498400;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=edUU9Hn3hyFtM1ngJWHa9pnhQIwExXlb5OPfjcFEs1c=;
+        b=yS/5brYFPPm1k8bbNN7CTToB1s06H7KxHnkI66rB3p+D32reX7YB2eWIswtgn6AzI4
+         Ie2j79t2zSQGvgcz0p9yAyZQIClGS52GpLAcHZext04ml08djGPoM95X/7rZniYoy8tj
+         Zukks+bzN89DjBIior5eXTOjPee57M3mEseN5mJWrV2V+UZpzJ3CyR1nU+gFvFSaf2sv
+         AhtlGFn18FrW+hQbFr5h6yjXwsozSvgmAKo8zyH3c4fRpCJMR6x7FLN/U9IKAbEtuxt4
+         jL070kl69U+ZOH4EvAA2SkcxDnMyhJQKjSDk2ROn94oO3UfTQH3zAL3DK1laBJXY5AGS
+         s3dQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxDOuWPfPa0+9g+U6V8AD1UmR3gHR89ku5Dj5QYH1WYvaS/wPVkChBadOFobXHcITvDyoUu1yett2E=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKzhP4LeF7NvI1E13Oob0KeI/LZy5xnNhVdIPIFyEar0xjtBeDq
+	FNB2z/djD7vCOmxUt0VY9JAsYc35Udj/0NHjQV5QmdICUhMoxJd/5vsLwvJt3ErleRo=
+X-Gm-Gg: AYBFou1zmzOp7LbJ8Qbxu/QaYztnwAvDeGr+okBwQ1E/Q2nGM245eXRq2dYLteaUPSD
+	lMKp8Ih8/IAQBTuNE0uUzEmTPsJZjro0dL9k/aSsyJ79jlVfeBCU4yPfG/pallPacBrI7hDWBop
+	egry1Jg0ItucFgOPxUkcwh4RYcbOVFLAZjlUEuBLxQ0nvGosWdqSMzjpzFPCEM4bYd36pgQwv1C
+	BsLdnFyJal/SXjBzcxUDdjTwW8NsWvTb8bd/HTOFKbyzFkWF++Pct7GFFuBJEoLez69tCONnMa1
+	TTbC+20fD3TPFV3c61LZHTA/v32XnsUtH5ZL/ht2/dsZbJv08h7jBYJ3iSKg2twsx2ltQQXUDVy
+	/OXvOAPVQfGa4V3TGyX3BWs7qOsZDnHj/69sagD7dzf6NKXoYTntZQZDQ8+CfPKGItIfn5gucG6
+	2gunlWDPZRdWdGzkINjyWgYco6wXUTNZYnyFmk+GzEyjTIAhzfdR7zmdss57BZ5FlDWyOAxaOXx
+	NQ30WSs/bujUsCwfbsegiE=
+X-Received: by 2002:a05:6000:491c:b0:488:8751:e78e with SMTP id ffacd0b85a97d-48dba9bdd09mr25645157f8f.16.1791893599634;
+        Tue, 13 Oct 2026 05:13:19 -0700 (PDT)
+Received: from [192.168.0.20] (nborisov.ddns.nbis.net. [185.218.66.243])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ab5991sm5087349f8f.29.2026.10.13.05.13.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 05:13:19 -0700 (PDT)
+Message-ID: <69fb13b5-857c-4819-bc8a-b87d1e7a1e28@suse.com>
+Date: Tue, 13 Oct 2026 15:13:17 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261013-visibility-unification-v2-0-3ce8d458bddf@redhat.com>
-In-Reply-To: <20261013-visibility-unification-v2-0-3ce8d458bddf@redhat.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Tue, 13 Oct 2026 14:00:44 +0200
-X-Gm-Features: AclHuK_UoITZRIQAG7eVGfp71MDQ0WSmjY7r-ItFN0NvYj_P9B_KTR-tMkVwVj0
-Message-ID: <CADSE00JuXFx3vBiUty1A69K8ONuL2DMjCREGmDsW4MxobemVtA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] drm/amd/display: use kunit/visibility.h for test helpers
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Maxime Ripard <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/2] x86/tdx: Use TDVMCALLs directly for earlyprintk
+To: Vishal Verma <vishal.l.verma@intel.com>, x86@kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>, Kiryl Shutsemau <kas@kernel.org>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20261005-b4-tdx_earlyprintk_tdcalls-v4-0-3f7c56dd568a@intel.com>
+From: Nikolay Borisov <nik.borisov@suse.com>
+Content-Language: en-US
+Autocrypt: addr=nik.borisov@suse.com; keydata=
+ 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
+In-Reply-To: <20261005-b4-tdx_earlyprintk_tdcalls-v4-0-3f7c56dd568a@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 13, 2026 at 1:58=E2=80=AFPM Albert Esteve <aesteve@redhat.com> =
-wrote:
->
-> amdgpu_dm grew its own STATIC_IFN_KUNIT / EXPORT_IF_KUNIT /
-> INLINE_IFN_KUNIT macros instead of using kunit/visibility.h. This
-> series switches the KUnit helpers over to the common API.
->
-> VISIBLE_IF_KUNIT is gated on CONFIG_KUNIT rather than
-> CONFIG_DRM_AMD_DC_KUNIT_TEST, so the helpers are non-static whenever
-> KUnit is enabled. EXPORT_SYMBOL_IF_KUNIT places the symbols in the
-> EXPORTED_FOR_KUNIT_TESTING namespace; the AMD DC test files import
-> that namespace with MODULE_IMPORT_NS().
->
-> INLINE_IFN_KUNIT is dropped rather than generalized. It was only used
-> on amdgpu_dm_fixpt_from_s3132(), inverted the original static inline,
-> and is unnecessary for tests in another translation unit.
->
-> Previous version failed with specific configuration combination
-> (KUNIT=3Dy, DRM_AMD_DC_KUNIT_TEST=3Dn). Fixed by changing header
-> declaration guards from CONFIG_DRM_AMD_DC_KUNIT_TEST to
-> CONFIG_KUNIT to match VISIBLE_IF_KUNIT.
->
-> Tested with:
->     # Full test run (KUNIT=3Dy, DRM_AMD_DC_KUNIT_TEST=3Dy):
->     ./tools/testing/kunit/kunit.py run --arch=3Dx86_64 \
->       --kunitconfig=3Ddrivers/gpu/drm/amd/display/amdgpu_dm/tests \
->       --kconfig_add CONFIG_GCOV=3Dn
->
->     # Build-only, tests disabled (KUNIT=3Dy, DRM_AMD_DC_KUNIT_TEST=3Dn):
->     ./tools/testing/kunit/kunit.py build --arch=3Dx86_64 \
->       --kconfig_add CONFIG_KUNIT=3Dy \
->       --kconfig_add CONFIG_PCI=3Dy \
->       --kconfig_add CONFIG_DRM=3Dy \
->       --kconfig_add CONFIG_DRM_AMDGPU=3Dy \
->       --kconfig_add CONFIG_DRM_AMD_DC=3Dy \
->       --kconfig_add CONFIG_WERROR=3Dy
->
-> (CONFIG_GCOV omitted; it is not available on x86_64.)
->
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
 
-I have accidentally dropped all Acked-by trailers from Maxime from the
-previous version :(
 
->
-> Signed-off-by: Albert Esteve <aesteve@redhat.com>
+On 6.10.26 г. 1:50 ч., Vishal Verma wrote:
+> Background
+> ==========
+> 
+> TDX guests have early_printk support, but it is through a roundabout way
+> using a #VE exception as a functional mechanism. The exception handler
+> has to use TDG.VP.VEINFO.GET to find out what faulted, and then issue
+> the TDVMCALL. Simplify this by using a TDVMCALL from the guest which can
+> directly perform the port I/O.
+> 
+> Patch details
+> =============
+> 
+> Patch 1 is a cleanup that moves the port I/O direction constants to
+> arch/x86/include/asm/shared/tdx.h.
+> 
+> Patch 2: Add a new earlyprintk=tdx option, which calls the new
+> tdx_serial_in() / tdx_serial_out() helpers to perform the port I/O
+> directly using TDVMCALLs.
+> 
+> The serial earlyprintk path is left as is - TD guests using this will
+> still take a #VE exception, and the exception handler will perform the
+> I/O.
+> 
+> Testing
+> =======
+> 
+> Added a counter for the number of COM1 port I/O #VEs handled:
+> 
+>    no earlyprintk     -  ~63000
+>    earlyprintk=ttyS0  -  ~61000
+>    earlyprintk=tdx    -  ~35000
+> 
+> The new tdx option nearly halves the number of #VEs handled.
+> 
+> Additionally, ran the usual suite of CI testing, which covers KVM self
+> tests, KVM unit tests, and Avocado KVM tests without any regressions.
+> 
+> Signed-off-by: Vishal Verma <vishal.l.verma@intel.com>
 > ---
+> Changes in v4:
+> - Rename the tdx_inb()/tdx_outb() helpers directly to the serial
+>    accessors with __noendbr annotations, and remove the config ifdefs
+>    from early_printk.c. (Kiryl)
+> - Rebase to v7.3-rc6
+> - Link to v3: https://patch.msgid.link/20260922-b4-tdx_earlyprintk_tdcalls-v3-0-6ebaa599df10@intel.com
+> 
+> Changes in v3:
+> - Drop the ttySN and baudrate option parsing for earlyprintk=tdx (Dave Hansen)
+> - Link to v2: https://patch.msgid.link/20260921-b4-tdx_earlyprintk_tdcalls-v2-0-ad1fde3f25fd@intel.com
+> 
 > Changes in v2:
-> - Fix build when CONFIG_KUNIT=3Dy and CONFIG_DRM_AMD_DC_KUNIT_TEST=3Dn
-> - Fix two missed EXPORT_IF_KUNIT in amdgpu_dm_irq.c
-> - Rebased to v7.3-rc7
-> - Link to v1: https://lore.kernel.org/r/20260907-visibility-unification-v=
-1-0-6a962e5b3351@redhat.com
->
+> - Rebase to v7.3-rc4
+> - Move the TDX hypercall helpers into coco/tdx/tdx.c (Kiryl)
+> - Add a new earlyprintk=tdx option that implements the direct TDVMCALL
+>    path (Dave Hansen)
+> - Link to v1: https://patch.msgid.link/20260910-b4-tdx_earlyprintk_tdcalls-v1-0-4b2b1bf9001b@intel.com
+> 
 > ---
-> Albert Esteve (3):
->       drm/amd/display: replace STATIC_IFN_KUNIT with VISIBLE_IF_KUNIT
->       drm/amd/display: replace EXPORT_IF_KUNIT with EXPORT_SYMBOL_IF_KUNI=
-T
->       drm/amd/display: drop INLINE_IFN_KUNIT
->
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  79 ++++-----
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   2 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_audio.c    |  26 +--
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_audio.h    |   2 +-
->  .../amd/display/amdgpu_dm/amdgpu_dm_backlight.c    |  74 ++++----
->  .../amd/display/amdgpu_dm/amdgpu_dm_backlight.h    |   2 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    | 133 +++++++--------
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.h    |   2 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c  |  12 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h  |   2 +-
->  .../amd/display/amdgpu_dm/amdgpu_dm_connector.c    | 190 ++++++++++-----=
-------
->  .../amd/display/amdgpu_dm/amdgpu_dm_connector.h    |   2 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  |  38 ++---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h  |   2 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c |  52 +++---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.h |   2 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_cursor.c   |  10 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_cursor.h   |   4 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_dmub.c |  30 ++--
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_dmub.h |   2 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_freesync.c |  10 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c | 105 ++++++------
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.h |   2 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 140 +++++++--------
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.h  |   4 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.c  | 150 ++++++++-------=
--
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_irq.h  |   2 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_ism.c  |  40 ++---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_ism.h  |   2 +-
->  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  60 +++----
->  .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.h    |   2 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    | 104 +++++------
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h    |   2 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_pp_smu.c   | 116 ++++++-------
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_pp_smu.h   |   2 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c  |  22 +--
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.h  |   2 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_quirks.c   |   4 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c   |   9 +-
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_services.c |  10 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c   |  18 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.h   |   2 +-
->  .../display/amdgpu_dm/tests/amdgpu_dm_audio_test.c |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_backlight_test.c     |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_color_test.c |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_colorop_test.c       |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_connector_test.c     |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_crc_test.c   |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_crtc_test.c  |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_cursor_test.c        |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_dmub_test.c  |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_freesync_test.c      |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_hdcp_test.c  |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_helpers_test.c       |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_irq_test.c   |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_ism_test.c   |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_kunit_helpers.c      |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_mst_types_test.c     |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_plane_test.c |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_pp_smu_test.c        |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_psr_test.c   |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_quirks_test.c        |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_replay_test.c        |   1 +
->  .../amdgpu_dm/tests/amdgpu_dm_services_test.c      |   1 +
->  .../amd/display/amdgpu_dm/tests/amdgpu_dm_test.c   |   1 +
->  .../display/amdgpu_dm/tests/amdgpu_dm_wb_test.c    |   1 +
->  drivers/gpu/drm/amd/display/dc/core/dc_sink.c      |   6 +-
->  drivers/gpu/drm/amd/display/dc/core/dc_stream.c    |   2 +-
->  drivers/gpu/drm/amd/display/dc/dm_helpers.h        |  13 +-
->  tools/lib/python/kdoc/xforms_lists.py              |   3 +-
->  70 files changed, 771 insertions(+), 751 deletions(-)
+> Vishal Verma (2):
+>        x86/tdx: Move port I/O definitions to a shared header
+>        x86/early_printk: Add earlyprintk=tdx to drive the UART with TDVMCALLs
+> 
+>   Documentation/admin-guide/kernel-parameters.txt |  8 ++++++
+>   arch/x86/include/asm/shared/tdx.h               |  6 ++++
+>   arch/x86/include/asm/tdx.h                      |  4 +++
+>   arch/x86/boot/compressed/tdx.c                  |  4 +--
+>   arch/x86/coco/tdx/tdx.c                         | 37 +++++++++++++++++++++----
+>   arch/x86/kernel/early_printk.c                  | 20 +++++++++++++
+>   6 files changed, 71 insertions(+), 8 deletions(-)
 > ---
-> base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
-> change-id: 20260907-visibility-unification-fd358c580447
->
+> base-commit: a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
+> change-id: 20260903-b4-tdx_earlyprintk_tdcalls-40d1b21a8ba2
+> 
 > Best regards,
 > --
-> Albert Esteve <aesteve@redhat.com>
->
+> Vishal Verma <vishal.l.verma@intel.com>
+> 
+> 
+
+For the whole series :
+
+Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
+
 
