@@ -1,393 +1,131 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3A151477C
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 14:40:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791902437; cv=pass; b=c7whDR0c/eMJwJSx8CJkZf/RbN2zzGb13kvnvpjGKz6/ZlChYVzAu+DN1VnEHQmN61aBN6J4w5+kuUpDDRHOTkpsuPaHmstbU10g2gfYSlknELXGq+EMkIhw/planEfkQ0+18wzWIdk2Bk8EXalVFuV/K+K+w+V6m0VXzxKBkl8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791902437; c=relaxed/simple;
-	bh=vIyuNaXPf/fVqFdgVoqBwfybiukFL5Xa7TqVJcyhTKQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j4Bf+ek3Gw3uADKmz+vU/m1sAX1BjY4ccQ4zlWttWePYJa3JviBLQhWqVQqCde51q2Y8ap270ugeWf9pvxrnkJTA6EwwUqC7GmhlGyc+ZScpl92Aykj4ej7J+9YObiTyDdCtn04lkQ9U87ywlsWHLJlKlGrt97qluVqLeDA1pC0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R1fhVwD+; arc=pass smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1EF518148;
+	Tue, 13 Oct 2026 14:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791902484; cv=none; b=Q9Gfx0txlDOqVuZzPqqzJK+XVIiD7lmvvEjNx68sdP1MlYAu6+dxY1cpVaG/MmrUrH29QSAKiYe8Bsn14wxbiU5zRUbHpp/rn6d31TSp6tIGHTHy+RgwFDySFjlk78M4YUUcp/OAubysQH3CLPL4/wuXc64c0AhslyRqo3KTSVA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791902484; c=relaxed/simple;
+	bh=qBlgvnh7S9cIR1gGAmDLyJ0aMg0GNcoA8jxjhlwLIgg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cLprTmb9x0XKFD58maSUJ+6QgnJvAUbG3FGGx03tSrGWXoZ2C8SakG6JP0hjQer02urIQz9chs889ZU7iD5WeSBXI6g27b2lEHGPtGs8rhm2GRN5N102ryyK4roqIJqpi0no4XIkWlqz89+T/8L6lD4meDTv32RDOMIcuSxUqYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ndn9Uc3H; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R1fhVwD+"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91b8b456dbeso17773566d6.2
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:40:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791902435; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gzwgNixvHAFZvFL/UavHH+8LL7wfXzIXVToREQ3Zgnj4SVi/A5GkXaH4JOR2bDrZQa
-         I9dxGU8RPGvL4gcfmWJHuOT+5+VPqZ+GittaZbWecom84By4gdbaUaqb+6TTn8GinT/l
-         VDAu/sVtE5/EIZ9R/N4jXvqD58dh6sqiJrRO7YPPVx2gy4uKruoYYf1QHW3/AUzG2AEc
-         Ie+0YrGCDfHNcD3XGvcQRjXRG2sxyipgaHMHLdOxhkNDIjjJXPcQd8LObWHzvg15AzbZ
-         aGpL4/7rFKfXHQfrqjjEOYJB6DP6ZXxY96QngVykLpL8uhiODlnsuYO4NB+rbt0CHBhm
-         cACw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ur+fFzVvYF32ak9xx0wg1tr3/ez5Zf6MlIl+DWpbg80=;
-        fh=bjLiHUFtxwpdENGCmnERphJPP931xbLbb9I/Gt0z2yg=;
-        b=sDQ1CV324Baqoo5ZZHoClS9wN/OaN+eJa9x0X9x3xipMMiHDtOeHKeyKwpuox4CYkv
-         E/OxFk6bkgE86vsoEvCNOiNufnKtJNuL1uyzL49sX2M39jZUbt/HxxVMSf9gs0LvN9if
-         1i9bSN6vq8Xtlltzc3PUBTZM3bWYCQLDqsx2YCRGeiuFGPeljx6Uu8RzNWNHDKwTBj+B
-         fbaSU7qocxWPuxRKanPXgRdxURKlR1Ful4gBTAEO/SGuYHILknacZ3UH3nOSP5rMPyTq
-         KRdsloY4mGAT9sLCMSDRmZnsaCitplBgJcbC87oDingzeSuefgukV4iRnrcNfGOjf+2E
-         2xkQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791902435; x=1792507235; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ur+fFzVvYF32ak9xx0wg1tr3/ez5Zf6MlIl+DWpbg80=;
-        b=R1fhVwD+nBftut0ooyBiU9QLzlQ7+UC70po/m7xipubAJ2Tn4tWJi9YL0rwcJHgQMn
-         +irR2ZpX6SGFfRdxoVER4cJDg0TOS2wOp/xBbVeIQu543d9zWsUoL0+6bzQ24VdlxG/S
-         HEWPKVB/LTzjTbanAtUuOgJDeWFKKpmsXXwcRm8nXeUBrE46jwhSGPISJJT51bFSiv9w
-         vVZR0Er3qvczaOdPKVVU3O6P4f0EtkzZFd4IsgFAgSHiA0noIG+AACwp2TWnsHntnGgc
-         bAQdI3HAUkhjtyGo19pzDTojH0mJH0yJu0zHqTDmCd7/ZR+7PK6nJ5f3M7IXFpsEeWVg
-         FtVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791902435; x=1792507235;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ur+fFzVvYF32ak9xx0wg1tr3/ez5Zf6MlIl+DWpbg80=;
-        b=g6WeKjUQnerRUOaAFoJPA0UVYUUHWmyVhN28mf+TCVc9r0MdSWVRCtMp6kFIPRGSmh
-         GeKPt3RKUV4adGX9bV6yoo0WEic2fOiD79mdejySAqvlF+Jl8CV8H4rSBLsHsAOKy/0N
-         6MfliYgNIh5WXCrcZTfvA8Hvb5xEi7V3QqE//anoTFk61sQy5DSlOZlJoCkuYLcSfNT7
-         hQmnU9VWLbygO6758yB7Py2hanFU2uqmGo0n1mPPdWFYjon8wQ/8YbomItzxcMkGuLSA
-         7T4nTgp1y3NmukgrK2lIAZwtj3rwK9CYQZsxAmLG3ymzZY3OmScsygGnxarKjhTHgwA6
-         zH9g==
-X-Forwarded-Encrypted: i=1; AKwUvBxhTgUnYRCVympJvOkxdjEZDNM0xQhM1TbOjfch9INVSaLN773I93VvEcPAlmFLkOlQ6b5FLR+Lbls=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLeUfzv9/hUp0j3BgCAGfmiyPorpWfDrIiDVxRQZ28hqi37iFnK
-	aOiD5Hn/1MzxjF5E1vRRGjteYnmU/qoooVht2ZKBpdE0PI2OyI62PJjaaBis7t+5DQLRpLAmSDi
-	6j99Mod7LJOrxXcm0tk7ODFJGTykMyFo=
-X-Gm-Gg: AYBFou2ON+NdhCMqcdGcGfDdvYhAw62HJTtCPSQr97DMx80fUIsVPq7LqOR2Hd6iVSc
-	M3NYdiy4M801bf83Dgf+/L3odvZK+EgZInV9xfjbT2m5G+ti2O0uxT+vTwR/C8Pn7UZym0jPEBA
-	TNG9Ki88R/xTh06h2JYYvuPCUFAVQIF4D51q06neQ9cGhyfJFC2loGBjd4tJyEdG87oPGN0Wr0+
-	8PWHyGJpKOXclrv3j/m4lyKN2BGrDQXpbaJrywXcFL7kznHl/MhjWQuaoliJlLehcsySukUuqBa
-	4O3JFEgEiT33FvPejUepxdnTVcbIGv+op4zE8Ay/5mJA7f5IY1rBFR/e2I6kXq9PZT+hxJ7fjKE
-	hpetvdB3EWeXizv69mbmeqKmsufBGY0Op78UJisOg2UlzDngrRQWWQ9ApojTcktl1I0dM
-X-Received: by 2002:a05:6214:401a:b0:914:7df6:ca52 with SMTP id
- 6a1803df08f44-91b555788ffmr233587636d6.9.1791902434413; Tue, 13 Oct 2026
- 07:40:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ndn9Uc3H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 826601F000FF;
+	Tue, 13 Oct 2026 14:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791902482;
+	bh=Eu8mGEHoNpGGmUTmXtJBSuHW5VuM1oWvJon9lweWLmg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ndn9Uc3HW/By2MO/Ss9AhZ7bEWmBlJzEOG6nLCNsx62OghlLBnolcZ9swED3GULfp
+	 pWwVc2PwTDCSkgof5Rl4QuEpSomZ3TFVfkt9UhchjHUsoU5PUT+5N52fGOTZ+e8rTx
+	 yVZVEqEOLN12Uvyz9p+9YzBvF4mHWKiDtPjUm0weDYvnlnWn1xUQ5Ar09Bk759qYpa
+	 RzXe7rtLtqexFsMyYu4otltcIwky0p1WxZa4BOHhoJN/K600e0ZhB5UlBteulUHykJ
+	 sambZVJNfCoAQKs9FO////x6EjoQWFV4RcdXSNBw4gn+NbWM5sjngLT+Otx3pRiq6W
+	 lQUfaVIrR0fWw==
+From: SJ Park <sj@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: SJ Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Daniel Pereira <danielmaraboo@gmail.com>,
+	Chen-Yu Yeh <chenyou910331@gmail.com>,
+	Weijie Yuan <wy@wyuan.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Andy Whitcroft <apw@canonical.com>,
+	Joe Perches <joe@perches.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jori Koolstra <jkoolstra@xs4all.nl>,
+	Jeff Layton <jlayton@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Mark Brown <broonie@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Brian Foster <bfoster@redhat.com>,
+	Carlos Maiolino <cem@kernel.org>,
+	David Disseldorp <ddiss@suse.de>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Justin Stitt <justinstitt@google.com>,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: remove Assisted-by references
+Date: Tue, 13 Oct 2026 07:41:14 -0700
+Message-ID: <20261013144114.139856-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261013121501.3738437-1-sashal@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261013125825.3080-1-efraimvander64@gmail.com>
-In-Reply-To: <20261013125825.3080-1-efraimvander64@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Tue, 13 Oct 2026 11:40:22 -0300
-X-Gm-Features: AclHuK8jJ9JCEsX4JMkok-vG9E5rUqlzPeYagnBj5-Emes070Nban37h84QOnpQ
-Message-ID: <CAMAsx6cNwhdZGWa87ZcXhcbKvT5bPu+_MEK11D0rfiEV1_9vkg@mail.gmail.com>
-Subject: Re: [PATCH] docs: translations: pt_BR: translate cpu-load.rst
-To: "Efraim E. Vander" <efraimvander64@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, "Efraim E . Vander" <fraimvander64@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 13, 2026 at 09:59, Efraim E. Vander
-<efraimvander64@gmail.com> wrote:
->
-> Translate cpu-load.rst into Brazilian Portuguese and
-> add it to the pt_BR admin-guide documentation index.
+On Tue, 13 Oct 2026 08:15:01 -0400 Sasha Levin <sashal@kernel.org> wrote:
 
-The patch doesn't change pt_BR/admin-guide/index.rst. To be added to
-the index, cpu-load should be moved from the "Todolist" to the toctree,
-next to README and devices.
+> Commit 78d979db6cef ("docs: add AI Coding Assistants documentation") asked
+> contributors to add an Assisted-by tag to patches developed with help from an
+> LLM, and commit 816d9992d9ed ("coding-assistants: simplify attribution") later
+> reduced the tag to "Assisted-by: LLM".
+> 
+> A proposal to drop the tag was turned down in July [1]. The main argument for
+> keeping it was that maintainers wanted a signal that a patch was LLM-assisted,
+> so that they could review it accordingly.
+> 
+> The tag came up again at the 2026 Maintainers Summit [2]. Roughly 10% of the
+> 18,533 non-merge commits in 7.3 through -rc7 carry an Assisted-by tag, while
+> actual LLM use is far more widespread. Some contributors do not know about the
+> rule, others leave the tag off on purpose, and few maintainers ask about it. As
+> a result, the tag does not provide the signal it was kept for: its absence says
+> nothing about how a patch was made, and for developers who use these tools for
+> almost everything, its presence says little more. The choice was between
+> finding a way to enforce the requirement and dropping it, and there was a
+> strong, though not unanimous, consensus in the room to drop it. Greg
+> Kroah-Hartman, who argued for keeping the tag in July, supports removing it now
+> [3].
+> 
+> Maintainers do still want to know how a patch was created, but the view at the
+> Summit was that this belongs in the cover letter, where it can describe how the
+> tools were used, rather than in the changelog.
+> Documentation/process/generated-content.rst already asks contributors to be
+> transparent about tool use and is not changed here. The rules on the DCO and on
+> the submitter's responsibility for the patch stay as they are.
+> 
+> Remove the Assisted-by sections from coding-assistants.rst,
+> submitting-patches.rst, and the Italian, Brazilian Portuguese and Traditional
+> Chinese translations, and drop the handling of the tag from checkpatch.
+> 
+> [1] https://lore.kernel.org/workflows/2026070224-unholy-commode-cf45@gregkh/
+> [2] https://lwn.net/Articles/1099594/
+> [3] https://lore.kernel.org/all/2026101327-cupid-legal-6cf6@gregkh/
 
-> Assisted-by: LLM
->
-> Signed-off-by: Efraim E. Vander <efraimvander64@gmail.com>
+Thank you for the nice description of the rationale.
 
-Please keep both tags together, without a blank line between them.
+> 
+> Acked-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Reviewed-by: Kees Cook <kees@kernel.org>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-> ---
->  .../pt_BR/admin-guide/cpu-load.rst            | 126 +++++++++---------
->  1 file changed, 65 insertions(+), 61 deletions(-)
->
-> diff --git a/Documentation/translations/pt_BR/admin-guide/cpu-load.rst b/=
-Documentation/translations/pt_BR/admin-guide/cpu-load.rst
-> index 0c76acabe..f0bb48e82 100644
-> --- a/Documentation/translations/pt_BR/admin-guide/cpu-load.rst
-> +++ b/Documentation/translations/pt_BR/admin-guide/cpu-load.rst
+Acked-by: SJ Park <sj@kernel.org>
 
-This patch doesn't apply to docs-next. pt_BR/admin-guide/cpu-load.rst
-doesn't exist in the tree yet, but the patch modifies it instead of
-creating it. That's why it has removed lines: it seems it was generated
-from a second local commit on top of a first draft, so the "-" lines
-refer to text that only exists in your tree.
-
-Please squash your commits (or generate the patch against docs-next),
-so that the file is created from scratch ("new file mode",
-"--- /dev/null", only "+" lines).
-
-> +O Linux exporta diversas informa=C3=A7=C3=B5es por meio de `/proc/stat` =
-e `/proc/uptime`, que ferramentas do espa=C3=A7o do usu=C3=A1rio (*userland=
-*), como `top(1)`, utilizam para calcular o tempo m=C3=A9dio que o sistema =
-passou em determinado estado, por exemplo::
-
-The original uses ``/proc/stat`` and ``/proc/uptime`` (double
-backquotes, rendered as literals). With single backquotes they become
-interpreted text and render differently. The same applies to the other
-occurrences in the file.
-
-Also, please wrap the lines as in the original document, instead of
-keeping each paragraph in a single line.
-
-> +=C3=89 poss=C3=ADvel imaginar muitas outras situa=C3=A7=C3=B5es em que e=
-sse comportamento do kernel pode gerar informa=C3=A7=C3=B5es bastante incon=
-sistentes em `/proc/stat`:
->
->
-> +    /* gcc -o hog smallhog.c */
-> +    #include <time.h>
-
-The original ends this sentence with "::", which starts the literal
-block. With a single ":", the program below is rendered as a block
-quote, not as code.
-
-Also, please keep the example program exactly as in the original
-(indented with tabs, same formatting). It is code, so it shouldn't be
-changed by the translation.
-
-Before sending a v2, please apply it with "git am" on top of docs-next
-and check the result with "make htmldocs".
 
 Thanks,
-Daniel
+SJ
 
-Em ter., 13 de out. de 2026 =C3=A0s 09:59, Efraim E. Vander
-<efraimvander64@gmail.com> escreveu:
->
-> Translate cpu-load.rst into Brazilian Portuguese and
-> add it to the pt_BR admin-guide documentation index.
->
-> Assisted-by: LLM
->
-> Signed-off-by: Efraim E. Vander <efraimvander64@gmail.com>
-> ---
->  .../pt_BR/admin-guide/cpu-load.rst            | 126 +++++++++---------
->  1 file changed, 65 insertions(+), 61 deletions(-)
->
-> diff --git a/Documentation/translations/pt_BR/admin-guide/cpu-load.rst b/=
-Documentation/translations/pt_BR/admin-guide/cpu-load.rst
-> index 0c76acabe..f0bb48e82 100644
-> --- a/Documentation/translations/pt_BR/admin-guide/cpu-load.rst
-> +++ b/Documentation/translations/pt_BR/admin-guide/cpu-load.rst
-> @@ -1,27 +1,26 @@
-> -
-> -
->  .. SPDX-License-Identifier: GPL-2.0
->
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  Carga da CPU
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -O Linux exporta diversas informa=C3=A7=C3=B5es por meio de `/proc/stat` =
-e `/proc/uptime`, que ferramentas do espa=C3=A7o do usu=C3=A1rio (*userland=
-*), como `top(1)`, utilizam para calcular o tempo m=C3=A9dio que o sistema =
-passou em determinado estado. Por exemplo:
-> -
->
-> -$ iostat
-> -Linux 2.6.18.3-exp (linmac)     02/20/2007
-> +O Linux exporta diversas informa=C3=A7=C3=B5es por meio de `/proc/stat` =
-e `/proc/uptime`, que ferramentas do espa=C3=A7o do usu=C3=A1rio (*userland=
-*), como `top(1)`, utilizam para calcular o tempo m=C3=A9dio que o sistema =
-passou em determinado estado, por exemplo::
->
-> -avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-> -           10.01    0.00    2.92    5.44    0.00   81.63
-> +    $ iostat
-> +    Linux 2.6.18.3-exp (linmac)     02/20/2007
->
-> +    avg-cpu:  %user   %nice %system %iowait  %steal   %idle
-> +               10.01    0.00    2.92    5.44    0.00   81.63
->
-> -Nesse caso, o sistema considera que, durante o per=C3=ADodo de amostrage=
-m padr=C3=A3o, passou 10,01% do tempo executando tarefas no espa=C3=A7o do =
-usu=C3=A1rio, 2,92% no kernel e permaneceu ocioso durante 81,63% do tempo t=
-otal.
-> +Nesse caso, o sistema considera que, durante o per=C3=ADodo de amostrage=
-m padr=C3=A3o, passou 10,01% do tempo executando tarefas no espa=C3=A7o do =
-usu=C3=A1rio, 2,92% no kernel e permaneceu ocioso durante 81,63% do tempo.
->
-> -Na maioria dos casos, as informa=C3=A7=C3=B5es de `/proc/stat` refletem =
-a realidade com bastante precis=C3=A3o. No entanto, devido =C3=A0 natureza =
-da forma como e do momento em que o kernel coleta esses dados, =C3=A0s veze=
-s essas informa=C3=A7=C3=B5es n=C3=A3o s=C3=A3o confi=C3=A1veis.
-> +Na maioria dos casos, as informa=C3=A7=C3=B5es de `/proc/stat` refletem =
-a realidade com bastante precis=C3=A3o. No entanto, devido =C3=A0 natureza =
-da forma como e do momento em que os dados s=C3=A3o coletados, esses valore=
-s podem apresentar imprecis=C3=B5es.
->
->  Ent=C3=A3o, como essas informa=C3=A7=C3=B5es s=C3=A3o coletadas?
-> -Sempre que uma interrup=C3=A7=C3=A3o do temporizador (*timer interrupt*)=
- =C3=A9 sinalizada, o kernel verifica que tipo de tarefa estava em execu=C3=
-=A7=C3=A3o naquele instante e incrementa o contador correspondente ao tipo =
-ou estado dessa tarefa.
-> -O problema =C3=A9 que o sistema pode ter alternado entre v=C3=A1rios est=
-ados diversas vezes entre duas interrup=C3=A7=C3=B5es do temporizador. Aind=
-a assim, o contador =C3=A9 incrementado apenas para o =C3=BAltimo estado ob=
-servado.
-> +
-> +Sempre que uma interrup=C3=A7=C3=A3o do temporizador (*timer interrupt*)=
- =C3=A9 sinalizada, o kernel verifica que tipo de tarefa estava em execu=C3=
-=A7=C3=A3o naquele instante e incrementa o contador correspondente.
-> +
-> +O problema =C3=A9 que o sistema pode ter alternado entre v=C3=A1rios est=
-ados diversas vezes entre duas interrup=C3=A7=C3=B5es do temporizador. Aind=
-a assim, o contador =C3=A9 incrementado apenas uma vez, de acordo com o est=
-ado observado no instante da interrup=C3=A7=C3=A3o.
->
->  Exemplo
->  -------
-> @@ -35,67 +34,72 @@ Imagine um sistema com uma =C3=BAnica tarefa que, per=
-iodicamente, consome ciclos de
->      |_ algo come=C3=A7a a trabalhar             |_ algo entra em suspens=
-=C3=A3o
->                                                (mas =C3=A9 despertado pou=
-co depois)
->
-> -
-> -Na situa=C3=A7=C3=A3o acima, de acordo com `/proc/stat`, a carga do sist=
-ema ser=C3=A1 de 0%, pois a interrup=C3=A7=C3=A3o do temporizador sempre oc=
-orrer=C3=A1 quando o sistema estiver executando o tratador de ociosidade (*=
-idle handler*).
-> +Na situa=C3=A7=C3=A3o acima, de acordo com `/proc/stat`, a carga do sist=
-ema ser=C3=A1 de 0%, pois a interrup=C3=A7=C3=A3o do temporizador sempre oc=
-orrer=C3=A1 quando o sistema estiver executando a tarefa ociosa.
->
->  Na realidade, por=C3=A9m, a carga estar=C3=A1 mais pr=C3=B3xima de 99%.
->
->  =C3=89 poss=C3=ADvel imaginar muitas outras situa=C3=A7=C3=B5es em que e=
-sse comportamento do kernel pode gerar informa=C3=A7=C3=B5es bastante incon=
-sistentes em `/proc/stat`:
->
->
-> -        /* gcc -o hog smallhog.c */
-> -
-> -        #include <time.h>
-> -        #include <limits.h>
-> -        #include <signal.h>
-> -        #include <sys/time.h>
-> -        #define HIST 10
->
-> -        static volatile sig_atomic_t stop;
-> +    /* gcc -o hog smallhog.c */
-> +    #include <time.h>
-> +    #include <limits.h>
-> +    #include <signal.h>
-> +    #include <sys/time.h>
->
-> -        static void sighandler(int signr)
-> -        {
-> -                (void) signr;
-> -                stop =3D 1;
-> -        }
-> +    #define HIST 10
->
-> -        static unsigned long hog (unsigned long niters)
-> -        {
-> -                stop =3D 0;
-> -                while (!stop && --niters);
-> -                return niters;
-> -        }
-> +    static volatile sig_atomic_t stop;
->
-> -        int main (void)
-> -        {
-> -                int i;
-> -                struct itimerval it =3D {
-> -                        .it_interval =3D { .tv_sec =3D 0, .tv_usec =3D 1=
- },
-> -                        .it_value    =3D { .tv_sec =3D 0, .tv_usec =3D 1=
- } };
-> -                sigset_t set;
-> -                unsigned long v[HIST];
-> -                double tmp =3D 0.0;
-> -                unsigned long n;
-> -                signal(SIGALRM, &sighandler);
-> -                setitimer(ITIMER_REAL, &it, NULL);
-> -
-> -                hog (ULONG_MAX);
-> -                for (i =3D 0; i < HIST; ++i) v[i] =3D ULONG_MAX - hog(UL=
-ONG_MAX);
-> -                for (i =3D 0; i < HIST; ++i) tmp +=3D v[i];
-> -                tmp /=3D HIST;
-> -                n =3D tmp - (tmp / 3.0);
-> -
-> -                sigemptyset(&set);
-> -                sigaddset(&set, SIGALRM);
-> -
-> -                for (;;) {
-> -                        hog(n);
-> -                        sigwait(&set, &i);
-> -                }
-> -                return 0;
-> -        }
-> +    static void sighandler(int signr)
-> +    {
-> +        (void) signr;
-> +        stop =3D 1;
-> +    }
->
-> +    static unsigned long hog(unsigned long niters)
-> +    {
-> +        stop =3D 0;
-> +        while (!stop && --niters);
-> +        return niters;
-> +    }
-> +
-> +    int main(void)
-> +    {
-> +        int i;
-> +        struct itimerval it =3D {
-> +            .it_interval =3D { .tv_sec =3D 0, .tv_usec =3D 1 },
-> +            .it_value    =3D { .tv_sec =3D 0, .tv_usec =3D 1 }
-> +        };
-> +        sigset_t set;
-> +        unsigned long v[HIST];
-> +        double tmp =3D 0.0;
-> +        unsigned long n;
-> +
-> +        signal(SIGALRM, &sighandler);
-> +        setitimer(ITIMER_REAL, &it, NULL);
-> +
-> +        hog(ULONG_MAX);
-> +        for (i =3D 0; i < HIST; ++i)
-> +            v[i] =3D ULONG_MAX - hog(ULONG_MAX);
-> +
-> +        for (i =3D 0; i < HIST; ++i)
-> +            tmp +=3D v[i];
-> +
-> +        tmp /=3D HIST;
-> +        n =3D tmp - (tmp / 3.0);
-> +
-> +        sigemptyset(&set);
-> +        sigaddset(&set, SIGALRM);
-> +
-> +        for (;;) {
-> +            hog(n);
-> +            sigwait(&set, &i);
-> +        }
->
-> +        return 0;
-> +    }
->
->  Refer=C3=AAncias
->  -----------
-> --
-> 2.43.0
->
+[...]
