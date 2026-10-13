@@ -1,339 +1,234 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179B237C0EB
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B9239C00F
+	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791876640; cv=none; b=dxPmtZpFdA8LDzJVX0UgylqU6EGqaQNrWfSjOEoG8cqShGdodjgxhKgKIvKBjcvqySVYKjhlE5SIYvQ9tOXB87gEtWd65aDdW9paZV+yjb8lBSvmI3itnLrO2lw+yl+nCT3ikgcwZpSPjOGXmeFAgY1Jf+5ra+uxaJwq0HHiKJk=
+	t=1791877244; cv=none; b=Hu/PhInK0Ek0t3YwFCzGN+29z5ol5uABhwY10WSoOWhqf7qkzWV+OKUZlsOC/X5eXxMZX2GErqMa587msk2JlcJubLnYwZp56D7VJOxL6E7lfrS+3Ct0TMkFVTDdC4ok9oC6UxgSTEWJWD86xRrmVuqDIYd2FuT3LCaXS+ANHHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791876640; c=relaxed/simple;
-	bh=jxJNYrI22RlLexodQlZcE5ZvGLVCwiFJ8RVwNBj6iLQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MZ6MScVm3AffH3+BX6MPWvtZL3TW06sACL2MmeclMcBxIK2Woj3qzyqE61YIbAFjYEXotbb+HlmaZy2K00GTmTkv2evIcFIfAW8ckoWiGOnihunakF2b2UGCz/aPfSENAPoEoIj15YCGQR0N1NBTUJTHTYa9wx+PJROBlpTBZe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=E0DOOchF; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=R1EiZCc7; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1791877244; c=relaxed/simple;
+	bh=BFe/yh5JnfR0DvilafSKJHlexjYInUwEeegNj8QpwgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cGTA/w59xN8vFdg/O8w5q1n4VR5cqDe7TepjmmKFnLJXnwgEobdAulPbwPPLpswbM4ZjrxZBMfE2XpvqFUb5db1Qr1C8FH1T9tJTWQH5S+7yiT8N6dhN3TW/tBrMtcTspPR3945fHqQBUcEgGAEptQFYYvY2+f2tbBdAqCHk3tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PB9r1oE0; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="E0DOOchF";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="R1EiZCc7"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D20pVN3907376
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:30:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kHGYKtLSEbyUQdlpz97zgPVlOvItbLPmnAOXZGaC+co=; b=E0DOOchFG4ce55HI
-	0D0VDPA7pS2T5EwmXVziwVJk/UVFfKFBaXLK2sY6/rP+3Y+XSZyqCDtFhCqpF0ir
-	QoU5xzEZ2BaOyA0KzmCAE3x/Wjjv9wVEFxcFHXk54bR/u8eoNRszXTeA9Me74KAH
-	nFKDwXk5ESQMlsrktvzWAu7pWDNeB/04H4K/ko1jn8Q7X22zPSXGKHSwLlFPXrH1
-	E7BfytgTeIRyRBTijXfQ3nXBY3O39txVSi1eRVc3FK/A9OzRSwrhxrC9iTIKO5al
-	OxDXwnZ74V07+pX3VgCjosdehDZfrFgQyAZukjafgRyJHt18C8xa0KVrUv+CAMzT
-	LvVyAg==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h95xqt9gt-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 07:30:37 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-38e54b6556aso2074194a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 00:30:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PB9r1oE0"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e8fe8e343fso5915735ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 00:40:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791876637; x=1792481437; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kHGYKtLSEbyUQdlpz97zgPVlOvItbLPmnAOXZGaC+co=;
-        b=R1EiZCc7eyXQZAqimcQUyBtj8AgVu2rASdY+HnAPiUhmSmqqiVg/3gpwTx1/5McDGQ
-         cjyiVXnC/xV5Fr+QJWHkGD+IHP+a+OPQhE+R90WcmIMTY85Wdm5mibBtASNFAEfRU0ew
-         +phx6Ru4oOXUCqR5prqIZHsKNqeuO8/H5QqBukFDDQiwSzrUy5btSebMi+a+ii4w4+j/
-         PL9B6OeS3BRF8W6Jy9M6Ypes3amZci/S9vRmui3SSWvxXIkyisnqS8a/aeBnmL3Io1G4
-         f3dVUBYmHFO9rT4dOOEMaN8BIGxb6aXhFAhO7QpAmx3exgXQJBsuoK5p6pwO054ZdRGf
-         sZmw==
+        d=gmail.com; s=20251104; t=1791877242; x=1792482042; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=sAnTgd/l711nspTx4PUavL/NLYQovTcbYgAtSFrcnZ8=;
+        b=PB9r1oE0F+uyaEdAjxwxbX4pziiS8Q9gfPg+pocqeAfmAB1gGfFwAIfrWc8eBOw8/f
+         MjTSi/9RaPwGbrM+s9pazj+eFgu1BxkFSwFuyjR8NF2dbm1GmoJsesAWdfwGuoIJwDrb
+         axjJUb8UaQUIuO3gnbHWVRGP4sTTPWlv/6NKAatL4HvgWHRmcmbXEyIxf88lE7IpzllX
+         v8zF/PfowqyugfnJqvz4isB44IAup8h/oro2fcW0ClcFK4Pmg2ONpTKdz6kZoB3v7r53
+         vKA2DFm1qJzNiSOqhNWSZ415R7sIifQWCh0H0yS+0RKnAzLYLMveoZnE1WQOH87r2ktV
+         JkXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791876637; x=1792481437;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kHGYKtLSEbyUQdlpz97zgPVlOvItbLPmnAOXZGaC+co=;
-        b=eH2xSX34kQJXZHvnR2A0tNbTOgiPZlKvctXg49WY8tV38L3YF+GQyNSaHm3ZpaBjbI
-         0iyDPB9ZpQRLCPAF5lkuPKg2YaKRZ4+2NPVhYJSW3JXsh/YiVyRpum0LSwJeD2eqM7rM
-         xVmP95kdIIPM9e2XcGFth9eZlAcJnrqoQttZrKZk/1MhRoOR9FunkBW/f2OR9s899d+c
-         Zr1RspSTrdIqH4/NzggOXg/FAsgvyV1lAWUyUvKhQiA5fjtJ6JbBdb0/UtZN6ztVXTP6
-         1zybmgGm3PVzDwWBtkUxhNRnBhFW4aVrjk1BZF8Tarb6g96eLtTVBd8Q/RtG3ohTArtb
-         Ii3Q==
-X-Gm-Message-State: AFq9FYL0uNT7kthPf+vFjLQjfisgAe3l4C0acx87DbcJLQ2wWSV3+ka6
-	/lJJDAOh04VtOtZDO9PDLX5zoiCf3JbswCPXDWRpC6yBdtnkOIXBFjLceBOD71u1bcDCiI0x7jK
-	hVldgXgibnxni7uwxbyqLHFVaXkZDNf/Jd+wf2z+TVXt4MVm7tU6xzdHWPYrv/j0=
-X-Gm-Gg: AYBFou1O5JqG6h2CRMNHXoIbjG4VDnGHmzZkpO5w7fO75DKmBu+dxFLX4A8ygSy/Myg
-	wpeHkPuZCnFf1J+YEl+Pj9qSzi91rZyj/8xzBBCBw80Z/uF/nQpwTsHIwyQvSah1wx47S1/qFpt
-	n3TaNU9rs+d5J31lPpa6InhSIwfAyzts0jVGPUzhV6Q3ZAoZSZ9lm2vzqedr9jkrwCAwVPIHqHG
-	JkLq1pXZYKlsKr2PDdC5YR+Mp6B3rGyAGa9oSy5xxFJ5DnEwwkxVoYcwauUJ1/AfMmhcpfqpAsK
-	oR0XAyaf2KY71jRQnWf+bjNpX+VlfE9CA8qI7GO8FAUWlB1qX2se1ElN+ZYwZulvMLGwukhh4W9
-	f4yldKBU/Iqyuf4eT3fbX/XkWPzXZkr/6
-X-Received: by 2002:a17:90a:c88b:b0:3a5:1b:34a5 with SMTP id 98e67ed59e1d1-3ab3af73a91mr9462460a91.49.1791876636815;
-        Tue, 13 Oct 2026 00:30:36 -0700 (PDT)
-X-Received: by 2002:a17:90a:c88b:b0:3a5:1b:34a5 with SMTP id 98e67ed59e1d1-3ab3af73a91mr9462411a91.49.1791876635809;
-        Tue, 13 Oct 2026 00:30:35 -0700 (PDT)
-Received: from [10.217.219.169] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab39234b62sm20398370a91.16.2026.10.13.00.30.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 00:30:35 -0700 (PDT)
-Message-ID: <a3a83688-0b85-4555-a9ec-4ac51b692f49@oss.qualcomm.com>
-Date: Tue, 13 Oct 2026 13:00:29 +0530
+        d=1e100.net; s=20260707; t=1791877242; x=1792482042;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sAnTgd/l711nspTx4PUavL/NLYQovTcbYgAtSFrcnZ8=;
+        b=wATxGKPwm/q2DJMKUsRbKWI3t0oKC4sxeeGaXHWQaC7yq5JpJEAyXNNuOoS4DXyPNd
+         P0DJpG4evy8GihLLX5duex9XFndq+TQm6jTW/CpbXLsgWCO3sF28qshW2DZQKvhnOmt1
+         Vm8zv1ZdHq5tPLCvl3x7FHfbmT3vqP5SYOP+U/cN+TCym61Gj3n8K7afb/kPFlto7ZBa
+         /HHFXKCeZ/Q0W8poytQJhS5PkM9YnyfNeuYjJw77Dw9rbMxPP/zMKiPHBATolzRdNQdn
+         eYtnX/uQHyHrHdsPzPMLXB4G6/JaHXxZc3zKf186rWi8w6DDcVJvCzTzi/5FuboiPs2l
+         Q77g==
+X-Forwarded-Encrypted: i=1; AKwUvBzQxkFV7LM1sreYfkQhg/CXDudcSGJh3hUUxX6yr6/PtM9H/ykas7pEGz2qWRHJoUrg4fa1mzf0vg0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJtRv/Ey4sEsAfy9DdLyVJnAhNrIEUUalqAeq3jFWFkt6Of4QzZ
+	wD58Wy+WV32NjvnP6parsQGMbxoRT0skn6UNrj9Izkd+ZUZw7K0APgcX
+X-Gm-Gg: AYBFou0bRaDz5/ok4QMkO4HuhrwexCheFlGHVq0GMCGgHpGGpMo4RTjPggurXt3/C0z
+	Pkcnb0LkCtl/9nJg66VO0/TXezKne2JWd0Qm+OmqtjatQBF5netWxAyaSNYrD3pVhaeoHcbrsT1
+	dAqpYP0Dn5m1j3I51AXY2vdIEGkfYeuYfHMm4/s9eicMchpye9gKOScHoUHJFvk5I5R04a8Kuad
+	EuYyFVPrlXdZaMUyryizoWt2Lu2UODH2NeHj0wnjPv65edpVI3t+vs8UXMXsDYj3pfvNfO/pFYz
+	YVbcNcXYe28nhYgsyi8EMifICWK3Spw/Ite+V5uK6M6qhAIYnVSzmvsJ6gkn0dZuQ/slWY7UukX
+	TZNgUZT63dMtUbBjVT7VTNItuA3rP77uMN77Q51KZSFPm2IQrgmFtBh7TsuUegEUGg0e4Hp3kJz
+	t/0f1M719Irw1ZkqIgQMTY3DTfa60YFRHizBis47jOm7O8qf4lCB7Pj5lduY+K36QAOoUAJSTEJ
+	ZCLIS8rDI3zUkPM+5bFx/LDjbFy8w==
+X-Received: by 2002:a17:902:f64f:b0:2dd:ad73:c984 with SMTP id d9443c01a7336-2e842bc5ae0mr95318795ad.28.1791877242048;
+        Tue, 13 Oct 2026 00:40:42 -0700 (PDT)
+Received: from localhost ([47.254.74.32])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e841432a03sm51700235ad.0.2026.10.13.00.40.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Oct 2026 00:40:41 -0700 (PDT)
+Date: Tue, 13 Oct 2026 15:40:36 +0800
+From: Lai Jiangshan <jiangshanlai@gmail.com>
+To: Kunwu Chan <kunwu.chan@gmail.com>
+Cc: paulmck@kernel.org, corbet@lwn.net, mingo@redhat.com, 
+	frederic@kernel.org, neeraj.upadhyay@kernel.org, josh@joshtriplett.org, 
+	urezki@gmail.com, dave@stgolabs.net, lianux.mm@gmail.com, 
+	stern@rowland.harvard.edu, parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org, 
+	boqun@kernel.org, npiggin@gmail.com, dhowells@redhat.com, j.alglave@ucl.ac.uk, 
+	luc.maranget@inria.fr, akiyks@gmail.com, dlustig@nvidia.com, joelagnelf@nvidia.com, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, longman@redhat.com, rostedt@goodmis.org, 
+	mathieu.desnoyers@efficios.com, qiang.zhang@linux.dev, brads@mainlining.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, lkmm@lists.linux.dev, 
+	linux-doc@vger.kernel.org, rcu@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v3 08/15] locking/lockdep: use hazptr to wait for
+ dynamic key lookups
+Message-ID: <as3aMmPdCHCXW6Ci@U-YXDQC754-96.local>
+References: <20261005171529.1378809-1-kunwu.chan@gmail.com>
+ <20261005171529.1378809-9-kunwu.chan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/7] bus: mhi: Move Sahara protocol driver under MHI
- host client drivers
-To: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        mhi@lists.linux.dev
-References: <20261012-sahara_protocol_new_v2-v8-0-e12939d229a1@oss.qualcomm.com>
- <20261012-sahara_protocol_new_v2-v8-2-e12939d229a1@oss.qualcomm.com>
- <2bf0a2e0-7466-4e90-b53d-f3fc0d26378c@oss.qualcomm.com>
-Content-Language: en-US
-From: Kishore Batta <kishore.batta@oss.qualcomm.com>
-In-Reply-To: <2bf0a2e0-7466-4e90-b53d-f3fc0d26378c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDAyOSBTYWx0ZWRfX8ZFTB5crdlx6
- PtFK9zg1kLQm4EYlRQMOiANFGQcHmuVLYEWrD63+hN9MBN4r9Iihwp49WoY5XeaO+FhTwHOoXVU
- lxp7ev2JWXWmtDvZmJ9l22Q98V1CllKD9xqdkhkKmLfOVm+3z0u6QeRtVmxZcDpB82r/xvNsSoL
- 1erJ61jqBFssQKusQnnnE3UabGIEs4tFAquQ/Jaylj0+qZmE3dWbSftT8bDRLpcPtyB+rzjahdP
- +t6EGh2rqxQu0eIMyPtDKe6CpnI63zw7UmI5PRRw2CA3cnqATtklg+IaAJ5ih875vu6ttItWbIO
- UdxMyvCNMQEySIlslayZRTUxnTW4kVCFJ7JxGTiT2XeE/Qwdawdn105Gtwku2Wsh/KSA5gMcjH+
- qoSdyZ/Q0e3x7+9eLhtt4+/UVoEdMf04jeT4jKleF5WuvM9q6NDHJCpBeCFUr8FhUWmH28IX0cB
- xz96whBx044BJxE+JwA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDAyOSBTYWx0ZWRfX9YYx6XnMojIO
- zZms+I5CUq63LJgoG7giXxYW+v2NDVC1Bq10B7KY0xUoZrZjX4XrRYY2Q245G3WkTaA2h2hN0G4
- 8Ct/DYhJv9v0O50WRUxpqiN5qg9l3cg=
-X-Proofpoint-ORIG-GUID: iZezey1NPOT8E5uouSI2gAaQCOZ1nvA_
-X-Authority-Analysis: v=2.4 cv=EP+TQFZC c=1 sm=1 tr=0 ts=6acdde1d cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=YsTF_x4DAHpo6Sg_WHoA:9 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-GUID: iZezey1NPOT8E5uouSI2gAaQCOZ1nvA_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 phishscore=0 clxscore=1015 spamscore=0
- malwarescore=0 priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610130029
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261005171529.1378809-9-kunwu.chan@gmail.com>
 
+On Tue, Oct 06, 2026 at 01:15:22AM +0800, Kunwu Chan wrote:
+> lockdep_unregister_key() waits for is_dynamic_key() callers with
+> synchronize_rcu_expedited(), which requires system-wide coordination.
+> Make is_dynamic_key() protect the hash bucket with a hazard pointer
+> and use hazptr_synchronize() to wait for traversals of that bucket.
+> 
+> The hash bucket returned by keyhashentry() has a stable address, so
+> it can be used as the hazptr synchronization target.  Keep the key
+> hashlist lifetime RCU-based with hlist_del_rcu() and call_rcu().
+> 
+> Protect the traversal with the hazptr scoped_guard() added earlier
+> in this series.
+> 
+> This adapts the lockdep use case from Boqun Feng's shazptr series
+> to the current hazptr API.
+> 
+> Link: https://lore.kernel.org/lkml/20250625031101.12555-1-boqun.feng@gmail.com/
 
-On 10/13/2026 3:05 AM, Trilok Soni wrote:
-> On 10/12/2026 11:18 AM, Kishore Batta wrote:
->> The Sahara protocol driver currently lives under the QAIC accelerator
->> subsystem even though the protocol is transported over MHI and is used by
->> multiple Qualcomm flashless devices. This makes Sahara appear QAIC specific
->> and complicates reuse by other MHI based devices.
->>
->> Move the Sahara protocol driver under drivers/bus/mhi as a host client
->> driver and build it as an independent MHI protocol driver. This keeps the
->> QAIC driver focused on the accelerator device while allowing other MHI
->> users to enable Sahara without depending on QAIC.
->>
->> As part of the move, add a dedicated Kconfig/Makefile hierarchy under the
->> MHI host client drivers and convert the driver to use module_mhi_driver()
->> instead of register/unregister hooks.
->>
->> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
->> ---
->>   drivers/accel/qaic/Kconfig                          |  1 +
->>   drivers/accel/qaic/Makefile                         |  3 +--
->>   drivers/accel/qaic/qaic_drv.c                       |  9 ---------
->>   drivers/accel/qaic/sahara.h                         | 10 ----------
->>   drivers/bus/mhi/host/Makefile                       |  2 +-
->>   drivers/bus/mhi/host/clients/Kconfig                |  6 ++++++
->>   drivers/bus/mhi/host/clients/Makefile               |  1 +
->>   drivers/bus/mhi/host/clients/sahara/Kconfig         | 15 +++++++++++++++
->>   drivers/bus/mhi/host/clients/sahara/Makefile        |  2 ++
->>   .../qaic => bus/mhi/host/clients/sahara}/sahara.c   | 21 ++++++++-------------
->>   10 files changed, 35 insertions(+), 35 deletions(-)
->>
->> diff --git a/drivers/accel/qaic/Kconfig b/drivers/accel/qaic/Kconfig
->> index 116e42d152ca885b8c59e33c7a87519a0abc6bb3..af90fdfcf77eeb6dd5ad309b33d793d4fdc91b1e 100644
->> --- a/drivers/accel/qaic/Kconfig
->> +++ b/drivers/accel/qaic/Kconfig
->> @@ -8,6 +8,7 @@ config DRM_ACCEL_QAIC
->>   	depends on DRM_ACCEL
->>   	depends on PCI && HAS_IOMEM
->>   	depends on MHI_BUS
->> +	depends on MHI_SAHARA
->>   	select CRC32
->>   	select WANT_DEV_COREDUMP
->>   	help
->> diff --git a/drivers/accel/qaic/Makefile b/drivers/accel/qaic/Makefile
->> index 71f727b74da3bb4478324689f02a7cea24a05c2d..e7b8458800072aa627f7f36c3257883aa56f4ce4 100644
->> --- a/drivers/accel/qaic/Makefile
->> +++ b/drivers/accel/qaic/Makefile
->> @@ -13,7 +13,6 @@ qaic-y := \
->>   	qaic_ras.o \
->>   	qaic_ssr.o \
->>   	qaic_sysfs.o \
->> -	qaic_timesync.o \
->> -	sahara.o
->> +	qaic_timesync.o
->>   
->>   qaic-$(CONFIG_DEBUG_FS) += qaic_debugfs.o
->> diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
->> index 0acf6cdd44f81430ec52c7120b8b50c60721a615..64e87dfaa560376ecdf1e6f8bf7abf6153160926 100644
->> --- a/drivers/accel/qaic/qaic_drv.c
->> +++ b/drivers/accel/qaic/qaic_drv.c
->> @@ -32,7 +32,6 @@
->>   #include "qaic_ras.h"
->>   #include "qaic_ssr.h"
->>   #include "qaic_timesync.h"
->> -#include "sahara.h"
->>   
->>   MODULE_IMPORT_NS("DMA_BUF");
->>   
->> @@ -789,12 +788,6 @@ static int __init qaic_init(void)
->>   		goto free_pci;
->>   	}
->>   
->> -	ret = sahara_register();
->> -	if (ret) {
->> -		pr_debug("qaic: sahara_register failed %d\n", ret);
->> -		goto free_mhi;
->> -	}
->> -
->>   	ret = qaic_timesync_init();
->>   	if (ret)
->>   		pr_debug("qaic: qaic_timesync_init failed %d\n", ret);
->> @@ -816,7 +809,6 @@ static int __init qaic_init(void)
->>   
->>   free_bootlog:
->>   	qaic_bootlog_unregister();
->> -free_mhi:
->>   	mhi_driver_unregister(&qaic_mhi_driver);
->>   free_pci:
->>   	pci_unregister_driver(&qaic_pci_driver);
->> @@ -845,7 +837,6 @@ static void __exit qaic_exit(void)
->>   	qaic_ras_unregister();
->>   	qaic_bootlog_unregister();
->>   	qaic_timesync_deinit();
->> -	sahara_unregister();
->>   	mhi_driver_unregister(&qaic_mhi_driver);
->>   	pci_unregister_driver(&qaic_pci_driver);
->>   }
->> diff --git a/drivers/accel/qaic/sahara.h b/drivers/accel/qaic/sahara.h
->> deleted file mode 100644
->> index 08037281c80e28f6c85b924c45ce2c2f9dc60c39..0000000000000000000000000000000000000000
->> --- a/drivers/accel/qaic/sahara.h
->> +++ /dev/null
->> @@ -1,10 +0,0 @@
->> -/* SPDX-License-Identifier: GPL-2.0-only */
->> -
->> -/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
->> -
->> -#ifndef __SAHARA_H__
->> -#define __SAHARA_H__
->> -
->> -int sahara_register(void);
->> -void sahara_unregister(void);
->> -#endif /* __SAHARA_H__ */
->> diff --git a/drivers/bus/mhi/host/Makefile b/drivers/bus/mhi/host/Makefile
->> index 2a16008aeb38127494782bbff4e1656428d2b776..2e8949f1a2fe6f3f3b2e1dc541f97d2c393d6a0f 100644
->> --- a/drivers/bus/mhi/host/Makefile
->> +++ b/drivers/bus/mhi/host/Makefile
->> @@ -4,4 +4,4 @@ mhi-$(CONFIG_MHI_BUS_DEBUG) += debugfs.o
->>   
->>   obj-$(CONFIG_MHI_BUS_PCI_GENERIC) += mhi_pci_generic.o
->>   mhi_pci_generic-y += pci_generic.o
->> -obj-y += clients/
->> +obj-$(CONFIG_MHI_BUS) += clients/
->> diff --git a/drivers/bus/mhi/host/clients/Kconfig b/drivers/bus/mhi/host/clients/Kconfig
->> index 8bb5715e61d0d6e64a51012b4e1594ba46e5bfc1..1932344157a5b1dc25c8d63f6d4ac38f896d08a7 100644
->> --- a/drivers/bus/mhi/host/clients/Kconfig
->> +++ b/drivers/bus/mhi/host/clients/Kconfig
->> @@ -15,3 +15,9 @@ config MHI_BUS_LOOPBACK
->>   
->>   	  To compile this driver as a module, choose M here. The module
->>   	  will be called mhi_loopback.
->> +
->> +menu "MHI host client drivers"
->> +
->> +source "drivers/bus/mhi/host/clients/sahara/Kconfig"
->> +
->> +endmenu
->> diff --git a/drivers/bus/mhi/host/clients/Makefile b/drivers/bus/mhi/host/clients/Makefile
->> index 3811b6928f42b38f94b1167941cf3b0fe512d32b..67e70de280369870164b4808f39d9b3340f2589b 100644
->> --- a/drivers/bus/mhi/host/clients/Makefile
->> +++ b/drivers/bus/mhi/host/clients/Makefile
->> @@ -1,2 +1,3 @@
->>   obj-$(CONFIG_MHI_BUS_LOOPBACK) += mhi_loopback.o
->>   mhi_loopback-y += loopback.o
->> +obj-$(CONFIG_MHI_SAHARA) += sahara/
->> diff --git a/drivers/bus/mhi/host/clients/sahara/Kconfig b/drivers/bus/mhi/host/clients/sahara/Kconfig
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..f1fc7013a2dee0be645c50f32305659e591de7e7
->> --- /dev/null
->> +++ b/drivers/bus/mhi/host/clients/sahara/Kconfig
->> @@ -0,0 +1,15 @@
->> +config MHI_SAHARA
->> +	tristate "Sahara protocol driver"
->> +	depends on MHI_BUS
->> +	help
->> +	  Enable support for the Sahara protocol transported over the MHI bus.
->> +
->> +	  The Sahara protocol is used to transfer firmware images, retrieve
->> +	  memory dumps and exchange command mode DDR calibration data between
->> +	  host and device. This driver is not tied to a specific SoC and may be
->> +	  used by multiple MHI based devices.
->> +
->> +	  If unsure, say N.
->> +
->> +	  To compile this driver as a module, choose M here: the module will be
->> +	  called mhi_sahara.
->> diff --git a/drivers/bus/mhi/host/clients/sahara/Makefile b/drivers/bus/mhi/host/clients/sahara/Makefile
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..fc02a25935011cbd7138ea8f24b88cf5b032a4ce
->> --- /dev/null
->> +++ b/drivers/bus/mhi/host/clients/sahara/Makefile
->> @@ -0,0 +1,2 @@
->> +obj-$(CONFIG_MHI_SAHARA) += mhi_sahara.o
->> +mhi_sahara-y := sahara.o
->> diff --git a/drivers/accel/qaic/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
->> similarity index 99%
->> rename from drivers/accel/qaic/sahara.c
->> rename to drivers/bus/mhi/host/clients/sahara/sahara.c
->> index c7c0b3eb4b65fb7776a6c724cb3105046cf6f7eb..dc64beae06ada6915a506ed8f4ae4d71c03158bb 100644
->> --- a/drivers/accel/qaic/sahara.c
->> +++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
->> @@ -1,19 +1,20 @@
->>   // SPDX-License-Identifier: GPL-2.0-only
->> -
->> -/* Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries. */
->> +/*
->> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
->> + *
->> + */
-> Never delete the copyright lines please.  Is there any previous discussion on why we are doing it?
->
-> ---Trilok Soni
+Hello,
 
+I think this is a misuse of hazard pointers.
 
-Hi Trilok, In Patch 1 series, I was asked to match the style of comment 
-matches the subsystem where this driver is moved to. Same has been 
-incorporated. This driver was not developed before 2024 and hence kept 
-same copyright.
+The bucket has a permanent, static address; its lifetime does not
+need hazard-pointer protection. Instead, this patch combines a
+hazard pointer with that address to construct a read-side/synchronize
+mechanism in the same category as RCU. However, this construction
+lacks the generation distinction needed to separate pre-existing
+readers from subsequent readers.
 
+The object being removed is the key, but the synchronization target
+is the bucket. Unlinking the key does not prevent new lookups from
+acquiring the same bucket address, including lookups for unrelated
+keys that hash to that bucket.
 
+This breaks the forward-progress argument used by the underlying
+hazptr implementation: after removing an object from publication,
+there should not be a continuing stream of new readers acquiring
+that same object. Here, the bucket is never unpublished.
+
+For example, let B be the bucket containing key K:
+
+  Updater                    Reader                 Scan kthread
+  -------                    ------                 ------------
+  Unlink K from B
+  hazptr_synchronize(B)
+                             Acquire B
+                                                    Observe B;
+                                                    retain waiter
+                             Release B
+                             Acquire B again
+                                                    Observe B;
+                                                    retain waiter
+                             Release B
+                             ...                    ...
+
+Every reader critical section can finish, and the scan kthread
+can keep running, while the updater waits indefinitely. Readers
+that could have observed K may already have completed; later
+lookups alone can keep the waiter pending.
+
+RCU does not need the reader population to become empty. Its
+generation (grace-period) machinery allows pre-existing readers to
+drain without letting a continuous stream of subsequent readers
+indefinitely extend that wait. This address-based construction has
+no equivalent distinction.
+
+So this is not merely protecting a different object with hazptr:
+it is using hazptr as a different synchronization primitive without
+providing the corresponding progress guarantee.
+
+I think we should retain the RCU wait here. If the intention is to
+implement bucket-scoped read-side synchronization, that needs an
+explicit protocol to distinguish the readers being drained from
+new arrivals; a permanent bucket address is not sufficient.
+
+Sorry for the lengthy reply, which was written with the help of an AI
+agent. I noticed this issue when this use case was first proposed, but
+I struggled to articulate my concerns clearly back then. Well, now we
+have AI. :)
+
+Thanks
+Lai
+
+> Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
+> ---
+>  kernel/locking/lockdep.c | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
+> 
+> diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
+> index c56a7f91d72e..d1ce5ace7fbf 100644
+> --- a/kernel/locking/lockdep.c
+> +++ b/kernel/locking/lockdep.c
+> @@ -58,6 +58,7 @@
+>  #include <linux/context_tracking.h>
+>  #include <linux/console.h>
+>  #include <linux/kasan.h>
+> +#include <linux/hazptr.h>
+>  
+>  #include <asm/sections.h>
+>  
+> @@ -1280,14 +1281,19 @@ static bool is_dynamic_key(const struct lock_class_key *key)
+>  
+>  	hash_head = keyhashentry(key);
+>  
+> -	rcu_read_lock();
+> -	hlist_for_each_entry_rcu(k, hash_head, hash_entry) {
+> -		if (k == key) {
+> -			found = true;
+> -			break;
+> +	{
+> +		struct hazptr_ctx ctx;
+> +		void *bucket = hash_head;
+> +
+> +		scoped_guard(hazptr, &ctx, &bucket) {
+> +			hlist_for_each_entry_rcu(k, hash_head, hash_entry, 1) {
+> +				if (k == key) {
+> +					found = true;
+> +					break;
+> +				}
+> +			}
+>  		}
+>  	}
+> -	rcu_read_unlock();
+>  
+>  	return found;
+>  }
+> @@ -6683,11 +6689,10 @@ void lockdep_unregister_key(struct lock_class_key *key)
+>  	 *
+>  	 * Some operations like __qdisc_destroy() will call this in a debug
+>  	 * kernel, and the network traffic is disabled while waiting, hence
+> -	 * the delay of the wait matters in debugging cases. Currently use a
+> -	 * synchronize_rcu_expedited() to speed up the wait at the cost of
+> -	 * system IPIs. TODO: Replace RCU with hazptr for this.
+> +	 * the delay of the wait matters in debugging cases. Replace the
+> +	 * expedited RCU wait with hazptr_synchronize().
+>  	 */
+> -	synchronize_rcu_expedited();
+> +	hazptr_synchronize(keyhashentry(key));
+>  }
+>  EXPORT_SYMBOL_GPL(lockdep_unregister_key);
+>  
+> -- 
+> 2.43.0
+> 
