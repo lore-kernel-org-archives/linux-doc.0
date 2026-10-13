@@ -1,344 +1,136 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B193B42FC
-	for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 11:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4923B841B;
+	Tue, 13 Oct 2026 11:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791891824; cv=none; b=qJkdbjF3wLJONyInIOWtq3vMplmc9V6+R+UaiUAMBNsrb2/A42zqlymSV/Q1gtntATyAbFlcDstvcxNE7jzR0TBoLW+kQgfokZsHG+OanwxDrlZcsoQmsEfnMYj6GvCvEqgYxbwS9KcDA4nftw75Wr8m6hmHl37Jd9TGFi8C3a8=
+	t=1791891833; cv=none; b=GQEzbMzM0IMP3Iwug4fXxOfzKBJr00hXPl+5ouMnjbsMHcge+gQ7M6tgjz0eQSGCV5FnDumF1aipsYbZ6mu9hfrgG+rW1710hzVZu1KnP2aWoPb/Q38Pfpmvl02xMucpT2gH5uUnrDLIpRcXPoj3GNN8WMcOk29Ks7l4z5i8GoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791891824; c=relaxed/simple;
-	bh=w1GM1ccsbCNU7bl1E/eCIGy4tB7TjRvFHKKR6yECb0g=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rtLM0usD4mJDeVEcgyvSIeKOj4u2wuSltnVpftfzNCQMKtm+FAzB0+vJ67GAkrEdUjZ0XtdnGuu/mLKrHpEq6d9CeRdEIPEQMqompGn5E46orEnH/lWSJJgHYJ4pmtrI15ktmVZtCLCpKDl6X296p4ZhXQJDje+lieWP7ALm3Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Vb4wg8tn; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=HstPepZ+; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1791891833; c=relaxed/simple;
+	bh=TaJk7ZnGYmGrARoPE87abyFf7X7nIEAc2yxpu5uWHoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKjphG+wx8xaBJB4oZwvtMGgcVYFBGTz9BYwkzON8tT2loZiUZMct7oZlcHJEWgo+2k+9ZQnUe/3M8FRYuJ+PXuti37WlqH2ktd9wm+jLaBVUeXP2yxuqOBdVanwa1jWs7Qhkwv6y9bs3i6keVH+jOnsYpoND2+cS8l2auQShF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JvOEi1vy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Vb4wg8tn";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="HstPepZ+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791891821;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ezc60w2EW0Z8miij++dLscNvA7WLeG86FqgXSEBcGis=;
-	b=Vb4wg8tnJqleU8IZYfHuHAzmMd6l4zNfwY8PTfizthoz84SC9f5KUye+64onyU6R3kSYFL
-	lzxN+FfStUcNpgbgxJpf8UT1Db+fGRj2L4l+b18kS9Se/DQnSdrDN5aAnWVzjcvLhIsTwE
-	zWgF0uwMf3ZDNVSR6PQ+9EMsqY2TaBI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-178-R9_1n2gMPTCtsSEKDd36Sw-1; Tue, 13 Oct 2026 11:43:32 +0000
-X-MC-Unique: R9_1n2gMPTCtsSEKDd36Sw-1
-X-Mimecast-MFC-AGG-ID: R9_1n2gMPTCtsSEKDd36Sw_1791891811
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a020cf06c3so15815015e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 13 Oct 2026 04:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1791891811; x=1792496611; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ezc60w2EW0Z8miij++dLscNvA7WLeG86FqgXSEBcGis=;
-        b=HstPepZ+0kj5hw4nnEWqL+ohL1agB8HczsFrWHTyCv+531QUSmpVtoAaEVFnq3M+L/
-         TgCBFzyGYz2cU8WAkaXno+Ki0LMoSg9rXdqV7rgRew84SGH4Dx1mDhYlFhr9M0cb91NQ
-         fsmiwqZJrxleb4t6lVNyjRkWXqKNpTvku9MxbAJmfZuv3f18IpCmat/LX1v903CthKAv
-         TVJM7R17Jpsv1i4E1wrOOgELia4zdtRSVXSUx2/JHPQSN7HX8BlIx0tc3fxeEFbvjWAp
-         ooU32/Lx8epvZ2feIfiHM3FVs6eO4kDE6RdO9v2pLjxmcImkORsezCAWkvk+CNIvSn0j
-         K5HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791891811; x=1792496611;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ezc60w2EW0Z8miij++dLscNvA7WLeG86FqgXSEBcGis=;
-        b=nGub9Lv9sAPoAaTP/6SnflaHem3LGrdreGgX2NuJMew/lxULsKKz7mB3ztYNxs+Bpf
-         20/vXU4OrBKaVAFoQMb8VRyaAU/WHItLxXb1BtrwAFTenyYRhEx/676gYAOvSUq2BKfa
-         +9O5ziRHjciaNlCCDGtwYZQvd76wrztEAI1+a9V//Nd8+4zbSs99uLKPOQtkm95EdLEv
-         aCsal6AiJBIrdz8brJkC1gkXSEGc4enbaxAXYwTbWPr4u60P0Ty4wQgjoxQRN1CaFhnJ
-         wJaKGnjNuYcmKeiy9vByYrvj8XQsY8uKb9OWgogQqam84YtNeVmnWEMDG89i5nPbGd/K
-         NAPQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxEaxqpkSb5hRXjVZBoXqOlVtzeqKSE+/QQVxjlRgAT2HggSBCVyap+uWWBLJ+Pi2/R85g3pVlFLYA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJAhFZNPihvEEmh7ylBg/KPxH4e2BF4/AAiqoS+7c4WogtZDKnB
-	2SRQr8anC6wP/D080kYrp/K0DDta+/wqpBMP/TDUoUUdwjhEwj2O3BfOb15t0aNThebLctBf6N+
-	oC2enT0mctgNim4V/WaaZNJk9EgWDtSTvrelTlBd5Gy1ko+rObYd5uwpstJNmV+zUceLebQ==
-X-Gm-Gg: AYBFou13CH1LwDB01mG5uxF8Acgm5FIUDr3kzT0FnW9NgKPUQXrLdMIzj6kI+rbAy9a
-	7NMtwXdyRUSlCUExXgVhTlRpwf+Cu2IaUDQZo9nJb+oFYPbipGO1EXWNk0FeGlaI2t/WtwHyKi7
-	CkOWByngbc75z/PsSdJ2hVMx494jO2lZntMeQKLOHBK9QcNjppYNwcsFDhL1ShrDF6L1V3y0RTW
-	zvRJPF3JeDmW7Pihc4DuvCYsC/Nvqua+LgksDEDC850kkmcKTe5GOJHnylxcyRPG3QDiUsaL/n2
-	XNdmq0DIeQkbiWyNHfLtaU9e+66MYQU4qDj6o+v0SuUm/2RtpqqTSq6NLNyicao0MaEt//JYR1w
-	YXfkd+vrIUNt8r2Y7WibmX4AOQBLS
-X-Received: by 2002:a05:600c:83c6:b0:4a1:7093:40c7 with SMTP id 5b1f17b1804b1-4a18e493048mr222322655e9.8.1791891810948;
-        Tue, 13 Oct 2026 04:43:30 -0700 (PDT)
-X-Received: by 2002:a05:600c:83c6:b0:4a1:7093:40c7 with SMTP id 5b1f17b1804b1-4a18e493048mr222322215e9.8.1791891810454;
-        Tue, 13 Oct 2026 04:43:30 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([195.174.135.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18be8c5e7sm449268585e9.4.2026.10.13.04.43.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 04:43:29 -0700 (PDT)
-Message-ID: <0eab40ebeb128ca308762f0bf33d2f7084ef32f9.camel@redhat.com>
-Subject: Re: [PATCH v2 2/3] rv: add per-monitor edge-stat facility and stats
- file
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Tobias Schaffner <tobias.schaffner@siemens.com>, Steven Rostedt
-	 <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- rpm@xenomai.org, 	jan.kiszka@siemens.com
-Date: Tue, 13 Oct 2026 13:43:28 +0200
-In-Reply-To: <20260911123439.463052-3-tobias.schaffner@siemens.com>
-References: <20260911123439.463052-1-tobias.schaffner@siemens.com>
-	 <20260911123439.463052-3-tobias.schaffner@siemens.com>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
- cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
- T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
- eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
- 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JvOEi1vy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2ACB1F000FF;
+	Tue, 13 Oct 2026 11:43:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791891831;
+	bh=S3kwk859qFodmpxj3OxHRi9StcyZ/IRrGX/kgBYEpD4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JvOEi1vyoPSPHIK+3e1cFSGk5Nq5aIKf+aPMRBqWK+jdkr+GJ34ZVhlK6KFh95ok4
+	 LFLkrLVzES/VjnqmInEE0Ue+CxRK2fSBE6/QrhXBRNAYjd1RCgj1C7FcX3LsnkXKK/
+	 FcPKD5CYRd5utm0PX1a/JlzYfAu81YBwmUTmdu2jSQfZJQIWOLsgxo2IqY17WGdyK/
+	 VwX9jgqE+oS/qTJ+U+MBVqNS1wFKQ3L5PC8a3V+m0KpECoP3Lv5uQdi+xwTGUWhyVU
+	 JXNNX9WvbPCWhJAa1Kpla3Kp/XCy1sGiLGPzH2fxY+k3JRj8YHefM/4npCF3FyIv1o
+	 RUlJ/KsSCGPhA==
+Date: Tue, 13 Oct 2026 12:43:19 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, Bert Karwatzki <spasswolf@web.de>
+Subject: Re: [PATCH v5 33/38] mm: eliminate VMA_SPECIAL_FLAGS usage when
+ hugetlb explicitly tested
+Message-ID: <as4ZGTa7tHwVwv-1@gremlin>
+References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
+ <20261009-b4-mmap-prepare-vma-flag-sanify-v5-33-923b70125b1e@kernel.org>
+ <e65264f1-52dd-4ed4-a647-87e7a1778b6b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e65264f1-52dd-4ed4-a647-87e7a1778b6b@kernel.org>
 
-On Fri, 2026-09-11 at 14:34 +0200, Tobias Schaffner wrote:
-> Add CONFIG_RV_EDGE_STAT, an optional feature that records how long a
-> monitor's automaton dwells in a state and exposes it per edge through a
-> per-monitor "stats" tracefs file.
->=20
-> The facility uses a static per-CPU matrix and reports, per edge and per
-> CPU, the count, summed dwell time and maximum dwell time. Only the owning
-> CPU writes the counters, so a reader snapshots them with local64_read()
-> with no IPI and no locking on the accounting path.
->=20
-> Signed-off-by: Tobias Schaffner <tobias.schaffner@siemens.com>
-> ---
-...
+On Mon, Oct 12, 2026 at 08:49:11PM +0200, David Hildenbrand (Arm) wrote:
+> On 10/9/26 20:04, Lorenzo Stoakes (ARM) wrote:
 
-> +
-> +/*
-> + * Static storage avoids allocation lifetime races. Only the owning CPU
-> writes,
-> + * so readers can snapshot counters with local64_read().
-> + */
-> +#define RV_THIS_NR_EDGES	(STATE_MAX * EVENT_MAX)
-> +
-> +struct rv_this_edges {
-> +	struct rv_edge_stat	edge[RV_THIS_NR_EDGES];
-> +};
+> > diff --git a/mm/ksm.c b/mm/ksm.c
+> > index 624f37975e12..ed66a90e0031 100644
+> > --- a/mm/ksm.c
+> > +++ b/mm/ksm.c
+> > @@ -747,9 +747,7 @@ static bool ksm_compatible(const struct file *file, vma_flags_t vma_flags)
+> >  	if (vma_flags_test_any(&vma_flags, VMA_SHARED_BIT, VMA_MAYSHARE_BIT,
+> >  			       VMA_HUGETLB_BIT))
+> >  		return false;
+> > -	if (vma_flags_test_single_mask(&vma_flags, VMA_DROPPABLE))
+> > -		return false;
+> > -	if (vma_flags_test_any_mask(&vma_flags, VMA_SPECIAL_FLAGS))
+> > +	if (!vma_flags_is_mm_backed(&vma_flags))
+> >  		return false;
+>
+> Same here, it's hard for me to tell my brain that "permanently lazyfree pages
+> are not backed by core-mm".
 
-Does this really need to be a new struct? Cannot you just define it as:
+Yeah :) 'mm backed' is definitely too broad for this.
 
-DEFINE_PER_CPU(struct rv_edge_stat[RV_THIS_NR_EDGES], DA_MON_EDGES);
+Will reinstate the explicit droppable check in v6.
 
-Then use it as:
+>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
 
-per_cpu_ptr(DA_MON_EDGES, cpu), sizeof(DA_MON_EDGES)
+Thanks!
 
-struct rv_edge_stat *edges =3D per_cpu_ptr(DA_MON_EDGES, cpu);
-&edges[e].count
-
-> +
-> +static DEFINE_PER_CPU(struct rv_this_edges, DA_MON_EDGES);
-> +static struct dentry *rv_this_stats_file;
-> +
-> +/* Called before tracepoints are registered, so memset cannot race an up=
-date.
-> */
-> +static void rv_edge_stats_reset(void)
-> +{
-> +	int cpu;
-> +
-> +	for_each_possible_cpu(cpu)
-> +		memset(per_cpu_ptr(&DA_MON_EDGES, cpu), 0,
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(struct rv_this_edges));
-> +}
-> +
-> +static int rv_edge_stats_show(struct seq_file *seq, void *v)
-> +{
-> +	unsigned int e;
-> +	int cpu;
-> +
-> +	seq_puts(seq, "# cpu edge label count sum_ns max_ns\n");
-> +	/* Include offline CPUs and keep output stable across CPU hotplug. */
-> +	for_each_possible_cpu(cpu) {
-> +		struct rv_this_edges *m =3D per_cpu_ptr(&DA_MON_EDGES, cpu);
-> +
-> +		for (e =3D 0; e < RV_THIS_NR_EDGES; e++)
-> +			seq_printf(seq, "%d %u %s:%s %llu %llu %llu\n",
-> +				=C2=A0=C2=A0 cpu, e,
-> +				=C2=A0=C2=A0 model_get_state_name(e / EVENT_MAX),
-> +				=C2=A0=C2=A0 model_get_event_name(e % EVENT_MAX),
-
-Perhaps you could have macros like DA_EDGE(s, e) or DA_EDGE_TO_EVENT(e)
-DA_EDGE_TO_STATE(s) to make the matrix selection a bit more readable,
-but that's a matter of taste.
-
-> +				=C2=A0=C2=A0 (u64)local64_read(&m->edge[e].count),
-> +				=C2=A0=C2=A0 (u64)local64_read(&m->edge[e].sum_ns),
-> +				=C2=A0=C2=A0 (u64)local64_read(&m->edge[e].max_ns));
-> +	}
-
-I would like to see a way to tell if an edge is invalid or not, we
-expect zero on invalid edges.
-Perhaps that can be a new column so you also show the count in case they
-are not 0.
-
-You can just use model_get_next_state() =3D=3D INVALID_STATE
-
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(rv_edge_stats);
-> +
-> +static int rv_edge_stats_create(struct dentry *parent)
-> +{
-> +	rv_edge_stats_reset();
-> +	/* RV_MODE_READ is private to kernel/trace/rv/. */
-
-I suggested you to use the rv helpers for this, you can obviously also
-use RV_MODE_READ. Now monitors are in kernel/trace/rv/, so it won't be
-an issue.
-
-If we add support for modular monitors, moving the definitions to
-linux/rv.h is the easiest thing to do anyway (you can do it too if you
-really want and/or your agents complain, in a separate commit).
-
-> +	rv_this_stats_file =3D tracefs_create_file("stats", 0440, parent,
-> +						 NULL, &rv_edge_stats_fops);
-> +	return rv_this_stats_file ? 0 : -ENOMEM;
-> +}
-> +
-> +static void rv_edge_stats_remove(void)
-> +{
-> +	tracefs_remove(rv_this_stats_file);
-> +	rv_this_stats_file =3D NULL;
-> +}
-> +
-> +/* A zero timestamp marks resets, which can run on a different CPU. */
-> +#define da_state_entered(s)	da_state_pack((s), local_clock() &
-> RV_TS_MASK)
-> +
-> +static __always_inline void
-> +rv_edge_account(da_state_t old, da_state_t new, enum states curr, enum e=
-vents
-> ev)
-> +{
-> +	struct rv_this_edges *m;
-> +	u64 prev =3D da_ts_of(old);
-> +
-> +	if (!prev)
-> +		return;
-
-This happens only the first time after reset, isn't it unlikely()?
-
-> +
-> +	m =3D this_cpu_ptr(&DA_MON_EDGES);
-> +	rv_edge_stat_account(&m->edge[curr * EVENT_MAX + ev],
-> +			=C2=A0=C2=A0=C2=A0=C2=A0 (da_ts_of(new) - prev) & RV_TS_MASK);
-
-If you decide to go for the macro, this would be DA_EDGE(s, e) or whatever
-looks clear to you.
-
-> +}
-> +
-> +#else /* per-cpu accounting off for this monitor type */
-> +
-> +#define da_state_entered(s)	((da_state_t)(s))
-> +
-> +static __always_inline void
-> +rv_edge_account(da_state_t old, da_state_t new, enum states curr, enum e=
-vents
-> ev) { }
-> +
-> +#endif /* RV_MON_TYPE =3D=3D RV_MON_PER_CPU */
-> +
-> +static __always_inline bool
-> +da_state_try_commit(da_state_t *word, da_state_t *old, enum states next,
-> +		=C2=A0=C2=A0=C2=A0 enum events event)
-> +{
-> +	da_state_t prev =3D *old;
-> +	da_state_t new =3D da_state_entered(next);
-> +
-> +	if (!try_cmpxchg(word, old, new))
-> +		return false;
-> +
-> +	rv_edge_account(prev, new, da_state_of(prev), event);
-> +	return true;
-> +}
-> +
-> +#else /* !CONFIG_RV_EDGE_STAT */
-> +
-> +/*
-> + * Feature off: only the hooks the DA/HA layer calls are provided, as tr=
-ivial
-> + * pass-throughs. da_state_t is a plain state word with no packed timest=
-amp.
-> + */
-> +#define da_state_of(w)		((unsigned int)(w))
-
-Is this cast necessary? We assign it to an enum, the sign isn't really
-important. I guess it's the same for the other implementation of
-da_state_of() (which is now in another patch).
-
-Thanks,
-Gabriele
-
-
-> +#define da_state_entered(s)	(s)
-> +
-> +static __always_inline bool
-> +da_state_try_commit(da_state_t *word, da_state_t *old, enum states next,
-> +		=C2=A0=C2=A0=C2=A0 enum events event)
-> +{
-> +	return try_cmpxchg(word, old, next);
-> +}
-> +
-> +#if RV_MON_TYPE =3D=3D RV_MON_PER_CPU
-> +static inline int rv_edge_stats_create(struct dentry *parent) { return 0=
-; }
-> +static inline void rv_edge_stats_remove(void) { }
-> +#endif
-> +
-> =C2=A0#endif /* CONFIG_RV_EDGE_STAT */
-> =C2=A0
-> =C2=A0#endif /* _RV_EDGE_STAT_H */
-> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-> index 3884b14df375..3045037fb36a 100644
-> --- a/kernel/trace/rv/Kconfig
-> +++ b/kernel/trace/rv/Kconfig
-> @@ -59,6 +59,18 @@ config RV_PER_TASK_MONITORS
-> =C2=A0	=C2=A0 This option configures the maximum number of per-task RV mo=
-nitors
-> that can run
-> =C2=A0	=C2=A0 simultaneously.
-> =C2=A0
-> +config RV_EDGE_STAT
-> +	bool "Per-edge dwell-time statistics"
-> +	depends on RV && 64BIT && DA_MON_EVENTS_IMPLICIT
-> +	help
-> +	=C2=A0 Record per-edge dwell-time statistics for per-cpu deterministic =
-and
-> +	=C2=A0 hybrid automaton monitors and expose them through a per-monitor
-> +	=C2=A0 "stats" tracefs file. This times each monitored automaton
-> transition
-> +	=C2=A0 with local_clock(), so leave it off if you do not need the
-> +	=C2=A0 statistics.
-> +
-> +	=C2=A0 If unsure, say N.
-> +
-> =C2=A0source "kernel/trace/rv/monitors/wip/Kconfig"
-> =C2=A0source "kernel/trace/rv/monitors/wwnr/Kconfig"
->=20
-
+--
+Cheers, Lorenzo
